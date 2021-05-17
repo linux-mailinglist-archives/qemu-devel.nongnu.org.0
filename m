@@ -2,48 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6983382BF6
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 14:20:14 +0200 (CEST)
-Received: from localhost ([::1]:40328 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0030382C02
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 14:23:03 +0200 (CEST)
+Received: from localhost ([::1]:44080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1licEH-00067H-Sd
-	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 08:20:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49826)
+	id 1licH0-0000Ju-Mc
+	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 08:23:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50448)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1licBt-0004jP-Om; Mon, 17 May 2021 08:17:47 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:16095)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1licDY-0006Ql-E0
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 08:19:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60454)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1licBn-0006qv-SQ; Mon, 17 May 2021 08:17:44 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id ABB5A746392;
- Mon, 17 May 2021 14:17:36 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 7E62A746351; Mon, 17 May 2021 14:17:36 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 7CCA874634B;
- Mon, 17 May 2021 14:17:36 +0200 (CEST)
-Date: Mon, 17 May 2021 14:17:36 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Alexey Kardashevskiy <aik@ozlabs.ru>
-Subject: Re: [PATCH qemu v19] spapr: Implement Open Firmware client interface
-In-Reply-To: <8e1bae8e-9b8e-0895-5747-9e7cd7d70def@ozlabs.ru>
-Message-ID: <381924b9-29fd-67a0-e311-72c8718f853@eik.bme.hu>
-References: <20210422125819.1122661-1-aik@ozlabs.ru>
- <c9997a3b-118b-6a23-d3cb-4c3c59dc839d@eik.bme.hu>
- <8e1bae8e-9b8e-0895-5747-9e7cd7d70def@ozlabs.ru>
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1licDT-0007jG-3r
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 08:19:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1621253962;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=1Jrva8vudo21DlZoI/Lt2l8LbSnN9L9urf7Y+evK0xk=;
+ b=iC+wykc+5ap7RxQOAS8e6F1fIbGFcNONMRijRQj9L41C07Kj5uFB5M9DyM6njh30C6GsEx
+ +ikPDv0W2jQ0VYRzkPr4SqpBollxLyGmxOvbR692E+I0ONgHqsaK7NNe5Hq0lzXdE/n5tl
+ ouKdI/DDf5t52H7K3Hc/j3lkdiiwDEk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-392-_GWJFcdhMh2UPIYF4qnysA-1; Mon, 17 May 2021 08:19:09 -0400
+X-MC-Unique: _GWJFcdhMh2UPIYF4qnysA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DBDAD107ACCD
+ for <qemu-devel@nongnu.org>; Mon, 17 May 2021 12:19:08 +0000 (UTC)
+Received: from virtlab701.virt.lab.eng.bos.redhat.com
+ (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A988B5DDAD
+ for <qemu-devel@nongnu.org>; Mon, 17 May 2021 12:19:08 +0000 (UTC)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] remove qemu-options* from root directory
+Date: Mon, 17 May 2021 08:19:08 -0400
+Message-Id: <20210517121908.2624991-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-577471187-1621253856=:60286"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.374,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -57,134 +76,182 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+These headers are also included from softmmu/vl.c, so they should be
+in include/.  Removing qemu-options-wrapper.h, since elsewhere
+we include "template" headers directly and #define the parameters in
+the including file, and move qemu-options.h to include/.
 
---3866299591-577471187-1621253856=:60286
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8BIT
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ qemu-options.h => include/qemu/qemu-options.h |  9 ++++-
+ os-posix.c                                    |  2 +-
+ os-win32.c                                    |  1 -
+ qemu-options-wrapper.h                        | 40 -------------------
+ qemu-options.hx                               |  4 ++
+ softmmu/vl.c                                  | 24 ++++++++---
+ 6 files changed, 31 insertions(+), 49 deletions(-)
+ rename qemu-options.h => include/qemu/qemu-options.h (88%)
+ delete mode 100644 qemu-options-wrapper.h
 
-On Mon, 17 May 2021, Alexey Kardashevskiy wrote:
-> On 5/16/21 01:04, BALATON Zoltan wrote:
->> On Thu, 22 Apr 2021, Alexey Kardashevskiy wrote:
->
-> [snip]
->
->>> +/* Defined as Big Endian */
->>> +struct prom_args {
->>> +    uint32_t service;
->>> +    uint32_t nargs;
->>> +    uint32_t nret;
->>> +    uint32_t args[10];
->>> +} QEMU_PACKED;
->> 
->> This #define and struct definition should probably be moved to 
->> include/hw/ppc/vof.h as I had to copy these when trying to get VOF running 
->> with pegasos2 and these seem to be VOF specific not spapr.
->
-> Correct, I'll fix it - there are 2 copies already.
->
->
->> 
->> I was trying to wire up VOF on pegasos2 as proof of concept but I did not 
->> get very far as it crashed at the first move due to using mtmsrd which does 
->> not exist on the 32 bit CPUs (G4 or G3) used by pegasos2:
->> 
->> vof_claim virt=0x0 size=0xc38 align=0x0 => 0x0
->> vof_claim virt=0x0 size=0x8000 align=0x8000 => 0x8000
->> vof_claim virt=0xc00000 size=0x18fd62 align=0x0 => 0xc00000
->> vof_claimed 0x0..0xc38 size=0xc38
->> vof_claimed 0x8000..0x10000 size=0x8000
->> vof_claimed 0xc00000..0xd8fd62 size=0x18fd62
->> vof_avail 0xc38..0x8000 size=0x73c8
->> vof_avail 0x10000..0xc00000 size=0xbf0000
->> vof_avail 0xd8fd62..0x20000000 size=0x1f27029e
->> via_superio_cfg: unimplemented register 0xf2
->> via_superio_cfg: unimplemented register 0xf4
->> via_superio_cfg: unimplemented register 0xf6
->> via_superio_cfg: unimplemented register 0xf7
->> invalid/unsupported opcode: 1f - 12 - 05 - 00 (7fe00164) fff00108 0
->> ----------------
->> IN:
->> 0xfff00100:  3fe00000  lis      r31, 0
->> 0xfff00104:  63ff0000  ori      r31, r31, 0
->> 0xfff00108:  7fe00164  mtmsrd   r31
->> 
->> ----------------
->> IN:
->> 0xfff00700:  807e8020  lwz      r3, -0x7fe0(r30)
->> 0xfff00704:  4cc63182  crclr    6
->> 0xfff00708:  4bfffd1d  bl       0xfff00424
->> 
->> Invalid access at addr 0xFFFF8020, size 4, region '(null)', reason: 
->> rejected
->> 
->> Is this mtmsrd really needed? Do 64-bit Power CPUs start in 64 bit mode?
->
-> Yup:
-> https://git.qemu.org/?p=qemu.git;a=blob;f=target/ppc/translate_init.c.inc;h=66e6a4a746f46148e0006081af09391b32c125cd;hb=HEAD#l10085
->
-> I cannot find the exact reason for that, probably PAPR or some PPC-OF binding 
-> says so.
->
->
->> I'd expect them to be in compatibility mode unless 64 bit is enabled but I 
->> did not check the docs. If it's needed maybe a dummy handler has to be at 
->> 0x700 to ignore this exception if it's running on a 32-bit CPU.
->
-> I wanted MSR and the code to be in sync explicitly.
+diff --git a/qemu-options.h b/include/qemu/qemu-options.h
+similarity index 88%
+rename from qemu-options.h
+rename to include/qemu/qemu-options.h
+index b4ee63cd60..4a62c83c45 100644
+--- a/qemu-options.h
++++ b/include/qemu/qemu-options.h
+@@ -29,8 +29,13 @@
+ #define QEMU_OPTIONS_H
+ 
+ enum {
+-#define QEMU_OPTIONS_GENERATE_ENUM
+-#include "qemu-options-wrapper.h"
++
++#define DEF(option, opt_arg, opt_enum, opt_help, arch_mask)     \
++    opt_enum,
++#define DEFHEADING(text)
++#define ARCHHEADING(text, arch_mask)
++
++#include "qemu-options.def"
+ };
+ 
+ #endif
+diff --git a/os-posix.c b/os-posix.c
+index a6846f51c1..ae6c9f2a5e 100644
+--- a/os-posix.c
++++ b/os-posix.c
+@@ -32,7 +32,7 @@
+ #include "qemu-common.h"
+ /* Needed early for CONFIG_BSD etc. */
+ #include "net/slirp.h"
+-#include "qemu-options.h"
++#include "qemu/qemu-options.h"
+ #include "qemu/error-report.h"
+ #include "qemu/log.h"
+ #include "sysemu/runstate.h"
+diff --git a/os-win32.c b/os-win32.c
+index fd1137bab1..e31c921983 100644
+--- a/os-win32.c
++++ b/os-win32.c
+@@ -27,7 +27,6 @@
+ #include <windows.h>
+ #include <mmsystem.h>
+ #include "qemu-common.h"
+-#include "qemu-options.h"
+ #include "sysemu/runstate.h"
+ 
+ static BOOL WINAPI qemu_ctrl_handler(DWORD type)
+diff --git a/qemu-options-wrapper.h b/qemu-options-wrapper.h
+deleted file mode 100644
+index 6f548e3922..0000000000
+--- a/qemu-options-wrapper.h
++++ /dev/null
+@@ -1,40 +0,0 @@
+-
+-#if defined(QEMU_OPTIONS_GENERATE_ENUM)
+-
+-#define DEF(option, opt_arg, opt_enum, opt_help, arch_mask)     \
+-    opt_enum,
+-#define DEFHEADING(text)
+-#define ARCHHEADING(text, arch_mask)
+-
+-#elif defined(QEMU_OPTIONS_GENERATE_HELP)
+-
+-#define DEF(option, opt_arg, opt_enum, opt_help, arch_mask)    \
+-    if ((arch_mask) & arch_type)                               \
+-        fputs(opt_help, stdout);
+-
+-#define ARCHHEADING(text, arch_mask) \
+-    if ((arch_mask) & arch_type)    \
+-        puts(stringify(text));
+-
+-#define DEFHEADING(text) ARCHHEADING(text, QEMU_ARCH_ALL)
+-
+-#elif defined(QEMU_OPTIONS_GENERATE_OPTIONS)
+-
+-#define DEF(option, opt_arg, opt_enum, opt_help, arch_mask)     \
+-    { option, opt_arg, opt_enum, arch_mask },
+-#define DEFHEADING(text)
+-#define ARCHHEADING(text, arch_mask)
+-
+-#else
+-#error "qemu-options-wrapper.h included with no option defined"
+-#endif
+-
+-#include "qemu-options.def"
+-
+-#undef DEF
+-#undef DEFHEADING
+-#undef ARCHHEADING
+-
+-#undef QEMU_OPTIONS_GENERATE_ENUM
+-#undef QEMU_OPTIONS_GENERATE_HELP
+-#undef QEMU_OPTIONS_GENERATE_OPTIONS
+diff --git a/qemu-options.hx b/qemu-options.hx
+index ecdb064409..8116f79818 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -5276,3 +5276,7 @@ ERST
+ 
+ 
+ HXCOMM This is the last statement. Insert new options before this line!
++
++#undef DEF
++#undef DEFHEADING
++#undef ARCHHEADING
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index 11ac3750d8..ac0ff6e160 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -88,7 +88,7 @@
+ #include "qapi/qobject-input-visitor.h"
+ #include "qemu/option.h"
+ #include "qemu/config-file.h"
+-#include "qemu-options.h"
++#include "qemu/qemu-options.h"
+ #include "qemu/main-loop.h"
+ #ifdef CONFIG_VIRTFS
+ #include "fsdev/qemu-fsdev.h"
+@@ -854,8 +854,17 @@ static void help(int exitcode)
+            "'disk_image' is a raw hard disk image for IDE hard disk 0\n\n",
+             error_get_progname());
+ 
+-#define QEMU_OPTIONS_GENERATE_HELP
+-#include "qemu-options-wrapper.h"
++#define DEF(option, opt_arg, opt_enum, opt_help, arch_mask)    \
++    if ((arch_mask) & arch_type)                               \
++        fputs(opt_help, stdout);
++
++#define ARCHHEADING(text, arch_mask) \
++    if ((arch_mask) & arch_type)    \
++        puts(stringify(text));
++
++#define DEFHEADING(text) ARCHHEADING(text, QEMU_ARCH_ALL)
++
++#include "qemu-options.def"
+ 
+     printf("\nDuring emulation, the following keys are useful:\n"
+            "ctrl-alt-f      toggle full screen\n"
+@@ -880,8 +889,13 @@ typedef struct QEMUOption {
+ 
+ static const QEMUOption qemu_options[] = {
+     { "h", 0, QEMU_OPTION_h, QEMU_ARCH_ALL },
+-#define QEMU_OPTIONS_GENERATE_OPTIONS
+-#include "qemu-options-wrapper.h"
++
++#define DEF(option, opt_arg, opt_enum, opt_help, arch_mask)     \
++    { option, opt_arg, opt_enum, arch_mask },
++#define DEFHEADING(text)
++#define ARCHHEADING(text, arch_mask)
++
++#include "qemu-options.def"
+     { NULL },
+ };
+ 
+-- 
+2.27.0
 
-OK, then can you add a dummy exception handler at 0x700 to ignore this so 
-it would also work on a 32-bit CPU? That does not seem to be too 
-difficult.
-
->> By the way does vof need to be loaded at addr 0 or it could work at the 
->> default ROM address as well? That would simplify usage if it could run 
->> position independent.
->
-> What do you call the default ROM address? SLOF loads at 0 and starts at 
-> 0x100, VOF does the same.
-
-On pegasos2 the ROM is at 0xfff00000 normally and that's where it starts 
-executing at offset 0x100. If I load vof.bin there it starts but 
-hypercalls fail as above. I've changed it to load vof at 0 then it works 
-a bit better and after adding the property to /chosen it tries to query 
-it but fails there for some reason.
-
-> Making it run position independend is going to make it more complex and I 
-> really (really) want it to be tiny.
-
-It's not needed as I can special case it and load vof at 0 but is it more 
-complex than just compiling it with the appropriate flag for PIC (-fPIC or 
-what is it).
-
-> I think what you really want is another vof-pegasos2.bin linked at the 
-> address you like and not calling mtmsrd, could be an #ifdef in the existing 
-> vof firmware. It is rather expected to have a firmware per a machine type.
-
-Is that really needed? Can we make a single firmware binary run on 
-different CPUs? I think openbios-ppc runs on both 64 and 32 bit PPC while 
-itself compiled as 32 bit but also runs with qemu-system-ppc64 -M mac99 
-which uses a G5 CPU by default. It does some magic here:
-
-https://github.com/openbios/openbios/blob/master/arch/ppc/qemu/start.S
-
-but that may be too ugly to copy.
-
-Another thing that I'm not sure about is that on 32 bit OpenFirmware cells 
-are normally also 32 bit but VOF expects them to be 64 bit so I had to 
-change the mem reg and chosen qemu,boot-kernel properties that VOF queries 
-to use uint64_t and not sure that would be a problem. For now I'm just 
-trying to get some guest code to run and try to use the VOF CI to see if 
-it would work. If guests expect mem reg to be 32 bit then we may need a 
-separate version for that.
-
-Regards,
-BALATON Zoltan
---3866299591-577471187-1621253856=:60286--
 
