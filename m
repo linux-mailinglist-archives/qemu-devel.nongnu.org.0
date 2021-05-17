@@ -2,79 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F69C383A95
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 18:57:44 +0200 (CEST)
-Received: from localhost ([::1]:34188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54AD8383A11
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 18:36:22 +0200 (CEST)
+Received: from localhost ([::1]:36038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ligYp-0004Hf-Fz
-	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 12:57:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60374)
+	id 1ligE9-00085v-C0
+	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 12:36:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56788)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lifyr-0001om-3M
- for qemu-devel@nongnu.org; Mon, 17 May 2021 12:20:33 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:42596)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lifyi-0002DT-RN
- for qemu-devel@nongnu.org; Mon, 17 May 2021 12:20:32 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id
- f75-20020a1c1f4e0000b0290171001e7329so3952654wmf.1
- for <qemu-devel@nongnu.org>; Mon, 17 May 2021 09:20:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=aZuDUoz3vNGYexV1AEzGlzVlTs4kTeswm8li9GZxIko=;
- b=JV7tltDSdSR9KmszjToHv6VBlamZSzMvBvKcaPronfV5LOmDnZVCqwlytyO+ha9CTb
- Bp9U1AQtHl6gT4CusHJp0A6lsy2w0TpNhDQJpgA92L/Md202XA7AT2GaiMPwV1ILJ1eR
- 5+DtnWDNuDE4lLDRiIHAc/MzF/cwl3WuaJEpnvPovanYvGLzAfLseIcTwfVT9kIw77kk
- neq00oaA9dMzGG9xraxEGlrKBs5L9vr/n4P5Gam8krGIrKur7sViX3BxiutL6V9jGOBW
- 50/5yGUwAvP1KZEbf3tGNSFiQt5XGmeuO8uuY92R/h64MLd/M7d3/mY97br4Km4HJTX6
- VGuQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=aZuDUoz3vNGYexV1AEzGlzVlTs4kTeswm8li9GZxIko=;
- b=gpYRa/wwC+/ZuCu0zFa21rMuFMZwYgWCkDTc7WOszv/sFOoz40/ofErXSbFNzGA7BM
- VloQ3bL0sG8VhO56fy5gMhHNwnFYQghEBfDU/Gq4+FVDpi8rv00RWmlH4csaRqPq9VOF
- VJGJD+gnM76ruJC/IwfxN/7+lebOZVtv1EJuIgGwJS45KEdOlUNcE+W8YUjllfgVvTR3
- 7C0WCgfrtc41Oqi2dBLb68E85FcWXkMIoKypjGHgBSJKDXRPBU49qZc+jsCgk0tNnCVe
- 2yMBJSB8FJbNp4hTDtIChVnqyN+HgDpTHMIO0dHvX5whz+Ai1xM3TJsYS+M0zMamS6Hy
- dRCQ==
-X-Gm-Message-State: AOAM530QUoVL1+xzz1R3W/9BgiLE23oOHJ90sRSmynVuB+qzxJN1Lm0X
- 3amthcFy3+clLJ3n1kKvdb1e4g==
-X-Google-Smtp-Source: ABdhPJwDCqubkyXWeDwC7sOkZhZ/ykhcBtsUATGEqyBruQPAkcmSADf+Ul96p55sMM/JVvSVs71p6w==
-X-Received: by 2002:a1c:e408:: with SMTP id b8mr441275wmh.85.1621268422887;
- Mon, 17 May 2021 09:20:22 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id r1sm2333011wrt.67.2021.05.17.09.20.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 May 2021 09:20:14 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id EA6601FFB4;
- Mon, 17 May 2021 17:10:25 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: peter.maydell@linaro.org
-Subject: [PULL 29/29] plugins/hotpages: Properly freed the hash table values
-Date: Mon, 17 May 2021 17:10:22 +0100
-Message-Id: <20210517161022.13984-30-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210517161022.13984-1-alex.bennee@linaro.org>
-References: <20210517161022.13984-1-alex.bennee@linaro.org>
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lifpi-0007sr-7q
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 12:11:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36116)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lifpd-0006BC-OS
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 12:11:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1621267861;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=/74/OfsaEPcVML+T9JCTHZtRSw5smL/A8bWHININLnw=;
+ b=F2RvARkWxtaXMUCpVDKCPMADsYLSshiuXvk4ukv2DdGkrqS78UUIa+p1MqOUWBqRw8MiM+
+ +95eup1DVYMIdHoGKXBBc/99pg/ILQZyUE5Hz7QqLZacEBOtdo6NZUtS+naRTfNxJAV0po
+ glQ1I72457zx/Bu/klJ6WHSOENJlq9o=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-237-1ZjMg8bkMteFQw3qjjTn4A-1; Mon, 17 May 2021 12:10:59 -0400
+X-MC-Unique: 1ZjMg8bkMteFQw3qjjTn4A-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 29BE9107ACE4;
+ Mon, 17 May 2021 16:10:58 +0000 (UTC)
+Received: from gondolin.fritz.box (ovpn-115-195.ams2.redhat.com
+ [10.36.115.195])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EB4C21349A;
+ Mon, 17 May 2021 16:10:49 +0000 (UTC)
+Date: Mon, 17 May 2021 18:10:47 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: Stefano Garzarella <sgarzare@redhat.com>
+Subject: Re: [PATCH 1/5] docs: fix references to docs/devel/tracing.rst
+Message-ID: <20210517181047.6284f9b2.cohuck@redhat.com>
+In-Reply-To: <20210517151702.109066-2-sgarzare@redhat.com>
+References: <20210517151702.109066-1-sgarzare@redhat.com>
+ <20210517151702.109066-2-sgarzare@redhat.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,42 +79,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mahmoud Mandour <ma.mandourr@gmail.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
+Cc: "Daniel P . Berrange" <berrange@redhat.com>, qemu-trivial@nongnu.org,
+ qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6k=?= Lureau <marcandre.lureau@redhat.com>,
+ Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Mahmoud Mandour <ma.mandourr@gmail.com>
+On Mon, 17 May 2021 17:16:58 +0200
+Stefano Garzarella <sgarzare@redhat.com> wrote:
 
-Allocated ``pages`` hash table through ``g_hash_table_new_full`` to
-add a freeing function & destroyed the hash table on exit.
+> Commit e50caf4a5c ("tracing: convert documentation to rST")
+> converted docs/devel/tracing.txt to docs/devel/tracing.rst.
+> 
+> We still have several references to the old file, so let's fix them
+> with the following command:
+> 
+>   sed -i s/tracing.txt/tracing.rst/ $(git grep -l docs/devel/tracing.txt)
+> 
+> Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
+> ---
+>  MAINTAINERS                     | 2 +-
+>  accel/kvm/trace-events          | 2 +-
+>  accel/tcg/trace-events          | 2 +-
+>  audio/trace-events              | 2 +-
+>  authz/trace-events              | 2 +-
+>  backends/tpm/trace-events       | 2 +-
+>  backends/trace-events           | 2 +-
+>  block/trace-events              | 2 +-
+>  chardev/trace-events            | 2 +-
+>  crypto/trace-events             | 2 +-
+>  hw/9pfs/trace-events            | 2 +-
+>  hw/acpi/trace-events            | 2 +-
+>  hw/adc/trace-events             | 2 +-
+>  hw/alpha/trace-events           | 2 +-
+>  hw/arm/trace-events             | 2 +-
+>  hw/audio/trace-events           | 2 +-
+>  hw/block/dataplane/trace-events | 2 +-
+>  hw/block/trace-events           | 2 +-
+>  hw/char/trace-events            | 2 +-
+>  hw/display/trace-events         | 2 +-
+>  hw/dma/trace-events             | 2 +-
+>  hw/gpio/trace-events            | 2 +-
+>  hw/hppa/trace-events            | 2 +-
+>  hw/i2c/trace-events             | 2 +-
+>  hw/i386/trace-events            | 2 +-
+>  hw/i386/xen/trace-events        | 2 +-
+>  hw/ide/trace-events             | 2 +-
+>  hw/input/trace-events           | 2 +-
+>  hw/intc/trace-events            | 2 +-
+>  hw/isa/trace-events             | 2 +-
+>  hw/mem/trace-events             | 2 +-
+>  hw/misc/macio/trace-events      | 2 +-
+>  hw/misc/trace-events            | 2 +-
+>  hw/net/trace-events             | 2 +-
+>  hw/nvram/trace-events           | 2 +-
+>  hw/pci-host/trace-events        | 2 +-
+>  hw/pci/trace-events             | 2 +-
+>  hw/ppc/trace-events             | 2 +-
+>  hw/rdma/trace-events            | 2 +-
+>  hw/rdma/vmw/trace-events        | 2 +-
+>  hw/rtc/trace-events             | 2 +-
+>  hw/s390x/trace-events           | 2 +-
+>  hw/scsi/trace-events            | 2 +-
+>  hw/sd/trace-events              | 2 +-
+>  hw/sparc/trace-events           | 2 +-
+>  hw/sparc64/trace-events         | 2 +-
+>  hw/timer/trace-events           | 2 +-
+>  hw/tpm/trace-events             | 2 +-
+>  hw/usb/trace-events             | 2 +-
+>  hw/vfio/trace-events            | 2 +-
+>  hw/virtio/trace-events          | 2 +-
+>  hw/watchdog/trace-events        | 2 +-
+>  hw/xen/trace-events             | 2 +-
+>  io/trace-events                 | 2 +-
+>  linux-user/trace-events         | 2 +-
+>  migration/trace-events          | 2 +-
+>  monitor/trace-events            | 2 +-
+>  nbd/trace-events                | 2 +-
+>  net/trace-events                | 2 +-
+>  qapi/trace-events               | 2 +-
+>  qom/trace-events                | 2 +-
+>  scripts/simpletrace.py          | 2 +-
+>  scsi/trace-events               | 2 +-
+>  softmmu/trace-events            | 2 +-
+>  target/arm/trace-events         | 2 +-
+>  target/hppa/trace-events        | 2 +-
+>  target/i386/kvm/trace-events    | 2 +-
+>  target/i386/trace-events        | 2 +-
+>  target/mips/trace-events        | 2 +-
+>  target/ppc/trace-events         | 2 +-
+>  target/s390x/trace-events       | 2 +-
+>  target/sparc/trace-events       | 2 +-
+>  trace-events                    | 2 +-
+>  ui/trace-events                 | 2 +-
+>  util/trace-events               | 2 +-
+>  75 files changed, 75 insertions(+), 75 deletions(-)
 
-Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20210422005043.3569-3-ma.mandourr@gmail.com>
-Message-Id: <20210505092259.8202-5-alex.bennee@linaro.org>
-
-diff --git a/contrib/plugins/hotpages.c b/contrib/plugins/hotpages.c
-index bf53267532..9cf7f02c77 100644
---- a/contrib/plugins/hotpages.c
-+++ b/contrib/plugins/hotpages.c
-@@ -97,13 +97,14 @@ static void plugin_exit(qemu_plugin_id_t id, void *p)
-         g_list_free(it);
-     }
- 
-+    g_hash_table_destroy(pages);
-     qemu_plugin_outs(report->str);
- }
- 
- static void plugin_init(void)
- {
-     page_mask = (page_size - 1);
--    pages = g_hash_table_new(NULL, g_direct_equal);
-+    pages = g_hash_table_new_full(NULL, g_direct_equal, NULL, g_free);
- }
- 
- static void vcpu_haddr(unsigned int cpu_index, qemu_plugin_meminfo_t meminfo,
--- 
-2.20.1
+Acked-by: Cornelia Huck <cohuck@redhat.com> (mostly for the s390x parts)
 
 
