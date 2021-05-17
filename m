@@ -2,47 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AFE0386C1A
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 23:17:43 +0200 (CEST)
-Received: from localhost ([::1]:53640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 800F0386C10
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 23:13:08 +0200 (CEST)
+Received: from localhost ([::1]:50256 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1likcQ-0007SV-Dg
-	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 17:17:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46628)
+	id 1likXz-0004zF-Kt
+	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 17:13:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50074)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1likFy-0007sD-F3; Mon, 17 May 2021 16:54:30 -0400
-Received: from [201.28.113.2] (port=46491 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1likFw-0001mN-Od; Mon, 17 May 2021 16:54:30 -0400
-Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Mon, 17 May 2021 17:50:38 -0300
-Received: from eldorado.org.br (unknown [10.10.70.45])
- by power9a (Postfix) with ESMTP id BA15180139F;
- Mon, 17 May 2021 17:50:37 -0300 (-03)
-From: matheus.ferst@eldorado.org.br
-To: qemu-devel@nongnu.org,
-	qemu-ppc@nongnu.org
-Subject: [PATCH v5 23/23] target/ppc: Move cmp/cmpi/cmpl/cmpli to decodetree
-Date: Mon, 17 May 2021 17:50:25 -0300
-Message-Id: <20210517205025.3777947-24-matheus.ferst@eldorado.org.br>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210517205025.3777947-1-matheus.ferst@eldorado.org.br>
-References: <20210517205025.3777947-1-matheus.ferst@eldorado.org.br>
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1likX2-0003wI-O8
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 17:12:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36305)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1likWz-0005T2-Fm
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 17:12:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1621285923;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=s9JhlFI61fW3r2lf9bwHehiUih0nM1N7H2XZA3VdZYo=;
+ b=KrmynAeDu6Ve+GccpirHsnissOj+TWBuXZ6rDjXFqH9NPkG4DmkzOSX6ikPS66ODZNhgA2
+ Dj2YUeHPtS8+HZaULgbWF/mGr8HZ8kEJv3qkqO57vVvSoZbKktMJbHyAUfT35JzV1DNoVn
+ 2ahtON5GmmUJSiNs5wBBuHxPPZ2AgUk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-86-n1Mh5YoWON-V8BrcuJrrhg-1; Mon, 17 May 2021 17:11:59 -0400
+X-MC-Unique: n1Mh5YoWON-V8BrcuJrrhg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 92B94802690;
+ Mon, 17 May 2021 21:11:58 +0000 (UTC)
+Received: from [10.10.117.64] (ovpn-117-64.rdu2.redhat.com [10.10.117.64])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 03F8B1A868;
+ Mon, 17 May 2021 21:11:57 +0000 (UTC)
+Subject: Re: [PATCH v4 0/9] hw/block/fdc: Allow Kconfig-selecting ISA
+ bus/SysBus floppy controllers
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20210517183954.1223193-1-philmd@redhat.com>
+ <6ef11e42-7778-762a-f11b-d88f1b688db3@redhat.com>
+ <7ce0415a-50f9-d903-d1dd-d0b0b1757045@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <b370382f-aa19-21b5-3c8a-9fac9be590d5@redhat.com>
+Date: Mon, 17 May 2021 17:11:57 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
+In-Reply-To: <7ce0415a-50f9-d903-d1dd-d0b0b1757045@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 17 May 2021 20:50:38.0223 (UTC)
- FILETIME=[4AA7A9F0:01D74B5E]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
-Received-SPF: pass client-ip=201.28.113.2;
- envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.374,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -55,173 +84,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: richard.henderson@linaro.org, f4bug@amsat.org, luis.pires@eldorado.org.br,
- lagarcia@br.ibm.com, bruno.larsen@eldorado.org.br,
- matheus.ferst@eldorado.org.br, david@gibson.dropbear.id.au
+Cc: Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Matheus Ferst <matheus.ferst@eldorado.org.br>
+On 5/17/21 4:50 PM, Philippe Mathieu-Daudé wrote:
+> On 5/17/21 9:19 PM, John Snow wrote:
+>> On 5/17/21 2:39 PM, Philippe Mathieu-Daudé wrote:
+>>> Missing review: #1
+>>>
+>>> Hi,
+>>>
+>>> The floppy disc controllers pulls in irrelevant devices (sysbus in
+>>> an ISA-only machine, ISA bus + isa devices on a sysbus-only machine).
+>>>
+>>> This series clean that by extracting each device in its own file,
+>>> adding the corresponding Kconfig symbols: FDC_ISA and FDC_SYSBUS.
+>>>
+>>> Since v3:
+>>> - Fix ISA_SUPERIO -> FDC Kconfig dependency (jsnow)
+>>>
+>>> Since v2:
+>>> - rebased
+>>>
+>>> Since v1:
+>>> - added missing "hw/block/block.h" header (jsnow)
+>>> - inlined hardware specific calls (Mark)
+>>> - added R-b/A-b tags
+>>>
+>>> Regards,
+>>>
+>>> Phil.
+>>>
+>>> Philippe Mathieu-Daudé (9):
+>>>     hw/isa/Kconfig: Fix missing dependency ISA_SUPERIO -> FDC
+>>>     hw/block/fdc: Replace disabled fprintf() by trace event
+>>>     hw/block/fdc: Declare shared prototypes in fdc-internal.h
+>>>     hw/block/fdc: Extract ISA floppy controllers to fdc-isa.c
+>>>     hw/block/fdc: Extract SysBus floppy controllers to fdc-sysbus.c
+>>>     hw/block/fdc: Add sysbus_fdc_init_drives() method
+>>>     hw/sparc/sun4m: Inline sun4m_fdctrl_init()
+>>>     hw/block/fdc-sysbus: Add 'dma-channel' property
+>>>     hw/mips/jazz: Inline fdctrl_init_sysbus()
+>>>
+>>>    hw/block/fdc-internal.h | 156 +++++++++++
+>>>    include/hw/block/fdc.h  |   7 +-
+>>>    hw/block/fdc-isa.c      | 313 +++++++++++++++++++++
+>>>    hw/block/fdc-sysbus.c   | 224 +++++++++++++++
+>>>    hw/block/fdc.c          | 608 +---------------------------------------
+>>>    hw/mips/jazz.c          |  16 ++
+>>>    hw/sparc/sun4m.c        |  16 ++
+>>>    MAINTAINERS             |   3 +
+>>>    hw/block/Kconfig        |   8 +
+>>>    hw/block/meson.build    |   2 +
+>>>    hw/block/trace-events   |   3 +
+>>>    hw/i386/Kconfig         |   2 +-
+>>>    hw/isa/Kconfig          |   7 +-
+>>>    hw/mips/Kconfig         |   2 +-
+>>>    hw/sparc/Kconfig        |   2 +-
+>>>    hw/sparc64/Kconfig      |   2 +-
+>>>    16 files changed, 759 insertions(+), 612 deletions(-)
+>>>    create mode 100644 hw/block/fdc-internal.h
+>>>    create mode 100644 hw/block/fdc-isa.c
+>>>    create mode 100644 hw/block/fdc-sysbus.c
+>>>
+>>
+>> Hi, tentatively staged:
+>>
+>> https://gitlab.com/jsnow/qemu/-/commits/floppy/
+>>
+>> pending CI:
+>>
+>> https://gitlab.com/jsnow/qemu/-/pipelines/304308461
+> 
+> Not good enough:
+> 
+> qemu-system-sparc: ../hw/block/fdc.c:2356: fdctrl_realize_common:
+> Assertion `fdctrl->dma' failed.
+> 
+> Forget about it for your next pull request.
+> 
 
-Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
----
- target/ppc/insn32.decode                   | 14 ++++++
- target/ppc/translate.c                     | 52 ----------------------
- target/ppc/translate/fixedpoint-impl.c.inc | 31 +++++++++++++
- 3 files changed, 45 insertions(+), 52 deletions(-)
+Yup, I see. Dropping it from the queue for now. Thanks!
 
-diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-index 93e5d44d9e..9fd8d6b817 100644
---- a/target/ppc/insn32.decode
-+++ b/target/ppc/insn32.decode
-@@ -20,6 +20,10 @@
- &D              rt ra si:int64_t
- @D              ...... rt:5 ra:5 si:s16                 &D
- 
-+&D_bf           bf l:bool ra imm
-+@D_bfs          ...... bf:3 - l:1 ra:5 imm:s16          &D_bf
-+@D_bfu          ...... bf:3 - l:1 ra:5 imm:16           &D_bf
-+
- %ds_si          2:s14  !function=times_4
- @DS             ...... rt:5 ra:5 .............. ..      &D si=%ds_si
- 
-@@ -36,6 +40,9 @@
- &X_bi           rt bi
- @X_bi           ...... rt:5 bi:5 ----- .......... -     &X_bi
- 
-+&X_bfl          bf l:bool ra rb
-+@X_bfl          ...... bf:3 - l:1 ra:5 rb:5 ..........- &X_bfl
-+
- ### Fixed-Point Load Instructions
- 
- LBZ             100010 ..... ..... ................     @D
-@@ -89,6 +96,13 @@ STDU            111110 ..... ..... ..............01     @DS
- STDX            011111 ..... ..... ..... 0010010101 -   @X
- STDUX           011111 ..... ..... ..... 0010110101 -   @X
- 
-+### Fixed-Point Compare Instructions
-+
-+CMP             011111 ... - . ..... ..... 0000000000 - @X_bfl
-+CMPL            011111 ... - . ..... ..... 0000100000 - @X_bfl
-+CMPI            001011 ... - . ..... ................   @D_bfs
-+CMPLI           001010 ... - . ..... ................   @D_bfu
-+
- ### Fixed-Point Arithmetic Instructions
- 
- ADDI            001110 ..... ..... ................     @D
-diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-index aef01af396..3fe58d0386 100644
---- a/target/ppc/translate.c
-+++ b/target/ppc/translate.c
-@@ -1575,54 +1575,6 @@ static inline void gen_set_Rc0(DisasContext *ctx, TCGv reg)
-     }
- }
- 
--/* cmp */
--static void gen_cmp(DisasContext *ctx)
--{
--    if ((ctx->opcode & 0x00200000) && (ctx->insns_flags & PPC_64B)) {
--        gen_op_cmp(cpu_gpr[rA(ctx->opcode)], cpu_gpr[rB(ctx->opcode)],
--                   1, crfD(ctx->opcode));
--    } else {
--        gen_op_cmp32(cpu_gpr[rA(ctx->opcode)], cpu_gpr[rB(ctx->opcode)],
--                     1, crfD(ctx->opcode));
--    }
--}
--
--/* cmpi */
--static void gen_cmpi(DisasContext *ctx)
--{
--    if ((ctx->opcode & 0x00200000) && (ctx->insns_flags & PPC_64B)) {
--        gen_op_cmpi(cpu_gpr[rA(ctx->opcode)], SIMM(ctx->opcode),
--                    1, crfD(ctx->opcode));
--    } else {
--        gen_op_cmpi32(cpu_gpr[rA(ctx->opcode)], SIMM(ctx->opcode),
--                      1, crfD(ctx->opcode));
--    }
--}
--
--/* cmpl */
--static void gen_cmpl(DisasContext *ctx)
--{
--    if ((ctx->opcode & 0x00200000) && (ctx->insns_flags & PPC_64B)) {
--        gen_op_cmp(cpu_gpr[rA(ctx->opcode)], cpu_gpr[rB(ctx->opcode)],
--                   0, crfD(ctx->opcode));
--    } else {
--        gen_op_cmp32(cpu_gpr[rA(ctx->opcode)], cpu_gpr[rB(ctx->opcode)],
--                     0, crfD(ctx->opcode));
--    }
--}
--
--/* cmpli */
--static void gen_cmpli(DisasContext *ctx)
--{
--    if ((ctx->opcode & 0x00200000) && (ctx->insns_flags & PPC_64B)) {
--        gen_op_cmpi(cpu_gpr[rA(ctx->opcode)], UIMM(ctx->opcode),
--                    0, crfD(ctx->opcode));
--    } else {
--        gen_op_cmpi32(cpu_gpr[rA(ctx->opcode)], UIMM(ctx->opcode),
--                      0, crfD(ctx->opcode));
--    }
--}
--
- /* cmprb - range comparison: isupper, isaplha, islower*/
- static void gen_cmprb(DisasContext *ctx)
- {
-@@ -7725,10 +7677,6 @@ GEN_HANDLER_E(brw, 0x1F, 0x1B, 0x04, 0x0000F801, PPC_NONE, PPC2_ISA310),
- GEN_HANDLER_E(brh, 0x1F, 0x1B, 0x06, 0x0000F801, PPC_NONE, PPC2_ISA310),
- #endif
- GEN_HANDLER(invalid, 0x00, 0x00, 0x00, 0xFFFFFFFF, PPC_NONE),
--GEN_HANDLER(cmp, 0x1F, 0x00, 0x00, 0x00400000, PPC_INTEGER),
--GEN_HANDLER(cmpi, 0x0B, 0xFF, 0xFF, 0x00400000, PPC_INTEGER),
--GEN_HANDLER(cmpl, 0x1F, 0x00, 0x01, 0x00400001, PPC_INTEGER),
--GEN_HANDLER(cmpli, 0x0A, 0xFF, 0xFF, 0x00400000, PPC_INTEGER),
- #if defined(TARGET_PPC64)
- GEN_HANDLER_E(cmpeqb, 0x1F, 0x00, 0x07, 0x00600000, PPC_NONE, PPC2_ISA300),
- #endif
-diff --git a/target/ppc/translate/fixedpoint-impl.c.inc b/target/ppc/translate/fixedpoint-impl.c.inc
-index 4f257a931c..49c8993333 100644
---- a/target/ppc/translate/fixedpoint-impl.c.inc
-+++ b/target/ppc/translate/fixedpoint-impl.c.inc
-@@ -165,6 +165,37 @@ TRANS64(STDU, do_ldst_D, true, true, MO_Q)
- TRANS64(STDUX, do_ldst_X, true, true, MO_Q)
- TRANS64(PSTD, do_ldst_PLS_D, false, true, MO_Q)
- 
-+/*
-+ * Fixed-Point Compare Instructions
-+ */
-+
-+static bool do_cmp_X(DisasContext *ctx, arg_X_bfl *a, bool s)
-+{
-+    REQUIRE_INSNS_FLAGS(ctx, INTEGER);
-+    if(a->l && (ctx->insns_flags & PPC_64B)) {
-+        gen_op_cmp(cpu_gpr[a->ra], cpu_gpr[a->rb], s, a->bf);
-+    } else {
-+        gen_op_cmp32(cpu_gpr[a->ra], cpu_gpr[a->rb], s, a->bf);
-+    }
-+    return true;
-+}
-+
-+static bool do_cmp_D(DisasContext *ctx, arg_D_bf *a, bool s)
-+{
-+    REQUIRE_INSNS_FLAGS(ctx, INTEGER);
-+    if(a->l && (ctx->insns_flags & PPC_64B)) {
-+        gen_op_cmp(cpu_gpr[a->ra], tcg_constant_tl(a->imm), s, a->bf);
-+    } else {
-+        gen_op_cmp32(cpu_gpr[a->ra], tcg_constant_tl(a->imm), s, a->bf);
-+    }
-+    return true;
-+}
-+
-+TRANS(CMP, do_cmp_X, true);
-+TRANS(CMPL, do_cmp_X, false);
-+TRANS(CMPI, do_cmp_D, true);
-+TRANS(CMPLI, do_cmp_D, false);
-+
- /*
-  * Fixed-Point Arithmetic Instructions
-  */
--- 
-2.25.1
+--js
 
 
