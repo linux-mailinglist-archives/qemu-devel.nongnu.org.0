@@ -2,74 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82F4B3828A7
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 11:45:03 +0200 (CEST)
-Received: from localhost ([::1]:44976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D0A5382882
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 11:38:16 +0200 (CEST)
+Received: from localhost ([::1]:35200 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1liZo6-00006W-ES
-	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 05:45:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33264)
+	id 1liZhX-0001UX-5K
+	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 05:38:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33376)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1liZNw-0003Ew-H3; Mon, 17 May 2021 05:18:00 -0400
-Received: from wnew4-smtp.messagingengine.com ([64.147.123.18]:33593)
+ id 1liZO9-0003TR-DP; Mon, 17 May 2021 05:18:13 -0400
+Received: from wnew4-smtp.messagingengine.com ([64.147.123.18]:52057)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1liZNu-0005ix-QQ; Mon, 17 May 2021 05:18:00 -0400
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailnew.west.internal (Postfix) with ESMTP id A3BA8245;
- Mon, 17 May 2021 05:17:56 -0400 (EDT)
+ id 1liZO7-0005qB-NF; Mon, 17 May 2021 05:18:13 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.west.internal (Postfix) with ESMTP id 78F0B5D1;
+ Mon, 17 May 2021 05:18:09 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Mon, 17 May 2021 05:17:57 -0400
+ by compute4.internal (MEProxy); Mon, 17 May 2021 05:18:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=hDXqlQHmgsN6q
- gKdwDKuyfBLoa6je3z5MRgRyiaejdY=; b=bahLCD/RdME949PJpbHUAuvy6TV2E
- eG15WyGudzILK4tR2tKJLToWbY+D/7bvwW7ryeQ51mBaH+RW8XgSXhiI/7GTKQ+v
- TTJXan/iD8iZu59Ke904H2ZptmcA44PyVNNWWqJAeFoT3Iwvw+1nIckTumIiO2kG
- hZ8EJ18UDJ/52dWTbmbB5S6xqjrOhraFISqqk/s2XwfXLvAoYzlZu1IW/B9O3yLr
- unESQEbzUE0nBALhHznr4quSbJ3R4m8RmMFFAJ3JAnj1+v6dnzhtmyg5PVvQlN+R
- vGuIdor2kz3I33pAniRgTBQ4XkDXsKcNRtw+MH41gO0/xb+5VRCYI/svw==
+ :mime-version:content-type:content-transfer-encoding; s=fm3; bh=
+ 4+pw42IwkYwDJjmSNCsR7w/zoN01EaPIki4wOi5jSiU=; b=jenQ4JhBWA+tIapQ
+ bZnxJ21pfIo55siDKIDbhDnHvX7UHWsW082wlfyWe8Yk9BiA9j+FNjiu99zTjAh+
+ eG9mc10q4eDi0RPz7ob4jfHsyPKoWiXL+o8p3L+ORqAoZ+gIIoPRPK8K+4YuvKZq
+ l1PiB3/zeXQ8afbGbJdyYebUabB0beHhfzahGJhrJAd0ofOVBV66ZZ6Ce6AwOPan
+ zYTyyc1VywNqZ56u9r2Nej/ablV2uKSmNH1Ac2eGBlNesWEbBVvCWFVlvEsm1+Q1
+ V0YBu87s5EgGlKSrnY/lSWZ5u93qbEcybYtOz7i4tw7KQsRepLTnpo9mImm7Cl4o
+ M64Vdg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :in-reply-to:message-id:mime-version:references:subject:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; bh=hDXqlQHmgsN6qgKdwDKuyfBLoa6je3z5MRgRyiaejdY=; b=CrEoY0vy
- yC+aQB/ALRpWiC4BS7GX7w1HOoV1rOr022dCMkcnFL+WNhnpsauwYLrQzZaYiaW8
- /xo0PSdIcdL+ccKgpDALKeHr7RwoSCCV9GH7Jg2e/HXc3B+kS76nzsL0TkjCq71M
- jbdbc22NvU5aXGQI2eLDwhEAt8xZM3O4zlvPPXKc17jc7SOT+osj0rnhhgWzorZx
- MZTKyGMZiG/KY8+6ThvGb4YEf/wayRXwvzQXbMYQKZyrKUvwy6u+OLhrgLb01ntE
- tduFla63m+sHsjbSQv4n2jgvTDrhJrIQSC/GmnM6JqbTxwvDajcQknVMe52L4/nw
- mV/zScCZdt7FCQ==
-X-ME-Sender: <xms:wzSiYAt2sUj0t4mnsQkSFWaDIE4m2JaMNirNWGPZ3JTcf2ITo0c94A>
- <xme:wzSiYNdAtweIFxtdCk-DQ-wNZWcIGchKn22Jx-28M6mB5UE8l2jokAaJ6rMkma9dA
- a_e_sylQThi4-YNH8c>
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:from:in-reply-to:message-id:mime-version:references
+ :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm2; bh=4+pw42IwkYwDJjmSNCsR7w/zoN01EaPIki4wOi5jS
+ iU=; b=MwHNMYyOWcogZjIkqcR1uFQi97wUuPxV+iEDpWJ87sb3ChLIAppNSwyo/
+ NcoeZskOkQZp6ivVTjvQr2ZSzEnDrUtyCXI8CXNguLKX6UErw240d5GC/Xk1kwLr
+ yeNy4qFHq1CNjaT8U64G0Fe7+KqBjMZQXHDKUeTsQuitIfbkbdsdboU9d73dEMLI
+ 05yKQRK2Dqn4QOeMz/33lCY7pq9ErNCvkcHApyh7aPMqsGt2bZWA25jQiSu7hIs+
+ K2+cK5zxZoaQFCbpDAGy2+YiwP0NcxTOu79CUlZu59c6n5gkKzbMSSRSkfm99NQo
+ XvuNcCtN4VlEONCbseaw+xaMZq+aA==
+X-ME-Sender: <xms:0TSiYLy4QVM3wJz4dv1yW1OVJd6PM5zG0Z5fOuHPR3H3ARjAlPSWiQ>
+ <xme:0TSiYDSsOhzvBNMU73KYzAvwwyC1e8Ghz-nEcBZH0e05u5aeAzy3mgB5i1pnkeVfb
+ 3JHpXPtktIfgkIk1KQ>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdeihedgudegucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefmlhgruhhs
- ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpeeuleetgeeiuefhgfekfefgveejiefgteekiedtgfdtieefhfdthfefueffvefg
- keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
- curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:wzSiYLwd3BwOg4Jw9uz-1KdOuHkrFlkbNasuD01-arHbd2mEZE181g>
- <xmx:wzSiYDP9osJAdwjmGTxIHl17Q9JY_v5LUdQSuuQb-QzBuF3uNdotwA>
- <xmx:wzSiYA9lKTAc5wVM5gqigdCtOSUPHPBCF0MIte4Pzz0hiODRvv4WVA>
- <xmx:xDSiYETt_TwHt5RFhYmMckbPN4Omvvxmj57eGlaFLzb_Xy_ur6Tp43bsdes>
+ cujfgurhephffvufffkffojghfgggtgfesthekredtredtjeenucfhrhhomhepmfhlrghu
+ shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
+ htvghrnhepteevuedugeevieehgeeileeufeetvddtkeetfeelgeehudfhjeeuledvhfff
+ tdegnecukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgepud
+ enucfrrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:0TSiYFViAos5q6ChpOFX7HeyVxJFvRCa7zvizwIw2IM-3Vd1aR_bTQ>
+ <xmx:0TSiYFiom_Uzg_BcCKA1HHDauYiXVEm2l9VTzvvfEk8YPnmtSKF-Gg>
+ <xmx:0TSiYNCB6SkFw8qhaSdlU39D__TOixogovHAmNb1tfgDvD0kutErPw>
+ <xmx:0TSiYBuPy_gKHpO3YQtcfaYChQVSLSHE-yUppoNVAsw8kjZV0R9SjScMRLg>
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190]) by mail.messagingengine.com (Postfix) with ESMTPA;
- Mon, 17 May 2021 05:17:53 -0400 (EDT)
+ Mon, 17 May 2021 05:18:07 -0400 (EDT)
 From: Klaus Jensen <its@irrelevant.dk>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PULL 04/20] hw/block/nvme: fix io-command set profile feature
-Date: Mon, 17 May 2021 11:17:21 +0200
-Message-Id: <20210517091737.841787-5-its@irrelevant.dk>
+Subject: [PULL 08/20] hw/block/nvme: rename __nvme_advance_zone_wp
+Date: Mon, 17 May 2021 11:17:25 +0200
+Message-Id: <20210517091737.841787-9-its@irrelevant.dk>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210517091737.841787-1-its@irrelevant.dk>
 References: <20210517091737.841787-1-its@irrelevant.dk>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=64.147.123.18; envelope-from=its@irrelevant.dk;
  helo=wnew4-smtp.messagingengine.com
@@ -93,58 +95,60 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
- Gollu Appalanaidu <anaidu.gollu@samsung.com>, Max Reitz <mreitz@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org,
+ Klaus Jensen <k.jensen@samsung.com>, Max Reitz <mreitz@redhat.com>,
  Keith Busch <kbusch@kernel.org>, Stefan Hajnoczi <stefanha@redhat.com>,
- Klaus Jensen <its@irrelevant.dk>
+ Klaus Jensen <its@irrelevant.dk>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Gollu Appalanaidu <anaidu.gollu@samsung.com>
+From: Klaus Jensen <k.jensen@samsung.com>
 
-Currently IO Command Set Profile feature is supported, but the feature
-support flag not set. Further, this feature is changable. Fix that.
+Get rid of the (reserved) double underscore use.
 
-Additionally, remove filling default value of the CQE result with zero,
-since it will fall back to the default case anyway.
-
-Signed-off-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
-[k.jensen: fix up commit message]
+Cc: Philippe Mathieu-Daudé <philmd@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Keith Busch <kbusch@kernel.org>
 ---
- hw/block/nvme.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ hw/block/nvme.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 67abc9eb2c24..14c24f9b0866 100644
+index 9e5ab4cacb06..acbfa3f890dc 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -185,6 +185,7 @@ static const bool nvme_feature_support[NVME_FID_MAX] = {
-     [NVME_WRITE_ATOMICITY]          = true,
-     [NVME_ASYNCHRONOUS_EVENT_CONF]  = true,
-     [NVME_TIMESTAMP]                = true,
-+    [NVME_COMMAND_SET_PROFILE]      = true,
- };
+@@ -1757,8 +1757,8 @@ static inline uint16_t nvme_zrm_open(NvmeNamespace *ns, NvmeZone *zone)
+     return nvme_zrm_open_flags(ns, zone, 0);
+ }
  
- static const uint32_t nvme_feature_cap[NVME_FID_MAX] = {
-@@ -194,6 +195,7 @@ static const uint32_t nvme_feature_cap[NVME_FID_MAX] = {
-     [NVME_NUMBER_OF_QUEUES]         = NVME_FEAT_CAP_CHANGE,
-     [NVME_ASYNCHRONOUS_EVENT_CONF]  = NVME_FEAT_CAP_CHANGE,
-     [NVME_TIMESTAMP]                = NVME_FEAT_CAP_CHANGE,
-+    [NVME_COMMAND_SET_PROFILE]      = NVME_FEAT_CAP_CHANGE,
- };
+-static void __nvme_advance_zone_wp(NvmeNamespace *ns, NvmeZone *zone,
+-                                   uint32_t nlb)
++static void nvme_advance_zone_wp(NvmeNamespace *ns, NvmeZone *zone,
++                                 uint32_t nlb)
+ {
+     zone->d.wp += nlb;
  
- static const uint32_t nvme_cse_acs[256] = {
-@@ -4711,9 +4713,6 @@ defaults:
-             result |= NVME_INTVC_NOCOALESCING;
-         }
-         break;
--    case NVME_COMMAND_SET_PROFILE:
--        result = 0;
--        break;
-     default:
-         result = nvme_feature_default[fid];
-         break;
+@@ -1778,7 +1778,7 @@ static void nvme_finalize_zoned_write(NvmeNamespace *ns, NvmeRequest *req)
+     nlb = le16_to_cpu(rw->nlb) + 1;
+     zone = nvme_get_zone_by_slba(ns, slba);
+ 
+-    __nvme_advance_zone_wp(ns, zone, nlb);
++    nvme_advance_zone_wp(ns, zone, nlb);
+ }
+ 
+ static inline bool nvme_is_write(NvmeRequest *req)
+@@ -2167,7 +2167,7 @@ out:
+         uint64_t sdlba = le64_to_cpu(copy->sdlba);
+         NvmeZone *zone = nvme_get_zone_by_slba(ns, sdlba);
+ 
+-        __nvme_advance_zone_wp(ns, zone, ctx->nlb);
++        nvme_advance_zone_wp(ns, zone, ctx->nlb);
+     }
+ 
+     g_free(ctx->bounce);
 -- 
 2.31.1
 
