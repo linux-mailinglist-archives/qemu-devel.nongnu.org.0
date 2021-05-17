@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B533E383D6F
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 21:31:01 +0200 (CEST)
-Received: from localhost ([::1]:47048 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1270383D46
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 21:27:51 +0200 (CEST)
+Received: from localhost ([::1]:34528 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1liixA-0003uw-AX
-	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 15:31:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49080)
+	id 1liiu6-0003oL-Td
+	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 15:27:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50056)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1liidz-0007wz-21
- for qemu-devel@nongnu.org; Mon, 17 May 2021 15:11:11 -0400
-Received: from indium.canonical.com ([91.189.90.7]:54078)
+ id 1liiiQ-0006du-TD
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 15:15:46 -0400
+Received: from indium.canonical.com ([91.189.90.7]:55226)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1liidu-0003Sf-JF
- for qemu-devel@nongnu.org; Mon, 17 May 2021 15:11:10 -0400
+ id 1liiiM-0005w5-US
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 15:15:46 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1liido-0007Sr-Tp
- for <qemu-devel@nongnu.org>; Mon, 17 May 2021 19:11:01 +0000
+ id 1liiiK-0000A1-As
+ for <qemu-devel@nongnu.org>; Mon, 17 May 2021 19:15:40 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 27A232E8261
- for <qemu-devel@nongnu.org>; Mon, 17 May 2021 19:10:50 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id C860E2E819C
+ for <qemu-devel@nongnu.org>; Mon, 17 May 2021 19:15:39 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 17 May 2021 19:02:52 -0000
-From: Thomas Huth <1886225@bugs.launchpad.net>
+Date: Mon, 17 May 2021 19:07:37 -0000
+From: Thomas Huth <1886306@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
  assignee=None; 
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
@@ -42,15 +42,15 @@ X-Launchpad-Bug-Commenters: philmd th-huth
 X-Launchpad-Bug-Reporter: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
  =?utf-8?q?=29?=
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <159380302138.1124.12942774814113194933.malonedeb@chaenomeles.canonical.com>
-Message-Id: <162127817296.7612.7643622213606708727.malone@gac.canonical.com>
-Subject: [Bug 1886225] Re: [Feature request] Oracle Solaris 11.4 VM image
+References: <159394034007.15406.6510283150709649853.malonedeb@soybean.canonical.com>
+Message-Id: <162127845799.1070.8645242894967318698.malone@wampee.canonical.com>
+Subject: [Bug 1886306] Re: qemu running slow when the window is in background
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="5321c3f40fa4d4b847f4e47fb766e7b95ed5036c"; Instance="production"
-X-Launchpad-Hash: 94fb768bb9e55a5b64302e212ad4c9bb0227967c
+X-Launchpad-Hash: 010ae2aecff9b6985b424924160266bfbc6fa216
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,46 +71,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1886225 <1886225@bugs.launchpad.net>
+Reply-To: Bug 1886306 <1886306@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I'm closing this since it's very unlikely that we get a Solaris VM
-image, since they are not available for free, as far as I know. Maybe
-somebody could contribute an illumos-based image one day, but that's
-nothing that we have to track in the bug tracker, I think.
+I think there is quite a bit of information missing here? Which host OS
+/ distribution are we talking about here? Which parameters were used for
+"configure"? Which QEMU version has been used? Is it still reproducible
+with the latest version? ... thus I wonder whether this should get
+closed, or whether it's worth the effort to move this to the new tracker
+at Gitlab?
 
 ** Changed in: qemu
-       Status: New =3D> Invalid
+       Status: New =3D> Incomplete
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1886225
+https://bugs.launchpad.net/bugs/1886306
 
 Title:
-  [Feature request] Oracle Solaris 11.4 VM image
+  qemu running slow when the window is in background
 
 Status in QEMU:
-  Invalid
+  Incomplete
 
 Bug description:
-  We already have handy VMs to build QEMU within:
+  Reported by <jedinix> on IRC:
 
-  $ git grep -l basevm.BaseVM
-  tests/vm/centos
-  tests/vm/fedora
-  tests/vm/freebsd
-  tests/vm/netbsd
-  tests/vm/openbsd
-  tests/vm/ubuntu.i386
+  QEMU almost freezes when running with `GDK_BACKEND=3Dx11` set and the
+  parameter `gl=3Don` added to the `-display` option.
 
-  Some people have interest in building QEMU on Solaris:
-  https://lists.gnu.org/archive/html/qemu-devel/2020-07/msg01429.html
+  GDK_BACKEND=3Dx11 qemu-system-x86_64 -nodefaults -no-user-config
+  -enable-kvm -machine q35 -cpu host -m 4G -display gtk,gl=3Don -vga std
+  -usb -device usb-kbd -drive
+  file=3D/tmp/Win10.qcow2,media=3Ddisk,format=3Dqcow2 -drive
+  file=3D~/Downloads/Win10_2004_EnglishInternational_x64.iso,media=3Dcdrom
 
-  To help them it would be useful to have a Solaris VM.
+  Leaving out `GDK_BACKEND=3Dx11` or `gl=3Don` fixes the issue.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1886225/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1886306/+subscriptions
 
