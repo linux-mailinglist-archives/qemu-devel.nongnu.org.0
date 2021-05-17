@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 478FA3839D6
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 18:29:29 +0200 (CEST)
-Received: from localhost ([::1]:52862 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6905D383994
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 18:23:52 +0200 (CEST)
+Received: from localhost ([::1]:36100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lig7U-0008Lv-Cr
-	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 12:29:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60352)
+	id 1lig23-00054r-CD
+	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 12:23:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60282)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lifyp-0001mt-SV
- for qemu-devel@nongnu.org; Mon, 17 May 2021 12:20:32 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:37482)
+ id 1lifyj-0001jn-5l
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 12:20:26 -0400
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:55809)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lifye-0002AQ-Ts
- for qemu-devel@nongnu.org; Mon, 17 May 2021 12:20:31 -0400
-Received: by mail-wr1-x436.google.com with SMTP id q5so7054414wrs.4
- for <qemu-devel@nongnu.org>; Mon, 17 May 2021 09:20:20 -0700 (PDT)
+ id 1lifyX-00025F-76
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 12:20:24 -0400
+Received: by mail-wm1-x329.google.com with SMTP id b7so3319118wmh.5
+ for <qemu-devel@nongnu.org>; Mon, 17 May 2021 09:20:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=laBTRAnhUqYkkWxlzGzSELGQ267uzqchU3TV+3waw3g=;
- b=Kt7lxjfhIBrfiH3KTPAODzXItNhwVOQwVfMCnoGv76PcVzxAQJWzCctWAq02rghu+f
- R2bSvco/nzvIcDkRV3t0Z1KrYmJZ++aCs6U9+ajZpsqW86oWLMu88SE0g0D5sdyfuVnb
- 3nQXWkx5E+PLJn3c4FX/4u2OD5hNFf15E3EVV3JH3LL2PV1djTTeCW7L0MEKNLlc7h/t
- nYgpLBxqIQbvub4SQfzVmAVBTZtuZIHKAQw+O2IjH4xY5Mky624pzE6PpIWhB8W67V4C
- oguo0YRdr0T4iOaUsz35IGHVoSiB/PJ6yjteRdtHnIlMPMX3QNNdLuOfxIzlRJ2tdM8V
- HRoA==
+ bh=50j4O5HpF3lWjOwIwMIUVpGBggucg+cBxQSDFU6ktaY=;
+ b=KzOcjwKRx8HvVdwe+nX2EAot4dNihCmshqBCRhupJOhjH4Zk23y7H3X8t0SS6PJYoz
+ Zi1G1DSkzm7UrTVMZ+qY1g2A1oD0KCao+e1DXTKKPCY+6UZY43zoXXo9kdKrQ5XWj9Rf
+ mNcJ9NFFgP1nGUVCmYFgYymWQSst6E14jYp+PsByT/RMYwp4MjkEV749k45o67STO9+9
+ C1zXAFfahGkVCVnVESzu95lEk4fSC2b5LsgdLDG6R9ka20Zq7sf+46R5VyNz47BImg2O
+ 1pJ96Ufiycn8DamMdy5+CqmW3pk0cZ3lzz09Cu/315nAm8YFx1DCg51lmQ8RZcnh5Txc
+ nu4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=laBTRAnhUqYkkWxlzGzSELGQ267uzqchU3TV+3waw3g=;
- b=aFWGNxmeQgrIQRqtnm+c0Szx8MgpyyBkm8PPPta0TxFAsquMVFrktieAWe4+94G/W2
- nPpIKtFqgIRA2MU4mbfffpoC/Umrm1pfRwjzoAk9S/ay9N0suyfjMmx3OVON5HwXP+HU
- /ksOFgPdm9yjsKSJAJiutXPVoreGIh7iR9z9j44nnqXTQy2tJS56DB70MRNMmvk4m/f+
- oUi3t+asvagHNrwlhv4zOSSStlMGcOnsaz6HoSDy4lhxsPtcrhAoIUbmjFhckko2on9Z
- 3Z6jQzlOJgnongFekKzT89D//D2+HNiRNJaQ8E+/3RWfVC41Dv6MXJJmIwGhMe7+M065
- AuBA==
-X-Gm-Message-State: AOAM530J9p3nU/Bvl/bmZsxMKfIw32veqlyC9EbMsIzleLYOWR3UjS57
- OahwkXgo+HXZyLFD6LAgnIO6Cg==
-X-Google-Smtp-Source: ABdhPJyI2PhjgaqdPWhlONptt2ojiklYxgWkSRpbS6ARFa5WMbXy8zMD0UMz1F16EXsfITJqIEE5vg==
-X-Received: by 2002:adf:e991:: with SMTP id h17mr538534wrm.265.1621268419094; 
- Mon, 17 May 2021 09:20:19 -0700 (PDT)
+ bh=50j4O5HpF3lWjOwIwMIUVpGBggucg+cBxQSDFU6ktaY=;
+ b=S5VbzEATVRqDluPcgHfuXO9wUd4L7liSFdd24jbBJ/u4kOvuadumdb0XY7RDZq10Dt
+ FAQnaHShrRYGMfk9u+R9xzbFXqmLDKkA/18+LUvZNntI6B2Oy0A+regUoembrmlM+Vpv
+ k+9y4radeJ3LydUXkhAegsc4xqydKrbHCt0HSMT3c8SVrgj4AIMqg0M+FmcUWEW7vFC2
+ hc+OQylGoNrxVcu8fo4r3QTQbKmyY3UruczO6RNO2HCroWha9CRzW+YPekkIWjnLdurm
+ YPQ2MeWYFU/ejG7KExCskeIFqAcJgSdp9WaeSKHJ8k+qWQkSFBzhCm2DtM6fm2+Zifhe
+ BUcQ==
+X-Gm-Message-State: AOAM532RWJk1A+qaheIXZwxPbEzZQIAvRh57VZ6LXscA9egesxDlj2pH
+ t0p/Cqlx0dJJW2ugo3mXXuyDyQ==
+X-Google-Smtp-Source: ABdhPJyoHV2IrHHqW58IgUSbQqvDuSwdTTCDCKJIcrtB5ftlQZCwWML4+MXcHKQd8nfruYqsFb+3KQ==
+X-Received: by 2002:a7b:c182:: with SMTP id y2mr424951wmi.125.1621268411830;
+ Mon, 17 May 2021 09:20:11 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id s18sm7551429wra.80.2021.05.17.09.20.09
+ by smtp.gmail.com with ESMTPSA id r11sm12061267wrp.46.2021.05.17.09.20.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 May 2021 09:20:14 -0700 (PDT)
+ Mon, 17 May 2021 09:20:07 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id A47221FFAF;
+ by zen.linaroharston (Postfix) with ESMTP id D3A4A1FFB3;
  Mon, 17 May 2021 17:10:25 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 26/29] plugins: Update qemu-plugins.symbols to match
- qemu-plugins.h
-Date: Mon, 17 May 2021 17:10:19 +0100
-Message-Id: <20210517161022.13984-27-alex.bennee@linaro.org>
+Subject: [PULL 28/29] plugins/hotblocks: Properly freed the hash table values
+Date: Mon, 17 May 2021 17:10:21 +0100
+Message-Id: <20210517161022.13984-29-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210517161022.13984-1-alex.bennee@linaro.org>
 References: <20210517161022.13984-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x329.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,72 +86,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yonggang Luo <luoyonggang@gmail.com>,
+Cc: Mahmoud Mandour <ma.mandourr@gmail.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Yonggang Luo <luoyonggang@gmail.com>
+From: Mahmoud Mandour <ma.mandourr@gmail.com>
 
-Reorder the function symbols that consistence with qemu-plugins.h
+Freed the values stored in the hash table ``hotblocks``
+returned by ``g_hash_table_get_values()`` by freeing the sorted
+list and destroyed the hash table afterward.
 
-Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
+Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20210318185555.434-2-luoyonggang@gmail.com>
-Message-Id: <20210505092259.8202-2-alex.bennee@linaro.org>
+Message-Id: <20210422005043.3569-2-ma.mandourr@gmail.com>
+Message-Id: <20210505092259.8202-4-alex.bennee@linaro.org>
 
-diff --git a/plugins/qemu-plugins.symbols b/plugins/qemu-plugins.symbols
-index 4bdb381f48..a0ac1df62a 100644
---- a/plugins/qemu-plugins.symbols
-+++ b/plugins/qemu-plugins.symbols
-@@ -5,35 +5,34 @@
-   qemu_plugin_register_vcpu_exit_cb;
-   qemu_plugin_register_vcpu_idle_cb;
-   qemu_plugin_register_vcpu_resume_cb;
--  qemu_plugin_register_vcpu_insn_exec_cb;
--  qemu_plugin_register_vcpu_insn_exec_inline;
--  qemu_plugin_register_vcpu_mem_cb;
--  qemu_plugin_register_vcpu_mem_haddr_cb;
--  qemu_plugin_register_vcpu_mem_inline;
--  qemu_plugin_ram_addr_from_host;
-   qemu_plugin_register_vcpu_tb_trans_cb;
-   qemu_plugin_register_vcpu_tb_exec_cb;
-   qemu_plugin_register_vcpu_tb_exec_inline;
--  qemu_plugin_register_flush_cb;
--  qemu_plugin_register_vcpu_syscall_cb;
--  qemu_plugin_register_vcpu_syscall_ret_cb;
--  qemu_plugin_register_atexit_cb;
-+  qemu_plugin_register_vcpu_insn_exec_cb;
-+  qemu_plugin_register_vcpu_insn_exec_inline;
-   qemu_plugin_tb_n_insns;
--  qemu_plugin_tb_get_insn;
-   qemu_plugin_tb_vaddr;
-+  qemu_plugin_tb_get_insn;
-   qemu_plugin_insn_data;
-   qemu_plugin_insn_size;
-   qemu_plugin_insn_vaddr;
-   qemu_plugin_insn_haddr;
--  qemu_plugin_insn_disas;
-   qemu_plugin_mem_size_shift;
-   qemu_plugin_mem_is_sign_extended;
-   qemu_plugin_mem_is_big_endian;
-   qemu_plugin_mem_is_store;
-   qemu_plugin_get_hwaddr;
-   qemu_plugin_hwaddr_is_io;
--  qemu_plugin_hwaddr_to_raddr;
-+  qemu_plugin_hwaddr_phys_addr;
-+  qemu_plugin_hwaddr_device_name;
-+  qemu_plugin_register_vcpu_mem_cb;
-+  qemu_plugin_register_vcpu_mem_inline;
-+  qemu_plugin_register_vcpu_syscall_cb;
-+  qemu_plugin_register_vcpu_syscall_ret_cb;
-+  qemu_plugin_insn_disas;
-   qemu_plugin_vcpu_for_each;
-+  qemu_plugin_register_flush_cb;
-+  qemu_plugin_register_atexit_cb;
-   qemu_plugin_n_vcpus;
-   qemu_plugin_n_max_vcpus;
-   qemu_plugin_outs;
+diff --git a/contrib/plugins/hotblocks.c b/contrib/plugins/hotblocks.c
+index 4b08340143..64692c0670 100644
+--- a/contrib/plugins/hotblocks.c
++++ b/contrib/plugins/hotblocks.c
+@@ -68,10 +68,11 @@ static void plugin_exit(qemu_plugin_id_t id, void *p)
+                                    rec->insns, rec->exec_count);
+         }
+ 
+-        g_list_free(it);
++        g_list_free_full(it, g_free);
+         g_mutex_unlock(&lock);
+     }
+ 
++    g_hash_table_destroy(hotblocks);
+     qemu_plugin_outs(report->str);
+ }
+ 
 -- 
 2.20.1
 
