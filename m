@@ -2,54 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97637382C7E
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 14:46:11 +0200 (CEST)
-Received: from localhost ([::1]:39778 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69682382C6F
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 14:42:48 +0200 (CEST)
+Received: from localhost ([::1]:34706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1licdO-0003PR-Iy
-	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 08:46:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55592)
+	id 1lica7-0008MX-GS
+	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 08:42:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56096)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cennedee@protonmail.com>)
- id 1licWY-0003Xl-HM
- for qemu-devel@nongnu.org; Mon, 17 May 2021 08:39:08 -0400
-Received: from mail-40138.protonmail.ch ([185.70.40.138]:54015)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1licYb-0006mK-Q0
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 08:41:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49420)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cennedee@protonmail.com>)
- id 1licWS-0002pb-D1
- for qemu-devel@nongnu.org; Mon, 17 May 2021 08:39:06 -0400
-Date: Mon, 17 May 2021 12:38:43 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
- s=protonmail; t=1621255131;
- bh=oTDijWQh0Nw1iqsYn8JM5mMJBvZMYBlsFtO0G+6BI8I=;
- h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
- b=CWZ9MQGr6gdC0UCDd+hgg+y2D8SHWWklsZ2Ll1DwUstgsD4DZSVLSMHof4H2CzhZq
- 505j6CuhpTNf8dGmnuqHyKbBdFz404r+e8boPytTCSkP09IEQIzan57EU5bJWtBppu
- e8jpLnZu3kY0BO9Wjc75JkHXoeL8nO33oeS926Gk=
-To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>
-From: cennedee <cennedee@protonmail.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Fam Zheng <fam@euphon.net>,
- Stefan Hajnoczi <stefanha@gmail.com>, John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH] Add missing coroutine_fn function signature to functions
-Message-ID: <9z7gf5G0OppBW1TLTGHhpvQY7nqQbJ9-9uBK847DMGg1Lq6IaqEWuda_oRVYHLN4ANJ9INng-WlQHliEHMmezGXQ5ssf8WvVi3lXFuz5MnI=@protonmail.com>
-In-Reply-To: <jIsKogXaCAXLrz6EQmoe_JD8TSR6h0Ud-nnXrdPRaupurt9VN_ZmxF0IYqKOExfwuCRPiKp1kTXweklz9uuXqkvoG7_g3pR9kCrr01sZtv4=@protonmail.com>
-References: <8y2vfZuyQoZPUsO-9E_Vl_x5LG4S3-ewrNqvmbgOTUHPglYpU2A0-jjdIh78JySlGCqhHgfXXezC_HGTIbSdlsqcT9YzUKr0b_FKp1OLk00=@protonmail.com>
- <YJAt8r78WAVdFrpa@stefanha-x1.localdomain>
- <jIsKogXaCAXLrz6EQmoe_JD8TSR6h0Ud-nnXrdPRaupurt9VN_ZmxF0IYqKOExfwuCRPiKp1kTXweklz9uuXqkvoG7_g3pR9kCrr01sZtv4=@protonmail.com>
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1licYX-0004Da-68
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 08:41:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1621255268;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=zc5pQVvR5NHAn9w4/pHD7eq9jWlNlfCuX6hnc+MgW7U=;
+ b=BUQiofa9+35iJyyYzDudpiH8n916HTzQ/dfhAddJf23afzJXHSpWmsWvP/dXSkig4jMFRO
+ sgRutpf9AoObywv4HU7ANLAzOB1ma2dMTqY6FbWmNmnoJlQCe7O3nujKH8LyTkC9L8ltWz
+ LJwJ+OUvXi1/Wpi6qH0TQYcYaBnSyYc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-280-glm_meCKOPi9Ao4WmKUA3A-1; Mon, 17 May 2021 08:41:04 -0400
+X-MC-Unique: glm_meCKOPi9Ao4WmKUA3A-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 84D2D801107;
+ Mon, 17 May 2021 12:41:03 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-113-29.ams2.redhat.com
+ [10.36.113.29])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3E47719726;
+ Mon, 17 May 2021 12:41:01 +0000 (UTC)
+Subject: Re: [PATCH 03/21] qdev-properties: PropertyInfo: add
+ realized_set_allowed field
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20210517064428.16223-1-vsementsov@virtuozzo.com>
+ <20210517064428.16223-5-vsementsov@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
+Message-ID: <0f0cd3e2-f098-dd45-7e57-0f58eb08ef96@redhat.com>
+Date: Mon, 17 May 2021 14:40:59 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=185.70.40.138;
- envelope-from=cennedee@protonmail.com; helo=mail-40138.protonmail.ch
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210517064428.16223-5-vsementsov@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.374,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,136 +84,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: cennedee <cennedee@protonmail.com>
+Cc: kwolf@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
+ jsnow@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com, den@openvz.org,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Focusing on a single file at a time now, this particular revised patch adds
-missing function signature `coroutine_fn` to definitions in scsi/qemu-pr-he=
-lper.c
-Intend to do more files in a separate patch series once I get the full flow=
- of this.
+On 17.05.21 08:44, Vladimir Sementsov-Ogievskiy wrote:
+> Add field, so property can declare support for setting the property
+> when device is realized. To be used in the following commit.
+> 
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>   include/hw/qdev-properties.h | 1 +
+>   hw/core/qdev-properties.c    | 6 +++---
+>   2 files changed, 4 insertions(+), 3 deletions(-)
 
-Compared to my previous e-mail, have also confirmed this edit passes checkp=
-atch.pl
+Looks OK to me, although qdev isn’t my specialty.
 
-The following functions are affected.
+> diff --git a/include/hw/qdev-properties.h b/include/hw/qdev-properties.h
+> index 0ef97d60ce..007e1f69f4 100644
+> --- a/include/hw/qdev-properties.h
+> +++ b/include/hw/qdev-properties.h
+> @@ -32,6 +32,7 @@ struct PropertyInfo {
+>       const char *name;
+>       const char *description;
+>       const QEnumLookup *enum_table;
+> +    bool realized_set_allowed;
 
-do_sgio()
-do_pr_in() --> do_sgio()
-do_pr_out() --> do_sgio()
-mpath_reconstruct_sense() --> do_sgio()
-multipath_pr_out() --> mpath_reconstruct_sense() --> do_sgio()
-multipath_pr_in() --> mpath_reconstruct_sense() --> do_sgio()
-accept_client() --> prh_co_entry()
+I think a comment would be nice, though.
 
+Max
 
-From 5bdef14027457d412972131dace76c3cabcc45a0 Mon Sep 17 00:00:00 2001
-From: Cenne Dee <cennedee+qemu-devel@protonmail.com>
-Date: Fri, 30 Apr 2021 15:52:28 -0400
-Subject: [PATCH] Add missing coroutine_fn function signature to some _co()
- functions
-
-Patch adds the signature for relevant functions ending with _co
-or those that use them.
-
-Signed-off-by: Cenne Dee <cennedee+qemu-devel@protonmail.com>
----
- scsi/qemu-pr-helper.c | 26 ++++++++++++++------------
- 1 file changed, 14 insertions(+), 12 deletions(-)
-
-diff --git a/scsi/qemu-pr-helper.c b/scsi/qemu-pr-helper.c
-index 7b9389b47b..7ed47c17c7 100644
---- a/scsi/qemu-pr-helper.c
-+++ b/scsi/qemu-pr-helper.c
-@@ -175,8 +175,8 @@ static int do_sgio_worker(void *opaque)
-     return status;
- }
-
--static int do_sgio(int fd, const uint8_t *cdb, uint8_t *sense,
--                    uint8_t *buf, int *sz, int dir)
-+static int coroutine_fn do_sgio(int fd, const uint8_t *cdb, uint8_t *sense=
-,
-+                                uint8_t *buf, int *sz, int dir)
- {
-     ThreadPool *pool =3D aio_get_thread_pool(qemu_get_aio_context());
-     int r;
-@@ -318,7 +318,7 @@ static SCSISense mpath_generic_sense(int r)
-     }
- }
-
--static int mpath_reconstruct_sense(int fd, int r, uint8_t *sense)
-+static int coroutine_fn mpath_reconstruct_sense(int fd, int r, uint8_t *se=
-nse)
- {
-     switch (r) {
-     case MPATH_PR_SUCCESS:
-@@ -370,8 +370,8 @@ static int mpath_reconstruct_sense(int fd, int r, uint8=
-_t *sense)
-     }
- }
-
--static int multipath_pr_in(int fd, const uint8_t *cdb, uint8_t *sense,
--                           uint8_t *data, int sz)
-+static int coroutine_fn multipath_pr_in(int fd, const uint8_t *cdb,
-+                                        uint8_t *sense, uint8_t *data, int=
- sz)
- {
-     int rq_servact =3D cdb[1];
-     struct prin_resp resp;
-@@ -425,8 +425,9 @@ static int multipath_pr_in(int fd, const uint8_t *cdb, =
-uint8_t *sense,
-     return mpath_reconstruct_sense(fd, r, sense);
- }
-
--static int multipath_pr_out(int fd, const uint8_t *cdb, uint8_t *sense,
--                            const uint8_t *param, int sz)
-+static int coroutine_fn multipath_pr_out(int fd, const uint8_t *cdb,
-+                                         uint8_t *sense, const uint8_t *pa=
-ram,
-+                                         int sz)
- {
-     int rq_servact =3D cdb[1];
-     int rq_scope =3D cdb[2] >> 4;
-@@ -543,8 +544,8 @@ static int multipath_pr_out(int fd, const uint8_t *cdb,=
- uint8_t *sense,
- }
- #endif
-
--static int do_pr_in(int fd, const uint8_t *cdb, uint8_t *sense,
--                    uint8_t *data, int *resp_sz)
-+static int coroutine_fn do_pr_in(int fd, const uint8_t *cdb, uint8_t *sens=
-e,
-+                                 uint8_t *data, int *resp_sz)
- {
- #ifdef CONFIG_MPATH
-     if (is_mpath(fd)) {
-@@ -561,8 +562,8 @@ static int do_pr_in(int fd, const uint8_t *cdb, uint8_t=
- *sense,
-                    SG_DXFER_FROM_DEV);
- }
-
--static int do_pr_out(int fd, const uint8_t *cdb, uint8_t *sense,
--                     const uint8_t *param, int sz)
-+static int coroutine_fn do_pr_out(int fd, const uint8_t *cdb, uint8_t *sen=
-se,
-+                                  const uint8_t *param, int sz)
- {
-     int resp_sz;
-
-@@ -804,7 +805,8 @@ out:
-     g_free(client);
- }
-
--static gboolean accept_client(QIOChannel *ioc, GIOCondition cond, gpointer=
- opaque)
-+static gboolean coroutine_fn accept_client(QIOChannel *ioc, GIOCondition c=
-ond,
-+                                           gpointer opaque)
- {
-     QIOChannelSocket *cioc;
-     PRHelperClient *prh;
---
-2.31.1
+>       int (*print)(Object *obj, Property *prop, char *dest, size_t len);
+>       void (*set_default_value)(ObjectProperty *op, const Property *prop);
+>       ObjectProperty *(*create)(ObjectClass *oc, const char *name,
+> diff --git a/hw/core/qdev-properties.c b/hw/core/qdev-properties.c
+> index 50f40949f5..c34aac6ebc 100644
+> --- a/hw/core/qdev-properties.c
+> +++ b/hw/core/qdev-properties.c
+> @@ -26,11 +26,11 @@ void qdev_prop_set_after_realize(DeviceState *dev, const char *name,
+>   
+>   /* returns: true if property is allowed to be set, false otherwise */
+>   static bool qdev_prop_allow_set(Object *obj, const char *name,
+> -                                Error **errp)
+> +                                const PropertyInfo *info, Error **errp)
+>   {
+>       DeviceState *dev = DEVICE(obj);
+>   
+> -    if (dev->realized) {
+> +    if (dev->realized && !info->realized_set_allowed) {
+>           qdev_prop_set_after_realize(dev, name, errp);
+>           return false;
+>       }
+> @@ -79,7 +79,7 @@ static void field_prop_set(Object *obj, Visitor *v, const char *name,
+>   {
+>       Property *prop = opaque;
+>   
+> -    if (!qdev_prop_allow_set(obj, name, errp)) {
+> +    if (!qdev_prop_allow_set(obj, name, prop->info, errp)) {
+>           return;
+>       }
+>   
+> 
 
 
