@@ -2,70 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 142D0383BC8
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 19:57:20 +0200 (CEST)
-Received: from localhost ([::1]:54220 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B313D383BC5
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 19:55:37 +0200 (CEST)
+Received: from localhost ([::1]:47622 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lihUU-00049d-RN
-	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 13:57:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56128)
+	id 1lihSq-00084i-Ox
+	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 13:55:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56156)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lihNr-0007oP-5I
- for qemu-devel@nongnu.org; Mon, 17 May 2021 13:50:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35719)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lihNt-0007tB-GP
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 13:50:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40693)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lihNl-00035z-Uh
- for qemu-devel@nongnu.org; Mon, 17 May 2021 13:50:26 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lihNq-00037m-Fq
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 13:50:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621273821;
+ s=mimecast20190719; t=1621273825;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Mwkhq1zzg8MDDjVW8AOR0NelXXYM0Xsfxsfa4jWuzBw=;
- b=KfjQX1Aw5PNWZjnSW3/TcHOjzPL0AKiQ9yi399TzPJGYdFBLiKKXwbY/Kkwn6ysDRSSbi6
- VU1mGj6gIWPuAaFvy12rykqAuJi9BpsEZTZE3Rs886Hz87uLtiIs9zseqfCIGffljW7zy0
- tX5lhvZRp6Y1Uxq9YbELs10NwDQO/bU=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-361-8cOFO2NoPUSpbAqZ-dQqiw-1; Mon, 17 May 2021 13:50:19 -0400
-X-MC-Unique: 8cOFO2NoPUSpbAqZ-dQqiw-1
-Received: by mail-ej1-f71.google.com with SMTP id
- la2-20020a170906ad82b02903d4bcc8de3bso1348460ejb.4
- for <qemu-devel@nongnu.org>; Mon, 17 May 2021 10:50:19 -0700 (PDT)
+ bh=Z14YRAeNHkM20zQ1K99pTtwaHYhMgqGiS7m7zkt7SV4=;
+ b=JgcsvZpkDKxfsHU+LzG1Q9Lh930+DZQL6g3WwyMrhJ38+RgEQ6FQJttBaAoIxQ/st7DUlp
+ YkNXKNmm1LBMLXuRtCyVcDIJO3Y578+N8eTgWJNxU6ZZpDZd/mHztUrsq9vn9upwdHmyyW
+ P5szGrg4YsewKubXVw3aRcYWGhE1950=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-277-rbqQBOwNO7m0Dk3NncS3nQ-1; Mon, 17 May 2021 13:50:23 -0400
+X-MC-Unique: rbqQBOwNO7m0Dk3NncS3nQ-1
+Received: by mail-ej1-f69.google.com with SMTP id
+ i23-20020a17090685d7b02903d089ab83fcso1327513ejy.19
+ for <qemu-devel@nongnu.org>; Mon, 17 May 2021 10:50:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Mwkhq1zzg8MDDjVW8AOR0NelXXYM0Xsfxsfa4jWuzBw=;
- b=OQFQ/7jUeE90N8S0atz9iUTfl/PblKmGVTCPEp6qyw3E3tm7r3ymcpzTtBxPiGXwWJ
- yPUq89OUOhR+2wGLDVVdf3/REY9zTxrpUGe3G82R4VxbJTz0+nN0cySwYeNprNyhvJGt
- sTfd8zI163qfGO0q5NX/Aklg+dr0e0vrhJ2BUfO94sznEEj+dxJGzBjwGJWdz3TDHxGJ
- iubioGnM591Nb3sBMptZcNkiM33lbmKfRQHDI2yRlOmRwJfD7RpGxPQfm62Eo4e218IA
- 1uxw5ii1GykS2LIxkN7CXZcCBN7/gr6DHk35/fENWljNOEmqTR1Td2gXUdUjjziOl3MZ
- Yx/g==
-X-Gm-Message-State: AOAM531b+1kHSgZC066B+XAGAqY7/udONBa9u306R7Wbb8gcJ8dIIYvy
- 22TDqFhqkLPDKVDNXOz4dokYQ2cCo8kHaaIAVtYFLj0IzMNbYVcmVAL4jRIMnxrdqXnmoXUF4Pi
- 7ye/TVIjQGrgl2IAnxhmdU9lVFFZyeMfl7nn/+g5Yp677NavYE/URjEGMmN/n85p/
-X-Received: by 2002:a05:6402:cb8:: with SMTP id
- cn24mr1421530edb.325.1621273817450; 
- Mon, 17 May 2021 10:50:17 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyryAMoN9Q8R4kGyfjyAIC1fA08fGqs1LrNVL4jLrkRuggitFpYC7RHtuzgrCcuEGMY4ZiS+A==
-X-Received: by 2002:a05:6402:cb8:: with SMTP id
- cn24mr1421499edb.325.1621273817235; 
- Mon, 17 May 2021 10:50:17 -0700 (PDT)
+ bh=Z14YRAeNHkM20zQ1K99pTtwaHYhMgqGiS7m7zkt7SV4=;
+ b=LeWn1ywfmEN0ZyFMrq3wFJlVZsTaJxjHWH3QqkLtUjpuNoNLClsGG3ldUJ45Rsty4F
+ DUfSKXl01tImM40iaAeBTrLCWWixFfsLRi6NTnVk2qp3uFmPlGXgEfX9BKdAlKlCIRxP
+ eSlfHTYSXOz/kzm0aV3gwmSuxvQoWjYvQ+HWoxYgSr/9p+ShQ05k8T7KoV6qcMHilXoR
+ Ga6T3KN8R+Jf7j3CHCC7wpwGX+wU8+RqCN1wH5fVnTTBiEMdUcWEqFU0BitF6MlbFLlp
+ 6lA3T2uhpUC/4v9zdMGsFRaJFY1GRIrHpyvcIq06RH/EUJOy8kET5Pz4AvTX6ZM1SaRE
+ LakA==
+X-Gm-Message-State: AOAM533mXZiAC09OD80SreHfe7sGy9t1SIMknVZNRx51vsDbs5juKvJe
+ bcsUo4o0MaipHtvEp7EM+oMftZWOCd9OUqK9TAgfN7+gj1F/5N8YzWRFW89D97weL4uI35T+/Fn
+ xPl+hWloz7tumeDZFw9UnZOXFRDb+TA4+MCfIRTIJC8P0FSsC8BZidkYNq16rpJkw
+X-Received: by 2002:aa7:c787:: with SMTP id n7mr1453596eds.309.1621273822150; 
+ Mon, 17 May 2021 10:50:22 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzi2j1K+yCR15AGxnq0veIJwc1a53Y3utPJZB9BtNBPYrTMmmKWhTdMkaMl2/tYHjiG8XKKRg==
+X-Received: by 2002:aa7:c787:: with SMTP id n7mr1453573eds.309.1621273821957; 
+ Mon, 17 May 2021 10:50:21 -0700 (PDT)
 Received: from x1w.redhat.com (31.red-83-51-215.dynamicip.rima-tde.net.
  [83.51.215.31])
- by smtp.gmail.com with ESMTPSA id f7sm11693938edd.5.2021.05.17.10.50.16
+ by smtp.gmail.com with ESMTPSA id dh21sm175127edb.28.2021.05.17.10.50.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 May 2021 10:50:16 -0700 (PDT)
+ Mon, 17 May 2021 10:50:21 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org,
 	John Snow <jsnow@redhat.com>
-Subject: [PATCH v3 6/8] hw/sparc/sun4m: Inline sun4m_fdctrl_init()
-Date: Mon, 17 May 2021 19:49:45 +0200
-Message-Id: <20210517174947.1199649-7-philmd@redhat.com>
+Subject: [PATCH v3 7/8] hw/block/fdc-sysbus: Add 'dma-channel' property
+Date: Mon, 17 May 2021 19:49:46 +0200
+Message-Id: <20210517174947.1199649-8-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210517174947.1199649-1-philmd@redhat.com>
 References: <20210517174947.1199649-1-philmd@redhat.com>
@@ -84,7 +82,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.374,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,87 +100,72 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There is only one call site for sun4m_fdctrl_init(), and this
-function is specific to the sun4m machines, not part of the
-SYSBUS_FDC API. Move it locally with the machine code, and
-remove its declaration in "hw/block/fdc.h".
+QDev properties to be set before the device is realized should
+be exposed as a Property with a DEFINE_PROP_XXX() macro, then
+accessed with the equivalent qdev_prop_set_xxx() API.
 
-Suggested-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Do this with the FDCtrlSysBus 'dma-channel' property: convert
+it to int32_t, default-initialize with DEFINE_PROP_INT32() and
+use qdev_prop_set_int32() to set its value in fdctrl_init_sysbus().
+
 Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- include/hw/block/fdc.h |  2 --
- hw/block/fdc-sysbus.c  | 16 ----------------
- hw/sparc/sun4m.c       | 16 ++++++++++++++++
- 3 files changed, 16 insertions(+), 18 deletions(-)
+ hw/block/fdc-internal.h | 2 +-
+ hw/block/fdc-sysbus.c   | 9 ++-------
+ 2 files changed, 3 insertions(+), 8 deletions(-)
 
-diff --git a/include/hw/block/fdc.h b/include/hw/block/fdc.h
-index 52e45c53078..06612218630 100644
---- a/include/hw/block/fdc.h
-+++ b/include/hw/block/fdc.h
-@@ -14,8 +14,6 @@ void isa_fdc_init_drives(ISADevice *fdc, DriveInfo **fds);
- void sysbus_fdc_init_drives(SysBusDevice *dev, DriveInfo **fds);
- void fdctrl_init_sysbus(qemu_irq irq, int dma_chann,
-                         hwaddr mmio_base, DriveInfo **fds);
--void sun4m_fdctrl_init(qemu_irq irq, hwaddr io_base,
--                       DriveInfo **fds, qemu_irq *fdc_tc);
- 
- FloppyDriveType isa_fdc_get_drive_type(ISADevice *fdc, int i);
- int cmos_get_fd_drive_type(FloppyDriveType fd0);
+diff --git a/hw/block/fdc-internal.h b/hw/block/fdc-internal.h
+index 278de725e69..29b318f7525 100644
+--- a/hw/block/fdc-internal.h
++++ b/hw/block/fdc-internal.h
+@@ -96,7 +96,7 @@ struct FDCtrl {
+     qemu_irq irq;
+     /* Controller state */
+     QEMUTimer *result_timer;
+-    int dma_chann;
++    int32_t dma_chann;
+     uint8_t phase;
+     IsaDma *dma;
+     /* Controller's identification */
 diff --git a/hw/block/fdc-sysbus.c b/hw/block/fdc-sysbus.c
-index 1163e53165d..8f94c2efb63 100644
+index 8f94c2efb63..74c7c8f2e01 100644
 --- a/hw/block/fdc-sysbus.c
 +++ b/hw/block/fdc-sysbus.c
-@@ -123,22 +123,6 @@ void fdctrl_init_sysbus(qemu_irq irq, int dma_chann,
-     sysbus_fdc_init_drives(sbd, fds);
- }
+@@ -106,15 +106,11 @@ void sysbus_fdc_init_drives(SysBusDevice *dev, DriveInfo **fds)
+ void fdctrl_init_sysbus(qemu_irq irq, int dma_chann,
+                         hwaddr mmio_base, DriveInfo **fds)
+ {
+-    FDCtrl *fdctrl;
+     DeviceState *dev;
+     SysBusDevice *sbd;
+-    FDCtrlSysBus *sys;
  
--void sun4m_fdctrl_init(qemu_irq irq, hwaddr io_base,
--                       DriveInfo **fds, qemu_irq *fdc_tc)
--{
--    DeviceState *dev;
--    SysBusDevice *sbd;
--
--    dev = qdev_new("sun-fdtwo");
--    sbd = SYS_BUS_DEVICE(dev);
--    sysbus_realize_and_unref(sbd, &error_fatal);
--    sysbus_connect_irq(sbd, 0, irq);
--    sysbus_mmio_map(sbd, 0, io_base);
--    *fdc_tc = qdev_get_gpio_in(dev, 0);
--
--    sysbus_fdc_init_drives(sbd, fds);
--}
--
- static void sysbus_fdc_common_initfn(Object *obj)
- {
-     DeviceState *dev = DEVICE(obj);
-diff --git a/hw/sparc/sun4m.c b/hw/sparc/sun4m.c
-index 42e139849ed..c08c650da72 100644
---- a/hw/sparc/sun4m.c
-+++ b/hw/sparc/sun4m.c
-@@ -816,6 +816,22 @@ static void dummy_fdc_tc(void *opaque, int irq, int level)
- {
- }
+     dev = qdev_new("sysbus-fdc");
+-    sys = SYSBUS_FDC(dev);
+-    fdctrl = &sys->state;
+-    fdctrl->dma_chann = dma_chann; /* FIXME */
++    qdev_prop_set_int32(dev, "dma-channel", dma_chann);
+     sbd = SYS_BUS_DEVICE(dev);
+     sysbus_realize_and_unref(sbd, &error_fatal);
+     sysbus_connect_irq(sbd, 0, irq);
+@@ -131,8 +127,6 @@ static void sysbus_fdc_common_initfn(Object *obj)
+     FDCtrlSysBus *sys = SYSBUS_FDC(obj);
+     FDCtrl *fdctrl = &sys->state;
  
-+static void sun4m_fdctrl_init(qemu_irq irq, hwaddr io_base,
-+                              DriveInfo **fds, qemu_irq *fdc_tc)
-+{
-+    DeviceState *dev;
-+    SysBusDevice *sbd;
-+
-+    dev = qdev_new("sun-fdtwo");
-+    sbd = SYS_BUS_DEVICE(dev);
-+    sysbus_realize_and_unref(sbd, &error_fatal);
-+    sysbus_connect_irq(sbd, 0, irq);
-+    sysbus_mmio_map(sbd, 0, io_base);
-+    *fdc_tc = qdev_get_gpio_in(dev, 0);
-+
-+    sysbus_fdc_init_drives(sbd, fds);
-+}
-+
- static void sun4m_hw_init(MachineState *machine)
- {
-     const struct sun4m_hwdef *hwdef = SUN4M_MACHINE_GET_CLASS(machine)->hwdef;
+-    fdctrl->dma_chann = -1;
+-
+     qdev_set_legacy_instance_id(dev, 0 /* io */, 2); /* FIXME */
+ 
+     memory_region_init_io(&fdctrl->iomem, obj,
+@@ -173,6 +167,7 @@ static Property sysbus_fdc_properties[] = {
+     DEFINE_PROP_SIGNED("fallback", FDCtrlSysBus, state.fallback,
+                         FLOPPY_DRIVE_TYPE_144, qdev_prop_fdc_drive_type,
+                         FloppyDriveType),
++    DEFINE_PROP_INT32("dma-channel", FDCtrlSysBus, state.dma_chann, -1),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
 -- 
 2.26.3
 
