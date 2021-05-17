@@ -2,78 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D6DC382BB0
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 14:01:23 +0200 (CEST)
-Received: from localhost ([::1]:58198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 322BF382BB7
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 14:04:00 +0200 (CEST)
+Received: from localhost ([::1]:37296 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1libw2-000323-Bn
-	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 08:01:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44014)
+	id 1libyZ-00085X-6d
+	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 08:03:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36154)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1libr5-00043A-Rq
- for qemu-devel@nongnu.org; Mon, 17 May 2021 07:56:15 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:43954)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1libr4-0002zh-BA
- for qemu-devel@nongnu.org; Mon, 17 May 2021 07:56:15 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id p7so2350373wru.10
- for <qemu-devel@nongnu.org>; Mon, 17 May 2021 04:56:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=n6qSXYJyeygMS7hOGRe1NILjaLIrw4Ci3+3bzVyP0vw=;
- b=NvNwAgn2yGxN2wfL6s8axYgXuVA0E8Npyr9ZAWBBcxPvzNPwEwfiqzyO/VoBALQHzN
- 9uCtsyg0Ll3Cmes3P+yS2yuLyDBuzl+mfqxaX6bvLCmdgLwq0UGd1zahiWfFNAnlKVWC
- Ajr2AaONBNDeJ/AHWU9VSMoJxoUBtGsIoUv68zn8TZZOyinqXGDG/PK2IU9LFK46A8il
- 3IktPIVRSwbeDow6sk4wd7afBv1Vk235HcBSQ76W0J7IcX3BqG7dRWtVp2FNLHI8qiQj
- cLDzBMhYp8ovmSvT5h8vXY2ZeyOEHXyUvfWPaqdmVuHaBAMgUaZyMYA3wanHdDd7o0JA
- B+gQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=n6qSXYJyeygMS7hOGRe1NILjaLIrw4Ci3+3bzVyP0vw=;
- b=MhXTnTTP7dD3jaLPAvN3LnulvDpFGmVH1HqVuNj4s6aKGVeeJNsOC2fPlzjd+RL1LQ
- 8kR3O+34xwVywp4riGYvvF+XIVn+hXmcqJeaCrJugPe60uJWN8CBw+OU+aj3vXAqTrSs
- g2Fyu4CepH0QL0CHR0gH44fCsxVRYJS+xuz+G5uCEbaWfZ/HF+8jhayf3er0ajkK+xo8
- tvdQz/mS4o0STFTr5+eikQ03j/RGFm3Obd8hRsg6KYqC5DXWbcnSvUaC4+23JXR7tsHO
- mHrOQrrXHAOpm+PzaRLG4PLV7mnbugclY0LAn5cIHOkpk7TDnMdS9Hi2NJeMHwlY9RRE
- AgPw==
-X-Gm-Message-State: AOAM531d8DJpESqsuOWKi8S3nqNCZNn6P+1e4KOu3pyH1wXtBJbbfefZ
- t3xGnvK4K9ivXhoW2yKxsaZQcfHHxigjDA==
-X-Google-Smtp-Source: ABdhPJzygxoSnijySjWm0bzYj3sEXlV0vEaB99JYDCeF3WjDIRd2HvkOeeSUJhcFAd8R7MD04xPkIw==
-X-Received: by 2002:a05:6000:1449:: with SMTP id
- v9mr74023234wrx.82.1621252571475; 
- Mon, 17 May 2021 04:56:11 -0700 (PDT)
-Received: from localhost.localdomain (31.red-83-51-215.dynamicip.rima-tde.net.
- [83.51.215.31])
- by smtp.gmail.com with ESMTPSA id z18sm16439930wrh.16.2021.05.17.04.56.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 May 2021 04:56:11 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1libJ6-00082G-VP
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 07:21:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47193)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1libJ4-0006tO-Uc
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 07:21:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1621250466;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=H1C4GnUyLPrbhwi7qH57a0FliBz/5EerQKuqITCaZs0=;
+ b=Quwrq7qWeji7BHdkrl/GmY6D4yTysjw9oosVGauO6Uk1OY1jlZzx2VjL05yYN3Ujhb112V
+ 56O/UVIdW/CO73Q4a4Tjaw+H3tQyia1Gw9Jyut75lNk6S2oVTjkDHSEWxnZO4hdZTFxezw
+ 8PkcNOU3DeAMKVlTJ98+wicGrY6SWK4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-534-2QT0Il9GN_6Coo4rgegw6g-1; Mon, 17 May 2021 07:21:04 -0400
+X-MC-Unique: 2QT0Il9GN_6Coo4rgegw6g-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DB0B3107ACFA
+ for <qemu-devel@nongnu.org>; Mon, 17 May 2021 11:21:03 +0000 (UTC)
+Received: from virtlab701.virt.lab.eng.bos.redhat.com
+ (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 971075DDAD;
+ Mon, 17 May 2021 11:21:03 +0000 (UTC)
+From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 09/15] softmmu/runstate: Clean headers
-Date: Mon, 17 May 2021 13:55:19 +0200
-Message-Id: <20210517115525.1088693-10-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.3
-In-Reply-To: <20210517115525.1088693-1-f4bug@amsat.org>
-References: <20210517115525.1088693-1-f4bug@amsat.org>
+Subject: [PULL 18/20] KVM: Add dirty-ring-size property
+Date: Mon, 17 May 2021 07:19:59 -0400
+Message-Id: <20210517112001.2564006-19-pbonzini@redhat.com>
+In-Reply-To: <20210517112001.2564006-1-pbonzini@redhat.com>
+References: <20210517112001.2564006-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.374,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,41 +79,137 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Peter Xu <peterx@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add the missing 'qemu/log.h' header and remove the
-unused 'exec/exec-all.h' one.
+From: Peter Xu <peterx@redhat.com>
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Add a parameter for dirty gfn count for dirty rings.  If zero, dirty ring is
+disabled.  Otherwise dirty ring will be enabled with the per-vcpu gfn count as
+specified.  If dirty ring cannot be enabled due to unsupported kernel or
+illegal parameter, it'll fallback to dirty logging.
+
+By default, dirty ring is not enabled (dirty-gfn-count default to 0).
+
+Signed-off-by: Peter Xu <peterx@redhat.com>
+Message-Id: <20210506160549.130416-9-peterx@redhat.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- softmmu/runstate.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ accel/kvm/kvm-all.c | 46 +++++++++++++++++++++++++++++++++++++++++++++
+ qemu-options.hx     | 12 ++++++++++++
+ 2 files changed, 58 insertions(+)
 
-diff --git a/softmmu/runstate.c b/softmmu/runstate.c
-index ce8977c6a29..ffd8ddf1341 100644
---- a/softmmu/runstate.c
-+++ b/softmmu/runstate.c
-@@ -30,7 +30,6 @@
- #include "crypto/cipher.h"
- #include "crypto/init.h"
- #include "exec/cpu-common.h"
--#include "exec/exec-all.h"
- #include "exec/gdbstub.h"
- #include "hw/boards.h"
- #include "migration/misc.h"
-@@ -44,6 +43,7 @@
- #include "qemu-common.h"
- #include "qemu/error-report.h"
- #include "qemu/job.h"
-+#include "qemu/log.h"
- #include "qemu/module.h"
- #include "qemu/plugin.h"
- #include "qemu/sockets.h"
+diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+index df9fbf59a6..5afe15ae66 100644
+--- a/accel/kvm/kvm-all.c
++++ b/accel/kvm/kvm-all.c
+@@ -126,6 +126,8 @@ struct KVMState
+         KVMMemoryListener *ml;
+         AddressSpace *as;
+     } *as;
++    uint64_t kvm_dirty_ring_bytes;  /* Size of the per-vcpu dirty ring */
++    uint32_t kvm_dirty_ring_size;   /* Number of dirty GFNs per ring */
+ };
+ 
+ KVMState *kvm_state;
+@@ -3182,6 +3184,42 @@ bool kvm_kernel_irqchip_split(void)
+     return kvm_state->kernel_irqchip_split == ON_OFF_AUTO_ON;
+ }
+ 
++static void kvm_get_dirty_ring_size(Object *obj, Visitor *v,
++                                    const char *name, void *opaque,
++                                    Error **errp)
++{
++    KVMState *s = KVM_STATE(obj);
++    uint32_t value = s->kvm_dirty_ring_size;
++
++    visit_type_uint32(v, name, &value, errp);
++}
++
++static void kvm_set_dirty_ring_size(Object *obj, Visitor *v,
++                                    const char *name, void *opaque,
++                                    Error **errp)
++{
++    KVMState *s = KVM_STATE(obj);
++    Error *error = NULL;
++    uint32_t value;
++
++    if (s->fd != -1) {
++        error_setg(errp, "Cannot set properties after the accelerator has been initialized");
++        return;
++    }
++
++    visit_type_uint32(v, name, &value, &error);
++    if (error) {
++        error_propagate(errp, error);
++        return;
++    }
++    if (value & (value - 1)) {
++        error_setg(errp, "dirty-ring-size must be a power of two.");
++        return;
++    }
++
++    s->kvm_dirty_ring_size = value;
++}
++
+ static void kvm_accel_instance_init(Object *obj)
+ {
+     KVMState *s = KVM_STATE(obj);
+@@ -3191,6 +3229,8 @@ static void kvm_accel_instance_init(Object *obj)
+     s->kvm_shadow_mem = -1;
+     s->kernel_irqchip_allowed = true;
+     s->kernel_irqchip_split = ON_OFF_AUTO_AUTO;
++    /* KVM dirty ring is by default off */
++    s->kvm_dirty_ring_size = 0;
+ }
+ 
+ static void kvm_accel_class_init(ObjectClass *oc, void *data)
+@@ -3212,6 +3252,12 @@ static void kvm_accel_class_init(ObjectClass *oc, void *data)
+         NULL, NULL);
+     object_class_property_set_description(oc, "kvm-shadow-mem",
+         "KVM shadow MMU size");
++
++    object_class_property_add(oc, "dirty-ring-size", "uint32",
++        kvm_get_dirty_ring_size, kvm_set_dirty_ring_size,
++        NULL, NULL);
++    object_class_property_set_description(oc, "dirty-ring-size",
++        "Size of KVM dirty page ring buffer (default: 0, i.e. use bitmap)");
+ }
+ 
+ static const TypeInfo kvm_accel_type = {
+diff --git a/qemu-options.hx b/qemu-options.hx
+index e22fb94d99..ecdb064409 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -141,6 +141,7 @@ DEF("accel", HAS_ARG, QEMU_OPTION_accel,
+     "                kvm-shadow-mem=size of KVM shadow MMU in bytes\n"
+     "                split-wx=on|off (enable TCG split w^x mapping)\n"
+     "                tb-size=n (TCG translation block cache size)\n"
++    "                dirty-ring-size=n (KVM dirty ring GFN count, default 0)\n"
+     "                thread=single|multi (enable multi-threaded TCG)\n", QEMU_ARCH_ALL)
+ SRST
+ ``-accel name[,prop=value[,...]]``
+@@ -181,6 +182,17 @@ SRST
+         where both the back-end and front-ends support it and no
+         incompatible TCG features have been enabled (e.g.
+         icount/replay).
++
++    ``dirty-ring-size=n``
++        When the KVM accelerator is used, it controls the size of the per-vCPU
++        dirty page ring buffer (number of entries for each vCPU). It should
++        be a value that is power of two, and it should be 1024 or bigger (but
++        still less than the maximum value that the kernel supports).  4096
++        could be a good initial value if you have no idea which is the best.
++        Set this value to 0 to disable the feature.  By default, this feature
++        is disabled (dirty-ring-size=0).  When enabled, KVM will instead
++        record dirty pages in a bitmap.
++
+ ERST
+ 
+ DEF("smp", HAS_ARG, QEMU_OPTION_smp,
 -- 
-2.26.3
+2.27.0
+
 
 
