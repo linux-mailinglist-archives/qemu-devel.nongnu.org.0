@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 023CE38312E
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 16:35:36 +0200 (CEST)
-Received: from localhost ([::1]:43288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48B6F3832C9
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 16:52:35 +0200 (CEST)
+Received: from localhost ([::1]:40402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lieLH-00070T-0x
-	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 10:35:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57330)
+	id 1liebi-00034r-CO
+	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 10:52:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57474)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lieGp-0007P2-D8
- for qemu-devel@nongnu.org; Mon, 17 May 2021 10:30:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36666)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lieH1-00086B-My
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 10:31:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44032)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lieGn-0000Lv-DF
- for qemu-devel@nongnu.org; Mon, 17 May 2021 10:30:59 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lieGy-0000Th-0R
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 10:31:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621261856;
+ s=mimecast20190719; t=1621261867;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=g7oC5YC2ddXurDtf32pdmsWcpmxGMGoSxNpuKz3zs50=;
- b=G2wlbcMjeUWIB53CemKkYMa0DW/GIwC+Jdgwdttv5Bk7KpEeChi0l/82WEpDiZQsgVM0rJ
- UUK977XNd4qOBxcuQLsb6JM7db5Gnhe7lyPX4Yo/UBDPiLYqp8JMXE/VvhlvpdfAfehGNN
- JQSPrWr28/LvtNSJpYHl4utdLYH/Q0k=
+ bh=LGaLLS2DUxFavpu7/4jypUqsEwS/plzT7qNRBdBJIAU=;
+ b=iZj8Q/TXqhJDdS3tsAwuJE9NlBLc8pX+MZWeRZYYTypzdse+U+Yfdiy1mVBaXPKl/qnuyc
+ kDsFG69mMsj7WsCMVPlMdmWag9UJUfmKFYMTO+qDnL0G380QNMqYccDY60b4Bmslx/k7lc
+ gt/FNFM7CJEgFw83FFpbVC3x4K1yxL4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-491-0tb-MeWFNZK1JZSklb6QPg-1; Mon, 17 May 2021 10:30:55 -0400
-X-MC-Unique: 0tb-MeWFNZK1JZSklb6QPg-1
+ us-mta-335-V3AStsIMOPiIlV27nB6r8A-1; Mon, 17 May 2021 10:31:05 -0400
+X-MC-Unique: V3AStsIMOPiIlV27nB6r8A-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9D45F108C2AE;
- Mon, 17 May 2021 14:30:53 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 869A2107ACC7;
+ Mon, 17 May 2021 14:31:03 +0000 (UTC)
 Received: from t480s.redhat.com (ovpn-115-101.ams2.redhat.com [10.36.115.101])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 133D65E278;
- Mon, 17 May 2021 14:30:29 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 25F4B5E273;
+ Mon, 17 May 2021 14:30:53 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 23/26] softfloat: Implement
- float128_(min|minnum|minnummag|max|maxnum|maxnummag)
-Date: Mon, 17 May 2021 16:27:36 +0200
-Message-Id: <20210517142739.38597-24-david@redhat.com>
+Subject: [PATCH v2 24/26] s390x/tcg: Implement VECTOR FP (MAXIMUM|MINIMUM)
+Date: Mon, 17 May 2021 16:27:37 +0200
+Message-Id: <20210517142739.38597-25-david@redhat.com>
 In-Reply-To: <20210517142739.38597-1-david@redhat.com>
 References: <20210517142739.38597-1-david@redhat.com>
 MIME-Version: 1.0
@@ -54,8 +53,8 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
@@ -87,72 +86,496 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-With Richard's softfloat rework, the float128 implementation is
-straight-forward. Unfortuantely, we don't have any tests we can simply
-adjust/unlock.
+For IEEE functions, we can reuse the softfloat implementations. For the
+other functions, implement it generically for 32bit/64bit/128bit -
+carefully taking care of all weird special cases according to the tables
+defined in the PoP.
 
-Cc: Aurelien Jarno <aurelien@aurel32.net>
-Cc: Peter Maydell <peter.maydell@linaro.org>
-Cc: "Alex Bennée" <alex.bennee@linaro.org>
-Cc: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- fpu/softfloat.c         | 17 +++++++++++++++++
- include/fpu/softfloat.h |  6 ++++++
- 2 files changed, 23 insertions(+)
+ target/s390x/helper.h           |   6 +
+ target/s390x/insn-data.def      |   4 +
+ target/s390x/internal.h         |   9 +
+ target/s390x/translate_vx.c.inc |  44 ++++
+ target/s390x/vec_fpu_helper.c   | 361 ++++++++++++++++++++++++++++++++
+ 5 files changed, 424 insertions(+)
 
-diff --git a/fpu/softfloat.c b/fpu/softfloat.c
-index 7376b3470c..bfe5a6b975 100644
---- a/fpu/softfloat.c
-+++ b/fpu/softfloat.c
-@@ -3893,6 +3893,22 @@ static float64 float64_minmax(float64 a, float64 b, float_status *s, int flags)
-     return which ? b : a;
+diff --git a/target/s390x/helper.h b/target/s390x/helper.h
+index 913967ce4e..ba045f559d 100644
+--- a/target/s390x/helper.h
++++ b/target/s390x/helper.h
+@@ -291,6 +291,12 @@ DEF_HELPER_FLAGS_4(gvec_vflr128, TCG_CALL_NO_WG, void, ptr, cptr, env, i32)
+ DEF_HELPER_FLAGS_5(gvec_vfm32, TCG_CALL_NO_WG, void, ptr, cptr, cptr, env, i32)
+ DEF_HELPER_FLAGS_5(gvec_vfm64, TCG_CALL_NO_WG, void, ptr, cptr, cptr, env, i32)
+ DEF_HELPER_FLAGS_5(gvec_vfm128, TCG_CALL_NO_WG, void, ptr, cptr, cptr, env, i32)
++DEF_HELPER_FLAGS_5(gvec_vfmax32, TCG_CALL_NO_WG, void, ptr, cptr, cptr, env, i32)
++DEF_HELPER_FLAGS_5(gvec_vfmax64, TCG_CALL_NO_WG, void, ptr, cptr, cptr, env, i32)
++DEF_HELPER_FLAGS_5(gvec_vfmax128, TCG_CALL_NO_WG, void, ptr, cptr, cptr, env, i32)
++DEF_HELPER_FLAGS_5(gvec_vfmin32, TCG_CALL_NO_WG, void, ptr, cptr, cptr, env, i32)
++DEF_HELPER_FLAGS_5(gvec_vfmin64, TCG_CALL_NO_WG, void, ptr, cptr, cptr, env, i32)
++DEF_HELPER_FLAGS_5(gvec_vfmin128, TCG_CALL_NO_WG, void, ptr, cptr, cptr, env, i32)
+ DEF_HELPER_FLAGS_6(gvec_vfma32, TCG_CALL_NO_WG, void, ptr, cptr, cptr, cptr, env, i32)
+ DEF_HELPER_FLAGS_6(gvec_vfma64, TCG_CALL_NO_WG, void, ptr, cptr, cptr, cptr, env, i32)
+ DEF_HELPER_FLAGS_6(gvec_vfma128, TCG_CALL_NO_WG, void, ptr, cptr, cptr, cptr, env, i32)
+diff --git a/target/s390x/insn-data.def b/target/s390x/insn-data.def
+index 19b02dffca..3e5594210c 100644
+--- a/target/s390x/insn-data.def
++++ b/target/s390x/insn-data.def
+@@ -1253,6 +1253,10 @@
+     F(0xe7c4, VFLL,    VRR_a, V,   0, 0, 0, 0, vfll, 0, IF_VEC)
+ /* VECTOR FP LOAD ROUNDED */
+     F(0xe7c5, VFLR,    VRR_a, V,   0, 0, 0, 0, vcdg, 0, IF_VEC)
++/* VECTOR FP MAXIMUM */
++    F(0xe7ef, VFMAX,   VRR_c, VE,  0, 0, 0, 0, vfmax, 0, IF_VEC)
++/* VECTOR FP MINIMUM */
++    F(0xe7ee, VFMIN,   VRR_c, VE,  0, 0, 0, 0, vfmax, 0, IF_VEC)
+ /* VECTOR FP MULTIPLY */
+     F(0xe7e7, VFM,     VRR_c, V,   0, 0, 0, 0, vfa, 0, IF_VEC)
+ /* VECTOR FP MULTIPLY AND ADD */
+diff --git a/target/s390x/internal.h b/target/s390x/internal.h
+index 11515bb617..d62dfc4dc6 100644
+--- a/target/s390x/internal.h
++++ b/target/s390x/internal.h
+@@ -288,6 +288,15 @@ uint8_t s390_softfloat_exc_to_ieee(unsigned int exc);
+ int s390_swap_bfp_rounding_mode(CPUS390XState *env, int m3);
+ void s390_restore_bfp_rounding_mode(CPUS390XState *env, int old_mode);
+ int float_comp_to_cc(CPUS390XState *env, int float_compare);
++
++#define DCMASK_ZERO             0x0c00
++#define DCMASK_NORMAL           0x0300
++#define DCMASK_SUBNORMAL        0x00c0
++#define DCMASK_INFINITY         0x0030
++#define DCMASK_QUIET_NAN        0x000c
++#define DCMASK_SIGNALING_NAN    0x0003
++#define DCMASK_NAN              0x000f
++#define DCMASK_NEGATIVE         0x0555
+ uint16_t float32_dcmask(CPUS390XState *env, float32 f1);
+ uint16_t float64_dcmask(CPUS390XState *env, float64 f1);
+ uint16_t float128_dcmask(CPUS390XState *env, float128 f1);
+diff --git a/target/s390x/translate_vx.c.inc b/target/s390x/translate_vx.c.inc
+index 200d83e783..a9d51b1f4c 100644
+--- a/target/s390x/translate_vx.c.inc
++++ b/target/s390x/translate_vx.c.inc
+@@ -2814,6 +2814,50 @@ static DisasJumpType op_vfll(DisasContext *s, DisasOps *o)
+     return DISAS_NEXT;
  }
  
-+static float128 float128_minmax(float128 a, float128 b, float_status *s,
-+                                int flags)
++static DisasJumpType op_vfmax(DisasContext *s, DisasOps *o)
 +{
-+    FloatParts128 pa, pb;
-+    int which;
++    const uint8_t fpf = get_field(s, m4);
++    const uint8_t m6 = get_field(s, m6);
++    const uint8_t m5 = get_field(s, m5);
++    gen_helper_gvec_3_ptr *fn;
 +
-+    float128_unpack_canonical(&pa, a, s);
-+    float128_unpack_canonical(&pb, b, s);
-+    which = parts_minmax(&pa, &pb, s, flags, &float64_params);
-+    if (unlikely(which < 0)) {
-+        /* Some sort of nan, need to repack default and silenced nans. */
-+        return float128_round_pack_canonical(&pa, s);
++    if (m6 == 5 || m6 == 6 || m6 == 7 || m6 > 13) {
++        gen_program_exception(s, PGM_SPECIFICATION);
++        return DISAS_NORETURN;
 +    }
-+    return which ? b : a;
++
++    switch (fpf) {
++    case FPF_SHORT:
++        if (s->fields.op2 == 0xef) {
++            fn = gen_helper_gvec_vfmax32;
++        } else {
++            fn = gen_helper_gvec_vfmin32;
++        }
++        break;
++    case FPF_LONG:
++        if (s->fields.op2 == 0xef) {
++            fn = gen_helper_gvec_vfmax64;
++        } else {
++            fn = gen_helper_gvec_vfmin64;
++        }
++        break;
++    case FPF_EXT:
++        if (s->fields.op2 == 0xef) {
++            fn = gen_helper_gvec_vfmax128;
++        } else {
++            fn = gen_helper_gvec_vfmin128;
++        }
++        break;
++    default:
++        gen_program_exception(s, PGM_SPECIFICATION);
++        return DISAS_NORETURN;
++    }
++
++    gen_gvec_3_ptr(get_field(s, v1), get_field(s, v2), get_field(s, v3),
++                   cpu_env, deposit32(m5, 4, 4, m6), fn);
++    return DISAS_NEXT;
 +}
 +
- #define MINMAX_1(type, name, flags) \
-     type type##_##name(type a, type b, float_status *s) \
-     { return type##_minmax(a, b, s, flags); }
-@@ -3909,6 +3925,7 @@ MINMAX_2(float16)
- MINMAX_2(bfloat16)
- MINMAX_2(float32)
- MINMAX_2(float64)
-+MINMAX_2(float128)
- 
- #undef MINMAX_1
- #undef MINMAX_2
-diff --git a/include/fpu/softfloat.h b/include/fpu/softfloat.h
-index 94f7841b9f..ec7dca0960 100644
---- a/include/fpu/softfloat.h
-+++ b/include/fpu/softfloat.h
-@@ -1204,6 +1204,12 @@ float128 float128_rem(float128, float128, float_status *status);
- float128 float128_sqrt(float128, float_status *status);
- FloatRelation float128_compare(float128, float128, float_status *status);
- FloatRelation float128_compare_quiet(float128, float128, float_status *status);
-+float128 float128_min(float128, float128, float_status *status);
-+float128 float128_max(float128, float128, float_status *status);
-+float128 float128_minnum(float128, float128, float_status *status);
-+float128 float128_maxnum(float128, float128, float_status *status);
-+float128 float128_minnummag(float128, float128, float_status *status);
-+float128 float128_maxnummag(float128, float128, float_status *status);
- bool float128_is_quiet_nan(float128, float_status *status);
- bool float128_is_signaling_nan(float128, float_status *status);
- float128 float128_silence_nan(float128, float_status *status);
+ static DisasJumpType op_vfma(DisasContext *s, DisasOps *o)
+ {
+     const uint8_t m5 = get_field(s, m5);
+diff --git a/target/s390x/vec_fpu_helper.c b/target/s390x/vec_fpu_helper.c
+index f6090f7d61..aab20739e0 100644
+--- a/target/s390x/vec_fpu_helper.c
++++ b/target/s390x/vec_fpu_helper.c
+@@ -744,3 +744,364 @@ void HELPER(gvec_vftci128)(void *v1, const void *v2, CPUS390XState *env,
+         s390_vec_write_element64(v1, 1, 0);
+     }
+ }
++
++typedef enum S390MinMaxType {
++    S390_MINMAX_TYPE_IEEE = 0,
++    S390_MINMAX_TYPE_JAVA,
++    S390_MINMAX_TYPE_C_MACRO,
++    S390_MINMAX_TYPE_CPP,
++    S390_MINMAX_TYPE_F,
++} S390MinMaxType;
++
++typedef enum S390MinMaxRes {
++    S390_MINMAX_RES_MINMAX = 0,
++    S390_MINMAX_RES_A,
++    S390_MINMAX_RES_B,
++    S390_MINMAX_RES_SILENCE_A,
++    S390_MINMAX_RES_SILENCE_B,
++} S390MinMaxRes;
++
++static S390MinMaxRes vfmin_res(uint16_t dcmask_a, uint16_t dcmask_b,
++                               S390MinMaxType type, float_status *s)
++{
++    const bool neg_a = dcmask_a & DCMASK_NEGATIVE;
++    const bool neg_b = dcmask_b & DCMASK_NEGATIVE;
++    const bool inf_a = dcmask_a & DCMASK_INFINITY;
++    const bool inf_b = dcmask_b & DCMASK_INFINITY;
++    const bool zero_a = dcmask_a & DCMASK_ZERO;
++    const bool zero_b = dcmask_b & DCMASK_ZERO;
++    const bool nan_a = dcmask_a & DCMASK_NAN;
++    const bool nan_b = dcmask_b & DCMASK_NAN;
++
++    g_assert(type > S390_MINMAX_TYPE_IEEE && type <= S390_MINMAX_TYPE_F);
++
++    if (unlikely(nan_a || nan_b)) {
++        const bool sig_a = dcmask_a & DCMASK_SIGNALING_NAN;
++        const bool sig_b = dcmask_b & DCMASK_SIGNALING_NAN;
++
++        if (sig_a || sig_b) {
++            s->float_exception_flags |= float_flag_invalid;
++        }
++        switch (type) {
++        case S390_MINMAX_TYPE_JAVA:
++            if (sig_a) {
++                return S390_MINMAX_RES_SILENCE_A;
++            } else if (sig_b) {
++                return S390_MINMAX_RES_SILENCE_B;
++            }
++            return nan_a ? S390_MINMAX_RES_A : S390_MINMAX_RES_B;
++        case S390_MINMAX_TYPE_F:
++            return nan_b ? S390_MINMAX_RES_A : S390_MINMAX_RES_B;
++        case S390_MINMAX_TYPE_C_MACRO:
++            s->float_exception_flags |= float_flag_invalid;
++            return S390_MINMAX_RES_B;
++        case S390_MINMAX_TYPE_CPP:
++            s->float_exception_flags |= float_flag_invalid;
++            return S390_MINMAX_RES_A;
++        default:
++            g_assert_not_reached();
++        }
++    } else if (unlikely(inf_a && inf_b)) {
++        switch (type) {
++        case S390_MINMAX_TYPE_JAVA:
++            return neg_a && !neg_b ? S390_MINMAX_RES_A : S390_MINMAX_RES_B;
++        case S390_MINMAX_TYPE_C_MACRO:
++        case S390_MINMAX_TYPE_CPP:
++            return neg_b ? S390_MINMAX_RES_B : S390_MINMAX_RES_A;
++        case S390_MINMAX_TYPE_F:
++            return !neg_a && neg_b ? S390_MINMAX_RES_B : S390_MINMAX_RES_A;
++        default:
++            g_assert_not_reached();
++        }
++    } else if (unlikely(zero_a && zero_b)) {
++        switch (type) {
++        case S390_MINMAX_TYPE_JAVA:
++            return neg_a && !neg_b ? S390_MINMAX_RES_A : S390_MINMAX_RES_B;
++        case S390_MINMAX_TYPE_C_MACRO:
++            return S390_MINMAX_RES_B;
++        case S390_MINMAX_TYPE_F:
++            return !neg_a && neg_b ? S390_MINMAX_RES_B : S390_MINMAX_RES_A;
++        case S390_MINMAX_TYPE_CPP:
++            return S390_MINMAX_RES_A;
++        default:
++            g_assert_not_reached();
++        }
++    }
++    return S390_MINMAX_RES_MINMAX;
++}
++
++static S390MinMaxRes vfmax_res(uint16_t dcmask_a, uint16_t dcmask_b,
++                               S390MinMaxType type, float_status *s)
++{
++    const bool neg_a = dcmask_a & DCMASK_NEGATIVE;
++    const bool neg_b = dcmask_b & DCMASK_NEGATIVE;
++    const bool inf_a = dcmask_a & DCMASK_INFINITY;
++    const bool inf_b = dcmask_b & DCMASK_INFINITY;
++    const bool zero_a = dcmask_a & DCMASK_ZERO;
++    const bool zero_b = dcmask_b & DCMASK_ZERO;
++    const bool nan_a = dcmask_a & DCMASK_NAN;
++    const bool nan_b = dcmask_b & DCMASK_NAN;
++
++    g_assert(type > S390_MINMAX_TYPE_IEEE && type <= S390_MINMAX_TYPE_F);
++
++    if (unlikely(nan_a || nan_b)) {
++        const bool sig_a = dcmask_a & DCMASK_SIGNALING_NAN;
++        const bool sig_b = dcmask_b & DCMASK_SIGNALING_NAN;
++
++        if (sig_a || sig_b) {
++            s->float_exception_flags |= float_flag_invalid;
++        }
++        switch (type) {
++        case S390_MINMAX_TYPE_JAVA:
++            if (sig_a) {
++                return S390_MINMAX_RES_SILENCE_A;
++            } else if (sig_b) {
++                return S390_MINMAX_RES_SILENCE_B;
++            }
++            return nan_a ? S390_MINMAX_RES_A : S390_MINMAX_RES_B;
++        case S390_MINMAX_TYPE_F:
++            return nan_b ? S390_MINMAX_RES_A : S390_MINMAX_RES_B;
++        case S390_MINMAX_TYPE_C_MACRO:
++            s->float_exception_flags |= float_flag_invalid;
++            return S390_MINMAX_RES_B;
++        case S390_MINMAX_TYPE_CPP:
++            s->float_exception_flags |= float_flag_invalid;
++            return S390_MINMAX_RES_A;
++        default:
++            g_assert_not_reached();
++        }
++    } else if (unlikely(inf_a && inf_b)) {
++        switch (type) {
++        case S390_MINMAX_TYPE_JAVA:
++        case S390_MINMAX_TYPE_F:
++        case S390_MINMAX_TYPE_CPP:
++            return neg_a && !neg_b ? S390_MINMAX_RES_B : S390_MINMAX_RES_A;
++        case S390_MINMAX_TYPE_C_MACRO:
++            return !neg_a && neg_b ? S390_MINMAX_RES_A : S390_MINMAX_RES_B;
++        default:
++            g_assert_not_reached();
++        }
++    } else if (unlikely(zero_a && zero_b)) {
++        switch (type) {
++        case S390_MINMAX_TYPE_JAVA:
++        case S390_MINMAX_TYPE_F:
++            return neg_a && !neg_b ? S390_MINMAX_RES_B : S390_MINMAX_RES_A;
++        case S390_MINMAX_TYPE_C_MACRO:
++            return S390_MINMAX_RES_B;
++        case S390_MINMAX_TYPE_CPP:
++            return S390_MINMAX_RES_A;
++        default:
++            g_assert_not_reached();
++        }
++    }
++    return S390_MINMAX_RES_MINMAX;
++}
++
++static S390MinMaxRes vfminmax_res(uint16_t dcmask_a, uint16_t dcmask_b,
++                                  S390MinMaxType type, bool is_min,
++                                  float_status *s)
++{
++    return is_min ? vfmin_res(dcmask_a, dcmask_b, type, s) :
++                    vfmax_res(dcmask_a, dcmask_b, type, s);
++}
++
++static void vfminmax32(S390Vector *v1, const S390Vector *v2,
++                       const S390Vector *v3, CPUS390XState *env,
++                       S390MinMaxType type, bool is_min, bool is_abs, bool se,
++                       uintptr_t retaddr)
++{
++    float_status *s = &env->fpu_status;
++    uint8_t vxc, vec_exc = 0;
++    S390Vector tmp = {};
++    int i;
++
++    for (i = 0; i < 4; i++) {
++        float32 a = s390_vec_read_float32(v2, i);
++        float32 b = s390_vec_read_float32(v3, i);
++        float32 result;
++
++        if (type != S390_MINMAX_TYPE_IEEE) {
++            S390MinMaxRes res;
++
++            if (is_abs) {
++                a = float32_abs(a);
++                b = float32_abs(b);
++            }
++
++            res = vfminmax_res(float32_dcmask(env, a), float32_dcmask(env, b),
++                               type, is_min, s);
++            switch (res) {
++            case S390_MINMAX_RES_MINMAX:
++                result = is_min ? float32_min(a, b, s) : float32_max(a, b, s);
++                break;
++            case S390_MINMAX_RES_A:
++                result = a;
++                break;
++            case S390_MINMAX_RES_B:
++                result = b;
++                break;
++            case S390_MINMAX_RES_SILENCE_A:
++                result = float32_silence_nan(a, s);
++                break;
++            case S390_MINMAX_RES_SILENCE_B:
++                result = float32_silence_nan(b, s);
++                break;
++            default:
++                g_assert_not_reached();
++            }
++        } else if (!is_abs) {
++            result = is_min ? float32_minnum(a, b, &env->fpu_status) :
++                              float32_maxnum(a, b, &env->fpu_status);
++        } else {
++            result = is_min ? float32_minnummag(a, b, &env->fpu_status) :
++                              float32_maxnummag(a, b, &env->fpu_status);
++        }
++
++        s390_vec_write_float32(&tmp, i, result);
++        vxc = check_ieee_exc(env, i, false, &vec_exc);
++        if (se || vxc) {
++            break;
++        }
++    }
++    handle_ieee_exc(env, vxc, vec_exc, retaddr);
++    *v1 = tmp;
++}
++
++static void vfminmax64(S390Vector *v1, const S390Vector *v2,
++                       const S390Vector *v3, CPUS390XState *env,
++                       S390MinMaxType type, bool is_min, bool is_abs, bool se,
++                       uintptr_t retaddr)
++{
++    float_status *s = &env->fpu_status;
++    uint8_t vxc, vec_exc = 0;
++    S390Vector tmp = {};
++    int i;
++
++    for (i = 0; i < 2; i++) {
++        float64 a = s390_vec_read_float64(v2, i);
++        float64 b = s390_vec_read_float64(v3, i);
++        float64 result;
++
++        if (type != S390_MINMAX_TYPE_IEEE) {
++            S390MinMaxRes res;
++
++            if (is_abs) {
++                a = float64_abs(a);
++                b = float64_abs(b);
++            }
++
++            res = vfminmax_res(float64_dcmask(env, a), float64_dcmask(env, b),
++                               type, is_min, s);
++            switch (res) {
++            case S390_MINMAX_RES_MINMAX:
++                result = is_min ? float64_min(a, b, s) : float64_max(a, b, s);
++                break;
++            case S390_MINMAX_RES_A:
++                result = a;
++                break;
++            case S390_MINMAX_RES_B:
++                result = b;
++                break;
++            case S390_MINMAX_RES_SILENCE_A:
++                result = float64_silence_nan(a, s);
++                break;
++            case S390_MINMAX_RES_SILENCE_B:
++                result = float64_silence_nan(b, s);
++                break;
++            default:
++                g_assert_not_reached();
++            }
++        } else if (!is_abs) {
++            result = is_min ? float64_minnum(a, b, &env->fpu_status) :
++                              float64_maxnum(a, b, &env->fpu_status);
++        } else {
++            result = is_min ? float64_minnummag(a, b, &env->fpu_status) :
++                              float64_maxnummag(a, b, &env->fpu_status);
++        }
++
++        s390_vec_write_float64(&tmp, i, result);
++        vxc = check_ieee_exc(env, i, false, &vec_exc);
++        if (se || vxc) {
++            break;
++        }
++    }
++    handle_ieee_exc(env, vxc, vec_exc, retaddr);
++    *v1 = tmp;
++}
++
++static void vfminmax128(S390Vector *v1, const S390Vector *v2,
++                        const S390Vector *v3, CPUS390XState *env,
++                        S390MinMaxType type, bool is_min, bool is_abs, bool se,
++                        uintptr_t retaddr)
++{
++    float128 a = s390_vec_read_float128(v2);
++    float128 b = s390_vec_read_float128(v3);
++    float_status *s = &env->fpu_status;
++    uint8_t vxc, vec_exc = 0;
++    float128 result;
++
++    if (type != S390_MINMAX_TYPE_IEEE) {
++        S390MinMaxRes res;
++
++        if (is_abs) {
++            a = float128_abs(a);
++            b = float128_abs(b);
++        }
++
++        res = vfminmax_res(float128_dcmask(env, a), float128_dcmask(env, b),
++                           type, is_min, s);
++        switch (res) {
++        case S390_MINMAX_RES_MINMAX:
++            result = is_min ? float128_min(a, b, s) : float128_max(a, b, s);
++            break;
++        case S390_MINMAX_RES_A:
++            result = a;
++            break;
++        case S390_MINMAX_RES_B:
++            result = b;
++            break;
++        case S390_MINMAX_RES_SILENCE_A:
++            result = float128_silence_nan(a, s);
++            break;
++        case S390_MINMAX_RES_SILENCE_B:
++            result = float128_silence_nan(b, s);
++            break;
++        default:
++            g_assert_not_reached();
++        }
++    } else if (!is_abs) {
++        result = is_min ? float128_minnum(a, b, &env->fpu_status) :
++                          float128_maxnum(a, b, &env->fpu_status);
++    } else {
++        result = is_min ? float128_minnummag(a, b, &env->fpu_status) :
++                          float128_maxnummag(a, b, &env->fpu_status);
++    }
++
++    vxc = check_ieee_exc(env, 0, false, &vec_exc);
++    handle_ieee_exc(env, vxc, vec_exc, retaddr);
++    s390_vec_write_float128(v1, result);
++}
++
++#define DEF_GVEC_VFMINMAX_B(NAME, IS_MIN, BITS)                                \
++void HELPER(gvec_##NAME##BITS)(void *v1, const void *v2, const void *v3,       \
++                               CPUS390XState *env, uint32_t desc)              \
++{                                                                              \
++    const uint8_t se = extract32(simd_data(desc), 3, 1);                       \
++    uint8_t type = extract32(simd_data(desc), 4, 4);                           \
++    bool is_abs = false;                                                       \
++                                                                               \
++    if (type >= 8) {                                                           \
++        is_abs = true;                                                         \
++        type -= 8;                                                             \
++    }                                                                          \
++                                                                               \
++    vfminmax##BITS(v1, v2, v3, env, type, IS_MIN, is_abs, se, GETPC());        \
++}
++
++#define DEF_GVEC_VFMINMAX(NAME, IS_MIN)                                        \
++    DEF_GVEC_VFMINMAX_B(NAME, IS_MIN, 32)                                      \
++    DEF_GVEC_VFMINMAX_B(NAME, IS_MIN, 64)                                      \
++    DEF_GVEC_VFMINMAX_B(NAME, IS_MIN, 128)
++
++DEF_GVEC_VFMINMAX(vfmax, false)
++DEF_GVEC_VFMINMAX(vfmin, true)
 -- 
 2.31.1
 
