@@ -2,42 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8645F382301
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 05:14:08 +0200 (CEST)
-Received: from localhost ([::1]:56898 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9A19382303
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 05:17:23 +0200 (CEST)
+Received: from localhost ([::1]:60972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1liThn-0001DV-CJ
-	for lists+qemu-devel@lfdr.de; Sun, 16 May 2021 23:14:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55804)
+	id 1liTkw-00046A-QB
+	for lists+qemu-devel@lfdr.de; Sun, 16 May 2021 23:17:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56254)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1liTfs-0000Io-JA; Sun, 16 May 2021 23:12:08 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:41305 helo=ozlabs.org)
+ id 1liTim-00020P-3v; Sun, 16 May 2021 23:15:08 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:33181 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1liTfp-0005c3-Qo; Sun, 16 May 2021 23:12:08 -0400
+ id 1liTik-0007KR-9L; Sun, 16 May 2021 23:15:07 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4Fk40z3SsMz9sSn; Mon, 17 May 2021 13:11:47 +1000 (AEST)
+ id 4Fk44k4nlyz9sSs; Mon, 17 May 2021 13:15:02 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1621221107;
- bh=OXfwjnR7pRT6hdT/QsqvHQnEcrEUrAWnbZ7I+Zm4ipg=;
+ d=gibson.dropbear.id.au; s=201602; t=1621221302;
+ bh=6Be4UtpxnUpGwaqht9fr6Hc2Gxl5C07p+4BS4gG5YSs=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=fC0HbNjz2jlnyt954XX4u+Yrezf//QgpPFnMzk4buy4uNs1r3DYL96s8e10AxQVhX
- YmjNC2A82Mci8yHoUPfTkVBuVXmC2cn+yskOyOdFUBgLkYBLB7UcrU7D3DzDy1UDcM
- 6YjQ+ZqrEHf+lB/5g1p/gWi5vdKsQg2+hPINBq8g=
-Date: Mon, 17 May 2021 13:11:37 +1000
+ b=WM8ByMndF/6iBOlgFmSTPtmLC1jTSae2IzlxpXiPWBDYXUttJN4e87E2kzTOS9y33
+ cJtO0NEIMygrYCv7I/ZWDXzEoVQEcSWuK4f0Dr2DAM0KCjmo3zPl96DJO02rPbocvX
+ cWCqRN0TExppcCocAwEwEErKAmGuYo//OT6jowBo=
+Date: Mon, 17 May 2021 13:13:49 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
-To: Yanan Wang <wangyanan55@huawei.com>
-Subject: Re: [RFC PATCH v3 2/9] device_tree: Add qemu_fdt_add_path
-Message-ID: <YKHe6SQzmfHzGqW6@yekko>
-References: <20210516102900.28036-1-wangyanan55@huawei.com>
- <20210516102900.28036-3-wangyanan55@huawei.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Subject: Re: [PATCH v2 09/12] hw/pci-host/Kconfig: Add missing dependency
+ MV64361 -> I8259
+Message-ID: <YKHfbd2kFygnWVFw@yekko>
+References: <20210515173716.358295-1-philmd@redhat.com>
+ <20210515173716.358295-10-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="8lCm3QYpvXGStkbA"
+ protocol="application/pgp-signature"; boundary="NmXgcd/mPMezN3dT"
 Content-Disposition: inline
-In-Reply-To: <20210516102900.28036-3-wangyanan55@huawei.com>
+In-Reply-To: <20210515173716.358295-10-philmd@redhat.com>
 Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
@@ -58,129 +59,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Barry Song <song.bao.hua@hisilicon.com>,
- Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>, wanghaibin.wang@huawei.com,
- zhukeqian1@huawei.com, qemu-devel@nongnu.org, yangyicong@huawei.com,
- Shannon Zhao <shannon.zhaosl@gmail.com>, qemu-arm@nongnu.org,
- Alistair Francis <alistair.francis@wdc.com>, prime.zeng@hisilicon.com,
- Paolo Bonzini <pbonzini@redhat.com>, yuzenghui@huawei.com,
- Igor Mammedov <imammedo@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Cc: Alistair Francis <alistair.francis@wdc.com>, qemu-riscv@nongnu.org,
+ Bin Meng <bin.meng@windriver.com>, qemu-devel@nongnu.org, qemu-arm@nongnu.org,
+ qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---8lCm3QYpvXGStkbA
-Content-Type: text/plain; charset=us-ascii
+--NmXgcd/mPMezN3dT
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, May 16, 2021 at 06:28:53PM +0800, Yanan Wang wrote:
-> From: Andrew Jones <drjones@redhat.com>
+On Sat, May 15, 2021 at 07:37:13PM +0200, Philippe Mathieu-Daud=E9 wrote:
+> From: Philippe Mathieu-Daud=E9 <f4bug@amsat.org>
 >=20
-> qemu_fdt_add_path() works like qemu_fdt_add_subnode(), except it
-> also adds all missing subnodes from the given path. We'll use it
-> in a coming patch where we will add cpu-map to the device tree.
+> Looking at the MV64340 model source, there is a dependency on the
+> 8259 interrupt controller:
 >=20
-> And we also tweak an error message of qemu_fdt_add_subnode().
+>   523     case MV64340_PCI_1_INTERRUPT_ACKNOWLEDGE_VIRTUAL_REG:
+>   524         /* FIXME: Should this be sent via the PCI bus somehow? */
+>   525         if (s->gpp_int_level && (s->gpp_value & BIT(31))) {
+>   526             ret =3D pic_read_irq(isa_pic);
+>   527         }
+>   528         break;
 >=20
-> Cc: David Gibson <david@gibson.dropbear.id.au>
-> Cc: Alistair Francis <alistair.francis@wdc.com>
-> Signed-off-by: Andrew Jones <drjones@redhat.com>
-> Co-developed-by: Yanan Wang <wangyanan55@huawei.com>
-> Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
+> Add it to Kconfig to avoid the following build failure:
+>=20
+>   /usr/bin/ld: libcommon.fa.p/hw_pci-host_mv64361.c.o: in function `mv643=
+61_read':
+>   hw/pci-host/mv64361.c:526: undefined reference to `isa_pic'
+>   /usr/bin/ld: hw/pci-host/mv64361.c:526: undefined reference to `pic_rea=
+d_irq'
+>=20
+> Fixes: dcdf98a9015 ("hw/pci-host: Add emulation of Marvell MV64361 PPC sy=
+stem controller")
+> Signed-off-by: Philippe Mathieu-Daud=E9 <f4bug@amsat.org>
 
-Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
-
-Wonder if I should integrate a function like this into libfdt.
+Acked-by: David Gibson <david@gibson.dropbear.id.au>
 
 > ---
->  include/sysemu/device_tree.h |  1 +
->  softmmu/device_tree.c        | 44 ++++++++++++++++++++++++++++++++++--
->  2 files changed, 43 insertions(+), 2 deletions(-)
+>  hw/pci-host/Kconfig | 1 +
+>  1 file changed, 1 insertion(+)
 >=20
-> diff --git a/include/sysemu/device_tree.h b/include/sysemu/device_tree.h
-> index 8a2fe55622..ef060a9759 100644
-> --- a/include/sysemu/device_tree.h
-> +++ b/include/sysemu/device_tree.h
-> @@ -121,6 +121,7 @@ uint32_t qemu_fdt_get_phandle(void *fdt, const char *=
-path);
->  uint32_t qemu_fdt_alloc_phandle(void *fdt);
->  int qemu_fdt_nop_node(void *fdt, const char *node_path);
->  int qemu_fdt_add_subnode(void *fdt, const char *name);
-> +int qemu_fdt_add_path(void *fdt, const char *path);
-> =20
->  #define qemu_fdt_setprop_cells(fdt, node_path, property, ...)           =
-      \
->      do {                                                                =
-      \
-> diff --git a/softmmu/device_tree.c b/softmmu/device_tree.c
-> index b621f63fba..3965c834ca 100644
-> --- a/softmmu/device_tree.c
-> +++ b/softmmu/device_tree.c
-> @@ -540,8 +540,8 @@ int qemu_fdt_add_subnode(void *fdt, const char *name)
-> =20
->      retval =3D fdt_add_subnode(fdt, parent, basename);
->      if (retval < 0) {
-> -        error_report("FDT: Failed to create subnode %s: %s", name,
-> -                     fdt_strerror(retval));
-> +        error_report("%s: Failed to create subnode %s: %s",
-> +                     __func__, name, fdt_strerror(retval));
->          exit(1);
->      }
-> =20
-> @@ -549,6 +549,46 @@ int qemu_fdt_add_subnode(void *fdt, const char *name)
->      return retval;
->  }
-> =20
-> +/*
-> + * qemu_fdt_add_path: Like qemu_fdt_add_subnode(), but will add
-> + * all missing subnodes from the given path.
-> + */
-> +int qemu_fdt_add_path(void *fdt, const char *path)
-> +{
-> +    const char *name;
-> +    const char *p =3D path;
-> +    int namelen, retval;
-> +    int parent =3D 0;
-> +
-> +    if (path[0] !=3D '/') {
-> +        return -1;
-> +    }
-> +
-> +    while (p) {
-> +        name =3D p + 1;
-> +        p =3D strchr(name, '/');
-> +        namelen =3D p !=3D NULL ? p - name : strlen(name);
-> +
-> +        retval =3D fdt_subnode_offset_namelen(fdt, parent, name, namelen=
-);
-> +        if (retval < 0 && retval !=3D -FDT_ERR_NOTFOUND) {
-> +            error_report("%s: Unexpected error in finding subnode %.*s: =
-%s",
-> +                         __func__, namelen, name, fdt_strerror(retval));
-> +            exit(1);
-> +        } else if (retval =3D=3D -FDT_ERR_NOTFOUND) {
-> +            retval =3D fdt_add_subnode_namelen(fdt, parent, name, namele=
-n);
-> +            if (retval < 0) {
-> +                error_report("%s: Failed to create subnode %.*s: %s",
-> +                             __func__, namelen, name, fdt_strerror(retva=
-l));
-> +                exit(1);
-> +            }
-> +        }
-> +
-> +        parent =3D retval;
-> +    }
-> +
-> +    return retval;
-> +}
-> +
->  void qemu_fdt_dumpdtb(void *fdt, int size)
->  {
->      const char *dumpdtb =3D current_machine->dumpdtb;
+> diff --git a/hw/pci-host/Kconfig b/hw/pci-host/Kconfig
+> index 79c20bf28bb..9dc0d761815 100644
+> --- a/hw/pci-host/Kconfig
+> +++ b/hw/pci-host/Kconfig
+> @@ -76,3 +76,4 @@ config SH_PCI
+>  config MV64361
+>      bool
+>      select PCI
+> +    select I8259
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -188,25 +119,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---8lCm3QYpvXGStkbA
+--NmXgcd/mPMezN3dT
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmCh3uYACgkQbDjKyiDZ
-s5IDvxAAji31FUmz47osKu46BFvA9qdd4FvzOSBXlYa7cJhbTTQNK0MPzRFBxAd0
-jInU/KwNf0CibVwCqqBldzk+7SIeVKIn7wxlU8XQk4ECtI1IgzIiasZ2PsuKBgNU
-hCDk9otNEYd8lhjU59GBiV0SUiYeMk64EVkGkqYLf7eiBEE3VIcDd3V2V0el7Te5
-C4u9gqnIK/YS+8SbIkii/tab3RWtCLOMNHXRBVXbkUCSq3++Uty1D78ArQMTD6XF
-5y4tHGSNdYLge/i2+GJTwqbNpeqobwiVma2G7qzFuDr/u0qYY2nTJV1xkrdwT2E0
-KSP/Li9DtMk8q0D2qF6S5/EUtePZGGNuS8t4zbI71lM9EJiDv8VKmZLVTFyK7LtX
-HV4zjfEyOe1dSCOV7VW2H/xcVnlR4/iKt2x6kJbic9BlrSg2jaRhZvMlK2WpWEWT
-BJS9RT7zL3a7htTGdyb5CjDv6HUo2U24402JgdCoSGp9wxS0/idasLLo7IMXIVzY
-CU1+Q4TK9xoTS3RVyHaDImEzga1akdWwce/UaZfpQjZjy/xBTnkKY80Sl2lcReML
-CWJvb4PaN8vr1sHwZ4PQXhVI1zXK1q1XrfIeZGM+cLUWzs3EwhBL67WYG/IYVZ+f
-jm/rXlKoxd730Dlw1/WghdztaCkcGqzV9rf3s4zJmfhQWmZno/I=
-=Dwqo
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmCh320ACgkQbDjKyiDZ
+s5J7KQ/+NUiTYotpEXdbSdfv80Ss/pH28xIwlj59IowANukK341LDV2UdxxhvkGO
+RG0ZoR8pqS8CqYIwpjYhuuql/RhdFoA/UAoWqm4bW3qW314npte3mNsnhY6wSa5f
+AzcnynAkKrv3bO0CFn/b/g09oxl6PACj32lyfIeT4wt4YZ6Lu3Y0aQEvNF+8F1A5
+lM+5cR92d/nEjPRvS82+XFRZsLiIzfRMXZsw8eUs5+2qPgEl756Wizm/RKvfEXiI
+zys/6AhgZUe3rB/YnwtfDlXf9QivYQ/SgHfteY2XIPBs7PakEPfPkqJx9Est56+g
+ljIofx2sNSE48ijR5Kv+Mok9XNv7hTCma5OwCKZ/W8XoyB1OoBVXjXMSLEXozWDb
+GEHEraas24Sh0SnpkAF0qTH8jUAAkK99rYJvSAnW1T8m8+TFFPYYl96XKWZfzFLk
+H9XzvSXtVcdeJ2xUVHivTPTFHpn1UbnvlV154ROzRBfIkh3tJc9OBx/FO9uY27kh
+TqxojsNtbK9axxeamQ2mQeYcQ6x3T4NTi1eDWWsFtnKYWWx1d8YerCVhFUHKBwaA
+CaNF1UUck8DUZN0PX0ZjIQpVw7vYUM4G5FR2jUxQe2mTDdwEn00WnXEQ1s0/thUR
+ZI9XzsNEQCehSHv/JDT7aRq8zo1JgkJnYHFeBOW1P5KU+MevjIs=
+=X729
 -----END PGP SIGNATURE-----
 
---8lCm3QYpvXGStkbA--
+--NmXgcd/mPMezN3dT--
 
