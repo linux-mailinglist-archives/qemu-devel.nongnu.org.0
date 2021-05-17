@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFC59382AA2
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 13:11:36 +0200 (CEST)
-Received: from localhost ([::1]:50890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD68C382A7D
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 13:02:29 +0200 (CEST)
+Received: from localhost ([::1]:52424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lib9r-0002RP-At
-	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 07:11:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55782)
+	id 1lib12-0008Qe-Va
+	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 07:02:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55816)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1liarY-0006ck-Uk; Mon, 17 May 2021 06:52:40 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:39913)
+ id 1liari-0007DZ-CS; Mon, 17 May 2021 06:52:50 -0400
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:44766)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1liarX-0006nB-8c; Mon, 17 May 2021 06:52:40 -0400
-Received: by mail-wr1-x434.google.com with SMTP id v12so5875522wrq.6;
- Mon, 17 May 2021 03:52:37 -0700 (PDT)
+ id 1liarg-0006tZ-RA; Mon, 17 May 2021 06:52:50 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id
+ y184-20020a1ce1c10000b02901769b409001so1912452wmg.3; 
+ Mon, 17 May 2021 03:52:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=62bRjuN6Hv82DBcOqLhZSxPlLlMeXZkMX2kFXTADKa8=;
- b=WRR9/ZTGXumMwQZEBcx5Hs6N/5Olc0JagEXe+Tmnno2wD6IAr3o7LfKMfRoqj4pqSe
- yiYcxf6JAJYranESSCijaJ+stNpiHhYTIMTWKPa1DqEHM+0e9lzTPw0bUv/42NB8g2la
- DW7YEx32YzsytDjFXT0EyWGnXPz2+wQhlfKeujlrH0Ciqu03oo7d9eAhXaF8xKa4aCoT
- +kP6v92Sd4auYTQraXwNYBW3jwnIWsgfhxL3Vzz8T8mbu1XuER/Qxdrb626CH15f9DLk
- Edd73Er13ctIL3c7dY9ogD/Sk84sJn0mJMk1mx6jvbk4z5yS6UIDnrkx/RIcxU4+U53Y
- KZEw==
+ bh=73qeszPShsMKmwQ6XsHjcTezehy+lvr/7Xa8ct6h49I=;
+ b=KZdPVqTiITvdCNz5rGciJOBS/6F3QG7VJJfwgQItf76O4Kp4R0JPne0N/R+5FiLOsP
+ o14Qz+IyZL40FAq0FLIoCjMmXMBuppqqG1Trct8uIJ7vusSKmuTKnuogCq20V+U9EIIZ
+ 68s2gh56Hum75RkTg74qB2DaE7mhvMRv3xzrt1vAYX8xGZiMl5Cf1ieolSqXMl6mLTq4
+ oV3hvD+VZet7J277cUTnQ8Myj0OWbdc+7xzDorEyXjH1F12h9cscocFlYoa4bT5PEcJx
+ EQPzIWqWa4fW2cRwvD1U/wKHmuXSs6oJvGKI7L5jzJ0ae0OXhB4u5Nb4WobZobYxWyky
+ aTNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=62bRjuN6Hv82DBcOqLhZSxPlLlMeXZkMX2kFXTADKa8=;
- b=t1TYMLzSMK7WiwrwN/LaQD5TheiCnRUAZnSMkmwegwdkVmXqdx1tkkDQlDr6R7SmRG
- BMAunPPVj7CynnAWzphlEo9QmNwRbVst3So0P2krpunkL5Vg6mMEfJbDH8X7XtWmd7Uh
- G1ezKQzg4gIdl4MH0Asc9f545RrQ10FRUeOgSI/O35sjP6VuHnRrPj402NjWjDJf/Rpg
- QG6mr2jGFNGlHMDcE7/PGClK5wjm/iaxT29tFPEBy3koIhEOaSqgttD0D6zQO44M+BKI
- QW58ISsrB0zH+AEEYt6Io4FtFGL9HxOnV7EDl8sJh0vM3KNwabZCZzc5Tc6JSTl1a2+w
- U9ng==
-X-Gm-Message-State: AOAM530IxNmFpYojXsLLM5itG9PzGL3VBbBDzjxaGOvQ6Ro71fITMrTL
- cCAZIP47gOaYeF54j5WSwH9bxD/sErS75A==
-X-Google-Smtp-Source: ABdhPJxuGh9k7KDPLVkU7UAl8Q8bHZEURJ6FKu4cwawa4wjyB94cF4Ev29l3JvoZfhva4rx3vPJsrw==
-X-Received: by 2002:adf:f14d:: with SMTP id y13mr2556205wro.261.1621248755997; 
- Mon, 17 May 2021 03:52:35 -0700 (PDT)
+ bh=73qeszPShsMKmwQ6XsHjcTezehy+lvr/7Xa8ct6h49I=;
+ b=gl12lcHdMgCgADFEmDpaGExAEKPT/tbwhISM1TiyGs/m4h7HLlgx992yQwSOds0hKF
+ 2Z1fKjlJOFBkegeq0xb/CTPLI1LAfxzHTirncNcNZKE9EqzlpqmXqQmimnpLEvG9TGiF
+ u9pDEJ0SBzgmUhsptszSRZV/anz0u58ABHoTljme9xsNBV0NEv9UUe4mQp3s90HMO6K8
+ Ih+Mgi5m0+TXHlY7oH5d8t9LDPvUygjtBhDxr5yg/GKc6Axq/DIIuHDuJj8hgJE/q+h8
+ GJWCXdSTZyZa8zX7J5A8WxOc2pse+Lq2LDiE2DeH/Yp6MPD7xqwPQHgLG/60qmgQVrNs
+ nBbQ==
+X-Gm-Message-State: AOAM5327+IXUlQg7H8uwCyCY5gdn7wI0WW+EPnJGkey09mZK8ZxNzw0o
+ 3VVze/gaaBKAwNOloKqi+4GaiQj5YGqPtA==
+X-Google-Smtp-Source: ABdhPJx74qhFgmRDEijCQeQSdLdNbgNDud+KrdpZkAtqowjjW4GBXwrKfr/LUEYasa7AC8Q+p40MGw==
+X-Received: by 2002:a1c:a9ca:: with SMTP id
+ s193mr33217198wme.132.1621248765787; 
+ Mon, 17 May 2021 03:52:45 -0700 (PDT)
 Received: from localhost.localdomain (31.red-83-51-215.dynamicip.rima-tde.net.
  [83.51.215.31])
- by smtp.gmail.com with ESMTPSA id n7sm16178413wri.14.2021.05.17.03.52.34
+ by smtp.gmail.com with ESMTPSA id c14sm16873962wrt.77.2021.05.17.03.52.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 May 2021 03:52:35 -0700 (PDT)
+ Mon, 17 May 2021 03:52:45 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 11/23] cpu: Assert DeviceClass::vmsd is NULL on user
- emulation
-Date: Mon, 17 May 2021 12:51:28 +0200
-Message-Id: <20210517105140.1062037-12-f4bug@amsat.org>
+Subject: [PATCH v7 13/23] cpu: Move AVR target vmsd field from CPUClass to
+ DeviceClass
+Date: Mon, 17 May 2021 12:51:30 +0200
+Message-Id: <20210517105140.1062037-14-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210517105140.1062037-1-f4bug@amsat.org>
 References: <20210517105140.1062037-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -92,94 +94,47 @@ Cc: qemu-riscv@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Migration is specific to system emulation.
+See rationale in previous commit. Targets should use the vmsd field
+of DeviceClass, not CPUClass. As migration is not important on the
+AVR target, break the migration compatibility and set the DeviceClass
+vmsd field. To feel safer, increment the vmstate version.
 
-Restrict current DeviceClass::vmsd to sysemu using #ifdef'ry,
-and assert in cpu_exec_realizefn() that dc->vmsd not set under
-user emulation.
-
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
-v7: Check vmsd->unmigratable (David)
+v7: Increment vmstate version (Richard)
 ---
- cpu.c               | 2 ++
- target/sh4/cpu.c    | 5 +++--
- target/xtensa/cpu.c | 4 +++-
- 3 files changed, 8 insertions(+), 3 deletions(-)
+ target/avr/cpu.c     | 2 +-
+ target/avr/machine.c | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/cpu.c b/cpu.c
-index 34a0484bf41..6fe4af27975 100644
---- a/cpu.c
-+++ b/cpu.c
-@@ -141,6 +141,8 @@ void cpu_exec_realizefn(CPUState *cpu, Error **errp)
- #endif /* CONFIG_TCG */
+diff --git a/target/avr/cpu.c b/target/avr/cpu.c
+index 37a8ebcc86f..3353bcb9fc7 100644
+--- a/target/avr/cpu.c
++++ b/target/avr/cpu.c
+@@ -213,7 +213,7 @@ static void avr_cpu_class_init(ObjectClass *oc, void *data)
+     cc->set_pc = avr_cpu_set_pc;
+     cc->memory_rw_debug = avr_cpu_memory_rw_debug;
+     cc->get_phys_page_debug = avr_cpu_get_phys_page_debug;
+-    cc->legacy_vmsd = &vms_avr_cpu;
++    dc->vmsd = &vms_avr_cpu;
+     cc->disas_set_info = avr_cpu_disas_set_info;
+     cc->gdb_read_register = avr_cpu_gdb_read_register;
+     cc->gdb_write_register = avr_cpu_gdb_write_register;
+diff --git a/target/avr/machine.c b/target/avr/machine.c
+index de264f57c33..16f7a3e031d 100644
+--- a/target/avr/machine.c
++++ b/target/avr/machine.c
+@@ -98,8 +98,8 @@ static const VMStateInfo vms_eind = {
  
- #ifdef CONFIG_USER_ONLY
-+    assert(qdev_get_vmsd(DEVICE(cpu)) == NULL ||
-+           qdev_get_vmsd(DEVICE(cpu))->unmigratable);
-     assert(cc->vmsd == NULL);
- #else
-     if (qdev_get_vmsd(DEVICE(cpu)) == NULL) {
-diff --git a/target/sh4/cpu.c b/target/sh4/cpu.c
-index ac65c88f1f8..35d4251aaf3 100644
---- a/target/sh4/cpu.c
-+++ b/target/sh4/cpu.c
-@@ -218,10 +218,12 @@ static void superh_cpu_initfn(Object *obj)
-     env->movcal_backup_tail = &(env->movcal_backup);
- }
- 
-+#ifndef CONFIG_USER_ONLY
- static const VMStateDescription vmstate_sh_cpu = {
+ const VMStateDescription vms_avr_cpu = {
      .name = "cpu",
-     .unmigratable = 1,
- };
-+#endif
- 
- #include "hw/core/tcg-cpu-ops.h"
- 
-@@ -257,12 +259,11 @@ static void superh_cpu_class_init(ObjectClass *oc, void *data)
-     cc->gdb_write_register = superh_cpu_gdb_write_register;
- #ifndef CONFIG_USER_ONLY
-     cc->get_phys_page_debug = superh_cpu_get_phys_page_debug;
-+    dc->vmsd = &vmstate_sh_cpu;
- #endif
-     cc->disas_set_info = superh_cpu_disas_set_info;
- 
-     cc->gdb_num_core_regs = 59;
--
--    dc->vmsd = &vmstate_sh_cpu;
-     cc->tcg_ops = &superh_tcg_ops;
- }
- 
-diff --git a/target/xtensa/cpu.c b/target/xtensa/cpu.c
-index e2b2c7a71c1..a66527e2d45 100644
---- a/target/xtensa/cpu.c
-+++ b/target/xtensa/cpu.c
-@@ -176,10 +176,12 @@ static void xtensa_cpu_initfn(Object *obj)
- #endif
- }
- 
-+#ifndef CONFIG_USER_ONLY
- static const VMStateDescription vmstate_xtensa_cpu = {
-     .name = "cpu",
-     .unmigratable = 1,
- };
-+#endif
- 
- #include "hw/core/tcg-cpu-ops.h"
- 
-@@ -216,9 +218,9 @@ static void xtensa_cpu_class_init(ObjectClass *oc, void *data)
-     cc->gdb_stop_before_watchpoint = true;
- #ifndef CONFIG_USER_ONLY
-     cc->get_phys_page_debug = xtensa_cpu_get_phys_page_debug;
-+    dc->vmsd = &vmstate_xtensa_cpu;
- #endif
-     cc->disas_set_info = xtensa_cpu_disas_set_info;
--    dc->vmsd = &vmstate_xtensa_cpu;
-     cc->tcg_ops = &xtensa_tcg_ops;
- }
- 
+-    .version_id = 0,
+-    .minimum_version_id = 0,
++    .version_id = 1,
++    .minimum_version_id = 1,
+     .fields = (VMStateField[]) {
+         VMSTATE_UINT32(env.pc_w, AVRCPU),
+         VMSTATE_UINT32(env.sp, AVRCPU),
 -- 
 2.26.3
 
