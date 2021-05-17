@@ -2,85 +2,134 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB19A3824C8
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 08:52:18 +0200 (CEST)
-Received: from localhost ([::1]:39346 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A75D83824D9
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 08:56:03 +0200 (CEST)
+Received: from localhost ([::1]:54560 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1liX6v-0001Hq-Gy
-	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 02:52:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33094)
+	id 1liXAY-00036V-Mf
+	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 02:56:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33146)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1liWz7-00021u-Nj; Mon, 17 May 2021 02:44:14 -0400
-Received: from wout3-smtp.messagingengine.com ([64.147.123.19]:56801)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1liWzj-00033s-W9; Mon, 17 May 2021 02:44:52 -0400
+Received: from mail-eopbgr30130.outbound.protection.outlook.com
+ ([40.107.3.130]:60322 helo=EUR03-AM5-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1liWz5-0001Lx-0y; Mon, 17 May 2021 02:44:13 -0400
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailout.west.internal (Postfix) with ESMTP id 207C1804;
- Mon, 17 May 2021 02:44:05 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute6.internal (MEProxy); Mon, 17 May 2021 02:44:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm3; bh=kicVynH1trskSJ15SRkWoXPLsOM
- T7O38A76Li47eiVk=; b=eYhSyGWVUAubZ5mmL3JUyXmEfO81GmuWwjXfs1MVqER
- Xe53puR/frh8zOe5lyowSoILUiG5alm9ASJrFckZxWZ/ZJjrBBix7oTyCGhZnslF
- GtsLC2EYsL/zqeog6/zG8DKp3pVUfYLNnLIR9tKohvzQU86rCnv86M/AmlpNd2JP
- bc+uX0p4CKaD9jvyLPPYC5gM5EzTLv4tHcfXXhx4hGV2C1hUdiRW/HAmTBmD/FEK
- IkTwASAWNItyy4Pm5/qcYy3ZDZwDNGRmXHlZhrw4R91m5X5SAZv17RDSQV8vO4Rd
- c51lZNjMfRh/OIuod8LZM16qX43LeHpT1oVbxzfs7LQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=kicVyn
- H1trskSJ15SRkWoXPLsOMT7O38A76Li47eiVk=; b=QFTSm+1XHazWvFBGhleiBY
- jkuhgaodb7MTMaZtnqaEyb+pzEyVmWTGrt+CnACfdxOHtDlfgEPf++GmiJwCQNmq
- JGE7RKx+rYvY1OJru704MMFIRQV3fmg+PSkbfFXwWn0qw8HNTIskqWMAv28oVFWW
- gLGxlABR9EkXRDkIKvJ66+HHvbhW1TntZ9NTWEsMX05IARxpbnebjph8tDeOqOoE
- yF/MGRYzGQFUOjpK13WCHdOBiNQk2x5nPJV92RZ0H7eLRc1xnEAoxqz3mAYqiuc8
- rfducMcNasUyjAPQM9A5fgLYca0v41CHDJBUhXULE6b2ToNRQrgTZ8HWalto8N1A
- ==
-X-ME-Sender: <xms:tBCiYC40HtySlaF6JHkexmCvYs6OWsZuDxQ8mArym3LNFZM6nI9PgA>
- <xme:tBCiYL6nGyK9PIDkUTgqhZHiUl9xXpynpugnwEChBSLcwpWIxMzkFjuNK_nudeui8
- q9KkJrCdvZDEUhMc_k>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdeigedgudduvdcutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghu
- shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
- htvghrnhepjeegudffueeiteekieelkedvueelteevjeduieeludfffeejgeffhfduvddu
- ffeknecukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptd
- enucfrrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:tBCiYBd4A71kIVUAlno0tbEO3ZQkghi-Z44q_rurhIsFZBJiFibjTQ>
- <xmx:tBCiYPI3doTZCoWPJXfW1vaE0Oyk6xwaB9QQviXNbr2WHgapTWyKbQ>
- <xmx:tBCiYGIC9Ufz3oBmMRCb-ta5IYqG7DhzuqceC_omESedTaqFirvBag>
- <xmx:tBCiYC0HijdKi6McmCu-ql_OpqFeUj4lpQBYnd0EPG8CGGlge2gJzg>
-Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190]) by mail.messagingengine.com (Postfix) with ESMTPA;
- Mon, 17 May 2021 02:44:03 -0400 (EDT)
-Date: Mon, 17 May 2021 08:44:00 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: making a qdev bus available from a (non-qtree?) device
-Message-ID: <YKIQsI4F49R4hEmd@apples.localdomain>
-References: <YJrKRsF4/38QheKn@apples.localdomain>
- <87im3o2m8l.fsf@dusky.pond.sub.org>
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1liWzg-0001jR-Hy; Mon, 17 May 2021 02:44:50 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=dnJlZUQ+tLrcUfGncKo9qdE7xlyp623dRQgU+0GmX23Yavbj9GWA5E9EL0x+iG/0g0vh2Hx/r17GII1Ao7BMSzIxG5bDbs+L2a0RAYawc9Ilo/JYzWX7nno43qxIsOzmoxJKrTAlcbtrDzokxThlVSydE1y4qlEXkt992MrZ2bNA2UOtd3roZcDzlAGjn4b+Syp+DfM5M/zAvjh/wQFY4XJHQfv0evO+H4xkZkylpAzYfSA/JKuXSOofiO9vM3lROs5VvJWymJv8HtPt1qBe4zeb1XYr5/HA1uJnsAV50Mmp1/bIaDM+Wx2OJ+NJfr+3o5+YsBid1btaBqtHw8zCyw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=e1B0BUUqGiZHLsUnEtAzP5QCX4ficOeRlAHZ3GOYGDg=;
+ b=SNra96o5p57iDdAKxFQ7l3dTf4E9L5H4jW7fptQCZPJxgFlcdE+SHLDDyUccS5xzA+4Vuso9vse8Kxo9tChzy3Kz9G4s2j+axhZ7omqVzruhH4LVOpuEpfRcS7V21zP3Ft/Busgi5jRkbYTPSsBW2nue57dGwjbQbE/7AWFxaXOA8uzhHgbrQda7jPD98zImgJR/P/l2ZYJ+9+IxqC0FjehVpOKMX+H5ZJHD0S/FQcs8INHTvqto5RHhL5bHF2cv854/XpkZbNWFMujW/9g1u9CAUJcFLQk5OthkNScfTmHS34nC1GBJnJnF1GrhSBRVZcpzvHOtU4JSd5aKT+AC4Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=e1B0BUUqGiZHLsUnEtAzP5QCX4ficOeRlAHZ3GOYGDg=;
+ b=rspPzzwm2RABEfzTR93gF9QSdHNhI0t/uiR1CWA3cHJ/C8XVcjNcwGhWmr4SBMUnnfuJ0AMvhYz9RpwYblMmXV0OnMQOCTkydwNeNVY/DX36Hnt0r8khuFEAh5JvN8Oi94nx12DzB4AaTe+Q1hbdJ8wqz+x+pVHqw5YcOVIrm14=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM6PR08MB3382.eurprd08.prod.outlook.com (2603:10a6:20b:47::29)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4129.26; Mon, 17 May
+ 2021 06:44:43 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::b403:c1a9:6bb7:133]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::b403:c1a9:6bb7:133%7]) with mapi id 15.20.4129.031; Mon, 17 May 2021
+ 06:44:43 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, armbru@redhat.com, eblake@redhat.com,
+ ehabkost@redhat.com, berrange@redhat.com, pbonzini@redhat.com,
+ vsementsov@virtuozzo.com, jsnow@redhat.com, mreitz@redhat.com,
+ kwolf@redhat.com, den@openvz.org
+Subject: [PATCH 00/21] block: publish backup-top filter
+Date: Mon, 17 May 2021 09:44:06 +0300
+Message-Id: <20210517064428.16223-1-vsementsov@virtuozzo.com>
+X-Mailer: git-send-email 2.29.2
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [185.215.60.231]
+X-ClientProxiedBy: HE1PR05CA0275.eurprd05.prod.outlook.com
+ (2603:10a6:3:fc::27) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="2PCoMo5qw9v+9QqZ"
-Content-Disposition: inline
-In-Reply-To: <87im3o2m8l.fsf@dusky.pond.sub.org>
-Received-SPF: pass client-ip=64.147.123.19; envelope-from=its@irrelevant.dk;
- helo=wout3-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from localhost.localdomain (185.215.60.231) by
+ HE1PR05CA0275.eurprd05.prod.outlook.com (2603:10a6:3:fc::27) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4108.24 via Frontend Transport; Mon, 17 May 2021 06:44:42 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: dfba23a2-93c7-4caf-5d10-08d918ff40e9
+X-MS-TrafficTypeDiagnostic: AM6PR08MB3382:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM6PR08MB33822DEE87E4A9590522BF91C12D9@AM6PR08MB3382.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: PCHCQO4c1gZ3mmZmtD7vDOgn2sa/jBJkEv6MIkTOk/IoK6QyibfUOeg10t+n7j1+5jxpg24rNpV8wWtEsgX38em+osypMRF2huPFPlO4KZW6yeLsCOpZ/XD0hH2nqgyzB7sFamE2adNkCtlbO0OKGUC2OeAuYk/GqRC2bRCejHGFyzqRqz9UpizYg6oBYZefis+BoqMxxwdLxhO/sQWwaW7fZxwFYQxfivuDU1Yod40veeBgSgwv4stTz/Ushw3PDkBukvEQX6ch7vuT7vzGBV5W1y0Lw/j0D2HEykrVHkOBS5HVsGifIII4SGioJ6EuM+r5ge1L1YrUY+ML2CNZw+myiJRsx2g4BVY9tbzlW4oVD5dbxJ6Awcjror75H/ems4dgWCGM6PaAD4PtrvtJGfwuOtnwgfKJyf/r0XWuNEhOlCcU+ssUidlXhU72ObPL+6QUHxNJRQsYhAqaRnGzfJCiKkXgoCPKMu/UjqN+NuvcUNz7J8KtK/xum5mbTwYPymlQPDwWGMYybG4obFvz3oh/4l2q2+e+4kb5t+9CrHxytIYImZMCcmkznkM4U6vs+g1ettwSYdbhAcOOIKZSa7h2r2Xf4XBUYwmc09NEdjxEsoC1i561K06IkifIx7v+JXh93mLignHyQrx7JuqoNg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(376002)(366004)(346002)(396003)(136003)(39840400004)(6486002)(26005)(2906002)(316002)(36756003)(66946007)(1076003)(107886003)(5660300002)(16526019)(186003)(478600001)(38350700002)(38100700002)(8676002)(6666004)(86362001)(2616005)(66556008)(52116002)(8936002)(66476007)(83380400001)(6916009)(6506007)(6512007)(956004)(7416002)(4326008);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?UEltbWk1a1FTb0dJWDlISFQwekxNZ3hqZThHTGlicVdSb1V2NWpXenB2dDJ3?=
+ =?utf-8?B?OUplMlJUODdzRnBuVHMweU5MZCtKUUsxZTZ6WFpXZjBmTmtMSWZTUU81ajB3?=
+ =?utf-8?B?SmVkemFHMzg0dmJQVE5nYWFDUkpPeXpSRnZsSDc1QTB6aEE0MmM2MlZEL1Rh?=
+ =?utf-8?B?ZjZxTmFrV3pnU21kUVFWbVgzc3c3LzdjMThIdFFHRGNDbDgyOGhyV3JXMjVH?=
+ =?utf-8?B?STVtdzBvUHBpd0VWeHF2QytGLzRUWC9wVkQ4cHJBaTJNY0FyZkRacGI5ZWQ1?=
+ =?utf-8?B?aFlVamZIVTg2NHkvK0dlMS9OQWlIM3V1akF3dk1DV0JFQU1BOHVPRUIyK3c2?=
+ =?utf-8?B?RlAxeElQSDN3TE1nU2t2MTlhMGM1ekRkZGtMTFloTGt0cEZZcFBCc3B4N1dO?=
+ =?utf-8?B?eUtIMm82c2FHZXlxSWUyRk4yaGcyN2I2L3ZHUlNncXZ5WFF2azFocFRuVkpL?=
+ =?utf-8?B?d2hlTWFHUTZJU2VXQ1ExdE9MSFpUMExFUnNRNTArMEVDc3drNjdYdmpaTkha?=
+ =?utf-8?B?cHZhSlRzWCt5Wk55RCtCendZblR2MlFWcXNXZnJTVm9FMnF3MWVHVVZSc282?=
+ =?utf-8?B?LzdUZkIxTlVlejZqQkx1MWg0TEd4cnlrRnJwOGxvTWw3Ynk4RktDc0pUUGta?=
+ =?utf-8?B?a05mdEc0Y0FlUG9NNnY2OVlsVXRDWGNxRWFpdHZMN2greW5Fc0pYVnJDU2hV?=
+ =?utf-8?B?dG1LbDMxRG1FQkhwdjFIcUtDV2RQdmxkbGZoeUdHWERneG5naVgvd1FuMjU0?=
+ =?utf-8?B?eEVOSGNFcE1yK3I4TzNNZDNSQTFBOFEySVFER2FqSUJUeFhad0N6ZGFXaFNu?=
+ =?utf-8?B?bWpXREtObnJmWVVRclpQRnM0T1hBNDFIVmVhMU0ybWdXaTM5dVJNUEFscmVm?=
+ =?utf-8?B?YS9NUkxRdEJ0SUVhNEI1YkFlL2ZNSHBZTVlLbXp1Q1ErQkJibWNkY3BZdTA1?=
+ =?utf-8?B?YlBpUFJ3SWljNjVxTCtpSXNZemdoM2tvbk5rMk1VdU81OFB4UEJsQlVSWDFi?=
+ =?utf-8?B?K3ZsQjlaa2RWMDNqbWhZaWZ4ZWQyU2x3VHdQSG0rTlJ6YjZBM0hKVlVYczNJ?=
+ =?utf-8?B?R01JS2pzcEhLMjRBV3RBV2cxNXlyVkNJcjI2WFBUSUs0WjVWTUZHZ0IyaXZJ?=
+ =?utf-8?B?eFZFaWh1TmhrY0NHaGx5em0wRlQ1T0taektmck14QWVaTGhyWUQwU1RiYk5E?=
+ =?utf-8?B?WGZGVEluRFRtTUpKTjl6UGdjYnNZY2lqcnJMa0pxNXRJWGtlR25xVXhxdjBx?=
+ =?utf-8?B?elNSeFgvVkltYVB1QTFzQkh2MWVWNWVGaUEvcWNla0o5YTZCeU12REs4S1Bu?=
+ =?utf-8?B?WEI1QlliWW1KaVY3Q1Y2dXVpUU5Sa3NYQVdONVlxdWsxM0dTeGQ2c21BclVE?=
+ =?utf-8?B?dk9DNElEMnZoVUttYXZUWGUySEh5TDhxbE1ZMXdMdHE5QTFvdkREMVR5ME9B?=
+ =?utf-8?B?YjhCWDJvRGtrRlp5VWNoeTJoWDVoR1BsU0ZvTmk3TlZDbTZmeTdTN0lhQ3JC?=
+ =?utf-8?B?a0pqSjlHbTZ4Y3A1ajNlYlRRSTNSdGVTOGFUTngrWWpPa0xNODVGd081Q2xo?=
+ =?utf-8?B?SC9ranJGb1lQbFBId1BXeWo2NkFlbnhybmFFT09ndHU2M21HSEVjVEpaMjJi?=
+ =?utf-8?B?K0hGSlpZeDhpbmxyaTAwYURLTm5Vd1pqZi9iMTFNaFJvQ3IxV0pLNkpmOS94?=
+ =?utf-8?B?K0pMald2bUdNYU9vUDVZcW1mU0JIczQwbDdBM2QwejNENXJjeXFhU3lpS0JZ?=
+ =?utf-8?Q?rJ9doow7JbnsLA6acjmrUEVTnGZyw/RKWDKNJv7?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: dfba23a2-93c7-4caf-5d10-08d918ff40e9
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 May 2021 06:44:43.6449 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: eNf6YEwK8gIVmBulJIVAmDc5ur0oGq9GjGBuoEoILu/+KRRDW5rWUir3RdTlz8jiHt9nGpbok6E8zXmPPUYcjVqLEn+n5ToDBJHEqogZxx4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3382
+Received-SPF: pass client-ip=40.107.3.130;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR03-AM5-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,211 +142,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org, stefanha@redhat.com,
- mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi all!
 
---2PCoMo5qw9v+9QqZ
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On May 12 14:02, Markus Armbruster wrote:
->Klaus Jensen <its@irrelevant.dk> writes:
->
->> Hi all,
->>
->> I need some help with grok'ing qdev busses. Stefan, Michael - David
->> suggested on IRC that I CC'ed you guys since you might have solved a
->> similar issue with virtio devices. I've tried to study how that works,
->> but I'm not exactly sure how to apply it to the issue I'm having.
->>
->> Currently, to support multiple namespaces on the emulated nvme device,
->> one can do something like this:
->>
->>   -device nvme,id=3Dnvme-ctrl-0,serial=3Dfoo,...
->>   -device nvme-ns,id=3Dnvme-ns-0,bus=3Dnvme-ctrl-0,...
->>   -device nvme-ns,id-nvme-ns-1,bus=3Dnvme-ctrl-0,...
->>
->> The nvme device creates an 'nvme-bus' and the nvme-ns devices has
->> dc->bus_type =3D TYPE_NVME_BUS. This all works very well and provides a
->> nice overview in `info qtree`:
->>
->>   bus: main-system-bus
->>   type System
->>     ...
->>     dev: q35-pcihost, id ""
->>       ..
->>       bus: pcie.0
->> 	type PCIE
->> 	..
->> 	dev: nvme, id "nvme-ctrl-0"
->> 	  ..
->> 	  bus: nvme-ctrl-0
->> 	    type nvme-bus
->> 	    dev: nvme-ns, id "nvme-ns-0"
->> 	      ..
->> 	    dev: nvme-ns, id "nvme-ns-1"
->> 	      ..
->>
->>
->> Nice and qdevy.
->>
->> We have since introduced support for NVM Subsystems through an
->> nvme-subsys device. The nvme-subsys device is just a TYPE_DEVICE and
->> does not show in `info qtree`
->
->Yes.
->
->Most devices plug into a bus.  DeviceClass member @bus_type specifies
->the type of bus they plug into, and DeviceState member @parent_bus
->points to the actual BusState.  Example: PCI devices plug into a PCI
->bus, and have ->bus_type =3D TYPE_PCI_BUS.
->
->Some devices don't.  @bus_type and @parent_bus are NULL then.
->
->Most buses are provided by a device.  BusState member @parent points to
->the device.
->
->The main-system-bus isn't.  Its @parent is null.
->
->"info qtree" only shows the qtree rooted at main-system-bus.  It doesn't
->show qtrees rooted at bus-less devices or device-less buses other than
->main-system-bus.  I doubt such buses exist.
->
-
-Makes sense.
-
->>                               (I wonder if this should actually just
->> have been an -object?).
->
->Does nvme-subsys expose virtual hardware to the guest?  Memory, IRQs,
->...
->
->If yes, it needs to be a device.
->
->If no, object may be more appropriate.  Tell us more about what it does.
->
-
-It does not expose any virtual hardware. See below.
-
->
->>                         Anyway. The nvme device has a 'subsys' link
->> parameter and we use this to manage the namespaces across the
->> subsystem that may contain several nvme devices (controllers). The
->> problem is that this doesnt work too well with unplugging since if the
->> nvme device is `device_del`'ed, the nvme-ns devices on the nvme-bus
->> are unrealized which is not what we want. We really want the
->> namespaces to linger, preferably on an nvme-bus of the nvme-subsys
->> device so they can be attached to other nvme devices that may show up
->> (or already exist) in the subsystem.
->>
->> The core problem I'm having is that I can't seem to create an nvme-bus
->> from the nvme-subsys device and make it available to the nvme-ns
->> device on the command line:
->>
->>   -device nvme-subsys,id=3Dnvme-subsys-0,...
->>   -device nvme-ns,bus=3Dnvme-subsys-0
->>
->> The above results in 'No 'nvme-bus' bus found for device 'nvme-ns',
->> even though I do `qbus_create_inplace()` just like the nvme
->> device. However, I *can* reparent the nvme-ns device in its realize()
->> method, so if I instead define it like so:
->>
->>   -device nvme-subsys,id=3Dnvme-subsys-0,...
->>   -device nvme,id=3Dnvme-ctrl-0,subsys=3Dnvme-subsys-0
->>   -device nvme-ns,bus=3Dnvme-ctrl-0
->>
->> I can then call `qdev_set_parent_bus()` and set the parent bus to the
->> bus creates in the nvme-subsys device. This solves the problem since
->> the namespaces are not "garbage collected" when the nvme device is
->> removed, but it just feels wrong you know? Also, if possible, I'd of
->> course really like to retain the nice entries in `info qtree`.
->
->I'm afraid I'm too ignorant on NVME to give useful advice.
->
->Can you give us a brief primer on the aspects of physical NVME devices
->you'd like to model in QEMU?  What are "controllers", "namespaces", and
->"subsystems", and how do they work together?
->
->Once we understand the relevant aspects of physical devices, we can
->discuss how to best model them in QEMU.
->
-
-An "NVM Subsystem" is basically just a term to talk about a collection=20
-of controllers and namespaces. A namespace is just a quantity of=20
-non-volatile memory that the controller can use to store stuff on.
-
-Only the controller is a piece of virtual hardware. An example subsystem=20
-looks like this:
+We have image fleecing scheme to export point-in-time state of active
+disk (iotest 222):
 
 
-           +------------------+     +-----------------+
-           |   controller A   |     |   controller B  |
-           +------------------+     +-----------------+
-           +--------++--------+     +--------++-------+
-           | NSID 1 || NSID 2 |     | NSID 3 | NSID 2 |
-           +--------++--------+     +--------++-------+
-           +--------+    |          +--------+    |
-           |  NS A  |    |          |  NS C  |    |
-           +--------+    |          +--------+    |
-                         |                        |
-                         +------------------------+
-                                      |
-                                  +--------+
-                                  |  NS B  |
-                                  +--------+
+                                      backup(sync=none)
+                     ┌───────────────────────────────────────┐
+                     ▼                                       │
+┌────────────┐     ┌────────────────┐  backing             ┌─────────────┐
+│ NBD export │ ─── │ temp qcow2 img │ ───────────────────▶ │ active disk │
+└────────────┘     └────────────────┘                      └─────────────┘
+                                                             ▲
+┌────────────┐                                               │
+│ guest blk  │ ──────────────────────────────────────────────┘
+└────────────┘                        
 
 
-This is the example in Figure 5 in the NVMe v1.4 specification. Here, we=20
-have two controllers (that we model with the 'nvme' pci-based device).=20
-Each controller has one "private" namespace (NS A and NS C) and shares=20
-one namespace (NS B). The namespace IDs are unique across the subsystem=20
-and are assigned by the controller when attached to a namespace.
+Actually, backup job inserts a backup-top filter, so in detail it looks
+like:
 
-We use the 'nvme-ns' device (TYPE_DEVICE) to model the namespaces, and I=20
-guess this should could also just have been an -object, not sure if we=20
-can change that now. The 'nvme-ns' device mostly exist to hold the block=20
-backend configuration and related namespace only parameters. Prior to=20
-the introduction of subsystem, while we could have multiple controllers=20
-on the PCI bus, they could not share namespaces. To support this we=20
-introduced the 'nvme-subsys' device to allow the namespaces to be=20
-shared. This support is considered experimental, so I think we can get=20
-away with changing this to be an object.
+                                      backup(sync=none)
+                     ┌───────────────────────────────────────┐
+                     ▼                                       │
+┌────────────┐     ┌────────────────┐  backing             ┌─────────────┐
+│ NBD export │ ─── │ temp qcow2 img │ ───────────────────▶ │ active disk │
+└────────────┘     └────────────────┘                      └─────────────┘
+                     ▲                                       ▲
+                     │ target                                │
+                     │                                       │
+┌────────────┐     ┌────────────────┐  backing               │
+│ guest blk  │ ──▶ │   backup-top   │ ───────────────────────┘
+└────────────┘     └────────────────┘
 
-As I explained in my first mail, we attach namespaces to controllers=20
-through a bus. This means that even in the absence of an explicit=20
-"bus=3D..." parameter on the nvme-ns device, it will "connect" on the most=
-=20
-recently defined "nvme-bus" (of the most recently defined controller).=20
-With subsystems we would also like to model "unattached" namespaces that=20
-exists solely in the subsystem (i.e. NOT attached to any controllers).=20
-That is why I was trying to get the nvme-ns devices to attach to a bus=20
-created by the "non-bus-attached" subsystem device. And that is what I=20
-can't do. We could add a link property to the nvme-ns device instead,=20
-but then the bus magic in qemu would still happen and the namespace=20
-would end up "attached" (in qemu terms) to a controller anyway - and it=20
-would complain if we defined the namespace device prior to defining any=20
-controller devices since no usable bus exist.
+And job does nothing here. In a new blockdev world user is intended to
+operate on node level, and insert/remove filters by hand. Let's get rid
+of job in the scheme:
 
-Thanks for helping out with this!
+┌────────────┐     ┌────────────────┐  backing             ┌─────────────┐
+│ NBD export │ ─── │ temp qcow2 img │ ───────────────────▶ │ active disk │
+└────────────┘     └────────────────┘                      └─────────────┘
+                     ▲                                       ▲
+                     │ target                                │
+                     │                                       │
+┌────────────┐     ┌────────────────┐  backing               │
+│ guest blk  │ ──▶ │   backup-top   │ ───────────────────────┘
+└────────────┘     └────────────────┘
 
---2PCoMo5qw9v+9QqZ
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
+The series prepares qom-set to make possible inserting filters above
+root node (patches 01-04), rename backup-top to copy-before-write, do
+other preparations for publishing the filter, and finally publish it,
+add qapi interface and test new fleecing scheme in 222.
 
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmCiEKoACgkQTeGvMW1P
-Demy7QgAwV1BUJtt8GKvxne5KPmXZgRpH5IjLgQ8DmsasqjTn9y99rUT8fajC7Hp
-gsPXA9dYsinv+hTMj9Wbnr8qTYVT4cHn6pU0IhbD3ZkfPXHr88MsDGoWUxphqV38
-1Svfacp1/798qS5bveImG4uhPaoGJwBUrqh2NQoncAOrzBzW4Szbas0sGN7njmS1
-i4jRqmQkfK7cJUY2JNWZ7Ju4HVT+STnSCG3fR/bLQLq6rESCY6JRgQigtsqDjaHP
-UdHIO+AKa+vcXOUz6x7SYVUAf0VuWA9T3PVIhQTxEYWjx0ZwU72hlkhxBD7X3dvb
-wQvbAXoXCP2pVD0CUMpyHpSpf/LzMA==
-=mAu0
------END PGP SIGNATURE-----
+Vladimir Sementsov-Ogievskiy (21):
+  block: introduce bdrv_replace_child_bs()
+  block: introduce blk_replace_bs
+  qdev-properties: PropertyInfo: add realized_set_allowed field
+  qdev: allow setting drive property for realized device
+  block: rename backup-top to copy-before-write
+  block/backup: drop support for copy_range
+  block-copy: always set BDRV_REQ_SERIALISING flag
+  block/backup: stricter backup_calculate_cluster_size()
+  block/backup: move cluster size calculation to block-copy
+  block/copy-before-write: relax permission requirements when no parents
+  block/copy-before-write: use file child instead of backing
+  block/copy-before-write: bdrv_cbw_append(): replace child at last
+  block/copy-before-write: introduce cbw_init()
+  block/copy-before-write: cbw_init(): rename variables
+  block/copy-before-write: cbw_init(): use file child after attaching
+  block/copy-before-write: cbw_init(): use options
+  block/block-copy: switch to fully set bitmap by default
+  block/block-copy: make setting progress optional
+  block/copy-before-write: make public block driver
+  qapi: publish copy-before-write filter
+  itotests/222: add test-case for copy-before-write filter
 
---2PCoMo5qw9v+9QqZ--
+ qapi/block-core.json                        |  22 +-
+ block/{backup-top.h => copy-before-write.h} |  26 +-
+ include/block/block-copy.h                  |   4 +-
+ include/block/block.h                       |   2 +
+ include/hw/qdev-properties.h                |   1 +
+ include/sysemu/block-backend.h              |   1 +
+ block.c                                     |  36 +++
+ block/backup-top.c                          | 253 -------------------
+ block/backup.c                              | 115 ++-------
+ block/block-backend.c                       |   8 +
+ block/block-copy.c                          |  95 +++++++-
+ block/copy-before-write.c                   | 257 ++++++++++++++++++++
+ hw/core/qdev-properties-system.c            |  30 ++-
+ hw/core/qdev-properties.c                   |   6 +-
+ MAINTAINERS                                 |   4 +-
+ block/meson.build                           |   2 +-
+ tests/qemu-iotests/222                      |  56 ++++-
+ tests/qemu-iotests/222.out                  |  72 ++++++
+ tests/qemu-iotests/283                      |  35 ++-
+ tests/qemu-iotests/283.out                  |   4 +-
+ 20 files changed, 606 insertions(+), 423 deletions(-)
+ rename block/{backup-top.h => copy-before-write.h} (56%)
+ delete mode 100644 block/backup-top.c
+ create mode 100644 block/copy-before-write.c
+
+-- 
+2.29.2
+
 
