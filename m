@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C75B2382A6C
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 12:59:01 +0200 (CEST)
-Received: from localhost ([::1]:42936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62BFF382A78
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 13:01:31 +0200 (CEST)
+Received: from localhost ([::1]:50394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1liaxg-0001qV-RU
-	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 06:59:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55802)
+	id 1lib06-0006xq-2G
+	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 07:01:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55518)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1liare-0006yB-66; Mon, 17 May 2021 06:52:46 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:45703)
+ id 1liaqx-0004SO-4N; Mon, 17 May 2021 06:52:03 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:41642)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1liarc-0006qj-0U; Mon, 17 May 2021 06:52:45 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id h4so5853885wrt.12;
- Mon, 17 May 2021 03:52:42 -0700 (PDT)
+ id 1liaqu-0006PH-IO; Mon, 17 May 2021 06:52:02 -0400
+Received: by mail-wr1-x431.google.com with SMTP id d11so5866127wrw.8;
+ Mon, 17 May 2021 03:51:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=5+gvNlAktZ3R/5laA6wCqdudeSBg0Z7c6s+SBPqNIIY=;
- b=bR892HYfwwHBg/vgifAlkOOxTfAFp4pHdOKV5RWbZij8oCOytRLrmAfZ8TIGJxQCYw
- W8wslVt8DKGT1KMOLiAfEjXxX3Bfqc60m+81DvHK3H6km4IS1UtOeEQseAegw6+CkGgd
- OlKokQ3UZ41iDLLWmjZ/QE2HvaV1hWUxcuaVVwg4oCjG0hHsK9WcVIsilnxso7WAuoFG
- O68Ohzc4ncHmAIfUhn4DNMvxWYEDyRuo/VUSZfzmL7NiioA5BbsKBtMxoqEpw2hYHQVH
- WSxB87KaZolBEEx8uA4+CFZcNmv5qD2u7mUCYY0QAsNuyUxuOvT7XZkrSjE7Q76oYNa8
- qblQ==
+ bh=4y6dJ5W0jRFDoCjc5ce7xU1qdLgWVyXVf+o6CYpimiI=;
+ b=aw+C6wdMWzjcpiu4fDUBOAlZauufWX6TuW/sg846ikpCQUJGPOKW1YZZs1/MlgcScV
+ 4ZtXduOr50cxLAfOgfFHne/MvW05sEhbvuZRgmlQvbddj7FwXQPWqQsTqtI/M4EdUnm2
+ snC1E6VAMz8q2LlGlrIJB7fiwihs0eXYloynKjktAGhKAHVIQRBlC+3/F/ruTJbQg5OG
+ Xk2XHlf+M+POoM1o3PmMo+Ti+jhlf3xJ9Zy/PIeDx/xFmYMPIR7ok1cx5Xa5p4BAj93O
+ fDgnqKmL4k0Wz/ylpr8BJApCS8u0Gh6zoigX2Jwa4sAYmguH+MO5vG+pL25nT2WDDic6
+ 3UMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=5+gvNlAktZ3R/5laA6wCqdudeSBg0Z7c6s+SBPqNIIY=;
- b=YUoArhfSzaCUhUWt1lk89JJYIcY/zcXmm6MjQiLwGFLGfF3jEk05OdThbXNoscmY3O
- KOqt+vqzEqcg3GVeuo7ZZXNvrRk+dwJU9vXNWAkDYnZoLMayrVZKFYCQgSuHBph7xe5n
- 3TskvQ05QRi+g38/GaIxfQZMOy3NPGg8WGQxRxUzI+4cNZ3k/CGQJSnEDKmYw4RVKf9b
- 5f8cdXIafcJDOmNLiXV4tpz/bc8C09we/bQAyb3DkUHpbcferiUEZcKDCjR96MxeIK5a
- G7KKInJPcjv1W2TNWtifRHZ/rneOndHA4+D4hjJ2UMfhNA06UYmBzr8FnjBXr7k6rDMy
- M63w==
-X-Gm-Message-State: AOAM530HnacmfCKASZZlgVNjTuyatyRmResWA6wzhnNolZZEQS3ZJDrK
- /MZKde/dJjPGpsreyEYlu26d05nIFMmxHg==
-X-Google-Smtp-Source: ABdhPJwUVb/K957DjQSpTi+XYOVrdkz5o/cJDNZJgaxcUKqADJREYW2UlikacX40ZzT0QMMd7Pwo6A==
-X-Received: by 2002:a5d:5409:: with SMTP id g9mr3148894wrv.321.1621248760948; 
- Mon, 17 May 2021 03:52:40 -0700 (PDT)
+ bh=4y6dJ5W0jRFDoCjc5ce7xU1qdLgWVyXVf+o6CYpimiI=;
+ b=R4Bz7yOPU+icUTxZh9P1Rlsu6dYUgAeZX5/F8YuTrimjP9qMzHHzUtiuHZBx1KBNkw
+ ZcgsQfydt52CJLqN4IIC+H8CQreNvlVCNuRsYbw4vMWaLOzL45E9Y6GE0S4JuaiJoXWr
+ 1xE/W4OTd7SVFS+RWzOFPB9+z45oMnnsfjqLuPCEzLjGmD5A8EjoyyB3F/k8AzEbFlu8
+ LNx5m6GIsQrnZ1W+ddfTFFns1kPChPWp9PeWfVdrigHUCmix0wkIGnwxgpcPml3rbBdR
+ 1xBsdatT0qIxvVJhpbpuev58AmUUDmtwWpxcdeFDkKvq1Yv/eQEO/luZH3lViAKEIbpH
+ wjqg==
+X-Gm-Message-State: AOAM530Mf+DBqXnLJVB9FjHZgWEuapm2aC2p7ydt4QA7xDc/xko9j9gy
+ IGcNNmcLgBmhb0cxDY0QKrT9iEUdlwK5iA==
+X-Google-Smtp-Source: ABdhPJy2HLFQ9itghdh5t5I8R9nM1Cq5j9WeAFNyq65dzmeZevg1VDJLJ1g5gDIz+E5gf654Ff0+og==
+X-Received: by 2002:adf:d081:: with SMTP id y1mr17663319wrh.179.1621248717377; 
+ Mon, 17 May 2021 03:51:57 -0700 (PDT)
 Received: from localhost.localdomain (31.red-83-51-215.dynamicip.rima-tde.net.
  [83.51.215.31])
- by smtp.gmail.com with ESMTPSA id m9sm9985812wrs.36.2021.05.17.03.52.39
+ by smtp.gmail.com with ESMTPSA id v10sm19368812wrq.0.2021.05.17.03.51.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 May 2021 03:52:40 -0700 (PDT)
+ Mon, 17 May 2021 03:51:56 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 12/23] cpu: Rename CPUClass vmsd -> legacy_vmsd
-Date: Mon, 17 May 2021 12:51:29 +0200
-Message-Id: <20210517105140.1062037-13-f4bug@amsat.org>
+Subject: [PATCH v7 03/23] cpu: Restrict target cpu_do_unaligned_access()
+ handlers to sysemu
+Date: Mon, 17 May 2021 12:51:20 +0200
+Message-Id: <20210517105140.1062037-4-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210517105140.1062037-1-f4bug@amsat.org>
 References: <20210517105140.1062037-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x431.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -83,8 +84,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-riscv@nongnu.org,
- Richard Henderson <richard.henderson@linaro.org>,
+Cc: qemu-riscv@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
  Laurent Vivier <laurent@vivier.eu>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  qemu-s390x@nongnu.org, qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
@@ -92,225 +92,382 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-riscv@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Quoting Peter Maydell [*]:
+Commit 8535dd702dd ("cpu: move do_unaligned_access to tcg_ops")
+restricted the do_unaligned_access() handler to the sysemu part
+of TCGCPUOps, but only restricted the HPPA declaration. Restrict
+the other targets.
 
-  There are two ways to handle migration for
-  a CPU object:
-
-  (1) like any other device, so it has a dc->vmsd that covers
-  migration for the whole object. As usual for objects that are a
-  subclass of a parent that has state, the first entry in the
-  VMStateDescription field list is VMSTATE_CPU(), which migrates
-  the cpu_common fields, followed by whatever the CPU's own migration
-  fields are.
-
-  (2) a backwards-compatible mechanism for CPUs that were
-  originally migrated using manual "write fields to the migration
-  stream structures". The on-the-wire migration format
-  for those is based on the 'env' pointer (which isn't a QOM object),
-  and the cpu_common part of the migration data is elsewhere.
-
-  cpu_exec_realizefn() handles both possibilities:
-
-  * for type 1, dc->vmsd is set and cc->vmsd is not,
-    so cpu_exec_realizefn() does nothing, and the standard
-    "register dc->vmsd for a device" code does everything needed
-
-  * for type 2, dc->vmsd is NULL and so we register the
-    vmstate_cpu_common directly to handle the cpu-common fields,
-    and the cc->vmsd to handle the per-CPU stuff
-
-  You can't change a CPU from one type to the other without breaking
-  migration compatibility, which is why some guest architectures
-  are stuck on the cc->vmsd form. New targets should use dc->vmsd.
-
-To avoid new targets to start using type (2), rename cc->vmsd as
-cc->legacy_vmsd. The correct field to implement is dc->vmsd (the
-DeviceClass one).
-
-See also commit b170fce3dd0 ("cpu: Register VMStateDescription
-through CPUState") for historic background.
-
-[*] https://www.mail-archive.com/qemu-devel@nongnu.org/msg800849.html
-
-Cc: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- include/hw/core/cpu.h           |  5 +++--
- cpu.c                           | 12 ++++++------
- target/arm/cpu.c                |  2 +-
- target/avr/cpu.c                |  2 +-
- target/i386/cpu.c               |  2 +-
- target/mips/cpu.c               |  2 +-
- target/riscv/cpu.c              |  2 +-
- target/s390x/cpu.c              |  2 +-
- target/sparc/cpu.c              |  2 +-
- target/ppc/translate_init.c.inc |  2 +-
- 10 files changed, 17 insertions(+), 16 deletions(-)
+ target/alpha/cpu.h             |  7 ++++---
+ target/arm/internals.h         |  2 +-
+ target/microblaze/cpu.h        |  7 ++++---
+ target/mips/tcg/tcg-internal.h |  6 +++---
+ target/nios2/cpu.h             |  3 ++-
+ target/ppc/internal.h          |  2 ++
+ target/riscv/cpu.h             |  6 +++---
+ target/s390x/internal.h        |  2 ++
+ target/sh4/cpu.h               |  6 +++---
+ target/sparc/cpu.h             |  9 +++++----
+ target/xtensa/cpu.h            |  6 +++---
+ target/arm/tlb_helper.c        |  4 ++--
+ target/microblaze/helper.c     | 35 +++++++++++++++++-----------------
+ target/ppc/excp_helper.c       |  3 ++-
+ target/sparc/ldst_helper.c     |  5 ++---
+ 15 files changed, 56 insertions(+), 47 deletions(-)
 
-diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-index d96ff4dace0..1dfb788415b 100644
---- a/include/hw/core/cpu.h
-+++ b/include/hw/core/cpu.h
-@@ -122,7 +122,8 @@ struct AccelCPUClass;
-  * 32-bit VM coredump.
-  * @write_elf32_qemunote: Callback for writing a CPU- and QEMU-specific ELF
-  * note to a 32-bit VM coredump.
-- * @vmsd: State description for migration.
-+ * @legacy_vmsd: Legacy state description for migration.
-+ *               Do not use in new targets, use #DeviceClass::vmsd instead.
-  * @gdb_num_core_regs: Number of core registers accessible to GDB.
-  * @gdb_core_xml_file: File name for core registers GDB XML description.
-  * @gdb_stop_before_watchpoint: Indicates whether GDB expects the CPU to stop
-@@ -177,7 +178,7 @@ struct CPUClass {
-     int (*write_elf32_qemunote)(WriteCoreDumpFunction f, CPUState *cpu,
-                                 void *opaque);
+diff --git a/target/alpha/cpu.h b/target/alpha/cpu.h
+index 82df108967b..6541675d9d6 100644
+--- a/target/alpha/cpu.h
++++ b/target/alpha/cpu.h
+@@ -274,6 +274,10 @@ struct AlphaCPU {
  
--    const VMStateDescription *vmsd;
-+    const VMStateDescription *legacy_vmsd;
-     const char *gdb_core_xml_file;
-     gchar * (*gdb_arch_name)(CPUState *cpu);
-     const char * (*gdb_get_dynamic_xml)(CPUState *cpu, const char *xmlname);
-diff --git a/cpu.c b/cpu.c
-index 6fe4af27975..c57f4c302bc 100644
---- a/cpu.c
-+++ b/cpu.c
-@@ -143,13 +143,13 @@ void cpu_exec_realizefn(CPUState *cpu, Error **errp)
- #ifdef CONFIG_USER_ONLY
-     assert(qdev_get_vmsd(DEVICE(cpu)) == NULL ||
-            qdev_get_vmsd(DEVICE(cpu))->unmigratable);
--    assert(cc->vmsd == NULL);
-+    assert(cc->legacy_vmsd == NULL);
- #else
-     if (qdev_get_vmsd(DEVICE(cpu)) == NULL) {
-         vmstate_register(NULL, cpu->cpu_index, &vmstate_cpu_common, cpu);
-     }
--    if (cc->vmsd != NULL) {
--        vmstate_register(NULL, cpu->cpu_index, cc->vmsd, cpu);
-+    if (cc->legacy_vmsd != NULL) {
-+        vmstate_register(NULL, cpu->cpu_index, cc->legacy_vmsd, cpu);
-     }
- #endif /* CONFIG_USER_ONLY */
+ #ifndef CONFIG_USER_ONLY
+ extern const VMStateDescription vmstate_alpha_cpu;
++
++void alpha_cpu_do_unaligned_access(CPUState *cpu, vaddr addr,
++                                   MMUAccessType access_type,
++                                   int mmu_idx, uintptr_t retaddr);
+ #endif
+ 
+ void alpha_cpu_do_interrupt(CPUState *cpu);
+@@ -282,9 +286,6 @@ void alpha_cpu_dump_state(CPUState *cs, FILE *f, int flags);
+ hwaddr alpha_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
+ int alpha_cpu_gdb_read_register(CPUState *cpu, GByteArray *buf, int reg);
+ int alpha_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
+-void alpha_cpu_do_unaligned_access(CPUState *cpu, vaddr addr,
+-                                   MMUAccessType access_type,
+-                                   int mmu_idx, uintptr_t retaddr);
+ 
+ #define cpu_list alpha_cpu_list
+ #define cpu_signal_handler cpu_alpha_signal_handler
+diff --git a/target/arm/internals.h b/target/arm/internals.h
+index 3614f6dd988..a31e56602f5 100644
+--- a/target/arm/internals.h
++++ b/target/arm/internals.h
+@@ -578,12 +578,12 @@ ARMMMUIdx arm_v7m_mmu_idx_for_secstate(CPUARMState *env, bool secstate);
+  * tables */
+ bool arm_s1_regime_using_lpae_format(CPUARMState *env, ARMMMUIdx mmu_idx);
+ 
++#if !defined(CONFIG_USER_ONLY)
+ /* Raise a data fault alignment exception for the specified virtual address */
+ void arm_cpu_do_unaligned_access(CPUState *cs, vaddr vaddr,
+                                  MMUAccessType access_type,
+                                  int mmu_idx, uintptr_t retaddr);
+ 
+-#if !defined(CONFIG_USER_ONLY)
+ /* arm_cpu_do_transaction_failed: handle a memory system error response
+  * (eg "no device/memory present at address") by raising an external abort
+  * exception
+diff --git a/target/microblaze/cpu.h b/target/microblaze/cpu.h
+index e4bba8a7551..348540c7640 100644
+--- a/target/microblaze/cpu.h
++++ b/target/microblaze/cpu.h
+@@ -357,9 +357,6 @@ struct MicroBlazeCPU {
+ 
+ void mb_cpu_do_interrupt(CPUState *cs);
+ bool mb_cpu_exec_interrupt(CPUState *cs, int int_req);
+-void mb_cpu_do_unaligned_access(CPUState *cs, vaddr vaddr,
+-                                MMUAccessType access_type,
+-                                int mmu_idx, uintptr_t retaddr);
+ void mb_cpu_dump_state(CPUState *cpu, FILE *f, int flags);
+ hwaddr mb_cpu_get_phys_page_attrs_debug(CPUState *cpu, vaddr addr,
+                                         MemTxAttrs *attrs);
+@@ -420,6 +417,10 @@ static inline void cpu_get_tb_cpu_state(CPUMBState *env, target_ulong *pc,
  }
-@@ -159,10 +159,10 @@ void cpu_exec_unrealizefn(CPUState *cpu)
-     CPUClass *cc = CPU_GET_CLASS(cpu);
  
- #ifdef CONFIG_USER_ONLY
--    assert(cc->vmsd == NULL);
-+    assert(cc->legacy_vmsd == NULL);
- #else
--    if (cc->vmsd != NULL) {
--        vmstate_unregister(NULL, cc->vmsd, cpu);
-+    if (cc->legacy_vmsd != NULL) {
-+        vmstate_unregister(NULL, cc->legacy_vmsd, cpu);
-     }
-     if (qdev_get_vmsd(DEVICE(cpu)) == NULL) {
-         vmstate_unregister(NULL, &vmstate_cpu_common, cpu);
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 4eb0d2f85c4..e9ad85dd706 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -1981,7 +1981,7 @@ static void arm_cpu_class_init(ObjectClass *oc, void *data)
- #ifndef CONFIG_USER_ONLY
-     cc->get_phys_page_attrs_debug = arm_cpu_get_phys_page_attrs_debug;
-     cc->asidx_from_attrs = arm_asidx_from_attrs;
--    cc->vmsd = &vmstate_arm_cpu;
-+    cc->legacy_vmsd = &vmstate_arm_cpu;
-     cc->virtio_is_big_endian = arm_cpu_virtio_is_big_endian;
-     cc->write_elf64_note = arm_cpu_write_elf64_note;
-     cc->write_elf32_note = arm_cpu_write_elf32_note;
-diff --git a/target/avr/cpu.c b/target/avr/cpu.c
-index 0f4596932ba..37a8ebcc86f 100644
---- a/target/avr/cpu.c
-+++ b/target/avr/cpu.c
-@@ -213,7 +213,7 @@ static void avr_cpu_class_init(ObjectClass *oc, void *data)
-     cc->set_pc = avr_cpu_set_pc;
-     cc->memory_rw_debug = avr_cpu_memory_rw_debug;
-     cc->get_phys_page_debug = avr_cpu_get_phys_page_debug;
--    cc->vmsd = &vms_avr_cpu;
-+    cc->legacy_vmsd = &vms_avr_cpu;
-     cc->disas_set_info = avr_cpu_disas_set_info;
-     cc->gdb_read_register = avr_cpu_gdb_read_register;
-     cc->gdb_write_register = avr_cpu_gdb_write_register;
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index c496bfa1c23..5a1c8ead8ed 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -6749,7 +6749,7 @@ static void x86_cpu_common_class_init(ObjectClass *oc, void *data)
-     cc->write_elf64_qemunote = x86_cpu_write_elf64_qemunote;
-     cc->write_elf32_note = x86_cpu_write_elf32_note;
-     cc->write_elf32_qemunote = x86_cpu_write_elf32_qemunote;
--    cc->vmsd = &vmstate_x86_cpu;
-+    cc->legacy_vmsd = &vmstate_x86_cpu;
+ #if !defined(CONFIG_USER_ONLY)
++
++void mb_cpu_do_unaligned_access(CPUState *cs, vaddr vaddr,
++                                MMUAccessType access_type,
++                                int mmu_idx, uintptr_t retaddr);
+ void mb_cpu_transaction_failed(CPUState *cs, hwaddr physaddr, vaddr addr,
+                                unsigned size, MMUAccessType access_type,
+                                int mmu_idx, MemTxAttrs attrs,
+diff --git a/target/mips/tcg/tcg-internal.h b/target/mips/tcg/tcg-internal.h
+index 81b14eb219e..11d98a717f2 100644
+--- a/target/mips/tcg/tcg-internal.h
++++ b/target/mips/tcg/tcg-internal.h
+@@ -23,9 +23,6 @@ bool mips_cpu_exec_interrupt(CPUState *cpu, int int_req);
+ bool mips_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+                        MMUAccessType access_type, int mmu_idx,
+                        bool probe, uintptr_t retaddr);
+-void mips_cpu_do_unaligned_access(CPUState *cpu, vaddr addr,
+-                                  MMUAccessType access_type,
+-                                  int mmu_idx, uintptr_t retaddr);
+ 
+ const char *mips_exception_name(int32_t exception);
+ 
+@@ -57,6 +54,9 @@ void mips_cpu_do_transaction_failed(CPUState *cs, hwaddr physaddr,
+                                     MMUAccessType access_type,
+                                     int mmu_idx, MemTxAttrs attrs,
+                                     MemTxResult response, uintptr_t retaddr);
++void mips_cpu_do_unaligned_access(CPUState *cpu, vaddr addr,
++                                  MMUAccessType access_type,
++                                  int mmu_idx, uintptr_t retaddr);
+ void cpu_mips_tlb_flush(CPUMIPSState *env);
+ 
  #endif /* !CONFIG_USER_ONLY */
+diff --git a/target/nios2/cpu.h b/target/nios2/cpu.h
+index 2ab82fdc713..aa7b5cc9e16 100644
+--- a/target/nios2/cpu.h
++++ b/target/nios2/cpu.h
+@@ -197,10 +197,11 @@ int cpu_nios2_signal_handler(int host_signum, void *pinfo, void *puc);
+ void dump_mmu(CPUNios2State *env);
+ void nios2_cpu_dump_state(CPUState *cpu, FILE *f, int flags);
+ hwaddr nios2_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
++#ifndef CONFIG_USER_ONLY
+ void nios2_cpu_do_unaligned_access(CPUState *cpu, vaddr addr,
+                                    MMUAccessType access_type,
+                                    int mmu_idx, uintptr_t retaddr);
+-
++#endif
+ void do_nios2_semihosting(CPUNios2State *env);
  
-     cc->gdb_arch_name = x86_gdb_arch_name;
-diff --git a/target/mips/cpu.c b/target/mips/cpu.c
-index 1ad2fe4aa33..eba56ac8996 100644
---- a/target/mips/cpu.c
-+++ b/target/mips/cpu.c
-@@ -561,7 +561,7 @@ static void mips_cpu_class_init(ObjectClass *c, void *data)
-     cc->gdb_write_register = mips_cpu_gdb_write_register;
- #ifndef CONFIG_USER_ONLY
-     cc->get_phys_page_debug = mips_cpu_get_phys_page_debug;
--    cc->vmsd = &vmstate_mips_cpu;
-+    cc->legacy_vmsd = &vmstate_mips_cpu;
- #endif
-     cc->disas_set_info = mips_cpu_disas_set_info;
-     cc->gdb_num_core_regs = 73;
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index d459e8427e2..16510da2597 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -638,7 +638,7 @@ static void riscv_cpu_class_init(ObjectClass *c, void *data)
-     cc->disas_set_info = riscv_cpu_disas_set_info;
- #ifndef CONFIG_USER_ONLY
-     cc->get_phys_page_debug = riscv_cpu_get_phys_page_debug;
--    cc->vmsd = &vmstate_riscv_cpu;
-+    cc->legacy_vmsd = &vmstate_riscv_cpu;
-     cc->write_elf64_note = riscv_cpu_write_elf64_note;
-     cc->write_elf32_note = riscv_cpu_write_elf32_note;
- #endif
-diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
-index 64455cf309a..7ce425f6111 100644
---- a/target/s390x/cpu.c
-+++ b/target/s390x/cpu.c
-@@ -516,7 +516,7 @@ static void s390_cpu_class_init(ObjectClass *oc, void *data)
-     cc->gdb_write_register = s390_cpu_gdb_write_register;
- #ifndef CONFIG_USER_ONLY
-     cc->get_phys_page_debug = s390_cpu_get_phys_page_debug;
--    cc->vmsd = &vmstate_s390_cpu;
-+    cc->legacy_vmsd = &vmstate_s390_cpu;
-     cc->get_crash_info = s390_cpu_get_crash_info;
-     cc->write_elf64_note = s390_cpu_write_elf64_note;
- #endif
-diff --git a/target/sparc/cpu.c b/target/sparc/cpu.c
-index aece2c7dc83..ba497561bfa 100644
---- a/target/sparc/cpu.c
-+++ b/target/sparc/cpu.c
-@@ -889,7 +889,7 @@ static void sparc_cpu_class_init(ObjectClass *oc, void *data)
-     cc->gdb_write_register = sparc_cpu_gdb_write_register;
- #ifndef CONFIG_USER_ONLY
-     cc->get_phys_page_debug = sparc_cpu_get_phys_page_debug;
--    cc->vmsd = &vmstate_sparc_cpu;
-+    cc->legacy_vmsd = &vmstate_sparc_cpu;
- #endif
-     cc->disas_set_info = cpu_sparc_disas_set_info;
+ #define CPU_RESOLVING_TYPE TYPE_NIOS2_CPU
+diff --git a/target/ppc/internal.h b/target/ppc/internal.h
+index 184ba6d6b3b..40b29bda75f 100644
+--- a/target/ppc/internal.h
++++ b/target/ppc/internal.h
+@@ -211,10 +211,12 @@ void helper_compute_fprf_float16(CPUPPCState *env, float16 arg);
+ void helper_compute_fprf_float32(CPUPPCState *env, float32 arg);
+ void helper_compute_fprf_float128(CPUPPCState *env, float128 arg);
  
-diff --git a/target/ppc/translate_init.c.inc b/target/ppc/translate_init.c.inc
-index 66e6a4a746f..f0f198e717f 100644
---- a/target/ppc/translate_init.c.inc
-+++ b/target/ppc/translate_init.c.inc
-@@ -10279,7 +10279,7 @@ static void ppc_cpu_class_init(ObjectClass *oc, void *data)
-     cc->gdb_write_register = ppc_cpu_gdb_write_register;
++#if !defined(CONFIG_USER_ONLY)
+ /* Raise a data fault alignment exception for the specified virtual address */
+ void ppc_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
+                                  MMUAccessType access_type,
+                                  int mmu_idx, uintptr_t retaddr);
++#endif
+ 
+ /* translate.c */
+ 
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index aa19d8f304e..2dd66401127 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -340,9 +340,6 @@ void riscv_cpu_set_force_hs_excep(CPURISCVState *env, bool enable);
+ bool riscv_cpu_two_stage_lookup(int mmu_idx);
+ int riscv_cpu_mmu_index(CPURISCVState *env, bool ifetch);
+ hwaddr riscv_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
+-void  riscv_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
+-                                    MMUAccessType access_type, int mmu_idx,
+-                                    uintptr_t retaddr);
+ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+                         MMUAccessType access_type, int mmu_idx,
+                         bool probe, uintptr_t retaddr);
+@@ -354,6 +351,9 @@ void riscv_cpu_list(void);
+ #define cpu_mmu_index riscv_cpu_mmu_index
+ 
  #ifndef CONFIG_USER_ONLY
-     cc->get_phys_page_debug = ppc_cpu_get_phys_page_debug;
--    cc->vmsd = &vmstate_ppc_cpu;
-+    cc->legacy_vmsd = &vmstate_ppc_cpu;
++void  riscv_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
++                                    MMUAccessType access_type, int mmu_idx,
++                                    uintptr_t retaddr);
+ void riscv_cpu_do_transaction_failed(CPUState *cs, hwaddr physaddr,
+                                      vaddr addr, unsigned size,
+                                      MMUAccessType access_type,
+diff --git a/target/s390x/internal.h b/target/s390x/internal.h
+index 11515bb6173..b65b2a402c3 100644
+--- a/target/s390x/internal.h
++++ b/target/s390x/internal.h
+@@ -269,9 +269,11 @@ bool s390_cpu_exec_interrupt(CPUState *cpu, int int_req);
+ bool s390_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+                        MMUAccessType access_type, int mmu_idx,
+                        bool probe, uintptr_t retaddr);
++#if !defined(CONFIG_USER_ONLY)
+ void s390x_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
+                                    MMUAccessType access_type,
+                                    int mmu_idx, uintptr_t retaddr);
++#endif
+ 
+ 
+ /* fpu_helper.c */
+diff --git a/target/sh4/cpu.h b/target/sh4/cpu.h
+index 01c43440822..e41337a101d 100644
+--- a/target/sh4/cpu.h
++++ b/target/sh4/cpu.h
+@@ -210,9 +210,6 @@ void superh_cpu_dump_state(CPUState *cpu, FILE *f, int flags);
+ hwaddr superh_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
+ int superh_cpu_gdb_read_register(CPUState *cpu, GByteArray *buf, int reg);
+ int superh_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
+-void superh_cpu_do_unaligned_access(CPUState *cpu, vaddr addr,
+-                                    MMUAccessType access_type,
+-                                    int mmu_idx, uintptr_t retaddr);
+ 
+ void sh4_translate_init(void);
+ int cpu_sh4_signal_handler(int host_signum, void *pinfo,
+@@ -240,6 +237,9 @@ uint32_t cpu_sh4_read_mmaped_utlb_data(CPUSH4State *s,
+                                        hwaddr addr);
+ void cpu_sh4_write_mmaped_utlb_data(CPUSH4State *s, hwaddr addr,
+                                     uint32_t mem_value);
++void superh_cpu_do_unaligned_access(CPUState *cpu, vaddr addr,
++                                    MMUAccessType access_type,
++                                    int mmu_idx, uintptr_t retaddr);
  #endif
- #if defined(CONFIG_SOFTMMU)
-     cc->write_elf64_note = ppc64_cpu_write_elf64_note;
+ 
+ int cpu_sh4_is_cached(CPUSH4State * env, target_ulong addr);
+diff --git a/target/sparc/cpu.h b/target/sparc/cpu.h
+index ff8ae73002a..60ff6306980 100644
+--- a/target/sparc/cpu.h
++++ b/target/sparc/cpu.h
+@@ -568,6 +568,11 @@ struct SPARCCPU {
+ 
+ #ifndef CONFIG_USER_ONLY
+ extern const VMStateDescription vmstate_sparc_cpu;
++
++void QEMU_NORETURN sparc_cpu_do_unaligned_access(CPUState *cpu, vaddr addr,
++                                                 MMUAccessType access_type,
++                                                 int mmu_idx,
++                                                 uintptr_t retaddr);
+ #endif
+ 
+ void sparc_cpu_do_interrupt(CPUState *cpu);
+@@ -575,10 +580,6 @@ void sparc_cpu_dump_state(CPUState *cpu, FILE *f, int flags);
+ hwaddr sparc_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
+ int sparc_cpu_gdb_read_register(CPUState *cpu, GByteArray *buf, int reg);
+ int sparc_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
+-void QEMU_NORETURN sparc_cpu_do_unaligned_access(CPUState *cpu, vaddr addr,
+-                                                 MMUAccessType access_type,
+-                                                 int mmu_idx,
+-                                                 uintptr_t retaddr);
+ void cpu_raise_exception_ra(CPUSPARCState *, int, uintptr_t) QEMU_NORETURN;
+ 
+ #ifndef NO_CPU_IO_DEFS
+diff --git a/target/xtensa/cpu.h b/target/xtensa/cpu.h
+index cbe9e5ff230..d08e60c673e 100644
+--- a/target/xtensa/cpu.h
++++ b/target/xtensa/cpu.h
+@@ -575,9 +575,6 @@ void xtensa_count_regs(const XtensaConfig *config,
+                        unsigned *n_regs, unsigned *n_core_regs);
+ int xtensa_cpu_gdb_read_register(CPUState *cpu, GByteArray *buf, int reg);
+ int xtensa_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
+-void xtensa_cpu_do_unaligned_access(CPUState *cpu, vaddr addr,
+-                                    MMUAccessType access_type,
+-                                    int mmu_idx, uintptr_t retaddr);
+ 
+ #define cpu_signal_handler cpu_xtensa_signal_handler
+ #define cpu_list xtensa_cpu_list
+@@ -671,6 +668,9 @@ static inline int xtensa_get_cring(const CPUXtensaState *env)
+ }
+ 
+ #ifndef CONFIG_USER_ONLY
++void xtensa_cpu_do_unaligned_access(CPUState *cpu, vaddr addr,
++                                    MMUAccessType access_type,
++                                    int mmu_idx, uintptr_t retaddr);
+ void xtensa_cpu_do_transaction_failed(CPUState *cs, hwaddr physaddr, vaddr addr,
+                                       unsigned size, MMUAccessType access_type,
+                                       int mmu_idx, MemTxAttrs attrs,
+diff --git a/target/arm/tlb_helper.c b/target/arm/tlb_helper.c
+index 3107f9823ef..9cd3cbeed51 100644
+--- a/target/arm/tlb_helper.c
++++ b/target/arm/tlb_helper.c
+@@ -108,6 +108,8 @@ static void QEMU_NORETURN arm_deliver_fault(ARMCPU *cpu, vaddr addr,
+     raise_exception(env, exc, syn, target_el);
+ }
+ 
++#if !defined(CONFIG_USER_ONLY)
++
+ /* Raise a data fault alignment exception for the specified virtual address */
+ void arm_cpu_do_unaligned_access(CPUState *cs, vaddr vaddr,
+                                  MMUAccessType access_type,
+@@ -123,8 +125,6 @@ void arm_cpu_do_unaligned_access(CPUState *cs, vaddr vaddr,
+     arm_deliver_fault(cpu, vaddr, access_type, mmu_idx, &fi);
+ }
+ 
+-#if !defined(CONFIG_USER_ONLY)
+-
+ /*
+  * arm_cpu_do_transaction_failed: handle a memory system error response
+  * (eg "no device/memory present at address") by raising an external abort
+diff --git a/target/microblaze/helper.c b/target/microblaze/helper.c
+index 20dbd673136..ae9c8e87a5a 100644
+--- a/target/microblaze/helper.c
++++ b/target/microblaze/helper.c
+@@ -271,23 +271,6 @@ hwaddr mb_cpu_get_phys_page_attrs_debug(CPUState *cs, vaddr addr,
+ 
+     return paddr;
+ }
+-#endif
+-
+-bool mb_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
+-{
+-    MicroBlazeCPU *cpu = MICROBLAZE_CPU(cs);
+-    CPUMBState *env = &cpu->env;
+-
+-    if ((interrupt_request & CPU_INTERRUPT_HARD)
+-        && (env->msr & MSR_IE)
+-        && !(env->msr & (MSR_EIP | MSR_BIP))
+-        && !(env->iflags & (D_FLAG | IMM_FLAG))) {
+-        cs->exception_index = EXCP_IRQ;
+-        mb_cpu_do_interrupt(cs);
+-        return true;
+-    }
+-    return false;
+-}
+ 
+ void mb_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
+                                 MMUAccessType access_type,
+@@ -316,3 +299,21 @@ void mb_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
+     cs->exception_index = EXCP_HW_EXCP;
+     cpu_loop_exit(cs);
+ }
++
++#endif
++
++bool mb_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
++{
++    MicroBlazeCPU *cpu = MICROBLAZE_CPU(cs);
++    CPUMBState *env = &cpu->env;
++
++    if ((interrupt_request & CPU_INTERRUPT_HARD)
++        && (env->msr & MSR_IE)
++        && !(env->msr & (MSR_EIP | MSR_BIP))
++        && !(env->iflags & (D_FLAG | IMM_FLAG))) {
++        cs->exception_index = EXCP_IRQ;
++        mb_cpu_do_interrupt(cs);
++        return true;
++    }
++    return false;
++}
+diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
+index f4f15279ebe..013728e0721 100644
+--- a/target/ppc/excp_helper.c
++++ b/target/ppc/excp_helper.c
+@@ -1523,7 +1523,6 @@ void helper_book3s_msgsndp(CPUPPCState *env, target_ulong rb)
+     book3s_msgsnd_common(pir, PPC_INTERRUPT_DOORBELL);
+ }
+ #endif
+-#endif
+ 
+ void ppc_cpu_do_unaligned_access(CPUState *cs, vaddr vaddr,
+                                  MMUAccessType access_type,
+@@ -1540,3 +1539,5 @@ void ppc_cpu_do_unaligned_access(CPUState *cs, vaddr vaddr,
+     env->error_code = insn & 0x03FF0000;
+     cpu_loop_exit(cs);
+ }
++
++#endif /* !CONFIG_USER_ONLY */
+diff --git a/target/sparc/ldst_helper.c b/target/sparc/ldst_helper.c
+index 22327d7d725..5097c535797 100644
+--- a/target/sparc/ldst_helper.c
++++ b/target/sparc/ldst_helper.c
+@@ -1957,9 +1957,7 @@ void sparc_cpu_do_transaction_failed(CPUState *cs, hwaddr physaddr,
+     sparc_raise_mmu_fault(cs, physaddr, is_write, is_exec,
+                           is_asi, size, retaddr);
+ }
+-#endif
+ 
+-#if !defined(CONFIG_USER_ONLY)
+ void QEMU_NORETURN sparc_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
+                                                  MMUAccessType access_type,
+                                                  int mmu_idx,
+@@ -1974,4 +1972,5 @@ void QEMU_NORETURN sparc_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
+ #endif
+     cpu_raise_exception_ra(env, TT_UNALIGNED, retaddr);
+ }
+-#endif
++
++#endif /* !CONFIG_USER_ONLY */
 -- 
 2.26.3
 
