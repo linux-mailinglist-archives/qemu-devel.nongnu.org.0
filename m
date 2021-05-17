@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D195F3822A0
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 03:58:05 +0200 (CEST)
-Received: from localhost ([::1]:57724 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEFDD3822A5
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 04:16:04 +0200 (CEST)
+Received: from localhost ([::1]:32976 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1liSWC-0003nK-W4
-	for lists+qemu-devel@lfdr.de; Sun, 16 May 2021 21:58:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44032)
+	id 1liSnb-0007Da-Ke
+	for lists+qemu-devel@lfdr.de; Sun, 16 May 2021 22:16:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46702)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1liSV2-0002Lj-6Z; Sun, 16 May 2021 21:56:52 -0400
-Received: from mail-yb1-xb35.google.com ([2607:f8b0:4864:20::b35]:43529)
+ id 1liSm2-0005zb-5V
+ for qemu-devel@nongnu.org; Sun, 16 May 2021 22:14:26 -0400
+Received: from mail-yb1-xb2a.google.com ([2607:f8b0:4864:20::b2a]:44627)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1liSV0-0001fh-2K; Sun, 16 May 2021 21:56:51 -0400
-Received: by mail-yb1-xb35.google.com with SMTP id e190so6436868ybb.10;
- Sun, 16 May 2021 18:56:49 -0700 (PDT)
+ id 1liSm0-0004Lv-Kj
+ for qemu-devel@nongnu.org; Sun, 16 May 2021 22:14:25 -0400
+Received: by mail-yb1-xb2a.google.com with SMTP id h202so6469012ybg.11
+ for <qemu-devel@nongnu.org>; Sun, 16 May 2021 19:14:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=MdUDeR4rnuS357cVYHKdFK/P4yJxsmHWbyyMRd5YlfQ=;
- b=qHstk+/8bDPk0TAP4B2Rb6rk6KZMT5WQzSFszow62/MCekNJsO3uQYqmcFMIM2Mch/
- c3FnYG/SL3tSlI3wWhATPbemsPfpMa63tfB9eOMg9HgK7vtFBccJwwG1xRxaVD4g4+hW
- 7vVPKWAXDYO9F5+ymJmhgYRozbUKBWQh0o6Rx0i1j3pto8loRvd6UOapsia9uk7krEAn
- n4H+pWrQ3ntOyKixs9yQLIDfSG8rJmVt9YYixgsboWRLY5ksR3G+piD3ys0AGNMI/D73
- GID6mlr86EW4xsnT5Ugu8cHDuGmZ69IlrqZ+QCYsIyoSqga971hJiHnprw8T/gsNul86
- exxw==
+ bh=AEBWnloMQ+VKqAqIZRZrNHaoTLZYErvLSFK5rGEC/UU=;
+ b=CcQVfKVdyw3Op3ifoIYhxQ4BfKOAnvJI+xbJ6Mvu2JK7Jl8HLQwrtGAfAKi6GBsmIB
+ YNjBu/BKDHB3vXOWuJraNnFi01/t6UftYJ0xiSg6t6kMfq6VQ0jXHvhwuKjLXedCKEh4
+ mNajZCyl8aUvZmbwLhEADjx3fUXxhLtuCgbKVhOjVtcbi2LnzGs95nlAKTAcWDlSuCSn
+ 86oNH9Jkjh2DdvBhxumMYnSbf22wgYa4kqLdW+06AVzY7u4G6X96gVxExEANr6KF4BLh
+ 3+UaXcDJiNjGlI/WfX8ox2TAiQn/pPsrmrWoSPfmNi0KTrFGU6fmdFYvlleT+QThBKts
+ XO0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=MdUDeR4rnuS357cVYHKdFK/P4yJxsmHWbyyMRd5YlfQ=;
- b=DoGBjTSFayE/lBOVvhTcJldoGjpUm/mBSNbQy6vYzsyl0HWSwYVeJ9N+F24ktIKqlw
- P1W+FfUbjxTlWCYCL9tVbsfxBplO7xs+2nXA24j68EOVl+Fzt8kkjOAGFuTsGDuew6rz
- 7Sh5rqz1wdQ5JFgmiuB4JaDp/F/ijcWSfolBeCXcig4mjWH4+ncnhdy9eJ1Qbj64OczC
- hEPkKyRXod741iLG84Sz1vwTa3l3+zpCF5MShlcgc1JaFSeL9IP7c7nIQ1c0cNYsEt6G
- hlQEOp78mLWLtUxmuoq+wlk0fwshvz+ohwq1FuRAtnrk5tnXsoi3izoj8MiduSzryV2S
- GSAQ==
-X-Gm-Message-State: AOAM531XwT0sbhWgMp6Yk3dBNk/L5pG8vqQt8M9fKsq27tva+W1mD+aF
- oiAhLD+aAwd/2jvarHYq2/pvNhPtpJadEGsGOUk=
-X-Google-Smtp-Source: ABdhPJwp4pqAE3F7V/6SCKHRPpoGLEPR5uRUWeN7JKZR1UxJEIbgllVxcA2d9m0yRRWmwNvCa9ok6ejB/rU5D8f6J0E=
-X-Received: by 2002:a25:e645:: with SMTP id d66mr48300489ybh.314.1621216608760; 
- Sun, 16 May 2021 18:56:48 -0700 (PDT)
+ bh=AEBWnloMQ+VKqAqIZRZrNHaoTLZYErvLSFK5rGEC/UU=;
+ b=q9rilOzuZuI84yImBgJnxQbFW6W0WNz4iCJta53PK4T3SsmeGNKWuYuTfhJk3MkY1m
+ j2jUwToMzcLbBKpAKDjgL/mjPdMgb0JBLZAJ/+SGT8PJIjHngsICNcSfRVHaFoLmjzdE
+ 6X5ktrCPmI7u8PocODT/8wRmOcOJ6+MDR1B2qq26QwJ7kr+cALQNPZOL8jOTZQFbLKuf
+ hau2hBBUp0t/rWD92aaJIJ2BqeQuXd+f70qDP2VngRW0LatvR2AcPkXzeblLlfuG+/I3
+ sysakpgDqNcSCvH08Y7jeHucxF+5aKUKR6/keWyqcESNLFVM+mcfU+5XdD4/uUYlv75l
+ sxXA==
+X-Gm-Message-State: AOAM530T4v40jxmc97A6PXWLkKhAoBWdov79R9AH/FqaNVMvAvdv9NwS
+ oWeHc1H/rAZsGH0S63mRW2yReBM/EIB+dmk99pk=
+X-Google-Smtp-Source: ABdhPJx1jXFpPcXi6GPZMs6jcUlZzZ/NWFSmjxex3N/MgEvqvng6ob6dj92XPM5N1livbpG29g/2Xjy90JgAwaDbGmQ=
+X-Received: by 2002:a25:99c1:: with SMTP id q1mr76282693ybo.517.1621217663450; 
+ Sun, 16 May 2021 19:14:23 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210513171244.3940519-1-f4bug@amsat.org>
-In-Reply-To: <20210513171244.3940519-1-f4bug@amsat.org>
+References: <20210511103502.2875844-1-f4bug@amsat.org>
+In-Reply-To: <20210511103502.2875844-1-f4bug@amsat.org>
 From: Bin Meng <bmeng.cn@gmail.com>
-Date: Mon, 17 May 2021 09:56:37 +0800
-Message-ID: <CAEUhbmXBcs9s6qfR_eTKgAfHvKaqc97T844HSR_BPEUtWDv5uw@mail.gmail.com>
-Subject: Re: [PATCH] hw/input/ps2: Use ps2_raise_irq() instead of open coding
- it
+Date: Mon, 17 May 2021 10:14:12 +0800
+Message-ID: <CAEUhbmVj-zmdXQYQ_HvPjt=apWw0sYwj5G0uXte16AuVzrmmQQ@mail.gmail.com>
+Subject: Re: [PATCH] Constify bitmask_transtbl fcntl/mmap flags_tlb[]
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b35;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb35.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2a;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -77,20 +78,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>,
- =?UTF-8?Q?Volker_R=C3=BCmelin?= <vr_qemu@t-online.de>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, May 14, 2021 at 1:26 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
+On Tue, May 11, 2021 at 6:51 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
 g> wrote:
 >
-> Inspired-by: Volker R=C3=BCmelin <vr_qemu@t-online.de>
+> Keep bitmask_transtbl in .rodata by marking the arrays const.
+>
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 > ---
->  hw/input/ps2.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
+>  linux-user/syscall.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 >
 
 Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
