@@ -2,73 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11F42383BD7
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 20:03:14 +0200 (CEST)
-Received: from localhost ([::1]:35586 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0ACFD383BFB
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 20:12:26 +0200 (CEST)
+Received: from localhost ([::1]:48390 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lihaD-0002IC-3W
-	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 14:03:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58048)
+	id 1lihj6-0002tO-Jd
+	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 14:12:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58550)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1lihWy-0000h5-Ei; Mon, 17 May 2021 13:59:54 -0400
-Received: from mga07.intel.com ([134.134.136.100]:52321)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1lihWu-0006nw-3y; Mon, 17 May 2021 13:59:52 -0400
-IronPort-SDR: frd+UpSCpnlYK6Df1Qbz4q3a5GGyg77wCC+H3sLndTRAv74f8W7a7mY2mwetVaDvyc1yrvyFV7
- DtOfmNBgdBYg==
-X-IronPort-AV: E=McAfee;i="6200,9189,9987"; a="264439752"
-X-IronPort-AV: E=Sophos;i="5.82,307,1613462400"; d="scan'208";a="264439752"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 May 2021 10:59:41 -0700
-IronPort-SDR: hm0BJ80/cQcEIViqhIVkNJ98ZAfnE48znb3ivKifruQ6YXZYAaQu4drUmjJ5p4iZMfs31F2JCC
- nQ1HVutzBeAw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,307,1613462400"; d="scan'208";a="541354400"
-Received: from fmsmsx605.amr.corp.intel.com ([10.18.126.85])
- by fmsmga001.fm.intel.com with ESMTP; 17 May 2021 10:59:41 -0700
-Received: from shsmsx603.ccr.corp.intel.com (10.109.6.143) by
- fmsmsx605.amr.corp.intel.com (10.18.126.85) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.4; Mon, 17 May 2021 10:59:40 -0700
-Received: from shsmsx605.ccr.corp.intel.com (10.109.6.215) by
- SHSMSX603.ccr.corp.intel.com (10.109.6.143) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.4; Tue, 18 May 2021 01:59:38 +0800
-Received: from shsmsx605.ccr.corp.intel.com ([10.109.6.215]) by
- SHSMSX605.ccr.corp.intel.com ([10.109.6.215]) with mapi id 15.01.2242.008;
- Tue, 18 May 2021 01:59:38 +0800
-From: "Zhang, Chen" <chen.zhang@intel.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: RE: [RFC PATCH] block/io.c: Flush parent for quorum in generic code
-Thread-Topic: [RFC PATCH] block/io.c: Flush parent for quorum in generic code
-Thread-Index: AQHXRwRWTNVVdZiii0S5yDXEQzCtqarg85QAgAb/hWA=
-Date: Mon, 17 May 2021 17:59:38 +0000
-Message-ID: <0ace87548ad04863ab080795069664d5@intel.com>
-References: <20210512074957.763711-1-chen.zhang@intel.com>
- <YJ026q2oFkTckc8u@stefanha-x1.localdomain>
-In-Reply-To: <YJ026q2oFkTckc8u@stefanha-x1.localdomain>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.5.1.3
-dlp-reaction: no-action
-x-originating-ip: [10.239.127.36]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lihZI-0002u5-5s
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 14:02:16 -0400
+Received: from mail-ot1-x336.google.com ([2607:f8b0:4864:20::336]:41844)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lihZC-0007iG-7Q
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 14:02:15 -0400
+Received: by mail-ot1-x336.google.com with SMTP id
+ 36-20020a9d0ba70000b02902e0a0a8fe36so6310238oth.8
+ for <qemu-devel@nongnu.org>; Mon, 17 May 2021 11:02:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=KCmaOQqQBkoxzhdjiJ1S1e9w7H8tcqvOCao6PsvgJOA=;
+ b=xnKLx7j7hQpqRyuoMt33ek2T8iZRH/ly/MN78ubdXbVDM3EAnaEjdjnd/Enuwx9GUv
+ 5NEGqLReI9zcFUPujlYs6ebza//Npflhp1HWjHA0JvnG0ZmOISvSqccTn5y1DB6QFXS0
+ n3TCRQ2knMjB1lBxVvThHFxK/oTa+wvhsZltjVMD2i02HIc/EJyYQsINvqN3HxH3eHf6
+ nwsIdzYKxT5oMLC8Bsz2u9jTigU8LL+RVi30LxoK/3X3ojfDQ7F8mmU/U3FLH7snD+J4
+ 86uh7XA3oEMcMsP8s7sj/jyL1PHPW2hvAJNYhW1TPEYPJ73Lyb2vPW8jSwI5ZDSdGmTC
+ VWWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=KCmaOQqQBkoxzhdjiJ1S1e9w7H8tcqvOCao6PsvgJOA=;
+ b=kHXBbPY+4ka4R3ccnZKewaEDN4NT6vxh4RKdxPc1h2sX1qXpt+uRMfEhwkumiqd4pe
+ fst31vLBq5MbEYtgM6+MxceuPIFCRuVmbuPQ7cNd8CV4Re4ohJBHYV+BFv8RyJ04Cgsm
+ SxIrODWDGdA8HL1/D91DyvxobQjzaW5FJNg5H0lbleTQ7BnkPaWjC0jmBrqS5kYh8bhF
+ R2T3iWplb3KDdn/UxpHRBs4vsOT4AUpnEgvx5BUMhDfXHnMj66GOebGDjoytti2fopX7
+ ovQJoyDNDsLT07ef1fFb4XqqkDnTyZutg2GgK3800dqBQ8lMGMMNCJUf5vYFPIW3eUc/
+ zdmg==
+X-Gm-Message-State: AOAM530Ldf8S83qeANmzlBVL1k3skiwuseJoml0X43Q2hwzo/XuzneF1
+ dmMppHGNOFcBl7W+F+gJ3qhSeg==
+X-Google-Smtp-Source: ABdhPJw353snyfzlArMGZSEIQyejSqFCn4dBQ/1VvSRpYjMzV6ccXcUSrSEm0m3+/YwQ9HH/+OODgg==
+X-Received: by 2002:a05:6830:1196:: with SMTP id
+ u22mr644436otq.247.1621274528012; 
+ Mon, 17 May 2021 11:02:08 -0700 (PDT)
+Received: from [172.16.22.144] ([45.235.253.15])
+ by smtp.gmail.com with ESMTPSA id f9sm1793642oig.31.2021.05.17.11.02.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 17 May 2021 11:02:07 -0700 (PDT)
+Subject: Re: [PATCH 09/11] include/exec: added functions to the stubs in
+ exec-all.h
+To: Lucas Mateus Martins Araujo e Castro <lucas.araujo@eldorado.org.br>,
+ David Gibson <david@gibson.dropbear.id.au>
+References: <20210512140813.112884-1-bruno.larsen@eldorado.org.br>
+ <20210512140813.112884-10-bruno.larsen@eldorado.org.br>
+ <c4b7cba3-eb5f-ff65-9376-da9dc8edf45f@linaro.org>
+ <f0fbb69b-76e9-c951-f18d-cfc4629f5f2a@eldorado.org.br>
+ <aad60a0c-1f07-24ab-821a-193047e4ad2e@linaro.org> <YKHpy53AwM8tTy3E@yekko>
+ <06d4250b-4d4a-42a6-47fa-f5b75ea6c499@eldorado.org.br>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <88f58334-8bae-a9bd-aac0-aa20d432595f@linaro.org>
+Date: Mon, 17 May 2021 13:02:04 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Received-SPF: pass client-ip=134.134.136.100;
- envelope-from=chen.zhang@intel.com; helo=mga07.intel.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <06d4250b-4d4a-42a6-47fa-f5b75ea6c499@eldorado.org.br>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::336;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x336.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,65 +95,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-block <qemu-block@nongnu.org>, qemu-dev <qemu-devel@nongnu.org>,
- Max Reitz <mreitz@redhat.com>, Zhang Chen <zhangckid@gmail.com>,
- Minghao Yuan <meeho@qq.com>
+Cc: farosas@linux.ibm.com, qemu-devel@nongnu.org, luis.pires@eldorado.org.br,
+ fernando.valle@eldorado.org.br, qemu-ppc@nongnu.org,
+ "Bruno Larsen \(billionai\)" <bruno.larsen@eldorado.org.br>,
+ matheus.ferst@eldorado.org.br
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogU3RlZmFuIEhham5vY3pp
-IDxzdGVmYW5oYUByZWRoYXQuY29tPg0KPiBTZW50OiBUaHVyc2RheSwgTWF5IDEzLCAyMDIxIDEw
-OjI2IFBNDQo+IFRvOiBaaGFuZywgQ2hlbiA8Y2hlbi56aGFuZ0BpbnRlbC5jb20+DQo+IENjOiBL
-ZXZpbiBXb2xmIDxrd29sZkByZWRoYXQuY29tPjsgTWF4IFJlaXR6IDxtcmVpdHpAcmVkaGF0LmNv
-bT47IEZhbQ0KPiBaaGVuZyA8ZmFtQGV1cGhvbi5uZXQ+OyBxZW11LWRldiA8cWVtdS1kZXZlbEBu
-b25nbnUub3JnPjsgcWVtdS0NCj4gYmxvY2sgPHFlbXUtYmxvY2tAbm9uZ251Lm9yZz47IFpoYW5n
-IENoZW4gPHpoYW5nY2tpZEBnbWFpbC5jb20+Ow0KPiBNaW5naGFvIFl1YW4gPG1lZWhvQHFxLmNv
-bT4NCj4gU3ViamVjdDogUmU6IFtSRkMgUEFUQ0hdIGJsb2NrL2lvLmM6IEZsdXNoIHBhcmVudCBm
-b3IgcXVvcnVtIGluIGdlbmVyaWMgY29kZQ0KPiANCj4gT24gV2VkLCBNYXkgMTIsIDIwMjEgYXQg
-MDM6NDk6NTdQTSArMDgwMCwgWmhhbmcgQ2hlbiB3cm90ZToNCj4gPiBGaXggdGhlIGlzc3VlIGZy
-b20gdGhpcyBwYXRjaDoNCj4gPiBbUEFUQ0hdIGJsb2NrOiBGbHVzaCBhbGwgY2hpbGRyZW4gaW4g
-Z2VuZXJpYyBjb2RlIEZyb20NCj4gPiA4ODM4MzNlMjljYjgwMGI0ZDkyYjVkNDczNjI1MmY0MDA0
-ODg1MTkxDQo+ID4NCj4gPiBRdW9ydW0gZHJpdmVyIGRvIG5vdCBoYXZlIHRoZSBwcmltYXJ5IGNo
-aWxkLg0KPiA+IEl0IHdpbGwgY2F1c2VkIGd1ZXN0IGJsb2NrIGZsdXNoIGlzc3VlIHdoZW4gdXNl
-IHF1b3J1bSBhbmQgTkJELg0KPiA+IFRoZSB2bSBndWVzdCBmbHVzaGVzIGZhaWxlZO+8jGFuZCB0
-aGVuIGd1ZXN0IGZpbGVzeXN0ZW0gaXMgc2h1dGRvd24uDQo+ID4NCj4gPiBTaWduZWQtb2ZmLWJ5
-OiBaaGFuZyBDaGVuIDxjaGVuLnpoYW5nQGludGVsLmNvbT4NCj4gPiBSZXBvcnRlZC1ieTogTWlu
-Z2hhbyBZdWFuIDxtZWVob0BxcS5jb20+DQo+ID4gLS0tDQo+ID4gIGJsb2NrL2lvLmMgfCAzMSAr
-KysrKysrKysrKysrKysrKysrKysrLS0tLS0tLS0tDQo+ID4gIDEgZmlsZSBjaGFuZ2VkLCAyMiBp
-bnNlcnRpb25zKCspLCA5IGRlbGV0aW9ucygtKQ0KPiAuLi4NCj4gPiArZmx1c2hfZGF0YToNCj4g
-PiArICAgIGlmIChub19wcmltYXJ5X2NoaWxkKSB7DQo+ID4gKyAgICAgICAgLyogRmx1c2ggcGFy
-ZW50ICovDQo+ID4gKyAgICAgICAgcmV0ID0gYnMtPmZpbGUgPyBiZHJ2X2NvX2ZsdXNoKGJzLT5m
-aWxlLT5icykgOiAwOw0KPiA+ICsgICAgfSBlbHNlIHsNCj4gPiArICAgICAgICAvKiBGbHVzaCBj
-aGlsZHJlbnMgKi8NCj4gPiArICAgICAgICByZXQgPSAwOw0KPiA+ICsgICAgICAgIFFMSVNUX0ZP
-UkVBQ0goY2hpbGQsICZicy0+Y2hpbGRyZW4sIG5leHQpIHsNCj4gPiArICAgICAgICAgICAgaWYg
-KGNoaWxkLT5wZXJtICYgKEJMS19QRVJNX1dSSVRFIHwNCj4gQkxLX1BFUk1fV1JJVEVfVU5DSEFO
-R0VEKSkgew0KPiA+ICsgICAgICAgICAgICAgICAgaW50IHRoaXNfY2hpbGRfcmV0ID0gYmRydl9j
-b19mbHVzaChjaGlsZC0+YnMpOw0KPiA+ICsgICAgICAgICAgICAgICAgaWYgKCFyZXQpIHsNCj4g
-PiArICAgICAgICAgICAgICAgICAgICByZXQgPSB0aGlzX2NoaWxkX3JldDsNCj4gPiArICAgICAg
-ICAgICAgICAgIH0NCj4gPiAgICAgICAgICAgICAgfQ0KPiA+ICAgICAgICAgIH0NCj4gDQo+IEkn
-bSBtaXNzaW5nIHNvbWV0aGluZzoNCj4gDQo+IFRoZSBxdW9ydW0gZHJpdmVyIGhhcyBhIHZhbGlk
-IGJzLT5jaGlsZHJlbiBsaXN0IGV2ZW4gdGhvdWdoIGl0IGRvZXMgbm90IGhhdmUgYQ0KPiBwcmlt
-YXJ5IGNoaWxkLiBXaHkgZG9lcyBRTElTVF9GT1JFQUNIKCkgbG9vcCBmYWlsIGZvciB5b3U/DQo+
-IA0KDQpZZXMsIGluIG1vc3QgY2FzZXMgUUxJU1RfRk9SRUFDSCgpIHdvcmtzIGZvciBtZS4NCkJ1
-dCBub3Qgd29yayB3aGVuIG9uZSBvZiB0aGUgY2hpbGQgZGlzY29ubmVjdGVkLCB0aGUgb3JpZ2lu
-YWwgcGF0Y2ggY2hhbmdlZA0KdGhlIGRlZmF1bHQgYmVoYXZpb3Igb2YgcXVvcnVtIGRyaXZlciB3
-aGVuIG9jY3VycyBpc3N1ZS4NCg0KRm9yIGV4YW1wbGU6DQpWTSBxdW9ydW0gZHJpdmVyIGhhdmUg
-dHdvIGNoaWxkcmVuLCBsb2NhbCBkaXNrMSBhbmQgTkJEIGRpc2syLg0KV2hlbiBuZXR3b3JrIGRv
-d24gYW5kIE5CRCBkaXNrMiBkaXNjb25uZWN0ZWQsIGN1cnJlbnQgY29kZSB3aWxsIHJlcG9ydCAN
-CiJldmVudCI6ICJRVU9SVU1fUkVQT1JUX0JBRCIgInR5cGUiOiAiZmx1c2giLCAiZXJyb3IiOiAi
-SW5wdXQvb3V0cHV0IGVycm9yIg0KQW5kDQoiZXZlbnQiOiAiQkxPQ0tfSU9fRVJST1IiICIjYmxv
-Y2swMDgiLCAicmVhc29uIjogIklucHV0L291dHB1dCBlcnJvciINCg0KVGhlIGd1ZXN0IGV2ZW4g
-Y2Fubm90IHJlYWQvd3JpdGUgdGhlIG5vcm1hbCBsb2NhbCBkaXNrMS4gVk0gSU8gd2lsbCBjcmFz
-aGVkIGNhdXNlZCBieSBOREIgZGlzazIgaW5wdXQvb3V0cHV0IGVycm9yLg0KSSB0aGluayB3ZSBk
-byBuZWVkIHJlcG9ydCB0aGUgZXZlbnQgYWJvdXQgd2UgbG9zZSBhIGNoaWxkKE5CRCBkaXNrMikg
-YXQgdGhpcyB0aW1lLCBidXQgbm8gbmVlZCBjcmFzaCBhbGwgSU8gc3lzdGVtLg0KQmVjYXVzZSB3
-ZSBjYW4gZml4IGl0IGJ5IHgtYmxvY2tkZXYtY2hhbmdlIGFuZCBkcml2ZV9hZGQvZHJpdmVfZGVs
-IGZvciBuZXcgY2hpbGRyZW4uIA0KQmVmb3JlIHRoZSBvcmlnaW5hbCBwYXRjaCg4ODM4MzNlMiks
-IFZNIHN0aWxsIGNhbiByZWFkL3dyaXRlIHRoZSBsb2NhbCBkaXNrMS4NCg0KVGhpcyBwYXRjaCBq
-dXN0IHRoZSBSRkMgdmVyc2lvbiwgcGxlYXNlIGdpdmUgbWUgbW9yZSBjb21tZW50cyB0byBmaXgg
-dGhpcyBpc3N1ZS4NCiANClRoYW5rcw0KQ2hlbg0KDQoNCj4gRG9lcyB0aGlzIHBhdGNoIGVmZmVj
-dGl2ZWx5IHNraXAgYmRydl9jb19mbHVzaCgpIGNhbGxzIG9uIGFsbCBxdW9ydW0gY2hpbGRyZW4/
-DQo+IFRoYXQgc2VlbXMgd3Jvbmcgc2luY2UgY2hpbGRyZW4gbmVlZCB0byBiZSBmbHVzaGVkIHNv
-IHRoYXQgZGF0YSBpcyBwZXJzaXN0ZWQuDQo+IA0KDQpZZXMsIA0KDQo+IFN0ZWZhbg0K
+On 5/17/21 11:59 AM, Lucas Mateus Martins Araujo e Castro wrote:
+> I'm not completely sure how this should be handled, there's a 
+> get_physical_address in mmu_helper.c but it's a static function and divided by 
+> processor families instead of MMU types, so get_physical_address_* should be a 
+> new function?
+> 
+> The new get_physical_address_* function would be a mmu-hash(32|64) that do 
+> something like ppc_radix64_xlate and add a function to mmu-book3s-v3 that call 
+> either the radix64 or the hash64 function and also handle real mode access.
+
+The entry points that we are concerned about are:
+   ppc_cpu_get_phys_page_debug
+   ppc_cpu_tlb_fill
+
+Currently there is a hook, pcc->handle_mmu_fault, which is used by 
+ppc_cpu_tlb_fill, but is insufficiently general.  We're going to remove that hook.
+
+We're going to add a new hook with the same interface as ppc_radix64_xlate that 
+will be used by both ppc_cpu_get_phys_page_debug and ppc_cpu_tlb_fill.
+
+> Also should the tlb_set_page calls in *_handle_mmu_fault be changed to 
+> ppc_cpu_tlb_fill or the function should themselves fill it?
+
+Only ppc_cpu_tlb_fill should call tlb_set_page.
+
+
+r~
 
