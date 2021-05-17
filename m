@@ -2,47 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E11DC383DD8
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 21:53:31 +0200 (CEST)
-Received: from localhost ([::1]:45442 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A552383DE3
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 21:55:01 +0200 (CEST)
+Received: from localhost ([::1]:48560 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lijIx-0007oX-1v
-	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 15:53:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58656)
+	id 1lijKO-0001WY-Jt
+	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 15:55:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58796)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
- id 1lijB2-0004dX-Ke
- for qemu-devel@nongnu.org; Mon, 17 May 2021 15:45:22 -0400
-Received: from mailout05.t-online.de ([194.25.134.82]:34054)
+ (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
+ id 1lijBr-0005Uv-1Z
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 15:46:11 -0400
+Received: from mailout02.t-online.de ([194.25.134.17]:47152)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
- id 1lijAy-00082A-Fl
- for qemu-devel@nongnu.org; Mon, 17 May 2021 15:45:20 -0400
-Received: from fwd08.aul.t-online.de (fwd08.aul.t-online.de [172.20.26.151])
- by mailout05.t-online.de (Postfix) with SMTP id F307B1A4FD;
- Mon, 17 May 2021 21:45:12 +0200 (CEST)
-Received: from [192.168.211.200]
- (bKAwcGZ-rh2OwkGaYRBVIiH9uG40w6MMBMZ-sCLXGxNzmWnsdvrnHGj2wfy5n23ZrL@[79.208.18.63])
- by fwd08.t-online.de
+ (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
+ id 1lijBp-0000LO-As
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 15:46:10 -0400
+Received: from fwd09.aul.t-online.de (fwd09.aul.t-online.de [172.20.27.151])
+ by mailout02.t-online.de (Postfix) with SMTP id F20BBF164;
+ Mon, 17 May 2021 21:46:04 +0200 (CEST)
+Received: from linpower.localnet
+ (bpmarGZXohy3MCWnQZRS-xfvn6rsNBbFXGDDjCkg8w7aMmqaqfJNI1CCK1l-3sRQjX@[79.208.18.63])
+ by fwd09.t-online.de
  with (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384 encrypted)
- esmtp id 1lijAn-4B9lku0; Mon, 17 May 2021 21:45:05 +0200
-From: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>
-Subject: [PATCH 0/4] Misc. audio patches
+ esmtp id 1lijBk-1mA0lE0; Mon, 17 May 2021 21:46:04 +0200
+Received: by linpower.localnet (Postfix, from userid 1000)
+ id 5A57E2000A0; Mon, 17 May 2021 21:46:04 +0200 (CEST)
+From: =?UTF-8?q?Volker=20R=C3=BCmelin?= <vr_qemu@t-online.de>
 To: Gerd Hoffmann <kraxel@redhat.com>
-Message-ID: <b461d71c-a062-b85d-378d-53c0b5857b52@t-online.de>
-Date: Mon, 17 May 2021 21:45:04 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+Subject: [PATCH 1/4] alsaaudio: remove #ifdef DEBUG to avoid bit rot
+Date: Mon, 17 May 2021 21:46:01 +0200
+Message-Id: <20210517194604.2545-1-vr_qemu@t-online.de>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <b461d71c-a062-b85d-378d-53c0b5857b52@t-online.de>
+References: <b461d71c-a062-b85d-378d-53c0b5857b52@t-online.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-ID: bKAwcGZ-rh2OwkGaYRBVIiH9uG40w6MMBMZ-sCLXGxNzmWnsdvrnHGj2wfy5n23ZrL
-X-TOI-EXPURGATEID: 150726::1621280705-0000AFFF-A9044183/0/0 CLEAN NORMAL
-X-TOI-MSGID: 07eb016c-3535-4d82-9960-f51215e44c7a
-Received-SPF: none client-ip=194.25.134.82; envelope-from=vr_qemu@t-online.de;
- helo=mailout05.t-online.de
+X-ID: bpmarGZXohy3MCWnQZRS-xfvn6rsNBbFXGDDjCkg8w7aMmqaqfJNI1CCK1l-3sRQjX
+X-TOI-EXPURGATEID: 150726::1621280764-00002D5B-B3131B7A/0/0 CLEAN NORMAL
+X-TOI-MSGID: 36fe0ee8-93e8-4fcd-ae6c-7e298ed45b94
+Received-SPF: none client-ip=194.25.134.17;
+ envelope-from=volker.ruemelin@t-online.de; helo=mailout02.t-online.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -65,28 +67,47 @@ Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A small collection of patches for the audio subsystem.
+Merge the #ifdef DEBUG code with the if statement a few lines
+above to avoid bit rot.
 
-It took me one evening to get a working audio system with JACK.
-I never associated the in-(NULL) and out-(NULL) devices in the
-patch bay with qemu.
+Suggested-by: Gerd Hoffmann <kraxel@redhat.com>
+Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
+---
+ audio/alsaaudio.c | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
 
-With best regards,
-Volker
-
-Volker Rümelin (4):
-   alsaaudio: remove #ifdef DEBUG to avoid bit rot
-   paaudio: remove unused stream flags
-   audio: move code to audio/audio.c
-   jackaudio: avoid that the client name contains the word (NULL)
-
-  audio/alsaaudio.c | 10 ++++------
-  audio/audio.c     |  9 +++++++++
-  audio/audio_int.h |  2 ++
-  audio/jackaudio.c |  3 +--
-  audio/paaudio.c   | 10 ++--------
-  5 files changed, 18 insertions(+), 16 deletions(-)
-
+diff --git a/audio/alsaaudio.c b/audio/alsaaudio.c
+index fcc2f62864..2b9789e647 100644
+--- a/audio/alsaaudio.c
++++ b/audio/alsaaudio.c
+@@ -34,6 +34,8 @@
+ #define AUDIO_CAP "alsa"
+ #include "audio_int.h"
+ 
++#define DEBUG_ALSA 0
++
+ struct pollhlp {
+     snd_pcm_t *handle;
+     struct pollfd *pfds;
+@@ -587,16 +589,12 @@ static int alsa_open(bool in, struct alsa_params_req *req,
+ 
+     *handlep = handle;
+ 
+-    if (obtfmt != req->fmt ||
+-         obt->nchannels != req->nchannels ||
+-         obt->freq != req->freq) {
++    if (DEBUG_ALSA || obtfmt != req->fmt ||
++        obt->nchannels != req->nchannels || obt->freq != req->freq) {
+         dolog ("Audio parameters for %s\n", typ);
+         alsa_dump_info(req, obt, obtfmt, apdo);
+     }
+ 
+-#ifdef DEBUG
+-    alsa_dump_info(req, obt, obtfmt, apdo);
+-#endif
+     return 0;
+ 
+  err:
 -- 
 2.26.2
 
