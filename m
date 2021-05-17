@@ -2,67 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECA0D383D3A
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 21:24:44 +0200 (CEST)
-Received: from localhost ([::1]:51726 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D1F2383D09
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 21:16:30 +0200 (CEST)
+Received: from localhost ([::1]:56074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1liir6-0004fQ-0n
-	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 15:24:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49076)
+	id 1liij7-00053B-2t
+	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 15:16:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46702)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1liidy-0007uw-DX
- for qemu-devel@nongnu.org; Mon, 17 May 2021 15:11:10 -0400
-Received: from indium.canonical.com ([91.189.90.7]:54090)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1liiW3-0000Gu-0Z
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 15:02:59 -0400
+Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534]:37474)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1liidu-0003T0-Nd
- for qemu-devel@nongnu.org; Mon, 17 May 2021 15:11:10 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1liidp-0007Sc-Kv
- for <qemu-devel@nongnu.org>; Mon, 17 May 2021 19:11:01 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id A05C12E821F
- for <qemu-devel@nongnu.org>; Mon, 17 May 2021 19:10:50 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1liiVw-0006oB-5R
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 15:02:55 -0400
+Received: by mail-ed1-x534.google.com with SMTP id f1so8174602edt.4
+ for <qemu-devel@nongnu.org>; Mon, 17 May 2021 12:02:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Dc/uVxtGEsmWH51jmQ0+qJMZNzXGxQ9tLIwrv0+DYhs=;
+ b=SAT598vBQ7iAUaROYDYcsx2xs7ysScm5MHXK9T1BwESZQVconOelQ5eKX/YMY0PQYK
+ Omh2rVQMyN2ecrp4uBUR1+/AHC0TuVMGdrpnOL6ac0zjuOcwkzXon3CD0eXkmab4w2dv
+ +Nuz7rItU349b4v1vE4SOf/3g+hRyoqSFUMfqVbED4ZUbhoCTsAtyLcAuwYTd90g5LFn
+ +RW5tdQrOv5VjzNcZNJyJgnPnI75ubdLi8TJslWCj4N6FCMbuxHG+8+YCIYxhC+Ox8Vi
+ yV8i4J9BUJamaeYruqoY9po+SR7kxRJ4mdZf/db7Z8VSoZXw3UgJvIcRP1XOQ9vyZKWf
+ 4Qew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Dc/uVxtGEsmWH51jmQ0+qJMZNzXGxQ9tLIwrv0+DYhs=;
+ b=R+ZTlZeD0d5tDU2wu2BrD4iS/Dkt1bfdnt7bqix1Mv5+bU5xPVxcE7M6LIYBXwpDfV
+ 3ZGyCVI/hsghxqKf/ti4+R/EEQ85RiXKVaFlxejf7XBHbjHlM3XnO8aZhp+aDJ+pL5sa
+ O6GEMmiBSPnVUCvG598zu9xAGPPV+e6QGfvbCkmYTMwLjU/N2Zt/76rYX5T2TL6ZwCPC
+ cmwVlJTg5HGJnG0hewcKMPZ33+h/tI2dXDFiK3rTiJQxJQEV4yXuqNaMK/EDVMLhvk9S
+ 9JEbr/Tg4sXAIiOBzOJEuIhlKt+N9fa3AAhEU8AUVKNPZciWn2PfBIwSV0a9FZXdyfZr
+ Aftg==
+X-Gm-Message-State: AOAM530Q0osytQ5mrzSvj3Xs38NP8Vl8b0Kj5e97IiHyb4ssDANcOiXi
+ mVPIxlNbvweCltG1Gn9DUjSYkqXDx7W5LF7G32QwRLRQaeE=
+X-Google-Smtp-Source: ABdhPJxsz0s3AlRb6PkmCl58aH6egNgr06p5oK7/8bxsVbNhwMjVsoOl8wQcZgJT2nOOoPgN+AvVn5RQ9+mOlAMHKCI=
+X-Received: by 2002:a05:6402:416:: with SMTP id
+ q22mr1864461edv.204.1621278170596; 
+ Mon, 17 May 2021 12:02:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 17 May 2021 18:58:20 -0000
-From: Thomas Huth <1885350@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: alistair2323 rpvrverve453-4tr5t34t5 th-huth
-X-Launchpad-Bug-Reporter: Mina Magdy (rpvrverve453-4tr5t34t5)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <159323684589.25927.6403829131374464357.malonedeb@gac.canonical.com>
-Message-Id: <162127790057.2101.4245540364667007672.malone@wampee.canonical.com>
-Subject: [Bug 1885350] Re: RISCV dynamic rounding mode is not behaving
- correctly
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="5321c3f40fa4d4b847f4e47fb766e7b95ed5036c"; Instance="production"
-X-Launchpad-Hash: 20e545b25e7eaa406ed515c1030f188fe1efb341
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20210515100335.1245468-1-laurent@vivier.eu>
+In-Reply-To: <20210515100335.1245468-1-laurent@vivier.eu>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 17 May 2021 20:02:35 +0100
+Message-ID: <CAFEAcA8YLicpSrHE24ZhjmJ8GrJFMNAax8pTT3C_hduLf2be-Q@mail.gmail.com>
+Subject: Re: [PULL 00/16] Trivial branch for 6.1 patches
+To: Laurent Vivier <laurent@vivier.eu>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::534;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x534.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,70 +77,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1885350 <1885350@bugs.launchpad.net>
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>, Michael Tokarev <mjt@tls.msk.ru>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The QEMU project is currently moving its bug tracking to another system.
-Is there still anything left to do here? If so, please provide the test cas=
-e and switch the state back to "New" or "Confirmed", or open a new ticket i=
-n the new bug tracker here: https://gitlab.com/qemu-project/qemu/-/issues
+On Sat, 15 May 2021 at 11:07, Laurent Vivier <laurent@vivier.eu> wrote:
+>
+> The following changes since commit 3e9f48bcdabe57f8f90cf19f01bbbf3c86937267:
+>
+>   Merge remote-tracking branch 'remotes/alistair/tags/pull-riscv-to-apply-20210511' into staging (2021-05-12 17:31:52 +0100)
+>
+> are available in the Git repository at:
+>
+>   git://github.com/vivier/qemu.git tags/trivial-branch-for-6.1-pull-request
+>
+> for you to fetch changes up to 29f9c636894c462fa54fad08049e51877905e93b:
+>
+>   target/avr: Ignore unimplemented WDR opcode (2021-05-13 19:18:42 +0200)
+>
+> ----------------------------------------------------------------
+> Pull request trivial-branch 20210515
+>
+> ----------------------------------------------------------------
 
-** Changed in: qemu
-     Assignee: Alistair Francis (alistair2323) =3D> (unassigned)
 
--- =
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1885350
+Applied, thanks.
 
-Title:
-  RISCV dynamic rounding mode is not behaving correctly
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.1
+for any user-visible changes.
 
-Status in QEMU:
-  Incomplete
-
-Bug description:
-  Hello,
-
-  I=E2=80=99ve gone through the RISC-V code in latest QEMU release
-  (qemu-5.0.0-rc2) and when checking the Floating point encodings I
-  found the rounding mode is only updated if the opcode field =E2=80=9Crm=
-=E2=80=9D is
-  changed =E2=80=9Cctx->frm =3D=3D rm=E2=80=9D. But according to RISC-V Vol=
-ume I:
-  Unprivileged ISA, there=E2=80=99s a dynamic mode when rm=3D7 where the ro=
-unding
-  mode is set with frm value.
-
-  So for the same rm value (=3D7) and when changing frm value seeking
-  different rounding modes, and according to the below code, the
-  rounding mode won=E2=80=99t be updated. Please correct me if I got this
-  implementation wrong.
-
-  static void gen_set_rm(DisasContext *ctx, int rm)
-  {
-      TCGv_i32 t0;
-      if (ctx->frm =3D=3D rm) {
-          return;
-      }
-      ctx->frm =3D rm;
-      t0 =3D tcg_const_i32(rm);
-      gen_helper_set_rounding_mode(cpu_env, t0);
-      tcg_temp_free_i32(t0);
-  }
-
-  =
-
-  My testcase:
-  I set statically the rm field in the instruction to 7 and before this exe=
-cution I changed the value of frm field in fcsr register. For the 1st time =
-it worked (according to the code above, the rm is updated so the round mode=
- will also be updated). But when changing fcsr register an re-execute the i=
-nstruction, there's no difference and the rounding mode is the same like th=
-e previous frm value.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1885350/+subscriptions
+-- PMM
 
