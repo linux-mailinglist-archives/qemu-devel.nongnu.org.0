@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CE5E3822D0
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 04:34:57 +0200 (CEST)
-Received: from localhost ([::1]:36146 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B21843822DE
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 04:48:23 +0200 (CEST)
+Received: from localhost ([::1]:40222 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1liT5s-0001jt-2H
-	for lists+qemu-devel@lfdr.de; Sun, 16 May 2021 22:34:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49248)
+	id 1liTIs-0005Rw-B6
+	for lists+qemu-devel@lfdr.de; Sun, 16 May 2021 22:48:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51398)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1liT4s-0000dS-Aq; Sun, 16 May 2021 22:33:54 -0400
-Received: from mail-yb1-xb34.google.com ([2607:f8b0:4864:20::b34]:41527)
+ (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
+ id 1liTHb-0004bi-IQ; Sun, 16 May 2021 22:47:03 -0400
+Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436]:46803)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1liT4q-0006ks-P3; Sun, 16 May 2021 22:33:54 -0400
-Received: by mail-yb1-xb34.google.com with SMTP id l7so6529005ybf.8;
- Sun, 16 May 2021 19:33:51 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
+ id 1liTHZ-0006af-Q2; Sun, 16 May 2021 22:47:03 -0400
+Received: by mail-pf1-x436.google.com with SMTP id q2so3934060pfh.13;
+ Sun, 16 May 2021 19:47:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=V7wEQKqwQ5OwwmeDdQ+DZv3iAllQc9fyfYQrfy4q71E=;
- b=OaFMee8tVZKlExJiEatUiFTa4bRH69+wmMUkGRoEmNFxdidcCVi9EUqS7ue5KMyoux
- ZIeMCbioyMft8Xh3hkjdDAzXoYUA9dhdJVoz0WB4MYe8zXre/lBKEV70eYusYKcgQIcL
- Orjg43K9WbVNzsyMZY+GBz9XcKKaqQPRUaiR9nCN6wCdCuu8AaRbyAe7dVLy8CbGSJ2y
- sGOHEQp18c0TZ55AjNQvqzDORllw3JOTyY84DfZwbXj4k6OcNIjmYIdQSKuPMkjaMe4q
- QzbLm8lAg/ppdbNBHStx20jEmjSUytvRNFVK2ZLgBY3bwQ1+KW8JFdTZHfcO+IMwyJ/j
- UMWw==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=0Jk0cKPBs6zBNYJ8PHbQgjtBfcBZqoDnsYAxiX+pq6k=;
+ b=OfaY3NjrUoXkoQdGq/FhvAKnyrdLl85wk0uAV0mwBe1NrB8LMgHmohbWEPG9ADsRfH
+ 5bykQZRiQDrkTA2nPqMs2ZjeiY/hJQGFIHdnERFhKm02nRAPOP+AwPDTia6Yk6ROnbre
+ Z6AEoSm2RqoBRSGu/BcOCa0Raxan0+KNx59lcg8DPJ9wz4jKBzgQPZ/s50xf/GmsPzgW
+ r0vNfCMZPa8wfBSbKH8b+HQ+snGzCP8+0Zu+kbM2cXGtuphKPkX/OdZu3rmT1dwbitKV
+ BZXnQZVfZeX59S4RJ5HOs+rExjGn+o3UfI6sNhkVxE56/nDZGuRY/ptn+xUsyaU72YRP
+ VsNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=V7wEQKqwQ5OwwmeDdQ+DZv3iAllQc9fyfYQrfy4q71E=;
- b=m4/omGaHdgmkZ9wIyYHlQfqExNJAfyj/pJxtsNCyMcPDQr9xr0KKBCq53dv6H9nKvW
- NUhU/ShZgxQ1kzEeT3Phba0DYOp6MZjQ3lzmlyOX0Q2ogivwcfMi1wL0hGfu68tU2iGj
- C2vmgP5UL7RoH1G7r8tVBpRlqrgisSOKCqueihUkH7ekYWCe9Q3yH0CiqBRZNpuuBXYd
- l5HsTL4XksvhNtLFXwanDj6FPxUJEyeIt1kucIQgHSsFFq03fe70XH20FKWIa5i1cECW
- L+oGZ+h8DVcDU+VJE0OPsXTyo8dDAm4M8PQiDiZBZdEPLZ4p3DhYZd9wuoWmH7TLYmur
- 55Sg==
-X-Gm-Message-State: AOAM531B3Gv4mF9W5VrDaycuDBe04GkpqFDOQ1ySFns7xEGo5jh1jyWq
- BDvRgM/G+pBncL9LWUMlSo9Jd8TMDe96ry+/Y3Y=
-X-Google-Smtp-Source: ABdhPJzLl2Jw72lxHtZWF0L2mEb/j2OekdEF6PBYwnXGYYIlpq9eU21SYITbzwvau9pP9ze0rb+j5Bi9/v4rOahkNpw=
-X-Received: by 2002:a05:6902:1543:: with SMTP id
- r3mr46586081ybu.332.1621218830803; 
- Sun, 16 May 2021 19:33:50 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=0Jk0cKPBs6zBNYJ8PHbQgjtBfcBZqoDnsYAxiX+pq6k=;
+ b=AG1GEUddldl1It+DlbOhaBui4LSH1vuGDDONbPf1mEDfRJkC0RWY6bAEtIKpmfXSd2
+ t2FGLJgIMpGAQEnCcDt1vlsHAh1QX7JHbfceTs0WUjyv2jwEKjDI3DG7RVOjljqrEKFq
+ dTlXZzJVKFFDYqhqEkNagpYR9j3SQcJwNS4TxsWmvI6WmfuOFxIXA7cBgI4d5/sJhL/S
+ QLNL/8ljpMLECID82cfejOEJshZHqpI9PGivYLmG6dnO7zmCE9f+3klU1q2R/rC56tka
+ O4cjl6tH41ZdEe1fD3iPwpjGmSf3uMoRJH3KQwKl0og6+e5JNT9zIAQKRVn9wXTJ0NLc
+ yx1w==
+X-Gm-Message-State: AOAM532HkMAbqt9rC8XIIvoQBxoRCTsNizaDrKbA+qUTHJQrdoZgBNID
+ pqWr9n23JDJRhosvgaZ4FUcvRCmoqVU=
+X-Google-Smtp-Source: ABdhPJyZtgXARWAQUMp4EYQpgWJuYdrlAxP7mUUCO9YBPn8tcqy3D1XxZ+Pl/llcVyqV5QHjtQ+12Q==
+X-Received: by 2002:a63:dc57:: with SMTP id f23mr57468394pgj.294.1621219619194; 
+ Sun, 16 May 2021 19:46:59 -0700 (PDT)
+Received: from bobo.ozlabs.ibm.com (14-201-155-8.tpgi.com.au. [14.201.155.8])
+ by smtp.gmail.com with ESMTPSA id
+ l6sm8938955pgc.68.2021.05.16.19.46.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 16 May 2021 19:46:58 -0700 (PDT)
+From: Nicholas Piggin <npiggin@gmail.com>
+To: qemu-ppc@nongnu.org
+Subject: [PATCH] target/ppc: Implement ISA v3.1 wait variants
+Date: Mon, 17 May 2021 12:46:51 +1000
+Message-Id: <20210517024651.2200837-1-npiggin@gmail.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-References: <20210515173716.358295-1-philmd@redhat.com>
- <20210515173716.358295-2-philmd@redhat.com>
-In-Reply-To: <20210515173716.358295-2-philmd@redhat.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Mon, 17 May 2021 10:33:39 +0800
-Message-ID: <CAEUhbmVYC6BE5En83KdujZu7uEbg4DKgNiz0MRUeWVAM7KdWiA@mail.gmail.com>
-Subject: Re: [PATCH v2 01/12] hw/mem/nvdimm: Use Kconfig 'imply' instead of
- 'depends on'
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b34;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb34.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
+ envelope-from=npiggin@gmail.com; helo=mail-pf1-x436.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -79,43 +79,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Eduardo Habkost <ehabkost@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Bin Meng <bin.meng@windriver.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Greg Kurz <groug@kaod.org>, qemu-arm <qemu-arm@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>,
- Igor Mammedov <imammedo@redhat.com>, qemu-ppc <qemu-ppc@nongnu.org>,
+Cc: qemu-devel@nongnu.org, Nicholas Piggin <npiggin@gmail.com>,
  David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, May 16, 2021 at 1:37 AM Philippe Mathieu-Daud=C3=A9
-<philmd@redhat.com> wrote:
->
-> Per the kconfig.rst:
->
->   A device should be listed [...] ``imply`` if (depending on
->   the QEMU command line) the board may or  may not be started
->   without it.
->
-> This is the case with the NVDIMM device (it is certainly possible
-> to start a machine without NVDIMM) , so use the 'imply' weak
-> reverse dependency to select the symbol.
->
-> Acked-by: Paolo Bonzini <pbonzini@redhat.com>
-> Acked-by: David Gibson <david@gibson.dropbear.id.au>
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> ---
->  default-configs/devices/ppc64-softmmu.mak | 1 -
->  hw/arm/Kconfig                            | 1 +
->  hw/i386/Kconfig                           | 1 +
->  hw/mem/Kconfig                            | 2 --
->  hw/ppc/Kconfig                            | 1 +
->  5 files changed, 3 insertions(+), 3 deletions(-)
->
+ISA v3.1 adds new variations of wait, specified by the WC field. These
+are not compatible with the wait 0 implementation, because they add
+additional conditions that cause the processor to resume, which can
+cause software to hang or run very slowly.
 
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+Add the new wait variants with a trivial no-op implementation, which is
+allowed, as explained in comments: software must not depend on any
+particular architected WC condition having caused resumption of
+execution, therefore a no-op implementation is architecturally correct.
+
+Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
+---
+Implementing cpu_relax() in Linux with wait 2,0 (pause_short) causes a
+hang on boot without this patch.
+
+ target/ppc/translate.c | 39 +++++++++++++++++++++++++++++++++------
+ 1 file changed, 33 insertions(+), 6 deletions(-)
+
+diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+index a6381208a5..80db450cab 100644
+--- a/target/ppc/translate.c
++++ b/target/ppc/translate.c
+@@ -3619,12 +3619,39 @@ static void gen_sync(DisasContext *ctx)
+ /* wait */
+ static void gen_wait(DisasContext *ctx)
+ {
+-    TCGv_i32 t0 = tcg_const_i32(1);
+-    tcg_gen_st_i32(t0, cpu_env,
+-                   -offsetof(PowerPCCPU, env) + offsetof(CPUState, halted));
+-    tcg_temp_free_i32(t0);
+-    /* Stop translation, as the CPU is supposed to sleep from now */
+-    gen_exception_nip(ctx, EXCP_HLT, ctx->base.pc_next);
++    uint32_t wc = (ctx->opcode >> 21) & 3;
++
++    /*
++     * wait 0 waits for an exception to occur.
++     */
++    if (wc == 0) {
++        TCGv_i32 t0 = tcg_const_i32(1);
++        tcg_gen_st_i32(t0, cpu_env,
++                       -offsetof(PowerPCCPU, env) + offsetof(CPUState, halted));
++        tcg_temp_free_i32(t0);
++        /* Stop translation, as the CPU is supposed to sleep from now */
++        gen_exception_nip(ctx, EXCP_HLT, ctx->base.pc_next);
++    }
++
++    /*
++     * Other wait types must not wait until an exception occurs because
++     * ignoring their other wake-up conditions could cause a hang.
++     *
++     * wait 1 (waitrsv) waits for an exception or a reservation to be lost.
++     * This can happen for implementation specific reasons, so it can be
++     * implemented as a no-op.
++     *
++     * wait 2 waits for an exception or an amount of time to pass. This is
++     * implementation specific so it can be implemented as a no-op.
++     *
++     * wait 3 is reserved, so it may be implemented as a no-op.
++     *
++     * ISA v3.1 does allow for execution to resume "in the rare case of
++     * an implementation-dependent event", so in any case software must
++     * not depend on the architected resumption condition to become
++     * true, so no-op implementations are architecturally correct (if
++     * suboptimal).
++     */
+ }
+ 
+ #if defined(TARGET_PPC64)
+-- 
+2.23.0
+
 
