@@ -2,55 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD3C9382B35
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 13:36:40 +0200 (CEST)
-Received: from localhost ([::1]:57964 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BB4F382B55
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 13:40:46 +0200 (CEST)
+Received: from localhost ([::1]:42030 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1libY7-0004j2-8z
-	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 07:36:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60102)
+	id 1libc5-00060K-LF
+	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 07:40:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33620)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bruno.larsen@eldorado.org.br>)
- id 1lib60-0003Ej-Q3; Mon, 17 May 2021 07:07:37 -0400
-Received: from [201.28.113.2] (port=11165 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bruno.larsen@eldorado.org.br>)
- id 1lib5u-0006Su-Hk; Mon, 17 May 2021 07:07:36 -0400
-Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Mon, 17 May 2021 08:07:24 -0300
-Received: from [127.0.0.1] (unknown [10.10.71.235])
- by power9a (Postfix) with ESMTPS id 7F85F8000C2;
- Mon, 17 May 2021 08:07:24 -0300 (-03)
-Subject: Re: [PATCH 09/11] include/exec: added functions to the stubs in
- exec-all.h
-To: David Gibson <david@gibson.dropbear.id.au>,
- Lucas Mateus Martins Araujo e Castro <lucas.araujo@eldorado.org.br>
-References: <20210512140813.112884-1-bruno.larsen@eldorado.org.br>
- <20210512140813.112884-10-bruno.larsen@eldorado.org.br>
- <c4b7cba3-eb5f-ff65-9376-da9dc8edf45f@linaro.org>
- <f0fbb69b-76e9-c951-f18d-cfc4629f5f2a@eldorado.org.br>
- <YKHpSU6Kbtj+C4o0@yekko>
-From: Bruno Piazera Larsen <bruno.larsen@eldorado.org.br>
-Message-ID: <92660b00-e2a4-056b-0a66-e729f502cc19@eldorado.org.br>
-Date: Mon, 17 May 2021 08:07:24 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lib9p-0003v6-FC
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 07:11:33 -0400
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:43864)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lib9l-0000Sn-Vu
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 07:11:33 -0400
+Received: by mail-wm1-x32c.google.com with SMTP id
+ b19-20020a05600c06d3b029014258a636e8so3347635wmn.2
+ for <qemu-devel@nongnu.org>; Mon, 17 May 2021 04:11:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=KsOd4cFGdpWMT1est35/VbB1+PKurYa2ah3FsZXq+ZU=;
+ b=UosgpI6v/evula3iHdrKnoUMdOyBKCaZghtIgUeBSXIoI49UE93NT09csovTgeRQyt
+ CL1Bhz8kOoYJouRrQKxVCAqhDa+iINdbY3c7aYpQV+bJniVE7Gcf+OtPTuDZfjdpoqts
+ eFOcbPAg6XAIpLEy/mM1O953dJACMzpXRkIXYXvEfA7GUrIKzWm8hd+SDB+1e7mbcbnf
+ C75X+iBUI5MC2v4o4lTq0xzCzABR2H6La8CWK3joEwQaL+cL9quSQXQhP0Ibal9wlXeJ
+ yGQAkfdWq6+YdzprK8CYiqbDrFhPAqhnxDg4uU/xc+ni6lM6a8NmSJmUhZcTbIIEmW0A
+ eIrg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=KsOd4cFGdpWMT1est35/VbB1+PKurYa2ah3FsZXq+ZU=;
+ b=lf5sXkNO/u+BAwWhkFPtqHvT1trbduQQpuIxWVVurRWPn9zQMLXv8eETltFlRPmMBx
+ DYtukRurcfrG41GmWP3cE6zAqwRyTmtlITLOj4ienkhy43hxK34aYBZLT1J9KlD73izX
+ sd9mRVj0U6x6iJ+hFNt+ad+0Nlv08dCc+Q+VhXH3Ochj4ooUb1DNyMxAMuf3hnYpaB+/
+ Oax77FUdSvdqQdf65K0O9wcEcOsCoRD2adsBdXE3FU5o5dUqMHBGM8/QW+/WKsQlWiBl
+ lYmqheD8K3fjwa1C6ygpb95L04QPcT5AiMlKfYEta6fhzTmFvF3rgntgjo45B4P2eb0q
+ QayQ==
+X-Gm-Message-State: AOAM532hbi6Zk1wPYYPQjxQ+ssoHYv9wGT9QLZqhx+ddgCGcFKcc02vR
+ UprBP+5ZdD0QWxwEbWAdgazEac8m6F2PpQ==
+X-Google-Smtp-Source: ABdhPJzEHqkIAhICNMdGYAVyEbl8cbr1w2U5cmscVYs3PFaUcNOGNhBllSO5ZhIrwLmibIyJAdQLvw==
+X-Received: by 2002:a1c:5582:: with SMTP id j124mr28476733wmb.0.1621249888171; 
+ Mon, 17 May 2021 04:11:28 -0700 (PDT)
+Received: from localhost.localdomain (31.red-83-51-215.dynamicip.rima-tde.net.
+ [83.51.215.31])
+ by smtp.gmail.com with ESMTPSA id 6sm16234139wry.60.2021.05.17.04.11.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 17 May 2021 04:11:27 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 03/11] exec: Restrict cputlb.h to sysemu/
+Date: Mon, 17 May 2021 13:11:03 +0200
+Message-Id: <20210517111111.1068153-4-f4bug@amsat.org>
+X-Mailer: git-send-email 2.26.3
+In-Reply-To: <20210517111111.1068153-1-f4bug@amsat.org>
+References: <20210517111111.1068153-1-f4bug@amsat.org>
 MIME-Version: 1.0
-In-Reply-To: <YKHpSU6Kbtj+C4o0@yekko>
-Content-Type: multipart/alternative;
- boundary="------------0F44AA6552AD46241CAB5FEB"
-Content-Language: en-US
-X-OriginalArrivalTime: 17 May 2021 11:07:24.0911 (UTC)
- FILETIME=[D103FFF0:01D74B0C]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
-Received-SPF: pass client-ip=201.28.113.2;
- envelope-from=bruno.larsen@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -10
-X-Spam_score: -1.1
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32c.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
 X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
- NICE_REPLY_A=-0.001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -64,177 +86,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: farosas@linux.ibm.com, Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel@nongnu.org, luis.pires@eldorado.org.br,
- fernando.valle@eldorado.org.br, qemu-ppc@nongnu.org,
- matheus.ferst@eldorado.org.br
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Claudio Fontana <cfontana@suse.de>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a multi-part message in MIME format.
---------------0F44AA6552AD46241CAB5FEB
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 8bit
+To make it clearer the cputlb.h header is sysemu specific,
+move it to the sysemu/ directory.
 
+Patch created mechanically using:
 
-On 17/05/2021 00:55, David Gibson wrote:
-> On Thu, May 13, 2021 at 11:03:24AM -0300, Lucas Mateus Martins Araujo e Castro wrote:
->> On 12/05/2021 15:34, Richard Henderson wrote:
->>> On 5/12/21 9:08 AM, Bruno Larsen (billionai) wrote:
->>>> From: "Lucas Mateus Castro (alqotel)"<lucas.araujo@eldorado.org.br>
->>>>
->>>> Added tlb_set_page and tlb_set_page_with_attrs to the
->>>> stubbed functions in exec-all.h  as it is needed
->>>> in some functions when compiling without TCG
->>>>
->>>> Signed-off-by: Lucas Mateus Castro
->>>> (alqotel)<lucas.araujo@eldorado.org.br>
->>>> ---
->>>>    include/exec/exec-all.h | 10 ++++++++++
->>>>    1 file changed, 10 insertions(+)
->>> No, the caller is tcg-specific already.
->>>
->>>
->>> r~
->> tlb_set_page is called by many ppc_hash64_handle_mmu_fault,
->> ppc_radix64_handle_mmu_fault and ppc_hash32_handle_mmu_fault, all of which
->> from what I've seen are only used inside #if defined(CONFIG_SOFTMMU). So
->> what is the best way to deal with these tlb_set_page calls? Should these
->> part of the _handle_mmu_fault functions never be reached or should
->> these
-> The handle_mmu_fault() functions per se shouldn't be included in a
-> !SOFTMMU build.  We might have to extract some of their internal logic
-> for the gdb path, though.
->
->> functions never be called?
->>
->> If it's the latter then should we change the #if defined to #if
->> defined(CONFIG_SOFTMMU) && (CONFIG_TCG)?
-> That definitely doesn't make sense.  In practice CONFIG_SOFTMMU == CONFIG_TCG.
-We figured it was the case, but from what I can tell, CONFIG_SOFTMMU is 
-set when parsing the target list (in the configure script) and 
-CONFIG_TCG is set later, when parsing which accelerators were requested. 
-So even though SOFTMMU should imply TCG, the way it is coded right now 
-doesn't. We could also try and change the configure script, but neither 
-of us is really good with bash scripts, so this was the next best 
-solution we came up with.
->
->>
->> P.S: There was a miscommunication between me and Bruno, this should've been
->> a RFC.
->>
--- 
-Bruno Piazera Larsen
-Instituto de Pesquisas ELDORADO 
-<https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&utm_medium=email&utm_source=RD+Station>
-Departamento Computação Embarcada
-Analista de Software Trainee
-Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
+  $ sed -i s,exec/cputlb.h,exec/sysemu/cputlb.h, $(git grep -l exec/cputlb.h)
 
---------------0F44AA6552AD46241CAB5FEB
-Content-Type: text/html; charset=windows-1252
-Content-Transfer-Encoding: 8bit
+Then the #ifdef'ry conditional on CONFIG_USER_ONLY has
+been replaced by an #error.
 
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html;
-      charset=windows-1252">
-  </head>
-  <body>
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">On 17/05/2021 00:55, David Gibson
-      wrote:<br>
-    </div>
-    <blockquote type="cite" cite="mid:YKHpSU6Kbtj+C4o0@yekko">
-      <pre class="moz-quote-pre" wrap="">On Thu, May 13, 2021 at 11:03:24AM -0300, Lucas Mateus Martins Araujo e Castro wrote:
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">
-On 12/05/2021 15:34, Richard Henderson wrote:
-</pre>
-        <blockquote type="cite">
-          <pre class="moz-quote-pre" wrap="">On 5/12/21 9:08 AM, Bruno Larsen (billionai) wrote:
-</pre>
-          <blockquote type="cite">
-            <pre class="moz-quote-pre" wrap="">From: "Lucas Mateus Castro (alqotel)"<a class="moz-txt-link-rfc2396E" href="mailto:lucas.araujo@eldorado.org.br">&lt;lucas.araujo@eldorado.org.br&gt;</a>
-
-Added tlb_set_page and tlb_set_page_with_attrs to the
-stubbed functions in exec-all.h  as it is needed
-in some functions when compiling without TCG
-
-Signed-off-by: Lucas Mateus Castro
-(alqotel)<a class="moz-txt-link-rfc2396E" href="mailto:lucas.araujo@eldorado.org.br">&lt;lucas.araujo@eldorado.org.br&gt;</a>
+Signed-off-by: Philippe Mathieu-DaudÃ© <f4bug@amsat.org>
 ---
-  include/exec/exec-all.h | 10 ++++++++++
-  1 file changed, 10 insertions(+)
-</pre>
-          </blockquote>
-          <pre class="moz-quote-pre" wrap="">
-No, the caller is tcg-specific already.
+ include/exec/{ => sysemu}/cputlb.h | 11 +++++++----
+ accel/tcg/cputlb.c                 |  2 +-
+ accel/tcg/translate-all.c          |  6 +++---
+ MAINTAINERS                        |  1 +
+ 4 files changed, 12 insertions(+), 8 deletions(-)
+ rename include/exec/{ => sysemu}/cputlb.h (86%)
 
+diff --git a/include/exec/cputlb.h b/include/exec/sysemu/cputlb.h
+similarity index 86%
+rename from include/exec/cputlb.h
+rename to include/exec/sysemu/cputlb.h
+index 19b16e58f84..5a37a870343 100644
+--- a/include/exec/cputlb.h
++++ b/include/exec/sysemu/cputlb.h
+@@ -17,15 +17,18 @@
+  * License along with this library; if not, see <http://www.gnu.org/licenses/>.
+  */
+ 
+-#ifndef CPUTLB_H
+-#define CPUTLB_H
++#ifndef EXEC_SYSEMU_CPUTLB_H
++#define EXEC_SYSEMU_CPUTLB_H
++
++#ifdef CONFIG_USER_ONLY
++#error Cannot include sysemu specific header from user emulation
++#endif
+ 
+ #include "exec/cpu-common.h"
+ 
+-#if !defined(CONFIG_USER_ONLY)
+ /* cputlb.c */
+ void tlb_protect_code(ram_addr_t ram_addr);
+ void tlb_unprotect_code(ram_addr_t ram_addr);
+ void tlb_flush_counts(size_t *full, size_t *part, size_t *elide);
+-#endif
++
+ #endif
+diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+index 84e7d91a5ca..452029e8193 100644
+--- a/accel/tcg/cputlb.c
++++ b/accel/tcg/cputlb.c
+@@ -23,7 +23,7 @@
+ #include "exec/exec-all.h"
+ #include "exec/memory.h"
+ #include "exec/cpu_ldst.h"
+-#include "exec/cputlb.h"
++#include "exec/sysemu/cputlb.h"
+ #include "exec/tb-hash.h"
+ #include "exec/memory-internal.h"
+ #include "exec/ram_addr.h"
+diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+index ae7e873713a..98a07ce4e4e 100644
+--- a/accel/tcg/translate-all.c
++++ b/accel/tcg/translate-all.c
+@@ -42,11 +42,11 @@
+ #include <libutil.h>
+ #endif
+ #endif
+-#else
++#else /* !CONFIG_USER_ONLY */
++#include "exec/sysemu/cputlb.h"
+ #include "exec/ram_addr.h"
+-#endif
++#endif /* CONFIG_USER_ONLY */
+ 
+-#include "exec/cputlb.h"
+ #include "exec/tb-hash.h"
+ #include "exec/translate-all.h"
+ #include "qemu/bitmap.h"
+diff --git a/MAINTAINERS b/MAINTAINERS
+index f1ae9934349..4378ec47a2c 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -131,6 +131,7 @@ F: include/exec/helper*.h
+ F: include/exec/tb-hash.h
+ F: include/exec/sysemu/hwaddr.h
+ F: include/sysemu/cpus.h
++F: include/exec/sysemu/cputlb.h
+ F: include/sysemu/tcg.h
+ F: include/hw/core/tcg-cpu-ops.h
+ 
+-- 
+2.26.3
 
-r~
-</pre>
-        </blockquote>
-        <pre class="moz-quote-pre" wrap="">
-tlb_set_page is called by many ppc_hash64_handle_mmu_fault,
-ppc_radix64_handle_mmu_fault and ppc_hash32_handle_mmu_fault, all of which
-from what I've seen are only used inside #if defined(CONFIG_SOFTMMU). So
-what is the best way to deal with these tlb_set_page calls? Should these
-part of the _handle_mmu_fault functions never be reached or should
-these
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-The handle_mmu_fault() functions per se shouldn't be included in a
-!SOFTMMU build.  We might have to extract some of their internal logic
-for the gdb path, though.
-
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">functions never be called?
-
-If it's the latter then should we change the #if defined to #if
-defined(CONFIG_SOFTMMU) &amp;&amp; (CONFIG_TCG)?
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-That definitely doesn't make sense.  In practice CONFIG_SOFTMMU == CONFIG_TCG.</pre>
-    </blockquote>
-    We figured it was the case, but from what I can tell, CONFIG_SOFTMMU
-    is set when parsing the target list (in the configure script) and
-    CONFIG_TCG is set later, when parsing which accelerators were
-    requested. So even though SOFTMMU should imply TCG, the way it is
-    coded right now doesn't. We could also try and change the configure
-    script, but neither of us is really good with bash scripts, so this
-    was the next best solution we came up with.<br>
-    <blockquote type="cite" cite="mid:YKHpSU6Kbtj+C4o0@yekko">
-      <pre class="moz-quote-pre" wrap="">
-
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">
-
-P.S: There was a miscommunication between me and Bruno, this should've been
-a RFC.
-
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-</pre>
-    </blockquote>
-    <div class="moz-signature">-- <br>
-      Bruno Piazera Larsen<br>
-      <a
-href="https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&amp;utm_medium=email&amp;utm_source=RD+Station">Instituto
-        de Pesquisas ELDORADO</a><br>
-      Departamento Computação Embarcada<br>
-      Analista de Software Trainee<br>
-      <a href="https://www.eldorado.org.br/disclaimer.html">Aviso Legal
-        - Disclaimer</a></div>
-  </body>
-</html>
-
---------------0F44AA6552AD46241CAB5FEB--
 
