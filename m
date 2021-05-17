@@ -2,77 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2550383CD9
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 21:02:20 +0200 (CEST)
-Received: from localhost ([::1]:47844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80570383D20
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 21:20:33 +0200 (CEST)
+Received: from localhost ([::1]:39384 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1liiVP-0005eL-Qe
-	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 15:02:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40220)
+	id 1liin2-0004Vr-Hv
+	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 15:20:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40278)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lii9v-0005Sa-Jc
- for qemu-devel@nongnu.org; Mon, 17 May 2021 14:40:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53163)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1liiA2-0005TK-Ka
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 14:40:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43018)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lii9o-0001l3-QH
- for qemu-devel@nongnu.org; Mon, 17 May 2021 14:40:07 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lii9u-0001nl-W8
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 14:40:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621276800;
+ s=mimecast20190719; t=1621276805;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=+zjVxPOzAvlcqA8YSi24vXTZnBTIq1HhnlcQSAHxqFM=;
- b=JRVWzY7CvWwlrgIGKJYBd2Jk55QvRZjO26rq3+BoU9rnnuKfM3p1YVmVMs18nSO0+opTxM
- uU/oYvToTIzt3mhNk7KPzDEBcDov7mnK0mPMuh3kQ5pHwsOfPbOo6jHFKgEbPAqlfbkFyU
- k9DiB5FZ5VpQ1SkXtCiyyGMWWusl63I=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-600-LkMhOOCBNdy8kfN8lyufDw-1; Mon, 17 May 2021 14:39:58 -0400
-X-MC-Unique: LkMhOOCBNdy8kfN8lyufDw-1
-Received: by mail-ej1-f69.google.com with SMTP id
- 16-20020a1709063010b029037417ca2d43so1405873ejz.5
- for <qemu-devel@nongnu.org>; Mon, 17 May 2021 11:39:57 -0700 (PDT)
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=yIx6qnixzEdCFqcaxOcBVgzeXQKdqlMaGZGGlAdFf2k=;
+ b=ZAfll8qJ1MTS0Pi7ZnQpjefNy507AVTiJT+W7eunuABp5vlXTXQJkrROamXhXinM4WJNRI
+ 6eivn0yQGcoNBMDoZwJAfpi4oGZwamknjugqMjqzjzrai55RMd0cpOOko+UHtLNDI9fqi2
+ 7omq2YcrY0d8/UzqRhDe2/l/KRzLlaM=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-349-vXkxGxKiM16f1_llBRMbgA-1; Mon, 17 May 2021 14:40:02 -0400
+X-MC-Unique: vXkxGxKiM16f1_llBRMbgA-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ cy15-20020a0564021c8fb029038d26976787so2981771edb.0
+ for <qemu-devel@nongnu.org>; Mon, 17 May 2021 11:40:02 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Aru9z1udzcRTR5uFuZ6Acy2FR3CvdYBmZEP/Hvi3caM=;
- b=Nnpui2s76L8ERVIwVV+o8Pb5jj08fuzdEcix3mCPPRzj6MMMfT0Z0/m5w/f3xQeGSN
- HoEkQbJCFFtEsLwCJAkLqk8I3RBF9a/65QTyCOKIKKpq4jHx61KtsgX6NYOpiYcBCoL5
- SYNFf3ooV0z6VStmLGzK4N5qccA/BmtZosvxFAlFOd2Zwmd993aWlPGixIOadD42VomU
- csOEiW5uMYtIT7bbzXNu9cpR4YmqZaDjNW0E4k3UiGISERgLoK2AlFl16YXBohr5e7Zg
- WSvRq6Q8ysBoOruSQqrRS+uYN0zX9Ge9yCxkyEPM5ljP9KmIoNGkJ1fzJ+myHu2LCx5W
- PXDg==
-X-Gm-Message-State: AOAM5318Sgiu27q7WgPRju5Dz7W2W2I5Ir5oorQ6LupHagi3L2GiGHjU
- CnZkP359NysnjCgi8UQUr9uBZB4QwL2Mfxj86Bde4KfbkRYBJqiYbdzNsAEqk28rjH7siR3yJAn
- sHiHAtVDqNDUc+olXgX4iW8uUCM7BFGxIbcyT7C25VtAI/p9MzP5bUX3BC2IHWT2K
-X-Received: by 2002:aa7:d659:: with SMTP id v25mr1700652edr.271.1621276796751; 
- Mon, 17 May 2021 11:39:56 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw8LMgT/5tne/x6WyQE24ehKj7R5e+VBAuvvekzeZbT4uDvxAosOd/oMQrefY50UShRa4RJXA==
-X-Received: by 2002:aa7:d659:: with SMTP id v25mr1700617edr.271.1621276796411; 
- Mon, 17 May 2021 11:39:56 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=yIx6qnixzEdCFqcaxOcBVgzeXQKdqlMaGZGGlAdFf2k=;
+ b=J1+plbSycEhGxenQ85AcSDLCI6URIdnZLV8JYcdS9KkW7wZD0yq6JkzrmfLbOVPRZN
+ y3V8kSZKBKt38l9+xjETS82a/C8qT1/IPSfz0SilrrhF2d4zKe1+5g64HQ0xHBNVAa2g
+ FtdxEr69SSnsKpcqs7I1nT/MLE8xeMqVn664hCcArtvFCcCV6lUvtGrM7j0Zkw9YA69M
+ 8OcIZQiMZdzEmLwqnX3KwQZk4eAhBmM4vsgQAwYB9mAFWRWmCqcR4elC9u/JQs6Ri7mx
+ GKLdc4JbAgj7oIHewCSiQNYhxfLjdqeZWc/qo+wlQ9iTSwRFFgbvnpEJg2X4t8trsrDj
+ t8Yw==
+X-Gm-Message-State: AOAM5323GQ2QbQ6cxwmBzUimLUuSkhcigolJHUj4x0BFwPA01TyvranS
+ wujcM6FBPPZbSWjNB0dd5WFx9pKnGzU/w/QlC+5UbPTDtZaBig45E0J0Tehul5RkGTHQayuo5Ap
+ 9SRDif6IIHKGPh7XnG6u/+BbHUJR+JkIZiJNeY91QvLtyJzJ8lSNosDftGtl1DMA0
+X-Received: by 2002:a17:906:c010:: with SMTP id
+ e16mr1403705ejz.214.1621276801347; 
+ Mon, 17 May 2021 11:40:01 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzLUZnW510mcSQ23kx0+z043RTUUa0WDX5e+TNnBDGkdInRzmPVm7Js7rH9h7cVsUo/WHNXXw==
+X-Received: by 2002:a17:906:c010:: with SMTP id
+ e16mr1403673ejz.214.1621276801103; 
+ Mon, 17 May 2021 11:40:01 -0700 (PDT)
 Received: from x1w.redhat.com (31.red-83-51-215.dynamicip.rima-tde.net.
  [83.51.215.31])
- by smtp.gmail.com with ESMTPSA id r10sm8944641ejd.112.2021.05.17.11.39.55
+ by smtp.gmail.com with ESMTPSA id k2sm9202779ejj.30.2021.05.17.11.40.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 May 2021 11:39:56 -0700 (PDT)
+ Mon, 17 May 2021 11:40:00 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org,
 	John Snow <jsnow@redhat.com>
-Subject: [PATCH v4 0/9] hw/block/fdc: Allow Kconfig-selecting ISA bus/SysBus
- floppy controllers
-Date: Mon, 17 May 2021 20:39:45 +0200
-Message-Id: <20210517183954.1223193-1-philmd@redhat.com>
+Subject: [PATCH v4 1/9] hw/isa/Kconfig: Fix missing dependency ISA_SUPERIO ->
+ FDC
+Date: Mon, 17 May 2021 20:39:46 +0200
+Message-Id: <20210517183954.1223193-2-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.3
+In-Reply-To: <20210517183954.1223193-1-philmd@redhat.com>
+References: <20210517183954.1223193-1-philmd@redhat.com>
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -99,65 +104,29 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Missing review: #1=0D
-=0D
-Hi,=0D
-=0D
-The floppy disc controllers pulls in irrelevant devices (sysbus in=0D
-an ISA-only machine, ISA bus + isa devices on a sysbus-only machine).=0D
-=0D
-This series clean that by extracting each device in its own file,=0D
-adding the corresponding Kconfig symbols: FDC_ISA and FDC_SYSBUS.=0D
-=0D
-Since v3:=0D
-- Fix ISA_SUPERIO -> FDC Kconfig dependency (jsnow)=0D
-=0D
-Since v2:=0D
-- rebased=0D
-=0D
-Since v1:=0D
-- added missing "hw/block/block.h" header (jsnow)=0D
-- inlined hardware specific calls (Mark)=0D
-- added R-b/A-b tags=0D
-=0D
-Regards,=0D
-=0D
-Phil.=0D
-=0D
-Philippe Mathieu-Daud=C3=A9 (9):=0D
-  hw/isa/Kconfig: Fix missing dependency ISA_SUPERIO -> FDC=0D
-  hw/block/fdc: Replace disabled fprintf() by trace event=0D
-  hw/block/fdc: Declare shared prototypes in fdc-internal.h=0D
-  hw/block/fdc: Extract ISA floppy controllers to fdc-isa.c=0D
-  hw/block/fdc: Extract SysBus floppy controllers to fdc-sysbus.c=0D
-  hw/block/fdc: Add sysbus_fdc_init_drives() method=0D
-  hw/sparc/sun4m: Inline sun4m_fdctrl_init()=0D
-  hw/block/fdc-sysbus: Add 'dma-channel' property=0D
-  hw/mips/jazz: Inline fdctrl_init_sysbus()=0D
-=0D
- hw/block/fdc-internal.h | 156 +++++++++++=0D
- include/hw/block/fdc.h  |   7 +-=0D
- hw/block/fdc-isa.c      | 313 +++++++++++++++++++++=0D
- hw/block/fdc-sysbus.c   | 224 +++++++++++++++=0D
- hw/block/fdc.c          | 608 +---------------------------------------=0D
- hw/mips/jazz.c          |  16 ++=0D
- hw/sparc/sun4m.c        |  16 ++=0D
- MAINTAINERS             |   3 +=0D
- hw/block/Kconfig        |   8 +=0D
- hw/block/meson.build    |   2 +=0D
- hw/block/trace-events   |   3 +=0D
- hw/i386/Kconfig         |   2 +-=0D
- hw/isa/Kconfig          |   7 +-=0D
- hw/mips/Kconfig         |   2 +-=0D
- hw/sparc/Kconfig        |   2 +-=0D
- hw/sparc64/Kconfig      |   2 +-=0D
- 16 files changed, 759 insertions(+), 612 deletions(-)=0D
- create mode 100644 hw/block/fdc-internal.h=0D
- create mode 100644 hw/block/fdc-isa.c=0D
- create mode 100644 hw/block/fdc-sysbus.c=0D
-=0D
---=20=0D
-2.26.3=0D
-=0D
+isa_superio_realize() calls isa_fdc_init_drives(), which is defined
+in hw/block/fdc.c, so ISA_SUPERIO needs to select the FDC symbol.
+
+Reported-by: John Snow <jsnow@redhat.com>
+Fixes: c0ff3795143 ("Introduce a CONFIG_ISA_SUPERIO switch for isa-superio.c")
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+ hw/isa/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/hw/isa/Kconfig b/hw/isa/Kconfig
+index 55e0003ce40..7216f66a54a 100644
+--- a/hw/isa/Kconfig
++++ b/hw/isa/Kconfig
+@@ -17,6 +17,7 @@ config ISA_SUPERIO
+     bool
+     select ISA_BUS
+     select PCKBD
++    select FDC
+ 
+ config PC87312
+     bool
+-- 
+2.26.3
 
 
