@@ -2,73 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B5CF382B80
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 13:52:20 +0200 (CEST)
-Received: from localhost ([::1]:39390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66DCB382B97
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 13:57:40 +0200 (CEST)
+Received: from localhost ([::1]:49762 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1libnH-0006z6-0a
-	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 07:52:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42864)
+	id 1libsR-0005mm-Dm
+	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 07:57:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43758)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
- id 1liblV-0005ZF-4J
- for qemu-devel@nongnu.org; Mon, 17 May 2021 07:50:30 -0400
-Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:44907)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1libqT-0003JW-Vl
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 07:55:37 -0400
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:44635)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
- id 1liblN-0007US-9n
- for qemu-devel@nongnu.org; Mon, 17 May 2021 07:50:25 -0400
-Received: by mail-ej1-x62f.google.com with SMTP id lz27so8718207ejb.11
- for <qemu-devel@nongnu.org>; Mon, 17 May 2021 04:50:18 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1libqR-0002j8-6Q
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 07:55:37 -0400
+Received: by mail-wm1-x331.google.com with SMTP id
+ y184-20020a1ce1c10000b02901769b409001so2022061wmg.3
+ for <qemu-devel@nongnu.org>; Mon, 17 May 2021 04:55:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=8YhtBtVgRcHG2irsDJlUTBpMwqxppkZax5qGRGZiau4=;
- b=uNoTgSK38DIxpt/DsLcAsRRQSWPY/SHtK1uXP+P3JVC+OwstearPLRA4wL0baRxi/w
- QYj4CtnzjjWzH1fP5fbAuUUAOvdr4+2YgHsmBeCaLjzEV+FZoDgioL9NK2+ZHiCnHegu
- it+RULz722X+nJ1FyqGoNM+pHwu+54lKyz5geVfolcZYUV10SUp5vRfQ0OQxpvsfzPUw
- y5nDnVBsbIONFR/aZwI8arz0tXe26d1PXfMUbxf1yZ8bUuMHkgnqCzTbqDpWBChlyMlZ
- LKmOLpw9IpG8HZik6PYUdR9zyN0vCJX6OxlwaOX/gLB+XetHfBtm5EGip2NmUJV+RidD
- j1kA==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=dFXoUEWPzoILClpIHpT3WuY+4eNYczJvqbaeCiygkAQ=;
+ b=aYc9tMpgd2Hx82qy/uj9bIkDk/75UOFg9bs9o+/WTFuWZzGrcNrcCq7lp+/1qbhbqd
+ VVN97vHw8NLGY6GjOvzsliL2E4AThNZvCx9I/BkA0UbDU78YrIOz56rTpLnLLcLQlVnn
+ tWZOX5ZETc5kgJ+H1tqFrXf7gjVJ4xDulvdSiMUp8A3A+jlRdBzm5SMELPdGVflAI7gg
+ 9Ut7B8fQCYP5kJQcgnic2vltWRPfMkqGaerMHvl/MqUZvH678FX96pFIAH+zDeDue+ul
+ 9nB/2Ben/qIJixz2EKamocCVojvGIUsnVp0T1hllrZ0lqudUx5jvvaXsQ2aguVXwM0mC
+ CmnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=8YhtBtVgRcHG2irsDJlUTBpMwqxppkZax5qGRGZiau4=;
- b=XqV6fLC2I+jsP4FXsfAnJlXVwTOX8LRXh5l6PQ/AD2bGIcQSXAXuTj5Jwprne1Jpfm
- fudUBOtEQVnMoOWHqtJB+C+SFxLEZmaocN2uvnH6PK7qR9mGPXuvH2QncFlKJAOiS8xP
- TTjVXuASGjsottIxVo9BXkG+crsWS/OQbnEk0d8Jurm2rC8nh7DMvmdfww2ZS5vOiM/v
- Xl9oHskgQ8xUTZscEZt866aySw94k8JeKzEdxs3LqV1TNlz1NGnkeeD6DYJTK6C92G+H
- bR2X8L3FC0k69NSozk8XqRhTojKGr91XzZZ/DaDHT5QE0ShZHxOsPZ0dWxacErrHiYQ5
- ka+Q==
-X-Gm-Message-State: AOAM533zv0AxxrF/RgqWsak79QzXYEle97W+iJAW2wqtbMO2btSlwIJs
- if3sG1WD75nd/l/wJ8f+5lqXwE6BYi2nDcFKGos=
-X-Google-Smtp-Source: ABdhPJwj9vF2YIIR8/mJHJu0OBol5pdAV51vIr+NTc3L8ZOvSpwHgFHop880G1cLzvwrP+UQpHNBkb8l3zF6yC1Wu9Q=
-X-Received: by 2002:a17:906:2f91:: with SMTP id
- w17mr42618800eji.443.1621252217113; 
- Mon, 17 May 2021 04:50:17 -0700 (PDT)
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=dFXoUEWPzoILClpIHpT3WuY+4eNYczJvqbaeCiygkAQ=;
+ b=MWXKovyJHsg233YcHbPfnRth/CZUWpDuUKyZ6WmBOg5xWBW9iw9ykGUSKqmR0OHrOD
+ T9MGPAXa/HHvSVZnG9YqN56AWYEjLUdeY7WwRPCQoRctIoUHlReYrWbgc46xNuRub7en
+ Jh5Vm1+btjkiRR5bSjssRG5x3BT9ULaNTHsAGOL/63wanb4kOf6VIU/cf9wVB8QQnPNN
+ XJhmZE4ZDIxvfE9fm+OOT+r5IsWId0IDBxWVJ/0sfuPbLPMfzC56YvGLNyCmBFeJXarX
+ 88p3iqyJj2pug6nSSadvOmm/+DOjFXFM10aQ4fQUgXckkMCMuwhlcB8jNKAAkgs91HFB
+ vFsw==
+X-Gm-Message-State: AOAM531GQXQpFaMF+vo0rllEp2Co5IKhy2KonqSOw/z6CdA9n8uBMFSA
+ ZkKTuPo3Hl6kuaIhj9BoGFtxtABBrOVZRg==
+X-Google-Smtp-Source: ABdhPJyWQ1M1TDLpKAh7EYEf6Gc3XuZRUqhoaCRTgebcaunaggqw5DDVTZc0pkHZD77Nvo4glIHqRQ==
+X-Received: by 2002:a1c:2507:: with SMTP id l7mr36039379wml.188.1621252532967; 
+ Mon, 17 May 2021 04:55:32 -0700 (PDT)
+Received: from localhost.localdomain (31.red-83-51-215.dynamicip.rima-tde.net.
+ [83.51.215.31])
+ by smtp.gmail.com with ESMTPSA id m9sm10224259wrs.36.2021.05.17.04.55.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 17 May 2021 04:55:32 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [RFC PATCH 01/15] accel/kvm: Add more stubs
+Date: Mon, 17 May 2021 13:55:11 +0200
+Message-Id: <20210517115525.1088693-2-f4bug@amsat.org>
+X-Mailer: git-send-email 2.26.3
+In-Reply-To: <20210517115525.1088693-1-f4bug@amsat.org>
+References: <20210517115525.1088693-1-f4bug@amsat.org>
 MIME-Version: 1.0
-References: <20190114074855.16891-1-jcmvbkbc@gmail.com>
- <20190114074855.16891-8-jcmvbkbc@gmail.com>
- <CAAdtpL5NoHLoUZR6MQKMg92h=Cm-Fqyc+zJvXz-GWqbtobyu2A@mail.gmail.com>
-In-Reply-To: <CAAdtpL5NoHLoUZR6MQKMg92h=Cm-Fqyc+zJvXz-GWqbtobyu2A@mail.gmail.com>
-From: Max Filippov <jcmvbkbc@gmail.com>
-Date: Mon, 17 May 2021 04:50:05 -0700
-Message-ID: <CAMo8BfLotZPVu5XWZ=EKZPgW3yir1Fsddj31Q6jzGcYehhzGbQ@mail.gmail.com>
-Subject: Re: [Qemu-devel] [PATCH 7/7] target/xtensa: move non-HELPER functions
- to helper.c
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philippe@mathieu-daude.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
- envelope-from=jcmvbkbc@gmail.com; helo=mail-ej1-x62f.google.com
-X-Spam_score_int: 4
-X-Spam_score: 0.4
-X-Spam_bar: /
-X-Spam_report: (0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- FROM_LOCAL_NOVOWEL=0.5, HK_RANDOM_ENVFROM=0.999, HK_RANDOM_FROM=1,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x331.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
@@ -83,55 +86,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Philippe,
+To be able to make softmmu/cpus.c not target-specific, we need to
+add two more KVM stubs, to avoid:
 
-On Sun, May 16, 2021 at 10:05 PM Philippe Mathieu-Daud=C3=A9
-<philippe@mathieu-daude.net> wrote:
->
-> Hi Max,
->
-> On Mon, Jan 14, 2019 at 8:52 AM Max Filippov <jcmvbkbc@gmail.com> wrote:
-> >
-> > Move remaining non-HELPER functions from op_helper.c to helper.c.
-> > No functional changes.
-> >
-> > Signed-off-by: Max Filippov <jcmvbkbc@gmail.com>
-> > ---
-> >  target/xtensa/helper.c    | 61 +++++++++++++++++++++++++++++++++++++++=
-+++++---
-> >  target/xtensa/op_helper.c | 56 ---------------------------------------=
-----
-> >  2 files changed, 58 insertions(+), 59 deletions(-)
->
-> > +void xtensa_cpu_do_unaligned_access(CPUState *cs,
-> > +                                    vaddr addr, MMUAccessType access_t=
-ype,
-> > +                                    int mmu_idx, uintptr_t retaddr)
-> > +{
-> > +    XtensaCPU *cpu =3D XTENSA_CPU(cs);
-> > +    CPUXtensaState *env =3D &cpu->env;
-> > +
-> > +    if (xtensa_option_enabled(env->config, XTENSA_OPTION_UNALIGNED_EXC=
-EPTION) &&
-> > +        !xtensa_option_enabled(env->config, XTENSA_OPTION_HW_ALIGNMENT=
-)) {
->
-> I know this is a simple code movement, but I wonder, what should
-> happen when there is
-> an unaligned fault and the options are disabled? Is this an impossible
-> case (unreachable)?
+  /usr/bin/ld: libcommon.fa.p/softmmu_cpus.c.o: in function `cpu_thread_is_idle':
+  softmmu/cpus.c:85: undefined reference to `kvm_halt_in_kernel_allowed'
+  /usr/bin/ld: libcommon.fa.p/softmmu_cpus.c.o: in function `cpu_check_are_resettable':
+  include/sysemu/hw_accel.h:28: undefined reference to `kvm_cpu_check_are_resettable'
 
-It should be unreachable when XTENSA_OPTION_UNALIGNED_EXCEPTION
-is disabled. In that case the translation code generates access on aligned
-addresses according to the xtensa ISA, see the function
-gen_load_store_alignment in target/xtensa/translate.c
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ accel/stubs/kvm-stub.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
---=20
-Thanks.
--- Max
+diff --git a/accel/stubs/kvm-stub.c b/accel/stubs/kvm-stub.c
+index 5b1d00a2224..6bda6c8c925 100644
+--- a/accel/stubs/kvm-stub.c
++++ b/accel/stubs/kvm-stub.c
+@@ -20,6 +20,7 @@
+ KVMState *kvm_state;
+ bool kvm_kernel_irqchip;
+ bool kvm_async_interrupts_allowed;
++bool kvm_halt_in_kernel_allowed;
+ bool kvm_eventfds_allowed;
+ bool kvm_irqfds_allowed;
+ bool kvm_resamplefds_allowed;
+@@ -147,4 +148,10 @@ bool kvm_arm_supports_user_irq(void)
+ {
+     return false;
+ }
++
++bool kvm_cpu_check_are_resettable(void)
++{
++    g_assert_not_reached();
++}
++
+ #endif
+-- 
+2.26.3
+
 
