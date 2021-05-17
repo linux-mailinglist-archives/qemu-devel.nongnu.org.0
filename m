@@ -2,95 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62DEF386C6F
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 23:41:48 +0200 (CEST)
-Received: from localhost ([::1]:37020 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CF28386D07
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 00:39:46 +0200 (CEST)
+Received: from localhost ([::1]:53936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1likzi-00086B-Dq
-	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 17:41:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54740)
+	id 1liltp-0005J2-1A
+	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 18:39:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35720)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pc@us.ibm.com>)
- id 1likyu-0007IL-4U; Mon, 17 May 2021 17:40:56 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:63546)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pc@us.ibm.com>)
- id 1likyr-0007CU-Ni; Mon, 17 May 2021 17:40:55 -0400
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 14HLXUGn166414; Mon, 17 May 2021 17:40:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : mime-version : content-transfer-encoding; s=pp1;
- bh=aHFQHOPTVPSJ0k6mNQMVIKzjQnHFeYuBqjdVGs2eMz8=;
- b=DQ0OL4N22ApKs50LKVpDz4hbRLXG9TRBkQ19ymYn2oAj2WhenKwypes74MMJauQv1pPM
- 8w/xPKH69E6EVNmkSxvGWn5oT1ZiukA2hD39sLlor2u+Og55C84a21aH+yJv8H08ioAu
- 5RV4y0MtRG/4RDBtX+W0gq+ucOTb/5sd18yewdiSq1FysMUOmq51I5mOlQaR+V3DyGbg
- q8000QnC6RNloVyULJ03gjYB8mFLvkbLm8PUr7eTfoGPeE7S2YG9hwOA5utCGuxgIIvM
- 2mVF1Q37BqHPiliiqlK69UTIWfZA674j60iSQsE/7UEhzsZj9PFCV2kofitcPvYw8vS6 HQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 38kwk7cpq8-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 17 May 2021 17:40:46 -0400
-Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 14HLYDJK167482;
- Mon, 17 May 2021 17:40:45 -0400
-Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.10])
- by mx0a-001b2d01.pphosted.com with ESMTP id 38kwk7cpq2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 17 May 2021 17:40:45 -0400
-Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
- by ppma02dal.us.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 14HLQumY005005;
- Mon, 17 May 2021 21:40:45 GMT
-Received: from b01cxnp23032.gho.pok.ibm.com (b01cxnp23032.gho.pok.ibm.com
- [9.57.198.27]) by ppma02dal.us.ibm.com with ESMTP id 38j5x96us0-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 17 May 2021 21:40:45 +0000
-Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com
- [9.57.199.108])
- by b01cxnp23032.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 14HLeido24969698
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 17 May 2021 21:40:44 GMT
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 457CAB206A;
- Mon, 17 May 2021 21:40:44 +0000 (GMT)
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 19C4FB205F;
- Mon, 17 May 2021 21:40:44 +0000 (GMT)
-Received: from localhost (unknown [9.85.176.192])
- by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
- Mon, 17 May 2021 21:40:43 +0000 (GMT)
-From: "Paul A. Clarke" <pc@us.ibm.com>
-To: qemu-devel@nongnu.org, qemu-ppc@nongnu.org
-Subject: [PATCH] Fix `lxvdsx` (issue #212)
-Date: Mon, 17 May 2021 16:40:32 -0500
-Message-Id: <20210517214032.156187-1-pc@us.ibm.com>
-X-Mailer: git-send-email 2.27.0
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1lilt2-0004Gj-16; Mon, 17 May 2021 18:38:56 -0400
+Received: from mail-il1-x135.google.com ([2607:f8b0:4864:20::135]:33680)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1lilsn-00033E-9q; Mon, 17 May 2021 18:38:55 -0400
+Received: by mail-il1-x135.google.com with SMTP id z1so7505542ils.0;
+ Mon, 17 May 2021 15:38:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=zoFFE10DYsTBXBI+yYki8pfr6+B/a9aZGVKnNngoRjc=;
+ b=MXqd4nrgrs5KJJi3ulKRRjZaUVrd6ks4UZOWRPrcdDNBuewYWLaKERTOMvCnOIoV4S
+ U2qn4umwKEgjO/czGJumiwN9ONXXtzsmBoY69Bt6gAWg63XIQhe0eFkRM3kMbt4ycq4p
+ 9iUckkiKFyikXOOkqPeMa+qcJspN4AAULhMbf3Ch3siu4os3ndqFAkXJRnSTCkBW0ZXu
+ UCBb9OWRfbNgrvPgFF6FOHgyupsiIDAGHCg3CSHph/rJSWEUlF1sxx8RgFpTyoezqM7K
+ u24SZUufZJibA7gG+Dq7+ped2RpC+st5KSE9ettTfUUYD0Qfnp7oJLdjeBXLldj2xlkI
+ B1iA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=zoFFE10DYsTBXBI+yYki8pfr6+B/a9aZGVKnNngoRjc=;
+ b=XBG1kyfFgCsP8779kvXsrQbFh37mZ5TfG68lddScKEZuiLDCggAPqwf0LMWgOmYk+2
+ ppCSR1SEf4Kgs8YYxph5Sg9Z8+juxKUi+NdOwkRFGcO9KsEJgsJGoro85bbXEeDJjohw
+ yhCPmgmZel+WbG7bEl+0VISx54tMnN2NnwPb7vetJd5AnuWKhSup+dI5d56SdaskwE06
+ fbUt9G6uORtRl6VPMUzpF6j+ZYLpVsew/SbwaL387o9naruteAT/45u++2sVIh8DbtQ9
+ 28KgBbElf/jsQ91OGAb7hXVIbftt4Wbtz5Steo0ylJ6ub8RrUQ92ird6ny9i+ObtO6Ds
+ CijQ==
+X-Gm-Message-State: AOAM532Sg9BjU9bGGfivFE8qIJNDPDnuuGE0eRFuifs3sHaMdkpsLqFB
+ baXb+FI0LmCP0w8OSEHXD5E+fVHIFbmohJ6J5zg=
+X-Google-Smtp-Source: ABdhPJyfqP41Hz5fVMikPvQA+msmLmdZwncldf2dB7t7HyJAUIjuqJoOY3xv0O+hzo7+08P0IGbSYXdYe520lFFrx0I=
+X-Received: by 2002:a05:6e02:671:: with SMTP id
+ l17mr1620286ilt.267.1621291118400; 
+ Mon, 17 May 2021 15:38:38 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: dhAL6wyMuVxBVL6ApYPlqbqg8RLhDq_0
-X-Proofpoint-GUID: qEgegHhP2OfQ4nj6ON3oObw7OBY6hGR6
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
- definitions=2021-05-17_09:2021-05-17,
- 2021-05-17 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0
- lowpriorityscore=0 phishscore=0 adultscore=0 impostorscore=0
- malwarescore=0 clxscore=1011 spamscore=0 bulkscore=0 priorityscore=1501
- mlxscore=0 mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104190000 definitions=main-2105170151
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=pc@us.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
-X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+References: <20210517070851.857841-1-f4bug@amsat.org>
+In-Reply-To: <20210517070851.857841-1-f4bug@amsat.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 18 May 2021 08:38:12 +1000
+Message-ID: <CAKmqyKNya4DfidO-9baQnE7=rV_XSKxfujoVRaukvB+SGJ_b_A@mail.gmail.com>
+Subject: Re: [PATCH] target/riscv: Remove obsolete 'CPU unmigratable' comment
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::135;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x135.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,37 +78,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Giuseppe Musacchio <thatlemon@gmail.com>,
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ QEMU Trivial <qemu-trivial@nongnu.org>, Bin Meng <bin.meng@windriver.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- David Gibson <david@gibson.dropbear.id.au>
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-`lxvdsx` is byte-swapping the data it loads, which it should not
-do.  Fix it.
+On Mon, May 17, 2021 at 5:09 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
+g> wrote:
+>
+> The RISCV CPU is migratable since commit f7697f0e629
+> ("target/riscv: Add basic vmstate description of CPU"),
+> so remove an obsolete comment which is now incorrect.
+>
+> Reported-by: Richard Henderson <richard.henderson@linaro.org>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
-Fixes #212.
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-Fixes: bcb0b7b1a1c05707304f80ca6f523d557816f85c
-Signed-off-by:  Paul A. Clarke <pc@us.ibm.com
----
- target/ppc/translate/vsx-impl.c.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Alistair
 
-diff --git a/target/ppc/translate/vsx-impl.c.inc b/target/ppc/translate/vsx-impl.c.inc
-index b817d31260bb..46f97c029ca8 100644
---- a/target/ppc/translate/vsx-impl.c.inc
-+++ b/target/ppc/translate/vsx-impl.c.inc
-@@ -162,7 +162,7 @@ static void gen_lxvdsx(DisasContext *ctx)
-     gen_addr_reg_index(ctx, EA);
- 
-     data = tcg_temp_new_i64();
--    tcg_gen_qemu_ld_i64(data, EA, ctx->mem_idx, MO_TEQ);
-+    tcg_gen_qemu_ld_i64(data, EA, ctx->mem_idx, MO_LEQ);
-     tcg_gen_gvec_dup_i64(MO_Q, vsr_full_offset(xT(ctx->opcode)), 16, 16, data);
- 
-     tcg_temp_free(EA);
--- 
-2.27.0
-
+> ---
+>  target/riscv/cpu.c | 1 -
+>  1 file changed, 1 deletion(-)
+>
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index 3191fd00822..d459e8427e2 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -638,7 +638,6 @@ static void riscv_cpu_class_init(ObjectClass *c, void=
+ *data)
+>      cc->disas_set_info =3D riscv_cpu_disas_set_info;
+>  #ifndef CONFIG_USER_ONLY
+>      cc->get_phys_page_debug =3D riscv_cpu_get_phys_page_debug;
+> -    /* For now, mark unmigratable: */
+>      cc->vmsd =3D &vmstate_riscv_cpu;
+>      cc->write_elf64_note =3D riscv_cpu_write_elf64_note;
+>      cc->write_elf32_note =3D riscv_cpu_write_elf32_note;
+> --
+> 2.26.3
+>
+>
 
