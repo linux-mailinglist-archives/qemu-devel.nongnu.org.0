@@ -2,83 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F308382A2F
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 12:50:42 +0200 (CEST)
-Received: from localhost ([::1]:48018 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B933382A49
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 12:53:51 +0200 (CEST)
+Received: from localhost ([::1]:53668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1liapb-0002dT-NO
-	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 06:50:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54800)
+	id 1liasg-0006gT-7R
+	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 06:53:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55452)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1liaoA-0001wE-QJ
- for qemu-devel@nongnu.org; Mon, 17 May 2021 06:49:10 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:37772)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1liaqi-0003nu-HF; Mon, 17 May 2021 06:51:48 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:45694)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1liao7-00047d-2G
- for qemu-devel@nongnu.org; Mon, 17 May 2021 06:49:10 -0400
-Received: by mail-wr1-x432.google.com with SMTP id q5so5874518wrs.4
- for <qemu-devel@nongnu.org>; Mon, 17 May 2021 03:49:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=y6l3j5PJ3ijBfURf0r4bHTAU9mgigk0E9BRT1thrkjE=;
- b=I0eUZu6UhzxoKqDMQQVh6xuJ4Jt6GPQ1KsDDT9+c2ef80kaR8ihgSINDVaJeiCASNf
- SCBO+sB7hBFqBw5Eo9mfGuc/IiNP32GvP1CW64yIgpGZGQI3bBDEOfCq8GeFGp/Jkn4q
- 5Eb1Pb2ZXJh5LGSDA+ymCMGK8Zj/SLAkdsd8YTDKX7lCdw84KL2cfXXIUCAtJMSoCWa/
- 1Jtd59c5SHMZZ68MIiDUGBZIOrJEGBBA0Z76NOLdAr0t6ckB+h+4sTa4st8ck+40BT4C
- Ico+nEM/0MvCyIEfkfMQjgY7/fQG9cwtXwLf0eXsfPpcvn+yAhWn8l+lTM+L9cCFKwi9
- jrIA==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1liaqg-0006FU-Eo; Mon, 17 May 2021 06:51:48 -0400
+Received: by mail-wr1-x430.google.com with SMTP id h4so5850832wrt.12;
+ Mon, 17 May 2021 03:51:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=4J6gCjiLvFV0qYFBY/UaRpAcHcZtCFan7YLoPArbzt0=;
+ b=MLgm96ViwoMhrCHAotIusRn781Lh7mbyKi1yRHhJpNsGcSWVQbCBJw136f9y8s2NIS
+ 75U7aWpQBrU6EShJpkydGYHqGeGs7NzMkihuXM8IiT5KLFZ5lYlmj4lJlx23m8cM4oD7
+ vxdTXGc9+rFhPMwZ0f8bIsJtPhW2B8f4ksNgmBG0Kk8LgRWf7lCa84piLlGOdC8At/2Y
+ l7E1fJ4TwWgR+GuNDfKZcdO7wDxOAf0d9JF85zO7m51xYeyPw1gxiQ+Y0yk6B/t3jYWJ
+ cuwwu4Um409hvCOsyOiaAgHcLO/yenD7a27KkselbcV6BUu0nV4kCaoAPGPNB+FygwTc
+ sTMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=y6l3j5PJ3ijBfURf0r4bHTAU9mgigk0E9BRT1thrkjE=;
- b=gg2KnURozaDWoIUD0Wt+KPXnfl5sSuDy4/IpbcdOhixfydFJzq9wj8pBCBj4LOr9fD
- hZdQScf5Q5fUtc1WLsmOkv3qZC6uPvcVKemia8Zd0shVBFCHe2AmcTetZVXVtraNpBkM
- VlJ/+hBFzrnJsyJooPPVX/0OHcc6XI5KVGK3I7KZvqD1kF6IzNbyX5hC2XWGf6yZ1je0
- 7ubRWbDvEtx8xsgemN9Vsu6lsiGQpMAzR2rFDKraZ/ZnWA957nBHfGXc+YR1OepjYCKD
- AJ1U+012WWLp93IhUDUCJw5BXvRR0TlAkjzUoU0t2yv2TGtFIdOsQQE1zNRpwPdJEBBi
- h0/A==
-X-Gm-Message-State: AOAM530/toQlsg4TO7zBSd2Tfnd1qTiRNqjMD4kp5sf7G5F4EZPcmFhz
- qTgyJ255oO+7LH76aJgbLHERtg==
-X-Google-Smtp-Source: ABdhPJy4h5PHT6Wa/dHvkgVYTOzVYm5hfMiGWjzg2OTwnx7HC5TtRUPEkzlApjWr1d26FGHUR7ri6A==
-X-Received: by 2002:a05:6000:1084:: with SMTP id
- y4mr74151306wrw.309.1621248544438; 
- Mon, 17 May 2021 03:49:04 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id b10sm4221895wrn.9.2021.05.17.03.49.02
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=4J6gCjiLvFV0qYFBY/UaRpAcHcZtCFan7YLoPArbzt0=;
+ b=miD2bBPkTJefTj3JIDRrN4lH8h6MXNKObVzB/UrzJBJZ7sy79U1YroI9+cnfOZA8Za
+ IasdHDXtyWPYMb6VSeyjmxGtIO4yLxEsKqjyAn9b0iqtqoBtJCEXZwHjvddSRzx+dqh0
+ O+kdsrVZ4NX6bpLcV9O1zUJr8YvNa+IX5OqyEQXl8gwR3RLaYeWfZOa695HE6/duCjS5
+ gSmi7ytNnlY6Gvnkun5hqDJwt+1pIPvscL/RFMqwo/bl+EhgYuc3kF//xYaVDZrAOQYP
+ y/nXtR/f1uy7TSDEkhhjKYUZr5RDKUWyrTOXsl2tFPy6gGz1evTgHQrA0PX9zCzWAFo4
+ gErg==
+X-Gm-Message-State: AOAM530eHBLJeyoAZd0BKTta+CDOGcT7iUUHLT7t1dbyoC04edOfyd1t
+ gCEl4OOSHJZatbEXtKug6NTWse5jwJqlCw==
+X-Google-Smtp-Source: ABdhPJwdLu7IqD4M1rKKG98o2wSTJCgvwDt8vAMV5pg9B7v5qNMqDrdmpPNQKJfGMLB9uxNpvSIXaw==
+X-Received: by 2002:a5d:43cc:: with SMTP id v12mr18022588wrr.215.1621248703243; 
+ Mon, 17 May 2021 03:51:43 -0700 (PDT)
+Received: from localhost.localdomain (31.red-83-51-215.dynamicip.rima-tde.net.
+ [83.51.215.31])
+ by smtp.gmail.com with ESMTPSA id z8sm16706698wrw.74.2021.05.17.03.51.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 May 2021 03:49:03 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id CB2031FF7E;
- Mon, 17 May 2021 11:49:01 +0100 (BST)
-References: <20210505092259.8202-1-alex.bennee@linaro.org>
- <20210505092259.8202-6-alex.bennee@linaro.org>
- <YJJmYOWDl0UzziW7@redhat.com> <87lf8to49d.fsf@linaro.org>
- <87im3xo3zv.fsf@linaro.org> <YJJ41bUEY+Gfkw/Z@redhat.com>
-User-agent: mu4e 1.5.13; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Subject: Re: [PATCH v1 5/7] docs: mark intention to deprecate TCG tracing
- functionality
-Date: Mon, 17 May 2021 11:47:11 +0100
-In-reply-to: <YJJ41bUEY+Gfkw/Z@redhat.com>
-Message-ID: <87eee5eiua.fsf@linaro.org>
+ Mon, 17 May 2021 03:51:42 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v7 00/23] cpu: Introduce SysemuCPUOps structure
+Date: Mon, 17 May 2021 12:51:17 +0200
+Message-Id: <20210517105140.1062037-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.26.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x432.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x430.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,66 +81,198 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "reviewer:Incompatible changes" <libvir-list@redhat.com>,
- qemu-devel@nongnu.org, robhenry@microsoft.com, aaron@os.amperecomputing.com,
- vilanova@imperial.ac.uk, mahmoudabdalghany@outlook.com, minyihh@uci.edu,
- cota@braap.org, stefanha@redhat.com, mohamad.gebai@gmail.com,
- kuhn.chenqun@huawei.com, matheus.ferst@eldorado.org.br
+Cc: qemu-riscv@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-s390x@nongnu.org, qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
-
-> On Wed, May 05, 2021 at 11:41:46AM +0100, Alex Benn=C3=A9e wrote:
->>=20
->> Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
->>=20
->> > Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
->> >
->> >> On Wed, May 05, 2021 at 10:22:57AM +0100, Alex Benn=C3=A9e wrote:
->> <snip>
->> >>> +TCG introspection features
->> >>> +--------------------------
->> >>> +
->> >>> +TCG trace-events (since 6.1)
->> >>> +''''''''''''''''''''''''''''
->> >>> +
->> >>> +The ability to add new TCG trace points has bit rotted and as the
->> >>
->> >> When you say this "has bit rotted", just how bad is the situation ?
->> >>
->> >> Is the TCG tracing still usable at all, or is is fully broken
->> >> already ?
->> >
->> > Well patches 6/7 got it working for generic TCG things. I haven't been
->> > able to get the architecture one working but I suspect that is some so=
-rt
->> > of interaction between the per-arch trace header generation that I
->> > haven't quite figured out yet.
->>=20
->> Ahh it's since 7609ffb919 (trace: fix tcg tracing build breakage) which
->> limited tcg/vcpu events to the root trace-events file.
->
-> That commit is from release 2.10.0.
->
-> The other commit mentioned in patch 6 (73ff061032) is from 2.12.0.
->
-> So no one has been able to use this feature for 3+ years already.
->
-> Is it actually worth fixing and then deprecating for 2 releases before
-> deleting, as opposed to just deleting the broken code today on basis
-> that it can't have any current users ?
-
-Well I can get it up and running with the aforementioned patches and it
-seems reasonable to give some notice. I'm happy to defer to Stefan here
-though as it's his sub-system.
-
->
-> Regards,
-> Daniel
-
-
---=20
-Alex Benn=C3=A9e
+Missing review: 2-5 (new) and 13=0D
+=0D
+Hi,=0D
+=0D
+This series is inspired on Claudio TCG work.=0D
+=0D
+Instead of separate TCG from other accelerators, here we=0D
+separate sysemu operations (system VS user).=0D
+=0D
+Since v6:=0D
+- Rebased (3 targets removed, Claudio's target/i386 series merged)=0D
+- Addressed Richard & David comments=0D
+=0D
+Since v5:=0D
+- Rework patch 10 after Peter Maydell explanation on v3:=0D
+  https://www.mail-archive.com/qemu-devel@nongnu.org/msg800849.html=0D
+=0D
+Since v4:=0D
+- Removed watchpoint patches (need more work) (Richard)=0D
+- Merged patch 1 & 7 "Move CPUClass::vmsd to SysemuCPUOps" (Eduardo)=0D
+- Reworded cpu_virtio_is_big_endian description (Greg)=0D
+- Move write_elf() in target/riscv/cpu.c (rebased on top of 43a965888)=0D
+- Added R-b tags=0D
+=0D
+Since v3:=0D
+- SysemuCPUOps const (Richard)=0D
+- added missing xtensa #ifdef'ry=0D
+- added missing aa64/sve #ifdef'ry=0D
+- added Laurent R-b=0D
+=0D
+Since v2:=0D
+- fixed lm32/unicore32=0D
+- remove USER_ONLY ifdef'ry from "cpu.h" (Claudio)=0D
+=0D
+Since v1:=0D
+- Name 'sysemu' (Claudio)=0D
+- change each field progressively (Richard)=0D
+=0D
+$ git backport-diff=0D
+Key:=0D
+[----] : patches are identical=0D
+[####] : number of functional differences between upstream/downstream patch=
+=0D
+[down] : patch is downstream-only=0D
+The flags [FC] indicate (F)unctional and (C)ontextual differences, respecti=
+ve=3D=0D
+ly=0D
+=0D
+001/23:[down] 'NOTFORMERGE target/arm: Restrict MTE code to softmmu'=0D
+002/23:[down] 'cpu: Restrict target cpu_do_transaction_failed() handlers to=
+ s=3D=0D
+ysemu'=0D
+003/23:[down] 'cpu: Restrict target cpu_do_unaligned_access() handlers to s=
+ys=3D=0D
+emu'=0D
+004/23:[down] 'cpu: Remove duplicated 'sysemu/hw_accel.h' header'=0D
+005/23:[down] 'cpu: Split as cpu-common / cpu-sysemu'=0D
+006/23:[0002] [FC] 'cpu: Un-inline cpu_get_phys_page_debug and cpu_asidx_fr=
+om=3D=0D
+_attrs'=0D
+007/23:[0010] [FC] 'cpu: Introduce cpu_virtio_is_big_endian()'=0D
+008/23:[0088] [FC] 'cpu: Directly use cpu_write_elf*() fallback handlers in=
+ p=3D=0D
+lace'=0D
+009/23:[0022] [FC] 'cpu: Directly use get_paging_enabled() fallback handler=
+s =3D=0D
+in place'=0D
+010/23:[0026] [FC] 'cpu: Directly use get_memory_mapping() fallback handler=
+s =3D=0D
+in place'=0D
+011/23:[0007] [FC] 'cpu: Assert DeviceClass::vmsd is NULL on user emulation=
+'=0D
+012/23:[0004] [FC] 'cpu: Rename CPUClass vmsd -> legacy_vmsd'=0D
+013/23:[down] 'cpu: Move AVR target vmsd field from CPUClass to DeviceClass=
+'=0D
+014/23:[0014] [FC] 'cpu: Introduce SysemuCPUOps structure'=0D
+015/23:[0003] [FC] 'cpu: Move CPUClass::vmsd to SysemuCPUOps'=0D
+016/23:[0002] [FC] 'cpu: Move CPUClass::virtio_is_big_endian to SysemuCPUOp=
+s'=0D
+017/23:[----] [--] 'cpu: Move CPUClass::get_crash_info to SysemuCPUOps'=0D
+018/23:[----] [-C] 'cpu: Move CPUClass::write_elf* to SysemuCPUOps'=0D
+019/23:[----] [--] 'cpu: Move CPUClass::asidx_from_attrs to SysemuCPUOps'=0D
+020/23:[0055] [FC] 'cpu: Move CPUClass::get_phys_page_debug to SysemuCPUOps=
+'=0D
+021/23:[----] [--] 'cpu: Move CPUClass::get_memory_mapping to SysemuCPUOps'=
+=0D
+022/23:[----] [--] 'cpu: Move CPUClass::get_paging_enabled to SysemuCPUOps'=
+=0D
+023/23:[0012] [FC] 'cpu: Restrict "hw/core/sysemu-cpu-ops.h" to target/cpu.=
+c'=0D
+=0D
+Regards,=0D
+=0D
+Phil.=0D
+=0D
+Philippe Mathieu-Daud=3DC3=3DA9 (23):=0D
+  NOTFORMERGE target/arm: Restrict MTE code to softmmu=0D
+  cpu: Restrict target cpu_do_transaction_failed() handlers to sysemu=0D
+  cpu: Restrict target cpu_do_unaligned_access() handlers to sysemu=0D
+  cpu: Remove duplicated 'sysemu/hw_accel.h' header=0D
+  cpu: Split as cpu-common / cpu-sysemu=0D
+  cpu: Un-inline cpu_get_phys_page_debug and cpu_asidx_from_attrs=0D
+  cpu: Introduce cpu_virtio_is_big_endian()=0D
+  cpu: Directly use cpu_write_elf*() fallback handlers in place=0D
+  cpu: Directly use get_paging_enabled() fallback handlers in place=0D
+  cpu: Directly use get_memory_mapping() fallback handlers in place=0D
+  cpu: Assert DeviceClass::vmsd is NULL on user emulation=0D
+  cpu: Rename CPUClass vmsd -> legacy_vmsd=0D
+  cpu: Move AVR target vmsd field from CPUClass to DeviceClass=0D
+  cpu: Introduce SysemuCPUOps structure=0D
+  cpu: Move CPUClass::vmsd to SysemuCPUOps=0D
+  cpu: Move CPUClass::virtio_is_big_endian to SysemuCPUOps=0D
+  cpu: Move CPUClass::get_crash_info to SysemuCPUOps=0D
+  cpu: Move CPUClass::write_elf* to SysemuCPUOps=0D
+  cpu: Move CPUClass::asidx_from_attrs to SysemuCPUOps=0D
+  cpu: Move CPUClass::get_phys_page_debug to SysemuCPUOps=0D
+  cpu: Move CPUClass::get_memory_mapping to SysemuCPUOps=0D
+  cpu: Move CPUClass::get_paging_enabled to SysemuCPUOps=0D
+  cpu: Restrict "hw/core/sysemu-cpu-ops.h" to target/cpu.c=0D
+=0D
+ include/hw/core/cpu.h            |  92 +++++---------------=0D
+ include/hw/core/sysemu-cpu-ops.h |  92 ++++++++++++++++++++=0D
+ include/migration/vmstate.h      |   2 -=0D
+ target/alpha/cpu.h               |  12 ++-=0D
+ target/arm/cpu.h                 |   9 +-=0D
+ target/arm/internals.h           |   2 +=0D
+ target/avr/cpu.h                 |   1 +=0D
+ target/cris/cpu.h                |   7 +-=0D
+ target/hexagon/cpu.h             |   3 +=0D
+ target/hppa/cpu.h                |   5 +-=0D
+ target/i386/cpu.h                |   9 +-=0D
+ target/m68k/cpu.h                |  10 ++-=0D
+ target/microblaze/cpu.h          |  11 +--=0D
+ target/mips/cpu.h                |   3 +=0D
+ target/mips/tcg/tcg-internal.h   |   6 +-=0D
+ target/nios2/cpu.h               |   4 +-=0D
+ target/openrisc/cpu.h            |   6 +-=0D
+ target/ppc/cpu.h                 |   5 +-=0D
+ target/ppc/internal.h            |   2 +=0D
+ target/riscv/cpu.h               |  21 +++--=0D
+ target/rx/cpu.h                  |   5 ++=0D
+ target/s390x/cpu.h               |   3 +=0D
+ target/s390x/internal.h          |   2 +=0D
+ target/sh4/cpu.h                 |  11 ++-=0D
+ target/sparc/cpu.h               |  14 +--=0D
+ target/tricore/cpu.h             |   5 ++=0D
+ target/xtensa/cpu.h              |  19 ++--=0D
+ cpu.c                            |  18 ++--=0D
+ hw/core/{cpu.c =3D3D> cpu-common.c}  | 116 -------------------------=0D
+ hw/core/cpu-sysemu.c             | 145 +++++++++++++++++++++++++++++++=0D
+ hw/virtio/virtio.c               |   4 +-=0D
+ stubs/vmstate.c                  |   2 -=0D
+ target/alpha/cpu.c               |   8 +-=0D
+ target/arm/cpu.c                 |  18 ++--=0D
+ target/arm/tlb_helper.c          |   4 +-=0D
+ target/avr/cpu.c                 |   8 +-=0D
+ target/avr/machine.c             |   4 +-=0D
+ target/cris/cpu.c                |   8 +-=0D
+ target/hppa/cpu.c                |   8 +-=0D
+ target/i386/cpu.c                |  28 +++---=0D
+ target/m68k/cpu.c                |   8 +-=0D
+ target/microblaze/cpu.c          |   8 +-=0D
+ target/microblaze/helper.c       |  35 ++++----=0D
+ target/mips/cpu.c                |  10 ++-=0D
+ target/nios2/cpu.c               |   8 +-=0D
+ target/openrisc/cpu.c            |   8 +-=0D
+ target/ppc/excp_helper.c         |   3 +-=0D
+ target/riscv/cpu.c               |  14 ++-=0D
+ target/rx/cpu.c                  |  10 ++-=0D
+ target/s390x/cpu.c               |  14 ++-=0D
+ target/sh4/cpu.c                 |  11 ++-=0D
+ target/sparc/cpu.c               |  10 ++-=0D
+ target/sparc/ldst_helper.c       |   5 +-=0D
+ target/tricore/cpu.c             |   6 +-=0D
+ target/xtensa/cpu.c              |  10 ++-=0D
+ target/ppc/translate_init.c.inc  |  20 +++--=0D
+ hw/core/meson.build              |   3 +-=0D
+ target/arm/meson.build           |   6 +-=0D
+ 58 files changed, 587 insertions(+), 334 deletions(-)=0D
+ create mode 100644 include/hw/core/sysemu-cpu-ops.h=0D
+ rename hw/core/{cpu.c =3D3D> cpu-common.c} (73%)=0D
+ create mode 100644 hw/core/cpu-sysemu.c=0D
+=0D
+--=3D20=0D
+2.26.3=0D
+=0D
 
