@@ -2,69 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14182383634
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 17:32:58 +0200 (CEST)
-Received: from localhost ([::1]:37270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EB7B3836C3
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 17:36:58 +0200 (CEST)
+Received: from localhost ([::1]:42918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lifEm-000346-T9
-	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 11:32:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46020)
+	id 1lifIe-00079K-SE
+	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 11:36:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46944)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yuri.benditovich@daynix.com>)
- id 1lifD5-0001kT-FJ
- for qemu-devel@nongnu.org; Mon, 17 May 2021 11:31:11 -0400
-Received: from mail-oi1-x233.google.com ([2607:f8b0:4864:20::233]:41833)
+ (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
+ id 1lifHC-0005gJ-Vv
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 11:35:27 -0400
+Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d]:41753)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <yuri.benditovich@daynix.com>)
- id 1lifD0-0005G2-QF
- for qemu-devel@nongnu.org; Mon, 17 May 2021 11:31:11 -0400
-Received: by mail-oi1-x233.google.com with SMTP id c3so6824318oic.8
- for <qemu-devel@nongnu.org>; Mon, 17 May 2021 08:31:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20150623.gappssmtp.com; s=20150623;
+ (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
+ id 1lifHB-0008MI-6P
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 11:35:26 -0400
+Received: by mail-ed1-x52d.google.com with SMTP id v5so7414286edc.8
+ for <qemu-devel@nongnu.org>; Mon, 17 May 2021 08:35:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=RiJi8j5JqjNX5gUbIItUi3OLP5rZu4hCYC8eAqYc9uU=;
- b=lgh5DCMLuWnORclurdaYUf5YstZ6kNfnf6OzbHz1rafBeS5Xw3x/UgulYYXiYIr4jD
- +n6fOzxPMPywGAgj9Yi+WtZywCXLEYjxxD48Ix9M6HI1dMSsFHHtxqifnw3r4nwnC/CH
- I2A4JMfOBSJn32BfEsLOMajmBpLyg96mnG12Zkx6DT5bKPAjnjlFGQEE2Z6eRyNUiHug
- ZOqHXFkVlXhyEaDKQdThBismWYxZ5B9xkV9YjhUbkeD1+6Ga2O9jJj42UEXUhXdBvAcX
- fZ9t5bePS82lg3c6jNPGh5KNvQ39LLm5J5W0gQ71Be4KBUtS9DavPQ7xfu6UKnoDsgMc
- a08w==
+ :cc:content-transfer-encoding;
+ bh=fufZkw1BPef8cDixLXRz+u78AA0ntEZtNtVZJa6Lpl0=;
+ b=JKUbyCW+bDgp27nkelEZK5RisUVr5xGx2yGCSRlCkineNWQE7UoMwsai1pNrIScaQO
+ sSKKLhfOfvjvx1U2enaUoSqzvz3/1iEnLA3DL4UXY5l9or10hrxk6nEemlbTqrsZJbf/
+ tdYX70jsMVFW1W1/LBLzFoq9sXrG1M/lb9cgdGNXT3PzpU/Vu1gp+MedNHJ03wPa3EEX
+ AaSoUcQBD8ElF0DnhOAt+C2cyXMwtoUuG/JT0g64Z0RfL7vUQ73DOtOM9UjFnreyZ46Z
+ W+5PJ2SFpXG/meFZHwlLYOpVJq/5oBj3bOF6S2TmPPmvRttiOzSMYnUl6yOHmy2ssPSh
+ y1EQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=RiJi8j5JqjNX5gUbIItUi3OLP5rZu4hCYC8eAqYc9uU=;
- b=CvmwBq1s4u7Zl7AbrcUswiTAHsXAQ3K9mBrxHMogds51pL6ewOf6hBlR2Cqdy9C8z7
- Fbb+SBe8mtnkgIlOOAeqsQPop4BpxHuVuaoRAmweLGBWgJ34DZw/0WqiCfQ3OUu0k30u
- mY8cxaDuajZ/hJ4aTzL/2ay6mJ+Wj5JGpmKYpOuDyVJJ+NV5k4S1IbI2CGHugVlcqZAe
- io7Ow0JV/NGUXI13ywg5ljdE2hXsGgjdmoLVONXuGUIpxpASjh1N+I23UlgH02lvyVG0
- NqenjNaGaDGmcZue9nbxrhtD4s3m90Hm+J2fV+Lb35uVKVNZRFx1VqRncMRHGl7qKkbQ
- aXHw==
-X-Gm-Message-State: AOAM532RoZcRtpYxGySimNglhvQFyQGjjMtxNJ53FdELGphzuzrOXFnH
- dulXxB4chPlC00jHOxN+z1maiZJUYJQPMnitktnx9A==
-X-Google-Smtp-Source: ABdhPJzyoshbY/r1D8JDYQvO7TbmyAtYgVXR1WDQhPaWFyRrTt2ntWIhYvuRGiiVS1HxKvwzSV4Syj4zxaxDjEOqx8M=
-X-Received: by 2002:aca:f156:: with SMTP id p83mr249766oih.91.1621265465151;
- Mon, 17 May 2021 08:31:05 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=fufZkw1BPef8cDixLXRz+u78AA0ntEZtNtVZJa6Lpl0=;
+ b=Zu6l2s5Twq3feh6T4cAU5F+Ew2jw/LqJ1INRaB2UbKHciUFDWYO/qOPJuM6GilxHqb
+ QXxGVRAoqFt43g8+NDcbiAWXvLwE+r/yPNpbKXp7S9hJUJ1HooS1DE/Z72ynqDC/EAmh
+ t82rds3tZLYMpmNhzFFfp+gHQ1XzDr3tGCEW+DgMLHLDke3zKV/Qxk6zthZnCYaGQAGd
+ EQzUSVTP6xPmk8cbM5x6eOXl60EWZckjMQcSCzJ4ZNuFVdl0RCctaXr6Qrh6+/5Y65Ug
+ bADqZjemHB/RSFgYJmBvHWk/Lq5EkvfLVd4fJMueeaL6OQO1355a5fp4mKrJGqbr4HRQ
+ enEQ==
+X-Gm-Message-State: AOAM5324J8t+rZEfwscPeFAGQcAgzWvoKeXZRTvU/Dwktrxkpb785dY2
+ PnGwuCU1HBPpkKoeFBiPeP/4YDwluweYG0v80tg=
+X-Google-Smtp-Source: ABdhPJySAGCOWtIg01lDtWO0ZvV6qYSdyx8GCjKwXlMX7PC4Hq2Clu0xbJna4uQXZQidtqPteqCKpf/LQa3e0MZA5SU=
+X-Received: by 2002:a50:fd13:: with SMTP id i19mr739781eds.386.1621265723763; 
+ Mon, 17 May 2021 08:35:23 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210325153529.75831-1-andrew@daynix.com>
- <20210514094235-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20210514094235-mutt-send-email-mst@kernel.org>
-From: Yuri Benditovich <yuri.benditovich@daynix.com>
-Date: Mon, 17 May 2021 18:30:51 +0300
-Message-ID: <CAOEp5Ofz5Hr1x6r272BxPs7bYUs8oN_tFkCPbkJb=LQq384cug@mail.gmail.com>
-Subject: Re: [PATCH v5 0/7] eBPF RSS support for virtio-net
-To: "Michael S. Tsirkin" <mst@redhat.com>
+References: <20190114074855.16891-1-jcmvbkbc@gmail.com>
+ <20190114074855.16891-8-jcmvbkbc@gmail.com>
+ <CAAdtpL5NoHLoUZR6MQKMg92h=Cm-Fqyc+zJvXz-GWqbtobyu2A@mail.gmail.com>
+ <CAMo8BfLotZPVu5XWZ=EKZPgW3yir1Fsddj31Q6jzGcYehhzGbQ@mail.gmail.com>
+ <CAMo8Bf+zdmFgRgpq_kCi=jP0KDbHw=9+Ai_46i_Z8veek+qemg@mail.gmail.com>
+ <c8189bc2-79e3-3b57-2f4a-54012ed6ebb7@amsat.org>
+ <CAMo8BfKE_TQJ7FG9gYwstahO7z67voDsp9GJP8j5si=78z+1EA@mail.gmail.com>
+In-Reply-To: <CAMo8BfKE_TQJ7FG9gYwstahO7z67voDsp9GJP8j5si=78z+1EA@mail.gmail.com>
+From: Max Filippov <jcmvbkbc@gmail.com>
+Date: Mon, 17 May 2021 08:35:12 -0700
+Message-ID: <CAMo8Bf+rUTKMsjyKJSi+zcmNvtwuGH+8KA5DLpdDR1=NR5hb1g@mail.gmail.com>
+Subject: Re: [Qemu-devel] [PATCH 7/7] target/xtensa: move non-HELPER functions
+ to helper.c
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: none client-ip=2607:f8b0:4864:20::233;
- envelope-from=yuri.benditovich@daynix.com; helo=mail-oi1-x233.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
+ envelope-from=jcmvbkbc@gmail.com; helo=mail-ed1-x52d.google.com
+X-Spam_score_int: 4
+X-Spam_score: 0.4
+X-Spam_bar: /
+X-Spam_report: (0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ FROM_LOCAL_NOVOWEL=0.5, HK_RANDOM_ENVFROM=0.999, HK_RANDOM_FROM=1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,153 +86,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yan Vugenfirer <yan@daynix.com>, Andrew Melnychenko <andrew@daynix.com>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, May 14, 2021 at 4:43 PM Michael S. Tsirkin <mst@redhat.com> wrote:
+On Mon, May 17, 2021 at 8:25 AM Max Filippov <jcmvbkbc@gmail.com> wrote:
 >
-> On Thu, Mar 25, 2021 at 05:35:22PM +0200, Andrew Melnychenko wrote:
-> > This set of patches introduces the usage of eBPF for packet steering
-> > and RSS hash calculation:
-> > * RSS(Receive Side Scaling) is used to distribute network packets to
-> > guest virtqueues by calculating packet hash
-> > * Additionally adding support for the usage of RSS with vhost
+> On Mon, May 17, 2021 at 6:10 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.=
+org> wrote:
 > >
-> > The eBPF works on kernels 5.8+
-> > On earlier kerneld it fails to load and the RSS feature is reported
-> > only without vhost and implemented in 'in-qemu' software.
+> > On 5/17/21 2:11 PM, Max Filippov wrote:
+> > > On Mon, May 17, 2021 at 4:50 AM Max Filippov <jcmvbkbc@gmail.com> wro=
+te:
+> > >>
+> > >> Hi Philippe,
+> > >>
+> > >> On Sun, May 16, 2021 at 10:05 PM Philippe Mathieu-Daud=C3=A9
+> > >> <philippe@mathieu-daude.net> wrote:
+> > >>>
+> > >>> Hi Max,
+> > >>>
+> > >>> On Mon, Jan 14, 2019 at 8:52 AM Max Filippov <jcmvbkbc@gmail.com> w=
+rote:
+> > >>>>
+> > >>>> Move remaining non-HELPER functions from op_helper.c to helper.c.
+> > >>>> No functional changes.
+> > >>>>
+> > >>>> Signed-off-by: Max Filippov <jcmvbkbc@gmail.com>
+> > >>>> ---
+> > >>>>  target/xtensa/helper.c    | 61 ++++++++++++++++++++++++++++++++++=
+++++++++++---
+> > >>>>  target/xtensa/op_helper.c | 56 ----------------------------------=
+---------
+> > >>>>  2 files changed, 58 insertions(+), 59 deletions(-)
+> > >>>
+> > >>>> +void xtensa_cpu_do_unaligned_access(CPUState *cs,
+> > >>>> +                                    vaddr addr, MMUAccessType acc=
+ess_type,
+> > >>>> +                                    int mmu_idx, uintptr_t retadd=
+r)
+> > >>>> +{
+> > >>>> +    XtensaCPU *cpu =3D XTENSA_CPU(cs);
+> > >>>> +    CPUXtensaState *env =3D &cpu->env;
+> > >>>> +
+> > >>>> +    if (xtensa_option_enabled(env->config, XTENSA_OPTION_UNALIGNE=
+D_EXCEPTION) &&
+> > >>>> +        !xtensa_option_enabled(env->config, XTENSA_OPTION_HW_ALIG=
+NMENT)) {
+> > >>>
+> > >>> I know this is a simple code movement, but I wonder, what should
+> > >>> happen when there is
+> > >>> an unaligned fault and the options are disabled? Is this an impossi=
+ble
+> > >>> case (unreachable)?
+> > >>
+> > >> It should be unreachable when XTENSA_OPTION_UNALIGNED_EXCEPTION
+> > >> is disabled. In that case the translation code generates access on a=
+ligned
+> > >> addresses according to the xtensa ISA, see the function
+> > >> gen_load_store_alignment in target/xtensa/translate.c
+> > >
+> > > There's also a case when both options are enabled, i.e. the
+> > > xtensa core has support for transparent unaligned access.
+> > > In that case the helper does nothing and the generic TCG
+> > > code is supposed to deal with the unaligned access correctly,
 > >
-> > Implementation notes:
-> > Linux TAP TUNSETSTEERINGEBPF ioctl was used to set the eBPF program.
-> > Added libbpf dependency and eBPF support.
-> > The eBPF program is part of the qemu and presented as an array
-> > of BPF ELF file data. The eBPF array file initially generated by bpftool.
-> > The compilation of eBPF is not part of QEMU build and can be done
-> > using provided Makefile.ebpf.
-> > Added changes to virtio-net and vhost, primary eBPF RSS is used.
-> > 'in-qemu' RSS used in the case of hash population and as a fallback option.
-> > For vhost, the hash population feature is not reported to the guest.
+> > IIRC we can simplify as:
 > >
-> > Please also see the documentation in PATCH 6/7.
+> > -- >8 --
+> > diff --git a/target/xtensa/helper.c b/target/xtensa/helper.c
+> > index eeffee297d1..6e8a6cdc99e 100644
+> > --- a/target/xtensa/helper.c
+> > +++ b/target/xtensa/helper.c
+> > @@ -270,13 +270,14 @@ void xtensa_cpu_do_unaligned_access(CPUState *cs,
+> >      XtensaCPU *cpu =3D XTENSA_CPU(cs);
+> >      CPUXtensaState *env =3D &cpu->env;
+> >
+> > -    if (xtensa_option_enabled(env->config,
+> > XTENSA_OPTION_UNALIGNED_EXCEPTION) &&
+> > -        !xtensa_option_enabled(env->config, XTENSA_OPTION_HW_ALIGNMENT=
+)) {
+> > -        cpu_restore_state(CPU(cpu), retaddr, true);
+> > -        HELPER(exception_cause_vaddr)(env,
+> > -                                      env->pc, LOAD_STORE_ALIGNMENT_CA=
+USE,
+> > -                                      addr);
+> > -    }
+> > +    assert(xtensa_option_enabled(env->config,
+> > +                                 XTENSA_OPTION_UNALIGNED_EXCEPTION));
 >
-> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+> This part -- yes.
 >
-> > Known issues:
-> > * hash population not supported by eBPF RSS: 'in-qemu' RSS used
-> > as a fallback, also, hash population feature is not reported to guests
-> > with vhost.
+> > +    assert(!xtensa_option_enabled(env->config,
+> > XTENSA_OPTION_HW_ALIGNMENT));
 >
-> Could we instead fail init when RSS is requested and vhost is
-> enabled? we can't do it for on by default features but we can
-> for off by default ones ...
->
-Of course this is possible.
-I hope we do not need to stop the merge (it is in progress) and this
-can be done in a separate patch and after some discussion.
-Notes for the discussion:
-1. We are not talking about RSS (it does not contradict with vhost
-anymore), this is about "hash report".
-2. Linux guest does not acknowledge this feature and for Linux VM
-there is no motivation to enable it at all. So it looks like the issue
-is minor, if any.
-3. Currently we clear this feature with vhost but there is nothing
-specific to the "hash report" feature; we clear it during a check of
-vhost features (as well as other features dependent on vhost). If/when
-this feature will be supported by the kernel - we'll not disable it
-automatically. You suggest to fail the init for "hash + vhost"
-explicitly without any special reason.
-4. In general I think failing init is not the best behavior of qemu,
-it is typically used in case of a really significant problem. Absence
-of this feature is not something that leads to unexpected behavior or
-significant performance loss.  Maybe a warning is enough?
+> This part -- no, because the call to the TCGCPUOps::do_unaligned_access
+> is unconditional
 
+Oh, I've checked get_alignment_bits and now I see that it's conditional.
+This change can be done then, but the translation part also needs to be cha=
+nged
+to put MO_UNALN on cores with XTENSA_OPTION_HW_ALIGNMENT.
 
-
-
-> > * IPv6 extensions still in progress.
-> >
-> > Changes since v1:
-> > * using libbpf instead of direct 'bpf' system call.
-> > * added libbpf dependency to the configure/meson scripts.
-> > * changed python script for eBPF .h file generation.
-> > * changed eBPF program - reading L3 proto from ethernet frame.
-> > * added TUNSETSTEERINGEBPF define for TUN.
-> > * changed the maintainer's info.
-> > * added license headers.
-> > * refactored code.
-> >
-> > Changes since v2:
-> > * using bpftool for eBPF skeleton generation.
-> > * ebpf_rss is refactored to use skeleton generated by bpftool.
-> > * added/adjasted license in comment sections and in eBPF file.
-> > * rss.bpf.c and Makefile.ebpf moved to the tool/ebpf folder.
-> > * virtio-net eBPF rss refactored. Now eBPF initialized during realize().
-> >
-> > Changes since v3:
-> > * rebased to last master.
-> > * fixed issue with failed build without libbpf.
-> > * fixed ebpf loading without rss option.
-> > * refactored labels in ebpf_rss.c
-> >
-> > Changes since v4:
-> > * refactored configure/meson script.
-> > * added checks for load_bytes in ebpf.
-> > * documentation added to the index.
-> > * refactored Makefile and rss.bpf.c.
-> > * rebased to last master.
-> >
-> > Andrew (7):
-> >   net/tap: Added TUNSETSTEERINGEBPF code.
-> >   net: Added SetSteeringEBPF method for NetClientState.
-> >   ebpf: Added eBPF RSS program.
-> >   ebpf: Added eBPF RSS loader.
-> >   virtio-net: Added eBPF RSS to virtio-net.
-> >   docs: Added eBPF documentation.
-> >   MAINTAINERS: Added eBPF maintainers information.
-> >
-> >  MAINTAINERS                    |   8 +
-> >  configure                      |   8 +-
-> >  docs/devel/ebpf_rss.rst        | 125 ++++++++
-> >  docs/devel/index.rst           |   1 +
-> >  ebpf/ebpf_rss-stub.c           |  40 +++
-> >  ebpf/ebpf_rss.c                | 165 ++++++++++
-> >  ebpf/ebpf_rss.h                |  44 +++
-> >  ebpf/meson.build               |   1 +
-> >  ebpf/rss.bpf.skeleton.h        | 423 +++++++++++++++++++++++++
-> >  ebpf/trace-events              |   4 +
-> >  ebpf/trace.h                   |   2 +
-> >  hw/net/vhost_net.c             |   3 +
-> >  hw/net/virtio-net.c            | 115 ++++++-
-> >  include/hw/virtio/virtio-net.h |   4 +
-> >  include/net/net.h              |   2 +
-> >  meson.build                    |   9 +
-> >  meson_options.txt              |   2 +
-> >  net/tap-bsd.c                  |   5 +
-> >  net/tap-linux.c                |  13 +
-> >  net/tap-linux.h                |   1 +
-> >  net/tap-solaris.c              |   5 +
-> >  net/tap-stub.c                 |   5 +
-> >  net/tap.c                      |   9 +
-> >  net/tap_int.h                  |   1 +
-> >  net/vhost-vdpa.c               |   2 +
-> >  tools/ebpf/Makefile.ebpf       |  22 ++
-> >  tools/ebpf/rss.bpf.c           | 552 +++++++++++++++++++++++++++++++++
-> >  27 files changed, 1567 insertions(+), 4 deletions(-)
-> >  create mode 100644 docs/devel/ebpf_rss.rst
-> >  create mode 100644 ebpf/ebpf_rss-stub.c
-> >  create mode 100644 ebpf/ebpf_rss.c
-> >  create mode 100644 ebpf/ebpf_rss.h
-> >  create mode 100644 ebpf/meson.build
-> >  create mode 100644 ebpf/rss.bpf.skeleton.h
-> >  create mode 100644 ebpf/trace-events
-> >  create mode 100644 ebpf/trace.h
-> >  create mode 100755 tools/ebpf/Makefile.ebpf
-> >  create mode 100644 tools/ebpf/rss.bpf.c
-> >
-> > --
-> > 2.31.0
->
+--=20
+Thanks.
+-- Max
 
