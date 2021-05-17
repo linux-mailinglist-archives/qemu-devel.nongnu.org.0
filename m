@@ -2,92 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6EE4382E12
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 15:58:21 +0200 (CEST)
-Received: from localhost ([::1]:57456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 476DF382E56
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 16:05:58 +0200 (CEST)
+Received: from localhost ([::1]:39830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lidlE-0001Ma-9b
-	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 09:58:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49184)
+	id 1lidsa-0000Me-Bo
+	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 10:05:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51404)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lidkK-0000Pm-Fo
- for qemu-devel@nongnu.org; Mon, 17 May 2021 09:57:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42541)
+ (Exim 4.90_1) (envelope-from <maz@kernel.org>) id 1lidqq-0007sb-S4
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 10:04:08 -0400
+Received: from mail.kernel.org ([198.145.29.99]:44160)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lidkH-0003Vo-AH
- for qemu-devel@nongnu.org; Mon, 17 May 2021 09:57:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621259839;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=DlARMlx+YqhX0UK5hmPM6odQtSKDB3fSHQaE86/eEY4=;
- b=A6TmjfEVkrl4G1YOIhXDWLnGFqi0Oj+GfS+WJgcRhJHykIJvtx0uAstOUnvdElq9hjKDz1
- R5srcREo9Hy7jbXcOMKt0Kf/zfFkIDheaESkObF3A+1rzjhQK2GzWM+NAEdfpSyWX487Od
- UbxO4D80Xj2E5T/853KYEtOtYQrPbPk=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-432-wWVOGv4PMMW1Pn1YjMpHyQ-1; Mon, 17 May 2021 09:57:17 -0400
-X-MC-Unique: wWVOGv4PMMW1Pn1YjMpHyQ-1
-Received: by mail-wm1-f72.google.com with SMTP id
- x7-20020a7bc2070000b0290149dcabfd85so1429214wmi.8
- for <qemu-devel@nongnu.org>; Mon, 17 May 2021 06:57:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:organization
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=DlARMlx+YqhX0UK5hmPM6odQtSKDB3fSHQaE86/eEY4=;
- b=CFE7paTAmYQqXBE7b9QANY0fWo/saonHQc01/bmerSHrkPVBpKCjvP49TQrIwVzU3q
- +Qr791I6s5U/UJ5FNam9HpS/Wgu5t6BJP8Eehqv+gCiJd7ZYAKzcuU1L71e9LLXTpgBM
- SVnhggTzzvlbDWGnUNrp51837K8g5iRJWCj6ESKyz6VctgVwlN1f9Y9iix4Bo+RmXwlC
- 9xiNw5fczToAkvOM20/d2h5iN/sJQFH/k3O0AE/JRNGQ/lFGxgTpigARjCfBOgIrkaJ7
- 5TlH/3NGCOXvUso1Pao3X1IY882ZS82fqIJSYqDgfCQgK+WmWbW3NDTW+WsLiBDdhoFk
- YKuQ==
-X-Gm-Message-State: AOAM531gzg/Kj07RJEMY8RePEo0rcJxb6HcqO38tU/JyPGYLjFu7bt38
- EpReGBNixQEKoVxvfCe5YKxbV6Z2A/Pk1jNQ7oliu+i7UsBTFevQg/EFWjtNhaJTz8AdCuZvBn3
- A4YSpWXogJLeW124=
-X-Received: by 2002:a1c:6a0c:: with SMTP id f12mr82068wmc.122.1621259836311;
- Mon, 17 May 2021 06:57:16 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy85+X8JXO8/IB/AIWeT5thNjxvjWDCIHb5HvVBEw3z7176XLjRtMtWU5/1M7KNQ+Z9aFpxbg==
-X-Received: by 2002:a1c:6a0c:: with SMTP id f12mr82036wmc.122.1621259836053;
- Mon, 17 May 2021 06:57:16 -0700 (PDT)
-Received: from [192.168.3.132] (p5b0c6833.dip0.t-ipconnect.de. [91.12.104.51])
- by smtp.gmail.com with ESMTPSA id
- d3sm17980794wri.75.2021.05.17.06.57.15
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 17 May 2021 06:57:15 -0700 (PDT)
-Subject: Re: [PATCH v1] softfloat: Silence signaling NaN when converting
- to/from float128
-To: qemu-devel@nongnu.org
-References: <20210505104952.5632-1-david@redhat.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Message-ID: <342fd8ed-2218-8bd6-4e78-8480b4e3680e@redhat.com>
-Date: Mon, 17 May 2021 15:57:14 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
-MIME-Version: 1.0
-In-Reply-To: <20210505104952.5632-1-david@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.374,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <maz@kernel.org>) id 1lidqo-00083O-Q2
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 10:04:08 -0400
+Received: from disco-boy.misterjones.org (disco-boy.misterjones.org
+ [51.254.78.96])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 4AB6561074;
+ Mon, 17 May 2021 14:04:04 +0000 (UTC)
+Received: from 78.163-31-62.static.virginmediabusiness.co.uk ([62.31.163.78]
+ helo=why.misterjones.org)
+ by disco-boy.misterjones.org with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <maz@kernel.org>)
+ id 1lidqj-001ouz-3j; Mon, 17 May 2021 15:04:01 +0100
+Date: Mon, 17 May 2021 15:03:59 +0100
+Message-ID: <87cztpv4mo.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Steven Price <steven.price@arm.com>
+Subject: Re: [PATCH v12 1/8] arm64: mte: Handle race when synchronising tags
+In-Reply-To: <20210517123239.8025-2-steven.price@arm.com>
+References: <20210517123239.8025-1-steven.price@arm.com>
+ <20210517123239.8025-2-steven.price@arm.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
+ (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 62.31.163.78
+X-SA-Exim-Rcpt-To: steven.price@arm.com, catalin.marinas@arm.com,
+ will@kernel.org, james.morse@arm.com, julien.thierry.kdev@gmail.com,
+ suzuki.poulose@arm.com, kvmarm@lists.cs.columbia.edu,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ Dave.Martin@arm.com, mark.rutland@arm.com, tglx@linutronix.de,
+ qemu-devel@nongnu.org, quintela@redhat.com, dgilbert@redhat.com,
+ richard.henderson@linaro.org, peter.maydell@linaro.org, Haibo.Xu@arm.com,
+ drjones@redhat.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org);
+ SAEximRunCond expanded to false
+Received-SPF: pass client-ip=198.145.29.99; envelope-from=maz@kernel.org;
+ helo=mail.kernel.org
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,89 +73,116 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Andrew Jones <drjones@redhat.com>, Haibo Xu <Haibo.Xu@arm.com>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>, qemu-devel@nongnu.org,
+ Catalin Marinas <catalin.marinas@arm.com>, Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, linux-kernel@vger.kernel.org,
+ Dave Martin <Dave.Martin@arm.com>, James Morse <james.morse@arm.com>,
+ linux-arm-kernel@lists.infradead.org, Thomas Gleixner <tglx@linutronix.de>,
+ Will Deacon <will@kernel.org>, kvmarm@lists.cs.columbia.edu,
+ Julien Thierry <julien.thierry.kdev@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 05.05.21 12:49, David Hildenbrand wrote:
-> We forgot to silence the NaN, just as we already do for the other
-> conversions.
+Hi Steven,
+
+On Mon, 17 May 2021 13:32:32 +0100,
+Steven Price <steven.price@arm.com> wrote:
 > 
-> Found by comparing the result of running randomly generated FP instructions
-> under s390x/tcg and comparing against the result on real HW.
+> mte_sync_tags() used test_and_set_bit() to set the PG_mte_tagged flag
+> before restoring/zeroing the MTE tags. However if another thread were to
+> race and attempt to sync the tags on the same page before the first
+> thread had completed restoring/zeroing then it would see the flag is
+> already set and continue without waiting. This would potentially expose
+> the previous contents of the tags to user space, and cause any updates
+> that user space makes before the restoring/zeroing has completed to
+> potentially be lost.
 > 
-> Unfortunately, test cases like f32_to_f128 cannot be unlocked yet as
-> some expected values (with NaN) are wrongly calculated.
+> Since this code is run from atomic contexts we can't just lock the page
+> during the process. Instead implement a new (global) spinlock to protect
+> the mte_sync_page_tags() function.
 > 
-> Cc: Aurelien Jarno <aurelien@aurel32.net>
-> Cc: Peter Maydell <peter.maydell@linaro.org>
-> Cc: "Alex Bennée" <alex.bennee@linaro.org>
-> Cc: Richard Henderson <richard.henderson@linaro.org>
-> Signed-off-by: David Hildenbrand <david@redhat.com>
+> Fixes: 34bfeea4a9e9 ("arm64: mte: Clear the tags when a page is mapped in user-space with PROT_MTE")
+> Signed-off-by: Steven Price <steven.price@arm.com>
 > ---
->   fpu/softfloat.c | 16 ++++++++++++----
->   1 file changed, 12 insertions(+), 4 deletions(-)
+> ---
+>  arch/arm64/kernel/mte.c | 21 ++++++++++++++++++---
+>  1 file changed, 18 insertions(+), 3 deletions(-)
 > 
-> diff --git a/fpu/softfloat.c b/fpu/softfloat.c
-> index 67cfa0fd82..e9f2117a6d 100644
-> --- a/fpu/softfloat.c
-> +++ b/fpu/softfloat.c
-> @@ -4924,7 +4924,9 @@ float128 float32_to_float128(float32 a, float_status *status)
->       aSign = extractFloat32Sign( a );
->       if ( aExp == 0xFF ) {
->           if (aSig) {
-> -            return commonNaNToFloat128(float32ToCommonNaN(a, status), status);
-> +            float128 res = commonNaNToFloat128(float32ToCommonNaN(a, status),
-> +                                               status);
-> +            return float128_silence_nan(res, status);
->           }
->           return packFloat128( aSign, 0x7FFF, 0, 0 );
->       }
-> @@ -5229,7 +5231,9 @@ float128 float64_to_float128(float64 a, float_status *status)
->       aSign = extractFloat64Sign( a );
->       if ( aExp == 0x7FF ) {
->           if (aSig) {
-> -            return commonNaNToFloat128(float64ToCommonNaN(a, status), status);
-> +            float128 res = commonNaNToFloat128(float64ToCommonNaN(a, status),
-> +                                               status);
-> +            return float128_silence_nan(res, status);
->           }
->           return packFloat128( aSign, 0x7FFF, 0, 0 );
->       }
-> @@ -6665,7 +6669,9 @@ float32 float128_to_float32(float128 a, float_status *status)
->       aSign = extractFloat128Sign( a );
->       if ( aExp == 0x7FFF ) {
->           if ( aSig0 | aSig1 ) {
-> -            return commonNaNToFloat32(float128ToCommonNaN(a, status), status);
-> +            float32 res = commonNaNToFloat32(float128ToCommonNaN(a, status),
-> +                                             status);
-> +            return float32_silence_nan(res, status);
->           }
->           return packFloat32( aSign, 0xFF, 0 );
->       }
-> @@ -6699,7 +6705,9 @@ float64 float128_to_float64(float128 a, float_status *status)
->       aSign = extractFloat128Sign( a );
->       if ( aExp == 0x7FFF ) {
->           if ( aSig0 | aSig1 ) {
-> -            return commonNaNToFloat64(float128ToCommonNaN(a, status), status);
-> +            float64 res = commonNaNToFloat64(float128ToCommonNaN(a, status),
-> +                                             status);
-> +            return float64_silence_nan(res, status);
->           }
->           return packFloat64( aSign, 0x7FF, 0 );
->       }
-> 
+> diff --git a/arch/arm64/kernel/mte.c b/arch/arm64/kernel/mte.c
+> index 125a10e413e9..c88e778c2fa9 100644
+> --- a/arch/arm64/kernel/mte.c
+> +++ b/arch/arm64/kernel/mte.c
+> @@ -25,6 +25,7 @@
+>  u64 gcr_kernel_excl __ro_after_init;
+>  
+>  static bool report_fault_once = true;
+> +static spinlock_t tag_sync_lock;
 
-This problem is also fixed after Richard's rework:
+What initialises this spinlock? Have you tried this with lockdep? I'd
+expect it to be defined with DEFINE_SPINLOCK(), which always does the
+right thing.
 
-https://lkml.kernel.org/r/20210508014802.892561-1-richard.henderson@linaro.org
+>  
+>  #ifdef CONFIG_KASAN_HW_TAGS
+>  /* Whether the MTE asynchronous mode is enabled. */
+> @@ -34,13 +35,22 @@ EXPORT_SYMBOL_GPL(mte_async_mode);
+>  
+>  static void mte_sync_page_tags(struct page *page, pte_t *ptep, bool check_swap)
+>  {
+> +	unsigned long flags;
+>  	pte_t old_pte = READ_ONCE(*ptep);
+>  
+> +	spin_lock_irqsave(&tag_sync_lock, flags);
+> +
+> +	/* Recheck with the lock held */
+> +	if (test_bit(PG_mte_tagged, &page->flags))
+> +		goto out;
+> +
+>  	if (check_swap && is_swap_pte(old_pte)) {
+>  		swp_entry_t entry = pte_to_swp_entry(old_pte);
+>  
+> -		if (!non_swap_entry(entry) && mte_restore_tags(entry, page))
+> -			return;
+> +		if (!non_swap_entry(entry) && mte_restore_tags(entry, page)) {
+> +			set_bit(PG_mte_tagged, &page->flags);
+> +			goto out;
+> +		}
+>  	}
+>  
+>  	page_kasan_tag_reset(page);
+> @@ -53,6 +63,10 @@ static void mte_sync_page_tags(struct page *page, pte_t *ptep, bool check_swap)
+>  	 */
+>  	smp_wmb();
+>  	mte_clear_page_tags(page_address(page));
+> +	set_bit(PG_mte_tagged, &page->flags);
+> +
+> +out:
+> +	spin_unlock_irqrestore(&tag_sync_lock, flags);
+>  }
+>  
+>  void mte_sync_tags(pte_t *ptep, pte_t pte)
+> @@ -60,10 +74,11 @@ void mte_sync_tags(pte_t *ptep, pte_t pte)
+>  	struct page *page = pte_page(pte);
+>  	long i, nr_pages = compound_nr(page);
+>  	bool check_swap = nr_pages == 1;
+> +	bool pte_is_tagged = pte_tagged(pte);
+>  
+>  	/* if PG_mte_tagged is set, tags have already been initialised */
+>  	for (i = 0; i < nr_pages; i++, page++) {
+> -		if (!test_and_set_bit(PG_mte_tagged, &page->flags))
+> +		if (!test_bit(PG_mte_tagged, &page->flags))
+>  			mte_sync_page_tags(page, ptep, check_swap);
+>  	}
+>  }
 
--- 
 Thanks,
 
-David / dhildenb
+	M.
 
+-- 
+Without deviation from the norm, progress is not possible.
 
