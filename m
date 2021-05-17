@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C8A4382B9A
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 13:57:49 +0200 (CEST)
-Received: from localhost ([::1]:50554 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6431382B9D
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 13:58:01 +0200 (CEST)
+Received: from localhost ([::1]:51318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1libsa-0006Jg-Hp
-	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 07:57:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43836)
+	id 1libsm-0006ou-Eu
+	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 07:58:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43964)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1libqf-0003ca-19
- for qemu-devel@nongnu.org; Mon, 17 May 2021 07:55:49 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:42603)
+ id 1libqw-0003z4-W1
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 07:56:14 -0400
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:35688)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1libqd-0002pR-Fi
- for qemu-devel@nongnu.org; Mon, 17 May 2021 07:55:48 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id x8so6068956wrq.9
- for <qemu-devel@nongnu.org>; Mon, 17 May 2021 04:55:43 -0700 (PDT)
+ id 1libqt-0002wT-AN
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 07:56:06 -0400
+Received: by mail-wm1-x330.google.com with SMTP id
+ z19-20020a7bc7d30000b029017521c1fb75so2822861wmk.0
+ for <qemu-devel@nongnu.org>; Mon, 17 May 2021 04:56:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ALNUiIR9f1KnIIz0k1dSE1UPa7kOz9dgBqDIcEEWFkM=;
- b=sv75uBQxRceb49/L+N584zI9iqSsBxaMYo+nxqmp4mG1ub+PR392LSr9kMxWr4rxZp
- jElCbrh3A1/wqIpZA04joUK6A5ysnKx0zocUSaVFEazZSJj6klBtGwKUePbXmRjeH6QT
- Gt12hbqeMDnkOJwTVR/Sb89RCoM6fddoxOD/YBkJaz/pIzoZa1tjO/eZPgvNCXhif04a
- 5BrTDDEeKBVmSEpY7sctRPDt6qtDPwrB0A9SX7uZsJq4HWDnq6OeKy8W4tmkwcbg8E5/
- 3wD0rrb30Avntjxhxaaq0SE+kGCudV9iDvG2adoDr1HU1heg5ueBGG/TWtGC7w6nqrKu
- IUWA==
+ bh=6K25Rk+jURG0ASVbfGKwW1bl2gEnBYtQHzFYqwQ6Y7w=;
+ b=g6RfVtyRzr844kigFqFWHLaCd8810RmO324fJGBhJBLbvrcQYESFr7t9X20y5VtBhF
+ Kj1IFGK/iB2slh+wtuDg3Cdhw14VGEJ51diKgvagpRFvgSGHguBwl8JIpDn5diexsARB
+ AhnrjDW+z/6+t91uw43zRcCpkXJ1N7ut7Q7d7HZOaejdofsmZz+vcJuHp3IKC/L73s/U
+ J7L/f8RhDMTXbDl1F02ubFA3b8vhzi/23sKCPYyOnrUOoFWVOBA0rztNkinV11as2EjS
+ /DQDlWsmOMr7X4raZwShIKPUJtjpkRUatv1mSdjxTnstkQB3z9kxSvBkUoWIBCbapnQB
+ gZgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=ALNUiIR9f1KnIIz0k1dSE1UPa7kOz9dgBqDIcEEWFkM=;
- b=BlX8fOCdBxPpXBqQczUz3IKul5IDuYEyfC5Mf8TO4UIPDlBQPWKy0/r/PnhBnIS9NH
- CvEP/x7sAYOuVwoT2xG943TlbcdAECrPHcGwkKy1JIlPPMxaeQ4n/wbfj576mMPHlPep
- 5zch0l6VhN1jIITe5WGOECDpr+j27wV59iyY8sAb6u7aEieCf1vc9qnghIYPkUPFIin8
- Qe6nsXJfMzhPQqEkQfRj4qYL+1Z4AX8c5Hx815VdwbuwcZO/DSHaiqU4ZxqXJYQTQEjB
- sqtR/myp0z0PUuzlEKF0vwTbLFzxDKtbS+N7BNP51LnYgWI3MNT9BPG4VF9uGKdvJKoj
- o5Nw==
-X-Gm-Message-State: AOAM532lNGmsim4QVp34nlFXgJNGKB670pJY/oxdBz+UizAglAlqUNcK
- XWDIlTdjW4xITN4wHDur9HdAw5DHMv6gLQ==
-X-Google-Smtp-Source: ABdhPJwCiJv/0v0LPkNcvYs3C6DR2V5P9kLaNr1pGRzHPiAqXP+bnir/FWuGFOa0VMHAOu1yQzTZNA==
-X-Received: by 2002:a5d:6041:: with SMTP id j1mr72142092wrt.374.1621252542332; 
- Mon, 17 May 2021 04:55:42 -0700 (PDT)
+ bh=6K25Rk+jURG0ASVbfGKwW1bl2gEnBYtQHzFYqwQ6Y7w=;
+ b=jU4uGa/Dn9+W18P4n0QFiJVVqJtc8fhJFp3IGJIiVUy4/2iGqJOvD1dM827nSXXrI9
+ shjUHneiZk57c7hTYa7FKQONjA2nX8ljUbnnHOGYR5zNoqOpiK14UAhJ/+GMbyZ4CW79
+ TN1RWUs1ukpawQxPq6c0E6bZsGpvdamkn/fqoURdGGVHuALTA9HcxbqjUgnHUq5WLouX
+ WcAcdWrSyYJL8Lmx00UjE5gJ+oJd3tkjaaAmw2qW5oLl/kItwSnf58qcS7RzzqASIKbS
+ DKGavo6QNXCJowBZhMa3KFH2zrf6i08uUJrfmJ98isDFk6fwXNURcNOENYcSgWGgfB16
+ iNzw==
+X-Gm-Message-State: AOAM530Ou9wUu21DbmqoJB8JCojhHkm+8u7fohICwDy9H2/UV37DIO1l
+ l/6drBqg3tbSZmTeiuz1Jb/O3vB3Y2UMCQ==
+X-Google-Smtp-Source: ABdhPJzsenCwWagdV5cM7EKW5/ie2ZdgVzdFcX24qTN69x+JGApDq0+bSf/gH79bh0xNez1YWK4EQw==
+X-Received: by 2002:a1c:e90d:: with SMTP id q13mr15724245wmc.163.1621252561866; 
+ Mon, 17 May 2021 04:56:01 -0700 (PDT)
 Received: from localhost.localdomain (31.red-83-51-215.dynamicip.rima-tde.net.
  [83.51.215.31])
- by smtp.gmail.com with ESMTPSA id b62sm14554343wmc.39.2021.05.17.04.55.41
+ by smtp.gmail.com with ESMTPSA id r17sm20961195wmh.25.2021.05.17.04.56.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 May 2021 04:55:41 -0700 (PDT)
+ Mon, 17 May 2021 04:56:01 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 03/15] accel/hax: Simplify #ifdef'ry
-Date: Mon, 17 May 2021 13:55:13 +0200
-Message-Id: <20210517115525.1088693-4-f4bug@amsat.org>
+Subject: [RFC PATCH 07/15] softmmu/globals: Remove unused 'hw/i386/*' headers
+Date: Mon, 17 May 2021 13:55:17 +0200
+Message-Id: <20210517115525.1088693-8-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210517115525.1088693-1-f4bug@amsat.org>
 References: <20210517115525.1088693-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x330.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -91,76 +92,24 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-hax_enabled() is called from:
-
-- qemu_init_board() in softmmu/vl.c
-- qemu_wait_io_event() in softmmu/cpus.c
-- apic_common_realize() in hw/intc/apic_common.c
-
-By converting macros to a function, we can remove the
-NEED_CPU_H dependency and build softmmu/cpus.c once
-for all targets.
-
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- include/sysemu/hax.h      | 14 +-------------
- accel/stubs/hax-stub.c    |  5 +++++
- target/i386/hax/hax-all.c |  2 +-
- 3 files changed, 7 insertions(+), 14 deletions(-)
+ softmmu/globals.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/include/sysemu/hax.h b/include/sysemu/hax.h
-index 247f0661d12..bc165b23ae6 100644
---- a/include/sysemu/hax.h
-+++ b/include/sysemu/hax.h
-@@ -24,18 +24,6 @@
- 
- int hax_sync_vcpus(void);
- 
--#ifdef NEED_CPU_H
--
--#ifdef CONFIG_HAX
--
--int hax_enabled(void);
--
--#else /* CONFIG_HAX */
--
--#define hax_enabled() (0)
--
--#endif /* CONFIG_HAX */
--
--#endif /* NEED_CPU_H */
-+bool hax_enabled(void);
- 
- #endif /* QEMU_HAX_H */
-diff --git a/accel/stubs/hax-stub.c b/accel/stubs/hax-stub.c
-index 49077f88e3c..1a0370a4362 100644
---- a/accel/stubs/hax-stub.c
-+++ b/accel/stubs/hax-stub.c
-@@ -16,6 +16,11 @@
+diff --git a/softmmu/globals.c b/softmmu/globals.c
+index 7d0fc811835..3ebd718e35d 100644
+--- a/softmmu/globals.c
++++ b/softmmu/globals.c
+@@ -25,8 +25,6 @@
  #include "qemu/osdep.h"
- #include "sysemu/hax.h"
- 
-+bool hax_enabled(void)
-+{
-+    return false;
-+}
-+
- int hax_sync_vcpus(void)
- {
-     return 0;
-diff --git a/target/i386/hax/hax-all.c b/target/i386/hax/hax-all.c
-index bf65ed6fa92..d99feef21d4 100644
---- a/target/i386/hax/hax-all.c
-+++ b/target/i386/hax/hax-all.c
-@@ -56,7 +56,7 @@ struct hax_state hax_global;
- static void hax_vcpu_sync_state(CPUArchState *env, int modified);
- static int hax_arch_get_registers(CPUArchState *env);
- 
--int hax_enabled(void)
-+bool hax_enabled(void)
- {
-     return hax_allowed;
- }
+ #include "exec/cpu-common.h"
+ #include "hw/display/vga.h"
+-#include "hw/i386/pc.h"
+-#include "hw/i386/x86.h"
+ #include "hw/loader.h"
+ #include "hw/xen/xen.h"
+ #include "net/net.h"
 -- 
 2.26.3
 
