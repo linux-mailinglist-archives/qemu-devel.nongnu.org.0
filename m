@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87B2C383CF4
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 21:09:22 +0200 (CEST)
-Received: from localhost ([::1]:39802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9576383CEF
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 21:08:53 +0200 (CEST)
+Received: from localhost ([::1]:37262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1liicC-0002Rj-Sm
-	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 15:09:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40462)
+	id 1liibk-0000jM-Q5
+	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 15:08:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40474)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1liiAE-0005tU-KH
- for qemu-devel@nongnu.org; Mon, 17 May 2021 14:40:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25578)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1liiAG-0005zj-5D
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 14:40:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43595)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1liiA8-0001u3-1U
- for qemu-devel@nongnu.org; Mon, 17 May 2021 14:40:26 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1liiAC-00020m-51
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 14:40:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621276819;
+ s=mimecast20190719; t=1621276823;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZDA2enpDk/sW9Kb8YoN+eJY7j7JzlA1IjP+YMqQY+a4=;
- b=DVOOkIafszyz4NxS+BAOfZpSECm4B9hrbrSBJZZyLyLRslWci8Cyu41jtXU8HFIoN9mP2a
- nbcqQ0TUeeZifAiOV5Knn+AmToVz/Ni7CwmSz7Be9sLVhRQ8aQUJn9CD3PMO6O8WkKYJx7
- 9KicVWjLozR7xpG8TlEsH6+iVY8l7e0=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-512-fgGaw7StOMe9TlT4hzOrKg-1; Mon, 17 May 2021 14:40:17 -0400
-X-MC-Unique: fgGaw7StOMe9TlT4hzOrKg-1
-Received: by mail-ed1-f72.google.com with SMTP id
- h16-20020a0564020950b029038cbdae8cbaso4388519edz.6
- for <qemu-devel@nongnu.org>; Mon, 17 May 2021 11:40:17 -0700 (PDT)
+ bh=qsjVmNyt2RvJZpbgrVA73zwoNPAL1GWOK/xDhDEI+0c=;
+ b=Ki0u75to0U4CCGC0rZCQj0x7bxJ7QcruoOIs7LLHKihmOsD5pWc1Pp0PXLSiISrWlr4WCP
+ 3Wb6YkbvX2/dFiSoagncTyjHZ/RL1Y1mlmD1MYBw+4/Dw2eck4GqbEBU9LIqzLJKQPAq/A
+ RPRmz5N9KtQoJR878o8bfmERJlI5lI8=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-280-2Jj_L8n3Moa1vhqveFWOpw-1; Mon, 17 May 2021 14:40:22 -0400
+X-MC-Unique: 2Jj_L8n3Moa1vhqveFWOpw-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ s20-20020a0564025214b029038752a2d8f3so4403701edd.2
+ for <qemu-devel@nongnu.org>; Mon, 17 May 2021 11:40:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ZDA2enpDk/sW9Kb8YoN+eJY7j7JzlA1IjP+YMqQY+a4=;
- b=Qd2H14K6c1Qg8OvOFlm8akUBnBxXEt8RVs4AKaDjmURHoRJke3fOj6V95EbXx+YWV5
- fdr4CNKonId2I4b9OiFuEBf02HRph8txNpi0nV1Jp7AByc2kjWLx9tZoS7irvW8ItUYV
- nWbzGRu/Vd0NEMDLdEs5xBrJDoAHvGqe/Vz5twN8PEAore2jU/PkQNLDef8jEnrfUh3w
- QaMAsJpHZ7+39nX0yV+1C2LIH1wppTq9UYFnui3GrNCKecRmfAfkMr37XHB/Zr5a3/WT
- 12EvC9umz4IvuKP7uo3xlmU7mlUCeqcgusaHPAEfXPmzeurFP52P8AX4xLjvYSkwuZ4B
- FLOw==
-X-Gm-Message-State: AOAM532OvtCAfO1e9WC7z5GYBuX8LmqhUl6K1S7LOeEMPAjBdy+FMDEl
- b8JtoYCvBM7d71qCj0pVRs8NBelm3stFSIPiyyK3DnNh2bcH3flbb45mtCi8oAPjf1uuIXWj0vi
- Hrfxv8U8he+tqgIc6EhtJgaWk/PcMaI51IITTfzacaVdeA6jUoSw6RFEJDEdldool
-X-Received: by 2002:a17:907:105e:: with SMTP id
- oy30mr1361021ejb.258.1621276815661; 
- Mon, 17 May 2021 11:40:15 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwvYrCopwfomk/L2p4Z5MZGhUZEZD8LTxShB7ahMeef4hmMS3n8WPCqUWuZTNVjVdKSJGUtNA==
-X-Received: by 2002:a17:907:105e:: with SMTP id
- oy30mr1360985ejb.258.1621276815294; 
- Mon, 17 May 2021 11:40:15 -0700 (PDT)
+ bh=qsjVmNyt2RvJZpbgrVA73zwoNPAL1GWOK/xDhDEI+0c=;
+ b=ZW/lkXfzLoFHd2X08j033H8TAg9Mnb+6WWEX5/A6MgfeX8CaldiRf+MGH7eyy0i7yj
+ CplX+lThKC480DUOcuHB6EN+F8AtgfJ+6cH3nvADkiLE1UpXhaYXxuxIVKv3fdpjjyY8
+ 57D7XzdECO6sTOxBUfWzHZhaO/s8YfcZLzAXrSs2XZkof7CB1wI00iOQpGBUDYv4yAVJ
+ CpuSpaPZpyC9QJvWbJ9TVZTNOF6OiAEMGtXtv7A2ux+/TxqC+tjTiceS45aRIA+0Gfz0
+ gkKqvCWSj+53VW+3d3gT70xPkjCdcqDc5RCDGhb8qzqg67afPTOSogH5syFgzbSOvTnA
+ yK1g==
+X-Gm-Message-State: AOAM531qc80gdVAgUZ1ys6mMbfJ8WihlgKVb0B1BNIFuy72VDy9dqmj9
+ vZow4dHomyWjIQgYFMxkIQmJKlqaye5uo75IC+cseQZ4zzLFILHodJa3HADpVnyH/5S3DpkW4pW
+ Z7SMnVdT0BJ+i7EEqQS/ixnQfxz6KhuPypk0Ev5/LT2WLKVaaHCrA33BvYJTL51gG
+X-Received: by 2002:a17:907:98a9:: with SMTP id
+ ju9mr1327738ejc.257.1621276820564; 
+ Mon, 17 May 2021 11:40:20 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy0+ku/3aEiIUG1J3mAURNdwCMukk/bxePu6hsNlwM/a8sDMQj8548kSmigjIGZ6/6NyxVRfg==
+X-Received: by 2002:a17:907:98a9:: with SMTP id
+ ju9mr1327698ejc.257.1621276820205; 
+ Mon, 17 May 2021 11:40:20 -0700 (PDT)
 Received: from x1w.redhat.com (31.red-83-51-215.dynamicip.rima-tde.net.
  [83.51.215.31])
- by smtp.gmail.com with ESMTPSA id i5sm4993488edt.11.2021.05.17.11.40.14
+ by smtp.gmail.com with ESMTPSA id k14sm8007535eds.0.2021.05.17.11.40.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 May 2021 11:40:14 -0700 (PDT)
+ Mon, 17 May 2021 11:40:19 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org,
 	John Snow <jsnow@redhat.com>
-Subject: [PATCH v4 4/9] hw/block/fdc: Extract ISA floppy controllers to
- fdc-isa.c
-Date: Mon, 17 May 2021 20:39:49 +0200
-Message-Id: <20210517183954.1223193-5-philmd@redhat.com>
+Subject: [PATCH v4 5/9] hw/block/fdc: Extract SysBus floppy controllers to
+ fdc-sysbus.c
+Date: Mon, 17 May 2021 20:39:50 +0200
+Message-Id: <20210517183954.1223193-6-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210517183954.1223193-1-philmd@redhat.com>
 References: <20210517183954.1223193-1-philmd@redhat.com>
@@ -106,32 +106,32 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Some machines use floppy controllers via the SysBus interface,
-and don't need to pull in all the ISA code.
-Extract the ISA specific code to a new unit: fdc-isa.c, and
-add a new Kconfig symbol: "FDC_ISA".
+and don't need to pull in all the SysBus code.
+Extract the SysBus specific code to a new unit: fdc-sysbus.c,
+and add a new Kconfig symbol: "FDC_SYSBUS".
 
 Reviewed-by: John Snow <jsnow@redhat.com>
 Acked-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- hw/block/fdc-isa.c   | 313 +++++++++++++++++++++++++++++++++++++++++++
- hw/block/fdc.c       | 257 -----------------------------------
- MAINTAINERS          |   1 +
- hw/block/Kconfig     |   4 +
- hw/block/meson.build |   1 +
- hw/i386/Kconfig      |   2 +-
- hw/isa/Kconfig       |   8 +-
- hw/sparc64/Kconfig   |   2 +-
- 8 files changed, 325 insertions(+), 263 deletions(-)
- create mode 100644 hw/block/fdc-isa.c
+ hw/block/fdc-sysbus.c | 252 ++++++++++++++++++++++++++++++++++++++++++
+ hw/block/fdc.c        | 220 ------------------------------------
+ MAINTAINERS           |   1 +
+ hw/block/Kconfig      |   4 +
+ hw/block/meson.build  |   1 +
+ hw/block/trace-events |   2 +
+ hw/mips/Kconfig       |   2 +-
+ hw/sparc/Kconfig      |   2 +-
+ 8 files changed, 262 insertions(+), 222 deletions(-)
+ create mode 100644 hw/block/fdc-sysbus.c
 
-diff --git a/hw/block/fdc-isa.c b/hw/block/fdc-isa.c
+diff --git a/hw/block/fdc-sysbus.c b/hw/block/fdc-sysbus.c
 new file mode 100644
-index 00000000000..97f3f9e5c0a
+index 00000000000..71755fd6ae4
 --- /dev/null
-+++ b/hw/block/fdc-isa.c
-@@ -0,0 +1,313 @@
++++ b/hw/block/fdc-sysbus.c
+@@ -0,0 +1,252 @@
 +/*
 + * QEMU Floppy disk emulator (Intel 82078)
 + *
@@ -156,709 +156,580 @@ index 00000000000..97f3f9e5c0a
 + * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 + * THE SOFTWARE.
 + */
-+/*
-+ * The controller is used in Sun4m systems in a slightly different
-+ * way. There are changes in DOR register and DMA is not available.
-+ */
 +
 +#include "qemu/osdep.h"
-+#include "hw/block/fdc.h"
 +#include "qapi/error.h"
-+#include "qemu/error-report.h"
-+#include "qemu/timer.h"
-+#include "hw/acpi/aml-build.h"
-+#include "hw/irq.h"
-+#include "hw/isa/isa.h"
-+#include "hw/qdev-properties.h"
-+#include "hw/qdev-properties-system.h"
-+#include "migration/vmstate.h"
-+#include "hw/block/block.h"
-+#include "sysemu/block-backend.h"
-+#include "sysemu/blockdev.h"
-+#include "sysemu/sysemu.h"
-+#include "qemu/log.h"
-+#include "qemu/main-loop.h"
-+#include "qemu/module.h"
-+#include "trace.h"
 +#include "qom/object.h"
++#include "hw/sysbus.h"
++#include "hw/block/fdc.h"
++#include "migration/vmstate.h"
 +#include "fdc-internal.h"
++#include "trace.h"
 +
-+OBJECT_DECLARE_SIMPLE_TYPE(FDCtrlISABus, ISA_FDC)
++#define TYPE_SYSBUS_FDC "base-sysbus-fdc"
++typedef struct FDCtrlSysBusClass FDCtrlSysBusClass;
++typedef struct FDCtrlSysBus FDCtrlSysBus;
++DECLARE_OBJ_CHECKERS(FDCtrlSysBus, FDCtrlSysBusClass,
++                     SYSBUS_FDC, TYPE_SYSBUS_FDC)
 +
-+struct FDCtrlISABus {
-+    ISADevice parent_obj;
++struct FDCtrlSysBusClass {
++    /*< private >*/
++    SysBusDeviceClass parent_class;
++    /*< public >*/
 +
-+    uint32_t iobase;
-+    uint32_t irq;
-+    uint32_t dma;
-+    struct FDCtrl state;
-+    int32_t bootindexA;
-+    int32_t bootindexB;
++    bool use_strict_io;
 +};
 +
-+static void fdctrl_external_reset_isa(DeviceState *d)
++struct FDCtrlSysBus {
++    /*< private >*/
++    SysBusDevice parent_obj;
++    /*< public >*/
++
++    struct FDCtrl state;
++};
++
++static uint64_t fdctrl_read_mem(void *opaque, hwaddr reg, unsigned ize)
 +{
-+    FDCtrlISABus *isa = ISA_FDC(d);
-+    FDCtrl *s = &isa->state;
++    return fdctrl_read(opaque, (uint32_t)reg);
++}
++
++static void fdctrl_write_mem(void *opaque, hwaddr reg,
++                             uint64_t value, unsigned size)
++{
++    fdctrl_write(opaque, (uint32_t)reg, value);
++}
++
++static const MemoryRegionOps fdctrl_mem_ops = {
++    .read = fdctrl_read_mem,
++    .write = fdctrl_write_mem,
++    .endianness = DEVICE_NATIVE_ENDIAN,
++};
++
++static const MemoryRegionOps fdctrl_mem_strict_ops = {
++    .read = fdctrl_read_mem,
++    .write = fdctrl_write_mem,
++    .endianness = DEVICE_NATIVE_ENDIAN,
++    .valid = {
++        .min_access_size = 1,
++        .max_access_size = 1,
++    },
++};
++
++static void fdctrl_external_reset_sysbus(DeviceState *d)
++{
++    FDCtrlSysBus *sys = SYSBUS_FDC(d);
++    FDCtrl *s = &sys->state;
 +
 +    fdctrl_reset(s, 0);
 +}
 +
-+void isa_fdc_init_drives(ISADevice *fdc, DriveInfo **fds)
++static void fdctrl_handle_tc(void *opaque, int irq, int level)
 +{
-+    fdctrl_init_drives(&ISA_FDC(fdc)->state.bus, fds);
++    trace_fdctrl_tc_pulse(level);
 +}
 +
-+static const MemoryRegionPortio fdc_portio_list[] = {
-+    { 1, 5, 1, .read = fdctrl_read, .write = fdctrl_write },
-+    { 7, 1, 1, .read = fdctrl_read, .write = fdctrl_write },
-+    PORTIO_END_OF_LIST(),
-+};
-+
-+static void isabus_fdc_realize(DeviceState *dev, Error **errp)
++void fdctrl_init_sysbus(qemu_irq irq, int dma_chann,
++                        hwaddr mmio_base, DriveInfo **fds)
 +{
-+    ISADevice *isadev = ISA_DEVICE(dev);
-+    FDCtrlISABus *isa = ISA_FDC(dev);
-+    FDCtrl *fdctrl = &isa->state;
-+    Error *err = NULL;
++    FDCtrl *fdctrl;
++    DeviceState *dev;
++    SysBusDevice *sbd;
++    FDCtrlSysBus *sys;
 +
-+    isa_register_portio_list(isadev, &fdctrl->portio_list,
-+                             isa->iobase, fdc_portio_list, fdctrl,
-+                             "fdc");
++    dev = qdev_new("sysbus-fdc");
++    sys = SYSBUS_FDC(dev);
++    fdctrl = &sys->state;
++    fdctrl->dma_chann = dma_chann; /* FIXME */
++    sbd = SYS_BUS_DEVICE(dev);
++    sysbus_realize_and_unref(sbd, &error_fatal);
++    sysbus_connect_irq(sbd, 0, irq);
++    sysbus_mmio_map(sbd, 0, mmio_base);
 +
-+    isa_init_irq(isadev, &fdctrl->irq, isa->irq);
-+    fdctrl->dma_chann = isa->dma;
-+    if (fdctrl->dma_chann != -1) {
-+        fdctrl->dma = isa_get_dma(isa_bus_from_device(isadev), isa->dma);
-+        if (!fdctrl->dma) {
-+            error_setg(errp, "ISA controller does not support DMA");
-+            return;
-+        }
-+    }
-+
-+    qdev_set_legacy_instance_id(dev, isa->iobase, 2);
-+
-+    fdctrl_realize_common(dev, fdctrl, &err);
-+    if (err != NULL) {
-+        error_propagate(errp, err);
-+        return;
-+    }
++    fdctrl_init_drives(&sys->state.bus, fds);
 +}
 +
-+FloppyDriveType isa_fdc_get_drive_type(ISADevice *fdc, int i)
++void sun4m_fdctrl_init(qemu_irq irq, hwaddr io_base,
++                       DriveInfo **fds, qemu_irq *fdc_tc)
 +{
-+    FDCtrlISABus *isa = ISA_FDC(fdc);
++    DeviceState *dev;
++    FDCtrlSysBus *sys;
 +
-+    return isa->state.drives[i].drive;
++    dev = qdev_new("sun-fdtwo");
++    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
++    sys = SYSBUS_FDC(dev);
++    sysbus_connect_irq(SYS_BUS_DEVICE(sys), 0, irq);
++    sysbus_mmio_map(SYS_BUS_DEVICE(sys), 0, io_base);
++    *fdc_tc = qdev_get_gpio_in(dev, 0);
++
++    fdctrl_init_drives(&sys->state.bus, fds);
 +}
 +
-+static void isa_fdc_get_drive_max_chs(FloppyDriveType type, uint8_t *maxc,
-+                                      uint8_t *maxh, uint8_t *maxs)
++static void sysbus_fdc_common_initfn(Object *obj)
 +{
-+    const FDFormat *fdf;
++    DeviceState *dev = DEVICE(obj);
++    FDCtrlSysBusClass *sbdc = SYSBUS_FDC_GET_CLASS(obj);
++    SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
++    FDCtrlSysBus *sys = SYSBUS_FDC(obj);
++    FDCtrl *fdctrl = &sys->state;
 +
-+    *maxc = *maxh = *maxs = 0;
-+    for (fdf = fd_formats; fdf->drive != FLOPPY_DRIVE_TYPE_NONE; fdf++) {
-+        if (fdf->drive != type) {
-+            continue;
-+        }
-+        if (*maxc < fdf->max_track) {
-+            *maxc = fdf->max_track;
-+        }
-+        if (*maxh < fdf->max_head) {
-+            *maxh = fdf->max_head;
-+        }
-+        if (*maxs < fdf->last_sect) {
-+            *maxs = fdf->last_sect;
-+        }
-+    }
-+    (*maxc)--;
++    fdctrl->dma_chann = -1;
++
++    qdev_set_legacy_instance_id(dev, 0 /* io */, 2); /* FIXME */
++
++    memory_region_init_io(&fdctrl->iomem, obj,
++                          sbdc->use_strict_io ? &fdctrl_mem_strict_ops
++                                              : &fdctrl_mem_ops,
++                          fdctrl, "fdc", 0x08);
++    sysbus_init_mmio(sbd, &fdctrl->iomem);
++
++    sysbus_init_irq(sbd, &fdctrl->irq);
++    qdev_init_gpio_in(dev, fdctrl_handle_tc, 1);
 +}
 +
-+static Aml *build_fdinfo_aml(int idx, FloppyDriveType type)
++static void sysbus_fdc_common_realize(DeviceState *dev, Error **errp)
 +{
-+    Aml *dev, *fdi;
-+    uint8_t maxc, maxh, maxs;
++    FDCtrlSysBus *sys = SYSBUS_FDC(dev);
++    FDCtrl *fdctrl = &sys->state;
 +
-+    isa_fdc_get_drive_max_chs(type, &maxc, &maxh, &maxs);
-+
-+    dev = aml_device("FLP%c", 'A' + idx);
-+
-+    aml_append(dev, aml_name_decl("_ADR", aml_int(idx)));
-+
-+    fdi = aml_package(16);
-+    aml_append(fdi, aml_int(idx));  /* Drive Number */
-+    aml_append(fdi,
-+        aml_int(cmos_get_fd_drive_type(type)));  /* Device Type */
-+    /*
-+     * the values below are the limits of the drive, and are thus independent
-+     * of the inserted media
-+     */
-+    aml_append(fdi, aml_int(maxc));  /* Maximum Cylinder Number */
-+    aml_append(fdi, aml_int(maxs));  /* Maximum Sector Number */
-+    aml_append(fdi, aml_int(maxh));  /* Maximum Head Number */
-+    /*
-+     * SeaBIOS returns the below values for int 0x13 func 0x08 regardless of
-+     * the drive type, so shall we
-+     */
-+    aml_append(fdi, aml_int(0xAF));  /* disk_specify_1 */
-+    aml_append(fdi, aml_int(0x02));  /* disk_specify_2 */
-+    aml_append(fdi, aml_int(0x25));  /* disk_motor_wait */
-+    aml_append(fdi, aml_int(0x02));  /* disk_sector_siz */
-+    aml_append(fdi, aml_int(0x12));  /* disk_eot */
-+    aml_append(fdi, aml_int(0x1B));  /* disk_rw_gap */
-+    aml_append(fdi, aml_int(0xFF));  /* disk_dtl */
-+    aml_append(fdi, aml_int(0x6C));  /* disk_formt_gap */
-+    aml_append(fdi, aml_int(0xF6));  /* disk_fill */
-+    aml_append(fdi, aml_int(0x0F));  /* disk_head_sttl */
-+    aml_append(fdi, aml_int(0x08));  /* disk_motor_strt */
-+
-+    aml_append(dev, aml_name_decl("_FDI", fdi));
-+    return dev;
++    fdctrl_realize_common(dev, fdctrl, errp);
 +}
 +
-+int cmos_get_fd_drive_type(FloppyDriveType fd0)
-+{
-+    int val;
-+
-+    switch (fd0) {
-+    case FLOPPY_DRIVE_TYPE_144:
-+        /* 1.44 Mb 3"5 drive */
-+        val = 4;
-+        break;
-+    case FLOPPY_DRIVE_TYPE_288:
-+        /* 2.88 Mb 3"5 drive */
-+        val = 5;
-+        break;
-+    case FLOPPY_DRIVE_TYPE_120:
-+        /* 1.2 Mb 5"5 drive */
-+        val = 2;
-+        break;
-+    case FLOPPY_DRIVE_TYPE_NONE:
-+    default:
-+        val = 0;
-+        break;
-+    }
-+    return val;
-+}
-+
-+static void fdc_isa_build_aml(ISADevice *isadev, Aml *scope)
-+{
-+    Aml *dev;
-+    Aml *crs;
-+    int i;
-+
-+#define ACPI_FDE_MAX_FD 4
-+    uint32_t fde_buf[5] = {
-+        0, 0, 0, 0,     /* presence of floppy drives #0 - #3 */
-+        cpu_to_le32(2)  /* tape presence (2 == never present) */
-+    };
-+
-+    crs = aml_resource_template();
-+    aml_append(crs, aml_io(AML_DECODE16, 0x03F2, 0x03F2, 0x00, 0x04));
-+    aml_append(crs, aml_io(AML_DECODE16, 0x03F7, 0x03F7, 0x00, 0x01));
-+    aml_append(crs, aml_irq_no_flags(6));
-+    aml_append(crs,
-+        aml_dma(AML_COMPATIBILITY, AML_NOTBUSMASTER, AML_TRANSFER8, 2));
-+
-+    dev = aml_device("FDC0");
-+    aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0700")));
-+    aml_append(dev, aml_name_decl("_CRS", crs));
-+
-+    for (i = 0; i < MIN(MAX_FD, ACPI_FDE_MAX_FD); i++) {
-+        FloppyDriveType type = isa_fdc_get_drive_type(isadev, i);
-+
-+        if (type < FLOPPY_DRIVE_TYPE_NONE) {
-+            fde_buf[i] = cpu_to_le32(1);  /* drive present */
-+            aml_append(dev, build_fdinfo_aml(i, type));
-+        }
-+    }
-+    aml_append(dev, aml_name_decl("_FDE",
-+               aml_buffer(sizeof(fde_buf), (uint8_t *)fde_buf)));
-+
-+    aml_append(scope, dev);
-+}
-+
-+static const VMStateDescription vmstate_isa_fdc = {
++static const VMStateDescription vmstate_sysbus_fdc = {
 +    .name = "fdc",
 +    .version_id = 2,
 +    .minimum_version_id = 2,
 +    .fields = (VMStateField[]) {
-+        VMSTATE_STRUCT(state, FDCtrlISABus, 0, vmstate_fdc, FDCtrl),
++        VMSTATE_STRUCT(state, FDCtrlSysBus, 0, vmstate_fdc, FDCtrl),
 +        VMSTATE_END_OF_LIST()
 +    }
 +};
 +
-+static Property isa_fdc_properties[] = {
-+    DEFINE_PROP_UINT32("iobase", FDCtrlISABus, iobase, 0x3f0),
-+    DEFINE_PROP_UINT32("irq", FDCtrlISABus, irq, 6),
-+    DEFINE_PROP_UINT32("dma", FDCtrlISABus, dma, 2),
-+    DEFINE_PROP_SIGNED("fdtypeA", FDCtrlISABus, state.qdev_for_drives[0].type,
++static Property sysbus_fdc_properties[] = {
++    DEFINE_PROP_SIGNED("fdtypeA", FDCtrlSysBus, state.qdev_for_drives[0].type,
 +                        FLOPPY_DRIVE_TYPE_AUTO, qdev_prop_fdc_drive_type,
 +                        FloppyDriveType),
-+    DEFINE_PROP_SIGNED("fdtypeB", FDCtrlISABus, state.qdev_for_drives[1].type,
++    DEFINE_PROP_SIGNED("fdtypeB", FDCtrlSysBus, state.qdev_for_drives[1].type,
 +                        FLOPPY_DRIVE_TYPE_AUTO, qdev_prop_fdc_drive_type,
 +                        FloppyDriveType),
-+    DEFINE_PROP_SIGNED("fallback", FDCtrlISABus, state.fallback,
-+                        FLOPPY_DRIVE_TYPE_288, qdev_prop_fdc_drive_type,
++    DEFINE_PROP_SIGNED("fallback", FDCtrlSysBus, state.fallback,
++                        FLOPPY_DRIVE_TYPE_144, qdev_prop_fdc_drive_type,
 +                        FloppyDriveType),
 +    DEFINE_PROP_END_OF_LIST(),
 +};
 +
-+static void isabus_fdc_class_init(ObjectClass *klass, void *data)
++static void sysbus_fdc_class_init(ObjectClass *klass, void *data)
 +{
 +    DeviceClass *dc = DEVICE_CLASS(klass);
-+    ISADeviceClass *isa = ISA_DEVICE_CLASS(klass);
 +
-+    dc->realize = isabus_fdc_realize;
-+    dc->fw_name = "fdc";
-+    dc->reset = fdctrl_external_reset_isa;
-+    dc->vmsd = &vmstate_isa_fdc;
-+    isa->build_aml = fdc_isa_build_aml;
-+    device_class_set_props(dc, isa_fdc_properties);
++    device_class_set_props(dc, sysbus_fdc_properties);
 +    set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
 +}
 +
-+static void isabus_fdc_instance_init(Object *obj)
-+{
-+    FDCtrlISABus *isa = ISA_FDC(obj);
-+
-+    device_add_bootindex_property(obj, &isa->bootindexA,
-+                                  "bootindexA", "/floppy@0",
-+                                  DEVICE(obj));
-+    device_add_bootindex_property(obj, &isa->bootindexB,
-+                                  "bootindexB", "/floppy@1",
-+                                  DEVICE(obj));
-+}
-+
-+static const TypeInfo isa_fdc_info = {
-+    .name          = TYPE_ISA_FDC,
-+    .parent        = TYPE_ISA_DEVICE,
-+    .instance_size = sizeof(FDCtrlISABus),
-+    .class_init    = isabus_fdc_class_init,
-+    .instance_init = isabus_fdc_instance_init,
++static const TypeInfo sysbus_fdc_info = {
++    .name          = "sysbus-fdc",
++    .parent        = TYPE_SYSBUS_FDC,
++    .class_init    = sysbus_fdc_class_init,
 +};
 +
-+static void isa_fdc_register_types(void)
++static void sysbus_fdc_common_class_init(ObjectClass *klass, void *data)
 +{
-+    type_register_static(&isa_fdc_info);
++    DeviceClass *dc = DEVICE_CLASS(klass);
++
++    dc->realize = sysbus_fdc_common_realize;
++    dc->reset = fdctrl_external_reset_sysbus;
++    dc->vmsd = &vmstate_sysbus_fdc;
 +}
 +
-+type_init(isa_fdc_register_types)
++static const TypeInfo sysbus_fdc_type_info = {
++    .name          = TYPE_SYSBUS_FDC,
++    .parent        = TYPE_SYS_BUS_DEVICE,
++    .instance_size = sizeof(FDCtrlSysBus),
++    .instance_init = sysbus_fdc_common_initfn,
++    .abstract      = true,
++    .class_init    = sysbus_fdc_common_class_init,
++    .class_size    = sizeof(FDCtrlSysBusClass),
++};
++
++static Property sun4m_fdc_properties[] = {
++    DEFINE_PROP_SIGNED("fdtype", FDCtrlSysBus, state.qdev_for_drives[0].type,
++                        FLOPPY_DRIVE_TYPE_AUTO, qdev_prop_fdc_drive_type,
++                        FloppyDriveType),
++    DEFINE_PROP_SIGNED("fallback", FDCtrlSysBus, state.fallback,
++                        FLOPPY_DRIVE_TYPE_144, qdev_prop_fdc_drive_type,
++                        FloppyDriveType),
++    DEFINE_PROP_END_OF_LIST(),
++};
++
++static void sun4m_fdc_class_init(ObjectClass *klass, void *data)
++{
++    FDCtrlSysBusClass *sbdc = SYSBUS_FDC_CLASS(klass);
++    DeviceClass *dc = DEVICE_CLASS(klass);
++
++    sbdc->use_strict_io = true;
++    device_class_set_props(dc, sun4m_fdc_properties);
++    set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
++}
++
++static const TypeInfo sun4m_fdc_info = {
++    .name          = "sun-fdtwo",
++    .parent        = TYPE_SYSBUS_FDC,
++    .class_init    = sun4m_fdc_class_init,
++};
++
++static void sysbus_fdc_register_types(void)
++{
++    type_register_static(&sun4m_fdc_info);
++    type_register_static(&sysbus_fdc_type_info);
++    type_register_static(&sysbus_fdc_info);
++}
++
++type_init(sysbus_fdc_register_types)
 diff --git a/hw/block/fdc.c b/hw/block/fdc.c
-index 300f39672af..50567d972ff 100644
+index 50567d972ff..64af4d194ce 100644
 --- a/hw/block/fdc.c
 +++ b/hw/block/fdc.c
-@@ -32,7 +32,6 @@
- #include "qapi/error.h"
- #include "qemu/error-report.h"
- #include "qemu/timer.h"
--#include "hw/acpi/aml-build.h"
- #include "hw/irq.h"
+@@ -36,7 +36,6 @@
  #include "hw/isa/isa.h"
  #include "hw/qdev-properties.h"
-@@ -787,19 +786,6 @@ struct FDCtrlSysBus {
-     struct FDCtrl state;
- };
+ #include "hw/qdev-properties-system.h"
+-#include "hw/sysbus.h"
+ #include "migration/vmstate.h"
+ #include "hw/block/block.h"
+ #include "sysemu/block-backend.h"
+@@ -775,17 +774,6 @@ static FloppyDriveType get_fallback_drive_type(FDrive *drv)
+     return drv->fdctrl->fallback;
+ }
  
--OBJECT_DECLARE_SIMPLE_TYPE(FDCtrlISABus, ISA_FDC)
+-#define TYPE_SYSBUS_FDC "base-sysbus-fdc"
+-OBJECT_DECLARE_SIMPLE_TYPE(FDCtrlSysBus, SYSBUS_FDC)
 -
--struct FDCtrlISABus {
--    ISADevice parent_obj;
+-struct FDCtrlSysBus {
+-    /*< private >*/
+-    SysBusDevice parent_obj;
+-    /*< public >*/
 -
--    uint32_t iobase;
--    uint32_t irq;
--    uint32_t dma;
 -    struct FDCtrl state;
--    int32_t bootindexA;
--    int32_t bootindexB;
 -};
 -
  uint32_t fdctrl_read(void *opaque, uint32_t reg)
  {
      FDCtrl *fdctrl = opaque;
-@@ -1123,14 +1109,6 @@ static void fdctrl_external_reset_sysbus(DeviceState *d)
-     fdctrl_reset(s, 0);
+@@ -850,34 +838,6 @@ void fdctrl_write(void *opaque, uint32_t reg, uint32_t value)
+     }
  }
  
--static void fdctrl_external_reset_isa(DeviceState *d)
+-static uint64_t fdctrl_read_mem (void *opaque, hwaddr reg,
+-                                 unsigned ize)
 -{
--    FDCtrlISABus *isa = ISA_FDC(d);
--    FDCtrl *s = &isa->state;
+-    return fdctrl_read(opaque, (uint32_t)reg);
+-}
+-
+-static void fdctrl_write_mem (void *opaque, hwaddr reg,
+-                              uint64_t value, unsigned size)
+-{
+-    fdctrl_write(opaque, (uint32_t)reg, value);
+-}
+-
+-static const MemoryRegionOps fdctrl_mem_ops = {
+-    .read = fdctrl_read_mem,
+-    .write = fdctrl_write_mem,
+-    .endianness = DEVICE_NATIVE_ENDIAN,
+-};
+-
+-static const MemoryRegionOps fdctrl_mem_strict_ops = {
+-    .read = fdctrl_read_mem,
+-    .write = fdctrl_write_mem,
+-    .endianness = DEVICE_NATIVE_ENDIAN,
+-    .valid = {
+-        .min_access_size = 1,
+-        .max_access_size = 1,
+-    },
+-};
+-
+ static bool fdrive_media_changed_needed(void *opaque)
+ {
+     FDrive *drive = opaque;
+@@ -1101,19 +1061,6 @@ const VMStateDescription vmstate_fdc = {
+     }
+ };
+ 
+-static void fdctrl_external_reset_sysbus(DeviceState *d)
+-{
+-    FDCtrlSysBus *sys = SYSBUS_FDC(d);
+-    FDCtrl *s = &sys->state;
 -
 -    fdctrl_reset(s, 0);
 -}
 -
- static void fdctrl_handle_tc(void *opaque, int irq, int level)
+-static void fdctrl_handle_tc(void *opaque, int irq, int level)
+-{
+-    trace_fdctrl_tc_pulse(level);
+-}
+-
+ /* Change IRQ state */
+ static void fdctrl_reset_irq(FDCtrl *fdctrl)
  {
-     trace_fdctrl_tc_pulse(level);
-@@ -2392,11 +2370,6 @@ void fdctrl_init_drives(FloppyBus *bus, DriveInfo **fds)
+@@ -2370,42 +2317,6 @@ void fdctrl_init_drives(FloppyBus *bus, DriveInfo **fds)
      }
  }
  
--void isa_fdc_init_drives(ISADevice *fdc, DriveInfo **fds)
+-void fdctrl_init_sysbus(qemu_irq irq, int dma_chann,
+-                        hwaddr mmio_base, DriveInfo **fds)
 -{
--    fdctrl_init_drives(&ISA_FDC(fdc)->state.bus, fds);
+-    FDCtrl *fdctrl;
+-    DeviceState *dev;
+-    SysBusDevice *sbd;
+-    FDCtrlSysBus *sys;
+-
+-    dev = qdev_new("sysbus-fdc");
+-    sys = SYSBUS_FDC(dev);
+-    fdctrl = &sys->state;
+-    fdctrl->dma_chann = dma_chann; /* FIXME */
+-    sbd = SYS_BUS_DEVICE(dev);
+-    sysbus_realize_and_unref(sbd, &error_fatal);
+-    sysbus_connect_irq(sbd, 0, irq);
+-    sysbus_mmio_map(sbd, 0, mmio_base);
+-
+-    fdctrl_init_drives(&sys->state.bus, fds);
 -}
 -
- void fdctrl_init_sysbus(qemu_irq irq, int dma_chann,
-                         hwaddr mmio_base, DriveInfo **fds)
+-void sun4m_fdctrl_init(qemu_irq irq, hwaddr io_base,
+-                       DriveInfo **fds, qemu_irq *fdc_tc)
+-{
+-    DeviceState *dev;
+-    FDCtrlSysBus *sys;
+-
+-    dev = qdev_new("sun-fdtwo");
+-    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+-    sys = SYSBUS_FDC(dev);
+-    sysbus_connect_irq(SYS_BUS_DEVICE(sys), 0, irq);
+-    sysbus_mmio_map(SYS_BUS_DEVICE(sys), 0, io_base);
+-    *fdc_tc = qdev_get_gpio_in(dev, 0);
+-
+-    fdctrl_init_drives(&sys->state.bus, fds);
+-}
+-
+ void fdctrl_realize_common(DeviceState *dev, FDCtrl *fdctrl, Error **errp)
  {
-@@ -2485,41 +2458,6 @@ void fdctrl_realize_common(DeviceState *dev, FDCtrl *fdctrl, Error **errp)
+     int i, j;
+@@ -2458,139 +2369,8 @@ void fdctrl_realize_common(DeviceState *dev, FDCtrl *fdctrl, Error **errp)
      }
  }
  
--static const MemoryRegionPortio fdc_portio_list[] = {
--    { 1, 5, 1, .read = fdctrl_read, .write = fdctrl_write },
--    { 7, 1, 1, .read = fdctrl_read, .write = fdctrl_write },
--    PORTIO_END_OF_LIST(),
--};
--
--static void isabus_fdc_realize(DeviceState *dev, Error **errp)
+-static void sysbus_fdc_initfn(Object *obj)
 -{
--    ISADevice *isadev = ISA_DEVICE(dev);
--    FDCtrlISABus *isa = ISA_FDC(dev);
--    FDCtrl *fdctrl = &isa->state;
--    Error *err = NULL;
+-    SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
+-    FDCtrlSysBus *sys = SYSBUS_FDC(obj);
+-    FDCtrl *fdctrl = &sys->state;
 -
--    isa_register_portio_list(isadev, &fdctrl->portio_list,
--                             isa->iobase, fdc_portio_list, fdctrl,
--                             "fdc");
+-    fdctrl->dma_chann = -1;
 -
--    isa_init_irq(isadev, &fdctrl->irq, isa->irq);
--    fdctrl->dma_chann = isa->dma;
--    if (fdctrl->dma_chann != -1) {
--        fdctrl->dma = isa_get_dma(isa_bus_from_device(isadev), isa->dma);
--        if (!fdctrl->dma) {
--            error_setg(errp, "ISA controller does not support DMA");
--            return;
--        }
--    }
--
--    qdev_set_legacy_instance_id(dev, isa->iobase, 2);
--    fdctrl_realize_common(dev, fdctrl, &err);
--    if (err != NULL) {
--        error_propagate(errp, err);
--        return;
--    }
+-    memory_region_init_io(&fdctrl->iomem, obj, &fdctrl_mem_ops, fdctrl,
+-                          "fdc", 0x08);
+-    sysbus_init_mmio(sbd, &fdctrl->iomem);
 -}
 -
- static void sysbus_fdc_initfn(Object *obj)
- {
-     SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
-@@ -2567,200 +2505,6 @@ static void sysbus_fdc_common_realize(DeviceState *dev, Error **errp)
-     fdctrl_realize_common(dev, fdctrl, errp);
- }
- 
--FloppyDriveType isa_fdc_get_drive_type(ISADevice *fdc, int i)
+-static void sun4m_fdc_initfn(Object *obj)
 -{
--    FDCtrlISABus *isa = ISA_FDC(fdc);
+-    SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
+-    FDCtrlSysBus *sys = SYSBUS_FDC(obj);
+-    FDCtrl *fdctrl = &sys->state;
 -
--    return isa->state.drives[i].drive;
+-    fdctrl->dma_chann = -1;
+-
+-    memory_region_init_io(&fdctrl->iomem, obj, &fdctrl_mem_strict_ops,
+-                          fdctrl, "fdctrl", 0x08);
+-    sysbus_init_mmio(sbd, &fdctrl->iomem);
 -}
 -
--static void isa_fdc_get_drive_max_chs(FloppyDriveType type, uint8_t *maxc,
--                                      uint8_t *maxh, uint8_t *maxs)
+-static void sysbus_fdc_common_initfn(Object *obj)
 -{
--    const FDFormat *fdf;
+-    DeviceState *dev = DEVICE(obj);
+-    SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
+-    FDCtrlSysBus *sys = SYSBUS_FDC(obj);
+-    FDCtrl *fdctrl = &sys->state;
 -
--    *maxc = *maxh = *maxs = 0;
--    for (fdf = fd_formats; fdf->drive != FLOPPY_DRIVE_TYPE_NONE; fdf++) {
--        if (fdf->drive != type) {
--            continue;
--        }
--        if (*maxc < fdf->max_track) {
--            *maxc = fdf->max_track;
--        }
--        if (*maxh < fdf->max_head) {
--            *maxh = fdf->max_head;
--        }
--        if (*maxs < fdf->last_sect) {
--            *maxs = fdf->last_sect;
--        }
--    }
--    (*maxc)--;
+-    qdev_set_legacy_instance_id(dev, 0 /* io */, 2); /* FIXME */
+-
+-    sysbus_init_irq(sbd, &fdctrl->irq);
+-    qdev_init_gpio_in(dev, fdctrl_handle_tc, 1);
 -}
 -
--static Aml *build_fdinfo_aml(int idx, FloppyDriveType type)
+-static void sysbus_fdc_common_realize(DeviceState *dev, Error **errp)
 -{
--    Aml *dev, *fdi;
--    uint8_t maxc, maxh, maxs;
+-    FDCtrlSysBus *sys = SYSBUS_FDC(dev);
+-    FDCtrl *fdctrl = &sys->state;
 -
--    isa_fdc_get_drive_max_chs(type, &maxc, &maxh, &maxs);
--
--    dev = aml_device("FLP%c", 'A' + idx);
--
--    aml_append(dev, aml_name_decl("_ADR", aml_int(idx)));
--
--    fdi = aml_package(16);
--    aml_append(fdi, aml_int(idx));  /* Drive Number */
--    aml_append(fdi,
--        aml_int(cmos_get_fd_drive_type(type)));  /* Device Type */
--    /*
--     * the values below are the limits of the drive, and are thus independent
--     * of the inserted media
--     */
--    aml_append(fdi, aml_int(maxc));  /* Maximum Cylinder Number */
--    aml_append(fdi, aml_int(maxs));  /* Maximum Sector Number */
--    aml_append(fdi, aml_int(maxh));  /* Maximum Head Number */
--    /*
--     * SeaBIOS returns the below values for int 0x13 func 0x08 regardless of
--     * the drive type, so shall we
--     */
--    aml_append(fdi, aml_int(0xAF));  /* disk_specify_1 */
--    aml_append(fdi, aml_int(0x02));  /* disk_specify_2 */
--    aml_append(fdi, aml_int(0x25));  /* disk_motor_wait */
--    aml_append(fdi, aml_int(0x02));  /* disk_sector_siz */
--    aml_append(fdi, aml_int(0x12));  /* disk_eot */
--    aml_append(fdi, aml_int(0x1B));  /* disk_rw_gap */
--    aml_append(fdi, aml_int(0xFF));  /* disk_dtl */
--    aml_append(fdi, aml_int(0x6C));  /* disk_formt_gap */
--    aml_append(fdi, aml_int(0xF6));  /* disk_fill */
--    aml_append(fdi, aml_int(0x0F));  /* disk_head_sttl */
--    aml_append(fdi, aml_int(0x08));  /* disk_motor_strt */
--
--    aml_append(dev, aml_name_decl("_FDI", fdi));
--    return dev;
+-    fdctrl_realize_common(dev, fdctrl, errp);
 -}
 -
--int cmos_get_fd_drive_type(FloppyDriveType fd0)
--{
--    int val;
--
--    switch (fd0) {
--    case FLOPPY_DRIVE_TYPE_144:
--        /* 1.44 Mb 3"5 drive */
--        val = 4;
--        break;
--    case FLOPPY_DRIVE_TYPE_288:
--        /* 2.88 Mb 3"5 drive */
--        val = 5;
--        break;
--    case FLOPPY_DRIVE_TYPE_120:
--        /* 1.2 Mb 5"5 drive */
--        val = 2;
--        break;
--    case FLOPPY_DRIVE_TYPE_NONE:
--    default:
--        val = 0;
--        break;
--    }
--    return val;
--}
--
--static void fdc_isa_build_aml(ISADevice *isadev, Aml *scope)
--{
--    Aml *dev;
--    Aml *crs;
--    int i;
--
--#define ACPI_FDE_MAX_FD 4
--    uint32_t fde_buf[5] = {
--        0, 0, 0, 0,     /* presence of floppy drives #0 - #3 */
--        cpu_to_le32(2)  /* tape presence (2 == never present) */
--    };
--
--    crs = aml_resource_template();
--    aml_append(crs, aml_io(AML_DECODE16, 0x03F2, 0x03F2, 0x00, 0x04));
--    aml_append(crs, aml_io(AML_DECODE16, 0x03F7, 0x03F7, 0x00, 0x01));
--    aml_append(crs, aml_irq_no_flags(6));
--    aml_append(crs,
--        aml_dma(AML_COMPATIBILITY, AML_NOTBUSMASTER, AML_TRANSFER8, 2));
--
--    dev = aml_device("FDC0");
--    aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0700")));
--    aml_append(dev, aml_name_decl("_CRS", crs));
--
--    for (i = 0; i < MIN(MAX_FD, ACPI_FDE_MAX_FD); i++) {
--        FloppyDriveType type = isa_fdc_get_drive_type(isadev, i);
--
--        if (type < FLOPPY_DRIVE_TYPE_NONE) {
--            fde_buf[i] = cpu_to_le32(1);  /* drive present */
--            aml_append(dev, build_fdinfo_aml(i, type));
--        }
--    }
--    aml_append(dev, aml_name_decl("_FDE",
--               aml_buffer(sizeof(fde_buf), (uint8_t *)fde_buf)));
--
--    aml_append(scope, dev);
--}
--
--static const VMStateDescription vmstate_isa_fdc ={
+-static const VMStateDescription vmstate_sysbus_fdc ={
 -    .name = "fdc",
 -    .version_id = 2,
 -    .minimum_version_id = 2,
 -    .fields = (VMStateField[]) {
--        VMSTATE_STRUCT(state, FDCtrlISABus, 0, vmstate_fdc, FDCtrl),
+-        VMSTATE_STRUCT(state, FDCtrlSysBus, 0, vmstate_fdc, FDCtrl),
 -        VMSTATE_END_OF_LIST()
 -    }
 -};
 -
--static Property isa_fdc_properties[] = {
--    DEFINE_PROP_UINT32("iobase", FDCtrlISABus, iobase, 0x3f0),
--    DEFINE_PROP_UINT32("irq", FDCtrlISABus, irq, 6),
--    DEFINE_PROP_UINT32("dma", FDCtrlISABus, dma, 2),
--    DEFINE_PROP_SIGNED("fdtypeA", FDCtrlISABus, state.qdev_for_drives[0].type,
+-static Property sysbus_fdc_properties[] = {
+-    DEFINE_PROP_SIGNED("fdtypeA", FDCtrlSysBus, state.qdev_for_drives[0].type,
 -                        FLOPPY_DRIVE_TYPE_AUTO, qdev_prop_fdc_drive_type,
 -                        FloppyDriveType),
--    DEFINE_PROP_SIGNED("fdtypeB", FDCtrlISABus, state.qdev_for_drives[1].type,
+-    DEFINE_PROP_SIGNED("fdtypeB", FDCtrlSysBus, state.qdev_for_drives[1].type,
 -                        FLOPPY_DRIVE_TYPE_AUTO, qdev_prop_fdc_drive_type,
 -                        FloppyDriveType),
--    DEFINE_PROP_SIGNED("fallback", FDCtrlISABus, state.fallback,
--                        FLOPPY_DRIVE_TYPE_288, qdev_prop_fdc_drive_type,
+-    DEFINE_PROP_SIGNED("fallback", FDCtrlSysBus, state.fallback,
+-                        FLOPPY_DRIVE_TYPE_144, qdev_prop_fdc_drive_type,
 -                        FloppyDriveType),
 -    DEFINE_PROP_END_OF_LIST(),
 -};
 -
--static void isabus_fdc_class_init(ObjectClass *klass, void *data)
+-static void sysbus_fdc_class_init(ObjectClass *klass, void *data)
 -{
 -    DeviceClass *dc = DEVICE_CLASS(klass);
--    ISADeviceClass *isa = ISA_DEVICE_CLASS(klass);
 -
--    dc->realize = isabus_fdc_realize;
--    dc->fw_name = "fdc";
--    dc->reset = fdctrl_external_reset_isa;
--    dc->vmsd = &vmstate_isa_fdc;
--    isa->build_aml = fdc_isa_build_aml;
--    device_class_set_props(dc, isa_fdc_properties);
+-    device_class_set_props(dc, sysbus_fdc_properties);
 -    set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
 -}
 -
--static void isabus_fdc_instance_init(Object *obj)
--{
--    FDCtrlISABus *isa = ISA_FDC(obj);
--
--    device_add_bootindex_property(obj, &isa->bootindexA,
--                                  "bootindexA", "/floppy@0",
--                                  DEVICE(obj));
--    device_add_bootindex_property(obj, &isa->bootindexB,
--                                  "bootindexB", "/floppy@1",
--                                  DEVICE(obj));
--}
--
--static const TypeInfo isa_fdc_info = {
--    .name          = TYPE_ISA_FDC,
--    .parent        = TYPE_ISA_DEVICE,
--    .instance_size = sizeof(FDCtrlISABus),
--    .class_init    = isabus_fdc_class_init,
--    .instance_init = isabus_fdc_instance_init,
+-static const TypeInfo sysbus_fdc_info = {
+-    .name          = "sysbus-fdc",
+-    .parent        = TYPE_SYSBUS_FDC,
+-    .instance_init = sysbus_fdc_initfn,
+-    .class_init    = sysbus_fdc_class_init,
 -};
 -
- static const VMStateDescription vmstate_sysbus_fdc ={
-     .name = "fdc",
-     .version_id = 2,
-@@ -2844,7 +2588,6 @@ static const TypeInfo sysbus_fdc_type_info = {
- 
+-static Property sun4m_fdc_properties[] = {
+-    DEFINE_PROP_SIGNED("fdtype", FDCtrlSysBus, state.qdev_for_drives[0].type,
+-                        FLOPPY_DRIVE_TYPE_AUTO, qdev_prop_fdc_drive_type,
+-                        FloppyDriveType),
+-    DEFINE_PROP_SIGNED("fallback", FDCtrlSysBus, state.fallback,
+-                        FLOPPY_DRIVE_TYPE_144, qdev_prop_fdc_drive_type,
+-                        FloppyDriveType),
+-    DEFINE_PROP_END_OF_LIST(),
+-};
+-
+-static void sun4m_fdc_class_init(ObjectClass *klass, void *data)
+-{
+-    DeviceClass *dc = DEVICE_CLASS(klass);
+-
+-    device_class_set_props(dc, sun4m_fdc_properties);
+-    set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
+-}
+-
+-static const TypeInfo sun4m_fdc_info = {
+-    .name          = "sun-fdtwo",
+-    .parent        = TYPE_SYSBUS_FDC,
+-    .instance_init = sun4m_fdc_initfn,
+-    .class_init    = sun4m_fdc_class_init,
+-};
+-
+-static void sysbus_fdc_common_class_init(ObjectClass *klass, void *data)
+-{
+-    DeviceClass *dc = DEVICE_CLASS(klass);
+-
+-    dc->realize = sysbus_fdc_common_realize;
+-    dc->reset = fdctrl_external_reset_sysbus;
+-    dc->vmsd = &vmstate_sysbus_fdc;
+-}
+-
+-static const TypeInfo sysbus_fdc_type_info = {
+-    .name          = TYPE_SYSBUS_FDC,
+-    .parent        = TYPE_SYS_BUS_DEVICE,
+-    .instance_size = sizeof(FDCtrlSysBus),
+-    .instance_init = sysbus_fdc_common_initfn,
+-    .abstract      = true,
+-    .class_init    = sysbus_fdc_common_class_init,
+-};
+-
  static void fdc_register_types(void)
  {
--    type_register_static(&isa_fdc_info);
-     type_register_static(&sysbus_fdc_type_info);
-     type_register_static(&sysbus_fdc_info);
-     type_register_static(&sun4m_fdc_info);
+-    type_register_static(&sysbus_fdc_type_info);
+-    type_register_static(&sysbus_fdc_info);
+-    type_register_static(&sun4m_fdc_info);
+     type_register_static(&floppy_bus_info);
+     type_register_static(&floppy_drive_info);
+ }
 diff --git a/MAINTAINERS b/MAINTAINERS
-index b1b50c6c334..0590cbde003 100644
+index 0590cbde003..b3c1242efcf 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -1660,6 +1660,7 @@ L: qemu-block@nongnu.org
- S: Supported
+@@ -1661,6 +1661,7 @@ S: Supported
  F: hw/block/fdc.c
  F: hw/block/fdc-internal.h
-+F: hw/block/fdc-isa.c
+ F: hw/block/fdc-isa.c
++F: hw/block/fdc-sysbus.c
  F: include/hw/block/fdc.h
  F: tests/qtest/fdc-test.c
  T: git https://gitlab.com/jsnow/qemu.git ide
 diff --git a/hw/block/Kconfig b/hw/block/Kconfig
-index 4fcd1521668..0a2c046fa6c 100644
+index 0a2c046fa6c..d50be837666 100644
 --- a/hw/block/Kconfig
 +++ b/hw/block/Kconfig
-@@ -1,5 +1,9 @@
- config FDC
-     bool
-+
-+config FDC_ISA
-+    bool
-+    select FDC
-     # FIXME: there is no separate file for the MMIO floppy disk controller, so
+@@ -8,6 +8,10 @@ config FDC_ISA
      # select ISA_BUS here instead of polluting each board that requires one
      select ISA_BUS
+ 
++config FDC_SYSBUS
++    bool
++    select FDC
++
+ config SSI_M25P80
+     bool
+ 
 diff --git a/hw/block/meson.build b/hw/block/meson.build
-index 5b4a7699f98..f33a665c945 100644
+index f33a665c945..c3935350485 100644
 --- a/hw/block/meson.build
 +++ b/hw/block/meson.build
-@@ -5,6 +5,7 @@
- ))
+@@ -6,6 +6,7 @@
  softmmu_ss.add(when: 'CONFIG_ECC', if_true: files('ecc.c'))
  softmmu_ss.add(when: 'CONFIG_FDC', if_true: files('fdc.c'))
-+softmmu_ss.add(when: 'CONFIG_FDC_ISA', if_true: files('fdc-isa.c'))
+ softmmu_ss.add(when: 'CONFIG_FDC_ISA', if_true: files('fdc-isa.c'))
++softmmu_ss.add(when: 'CONFIG_FDC_SYSBUS', if_true: files('fdc-sysbus.c'))
  softmmu_ss.add(when: 'CONFIG_NAND', if_true: files('nand.c'))
  softmmu_ss.add(when: 'CONFIG_ONENAND', if_true: files('onenand.c'))
  softmmu_ss.add(when: 'CONFIG_PFLASH_CFI01', if_true: files('pflash_cfi01.c'))
-diff --git a/hw/i386/Kconfig b/hw/i386/Kconfig
-index 7f91f30877f..bb475648c97 100644
---- a/hw/i386/Kconfig
-+++ b/hw/i386/Kconfig
-@@ -23,7 +23,7 @@ config PC
-     imply TPM_TIS_ISA
-     imply VGA_PCI
-     imply VIRTIO_VGA
--    select FDC
-+    select FDC_ISA
-     select I8259
-     select I8254
-     select PCKBD
-diff --git a/hw/isa/Kconfig b/hw/isa/Kconfig
-index 7216f66a54a..96db170eff3 100644
---- a/hw/isa/Kconfig
-+++ b/hw/isa/Kconfig
-@@ -17,7 +17,7 @@ config ISA_SUPERIO
-     bool
-     select ISA_BUS
-     select PCKBD
--    select FDC
-+    select FDC_ISA
+diff --git a/hw/block/trace-events b/hw/block/trace-events
+index 306989c193c..266b34393a3 100644
+--- a/hw/block/trace-events
++++ b/hw/block/trace-events
+@@ -3,6 +3,8 @@
+ # fdc.c
+ fdc_ioport_read(uint8_t reg, uint8_t value) "read reg 0x%02x val 0x%02x"
+ fdc_ioport_write(uint8_t reg, uint8_t value) "write reg 0x%02x val 0x%02x"
++
++# fdc-sysbus.c
+ fdctrl_tc_pulse(int level) "TC pulse: %u"
  
- config PC87312
-     bool
-@@ -28,7 +28,7 @@ config PC87312
+ # pflash_cfi01.c
+diff --git a/hw/mips/Kconfig b/hw/mips/Kconfig
+index aadd436bf4e..c245e881a2b 100644
+--- a/hw/mips/Kconfig
++++ b/hw/mips/Kconfig
+@@ -20,7 +20,7 @@ config JAZZ
+     select G364FB
+     select DP8393X
+     select ESP
+-    select FDC
++    select FDC_SYSBUS
      select MC146818RTC
-     select SERIAL_ISA
-     select PARALLEL
+     select PCKBD
+     select SERIAL
+diff --git a/hw/sparc/Kconfig b/hw/sparc/Kconfig
+index 8dcb10086fd..79d58beb7a6 100644
+--- a/hw/sparc/Kconfig
++++ b/hw/sparc/Kconfig
+@@ -8,7 +8,7 @@ config SUN4M
+     select UNIMP
+     select ESCC
+     select ESP
 -    select FDC
-+    select FDC_ISA
-     select IDE_ISA
- 
- config PIIX3
-@@ -47,7 +47,7 @@ config VT82C686
-     select ISA_SUPERIO
-     select ACPI_SMBUS
-     select SERIAL_ISA
--    select FDC
-+    select FDC_ISA
-     select USB_UHCI
-     select APM
- 
-@@ -56,7 +56,7 @@ config SMC37C669
-     select ISA_SUPERIO
-     select SERIAL_ISA
-     select PARALLEL
--    select FDC
-+    select FDC_ISA
- 
- config LPC_ICH9
-     bool
-diff --git a/hw/sparc64/Kconfig b/hw/sparc64/Kconfig
-index 980a201bb73..7e557ad17b0 100644
---- a/hw/sparc64/Kconfig
-+++ b/hw/sparc64/Kconfig
-@@ -6,7 +6,7 @@ config SUN4U
-     imply PARALLEL
++    select FDC_SYSBUS
+     select SLAVIO
+     select LANCE
      select M48T59
-     select ISA_BUS
--    select FDC
-+    select FDC_ISA
-     select SERIAL_ISA
-     select PCI_SABRE
-     select IDE_CMD646
 -- 
 2.26.3
 
