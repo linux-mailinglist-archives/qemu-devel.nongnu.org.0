@@ -2,73 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 512C0382515
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 09:10:27 +0200 (CEST)
-Received: from localhost ([::1]:38382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7ED4C382536
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 09:20:00 +0200 (CEST)
+Received: from localhost ([::1]:43528 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1liXOU-0005yG-DU
-	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 03:10:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38384)
+	id 1liXXj-0001XH-8F
+	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 03:19:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40344)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1liXN4-0004hK-0o; Mon, 17 May 2021 03:08:58 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:51988)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1liXN2-00076D-GX; Mon, 17 May 2021 03:08:57 -0400
-Received: by mail-wm1-x334.google.com with SMTP id u133so2937605wmg.1;
- Mon, 17 May 2021 00:08:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=QpA+CuwG8DCNtlhazAhB5cYz5NbzRFS82o4f2r4JdEs=;
- b=BC06Cd0FWxbdlGVHQhOV7dGFLYY2ZRNeKSujwZFvYPR/CFa4HWfDrNrrY+UhH8TfOA
- fQwaA9zwXdENeWD/EMBltvJ/mOFYebYONIM0RmMigbwLq3esOOOpT0CPqle56syDMHMH
- iHRVyAoMQw9FnUIxW/wAMtjLKx5a/gyiSCQ8oBxgZiY8DVKaO8wQXJkR5hb7GtU+ciz4
- iHXcgtUAXDDyEbG8W/0Sk5wNvePjNps609u3z+mGFLJZriExW0fy/7J1ampjKsOvpnqO
- 9smGrxOnCaOnaxW7/d+giwkRSPWYtF82ZeZ6W+aV8sMjiOKpJnJGHUkxw1HOEsa+9sk/
- Hbzg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=QpA+CuwG8DCNtlhazAhB5cYz5NbzRFS82o4f2r4JdEs=;
- b=m01gIRGJ+8UIWQxxLBXT5i+TCPUBwhdgernombJ1IHDnWYTM2mE1JbISHJJST1TocS
- sVVYQMVxNyQsV14Se6kU7+di8FZgMs4IAeL/OSlDEwPR1W+H5PmAF/PozP9tX/y0IynI
- 0379AHRlUIOfc6J/4rF8S6q4JLa+sKOwu1sXYZMUNkPaxzhLjV929bUSQGxC04AINc3v
- zp5z/Ch9b2Ag+bN5IyPM8sh/LcFtv6v2f7AwE3bEvXajmpE2mFtHga7E24FDk2meCiY1
- u+xBclvqKwoHUNBT34482SrHE0Z3rYmYD1P6AKu2Ed+VhsKPpep0lz06FDaRexsCD/Hz
- XGdQ==
-X-Gm-Message-State: AOAM530R8KyAET34yqjhR0aiiyPF8hj5ZGp1CrURkCe4xGoCmfy6iz7Q
- Lcxhiu7p+jiqCrxYlS3Fe0+zj2sGOdpDNg==
-X-Google-Smtp-Source: ABdhPJyYD9xZW0wANpzCjFEYz3PpQNrdAkk0bevYdoInsHmYIY4snZhzb+M6i5juKoFZlxNQ6YZBcg==
-X-Received: by 2002:a1c:4d17:: with SMTP id o23mr21754289wmh.102.1621235333931; 
- Mon, 17 May 2021 00:08:53 -0700 (PDT)
-Received: from localhost.localdomain (31.red-83-51-215.dynamicip.rima-tde.net.
- [83.51.215.31])
- by smtp.gmail.com with ESMTPSA id t2sm2651779wrx.54.2021.05.17.00.08.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 May 2021 00:08:53 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] target/riscv: Remove obsolete 'CPU unmigratable' comment
-Date: Mon, 17 May 2021 09:08:51 +0200
-Message-Id: <20210517070851.857841-1-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.3
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1liXWx-0000q2-1E
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 03:19:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49994)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1liXWu-0005Su-DN
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 03:19:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1621235946;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=6sIx0wW/SbNJmx9YLhxTH2y+/J2C/FACuDHtXsPyLqI=;
+ b=euJ03dAWpYk5y3fgs4w8rzEoWWdb27IG4DG0xfyXQXWrAZaNG7kNw6AUSaPR/Kk0HlAfdI
+ ZNhLTBBhdjA3tdKfA8kexJC+4WtoLtfQIwTNeW7/5XIiBMLVYJZhBQ04GuJCEJ3J8Ptkky
+ GB7Wluw+WcEzl2U9uNcLWSrwo5e5Yd0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-145-sUR6MiU7P2y0mjBPcLAITQ-1; Mon, 17 May 2021 03:19:04 -0400
+X-MC-Unique: sUR6MiU7P2y0mjBPcLAITQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 87E738015F8;
+ Mon, 17 May 2021 07:19:02 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-114-0.ams2.redhat.com
+ [10.36.114.0])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 411AC5D762;
+ Mon, 17 May 2021 07:19:02 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 7A6281800869; Mon, 17 May 2021 09:19:00 +0200 (CEST)
+Date: Mon, 17 May 2021 09:19:00 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Bibo Mao <maobibo@loongson.cn>
+Subject: Re: [PATCH] hw/display/qxl: Set pci rom address aligned with page size
+Message-ID: <20210517071900.q3kff56ixqgxj5lo@sirius.home.kraxel.org>
+References: <1621065983-18305-1-git-send-email-maobibo@loongson.cn>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x334.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <1621065983-18305-1-git-send-email-maobibo@loongson.cn>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.296,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,39 +78,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-riscv@nongnu.org, qemu-trivial@nongnu.org,
- Bin Meng <bin.meng@windriver.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Alistair Francis <alistair.francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The RISCV CPU is migratable since commit f7697f0e629
-("target/riscv: Add basic vmstate description of CPU"),
-so remove an obsolete comment which is now incorrect.
+On Sat, May 15, 2021 at 04:06:23PM +0800, Bibo Mao wrote:
+> From: maobibo <maobibo@loongson.cn>
+> 
+> pci memory bar size should be aligned with page size, else it will
+> not be effective memslot when running in kvm mode.
+> 
+> This patch set qxl pci rom size aligned with page size of host
+> machine.
 
-Reported-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- target/riscv/cpu.c | 1 -
- 1 file changed, 1 deletion(-)
+What is the exact problem you are trying to fix here?
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 3191fd00822..d459e8427e2 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -638,7 +638,6 @@ static void riscv_cpu_class_init(ObjectClass *c, void *data)
-     cc->disas_set_info = riscv_cpu_disas_set_info;
- #ifndef CONFIG_USER_ONLY
-     cc->get_phys_page_debug = riscv_cpu_get_phys_page_debug;
--    /* For now, mark unmigratable: */
-     cc->vmsd = &vmstate_riscv_cpu;
-     cc->write_elf64_note = riscv_cpu_write_elf64_note;
-     cc->write_elf32_note = riscv_cpu_write_elf32_note;
--- 
-2.26.3
+take care,
+  Gerd
 
 
