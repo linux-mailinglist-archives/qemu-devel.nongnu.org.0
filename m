@@ -2,74 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7782382DA0
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 15:39:59 +0200 (CEST)
-Received: from localhost ([::1]:35052 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1260382D80
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 15:34:59 +0200 (CEST)
+Received: from localhost ([::1]:58540 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lidTT-00011y-23
-	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 09:39:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54212)
+	id 1lidOc-0005yq-Oa
+	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 09:34:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42352)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <davoronetskiy@gmail.com>)
- id 1liYoC-0007jh-Ny; Mon, 17 May 2021 04:41:05 -0400
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:44951)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <davoronetskiy@gmail.com>)
- id 1liYoA-0007hL-OT; Mon, 17 May 2021 04:41:04 -0400
-Received: by mail-wm1-x333.google.com with SMTP id
- y184-20020a1ce1c10000b02901769b409001so1667464wmg.3; 
- Mon, 17 May 2021 01:41:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=S0BKA7DWQarWZgQuD0oEI5sf8rrZK/ZHs7pXc58I5Og=;
- b=aUd67WglsLaz8CS4qrG1N42GN//3bryWezdwggUOKU+9viCOzd9gKabvSOp5tjdkMi
- HQkU87/XJCQXcx9lemBcn4gFGfZn/8pfr1HGfHLmJ5unar+vrwPKzJ0b+IWQpP/nbvFD
- AdYMX03u3TVsmM8JEKRXWtDY9KOZbaDHLeovblV9QHXjMpymotWOEdD4ZLzGupvEr0KC
- XkwMTmDgmsti6AJY5JiiPWOxEFvbCQC3bfQxdmHJO7fKamAJctF0YsPBjeQVRhHne9K2
- 20UQAFpaw02TLL8kcMP9IK0XdHJ+FOx4+4EMLbgVTz7Nmul77XV9HEWt9YwhpZEZKvYc
- 59jQ==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lidNU-0004yx-UT
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 09:33:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24435)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lidNS-0004Sh-IA
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 09:33:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1621258425;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=euIVBQ6wnPZrqi4rTjb8PfjzamxBzpTgrt3zYHC2hHA=;
+ b=DlfyunHCeC/2qeRBTbU/LxkC1wTNhCrNGXRSsvF+vKqkcB5hQF8tCBsnqkN1Yboqlbrx0U
+ IcxItABzBxOVyq4p8isqMJjovQ03mjFkYeJTPLIEz4K5Zb3QcB3eBqlC41WJFJT/acf2gT
+ 1Q26SGu5lieLny40huzdSkIcr657LRU=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-246-oJrogpt_Op6STRp78oi8ug-1; Mon, 17 May 2021 09:33:43 -0400
+X-MC-Unique: oJrogpt_Op6STRp78oi8ug-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ cs18-20020a170906dc92b02903a8adf202d6so1035891ejc.23
+ for <qemu-devel@nongnu.org>; Mon, 17 May 2021 06:33:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=S0BKA7DWQarWZgQuD0oEI5sf8rrZK/ZHs7pXc58I5Og=;
- b=oDgFjFy22bCH0K+CxdW5OHeAdYfXlUDgrieloJJ+3eWAxsfEI8qYTmryc5UOFEhMMu
- dGGS17mR13WAw59k7kV1czWylYtC3CvB2F2WVHEnf86DHiMzRpB3WcYmhqtl/iN6WT0d
- SQ4qsCfdO6kXH5fbMDlKZN31BS12ZwO8SIrUytacbibeFcQapz6mqnDXfMCkY6KZz+OO
- i47VtpK5JdgF44QUIgZrBz1kdg8tIJCktcrShkICVgTBN1Y5muNOdSUK/cbrowgRdWGX
- ReAdO1ID7bKaH/OWkvaulkzuXvXm32RMCCb3KdC9bkcYm1BU0vd7AYlrjqv1EdFqDXMK
- 1yFQ==
-X-Gm-Message-State: AOAM531V6S2DbCVgD2tiDWjIysEqu/W+9X2Ca0y6b2ONN0seQEHbtoVT
- hH+/MQP8sJiKWidz5pdzJPQQyj8rX4v0ewgL
-X-Google-Smtp-Source: ABdhPJxYDfSN7yzpOPBbxM+ssxJNkYtLGc6W/TFcRFjOiWpcmRZOrfLieA1kuVHgmZe8WdexsmMj2w==
-X-Received: by 2002:a7b:c5d2:: with SMTP id n18mr22215938wmk.97.1621240859169; 
- Mon, 17 May 2021 01:40:59 -0700 (PDT)
-Received: from dima-Latitude-5300.fritz.box (31-1-181.netrun.cytanet.com.cy.
- [31.153.1.181])
- by smtp.gmail.com with ESMTPSA id k7sm17224117wro.8.2021.05.17.01.40.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 May 2021 01:40:58 -0700 (PDT)
-From: Dmitry Voronetskiy <davoronetskiy@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] Signed-off-by: Dmitry Voronetskiy <vda1999@yandex.ru>
-Date: Mon, 17 May 2021 11:40:55 +0300
-Message-Id: <20210517084055.24792-1-davoronetskiy@gmail.com>
-X-Mailer: git-send-email 2.25.1
+ bh=euIVBQ6wnPZrqi4rTjb8PfjzamxBzpTgrt3zYHC2hHA=;
+ b=RfvAZkuzVVFijvlCKsPE4YxNA2I/A3n0GVBrD6qqV8KQN+rclBsK7WP/vkuabwWXRk
+ g5aBqXdp6QSA4oCWy1JsPx2t3pxicB2t7cHu0OU0q2fbTb7Yv7/65h73gAax36nEGxPA
+ pP0cCyDRz0jNtY/A+nYD1mMuOc0Ba207I8lEVrs7c8Gu3xD5E7d7temqqndKa5mHJCHl
+ NsSZohuEtLtpq4+jC1sv89ZXC/mX1z7ViVBuNqWph5r7ZGyDaeBV3jhgQL/KC4YPcYPQ
+ AUui64hRJ2MgXw842gXVGLLOMZLwYyGUR2Nao1tXi5y5KbPh+jwdlx/R3zEOU1goi6OE
+ QlTA==
+X-Gm-Message-State: AOAM532ZuHR54AJwiISX8z2+LvA2Wl+s38KgdXaK2ig0Tl8MXhLhI54K
+ IkTyplijU3IBVw8yoRSeT/Oo1xM7hefjyfE67Pb9r6r61a9ziYVxaRv9ByAVSJNqJH/FNPJ3FNF
+ tLjpo41Ww675l7mY=
+X-Received: by 2002:a05:6402:40d2:: with SMTP id
+ z18mr24794edb.81.1621258422649; 
+ Mon, 17 May 2021 06:33:42 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwZnmi+uYgZwC02wegDXpeqRNmeZ/L2nMDobm631RHvCqXYRBd1CJ79Cn7qE5toVLa53jTkkw==
+X-Received: by 2002:a05:6402:40d2:: with SMTP id
+ z18mr24752edb.81.1621258422352; 
+ Mon, 17 May 2021 06:33:42 -0700 (PDT)
+Received: from [192.168.1.36] (31.red-83-51-215.dynamicip.rima-tde.net.
+ [83.51.215.31])
+ by smtp.gmail.com with ESMTPSA id c10sm3908622eds.90.2021.05.17.06.33.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 17 May 2021 06:33:42 -0700 (PDT)
+Subject: Re: [PATCH] replication: move include out of root directory
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <20210517121909.2625099-1-pbonzini@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <73a1d9f2-f2e9-128f-c871-c419d74daca9@redhat.com>
+Date: Mon, 17 May 2021 15:33:40 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
+In-Reply-To: <20210517121909.2625099-1-pbonzini@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=davoronetskiy@gmail.com; helo=mail-wm1-x333.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.374,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Mon, 17 May 2021 09:37:45 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,150 +100,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Dmitry Voronetskiy <vda1999@yandex.ru>
+Cc: qemu-trivial@nongnu.org, Wen Congyang <wencongyang2@huawei.com>,
+ Xie Changlong <xiechanglong.d@gmail.com>, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Dmitry Voronetskiy <vda1999@yandex.ru>
+On 5/17/21 2:19 PM, Paolo Bonzini wrote:
+> The replication.h file is included from migration/colo.c and tests/unit/test-replication.c,
+> so it should be in include/.
+> 
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  block/replication.c                          | 2 +-
+>  replication.h => include/block/replication.h | 4 ++--
+>  migration/colo.c                             | 2 +-
+>  replication.c                                | 2 +-
+>  tests/unit/test-replication.c                | 2 +-
+>  5 files changed, 6 insertions(+), 6 deletions(-)
+>  rename replication.h => include/block/replication.h (98%)
 
-the value passed to strerror should be positive
+Including the following hunk:
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+
+-- >8 --
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 7877710e372..34c60d9284f 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -3257,8 +3257,9 @@ Replication
+ M: Wen Congyang <wencongyang2@huawei.com>
+ M: Xie Changlong <xiechanglong.d@gmail.com>
+ S: Supported
+-F: replication*
++F: replication.c
+ F: block/replication.c
++F: include/block/replication.h
+ F: tests/unit/test-replication.c
+ F: docs/block-replication.txt
+
 ---
- hw/i386/kvm/apic.c   |  2 +-
- hw/i386/kvm/clock.c  |  4 ++--
- hw/i386/kvm/i8254.c  | 10 +++++-----
- hw/i386/kvm/i8259.c  |  4 ++--
- hw/i386/kvm/ioapic.c |  4 ++--
- 5 files changed, 12 insertions(+), 12 deletions(-)
-
-diff --git a/hw/i386/kvm/apic.c b/hw/i386/kvm/apic.c
-index 52ff490910..1e89ca0899 100644
---- a/hw/i386/kvm/apic.c
-+++ b/hw/i386/kvm/apic.c
-@@ -145,7 +145,7 @@ static void kvm_apic_put(CPUState *cs, run_on_cpu_data data)
- 
-     ret = kvm_vcpu_ioctl(CPU(s->cpu), KVM_SET_LAPIC, &kapic);
-     if (ret < 0) {
--        fprintf(stderr, "KVM_SET_LAPIC failed: %s\n", strerror(ret));
-+        fprintf(stderr, "KVM_SET_LAPIC failed: %s\n", strerror(-ret));
-         abort();
-     }
- }
-diff --git a/hw/i386/kvm/clock.c b/hw/i386/kvm/clock.c
-index efbc1e0d12..df70b4a033 100644
---- a/hw/i386/kvm/clock.c
-+++ b/hw/i386/kvm/clock.c
-@@ -105,7 +105,7 @@ static void kvm_update_clock(KVMClockState *s)
- 
-     ret = kvm_vm_ioctl(kvm_state, KVM_GET_CLOCK, &data);
-     if (ret < 0) {
--        fprintf(stderr, "KVM_GET_CLOCK failed: %s\n", strerror(ret));
-+        fprintf(stderr, "KVM_GET_CLOCK failed: %s\n", strerror(-ret));
-                 abort();
-     }
-     s->clock = data.clock;
-@@ -189,7 +189,7 @@ static void kvmclock_vm_state_change(void *opaque, bool running,
-         data.clock = s->clock;
-         ret = kvm_vm_ioctl(kvm_state, KVM_SET_CLOCK, &data);
-         if (ret < 0) {
--            fprintf(stderr, "KVM_SET_CLOCK failed: %s\n", strerror(ret));
-+            fprintf(stderr, "KVM_SET_CLOCK failed: %s\n", strerror(-ret));
-             abort();
-         }
- 
-diff --git a/hw/i386/kvm/i8254.c b/hw/i386/kvm/i8254.c
-index c558893961..fa68669e8a 100644
---- a/hw/i386/kvm/i8254.c
-+++ b/hw/i386/kvm/i8254.c
-@@ -104,7 +104,7 @@ static void kvm_pit_get(PITCommonState *pit)
-     if (kvm_has_pit_state2()) {
-         ret = kvm_vm_ioctl(kvm_state, KVM_GET_PIT2, &kpit);
-         if (ret < 0) {
--            fprintf(stderr, "KVM_GET_PIT2 failed: %s\n", strerror(ret));
-+            fprintf(stderr, "KVM_GET_PIT2 failed: %s\n", strerror(-ret));
-             abort();
-         }
-         pit->channels[0].irq_disabled = kpit.flags & KVM_PIT_FLAGS_HPET_LEGACY;
-@@ -115,7 +115,7 @@ static void kvm_pit_get(PITCommonState *pit)
-          */
-         ret = kvm_vm_ioctl(kvm_state, KVM_GET_PIT, &kpit);
-         if (ret < 0) {
--            fprintf(stderr, "KVM_GET_PIT failed: %s\n", strerror(ret));
-+            fprintf(stderr, "KVM_GET_PIT failed: %s\n", strerror(-ret));
-             abort();
-         }
-     }
-@@ -180,7 +180,7 @@ static void kvm_pit_put(PITCommonState *pit)
-     if (ret < 0) {
-         fprintf(stderr, "%s failed: %s\n",
-                 kvm_has_pit_state2() ? "KVM_SET_PIT2" : "KVM_SET_PIT",
--                strerror(ret));
-+                strerror(-ret));
-         abort();
-     }
- }
-@@ -272,7 +272,7 @@ static void kvm_pit_realizefn(DeviceState *dev, Error **errp)
-     }
-     if (ret < 0) {
-         error_setg(errp, "Create kernel PIC irqchip failed: %s",
--                   strerror(ret));
-+                   strerror(-ret));
-         return;
-     }
-     switch (s->lost_tick_policy) {
-@@ -286,7 +286,7 @@ static void kvm_pit_realizefn(DeviceState *dev, Error **errp)
-             if (ret < 0) {
-                 error_setg(errp,
-                            "Can't disable in-kernel PIT reinjection: %s",
--                           strerror(ret));
-+                           strerror(-ret));
-                 return;
-             }
-         }
-diff --git a/hw/i386/kvm/i8259.c b/hw/i386/kvm/i8259.c
-index 3f8bf69e9c..d61bae4dc3 100644
---- a/hw/i386/kvm/i8259.c
-+++ b/hw/i386/kvm/i8259.c
-@@ -43,7 +43,7 @@ static void kvm_pic_get(PICCommonState *s)
-     chip.chip_id = s->master ? KVM_IRQCHIP_PIC_MASTER : KVM_IRQCHIP_PIC_SLAVE;
-     ret = kvm_vm_ioctl(kvm_state, KVM_GET_IRQCHIP, &chip);
-     if (ret < 0) {
--        fprintf(stderr, "KVM_GET_IRQCHIP failed: %s\n", strerror(ret));
-+        fprintf(stderr, "KVM_GET_IRQCHIP failed: %s\n", strerror(-ret));
-         abort();
-     }
- 
-@@ -96,7 +96,7 @@ static void kvm_pic_put(PICCommonState *s)
- 
-     ret = kvm_vm_ioctl(kvm_state, KVM_SET_IRQCHIP, &chip);
-     if (ret < 0) {
--        fprintf(stderr, "KVM_SET_IRQCHIP failed: %s\n", strerror(ret));
-+        fprintf(stderr, "KVM_SET_IRQCHIP failed: %s\n", strerror(-ret));
-         abort();
-     }
- }
-diff --git a/hw/i386/kvm/ioapic.c b/hw/i386/kvm/ioapic.c
-index 71a563181e..ee7c8ef68b 100644
---- a/hw/i386/kvm/ioapic.c
-+++ b/hw/i386/kvm/ioapic.c
-@@ -62,7 +62,7 @@ static void kvm_ioapic_get(IOAPICCommonState *s)
-     chip.chip_id = KVM_IRQCHIP_IOAPIC;
-     ret = kvm_vm_ioctl(kvm_state, KVM_GET_IRQCHIP, &chip);
-     if (ret < 0) {
--        fprintf(stderr, "KVM_GET_IRQCHIP failed: %s\n", strerror(ret));
-+        fprintf(stderr, "KVM_GET_IRQCHIP failed: %s\n", strerror(-ret));
-         abort();
-     }
- 
-@@ -95,7 +95,7 @@ static void kvm_ioapic_put(IOAPICCommonState *s)
- 
-     ret = kvm_vm_ioctl(kvm_state, KVM_SET_IRQCHIP, &chip);
-     if (ret < 0) {
--        fprintf(stderr, "KVM_SET_IRQCHIP failed: %s\n", strerror(ret));
-+        fprintf(stderr, "KVM_SET_IRQCHIP failed: %s\n", strerror(-ret));
-         abort();
-     }
- }
--- 
-2.25.1
 
 
