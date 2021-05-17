@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D0A5382882
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 11:38:16 +0200 (CEST)
-Received: from localhost ([::1]:35200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6801382861
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 11:32:42 +0200 (CEST)
+Received: from localhost ([::1]:57318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1liZhX-0001UX-5K
-	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 05:38:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33376)
+	id 1liZc7-0005Zl-O6
+	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 05:32:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33442)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1liZO9-0003TR-DP; Mon, 17 May 2021 05:18:13 -0400
-Received: from wnew4-smtp.messagingengine.com ([64.147.123.18]:52057)
+ id 1liZOJ-0003cA-Kh; Mon, 17 May 2021 05:18:23 -0400
+Received: from wnew4-smtp.messagingengine.com ([64.147.123.18]:58773)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1liZO7-0005qB-NF; Mon, 17 May 2021 05:18:13 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.west.internal (Postfix) with ESMTP id 78F0B5D1;
- Mon, 17 May 2021 05:18:09 -0400 (EDT)
+ id 1liZOA-0005tD-SH; Mon, 17 May 2021 05:18:23 -0400
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailnew.west.internal (Postfix) with ESMTP id A62D831C;
+ Mon, 17 May 2021 05:18:12 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Mon, 17 May 2021 05:18:10 -0400
+ by compute1.internal (MEProxy); Mon, 17 May 2021 05:18:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-type:content-transfer-encoding; s=fm3; bh=
- 4+pw42IwkYwDJjmSNCsR7w/zoN01EaPIki4wOi5jSiU=; b=jenQ4JhBWA+tIapQ
- bZnxJ21pfIo55siDKIDbhDnHvX7UHWsW082wlfyWe8Yk9BiA9j+FNjiu99zTjAh+
- eG9mc10q4eDi0RPz7ob4jfHsyPKoWiXL+o8p3L+ORqAoZ+gIIoPRPK8K+4YuvKZq
- l1PiB3/zeXQ8afbGbJdyYebUabB0beHhfzahGJhrJAd0ofOVBV66ZZ6Ce6AwOPan
- zYTyyc1VywNqZ56u9r2Nej/ablV2uKSmNH1Ac2eGBlNesWEbBVvCWFVlvEsm1+Q1
- V0YBu87s5EgGlKSrnY/lSWZ5u93qbEcybYtOz7i4tw7KQsRepLTnpo9mImm7Cl4o
- M64Vdg==
+ pinW0NmCwac/ePCFB3ZIrfQfbe+ry6QLq23mY5YroBc=; b=KxJT2xUZvdhysGh2
+ A7ZIymIudvIDDWv8UqGy/PjbymHt76wpCauuN9IV7Seoih+wgWYwW/Np81T3t0P6
+ Ch9bygd75fjqt3+l3khLBfa596bsoqC3wxaRqNwWVU5vnH/Ibx0TeFONlvrYjvT6
+ d/arzqyMe+4X4pBzaUQ4jpiVxf4Uq2lf1P63cuCRAUEFt6DLcya3lTBTpJVMGVAz
+ j2WqpXmZD2NK0Qqd8A9ahuCC+KWI0VkLudZbPZ+Z1o5RjjWG0HWPQkk0VNHSrcrr
+ OkeOlmu9ZkmSw0uToBFqVWkwpX8gzXEU35968q+uLHGW+EZAJer9JeziB8HQLaud
+ xM+MEg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:content-type
  :date:from:in-reply-to:message-id:mime-version:references
  :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm2; bh=4+pw42IwkYwDJjmSNCsR7w/zoN01EaPIki4wOi5jS
- iU=; b=MwHNMYyOWcogZjIkqcR1uFQi97wUuPxV+iEDpWJ87sb3ChLIAppNSwyo/
- NcoeZskOkQZp6ivVTjvQr2ZSzEnDrUtyCXI8CXNguLKX6UErw240d5GC/Xk1kwLr
- yeNy4qFHq1CNjaT8U64G0Fe7+KqBjMZQXHDKUeTsQuitIfbkbdsdboU9d73dEMLI
- 05yKQRK2Dqn4QOeMz/33lCY7pq9ErNCvkcHApyh7aPMqsGt2bZWA25jQiSu7hIs+
- K2+cK5zxZoaQFCbpDAGy2+YiwP0NcxTOu79CUlZu59c6n5gkKzbMSSRSkfm99NQo
- XvuNcCtN4VlEONCbseaw+xaMZq+aA==
-X-ME-Sender: <xms:0TSiYLy4QVM3wJz4dv1yW1OVJd6PM5zG0Z5fOuHPR3H3ARjAlPSWiQ>
- <xme:0TSiYDSsOhzvBNMU73KYzAvwwyC1e8Ghz-nEcBZH0e05u5aeAzy3mgB5i1pnkeVfb
- 3JHpXPtktIfgkIk1KQ>
+ :x-sasl-enc; s=fm2; bh=pinW0NmCwac/ePCFB3ZIrfQfbe+ry6QLq23mY5Yro
+ Bc=; b=dPkAyAByceMZOcqYJhHcmuc4muu6b85ns5YVc6x+Q8vfzOeTtpccY09ro
+ CMgZEJiuqmjYxT/6WC0+Z4CxMWP1CSLNqCuoxmTIQzm6P9qXFiBQt7EHkywHtvk6
+ 5SEk6BoFdgZCQh7Q1/LFsxE93MTII8E/0WkB969DxFG9elabxiFssVB9pglRQlp4
+ 1HGw8sV/osSlkqdbLrenkjYuXTrc6tvIx9VJK7YhIj9EKF+8c1vqTJf8JAzw5pun
+ s4Ky8Ei04foB9c9ZcjV1JAv9Hy8fFKARP/hxbWBbM/5uExP9A0GjjLS8jjYK4wW+
+ d3GPS59cxHe4g7l2JE90lwb1lQ28A==
+X-ME-Sender: <xms:1DSiYD6AMlWRG5NddOOen4kaxv_-Q-JSpSo0BGL2_BeRaHJlXeWd7g>
+ <xme:1DSiYI5q1urxO7sy9JPDGj8zPWkxyhB3N7cPUcj0gITBw3oGX2NSSZghooOlT_Cx6
+ REhQkxu8d9KyhAH6kA>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdeihedgudegucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -54,19 +54,19 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdeihedgudegucetufdoteggod
  htvghrnhepteevuedugeevieehgeeileeufeetvddtkeetfeelgeehudfhjeeuledvhfff
  tdegnecukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgepud
  enucfrrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:0TSiYFViAos5q6ChpOFX7HeyVxJFvRCa7zvizwIw2IM-3Vd1aR_bTQ>
- <xmx:0TSiYFiom_Uzg_BcCKA1HHDauYiXVEm2l9VTzvvfEk8YPnmtSKF-Gg>
- <xmx:0TSiYNCB6SkFw8qhaSdlU39D__TOixogovHAmNb1tfgDvD0kutErPw>
- <xmx:0TSiYBuPy_gKHpO3YQtcfaYChQVSLSHE-yUppoNVAsw8kjZV0R9SjScMRLg>
+X-ME-Proxy: <xmx:1DSiYKdKT_djq1HJweaKrn1twDG9phN39ro2jnTvWfbM-PGBp3IoPQ>
+ <xmx:1DSiYEI_rHIdvRgSuQ78KaS6E0alzRZr66wQhCXEtVvGiWc2S4v_tw>
+ <xmx:1DSiYHL_R12KtxLIrW1aaFRSdx92MXOkNnreLcMEU8LH5D6GNiFLgQ>
+ <xmx:1DSiYIW0N_1mDPPlgFwp65WToM4-CsyhAjDpsolld0U1Fb3pLS1PcKvXiIs>
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190]) by mail.messagingengine.com (Postfix) with ESMTPA;
- Mon, 17 May 2021 05:18:07 -0400 (EDT)
+ Mon, 17 May 2021 05:18:10 -0400 (EDT)
 From: Klaus Jensen <its@irrelevant.dk>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PULL 08/20] hw/block/nvme: rename __nvme_advance_zone_wp
-Date: Mon, 17 May 2021 11:17:25 +0200
-Message-Id: <20210517091737.841787-9-its@irrelevant.dk>
+Subject: [PULL 09/20] hw/block/nvme: rename __nvme_select_ns_iocs
+Date: Mon, 17 May 2021 11:17:26 +0200
+Message-Id: <20210517091737.841787-10-its@irrelevant.dk>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210517091737.841787-1-its@irrelevant.dk>
 References: <20210517091737.841787-1-its@irrelevant.dk>
@@ -113,42 +113,95 @@ Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 Reviewed-by: Thomas Huth <thuth@redhat.com>
 Reviewed-by: Keith Busch <kbusch@kernel.org>
 ---
- hw/block/nvme.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ hw/block/nvme.c | 47 +++++++++++++++++++++++------------------------
+ 1 file changed, 23 insertions(+), 24 deletions(-)
 
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 9e5ab4cacb06..acbfa3f890dc 100644
+index acbfa3f890dc..f0cfca869875 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -1757,8 +1757,8 @@ static inline uint16_t nvme_zrm_open(NvmeNamespace *ns, NvmeZone *zone)
-     return nvme_zrm_open_flags(ns, zone, 0);
- }
- 
--static void __nvme_advance_zone_wp(NvmeNamespace *ns, NvmeZone *zone,
--                                   uint32_t nlb)
-+static void nvme_advance_zone_wp(NvmeNamespace *ns, NvmeZone *zone,
-+                                 uint32_t nlb)
- {
-     zone->d.wp += nlb;
- 
-@@ -1778,7 +1778,7 @@ static void nvme_finalize_zoned_write(NvmeNamespace *ns, NvmeRequest *req)
-     nlb = le16_to_cpu(rw->nlb) + 1;
-     zone = nvme_get_zone_by_slba(ns, slba);
- 
--    __nvme_advance_zone_wp(ns, zone, nlb);
-+    nvme_advance_zone_wp(ns, zone, nlb);
- }
- 
- static inline bool nvme_is_write(NvmeRequest *req)
-@@ -2167,7 +2167,7 @@ out:
-         uint64_t sdlba = le64_to_cpu(copy->sdlba);
-         NvmeZone *zone = nvme_get_zone_by_slba(ns, sdlba);
- 
--        __nvme_advance_zone_wp(ns, zone, ctx->nlb);
-+        nvme_advance_zone_wp(ns, zone, ctx->nlb);
+@@ -4928,7 +4928,25 @@ static void nvme_update_dmrsl(NvmeCtrl *n)
      }
+ }
  
-     g_free(ctx->bounce);
+-static void __nvme_select_ns_iocs(NvmeCtrl *n, NvmeNamespace *ns);
++static void nvme_select_iocs_ns(NvmeCtrl *n, NvmeNamespace *ns)
++{
++    ns->iocs = nvme_cse_iocs_none;
++    switch (ns->csi) {
++    case NVME_CSI_NVM:
++        if (NVME_CC_CSS(n->bar.cc) != NVME_CC_CSS_ADMIN_ONLY) {
++            ns->iocs = nvme_cse_iocs_nvm;
++        }
++        break;
++    case NVME_CSI_ZONED:
++        if (NVME_CC_CSS(n->bar.cc) == NVME_CC_CSS_CSI) {
++            ns->iocs = nvme_cse_iocs_zoned;
++        } else if (NVME_CC_CSS(n->bar.cc) == NVME_CC_CSS_NVM) {
++            ns->iocs = nvme_cse_iocs_nvm;
++        }
++        break;
++    }
++}
++
+ static uint16_t nvme_ns_attachment(NvmeCtrl *n, NvmeRequest *req)
+ {
+     NvmeNamespace *ns;
+@@ -4979,7 +4997,7 @@ static uint16_t nvme_ns_attachment(NvmeCtrl *n, NvmeRequest *req)
+             }
+ 
+             nvme_attach_ns(ctrl, ns);
+-            __nvme_select_ns_iocs(ctrl, ns);
++            nvme_select_iocs_ns(ctrl, ns);
+         } else {
+             if (!nvme_ns(ctrl, nsid)) {
+                 return NVME_NS_NOT_ATTACHED | NVME_DNR;
+@@ -5280,26 +5298,7 @@ static void nvme_ctrl_shutdown(NvmeCtrl *n)
+     }
+ }
+ 
+-static void __nvme_select_ns_iocs(NvmeCtrl *n, NvmeNamespace *ns)
+-{
+-    ns->iocs = nvme_cse_iocs_none;
+-    switch (ns->csi) {
+-    case NVME_CSI_NVM:
+-        if (NVME_CC_CSS(n->bar.cc) != NVME_CC_CSS_ADMIN_ONLY) {
+-            ns->iocs = nvme_cse_iocs_nvm;
+-        }
+-        break;
+-    case NVME_CSI_ZONED:
+-        if (NVME_CC_CSS(n->bar.cc) == NVME_CC_CSS_CSI) {
+-            ns->iocs = nvme_cse_iocs_zoned;
+-        } else if (NVME_CC_CSS(n->bar.cc) == NVME_CC_CSS_NVM) {
+-            ns->iocs = nvme_cse_iocs_nvm;
+-        }
+-        break;
+-    }
+-}
+-
+-static void nvme_select_ns_iocs(NvmeCtrl *n)
++static void nvme_select_iocs(NvmeCtrl *n)
+ {
+     NvmeNamespace *ns;
+     int i;
+@@ -5310,7 +5309,7 @@ static void nvme_select_ns_iocs(NvmeCtrl *n)
+             continue;
+         }
+ 
+-        __nvme_select_ns_iocs(n, ns);
++        nvme_select_iocs_ns(n, ns);
+     }
+ }
+ 
+@@ -5412,7 +5411,7 @@ static int nvme_start_ctrl(NvmeCtrl *n)
+ 
+     QTAILQ_INIT(&n->aer_queue);
+ 
+-    nvme_select_ns_iocs(n);
++    nvme_select_iocs(n);
+ 
+     return 0;
+ }
 -- 
 2.31.1
 
