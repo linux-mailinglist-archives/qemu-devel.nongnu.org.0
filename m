@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5CCD383CAA
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 20:48:22 +0200 (CEST)
-Received: from localhost ([::1]:56744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D04FF383C5A
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 20:35:41 +0200 (CEST)
+Received: from localhost ([::1]:42816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1liiHt-0007VL-T8
-	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 14:48:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34044)
+	id 1lii5c-0004Ir-TF
+	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 14:35:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34012)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lihld-0006YX-1M
- for qemu-devel@nongnu.org; Mon, 17 May 2021 14:15:01 -0400
-Received: from mout.kundenserver.de ([212.227.17.10]:46471)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lihlN-0004Rh-9d
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lihlc-0006Tt-1O
  for qemu-devel@nongnu.org; Mon, 17 May 2021 14:15:00 -0400
+Received: from mout.kundenserver.de ([212.227.17.10]:41699)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lihlN-0004Rp-9l
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 14:14:59 -0400
 Received: from quad ([82.142.31.78]) by mrelayeu.kundenserver.de (mreue107
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1M8QFi-1ln5TU0XEe-004PBe; Mon, 17
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1MEmpp-1lgBb92IfL-00GGth; Mon, 17
  May 2021 20:14:40 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 26/59] linux-user/sparc: Add rwin_save to signal frame
-Date: Mon, 17 May 2021 20:13:51 +0200
-Message-Id: <20210517181424.8093-27-laurent@vivier.eu>
+Subject: [PULL 27/59] linux-user/sparc: Clean up setup_frame
+Date: Mon, 17 May 2021 20:13:52 +0200
+Message-Id: <20210517181424.8093-28-laurent@vivier.eu>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210517181424.8093-1-laurent@vivier.eu>
 References: <20210517181424.8093-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:SQYdrlqjRBJRWMJzjUAAXDNmnmpo+lA16z1fMzYvufi2g5eygiH
- pzIGARdYXLJ3LjhpQhy1cOzZ0vZfrG3YqBEaXtb4U8XZdl4Yb0qIMCr6GnKtfOG7Cynxc1E
- /ptLX+mm2UZJ9+Lf1DOhUqBtlPNM1nL+vX8yTNvLyrFx2vxxvtCm8wXQpnol1zfXtMTZWb5
- 7CZfJZbedK/lzwTVcnnkg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:7qWQAbbGx5c=:GeyVKpY4HG03z9bdSHbq5L
- x4poL1faWum95KJ9COH6Iob9iucsndDdC96rOYnnCNwUiR/hMJiHN1vgHGv7O0K9LSQtf1MW8
- x1ED5CcgSL6KqddamnF5gNC4nvy88qhhEK1MgbO194Tdmi6hgd105SPsZmkWFW1bkXtPb0MDT
- UaMHg9qoA0lgczUdZ9yfwHsRiKLS7agNfw2nrsBPd3/Xi3jJi7NYScHHaK5+Qasl96/LMmdC4
- M6Lk4AsqgVWG+z9WeMMF/tcpm217jivEsjAPdE4ZdGCNUKfZo3hHTygrj9E0npilz4Ox5EEOm
- ZrjAw1pCqB41yAf/NdHE/5nRVHkS2OoPo/NMfpjMS4iVJqUYX+f3Cg0y5s2swGOjeDXTtzhOV
- VVu4OCYXfAZPSp39VRvr9VDZlTC1An2IPZo3YNJMv+msFf+ceewjU+0EhGwWBk4uH0flbBTkf
- 0D42xtaVnQLDVRBvy7z6ExW0/zGHX95i3w18kTkJ7c10MVuXCLJpBX0zAshYrES5Gz4hJFQ6Q
- 0C8+klPUOyoRyVcOAosP8g=
+X-Provags-ID: V03:K1:XAM1LYUEgaiQWSAoIKpCHNd376jlUz53JroepIgpoix0UmgqsNa
+ qEPXURe6GDPC7KL9uxvZb4RNmQLNsbzoSPb3U6GOEWcU0bGMMWWHvgUFNiKge/b7gbimgDP
+ 2l6l2P3vqFzgk0iciJTJnQ41IZuKmLKWGcTp/mHyawl8wIqTp08EdMZPwYFbgZoZ3nqnI6h
+ tVWZHGNoAb6oNFVWzgBSg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:QLGolkIwpDg=:T3Eo5Pfm3hekbDqyh+6PCM
+ h3DVdv78ABMk7FyjgZXiK+GXscZ4XBzU5ayRB+SMpjldu/nywaJyA5DpOFm793R4A/knj0YM9
+ t4oRzEAbFBidhBb+VS8P6vmd0J8y4RWPKI3bBDsIztKx/MH6ZsIpWqwbfQCYgUpdF/NxBivDD
+ tkSSHBMuCFaWSmSQw2DOxTApSXQTfeDbcaetrhwfhOtFxilJp9hnk6SNFJLy1xFMme+xhG/Cr
+ hW/kczVbckTukdkqkBVP2n/3dvAbqL9k9Ap19SYnE4JuUl485SZk7MgTL7d6h2mfuPJMx1H0K
+ EdX2RuM8FqSMmIAaFLCZnNmi1JEllqLHgsTs12ZofGlaXkLRYPdVn15XUGUSw46TMJN5gWEMK
+ XjgVJe1RLE8/XLT95JJBgTKoWQYF9prptdjIiIBntdhZw5dOsbdk2d8/rW47P6lDMMJHPAqIC
+ 0VB/qnmUipjUYYghyQveDrROMvqwZweE5Z0CCpOFz9zSC0L9nfzlTgjzP8zJgjmmN87URcaHc
+ Q23tj3bFOJiM/weE6O6F+s=
 Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
@@ -70,48 +70,75 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Stub it out to zero, but at least include it.
+Clean up a goto label with a single use.  Remove #if 0.
+Remove useless parentheses.  Fold constants into __put_user.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20210426025334.1168495-20-richard.henderson@linaro.org>
+Message-Id: <20210426025334.1168495-21-richard.henderson@linaro.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/sparc/signal.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ linux-user/sparc/signal.c | 25 ++++++-------------------
+ 1 file changed, 6 insertions(+), 19 deletions(-)
 
 diff --git a/linux-user/sparc/signal.c b/linux-user/sparc/signal.c
-index 59bb4495121e..4a0578ebf37b 100644
+index 4a0578ebf37b..f0f614a3af7a 100644
 --- a/linux-user/sparc/signal.c
 +++ b/linux-user/sparc/signal.c
-@@ -62,6 +62,7 @@ struct target_signal_frame {
-     uint32_t insns[2] QEMU_ALIGNED(8);
-     abi_ulong extramask[TARGET_NSIG_WORDS - 1];
-     abi_ulong extra_size; /* Should be 0 */
-+    abi_ulong rwin_save;
- };
+@@ -192,14 +192,13 @@ void setup_frame(int sig, struct target_sigaction *ka,
+     size_t sf_size = sizeof(*sf) + sizeof(struct target_siginfo_fpu);
+     int i;
  
- static abi_ulong get_sigframe(struct target_sigaction *sa,
-@@ -208,6 +209,8 @@ void setup_frame(int sig, struct target_sigaction *ka,
-     save_fpu((struct target_siginfo_fpu *)(sf + 1), env);
-     __put_user(sf_addr + sizeof(*sf), &sf->fpu_save);
+-    /* 1. Make sure everything is clean */
+-
+     sf_addr = get_sigframe(ka, env, sf_size);
+     trace_user_setup_frame(env, sf_addr);
  
-+    __put_user(0, &sf->rwin_save);  /* TODO: save_rwin_state */
-+
-     __put_user(set->sig[0], &sf->si_mask);
-     for (i = 0; i < TARGET_NSIG_WORDS - 1; i++) {
-         __put_user(set->sig[i + 1], &sf->extramask[i]);
-@@ -303,6 +306,11 @@ long do_sigreturn(CPUSPARCState *env)
-         unlock_user_struct(fpu, ptr, 0);
+     sf = lock_user(VERIFY_WRITE, sf_addr, sf_size, 0);
+     if (!sf) {
+-        goto sigsegv;
++        force_sigsegv(sig);
++        return;
      }
  
-+    __get_user(ptr, &sf->rwin_save);
-+    if (ptr) {
-+        goto segv_and_exit;  /* TODO: restore_rwin */
-+    }
+     /* 2. Save the current process state */
+@@ -228,33 +227,21 @@ void setup_frame(int sig, struct target_sigaction *ka,
+ 
+     /* 4. signal handler */
+     env->pc = ka->_sa_handler;
+-    env->npc = (env->pc + 4);
++    env->npc = env->pc + 4;
 +
-     __get_user(set.sig[0], &sf->si_mask);
-     for (i = 1; i < TARGET_NSIG_WORDS; i++) {
-         __get_user(set.sig[i], &sf->extramask[i - 1]);
+     /* 5. return to kernel instructions */
+     if (ka->ka_restorer) {
+         env->regwptr[WREG_O7] = ka->ka_restorer;
+     } else {
+-        uint32_t val32;
+-
+         env->regwptr[WREG_O7] = sf_addr +
+                 offsetof(struct target_signal_frame, insns) - 2 * 4;
+ 
+         /* mov __NR_sigreturn, %g1 */
+-        val32 = 0x821020d8;
+-        __put_user(val32, &sf->insns[0]);
+-
++        __put_user(0x821020d8u, &sf->insns[0]);
+         /* t 0x10 */
+-        val32 = 0x91d02010;
+-        __put_user(val32, &sf->insns[1]);
++        __put_user(0x91d02010u, &sf->insns[1]);
+     }
+     unlock_user(sf, sf_addr, sf_size);
+-    return;
+-#if 0
+-sigill_and_return:
+-    force_sig(TARGET_SIGILL);
+-#endif
+-sigsegv:
+-    unlock_user(sf, sf_addr, sizeof(struct target_signal_frame));
+-    force_sigsegv(sig);
+ }
+ 
+ void setup_rt_frame(int sig, struct target_sigaction *ka,
 -- 
 2.31.1
 
