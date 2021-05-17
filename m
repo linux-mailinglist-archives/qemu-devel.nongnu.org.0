@@ -2,77 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5FF0382C5D
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 14:40:42 +0200 (CEST)
-Received: from localhost ([::1]:58866 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97637382C7E
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 14:46:11 +0200 (CEST)
+Received: from localhost ([::1]:39778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1licY5-0005V9-W1
-	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 08:40:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54082)
+	id 1licdO-0003PR-Iy
+	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 08:46:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55592)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
- id 1licR3-0006v1-Fw
- for qemu-devel@nongnu.org; Mon, 17 May 2021 08:33:25 -0400
-Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433]:38891)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
- id 1licQy-0007qW-Rq
- for qemu-devel@nongnu.org; Mon, 17 May 2021 08:33:23 -0400
-Received: by mail-pf1-x433.google.com with SMTP id k19so4838594pfu.5
- for <qemu-devel@nongnu.org>; Mon, 17 May 2021 05:33:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=orjTR1IaQUDGDgxeXqCAWTiec0V3piq35GR7bYUztsw=;
- b=CGNYyXzmRam9aROJM+Le2G6+AdrCp19rn149d3jMJHRqUS1vz+0h9n7QsO6S1KQf1t
- IeoJMf4YhBcOAw0rg6GUZDbxnhn8w9drqtIyZPGSm9yhBDmPAa+lRisqJKZhuT+3Bunn
- xANcYwLh3NH+ALZYImksl26PVKEZ2XqVFCsoJ5Iv2hMzn6wsPUnG4e2LyqYo8pUwihuC
- IkgGwmEZeDW+wBaEWK58Wb7WJG+ALUiT3ikPcgJ90GOPwXs0Enhjd9k7ZUxilYSM2izf
- uxDfl+YUBk1wGLlUZ78cnnA+UTZAwzClezdhCl85Zr/55546txuSS4SelHuk6BERhnNW
- bFLA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=orjTR1IaQUDGDgxeXqCAWTiec0V3piq35GR7bYUztsw=;
- b=Pvk/+gHZU/vO4R/yhbQZl7n1DSDxGqkR+kn3tDMFjm/1ETsrQQN0wjIsMdDjd21JFO
- rco85J3NMsN6ic3MURqhSS2nF/l3H9AbW+fdkjdMnaUDRJ7mQRizGgSwbxs8g+gI/cE+
- oag7x4tUglqkCV0GVgLVZg3q5RUwN3Kl1LWNBuI67IdUXM9wANQkegYtHqbXJzl1YDh8
- 7IoQbTjXm4Q6VajPu+sLDf2PNSK928l4sS2EyJx2moskVjyUk2ATnJLydMEHbfh6fX4B
- DneyxbV2cUKUKHKo4NEkES1xhIomH/MkmkWN9vLmrl8Yo5aBPS76LGaYJ9ha/XsCt97V
- J49w==
-X-Gm-Message-State: AOAM532UBZs5lsUo6t1ZM846iggSGBviC1W+6GjVFXqtAXUM5Hrw1FfY
- AfxRSRsEMAlI+OiCqV/iRgYu
-X-Google-Smtp-Source: ABdhPJzYf6jBwqVsvz3N2uwJ4xfqd8D82ArNhaeX1Zbeh93v3qtWRs7PGRiXGA56+2cJX/qTXlAo8g==
-X-Received: by 2002:a05:6a00:1c63:b029:2a8:b80a:1244 with SMTP id
- s35-20020a056a001c63b02902a8b80a1244mr52300775pfw.72.1621254798276; 
- Mon, 17 May 2021 05:33:18 -0700 (PDT)
-Received: from localhost ([139.177.225.253])
- by smtp.gmail.com with ESMTPSA id js6sm14185068pjb.0.2021.05.17.05.33.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 May 2021 05:33:17 -0700 (PDT)
-From: Xie Yongji <xieyongji@bytedance.com>
-To: mst@redhat.com,
-	philmd@redhat.com,
-	jasowang@redhat.com
-Subject: [PATCH v2] vhost-vdpa: Remove redundant declaration of
- address_space_memory
-Date: Mon, 17 May 2021 20:32:46 +0800
-Message-Id: <20210517123246.999-1-xieyongji@bytedance.com>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from <cennedee@protonmail.com>)
+ id 1licWY-0003Xl-HM
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 08:39:08 -0400
+Received: from mail-40138.protonmail.ch ([185.70.40.138]:54015)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cennedee@protonmail.com>)
+ id 1licWS-0002pb-D1
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 08:39:06 -0400
+Date: Mon, 17 May 2021 12:38:43 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+ s=protonmail; t=1621255131;
+ bh=oTDijWQh0Nw1iqsYn8JM5mMJBvZMYBlsFtO0G+6BI8I=;
+ h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
+ b=CWZ9MQGr6gdC0UCDd+hgg+y2D8SHWWklsZ2Ll1DwUstgsD4DZSVLSMHof4H2CzhZq
+ 505j6CuhpTNf8dGmnuqHyKbBdFz404r+e8boPytTCSkP09IEQIzan57EU5bJWtBppu
+ e8jpLnZu3kY0BO9Wjc75JkHXoeL8nO33oeS926Gk=
+To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>
+From: cennedee <cennedee@protonmail.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Stefan Hajnoczi <stefanha@gmail.com>, John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH] Add missing coroutine_fn function signature to functions
+Message-ID: <9z7gf5G0OppBW1TLTGHhpvQY7nqQbJ9-9uBK847DMGg1Lq6IaqEWuda_oRVYHLN4ANJ9INng-WlQHliEHMmezGXQ5ssf8WvVi3lXFuz5MnI=@protonmail.com>
+In-Reply-To: <jIsKogXaCAXLrz6EQmoe_JD8TSR6h0Ud-nnXrdPRaupurt9VN_ZmxF0IYqKOExfwuCRPiKp1kTXweklz9uuXqkvoG7_g3pR9kCrr01sZtv4=@protonmail.com>
+References: <8y2vfZuyQoZPUsO-9E_Vl_x5LG4S3-ewrNqvmbgOTUHPglYpU2A0-jjdIh78JySlGCqhHgfXXezC_HGTIbSdlsqcT9YzUKr0b_FKp1OLk00=@protonmail.com>
+ <YJAt8r78WAVdFrpa@stefanha-x1.localdomain>
+ <jIsKogXaCAXLrz6EQmoe_JD8TSR6h0Ud-nnXrdPRaupurt9VN_ZmxF0IYqKOExfwuCRPiKp1kTXweklz9uuXqkvoG7_g3pR9kCrr01sZtv4=@protonmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
- envelope-from=xieyongji@bytedance.com; helo=mail-pf1-x433.google.com
-X-Spam_score_int: 14
-X-Spam_score: 1.4
-X-Spam_bar: +
-X-Spam_report: (1.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_SBL_CSS=3.335, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=185.70.40.138;
+ envelope-from=cennedee@protonmail.com; helo=mail-40138.protonmail.ch
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,44 +62,136 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Reply-To: cennedee <cennedee@protonmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The symbol address_space_memory are already declared in
-include/exec/address-spaces.h. So let's add this header file
-and remove the redundant declaration in include/hw/virtio/vhost-vdpa.h.
+Focusing on a single file at a time now, this particular revised patch adds
+missing function signature `coroutine_fn` to definitions in scsi/qemu-pr-he=
+lper.c
+Intend to do more files in a separate patch series once I get the full flow=
+ of this.
 
-Signed-off-by: Xie Yongji <xieyongji@bytedance.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Compared to my previous e-mail, have also confirmed this edit passes checkp=
+atch.pl
+
+The following functions are affected.
+
+do_sgio()
+do_pr_in() --> do_sgio()
+do_pr_out() --> do_sgio()
+mpath_reconstruct_sense() --> do_sgio()
+multipath_pr_out() --> mpath_reconstruct_sense() --> do_sgio()
+multipath_pr_in() --> mpath_reconstruct_sense() --> do_sgio()
+accept_client() --> prh_co_entry()
+
+
+From 5bdef14027457d412972131dace76c3cabcc45a0 Mon Sep 17 00:00:00 2001
+From: Cenne Dee <cennedee+qemu-devel@protonmail.com>
+Date: Fri, 30 Apr 2021 15:52:28 -0400
+Subject: [PATCH] Add missing coroutine_fn function signature to some _co()
+ functions
+
+Patch adds the signature for relevant functions ending with _co
+or those that use them.
+
+Signed-off-by: Cenne Dee <cennedee+qemu-devel@protonmail.com>
 ---
- hw/virtio/vhost-vdpa.c         | 1 +
- include/hw/virtio/vhost-vdpa.h | 1 -
- 2 files changed, 1 insertion(+), 1 deletion(-)
+ scsi/qemu-pr-helper.c | 26 ++++++++++++++------------
+ 1 file changed, 14 insertions(+), 12 deletions(-)
 
-diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-index 8f2fb9f10b2a..ee51863d280b 100644
---- a/hw/virtio/vhost-vdpa.c
-+++ b/hw/virtio/vhost-vdpa.c
-@@ -18,6 +18,7 @@
- #include "hw/virtio/vhost-backend.h"
- #include "hw/virtio/virtio-net.h"
- #include "hw/virtio/vhost-vdpa.h"
-+#include "exec/address-spaces.h"
- #include "qemu/main-loop.h"
- #include "cpu.h"
- #include "trace.h"
-diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio/vhost-vdpa.h
-index 28ca65018ed7..ae9ee7adb2d0 100644
---- a/include/hw/virtio/vhost-vdpa.h
-+++ b/include/hw/virtio/vhost-vdpa.h
-@@ -21,5 +21,4 @@ typedef struct vhost_vdpa {
-     struct vhost_dev *dev;
- } VhostVDPA;
- 
--extern AddressSpace address_space_memory;
+diff --git a/scsi/qemu-pr-helper.c b/scsi/qemu-pr-helper.c
+index 7b9389b47b..7ed47c17c7 100644
+--- a/scsi/qemu-pr-helper.c
++++ b/scsi/qemu-pr-helper.c
+@@ -175,8 +175,8 @@ static int do_sgio_worker(void *opaque)
+     return status;
+ }
+
+-static int do_sgio(int fd, const uint8_t *cdb, uint8_t *sense,
+-                    uint8_t *buf, int *sz, int dir)
++static int coroutine_fn do_sgio(int fd, const uint8_t *cdb, uint8_t *sense=
+,
++                                uint8_t *buf, int *sz, int dir)
+ {
+     ThreadPool *pool =3D aio_get_thread_pool(qemu_get_aio_context());
+     int r;
+@@ -318,7 +318,7 @@ static SCSISense mpath_generic_sense(int r)
+     }
+ }
+
+-static int mpath_reconstruct_sense(int fd, int r, uint8_t *sense)
++static int coroutine_fn mpath_reconstruct_sense(int fd, int r, uint8_t *se=
+nse)
+ {
+     switch (r) {
+     case MPATH_PR_SUCCESS:
+@@ -370,8 +370,8 @@ static int mpath_reconstruct_sense(int fd, int r, uint8=
+_t *sense)
+     }
+ }
+
+-static int multipath_pr_in(int fd, const uint8_t *cdb, uint8_t *sense,
+-                           uint8_t *data, int sz)
++static int coroutine_fn multipath_pr_in(int fd, const uint8_t *cdb,
++                                        uint8_t *sense, uint8_t *data, int=
+ sz)
+ {
+     int rq_servact =3D cdb[1];
+     struct prin_resp resp;
+@@ -425,8 +425,9 @@ static int multipath_pr_in(int fd, const uint8_t *cdb, =
+uint8_t *sense,
+     return mpath_reconstruct_sense(fd, r, sense);
+ }
+
+-static int multipath_pr_out(int fd, const uint8_t *cdb, uint8_t *sense,
+-                            const uint8_t *param, int sz)
++static int coroutine_fn multipath_pr_out(int fd, const uint8_t *cdb,
++                                         uint8_t *sense, const uint8_t *pa=
+ram,
++                                         int sz)
+ {
+     int rq_servact =3D cdb[1];
+     int rq_scope =3D cdb[2] >> 4;
+@@ -543,8 +544,8 @@ static int multipath_pr_out(int fd, const uint8_t *cdb,=
+ uint8_t *sense,
+ }
  #endif
--- 
-2.11.0
+
+-static int do_pr_in(int fd, const uint8_t *cdb, uint8_t *sense,
+-                    uint8_t *data, int *resp_sz)
++static int coroutine_fn do_pr_in(int fd, const uint8_t *cdb, uint8_t *sens=
+e,
++                                 uint8_t *data, int *resp_sz)
+ {
+ #ifdef CONFIG_MPATH
+     if (is_mpath(fd)) {
+@@ -561,8 +562,8 @@ static int do_pr_in(int fd, const uint8_t *cdb, uint8_t=
+ *sense,
+                    SG_DXFER_FROM_DEV);
+ }
+
+-static int do_pr_out(int fd, const uint8_t *cdb, uint8_t *sense,
+-                     const uint8_t *param, int sz)
++static int coroutine_fn do_pr_out(int fd, const uint8_t *cdb, uint8_t *sen=
+se,
++                                  const uint8_t *param, int sz)
+ {
+     int resp_sz;
+
+@@ -804,7 +805,8 @@ out:
+     g_free(client);
+ }
+
+-static gboolean accept_client(QIOChannel *ioc, GIOCondition cond, gpointer=
+ opaque)
++static gboolean coroutine_fn accept_client(QIOChannel *ioc, GIOCondition c=
+ond,
++                                           gpointer opaque)
+ {
+     QIOChannelSocket *cioc;
+     PRHelperClient *prh;
+--
+2.31.1
 
 
