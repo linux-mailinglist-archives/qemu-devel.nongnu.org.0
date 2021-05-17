@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21368383C98
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 20:44:26 +0200 (CEST)
-Received: from localhost ([::1]:40128 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6516383C85
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 20:38:49 +0200 (CEST)
+Received: from localhost ([::1]:51278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1liiE5-0004pR-5I
-	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 14:44:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34094)
+	id 1lii8e-0001eT-Td
+	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 14:38:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34072)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lihlf-0006iM-CR
- for qemu-devel@nongnu.org; Mon, 17 May 2021 14:15:03 -0400
-Received: from mout.kundenserver.de ([212.227.17.10]:36535)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lihle-0006fR-Ji
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 14:15:02 -0400
+Received: from mout.kundenserver.de ([212.227.17.10]:58513)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lihlP-0004Sx-Oy
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lihlQ-0004UO-O2
  for qemu-devel@nongnu.org; Mon, 17 May 2021 14:15:02 -0400
 Received: from quad ([82.142.31.78]) by mrelayeu.kundenserver.de (mreue107
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1MfZDK-1lFxaF2OLo-00fwvm; Mon, 17
- May 2021 20:14:43 +0200
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1MLQgv-1m063b0Hvn-00IVxF; Mon, 17
+ May 2021 20:14:44 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 34/59] linux-user/s390x: Use uint16_t for signal retcode
-Date: Mon, 17 May 2021 20:13:59 +0200
-Message-Id: <20210517181424.8093-35-laurent@vivier.eu>
+Subject: [PULL 35/59] linux-user/s390x: Remove PSW_ADDR_AMODE
+Date: Mon, 17 May 2021 20:14:00 +0200
+Message-Id: <20210517181424.8093-36-laurent@vivier.eu>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210517181424.8093-1-laurent@vivier.eu>
 References: <20210517181424.8093-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:saUIS/JUgEHcFxd7F61bY8GcQSMpxPeW5wJd3MjqdesNbpHTUu5
- sI1VsDUHQVJ2wzfCYhbsUYUWGa5Jw/OEaeGHVpyum9TvoHO/dN4prWt+TfRIiGPCiPKyssb
- rGRnPq0XuFuW/SO6DEq0WuIEBFwqaApg5wzs3XC5uH33ELd0CJeA7D99JPRapDsyD9l/+Vc
- yFL8kx4TjQc3+/15Kgsqw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:V5tGAiR2vBU=:MiaCXCbqWhcPESQBMH+/uA
- BRa7JR2CIpIDK4g6RdCIZX6YxZIJi6t2kmvOHI0etmNhbi1LWoEiYlGkfEiGAQlPJwodbXP0Q
- ZK8jlufYvv+MxYwUKeHLbFyzw/hUBmFIrOM3SCZO0lyCW2nhobaBKnrf7ejCd1Q6Cg6C5on/B
- ApoLQvW6UIRpBLCdSFilRqzSHQLHlnBowCpUqgtMha0FjVoPKpW+XtTpyacDmrw/o2K8+K/Ev
- G7b70+esBbfNuCxNbipkj5W8jlF6FbEdKMoHL4gXhMWDsK9J/9XeM69aPiB21nuDUQiQ6jSq3
- +siq88z4gcYFjACMa6DjLR4Ceqgc1h43l+pq5zjUgr9BN/DAGHoSBLT+E9YCtGyNJd/CVG6yb
- n6MPnpceqCfUhuYK54b0tdG/ZYCBemef6yMZfq9sYxbsED/ZHlAMQ533WCuT7ezBy2+Jwhqer
- XajyKGJ7W627jCp/UZ7C4+ObMRKfCi0K7nBB4FaNR3lwAtOZi/RGCLqmv487DkM/cDYD4kYlE
- beprcoQ4IftLprwPMflKK0=
+X-Provags-ID: V03:K1:Wr5S8DKryzW8N/vKmub0WzsI8+MbbgwMxhlhxFS2DK4vwwfN/7B
+ MVLm44pCzz5Bu+FD5ptchO7rbZbCU7phSC0Dzfw+q0o6OXXQwqarytaBpNuW+MbCXwUz5w1
+ ncdxw+/ynF4XtIaNc6E2XaZ3R7xy5YUcCp6+2xlNDQsvvxpL9x4zf+zHC0cgIj9dP/8nEZg
+ Kjbnyl34dCmvk8SVEdh9A==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:QllEDAhyNFQ=:U/QsBuE8mlh31uCPObN+o1
+ o8+K2ZbLu3vcmgbA202t3Bqk6/VwLKq/e41ZKlBaqnfxKycwI70GQ7Y4XgrHBvW5ds94q8p8K
+ rUsuRUAXJ3U35QVJ7y/NoznBtJwlfalshgLvTBUut1BRxNay1hySb3xJF2kn0RYpkrXdzb3Z7
+ izBdnMraw2ga/Skc8sh8Eudsv9gDd6ZDIARSVcKJ+K27x+jRB09Old7O1r3rGWcvODr6fLeLJ
+ ChZ7E3F+BCk53xRL3f6Rz1j2xBv10HbwNAonEwVgCN5envw+pbfEimx/Xt00jZzB/eDMgT0LU
+ sH14zfqMh36l+WaJnIrrpDv4ybiTD8BBX+7uf8COuEcMLJ66SdJN+sCBr/0gnXnX3ul8UforC
+ dDPSJ0YkMWnH2NZCodoZLj6AV0wpvfdEQZcC6us5jr+Mj2TWfgM43ONQWkAXO1MDS9RdJOsHd
+ TJ7qGik1Fy7hUwYSm3nUTh1K2SE6DnvYy7/RNlPUFdHr3LEquAQGrRL0RvO1zzN7l1+/AO2P+
+ ao2lbAS8C53nvQetICSxcc=
 Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
@@ -70,64 +70,82 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Using the right type simplifies the frame setup.
+This is an unnecessary complication since we only
+support 64-bit mode.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: David Hildenbrand <david@redhat.com>
-Message-Id: <20210428193408.233706-3-richard.henderson@linaro.org>
+Message-Id: <20210428193408.233706-4-richard.henderson@linaro.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/s390x/signal.c | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+ linux-user/s390x/signal.c | 17 ++++++-----------
+ 1 file changed, 6 insertions(+), 11 deletions(-)
 
 diff --git a/linux-user/s390x/signal.c b/linux-user/s390x/signal.c
-index 707fb603d72e..fece8ab97b3c 100644
+index fece8ab97b3c..1dfca71fa9b2 100644
 --- a/linux-user/s390x/signal.c
 +++ b/linux-user/s390x/signal.c
-@@ -25,7 +25,6 @@
- #define __NUM_FPRS 16
- #define __NUM_ACRS 16
- 
--#define S390_SYSCALL_SIZE   2
- #define __SIGNAL_FRAMESIZE      160 /* FIXME: 31-bit mode -> 96 */
- 
- #define _SIGCONTEXT_NSIG        64
-@@ -62,7 +61,7 @@ typedef struct {
-     target_sigcontext sc;
-     target_sigregs sregs;
-     int signo;
--    uint8_t retcode[S390_SYSCALL_SIZE];
-+    uint16_t retcode;
- } sigframe;
- 
- struct target_ucontext {
-@@ -75,7 +74,7 @@ struct target_ucontext {
+@@ -31,7 +31,6 @@
+ #define _SIGCONTEXT_NSIG_BPW    64 /* FIXME: 31-bit mode -> 32 */
+ #define _SIGCONTEXT_NSIG_WORDS  (_SIGCONTEXT_NSIG / _SIGCONTEXT_NSIG_BPW)
+ #define _SIGMASK_COPY_SIZE    (sizeof(unsigned long)*_SIGCONTEXT_NSIG_WORDS)
+-#define PSW_ADDR_AMODE            0x0000000000000000UL /* 0x80000000UL for 31-bit */
+ #define S390_SYSCALL_OPCODE ((uint16_t)0x0a00)
  
  typedef struct {
-     uint8_t callee_used_stack[__SIGNAL_FRAMESIZE];
--    uint8_t retcode[S390_SYSCALL_SIZE];
-+    uint16_t retcode;
-     struct target_siginfo info;
-     struct target_ucontext uc;
- } rt_sigframe;
-@@ -155,7 +154,7 @@ void setup_frame(int sig, struct target_sigaction *ka,
-         env->regs[14] = (frame_addr + offsetof(sigframe, retcode))
-                         | PSW_ADDR_AMODE;
+@@ -148,11 +147,9 @@ void setup_frame(int sig, struct target_sigaction *ka,
+     /* Set up to return from userspace.  If provided, use a stub
+        already in userspace.  */
+     if (ka->sa_flags & TARGET_SA_RESTORER) {
+-        env->regs[14] = (unsigned long)
+-                ka->sa_restorer | PSW_ADDR_AMODE;
++        env->regs[14] = ka->sa_restorer;
+     } else {
+-        env->regs[14] = (frame_addr + offsetof(sigframe, retcode))
+-                        | PSW_ADDR_AMODE;
++        env->regs[14] = frame_addr + offsetof(sigframe, retcode);
          __put_user(S390_SYSCALL_OPCODE | TARGET_NR_sigreturn,
--                   (uint16_t *)(frame->retcode));
-+                   &frame->retcode);
+                    &frame->retcode);
      }
+@@ -162,7 +159,7 @@ void setup_frame(int sig, struct target_sigaction *ka,
  
-     /* Set up backchain. */
-@@ -216,7 +215,7 @@ void setup_rt_frame(int sig, struct target_sigaction *ka,
-         env->regs[14] = (frame_addr + offsetof(typeof(*frame), retcode))
-                         | PSW_ADDR_AMODE;
+     /* Set up registers for signal handler */
+     env->regs[15] = frame_addr;
+-    env->psw.addr = (target_ulong) ka->_sa_handler | PSW_ADDR_AMODE;
++    env->psw.addr = ka->_sa_handler;
+ 
+     env->regs[2] = sig; //map_signal(sig);
+     env->regs[3] = frame_addr += offsetof(typeof(*frame), sc);
+@@ -210,10 +207,9 @@ void setup_rt_frame(int sig, struct target_sigaction *ka,
+     /* Set up to return from userspace.  If provided, use a stub
+        already in userspace.  */
+     if (ka->sa_flags & TARGET_SA_RESTORER) {
+-        env->regs[14] = ka->sa_restorer | PSW_ADDR_AMODE;
++        env->regs[14] = ka->sa_restorer;
+     } else {
+-        env->regs[14] = (frame_addr + offsetof(typeof(*frame), retcode))
+-                        | PSW_ADDR_AMODE;
++        env->regs[14] = frame_addr + offsetof(typeof(*frame), retcode);
          __put_user(S390_SYSCALL_OPCODE | TARGET_NR_rt_sigreturn,
--                   (uint16_t *)(frame->retcode));
-+                   &frame->retcode);
+                    &frame->retcode);
      }
+@@ -223,7 +219,7 @@ void setup_rt_frame(int sig, struct target_sigaction *ka,
  
-     /* Set up backchain. */
+     /* Set up registers for signal handler */
+     env->regs[15] = frame_addr;
+-    env->psw.addr = (target_ulong) ka->_sa_handler | PSW_ADDR_AMODE;
++    env->psw.addr = ka->_sa_handler;
+ 
+     env->regs[2] = sig; //map_signal(sig);
+     env->regs[3] = frame_addr + offsetof(typeof(*frame), info);
+@@ -248,7 +244,6 @@ restore_sigregs(CPUS390XState *env, target_sigregs *sc)
+     trace_user_s390x_restore_sigregs(env, (unsigned long long)sc->regs.psw.addr,
+                                      (unsigned long long)env->psw.addr);
+     __get_user(env->psw.addr, &sc->regs.psw.addr);
+-    /* FIXME: 31-bit -> | PSW_ADDR_AMODE */
+ 
+     for (i = 0; i < 16; i++) {
+         __get_user(env->aregs[i], &sc->regs.acrs[i]);
 -- 
 2.31.1
 
