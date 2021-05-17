@@ -2,81 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6016E383BE4
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 20:06:19 +0200 (CEST)
-Received: from localhost ([::1]:39116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7F2C383BE8
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 20:08:50 +0200 (CEST)
+Received: from localhost ([::1]:43866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lihdB-0004lK-QW
-	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 14:06:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56900)
+	id 1lihfe-00085s-10
+	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 14:08:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57404)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luis.machado@linaro.org>)
- id 1lihRi-00086V-Dc
- for qemu-devel@nongnu.org; Mon, 17 May 2021 13:54:26 -0400
-Received: from mail-qv1-xf2a.google.com ([2607:f8b0:4864:20::f2a]:40656)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <luis.machado@linaro.org>)
- id 1lihRg-0004i7-L2
- for qemu-devel@nongnu.org; Mon, 17 May 2021 13:54:26 -0400
-Received: by mail-qv1-xf2a.google.com with SMTP id e8so297430qvp.7
- for <qemu-devel@nongnu.org>; Mon, 17 May 2021 10:54:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=iCdBGFtXsbMCQlT9EXnMyoD9HU/1ZTP0N3vWA2rRvh4=;
- b=J64cUIV/Lx4iyyRrJfWg8m1iJcenHhuXuHIjaXCaYYPoG9vaxglXzvE2tH4gTTTve9
- WQ9t6cC5TCQcDg12KD9HKrT+JJI5EeQ8rwZkS2kyR/0X1xkPwVsxLxTHmZJ1b/O/YlUz
- 9c97y3BOki2M33IqJyoK4fhibUNRoHATpCjT2ifMpO788J0hH6GZO1TzzVnCeiFMMiG0
- xX8DXdtL4wEvta1LZKqf6XP4gkoP8wQWm+HLz+mS4Z5urFvvK5e5EqU0aI9aqRF2CYlz
- aeeOokzVTRBFo4kFeGMBpMqCWGKp65nc3LP+e7jWi+wCwiITBgottF08If0jQW9qYw2x
- kA7g==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lihUG-0004cX-MP
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 13:57:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59619)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lihUF-0005nR-8n
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 13:57:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1621274222;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=xbb0JOTGcICeq4h/aNZ6Xic/MX4h/RQpVHN/Wzk8Vm0=;
+ b=O/MVPCfVFnJqyXm0k/HbY/FMSlEl2VTaPG87HQ/zf87d7pfjDpA1d3GMmsYnSEZt+7MFOp
+ h+UHjyzH57OFsSZno4Kx1007GNipjpkNlZaho1NtOGQ7DvslVHKqm9daSP0hrVeJrNrZMR
+ 2+Gm9ZfpYhhcZhDGKOBsu5cxsoiaoJ0=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-181-dNjGNSOgNpOeVTJdr9BhsQ-1; Mon, 17 May 2021 13:56:59 -0400
+X-MC-Unique: dNjGNSOgNpOeVTJdr9BhsQ-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ z1-20020a1709068141b02903cd421d7803so1331248ejw.22
+ for <qemu-devel@nongnu.org>; Mon, 17 May 2021 10:56:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=iCdBGFtXsbMCQlT9EXnMyoD9HU/1ZTP0N3vWA2rRvh4=;
- b=uoF+4CTlzu8Yu/aSoNXYufsBEx/oMYELmVd0i5kyZTwA4gbhAzWJenx348WcfqN2a5
- Oo2vGsw2AcHoHB3e4etEpXpbThzKq9EYqyLA1LmXWF25AbWQYFcvZaC1iNYbOI013zS5
- u2v6MTPT9o6E0HLcOtwGzSk8dcol6UGIDwpGAgq8pwmLn3DyjReTpmMqPl7UT+S12Bn9
- m6MF60JvY+RKij04uMJ+nIIJUfjErPlxSiEV/MV39z15NHp1WpA1UxbQiYxqtsmO7q+I
- gk2Q9N+ZWN/M5SANlI69l1YNT90WoapdguxzZK0pamkmBdS3iwbEy18VRYcLqAHMwdsC
- HMSQ==
-X-Gm-Message-State: AOAM532uRXUaySxNruZn3E63Xq7aPPL/joaT+oKNQ1OAsvu0iwj012Qe
- dQfqb4LPau1dXPbhbE4mfHO3hQ==
-X-Google-Smtp-Source: ABdhPJwUSD15Oi99BOVCx122jT0JmTEAK72WO3buPn+yowxBpf+xGOiNwPUT5173HMGHnrx8FqetuQ==
-X-Received: by 2002:a05:6214:a43:: with SMTP id
- ee3mr1165927qvb.61.1621274058829; 
- Mon, 17 May 2021 10:54:18 -0700 (PDT)
-Received: from ?IPv6:2804:7f0:4841:40ad:6091:b08d:7dd2:84b1?
- ([2804:7f0:4841:40ad:6091:b08d:7dd2:84b1])
- by smtp.gmail.com with ESMTPSA id 25sm976299qtd.51.2021.05.17.10.54.16
+ bh=xbb0JOTGcICeq4h/aNZ6Xic/MX4h/RQpVHN/Wzk8Vm0=;
+ b=Cz7GkzMkpGQgjE5m8zuQeH7ivLvYNUWjoeK6T25owrOzrZvkBtjjWVMdb33PFLEUQ7
+ VRkkanAgp1zS9xAGHUIu2FGyTXU6kjYUT51tTPZIbiKH0ypT5fuTYxqc3XYU0NB5ojy/
+ naBUlcy+3V4NjGxDEuguNZHQmqTl3c8iJqtI8DPsYNa2lVpaBJvi7L5kiUsOimj0AjQJ
+ MtqMWq9jd/5s1ZhTAUl1VLxVaB0rZl5LlN0yaUxWtYSpbiJabzbe8dvONu57w5wbhvKD
+ 6hvUT0H3KekB1Fq31t0yq4rITw0/tAEOddqA+PevZmJ/ME9AxtR+DkJle1AJNHB+q3XJ
+ RFgw==
+X-Gm-Message-State: AOAM533aGxLF8ENVMvZPMZTz7YD4u0EakL7+xP92AIgVlf+TOkOCzmH9
+ DAA9A3WqQmSy+GX1RyBluJQIUCjFEgafxW3pkYtMTPUPiW9QEffeSJtV/lnXiSfWj5I2gZZZIiX
+ ROYYwMqXmhEMrVOo=
+X-Received: by 2002:a05:6402:3548:: with SMTP id
+ f8mr1461931edd.251.1621274217792; 
+ Mon, 17 May 2021 10:56:57 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxenkOoISD9I/sJVN/yHbowKmSxRrsE2exOiKO0UXSKYT1SGTuvWPKZdC/0wveBWYgfpmiyHQ==
+X-Received: by 2002:a05:6402:3548:: with SMTP id
+ f8mr1461909edd.251.1621274217609; 
+ Mon, 17 May 2021 10:56:57 -0700 (PDT)
+Received: from [192.168.1.36] (31.red-83-51-215.dynamicip.rima-tde.net.
+ [83.51.215.31])
+ by smtp.gmail.com with ESMTPSA id y19sm11382511edc.73.2021.05.17.10.56.56
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 17 May 2021 10:54:18 -0700 (PDT)
-Subject: Re: Best approach for supporting snapshots for QEMU's gdbstub?
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <87y2chjmsf.fsf@linaro.org>
- <6c8845b7-cc60-c8ba-3ada-6d0c6e65d8a5@linaro.org> <87bl99e03j.fsf@linaro.org>
-From: Luis Machado <luis.machado@linaro.org>
-Message-ID: <ef3a9b58-6ecf-d4c1-b501-2b4d390304ec@linaro.org>
-Date: Mon, 17 May 2021 14:54:15 -0300
+ Mon, 17 May 2021 10:56:57 -0700 (PDT)
+Subject: Re: [PATCH] fdc: check drive block device before usage
+ (CVE-2021-20196)
+To: P J P <ppandit@redhat.com>
+References: <20210123100345.642933-1-ppandit@redhat.com>
+ <6881ef3c-99a1-1f5f-cca5-0850ec2bd6cf@redhat.com>
+ <89fb8d54-707a-9965-75e2-665d4cb07d63@redhat.com>
+ <bea5cec1-eb1b-3eab-8e71-4af7ae1078ff@redhat.com>
+ <8n7o47n5-741n-819-187-n27p1o87q362@erqung.pbz>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <5dcc09b1-9131-fb6f-b25b-b290e742329b@redhat.com>
+Date: Mon, 17 May 2021 19:56:55 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <87bl99e03j.fsf@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <8n7o47n5-741n-819-187-n27p1o87q362@erqung.pbz>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f2a;
- envelope-from=luis.machado@linaro.org; helo=mail-qv1-xf2a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.374,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,127 +105,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>, gdb@gnu.org,
- Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Qemu-block <qemu-block@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
+ qemu-stable@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Gaoning Pan <pgn@zju.edu.cn>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/17/21 2:27 PM, Alex Bennée wrote:
+On 5/17/21 1:12 PM, P J P wrote:
+> +-- On Sat, 15 May 2021, Philippe Mathieu-Daudé wrote --+
+> | This patch misses the qtest companion with the reproducer
+> | provided by Alexander.
 > 
-> Luis Machado <luis.machado@linaro.org> writes:
-> 
->> Hi,
->>
->> On 5/14/21 1:06 PM, Alex Bennée wrote:
->>> Hi,
->>> I've been playing around with QEMU's reverse debugging support which
->>> I have working with Pavel's latest patches for supporting virtio with
->>> record/replay. Once you get the right command line it works well enough
->>> although currently each step backwards requires replaying the entire
->>> execution history until you get to the right point.
->>> QEMU can quite easily snapshot the entire VM state so I was looking
->>> to
->>> see what the best way to integrate this would be. As far as I can tell
->>> there are two interfaces gdb supports: bookmarks and checkpoints.
->>> As far as I can tell bookmarks where added as part of GDB's reverse
->>> debugging support but attempting to use them from the gdbstub reports:
->>>     (gdb) bookmark
->>>     You can't do that when your target is `remote'
->>> so I guess that would need an extension to the stub protocol to
->>> support?
->>>
->>
->> Right. We don't support reverse step/next/continue for remote targets.
->> I think this would be the most appropriate way to implement this
->> feature in GDB. But it is not trivial.
-> 
-> You do because ";ReverseStep+;ReverseContinue+" is part of the gdbstub
-> negotiation handshake.
+> Do we need a revised patch[-series] including a qtest? OR it can be done at 
+> merge time?
 
-Interesting... I was looking at the vCont; packets for inferior 
-movement. The regular c/C/s/S packet are deprecated and vCont; 
-equivalents should be used instead.
+Paolo usually asks for it and don't queue patch without qtest when
+reproducer is available, but since it is a recent CVE it might I
+suppose it depends on the maintainer :)
 
-It seems the reverse continue (bc) and reverse step (bs) packets can be 
-used, but they are not vCont packets.
-
-That's confusing. I suppose nobody took the time to implement bc/bs 
-equivalents for vCont.
-
-> 
-> Out of interest how is rr implemented? It presents a gdb interface so I
-> thought it was some implemented using some remote magic.
-
-I don't know. I have never used rr.
-
-> 
-> <snip>
-> 
->>> We could of course just add a custom monitor command like the
->>> qemu.sstep= command which could be used manually. However that would be
->>> a QEMU gdbstub specific approach.
->>
->> That would be an easy and quick way to allow GDB to control things in
->> QEMU, but I wouldn't say it is the best. Monitor commands are
->> basically a bypass of the RSP where GDB sends/receives commands
->> to/from the remote target.
-> 
-> We have some underlying commands we can set via the monitor including:
-> 
->    monitor info replay
->    monitor replay_seek <N>
->    monitor replay_break <N>
-> 
->>
->>> The other thing would be to be more intelligent on QEMU's side and
->>> save
->>> snapshots each time we hit an event, for example each time we hit a
->>> given breakpoint. However I do worry that might lead to snapshots
->>> growing quite quickly.
->>
->> GDB would need to be aware of such snapshots for them to be useful.
->> Otherwise GDB wouldn't be able to use them to restore state.
-> 
-> What does GDB need to know about them? Does it include something like
-> the icount at a particular point.
-
-GDB needs to know they exist so the user can choose to go back to such 
-snapshots. I haven't dealt with remote reverse execution 
-implementations, but if this information can be exposed to
-
-> 
-> I'm curious at how a break and reverse-continue is meant to work if that
-> breakpoint is hit multiple times from the start of a run. You need to
-> know if the last time you hit a particular breakpoint was in fact the
-> last time before where the user was when they hit reverse-continue.
-
-When you have record/replay on, there is no real "continue". GDB will 
-instruction-step everything and will record register values and memory 
-changes.
-
-When you reverse instruction-step, GDB will restore the state for the 
-previous snapshot. When you reverse continue, GDB will do the same and 
-will move the state backwards snapshot by snapshot.
-
-It is not very efficient.
-
-So, in that sense, GDB will hit all of the breakpoints again. It doesn't 
-keep track of how many times the breakpoint was hit. It only keeps track 
-of how many instructions were recorded and what register/memory changes 
-happened.
-
-If you hit an instruction that GDB doesn't know how to calculate 
-register/memory changes for, it will stop dead on its tracks. In that 
-sense, it is also not very easy to maintain and takes a lot of 
-instruction-parsing to work correctly.
-
-No wonder there are more performatic solutions out there. :-)
-
-> 
->>
->>> Any thoughts/suggestions?
->>>
-> 
-> 
 
