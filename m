@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A8A43830E0
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 16:33:40 +0200 (CEST)
-Received: from localhost ([::1]:35688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3667338313C
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 16:35:43 +0200 (CEST)
+Received: from localhost ([::1]:43994 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lieJP-0001SE-1D
-	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 10:33:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56166)
+	id 1lieLO-0007Tp-5I
+	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 10:35:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56220)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lieDy-0001iU-K7
- for qemu-devel@nongnu.org; Mon, 17 May 2021 10:28:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51498)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lieE2-0001jI-IO
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 10:28:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42912)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lieDs-0006o1-K9
- for qemu-devel@nongnu.org; Mon, 17 May 2021 10:28:02 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lieDu-0006oD-Du
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 10:28:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621261676;
+ s=mimecast20190719; t=1621261677;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QWQBPOUJPT29E5DptgdHoNgv+PgjP5dGMLjjFBOZ8OY=;
- b=Vsm+Mkv9gliLYCxG6sC6ltKsaNBwecJhEMyOwoD5lgCW8VjpRFXCtHej+EA/j4QdBEdG8S
- qpo+JemjyumvjF+jA7MD1Fd/DxROAL0I+omFj8rOGgOOsmJ3dgmDvViwv8cOEU2pqAlnvu
- 7/PDxesF+klmceGo7+Rz5PNZXL4V7Ew=
+ bh=i/OL8GZEbKSF+Hm1+hVMw1sIENnsdEkdlwJwziRfRYM=;
+ b=TA24E5xhTcd176j6MSpEzoOgTQiFqyz4mKeVCzBnMvXcLGKMvMbQztXpzFvSwb6p2DM4Rc
+ YKtGS3wwJWssBSv5p9gAOmhKPKiKRw03hbU6+ry6bmLKx3M4pLTUCr822Wsst8sIqJ/Sy8
+ ej6RxOtjC3v4MtCW/ORa/FphLzZl760=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-338-LLjCnAKnMCiMkHLP0DBpmQ-1; Mon, 17 May 2021 10:27:52 -0400
-X-MC-Unique: LLjCnAKnMCiMkHLP0DBpmQ-1
+ us-mta-35-Wrv18dCzPDuvxhYRlOj8Vw-1; Mon, 17 May 2021 10:27:56 -0400
+X-MC-Unique: Wrv18dCzPDuvxhYRlOj8Vw-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6ECAE801817;
- Mon, 17 May 2021 14:27:51 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 80772102CB6B;
+ Mon, 17 May 2021 14:27:54 +0000 (UTC)
 Received: from t480s.redhat.com (ovpn-115-101.ams2.redhat.com [10.36.115.101])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A1BE05E273;
- Mon, 17 May 2021 14:27:48 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CDF7A5DDAD;
+ Mon, 17 May 2021 14:27:51 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 01/26] s390x/tcg: Fix FP CONVERT TO (LOGICAL) FIXED NaN
- handling
-Date: Mon, 17 May 2021 16:27:14 +0200
-Message-Id: <20210517142739.38597-2-david@redhat.com>
+Subject: [PATCH v2 02/26] s390x/tcg: Fix instruction name for VECTOR FP LOAD
+ (LENGTHENED|ROUNDED)
+Date: Mon, 17 May 2021 16:27:15 +0200
+Message-Id: <20210517142739.38597-3-david@redhat.com>
 In-Reply-To: <20210517142739.38597-1-david@redhat.com>
 References: <20210517142739.38597-1-david@redhat.com>
 MIME-Version: 1.0
@@ -56,7 +56,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -87,174 +87,29 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In case we encounter a NaN, we have to return the smallest possible
-number, corresponding to either 0 or the maximum negative number. This
-seems to differ from IEEE handling as implemented in softfloat, whereby
-we return the biggest possible number.
-
-While at it, use float32_to_uint64() in the CLGEB handler.
+Let's use the correct name.
 
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- target/s390x/fpu_helper.c     | 41 +++++++++++++++++++++++++++++++----
- target/s390x/vec_fpu_helper.c |  6 +++++
- 2 files changed, 43 insertions(+), 4 deletions(-)
+ target/s390x/insn-data.def | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/target/s390x/fpu_helper.c b/target/s390x/fpu_helper.c
-index f155bc048c..13af158748 100644
---- a/target/s390x/fpu_helper.c
-+++ b/target/s390x/fpu_helper.c
-@@ -509,6 +509,9 @@ uint64_t HELPER(cgeb)(CPUS390XState *env, uint64_t v2, uint32_t m34)
- 
-     s390_restore_bfp_rounding_mode(env, old_mode);
-     handle_exceptions(env, xxc_from_m34(m34), GETPC());
-+    if (float32_is_any_nan(v2)) {
-+        return INT64_MIN;
-+    }
-     return ret;
- }
- 
-@@ -520,6 +523,9 @@ uint64_t HELPER(cgdb)(CPUS390XState *env, uint64_t v2, uint32_t m34)
- 
-     s390_restore_bfp_rounding_mode(env, old_mode);
-     handle_exceptions(env, xxc_from_m34(m34), GETPC());
-+    if (float64_is_any_nan(v2)) {
-+        return INT64_MIN;
-+    }
-     return ret;
- }
- 
-@@ -532,6 +538,9 @@ uint64_t HELPER(cgxb)(CPUS390XState *env, uint64_t h, uint64_t l, uint32_t m34)
- 
-     s390_restore_bfp_rounding_mode(env, old_mode);
-     handle_exceptions(env, xxc_from_m34(m34), GETPC());
-+    if (float128_is_any_nan(v2)) {
-+        return INT64_MIN;
-+    }
-     return ret;
- }
- 
-@@ -543,6 +552,9 @@ uint64_t HELPER(cfeb)(CPUS390XState *env, uint64_t v2, uint32_t m34)
- 
-     s390_restore_bfp_rounding_mode(env, old_mode);
-     handle_exceptions(env, xxc_from_m34(m34), GETPC());
-+    if (float32_is_any_nan(v2)) {
-+        return INT32_MIN;
-+    }
-     return ret;
- }
- 
-@@ -554,6 +566,9 @@ uint64_t HELPER(cfdb)(CPUS390XState *env, uint64_t v2, uint32_t m34)
- 
-     s390_restore_bfp_rounding_mode(env, old_mode);
-     handle_exceptions(env, xxc_from_m34(m34), GETPC());
-+    if (float64_is_any_nan(v2)) {
-+        return INT32_MIN;
-+    }
-     return ret;
- }
- 
-@@ -566,6 +581,9 @@ uint64_t HELPER(cfxb)(CPUS390XState *env, uint64_t h, uint64_t l, uint32_t m34)
- 
-     s390_restore_bfp_rounding_mode(env, old_mode);
-     handle_exceptions(env, xxc_from_m34(m34), GETPC());
-+    if (float128_is_any_nan(v2)) {
-+        return INT32_MIN;
-+    }
-     return ret;
- }
- 
-@@ -573,12 +591,12 @@ uint64_t HELPER(cfxb)(CPUS390XState *env, uint64_t h, uint64_t l, uint32_t m34)
- uint64_t HELPER(clgeb)(CPUS390XState *env, uint64_t v2, uint32_t m34)
- {
-     int old_mode = s390_swap_bfp_rounding_mode(env, round_from_m34(m34));
--    uint64_t ret;
--
--    v2 = float32_to_float64(v2, &env->fpu_status);
--    ret = float64_to_uint64(v2, &env->fpu_status);
-+    uint64_t ret = float32_to_uint64(v2, &env->fpu_status);
-     s390_restore_bfp_rounding_mode(env, old_mode);
-     handle_exceptions(env, xxc_from_m34(m34), GETPC());
-+    if (float32_is_any_nan(v2)) {
-+        return 0;
-+    }
-     return ret;
- }
- 
-@@ -590,6 +608,9 @@ uint64_t HELPER(clgdb)(CPUS390XState *env, uint64_t v2, uint32_t m34)
- 
-     s390_restore_bfp_rounding_mode(env, old_mode);
-     handle_exceptions(env, xxc_from_m34(m34), GETPC());
-+    if (float64_is_any_nan(v2)) {
-+        return 0;
-+    }
-     return ret;
- }
- 
-@@ -601,6 +622,9 @@ uint64_t HELPER(clgxb)(CPUS390XState *env, uint64_t h, uint64_t l, uint32_t m34)
- 
-     s390_restore_bfp_rounding_mode(env, old_mode);
-     handle_exceptions(env, xxc_from_m34(m34), GETPC());
-+    if (float128_is_any_nan(make_float128(h, l))) {
-+        return 0;
-+    }
-     return ret;
- }
- 
-@@ -612,6 +636,9 @@ uint64_t HELPER(clfeb)(CPUS390XState *env, uint64_t v2, uint32_t m34)
- 
-     s390_restore_bfp_rounding_mode(env, old_mode);
-     handle_exceptions(env, xxc_from_m34(m34), GETPC());
-+    if (float32_is_any_nan(v2)) {
-+        return 0;
-+    }
-     return ret;
- }
- 
-@@ -623,6 +650,9 @@ uint64_t HELPER(clfdb)(CPUS390XState *env, uint64_t v2, uint32_t m34)
- 
-     s390_restore_bfp_rounding_mode(env, old_mode);
-     handle_exceptions(env, xxc_from_m34(m34), GETPC());
-+    if (float64_is_any_nan(v2)) {
-+        return 0;
-+    }
-     return ret;
- }
- 
-@@ -634,6 +664,9 @@ uint64_t HELPER(clfxb)(CPUS390XState *env, uint64_t h, uint64_t l, uint32_t m34)
- 
-     s390_restore_bfp_rounding_mode(env, old_mode);
-     handle_exceptions(env, xxc_from_m34(m34), GETPC());
-+    if (float128_is_any_nan(make_float128(h, l))) {
-+        return 0;
-+    }
-     return ret;
- }
- 
-diff --git a/target/s390x/vec_fpu_helper.c b/target/s390x/vec_fpu_helper.c
-index c1564e819b..d485837930 100644
---- a/target/s390x/vec_fpu_helper.c
-+++ b/target/s390x/vec_fpu_helper.c
-@@ -326,6 +326,9 @@ void HELPER(gvec_vcdlg64s)(void *v1, const void *v2, CPUS390XState *env,
- 
- static uint64_t vcgd64(uint64_t a, float_status *s)
- {
-+    if (float64_is_any_nan(a)) {
-+        return INT64_MIN;
-+    }
-     return float64_to_int64(a, s);
- }
- 
-@@ -349,6 +352,9 @@ void HELPER(gvec_vcgd64s)(void *v1, const void *v2, CPUS390XState *env,
- 
- static uint64_t vclgd64(uint64_t a, float_status *s)
- {
-+    if (float64_is_any_nan(a)) {
-+        return 0;
-+    }
-     return float64_to_uint64(a, s);
- }
- 
+diff --git a/target/s390x/insn-data.def b/target/s390x/insn-data.def
+index 0bb1886a2e..35a0086a85 100644
+--- a/target/s390x/insn-data.def
++++ b/target/s390x/insn-data.def
+@@ -1245,9 +1245,9 @@
+     F(0xe7e5, VFD,     VRR_c, V,   0, 0, 0, 0, vfa, 0, IF_VEC)
+ /* VECTOR LOAD FP INTEGER */
+     F(0xe7c7, VFI,     VRR_a, V,   0, 0, 0, 0, vcdg, 0, IF_VEC)
+-/* VECTOR LOAD LENGTHENED */
++/* VECTOR FP LOAD LENGTHENED */
+     F(0xe7c4, VFLL,    VRR_a, V,   0, 0, 0, 0, vfll, 0, IF_VEC)
+-/* VECTOR LOAD ROUNDED */
++/* VECTOR FP LOAD ROUNDED */
+     F(0xe7c5, VFLR,    VRR_a, V,   0, 0, 0, 0, vcdg, 0, IF_VEC)
+ /* VECTOR FP MULTIPLY */
+     F(0xe7e7, VFM,     VRR_c, V,   0, 0, 0, 0, vfa, 0, IF_VEC)
 -- 
 2.31.1
 
