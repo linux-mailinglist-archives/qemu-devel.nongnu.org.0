@@ -2,60 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A75D83824D9
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 08:56:03 +0200 (CEST)
-Received: from localhost ([::1]:54560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4C443824B1
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 08:47:30 +0200 (CEST)
+Received: from localhost ([::1]:33580 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1liXAY-00036V-Mf
-	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 02:56:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33146)
+	id 1liX2H-0005tf-O1
+	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 02:47:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33158)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1liWzj-00033s-W9; Mon, 17 May 2021 02:44:52 -0400
+ id 1liWzl-00038Q-BE; Mon, 17 May 2021 02:44:53 -0400
 Received: from mail-eopbgr30130.outbound.protection.outlook.com
  ([40.107.3.130]:60322 helo=EUR03-AM5-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1liWzg-0001jR-Hy; Mon, 17 May 2021 02:44:50 -0400
+ id 1liWzj-0001jR-KQ; Mon, 17 May 2021 02:44:53 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dnJlZUQ+tLrcUfGncKo9qdE7xlyp623dRQgU+0GmX23Yavbj9GWA5E9EL0x+iG/0g0vh2Hx/r17GII1Ao7BMSzIxG5bDbs+L2a0RAYawc9Ilo/JYzWX7nno43qxIsOzmoxJKrTAlcbtrDzokxThlVSydE1y4qlEXkt992MrZ2bNA2UOtd3roZcDzlAGjn4b+Syp+DfM5M/zAvjh/wQFY4XJHQfv0evO+H4xkZkylpAzYfSA/JKuXSOofiO9vM3lROs5VvJWymJv8HtPt1qBe4zeb1XYr5/HA1uJnsAV50Mmp1/bIaDM+Wx2OJ+NJfr+3o5+YsBid1btaBqtHw8zCyw==
+ b=HGSfp4A3Aqv5Rn3IT/ZHmtdagOKUXtXokg+j37XSPPld2RfVydtG+0gUZ5+ixmminksW5dYt2Hd0I8CIp6jOm68j+Fj8LetfVTBmdCAC1Yl1CEQrZT0GjDsj1YOQedPmEfoQJtp5ezuIm1+1XdZMHN3oAM3DohywodNpOj/FvkAx+nQYO8+OxWnUyUQjhrBAHegDY3ndfogq/Vm5Eg6Og8oHw64ruJkSuYKWLQzPTN0WdTK6747zDpKIL3uS20NudYReiJpc0eiSocXo5HHZcBcpVPRVCM8Ohf/5WS9KeTCHfqNrdN3XVdOULJxKcunTwdlgrHFyQNMISO+vlkXZCA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=e1B0BUUqGiZHLsUnEtAzP5QCX4ficOeRlAHZ3GOYGDg=;
- b=SNra96o5p57iDdAKxFQ7l3dTf4E9L5H4jW7fptQCZPJxgFlcdE+SHLDDyUccS5xzA+4Vuso9vse8Kxo9tChzy3Kz9G4s2j+axhZ7omqVzruhH4LVOpuEpfRcS7V21zP3Ft/Busgi5jRkbYTPSsBW2nue57dGwjbQbE/7AWFxaXOA8uzhHgbrQda7jPD98zImgJR/P/l2ZYJ+9+IxqC0FjehVpOKMX+H5ZJHD0S/FQcs8INHTvqto5RHhL5bHF2cv854/XpkZbNWFMujW/9g1u9CAUJcFLQk5OthkNScfTmHS34nC1GBJnJnF1GrhSBRVZcpzvHOtU4JSd5aKT+AC4Q==
+ bh=WKMLfRG+0XwSxj/Anf8+H5ERipCMV1cx9AWoGmm/KrM=;
+ b=ML/y53+KXmipydO+joGPfAZoBKGXfzQlgCFDRbWAIWcdm5dbbVEyhfEhFttvbByGade3xObfFaj+92T9+wNVd1h9VM9ptpxR1XYQ1JazJ7cifrpNd2IPgaoeIUlXgzTkdwYB1OaJUohwyGNRYA0WU3Xn/QBloxIN6sAwkSQS5RnMOmubTMCQzm+XLdnVaAjQ46KvB2Z4P8i/fw5N/HAlsdqp39iNIXsP0SWhvwt0MPrjGTygMbFM6h93MWBXgp1GDMUmvnzw4vjJnqPvm8Jm5vGm4pG9kd7AvCq5CJO7RA1Z/XeCkGzDEyIToVaItoXks1GJhTUbkwKxRyCmlA6ehQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=e1B0BUUqGiZHLsUnEtAzP5QCX4ficOeRlAHZ3GOYGDg=;
- b=rspPzzwm2RABEfzTR93gF9QSdHNhI0t/uiR1CWA3cHJ/C8XVcjNcwGhWmr4SBMUnnfuJ0AMvhYz9RpwYblMmXV0OnMQOCTkydwNeNVY/DX36Hnt0r8khuFEAh5JvN8Oi94nx12DzB4AaTe+Q1hbdJ8wqz+x+pVHqw5YcOVIrm14=
+ bh=WKMLfRG+0XwSxj/Anf8+H5ERipCMV1cx9AWoGmm/KrM=;
+ b=cx9okBsDAtQqozHE4jEZKGjmUxvyIzDa5UUVg/iwEPBnJd7laE6cqoo+IavXhE75gAOuHH6j9fbBPnpOlWZt20QwNv3Pu08oYNp4DExL2wQYagY4gj1808kUm2M3+LPVdcVgnPvRi/UZJZ+bzG0m/UccD2y/K24epxEcAUHdSdo=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AM6PR08MB3382.eurprd08.prod.outlook.com (2603:10a6:20b:47::29)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4129.26; Mon, 17 May
- 2021 06:44:43 +0000
+ 2021 06:44:45 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::b403:c1a9:6bb7:133]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::b403:c1a9:6bb7:133%7]) with mapi id 15.20.4129.031; Mon, 17 May 2021
- 06:44:43 +0000
+ 06:44:45 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, armbru@redhat.com, eblake@redhat.com,
  ehabkost@redhat.com, berrange@redhat.com, pbonzini@redhat.com,
  vsementsov@virtuozzo.com, jsnow@redhat.com, mreitz@redhat.com,
  kwolf@redhat.com, den@openvz.org
-Subject: [PATCH 00/21] block: publish backup-top filter
-Date: Mon, 17 May 2021 09:44:06 +0300
-Message-Id: <20210517064428.16223-1-vsementsov@virtuozzo.com>
+Subject: [PATCH] block/copy-on-read: use bdrv_drop_filter() and drop s->active
+Date: Mon, 17 May 2021 09:44:07 +0300
+Message-Id: <20210517064428.16223-2-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.29.2
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <20210517064428.16223-1-vsementsov@virtuozzo.com>
+References: <20210517064428.16223-1-vsementsov@virtuozzo.com>
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-Originating-IP: [185.215.60.231]
 X-ClientProxiedBy: HE1PR05CA0275.eurprd05.prod.outlook.com
  (2603:10a6:3:fc::27) To AM7PR08MB5494.eurprd08.prod.outlook.com
@@ -65,59 +67,52 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost.localdomain (185.215.60.231) by
  HE1PR05CA0275.eurprd05.prod.outlook.com (2603:10a6:3:fc::27) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4108.24 via Frontend Transport; Mon, 17 May 2021 06:44:42 +0000
+ 15.20.4108.24 via Frontend Transport; Mon, 17 May 2021 06:44:43 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: dfba23a2-93c7-4caf-5d10-08d918ff40e9
+X-MS-Office365-Filtering-Correlation-Id: ba86847d-4ef7-4432-1e45-08d918ff41cb
 X-MS-TrafficTypeDiagnostic: AM6PR08MB3382:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB33822DEE87E4A9590522BF91C12D9@AM6PR08MB3382.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
+X-Microsoft-Antispam-PRVS: <AM6PR08MB33826DAF9153DD196E596CB3C12D9@AM6PR08MB3382.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:111;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: PCHCQO4c1gZ3mmZmtD7vDOgn2sa/jBJkEv6MIkTOk/IoK6QyibfUOeg10t+n7j1+5jxpg24rNpV8wWtEsgX38em+osypMRF2huPFPlO4KZW6yeLsCOpZ/XD0hH2nqgyzB7sFamE2adNkCtlbO0OKGUC2OeAuYk/GqRC2bRCejHGFyzqRqz9UpizYg6oBYZefis+BoqMxxwdLxhO/sQWwaW7fZxwFYQxfivuDU1Yod40veeBgSgwv4stTz/Ushw3PDkBukvEQX6ch7vuT7vzGBV5W1y0Lw/j0D2HEykrVHkOBS5HVsGifIII4SGioJ6EuM+r5ge1L1YrUY+ML2CNZw+myiJRsx2g4BVY9tbzlW4oVD5dbxJ6Awcjror75H/ems4dgWCGM6PaAD4PtrvtJGfwuOtnwgfKJyf/r0XWuNEhOlCcU+ssUidlXhU72ObPL+6QUHxNJRQsYhAqaRnGzfJCiKkXgoCPKMu/UjqN+NuvcUNz7J8KtK/xum5mbTwYPymlQPDwWGMYybG4obFvz3oh/4l2q2+e+4kb5t+9CrHxytIYImZMCcmkznkM4U6vs+g1ettwSYdbhAcOOIKZSa7h2r2Xf4XBUYwmc09NEdjxEsoC1i561K06IkifIx7v+JXh93mLignHyQrx7JuqoNg==
+X-Microsoft-Antispam-Message-Info: oeWsKg2v+NQAC2yLwujgcLYDS33epWUGy4NxdeJefKcGa4FmYcCpVeK59lcLIPEYatJgqm+U5w9XnnPR7kXcUeYEwHIvGJZfbInSawtTTeN7yjfx8sn0WdnmWrhYbMafPWBkRZJtk9rLlxBcZvbf/GHBuI7P1n1xuC7pRiKu1zbZlG7jyl5ohh5ST0oxH/QrzFwhcC3dF9cCFHK6Cl3QvMDtjz8kw5YW/88cYi3JcLYVhIdf0VXPnEg0JG7Ap7VX7kQfuurMy/4OTL/AuaCrte0H51yfP7Z6qZmwSMVPuKZv3CfdO3jGIQUWJ2B9ESyu7tedFkdEaNZlVHl/m9IyjbVkP+6Sb1LA/scyDuJxUrRLWr4lfWskg9Vm02bp5PQr1wrt4UAFTcXg+3gvkSJ/6ftVrDB2CAVd0B/XicGb/ZpPxnOaipi4TdmB54yQzbi5T+8iJwGdiaviAJK52Mz0FMVMUFJsgZRJFRjVWivX+ah+AJZN9+4LzXjgdu5EskYZUHTQFz9KwjxO8mnTIH3n9YDIkidfrfWWOgkDAqbqCKlDCmxu34SR6W2ls0jWMFXZ3KKGxUaxcV1G2qAW0gxgNYrFywa7GeaCoeMI48ntWehCTeFwUyTfN5Dm545hhZL6TsajzSTR/kxJDLg/uUYwiEyvYOuWIr3PqYq1bEDbjRxB3eR4QtdV9brM9leMVMiZ
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(376002)(366004)(346002)(396003)(136003)(39840400004)(6486002)(26005)(2906002)(316002)(36756003)(66946007)(1076003)(107886003)(5660300002)(16526019)(186003)(478600001)(38350700002)(38100700002)(8676002)(6666004)(86362001)(2616005)(66556008)(52116002)(8936002)(66476007)(83380400001)(6916009)(6506007)(6512007)(956004)(7416002)(4326008);
+ SFS:(4636009)(376002)(366004)(346002)(396003)(136003)(39840400004)(6486002)(26005)(2906002)(316002)(36756003)(66946007)(1076003)(107886003)(5660300002)(16526019)(186003)(478600001)(38350700002)(38100700002)(8676002)(6666004)(86362001)(2616005)(66556008)(52116002)(8936002)(66476007)(83380400001)(6916009)(6506007)(6512007)(956004)(7416002)(4326008)(69590400013);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?UEltbWk1a1FTb0dJWDlISFQwekxNZ3hqZThHTGlicVdSb1V2NWpXenB2dDJ3?=
- =?utf-8?B?OUplMlJUODdzRnBuVHMweU5MZCtKUUsxZTZ6WFpXZjBmTmtMSWZTUU81ajB3?=
- =?utf-8?B?SmVkemFHMzg0dmJQVE5nYWFDUkpPeXpSRnZsSDc1QTB6aEE0MmM2MlZEL1Rh?=
- =?utf-8?B?ZjZxTmFrV3pnU21kUVFWbVgzc3c3LzdjMThIdFFHRGNDbDgyOGhyV3JXMjVH?=
- =?utf-8?B?STVtdzBvUHBpd0VWeHF2QytGLzRUWC9wVkQ4cHJBaTJNY0FyZkRacGI5ZWQ1?=
- =?utf-8?B?aFlVamZIVTg2NHkvK0dlMS9OQWlIM3V1akF3dk1DV0JFQU1BOHVPRUIyK3c2?=
- =?utf-8?B?RlAxeElQSDN3TE1nU2t2MTlhMGM1ekRkZGtMTFloTGt0cEZZcFBCc3B4N1dO?=
- =?utf-8?B?eUtIMm82c2FHZXlxSWUyRk4yaGcyN2I2L3ZHUlNncXZ5WFF2azFocFRuVkpL?=
- =?utf-8?B?d2hlTWFHUTZJU2VXQ1ExdE9MSFpUMExFUnNRNTArMEVDc3drNjdYdmpaTkha?=
- =?utf-8?B?cHZhSlRzWCt5Wk55RCtCendZblR2MlFWcXNXZnJTVm9FMnF3MWVHVVZSc282?=
- =?utf-8?B?LzdUZkIxTlVlejZqQkx1MWg0TEd4cnlrRnJwOGxvTWw3Ynk4RktDc0pUUGta?=
- =?utf-8?B?a05mdEc0Y0FlUG9NNnY2OVlsVXRDWGNxRWFpdHZMN2greW5Fc0pYVnJDU2hV?=
- =?utf-8?B?dG1LbDMxRG1FQkhwdjFIcUtDV2RQdmxkbGZoeUdHWERneG5naVgvd1FuMjU0?=
- =?utf-8?B?eEVOSGNFcE1yK3I4TzNNZDNSQTFBOFEySVFER2FqSUJUeFhad0N6ZGFXaFNu?=
- =?utf-8?B?bWpXREtObnJmWVVRclpQRnM0T1hBNDFIVmVhMU0ybWdXaTM5dVJNUEFscmVm?=
- =?utf-8?B?YS9NUkxRdEJ0SUVhNEI1YkFlL2ZNSHBZTVlLbXp1Q1ErQkJibWNkY3BZdTA1?=
- =?utf-8?B?YlBpUFJ3SWljNjVxTCtpSXNZemdoM2tvbk5rMk1VdU81OFB4UEJsQlVSWDFi?=
- =?utf-8?B?K3ZsQjlaa2RWMDNqbWhZaWZ4ZWQyU2x3VHdQSG0rTlJ6YjZBM0hKVlVYczNJ?=
- =?utf-8?B?R01JS2pzcEhLMjRBV3RBV2cxNXlyVkNJcjI2WFBUSUs0WjVWTUZHZ0IyaXZJ?=
- =?utf-8?B?eFZFaWh1TmhrY0NHaGx5em0wRlQ1T0taektmck14QWVaTGhyWUQwU1RiYk5E?=
- =?utf-8?B?WGZGVEluRFRtTUpKTjl6UGdjYnNZY2lqcnJMa0pxNXRJWGtlR25xVXhxdjBx?=
- =?utf-8?B?elNSeFgvVkltYVB1QTFzQkh2MWVWNWVGaUEvcWNla0o5YTZCeU12REs4S1Bu?=
- =?utf-8?B?WEI1QlliWW1KaVY3Q1Y2dXVpUU5Sa3NYQVdONVlxdWsxM0dTeGQ2c21BclVE?=
- =?utf-8?B?dk9DNElEMnZoVUttYXZUWGUySEh5TDhxbE1ZMXdMdHE5QTFvdkREMVR5ME9B?=
- =?utf-8?B?YjhCWDJvRGtrRlp5VWNoeTJoWDVoR1BsU0ZvTmk3TlZDbTZmeTdTN0lhQ3JC?=
- =?utf-8?B?a0pqSjlHbTZ4Y3A1ajNlYlRRSTNSdGVTOGFUTngrWWpPa0xNODVGd081Q2xo?=
- =?utf-8?B?SC9ranJGb1lQbFBId1BXeWo2NkFlbnhybmFFT09ndHU2M21HSEVjVEpaMjJi?=
- =?utf-8?B?K0hGSlpZeDhpbmxyaTAwYURLTm5Vd1pqZi9iMTFNaFJvQ3IxV0pLNkpmOS94?=
- =?utf-8?B?K0pMald2bUdNYU9vUDVZcW1mU0JIczQwbDdBM2QwejNENXJjeXFhU3lpS0JZ?=
- =?utf-8?Q?rJ9doow7JbnsLA6acjmrUEVTnGZyw/RKWDKNJv7?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?5nkyHc+0kxouLrGk6HF2XWFDUhee/Nn0SpZK3vfppjZFQbTucjj9DWFFhDPv?=
+ =?us-ascii?Q?dRr9ncMsAfw22wtakfGwQuCTu85/F62WTkxBepfccfjxaNcjmToqj9cQbUDR?=
+ =?us-ascii?Q?Fh+9/HzjfLhYH0x9npdk5RcO4MVYVMbfPxQzo9mPzpxPgklvFCCjF5RMnAFx?=
+ =?us-ascii?Q?Mdpeu4v8UwARKH5rtMrMMkqisQSP9pGze+PW7kFQ9uevD8L+7SK42j54iLHP?=
+ =?us-ascii?Q?1S+2Tgql6P6McxYNAEDmFiRdYZgi4zzyNdK0a0uHPXilABWJcSoJ/0nr0Tvw?=
+ =?us-ascii?Q?GmfbBnMLnGNy2YPovxE6vy8JmKzsJOOQX2WjKlCHvqtUEDTOjS9g72dHl3/C?=
+ =?us-ascii?Q?Q3ErG2YZWbT2zLD6RUqIlArFWuIOBm/RxqZTdLo+peOuoBhmpUxgbF9fHtVY?=
+ =?us-ascii?Q?fggQbgl77P2e3SeIlCLfTPhGtYxSKanlfn8lkALzYy5dc2EPrQ586zZoF2qM?=
+ =?us-ascii?Q?cIYo+y4iipxI2CO+BZENbIvnSE1okfUkJ6c0jfXTsqIx1/x9m8qcOSJFRYUj?=
+ =?us-ascii?Q?b4vmxhL3wjK1f1boyXxr405invbiUhHD8EwU/r/gmZpVcqHItVMGdzjLvKXt?=
+ =?us-ascii?Q?ffZBUC7DX0p06S7Hj+BiJ9qPEwSyL1cZ4FavZKEXvchpKUnKeIP/d7UFIIrQ?=
+ =?us-ascii?Q?tl90tQpcxKZ8+wXc0Fc42nSAL9C+vNGkL997RQpPjMzgWwqxoU1ehMvDiP3h?=
+ =?us-ascii?Q?KqJbm4Wcnxpph3z5iMuWypPVoqqMsyAXdEIYZrR63cqMqbfx4jnqGafjje4x?=
+ =?us-ascii?Q?eB6irnyVHSbNcaNxhafAI5IptoGxxLvT+Xpe5dYN+43mHY4HZQKCqB/B4i2b?=
+ =?us-ascii?Q?lPLX5hvLRooLC6rJZ7VFjFslk2naEZb7wATUf+pvr0KXc9zlTiGwnJrSpSXT?=
+ =?us-ascii?Q?CIS4YNtHKOGa1c29/Rim1G9LsD5iWeSXbuINpeZXAWv4b/nPxy5sZEvZ260z?=
+ =?us-ascii?Q?nmQC3+9/2Z1Y/SovJAzFvlPxMsHQjgXrU7B/ZXj9Hv35H8BsXH13uPQlXHWu?=
+ =?us-ascii?Q?Bh/mxaFkfuKJ4EVNiKKuDi88KkcOZwmZ9ymHCtkvak6ZjgAWyaXwO4K6EOQ5?=
+ =?us-ascii?Q?3uLzF5yYyawKmGlUYNuF+En9NtGFj1/X2dKp3SahF1Mgn/WHZvjyz3Fldmhx?=
+ =?us-ascii?Q?SEQizYcvy5EVWSHE2fNMJOjzrZy2OSwYuDGfFt6BkpzOvPo9jjrS2MJElzVT?=
+ =?us-ascii?Q?WwR6MU+JKzUniCkGVXVW6VcTqW95KodBHmpuX4bv7ATpRK3hePV17sI0IInW?=
+ =?us-ascii?Q?qKjLI53utgYVgUtUWkcpC/bT9SGtqnFdYrsnJXDfZwpWdUJemUWGDRzMuDQB?=
+ =?us-ascii?Q?+4W9ZQO52noJAjYTe8L/neS1?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: dfba23a2-93c7-4caf-5d10-08d918ff40e9
+X-MS-Exchange-CrossTenant-Network-Message-Id: ba86847d-4ef7-4432-1e45-08d918ff41cb
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 May 2021 06:44:43.6449 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 May 2021 06:44:45.0587 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: eNf6YEwK8gIVmBulJIVAmDc5ur0oGq9GjGBuoEoILu/+KRRDW5rWUir3RdTlz8jiHt9nGpbok6E8zXmPPUYcjVqLEn+n5ToDBJHEqogZxx4=
+X-MS-Exchange-CrossTenant-UserPrincipalName: xMgcuzRaeW6PFqwwk6gwuilo17itPsuDDvmVqhmygefp7/oIw1+p0DTrv2+kjQwNkADpOgJGe9nmuhIt6azcd8T+pdSchjdnRAzDBEKIUGs=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3382
 Received-SPF: pass client-ip=40.107.3.130;
  envelope-from=vsementsov@virtuozzo.com;
@@ -145,108 +140,87 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi all!
+Now, after huge update of block graph permission update algorithm, we
+don't need this workaround with active state of the filter. Drop it and
+use new smart bdrv_drop_filter() function.
 
-We have image fleecing scheme to export point-in-time state of active
-disk (iotest 222):
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+---
+ block/copy-on-read.c | 33 +--------------------------------
+ 1 file changed, 1 insertion(+), 32 deletions(-)
 
-
-                                      backup(sync=none)
-                     ┌───────────────────────────────────────┐
-                     ▼                                       │
-┌────────────┐     ┌────────────────┐  backing             ┌─────────────┐
-│ NBD export │ ─── │ temp qcow2 img │ ───────────────────▶ │ active disk │
-└────────────┘     └────────────────┘                      └─────────────┘
-                                                             ▲
-┌────────────┐                                               │
-│ guest blk  │ ──────────────────────────────────────────────┘
-└────────────┘                        
-
-
-Actually, backup job inserts a backup-top filter, so in detail it looks
-like:
-
-                                      backup(sync=none)
-                     ┌───────────────────────────────────────┐
-                     ▼                                       │
-┌────────────┐     ┌────────────────┐  backing             ┌─────────────┐
-│ NBD export │ ─── │ temp qcow2 img │ ───────────────────▶ │ active disk │
-└────────────┘     └────────────────┘                      └─────────────┘
-                     ▲                                       ▲
-                     │ target                                │
-                     │                                       │
-┌────────────┐     ┌────────────────┐  backing               │
-│ guest blk  │ ──▶ │   backup-top   │ ───────────────────────┘
-└────────────┘     └────────────────┘
-
-And job does nothing here. In a new blockdev world user is intended to
-operate on node level, and insert/remove filters by hand. Let's get rid
-of job in the scheme:
-
-┌────────────┐     ┌────────────────┐  backing             ┌─────────────┐
-│ NBD export │ ─── │ temp qcow2 img │ ───────────────────▶ │ active disk │
-└────────────┘     └────────────────┘                      └─────────────┘
-                     ▲                                       ▲
-                     │ target                                │
-                     │                                       │
-┌────────────┐     ┌────────────────┐  backing               │
-│ guest blk  │ ──▶ │   backup-top   │ ───────────────────────┘
-└────────────┘     └────────────────┘
-
-
-The series prepares qom-set to make possible inserting filters above
-root node (patches 01-04), rename backup-top to copy-before-write, do
-other preparations for publishing the filter, and finally publish it,
-add qapi interface and test new fleecing scheme in 222.
-
-Vladimir Sementsov-Ogievskiy (21):
-  block: introduce bdrv_replace_child_bs()
-  block: introduce blk_replace_bs
-  qdev-properties: PropertyInfo: add realized_set_allowed field
-  qdev: allow setting drive property for realized device
-  block: rename backup-top to copy-before-write
-  block/backup: drop support for copy_range
-  block-copy: always set BDRV_REQ_SERIALISING flag
-  block/backup: stricter backup_calculate_cluster_size()
-  block/backup: move cluster size calculation to block-copy
-  block/copy-before-write: relax permission requirements when no parents
-  block/copy-before-write: use file child instead of backing
-  block/copy-before-write: bdrv_cbw_append(): replace child at last
-  block/copy-before-write: introduce cbw_init()
-  block/copy-before-write: cbw_init(): rename variables
-  block/copy-before-write: cbw_init(): use file child after attaching
-  block/copy-before-write: cbw_init(): use options
-  block/block-copy: switch to fully set bitmap by default
-  block/block-copy: make setting progress optional
-  block/copy-before-write: make public block driver
-  qapi: publish copy-before-write filter
-  itotests/222: add test-case for copy-before-write filter
-
- qapi/block-core.json                        |  22 +-
- block/{backup-top.h => copy-before-write.h} |  26 +-
- include/block/block-copy.h                  |   4 +-
- include/block/block.h                       |   2 +
- include/hw/qdev-properties.h                |   1 +
- include/sysemu/block-backend.h              |   1 +
- block.c                                     |  36 +++
- block/backup-top.c                          | 253 -------------------
- block/backup.c                              | 115 ++-------
- block/block-backend.c                       |   8 +
- block/block-copy.c                          |  95 +++++++-
- block/copy-before-write.c                   | 257 ++++++++++++++++++++
- hw/core/qdev-properties-system.c            |  30 ++-
- hw/core/qdev-properties.c                   |   6 +-
- MAINTAINERS                                 |   4 +-
- block/meson.build                           |   2 +-
- tests/qemu-iotests/222                      |  56 ++++-
- tests/qemu-iotests/222.out                  |  72 ++++++
- tests/qemu-iotests/283                      |  35 ++-
- tests/qemu-iotests/283.out                  |   4 +-
- 20 files changed, 606 insertions(+), 423 deletions(-)
- rename block/{backup-top.h => copy-before-write.h} (56%)
- delete mode 100644 block/backup-top.c
- create mode 100644 block/copy-before-write.c
-
+diff --git a/block/copy-on-read.c b/block/copy-on-read.c
+index 9cad9e1b8c..c428682272 100644
+--- a/block/copy-on-read.c
++++ b/block/copy-on-read.c
+@@ -29,7 +29,6 @@
+ 
+ 
+ typedef struct BDRVStateCOR {
+-    bool active;
+     BlockDriverState *bottom_bs;
+     bool chain_frozen;
+ } BDRVStateCOR;
+@@ -89,7 +88,6 @@ static int cor_open(BlockDriverState *bs, QDict *options, int flags,
+          */
+         bdrv_ref(bottom_bs);
+     }
+-    state->active = true;
+     state->bottom_bs = bottom_bs;
+ 
+     /*
+@@ -112,17 +110,6 @@ static void cor_child_perm(BlockDriverState *bs, BdrvChild *c,
+                            uint64_t perm, uint64_t shared,
+                            uint64_t *nperm, uint64_t *nshared)
+ {
+-    BDRVStateCOR *s = bs->opaque;
+-
+-    if (!s->active) {
+-        /*
+-         * While the filter is being removed
+-         */
+-        *nperm = 0;
+-        *nshared = BLK_PERM_ALL;
+-        return;
+-    }
+-
+     *nperm = perm & PERM_PASSTHROUGH;
+     *nshared = (shared & PERM_PASSTHROUGH) | PERM_UNCHANGED;
+ 
+@@ -280,32 +267,14 @@ static BlockDriver bdrv_copy_on_read = {
+ 
+ void bdrv_cor_filter_drop(BlockDriverState *cor_filter_bs)
+ {
+-    BdrvChild *child;
+-    BlockDriverState *bs;
+     BDRVStateCOR *s = cor_filter_bs->opaque;
+ 
+-    child = bdrv_filter_child(cor_filter_bs);
+-    if (!child) {
+-        return;
+-    }
+-    bs = child->bs;
+-
+-    /* Retain the BDS until we complete the graph change. */
+-    bdrv_ref(bs);
+-    /* Hold a guest back from writing while permissions are being reset. */
+-    bdrv_drained_begin(bs);
+-    /* Drop permissions before the graph change. */
+-    s->active = false;
+     /* unfreeze, as otherwise bdrv_replace_node() will fail */
+     if (s->chain_frozen) {
+         s->chain_frozen = false;
+         bdrv_unfreeze_backing_chain(cor_filter_bs, s->bottom_bs);
+     }
+-    bdrv_child_refresh_perms(cor_filter_bs, child, &error_abort);
+-    bdrv_replace_node(cor_filter_bs, bs, &error_abort);
+-
+-    bdrv_drained_end(bs);
+-    bdrv_unref(bs);
++    bdrv_drop_filter(cor_filter_bs, &error_abort);
+     bdrv_unref(cor_filter_bs);
+ }
+ 
 -- 
 2.29.2
 
