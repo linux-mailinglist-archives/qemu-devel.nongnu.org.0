@@ -2,74 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73AE63829B0
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 12:19:42 +0200 (CEST)
-Received: from localhost ([::1]:41174 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC29C382994
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 12:13:25 +0200 (CEST)
+Received: from localhost ([::1]:59754 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1liaLd-00032Z-FX
-	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 06:19:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41802)
+	id 1liaFY-0004sp-Mq
+	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 06:13:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42982)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lia2q-00021S-JR
- for qemu-devel@nongnu.org; Mon, 17 May 2021 06:00:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36321)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lia2j-0006ND-7L
- for qemu-devel@nongnu.org; Mon, 17 May 2021 06:00:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621245607;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=MVL+ek65z1i4YeP9AcsZBlbIjDCrno+XZDU/rAKvDHU=;
- b=csijqQ8MpmQfEsMK7Rrb3kgHTVJgYBncZSEDvpw+eANPBxK/fvF5MY1DgN5mJgVoAqHZ8R
- FJv9MxaFElsFau8zkIaT0Hg5ZVADWvKhOZZb/JYEz9gjOHscIyjDbyFfZ3c4Uhq0PYO8T2
- sIlzLUXXCwyQMqWQB2m+gFH79SqOsnY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-478-aq0uyQptN6aoriPEWu1obQ-1; Mon, 17 May 2021 06:00:04 -0400
-X-MC-Unique: aq0uyQptN6aoriPEWu1obQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7D49C10082E1;
- Mon, 17 May 2021 10:00:03 +0000 (UTC)
-Received: from work-vm (ovpn-114-233.ams2.redhat.com [10.36.114.233])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A460429692;
- Mon, 17 May 2021 10:00:02 +0000 (UTC)
-Date: Mon, 17 May 2021 11:00:00 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: "lizhijian@fujitsu.com" <lizhijian@fujitsu.com>
-Subject: Re: [PATCH] migration/rdma: Fix cm_event used before being initialized
-Message-ID: <YKI+oJBc1ZT1AlC+@work-vm>
-References: <20210513113750.22970-1-lizhijian@cn.fujitsu.com>
- <YJ1ew79TeJ4pPz1K@work-vm>
- <1496057b-6a44-71a3-ca16-97c4d9e9650a@fujitsu.com>
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1lia8J-0004kv-6f; Mon, 17 May 2021 06:05:56 -0400
+Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:37808)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1lia8H-0001eM-2p; Mon, 17 May 2021 06:05:54 -0400
+Received: by mail-ej1-x636.google.com with SMTP id et19so1238848ejc.4;
+ Mon, 17 May 2021 03:05:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=NzsmSw0im+jZi3pBSWvhIDCfGwwRb47dYmbnqAOnC5Q=;
+ b=RTQD7GMcca8wBI4Mr1hCtO6cbJRU/POjRzxvtKspE1xh19ivryqBi7xBHiRaa/aPQ0
+ QakUmsAe2NoQcP1VuRFNtouqsCOsNWZTzZVtn3CHncg4zc+KPU1u2e0SQmoisUavOSvF
+ nho775VniAREzWspu+buE5NyPJ9xhKtU7Bh8ZcvuRzgAasOo9E8yMqSJ9k+3dwL7Bgry
+ 4qSjGLfkDcWGQXGbBsszR5OQ6sZLff51MJCRB8JiG5jPoqyIfJQUQaIcJCJiLEcnqZwS
+ Wr1ZWc2fGWkyjYPH0SOms7fRoqe1bhYEB5rJ2Nrp2Qlc2OLNv3jrzO5kHkedCaRFb+bc
+ t76A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=NzsmSw0im+jZi3pBSWvhIDCfGwwRb47dYmbnqAOnC5Q=;
+ b=LcOhHlK9wMbartb4BCS9Qd/Cy7C8IFOepZ5/yu+HUpS7K2bUD189E3Me5OOZFyj8Fq
+ NQ5hlpBv+BZip2uBBDQ3Vzerheeoib1UVjI/uwIB4gwZSyR//MX3KiRsDJmrgr2L0s6n
+ B++eMCCdU1XPcQkRWaP5b7vVx1cdA4gQ5ANdU/TJQGDxi43JUcbEX1+hhr4crOyWed+6
+ XoSqPRbocQ9q3xYdXeHpe75S/+E5V+lHSLQx7JOlE1bbyRV4s/mY2NQpeyOjOdhSMAYT
+ yLAKyx6LG5Xyqntv1l8I6S7XHawZY39yYo1ZWdy5ycKFm1TyfOhC1TBCdYXQMkq7cVqt
+ Zj2w==
+X-Gm-Message-State: AOAM531eBHinT/oB+3mSrYzZF/m2/pYSSM6kSiY7nCof51turYqYajAX
+ p32T2lPatryWE3nHoB3RNnYDsMXCi86c+Q==
+X-Google-Smtp-Source: ABdhPJwcul9tmqqGssEwrISocpfdAWqsxAlLR0zwHp7PCaxEVkT9yhU0TCDGdcaDiR1PoyDuuD10zQ==
+X-Received: by 2002:a17:907:7b9f:: with SMTP id
+ ne31mr61826723ejc.139.1621245950517; 
+ Mon, 17 May 2021 03:05:50 -0700 (PDT)
+Received: from avogadro.lan ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
+ by smtp.gmail.com with ESMTPSA id h9sm10659926ede.93.2021.05.17.03.05.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 17 May 2021 03:05:50 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/6] coroutine: new sleep/wake API
+Date: Mon, 17 May 2021 12:05:42 +0200
+Message-Id: <20210517100548.28806-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <1496057b-6a44-71a3-ca16-97c4d9e9650a@fujitsu.com>
-User-Agent: Mutt/2.0.6 (2021-03-06)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.296,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::636;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x636.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,95 +80,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "quintela@redhat.com" <quintela@redhat.com>
+Cc: eesposit@redhat.com, vsementsov@virtuozzo.com, stefanha@redhat.com,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* lizhijian@fujitsu.com (lizhijian@fujitsu.com) wrote:
-> 
-> 
-> On 14/05/2021 01.15, Dr. David Alan Gilbert wrote:
-> > * Li Zhijian (lizhijian@cn.fujitsu.com) wrote:
-> >> A segmentation fault was triggered when i try to abort a postcopy + rdma
-> >> migration.
-> >>
-> >> since rdma_ack_cm_event releases a uninitialized cm_event in thise case.
-> >>
-> >> like below:
-> >> 2496     ret = rdma_get_cm_event(rdma->channel, &cm_event);
-> >> 2497     if (ret) {
-> >> 2498         perror("rdma_get_cm_event after rdma_connect");
-> >> 2499         ERROR(errp, "connecting to destination!");
-> >> 2500         rdma_ack_cm_event(cm_event); <<<< cause segmentation fault
-> >> 2501         goto err_rdma_source_connect;
-> >> 2502     }
-> >>
-> >> Signed-off-by: Li Zhijian <lizhijian@cn.fujitsu.com>
-> > OK, that's an easy fix then; but I wonder if we should perhaps remove
-> > that rdma_ack_cm_event, if it's the get_cm_event that's failed?
-> 
-> I also wondered, i checked the man page get_cm_event(3) which has not documented
-> 
-> and checked some rdma examples, some of them try to ack it[1],  but some not[2].
+This is a revamp of the qemu_co_sleep* API that makes it easier to
+extend the API: the state that is needed to wake up a coroutine is now
+part of the public API instead of hidden behind a pointer-to-pointer;
+the API is made more extensible by pushing the rest of QemuCoSleepState
+into local variables.
 
-I think they're actually consistent:
+In the future, this will be extended to introduce a prepare/sleep/cancel
+API similar to Linux's prepare_to_wait/schedule/finish_wait functions.
+For now, this is just a nice refactoring.
 
-> [1]: https://github.com/linux-rdma/rdma-core/blob/e381334c2915a5290565694947790d4aebaf2222/librdmacm/examples/mckey.c#L451
+Paolo
 
-                ret = rdma_get_cm_event(test.channel, &event);
-                if (!ret) {
-                        ret = cma_handler(event->id, event);
-                        rdma_ack_cm_event(event);
-                }
-Note it's '!ret' - so it's only doing the ack if the get_cm_event
-succeeded.
+v1->v2: comment and commit message updates in patches 3, 5 and 6
 
-> [2]: https://github.com/linux-rdma/rdma-core/blob/e381334c2915a5290565694947790d4aebaf2222/librdmacm/examples/mckey.c#L342
+Paolo Bonzini (6):
+  coroutine-sleep: use a stack-allocated timer
+  coroutine-sleep: disallow NULL QemuCoSleepState** argument
+  coroutine-sleep: allow qemu_co_sleep_wake that wakes nothing
+  coroutine-sleep: move timer out of QemuCoSleepState
+  coroutine-sleep: replace QemuCoSleepState pointer with struct in the
+    API
+  coroutine-sleep: introduce qemu_co_sleep
 
-                ret = rdma_get_cm_event(test.channel, &event);
-                if (ret) {
-                        perror("rdma_get_cm_event");
-                        break;
-                }
+ block/block-copy.c          | 10 ++---
+ block/nbd.c                 | 14 +++----
+ include/qemu/coroutine.h    | 27 ++++++++-----
+ util/qemu-coroutine-sleep.c | 75 +++++++++++++++++++------------------
+ 4 files changed, 64 insertions(+), 62 deletions(-)
 
-that exits the loop (and skips the ack) in the (ret) - i.e.
-only on error - no !
-
-Dave
-
-
-> Thanks
-> 
-> >
-> > Still,
-> >
-> >
-> > Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> >
-> >> ---
-> >>   migration/rdma.c | 2 +-
-> >>   1 file changed, 1 insertion(+), 1 deletion(-)
-> >>
-> >> diff --git a/migration/rdma.c b/migration/rdma.c
-> >> index 00eac34232..2dadb62aed 100644
-> >> --- a/migration/rdma.c
-> >> +++ b/migration/rdma.c
-> >> @@ -2466,7 +2466,7 @@ static int qemu_rdma_connect(RDMAContext *rdma, Error **errp)
-> >>                                             .private_data = &cap,
-> >>                                             .private_data_len = sizeof(cap),
-> >>                                           };
-> >> -    struct rdma_cm_event *cm_event;
-> >> +    struct rdma_cm_event *cm_event = NULL;
-> >>       int ret;
-> >>   
-> >>       /*
-> >> -- 
-> >> 2.30.2
-> >>
-> >>
-> >>
 -- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+2.31.1
 
 
