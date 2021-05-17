@@ -2,59 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3A90382C47
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 14:36:14 +0200 (CEST)
-Received: from localhost ([::1]:44292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93027382C43
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 14:35:34 +0200 (CEST)
+Received: from localhost ([::1]:40398 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1licTl-0003QT-OT
-	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 08:36:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49460)
+	id 1licT7-0000f9-Lu
+	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 08:35:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53994)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1licAM-0002eJ-RS
- for qemu-devel@nongnu.org; Mon, 17 May 2021 08:16:10 -0400
-Resent-Date: Mon, 17 May 2021 08:16:10 -0400
-Resent-Message-Id: <E1licAM-0002eJ-RS@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21339)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1licAK-00067i-0d
- for qemu-devel@nongnu.org; Mon, 17 May 2021 08:16:10 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1621253754; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=O+idybiY2b6riqZmOFVKHgg/zU7M29RrU9ZREBG7HsETJqVyMWrxBZB4a/r42+336oCIlS8Q6lbnH78akW3LN7Jsgzk5F8fm9Kgy4Cdxm8WTwTdVRPuVw9qy8gcKlBMuHcd4kWeD6CBAPnhug9zm7vqGlsKGwWgZlRHnC+Ahxks=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1621253754;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=k6SAoX9IKalwNRV5V5Vy1BpQ1q9w6yhLcHTCUi4W06A=; 
- b=DH7whj+NY/iiy+XrNFM9cF5IQLM2hIf1qdlQTatDFv1KQQEpCp26dnWvykKl1/iTkRIxFnBHjPdeBWQdi89SilmKmA9nLNjp0hkyzHlvMUbgDSouzyUHh/QBpxjGfMEobsWWlzNjs6VheqGKRYteE8R41X40YFtMjwjNBJphBeY=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 162125375028379.83175376127144;
- Mon, 17 May 2021 05:15:50 -0700 (PDT)
-In-Reply-To: <20210517112001.2564006-1-pbonzini@redhat.com>
-Subject: Re: [PULL 00/20] Misc patches for 2020-05-17
-Message-ID: <162125374920.9151.7821393142017820686@d887ba82c771>
+ (Exim 4.90_1) (envelope-from <steven.price@arm.com>)
+ id 1licQs-0006WB-M5
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 08:33:14 -0400
+Received: from foss.arm.com ([217.140.110.172]:42694)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <steven.price@arm.com>) id 1licQp-0007kJ-Q0
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 08:33:14 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BF98F113E;
+ Mon, 17 May 2021 05:33:08 -0700 (PDT)
+Received: from e112269-lin.arm.com (unknown [172.31.20.19])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0111E3F73B;
+ Mon, 17 May 2021 05:33:05 -0700 (PDT)
+From: Steven Price <steven.price@arm.com>
+To: Catalin Marinas <catalin.marinas@arm.com>, Marc Zyngier <maz@kernel.org>,
+ Will Deacon <will@kernel.org>
+Subject: [PATCH v12 0/8] MTE support for KVM guest
+Date: Mon, 17 May 2021 13:32:31 +0100
+Message-Id: <20210517123239.8025-1-steven.price@arm.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: pbonzini@redhat.com
-Date: Mon, 17 May 2021 05:15:50 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=217.140.110.172;
+ envelope-from=steven.price@arm.com; helo=foss.arm.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,112 +52,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: qemu-devel@nongnu.org
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Andrew Jones <drjones@redhat.com>, Haibo Xu <Haibo.Xu@arm.com>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>, qemu-devel@nongnu.org,
+ Dave Martin <Dave.Martin@arm.com>, Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, linux-kernel@vger.kernel.org,
+ Steven Price <steven.price@arm.com>, James Morse <james.morse@arm.com>,
+ Julien Thierry <julien.thierry.kdev@gmail.com>,
+ Thomas Gleixner <tglx@linutronix.de>, kvmarm@lists.cs.columbia.edu,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDUxNzExMjAwMS4yNTY0
-MDA2LTEtcGJvbnppbmlAcmVkaGF0LmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVtcyB0byBo
-YXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvcgptb3Jl
-IGluZm9ybWF0aW9uOgoKVHlwZTogc2VyaWVzCk1lc3NhZ2UtaWQ6IDIwMjEwNTE3MTEyMDAxLjI1
-NjQwMDYtMS1wYm9uemluaUByZWRoYXQuY29tClN1YmplY3Q6IFtQVUxMIDAwLzIwXSBNaXNjIHBh
-dGNoZXMgZm9yIDIwMjAtMDUtMTcKCj09PSBURVNUIFNDUklQVCBCRUdJTiA9PT0KIyEvYmluL2Jh
-c2gKZ2l0IHJldi1wYXJzZSBiYXNlID4gL2Rldi9udWxsIHx8IGV4aXQgMApnaXQgY29uZmlnIC0t
-bG9jYWwgZGlmZi5yZW5hbWVsaW1pdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZXMg
-VHJ1ZQpnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5hbGdvcml0aG0gaGlzdG9ncmFtCi4vc2NyaXB0
-cy9jaGVja3BhdGNoLnBsIC0tbWFpbGJhY2sgYmFzZS4uCj09PSBURVNUIFNDUklQVCBFTkQgPT09
-CgpVcGRhdGluZyAzYzhjZjVhOWMyMWZmODc4MjE2NGQxZGVmN2Y0NGJkODg4NzEzMzg0CkZyb20g
-aHR0cHM6Ly9naXRodWIuY29tL3BhdGNoZXctcHJvamVjdC9xZW11CiAqIFtuZXcgdGFnXSAgICAg
-ICAgIHBhdGNoZXcvMjAyMTA1MTcxMTIwMDEuMjU2NDAwNi0xLXBib256aW5pQHJlZGhhdC5jb20g
-LT4gcGF0Y2hldy8yMDIxMDUxNzExMjAwMS4yNTY0MDA2LTEtcGJvbnppbmlAcmVkaGF0LmNvbQpT
-d2l0Y2hlZCB0byBhIG5ldyBicmFuY2ggJ3Rlc3QnCjc3ZWIyMmEgS1ZNOiBEaXJ0eSByaW5nIHN1
-cHBvcnQKNTIwY2RjOSBLVk06IERpc2FibGUgbWFudWFsIGRpcnR5IGxvZyB3aGVuIGRpcnR5IHJp
-bmcgZW5hYmxlZApkNjcyZGRlIEtWTTogQWRkIGRpcnR5LXJpbmctc2l6ZSBwcm9wZXJ0eQpmMzI1
-MDk4IEtWTTogQ2FjaGUga3ZtIHNsb3QgZGlydHkgYml0bWFwIHNpemUKNTY4ZThmZiBLVk06IFNp
-bXBsaWZ5IGRpcnR5IGxvZyBzeW5jIGluIGt2bV9zZXRfcGh5c19tZW0KN2Q1ZDg3MiBLVk06IFBy
-b3ZpZGUgaGVscGVyIHRvIHN5bmMgZGlydHkgYml0bWFwIGZyb20gc2xvdCB0byByYW1ibG9jawo3
-YjI5MzdmIEtWTTogUHJvdmlkZSBoZWxwZXIgdG8gZ2V0IGt2bSBkaXJ0eSBsb2cKODE2MDE1MSBL
-Vk06IENyZWF0ZSB0aGUgS1ZNU2xvdCBkaXJ0eSBiaXRtYXAgb24gZmxhZyBjaGFuZ2VzCmEwMTM1
-MDggS1ZNOiBVc2UgYSBiaWcgbG9jayB0byByZXBsYWNlIHBlci1rbWwgc2xvdHNfbG9jawozNTQ5
-ZmRmIG1lbW9yeTogSW50cm9kdWNlIGxvZ19zeW5jX2dsb2JhbCgpIHRvIG1lbW9yeSBsaXN0ZW5l
-cgo0MTVkMGQwIEtWTTogZG8gbm90IGFsbG93IHNldHRpbmcgcHJvcGVydGllcyBhdCBydW50aW1l
-CmQ0NDA4N2UgcXRlc3Q6IGFkZCBhIFFPTSBvYmplY3QgZm9yIHF0ZXN0CmIyMWQ1OGIgb2JqZWN0
-OiBhZGQgbW9yZSBjb21tYW5kcyB0byBwcmVjb25maWcgbW9kZQo4MGQwMzRhMiBtZXNvbjogYnVt
-cCBzdWJtb2R1bGUgdG8gMC41Ny4yCjkxYTlmN2YgaTM4Ni9jcHU6IEV4cG9zZSBBVlhfVk5OSSBp
-bnN0cnVjdGlvbiB0byBndWVzdAo0ZWQ0MWY4IGJhY2tlbmRzL3RwbTogUmVwbGFjZSBxZW11X211
-dGV4X2xvY2sgY2FsbHMgd2l0aCBRRU1VX0xPQ0tfR1VBUkQKNTI1MDkwZSBody9tZW0vbnZkaW1t
-OiBVc2UgS2NvbmZpZyAnaW1wbHknIGluc3RlYWQgb2YgJ2RlcGVuZHMgb24nCjU0NTFmMDEgY29u
-ZmlndXJlOiBzaW1wbGlmeSBhc3NpZ25tZW50IHRvIEdJVF9TVUJNT0RVTEVTCmZkNWJiYmUgY29u
-ZmlndXJlOiBjaGVjayBmb3Igc3VibW9kdWxlcyBpZiAtLXdpdGgtZ2l0LXN1Ym1vZHVsZXM9aWdu
-b3JlCjRhNzE4MDkgY29uZmlndXJlOiBPbmx5IGNsb25lIHNvZnRmbG9hdC0zIHJlcG9zaXRvcmll
-cyBpZiBUQ0cgaXMgZW5hYmxlZAoKPT09IE9VVFBVVCBCRUdJTiA9PT0KMS8yMCBDaGVja2luZyBj
-b21taXQgNGE3MTgwOTY5MjY5IChjb25maWd1cmU6IE9ubHkgY2xvbmUgc29mdGZsb2F0LTMgcmVw
-b3NpdG9yaWVzIGlmIFRDRyBpcyBlbmFibGVkKQpFUlJPUjogRG91Ymx5LWVuY29kZWQgVVRGLTgK
-Izc6IAogICAgU2lnbmVkLW9mZi1ieTogUGhpbGlwcGUgTWF0aGlldS1EYXVkw4PCqSA8cGhpbG1k
-QHJlZGhhdC5jb20+Cgp0b3RhbDogMSBlcnJvcnMsIDAgd2FybmluZ3MsIDE5IGxpbmVzIGNoZWNr
-ZWQKClBhdGNoIDEvMjAgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55
-IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBt
-YWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KCjIvMjAgQ2hlY2tpbmcg
-Y29tbWl0IGZkNWJiYmU1MTExZSAoY29uZmlndXJlOiBjaGVjayBmb3Igc3VibW9kdWxlcyBpZiAt
-LXdpdGgtZ2l0LXN1Ym1vZHVsZXM9aWdub3JlKQozLzIwIENoZWNraW5nIGNvbW1pdCA1NDUxZjAx
-OTYzNjUgKGNvbmZpZ3VyZTogc2ltcGxpZnkgYXNzaWdubWVudCB0byBHSVRfU1VCTU9EVUxFUykK
-NC8yMCBDaGVja2luZyBjb21taXQgNTI1MDkwZTllOTc4IChody9tZW0vbnZkaW1tOiBVc2UgS2Nv
-bmZpZyAnaW1wbHknIGluc3RlYWQgb2YgJ2RlcGVuZHMgb24nKQpFUlJPUjogRG91Ymx5LWVuY29k
-ZWQgVVRGLTgKIzE2OiAKICAgIFNpZ25lZC1vZmYtYnk6IFBoaWxpcHBlIE1hdGhpZXUtRGF1ZMOD
-wqkgPHBoaWxtZEByZWRoYXQuY29tPgoKdG90YWw6IDEgZXJyb3JzLCAwIHdhcm5pbmdzLCAzMCBs
-aW5lcyBjaGVja2VkCgpQYXRjaCA0LzIwIGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmll
-dy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhl
-bSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCgo1LzIw
-IENoZWNraW5nIGNvbW1pdCA0ZWQ0MWY4OGI1OTUgKGJhY2tlbmRzL3RwbTogUmVwbGFjZSBxZW11
-X211dGV4X2xvY2sgY2FsbHMgd2l0aCBRRU1VX0xPQ0tfR1VBUkQpCjYvMjAgQ2hlY2tpbmcgY29t
-bWl0IDkxYTlmN2ZhNTcwMCAoaTM4Ni9jcHU6IEV4cG9zZSBBVlhfVk5OSSBpbnN0cnVjdGlvbiB0
-byBndWVzdCkKNy8yMCBDaGVja2luZyBjb21taXQgODBkMDM0YTIzMGZiIChtZXNvbjogYnVtcCBz
-dWJtb2R1bGUgdG8gMC41Ny4yKQo4LzIwIENoZWNraW5nIGNvbW1pdCBiMjFkNThiZjIyNDkgKG9i
-amVjdDogYWRkIG1vcmUgY29tbWFuZHMgdG8gcHJlY29uZmlnIG1vZGUpCjkvMjAgQ2hlY2tpbmcg
-Y29tbWl0IGQ0NDA4N2U4NDUwNSAocXRlc3Q6IGFkZCBhIFFPTSBvYmplY3QgZm9yIHF0ZXN0KQox
-MC8yMCBDaGVja2luZyBjb21taXQgNDE1ZDBkMGY0ODk0IChLVk06IGRvIG5vdCBhbGxvdyBzZXR0
-aW5nIHByb3BlcnRpZXMgYXQgcnVudGltZSkKRVJST1I6IGxpbmUgb3ZlciA5MCBjaGFyYWN0ZXJz
-CiMzMzogRklMRTogYWNjZWwva3ZtL2t2bS1hbGwuYzozMTE1OgorICAgICAgICBlcnJvcl9zZXRn
-KGVycnAsICJDYW5ub3Qgc2V0IHByb3BlcnRpZXMgYWZ0ZXIgdGhlIGFjY2VsZXJhdG9yIGhhcyBi
-ZWVuIGluaXRpYWxpemVkIik7CgpFUlJPUjogbGluZSBvdmVyIDkwIGNoYXJhY3RlcnMKIzQ1OiBG
-SUxFOiBhY2NlbC9rdm0va3ZtLWFsbC5jOjMxMzQ6CisgICAgICAgIGVycm9yX3NldGcoZXJycCwg
-IkNhbm5vdCBzZXQgcHJvcGVydGllcyBhZnRlciB0aGUgYWNjZWxlcmF0b3IgaGFzIGJlZW4gaW5p
-dGlhbGl6ZWQiKTsKCnRvdGFsOiAyIGVycm9ycywgMCB3YXJuaW5ncywgMzcgbGluZXMgY2hlY2tl
-ZAoKUGF0Y2ggMTAvMjAgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55
-IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBt
-YWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KCjExLzIwIENoZWNraW5n
-IGNvbW1pdCAzNTQ5ZmRmZjQxZjkgKG1lbW9yeTogSW50cm9kdWNlIGxvZ19zeW5jX2dsb2JhbCgp
-IHRvIG1lbW9yeSBsaXN0ZW5lcikKMTIvMjAgQ2hlY2tpbmcgY29tbWl0IGEwMTM1MDg1NmQ2MSAo
-S1ZNOiBVc2UgYSBiaWcgbG9jayB0byByZXBsYWNlIHBlci1rbWwgc2xvdHNfbG9jaykKMTMvMjAg
-Q2hlY2tpbmcgY29tbWl0IDgxNjAxNTFkMThkNyAoS1ZNOiBDcmVhdGUgdGhlIEtWTVNsb3QgZGly
-dHkgYml0bWFwIG9uIGZsYWcgY2hhbmdlcykKMTQvMjAgQ2hlY2tpbmcgY29tbWl0IDdiMjkzN2Zh
-MzZjMiAoS1ZNOiBQcm92aWRlIGhlbHBlciB0byBnZXQga3ZtIGRpcnR5IGxvZykKMTUvMjAgQ2hl
-Y2tpbmcgY29tbWl0IDdkNWQ4NzIwOWJhOSAoS1ZNOiBQcm92aWRlIGhlbHBlciB0byBzeW5jIGRp
-cnR5IGJpdG1hcCBmcm9tIHNsb3QgdG8gcmFtYmxvY2spCjE2LzIwIENoZWNraW5nIGNvbW1pdCA1
-NjhlOGZmYmFiZWUgKEtWTTogU2ltcGxpZnkgZGlydHkgbG9nIHN5bmMgaW4ga3ZtX3NldF9waHlz
-X21lbSkKMTcvMjAgQ2hlY2tpbmcgY29tbWl0IGYzMjUwOTg2MjYxOCAoS1ZNOiBDYWNoZSBrdm0g
-c2xvdCBkaXJ0eSBiaXRtYXAgc2l6ZSkKMTgvMjAgQ2hlY2tpbmcgY29tbWl0IGQ2NzJkZGU5NDNm
-NyAoS1ZNOiBBZGQgZGlydHktcmluZy1zaXplIHByb3BlcnR5KQpFUlJPUjogbGluZSBvdmVyIDkw
-IGNoYXJhY3RlcnMKIzU5OiBGSUxFOiBhY2NlbC9rdm0va3ZtLWFsbC5jOjMyMDY6CisgICAgICAg
-IGVycm9yX3NldGcoZXJycCwgIkNhbm5vdCBzZXQgcHJvcGVydGllcyBhZnRlciB0aGUgYWNjZWxl
-cmF0b3IgaGFzIGJlZW4gaW5pdGlhbGl6ZWQiKTsKCnRvdGFsOiAxIGVycm9ycywgMCB3YXJuaW5n
-cywgOTQgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMTgvMjAgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVh
-c2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJl
-cG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVS
-Uy4KCjE5LzIwIENoZWNraW5nIGNvbW1pdCA1MjBjZGM5MWY4MjAgKEtWTTogRGlzYWJsZSBtYW51
-YWwgZGlydHkgbG9nIHdoZW4gZGlydHkgcmluZyBlbmFibGVkKQoyMC8yMCBDaGVja2luZyBjb21t
-aXQgNzdlYjIyYWMxNGYxIChLVk06IERpcnR5IHJpbmcgc3VwcG9ydCkKV0FSTklORzogbGluZSBv
-dmVyIDgwIGNoYXJhY3RlcnMKIzQ1MTogRklMRTogYWNjZWwva3ZtL2t2bS1hbGwuYzoyNDY2Ogor
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAiU3VnZ2VzdGVkIG1pbmludW0gdmFsdWUgaXMg
-MTAyNC4iLCBzdHJlcnJvcigtcmV0KSk7Cgp0b3RhbDogMCBlcnJvcnMsIDEgd2FybmluZ3MsIDQ5
-OCBsaW5lcyBjaGVja2VkCgpQYXRjaCAyMC8yMCBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSBy
-ZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0
-IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgo9
-PT0gT1VUUFVUIEVORCA9PT0KClRlc3QgY29tbWFuZCBleGl0ZWQgd2l0aCBjb2RlOiAxCgoKVGhl
-IGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDIxMDUx
-NzExMjAwMS4yNTY0MDA2LTEtcGJvbnppbmlAcmVkaGF0LmNvbS90ZXN0aW5nLmNoZWNrcGF0Y2gv
-P3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNo
-ZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBw
-YXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
+This series adds support for using the Arm Memory Tagging Extensions
+(MTE) in a KVM guest.
+
+Changes since v11[1]:
+
+ * Series is prefixed with a bug fix for a potential race synchronising
+   tags. This is basically race as was recently[2] fixed for
+   PG_dcache_clean where the update of the page flag cannot be done
+   atomically with the work that flag represents.
+
+   For the PG_dcache_clean case the problem is easier because extra
+   cache maintenance isn't a problem, but here restoring the tags twice
+   could cause data loss.
+
+   The current solution is a global spinlock for mte_sync_page_tags().
+   If we hit scalability problems that other solutions such as
+   potentially using another page flag as a lock will need to be
+   investigated.
+
+ * The second patch is from Catalin to mitigate the performance impact
+   of the first - by handling the page zeroing case explicitly we can
+   avoid entering mte_sync_page_tags() at all in most cases. Peter
+   Collingbourne has a patch which similarly improves this case using
+   the DC GZVA instruction. So this patch may be dropped in favour of
+   Peter's, however Catalin's is likely easier to backport.
+
+ * Use pte_access_permitted() in set_pte_at() to identify pages which
+   may be accessed by the user rather than open-coding a check for
+   PTE_USER. Also add a comment documenting what's going on.
+   There's also some short-cuts added in mte_sync_tags() compared to the
+   previous post, to again mitigate the performance impact of the first
+   patch.
+
+ * Move the code to sanitise tags out of user_mem_abort() into its own
+   function. Also call this new function from kvm_set_spte_gfn() as that
+   path was missing the sanitising.
+
+   Originally I was going to move the code all the way down to
+   kvm_pgtable_stage2_map(). Sadly as that also part of the EL2
+   hypervisor this breaks nVHE as the code needs to perform actions in
+   the host.
+
+ * Drop the union in struct kvm_vcpu_events - it served no purpose and
+   was confusing.
+
+ * Update CAP number (again) and other minor conflict resolutions.
+
+[1] https://lore.kernel.org/r/20210416154309.22129-1-steven.price@arm.com/
+[2] https://lore.kernel.org/r/20210514095001.13236-1-catalin.marinas@arm.com/
+[3] https://lore.kernel.org/r/de812a02fd94a0dba07d43606bd893c564aa4528.1620849613.git.pcc@google.com/
+
+Catalin Marinas (1):
+  arm64: Handle MTE tags zeroing in __alloc_zeroed_user_highpage()
+
+Steven Price (7):
+  arm64: mte: Handle race when synchronising tags
+  arm64: mte: Sync tags for pages where PTE is untagged
+  arm64: kvm: Introduce MTE VM feature
+  arm64: kvm: Save/restore MTE registers
+  arm64: kvm: Expose KVM_ARM_CAP_MTE
+  KVM: arm64: ioctl to fetch/store tags in a guest
+  KVM: arm64: Document MTE capability and ioctl
+
+ Documentation/virt/kvm/api.rst             | 53 +++++++++++++++
+ arch/arm64/include/asm/kvm_emulate.h       |  3 +
+ arch/arm64/include/asm/kvm_host.h          |  9 +++
+ arch/arm64/include/asm/kvm_mte.h           | 66 ++++++++++++++++++
+ arch/arm64/include/asm/page.h              |  6 +-
+ arch/arm64/include/asm/pgtable.h           |  9 ++-
+ arch/arm64/include/asm/sysreg.h            |  3 +-
+ arch/arm64/include/uapi/asm/kvm.h          | 11 +++
+ arch/arm64/kernel/asm-offsets.c            |  3 +
+ arch/arm64/kernel/mte.c                    | 37 ++++++++--
+ arch/arm64/kvm/arm.c                       | 78 ++++++++++++++++++++++
+ arch/arm64/kvm/hyp/entry.S                 |  7 ++
+ arch/arm64/kvm/hyp/exception.c             |  3 +-
+ arch/arm64/kvm/hyp/include/hyp/sysreg-sr.h | 21 ++++++
+ arch/arm64/kvm/mmu.c                       | 37 +++++++++-
+ arch/arm64/kvm/sys_regs.c                  | 28 ++++++--
+ arch/arm64/mm/fault.c                      | 21 ++++++
+ include/uapi/linux/kvm.h                   |  2 +
+ 18 files changed, 381 insertions(+), 16 deletions(-)
+ create mode 100644 arch/arm64/include/asm/kvm_mte.h
+
+-- 
+2.20.1
+
 
