@@ -2,71 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86E92383604
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 17:26:36 +0200 (CEST)
-Received: from localhost ([::1]:56514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 759F4383529
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 17:23:26 +0200 (CEST)
+Received: from localhost ([::1]:51434 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lif8d-00049q-Hh
-	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 11:26:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42458)
+	id 1lif5Z-0000SQ-Ip
+	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 11:23:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42468)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1lif07-0006V1-Ar
- for qemu-devel@nongnu.org; Mon, 17 May 2021 11:17:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20462)
+ (Exim 4.90_1) (envelope-from <salil.mehta@huawei.com>)
+ id 1lif08-0006ZX-MV; Mon, 17 May 2021 11:17:48 -0400
+Received: from szxga06-in.huawei.com ([45.249.212.32]:2598)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1lif00-0005sH-Bq
- for qemu-devel@nongnu.org; Mon, 17 May 2021 11:17:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621264659;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qmZt2+BHkEoRkkk4UXUpNMZeaaK0Bg6JdFlKV6MLN8c=;
- b=E6s0VyjYVw6zoYWn/GiPhOq6hBw2H1HFK44CnO/ClmrQM5z39MxZ9/DsI64W2ecbUdjzNt
- 1JmhnFSHeex5nW/GEwfo6Or3EZP/dOq7w9XO4ww/xMscMfpvHhelTf5HWzxMlScGnNeMF6
- p9z6VTdaGQ0jyqKQOcBrrP4FnaxPBMM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-432-EGWi-VsiNZyIr2Le7nX_gQ-1; Mon, 17 May 2021 11:17:37 -0400
-X-MC-Unique: EGWi-VsiNZyIr2Le7nX_gQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DC0DF107ACC7;
- Mon, 17 May 2021 15:17:36 +0000 (UTC)
-Received: from steredhat.redhat.com (ovpn-115-84.ams2.redhat.com
- [10.36.115.84])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 316C960BE5;
- Mon, 17 May 2021 15:17:35 +0000 (UTC)
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 5/5] docs: fix references to docs/devel/s390-dasd-ipl.rst
-Date: Mon, 17 May 2021 17:17:02 +0200
-Message-Id: <20210517151702.109066-6-sgarzare@redhat.com>
-In-Reply-To: <20210517151702.109066-1-sgarzare@redhat.com>
-References: <20210517151702.109066-1-sgarzare@redhat.com>
+ (Exim 4.90_1) (envelope-from <salil.mehta@huawei.com>)
+ id 1lif05-0005pX-AZ; Mon, 17 May 2021 11:17:48 -0400
+Received: from dggems705-chm.china.huawei.com (unknown [172.30.72.60])
+ by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4FkN3g4854zlfHJ;
+ Mon, 17 May 2021 23:15:11 +0800 (CST)
+Received: from dggema713-chm.china.huawei.com (10.3.20.77) by
+ dggems705-chm.china.huawei.com (10.3.19.182) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
+ 15.1.2176.2; Mon, 17 May 2021 23:17:26 +0800
+Received: from lhreml703-chm.china.huawei.com (10.201.108.52) by
+ dggema713-chm.china.huawei.com (10.3.20.77) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2176.2; Mon, 17 May 2021 23:17:24 +0800
+Received: from lhreml703-chm.china.huawei.com ([10.201.68.198]) by
+ lhreml703-chm.china.huawei.com ([10.201.68.198]) with mapi id 15.01.2176.012; 
+ Mon, 17 May 2021 16:17:22 +0100
+From: Salil Mehta <salil.mehta@huawei.com>
+To: "wangyanan (Y)" <wangyanan55@huawei.com>, Peter Maydell
+ <peter.maydell@linaro.org>, Paolo Bonzini <pbonzini@redhat.com>, Andrew Jones
+ <drjones@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>, Igor Mammedov
+ <imammedo@redhat.com>, Shannon Zhao <shannon.zhaosl@gmail.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "qemu-arm@nongnu.org"
+ <qemu-arm@nongnu.org>
+Subject: RE: [RFC PATCH v3 4/4] hw/arm/virt: Parse -smp cluster parameter in
+ virt_smp_parse
+Thread-Topic: [RFC PATCH v3 4/4] hw/arm/virt: Parse -smp cluster parameter in
+ virt_smp_parse
+Thread-Index: AQHXSj/FZmRUdZustEeQifVnUtKQiarnny9g
+Date: Mon, 17 May 2021 15:17:22 +0000
+Message-ID: <01351414c3424710bf3dc5eb949f0d75@huawei.com>
+References: <20210516103228.37792-1-wangyanan55@huawei.com>
+ <20210516103228.37792-5-wangyanan55@huawei.com>
+In-Reply-To: <20210516103228.37792-5-wangyanan55@huawei.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.47.69.39]
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=sgarzare@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.374,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.32;
+ envelope-from=salil.mehta@huawei.com; helo=szxga06-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,42 +77,158 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P . Berrange" <berrange@redhat.com>, qemu-trivial@nongnu.org,
- Cornelia Huck <cohuck@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: "Song Bao Hua \(Barry Song\)" <song.bao.hua@hisilicon.com>,
+ zhukeqian <zhukeqian1@huawei.com>, Linuxarm <linuxarm@huawei.com>,
+ "linuxarm@openeuler.org" <linuxarm@openeuler.org>, "wangyanan
+ \(Y\)" <wangyanan55@huawei.com>, "Zengtao \(B\)" <prime.zeng@hisilicon.com>,
+ yangyicong <yangyicong@huawei.com>, yuzenghui <yuzenghui@huawei.com>,
+ "Wanghaibin \(D\)" <wanghaibin.wang@huawei.com>,
+ =?iso-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit cc3d15a5ea ("docs: rstfy s390 dasd ipl documentation")
-converted docs/devel/s390-dasd-ipl.txt to docs/devel/s390-dasd-ipl.rst.
+> From: Qemu-devel
+> [mailto:qemu-devel-bounces+salil.mehta=3Dhuawei.com@nongnu.org] On Behalf=
+ Of
+> Yanan Wang
+> Sent: Sunday, May 16, 2021 11:32 AM
+> To: Peter Maydell <peter.maydell@linaro.org>; Paolo Bonzini
+> <pbonzini@redhat.com>; Andrew Jones <drjones@redhat.com>; Michael S . Tsi=
+rkin
+> <mst@redhat.com>; Igor Mammedov <imammedo@redhat.com>; Shannon Zhao
+> <shannon.zhaosl@gmail.com>; qemu-devel@nongnu.org; qemu-arm@nongnu.org
+> Cc: Song Bao Hua (Barry Song) <song.bao.hua@hisilicon.com>; Philippe
+> Mathieu-Daud=E9 <philmd@redhat.com>; wangyanan (Y) <wangyanan55@huawei.co=
+m>;
+> Zengtao (B) <prime.zeng@hisilicon.com>; Wanghaibin (D)
+> <wanghaibin.wang@huawei.com>; yuzenghui <yuzenghui@huawei.com>; yangyicon=
+g
+> <yangyicong@huawei.com>; zhukeqian <zhukeqian1@huawei.com>
+> Subject: [RFC PATCH v3 4/4] hw/arm/virt: Parse -smp cluster parameter in
+> virt_smp_parse
+>=20
+> There is a separate function virt_smp_parse() in hw/virt/arm.c used
+> to parse cpu topology for the ARM machines. So add parsing of -smp
+> cluster parameter in it, then total number of logical cpus will be
+> calculated like: max_cpus =3D sockets * clusters * cores * threads.
+>=20
+> Note, we will assume multi-cluster in one socket is not supported
+> and default the value of clusters to 1, if it's not explicitly
+> specified in -smp cmdline.
+>=20
+> Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
+> ---
+>  hw/arm/virt.c | 32 ++++++++++++++++++--------------
+>  1 file changed, 18 insertions(+), 14 deletions(-)
+>=20
+> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+> index 7de822e491..678d5ef36c 100644
+> --- a/hw/arm/virt.c
+> +++ b/hw/arm/virt.c
+> @@ -2642,8 +2642,8 @@ static int virt_kvm_type(MachineState *ms, const ch=
+ar
+> *type_str)
+>   * with the -smp cmdlines when parsing them.
+>   *
+>   * We require that at least one of cpus or maxcpus must be provided.
+> - * Threads will default to 1 if not provided. Sockets and cores must
+> - * be either both provided or both not.
+> + * Clusters and threads will default to 1 if they are not provided.
+> + * Sockets and cores must be either both provided or both not.
+>   *
+>   * Note, if neither sockets nor cores are specified, we will calculate
+>   * all the missing values just like smp_parse() does, but will disable
+> @@ -2652,15 +2652,18 @@ static int virt_kvm_type(MachineState *ms, const =
+char
+> *type_str)
+>  static void virt_smp_parse(MachineState *ms, QemuOpts *opts)
+>  {
+>      VirtMachineClass *vmc =3D VIRT_MACHINE_GET_CLASS(ms);
+> +    VirtMachineState *vms =3D VIRT_MACHINE(ms);
+>=20
+>      if (opts) {
+>          unsigned cpus =3D qemu_opt_get_number(opts, "cpus", 0);
+>          unsigned maxcpus =3D qemu_opt_get_number(opts, "maxcpus", 0);
+>          unsigned sockets =3D qemu_opt_get_number(opts, "sockets", 0);
+> +        unsigned clusters =3D qemu_opt_get_number(opts, "clusters", 0);
+>          unsigned cores =3D qemu_opt_get_number(opts, "cores", 0);
+>          unsigned threads =3D qemu_opt_get_number(opts, "threads", 0);
+>=20
+> -        /* Default threads to 1 if not provided */
+> +        /* Default clusters and threads to 1 if not provided */
+> +        clusters =3D clusters > 0 ? clusters : 1;
+>          threads =3D threads > 0 ? threads : 1;
+>=20
+>          if (cpus =3D=3D 0 && maxcpus =3D=3D 0) {
+> @@ -2676,13 +2679,13 @@ static void virt_smp_parse(MachineState *ms, Qemu=
+Opts
+> *opts)
+>              cores =3D 1;
+>              if (cpus =3D=3D 0) {
+>                  sockets =3D 1;
+> -                cpus =3D sockets * cores * threads;
+> +                cpus =3D sockets * clusters * cores * threads;
+>              } else {
+>                  maxcpus =3D maxcpus > 0 ? maxcpus : cpus;
+> -                sockets =3D maxcpus / (cores * threads);
+> +                sockets =3D maxcpus / (clusters * cores * threads);
+>              }
+>          } else if (sockets > 0 && cores > 0) {
+> -            cpus =3D cpus > 0 ? cpus : sockets * cores * threads;
+> +            cpus =3D cpus > 0 ? cpus : sockets * clusters * cores * thre=
+ads;
+>              maxcpus =3D maxcpus > 0 ? maxcpus : cpus;
+>          } else {
+>              error_report("sockets and cores must be both provided "
+> @@ -2695,25 +2698,26 @@ static void virt_smp_parse(MachineState *ms, Qemu=
+Opts
+> *opts)
+>              exit(1);
+>          }
+>=20
+> -        if (sockets * cores * threads < cpus) {
+> +        if (sockets * clusters * cores * threads < cpus) {
+>              error_report("cpu topology: "
+> -                         "sockets (%u) * cores (%u) * threads (%u) < "
+> -                         "smp_cpus (%u)",
+> -                         sockets, cores, threads, cpus);
+> +                         "sockets (%u) * clusters (%u) * cores (%u) * "
+> +                         "threads (%u) < smp_cpus (%u)",
+> +                         sockets, clusters, cores, threads, cpus);
+>              exit(1);
+>          }
+>=20
+> -        if (sockets * cores * threads !=3D maxcpus) {
+> +        if (sockets * clusters * cores * threads !=3D maxcpus) {
+>              error_report("cpu topology: "
+> -                         "sockets (%u) * cores (%u) * threads (%u) "
+> -                         "!=3D maxcpus (%u)",
+> -                         sockets, cores, threads, maxcpus);
+> +                         "sockets (%u) * clusters (%u) * cores (%u) * "
+> +                         "threads (%u) !=3D maxcpus (%u)",
+> +                         sockets, clusters, cores, threads, maxcpus);
+>              exit(1);
+>          }
+>=20
+>          ms->smp.cpus =3D cpus;
+>          ms->smp.max_cpus =3D maxcpus;
+>          ms->smp.sockets =3D sockets;
+> +        vms->smp_clusters =3D clusters;
 
-We still have several references to the old file, so let's fix them
-with the following command:
 
-  sed -i s/s390-dasd-ipl.txt/s390-dasd-ipl.rst/ \
-      $(git grep -l docs/devel/s390-dasd-ipl.txt)
+This variable naming *smp_clusters* looks out-of-sorts. I thought a similar
+variable *smp_cpus* was destined to be removed for the reason given in belo=
+w
+link - a patch by Andrew Jones?
 
-Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
----
- pc-bios/s390-ccw/dasd-ipl.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Link: https://lists.gnu.org/archive/html/qemu-arm/2020-12/msg00418.html
 
-diff --git a/pc-bios/s390-ccw/dasd-ipl.c b/pc-bios/s390-ccw/dasd-ipl.c
-index 71cbae2f16..254bb1a15e 100644
---- a/pc-bios/s390-ccw/dasd-ipl.c
-+++ b/pc-bios/s390-ccw/dasd-ipl.c
-@@ -205,7 +205,7 @@ static void run_ipl2(SubChannelId schid, uint16_t cutype, uint32_t addr)
- 
- /*
-  * Limitations in vfio-ccw support complicate the IPL process. Details can
-- * be found in docs/devel/s390-dasd-ipl.txt
-+ * be found in docs/devel/s390-dasd-ipl.rst
-  */
- void dasd_ipl(SubChannelId schid, uint16_t cutype)
- {
--- 
-2.31.1
+Am I missing anything here?
+
+Salil.
+
+>          ms->smp.cores =3D cores;
+>          ms->smp.threads =3D threads;
+>      }
 
 
