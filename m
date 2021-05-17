@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7525383C37
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 20:28:12 +0200 (CEST)
-Received: from localhost ([::1]:53884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 027B9383C4C
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 20:31:39 +0200 (CEST)
+Received: from localhost ([::1]:34928 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lihyN-00013k-FI
-	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 14:28:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33898)
+	id 1lii1f-0007LJ-I4
+	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 14:31:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33744)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lihlU-0006D3-8E
- for qemu-devel@nongnu.org; Mon, 17 May 2021 14:14:52 -0400
-Received: from mout.kundenserver.de ([212.227.17.24]:38877)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lihlO-0005wU-4i
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 14:14:46 -0400
+Received: from mout.kundenserver.de ([212.227.126.133]:50157)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lihlM-0004RM-7U
- for qemu-devel@nongnu.org; Mon, 17 May 2021 14:14:51 -0400
-Received: from quad ([82.142.31.78]) by mrelayeu.kundenserver.de (mreue107
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1MUXd0-1lrXTy1cv2-00QWZy; Mon, 17
- May 2021 20:14:38 +0200
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lihlB-0004LG-Rh
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 14:14:45 -0400
+Received: from quad ([82.142.31.78]) by mrelayeu.kundenserver.de (mreue010
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1MZCvh-1lwCJj1bzV-00V5dG; Mon, 17
+ May 2021 20:14:30 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 22/59] linux-user/sparc: Use target_pt_regs
-Date: Mon, 17 May 2021 20:13:47 +0200
-Message-Id: <20210517181424.8093-23-laurent@vivier.eu>
+Subject: [PULL 09/59] linux-user: Use target_restore_altstack in all sigreturn
+Date: Mon, 17 May 2021 20:13:34 +0200
+Message-Id: <20210517181424.8093-10-laurent@vivier.eu>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210517181424.8093-1-laurent@vivier.eu>
 References: <20210517181424.8093-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:kgXNC5uHMrgUj89/WzaMWhJFwKXB8v5LVDi3IWw/jb7LutF0Xw6
- upiredvxVsCKIlAAhDBRGU7BesqP5B0pDyjHPpqMcZ5nyVCLksiGPnOI6Ge6X53iqt/6bGM
- rV+iisr0QoZswDUGM2njRb6lXtFPwJqCvNBvRYE0qBaE/atPOZznkWNRVdwx1XVJOigIUwd
- jG/AmreJYlYGbg38ogR5A==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:ZOxVYZvaB9Y=:9zJV8q1cOnUa4BS9mf/wHV
- TAlOJYJxY2LwTPg39mrq8mpGRZRprhL0WaIneKPV4a8xV5u1rQQ2hNjQUyuAeBrs0FFOM36sr
- F41gJwHjLBhduJZIkYre+z16KmrUmtQDpSPqXa+XkIp3Zjy6LJUtoGpK7xVudtPBjX5k59DGg
- TQy54/upNg05CU1IQo4Qq0fGv/RMqC4ks9QZVdx4C+U2S3S2wRx+Hfp0fEtxIoNj3tXHJjFMu
- qlXteHfiOA0sUpSCHQMl695vdDJa/beBh7Pn8edVf9aREPRYcXjcOCyQYJ0T9tN4LwHjKLHqi
- dhTm905EwheGguqYz1wP5qaAIviAJfaGIKLU6rec/K2yAiT9ZHSNU+M+Ig11kAHNu7UxZop4Y
- wS0PgMqvcrjjvaEYJ59EtoPwyclh01Fkbj3IDo14zjUXFtBuxkDfde/IOTPslMr0jxDrY/9l8
- 4vJiwQ5BNp29cmX8E9t0NBW6/E5wqz4TY9Hb59RoOZZrQnM6jCsdl0qM0Jw95OH4UNbMk7H7t
- G/wNhwOiP0+LqWDj0SDA3c=
-Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:iFN+cImS2y9vJCQ8GlM7Tg4y8B+SOBuWxFznwXpysevEG4bov4p
+ gCf2Zcnl5/Mfw7BONoA7olTh/ammwxK42VR33Kf9o1f2NIMLuE6PEXy78BwpQWwZIINI11o
+ J2pPJ6qlwtKhVU0atGIk6OCKByRDCe3cyHfqVuSa1WZdG0zE6aZN0X/Z/9vZ4W2DQViui1K
+ 8rih/XGiyY8AhnjvW+Cxw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:h/CTGCyXH6k=:ycLowW03RVV8nKvgE8Q4FK
+ tS+pCgEwJroGLiIK3lKj5m4C+zwn1JrbudUSKFXAReyjFJGBxvt5geO8hCeZGcOZ/+8O6IC+F
+ PDyL1TEaUepCLljdsnxaUnSr7879W2ET+03nHe8oT8HO5kJq0jQzr6NKJbgiurHPOwsKpDIcR
+ QHPdeuiA8p0fc5X5WUCM/AnDN0RkvM0O6DInJoOWVkTWMyuXEU/vdD6itmL9kSfWe+oOyQpXh
+ pAxYoEwkZU0Slo5FPnWrTIJwD0iE8yVPF/YtACIgPwDEgyAoKc/SFJaTp5lZDvSklUmjrt0Cn
+ kihZvhLNTl5OKyxT2Sb/jApc07h/2Ot3tmCiniMPjGVbHCn7WNi8tPcgCeY0e/eRZluGkGWqT
+ guoF3eiC1UqDQgPDPAAzyCSP71pKdOJ1eWuYyblwNiVqqQiPY5h5QwjFDYZUzICXk/5HL6u0y
+ egogHgGl2iThymkj+1S7J59RICl4JqAsQbpa3Dg4tvRMGZUyUtSNshzlGaL5qoMzbPi3ZRO5m
+ YDLlgAR++X9nnDHI4YbC10=
+Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -69,233 +69,324 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Replace __siginfo_t with target_pt_regs, and move si_mask
-into target_signal_frame directly.
+Note that target_restore_altstack uses the host memory
+pointer that we have already verified, so TARGET_EFAULT
+is not a possible return value.
 
-Extract save/restore functions for target_pt_regs.  Adjust
-for sparc64 tstate.  Use proper get/put functions for psr.
-Turns out we were already writing to si_mask twice, so no
-need to handle that in the new functions.
+Note that using -EFAULT was a bug.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20210426025334.1168495-16-richard.henderson@linaro.org>
+Message-Id: <20210426025334.1168495-3-richard.henderson@linaro.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/sparc/signal.c | 123 ++++++++++++++++++++------------------
- 1 file changed, 65 insertions(+), 58 deletions(-)
+ linux-user/aarch64/signal.c    | 6 +-----
+ linux-user/alpha/signal.c      | 6 +-----
+ linux-user/arm/signal.c        | 9 ++-------
+ linux-user/hexagon/signal.c    | 6 +-----
+ linux-user/hppa/signal.c       | 8 +-------
+ linux-user/i386/signal.c       | 5 +----
+ linux-user/m68k/signal.c       | 5 +----
+ linux-user/microblaze/signal.c | 6 +-----
+ linux-user/mips/signal.c       | 6 +-----
+ linux-user/nios2/signal.c      | 8 +-------
+ linux-user/openrisc/signal.c   | 5 +----
+ linux-user/ppc/signal.c        | 4 +---
+ linux-user/riscv/signal.c      | 6 +-----
+ linux-user/s390x/signal.c      | 6 ++----
+ linux-user/sh4/signal.c        | 7 +------
+ linux-user/xtensa/signal.c     | 6 +-----
+ 16 files changed, 18 insertions(+), 81 deletions(-)
 
-diff --git a/linux-user/sparc/signal.c b/linux-user/sparc/signal.c
-index 3474098641a6..0d9305818f8c 100644
---- a/linux-user/sparc/signal.c
-+++ b/linux-user/sparc/signal.c
-@@ -43,17 +43,6 @@ struct target_stackf {
-     abi_ulong xargs[8];
- };
- 
--typedef struct {
--    struct {
--        abi_ulong psr;
--        abi_ulong pc;
--        abi_ulong npc;
--        abi_ulong y;
--        abi_ulong u_regs[16]; /* globals and ins */
--    }               si_regs;
--    int             si_mask;
--} __siginfo_t;
--
- typedef struct {
-     abi_ulong  si_float_regs[32];
-     unsigned   long si_fsr;
-@@ -67,7 +56,8 @@ typedef struct {
- 
- struct target_signal_frame {
-     struct target_stackf ss;
--    __siginfo_t         info;
-+    struct target_pt_regs regs;
-+    uint32_t            si_mask;
-     abi_ulong           fpu_save;
-     uint32_t            insns[2] QEMU_ALIGNED(8);
-     abi_ulong           extramask[TARGET_NSIG_WORDS - 1];
-@@ -103,23 +93,61 @@ static inline abi_ulong get_sigframe(struct target_sigaction *sa,
-     return sp;
- }
- 
--static int
--setup___siginfo(__siginfo_t *si, CPUSPARCState *env, abi_ulong mask)
-+static void save_pt_regs(struct target_pt_regs *regs, CPUSPARCState *env)
- {
--    int err = 0, i;
--
--    __put_user(env->psr, &si->si_regs.psr);
--    __put_user(env->pc, &si->si_regs.pc);
--    __put_user(env->npc, &si->si_regs.npc);
--    __put_user(env->y, &si->si_regs.y);
--    for (i=0; i < 8; i++) {
--        __put_user(env->gregs[i], &si->si_regs.u_regs[i]);
-+    int i;
-+
-+#if defined(TARGET_SPARC64) && !defined(TARGET_ABI32)
-+    __put_user(sparc64_tstate(env), &regs->tstate);
-+    /* TODO: magic should contain PT_REG_MAGIC + %tt. */
-+    __put_user(0, &regs->magic);
-+#else
-+    __put_user(cpu_get_psr(env), &regs->psr);
-+#endif
-+
-+    __put_user(env->pc, &regs->pc);
-+    __put_user(env->npc, &regs->npc);
-+    __put_user(env->y, &regs->y);
-+
-+    for (i = 0; i < 8; i++) {
-+        __put_user(env->gregs[i], &regs->u_regs[i]);
+diff --git a/linux-user/aarch64/signal.c b/linux-user/aarch64/signal.c
+index b591790c22ed..2a1b7dbcdc2b 100644
+--- a/linux-user/aarch64/signal.c
++++ b/linux-user/aarch64/signal.c
+@@ -561,11 +561,7 @@ long do_rt_sigreturn(CPUARMState *env)
+         goto badframe;
      }
--    for (i=0; i < 8; i++) {
--        __put_user(env->regwptr[WREG_O0 + i], &si->si_regs.u_regs[i + 8]);
-+    for (i = 0; i < 8; i++) {
-+        __put_user(env->regwptr[WREG_O0 + i], &regs->u_regs[i + 8]);
-+    }
-+}
-+
-+static void restore_pt_regs(struct target_pt_regs *regs, CPUSPARCState *env)
-+{
-+    int i;
-+
-+#if defined(TARGET_SPARC64) && !defined(TARGET_ABI32)
-+    /* User can only change condition codes and %asi in %tstate. */
-+    uint64_t tstate;
-+    __get_user(tstate, &regs->tstate);
-+    cpu_put_ccr(env, tstate >> 32);
-+    env->asi = extract64(tstate, 24, 8);
-+#else
-+    /*
-+     * User can only change condition codes and FPU enabling in %psr.
-+     * But don't bother with FPU enabling, since a real kernel would
-+     * just re-enable the FPU upon the next fpu trap.
-+     */
-+    uint32_t psr;
-+    __get_user(psr, &regs->psr);
-+    env->psr = (psr & PSR_ICC) | (env->psr & ~PSR_ICC);
-+#endif
-+
-+    /* Note that pc and npc are handled in the caller. */
-+
-+    __get_user(env->y, &regs->y);
-+
-+    for (i = 0; i < 8; i++) {
-+        __get_user(env->gregs[i], &regs->u_regs[i]);
-+    }
-+    for (i = 0; i < 8; i++) {
-+        __get_user(env->regwptr[WREG_O0 + i], &regs->u_regs[i + 8]);
+ 
+-    if (do_sigaltstack(frame_addr +
+-            offsetof(struct target_rt_sigframe, uc.tuc_stack),
+-            0, get_sp_from_cpustate(env)) == -EFAULT) {
+-        goto badframe;
+-    }
++    target_restore_altstack(&frame->uc.tuc_stack, get_sp_from_cpustate(env));
+ 
+     unlock_user_struct(frame, frame_addr, 0);
+     return -TARGET_QEMU_ESIGRETURN;
+diff --git a/linux-user/alpha/signal.c b/linux-user/alpha/signal.c
+index c5c27ce08419..0af022711815 100644
+--- a/linux-user/alpha/signal.c
++++ b/linux-user/alpha/signal.c
+@@ -257,11 +257,7 @@ long do_rt_sigreturn(CPUAlphaState *env)
+     set_sigmask(&set);
+ 
+     restore_sigcontext(env, &frame->uc.tuc_mcontext);
+-    if (do_sigaltstack(frame_addr + offsetof(struct target_rt_sigframe,
+-                                             uc.tuc_stack),
+-                       0, env->ir[IR_SP]) == -EFAULT) {
+-        goto badframe;
+-    }
++    target_restore_altstack(&frame->uc.tuc_stack, env->ir[IR_SP]);
+ 
+     unlock_user_struct(frame, frame_addr, 0);
+     return -TARGET_QEMU_ESIGRETURN;
+diff --git a/linux-user/arm/signal.c b/linux-user/arm/signal.c
+index f21d1535e4d9..b7a772302f45 100644
+--- a/linux-user/arm/signal.c
++++ b/linux-user/arm/signal.c
+@@ -685,11 +685,7 @@ static int do_sigframe_return_v2(CPUARMState *env,
+         }
      }
--    __put_user(mask, &si->si_mask);
--    return err;
- }
  
- #define NF_ALIGNEDSZ  (((sizeof(struct target_signal_frame) + 7) & (~7)))
-@@ -129,7 +157,7 @@ void setup_frame(int sig, struct target_sigaction *ka,
+-    if (do_sigaltstack(context_addr
+-                       + offsetof(struct target_ucontext_v2, tuc_stack),
+-                       0, get_sp_from_cpustate(env)) == -EFAULT) {
+-        return 1;
+-    }
++    target_restore_altstack(&uc->tuc_stack, get_sp_from_cpustate(env));
+ 
+ #if 0
+     /* Send SIGTRAP if we're single-stepping */
+@@ -773,8 +769,7 @@ static long do_rt_sigreturn_v1(CPUARMState *env)
+         goto badframe;
+     }
+ 
+-    if (do_sigaltstack(frame_addr + offsetof(struct rt_sigframe_v1, uc.tuc_stack), 0, get_sp_from_cpustate(env)) == -EFAULT)
+-        goto badframe;
++    target_restore_altstack(&frame->uc.tuc_stack, get_sp_from_cpustate(env));
+ 
+ #if 0
+     /* Send SIGTRAP if we're single-stepping */
+diff --git a/linux-user/hexagon/signal.c b/linux-user/hexagon/signal.c
+index fde8dc93b7a6..3854eb4709be 100644
+--- a/linux-user/hexagon/signal.c
++++ b/linux-user/hexagon/signal.c
+@@ -260,11 +260,7 @@ long do_rt_sigreturn(CPUHexagonState *env)
+     }
+ 
+     restore_ucontext(env, &frame->uc);
+-
+-    if (do_sigaltstack(frame_addr + offsetof(struct target_rt_sigframe,
+-            uc.uc_stack), 0, get_sp_from_cpustate(env)) == -EFAULT) {
+-        goto badframe;
+-    }
++    target_restore_altstack(&frame->uc.uc_stack, get_sp_from_cpustate(env));
+ 
+     unlock_user_struct(frame, frame_addr, 0);
+     return -TARGET_QEMU_ESIGRETURN;
+diff --git a/linux-user/hppa/signal.c b/linux-user/hppa/signal.c
+index d1a58feeb36f..578874cf27e6 100644
+--- a/linux-user/hppa/signal.c
++++ b/linux-user/hppa/signal.c
+@@ -187,13 +187,7 @@ long do_rt_sigreturn(CPUArchState *env)
+     set_sigmask(&set);
+ 
+     restore_sigcontext(env, &frame->uc.tuc_mcontext);
+-    unlock_user_struct(frame, frame_addr, 0);
+-
+-    if (do_sigaltstack(frame_addr + offsetof(struct target_rt_sigframe,
+-                                             uc.tuc_stack),
+-                       0, env->gr[30]) == -EFAULT) {
+-        goto badframe;
+-    }
++    target_restore_altstack(&frame->uc.tuc_stack, env->gr[30]);
+ 
+     unlock_user_struct(frame, frame_addr, 0);
+     return -TARGET_QEMU_ESIGRETURN;
+diff --git a/linux-user/i386/signal.c b/linux-user/i386/signal.c
+index 9320e1d47267..3a0a1546a63e 100644
+--- a/linux-user/i386/signal.c
++++ b/linux-user/i386/signal.c
+@@ -581,10 +581,7 @@ long do_rt_sigreturn(CPUX86State *env)
+         goto badframe;
+     }
+ 
+-    if (do_sigaltstack(frame_addr + offsetof(struct rt_sigframe, uc.tuc_stack), 0,
+-                       get_sp_from_cpustate(env)) == -EFAULT) {
+-        goto badframe;
+-    }
++    target_restore_altstack(&frame->uc.tuc_stack, get_sp_from_cpustate(env));
+ 
+     unlock_user_struct(frame, frame_addr, 0);
+     return -TARGET_QEMU_ESIGRETURN;
+diff --git a/linux-user/m68k/signal.c b/linux-user/m68k/signal.c
+index 49ff87c77bce..004b59fb6118 100644
+--- a/linux-user/m68k/signal.c
++++ b/linux-user/m68k/signal.c
+@@ -400,10 +400,7 @@ long do_rt_sigreturn(CPUM68KState *env)
+     if (target_rt_restore_ucontext(env, &frame->uc))
+         goto badframe;
+ 
+-    if (do_sigaltstack(frame_addr +
+-                       offsetof(struct target_rt_sigframe, uc.tuc_stack),
+-                       0, get_sp_from_cpustate(env)) == -EFAULT)
+-        goto badframe;
++    target_restore_altstack(&frame->uc.tuc_stack, get_sp_from_cpustate(env));
+ 
+     unlock_user_struct(frame, frame_addr, 0);
+     return -TARGET_QEMU_ESIGRETURN;
+diff --git a/linux-user/microblaze/signal.c b/linux-user/microblaze/signal.c
+index cf0707b5564b..f59a1faf47bb 100644
+--- a/linux-user/microblaze/signal.c
++++ b/linux-user/microblaze/signal.c
+@@ -209,11 +209,7 @@ long do_rt_sigreturn(CPUMBState *env)
+ 
+     restore_sigcontext(&frame->uc.tuc_mcontext, env);
+ 
+-    if (do_sigaltstack(frame_addr +
+-                       offsetof(struct target_rt_sigframe, uc.tuc_stack),
+-                       0, get_sp_from_cpustate(env)) == -EFAULT) {
+-        goto badframe;
+-    }
++    target_restore_altstack(&frame->uc.tuc_stack, get_sp_from_cpustate(env));
+ 
+     unlock_user_struct(frame, frame_addr, 0);
+     return -TARGET_QEMU_ESIGRETURN;
+diff --git a/linux-user/mips/signal.c b/linux-user/mips/signal.c
+index 455a8a229a83..456fa64f41cd 100644
+--- a/linux-user/mips/signal.c
++++ b/linux-user/mips/signal.c
+@@ -368,11 +368,7 @@ long do_rt_sigreturn(CPUMIPSState *env)
+     set_sigmask(&blocked);
+ 
+     restore_sigcontext(env, &frame->rs_uc.tuc_mcontext);
+-
+-    if (do_sigaltstack(frame_addr +
+-                       offsetof(struct target_rt_sigframe, rs_uc.tuc_stack),
+-                       0, get_sp_from_cpustate(env)) == -EFAULT)
+-        goto badframe;
++    target_restore_altstack(&frame->rs_uc.tuc_stack, get_sp_from_cpustate(env));
+ 
+     env->active_tc.PC = env->CP0_EPC;
+     mips_set_hflags_isa_mode_from_pc(env);
+diff --git a/linux-user/nios2/signal.c b/linux-user/nios2/signal.c
+index 7d535065ed98..751ea88811f8 100644
+--- a/linux-user/nios2/signal.c
++++ b/linux-user/nios2/signal.c
+@@ -82,9 +82,7 @@ static int rt_restore_ucontext(CPUNios2State *env, struct target_ucontext *uc,
+                                int *pr2)
  {
-     abi_ulong sf_addr;
-     struct target_signal_frame *sf;
--    int sigframe_size, err, i;
-+    int sigframe_size, i;
+     int temp;
+-    abi_ulong off, frame_addr = env->regs[R_SP];
+     unsigned long *gregs = uc->tuc_mcontext.gregs;
+-    int err;
  
-     /* 1. Make sure everything is clean */
-     //synchronize_user_stack();
-@@ -143,18 +171,14 @@ void setup_frame(int sig, struct target_sigaction *ka,
-     if (!sf) {
+     /* Always make any pending restarted system calls return -EINTR */
+     /* current->restart_block.fn = do_no_restart_syscall; */
+@@ -130,11 +128,7 @@ static int rt_restore_ucontext(CPUNios2State *env, struct target_ucontext *uc,
+     __get_user(env->regs[R_RA], &gregs[23]);
+     __get_user(env->regs[R_SP], &gregs[28]);
+ 
+-    off = offsetof(struct target_rt_sigframe, uc.tuc_stack);
+-    err = do_sigaltstack(frame_addr + off, 0, get_sp_from_cpustate(env));
+-    if (err == -EFAULT) {
+-        return 1;
+-    }
++    target_restore_altstack(&uc->tuc_stack, get_sp_from_cpustate(env));
+ 
+     *pr2 = env->regs[2];
+     return 0;
+diff --git a/linux-user/openrisc/signal.c b/linux-user/openrisc/signal.c
+index 232ad82b98be..86f94d7f766d 100644
+--- a/linux-user/openrisc/signal.c
++++ b/linux-user/openrisc/signal.c
+@@ -158,10 +158,7 @@ long do_rt_sigreturn(CPUOpenRISCState *env)
+     set_sigmask(&set);
+ 
+     restore_sigcontext(env, &frame->uc.tuc_mcontext);
+-    if (do_sigaltstack(frame_addr + offsetof(target_rt_sigframe, uc.tuc_stack),
+-                       0, frame_addr) == -EFAULT) {
+-        goto badframe;
+-    }
++    target_restore_altstack(&frame->uc.tuc_stack, frame_addr);
+ 
+     unlock_user_struct(frame, frame_addr, 0);
+     return cpu_get_gpr(env, 11);
+diff --git a/linux-user/ppc/signal.c b/linux-user/ppc/signal.c
+index bad38f8ed9b1..b44d5ce73c31 100644
+--- a/linux-user/ppc/signal.c
++++ b/linux-user/ppc/signal.c
+@@ -655,9 +655,7 @@ long do_rt_sigreturn(CPUPPCState *env)
+     if (do_setcontext(&rt_sf->uc, env, 1))
          goto sigsegv;
-     }
--#if 0
--    if (invalid_frame_pointer(sf, sigframe_size))
--        goto sigill_and_return;
--#endif
-     /* 2. Save the current process state */
--    err = setup___siginfo(&sf->info, env, set->sig[0]);
-+    save_pt_regs(&sf->regs, env);
-     __put_user(0, &sf->extra_size);
  
-     //save_fpu_state(regs, &sf->fpu_state);
-     //__put_user(&sf->fpu_state, &sf->fpu_save);
+-    do_sigaltstack(rt_sf_addr
+-                   + offsetof(struct target_rt_sigframe, uc.tuc_stack),
+-                   0, env->gpr[1]);
++    target_restore_altstack(&rt_sf->uc.tuc_stack, env->gpr[1]);
  
--    __put_user(set->sig[0], &sf->info.si_mask);
-+    __put_user(set->sig[0], &sf->si_mask);
-     for (i = 0; i < TARGET_NSIG_WORDS - 1; i++) {
-         __put_user(set->sig[i + 1], &sf->extramask[i]);
-     }
-@@ -165,16 +189,14 @@ void setup_frame(int sig, struct target_sigaction *ka,
-     for (i = 0; i < 8; i++) {
-         __put_user(env->regwptr[i + WREG_I0], &sf->ss.win.ins[i]);
-     }
--    if (err)
--        goto sigsegv;
- 
-     /* 3. signal handler back-trampoline and parameters */
-     env->regwptr[WREG_SP] = sf_addr;
-     env->regwptr[WREG_O0] = sig;
-     env->regwptr[WREG_O1] = sf_addr +
--            offsetof(struct target_signal_frame, info);
-+            offsetof(struct target_signal_frame, regs);
-     env->regwptr[WREG_O2] = sf_addr +
--            offsetof(struct target_signal_frame, info);
-+            offsetof(struct target_signal_frame, regs);
- 
-     /* 4. signal handler */
-     env->pc = ka->_sa_handler;
-@@ -218,7 +240,7 @@ long do_sigreturn(CPUSPARCState *env)
- {
-     abi_ulong sf_addr;
-     struct target_signal_frame *sf;
--    abi_ulong up_psr, pc, npc;
-+    abi_ulong pc, npc;
-     target_sigset_t set;
-     sigset_t host_set;
-     int i;
-@@ -234,29 +256,17 @@ long do_sigreturn(CPUSPARCState *env)
-     if (sf_addr & 3)
-         goto segv_and_exit;
- 
--    __get_user(pc,  &sf->info.si_regs.pc);
--    __get_user(npc, &sf->info.si_regs.npc);
-+    __get_user(pc,  &sf->regs.pc);
-+    __get_user(npc, &sf->regs.npc);
- 
-     if ((pc | npc) & 3) {
-         goto segv_and_exit;
+     unlock_user_struct(rt_sf, rt_sf_addr, 1);
+     return -TARGET_QEMU_ESIGRETURN;
+diff --git a/linux-user/riscv/signal.c b/linux-user/riscv/signal.c
+index 67a95dbc7b91..81d1129da3d2 100644
+--- a/linux-user/riscv/signal.c
++++ b/linux-user/riscv/signal.c
+@@ -192,11 +192,7 @@ long do_rt_sigreturn(CPURISCVState *env)
      }
  
-     /* 2. Restore the state */
--    __get_user(up_psr, &sf->info.si_regs.psr);
+     restore_ucontext(env, &frame->uc);
 -
--    /* User can only change condition codes and FPU enabling in %psr. */
--    env->psr = (up_psr & (PSR_ICC /* | PSR_EF */))
--            | (env->psr & ~(PSR_ICC /* | PSR_EF */));
--
-+    restore_pt_regs(&sf->regs, env);
-     env->pc = pc;
-     env->npc = npc;
--    __get_user(env->y, &sf->info.si_regs.y);
--    for (i=0; i < 8; i++) {
--        __get_user(env->gregs[i], &sf->info.si_regs.u_regs[i]);
+-    if (do_sigaltstack(frame_addr + offsetof(struct target_rt_sigframe,
+-            uc.uc_stack), 0, get_sp_from_cpustate(env)) == -EFAULT) {
+-        goto badframe;
 -    }
--    for (i=0; i < 8; i++) {
--        __get_user(env->regwptr[i + WREG_O0], &sf->info.si_regs.u_regs[i + 8]);
--    }
++    target_restore_altstack(&frame->uc.uc_stack, get_sp_from_cpustate(env));
  
-     /* FIXME: implement FPU save/restore:
-      * __get_user(fpu_save, &sf->fpu_save);
-@@ -267,11 +277,8 @@ long do_sigreturn(CPUSPARCState *env)
-      * }
-      */
- 
--    /* This is pretty much atomic, no amount locking would prevent
--         * the races which exist anyways.
--         */
--    __get_user(set.sig[0], &sf->info.si_mask);
--    for(i = 1; i < TARGET_NSIG_WORDS; i++) {
-+    __get_user(set.sig[0], &sf->si_mask);
-+    for (i = 1; i < TARGET_NSIG_WORDS; i++) {
-         __get_user(set.sig[i], &sf->extramask[i - 1]);
+     unlock_user_struct(frame, frame_addr, 0);
+     return -TARGET_QEMU_ESIGRETURN;
+diff --git a/linux-user/s390x/signal.c b/linux-user/s390x/signal.c
+index 7107c5fb5335..73806f547270 100644
+--- a/linux-user/s390x/signal.c
++++ b/linux-user/s390x/signal.c
+@@ -307,10 +307,8 @@ long do_rt_sigreturn(CPUS390XState *env)
+         goto badframe;
      }
+ 
+-    if (do_sigaltstack(frame_addr + offsetof(rt_sigframe, uc.tuc_stack), 0,
+-                       get_sp_from_cpustate(env)) == -EFAULT) {
+-        goto badframe;
+-    }
++    target_restore_altstack(&frame->uc.tuc_stack, get_sp_from_cpustate(env));
++
+     unlock_user_struct(frame, frame_addr, 0);
+     return -TARGET_QEMU_ESIGRETURN;
+ 
+diff --git a/linux-user/sh4/signal.c b/linux-user/sh4/signal.c
+index 29c1ee30e6d6..684f18da5862 100644
+--- a/linux-user/sh4/signal.c
++++ b/linux-user/sh4/signal.c
+@@ -323,12 +323,7 @@ long do_rt_sigreturn(CPUSH4State *regs)
+     set_sigmask(&blocked);
+ 
+     restore_sigcontext(regs, &frame->uc.tuc_mcontext);
+-
+-    if (do_sigaltstack(frame_addr +
+-                       offsetof(struct target_rt_sigframe, uc.tuc_stack),
+-                       0, get_sp_from_cpustate(regs)) == -EFAULT) {
+-        goto badframe;
+-    }
++    target_restore_altstack(&frame->uc.tuc_stack, get_sp_from_cpustate(regs));
+ 
+     unlock_user_struct(frame, frame_addr, 0);
+     return -TARGET_QEMU_ESIGRETURN;
+diff --git a/linux-user/xtensa/signal.c b/linux-user/xtensa/signal.c
+index 590f0313ffe9..22ec6cdeb98e 100644
+--- a/linux-user/xtensa/signal.c
++++ b/linux-user/xtensa/signal.c
+@@ -253,12 +253,8 @@ long do_rt_sigreturn(CPUXtensaState *env)
+     set_sigmask(&set);
+ 
+     restore_sigcontext(env, frame);
++    target_restore_altstack(&frame->uc.tuc_stack, get_sp_from_cpustate(env));
+ 
+-    if (do_sigaltstack(frame_addr +
+-                       offsetof(struct target_rt_sigframe, uc.tuc_stack),
+-                       0, get_sp_from_cpustate(env)) == -TARGET_EFAULT) {
+-        goto badframe;
+-    }
+     unlock_user_struct(frame, frame_addr, 0);
+     return -TARGET_QEMU_ESIGRETURN;
  
 -- 
 2.31.1
