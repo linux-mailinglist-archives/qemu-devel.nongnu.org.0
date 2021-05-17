@@ -2,63 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 273CC383D98
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 21:39:36 +0200 (CEST)
-Received: from localhost ([::1]:42310 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81752383DB6
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 21:44:57 +0200 (CEST)
+Received: from localhost ([::1]:55816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lij5T-00030T-8T
-	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 15:39:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50184)
+	id 1lijAe-0003hr-L2
+	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 15:44:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53172)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1liiip-0006tO-Ny
- for qemu-devel@nongnu.org; Mon, 17 May 2021 15:16:11 -0400
-Resent-Date: Mon, 17 May 2021 15:16:11 -0400
-Resent-Message-Id: <E1liiip-0006tO-Ny@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21357)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1liiik-000663-11
- for qemu-devel@nongnu.org; Mon, 17 May 2021 15:16:11 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1621278958; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=X01pfF9RrrB9fuYGkhRtoz1jsIvMpfalkuNRrMz2WjzyxlQT52p5V/KpWd3Yx4B8aZ6THBEiiTUMuSkNmgwAFTPOGkaqttNpRWyirFmMM1bw5XUi0BahKGdQoV/TdqjYn7CWxTNQV+eYg8d3YQhatgsQypQ4Ook0TCLLrgmVamg=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1621278958;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=xpqeWG9S9GubGwYaWjfPg+eH6kUnIxvnEO8l3EFlyMI=; 
- b=hzWEfqebuIMWFPHZAe6P3ayPGxSUIUt6IcIdXiPDGoGcRKqMrzSFAOwF6XkrOfFG3evOmoNoFFCOSKBxkwune5ZFR+VOIlpKOdHNOWeVBJD2uk5U17IwaGG5LjEbQ3Dka4H/DDmYtfkibwXSkJIsZ+hkO6N8f+pzVqd0iT0jvyM=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1621278957198640.81335337181;
- Mon, 17 May 2021 12:15:57 -0700 (PDT)
-In-Reply-To: <20210517181424.8093-1-laurent@vivier.eu>
-Subject: Re: [PULL 00/59] Linux user for 6.1 patches
-Message-ID: <162127895597.13007.13692054591060168843@d887ba82c771>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1liisH-0001l2-JQ
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 15:25:57 -0400
+Received: from indium.canonical.com ([91.189.90.7]:33558)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1liisB-0003rP-69
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 15:25:57 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
+ id 1liis5-00037j-U8
+ for <qemu-devel@nongnu.org>; Mon, 17 May 2021 19:25:46 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 72DC32E8194
+ for <qemu-devel@nongnu.org>; Mon, 17 May 2021 19:25:45 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: laurent@vivier.eu
-Date: Mon, 17 May 2021 12:15:57 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 17 May 2021 19:17:40 -0000
+From: Thomas Huth <1892962@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: a1xndr th-huth
+X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <159840670040.15692.684020983379862709.malonedeb@soybean.canonical.com>
+Message-Id: <162127906069.1231.11711292645199980647.malone@wampee.canonical.com>
+Subject: [Bug 1892962] Re: Segfault in usb_bus_from_device
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="5321c3f40fa4d4b847f4e47fb766e7b95ed5036c"; Instance="production"
+X-Launchpad-Hash: 9d933c65507283ac8f8d035b31adaf0bffaf1267
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
  RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -67,211 +70,199 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: qemu-devel@nongnu.org, laurent@vivier.eu
+Reply-To: Bug 1892962 <1892962@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDUxNzE4MTQyNC44MDkz
-LTEtbGF1cmVudEB2aXZpZXIuZXUvCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMgdG8gaGF2ZSBz
-b21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IKbW9yZSBpbmZv
-cm1hdGlvbjoKClR5cGU6IHNlcmllcwpNZXNzYWdlLWlkOiAyMDIxMDUxNzE4MTQyNC44MDkzLTEt
-bGF1cmVudEB2aXZpZXIuZXUKU3ViamVjdDogW1BVTEwgMDAvNTldIExpbnV4IHVzZXIgZm9yIDYu
-MSBwYXRjaGVzCgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCmdpdCByZXYt
-cGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYu
-cmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVzIFRydWUKZ2l0IGNv
-bmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhpc3RvZ3JhbQouL3NjcmlwdHMvY2hlY2twYXRj
-aC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKVXBkYXRpbmcg
-M2M4Y2Y1YTljMjFmZjg3ODIxNjRkMWRlZjdmNDRiZDg4ODcxMzM4NApGcm9tIGh0dHBzOi8vZ2l0
-aHViLmNvbS9wYXRjaGV3LXByb2plY3QvcWVtdQogICAzMmRlNzRhLi4zNjcxOTZjICBtYXN0ZXIg
-ICAgIC0+IG1hc3RlcgogLSBbdGFnIHVwZGF0ZV0gICAgICBwYXRjaGV3LzIwMjEwNTE3MTc0OTQ3
-LjExOTk2NDktMS1waGlsbWRAcmVkaGF0LmNvbSAtPiBwYXRjaGV3LzIwMjEwNTE3MTc0OTQ3LjEx
-OTk2NDktMS1waGlsbWRAcmVkaGF0LmNvbQogKiBbbmV3IHRhZ10gICAgICAgICBwYXRjaGV3LzIw
-MjEwNTE3MTgxNDI0LjgwOTMtMS1sYXVyZW50QHZpdmllci5ldSAtPiBwYXRjaGV3LzIwMjEwNTE3
-MTgxNDI0LjgwOTMtMS1sYXVyZW50QHZpdmllci5ldQpTd2l0Y2hlZCB0byBhIG5ldyBicmFuY2gg
-J3Rlc3QnCjdkYjkyMGIgbGludXgtdXNlci9lbGZsb2FkOiBhZGQgczM5MHggY29yZSBkdW1waW5n
-IHN1cHBvcnQKNWI2ZjExYyBsaW51eC11c2VyL2VsZmxvYWQ6IGZpeCBmaWxsaW5nIHBzaW5mby0+
-cHJfcHNhcmdzCjJiOGNjMjYgbGludXgtdXNlcjogVGlkeSBUQVJHRVRfTlJfcnRfc2lnYWN0aW9u
-CmUxZTg5ZGUgbGludXgtdXNlci9hbHBoYTogU2hhcmUgY29kZSBmb3IgVEFSR0VUX05SX3NpZ2Fj
-dGlvbgo5ODcyZTgyIGxpbnV4LXVzZXIvYWxwaGE6IERlZmluZSBUQVJHRVRfQVJDSF9IQVNfS0Ff
-UkVTVE9SRVIKNDlmNTliNCBsaW51eC11c2VyOiBIb25vciBUQVJHRVRfQVJDSF9IQVNfU0FfUkVT
-VE9SRVIgaW4gZG9fc3lzY2FsbAplNjNjYjc0IGxpbnV4LXVzZXI6IFBhc3Mga2FfcmVzdG9yZXIg
-dG8gZG9fc2lnYWN0aW9uCmNlODBjZWEgbGludXgtdXNlci9hbHBoYTogUmVuYW1lIHRoZSBzaWdh
-Y3Rpb24gcmVzdG9yZXIgZmllbGQKNTlhN2ZlNSBsaW51eC11c2VyL2FscGhhOiBGaXggcnQgc2ln
-ZnJhbWUgcmV0dXJuCmVkZTVkNjEgbGludXgtdXNlcjogdXNlIEdEYXRlVGltZSBmb3IgZm9ybWF0
-dGluZyB0aW1lc3RhbXAgZm9yIGNvcmUgZmlsZQpkOWM3MWU2IGxpbnV4LXVzZXI6IEZpeCBlcnJv
-bmVvdXMgY29udmVyc2lvbiBpbiBjb3B5X2ZpbGVfcmFuZ2UKMDBkODhjOCBsaW51eC11c2VyOiBB
-ZGQgY29weV9maWxlX3JhbmdlIHRvIHN0cmFjZS5saXN0CmI1NjNiNjIgbGludXgtdXNlci9zMzkw
-eDogSGFuZGxlIHZlY3RvciByZWdzIGluIHNpZ25hbCBzdGFjawo3NWNiZmZiIGxpbnV4LXVzZXIv
-czM5MHg6IENsZWFuIHVwIHNpZ25hbC5jCjljMzJhYWMgbGludXgtdXNlci9zMzkweDogQWRkIGJ1
-aWxkIGFzc2VydHMgZm9yIHNpZ3NldCBzaXplcwowYmVjODg0IGxpbnV4LXVzZXIvczM5MHg6IEZp
-eCBmcmFtZV9hZGRyIGNvcnJ1cHRpb24gaW4gc2V0dXBfZnJhbWUKYjE5N2FiOSBsaW51eC11c2Vy
-L3MzOTB4OiBBZGQgc3R1YiBzaWdmcmFtZSBhcmd1bWVudCBmb3IgbGFzdF9icmVhawpiZDViOWU4
-IGxpbnV4LXVzZXIvczM5MHg6IFNldCBwc3cubWFzayBwcm9wZXJseSBmb3IgdGhlIHNpZ25hbCBo
-YW5kbGVyCmZlOGQ3YTEgbGludXgtdXNlci9zMzkweDogQ2xlYW4gdXAgc2luZ2xlLXVzZSBnb3Rv
-cyBpbiBzaWduYWwuYwpjNjk0ZmJhIGxpbnV4LXVzZXIvczM5MHg6IFRpZHkgc2F2ZV9zaWdyZWdz
-CjgxMDE1ZmIgbGludXgtdXNlci9zMzkweDogVXNlIHRzd2FwX3NpZ3NldCBpbiBzZXR1cF9ydF9m
-cmFtZQoyYWZhZWU5IGxpbnV4LXVzZXIvczM5MHg6IEZpeCBzaWdjb250ZXh0IHNyZWdzIHZhbHVl
-CmMzMzU0NjUgbGludXgtdXNlci9zMzkweDogRml4IHRyYWNlIGluIHJlc3RvcmVfcmVncwplNDg4
-MTY3IGxpbnV4LXVzZXIvczM5MHg6IFJlbW92ZSByZXN0b3JlX3NpZ3JlZ3MgcmV0dXJuIHZhbHVl
-CmZmYTU4MDIgbGludXgtdXNlci9zMzkweDogUmVtb3ZlIFBTV19BRERSX0FNT0RFCmY4MzVmZTQg
-bGludXgtdXNlci9zMzkweDogVXNlIHVpbnQxNl90IGZvciBzaWduYWwgcmV0Y29kZQozMjI2N2Ex
-IGxpbnV4LXVzZXIvczM5MHg6IEZpeCBzaWdmcmFtZSB0eXBlcwoyZmQ4MzQzIHRlc3RzL3RjZy9z
-cGFyYzY0OiBSZS1lbmFibGUgbGludXgtdGVzdAo0N2E3ODUwIGxpbnV4LXVzZXIvc3BhcmM6IElt
-cGxlbWVudCBzcGFyYzY0IHJ0IHNpZ25hbHMKZWI5YjhkZSBsaW51eC11c2VyL3NwYXJjOiBJbXBs
-ZW1lbnQgc3BhcmMzMiBydCBzaWduYWxzCjZhMDJlYjYgbGludXgtdXNlci9zcGFyYzogQWRkIDY0
-LWJpdCBzdXBwb3J0IHRvIGZwdSBzYXZlL3Jlc3RvcmUKN2FjZmFhOCBsaW51eC11c2VyL3NwYXJj
-OiBNaW5vciBjb3JyZWN0aW9ucyB0byBkb19zaWdyZXR1cm4KMzdjODQ3NSBsaW51eC11c2VyL3Nw
-YXJjOiBDbGVhbiB1cCBzZXR1cF9mcmFtZQpiNjJkOTZkIGxpbnV4LXVzZXIvc3BhcmM6IEFkZCBy
-d2luX3NhdmUgdG8gc2lnbmFsIGZyYW1lCmIyNzY2MmMgbGludXgtdXNlci9zcGFyYzogU2F2ZSBh
-bmQgcmVzdG9yZSBmcHUgaW4gc2lnbmFsIGZyYW1lCmE0YTQ2ZjYgbGludXgtdXNlci9zcGFyYzog
-Q2xlYW4gdXAgZ2V0X3NpZ2ZyYW1lCmVhYzk4OTcgbGludXgtdXNlci9zcGFyYzogU3BsaXQgb3V0
-IHNhdmVfcmVnX3dpbgpjNzVhM2U1IGxpbnV4LXVzZXIvc3BhcmM6IFVzZSB0YXJnZXRfcHRfcmVn
-cwoxMDQ5MzFhIGxpbnV4LXVzZXIvc3BhcmM6IEZpeCB0aGUgc3RhY2tmcmFtZSBzdHJ1Y3R1cmUK
-YjZmOWMyNSBsaW51eC11c2VyL3NwYXJjOiBSZW1vdmUgdGFyZ2V0X3J0X3NpZ25hbF9mcmFtZSBh
-cyB1bnVzZWQKZWQ5ZTY0MCBsaW51eC11c2VyL3NwYXJjOiBSZW1vdmUgdGFyZ2V0X3NpZ2NvbnRl
-eHQgYXMgdW51c2VkCmZiNjI1NzggbGludXgtdXNlci9zcGFyYzogTWVyZ2Ugc3BhcmM2NC8gaW50
-byBzcGFyYy8KZWU0NWI2ZCBsaW51eC11c2VyL3NwYXJjOiBNZXJnZSBzcGFyYzY0IHRlcm1iaXRz
-LmgKNWQ5NzA2YyBsaW51eC11c2VyL3NwYXJjOiBNZXJnZSBzcGFyYzY0IHRhcmdldF9zdHJ1Y3Rz
-LmgKZmJkZDMyMCBsaW51eC11c2VyL3NwYXJjOiBNZXJnZSBzcGFyYzY0IHRhcmdldF9lbGYuaApj
-NzNjYzcxIGxpbnV4LXVzZXIvc3BhcmM6IE1lcmdlIHNwYXJjNjQgdGFyZ2V0X3N5c2NhbGwuaAow
-NWEzMjg3IGxpbnV4LXVzZXIvc3BhcmM6IENsZWFuIHVwIGluaXRfdGhyZWFkCmQ5NTUxZTEgbGlu
-dXgtdXNlci9zcGFyYzogSW5jbHVkZSBUQVJHRVRfU1RBQ0tfQklBUyBpbiBnZXRfc3BfZnJvbV9j
-cHVzdGF0ZQpiZTY5OWM4IGxpbnV4LXVzZXI6IFBhc3MgQ1BVQXJjaFN0YXRlIHRvIHRhcmdldF9y
-ZXN0b3JlX2FsdHN0YWNrCjhhZDUxMGYgbGludXgtdXNlcjogUGFzcyBDUFVBcmNoU3RhdGUgdG8g
-ZG9fc2lnYWx0c3RhY2sKNTQ4MmJlYyBsaW51eC11c2VyOiBVc2UgdGFyZ2V0X3Jlc3RvcmVfYWx0
-c3RhY2sgaW4gYWxsIHNpZ3JldHVybgphZDRlNGUyIGxpbnV4LXVzZXI6IFNwbGl0IG91dCB0YXJn
-ZXRfcmVzdG9yZV9hbHRzdGFjawo3YWI2ZGUwIGxpbnV4LXVzZXI6IEFkZCBzdHJhY2Ugc3VwcG9y
-dCBmb3IgcHJpbnRpbmcgYXJndW1lbnRzIG9mIGxsc2VlawowZWNlMTJkIGxpbnV4LXVzZXIvYXJt
-OiBTaW1wbGlmeSBhY2N1bXVsYXRpbmcgYW5kIHJhaXNpbmcgZnBhMTEgZXhjZXB0aW9ucwo1ZGQy
-NDYzIGxpbnV4LXVzZXIvYXJtOiBEbyBub3QgZmlsbCBpbiBzaV9jb2RlIGZvciBmcGExMSBleGNl
-cHRpb25zCmZhNGFiMDIgbGludXgtdXNlci9hcm06IERvIG5vdCBlbXVsYXRlIGZwYTExIGluIHRo
-dW1iIG1vZGUKYzYxYjNhNyBsaW51eC11c2VyL2FybTogU3BsaXQgb3V0IGVtdWxhdGVfYXJtX2Zw
-YTExCjRlMjE3ZmIgbGludXgtdXNlcjogc3RyYWNlIG5vdyBoYW5kbGVzIHVuc2hhcmUgc3lzY2Fs
-bCBhcmdzIGNvcnJlY3RseQpjZmM1ODJkIGxpbnV4LXVzZXI6IFJlbW92ZSBkZWFkIGNvZGUKCj09
-PSBPVVRQVVQgQkVHSU4gPT09CjEvNTkgQ2hlY2tpbmcgY29tbWl0IGNmYzU4MmRkNDY3ZSAobGlu
-dXgtdXNlcjogUmVtb3ZlIGRlYWQgY29kZSkKMi81OSBDaGVja2luZyBjb21taXQgNGUyMTdmYjZl
-ODlkIChsaW51eC11c2VyOiBzdHJhY2Ugbm93IGhhbmRsZXMgdW5zaGFyZSBzeXNjYWxsIGFyZ3Mg
-Y29ycmVjdGx5KQozLzU5IENoZWNraW5nIGNvbW1pdCBjNjFiM2E3ZDdjOTkgKGxpbnV4LXVzZXIv
-YXJtOiBTcGxpdCBvdXQgZW11bGF0ZV9hcm1fZnBhMTEpCjQvNTkgQ2hlY2tpbmcgY29tbWl0IGZh
-NGFiMDJhZmM0ZCAobGludXgtdXNlci9hcm06IERvIG5vdCBlbXVsYXRlIGZwYTExIGluIHRodW1i
-IG1vZGUpCjUvNTkgQ2hlY2tpbmcgY29tbWl0IDVkZDI0NjNkMjk5YiAobGludXgtdXNlci9hcm06
-IERvIG5vdCBmaWxsIGluIHNpX2NvZGUgZm9yIGZwYTExIGV4Y2VwdGlvbnMpCjYvNTkgQ2hlY2tp
-bmcgY29tbWl0IDBlY2UxMmQyZDI0YSAobGludXgtdXNlci9hcm06IFNpbXBsaWZ5IGFjY3VtdWxh
-dGluZyBhbmQgcmFpc2luZyBmcGExMSBleGNlcHRpb25zKQo3LzU5IENoZWNraW5nIGNvbW1pdCA3
-YWI2ZGUwYjA0ODkgKGxpbnV4LXVzZXI6IEFkZCBzdHJhY2Ugc3VwcG9ydCBmb3IgcHJpbnRpbmcg
-YXJndW1lbnRzIG9mIGxsc2VlaykKOC81OSBDaGVja2luZyBjb21taXQgYWQ0ZTRlMjQ4MjRjIChs
-aW51eC11c2VyOiBTcGxpdCBvdXQgdGFyZ2V0X3Jlc3RvcmVfYWx0c3RhY2spCjkvNTkgQ2hlY2tp
-bmcgY29tbWl0IDU0ODJiZWNkOGRkNiAobGludXgtdXNlcjogVXNlIHRhcmdldF9yZXN0b3JlX2Fs
-dHN0YWNrIGluIGFsbCBzaWdyZXR1cm4pCjEwLzU5IENoZWNraW5nIGNvbW1pdCA4YWQ1MTBmMWUy
-ZjkgKGxpbnV4LXVzZXI6IFBhc3MgQ1BVQXJjaFN0YXRlIHRvIGRvX3NpZ2FsdHN0YWNrKQoxMS81
-OSBDaGVja2luZyBjb21taXQgYmU2OTljODRhNDQxIChsaW51eC11c2VyOiBQYXNzIENQVUFyY2hT
-dGF0ZSB0byB0YXJnZXRfcmVzdG9yZV9hbHRzdGFjaykKMTIvNTkgQ2hlY2tpbmcgY29tbWl0IGQ5
-NTUxZTEyNWQ3NiAobGludXgtdXNlci9zcGFyYzogSW5jbHVkZSBUQVJHRVRfU1RBQ0tfQklBUyBp
-biBnZXRfc3BfZnJvbV9jcHVzdGF0ZSkKMTMvNTkgQ2hlY2tpbmcgY29tbWl0IDA1YTMyODdiNzI3
-YyAobGludXgtdXNlci9zcGFyYzogQ2xlYW4gdXAgaW5pdF90aHJlYWQpCjE0LzU5IENoZWNraW5n
-IGNvbW1pdCBjNzNjYzcxYzFmNDUgKGxpbnV4LXVzZXIvc3BhcmM6IE1lcmdlIHNwYXJjNjQgdGFy
-Z2V0X3N5c2NhbGwuaCkKMTUvNTkgQ2hlY2tpbmcgY29tbWl0IGZiZGQzMjAxYTU4MSAobGludXgt
-dXNlci9zcGFyYzogTWVyZ2Ugc3BhcmM2NCB0YXJnZXRfZWxmLmgpCjE2LzU5IENoZWNraW5nIGNv
-bW1pdCA1ZDk3MDZjZmIzNzMgKGxpbnV4LXVzZXIvc3BhcmM6IE1lcmdlIHNwYXJjNjQgdGFyZ2V0
-X3N0cnVjdHMuaCkKMTcvNTkgQ2hlY2tpbmcgY29tbWl0IGVlNDViNmRkY2YyZCAobGludXgtdXNl
-ci9zcGFyYzogTWVyZ2Ugc3BhcmM2NCB0ZXJtYml0cy5oKQoxOC81OSBDaGVja2luZyBjb21taXQg
-ZmI2MjU3OGRjMmEzIChsaW51eC11c2VyL3NwYXJjOiBNZXJnZSBzcGFyYzY0LyBpbnRvIHNwYXJj
-LykKV0FSTklORzogYWRkZWQsIG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJ
-TkVSUyBuZWVkIHVwZGF0aW5nPwojNTc6IApkZWxldGVkIGZpbGUgbW9kZSAxMDA2NDQKCnRvdGFs
-OiAwIGVycm9ycywgMSB3YXJuaW5ncywgMTMgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMTgvNTkgaGFz
-IHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwph
-cmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hF
-Q0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KMTkvNTkgQ2hlY2tpbmcgY29tbWl0IGVkOWU2NDAzYjdj
-MSAobGludXgtdXNlci9zcGFyYzogUmVtb3ZlIHRhcmdldF9zaWdjb250ZXh0IGFzIHVudXNlZCkK
-MjAvNTkgQ2hlY2tpbmcgY29tbWl0IGI2ZjljMjU5ZGNmZSAobGludXgtdXNlci9zcGFyYzogUmVt
-b3ZlIHRhcmdldF9ydF9zaWduYWxfZnJhbWUgYXMgdW51c2VkKQoyMS81OSBDaGVja2luZyBjb21t
-aXQgMTA0OTMxYTczZWE5IChsaW51eC11c2VyL3NwYXJjOiBGaXggdGhlIHN0YWNrZnJhbWUgc3Ry
-dWN0dXJlKQoyMi81OSBDaGVja2luZyBjb21taXQgYzc1YTNlNWFmMWNlIChsaW51eC11c2VyL3Nw
-YXJjOiBVc2UgdGFyZ2V0X3B0X3JlZ3MpCjIzLzU5IENoZWNraW5nIGNvbW1pdCBlYWM5ODk3Y2Q2
-MzEgKGxpbnV4LXVzZXIvc3BhcmM6IFNwbGl0IG91dCBzYXZlX3JlZ193aW4pCjI0LzU5IENoZWNr
-aW5nIGNvbW1pdCBhNGE0NmY2Mjg2MzkgKGxpbnV4LXVzZXIvc3BhcmM6IENsZWFuIHVwIGdldF9z
-aWdmcmFtZSkKMjUvNTkgQ2hlY2tpbmcgY29tbWl0IGIyNzY2MmM0ZTg0OSAobGludXgtdXNlci9z
-cGFyYzogU2F2ZSBhbmQgcmVzdG9yZSBmcHUgaW4gc2lnbmFsIGZyYW1lKQoyNi81OSBDaGVja2lu
-ZyBjb21taXQgYjYyZDk2ZDM4NzFjIChsaW51eC11c2VyL3NwYXJjOiBBZGQgcndpbl9zYXZlIHRv
-IHNpZ25hbCBmcmFtZSkKMjcvNTkgQ2hlY2tpbmcgY29tbWl0IDM3Yzg0NzUwZWYxNSAobGludXgt
-dXNlci9zcGFyYzogQ2xlYW4gdXAgc2V0dXBfZnJhbWUpCjI4LzU5IENoZWNraW5nIGNvbW1pdCA3
-YWNmYWE4M2ZkMmIgKGxpbnV4LXVzZXIvc3BhcmM6IE1pbm9yIGNvcnJlY3Rpb25zIHRvIGRvX3Np
-Z3JldHVybikKMjkvNTkgQ2hlY2tpbmcgY29tbWl0IDZhMDJlYjY0YjhmYSAobGludXgtdXNlci9z
-cGFyYzogQWRkIDY0LWJpdCBzdXBwb3J0IHRvIGZwdSBzYXZlL3Jlc3RvcmUpCjMwLzU5IENoZWNr
-aW5nIGNvbW1pdCBlYjliOGRlZjMwYzkgKGxpbnV4LXVzZXIvc3BhcmM6IEltcGxlbWVudCBzcGFy
-YzMyIHJ0IHNpZ25hbHMpCjMxLzU5IENoZWNraW5nIGNvbW1pdCA0N2E3ODUwNDQwZjggKGxpbnV4
-LXVzZXIvc3BhcmM6IEltcGxlbWVudCBzcGFyYzY0IHJ0IHNpZ25hbHMpCjMyLzU5IENoZWNraW5n
-IGNvbW1pdCAyZmQ4MzQzOTc5ZjQgKHRlc3RzL3RjZy9zcGFyYzY0OiBSZS1lbmFibGUgbGludXgt
-dGVzdCkKMzMvNTkgQ2hlY2tpbmcgY29tbWl0IDMyMjY3YTFmZTg2MSAobGludXgtdXNlci9zMzkw
-eDogRml4IHNpZ2ZyYW1lIHR5cGVzKQozNC81OSBDaGVja2luZyBjb21taXQgZjgzNWZlNDZhMzVm
-IChsaW51eC11c2VyL3MzOTB4OiBVc2UgdWludDE2X3QgZm9yIHNpZ25hbCByZXRjb2RlKQozNS81
-OSBDaGVja2luZyBjb21taXQgZmZhNTgwMjhlNzIxIChsaW51eC11c2VyL3MzOTB4OiBSZW1vdmUg
-UFNXX0FERFJfQU1PREUpCjM2LzU5IENoZWNraW5nIGNvbW1pdCBlNDg4MTY3OWUxNWMgKGxpbnV4
-LXVzZXIvczM5MHg6IFJlbW92ZSByZXN0b3JlX3NpZ3JlZ3MgcmV0dXJuIHZhbHVlKQozNy81OSBD
-aGVja2luZyBjb21taXQgYzMzNTQ2NTA5YjM2IChsaW51eC11c2VyL3MzOTB4OiBGaXggdHJhY2Ug
-aW4gcmVzdG9yZV9yZWdzKQozOC81OSBDaGVja2luZyBjb21taXQgMmFmYWVlOWY4OGI1IChsaW51
-eC11c2VyL3MzOTB4OiBGaXggc2lnY29udGV4dCBzcmVncyB2YWx1ZSkKMzkvNTkgQ2hlY2tpbmcg
-Y29tbWl0IDgxMDE1ZmI3YWUzNCAobGludXgtdXNlci9zMzkweDogVXNlIHRzd2FwX3NpZ3NldCBp
-biBzZXR1cF9ydF9mcmFtZSkKNDAvNTkgQ2hlY2tpbmcgY29tbWl0IGM2OTRmYmE5YTQwYiAobGlu
-dXgtdXNlci9zMzkweDogVGlkeSBzYXZlX3NpZ3JlZ3MpCjQxLzU5IENoZWNraW5nIGNvbW1pdCBm
-ZThkN2ExNzkwNDEgKGxpbnV4LXVzZXIvczM5MHg6IENsZWFuIHVwIHNpbmdsZS11c2UgZ290b3Mg
-aW4gc2lnbmFsLmMpCjQyLzU5IENoZWNraW5nIGNvbW1pdCBiZDViOWU4YmFlM2QgKGxpbnV4LXVz
-ZXIvczM5MHg6IFNldCBwc3cubWFzayBwcm9wZXJseSBmb3IgdGhlIHNpZ25hbCBoYW5kbGVyKQo0
-My81OSBDaGVja2luZyBjb21taXQgYjE5N2FiOWI3MjM0IChsaW51eC11c2VyL3MzOTB4OiBBZGQg
-c3R1YiBzaWdmcmFtZSBhcmd1bWVudCBmb3IgbGFzdF9icmVhaykKNDQvNTkgQ2hlY2tpbmcgY29t
-bWl0IDBiZWM4ODQ2OTBkMyAobGludXgtdXNlci9zMzkweDogRml4IGZyYW1lX2FkZHIgY29ycnVw
-dGlvbiBpbiBzZXR1cF9mcmFtZSkKNDUvNTkgQ2hlY2tpbmcgY29tbWl0IDljMzJhYWM1MWQ0NSAo
-bGludXgtdXNlci9zMzkweDogQWRkIGJ1aWxkIGFzc2VydHMgZm9yIHNpZ3NldCBzaXplcykKNDYv
-NTkgQ2hlY2tpbmcgY29tbWl0IDc1Y2JmZmJmZjdhYyAobGludXgtdXNlci9zMzkweDogQ2xlYW4g
-dXAgc2lnbmFsLmMpCjQ3LzU5IENoZWNraW5nIGNvbW1pdCBiNTYzYjYyNzRmNDEgKGxpbnV4LXVz
-ZXIvczM5MHg6IEhhbmRsZSB2ZWN0b3IgcmVncyBpbiBzaWduYWwgc3RhY2spCkVSUk9SOiBzdXNw
-ZWN0IGNvZGUgaW5kZW50IGZvciBjb25kaXRpb25hbCBzdGF0ZW1lbnRzICg0LCA3KQojNjg6IEZJ
-TEU6IGxpbnV4LXVzZXIvczM5MHgvc2lnbmFsLmM6MTUxOgorICAgIGZvciAoaSA9IDA7IGkgPCAx
-NjsgKytpKSB7CisgICAgICAgX19wdXRfdXNlcihlbnYtPnZyZWdzW2ldWzFdLCAmZXh0LT52eHJz
-X2xvd1tpXSk7CgpFUlJPUjogc3VzcGVjdCBjb2RlIGluZGVudCBmb3IgY29uZGl0aW9uYWwgc3Rh
-dGVtZW50cyAoNCwgNykKIzcxOiBGSUxFOiBsaW51eC11c2VyL3MzOTB4L3NpZ25hbC5jOjE1NDoK
-KyAgICBmb3IgKGkgPSAwOyBpIDwgMTY7ICsraSkgeworICAgICAgIF9fcHV0X3VzZXIoZW52LT52
-cmVnc1tpICsgMTZdWzBdLCAmZXh0LT52eHJzX2hpZ2hbaV1bMF0pOwoKRVJST1I6IHN1c3BlY3Qg
-Y29kZSBpbmRlbnQgZm9yIGNvbmRpdGlvbmFsIHN0YXRlbWVudHMgKDQsIDcpCiMxMjg6IEZJTEU6
-IGxpbnV4LXVzZXIvczM5MHgvc2lnbmFsLmM6MzIxOgorICAgIGZvciAoaSA9IDA7IGkgPCAxNjsg
-KytpKSB7CisgICAgICAgX19nZXRfdXNlcihlbnYtPnZyZWdzW2ldWzFdLCAmZXh0LT52eHJzX2xv
-d1tpXSk7CgpFUlJPUjogc3VzcGVjdCBjb2RlIGluZGVudCBmb3IgY29uZGl0aW9uYWwgc3RhdGVt
-ZW50cyAoNCwgNykKIzEzMTogRklMRTogbGludXgtdXNlci9zMzkweC9zaWduYWwuYzozMjQ6Cisg
-ICAgZm9yIChpID0gMDsgaSA8IDE2OyArK2kpIHsKKyAgICAgICBfX2dldF91c2VyKGVudi0+dnJl
-Z3NbaSArIDE2XVswXSwgJmV4dC0+dnhyc19oaWdoW2ldWzBdKTsKCnRvdGFsOiA0IGVycm9ycywg
-MCB3YXJuaW5ncywgMTI3IGxpbmVzIGNoZWNrZWQKClBhdGNoIDQ3LzU5IGhhcyBzdHlsZSBwcm9i
-bGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBv
-c2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4g
-TUFJTlRBSU5FUlMuCgo0OC81OSBDaGVja2luZyBjb21taXQgMDBkODhjODI0MTI1IChsaW51eC11
-c2VyOiBBZGQgY29weV9maWxlX3JhbmdlIHRvIHN0cmFjZS5saXN0KQo0OS81OSBDaGVja2luZyBj
-b21taXQgZDljNzFlNjJiY2MwIChsaW51eC11c2VyOiBGaXggZXJyb25lb3VzIGNvbnZlcnNpb24g
-aW4gY29weV9maWxlX3JhbmdlKQo1MC81OSBDaGVja2luZyBjb21taXQgZWRlNWQ2MWMwMjJjIChs
-aW51eC11c2VyOiB1c2UgR0RhdGVUaW1lIGZvciBmb3JtYXR0aW5nIHRpbWVzdGFtcCBmb3IgY29y
-ZSBmaWxlKQo1MS81OSBDaGVja2luZyBjb21taXQgNTlhN2ZlNTFkNmQwIChsaW51eC11c2VyL2Fs
-cGhhOiBGaXggcnQgc2lnZnJhbWUgcmV0dXJuKQo1Mi81OSBDaGVja2luZyBjb21taXQgY2U4MGNl
-YWZmMjBiIChsaW51eC11c2VyL2FscGhhOiBSZW5hbWUgdGhlIHNpZ2FjdGlvbiByZXN0b3JlciBm
-aWVsZCkKNTMvNTkgQ2hlY2tpbmcgY29tbWl0IGU2M2NiNzQyMWUwYyAobGludXgtdXNlcjogUGFz
-cyBrYV9yZXN0b3JlciB0byBkb19zaWdhY3Rpb24pCkVSUk9SOiBjb2RlIGluZGVudCBzaG91bGQg
-bmV2ZXIgdXNlIHRhYnMKIzY3OiBGSUxFOiBsaW51eC11c2VyL3N5c2NhbGwuYzo5MDE5OgorXkkg
-ICAgcmV0ID0gZ2V0X2Vycm5vKGRvX3NpZ2FjdGlvbihhcmcxLCBwYWN0LCAmb2FjdCwgMCkpOyQK
-CnRvdGFsOiAxIGVycm9ycywgMCB3YXJuaW5ncywgOTcgbGluZXMgY2hlY2tlZAoKUGF0Y2ggNTMv
-NTkgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVy
-cm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBz
-ZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KCjU0LzU5IENoZWNraW5nIGNvbW1pdCA0OWY1
-OWI0MjUxMGUgKGxpbnV4LXVzZXI6IEhvbm9yIFRBUkdFVF9BUkNIX0hBU19TQV9SRVNUT1JFUiBp
-biBkb19zeXNjYWxsKQo1NS81OSBDaGVja2luZyBjb21taXQgOTg3MmU4MjhhZjFmIChsaW51eC11
-c2VyL2FscGhhOiBEZWZpbmUgVEFSR0VUX0FSQ0hfSEFTX0tBX1JFU1RPUkVSKQo1Ni81OSBDaGVj
-a2luZyBjb21taXQgZTFlODlkZTExMDQyIChsaW51eC11c2VyL2FscGhhOiBTaGFyZSBjb2RlIGZv
-ciBUQVJHRVRfTlJfc2lnYWN0aW9uKQo1Ny81OSBDaGVja2luZyBjb21taXQgMmI4Y2MyNjg5Y2Fl
-IChsaW51eC11c2VyOiBUaWR5IFRBUkdFVF9OUl9ydF9zaWdhY3Rpb24pCjU4LzU5IENoZWNraW5n
-IGNvbW1pdCA1YjZmMTFjNTVkZGYgKGxpbnV4LXVzZXIvZWxmbG9hZDogZml4IGZpbGxpbmcgcHNp
-bmZvLT5wcl9wc2FyZ3MpCjU5LzU5IENoZWNraW5nIGNvbW1pdCA3ZGI5MjBiODliYWEgKGxpbnV4
-LXVzZXIvZWxmbG9hZDogYWRkIHMzOTB4IGNvcmUgZHVtcGluZyBzdXBwb3J0KQo9PT0gT1VUUFVU
-IEVORCA9PT0KClRlc3QgY29tbWFuZCBleGl0ZWQgd2l0aCBjb2RlOiAxCgoKVGhlIGZ1bGwgbG9n
-IGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDIxMDUxNzE4MTQyNC44
-MDkzLTEtbGF1cmVudEB2aXZpZXIuZXUvdGVzdGluZy5jaGVja3BhdGNoLz90eXBlPW1lc3NhZ2Uu
-Ci0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRwczovL3Bh
-dGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEBy
-ZWRoYXQuY29t
+This does not crash for me anymore, so I guess it has been fixed
+already. Could you still reproduce the crash with the latest version of
+QEMU?
+
+** Changed in: qemu
+       Status: New =3D> Incomplete
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1892962
+
+Title:
+  Segfault in usb_bus_from_device
+
+Status in QEMU:
+  Incomplete
+
+Bug description:
+  Hello,
+  Reproducer:
+
+  cat << EOF | ./qemu-system-i386 -machine q35 \
+  -device ich9-usb-ehci1,bus=3Dpcie.0,addr=3D1d.7,\
+  multifunction=3Don,id=3Dich9-ehci-1 \
+  -device ich9-usb-uhci1,bus=3Dpcie.0,addr=3D1d.0,\
+  multifunction=3Don,masterbus=3Dich9-ehci-1.0,firstport=3D0 \
+  -device usb-tablet,bus=3Dich9-ehci-1.0,port=3D1,usb_version=3D1 \
+  -display none -nodefaults -qtest stdio -accel qtest
+  outl 0xcf8 0x8000e803
+  outl 0xcfc 0xff00ff00
+  outl 0xcf8 0x8000e821
+  outb 0xcfc 0xff
+  outl 0xff10 0x8500057e
+  clock_step
+  clock_step
+  outb 0xff00 0x49
+  write 0x2 0x1 0x40
+  write 0x400006 0x1 0xfb
+  write 0x400008 0x1 0x2d
+  write 0x40000a 0x1 0xe0
+  write 0x40000c 0x1 0x16
+  write 0x40000e 0x1 0xfa
+  write 0xfa001c 0x1 0x04
+  clock_step
+  write 0x400006 0x1 0xfb
+  write 0xfa001d 0x1 0xff
+  clock_step
+  write 0x8 0x1 0xe0
+  write 0xa 0x1 0x16
+  write 0x1600e6 0x1 0x9c
+  write 0x1600e8 0x1 0xe1
+  write 0x1600eb 0x1 0x30
+  clock_step
+  clock_step
+  write 0x10 0x1 0xe0
+  write 0x12 0x1 0x16
+  write 0x1600e6 0x1 0x9c
+  write 0x6 0x1 0x9c
+  write 0x8 0x1 0xe1
+  write 0xa 0x1 0x40
+  write 0xb 0x1 0x30
+  clock_step
+  write 0x14 0x1 0xe0
+  write 0x16 0x1 0x16
+  write 0x1600e6 0x1 0x9c
+  write 0x6 0x1 0x9c
+  clock_step
+  write 0x18 0x1 0xe0
+  write 0x1a 0x1 0x16
+  write 0x1600e6 0x1 0x9c
+  write 0x6 0x1 0x9c
+  clock_step
+  write 0x1c 0x1 0xe0
+  write 0x1e 0x1 0x16
+  write 0x1600e6 0x1 0x9c
+  write 0x6 0x1 0x9c
+  clock_step
+  write 0x20 0x1 0xe0
+  write 0x22 0x1 0x16
+  write 0x1600e6 0x1 0x9c
+  write 0x6 0x1 0x9c
+  clock_step
+  EOF
+
+  The trace:
+
+  ...
+  [S +0.087589] OK
+  [R +0.087596] write 0x1600e6 0x1 0x9c
+  OK
+  [S +0.087603] OK
+  [R +0.087655] write 0x6 0x1 0x9c
+  OK
+  [S +0.087667] OK
+  [R +0.087675] clock_step
+  784168@1598406646.189133:usb_uhci_frame_start nr 8
+  784168@1598406646.189141:usb_uhci_td_load qh 0x0, td 0x1600e0, ctrl 0x9c0=
+180, token 0x300000e1
+  784168@1598406646.189147:usb_uhci_packet_add token 0x0, td 0x1600e0
+  784168@1598406646.189151:usb_packet_state_change bus 0, port 1, ep 0, pac=
+ket 0x611000043c00, state undef -> setup
+  784168@1598406646.189161:usb_packet_state_change bus 0, port 1, ep 0, pac=
+ket 0x611000043c00, state setup -> complete
+  784168@1598406646.189165:usb_uhci_packet_complete_success token 0x0, td 0=
+x1600e0
+  784168@1598406646.189168:usb_uhci_packet_del token 0x0, td 0x1600e0
+  784168@1598406646.189174:usb_uhci_td_complete qh 0x0, td 0x1600e0
+  784168@1598406646.189179:usb_uhci_td_load qh 0x0, td 0x0, ctrl 0x9c0182, =
+token 0x304000e1
+  784168@1598406646.189183:usb_uhci_packet_add token 0x0, td 0x0
+  784168@1598406646.189187:usb_packet_state_change bus 0, port 1, ep 0, pac=
+ket 0x611000043d40, state undef -> setup
+  /home/alxndr/Development/qemu/general-fuzz/include/hw/usb.h:526:12: runti=
+me error: member access within null pointer of type 'USBDevice' (aka 'struc=
+t USBDevice')
+  SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior /home/alxndr/Deve=
+lopment/qemu/general-fuzz/include/hw/usb.h:526:12 in =
+
+  /home/alxndr/Development/qemu/general-fuzz/include/hw/usb.h:526:12: runti=
+me error: member access within null pointer of type 'DeviceState' (aka 'str=
+uct DeviceState')
+  SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior /home/alxndr/Deve=
+lopment/qemu/general-fuzz/include/hw/usb.h:526:12 in =
+
+  AddressSanitizer:DEADLYSIGNAL
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+  =3D=3D784168=3D=3DERROR: AddressSanitizer: SEGV on unknown address 0x0000=
+00000050 (pc 0x5599c43df445 bp 0x7ffec2833e50 sp 0x7ffec2833dc0 T0)
+  =3D=3D784168=3D=3DThe signal is caused by a READ memory access.
+  =3D=3D784168=3D=3DHint: address points to the zero page.
+      #0 0x5599c43df445 in usb_bus_from_device /home/alxndr/Development/qem=
+u/general-fuzz/include/hw/usb.h:526:12
+      #1 0x5599c43ea95c in usb_packet_set_state /home/alxndr/Development/qe=
+mu/general-fuzz/build/../hw/usb/core.c:549:23
+      #2 0x5599c43e8abd in usb_handle_packet /home/alxndr/Development/qemu/=
+general-fuzz/build/../hw/usb/core.c:438:17
+      #3 0x5599c4b02497 in uhci_handle_td /home/alxndr/Development/qemu/gen=
+eral-fuzz/build/../hw/usb/hcd-uhci.c:892:9
+      #4 0x5599c4afbd26 in uhci_process_frame /home/alxndr/Development/qemu=
+/general-fuzz/build/../hw/usb/hcd-uhci.c:1075:15
+      #5 0x5599c4aed2e3 in uhci_frame_timer /home/alxndr/Development/qemu/g=
+eneral-fuzz/build/../hw/usb/hcd-uhci.c:1174:9
+      #6 0x5599c7620917 in timerlist_run_timers /home/alxndr/Development/qe=
+mu/general-fuzz/build/../util/qemu-timer.c:572:9
+      #7 0x5599c7620e51 in qemu_clock_run_timers /home/alxndr/Development/q=
+emu/general-fuzz/build/../util/qemu-timer.c:586:12
+      #8 0x5599c5f35a13 in qtest_clock_warp /home/alxndr/Development/qemu/g=
+eneral-fuzz/build/../softmmu/cpus.c:507:9
+      #9 0x5599c61225d8 in qtest_process_command /home/alxndr/Development/q=
+emu/general-fuzz/build/../softmmu/qtest.c:665:9
+      #10 0x5599c611063e in qtest_process_inbuf /home/alxndr/Development/qe=
+mu/general-fuzz/build/../softmmu/qtest.c:710:9
+      #11 0x5599c610f3e3 in qtest_read /home/alxndr/Development/qemu/genera=
+l-fuzz/build/../softmmu/qtest.c:722:5
+      #12 0x5599c7215762 in qemu_chr_be_write_impl /home/alxndr/Development=
+/qemu/general-fuzz/build/../chardev/char.c:188:9
+      #13 0x5599c72158aa in qemu_chr_be_write /home/alxndr/Development/qemu=
+/general-fuzz/build/../chardev/char.c:200:9
+      #14 0x5599c723b514 in fd_chr_read /home/alxndr/Development/qemu/gener=
+al-fuzz/build/../chardev/char-fd.c:68:9
+      #15 0x5599c7127736 in qio_channel_fd_source_dispatch /home/alxndr/Dev=
+elopment/qemu/general-fuzz/build/../io/channel-watch.c:84:12
+      #16 0x7f62623914cd in g_main_context_dispatch (/usr/lib/x86_64-linux-=
+gnu/libglib-2.0.so.0+0x504cd)
+      #17 0x5599c76b2c67 in glib_pollfds_poll /home/alxndr/Development/qemu=
+/general-fuzz/build/../util/main-loop.c:217:9
+      #18 0x5599c76b0567 in os_host_main_loop_wait /home/alxndr/Development=
+/qemu/general-fuzz/build/../util/main-loop.c:240:5
+      #19 0x5599c76aff47 in main_loop_wait /home/alxndr/Development/qemu/ge=
+neral-fuzz/build/../util/main-loop.c:516:11
+      #20 0x5599c5e8e08d in qemu_main_loop /home/alxndr/Development/qemu/ge=
+neral-fuzz/build/../softmmu/vl.c:1676:9
+      #21 0x5599c382051c in main /home/alxndr/Development/qemu/general-fuzz=
+/build/../softmmu/main.c:50:5
+      #22 0x7f6261b9acc9 in __libc_start_main csu/../csu/libc-start.c:308:16
+      #23 0x5599c3775cf9 in _start (/home/alxndr/Development/qemu/general-f=
+uzz/build/qemu-system-i386+0x2cb0cf9)
+
+  AddressSanitizer can not provide additional info.
+  SUMMARY: AddressSanitizer: SEGV /home/alxndr/Development/qemu/general-fuz=
+z/include/hw/usb.h:526:12 in usb_bus_from_device
+  =3D=3D784168=3D=3DABORTING
+
+  -Alex
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1892962/+subscriptions
 
