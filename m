@@ -2,70 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FBA03839D0
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 18:28:54 +0200 (CEST)
-Received: from localhost ([::1]:51682 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A2BA383990
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 18:23:21 +0200 (CEST)
+Received: from localhost ([::1]:35224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lig6v-0007UM-8u
-	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 12:28:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57212)
+	id 1lig1X-0004Pk-Pg
+	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 12:23:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58290)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lifqP-0001Tr-JC
- for qemu-devel@nongnu.org; Mon, 17 May 2021 12:11:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41805)
+ (Exim 4.90_1) (envelope-from <maz@kernel.org>) id 1liftN-0000qq-TW
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 12:14:53 -0400
+Received: from mail.kernel.org ([198.145.29.99]:56138)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lifqN-0006mS-Od
- for qemu-devel@nongnu.org; Mon, 17 May 2021 12:11:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621267907;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=7mMbSPrC6Hq6nFqNj++arXO7dl9FqszzAV/xyD2OnIs=;
- b=IyMKns+kV6iqinwwxUN0Krxd2RkUNqIaRKQ3ym34hsDgtlf1SuU7fnf3Fjz+f8KAOu91ai
- VbOSX7MI8Yt3Xk+eu4A46imjIbAq6bNzroCijg2tXsKtjJ+siCbnzDZgNEbpY2F/oGNe47
- 4DT65tRMIhFJLVtdJPl3YWN5GJ4DK14=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-501-Q3u4F4JFPfmRgm_dCn2mvw-1; Mon, 17 May 2021 12:11:45 -0400
-X-MC-Unique: Q3u4F4JFPfmRgm_dCn2mvw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.90_1) (envelope-from <maz@kernel.org>) id 1liftL-0000De-6K
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 12:14:53 -0400
+Received: from disco-boy.misterjones.org (disco-boy.misterjones.org
+ [51.254.78.96])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 579336D4E3;
- Mon, 17 May 2021 16:11:44 +0000 (UTC)
-Received: from gondolin.fritz.box (ovpn-115-195.ams2.redhat.com
- [10.36.115.195])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2458E1349A;
- Mon, 17 May 2021 16:11:35 +0000 (UTC)
-Date: Mon, 17 May 2021 18:11:33 +0200
-From: Cornelia Huck <cohuck@redhat.com>
-To: Stefano Garzarella <sgarzare@redhat.com>
-Subject: Re: [PATCH 5/5] docs: fix references to docs/devel/s390-dasd-ipl.rst
-Message-ID: <20210517181133.5800eddc.cohuck@redhat.com>
-In-Reply-To: <20210517151702.109066-6-sgarzare@redhat.com>
-References: <20210517151702.109066-1-sgarzare@redhat.com>
- <20210517151702.109066-6-sgarzare@redhat.com>
-Organization: Red Hat GmbH
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+ by mail.kernel.org (Postfix) with ESMTPSA id C97A360E0B;
+ Mon, 17 May 2021 16:14:49 +0000 (UTC)
+Received: from 78.163-31-62.static.virginmediabusiness.co.uk ([62.31.163.78]
+ helo=wait-a-minute.misterjones.org)
+ by disco-boy.misterjones.org with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <maz@kernel.org>)
+ id 1liftH-001tNE-NC; Mon, 17 May 2021 17:14:47 +0100
+Date: Mon, 17 May 2021 17:14:46 +0100
+Message-ID: <87y2cdtk09.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Steven Price <steven.price@arm.com>
+Subject: Re: [PATCH v12 3/8] arm64: mte: Sync tags for pages where PTE is
+ untagged
+In-Reply-To: <20210517123239.8025-4-steven.price@arm.com>
+References: <20210517123239.8025-1-steven.price@arm.com>
+ <20210517123239.8025-4-steven.price@arm.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
+ (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.374,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+X-SA-Exim-Connect-IP: 62.31.163.78
+X-SA-Exim-Rcpt-To: steven.price@arm.com, catalin.marinas@arm.com,
+ will@kernel.org, james.morse@arm.com, julien.thierry.kdev@gmail.com,
+ suzuki.poulose@arm.com, kvmarm@lists.cs.columbia.edu,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ Dave.Martin@arm.com, mark.rutland@arm.com, tglx@linutronix.de,
+ qemu-devel@nongnu.org, quintela@redhat.com, dgilbert@redhat.com,
+ richard.henderson@linaro.org, peter.maydell@linaro.org, Haibo.Xu@arm.com,
+ drjones@redhat.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org);
+ SAEximRunCond expanded to false
+Received-SPF: pass client-ip=198.145.29.99; envelope-from=maz@kernel.org;
+ helo=mail.kernel.org
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,31 +74,118 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P . Berrange" <berrange@redhat.com>, qemu-trivial@nongnu.org,
- qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6k=?= Lureau <marcandre.lureau@redhat.com>,
- Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Andrew Jones <drjones@redhat.com>, Haibo Xu <Haibo.Xu@arm.com>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>, qemu-devel@nongnu.org,
+ Catalin Marinas <catalin.marinas@arm.com>, Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, linux-kernel@vger.kernel.org,
+ Dave Martin <Dave.Martin@arm.com>, James Morse <james.morse@arm.com>,
+ linux-arm-kernel@lists.infradead.org, Thomas Gleixner <tglx@linutronix.de>,
+ Will Deacon <will@kernel.org>, kvmarm@lists.cs.columbia.edu,
+ Julien Thierry <julien.thierry.kdev@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 17 May 2021 17:17:02 +0200
-Stefano Garzarella <sgarzare@redhat.com> wrote:
-
-> Commit cc3d15a5ea ("docs: rstfy s390 dasd ipl documentation")
-> converted docs/devel/s390-dasd-ipl.txt to docs/devel/s390-dasd-ipl.rst.
+On Mon, 17 May 2021 13:32:34 +0100,
+Steven Price <steven.price@arm.com> wrote:
 > 
-> We still have several references to the old file, so let's fix them
-> with the following command:
+> A KVM guest could store tags in a page even if the VMM hasn't mapped
+> the page with PROT_MTE. So when restoring pages from swap we will
+> need to check to see if there are any saved tags even if !pte_tagged().
 > 
->   sed -i s/s390-dasd-ipl.txt/s390-dasd-ipl.rst/ \
->       $(git grep -l docs/devel/s390-dasd-ipl.txt)
+> However don't check pages for which pte_access_permitted() returns false
+> as these will not have been swapped out.
 > 
-> Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
+> Signed-off-by: Steven Price <steven.price@arm.com>
 > ---
->  pc-bios/s390-ccw/dasd-ipl.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  arch/arm64/include/asm/pgtable.h |  9 +++++++--
+>  arch/arm64/kernel/mte.c          | 16 ++++++++++++++--
+>  2 files changed, 21 insertions(+), 4 deletions(-)
+> 
+> diff --git a/arch/arm64/include/asm/pgtable.h b/arch/arm64/include/asm/pgtable.h
+> index 0b10204e72fc..275178a810c1 100644
+> --- a/arch/arm64/include/asm/pgtable.h
+> +++ b/arch/arm64/include/asm/pgtable.h
+> @@ -314,8 +314,13 @@ static inline void set_pte_at(struct mm_struct *mm, unsigned long addr,
+>  	if (pte_present(pte) && pte_user_exec(pte) && !pte_special(pte))
+>  		__sync_icache_dcache(pte);
+>  
+> -	if (system_supports_mte() &&
+> -	    pte_present(pte) && pte_tagged(pte) && !pte_special(pte))
+> +	/*
+> +	 * If the PTE would provide user space access to the tags associated
+> +	 * with it then ensure that the MTE tags are synchronised.  Exec-only
+> +	 * mappings don't expose tags (instruction fetches don't check tags).
 
-Acked-by: Cornelia Huck <cohuck@redhat.com>
+I'm not sure I understand this comment. Of course, execution doesn't
+match tags. But the memory could still have tags associated with
+it. Does this mean such a page would lose its tags is swapped out?
 
+Thanks,
+
+	M.
+
+> +	 */
+> +	if (system_supports_mte() && pte_present(pte) &&
+> +	    pte_access_permitted(pte, false) && !pte_special(pte))
+>  		mte_sync_tags(ptep, pte);
+>  
+>  	__check_racy_pte_update(mm, ptep, pte);
+> diff --git a/arch/arm64/kernel/mte.c b/arch/arm64/kernel/mte.c
+> index c88e778c2fa9..a604818c52c1 100644
+> --- a/arch/arm64/kernel/mte.c
+> +++ b/arch/arm64/kernel/mte.c
+> @@ -33,11 +33,15 @@ DEFINE_STATIC_KEY_FALSE(mte_async_mode);
+>  EXPORT_SYMBOL_GPL(mte_async_mode);
+>  #endif
+>  
+> -static void mte_sync_page_tags(struct page *page, pte_t *ptep, bool check_swap)
+> +static void mte_sync_page_tags(struct page *page, pte_t *ptep, bool check_swap,
+> +			       bool pte_is_tagged)
+>  {
+>  	unsigned long flags;
+>  	pte_t old_pte = READ_ONCE(*ptep);
+>  
+> +	if (!is_swap_pte(old_pte) && !pte_is_tagged)
+> +		return;
+> +
+>  	spin_lock_irqsave(&tag_sync_lock, flags);
+>  
+>  	/* Recheck with the lock held */
+> @@ -53,6 +57,9 @@ static void mte_sync_page_tags(struct page *page, pte_t *ptep, bool check_swap)
+>  		}
+>  	}
+>  
+> +	if (!pte_is_tagged)
+> +		goto out;
+> +
+>  	page_kasan_tag_reset(page);
+>  	/*
+>  	 * We need smp_wmb() in between setting the flags and clearing the
+> @@ -76,10 +83,15 @@ void mte_sync_tags(pte_t *ptep, pte_t pte)
+>  	bool check_swap = nr_pages == 1;
+>  	bool pte_is_tagged = pte_tagged(pte);
+>  
+> +	/* Early out if there's nothing to do */
+> +	if (!check_swap && !pte_is_tagged)
+> +		return;
+> +
+>  	/* if PG_mte_tagged is set, tags have already been initialised */
+>  	for (i = 0; i < nr_pages; i++, page++) {
+>  		if (!test_bit(PG_mte_tagged, &page->flags))
+> -			mte_sync_page_tags(page, ptep, check_swap);
+> +			mte_sync_page_tags(page, ptep, check_swap,
+> +					   pte_is_tagged);
+>  	}
+>  }
+>  
+> -- 
+> 2.20.1
+> 
+> 
+
+-- 
+Without deviation from the norm, progress is not possible.
 
