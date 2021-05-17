@@ -2,67 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE3B5383D90
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 21:37:49 +0200 (CEST)
-Received: from localhost ([::1]:37638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47247383D8B
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 21:34:35 +0200 (CEST)
+Received: from localhost ([::1]:59516 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lij3k-0008K4-Pg
-	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 15:37:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49052)
+	id 1lij0c-0003yA-5G
+	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 15:34:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46220)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1liidx-0007rE-HQ
- for qemu-devel@nongnu.org; Mon, 17 May 2021 15:11:09 -0400
-Received: from indium.canonical.com ([91.189.90.7]:54152)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1liiV4-0006vu-Qm
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 15:01:58 -0400
+Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:45680)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1liidu-0003Tj-V9
- for qemu-devel@nongnu.org; Mon, 17 May 2021 15:11:09 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1liidq-0007RT-JT
- for <qemu-devel@nongnu.org>; Mon, 17 May 2021 19:11:03 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 239842E8283
- for <qemu-devel@nongnu.org>; Mon, 17 May 2021 19:10:51 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1liiV2-0006J4-GU
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 15:01:58 -0400
+Received: by mail-ed1-x52f.google.com with SMTP id a25so8142532edr.12
+ for <qemu-devel@nongnu.org>; Mon, 17 May 2021 12:01:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=VqhSl3VfGpLttd+fJjV0hbZDkOHjPTqBGXfw/MCo440=;
+ b=OSjLIVPbs54km9xhuPx1w/1h4ZmF7/eoWSQnjUEfVBZbCP0morY38lS2z+0VTya3WH
+ s1fNytcGqU4quFWAyTUNK+A8sNQKW151VObHJL3DSq9/HM8dEQB7vOmY+u3USixSBfxP
+ ktf24hO2PYiY6G8YazaXhokJE74jfVUXOOdclw9n6c0TZSscKIZ7/XkpLrGyGQuuFL6C
+ yrnEXeYwCZ51KfVT0UdeP6tCnKc+T0RwW9JPJgInM93Vy7+8B/pA9mJ4dnVZQbahM4bE
+ I9uj+B+A+2K2WDBMOJSfbW+DDykVXi5WglDovQ797tEWnCpy0OQoPAiECum6OKy3KE0Z
+ JMWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=VqhSl3VfGpLttd+fJjV0hbZDkOHjPTqBGXfw/MCo440=;
+ b=UdxbXgR7lh0HB2A2TLGJlN6pfdCdfMwLdjT/n+JcmHBxa1IDTBnInPLdrNQgoc1cPL
+ nq6tEjLkL99B8DQY4OHj91gKzd8vbxtbWUUJSaV30Xe0iVfD+GRo31vMNb+4y6oeQ9dn
+ DIt968HHtxG6KxvX/Wvid1QsI5GCfjAs7907gqcSkt7/CdLacVYBFKF4G4iTWMegTzuU
+ iW4LUUPaXMY5LVY6qu01Uw4wqrtf5MtUaTJ5OZuquC1F4RL3KDW7YLJEksTyuya6n7KL
+ Ivd28hXE2lN9+lMArBMqLdg/P9Svl5EJxZic/Ya+8vqRBfU31o7cG4c1HS6ZtbOdNnF+
+ o5zw==
+X-Gm-Message-State: AOAM530RyAmYSCRSmQ9TOPmh7WGsOAdwCmiqJ5UYglzyXPzCgPPRJ3vI
+ EePVWV7fzk6BM4pUqkp/4ud/AO35ACnfp2KvSvCFLA==
+X-Google-Smtp-Source: ABdhPJxnmQyGPIXR8sBs7XZJm84Z55PFde3HKdMerXMuocP53561QywAwgG+kdGgqMSdTE9gCMQAZK8eZFaGb8sNPvM=
+X-Received: by 2002:a05:6402:203c:: with SMTP id
+ ay28mr1843905edb.100.1621278113054; 
+ Mon, 17 May 2021 12:01:53 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+References: <87y2chjmsf.fsf@linaro.org>
+ <6c8845b7-cc60-c8ba-3ada-6d0c6e65d8a5@linaro.org>
+ <87bl99e03j.fsf@linaro.org>
+In-Reply-To: <87bl99e03j.fsf@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 17 May 2021 20:01:37 +0100
+Message-ID: <CAFEAcA-ZWpZ5nA8aTgdGh5WReQAEaSHozLnmobwAMk4x=FzmuQ@mail.gmail.com>
+Subject: Re: Best approach for supporting snapshots for QEMU's gdbstub?
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 17 May 2021 18:59:55 -0000
-From: Thomas Huth <1796520@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: linux-user sh4
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: glaubitz janitor pmaydell th-huth
-X-Launchpad-Bug-Reporter: John Paul Adrian Glaubitz (glaubitz)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <153886120838.22456.12836438866392888832.malonedeb@gac.canonical.com>
-Message-Id: <162127799558.1887.10647727161443005585.launchpad@wampee.canonical.com>
-Subject: [Bug 1796520] Re: autogen crashes on qemu-sh4-user after 61dedf2af7
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="5321c3f40fa4d4b847f4e47fb766e7b95ed5036c"; Instance="production"
-X-Launchpad-Hash: 700177c2e7ba38642210978b72c1b7169c8c1f31
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,67 +81,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1796520 <1796520@bugs.launchpad.net>
+Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, gdb@gnu.org,
+ Luis Machado <luis.machado@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Bug watch removed: Sourceware.org Bugzilla #27543
-   https://sourceware.org/bugzilla/show_bug.cgi?id=3D27543
+On Mon, 17 May 2021 at 18:37, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
+te:
+> Luis Machado <luis.machado@linaro.org> writes:
+> > Right. We don't support reverse step/next/continue for remote targets.
+> > I think this would be the most appropriate way to implement this
+> > feature in GDB. But it is not trivial.
+>
+> You do because ";ReverseStep+;ReverseContinue+" is part of the gdbstub
+> negotiation handshake.
+>
+> Out of interest how is rr implemented? It presents a gdb interface so I
+> thought it was some implemented using some remote magic.
 
--- =
+AIUI rr just implements the reverse-step/reverse-continue parts
+of the gdb remote protocol. It makes them fast by internally to
+its implementation saying "ah, you wanted to do a reverse-step,
+I can do that by starting from the best available checkpoint and
+going forwards" and by automatically creating checkpoints at
+points that it thinks will be useful. gdb and the remote protocol
+know nothing about these checkpoints -- they are purely created and
+managed under the hood by rr as an optimisation so that reverse-step
+is decently fast. (Given that it's the rr end that knows best about
+what checkpoints  are available, how expensive it is to create a
+checkpoint, etc, that seems not unreasonable.)
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1796520
+There are also a handful of rr-specific gdb commands kind of
+like the QEMU-specific ones, which the user can use to say
+things like "go directly to this point in time T" which the
+gdb UI doesn't have a concept of. (Also because rr starts the
+gdb for you it gets a chance to feed it a few gdb macro
+definitions which I think mostly just make the debugging
+experience a bit smoother rather than being critical parts
+of the gdb-to-stub communication.)
 
-Title:
-  autogen crashes on qemu-sh4-user after 61dedf2af7
-
-Status in QEMU:
-  Incomplete
-
-Bug description:
-  Running "autogen --help" crashes on qemu-sh4-user with:
-
-  (sid-sh4-sbuild)root@nofan:/# autogen --help
-  Unhandled trap: 0x180
-  pc=3D0xf64dd2de sr=3D0x00000000 pr=3D0xf63b9c74 fpscr=3D0x00080000
-  spc=3D0x00000000 ssr=3D0x00000000 gbr=3D0xf61102a8 vbr=3D0x00000000
-  sgr=3D0x00000000 dbr=3D0x00000000 delayed_pc=3D0xf64dd2a0 fpul=3D0x000000=
-03
-  r0=3D0xf6fc1320 r1=3D0x00000000 r2=3D0xffff5dc4 r3=3D0xf67bfb50
-  r4=3D0xf6fc1230 r5=3D0xf6fc141c r6=3D0x000003ff r7=3D0x00000000
-  r8=3D0x00000004 r9=3D0xf63e20bc r10=3D0xf6fc141c r11=3D0xf63e28f0
-  r12=3D0xf63e2258 r13=3D0xf63eae1c r14=3D0x00000804 r15=3D0xf6fc1220
-  r16=3D0x00000000 r17=3D0x00000000 r18=3D0x00000000 r19=3D0x00000000
-  r20=3D0x00000000 r21=3D0x00000000 r22=3D0x00000000 r23=3D0x00000000
-  (sid-sh4-sbuild)root@nofan:/#
-
-  Bi-secting found this commit to be the culprit:
-
-  61dedf2af79fb5866dc7a0f972093682f2185e17 is the first bad commit
-  commit 61dedf2af79fb5866dc7a0f972093682f2185e17
-  Author: Richard Henderson <rth@twiddle.net>
-  Date:   Tue Jul 18 10:02:50 2017 -1000
-
-      target/sh4: Add missing FPSCR.PR =3D=3D 0 checks
-      =
-
-      Both frchg and fschg require PR =3D=3D 0, otherwise undefined_operati=
-on.
-      =
-
-      Reviewed-by: Aurelien Jarno <aurelien@aurel32.net>
-      Signed-off-by: Richard Henderson <rth@twiddle.net>
-      Message-Id: <20170718200255.31647-26-rth@twiddle.net>
-      Signed-off-by: Aurelien Jarno <aurelien@aurel32.net>
-
-  :040000 040000 980d79b69ae712f23a1e4c56983e97a843153b4a
-  1024c109f506c7ad57367c63bc8bbbc8a7a36cd7 M      target
-
-  Reverting 61dedf2af79fb5866dc7a0f972093682f2185e17 fixes the problem
-  for me.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1796520/+subscriptions
+thanks
+-- PMM
 
