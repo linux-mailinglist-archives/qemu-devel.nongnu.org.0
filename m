@@ -2,89 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09F8F383AED
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 19:14:09 +0200 (CEST)
-Received: from localhost ([::1]:53166 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEC39383B15
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 19:18:40 +0200 (CEST)
+Received: from localhost ([::1]:36876 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ligoh-00042U-MG
-	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 13:14:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37726)
+	id 1ligt5-0003vN-OE
+	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 13:18:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38626)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1ligJI-0003if-Rf
- for qemu-devel@nongnu.org; Mon, 17 May 2021 12:41:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43192)
+ (Exim 4.90_1) (envelope-from <maz@kernel.org>) id 1ligNS-0000WM-Bn
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 12:45:58 -0400
+Received: from mail.kernel.org ([198.145.29.99]:53702)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1ligJF-00021c-Ih
- for qemu-devel@nongnu.org; Mon, 17 May 2021 12:41:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621269696;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=HtM2cgi+4/sf0GKkAgqD82PXJwuyoXxZZz5zdpeOE3k=;
- b=Y63NHtonuQH3d5JxVtickvNL/j2gxS2TDbtCGdKmFIiGfuvkFNTTnjHCTHBQruOSjhTMzo
- 6rypGy53glyP3vIda35ewuSgdPhapjEQiOsSZ1N13aFRhSajOsNi+zcjW7jevywnw7CT4Z
- TEYSyiyXgZd3r/ZY4aox5wfhsVYSdgs=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-363-BpZRdPjPOxWbcT5t5yQ6CQ-1; Mon, 17 May 2021 12:41:35 -0400
-X-MC-Unique: BpZRdPjPOxWbcT5t5yQ6CQ-1
-Received: by mail-ed1-f70.google.com with SMTP id
- y19-20020a0564022713b029038a9f36060dso4237035edd.4
- for <qemu-devel@nongnu.org>; Mon, 17 May 2021 09:41:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=HtM2cgi+4/sf0GKkAgqD82PXJwuyoXxZZz5zdpeOE3k=;
- b=apynngAq2HHO6YqOGhevK+LM8rLL796M4SkiU7Ouyku11dC1tdVaB/VMo5BA/mpRe4
- bos/8Sjx2mptAgPPYAeznpwNjkIGfJFjF8X6FzoHKDFN6T0KDHap/9GxNGOF4swLi/nw
- SDFt5jO954mrEHrZR4zdHRpcMJ6zubGzEw+P1xK8whEQHZbOX0a6rC529kJFKghWW6CX
- fJdrvas7xU1AH3B03xkzXIaU3SxuTksho0jpU/iAoZZaZy+DsByI/hp++HhnNdGTFprA
- vwKzpjpGAFN6fV6r0zC48fT90Yvg5QwwKEmZtGIJ3UpU7gPm+nJwQJjgZOKaGqJx+YCY
- FjdQ==
-X-Gm-Message-State: AOAM533KDqkbFOlaat+t0Fn+c7PgXpI0Ek0Q1t96QA+dHy8pEg3qaecE
- xd5rUwAQnhAE8R1ZTFINiEhhKuE8lnlH4VpV7EFRCJFxAs3SV8XQ/rCpO9d5ztc7357YhGVFyKz
- 5uKagm5ZuIEqXKNc=
-X-Received: by 2002:aa7:dc17:: with SMTP id b23mr1071258edu.359.1621269694053; 
- Mon, 17 May 2021 09:41:34 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwzmcPe+9728LFi+FBjnKBPLYS8fWVKd74yqid463y92ENmtJD79bFIqZVTD4XUo7U+QljtYA==
-X-Received: by 2002:aa7:dc17:: with SMTP id b23mr1071239edu.359.1621269693857; 
- Mon, 17 May 2021 09:41:33 -0700 (PDT)
-Received: from steredhat (host-79-18-148-79.retail.telecomitalia.it.
- [79.18.148.79])
- by smtp.gmail.com with ESMTPSA id s11sm11399070edt.27.2021.05.17.09.41.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 May 2021 09:41:33 -0700 (PDT)
-Date: Mon, 17 May 2021 18:41:31 +0200
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Xie Yongji <xieyongji@bytedance.com>
-Subject: Re: [PATCH v2] vhost-vdpa: Remove redundant declaration of
- address_space_memory
-Message-ID: <20210517164131.htnq3tlk4nfec5ka@steredhat>
-References: <20210517123246.999-1-xieyongji@bytedance.com>
-MIME-Version: 1.0
-In-Reply-To: <20210517123246.999-1-xieyongji@bytedance.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=sgarzare@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.374,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ (Exim 4.90_1) (envelope-from <maz@kernel.org>) id 1ligNN-0003DR-Pz
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 12:45:58 -0400
+Received: from disco-boy.misterjones.org (disco-boy.misterjones.org
+ [51.254.78.96])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 6702361059;
+ Mon, 17 May 2021 16:45:49 +0000 (UTC)
+Received: from 78.163-31-62.static.virginmediabusiness.co.uk ([62.31.163.78]
+ helo=wait-a-minute.misterjones.org)
+ by disco-boy.misterjones.org with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <maz@kernel.org>)
+ id 1ligNH-001uBN-9e; Mon, 17 May 2021 17:45:47 +0100
+Date: Mon, 17 May 2021 17:45:46 +0100
+Message-ID: <87wnrxtikl.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Steven Price <steven.price@arm.com>
+Subject: Re: [PATCH v12 4/8] arm64: kvm: Introduce MTE VM feature
+In-Reply-To: <20210517123239.8025-5-steven.price@arm.com>
+References: <20210517123239.8025-1-steven.price@arm.com>
+ <20210517123239.8025-5-steven.price@arm.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
+ (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 62.31.163.78
+X-SA-Exim-Rcpt-To: steven.price@arm.com, catalin.marinas@arm.com,
+ will@kernel.org, james.morse@arm.com, julien.thierry.kdev@gmail.com,
+ suzuki.poulose@arm.com, kvmarm@lists.cs.columbia.edu,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ Dave.Martin@arm.com, mark.rutland@arm.com, tglx@linutronix.de,
+ qemu-devel@nongnu.org, quintela@redhat.com, dgilbert@redhat.com,
+ richard.henderson@linaro.org, peter.maydell@linaro.org, Haibo.Xu@arm.com,
+ drjones@redhat.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org);
+ SAEximRunCond expanded to false
+Received-SPF: pass client-ip=198.145.29.99; envelope-from=maz@kernel.org;
+ helo=mail.kernel.org
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,50 +73,219 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jasowang@redhat.com, philmd@redhat.com, qemu-devel@nongnu.org,
- mst@redhat.com
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Andrew Jones <drjones@redhat.com>, Haibo Xu <Haibo.Xu@arm.com>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>, qemu-devel@nongnu.org,
+ Catalin Marinas <catalin.marinas@arm.com>, Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, linux-kernel@vger.kernel.org,
+ Dave Martin <Dave.Martin@arm.com>, James Morse <james.morse@arm.com>,
+ linux-arm-kernel@lists.infradead.org, Thomas Gleixner <tglx@linutronix.de>,
+ Will Deacon <will@kernel.org>, kvmarm@lists.cs.columbia.edu,
+ Julien Thierry <julien.thierry.kdev@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, May 17, 2021 at 08:32:46PM +0800, Xie Yongji wrote:
->The symbol address_space_memory are already declared in
->include/exec/address-spaces.h. So let's add this header file
->and remove the redundant declaration in include/hw/virtio/vhost-vdpa.h.
->
->Signed-off-by: Xie Yongji <xieyongji@bytedance.com>
->Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->---
-> hw/virtio/vhost-vdpa.c         | 1 +
-> include/hw/virtio/vhost-vdpa.h | 1 -
-> 2 files changed, 1 insertion(+), 1 deletion(-)
->
->diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
->index 8f2fb9f10b2a..ee51863d280b 100644
->--- a/hw/virtio/vhost-vdpa.c
->+++ b/hw/virtio/vhost-vdpa.c
->@@ -18,6 +18,7 @@
-> #include "hw/virtio/vhost-backend.h"
-> #include "hw/virtio/virtio-net.h"
-> #include "hw/virtio/vhost-vdpa.h"
->+#include "exec/address-spaces.h"
-> #include "qemu/main-loop.h"
-> #include "cpu.h"
-> #include "trace.h"
->diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio/vhost-vdpa.h
->index 28ca65018ed7..ae9ee7adb2d0 100644
->--- a/include/hw/virtio/vhost-vdpa.h
->+++ b/include/hw/virtio/vhost-vdpa.h
->@@ -21,5 +21,4 @@ typedef struct vhost_vdpa {
->     struct vhost_dev *dev;
-> } VhostVDPA;
->
->-extern AddressSpace address_space_memory;
-> #endif
->-- 
->2.11.0
->
->
+On Mon, 17 May 2021 13:32:35 +0100,
+Steven Price <steven.price@arm.com> wrote:
+> 
+> Add a new VM feature 'KVM_ARM_CAP_MTE' which enables memory tagging
+> for a VM. This will expose the feature to the guest and automatically
+> tag memory pages touched by the VM as PG_mte_tagged (and clear the tag
+> storage) to ensure that the guest cannot see stale tags, and so that
+> the tags are correctly saved/restored across swap.
+> 
+> Actually exposing the new capability to user space happens in a later
+> patch.
 
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
+uber nit in $SUBJECT: "KVM: arm64:" is the preferred prefix (just like
+patches 7 and 8).
 
+> 
+> Signed-off-by: Steven Price <steven.price@arm.com>
+> ---
+>  arch/arm64/include/asm/kvm_emulate.h |  3 +++
+>  arch/arm64/include/asm/kvm_host.h    |  3 +++
+>  arch/arm64/kvm/hyp/exception.c       |  3 ++-
+>  arch/arm64/kvm/mmu.c                 | 37 +++++++++++++++++++++++++++-
+>  arch/arm64/kvm/sys_regs.c            |  3 +++
+>  include/uapi/linux/kvm.h             |  1 +
+>  6 files changed, 48 insertions(+), 2 deletions(-)
+> 
+> diff --git a/arch/arm64/include/asm/kvm_emulate.h b/arch/arm64/include/asm/kvm_emulate.h
+> index f612c090f2e4..6bf776c2399c 100644
+> --- a/arch/arm64/include/asm/kvm_emulate.h
+> +++ b/arch/arm64/include/asm/kvm_emulate.h
+> @@ -84,6 +84,9 @@ static inline void vcpu_reset_hcr(struct kvm_vcpu *vcpu)
+>  	if (cpus_have_const_cap(ARM64_MISMATCHED_CACHE_TYPE) ||
+>  	    vcpu_el1_is_32bit(vcpu))
+>  		vcpu->arch.hcr_el2 |= HCR_TID2;
+> +
+> +	if (kvm_has_mte(vcpu->kvm))
+> +		vcpu->arch.hcr_el2 |= HCR_ATA;
+>  }
+>  
+>  static inline unsigned long *vcpu_hcr(struct kvm_vcpu *vcpu)
+> diff --git a/arch/arm64/include/asm/kvm_host.h b/arch/arm64/include/asm/kvm_host.h
+> index 7cd7d5c8c4bc..afaa5333f0e4 100644
+> --- a/arch/arm64/include/asm/kvm_host.h
+> +++ b/arch/arm64/include/asm/kvm_host.h
+> @@ -132,6 +132,8 @@ struct kvm_arch {
+>  
+>  	u8 pfr0_csv2;
+>  	u8 pfr0_csv3;
+> +	/* Memory Tagging Extension enabled for the guest */
+> +	bool mte_enabled;
+>  };
+>  
+>  struct kvm_vcpu_fault_info {
+> @@ -769,6 +771,7 @@ bool kvm_arm_vcpu_is_finalized(struct kvm_vcpu *vcpu);
+>  #define kvm_arm_vcpu_sve_finalized(vcpu) \
+>  	((vcpu)->arch.flags & KVM_ARM64_VCPU_SVE_FINALIZED)
+>  
+> +#define kvm_has_mte(kvm) (system_supports_mte() && (kvm)->arch.mte_enabled)
+>  #define kvm_vcpu_has_pmu(vcpu)					\
+>  	(test_bit(KVM_ARM_VCPU_PMU_V3, (vcpu)->arch.features))
+>  
+> diff --git a/arch/arm64/kvm/hyp/exception.c b/arch/arm64/kvm/hyp/exception.c
+> index 73629094f903..56426565600c 100644
+> --- a/arch/arm64/kvm/hyp/exception.c
+> +++ b/arch/arm64/kvm/hyp/exception.c
+> @@ -112,7 +112,8 @@ static void enter_exception64(struct kvm_vcpu *vcpu, unsigned long target_mode,
+>  	new |= (old & PSR_C_BIT);
+>  	new |= (old & PSR_V_BIT);
+>  
+> -	// TODO: TCO (if/when ARMv8.5-MemTag is exposed to guests)
+> +	if (kvm_has_mte(vcpu->kvm))
+> +		new |= PSR_TCO_BIT;
+>  
+>  	new |= (old & PSR_DIT_BIT);
+>  
+> diff --git a/arch/arm64/kvm/mmu.c b/arch/arm64/kvm/mmu.c
+> index c5d1f3c87dbd..8660f6a03f51 100644
+> --- a/arch/arm64/kvm/mmu.c
+> +++ b/arch/arm64/kvm/mmu.c
+> @@ -822,6 +822,31 @@ transparent_hugepage_adjust(struct kvm_memory_slot *memslot,
+>  	return PAGE_SIZE;
+>  }
+>  
+> +static int sanitise_mte_tags(struct kvm *kvm, unsigned long size,
+> +			     kvm_pfn_t pfn)
+
+Nit: please order the parameters as address, then size.
+
+> +{
+> +	if (kvm_has_mte(kvm)) {
+> +		/*
+> +		 * The page will be mapped in stage 2 as Normal Cacheable, so
+> +		 * the VM will be able to see the page's tags and therefore
+> +		 * they must be initialised first. If PG_mte_tagged is set,
+> +		 * tags have already been initialised.
+> +		 */
+> +		unsigned long i, nr_pages = size >> PAGE_SHIFT;
+> +		struct page *page = pfn_to_online_page(pfn);
+> +
+> +		if (!page)
+> +			return -EFAULT;
+
+Under which circumstances can this happen? We already have done a GUP
+on the page, so I really can't see how the page can vanish from under
+our feet.
+
+> +
+> +		for (i = 0; i < nr_pages; i++, page++) {
+> +			if (!test_and_set_bit(PG_mte_tagged, &page->flags))
+> +				mte_clear_page_tags(page_address(page));
+
+You seem to be doing this irrespective of the VMA being created with
+PROT_MTE. This is fine form a guest perspective (all its memory should
+be MTE capable). However, I can't see any guarantee that the VMM will
+actually allocate memslots with PROT_MTE.
+
+Aren't we missing some sanity checks at memslot registration time?
+
+> +		}
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>  static int user_mem_abort(struct kvm_vcpu *vcpu, phys_addr_t fault_ipa,
+>  			  struct kvm_memory_slot *memslot, unsigned long hva,
+>  			  unsigned long fault_status)
+> @@ -971,8 +996,13 @@ static int user_mem_abort(struct kvm_vcpu *vcpu, phys_addr_t fault_ipa,
+>  	if (writable)
+>  		prot |= KVM_PGTABLE_PROT_W;
+>  
+> -	if (fault_status != FSC_PERM && !device)
+> +	if (fault_status != FSC_PERM && !device) {
+> +		ret = sanitise_mte_tags(kvm, vma_pagesize, pfn);
+> +		if (ret)
+> +			goto out_unlock;
+> +
+>  		clean_dcache_guest_page(pfn, vma_pagesize);
+> +	}
+>  
+>  	if (exec_fault) {
+>  		prot |= KVM_PGTABLE_PROT_X;
+> @@ -1168,12 +1198,17 @@ bool kvm_unmap_gfn_range(struct kvm *kvm, struct kvm_gfn_range *range)
+>  bool kvm_set_spte_gfn(struct kvm *kvm, struct kvm_gfn_range *range)
+>  {
+>  	kvm_pfn_t pfn = pte_pfn(range->pte);
+> +	int ret;
+>  
+>  	if (!kvm->arch.mmu.pgt)
+>  		return 0;
+>  
+>  	WARN_ON(range->end - range->start != 1);
+>  
+> +	ret = sanitise_mte_tags(kvm, PAGE_SIZE, pfn);
+> +	if (ret)
+> +		return ret;
+
+Notice the change in return type?
+
+> +
+>  	/*
+>  	 * We've moved a page around, probably through CoW, so let's treat it
+>  	 * just like a translation fault and clean the cache to the PoC.
+> diff --git a/arch/arm64/kvm/sys_regs.c b/arch/arm64/kvm/sys_regs.c
+> index 76ea2800c33e..24a844cb79ca 100644
+> --- a/arch/arm64/kvm/sys_regs.c
+> +++ b/arch/arm64/kvm/sys_regs.c
+> @@ -1047,6 +1047,9 @@ static u64 read_id_reg(const struct kvm_vcpu *vcpu,
+>  		break;
+>  	case SYS_ID_AA64PFR1_EL1:
+>  		val &= ~FEATURE(ID_AA64PFR1_MTE);
+> +		if (kvm_has_mte(vcpu->kvm))
+> +			val |= FIELD_PREP(FEATURE(ID_AA64PFR1_MTE),
+> +					  ID_AA64PFR1_MTE);
+
+Shouldn't this be consistent with what the HW is capable of
+(i.e. FEAT_MTE3 if available), and extracted from the sanitised view
+of the feature set?
+
+>  		break;
+>  	case SYS_ID_AA64ISAR1_EL1:
+>  		if (!vcpu_has_ptrauth(vcpu))
+> diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
+> index 3fd9a7e9d90c..8c95ba0fadda 100644
+> --- a/include/uapi/linux/kvm.h
+> +++ b/include/uapi/linux/kvm.h
+> @@ -1082,6 +1082,7 @@ struct kvm_ppc_resize_hpt {
+>  #define KVM_CAP_SGX_ATTRIBUTE 196
+>  #define KVM_CAP_VM_COPY_ENC_CONTEXT_FROM 197
+>  #define KVM_CAP_PTP_KVM 198
+> +#define KVM_CAP_ARM_MTE 199
+>  
+>  #ifdef KVM_CAP_IRQ_ROUTING
+>  
+
+Thanks,
+
+	M.
+
+-- 
+Without deviation from the norm, progress is not possible.
 
