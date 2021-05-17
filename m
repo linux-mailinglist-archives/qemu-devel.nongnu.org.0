@@ -2,62 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF149382295
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 03:44:33 +0200 (CEST)
-Received: from localhost ([::1]:50506 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FBE138229E
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 03:57:21 +0200 (CEST)
+Received: from localhost ([::1]:55330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1liSJ7-0006Yb-2u
-	for lists+qemu-devel@lfdr.de; Sun, 16 May 2021 21:44:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41510)
+	id 1liSVU-0002CE-9g
+	for lists+qemu-devel@lfdr.de; Sun, 16 May 2021 21:57:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43912)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1liSHw-0004t8-B1; Sun, 16 May 2021 21:43:20 -0400
-Received: from mail-yb1-xb30.google.com ([2607:f8b0:4864:20::b30]:46817)
+ id 1liSU7-000144-04; Sun, 16 May 2021 21:55:55 -0400
+Received: from mail-yb1-xb2d.google.com ([2607:f8b0:4864:20::b2d]:35509)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1liSHu-0000hK-QB; Sun, 16 May 2021 21:43:20 -0400
-Received: by mail-yb1-xb30.google.com with SMTP id y2so6395739ybq.13;
- Sun, 16 May 2021 18:43:17 -0700 (PDT)
+ id 1liSU3-00014S-KM; Sun, 16 May 2021 21:55:53 -0400
+Received: by mail-yb1-xb2d.google.com with SMTP id i4so6503567ybe.2;
+ Sun, 16 May 2021 18:55:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=g3xw0qSyOxOPiAGbQQC+ISBldTL9MV88oQhTnn3ElAE=;
- b=VDnOQZJM3bCyrVNkFjbHJ+vfYP7nSvgIaGT13jmO/zydG4mDYJ+fZ+He1wCLVjoniL
- BwDeLz2yccKslMPevMwkOKEg4WP2+tZCcFCtCn/2V6nHcY2OC3od+uOTgRC13MpdRURg
- xTgWY7DVDM8vhtRUnmDcvdDaxRTQYS1rHmpq3dVotuR7K9N3F0IYYUn9c9ISEC+BJgzT
- /r4GWIbq/MUssPPx683o0ZRYqZ3hfV6hSX5x5bzdHLbbLq4kEP6N+80Ja2F1ZssuHaaQ
- Nwqy7aH5IbSZMvNYzOFa/s0kj6d775DqmLG48pcarazC3/MgeyDTPTgpac53iH65XV+J
- uRdg==
+ bh=SWdGHnNm35rrHmmCHWr85QqUsNhtShOhtSqragF8j/M=;
+ b=YeIbwzFQNxJDYYcGb5DTD0CMwde2bDm0j9CeXZV6Z1Ve9tt3rW4GkmAVENxeUwTLPC
+ JcSsmALqkLJ0pC6H2o8o8VSzkGXnyOrtu6guQWkJbREA9rWARRyMwmtsJ38bvjdNVxzZ
+ yaLO0TraicNc1jLzjDC2StUoP+L2NrPjzIuSHjUWFjcKpPFjmMkxcSylFkvY6LtvuILl
+ t/9EF/5Vl9r3ng/SesQK7hDIwPU4ytAsYIq73908iSUuloMcW2YMNsSEu+aTym4Mlpu6
+ JyDjxQefNbvLDYyQrUe0VTrHPN28duqQdtML+s53w7kAIJXWUDWRt5gKYUQvIHZ0aybQ
+ EqbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=g3xw0qSyOxOPiAGbQQC+ISBldTL9MV88oQhTnn3ElAE=;
- b=Ls75FV4v9cxVkcCJwRApnMtQgLfFnvPQK4crvwC+k2zxWl05Y50Nv2HvJlFPANec8G
- BCsXaXzIFtaiyJ6jjFDPgLxg6hKCQt6wZmzvxaKkDEdHiFzQy+idIuz0iHoatDnYVTCk
- g612zSjvrZu6dc9wWa8qrv3gVFra7bM0lDW7MYhGpbqpfGxKAG3owOHYXXuT+sqlF/rA
- Y6jfnZ7Df63y5UGQovgg1a1bzDgL/XSeehRBd/KJIGCiRPXbfiCu8GD7hU6ayem2RvUt
- BtQRsWuQU1nmiakuxvGA4V3NOcOvWnYv3vvF75RgAE+uDOkU7I9NTkRgrrnKUKQTxdrK
- zKfA==
-X-Gm-Message-State: AOAM5322HVyePFZ27hwRFc1NjYqtYXF5W0It8pMNW20pjXl/BKeqGUFk
- OMWhZF5Pb3sw1t5KMeAbRzisy47AShKcQ3m3VIY=
-X-Google-Smtp-Source: ABdhPJz6opUAMYXo1yJkCeI1g1LAK+xrJdHFkI5FCna3MLwZF2IYAcckp/NT1NwtO7ur/YjUvADNKJ3OehVhJPTb4e8=
+ bh=SWdGHnNm35rrHmmCHWr85QqUsNhtShOhtSqragF8j/M=;
+ b=bvAYHzgIBhTeqFwpJCSRPKHQMuPvD16jC4QzTDIQ4TxfgKw2sLMxb60ZBKUhL6RSBT
+ PbNtFrj/sJ1aNSTELS4oa2QEcrSvNG0U0Iii75WwkDCDaDBpLrnBRJvJc1fhOFXW2maO
+ 34bp9lJiTVwUJWD8PUQxLDhckepj8RoH7Uc4VhTaG7pSTVHZ/2BP6MZ2PLqjrtK8k9ce
+ ih5FcS//OG1gxmyvf7UbotmUPjIhPGA7OPvd+Ydf9FziiNOVip9gAmj9yhT2Qi/eUHhh
+ 4lGIID2UlL+Vb5q4A4xcyhd5vkH3AwmW+Ek2yhMx4s/WDwGr5cxUof2U2gQwN7aGlCZn
+ YXCA==
+X-Gm-Message-State: AOAM530LipC9HDFkoStHnHHs2Kq880Awopc6PDGKNtHsguyLS2LSKuCw
+ IbvBRxb1Og0DnfzPq0fRYZhN9vkA2p8jbD2Twho=
+X-Google-Smtp-Source: ABdhPJzs8tsgewi6Pe6R9iyXVBHuJXUgVuouDqM0gr+vrG8Ry5PW2cfW+Yds5mWOKEVONzNNqnkcCwNIhqkroN/Q5Vw=
 X-Received: by 2002:a05:6902:1543:: with SMTP id
- r3mr46361856ybu.332.1621215796958; 
- Sun, 16 May 2021 18:43:16 -0700 (PDT)
+ r3mr46415391ybu.332.1621216548919; 
+ Sun, 16 May 2021 18:55:48 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210516205034.694788-1-f4bug@amsat.org>
-In-Reply-To: <20210516205034.694788-1-f4bug@amsat.org>
+References: <20210515173716.358295-1-philmd@redhat.com>
+ <20210515173716.358295-7-philmd@redhat.com>
+In-Reply-To: <20210515173716.358295-7-philmd@redhat.com>
 From: Bin Meng <bmeng.cn@gmail.com>
-Date: Mon, 17 May 2021 09:43:05 +0800
-Message-ID: <CAEUhbmWV2HBxk_5_YwdFXM_JauC0svy5QmMwvfpo_Eokxj6hcw@mail.gmail.com>
-Subject: Re: [PATCH] misc: Correct relative include path
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Date: Mon, 17 May 2021 09:55:37 +0800
+Message-ID: <CAEUhbmUKRhq0th3A9266qZXmf3Nxn=3=OAc2xtaTAWkteUxt-A@mail.gmail.com>
+Subject: Re: [PATCH v2 06/12] hw/riscv/Kconfig: Add missing dependency
+ MICROCHIP_PFSOC -> SERIAL
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b30;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb30.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2d;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -77,25 +79,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
- qemu-ppc <qemu-ppc@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Bin Meng <bin.meng@windriver.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ qemu-arm <qemu-arm@nongnu.org>, qemu-ppc <qemu-ppc@nongnu.org>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, May 17, 2021 at 4:50 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
-g> wrote:
+On Sun, May 16, 2021 at 1:44 AM Philippe Mathieu-Daud=C3=A9
+<philmd@redhat.com> wrote:
 >
-> Headers should be included from the 'include/' directory,
-> not from the root directory.
+> Commit a8fb0a500a6 ("hw/char: Add Microchip PolarFire SoC MMUART
+> emulation") added a dependency on the SERIAL model, but forgot to
+> add the Kconfig selector.
+> Add the dependency to the MCHP_PFSOC_MMUART symbol to fix when
+> building the MICROCHIP_PFSOC machine stand-alone:
 >
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+>   /usr/bin/ld: libcommon.fa.p/hw_char_mchp_pfsoc_mmuart.c.o: in function =
+`mchp_pfsoc_mmuart_create':
+>   hw/char/mchp_pfsoc_mmuart.c:79: undefined reference to `serial_mm_init'
+>
+> Fixes: a8fb0a500a6 ("hw/char: Add Microchip PolarFire SoC MMUART emulatio=
+n")
+> Acked-by: Paolo Bonzini <pbonzini@redhat.com>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 > ---
->  hw/i386/acpi-common.h     | 6 +++---
->  include/monitor/monitor.h | 2 +-
->  hw/gpio/aspeed_gpio.c     | 2 +-
->  hw/intc/ppc-uic.c         | 2 +-
->  4 files changed, 6 insertions(+), 6 deletions(-)
+> Cc: Bin Meng <bin.meng@windriver.com>
+> Cc: Alistair Francis <alistair.francis@wdc.com>
+> ---
+>  hw/char/Kconfig | 1 +
+>  1 file changed, 1 insertion(+)
 >
 
 Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
