@@ -2,92 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F6CA386BB5
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 22:52:28 +0200 (CEST)
-Received: from localhost ([::1]:42392 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9116C386BD1
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 22:59:33 +0200 (CEST)
+Received: from localhost ([::1]:38434 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1likDz-0003gn-1y
-	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 16:52:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45282)
+	id 1likKq-0003Gi-MZ
+	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 16:59:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46136)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1likCM-0002A8-9l
- for qemu-devel@nongnu.org; Mon, 17 May 2021 16:50:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50881)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1likCF-0000JG-60
- for qemu-devel@nongnu.org; Mon, 17 May 2021 16:50:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621284637;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=XrrFPSR9Gm7AVojYFinR8SmyIfdetC3zrU2qc32nVGo=;
- b=AUpYYFGt/8PLe1JyijOtzCBtwwK+GrwfiyuEnDVTpGu0ztzlHcoyw+tVFqcv3744RDiiLe
- 2WKtjomrge/sQc13we+mLlbyVJpsBT91nJ8y8CeEecK9LlGZN5mKl3M90YP21Z0W1cKGjg
- vJEoVt/6gk41VqlhIVtX2O3RYI2zC3c=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-185-ZvzwdUyENEy3mG0S2BZmow-1; Mon, 17 May 2021 16:50:36 -0400
-X-MC-Unique: ZvzwdUyENEy3mG0S2BZmow-1
-Received: by mail-ed1-f70.google.com with SMTP id
- q18-20020a0564025192b02903888712212fso4557262edd.19
- for <qemu-devel@nongnu.org>; Mon, 17 May 2021 13:50:35 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
+ id 1likEj-0005O1-KI
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 16:53:14 -0400
+Received: from mail-lf1-x132.google.com ([2a00:1450:4864:20::132]:41762)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
+ id 1likEh-0001ey-79
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 16:53:13 -0400
+Received: by mail-lf1-x132.google.com with SMTP id v8so5807752lft.8
+ for <qemu-devel@nongnu.org>; Mon, 17 May 2021 13:53:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=LICH9YV3kcO3+gi+VRif0RjZZ1xXkdtaSikftCpFJPw=;
+ b=cAbKs+g5dT/mvjvqA1H/zCYVbhxbQ8QSJoFGoGdY8Wv0kh9A/coOsbv7GFlR3dIQ1C
+ Uy7sKO4nuGgjVpawT2x06dE63aBBVVE+JSJf7eeOAmtbfK0L47qJRcA5aJjpFiNPB3S/
+ +gEGXXbS18QY8hq8u4NMZKZSIAb0paV/i9wADqOp18CcJ7ObCz1bEDUQpQ29TlekC1pz
+ 423khdWqOIynmSE4TkBlxMIT8lWzfBKqKYMNhMYvd5tySzjZfjZ9wAj3ZQwrjTYCbwQ3
+ pNLCzwWQ0w+cOwnHQMgb7ZXEOpbCSUPijFMjI645lVSByy3Maor5VidIQFczlllFEcQA
+ G3Ng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=XrrFPSR9Gm7AVojYFinR8SmyIfdetC3zrU2qc32nVGo=;
- b=Sb8KibRVo+9gC2DliMn6AYMRGwNuWaDyqI5+kY7tO3xrhP6j20SuYyOdcwT8Hp8N9p
- fVIn72eD74J+skFM0TJgNRuzxgd00jbf0647ZuAhwXnapD0rqX5OoAeO0qRe1Ybk9ECs
- b7YowenLOstHZD5f4a8ER6seden1b5FmnG/MGG0CLmUgDQqu8RBm7UX5TgPrzVJhO+gt
- bbXXL9vU2ViwANtGUjXFcLVJE1rxlBDN0JJFR8kVNt7vnWBglUiH+bHdms3e0kkuQsEV
- HDiSkQhvvghtvRBOwlgG2vgsd6H0CrInQJJ6piRgE2BprK8caXAwTWajg7OYWU/YIMlT
- 6WWA==
-X-Gm-Message-State: AOAM530KJla/d5brikTuiUCjAIQ2LMQxlc6NgP/+uw6CYGGQ8qG3woaO
- vGvkeVixspfzjDpN1do9ZV8EwHbsrkSHGS4KC2VTwHVwqUqxM4s+YqsGkZt9Fbu/ijE1hPVur6C
- ZvwkEe50f75BSAeY=
-X-Received: by 2002:aa7:c485:: with SMTP id m5mr2283598edq.230.1621284634794; 
- Mon, 17 May 2021 13:50:34 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx6+FfTLEITie0MbIe9wnXBB2rZjRvrJTEg8oM4JgRvI2vP12eOhAZK9SHtfejGjBIugIAg7g==
-X-Received: by 2002:aa7:c485:: with SMTP id m5mr2283579edq.230.1621284634476; 
- Mon, 17 May 2021 13:50:34 -0700 (PDT)
-Received: from [192.168.1.36] (31.red-83-51-215.dynamicip.rima-tde.net.
- [83.51.215.31])
- by smtp.gmail.com with ESMTPSA id u11sm11637306edr.13.2021.05.17.13.50.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 17 May 2021 13:50:34 -0700 (PDT)
-Subject: Re: [PATCH v4 0/9] hw/block/fdc: Allow Kconfig-selecting ISA
- bus/SysBus floppy controllers
-To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
-References: <20210517183954.1223193-1-philmd@redhat.com>
- <6ef11e42-7778-762a-f11b-d88f1b688db3@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <7ce0415a-50f9-d903-d1dd-d0b0b1757045@redhat.com>
-Date: Mon, 17 May 2021 22:50:32 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ bh=LICH9YV3kcO3+gi+VRif0RjZZ1xXkdtaSikftCpFJPw=;
+ b=Ikuu29M2UFEe1UBvsZrIqViNPdDdaONhXuN0gNhSfNKCB4/m1plwBwaFo4m0q+XpxM
+ V1qnRAB9oDaHWLZ6YEMl9wxVsETmKlOMLfKTLkx2komCJD5tXI+QxVQCz66KkF30NBly
+ JgeLtNd/43g1XK3/WaZRZazud0hTjY00bfpRla6E1Jz6Kr7sCZjThnRWBjrPb25eqWSi
+ pCC1KZHi0SFDMI7RZE29oQXtbUjMxNnbrZpzOQeO//cm0LUvt5Qxb5ByA5TqXm32d5OJ
+ 51hShi9bxygneZlfvfknWYSqN2YD3zFI59wLC38bQMCt0tEW68bfP5AdF4D65En3WGNA
+ 57wg==
+X-Gm-Message-State: AOAM5307wPDRsEPyQ71bj9p4ThWKPruDW0TW6FV3cXvXO+NQylP3+PTs
+ q1BuuKXJKdttzW9QqAEZj4P+PsHIhmU=
+X-Google-Smtp-Source: ABdhPJwn1s2YgpujsUP9L79fGvNA+Gm2fn1HOgQ/ZSwHqD8MNDjUztI8/UcZlUKW8/3N3xEQUEdG7w==
+X-Received: by 2002:a05:6512:234b:: with SMTP id
+ p11mr1223553lfu.102.1621284788934; 
+ Mon, 17 May 2021 13:53:08 -0700 (PDT)
+Received: from octofox.metropolis ([5.18.202.173])
+ by smtp.gmail.com with ESMTPSA id p11sm154097lfu.51.2021.05.17.13.53.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 17 May 2021 13:53:08 -0700 (PDT)
+From: Max Filippov <jcmvbkbc@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3] target/xtensa: clean up unaligned access
+Date: Mon, 17 May 2021 13:52:59 -0700
+Message-Id: <20210517205259.13241-1-jcmvbkbc@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <6ef11e42-7778-762a-f11b-d88f1b688db3@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.374,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::132;
+ envelope-from=jcmvbkbc@gmail.com; helo=mail-lf1-x132.google.com
+X-Spam_score_int: 4
+X-Spam_score: 0.4
+X-Spam_bar: /
+X-Spam_report: (0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ FROM_LOCAL_NOVOWEL=0.5, HK_RANDOM_ENVFROM=0.999, HK_RANDOM_FROM=1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,84 +83,585 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-block@nongnu.org
+Cc: Max Filippov <jcmvbkbc@gmail.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/17/21 9:19 PM, John Snow wrote:
-> On 5/17/21 2:39 PM, Philippe Mathieu-Daudé wrote:
->> Missing review: #1
->>
->> Hi,
->>
->> The floppy disc controllers pulls in irrelevant devices (sysbus in
->> an ISA-only machine, ISA bus + isa devices on a sysbus-only machine).
->>
->> This series clean that by extracting each device in its own file,
->> adding the corresponding Kconfig symbols: FDC_ISA and FDC_SYSBUS.
->>
->> Since v3:
->> - Fix ISA_SUPERIO -> FDC Kconfig dependency (jsnow)
->>
->> Since v2:
->> - rebased
->>
->> Since v1:
->> - added missing "hw/block/block.h" header (jsnow)
->> - inlined hardware specific calls (Mark)
->> - added R-b/A-b tags
->>
->> Regards,
->>
->> Phil.
->>
->> Philippe Mathieu-Daudé (9):
->>    hw/isa/Kconfig: Fix missing dependency ISA_SUPERIO -> FDC
->>    hw/block/fdc: Replace disabled fprintf() by trace event
->>    hw/block/fdc: Declare shared prototypes in fdc-internal.h
->>    hw/block/fdc: Extract ISA floppy controllers to fdc-isa.c
->>    hw/block/fdc: Extract SysBus floppy controllers to fdc-sysbus.c
->>    hw/block/fdc: Add sysbus_fdc_init_drives() method
->>    hw/sparc/sun4m: Inline sun4m_fdctrl_init()
->>    hw/block/fdc-sysbus: Add 'dma-channel' property
->>    hw/mips/jazz: Inline fdctrl_init_sysbus()
->>
->>   hw/block/fdc-internal.h | 156 +++++++++++
->>   include/hw/block/fdc.h  |   7 +-
->>   hw/block/fdc-isa.c      | 313 +++++++++++++++++++++
->>   hw/block/fdc-sysbus.c   | 224 +++++++++++++++
->>   hw/block/fdc.c          | 608 +---------------------------------------
->>   hw/mips/jazz.c          |  16 ++
->>   hw/sparc/sun4m.c        |  16 ++
->>   MAINTAINERS             |   3 +
->>   hw/block/Kconfig        |   8 +
->>   hw/block/meson.build    |   2 +
->>   hw/block/trace-events   |   3 +
->>   hw/i386/Kconfig         |   2 +-
->>   hw/isa/Kconfig          |   7 +-
->>   hw/mips/Kconfig         |   2 +-
->>   hw/sparc/Kconfig        |   2 +-
->>   hw/sparc64/Kconfig      |   2 +-
->>   16 files changed, 759 insertions(+), 612 deletions(-)
->>   create mode 100644 hw/block/fdc-internal.h
->>   create mode 100644 hw/block/fdc-isa.c
->>   create mode 100644 hw/block/fdc-sysbus.c
->>
-> 
-> Hi, tentatively staged:
-> 
-> https://gitlab.com/jsnow/qemu/-/commits/floppy/
-> 
-> pending CI:
-> 
-> https://gitlab.com/jsnow/qemu/-/pipelines/304308461
+Xtensa cores may or may not have hardware support for unaligned memory
+access. On cores with such support pass MO_UNALN in memory access flags
+for all operations that would not raise an exception. Drop condition
+from xtensa_cpu_do_unaligned_access and replace it with assertions.
+Add a test.
 
-Not good enough:
+Suggested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Signed-off-by: Max Filippov <jcmvbkbc@gmail.com>
+---
+Changes v2->v3:
+- drop assertion for !XTENSA_OPTION_HW_ALIGNMENT from
+  xtensa_cpu_do_unaligned_access to correctly handle acquire/release
+  intsructions;
+- add tests for acquire/release instructions.
 
-qemu-system-sparc: ../hw/block/fdc.c:2356: fdctrl_realize_common:
-Assertion `fdctrl->dma' failed.
+Changes v1->v2:
+- correctly handle case of !XCHAL_UNALIGNED_*_EXCEPTION in the test
 
-Forget about it for your next pull request.
+ target/xtensa/helper.c             |  13 +-
+ target/xtensa/translate.c          | 108 +++++++-------
+ tests/tcg/xtensa/test_load_store.S | 221 +++++++++++++++++++++++++++++
+ 3 files changed, 281 insertions(+), 61 deletions(-)
+ create mode 100644 tests/tcg/xtensa/test_load_store.S
+
+diff --git a/target/xtensa/helper.c b/target/xtensa/helper.c
+index eeffee297d15..f18ab383fd89 100644
+--- a/target/xtensa/helper.c
++++ b/target/xtensa/helper.c
+@@ -270,13 +270,12 @@ void xtensa_cpu_do_unaligned_access(CPUState *cs,
+     XtensaCPU *cpu = XTENSA_CPU(cs);
+     CPUXtensaState *env = &cpu->env;
+ 
+-    if (xtensa_option_enabled(env->config, XTENSA_OPTION_UNALIGNED_EXCEPTION) &&
+-        !xtensa_option_enabled(env->config, XTENSA_OPTION_HW_ALIGNMENT)) {
+-        cpu_restore_state(CPU(cpu), retaddr, true);
+-        HELPER(exception_cause_vaddr)(env,
+-                                      env->pc, LOAD_STORE_ALIGNMENT_CAUSE,
+-                                      addr);
+-    }
++    assert(xtensa_option_enabled(env->config,
++                                 XTENSA_OPTION_UNALIGNED_EXCEPTION));
++    cpu_restore_state(CPU(cpu), retaddr, true);
++    HELPER(exception_cause_vaddr)(env,
++                                  env->pc, LOAD_STORE_ALIGNMENT_CAUSE,
++                                  addr);
+ }
+ 
+ bool xtensa_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+diff --git a/target/xtensa/translate.c b/target/xtensa/translate.c
+index 0ae4efc48a17..8759bea7ff85 100644
+--- a/target/xtensa/translate.c
++++ b/target/xtensa/translate.c
+@@ -339,16 +339,6 @@ static void gen_exception_cause(DisasContext *dc, uint32_t cause)
+     }
+ }
+ 
+-static void gen_exception_cause_vaddr(DisasContext *dc, uint32_t cause,
+-        TCGv_i32 vaddr)
+-{
+-    TCGv_i32 tpc = tcg_const_i32(dc->pc);
+-    TCGv_i32 tcause = tcg_const_i32(cause);
+-    gen_helper_exception_cause_vaddr(cpu_env, tpc, tcause, vaddr);
+-    tcg_temp_free(tpc);
+-    tcg_temp_free(tcause);
+-}
+-
+ static void gen_debug_exception(DisasContext *dc, uint32_t cause)
+ {
+     TCGv_i32 tpc = tcg_const_i32(dc->pc);
+@@ -554,20 +544,16 @@ static uint32_t test_exceptions_hpi(DisasContext *dc, const OpcodeArg arg[],
+     return test_exceptions_sr(dc, arg, par);
+ }
+ 
+-static void gen_load_store_alignment(DisasContext *dc, int shift,
+-        TCGv_i32 addr, bool no_hw_alignment)
++static MemOp gen_load_store_alignment(DisasContext *dc, int shift,
++                                      TCGv_i32 addr, bool no_hw_alignment)
+ {
+     if (!option_enabled(dc, XTENSA_OPTION_UNALIGNED_EXCEPTION)) {
+         tcg_gen_andi_i32(addr, addr, ~0 << shift);
+-    } else if (option_enabled(dc, XTENSA_OPTION_HW_ALIGNMENT) &&
+-            no_hw_alignment) {
+-        TCGLabel *label = gen_new_label();
+-        TCGv_i32 tmp = tcg_temp_new_i32();
+-        tcg_gen_andi_i32(tmp, addr, ~(~0 << shift));
+-        tcg_gen_brcondi_i32(TCG_COND_EQ, tmp, 0, label);
+-        gen_exception_cause_vaddr(dc, LOAD_STORE_ALIGNMENT_CAUSE, addr);
+-        gen_set_label(label);
+-        tcg_temp_free(tmp);
++    }
++    if (!no_hw_alignment && option_enabled(dc, XTENSA_OPTION_HW_ALIGNMENT)) {
++        return MO_UNALN;
++    } else {
++        return MO_ALIGN;
+     }
+ }
+ 
+@@ -1784,10 +1770,11 @@ static void translate_l32e(DisasContext *dc, const OpcodeArg arg[],
+                            const uint32_t par[])
+ {
+     TCGv_i32 addr = tcg_temp_new_i32();
++    MemOp al;
+ 
+     tcg_gen_addi_i32(addr, arg[1].in, arg[2].imm);
+-    gen_load_store_alignment(dc, 2, addr, false);
+-    tcg_gen_qemu_ld_tl(arg[0].out, addr, dc->ring, MO_TEUL);
++    al = gen_load_store_alignment(dc, 2, addr, false);
++    tcg_gen_qemu_ld_tl(arg[0].out, addr, dc->ring, MO_TEUL | al);
+     tcg_temp_free(addr);
+ }
+ 
+@@ -1813,11 +1800,12 @@ static void translate_l32ex(DisasContext *dc, const OpcodeArg arg[],
+                             const uint32_t par[])
+ {
+     TCGv_i32 addr = tcg_temp_new_i32();
++    MemOp al;
+ 
+     tcg_gen_mov_i32(addr, arg[1].in);
+-    gen_load_store_alignment(dc, 2, addr, true);
++    al = gen_load_store_alignment(dc, 2, addr, true);
+     gen_check_exclusive(dc, addr, false);
+-    tcg_gen_qemu_ld_i32(arg[0].out, addr, dc->ring, MO_TEUL);
++    tcg_gen_qemu_ld_i32(arg[0].out, addr, dc->ring, MO_TEUL | al);
+     tcg_gen_mov_i32(cpu_exclusive_addr, addr);
+     tcg_gen_mov_i32(cpu_exclusive_val, arg[0].out);
+     tcg_temp_free(addr);
+@@ -1827,18 +1815,19 @@ static void translate_ldst(DisasContext *dc, const OpcodeArg arg[],
+                            const uint32_t par[])
+ {
+     TCGv_i32 addr = tcg_temp_new_i32();
++    MemOp al = MO_UNALN;
+ 
+     tcg_gen_addi_i32(addr, arg[1].in, arg[2].imm);
+     if (par[0] & MO_SIZE) {
+-        gen_load_store_alignment(dc, par[0] & MO_SIZE, addr, par[1]);
++        al = gen_load_store_alignment(dc, par[0] & MO_SIZE, addr, par[1]);
+     }
+     if (par[2]) {
+         if (par[1]) {
+             tcg_gen_mb(TCG_BAR_STRL | TCG_MO_ALL);
+         }
+-        tcg_gen_qemu_st_tl(arg[0].in, addr, dc->cring, par[0]);
++        tcg_gen_qemu_st_tl(arg[0].in, addr, dc->cring, par[0] | al);
+     } else {
+-        tcg_gen_qemu_ld_tl(arg[0].out, addr, dc->cring, par[0]);
++        tcg_gen_qemu_ld_tl(arg[0].out, addr, dc->cring, par[0] | al);
+         if (par[1]) {
+             tcg_gen_mb(TCG_BAR_LDAQ | TCG_MO_ALL);
+         }
+@@ -1909,9 +1898,11 @@ static void translate_mac16(DisasContext *dc, const OpcodeArg arg[],
+     TCGv_i32 mem32 = tcg_temp_new_i32();
+ 
+     if (ld_offset) {
++        MemOp al;
++
+         tcg_gen_addi_i32(vaddr, arg[1].in, ld_offset);
+-        gen_load_store_alignment(dc, 2, vaddr, false);
+-        tcg_gen_qemu_ld32u(mem32, vaddr, dc->cring);
++        al = gen_load_store_alignment(dc, 2, vaddr, false);
++        tcg_gen_qemu_ld_tl(mem32, vaddr, dc->cring, MO_TEUL | al);
+     }
+     if (op != MAC16_NONE) {
+         TCGv_i32 m1 = gen_mac16_m(arg[off].in,
+@@ -2357,13 +2348,14 @@ static void translate_s32c1i(DisasContext *dc, const OpcodeArg arg[],
+ {
+     TCGv_i32 tmp = tcg_temp_local_new_i32();
+     TCGv_i32 addr = tcg_temp_local_new_i32();
++    MemOp al;
+ 
+     tcg_gen_mov_i32(tmp, arg[0].in);
+     tcg_gen_addi_i32(addr, arg[1].in, arg[2].imm);
+-    gen_load_store_alignment(dc, 2, addr, true);
++    al = gen_load_store_alignment(dc, 2, addr, true);
+     gen_check_atomctl(dc, addr);
+     tcg_gen_atomic_cmpxchg_i32(arg[0].out, addr, cpu_SR[SCOMPARE1],
+-                               tmp, dc->cring, MO_TEUL);
++                               tmp, dc->cring, MO_TEUL | al);
+     tcg_temp_free(addr);
+     tcg_temp_free(tmp);
+ }
+@@ -2372,10 +2364,11 @@ static void translate_s32e(DisasContext *dc, const OpcodeArg arg[],
+                            const uint32_t par[])
+ {
+     TCGv_i32 addr = tcg_temp_new_i32();
++    MemOp al;
+ 
+     tcg_gen_addi_i32(addr, arg[1].in, arg[2].imm);
+-    gen_load_store_alignment(dc, 2, addr, false);
+-    tcg_gen_qemu_st_tl(arg[0].in, addr, dc->ring, MO_TEUL);
++    al = gen_load_store_alignment(dc, 2, addr, false);
++    tcg_gen_qemu_st_tl(arg[0].in, addr, dc->ring, MO_TEUL | al);
+     tcg_temp_free(addr);
+ }
+ 
+@@ -2386,14 +2379,15 @@ static void translate_s32ex(DisasContext *dc, const OpcodeArg arg[],
+     TCGv_i32 addr = tcg_temp_local_new_i32();
+     TCGv_i32 res = tcg_temp_local_new_i32();
+     TCGLabel *label = gen_new_label();
++    MemOp al;
+ 
+     tcg_gen_movi_i32(res, 0);
+     tcg_gen_mov_i32(addr, arg[1].in);
+-    gen_load_store_alignment(dc, 2, addr, true);
++    al = gen_load_store_alignment(dc, 2, addr, true);
+     tcg_gen_brcond_i32(TCG_COND_NE, addr, cpu_exclusive_addr, label);
+     gen_check_exclusive(dc, addr, true);
+     tcg_gen_atomic_cmpxchg_i32(prev, cpu_exclusive_addr, cpu_exclusive_val,
+-                               arg[0].in, dc->cring, MO_TEUL);
++                               arg[0].in, dc->cring, MO_TEUL | al);
+     tcg_gen_setcond_i32(TCG_COND_EQ, res, prev, cpu_exclusive_val);
+     tcg_gen_movcond_i32(TCG_COND_EQ, cpu_exclusive_val,
+                         prev, cpu_exclusive_val, prev, cpu_exclusive_val);
+@@ -6642,13 +6636,14 @@ static void translate_ldsti(DisasContext *dc, const OpcodeArg arg[],
+                             const uint32_t par[])
+ {
+     TCGv_i32 addr = tcg_temp_new_i32();
++    MemOp al;
+ 
+     tcg_gen_addi_i32(addr, arg[1].in, arg[2].imm);
+-    gen_load_store_alignment(dc, 2, addr, false);
++    al = gen_load_store_alignment(dc, 2, addr, false);
+     if (par[0]) {
+-        tcg_gen_qemu_st32(arg[0].in, addr, dc->cring);
++        tcg_gen_qemu_st_tl(arg[0].in, addr, dc->cring, MO_TEUL | al);
+     } else {
+-        tcg_gen_qemu_ld32u(arg[0].out, addr, dc->cring);
++        tcg_gen_qemu_ld_tl(arg[0].out, addr, dc->cring, MO_TEUL | al);
+     }
+     if (par[1]) {
+         tcg_gen_mov_i32(arg[1].out, addr);
+@@ -6660,13 +6655,14 @@ static void translate_ldstx(DisasContext *dc, const OpcodeArg arg[],
+                             const uint32_t par[])
+ {
+     TCGv_i32 addr = tcg_temp_new_i32();
++    MemOp al;
+ 
+     tcg_gen_add_i32(addr, arg[1].in, arg[2].in);
+-    gen_load_store_alignment(dc, 2, addr, false);
++    al = gen_load_store_alignment(dc, 2, addr, false);
+     if (par[0]) {
+-        tcg_gen_qemu_st32(arg[0].in, addr, dc->cring);
++        tcg_gen_qemu_st_tl(arg[0].in, addr, dc->cring, MO_TEUL | al);
+     } else {
+-        tcg_gen_qemu_ld32u(arg[0].out, addr, dc->cring);
++        tcg_gen_qemu_ld_tl(arg[0].out, addr, dc->cring, MO_TEUL | al);
+     }
+     if (par[1]) {
+         tcg_gen_mov_i32(arg[1].out, addr);
+@@ -7104,6 +7100,7 @@ static void translate_ldsti_d(DisasContext *dc, const OpcodeArg arg[],
+                               const uint32_t par[])
+ {
+     TCGv_i32 addr;
++    MemOp al;
+ 
+     if (par[1]) {
+         addr = tcg_temp_new_i32();
+@@ -7111,11 +7108,11 @@ static void translate_ldsti_d(DisasContext *dc, const OpcodeArg arg[],
+     } else {
+         addr = arg[1].in;
+     }
+-    gen_load_store_alignment(dc, 3, addr, false);
++    al = gen_load_store_alignment(dc, 3, addr, false);
+     if (par[0]) {
+-        tcg_gen_qemu_st64(arg[0].in, addr, dc->cring);
++        tcg_gen_qemu_st_i64(arg[0].in, addr, dc->cring, MO_TEQ | al);
+     } else {
+-        tcg_gen_qemu_ld64(arg[0].out, addr, dc->cring);
++        tcg_gen_qemu_ld_i64(arg[0].out, addr, dc->cring, MO_TEQ | al);
+     }
+     if (par[2]) {
+         if (par[1]) {
+@@ -7134,6 +7131,7 @@ static void translate_ldsti_s(DisasContext *dc, const OpcodeArg arg[],
+ {
+     TCGv_i32 addr;
+     OpcodeArg arg32[1];
++    MemOp al;
+ 
+     if (par[1]) {
+         addr = tcg_temp_new_i32();
+@@ -7141,14 +7139,14 @@ static void translate_ldsti_s(DisasContext *dc, const OpcodeArg arg[],
+     } else {
+         addr = arg[1].in;
+     }
+-    gen_load_store_alignment(dc, 2, addr, false);
++    al = gen_load_store_alignment(dc, 2, addr, false);
+     if (par[0]) {
+         get_f32_i1(arg, arg32, 0);
+-        tcg_gen_qemu_st32(arg32[0].in, addr, dc->cring);
++        tcg_gen_qemu_st_tl(arg32[0].in, addr, dc->cring, MO_TEUL | al);
+         put_f32_i1(arg, arg32, 0);
+     } else {
+         get_f32_o1(arg, arg32, 0);
+-        tcg_gen_qemu_ld32u(arg32[0].out, addr, dc->cring);
++        tcg_gen_qemu_ld_tl(arg32[0].out, addr, dc->cring, MO_TEUL | al);
+         put_f32_o1(arg, arg32, 0);
+     }
+     if (par[2]) {
+@@ -7167,6 +7165,7 @@ static void translate_ldstx_d(DisasContext *dc, const OpcodeArg arg[],
+                               const uint32_t par[])
+ {
+     TCGv_i32 addr;
++    MemOp al;
+ 
+     if (par[1]) {
+         addr = tcg_temp_new_i32();
+@@ -7174,11 +7173,11 @@ static void translate_ldstx_d(DisasContext *dc, const OpcodeArg arg[],
+     } else {
+         addr = arg[1].in;
+     }
+-    gen_load_store_alignment(dc, 3, addr, false);
++    al = gen_load_store_alignment(dc, 3, addr, false);
+     if (par[0]) {
+-        tcg_gen_qemu_st64(arg[0].in, addr, dc->cring);
++        tcg_gen_qemu_st_i64(arg[0].in, addr, dc->cring, MO_TEQ | al);
+     } else {
+-        tcg_gen_qemu_ld64(arg[0].out, addr, dc->cring);
++        tcg_gen_qemu_ld_i64(arg[0].out, addr, dc->cring, MO_TEQ | al);
+     }
+     if (par[2]) {
+         if (par[1]) {
+@@ -7197,6 +7196,7 @@ static void translate_ldstx_s(DisasContext *dc, const OpcodeArg arg[],
+ {
+     TCGv_i32 addr;
+     OpcodeArg arg32[1];
++    MemOp al;
+ 
+     if (par[1]) {
+         addr = tcg_temp_new_i32();
+@@ -7204,14 +7204,14 @@ static void translate_ldstx_s(DisasContext *dc, const OpcodeArg arg[],
+     } else {
+         addr = arg[1].in;
+     }
+-    gen_load_store_alignment(dc, 2, addr, false);
++    al = gen_load_store_alignment(dc, 2, addr, false);
+     if (par[0]) {
+         get_f32_i1(arg, arg32, 0);
+-        tcg_gen_qemu_st32(arg32[0].in, addr, dc->cring);
++        tcg_gen_qemu_st_tl(arg32[0].in, addr, dc->cring, MO_TEUL | al);
+         put_f32_i1(arg, arg32, 0);
+     } else {
+         get_f32_o1(arg, arg32, 0);
+-        tcg_gen_qemu_ld32u(arg32[0].out, addr, dc->cring);
++        tcg_gen_qemu_ld_tl(arg32[0].out, addr, dc->cring, MO_TEUL | al);
+         put_f32_o1(arg, arg32, 0);
+     }
+     if (par[2]) {
+diff --git a/tests/tcg/xtensa/test_load_store.S b/tests/tcg/xtensa/test_load_store.S
+new file mode 100644
+index 000000000000..b339f40f1280
+--- /dev/null
++++ b/tests/tcg/xtensa/test_load_store.S
+@@ -0,0 +1,221 @@
++#include "macros.inc"
++
++test_suite load_store
++
++.macro load_ok_test op, type, data, value
++    .data
++    .align  4
++1:
++    \type \data
++    .previous
++
++    reset_ps
++    set_vector kernel, 0
++    movi    a3, 1b
++    addi    a4, a4, 1
++    mov     a5, a4
++    \op     a5, a3, 0
++    movi    a6, \value
++    assert  eq, a5, a6
++.endm
++
++#if XCHAL_UNALIGNED_LOAD_EXCEPTION
++.macro load_unaligned_test will_trap, op, type, data, value
++    .data
++    .align  4
++    .byte   0
++1:
++    \type \data
++    .previous
++
++    reset_ps
++    .ifeq \will_trap
++    set_vector kernel, 0
++    .else
++    set_vector kernel, 2f
++    .endif
++    movi    a3, 1b
++    addi    a4, a4, 1
++    mov     a5, a4
++1:
++    \op     a5, a3, 0
++    .ifeq \will_trap
++    movi    a6, \value
++    assert  eq, a5, a6
++    .else
++    test_fail
++2:
++    rsr     a6, exccause
++    movi    a7, 9
++    assert  eq, a6, a7
++    rsr     a6, epc1
++    movi    a7, 1b
++    assert  eq, a6, a7
++    rsr     a6, excvaddr
++    assert  eq, a6, a3
++    assert  eq, a5, a4
++    .endif
++    reset_ps
++.endm
++#else
++.macro load_unaligned_test will_trap, op, type, data, value
++    .data
++    .align  4
++1:
++    \type \data
++    .previous
++
++    reset_ps
++    set_vector kernel, 0
++    movi    a3, 1b + 1
++    addi    a4, a4, 1
++    mov     a5, a4
++    \op     a5, a3, 0
++    movi    a6, \value
++    assert  eq, a5, a6
++.endm
++#endif
++
++.macro store_ok_test op, type, value
++    .data
++    .align  4
++    .byte   0, 0, 0, 0x55
++1:
++    \type 0
++2:
++    .byte   0xaa
++    .previous
++
++    reset_ps
++    set_vector kernel, 0
++    movi    a3, 1b
++    movi    a5, \value
++    \op     a5, a3, 0
++    movi    a3, 2b
++    l8ui    a5, a3, 0
++    movi    a6, 0xaa
++    assert  eq, a5, a6
++    movi    a3, 1b - 1
++    l8ui    a5, a3, 0
++    movi    a6, 0x55
++    assert  eq, a5, a6
++.endm
++
++#if XCHAL_UNALIGNED_STORE_EXCEPTION
++.macro store_unaligned_test will_trap, op, nop, type, value
++    .data
++    .align  4
++    .byte   0x55
++1:
++    \type   0
++2:
++    .byte   0xaa
++    .previous
++
++    reset_ps
++    .ifeq \will_trap
++    set_vector kernel, 0
++    .else
++    set_vector kernel, 4f
++    .endif
++    movi    a3, 1b
++    movi    a5, \value
++3:
++    \op     a5, a3, 0
++    .ifne \will_trap
++    test_fail
++4:
++    rsr     a6, exccause
++    movi    a7, 9
++    assert  eq, a6, a7
++    rsr     a6, epc1
++    movi    a7, 3b
++    assert  eq, a6, a7
++    rsr     a6, excvaddr
++    assert  eq, a6, a3
++    l8ui    a5, a3, 0
++    assert  eqi, a5, 0
++    .endif
++    reset_ps
++    movi    a3, 2b
++    l8ui    a5, a3, 0
++    movi    a6, 0xaa
++    assert  eq, a5, a6
++    movi    a3, 1b - 1
++    l8ui    a5, a3, 0
++    movi    a6, 0x55
++    assert  eq, a5, a6
++.endm
++#else
++.macro store_unaligned_test will_trap, sop, lop, type, value
++    .data
++    .align  4
++    .byte   0x55
++1:
++    \type   0
++    .previous
++
++    reset_ps
++    set_vector kernel, 0
++    movi    a3, 1b
++    movi    a5, \value
++    \sop    a5, a3, 0
++    movi    a3, 1b - 1
++    \lop    a6, a3, 0
++    assert  eq, a5, a6
++.endm
++#endif
++
++test load_ok
++    load_ok_test l16si, .short, 0x00001234, 0x00001234
++    load_ok_test l16si, .short, 0x000089ab, 0xffff89ab
++    load_ok_test l16ui, .short, 0x00001234, 0x00001234
++    load_ok_test l16ui, .short, 0x000089ab, 0x000089ab
++    load_ok_test l32i,  .word,  0x12345678, 0x12345678
++#if XCHAL_HAVE_RELEASE_SYNC
++    load_ok_test l32ai, .word,  0x12345678, 0x12345678
++#endif
++test_end
++
++#undef WILL_TRAP
++#if XCHAL_UNALIGNED_LOAD_HW
++#define WILL_TRAP 0
++#else
++#define WILL_TRAP 1
++#endif
++
++test load_unaligned
++    load_unaligned_test WILL_TRAP, l16si, .short, 0x00001234, 0x00001234
++    load_unaligned_test WILL_TRAP, l16si, .short, 0x000089ab, 0xffff89ab
++    load_unaligned_test WILL_TRAP, l16ui, .short, 0x00001234, 0x00001234
++    load_unaligned_test WILL_TRAP, l16ui, .short, 0x000089ab, 0x000089ab
++    load_unaligned_test WILL_TRAP, l32i,  .word,  0x12345678, 0x12345678
++#if XCHAL_HAVE_RELEASE_SYNC
++    load_unaligned_test 1,         l32ai, .word,  0x12345678, 0x12345678
++#endif
++test_end
++
++test store_ok
++    store_ok_test s16i,  .short, 0x00001234
++    store_ok_test s32i,  .word,  0x12345678
++#if XCHAL_HAVE_RELEASE_SYNC
++    store_ok_test s32ri, .word,  0x12345678
++#endif
++test_end
++
++#undef WILL_TRAP
++#if XCHAL_UNALIGNED_STORE_HW
++#define WILL_TRAP 0
++#else
++#define WILL_TRAP 1
++#endif
++
++test store_unaligned
++    store_unaligned_test WILL_TRAP, s16i,  l16ui, .short, 0x00001234
++    store_unaligned_test WILL_TRAP, s32i,  l32i,  .word,  0x12345678
++#if XCHAL_HAVE_RELEASE_SYNC
++    store_unaligned_test 1,         s32ri, l32i,  .word,  0x12345678
++#endif
++test_end
++
++test_suite_end
+-- 
+2.20.1
 
 
