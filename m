@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19B80383165
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 16:36:56 +0200 (CEST)
-Received: from localhost ([::1]:49154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70E0B3831FF
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 16:44:46 +0200 (CEST)
+Received: from localhost ([::1]:44606 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lieMZ-0002re-32
-	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 10:36:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56580)
+	id 1lieU9-0003Ri-Hc
+	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 10:44:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56954)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lieEZ-0003IH-9p
- for qemu-devel@nongnu.org; Mon, 17 May 2021 10:28:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37392)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lieFA-0004ZF-WD
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 10:29:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23205)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lieET-0007DS-Sh
- for qemu-devel@nongnu.org; Mon, 17 May 2021 10:28:39 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lieF7-0007bf-Ep
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 10:29:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621261713;
+ s=mimecast20190719; t=1621261752;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cBh/A9K6OXS9yOcxVodh5dmxu/rI9zI9VQhbYXYyfOk=;
- b=hNIuP0wdoKuBSpY8Mdei++U6e3IL9ssb99DUsUt3QS7ukA67pr9sMpcawG/if7THnkvW4L
- vQAc4mtqKT8IENASmxYjFjcvw1GsGrPJTIhvYRxzB7RiZ87sX82oOT0EnS2W7SZArgSBtY
- 2myrDocyjFJQMTs47HC1+o5LHxQGAzg=
+ bh=80DrRtY3ngL2HYC0Qoc8yPBZ8FHCmYntac+3Sk2PzYY=;
+ b=QK0DnMM2gYkoRZwKtiGTq4QKEZd/MIwJNpOAASIuKeumJU5Evgma02Dch5S8duKDTLtHZc
+ mUcqS6UHcAq46cWAziv9F4PtXPPZnWRW/DhaK9x6tPG6GM/Oj6PnPGuitD8D8OvkYOiEJ2
+ 3JGQroDhAzo3lO4V310isQ2Xid+2E1Y=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-581-cCf7WL9jPjWQL-i3Xf2qAg-1; Mon, 17 May 2021 10:28:31 -0400
-X-MC-Unique: cCf7WL9jPjWQL-i3Xf2qAg-1
+ us-mta-520-GN0q95GbOjS2_35HpqIuVw-1; Mon, 17 May 2021 10:28:34 -0400
+X-MC-Unique: GN0q95GbOjS2_35HpqIuVw-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EDA56102CB6B;
- Mon, 17 May 2021 14:28:29 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F08AF1883526;
+ Mon, 17 May 2021 14:28:32 +0000 (UTC)
 Received: from t480s.redhat.com (ovpn-115-101.ams2.redhat.com [10.36.115.101])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2AA665E26F;
- Mon, 17 May 2021 14:28:26 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5558D5DDAD;
+ Mon, 17 May 2021 14:28:30 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 11/26] s390x/tcg: Implement VECTOR BIT PERMUTE
-Date: Mon, 17 May 2021 16:27:24 +0200
-Message-Id: <20210517142739.38597-12-david@redhat.com>
+Subject: [PATCH v2 12/26] s390x/tcg: Implement VECTOR MULTIPLY SUM LOGICAL
+Date: Mon, 17 May 2021 16:27:25 +0200
+Message-Id: <20210517142739.38597-13-david@redhat.com>
 In-Reply-To: <20210517142739.38597-1-david@redhat.com>
 References: <20210517142739.38597-1-david@redhat.com>
 MIME-Version: 1.0
@@ -55,7 +55,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -86,92 +86,89 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Fortunately, we only need the Doubleword implementation.
+
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- target/s390x/helper.h           |  1 +
  target/s390x/insn-data.def      |  2 ++
- target/s390x/translate_vx.c.inc |  8 ++++++++
- target/s390x/vec_helper.c       | 22 ++++++++++++++++++++++
- 4 files changed, 33 insertions(+)
+ target/s390x/translate_vx.c.inc | 50 +++++++++++++++++++++++++++++++++
+ 2 files changed, 52 insertions(+)
 
-diff --git a/target/s390x/helper.h b/target/s390x/helper.h
-index 0cfb82ee8a..e99c9643eb 100644
---- a/target/s390x/helper.h
-+++ b/target/s390x/helper.h
-@@ -126,6 +126,7 @@ DEF_HELPER_FLAGS_1(stck, TCG_CALL_NO_RWG_SE, i64, env)
- DEF_HELPER_FLAGS_3(probe_write_access, TCG_CALL_NO_WG, void, env, i64, i64)
- 
- /* === Vector Support Instructions === */
-+DEF_HELPER_FLAGS_4(gvec_vbperm, TCG_CALL_NO_RWG, void, ptr, cptr, cptr, i32)
- DEF_HELPER_FLAGS_4(vll, TCG_CALL_NO_WG, void, env, ptr, i64, i64)
- DEF_HELPER_FLAGS_4(gvec_vpk16, TCG_CALL_NO_RWG, void, ptr, cptr, cptr, i32)
- DEF_HELPER_FLAGS_4(gvec_vpk32, TCG_CALL_NO_RWG, void, ptr, cptr, cptr, i32)
 diff --git a/target/s390x/insn-data.def b/target/s390x/insn-data.def
-index 35a0086a85..1634a6bc5a 100644
+index 1634a6bc5a..1a3ae7e7e7 100644
 --- a/target/s390x/insn-data.def
 +++ b/target/s390x/insn-data.def
-@@ -989,6 +989,8 @@
- 
- /* === Vector Support Instructions === */
- 
-+/* VECTOR BIT PERMUTE */
-+    E(0xe785, VBPERM,  VRR_c, VE,  0, 0, 0, 0, vbperm, 0, 0, IF_VEC)
- /* VECTOR GATHER ELEMENT */
-     E(0xe713, VGEF,    VRV,   V,   la2, 0, 0, 0, vge, 0, ES_32, IF_VEC)
-     E(0xe712, VGEG,    VRV,   V,   la2, 0, 0, 0, vge, 0, ES_64, IF_VEC)
+@@ -1151,6 +1151,8 @@
+     F(0xe7a7, VMO,     VRR_c, V,   0, 0, 0, 0, vm, 0, IF_VEC)
+ /* VECTOR MULTIPLY LOGICAL ODD */
+     F(0xe7a5, VMLO,    VRR_c, V,   0, 0, 0, 0, vm, 0, IF_VEC)
++/* VECTOR MULTIPLY SUM LOGICAL */
++    F(0xe7b8, VMSL,    VRR_d, VE,  0, 0, 0, 0, vmsl, 0, IF_VEC)
+ /* VECTOR NAND */
+     F(0xe76e, VNN,     VRR_c, VE,  0, 0, 0, 0, vnn, 0, IF_VEC)
+ /* VECTOR NOR */
 diff --git a/target/s390x/translate_vx.c.inc b/target/s390x/translate_vx.c.inc
-index 91e2967c49..96283d4ddb 100644
+index 96283d4ddb..6e75b40eb8 100644
 --- a/target/s390x/translate_vx.c.inc
 +++ b/target/s390x/translate_vx.c.inc
-@@ -327,6 +327,14 @@ static void gen_addi2_i64(TCGv_i64 dl, TCGv_i64 dh, TCGv_i64 al, TCGv_i64 ah,
-     tcg_temp_free_i64(bh);
+@@ -1779,6 +1779,56 @@ static DisasJumpType op_vm(DisasContext *s, DisasOps *o)
+     return DISAS_NEXT;
  }
  
-+static DisasJumpType op_vbperm(DisasContext *s, DisasOps *o)
++static DisasJumpType op_vmsl(DisasContext *s, DisasOps *o)
 +{
-+    gen_gvec_3_ool(get_field(s, v1), get_field(s, v2), get_field(s, v3), 0,
-+                   gen_helper_gvec_vbperm);
++    TCGv_i64 l1, h1, l2, h2;
 +
++    if (get_field(s, m4) != ES_64) {
++        gen_program_exception(s, PGM_SPECIFICATION);
++        return DISAS_NORETURN;
++    }
++
++    l1 = tcg_temp_new_i64();
++    h1 = tcg_temp_new_i64();
++    l2 = tcg_temp_new_i64();
++    h2 = tcg_temp_new_i64();
++
++    /* Multipy both even elements from v2 and v3 */
++    read_vec_element_i64(l1, get_field(s, v2), 0, ES_64);
++    read_vec_element_i64(h1, get_field(s, v3), 0, ES_64);
++    tcg_gen_mulu2_i64(l1, h1, l1, h1);
++    /* Shift result left by one (x2) if requested */
++    if (extract32(get_field(s, m6), 3, 1)) {
++        tcg_gen_add2_i64(l1, h1, l1, h1, l1, h1);
++    }
++
++    /* Multipy both odd elements from v2 and v3 */
++    read_vec_element_i64(l2, get_field(s, v2), 1, ES_64);
++    read_vec_element_i64(h2, get_field(s, v3), 1, ES_64);
++    tcg_gen_mulu2_i64(l2, h2, l2, h2);
++    /* Shift result left by one (x2) if requested */
++    if (extract32(get_field(s, m6), 2, 1)) {
++        tcg_gen_add2_i64(l2, h2, l2, h2, l2, h2);
++    }
++
++    /* Add both intermediate results */
++    tcg_gen_add2_i64(l1, h1, l1, h1, l2, h2);
++    /* Add whole v4 */
++    read_vec_element_i64(h2, get_field(s, v4), 0, ES_64);
++    read_vec_element_i64(l2, get_field(s, v4), 1, ES_64);
++    tcg_gen_add2_i64(l1, h1, l1, h1, l2, h2);
++
++    /* Store final result into v1. */
++    write_vec_element_i64(h1, get_field(s, v1), 0, ES_64);
++    write_vec_element_i64(l1, get_field(s, v1), 1, ES_64);
++
++    tcg_temp_free_i64(l1);
++    tcg_temp_free_i64(h1);
++    tcg_temp_free_i64(l2);
++    tcg_temp_free_i64(h2);
 +    return DISAS_NEXT;
 +}
 +
- static DisasJumpType op_vge(DisasContext *s, DisasOps *o)
+ static DisasJumpType op_vnn(DisasContext *s, DisasOps *o)
  {
-     const uint8_t es = s->insn->data;
-diff --git a/target/s390x/vec_helper.c b/target/s390x/vec_helper.c
-index 986e7cc825..599bab06bd 100644
---- a/target/s390x/vec_helper.c
-+++ b/target/s390x/vec_helper.c
-@@ -19,6 +19,28 @@
- #include "exec/cpu_ldst.h"
- #include "exec/exec-all.h"
- 
-+void HELPER(gvec_vbperm)(void *v1, const void *v2, const void *v3,
-+                         uint32_t desc)
-+{
-+    S390Vector tmp = {};
-+    uint16_t result = 0;
-+    int i;
-+
-+    for (i = 0; i < 16; i++) {
-+        const uint8_t bit_nr = s390_vec_read_element8(v3, i);
-+        uint16_t bit;
-+
-+        if (bit_nr >= 128) {
-+            continue;
-+        }
-+        bit = (s390_vec_read_element8(v2, bit_nr / 8)
-+               >> (7 - (bit_nr % 8))) & 1;
-+        result |= (bit << (15 - i));
-+    }
-+    s390_vec_write_element16(&tmp, 3, result);
-+    *(S390Vector *)v1 = tmp;
-+}
-+
- void HELPER(vll)(CPUS390XState *env, void *v1, uint64_t addr, uint64_t bytes)
- {
-     if (likely(bytes >= 16)) {
+     gen_gvec_fn_3(nand, ES_8, get_field(s, v1),
 -- 
 2.31.1
 
