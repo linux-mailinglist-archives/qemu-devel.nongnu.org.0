@@ -2,76 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E36F382833
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 11:23:15 +0200 (CEST)
-Received: from localhost ([::1]:45844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D04938284E
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 11:29:33 +0200 (CEST)
+Received: from localhost ([::1]:54474 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1liZT0-00067w-Af
-	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 05:23:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33180)
+	id 1liZZ5-0003ds-WF
+	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 05:29:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33212)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1liZNp-00038C-MU; Mon, 17 May 2021 05:17:53 -0400
-Received: from wnew4-smtp.messagingengine.com ([64.147.123.18]:53661)
+ id 1liZNr-00038R-8T; Mon, 17 May 2021 05:17:55 -0400
+Received: from wnew4-smtp.messagingengine.com ([64.147.123.18]:45645)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1liZNk-0005d4-9m; Mon, 17 May 2021 05:17:53 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.west.internal (Postfix) with ESMTP id CB08D31C;
- Mon, 17 May 2021 05:17:45 -0400 (EDT)
+ id 1liZNp-0005ew-IC; Mon, 17 May 2021 05:17:55 -0400
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailnew.west.internal (Postfix) with ESMTP id 3918F5D1;
+ Mon, 17 May 2021 05:17:49 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Mon, 17 May 2021 05:17:46 -0400
+ by compute1.internal (MEProxy); Mon, 17 May 2021 05:17:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-type:content-transfer-encoding; s=fm3; bh=
- k7rZyY/ehsm76dqiclnUuMNxHOPubh0CKjvZwwDEuRk=; b=BEvU5V3nUfDaoIRS
- FQCq8i6LGcatzqdD9foq2lXRF0LMAmmyfgwqZvNkaO2+sVIWP5LL1okawkPRX24o
- 2bvT5slzQ5GBksqQVDHtOs30LicdIdXYDCXa51KEA3c0Q7r0DqOuPUnEov4eiHt3
- hFz2/5AUywvi9l4KBLkS36+hsYAXSyfOgJPYoIOVX3NVmUgJtptCaHLlRTCv8tuy
- N6KqNHj/OFnFC2vxzkVbE+qmcY+g9j08di6LlgcDRdOVrICv8iZdDcsVHZ5l/MMW
- KAEm8zW64Q3F2G70rl74EEr483tG+iynCp03myBh1SWZrrt8jKW2gGBmex/Ncfp+
- sGt8sw==
+ :mime-version:content-transfer-encoding; s=fm3; bh=jWU1CIa28hRSW
+ I/94oCJCN3g4HT02fhAwunbOb3KYbs=; b=JqGXrK27e5gyoeYwMnVT5tWgDcgrZ
+ WB0ajfXkK7I2mR8impkTcO/zoC2sToa5GWvjYRWBMMxKtB7qX5GThShxhWhCj+rM
+ HnbCvbMQ/oHZ7yZ/wTO19J8Zx6MR8uvH0CC0H0RPqU8kPt8AsFcDEYB5F/Gt5TEq
+ nqHhK/fGxJHL+z9u6TLAsdD7eEnWOHTnEAGMh9E9yAgXj716w+sALcCFPGCbxgHP
+ 0JBLKqcsCCRZHO8Z3umNKfAouf6iIvRU1h0duweb3An/2CIFwIbFqeoGxTVpaGVr
+ chFszDzsEKkqW91IaZ1ZaF7LAb7TxCaGMvNevGOJ0gBayDa3Afu0ABayg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:content-type
- :date:from:in-reply-to:message-id:mime-version:references
- :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm2; bh=k7rZyY/ehsm76dqiclnUuMNxHOPubh0CKjvZwwDEu
- Rk=; b=T/lDltB/ArSs1rjduyZos9/mTtadFMi4pSTqUxiKAoKpRx167knM0gbrB
- w8oWUbcYOjaCUnlXuheH9m8PvlGBNODzwV2TmfGCEmCNZdWJoEwm5k/sjOsvcRA+
- olCxzz42MHlXZVUQIejS6Div0qJUeU2KC0Py/z4nFFN24FmptUiYsbvB5HX642HX
- 7opCAoJKLfoRzz/r8d/ytFu+Pn4dCALZC1OJIykEHsNSrorBOAczXt2bNNWLf7qF
- kYMFTvekj1Y+l3EIe0KTnvLfJu3MhZWzWj4cB4Ke96zg82Pj7zSvQoOZN1Rkw+nG
- SFYiiSQ6rsLLpgu594opNRG8ehGkQ==
-X-ME-Sender: <xms:uTSiYDjNomFy17WU_3u6APtnJVBAo-Yy_ih2AKxE7jB_FPv1GTgApA>
- <xme:uTSiYADNR97df0N70BjUdu5vVMdknHTiSDYEJZmw-trjAKiw0rYvLPjDiEgiMW7_2
- T8gwLQ3hKIjAITBxjQ>
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :in-reply-to:message-id:mime-version:references:subject:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm2; bh=jWU1CIa28hRSWI/94oCJCN3g4HT02fhAwunbOb3KYbs=; b=s9wLNbub
+ kMZcEJLO2mHLUXvWL5JSIt1tABRML+sglr5naot7ShIiVRGTvz2ZOXiAeCAihz+o
+ qa+0enHL4OwdLYn92p4rNpmeyszZfgOhfVngBPFu3YgeNBiVKAJqH/17QRNPxXlA
+ QtHQSKZUDbTKvSLx114QRP742iuaI9cuzaNg3Os41+sUz+qp+rCYwW7V95gh6U51
+ Tt41kF8F9OcVIkTLfqOAEddf7etpM/YZlsJVR3F2lJ0x9R7Jk1LK4yYmMq1J5FuZ
+ eCrYQ2su2j6ADPlpnzXW5e05xQpuPrfTazJ3ku2ERGgCu5PMLC2yZjm8z609Td8R
+ ivL5421C5v0hEQ==
+X-ME-Sender: <xms:vDSiYMQIc1lWdNficLUt_TCfpY7X9tX_yDMTTfkv1euaplbbf3XkYA>
+ <xme:vDSiYJzvgMR6arqYyL7zQgOYZAva3Jb0YDOe2N7-KlsalAbrGHj2uxz1DtmnlpSKK
+ djmaR_Hnv1pFMUsDhM>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdeihedgudegucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvufffkffojghfgggtgfesthekredtredtjeenucfhrhhomhepmfhlrghu
- shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
- htvghrnhepteevuedugeevieehgeeileeufeetvddtkeetfeelgeehudfhjeeuledvhfff
- tdegnecukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptd
- enucfrrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:uTSiYDGhIBoQFxLUIKOltmu_xbZVhhpqUaT9sWfPL1i0WBXjyfhdjw>
- <xmx:uTSiYAQUxswdZprEXqwSv4KiFSQeumTLDpEVtUKQECVl9JmMWDcKRw>
- <xmx:uTSiYAziRU7aGBT8HK4k3zkgNIV2mLYUMo8Xz6Q66Si2g5z8wLimTA>
- <xmx:uTSiYMc9WDnAE98gMkF8Kw9oXF9N3WapF21e4fLP6gITE5idoiMoPnjtVNI>
+ cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpeeuleetgeeiuefhgfekfefgveejiefgteekiedtgfdtieefhfdthfefueffvefg
+ keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
+ curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:vDSiYJ2FXKWvxDmGh6Y08EKXYa9cE5iq_6g8h0VHXPUHO0B50WRloQ>
+ <xmx:vDSiYABeDyDFTHimJ0_owlwgYNh9ckmlYA78fS2Zl133IyP3zNdl8w>
+ <xmx:vDSiYFjKQlkWaljDDjjZIqv56Y5ch0BVNcn1x11okmd6MH7GphL5Yw>
+ <xmx:vDSiYGUPXFgQt9eC08EARbr-vL-oZHC-92zNv3eopvFmhDHQb227cmDjTkE>
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190]) by mail.messagingengine.com (Postfix) with ESMTPA;
- Mon, 17 May 2021 05:17:43 -0400 (EDT)
+ Mon, 17 May 2021 05:17:47 -0400 (EDT)
 From: Klaus Jensen <its@irrelevant.dk>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PULL 01/20] hw/block/nvme: remove redundant invalid_lba_range trace
-Date: Mon, 17 May 2021 11:17:18 +0200
-Message-Id: <20210517091737.841787-2-its@irrelevant.dk>
+Subject: [PULL 02/20] hw/block/nvme: rename reserved fields declarations
+Date: Mon, 17 May 2021 11:17:19 +0200
+Message-Id: <20210517091737.841787-3-its@irrelevant.dk>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210517091737.841787-1-its@irrelevant.dk>
 References: <20210517091737.841787-1-its@irrelevant.dk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=64.147.123.18; envelope-from=its@irrelevant.dk;
  helo=wnew4-smtp.messagingengine.com
@@ -98,96 +96,35 @@ Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
  qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
  Gollu Appalanaidu <anaidu.gollu@samsung.com>, Max Reitz <mreitz@redhat.com>,
  Keith Busch <kbusch@kernel.org>, Stefan Hajnoczi <stefanha@redhat.com>,
- Klaus Jensen <its@irrelevant.dk>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+ Klaus Jensen <its@irrelevant.dk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Gollu Appalanaidu <anaidu.gollu@samsung.com>
 
-Currently pci_nvme_err_invalid_lba_range trace is called individually at
-each nvme_check_bounds() call site.
-
-Move the trace event to nvme_check_bounds() and remove the redundant
-events.
+Align the 'rsvd1' reserved field declaration in NvmeBar with existing
+style.
 
 Signed-off-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-[k.jensen: commit message fixup]
+[k.jensen: minor commit message fixup]
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- hw/block/nvme.c | 9 +--------
- 1 file changed, 1 insertion(+), 8 deletions(-)
+ include/block/nvme.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 5fe082ec34c5..cd594280a7f9 100644
---- a/hw/block/nvme.c
-+++ b/hw/block/nvme.c
-@@ -1426,6 +1426,7 @@ static inline uint16_t nvme_check_bounds(NvmeNamespace *ns, uint64_t slba,
-     uint64_t nsze = le64_to_cpu(ns->id_ns.nsze);
- 
-     if (unlikely(UINT64_MAX - slba < nlb || slba + nlb > nsze)) {
-+        trace_pci_nvme_err_invalid_lba_range(slba, nlb, nsze);
-         return NVME_LBA_RANGE | NVME_DNR;
-     }
- 
-@@ -2268,7 +2269,6 @@ static void nvme_copy_in_complete(NvmeRequest *req)
- 
-     status = nvme_check_bounds(ns, sdlba, ctx->nlb);
-     if (status) {
--        trace_pci_nvme_err_invalid_lba_range(sdlba, ctx->nlb, ns->id_ns.nsze);
-         goto invalid;
-     }
- 
-@@ -2530,8 +2530,6 @@ static uint16_t nvme_dsm(NvmeCtrl *n, NvmeRequest *req)
-             uint32_t nlb = le32_to_cpu(range[i].nlb);
- 
-             if (nvme_check_bounds(ns, slba, nlb)) {
--                trace_pci_nvme_err_invalid_lba_range(slba, nlb,
--                                                     ns->id_ns.nsze);
-                 continue;
-             }
- 
-@@ -2604,7 +2602,6 @@ static uint16_t nvme_verify(NvmeCtrl *n, NvmeRequest *req)
- 
-     status = nvme_check_bounds(ns, slba, nlb);
-     if (status) {
--        trace_pci_nvme_err_invalid_lba_range(slba, nlb, ns->id_ns.nsze);
-         return status;
-     }
- 
-@@ -2689,7 +2686,6 @@ static uint16_t nvme_copy(NvmeCtrl *n, NvmeRequest *req)
- 
-         status = nvme_check_bounds(ns, slba, _nlb);
-         if (status) {
--            trace_pci_nvme_err_invalid_lba_range(slba, _nlb, ns->id_ns.nsze);
-             goto out;
-         }
- 
-@@ -2818,7 +2814,6 @@ static uint16_t nvme_compare(NvmeCtrl *n, NvmeRequest *req)
- 
-     status = nvme_check_bounds(ns, slba, nlb);
-     if (status) {
--        trace_pci_nvme_err_invalid_lba_range(slba, nlb, ns->id_ns.nsze);
-         return status;
-     }
- 
-@@ -2938,7 +2933,6 @@ static uint16_t nvme_read(NvmeCtrl *n, NvmeRequest *req)
- 
-     status = nvme_check_bounds(ns, slba, nlb);
-     if (status) {
--        trace_pci_nvme_err_invalid_lba_range(slba, nlb, ns->id_ns.nsze);
-         goto invalid;
-     }
- 
-@@ -3018,7 +3012,6 @@ static uint16_t nvme_do_write(NvmeCtrl *n, NvmeRequest *req, bool append,
- 
-     status = nvme_check_bounds(ns, slba, nlb);
-     if (status) {
--        trace_pci_nvme_err_invalid_lba_range(slba, nlb, ns->id_ns.nsze);
-         goto invalid;
-     }
- 
+diff --git a/include/block/nvme.h b/include/block/nvme.h
+index 4ac926fbc687..e7fc119adb24 100644
+--- a/include/block/nvme.h
++++ b/include/block/nvme.h
+@@ -7,7 +7,7 @@ typedef struct QEMU_PACKED NvmeBar {
+     uint32_t    intms;
+     uint32_t    intmc;
+     uint32_t    cc;
+-    uint32_t    rsvd1;
++    uint8_t     rsvd24[4];
+     uint32_t    csts;
+     uint32_t    nssrc;
+     uint32_t    aqa;
 -- 
 2.31.1
 
