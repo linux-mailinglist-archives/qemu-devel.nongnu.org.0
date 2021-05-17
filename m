@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B730383953
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 18:13:15 +0200 (CEST)
-Received: from localhost ([::1]:37098 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88DAE3839C1
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 18:26:06 +0200 (CEST)
+Received: from localhost ([::1]:43392 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lifrm-0002CB-3h
-	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 12:13:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56688)
+	id 1lig4D-0001kT-K0
+	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 12:26:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56762)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lifpa-0007Xs-Bw
- for qemu-devel@nongnu.org; Mon, 17 May 2021 12:10:58 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:46978)
+ id 1lifpf-0007iL-0N
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 12:11:03 -0400
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:40921)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lifpN-00065F-3D
- for qemu-devel@nongnu.org; Mon, 17 May 2021 12:10:58 -0400
-Received: by mail-wm1-x329.google.com with SMTP id
- h3-20020a05600c3503b0290176f13c7715so2312484wmq.5
- for <qemu-devel@nongnu.org>; Mon, 17 May 2021 09:10:41 -0700 (PDT)
+ id 1lifpU-00065v-39
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 12:11:02 -0400
+Received: by mail-wr1-x42e.google.com with SMTP id z17so7005449wrq.7
+ for <qemu-devel@nongnu.org>; Mon, 17 May 2021 09:10:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=SN2pEUHlY9UiJaausTK9VQJ7/OcH1YFojzLo0i1fIEQ=;
- b=TxVDft7FpV9158woGT8B3acaklDn3YiPvTTQX4I62uEQ1tCz8ybA/FP4imvUdqF6Bs
- rLjYA3Jvo4st3NWfZQcOQXIoOiL2W8qW/kuqGxrGuEy5wYwZ9pioJrI6UYcDql7mvlRG
- LxYnQBCEllbxKTuzxxjLGsqP6VhFvZBo4Kz2Lb5YsiuMbY8fNbsTeB9D0gTxdNSGyeL2
- vtLXKh/kQwwk+Vd/DE8sScm2pHzoOYgN+OPQa85Dxzml7z9gMbWqBxNzjLSmCfujnrZw
- 6sQVcnzaN/qNhebHQfyQ1nL3cm5Ilu0ECXPoHem2C7L/Tjw7Wn4z7rUl3TUoSD2D52xp
- K9Sg==
+ bh=8fhgplKrAIwPeJiS0d/uA6DCmsrrVSQ43uYZZyDSgQE=;
+ b=NHnK492dnNSD6JoyPAdMvNzn4LBbBCwjkWVSUOoKJm6PenZpY6BPvaAOdtviOzUHAN
+ PQgt4RiuzEWbNBEL14dB9UXbkHpoTe0NktMrTyN9HyY4riA8frWLHHRD6qvJRbNg9shE
+ nT5F9B2XeQ3tYKzrhMM7uJmw5x9jh8WGAGK8E8sI7APX0OguF9/pbaHpdjD6N8Exm8gE
+ LisSI3+EnoFdhLr6xdDNXiUkBOUtibcJTWGvQiotj+Ed5My+T40ZsTDAU/78nfLGNTtf
+ 8p6c9tvw48eaz1WSJyt20KClxpwf30lQd1ywL2FTuY4l3NguG+uf425T4wXAI5p3+zWc
+ JuAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=SN2pEUHlY9UiJaausTK9VQJ7/OcH1YFojzLo0i1fIEQ=;
- b=kbjumGRlasCFKdMY8nz72NkuVvgpTCAKXFM9bHJU1dJA9MBaq3o3JHoAtXnCQ1/0yE
- eQcf6Kk3dQOPGm9BW3e38O2mA2v/cEFt7xCZ/Vzah4UM5PjmlHbWJOQ5wY2TXYfn17jk
- 6FnQLyNjSGghzZpit9pWCqveYbPdD2a61D34izN0gll8obKzGUYpsY2MKAcSA7IAfNuh
- AeSqv4YjSBtXg8S6EUsoBOFs8j6bNZL3uMGK3Mw5Mpo6gdKBIlQjipvw2xgduPO2CHiV
- yJ8rw4seOdclGDbDKiJtLGcTzXmv1qjZ5G2Dkf3wwopStALpetM47/iyULZsTNoG4KzF
- 7N/Q==
-X-Gm-Message-State: AOAM532XKtKaMfKtmJ1eIUTZ7KrsaI6k2gPvYWfQOhUffdeMwuZoy+1A
- /ZDN6XVuW+OOnmC+91xaW3K1LA==
-X-Google-Smtp-Source: ABdhPJzBakEmkVQbd4lKwsgPbMnGHtb0qLVUIQ4ZqjkNDSVxVaGbD1xZqxFiOAGc4P1agWMWuGJ3oA==
-X-Received: by 2002:a1c:50:: with SMTP id 77mr371044wma.111.1621267840993;
- Mon, 17 May 2021 09:10:40 -0700 (PDT)
+ bh=8fhgplKrAIwPeJiS0d/uA6DCmsrrVSQ43uYZZyDSgQE=;
+ b=iYvu03dK8HDB6UfWaMsWytaMBBJXoIB7kXtlxO93zNnEk2jZORhtLUVx0Tl3DXdcQn
+ iSKfaC6W45a9lrwQwkR+xRY6FGrqHoKW+baiXAp9hjt6n0qxJmLMNzL7xAOaBJXGM3G0
+ 7G4PF6FRTe6OXlJ17xyZWvogQM7EVpd3gHoIW1dg/eVmHgT0HFRyXc5otZXFPx5XAac+
+ Je1EPqAAG74kXfDJpLbgHYKXYdtxGvi7D120iRszm1BRyThxXadSAmzfieIDCEwb9tYc
+ PPQYYqGFxlr+HojgzQfP409HKnRoDDquGrAxCST6ZYz15sQXnKG9tcfibNKFGLZOr4IJ
+ tAew==
+X-Gm-Message-State: AOAM530xr8ixGHZUtIEdLFyQ+wVExBUVS9FBW6i7BrZ6UX95xEKeCcOQ
+ kUvg4d0ixQ+Chz+s8H7un2XXMQ==
+X-Google-Smtp-Source: ABdhPJx7QDztDi0PFPdazRwlPkmDn7QTEpUg88ASSoRrGBv2quCQT4BnIllqQDDthLE8LbdjVi3jIg==
+X-Received: by 2002:adf:e944:: with SMTP id m4mr545940wrn.10.1621267842028;
+ Mon, 17 May 2021 09:10:42 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id l22sm20897197wmq.28.2021.05.17.09.10.27
+ by smtp.gmail.com with ESMTPSA id c194sm19327185wme.46.2021.05.17.09.10.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 17 May 2021 09:10:36 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id EAAE81FF98;
- Mon, 17 May 2021 17:10:23 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 11BE81FF99;
+ Mon, 17 May 2021 17:10:24 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 09/29] hw/tricore: Add testdevice for tests in tests/tcg/
-Date: Mon, 17 May 2021 17:10:02 +0100
-Message-Id: <20210517161022.13984-10-alex.bennee@linaro.org>
+Subject: [PULL 10/29] tests/tcg/tricore: Add build infrastructure
+Date: Mon, 17 May 2021 17:10:03 +0100
+Message-Id: <20210517161022.13984-11-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210517161022.13984-1-alex.bennee@linaro.org>
 References: <20210517161022.13984-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x329.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,192 +93,113 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
 
-this device is used to verify the correctness of regression tests by
-allowing guests to write their exit status to this device. This is then
-used by qemu to exit using the written status.
+this includes the Makefile and linker script to build all the tests.
 
 Signed-off-by: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20210305170045.869437-4-kbastian@mail.uni-paderborn.de>
-Message-Id: <20210512102051.12134-14-alex.bennee@linaro.org>
+Message-Id: <20210305170045.869437-5-kbastian@mail.uni-paderborn.de>
+Message-Id: <20210512102051.12134-15-alex.bennee@linaro.org>
 
-diff --git a/include/hw/tricore/tricore_testdevice.h b/include/hw/tricore/tricore_testdevice.h
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 7572859317..40bba0fc4c 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -349,6 +349,7 @@ S: Maintained
+ F: target/tricore/
+ F: hw/tricore/
+ F: include/hw/tricore/
++F: tests/tcg/tricore/
+ 
+ Multiarch Linux User Tests
+ M: Alex Bennée <alex.bennee@linaro.org>
+diff --git a/tests/tcg/tricore/Makefile.softmmu-target b/tests/tcg/tricore/Makefile.softmmu-target
 new file mode 100644
-index 0000000000..2c56c51bcb
+index 0000000000..d64a99b95f
 --- /dev/null
-+++ b/include/hw/tricore/tricore_testdevice.h
-@@ -0,0 +1,38 @@
-+/*
-+ *  Copyright (c) 2018-2021  Bastian Koppelmann Paderborn University
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2 of the License, or (at your option) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-+ */
++++ b/tests/tcg/tricore/Makefile.softmmu-target
+@@ -0,0 +1,15 @@
++TESTS_PATH = $(SRC_PATH)/tests/tcg/tricore
 +
++LDFLAGS = -T$(TESTS_PATH)/link.ld
++ASFLAGS =
 +
-+#ifndef HW_TRICORE_TESTDEV_H
-+#define HW_TRICORE_TESTDEV_H
++QEMU_OPTS += -M tricore_testboard -nographic -kernel
 +
-+#include "hw/sysbus.h"
-+#include "hw/hw.h"
++%.pS: $(TESTS_PATH)/%.S
++	$(HOST_CC) -E -o $@ $<
 +
-+#define TYPE_TRICORE_TESTDEVICE "tricore_testdevice"
-+#define TRICORE_TESTDEVICE(obj) \
-+    OBJECT_CHECK(TriCoreTestDeviceState, (obj), TYPE_TRICORE_TESTDEVICE)
++%.o: %.pS
++	$(AS) $(ASFLAGS) -o $@ $<
 +
-+typedef struct {
-+    /* <private> */
-+    SysBusDevice parent_obj;
-+
-+    /* <public> */
-+    MemoryRegion iomem;
-+
-+} TriCoreTestDeviceState;
-+
-+#endif
-diff --git a/hw/tricore/tricore_testboard.c b/hw/tricore/tricore_testboard.c
-index 51658d9e37..b6810e3be0 100644
---- a/hw/tricore/tricore_testboard.c
-+++ b/hw/tricore/tricore_testboard.c
-@@ -27,6 +27,7 @@
- #include "hw/loader.h"
- #include "elf.h"
- #include "hw/tricore/tricore.h"
-+#include "hw/tricore/tricore_testdevice.h"
- #include "qemu/error-report.h"
- 
- 
-@@ -56,6 +57,7 @@ static void tricore_testboard_init(MachineState *machine, int board_id)
- {
-     TriCoreCPU *cpu;
-     CPUTriCoreState *env;
-+    TriCoreTestDeviceState *test_dev;
- 
-     MemoryRegion *sysmem = get_system_memory();
-     MemoryRegion *ext_cram = g_new(MemoryRegion, 1);
-@@ -87,6 +89,12 @@ static void tricore_testboard_init(MachineState *machine, int board_id)
-     memory_region_add_subregion(sysmem, 0xf0050000, pcp_data);
-     memory_region_add_subregion(sysmem, 0xf0060000, pcp_text);
- 
-+    test_dev = g_new(TriCoreTestDeviceState, 1);
-+    object_initialize(test_dev, sizeof(TriCoreTestDeviceState),
-+                      TYPE_TRICORE_TESTDEVICE);
-+    memory_region_add_subregion(sysmem, 0xf0000000, &test_dev->iomem);
-+
-+
-     tricoretb_binfo.ram_size = machine->ram_size;
-     tricoretb_binfo.kernel_filename = machine->kernel_filename;
- 
-diff --git a/hw/tricore/tricore_testdevice.c b/hw/tricore/tricore_testdevice.c
++%.tst: %.o
++	$(LD) $(LDFLAGS) $< -o $@
+diff --git a/tests/tcg/tricore/link.ld b/tests/tcg/tricore/link.ld
 new file mode 100644
-index 0000000000..a1563aa568
+index 0000000000..364bcdc00a
 --- /dev/null
-+++ b/hw/tricore/tricore_testdevice.c
-@@ -0,0 +1,82 @@
++++ b/tests/tcg/tricore/link.ld
+@@ -0,0 +1,60 @@
++/* Default linker script, for normal executables */
++OUTPUT_FORMAT("elf32-tricore")
++OUTPUT_ARCH(tricore)
++ENTRY(_start)
++
++/* the internal ram description */
++MEMORY
++{
++  text_ram (rx!p): org = 0x80000000, len = 15K
++  data_ram (w!xp): org = 0xd0000000, len = 130K
++}
 +/*
-+ *  Copyright (c) 2018-2021 Bastian Koppelmann Paderborn University
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2 of the License, or (at your option) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
++ * Define the sizes of the user and system stacks.
 + */
++__USTACK_SIZE = DEFINED (__USTACK_SIZE) ? __USTACK_SIZE : 1K ;
++/*
++ * Define the start address and the size of the context save area.
++ */
++__CSA_BEGIN =  0xd0000000 ;
++__CSA_SIZE =  8k ;
++__CSA_END = __CSA_BEGIN + __CSA_SIZE ;
 +
-+#include "qemu/osdep.h"
-+#include "hw/sysbus.h"
-+#include "hw/qdev-properties.h"
-+#include "hw/tricore/tricore_testdevice.h"
-+
-+static void tricore_testdevice_write(void *opaque, hwaddr offset,
-+                                      uint64_t value, unsigned size)
++SECTIONS
 +{
-+    exit(value);
++  .text  :
++  {
++    *(.text)
++    . = ALIGN(8);
++  } > text_ram
++
++  .rodata :
++  {
++    *(.rodata)
++    *(.rodata1)
++  } > data_ram
++
++  .data :
++  {
++    . = ALIGN(8) ;
++    *(.data)
++    *(.data.*)
++    . = ALIGN(8) ;
++    __USTACK = . + __USTACK_SIZE -768;
++
++  } > data_ram
++  /*
++   * Allocate space for BSS sections.
++   */
++  .bss  :
++  {
++    BSS_BASE = . ;
++    *(.bss)
++    *(COMMON)
++    . = ALIGN(8) ;
++  } > data_ram
++  /* Make sure CSA, stack and heap addresses are properly aligned.  */
++  _. = ASSERT ((__CSA_BEGIN & 0x3f) == 0 , "illegal CSA start address") ;
++  _. = ASSERT ((__CSA_SIZE & 0x3f) == 0 , "illegal CSA size") ;
++
 +}
-+
-+static uint64_t tricore_testdevice_read(void *opaque, hwaddr offset,
-+                                         unsigned size)
-+{
-+    return 0xdeadbeef;
-+}
-+
-+static void tricore_testdevice_reset(DeviceState *dev)
-+{
-+}
-+
-+static const MemoryRegionOps tricore_testdevice_ops = {
-+    .read = tricore_testdevice_read,
-+    .write = tricore_testdevice_write,
-+    .valid = {
-+        .min_access_size = 4,
-+        .max_access_size = 4,
-+    },
-+    .endianness = DEVICE_NATIVE_ENDIAN,
-+};
-+
-+static void tricore_testdevice_init(Object *obj)
-+{
-+    TriCoreTestDeviceState *s = TRICORE_TESTDEVICE(obj);
-+   /* map memory */
-+    memory_region_init_io(&s->iomem, OBJECT(s), &tricore_testdevice_ops, s,
-+                          "tricore_testdevice", 0x4);
-+}
-+
-+static Property tricore_testdevice_properties[] = {
-+    DEFINE_PROP_END_OF_LIST()
-+};
-+
-+static void tricore_testdevice_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+
-+    device_class_set_props(dc, tricore_testdevice_properties);
-+    dc->reset = tricore_testdevice_reset;
-+}
-+
-+static const TypeInfo tricore_testdevice_info = {
-+    .name          = TYPE_TRICORE_TESTDEVICE,
-+    .parent        = TYPE_SYS_BUS_DEVICE,
-+    .instance_size = sizeof(TriCoreTestDeviceState),
-+    .instance_init = tricore_testdevice_init,
-+    .class_init    = tricore_testdevice_class_init,
-+};
-+
-+static void tricore_testdevice_register_types(void)
-+{
-+    type_register_static(&tricore_testdevice_info);
-+}
-+
-+type_init(tricore_testdevice_register_types)
-diff --git a/hw/tricore/meson.build b/hw/tricore/meson.build
-index 77ff6fd137..47e36bb077 100644
---- a/hw/tricore/meson.build
-+++ b/hw/tricore/meson.build
-@@ -1,5 +1,6 @@
- tricore_ss = ss.source_set()
- tricore_ss.add(when: 'CONFIG_TRICORE', if_true: files('tricore_testboard.c'))
-+tricore_ss.add(when: 'CONFIG_TRICORE', if_true: files('tricore_testdevice.c'))
- tricore_ss.add(when: 'CONFIG_TRIBOARD', if_true: files('triboard.c'))
- tricore_ss.add(when: 'CONFIG_TC27X_SOC', if_true: files('tc27x_soc.c'))
- 
 -- 
 2.20.1
 
