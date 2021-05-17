@@ -2,74 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76392382CE0
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 15:09:29 +0200 (CEST)
-Received: from localhost ([::1]:34524 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 436F5382CEA
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 15:09:55 +0200 (CEST)
+Received: from localhost ([::1]:36328 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1liczw-0004Rs-F0
-	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 09:09:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34214)
+	id 1lid0M-0006PY-Bs
+	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 09:09:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34274)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1licyy-0003h8-PE
- for qemu-devel@nongnu.org; Mon, 17 May 2021 09:08:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60372)
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1liczS-0004Kn-MO
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 09:08:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28556)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1licyt-0004gj-2q
- for qemu-devel@nongnu.org; Mon, 17 May 2021 09:08:27 -0400
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1liczR-000538-27
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 09:08:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621256901;
+ s=mimecast20190719; t=1621256936;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=CPWzzsmU20vjoqkbdJrZdsQdEtWUqEMadCuZOAsB0nY=;
- b=aA4zk0sHiaOEGPrgNuWxyue8/5aM8Kvai95u9uwaBoWKsEK4h7eh95Wz1jSBEG9CJHBTYc
- /EhCj0WqQFFGkdEgExWCVfkvJRLj9Bm/BugXy9aYZw6m4cpx7lMeIVGZui7uRxdp10kFUd
- HD8ESjeWfKb2+6vnkdAph5biH2H59nY=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-534-1yKZ9e_0Ohu49FdygKL2lg-1; Mon, 17 May 2021 09:08:19 -0400
-X-MC-Unique: 1yKZ9e_0Ohu49FdygKL2lg-1
-Received: by mail-qv1-f69.google.com with SMTP id
- c5-20020a0ca9c50000b02901aede9b5061so4681619qvb.14
- for <qemu-devel@nongnu.org>; Mon, 17 May 2021 06:08:19 -0700 (PDT)
+ bh=y7paTmXM5btGGjUAvTHo5mqZSfLeaPUI/AGJ0cNjJcc=;
+ b=LXQiSZITILAz2Fakt0mvJZgQMcSqfbfVSR5UJE09YtcXJmqs0mCTwlneJ1hv9+CZ1ZyynI
+ I5ftZgjYyTFRMBKZRmNriUrolv5utQ5enlqbqqFLldmT47Jz1+kNqgAxfSbmakzqzXiBZm
+ Eia/XRtp2G/1k7g8lFlvxXrupFqhsO0=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-16-alX5rVflNnW-1OiCnH2EZg-1; Mon, 17 May 2021 09:08:53 -0400
+X-MC-Unique: alX5rVflNnW-1OiCnH2EZg-1
+Received: by mail-qv1-f72.google.com with SMTP id
+ a29-20020a0ca99d0000b02901ec0ad2c871so4739584qvb.0
+ for <qemu-devel@nongnu.org>; Mon, 17 May 2021 06:08:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=CPWzzsmU20vjoqkbdJrZdsQdEtWUqEMadCuZOAsB0nY=;
- b=MEGjvfogpP9ePKP1Gg6cKlBMdSQBAlCKy26T1Db47GQdIXzU4r/XHAKOsRZUoQNRP6
- rdb67BmZhkKhVBgwJBVuiqk4CMPoE2H9WdN72Vis/65QN+TIQS2L1QnLUiV+m007yADU
- BNj2K6tfCLPtM1YmtmADeVotwxMWVIF/0tYTmsP2EqU57B65mG5o1Q8AN0iwH0XF7YhY
- nwwg0jpeiavv41uiJ2YDoGyfRKH6flUJXaiMeVHvoId4QNu8yCzjkBzIib72xowWr4zV
- VYCnkVDoQ4LgFdbF/25SGZIdXF16lC0gn9y581ESV1rJcXvpRtRRMXClb6SpOD/8nokw
- +3vA==
-X-Gm-Message-State: AOAM530ULa4ofU/05bCRKfIebd1sDc1/gaHXAzF/u+xkRFGOyMOTFb/c
- TYkcQisEO2TZsV2e/SEbAXhBWZNS2X4shw+W9rbBUAIZ0hJNd/G5GB/Fv5+jPJHk+G2SyI0RTsH
- CNgcwSLiFx9fMyWg=
-X-Received: by 2002:a05:622a:15:: with SMTP id
- x21mr24161033qtw.234.1621256899104; 
- Mon, 17 May 2021 06:08:19 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzOBYHw+uerOuvhdUyf3PFZFAOD6tcw8dOul3qD/okyJ29XImDCsgY5ikxWHCGUmeFbBKRvzA==
-X-Received: by 2002:a05:622a:15:: with SMTP id
- x21mr24161005qtw.234.1621256898934; 
- Mon, 17 May 2021 06:08:18 -0700 (PDT)
+ bh=y7paTmXM5btGGjUAvTHo5mqZSfLeaPUI/AGJ0cNjJcc=;
+ b=TsdXgP3VO2Z/xg1baaTmxtZivPD8353FuMtXsV0izE52tyaQr1mrh2OVLgpQG+InlT
+ bubGwRF1kHFt0LW8SYtgaVGOE0TAFYzUvc7gQEFYL93Zs8PD+mj+raaPCmxAFpMmfGmi
+ UAUPVERHaCcMP9fnyXS5Jmfwvg1Yln0Ibs3qJrevGXECselzVRyOCpVhEpg3P5mTgCxp
+ 8/hdkO/GDoQ3wolL8bQPWcoDQ8RSjRtEDx+6nLAfLYnlLD/jD6c92rWPcYwGME0ocvWt
+ 6HTT+v75fESHj0JIwhMsu6WWEQo3bexGKTD6NbDfiCGvkRJ0ah82JcCj02j3G68TI5tS
+ ABwA==
+X-Gm-Message-State: AOAM531DferNHgXtOxhc3Sm+4iTk/1SUJpLL4oO74x1CjpSvhmRkusgi
+ AXLjU+mDTxNC0TbVaMhaxHFaYv+5PPNX1iJfZt0qb7e+px8l+rAad7/D0udjj6Co+4Cnt0dGvfU
+ asDUsSpBerOCzj9I=
+X-Received: by 2002:a37:a24b:: with SMTP id l72mr56128350qke.189.1621256932966; 
+ Mon, 17 May 2021 06:08:52 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzc+ZOAa3jGbkioH6Oo3Ke4oxhLvag7msh0hSGJfk5UOR/YGroTbZnOTd93yLD/B5UIfxgIMQ==
+X-Received: by 2002:a37:a24b:: with SMTP id l72mr56128284qke.189.1621256932435; 
+ Mon, 17 May 2021 06:08:52 -0700 (PDT)
 Received: from horse.lan (pool-173-76-174-238.bstnma.fios.verizon.net.
  [173.76.174.238])
- by smtp.gmail.com with ESMTPSA id f8sm10243814qka.86.2021.05.17.06.08.18
+ by smtp.gmail.com with ESMTPSA id j16sm8442624qtr.27.2021.05.17.06.08.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 May 2021 06:08:18 -0700 (PDT)
-Date: Mon, 17 May 2021 09:08:16 -0400
+ Mon, 17 May 2021 06:08:52 -0700 (PDT)
+Date: Mon, 17 May 2021 09:08:50 -0400
 From: Vivek Goyal <vgoyal@redhat.com>
 To: Connor Kuehl <ckuehl@redhat.com>
-Subject: Re: [Virtio-fs] [PATCH 7/7] virtiofsd: Set req->reply_sent right
- after sending reply
-Message-ID: <20210517130816.GC546943@horse.lan>
+Subject: Re: [Virtio-fs] [PATCH 0/7] virtiofsd: Few cleanups in
+ virtio_send_data_iov()
+Message-ID: <20210517130850.GD546943@horse.lan>
 References: <20210511213736.281016-1-vgoyal@redhat.com>
- <20210511213736.281016-8-vgoyal@redhat.com>
- <5ad6f5e9-0a12-54ce-163a-532f916cc8e8@redhat.com>
+ <34daab90-0e71-20c1-139d-ac0e084f8ed0@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <5ad6f5e9-0a12-54ce-163a-532f916cc8e8@redhat.com>
+In-Reply-To: <34daab90-0e71-20c1-139d-ac0e084f8ed0@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -101,46 +98,38 @@ Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, May 13, 2021 at 03:50:13PM -0500, Connor Kuehl wrote:
+On Thu, May 13, 2021 at 03:50:33PM -0500, Connor Kuehl wrote:
 > On 5/11/21 4:37 PM, Vivek Goyal wrote:
-> > There is no reason to set it in label "err". We should be able to set
-> > it right after sending reply. It is easier to read.
+> > Hi,
 > > 
-> > Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
-> > ---
-> >  tools/virtiofsd/fuse_virtio.c | 5 +----
-> >  1 file changed, 1 insertion(+), 4 deletions(-)
+> > Code in virtio_send_data_iov() little twisted and complicated. This
+> > patch series just tries to simplify it a bit to make it little easier
+> > to read this piece of code.
 > > 
-> > diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.c
-> > index aa53808ef9..b1767dd5b9 100644
-> > --- a/tools/virtiofsd/fuse_virtio.c
-> > +++ b/tools/virtiofsd/fuse_virtio.c
-> > @@ -446,12 +446,9 @@ int virtio_send_data_iov(struct fuse_session *se, struct fuse_chan *ch,
-> >      vu_queue_notify(dev, q);
-> >      pthread_mutex_unlock(&qi->vq_lock);
-> >      vu_dispatch_unlock(qi->virtio_dev);
-> > +    req->reply_sent = true;
-> >  
-> >  err:
+> > Thanks
+> > Vivek
+> > 
+> > Vivek Goyal (7):
+> >   virtiofsd: Check for EINTR in preadv() and retry
+> >   virtiofsd: Get rid of unreachable code in read
+> >   virtiofsd: Use iov_discard_front() to skip bytes
+> >   virtiofsd: get rid of in_sg_left variable
+> >   virtiofsd: Simplify skip byte logic
+> >   virtiofsd: Check EOF before short read
+> >   virtiofsd: Set req->reply_sent right after sending reply
+> > 
+> >  tools/virtiofsd/fuse_virtio.c | 67 +++++++++++------------------------
+> >  1 file changed, 21 insertions(+), 46 deletions(-)
+> > 
 > 
-> Just a really minor comment: after all these changes, I would venture
-> that "out" is a more appropriate label name than "err" at this point.
+> With the codestyle fix to appease the bot:
+> 
+> Reviewed-by: Connor Kuehl <ckuehl@redhat.com>
+> 
+> (For the series)
 
-May be. This path is used both by error path as well as success path. Just
-that value of "ret" changes. I am not particular about it. So I will
-change this to "out".
+Thanks. I will fix the coding style issue and repost the patch series.
 
-Thanks
 Vivek
-> 
-> > -    if (ret == 0) {
-> > -        req->reply_sent = true;
-> > -    }
-> > -
-> >      return ret;
-> >  }
-> >  
-> > 
-> 
 
 
