@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27E96383957
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 18:14:36 +0200 (CEST)
-Received: from localhost ([::1]:42348 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D1B438397A
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 18:18:01 +0200 (CEST)
+Received: from localhost ([::1]:51616 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lift5-0006DG-5X
-	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 12:14:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56450)
+	id 1lifwO-0004Df-Lx
+	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 12:18:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56476)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lifp9-0007HU-1Z
- for qemu-devel@nongnu.org; Mon, 17 May 2021 12:10:31 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:45882)
+ id 1lifpA-0007KZ-7k
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 12:10:32 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:45777)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lifp6-0005tp-QD
- for qemu-devel@nongnu.org; Mon, 17 May 2021 12:10:30 -0400
-Received: by mail-wm1-x329.google.com with SMTP id
- s5-20020a7bc0c50000b0290147d0c21c51so3920615wmh.4
- for <qemu-devel@nongnu.org>; Mon, 17 May 2021 09:10:28 -0700 (PDT)
+ id 1lifp7-0005ue-If
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 12:10:31 -0400
+Received: by mail-wr1-x432.google.com with SMTP id h4so6982479wrt.12
+ for <qemu-devel@nongnu.org>; Mon, 17 May 2021 09:10:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=2w+lSoGUeb8mcgLQ+RwoP+3nXJnqsEfRl/hSUtUI2kg=;
- b=UC7KpDFhJ78bOWVkqXOpjsLrb2eJ8qr83DdSdBiu5Z/HWxWMDv1L2OFExJYZ0/Lu6Q
- cKwSX7DybMXspWqhMDqESzUh8ok6u5HCywYMcvPELXH22U3kjMELAAzMh8/zmlL2sfIT
- iDgLgRuyOLHG6mL7abgwHpSTZ+O+72rD5ejpCP/HRSPC85rSws0pCIkco7pRFyWIXPak
- v5GiPMHN9maoBmxLqXTHjZCUETa1uoPudvK2KPIiHh58Fm04G2KB44wayVKdTsMWw8fZ
- R4xW2CXC2T/gNt3UCmDdB1tm8O17hktw1rOOoawbh1haMzbuDPoUPb7xEA2mJHu6rQxy
- 9Qtw==
+ bh=4anbRy9FviqkY8a40nrkWVmNlHFbOTFzQrhdJnRiGmo=;
+ b=L2Hj3uu7QaFy58CFLBAx+cwEsGdP7c2BHHyypLdfGb/iRj4x9NLRLvu9htIwosKqwi
+ nn9amdVgnS1W1aqCCG7NUT7iahvX0i5Ac350GCwienQ3nNfCGPu8Xwlm0MdnrB8E/Kq8
+ BBhBhC7Eccygdxg/Eb3uym64g0ONh8yZA9mveuV84jOyhkdPdNQTat2KyhyrbH6e3uLE
+ 7TFu/C+xprKPitYo5HxwR7PP+l2PASGupkIEJdR4cN9bDYsBWkkffSfFrX2nKaiA+l7h
+ zfW/JXybJIreC6e4hNpaHLUet5tJB+ROVMrnX+CamFGJNl9vUcHL4l55Ud0UyCh3z8J9
+ iwjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=2w+lSoGUeb8mcgLQ+RwoP+3nXJnqsEfRl/hSUtUI2kg=;
- b=OpWpZ1C+JXOcYo61/f6ZnRZ4BM3g7O5gfT2UoFlnTKhTSZWx4jAZ6LegXFCJbx2Czr
- mVNVGSd81giLUYDyW963ycpf3x/SC3uyyBLV5l8ktTBBWA4h8+YVIoYuLr8Bp2mCDlju
- s55vF+62GuLFdcM7NNNG2NM+SUSYNqvS/Dyo1BFdNE1yq1rBU140EGDL30NEjLLaffw1
- KA/o+08H+vlijX0A2T5UoyDq54wR+i5P7+w/DQ4ikf6Ml2AXqwjKPh9PJyha+7FMvsN+
- Kf2Ylg76DqUscS8ktd2tCTT1YyaYjD7T/WAH84y+YrNGODTe5ACtRR/mFdx7UHhinDq5
- H+Vg==
-X-Gm-Message-State: AOAM530Q1E48YX3ouraBdW6/aAxvnAoIzVQ9QqDWo1FNHpYnku8g1UnH
- lEe0nXR8cVLX/pnNE+7ULw33Ww==
-X-Google-Smtp-Source: ABdhPJzcyjF1u4RjzfqIMoV/S8r/N8hO6rCAQTsxrb2i2urWaeVLS8F9DLgV4iP60pd5Wjd81QlHJw==
-X-Received: by 2002:a1c:e156:: with SMTP id y83mr608422wmg.89.1621267827471;
- Mon, 17 May 2021 09:10:27 -0700 (PDT)
+ bh=4anbRy9FviqkY8a40nrkWVmNlHFbOTFzQrhdJnRiGmo=;
+ b=ntSCTgUCIpOlSFKmjgX7G19CsUINtJ5cjlthuYzHRK3VK5/e5k/hf7R1E6N40KmQwj
+ 5z2Gy/u0AJTV3vImTg7eKRd1Mj3unduYoybVDO4yM/uUxPW2O18X/RyseoVEsSVFcEdN
+ OOq62rM63/ym5Uu9hKrlJ4eG+hUj6iESklZkm5M3TYEYo601VUDir83kC4+Y+JeQb9Rz
+ KQypD56CxiGucs4nqRXTFtxfTXTPePcdcJRucYkr7DqMCI4FIYIsTWlrLUWjcA+Xa+C0
+ 73Nq49Bp8fXih017jja7jwehnX99KnsmEav4E004hM44bVatKdX2i4hx4OgjQLm3PwJN
+ cTFQ==
+X-Gm-Message-State: AOAM533ujf2wjC9vDIiFTlID/ZMsWZ0iFSoTcv69QaiSS35ykQ3oVs3E
+ wsxcaVz0/6lz9hauR+AU6v+z2A==
+X-Google-Smtp-Source: ABdhPJwoBpsGxRWYkC+l8DIMVcCHE+8yMaLRnnH5thyFOPAEHhJvE8rLCDZk0DGKWgiKlvhMU4Ii/w==
+X-Received: by 2002:a05:6000:551:: with SMTP id
+ b17mr540007wrf.32.1621267828193; 
+ Mon, 17 May 2021 09:10:28 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id r11sm12029418wrp.46.2021.05.17.09.10.23
+ by smtp.gmail.com with ESMTPSA id h14sm488057wmb.1.2021.05.17.09.10.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 May 2021 09:10:23 -0700 (PDT)
+ Mon, 17 May 2021 09:10:27 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 36DCA1FF8C;
+ by zen.linaroharston (Postfix) with ESMTP id 4EDC61FF8F;
  Mon, 17 May 2021 17:10:23 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 02/29] tests/docker: make executable an optional argument to
- "update"
-Date: Mon, 17 May 2021 17:09:55 +0100
-Message-Id: <20210517161022.13984-3-alex.bennee@linaro.org>
+Subject: [PULL 03/29] tests/docker: allow "update" to add the current user
+Date: Mon, 17 May 2021 17:09:56 +0100
+Message-Id: <20210517161022.13984-4-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210517161022.13984-1-alex.bennee@linaro.org>
 References: <20210517161022.13984-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x329.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,102 +95,52 @@ Cc: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We're going to extend the abilities of the command shortly.
+The current user functionality is used for cross compiling to avoid
+complications with permissions when building test programs. However
+for images that come from the registry we still need the ability to
+add the user after the fact.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Willian Rampazzo <willianr@redhat.com>
-Message-Id: <20210512102051.12134-4-alex.bennee@linaro.org>
+Message-Id: <20210512102051.12134-5-alex.bennee@linaro.org>
 
-diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
-index 9f464cb92c..820423d718 100644
---- a/tests/docker/Makefile.include
-+++ b/tests/docker/Makefile.include
-@@ -248,7 +248,7 @@ docker-run: docker-qemu-src
- 	$(if $(EXECUTABLE),						\
- 		$(call quiet-command,					\
- 			$(DOCKER_SCRIPT) update 			\
--			$(IMAGE) $(EXECUTABLE),				\
-+			$(IMAGE) --executable $(EXECUTABLE),		\
- 			"  COPYING $(EXECUTABLE) to $(IMAGE)"))
- 	$(call quiet-command,						\
- 		$(DOCKER_SCRIPT) run 					\
 diff --git a/tests/docker/docker.py b/tests/docker/docker.py
-index 0435a55d10..9b3425fec2 100755
+index 9b3425fec2..7a14058801 100755
 --- a/tests/docker/docker.py
 +++ b/tests/docker/docker.py
-@@ -523,7 +523,7 @@ class UpdateCommand(SubCommand):
+@@ -517,7 +517,7 @@ def run(self, args, argv):
+ 
+ 
+ class UpdateCommand(SubCommand):
+-    """ Update a docker image with new executables. Args: <tag> <executable>"""
++    """ Update a docker image. Args: <tag> <actions>"""
+     name = "update"
+ 
      def args(self, parser):
-         parser.add_argument("tag",
+@@ -525,6 +525,9 @@ def args(self, parser):
                              help="Image Tag")
--        parser.add_argument("executable",
-+        parser.add_argument("--executable",
+         parser.add_argument("--executable",
                              help="Executable to copy")
++        parser.add_argument("--add-current-user", "-u", dest="user",
++                            action="store_true",
++                            help="Add the current user to image's passwd")
  
      def run(self, args, argv):
-@@ -532,35 +532,37 @@ def run(self, args, argv):
-         tmp = tempfile.NamedTemporaryFile(suffix="dckr.tar.gz")
-         tmp_tar = TarFile(fileobj=tmp, mode='w')
+         # Create a temporary tarball with our whole build context and
+@@ -564,6 +567,13 @@ def run(self, args, argv):
  
--        # Add the executable to the tarball, using the current
--        # configured binfmt_misc path. If we don't get a path then we
--        # only need the support libraries copied
--        ff, enabled = _check_binfmt_misc(args.executable)
--
--        if not enabled:
--            print("binfmt_misc not enabled, update disabled")
--            return 1
--
--        if ff:
--            tmp_tar.add(args.executable, arcname=ff)
--
--        # Add any associated libraries
--        libs = _get_so_libs(args.executable)
--        if libs:
--            for l in libs:
--                so_path = os.path.dirname(l)
--                name = os.path.basename(l)
--                real_l = os.path.realpath(l)
--                try:
--                    tmp_tar.add(real_l, arcname="%s/%s" % (so_path, name))
--                except FileNotFoundError:
--                    print("Couldn't add %s/%s to archive" % (so_path, name))
--                    pass
--
-         # Create a Docker buildfile
-         df = StringIO()
-         df.write(u"FROM %s\n" % args.tag)
--        df.write(u"ADD . /\n")
-+
-+        if args.executable:
-+            # Add the executable to the tarball, using the current
-+            # configured binfmt_misc path. If we don't get a path then we
-+            # only need the support libraries copied
-+            ff, enabled = _check_binfmt_misc(args.executable)
-+
-+            if not enabled:
-+                print("binfmt_misc not enabled, update disabled")
-+                return 1
-+
-+            if ff:
-+                tmp_tar.add(args.executable, arcname=ff)
-+
-+            # Add any associated libraries
-+            libs = _get_so_libs(args.executable)
-+            if libs:
-+                for l in libs:
-+                    so_path = os.path.dirname(l)
-+                    name = os.path.basename(l)
-+                    real_l = os.path.realpath(l)
-+                    try:
-+                        tmp_tar.add(real_l, arcname="%s/%s" % (so_path, name))
-+                    except FileNotFoundError:
-+                        print("Couldn't add %s/%s to archive" % (so_path, name))
-+                        pass
-+
-+            df.write(u"ADD . /\n")
+             df.write(u"ADD . /\n")
  
++        if args.user:
++            uid = os.getuid()
++            uname = getpwuid(uid).pw_name
++            df.write("\n")
++            df.write("RUN id %s 2>/dev/null || useradd -u %d -U %s" %
++                     (uname, uid, uname))
++
          df_bytes = BytesIO(bytes(df.getvalue(), "UTF-8"))
  
+         df_tar = TarInfo(name="Dockerfile")
 -- 
 2.20.1
 
