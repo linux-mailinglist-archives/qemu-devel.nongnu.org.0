@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D04938284E
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 11:29:33 +0200 (CEST)
-Received: from localhost ([::1]:54474 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14CC1382839
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 11:23:52 +0200 (CEST)
+Received: from localhost ([::1]:46490 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1liZZ5-0003ds-WF
-	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 05:29:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33212)
+	id 1liZTV-0006ca-Vq
+	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 05:23:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33228)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1liZNr-00038R-8T; Mon, 17 May 2021 05:17:55 -0400
-Received: from wnew4-smtp.messagingengine.com ([64.147.123.18]:45645)
+ id 1liZNs-00039S-AE; Mon, 17 May 2021 05:17:56 -0400
+Received: from wnew4-smtp.messagingengine.com ([64.147.123.18]:42367)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1liZNp-0005ew-IC; Mon, 17 May 2021 05:17:55 -0400
+ id 1liZNq-0005fD-N1; Mon, 17 May 2021 05:17:56 -0400
 Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailnew.west.internal (Postfix) with ESMTP id 3918F5D1;
- Mon, 17 May 2021 05:17:49 -0400 (EDT)
+ by mailnew.west.internal (Postfix) with ESMTP id 82639A09;
+ Mon, 17 May 2021 05:17:52 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute1.internal (MEProxy); Mon, 17 May 2021 05:17:49 -0400
+ by compute1.internal (MEProxy); Mon, 17 May 2021 05:17:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=jWU1CIa28hRSW
- I/94oCJCN3g4HT02fhAwunbOb3KYbs=; b=JqGXrK27e5gyoeYwMnVT5tWgDcgrZ
- WB0ajfXkK7I2mR8impkTcO/zoC2sToa5GWvjYRWBMMxKtB7qX5GThShxhWhCj+rM
- HnbCvbMQ/oHZ7yZ/wTO19J8Zx6MR8uvH0CC0H0RPqU8kPt8AsFcDEYB5F/Gt5TEq
- nqHhK/fGxJHL+z9u6TLAsdD7eEnWOHTnEAGMh9E9yAgXj716w+sALcCFPGCbxgHP
- 0JBLKqcsCCRZHO8Z3umNKfAouf6iIvRU1h0duweb3An/2CIFwIbFqeoGxTVpaGVr
- chFszDzsEKkqW91IaZ1ZaF7LAb7TxCaGMvNevGOJ0gBayDa3Afu0ABayg==
+ :mime-version:content-transfer-encoding; s=fm3; bh=7yxlIrK8WMG/W
+ p4gnG69hXRFctTV+BzKgdSeTaWQJ38=; b=UeSRrCtKHyWqEidTA17xUStj6KWCE
+ hNQ5Q9g9uv0/xBzLUqcm4qzyymbLdxEUJXf613QI1NU/KD7AQ7hmnulavbOhk/ce
+ E9e4jDuIvXRzCi0dqy4WaUut6ABx6hkEhQyOCOARl8vvuIgnHWLPIRG4naKM1kvw
+ prcdRBm4P7MTNFFheDMXM8KIkmls/4ZV1ScSAfW8vqbbBR7/QDSYyVgpwWcaR0CJ
+ 9+UED0f0BlTiCMbA3RZM4pIBkGBG0BXiv8SgYUUPDEi9k2AwdJsNPob56HUqYt8D
+ GZ7zj7GR5YVqDM66c3M7mWND+XS2UBiJ46PR3qqJ3TMSlt5P0JPCl6h1A==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; bh=jWU1CIa28hRSWI/94oCJCN3g4HT02fhAwunbOb3KYbs=; b=s9wLNbub
- kMZcEJLO2mHLUXvWL5JSIt1tABRML+sglr5naot7ShIiVRGTvz2ZOXiAeCAihz+o
- qa+0enHL4OwdLYn92p4rNpmeyszZfgOhfVngBPFu3YgeNBiVKAJqH/17QRNPxXlA
- QtHQSKZUDbTKvSLx114QRP742iuaI9cuzaNg3Os41+sUz+qp+rCYwW7V95gh6U51
- Tt41kF8F9OcVIkTLfqOAEddf7etpM/YZlsJVR3F2lJ0x9R7Jk1LK4yYmMq1J5FuZ
- eCrYQ2su2j6ADPlpnzXW5e05xQpuPrfTazJ3ku2ERGgCu5PMLC2yZjm8z609Td8R
- ivL5421C5v0hEQ==
-X-ME-Sender: <xms:vDSiYMQIc1lWdNficLUt_TCfpY7X9tX_yDMTTfkv1euaplbbf3XkYA>
- <xme:vDSiYJzvgMR6arqYyL7zQgOYZAva3Jb0YDOe2N7-KlsalAbrGHj2uxz1DtmnlpSKK
- djmaR_Hnv1pFMUsDhM>
+ fm2; bh=7yxlIrK8WMG/Wp4gnG69hXRFctTV+BzKgdSeTaWQJ38=; b=N+RF4w0C
+ 4RcwIgSMuC/gg8g8/64oYT5ohBzVG8bxDsIhiMium8NTi62MPTtg+HbmodCxgYGL
+ w1t449R5IT0NuEbn8qYZMKHnXzwMcTsPBad1hPZqpD8E2K5kMDkPJNXqQD0Zm2Ff
+ ftc9j2Ac2DnBI1cwi18KJQE2kpwmUB6jF6vIHrTFYY67/4LP4RHNfIAkarmPImDH
+ oCS9rNXibp0R578ZqwazdklpAY385s818byGSOBeqJOQHVRwoey+uWT5w34xQdYY
+ MyQmPwq5GEn2uNuNnMeze9FkrfH6uZIdd72dx9XZk2Vllki18NrMeX/DuxZsws9N
+ ArrOjEtIDp4kmw==
+X-ME-Sender: <xms:vzSiYN0GFpo3T3r_9WtHF91Sd-xJk8j3X5WJaRAILpGJKKZv4y6oJA>
+ <xme:vzSiYEGWPafQtOYTs_eondLLS36AcgsYIPMjc0m6tk_bAfxJGNpfk_m-bnM57Q2Tl
+ 0OZu5larVrnB1US7U8>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdeihedgudegucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -53,19 +53,20 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdeihedgudegucetufdoteggod
  gvrhhnpeeuleetgeeiuefhgfekfefgveejiefgteekiedtgfdtieefhfdthfefueffvefg
  keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
  curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:vDSiYJ2FXKWvxDmGh6Y08EKXYa9cE5iq_6g8h0VHXPUHO0B50WRloQ>
- <xmx:vDSiYABeDyDFTHimJ0_owlwgYNh9ckmlYA78fS2Zl133IyP3zNdl8w>
- <xmx:vDSiYFjKQlkWaljDDjjZIqv56Y5ch0BVNcn1x11okmd6MH7GphL5Yw>
- <xmx:vDSiYGUPXFgQt9eC08EARbr-vL-oZHC-92zNv3eopvFmhDHQb227cmDjTkE>
+X-ME-Proxy: <xmx:vzSiYN63g2MRwz6duLiFpnOFsG8Hzz15mKS2LUfHgeYaDqc-n0d6Ow>
+ <xmx:vzSiYK0p0v-sznuc5_oMNWD1ZrKyKcJkqN4qGAOHxIAYS9ulvg-_-g>
+ <xmx:vzSiYAHxrGusN1DDRjADdLOE4-HmwbqxkdTtsobEHyC2JRHUVCJSUg>
+ <xmx:vzSiYOZTKBTZuNsrbdEhJobbBIuT4e9fbMcMGgazm-DMX-TgYOIr5GtYcQg>
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190]) by mail.messagingengine.com (Postfix) with ESMTPA;
- Mon, 17 May 2021 05:17:47 -0400 (EDT)
+ Mon, 17 May 2021 05:17:50 -0400 (EDT)
 From: Klaus Jensen <its@irrelevant.dk>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PULL 02/20] hw/block/nvme: rename reserved fields declarations
-Date: Mon, 17 May 2021 11:17:19 +0200
-Message-Id: <20210517091737.841787-3-its@irrelevant.dk>
+Subject: [PULL 03/20] hw/block/nvme: consider metadata read aio return value
+ in compare
+Date: Mon, 17 May 2021 11:17:20 +0200
+Message-Id: <20210517091737.841787-4-its@irrelevant.dk>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210517091737.841787-1-its@irrelevant.dk>
 References: <20210517091737.841787-1-its@irrelevant.dk>
@@ -102,29 +103,49 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Gollu Appalanaidu <anaidu.gollu@samsung.com>
 
-Align the 'rsvd1' reserved field declaration in NvmeBar with existing
-style.
+Currently in compare command metadata aio read blk_aio_preadv return
+value ignored. Consider it and complete the block accounting.
 
 Signed-off-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
-[k.jensen: minor commit message fixup]
+Fixes: 0a384f923f51 ("hw/block/nvme: add compare command")
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- include/block/nvme.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/block/nvme.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/include/block/nvme.h b/include/block/nvme.h
-index 4ac926fbc687..e7fc119adb24 100644
---- a/include/block/nvme.h
-+++ b/include/block/nvme.h
-@@ -7,7 +7,7 @@ typedef struct QEMU_PACKED NvmeBar {
-     uint32_t    intms;
-     uint32_t    intmc;
-     uint32_t    cc;
--    uint32_t    rsvd1;
-+    uint8_t     rsvd24[4];
-     uint32_t    csts;
-     uint32_t    nssrc;
-     uint32_t    aqa;
+diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+index cd594280a7f9..67abc9eb2c24 100644
+--- a/hw/block/nvme.c
++++ b/hw/block/nvme.c
+@@ -2369,10 +2369,19 @@ static void nvme_compare_mdata_cb(void *opaque, int ret)
+     uint32_t reftag = le32_to_cpu(rw->reftag);
+     struct nvme_compare_ctx *ctx = req->opaque;
+     g_autofree uint8_t *buf = NULL;
++    BlockBackend *blk = ns->blkconf.blk;
++    BlockAcctCookie *acct = &req->acct;
++    BlockAcctStats *stats = blk_get_stats(blk);
+     uint16_t status = NVME_SUCCESS;
+ 
+     trace_pci_nvme_compare_mdata_cb(nvme_cid(req));
+ 
++    if (ret) {
++        block_acct_failed(stats, acct);
++        nvme_aio_err(req, ret);
++        goto out;
++    }
++
+     buf = g_malloc(ctx->mdata.iov.size);
+ 
+     status = nvme_bounce_mdata(n, buf, ctx->mdata.iov.size,
+@@ -2421,6 +2430,8 @@ static void nvme_compare_mdata_cb(void *opaque, int ret)
+         goto out;
+     }
+ 
++    block_acct_done(stats, acct);
++
+ out:
+     qemu_iovec_destroy(&ctx->data.iov);
+     g_free(ctx->data.bounce);
 -- 
 2.31.1
 
