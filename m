@@ -2,55 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9B2E383C2C
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 20:24:21 +0200 (CEST)
-Received: from localhost ([::1]:45220 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7525383C37
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 20:28:12 +0200 (CEST)
+Received: from localhost ([::1]:53884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lihue-0003hJ-Np
-	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 14:24:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33884)
+	id 1lihyN-00013k-FI
+	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 14:28:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lihlT-0006A6-Lh
- for qemu-devel@nongnu.org; Mon, 17 May 2021 14:14:51 -0400
-Received: from mout.kundenserver.de ([217.72.192.74]:34337)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lihlU-0006D3-8E
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 14:14:52 -0400
+Received: from mout.kundenserver.de ([212.227.17.24]:38877)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lihlL-0004RE-KF
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lihlM-0004RM-7U
  for qemu-devel@nongnu.org; Mon, 17 May 2021 14:14:51 -0400
 Received: from quad ([82.142.31.78]) by mrelayeu.kundenserver.de (mreue107
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1MCsDe-1lZs4b45Tc-008rAc; Mon, 17
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1MUXd0-1lrXTy1cv2-00QWZy; Mon, 17
  May 2021 20:14:38 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 21/59] linux-user/sparc: Fix the stackframe structure
-Date: Mon, 17 May 2021 20:13:46 +0200
-Message-Id: <20210517181424.8093-22-laurent@vivier.eu>
+Subject: [PULL 22/59] linux-user/sparc: Use target_pt_regs
+Date: Mon, 17 May 2021 20:13:47 +0200
+Message-Id: <20210517181424.8093-23-laurent@vivier.eu>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210517181424.8093-1-laurent@vivier.eu>
 References: <20210517181424.8093-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:hJQD0zN7sluXRTbQyMIeWsitxY/jEQnLajZroqIKubbs8rtqUAb
- t2yupmbD6+6+rHEYuRfLtP8Ono1ZcxsDu2bSnLnY+TsxvH3k7id1l8AZuA39hJWLuT8tzi5
- KFyG6tetiUthyxjf+PYAKeJgKMYKfeQMTWSYiCpXxA4JozYzQkjHSWWLxU38Mc1GLkFYvuQ
- IhnOJIL0BOMBzdgjMx7zA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:KdQbGm/jwt4=:zevkVLPgm4p5sMnsNi5tWH
- M7f55QNk2LI61nOdTumMBwWXgfd1QHlOvffS1iM32TcKgs+YsbbMZLeaCH/WyFr+7XXZ5dnoO
- gUlPeSr1k/GslQL/nRomaD3rqo1M6Pw+4IvmEj1peJorRmnxx7m84OVLym2/24MymgKW3/knc
- uwD3ZS5kr2/F1t5pbxRt4Mn3xtLYOEZ9C8e90L2aa8J45Kmqt4e17nAR0Df/NamMa6M6YD3dX
- YVbIZn+SyhiYHR7qgLGKKx/XPLTQo6fTUtxP+8DOcpot9Q2wmw5W8k8E4ag+5a0+pn8ZaFaqU
- hIxaC+vMyV/z1b8P4cENJXty9VdaP/IIeSBZlHn6k/vblr5Mm3VqHO2IYB48MVLhWGnHqHaSc
- nRPIqrtHu2kOoV1Md8z/hk+Mg5Kcc8W2F33wolRw/E1HXSJUmQPxc6jJSAy3us7HTt0mNOURr
- v7s7nSl7pwNf0vWl6SlV0tBVjk8bPBZU0t2xyjNQm0cKnEth7ZdtiuOkYVxeOfpif1+smkC3r
- hCaZN8kvhOd4aPciQGPbRA=
-Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:kgXNC5uHMrgUj89/WzaMWhJFwKXB8v5LVDi3IWw/jb7LutF0Xw6
+ upiredvxVsCKIlAAhDBRGU7BesqP5B0pDyjHPpqMcZ5nyVCLksiGPnOI6Ge6X53iqt/6bGM
+ rV+iisr0QoZswDUGM2njRb6lXtFPwJqCvNBvRYE0qBaE/atPOZznkWNRVdwx1XVJOigIUwd
+ jG/AmreJYlYGbg38ogR5A==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:ZOxVYZvaB9Y=:9zJV8q1cOnUa4BS9mf/wHV
+ TAlOJYJxY2LwTPg39mrq8mpGRZRprhL0WaIneKPV4a8xV5u1rQQ2hNjQUyuAeBrs0FFOM36sr
+ F41gJwHjLBhduJZIkYre+z16KmrUmtQDpSPqXa+XkIp3Zjy6LJUtoGpK7xVudtPBjX5k59DGg
+ TQy54/upNg05CU1IQo4Qq0fGv/RMqC4ks9QZVdx4C+U2S3S2wRx+Hfp0fEtxIoNj3tXHJjFMu
+ qlXteHfiOA0sUpSCHQMl695vdDJa/beBh7Pn8edVf9aREPRYcXjcOCyQYJ0T9tN4LwHjKLHqi
+ dhTm905EwheGguqYz1wP5qaAIviAJfaGIKLU6rec/K2yAiT9ZHSNU+M+Ig11kAHNu7UxZop4Y
+ wS0PgMqvcrjjvaEYJ59EtoPwyclh01Fkbj3IDo14zjUXFtBuxkDfde/IOTPslMr0jxDrY/9l8
+ 4vJiwQ5BNp29cmX8E9t0NBW6/E5wqz4TY9Hb59RoOZZrQnM6jCsdl0qM0Jw95OH4UNbMk7H7t
+ G/wNhwOiP0+LqWDj0SDA3c=
+Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -70,91 +69,234 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Move target_reg_window up and use it.  Fold structptr and xxargs
-into xargs -- the use of a host pointer was incorrect anyway.
-Rename the structure to target_stackf for consistency.
+Replace __siginfo_t with target_pt_regs, and move si_mask
+into target_signal_frame directly.
+
+Extract save/restore functions for target_pt_regs.  Adjust
+for sparc64 tstate.  Use proper get/put functions for psr.
+Turns out we were already writing to si_mask twice, so no
+need to handle that in the new functions.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20210426025334.1168495-15-richard.henderson@linaro.org>
+Message-Id: <20210426025334.1168495-16-richard.henderson@linaro.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/sparc/signal.c | 38 +++++++++++++++++++++-----------------
- 1 file changed, 21 insertions(+), 17 deletions(-)
+ linux-user/sparc/signal.c | 123 ++++++++++++++++++++------------------
+ 1 file changed, 65 insertions(+), 58 deletions(-)
 
 diff --git a/linux-user/sparc/signal.c b/linux-user/sparc/signal.c
-index 29c5e3b0c0be..3474098641a6 100644
+index 3474098641a6..0d9305818f8c 100644
 --- a/linux-user/sparc/signal.c
 +++ b/linux-user/sparc/signal.c
-@@ -21,16 +21,26 @@
- #include "signal-common.h"
- #include "linux-user/trace.h"
- 
--/* A Sparc stack frame */
--struct sparc_stackf {
-+/* A Sparc register window */
-+struct target_reg_window {
-     abi_ulong locals[8];
-     abi_ulong ins[8];
--    /* It's simpler to treat fp and callers_pc as elements of ins[]
--         * since we never need to access them ourselves.
--         */
--    char *structptr;
--    abi_ulong xargs[6];
--    abi_ulong xxargs[1];
-+};
-+
-+/* A Sparc stack frame. */
-+struct target_stackf {
-+    /*
-+     * Since qemu does not reference fp or callers_pc directly,
-+     * it's simpler to treat fp and callers_pc as elements of ins[],
-+     * and then bundle locals[] and ins[] into reg_window.
-+     */
-+    struct target_reg_window win;
-+    /*
-+     * Similarly, bundle structptr and xxargs into xargs[].
-+     * This portion of the struct is part of the function call abi,
-+     * and belongs to the callee for spilling argument registers.
-+     */
-+    abi_ulong xargs[8];
+@@ -43,17 +43,6 @@ struct target_stackf {
+     abi_ulong xargs[8];
  };
  
+-typedef struct {
+-    struct {
+-        abi_ulong psr;
+-        abi_ulong pc;
+-        abi_ulong npc;
+-        abi_ulong y;
+-        abi_ulong u_regs[16]; /* globals and ins */
+-    }               si_regs;
+-    int             si_mask;
+-} __siginfo_t;
+-
  typedef struct {
-@@ -56,7 +66,7 @@ typedef struct {
- 
+     abi_ulong  si_float_regs[32];
+     unsigned   long si_fsr;
+@@ -67,7 +56,8 @@ typedef struct {
  
  struct target_signal_frame {
--    struct sparc_stackf ss;
-+    struct target_stackf ss;
-     __siginfo_t         info;
+     struct target_stackf ss;
+-    __siginfo_t         info;
++    struct target_pt_regs regs;
++    uint32_t            si_mask;
      abi_ulong           fpu_save;
      uint32_t            insns[2] QEMU_ALIGNED(8);
-@@ -150,10 +160,10 @@ void setup_frame(int sig, struct target_sigaction *ka,
-     }
+     abi_ulong           extramask[TARGET_NSIG_WORDS - 1];
+@@ -103,23 +93,61 @@ static inline abi_ulong get_sigframe(struct target_sigaction *sa,
+     return sp;
+ }
  
-     for (i = 0; i < 8; i++) {
--        __put_user(env->regwptr[i + WREG_L0], &sf->ss.locals[i]);
-+        __put_user(env->regwptr[i + WREG_L0], &sf->ss.win.locals[i]);
-     }
-     for (i = 0; i < 8; i++) {
--        __put_user(env->regwptr[i + WREG_I0], &sf->ss.ins[i]);
-+        __put_user(env->regwptr[i + WREG_I0], &sf->ss.win.ins[i]);
-     }
-     if (err)
-         goto sigsegv;
-@@ -349,12 +359,6 @@ struct target_ucontext {
-     target_mcontext_t tuc_mcontext;
- };
- 
--/* A V9 register window */
--struct target_reg_window {
--    abi_ulong locals[8];
--    abi_ulong ins[8];
--};
--
- /* {set, get}context() needed for 64-bit SparcLinux userland. */
- void sparc64_set_context(CPUSPARCState *env)
+-static int
+-setup___siginfo(__siginfo_t *si, CPUSPARCState *env, abi_ulong mask)
++static void save_pt_regs(struct target_pt_regs *regs, CPUSPARCState *env)
  {
+-    int err = 0, i;
+-
+-    __put_user(env->psr, &si->si_regs.psr);
+-    __put_user(env->pc, &si->si_regs.pc);
+-    __put_user(env->npc, &si->si_regs.npc);
+-    __put_user(env->y, &si->si_regs.y);
+-    for (i=0; i < 8; i++) {
+-        __put_user(env->gregs[i], &si->si_regs.u_regs[i]);
++    int i;
++
++#if defined(TARGET_SPARC64) && !defined(TARGET_ABI32)
++    __put_user(sparc64_tstate(env), &regs->tstate);
++    /* TODO: magic should contain PT_REG_MAGIC + %tt. */
++    __put_user(0, &regs->magic);
++#else
++    __put_user(cpu_get_psr(env), &regs->psr);
++#endif
++
++    __put_user(env->pc, &regs->pc);
++    __put_user(env->npc, &regs->npc);
++    __put_user(env->y, &regs->y);
++
++    for (i = 0; i < 8; i++) {
++        __put_user(env->gregs[i], &regs->u_regs[i]);
+     }
+-    for (i=0; i < 8; i++) {
+-        __put_user(env->regwptr[WREG_O0 + i], &si->si_regs.u_regs[i + 8]);
++    for (i = 0; i < 8; i++) {
++        __put_user(env->regwptr[WREG_O0 + i], &regs->u_regs[i + 8]);
++    }
++}
++
++static void restore_pt_regs(struct target_pt_regs *regs, CPUSPARCState *env)
++{
++    int i;
++
++#if defined(TARGET_SPARC64) && !defined(TARGET_ABI32)
++    /* User can only change condition codes and %asi in %tstate. */
++    uint64_t tstate;
++    __get_user(tstate, &regs->tstate);
++    cpu_put_ccr(env, tstate >> 32);
++    env->asi = extract64(tstate, 24, 8);
++#else
++    /*
++     * User can only change condition codes and FPU enabling in %psr.
++     * But don't bother with FPU enabling, since a real kernel would
++     * just re-enable the FPU upon the next fpu trap.
++     */
++    uint32_t psr;
++    __get_user(psr, &regs->psr);
++    env->psr = (psr & PSR_ICC) | (env->psr & ~PSR_ICC);
++#endif
++
++    /* Note that pc and npc are handled in the caller. */
++
++    __get_user(env->y, &regs->y);
++
++    for (i = 0; i < 8; i++) {
++        __get_user(env->gregs[i], &regs->u_regs[i]);
++    }
++    for (i = 0; i < 8; i++) {
++        __get_user(env->regwptr[WREG_O0 + i], &regs->u_regs[i + 8]);
+     }
+-    __put_user(mask, &si->si_mask);
+-    return err;
+ }
+ 
+ #define NF_ALIGNEDSZ  (((sizeof(struct target_signal_frame) + 7) & (~7)))
+@@ -129,7 +157,7 @@ void setup_frame(int sig, struct target_sigaction *ka,
+ {
+     abi_ulong sf_addr;
+     struct target_signal_frame *sf;
+-    int sigframe_size, err, i;
++    int sigframe_size, i;
+ 
+     /* 1. Make sure everything is clean */
+     //synchronize_user_stack();
+@@ -143,18 +171,14 @@ void setup_frame(int sig, struct target_sigaction *ka,
+     if (!sf) {
+         goto sigsegv;
+     }
+-#if 0
+-    if (invalid_frame_pointer(sf, sigframe_size))
+-        goto sigill_and_return;
+-#endif
+     /* 2. Save the current process state */
+-    err = setup___siginfo(&sf->info, env, set->sig[0]);
++    save_pt_regs(&sf->regs, env);
+     __put_user(0, &sf->extra_size);
+ 
+     //save_fpu_state(regs, &sf->fpu_state);
+     //__put_user(&sf->fpu_state, &sf->fpu_save);
+ 
+-    __put_user(set->sig[0], &sf->info.si_mask);
++    __put_user(set->sig[0], &sf->si_mask);
+     for (i = 0; i < TARGET_NSIG_WORDS - 1; i++) {
+         __put_user(set->sig[i + 1], &sf->extramask[i]);
+     }
+@@ -165,16 +189,14 @@ void setup_frame(int sig, struct target_sigaction *ka,
+     for (i = 0; i < 8; i++) {
+         __put_user(env->regwptr[i + WREG_I0], &sf->ss.win.ins[i]);
+     }
+-    if (err)
+-        goto sigsegv;
+ 
+     /* 3. signal handler back-trampoline and parameters */
+     env->regwptr[WREG_SP] = sf_addr;
+     env->regwptr[WREG_O0] = sig;
+     env->regwptr[WREG_O1] = sf_addr +
+-            offsetof(struct target_signal_frame, info);
++            offsetof(struct target_signal_frame, regs);
+     env->regwptr[WREG_O2] = sf_addr +
+-            offsetof(struct target_signal_frame, info);
++            offsetof(struct target_signal_frame, regs);
+ 
+     /* 4. signal handler */
+     env->pc = ka->_sa_handler;
+@@ -218,7 +240,7 @@ long do_sigreturn(CPUSPARCState *env)
+ {
+     abi_ulong sf_addr;
+     struct target_signal_frame *sf;
+-    abi_ulong up_psr, pc, npc;
++    abi_ulong pc, npc;
+     target_sigset_t set;
+     sigset_t host_set;
+     int i;
+@@ -234,29 +256,17 @@ long do_sigreturn(CPUSPARCState *env)
+     if (sf_addr & 3)
+         goto segv_and_exit;
+ 
+-    __get_user(pc,  &sf->info.si_regs.pc);
+-    __get_user(npc, &sf->info.si_regs.npc);
++    __get_user(pc,  &sf->regs.pc);
++    __get_user(npc, &sf->regs.npc);
+ 
+     if ((pc | npc) & 3) {
+         goto segv_and_exit;
+     }
+ 
+     /* 2. Restore the state */
+-    __get_user(up_psr, &sf->info.si_regs.psr);
+-
+-    /* User can only change condition codes and FPU enabling in %psr. */
+-    env->psr = (up_psr & (PSR_ICC /* | PSR_EF */))
+-            | (env->psr & ~(PSR_ICC /* | PSR_EF */));
+-
++    restore_pt_regs(&sf->regs, env);
+     env->pc = pc;
+     env->npc = npc;
+-    __get_user(env->y, &sf->info.si_regs.y);
+-    for (i=0; i < 8; i++) {
+-        __get_user(env->gregs[i], &sf->info.si_regs.u_regs[i]);
+-    }
+-    for (i=0; i < 8; i++) {
+-        __get_user(env->regwptr[i + WREG_O0], &sf->info.si_regs.u_regs[i + 8]);
+-    }
+ 
+     /* FIXME: implement FPU save/restore:
+      * __get_user(fpu_save, &sf->fpu_save);
+@@ -267,11 +277,8 @@ long do_sigreturn(CPUSPARCState *env)
+      * }
+      */
+ 
+-    /* This is pretty much atomic, no amount locking would prevent
+-         * the races which exist anyways.
+-         */
+-    __get_user(set.sig[0], &sf->info.si_mask);
+-    for(i = 1; i < TARGET_NSIG_WORDS; i++) {
++    __get_user(set.sig[0], &sf->si_mask);
++    for (i = 1; i < TARGET_NSIG_WORDS; i++) {
+         __get_user(set.sig[i], &sf->extramask[i - 1]);
+     }
+ 
 -- 
 2.31.1
 
