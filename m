@@ -2,82 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D216A383816
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 17:50:51 +0200 (CEST)
-Received: from localhost ([::1]:54378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC3BF38387B
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 17:53:54 +0200 (CEST)
+Received: from localhost ([::1]:59722 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lifW6-0007Lv-Ur
-	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 11:50:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50220)
+	id 1lifZ3-0002mx-6M
+	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 11:53:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50866)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lifUQ-0005bX-0u
- for qemu-devel@nongnu.org; Mon, 17 May 2021 11:49:06 -0400
-Received: from mail-vs1-xe34.google.com ([2607:f8b0:4864:20::e34]:42726)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lifUM-00013t-U5
- for qemu-devel@nongnu.org; Mon, 17 May 2021 11:49:05 -0400
-Received: by mail-vs1-xe34.google.com with SMTP id 66so3333271vsk.9
- for <qemu-devel@nongnu.org>; Mon, 17 May 2021 08:49:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=gUQzNN0Mk9EFh7FnmTMOOz1kPDINo1P5bFdxsF6qyic=;
- b=yj2/8fZlE99GGG0Y2ZcgTg00PNIg81lzcMpm/kPW5blRyvFqZGoHOsaRV7K150MHIV
- lx/IpykbhcZ7mM6gS967QcQKQgEJrjHhZEfo1z3VCLzTDV0B24PtSgOcEMK9T1iDnULS
- 3UiE9R9GTg/gq1RDlRRx9hm8aw+UciZALoJuNji/coREahs7HJvVCfAaaG0idS25uVw5
- ocEltlFB6JgylE9qib9yxD3t1kfBt5wk66eAzwrokhlq8gZD2re6as+Hul7W/4puGCG5
- P4UmZJimKtqcC2GcMJdh+YUDHYylh/ZWoiNTQIFwltnLHZOEMxOxxnuogoBr0Rw+Yd8Y
- zdgA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=gUQzNN0Mk9EFh7FnmTMOOz1kPDINo1P5bFdxsF6qyic=;
- b=CF1+JTjJyKiQAof7ZyhcCTlwoIBQJG7KNLGtZJfyJtdgdua+fIf95KkbydDT6IlVPO
- QjG89BQbYNJW7hutouxXCf4h1PbX5+H+s64D4QAnLGISQEMUHW37AliSCANIg/51qlTl
- WUyGqyWmQcY56YOVlqbSa05K+06nNwdSO1RGwGnnM4yoaE10x3pAQ6Mhj+laJrjUi9db
- Lcivhv5cacX/d8y2vSJQvKWJbetzIDspuW18CBqzEq8YgQOHmNySGqzs7B1yn5tvesXY
- XT/XSeGi2Mb3xZMTbMctApueAV86Ep9h1NhQFARrw5HITX0ZIb5Q9zqr+4fzKbUOGvCg
- /K6g==
-X-Gm-Message-State: AOAM5330bxootcnUdvCk+zqXeXK7c6YdYqCIALwUCSyACt62Ars0iO67
- VNd/roUC+w9ApYQMadkVuYPJYw==
-X-Google-Smtp-Source: ABdhPJy+peqBEJpuX+eXcVJZmDG5yLr6ijEYdoMFACh6daOki9MZmDs74V6bUzir2fYomlBv0mPiaQ==
-X-Received: by 2002:a05:6102:320d:: with SMTP id
- r13mr605674vsf.27.1621266540730; 
- Mon, 17 May 2021 08:49:00 -0700 (PDT)
-Received: from [172.16.22.144] ([45.235.253.15])
- by smtp.gmail.com with ESMTPSA id x24sm518189vkn.40.2021.05.17.08.49.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 17 May 2021 08:49:00 -0700 (PDT)
-Subject: Re: [PATCH v6 77/82] target/arm: Fix decode for VDOT (indexed)
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20210430202610.1136687-1-richard.henderson@linaro.org>
- <20210430202610.1136687-78-richard.henderson@linaro.org>
- <CAFEAcA9CA-NXEqVrT_VJJmYHDOcCZJUtQWL=qv8g052cVtEh5w@mail.gmail.com>
- <47db40f0-52c4-f282-ecf9-eab2bdb7f1d1@linaro.org>
- <CAFEAcA8gYB+SWaUERkC+PbkqWwri3mx_E1TCgV184yX8YBvA6Q@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <f72ce5a0-fc2a-09f1-fbae-d2481dfc4a47@linaro.org>
-Date: Mon, 17 May 2021 10:48:58 -0500
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lifWg-00011T-2b
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 11:51:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23425)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lifWd-0003AX-Ti
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 11:51:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1621266683;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=E6xNvbLn+2lTF2rLzJtCD/WGmDTQF24y2RVjtmPAyQw=;
+ b=Fy51+V9j9LelMQQvuX5XM0FhZrd4aCoQiTyscG+hw9Ls8GoBNXVQn075U/a0yxsGms7sKk
+ t0XDBJwg6OsGsIu/RxLveHXpeiyiBnEVRk9kcdoOPLa35e3iUpZZwIyuM8R8IzikL+uyiG
+ VyrRjdahX/j5I4yyKXePdjEIWqvEkfA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-341-jGNRdi_bN9CAARgeiuiLHw-1; Mon, 17 May 2021 11:51:20 -0400
+X-MC-Unique: jGNRdi_bN9CAARgeiuiLHw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D45641927803;
+ Mon, 17 May 2021 15:51:18 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-113-29.ams2.redhat.com
+ [10.36.113.29])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7AA7610027A5;
+ Mon, 17 May 2021 15:51:16 +0000 (UTC)
+Subject: Re: [PATCH 01/21] block: introduce bdrv_replace_child_bs()
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20210517064428.16223-1-vsementsov@virtuozzo.com>
+ <20210517064428.16223-3-vsementsov@virtuozzo.com>
+ <ee302de8-bd22-b43c-f30f-eedce438d825@redhat.com>
+ <554dc7c4-c16e-932b-21b1-e803cb1cee32@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
+Message-ID: <cdfbd6f3-0d87-942c-9037-6a80ff6a76d5@redhat.com>
+Date: Mon, 17 May 2021 17:51:14 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA8gYB+SWaUERkC+PbkqWwri3mx_E1TCgV184yX8YBvA6Q@mail.gmail.com>
+In-Reply-To: <554dc7c4-c16e-932b-21b1-e803cb1cee32@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::e34;
- envelope-from=richard.henderson@linaro.org; helo=mail-vs1-xe34.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.374,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,44 +85,134 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: kwolf@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
+ jsnow@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com, den@openvz.org,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/16/21 11:09 AM, Peter Maydell wrote:
-> On Sat, 15 May 2021 at 18:13, Richard Henderson
-> <richard.henderson@linaro.org> wrote:
->>
->> On 5/13/21 2:25 PM, Peter Maydell wrote:
->>>> -VDOT_scalar    1111 1110 0 . 10 .... .... 1101 . q:1 index:1 u:1 rm:4 \
->>>> -               vm=%vm_dp vn=%vn_dp vd=%vd_dp
->>>> +VDOT_scalar    1111 1110 0 . 10 .... .... 1101 . q:1 index:1 u:1 vm:4 \
->>>> +               vn=%vn_dp vd=%vd_dp
+On 17.05.21 16:30, Vladimir Sementsov-Ogievskiy wrote:
+> 17.05.2021 15:09, Max Reitz wrote:
+>> On 17.05.21 08:44, Vladimir Sementsov-Ogievskiy wrote:
+>>> Add function to transactionally replace bs inside BdrvChild.
 >>>
->>> Is it possible to make this kind of bug a decodetree error?
->>> It seems unlikely that there's a use for having a bit which is
->>> decoded both by a %foo field specification and also in some
->>> other way...
+>>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>>> ---
+>>>   include/block/block.h |  2 ++
+>>>   block.c               | 36 ++++++++++++++++++++++++++++++++++++
+>>>   2 files changed, 38 insertions(+)
 >>
->> That's not what's happening here.  This has separate fields "rm" and "vm"
->> decoded in different ways.
+>> As you may guess, I know little about the rewritten replacing 
+>> functions, so this is kind of difficult to review for me.  However, 
+>> nothing looks out of place, and the function looks sufficiently 
+>> similar to bdrv_replace_node_common() to make me happy.
+>>
+>>> diff --git a/include/block/block.h b/include/block/block.h
+>>> index 82185965ff..f9d5fcb108 100644
+>>> --- a/include/block/block.h
+>>> +++ b/include/block/block.h
+>>> @@ -361,6 +361,8 @@ int bdrv_append(BlockDriverState *bs_new, 
+>>> BlockDriverState *bs_top,
+>>>                   Error **errp);
+>>>   int bdrv_replace_node(BlockDriverState *from, BlockDriverState *to,
+>>>                         Error **errp);
+>>> +int bdrv_replace_child_bs(BdrvChild *child, BlockDriverState *new_bs,
+>>> +                          Error **errp);
+>>>   BlockDriverState *bdrv_insert_node(BlockDriverState *bs, QDict 
+>>> *node_options,
+>>>                                      int flags, Error **errp);
+>>>   int bdrv_drop_filter(BlockDriverState *bs, Error **errp);
+>>> diff --git a/block.c b/block.c
+>>> index 9ad725d205..755fa53d85 100644
+>>> --- a/block.c
+>>> +++ b/block.c
+>>> @@ -4961,6 +4961,42 @@ out:
+>>>       return ret;
+>>>   }
+>>> +int bdrv_replace_child_bs(BdrvChild *child, BlockDriverState *new_bs,
+>>> +                          Error **errp)
+>>> +{
+>>> +    int ret;
+>>> +    Transaction *tran = tran_new();
+>>> +    g_autoptr(GHashTable) found = NULL;
+>>> +    g_autoptr(GSList) refresh_list = NULL;
+>>> +    BlockDriverState *old_bs = child->bs;
+>>> +
+>>> +    if (old_bs) {
+>>
+>> Hm.  Can child->bs be ever NULL?
 > 
-> But they overlap: rm:4 in the pattern itself is using bits [3:0],
-> and "vm=%vm_dp" is also using [3:0] because the %vm_dp field
-> specifier is defined as "5:1 0:4". I'm suggesting that if the
-> pattern uses a field specifier we should check that none of the
-> bits in that field specifier are used in the pattern for some
-> other purpose (here 'u' and 'rm').
+> Hmm. Most probably not :)
+> 
+> In some intermediate states we don't have bs in child, but it shouldn't 
+> be the place where bdrv_replace_child_bs is called.
+> 
+>>
+>>> +        bdrv_ref(old_bs);
+>>> +        bdrv_drained_begin(old_bs);
+>>> +    }
+>>> +    bdrv_drained_begin(new_bs);
+>>
+>> (I was wondering why we couldn’t handle the new_bs == NULL case here 
+>> to replace bdrv_remove_filter_or_cow_child(), but then I realized it’s 
+>> probably because that’s kind of difficult, precisely because child->bs 
+>> at least should generally be non-NULL.  Which is why 
+>> bdrv_remove_filter_or_cow_child() needs to add its own transaction 
+>> entry to handle the BdrvChild object and the pointer to it.
+>>
+>> Hence me wondering whether we could assume child->bs not to be NULL.)
+> 
+> bdrv_remove_filter_or_cow_child() is "lower leve" function: it doesn't 
+> do drained section nor permission update. And new 
+> bdrv_replace_child_bs() is public function, which cares about these things.
+> 
+>>
+>>> +
+>>> +    bdrv_replace_child(child, new_bs, tran);
+>>> +
+>>> +    found = g_hash_table_new(NULL, NULL);
+>>> +    if (old_bs) {
+>>> +        refresh_list = bdrv_topological_dfs(refresh_list, found, 
+>>> old_bs);
+>>> +    }
+>>> +    refresh_list = bdrv_topological_dfs(refresh_list, found, new_bs);
+>>> +
+>>> +    ret = bdrv_list_refresh_perms(refresh_list, NULL, tran, errp);
+>>
+>> Speaking of bdrv_remove_filter_or_cow_child(): That function doesn’t 
+>> refresh permissions.  I think it’s correct to do it here, so the 
+>> following question doesn’t really concern this patch, but: Why don’t 
+>> we do it there?
+>>
+>> I guess it’s because we expect the node to go away anyway, so we don’t 
+>> need to refresh the permissions.  And that assumption should hold true 
+>> right now, given its callers.  But is that a safe assumption in 
+>> general?  Would there be a problem if we refreshed permissions there?  
+>> Or is not refreshing permissions just part of the function’s interface?
+>>
+> 
+> Caller of bdrv_remove_filter_or_cow_child() should care about 
+> permissions:  bdrv_replace_node_common() do this, and 
+> bdrv_set_backing_noperm() has "_noperm" in the name..
 
-We do this, more or less, for sve:
+OK.  Makes me wonder why bdrv_remove_filter_or_cow_child() then doesn’t 
+have _noperm in its name, or why its comment doesn’t explain this 
+interface contract, but, well. :)
 
-# Three register operand, with governing predicate, vector element size
-@rda_pg_rn_rm   ........ esz:2 . rm:5  ... pg:3 rn:5 rd:5 \
-                 &rprrr_esz ra=%reg_movprfx
+> The main impact of previous big rework of permission is new scheme of 
+> working with permission update:
+> 
+>   - first do all graph modifications, not thinking about permissions
+>   - refresh permissions for the whole updated subgraph
+>   - if refresh failed, rollback all the modifications (main sense if 
+> transactions here and there is possibility to do this rollback)
+> 
+> So a lot of internal functions with @tran argument don't update 
+> permissions. But of course, we should care to update permissions after 
+> any graph modification.
 
-where ra and rd overlap.  Though ra and rd overlap exactly, so perhaps that's 
-not quite the same as vm above, overlapping both rm and index.
+Ah, OK.  Makes sense, thanks.
 
+Max
 
-r~
 
