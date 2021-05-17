@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32A84382A65
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 12:57:52 +0200 (CEST)
-Received: from localhost ([::1]:39854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D437382A61
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 12:57:14 +0200 (CEST)
+Received: from localhost ([::1]:37892 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1liawY-0008D3-EW
-	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 06:57:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55492)
+	id 1liavx-0006t0-FA
+	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 06:57:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55600)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1liaqs-0004KW-Pl; Mon, 17 May 2021 06:51:58 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:39895)
+ id 1liar5-0004kU-MM; Mon, 17 May 2021 06:52:11 -0400
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:46966)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1liaqp-0006Lm-PU; Mon, 17 May 2021 06:51:58 -0400
-Received: by mail-wr1-x429.google.com with SMTP id v12so5873420wrq.6;
- Mon, 17 May 2021 03:51:53 -0700 (PDT)
+ id 1liar3-0006VY-IX; Mon, 17 May 2021 06:52:11 -0400
+Received: by mail-wm1-x329.google.com with SMTP id
+ h3-20020a05600c3503b0290176f13c7715so1692899wmq.5; 
+ Mon, 17 May 2021 03:52:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=J++NDLnF3ZLjQJuDikbfz+qqlVxXQCnKQi7mCfFvCw8=;
- b=mZTsOjj3LWDbZgvFyA7NV3RaiQb1WFhBGbE1A1hLQLSWZ6lbo9cF/JTYOaDceQ+ZR4
- ZnUESu8TKoJuRoL2A/ujqULQjEg2laKgYu8Z+UwG/dziXYracDTo6VJw26wq5LMW/VU0
- vObsTR2/yjxbdBvJHwDtPNC5r9XPXnd03o5/fKog96aqtxbv4fjVMr8fwlDrujWrBkTG
- gtqqkLDwXEZhZdPJDpcsN8XZrETQCfLhDNC5Y/zUFsARR1yN0UcX352zl9homP9Qy/pm
- 4myGEfTSWFr5c9l6tktkzx8odsuSEykaxWDPbax4WEYcSXucDgct69PGNnnHEAIorZ3J
- ih5Q==
+ bh=QHwci2qixAR5d1Isgklmt+j6/VrQrgpHFVrFxfi8kA4=;
+ b=hIjZiZywwjEOcyj3lWCEIVxY2rgQexMxS5BUVk0N/okR18/OkYkOV+OzpxtT4UL1/D
+ sKt/sCKaBcz0A/VTzwVVXEkLweJUbuzTNHAqRoSdzkZ9rArDRn7TDnvwU2BmCB7uhHWA
+ +7YxE09SyPop1dSoLWvjKvXpNOYhxWfHsD+uFqbe2PfmzEz/MEcl/cakjDoD9Rqz1gh1
+ NI1Ljx1+skuBFZJcvBRZFb4ynOaobAXiQrRsmOC2qmpJ2TsD2ji5Xp49qW3W13HTSEIy
+ 1Kz88IE+bzDgEVSYsJJwm90C0E6tBsPaIiPWc/S3yU3ubITIsy0ApFBCyNbxIrGU2lJn
+ lDYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=J++NDLnF3ZLjQJuDikbfz+qqlVxXQCnKQi7mCfFvCw8=;
- b=GYI0SpCJWHkMHJOymr6Zm1qVF1NOnYi2hWvXZ1brwOm6++9Z7O1TmDuItvQbBHrTLd
- RWpxei/IMRHDZFToYS6Qr5kj4KnwbwZ3kudVEZ5rgLZ2d6C7xssmhhG5l5tjTOf7VXbj
- 81FCdNWhYdh+0Wb1PlrO3gv9UJt/4KrTyobZ7PXa9ZP9gi1djEIEbGx8/HAL/3DpDzLC
- brurkgBQrRqNwNGJbywapH1G5GM1pOViX+uveiZzcn1kQc+aYYPJ7n7g1BRy/qrRhWnZ
- EuRA+rM619o5lsIURRl5T1ThZ9d6Xq/+4anqljhMt1EdaeOuUHAUqZpfPiUa3rG+rieE
- 7O0Q==
-X-Gm-Message-State: AOAM531J3cjLVIlRsFjvFBEz5f4HsAduCGZu2j3/8zYMy7Fg6Gm68l8S
- 7dw9tp11DHDHX+5PDAV9LIqr1hGhvQ2T4g==
-X-Google-Smtp-Source: ABdhPJzv3VIwKFhk6zkwm9PrX+5xBZFFYOPB7ZnN/gWssFbJ0ycPkS71ak1ykFXNEIMtnjcn8jX/PA==
-X-Received: by 2002:a5d:4c48:: with SMTP id n8mr17063451wrt.422.1621248712701; 
- Mon, 17 May 2021 03:51:52 -0700 (PDT)
+ bh=QHwci2qixAR5d1Isgklmt+j6/VrQrgpHFVrFxfi8kA4=;
+ b=hgbxV0ivyNjXvz4f9UvRHwU5O4w4fpBq49nC3e0nUNT4lIh31xW25T8C/34UbqTBul
+ IW/P+9zFGrlE/c7jZcHZRiYdJq33DTNcc9zWtGTVNzwRRWYhDhoJdbXR+IjEpUS5eIxa
+ XFPWyb0TUd/T33QP3ZU8j7qdcCf5ngbsTgWQP6Y4yey5WjRwzDc8DXj5TuzTvIhZ96jm
+ NnGWj1lGi0SvKgcospGTtnQr7q70pyLjmihBa0+Nbrj5kX0SS0ykGzve6eIGr32iEMxN
+ fFxZooMm+WxsB9jdAnzEAzS6e1ZcIcAO7XPbuDbNF+wIZSJcVmJh0y9esTp0FKLbMtzd
+ m8OA==
+X-Gm-Message-State: AOAM533HkvC/3Zo7skBtnE6HW+B3tCTowd+aBMHDVn5IiORXaTzVXsXC
+ Z05Y8+IPVPR47KvDpJDjnhVkjp1VfVLG4w==
+X-Google-Smtp-Source: ABdhPJzRoEu3JEhowL2N3n+rfMlRNV1PdYfrNH7GONxkoN3BUs+C4cakf4LjaYQUnaQIVHxL3I8iaQ==
+X-Received: by 2002:a7b:c182:: with SMTP id y2mr9174015wmi.125.1621248726537; 
+ Mon, 17 May 2021 03:52:06 -0700 (PDT)
 Received: from localhost.localdomain (31.red-83-51-215.dynamicip.rima-tde.net.
  [83.51.215.31])
- by smtp.gmail.com with ESMTPSA id t13sm349995wmi.2.2021.05.17.03.51.51
+ by smtp.gmail.com with ESMTPSA id r11sm10990297wrp.46.2021.05.17.03.52.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 May 2021 03:51:52 -0700 (PDT)
+ Mon, 17 May 2021 03:52:06 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 02/23] cpu: Restrict target cpu_do_transaction_failed()
- handlers to sysemu
-Date: Mon, 17 May 2021 12:51:19 +0200
-Message-Id: <20210517105140.1062037-3-f4bug@amsat.org>
+Subject: [PATCH v7 05/23] cpu: Split as cpu-common / cpu-sysemu
+Date: Mon, 17 May 2021 12:51:22 +0200
+Message-Id: <20210517105140.1062037-6-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210517105140.1062037-1-f4bug@amsat.org>
 References: <20210517105140.1062037-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x329.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -92,109 +92,113 @@ Cc: qemu-riscv@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In commit cbc183d2d9f ("cpu: move cc->transaction_failed to tcg_ops")
-we restricted the do_transaction_failed() handler to the sysemu part
-of TCGCPUOps, but forgot to restrict the target specific declarations.
+The current cpu.c contains sysemu-specific methods.
+To avoid building them in user-mode builds, split the
+current cpu.c as cpu-common.c / cpu-sysemu.c.
+
+Start by moving cpu_get_crash_info().
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/arm/internals.h |  2 ++
- target/m68k/cpu.h      |  2 ++
- target/riscv/cpu.h     | 10 +++++-----
- target/xtensa/cpu.h    |  8 ++++----
- 4 files changed, 13 insertions(+), 9 deletions(-)
+ hw/core/{cpu.c => cpu-common.c} | 17 -----------------
+ hw/core/cpu-sysemu.c            | 34 +++++++++++++++++++++++++++++++++
+ hw/core/meson.build             |  3 ++-
+ 3 files changed, 36 insertions(+), 18 deletions(-)
+ rename hw/core/{cpu.c => cpu-common.c} (96%)
+ create mode 100644 hw/core/cpu-sysemu.c
 
-diff --git a/target/arm/internals.h b/target/arm/internals.h
-index 886db56b580..3614f6dd988 100644
---- a/target/arm/internals.h
-+++ b/target/arm/internals.h
-@@ -583,6 +583,7 @@ void arm_cpu_do_unaligned_access(CPUState *cs, vaddr vaddr,
-                                  MMUAccessType access_type,
-                                  int mmu_idx, uintptr_t retaddr);
- 
-+#if !defined(CONFIG_USER_ONLY)
- /* arm_cpu_do_transaction_failed: handle a memory system error response
-  * (eg "no device/memory present at address") by raising an external abort
-  * exception
-@@ -592,6 +593,7 @@ void arm_cpu_do_transaction_failed(CPUState *cs, hwaddr physaddr,
-                                    MMUAccessType access_type,
-                                    int mmu_idx, MemTxAttrs attrs,
-                                    MemTxResult response, uintptr_t retaddr);
-+#endif
- 
- /* Call any registered EL change hooks */
- static inline void arm_call_pre_el_change_hook(ARMCPU *cpu)
-diff --git a/target/m68k/cpu.h b/target/m68k/cpu.h
-index 402c86c8769..cf58fee9ada 100644
---- a/target/m68k/cpu.h
-+++ b/target/m68k/cpu.h
-@@ -572,10 +572,12 @@ static inline int cpu_mmu_index (CPUM68KState *env, bool ifetch)
- bool m68k_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-                        MMUAccessType access_type, int mmu_idx,
-                        bool probe, uintptr_t retaddr);
-+#if !defined(CONFIG_USER_ONLY)
- void m68k_cpu_transaction_failed(CPUState *cs, hwaddr physaddr, vaddr addr,
-                                  unsigned size, MMUAccessType access_type,
-                                  int mmu_idx, MemTxAttrs attrs,
-                                  MemTxResult response, uintptr_t retaddr);
-+#endif
- 
- typedef CPUM68KState CPUArchState;
- typedef M68kCPU ArchCPU;
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 0619b491a42..aa19d8f304e 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -346,11 +346,6 @@ void  riscv_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
- bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-                         MMUAccessType access_type, int mmu_idx,
-                         bool probe, uintptr_t retaddr);
--void riscv_cpu_do_transaction_failed(CPUState *cs, hwaddr physaddr,
--                                     vaddr addr, unsigned size,
--                                     MMUAccessType access_type,
--                                     int mmu_idx, MemTxAttrs attrs,
--                                     MemTxResult response, uintptr_t retaddr);
- char *riscv_isa_string(RISCVCPU *cpu);
- void riscv_cpu_list(void);
- 
-@@ -359,6 +354,11 @@ void riscv_cpu_list(void);
- #define cpu_mmu_index riscv_cpu_mmu_index
- 
- #ifndef CONFIG_USER_ONLY
-+void riscv_cpu_do_transaction_failed(CPUState *cs, hwaddr physaddr,
-+                                     vaddr addr, unsigned size,
-+                                     MMUAccessType access_type,
-+                                     int mmu_idx, MemTxAttrs attrs,
-+                                     MemTxResult response, uintptr_t retaddr);
- void riscv_cpu_swap_hypervisor_regs(CPURISCVState *env);
- int riscv_cpu_claim_interrupts(RISCVCPU *cpu, uint32_t interrupts);
- uint32_t riscv_cpu_update_mip(RISCVCPU *cpu, uint32_t mask, uint32_t value);
-diff --git a/target/xtensa/cpu.h b/target/xtensa/cpu.h
-index 3bd4f691c1a..cbe9e5ff230 100644
---- a/target/xtensa/cpu.h
-+++ b/target/xtensa/cpu.h
-@@ -569,10 +569,6 @@ bool xtensa_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-                          bool probe, uintptr_t retaddr);
- void xtensa_cpu_do_interrupt(CPUState *cpu);
- bool xtensa_cpu_exec_interrupt(CPUState *cpu, int interrupt_request);
--void xtensa_cpu_do_transaction_failed(CPUState *cs, hwaddr physaddr, vaddr addr,
--                                      unsigned size, MMUAccessType access_type,
--                                      int mmu_idx, MemTxAttrs attrs,
--                                      MemTxResult response, uintptr_t retaddr);
- void xtensa_cpu_dump_state(CPUState *cpu, FILE *f, int flags);
- hwaddr xtensa_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
- void xtensa_count_regs(const XtensaConfig *config,
-@@ -675,6 +671,10 @@ static inline int xtensa_get_cring(const CPUXtensaState *env)
+diff --git a/hw/core/cpu.c b/hw/core/cpu-common.c
+similarity index 96%
+rename from hw/core/cpu.c
+rename to hw/core/cpu-common.c
+index 919dc3435a3..ddddf4b10eb 100644
+--- a/hw/core/cpu.c
++++ b/hw/core/cpu-common.c
+@@ -190,23 +190,6 @@ static bool cpu_common_virtio_is_big_endian(CPUState *cpu)
+     return target_words_bigendian();
  }
  
- #ifndef CONFIG_USER_ONLY
-+void xtensa_cpu_do_transaction_failed(CPUState *cs, hwaddr physaddr, vaddr addr,
-+                                      unsigned size, MMUAccessType access_type,
-+                                      int mmu_idx, MemTxAttrs attrs,
-+                                      MemTxResult response, uintptr_t retaddr);
- int xtensa_get_physical_addr(CPUXtensaState *env, bool update_tlb,
-         uint32_t vaddr, int is_write, int mmu_idx,
-         uint32_t *paddr, uint32_t *page_size, unsigned *access);
+-/*
+- * XXX the following #if is always true because this is a common_ss
+- * module, so target CONFIG_* is never defined.
+- */
+-#if !defined(CONFIG_USER_ONLY)
+-GuestPanicInformation *cpu_get_crash_info(CPUState *cpu)
+-{
+-    CPUClass *cc = CPU_GET_CLASS(cpu);
+-    GuestPanicInformation *res = NULL;
+-
+-    if (cc->get_crash_info) {
+-        res = cc->get_crash_info(cpu);
+-    }
+-    return res;
+-}
+-#endif
+-
+ void cpu_dump_state(CPUState *cpu, FILE *f, int flags)
+ {
+     CPUClass *cc = CPU_GET_CLASS(cpu);
+diff --git a/hw/core/cpu-sysemu.c b/hw/core/cpu-sysemu.c
+new file mode 100644
+index 00000000000..f517ef5d460
+--- /dev/null
++++ b/hw/core/cpu-sysemu.c
+@@ -0,0 +1,34 @@
++/*
++ * QEMU CPU model (system emulation specific)
++ *
++ * Copyright (c) 2012-2014 SUSE LINUX Products GmbH
++ *
++ * This program is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU General Public License
++ * as published by the Free Software Foundation; either version 2
++ * of the License, or (at your option) any later version.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License
++ * along with this program; if not, see
++ * <http://www.gnu.org/licenses/gpl-2.0.html>
++ */
++
++#include "qemu/osdep.h"
++#include "qapi/error.h"
++#include "hw/core/cpu.h"
++
++GuestPanicInformation *cpu_get_crash_info(CPUState *cpu)
++{
++    CPUClass *cc = CPU_GET_CLASS(cpu);
++    GuestPanicInformation *res = NULL;
++
++    if (cc->get_crash_info) {
++        res = cc->get_crash_info(cpu);
++    }
++    return res;
++}
+diff --git a/hw/core/meson.build b/hw/core/meson.build
+index 59f1605bb07..18f44fb7c24 100644
+--- a/hw/core/meson.build
++++ b/hw/core/meson.build
+@@ -13,7 +13,7 @@
+   'qdev-clock.c',
+ )
+ 
+-common_ss.add(files('cpu.c'))
++common_ss.add(files('cpu-common.c'))
+ common_ss.add(when: 'CONFIG_FITLOADER', if_true: files('loader-fit.c'))
+ common_ss.add(when: 'CONFIG_GENERIC_LOADER', if_true: files('generic-loader.c'))
+ common_ss.add(when: ['CONFIG_GUEST_LOADER', fdt], if_true: files('guest-loader.c'))
+@@ -25,6 +25,7 @@
+ common_ss.add(when: 'CONFIG_XILINX_AXI', if_true: files('stream.c'))
+ 
+ softmmu_ss.add(files(
++  'cpu-sysemu.c',
+   'fw-path-provider.c',
+   'loader.c',
+   'machine-hmp-cmds.c',
 -- 
 2.26.3
 
