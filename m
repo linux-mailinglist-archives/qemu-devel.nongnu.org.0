@@ -2,71 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3554A382BC3
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 14:06:34 +0200 (CEST)
-Received: from localhost ([::1]:43222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 265C3382BBF
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 14:04:53 +0200 (CEST)
+Received: from localhost ([::1]:39472 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lic12-0003ig-R8
-	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 08:06:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44118)
+	id 1libzO-00017H-JC
+	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 08:04:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44140)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1librN-0004bO-CH
- for qemu-devel@nongnu.org; Mon, 17 May 2021 07:56:33 -0400
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:40600)
+ id 1librS-0004tY-5N
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 07:56:38 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:40528)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1librL-0003ED-T5
- for qemu-devel@nongnu.org; Mon, 17 May 2021 07:56:33 -0400
-Received: by mail-wm1-x32c.google.com with SMTP id
- f6-20020a1c1f060000b0290175ca89f698so2592541wmf.5
- for <qemu-devel@nongnu.org>; Mon, 17 May 2021 04:56:31 -0700 (PDT)
+ id 1librQ-0003GX-K2
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 07:56:37 -0400
+Received: by mail-wr1-x433.google.com with SMTP id z17so6076969wrq.7
+ for <qemu-devel@nongnu.org>; Mon, 17 May 2021 04:56:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=p05OmJSUnMaHriZWyvxG4nEBuEX9uFZwBMmOOJcu+D0=;
- b=ecQw9znaR0vYWUZIuj4B8nuzmLrvMOZd+LMK6ZgeIGNN6kup4xj5kS7i1Ii/AuA6hA
- tf4UzkIjwxZ66P5GeQ+C5fbXaqbpeq6KUI0P9syWfQkWBwbfJNd5bpVZo9/6hxtSPGov
- A3y+b66mmbKSCqvLN8duYzprfuapGP78ywK20PivWms0ps5SR6gDr/vk3acZOzTJAXV/
- SxN4B5vRH5bFAXF0u+brI3Wf2ZXP87Z0mj8c/2AsbuImbVQtu/xe1pvRHd6s03UNBWBT
- sEZfOxuaKxiNhvkmbxhZUvZ3L1S49syG/Yf3EZvyM+07dpqfcUc5QmTH5WA+uP4b9M+p
- vpow==
+ bh=elm9qcdGQk72gqB4ibNX9churq/FsJ3KEAhg0i9d3/Q=;
+ b=SyqO3x6epByKgiVLWqzXpweNnmkfuMBF6TP/J3mAS/ebit1aIkZ6bmRWh/W9+jWy65
+ m4rd+8JfD0NrO1Nslz6LEZmIYZyBvJH8M2a0O4ghYC78GDea9vos1kulWFkastZchLSy
+ 9AYht9dxddRfJrXgEjwRpm0bFHdi3HxpQ+h2fLRDgIPh7Ggvzxw+yNa+Gtl+p5izjF+l
+ SkRD9/HiFZ5D0d2O+jNWOYF+L8nYi3Ct6rTFeV/GiizBmUbmCC+dvjRnKN6N7MFcdQ17
+ 0LJ3haMb4VCbb+l/UJwmev18IDyNuAacuEeOiEwe35pZlAIrWt9nfR5TqV3KOflNjN+Y
+ euNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=p05OmJSUnMaHriZWyvxG4nEBuEX9uFZwBMmOOJcu+D0=;
- b=BmFaRScMV3v/3yfij21FVmpJMZk1QfXGx6fGK+N9EGq2kI1VeEy9TVPPlJ0YM3B5ZV
- MSMYLPLa/RtgaCnjrqMzTnvWTyx/fuV5YIBFLaZ1WyOY/BAfxIQu9MTiHqi+mYBxLAzi
- t63/RiaxBSuy8JLQPg1UaoeydkuLds4mT0srPrseZVQJlKmy7pg7wcxJWzBUg2Bs5oof
- DsmdagOCKVoErDqxrkzho7yBUzZJdbMTQ1CrgsJvk8GtEG4Z56WRxKvwKTTFzMUrOfMP
- DlmVdvcQIb/zaWQ+q/Xo6n8fEXmk++FbM3rUq4umQ5PVovxnbLmzG/U7RvxwtiGG4yvW
- mFmA==
-X-Gm-Message-State: AOAM531NmZSoHfLfBOYXxkExwZnQmLu+l3upAT7elprRmE3yZQRmj/bI
- M4GZ/3P0BmqOXqmMjYHqKmFeAjrKf9zYpw==
-X-Google-Smtp-Source: ABdhPJy3qxpBtoK00l6ykYnLzODQ/NGxvvidVPJ6XwV+/iYPx2BNgAnDWcMyO8iZU8EytNQgBh7J5Q==
-X-Received: by 2002:a1c:c309:: with SMTP id t9mr20227233wmf.161.1621252590390; 
- Mon, 17 May 2021 04:56:30 -0700 (PDT)
+ bh=elm9qcdGQk72gqB4ibNX9churq/FsJ3KEAhg0i9d3/Q=;
+ b=shcpizPdRJN6tl9+A/pJaFLC1VIKFU/OMPFnojXiKQ3avMUZe3r55JfdTZizIdyHi6
+ XS9RKBZSWs+AiQsx2ASPeJ4iEYYSaFSKspIMTrMGRAaqVHFDqLUq8eYJpYFZEA2jHRTi
+ 48Stnw1MZD2FqN1H9++yJ/r5G6C4weAMAdAl4ScdebUJBh8SEymMc0JxvEsgiklkuKSy
+ 6jb+Dd7atm9QFclfXaC98HyCWW0+gR1HmPJc/uoSLd/vtqyWznToedHavlxoizUku/nF
+ PhDZ0Ha6Xg4x/JtkPdQPmU6SSUgF6z8j0FEj4/v4yUNrJVwVXzXV1TdtC3070gKpM6fF
+ xVaA==
+X-Gm-Message-State: AOAM533+CQmLCUzRAH0hhKAYTxKLWSIJ8AKVEgSFVKuhiWI1MhwwmXzF
+ HGC5moijKZC9segt5oZBHQ2dHLnraIofyw==
+X-Google-Smtp-Source: ABdhPJw+jY8vbOb4NTf11Ar5/z/Y2VqSoIiQXVEgb3GcP+4fLXfc3/EzC+b8exRGrXuEtH2VPbMgMA==
+X-Received: by 2002:adf:cf09:: with SMTP id o9mr23207211wrj.334.1621252595011; 
+ Mon, 17 May 2021 04:56:35 -0700 (PDT)
 Received: from localhost.localdomain (31.red-83-51-215.dynamicip.rima-tde.net.
  [83.51.215.31])
- by smtp.gmail.com with ESMTPSA id b81sm15566809wmd.18.2021.05.17.04.56.29
+ by smtp.gmail.com with ESMTPSA id e38sm19636720wmp.21.2021.05.17.04.56.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 May 2021 04:56:30 -0700 (PDT)
+ Mon, 17 May 2021 04:56:34 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 12/15] sysemu/kvm: Make kvm_on_sigbus() /
- kvm_on_sigbus_vcpu() target agnostic
-Date: Mon, 17 May 2021 13:55:22 +0200
-Message-Id: <20210517115525.1088693-13-f4bug@amsat.org>
+Subject: [RFC PATCH 13/15] sysemu/memory_mapping: Become target-agnostic
+Date: Mon, 17 May 2021 13:55:23 +0200
+Message-Id: <20210517115525.1088693-14-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210517115525.1088693-1-f4bug@amsat.org>
 References: <20210517115525.1088693-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -93,39 +91,54 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-kvm_on_sigbus() and kvm_on_sigbus_vcpu() prototypes don't have
-to be target specific. Remove this limitation to be able to build
-softmmu/cpus.c once for all targets.
+target_ulong is target-specific, while hwaddr isn't.
+
+memory_mapping_list_add_merge_sorted() uses hwaddr arguments
+anyway, so use the hwaddr type for MemoryMapping::virt_addr.
+
+Remove the unnecessary "exec/cpu-defs.h" target-speficic header
+from "memory_mapping.h" and use the target-agnostic "hw/core/cpu.h"
+locally in memory_mapping.c.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- include/sysemu/kvm.h | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ include/sysemu/memory_mapping.h | 3 +--
+ softmmu/memory_mapping.c        | 1 +
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/include/sysemu/kvm.h b/include/sysemu/kvm.h
-index a1ab1ee12d3..d9bced5f392 100644
---- a/include/sysemu/kvm.h
-+++ b/include/sysemu/kvm.h
-@@ -234,6 +234,9 @@ int kvm_has_intx_set_mask(void);
- bool kvm_arm_supports_user_irq(void);
+diff --git a/include/sysemu/memory_mapping.h b/include/sysemu/memory_mapping.h
+index 4b20f1a639e..771dba21773 100644
+--- a/include/sysemu/memory_mapping.h
++++ b/include/sysemu/memory_mapping.h
+@@ -15,7 +15,6 @@
+ #define MEMORY_MAPPING_H
  
+ #include "qemu/queue.h"
+-#include "exec/cpu-defs.h"
+ #include "exec/memory.h"
  
-+int kvm_on_sigbus_vcpu(CPUState *cpu, int code, void *addr);
-+int kvm_on_sigbus(int code, void *addr);
-+
- #ifdef NEED_CPU_H
- #include "cpu.h"
+ typedef struct GuestPhysBlock {
+@@ -43,7 +42,7 @@ typedef struct GuestPhysBlockList {
+ /* The physical and virtual address in the memory mapping are contiguous. */
+ typedef struct MemoryMapping {
+     hwaddr phys_addr;
+-    target_ulong virt_addr;
++    hwaddr virt_addr;
+     ram_addr_t length;
+     QTAILQ_ENTRY(MemoryMapping) next;
+ } MemoryMapping;
+diff --git a/softmmu/memory_mapping.c b/softmmu/memory_mapping.c
+index e7af2765466..7bb74df5a7a 100644
+--- a/softmmu/memory_mapping.c
++++ b/softmmu/memory_mapping.c
+@@ -17,6 +17,7 @@
+ #include "sysemu/memory_mapping.h"
+ #include "exec/memory.h"
+ #include "exec/address-spaces.h"
++#include "hw/core/cpu.h"
  
-@@ -246,9 +249,6 @@ int kvm_remove_breakpoint(CPUState *cpu, target_ulong addr,
- void kvm_remove_all_breakpoints(CPUState *cpu);
- int kvm_update_guest_debug(CPUState *cpu, unsigned long reinject_trap);
+ //#define DEBUG_GUEST_PHYS_REGION_ADD
  
--int kvm_on_sigbus_vcpu(CPUState *cpu, int code, void *addr);
--int kvm_on_sigbus(int code, void *addr);
--
- /* internal API */
- 
- int kvm_ioctl(KVMState *s, int type, ...);
 -- 
 2.26.3
 
