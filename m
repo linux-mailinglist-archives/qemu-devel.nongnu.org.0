@@ -2,75 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D3A6383B07
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 19:16:43 +0200 (CEST)
-Received: from localhost ([::1]:59594 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09F8F383AED
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 19:14:09 +0200 (CEST)
+Received: from localhost ([::1]:53166 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ligrC-0008Q6-KC
-	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 13:16:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37716)
+	id 1ligoh-00042U-MG
+	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 13:14:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37726)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ligJI-0003eQ-6W
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1ligJI-0003if-Rf
  for qemu-devel@nongnu.org; Mon, 17 May 2021 12:41:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41969)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43192)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ligJF-00021Y-Ge
- for qemu-devel@nongnu.org; Mon, 17 May 2021 12:41:39 -0400
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1ligJF-00021c-Ih
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 12:41:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621269695;
+ s=mimecast20190719; t=1621269696;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0nC9AzfchNv/k4xJQJaYdVYAELBBU2d1WQ/F2mfQIpo=;
- b=B8d59tqusHE0e2moYyEekoYmW48yaqEhE7P5TFnRhYDa+8fHGayD/QtUJs5E1P8a/yQRiF
- DdHJQyK213NhluQXG8GfOjAhwto4pedEzWooRwbGYQtCUPvgcI/J7f0M2Ab9QGVh4IkezT
- WzIhrnygv6CU8Q6PhDqItg1msyNFr9U=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-432-0Mbz3l-6OXSzWX8m122l7A-1; Mon, 17 May 2021 12:41:33 -0400
-X-MC-Unique: 0Mbz3l-6OXSzWX8m122l7A-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3BD30803620
- for <qemu-devel@nongnu.org>; Mon, 17 May 2021 16:41:33 +0000 (UTC)
-Received: from [10.10.117.64] (ovpn-117-64.rdu2.redhat.com [10.10.117.64])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4BA50614F0;
- Mon, 17 May 2021 16:41:28 +0000 (UTC)
-Subject: Re: [PATCH v3 6/9] qapi: normalize 'if' condition to IfPredicate tree
-To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
-References: <20210429134032.1125111-1-marcandre.lureau@redhat.com>
- <20210429134032.1125111-7-marcandre.lureau@redhat.com>
- <ba1046ca-3d92-40c2-e1e5-58ba0ac9baaf@redhat.com>
- <CAMxuvax5Csa01V_WZE3QLCrhuWYh79KgZsfLTNcidXEPTe79Gg@mail.gmail.com>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <a55d96b3-c703-7f69-6e33-d6677d075369@redhat.com>
-Date: Mon, 17 May 2021 12:41:28 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ bh=HtM2cgi+4/sf0GKkAgqD82PXJwuyoXxZZz5zdpeOE3k=;
+ b=Y63NHtonuQH3d5JxVtickvNL/j2gxS2TDbtCGdKmFIiGfuvkFNTTnjHCTHBQruOSjhTMzo
+ 6rypGy53glyP3vIda35ewuSgdPhapjEQiOsSZ1N13aFRhSajOsNi+zcjW7jevywnw7CT4Z
+ TEYSyiyXgZd3r/ZY4aox5wfhsVYSdgs=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-363-BpZRdPjPOxWbcT5t5yQ6CQ-1; Mon, 17 May 2021 12:41:35 -0400
+X-MC-Unique: BpZRdPjPOxWbcT5t5yQ6CQ-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ y19-20020a0564022713b029038a9f36060dso4237035edd.4
+ for <qemu-devel@nongnu.org>; Mon, 17 May 2021 09:41:34 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=HtM2cgi+4/sf0GKkAgqD82PXJwuyoXxZZz5zdpeOE3k=;
+ b=apynngAq2HHO6YqOGhevK+LM8rLL796M4SkiU7Ouyku11dC1tdVaB/VMo5BA/mpRe4
+ bos/8Sjx2mptAgPPYAeznpwNjkIGfJFjF8X6FzoHKDFN6T0KDHap/9GxNGOF4swLi/nw
+ SDFt5jO954mrEHrZR4zdHRpcMJ6zubGzEw+P1xK8whEQHZbOX0a6rC529kJFKghWW6CX
+ fJdrvas7xU1AH3B03xkzXIaU3SxuTksho0jpU/iAoZZaZy+DsByI/hp++HhnNdGTFprA
+ vwKzpjpGAFN6fV6r0zC48fT90Yvg5QwwKEmZtGIJ3UpU7gPm+nJwQJjgZOKaGqJx+YCY
+ FjdQ==
+X-Gm-Message-State: AOAM533KDqkbFOlaat+t0Fn+c7PgXpI0Ek0Q1t96QA+dHy8pEg3qaecE
+ xd5rUwAQnhAE8R1ZTFINiEhhKuE8lnlH4VpV7EFRCJFxAs3SV8XQ/rCpO9d5ztc7357YhGVFyKz
+ 5uKagm5ZuIEqXKNc=
+X-Received: by 2002:aa7:dc17:: with SMTP id b23mr1071258edu.359.1621269694053; 
+ Mon, 17 May 2021 09:41:34 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwzmcPe+9728LFi+FBjnKBPLYS8fWVKd74yqid463y92ENmtJD79bFIqZVTD4XUo7U+QljtYA==
+X-Received: by 2002:aa7:dc17:: with SMTP id b23mr1071239edu.359.1621269693857; 
+ Mon, 17 May 2021 09:41:33 -0700 (PDT)
+Received: from steredhat (host-79-18-148-79.retail.telecomitalia.it.
+ [79.18.148.79])
+ by smtp.gmail.com with ESMTPSA id s11sm11399070edt.27.2021.05.17.09.41.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 17 May 2021 09:41:33 -0700 (PDT)
+Date: Mon, 17 May 2021 18:41:31 +0200
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Xie Yongji <xieyongji@bytedance.com>
+Subject: Re: [PATCH v2] vhost-vdpa: Remove redundant declaration of
+ address_space_memory
+Message-ID: <20210517164131.htnq3tlk4nfec5ka@steredhat>
+References: <20210517123246.999-1-xieyongji@bytedance.com>
 MIME-Version: 1.0
-In-Reply-To: <CAMxuvax5Csa01V_WZE3QLCrhuWYh79KgZsfLTNcidXEPTe79Gg@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <20210517123246.999-1-xieyongji@bytedance.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=sgarzare@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.374,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,33 +98,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>, "Armbruster,
- Markus" <armbru@redhat.com>
+Cc: jasowang@redhat.com, philmd@redhat.com, qemu-devel@nongnu.org,
+ mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/17/21 7:18 AM, Marc-AndrÃ© Lureau wrote:
-> 
-> 
->     'if': 'COND'
->     'if': ['COND']
->     'if': { 'any': ['COND'] }
-> 
-> 
-> Actually, a simple list is short form for { 'all': [] }
+On Mon, May 17, 2021 at 08:32:46PM +0800, Xie Yongji wrote:
+>The symbol address_space_memory are already declared in
+>include/exec/address-spaces.h. So let's add this header file
+>and remove the redundant declaration in include/hw/virtio/vhost-vdpa.h.
+>
+>Signed-off-by: Xie Yongji <xieyongji@bytedance.com>
+>Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>---
+> hw/virtio/vhost-vdpa.c         | 1 +
+> include/hw/virtio/vhost-vdpa.h | 1 -
+> 2 files changed, 1 insertion(+), 1 deletion(-)
+>
+>diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+>index 8f2fb9f10b2a..ee51863d280b 100644
+>--- a/hw/virtio/vhost-vdpa.c
+>+++ b/hw/virtio/vhost-vdpa.c
+>@@ -18,6 +18,7 @@
+> #include "hw/virtio/vhost-backend.h"
+> #include "hw/virtio/virtio-net.h"
+> #include "hw/virtio/vhost-vdpa.h"
+>+#include "exec/address-spaces.h"
+> #include "qemu/main-loop.h"
+> #include "cpu.h"
+> #include "trace.h"
+>diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio/vhost-vdpa.h
+>index 28ca65018ed7..ae9ee7adb2d0 100644
+>--- a/include/hw/virtio/vhost-vdpa.h
+>+++ b/include/hw/virtio/vhost-vdpa.h
+>@@ -21,5 +21,4 @@ typedef struct vhost_vdpa {
+>     struct vhost_dev *dev;
+> } VhostVDPA;
+>
+>-extern AddressSpace address_space_memory;
+> #endif
+>-- 
+>2.11.0
+>
+>
 
-Typo on my part. It maintains compatibility with what it used to mean, 
-so it's good.
-
-I wonder if we want *three* forms available directly in the schema. Can 
-we condense it back down to two somehow? Could we possibly remove the 
-list-less form?
-
-(The less forms we have, the easier it is to offer e.g. intellisense 
-plugins for vscode and things of that nature, which is something I have 
-an interest in to improve the usability of the generator for 
-contributors who are less invested in the QAPI subsystem.)
-
---js
+Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
 
 
