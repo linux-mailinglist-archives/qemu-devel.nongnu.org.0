@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D8D3382C14
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 14:28:19 +0200 (CEST)
-Received: from localhost ([::1]:56540 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17263382BB1
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 14:01:55 +0200 (CEST)
+Received: from localhost ([::1]:59168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1licM6-0000VT-HL
-	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 08:28:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43860)
+	id 1libwY-0003iP-4S
+	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 08:01:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43922)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1libql-0003vB-Bd
- for qemu-devel@nongnu.org; Mon, 17 May 2021 07:55:55 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:42915)
+ id 1libqv-0003yw-5J
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 07:56:10 -0400
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:34699)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1libqj-0002tc-Tb
- for qemu-devel@nongnu.org; Mon, 17 May 2021 07:55:55 -0400
-Received: by mail-wm1-x331.google.com with SMTP id
- f75-20020a1c1f4e0000b0290171001e7329so3428307wmf.1
- for <qemu-devel@nongnu.org>; Mon, 17 May 2021 04:55:53 -0700 (PDT)
+ id 1libqo-0002vY-On
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 07:56:03 -0400
+Received: by mail-wm1-x32d.google.com with SMTP id
+ u5-20020a7bc0450000b02901480e40338bso5132917wmc.1
+ for <qemu-devel@nongnu.org>; Mon, 17 May 2021 04:55:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=CR4jn+u6FS9l33qzafdhc7xASGZQil1oCqTnHK2u1S4=;
- b=UjmmldowfgUW/2dYGE1wvcQiPb/QSfAV48oPnfKKR1uwmr8qKlj7zePF8Fxju7YAwS
- eYw55JW9018XMdR/wmoQTb+BgTrq7vL0XVzcO5/ULhE1sbVrDNV/s0CLN2MHZ8pg6pGj
- YLq2xLnaHCsN0LNu9XWlFLWvUoXJw2GwKE0amhQV8B1RxHMTvNA+6ffnWrFSpfcteJhK
- P76UW6v9Oji9Eyjhqo4h0iFrkQDdmJ/T/ocruvl69QPBP7prat9aspH3cPLYYQbQAC0l
- eSWuhv7eMTQz1QN2uRghqXHDOIgQPNVZoEv4XlrN4JFk4fhdR9/zURwvcJtCP6uf/SCx
- J7Rg==
+ bh=h74n15CgGUrao8YiqbCGB58c5XEuJcuW9skFxH7JU3E=;
+ b=VXGTlqG9kcZzQhGHsJnDnlQZh+FLyR7M8NMcboGO2Vksqf1DcZHNFMKQRimuZgasJU
+ x4gYYMGyoIz8OeaMjlAiAridv/TiukPfuS3JNdKnmZ1MdWH69KAdQqZVvJhovcwjjSjW
+ CqC6O6q2HV/z4ruyjH/eh4LUSCezCsO9Ot0KY2xULSlQnUeWkJ2k0BSvGxDWguECb6sZ
+ Ky2g3i+ynXqgLDmvcNmZPifWwZEkwf5RoyVc4mmxixUhd4n0G/UsVLiKS6JOMldEBLl7
+ 6ScHmhvwceBDt85a7a1YxU7x5DA0ti/7VLU4JiNu98p6wZC4adVPens45GtwH+CORJcn
+ e9sQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=CR4jn+u6FS9l33qzafdhc7xASGZQil1oCqTnHK2u1S4=;
- b=bgX7LY7BxkpQmFJxwXVUMqbaulGqgqTUMjMCBv0gSkUGhSxQW/zXJOD5o49hAhhB+n
- 5PwuIFVAdp2bVG4AHyIq8TlyLo/Cmt6tYJTPMBq1mYPYbcVMgoa+qdIJ9vlgt3vjrmvy
- 4NShnBprmUwmVoLt2EbmY2zGvz1uiffS5iGG0VotUWLjaibh3prED1yWrBMowPeyEOLc
- xrmZ45acYBfs+vCRKXFHp9HREIVveJtnIuYdJdP2R9vpXDD4ABd0pNeSRwl+gs4kNZVT
- z9RViQ74B8miTMMLcv2RbVFEIfyjtYhkBulLbl/X7iRJrMR0IJkgCXSXSfCYYbQiS5Fu
- kYGA==
-X-Gm-Message-State: AOAM531ih3tFmJfzhnxJhFX1BKC6eSpokGWbT6+b9evJo+0JSQGa+3+v
- WDel+0/9mQvp7wA0/ajH2QSW175BLqDIyw==
-X-Google-Smtp-Source: ABdhPJySU3h0X8Q9/eRNb6f/a6UYDSpipRwF3Y4dEuLrGVC9AjKeGSV+47K3WT2T3JLLD7U2/JEqcQ==
-X-Received: by 2002:a05:600c:4ca7:: with SMTP id
- g39mr7915482wmp.1.1621252552469; 
- Mon, 17 May 2021 04:55:52 -0700 (PDT)
+ bh=h74n15CgGUrao8YiqbCGB58c5XEuJcuW9skFxH7JU3E=;
+ b=THd7JZjMnHVL4mCVETJ90iFLwltM8EtHAkLZcLB5SbMuQS2ZEMnMGl2bxOoAQNCOZ2
+ G3DYgubMWxedPou5eUo/YstIXyN2khqBVa4C4vvRQn25rV7zKqbfDoF1szDu+q+pqW69
+ vYnUOIxH5R4gJDwm1C61OSw2PBFOC/reECdgHGqhcy70FhGYADlktTMU7wjKGxh3AFGY
+ c+PFbDtoilGlsju2wOMV+d/fG4hoBKZE/VZU2ewoKTF4WMIixzKCVYcotiRP9atdItfI
+ /larrpH4FazjlbMsdbgTPkaPMzdDKta8D7VyCUDshJAahFcERjazv4MOUozb1ZY7Utr2
+ sloQ==
+X-Gm-Message-State: AOAM530g3aX+qc9/TxpSRJtIddLAo/R98tU6kgWi/UxhtaHt96dM/nKE
+ nmf+hKWhMIePlYnn+4hDsGKvZS7Qc4MUFA==
+X-Google-Smtp-Source: ABdhPJycW/h+x63pgRhNXWlXhkHnPVCdnZezMWARkl2+AioirvCmPvQEbqyCzCggnST1/LqTgkb8EA==
+X-Received: by 2002:a05:600c:198a:: with SMTP id
+ t10mr22200329wmq.97.1621252557207; 
+ Mon, 17 May 2021 04:55:57 -0700 (PDT)
 Received: from localhost.localdomain (31.red-83-51-215.dynamicip.rima-tde.net.
  [83.51.215.31])
- by smtp.gmail.com with ESMTPSA id t17sm10099919wrp.89.2021.05.17.04.55.51
+ by smtp.gmail.com with ESMTPSA id y2sm23625710wmq.45.2021.05.17.04.55.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 May 2021 04:55:52 -0700 (PDT)
+ Mon, 17 May 2021 04:55:56 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 05/15] accel/kvm: Simplify user-mode #ifdef'ry
-Date: Mon, 17 May 2021 13:55:15 +0200
-Message-Id: <20210517115525.1088693-6-f4bug@amsat.org>
+Subject: [RFC PATCH 06/15] hw/acpi/memory_hotplug: Remove unused
+ 'hw/acpi/pc-hotplug.h' header
+Date: Mon, 17 May 2021 13:55:16 +0200
+Message-Id: <20210517115525.1088693-7-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210517115525.1088693-1-f4bug@amsat.org>
 References: <20210517115525.1088693-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32d.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -93,43 +94,22 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now than we only build this stub with system emulation,
-remove the user-mode #ifdef'ry.
-
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- accel/stubs/kvm-stub.c | 6 ------
- 1 file changed, 6 deletions(-)
+ hw/acpi/memory_hotplug.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/accel/stubs/kvm-stub.c b/accel/stubs/kvm-stub.c
-index 6bda6c8c925..6ae1ff62607 100644
---- a/accel/stubs/kvm-stub.c
-+++ b/accel/stubs/kvm-stub.c
-@@ -12,10 +12,7 @@
- 
+diff --git a/hw/acpi/memory_hotplug.c b/hw/acpi/memory_hotplug.c
+index af378894235..104c1abd4eb 100644
+--- a/hw/acpi/memory_hotplug.c
++++ b/hw/acpi/memory_hotplug.c
+@@ -1,6 +1,5 @@
  #include "qemu/osdep.h"
- #include "sysemu/kvm.h"
--
--#ifndef CONFIG_USER_ONLY
- #include "hw/pci/msi.h"
--#endif
- 
- KVMState *kvm_state;
- bool kvm_kernel_irqchip;
-@@ -81,7 +78,6 @@ int kvm_on_sigbus(int code, void *addr)
-     return 1;
- }
- 
--#ifndef CONFIG_USER_ONLY
- int kvm_irqchip_add_msi_route(KVMState *s, int vector, PCIDevice *dev)
- {
-     return -ENOSYS;
-@@ -153,5 +149,3 @@ bool kvm_cpu_check_are_resettable(void)
- {
-     g_assert_not_reached();
- }
--
--#endif
+ #include "hw/acpi/memory_hotplug.h"
+-#include "hw/acpi/pc-hotplug.h"
+ #include "hw/mem/pc-dimm.h"
+ #include "hw/qdev-core.h"
+ #include "migration/vmstate.h"
 -- 
 2.26.3
 
