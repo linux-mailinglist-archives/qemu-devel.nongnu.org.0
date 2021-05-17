@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEFDD3822A5
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 04:16:04 +0200 (CEST)
-Received: from localhost ([::1]:32976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CE5E3822D0
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 04:34:57 +0200 (CEST)
+Received: from localhost ([::1]:36146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1liSnb-0007Da-Ke
-	for lists+qemu-devel@lfdr.de; Sun, 16 May 2021 22:16:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46702)
+	id 1liT5s-0001jt-2H
+	for lists+qemu-devel@lfdr.de; Sun, 16 May 2021 22:34:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49248)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1liSm2-0005zb-5V
- for qemu-devel@nongnu.org; Sun, 16 May 2021 22:14:26 -0400
-Received: from mail-yb1-xb2a.google.com ([2607:f8b0:4864:20::b2a]:44627)
+ id 1liT4s-0000dS-Aq; Sun, 16 May 2021 22:33:54 -0400
+Received: from mail-yb1-xb34.google.com ([2607:f8b0:4864:20::b34]:41527)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1liSm0-0004Lv-Kj
- for qemu-devel@nongnu.org; Sun, 16 May 2021 22:14:25 -0400
-Received: by mail-yb1-xb2a.google.com with SMTP id h202so6469012ybg.11
- for <qemu-devel@nongnu.org>; Sun, 16 May 2021 19:14:24 -0700 (PDT)
+ id 1liT4q-0006ks-P3; Sun, 16 May 2021 22:33:54 -0400
+Received: by mail-yb1-xb34.google.com with SMTP id l7so6529005ybf.8;
+ Sun, 16 May 2021 19:33:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=AEBWnloMQ+VKqAqIZRZrNHaoTLZYErvLSFK5rGEC/UU=;
- b=CcQVfKVdyw3Op3ifoIYhxQ4BfKOAnvJI+xbJ6Mvu2JK7Jl8HLQwrtGAfAKi6GBsmIB
- YNjBu/BKDHB3vXOWuJraNnFi01/t6UftYJ0xiSg6t6kMfq6VQ0jXHvhwuKjLXedCKEh4
- mNajZCyl8aUvZmbwLhEADjx3fUXxhLtuCgbKVhOjVtcbi2LnzGs95nlAKTAcWDlSuCSn
- 86oNH9Jkjh2DdvBhxumMYnSbf22wgYa4kqLdW+06AVzY7u4G6X96gVxExEANr6KF4BLh
- 3+UaXcDJiNjGlI/WfX8ox2TAiQn/pPsrmrWoSPfmNi0KTrFGU6fmdFYvlleT+QThBKts
- XO0g==
+ bh=V7wEQKqwQ5OwwmeDdQ+DZv3iAllQc9fyfYQrfy4q71E=;
+ b=OaFMee8tVZKlExJiEatUiFTa4bRH69+wmMUkGRoEmNFxdidcCVi9EUqS7ue5KMyoux
+ ZIeMCbioyMft8Xh3hkjdDAzXoYUA9dhdJVoz0WB4MYe8zXre/lBKEV70eYusYKcgQIcL
+ Orjg43K9WbVNzsyMZY+GBz9XcKKaqQPRUaiR9nCN6wCdCuu8AaRbyAe7dVLy8CbGSJ2y
+ sGOHEQp18c0TZ55AjNQvqzDORllw3JOTyY84DfZwbXj4k6OcNIjmYIdQSKuPMkjaMe4q
+ QzbLm8lAg/ppdbNBHStx20jEmjSUytvRNFVK2ZLgBY3bwQ1+KW8JFdTZHfcO+IMwyJ/j
+ UMWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=AEBWnloMQ+VKqAqIZRZrNHaoTLZYErvLSFK5rGEC/UU=;
- b=q9rilOzuZuI84yImBgJnxQbFW6W0WNz4iCJta53PK4T3SsmeGNKWuYuTfhJk3MkY1m
- j2jUwToMzcLbBKpAKDjgL/mjPdMgb0JBLZAJ/+SGT8PJIjHngsICNcSfRVHaFoLmjzdE
- 6X5ktrCPmI7u8PocODT/8wRmOcOJ6+MDR1B2qq26QwJ7kr+cALQNPZOL8jOTZQFbLKuf
- hau2hBBUp0t/rWD92aaJIJ2BqeQuXd+f70qDP2VngRW0LatvR2AcPkXzeblLlfuG+/I3
- sysakpgDqNcSCvH08Y7jeHucxF+5aKUKR6/keWyqcESNLFVM+mcfU+5XdD4/uUYlv75l
- sxXA==
-X-Gm-Message-State: AOAM530T4v40jxmc97A6PXWLkKhAoBWdov79R9AH/FqaNVMvAvdv9NwS
- oWeHc1H/rAZsGH0S63mRW2yReBM/EIB+dmk99pk=
-X-Google-Smtp-Source: ABdhPJx1jXFpPcXi6GPZMs6jcUlZzZ/NWFSmjxex3N/MgEvqvng6ob6dj92XPM5N1livbpG29g/2Xjy90JgAwaDbGmQ=
-X-Received: by 2002:a25:99c1:: with SMTP id q1mr76282693ybo.517.1621217663450; 
- Sun, 16 May 2021 19:14:23 -0700 (PDT)
+ bh=V7wEQKqwQ5OwwmeDdQ+DZv3iAllQc9fyfYQrfy4q71E=;
+ b=m4/omGaHdgmkZ9wIyYHlQfqExNJAfyj/pJxtsNCyMcPDQr9xr0KKBCq53dv6H9nKvW
+ NUhU/ShZgxQ1kzEeT3Phba0DYOp6MZjQ3lzmlyOX0Q2ogivwcfMi1wL0hGfu68tU2iGj
+ C2vmgP5UL7RoH1G7r8tVBpRlqrgisSOKCqueihUkH7ekYWCe9Q3yH0CiqBRZNpuuBXYd
+ l5HsTL4XksvhNtLFXwanDj6FPxUJEyeIt1kucIQgHSsFFq03fe70XH20FKWIa5i1cECW
+ L+oGZ+h8DVcDU+VJE0OPsXTyo8dDAm4M8PQiDiZBZdEPLZ4p3DhYZd9wuoWmH7TLYmur
+ 55Sg==
+X-Gm-Message-State: AOAM531B3Gv4mF9W5VrDaycuDBe04GkpqFDOQ1ySFns7xEGo5jh1jyWq
+ BDvRgM/G+pBncL9LWUMlSo9Jd8TMDe96ry+/Y3Y=
+X-Google-Smtp-Source: ABdhPJzLl2Jw72lxHtZWF0L2mEb/j2OekdEF6PBYwnXGYYIlpq9eU21SYITbzwvau9pP9ze0rb+j5Bi9/v4rOahkNpw=
+X-Received: by 2002:a05:6902:1543:: with SMTP id
+ r3mr46586081ybu.332.1621218830803; 
+ Sun, 16 May 2021 19:33:50 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210511103502.2875844-1-f4bug@amsat.org>
-In-Reply-To: <20210511103502.2875844-1-f4bug@amsat.org>
+References: <20210515173716.358295-1-philmd@redhat.com>
+ <20210515173716.358295-2-philmd@redhat.com>
+In-Reply-To: <20210515173716.358295-2-philmd@redhat.com>
 From: Bin Meng <bmeng.cn@gmail.com>
-Date: Mon, 17 May 2021 10:14:12 +0800
-Message-ID: <CAEUhbmVj-zmdXQYQ_HvPjt=apWw0sYwj5G0uXte16AuVzrmmQQ@mail.gmail.com>
-Subject: Re: [PATCH] Constify bitmask_transtbl fcntl/mmap flags_tlb[]
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Date: Mon, 17 May 2021 10:33:39 +0800
+Message-ID: <CAEUhbmVYC6BE5En83KdujZu7uEbg4DKgNiz0MRUeWVAM7KdWiA@mail.gmail.com>
+Subject: Re: [PATCH v2 01/12] hw/mem/nvdimm: Use Kconfig 'imply' instead of
+ 'depends on'
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2a;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b34;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb34.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -78,20 +79,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Bin Meng <bin.meng@windriver.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Greg Kurz <groug@kaod.org>, qemu-arm <qemu-arm@nongnu.org>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Igor Mammedov <imammedo@redhat.com>, qemu-ppc <qemu-ppc@nongnu.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, May 11, 2021 at 6:51 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
-g> wrote:
+On Sun, May 16, 2021 at 1:37 AM Philippe Mathieu-Daud=C3=A9
+<philmd@redhat.com> wrote:
 >
-> Keep bitmask_transtbl in .rodata by marking the arrays const.
+> Per the kconfig.rst:
 >
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+>   A device should be listed [...] ``imply`` if (depending on
+>   the QEMU command line) the board may or  may not be started
+>   without it.
+>
+> This is the case with the NVDIMM device (it is certainly possible
+> to start a machine without NVDIMM) , so use the 'imply' weak
+> reverse dependency to select the symbol.
+>
+> Acked-by: Paolo Bonzini <pbonzini@redhat.com>
+> Acked-by: David Gibson <david@gibson.dropbear.id.au>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 > ---
->  linux-user/syscall.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  default-configs/devices/ppc64-softmmu.mak | 1 -
+>  hw/arm/Kconfig                            | 1 +
+>  hw/i386/Kconfig                           | 1 +
+>  hw/mem/Kconfig                            | 2 --
+>  hw/ppc/Kconfig                            | 1 +
+>  5 files changed, 3 insertions(+), 3 deletions(-)
 >
 
 Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
