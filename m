@@ -2,73 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BD58386D78
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 01:02:53 +0200 (CEST)
-Received: from localhost ([::1]:35272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39850386DB1
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 01:34:14 +0200 (CEST)
+Received: from localhost ([::1]:46334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1limGC-0004Tm-E5
-	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 19:02:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38116)
+	id 1limkW-0004zj-R1
+	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 19:34:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43662)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1limDT-0002iV-Hf
- for qemu-devel@nongnu.org; Mon, 17 May 2021 19:00:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45800)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1limjj-0004DU-P1
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 19:33:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42499)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1limDR-0008Hn-9n
- for qemu-devel@nongnu.org; Mon, 17 May 2021 19:00:03 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1limjg-0004zs-GY
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 19:33:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621292400;
+ s=mimecast20190719; t=1621294398;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=KIXuUSddr6xmXEfyKLiAdNuVITjUL9FyDt3O70A4bko=;
- b=PxSRLFNugHo61hQ6ADyJ8I/6OPD4wixWvIQDnhO5diLulqRYNku6Dq7PwJ0LKW9IrYvnqm
- Z4DDhNFTtnYxSK9aIw80WFKGxvd6BRjTVvi/8s1Mkw+M03B5IuelN9LNAhJAqa4sb2PUZl
- va7cApmqD/HxZKKuPdkL2iRf/q9QvWY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-337-pv50YtmNNxKpVzIPnMVKOA-1; Mon, 17 May 2021 18:59:56 -0400
-X-MC-Unique: pv50YtmNNxKpVzIPnMVKOA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3893719251A0;
- Mon, 17 May 2021 22:59:55 +0000 (UTC)
-Received: from [10.10.117.64] (ovpn-117-64.rdu2.redhat.com [10.10.117.64])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2C71260C04;
- Mon, 17 May 2021 22:59:53 +0000 (UTC)
-Subject: Re: [PATCH v2] floppy: remove dead code related to formatting
-To: Alexander Bulekov <alxndr@bu.edu>, qemu-devel@nongnu.org,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>
-References: <20210428022803.606814-1-alxndr@bu.edu>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <ba0be31a-20b1-05d1-aac4-27dac59b2cb2@redhat.com>
-Date: Mon, 17 May 2021 18:59:53 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ bh=NoorT0lPA4sf5abaz7uoCq694qU2IsCB3f0CURBDBm0=;
+ b=Ga0byVXjDyarniFhwYBMDIEFKYORIHluXWMxBF0x0ShC8iHnw85879dkqxOVYSEsV3jZON
+ ERfTcttb5S8LZGmoo9rQJEtMkO7zqVcutrMBWrqlpR7Nj1k9mJW6LORcaV0VifX4LNc+tF
+ GirZOxIFHkGz75CUc/W7JFUZyfaklnA=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-442-cKWs4YhAPQKcw87dRUPPhA-1; Mon, 17 May 2021 19:33:17 -0400
+X-MC-Unique: cKWs4YhAPQKcw87dRUPPhA-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ u20-20020a0560001614b02901115c8f2d89so4529264wrb.3
+ for <qemu-devel@nongnu.org>; Mon, 17 May 2021 16:33:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=NoorT0lPA4sf5abaz7uoCq694qU2IsCB3f0CURBDBm0=;
+ b=bu6jySfguonyATo8QNIl66VIBkFP4/XMly9u1DGsKq09WfPIHL9bIRy3NkuTtDb0k8
+ WhCM3EdyIdSLyAY8yL79RGHEVrIRKv+7m2361hCj+RL9o1bxaJIZBZyk/KOMInI28hfi
+ oss3H+8FC06B3Z+DNDd26o/gk5184mxXz22IkRNHQgPnSxWopIC1hCoIWm+gmL5VTKak
+ q0uGSpRPzKPyDZhtUGtT3QaIoyt5cyNxelWpnZea6ioT9pMHycWr0ssbgUh8JTUsbE48
+ 9iJ25Ohdcu3hVWUcL3tHlU+Bgg6c3US9O7ctmQKA36uW6CneEpw5ibC1QJHKtx247IfG
+ K90g==
+X-Gm-Message-State: AOAM532dQg8D5j0LHPyEPOGxydvms+0sqgv9VBeT4zZ9K3J+08M5P9mG
+ 8UHMa3YcQ6IJ/pLFpwlTn9UomEZx0RP9f5JdG4mVSxq9zIVWn0iFvdaNsnGiNxewFDgNfRx4Jry
+ H5Gx6MYYuZ1Hk9/0=
+X-Received: by 2002:a1c:f608:: with SMTP id w8mr1577308wmc.44.1621294395898;
+ Mon, 17 May 2021 16:33:15 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw7SDzeAafgEU992fi2BUwu0spoG/llmB/DHhMofdv7pq6uTPTA8BME9rEgepnKJXR3mPWehg==
+X-Received: by 2002:a1c:f608:: with SMTP id w8mr1577281wmc.44.1621294395675;
+ Mon, 17 May 2021 16:33:15 -0700 (PDT)
+Received: from redhat.com ([2a10:800c:1fa6:0:3809:fe0c:bb87:250e])
+ by smtp.gmail.com with ESMTPSA id m7sm19104995wrv.35.2021.05.17.16.33.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 17 May 2021 16:33:15 -0700 (PDT)
+Date: Mon, 17 May 2021 19:33:12 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH v2 0/4] virtio: Improve boot time of virtio-scsi-pci and
+ virtio-blk-pci
+Message-ID: <20210517193247-mutt-send-email-mst@kernel.org>
+References: <20210507165905.748196-1-groug@kaod.org>
+ <YJv84RIViv6KvCHb@stefanha-x1.localdomain>
+ <20210517103259.4689ad2d@bahia.lan>
 MIME-Version: 1.0
-In-Reply-To: <20210428022803.606814-1-alxndr@bu.edu>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <20210517103259.4689ad2d@bahia.lan>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.374,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,199 +94,145 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- "open list:Floppy" <qemu-block@nongnu.org>, Max Reitz <mreitz@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/27/21 10:28 PM, Alexander Bulekov wrote:
-> fdctrl_format_sector was added in
-> baca51faff ("updated floppy driver: formatting code, disk geometry auto detect (Jocelyn Mayer)")
+On Mon, May 17, 2021 at 10:32:59AM +0200, Greg Kurz wrote:
+> On Wed, 12 May 2021 17:05:53 +0100
+> Stefan Hajnoczi <stefanha@redhat.com> wrote:
 > 
-> The single callsite is guarded by a check:
-> fdctrl->data_state & FD_STATE_FORMAT
+> > On Fri, May 07, 2021 at 06:59:01PM +0200, Greg Kurz wrote:
+> > > Now that virtio-scsi-pci and virtio-blk-pci map 1 virtqueue per vCPU,
+> > > a serious slow down may be observed on setups with a big enough number
+> > > of vCPUs.
+> > > 
+> > > Exemple with a pseries guest on a bi-POWER9 socket system (128 HW threads):
+> > > 
+> > >               virtio-scsi      virtio-blk
+> > > 
+> > > 1		0m20.922s	0m21.346s
+> > > 2		0m21.230s	0m20.350s
+> > > 4		0m21.761s	0m20.997s
+> > > 8		0m22.770s	0m20.051s
+> > > 16		0m22.038s	0m19.994s
+> > > 32		0m22.928s	0m20.803s
+> > > 64		0m26.583s	0m22.953s
+> > > 128		0m41.273s	0m32.333s
+> > > 256		2m4.727s 	1m16.924s
+> > > 384		6m5.563s 	3m26.186s
+> > > 
+> > > Both perf and gprof indicate that QEMU is hogging CPUs when setting up
+> > > the ioeventfds:
+> > > 
+> > >  67.88%  swapper         [kernel.kallsyms]  [k] power_pmu_enable
+> > >   9.47%  qemu-kvm        [kernel.kallsyms]  [k] smp_call_function_single
+> > >   8.64%  qemu-kvm        [kernel.kallsyms]  [k] power_pmu_enable
+> > > =>2.79%  qemu-kvm        qemu-kvm           [.] memory_region_ioeventfd_before
+> > > =>2.12%  qemu-kvm        qemu-kvm           [.] address_space_update_ioeventfds
+> > >   0.56%  kworker/8:0-mm  [kernel.kallsyms]  [k] smp_call_function_single
+> > > 
+> > > address_space_update_ioeventfds() is called when committing an MR
+> > > transaction, i.e. for each ioeventfd with the current code base,
+> > > and it internally loops on all ioventfds:
+> > > 
+> > > static void address_space_update_ioeventfds(AddressSpace *as)
+> > > {
+> > > [...]
+> > >     FOR_EACH_FLAT_RANGE(fr, view) {
+> > >         for (i = 0; i < fr->mr->ioeventfd_nb; ++i) {
+> > > 
+> > > This means that the setup of ioeventfds for these devices has
+> > > quadratic time complexity.
+> > > 
+> > > This series simply changes the device models to extend the transaction
+> > > to all virtqueueues, like already done in the past in the generic
+> > > code with 710fccf80d78 ("virtio: improve virtio devices initialization
+> > > time").
+> > > 
+> > > Only virtio-scsi and virtio-blk are covered here, but a similar change
+> > > might also be beneficial to other device types such as host-scsi-pci,
+> > > vhost-user-scsi-pci and vhost-user-blk-pci.
+> > > 
+> > >               virtio-scsi      virtio-blk
+> > > 
+> > > 1		0m21.271s	0m22.076s
+> > > 2		0m20.912s	0m19.716s
+> > > 4		0m20.508s	0m19.310s
+> > > 8		0m21.374s	0m20.273s
+> > > 16		0m21.559s	0m21.374s
+> > > 32		0m22.532s	0m21.271s
+> > > 64		0m26.550s	0m22.007s
+> > > 128		0m29.115s	0m27.446s
+> > > 256		0m44.752s	0m41.004s
+> > > 384		1m2.884s	0m58.023s
+> > > 
+> > > This should fix https://bugzilla.redhat.com/show_bug.cgi?id=1927108
+> > > which reported the issue for virtio-scsi-pci.
+> > > 
+> > > Changes since v1:
+> > > - Add some comments (Stefan)
+> > > - Drop optimization on the error path in patch 2 (Stefan)
+> > > 
+> > > Changes since RFC:
+> > > 
+> > > As suggested by Stefan, splimplify the code by directly beginning and
+> > > committing the memory transaction from the device model, without all
+> > > the virtio specific proxying code and no changes needed in the memory
+> > > subsystem.
+> > > 
+> > > Greg Kurz (4):
+> > >   virtio-blk: Fix rollback path in virtio_blk_data_plane_start()
+> > >   virtio-blk: Configure all host notifiers in a single MR transaction
+> > >   virtio-scsi: Set host notifiers and callbacks separately
+> > >   virtio-scsi: Configure all host notifiers in a single MR transaction
+> > > 
+> > >  hw/block/dataplane/virtio-blk.c | 45 ++++++++++++++++++++-
+> > >  hw/scsi/virtio-scsi-dataplane.c | 72 ++++++++++++++++++++++++---------
+> > >  2 files changed, 97 insertions(+), 20 deletions(-)
+> > > 
+> > > -- 
+> > > 2.26.3
+> > > 
+> > 
+> > Thanks, applied to my block tree:
+> > https://gitlab.com/stefanha/qemu/commits/block
+> > 
 > 
-> However, the only place where the FD_STATE_FORMAT flag is set (in
-> fdctrl_handle_format_track) is closely followed by the same flag being
-> unset, with no possibility to call fdctrl_format_sector in between.
+> Hi Stefan,
 > 
-> This removes fdctrl_format_sector, the unncessary setting/unsetting
-> of the FD_STATE_FORMAT flag, and the fdctrl_handle_format_track function
-> (which is just a stub).
+> It seems that Michael already merged the previous version of this
+> patch set with its latest PR.
 > 
-> Suggested-by: Hervé Poussineau <hpoussin@reactos.org>
-> Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
-> ---
+> https://gitlab.com/qemu-project/qemu/-/commit/6005ee07c380cbde44292f5f6c96e7daa70f4f7d
+> 
+> It is thus missing the v1->v2 changes. Basically some comments to
+> clarify the optimization we're doing with the MR transaction and
+> the removal of the optimization on an error path.
+> 
+> The optimization on the error path isn't needed indeed but it
+> doesn't hurt. No need to change that now that the patches are
+> upstream.
+> 
+> I can post a follow-up patch to add the missing comments though.
+> While here, I'd even add these comments in the generic
+> virtio_device_*_ioeventfd_impl() calls as well, since they already
+> have the very same optimization.
+
+Yes, please post patches on top.
+
+> Anyway, I guess you can drop the patches from your tree.
+> 
+> Cheers,
+> 
+> --
+> Greg
+> 
+> > Stefan
 > 
 
-Herve, does it look good to you? I feel bad about deleting code out of a 
-device that badly needs attention, but it seems like this code was 
-probably not operating correctly to begin with and I don't have the time 
-to figure out how to implement it correctly.
-
-> I ran through tests/qtest/fdc-test, and ran fdformat on a dummy disk -
-> nothing exploded, but since I don't use floppies very often, more eyes
-> definitely won't hurt. In particular, I'm not sure about the
-> fdctrl_handle_format_track delete - that function has side-effects on
-> both FDrive and FDCtrl, and it is certainly reachable. If deleting the
-> whole thing seems wrong, I'll roll-back that change, and we can just
-> remove the unreachable code..
-> 
-
-Yeah, I just had some reservations about allowing a stub to persist that 
-touched state and didn't actually seem to invoke the routine it was 
-meant to.
-
-It's hard to audit the impact either way, and I don't have a good test 
-suite to know what the ramifications are.
-
->   hw/block/fdc.c | 97 --------------------------------------------------
->   1 file changed, 97 deletions(-)
-> 
-> diff --git a/hw/block/fdc.c b/hw/block/fdc.c
-> index a825c2acba..d851d23cc0 100644
-> --- a/hw/block/fdc.c
-> +++ b/hw/block/fdc.c
-> @@ -657,7 +657,6 @@ enum {
->   
->   enum {
->       FD_STATE_MULTI  = 0x01,	/* multi track flag */
-> -    FD_STATE_FORMAT = 0x02,	/* format flag */
->   };
->   
->   enum {
-> @@ -826,7 +825,6 @@ enum {
->   };
->   
->   #define FD_MULTI_TRACK(state) ((state) & FD_STATE_MULTI)
-> -#define FD_FORMAT_CMD(state) ((state) & FD_STATE_FORMAT)
->   
->   struct FDCtrl {
->       MemoryRegion iomem;
-> @@ -1942,67 +1940,6 @@ static uint32_t fdctrl_read_data(FDCtrl *fdctrl)
->       return retval;
->   }
->   
-> -static void fdctrl_format_sector(FDCtrl *fdctrl)
-> -{
-> -    FDrive *cur_drv;
-> -    uint8_t kh, kt, ks;
-> -
-> -    SET_CUR_DRV(fdctrl, fdctrl->fifo[1] & FD_DOR_SELMASK);
-> -    cur_drv = get_cur_drv(fdctrl);
-> -    kt = fdctrl->fifo[6];
-> -    kh = fdctrl->fifo[7];
-> -    ks = fdctrl->fifo[8];
-> -    FLOPPY_DPRINTF("format sector at %d %d %02x %02x (%d)\n",
-> -                   GET_CUR_DRV(fdctrl), kh, kt, ks,
-> -                   fd_sector_calc(kh, kt, ks, cur_drv->last_sect,
-> -                                  NUM_SIDES(cur_drv)));
-> -    switch (fd_seek(cur_drv, kh, kt, ks, fdctrl->config & FD_CONFIG_EIS)) {
-> -    case 2:
-> -        /* sect too big */
-> -        fdctrl_stop_transfer(fdctrl, FD_SR0_ABNTERM, 0x00, 0x00);
-> -        fdctrl->fifo[3] = kt;
-> -        fdctrl->fifo[4] = kh;
-> -        fdctrl->fifo[5] = ks;
-> -        return;
-> -    case 3:
-> -        /* track too big */
-> -        fdctrl_stop_transfer(fdctrl, FD_SR0_ABNTERM, FD_SR1_EC, 0x00);
-> -        fdctrl->fifo[3] = kt;
-> -        fdctrl->fifo[4] = kh;
-> -        fdctrl->fifo[5] = ks;
-> -        return;
-> -    case 4:
-> -        /* No seek enabled */
-> -        fdctrl_stop_transfer(fdctrl, FD_SR0_ABNTERM, 0x00, 0x00);
-> -        fdctrl->fifo[3] = kt;
-> -        fdctrl->fifo[4] = kh;
-> -        fdctrl->fifo[5] = ks;
-> -        return;
-> -    case 1:
-> -        fdctrl->status0 |= FD_SR0_SEEK;
-> -        break;
-> -    default:
-> -        break;
-> -    }
-> -    memset(fdctrl->fifo, 0, FD_SECTOR_LEN);
-> -    if (cur_drv->blk == NULL ||
-> -        blk_pwrite(cur_drv->blk, fd_offset(cur_drv), fdctrl->fifo,
-> -                   BDRV_SECTOR_SIZE, 0) < 0) {
-> -        FLOPPY_DPRINTF("error formatting sector %d\n", fd_sector(cur_drv));
-> -        fdctrl_stop_transfer(fdctrl, FD_SR0_ABNTERM | FD_SR0_SEEK, 0x00, 0x00);
-> -    } else {
-> -        if (cur_drv->sect == cur_drv->last_sect) {
-> -            fdctrl->data_state &= ~FD_STATE_FORMAT;
-> -            /* Last sector done */
-> -            fdctrl_stop_transfer(fdctrl, 0x00, 0x00, 0x00);
-> -        } else {
-> -            /* More to do */
-> -            fdctrl->data_pos = 0;
-> -            fdctrl->data_len = 4;
-> -        }
-> -    }
-> -}
-> -
->   static void fdctrl_handle_lock(FDCtrl *fdctrl, int direction)
->   {
->       fdctrl->lock = (fdctrl->fifo[0] & 0x80) ? 1 : 0;
-> @@ -2110,34 +2047,6 @@ static void fdctrl_handle_readid(FDCtrl *fdctrl, int direction)
->                (NANOSECONDS_PER_SECOND / 50));
->   }
->   
-> -static void fdctrl_handle_format_track(FDCtrl *fdctrl, int direction)
-> -{
-> -    FDrive *cur_drv;
-> -
-> -    SET_CUR_DRV(fdctrl, fdctrl->fifo[1] & FD_DOR_SELMASK);
-> -    cur_drv = get_cur_drv(fdctrl);
-> -    fdctrl->data_state |= FD_STATE_FORMAT;
-> -    if (fdctrl->fifo[0] & 0x80)
-> -        fdctrl->data_state |= FD_STATE_MULTI;
-> -    else
-> -        fdctrl->data_state &= ~FD_STATE_MULTI;
-> -    cur_drv->bps =
-> -        fdctrl->fifo[2] > 7 ? 16384 : 128 << fdctrl->fifo[2];
-> -#if 0
-> -    cur_drv->last_sect =
-> -        cur_drv->flags & FDISK_DBL_SIDES ? fdctrl->fifo[3] :
-> -        fdctrl->fifo[3] / 2;
-> -#else
-> -    cur_drv->last_sect = fdctrl->fifo[3];
-> -#endif
-> -    /* TODO: implement format using DMA expected by the Bochs BIOS
-> -     * and Linux fdformat (read 3 bytes per sector via DMA and fill
-> -     * the sector with the specified fill byte
-> -     */
-> -    fdctrl->data_state &= ~FD_STATE_FORMAT;
-> -    fdctrl_stop_transfer(fdctrl, 0x00, 0x00, 0x00);
-> -}
-> -
->   static void fdctrl_handle_specify(FDCtrl *fdctrl, int direction)
->   {
->       fdctrl->timer0 = (fdctrl->fifo[1] >> 4) & 0xF;
-> @@ -2330,7 +2239,6 @@ static const FDCtrlCommand handlers[] = {
->       { FD_CMD_SEEK, 0xff, "SEEK", 2, fdctrl_handle_seek },
->       { FD_CMD_SENSE_INTERRUPT_STATUS, 0xff, "SENSE INTERRUPT STATUS", 0, fdctrl_handle_sense_interrupt_status },
->       { FD_CMD_RECALIBRATE, 0xff, "RECALIBRATE", 1, fdctrl_handle_recalibrate },
-> -    { FD_CMD_FORMAT_TRACK, 0xbf, "FORMAT TRACK", 5, fdctrl_handle_format_track },
->       { FD_CMD_READ_TRACK, 0xbf, "READ TRACK", 8, fdctrl_start_transfer, FD_DIR_READ },
->       { FD_CMD_RESTORE, 0xff, "RESTORE", 17, fdctrl_handle_restore }, /* part of READ DELETED DATA */
->       { FD_CMD_SAVE, 0xff, "SAVE", 0, fdctrl_handle_save }, /* part of READ DELETED DATA */
-> @@ -2448,11 +2356,6 @@ static void fdctrl_write_data(FDCtrl *fdctrl, uint32_t value)
->               /* We have all parameters now, execute the command */
->               fdctrl->phase = FD_PHASE_EXECUTION;
->   
-> -            if (fdctrl->data_state & FD_STATE_FORMAT) {
-> -                fdctrl_format_sector(fdctrl);
-> -                break;
-> -            }
-> -
->               cmd = get_command(fdctrl->fifo[0]);
->               FLOPPY_DPRINTF("Calling handler for '%s'\n", cmd->name);
->               cmd->handler(fdctrl, cmd->direction);
-> 
 
 
