@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A973383CF1
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 21:09:14 +0200 (CEST)
-Received: from localhost ([::1]:39470 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EABB383D3C
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 21:25:06 +0200 (CEST)
+Received: from localhost ([::1]:53468 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1liic5-0002DJ-Hc
-	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 15:09:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42790)
+	id 1liirR-0005r5-1X
+	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 15:25:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42800)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1liiHw-0001H9-FT
- for qemu-devel@nongnu.org; Mon, 17 May 2021 14:48:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54147)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1liiHx-0001K0-Fj
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 14:48:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31973)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1liiHu-0006yl-Mb
- for qemu-devel@nongnu.org; Mon, 17 May 2021 14:48:24 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1liiHv-0006yx-UD
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 14:48:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621277302;
+ s=mimecast20190719; t=1621277303;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pmnghhsnUzWbhD2nTSMoSTOwXPhtYm3cPAUtB3aZmyg=;
- b=TeRUiZ8h7kbwSHxzL/Tg6ahc4FkT9TnAR6y+gv+HLFnpTqDOTlSrbr5K7+o553dFy27U9x
- f/cxTuJbYaRJq7QNZfNQzXknSceIZ0RNTwty46rUK8in/A3ADxIQrDAnkHu4Funzkln4Qb
- jcUtYZprpTj5toM6vYiNY9BAoSh8/n4=
+ bh=MGuqrqm51MoXkPciCqG5OPj563q/2p+OEhh+NKfsXDI=;
+ b=ZEJviAuG0YKqtwVY51knDGM3rXyCWoKraCR+xpX32AYBhkHcUlPWZyPhDzf7fEcNvULdjM
+ Vz5mF/3ctYwFUgA3e+wQG2q+ObnicSWCXyy3H9VN+QSOjYw8uz1KiUOGtiDaBkWJ/YIhcW
+ by3yaEaJYMfw0OrIT5FZQEonSkivSZQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-467-fK3u9zwHMgee4ogN3k2nKw-1; Mon, 17 May 2021 14:48:20 -0400
-X-MC-Unique: fK3u9zwHMgee4ogN3k2nKw-1
+ us-mta-137-P7looOccNHyIeobd4AYj6Q-1; Mon, 17 May 2021 14:48:21 -0400
+X-MC-Unique: P7looOccNHyIeobd4AYj6Q-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 741FB1854E21
- for <qemu-devel@nongnu.org>; Mon, 17 May 2021 18:48:19 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B72B3107ACCD
+ for <qemu-devel@nongnu.org>; Mon, 17 May 2021 18:48:20 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-117-64.rdu2.redhat.com [10.10.117.64])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C41EB19C46;
- Mon, 17 May 2021 18:48:17 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 909C319C46;
+ Mon, 17 May 2021 18:48:19 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 5/6] python/machine: Disable pylint warning for open() in
- _pre_launch
-Date: Mon, 17 May 2021 14:48:07 -0400
-Message-Id: <20210517184808.3562549-6-jsnow@redhat.com>
+Subject: [PATCH v2 6/6] python/machine: disable warning for Popen in _launch()
+Date: Mon, 17 May 2021 14:48:08 -0400
+Message-Id: <20210517184808.3562549-7-jsnow@redhat.com>
 In-Reply-To: <20210517184808.3562549-1-jsnow@redhat.com>
 References: <20210517184808.3562549-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -84,44 +83,31 @@ Cc: Emanuele Giuseppe Esposito <eesposit@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Shift the open() call later so that the pylint pragma applies *only* to
-that one open() call. Add a note that suggests why this is safe: the
-resource is unconditionally cleaned up in _post_shutdown().
+We handle this resource rather meticulously in
+shutdown/kill/wait/__exit__ et al, through the laborious mechanisms in
+_do_shutdown().
 
-_post_shutdown is called after failed launches (see launch()), and
-unconditionally after every call to shutdown(), and therefore also on
-__exit__.
+Quiet this pylint warning here.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
-Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
 ---
- python/qemu/machine.py | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ python/qemu/machine.py | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/python/qemu/machine.py b/python/qemu/machine.py
-index 2e55e2c8bd8..f021127f0fc 100644
+index f021127f0fc..06058d89e83 100644
 --- a/python/qemu/machine.py
 +++ b/python/qemu/machine.py
-@@ -308,7 +308,6 @@ def _pre_launch(self) -> None:
-         self._temp_dir = tempfile.mkdtemp(prefix="qemu-machine-",
-                                           dir=self._test_dir)
-         self._qemu_log_path = os.path.join(self._temp_dir, self._name + ".log")
--        self._qemu_log_file = open(self._qemu_log_path, 'wb')
- 
-         if self._console_set:
-             self._remove_files.append(self._console_address)
-@@ -323,6 +322,11 @@ def _pre_launch(self) -> None:
-                 nickname=self._name
-             )
- 
-+        # NOTE: Make sure any opened resources are *definitely* freed in
-+        # _post_shutdown()!
-+        # pylint: disable=consider-using-with
-+        self._qemu_log_file = open(self._qemu_log_path, 'wb')
+@@ -407,6 +407,9 @@ def _launch(self) -> None:
+                   self._args)
+         )
+         LOG.debug('VM launch command: %r', ' '.join(self._qemu_full_args))
 +
-     def _post_launch(self) -> None:
-         if self._qmp_connection:
-             self._qmp.accept()
++        # Cleaning up of this subprocess is guaranteed by _do_shutdown.
++        # pylint: disable=consider-using-with
+         self._popen = subprocess.Popen(self._qemu_full_args,
+                                        stdin=subprocess.DEVNULL,
+                                        stdout=self._qemu_log_file,
 -- 
 2.30.2
 
