@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11055383C1C
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 20:18:53 +0200 (CEST)
-Received: from localhost ([::1]:56438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2925D383C36
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 20:28:09 +0200 (CEST)
+Received: from localhost ([::1]:53522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lihpM-0000eP-3a
-	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 14:18:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33646)
+	id 1lihyK-0000nw-7Y
+	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 14:28:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33724)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lihlF-0005ua-Q1
- for qemu-devel@nongnu.org; Mon, 17 May 2021 14:14:37 -0400
-Received: from mout.kundenserver.de ([212.227.126.130]:60007)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lihlN-0005wD-I4
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 14:14:45 -0400
+Received: from mout.kundenserver.de ([212.227.126.130]:40091)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lihl9-0004Kp-Ed
- for qemu-devel@nongnu.org; Mon, 17 May 2021 14:14:37 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lihl9-0004Ky-Gk
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 14:14:45 -0400
 Received: from quad ([82.142.31.78]) by mrelayeu.kundenserver.de (mreue010
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1MhlXE-1lDkf63wBM-00dr7n; Mon, 17
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1Mnq4Q-1l6Zfb1m02-00pNhd; Mon, 17
  May 2021 20:14:29 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 06/59] linux-user/arm: Simplify accumulating and raising fpa11
- exceptions
-Date: Mon, 17 May 2021 20:13:31 +0200
-Message-Id: <20210517181424.8093-7-laurent@vivier.eu>
+Subject: [PULL 07/59] linux-user: Add strace support for printing arguments of
+ llseek
+Date: Mon, 17 May 2021 20:13:32 +0200
+Message-Id: <20210517181424.8093-8-laurent@vivier.eu>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210517181424.8093-1-laurent@vivier.eu>
 References: <20210517181424.8093-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:0YAoTbXnbC6iGb9edyFhAr5Hobsf0tJgXBmf2naxTYBYYwtM0CS
- JATKoO2dDef5GGuf/MBZrxOQf9ZK3UEefuUXJwCfjRFPaQfIbUrMn5lqWoee/TUkQ8uXj4E
- ABzJJZEMiqffNtmFEies1eJUgrN6ZkuCjZeIO0lX8kjtdqjQDGZyC9pssxyHXDAZwgBCTaH
- yvDsbUy8V20d97uHydn1g==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:6eAcCOPt7PA=:y9JF4kPYGHTljrQvgNRABp
- zoUNNfZPoJDQP7xO4Cj2mHF5KyVfoCsHhnTQMYsUNC3t7izGGFaGZ2Ox7RN/7EynUFP8c2HdT
- mI+g0DTVbgt/c+IEQneAqN8Tya8C9JZf/ZY4CwuHrX0IcHIQUtfnGD2YpbTkdvSUXP9gNEmeM
- w5vm9cTNMLVlt6vzsZGqJZ2Q958av34RqihseY3F8rPIYxWlDCINLlONWs7/ype0WVvHvWTRc
- YUyI/jPQvWdoQZSi5hpt9HYX/7SkTzlevVM3puEI/Inhp6hSAl4O5f0XIUIaJ9NgAyH4nH1Xb
- AKzqAmVs6N2Gk+SbnvVQIgTiOxKQaLMs/nMI+205fOXa4XMxGsJa4bb64e2kFUXzNKZ8HbJeR
- pnWDkJYOIyiei7egHGwy3UmrbNszVJAX+p/GrfXcPu4A2w8jgZkv0FdcHOPLWA3W1jvggO62q
- dSkI0SI6cFCkXX6UjiCcZykYLQbMTYJkfaJYJ7qdBgAxJeUYrYlYam2FIVxShAqv8vzZh9TmK
- AylcTIQ7JSULpW1LRmYotM=
+X-Provags-ID: V03:K1:bWJF/UaE+EKpucOF6B6qrXU8SDKzvB5K01bSlpLTiMMdI0EEyUY
+ jp30lb9znsSQEQQHze0nEFdVKcvWccWhZlqr0u4YC5PI/eKTo289ugfqg6Nr9eIdyAYRzqh
+ oImbxnmf8aTxupkLRzMPhxJ4OYzsdRuOiWDqR70XrsOQ87bhyjNBdBj/qlSHbpSeHNk3+JW
+ xRD9dCGOI3RsIC49HIziQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:M1WB59yjotA=:vuBSvAPrzQUEEKw7HRKN6S
+ g3AMuzZdwpuUZ8ameyXGwfsVirMw+7A6WXQGhzeJ5xUge5EEmUzKDUAJ6qJrRg5LhOeFDCUVT
+ asxSsfVd2RXLl5W2lsTgcgPKJSm/Y4d7NOVcQ8qEC93tbfyhj0uZB2rOjdw7a3/7HC/kMzWkR
+ nedIQDED7f9JwincsE9avQ7FCiuP3Uk5Fx87H3254vXgeiZCDFRKkepb4RSu/7W2tSmjUPCU9
+ Lmzo+PMp89u66CSJzoJaFXYvhwNSD5CKxK6VVfDkD+oh37Gci3gJ2Wj9KBRhvf7lSyq/cwsaG
+ Hr11tvOxWsg4kxrPkgdjDkawBYbviOEyJTqP16IVw/B6DlL6MfYbEKyHCBgc9vGJFc+SIaPF2
+ YnucyGVcrIK0cXQcaYIp6MZXxNajs83cpo38gsfBvU7CiHOMc+Cv0gCnKhaErUZ52mx+5Ypfk
+ sDJ0DXAiy7KtbIdbdw3IuwjSIfWxyhCwzu+HY2auykoOZku7+AuodyPS7oNKIUbJqldBxdR8X
+ 5tWLrD2D2trxCV+vLF90/U=
 Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
@@ -64,107 +64,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: Kito Cheng <kito.cheng@sifive.com>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
+From: Kito Cheng <kito.cheng@sifive.com>
 
-Use bit masking instead of an if tree.
+Some target are using llseek instead of _llseek like riscv,
+nios2, hexagon, and openrisc.
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Message-Id: <20210423165413.338259-5-richard.henderson@linaro.org>
+Signed-off-by: Kito Cheng <kito.cheng@sifive.com>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Message-Id: <20210512101358.122781-1-kito.cheng@sifive.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/arm/cpu_loop.c | 50 ++++++++++++++-------------------------
- 1 file changed, 18 insertions(+), 32 deletions(-)
+ linux-user/strace.c    | 3 ++-
+ linux-user/strace.list | 3 +++
+ 2 files changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/linux-user/arm/cpu_loop.c b/linux-user/arm/cpu_loop.c
-index 5f61d25717c3..69632d15be18 100644
---- a/linux-user/arm/cpu_loop.c
-+++ b/linux-user/arm/cpu_loop.c
-@@ -228,6 +228,7 @@ static bool emulate_arm_fpa11(CPUARMState *env, uint32_t opcode)
- {
-     TaskState *ts = env_cpu(env)->opaque;
-     int rc = EmulateAll(opcode, &ts->fpa, env);
-+    int raise, enabled;
- 
-     if (rc == 0) {
-         /* Illegal instruction */
-@@ -240,28 +241,31 @@ static bool emulate_arm_fpa11(CPUARMState *env, uint32_t opcode)
-     }
- 
-     /* FP exception */
--    int arm_fpe = 0;
-+    rc = -rc;
-+    raise = 0;
- 
-     /* Translate softfloat flags to FPSR flags */
--    if (-rc & float_flag_invalid) {
--        arm_fpe |= BIT_IOC;
-+    if (rc & float_flag_invalid) {
-+        raise |= BIT_IOC;
-     }
--    if (-rc & float_flag_divbyzero) {
--        arm_fpe |= BIT_DZC;
-+    if (rc & float_flag_divbyzero) {
-+        raise |= BIT_DZC;
-     }
--    if (-rc & float_flag_overflow) {
--        arm_fpe |= BIT_OFC;
-+    if (rc & float_flag_overflow) {
-+        raise |= BIT_OFC;
-     }
--    if (-rc & float_flag_underflow) {
--        arm_fpe |= BIT_UFC;
-+    if (rc & float_flag_underflow) {
-+        raise |= BIT_UFC;
-     }
--    if (-rc & float_flag_inexact) {
--        arm_fpe |= BIT_IXC;
-+    if (rc & float_flag_inexact) {
-+        raise |= BIT_IXC;
-     }
- 
--    /* Exception enabled? */
--    FPSR fpsr = ts->fpa.fpsr;
--    if (fpsr & (arm_fpe << 16)) {
-+    /* Accumulate unenabled exceptions */
-+    enabled = ts->fpa.fpsr >> 16;
-+    ts->fpa.fpsr |= raise & ~enabled;
-+
-+    if (raise & enabled) {
-         target_siginfo_t info = { };
- 
-         /*
-@@ -275,24 +279,6 @@ static bool emulate_arm_fpa11(CPUARMState *env, uint32_t opcode)
-     } else {
-         env->regs[15] += 4;
-     }
--
--    /* Accumulate unenabled exceptions */
--    if ((!(fpsr & BIT_IXE)) && (arm_fpe & BIT_IXC)) {
--        fpsr |= BIT_IXC;
--    }
--    if ((!(fpsr & BIT_UFE)) && (arm_fpe & BIT_UFC)) {
--        fpsr |= BIT_UFC;
--    }
--    if ((!(fpsr & BIT_OFE)) && (arm_fpe & BIT_OFC)) {
--        fpsr |= BIT_OFC;
--    }
--    if ((!(fpsr & BIT_DZE)) && (arm_fpe & BIT_DZC)) {
--        fpsr |= BIT_DZC;
--    }
--    if ((!(fpsr & BIT_IOE)) && (arm_fpe & BIT_IOC)) {
--        fpsr |= BIT_IOC;
--    }
--    ts->fpa.fpsr = fpsr;
-     return true;
+diff --git a/linux-user/strace.c b/linux-user/strace.c
+index 1cadb6d50f2d..cce0a5d1e351 100644
+--- a/linux-user/strace.c
++++ b/linux-user/strace.c
+@@ -2341,7 +2341,7 @@ print_linkat(void *cpu_env, const struct syscallname *name,
  }
+ #endif
  
+-#ifdef TARGET_NR__llseek
++#if defined(TARGET_NR__llseek) || defined(TARGET_NR_llseek)
+ static void
+ print__llseek(void *cpu_env, const struct syscallname *name,
+               abi_long arg0, abi_long arg1, abi_long arg2,
+@@ -2361,6 +2361,7 @@ print__llseek(void *cpu_env, const struct syscallname *name,
+     qemu_log("%s", whence);
+     print_syscall_epilogue(name);
+ }
++#define print_llseek print__llseek
+ #endif
+ 
+ #ifdef TARGET_NR_lseek
+diff --git a/linux-user/strace.list b/linux-user/strace.list
+index 3b7c15578ca4..18f72172754f 100644
+--- a/linux-user/strace.list
++++ b/linux-user/strace.list
+@@ -511,6 +511,9 @@
+ #ifdef TARGET_NR__llseek
+ { TARGET_NR__llseek, "_llseek" , NULL, print__llseek, NULL },
+ #endif
++#ifdef TARGET_NR_llseek
++{ TARGET_NR_llseek, "llseek" , NULL, print_llseek, NULL },
++#endif
+ #ifdef TARGET_NR_lock
+ { TARGET_NR_lock, "lock" , NULL, NULL, NULL },
+ #endif
 -- 
 2.31.1
 
