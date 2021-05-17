@@ -2,86 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BD8A383947
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 18:11:50 +0200 (CEST)
-Received: from localhost ([::1]:32900 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58642383952
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 18:13:08 +0200 (CEST)
+Received: from localhost ([::1]:36684 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lifqP-0007Z5-Ig
-	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 12:11:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55522)
+	id 1lifrf-0001uT-AK
+	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 12:13:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56404)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lifmZ-00034x-KD
- for qemu-devel@nongnu.org; Mon, 17 May 2021 12:07:51 -0400
-Received: from mail-vs1-xe2a.google.com ([2607:f8b0:4864:20::e2a]:42810)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lifp7-0007Ds-Gf
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 12:10:29 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:39485)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lifmW-0004FL-JX
- for qemu-devel@nongnu.org; Mon, 17 May 2021 12:07:51 -0400
-Received: by mail-vs1-xe2a.google.com with SMTP id 66so3366625vsk.9
- for <qemu-devel@nongnu.org>; Mon, 17 May 2021 09:07:48 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lifp4-0005p1-4i
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 12:10:29 -0400
+Received: by mail-wr1-x430.google.com with SMTP id v12so7012754wrq.6
+ for <qemu-devel@nongnu.org>; Mon, 17 May 2021 09:10:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=+tZEI1UBTq4YAzJytTMrv/T5a5YHm1GJvQC0FbQvAHg=;
- b=k+BzFFY0QclBLQRnc7mryhtq9OieOm1qc1ddVRN7KMdnRbMY2zbS2SvvOIJeKB0A6n
- 2B1uMrnB1Lxk8q8NN+nokwl9ZiF5SCEhyoEE6vCMZ4M8lLdReWLQQBgfSvYVSAQ1Mmt5
- Bq+Qs7CJIfrwdW/3DJtCWwnMN541KiVR/TD7ECkr5vmqO7puHT4c8basm4fTuStpvj2b
- hK2+YMMe9ylGeVe/XONo++JCHUCmTsJmXAdvDuIFDNCTPiU1BfD2wPK2x11pJfq/i/DW
- R5MJ19EjtqVZOp9q1UWHxpcEbPM2asLZtXP50P7z7uSUwqXDB3og5h++NqQyAryPy8Gj
- NLTg==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=6qyEcdexsbKVomqedZupNgM6qMNpZl5uPu69o2xaBK8=;
+ b=LrDtiWPtaflyOblNcHn4Hsv74p/fx1sB0exPAKs4e1RQ2+FNn/Z1uVgnPflRJFX+g0
+ kqxHOqI27zSwhuvn0WfIblGMX5YBPbeh5hDpqgfqiM9V8kqzQyFStRSU1eC5WFkvsKm+
+ 5ZrSBwDwi6hTHadwRGlFjpcXKg4skPJpZI65vkh86cLu0uhSR5Qkmyb9MWN5L0fQqGK+
+ RK+C1UMO2STeLkWfSB33JPHAfL4MZVGA+c3GJ0T6Dx4Gzz65kwXzVTblHM+J0i04HlUK
+ h3P++VoUzIvBulxW5DVXfv384dKX+d4aG+r2y411D07Zb/ZLz9vN/mjyiBsio1ylfDps
+ 2etw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=+tZEI1UBTq4YAzJytTMrv/T5a5YHm1GJvQC0FbQvAHg=;
- b=ouF2WVS4fSqdJ5laX4gDtCLSMvNrDx2WKzO5ugAhOZTnCHZhMxaEXarS+fHoA5F0AG
- YGexg4u8IFC8tkNkW/kdMugOI09gx/XLxYHHZeQZ/D5MMKVrJqAqkoMFDLneEl647klp
- SBsV9g44CPhmDaJW5I4POGFPyQtJK6r4RRKC8FbYYm6jE+crE54YjOtb+x6Kyt69+IAR
- tcQSjBTeb+dY5so3tB4hdOQUmyxtbkp+UskeP9E4T16xG1U+DtUNTJ+ZXmaA38D0H0Ix
- FOxr7GvQjbP1RzyOAqGoI7TSMRMbJnMdCS8bYpdEnOFWoTeMg9rJmf5O67wvib0Vk62X
- bsKw==
-X-Gm-Message-State: AOAM530Qez9noLCatCcUR/ZA7BDpwTjdlPq5+q/wzfBoXlUU3z14WCAD
- ZGksafVmbjcpQMQ8tbVQ+9bSWA==
-X-Google-Smtp-Source: ABdhPJz42PpJ/BtagreatIsv0X3awOpDeVRUSn5ccpfG4qwyX5yAiUxHPjRjOBRzhtOhPG/YsgqY5Q==
-X-Received: by 2002:a05:6102:321b:: with SMTP id
- r27mr514396vsf.13.1621267667585; 
- Mon, 17 May 2021 09:07:47 -0700 (PDT)
-Received: from [172.16.22.144] ([45.235.253.15])
- by smtp.gmail.com with ESMTPSA id v24sm2318013vsk.11.2021.05.17.09.07.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 17 May 2021 09:07:47 -0700 (PDT)
-Subject: Re: [RFC PATCH 08/11] target/ppc: wrapped some TCG only logic with
- ifdefs
-To: David Gibson <david@gibson.dropbear.id.au>,
- Bruno Piazera Larsen <bruno.larsen@eldorado.org.br>
-References: <20210512140813.112884-1-bruno.larsen@eldorado.org.br>
- <20210512140813.112884-9-bruno.larsen@eldorado.org.br>
- <40d53a3b-ca4b-0656-0b64-15ded89b3315@linaro.org>
- <4aab8498-580c-cdb3-9c87-b47d5e1ff33d@eldorado.org.br>
- <b5d3e93f-8324-c21f-4ec3-feb162be455b@eldorado.org.br>
- <81666d8f-e261-d13d-3f10-af52ea0edfa9@linaro.org>
- <b32575a0-07b6-1819-1dec-525277c98cb1@eldorado.org.br>
- <YKHsmsdJx2MKKLe/@yekko>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <7e9a8bcf-f59a-c992-24d2-92aee98bc28c@linaro.org>
-Date: Mon, 17 May 2021 11:07:45 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ bh=6qyEcdexsbKVomqedZupNgM6qMNpZl5uPu69o2xaBK8=;
+ b=ZduopI9qDhLioQwZ6rXn9GucELzwlyrVkQtvpWRawLDacg1huj4LjQW6EpLd5r8MJS
+ junuEXOQ8vb90YeYqdDrtGAOV5zKwBwaRqdLSpuCtHxHxs2a0ONqp45hZzY8hWxhAXeP
+ PTzkDZUwhgI2Hp86AC3VCX3gE7o9ggeOFk6dIHMc0fJFQbXr6grbTHzRJKyrkTISlP7c
+ 41wU4mW77gTrGOVaO+tiQIlWVAaHXawzdbbT67uXZKP3HOj07gpNHbMBaVPn60K/0yNu
+ F8vtPVmyzgRqmW5MhJ+LF0XzPkNY4MfsJ37aC9gtWachYP7XFx3ALKBQW9mVrJq4zJ5i
+ 3Otw==
+X-Gm-Message-State: AOAM532QuWjjyWHUvH+8r/u4/n4xayrTAQNPF9l/IHpcxsysTlZCwBIJ
+ O0JCCwzOOeik9+tODL8IuCUXWA==
+X-Google-Smtp-Source: ABdhPJwDmlanLgJaduEo6M3mlUyyOj6waErQfHxoTKV3UZFXbk5UrrNSBkP2hxl8XVQITXA2BKGAsQ==
+X-Received: by 2002:adf:a212:: with SMTP id p18mr480578wra.353.1621267824504; 
+ Mon, 17 May 2021 09:10:24 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id x2sm5345034wmj.3.2021.05.17.09.10.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 17 May 2021 09:10:23 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 05A371FF7E;
+ Mon, 17 May 2021 17:10:23 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: peter.maydell@linaro.org
+Subject: [PULL 00/29] testing and plugin updates
+Date: Mon, 17 May 2021 17:09:53 +0100
+Message-Id: <20210517161022.13984-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <YKHsmsdJx2MKKLe/@yekko>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::e2a;
- envelope-from=richard.henderson@linaro.org; helo=mail-vs1-xe2a.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -96,31 +84,135 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: farosas@linux.ibm.com, qemu-devel@nongnu.org, lucas.araujo@eldorado.org.br,
- fernando.valle@eldorado.org.br, qemu-ppc@nongnu.org,
- matheus.ferst@eldorado.org.br, luis.pires@eldorado.org.br
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/16/21 11:10 PM, David Gibson wrote:
->> Removing excp_helper.c gives linker errors for the functions:
->>
->> * ppc_cpu_do_system_reset, on hw/ppc/pnv.c and hw/ppc/spapr.c
-> 
-> Oof, that's a bit tricky.  We definitely do need this system reset
-> injection for KVM as well as TCG.  Unfortunately it calls into
-> powerpc_excp() which I think has a bunch of TCG specific stuff as
-> well.
-> 
-> Long term, I think the thing would be to remove the giant ugly
-> multiplexer in powerpc_excp() in favour of different entry points.
-> But that's a big job.
-> 
-> Short term, littering it with ifdefs might be the least worst we can
-> do.  Richard, any better ideas?
+The following changes since commit 6005ee07c380cbde44292f5f6c96e7daa70f4f7d:
 
-Nope, no better ideas here.
+  Merge remote-tracking branch 'remotes/mst/tags/for_upstream' into staging (2021-05-16 17:22:46 +0100)
 
+are available in the Git repository at:
 
-r~
+  https://github.com/stsquad/qemu.git tags/pull-testing-and-plugin-updates-170521-2
+
+for you to fetch changes up to e3ac6f02999e88b9f8fb85013121a9408d07b6e2:
+
+  plugins/hotpages: Properly freed the hash table values (2021-05-17 14:38:44 +0100)
+
+----------------------------------------------------------------
+testing and plugin updates:
+
+  - various fixes for binfmt_misc docker images
+  - add hexagon check-tcg support docker image
+  - add tricore check-tcg support
+  - add missing ppc64le tests
+  - don't use host_cc for test fallback
+  - check-tcg configure.sh tweaks for cross compile/clang
+  - fix some memory leaks in plugins
+
+----------------------------------------------------------------
+Alessandro Di Federico (1):
+      tests/tcg: Use Hexagon Docker image
+
+Alex Bennée (8):
+      tests/docker: fix copying of executable in "update"
+      tests/docker: make executable an optional argument to "update"
+      tests/docker: allow "update" to add the current user
+      tests/docker: add "fetch" sub-command
+      docker: Add Hexagon image
+      tests/tcg: fix missing return
+      tests/tcg: don't allow clang as a cross compiler
+      configure: use cc, not host_cc to set cross_cc for build arch
+
+Andrew Melnychenko (1):
+      tests/docker: Added libbpf library to the docker files.
+
+Bastian Koppelmann (14):
+      tests/tcg: Run timeout cmds using --foreground
+      hw/tricore: Add testdevice for tests in tests/tcg/
+      tests/tcg/tricore: Add build infrastructure
+      configure: Emit HOST_CC to config-host.mak
+      tests/tcg/tricore: Add macros to create tests and first test 'abs'
+      tests/tcg/tricore: Add bmerge test
+      tests/tcg/tricore: Add clz test
+      tests/tcg/tricore: Add dvstep test
+      tests/tcg/tricore: Add fadd test
+      tests/tcg/tricore: Add fmul test
+      tests/tcg/tricore: Add ftoi test
+      tests/tcg/tricore: Add madd test
+      tests/tcg/tricore: Add msub test
+      tests/tcg/tricore: Add muls test
+
+Mahmoud Mandour (2):
+      plugins/hotblocks: Properly freed the hash table values
+      plugins/hotpages: Properly freed the hash table values
+
+Matheus Ferst (1):
+      tests/tcg/ppc64le: tests for brh/brw/brd
+
+Yonggang Luo (2):
+      plugins: Update qemu-plugins.symbols to match qemu-plugins.h
+      plugins: Move all typedef and type declaration to the front of the qemu-plugin.h
+
+ configure                                          |   3 +-
+ include/hw/tricore/tricore_testdevice.h            |  38 +++++
+ include/qemu/qemu-plugin.h                         | 187 ++++++++++-----------
+ tests/tcg/tricore/macros.h                         | 129 ++++++++++++++
+ contrib/plugins/hotblocks.c                        |   3 +-
+ contrib/plugins/hotpages.c                         |   3 +-
+ hw/tricore/tricore_testboard.c                     |   8 +
+ hw/tricore/tricore_testdevice.c                    |  82 +++++++++
+ tests/tcg/multiarch/system/memory.c                |   1 +
+ tests/tcg/ppc64le/byte_reverse.c                   |  21 +++
+ MAINTAINERS                                        |   3 +
+ hw/tricore/meson.build                             |   1 +
+ plugins/qemu-plugins.symbols                       |  25 ++-
+ tests/docker/Makefile.include                      |  24 ++-
+ tests/docker/docker.py                             |  78 ++++++---
+ tests/docker/dockerfiles/alpine.docker             |   1 +
+ tests/docker/dockerfiles/centos8.docker            |   1 +
+ .../docker/dockerfiles/debian-hexagon-cross.docker |  45 +++++
+ .../build-toolchain.sh                             | 141 ++++++++++++++++
+ tests/docker/dockerfiles/fedora.docker             |   1 +
+ tests/tcg/Makefile.target                          |   5 +-
+ tests/tcg/configure.sh                             | 149 +++++++++-------
+ tests/tcg/ppc64/Makefile.target                    |  13 ++
+ tests/tcg/ppc64le/Makefile.target                  |  13 ++
+ tests/tcg/tricore/Makefile.softmmu-target          |  26 +++
+ tests/tcg/tricore/link.ld                          |  60 +++++++
+ tests/tcg/tricore/test_abs.S                       |   7 +
+ tests/tcg/tricore/test_bmerge.S                    |   8 +
+ tests/tcg/tricore/test_clz.S                       |   9 +
+ tests/tcg/tricore/test_dvstep.S                    |  15 ++
+ tests/tcg/tricore/test_fadd.S                      |  16 ++
+ tests/tcg/tricore/test_fmul.S                      |   8 +
+ tests/tcg/tricore/test_ftoi.S                      |  10 ++
+ tests/tcg/tricore/test_madd.S                      |  11 ++
+ tests/tcg/tricore/test_msub.S                      |   9 +
+ tests/tcg/tricore/test_muls.S                      |   9 +
+ 36 files changed, 966 insertions(+), 197 deletions(-)
+ create mode 100644 include/hw/tricore/tricore_testdevice.h
+ create mode 100644 tests/tcg/tricore/macros.h
+ create mode 100644 hw/tricore/tricore_testdevice.c
+ create mode 100644 tests/tcg/ppc64le/byte_reverse.c
+ create mode 100644 tests/docker/dockerfiles/debian-hexagon-cross.docker
+ create mode 100755 tests/docker/dockerfiles/debian-hexagon-cross.docker.d/build-toolchain.sh
+ create mode 100644 tests/tcg/tricore/Makefile.softmmu-target
+ create mode 100644 tests/tcg/tricore/link.ld
+ create mode 100644 tests/tcg/tricore/test_abs.S
+ create mode 100644 tests/tcg/tricore/test_bmerge.S
+ create mode 100644 tests/tcg/tricore/test_clz.S
+ create mode 100644 tests/tcg/tricore/test_dvstep.S
+ create mode 100644 tests/tcg/tricore/test_fadd.S
+ create mode 100644 tests/tcg/tricore/test_fmul.S
+ create mode 100644 tests/tcg/tricore/test_ftoi.S
+ create mode 100644 tests/tcg/tricore/test_madd.S
+ create mode 100644 tests/tcg/tricore/test_msub.S
+ create mode 100644 tests/tcg/tricore/test_muls.S
+
+-- 
+2.20.1
+
 
