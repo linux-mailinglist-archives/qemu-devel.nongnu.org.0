@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 930933839C2
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 18:26:33 +0200 (CEST)
-Received: from localhost ([::1]:44434 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB2653839D1
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 18:29:06 +0200 (CEST)
+Received: from localhost ([::1]:52712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lig4d-0002SD-UK
-	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 12:26:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60144)
+	id 1lig77-0008FF-HS
+	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 12:29:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60108)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lifyY-0001bw-Le
+ id 1lifyX-0001bR-As
  for qemu-devel@nongnu.org; Mon, 17 May 2021 12:20:14 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:42604)
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:42601)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lifyU-000246-Mw
- for qemu-devel@nongnu.org; Mon, 17 May 2021 12:20:14 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id x8so7035217wrq.9
- for <qemu-devel@nongnu.org>; Mon, 17 May 2021 09:20:09 -0700 (PDT)
+ id 1lifyU-00024p-O0
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 12:20:13 -0400
+Received: by mail-wm1-x332.google.com with SMTP id
+ f75-20020a1c1f4e0000b0290171001e7329so3952254wmf.1
+ for <qemu-devel@nongnu.org>; Mon, 17 May 2021 09:20:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=AwHUKic2neBlh0Oqi4dLL3Doo9PeLOJuBwfn8ueZrao=;
- b=nQLN+uVe5MRaiv2Y8oHuR5Jc4YQ8J8mUVSlubZy68eMafs+P66i1tELFMgyR6xNho+
- GofoHpMfQFPVazH1gaMev/qmd+iMEiWcr6qCfbMGWqRhjzVEcfWHstE0cZpiCLZKQo7O
- PKkS6feyxTkr2aigizS3TYGf2geveuxQ8zPn800AqlybSHRNqBw1h1a7Yy4JJiEYrDho
- +OG06vXM9enPc2kQMFKyYL+EJaiSBJ+ZzsUdiKpmVnGIDlw7O4SQGEgs21MMvrW4FGWn
- GLhPjMO8LQGXgbqNjCni+hjlp7RMw0Dxud4uKDCu6/ZrB9DOIJkFrpJe0b06ZPaZrNOh
- ao6w==
+ bh=mkstvpf+hN6bSILMqqRSGrxtXoo4HBUUCL7fU3xWKkM=;
+ b=yOJPNrGdzr/a24hKdf+de5oH4elbtkWcgAPmgavcxNuVS5eNMna4l2m2zt96hgwQjp
+ 0AXssebE5HaCLJ1VipzHJyZWEv+ZClIsLTat/jzAKAJZWy3vwbLdcaH/XNE8/H/72L1k
+ OB5JeDNYw1ngeFOX8OovrMi7ABPc8FRWuYs3y/I98NodHopup+S4wolIt9nWI1MnxSWK
+ bOy2nVfbajBmq9q+7+KQaeow09d/XgrJZohJtBK8CQLm7gwwMwzGgP72oxQX+3DJ7W7c
+ 1Pnd1Yag0ujrYXEiiMY59MlaOd/+eyDC/F0TYZ8ekIrfWVF6BRZejy20/Y642M+PUX0u
+ pagw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=AwHUKic2neBlh0Oqi4dLL3Doo9PeLOJuBwfn8ueZrao=;
- b=WGarlKt2JOa2bnGScLtbogiNr9I+vi3A1dRGQJyhemIdxWmws/QRXKT8nzWGBx75qm
- dvqcKqeDUSgFNIcPqhVd4SeKJQ26/ID1iLJKJsxZPWyae4D29qGhIpNYvtZh9WqNawsD
- WiD7FfqQeneObxkUxENr4Jxhj3ecI/3ie7dAB2hFtUiqD7n6r2T+o03SwKSNulWgAro7
- Up5SFTCspyCdgMzP6WM66JTvLoCZm1yldJ0xHbh9sTRJRuW6Im1WttTf/t56hUK8/P8z
- 7ERtO07+75m6rnKNV2yxy17PAu0dav7U03IQUymz9NZMLM0CrJ2g1jYWbNfl4zOVEU7w
- hrQg==
-X-Gm-Message-State: AOAM531sDcD1PerRpzXrwvNMH7ojam1pgY1vwlPy5eLZv4t+e46FAlkB
- mUs7T30IlQidlMmBctIWN7fk4A==
-X-Google-Smtp-Source: ABdhPJyw6pXLNbJVUTjAqNxUF4BMwxEmr679bo60ZeCD/gwBwh3uYqEOAcO+wequPY2yfJqONnAXOQ==
-X-Received: by 2002:adf:e70e:: with SMTP id c14mr600181wrm.104.1621268408246; 
- Mon, 17 May 2021 09:20:08 -0700 (PDT)
+ bh=mkstvpf+hN6bSILMqqRSGrxtXoo4HBUUCL7fU3xWKkM=;
+ b=b8DQZAGX5uujixu+iKsh2qaJSFKiNh9vDhELofRozLBO5UzQzoLKKb7nlyl6RdO6KX
+ qv2d+WF/r/aDXQsDMKMwZP+7DQ2jYTLonXmRgofzh5uNxHXV2Br+IIAOoR1iUZlZA5Fv
+ ft4nPxe5vlPxEuQ0PR4BW/TlVAlASYGGt2u828EdyMB5s3Log0BHD0SQpx0A+IKXJdgC
+ 6WW7/4NiSyN0TPowaNpPKvHyb6cd269+Rs58MP13gJEoFEw6gqjDYsonEYeVOZhWaHqd
+ adlcr9tg2TrGSgr0YKpazG4uKlsXpmxjnAhDVkIh/U+tiqP+/90e3OBMXIIa3+blcZ6K
+ 643w==
+X-Gm-Message-State: AOAM532n8/e//OdX9o+yghZykjWy2lSCtMTVzKlVeKahrF5ngzy2pdLr
+ 6/RW9fikWBJAqXLBOhOlvkiDdw==
+X-Google-Smtp-Source: ABdhPJwcphuzfJJNNKEdXswEnU+EADD890BlqHHXfs7Na8BAcETjnBq0yB5NY2FJLf5nufC03cPF+A==
+X-Received: by 2002:a05:600c:3388:: with SMTP id
+ o8mr675433wmp.101.1621268409041; 
+ Mon, 17 May 2021 09:20:09 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id z9sm14997968wmi.17.2021.05.17.09.20.07
+ by smtp.gmail.com with ESMTPSA id f6sm20754175wru.72.2021.05.17.09.20.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 17 May 2021 09:20:07 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 18D241FFA9;
+ by zen.linaroharston (Postfix) with ESMTP id 61C871FFAC;
  Mon, 17 May 2021 17:10:25 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 20/29] tests/tcg/tricore: Add msub test
-Date: Mon, 17 May 2021 17:10:13 +0100
-Message-Id: <20210517161022.13984-21-alex.bennee@linaro.org>
+Subject: [PULL 23/29] tests/tcg: fix missing return
+Date: Mon, 17 May 2021 17:10:16 +0100
+Message-Id: <20210517161022.13984-24-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210517161022.13984-1-alex.bennee@linaro.org>
 References: <20210517161022.13984-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x332.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,46 +88,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
+This was picked up when clang built the test.
 
-Signed-off-by: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Tested-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20210305170045.869437-15-kbastian@mail.uni-paderborn.de>
-Message-Id: <20210512102051.12134-25-alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20210512102051.12134-30-alex.bennee@linaro.org>
 
-diff --git a/tests/tcg/tricore/Makefile.softmmu-target b/tests/tcg/tricore/Makefile.softmmu-target
-index 8de005523e..0fe6a86482 100644
---- a/tests/tcg/tricore/Makefile.softmmu-target
-+++ b/tests/tcg/tricore/Makefile.softmmu-target
-@@ -11,6 +11,7 @@ TESTS += test_fadd.tst
- TESTS += test_fmul.tst
- TESTS += test_ftoi.tst
- TESTS += test_madd.tst
-+TESTS += test_msub.tst
- 
- QEMU_OPTS += -M tricore_testboard -nographic -kernel
- 
-diff --git a/tests/tcg/tricore/test_msub.S b/tests/tcg/tricore/test_msub.S
-new file mode 100644
-index 0000000000..6dee87d99c
---- /dev/null
-+++ b/tests/tcg/tricore/test_msub.S
-@@ -0,0 +1,9 @@
-+#include "macros.h"
-+.text
-+.global _start
-+_start:
-+    TEST_D_DDI_PSW(msub, 1, 0xd2fbe5e0, 0x00000b80,0x64003300, 0xff5420d4, -216)
-+    TEST_D_DDI_PSW(msub, 2, 0xfffffc10, 0x00000b80,0xfffffe68, 0xfffffffd, -200)
-+    TEST_D_DDD_PSW(msubs.u, 3, 0x0, 0x60000b80, 0x1, 0xffffffff, 0xffffffdb)
-+    TEST_PASSFAIL
-+
+diff --git a/tests/tcg/multiarch/system/memory.c b/tests/tcg/multiarch/system/memory.c
+index eb0ec6f8eb..41c7f66e2e 100644
+--- a/tests/tcg/multiarch/system/memory.c
++++ b/tests/tcg/multiarch/system/memory.c
+@@ -326,6 +326,7 @@ static bool do_unsigned_test(init_ufn fn)
+         fn(i);
+         ok = do_unsigned_reads(i);
+     }
++    return ok;
+ #else
+     fn(0);
+     return do_unsigned_reads(0);
 -- 
 2.20.1
 
