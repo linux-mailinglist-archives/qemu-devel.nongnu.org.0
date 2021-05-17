@@ -2,89 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4A7F3826F4
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 10:25:51 +0200 (CEST)
-Received: from localhost ([::1]:48430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFC2938271E
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 10:34:32 +0200 (CEST)
+Received: from localhost ([::1]:52990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1liYZS-0002Xr-WC
-	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 04:25:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51838)
+	id 1liYhq-00062X-Fs
+	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 04:34:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53138)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1liYYM-0001bA-7L
- for qemu-devel@nongnu.org; Mon, 17 May 2021 04:24:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40667)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1liYgr-0005M0-Di
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 04:33:29 -0400
+Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:27655)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1liYYJ-0005nM-7z
- for qemu-devel@nongnu.org; Mon, 17 May 2021 04:24:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621239878;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=RAY/STklRhEtkmz763WFv7u+EqzwIWHqYI9xpqKJ8I0=;
- b=ArWzPLdakJ3NNMRdWnWoGvBZl1hX3w9qsBesWj+UM7UoJUKA2GrTSyNrDExJ5rLPDGB1bu
- hQ4wblXl0HwJlXT+zZBVMDBi3YIz5qSJu21QBbts+lHWneJbNL/1iOt9coMBISwH4BH/D3
- U/NRvAhpFaiaPryj83tfDZbm7Ju9qJU=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-408-bBuZbhPKNW2icfori8lxyw-1; Mon, 17 May 2021 04:24:35 -0400
-X-MC-Unique: bBuZbhPKNW2icfori8lxyw-1
-Received: by mail-ej1-f69.google.com with SMTP id
- nd10-20020a170907628ab02903a324b229bfso747882ejc.7
- for <qemu-devel@nongnu.org>; Mon, 17 May 2021 01:24:35 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=RAY/STklRhEtkmz763WFv7u+EqzwIWHqYI9xpqKJ8I0=;
- b=peQ3qpvZdSRMDkYDhmyZYfu1I9UeMGiBgfv7UbpKiraQR1xupOlPA8eu5Hp0nAvhbg
- V21KGjkXxN1hN9Xd11v4EHlOVDkRJoNnsqZjIhdyrrokxvi7X+TAOE04OyN6z6Hr5slU
- UgqP61p9zIAsQAYfJ96+W9ni+p7SBaesr/scjgFn409QAl4Ub8LAkJOTkInkWhVsRVoo
- +8LrztbfS2MkeE1k13KJ3p6A4S+83GJGC2wJefXLZS1ADEfi2Yarw034c87987f4lMm4
- HRBp/BLpw526uXumOqcJlnF8iWK5b+V/SUuN2J6gNjj8sMwq8GiC8CZIaafgg7NatbxQ
- hdXg==
-X-Gm-Message-State: AOAM53193KDReO+7IBEkFQCcOYX92+pEwLwrMvS8P/ta9OMsKYs04Ox6
- +exIpNG00fAxvFCM6BG60oZilDmZMfwmuhXpC4mqNV4hs40uaZA8erPq2PnWjA/9QzWP3oqCjM3
- 0YEhHQgOIRKsOLNs=
-X-Received: by 2002:a05:6402:40cb:: with SMTP id
- z11mr73175614edb.25.1621239874477; 
- Mon, 17 May 2021 01:24:34 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyK1SanECETiAtVnYKTFczXlrLO1LPyyAjH/TT3OQXvOkEg6OwRtEbfepqhS/5VcBGJSuaOIw==
-X-Received: by 2002:a05:6402:40cb:: with SMTP id
- z11mr73175580edb.25.1621239874200; 
- Mon, 17 May 2021 01:24:34 -0700 (PDT)
-Received: from gator.home (cst2-174-132.cust.vodafone.cz. [31.30.174.132])
- by smtp.gmail.com with ESMTPSA id n8sm8271648ejl.0.2021.05.17.01.24.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 May 2021 01:24:33 -0700 (PDT)
-Date: Mon, 17 May 2021 10:24:31 +0200
-From: Andrew Jones <drjones@redhat.com>
-To: Yanan Wang <wangyanan55@huawei.com>
-Subject: Re: [RFC PATCH v3 9/9] hw/arm/virt: Add separate -smp parsing
- function for ARM machines
-Message-ID: <20210517082431.lz7zmtpcnezbmo6t@gator.home>
-References: <20210516102900.28036-1-wangyanan55@huawei.com>
- <20210516102900.28036-10-wangyanan55@huawei.com>
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1liYgm-00032Q-R5
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 04:33:29 -0400
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-254-b5xujykXPPWDez5gkmzhbg-1; Mon, 17 May 2021 04:33:18 -0400
+X-MC-Unique: b5xujykXPPWDez5gkmzhbg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9D10419251B2;
+ Mon, 17 May 2021 08:33:17 +0000 (UTC)
+Received: from bahia.lan (ovpn-112-167.ams2.redhat.com [10.36.112.167])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9C61970587;
+ Mon, 17 May 2021 08:33:01 +0000 (UTC)
+Date: Mon, 17 May 2021 10:32:59 +0200
+From: Greg Kurz <groug@kaod.org>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [PATCH v2 0/4] virtio: Improve boot time of virtio-scsi-pci and
+ virtio-blk-pci
+Message-ID: <20210517103259.4689ad2d@bahia.lan>
+In-Reply-To: <YJv84RIViv6KvCHb@stefanha-x1.localdomain>
+References: <20210507165905.748196-1-groug@kaod.org>
+ <YJv84RIViv6KvCHb@stefanha-x1.localdomain>
 MIME-Version: 1.0
-In-Reply-To: <20210516102900.28036-10-wangyanan55@huawei.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=drjones@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.296,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: multipart/signed; boundary="Sig_/vX1LD.Wes1QJjYlOIPBjuGm";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Received-SPF: softfail client-ip=205.139.111.44; envelope-from=groug@kaod.org;
+ helo=us-smtp-delivery-44.mimecast.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,220 +62,173 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Barry Song <song.bao.hua@hisilicon.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- "Michael S . Tsirkin" <mst@redhat.com>, wanghaibin.wang@huawei.com,
- zhukeqian1@huawei.com, qemu-devel@nongnu.org, yangyicong@huawei.com,
- Shannon Zhao <shannon.zhaosl@gmail.com>, qemu-arm@nongnu.org,
- Alistair Francis <alistair.francis@wdc.com>, prime.zeng@hisilicon.com,
- Paolo Bonzini <pbonzini@redhat.com>, yuzenghui@huawei.com,
- Igor Mammedov <imammedo@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
  David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, May 16, 2021 at 06:29:00PM +0800, Yanan Wang wrote:
-> The cpu hierarchy topology information parsed out from QEMU -smp
-> command line will be exposed to guest kernel through ACPI and DT
-> since machine type 6.1, so we will expect more detailed topology
-> descriptions and will be more strict with the -smp cmdlines when
-> parsing them.
-> 
-> Compared with the default smp_parse() where all missing values
-> are automatically calculated in turn, there is some difference
-> in ARM specific virt_smp_parse(). The parsing logic is like:
-> At least one of cpus or maxcpus must be provided. Threads will
-> default to 1 if not provided (assume not support SMT). Sockets
-> and cores must be either both provided or both not.
-> 
-> Note, if neither sockets nor cores are provided, we calculate
-> all the missing values like smp_parse() did before, but will
-> disable support of exposing these auto-populated descriptions
-> to guest. Then guest will populate its topology by default.
-> 
-> Suggested-by: Andrew Jones <drjones@redhat.com>
-> Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
-> ---
->  hw/arm/virt.c   | 95 +++++++++++++++++++++++++++++++++++++++++++++++++
->  qemu-options.hx |  4 +++
->  2 files changed, 99 insertions(+)
-> 
-> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-> index 50e324975f..44e990e3be 100644
-> --- a/hw/arm/virt.c
-> +++ b/hw/arm/virt.c
-> @@ -76,6 +76,8 @@
->  #include "hw/virtio/virtio-iommu.h"
->  #include "hw/char/pl011.h"
->  #include "qemu/guest-random.h"
-> +#include "qapi/qmp/qerror.h"
-> +#include "sysemu/replay.h"
->  
->  #define DEFINE_VIRT_MACHINE_LATEST(major, minor, latest) \
->      static void virt_##major##_##minor##_class_init(ObjectClass *oc, \
-> @@ -2627,6 +2629,98 @@ static int virt_kvm_type(MachineState *ms, const char *type_str)
->      return fixed_ipa ? 0 : requested_pa_size;
->  }
->  
-> +/*
-> + * virt_smp_parse - Used to parse -smp command line for ARM machines.
-> + *
-> + * Compared with the default smp_parse where all the missing values
-> + * are automatically calculated in turn, in this function, we expect
-> + * more detailed topology information provided and are more strict
-> + * with the -smp cmdlines when parsing them.
-> + *
-> + * We require that at least one of cpus or maxcpus must be provided.
-> + * Threads will default to 1 if not provided. Sockets and cores must
-> + * be either both provided or both not.
-> + *
-> + * Note, if neither sockets nor cores are specified, we will calculate
-> + * all the missing values just like smp_parse() does, but will disable
-> + * exposure of cpu topology descriptions to guest.
-> + */
-> +static void virt_smp_parse(MachineState *ms, QemuOpts *opts)
-> +{
-> +    VirtMachineClass *vmc = VIRT_MACHINE_GET_CLASS(ms);
-> +
-> +    if (opts) {
-> +        unsigned cpus = qemu_opt_get_number(opts, "cpus", 0);
-> +        unsigned maxcpus = qemu_opt_get_number(opts, "maxcpus", 0);
-> +        unsigned sockets = qemu_opt_get_number(opts, "sockets", 0);
-> +        unsigned cores = qemu_opt_get_number(opts, "cores", 0);
-> +        unsigned threads = qemu_opt_get_number(opts, "threads", 0);
-> +
-> +        /* Default threads to 1 if not provided */
-> +        threads = threads > 0 ? threads : 1;
+--Sig_/vX1LD.Wes1QJjYlOIPBjuGm
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Can't do this yet, need to do it later, because...
+On Wed, 12 May 2021 17:05:53 +0100
+Stefan Hajnoczi <stefanha@redhat.com> wrote:
 
-> +
-> +        if (cpus == 0 && maxcpus == 0) {
-> +            error_report("at least one of cpus or maxcpus must be provided");
-> +            exit(1);
-> +        }
-> +
-> +        if (sockets == 0 && cores == 0) {
-> +            /* Disable exposure of topology descriptions to guest */
-> +            vmc->no_cpu_topology = true;
+> On Fri, May 07, 2021 at 06:59:01PM +0200, Greg Kurz wrote:
+> > Now that virtio-scsi-pci and virtio-blk-pci map 1 virtqueue per vCPU,
+> > a serious slow down may be observed on setups with a big enough number
+> > of vCPUs.
+> >=20
+> > Exemple with a pseries guest on a bi-POWER9 socket system (128 HW threa=
+ds):
+> >=20
+> >               virtio-scsi      virtio-blk
+> >=20
+> > 1		0m20.922s	0m21.346s
+> > 2		0m21.230s	0m20.350s
+> > 4		0m21.761s	0m20.997s
+> > 8		0m22.770s	0m20.051s
+> > 16		0m22.038s	0m19.994s
+> > 32		0m22.928s	0m20.803s
+> > 64		0m26.583s	0m22.953s
+> > 128		0m41.273s	0m32.333s
+> > 256		2m4.727s 	1m16.924s
+> > 384		6m5.563s 	3m26.186s
+> >=20
+> > Both perf and gprof indicate that QEMU is hogging CPUs when setting up
+> > the ioeventfds:
+> >=20
+> >  67.88%  swapper         [kernel.kallsyms]  [k] power_pmu_enable
+> >   9.47%  qemu-kvm        [kernel.kallsyms]  [k] smp_call_function_single
+> >   8.64%  qemu-kvm        [kernel.kallsyms]  [k] power_pmu_enable
+> > =3D>2.79%  qemu-kvm        qemu-kvm           [.] memory_region_ioevent=
+fd_before
+> > =3D>2.12%  qemu-kvm        qemu-kvm           [.] address_space_update_=
+ioeventfds
+> >   0.56%  kworker/8:0-mm  [kernel.kallsyms]  [k] smp_call_function_single
+> >=20
+> > address_space_update_ioeventfds() is called when committing an MR
+> > transaction, i.e. for each ioeventfd with the current code base,
+> > and it internally loops on all ioventfds:
+> >=20
+> > static void address_space_update_ioeventfds(AddressSpace *as)
+> > {
+> > [...]
+> >     FOR_EACH_FLAT_RANGE(fr, view) {
+> >         for (i =3D 0; i < fr->mr->ioeventfd_nb; ++i) {
+> >=20
+> > This means that the setup of ioeventfds for these devices has
+> > quadratic time complexity.
+> >=20
+> > This series simply changes the device models to extend the transaction
+> > to all virtqueueues, like already done in the past in the generic
+> > code with 710fccf80d78 ("virtio: improve virtio devices initialization
+> > time").
+> >=20
+> > Only virtio-scsi and virtio-blk are covered here, but a similar change
+> > might also be beneficial to other device types such as host-scsi-pci,
+> > vhost-user-scsi-pci and vhost-user-blk-pci.
+> >=20
+> >               virtio-scsi      virtio-blk
+> >=20
+> > 1		0m21.271s	0m22.076s
+> > 2		0m20.912s	0m19.716s
+> > 4		0m20.508s	0m19.310s
+> > 8		0m21.374s	0m20.273s
+> > 16		0m21.559s	0m21.374s
+> > 32		0m22.532s	0m21.271s
+> > 64		0m26.550s	0m22.007s
+> > 128		0m29.115s	0m27.446s
+> > 256		0m44.752s	0m41.004s
+> > 384		1m2.884s	0m58.023s
+> >=20
+> > This should fix https://bugzilla.redhat.com/show_bug.cgi?id=3D1927108
+> > which reported the issue for virtio-scsi-pci.
+> >=20
+> > Changes since v1:
+> > - Add some comments (Stefan)
+> > - Drop optimization on the error path in patch 2 (Stefan)
+> >=20
+> > Changes since RFC:
+> >=20
+> > As suggested by Stefan, splimplify the code by directly beginning and
+> > committing the memory transaction from the device model, without all
+> > the virtio specific proxying code and no changes needed in the memory
+> > subsystem.
+> >=20
+> > Greg Kurz (4):
+> >   virtio-blk: Fix rollback path in virtio_blk_data_plane_start()
+> >   virtio-blk: Configure all host notifiers in a single MR transaction
+> >   virtio-scsi: Set host notifiers and callbacks separately
+> >   virtio-scsi: Configure all host notifiers in a single MR transaction
+> >=20
+> >  hw/block/dataplane/virtio-blk.c | 45 ++++++++++++++++++++-
+> >  hw/scsi/virtio-scsi-dataplane.c | 72 ++++++++++++++++++++++++---------
+> >  2 files changed, 97 insertions(+), 20 deletions(-)
+> >=20
+> > --=20
+> > 2.26.3
+> >=20
+>=20
+> Thanks, applied to my block tree:
+> https://gitlab.com/stefanha/qemu/commits/block
+>=20
 
-...we should do ensure threads == 0 here, otherwise provide another error
-message.
+Hi Stefan,
 
-> +
-> +            /* Compute missing values, prefer sockets over cores */
-> +            cores = 1;
+It seems that Michael already merged the previous version of this
+patch set with its latest PR.
 
-Now threads = 1 is good here.
+https://gitlab.com/qemu-project/qemu/-/commit/6005ee07c380cbde44292f5f6c96e=
+7daa70f4f7d
 
-> +            if (cpus == 0) {
-> +                sockets = 1;
-> +                cpus = sockets * cores * threads;
+It is thus missing the v1->v2 changes. Basically some comments to
+clarify the optimization we're doing with the MR transaction and
+the removal of the optimization on an error path.
 
-This should be
+The optimization on the error path isn't needed indeed but it
+doesn't hurt. No need to change that now that the patches are
+upstream.
 
-  cpus = maxcpus;
-  sockets = cpus;
+I can post a follow-up patch to add the missing comments though.
+While here, I'd even add these comments in the generic
+virtio_device_*_ioeventfd_impl() calls as well, since they already
+have the very same optimization.
 
-> +            } else {
-> +                maxcpus = maxcpus > 0 ? maxcpus : cpus;
-> +                sockets = maxcpus / (cores * threads);
+Anyway, I guess you can drop the patches from your tree.
 
-We know cores and threads should both be 1 here, so just do
+Cheers,
 
- sockets = maxcpus;
+--
+Greg
 
-> +            }
-> +        } else if (sockets > 0 && cores > 0) {
+> Stefan
 
-Now 
-        threads = threads > 0 ? threads : 1;
 
-is good here.
+--Sig_/vX1LD.Wes1QJjYlOIPBjuGm
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
-> +            cpus = cpus > 0 ? cpus : sockets * cores * threads;
-> +            maxcpus = maxcpus > 0 ? maxcpus : cpus;
+-----BEGIN PGP SIGNATURE-----
 
-We should calculate maxcpus first based on the topology,
+iQIzBAEBCAAdFiEEtIKLr5QxQM7yo0kQcdTV5YIvc9YFAmCiKjsACgkQcdTV5YIv
+c9ZQKQ/8DCSVEP+Z2lzsnGnKBl2UD4VcOQmI8iv98q7pv3glu666I9J+sdNi6Ydh
+KdW1UQD+WDGxSW7x7z8dBj44xzhlNBNwZ2LJHeWglHzohHfgoL8L81Tk3TDdn/MC
+PLiC5PRX6uJEtbVGd2yRnGmj5Ha4rLEnRUQHz3sIdYBRjj72PVvziJpuJMJjUFhp
+dUhGUU3SpdaEZ1wtAk2iZANecZO3xk2mIp4Yx0u1IRihCc7UcyPMqlo/pe9hyeWT
+98Lw45sPwgj6uf8Xn1UaX3xvXPW0vbT7rMFV4rTPfBgBv+vmmsESFWMwJTsFWd/w
+fPj1PUViWsApktSDY5h+Q/Oc8oQouC8V3WaoDKDXAlHdhEUI5kKYCyytQyQt/LLk
+1fpKPT0KBwahNTeo+yLxSr6UBILOGLmhYaBcmFslY5ESpzEzbHeRPnFt4sPi4SuY
+/Bnkf+RAqwFJtJWmywN7R8k+Lqg4d3dxtP1RVoIbl0dIpYK4v3EvboMHPsVrRRxj
+Qnx3mbZ94kwZn+RlVvzxVPDQ27Ix+ACUaCaRmASeXn0nKiK9qon92cjFH8JicGxN
+QzJ9Y5BVA64cGO4YpIVu5A9COWx0LTtG0YOk4Vq3yaPOdIpYrwOI1oPN57TOdQTC
+ufRfo9XYFFU5Y/V9X3kE0afz5Fmbe8rka2HXZfc4VuqSEFmSzpI=
+=OJy7
+-----END PGP SIGNATURE-----
 
-  maxcpus = maxcpus > 0 ? maxcpus : sockets * cores * threads;
-  cpus = cpus > 0 ? cpus : maxcpus;
-
-Please do comprehensive testing to ensure everything works as it
-should. You can drop this function into a standalone executable
-and run it for all possible inputs, maxcpus=0, maxcpus < cpus, maxcpus ==
-cpus, maxcpus > cpus, sockets = 0, sockets < cpus, sockets == cpus, etc.
-
-> +        } else {
-> +            error_report("sockets and cores must be both provided "
-> +                         "or both not");
-> +            exit(1);
-> +        }
-> +
-> +        if (maxcpus < cpus) {
-> +            error_report("maxcpus must be equal to or greater than smp");
-> +            exit(1);
-> +        }
-> +
-> +        if (sockets * cores * threads < cpus) {
-> +            error_report("cpu topology: "
-> +                         "sockets (%u) * cores (%u) * threads (%u) < "
-> +                         "smp_cpus (%u)",
-> +                         sockets, cores, threads, cpus);
-> +            exit(1);
-> +        }
-> +
-> +        if (sockets * cores * threads != maxcpus) {
-> +            error_report("cpu topology: "
-> +                         "sockets (%u) * cores (%u) * threads (%u) "
-> +                         "!= maxcpus (%u)",
-> +                         sockets, cores, threads, maxcpus);
-> +            exit(1);
-> +        }
-> +
-> +        ms->smp.cpus = cpus;
-> +        ms->smp.max_cpus = maxcpus;
-> +        ms->smp.sockets = sockets;
-> +        ms->smp.cores = cores;
-> +        ms->smp.threads = threads;
-> +    }
-> +
-> +    if (ms->smp.cpus > 1) {
-> +        Error *blocker = NULL;
-> +        error_setg(&blocker, QERR_REPLAY_NOT_SUPPORTED, "smp");
-> +        replay_add_blocker(blocker);
-> +    }
-> +}
-> +
->  static void virt_machine_class_init(ObjectClass *oc, void *data)
->  {
->      MachineClass *mc = MACHINE_CLASS(oc);
-> @@ -2652,6 +2746,7 @@ static void virt_machine_class_init(ObjectClass *oc, void *data)
->      mc->cpu_index_to_instance_props = virt_cpu_index_to_props;
->      mc->default_cpu_type = ARM_CPU_TYPE_NAME("cortex-a15");
->      mc->get_default_cpu_node_id = virt_get_default_cpu_node_id;
-> +    mc->smp_parse = virt_smp_parse;
->      mc->kvm_type = virt_kvm_type;
->      assert(!mc->get_hotplug_handler);
->      mc->get_hotplug_handler = virt_machine_get_hotplug_handler;
-> diff --git a/qemu-options.hx b/qemu-options.hx
-> index 635dc8a624..bd97086c21 100644
-> --- a/qemu-options.hx
-> +++ b/qemu-options.hx
-> @@ -203,6 +203,10 @@ SRST
->      computed. If any on the three values is given, the total number of
->      CPUs n can be omitted. maxcpus specifies the maximum number of
->      hotpluggable CPUs.
-> +
-> +    For the ARM target, at least one of cpus or maxcpus must be provided.
-> +    Threads will default to 1 if not provided. Sockets and cores must be
-> +    either both provided or both not.
->  ERST
->  
->  DEF("numa", HAS_ARG, QEMU_OPTION_numa,
-> -- 
-> 2.19.1
-> 
+--Sig_/vX1LD.Wes1QJjYlOIPBjuGm--
 
 
