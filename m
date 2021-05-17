@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49338383CC3
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 20:55:10 +0200 (CEST)
-Received: from localhost ([::1]:54974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8FDC383CB9
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 20:53:14 +0200 (CEST)
+Received: from localhost ([::1]:45888 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1liiOT-0008KI-9a
-	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 14:55:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34276)
+	id 1liiMa-0002JL-Iu
+	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 14:53:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34326)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lihm2-0006vJ-8L
- for qemu-devel@nongnu.org; Mon, 17 May 2021 14:15:26 -0400
-Received: from mout.kundenserver.de ([212.227.126.187]:46509)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lihm4-000707-FR
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 14:15:28 -0400
+Received: from mout.kundenserver.de ([212.227.126.187]:55945)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lihlZ-0004ZR-BE
- for qemu-devel@nongnu.org; Mon, 17 May 2021 14:15:23 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lihlZ-0004ZQ-Ci
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 14:15:28 -0400
 Received: from quad ([82.142.31.78]) by mrelayeu.kundenserver.de (mreue012
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1Ml3ym-1l3qdu3VgS-00lTp7; Mon, 17
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1MKd92-1m3gYd1MjM-00KylB; Mon, 17
  May 2021 20:14:55 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 55/59] linux-user/alpha: Define TARGET_ARCH_HAS_KA_RESTORER
-Date: Mon, 17 May 2021 20:14:20 +0200
-Message-Id: <20210517181424.8093-56-laurent@vivier.eu>
+Subject: [PULL 56/59] linux-user/alpha: Share code for TARGET_NR_sigaction
+Date: Mon, 17 May 2021 20:14:21 +0200
+Message-Id: <20210517181424.8093-57-laurent@vivier.eu>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210517181424.8093-1-laurent@vivier.eu>
 References: <20210517181424.8093-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:MFA5a6cPTBO0bOjE7+QLrnkIugrsFBVthsS6Axi48/E7iOmJpRJ
- kkK4OpeLKLVrA+crO0I6WHcFcNJyiqg3ZO+1xSabSovSzIvhLDy86a9PKJh37CPwFRIRkWv
- eDV0YUzdCVyS4RjUQdku6Fhq9QYTZOZWy5rPsSiHVryXNSGIti2Lo6yl7s6qFnG2d9U32n3
- QyhZnXBzf+3q4NBw3JvCA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:3ZFjjahYV4w=:3v18EcRTtnwcDV2volzhZ2
- WL/jty65RV592mp+0zMfKphDVbONUvZAsFNOxfa40WuSU8smsxo8zD6nJhlpK6hHPI4HiEoEd
- eKSLxfHj7J3XYF/BIVWCSWg/cCQHSllErHFToQeJ3sP5x06VmEUlOP7GkGQs9vpfwDMW5OWWY
- Rl6Ri8d//q2Xi2ucVsvIQwumsw+TgSuU6q+/s1HCvYxMUPOCT6404i0m0Qcxz0CB7sgnh7HUa
- 4oUEev2zSG+HItMX8KierOll4gk5tS3noGS4iZSMpWnD+Zqs+LExIj4WU+WA68x0eoHit28hm
- xwdy5+w5nrSRswuTUfHXQi7dvEpcEwjcyWCd9ks79+mFD9vwrk9PEAefQK4LroLCGqNZHckKD
- i005Vknnm8kKSlfYa2EtJ0tPO0w2t/zdtLwTSgwsh+MfZ6NF+UusA8CbNw4FjzOY/hVQ/xomV
- 1KlyMWrluF58wTqNZuJbd6cu1vX1Oy/4f7W3lgnj0REEyrpRLQ5d7gg+1U2d9s3ktzp5/iI1C
- HK0zMc202OWn9P+nSrGu0Q=
+X-Provags-ID: V03:K1:VRqOgVQyn2uZEI32R73D/tNDrEzGN9pMqKehuR8IzAu0OsRYqFb
+ 7VMHyzT/fbly6sNo6FkT8U9NZ4jXNNs8YpJRJUdb6uUuYWKOyQ16zlqkijcbtbIObkHSGd/
+ avn2H01PK5kRI4Vy1lUlRK5NINvIg3EmfModtSO9MX8AB9i8bLT2UWVhvVUssQuj5x0TuSB
+ LDVUp82LZ6Tuwdt8++XBQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:1cFfBAlHvyc=:ZgBUCzpPZ31GopnXCR2ORY
+ 8oqSkW+JAUkoTBGbbP/cerxBgNwqXR958v6h/IY3CgVSqs65EhYQxET512mshWzukryjnz4ME
+ GdsegIVsRfXrKS/Msp8wX0vMKcAb9dDwmpz1/OAiUJ+i3ovQ60L69xpUqnYsT9nIXe7d4ye99
+ oXDC4y8DeE9Mk6HJZZ4PA+3Fr8GdtUamoRuK+omxj54J1ssprC/UxOJ4mTSVqVy6Gm06PCe/6
+ j/v7BweVAf2BM3Z7frBcszof5RkNAGstihICofWEhITVqljhf1MOpDhMVfiD7C5XK5Uyw+3vu
+ hDYNt5R5tYGEtTBS/zp4TT/QZtlH277HzxcMxa9Q72SbYYOXf0HQXUQOQLJpzgXRyoyYCTZAT
+ 5ytn1Amo72tbu5HWI0u9yFINourzhbpylgEc9hPeZHiI/vMJY5fv3UX7YyDfLGl6PM9/dX7bX
+ aSRBO/baH/Tc2z7k+1+ZT/zzUws7kv3dKXqGNpWEMUXXLaktLGVxBmqnDXl9WaUWhWsZEl52H
+ 2HQVUexUWmU8EXDzMmSTJk=
 Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
@@ -51,7 +51,7 @@ X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
  RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -72,110 +72,96 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-This means that we can share the TARGET_NR_rt_sigaction code,
-and the target_rt_sigaction structure is unused.  Untangling
-the ifdefs so that target_sigaction can be shared will wait
-until the next patch.
+There's no longer a difference between the alpha code and
+the generic code.
+
+There is a type difference in target_old_sigaction.sa_flags,
+which can be resolved with a very much smaller ifdef, which
+allows us to finish sharing the target_sigaction definition.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20210422230227.314751-6-richard.henderson@linaro.org>
+Message-Id: <20210422230227.314751-7-richard.henderson@linaro.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/alpha/target_signal.h |  1 +
- linux-user/syscall.c             | 37 ++++++--------------------------
- linux-user/syscall_defs.h        |  6 ------
- 3 files changed, 7 insertions(+), 37 deletions(-)
+ linux-user/syscall.c      | 23 +----------------------
+ linux-user/syscall_defs.h | 21 ++++++---------------
+ 2 files changed, 7 insertions(+), 37 deletions(-)
 
-diff --git a/linux-user/alpha/target_signal.h b/linux-user/alpha/target_signal.h
-index 0b90d3a89701..250642913e2a 100644
---- a/linux-user/alpha/target_signal.h
-+++ b/linux-user/alpha/target_signal.h
-@@ -92,6 +92,7 @@ typedef struct target_sigaltstack {
- #define TARGET_GEN_SUBRNG7     -25
- 
- #define TARGET_ARCH_HAS_SETUP_FRAME
-+#define TARGET_ARCH_HAS_KA_RESTORER
- 
- /* bit-flags */
- #define TARGET_SS_AUTODISARM (1U << 31) /* disable sas during sighandling */
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 7b139a9c3a55..4515f816b59b 100644
+index 4515f816b59b..2c5ced1570b5 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -9064,41 +9064,17 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
- #endif
-     case TARGET_NR_rt_sigaction:
+@@ -8980,28 +8980,7 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+ #ifdef TARGET_NR_sigaction
+     case TARGET_NR_sigaction:
          {
 -#if defined(TARGET_ALPHA)
--            /* For Alpha and SPARC this is a 5 argument syscall, with
-+            /*
-+             * For Alpha and SPARC this is a 5 argument syscall, with
-              * a 'restorer' parameter which must be copied into the
-              * sa_restorer field of the sigaction struct.
-              * For Alpha that 'restorer' is arg5; for SPARC it is arg4,
-              * and arg5 is the sigsetsize.
--             * Alpha also has a separate rt_sigaction struct that it uses
--             * here; SPARC uses the usual sigaction struct.
-              */
--            struct target_rt_sigaction *rt_act;
 -            struct target_sigaction act, oact, *pact = 0;
--
--            if (arg4 != sizeof(target_sigset_t)) {
--                return -TARGET_EINVAL;
--            }
+-            struct target_old_sigaction *old_act;
 -            if (arg2) {
--                if (!lock_user_struct(VERIFY_READ, rt_act, arg2, 1))
+-                if (!lock_user_struct(VERIFY_READ, old_act, arg2, 1))
 -                    return -TARGET_EFAULT;
--                act._sa_handler = rt_act->_sa_handler;
--                act.sa_mask = rt_act->sa_mask;
--                act.sa_flags = rt_act->sa_flags;
--                unlock_user_struct(rt_act, arg2, 0);
+-                act._sa_handler = old_act->_sa_handler;
+-                target_siginitset(&act.sa_mask, old_act->sa_mask);
+-                act.sa_flags = old_act->sa_flags;
+-                unlock_user_struct(old_act, arg2, 0);
 -                pact = &act;
 -            }
--            ret = get_errno(do_sigaction(arg1, pact, &oact, arg5));
+-            ret = get_errno(do_sigaction(arg1, pact, &oact, 0));
 -            if (!is_error(ret) && arg3) {
--                if (!lock_user_struct(VERIFY_WRITE, rt_act, arg3, 0))
+-                if (!lock_user_struct(VERIFY_WRITE, old_act, arg3, 0))
 -                    return -TARGET_EFAULT;
--                rt_act->_sa_handler = oact._sa_handler;
--                rt_act->sa_mask = oact.sa_mask;
--                rt_act->sa_flags = oact.sa_flags;
--                unlock_user_struct(rt_act, arg3, 1);
+-                old_act->_sa_handler = oact._sa_handler;
+-                old_act->sa_mask = oact.sa_mask.sig[0];
+-                old_act->sa_flags = oact.sa_flags;
+-                unlock_user_struct(old_act, arg3, 1);
 -            }
--#else
--#ifdef TARGET_SPARC
-+#if defined(TARGET_ALPHA)
-+            target_ulong sigsetsize = arg4;
-+            target_ulong restorer = arg5;
-+#elif defined(TARGET_SPARC)
-             target_ulong restorer = arg4;
-             target_ulong sigsetsize = arg5;
- #else
-@@ -9131,7 +9107,6 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
-                 unlock_user_struct(act, arg2, 0);
-             if (oact)
-                 unlock_user_struct(oact, arg3, 1);
--#endif
-         }
-         return ret;
- #ifdef TARGET_NR_sgetmask /* not on alpha */
+-#elif defined(TARGET_MIPS)
++#if defined(TARGET_MIPS)
+ 	    struct target_sigaction act, oact, *pact, *old_act;
+ 
+ 	    if (arg2) {
 diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
-index e4aaf8412f56..7a1d3b239c02 100644
+index 7a1d3b239c02..18b031a2f6a8 100644
 --- a/linux-user/syscall_defs.h
 +++ b/linux-user/syscall_defs.h
-@@ -507,12 +507,6 @@ struct target_old_sigaction {
-     int32_t sa_flags;
- };
+@@ -501,21 +501,12 @@ int do_sigaction(int sig, const struct target_sigaction *act,
+ #endif
  
--struct target_rt_sigaction {
+ #if defined(TARGET_ALPHA)
+-struct target_old_sigaction {
+-    abi_ulong _sa_handler;
+-    abi_ulong sa_mask;
+-    int32_t sa_flags;
+-};
++typedef int32_t target_old_sa_flags;
++#else
++typedef abi_ulong target_old_sa_flags;
++#endif
+ 
+-/* This is the struct used inside the kernel.  The ka_restorer
+-   field comes from the 5th argument to sys_rt_sigaction.  */
+-struct target_sigaction {
 -    abi_ulong _sa_handler;
 -    abi_ulong sa_flags;
 -    target_sigset_t sa_mask;
+-    abi_ulong ka_restorer;
 -};
--
- /* This is the struct used inside the kernel.  The ka_restorer
-    field comes from the 5th argument to sys_rt_sigaction.  */
+-#elif defined(TARGET_MIPS)
++#if defined(TARGET_MIPS)
  struct target_sigaction {
+ 	uint32_t	sa_flags;
+ #if defined(TARGET_ABI_MIPSN32)
+@@ -533,7 +524,7 @@ struct target_sigaction {
+ struct target_old_sigaction {
+         abi_ulong _sa_handler;
+         abi_ulong sa_mask;
+-        abi_ulong sa_flags;
++        target_old_sa_flags sa_flags;
+ #ifdef TARGET_ARCH_HAS_SA_RESTORER
+         abi_ulong sa_restorer;
+ #endif
 -- 
 2.31.1
 
