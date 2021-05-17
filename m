@@ -2,58 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F342D382DC1
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 15:44:41 +0200 (CEST)
-Received: from localhost ([::1]:43480 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8454382DD0
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 15:46:47 +0200 (CEST)
+Received: from localhost ([::1]:46324 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lidY0-0006ps-VI
-	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 09:44:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44808)
+	id 1lida2-0000Kf-UZ
+	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 09:46:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45032)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1lidX5-0005vX-72; Mon, 17 May 2021 09:43:43 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:2458)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lidYB-0007fN-QO
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 09:44:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48493)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1lidX2-0002Zq-Fj; Mon, 17 May 2021 09:43:42 -0400
-Received: from dggems704-chm.china.huawei.com (unknown [172.30.72.60])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4FkKxz5BwRzQpFP;
- Mon, 17 May 2021 21:40:07 +0800 (CST)
-Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
- dggems704-chm.china.huawei.com (10.3.19.181) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Mon, 17 May 2021 21:43:35 +0800
-Received: from [10.174.187.128] (10.174.187.128) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.1.2176.2; Mon, 17 May 2021 21:43:34 +0800
-Subject: Re: [RFC PATCH v3 8/9] hw/arm/virt-acpi-build: Generate PPTT table
-To: Andrew Jones <drjones@redhat.com>
-References: <20210516102900.28036-1-wangyanan55@huawei.com>
- <20210516102900.28036-9-wangyanan55@huawei.com>
- <20210517080223.sajp445x5qsy57fq@gator.home>
-From: "wangyanan (Y)" <wangyanan55@huawei.com>
-Message-ID: <2dee4bda-fe42-15b1-3a22-22decbc0dbd0@huawei.com>
-Date: Mon, 17 May 2021 21:43:34 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lidY8-0003Hi-Nb
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 09:44:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1621259087;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=g+rY4jUh07JqLStuEzjkBGNp9KDX5a9lVKnKzvac7y4=;
+ b=JGumMcgV4tL5wYwwqjxcASaICbS0Q/wDLlpNCBokgPeOyyDUPJbk8seDwJMJiNz0qatLEF
+ w22DECbC4NYggVySoKzWoYybzHmTiY5Zbbg+4kq8gea1IJv+QSDmOPhi2h8C5RZQTuBxtJ
+ ZfUOC+wzi4eaHwyfgBD9yMl8Id809i4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-481-BN6j-rONO2OVtZQS1OW3GQ-1; Mon, 17 May 2021 09:44:42 -0400
+X-MC-Unique: BN6j-rONO2OVtZQS1OW3GQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5E888195D596;
+ Mon, 17 May 2021 13:44:20 +0000 (UTC)
+Received: from localhost (ovpn-114-183.ams2.redhat.com [10.36.114.183])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2004E5C541;
+ Mon, 17 May 2021 13:44:01 +0000 (UTC)
+Date: Mon, 17 May 2021 14:44:00 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+Subject: Re: [PATCH v1 5/7] docs: mark intention to deprecate TCG tracing
+ functionality
+Message-ID: <YKJzICDS4n5UMohG@stefanha-x1.localdomain>
+References: <20210505092259.8202-1-alex.bennee@linaro.org>
+ <20210505092259.8202-6-alex.bennee@linaro.org>
+ <YJJmYOWDl0UzziW7@redhat.com> <87lf8to49d.fsf@linaro.org>
+ <87im3xo3zv.fsf@linaro.org> <YJJ41bUEY+Gfkw/Z@redhat.com>
+ <87eee5eiua.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20210517080223.sajp445x5qsy57fq@gator.home>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Originating-IP: [10.174.187.128]
-X-ClientProxiedBy: dggeme715-chm.china.huawei.com (10.1.199.111) To
- dggpemm500023.china.huawei.com (7.185.36.83)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.191;
- envelope-from=wangyanan55@huawei.com; helo=szxga05-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+In-Reply-To: <87eee5eiua.fsf@linaro.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="sf5GUTCFIC/MYxsY"
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.374,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -67,186 +83,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Barry Song <song.bao.hua@hisilicon.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- "Michael S . Tsirkin" <mst@redhat.com>, wanghaibin.wang@huawei.com,
- zhukeqian1@huawei.com, qemu-devel@nongnu.org, yangyicong@huawei.com,
- Shannon Zhao <shannon.zhaosl@gmail.com>, qemu-arm@nongnu.org,
- Alistair Francis <alistair.francis@wdc.com>, prime.zeng@hisilicon.com,
- Paolo Bonzini <pbonzini@redhat.com>, yuzenghui@huawei.com,
- Igor Mammedov <imammedo@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ "reviewer:Incompatible changes" <libvir-list@redhat.com>,
+ qemu-devel@nongnu.org, robhenry@microsoft.com, aaron@os.amperecomputing.com,
+ vilanova@imperial.ac.uk, mahmoudabdalghany@outlook.com, minyihh@uci.edu,
+ cota@braap.org, mohamad.gebai@gmail.com, kuhn.chenqun@huawei.com,
+ matheus.ferst@eldorado.org.br
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Drew,
+--sf5GUTCFIC/MYxsY
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 2021/5/17 16:02, Andrew Jones wrote:
-> On Sun, May 16, 2021 at 06:28:59PM +0800, Yanan Wang wrote:
->> From: Andrew Jones <drjones@redhat.com>
->>
->> Add the Processor Properties Topology Table (PPTT) to expose
->> CPU topology information defined by users to ACPI guests.
->>
->> Note, a DT-boot Linux guest with a non-flat CPU topology will
->> see socket and core IDs being sequential integers starting
->> from zero, which is different from ACPI-boot Linux guest,
->> e.g. with -smp 4,sockets=2,cores=2,threads=1
->>
->> a DT boot produces:
->>
->>   cpu:  0 package_id:  0 core_id:  0
->>   cpu:  1 package_id:  0 core_id:  1
->>   cpu:  2 package_id:  1 core_id:  0
->>   cpu:  3 package_id:  1 core_id:  1
->>
->> an ACPI boot produces:
->>
->>   cpu:  0 package_id: 36 core_id:  0
->>   cpu:  1 package_id: 36 core_id:  1
->>   cpu:  2 package_id: 96 core_id:  2
->>   cpu:  3 package_id: 96 core_id:  3
->>
->> This is due to several reasons:
->>
->>   1) DT cpu nodes do not have an equivalent field to what the PPTT
->>      ACPI Processor ID must be, i.e. something equal to the MADT CPU
->>      UID or equal to the UID of an ACPI processor container. In both
->>      ACPI cases those are platform dependant IDs assigned by the
->>      vendor.
->>
->>   2) While QEMU is the vendor for a guest, if the topology specifies
->>      SMT (> 1 thread), then, with ACPI, it is impossible to assign a
->>      core-id the same value as a package-id, thus it is not possible
->>      to have package-id=0 and core-id=0. This is because package and
->>      core containers must be in the same ACPI namespace and therefore
->>      must have unique UIDs.
->>
->>   3) ACPI processor containers are not mandatorily required for PPTT
->>      tables to be used and, due to the limitations of which IDs are
->>      selected described above in (2), they are not helpful for QEMU,
->>      so we don't build them with this patch. In the absence of them,
->>      Linux assigns its own unique IDs. The maintainers have chosen not
->>      to use counters from zero, but rather ACPI table offsets, which
->>      explains why the numbers are so much larger than with DT.
->>
->>   4) When there is no SMT (threads=1) the core IDs for ACPI boot guests
->>      match the logical CPU IDs, because these IDs must be equal to the
->>      MADT CPU UID (as no processor containers are present), and QEMU
->>      uses the logical CPU ID for these MADT IDs.
->>
->> So in summary, with QEMU as vender for guest, we use sequential integers
->> starting from zero for non-leaf nodes without valid ID flag, so that the
->> guest will ignore them and use table offsets as the unique IDs. And we
->> also use logical CPU IDs for leaf nodes to be consistent with MADT.
->>
->> Signed-off-by: Andrew Jones <drjones@redhat.com>
->> Co-developed-by: Yanan Wang <wangyanan55@huawei.com>
->> Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
->> ---
->>   hw/arm/virt-acpi-build.c | 58 +++++++++++++++++++++++++++++++++++++++-
->>   1 file changed, 57 insertions(+), 1 deletion(-)
-> Why aren't we adding build_pptt to aml-build.c, like my original patch
-> does? I don't see anything Arm specific below, at least not if you passed
-> MachineState instead of VirtMachineState, like my original patch did.
-I agree to move build_pptt to common code, so that other platforms
-can also use it if they want. I will do it in next version.
+On Mon, May 17, 2021 at 11:47:11AM +0100, Alex Benn=E9e wrote:
+>=20
+> Daniel P. Berrang=E9 <berrange@redhat.com> writes:
+>=20
+> > On Wed, May 05, 2021 at 11:41:46AM +0100, Alex Benn=E9e wrote:
+> >>=20
+> >> Alex Benn=E9e <alex.bennee@linaro.org> writes:
+> >>=20
+> >> > Daniel P. Berrang=E9 <berrange@redhat.com> writes:
+> >> >
+> >> >> On Wed, May 05, 2021 at 10:22:57AM +0100, Alex Benn=E9e wrote:
+> >> <snip>
+> >> >>> +TCG introspection features
+> >> >>> +--------------------------
+> >> >>> +
+> >> >>> +TCG trace-events (since 6.1)
+> >> >>> +''''''''''''''''''''''''''''
+> >> >>> +
+> >> >>> +The ability to add new TCG trace points has bit rotted and as the
+> >> >>
+> >> >> When you say this "has bit rotted", just how bad is the situation ?
+> >> >>
+> >> >> Is the TCG tracing still usable at all, or is is fully broken
+> >> >> already ?
+> >> >
+> >> > Well patches 6/7 got it working for generic TCG things. I haven't be=
+en
+> >> > able to get the architecture one working but I suspect that is some =
+sort
+> >> > of interaction between the per-arch trace header generation that I
+> >> > haven't quite figured out yet.
+> >>=20
+> >> Ahh it's since 7609ffb919 (trace: fix tcg tracing build breakage) whic=
+h
+> >> limited tcg/vcpu events to the root trace-events file.
+> >
+> > That commit is from release 2.10.0.
+> >
+> > The other commit mentioned in patch 6 (73ff061032) is from 2.12.0.
+> >
+> > So no one has been able to use this feature for 3+ years already.
+> >
+> > Is it actually worth fixing and then deprecating for 2 releases before
+> > deleting, as opposed to just deleting the broken code today on basis
+> > that it can't have any current users ?
+>=20
+> Well I can get it up and running with the aforementioned patches and it
+> seems reasonable to give some notice. I'm happy to defer to Stefan here
+> though as it's his sub-system.
 
-BTW, it seems patch 1 and 5 were possibly missed for some review.
-Any comments for them too? Thanks!
->> diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
->> index 4d64aeb865..b03d57745a 100644
->> --- a/hw/arm/virt-acpi-build.c
->> +++ b/hw/arm/virt-acpi-build.c
->> @@ -435,6 +435,57 @@ build_srat(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
->>                    vms->oem_table_id);
->>   }
->>   
->> +/* ACPI 6.2: 5.2.29 Processor Properties Topology Table (PPTT) */
->> +static void build_pptt(GArray *table_data, BIOSLinker *linker,
->> +                       VirtMachineState *vms)
->> +{
->> +    MachineState *ms = MACHINE(vms);
->> +    int pptt_start = table_data->len;
->> +    int uid = 0, socket;
->> +
->> +    acpi_data_push(table_data, sizeof(AcpiTableHeader));
->> +
->> +    for (socket = 0; socket < ms->smp.sockets; socket++) {
->> +        uint32_t socket_offset = table_data->len - pptt_start;
->> +        int core;
->> +
->> +        build_processor_hierarchy_node(
->> +            table_data,
->> +            (1 << 0), /* ACPI 6.2 - Physical package */
->> +            0, socket, NULL, 0);
->> +
->> +        for (core = 0; core < ms->smp.cores; core++) {
->> +            uint32_t core_offset = table_data->len - pptt_start;
->> +            int thread;
->> +
->> +            if (ms->smp.threads <= 1) {
-> We can't have threads < 1, so this condition should be == 1.
-Right, I will fix it.
+Llu=EDs Vilanova was the author and probably main user. He mentioned he's
+been away from QEMU for a while.
 
-Thanks,
-Yanan
->> +                build_processor_hierarchy_node(
->> +                    table_data,
->> +                    (1 << 1) | /* ACPI 6.2 - ACPI Processor ID valid */
->> +                    (1 << 3),  /* ACPI 6.3 - Node is a Leaf */
->> +                    socket_offset, uid++, NULL, 0);
->> +            } else {
->> +                build_processor_hierarchy_node(table_data, 0, socket_offset,
->> +                                               core, NULL, 0);
->> +
->> +                for (thread = 0; thread < ms->smp.threads; thread++) {
->> +                    build_processor_hierarchy_node(
->> +                        table_data,
->> +                        (1 << 1) | /* ACPI 6.2 - ACPI Processor ID valid */
->> +                        (1 << 2) | /* ACPI 6.3 - Processor is a Thread */
->> +                        (1 << 3),  /* ACPI 6.3 - Node is a Leaf */
->> +                        core_offset, uid++, NULL, 0);
->> +                }
->> +            }
->> +        }
->> +    }
->> +
->> +    build_header(linker, table_data,
->> +                 (void *)(table_data->data + pptt_start), "PPTT",
->> +                 table_data->len - pptt_start, 2,
->> +                 vms->oem_id, vms->oem_table_id);
->> +}
->> +
->>   /* GTDT */
->>   static void
->>   build_gtdt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
->> @@ -719,13 +770,18 @@ void virt_acpi_build(VirtMachineState *vms, AcpiBuildTables *tables)
->>       dsdt = tables_blob->len;
->>       build_dsdt(tables_blob, tables->linker, vms);
->>   
->> -    /* FADT MADT GTDT MCFG SPCR pointed to by RSDT */
->> +    /* FADT MADT PPTT GTDT MCFG SPCR pointed to by RSDT */
->>       acpi_add_table(table_offsets, tables_blob);
->>       build_fadt_rev5(tables_blob, tables->linker, vms, dsdt);
->>   
->>       acpi_add_table(table_offsets, tables_blob);
->>       build_madt(tables_blob, tables->linker, vms);
->>   
->> +    if (!vmc->no_cpu_topology) {
->> +        acpi_add_table(table_offsets, tables_blob);
->> +        build_pptt(tables_blob, tables->linker, vms);
->> +    }
->> +
->>       acpi_add_table(table_offsets, tables_blob);
->>       build_gtdt(tables_blob, tables->linker, vms);
->>   
->> -- 
->> 2.19.1
->>
-> Thanks,
-> drew
->
-> .
+If you want to drop the feature, I think that's fine since it has
+already been broken for over 3 years. If someone wants it back then it
+can be added via TCG plugins in the future.
+
+Stefan
+
+--sf5GUTCFIC/MYxsY
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmCicyAACgkQnKSrs4Gr
+c8h1RggAtr4tOB3Lv7duWbsdVnNHEF9uQJ1gu/eLbI0ys8f4hxVpSbFLWljGBcEp
+eUm3RzZ67jyS030unMOOyVQvkEU7QNOg0b4qRUC1cZryIqm4ywMSL6xXteZRWYtG
+TpEncrwnthPE2DGcHLgs56QxyjJD29Bg+3OtFF2FJ3ngRbYxWWn+ITH2j5ujcCaR
+nM4oB2hZxQPXE+W2TqnKONqATs6dv9eyIt7K4GDz/+WtAjanrq5Gfe7R+i7SOw0l
+XogXR9Eq/1kr7gw4O5/RVmAF/i/bUPI1noB7GR6I1H0IIo90D+6hu+eWILjxEOFO
+OeJo+jsrXIz9k71uJAx8bg+TYn6dvg==
+=J1Nn
+-----END PGP SIGNATURE-----
+
+--sf5GUTCFIC/MYxsY--
+
 
