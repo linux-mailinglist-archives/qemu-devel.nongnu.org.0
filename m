@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 199EA38333C
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 16:55:46 +0200 (CEST)
-Received: from localhost ([::1]:51466 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4102A3833B9
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 17:01:15 +0200 (CEST)
+Received: from localhost ([::1]:38842 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lieen-00029F-3K
-	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 10:55:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34560)
+	id 1liek6-0004Hq-92
+	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 11:01:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34614)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1lieaF-0001Xk-Cl
- for qemu-devel@nongnu.org; Mon, 17 May 2021 10:51:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29737)
+ id 1lieaI-0001lI-HP
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 10:51:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24630)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1lieaD-0004fX-I5
- for qemu-devel@nongnu.org; Mon, 17 May 2021 10:51:03 -0400
+ id 1lieaG-0004js-RM
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 10:51:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621263060;
+ s=mimecast20190719; t=1621263064;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ICrrjGgia8w1NaBy1XQD706S9/jMkYW2Mr1MjkqN/bs=;
- b=MMv+vrmMxXsCZwK7m34oMPupEylenYi+xvRlbn4onlGknR0gePifnLa/e+zJerlp12vt8y
- dFD1mrKaXbO50atNYN7IqH3BGqp0XzEtQiUc/rwlk3rZqdWTrqJkpghLeC9IhzshsiNcYQ
- 8AHHYfQwV+k5btNhhnvVa6FPAblOq9A=
+ bh=B8069keYnyNIuYkM+FktH39KppMHupzj2AI8e+wRRD4=;
+ b=h2+IvsUV9MiZ3ozHrJWsXX+pleD5vyEs1wFnmYmPLN5SkHduWNazaR1cvFPnamoGB4ka/3
+ uitMnp8Ll1WDrgZ/DrpTNIP/TzejWxrso00U9m6faX7CYCC0S6g4qldpohvt2AnOdhfNWt
+ g5SMtfQEp7RyTI+CDf4fWdacik+Ow4A=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-372-OWp_ukHTNpKDEKcGlyIhnA-1; Mon, 17 May 2021 10:50:59 -0400
-X-MC-Unique: OWp_ukHTNpKDEKcGlyIhnA-1
+ us-mta-204-mN49Oxj6PwKMKGg1gzNHLw-1; Mon, 17 May 2021 10:51:01 -0400
+X-MC-Unique: mN49Oxj6PwKMKGg1gzNHLw-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6DAEA192377A;
- Mon, 17 May 2021 14:50:58 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C32F08015F7;
+ Mon, 17 May 2021 14:51:00 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-113-23.ams2.redhat.com
  [10.36.113.23])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 98B015D749;
- Mon, 17 May 2021 14:50:56 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EF6035D6D7;
+ Mon, 17 May 2021 14:50:58 +0000 (UTC)
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v3 2/5] blkdebug: move post-resume handling to
- resume_req_by_tag
-Date: Mon, 17 May 2021 16:50:46 +0200
-Message-Id: <20210517145049.55268-3-eesposit@redhat.com>
+Subject: [PATCH v3 3/5] blkdebug: track all actions
+Date: Mon, 17 May 2021 16:50:47 +0200
+Message-Id: <20210517145049.55268-4-eesposit@redhat.com>
 In-Reply-To: <20210517145049.55268-1-eesposit@redhat.com>
 References: <20210517145049.55268-1-eesposit@redhat.com>
 MIME-Version: 1.0
@@ -86,76 +85,80 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We want to move qemu_coroutine_yield() after the loop on rules,
-because QLIST_FOREACH_SAFE is wrong if the rule list is modified
-while the coroutine has yielded.  Therefore move the suspended
-request to the heap and clean it up from the remove side.
-All that is left is for blkdebug_debug_event to handle the
-yielding.
+Add a counter for each action that a rule can trigger.
+This is mainly used to keep track of how many coroutine_yield()
+we need to perform after processing all rules in the list.
 
 Co-developed-by: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 ---
- block/blkdebug.c | 31 ++++++++++++++++++-------------
- 1 file changed, 18 insertions(+), 13 deletions(-)
+ block/blkdebug.c | 17 ++++++++---------
+ 1 file changed, 8 insertions(+), 9 deletions(-)
 
 diff --git a/block/blkdebug.c b/block/blkdebug.c
-index 8f19d991fa..e37f999254 100644
+index e37f999254..388b5ed615 100644
 --- a/block/blkdebug.c
 +++ b/block/blkdebug.c
-@@ -775,25 +775,20 @@ static void blkdebug_close(BlockDriverState *bs)
- static void suspend_request(BlockDriverState *bs, BlkdebugRule *rule)
- {
-     BDRVBlkdebugState *s = bs->opaque;
--    BlkdebugSuspendedReq r;
-+    BlkdebugSuspendedReq *r;
+@@ -74,6 +74,7 @@ enum {
+     ACTION_INJECT_ERROR,
+     ACTION_SET_STATE,
+     ACTION_SUSPEND,
++    ACTION__MAX,
+ };
  
--    r = (BlkdebugSuspendedReq) {
--        .co         = qemu_coroutine_self(),
--        .tag        = g_strdup(rule->options.suspend.tag),
--    };
-+    r = g_new(BlkdebugSuspendedReq, 1);
-+
-+    r->co         = qemu_coroutine_self();
-+    r->tag        = g_strdup(rule->options.suspend.tag);
- 
-     remove_rule(rule);
--    QLIST_INSERT_HEAD(&s->suspended_reqs, &r, next);
-+    QLIST_INSERT_HEAD(&s->suspended_reqs, r, next);
- 
-     if (!qtest_enabled()) {
--        printf("blkdebug: Suspended request '%s'\n", r.tag);
-+        printf("blkdebug: Suspended request '%s'\n", r->tag);
-     }
+ typedef struct BlkdebugRule {
+@@ -791,22 +792,22 @@ static void suspend_request(BlockDriverState *bs, BlkdebugRule *rule)
      qemu_coroutine_yield();
--    if (!qtest_enabled()) {
--        printf("blkdebug: Resuming request '%s'\n", r.tag);
--    }
--
--    g_free(r.tag);
  }
  
- static bool process_rule(BlockDriverState *bs, struct BlkdebugRule *rule,
-@@ -875,8 +870,18 @@ static int resume_req_by_tag(BDRVBlkdebugState *s, const char *tag, bool all)
- retry:
-     QLIST_FOREACH(r, &s->suspended_reqs, next) {
-         if (!strcmp(r->tag, tag)) {
-+            Coroutine *co = r->co;
-+
-+            if (!qtest_enabled()) {
-+                printf("blkdebug: Resuming request '%s'\n", r->tag);
-+            }
-+
-             QLIST_REMOVE(r, next);
--            qemu_coroutine_enter(r->co);
-+            g_free(r->tag);
-+            g_free(r);
-+
-+            qemu_coroutine_enter(co);
-+
-             if (all) {
-                 goto retry;
-             }
+-static bool process_rule(BlockDriverState *bs, struct BlkdebugRule *rule,
+-    bool injected)
++static void process_rule(BlockDriverState *bs, struct BlkdebugRule *rule,
++                         int *action_count)
+ {
+     BDRVBlkdebugState *s = bs->opaque;
+ 
+     /* Only process rules for the current state */
+     if (rule->state && rule->state != s->state) {
+-        return injected;
++        return;
+     }
+ 
+     /* Take the action */
++    action_count[rule->action]++;
+     switch (rule->action) {
+     case ACTION_INJECT_ERROR:
+-        if (!injected) {
++        if (action_count[ACTION_INJECT_ERROR] == 1) {
+             QSIMPLEQ_INIT(&s->active_rules);
+-            injected = true;
+         }
+         QSIMPLEQ_INSERT_HEAD(&s->active_rules, rule, active_next);
+         break;
+@@ -819,21 +820,19 @@ static bool process_rule(BlockDriverState *bs, struct BlkdebugRule *rule,
+         suspend_request(bs, rule);
+         break;
+     }
+-    return injected;
+ }
+ 
+ static void blkdebug_debug_event(BlockDriverState *bs, BlkdebugEvent event)
+ {
+     BDRVBlkdebugState *s = bs->opaque;
+     struct BlkdebugRule *rule, *next;
+-    bool injected;
++    int actions_count[ACTION__MAX] = { 0 };
+ 
+     assert((int)event >= 0 && event < BLKDBG__MAX);
+ 
+-    injected = false;
+     s->new_state = s->state;
+     QLIST_FOREACH_SAFE(rule, &s->rules[event], next, next) {
+-        injected = process_rule(bs, rule, injected);
++        process_rule(bs, rule, actions_count);
+     }
+     s->state = s->new_state;
+ }
 -- 
 2.30.2
 
