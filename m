@@ -2,64 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC29C382994
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 12:13:25 +0200 (CEST)
-Received: from localhost ([::1]:59754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E33938299A
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 12:15:19 +0200 (CEST)
+Received: from localhost ([::1]:34176 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1liaFY-0004sp-Mq
-	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 06:13:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42982)
+	id 1liaHO-0006eb-NT
+	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 06:15:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42984)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lia8J-0004kv-6f; Mon, 17 May 2021 06:05:56 -0400
-Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:37808)
+ id 1lia8J-0004kx-6z; Mon, 17 May 2021 06:05:56 -0400
+Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:43975)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lia8H-0001eM-2p; Mon, 17 May 2021 06:05:54 -0400
-Received: by mail-ej1-x636.google.com with SMTP id et19so1238848ejc.4;
- Mon, 17 May 2021 03:05:51 -0700 (PDT)
+ id 1lia8H-0001eR-Ei; Mon, 17 May 2021 06:05:54 -0400
+Received: by mail-ej1-x62f.google.com with SMTP id l4so8288016ejc.10;
+ Mon, 17 May 2021 03:05:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=NzsmSw0im+jZi3pBSWvhIDCfGwwRb47dYmbnqAOnC5Q=;
- b=RTQD7GMcca8wBI4Mr1hCtO6cbJRU/POjRzxvtKspE1xh19ivryqBi7xBHiRaa/aPQ0
- QakUmsAe2NoQcP1VuRFNtouqsCOsNWZTzZVtn3CHncg4zc+KPU1u2e0SQmoisUavOSvF
- nho775VniAREzWspu+buE5NyPJ9xhKtU7Bh8ZcvuRzgAasOo9E8yMqSJ9k+3dwL7Bgry
- 4qSjGLfkDcWGQXGbBsszR5OQ6sZLff51MJCRB8JiG5jPoqyIfJQUQaIcJCJiLEcnqZwS
- Wr1ZWc2fGWkyjYPH0SOms7fRoqe1bhYEB5rJ2Nrp2Qlc2OLNv3jrzO5kHkedCaRFb+bc
- t76A==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=GBqTDXA9Nz0xhg9QJ+rdI3aq/c/Qwf8zhyPVSPAzEfk=;
+ b=MA0f/9tP/l2sJdo1WEY4KtnChAhryCR6i3xLTi/9twLM6sFrExYO0SKkCxBGR9zwxj
+ dfToVJjJaaXCmjFnTwNw9GnjdBMFzqA6Wo1aIZwTZ5gxf8Cq8uc/EV6NDmz3N6OURk6v
+ 8/ZZ+NSCezOSi/ZfvNpQEsFz3fRr05SnRG1HgBozRo/U7HOLxiwFN+8FrKzndH2s3w7F
+ U1KgNFy8ns1PvZspuR1HWHmLVBs+n836ZeRfKDWJT5fUGDSr/DMdCJAHB8VpUYNLlRHQ
+ +rOEbouRYCix5KTS09Cjp5VMxbS/uBHw3x8EScBw79LYvKE5/tRxQbmCIfgxeB9g++HS
+ A3Kg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=NzsmSw0im+jZi3pBSWvhIDCfGwwRb47dYmbnqAOnC5Q=;
- b=LcOhHlK9wMbartb4BCS9Qd/Cy7C8IFOepZ5/yu+HUpS7K2bUD189E3Me5OOZFyj8Fq
- NQ5hlpBv+BZip2uBBDQ3Vzerheeoib1UVjI/uwIB4gwZSyR//MX3KiRsDJmrgr2L0s6n
- B++eMCCdU1XPcQkRWaP5b7vVx1cdA4gQ5ANdU/TJQGDxi43JUcbEX1+hhr4crOyWed+6
- XoSqPRbocQ9q3xYdXeHpe75S/+E5V+lHSLQx7JOlE1bbyRV4s/mY2NQpeyOjOdhSMAYT
- yLAKyx6LG5Xyqntv1l8I6S7XHawZY39yYo1ZWdy5ycKFm1TyfOhC1TBCdYXQMkq7cVqt
- Zj2w==
-X-Gm-Message-State: AOAM531eBHinT/oB+3mSrYzZF/m2/pYSSM6kSiY7nCof51turYqYajAX
- p32T2lPatryWE3nHoB3RNnYDsMXCi86c+Q==
-X-Google-Smtp-Source: ABdhPJwcul9tmqqGssEwrISocpfdAWqsxAlLR0zwHp7PCaxEVkT9yhU0TCDGdcaDiR1PoyDuuD10zQ==
-X-Received: by 2002:a17:907:7b9f:: with SMTP id
- ne31mr61826723ejc.139.1621245950517; 
- Mon, 17 May 2021 03:05:50 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=GBqTDXA9Nz0xhg9QJ+rdI3aq/c/Qwf8zhyPVSPAzEfk=;
+ b=rgunenQ48p2sqt0BSh/vcoVu7PsNDaRr9mQD2hFSDa91YRhvU6Ul8z382w3lNplRhh
+ r1lBtWUbTFJjdDFc85KtuLmahVLHrit3Rh/QL7I8qOmFFEjeJIuh/9xKvuGgoaRxX4Ev
+ yopmbpcnQTm1lwhWt+VdZ4p+8eGJHL3xasNVV3B863kb/GV5alPsFeaG9RwwDwhAxMKJ
+ wJddc92ptYdmofo4N/53AUMUkuMPR5LoC5qVzCgdjxcZvUgoJp3MzGTUFYdXHSHe9br4
+ JDRfsjPANSM2pelIndnkhW0nISS7/82olNn5iehZ5KjxLAowWbN9KY5WNih48gjURLRx
+ g/Ng==
+X-Gm-Message-State: AOAM532vrA9DKuAlWoCm6AnmdwRL12b9frk9BR2f6wvj+38fpZMtkN4y
+ mqRXGjzuvF64TA2xNCrzi2g16UL5AcUYSw==
+X-Google-Smtp-Source: ABdhPJzvFpGGcbDUqh/hJJYPYn6SIFX33ETmfd1QfmsjB1AgfF2NFusyStSR4WAHizZzeOGHBV8RAQ==
+X-Received: by 2002:a17:907:9715:: with SMTP id
+ jg21mr17108641ejc.52.1621245951480; 
+ Mon, 17 May 2021 03:05:51 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
- by smtp.gmail.com with ESMTPSA id h9sm10659926ede.93.2021.05.17.03.05.49
+ by smtp.gmail.com with ESMTPSA id h9sm10659926ede.93.2021.05.17.03.05.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 May 2021 03:05:50 -0700 (PDT)
+ Mon, 17 May 2021 03:05:51 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/6] coroutine: new sleep/wake API
-Date: Mon, 17 May 2021 12:05:42 +0200
-Message-Id: <20210517100548.28806-1-pbonzini@redhat.com>
+Subject: [PATCH v2 1/6] coroutine-sleep: use a stack-allocated timer
+Date: Mon, 17 May 2021 12:05:43 +0200
+Message-Id: <20210517100548.28806-2-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210517100548.28806-1-pbonzini@redhat.com>
+References: <20210517100548.28806-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::636;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x636.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62f.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -85,36 +87,67 @@ Cc: eesposit@redhat.com, vsementsov@virtuozzo.com, stefanha@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a revamp of the qemu_co_sleep* API that makes it easier to
-extend the API: the state that is needed to wake up a coroutine is now
-part of the public API instead of hidden behind a pointer-to-pointer;
-the API is made more extensible by pushing the rest of QemuCoSleepState
-into local variables.
+The lifetime of the timer is well-known (it cannot outlive
+qemu_co_sleep_ns_wakeable, because it's deleted by the time the
+coroutine resumes), so it is not necessary to place it on the heap.
 
-In the future, this will be extended to introduce a prepare/sleep/cancel
-API similar to Linux's prepare_to_wait/schedule/finish_wait functions.
-For now, this is just a nice refactoring.
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ util/qemu-coroutine-sleep.c | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
-Paolo
-
-v1->v2: comment and commit message updates in patches 3, 5 and 6
-
-Paolo Bonzini (6):
-  coroutine-sleep: use a stack-allocated timer
-  coroutine-sleep: disallow NULL QemuCoSleepState** argument
-  coroutine-sleep: allow qemu_co_sleep_wake that wakes nothing
-  coroutine-sleep: move timer out of QemuCoSleepState
-  coroutine-sleep: replace QemuCoSleepState pointer with struct in the
-    API
-  coroutine-sleep: introduce qemu_co_sleep
-
- block/block-copy.c          | 10 ++---
- block/nbd.c                 | 14 +++----
- include/qemu/coroutine.h    | 27 ++++++++-----
- util/qemu-coroutine-sleep.c | 75 +++++++++++++++++++------------------
- 4 files changed, 64 insertions(+), 62 deletions(-)
-
+diff --git a/util/qemu-coroutine-sleep.c b/util/qemu-coroutine-sleep.c
+index 8c4dac4fd7..eec6e81f3f 100644
+--- a/util/qemu-coroutine-sleep.c
++++ b/util/qemu-coroutine-sleep.c
+@@ -21,7 +21,7 @@ static const char *qemu_co_sleep_ns__scheduled = "qemu_co_sleep_ns";
+ 
+ struct QemuCoSleepState {
+     Coroutine *co;
+-    QEMUTimer *ts;
++    QEMUTimer ts;
+     QemuCoSleepState **user_state_pointer;
+ };
+ 
+@@ -35,7 +35,7 @@ void qemu_co_sleep_wake(QemuCoSleepState *sleep_state)
+     if (sleep_state->user_state_pointer) {
+         *sleep_state->user_state_pointer = NULL;
+     }
+-    timer_del(sleep_state->ts);
++    timer_del(&sleep_state->ts);
+     aio_co_wake(sleep_state->co);
+ }
+ 
+@@ -50,7 +50,6 @@ void coroutine_fn qemu_co_sleep_ns_wakeable(QEMUClockType type, int64_t ns,
+     AioContext *ctx = qemu_get_current_aio_context();
+     QemuCoSleepState state = {
+         .co = qemu_coroutine_self(),
+-        .ts = aio_timer_new(ctx, type, SCALE_NS, co_sleep_cb, &state),
+         .user_state_pointer = sleep_state,
+     };
+ 
+@@ -63,10 +62,11 @@ void coroutine_fn qemu_co_sleep_ns_wakeable(QEMUClockType type, int64_t ns,
+         abort();
+     }
+ 
++    aio_timer_init(ctx, &state.ts, type, SCALE_NS, co_sleep_cb, &state);
+     if (sleep_state) {
+         *sleep_state = &state;
+     }
+-    timer_mod(state.ts, qemu_clock_get_ns(type) + ns);
++    timer_mod(&state.ts, qemu_clock_get_ns(type) + ns);
+     qemu_coroutine_yield();
+     if (sleep_state) {
+         /*
+@@ -75,5 +75,4 @@ void coroutine_fn qemu_co_sleep_ns_wakeable(QEMUClockType type, int64_t ns,
+          */
+         assert(*sleep_state == NULL);
+     }
+-    timer_free(state.ts);
+ }
 -- 
 2.31.1
+
 
 
