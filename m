@@ -2,70 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EB733822F0
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 04:53:57 +0200 (CEST)
-Received: from localhost ([::1]:48496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F41563822F2
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 04:56:01 +0200 (CEST)
+Received: from localhost ([::1]:52060 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1liTOG-0002l9-Dv
-	for lists+qemu-devel@lfdr.de; Sun, 16 May 2021 22:53:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52386)
+	id 1liTQH-00059g-3L
+	for lists+qemu-devel@lfdr.de; Sun, 16 May 2021 22:56:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52614)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1liTMw-0001OW-B6; Sun, 16 May 2021 22:52:36 -0400
-Received: from mail-yb1-xb36.google.com ([2607:f8b0:4864:20::b36]:36467)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1liTMt-0001gk-IN; Sun, 16 May 2021 22:52:34 -0400
-Received: by mail-yb1-xb36.google.com with SMTP id m9so6595009ybm.3;
- Sun, 16 May 2021 19:52:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=yuG0lKhKVaXDK5gD/3lNWmSgzpwAlgg/q+RSd8dj0jM=;
- b=YJOYeMgBWfiBei1gzM5FU5sbauALpWBxmo00sNxOZI4UXyGeUi7tcSW2XqJR45kQ8E
- KevgCiy7b2/C7ZCFE64yjAOz9FuePX1nzuX/S9esi3qjU5AJAMKPqjFVc8QIJoNl7yYL
- zDEmCIaY3BqxB6WFAFhicFlm5ctzcJVilH7yw+CKDJwM+PZGPswA28utzBKoD3cgv6S0
- uyyiDy0O3f858TDy1AsMpW5KE8lgJidpM9smJLujTb7XAf/hvMbo0SHk61GXabSZjhBy
- TtC/KLmXiPloHbSFHWKD+2lqcUWlh2uLPWCHuVMBXfVvHVr+pn757VDhv0MdHjoKVOBT
- BtWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=yuG0lKhKVaXDK5gD/3lNWmSgzpwAlgg/q+RSd8dj0jM=;
- b=B6pG1I4cVvRm9oNBzPcJnPa/aPTz/X6ihFbRGOTRkqh+uOCZFDXuvAh72qInuFQGAQ
- Qg/9ZSJNBI8V5NaKsHL6it4G+bVgTJtyeSasiCfDBzP+NibXtKHG58C6pBFr7pVFrYRy
- 6x1prv5DAcD1B/OZSU2fGTxBgmh4q/jlYMDoDw16sgq0YADCb/g1zoBbzUadlEmjr19D
- oOLszIOr4Zm1ddBNducHkO5315HQGaVwbYRw6vmK54Y9L8LZPzmzGXQKMtkEMWCZXUAm
- YJJoA/qkEnX/Ega66hBS++HfuhkWPjks8nAQ9O6E/+Z4S0kB0f/DKTSZGwpvBektbeLf
- zfTw==
-X-Gm-Message-State: AOAM53262SX34+0FpamDn6wkIt+3YkLSyU06Xm7rmteMjyDN86Yc72Sr
- gyUaIoHKALEUEzSfRYHJC9KgfgzjfnS4a77TJuw=
-X-Google-Smtp-Source: ABdhPJy6g4nrzP/CSNl3mzFrWdd0N6TZVSxlnc2ficb7LVIyqYkyJtES+wHXJH8nAG9NkbNsAh8NQa2zTe6XRr1RS8Q=
-X-Received: by 2002:a05:6902:1543:: with SMTP id
- r3mr46664668ybu.332.1621219949662; 
- Sun, 16 May 2021 19:52:29 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210515173716.358295-1-philmd@redhat.com>
- <20210515173716.358295-12-philmd@redhat.com>
-In-Reply-To: <20210515173716.358295-12-philmd@redhat.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Mon, 17 May 2021 10:52:18 +0800
-Message-ID: <CAEUhbmUTkX_zAO5VdMjxrFj+PF1Vp9y2ffW6mkrrNLWEKFvHAA@mail.gmail.com>
-Subject: Re: [PATCH v2 11/12] hw/isa/vt82c686: Add missing Kconfig dependency
- (runtime error)
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b36;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb36.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ (Exim 4.90_1) (envelope-from <maobibo@loongson.cn>)
+ id 1liTOG-0003JK-P5
+ for qemu-devel@nongnu.org; Sun, 16 May 2021 22:53:56 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:59306 helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <maobibo@loongson.cn>) id 1liTOE-0002Md-By
+ for qemu-devel@nongnu.org; Sun, 16 May 2021 22:53:56 -0400
+Received: from kvm-dev1.localdomain (unknown [10.2.5.134])
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxL++12qFg4v0XAA--.20402S2; 
+ Mon, 17 May 2021 10:53:42 +0800 (CST)
+From: Bibo Mao <maobibo@loongson.cn>
+To: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: [PATCH] include/qemu/bswap.h: using atomic memory load/store for word
+ access
+Date: Mon, 17 May 2021 10:53:41 +0800
+Message-Id: <1621220021-17199-1-git-send-email-maobibo@loongson.cn>
+X-Mailer: git-send-email 1.8.3.1
+X-CM-TRANSID: AQAAf9DxL++12qFg4v0XAA--.20402S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7Kr47trWkKF4DJFW7Wr18AFb_yoW5JFWfpa
+ 15Cr42qw4UAFyxAr4xJF98A343Zwn7Kry5GayYk3WkXF15ArWvq34YyFW8XryrG3yIkryY
+ vaykGFyrWFsxXaUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUkFb7Iv0xC_Kw4lb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I2
+ 0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
+ A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xII
+ jxv20xvEc7CjxVAFwI0_Cr0_Gr1UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4
+ vEx4A2jsIEc7CjxVAFwI0_Cr1j6rxdM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVAC
+ Y4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJV
+ W8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lc2xSY4AK6svPMxAIw28I
+ cxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2
+ IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUXVWUAwCIc40Y0x0EwIxGrwCI
+ 42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42
+ IY6xAIw20EY4v20xvaj40_WFyUJVCq3wCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E
+ 87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x07bOoGdUUUUU=
+X-CM-SenderInfo: xpdruxter6z05rqj20fqof0/
+Received-SPF: pass client-ip=114.242.206.163; envelope-from=maobibo@loongson.cn;
+ helo=loongson.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,88 +65,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Bin Meng <bin.meng@windriver.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- qemu-arm <qemu-arm@nongnu.org>, Alistair Francis <alistair.francis@wdc.com>,
- Paolo Bonzini <pbonzini@redhat.com>, qemu-ppc <qemu-ppc@nongnu.org>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, May 16, 2021 at 1:46 AM Philippe Mathieu-Daud=C3=A9
-<philmd@redhat.com> wrote:
->
-> From: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
->
-> When building the Pegasos2 machine stand-alone we get:
->
->   $ qemu-system-ppc -M pegasos2 -bios pegasos2.rom
->   ERROR:qom/object.c:714:object_new_with_type: assertion failed: (type !=
-=3D NULL)
->   Bail out! ERROR:qom/object.c:714:object_new_with_type: assertion failed=
-: (type !=3D NULL)
->
-> Looking at the backtrace:
->
->   Thread 1 "qemu-system-ppc" received signal SIGABRT, Aborted.
->   (gdb) bt
->   #0  0x00007ffff53877d5 in raise () at /lib64/libc.so.6
->   #1  0x00007ffff5370895 in abort () at /lib64/libc.so.6
->   #2  0x00007ffff6dc4b6c in g_assertion_message_expr.cold () at /lib64/li=
-bglib-2.0.so.0
->   #3  0x00007ffff6e229ff in g_assertion_message_expr () at /lib64/libglib=
--2.0.so.0
->   #4  0x0000555555a0c8f4 in object_new_with_type (type=3D0x0) at qom/obje=
-ct.c:714
->   #5  0x0000555555a0c9d5 in object_new (typename=3D0x555555c7afe4 "isa-pi=
-t") at qom/object.c:747
->   #6  0x0000555555a053b8 in qdev_new (name=3D0x555555c7afe4 "isa-pit") at=
- hw/core/qdev.c:153
->   #7  0x00005555557cdd05 in isa_new (name=3D0x555555c7afe4 "isa-pit") at =
-hw/isa/isa-bus.c:160
->   #8  0x00005555557cf518 in i8254_pit_init (bus=3D0x55555603d140, base=3D=
-64, isa_irq=3D0, alt_irq=3D0x0) at include/hw/timer/i8254.h:54
->   #9  0x00005555557d12f9 in vt8231_realize (d=3D0x5555563d9770, errp=3D0x=
-7fffffffcc28) at hw/isa/vt82c686.c:704
->   #10 0x00005555557e1340 in pci_qdev_realize (qdev=3D0x5555563d9770, errp=
-=3D0x7fffffffcca0) at hw/pci/pci.c:2116
->   #11 0x0000555555a06a84 in device_set_realized (obj=3D0x5555563d9770, va=
-lue=3Dtrue, errp=3D0x7fffffffcda8) at hw/core/qdev.c:761
->   #12 0x0000555555a0ff9e in property_set_bool (obj=3D0x5555563d9770, v=3D=
-0x5555563da090, name=3D0x555555cd7881 "realized", opaque=3D0x5555560acf80, =
-errp=3D0x7fffffffcda8) at qom/object.c:2257
->   #13 0x0000555555a0e098 in object_property_set (obj=3D0x5555563d9770, na=
-me=3D0x555555cd7881 "realized", v=3D0x5555563da090, errp=3D0x555555fc3fa0 <=
-error_fatal>) at qom/object.c:1402
->   #14 0x0000555555a12271 in object_property_set_qobject (obj=3D0x5555563d=
-9770, name=3D0x555555cd7881 "realized", value=3D0x5555563cf0a0, errp=3D0x55=
-5555fc3fa0 <error_fatal>) at qom/qom-qobject.c:28
->   #15 0x0000555555a0e3fb in object_property_set_bool (obj=3D0x5555563d977=
-0, name=3D0x555555cd7881 "realized", value=3Dtrue, errp=3D0x555555fc3fa0 <e=
-rror_fatal>) at qom/object.c:1472
->   #16 0x0000555555a05b15 in qdev_realize (dev=3D0x5555563d9770, bus=3D0x5=
-555563d32b0, errp=3D0x555555fc3fa0 <error_fatal>) at hw/core/qdev.c:389
->   #17 0x0000555555a05b42 in qdev_realize_and_unref (dev=3D0x5555563d9770,=
- bus=3D0x5555563d32b0, errp=3D0x555555fc3fa0 <error_fatal>) at hw/core/qdev=
-.c:396
->   #18 0x00005555557e160f in pci_realize_and_unref (dev=3D0x5555563d9770, =
-bus=3D0x5555563d32b0, errp=3D0x555555fc3fa0 <error_fatal>) at hw/pci/pci.c:=
-2181
->   #19 0x00005555557e165b in pci_create_simple_multifunction (bus=3D0x5555=
-563d32b0, devfn=3D96, multifunction=3Dtrue, name=3D0x555555c9b63b "vt8231-i=
-sa") at hw/pci/pci.c:2189
->   #20 0x0000555555867730 in pegasos2_init (machine=3D0x5555560427a0) at h=
-w/ppc/pegasos2.c:105
->
-> The "isa-pit" type (TYPE_I8254) is missing. Add it.
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> ---
->  hw/isa/Kconfig | 1 +
->  1 file changed, 1 insertion(+)
->
+virtio ring buffer has lockless ring buffer scheme. When guest vcpu
+reads the memory, qemu io thread may is writing the same address.
+It requiires atomic operation in qemu side, __builtin_memcpy may
+read byte-by-byte.
 
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+This patch uses fix this, however it may bring negative performance
+effect on system which does not support hw aligned memory access.
+
+Signed-off-by: Bibo Mao <maobibo@loongson.cn>
+---
+ include/qemu/bswap.h | 34 ++++++++++++----------------------
+ 1 file changed, 12 insertions(+), 22 deletions(-)
+
+diff --git a/include/qemu/bswap.h b/include/qemu/bswap.h
+index 2d3bb8b..b914d33 100644
+--- a/include/qemu/bswap.h
++++ b/include/qemu/bswap.h
+@@ -327,56 +327,46 @@ static inline void stb_p(void *ptr, uint8_t v)
+ }
+ 
+ /*
+- * Any compiler worth its salt will turn these memcpy into native unaligned
+- * operations.  Thus we don't need to play games with packed attributes, or
+- * inline byte-by-byte stores.
+- * Some compilation environments (eg some fortify-source implementations)
+- * may intercept memcpy() in a way that defeats the compiler optimization,
+- * though, so we use __builtin_memcpy() to give ourselves the best chance
+- * of good performance.
++ * Some driver using lockless ring buffer like virtio ring requires that
++ * it should be atomic, since guest vcpu thread is reading the memory.
++ * It may bring out negative performance effect for architectures which
++ * do not support hw memory aligned access like mips, if ptr is not word
++ * alignment.
+  */
+ 
+ static inline int lduw_he_p(const void *ptr)
+ {
+-    uint16_t r;
+-    __builtin_memcpy(&r, ptr, sizeof(r));
+-    return r;
++    return *(uint16_t *)ptr;
+ }
+ 
+ static inline int ldsw_he_p(const void *ptr)
+ {
+-    int16_t r;
+-    __builtin_memcpy(&r, ptr, sizeof(r));
+-    return r;
++    return *(int16_t *)ptr;
+ }
+ 
+ static inline void stw_he_p(void *ptr, uint16_t v)
+ {
+-    __builtin_memcpy(ptr, &v, sizeof(v));
++    *(uint16_t *)ptr = v;
+ }
+ 
+ static inline int ldl_he_p(const void *ptr)
+ {
+-    int32_t r;
+-    __builtin_memcpy(&r, ptr, sizeof(r));
+-    return r;
++    return *(int32_t *)ptr;
+ }
+ 
+ static inline void stl_he_p(void *ptr, uint32_t v)
+ {
+-    __builtin_memcpy(ptr, &v, sizeof(v));
++    *(uint32_t *)ptr = v;
+ }
+ 
+ static inline uint64_t ldq_he_p(const void *ptr)
+ {
+-    uint64_t r;
+-    __builtin_memcpy(&r, ptr, sizeof(r));
+-    return r;
++    return *(uint64_t *)ptr;
+ }
+ 
+ static inline void stq_he_p(void *ptr, uint64_t v)
+ {
+-    __builtin_memcpy(ptr, &v, sizeof(v));
++    *(uint64_t *)ptr = v;
+ }
+ 
+ static inline int lduw_le_p(const void *ptr)
+-- 
+1.8.3.1
+
 
