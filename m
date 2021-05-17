@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B551383521
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 17:19:32 +0200 (CEST)
-Received: from localhost ([::1]:39218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DCB0383528
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 17:22:13 +0200 (CEST)
+Received: from localhost ([::1]:47928 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lif1m-0000aG-T1
-	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 11:19:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42340)
+	id 1lif4N-0006Xt-QC
+	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 11:22:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42464)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1liezs-0006GF-Nx
- for qemu-devel@nongnu.org; Mon, 17 May 2021 11:17:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45256)
+ id 1lif07-0006Vg-IQ
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 11:17:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25474)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1liezi-0005k6-6Q
- for qemu-devel@nongnu.org; Mon, 17 May 2021 11:17:32 -0400
+ id 1liezy-0005rh-3s
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 11:17:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621264635;
+ s=mimecast20190719; t=1621264657;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YRtj/MIFXCXExL9Ta6eUfNBqXs37N+8Kk58C8d0sUJ4=;
- b=NxvUHg138/wiikNTtpckIyKB/UgfaNC4fa7/W+BfEGykaFeCeaSKs4mEkveD9OK53xy7ei
- W3QUfy8XzEHqJD1+Ki93tkOrUNyFUUOQrEdHMpxuAnLCcN9/I4NKFUEZvmEZcmUze1OUxB
- dvMXLQePo/n59GU+h78h4uXEHnrHSs4=
+ bh=r6cuS1ZwhiFq5N20uJS8erQ/j1/TQVY3BrX2Gc4v6rM=;
+ b=TFHqgNEhjGtpDUS10F/a8tD7WXXt/b4dXDSh7k4yTphlTs7cVT8dNvp0NS5n6OMcf2Vgsp
+ rdG3Usp85qBb8GHp+zXFxc7/ESicFSWnaK6wMuYWUY+F7iKr56ZvcHXHKrLW4NFON9ii8d
+ VNCwReaD2FniQszEcezCNcANoHKjrwY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-127-caM0Qq3eNIWT3RQnF8OAbQ-1; Mon, 17 May 2021 11:17:13 -0400
-X-MC-Unique: caM0Qq3eNIWT3RQnF8OAbQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-153-NAiwmRx6OnCPQbUrwBlIzQ-1; Mon, 17 May 2021 11:17:35 -0400
+X-MC-Unique: NAiwmRx6OnCPQbUrwBlIzQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 119368AB380;
- Mon, 17 May 2021 15:17:12 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D8B22107ACC7;
+ Mon, 17 May 2021 15:17:34 +0000 (UTC)
 Received: from steredhat.redhat.com (ovpn-115-84.ams2.redhat.com
  [10.36.115.84])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 548F95C1D1;
- Mon, 17 May 2021 15:17:10 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2E30F60BE5;
+ Mon, 17 May 2021 15:17:33 +0000 (UTC)
 From: Stefano Garzarella <sgarzare@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 3/5] docs: fix references to docs/devel/build-system.rst
-Date: Mon, 17 May 2021 17:17:00 +0200
-Message-Id: <20210517151702.109066-4-sgarzare@redhat.com>
+Subject: [PATCH 4/5] docs: fix references to docs/specs/tpm.rst
+Date: Mon, 17 May 2021 17:17:01 +0200
+Message-Id: <20210517151702.109066-5-sgarzare@redhat.com>
 In-Reply-To: <20210517151702.109066-1-sgarzare@redhat.com>
 References: <20210517151702.109066-1-sgarzare@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=sgarzare@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
@@ -66,7 +66,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.374,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,46 +87,45 @@ Cc: "Daniel P . Berrange" <berrange@redhat.com>, qemu-trivial@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit a14f0bf165 ("docs: convert build system documentation to rST")
-converted docs/devel/build-system.txt to docs/devel/build-system.rst.
+Commit 6e8a3ff6ed ("docs/specs/tpm: reST-ify TPM documentation")
+converted docs/specs/tpm.txt to docs/specs/tpm.rst.
 
 We still have several references to the old file, so let's fix them
 with the following command:
 
-  sed -i s/build-system.txt/build-system.rst/ \
-      $(git grep -l docs/devel/build-system.txt)
+  sed -i s/tpm.txt/tpm.rst/ $(git grep -l docs/specs/tpm.txt)
 
 Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
 ---
- MAINTAINERS                   | 2 +-
- tests/qapi-schema/meson.build | 2 +-
+ hw/acpi/tpm.c    | 2 +-
+ hw/tpm/tpm_ppi.c | 2 +-
  2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index c9ab4c0f63..d74b26b8b6 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -3355,7 +3355,7 @@ Documentation
- Build system architecture
- M: Daniel P. Berrange <berrange@redhat.com>
- S: Odd Fixes
--F: docs/devel/build-system.txt
-+F: docs/devel/build-system.rst
+diff --git a/hw/acpi/tpm.c b/hw/acpi/tpm.c
+index b96459e45b..cdc0227536 100644
+--- a/hw/acpi/tpm.c
++++ b/hw/acpi/tpm.c
+@@ -57,7 +57,7 @@ void tpm_build_ppi_acpi(TPMIf *tpm, Aml *dev)
+                aml_operation_region(
+                    "TPP3", AML_SYSTEM_MEMORY,
+                    aml_int(TPM_PPI_ADDR_BASE +
+-                           0x15a /* movv, docs/specs/tpm.txt */),
++                           0x15a /* movv, docs/specs/tpm.rst */),
+                            0x1));
+     field = aml_field("TPP3", AML_BYTE_ACC, AML_NOLOCK, AML_PRESERVE);
+     aml_append(field, aml_named_field("MOVV", 8));
+diff --git a/hw/tpm/tpm_ppi.c b/hw/tpm/tpm_ppi.c
+index 72d7a3d926..362edcc5c9 100644
+--- a/hw/tpm/tpm_ppi.c
++++ b/hw/tpm/tpm_ppi.c
+@@ -23,7 +23,7 @@
  
- GIT Data Mining Config
- M: Alex Bennée <alex.bennee@linaro.org>
-diff --git a/tests/qapi-schema/meson.build b/tests/qapi-schema/meson.build
-index d7163e6601..d96a300439 100644
---- a/tests/qapi-schema/meson.build
-+++ b/tests/qapi-schema/meson.build
-@@ -202,7 +202,7 @@ schemas = [
- 
- # Because people may want to use test-qapi.py from the command line, we
- # are not using the "#! /usr/bin/env python3" trick here.  See
--# docs/devel/build-system.txt
-+# docs/devel/build-system.rst
- test('QAPI schema regression tests', python, args: files('test-qapi.py', schemas),
-      env: test_env, suite: ['qapi-schema', 'qapi-frontend'])
+ void tpm_ppi_reset(TPMPPI *tpmppi)
+ {
+-    if (tpmppi->buf[0x15a /* movv, docs/specs/tpm.txt */] & 0x1) {
++    if (tpmppi->buf[0x15a /* movv, docs/specs/tpm.rst */] & 0x1) {
+         GuestPhysBlockList guest_phys_blocks;
+         GuestPhysBlock *block;
  
 -- 
 2.31.1
