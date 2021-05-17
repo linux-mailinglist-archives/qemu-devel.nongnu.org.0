@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05D6F382894
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 11:42:04 +0200 (CEST)
-Received: from localhost ([::1]:40834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC6BC382889
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 11:39:51 +0200 (CEST)
+Received: from localhost ([::1]:37180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1liZlB-0005hq-9B
-	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 05:42:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33594)
+	id 1liZj4-0002zv-Mu
+	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 05:39:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1liZOZ-0003qg-7C; Mon, 17 May 2021 05:18:39 -0400
-Received: from wout1-smtp.messagingengine.com ([64.147.123.24]:55855)
+ id 1liZOf-0003vh-KW; Mon, 17 May 2021 05:18:45 -0400
+Received: from wout1-smtp.messagingengine.com ([64.147.123.24]:43637)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1liZOV-00062L-4H; Mon, 17 May 2021 05:18:39 -0400
+ id 1liZOa-00066a-UC; Mon, 17 May 2021 05:18:45 -0400
 Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.west.internal (Postfix) with ESMTP id EC624250;
- Mon, 17 May 2021 05:18:32 -0400 (EDT)
+ by mailout.west.internal (Postfix) with ESMTP id BEA9569B;
+ Mon, 17 May 2021 05:18:38 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Mon, 17 May 2021 05:18:33 -0400
+ by compute3.internal (MEProxy); Mon, 17 May 2021 05:18:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=V+C+Irr1AuKQr
- MDUB2CMPebw7TPRfqS9QhhcGN1IzzY=; b=f+f41HKg7TMYWhJXOAFdaWJUJ6SOD
- 1Ne2X0S9LZ9kKebPoHMamKLKtX3yFSsYY5kVd8Le2ojWmBKBVIT0T06ppG39ulJm
- 5rsV+QxN8UzvoNr7gd3U1MDDqpB9uKtV6gBUrZgs8cTr/kIfhY5AGoIyyyWM74Z0
- Z5BbPuSGbPZWxvL5bdVa+aupzN/+AlK4m5BmuoGMm9GULgwwiSM9xXQYd7YZxfFc
- 2Wtcc/3LSN4YKFQcwAS3nqQPTdxrFbQPycYVe59NfzA7jdW1Bp5WF6J8aF+J8xPE
- 4PDRojbtBUVImwpTV2krZHTNrUCyYbn+EvVsp1kUywyoN9voIld9A2UgA==
+ :mime-version:content-transfer-encoding; s=fm3; bh=7OmYgoJTlIydJ
+ GN2Pi3EGX9pMYR+k1maUIL5Jxiw1fc=; b=jpuwCCcvWDDzKs429J+80ezvmV35W
+ QKaZob3y0ygw8uEV+LMtcHEsM6T/YF3e6bsNN6ayDLhWblyjqM5OvEttBg3IDz/T
+ kyPoRvjGYivJEDoYXJRxhbMt6VMlXQZpDF7cHqLDl+d9MePrH43dXMx8d6DpIXfg
+ MngFI5cU8AuKmQi5ls5fSzv2BUbcUTTMXGfrEctnZTnrxGSw2G0Sqohrqoz8+NTp
+ NtdMTWJ5OD6C2yPFega4SAftlc5CTUW16TY8BcoHdWZLzhETaajkdWAYbJfGe+05
+ SUCX7QHrQT0q1jhqXoAjoEIRv8jq1qe+NsPzUKsuO5UUtC6naH0Qv/2aw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; bh=V+C+Irr1AuKQrMDUB2CMPebw7TPRfqS9QhhcGN1IzzY=; b=jzvXP7Gr
- RQ350VxeCpiUGlLpy02JkEVKpAM4e3vDyq4RRGunzP1hV1KvjcOczSV9IyYLI2qs
- 2vZ0V6uKqAtw9cyUi5isOFbzJp1y3gHFEaaAd51L3XoDvUm0KG1X86F87qSp/11x
- bqoq4ip8LkWjapofQsb6p1hETPOJ2KC3ayjwWPqIXIhmULCT0/x6GFwB1n68DF8s
- HHPD7P+7JNElk9aMVnnyScMpOvjYBbrDw82cytiTPO/FaF1ocSMJ0qGOsyzhWsS4
- UfZBshkeZ++NJyA9oY/ee94TgKVsfcWxwje5t18bmCw1imJddXBhKb1MxoEAnQuT
- oIWTN01WdDLjaA==
-X-ME-Sender: <xms:6DSiYDFeUT5YJZCXg8r5inAtWq5CVfrxUa8ryqzGA-V_L5dPs6_bug>
- <xme:6DSiYAU9Zz5dd2ydvqlgglpRWDVnoj7q8r9WQxK7OQmC4hKM9WtYhNiLnbdR4lBr_
- 35LfWF6zs4pDFAVWjw>
+ fm2; bh=7OmYgoJTlIydJGN2Pi3EGX9pMYR+k1maUIL5Jxiw1fc=; b=QxPjayUe
+ jat8TZJ9jM4eg0iVjgbu2VR1wFfUnvhBzGhOH8ryr/Elz+vJfbjaoXT/ytYujKCf
+ 7801VNwZv4NY/QSsHBrpYO3HjrLTaB2pRUHqQNpbPR2OADb6c9LOFxK4UY8M4gR7
+ 0YmLVxRTxog4QEYG9Zp7xP0+3wv3uXgIMBvqSzr0+ZnGxsMcjYeYxY/RJtYL4OrG
+ tRULq8qdE+HKsHC0oVz2HKCO4VGvKBqNHIbwQP39fvRQERRzkPgeKu3UPpmcNKKB
+ F+wO4yhVjC/0J+vdwy7twKjvQapS8IVDYZZaeq8iHdItQQslcJcscmSVtL3ybfia
+ 1JNRXq1w5fMZtA==
+X-ME-Sender: <xms:7jSiYA43eo7YH-sxvopUjh3clfAUkRTceYuKGUjEWYLqItSHz0JzYw>
+ <xme:7jSiYB4hXqTcMz1pnbA2ux89xIUFj0YEG1ObC_-9zMR7hhZXNjWgFNvujSgG2BKoJ
+ Ly3eClCUre-mODEfEk>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdeihedgudegucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefmlhgruhhs
  ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
  gvrhhnpeeuleetgeeiuefhgfekfefgveejiefgteekiedtgfdtieefhfdthfefueffvefg
- keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpeefne
+ keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpeegne
  curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:6DSiYFLRw-DLVJeccfxhQna8LN2cyBGcb1jR1MVXB0Ynnef5Le_Qsg>
- <xmx:6DSiYBE46_nlHsY7msT-FiFFRkx1cGaJxG77Wqn0ocZoUR2CxqB_Rw>
- <xmx:6DSiYJXpdWdV6wqUQ-qeOfX0dRK8oJm2qYQlWSG8rwnveqI64lK2bQ>
- <xmx:6DSiYIESXh-7bMjl2r57VKLjP2lnnyNW6qweNuJzTTIE4dR9_H_JLw>
+X-ME-Proxy: <xmx:7jSiYPdl3RCoxGCVqthted48q0lar7lXzbq0mkuhr70aL0HldiOLDw>
+ <xmx:7jSiYFLAd45NUSUYkL_S3fe-TI-JZ4Q82TZfAlcNj5A-za2BWqN5aw>
+ <xmx:7jSiYEJTouP-lQ0ii4so-Srl8GR7zUshfeOFDkBKxvb27eMUwv-CIw>
+ <xmx:7jSiYNouKqzUzhF7pdFjyiojr7SqePOeiKUGh7lGh1AdlHJNG_ZksQ>
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190]) by mail.messagingengine.com (Postfix) with ESMTPA;
- Mon, 17 May 2021 05:18:31 -0400 (EDT)
+ Mon, 17 May 2021 05:18:36 -0400 (EDT)
 From: Klaus Jensen <its@irrelevant.dk>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PULL 16/20] hw/block/nvme: streamline namespace array indexing
-Date: Mon, 17 May 2021 11:17:33 +0200
-Message-Id: <20210517091737.841787-17-its@irrelevant.dk>
+Subject: [PULL 18/20] hw/block/nvme: remove irrelevant zone resource checks
+Date: Mon, 17 May 2021 11:17:35 +0200
+Message-Id: <20210517091737.841787-19-its@irrelevant.dk>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210517091737.841787-1-its@irrelevant.dk>
 References: <20210517091737.841787-1-its@irrelevant.dk>
@@ -101,60 +101,39 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-Streamline namespace array indexing such that both the subsystem and
-controller namespaces arrays are 1-indexed.
+It is not an error to report more active/open zones supported than the
+number of zones in the namespace.
 
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 Reviewed-by: Keith Busch <kbusch@kernel.org>
 ---
- hw/block/nvme.h | 4 ++--
- hw/block/nvme.c | 4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ hw/block/nvme-ns.c | 13 -------------
+ 1 file changed, 13 deletions(-)
 
-diff --git a/hw/block/nvme.h b/hw/block/nvme.h
-index 9349d1c33ad7..ac3f0a886735 100644
---- a/hw/block/nvme.h
-+++ b/hw/block/nvme.h
-@@ -438,7 +438,7 @@ typedef struct NvmeCtrl {
-     NvmeSubsystem   *subsys;
- 
-     NvmeNamespace   namespace;
--    NvmeNamespace   *namespaces[NVME_MAX_NAMESPACES];
-+    NvmeNamespace   *namespaces[NVME_MAX_NAMESPACES + 1];
-     NvmeSQueue      **sq;
-     NvmeCQueue      **cq;
-     NvmeSQueue      admin_sq;
-@@ -460,7 +460,7 @@ static inline NvmeNamespace *nvme_ns(NvmeCtrl *n, uint32_t nsid)
-         return NULL;
+diff --git a/hw/block/nvme-ns.c b/hw/block/nvme-ns.c
+index b25838ac4fd4..008deb5e87d1 100644
+--- a/hw/block/nvme-ns.c
++++ b/hw/block/nvme-ns.c
+@@ -210,19 +210,6 @@ static int nvme_ns_zoned_check_calc_geometry(NvmeNamespace *ns, Error **errp)
+         return -1;
      }
  
--    return n->namespaces[nsid - 1];
-+    return n->namespaces[nsid];
- }
- 
- static inline NvmeCQueue *nvme_cq(NvmeRequest *req)
-diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 1db9a603f5c4..baf7b6714544 100644
---- a/hw/block/nvme.c
-+++ b/hw/block/nvme.c
-@@ -4990,7 +4990,7 @@ static uint16_t nvme_ns_attachment(NvmeCtrl *n, NvmeRequest *req)
-                 return NVME_NS_NOT_ATTACHED | NVME_DNR;
-             }
- 
--            ctrl->namespaces[nsid - 1] = NULL;
-+            ctrl->namespaces[nsid] = NULL;
-             ns->attached--;
- 
-             nvme_update_dmrsl(ctrl);
-@@ -6163,7 +6163,7 @@ void nvme_attach_ns(NvmeCtrl *n, NvmeNamespace *ns)
-     uint32_t nsid = ns->params.nsid;
-     assert(nsid && nsid <= NVME_MAX_NAMESPACES);
- 
--    n->namespaces[nsid - 1] = ns;
-+    n->namespaces[nsid] = ns;
-     ns->attached++;
- 
-     n->dmrsl = MIN_NON_ZERO(n->dmrsl,
+-    if (ns->params.max_open_zones > ns->num_zones) {
+-        error_setg(errp,
+-                   "max_open_zones value %u exceeds the number of zones %u",
+-                   ns->params.max_open_zones, ns->num_zones);
+-        return -1;
+-    }
+-    if (ns->params.max_active_zones > ns->num_zones) {
+-        error_setg(errp,
+-                   "max_active_zones value %u exceeds the number of zones %u",
+-                   ns->params.max_active_zones, ns->num_zones);
+-        return -1;
+-    }
+-
+     if (ns->params.max_active_zones) {
+         if (ns->params.max_open_zones > ns->params.max_active_zones) {
+             error_setg(errp, "max_open_zones (%u) exceeds max_active_zones (%u)",
 -- 
 2.31.1
 
