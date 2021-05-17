@@ -2,71 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 158E83822F4
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 04:56:29 +0200 (CEST)
-Received: from localhost ([::1]:53102 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8645F382301
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 05:14:08 +0200 (CEST)
+Received: from localhost ([::1]:56898 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1liTQi-0005wM-56
-	for lists+qemu-devel@lfdr.de; Sun, 16 May 2021 22:56:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52858)
+	id 1liThn-0001DV-CJ
+	for lists+qemu-devel@lfdr.de; Sun, 16 May 2021 23:14:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55804)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1liTP7-0004NK-LM; Sun, 16 May 2021 22:54:51 -0400
-Received: from mail-yb1-xb32.google.com ([2607:f8b0:4864:20::b32]:36477)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1liTP2-00033E-RU; Sun, 16 May 2021 22:54:49 -0400
-Received: by mail-yb1-xb32.google.com with SMTP id m9so6598961ybm.3;
- Sun, 16 May 2021 19:54:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=GMhgl/R2eCDhQNjEi2rHWPn0aE/8xd3gRFWeW62YlM0=;
- b=lRQV5ceC6fwDTZ+iuerEaWhNz5r3EhsWtNX8Xtv0RquNpdxS7md/DTleF3sPhDyqLO
- srLElIosnAEBKYrgVV5qA3fB7THdB6xLh0452xXAWDzTtsj/Q/bcEF/Me5dEK0wyfsRz
- zMBaeYcCdUWKbWUMmLkvOLmvjXE6ohBSVe8yaGNzzaaccrFj5TG4VUCsDF4FY3iScjCv
- F0a3WRTjJiHrC6iBauMTxlOFjF4EZdvctynI6G2m7CAPKFc90ym4uxDipUe1Ku9AXfZO
- t7vcS/M2UNcjg44eP439kwrcivBW3/2veWVTMYBRqB7nSKmlABt+Wv8O5+mXxlXYOYZ0
- b71g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=GMhgl/R2eCDhQNjEi2rHWPn0aE/8xd3gRFWeW62YlM0=;
- b=DCY/rky14/JYFTWKxzRft75alMJt71Z/I5dWareeG/miZf6JQmyF4ITaXU1iOnKrXN
- Mjm907iwE+ATrnDqlX428JVJI4r6uLx0WK/NLXHSZtSw2+gRTePjq9EDaV8H4EmCDOAu
- nykK1qEWVQEu3HxtFQVj5axCZeRCzX3ciY0RBAbopx/NaWVzXr1ZXzUOPHVbW+IPABgT
- FHvZ9OmA9w1k+eFOPXYl3AG58foqSOMHVuIaz9zGIjRXGrf/7+oQ/Mei89UE7sf2PTNQ
- ipLkZvrBEYznJWlOIIIXAzJnI4nvJpBtwiCcRF4DTt5yz/+hzLZeNAPZgoPRQB6KwVBj
- xwdA==
-X-Gm-Message-State: AOAM530EzAFOAl7pOPA5fvdei+F6zzRlx0v7JkufBHVGQH3cs+hbMRPY
- T9/lOe0EabsJFTppaYIvPh1KUnl/mzMiG5mnC6k=
-X-Google-Smtp-Source: ABdhPJyR4eGQ2C9TVsB/NIC1S1nlI3UvqsDSWhJBRCyOQaeeWu/yEsdmcCcu5qDMueS5P/IfYqV93FV+4xtm1F88MiI=
-X-Received: by 2002:a25:afcb:: with SMTP id d11mr13803572ybj.306.1621220082364; 
- Sun, 16 May 2021 19:54:42 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1liTfs-0000Io-JA; Sun, 16 May 2021 23:12:08 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:41305 helo=ozlabs.org)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1liTfp-0005c3-Qo; Sun, 16 May 2021 23:12:08 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4Fk40z3SsMz9sSn; Mon, 17 May 2021 13:11:47 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1621221107;
+ bh=OXfwjnR7pRT6hdT/QsqvHQnEcrEUrAWnbZ7I+Zm4ipg=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=fC0HbNjz2jlnyt954XX4u+Yrezf//QgpPFnMzk4buy4uNs1r3DYL96s8e10AxQVhX
+ YmjNC2A82Mci8yHoUPfTkVBuVXmC2cn+yskOyOdFUBgLkYBLB7UcrU7D3DzDy1UDcM
+ 6YjQ+ZqrEHf+lB/5g1p/gWi5vdKsQg2+hPINBq8g=
+Date: Mon, 17 May 2021 13:11:37 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Yanan Wang <wangyanan55@huawei.com>
+Subject: Re: [RFC PATCH v3 2/9] device_tree: Add qemu_fdt_add_path
+Message-ID: <YKHe6SQzmfHzGqW6@yekko>
+References: <20210516102900.28036-1-wangyanan55@huawei.com>
+ <20210516102900.28036-3-wangyanan55@huawei.com>
 MIME-Version: 1.0
-References: <20210515173716.358295-1-philmd@redhat.com>
- <20210515173716.358295-13-philmd@redhat.com>
- <e164f246-80a6-d65b-3dc-8b9cb16d0e8@eik.bme.hu>
-In-Reply-To: <e164f246-80a6-d65b-3dc-8b9cb16d0e8@eik.bme.hu>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Mon, 17 May 2021 10:54:31 +0800
-Message-ID: <CAEUhbmWpV=TycM8ndRZA3WMMeokcTdeW8tJ6FiCo4WKKPAk2BQ@mail.gmail.com>
-Subject: Re: [PATCH v2 12/12] hw/ppc/Kconfig: Add dependency PEGASOS2 ->
- ATI_VGA
-To: BALATON Zoltan <balaton@eik.bme.hu>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b32;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb32.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="8lCm3QYpvXGStkbA"
+Content-Disposition: inline
+In-Reply-To: <20210516102900.28036-3-wangyanan55@huawei.com>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,63 +58,155 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Bin Meng <bin.meng@windriver.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Greg Kurz <groug@kaod.org>, qemu-arm <qemu-arm@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>,
- Paolo Bonzini <pbonzini@redhat.com>, qemu-ppc <qemu-ppc@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Barry Song <song.bao.hua@hisilicon.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>, wanghaibin.wang@huawei.com,
+ zhukeqian1@huawei.com, qemu-devel@nongnu.org, yangyicong@huawei.com,
+ Shannon Zhao <shannon.zhaosl@gmail.com>, qemu-arm@nongnu.org,
+ Alistair Francis <alistair.francis@wdc.com>, prime.zeng@hisilicon.com,
+ Paolo Bonzini <pbonzini@redhat.com>, yuzenghui@huawei.com,
+ Igor Mammedov <imammedo@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, May 16, 2021 at 3:41 AM BALATON Zoltan <balaton@eik.bme.hu> wrote:
->
-> On Sat, 15 May 2021, Philippe Mathieu-Daud=C3=A9 wrote:
-> > From: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> >
-> > While the ATI VGA device isn't a requisite (no crash without it):
-> >
-> >  $ qemu-system-ppc -M pegasos2
-> >  qemu-system-ppc: standard VGA not available
-> >
-> > it is useful to have it with the Pegasos2 machine:
-> >
-> >  $ qemu-system-ppc -M pegasos2 -vga none -bios pegasos2.rom -device ati=
--vga,romfile=3D
-> >  qemu-system-ppc: -device ati-vga,romfile=3D: 'ati-vga' is not a valid =
-device model name
-> >
-> > Add it as an implicit Kconfig dependency.
-> >
-> > Fixes: ba7e5ac18e7 ("hw/ppc: Add emulation of Genesi/bPlan Pegasos II")
->
-> You can list it as a fix but I regard this more an enhancement or
-> amandment to that commit as it was not broken in this regard as the commi=
-t
-> message above also explains. To me Fixes tag means more that something wa=
-s
 
-Agree. This patch is more like a feature, instead of a fix. So the
-"Fixes" tag isn't appropriate.
+--8lCm3QYpvXGStkbA
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> broken in that commit that this one patches up but I don't care much abou=
-t
-> this tag. It would probably make more sense in your other commits fixing
-> missing dependencies (although not clear which commit those fix as the
-> missing dependencies were probably also missing before the latest clean
-> ups).
->
-> > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
->
-> Acked-by: BALATON Zoltan <balaton@eik.bme.hu>
+On Sun, May 16, 2021 at 06:28:53PM +0800, Yanan Wang wrote:
+> From: Andrew Jones <drjones@redhat.com>
+>=20
+> qemu_fdt_add_path() works like qemu_fdt_add_subnode(), except it
+> also adds all missing subnodes from the given path. We'll use it
+> in a coming patch where we will add cpu-map to the device tree.
+>=20
+> And we also tweak an error message of qemu_fdt_add_subnode().
+>=20
+> Cc: David Gibson <david@gibson.dropbear.id.au>
+> Cc: Alistair Francis <alistair.francis@wdc.com>
+> Signed-off-by: Andrew Jones <drjones@redhat.com>
+> Co-developed-by: Yanan Wang <wangyanan55@huawei.com>
+> Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
 
-FWIW:
+Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
 
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+Wonder if I should integrate a function like this into libfdt.
 
-Regards,
-Bin
+> ---
+>  include/sysemu/device_tree.h |  1 +
+>  softmmu/device_tree.c        | 44 ++++++++++++++++++++++++++++++++++--
+>  2 files changed, 43 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/include/sysemu/device_tree.h b/include/sysemu/device_tree.h
+> index 8a2fe55622..ef060a9759 100644
+> --- a/include/sysemu/device_tree.h
+> +++ b/include/sysemu/device_tree.h
+> @@ -121,6 +121,7 @@ uint32_t qemu_fdt_get_phandle(void *fdt, const char *=
+path);
+>  uint32_t qemu_fdt_alloc_phandle(void *fdt);
+>  int qemu_fdt_nop_node(void *fdt, const char *node_path);
+>  int qemu_fdt_add_subnode(void *fdt, const char *name);
+> +int qemu_fdt_add_path(void *fdt, const char *path);
+> =20
+>  #define qemu_fdt_setprop_cells(fdt, node_path, property, ...)           =
+      \
+>      do {                                                                =
+      \
+> diff --git a/softmmu/device_tree.c b/softmmu/device_tree.c
+> index b621f63fba..3965c834ca 100644
+> --- a/softmmu/device_tree.c
+> +++ b/softmmu/device_tree.c
+> @@ -540,8 +540,8 @@ int qemu_fdt_add_subnode(void *fdt, const char *name)
+> =20
+>      retval =3D fdt_add_subnode(fdt, parent, basename);
+>      if (retval < 0) {
+> -        error_report("FDT: Failed to create subnode %s: %s", name,
+> -                     fdt_strerror(retval));
+> +        error_report("%s: Failed to create subnode %s: %s",
+> +                     __func__, name, fdt_strerror(retval));
+>          exit(1);
+>      }
+> =20
+> @@ -549,6 +549,46 @@ int qemu_fdt_add_subnode(void *fdt, const char *name)
+>      return retval;
+>  }
+> =20
+> +/*
+> + * qemu_fdt_add_path: Like qemu_fdt_add_subnode(), but will add
+> + * all missing subnodes from the given path.
+> + */
+> +int qemu_fdt_add_path(void *fdt, const char *path)
+> +{
+> +    const char *name;
+> +    const char *p =3D path;
+> +    int namelen, retval;
+> +    int parent =3D 0;
+> +
+> +    if (path[0] !=3D '/') {
+> +        return -1;
+> +    }
+> +
+> +    while (p) {
+> +        name =3D p + 1;
+> +        p =3D strchr(name, '/');
+> +        namelen =3D p !=3D NULL ? p - name : strlen(name);
+> +
+> +        retval =3D fdt_subnode_offset_namelen(fdt, parent, name, namelen=
+);
+> +        if (retval < 0 && retval !=3D -FDT_ERR_NOTFOUND) {
+> +            error_report("%s: Unexpected error in finding subnode %.*s: =
+%s",
+> +                         __func__, namelen, name, fdt_strerror(retval));
+> +            exit(1);
+> +        } else if (retval =3D=3D -FDT_ERR_NOTFOUND) {
+> +            retval =3D fdt_add_subnode_namelen(fdt, parent, name, namele=
+n);
+> +            if (retval < 0) {
+> +                error_report("%s: Failed to create subnode %.*s: %s",
+> +                             __func__, namelen, name, fdt_strerror(retva=
+l));
+> +                exit(1);
+> +            }
+> +        }
+> +
+> +        parent =3D retval;
+> +    }
+> +
+> +    return retval;
+> +}
+> +
+>  void qemu_fdt_dumpdtb(void *fdt, int size)
+>  {
+>      const char *dumpdtb =3D current_machine->dumpdtb;
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--8lCm3QYpvXGStkbA
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmCh3uYACgkQbDjKyiDZ
+s5IDvxAAji31FUmz47osKu46BFvA9qdd4FvzOSBXlYa7cJhbTTQNK0MPzRFBxAd0
+jInU/KwNf0CibVwCqqBldzk+7SIeVKIn7wxlU8XQk4ECtI1IgzIiasZ2PsuKBgNU
+hCDk9otNEYd8lhjU59GBiV0SUiYeMk64EVkGkqYLf7eiBEE3VIcDd3V2V0el7Te5
+C4u9gqnIK/YS+8SbIkii/tab3RWtCLOMNHXRBVXbkUCSq3++Uty1D78ArQMTD6XF
+5y4tHGSNdYLge/i2+GJTwqbNpeqobwiVma2G7qzFuDr/u0qYY2nTJV1xkrdwT2E0
+KSP/Li9DtMk8q0D2qF6S5/EUtePZGGNuS8t4zbI71lM9EJiDv8VKmZLVTFyK7LtX
+HV4zjfEyOe1dSCOV7VW2H/xcVnlR4/iKt2x6kJbic9BlrSg2jaRhZvMlK2WpWEWT
+BJS9RT7zL3a7htTGdyb5CjDv6HUo2U24402JgdCoSGp9wxS0/idasLLo7IMXIVzY
+CU1+Q4TK9xoTS3RVyHaDImEzga1akdWwce/UaZfpQjZjy/xBTnkKY80Sl2lcReML
+CWJvb4PaN8vr1sHwZ4PQXhVI1zXK1q1XrfIeZGM+cLUWzs3EwhBL67WYG/IYVZ+f
+jm/rXlKoxd730Dlw1/WghdztaCkcGqzV9rf3s4zJmfhQWmZno/I=
+=Dwqo
+-----END PGP SIGNATURE-----
+
+--8lCm3QYpvXGStkbA--
 
