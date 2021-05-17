@@ -2,78 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9069E383B05
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 19:16:35 +0200 (CEST)
-Received: from localhost ([::1]:59432 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19CFB383B1A
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 19:19:56 +0200 (CEST)
+Received: from localhost ([::1]:40206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ligr4-0008JE-Lv
-	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 13:16:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46830)
+	id 1liguJ-0006E0-68
+	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 13:19:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47708)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ligpK-0006AM-IC
- for qemu-devel@nongnu.org; Mon, 17 May 2021 13:14:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36602)
+ (Exim 4.90_1) (envelope-from <maz@kernel.org>) id 1ligsC-00042Z-OP
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 13:17:44 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58548)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ligpI-0006jO-FW
- for qemu-devel@nongnu.org; Mon, 17 May 2021 13:14:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621271683;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=nPTz4XzVjK3r2tliPpjGmSntptw6o93MVcyP9AEJhhA=;
- b=TL72luZ1uGWLht1JNPavUrpKbJEzY8OgAxeKjUN9cGcUZfP5+sOBOWZItZLCJ6axoTGoQK
- QDbtbRq7Wl2m1/W+wzLL7MC9VvYill12TL/AVAGofYQEX08y/Wxiq888uHNrq9FpfS6qS4
- 7kwvkyl7mW/9drDHFqiAXZqMFyTsA2k=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-8-o6oZzqDsOUCx8Wm-DrCzyA-1; Mon, 17 May 2021 13:14:40 -0400
-X-MC-Unique: o6oZzqDsOUCx8Wm-DrCzyA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.90_1) (envelope-from <maz@kernel.org>) id 1ligsA-0007sQ-9i
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 13:17:44 -0400
+Received: from disco-boy.misterjones.org (disco-boy.misterjones.org
+ [51.254.78.96])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0B2911854E25;
- Mon, 17 May 2021 17:14:39 +0000 (UTC)
-Received: from [10.10.117.64] (ovpn-117-64.rdu2.redhat.com [10.10.117.64])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9943660BE5;
- Mon, 17 May 2021 17:14:37 +0000 (UTC)
-Subject: Re: [PATCH] fdc: check drive block device before usage
- (CVE-2021-20196)
-To: P J P <ppandit@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philmd@redhat.com>
-References: <20210123100345.642933-1-ppandit@redhat.com>
- <6881ef3c-99a1-1f5f-cca5-0850ec2bd6cf@redhat.com>
- <89fb8d54-707a-9965-75e2-665d4cb07d63@redhat.com>
- <bea5cec1-eb1b-3eab-8e71-4af7ae1078ff@redhat.com>
- <8n7o47n5-741n-819-187-n27p1o87q362@erqung.pbz>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <a4277718-e26e-4b00-bea6-cdc2c3e4c8f1@redhat.com>
-Date: Mon, 17 May 2021 13:14:37 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
-MIME-Version: 1.0
-In-Reply-To: <8n7o47n5-741n-819-187-n27p1o87q362@erqung.pbz>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.374,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ by mail.kernel.org (Postfix) with ESMTPSA id 8EFF361285;
+ Mon, 17 May 2021 17:17:40 +0000 (UTC)
+Received: from 78.163-31-62.static.virginmediabusiness.co.uk ([62.31.163.78]
+ helo=wait-a-minute.misterjones.org)
+ by disco-boy.misterjones.org with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <maz@kernel.org>)
+ id 1ligs6-001uUV-H4; Mon, 17 May 2021 18:17:38 +0100
+Date: Mon, 17 May 2021 18:17:37 +0100
+Message-ID: <87v97hth3i.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Steven Price <steven.price@arm.com>
+Subject: Re: [PATCH v12 5/8] arm64: kvm: Save/restore MTE registers
+In-Reply-To: <20210517123239.8025-6-steven.price@arm.com>
+References: <20210517123239.8025-1-steven.price@arm.com>
+ <20210517123239.8025-6-steven.price@arm.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
+ (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 62.31.163.78
+X-SA-Exim-Rcpt-To: steven.price@arm.com, catalin.marinas@arm.com,
+ will@kernel.org, james.morse@arm.com, julien.thierry.kdev@gmail.com,
+ suzuki.poulose@arm.com, kvmarm@lists.cs.columbia.edu,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ Dave.Martin@arm.com, mark.rutland@arm.com, tglx@linutronix.de,
+ qemu-devel@nongnu.org, quintela@redhat.com, dgilbert@redhat.com,
+ richard.henderson@linaro.org, peter.maydell@linaro.org, Haibo.Xu@arm.com,
+ drjones@redhat.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org);
+ SAEximRunCond expanded to false
+Received-SPF: pass client-ip=198.145.29.99; envelope-from=maz@kernel.org;
+ helo=mail.kernel.org
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,36 +73,311 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Qemu-block <qemu-block@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
- qemu-stable@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Gaoning Pan <pgn@zju.edu.cn>
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Andrew Jones <drjones@redhat.com>, Haibo Xu <Haibo.Xu@arm.com>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>, qemu-devel@nongnu.org,
+ Catalin Marinas <catalin.marinas@arm.com>, Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, linux-kernel@vger.kernel.org,
+ Dave Martin <Dave.Martin@arm.com>, James Morse <james.morse@arm.com>,
+ linux-arm-kernel@lists.infradead.org, Thomas Gleixner <tglx@linutronix.de>,
+ Will Deacon <will@kernel.org>, kvmarm@lists.cs.columbia.edu,
+ Julien Thierry <julien.thierry.kdev@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/17/21 7:12 AM, P J P wrote:
-> +-- On Sat, 15 May 2021, Philippe Mathieu-Daudé wrote --+
-> | This patch misses the qtest companion with the reproducer
-> | provided by Alexander.
+On Mon, 17 May 2021 13:32:36 +0100,
+Steven Price <steven.price@arm.com> wrote:
 > 
-> Do we need a revised patch[-series] including a qtest? OR it can be done at
-> merge time?
+> Define the new system registers that MTE introduces and context switch
+> them. The MTE feature is still hidden from the ID register as it isn't
+> supported in a VM yet.
 > 
-> Thank you.
-> --
->   - P J P
-> 8685 545E B54C 486B C6EB 271E E285 8B5A F050 DE8D
+> Signed-off-by: Steven Price <steven.price@arm.com>
+> ---
+>  arch/arm64/include/asm/kvm_host.h          |  6 ++
+>  arch/arm64/include/asm/kvm_mte.h           | 66 ++++++++++++++++++++++
+>  arch/arm64/include/asm/sysreg.h            |  3 +-
+>  arch/arm64/kernel/asm-offsets.c            |  3 +
+>  arch/arm64/kvm/hyp/entry.S                 |  7 +++
+>  arch/arm64/kvm/hyp/include/hyp/sysreg-sr.h | 21 +++++++
+>  arch/arm64/kvm/sys_regs.c                  | 22 ++++++--
+>  7 files changed, 123 insertions(+), 5 deletions(-)
+>  create mode 100644 arch/arm64/include/asm/kvm_mte.h
 > 
+> diff --git a/arch/arm64/include/asm/kvm_host.h b/arch/arm64/include/asm/kvm_host.h
+> index afaa5333f0e4..309e36cc1b42 100644
+> --- a/arch/arm64/include/asm/kvm_host.h
+> +++ b/arch/arm64/include/asm/kvm_host.h
+> @@ -208,6 +208,12 @@ enum vcpu_sysreg {
+>  	CNTP_CVAL_EL0,
+>  	CNTP_CTL_EL0,
+>  
+> +	/* Memory Tagging Extension registers */
+> +	RGSR_EL1,	/* Random Allocation Tag Seed Register */
+> +	GCR_EL1,	/* Tag Control Register */
+> +	TFSR_EL1,	/* Tag Fault Status Register (EL1) */
+> +	TFSRE0_EL1,	/* Tag Fault Status Register (EL0) */
+> +
+>  	/* 32bit specific registers. Keep them at the end of the range */
+>  	DACR32_EL2,	/* Domain Access Control Register */
+>  	IFSR32_EL2,	/* Instruction Fault Status Register */
+> diff --git a/arch/arm64/include/asm/kvm_mte.h b/arch/arm64/include/asm/kvm_mte.h
+> new file mode 100644
+> index 000000000000..6541c7d6ce06
+> --- /dev/null
+> +++ b/arch/arm64/include/asm/kvm_mte.h
+> @@ -0,0 +1,66 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * Copyright (C) 2020 ARM Ltd.
+> + */
+> +#ifndef __ASM_KVM_MTE_H
+> +#define __ASM_KVM_MTE_H
+> +
+> +#ifdef __ASSEMBLY__
+> +
+> +#include <asm/sysreg.h>
+> +
+> +#ifdef CONFIG_ARM64_MTE
+> +
+> +.macro mte_switch_to_guest g_ctxt, h_ctxt, reg1
+> +alternative_if_not ARM64_MTE
+> +	b	.L__skip_switch\@
+> +alternative_else_nop_endif
+> +	mrs	\reg1, hcr_el2
+> +	and	\reg1, \reg1, #(HCR_ATA)
+> +	cbz	\reg1, .L__skip_switch\@
+> +
+> +	mrs_s	\reg1, SYS_RGSR_EL1
+> +	str	\reg1, [\h_ctxt, #CPU_RGSR_EL1]
+> +	mrs_s	\reg1, SYS_GCR_EL1
+> +	str	\reg1, [\h_ctxt, #CPU_GCR_EL1]
+> +
+> +	ldr	\reg1, [\g_ctxt, #CPU_RGSR_EL1]
+> +	msr_s	SYS_RGSR_EL1, \reg1
+> +	ldr	\reg1, [\g_ctxt, #CPU_GCR_EL1]
+> +	msr_s	SYS_GCR_EL1, \reg1
+> +
+> +.L__skip_switch\@:
+> +.endm
+> +
+> +.macro mte_switch_to_hyp g_ctxt, h_ctxt, reg1
+> +alternative_if_not ARM64_MTE
+> +	b	.L__skip_switch\@
+> +alternative_else_nop_endif
+> +	mrs	\reg1, hcr_el2
+> +	and	\reg1, \reg1, #(HCR_ATA)
+> +	cbz	\reg1, .L__skip_switch\@
+> +
+> +	mrs_s	\reg1, SYS_RGSR_EL1
+> +	str	\reg1, [\g_ctxt, #CPU_RGSR_EL1]
+> +	mrs_s	\reg1, SYS_GCR_EL1
+> +	str	\reg1, [\g_ctxt, #CPU_GCR_EL1]
+> +
+> +	ldr	\reg1, [\h_ctxt, #CPU_RGSR_EL1]
+> +	msr_s	SYS_RGSR_EL1, \reg1
+> +	ldr	\reg1, [\h_ctxt, #CPU_GCR_EL1]
+> +	msr_s	SYS_GCR_EL1, \reg1
 
-Unknown, haven't dug into this patch and problem yet.
+What is the rational for not having any synchronisation here? It is
+quite uncommon to allocate memory at EL2, but VHE can perform all kind
+of tricks.
 
-If you have the time to write a qtest reproducer, you can send it 
-separately and I'll pick it up if everything looks correct.
+> +
+> +.L__skip_switch\@:
+> +.endm
+> +
+> +#else /* CONFIG_ARM64_MTE */
+> +
+> +.macro mte_switch_to_guest g_ctxt, h_ctxt, reg1
+> +.endm
+> +
+> +.macro mte_switch_to_hyp g_ctxt, h_ctxt, reg1
+> +.endm
+> +
+> +#endif /* CONFIG_ARM64_MTE */
+> +#endif /* __ASSEMBLY__ */
+> +#endif /* __ASM_KVM_MTE_H */
+> diff --git a/arch/arm64/include/asm/sysreg.h b/arch/arm64/include/asm/sysreg.h
+> index 65d15700a168..347ccac2341e 100644
+> --- a/arch/arm64/include/asm/sysreg.h
+> +++ b/arch/arm64/include/asm/sysreg.h
+> @@ -651,7 +651,8 @@
+>  
+>  #define INIT_SCTLR_EL2_MMU_ON						\
+>  	(SCTLR_ELx_M  | SCTLR_ELx_C | SCTLR_ELx_SA | SCTLR_ELx_I |	\
+> -	 SCTLR_ELx_IESB | SCTLR_ELx_WXN | ENDIAN_SET_EL2 | SCTLR_EL2_RES1)
+> +	 SCTLR_ELx_IESB | SCTLR_ELx_WXN | ENDIAN_SET_EL2 |		\
+> +	 SCTLR_ELx_ITFSB | SCTLR_EL2_RES1)
+>  
+>  #define INIT_SCTLR_EL2_MMU_OFF \
+>  	(SCTLR_EL2_RES1 | ENDIAN_SET_EL2)
+> diff --git a/arch/arm64/kernel/asm-offsets.c b/arch/arm64/kernel/asm-offsets.c
+> index 0cb34ccb6e73..6b489a8462f0 100644
+> --- a/arch/arm64/kernel/asm-offsets.c
+> +++ b/arch/arm64/kernel/asm-offsets.c
+> @@ -111,6 +111,9 @@ int main(void)
+>    DEFINE(VCPU_WORKAROUND_FLAGS,	offsetof(struct kvm_vcpu, arch.workaround_flags));
+>    DEFINE(VCPU_HCR_EL2,		offsetof(struct kvm_vcpu, arch.hcr_el2));
+>    DEFINE(CPU_USER_PT_REGS,	offsetof(struct kvm_cpu_context, regs));
+> +  DEFINE(CPU_RGSR_EL1,		offsetof(struct kvm_cpu_context, sys_regs[RGSR_EL1]));
+> +  DEFINE(CPU_GCR_EL1,		offsetof(struct kvm_cpu_context, sys_regs[GCR_EL1]));
+> +  DEFINE(CPU_TFSRE0_EL1,	offsetof(struct kvm_cpu_context, sys_regs[TFSRE0_EL1]));
 
-Sorry for the FDC/ATA delays. Working on it.
+TFSRE0_EL1 is never accessed from assembly code. Leftover from a
+previous version?
 
-(...Maintainers wanted!)
+>    DEFINE(CPU_APIAKEYLO_EL1,	offsetof(struct kvm_cpu_context, sys_regs[APIAKEYLO_EL1]));
+>    DEFINE(CPU_APIBKEYLO_EL1,	offsetof(struct kvm_cpu_context, sys_regs[APIBKEYLO_EL1]));
+>    DEFINE(CPU_APDAKEYLO_EL1,	offsetof(struct kvm_cpu_context, sys_regs[APDAKEYLO_EL1]));
+> diff --git a/arch/arm64/kvm/hyp/entry.S b/arch/arm64/kvm/hyp/entry.S
+> index e831d3dfd50d..435346ea1504 100644
+> --- a/arch/arm64/kvm/hyp/entry.S
+> +++ b/arch/arm64/kvm/hyp/entry.S
+> @@ -13,6 +13,7 @@
+>  #include <asm/kvm_arm.h>
+>  #include <asm/kvm_asm.h>
+>  #include <asm/kvm_mmu.h>
+> +#include <asm/kvm_mte.h>
+>  #include <asm/kvm_ptrauth.h>
+>  
+>  	.text
+> @@ -51,6 +52,9 @@ alternative_else_nop_endif
+>  
+>  	add	x29, x0, #VCPU_CONTEXT
+>  
+> +	// mte_switch_to_guest(g_ctxt, h_ctxt, tmp1)
+> +	mte_switch_to_guest x29, x1, x2
+> +
+>  	// Macro ptrauth_switch_to_guest format:
+>  	// 	ptrauth_switch_to_guest(guest cxt, tmp1, tmp2, tmp3)
+>  	// The below macro to restore guest keys is not implemented in C code
+> @@ -142,6 +146,9 @@ SYM_INNER_LABEL(__guest_exit, SYM_L_GLOBAL)
+>  	// when this feature is enabled for kernel code.
+>  	ptrauth_switch_to_hyp x1, x2, x3, x4, x5
+>  
+> +	// mte_switch_to_hyp(g_ctxt, h_ctxt, reg1)
+> +	mte_switch_to_hyp x1, x2, x3
+> +
+>  	// Restore hyp's sp_el0
+>  	restore_sp_el0 x2, x3
+>  
+> diff --git a/arch/arm64/kvm/hyp/include/hyp/sysreg-sr.h b/arch/arm64/kvm/hyp/include/hyp/sysreg-sr.h
+> index cce43bfe158f..de7e14c862e6 100644
+> --- a/arch/arm64/kvm/hyp/include/hyp/sysreg-sr.h
+> +++ b/arch/arm64/kvm/hyp/include/hyp/sysreg-sr.h
+> @@ -14,6 +14,7 @@
+>  #include <asm/kvm_asm.h>
+>  #include <asm/kvm_emulate.h>
+>  #include <asm/kvm_hyp.h>
+> +#include <asm/kvm_mmu.h>
+>  
+>  static inline void __sysreg_save_common_state(struct kvm_cpu_context *ctxt)
+>  {
+> @@ -26,6 +27,16 @@ static inline void __sysreg_save_user_state(struct kvm_cpu_context *ctxt)
+>  	ctxt_sys_reg(ctxt, TPIDRRO_EL0)	= read_sysreg(tpidrro_el0);
+>  }
+>  
+> +static inline bool ctxt_has_mte(struct kvm_cpu_context *ctxt)
+> +{
+> +	struct kvm_vcpu *vcpu = ctxt->__hyp_running_vcpu;
+> +
+> +	if (!vcpu)
+> +		vcpu = container_of(ctxt, struct kvm_vcpu, arch.ctxt);
+> +
+> +	return kvm_has_mte(kern_hyp_va(vcpu->kvm));
+> +}
+> +
+>  static inline void __sysreg_save_el1_state(struct kvm_cpu_context *ctxt)
+>  {
+>  	ctxt_sys_reg(ctxt, CSSELR_EL1)	= read_sysreg(csselr_el1);
+> @@ -46,6 +57,11 @@ static inline void __sysreg_save_el1_state(struct kvm_cpu_context *ctxt)
+>  	ctxt_sys_reg(ctxt, PAR_EL1)	= read_sysreg_par();
+>  	ctxt_sys_reg(ctxt, TPIDR_EL1)	= read_sysreg(tpidr_el1);
+>  
+> +	if (ctxt_has_mte(ctxt)) {
+> +		ctxt_sys_reg(ctxt, TFSR_EL1) = read_sysreg_el1(SYS_TFSR);
+> +		ctxt_sys_reg(ctxt, TFSRE0_EL1) = read_sysreg_s(SYS_TFSRE0_EL1);
+> +	}
 
---js
+I remember suggesting that this is slightly heavier than necessary.
 
+On nVHE, TFSRE0_EL1 could be moved to load/put, as we never run
+userspace with a vcpu loaded. The same holds of course for VHE, but we
+also can move TFSR_EL1 to load/put, as the host uses TFSR_EL2.
+
+Do you see any issue with that?
+
+> +
+>  	ctxt_sys_reg(ctxt, SP_EL1)	= read_sysreg(sp_el1);
+>  	ctxt_sys_reg(ctxt, ELR_EL1)	= read_sysreg_el1(SYS_ELR);
+>  	ctxt_sys_reg(ctxt, SPSR_EL1)	= read_sysreg_el1(SYS_SPSR);
+> @@ -107,6 +123,11 @@ static inline void __sysreg_restore_el1_state(struct kvm_cpu_context *ctxt)
+>  	write_sysreg(ctxt_sys_reg(ctxt, PAR_EL1),	par_el1);
+>  	write_sysreg(ctxt_sys_reg(ctxt, TPIDR_EL1),	tpidr_el1);
+>  
+> +	if (ctxt_has_mte(ctxt)) {
+> +		write_sysreg_el1(ctxt_sys_reg(ctxt, TFSR_EL1), SYS_TFSR);
+> +		write_sysreg_s(ctxt_sys_reg(ctxt, TFSRE0_EL1), SYS_TFSRE0_EL1);
+> +	}
+> +
+>  	if (!has_vhe() &&
+>  	    cpus_have_final_cap(ARM64_WORKAROUND_SPECULATIVE_AT) &&
+>  	    ctxt->__hyp_running_vcpu) {
+> diff --git a/arch/arm64/kvm/sys_regs.c b/arch/arm64/kvm/sys_regs.c
+> index 24a844cb79ca..88adbc2286f2 100644
+> --- a/arch/arm64/kvm/sys_regs.c
+> +++ b/arch/arm64/kvm/sys_regs.c
+> @@ -1305,6 +1305,20 @@ static bool access_ccsidr(struct kvm_vcpu *vcpu, struct sys_reg_params *p,
+>  	return true;
+>  }
+>  
+> +static unsigned int mte_visibility(const struct kvm_vcpu *vcpu,
+> +				   const struct sys_reg_desc *rd)
+> +{
+> +	return REG_HIDDEN;
+> +}
+> +
+> +#define MTE_REG(name) {				\
+> +	SYS_DESC(SYS_##name),			\
+> +	.access = undef_access,			\
+> +	.reset = reset_unknown,			\
+> +	.reg = name,				\
+> +	.visibility = mte_visibility,		\
+> +}
+> +
+>  /* sys_reg_desc initialiser for known cpufeature ID registers */
+>  #define ID_SANITISED(name) {			\
+>  	SYS_DESC(SYS_##name),			\
+> @@ -1473,8 +1487,8 @@ static const struct sys_reg_desc sys_reg_descs[] = {
+>  	{ SYS_DESC(SYS_ACTLR_EL1), access_actlr, reset_actlr, ACTLR_EL1 },
+>  	{ SYS_DESC(SYS_CPACR_EL1), NULL, reset_val, CPACR_EL1, 0 },
+>  
+> -	{ SYS_DESC(SYS_RGSR_EL1), undef_access },
+> -	{ SYS_DESC(SYS_GCR_EL1), undef_access },
+> +	MTE_REG(RGSR_EL1),
+> +	MTE_REG(GCR_EL1),
+>  
+>  	{ SYS_DESC(SYS_ZCR_EL1), NULL, reset_val, ZCR_EL1, 0, .visibility = sve_visibility },
+>  	{ SYS_DESC(SYS_TRFCR_EL1), undef_access },
+> @@ -1501,8 +1515,8 @@ static const struct sys_reg_desc sys_reg_descs[] = {
+>  	{ SYS_DESC(SYS_ERXMISC0_EL1), trap_raz_wi },
+>  	{ SYS_DESC(SYS_ERXMISC1_EL1), trap_raz_wi },
+>  
+> -	{ SYS_DESC(SYS_TFSR_EL1), undef_access },
+> -	{ SYS_DESC(SYS_TFSRE0_EL1), undef_access },
+> +	MTE_REG(TFSR_EL1),
+> +	MTE_REG(TFSRE0_EL1),
+>  
+>  	{ SYS_DESC(SYS_FAR_EL1), access_vm_reg, reset_unknown, FAR_EL1 },
+>  	{ SYS_DESC(SYS_PAR_EL1), NULL, reset_unknown, PAR_EL1 },
+
+Thanks,
+
+	M.
+
+-- 
+Without deviation from the norm, progress is not possible.
 
