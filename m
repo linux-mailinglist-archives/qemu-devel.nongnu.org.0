@@ -2,109 +2,111 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAD193829CF
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 12:28:56 +0200 (CEST)
-Received: from localhost ([::1]:37688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A8473829BB
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 12:22:43 +0200 (CEST)
+Received: from localhost ([::1]:47014 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1liaUa-0002xg-0u
-	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 06:28:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47580)
+	id 1liaOY-000750-4Y
+	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 06:22:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47626)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <anaidu.gollu@samsung.com>)
- id 1liaLy-0004GE-Cs
- for qemu-devel@nongnu.org; Mon, 17 May 2021 06:20:03 -0400
-Received: from mailout2.samsung.com ([203.254.224.25]:36656)
+ id 1liaM1-0004HD-94
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 06:20:05 -0400
+Received: from mailout1.samsung.com ([203.254.224.24]:58938)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <anaidu.gollu@samsung.com>)
- id 1liaLp-0001ho-RR
- for qemu-devel@nongnu.org; Mon, 17 May 2021 06:20:02 -0400
-Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
- by mailout2.samsung.com (KnoxPortal) with ESMTP id
- 20210517101939epoutp0249fdf6851592d03d0a2b898966e5223c~-01sei1l91545215452epoutp02w
- for <qemu-devel@nongnu.org>; Mon, 17 May 2021 10:19:39 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com
- 20210517101939epoutp0249fdf6851592d03d0a2b898966e5223c~-01sei1l91545215452epoutp02w
+ id 1liaLs-0001nb-Sg
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 06:20:05 -0400
+Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
+ by mailout1.samsung.com (KnoxPortal) with ESMTP id
+ 20210517101947epoutp01ad3b7d953ac4a44893c8b65bf85f5bd6~-010pYEp23063030630epoutp01k
+ for <qemu-devel@nongnu.org>; Mon, 17 May 2021 10:19:47 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com
+ 20210517101947epoutp01ad3b7d953ac4a44893c8b65bf85f5bd6~-010pYEp23063030630epoutp01k
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1621246779;
- bh=0YZSs5e1Y+kOpCKR84vzmGkwPTUQ+hs5zUTT6hauxs8=;
- h=From:To:Cc:Subject:Date:References:From;
- b=IT6n5/VOHEqL3AAN51Ivt9lmkFvvCPKkvtkfsZwdCjIJJCNkeewmnrBvv82q0XjG3
- RkdwRFqo6sZ5deHLtvPymFqj5BKGXxnajJgVUdd9uWbGYvFYOw0fuRoj/6x3HEUrQF
- 2Qhh3ge4PsrOAcWVafrnWwGGBcipM8A1q5ad5M+g=
-Received: from epsmges5p3new.samsung.com (unknown [182.195.42.75]) by
- epcas5p2.samsung.com (KnoxPortal) with ESMTP id
- 20210517101938epcas5p24f3b079135a4f0bbd807e4a2cbcf7d44~-01r_TRfv1666716667epcas5p2w;
- Mon, 17 May 2021 10:19:38 +0000 (GMT)
-Received: from epcas5p3.samsung.com ( [182.195.41.41]) by
- epsmges5p3new.samsung.com (Symantec Messaging Gateway) with SMTP id
- FE.A4.09835.A3342A06; Mon, 17 May 2021 19:19:38 +0900 (KST)
+ s=mail20170921; t=1621246787;
+ bh=Kz2/BBJJuk5S5uXglEpkv/fM+mThj3YcA0u84ZbSUE0=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=DDBBV66RO3XfmIQoZ9aww2jfUyBdBp8du5e23DUR+3lCM/75pCqG+Y6XrW1xqVtn4
+ jjr+MR7sbDqdUTXj3zyjafL2eZ8oHciloFpbBbCE9/Q7vMicNtKEzOsAGQ6c9ds9td
+ U7oH0b4Xl6CLfCQhrXMKgjJIJYCTMS3YPnRXa0LQ=
+Received: from epsmges5p2new.samsung.com (unknown [182.195.42.74]) by
+ epcas5p4.samsung.com (KnoxPortal) with ESMTP id
+ 20210517101946epcas5p4253821fed88e96450fbc6fbee0c35871~-01zscz792731627316epcas5p4E;
+ Mon, 17 May 2021 10:19:46 +0000 (GMT)
+Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
+ epsmges5p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
+ 01.29.09697.24342A06; Mon, 17 May 2021 19:19:46 +0900 (KST)
 Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
- epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
- 20210517101201epcas5p369289ffa35baa72b248bcc578f009f64~-0vCcvX2T1265312653epcas5p3d;
- Mon, 17 May 2021 10:12:01 +0000 (GMT)
-Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+ epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
+ 20210517101209epcas5p12d9c0d10a0f34a0f62aaf9ef388d51b8~-0vJmCdUP2842928429epcas5p1K;
+ Mon, 17 May 2021 10:12:09 +0000 (GMT)
+Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
  epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20210517101201epsmtrp24a80775f0665a0d18c1a6ddc5fccb731~-0vCcGJqm2113421134epsmtrp2A;
- Mon, 17 May 2021 10:12:01 +0000 (GMT)
-X-AuditID: b6c32a4b-7dfff7000000266b-89-60a2433a83ec
+ 20210517101209epsmtrp2e4082cf70e11dfad86ef6e8a7ecd8741~-0vJlQuHS2103521035epsmtrp2Y;
+ Mon, 17 May 2021 10:12:09 +0000 (GMT)
+X-AuditID: b6c32a4a-639ff700000025e1-df-60a243429e89
 Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
- epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
- FB.E6.08637.17142A06; Mon, 17 May 2021 19:12:01 +0900 (KST)
+ epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
+ DF.D5.08163.97142A06; Mon, 17 May 2021 19:12:09 +0900 (KST)
 Received: from 2030045822.sa.corp.samsungelectronics.net (unknown
  [107.108.221.178]) by epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20210517101200epsmtip1b2c7163e572491da68e694b32f983713~-0vBDcJZO1149511495epsmtip13;
- Mon, 17 May 2021 10:12:00 +0000 (GMT)
+ 20210517101207epsmtip1ce606f38bbdfb14482af547534108261~-0vIIGLix1221112211epsmtip1a;
+ Mon, 17 May 2021 10:12:07 +0000 (GMT)
 From: Gollu Appalanaidu <anaidu.gollu@samsung.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/3] adding ctrl list (cns 0x13) support and random fixes
-Date: Mon, 17 May 2021 15:37:33 +0530
-Message-Id: <20210517100736.17063-1-anaidu.gollu@samsung.com>
+Subject: [PATCH 1/3] hw/nvme/ctrl: add controller list cns 0x13
+Date: Mon, 17 May 2021 15:37:34 +0530
+Message-Id: <20210517100736.17063-2-anaidu.gollu@samsung.com>
 X-Mailer: git-send-email 2.17.1
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrCIsWRmVeSWpSXmKPExsWy7bCmpq6V86IEg7YeJYvXO48zW1zZf57R
- Yv/Bb6wWkw5dY7RYcjHVYt4tZYtZ79rZLI737mCxeD3pP6sDp8ePc+1sHud2nGf32LSqk83j
- ybXNTB7v911l8+jbsooxgC2KyyYlNSezLLVI3y6BK2PtgYyCuSwVC1Z8ZG5gXMvcxcjJISFg
- IjH5Rjd7FyMXh5DAbkaJ04eWMEE4nxglPt5/zQ5SJSTwjVFi2ktNmI6vTaegivYySvw78pQN
- wulkkrjyazlYB5uAkcTst28YQWwRAUmJ312nwfYxg+z4NlcHxBYW8JSYvHw+WA2LgKrEhl3f
- wGp4BWwl5tz9zAaxTV5i9YYDzCALJAQOsUvsP9/KApFwkdg1fTsrhC0s8er4FnYIW0ri87u9
- QM3sQHa1xOEiiNYORoljlzdAzbSX+PdsGtBeDqB7NCXW79KHCMtKTD21jgniTD6J3t9PmCDi
- vBI75sHYahILbn2H2iQjMfPPbagLPCRWnLsJDaxYiZ3PPjJPYJSdhbBhASPjKkbJ1ILi3PTU
- YtMC47zUcr3ixNzi0rx0veT83E2M4ISg5b2D8dGDD3qHGJk4GA8xSnAwK4nwfgqbnyDEm5JY
- WZValB9fVJqTWnyIUZqDRUmcd8XDyQlCAumJJanZqakFqUUwWSYOTqkGpvmLrj3SvGD39iCD
- QvP9xQxHK34zLpvjZXj9c2vEtUeXlkfdL//Fbf5Ekak0dlEnz7WyyRyKKu92za1NjNBeVvDQ
- dCr/MW1un95v3VdWBcexiWw8W6TKPDdh9fwQJqPdXzc1LYyfdGxWr/2+JfwB8vJruM7Ptvgj
- b3e79I8G4xlut5mmTrxJf9lf1aosdpKrSZZwi79z9aZGRICiB7/rp39BXTXyk80l1k4uOMI3
- 1exB/8zZtQGN9qpvZx897az4oDLztSbv/Hypi/P2us7wXrr2+0+nGbPXVN+84/ri6j4RBT1O
- 2aMal4uvJ2nNdi+5wc8eIevSr7dMVKJnVwCrUdhJy3JRxdbJk67Ob9wTpsRSnJFoqMVcVJwI
- AJq2MVV3AwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFuplluLIzCtJLcpLzFFi42LZdlhJTrfQcVGCwcJlyhavdx5ntriy/zyj
- xf6D31gtJh26xmix5GKqxbxbyhaz3rWzWRzv3cFi8XrSf1YHTo8f59rZPM7tOM/usWlVJ5vH
- k2ubmTze77vK5tG3ZRVjAFsUl01Kak5mWWqRvl0CV8baAxkFc1kqFqz4yNzAuJa5i5GTQ0LA
- ROJr0ymmLkYuDiGB3YwSpzZsY4RIyEj8OjUVqkhYYuW/5+wQRe1MEt2nG1hBEmwCRhKz374B
- axARkJT43XWaGaSIWeAoo8Tl9sksIAlhAU+JycvngxWxCKhKbNj1DWwqr4CtxJy7n9kgNshL
- rN5wgHkCI88CRoZVjJKpBcW56bnFhgWGeanlesWJucWleel6yfm5mxjBIaaluYNx+6oPeocY
- mTgYDzFKcDArifB+CpufIMSbklhZlVqUH19UmpNafIhRmoNFSZz3QtfJeCGB9MSS1OzU1ILU
- IpgsEwenVAOTw6Grd8InCwdpiTs+2ZvCEa+vqZb0d/+ELw3ce7Nt/Cfbs/YXVt7ZWfMwY8qu
- RPYuLq2IuB9BrD0To4MC7TYtZl9oZzX/91lxo9JvM7il6999vL5y3fzbaz9eET/cXfv6p7qF
- 7PODkSsP1i9XuSa7q+rVE5VLT2crT1vySvKHa/w39rId97j1bij2svqm+0X33wiaFnBn1oOS
- ndHzrscaNEXJ17+8r/ZsE6N07AvjDXwKBk8+ZEUvmXRR55cvW+tDDR3TC8dEj4nl/+A2qToS
- w2I/S2nW/seJp39PZ6zNrlLd4B50U/ZBYl7+7tzs191Whr7P0vLSlz9huBE1YwrnbWvr2PT5
- O8tCqn/HtrQqsRRnJBpqMRcVJwIA4CXqUKACAAA=
-X-CMS-MailID: 20210517101201epcas5p369289ffa35baa72b248bcc578f009f64
+In-Reply-To: <20210517100736.17063-1-anaidu.gollu@samsung.com>
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrEIsWRmVeSWpSXmKPExsWy7bCmhq6T86IEg3OPjCxe7zzObHFl/3lG
+ i/0Hv7FaTDp0jdFiycVUi3m3lC1mvWtnszjeu4PF4vWk/6wOnB4/zrWzeZzbcZ7dY9OqTjaP
+ J9c2M3m833eVzaNvyyrGALYoLpuU1JzMstQifbsErozlO1awF3TKVxw6coq1gXGNRBcjJ4eE
+ gInE3Y832LoYuTiEBHYzSkxv/c4K4XxilNj66RWU85lRonHBcla4lj+NLBCJXUCJX+uhnE4m
+ iaMb7jKCVLEJGEnMfvsGzBYRkJT43XWaGcRmBlnyba4OiC0sYC/x+vtFsBoWAVWJnuZ3YDav
+ gK3EnLf3mSC2yUus3nAArJdTwE5i0+qDUFfcY5c4sccEwnaRODHrGCOELSzx6vgWdghbSuLz
+ u71Az7ED2dUSh4tAzpQQ6GCUOHZ5AxtEib3Ev2fTgFo5gE7TlFi/Sx8iLCsx9dQ6JoiL+SR6
+ fz+BuoZXYsc8GFtNYsGt71CbZCRm/rkNdZmHxO//v5ggQTKRUeL0xRUsExjlZiGsWMDIuIpR
+ MrWgODc9tdi0wCgvtVyvODG3uDQvXS85P3cTIzhZaHntYHz44IPeIUYmDsZDjBIczEoivJ/C
+ 5icI8aYkVlalFuXHF5XmpBYfYpTmYFES513xcHKCkEB6YklqdmpqQWoRTJaJg1OqgalPwZz1
+ S4nl3/q1J/crP9lXIzpjXTjPKVuGBza/9vuULKhZzfzVV2pSd/399MSLy7/953w371KZ9JeZ
+ GdePaP80ZZ/d3Z2jL3l9vQFDXvYbRnWDoDbnHzt+cF83rzyzuPl15ZaCC89ZvwR1m9ZctIiV
+ +6ZRVHk08JIa23Fn/RTxN17F57VjpltPrlsy++rnGbvreRLql79mj5uwpjXCyPLqlVRHrwzz
+ qxvnb642+BFb/ixfyejDg6P8Pn06uu0+zJpdMUmL5O494/q4VqmBibs4Ij5O2+HijsJZbzkP
+ PS7O6ryzXFjkoIpLnrKA3Ld3n1fOn3TwYoVLa/1V+fPzwy7vmv16UaRKZ4fokZgZp5RYijMS
+ DbWYi4oTAZXzh9iFAwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrGLMWRmVeSWpSXmKPExsWy7bCSnG6l46IEgw3PBC1e7zzObHFl/3lG
+ i/0Hv7FaTDp0jdFiycVUi3m3lC1mvWtnszjeu4PF4vWk/6wOnB4/zrWzeZzbcZ7dY9OqTjaP
+ J9c2M3m833eVzaNvyyrGALYoLpuU1JzMstQifbsErozlO1awF3TKVxw6coq1gXGNRBcjJ4eE
+ gInE3T+NLF2MXBxCAjsYJWa9/MsOkZCR+HVqKjOELSyx8t9zdoiidiaJFb87WEESbAJGErPf
+ vmEEsUUEJCV+d51mBiliFjjKKHG5fTILSEJYwF7i9feLYEUsAqoSPc3vwGxeAVuJOW/vM0Fs
+ kJdYveEA2DZOATuJTasPgi0QAqr537OffQIj3wJGhlWMkqkFxbnpucWGBUZ5qeV6xYm5xaV5
+ 6XrJ+bmbGMFBqaW1g3HPqg96hxiZOBgPMUpwMCuJ8H4Km58gxJuSWFmVWpQfX1Sak1p8iFGa
+ g0VJnPdC18l4IYH0xJLU7NTUgtQimCwTB6dUA9Neh8YNS+SdFs6TndzR7lQdu+FpaZX3Va+n
+ hVpVJ85+Tpi/znfjArZfUQ9Pcu/etLB2hntyaUWR3+FQ3kl6XUaJytdvX0289E39e/g7Mceu
+ +fe8OC5KhYrNr3aY0pDz/eKX+SvT2qszuDW9i9gm1bbUbti08tQLnqhadQGutMcb9qp03NOr
+ tvmtc3e1wQfefYeMM27eUqo81BLNcq6m8yVvlgur+6X2M+6/1/yqCzDsmrVt8udl7XM+Zdxb
+ e0tjVdtx2V3MnIJiTJeK+VcX1UZzHtmotza8jr2UyUWG3/rN5K5Dr46/rc5QmJy+Z9X26Iur
+ GJvqXwbcO9bEqVba9X7Blsgr28TMqh5MPt504IISS3FGoqEWc1FxIgCH4QcouQIAAA==
+X-CMS-MailID: 20210517101209epcas5p12d9c0d10a0f34a0f62aaf9ef388d51b8
 X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
 X-Sendblock-Type: REQ_APPROVE
 CMS-TYPE: 105P
-X-CMS-RootMailID: 20210517101201epcas5p369289ffa35baa72b248bcc578f009f64
-References: <CGME20210517101201epcas5p369289ffa35baa72b248bcc578f009f64@epcas5p3.samsung.com>
-Received-SPF: pass client-ip=203.254.224.25;
- envelope-from=anaidu.gollu@samsung.com; helo=mailout2.samsung.com
+X-CMS-RootMailID: 20210517101209epcas5p12d9c0d10a0f34a0f62aaf9ef388d51b8
+References: <20210517100736.17063-1-anaidu.gollu@samsung.com>
+ <CGME20210517101209epcas5p12d9c0d10a0f34a0f62aaf9ef388d51b8@epcas5p1.samsung.com>
+Received-SPF: pass client-ip=203.254.224.24;
+ envelope-from=anaidu.gollu@samsung.com; helo=mailout1.samsung.com
 X-Spam_score_int: -73
 X-Spam_score: -7.4
 X-Spam_bar: -------
 X-Spam_report: (-7.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.296,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -124,21 +126,100 @@ Cc: fam@euphon.net, kwolf@redhat.com, qemu-block@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This series will add the Identify Controller List (CNS 0x13) support
-and NSID endian conversion fixes for CNS 0x12 and CNS 0x13.
+Add the controller identifiers list available in NVM Subsystem
+that may or may not be attached to namespaces.
 
-Documentation fix for the '-detached' parameter.
-
-Gollu Appalanaidu (3):
-  hw/nvme/ctrl: add controller list cns 0x13
-  hw/nvme/ctrl: fix endian conversion for nsid in ctrl list
-  hw/nvme/ctrl: documentation fix
-
- hw/nvme/ctrl.c       | 28 +++++++++++++++++-----------
+Signed-off-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
+---
+ hw/nvme/ctrl.c       | 25 +++++++++++++++----------
  hw/nvme/trace-events |  2 +-
  include/block/nvme.h |  1 +
- 3 files changed, 19 insertions(+), 12 deletions(-)
+ 3 files changed, 17 insertions(+), 11 deletions(-)
 
+diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+index 2e7498a73e..d08a3350e2 100644
+--- a/hw/nvme/ctrl.c
++++ b/hw/nvme/ctrl.c
+@@ -4251,7 +4251,8 @@ static uint16_t nvme_identify_ns(NvmeCtrl *n, NvmeRequest *req, bool active)
+     return NVME_INVALID_CMD_SET | NVME_DNR;
+ }
+ 
+-static uint16_t nvme_identify_ns_attached_list(NvmeCtrl *n, NvmeRequest *req)
++static uint16_t nvme_identify_ctrl_list(NvmeCtrl *n, NvmeRequest *req,
++                                        bool attached)
+ {
+     NvmeIdentify *c = (NvmeIdentify *)&req->cmd;
+     uint16_t min_id = le16_to_cpu(c->ctrlid);
+@@ -4261,15 +4262,17 @@ static uint16_t nvme_identify_ns_attached_list(NvmeCtrl *n, NvmeRequest *req)
+     NvmeCtrl *ctrl;
+     int cntlid, nr_ids = 0;
+ 
+-    trace_pci_nvme_identify_ns_attached_list(min_id);
++    trace_pci_nvme_identify_ctrl_list(c->cns, min_id);
+ 
+-    if (c->nsid == NVME_NSID_BROADCAST) {
+-        return NVME_INVALID_FIELD | NVME_DNR;
+-    }
++    if (attached) {
++        if (c->nsid == NVME_NSID_BROADCAST) {
++            return NVME_INVALID_FIELD | NVME_DNR;
++        }
+ 
+-    ns = nvme_subsys_ns(n->subsys, c->nsid);
+-    if (!ns) {
+-        return NVME_INVALID_FIELD | NVME_DNR;
++        ns = nvme_subsys_ns(n->subsys, c->nsid);
++        if (!ns) {
++            return NVME_INVALID_FIELD | NVME_DNR;
++        }
+     }
+ 
+     for (cntlid = min_id; cntlid < ARRAY_SIZE(n->subsys->ctrls); cntlid++) {
+@@ -4278,7 +4281,7 @@ static uint16_t nvme_identify_ns_attached_list(NvmeCtrl *n, NvmeRequest *req)
+             continue;
+         }
+ 
+-        if (!nvme_ns(ctrl, c->nsid)) {
++        if (attached && !nvme_ns(ctrl, c->nsid)) {
+             continue;
+         }
+ 
+@@ -4493,7 +4496,9 @@ static uint16_t nvme_identify(NvmeCtrl *n, NvmeRequest *req)
+     case NVME_ID_CNS_NS_PRESENT:
+         return nvme_identify_ns(n, req, false);
+     case NVME_ID_CNS_NS_ATTACHED_CTRL_LIST:
+-        return nvme_identify_ns_attached_list(n, req);
++        return nvme_identify_ctrl_list(n, req, true);
++    case NVME_ID_CNS_CTRL_LIST:
++        return nvme_identify_ctrl_list(n, req, false);
+     case NVME_ID_CNS_CS_NS:
+         return nvme_identify_ns_csi(n, req, true);
+     case NVME_ID_CNS_CS_NS_PRESENT:
+diff --git a/hw/nvme/trace-events b/hw/nvme/trace-events
+index ea33d0ccc3..7ba3714671 100644
+--- a/hw/nvme/trace-events
++++ b/hw/nvme/trace-events
+@@ -55,7 +55,7 @@ pci_nvme_identify(uint16_t cid, uint8_t cns, uint16_t ctrlid, uint8_t csi) "cid
+ pci_nvme_identify_ctrl(void) "identify controller"
+ pci_nvme_identify_ctrl_csi(uint8_t csi) "identify controller, csi=0x%"PRIx8""
+ pci_nvme_identify_ns(uint32_t ns) "nsid %"PRIu32""
+-pci_nvme_identify_ns_attached_list(uint16_t cntid) "cntid=%"PRIu16""
++pci_nvme_identify_ctrl_list(uint8_t cns, uint16_t cntid) "cns 0x%"PRIx8" cntid=%"PRIu16""
+ pci_nvme_identify_ns_csi(uint32_t ns, uint8_t csi) "nsid=%"PRIu32", csi=0x%"PRIx8""
+ pci_nvme_identify_nslist(uint32_t ns) "nsid %"PRIu32""
+ pci_nvme_identify_nslist_csi(uint16_t ns, uint8_t csi) "nsid=%"PRIu16", csi=0x%"PRIx8""
+diff --git a/include/block/nvme.h b/include/block/nvme.h
+index 0ff9ce17a9..188ab460df 100644
+--- a/include/block/nvme.h
++++ b/include/block/nvme.h
+@@ -980,6 +980,7 @@ enum NvmeIdCns {
+     NVME_ID_CNS_NS_PRESENT_LIST       = 0x10,
+     NVME_ID_CNS_NS_PRESENT            = 0x11,
+     NVME_ID_CNS_NS_ATTACHED_CTRL_LIST = 0x12,
++    NVME_ID_CNS_CTRL_LIST             = 0x13,
+     NVME_ID_CNS_CS_NS_PRESENT_LIST    = 0x1a,
+     NVME_ID_CNS_CS_NS_PRESENT         = 0x1b,
+     NVME_ID_CNS_IO_COMMAND_SET        = 0x1c,
 -- 
 2.17.1
 
