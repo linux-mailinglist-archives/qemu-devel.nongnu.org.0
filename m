@@ -2,84 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54B83382880
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 11:37:42 +0200 (CEST)
-Received: from localhost ([::1]:34600 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82F4B3828A7
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 11:45:03 +0200 (CEST)
+Received: from localhost ([::1]:44976 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1liZgz-00016a-AG
-	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 05:37:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33226)
+	id 1liZo6-00006W-ES
+	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 05:45:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33264)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1liZNr-00038i-On; Mon, 17 May 2021 05:17:55 -0400
-Received: from wout1-smtp.messagingengine.com ([64.147.123.24]:39803)
+ id 1liZNw-0003Ew-H3; Mon, 17 May 2021 05:18:00 -0400
+Received: from wnew4-smtp.messagingengine.com ([64.147.123.18]:33593)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1liZNj-0005ap-Hj; Mon, 17 May 2021 05:17:55 -0400
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
- by mailout.west.internal (Postfix) with ESMTP id A07CE250;
- Mon, 17 May 2021 05:17:42 -0400 (EDT)
+ id 1liZNu-0005ix-QQ; Mon, 17 May 2021 05:18:00 -0400
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailnew.west.internal (Postfix) with ESMTP id A3BA8245;
+ Mon, 17 May 2021 05:17:56 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Mon, 17 May 2021 05:17:43 -0400
+ by compute3.internal (MEProxy); Mon, 17 May 2021 05:17:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=from:to:cc:subject:date:message-id:mime-version:content-type
- :content-transfer-encoding; s=fm3; bh=pN6fpk+iqIBcXOSAHMSWAayhTM
- JH34L6DjHm3LGUvjQ=; b=gwOaxI6kySMbUGGgs+ALob9ESkTZmcbcyO3dNEZZ18
- HFyPi6hX0tU8KQ4mugxrfYUyxeFP24czFEFu62Zk1KZ3QDPauk0XSJTpqOhk+fjE
- tPRjVXTIIhaXJHe8wOucck3Zgq9AqZgffheL2AX8ru5dNqqRwyRyMrCoI6BPspQX
- TihmNveiMKmN5D/GL1D/ivgb9QCQox8+5rAeJitAJqTeq6M2N1zJYUqI7Ox65or8
- FOwc8NKHsjsnAp9b1+A93EbWNgl/QeLtFJzQvEybTsrUtmUE/oasU3kR2YNpDBWR
- anXO0gvoFrZyG8tLA0hYPq+LwQOa2PiNjW5kDWrQzE7w==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding; s=fm3; bh=hDXqlQHmgsN6q
+ gKdwDKuyfBLoa6je3z5MRgRyiaejdY=; b=bahLCD/RdME949PJpbHUAuvy6TV2E
+ eG15WyGudzILK4tR2tKJLToWbY+D/7bvwW7ryeQ51mBaH+RW8XgSXhiI/7GTKQ+v
+ TTJXan/iD8iZu59Ke904H2ZptmcA44PyVNNWWqJAeFoT3Iwvw+1nIckTumIiO2kG
+ hZ8EJ18UDJ/52dWTbmbB5S6xqjrOhraFISqqk/s2XwfXLvAoYzlZu1IW/B9O3yLr
+ unESQEbzUE0nBALhHznr4quSbJ3R4m8RmMFFAJ3JAnj1+v6dnzhtmyg5PVvQlN+R
+ vGuIdor2kz3I33pAniRgTBQ4XkDXsKcNRtw+MH41gO0/xb+5VRCYI/svw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:content-type
- :date:from:message-id:mime-version:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=pN6fpk
- +iqIBcXOSAHMSWAayhTMJH34L6DjHm3LGUvjQ=; b=tdxNz5uOpS8rOYuDDTtZkS
- C1dejDPMhIpBCs+nwBNIKNCOLI5FwwL0GF9tTAY+hvD2got/2lSjuYiwyUzj00dX
- 7NqukHJmCjJbd3mDfAQ2/IMVo1Jy1JrmIyUtKY2DRDpF9KFHv/cX/FEfySHkLgLE
- 0epauT+1Fm6xyp9N4/DGt8A/WAnmg0tVx6vsHYhAkZsrafdCZzErqk6x390n3xDQ
- skwNKCzoJ/9MMh8CjrIe57EvXKedZPt9xQWiZCtH+lH8uivM0cU+S4x/aiKeKPDq
- yaGgAA2up7CyAMJoWjYJ7jmrYCfnSFp9iHHRXSE4AUIt2L8/Kci+ahk7TNr3b7qg
- ==
-X-ME-Sender: <xms:tDSiYDvK5aaFnSmB2pLBaU28XX1UXD88lbsRag7L51dbNGQqmU6oiA>
- <xme:tDSiYEc54mPqFjCixYWVBcO2xMXYOe7ry2WnSZGnFaTPiHSIR96huLzptTScKSRns
- NkDKjaAGdWA4I7R8EE>
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :in-reply-to:message-id:mime-version:references:subject:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm2; bh=hDXqlQHmgsN6qgKdwDKuyfBLoa6je3z5MRgRyiaejdY=; b=CrEoY0vy
+ yC+aQB/ALRpWiC4BS7GX7w1HOoV1rOr022dCMkcnFL+WNhnpsauwYLrQzZaYiaW8
+ /xo0PSdIcdL+ccKgpDALKeHr7RwoSCCV9GH7Jg2e/HXc3B+kS76nzsL0TkjCq71M
+ jbdbc22NvU5aXGQI2eLDwhEAt8xZM3O4zlvPPXKc17jc7SOT+osj0rnhhgWzorZx
+ MZTKyGMZiG/KY8+6ThvGb4YEf/wayRXwvzQXbMYQKZyrKUvwy6u+OLhrgLb01ntE
+ tduFla63m+sHsjbSQv4n2jgvTDrhJrIQSC/GmnM6JqbTxwvDajcQknVMe52L4/nw
+ mV/zScCZdt7FCQ==
+X-ME-Sender: <xms:wzSiYAt2sUj0t4mnsQkSFWaDIE4m2JaMNirNWGPZ3JTcf2ITo0c94A>
+ <xme:wzSiYNdAtweIFxtdCk-DQ-wNZWcIGchKn22Jx-28M6mB5UE8l2jokAaJ6rMkma9dA
+ a_e_sylQThi4-YNH8c>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdeihedgudegucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvufffkffogggtgfesthhqredtredtjeenucfhrhhomhepmfhlrghushcu
- lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
- hrnhepvdfhueejueejkedvudeftdetvddtgffhteelgeeluddvveetuefhfeekfeeuhefg
- necuffhomhgrihhnpehinhhfrhgruggvrggurdhorhhgnecukfhppeektddrudeijedrle
- ekrdduledtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhho
- mhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:tDSiYGyFnB3EvPKoswq-Pc-1G7Pi-zp3KwVVpPNZ_OnoPKXQ92nH0g>
- <xmx:tDSiYCND9ydWhHNqetj1QtLTDIovznr6wuC1xkSt0yVDlDB4DPEAjQ>
- <xmx:tDSiYD_MIKVP2KlyFBOqLnznncOIRQDXfvCutyi7S97wUiU9Pz150Q>
- <xmx:tjSiYEOjeKdNVbvJJSyplIO3UynprJeShVQkvGwfqGnzNDy4wuNo8Q>
+ cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpeeuleetgeeiuefhgfekfefgveejiefgteekiedtgfdtieefhfdthfefueffvefg
+ keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
+ curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:wzSiYLwd3BwOg4Jw9uz-1KdOuHkrFlkbNasuD01-arHbd2mEZE181g>
+ <xmx:wzSiYDP9osJAdwjmGTxIHl17Q9JY_v5LUdQSuuQb-QzBuF3uNdotwA>
+ <xmx:wzSiYA9lKTAc5wVM5gqigdCtOSUPHPBCF0MIte4Pzz0hiODRvv4WVA>
+ <xmx:xDSiYETt_TwHt5RFhYmMckbPN4Omvvxmj57eGlaFLzb_Xy_ur6Tp43bsdes>
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190]) by mail.messagingengine.com (Postfix) with ESMTPA;
- Mon, 17 May 2021 05:17:39 -0400 (EDT)
+ Mon, 17 May 2021 05:17:53 -0400 (EDT)
 From: Klaus Jensen <its@irrelevant.dk>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PULL 00/20] emulated nvme updates
-Date: Mon, 17 May 2021 11:17:17 +0200
-Message-Id: <20210517091737.841787-1-its@irrelevant.dk>
+Subject: [PULL 04/20] hw/block/nvme: fix io-command set profile feature
+Date: Mon, 17 May 2021 11:17:21 +0200
+Message-Id: <20210517091737.841787-5-its@irrelevant.dk>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210517091737.841787-1-its@irrelevant.dk>
+References: <20210517091737.841787-1-its@irrelevant.dk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=64.147.123.24; envelope-from=its@irrelevant.dk;
- helo=wout1-smtp.messagingengine.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=64.147.123.18; envelope-from=its@irrelevant.dk;
+ helo=wnew4-smtp.messagingengine.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,100 +94,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
  qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
- Max Reitz <mreitz@redhat.com>, Keith Busch <kbusch@kernel.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, Klaus Jensen <its@irrelevant.dk>
+ Gollu Appalanaidu <anaidu.gollu@samsung.com>, Max Reitz <mreitz@redhat.com>,
+ Keith Busch <kbusch@kernel.org>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Klaus Jensen <its@irrelevant.dk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Klaus Jensen <k.jensen@samsung.com>=0D
+From: Gollu Appalanaidu <anaidu.gollu@samsung.com>
 
-Hi Peter,=0D
-=0D
-The following changes since commit 6005ee07c380cbde44292f5f6c96e7daa70f4f7d=
-:=0D
-=0D
-  Merge remote-tracking branch 'remotes/mst/tags/for_upstream' into staging=
- (2021-05-16 17:22:46 +0100)=0D
-=0D
-are available in the Git repository at:=0D
-=0D
-  git://git.infradead.org/qemu-nvme.git tags/nvme-next-pull-request=0D
-=0D
-for you to fetch changes up to 88eea45c536470cd3c43440cbb1cd4d3b9fa519c:=0D
-=0D
-  hw/nvme: move nvme emulation out of hw/block (2021-05-17 09:19:00 +0200)=
-=0D
-=0D
-----------------------------------------------------------------=0D
-emulated nvme updates=0D
-=0D
-* various fixes (Gollu Appalanaidu)=0D
-* refactoring (me)=0D
-* move to hw/nvme from hw/block (me)=0D
-=0D
-----------------------------------------------------------------=0D
-=0D
-Gollu Appalanaidu (6):=0D
-  hw/block/nvme: remove redundant invalid_lba_range trace=0D
-  hw/block/nvme: rename reserved fields declarations=0D
-  hw/block/nvme: consider metadata read aio return value in compare=0D
-  hw/block/nvme: fix io-command set profile feature=0D
-  hw/block/nvme: function formatting fix=0D
-  hw/block/nvme: align with existing style=0D
-=0D
-Klaus Jensen (14):=0D
-  hw/block/nvme: rename __nvme_zrm_open=0D
-  hw/block/nvme: rename __nvme_advance_zone_wp=0D
-  hw/block/nvme: rename __nvme_select_ns_iocs=0D
-  hw/block/nvme: consolidate header files=0D
-  hw/block/nvme: cleanup includes=0D
-  hw/block/nvme: remove non-shared defines from header file=0D
-  hw/block/nvme: replace nvme_ns_status=0D
-  hw/block/nvme: cache lba and ms sizes=0D
-  hw/block/nvme: add metadata offset helper=0D
-  hw/block/nvme: streamline namespace array indexing=0D
-  hw/block/nvme: remove num_namespaces member=0D
-  hw/block/nvme: remove irrelevant zone resource checks=0D
-  hw/block/nvme: move zoned constraints checks=0D
-  hw/nvme: move nvme emulation out of hw/block=0D
-=0D
- meson.build                               |   1 +=0D
- hw/block/nvme-dif.h                       |  63 ---=0D
- hw/block/nvme-ns.h                        | 229 ---------=0D
- hw/block/nvme-subsys.h                    |  59 ---=0D
- hw/block/nvme.h                           | 266 -----------=0D
- hw/nvme/nvme.h                            | 547 ++++++++++++++++++++++=0D
- hw/nvme/trace.h                           |   1 +=0D
- include/block/nvme.h                      |  12 +-=0D
- hw/{block/nvme.c =3D> nvme/ctrl.c}          | 298 ++++++------=0D
- hw/{block/nvme-dif.c =3D> nvme/dif.c}       |  57 +--=0D
- hw/{block/nvme-ns.c =3D> nvme/ns.c}         | 106 ++---=0D
- hw/{block/nvme-subsys.c =3D> nvme/subsys.c} |  12 +-=0D
- MAINTAINERS                               |   2 +-=0D
- hw/Kconfig                                |   1 +=0D
- hw/block/Kconfig                          |   5 -=0D
- hw/block/meson.build                      |   1 -=0D
- hw/block/trace-events                     | 206 --------=0D
- hw/meson.build                            |   1 +=0D
- hw/nvme/Kconfig                           |   4 +=0D
- hw/nvme/meson.build                       |   1 +=0D
- hw/nvme/trace-events                      | 204 ++++++++=0D
- 21 files changed, 988 insertions(+), 1088 deletions(-)=0D
- delete mode 100644 hw/block/nvme-dif.h=0D
- delete mode 100644 hw/block/nvme-ns.h=0D
- delete mode 100644 hw/block/nvme-subsys.h=0D
- delete mode 100644 hw/block/nvme.h=0D
- create mode 100644 hw/nvme/nvme.h=0D
- create mode 100644 hw/nvme/trace.h=0D
- rename hw/{block/nvme.c =3D> nvme/ctrl.c} (96%)=0D
- rename hw/{block/nvme-dif.c =3D> nvme/dif.c} (90%)=0D
- rename hw/{block/nvme-ns.c =3D> nvme/ns.c} (87%)=0D
- rename hw/{block/nvme-subsys.c =3D> nvme/subsys.c} (86%)=0D
- create mode 100644 hw/nvme/Kconfig=0D
- create mode 100644 hw/nvme/meson.build=0D
- create mode 100644 hw/nvme/trace-events=0D
-=0D
--- =0D
-2.31.1=0D
-=0D
+Currently IO Command Set Profile feature is supported, but the feature
+support flag not set. Further, this feature is changable. Fix that.
+
+Additionally, remove filling default value of the CQE result with zero,
+since it will fall back to the default case anyway.
+
+Signed-off-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
+[k.jensen: fix up commit message]
+Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+---
+ hw/block/nvme.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+
+diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+index 67abc9eb2c24..14c24f9b0866 100644
+--- a/hw/block/nvme.c
++++ b/hw/block/nvme.c
+@@ -185,6 +185,7 @@ static const bool nvme_feature_support[NVME_FID_MAX] = {
+     [NVME_WRITE_ATOMICITY]          = true,
+     [NVME_ASYNCHRONOUS_EVENT_CONF]  = true,
+     [NVME_TIMESTAMP]                = true,
++    [NVME_COMMAND_SET_PROFILE]      = true,
+ };
+ 
+ static const uint32_t nvme_feature_cap[NVME_FID_MAX] = {
+@@ -194,6 +195,7 @@ static const uint32_t nvme_feature_cap[NVME_FID_MAX] = {
+     [NVME_NUMBER_OF_QUEUES]         = NVME_FEAT_CAP_CHANGE,
+     [NVME_ASYNCHRONOUS_EVENT_CONF]  = NVME_FEAT_CAP_CHANGE,
+     [NVME_TIMESTAMP]                = NVME_FEAT_CAP_CHANGE,
++    [NVME_COMMAND_SET_PROFILE]      = NVME_FEAT_CAP_CHANGE,
+ };
+ 
+ static const uint32_t nvme_cse_acs[256] = {
+@@ -4711,9 +4713,6 @@ defaults:
+             result |= NVME_INTVC_NOCOALESCING;
+         }
+         break;
+-    case NVME_COMMAND_SET_PROFILE:
+-        result = 0;
+-        break;
+     default:
+         result = nvme_feature_default[fid];
+         break;
+-- 
+2.31.1
+
 
