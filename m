@@ -2,78 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D67DF383D95
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 21:39:06 +0200 (CEST)
-Received: from localhost ([::1]:41496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC852383DBA
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 21:46:36 +0200 (CEST)
+Received: from localhost ([::1]:58280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lij4z-0002TD-V6
-	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 15:39:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51306)
+	id 1lijCE-0005S8-My
+	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 15:46:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54804)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1liilp-000455-5T
- for qemu-devel@nongnu.org; Mon, 17 May 2021 15:19:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57381)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1liilf-0007yZ-FB
- for qemu-devel@nongnu.org; Mon, 17 May 2021 15:19:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621279146;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=NrvkQbizliXFVjmCYoEcbs4NIXHDU1iaCqhei/1jCW4=;
- b=cXSv9797j+NY8nyYfjNCBO+8nrrWj+g3DjOvceiIp+Fnxui4YkhSO41SyFr8b6BA12/uVi
- QMEFCTZdBvX9f/nAM92FOMHW3jVqi2nHdR1IxeJlfZQusDKK8NisrWJ3N68b9D9VLJJ8LB
- oX6FTN0kdsM2nPB9sj7NuPoZJ+0Gdh0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-375-tLsesoykNKGcFQG2sKzmcg-1; Mon, 17 May 2021 15:19:04 -0400
-X-MC-Unique: tLsesoykNKGcFQG2sKzmcg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 545201854E2A;
- Mon, 17 May 2021 19:19:03 +0000 (UTC)
-Received: from [10.10.117.64] (ovpn-117-64.rdu2.redhat.com [10.10.117.64])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BDCE110074EF;
- Mon, 17 May 2021 19:19:02 +0000 (UTC)
-Subject: Re: [PATCH v4 0/9] hw/block/fdc: Allow Kconfig-selecting ISA
- bus/SysBus floppy controllers
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20210517183954.1223193-1-philmd@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <6ef11e42-7778-762a-f11b-d88f1b688db3@redhat.com>
-Date: Mon, 17 May 2021 15:19:02 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1liixO-0006pZ-RV
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 15:31:14 -0400
+Received: from indium.canonical.com ([91.189.90.7]:35984)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1liixL-0006x7-Dx
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 15:31:14 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
+ id 1liixJ-000476-1b
+ for <qemu-devel@nongnu.org>; Mon, 17 May 2021 19:31:09 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 79D002E8198
+ for <qemu-devel@nongnu.org>; Mon, 17 May 2021 19:31:05 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20210517183954.1223193-1-philmd@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.374,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 17 May 2021 19:21:27 -0000
+From: Thomas Huth <1878250@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: fuzzer net
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: a1xndr th-huth
+X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <158930416322.29623.3003799962052896455.malonedeb@soybean.canonical.com>
+Message-Id: <162127928754.21105.14641427214275938671.malone@soybean.canonical.com>
+Subject: [Bug 1878250] Re: Assertion failure in iov_from_buf_full through the
+ e1000e
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="5321c3f40fa4d4b847f4e47fb766e7b95ed5036c"; Instance="production"
+X-Launchpad-Hash: 8eacee4ecf650249e45928e376ef2b2e60183e8c
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -82,78 +72,127 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-block@nongnu.org
+Reply-To: Bug 1878250 <1878250@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/17/21 2:39 PM, Philippe Mathieu-Daudé wrote:
-> Missing review: #1
-> 
-> Hi,
-> 
-> The floppy disc controllers pulls in irrelevant devices (sysbus in
-> an ISA-only machine, ISA bus + isa devices on a sysbus-only machine).
-> 
-> This series clean that by extracting each device in its own file,
-> adding the corresponding Kconfig symbols: FDC_ISA and FDC_SYSBUS.
-> 
-> Since v3:
-> - Fix ISA_SUPERIO -> FDC Kconfig dependency (jsnow)
-> 
-> Since v2:
-> - rebased
-> 
-> Since v1:
-> - added missing "hw/block/block.h" header (jsnow)
-> - inlined hardware specific calls (Mark)
-> - added R-b/A-b tags
-> 
-> Regards,
-> 
-> Phil.
-> 
-> Philippe Mathieu-Daudé (9):
->    hw/isa/Kconfig: Fix missing dependency ISA_SUPERIO -> FDC
->    hw/block/fdc: Replace disabled fprintf() by trace event
->    hw/block/fdc: Declare shared prototypes in fdc-internal.h
->    hw/block/fdc: Extract ISA floppy controllers to fdc-isa.c
->    hw/block/fdc: Extract SysBus floppy controllers to fdc-sysbus.c
->    hw/block/fdc: Add sysbus_fdc_init_drives() method
->    hw/sparc/sun4m: Inline sun4m_fdctrl_init()
->    hw/block/fdc-sysbus: Add 'dma-channel' property
->    hw/mips/jazz: Inline fdctrl_init_sysbus()
-> 
->   hw/block/fdc-internal.h | 156 +++++++++++
->   include/hw/block/fdc.h  |   7 +-
->   hw/block/fdc-isa.c      | 313 +++++++++++++++++++++
->   hw/block/fdc-sysbus.c   | 224 +++++++++++++++
->   hw/block/fdc.c          | 608 +---------------------------------------
->   hw/mips/jazz.c          |  16 ++
->   hw/sparc/sun4m.c        |  16 ++
->   MAINTAINERS             |   3 +
->   hw/block/Kconfig        |   8 +
->   hw/block/meson.build    |   2 +
->   hw/block/trace-events   |   3 +
->   hw/i386/Kconfig         |   2 +-
->   hw/isa/Kconfig          |   7 +-
->   hw/mips/Kconfig         |   2 +-
->   hw/sparc/Kconfig        |   2 +-
->   hw/sparc64/Kconfig      |   2 +-
->   16 files changed, 759 insertions(+), 612 deletions(-)
->   create mode 100644 hw/block/fdc-internal.h
->   create mode 100644 hw/block/fdc-isa.c
->   create mode 100644 hw/block/fdc-sysbus.c
-> 
+This still triggers with current QEMU development version ... marking as
+"Confirmed" ... Alexander, could you please move this ticket to the new
+issue tracker at gitlab?
 
-Hi, tentatively staged:
+** Changed in: qemu
+       Status: New =3D> Confirmed
 
-https://gitlab.com/jsnow/qemu/-/commits/floppy/
+** Tags added: fuzzer net
 
-pending CI:
+-- =
 
-https://gitlab.com/jsnow/qemu/-/pipelines/304308461
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1878250
 
---js
+Title:
+  Assertion failure in iov_from_buf_full through the e1000e
 
+Status in QEMU:
+  Confirmed
+
+Bug description:
+  Hello,
+  While fuzzing, I found an input that triggers an assertion failure in
+  iov_from_buf_full through the e1000e:
+
+  size_t iov_from_buf_full(const struct iovec *, unsigned int, size_t,
+  const void *, size_t): Assertion `offset =3D=3D 0' failed.
+
+  =
+
+  #3  0x00007ffff6866092 in __GI___assert_fail (assertion=3D0x5555570c74c0 =
+<str> "offset =3D=3D 0", file=3D0x5555570c7500 <str> "/home/alxndr/Developm=
+ent/qemu/util/iov.c", line=3D0x28, function=3D0x5555570c7560 <__PRETTY_FUNC=
+TION__.iov_from_buf_full> "size_t iov_from_buf_full(const struct iovec *, u=
+nsigned int, size_t, const void *, size_t)") at assert.c:101
+  #4  0x0000555556c5fa5e in iov_from_buf_full (iov=3D<optimized out>, iov_c=
+nt=3D<optimized out>, offset=3D<optimized out>, buf=3Dbuf@entry=3D0x7ffffff=
+fbb60, bytes=3D<optimized out>, bytes@entry=3D0x2) at /home/alxndr/Developm=
+ent/qemu/util/iov.c:40
+  #5  0x00005555565f585e in iov_from_buf (iov=3D0x7fffffffb830, iov_cnt=3D0=
+xffffb830, offset=3D0x0, buf=3D0x7fffffffbb60, bytes=3D0x2) at /home/alxndr=
+/Development/qemu/include/qemu/iov.h:49
+  #6  0x00005555565f585e in net_tx_pkt_update_ip_checksums (pkt=3D<optimize=
+d out>) at /home/alxndr/Development/qemu/hw/net/net_tx_pkt.c:139
+  #7  0x0000555556621f9c in e1000e_setup_tx_offloads (core=3D0x7fffeeb754e0=
+, tx=3D0x7fffeeb95748) at /home/alxndr/Development/qemu/hw/net/e1000e_core.=
+c:638
+  #8  0x0000555556621f9c in e1000e_tx_pkt_send (core=3D0x7fffeeb754e0, tx=
+=3D0x7fffeeb95748, queue_index=3D<optimized out>) at /home/alxndr/Developme=
+nt/qemu/hw/net/e1000e_core.c:658
+  #9  0x0000555556621f9c in e1000e_process_tx_desc (core=3D0x7fffeeb754e0, =
+tx=3D0x7fffeeb95748, dp=3D<optimized out>, queue_index=3D<optimized out>) a=
+t /home/alxndr/Development/qemu/hw/net/e1000e_core.c:743
+  #10 0x0000555556621f9c in e1000e_start_xmit (core=3D<optimized out>, txr=
+=3D<optimized out>) at /home/alxndr/Development/qemu/hw/net/e1000e_core.c:9=
+34
+  #11 0x000055555661edb1 in e1000e_set_tdt (core=3D0x7fffffffb830, index=3D=
+0xe06, val=3D0x563) at /home/alxndr/Development/qemu/hw/net/e1000e_core.c:2=
+451
+  #12 0x000055555660f2cd in e1000e_core_write (core=3D<optimized out>, addr=
+=3D<optimized out>, val=3D<optimized out>, size=3D<optimized out>) at /home=
+/alxndr/Development/qemu/hw/net/e1000e_core.c:3261
+  #13 0x00005555560028d7 in memory_region_write_accessor (mr=3D<optimized o=
+ut>, addr=3D<optimized out>, value=3D<optimized out>, size=3D<optimized out=
+>, shift=3D<optimized out>, mask=3D<optimized out>, attrs=3D...) at /home/a=
+lxndr/Development/qemu/memory.c:483
+
+  I can reproduce it in qemu 5.0 using:
+
+  cat << EOF | ~/Development/qemu/build/i386-softmmu/qemu-system-i386 -M pc=
+-q35-5.0 -nographic -qtest stdio -monitor none -serial none
+  outl 0xcf8 0x80001010
+  outl 0xcfc 0xe1020000
+  outl 0xcf8 0x80001014
+  outl 0xcf8 0x80001004
+  outw 0xcfc 0x7
+  outl 0xcf8 0x800010a2
+  write 0xe10207e8 0x14 0x00002d05225f3f5f5e00000200000000250013ff
+  write 0x200006a 0xc 0x08004500feffffff02007b06
+  write 0xe1020098 0x3a2 0x000006ffdf054e411b0002e10000000006ffe1054e411b00=
+02e10000000006ffe3054e411b0002e10000000006ffe5054e411b0002e10000000006ffe70=
+54e411b0002e10000000006ffe9054e411b0002e10000000006ffeb054e411b0002e1000000=
+0006ffed054e411b0002e10000000006ffef054e411b0002e10000000006fff1054e411b000=
+2e10000000006fff3054e411b0002e10000000006fff5054e411b0002e10000000006fff705=
+4e411b0002e10000000006fff9054e411b0002e10000000006fffb054e411b0002e10000000=
+006fffd054e411b0002e10000000006ffff054e411b0002e10000000006ff01054e411b0002=
+e10000000006ff03054e411b0002e10000000006ff05054e411b0002e10000000006ff07054=
+e411b0002e10000000006ff09054e411b0002e10000000006ff0b054e411b0002e100000000=
+06ff0d054e411b0002e10000000006ff0f054e411b0002e10000000006ff11054e411b0002e=
+10000000006ff13054e411b0002e10000000006ff15054e411b0002e10000000006ff17054e=
+411b0002e10000000006ff19054e411b0002e10000000006ff1b054e411b0002e1000000000=
+6ff1d054e411b0002e10000000006ff1f054e411b0002e10000000006ff21054e411b0002e1=
+0000000006ff23054e411b0002e10000000006ff25054e411b0002e10000000006ff27054e4=
+11b0002e10000000006ff29054e411b0002e10000000006ff2b054e411b0002e10000000006=
+ff2d054e411b0002e10000000006ff2f054e411b0002e10000000006ff31054e411b0002e10=
+000000006ff33054e411b0002e10000000006ff35054e411b0002e10000000006ff37054e41=
+1b0002e10000000006ff39054e411b0002e10000000006ff3b054e411b0002e10000000006f=
+f3d054e411b0002e10000000006ff3f054e411b0002e10000000006ff41054e411b0002e100=
+00000006ff43054e411b0002e10000000006ff45054e411b0002e10000000006ff47054e411=
+b0002e10000000006ff49054e411b0002e10000000006ff4b054e411b0002e10000000006ff=
+4d054e411b0002e10000000006ff4f054e411b0002e10000000006ff51054e411b0002e1000=
+0000006ff53054e411b0002e10000000006ff55054e411b0002e10000000006ff57054e411b=
+0002e10000000006ff59054e411b0002e10000000006ff5b054e411b0002e10000000006ff5=
+d054e411b0002e10000000006ff5f054e411b0002e10000000006ff61054e411b0002e10000=
+000006ff6305
+  EOF
+
+  I also attached the traces to this launchpad report, in case the
+  formatting is broken:
+
+  qemu-system-i386 -M pc-q35-5.0 -nographic -qtest stdio -monitor none
+  -serial none < attachment
+
+  Please let me know if I can provide any further info.
+  -Alex
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1878250/+subscriptions
 
