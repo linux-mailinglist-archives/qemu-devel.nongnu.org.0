@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 055FC382AC5
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 13:18:46 +0200 (CEST)
-Received: from localhost ([::1]:46456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA52D382A91
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 13:07:42 +0200 (CEST)
+Received: from localhost ([::1]:37236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1libGn-0002Me-1y
-	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 07:18:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55926)
+	id 1lib65-0000wS-Qu
+	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 07:07:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55952)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lias1-0007bC-Q7; Mon, 17 May 2021 06:53:12 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:37810)
+ id 1lias8-0007e7-Fc; Mon, 17 May 2021 06:53:18 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:37808)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lias0-00073s-8x; Mon, 17 May 2021 06:53:09 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id q5so5887107wrs.4;
- Mon, 17 May 2021 03:53:06 -0700 (PDT)
+ id 1lias5-000766-Io; Mon, 17 May 2021 06:53:15 -0400
+Received: by mail-wr1-x429.google.com with SMTP id q5so5887349wrs.4;
+ Mon, 17 May 2021 03:53:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=mNroUX3BeAka8NdiLyy2HrifOJFWYU+B+TgnTgbcsqY=;
- b=htA/JO62MIPWqMM8tgAdaw8+n8BDVcJmTO6X9HNgLDImG7fCL54Hsf4Ua24ZjaYeAY
- eRuOYkPGrbnw4AWxRWP7fUCYAji7KmG8OGKUZIZc/hEnNTZ8r/X23/P1jDFmFPLwkpot
- Qr8irfpNnCQscmEoiQYLUhXopnmU9sJbFYzcM2wg3x81Rw3syjnvqIVu8cLxu3GlG1xW
- E6CDvp2YwD/htIBWiGb+FuLkFLUeZu7crgfdmzk0q0h1Q3QZcpVHNdMNhd420CdLkhwY
- S5//4ebo9obU4cCqW3G6LpBF92MSGet81re/9OvWkMv7r95O8ZnHUsISxlWHfZI4yS6g
- xzOw==
+ bh=4ZG0pkj4UWtVe9/4Fh6Wi0BGus1XDQNTQXT8vjTo2FU=;
+ b=hDRrrf4jR9nv3UB5od7RygSuLKh0xnmIRXeIqmy3a/frnSBlWG1eFTyK1uti3d5FRV
+ 9ADQ6Kn7jEZT7wUSoQhrUOPh4G91S2Qae1b4ANV1qDMBA5dA2i471FAp1RzReI/Z+3MP
+ ULQoh/YAPBnsSO4Ap5OsrwrjUyyA8FdWQZTLhNtUg2sXrTLU6woejpmzPdJIKSToNuHD
+ KYwGiqZU8aoRS6g0PvrblkivL0r/U/cfif34hBHTJQpvLgz3Riq5QUX8yp/PW3D1oRro
+ Dg39CGj8arSffctLQyXka4mvZNwMKzd0Fdfp5M52Q7ER/W61Hl6Ll359kEirUu/fZDKJ
+ 5a4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=mNroUX3BeAka8NdiLyy2HrifOJFWYU+B+TgnTgbcsqY=;
- b=dxClm1KC6OgbCzRsgFrOiZlaJItGsKGLqBvZu0QQSj1eEZVFNltGDesgeE8DoPU2dl
- 697HFk9oFU/FVTrBbrV2kCp2VDUZ0siyCC39gJJw3fzRVzy5oxlSyPnQRd9BKdkVKuvc
- VoNTz0kqe8Z8mjInkKw58o9i4mKwKd6WHOhwei2h0kh2JL//eD9/RNVXA0YznhYOtiJu
- ZYpZSw9CgEnyEYmtXaz9hAg/0VqxGe0ebgeFZ5hAizhvflj4bvq4rNBWEFAmx+lHXIX0
- tEsb0qWHrY8flsbc+hsFIESwKnV/yvfEtxUlLAW8jlkZaJ4XW0iTb+VOCELU3l25LGSY
- cryg==
-X-Gm-Message-State: AOAM5312z7dr3BrGRiUa+NMwJa/FJGdLo6jO+OB7GTn4J6Hk7A1xjFV4
- StLFxTRd5EjIsockKGBU6glp1Iqecf7EBg==
-X-Google-Smtp-Source: ABdhPJy/wkIOO3bdTRTA4r7yyPIY92NFP4/oBAwG1Y9cz+mafUmCu45WXOvC8zg7Wy+/7EgmGsv2MQ==
-X-Received: by 2002:a5d:52c5:: with SMTP id r5mr73462267wrv.391.1621248785231; 
- Mon, 17 May 2021 03:53:05 -0700 (PDT)
+ bh=4ZG0pkj4UWtVe9/4Fh6Wi0BGus1XDQNTQXT8vjTo2FU=;
+ b=T0YpCgjmhCt1pi1YJTuBlt6I+GJ8XGSHaEm1PrqwB8DZZY20dga/B84xqmer4pwpQZ
+ //KkANdmTqveCKUemV4k5JbVMPFMaIG0mkepxIf6rUd3WFy2u6j+14mzohdKIlqpq7Rg
+ /mXbO0CHUez7AECehbDZ536TbOcxOArSmIQDIMxNwNt1XAl3Vt/yzGr+/47prTtjcUoU
+ 2x3cMDMc0rgum5IUAIAwF57GFTEkX4kHbrKTetPLiKUYOvvCq6vZULcP/cRZnh+vT83B
+ N+w4Mzf+QhYHBhOvV8nNlmUN+lciSgGrKYqqI9vYXrmJ01Y9+49yP+o83itA8Kwkmwtl
+ 9Qmw==
+X-Gm-Message-State: AOAM533NoLBFs60ld0Yc5Xn7AQIXg3WsDstEU8HzZKqM48kdM8RiCayI
+ 9eOxk9nw3n7BspS4REgScVSm132KqhYF4g==
+X-Google-Smtp-Source: ABdhPJxZhDi0X1JTY82rI7bQ5kO/AHO15yHSeY1NOQEZAwEItv5gJrXRFgdB6j9EqCuk2A5EGrjZzg==
+X-Received: by 2002:a5d:5184:: with SMTP id k4mr28144900wrv.84.1621248789949; 
+ Mon, 17 May 2021 03:53:09 -0700 (PDT)
 Received: from localhost.localdomain (31.red-83-51-215.dynamicip.rima-tde.net.
  [83.51.215.31])
- by smtp.gmail.com with ESMTPSA id e3sm6058502wru.48.2021.05.17.03.53.04
+ by smtp.gmail.com with ESMTPSA id r5sm11135324wrw.96.2021.05.17.03.53.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 May 2021 03:53:04 -0700 (PDT)
+ Mon, 17 May 2021 03:53:09 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 17/23] cpu: Move CPUClass::get_crash_info to SysemuCPUOps
-Date: Mon, 17 May 2021 12:51:34 +0200
-Message-Id: <20210517105140.1062037-18-f4bug@amsat.org>
+Subject: [PATCH v7 18/23] cpu: Move CPUClass::write_elf* to SysemuCPUOps
+Date: Mon, 17 May 2021 12:51:35 +0200
+Message-Id: <20210517105140.1062037-19-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210517105140.1062037-1-f4bug@amsat.org>
 References: <20210517105140.1062037-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -91,102 +91,262 @@ Cc: qemu-riscv@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-cpu_get_crash_info() is called on GUEST_PANICKED events,
-which only occur in system emulation.
+The write_elf*() handlers are used to dump vmcore images.
+This feature is only meaningful for system emulation.
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- include/hw/core/cpu.h            | 1 -
- include/hw/core/sysemu-cpu-ops.h | 5 +++++
- hw/core/cpu-sysemu.c             | 4 ++--
- target/i386/cpu.c                | 2 +-
- target/s390x/cpu.c               | 2 +-
- 5 files changed, 9 insertions(+), 5 deletions(-)
+ include/hw/core/cpu.h            | 17 -----------------
+ include/hw/core/sysemu-cpu-ops.h | 24 ++++++++++++++++++++++++
+ hw/core/cpu-sysemu.c             | 16 ++++++++--------
+ target/arm/cpu.c                 |  4 ++--
+ target/i386/cpu.c                |  8 ++++----
+ target/riscv/cpu.c               |  4 ++--
+ target/s390x/cpu.c               |  2 +-
+ target/ppc/translate_init.c.inc  |  6 ++----
+ 8 files changed, 43 insertions(+), 38 deletions(-)
 
 diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-index 1b7e815c871..6f5e04ae580 100644
+index 6f5e04ae580..fce9bdc686e 100644
 --- a/include/hw/core/cpu.h
 +++ b/include/hw/core/cpu.h
-@@ -150,7 +150,6 @@ struct CPUClass {
-     int (*memory_rw_debug)(CPUState *cpu, vaddr addr,
-                            uint8_t *buf, int len, bool is_write);
-     void (*dump_state)(CPUState *cpu, FILE *, int flags);
--    GuestPanicInformation* (*get_crash_info)(CPUState *cpu);
-     void (*dump_statistics)(CPUState *cpu, int flags);
-     int64_t (*get_arch_id)(CPUState *cpu);
-     bool (*get_paging_enabled)(const CPUState *cpu);
+@@ -112,14 +112,6 @@ struct AccelCPUClass;
+  *       a memory access with the specified memory transaction attributes.
+  * @gdb_read_register: Callback for letting GDB read a register.
+  * @gdb_write_register: Callback for letting GDB write a register.
+- * @write_elf64_note: Callback for writing a CPU-specific ELF note to a
+- * 64-bit VM coredump.
+- * @write_elf32_qemunote: Callback for writing a CPU- and QEMU-specific ELF
+- * note to a 32-bit VM coredump.
+- * @write_elf32_note: Callback for writing a CPU-specific ELF note to a
+- * 32-bit VM coredump.
+- * @write_elf32_qemunote: Callback for writing a CPU- and QEMU-specific ELF
+- * note to a 32-bit VM coredump.
+  * @gdb_num_core_regs: Number of core registers accessible to GDB.
+  * @gdb_core_xml_file: File name for core registers GDB XML description.
+  * @gdb_stop_before_watchpoint: Indicates whether GDB expects the CPU to stop
+@@ -163,15 +155,6 @@ struct CPUClass {
+     int (*gdb_read_register)(CPUState *cpu, GByteArray *buf, int reg);
+     int (*gdb_write_register)(CPUState *cpu, uint8_t *buf, int reg);
+ 
+-    int (*write_elf64_note)(WriteCoreDumpFunction f, CPUState *cpu,
+-                            int cpuid, void *opaque);
+-    int (*write_elf64_qemunote)(WriteCoreDumpFunction f, CPUState *cpu,
+-                                void *opaque);
+-    int (*write_elf32_note)(WriteCoreDumpFunction f, CPUState *cpu,
+-                            int cpuid, void *opaque);
+-    int (*write_elf32_qemunote)(WriteCoreDumpFunction f, CPUState *cpu,
+-                                void *opaque);
+-
+     const char *gdb_core_xml_file;
+     gchar * (*gdb_arch_name)(CPUState *cpu);
+     const char * (*gdb_get_dynamic_xml)(CPUState *cpu, const char *xmlname);
 diff --git a/include/hw/core/sysemu-cpu-ops.h b/include/hw/core/sysemu-cpu-ops.h
-index ed212085f89..c6ec9b0a7f6 100644
+index c6ec9b0a7f6..19247d330dc 100644
 --- a/include/hw/core/sysemu-cpu-ops.h
 +++ b/include/hw/core/sysemu-cpu-ops.h
-@@ -16,6 +16,11 @@
-  * struct SysemuCPUOps: System operations specific to a CPU class
-  */
- typedef struct SysemuCPUOps {
+@@ -21,6 +21,30 @@ typedef struct SysemuCPUOps {
+      * GUEST_PANICKED events.
+      */
+     GuestPanicInformation* (*get_crash_info)(CPUState *cpu);
 +    /**
-+     * @get_crash_info: Callback for reporting guest crash information in
-+     * GUEST_PANICKED events.
++     * @write_elf32_note: Callback for writing a CPU-specific ELF note to a
++     * 32-bit VM coredump.
 +     */
-+    GuestPanicInformation* (*get_crash_info)(CPUState *cpu);
++    int (*write_elf32_note)(WriteCoreDumpFunction f, CPUState *cpu,
++                            int cpuid, void *opaque);
++    /**
++     * @write_elf64_note: Callback for writing a CPU-specific ELF note to a
++     * 64-bit VM coredump.
++     */
++    int (*write_elf64_note)(WriteCoreDumpFunction f, CPUState *cpu,
++                            int cpuid, void *opaque);
++    /**
++     * @write_elf32_qemunote: Callback for writing a CPU- and QEMU-specific ELF
++     * note to a 32-bit VM coredump.
++     */
++    int (*write_elf32_qemunote)(WriteCoreDumpFunction f, CPUState *cpu,
++                                void *opaque);
++    /**
++     * @write_elf64_qemunote: Callback for writing a CPU- and QEMU-specific ELF
++     * note to a 64-bit VM coredump.
++     */
++    int (*write_elf64_qemunote)(WriteCoreDumpFunction f, CPUState *cpu,
++                                void *opaque);
      /**
       * @virtio_is_big_endian: Callback to return %true if a CPU which supports
       *       runtime configurable endianness is currently big-endian.
 diff --git a/hw/core/cpu-sysemu.c b/hw/core/cpu-sysemu.c
-index bad7d2cb016..90b5ac8eb9e 100644
+index 90b5ac8eb9e..d55ef8d23d1 100644
 --- a/hw/core/cpu-sysemu.c
 +++ b/hw/core/cpu-sysemu.c
-@@ -138,8 +138,8 @@ GuestPanicInformation *cpu_get_crash_info(CPUState *cpu)
+@@ -84,10 +84,10 @@ int cpu_write_elf32_qemunote(WriteCoreDumpFunction f, CPUState *cpu,
+ {
      CPUClass *cc = CPU_GET_CLASS(cpu);
-     GuestPanicInformation *res = NULL;
  
--    if (cc->get_crash_info) {
--        res = cc->get_crash_info(cpu);
-+    if (cc->sysemu_ops->get_crash_info) {
-+        res = cc->sysemu_ops->get_crash_info(cpu);
+-    if (!cc->write_elf32_qemunote) {
++    if (!cc->sysemu_ops->write_elf32_qemunote) {
+         return 0;
      }
-     return res;
+-    return (*cc->write_elf32_qemunote)(f, cpu, opaque);
++    return (*cc->sysemu_ops->write_elf32_qemunote)(f, cpu, opaque);
  }
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index f8750f6400f..1106dc3fc98 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -6716,6 +6716,7 @@ static Property x86_cpu_properties[] = {
+ 
+ int cpu_write_elf32_note(WriteCoreDumpFunction f, CPUState *cpu,
+@@ -95,10 +95,10 @@ int cpu_write_elf32_note(WriteCoreDumpFunction f, CPUState *cpu,
+ {
+     CPUClass *cc = CPU_GET_CLASS(cpu);
+ 
+-    if (!cc->write_elf32_note) {
++    if (!cc->sysemu_ops->write_elf32_note) {
+         return -1;
+     }
+-    return (*cc->write_elf32_note)(f, cpu, cpuid, opaque);
++    return (*cc->sysemu_ops->write_elf32_note)(f, cpu, cpuid, opaque);
+ }
+ 
+ int cpu_write_elf64_qemunote(WriteCoreDumpFunction f, CPUState *cpu,
+@@ -106,10 +106,10 @@ int cpu_write_elf64_qemunote(WriteCoreDumpFunction f, CPUState *cpu,
+ {
+     CPUClass *cc = CPU_GET_CLASS(cpu);
+ 
+-    if (!cc->write_elf64_qemunote) {
++    if (!cc->sysemu_ops->write_elf64_qemunote) {
+         return 0;
+     }
+-    return (*cc->write_elf64_qemunote)(f, cpu, opaque);
++    return (*cc->sysemu_ops->write_elf64_qemunote)(f, cpu, opaque);
+ }
+ 
+ int cpu_write_elf64_note(WriteCoreDumpFunction f, CPUState *cpu,
+@@ -117,10 +117,10 @@ int cpu_write_elf64_note(WriteCoreDumpFunction f, CPUState *cpu,
+ {
+     CPUClass *cc = CPU_GET_CLASS(cpu);
+ 
+-    if (!cc->write_elf64_note) {
++    if (!cc->sysemu_ops->write_elf64_note) {
+         return -1;
+     }
+-    return (*cc->write_elf64_note)(f, cpu, cpuid, opaque);
++    return (*cc->sysemu_ops->write_elf64_note)(f, cpu, cpuid, opaque);
+ }
+ 
+ bool cpu_virtio_is_big_endian(CPUState *cpu)
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index 9100947905a..a56de47d1fa 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -1944,6 +1944,8 @@ static gchar *arm_gdb_arch_name(CPUState *cs)
  
  #ifndef CONFIG_USER_ONLY
+ static const struct SysemuCPUOps arm_sysemu_ops = {
++    .write_elf32_note = arm_cpu_write_elf32_note,
++    .write_elf64_note = arm_cpu_write_elf64_note,
+     .virtio_is_big_endian = arm_cpu_virtio_is_big_endian,
+     .legacy_vmsd = &vmstate_arm_cpu,
+ };
+@@ -1988,8 +1990,6 @@ static void arm_cpu_class_init(ObjectClass *oc, void *data)
+ #ifndef CONFIG_USER_ONLY
+     cc->get_phys_page_attrs_debug = arm_cpu_get_phys_page_attrs_debug;
+     cc->asidx_from_attrs = arm_asidx_from_attrs;
+-    cc->write_elf64_note = arm_cpu_write_elf64_note;
+-    cc->write_elf32_note = arm_cpu_write_elf32_note;
+     cc->sysemu_ops = &arm_sysemu_ops;
+ #endif
+     cc->gdb_num_core_regs = 26;
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 1106dc3fc98..44c9546eda2 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -6717,6 +6717,10 @@ static Property x86_cpu_properties[] = {
+ #ifndef CONFIG_USER_ONLY
  static const struct SysemuCPUOps i386_sysemu_ops = {
-+    .get_crash_info = x86_cpu_get_crash_info,
+     .get_crash_info = x86_cpu_get_crash_info,
++    .write_elf32_note = x86_cpu_write_elf32_note,
++    .write_elf64_note = x86_cpu_write_elf64_note,
++    .write_elf32_qemunote = x86_cpu_write_elf32_qemunote,
++    .write_elf64_qemunote = x86_cpu_write_elf64_qemunote,
      .legacy_vmsd = &vmstate_x86_cpu,
  };
  #endif
-@@ -6750,7 +6751,6 @@ static void x86_cpu_common_class_init(ObjectClass *oc, void *data)
+@@ -6751,10 +6755,6 @@ static void x86_cpu_common_class_init(ObjectClass *oc, void *data)
      cc->asidx_from_attrs = x86_asidx_from_attrs;
      cc->get_memory_mapping = x86_cpu_get_memory_mapping;
      cc->get_phys_page_attrs_debug = x86_cpu_get_phys_page_attrs_debug;
--    cc->get_crash_info = x86_cpu_get_crash_info;
-     cc->write_elf64_note = x86_cpu_write_elf64_note;
-     cc->write_elf64_qemunote = x86_cpu_write_elf64_qemunote;
-     cc->write_elf32_note = x86_cpu_write_elf32_note;
-diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
-index aafe5fa2ef5..470aaeb72e6 100644
---- a/target/s390x/cpu.c
-+++ b/target/s390x/cpu.c
-@@ -478,6 +478,7 @@ static void s390_cpu_reset_full(DeviceState *dev)
+-    cc->write_elf64_note = x86_cpu_write_elf64_note;
+-    cc->write_elf64_qemunote = x86_cpu_write_elf64_qemunote;
+-    cc->write_elf32_note = x86_cpu_write_elf32_note;
+-    cc->write_elf32_qemunote = x86_cpu_write_elf32_qemunote;
+     cc->sysemu_ops = &i386_sysemu_ops;
+ #endif /* !CONFIG_USER_ONLY */
+ 
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index e724c10a2ed..d86e44ca07d 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -598,6 +598,8 @@ static const char *riscv_gdb_get_dynamic_xml(CPUState *cs, const char *xmlname)
  
  #ifndef CONFIG_USER_ONLY
+ static const struct SysemuCPUOps riscv_sysemu_ops = {
++    .write_elf64_note = riscv_cpu_write_elf64_note,
++    .write_elf32_note = riscv_cpu_write_elf32_note,
+     .legacy_vmsd = &vmstate_riscv_cpu,
+ };
+ #endif
+@@ -645,8 +647,6 @@ static void riscv_cpu_class_init(ObjectClass *c, void *data)
+ #ifndef CONFIG_USER_ONLY
+     cc->get_phys_page_debug = riscv_cpu_get_phys_page_debug;
+     cc->sysemu_ops = &riscv_sysemu_ops;
+-    cc->write_elf64_note = riscv_cpu_write_elf64_note;
+-    cc->write_elf32_note = riscv_cpu_write_elf32_note;
+ #endif
+     cc->gdb_arch_name = riscv_gdb_arch_name;
+     cc->gdb_get_dynamic_xml = riscv_gdb_get_dynamic_xml;
+diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
+index 470aaeb72e6..058ffcef15f 100644
+--- a/target/s390x/cpu.c
++++ b/target/s390x/cpu.c
+@@ -479,6 +479,7 @@ static void s390_cpu_reset_full(DeviceState *dev)
+ #ifndef CONFIG_USER_ONLY
  static const struct SysemuCPUOps s390_sysemu_ops = {
-+    .get_crash_info = s390_cpu_get_crash_info,
+     .get_crash_info = s390_cpu_get_crash_info,
++    .write_elf64_note = s390_cpu_write_elf64_note,
      .legacy_vmsd = &vmstate_s390_cpu,
  };
  #endif
-@@ -522,7 +523,6 @@ static void s390_cpu_class_init(ObjectClass *oc, void *data)
+@@ -523,7 +524,6 @@ static void s390_cpu_class_init(ObjectClass *oc, void *data)
      cc->gdb_write_register = s390_cpu_gdb_write_register;
  #ifndef CONFIG_USER_ONLY
      cc->get_phys_page_debug = s390_cpu_get_phys_page_debug;
--    cc->get_crash_info = s390_cpu_get_crash_info;
-     cc->write_elf64_note = s390_cpu_write_elf64_note;
+-    cc->write_elf64_note = s390_cpu_write_elf64_note;
      cc->sysemu_ops = &s390_sysemu_ops;
  #endif
+     cc->disas_set_info = s390_cpu_disas_set_info;
+diff --git a/target/ppc/translate_init.c.inc b/target/ppc/translate_init.c.inc
+index 73e859ea0d3..86b11e1356a 100644
+--- a/target/ppc/translate_init.c.inc
++++ b/target/ppc/translate_init.c.inc
+@@ -10239,6 +10239,8 @@ static Property ppc_cpu_properties[] = {
+ 
+ #ifndef CONFIG_USER_ONLY
+ static const struct SysemuCPUOps ppc_sysemu_ops = {
++    .write_elf32_note = ppc32_cpu_write_elf32_note,
++    .write_elf64_note = ppc64_cpu_write_elf64_note,
+     .virtio_is_big_endian = ppc_cpu_is_big_endian,
+     .legacy_vmsd = &vmstate_ppc_cpu,
+ };
+@@ -10288,10 +10290,6 @@ static void ppc_cpu_class_init(ObjectClass *oc, void *data)
+     cc->get_phys_page_debug = ppc_cpu_get_phys_page_debug;
+     cc->sysemu_ops = &ppc_sysemu_ops;
+ #endif
+-#if defined(CONFIG_SOFTMMU)
+-    cc->write_elf64_note = ppc64_cpu_write_elf64_note;
+-    cc->write_elf32_note = ppc32_cpu_write_elf32_note;
+-#endif
+ 
+     cc->gdb_num_core_regs = 71;
+ #ifndef CONFIG_USER_ONLY
 -- 
 2.26.3
 
