@@ -2,49 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC7C6383CE7
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 21:06:54 +0200 (CEST)
-Received: from localhost ([::1]:59250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83B85383CF0
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 21:09:09 +0200 (CEST)
+Received: from localhost ([::1]:39204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1liiZp-0004vv-MW
-	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 15:06:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34362)
+	id 1liic0-00022A-Ip
+	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 15:09:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34400)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lihm7-00075x-2V
- for qemu-devel@nongnu.org; Mon, 17 May 2021 14:15:31 -0400
-Received: from mout.kundenserver.de ([212.227.126.131]:40469)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lihm8-0007B1-DG
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 14:15:32 -0400
+Received: from mout.kundenserver.de ([212.227.126.131]:46997)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lihla-0004aE-V2
- for qemu-devel@nongnu.org; Mon, 17 May 2021 14:15:30 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lihle-0004ca-9b
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 14:15:32 -0400
 Received: from quad ([82.142.31.78]) by mrelayeu.kundenserver.de (mreue012
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1MVrXh-1lsv3z1RSv-00RsVI; Mon, 17
- May 2021 20:14:54 +0200
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1N7xml-1lMJG62dMJ-0155CK; Mon, 17
+ May 2021 20:14:57 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 54/59] linux-user: Honor TARGET_ARCH_HAS_SA_RESTORER in
- do_syscall
-Date: Mon, 17 May 2021 20:14:19 +0200
-Message-Id: <20210517181424.8093-55-laurent@vivier.eu>
+Subject: [PULL 59/59] linux-user/elfload: add s390x core dumping support
+Date: Mon, 17 May 2021 20:14:24 +0200
+Message-Id: <20210517181424.8093-60-laurent@vivier.eu>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210517181424.8093-1-laurent@vivier.eu>
 References: <20210517181424.8093-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:U19fCq8n1yeaOx3WZmmu9QX6E03U6ewNYqTR3Rp6Qp7GW5Y8pKp
- 3w6i3/T91Ytve8HKBEbpKVoRV5R5/fmGvllwEFTNXFLbfnFCzWbvy4UkBi2F7qaC/+E7bUv
- 3qVOVLmhUDNi96xUVKUGbjDJ3zZE5XaymNDAUMnJOyMgGamYGYAsTi3rsy1T5Wxy/9p1Ghj
- ktvnWjLjxL/RWUwfR2b7A==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:K7mfQV6am8Y=:KlNU0bs3MP/TJZ0cEZOWs4
- Mu/vf9fpFsm5IyW+DC2OSe8H4V08b/zWCCXiRLybtKsfsBEFjwFqLuAxN0nJsdHq1x5GG0Dk4
- tOa3A6CjljIajDAv4ekePJ/90BlRZNyfrdd9pQ8CWBID0BGvpcnsb/Pmo+hzI+ZIVvehDbqsF
- AWCxrMDo5yaa/yer8MiLjz7aCWJuY6gBEMX/VJT7YFElmDtt6EEq7WdkA445G2EB5fQ66L01I
- H+WcoGSKavBFHX2tZc7b4bHBZ2VYoGBNx8KctGFh0baHiMtVba2MIQwytWreW+gZfV9EUGAzx
- XgB2K2qxxyZMyEhbvsZscMhSYAzvHb50byKNgJefyNXpQ5vED8zA/ZwaWQXzIKzfRGUSqlNyz
- QXg3IhHEo8WPAM+n4HCjJdAdWcFbAO5B4jUqcOx6hT6O15fQWmHUUq0SLrTa8O45qYjedvfXD
- O15B7ZZesS0lWBYcDAL4avyyFIjAHDxz2J0ZnjS96aguNZdms59iISgkB5m4aCg8xJN8TnrCB
- EIarAhLha1KCJkhD4HlinI=
+X-Provags-ID: V03:K1:wji4x8+UUAGg3ZK2PgGBVwrOcMIeV7MANcvPK8kWfixtrMNxUTb
+ Kf9IwAbiWNL/9u8hyWc5y6N3fHKBdBXLtXLD3CTFFzf5MCk25E7/gFcPlOY96hmYv2BqcPO
+ dqHL6e0soaoR8IzlvzlxyUXKYmWiZacoRxIHCmLAgt7gakVk7WscDaDnmjwC0XF2laE76Vw
+ jntZ1CtTl5jyt/MaoGpXw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:4Sa7AC+XY6M=:X+qDt7T41g2FUjvmXxTUQz
+ oEgspOMXyQK83dOfUmYNqKnuTm+MK7ePSIk0gw5ykBR0z1TY6tDY+VjnvX70LuKS0o6dTDaKL
+ reHwoUBQm0NNV6L3BS6xm19dUjLhq7g8qASFsfJBDUq9Kq/eF+pxmr9Zg5GlcJkIuq6Yonfmj
+ EdYv0uh/HzXHYmQHldXph7f8KdAepPy7gOxEmja00J4f625ZpkhJ1lIa3tFgewZD5ubPc4dCp
+ ZqKFeYk4LNwmIjHMACWq2w3+ZdGAQGn8MQbNjNME0iWGKeRGhTEU/hHmb7b+XrIs9NdHkCB49
+ uFtcRkeP3oqvZc1i1EF9VwMolIh29tJqzanI1Mo4+RTm9MTUuT8oiRkqBe0Whp3/u8btTgXsh
+ wkQqnYhyBESiems5cNNiv7lKkGnYkes0uZXsjcwu/nMwQ7ZZcmN6gZ9SAkaXa6A7kvoA0jRKe
+ uWuMBK/jFrohB8wUaxLio9wkkSNNzKz5ywyFslwIr1p1whBBrQ+xbjzW4zcPXmX4yMJJZnO/U
+ 7Kep1o55VSqQ16nJmRUO+8=
 Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
@@ -64,51 +62,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Laurent Vivier <laurent@vivier.eu>, Ilya Leoshkevich <iii@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
+From: Ilya Leoshkevich <iii@linux.ibm.com>
 
-Do not access a field that may not be present.  This will
-become an issue when sharing more code in the next patch.
+Provide the following definitions required by the common code:
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20210422230227.314751-5-richard.henderson@linaro.org>
+* ELF_NREG: with the value of sizeof(s390_regs) / sizeof(long).
+* target_elf_gregset_t: define it like all the other arches do.
+* elf_core_copy_regs(): similar to kernel's s390_regs_get().
+* USE_ELF_CORE_DUMP.
+* ELF_EXEC_PAGESIZE.
+
+Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
+Message-Id: <20210413205608.22587-1-iii@linux.ibm.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/syscall.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ linux-user/elfload.c | 33 +++++++++++++++++++++++++++++++++
+ 1 file changed, 33 insertions(+)
 
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 1f282574a12c..7b139a9c3a55 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -9038,7 +9038,9 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
-                 act._sa_handler = old_act->_sa_handler;
-                 target_siginitset(&act.sa_mask, old_act->sa_mask);
-                 act.sa_flags = old_act->sa_flags;
-+#ifdef TARGET_ARCH_HAS_SA_RESTORER
-                 act.sa_restorer = old_act->sa_restorer;
-+#endif
-                 unlock_user_struct(old_act, arg2, 0);
-                 pact = &act;
-             } else {
-@@ -9051,7 +9053,9 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
-                 old_act->_sa_handler = oact._sa_handler;
-                 old_act->sa_mask = oact.sa_mask.sig[0];
-                 old_act->sa_flags = oact.sa_flags;
-+#ifdef TARGET_ARCH_HAS_SA_RESTORER
-                 old_act->sa_restorer = oact.sa_restorer;
-+#endif
-                 unlock_user_struct(old_act, arg3, 1);
-             }
- #endif
+diff --git a/linux-user/elfload.c b/linux-user/elfload.c
+index 9779263727ba..0e832b2649f6 100644
+--- a/linux-user/elfload.c
++++ b/linux-user/elfload.c
+@@ -1375,6 +1375,39 @@ static inline void init_thread(struct target_pt_regs *regs, struct image_info *i
+     regs->gprs[15] = infop->start_stack;
+ }
+ 
++/* See linux kernel: arch/s390/include/uapi/asm/ptrace.h (s390_regs).  */
++#define ELF_NREG 27
++typedef target_elf_greg_t target_elf_gregset_t[ELF_NREG];
++
++enum {
++    TARGET_REG_PSWM = 0,
++    TARGET_REG_PSWA = 1,
++    TARGET_REG_GPRS = 2,
++    TARGET_REG_ARS = 18,
++    TARGET_REG_ORIG_R2 = 26,
++};
++
++static void elf_core_copy_regs(target_elf_gregset_t *regs,
++                               const CPUS390XState *env)
++{
++    int i;
++    uint32_t *aregs;
++
++    (*regs)[TARGET_REG_PSWM] = tswapreg(env->psw.mask);
++    (*regs)[TARGET_REG_PSWA] = tswapreg(env->psw.addr);
++    for (i = 0; i < 16; i++) {
++        (*regs)[TARGET_REG_GPRS + i] = tswapreg(env->regs[i]);
++    }
++    aregs = (uint32_t *)&((*regs)[TARGET_REG_ARS]);
++    for (i = 0; i < 16; i++) {
++        aregs[i] = tswap32(env->aregs[i]);
++    }
++    (*regs)[TARGET_REG_ORIG_R2] = 0;
++}
++
++#define USE_ELF_CORE_DUMP
++#define ELF_EXEC_PAGESIZE 4096
++
+ #endif /* TARGET_S390X */
+ 
+ #ifdef TARGET_RISCV
 -- 
 2.31.1
 
