@@ -2,58 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E7A0383088
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 16:29:58 +0200 (CEST)
-Received: from localhost ([::1]:56246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F823383099
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 16:30:05 +0200 (CEST)
+Received: from localhost ([::1]:56412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lieFp-0004Mw-2h
-	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 10:29:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56114)
+	id 1lieFw-0004UK-KM
+	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 10:30:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56226)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lieDt-0001hj-FV
- for qemu-devel@nongnu.org; Mon, 17 May 2021 10:27:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44712)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lieE4-0001kC-56
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 10:28:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32533)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lieDo-0006lx-Lp
- for qemu-devel@nongnu.org; Mon, 17 May 2021 10:27:56 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lieE0-0006pa-H2
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 10:28:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621261671;
+ s=mimecast20190719; t=1621261684;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=yXdjInGchDAiwu8phzLTVTdlkRowU+0XoVrNW8YLwqw=;
- b=fyTxeSNsTHXYt0Srzo3d2QB/rjTBT4cDDLu7+xdO/f5tTNO70uW8KL6tbuWtdqjjH2hGCb
- UOYYv5WtWzsobPKdcoGsuAJ6WVnbv3BVAI3sJXUJoiSA5386vLmjc7DDuuhLX6uDJKGlRw
- deVCTyZOEyRnma3JhYQYp7jM1lPjRoE=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=adAsX68ghz9gpGJHl0+/fCZS/MCW1+NkqYbO+fw0p0Y=;
+ b=Ju1/Z6N3nSshYJYVbIKftc0Yn9tDeSsZXIXsE/mm0OGlgaBiivQOKhWxf+Qdb0NB/vuXXC
+ wqdDLmuf6Y4Ezg4a3Rw/je3sdC51xiKtAg+YtQ9oUngH91/xbgvqvBmk5Mf/2Dixye6vKG
+ XrIteDR7pg7nh1WU6DYYK06M6ERkZCI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-452-nZzflIdSOi6UUj6QUFsB3Q-1; Mon, 17 May 2021 10:27:49 -0400
-X-MC-Unique: nZzflIdSOi6UUj6QUFsB3Q-1
+ us-mta-479-_ly0H5FKOvSMslZcVindVA-1; Mon, 17 May 2021 10:28:02 -0400
+X-MC-Unique: _ly0H5FKOvSMslZcVindVA-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 449089F7CB;
- Mon, 17 May 2021 14:27:48 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 146D78015F7;
+ Mon, 17 May 2021 14:28:01 +0000 (UTC)
 Received: from t480s.redhat.com (ovpn-115-101.ams2.redhat.com [10.36.115.101])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4DF665DDAD;
- Mon, 17 May 2021 14:27:40 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2F67C5E26F;
+ Mon, 17 May 2021 14:27:57 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 00/26] s390x/tcg: Implement Vector enhancements facility
- and switch to z14
-Date: Mon, 17 May 2021 16:27:13 +0200
-Message-Id: <20210517142739.38597-1-david@redhat.com>
+Subject: [PATCH v2 04/26] s390x/tcg: Simplify vop64_2() handling
+Date: Mon, 17 May 2021 16:27:17 +0200
+Message-Id: <20210517142739.38597-5-david@redhat.com>
+In-Reply-To: <20210517142739.38597-1-david@redhat.com>
+References: <20210517142739.38597-1-david@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -84,84 +86,335 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This series adds support for the "Vector enhancements facility" and bumps
-the qemu CPU model to a stripped-down z14.
+Let's rework our macros and simplify. We still need helper functions in
+most cases due to the different parameters types.
 
-I tested most vector FP instructions by generating random instructions
-and vectors, comparing the result with results on actual hardware. I did
-not test instructions/instruction variants with (partial) undeterministic
-behavior and exception handling.
+Next, we'll only have 32/128bit variants for vfi and vfsq, so special
+case the others.
 
-Linux' also seems to boot/work fine with it. Howeever, while testing this
-series I noticed that Linux checks for the wrong facility bit - see [1].
-I tested by temporarily faking availability of the "wrong" facility bit.
+Note that for vfsq, the XxC and erm passed in the simd_data() will never be
+set, resulting in the same behavior.
 
-[1] https://lkml.kernel.org/r/20210503121244.25232-1-david@redhat.com
+Signed-off-by: David Hildenbrand <david@redhat.com>
+---
+ target/s390x/helper.h           |   6 -
+ target/s390x/translate_vx.c.inc |  18 ++-
+ target/s390x/vec_fpu_helper.c   | 194 +++++++++-----------------------
+ 3 files changed, 60 insertions(+), 158 deletions(-)
 
-v1 -> v2:
-- Too much changed to spell it out explicitly. Mostly addressed feedback
-  from Richard, a couple of bugfixes found while testing, and some
-  simplifications/cleanups.
-- Rebased on top of Richard's softfloat rework
-
-Based-on: 20210508014802.892561-1-richard.henderson@linaro.org
-
-Cc: qemu-s390x@nongnu.org
-Cc: Cornelia Huck <cohuck@redhat.com>
-Cc: Halil Pasic <pasic@linux.ibm.com>
-Cc: Christian Borntraeger <borntraeger@de.ibm.com>
-Cc: Thomas Huth <thuth@redhat.com>
-Cc: Richard Henderson <richard.henderson@linaro.org>
-
-David Hildenbrand (26):
-  s390x/tcg: Fix FP CONVERT TO (LOGICAL) FIXED NaN handling
-  s390x/tcg: Fix instruction name for VECTOR FP LOAD
-    (LENGTHENED|ROUNDED)
-  s390x/tcg: Simplify vop64_3() handling
-  s390x/tcg: Simplify vop64_2() handling
-  s390x/tcg: Simplify vfc64() handling
-  s390x/tcg: Simplify vftci64() handling
-  s390x/tcg: Simplify vfma64() handling
-  s390x/tcg: Simplify vfll32() handling
-  s390x/tcg: Simplify vflr64() handling
-  s390x/tcg: Simplify wfc64() handling
-  s390x/tcg: Implement VECTOR BIT PERMUTE
-  s390x/tcg: Implement VECTOR MULTIPLY SUM LOGICAL
-  s390x/tcg: Implement 32/128 bit for VECTOR FP
-    (ADD|DIVIDE|MULTIPLY|SUBTRACT)
-  s390x/tcg: Implement 32/128 bit for VECTOR (LOAD FP INTEGER|FP SQUARE
-    ROOT)
-  s390x/tcg: Implement 32/128 bit for VECTOR FP COMPARE *
-  s390x/tcg: Implement 32/128 bit for VECTOR FP COMPARE (AND SIGNAL)
-    SCALAR
-  s390x/tcg: Implement 64 bit for VECTOR FP LOAD LENGTHENED
-  s390x/tcg: Implement 128 bit for VECTOR FP LOAD ROUNDED
-  s390x/tcg: Implement 32/128 bit for VECTOR FP PERFORM SIGN OPERATION
-  s390x/tcg: Implement 32/128 bit for VECTOR FP TEST DATA CLASS
-    IMMEDIATE
-  s390x/tcg: Implement 32/128 bit for VECTOR FP MULTIPLY AND
-    (ADD|SUBTRACT)
-  s390x/tcg: Implement VECTOR FP NEGATIVE MULTIPLY AND (ADD|SUBTRACT)
-  softfloat: Implement
-    float128_(min|minnum|minnummag|max|maxnum|maxnummag)
-  s390x/tcg: Implement VECTOR FP (MAXIMUM|MINIMUM)
-  s390x/tcg: We support Vector enhancements facility
-  s390x/cpumodel: Bump up QEMU model to a stripped-down IBM z14 GA2
-
- fpu/softfloat.c                 |   17 +
- hw/s390x/s390-virtio-ccw.c      |    3 +
- include/fpu/softfloat.h         |    6 +
- target/s390x/cpu_models.c       |    4 +-
- target/s390x/fpu_helper.c       |   41 +-
- target/s390x/gen-features.c     |   14 +-
- target/s390x/helper.h           |   70 +-
- target/s390x/insn-data.def      |   16 +-
- target/s390x/internal.h         |    9 +
- target/s390x/translate_vx.c.inc |  633 ++++++++++++++----
- target/s390x/vec_fpu_helper.c   | 1114 ++++++++++++++++++++++---------
- target/s390x/vec_helper.c       |   22 +
- 12 files changed, 1478 insertions(+), 471 deletions(-)
-
+diff --git a/target/s390x/helper.h b/target/s390x/helper.h
+index 2344f81273..4788c1ddaf 100644
+--- a/target/s390x/helper.h
++++ b/target/s390x/helper.h
+@@ -262,16 +262,11 @@ DEF_HELPER_FLAGS_5(gvec_vfche64s, TCG_CALL_NO_WG, void, ptr, cptr, cptr, env, i3
+ DEF_HELPER_5(gvec_vfche64_cc, void, ptr, cptr, cptr, env, i32)
+ DEF_HELPER_5(gvec_vfche64s_cc, void, ptr, cptr, cptr, env, i32)
+ DEF_HELPER_FLAGS_4(gvec_vcdg64, TCG_CALL_NO_WG, void, ptr, cptr, env, i32)
+-DEF_HELPER_FLAGS_4(gvec_vcdg64s, TCG_CALL_NO_WG, void, ptr, cptr, env, i32)
+ DEF_HELPER_FLAGS_4(gvec_vcdlg64, TCG_CALL_NO_WG, void, ptr, cptr, env, i32)
+-DEF_HELPER_FLAGS_4(gvec_vcdlg64s, TCG_CALL_NO_WG, void, ptr, cptr, env, i32)
+ DEF_HELPER_FLAGS_4(gvec_vcgd64, TCG_CALL_NO_WG, void, ptr, cptr, env, i32)
+-DEF_HELPER_FLAGS_4(gvec_vcgd64s, TCG_CALL_NO_WG, void, ptr, cptr, env, i32)
+ DEF_HELPER_FLAGS_4(gvec_vclgd64, TCG_CALL_NO_WG, void, ptr, cptr, env, i32)
+-DEF_HELPER_FLAGS_4(gvec_vclgd64s, TCG_CALL_NO_WG, void, ptr, cptr, env, i32)
+ DEF_HELPER_FLAGS_5(gvec_vfd64, TCG_CALL_NO_WG, void, ptr, cptr, cptr, env, i32)
+ DEF_HELPER_FLAGS_4(gvec_vfi64, TCG_CALL_NO_WG, void, ptr, cptr, env, i32)
+-DEF_HELPER_FLAGS_4(gvec_vfi64s, TCG_CALL_NO_WG, void, ptr, cptr, env, i32)
+ DEF_HELPER_FLAGS_4(gvec_vfll32, TCG_CALL_NO_WG, void, ptr, cptr, env, i32)
+ DEF_HELPER_FLAGS_4(gvec_vfll32s, TCG_CALL_NO_WG, void, ptr, cptr, env, i32)
+ DEF_HELPER_FLAGS_4(gvec_vflr64, TCG_CALL_NO_WG, void, ptr, cptr, env, i32)
+@@ -282,7 +277,6 @@ DEF_HELPER_FLAGS_6(gvec_vfma64s, TCG_CALL_NO_WG, void, ptr, cptr, cptr, cptr, en
+ DEF_HELPER_FLAGS_6(gvec_vfms64, TCG_CALL_NO_WG, void, ptr, cptr, cptr, cptr, env, i32)
+ DEF_HELPER_FLAGS_6(gvec_vfms64s, TCG_CALL_NO_WG, void, ptr, cptr, cptr, cptr, env, i32)
+ DEF_HELPER_FLAGS_4(gvec_vfsq64, TCG_CALL_NO_WG, void, ptr, cptr, env, i32)
+-DEF_HELPER_FLAGS_4(gvec_vfsq64s, TCG_CALL_NO_WG, void, ptr, cptr, env, i32)
+ DEF_HELPER_FLAGS_5(gvec_vfs64, TCG_CALL_NO_WG, void, ptr, cptr, cptr, env, i32)
+ DEF_HELPER_4(gvec_vftci64, void, ptr, cptr, env, i32)
+ DEF_HELPER_4(gvec_vftci64s, void, ptr, cptr, env, i32)
+diff --git a/target/s390x/translate_vx.c.inc b/target/s390x/translate_vx.c.inc
+index 2d3fbdfab2..280d45bb19 100644
+--- a/target/s390x/translate_vx.c.inc
++++ b/target/s390x/translate_vx.c.inc
+@@ -2558,19 +2558,19 @@ static DisasJumpType op_vcdg(DisasContext *s, DisasOps *o)
+ 
+     switch (s->fields.op2) {
+     case 0xc3:
+-        fn = se ? gen_helper_gvec_vcdg64s : gen_helper_gvec_vcdg64;
++        fn = gen_helper_gvec_vcdg64;
+         break;
+     case 0xc1:
+-        fn = se ? gen_helper_gvec_vcdlg64s : gen_helper_gvec_vcdlg64;
++        fn = gen_helper_gvec_vcdlg64;
+         break;
+     case 0xc2:
+-        fn = se ? gen_helper_gvec_vcgd64s : gen_helper_gvec_vcgd64;
++        fn = gen_helper_gvec_vcgd64;
+         break;
+     case 0xc0:
+-        fn = se ? gen_helper_gvec_vclgd64s : gen_helper_gvec_vclgd64;
++        fn = gen_helper_gvec_vclgd64;
+         break;
+     case 0xc7:
+-        fn = se ? gen_helper_gvec_vfi64s : gen_helper_gvec_vfi64;
++        fn = gen_helper_gvec_vfi64;
+         break;
+     case 0xc5:
+         fn = se ? gen_helper_gvec_vflr64s : gen_helper_gvec_vflr64;
+@@ -2681,18 +2681,14 @@ static DisasJumpType op_vfsq(DisasContext *s, DisasOps *o)
+ {
+     const uint8_t fpf = get_field(s, m3);
+     const uint8_t m4 = get_field(s, m4);
+-    gen_helper_gvec_2_ptr *fn = gen_helper_gvec_vfsq64;
+ 
+     if (fpf != FPF_LONG || extract32(m4, 0, 3)) {
+         gen_program_exception(s, PGM_SPECIFICATION);
+         return DISAS_NORETURN;
+     }
+ 
+-    if (extract32(m4, 3, 1)) {
+-        fn = gen_helper_gvec_vfsq64s;
+-    }
+-    gen_gvec_2_ptr(get_field(s, v1), get_field(s, v2), cpu_env,
+-                   0, fn);
++    gen_gvec_2_ptr(get_field(s, v1), get_field(s, v2), cpu_env, m4,
++                   gen_helper_gvec_vfsq64);
+     return DISAS_NEXT;
+ }
+ 
+diff --git a/target/s390x/vec_fpu_helper.c b/target/s390x/vec_fpu_helper.c
+index f33ee6e774..da5862d6c6 100644
+--- a/target/s390x/vec_fpu_helper.c
++++ b/target/s390x/vec_fpu_helper.c
+@@ -88,7 +88,7 @@ static void s390_vec_write_float64(S390Vector *v, uint8_t enr, float64 data)
+     return s390_vec_write_element64(v, enr, data);
+ }
+ 
+-typedef uint64_t (*vop64_2_fn)(uint64_t a, float_status *s);
++typedef float64 (*vop64_2_fn)(float64 a, float_status *s);
+ static void vop64_2(S390Vector *v1, const S390Vector *v2, CPUS390XState *env,
+                     bool s, bool XxC, uint8_t erm, vop64_2_fn fn,
+                     uintptr_t retaddr)
+@@ -99,9 +99,9 @@ static void vop64_2(S390Vector *v1, const S390Vector *v2, CPUS390XState *env,
+ 
+     old_mode = s390_swap_bfp_rounding_mode(env, erm);
+     for (i = 0; i < 2; i++) {
+-        const uint64_t a = s390_vec_read_element64(v2, i);
++        const float64 a = s390_vec_read_float64(v2, i);
+ 
+-        s390_vec_write_element64(&tmp, i, fn(a, &env->fpu_status));
++        s390_vec_write_float64(&tmp, i, fn(a, &env->fpu_status));
+         vxc = check_ieee_exc(env, i, XxC, &vec_exc);
+         if (s || vxc) {
+             break;
+@@ -112,6 +112,56 @@ static void vop64_2(S390Vector *v1, const S390Vector *v2, CPUS390XState *env,
+     *v1 = tmp;
+ }
+ 
++static float64 vcdg64(float64 a, float_status *s)
++{
++    return int64_to_float64(a, s);
++}
++
++static float64 vcdlg64(float64 a, float_status *s)
++{
++    return uint64_to_float64(a, s);
++}
++
++static float64 vcgd64(float64 a, float_status *s)
++{
++    if (float64_is_any_nan(a)) {
++        return INT64_MIN;
++    }
++    return float64_to_int64(a, s);
++}
++
++static float64 vclgd64(float64 a, float_status *s)
++{
++    if (float64_is_any_nan(a)) {
++        return 0;
++    }
++    return float64_to_uint64(a, s);
++}
++
++#define DEF_GVEC_VOP2_FN(NAME, FN, BITS)                                       \
++void HELPER(gvec_##NAME##BITS)(void *v1, const void *v2, CPUS390XState *env,   \
++                               uint32_t desc)                                  \
++{                                                                              \
++    const uint8_t erm = extract32(simd_data(desc), 4, 4);                      \
++    const uint8_t se = extract32(simd_data(desc), 3, 1);                       \
++    const bool XxC = extract32(simd_data(desc), 2, 1);                         \
++                                                                               \
++    vop##BITS##_2(v1, v2, env, se, XxC, erm, FN, GETPC());                     \
++}
++
++#define DEF_GVEC_VOP2_64(NAME)                                                 \
++DEF_GVEC_VOP2_FN(NAME, NAME##64, 64)
++
++#define DEF_GVEC_VOP2(NAME, OP)                                                \
++DEF_GVEC_VOP2_FN(NAME, float64_##OP, 64)
++
++DEF_GVEC_VOP2_64(vcdg)
++DEF_GVEC_VOP2_64(vcdlg)
++DEF_GVEC_VOP2_64(vcgd)
++DEF_GVEC_VOP2_64(vclgd)
++DEF_GVEC_VOP2(vfi, round_to_int)
++DEF_GVEC_VOP2(vfsq, sqrt)
++
+ typedef float64 (*vop64_3_fn)(float64 a, float64 b, float_status *s);
+ static void vop64_3(S390Vector *v1, const S390Vector *v2, const S390Vector *v3,
+                     CPUS390XState *env, bool s, vop64_3_fn fn,
+@@ -285,127 +335,6 @@ void HELPER(gvec_vfche64s_cc)(void *v1, const void *v2, const void *v3,
+     env->cc_op = vfc64(v1, v2, v3, env, true, float64_le_quiet, GETPC());
+ }
+ 
+-static uint64_t vcdg64(uint64_t a, float_status *s)
+-{
+-    return int64_to_float64(a, s);
+-}
+-
+-void HELPER(gvec_vcdg64)(void *v1, const void *v2, CPUS390XState *env,
+-                         uint32_t desc)
+-{
+-    const uint8_t erm = extract32(simd_data(desc), 4, 4);
+-    const bool XxC = extract32(simd_data(desc), 2, 1);
+-
+-    vop64_2(v1, v2, env, false, XxC, erm, vcdg64, GETPC());
+-}
+-
+-void HELPER(gvec_vcdg64s)(void *v1, const void *v2, CPUS390XState *env,
+-                          uint32_t desc)
+-{
+-    const uint8_t erm = extract32(simd_data(desc), 4, 4);
+-    const bool XxC = extract32(simd_data(desc), 2, 1);
+-
+-    vop64_2(v1, v2, env, true, XxC, erm, vcdg64, GETPC());
+-}
+-
+-static uint64_t vcdlg64(uint64_t a, float_status *s)
+-{
+-    return uint64_to_float64(a, s);
+-}
+-
+-void HELPER(gvec_vcdlg64)(void *v1, const void *v2, CPUS390XState *env,
+-                          uint32_t desc)
+-{
+-    const uint8_t erm = extract32(simd_data(desc), 4, 4);
+-    const bool XxC = extract32(simd_data(desc), 2, 1);
+-
+-    vop64_2(v1, v2, env, false, XxC, erm, vcdlg64, GETPC());
+-}
+-
+-void HELPER(gvec_vcdlg64s)(void *v1, const void *v2, CPUS390XState *env,
+-                           uint32_t desc)
+-{
+-    const uint8_t erm = extract32(simd_data(desc), 4, 4);
+-    const bool XxC = extract32(simd_data(desc), 2, 1);
+-
+-    vop64_2(v1, v2, env, true, XxC, erm, vcdlg64, GETPC());
+-}
+-
+-static uint64_t vcgd64(uint64_t a, float_status *s)
+-{
+-    if (float64_is_any_nan(a)) {
+-        return INT64_MIN;
+-    }
+-    return float64_to_int64(a, s);
+-}
+-
+-void HELPER(gvec_vcgd64)(void *v1, const void *v2, CPUS390XState *env,
+-                         uint32_t desc)
+-{
+-    const uint8_t erm = extract32(simd_data(desc), 4, 4);
+-    const bool XxC = extract32(simd_data(desc), 2, 1);
+-
+-    vop64_2(v1, v2, env, false, XxC, erm, vcgd64, GETPC());
+-}
+-
+-void HELPER(gvec_vcgd64s)(void *v1, const void *v2, CPUS390XState *env,
+-                          uint32_t desc)
+-{
+-    const uint8_t erm = extract32(simd_data(desc), 4, 4);
+-    const bool XxC = extract32(simd_data(desc), 2, 1);
+-
+-    vop64_2(v1, v2, env, true, XxC, erm, vcgd64, GETPC());
+-}
+-
+-static uint64_t vclgd64(uint64_t a, float_status *s)
+-{
+-    if (float64_is_any_nan(a)) {
+-        return 0;
+-    }
+-    return float64_to_uint64(a, s);
+-}
+-
+-void HELPER(gvec_vclgd64)(void *v1, const void *v2, CPUS390XState *env,
+-                          uint32_t desc)
+-{
+-    const uint8_t erm = extract32(simd_data(desc), 4, 4);
+-    const bool XxC = extract32(simd_data(desc), 2, 1);
+-
+-    vop64_2(v1, v2, env, false, XxC, erm, vclgd64, GETPC());
+-}
+-
+-void HELPER(gvec_vclgd64s)(void *v1, const void *v2, CPUS390XState *env,
+-                           uint32_t desc)
+-{
+-    const uint8_t erm = extract32(simd_data(desc), 4, 4);
+-    const bool XxC = extract32(simd_data(desc), 2, 1);
+-
+-    vop64_2(v1, v2, env, true, XxC, erm, vclgd64, GETPC());
+-}
+-
+-static uint64_t vfi64(uint64_t a, float_status *s)
+-{
+-    return float64_round_to_int(a, s);
+-}
+-
+-void HELPER(gvec_vfi64)(void *v1, const void *v2, CPUS390XState *env,
+-                        uint32_t desc)
+-{
+-    const uint8_t erm = extract32(simd_data(desc), 4, 4);
+-    const bool XxC = extract32(simd_data(desc), 2, 1);
+-
+-    vop64_2(v1, v2, env, false, XxC, erm, vfi64, GETPC());
+-}
+-
+-void HELPER(gvec_vfi64s)(void *v1, const void *v2, CPUS390XState *env,
+-                         uint32_t desc)
+-{
+-    const uint8_t erm = extract32(simd_data(desc), 4, 4);
+-    const bool XxC = extract32(simd_data(desc), 2, 1);
+-
+-    vop64_2(v1, v2, env, true, XxC, erm, vfi64, GETPC());
+-}
+-
+ static void vfll32(S390Vector *v1, const S390Vector *v2, CPUS390XState *env,
+                    bool s, uintptr_t retaddr)
+ {
+@@ -532,23 +461,6 @@ void HELPER(gvec_vfms64s)(void *v1, const void *v2, const void *v3,
+     vfma64(v1, v2, v3, v4, env, true, float_muladd_negate_c, GETPC());
+ }
+ 
+-static uint64_t vfsq64(uint64_t a, float_status *s)
+-{
+-    return float64_sqrt(a, s);
+-}
+-
+-void HELPER(gvec_vfsq64)(void *v1, const void *v2, CPUS390XState *env,
+-                         uint32_t desc)
+-{
+-    vop64_2(v1, v2, env, false, false, 0, vfsq64, GETPC());
+-}
+-
+-void HELPER(gvec_vfsq64s)(void *v1, const void *v2, CPUS390XState *env,
+-                          uint32_t desc)
+-{
+-    vop64_2(v1, v2, env, true, false, 0, vfsq64, GETPC());
+-}
+-
+ static int vftci64(S390Vector *v1, const S390Vector *v2, CPUS390XState *env,
+                    bool s, uint16_t i3)
+ {
 -- 
 2.31.1
 
