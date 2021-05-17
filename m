@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF9F8383CAE
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 20:50:26 +0200 (CEST)
-Received: from localhost ([::1]:37074 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96C47383CB8
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 20:53:10 +0200 (CEST)
+Received: from localhost ([::1]:45614 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1liiJt-0004mt-Pu
-	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 14:50:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34064)
+	id 1liiMX-00028g-LA
+	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 14:53:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34112)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lihle-0006cP-1I
- for qemu-devel@nongnu.org; Mon, 17 May 2021 14:15:02 -0400
-Received: from mout.kundenserver.de ([212.227.17.13]:36869)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lihlf-0006jC-Sd
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 14:15:04 -0400
+Received: from mout.kundenserver.de ([212.227.17.10]:41665)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lihlQ-0004UK-L2
- for qemu-devel@nongnu.org; Mon, 17 May 2021 14:15:01 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lihlR-0004Uq-AQ
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 14:15:03 -0400
 Received: from quad ([82.142.31.78]) by mrelayeu.kundenserver.de (mreue107
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1Mf0yy-1lFPLy2Cte-00gUtY; Mon, 17
- May 2021 20:14:44 +0200
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1MhToz-1lDTXj4AZH-00eZ5J; Mon, 17
+ May 2021 20:14:45 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 36/59] linux-user/s390x: Remove restore_sigregs return value
-Date: Mon, 17 May 2021 20:14:01 +0200
-Message-Id: <20210517181424.8093-37-laurent@vivier.eu>
+Subject: [PULL 37/59] linux-user/s390x: Fix trace in restore_regs
+Date: Mon, 17 May 2021 20:14:02 +0200
+Message-Id: <20210517181424.8093-38-laurent@vivier.eu>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210517181424.8093-1-laurent@vivier.eu>
 References: <20210517181424.8093-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:Jw3nzBlTDGO0u9kq2S9BtNByXZ/Ce2uG7M1VMYq1OYhykjeU3Cn
- H5QKqSuckVOMGm0kfXmJCW9ibRfcBxaPCQ9MSfjJd4qFwa02Z5jJmGTkdiQSbR3td92sT73
- ihzJxIF12J5QcizDPOei4/jKNUtmrmxg/Nq8Rg2y8oCgVOjLItR7vZzZ3/ow8+QmGEdVVMy
- Ynuu50SLbZKZKqoVOm6Dg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:ZiU8Zokkm4s=:imDqsFdNdOX4i2aDrDyKTA
- rQENNzOXgAWD2OK24UhOAoAjASE/z71i00Oi9xJBihl0CMdJX3uhL6qh3wK3CLH6VEpcIBUAR
- VCTWTkSOXOshGztZ0KFuqiAIXiPMu9Fj9JqjXDT64fD6lMZONZh6edUmjytweAeNWV3gw5ZOa
- chrz3SebvM7clnIY/WbWPaJJedyTMLq8bFZ27Sc8fzpHmHMlFBPIj+Iqqo0KJ4sSqJqadpXAJ
- yZUSoO4YJae8KHLOlH2Jk8pXdpNjNjVsn7GxKSGbk5YYbxOJTTvVXuDUOvjV6WqVN/FTKNPx6
- Wz/INlr1VjenRRUmBmNmq7Ruck2cBUM4+xKNqEyOXPNnDo9HYKKSjyyU8CtRIwpephNcyomMi
- s+qSbm5GPCUxP/eGSv8+yjuQ4u1QlWAjVW05un5PGJnYoe958UqpH5A/dAZ1MDPfQ9IFlrI2d
- 7T4SrTYhp7TmdaIPin4stz8szdR/PUYw2D3ulWuvadJXRXiK+ezouMt2mDJlggkSl6v9AmHMl
- Zv+FHxhMpBv8O2/+A6b6UY=
-Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:ize/B7UhVuk5fK136XV9ZGQcwUo7POg7AB5w59qw3EViKPs0Y7f
+ tmLWQwjg63gla/LWcIkhqZrP9geeOPoL+/KcnfYIfPMaARdUHy23cb2H9bS4UeW4cobcV62
+ LaC1Cs9pG1ohE7i6cpqRUhQUbERsA7r9PVhiUt/g2phbNP5TyLFR9avZU8brscAEssKwALh
+ DzLBJhqhOQ16gYH/5y++w==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:yCen9tDK/1g=:bEXNQCOH3RfvHpZ4rkKXYw
+ U+cHC2QyEugHJ4lm1mB/V1+orrADYep/kjuIDAnTmnGheF0VzFmUTrNRvFKyAfGF1mMtOUAeg
+ 9i+6TgY9JKWu2u4w4atO0pWEWIUVu7YZxrq93bwiZfO7LKBx3N3TaOoeNRHLD+G81UPnzZKRW
+ SBPd4fYJtgewi8ArBIOjs3dQ6mgX8ZkK17qwpTfr+xuhndHgta6rCJkf+PgGelzQDBeI5ki+q
+ 2OFJmwxtz/D2kKmOu7UziMAIwZqfyTiaNtK410tVqQSdF52aN3tuQnzWGoKKaaVfpHxPc6zd8
+ ALaaWelnNOkoYE5QBXypX6ml+mmt2lQBEHtJELfqRCn0p8Jo8Nn0Z5KtJQYryQoqWdnWCmGb7
+ BtvWBuiDX+oDkqS/V1LXhmkSWcDSp3tyTH088LxFroQ0u7OwWllgnywMfoL6EFdWe0m6aCydT
+ RyZnl4ssZEEoPf/fXenrDY/FaKqbUenxhyBT29OZ7UJnPICZSDsBito6KJTuGZul8OIyq0iww
+ d4wiPWY9elaXRHG17iDR4g=
+Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -70,63 +70,41 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-The function cannot fail.
+Directly reading sc->regs.psw.addr misses the bswap
+that may be performed by __get_user.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: David Hildenbrand <david@redhat.com>
-Message-Id: <20210428193408.233706-5-richard.henderson@linaro.org>
+Message-Id: <20210428193408.233706-6-richard.henderson@linaro.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/s390x/signal.c | 14 +++-----------
- 1 file changed, 3 insertions(+), 11 deletions(-)
+ linux-user/s390x/signal.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/linux-user/s390x/signal.c b/linux-user/s390x/signal.c
-index 1dfca71fa9b2..e455a9818dea 100644
+index e455a9818dea..dcc6f7bc0274 100644
 --- a/linux-user/s390x/signal.c
 +++ b/linux-user/s390x/signal.c
-@@ -230,10 +230,8 @@ give_sigsegv:
-     force_sigsegv(sig);
- }
+@@ -232,16 +232,17 @@ give_sigsegv:
  
--static int
--restore_sigregs(CPUS390XState *env, target_sigregs *sc)
-+static void restore_sigregs(CPUS390XState *env, target_sigregs *sc)
+ static void restore_sigregs(CPUS390XState *env, target_sigregs *sc)
  {
--    int err = 0;
++    target_ulong prev_addr;
      int i;
  
      for (i = 0; i < 16; i++) {
-@@ -251,8 +249,6 @@ restore_sigregs(CPUS390XState *env, target_sigregs *sc)
-     for (i = 0; i < 16; i++) {
-         __get_user(*get_freg(env, i), &sc->fpregs.fprs[i]);
+         __get_user(env->regs[i], &sc->regs.gprs[i]);
      }
--
--    return err;
- }
  
- long do_sigreturn(CPUS390XState *env)
-@@ -271,9 +267,7 @@ long do_sigreturn(CPUS390XState *env)
-     target_to_host_sigset_internal(&set, &target_set);
-     set_sigmask(&set); /* ~_BLOCKABLE? */
++    prev_addr = env->psw.addr;
+     __get_user(env->psw.mask, &sc->regs.psw.mask);
+-    trace_user_s390x_restore_sigregs(env, (unsigned long long)sc->regs.psw.addr,
+-                                     (unsigned long long)env->psw.addr);
+     __get_user(env->psw.addr, &sc->regs.psw.addr);
++    trace_user_s390x_restore_sigregs(env, env->psw.addr, prev_addr);
  
--    if (restore_sigregs(env, &frame->sregs)) {
--        goto badframe;
--    }
-+    restore_sigregs(env, &frame->sregs);
- 
-     unlock_user_struct(frame, frame_addr, 0);
-     return -TARGET_QEMU_ESIGRETURN;
-@@ -297,9 +291,7 @@ long do_rt_sigreturn(CPUS390XState *env)
- 
-     set_sigmask(&set); /* ~_BLOCKABLE? */
- 
--    if (restore_sigregs(env, &frame->uc.tuc_mcontext)) {
--        goto badframe;
--    }
-+    restore_sigregs(env, &frame->uc.tuc_mcontext);
- 
-     target_restore_altstack(&frame->uc.tuc_stack, env);
- 
+     for (i = 0; i < 16; i++) {
+         __get_user(env->aregs[i], &sc->regs.acrs[i]);
 -- 
 2.31.1
 
