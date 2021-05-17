@@ -2,55 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56C25383C97
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 20:44:23 +0200 (CEST)
-Received: from localhost ([::1]:39816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A10D383C8C
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 20:42:10 +0200 (CEST)
+Received: from localhost ([::1]:59780 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1liiE1-0004d9-Jj
-	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 14:44:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33974)
+	id 1liiBt-0007Us-DL
+	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 14:42:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34086)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lihla-0006NS-CH
- for qemu-devel@nongnu.org; Mon, 17 May 2021 14:14:58 -0400
-Received: from mout.kundenserver.de ([212.227.17.13]:50473)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lihle-0006gr-Vj
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 14:15:03 -0400
+Received: from mout.kundenserver.de ([217.72.192.73]:45235)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lihlM-0004SF-UO
- for qemu-devel@nongnu.org; Mon, 17 May 2021 14:14:58 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lihlO-0004Sc-K8
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 14:15:02 -0400
 Received: from quad ([82.142.31.78]) by mrelayeu.kundenserver.de (mreue107
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1Mjjvp-1l2T4D2c4h-00lDzh; Mon, 17
- May 2021 20:14:42 +0200
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1MMWcT-1m1CWC0Oal-00Jbsn; Mon, 17
+ May 2021 20:14:43 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 32/59] tests/tcg/sparc64: Re-enable linux-test
-Date: Mon, 17 May 2021 20:13:57 +0200
-Message-Id: <20210517181424.8093-33-laurent@vivier.eu>
+Subject: [PULL 33/59] linux-user/s390x: Fix sigframe types
+Date: Mon, 17 May 2021 20:13:58 +0200
+Message-Id: <20210517181424.8093-34-laurent@vivier.eu>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210517181424.8093-1-laurent@vivier.eu>
 References: <20210517181424.8093-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:rfgSqyEnbY/DA7yR1B1wh95ffksCs7v5/tQs1O5cTeB5Y8ngeFr
- yRzNwa2JyklmRbeqx3ItJfD/0I2l4okbwgOL1GvQUEuO6pJztfZe58kBVBbR9D1z4p2Ib4Y
- lrHf6eizSdGt4L9caQfsyhJ0fn3h2NEdl5n5sYko+jQBVtURVpMpBQ8RlKcrY+w3UGq1WBj
- 5oNbmWDc/RIMpmd3s8sjA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:FVrNKecjWYY=:58U54jAbDB4ujs7jxPou2v
- G4h2M+wE858Xpo35kSOT0s6fMdgW3uKXFniAY+CMFl0xARHstb36LP0LxscaLLT/CWta5Pm1i
- ouzG5hH7fvs/qnmX7A6KCpUaSB7iI3KwuYnVs0Ea+Bp60OIPF9e9ADhz1ksM8zGxjH43/8v0U
- bqbE4TW3EDkFDL1A13ynOBWDYT66TykqZJ/h4iEf5wcrUH2nIBiOloLgvOi0C0mnAQzo5SMcq
- yxNHO/AWGQU7fyrQQhJiJF8S2cohgyYGNyGlFjF49oTu13U/tbN2zPd9yBeHjVAMOqVvZ5m9N
- OG/KuqyrcZI44dUMOitdnwntmVsaiHBlFVoUzz5++bbOwgTC1pbPd/L3n/VBjCXE/kWTa9QFy
- QqSy5bt5ZZfMGBwah0I8P9uzyG5jWvW/x/WIU/f8hr8qnNfIlBxxafZEiD1wjdW+5UlAF5UIK
- mHi7KLb+4OJEnhATuKHKTjRtuh+XVNd6apYCecr+lwptK6FNxZswu7fB8c61BWVYxiiXPYPaR
- Tol6JIkMi4gQUKmyLmUAbE=
-Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:TxyEcAhsSbqBLujpqtJut140YA7aMpj9BH3C0P+OZX0DvPZjZVj
+ qTeLWG21Z932mGU8DK7KiW69E02mKTEFF5WMoOo9eAetvvkxAzAL4+ECfDV1adRZxovGvm6
+ iZAAyApdt8lcysZOHSWGWTk+aa5I+sjuByDV8QKw7dYtusoOYclbcKuPV+7QyTz1WXYcOVH
+ goxsOdUiv2oI5s6zQg3gg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:wqb2OFwA6zE=:kPKLwNaXDZz2iukfeNE3fo
+ ZTJr+yTa1HWKw7GHCCu8UnaIZqsYkQw/S6o03rbWDp8mC+ZJN4mJ50tipItiOGwiQ3uDKnIqM
+ s0ZP4KxdWKv8Nbmsphm537NhPi2GOTTyqMcc4OxbJTags2j/GFG7MtKm+8pt/rantdARdEKEr
+ j541iBU63haNR5roE2DCQgaJcYZ5hyjWIavTY2vDxvPmDM83w4N86GRbk234rmhx9oVtR3Rmn
+ ylzOWHbGOky1XLQPfkNjMMKvYo4hBTKrve0tvh1YVmYcKq+Ay0bSC20SEwCnrxXqk/7cos6Lp
+ DPf4uaJZgA9oj+1Qxve5ethQpCMrpMsMDV3iRdr+o6eF4kfGcKCQLIfEz4TEYuZdcQ9rtbCtj
+ vSEYhbYex4+y2HqeD8roaTALp9n+j4533g0xnnskznMvw4QRNK2oNlpikEC+NhgQu4p/ifZ7P
+ qAIgQ7LhbKFemE7hNfmEuZATFG6JC8hrkJ7AzoWXY8fubt+YB6LCrI2LH92aD7pj3F0bm4Rj3
+ 6yiCX7H0rfNK9GvClVXZXQ=
+Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -64,38 +63,105 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Richard Henderson <richard.henderson@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>
+ Laurent Vivier <laurent@vivier.eu>, David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-It passes now that we support signals properly.
+Noticed via gitlab clang-user job:
+
+  TEST    signals on s390x
+../linux-user/s390x/signal.c:258:9: runtime error: \
+  1.84467e+19 is outside the range of representable values of \
+  type 'unsigned long'
+
+Which points to the fact that we were performing a double-to-uint64_t
+conversion while storing the fp registers, instead of just copying
+the data across.
+
+Turns out there are several errors:
+
+target_ulong is the size of the target register, whereas abi_ulong
+is the target 'unsigned long' type.  Not a big deal here, since we
+only support 64-bit s390x, but not correct either.
+
+In target_sigcontext and target ucontext, we used a host pointer
+instead of a target pointer, aka abi_ulong.
+
+Fixing this allows the removal of a cast to __put_user.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20210426025334.1168495-26-richard.henderson@linaro.org>
+Reviewed-by: David Hildenbrand <david@redhat.com>
+Message-Id: <20210428193408.233706-2-richard.henderson@linaro.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- tests/tcg/sparc64/Makefile.target | 7 +------
- 1 file changed, 1 insertion(+), 6 deletions(-)
+ linux-user/s390x/signal.c | 26 +++++++++++++-------------
+ 1 file changed, 13 insertions(+), 13 deletions(-)
 
-diff --git a/tests/tcg/sparc64/Makefile.target b/tests/tcg/sparc64/Makefile.target
-index 5bd7f90583d1..408dace78394 100644
---- a/tests/tcg/sparc64/Makefile.target
-+++ b/tests/tcg/sparc64/Makefile.target
-@@ -1,11 +1,6 @@
- # -*- Mode: makefile -*-
- #
--# sparc specific tweaks and masking out broken tests
--
--# different from the other hangs:
--# tests/tcg/multiarch/linux-test.c:264: Value too large for defined data type (ret=-1, errno=92/Value too large for defined data type)
--run-linux-test: linux-test
--	$(call skip-test, $<, "BROKEN")
-+# sparc specific tweaks
+diff --git a/linux-user/s390x/signal.c b/linux-user/s390x/signal.c
+index b68b44ae7e99..707fb603d72e 100644
+--- a/linux-user/s390x/signal.c
++++ b/linux-user/s390x/signal.c
+@@ -37,13 +37,14 @@
  
- # On Sparc64 Linux support 8k pages
- EXTRA_RUNS+=run-test-mmap-8192
+ typedef struct {
+     target_psw_t psw;
+-    target_ulong gprs[__NUM_GPRS];
+-    unsigned int acrs[__NUM_ACRS];
++    abi_ulong gprs[__NUM_GPRS];
++    abi_uint acrs[__NUM_ACRS];
+ } target_s390_regs_common;
+ 
+ typedef struct {
+-    unsigned int fpc;
+-    double   fprs[__NUM_FPRS];
++    uint32_t fpc;
++    uint32_t pad;
++    uint64_t fprs[__NUM_FPRS];
+ } target_s390_fp_regs;
+ 
+ typedef struct {
+@@ -51,22 +52,22 @@ typedef struct {
+     target_s390_fp_regs     fpregs;
+ } target_sigregs;
+ 
+-struct target_sigcontext {
+-    target_ulong   oldmask[_SIGCONTEXT_NSIG_WORDS];
+-    target_sigregs *sregs;
+-};
++typedef struct {
++    abi_ulong oldmask[_SIGCONTEXT_NSIG_WORDS];
++    abi_ulong sregs;
++} target_sigcontext;
+ 
+ typedef struct {
+     uint8_t callee_used_stack[__SIGNAL_FRAMESIZE];
+-    struct target_sigcontext sc;
++    target_sigcontext sc;
+     target_sigregs sregs;
+     int signo;
+     uint8_t retcode[S390_SYSCALL_SIZE];
+ } sigframe;
+ 
+ struct target_ucontext {
+-    target_ulong tuc_flags;
+-    struct target_ucontext *tuc_link;
++    abi_ulong tuc_flags;
++    abi_ulong tuc_link;
+     target_stack_t tuc_stack;
+     target_sigregs tuc_mcontext;
+     target_sigset_t tuc_sigmask;   /* mask last for extensibility */
+@@ -143,8 +144,7 @@ void setup_frame(int sig, struct target_sigaction *ka,
+ 
+     save_sigregs(env, &frame->sregs);
+ 
+-    __put_user((abi_ulong)(unsigned long)&frame->sregs,
+-               (abi_ulong *)&frame->sc.sregs);
++    __put_user((abi_ulong)(unsigned long)&frame->sregs, &frame->sc.sregs);
+ 
+     /* Set up to return from userspace.  If provided, use a stub
+        already in userspace.  */
 -- 
 2.31.1
 
