@@ -2,80 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4C723823B6
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 07:29:16 +0200 (CEST)
-Received: from localhost ([::1]:47622 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55A783823D4
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 07:53:43 +0200 (CEST)
+Received: from localhost ([::1]:55430 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1liVoY-0006ZE-To
-	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 01:29:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49670)
+	id 1liWCD-0004nx-Sd
+	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 01:53:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52932)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1liVmm-0005N5-G4; Mon, 17 May 2021 01:27:24 -0400
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:54208)
+ id 1liWBN-0003xu-J7; Mon, 17 May 2021 01:52:49 -0400
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:45031)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1liVmh-0002QQ-DT; Mon, 17 May 2021 01:27:24 -0400
-Received: by mail-wm1-x333.google.com with SMTP id 62so1793489wmb.3;
- Sun, 16 May 2021 22:27:17 -0700 (PDT)
+ id 1liWBM-0002Rs-3S; Mon, 17 May 2021 01:52:49 -0400
+Received: by mail-wm1-x32b.google.com with SMTP id
+ y184-20020a1ce1c10000b02901769b409001so1407912wmg.3; 
+ Sun, 16 May 2021 22:52:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=3CtS9VRwM3InD0PGwlK54ZrR8rhtiT3SkoXXxD+MF90=;
- b=mzgnf3igaFPIl3j2nfhIGZ4Mr6b4wkCroJYvv7hO629iajbsLT6+n8YnmHgmKNhvcd
- cOC2qNvSx4dgEKsiRcdXPj9uXVvHWvJrQWoV24IaA5qgwGQK4wtuG0dN6qcF6Pa7SaSb
- oYGQUUrseWHMYx0TDI74rc6lZ8JcB6Lo9x+n2jM0AmilNSjy5xglfAlM0eWlD8WNEJkw
- qIaIraLf7KvBY3T6awQmZ/YoSur5KPWZx7R6yy8zXCwmv04YKL2iqqEwuywip7zUrSq1
- 0l3yi2B3YzdAlFxKDrW8nQ6dDqOS3A80RzgZICMCDAAFair3vYnKF0chNTb12A6ZAW5W
- 3fjg==
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=FMnps2qubYYWD3YRuRkPtfN0t7AsJAs5vvzOFy1DvdY=;
+ b=F/Y+ntKgjUt0RaOy0qIBz0Kl+eh7/LEsll+Q2/dymOn426vS6ef2AT9CIQtd9UvoDA
+ wd8F13Z0JImKx8vOCwFMdD2J5g/VLXaX+2Ex/t1mFdyPgXtK7cPuh3CmRF2VI5KGjJgC
+ 3+C5wLCBVOEowa8lPRk5KP7Setfuy9cn2eJjkED9mQOLbWtMAGcBpe75BFfgvkaYjDt+
+ R8TI8BmtEG6Jz3EdBDoox7nJPjh64aZxB4ocDV4EGUKDqCkxPZCY9rr1Ea56/Jt4QuSd
+ qe5y+ZKVJyc/wpFLqRvgmBb+4uZa79Ff7C75TxWyxLfYRKQytB6S4nbNzyOaLrEsB/zD
+ 3pQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=3CtS9VRwM3InD0PGwlK54ZrR8rhtiT3SkoXXxD+MF90=;
- b=VNPd3tG79168w0SEocDmJBKysnsjYuhYgYLax9u3JrD7Rts4JfsJebejRCWJ3wnWB5
- 2c+UFW8swlrf1VTkYBtJ522RXcwFi1UJ/7JeDl8oteDzPFcFAkIFah+Z+UJTWTXf8/G6
- TJfYBPp1PVNorNgGBqy9REaTovwgp0X8UJpFr+RLxefl3OP7JqHui5LU3nw78EUQy68v
- uyWa0lJXt2+EclTWR/311p/C5CAMf88mIzQIl48liCIvr+Vy2cfUlbi/BH2XhV41SmWy
- 9khDNvofDEsxfHurl9nTm6Jz2F993Fwco9rk7NoZP8vcI0gLGjWj5zW4hcTQVMVIs/ix
- z6QQ==
-X-Gm-Message-State: AOAM531ikk0g9KEGmmq+NUWOvuf9x+lr4sI41BK36xSk3FezxSGYSE+5
- Do6dIeyPm2vbV8qSE7uyCIk=
-X-Google-Smtp-Source: ABdhPJxnyMqqZzPJTQiYpeMQPh/YlqoVk3SbI+puYNqpTMCf6L/AZZmQJ7IX/heyMyJ1qxHlzvjzUg==
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=FMnps2qubYYWD3YRuRkPtfN0t7AsJAs5vvzOFy1DvdY=;
+ b=CK7kJm/KCBvPhOxPY2uIBBEKMK/OWTR5/SI/02tC9MiPdGESV3vvYnG+6OEHLSgSuj
+ CSrhdgOYzJngCdExd9db49iMekpswVbWGxDSjOGNb8ZdGDSL+M7Z4886Wniehtirjttb
+ Ny9t72CJhsOFWmuqNY3mxN3I60DhV86EMJxYBJ7KmgeoFXA84Xig1gdtYmS4r0RM0icr
+ B81dD4DjtOU+CKaVqjMmtDeXgAzTs6x6AbSRSNkrl2kQRs5xX+9dxcDSuULLlM13SvbP
+ J1VmoplsLmvcSKgS7C7bpYCTUXkh3MJ1i7uDPZ85kEUj6Mae9oDy0JY5ND1sHm/cRugR
+ HgNA==
+X-Gm-Message-State: AOAM533URuJOxyEQ7vgM5CpHYr5tNGmoRIo/KZaB2dkJdrjdlURdGswM
+ 0FVv2cdiovL7pRiuoxN2O8p6gjPGjyPDAA==
+X-Google-Smtp-Source: ABdhPJyrNL5uOkz6yaezCYiRQWpTtA6wQPXm7mbZA0sdxyT0Lkm4Nvin8nn2l27sEp6RVzEyV6PdLA==
 X-Received: by 2002:a05:600c:154f:: with SMTP id
- f15mr20362081wmg.81.1621229236440; 
- Sun, 16 May 2021 22:27:16 -0700 (PDT)
-Received: from [192.168.1.36] (31.red-83-51-215.dynamicip.rima-tde.net.
+ f15mr20495545wmg.81.1621230765739; 
+ Sun, 16 May 2021 22:52:45 -0700 (PDT)
+Received: from localhost.localdomain (31.red-83-51-215.dynamicip.rima-tde.net.
  [83.51.215.31])
- by smtp.gmail.com with ESMTPSA id f20sm15036686wmh.41.2021.05.16.22.27.14
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 16 May 2021 22:27:15 -0700 (PDT)
-Subject: Re: [PATCH v6 08/18] cpu/{avr, lm32, moxie}: Set DeviceClass vmsd
- field (not CPUClass one)
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20210422193902.2644064-1-f4bug@amsat.org>
- <20210422193902.2644064-9-f4bug@amsat.org>
- <eeaa99ae-da4f-d76d-127e-18a8857de8df@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <4ee022bf-5873-e689-8549-a8ca0bfda64a@amsat.org>
-Date: Mon, 17 May 2021 07:27:13 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ by smtp.gmail.com with ESMTPSA id m6sm15551972wrp.29.2021.05.16.22.52.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 16 May 2021 22:52:45 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2] linux-user/syscall: Constify bitmask_transtbl fcntl/mmap
+ flags_tlb[]
+Date: Mon, 17 May 2021 07:52:43 +0200
+Message-Id: <20210517055243.830491-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.26.3
 MIME-Version: 1.0
-In-Reply-To: <eeaa99ae-da4f-d76d-127e-18a8857de8df@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x333.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32b.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
 X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
@@ -90,34 +84,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-riscv@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
- qemu-s390x@nongnu.org, Anthony Green <green@moxielogic.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>, Michael Walle <michael@walle.cc>,
- qemu-arm@nongnu.org, qemu-ppc@nongnu.org, Claudio Fontana <cfontana@suse.de>,
- Michael Rolnik <mrolnik@gmail.com>
+Cc: qemu-trivial@nongnu.org, Bin Meng <bmeng.cn@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/23/21 3:16 AM, Richard Henderson wrote:
-> On 4/22/21 12:38 PM, Philippe Mathieu-Daudé wrote:
->> See rationale in previous commit. Targets should use the vmsd field
->> of DeviceClass, not CPUClass. As migration is not important on the
->> avr/lm32/moxie targets, break the migration compatibility and set
->> the DeviceClass vmsd field.
->>
->> Signed-off-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
->> ---
->>   target/avr/cpu.c   | 2 +-
->>   target/lm32/cpu.c  | 2 +-
->>   target/moxie/cpu.c | 2 +-
->>   3 files changed, 3 insertions(+), 3 deletions(-)
-> 
-> Do you not have to increment the vmstate versions?
-> 
-> Though I can't see how the version numbers would even get compared,
-> since we're looking for them in different locations?
+Keep bitmask_transtbl in .rodata by marking the arrays const.
 
-Yes, I am not sure how that will work. Anyway, better safe than sorry!
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ linux-user/syscall.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index 95d79ddc437..64f486743a9 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -365,7 +365,7 @@ _syscall5(int, sys_statx, int, dirfd, const char *, pathname, int, flags,
+ _syscall2(int, membarrier, int, cmd, int, flags)
+ #endif
+ 
+-static bitmask_transtbl fcntl_flags_tbl[] = {
++static const bitmask_transtbl fcntl_flags_tbl[] = {
+   { TARGET_O_ACCMODE,   TARGET_O_WRONLY,    O_ACCMODE,   O_WRONLY,    },
+   { TARGET_O_ACCMODE,   TARGET_O_RDWR,      O_ACCMODE,   O_RDWR,      },
+   { TARGET_O_CREAT,     TARGET_O_CREAT,     O_CREAT,     O_CREAT,     },
+@@ -6062,7 +6062,7 @@ static const StructEntry struct_termios_def = {
+     .print = print_termios,
+ };
+ 
+-static bitmask_transtbl mmap_flags_tbl[] = {
++static const bitmask_transtbl mmap_flags_tbl[] = {
+     { TARGET_MAP_SHARED, TARGET_MAP_SHARED, MAP_SHARED, MAP_SHARED },
+     { TARGET_MAP_PRIVATE, TARGET_MAP_PRIVATE, MAP_PRIVATE, MAP_PRIVATE },
+     { TARGET_MAP_FIXED, TARGET_MAP_FIXED, MAP_FIXED, MAP_FIXED },
+-- 
+2.26.3
+
 
