@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A6B7387C7D
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 17:33:54 +0200 (CEST)
-Received: from localhost ([::1]:53528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1A3D387C84
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 17:36:03 +0200 (CEST)
+Received: from localhost ([::1]:59262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lj1jF-0004YX-H6
-	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 11:33:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34452)
+	id 1lj1lK-0008RJ-Lc
+	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 11:36:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34662)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lj1Vs-0004Ff-SJ
- for qemu-devel@nongnu.org; Tue, 18 May 2021 11:20:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37800)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lj1Wi-0005mw-CB
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 11:20:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23693)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lj1Vm-0005oS-Tc
- for qemu-devel@nongnu.org; Tue, 18 May 2021 11:20:04 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lj1Wg-0006I3-GI
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 11:20:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621351196;
+ s=mimecast20190719; t=1621351253;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=l3j7Q607Vvi3tQg8Yo82gMyj/seKmWfPL8a4bKPZNcA=;
- b=XKSe2fWA4NNiiyPqgahZD2AsMiSCdbLyrOOinn0szk0hukyoy0i2+35JEY34YR/ZAiixvr
- oAP6QbBCWLhswEn05L6ikqsBQaSHcqYKuKLcwbjUQRPoILoIEZWerjD5M7dElX/OWvuDnZ
- aFbpxP/pto5cBY32O3VpTaInzcPEg3w=
+ bh=deiSiizm5tZmRZDXHTg98F7Iac/6nQWhVmgxMi48laA=;
+ b=Ph3WjC0rk6Q9LseILrh8baEvlQ1qwIYCCNoWCGFEBuplmRXLT3BzcjMJyhjnv3AmyDhkJr
+ Enpg7xV1jASb9qHnsCI74WIzcjXQr0wExdfLCqGQ+zLDAXmk/gZVZgj9r6XTLoV+LqzXDU
+ kugcFwzPjTf4gH3lnwfZtGJY5NOyTRU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-241-aupUfMuvPTyk3KCvt5semQ-1; Tue, 18 May 2021 11:19:53 -0400
-X-MC-Unique: aupUfMuvPTyk3KCvt5semQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-162-A4PvWzGoMzKzAAJ7s0k12w-1; Tue, 18 May 2021 11:20:52 -0400
+X-MC-Unique: A4PvWzGoMzKzAAJ7s0k12w-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 866FF9609B0;
- Tue, 18 May 2021 15:19:30 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 00DB8801817;
+ Tue, 18 May 2021 15:20:51 +0000 (UTC)
 Received: from [10.10.117.64] (ovpn-117-64.rdu2.redhat.com [10.10.117.64])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 51A125C1CF;
- Tue, 18 May 2021 15:19:26 +0000 (UTC)
-Subject: Re: [PATCH v2 05/21] qapi/parser: Assert lexer value is a string
-To: Markus Armbruster <armbru@redhat.com>
-References: <20210511220601.2110055-1-jsnow@redhat.com>
- <20210511220601.2110055-6-jsnow@redhat.com>
- <87lf8c5pid.fsf@dusky.pond.sub.org>
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A083360C04;
+ Tue, 18 May 2021 15:20:42 +0000 (UTC)
+Subject: Re: [PATCH v6 03/25] python: create utils sub-package
+To: Cleber Rosa <crosa@redhat.com>
+References: <20210512231241.2816122-1-jsnow@redhat.com>
+ <20210512231241.2816122-4-jsnow@redhat.com>
+ <20210518151222.GG917386@amachine.somewhere>
 From: John Snow <jsnow@redhat.com>
-Message-ID: <504f3b32-67b8-4c20-bf82-f2d994ffe1b7@redhat.com>
-Date: Tue, 18 May 2021 11:19:25 -0400
+Message-ID: <1dfb6e27-177e-c243-292c-9ea10de0f2e9@redhat.com>
+Date: Tue, 18 May 2021 11:20:42 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <87lf8c5pid.fsf@dusky.pond.sub.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <20210518151222.GG917386@amachine.somewhere>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -82,63 +82,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Roth <michael.roth@amd.com>, Cleber Rosa <crosa@redhat.com>,
- qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-block@nongnu.org, =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Willian Rampazzo <willianr@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
+ Max Reitz <mreitz@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/18/21 6:02 AM, Markus Armbruster wrote:
-> John Snow <jsnow@redhat.com> writes:
+On 5/18/21 11:12 AM, Cleber Rosa wrote:
+> As you mentioned in the previous patch notes, I would not mind a
+> squash here.  Either way:
 > 
->> The type checker can't narrow the type of the token value to string,
->> because it's only loosely correlated with the return token.
->>
->> We know that a token of '#' should always have a "str" value.
->> Add an assertion.
->>
->> Signed-off-by: John Snow <jsnow@redhat.com>
->> ---
->>   scripts/qapi/parser.py | 1 +
->>   1 file changed, 1 insertion(+)
->>
->> diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
->> index d620706fffb..ba17f1357ad 100644
->> --- a/scripts/qapi/parser.py
->> +++ b/scripts/qapi/parser.py
->> @@ -304,6 +304,7 @@ def get_doc(self, info):
->>           cur_doc = QAPIDoc(self, info)
->>           self.accept(False)
->>           while self.tok == '#':
->> +            assert isinstance(self.val, str)  # comment token MUST have str val
-> 
-> What does the comment add to the assertion?  Isn't it all obvious?  Just
-> wondering; if you genuinely think it isn't, I'm not going to argue.
-> Except about the long line, which you could easily avoid:
-> 
+> Reviewed-by: Cleber Rosa<crosa@redhat.com>
+> Tested-by: Cleber Rosa<crosa@redhat.com>
 
-Yeah, I just suppose it's an artifact from when I was first reading this 
-code. It wasn't necessarily obvious to me that comment tokens -- which 
-are sometimes squelched -- must always have a str val that is non-None.
+I will definitely do so, then. :)
 
-I felt like adding an assertion here required SOME kind of justification 
-for WHY it was true. Since the val can be None *and* the lexer can omit 
-comments, it seemed not expressly self-evident at the time.
+Thanks for the reviews thus far!
 
-Less obvious than, say, why 'tf' values will definitely be True/False. 
-Maybe just my own brain bug.
-
-I'm not as attached to it as other things at this point anymore, having 
-spent more time in this file since I first wrote it.
-
-Remove if you'd like. The commit message can perform the duty of 
-explaining more deeply if people need.
-
->                 assert isinstance(self.val, str)  # comment value MUST be str
-> 
->>               if self.val.startswith('##'):
->>                   # End of doc comment
->>                   if self.val != '##':
-
-
+--js
 
 
