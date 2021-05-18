@@ -2,49 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15C7738716B
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 07:48:03 +0200 (CEST)
-Received: from localhost ([::1]:57882 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00376387162
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 07:43:58 +0200 (CEST)
+Received: from localhost ([::1]:49360 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lisaI-0004dG-51
-	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 01:48:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38386)
+	id 1lisWM-0007FD-2c
+	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 01:43:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38360)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lisKX-0006zl-8u
- for qemu-devel@nongnu.org; Tue, 18 May 2021 01:31:45 -0400
-Received: from mout.kundenserver.de ([212.227.17.10]:47683)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lisKV-0006u6-VJ
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 01:31:43 -0400
+Received: from mout.kundenserver.de ([217.72.192.75]:49477)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lisKS-0006us-IO
- for qemu-devel@nongnu.org; Tue, 18 May 2021 01:31:44 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lisKS-0006v4-Qi
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 01:31:43 -0400
 Received: from quad ([82.142.31.78]) by mrelayeu.kundenserver.de (mreue106
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1Mc0Er-1lCIvl1fOZ-00dV9a; Tue, 18
- May 2021 07:31:38 +0200
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1MwxRN-1lX7453OZP-00yTwY; Tue, 18
+ May 2021 07:31:39 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 12/59] linux-user/sparc: Include TARGET_STACK_BIAS in
- get_sp_from_cpustate
-Date: Tue, 18 May 2021 07:30:44 +0200
-Message-Id: <20210518053131.87212-13-laurent@vivier.eu>
+Subject: [PULL 13/59] linux-user/sparc: Clean up init_thread
+Date: Tue, 18 May 2021 07:30:45 +0200
+Message-Id: <20210518053131.87212-14-laurent@vivier.eu>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210518053131.87212-1-laurent@vivier.eu>
 References: <20210518053131.87212-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:5i6JqPuL/+DAcO2iyI5Pv5ldXfdukbb8nXjZG1RQljMFd+QqnXj
- C/6ylvmExsNTYJVYmaAGG/h0Xd2FuIKZrwLUMwe/gl2bjOE5j1EHmVamNhuWwj0YOsihoAr
- 0HaBTCSLXWG+l0OsmqBMYvUiWhr1i2W45/+zdkHLQz00pyOhr3hJjNDUt6SS7kgFXFF2rbu
- ZXXoF6LOufwiFnCNzSReA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:Xy/tL6hw5/M=:k6PHLG2M8y83ry+ax8bCrw
- CFinO+4BjBKovrudbPnyiE6H28L3A0ILXmudlEo12NUiRv0BNFlnXxBH12/nF+PNmDkdacA/2
- XlDOD89R5CkMT1xgukSv+OqfRxga2dM4ZVbdwoq0tE4dhhiX8dazc8zp2hx03kPZKChMm4cpM
- 1TkEs9fMGmPOwLx0S+7z5lhWO5TL9zqbaZLp05yQc4tWk345QWGJgsiTaOTaxXM3YcNA8jtSg
- j/OGgqg9zaDd9KbrN67h4LuDCYsy1Yf0mT/zhTXO0XgN6vKa628Lcd8lNPec0ys47w3ZTPVd7
- DVJYdosKGB2rS/pq4FxESXaKLfT3a7v/fDNQcushRNnWi9NqUUmuapLru5HHRNeqwTvJDIOKh
- g+r5WslS9BQWWahMAm9GiFQjrcAqMHzf1IpalhkQfdGo9278bQp33GVBz1AparbxIZ/sjxY9E
- mIGh0SKFt89It8shslvmJH6sl7493h06MnDnJxLeWk8/xuBYNsn96vIdFF1uKWmRL/goEQ0ei
- RlvFpLZ6u0stkhUnqxrf50=
-Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:A+V8BPEdLq7Ux9hJEFv4mAbW7gmXjpjxN8GRKXhvyvRIViu2WdG
+ vwG4nIf8En+t2iG+i5lmLcG6PGlKKJkBGEnal0RdW7C+xoEaS8lS8y/HkGN5jGzYrQeqMOw
+ eNjKmtQ83AsAWdXjKewTsaVgW7tZu33Q9qRqkOY7WgGeWc/CBr+bnPZbfDvlRyGsVmdN9MM
+ vgPZ159LNgU4ufONy2y7Q==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:MwvuRD7FbiQ=:y5ymzWnrZHdCjyyQd0/QxQ
+ Gn43F+GKJ2tIG6wD6m1Wou50YbQHtYZkRnnIhBpzXkeQoWdP8unsuUK7UMbdIjRwb3xPFnKly
+ teGXfGbf37nYWsxBAd2HRbVT5V2ilC/1IY5e5FlGAC1w8dckC3EGHLPF7L4Adv+2prqNgmbAx
+ 2S77oubj+Vy2dxwhx2V8TO1woMJyI/SGAw61GgqQPOrfGJYYvkSfytuMNgyGbc3gYu+wUuxgW
+ 8R5vLSJZWlNzlUTYrN0Hf49vAkeyhcm9o25V28C515n2CiZw/TmtyoOmZaMMrsALaCffz2rrD
+ pYqsREXuDnikL99OAk41mhXMlsNxJPO3sXG9PQa1buo9q/Sbdm5y5M0Tr7tXire0G3NRDSzX9
+ k5e85omxL46qjh83hfMSva3CXsHT4IquG+Ejq5fio6fyeKu573YObmy/IcSsDG3SdtaSjylsf
+ qsovBZ2D3AZq74nXy/zuaVvHDaFVWRjHeIT3TngsZ/CrnDHoqQpQdvF0wXBx+6herUkAgXrGy
+ cUNfdX4mFBud9J2nWleQSI=
+Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -71,65 +70,75 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Move TARGET_STACK_BIAS from signal.c.  Generic code cares about the
-logical stack pointer, not the physical one that has a bias applied
-for sparc64.
+Share code between sparc32 and sparc64, removing a bit of pointless
+difference wrt psr/tstate.  Use sizeof(abi_ulong) for allocating
+initial register window.  Use TARGET_STACK_BIAS.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20210426025334.1168495-6-richard.henderson@linaro.org>
+Message-Id: <20210426025334.1168495-7-richard.henderson@linaro.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/sparc/signal.c     | 2 --
- linux-user/sparc/target_cpu.h | 9 ++++++++-
- 2 files changed, 8 insertions(+), 3 deletions(-)
+ linux-user/elfload.c | 33 +++++----------------------------
+ 1 file changed, 5 insertions(+), 28 deletions(-)
 
-diff --git a/linux-user/sparc/signal.c b/linux-user/sparc/signal.c
-index d27b7a3af79d..76579093a88c 100644
---- a/linux-user/sparc/signal.c
-+++ b/linux-user/sparc/signal.c
-@@ -394,8 +394,6 @@ struct target_reg_window {
-     abi_ulong ins[8];
- };
+diff --git a/linux-user/elfload.c b/linux-user/elfload.c
+index fc9c4f12be92..ffc03d72f935 100644
+--- a/linux-user/elfload.c
++++ b/linux-user/elfload.c
+@@ -676,48 +676,25 @@ static uint32_t get_elf_hwcap2(void)
  
--#define TARGET_STACK_BIAS 2047
+ #define ELF_CLASS   ELFCLASS64
+ #define ELF_ARCH    EM_SPARCV9
 -
- /* {set, get}context() needed for 64-bit SparcLinux userland. */
- void sparc64_set_context(CPUSPARCState *env)
- {
-diff --git a/linux-user/sparc/target_cpu.h b/linux-user/sparc/target_cpu.h
-index 1fa1011775a1..1f4bed50f476 100644
---- a/linux-user/sparc/target_cpu.h
-+++ b/linux-user/sparc/target_cpu.h
-@@ -20,6 +20,12 @@
- #ifndef SPARC_TARGET_CPU_H
- #define SPARC_TARGET_CPU_H
+-#define STACK_BIAS              2047
+-
+-static inline void init_thread(struct target_pt_regs *regs,
+-                               struct image_info *infop)
+-{
+-#ifndef TARGET_ABI32
+-    regs->tstate = 0;
+-#endif
+-    regs->pc = infop->entry;
+-    regs->npc = regs->pc + 4;
+-    regs->y = 0;
+-#ifdef TARGET_ABI32
+-    regs->u_regs[14] = infop->start_stack - 16 * 4;
+-#else
+-    if (personality(infop->personality) == PER_LINUX32)
+-        regs->u_regs[14] = infop->start_stack - 16 * 4;
+-    else
+-        regs->u_regs[14] = infop->start_stack - 16 * 8 - STACK_BIAS;
+-#endif
+-}
+-
+ #else
+ #define ELF_START_MMAP 0x80000000
+ #define ELF_HWCAP  (HWCAP_SPARC_FLUSH | HWCAP_SPARC_STBAR | HWCAP_SPARC_SWAP \
+                     | HWCAP_SPARC_MULDIV)
+-
+ #define ELF_CLASS   ELFCLASS32
+ #define ELF_ARCH    EM_SPARC
++#endif /* TARGET_SPARC64 */
  
-+#if defined(TARGET_SPARC64) && !defined(TARGET_ABI32)
-+# define TARGET_STACK_BIAS 2047
-+#else
-+# define TARGET_STACK_BIAS 0
-+#endif
-+
- static inline void cpu_clone_regs_child(CPUSPARCState *env, target_ulong newsp,
-                                         unsigned flags)
+ static inline void init_thread(struct target_pt_regs *regs,
+                                struct image_info *infop)
  {
-@@ -40,6 +46,7 @@ static inline void cpu_clone_regs_child(CPUSPARCState *env, target_ulong newsp,
- #endif
-         /* ??? The kernel appears to copy one stack frame to the new stack. */
-         /* ??? The kernel force aligns the new stack. */
-+        /* Userspace provides a biased stack pointer value. */
-         env->regwptr[WREG_SP] = newsp;
-     }
- 
-@@ -77,7 +84,7 @@ static inline void cpu_set_tls(CPUSPARCState *env, target_ulong newtls)
- 
- static inline abi_ulong get_sp_from_cpustate(CPUSPARCState *state)
- {
--    return state->regwptr[WREG_SP];
-+    return state->regwptr[WREG_SP] + TARGET_STACK_BIAS;
+-    regs->psr = 0;
++    /* Note that target_cpu_copy_regs does not read psr/tstate. */
+     regs->pc = infop->entry;
+     regs->npc = regs->pc + 4;
+     regs->y = 0;
+-    regs->u_regs[14] = infop->start_stack - 16 * 4;
++    regs->u_regs[14] = (infop->start_stack - 16 * sizeof(abi_ulong)
++                        - TARGET_STACK_BIAS);
  }
+-
+-#endif
+-#endif
++#endif /* TARGET_SPARC */
  
- #endif
+ #ifdef TARGET_PPC
+ 
 -- 
 2.31.1
 
