@@ -2,55 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37A4D3871A1
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 08:10:34 +0200 (CEST)
-Received: from localhost ([::1]:55594 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DB263871A5
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 08:13:18 +0200 (CEST)
+Received: from localhost ([::1]:60128 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lisw5-0008DU-8r
-	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 02:10:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38720)
+	id 1lisyj-00030J-ME
+	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 02:13:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38712)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lisKo-0007cv-SK
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lisKo-0007bq-Mz
  for qemu-devel@nongnu.org; Tue, 18 May 2021 01:32:02 -0400
-Received: from mout.kundenserver.de ([212.227.126.187]:45993)
+Received: from mout.kundenserver.de ([212.227.126.135]:47409)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lisKf-000787-WF
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lisKi-00079A-HY
  for qemu-devel@nongnu.org; Tue, 18 May 2021 01:32:02 -0400
 Received: from quad ([82.142.31.78]) by mrelayeu.kundenserver.de (mreue010
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1Mzi3l-1lVS5M3aDp-00vfCn; Tue, 18
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1M6lUk-1lq1TU3InG-008Nju; Tue, 18
  May 2021 07:31:50 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 34/59] linux-user/s390x: Use uint16_t for signal retcode
-Date: Tue, 18 May 2021 07:31:06 +0200
-Message-Id: <20210518053131.87212-35-laurent@vivier.eu>
+Subject: [PULL 36/59] linux-user/s390x: Remove restore_sigregs return value
+Date: Tue, 18 May 2021 07:31:08 +0200
+Message-Id: <20210518053131.87212-37-laurent@vivier.eu>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210518053131.87212-1-laurent@vivier.eu>
 References: <20210518053131.87212-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:R7I6qJOMJApyo8nuNXT9G6m2GVwjPTLygGlLewcgtioSlHjXbpO
- PuQaQlvMNe4Z0u86JGhwQpvkhHI3O581Ux5COemMxSL4DFAGzNhtqG0BqomzdhW+5urbl1v
- Ubg98jjqiE4hWIkn997b97d0PtUox0+7QSvQWG1LLCf8dyl9hKJTNHjcRlpNX3ifVfHCfbn
- 35mNll0MZQzcU+CsUYcPA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:Y6UJKmLfMgU=:UBTVUmf9F7TNw9TBAOZBAU
- fXkv0mUr7kRCo/ByBhcwXFXAnph5P5mCkYdLTcXsArNt6ruIliKxFDBTS+1of8e2bI6XPlySx
- yaKSOEBOw5KCOEjhlW2V1hI0q9am9xL2eSamC5i8SJHMUIRCDlyXwrY6yDa2nE72KlQT869nf
- 2ehW5omF/48E9QNIC2pzfslgfHJjJ9Ux6HPWkrN2lksNqEFWQvqe9AXPXaQQouoC8gpdna/ev
- vFGLz7RfrewKYeSUBv2qdl5bpC/DFDhpScOD9htgua5pYSoHdaivdWeqM3M9CkP5/czdgfBCI
- hHveg0EO0Ot42pj497B/a3SDNwLgDpuItCAfmrbrjqFng5TIrKoaIBUU5lFp+6rSpT6qApnZZ
- V6JKKiOrIl+DXCDF7hiIy7DKHgoTkKmhPtGa7XiCd0yr9XTBLvWbFUXtix9oDTVx4DGBuudUg
- W9LkPulx3DZLatTfanULrW//w+6KidAqqN3iX8gHY4OCT8iaBLcAQb3yT6m+Lneq5rqZPdLR5
- a+rOrYhrEY0B9xrVZnezxo=
-Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:/FuOqJgIwzA4g56oyGu+1qAr/manHOuUkGjYp810JRHaj5fTiTl
+ qq+g0F1boYvb7HbbClLTpqi6wn/GiUcMPOfvJdwGd95Q5oV/JpeXKHoQqc+Fk5PQqJgLXXH
+ BRhvN5cDZ5D05+IIhlkJeBMdmqiCYqRF9GrmxvoLjeZvF6KeGgDUFd1dt57tYAQmilEUs4q
+ iGr4UUbMck8kbnqcGABbw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:oABa5l1xAeU=:0umannad+WmoHiUJkbI9yE
+ ddMQNInzF+Pp2e9sWKsbaxUns7sI5ahFvOXM68Rf5+mXV7WI5BFoq+jTy2rXkbt/38cZF5iE6
+ +GcGfblhBYF7tdXHaBrX941zPufHjBXwj/OD2eHNhStvs8DCgu51rB+2FvCdtleVAH32kQW+x
+ GrdqUn59ZLLIkw/39A9aqVKX3Pj23TnYrqwOvVgrmOEly+viydziIFgZ+4vaI0OVrP+QSln05
+ 1ci9LUZ2+H+U93KeqxAEXrVeqQTjR/QJj52msjeRKQpfo375pJhIxNmhxIGSGBgdqaw16Xrn0
+ lKHqadd3dxmvreC7T13QCgDVgXrtY1TKZz9kPTD42Ncu6sisvdOCROBcAUYID57IbgeB6Uiv0
+ CgySdpSRuxP1K9AVGwYzCtv1Ek5Kvk/htoYsoh884v+kzxWMeLwD+l08ytZ05xMxXW//wYiYC
+ iipZULSoWm85T7beFd0yBl4R2LI4Sgig6B2zDW1jnvX16hY1osy4/rGBCcDSZIMes7JvpARg9
+ hClsCHkzB+bk+9qMeaLg5w=
+Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -70,64 +69,63 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Using the right type simplifies the frame setup.
+The function cannot fail.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: David Hildenbrand <david@redhat.com>
-Message-Id: <20210428193408.233706-3-richard.henderson@linaro.org>
+Message-Id: <20210428193408.233706-5-richard.henderson@linaro.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/s390x/signal.c | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+ linux-user/s390x/signal.c | 14 +++-----------
+ 1 file changed, 3 insertions(+), 11 deletions(-)
 
 diff --git a/linux-user/s390x/signal.c b/linux-user/s390x/signal.c
-index 707fb603d72e..fece8ab97b3c 100644
+index 1dfca71fa9b2..e455a9818dea 100644
 --- a/linux-user/s390x/signal.c
 +++ b/linux-user/s390x/signal.c
-@@ -25,7 +25,6 @@
- #define __NUM_FPRS 16
- #define __NUM_ACRS 16
+@@ -230,10 +230,8 @@ give_sigsegv:
+     force_sigsegv(sig);
+ }
  
--#define S390_SYSCALL_SIZE   2
- #define __SIGNAL_FRAMESIZE      160 /* FIXME: 31-bit mode -> 96 */
+-static int
+-restore_sigregs(CPUS390XState *env, target_sigregs *sc)
++static void restore_sigregs(CPUS390XState *env, target_sigregs *sc)
+ {
+-    int err = 0;
+     int i;
  
- #define _SIGCONTEXT_NSIG        64
-@@ -62,7 +61,7 @@ typedef struct {
-     target_sigcontext sc;
-     target_sigregs sregs;
-     int signo;
--    uint8_t retcode[S390_SYSCALL_SIZE];
-+    uint16_t retcode;
- } sigframe;
- 
- struct target_ucontext {
-@@ -75,7 +74,7 @@ struct target_ucontext {
- 
- typedef struct {
-     uint8_t callee_used_stack[__SIGNAL_FRAMESIZE];
--    uint8_t retcode[S390_SYSCALL_SIZE];
-+    uint16_t retcode;
-     struct target_siginfo info;
-     struct target_ucontext uc;
- } rt_sigframe;
-@@ -155,7 +154,7 @@ void setup_frame(int sig, struct target_sigaction *ka,
-         env->regs[14] = (frame_addr + offsetof(sigframe, retcode))
-                         | PSW_ADDR_AMODE;
-         __put_user(S390_SYSCALL_OPCODE | TARGET_NR_sigreturn,
--                   (uint16_t *)(frame->retcode));
-+                   &frame->retcode);
+     for (i = 0; i < 16; i++) {
+@@ -251,8 +249,6 @@ restore_sigregs(CPUS390XState *env, target_sigregs *sc)
+     for (i = 0; i < 16; i++) {
+         __get_user(*get_freg(env, i), &sc->fpregs.fprs[i]);
      }
+-
+-    return err;
+ }
  
-     /* Set up backchain. */
-@@ -216,7 +215,7 @@ void setup_rt_frame(int sig, struct target_sigaction *ka,
-         env->regs[14] = (frame_addr + offsetof(typeof(*frame), retcode))
-                         | PSW_ADDR_AMODE;
-         __put_user(S390_SYSCALL_OPCODE | TARGET_NR_rt_sigreturn,
--                   (uint16_t *)(frame->retcode));
-+                   &frame->retcode);
-     }
+ long do_sigreturn(CPUS390XState *env)
+@@ -271,9 +267,7 @@ long do_sigreturn(CPUS390XState *env)
+     target_to_host_sigset_internal(&set, &target_set);
+     set_sigmask(&set); /* ~_BLOCKABLE? */
  
-     /* Set up backchain. */
+-    if (restore_sigregs(env, &frame->sregs)) {
+-        goto badframe;
+-    }
++    restore_sigregs(env, &frame->sregs);
+ 
+     unlock_user_struct(frame, frame_addr, 0);
+     return -TARGET_QEMU_ESIGRETURN;
+@@ -297,9 +291,7 @@ long do_rt_sigreturn(CPUS390XState *env)
+ 
+     set_sigmask(&set); /* ~_BLOCKABLE? */
+ 
+-    if (restore_sigregs(env, &frame->uc.tuc_mcontext)) {
+-        goto badframe;
+-    }
++    restore_sigregs(env, &frame->uc.tuc_mcontext);
+ 
+     target_restore_altstack(&frame->uc.tuc_stack, env);
+ 
 -- 
 2.31.1
 
