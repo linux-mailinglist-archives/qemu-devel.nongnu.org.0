@@ -2,83 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49E0838710B
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 07:15:34 +0200 (CEST)
-Received: from localhost ([::1]:36062 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA76838713C
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 07:27:35 +0200 (CEST)
+Received: from localhost ([::1]:38302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lis4r-0003Ll-Ca
-	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 01:15:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35442)
+	id 1lisGU-0005aS-TY
+	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 01:27:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37314)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <aik@ozlabs.ru>) id 1lis34-0000sQ-Dg
- for qemu-devel@nongnu.org; Tue, 18 May 2021 01:13:42 -0400
-Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431]:45747)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <aik@ozlabs.ru>) id 1lis2y-00036C-8Z
- for qemu-devel@nongnu.org; Tue, 18 May 2021 01:13:42 -0400
-Received: by mail-pf1-x431.google.com with SMTP id d16so6531919pfn.12
- for <qemu-devel@nongnu.org>; Mon, 17 May 2021 22:13:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ozlabs-ru.20150623.gappssmtp.com; s=20150623;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=X0OAJxSHAEPE4bD8Weo1kRDZwudjH+pTx3SknWfL0G4=;
- b=vAx24Ok0UuTBDlAFMthHgM94p2zCydB2rIs63S74mp+t5P1WLnCMoE0ZQxTGhcNA58
- X0CadGQe9NrBaNxFoK38oaNlbsEL1A8H3N+Cf1O4CjTM4l9w6eoYnDPlVwGFwlQ2VQ5r
- o5TVZ3csT8WonRrmuRdCF0zCIwRkDWsFP0Lj/58pNnJJG/ZMQRITTv7nlS17ZXPIAVHb
- FAMykOoMOqRj/6vWMtzwkhCWB85W7gMbH5Risx8d6+SoXZy2DF/KfPXW00H/HlzQ6WGG
- uCV74z73KuXz83S1rg479sp8luiy2B83cRnKlkGS0DeDrIDZ9PSD3DK+uPQ5WqqXcQqi
- ulaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=X0OAJxSHAEPE4bD8Weo1kRDZwudjH+pTx3SknWfL0G4=;
- b=Jts8b7ZVlyV/FfCrriaIMDr7tM8VraSfiVPerUnSO+lZehCtWmOzi2Pm0pH2TWS8Qx
- vLXMcxwN/4qPKfTjw/PBL+ozDeBpCl5tV4unbwT052yg/T8kWa9e/Kau2yDl3CFSUwyn
- do2rSHc6XFnuxmafJhUeSuPhRqbKLPdpXqQhMR1EmJxu8oK+yqyYzQtHPgtk+dP2Ccav
- b1kJfFITqUztUDtXuqdQfTa08gneQkmHP6cAW0pVzBAUN2OXTSu9eVxnl9NATtVzaTh9
- 14hN1GK8DEhluIkKZYSmqp/8T7h/Hw+GlD4+l+Zj5YSKH5s11b3+YwhpcHClIAt9hfzN
- JaqA==
-X-Gm-Message-State: AOAM5318ip6kF00c3FLNqBMqmpaWo/detY/Hc0Bm8o7pHpfaVSzBMxO8
- P9D7IJVhoumI4DgKGZy3pfKZvA==
-X-Google-Smtp-Source: ABdhPJwhEDFly1fbvEsLfwucsieaFokl6flnpNxscTtGovY1um4BT6FLnHc/ai0ZyZEnW43uVjhFvw==
-X-Received: by 2002:a63:3e4f:: with SMTP id l76mr3196183pga.275.1621314813599; 
- Mon, 17 May 2021 22:13:33 -0700 (PDT)
-Received: from [192.168.10.23]
- (ppp121-45-194-51.cbr-trn-nor-bras38.tpg.internode.on.net. [121.45.194.51])
- by smtp.gmail.com with UTF8SMTPSA id g8sm873491pju.6.2021.05.17.22.13.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 17 May 2021 22:13:33 -0700 (PDT)
-Message-ID: <3e3ebf5b-0adc-974e-4a3c-3c76bcc2ce37@ozlabs.ru>
-Date: Tue, 18 May 2021 15:13:29 +1000
+ (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
+ id 1lisFa-0004uD-JY
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 01:26:38 -0400
+Received: from mail.ispras.ru ([83.149.199.84]:33096)
+ by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
+ id 1lisFY-0003ZP-2F
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 01:26:38 -0400
+Received: from [192.168.0.92] (unknown [62.118.138.151])
+ by mail.ispras.ru (Postfix) with ESMTPSA id 3B23040D403D;
+ Tue, 18 May 2021 05:26:28 +0000 (UTC)
+Subject: Re: Best approach for supporting snapshots for QEMU's gdbstub?
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Luis Machado <luis.machado@linaro.org>
+References: <87y2chjmsf.fsf@linaro.org>
+ <6c8845b7-cc60-c8ba-3ada-6d0c6e65d8a5@linaro.org> <87bl99e03j.fsf@linaro.org>
+From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
+Message-ID: <3b964beb-d86c-2780-535b-b567d689e37d@ispras.ru>
+Date: Tue, 18 May 2021 08:26:27 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:89.0) Gecko/20100101
- Thunderbird/89.0
-Subject: Re: [PATCH qemu v19] spapr: Implement Open Firmware client interface
+In-Reply-To: <87bl99e03j.fsf@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-To: BALATON Zoltan <balaton@eik.bme.hu>
-References: <20210422125819.1122661-1-aik@ozlabs.ru>
- <c9997a3b-118b-6a23-d3cb-4c3c59dc839d@eik.bme.hu>
- <dbdc9e7-b179-6c5e-61ef-297e72e086b5@eik.bme.hu>
- <64a2bb6f-85f-d029-1846-be4d693f7ab2@eik.bme.hu>
- <0ab637d9-d54c-add1-ebdc-1c5c1bdcfdf8@ozlabs.ru>
- <80a6ff6f-c6f8-cefe-b59d-df9cf5fdd342@eik.bme.hu>
- <f9a45179-4c72-66eb-90f8-689e3969f4@eik.bme.hu>
-From: Alexey Kardashevskiy <aik@ozlabs.ru>
-In-Reply-To: <f9a45179-4c72-66eb-90f8-689e3969f4@eik.bme.hu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
- envelope-from=aik@ozlabs.ru; helo=mail-pf1-x431.google.com
+Received-SPF: pass client-ip=83.149.199.84;
+ envelope-from=pavel.dovgalyuk@ispras.ru; helo=mail.ispras.ru
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,51 +56,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: gdb@gnu.org, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 18/05/2021 04:44, BALATON Zoltan wrote:
-> On Mon, 17 May 2021, BALATON Zoltan wrote:
->> On Mon, 17 May 2021, Alexey Kardashevskiy wrote:
->>> On 5/17/21 09:34, BALATON Zoltan wrote:
->>>> On Sat, 15 May 2021, BALATON Zoltan wrote:
->>>>> On Sat, 15 May 2021, BALATON Zoltan wrote:
->>>>>> On Thu, 22 Apr 2021, Alexey Kardashevskiy wrote:
+On 17.05.2021 20:27, Alex Bennée wrote:
+> 
+> Luis Machado <luis.machado@linaro.org> writes:
+> 
+>> Hi,
+>>
+>> On 5/14/21 1:06 PM, Alex Bennée wrote:
+>>> Hi,
+>>> I've been playing around with QEMU's reverse debugging support which
+>>> I have working with Pavel's latest patches for supporting virtio with
+>>> record/replay. Once you get the right command line it works well enough
+>>> although currently each step backwards requires replaying the entire
+>>> execution history until you get to the right point.
+>>> QEMU can quite easily snapshot the entire VM state so I was looking
+>>> to
+>>> see what the best way to integrate this would be. As far as I can tell
+>>> there are two interfaces gdb supports: bookmarks and checkpoints.
+>>> As far as I can tell bookmarks where added as part of GDB's reverse
+>>> debugging support but attempting to use them from the gdbstub reports:
+>>>     (gdb) bookmark
+>>>     You can't do that when your target is `remote'
+>>> so I guess that would need an extension to the stub protocol to
+>>> support?
 >>>
->>> [snip]
-
-
-> invalid/unsupported opcode: 3e - 08 - 1e - 01 (f821ff91) 00000120 0
-> ----------------
-> IN:
-> 0x00000118:  3c400000  lis      r2, 0
-> 0x0000011c:  60428b00  ori      r2, r2, 0x8b00
-> 0x00000120:  f821ff91  stdu     r1, -0x70(r1)
+>>
+>> Right. We don't support reverse step/next/continue for remote targets.
+>> I think this would be the most appropriate way to implement this
+>> feature in GDB. But it is not trivial.
 > 
-> Raise exception at 00000120 => 00000060 (21)
-> invalid/unsupported opcode: 00 - 00 - 00 - 00 (00000000) fff00700 0
-> ----------------
-> IN:
-> 0xfff00700:  00000000  .byte    0x00, 0x00, 0x00, 0x00
+> You do because ";ReverseStep+;ReverseContinue+" is part of the gdbstub
+> negotiation handshake.
 > 
-> Raise exception at fff00700 => 00000060 (21)
+> Out of interest how is rr implemented? It presents a gdb interface so I
+> thought it was some implemented using some remote magic.
 > 
-> The last part jumping to program exception vector is because we don't 
-> have any handler installed at that address yet but the first exception 
-> is the real problem which looks like vof has another opcode not 
-> supported on a G4 CPU. Could it be compiled with some options to only 
-> use PPC 32 opcodes or where does this stdu come from?
+> <snip>
+> 
+>>> We could of course just add a custom monitor command like the
+>>> qemu.sstep= command which could be used manually. However that would be
+>>> a QEMU gdbstub specific approach.
+>>
+>> That would be an easy and quick way to allow GDB to control things in
+>> QEMU, but I wouldn't say it is the best. Monitor commands are
+>> basically a bypass of the RSP where GDB sends/receives commands
+>> to/from the remote target.
+> 
+> We have some underlying commands we can set via the monitor including:
+> 
+>    monitor info replay
+>    monitor replay_seek <N>
+>    monitor replay_break <N>
+> 
+>>
+>>> The other thing would be to be more intelligent on QEMU's side and
+>>> save
+>>> snapshots each time we hit an event, for example each time we hit a
+>>> given breakpoint. However I do worry that might lead to snapshots
+>>> growing quite quickly.
+>>
+>> GDB would need to be aware of such snapshots for them to be useful.
+>> Otherwise GDB wouldn't be able to use them to restore state.
+> 
+> What does GDB need to know about them? Does it include something like
+> the icount at a particular point.
+> 
+> I'm curious at how a break and reverse-continue is meant to work if that
+> breakpoint is hit multiple times from the start of a run. You need to
+> know if the last time you hit a particular breakpoint was in fact the
+> last time before where the user was when they hit reverse-continue.
 
-Agrh. It is "stdu" from pc-bios/vof/entry.S, looks like yet another bug 
-since I enforce MSR to 32bit and whole firmware is 32bit too, I need to 
-avoid those double word instructions. Also might need -mcpu=power4, 
-juuuuuust in case.
+QEMU does this seamlessly. For reverse continue it replays the 
+execution, noticing the last breakpoint that was hit. Then it replays 
+again, but to the icount of that hit.
 
 
--- 
-Alexey
+Pavel Dovgalyuk
 
