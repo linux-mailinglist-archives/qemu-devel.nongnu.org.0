@@ -2,86 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD8CD38756F
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 11:45:45 +0200 (CEST)
-Received: from localhost ([::1]:52422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED190387572
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 11:46:29 +0200 (CEST)
+Received: from localhost ([::1]:55118 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1liwIK-00033P-Fz
-	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 05:45:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33632)
+	id 1liwJ3-0004wy-1D
+	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 05:46:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1liw5x-00012b-8A
- for qemu-devel@nongnu.org; Tue, 18 May 2021 05:32:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40684)
+ id 1liw79-00046Z-Tr
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 05:34:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20268)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1liw5j-0002Ld-4G
- for qemu-devel@nongnu.org; Tue, 18 May 2021 05:32:53 -0400
+ id 1liw78-0003Oe-6f
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 05:34:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621330360;
+ s=mimecast20190719; t=1621330449;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=sFnVgdfg6fg6j1G5EfKILzynZzkVYUtjbjUu4t0lDYU=;
- b=eXat+vYhqeOicsqva7Zu1BSHdw9qqUA/DIWEmEo25wgzKwSNHkP1USAnRiKQNkZ/ZGIOrB
- y7Fl/gt0fQaAY9AqjbTNNzobiDFNSin1lDZ0J2YAOhfjXj8MZHqNX6RFeGDbPEpWkaWYfe
- eb9rVIHNEJYeyLnWplt5E2kAQJV05fw=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-115-Wk13QpYTM_yvkX2tRz1B8g-1; Tue, 18 May 2021 05:32:38 -0400
-X-MC-Unique: Wk13QpYTM_yvkX2tRz1B8g-1
-Received: by mail-wr1-f70.google.com with SMTP id
- v5-20020adf9e450000b029010e708f05b3so5323617wre.6
- for <qemu-devel@nongnu.org>; Tue, 18 May 2021 02:32:38 -0700 (PDT)
+ bh=gzdMLcWmMso6rIW21/D/2WbIJQ835mPgVVSG4PbYrTk=;
+ b=YQj7NTzGzeov1/LnHMRwLziYOmnTD+HItTYnFH132Imw9GxoOSACn3eaiQX5qrEKY5Jmcn
+ g6949dLEG3X2qbUjnRbf0Q30CkA6rIHtL1d6R5RoUmlDl9LFnLWxJrmWUQKRfYbjan4+vB
+ qnlKpHjtE6wtAWDsptets/3PRvIvBh8=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-559-WljV9vIpO3iOMNkhoGuUSA-1; Tue, 18 May 2021 05:34:06 -0400
+X-MC-Unique: WljV9vIpO3iOMNkhoGuUSA-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ a5-20020a5d6ca50000b029011035a261adso5287084wra.17
+ for <qemu-devel@nongnu.org>; Tue, 18 May 2021 02:34:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=sFnVgdfg6fg6j1G5EfKILzynZzkVYUtjbjUu4t0lDYU=;
- b=i2P3l6LJnD+bxpPKEC6JkoCHZ/fc113pcQpkYUT/xzkatf0+kNm1fE4CH+OXe6YApb
- 8ogKoVj1iyxX+TaenYBpVvUIueR0NUKk4klvr/RHj7VasNvopc5VYIyv1klluIWuNn2S
- qBVKwWg7jiU5UrIABtjDpsM4usfKYNMQsbV8RCDMgLK9SXkTl78PTKreHgc6uDzsA51D
- VxNn2cOZPgJPNKDLShXaU9Q30Y9IdR5ISXzliDcOP/uysfVkxzk5Y13UmoxZRm1VEhZB
- FCytftLBekhu7UWKrxYe372r1QnXyskcLYjRW3Ib/04G6GKvjX2ywyyRpXaq6RUrV9Ur
- 6YAw==
-X-Gm-Message-State: AOAM532ghgDJI03wvKmq1+CfACGVdtYqGhE4vgBviHsWA24iFBVNbAjF
- DN9o9Hg/x4IEIU8clh430OAwRrvav0b6AQ94cXnxWX6UcejknfDADUuSYwOdVjQ4G/CgPkqw75s
- YalWl1j9TyLpRMWE=
-X-Received: by 2002:a05:600c:3553:: with SMTP id
- i19mr4505202wmq.150.1621330357611; 
- Tue, 18 May 2021 02:32:37 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwG10T8sO4hMw78FY5ANKjN0HjhAkzWfO7BtGe503/f0zhqshCIk5sOgRvUB5bDAiDY3R84LQ==
-X-Received: by 2002:a05:600c:3553:: with SMTP id
- i19mr4505186wmq.150.1621330357417; 
- Tue, 18 May 2021 02:32:37 -0700 (PDT)
+ bh=gzdMLcWmMso6rIW21/D/2WbIJQ835mPgVVSG4PbYrTk=;
+ b=i3lCQFPwDVbFLrKLrcVYalvA6JihmXq0jYROSbwXFGKG/olItmGe63wnk3GPjrR+aB
+ tyC2rr4HXCEQSbzjPInEzTsv1PqwX8IXOxSlfR6gcrKaUHy+6uHkTreJMErghCgI7b6a
+ 9FbTSDnPeyfv63b/b8E6VZi7Ifg/idiX2ZCDKSo39Z+sRCy3F7jVGmNS0s3G+Pgy4yk2
+ GH+8VWoVhDvK2WdKrjvuVuMgnAUlIWGA5AJn6or7UfiRIgJUilBGobhKCj/ONeBcRQoA
+ RQwJ3nQQPkVllVRHKGeKCchKcfvtKXxoiqBoIJn9F1KeK/oURaSykyV1ypbZ6FmNdUhg
+ Orgw==
+X-Gm-Message-State: AOAM532x9jzt/FIk+n4ctskzWhkA0InU1nOAY3u9f56F8+zW7yAMbMnr
+ DQcDfMmyeQUOPKqbcx9lQTpK/tjM5Jgs+QVZ27isONO9TheTqWb+PBrTSD9COGc1JkUZtfjo2Ph
+ A3Y4+cuzu/OAv/zw=
+X-Received: by 2002:a05:600c:22d9:: with SMTP id
+ 25mr4460657wmg.10.1621330444932; 
+ Tue, 18 May 2021 02:34:04 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzSdeDSJh+/a2HKBKtty7TVcPo06cWYF0N2ehTeJPtaBmS0uDHlcu4U2snt4V38FBDgNswsvg==
+X-Received: by 2002:a05:600c:22d9:: with SMTP id
+ 25mr4460636wmg.10.1621330444762; 
+ Tue, 18 May 2021 02:34:04 -0700 (PDT)
 Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
  ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id g5sm7294421wmi.8.2021.05.18.02.32.36
+ by smtp.gmail.com with ESMTPSA id e38sm1891893wmp.21.2021.05.18.02.34.03
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 18 May 2021 02:32:36 -0700 (PDT)
-Subject: Re: [PATCH v2 23/50] target/i386: Reduce DisasContext.vex_[lv] to
- uint8_t
+ Tue, 18 May 2021 02:34:04 -0700 (PDT)
+Subject: Re: [PATCH v2 24/50] target/i386: Reduce DisasContext popl_esp_hack
+ and rip_offset to uint8_t
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20210514151342.384376-1-richard.henderson@linaro.org>
- <20210514151342.384376-24-richard.henderson@linaro.org>
+ <20210514151342.384376-25-richard.henderson@linaro.org>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <4a3155da-ff47-3325-f862-11785e93fa71@redhat.com>
-Date: Tue, 18 May 2021 11:32:36 +0200
+Message-ID: <b7cc04b4-59ac-7cf8-ce73-4e1f5b948b9e@redhat.com>
+Date: Tue, 18 May 2021 11:34:03 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210514151342.384376-24-richard.henderson@linaro.org>
+In-Reply-To: <20210514151342.384376-25-richard.henderson@linaro.org>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
@@ -109,31 +109,29 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 14/05/21 17:13, Richard Henderson wrote:
-> Currently, vex_l is either {0,1}; if in the future we implement
-> AVX-512, the max value will be 2.  In vex_v we store a register
-> number.  This is 0-15 for SSE, and 0-31 for AVX-512.
+> Both of these fields store the size of a single memory access,
+> so the range of values is 0-8.
 > 
-> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
 >   target/i386/tcg/translate.c | 4 ++--
 >   1 file changed, 2 insertions(+), 2 deletions(-)
 > 
 > diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
-> index 61c0573c2f..1367e53e4e 100644
+> index 1367e53e4e..847502046f 100644
 > --- a/target/i386/tcg/translate.c
 > +++ b/target/i386/tcg/translate.c
-> @@ -97,8 +97,8 @@ typedef struct DisasContext {
->       uint8_t rex_b;
->       bool rex_w;
->   #endif
-> -    int vex_l;  /* vex vector length */
-> -    int vex_v;  /* vex vvvv register, without 1's complement.  */
-> +    uint8_t vex_l;  /* vex vector length */
-> +    uint8_t vex_v;  /* vex vvvv register, without 1's complement.  */
->       CCOp cc_op;  /* current CC operation */
->       bool cc_op_dirty;
->       int tf;     /* TF cpu flag */
+> @@ -106,8 +106,8 @@ typedef struct DisasContext {
+>       int repz_opt; /* optimize jumps within repz instructions */
+>       int mem_index; /* select memory access functions */
+>       uint32_t flags; /* all execution flags */
+> -    int popl_esp_hack; /* for correct popl with esp base handling */
+> -    int rip_offset; /* only used in x86_64, but left for simplicity */
+> +    uint8_t popl_esp_hack; /* for correct popl with esp base handling */
+> +    uint8_t rip_offset; /* only used in x86_64, but left for simplicity */
+>       int cpuid_features;
+>       int cpuid_ext_features;
+>       int cpuid_ext2_features;
 > 
 
 Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
