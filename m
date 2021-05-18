@@ -2,85 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9D833878E2
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 14:35:16 +0200 (CEST)
-Received: from localhost ([::1]:49648 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1448638792B
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 14:50:20 +0200 (CEST)
+Received: from localhost ([::1]:46134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1liywN-0004Tg-93
-	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 08:35:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48012)
+	id 1lizAx-0005eJ-2m
+	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 08:50:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51724)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1liyrb-0008Ph-HE
- for qemu-devel@nongnu.org; Tue, 18 May 2021 08:30:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40634)
+ id 1liz5b-0004yM-EU
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 08:44:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39115)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1liyrV-0006Tc-Ue
- for qemu-devel@nongnu.org; Tue, 18 May 2021 08:30:19 -0400
+ id 1liz5C-0005tx-59
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 08:44:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621341010;
+ s=mimecast20190719; t=1621341860;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YTuImt9yUW5JKgw/3r/EezkXIBFnF0qWCNm6dXgnZ4U=;
- b=bC6IWFHZfkG0zY62NnCPiGP60oGseQA/sX5M6cmC01d07/vEvXi62mmQxCLU1NDNAI/WKs
- kG4CRZb/7UpGJV5xc9F4XGZWt32rrFkU5BYaQAmfbcRvSAV3b460P5ltSAxdm2fCArq3QT
- FE7acQDKPd7iomtXqxeSUqX62YNzoeg=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-490-LNw6wjdTM_2-E3fWNXYx_g-1; Tue, 18 May 2021 08:30:08 -0400
-X-MC-Unique: LNw6wjdTM_2-E3fWNXYx_g-1
-Received: by mail-wm1-f71.google.com with SMTP id
- g17-20020a05600c0011b029014399f816a3so260192wmc.7
- for <qemu-devel@nongnu.org>; Tue, 18 May 2021 05:30:08 -0700 (PDT)
+ bh=09cww3EEd62WEjZRU6sFv7QqtcZmcf9o46ODdG3HtdA=;
+ b=XvpZmERwOwB2UhSYyu93JTwp1ZnEL3JAffLyssm+PI+jOhZd4dsW21c0VURltfE6LFbGCN
+ Gr0DNiivPaFOIpRDtG/yLto47SZMncKSEnr92B1vBKFesZkvspjQcvbmbtqZ5kSTgDjlTq
+ 6FvgDYmRyPYSL4fcG3l0Yril72MPlBg=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-122-naslcW04Nmu1sgS-R2mglg-1; Tue, 18 May 2021 08:30:57 -0400
+X-MC-Unique: naslcW04Nmu1sgS-R2mglg-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ 2-20020adf94020000b0290110481f75ddso5520702wrq.21
+ for <qemu-devel@nongnu.org>; Tue, 18 May 2021 05:30:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=YTuImt9yUW5JKgw/3r/EezkXIBFnF0qWCNm6dXgnZ4U=;
- b=RXk3VniNyX9TnTl/q5HFkhjoPNEpDZyEVAReKvjMusISkgGUpa/L+XdE/xLdCjuLqy
- jzPROQmjyNpkAIkVw7/Q4P3iaGohYINR7qVuqIi1eF3KiPgSnhtlkG2EzHr/oqAOq1L5
- 68/zLZL9AcO1kS+DFL/kaXAUNhUgz22qfRBe/9icIJqOefo5GenwqTBz+bsWTNjDMcIZ
- 1FNZd3Bh+3Ec5JM9KDltZjYJ/Xer9c0KtfVK7fD8ag8QWQof0Xr9SfYSssBXUSoS0//4
- eVkZfkbTe3Pn7q5hlp070/CWdyae8nVoiYhoMNy62J/RHPEM/NWGDzR2a4OVUfahiXEr
- IX/Q==
-X-Gm-Message-State: AOAM530gkaRsvr3cVGlVkzZzhEEAtGNDNGDb6akv7o1tP8IWIu6AZmxQ
- RY2nb8PqfRTxhLl/lQUr4Sr5xKL6zY1N9EAPvgoXzubFFmX/FHifKZmBSHkgYBfVu8zQ58tSA6e
- 7mY9vr6W01Nljff4=
-X-Received: by 2002:a1c:98c7:: with SMTP id a190mr5344336wme.60.1621341006951; 
- Tue, 18 May 2021 05:30:06 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwlGiE7e7T2nlj/lyi7hxkQRBjWUg0mnZBeXHJlk10Y3xofOSoGj9IMPJIv1lx71bstKB3vxw==
-X-Received: by 2002:a1c:98c7:: with SMTP id a190mr5344282wme.60.1621341006366; 
- Tue, 18 May 2021 05:30:06 -0700 (PDT)
+ bh=09cww3EEd62WEjZRU6sFv7QqtcZmcf9o46ODdG3HtdA=;
+ b=SRUsAWfrQXuuLT5yZm+THY/gDZey4SBk7MB+lu8dXwNj4kN0xwyi5wudGZAsLHAN7z
+ 8urhXYZhXA3yqzvZ9QsYnkkwey7soVRlpshFEsh1TVyrD7Yp+eWM9xmcIB3D+pbINAY2
+ t6k3R4PKMpQfR8AR6m7AYBGasWGF1wOg7G4di+G1iFT6CmZAWMVQbn6JmqR5HrniYF+V
+ 00hhp1AOft8aeO3ki6GUOlNbETInQifCNIomjdgqD1DgF55LAnPRfllelfqrE3DKkvoz
+ jvXaHT4b3Yc1OAmTf2AcrC2P0aoZIHdl35vULni4Pu4X6VBNXfK+dvVLkiIhdr9TTnu+
+ gERw==
+X-Gm-Message-State: AOAM533qTyMqrzSoagtVlnRWtI60jnUks3T5nbYZVuxPa00S5jxKRH76
+ xIH9jspOhSK9Mhc6Q+ULyG5FfA5lHfFgU1iY98RM61SmwL7tbVMv+XMkTCZS/SV0HCfMC1wqKQN
+ kGwk3m54xoBOWTkfPljQG8b6yWb95oCNT2ykcTBuzUoCO5nl4YkpTwJNseR6OL2j1KEk=
+X-Received: by 2002:adf:f98f:: with SMTP id f15mr6856577wrr.4.1621341055600;
+ Tue, 18 May 2021 05:30:55 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJycFG7ca9gHfrU0+HeQayTCvfEanb7CYKRF8HApUYUxnNWGJE0RSvf/uXf0/jhF0N4e+ACuDw==
+X-Received: by 2002:adf:f98f:: with SMTP id f15mr6856555wrr.4.1621341055348;
+ Tue, 18 May 2021 05:30:55 -0700 (PDT)
 Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
  ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id r5sm15580612wrw.96.2021.05.18.05.30.05
+ by smtp.gmail.com with ESMTPSA id d3sm21830530wri.75.2021.05.18.05.30.54
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 18 May 2021 05:30:05 -0700 (PDT)
-Subject: Re: [PATCH 2/3] ci: do not use #processors+1 jobs, #processors is
- enough
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
-References: <20210518084139.97957-1-pbonzini@redhat.com>
- <20210518084139.97957-3-pbonzini@redhat.com>
- <40f9d46b-d234-c029-3ba2-f5dcac8b87fc@redhat.com>
+ Tue, 18 May 2021 05:30:54 -0700 (PDT)
+Subject: Re: [PATCH] remove qemu-options* from root directory
+To: Markus Armbruster <armbru@redhat.com>
+References: <20210517121908.2624991-1-pbonzini@redhat.com>
+ <875yzg776s.fsf@dusky.pond.sub.org>
+ <ccfae3ab-e05a-7860-a841-f2aac0169c89@redhat.com>
+ <878s4c5mxh.fsf@dusky.pond.sub.org>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <7155c55a-1566-d7f0-d59e-ee48707302cf@redhat.com>
-Date: Tue, 18 May 2021 14:30:04 +0200
+Message-ID: <c641323c-8a40-6123-3fb5-edc2fc667b4b@redhat.com>
+Date: Tue, 18 May 2021 14:30:53 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <40f9d46b-d234-c029-3ba2-f5dcac8b87fc@redhat.com>
+In-Reply-To: <878s4c5mxh.fsf@dusky.pond.sub.org>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
@@ -103,33 +103,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 18/05/21 12:49, Thomas Huth wrote:
->>
->> -    - JOBS=$(expr $(nproc) + 1)
->> +    - JOBS=$(nproc || echo 1)
+On 18/05/21 12:57, Markus Armbruster wrote:
+> Paolo Bonzini <pbonzini@redhat.com> writes:
 > 
-> The basic idea of the "+ 1" was to make sure that there is always a 
-> thread that runs on a CPU while maybe another one is waiting for I/O to 
-> complete.
+>> On 18/05/21 10:54, Markus Armbruster wrote:
+>>> Paolo Bonzini <pbonzini@redhat.com> writes:
+>>>
+>>>> These headers are also included from softmmu/vl.c, so they should be
+>>>> in include/.  Removing qemu-options-wrapper.h, since elsewhere
+>>>> we include "template" headers directly and #define the parameters in
+>>>> the including file, and move qemu-options.h to include/.
+>>>>
+>>>> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+>>>> ---
+>>>>    qemu-options.h => include/qemu/qemu-options.h |  9 ++++-
+>>>>    os-posix.c                                    |  2 +-
+>>>>    os-win32.c                                    |  1 -
+>>>>    qemu-options-wrapper.h                        | 40 -------------------
+>>>>    qemu-options.hx                               |  4 ++
+>>>>    softmmu/vl.c                                  | 24 ++++++++---
+>>>>    6 files changed, 31 insertions(+), 49 deletions(-)
+>>>>    rename qemu-options.h => include/qemu/qemu-options.h (88%)
+>>>>    delete mode 100644 qemu-options-wrapper.h
+>>>
+>>> Much nicer without qemu-options-wrapper.h.
+>>>
+>>> I'd be tempted to rename qemu-options.def while there (what's .def?),
+>>> but that's up to you.
+>>>
+>>> Reviewed-by: Markus Armbruster <armbru@redhat.com>
+>>
+>> I was tempted too, but qemu-options.h is already taken (well,
+>> qemu/qemu-options.h) and I didn't have any good ideas about the name.
+> 
+> qemu-options.inc?
 
-Ah, I see.  It doesn't make much sense for "make check" jobs however, 
-which is where I wanted to get with the next patch.
-
-I'm not sure it's even true anymore with current build machines (which 
-tend to have a large buffer cache for headers) and optimizing compilers 
-that compilation is I/O bound, so I'll time the two and see if there is 
-an actual difference.
+Or .h.inc, in which case it might make sense to rename other files 
+generated from HXTOOL.
 
 Paolo
-
-  This is suggested by various sites on the web, e.g.:
-> 
-> https://unix.stackexchange.com/questions/519092/what-is-the-logic-of-using-nproc-1-in-make-command 
-> 
-> So not sure whether this patch here make sense ... I'd rather drop it.
 
 
