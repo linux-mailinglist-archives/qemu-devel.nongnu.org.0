@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C8F2387144
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 07:33:18 +0200 (CEST)
-Received: from localhost ([::1]:43648 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A68F4387159
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 07:37:13 +0200 (CEST)
+Received: from localhost ([::1]:60778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lisM0-0001In-UN
-	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 01:33:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38244)
+	id 1lisPo-0004I2-MV
+	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 01:37:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38318)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lisKR-0006fL-Kl
- for qemu-devel@nongnu.org; Tue, 18 May 2021 01:31:39 -0400
-Received: from mout.kundenserver.de ([212.227.17.10]:38281)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lisKU-0006mg-5j
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 01:31:42 -0400
+Received: from mout.kundenserver.de ([217.72.192.75]:58825)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lisKP-0006rY-85
- for qemu-devel@nongnu.org; Tue, 18 May 2021 01:31:39 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lisKP-0006re-C6
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 01:31:41 -0400
 Received: from quad ([82.142.31.78]) by mrelayeu.kundenserver.de (mreue106
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1M27ix-1lko8d3fxp-002Vdo; Tue, 18
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1MNLVU-1m6Rsz1av4-00Os0h; Tue, 18
  May 2021 07:31:35 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 05/59] linux-user/arm: Do not fill in si_code for fpa11
+Subject: [PULL 06/59] linux-user/arm: Simplify accumulating and raising fpa11
  exceptions
-Date: Tue, 18 May 2021 07:30:37 +0200
-Message-Id: <20210518053131.87212-6-laurent@vivier.eu>
+Date: Tue, 18 May 2021 07:30:38 +0200
+Message-Id: <20210518053131.87212-7-laurent@vivier.eu>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210518053131.87212-1-laurent@vivier.eu>
 References: <20210518053131.87212-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:5D98tTpusNVYKwgF/UlPpY4Q7yRnTsGkIxu0I/TyQXiSoN6Vqan
- M3pXP2zd+Fn+s6PLdCoINwpfYtB4QikbU/NUioGAAlEmfhAaplq+icpkJSkwPucRYsOkEwC
- 7Bd60NVvYqZFj6BWWg3fphjsU6Of2FhILwjJ2f+2VVDJDSm8kvq5pZJmLpz14emWai53dVR
- Uwk27wUbx6+pp+ejddy3A==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:wK/v6X9ir5k=:apC3rRfzW1AL9gpKZniGYg
- tH4SXtAQjUJpwH7gn4xm5PtzRp8E6/HWeHC4eFLiLNEJASk087wrg9EHNo+Vk82jhWwICZoQk
- tvP7v1lCr26sSxwQjmgsNEby4BYpAltq0PqltLKx39mPGEiBtoLXpSRqEEUH2KuQI5ACcMYwL
- En6K7E/TLqdZG1eI47oDAC/WfQTeHUiKtJ2MityP2HFb4LtLQ0Ye4ZcIIeMqo/7S2Wrzf+3n8
- vC27kuIhYRTQ1bKFhdZZ1/WLB6zdO2ch1f84c5qc6PJwm4gfDOLGYs0Kty9BsV9lhN4N4h+y8
- 0sbEbKW0OrsOQZDHvX4rajR8doX0MQreGdUyW5LI4OZtYgLTWoIBJb2eGryZQ49VJNSDl/GMn
- KJJsp+bFDzRHBcSVg+3TtFBu/l7JrVV2JVDuLqCJ4hlDB4s35UOSHZ8WuljpCop27GwOfy0jS
- F8d+t9UxCHucR3XepF/JpJIC4IWc3M02f4b8ZVa2omPYvIApfPGlLmTS5Wfxq1Jq9Bd2FI9/l
- alELUjnKOrfSM2XD5esgew=
-Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:hPsgTGe4wD6egtnSMmt+wXOoApQ3tO5BCWo5A7PBwoYdqj+E2TL
+ JpsDNYzain8Lk7UX/3LUJ0cFVO4c2g8qK+ADKLwBh9oSspISQjdgesU08WKeIdEYHo7PEzX
+ uV/+DxcPj61Fu0NLJje/FQuC+QlTar26kPiu5xjl/Tb2LzZPb3vyhpIC55CSQOmQj5cKYTe
+ oZryk2diDDH5zMU1TNb4g==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:g0lQq33wMK8=:tr9ja6j6Cbg5Tl0tc05Sn3
+ 6Cmyun+gra9MPkfaNIVBaaciuUy30dtL9ZUKWEIOH4uEYYuBoJHhpQN7OXFTCIpRjPawJipJp
+ Nq/NAxl7KTcbeUfvg8EDdCYGOfntFmYUCN5oxqaGtkzTOKIrIzdpJDyMoQNLPACLi85O7tR+c
+ rirj01TzF+mybadITyFpRb5eVB7T7hyZ5Zw61r+dBfAcmEU9UsmDDjHW+hxNy7otuVIds3RUh
+ HGpaO1v6roSI7p6n54SGOwlj7HjaUmZUp2J1QxvXlDljzT2MlTh8UBrzN/Snvae2ndhagebLG
+ klbTgTdnhEQijB+QPqtEchntbi3jIB4pB9vDY9mD51ruLYKab4BidTasgKhOXhR2RnPtcdVH2
+ wNq+YpJyD3w74/evoSwCKX8P28m83AF85Z2u/xl3p00qk+fpMJKWYcMpw6icSskZKeDpIZbj3
+ q37lpZkJ3pZGx2djvrzhW5hwT8b57nIG/PSfgZDJflaUM5lTehM3KMJXR6S+4smFhPjpILOaj
+ gdHWcS3I+HYHvZSBT4tKAs=
+Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -72,56 +72,99 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-There is no such decoding in linux/arch/arm/nwfpe/fpmodule.c.
+Use bit masking instead of an if tree.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Message-Id: <20210423165413.338259-4-richard.henderson@linaro.org>
+Message-Id: <20210423165413.338259-5-richard.henderson@linaro.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/arm/cpu_loop.c | 26 ++++++--------------------
- 1 file changed, 6 insertions(+), 20 deletions(-)
+ linux-user/arm/cpu_loop.c | 50 ++++++++++++++-------------------------
+ 1 file changed, 18 insertions(+), 32 deletions(-)
 
 diff --git a/linux-user/arm/cpu_loop.c b/linux-user/arm/cpu_loop.c
-index e2a1496b9fe7..5f61d25717c3 100644
+index 5f61d25717c3..69632d15be18 100644
 --- a/linux-user/arm/cpu_loop.c
 +++ b/linux-user/arm/cpu_loop.c
-@@ -262,29 +262,15 @@ static bool emulate_arm_fpa11(CPUARMState *env, uint32_t opcode)
-     /* Exception enabled? */
-     FPSR fpsr = ts->fpa.fpsr;
-     if (fpsr & (arm_fpe << 16)) {
--        target_siginfo_t info;
-+        target_siginfo_t info = { };
+@@ -228,6 +228,7 @@ static bool emulate_arm_fpa11(CPUARMState *env, uint32_t opcode)
+ {
+     TaskState *ts = env_cpu(env)->opaque;
+     int rc = EmulateAll(opcode, &ts->fpa, env);
++    int raise, enabled;
  
-+        /*
-+         * The kernel's nwfpe emulator does not pass a real si_code.
-+         * It merely uses send_sig(SIGFPE, current, 1).
-+         */
-         info.si_signo = TARGET_SIGFPE;
--        info.si_errno = 0;
--
--        /* ordered by priority, least first */
--        if (arm_fpe & BIT_IXC) {
--            info.si_code = TARGET_FPE_FLTRES;
--        }
--        if (arm_fpe & BIT_UFC) {
--            info.si_code = TARGET_FPE_FLTUND;
--        }
--        if (arm_fpe & BIT_OFC) {
--            info.si_code = TARGET_FPE_FLTOVF;
--        }
--        if (arm_fpe & BIT_DZC) {
--            info.si_code = TARGET_FPE_FLTDIV;
--        }
--        if (arm_fpe & BIT_IOC) {
--            info.si_code = TARGET_FPE_FLTINV;
--        }
-+        info.si_code = TARGET_SI_KERNEL;
+     if (rc == 0) {
+         /* Illegal instruction */
+@@ -240,28 +241,31 @@ static bool emulate_arm_fpa11(CPUARMState *env, uint32_t opcode)
+     }
  
--        info._sifields._sigfault._addr = env->regs[15];
-         queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
+     /* FP exception */
+-    int arm_fpe = 0;
++    rc = -rc;
++    raise = 0;
+ 
+     /* Translate softfloat flags to FPSR flags */
+-    if (-rc & float_flag_invalid) {
+-        arm_fpe |= BIT_IOC;
++    if (rc & float_flag_invalid) {
++        raise |= BIT_IOC;
+     }
+-    if (-rc & float_flag_divbyzero) {
+-        arm_fpe |= BIT_DZC;
++    if (rc & float_flag_divbyzero) {
++        raise |= BIT_DZC;
+     }
+-    if (-rc & float_flag_overflow) {
+-        arm_fpe |= BIT_OFC;
++    if (rc & float_flag_overflow) {
++        raise |= BIT_OFC;
+     }
+-    if (-rc & float_flag_underflow) {
+-        arm_fpe |= BIT_UFC;
++    if (rc & float_flag_underflow) {
++        raise |= BIT_UFC;
+     }
+-    if (-rc & float_flag_inexact) {
+-        arm_fpe |= BIT_IXC;
++    if (rc & float_flag_inexact) {
++        raise |= BIT_IXC;
+     }
+ 
+-    /* Exception enabled? */
+-    FPSR fpsr = ts->fpa.fpsr;
+-    if (fpsr & (arm_fpe << 16)) {
++    /* Accumulate unenabled exceptions */
++    enabled = ts->fpa.fpsr >> 16;
++    ts->fpa.fpsr |= raise & ~enabled;
++
++    if (raise & enabled) {
+         target_siginfo_t info = { };
+ 
+         /*
+@@ -275,24 +279,6 @@ static bool emulate_arm_fpa11(CPUARMState *env, uint32_t opcode)
      } else {
          env->regs[15] += 4;
+     }
+-
+-    /* Accumulate unenabled exceptions */
+-    if ((!(fpsr & BIT_IXE)) && (arm_fpe & BIT_IXC)) {
+-        fpsr |= BIT_IXC;
+-    }
+-    if ((!(fpsr & BIT_UFE)) && (arm_fpe & BIT_UFC)) {
+-        fpsr |= BIT_UFC;
+-    }
+-    if ((!(fpsr & BIT_OFE)) && (arm_fpe & BIT_OFC)) {
+-        fpsr |= BIT_OFC;
+-    }
+-    if ((!(fpsr & BIT_DZE)) && (arm_fpe & BIT_DZC)) {
+-        fpsr |= BIT_DZC;
+-    }
+-    if ((!(fpsr & BIT_IOE)) && (arm_fpe & BIT_IOC)) {
+-        fpsr |= BIT_IOC;
+-    }
+-    ts->fpa.fpsr = fpsr;
+     return true;
+ }
+ 
 -- 
 2.31.1
 
