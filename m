@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C3C3388117
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 22:10:08 +0200 (CEST)
-Received: from localhost ([::1]:51836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED4F3388142
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 22:19:49 +0200 (CEST)
+Received: from localhost ([::1]:49454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lj62Z-0006pm-Bb
-	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 16:10:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41626)
+	id 1lj6Bw-0007YY-R3
+	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 16:19:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42414)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lj61l-0006Af-8r
- for qemu-devel@nongnu.org; Tue, 18 May 2021 16:09:17 -0400
-Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:45693)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lj64K-000071-Ah
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 16:11:56 -0400
+Received: from mail-ot1-x330.google.com ([2607:f8b0:4864:20::330]:34417)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lj61j-000454-Ht
- for qemu-devel@nongnu.org; Tue, 18 May 2021 16:09:17 -0400
-Received: by mail-ej1-x634.google.com with SMTP id s22so16309581ejv.12
- for <qemu-devel@nongnu.org>; Tue, 18 May 2021 13:09:14 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lj64D-0005zW-FJ
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 16:11:55 -0400
+Received: by mail-ot1-x330.google.com with SMTP id
+ u25-20020a0568302319b02902ac3d54c25eso9795063ote.1
+ for <qemu-devel@nongnu.org>; Tue, 18 May 2021 13:11:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=sj9/sHwjqKBLDS0k+VqdB+RfsMRcXVUFPpKVOFo7cLM=;
- b=qP/I3u2o+wbCdu9s6oGwnLkXEuB7heodAac0UuTgW4DXYnzfbPLaCVFsAaYO2g43Ak
- 1c6lc17SJolOPPPGLreKmdCg+NBY//Qwzp7jGfIj31eF3nclHsa9jDWsaOaKmQh/9hWY
- TYGqsR+I7L5A8nt4EcLepXO8bE0tHkhQeQ47605C5xmYWGyM2NYxTc6/0LOl0gb0aFPn
- 07X4iTQa6kfV9xCUhLuxX53CMIuiDdrsQP2xv8mx4watXiJHhO5IGqQHYchKX1d2Zhjc
- fQv0cX8sJrX47L+Zq2QBWlEhTZttYZ/5i0reW7KSfeSmHJ/jytJiiWyHAjvQkfgsjpaL
- RMLg==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=qPfzJb0rUax3UJP3k25AmhFKfk/NW8Mt2W62oGkhFmE=;
+ b=suOKldG+qFrVpld3tSYxxLB/sopKgsukhg/r7Gx1FdXyO4tnFWYTBktA9FxeasbOWw
+ qlLWR9QCFcjjWMoq+MGGf1n8MOeXYfV/Q4qaA6DHza8s2xqgOe163KfMiLHYsHej5HOr
+ 8gvDSF7MsUZ2cQL2n8ArodyHOetyvhf15+4DRUNcopwEw11YKTO1nlHtQTaT9XWPVXsW
+ 8sRjlhlxtydUjuRG6HoCDTg+LcLFldlwvva4uneQgQ/GXLYWnyNSPZEN3Fpdg2pU/DaF
+ 14DnfZVWpRhXuEfbaL/eQmiWIewDyW3NTXgd1aPlKdCpTIMRq1HV1dtT9ZP21OMGpz0N
+ liOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=sj9/sHwjqKBLDS0k+VqdB+RfsMRcXVUFPpKVOFo7cLM=;
- b=dSehHLSD1NrqobPDZPvQHQBqlO7PPhYx9i//KHluecdXapQ2D3QSbkilbM0G1HJ0lG
- rHhMkbXH9Smp2a67QOJJm+tsxQGcSUPBEDoAdJu6alC9p4f1vEybOj3i0O9JZCbQSXHo
- 5OGgx+84Y9Ok9ODDWleSJEVIR8UjWg8p/ki/DDIgs3IEmkX7OdjICULDmywK32ByuT23
- hkwMBXWadJvkfdFVSYHfK/TU194mVvBCUPGz/LfWBllPzchLJ5LxXCSff2w+XDNfdMn0
- PStgQIIXOQadru7LSDE0fNuHweFOS08Z9QoA9RhiPDbPgooxQAiOMQ4RPaDGrS1GGa8z
- p93Q==
-X-Gm-Message-State: AOAM533PiOGGp6WMq5YSvo9jCRyOE2Hd/O+29IXge71RGQrne1ZgUO/J
- gljrVwZLj/471TAymGn9hMcE1lHSvtVxyjTS+H9/Ig==
-X-Google-Smtp-Source: ABdhPJy9xQqsAiDqHu/u5A49ERtlI0DEYHSJ27714WkScUUrrvZwdkHK4jM30ryAp/pbvY5PFqXxV6nRoEBfCPJE3l0=
-X-Received: by 2002:a17:906:3883:: with SMTP id q3mr7711523ejd.4.1621368553348; 
- Tue, 18 May 2021 13:09:13 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=qPfzJb0rUax3UJP3k25AmhFKfk/NW8Mt2W62oGkhFmE=;
+ b=RggFPRIZhymxiG/4DXB2AN8aCjaCY3aVvJMnPqzbQ3kHvLaPYCFUnq5S5afx7oy6a6
+ 3G54nw4CS27MjHEVD8cMY1FBssvlWnFe+SohYNAohy+CmOEkbnzf3w15aEEo1y4gcfwj
+ pYsDmG8C8M4oUSn2YQnvCK1mU8qZED/o8qeai+XC9cwKfzqyyeRI7cqakD4l7HMe+W3q
+ pD17U28yXMtVFFRd9XwMlvUh8F4mDy48ULRoBRDh4y3BhL84NRwnS2plT8ZNldm6OvX8
+ tr2WIfgYVdlGt2Ty1NhcZaPRxiqTcynix4gcEQ1OCknJf1epW8Cpj0mTm2VrTwvbKzt+
+ Kf2g==
+X-Gm-Message-State: AOAM532rrjn7WWDVUhQqiHLr0if1l2i9l2JUxVdbKIKyJbF4y5USGAqI
+ fNHZ3iABRZ33eUqfTHEoScZEaZ20kQB2q5kC
+X-Google-Smtp-Source: ABdhPJwykFKJqEoyKNTvK21zTRFK2c2hxdxvsM+hHkorIdrWmk8q36kC5IyKmkai7p9AzBOk2u7ulQ==
+X-Received: by 2002:a9d:5e8c:: with SMTP id f12mr5595386otl.18.1621368708189; 
+ Tue, 18 May 2021 13:11:48 -0700 (PDT)
+Received: from localhost.localdomain ([45.235.253.15])
+ by smtp.gmail.com with ESMTPSA id u27sm3953204oof.38.2021.05.18.13.11.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 18 May 2021 13:11:47 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 00/24] target/ppc: Clean up mmu translation
+Date: Tue, 18 May 2021 15:11:22 -0500
+Message-Id: <20210518201146.794854-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20210518183655.1711377-1-philmd@redhat.com>
- <20210518183655.1711377-9-philmd@redhat.com>
-In-Reply-To: <20210518183655.1711377-9-philmd@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 18 May 2021 21:08:56 +0100
-Message-ID: <CAFEAcA-sMr1_1Ckyu2qXJ5ZKhqDFgOd0Uxh+Q9ZKghrhB4ue5g@mail.gmail.com>
-Subject: Re: [RFC PATCH 08/25] qemu/bswap: Use ST_CONVERT() macro to emit
- 16-bit load/store functions
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::634;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x634.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::330;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x330.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -80,77 +81,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, Huacai Chen <chenhuacai@kernel.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Peter Xu <peterx@redhat.com>,
- Bibo Mao <maobibo@loongson.cn>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: bruno.larsen@eldorado.org.br, qemu-ppc@nongnu.org,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 18 May 2021 at 19:37, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
-m> wrote:
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> ---
->  include/qemu/bswap.h | 17 ++---------------
->  1 file changed, 2 insertions(+), 15 deletions(-)
->
-> diff --git a/include/qemu/bswap.h b/include/qemu/bswap.h
-> index 86f5ded6acf..4e2bd2e97ee 100644
-> --- a/include/qemu/bswap.h
-> +++ b/include/qemu/bswap.h
-> @@ -350,11 +350,6 @@ static inline int ldsw_he_p(const void *ptr)
->      return r;
->  }
->
-> -static inline void stw_he_p(void *ptr, uint16_t v)
-> -{
-> -    __builtin_memcpy(ptr, &v, sizeof(v));
-> -}
-> -
->  static inline int ldl_he_p(const void *ptr)
->  {
->      int32_t r;
-> @@ -399,11 +394,6 @@ static inline uint64_t ldq_le_p(const void *ptr)
->      return le_bswap(ldq_he_p(ptr), 64);
->  }
->
-> -static inline void stw_le_p(void *ptr, uint16_t v)
-> -{
-> -    stw_he_p(ptr, le_bswap(v, 16));
-> -}
-> -
->  static inline void stl_le_p(void *ptr, uint32_t v)
->  {
->      stl_he_p(ptr, le_bswap(v, 32));
-> @@ -434,11 +424,6 @@ static inline uint64_t ldq_be_p(const void *ptr)
->      return be_bswap(ldq_he_p(ptr), 64);
->  }
->
-> -static inline void stw_be_p(void *ptr, uint16_t v)
-> -{
-> -    stw_he_p(ptr, be_bswap(v, 16));
-> -}
-> -
->  static inline void stl_be_p(void *ptr, uint32_t v)
->  {
->      stl_he_p(ptr, be_bswap(v, 32));
-> @@ -466,6 +451,8 @@ static inline void st ## size ## _ ## endian ## _p(vo=
-id *ptr, vtype v)\
->      ST_CONVERT_END(le, bits, vtype, size)\
->      ST_CONVERT_END(be, bits, vtype, size)
->
-> +ST_CONVERT(16, uint16_t, w)
-> +
+This attempts the cleanup I've been talking about with Bruno.
 
-Where we have a macro that emits a bunch of function declarations,
-can we also add a comment that (a) documents the functions and
-(b) explicitly lists the name of every generated function?
-The latter in particular is really helpful for people who are
-trying to find function declarations/definitions with 'grep'.
-The comment above the definition and use of the CPU_CONVERT
-macro in bswap.h is an example.
+On the way, there's a lot of MMUAccessType cleanup, to get the
+code into the form I wanted the interface to share.  There's a
+lot more cleanup that could be done, particularly wrt the older
+mmu models.
 
-thanks
--- PMM
+
+r~
+
+
+Richard Henderson (24):
+  target/ppc: Introduce prot_for_access_type
+  target/ppc: Use MMUAccessType in mmu-radix64.c
+  target/ppc: Use MMUAccessType in mmu-hash64.c
+  target/ppc: Use MMUAccessType in mmu-hash32.c
+  target/ppc: Rename access_type to type in mmu_helper.c
+  target/ppc: Use MMUAccessType in mmu_helper.c
+  target/ppc: Remove type argument from check_prot
+  target/ppc: Remove type argument from ppc6xx_tlb_pte_check
+  target/ppc: Remove type argument from ppc6xx_tlb_check
+  target/ppc: Remove type argument from get_bat_6xx_tlb
+  target/ppc: Remove type argument from mmu40x_get_physical_address
+  target/ppc: Remove type argument from mmubooke_check_tlb
+  target/ppc: Remove type argument from mmubooke_get_physical_address
+  target/ppc: Remove type argument from mmubooke206_check_tlb
+  target/ppc: Remove type argument for mmubooke206_get_physical_address
+  target/ppc: Remove PowerPCCPUClass.handle_mmu_fault
+  target/ppc: Use MMUAccessType with *_handle_mmu_fault
+  target/ppc: Push real-mode handling into ppc_radix64_xlate
+  target/ppc: Use bool success for ppc_radix64_xlate
+  target/ppc: Split out ppc_hash64_xlate
+  target/ppc: Split out ppc_hash32_xlate
+  target/ppc: Split out ppc_jumbo_xlate
+  target/ppc: Introduce ppc_xlate
+  target/ppc: Restrict ppc_cpu_tlb_fill to TCG
+
+ target/ppc/cpu-qom.h       |   1 -
+ target/ppc/internal.h      |  19 ++
+ target/ppc/mmu-book3s-v3.h |   5 -
+ target/ppc/mmu-hash32.h    |   6 +-
+ target/ppc/mmu-hash64.h    |   6 +-
+ target/ppc/mmu-radix64.h   |   6 +-
+ target/ppc/cpu_init.c      |  45 ----
+ target/ppc/mmu-book3s-v3.c |  19 --
+ target/ppc/mmu-hash32.c    | 244 ++++++++----------
+ target/ppc/mmu-hash64.c    | 187 ++++++--------
+ target/ppc/mmu-radix64.c   | 235 +++++++++---------
+ target/ppc/mmu_helper.c    | 496 +++++++++++++++++--------------------
+ 12 files changed, 553 insertions(+), 716 deletions(-)
+
+-- 
+2.25.1
+
 
