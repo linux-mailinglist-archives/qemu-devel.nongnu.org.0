@@ -2,72 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6B003875CA
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 11:54:52 +0200 (CEST)
-Received: from localhost ([::1]:58002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 088E23875C2
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 11:53:41 +0200 (CEST)
+Received: from localhost ([::1]:53636 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1liwR9-0000wM-Pi
-	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 05:54:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60444)
+	id 1liwQ0-0006NI-2G
+	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 05:53:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60446)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1liw1W-0002oi-JM
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1liw1W-0002pj-Sa
  for qemu-devel@nongnu.org; Tue, 18 May 2021 05:28:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28387)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60107)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1liw1U-0008LI-AY
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1liw1S-0008Ke-Nh
  for qemu-devel@nongnu.org; Tue, 18 May 2021 05:28:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621330099;
+ s=mimecast20190719; t=1621330098;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=X65zJ3gkfhLEMd0pITG73OuJgAV1Rk3bFVBed7CRc74=;
- b=H2cRw8A37Amh/BuyejcZKDCH2XrtjfCfW6/2iu5D7armFxql+71QFTvZNr7Y0dRIhB+qKj
- M4IQffrPMm/MhtGp53pxMlpgjvXzRMRy4nBqjAhbNq6ha3aJwTxDBWqj8TgC6UBLvADGjI
- Dystbw7Gmtr1qdficPIWQpyabxm+OjA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-77-9DV-DR6bOoaxfKkqde51yA-1; Tue, 18 May 2021 05:28:16 -0400
-X-MC-Unique: 9DV-DR6bOoaxfKkqde51yA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B8510100747B;
- Tue, 18 May 2021 09:28:15 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
- [10.36.114.17])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5E7F190BD;
- Tue, 18 May 2021 09:28:15 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id DDDD3113861E; Tue, 18 May 2021 11:28:13 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH v2 01/21] qapi/parser: Don't try to handle file errors
-References: <20210511220601.2110055-1-jsnow@redhat.com>
- <20210511220601.2110055-2-jsnow@redhat.com>
+ bh=m6Q0VvoL0oExrvqvPcAD3t1h5hqPh9emBkw8Vg2WBNI=;
+ b=SBJCSePwR4+1EhANhqP2ZQC+cJJB+yJBS7ms4PuYCe9jEROgQC+w8EDr88tVgWk/0ijo9S
+ 6xcNIjSi+Ip6geSFyy5dC1iDUMhu5NEULEZnz3HRb39flNP+tioK+FwrlatXHV8vh0LACn
+ xjuuf1o5VWLW7twbowXZc1OvwiE9uLY=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-103-D2DjCN9YPKC9uD6An8BjCg-1; Tue, 18 May 2021 05:28:16 -0400
+X-MC-Unique: D2DjCN9YPKC9uD6An8BjCg-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ w22-20020a05640234d6b029038d04376b6aso5385866edc.21
+ for <qemu-devel@nongnu.org>; Tue, 18 May 2021 02:28:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=m6Q0VvoL0oExrvqvPcAD3t1h5hqPh9emBkw8Vg2WBNI=;
+ b=m6TDqy7cxVngIztZ7B4CZWd6SLdbqcv27v5e+vZF2pxiVmEnBeFcoVpLHAyD6y31YR
+ RwBAPKHy9/1n7JNRWpnnX35d/sdS2jm3UtklgeIv3/6fBGwF2AuG6XQTptxEbyhPoRh2
+ OA5x/OqdSMGCpKnOOIh4n3+4eetBBFoIsoMvIfqadK+tJ2IRhffu4FQ2u6eXgctT4s+P
+ 8BdWj7Mldgb8t9xpeovau6YN0INzF0612iS6eFdfMYVHFgFcunZ/W4SArvqNrNygDEHV
+ PQY7bHq5k3vmrFtkaT9yzeIxydOfkfTcX4+J7Z+VATrPXUz1w/YFpD8TO0eyYy1fsBJV
+ 4mVA==
+X-Gm-Message-State: AOAM530OpPhjXHwBx26ici/xl+Ii41Pt2HNL1C31LhWpeu0BfNrR1zUA
+ mo5pP3mg/9gP1OTZe3araB5X5V947tX0z5veBg942MpKJp/zd9gRoTee/64N3PgLNsaQ/fntmLD
+ 9MqZg8k9gIn8SkK8=
+X-Received: by 2002:a17:906:a48:: with SMTP id
+ x8mr5093650ejf.127.1621330094999; 
+ Tue, 18 May 2021 02:28:14 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwXCkhhuN7hjg3Y+sZYAhUuq8L+I0rSJqpNJMC3gf8vOgxAuysKMRTNn+Zomo0IDA3lZzwoXA==
+X-Received: by 2002:a17:906:a48:: with SMTP id
+ x8mr5093637ejf.127.1621330094842; 
+ Tue, 18 May 2021 02:28:14 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id q16sm12794909edv.61.2021.05.18.02.28.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 18 May 2021 02:28:14 -0700 (PDT)
+Subject: Re: [PATCH v2 16/50] target/i386: Tidy REX_B, REX_X definition
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20210514151342.384376-1-richard.henderson@linaro.org>
+ <20210514151342.384376-17-richard.henderson@linaro.org>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <5eda8504-448c-e55d-7dc6-8f3d1a263230@redhat.com>
 Date: Tue, 18 May 2021 11:28:13 +0200
-In-Reply-To: <20210511220601.2110055-2-jsnow@redhat.com> (John Snow's message
- of "Tue, 11 May 2021 18:05:41 -0400")
-Message-ID: <87wnrw5r2q.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <20210514151342.384376-17-richard.henderson@linaro.org>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.374,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,231 +103,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Roth <michael.roth@amd.com>, Cleber Rosa <crosa@redhat.com>,
- qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
+Cc: cfontana@suse.de, f4bug@amsat.org, ehabkost@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-John Snow <jsnow@redhat.com> writes:
+On 14/05/21 17:13, Richard Henderson wrote:
+> Change the storage from int to uint8_t since the value is in {0,8}.
+> For x86_64 add 0 in the macros to (1) promote the type back to int,
+> and (2) make the macro an rvalue.
+> 
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-> Remove the try/except block that handles file-opening errors in
-> QAPISchemaParser.__init__() and add one each to
-> QAPISchemaParser._include() and QAPISchema.__init__() respectively.
->
->
-> The short-ish version of what motivates this patch is:
->
-> - It's hard to write a good error message in the init method,
->   because we need to determine the context of our caller to do so.
->   It's easier to just let the caller write the message.
+Might be easier in the end to put all rex bits in the same uint8_t, but 
+that can be done later.
 
-I kind of disagree, but that's okay; it's your commit message :)
+Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 
-> - We don't want to allow QAPISourceInfo(None, None, None) to exist.
-> - Errors made using such an object are currently incorrect.
-> - It's not technically a semantic error if we cannot open the schema
-> - There are various typing constraints that make mixing these two cases
->   undesirable for a single special case.
->
-> Other considerations:
->
-> - open() is moved to a 'with' block to ensure file pointers are
->   cleaned up deterministically.
+Paolo
 
-Improvement over v1's leak claim.  Sold!
-
-> - Python 3.3 deprecated IOError and made it a synonym for OSError.
->   Avoid the misleading perception these exception handlers are
->   narrower than they really are.
-> - Not all QAPIError objects have an 'info' field, so remove that stanza
->   from test-qapi. Don't bother to replace the early exit on purpose
->   so that we can test its output in the next commit.
-
-To which hunk exactly does the last item refer?
-
-My best guess is the last one.  Its rationale is actually "drop code
-handling the variant of QAPISourceInfo being removed in this patch".
-
-QAPIError not having .info don't actually exist before this patch.
-
-I'm afraid I don't get the second sentence.
-
->
->
-> The long version:
->
-> The error message string here is incorrect (since 52a474180a):
-
-I think this reads slightly better:
-
-  The error message here is incorrect (since commit 52a474180a):
->
->> python3 qapi-gen.py 'fake.json'
-> qapi-gen.py: qapi-gen.py: can't read schema file 'fake.json': No such file or directory
->
-> In pursuing it, we find that QAPISourceInfo has a special accommodation
-> for when there's no filename. Meanwhile, the intended typing of
-> QAPISourceInfo was (non-optional) 'str'.
-
-Not sure about "intended".  When I wrote the code, I intended ".fname is
-str means it's a position that file; None means it's not in a file".  I
-didn't intend typing, because typing wasn't a concern back then.
-
-Do you mean something like "we'd prefer to type .fname as (non-optional)
-str"?
-
->
-> To remove this, I'd want to avoid having a "fake" QAPISourceInfo
-> object. We also don't want to explicitly begin accommodating
-> QAPISourceInfo itself being None, because we actually want to eventually
-> prove that this can never happen -- We don't want to confuse "The file
-> isn't open yet" with "This error stems from a definition that wasn't
-> defined in any file".
->
-> (An earlier series tried to create a dummy info object, but it was tough
-> to prove in review that it worked correctly without creating new
-> regressions. This patch avoids that distraction. We would like to first
-> prove that we never raise QAPISemError for any built-in object before we
-> add "special" info objects. We aren't ready to do that yet.)
->
-> So, which way out of the labyrinth?
->
-> Here's one way: Don't try to handle errors at a level with "mixed"
-> semantic contexts; i.e. don't mix inclusion errors (should report a
-> source line where the include was triggered) and command line errors
-> (where we specified a file we couldn't read).
->
-> Remove the error handling from the initializer of the parser. Pythonic!
-> Now it's the caller's job to figure out what to do about it. Handle the
-> error in QAPISchemaParser._include() instead, where we can write a
-> targeted error message where we are guaranteed to have an 'info' context
-> to report with.
->
-> The root level error can similarly move to QAPISchema.__init__(), where
-> we know we'll never have an info context to report with, so we use a
-> more abstract error type.
->
-> Now the error looks sensible again:
->
->> python3 qapi-gen.py 'fake.json'
-> qapi-gen.py: can't read schema file 'fake.json': No such file or directory
->
-> With these error cases separated, QAPISourceInfo can be solidified as
-> never having placeholder arguments that violate our desired types. Clean
-> up test-qapi along similar lines.
->
-> Fixes: 52a474180a
->
-> Signed-off-by: John Snow <jsnow@redhat.com>
 > ---
->  scripts/qapi/parser.py         | 18 +++++++++---------
->  scripts/qapi/schema.py         | 11 +++++++++--
->  scripts/qapi/source.py         |  3 ---
->  tests/qapi-schema/test-qapi.py |  3 ---
->  4 files changed, 18 insertions(+), 17 deletions(-)
->
-> diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
-> index ca5e8e18e00..a53b735e7de 100644
-> --- a/scripts/qapi/parser.py
-> +++ b/scripts/qapi/parser.py
-> @@ -40,15 +40,9 @@ def __init__(self, fname, previously_included=None, incl_info=None):
->          previously_included = previously_included or set()
->          previously_included.add(os.path.abspath(fname))
->  
-> -        try:
-> -            fp = open(fname, 'r', encoding='utf-8')
-> +        # May raise OSError; allow the caller to handle it.
-> +        with open(fname, 'r', encoding='utf-8') as fp:
->              self.src = fp.read()
-> -        except IOError as e:
-> -            raise QAPISemError(incl_info or QAPISourceInfo(None, None, None),
-> -                               "can't read %s file '%s': %s"
-> -                               % ("include" if incl_info else "schema",
-> -                                  fname,
-> -                                  e.strerror))
->  
->          if self.src == '' or self.src[-1] != '\n':
->              self.src += '\n'
-> @@ -129,7 +123,13 @@ def _include(self, include, info, incl_fname, previously_included):
->          if incl_abs_fname in previously_included:
->              return None
->  
-> -        return QAPISchemaParser(incl_fname, previously_included, info)
-> +        try:
-> +            return QAPISchemaParser(incl_fname, previously_included, info)
-> +        except OSError as err:
-> +            raise QAPISemError(
-> +                info,
-> +                f"can't read include file '{incl_fname}': {err.strerror}"
-> +            ) from err
->  
->      def _check_pragma_list_of_str(self, name, value, info):
->          if (not isinstance(value, list)
-> diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
-> index 3a4172fb749..d1d27ff7ee8 100644
-> --- a/scripts/qapi/schema.py
-> +++ b/scripts/qapi/schema.py
-> @@ -20,7 +20,7 @@
->  from typing import Optional
->  
->  from .common import POINTER_SUFFIX, c_name
-> -from .error import QAPISemError, QAPISourceError
-> +from .error import QAPIError, QAPISemError, QAPISourceError
->  from .expr import check_exprs
->  from .parser import QAPISchemaParser
->  
-> @@ -849,7 +849,14 @@ def visit(self, visitor):
->  class QAPISchema:
->      def __init__(self, fname):
->          self.fname = fname
-> -        parser = QAPISchemaParser(fname)
-> +
-> +        try:
-> +            parser = QAPISchemaParser(fname)
-> +        except OSError as err:
-> +            raise QAPIError(
-> +                f"can't read schema file '{fname}': {err.strerror}"
-> +            ) from err
-> +
->          exprs = check_exprs(parser.exprs)
->          self.docs = parser.docs
->          self._entity_list = []
-> diff --git a/scripts/qapi/source.py b/scripts/qapi/source.py
-> index 03b6ede0828..1ade864d7b9 100644
-> --- a/scripts/qapi/source.py
-> +++ b/scripts/qapi/source.py
-> @@ -10,7 +10,6 @@
->  # See the COPYING file in the top-level directory.
->  
->  import copy
-> -import sys
->  from typing import List, Optional, TypeVar
->  
->  
-> @@ -53,8 +52,6 @@ def next_line(self: T) -> T:
->          return info
->  
->      def loc(self) -> str:
-> -        if self.fname is None:
-> -            return sys.argv[0]
->          ret = self.fname
->          if self.line is not None:
->              ret += ':%d' % self.line
-> diff --git a/tests/qapi-schema/test-qapi.py b/tests/qapi-schema/test-qapi.py
-> index e8db9d09d91..f1c4deb9a51 100755
-> --- a/tests/qapi-schema/test-qapi.py
-> +++ b/tests/qapi-schema/test-qapi.py
-> @@ -128,9 +128,6 @@ def test_and_diff(test_name, dir_name, update):
->      try:
->          test_frontend(os.path.join(dir_name, test_name + '.json'))
->      except QAPIError as err:
-> -        if err.info.fname is None:
-> -            print("%s" % err, file=sys.stderr)
-> -            return 2
->          errstr = str(err) + '\n'
->          if dir_name:
->              errstr = errstr.replace(dir_name + '/', '')
-
-Patch looks good to me.
+>   target/i386/tcg/translate.c | 17 +++++++----------
+>   1 file changed, 7 insertions(+), 10 deletions(-)
+> 
+> diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
+> index 79a37fb1a7..9bb37215d8 100644
+> --- a/target/i386/tcg/translate.c
+> +++ b/target/i386/tcg/translate.c
+> @@ -41,14 +41,6 @@
+>   #define PREFIX_VEX    0x20
+>   #define PREFIX_REX    0x40
+>   
+> -#ifdef TARGET_X86_64
+> -#define REX_X(s) ((s)->rex_x)
+> -#define REX_B(s) ((s)->rex_b)
+> -#else
+> -#define REX_X(s) 0
+> -#define REX_B(s) 0
+> -#endif
+> -
+>   #ifdef TARGET_X86_64
+>   # define ctztl  ctz64
+>   # define clztl  clz64
+> @@ -100,7 +92,8 @@ typedef struct DisasContext {
+>   #endif
+>   
+>   #ifdef TARGET_X86_64
+> -    int rex_x, rex_b;
+> +    uint8_t rex_x;
+> +    uint8_t rex_b;
+>   #endif
+>       int vex_l;  /* vex vector length */
+>       int vex_v;  /* vex vvvv register, without 1's complement.  */
+> @@ -173,8 +166,12 @@ typedef struct DisasContext {
+>   
+>   #ifdef TARGET_X86_64
+>   #define REX_PREFIX(S)  (((S)->prefix & PREFIX_REX) != 0)
+> +#define REX_X(S)       ((S)->rex_x + 0)
+> +#define REX_B(S)       ((S)->rex_b + 0)
+>   #else
+>   #define REX_PREFIX(S)  false
+> +#define REX_X(S)       0
+> +#define REX_B(S)       0
+>   #endif
+>   
+>   static void gen_eob(DisasContext *s);
+> @@ -4617,7 +4614,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+>               rex_w = (b >> 3) & 1;
+>               rex_r = (b & 0x4) << 1;
+>               s->rex_x = (b & 0x2) << 2;
+> -            REX_B(s) = (b & 0x1) << 3;
+> +            s->rex_b = (b & 0x1) << 3;
+>               goto next_byte;
+>           }
+>           break;
+> 
 
 
