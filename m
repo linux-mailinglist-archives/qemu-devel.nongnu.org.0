@@ -2,75 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9113388168
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 22:29:55 +0200 (CEST)
-Received: from localhost ([::1]:54908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2F0738814C
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 22:22:27 +0200 (CEST)
+Received: from localhost ([::1]:56638 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lj6Li-0005z8-JS
-	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 16:29:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43014)
+	id 1lj6EU-00041h-Ry
+	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 16:22:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42756)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lj64k-0001Cb-Dh
- for qemu-devel@nongnu.org; Tue, 18 May 2021 16:12:22 -0400
-Received: from mail-oo1-xc2d.google.com ([2607:f8b0:4864:20::c2d]:47036)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lj64Y-0006Lm-GE
- for qemu-devel@nongnu.org; Tue, 18 May 2021 16:12:22 -0400
-Received: by mail-oo1-xc2d.google.com with SMTP id
- o14-20020a4a384e0000b029020ec48a2358so430796oof.13
- for <qemu-devel@nongnu.org>; Tue, 18 May 2021 13:12:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=dI0TcqqVur7KeZZ864aPqiTFlL/jbhkC3bypNwh4QZk=;
- b=cQUg/zeeKSHzz2eKoQgUEzK2UnqFG2PyGIQiN8q6aeNxYBHhhYeicdTzxi+3CnK6gd
- aDv6dhUvC4OSm5yjhZ0dYLz7fGN/uxrhKXa0WZPDTJtYUBuks+86RmByCj2awY7LTx6t
- JMfeZLygdtRz9PaWfabFs5FUozsmnFCy+4IOUGS+L5ucJxej1kEV4doWuC9gjKlwL90V
- SAkG7xFK0xO9GfyRlL3vTRa+XHdjtbb+6r6IxqctTBJmltch5RQyPljz80lPN28j7fDy
- zmfa5rqqh/ETS2cpJ5J0h/3VT/PoUumaH7GyeBqrFTBCmJmnX8qfS9owZrMGNmX3iVfR
- DQbg==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lj64Y-0000b8-9H
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 16:12:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51174)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lj64O-0006FK-VE
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 16:12:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1621368719;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=EtLwxEnsEfN6cj4xHan6As3MuvE7If+R0pjppMZsGg0=;
+ b=i6SEj5XJBn+g6PrcEiDm5Zcm4FE4CzlrE69zvubuJCJXoeQ76SHPvjPbDCscwwhs/34ApE
+ +DZb+JdvbX5JzbD6JAtnmCwDhDYc5lUwdh5fGm4yHGsPh9DikOm4c7wZM4sI1pBUoF9eN3
+ TUIZcVxwhe1iNUteDJlQ3b+AyygKThQ=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-220-sW32GQ8MOS2eoN5Wcsb95Q-1; Tue, 18 May 2021 16:11:57 -0400
+X-MC-Unique: sW32GQ8MOS2eoN5Wcsb95Q-1
+Received: by mail-ej1-f70.google.com with SMTP id
+ n25-20020a170906b319b02903d4dc1bc46cso2859079ejz.2
+ for <qemu-devel@nongnu.org>; Tue, 18 May 2021 13:11:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=dI0TcqqVur7KeZZ864aPqiTFlL/jbhkC3bypNwh4QZk=;
- b=MRejGQbWTrhMlocCZ6YFXQDPfwpb41JJFahVEMKoCrheMJF2+trkaEangW4Z1Xx+gV
- lQyw1uT1+10cZNkEsA129oiSmqjc4OFF0ek6aXzBFJE8E8cQ2eFkFc1TOhqYyjFgKY6m
- GcNJktNI6t7ZiBPlFeM50QGfe1NI0G/ONKMddgsB1b9AJzUAeWTypTDdsQFw1v8A4uDh
- OXINFGtdbfki3DajmosmMI+n51beuT/10Qo/mvjzhwLKomgoF4XaJ/EVczxgTH2xKH16
- M69vIFMoekNgLSkT7xWnneW8rIEbm6fCIa6R8m0kvSHd2K64BD6R5eSR0tplcUjkOPnP
- R/nQ==
-X-Gm-Message-State: AOAM531FGD0AUoIqwMQyUpWy7QotrmcBjp5XZv8jvXuGtaUHn0t7PmeC
- fbqxm6s8gPpW1oPHG4ji4NO3kI+7FHCIhC81
-X-Google-Smtp-Source: ABdhPJyj7GT7yzUtIMoySbreooa3a1T8bGybiN8iaMue2aVttLz/8hCWPnm8yVGQiSA55iujkzROuw==
-X-Received: by 2002:a4a:aa41:: with SMTP id y1mr5880764oom.52.1621368729184;
- Tue, 18 May 2021 13:12:09 -0700 (PDT)
-Received: from localhost.localdomain ([45.235.253.15])
- by smtp.gmail.com with ESMTPSA id u27sm3953204oof.38.2021.05.18.13.12.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 May 2021 13:12:08 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 21/24] target/ppc: Split out ppc_hash32_xlate
-Date: Tue, 18 May 2021 15:11:43 -0500
-Message-Id: <20210518201146.794854-22-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210518201146.794854-1-richard.henderson@linaro.org>
-References: <20210518201146.794854-1-richard.henderson@linaro.org>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=EtLwxEnsEfN6cj4xHan6As3MuvE7If+R0pjppMZsGg0=;
+ b=OcXbnKfbe1RWiW0P+KjZa9gjyMx9E0ioUM0Jg4ymrkB4xUsmIR9ukfpcHCzd7fMfHx
+ XLBkMHOQEnAuNA1C+cX7rNgC9nz+qbM3O+Oa+o8o9dxIfqiUBHIKyIRzuVgdCILQF8ar
+ jDoCVMI2fIqvVi4hWTJq+tNsP22NPMx+JmJ76V1ibheIh63as8rFsj8LABobesRJxtcL
+ G+0ES9VcOKE3nwJmX460jkYF3TOBHpW929kGIdWGhZW+MkTBHuHD3I1gZgToqPXd0mtB
+ NSXsaYn1LMf2QKBsX0u6zpWOfoPb5gqr0Kor8bAoDA6VhVtNKcmcC5oPPi5kahXRKpKx
+ K9pQ==
+X-Gm-Message-State: AOAM5333TNbFu7GJvrtVHamqMyOKVHd8T/KbJVXU2gYzlVpjvTpRvuIs
+ yhPN9iLJv19J4hg/xPp/TS3q7eSyhYZ18WpGLSU3Eo0efeSHodexQqlQoPsnoolcI+Q+yBxJMbU
+ CzK5PczfQuRsqFRI=
+X-Received: by 2002:a17:906:5291:: with SMTP id
+ c17mr7697740ejm.527.1621368715793; 
+ Tue, 18 May 2021 13:11:55 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyOvoLewqk7B22jcfp7eaqS/xLOgx1W3a4vSsHE8OXTrbHXyRAdYGK6W02CDmbGbH3LyAngOQ==
+X-Received: by 2002:a17:906:5291:: with SMTP id
+ c17mr7697730ejm.527.1621368715659; 
+ Tue, 18 May 2021 13:11:55 -0700 (PDT)
+Received: from [192.168.1.36] (31.red-83-51-215.dynamicip.rima-tde.net.
+ [83.51.215.31])
+ by smtp.gmail.com with ESMTPSA id n17sm13378101eds.72.2021.05.18.13.11.54
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 18 May 2021 13:11:55 -0700 (PDT)
+Subject: Re: [PATCH v2 00/12] hw: Various Kconfig fixes
+To: Eduardo Habkost <ehabkost@redhat.com>
+References: <20210515173716.358295-1-philmd@redhat.com>
+ <20210517191856.enjxmb7v2ai6ecdh@habkost.net>
+ <20210517200416.pt4xghxiuzuwknvn@habkost.net>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <610577a6-0aea-e6af-7f93-0caa9eb75e27@redhat.com>
+Date: Tue, 18 May 2021 22:11:53 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
+In-Reply-To: <20210517200416.pt4xghxiuzuwknvn@habkost.net>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c2d;
- envelope-from=richard.henderson@linaro.org; helo=mail-oo1-xc2d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.374,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,379 +102,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: bruno.larsen@eldorado.org.br, qemu-ppc@nongnu.org,
- david@gibson.dropbear.id.au
+Cc: Alistair Francis <alistair.francis@wdc.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>, Bin Meng <bin.meng@windriver.com>,
+ qemu-devel@nongnu.org,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ qemu-arm@nongnu.org, qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-riscv@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Mirror the interface of ppc_radix64_xlate, putting all of
-the logic for hash32 translation into a single entry point.
+On 5/17/21 10:04 PM, Eduardo Habkost wrote:
+> On Mon, May 17, 2021 at 03:18:56PM -0400, Eduardo Habkost wrote:
+>> CCing Build system architecture maintainer (Daniel).
+> 
+> Oops, I was misled by the subsection title.  Daniel is
+> responsible only for the build system documentation.
+> 
+> Do we have any volunteers willing to be listed as reviewers for
+> build system changes in MAINTAINERS?  meson.build has a
+> non-trivial amount of code and no maintainers or reviewers at
+> all.
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/ppc/mmu-hash32.c | 224 ++++++++++++++++++++--------------------
- 1 file changed, 113 insertions(+), 111 deletions(-)
+Hmmm OK I can add an entry. Ideally with Paolo/Thomas but I don't
+think they want to be listed in any new section ;)
 
-diff --git a/target/ppc/mmu-hash32.c b/target/ppc/mmu-hash32.c
-index d51be59f95..959dc2ab53 100644
---- a/target/ppc/mmu-hash32.c
-+++ b/target/ppc/mmu-hash32.c
-@@ -219,10 +219,11 @@ static hwaddr ppc_hash32_bat_lookup(PowerPCCPU *cpu, target_ulong ea,
-     return -1;
- }
- 
--static int ppc_hash32_direct_store(PowerPCCPU *cpu, target_ulong sr,
--                                   target_ulong eaddr,
--                                   MMUAccessType access_type,
--                                   hwaddr *raddr, int *prot)
-+static bool ppc_hash32_direct_store(PowerPCCPU *cpu, target_ulong sr,
-+                                    target_ulong eaddr,
-+                                    MMUAccessType access_type,
-+                                    hwaddr *raddr, int *prot,
-+                                    bool guest_visible)
- {
-     CPUState *cs = CPU(cpu);
-     CPUPPCState *env = &cpu->env;
-@@ -239,17 +240,23 @@ static int ppc_hash32_direct_store(PowerPCCPU *cpu, target_ulong sr,
-          */
-         *raddr = ((sr & 0xF) << 28) | (eaddr & 0x0FFFFFFF);
-         *prot = PAGE_READ | PAGE_WRITE | PAGE_EXEC;
--        return 0;
-+        return true;
-     }
- 
-     if (access_type == MMU_INST_FETCH) {
-         /* No code fetch is allowed in direct-store areas */
--        cs->exception_index = POWERPC_EXCP_ISI;
--        env->error_code = 0x10000000;
--        return 1;
-+        if (guest_visible) {
-+            cs->exception_index = POWERPC_EXCP_ISI;
-+            env->error_code = 0x10000000;
-+        }
-+        return false;
-     }
- 
--    switch (env->access_type) {
-+    /*
-+     * From ppc_cpu_get_phys_page_debug, env->access_type is not set.
-+     * Assume ACCESS_INT for that case.
-+     */
-+    switch (guest_visible ? env->access_type : ACCESS_INT) {
-     case ACCESS_INT:
-         /* Integer load/store : only access allowed */
-         break;
-@@ -258,7 +265,7 @@ static int ppc_hash32_direct_store(PowerPCCPU *cpu, target_ulong sr,
-         cs->exception_index = POWERPC_EXCP_ALIGN;
-         env->error_code = POWERPC_EXCP_ALIGN_FP;
-         env->spr[SPR_DAR] = eaddr;
--        return 1;
-+        return false;
-     case ACCESS_RES:
-         /* lwarx, ldarx or srwcx. */
-         env->error_code = 0;
-@@ -268,7 +275,7 @@ static int ppc_hash32_direct_store(PowerPCCPU *cpu, target_ulong sr,
-         } else {
-             env->spr[SPR_DSISR] = 0x04000000;
-         }
--        return 1;
-+        return false;
-     case ACCESS_CACHE:
-         /*
-          * dcba, dcbt, dcbtst, dcbf, dcbi, dcbst, dcbz, or icbi
-@@ -277,7 +284,7 @@ static int ppc_hash32_direct_store(PowerPCCPU *cpu, target_ulong sr,
-          * no-op, it's quite easy :-)
-          */
-         *raddr = eaddr;
--        return 0;
-+        return true;
-     case ACCESS_EXT:
-         /* eciwx or ecowx */
-         cs->exception_index = POWERPC_EXCP_DSI;
-@@ -288,16 +295,18 @@ static int ppc_hash32_direct_store(PowerPCCPU *cpu, target_ulong sr,
-         } else {
-             env->spr[SPR_DSISR] = 0x04100000;
-         }
--        return 1;
-+        return false;
-     default:
--        cpu_abort(cs, "ERROR: instruction should not need "
--                 "address translation\n");
-+        cpu_abort(cs, "ERROR: insn should not need address translation\n");
-     }
--    if ((access_type == MMU_DATA_STORE || key != 1) &&
--        (access_type == MMU_DATA_LOAD || key != 0)) {
-+
-+    *prot = key ? PAGE_READ | PAGE_WRITE : PAGE_READ;
-+    if (*prot & prot_for_access_type(access_type)) {
-         *raddr = eaddr;
--        return 0;
--    } else {
-+        return true;
-+    }
-+
-+    if (guest_visible) {
-         cs->exception_index = POWERPC_EXCP_DSI;
-         env->error_code = 0;
-         env->spr[SPR_DAR] = eaddr;
-@@ -306,8 +315,8 @@ static int ppc_hash32_direct_store(PowerPCCPU *cpu, target_ulong sr,
-         } else {
-             env->spr[SPR_DSISR] = 0x08000000;
-         }
--        return 1;
-     }
-+    return false;
- }
- 
- hwaddr get_pteg_offset32(PowerPCCPU *cpu, hwaddr hash)
-@@ -416,8 +425,10 @@ static hwaddr ppc_hash32_pte_raddr(target_ulong sr, ppc_hash_pte32_t pte,
-     return (rpn & ~mask) | (eaddr & mask);
- }
- 
--int ppc_hash32_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr,
--                                MMUAccessType access_type, int mmu_idx)
-+static bool ppc_hash32_xlate(PowerPCCPU *cpu, vaddr eaddr,
-+                             MMUAccessType access_type,
-+                             hwaddr *raddrp, int *psizep, int *protp,
-+                             bool guest_visible)
- {
-     CPUState *cs = CPU(cpu);
-     CPUPPCState *env = &cpu->env;
-@@ -428,43 +439,43 @@ int ppc_hash32_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr,
-     int need_prot;
-     hwaddr raddr;
- 
--    need_prot = prot_for_access_type(access_type);
-+    /* There are no hash32 large pages. */
-+    *psizep = TARGET_PAGE_BITS;
- 
-     /* 1. Handle real mode accesses */
-     if (access_type == MMU_INST_FETCH ? !msr_ir : !msr_dr) {
-         /* Translation is off */
--        raddr = eaddr;
--        tlb_set_page(cs, eaddr & TARGET_PAGE_MASK, raddr & TARGET_PAGE_MASK,
--                     PAGE_READ | PAGE_WRITE | PAGE_EXEC, mmu_idx,
--                     TARGET_PAGE_SIZE);
--        return 0;
-+        *raddrp = eaddr;
-+        *protp = PAGE_READ | PAGE_WRITE | PAGE_EXEC;
-+        return true;
-     }
- 
-+    need_prot = prot_for_access_type(access_type);
-+
-     /* 2. Check Block Address Translation entries (BATs) */
-     if (env->nb_BATs != 0) {
--        raddr = ppc_hash32_bat_lookup(cpu, eaddr, access_type, &prot);
-+        raddr = ppc_hash32_bat_lookup(cpu, eaddr, access_type, protp);
-         if (raddr != -1) {
--            if (need_prot & ~prot) {
--                if (access_type == MMU_INST_FETCH) {
--                    cs->exception_index = POWERPC_EXCP_ISI;
--                    env->error_code = 0x08000000;
--                } else {
--                    cs->exception_index = POWERPC_EXCP_DSI;
--                    env->error_code = 0;
--                    env->spr[SPR_DAR] = eaddr;
--                    if (access_type == MMU_DATA_STORE) {
--                        env->spr[SPR_DSISR] = 0x0a000000;
-+            if (need_prot & ~*protp) {
-+                if (guest_visible) {
-+                    if (access_type == MMU_INST_FETCH) {
-+                        cs->exception_index = POWERPC_EXCP_ISI;
-+                        env->error_code = 0x08000000;
-                     } else {
--                        env->spr[SPR_DSISR] = 0x08000000;
-+                        cs->exception_index = POWERPC_EXCP_DSI;
-+                        env->error_code = 0;
-+                        env->spr[SPR_DAR] = eaddr;
-+                        if (access_type == MMU_DATA_STORE) {
-+                            env->spr[SPR_DSISR] = 0x0a000000;
-+                        } else {
-+                            env->spr[SPR_DSISR] = 0x08000000;
-+                        }
-                     }
-                 }
--                return 1;
-+                return false;
-             }
--
--            tlb_set_page(cs, eaddr & TARGET_PAGE_MASK,
--                         raddr & TARGET_PAGE_MASK, prot, mmu_idx,
--                         TARGET_PAGE_SIZE);
--            return 0;
-+            *raddrp = raddr;
-+            return true;
-         }
-     }
- 
-@@ -473,42 +484,38 @@ int ppc_hash32_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr,
- 
-     /* 4. Handle direct store segments */
-     if (sr & SR32_T) {
--        if (ppc_hash32_direct_store(cpu, sr, eaddr, access_type,
--                                    &raddr, &prot) == 0) {
--            tlb_set_page(cs, eaddr & TARGET_PAGE_MASK,
--                         raddr & TARGET_PAGE_MASK, prot, mmu_idx,
--                         TARGET_PAGE_SIZE);
--            return 0;
--        } else {
--            return 1;
--        }
-+        return ppc_hash32_direct_store(cpu, sr, eaddr, access_type,
-+                                       raddrp, protp, guest_visible);
-     }
- 
-     /* 5. Check for segment level no-execute violation */
-     if (access_type == MMU_INST_FETCH && (sr & SR32_NX)) {
--        cs->exception_index = POWERPC_EXCP_ISI;
--        env->error_code = 0x10000000;
--        return 1;
-+        if (guest_visible) {
-+            cs->exception_index = POWERPC_EXCP_ISI;
-+            env->error_code = 0x10000000;
-+        }
-+        return false;
-     }
- 
-     /* 6. Locate the PTE in the hash table */
-     pte_offset = ppc_hash32_htab_lookup(cpu, sr, eaddr, &pte);
-     if (pte_offset == -1) {
--        if (access_type == MMU_INST_FETCH) {
--            cs->exception_index = POWERPC_EXCP_ISI;
--            env->error_code = 0x40000000;
--        } else {
--            cs->exception_index = POWERPC_EXCP_DSI;
--            env->error_code = 0;
--            env->spr[SPR_DAR] = eaddr;
--            if (access_type == MMU_DATA_STORE) {
--                env->spr[SPR_DSISR] = 0x42000000;
-+        if (guest_visible) {
-+            if (access_type == MMU_INST_FETCH) {
-+                cs->exception_index = POWERPC_EXCP_ISI;
-+                env->error_code = 0x40000000;
-             } else {
--                env->spr[SPR_DSISR] = 0x40000000;
-+                cs->exception_index = POWERPC_EXCP_DSI;
-+                env->error_code = 0;
-+                env->spr[SPR_DAR] = eaddr;
-+                if (access_type == MMU_DATA_STORE) {
-+                    env->spr[SPR_DSISR] = 0x42000000;
-+                } else {
-+                    env->spr[SPR_DSISR] = 0x40000000;
-+                }
-             }
-         }
--
--        return 1;
-+        return false;
-     }
-     qemu_log_mask(CPU_LOG_MMU,
-                 "found PTE at offset %08" HWADDR_PRIx "\n", pte_offset);
-@@ -520,20 +527,22 @@ int ppc_hash32_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr,
-     if (need_prot & ~prot) {
-         /* Access right violation */
-         qemu_log_mask(CPU_LOG_MMU, "PTE access rejected\n");
--        if (access_type == MMU_INST_FETCH) {
--            cs->exception_index = POWERPC_EXCP_ISI;
--            env->error_code = 0x08000000;
--        } else {
--            cs->exception_index = POWERPC_EXCP_DSI;
--            env->error_code = 0;
--            env->spr[SPR_DAR] = eaddr;
--            if (access_type == MMU_DATA_STORE) {
--                env->spr[SPR_DSISR] = 0x0a000000;
-+        if (guest_visible) {
-+            if (access_type == MMU_INST_FETCH) {
-+                cs->exception_index = POWERPC_EXCP_ISI;
-+                env->error_code = 0x08000000;
-             } else {
--                env->spr[SPR_DSISR] = 0x08000000;
-+                cs->exception_index = POWERPC_EXCP_DSI;
-+                env->error_code = 0;
-+                env->spr[SPR_DAR] = eaddr;
-+                if (access_type == MMU_DATA_STORE) {
-+                    env->spr[SPR_DSISR] = 0x0a000000;
-+                } else {
-+                    env->spr[SPR_DSISR] = 0x08000000;
-+                }
-             }
-         }
--        return 1;
-+        return false;
-     }
- 
-     qemu_log_mask(CPU_LOG_MMU, "PTE access granted !\n");
-@@ -557,45 +566,38 @@ int ppc_hash32_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr,
- 
-     /* 9. Determine the real address from the PTE */
- 
--    raddr = ppc_hash32_pte_raddr(sr, pte, eaddr);
-+    *raddrp = ppc_hash32_pte_raddr(sr, pte, eaddr);
-+    *protp = prot;
-+    return true;
-+}
-+
-+int ppc_hash32_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr,
-+                                MMUAccessType access_type, int mmu_idx)
-+{
-+    CPUState *cs = CPU(cpu);
-+    int page_size, prot;
-+    hwaddr raddr;
-+
-+    /* Translate eaddr to raddr (where raddr is addr qemu needs for access) */
-+    if (!ppc_hash32_xlate(cpu, eaddr, access_type, &raddr,
-+                           &page_size, &prot, true)) {
-+        return 1;
-+    }
- 
-     tlb_set_page(cs, eaddr & TARGET_PAGE_MASK, raddr & TARGET_PAGE_MASK,
--                 prot, mmu_idx, TARGET_PAGE_SIZE);
--
-+                 prot, mmu_idx, 1UL << page_size);
-     return 0;
- }
- 
- hwaddr ppc_hash32_get_phys_page_debug(PowerPCCPU *cpu, target_ulong eaddr)
- {
--    CPUPPCState *env = &cpu->env;
--    target_ulong sr;
--    hwaddr pte_offset;
--    ppc_hash_pte32_t pte;
--    int prot;
-+    int psize, prot;
-+    hwaddr raddr;
- 
--    if (msr_dr == 0) {
--        /* Translation is off */
--        return eaddr;
--    }
--
--    if (env->nb_BATs != 0) {
--        hwaddr raddr = ppc_hash32_bat_lookup(cpu, eaddr, 0, &prot);
--        if (raddr != -1) {
--            return raddr;
--        }
--    }
--
--    sr = env->sr[eaddr >> 28];
--
--    if (sr & SR32_T) {
--        /* FIXME: Add suitable debug support for Direct Store segments */
-+    if (!ppc_hash32_xlate(cpu, eaddr, MMU_DATA_LOAD, &raddr,
-+                           &psize, &prot, false)) {
-         return -1;
-     }
- 
--    pte_offset = ppc_hash32_htab_lookup(cpu, sr, eaddr, &pte);
--    if (pte_offset == -1) {
--        return -1;
--    }
--
--    return ppc_hash32_pte_raddr(sr, pte, eaddr) & TARGET_PAGE_MASK;
-+    return raddr & TARGET_PAGE_MASK;
- }
--- 
-2.25.1
+>> On Sat, May 15, 2021 at 07:37:04PM +0200, Philippe Mathieu-Daudé wrote:
+>>> Various Kconfig fixes when building stand-alone machine binaries.
+>>
+>> Who should merge this once it's ready?
+
+Paolo said in v1 that I can send the pull request myself :))
+
+I will do it in the next 48h~.
+
+Thanks,
+
+Phil.
 
 
