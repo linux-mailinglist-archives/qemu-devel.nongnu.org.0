@@ -2,78 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A186838754D
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 11:38:52 +0200 (CEST)
-Received: from localhost ([::1]:58018 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E41E2387558
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 11:41:55 +0200 (CEST)
+Received: from localhost ([::1]:38044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1liwBf-0004Mm-Kb
-	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 05:38:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32886)
+	id 1liwEd-0001XP-0m
+	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 05:41:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33024)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1liw3g-0007Jp-73
- for qemu-devel@nongnu.org; Tue, 18 May 2021 05:30:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31267)
+ id 1liw48-0007sj-LZ
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 05:31:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42595)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1liw3c-0001HT-He
- for qemu-devel@nongnu.org; Tue, 18 May 2021 05:30:35 -0400
+ id 1liw45-0001Xj-HI
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 05:31:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621330230;
+ s=mimecast20190719; t=1621330257;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=n7rwCeJVVRhTb43K9Zskt/5Fi+7Z6n5bjwW8ga85M/k=;
- b=UOvLfmM6au0ZgCbleNY4yi80AXO2kmg2YY42Nl7EU+Sgfdzkjrz95tPVuUZcVEFLznzfmr
- j1Jt8SZaYZWFrRjbhqNrUJ6Xj5HKP5rB+MiIkr79SiFvujBzOlCaToEtqmVWuKjzlQ5YFt
- YzytgMASFCkZOWoUvqh/aeHKCTD7P6U=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-269-4i6aoHmjPd6UDK8pj0VNWg-1; Tue, 18 May 2021 05:30:28 -0400
-X-MC-Unique: 4i6aoHmjPd6UDK8pj0VNWg-1
-Received: by mail-ed1-f69.google.com with SMTP id
- u14-20020a05640207ceb029038d4bfbf3a6so1856789edy.9
- for <qemu-devel@nongnu.org>; Tue, 18 May 2021 02:30:28 -0700 (PDT)
+ bh=H7At7OCKxkXm/AK9MFOgKC5AH4MkMbOeJk328kQPyJ8=;
+ b=e6qh4NHdnO4VoDndDArAYJjlO08ncev1KewD8VB9c/J8EcR29C+J5AWuCRU5IcdCK2L66A
+ 7FT+I2AMvklGvkSmjFPcS2zASKCo92GBzidBfT5j6MJRlav+FSs6CKrklhKRRIU73+q67F
+ PwlLqIMpCV01mE80Fo249sQ09JAK/Vc=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-214-CzASk8CLOiGySRrG2-MY8g-1; Tue, 18 May 2021 05:30:55 -0400
+X-MC-Unique: CzASk8CLOiGySRrG2-MY8g-1
+Received: by mail-ej1-f69.google.com with SMTP id
+ bi3-20020a170906a243b02903933c4d9132so2145786ejb.11
+ for <qemu-devel@nongnu.org>; Tue, 18 May 2021 02:30:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=n7rwCeJVVRhTb43K9Zskt/5Fi+7Z6n5bjwW8ga85M/k=;
- b=VTPfcSmTnbiHryFDZMWwRs2eSX0bl8FTIIc+HTE/KhGOYyj522KcojA/d+9Npksg9s
- AVF9omqOR85tKRDNKxgw4P3JRKWYlAdVXScP+4H3rTV4jBvmzGgOhlILwAOESVGv3Nz5
- +zZcf1wR742H5KaLA2vyg9iF/Hvvop6+omAibLJAcm1y3Hj5hPV2Ibu/5U4Dfh+Z/fDx
- 95hEXOU2nPonb0oTnRHS9ZRoi0Lpu6RUU5kUjkMAEi9B3KrHRz27POYb6elNYNTRPc6V
- AsZgt4TangD8db+0Jv9L+L/n1jLHuS61U88GDtNwO3831SHFX1uQvGByoqgX/MwehJ0a
- 5AiQ==
-X-Gm-Message-State: AOAM53183pTqD/0tVEy92XduPKD9pX/EpxXBIGtkoClFi62AeMlln6gd
- WVznj+Ck4zKjC/RRX5h2NC0mYmVWhHHApAFuojnj10aj4mzu8ckJruJRT2LLkrqMr6bQd0iXxUc
- xJN6Y9YAlyxFR61c=
-X-Received: by 2002:a17:906:e281:: with SMTP id
- gg1mr4984385ejb.463.1621330227124; 
- Tue, 18 May 2021 02:30:27 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzZPegcirh8lXbjqhn/nxA4iFLeFh8SyZqUqIPOYsxXH7bfJNUQKrRUW8xaiqwEYwrh8zxQ8g==
-X-Received: by 2002:a17:906:e281:: with SMTP id
- gg1mr4984371ejb.463.1621330226988; 
- Tue, 18 May 2021 02:30:26 -0700 (PDT)
+ bh=H7At7OCKxkXm/AK9MFOgKC5AH4MkMbOeJk328kQPyJ8=;
+ b=r3kBBfyZek/uxx/bgwBqMaEbPhChfu08uJ3rvli8pjn7+KepYq17hpfrasuB5ehp6B
+ gBLRkJx6auynuFF84jo4RAXcOzSnKyCbpwEBUu2purgDKAfjkHiXIzZsUDG7TuOohtRW
+ I3UKwkuMwCEWGH1lvEU85v9LErTA155z9g0qUGIa+tbsvYhY5BLzaIlqM1hh9+gGOUAJ
+ hYxQOz+WOpyewkDkA2RPRM+zwJAFn06I3SDNqNd1i0HwsXxUcxf1etXVoKcZHldLJ7GN
+ Hle2pUMeXgGDS2NLKVXZxp8Pc+mTSXMNtYNL8Qo00RmN4PtxdaSetINcXhez6XgFOv0S
+ IfQQ==
+X-Gm-Message-State: AOAM531GtF4vxH9kJCR+7NadB3knj7kACLji85zHzdV6aY+bKYppSOPe
+ Fo3xh62r+Ay1RqsTEQ2ROmCPZIujLDa2kvwNBRkiyIUtIf+8dj6iwxWGemN/XCWdPdGL/wOu5aZ
+ o86W8ug+ZewOoqT0=
+X-Received: by 2002:a05:6402:3585:: with SMTP id
+ y5mr5891567edc.233.1621330253894; 
+ Tue, 18 May 2021 02:30:53 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz9JLhQ5zhdp3DHnriT5n/u8K0dG6IDjmsChR0aXuAZPwrfOgRjJiXMg34/mNRWDGpmUnHHnA==
+X-Received: by 2002:a05:6402:3585:: with SMTP id
+ y5mr5891555edc.233.1621330253750; 
+ Tue, 18 May 2021 02:30:53 -0700 (PDT)
 Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
  ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id dn4sm5302621edb.88.2021.05.18.02.30.26
+ by smtp.gmail.com with ESMTPSA id e23sm11479541edr.80.2021.05.18.02.30.52
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 18 May 2021 02:30:26 -0700 (PDT)
-Subject: Re: [PATCH v2 19/50] target/i386: Remove DisasContext.f_st as unused
+ Tue, 18 May 2021 02:30:53 -0700 (PDT)
+Subject: Re: [PATCH v2 20/50] target/i386: Reduce DisasContext.flags to
+ uint32_t
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20210514151342.384376-1-richard.henderson@linaro.org>
- <20210514151342.384376-20-richard.henderson@linaro.org>
+ <20210514151342.384376-21-richard.henderson@linaro.org>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <134a1c5b-7116-1524-97e1-b6184e09db45@redhat.com>
-Date: Tue, 18 May 2021 11:30:25 +0200
+Message-ID: <6953a791-bac2-469b-9eab-48f8739032c5@redhat.com>
+Date: Tue, 18 May 2021 11:30:52 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210514151342.384376-20-richard.henderson@linaro.org>
+In-Reply-To: <20210514151342.384376-21-richard.henderson@linaro.org>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -81,7 +82,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -108,32 +109,28 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 14/05/21 17:13, Richard Henderson wrote:
+> The value comes from tb->flags, which is uint32_t.
+> 
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->   target/i386/tcg/translate.c | 2 --
->   1 file changed, 2 deletions(-)
+>   target/i386/tcg/translate.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
 > diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
-> index 4222f09b6f..7e296b39f5 100644
+> index 7e296b39f5..ca7f0a8cf4 100644
 > --- a/target/i386/tcg/translate.c
 > +++ b/target/i386/tcg/translate.c
-> @@ -101,7 +101,6 @@ typedef struct DisasContext {
->       int vex_v;  /* vex vvvv register, without 1's complement.  */
->       CCOp cc_op;  /* current CC operation */
->       bool cc_op_dirty;
-> -    int f_st;   /* currently unused */
->       int tf;     /* TF cpu flag */
+> @@ -105,7 +105,7 @@ typedef struct DisasContext {
 >       int jmp_opt; /* use direct block chaining for direct jumps */
 >       int repz_opt; /* optimize jumps within repz instructions */
-> @@ -8507,7 +8506,6 @@ static void i386_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cpu)
->       g_assert(LMA(dc) == ((flags & HF_LMA_MASK) != 0));
->       g_assert(ADDSEG(dc) == ((flags & HF_ADDSEG_MASK) != 0));
->   
-> -    dc->f_st = 0;
->       dc->tf = (flags >> TF_SHIFT) & 1;
->       dc->cc_op = CC_OP_DYNAMIC;
->       dc->cc_op_dirty = false;
+>       int mem_index; /* select memory access functions */
+> -    uint64_t flags; /* all execution flags */
+> +    uint32_t flags; /* all execution flags */
+>       int popl_esp_hack; /* for correct popl with esp base handling */
+>       int rip_offset; /* only used in x86_64, but left for simplicity */
+>       int cpuid_features;
 > 
+
 
 Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 
