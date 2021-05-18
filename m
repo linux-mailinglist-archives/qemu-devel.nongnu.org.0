@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D29F387608
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 12:06:40 +0200 (CEST)
-Received: from localhost ([::1]:34484 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CD4F387634
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 12:12:29 +0200 (CEST)
+Received: from localhost ([::1]:44932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1liwcZ-0006bD-Gc
-	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 06:06:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37806)
+	id 1liwiC-0005Qq-9o
+	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 06:12:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38172)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1liwMV-00076e-4C
- for qemu-devel@nongnu.org; Tue, 18 May 2021 05:50:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31256)
+ id 1liwNe-0001g6-7i
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 05:51:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55079)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1liwMS-0004yv-M7
- for qemu-devel@nongnu.org; Tue, 18 May 2021 05:50:02 -0400
+ id 1liwNc-0005o4-Nf
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 05:51:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621331400;
+ s=mimecast20190719; t=1621331472;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=u/blrLGZh/QS1TKkxH7kPDFJUJ2+ftIkpUwoHxgebU4=;
- b=HXkpq+gjwyJfU/qLCZpEnHTqte0XbD75oWl7VTx8P3qScpLOYiAKnrM7yPs3lDoxPNIzrK
- 4POeYEGA7qhGri14onXuWlls/CPzMNhpsvTKK4v/d1YaAnhHqLlMo9LreNNeLeGxIf/Xp7
- LXNfdKMf5QCA/S2AtZy39zN5A3eq/hM=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-139-qQnx1UeHPAuoAUr0Mogtlg-1; Tue, 18 May 2021 05:49:58 -0400
-X-MC-Unique: qQnx1UeHPAuoAUr0Mogtlg-1
-Received: by mail-wr1-f70.google.com with SMTP id
- r12-20020adfc10c0000b029010d83323601so5303455wre.22
- for <qemu-devel@nongnu.org>; Tue, 18 May 2021 02:49:58 -0700 (PDT)
+ bh=0WulmnstO/dVStg1w/uCPv+CD1abYRqwMpLe8r/uNGY=;
+ b=D9OY2peazd3CMlpeZHs0HWDMG2XWuPi8IGrS7Cq/fywGeJDN3eR29FhoxRy48+ixoyq5yH
+ nTKn2RLg9xsqGpnVTCGDB5JVVjhQjKb5FAXDOYcp5RQHmbyW8RqMaFWLpBJdH84A9jPQBs
+ c/xvTCY1P7Mz73emkbhsPucfjw2ouYQ=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-316-ld--b4KcNY6BztGhog7yvw-1; Tue, 18 May 2021 05:51:10 -0400
+X-MC-Unique: ld--b4KcNY6BztGhog7yvw-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ p11-20020adfc38b0000b0290111f48b8adfso1859560wrf.7
+ for <qemu-devel@nongnu.org>; Tue, 18 May 2021 02:51:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=u/blrLGZh/QS1TKkxH7kPDFJUJ2+ftIkpUwoHxgebU4=;
- b=tt68mPf/TtZ9vOz3KQXP87ToGLz9BO7J0UHobjWU7wFrArkYuEDWOZfqtgKENhCnZf
- /bC/hLS/x+m2opgxIhY8NUGSCNMdgLBkZmTY+jZ6kprF4n8lTlnk+ZNtpj5oWB9WylcQ
- 1sB27viSe8GpT3lDxjQPwYwvP7BCgdHpzxCfaCG65Dks8LIN6XURrB0FxeYZV2VNeNTR
- mdN/irMK7oAyjR0fWWou8Npvt6r5cGhSIVG4xBYsv74Kdd1XYTTYFohMKJtgBRA2SmE0
- SZvWQgc2u6YQ+MDxEUZoD1BdgSZYJrcBdypXYlzFTSwkLiSMDKfLdGjC0tQ2loRDFFaL
- drow==
-X-Gm-Message-State: AOAM533AGDksemQNTqa389nbiDUNZA1JvJHOo5u+IKQX+8XT3Popdk4s
- 51NKoprlketKBuub4OGUwTG8A5XgkhJkH5emqRb1/y4c0wWkWx2VVEFBaxTUZGphAcdjuRtC/6E
- 72THhOomZFx4ZO2M=
-X-Received: by 2002:a5d:4dcc:: with SMTP id f12mr4640076wru.224.1621331396950; 
- Tue, 18 May 2021 02:49:56 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzD34SXUcJp4eNDR3a96Ykq7AGhK+MImhDA/hl3yDFZaZ8w2aaaIoM6PlJ69plNeTcQfyhtdQ==
-X-Received: by 2002:a5d:4dcc:: with SMTP id f12mr4640056wru.224.1621331396765; 
- Tue, 18 May 2021 02:49:56 -0700 (PDT)
+ bh=0WulmnstO/dVStg1w/uCPv+CD1abYRqwMpLe8r/uNGY=;
+ b=j4aNo9MWqLD0cHaBaga5zc8vWOcULxtnaop9jxB5ff127KnbT5Pl9Wp3Si9B4HpuI7
+ J28MLsmcon3dfF5fQDe+2igvCDJkv1rudBvJAEVtIzBef4ZNS+P+3rOUImbl8bBXynqf
+ RnFt76TmG8St3Y/oa1yW5E451yFiB6BrSQhy9hELBZe+iQJZsdNvYOLIHMcyYx1sA/sx
+ fmmlXVS2zrAA6NdGmuhVZXgFkVbdUtn9GUrxdcZUQxSqLhzZ5n5+KjWS9jC0w1fuCkVU
+ Sh0TLcZnI5ljWX+/LRa2UJMfi/Bk2dz29qexmE4hBl1Lwef/dobqnztB/nOKEYbijEdT
+ 406Q==
+X-Gm-Message-State: AOAM532rXZM31szH6URSVrfIP+p2vpovU9LhdeyJUy0xxbMIp0yjHtWY
+ SPQt7IrlpQ/5yLx2pMoX55f5I1lV2Nf/AFeIynJANOd2QyxM/TsxVAegGkUyDtK+A2zqf3Wlgc7
+ tJqJAaqqLNFSluxE=
+X-Received: by 2002:a05:6000:44:: with SMTP id k4mr5800073wrx.76.1621331469504; 
+ Tue, 18 May 2021 02:51:09 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyxbS4Ky292TnxELUwYr0INZkkgd0jkCES1Bg8vIoCD9s0znVpn2JAOtz2b8YOK+ag6WAkOEw==
+X-Received: by 2002:a05:6000:44:: with SMTP id k4mr5800056wrx.76.1621331469364; 
+ Tue, 18 May 2021 02:51:09 -0700 (PDT)
 Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
  ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id n2sm20392829wmb.32.2021.05.18.02.49.55
+ by smtp.gmail.com with ESMTPSA id g128sm8823705wme.0.2021.05.18.02.51.08
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 18 May 2021 02:49:56 -0700 (PDT)
-Subject: Re: [PATCH v2 29/50] target/i386: Add stub generator for helper_set_dr
+ Tue, 18 May 2021 02:51:08 -0700 (PDT)
+Subject: Re: [PATCH v2 30/50] target/i386: Assert !SVME for user-only
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20210514151342.384376-1-richard.henderson@linaro.org>
- <20210514151342.384376-30-richard.henderson@linaro.org>
+ <20210514151342.384376-31-richard.henderson@linaro.org>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <de7f6300-82eb-9c96-e2db-65c888905348@redhat.com>
-Date: Tue, 18 May 2021 11:49:55 +0200
+Message-ID: <baf949b3-a73d-963c-03d6-adcb62e4f455@redhat.com>
+Date: Tue, 18 May 2021 11:51:07 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210514151342.384376-30-richard.henderson@linaro.org>
+In-Reply-To: <20210514151342.384376-31-richard.henderson@linaro.org>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -79,7 +79,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -106,14 +106,18 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 14/05/21 17:13, Richard Henderson wrote:
-> This removes an ifdef from the middle of disas_insn,
-> and ensures that the branch is not reachable.
+> Most of the VMM instructions are already disabled for
+> user-only, by being usable only from ring 0.
 > 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->   target/i386/tcg/translate.c | 15 +++++++++++++--
->   1 file changed, 13 insertions(+), 2 deletions(-)
+> The spec is intentionally loose for VMMCALL, allowing
+> the VMM to define syscalls for user-only.  However,
+> linux does not do so; VMMCALL is illegal.
 
-Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
+Perhaps:
+
+However we're not emulating any VMM, so VMMCALL can just raise #UD 
+unconditionally.
+
+Paolo
 
 
