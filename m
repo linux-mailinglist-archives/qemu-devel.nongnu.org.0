@@ -2,84 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 592B93995DD
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 00:24:22 +0200 (CEST)
-Received: from localhost ([::1]:41544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D58C3995F9
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 00:33:03 +0200 (CEST)
+Received: from localhost ([::1]:48900 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loZHh-0004QB-E3
-	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 18:24:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37996)
+	id 1loZQ6-0001Vy-MT
+	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 18:33:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39220)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1loZGu-0003l8-MD
- for qemu-devel@nongnu.org; Wed, 02 Jun 2021 18:23:32 -0400
-Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:40790)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1loZGt-0008TK-1W
- for qemu-devel@nongnu.org; Wed, 02 Jun 2021 18:23:32 -0400
-Received: by mail-pj1-x1035.google.com with SMTP id
- jz2-20020a17090b14c2b0290162cf0b5a35so4270181pjb.5
- for <qemu-devel@nongnu.org>; Wed, 02 Jun 2021 15:23:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=hSnKl061itBsf2eC/ma8y+gN9BmWreDWa4dVOeJy+GA=;
- b=EazGj/42mFGDKgmgHsTqOUh2cYybi3M9RtE+dF6b1tC2niRsSRrFDQ6ipahZEUUmaj
- 3x4gStLSnxkukbt8OQoWPhsp7tDs6wAn6okOFCQqTKjWkQoPrubA/rqOn7z9kgENIvkm
- ejPpZMNkoBynEYwWIzspdzP0lb47caSCnXgQdE8ZARoSHAXre0qXE/llN2RegTHqSdnT
- UeIrhlx+aPEh9Eha0HqnmalhR8Mk7SooNhPgRu88QdczhaI+fmIerF+hkWspSR98y9jw
- 8LbPdF41G+Q4mNTe6aMpPjL6E7rjuwLndPO11Q2eapDJ4J5XPl+88vswg0mVhl9RLDzB
- SKmA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=hSnKl061itBsf2eC/ma8y+gN9BmWreDWa4dVOeJy+GA=;
- b=a4tZol3pxwKzTx8leBCvPaslg/Fowk1ePsY8s+WUNdUVRAPExkVib1ATzmo1Cfv0mz
- OPlf3GrBzGWzREL8Cb896oBOXuQuWscNQUtN3NDpac1PKmz/Nhrbwysz1GqmAIQo9viz
- GcP/TqLlUngCTn1+qO5Rn6LahZEIiDA0NT8HMdFlSd6Pp4yYt9rsyxe//7Me9h+1/BGV
- qWiZVavkVdPxjL2kWj3dwchDYdLsnVW8TM9vq9a1zkV7t1HRSi/iPVu0ogOd559++hIw
- n1Hh/EeF5bc3V7Ve710Wk7qS+2Z+9qGOTJXwRKsffhb/ugDMVjM79y3LqYu4VS7XvfiW
- hcsQ==
-X-Gm-Message-State: AOAM5302jHN16BdENd35+6OPrfJkRaVNevCeUCNGWHhIwnkDqKtHnGly
- hnNBql3zUmBBLLCyMGq7zCY0Ow==
-X-Google-Smtp-Source: ABdhPJynclRseCYbmFPOnPU7AqbzOYXsS5HuFnz5/ethfm8T7TMJwU88ml3N/QQVZ3eQyHcBA3nWNw==
-X-Received: by 2002:a17:90b:1113:: with SMTP id
- gi19mr7552649pjb.96.1622672609336; 
- Wed, 02 Jun 2021 15:23:29 -0700 (PDT)
-Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
- by smtp.gmail.com with ESMTPSA id
- r16sm492396pfq.140.2021.06.02.15.23.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 02 Jun 2021 15:23:29 -0700 (PDT)
-Subject: Re: [PATCH v2 04/28] softfloat: Move minmax_flags to
- softfloat-parts.c.inc
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20210525150706.294968-1-richard.henderson@linaro.org>
- <20210525150706.294968-5-richard.henderson@linaro.org>
- <87wnrc9f3c.fsf@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <ed6ad6ba-838f-9b67-fd8b-81a6dad0351d@linaro.org>
-Date: Wed, 2 Jun 2021 15:23:27 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
+ id 1loZP7-0000cp-Ke; Wed, 02 Jun 2021 18:32:01 -0400
+Received: from mail-b.sr.ht ([173.195.146.151]:54856)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
+ id 1loZP4-0005eT-Bq; Wed, 02 Jun 2021 18:32:00 -0400
+Authentication-Results: mail-b.sr.ht; dkim=none 
+Received: from git.sr.ht (unknown [173.195.146.142])
+ by mail-b.sr.ht (Postfix) with ESMTPSA id 5F73411EF37;
+ Wed,  2 Jun 2021 22:31:55 +0000 (UTC)
+From: ~nolanl <nolanl@git.sr.ht>
+Date: Tue, 18 May 2021 13:24:49 -0700
+Subject: [PATCH qemu v2] Add basic power management to raspi.
+Message-ID: <162267311514.20123.7251014689774228873-0@git.sr.ht>
+X-Mailer: git.sr.ht
+To: qemu-devel@nongnu.org, qemu-arm@nongnu.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-In-Reply-To: <87wnrc9f3c.fsf@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
-X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.613,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=173.195.146.151; envelope-from=outgoing@sr.ht;
+ helo=mail-b.sr.ht
+X-Spam_score_int: 15
+X-Spam_score: 1.5
+X-Spam_bar: +
+X-Spam_report: (1.5 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_96_XX=3.405,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,65 +49,307 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, david@redhat.com
+Reply-To: ~nolanl <nolan@sigbus.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Philippe =?utf-8?q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/2/21 1:36 PM, Alex Bennée wrote:
-> 
-> Richard Henderson <richard.henderson@linaro.org> writes:
-> 
->> Rename to parts$N_minmax.  Combine 3 bool arguments to a bitmask,
->> return a tri-state value to indicate nan vs unchanged operand.
->> Introduce ftype_minmax functions as a common optimization point.
->> Fold bfloat16 expansions into the same macro as the other types.
->>
->> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
->> ---
-> <snip>
->> -        switch (a.cls) {
->> -        case float_class_normal:
->> -            a_exp = a.exp;
->> -            break;
->> -        case float_class_inf:
->> -            a_exp = INT_MAX;
->> -            break;
->> -        case float_class_zero:
->> -            a_exp = INT_MIN;
->> -            break;
->> -        default:
->> -            g_assert_not_reached();
->> -            break;
->> -        }
->> -        switch (b.cls) {
->> -        case float_class_normal:
->> -            b_exp = b.exp;
->> -            break;
->> -        case float_class_inf:
->> -            b_exp = INT_MAX;
->> -            break;
->> -        case float_class_zero:
->> -            b_exp = INT_MIN;
->> -            break;
->> -        default:
->> -            g_assert_not_reached();
->> -            break;
->> -        }
->> -
-> <snip>
->> +    if (unlikely(ab_mask != float_cmask_normal)) {
->> +        switch (a->cls) {
->> +        case float_class_normal:
->> +            break;
->> +        case float_class_inf:
->> +            a_exp = INT16_MAX;
-> 
-> We've gone from min/max of our internal representation to INT16_MIN/MAX
-> - I guess that doesn't break until we get to Float256 but why the change?
+From: Nolan Leake <nolan@sigbus.net>
 
-Ah, because I've changed from "bool a_less" to "int cmp".  I subtract the two 
-exponents and I don't want that subtraction to overflow.
+This is just enough to make reboot and poweroff work. Works for
+linux, u-boot, and the arm trusted firmware. Not tested, but should
+work for plan9, and bare-metal/hobby OSes, since they seem to generally
+do what linux does for reset.
 
+The watchdog timer functionality is not yet implemented.
 
-r~
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/64
+Signed-off-by: Nolan Leake <nolan@sigbus.net>
+---
+ hw/arm/bcm2835_peripherals.c         |  13 ++-
+ hw/misc/bcm2835_powermgt.c           | 159 +++++++++++++++++++++++++++
+ hw/misc/meson.build                  |   1 +
+ include/hw/arm/bcm2835_peripherals.h |   3 +-
+ include/hw/misc/bcm2835_powermgt.h   |  29 +++++
+ 5 files changed, 203 insertions(+), 2 deletions(-)
+ create mode 100644 hw/misc/bcm2835_powermgt.c
+ create mode 100644 include/hw/misc/bcm2835_powermgt.h
+
+diff --git a/hw/arm/bcm2835_peripherals.c b/hw/arm/bcm2835_peripherals.c
+index dcff13433e..48538c9360 100644
+--- a/hw/arm/bcm2835_peripherals.c
++++ b/hw/arm/bcm2835_peripherals.c
+@@ -126,6 +126,10 @@ static void bcm2835_peripherals_init(Object *obj)
+=20
+     object_property_add_const_link(OBJECT(&s->dwc2), "dma-mr",
+                                    OBJECT(&s->gpu_bus_mr));
++
++    /* Power Management */
++    object_initialize_child(obj, "powermgt", &s->powermgt,
++                            TYPE_BCM2835_POWERMGT);
+ }
+=20
+ static void bcm2835_peripherals_realize(DeviceState *dev, Error **errp)
+@@ -364,9 +368,16 @@ static void bcm2835_peripherals_realize(DeviceState *dev=
+, Error **errp)
+         qdev_get_gpio_in_named(DEVICE(&s->ic), BCM2835_IC_GPU_IRQ,
+                                INTERRUPT_USB));
+=20
++    /* Power Management */
++    if (!sysbus_realize(SYS_BUS_DEVICE(&s->powermgt), errp)) {
++        return;
++    }
++
++    memory_region_add_subregion(&s->peri_mr, PM_OFFSET,
++                sysbus_mmio_get_region(SYS_BUS_DEVICE(&s->powermgt), 0));
++
+     create_unimp(s, &s->txp, "bcm2835-txp", TXP_OFFSET, 0x1000);
+     create_unimp(s, &s->armtmr, "bcm2835-sp804", ARMCTRL_TIMER0_1_OFFSET, 0x=
+40);
+-    create_unimp(s, &s->powermgt, "bcm2835-powermgt", PM_OFFSET, 0x114);
+     create_unimp(s, &s->i2s, "bcm2835-i2s", I2S_OFFSET, 0x100);
+     create_unimp(s, &s->smi, "bcm2835-smi", SMI_OFFSET, 0x100);
+     create_unimp(s, &s->spi[0], "bcm2835-spi0", SPI0_OFFSET, 0x20);
+diff --git a/hw/misc/bcm2835_powermgt.c b/hw/misc/bcm2835_powermgt.c
+new file mode 100644
+index 0000000000..55455bbd60
+--- /dev/null
++++ b/hw/misc/bcm2835_powermgt.c
+@@ -0,0 +1,159 @@
++/*
++ * BCM2835 Power Management emulation
++ *
++ * Copyright (C) 2017 Marcin Chojnacki <marcinch7@gmail.com>
++ * Copyright (C) 2021 Nolan Leake <nolan@sigbus.net>
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ */
++
++#include "qemu/osdep.h"
++#include "qemu/log.h"
++#include "qemu/module.h"
++#include "hw/misc/bcm2835_powermgt.h"
++#include "migration/vmstate.h"
++#include "sysemu/runstate.h"
++
++#define PASSWORD 0x5a000000
++#define PASSWORD_MASK 0xff000000
++
++#define R_RSTC 0x1c
++#define V_RSTC_RESET 0x20
++#define R_RSTS 0x20
++#define V_RSTS_POWEROFF 0x555 /* Linux uses partition 63 to indicate halt. */
++#define R_WDOG 0x24
++
++static uint64_t bcm2835_powermgt_read(void *opaque, hwaddr offset,
++                                      unsigned size)
++{
++    BCM2835PowerMgtState *s =3D (BCM2835PowerMgtState *)opaque;
++    uint32_t res =3D 0;
++
++    switch (offset) {
++    case R_RSTC:
++        res =3D s->rstc;
++        break;
++    case R_RSTS:
++        res =3D s->rsts;
++        break;
++    case R_WDOG:
++        res =3D s->wdog;
++        break;
++
++    default:
++        qemu_log_mask(LOG_UNIMP,
++                      "bcm2835_powermgt_read: Unknown offset 0x%08"HWADDR_PR=
+Ix
++                      "\n", offset);
++        res =3D 0;
++        break;
++    }
++
++    return res;
++}
++
++static void bcm2835_powermgt_write(void *opaque, hwaddr offset,
++                                   uint64_t value, unsigned size)
++{
++    BCM2835PowerMgtState *s =3D (BCM2835PowerMgtState *)opaque;
++
++    if ((value & PASSWORD_MASK) !=3D PASSWORD) {
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "bcm2835_powermgt_write: Bad password 0x%"PRIx64
++                      " at offset 0x%08"HWADDR_PRIx"\n",
++                      value, offset);
++        return;
++    }
++
++    value =3D value & ~PASSWORD_MASK;
++
++    switch (offset) {
++    case R_RSTC:
++        s->rstc =3D value;
++        if (value & V_RSTC_RESET) {
++            if ((s->rsts & 0xfff) =3D=3D V_RSTS_POWEROFF) {
++                qemu_system_shutdown_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);
++            } else {
++                qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_RESET);
++            }
++        }
++        break;
++    case R_RSTS:
++        qemu_log_mask(LOG_UNIMP,
++                      "bcm2835_powermgt_write: RSTS\n");
++        s->rsts =3D value;
++        break;
++    case R_WDOG:
++        qemu_log_mask(LOG_UNIMP,
++                      "bcm2835_powermgt_write: WDOG\n");
++        s->wdog =3D value;
++        break;
++
++    default:
++        qemu_log_mask(LOG_UNIMP,
++                      "bcm2835_powermgt_write: Unknown offset 0x%08"HWADDR_P=
+RIx
++                      "\n", offset);
++        break;
++    }
++}
++
++static const MemoryRegionOps bcm2835_powermgt_ops =3D {
++    .read =3D bcm2835_powermgt_read,
++    .write =3D bcm2835_powermgt_write,
++    .endianness =3D DEVICE_NATIVE_ENDIAN,
++    .impl.min_access_size =3D 4,
++    .impl.max_access_size =3D 4,
++};
++
++static const VMStateDescription vmstate_bcm2835_powermgt =3D {
++    .name =3D TYPE_BCM2835_POWERMGT,
++    .version_id =3D 1,
++    .minimum_version_id =3D 1,
++    .fields =3D (VMStateField[]) {
++        VMSTATE_UINT32(rstc, BCM2835PowerMgtState),
++        VMSTATE_UINT32(rsts, BCM2835PowerMgtState),
++        VMSTATE_UINT32(wdog, BCM2835PowerMgtState),
++        VMSTATE_END_OF_LIST()
++    }
++};
++
++static void bcm2835_powermgt_init(Object *obj)
++{
++    BCM2835PowerMgtState *s =3D BCM2835_POWERMGT(obj);
++
++    memory_region_init_io(&s->iomem, obj, &bcm2835_powermgt_ops, s,
++                          TYPE_BCM2835_POWERMGT, 0x114);
++    sysbus_init_mmio(SYS_BUS_DEVICE(s), &s->iomem);
++}
++
++static void bcm2835_powermgt_reset(DeviceState *dev)
++{
++    BCM2835PowerMgtState *s =3D BCM2835_POWERMGT(dev);
++
++    s->rstc =3D 0x00000102;
++    s->rsts =3D 0x00001000;
++    s->wdog =3D 0x00000000;
++}
++
++static void bcm2835_powermgt_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc =3D DEVICE_CLASS(klass);
++
++    dc->reset =3D bcm2835_powermgt_reset;
++    dc->vmsd =3D &vmstate_bcm2835_powermgt;
++}
++
++static TypeInfo bcm2835_powermgt_info =3D {
++    .name          =3D TYPE_BCM2835_POWERMGT,
++    .parent        =3D TYPE_SYS_BUS_DEVICE,
++    .instance_size =3D sizeof(BCM2835PowerMgtState),
++    .class_init    =3D bcm2835_powermgt_class_init,
++    .instance_init =3D bcm2835_powermgt_init,
++};
++
++static void bcm2835_powermgt_register_types(void)
++{
++    type_register_static(&bcm2835_powermgt_info);
++}
++
++type_init(bcm2835_powermgt_register_types)
+diff --git a/hw/misc/meson.build b/hw/misc/meson.build
+index 66e1648533..f89b5c1643 100644
+--- a/hw/misc/meson.build
++++ b/hw/misc/meson.build
+@@ -82,6 +82,7 @@ softmmu_ss.add(when: 'CONFIG_RASPI', if_true: files(
+   'bcm2835_rng.c',
+   'bcm2835_thermal.c',
+   'bcm2835_cprman.c',
++  'bcm2835_powermgt.c',
+ ))
+ softmmu_ss.add(when: 'CONFIG_SLAVIO', if_true: files('slavio_misc.c'))
+ softmmu_ss.add(when: 'CONFIG_ZYNQ', if_true: files('zynq_slcr.c', 'zynq-xadc=
+.c'))
+diff --git a/include/hw/arm/bcm2835_peripherals.h b/include/hw/arm/bcm2835_pe=
+ripherals.h
+index 479e2346e8..d864879421 100644
+--- a/include/hw/arm/bcm2835_peripherals.h
++++ b/include/hw/arm/bcm2835_peripherals.h
+@@ -24,6 +24,7 @@
+ #include "hw/misc/bcm2835_mphi.h"
+ #include "hw/misc/bcm2835_thermal.h"
+ #include "hw/misc/bcm2835_cprman.h"
++#include "hw/misc/bcm2835_powermgt.h"
+ #include "hw/sd/sdhci.h"
+ #include "hw/sd/bcm2835_sdhost.h"
+ #include "hw/gpio/bcm2835_gpio.h"
+@@ -48,7 +49,7 @@ struct BCM2835PeripheralState {
+     BCM2835MphiState mphi;
+     UnimplementedDeviceState txp;
+     UnimplementedDeviceState armtmr;
+-    UnimplementedDeviceState powermgt;
++    BCM2835PowerMgtState powermgt;
+     BCM2835CprmanState cprman;
+     PL011State uart0;
+     BCM2835AuxState aux;
+diff --git a/include/hw/misc/bcm2835_powermgt.h b/include/hw/misc/bcm2835_pow=
+ermgt.h
+new file mode 100644
+index 0000000000..303b9a6f68
+--- /dev/null
++++ b/include/hw/misc/bcm2835_powermgt.h
+@@ -0,0 +1,29 @@
++/*
++ * BCM2835 Power Management emulation
++ *
++ * Copyright (C) 2017 Marcin Chojnacki <marcinch7@gmail.com>
++ * Copyright (C) 2021 Nolan Leake <nolan@sigbus.net>
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ */
++
++#ifndef BCM2835_POWERMGT_H
++#define BCM2835_POWERMGT_H
++
++#include "hw/sysbus.h"
++#include "qom/object.h"
++
++#define TYPE_BCM2835_POWERMGT "bcm2835-powermgt"
++OBJECT_DECLARE_SIMPLE_TYPE(BCM2835PowerMgtState, BCM2835_POWERMGT)
++
++struct BCM2835PowerMgtState {
++    SysBusDevice busdev;
++    MemoryRegion iomem;
++
++    uint32_t rstc;
++    uint32_t rsts;
++    uint32_t wdog;
++};
++
++#endif
+--=20
+2.30.2
 
