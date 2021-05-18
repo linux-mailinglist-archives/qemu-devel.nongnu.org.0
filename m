@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 377E538815C
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 22:27:20 +0200 (CEST)
-Received: from localhost ([::1]:44778 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACA0438815A
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 22:26:29 +0200 (CEST)
+Received: from localhost ([::1]:42946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lj6JD-00076W-0l
-	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 16:27:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42916)
+	id 1lj6IO-0005mO-OD
+	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 16:26:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42938)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lj64g-0000uE-CV
+ id 1lj64g-0000ws-Uk
  for qemu-devel@nongnu.org; Tue, 18 May 2021 16:12:18 -0400
-Received: from mail-oo1-xc32.google.com ([2607:f8b0:4864:20::c32]:33455)
+Received: from mail-oo1-xc2d.google.com ([2607:f8b0:4864:20::c2d]:36534)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lj64T-0006Jz-N4
+ id 1lj64V-0006KH-R5
  for qemu-devel@nongnu.org; Tue, 18 May 2021 16:12:18 -0400
-Received: by mail-oo1-xc32.google.com with SMTP id
- j17-20020a4ad6d10000b02901fef5280522so2528084oot.0
+Received: by mail-oo1-xc2d.google.com with SMTP id
+ v13-20020a4aa40d0000b02902052145a469so2516314ool.3
  for <qemu-devel@nongnu.org>; Tue, 18 May 2021 13:12:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=t1r0lLSqHjjKE2pLj2JipZ/ZLiJZUx0FOO0kIdrgSBM=;
- b=VY+/hYeb7IlYxZxx6qrf/fZSEtzhd+dF2/RJNxp38lHa1Iu2AmDwQASKn9MQej0phW
- XfszFRQTj2fkMfEqIcbigQPfxN/ilmkf081myBfCcfKHV59s1MF7a9bQ7ud5XUSUdWP0
- 8/w5sO/upLfUnzwb3BSQhaH2r+cFJBj4RDqL+pm72Rhtxs95oVEjEIRQuPkgNDvb9/MX
- RXsR/6PO5AxRnnz5PzYhibe2TnWNxgTqMjujpgRRut1ljklQE1uawXVj3XbSTaFqsQNl
- qGzTJ1VamfddV3jIUxn6sRRcc8W17WmHcmDk2DYG3ZpI+gmV1uR+/YRTEvFTwO1xPePH
- VnAw==
+ bh=usq8qtlgC3o9/Uyj8zLYVbmtA5cNJErk7QF+4PTr5tk=;
+ b=srWYLrfkHQfgg64i83c1scQHJ8OrygxvKb+9keuebuY/z81CMSCTX1l6hkoJSODHYt
+ JScjxARpUp2X6DqNCfWVd7G4CxV47f5kc0P0Ym7K+hsxJoigfhQKKmRRf5fzVxhynflh
+ mzbnN07C7jFdrAnPuZ5JjezrILIvB1tBNGqVpeBinrv7+dhl1PHlBtpP5e8rBPBfb6Fo
+ pKq31+Ouz7GEUnayBAjDAVxD2u5pW5e3gwIIrE0Jyf/0qqKKX+bBc6PvOgIN/4rJyS4w
+ IAFzQBDescDGL9gv+i+BP12dh/vlzWhhftYJbfdSjQRNHyCNKR6JUJ4XvKH56upnLkuO
+ ILbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=t1r0lLSqHjjKE2pLj2JipZ/ZLiJZUx0FOO0kIdrgSBM=;
- b=hbMSqDQDmQQnjofVAhDblh5TJGy3Z3n8zhVTXA3sb2lk2HNNoxvL/4p78T4yMogn8y
- tuo/ngqtgoCDJWJpBhTHBv9mAhySTA+33etx9EVpxU68V0NlOYzch/CvqEMafPTPyemC
- P2rDnZ7nGrBvdc5ig0S99icZTP5t8Z4/2iPv9VrkZnS5egopJ46VdT5XsRKizumvAevf
- QjKmX3gt+Nf71DaAX/GsL/iACqviMP9EpQgsKbrvfuTsRKbaowZafossPBB5JlXOKZnw
- 6N/725iwSHkQpaZS0fiFcAGvOI1Em9PkfMnq81+uXP8yT1w7skN/YA4OP+LZT50bgUyJ
- ZgBg==
-X-Gm-Message-State: AOAM533/sqKFXeMICx3kmG9CjhdGcIdC+UgBN20x2kzhh/IfD63PWuSC
- 3GAzCsaLDy+XB77pQSg0+mR1h3QU+jjW60dO
-X-Google-Smtp-Source: ABdhPJzUbo+fdUlmMYLsPK15NgMZeRA0KRHr7K5arQpcGpBvAlhmm6LsY4dQKCVDK6krhGPyc3IIvg==
-X-Received: by 2002:a4a:b402:: with SMTP id y2mr5797093oon.87.1621368724242;
- Tue, 18 May 2021 13:12:04 -0700 (PDT)
+ bh=usq8qtlgC3o9/Uyj8zLYVbmtA5cNJErk7QF+4PTr5tk=;
+ b=rd3COzzjpwU9RXN95oss321J2NaqkmJCZDa9R3X9BvI1VaMxuLhfNMxtdM/7SWriZ6
+ bWnzh/qqsI8KUDM/wWCExJIy+lRMVybecJHobt4FXEB6QAehmjKVyT2bECxc9dWud5/a
+ NSsLTDgYw910BmiDZ6YjrASOC6XU/F+JmhCx+tFHY+yrLxJwsbdUwAvbleyZPrP/sgW6
+ haARnNduQoURdU75y3+E2I86zECkRvKdwjfdB0iry/Tgnjgpk/e8KESmcdiBtYUtaOSV
+ i+snRmVNY3jhb0dn6R3orGImjQM91P76r2OYElcRRHRLne+jGo2m5l5TbqdV0kuB7lO0
+ MHVg==
+X-Gm-Message-State: AOAM533THAQfxPREt4qsQxPqVvhcIoSFqGLqSn+1srZ3r0ndc/44mwvT
+ MUuwooeBWaDoGo2YsZWqmJFVxkb2tyNNVumj
+X-Google-Smtp-Source: ABdhPJzxh9Yk6yTkYIYlpYhjITWbiHRDbiAmZSWAgJ/Iw+G4NrOWmy/Vil662RB629pbQ/RYhtCJDA==
+X-Received: by 2002:a4a:625c:: with SMTP id y28mr5727630oog.45.1621368725224; 
+ Tue, 18 May 2021 13:12:05 -0700 (PDT)
 Received: from localhost.localdomain ([45.235.253.15])
- by smtp.gmail.com with ESMTPSA id u27sm3953204oof.38.2021.05.18.13.12.03
+ by smtp.gmail.com with ESMTPSA id u27sm3953204oof.38.2021.05.18.13.12.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 May 2021 13:12:04 -0700 (PDT)
+ Tue, 18 May 2021 13:12:05 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 16/24] target/ppc: Remove PowerPCCPUClass.handle_mmu_fault
-Date: Tue, 18 May 2021 15:11:38 -0500
-Message-Id: <20210518201146.794854-17-richard.henderson@linaro.org>
+Subject: [PATCH 17/24] target/ppc: Use MMUAccessType with *_handle_mmu_fault
+Date: Tue, 18 May 2021 15:11:39 -0500
+Message-Id: <20210518201146.794854-18-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210518201146.794854-1-richard.henderson@linaro.org>
 References: <20210518201146.794854-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c32;
- envelope-from=richard.henderson@linaro.org; helo=mail-oo1-xc32.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c2d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oo1-xc2d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- TVD_SUBJ_WIPE_DEBT=1.004 autolearn=no autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,249 +88,144 @@ Cc: bruno.larsen@eldorado.org.br, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Instead, use a switch on env->mmu_model.  This avoids some
-replicated information in cpu setup.
+These changes were waiting until we didn't need to match
+the function type of PowerPCCPUClass.handle_mmu_fault.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/ppc/cpu-qom.h    |  1 -
- target/ppc/cpu_init.c   | 45 -----------------------------------------
- target/ppc/mmu_helper.c | 24 ++++++++++++++++++----
- 3 files changed, 20 insertions(+), 50 deletions(-)
+ target/ppc/mmu-hash32.h  | 4 ++--
+ target/ppc/mmu-hash64.h  | 4 ++--
+ target/ppc/mmu-radix64.h | 4 ++--
+ target/ppc/mmu-hash32.c  | 7 ++-----
+ target/ppc/mmu-hash64.c  | 6 +-----
+ target/ppc/mmu-radix64.c | 7 ++-----
+ 6 files changed, 11 insertions(+), 21 deletions(-)
 
-diff --git a/target/ppc/cpu-qom.h b/target/ppc/cpu-qom.h
-index 06b6571bc9..3b14d2f134 100644
---- a/target/ppc/cpu-qom.h
-+++ b/target/ppc/cpu-qom.h
-@@ -198,7 +198,6 @@ struct PowerPCCPUClass {
-     int n_host_threads;
-     void (*init_proc)(CPUPPCState *env);
-     int  (*check_pow)(CPUPPCState *env);
--    int (*handle_mmu_fault)(PowerPCCPU *cpu, vaddr eaddr, int rwx, int mmu_idx);
-     bool (*interrupts_big_endian)(PowerPCCPU *cpu);
- };
+diff --git a/target/ppc/mmu-hash32.h b/target/ppc/mmu-hash32.h
+index 898021f0d8..30e35718a7 100644
+--- a/target/ppc/mmu-hash32.h
++++ b/target/ppc/mmu-hash32.h
+@@ -5,8 +5,8 @@
  
-diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
-index d0fa219880..d33aded7cf 100644
---- a/target/ppc/cpu_init.c
-+++ b/target/ppc/cpu_init.c
-@@ -4580,9 +4580,6 @@ POWERPC_FAMILY(601)(ObjectClass *oc, void *data)
-                     (1ull << MSR_IR) |
-                     (1ull << MSR_DR);
-     pcc->mmu_model = POWERPC_MMU_601;
--#if defined(CONFIG_SOFTMMU)
--    pcc->handle_mmu_fault = ppc_hash32_handle_mmu_fault;
--#endif
-     pcc->excp_model = POWERPC_EXCP_601;
-     pcc->bus_model = PPC_FLAGS_INPUT_6xx;
-     pcc->bfd_mach = bfd_mach_ppc_601;
-@@ -4625,9 +4622,6 @@ POWERPC_FAMILY(601v)(ObjectClass *oc, void *data)
-                     (1ull << MSR_IR) |
-                     (1ull << MSR_DR);
-     pcc->mmu_model = POWERPC_MMU_601;
--#if defined(CONFIG_SOFTMMU)
--    pcc->handle_mmu_fault = ppc_hash32_handle_mmu_fault;
--#endif
-     pcc->bus_model = PPC_FLAGS_INPUT_6xx;
-     pcc->bfd_mach = bfd_mach_ppc_601;
-     pcc->flags = POWERPC_FLAG_SE | POWERPC_FLAG_RTC_CLK | POWERPC_FLAG_HID0_LE;
-@@ -4891,9 +4885,6 @@ POWERPC_FAMILY(604)(ObjectClass *oc, void *data)
-                     (1ull << MSR_RI) |
-                     (1ull << MSR_LE);
-     pcc->mmu_model = POWERPC_MMU_32B;
--#if defined(CONFIG_SOFTMMU)
--    pcc->handle_mmu_fault = ppc_hash32_handle_mmu_fault;
--#endif
-     pcc->excp_model = POWERPC_EXCP_604;
-     pcc->bus_model = PPC_FLAGS_INPUT_6xx;
-     pcc->bfd_mach = bfd_mach_ppc_604;
-@@ -4975,9 +4966,6 @@ POWERPC_FAMILY(604E)(ObjectClass *oc, void *data)
-                     (1ull << MSR_RI) |
-                     (1ull << MSR_LE);
-     pcc->mmu_model = POWERPC_MMU_32B;
--#if defined(CONFIG_SOFTMMU)
--    pcc->handle_mmu_fault = ppc_hash32_handle_mmu_fault;
--#endif
-     pcc->excp_model = POWERPC_EXCP_604;
-     pcc->bus_model = PPC_FLAGS_INPUT_6xx;
-     pcc->bfd_mach = bfd_mach_ppc_604;
-@@ -5046,9 +5034,6 @@ POWERPC_FAMILY(740)(ObjectClass *oc, void *data)
-                     (1ull << MSR_RI) |
-                     (1ull << MSR_LE);
-     pcc->mmu_model = POWERPC_MMU_32B;
--#if defined(CONFIG_SOFTMMU)
--    pcc->handle_mmu_fault = ppc_hash32_handle_mmu_fault;
--#endif
-     pcc->excp_model = POWERPC_EXCP_7x0;
-     pcc->bus_model = PPC_FLAGS_INPUT_6xx;
-     pcc->bfd_mach = bfd_mach_ppc_750;
-@@ -5126,9 +5111,6 @@ POWERPC_FAMILY(750)(ObjectClass *oc, void *data)
-                     (1ull << MSR_RI) |
-                     (1ull << MSR_LE);
-     pcc->mmu_model = POWERPC_MMU_32B;
--#if defined(CONFIG_SOFTMMU)
--    pcc->handle_mmu_fault = ppc_hash32_handle_mmu_fault;
--#endif
-     pcc->excp_model = POWERPC_EXCP_7x0;
-     pcc->bus_model = PPC_FLAGS_INPUT_6xx;
-     pcc->bfd_mach = bfd_mach_ppc_750;
-@@ -5329,9 +5311,6 @@ POWERPC_FAMILY(750cl)(ObjectClass *oc, void *data)
-                     (1ull << MSR_RI) |
-                     (1ull << MSR_LE);
-     pcc->mmu_model = POWERPC_MMU_32B;
--#if defined(CONFIG_SOFTMMU)
--    pcc->handle_mmu_fault = ppc_hash32_handle_mmu_fault;
--#endif
-     pcc->excp_model = POWERPC_EXCP_7x0;
-     pcc->bus_model = PPC_FLAGS_INPUT_6xx;
-     pcc->bfd_mach = bfd_mach_ppc_750;
-@@ -5412,9 +5391,6 @@ POWERPC_FAMILY(750cx)(ObjectClass *oc, void *data)
-                     (1ull << MSR_RI) |
-                     (1ull << MSR_LE);
-     pcc->mmu_model = POWERPC_MMU_32B;
--#if defined(CONFIG_SOFTMMU)
--    pcc->handle_mmu_fault = ppc_hash32_handle_mmu_fault;
--#endif
-     pcc->excp_model = POWERPC_EXCP_7x0;
-     pcc->bus_model = PPC_FLAGS_INPUT_6xx;
-     pcc->bfd_mach = bfd_mach_ppc_750;
-@@ -5500,9 +5476,6 @@ POWERPC_FAMILY(750fx)(ObjectClass *oc, void *data)
-                     (1ull << MSR_RI) |
-                     (1ull << MSR_LE);
-     pcc->mmu_model = POWERPC_MMU_32B;
--#if defined(CONFIG_SOFTMMU)
--    pcc->handle_mmu_fault = ppc_hash32_handle_mmu_fault;
--#endif
-     pcc->excp_model = POWERPC_EXCP_7x0;
-     pcc->bus_model = PPC_FLAGS_INPUT_6xx;
-     pcc->bfd_mach = bfd_mach_ppc_750;
-@@ -5588,9 +5561,6 @@ POWERPC_FAMILY(750gx)(ObjectClass *oc, void *data)
-                     (1ull << MSR_RI) |
-                     (1ull << MSR_LE);
-     pcc->mmu_model = POWERPC_MMU_32B;
--#if defined(CONFIG_SOFTMMU)
--    pcc->handle_mmu_fault = ppc_hash32_handle_mmu_fault;
--#endif
-     pcc->excp_model = POWERPC_EXCP_7x0;
-     pcc->bus_model = PPC_FLAGS_INPUT_6xx;
-     pcc->bfd_mach = bfd_mach_ppc_750;
-@@ -5830,9 +5800,6 @@ POWERPC_FAMILY(7400)(ObjectClass *oc, void *data)
-                     (1ull << MSR_RI) |
-                     (1ull << MSR_LE);
-     pcc->mmu_model = POWERPC_MMU_32B;
--#if defined(CONFIG_SOFTMMU)
--    pcc->handle_mmu_fault = ppc_hash32_handle_mmu_fault;
--#endif
-     pcc->excp_model = POWERPC_EXCP_74xx;
-     pcc->bus_model = PPC_FLAGS_INPUT_6xx;
-     pcc->bfd_mach = bfd_mach_ppc_7400;
-@@ -5916,9 +5883,6 @@ POWERPC_FAMILY(7410)(ObjectClass *oc, void *data)
-                     (1ull << MSR_RI) |
-                     (1ull << MSR_LE);
-     pcc->mmu_model = POWERPC_MMU_32B;
--#if defined(CONFIG_SOFTMMU)
--    pcc->handle_mmu_fault = ppc_hash32_handle_mmu_fault;
--#endif
-     pcc->excp_model = POWERPC_EXCP_74xx;
-     pcc->bus_model = PPC_FLAGS_INPUT_6xx;
-     pcc->bfd_mach = bfd_mach_ppc_7400;
-@@ -6745,9 +6709,6 @@ POWERPC_FAMILY(e600)(ObjectClass *oc, void *data)
-                     (1ull << MSR_RI) |
-                     (1ull << MSR_LE);
-     pcc->mmu_model = POWERPC_MMU_32B;
--#if defined(CONFIG_SOFTMMU)
--    pcc->handle_mmu_fault = ppc_hash32_handle_mmu_fault;
--#endif
-     pcc->excp_model = POWERPC_EXCP_74xx;
-     pcc->bus_model = PPC_FLAGS_INPUT_6xx;
-     pcc->bfd_mach = bfd_mach_ppc_7400;
-@@ -7507,7 +7468,6 @@ POWERPC_FAMILY(970)(ObjectClass *oc, void *data)
-                     (1ull << MSR_RI);
-     pcc->mmu_model = POWERPC_MMU_64B;
- #if defined(CONFIG_SOFTMMU)
--    pcc->handle_mmu_fault = ppc_hash64_handle_mmu_fault;
-     pcc->hash64_opts = &ppc_hash64_opts_basic;
- #endif
-     pcc->excp_model = POWERPC_EXCP_970;
-@@ -7585,7 +7545,6 @@ POWERPC_FAMILY(POWER5P)(ObjectClass *oc, void *data)
-         LPCR_RMI | LPCR_HDICE;
-     pcc->mmu_model = POWERPC_MMU_2_03;
- #if defined(CONFIG_SOFTMMU)
--    pcc->handle_mmu_fault = ppc_hash64_handle_mmu_fault;
-     pcc->hash64_opts = &ppc_hash64_opts_basic;
-     pcc->lrg_decr_bits = 32;
- #endif
-@@ -7729,7 +7688,6 @@ POWERPC_FAMILY(POWER7)(ObjectClass *oc, void *data)
-     pcc->lpcr_pm = LPCR_P7_PECE0 | LPCR_P7_PECE1 | LPCR_P7_PECE2;
-     pcc->mmu_model = POWERPC_MMU_2_06;
- #if defined(CONFIG_SOFTMMU)
--    pcc->handle_mmu_fault = ppc_hash64_handle_mmu_fault;
-     pcc->hash64_opts = &ppc_hash64_opts_POWER7;
-     pcc->lrg_decr_bits = 32;
- #endif
-@@ -7906,7 +7864,6 @@ POWERPC_FAMILY(POWER8)(ObjectClass *oc, void *data)
-                    LPCR_P8_PECE3 | LPCR_P8_PECE4;
-     pcc->mmu_model = POWERPC_MMU_2_07;
- #if defined(CONFIG_SOFTMMU)
--    pcc->handle_mmu_fault = ppc_hash64_handle_mmu_fault;
-     pcc->hash64_opts = &ppc_hash64_opts_POWER7;
-     pcc->lrg_decr_bits = 32;
-     pcc->n_host_threads = 8;
-@@ -8122,7 +8079,6 @@ POWERPC_FAMILY(POWER9)(ObjectClass *oc, void *data)
-     pcc->lpcr_pm = LPCR_PDEE | LPCR_HDEE | LPCR_EEE | LPCR_DEE | LPCR_OEE;
-     pcc->mmu_model = POWERPC_MMU_3_00;
- #if defined(CONFIG_SOFTMMU)
--    pcc->handle_mmu_fault = ppc64_v3_handle_mmu_fault;
-     /* segment page size remain the same */
-     pcc->hash64_opts = &ppc_hash64_opts_POWER7;
-     pcc->radix_page_info = &POWER9_radix_page_info;
-@@ -8334,7 +8290,6 @@ POWERPC_FAMILY(POWER10)(ObjectClass *oc, void *data)
-     pcc->lpcr_pm = LPCR_PDEE | LPCR_HDEE | LPCR_EEE | LPCR_DEE | LPCR_OEE;
-     pcc->mmu_model = POWERPC_MMU_3_00;
- #if defined(CONFIG_SOFTMMU)
--    pcc->handle_mmu_fault = ppc64_v3_handle_mmu_fault;
-     /* segment page size remain the same */
-     pcc->hash64_opts = &ppc_hash64_opts_POWER7;
-     pcc->radix_page_info = &POWER10_radix_page_info;
-diff --git a/target/ppc/mmu_helper.c b/target/ppc/mmu_helper.c
-index ef634fcb33..863e556a22 100644
---- a/target/ppc/mmu_helper.c
-+++ b/target/ppc/mmu_helper.c
-@@ -2963,14 +2963,30 @@ bool ppc_cpu_tlb_fill(CPUState *cs, vaddr addr, int size,
-                       bool probe, uintptr_t retaddr)
+ hwaddr get_pteg_offset32(PowerPCCPU *cpu, hwaddr hash);
+ hwaddr ppc_hash32_get_phys_page_debug(PowerPCCPU *cpu, target_ulong addr);
+-int ppc_hash32_handle_mmu_fault(PowerPCCPU *cpu, vaddr address, int rw,
+-                                int mmu_idx);
++int ppc_hash32_handle_mmu_fault(PowerPCCPU *cpu, vaddr address,
++                                MMUAccessType access_type, int mmu_idx);
+ 
+ /*
+  * Segment register definitions
+diff --git a/target/ppc/mmu-hash64.h b/target/ppc/mmu-hash64.h
+index 4b8b8e7950..3e8a8eec1f 100644
+--- a/target/ppc/mmu-hash64.h
++++ b/target/ppc/mmu-hash64.h
+@@ -8,8 +8,8 @@ void dump_slb(PowerPCCPU *cpu);
+ int ppc_store_slb(PowerPCCPU *cpu, target_ulong slot,
+                   target_ulong esid, target_ulong vsid);
+ hwaddr ppc_hash64_get_phys_page_debug(PowerPCCPU *cpu, target_ulong addr);
+-int ppc_hash64_handle_mmu_fault(PowerPCCPU *cpu, vaddr address, int rw,
+-                                int mmu_idx);
++int ppc_hash64_handle_mmu_fault(PowerPCCPU *cpu, vaddr address,
++                                MMUAccessType access_type, int mmu_idx);
+ void ppc_hash64_tlb_flush_hpte(PowerPCCPU *cpu,
+                                target_ulong pte_index,
+                                target_ulong pte0, target_ulong pte1);
+diff --git a/target/ppc/mmu-radix64.h b/target/ppc/mmu-radix64.h
+index f28c5794d0..94bd72cb38 100644
+--- a/target/ppc/mmu-radix64.h
++++ b/target/ppc/mmu-radix64.h
+@@ -44,8 +44,8 @@
+ 
+ #ifdef TARGET_PPC64
+ 
+-int ppc_radix64_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr, int rwx,
+-                                 int mmu_idx);
++int ppc_radix64_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr,
++                                 MMUAccessType access_type, int mmu_idx);
+ hwaddr ppc_radix64_get_phys_page_debug(PowerPCCPU *cpu, target_ulong addr);
+ 
+ static inline int ppc_radix64_get_prot_eaa(uint64_t pte)
+diff --git a/target/ppc/mmu-hash32.c b/target/ppc/mmu-hash32.c
+index 744a763f44..d51be59f95 100644
+--- a/target/ppc/mmu-hash32.c
++++ b/target/ppc/mmu-hash32.c
+@@ -416,8 +416,8 @@ static hwaddr ppc_hash32_pte_raddr(target_ulong sr, ppc_hash_pte32_t pte,
+     return (rpn & ~mask) | (eaddr & mask);
+ }
+ 
+-int ppc_hash32_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr, int rwx,
+-                                int mmu_idx)
++int ppc_hash32_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr,
++                                MMUAccessType access_type, int mmu_idx)
  {
-     PowerPCCPU *cpu = POWERPC_CPU(cs);
--    PowerPCCPUClass *pcc = POWERPC_CPU_GET_CLASS(cs);
+     CPUState *cs = CPU(cpu);
      CPUPPCState *env = &cpu->env;
-     int ret;
+@@ -426,11 +426,8 @@ int ppc_hash32_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr, int rwx,
+     ppc_hash_pte32_t pte;
+     int prot;
+     int need_prot;
+-    MMUAccessType access_type;
+     hwaddr raddr;
  
--    if (pcc->handle_mmu_fault) {
--        ret = pcc->handle_mmu_fault(cpu, addr, access_type, mmu_idx);
--    } else {
-+    switch (env->mmu_model) {
-+#if defined(TARGET_PPC64)
-+    case POWERPC_MMU_64B:
-+    case POWERPC_MMU_2_03:
-+    case POWERPC_MMU_2_06:
-+    case POWERPC_MMU_2_07:
-+        ret = ppc_hash64_handle_mmu_fault(cpu, addr, access_type, mmu_idx);
-+        break;
-+    case POWERPC_MMU_3_00:
-+        ret = ppc64_v3_handle_mmu_fault(cpu, addr, access_type, mmu_idx);
-+        break;
-+#endif
-+
-+    case POWERPC_MMU_32B:
-+    case POWERPC_MMU_601:
-+        ret = ppc_hash32_handle_mmu_fault(cpu, addr, access_type, mmu_idx);
-+        break;
-+
-+    default:
-         ret = cpu_ppc_handle_mmu_fault(env, addr, access_type, mmu_idx);
-+        break;
-     }
-     if (unlikely(ret != 0)) {
-         if (probe) {
+-    assert((rwx == 0) || (rwx == 1) || (rwx == 2));
+-    access_type = rwx;
+     need_prot = prot_for_access_type(access_type);
+ 
+     /* 1. Handle real mode accesses */
+diff --git a/target/ppc/mmu-hash64.c b/target/ppc/mmu-hash64.c
+index f48b625f48..877a01a296 100644
+--- a/target/ppc/mmu-hash64.c
++++ b/target/ppc/mmu-hash64.c
+@@ -867,7 +867,7 @@ static int build_vrma_slbe(PowerPCCPU *cpu, ppc_slb_t *slb)
+ }
+ 
+ int ppc_hash64_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr,
+-                                int rwx, int mmu_idx)
++                                MMUAccessType access_type, int mmu_idx)
+ {
+     CPUState *cs = CPU(cpu);
+     CPUPPCState *env = &cpu->env;
+@@ -877,13 +877,9 @@ int ppc_hash64_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr,
+     hwaddr ptex;
+     ppc_hash_pte64_t pte;
+     int exec_prot, pp_prot, amr_prot, prot;
+-    MMUAccessType access_type;
+     int need_prot;
+     hwaddr raddr;
+ 
+-    assert((rwx == 0) || (rwx == 1) || (rwx == 2));
+-    access_type = rwx;
+-
+     /*
+      * Note on LPCR usage: 970 uses HID4, but our special variant of
+      * store_spr copies relevant fields into env->spr[SPR_LPCR].
+diff --git a/target/ppc/mmu-radix64.c b/target/ppc/mmu-radix64.c
+index 7972153f23..f6d96f73b2 100644
+--- a/target/ppc/mmu-radix64.c
++++ b/target/ppc/mmu-radix64.c
+@@ -556,19 +556,16 @@ static int ppc_radix64_xlate(PowerPCCPU *cpu, vaddr eaddr,
+     return 0;
+ }
+ 
+-int ppc_radix64_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr, int rwx,
+-                                 int mmu_idx)
++int ppc_radix64_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr,
++                                 MMUAccessType access_type, int mmu_idx)
+ {
+     CPUState *cs = CPU(cpu);
+     CPUPPCState *env = &cpu->env;
+     int page_size, prot;
+     bool relocation;
+-    MMUAccessType access_type;
+     hwaddr raddr;
+ 
+     assert(!(msr_hv && cpu->vhyp));
+-    assert((rwx == 0) || (rwx == 1) || (rwx == 2));
+-    access_type = rwx;
+ 
+     relocation = (access_type == MMU_INST_FETCH ? msr_ir : msr_dr);
+     /* HV or virtual hypervisor Real Mode Access */
 -- 
 2.25.1
 
