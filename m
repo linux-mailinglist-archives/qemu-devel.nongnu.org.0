@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A38A838828D
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 00:02:44 +0200 (CEST)
-Received: from localhost ([::1]:37954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6711A38828C
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 00:02:33 +0200 (CEST)
+Received: from localhost ([::1]:37044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lj7nX-0006YW-Ls
-	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 18:02:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35966)
+	id 1lj7nM-0005xM-68
+	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 18:02:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35932)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lj7hE-0007BN-9B
- for qemu-devel@nongnu.org; Tue, 18 May 2021 17:56:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58845)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lj7h5-000741-AK
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 17:56:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32623)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lj7hB-0003Bj-82
- for qemu-devel@nongnu.org; Tue, 18 May 2021 17:56:12 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lj7h2-000374-9A
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 17:56:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621374968;
+ s=mimecast20190719; t=1621374959;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PE3iwyGyEcoAMEB/9uNGPwKDaH1AcQ1ElGBifGVOY78=;
- b=fQIhbs/IhZRyVzgOiHiMY5Oz6gp++Q8Rc6J8pDnY6kERyQq07iOZFFq1qP8DxqgZ9Ika7f
- bLCfshywlZ066n/8Rot7uKQV/3yEpW6/kPo6h/Ze5shYkVDhTx0k9A1O9GuqOfQ+lpKvC8
- Xs7M4KgzkBFhksrCahXQ/8QA79F5Az0=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-120-a8JHw04xMq-M7-xsFtzs0A-1; Tue, 18 May 2021 17:55:53 -0400
-X-MC-Unique: a8JHw04xMq-M7-xsFtzs0A-1
-Received: by mail-ed1-f69.google.com with SMTP id
- d4-20020aa7ce040000b029038d1d0524d0so5737384edv.3
- for <qemu-devel@nongnu.org>; Tue, 18 May 2021 14:55:52 -0700 (PDT)
+ bh=dfCgiJU0/iWOxOTGg77x6mXGX5z5RsV773l26eByVJA=;
+ b=Kli1h2L7zEJft5MiX18k3xySSnegfZaHUWjlGxACzQvOcm00Tqzg1X7MAlj3GlD3u6iivr
+ HBQcsRDez+Xj1N3mq1PdHLQRPlqnN2W3zEd2VT8QvDIqnS9zM9ATlEUp9X4I5WPGnOVS2R
+ 87cvsxYQb/pu6hPHBk0EorPnvH2+oZE=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-81-LyEcqqbxOFmlkrbkzYvC3A-1; Tue, 18 May 2021 17:55:57 -0400
+X-MC-Unique: LyEcqqbxOFmlkrbkzYvC3A-1
+Received: by mail-ej1-f69.google.com with SMTP id
+ h18-20020a1709063992b02903d59b32b039so2766404eje.12
+ for <qemu-devel@nongnu.org>; Tue, 18 May 2021 14:55:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=PE3iwyGyEcoAMEB/9uNGPwKDaH1AcQ1ElGBifGVOY78=;
- b=ifQiFEUFN683v8HjMcyONXqUvHCr7KKQj/kG4ducLkrMWvbQpglARiZcHe+IPz78Ez
- qvGNymSKYoX23drJYuvgdU9Qg16P61eyGcXoAZptX+XoIy6AXBY6f1zsPVXXclJgIu7/
- 7A3Idqq2EPuQmeZDrMKkbZxb20CVAdFcckmwnqjhn4mPV7OsTMAOCe4lcXwsWp48loVH
- ycPxQuOQ9TmyOUDBfP4zqzxULR+hFmDQFDo79ACE4UmvoQORzAxa7qPr7ixloQg/yFYB
- MdvGeYMJ2f3uTyiyReRgTnB4vriHhvf3GPWaHuuhGoCRcKjNhb71k2E4T8A00pYUyCly
- UJKg==
-X-Gm-Message-State: AOAM53316ZsXv8FcyKTiJfQyG50aNYmRmkSCNjzp/0iva69uKbC4vYl/
- U5TfnO/sLG44Osyx8A0MU710f8KC3gg4d0LgsZo2WyKNDg4rZ4hrzWqA0r4dsPr3s+c8T8VANXc
- KNKx29AvsQhBmjcw=
-X-Received: by 2002:a17:906:c299:: with SMTP id
- r25mr4888934ejz.501.1621374951816; 
- Tue, 18 May 2021 14:55:51 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzWVOhAotvN7IhI9s6XiwQJDj2ZhJMuuGYh31gStlR4AYAsrVT/q0c66jCgFe2KKO+Jsz3Idw==
-X-Received: by 2002:a17:906:c299:: with SMTP id
- r25mr4888923ejz.501.1621374951674; 
- Tue, 18 May 2021 14:55:51 -0700 (PDT)
+ bh=dfCgiJU0/iWOxOTGg77x6mXGX5z5RsV773l26eByVJA=;
+ b=qOWuh4HkS46uQaFrFrr0RxewH41s17BBfAfgJ9B5b5Lt9eSMY2tHfiMTSHqhLeFMIZ
+ vGXjXNaNvemWqZVw3l4I5l4TpcW4E7M970PB1VDT2FcqgRn1BDNf5DxyCAIyji8k80BB
+ lJujziel5jDtkZ6aa9uFMUWN8DKv2NdurYBcWwbGA0nAYUbQILquVA0ZQqvjA6e5IIgm
+ wLPUfJW53mZ3WEXF9ZTdxDGarJsyFw/R8KhFb5WUhKGOBKO/IBRkqz3GaiRcxizCRCEy
+ DCSp5dvwPu1HtFu3j198upDmHcnj8QukkjWV4msMH9gTSEPfowq/aGXGJqfStgmkk3xM
+ kd6Q==
+X-Gm-Message-State: AOAM532bCTLMoRLk7wBIYSv7/H7A46Wg89+5s/YGUTRQlNGGC997Vm1P
+ PDdcMrgu/bzUmsg5O3QmsbK/JPRTwmEgj+Sx4joJyuDXMbnu37/Ay7awjWE3ZYT11ZCkSMkUxwO
+ Q7EzfhiTE/pL6cEw=
+X-Received: by 2002:a17:907:920e:: with SMTP id
+ ka14mr8282138ejb.193.1621374956766; 
+ Tue, 18 May 2021 14:55:56 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz+MTukvoJwK8+OcNQSzpnyMtpae8UHmkN1XpssPufUEfT7X9ivR+M6SXkYCeI/zYf5hMpEDg==
+X-Received: by 2002:a17:907:920e:: with SMTP id
+ ka14mr8282122ejb.193.1621374956593; 
+ Tue, 18 May 2021 14:55:56 -0700 (PDT)
 Received: from x1w.redhat.com (31.red-83-51-215.dynamicip.rima-tde.net.
  [83.51.215.31])
- by smtp.gmail.com with ESMTPSA id u14sm3394603edy.47.2021.05.18.14.55.50
+ by smtp.gmail.com with ESMTPSA id f26sm6989792ejl.66.2021.05.18.14.55.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 May 2021 14:55:51 -0700 (PDT)
+ Tue, 18 May 2021 14:55:56 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: John Snow <jsnow@redhat.com>,
 	qemu-devel@nongnu.org
-Subject: [RFC PATCH 01/11] hw/isa: Explode pci_create_simple() calls
-Date: Tue, 18 May 2021 23:55:35 +0200
-Message-Id: <20210518215545.1793947-2-philmd@redhat.com>
+Subject: [RFC PATCH 02/11] hw/ide: Add PCIIDEState::isa_bus link
+Date: Tue, 18 May 2021 23:55:36 +0200
+Message-Id: <20210518215545.1793947-3-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210518215545.1793947-1-philmd@redhat.com>
 References: <20210518215545.1793947-1-philmd@redhat.com>
@@ -76,7 +76,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -106,76 +106,110 @@ Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-To be able to set a property on the ISA-IDE bridges objects
-before they are realized, explode the pci_create_simple()
-calls as pci_new() + pci_realize_and_unref().
+IDE bus depends on ISA bus for IRQ/DMA.
+
+Add an ISABus reference in PCIIDEState, and add link properties
+to it in the PIIX and VIA objects (which inherit PCI_IDE).
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- hw/i386/pc_piix.c   | 5 +++--
- hw/isa/piix4.c      | 3 ++-
- hw/mips/fuloong2e.c | 3 ++-
- hw/ppc/pegasos2.c   | 3 ++-
- 4 files changed, 9 insertions(+), 5 deletions(-)
+ include/hw/ide/pci.h |  1 +
+ hw/ide/piix.c        | 11 ++++++++++-
+ hw/ide/via.c         | 10 +++++++++-
+ 3 files changed, 20 insertions(+), 2 deletions(-)
 
-diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-index 30b8bd6ea92..fb606c14768 100644
---- a/hw/i386/pc_piix.c
-+++ b/hw/i386/pc_piix.c
-@@ -244,8 +244,9 @@ static void pc_init1(MachineState *machine,
-     if (pcmc->pci_enabled) {
-         PCIDevice *dev;
+diff --git a/include/hw/ide/pci.h b/include/hw/ide/pci.h
+index d8384e1c422..e790722ed14 100644
+--- a/include/hw/ide/pci.h
++++ b/include/hw/ide/pci.h
+@@ -47,6 +47,7 @@ struct PCIIDEState {
+     PCIDevice parent_obj;
+     /*< public >*/
  
--        dev = pci_create_simple(pci_bus, piix3_devfn + 1,
--                                xen_enabled() ? "piix3-ide-xen" : "piix3-ide");
-+        dev = pci_new(piix3_devfn + 1,
-+                      xen_enabled() ? "piix3-ide-xen" : "piix3-ide");
-+        pci_realize_and_unref(dev, pci_bus, &error_abort);
-         pci_ide_create_devs(dev);
-         idebus[0] = qdev_get_child_bus(&dev->qdev, "ide.0");
-         idebus[1] = qdev_get_child_bus(&dev->qdev, "ide.1");
-diff --git a/hw/isa/piix4.c b/hw/isa/piix4.c
-index 0fe7b69bc4c..d60f161ecf4 100644
---- a/hw/isa/piix4.c
-+++ b/hw/isa/piix4.c
-@@ -261,7 +261,8 @@ DeviceState *piix4_create(PCIBus *pci_bus, ISABus **isa_bus, I2CBus **smbus)
-         *isa_bus = ISA_BUS(qdev_get_child_bus(dev, "isa.0"));
++    ISABus *isa_bus;
+     IDEBus bus[2];
+     BMDMAState bmdma[2];
+     uint32_t secondary; /* used only for cmd646 */
+diff --git a/hw/ide/piix.c b/hw/ide/piix.c
+index b9860e35a5c..48da68da37f 100644
+--- a/hw/ide/piix.c
++++ b/hw/ide/piix.c
+@@ -30,8 +30,9 @@
+ #include "sysemu/block-backend.h"
+ #include "sysemu/blockdev.h"
+ #include "sysemu/dma.h"
+-
++#include "qapi/error.h"
+ #include "hw/ide/pci.h"
++#include "hw/isa/isa.h"
+ #include "trace.h"
+ 
+ static uint64_t bmdma_read(void *opaque, hwaddr addr, unsigned size)
+@@ -207,6 +208,12 @@ static void pci_piix_ide_exitfn(PCIDevice *dev)
      }
+ }
  
--    pci = pci_create_simple(pci_bus, devfn + 1, "piix4-ide");
-+    pci = pci_new(devfn + 1, "piix4-ide");
-+    pci_realize_and_unref(pci, pci_bus, &error_abort);
-     pci_ide_create_devs(pci);
++static Property piix_ide_properties[] = {
++    DEFINE_PROP_LINK("isa-bus", PCIIDEState, isa_bus,
++                     TYPE_ISA_BUS, ISABus *),
++    DEFINE_PROP_END_OF_LIST(),
++};
++
+ /* NOTE: for the PIIX3, the IRQs and IOports are hardcoded */
+ static void piix3_ide_class_init(ObjectClass *klass, void *data)
+ {
+@@ -221,6 +228,7 @@ static void piix3_ide_class_init(ObjectClass *klass, void *data)
+     k->class_id = PCI_CLASS_STORAGE_IDE;
+     set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
+     dc->hotpluggable = false;
++    device_class_set_props(dc, piix_ide_properties);
+ }
  
-     pci_create_simple(pci_bus, devfn + 2, "piix4-usb-uhci");
-diff --git a/hw/mips/fuloong2e.c b/hw/mips/fuloong2e.c
-index c1b8066a13b..40e9a645e1b 100644
---- a/hw/mips/fuloong2e.c
-+++ b/hw/mips/fuloong2e.c
-@@ -206,7 +206,8 @@ static void vt82c686b_southbridge_init(PCIBus *pci_bus, int slot, qemu_irq intc,
-                                           TYPE_VT82C686B_ISA);
-     qdev_connect_gpio_out(DEVICE(dev), 0, intc);
+ static const TypeInfo piix3_ide_info = {
+@@ -249,6 +257,7 @@ static void piix4_ide_class_init(ObjectClass *klass, void *data)
+     k->class_id = PCI_CLASS_STORAGE_IDE;
+     set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
+     dc->hotpluggable = false;
++    device_class_set_props(dc, piix_ide_properties);
+ }
  
--    dev = pci_create_simple(pci_bus, PCI_DEVFN(slot, 1), "via-ide");
-+    dev = pci_new(PCI_DEVFN(slot, 1), "via-ide");
-+    pci_realize_and_unref(dev, pci_bus, &error_abort);
-     pci_ide_create_devs(dev);
+ static const TypeInfo piix4_ide_info = {
+diff --git a/hw/ide/via.c b/hw/ide/via.c
+index be09912b334..65fdca6dcf4 100644
+--- a/hw/ide/via.c
++++ b/hw/ide/via.c
+@@ -28,8 +28,9 @@
+ #include "hw/pci/pci.h"
+ #include "migration/vmstate.h"
+ #include "qemu/module.h"
++#include "qapi/error.h"
+ #include "sysemu/dma.h"
+-
++#include "hw/isa/isa.h"
+ #include "hw/ide/pci.h"
+ #include "trace.h"
  
-     pci_create_simple(pci_bus, PCI_DEVFN(slot, 2), "vt82c686b-usb-uhci");
-diff --git a/hw/ppc/pegasos2.c b/hw/ppc/pegasos2.c
-index 0bfd0928aa5..8486a2eb8c6 100644
---- a/hw/ppc/pegasos2.c
-+++ b/hw/ppc/pegasos2.c
-@@ -108,7 +108,8 @@ static void pegasos2_init(MachineState *machine)
-                           qdev_get_gpio_in_named(mv, "gpp", 31));
+@@ -210,6 +211,12 @@ static void via_ide_exitfn(PCIDevice *dev)
+     }
+ }
  
-     /* VT8231 function 1: IDE Controller */
--    dev = pci_create_simple(pci_bus, PCI_DEVFN(12, 1), "via-ide");
-+    dev = pci_new(PCI_DEVFN(12, 1), "via-ide");
-+    pci_realize_and_unref(dev, pci_bus, &error_abort);
-     pci_ide_create_devs(dev);
++static Property via_ide_properties[] = {
++    DEFINE_PROP_LINK("isa-bus", PCIIDEState, isa_bus,
++                     TYPE_ISA_BUS, ISABus *),
++    DEFINE_PROP_END_OF_LIST(),
++};
++
+ static void via_ide_class_init(ObjectClass *klass, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(klass);
+@@ -224,6 +231,7 @@ static void via_ide_class_init(ObjectClass *klass, void *data)
+     k->revision = 0x06;
+     k->class_id = PCI_CLASS_STORAGE_IDE;
+     set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
++    device_class_set_props(dc, via_ide_properties);
+ }
  
-     /* VT8231 function 2-3: USB Ports */
+ static const TypeInfo via_ide_info = {
 -- 
 2.26.3
 
