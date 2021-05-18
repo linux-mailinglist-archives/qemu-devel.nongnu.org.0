@@ -2,68 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FEB93880EC
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 22:07:36 +0200 (CEST)
-Received: from localhost ([::1]:47736 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E18B93880E6
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 22:03:29 +0200 (CEST)
+Received: from localhost ([::1]:44134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lj606-0003yN-Vw
-	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 16:07:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40556)
+	id 1lj5w8-0001NN-HI
+	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 16:03:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39956)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lj5yR-0002sT-DL
- for qemu-devel@nongnu.org; Tue, 18 May 2021 16:05:51 -0400
-Received: from indium.canonical.com ([91.189.90.7]:58982)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lj5yH-0001iS-0F
- for qemu-devel@nongnu.org; Tue, 18 May 2021 16:05:51 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lj5yC-0005Vw-A2
- for <qemu-devel@nongnu.org>; Tue, 18 May 2021 20:05:36 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 276572E8187
- for <qemu-devel@nongnu.org>; Tue, 18 May 2021 20:05:36 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1lj5v3-0000iS-Vh
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 16:02:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45345)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1lj5v0-00086l-9O
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 16:02:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1621368136;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=z8X5cXFQfX8ENLKb4kw5ir/EnlHV4aWGaZrPYh0HbW8=;
+ b=ebhxLKNsdW2ybvP6sq+3Dg/I993MauvL3kGbnL7x7zYJXgQyaPPBUWQQ0SAfWNmTOj+apm
+ yqhJ5isSYYRUTWUCvcgwsoyTorXgQTWkBD5tvDG6kTXOIYoNviLO+FkKEBlCwyerMM1FBf
+ EO7ceCqTVnn/a3y53P0PBgiN23/CDco=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-457-7iyixi6oP8-G6qdQdXAKdg-1; Tue, 18 May 2021 16:02:14 -0400
+X-MC-Unique: 7iyixi6oP8-G6qdQdXAKdg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B54068015F8;
+ Tue, 18 May 2021 20:02:12 +0000 (UTC)
+Received: from redhat.com (ovpn-113-225.phx2.redhat.com [10.3.113.225])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8107DE171;
+ Tue, 18 May 2021 20:01:56 +0000 (UTC)
+Date: Tue, 18 May 2021 14:01:55 -0600
+From: Alex Williamson <alex.williamson@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH V3 00/22] Live Update
+Message-ID: <20210518140155.0d302324.alex.williamson@redhat.com>
+In-Reply-To: <YKQULUn5F+x1wrYI@work-vm>
+References: <1620390320-301716-1-git-send-email-steven.sistare@oracle.com>
+ <YJwFkhlYISA9INwO@stefanha-x1.localdomain>
+ <4d3dd5ff-5180-16df-ab48-11de610dd396@oracle.com>
+ <YJ5kokhzyA5tCom3@stefanha-x1.localdomain>
+ <29356c3a-0b3f-2773-4f9f-18ff4ed4d5bb@oracle.com>
+ <YKOPnkefxgRZ8PoQ@work-vm>
+ <a1d3dfea-d15e-35a3-a216-3ce65600f2d6@oracle.com>
+ <YKQULUn5F+x1wrYI@work-vm>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 18 May 2021 19:58:24 -0000
-From: John Snow <1915535@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided;
- assignee=jsnow@redhat.com; 
-X-Launchpad-Bug-Tags: fuzzer
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: a1xndr jnsnow
-X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
-X-Launchpad-Bug-Modifier: John Snow (jnsnow)
-References: <161314927522.23883.18383669904436932925.malonedeb@chaenomeles.canonical.com>
-Message-Id: <162136790469.20528.16664052789385284959.malone@soybean.canonical.com>
-Subject: [Bug 1915535] Re: Assertion `child->perm & BLK_PERM_WRITE' failed in
- bdrv_co_write_req_prepare through atapi
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="5321c3f40fa4d4b847f4e47fb766e7b95ed5036c"; Instance="production"
-X-Launchpad-Hash: 685fb0adaddb3709b0cc786d0d63b648b1b57979
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124;
+ envelope-from=alex.williamson@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.374,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,115 +86,131 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1915535 <1915535@bugs.launchpad.net>
+Cc: "Daniel P. Berrange" <berrange@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Zeng <jason.zeng@linux.intel.com>,
+ Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>,
+ Steven Sistare <steven.sistare@oracle.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6k=?= Lureau <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Alex =?UTF-8?B?QmVubsOpZQ==?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Not a duplicate of the other bug. Confirmed on development head beyond
-6.0.
+On Tue, 18 May 2021 20:23:25 +0100
+"Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
 
-Please migrate this bug to gitlab and assign me.
+> * Steven Sistare (steven.sistare@oracle.com) wrote:
+> > On 5/18/2021 5:57 AM, Dr. David Alan Gilbert wrote:  
+> > > * Steven Sistare (steven.sistare@oracle.com) wrote:  
+> > >> On 5/14/2021 7:53 AM, Stefan Hajnoczi wrote:  
+> > >>> On Thu, May 13, 2021 at 04:21:15PM -0400, Steven Sistare wrote:  
+> > >>>> On 5/12/2021 12:42 PM, Stefan Hajnoczi wrote:  
+> > >>>>> On Fri, May 07, 2021 at 05:24:58AM -0700, Steve Sistare wrote:  
+> > >>>>>> Provide the cprsave and cprload commands for live update.  These save and
+> > >>>>>> restore VM state, with minimal guest pause time, so that qemu may be updated
+> > >>>>>> to a new version in between.
+> > >>>>>>
+> > >>>>>> cprsave stops the VM and saves vmstate to an ordinary file.  It supports two
+> > >>>>>> modes: restart and reboot.  For restart, cprsave exec's the qemu binary (or
+> > >>>>>> /usr/bin/qemu-exec if it exists) with the same argv.  qemu restarts in a
+> > >>>>>> paused state and waits for the cprload command.  
+> > >>>>>
+> > >>>>> I think cprsave/cprload could be generalized by using QMP to stash the
+> > >>>>> file descriptors. The 'getfd' QMP command already exists and QEMU code
+> > >>>>> already opens fds passed using this mechanism.
+> > >>>>>
+> > >>>>> I haven't checked but it may be possible to drop some patches by reusing
+> > >>>>> QEMU's monitor file descriptor passing since the code already knows how
+> > >>>>> to open from 'getfd' fds.
+> > >>>>>
+> > >>>>> The reason why using QMP is interesting is because it eliminates the
+> > >>>>> need for execve(2). QEMU may be unable to execute a program due to
+> > >>>>> chroot, seccomp, etc.
+> > >>>>>
+> > >>>>> QMP would enable cprsave/cprload to work both with and without
+> > >>>>> execve(2).
+> > >>>>>
+> > >>>>> One tricky thing with this approach might be startup ordering: how to
+> > >>>>> get fds via the QMP monitor in the new process before processing the
+> > >>>>> entire command-line.  
+> > >>>>
+> > >>>> Early on I experimented with a similar approach.  Old qemu passed descriptors to an
+> > >>>> escrow process and exited; new qemu started and retrieved the descriptors from escrow.
+> > >>>> vfio mostly worked after I hacked the kernel to suppress the original-pid owner check.
+> > >>>> I suspect my recent vfio extensions would smooth the rough edges.  
+> > >>>
+> > >>> I wonder about the reason for VFIO's pid limitation, maybe because it
+> > >>> pins pages from the original process?  
+> > >>
+> > >> The dma unmap code verifies that the requesting task is the same as the task that mapped
+> > >> the pages.  We could add an ioctl that passes ownership to a new task.  We would also need
+> > >> to fix locked memory accounting, which is associated with the mm of the original task.  
+> > >   
+> > >>> Is this VFIO pid limitation the main reason why you chose to make QEMU
+> > >>> execve(2) the new binary?  
+> > >>
+> > >> That is one.  Plus, re-attaching to named shared memory for pc.ram causes the vfio conflict
+> > >> errors I mentioned in the previous email.  We would need to suppress redundant dma map calls,
+> > >> but allow legitimate dma maps and unmaps in response to the ongoing address space changes and
+> > >> diff callbacks caused by some drivers. It would be messy and fragile. In general, it felt like 
+> > >> I was working against vfio rather than with it.  
+> > > 
+> > > OK the weirdness of vfio helps explain a bit about why you're doing it
+> > > this way; can you help separate some difference between restart and
+> > > reboot for me though:
+> > > 
+> > > In 'reboot' mode; where the guest must do suspend in it's drivers, how
+> > > much of these vfio requirements are needed?  I guess the memfd use
+> > > for the anonymous areas isn't any use for reboot mode.  
+> > 
+> > Correct.  For reboot no special vfio support or fiddling is needed.
+> >   
+> > > You mention cprsave calls VFIO_DMA_UNMAP_FLAG_VADDR - after that does
+> > > vfio still care about the currently-anonymous areas?  
+> > 
+> > Yes, for restart mode.  The physical pages behind the anonymous memory remain pinned and 
+> > are targets for ongoing DMA.  Post-exec qemu needs a way to find those same pages.  
+> 
+> Is it possible with vfio to map it into multiple processes
+> simultaneously or does it have to only be one at a time?
 
---js
+The IOMMU maps an IOVA to a physical address, what Steve is saying is
+that mapping persists across the restart.  A given IOVA can only map to
+a specific physical address, so mapping into multiple processes doesn't
+make any sense.  The two processes need to map the same IOVA to the
+same HPA, only the HVA is allowed to change.
 
-** Changed in: qemu
-     Assignee: (unassigned) =3D> John Snow (jnsnow)
+> Are you saying that you have no way to shut off DMA, and thus you can
+> never know it's safe to terminate the source process?
 
--- =
+Stopping DMA, ex. disabling PCI bus master, would be not only visible
+to the behavior of the device, but likely detrimental.  You'd need
+driver or device participation to some extent to make this seamless.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1915535
+> > >> Another big reason is a requirement to preserve anonymous memory for legacy qemu updates (via
+> > >> code injection which I briefly mentioned in KVM forum).  If we extend cpr to allow updates 
+> > >> without exec, I still need the exec option.  
+> > > 
+> > > Can you explain what that code injection mechanism is for those of us
+> > > who didn't see that?  
+> > 
+> > Sure.  Here is slide 12 from the talk.  It relies on mmap(MADV_DOEXEC) which was not
+> > accepted upstream.  
+> 
+> In this series, without MADV_DOEXEC, how do you guarantee the same HVA
+> in source and destination - or is that not necessary?
 
-Title:
-  Assertion `child->perm & BLK_PERM_WRITE' failed in
-  bdrv_co_write_req_prepare through atapi
+It's not necessary, the HVA is used to establish the IOVA to HPA
+mapping for the IOMMU.  We have patches upstream that suspend (block)
+that translation for the window when the HVA is invalid and resume when
+it becomes valid.  It's expected that the new HVA is equivalent to the
+old HVA and that the user can only hurt themselves should they violate
+this, ie. they can still only map+pin memory they own, so at worst they
+create a bad translation for their own device.  Thanks,
 
-Status in QEMU:
-  New
+Alex
 
-Bug description:
-  Maybe this is a duplicate of https://bugs.launchpad.net/qemu/+bug/1906693=
- ... =
-
-  In any case, ATAPI is probably a lot more common than megasas, so this mi=
-ght be a more useful  reproducer
-
-  =3D=3DReproducer=3D=3D
-
-  cat << EOF | ./qemu-system-i386 -display none \
-  -m 512M -machine q35 -nodefaults \
-  -drive file=3Dnull-co://,if=3Dnone,format=3Draw,id=3Ddisk0 \
-  -device ide-cd,drive=3Ddisk0 -machine accel=3Dqtest -qtest stdio
-  outl 0xcf8 0x8000fa24
-  outl 0xcfc 0xe0000000
-  outl 0xcf8 0x8000fa04
-  outw 0xcfc 0x06
-  write 0xe0000398 0x1 0x01
-  write 0x63 0x1 0x06
-  write 0x68 0x1 0x06
-  write 0x69 0x1 0xf8
-  write 0x6a 0x1 0xff
-  write 0xfff806 0x1 0x27
-  write 0xfff807 0x1 0x80
-  write 0xfff808 0x1 0x61
-  write 0x1005734 0x1 0x3f
-  write 0x1005774 0x1 0x20
-  write 0x1005784 0x1 0x34
-  write 0x10057a4 0x1 0x27
-  write 0x10057b4 0x1 0x3f
-  write 0x10057c3 0x1 0xce
-  write 0x10057d4 0x1 0x1a
-  write 0x10057e3 0x1 0xff
-  write 0x10057e4 0x1 0x3f
-  write 0x10057f4 0x1 0x38
-  write 0x1005814 0x1 0x3e
-  write 0x1005823 0x1 0x60
-  write 0x1005824 0x1 0x2d
-  write 0x1005833 0x1 0x74
-  write 0x1005834 0x1 0x01
-  write 0x1005863 0x1 0xff
-  write 0x1005883 0x1 0x5a
-  write 0x1005884 0x1 0x06
-  write 0xe00003b8 0x1 0x08
-  EOF
-
-  =
-
-  =3D=3DStack Trace=3D=3D
-  i386: ahci: PRDT length for NCQ command (0x0) is smaller than the request=
-ed size (0x5a00)
-  qemu-fuzz-i386-target-generic-fuzz-ahci-atapi: ../block/io.c:1982: int
-  bdrv_co_write_req_prepare(BdrvChild *, int64_t, int64_t, BdrvTrackedReque=
-st
-  *, int): Assertion `child->perm & BLK_PERM_WRITE' failed.
-  =3D=3D279048=3D=3D ERROR: libFuzzer: deadly signal
-  #0 0x560c92718f50 in __sanitizer_print_stack_trace /src/llvm-project/comp=
-iler-rt/lib/ubsan/ubsan_diag_standalone.cpp:33:3
-  #1 0x560c926c2f98 in fuzzer::PrintStackTrace() /src/llvm-project/compiler=
--rt/lib/fuzzer/FuzzerUtil.cpp:210:5
-  #2 0x560c926a7fd3 in fuzzer::Fuzzer::CrashCallback() /src/llvm-project/co=
-mpiler-rt/lib/fuzzer/FuzzerLoop.cpp:233:3
-  #3 0x7ff7d707038f in libpthread.so.0
-  #4 0x7ff7d66a8437 in raise
-  #5 0x7ff7d66aa039 in abort
-  #6 0x7ff7d66a0be6 in libc.so.6
-  #7 0x7ff7d66a0c91 in __assert_fail
-  #8 0x560c92f4fc79 in bdrv_co_write_req_prepare /src/qemu/block/io.c:1982:=
-13
-  #9 0x560c92f4c974 in bdrv_aligned_pwritev /src/qemu/block/io.c:2065:11
-  #10 0x560c92f4b937 in bdrv_co_pwritev_part /src/qemu/block/io.c:2270:11
-  #11 0x560c92f392e7 in blk_do_pwritev_part /src/qemu/block/block-backend.c=
-:1260:11
-  #12 0x560c92f39a55 in blk_aio_write_entry /src/qemu/block/block-backend.c=
-:1476:17
-  #13 0x560c930d19d5 in coroutine_trampoline /src/qemu/util/coroutine-ucont=
-ext.c:173:9
-  #14 0x7ff7d66bd5df in libc.so.6
-
-  OSS-Fuzz link: https://bugs.chromium.org/p/oss-
-  fuzz/issues/detail?id=3D30857
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1915535/+subscriptions
 
