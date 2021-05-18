@@ -2,71 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84C18387697
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 12:33:48 +0200 (CEST)
-Received: from localhost ([::1]:46038 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78FE23876EC
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 12:49:59 +0200 (CEST)
+Received: from localhost ([::1]:60076 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lix2p-0003mH-KC
-	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 06:33:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43186)
+	id 1lixIU-0000cJ-II
+	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 06:49:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43362)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1liweb-00034K-0K
- for qemu-devel@nongnu.org; Tue, 18 May 2021 06:08:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46088)
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1liwfa-0003us-6R
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 06:09:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33644)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1liweX-0007pY-Kl
- for qemu-devel@nongnu.org; Tue, 18 May 2021 06:08:44 -0400
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1liwfW-0008FH-WC
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 06:09:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621332519;
+ s=mimecast20190719; t=1621332581;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FYDo54qY83IwJhQYjq5Rxgz+9nMMFeAafRwA+Be84us=;
- b=To0pbxYoDu6AjidFsOP441ILPEoqUl6c6Lg3P91J+aTTYXt3Syisn9qLWcsF11AaqkyIY9
- iB9z+GafULGsdM0qN6EFgMf1XMvGFTVc+jIiZWBkW4n1m94rX9ay5fJrXj201CLACR9ij+
- aEH5vXjkKJgBB6QjIgWbQhfXcjGgG4M=
+ bh=eiSsSeErmC2hW7/fQln7xFrH8HTIiWLMvto+jzRQZgg=;
+ b=L90aF0KyhqERkIPX3u3tDHW4p2iSgAZCGhse02KXx5dpC6oCoDhBEzsPig5s2ozJJZoCTX
+ 4lYIVVFua3maySnhXT196EqI/GQJ5913Hvcc1vKo04Kf31Por6mE2wJukB5Vw1FNT+Ngt2
+ uB6YNci7HQXGdwMUiweGvoGcKT0vy4w=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-444-LQoZIBCfMdCHY89pbQQxtw-1; Tue, 18 May 2021 06:08:36 -0400
-X-MC-Unique: LQoZIBCfMdCHY89pbQQxtw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-277-x6-khlDkPvGu4q2rrTGgtg-1; Tue, 18 May 2021 06:09:40 -0400
+X-MC-Unique: x6-khlDkPvGu4q2rrTGgtg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A22A7100945E;
- Tue, 18 May 2021 10:08:35 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-114-236.ams2.redhat.com
- [10.36.114.236])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1770C687D4;
- Tue, 18 May 2021 10:08:32 +0000 (UTC)
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH v2 7/7] block-copy: protect BlockCopyState .method fields
-Date: Tue, 18 May 2021 12:07:57 +0200
-Message-Id: <20210518100757.31243-8-eesposit@redhat.com>
-In-Reply-To: <20210518100757.31243-1-eesposit@redhat.com>
-References: <20210518100757.31243-1-eesposit@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F2C43802B78;
+ Tue, 18 May 2021 10:09:38 +0000 (UTC)
+Received: from [10.36.115.203] (ovpn-115-203.ams2.redhat.com [10.36.115.203])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 344C95C582;
+ Tue, 18 May 2021 10:09:38 +0000 (UTC)
+Subject: Re: [PULL 09/10] virtio-net: failover: add missing
+ remove_migration_state_change_notifier()
+To: Jason Wang <jasowang@redhat.com>
+References: <1620458319-5670-1-git-send-email-jasowang@redhat.com>
+ <1620458319-5670-10-git-send-email-jasowang@redhat.com>
+From: Laurent Vivier <lvivier@redhat.com>
+Message-ID: <93ca1ecd-8a0d-d1ef-ff2b-f411c200ac98@redhat.com>
+Date: Tue, 18 May 2021 12:09:37 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <1620458319-5670-10-git-send-email-jasowang@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lvivier@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=lvivier@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.374,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,106 +84,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Emanuele Giuseppe Esposito <eesposit@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
+Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-With tasks and calls lock protecting all State fields,
-.method is the last BlockCopyState field left unprotected.
-Set it as atomic.
+Hi Jason,
 
-Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
----
- block/block-copy.c | 37 ++++++++++++++++++-------------------
- 1 file changed, 18 insertions(+), 19 deletions(-)
+do you plan to resend the PR?
 
-diff --git a/block/block-copy.c b/block/block-copy.c
-index 573e96fefb..ebccb7fbc6 100644
---- a/block/block-copy.c
-+++ b/block/block-copy.c
-@@ -108,7 +108,7 @@ typedef struct BlockCopyState {
- 
-     /* State */
-     int64_t in_flight_bytes; /* protected by tasks_lock */
--    BlockCopyMethod method;
-+    BlockCopyMethod method; /* atomic */
-     CoMutex tasks_lock;
-     QLIST_HEAD(, BlockCopyTask) tasks; /* All tasks from all block-copy calls */
-     QemuMutex calls_lock;
-@@ -184,7 +184,7 @@ static bool coroutine_fn block_copy_wait_one(BlockCopyState *s, int64_t offset,
- 
- static inline int64_t block_copy_chunk_size(BlockCopyState *s)
- {
--    switch (s->method) {
-+    switch (qatomic_read(&s->method)) {
-     case COPY_READ_WRITE_CLUSTER:
-         return s->cluster_size;
-     case COPY_READ_WRITE:
-@@ -338,16 +338,17 @@ BlockCopyState *block_copy_state_new(BdrvChild *source, BdrvChild *target,
-          * buffered copying (read and write respect max_transfer on their
-          * behalf).
-          */
--        s->method = COPY_READ_WRITE_CLUSTER;
-+        qatomic_set(&s->method, COPY_READ_WRITE_CLUSTER);
-     } else if (write_flags & BDRV_REQ_WRITE_COMPRESSED) {
-         /* Compression supports only cluster-size writes and no copy-range. */
--        s->method = COPY_READ_WRITE_CLUSTER;
-+        qatomic_set(&s->method, COPY_READ_WRITE_CLUSTER);
-     } else {
-         /*
-          * We enable copy-range, but keep small copy_size, until first
-          * successful copy_range (look at block_copy_do_copy).
-          */
--        s->method = use_copy_range ? COPY_RANGE_SMALL : COPY_READ_WRITE;
-+        qatomic_set(&s->method, use_copy_range ? COPY_RANGE_SMALL :
-+                                                 COPY_READ_WRITE);
-     }
- 
-     ratelimit_init(&s->rate_limit);
-@@ -432,26 +433,24 @@ static int coroutine_fn block_copy_do_copy(BlockCopyState *s,
-         return ret;
-     }
- 
--    if (s->method >= COPY_RANGE_SMALL) {
-+    if (qatomic_read(&s->method) >= COPY_RANGE_SMALL) {
-         ret = bdrv_co_copy_range(s->source, offset, s->target, offset, nbytes,
-                                  0, s->write_flags);
-         if (ret < 0) {
-             trace_block_copy_copy_range_fail(s, offset, ret);
--            s->method = COPY_READ_WRITE;
-+            qatomic_set(&s->method, COPY_READ_WRITE);
-             /* Fallback to read+write with allocated buffer */
-         } else {
--            if (s->method == COPY_RANGE_SMALL) {
--                /*
--                 * Successful copy-range. Now increase copy_size.  copy_range
--                 * does not respect max_transfer (it's a TODO), so we factor
--                 * that in here.
--                 *
--                 * Note: we double-check s->method for the case when
--                 * parallel block-copy request unsets it during previous
--                 * bdrv_co_copy_range call.
--                 */
--                s->method = COPY_RANGE_FULL;
--            }
-+            /*
-+             * Successful copy-range. Now increase copy_size.  copy_range
-+             * does not respect max_transfer (it's a TODO), so we factor
-+             * that in here.
-+             *
-+             * Note: we double-check s->method for the case when
-+             * parallel block-copy request unsets it during previous
-+             * bdrv_co_copy_range call.
-+             */
-+            qatomic_cmpxchg(&s->method, COPY_RANGE_SMALL, COPY_RANGE_FULL);
-             goto out;
-         }
-     }
--- 
-2.30.2
+Thanks,
+Laurent
+
+On 08/05/2021 09:18, Jason Wang wrote:
+> From: Laurent Vivier <lvivier@redhat.com>
+> 
+> In the failover case configuration, virtio_net_device_realize() uses an
+> add_migration_state_change_notifier() to add a state notifier, but this
+> notifier is not removed by the unrealize function when the virtio-net
+> card is unplugged.
+> 
+> If the card is unplugged and a migration is started, the notifier is
+> called and as it is not valid anymore QEMU crashes.
+> 
+> This patch fixes the problem by adding the
+> remove_migration_state_change_notifier() in virtio_net_device_unrealize().
+> 
+> The problem can be reproduced with:
+> 
+>   $ qemu-system-x86_64 -enable-kvm -m 1g -M q35 \
+>     -device pcie-root-port,slot=4,id=root1 \
+>     -device pcie-root-port,slot=5,id=root2 \
+>     -device virtio-net-pci,id=net1,mac=52:54:00:6f:55:cc,failover=on,bus=root1 \
+>     -monitor stdio disk.qcow2
+>   (qemu) device_del net1
+>   (qemu) migrate "exec:gzip -c > STATEFILE.gz"
+> 
+>   Thread 1 "qemu-system-x86" received signal SIGSEGV, Segmentation fault.
+>   0x0000000000000000 in ?? ()
+>   (gdb) bt
+>   #0  0x0000000000000000 in  ()
+>   #1  0x0000555555d726d7 in notifier_list_notify (...)
+>       at .../util/notify.c:39
+>   #2  0x0000555555842c1a in migrate_fd_connect (...)
+>       at .../migration/migration.c:3975
+>   #3  0x0000555555950f7d in migration_channel_connect (...)
+>       error@entry=0x0) at .../migration/channel.c:107
+>   #4  0x0000555555910922 in exec_start_outgoing_migration (...)
+>       at .../migration/exec.c:42
+> 
+> Reported-by: Igor Mammedov <imammedo@redhat.com>
+> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+> Signed-off-by: Jason Wang <jasowang@redhat.com>
+> ---
+>  hw/net/virtio-net.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+> index 7ed11a3..dc71aa8 100644
+> --- a/hw/net/virtio-net.c
+> +++ b/hw/net/virtio-net.c
+> @@ -3480,6 +3480,7 @@ static void virtio_net_device_unrealize(DeviceState *dev)
+>  
+>      if (n->failover) {
+>          device_listener_unregister(&n->primary_listener);
+> +        remove_migration_state_change_notifier(&n->migration_state);
+>      }
+>  
+>      max_queues = n->multiqueue ? n->max_queues : 1;
+> 
 
 
