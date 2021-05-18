@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBA8F3871B0
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 08:16:24 +0200 (CEST)
-Received: from localhost ([::1]:36480 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E84663871AF
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 08:15:51 +0200 (CEST)
+Received: from localhost ([::1]:35172 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lit1j-00067K-SH
-	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 02:16:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38784)
+	id 1lit1D-0005Dx-0l
+	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 02:15:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38788)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lisKr-0007lq-9s
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lisKr-0007n3-KK
  for qemu-devel@nongnu.org; Tue, 18 May 2021 01:32:05 -0400
-Received: from mout.kundenserver.de ([212.227.126.187]:46687)
+Received: from mout.kundenserver.de ([212.227.126.130]:50985)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lisKn-0007A0-1E
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lisKn-0007AO-2f
  for qemu-devel@nongnu.org; Tue, 18 May 2021 01:32:05 -0400
 Received: from quad ([82.142.31.78]) by mrelayeu.kundenserver.de (mreue012
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1MFsAJ-1lgyvu1Kf9-00HNgn; Tue, 18
- May 2021 07:31:53 +0200
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1MS1G7-1lt1bF3Cgd-00TWmj; Tue, 18
+ May 2021 07:31:54 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 39/59] linux-user/s390x: Use tswap_sigset in setup_rt_frame
-Date: Tue, 18 May 2021 07:31:11 +0200
-Message-Id: <20210518053131.87212-40-laurent@vivier.eu>
+Subject: [PULL 42/59] linux-user/s390x: Set psw.mask properly for the signal
+ handler
+Date: Tue, 18 May 2021 07:31:14 +0200
+Message-Id: <20210518053131.87212-43-laurent@vivier.eu>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210518053131.87212-1-laurent@vivier.eu>
 References: <20210518053131.87212-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:zpPewPl+HBqydJb4GvfK6LiPAO4n5oGHGO1VTIeuRreQfx2m6ez
- ILg8fhUrHNhobN2itW5TC3euW0f19tKet4s7R5ZkNg6hLuGtCTHqwSQh0PP37rO4PvLCuYQ
- rEVr6jlqiHn4igMF7OrAyluoH8ot5mi9ZIhZ7C+RBCNNOrkHxFhKbWcXYtmE7Q65gfsBFHc
- c7CgED8RQqZFzC2IbADCQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:r8mDENy0fIM=:gHse5YwmJcatcmGwmlJYRm
- hXBbOENqlHeKorRgZCDDyrlpn4AcIdSTus8vokhLSMy2HME130UAShNFY1iAVOxQ2Lk5IGJkN
- khJytdrpTCutX34kPZnBKIZRm2+D+KphhOhePnuce87mXlsix4DkKqAuOWejWo6GH0Yo2YQMo
- KeruxfR4iLpWhLrgtzfW7r6OefMQhAeivf9Q5s4gu6oAVAFQHOXKgDHMuHcxZAWbKzdm/ewT2
- 90YpMSmsvCB+NmFE29XTjNlfmbRttD8UnMQ8IzKgJt4qVOMR21is8ddC0H7Of/IY2evSN2cED
- MQ/CPVAWkN2foyaL5TU9txOAUHIJlErv56YD6+E0RR5rbz5lnl01sO5/c+ZpOFZrgt5CX4FIu
- EbIfKYPQbThvnU+Kr9qgcFxwTCvK+6vUE5g3j++Sd6PlaxN4OllSgYYa5eomJQIl8GAzCxrqn
- 0ZgcBbdodW7AnZxTKqdwVN7OJxrL3bgUtcjR+OFoR+ZAbu6FqHBhIdnTbdIIw4tWhv1r9jCA1
- zJObgi+GR53GZTG4yDZbo0=
-Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:qa/fa58/7CVeW+epwnsmG7QifkNJtcfhsspWlN1R1wbYIPDIs+a
+ Qs7EOKsmJoryGsQW/MZoDA7usZ6cCnQTcXCIfPZ0D3tktQvOQ8FjmZdKndR9vff9WvOyJ7S
+ L6krUKM00TGuc60ZCnqEibQjQ2gUCHq7/ajjVYI0FMbfkwiVCO7ZuOtDqMhrFll2D9M1nEB
+ IcCK5p5FezP3q6Gbph91g==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:FZGATEnyljY=:GUkpQOmk1lODYOzcGh/+Tn
+ SjVMLUHVTdk/ZCDhuGyz2J+F9KBfEUXKfV5Dkps+6HQxTGZfTCxjkuAI0pw4NHRA1ZUC0X6GU
+ xs85xbI3m+9OqnvhzpfCDAHfCkwy/iaKZFhqsFxScMGyKOu1mrLdkFsMFhVLyOxErOW/zL8D4
+ Omsv0zglZXDF0U5jcA4d2afsSdAVwg5WsDOZhDfx9VHX4Tqj4WLOvKBuJ4EPuWJRHebkDk0HH
+ CGI4/WpmtI+oiUS2QP40f8YBkfrEkBVFWRij09f808c/1PZYsOxl0IsbYbh8yrL+uf7b8Cyed
+ X9QzYsGGgjfw6vVavJ8WPuIraYi7Sxo1/f5VZN6blRo/5si8cQVa6s++29ss2ndwNXDUusFmT
+ Z7BrAeq3Dr9AyDN4emi7rc0RiRT4VaBvbQE8onT1NmpgcR4MrRHRaRp2+o67N2H0DzPlkEl2h
+ vOM5zU12hP4aMN3K57OqSfPBDTSxXKmokmRG++xTYiPyMZOCGugzTbcDeu9WBH1rR1AO8NZq0
+ WWWk29Vg2zbnsFivkhiY9M=
+Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -70,38 +70,41 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
+Note that PSW_ADDR_{64,32} are called PSW_MASK_{EA,BA}
+in the kernel source.
+
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: David Hildenbrand <david@redhat.com>
-Message-Id: <20210428193408.233706-8-richard.henderson@linaro.org>
+Message-Id: <20210428193408.233706-11-richard.henderson@linaro.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/s390x/signal.c | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
+ linux-user/s390x/signal.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
 diff --git a/linux-user/s390x/signal.c b/linux-user/s390x/signal.c
-index f8515dd3329b..4dde55d4d518 100644
+index 64a9eab09770..17f617c65581 100644
 --- a/linux-user/s390x/signal.c
 +++ b/linux-user/s390x/signal.c
-@@ -182,7 +182,6 @@ void setup_rt_frame(int sig, struct target_sigaction *ka,
-                     target_siginfo_t *info,
-                     target_sigset_t *set, CPUS390XState *env)
- {
--    int i;
-     rt_sigframe *frame;
-     abi_ulong frame_addr;
+@@ -162,6 +162,9 @@ void setup_frame(int sig, struct target_sigaction *ka,
  
-@@ -199,10 +198,7 @@ void setup_rt_frame(int sig, struct target_sigaction *ka,
-     __put_user((abi_ulong)0, (abi_ulong *)&frame->uc.tuc_link);
-     target_save_altstack(&frame->uc.tuc_stack, env);
-     save_sigregs(env, &frame->uc.tuc_mcontext);
--    for (i = 0; i < TARGET_NSIG_WORDS; i++) {
--        __put_user((abi_ulong)set->sig[i],
--                   (abi_ulong *)&frame->uc.tuc_sigmask.sig[i]);
--    }
-+    tswap_sigset(&frame->uc.tuc_sigmask, set);
+     /* Set up registers for signal handler */
+     env->regs[15] = frame_addr;
++    /* Force default amode and default user address space control. */
++    env->psw.mask = PSW_MASK_64 | PSW_MASK_32 | PSW_ASC_PRIMARY
++                  | (env->psw.mask & ~PSW_MASK_ASC);
+     env->psw.addr = ka->_sa_handler;
  
-     /* Set up to return from userspace.  If provided, use a stub
-        already in userspace.  */
+     env->regs[2] = sig; //map_signal(sig);
+@@ -215,6 +218,9 @@ void setup_rt_frame(int sig, struct target_sigaction *ka,
+ 
+     /* Set up registers for signal handler */
+     env->regs[15] = frame_addr;
++    /* Force default amode and default user address space control. */
++    env->psw.mask = PSW_MASK_64 | PSW_MASK_32 | PSW_ASC_PRIMARY
++                  | (env->psw.mask & ~PSW_MASK_ASC);
+     env->psw.addr = ka->_sa_handler;
+ 
+     env->regs[2] = sig; //map_signal(sig);
 -- 
 2.31.1
 
