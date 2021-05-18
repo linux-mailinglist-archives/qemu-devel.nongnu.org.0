@@ -2,71 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 379CB3878C1
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 14:30:53 +0200 (CEST)
-Received: from localhost ([::1]:42176 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F7463878AA
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 14:27:05 +0200 (CEST)
+Received: from localhost ([::1]:34732 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1liys8-0007kM-7w
-	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 08:30:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45668)
+	id 1liyoN-0002ZJ-1q
+	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 08:26:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46058)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1liyhB-0005H5-IH
- for qemu-devel@nongnu.org; Tue, 18 May 2021 08:19:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43479)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1liyh7-0000WV-BL
- for qemu-devel@nongnu.org; Tue, 18 May 2021 08:19:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621340367;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Hkqc3cowaOVzisJwEp15bSavj8gHRU/GHl7/LtTMjlY=;
- b=Yb5LzvV3EvtwGHu6Im3Y4iCPdM4hZcdAEGTlMiVaS4lk3nFe9pgvwlra/nPK6sS5G/NWAq
- 2vWp67veb6NVfYKkNigzOCZbIv4+M9lwzVqNHfHc75MxxJsaE8yoP+IXU7iDoY8HsI6az7
- AGAjlHUj/8zVa7JFNZDB5QKuoY6acnQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-518-RwSyGfMxPqC8eyUIOgtgPQ-1; Tue, 18 May 2021 08:19:26 -0400
-X-MC-Unique: RwSyGfMxPqC8eyUIOgtgPQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6FBF1C7444
- for <qemu-devel@nongnu.org>; Tue, 18 May 2021 12:19:25 +0000 (UTC)
-Received: from work-vm (ovpn-115-45.ams2.redhat.com [10.36.115.45])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4FCDA5C1A1;
- Tue, 18 May 2021 12:19:21 +0000 (UTC)
-Date: Tue, 18 May 2021 13:19:18 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Vivek Goyal <vgoyal@redhat.com>
-Subject: Re: [PATCH 4/7] virtiofsd: get rid of in_sg_left variable
-Message-ID: <YKOwxme52qyg3e5O@work-vm>
-References: <20210511213736.281016-1-vgoyal@redhat.com>
- <20210511213736.281016-5-vgoyal@redhat.com>
-MIME-Version: 1.0
-In-Reply-To: <20210511213736.281016-5-vgoyal@redhat.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.374,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <maobibo@loongson.cn>)
+ id 1liyig-0006da-Ji
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 08:21:08 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:57538 helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <maobibo@loongson.cn>) id 1liyiZ-0001Nv-FF
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 08:21:06 -0400
+Received: from kvm-dev1.localdomain (unknown [10.2.5.134])
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9BxYOIgsaNgRREAAA--.407S2;
+ Tue, 18 May 2021 20:20:48 +0800 (CST)
+From: Bibo Mao <maobibo@loongson.cn>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: [PATCH v2] hw/display/qxl: Set pci rom address aligned with page size
+Date: Tue, 18 May 2021 20:20:48 +0800
+Message-Id: <1621340448-31617-1-git-send-email-maobibo@loongson.cn>
+X-Mailer: git-send-email 1.8.3.1
+X-CM-TRANSID: AQAAf9BxYOIgsaNgRREAAA--.407S2
+X-Coremail-Antispam: 1UD129KBjvdXoWrKF1xAFW3GFyrAF13Aw1kZrb_yoWfArg_Ja
+ 4UuwsrKr1jv3Z8ZFW8Xw1ftFW8t34kWF48XFy7Xa4UtryUKwn3AF1xWrnxWr1DZrZFk345
+ Za1kCrZ8ArsxCjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJTRUUUb7xYjsxI4VWDJwAYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I
+ 6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM2
+ 8CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0
+ cI8IcVCY1x0267AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z2
+ 80aVCY1x0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAK
+ zVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx
+ 8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxkIecxEwVCm-wCF04k20xvY0x0E
+ wIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E74
+ 80Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jrv_JF1lIxkGc2Ij64vIr41lIxAIcVC0
+ I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04
+ k26cxKx2IYs7xG6rWUJVWrZr1UMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIE
+ c7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07jY6wZUUUUU=
+X-CM-SenderInfo: xpdruxter6z05rqj20fqof0/
+Received-SPF: pass client-ip=114.242.206.163; envelope-from=maobibo@loongson.cn;
+ helo=loongson.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,87 +63,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Vivek Goyal (vgoyal@redhat.com) wrote:
-> in_sg_left seems to be being used primarly for debugging purpose. It is
-> keeping track of how many bytes are left in the scatter list we are
-> reading into.
-> 
-> We already have another variable "len" which keeps track how many bytes
-> are left to be read. And in_sg_left is greater than or equal to len. We
-> have already ensured that in the beginning of function.
-> 
->     if (in_len < tosend_len) {
->         fuse_log(FUSE_LOG_ERR, "%s: elem %d too small for data len %zd\n",
->                  __func__, elem->index, tosend_len);
->         ret = E2BIG;
->         goto err;
->     }
-> 
-> So in_sg_left seems like a redundant variable. It probably was useful for
-> debugging when code was being developed. Get rid of it. It helps simplify
-> this function.
-> 
-> Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
+From: maobibo <maobibo@loongson.cn>
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+On some MIPS system, page size is 16K, and qxl vga device can
+be used for VM in kvm mode. Qxl pci rom size is set 8K fixed,
+smaller than 16K page size on host system, it fails to be
+added into memslots in kvm mode where memory_size and GPA
+are required to align with page size.
 
-> ---
->  tools/virtiofsd/fuse_virtio.c | 17 ++++++-----------
->  1 file changed, 6 insertions(+), 11 deletions(-)
-> 
-> diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.c
-> index d56b225800..ccad2b3f8a 100644
-> --- a/tools/virtiofsd/fuse_virtio.c
-> +++ b/tools/virtiofsd/fuse_virtio.c
-> @@ -394,20 +394,16 @@ int virtio_send_data_iov(struct fuse_session *se, struct fuse_chan *ch,
->      /* skip over parts of in_sg that contained the header iov */
->      size_t skip_size = iov_len;
->  
-> -    size_t in_sg_left = 0;
->      do {
->          if (skip_size != 0) {
->  	    iov_discard_front(&in_sg_ptr, &in_sg_cpy_count, skip_size);
->          }
->  
-> -        int i;
-> -        for (i = 0, in_sg_left = 0; i < in_sg_cpy_count; i++) {
-> -            in_sg_left += in_sg_ptr[i].iov_len;
-> -        }
->          fuse_log(FUSE_LOG_DEBUG,
->                   "%s: after skip skip_size=%zd in_sg_cpy_count=%d "
-> -                 "in_sg_left=%zd\n",
-> -                 __func__, skip_size, in_sg_cpy_count, in_sg_left);
-> +                 "len remaining=%zd\n", __func__, skip_size, in_sg_cpy_count,
-> +                 len);
-> +
->          ret = preadv(buf->buf[0].fd, in_sg_ptr, in_sg_cpy_count,
->                       buf->buf[0].pos);
->  
-> @@ -434,13 +430,12 @@ int virtio_send_data_iov(struct fuse_session *se, struct fuse_chan *ch,
->          }
->          if (!ret) {
->              /* EOF case? */
-> -            fuse_log(FUSE_LOG_DEBUG, "%s: !ret in_sg_left=%zd\n", __func__,
-> -                     in_sg_left);
-> +            fuse_log(FUSE_LOG_DEBUG, "%s: !ret len remaining=%zd\n", __func__,
-> +                     len);
->              break;
->          }
-> -        in_sg_left -= ret;
->          len -= ret;
-> -    } while (in_sg_left);
-> +    } while (len);
->  
->      /* Need to fix out->len on EOF */
->      if (len) {
-> -- 
-> 2.25.4
-> 
+This patch fixes this issue.
+
+Signed-off-by: Bibo Mao <maobibo@loongson.cn>
+---
+ hw/display/qxl.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/hw/display/qxl.c b/hw/display/qxl.c
+index 2ba7563..6e1f8ff 100644
+--- a/hw/display/qxl.c
++++ b/hw/display/qxl.c
+@@ -321,7 +321,7 @@ static ram_addr_t qxl_rom_size(void)
+ #define QXL_ROM_SZ 8192
+ 
+     QEMU_BUILD_BUG_ON(QXL_REQUIRED_SZ > QXL_ROM_SZ);
+-    return QXL_ROM_SZ;
++    return QEMU_ALIGN_UP(QXL_REQUIRED_SZ, qemu_real_host_page_size);
+ }
+ 
+ static void init_qxl_rom(PCIQXLDevice *d)
 -- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+1.8.3.1
 
 
