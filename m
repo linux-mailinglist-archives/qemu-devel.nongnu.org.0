@@ -2,69 +2,140 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA8DD387B2E
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 16:33:47 +0200 (CEST)
-Received: from localhost ([::1]:53814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04C20387B9D
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 16:46:47 +0200 (CEST)
+Received: from localhost ([::1]:56230 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lj0n5-0006I1-1p
-	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 10:33:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49920)
+	id 1lj0zd-000212-Q3
+	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 10:46:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50046)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lj0kr-0004UF-50
- for qemu-devel@nongnu.org; Tue, 18 May 2021 10:31:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41672)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1lj0lN-0005Rm-7v; Tue, 18 May 2021 10:32:01 -0400
+Received: from mail-eopbgr50119.outbound.protection.outlook.com
+ ([40.107.5.119]:23670 helo=EUR03-VE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lj0kp-0003bw-65
- for qemu-devel@nongnu.org; Tue, 18 May 2021 10:31:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621348286;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=DN02eIMWCvw3ENwQ7C/v/uDok2IwVDthSn5rfjahUXA=;
- b=BiG4ZMCpJDqsIXnunvPe5BI99vpTy3gORmMgThkCRZnN7rlDfwMef0fpUUSzWdr1N7FwNu
- JM7GqbeYqeasGKBijoxJwtk5gJ2gjyqGh0KvOtg51fhXSX0k0nWy1hochnDt177yQ1qiT0
- vRvdpnqyYQW32VLUGcC2nqIjaYfs1Z4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-73-1oQRtPVINCGaE2xYH3nyjw-1; Tue, 18 May 2021 10:31:22 -0400
-X-MC-Unique: 1oQRtPVINCGaE2xYH3nyjw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5263F1926DC3;
- Tue, 18 May 2021 14:31:21 +0000 (UTC)
-Received: from localhost (ovpn-115-22.phx2.redhat.com [10.3.115.22])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9F9455D9C0;
- Tue, 18 May 2021 14:31:11 +0000 (UTC)
-Date: Tue, 18 May 2021 10:31:04 -0400
-From: Cleber Rosa <crosa@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH v6 02/25] python: create qemu packages
-Message-ID: <20210518143104.GF917386@amachine.somewhere>
-References: <20210512231241.2816122-1-jsnow@redhat.com>
- <20210512231241.2816122-3-jsnow@redhat.com>
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1lj0lK-0003uh-3E; Tue, 18 May 2021 10:32:00 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=QEzn3HRgvJZyS+Z0vGAMTT+bRQ0q7u/Qg9fzkUAkKXOo2vlRmsD3tz13rWsFX65/1/BxTe4ksLI1z+xNL1i86p9jhD5C6BSc+y8nATX2veuD/zZzp1uzMdbU6HJV0FSpoa9A3g3s5aICdQpZQ/0IzbFeGYDZ5ephamZ7lCpZkMOExyuRN6bEr3/eHtSsdcmI0WRxaYXoKyGtU7t6/nm80xWqRI6jOSFSYC0d9myM8MAVR5ZmJGcr3tpebi5FlKlOniMK76hRjVcLuq4+Cw9AiMPx4FwhwIAHlFto0qHWpa4C78WJvtFoDHJSabyIEkF33AzyrOV8lvBiAnrMdpz46Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=sWWdd68ubgcXnKQTgHEzCbOcEU/5Pg0dK3IIPnkey3s=;
+ b=GGS5/EpGKWsWtfn6BOSEuWLKt4I7F5oUmei+MDPfyFhPrtroQbTkDHzb2B1I9S48vrXcc2bs1o8bgaO7nwNG7oHTRha1zpCKrZHtBsTUIXXr8z+iZQi2yPMg6DSj3Qvg87D6G8RZvpRKQ8BECKrjCNL4nGEILmJSarVXCtX5/k1gtRbw/i4rmop4TQfubAYfTzEmiYhRgAl+zo+2jkK9Jq0Uy6cIhhbs4yCA3zoFI97q5ikrMlutm8MvoEovKUrxSacz3zyAE/B87rIxTm2YKLc10kUHzRX9CPwRzPtV9AEP63owLMC6PlJ+fjX84UsVfPwa4x5gTZv4UgMFPV1JLQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=sWWdd68ubgcXnKQTgHEzCbOcEU/5Pg0dK3IIPnkey3s=;
+ b=f3ynd3F+9b+ggEATTPuZxQxdEYtRBuW9QS9XKXppBibA1WcfYWb4Gf8a/5zBxTN3RANDSTnaH233yYGtaD28HZJASpC2Z04GVNSkXy0rYPCq6te1hzDcmcnwVd1Sdbp/S/rWZN8ACM6pmi1kUM84Nlh2Xp0xtZSOuTUhyKSmdxs=
+Authentication-Results: openvz.org; dkim=none (message not signed)
+ header.d=none;openvz.org; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AS8PR08MB6871.eurprd08.prod.outlook.com (2603:10a6:20b:392::10)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4129.26; Tue, 18 May
+ 2021 14:31:53 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::b403:c1a9:6bb7:133]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::b403:c1a9:6bb7:133%7]) with mapi id 15.20.4129.031; Tue, 18 May 2021
+ 14:31:52 +0000
+Subject: Re: [PATCH 17/21] block/block-copy: switch to fully set bitmap by
+ default
+To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, armbru@redhat.com, eblake@redhat.com,
+ ehabkost@redhat.com, berrange@redhat.com, pbonzini@redhat.com,
+ jsnow@redhat.com, kwolf@redhat.com, den@openvz.org
+References: <20210517064428.16223-1-vsementsov@virtuozzo.com>
+ <20210517064428.16223-19-vsementsov@virtuozzo.com>
+ <c3ef61db-8573-e648-80c6-0997580de8d5@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <0e5ea244-9c10-8dda-a2bc-4211dc401e9f@virtuozzo.com>
+Date: Tue, 18 May 2021 17:31:51 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
+In-Reply-To: <c3ef61db-8573-e648-80c6-0997580de8d5@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [185.215.60.199]
+X-ClientProxiedBy: AM0PR03CA0030.eurprd03.prod.outlook.com
+ (2603:10a6:208:14::43) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-In-Reply-To: <20210512231241.2816122-3-jsnow@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="nYySOmuH/HDX6pKp"
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=crosa@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.374,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.8] (185.215.60.199) by
+ AM0PR03CA0030.eurprd03.prod.outlook.com (2603:10a6:208:14::43) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4108.24 via Frontend Transport; Tue, 18 May 2021 14:31:52 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 297b38b5-9d6a-4e48-932a-08d91a09ae1f
+X-MS-TrafficTypeDiagnostic: AS8PR08MB6871:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AS8PR08MB68710C1E0083D2340F175CB8C12C9@AS8PR08MB6871.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: oqr4THVBUgQERvfOeeVdGc3GXWzcesOnqpZXmA3zI0GeHCjk5244sl5iV13VlLGZzL2oowCO0mmlhjvHDWm9mr6gmF7wF3Hg5/RmO22ruC+gxJD05JiFxwQgzaOdQcJOifgTEFYYRYeAO0FdafVHLbWDX1/SJRQUnrm4+XLgkXxWAFH0Wyfh3PHmnIO+vabyIqRXPLmFVn5I3uhm2RwdUVUsUal+N5gAvUZyEaT/as4tKjJz1+w9RTvOoYZMyxOy6aP9I8+/VgJgu1pWBKwpzXGz4GpcBxv2iGqulO2LVLjBFlSc2DZ0AdUx7gE01q+7t7JjgEHx6AErnzjABm5m5aIRwaWX1Y86exO0J/xPY4Dj9CZXLwUGWmBuzVzwfB3/MKoJls05azfNQBDKwWNaMMGV6BR2Ti8EWYrB91a8Rv4bVizcm70MCbr6e0jpEG9om1m59Rgdo7P3OSDZ24k1VSmTA9ngYX4aP+TVGQ1adK0HKTEQ7yGdFbABaYqlWtJXHWnFOwnOSsBzmSR1yJFyn8mhZ2FZ01OfSSl6wk4CRr1Bea70DVC71EW3bv4n6wmuEiZYoqNPzoKGnLy+mQvDnCc1EfgJf5/moAfOC0QOJBIehEZpoHrKi2uWSMRQh49u3ZUZ5WD89guvHQlR1UZADd9O50bvaat1InMh5r7HyrJxXHpAbz29kNixr7Lk3xsy7VQ37LtBTJQk0Hb28gFGfbv6YNV7Q7BMzJaWMETlCaM=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(376002)(39830400003)(346002)(136003)(396003)(366004)(956004)(2616005)(478600001)(26005)(16526019)(31686004)(31696002)(6486002)(186003)(66946007)(16576012)(38350700002)(83380400001)(7416002)(66476007)(8676002)(36756003)(53546011)(8936002)(86362001)(316002)(5660300002)(107886003)(66556008)(4326008)(52116002)(2906002)(38100700002)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?WDd5eWhWYnBsZVNXU2hlSnEzOTFTdjJ1M2xVdW84cE5aUkVQY0dEdlI2M2NO?=
+ =?utf-8?B?MiszT1laL2NJWkFaWm8wZmtrREplQzVoUkw1VDVIdlZnbGlXSVBjZThtUk83?=
+ =?utf-8?B?bUY2UVpyei9waVJMVlZRZDNYa2dad1ZWQUZSaHhkejhJbVZFM0U3YTJEOFhX?=
+ =?utf-8?B?S2hkbXFwZTdlMnZDeXNkcUZEOEJBenk2Qkhhc3hqUS9KZHliRmNBNVRzcDNF?=
+ =?utf-8?B?S2RJb1dJM29uY095MGQ5S2g1NGxGSWtMRThzQWpBbGhtbytiYVRFUnRWcWlW?=
+ =?utf-8?B?N0FYVDYyTW5mNDc0YXVFQmtUSExWU3lzdG12N1RMQmlTcGlmcU9mdlM1c0VD?=
+ =?utf-8?B?NTVSdHlWQ21aV2NqdEVIMGtHZjZ5aW9KKzVQeWRnNHFLWDJUNDdUWUFmK3d2?=
+ =?utf-8?B?UEdZN3p4dDZFMThqZ2lYNGQyYXpjVnpBZzRZY0drVEFiMk1LMXVjZVNaazFl?=
+ =?utf-8?B?K21WdzVqcjVXR3JMNWpsNDVIeTJHUjEwdUpqUzJFalYxVDRuSTNyUDUySU1S?=
+ =?utf-8?B?T2NUcVA0OVhYejVvYkVyN3lVNGZ1YnVjdk93SkRhMkczeEVzeUZZNFdCQ2Uw?=
+ =?utf-8?B?eW9iempzMXVkak0xcGxzeDBvM25XamtWQVNucnhTUnQ1TU1YRUdjd25QZEJJ?=
+ =?utf-8?B?SDJJa1FpSWVjN3d0bE9yWEU5RVcvMFR4VE14VDhxc0VBd0lqTTlBWnNtRTNs?=
+ =?utf-8?B?V294VFdyN2MxeEFwK3hYUHBjQU1FbzNWYXlBL0ZXRXJBTkR5NDBTVDhFckJY?=
+ =?utf-8?B?eksvdkk3SCs2dXc3NE9xRkZmOVVheW5ISE0wTkduclNHM09aNEpoanYrckxv?=
+ =?utf-8?B?MGVoVHAwMWhFbDh6bGV6ZVllT0V3UWFsaGc1dUlJQ3p0QWtuMXVoQURDb2lE?=
+ =?utf-8?B?Rk43RithOUs2WkhhUUJlaThZMXlzeFRHaVFTdElJM0tuR1RaZ3pCUGNyclU3?=
+ =?utf-8?B?OEhyUWIxTzFHK0lQenVhSW9NWGEwMG1yeUl2NXVRQnRPTGgzZ2xSa2Y4VGI5?=
+ =?utf-8?B?c1JMS2tMMExzREROTWh1bDJtUEZrbkFNK1o5S1JWK0p0UkNPZzVUVjdldWhP?=
+ =?utf-8?B?WVBOZ0RLQWVoNWluNExCTTBOQWM5K09YR3NMcWtHeWQ2OUNraXZ0Q29KV1J0?=
+ =?utf-8?B?dVZOdUFIeEVqejNuenJWckNmS2dsUm42YVlkdlNFVjJ2aWUxVG9neGN6anMy?=
+ =?utf-8?B?dXd0eWN6RU51V3J6RzNlbmkydS9SRmRXOVZWR3Fub2t1SW5uYkgrY3RKaG1Q?=
+ =?utf-8?B?Q043N0g2SGdLTCt2b3Q2bldsaW1wZWVEM3MzRmZEd2FORW5yNzRSSFNXaWNU?=
+ =?utf-8?B?YjVoN0U5SncxamlscE5DbWdFTm5sUE5JMHpnWWZaZk9IMGZjNStvZHRIalZS?=
+ =?utf-8?B?Z0tKSlU5VElPeGZBUXFuMFNBSU50WDVQcUtxUUhwMG53amtwMDIyK0h3aTJp?=
+ =?utf-8?B?a0hZUDUxczlZdUw0WFg3K21jaUlVYjVWTWpjZHJiMDIrYWwyd283MDdibm9G?=
+ =?utf-8?B?UWlHS3liQUZKMk9YbCt1cVU2Q3QybFE1T2FlTUF1RXhYNUNia0sxOEFBcWxJ?=
+ =?utf-8?B?NzZMdW9OQUNRaVJPcEljK3hIaEhKRlVSbHU5QmFLTERJSzdGQWM4WnJkYUxt?=
+ =?utf-8?B?emNxQUdEaG5WaUFSUll3TngzajNaZ2ZMRkI1aWF1dFU0WWhXTXE2WDJWeG1v?=
+ =?utf-8?B?bW5wTHFOcis0VUV5RzBiOTRxLzNVMys2OEgrOXdwTTJUbnFsTjRkMEh1MXFv?=
+ =?utf-8?Q?qeNLxkt/WpM+VUOzb/Ae67JvbDmw0BhuSFOwWik?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 297b38b5-9d6a-4e48-932a-08d91a09ae1f
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 May 2021 14:31:52.8844 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ujWWJ2FVlCc25NbG6xmZUGbqHf1ftHevd8fZCPpXo2rABIupbQ2mNIcC0mJnEJnp4t7klYC70vHCFsp+7PsOXFy65apAiZIyL7kMsfAwRS8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6871
+Received-SPF: pass client-ip=40.107.5.119;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR03-VE1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,110 +148,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- qemu-block@nongnu.org, Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- Willian Rampazzo <willianr@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
- Max Reitz <mreitz@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---nYySOmuH/HDX6pKp
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+18.05.2021 17:22, Max Reitz wrote:
+> On 17.05.21 08:44, Vladimir Sementsov-Ogievskiy wrote:
+>> block-copy has a bit inconvenient interface around dirty bitmap: user
+>> should get pointer to it and than set by hand. We do need a possibility
+>> to share the bitmap with backup job.
+>>
+>> But default of empty bitmap is strange.
+> 
+> I don’t know, I don’t find it strange.  It expects its user to specify what data to copy, so clearly it gives said user a blank slate.
+> 
+>> Switch to full-set bitmap by
+>> default. This way we will not care about setting dirty bitmap in
+>> copy-before-write filter when publish it so that it can be used in
+>> separate of backup job.
+> 
+> That’s a valid reason, though, so:
+> 
+> Reviewed-by: Max Reitz <mreitz@redhat.com>
+> 
+> Still, I find it stranger this way, because I’m more used to “initialization to 0 by default”.
 
-On Wed, May 12, 2021 at 07:12:18PM -0400, John Snow wrote:
-> move python/qemu/*.py to python/qemu/[machine, qmp]/*.py and update impor=
-t
-> directives across the tree.
->=20
-> This is done to create a PEP420 namespace package, in which we may
-> create subpackages. To do this, the namespace directory ("qemu") should
-> not have any modules in it. Those files will go into new 'machine' and 'q=
-mp'
-> subpackages instead.
->=20
-> Implement machine/__init__.py making the top-level classes and functions
-> from its various modules available directly inside the package. Change
-> qmp.py to qmp/__init__.py similarly, such that all of the useful QMP
-> library classes are available directly from "qemu.qmp" instead of
-> "qemu.qmp.qmp".
->=20
-> Signed-off-by: John Snow <jsnow@redhat.com>
->=20
->=20
-> ---
->=20
-> Note for reviewers: in the next patch, I add a utils sub-package and
-> move qemu/machine/accel.py to qemu/utils/accel.py. If we like it that
-> way, we can squash it in here if we want, or just leave it as its own
-> follow-up patch, I am just leaving it as something that will be easy to
-> un-do or change for now.
->=20
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> ---
->  python/{qemu =3D> }/.isort.cfg                |  0
->  python/qemu/__init__.py                     | 11 ------
->  python/qemu/{ =3D> machine}/.flake8           |  0
->  python/qemu/machine/__init__.py             | 41 +++++++++++++++++++++
->  python/qemu/{ =3D> machine}/accel.py          |  0
->  python/qemu/{ =3D> machine}/console_socket.py |  0
->  python/qemu/{ =3D> machine}/machine.py        | 16 +++++---
->  python/qemu/{ =3D> machine}/pylintrc          |  0
->  python/qemu/{ =3D> machine}/qtest.py          |  3 +-
->  python/qemu/{qmp.py =3D> qmp/__init__.py}     | 12 +++++-
->  tests/acceptance/avocado_qemu/__init__.py   |  4 +-
->  tests/acceptance/virtio-gpu.py              |  2 +-
->  tests/qemu-iotests/300                      |  4 +-
->  tests/qemu-iotests/iotests.py               |  2 +-
->  tests/vm/aarch64vm.py                       |  2 +-
->  tests/vm/basevm.py                          |  3 +-
->  16 files changed, 73 insertions(+), 27 deletions(-)
->  rename python/{qemu =3D> }/.isort.cfg (100%)
->  delete mode 100644 python/qemu/__init__.py
->  rename python/qemu/{ =3D> machine}/.flake8 (100%)
->  create mode 100644 python/qemu/machine/__init__.py
->  rename python/qemu/{ =3D> machine}/accel.py (100%)
->  rename python/qemu/{ =3D> machine}/console_socket.py (100%)
->  rename python/qemu/{ =3D> machine}/machine.py (98%)
->  rename python/qemu/{ =3D> machine}/pylintrc (100%)
->  rename python/qemu/{ =3D> machine}/qtest.py (99%)
->  rename python/qemu/{qmp.py =3D> qmp/__init__.py} (96%)
->
+When I started to test this series it didn't work, because bitmap was not initialized. I fixed it and call original behavior strange :)
 
-Hi John,
+Probably better to keep block-copy as is and set bitmap in cbw_open. Backup code should be modified anyway, as it will get the bitmap after initialization in cbw_open.
 
-Thanks for this!  I went through it and it LGTM.  I've tested it with
-iotests, acceptance and with a vm-build-fedora.
+Next step would be support for bitmap in copy-before-write filter anyway, and this place will be changed again.. So, I don't know, but it's not important thing.
 
-Reviewed-by: Cleber Rosa <crosa@redhat.com>
-Tested-by: Cleber Rosa <crosa@redhat.com>
+> 
+>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>> ---
+>>   block/backup.c     | 16 +++++++---------
+>>   block/block-copy.c |  1 +
+>>   2 files changed, 8 insertions(+), 9 deletions(-)
+>>
+>> diff --git a/block/backup.c b/block/backup.c
+>> index 90cca1ca30..706c54fea1 100644
+>> --- a/block/backup.c
+>> +++ b/block/backup.c
+>> @@ -233,18 +233,16 @@ static void backup_init_bcs_bitmap(BackupBlockJob *job)
+>>       BdrvDirtyBitmap *bcs_bitmap = block_copy_dirty_bitmap(job->bcs);
+>>       if (job->sync_mode == MIRROR_SYNC_MODE_BITMAP) {
+>> +        bdrv_clear_dirty_bitmap(bcs_bitmap, NULL);
+>>           ret = bdrv_dirty_bitmap_merge_internal(bcs_bitmap, job->sync_bitmap,
+>>                                                  NULL, true);
+>>           assert(ret);
+>> -    } else {
+>> -        if (job->sync_mode == MIRROR_SYNC_MODE_TOP) {
+>> -            /*
+>> -             * We can't hog the coroutine to initialize this thoroughly.
+>> -             * Set a flag and resume work when we are able to yield safely.
+>> -             */
+>> -            block_copy_set_skip_unallocated(job->bcs, true);
+>> -        }
+>> -        bdrv_set_dirty_bitmap(bcs_bitmap, 0, job->len);
+>> +    } else if (job->sync_mode == MIRROR_SYNC_MODE_TOP) {
+>> +        /*
+>> +         * We can't hog the coroutine to initialize this thoroughly.
+>> +         * Set a flag and resume work when we are able to yield safely.
+>> +         */
+>> +        block_copy_set_skip_unallocated(job->bcs, true);
+>>       }
+>>       estimate = bdrv_get_dirty_count(bcs_bitmap);
+>> diff --git a/block/block-copy.c b/block/block-copy.c
+>> index 9020234c6e..4126f7e8cc 100644
+>> --- a/block/block-copy.c
+>> +++ b/block/block-copy.c
+>> @@ -296,6 +296,7 @@ BlockCopyState *block_copy_state_new(BdrvChild *source, BdrvChild *target,
+>>           return NULL;
+>>       }
+>>       bdrv_disable_dirty_bitmap(copy_bitmap);
+>> +    bdrv_set_dirty_bitmap(copy_bitmap, 0, bdrv_dirty_bitmap_size(copy_bitmap));
+>>       /*
+>>        * Why we always set BDRV_REQ_SERIALISING write flag:
+>>
+> 
 
---nYySOmuH/HDX6pKp
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAmCjz6IACgkQZX6NM6Xy
-CfOmkBAAriTcWMovWuaUdmHddVh7+rCnNYWJZSKeGFQhQ2l40Yu1luwXHg+Nb8Fq
-x9Qh1UWwdH2BkUXUFod0Mq04bWaED6WJbY3dYMCaUw7CINR3nRLezVaLujHr1OZq
-nvHANHpiqso3GkMk41EOkBtsjKfk2sDxRXVd9IUUqJeaD7vuIJ9m031mQjNXnERC
-R+QEhwWdAfcjL4Okoez+cTDaAhUgsA+xFudPddOpFnCy6c1+5mxn+9B4a60dCjoI
-K2+jst6cFhpfPohjmE/9LiuaM1ttHs6KRkOW/Q8GHEa21MOb+C6RlLXdrJFtVUiG
-5P5orj7mjN5B0QnSbnU2uFW3mc86JxUDxMHTdLKmAKEx4WVWERPEBszPDRlsiFQP
-E+wYzCZqAmLCNrLZGty4Cu3vor8YZruIl0F1gWdfTg3rKKZbisDBk723A7AoWktG
-W2z2DPzOFF76CfT+V9Q6Oz9F0vawXXlndwDKT11FZ4er8Oqm5fk4toguc6FWmsk+
-zUyblFndxjGXD5BHu7d5mcG93IkQDLaThWtGlHTR8FmraiDHJ7X8OODxOdPe9s4g
-voR9SRYxBIfb83H2mw1oeBxn8pGz1vb0nXZP0XqIYmYVqIfR0KWzTcO/sl5HQ/0j
-uJIUH2bIfg+kTv+suU6LUtFHrv8FPZMSZMmHpzI1lc/yOol0Rbg=
-=/iPY
------END PGP SIGNATURE-----
-
---nYySOmuH/HDX6pKp--
-
+-- 
+Best regards,
+Vladimir
 
