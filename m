@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1ED34387C73
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 17:28:25 +0200 (CEST)
-Received: from localhost ([::1]:43418 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1F47387C7A
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 17:30:17 +0200 (CEST)
+Received: from localhost ([::1]:48442 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lj1dv-0005mm-UR
-	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 11:28:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33310)
+	id 1lj1fk-0000q0-PO
+	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 11:30:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34038)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lj1Q2-0007UD-Rg
- for qemu-devel@nongnu.org; Tue, 18 May 2021 11:14:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23887)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lj1Pz-0003AN-TJ
- for qemu-devel@nongnu.org; Tue, 18 May 2021 11:14:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621350839;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=W8bZEN8Vu8uOVpjl+VJPeD6SRZqZiykaC2lW0W50jco=;
- b=NEsk5+da7RDIvPRTiT9etG3kM7CXdUQZfx6bzJIfGFXod9Vq+Nsmlk6JTB1jUyAl62j3ij
- tjuROj9Fn23xfzRRyGNa+44KAiH4xyCNhosI57kMcDWD6dCaPFL71bdbPPlf7se4n7+GTq
- T+cUQbjg0ZfjKZtKg1go3n+DljeyMco=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-274-gAG5So4-PU6JUUWvBo7deA-1; Tue, 18 May 2021 11:13:57 -0400
-X-MC-Unique: gAG5So4-PU6JUUWvBo7deA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5C7C0106B43C;
- Tue, 18 May 2021 15:12:57 +0000 (UTC)
-Received: from localhost (ovpn-115-22.phx2.redhat.com [10.3.115.22])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3F54E1349A;
- Tue, 18 May 2021 15:12:47 +0000 (UTC)
-Date: Tue, 18 May 2021 11:12:22 -0400
-From: Cleber Rosa <crosa@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH v6 03/25] python: create utils sub-package
-Message-ID: <20210518151222.GG917386@amachine.somewhere>
-References: <20210512231241.2816122-1-jsnow@redhat.com>
- <20210512231241.2816122-4-jsnow@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lj1TB-0001Zb-08
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 11:17:18 -0400
+Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:37871)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lj1T7-0004g5-K6
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 11:17:16 -0400
+Received: by mail-ej1-x631.google.com with SMTP id et19so8110713ejc.4
+ for <qemu-devel@nongnu.org>; Tue, 18 May 2021 08:17:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=CJ89FbISvltT80mtwgYuuv06nBXALr2prTF+QCmVPwI=;
+ b=JDqHyqF7piHNqxHVnGyljUGGB3S9gABIbsXqtQOYGqim+k5yZMRR4Z9OPNhzKAHMbT
+ tf8ogWjDsFOzRp5rX5X+fGNClZkfv+Bw+vLCHweFrHkwqboAJsZsdurqMcc9rqOmKOyC
+ H/IwqVLDu9GeWSEQuXvU+BkEurkl6q2bBOsSRtG2SxIsxN5LiZqms+6sKbPnanGYuH3v
+ 7HxXxFg6UKd9Bj6SQCp3eOoRNGrT7fptZBVQeQwziCYj5zhKjoTSYK71+aHPrrmyCgmc
+ CiAu6x64ySc9GFgVdwQugYq/8LMN1rN13zI6grWc0+xKEBtLj8Khi96u+9zZVV7Mfyoz
+ nC3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=CJ89FbISvltT80mtwgYuuv06nBXALr2prTF+QCmVPwI=;
+ b=H/ZwmoobEhUBAwnL/bVsVMiModht8W4bDediTqCd5e2xRb9g51/QFe5tFssaBPdv7p
+ WC+4gt7oQr2ZON6ohR1+2XiAG/06KEhe9UjlFNbOcA4jY+9Dqiu5RRjVnbovP8z+JEcy
+ xaIcbpm2r+6O9HLxc8f76y0vrDPdiv0LtxHtWQLvXRWvatUNHf9p1i4kT8DoZ9597Ytt
+ ojmeSKNb/4GaP2At0vQSw+EQP3qKUTB3tuznc413R3zu6mcMuVVXMEqOSm4RBAjP9zZH
+ IlmLHfAo9a9Ew4nODIqTqTP5r580WaQ1IA51yzA3hsX6q6NoZ8BRrzOfw10XLKFxVTqO
+ QYAg==
+X-Gm-Message-State: AOAM530M40UdRGEVeEYE4pRQCgCJpHroOvageOMyBloTyhHn/MJgz3oJ
+ 7t78w+HkASr3vPF9DYmlJR5uVwohU/3O81hCn5SKrg==
+X-Google-Smtp-Source: ABdhPJxmFxznDK5mcROX1UY5+U0JpN8qJHVzFHL9M7nIGNWnJmlUiLsBcNeleOU0kGlo+biskOg5dqNyijjIiMrxh7E=
+X-Received: by 2002:a17:906:d1d2:: with SMTP id
+ bs18mr6615326ejb.56.1621351031762; 
+ Tue, 18 May 2021 08:17:11 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210512231241.2816122-4-jsnow@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="nhYGnrYv1PEJ5gA2"
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=crosa@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.374,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210517112001.2564006-1-pbonzini@redhat.com>
+In-Reply-To: <20210517112001.2564006-1-pbonzini@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 18 May 2021 16:16:54 +0100
+Message-ID: <CAFEAcA_HWW_Xc-pkd6sjYYEndWyxX4OhHFEZCpR-1-+cirL0NQ@mail.gmail.com>
+Subject: Re: [PULL 00/20] Misc patches for 2020-05-17
+To: Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::631;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x631.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,67 +79,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- qemu-block@nongnu.org, Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- Willian Rampazzo <willianr@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
- Max Reitz <mreitz@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---nhYGnrYv1PEJ5gA2
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Mon, 17 May 2021 at 12:24, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> The following changes since commit 6005ee07c380cbde44292f5f6c96e7daa70f4f=
+7d:
+>
+>   Merge remote-tracking branch 'remotes/mst/tags/for_upstream' into stagi=
+ng (2021-05-16 17:22:46 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/bonzini/qemu.git tags/for-upstream
+>
+> for you to fetch changes up to 9b2de449e9593facd562fa7478b5ab15c9a8b588:
+>
+>   KVM: Dirty ring support (2021-05-17 06:16:22 -0400)
+>
+> ----------------------------------------------------------------
+> * submodule cleanups (Philippe, myself)
+> * tiny step towards a usable preconfig mode (myself)
+> * bump Meson submodule (myself)
+> * Kconfig and LOCK_GUARD cleanups (philippe)
+> * new x86 CPUID feature (Yang Zhong)
+> * "-object qtest" support (myself)
+> * Dirty ring support for KVM (Peter)
+>
+> ----------------------------------------------------------------
+> Paolo Bonzini (6):
+>       configure: check for submodules if --with-git-submodules=3Dignore
+>       configure: simplify assignment to GIT_SUBMODULES
+>       meson: bump submodule to 0.57.2
+>       object: add more commands to preconfig mode
+>       qtest: add a QOM object for qtest
+>       KVM: do not allow setting properties at runtime
+>
+> Peter Xu (10):
+>       memory: Introduce log_sync_global() to memory listener
+>       KVM: Use a big lock to replace per-kml slots_lock
+>       KVM: Create the KVMSlot dirty bitmap on flag changes
+>       KVM: Provide helper to get kvm dirty log
+>       KVM: Provide helper to sync dirty bitmap from slot to ramblock
+>       KVM: Simplify dirty log sync in kvm_set_phys_mem
+>       KVM: Cache kvm slot dirty bitmap size
+>       KVM: Add dirty-ring-size property
+>       KVM: Disable manual dirty log when dirty ring enabled
+>       KVM: Dirty ring support
+>
+> Philippe Mathieu-Daud=C3=A9 (3):
+>       configure: Only clone softfloat-3 repositories if TCG is enabled
+>       hw/mem/nvdimm: Use Kconfig 'imply' instead of 'depends on'
+>       backends/tpm: Replace qemu_mutex_lock calls with QEMU_LOCK_GUARD
+>
+> Yang Zhong (1):
+>       i386/cpu: Expose AVX_VNNI instruction to guest
 
-On Wed, May 12, 2021 at 07:12:19PM -0400, John Snow wrote:
-> Create a space for miscellaneous things that don't belong strictly in
-> "qemu.machine" nor "qemu.qmp" packages.
->=20
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> ---
->  python/qemu/machine/__init__.py           |  8 --------
->  python/qemu/utils/__init__.py             | 23 +++++++++++++++++++++++
->  python/qemu/{machine =3D> utils}/accel.py   |  0
->  tests/acceptance/avocado_qemu/__init__.py |  4 ++--
->  tests/acceptance/virtio-gpu.py            |  2 +-
->  tests/vm/aarch64vm.py                     |  2 +-
->  tests/vm/basevm.py                        |  3 ++-
->  7 files changed, 29 insertions(+), 13 deletions(-)
->  create mode 100644 python/qemu/utils/__init__.py
->  rename python/qemu/{machine =3D> utils}/accel.py (100%)
->=20
+    Signed-off-by: Philippe Mathieu-Daud=C3=83=C2=A9 <philmd@redhat.com>
+    Signed-off-by: Philippe Mathieu-Daud=C3=83=C2=A9 <philmd@redhat.com>
+ERROR: pull request includes tag with UTF-8 error in person name
 
-As you mentioned in the previous patch notes, I would not mind a
-squash here.  Either way:
 
-Reviewed-by: Cleber Rosa <crosa@redhat.com>
-Tested-by: Cleber Rosa <crosa@redhat.com>
-
---nhYGnrYv1PEJ5gA2
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAmCj2VMACgkQZX6NM6Xy
-CfPGKQ/+MObPIZVad9a/k5x0QJLYIuWs0uAGYmnWwz2DPq+RK5tpdtbBZraf8Lrz
-8EPVivaKPx1CfzKbyr5wHW+7rpXvD02gbrVvdcgC0Q6EtqJtRWEfGEhBbu7bANJ0
-sTXennlArGx+2E5fnxpQfDqjvOPifEDwz1DVTt1myjt26whlzzCyPxDBt8PpUEiN
-SIn2+fc9tgXVqC/6lkl862EBoaAlQK7n/i8EfsCS+dTakDvhXcpe74ciVoGDvOQR
-3ukuWxWtsy47EgX7lwfGX+OtECsmqHst2BztoGlkWIZjNqB00jBUidIp9Sqwh3H7
-Kg06foy2ZmIFiOjh4Ph1qxrt4WhA5J1JPzbLti31gg1EuIng6r5iFYP/NYvlH093
-4WCp2su6Gjan6S6cXNdsGZQJSLXs6U0sZgyryYN0mbalD27s9YqNU7vC9qcCnEsJ
-LMmd1b9FclY5RZNKUtKY9lX7UBUc77hP4ceugw3m4VNsTp+6q0aqlvnmrj8lF3o6
-xFqWFDDzPeyVK4nTwOx/ZO214qiSYDCB280QIYubZ6myfygYyRIzTF2rknEph2iY
-A6qspR/emjS9KlO4kEMtRlke8wzJ4eP9FdEWVH12KFrDKL8Hx+r8BxBsADpw7CbZ
-2rWIveLFBn2lVwMIRHmRk58JwezZl08/KZSnL7aDEJQvYSuu1Gs=
-=Mdls
------END PGP SIGNATURE-----
-
---nhYGnrYv1PEJ5gA2--
-
+-- PMM
 
