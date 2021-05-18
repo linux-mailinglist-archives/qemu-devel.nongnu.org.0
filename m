@@ -2,101 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55FE8387879
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 14:09:02 +0200 (CEST)
-Received: from localhost ([::1]:36170 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CBC4387886
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 14:14:48 +0200 (CEST)
+Received: from localhost ([::1]:47612 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1liyWy-0007YK-BL
-	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 08:09:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41634)
+	id 1liycZ-0008G1-5h
+	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 08:14:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43638)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sbhat@linux.ibm.com>)
- id 1liySP-00043c-KB; Tue, 18 May 2021 08:04:18 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:50322)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1liyYw-0004Y1-A2
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 08:11:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46773)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sbhat@linux.ibm.com>)
- id 1liySE-0000Jb-OU; Tue, 18 May 2021 08:04:17 -0400
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 14IC3d60115358; Tue, 18 May 2021 08:03:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : from : to : cc
- : date : message-id : in-reply-to : references : mime-version :
- content-type : content-transfer-encoding; s=pp1;
- bh=Y7Py4PLn2Xa4gLUzgFQ0syP3xHf3zMkOqJFeWIq/rCc=;
- b=OwiJOwGWa8l4OqOo+GXehOQOeHqqDHJ7aBx3OGaMIa5IY/3keCZYaOVvqJe3BF+AF5PV
- suqPNI3FWioKUMeh4CUKMRGx+PWK3T8Ud2WyFtXIMnHPF0QOMO5WhCa9bTkSjlvh3Io2
- 1KiSelaYDj9pMaIchlvIRQ+F1h4l02fo/3YHCt4b77I/iA3CFIoSFN+NNrnXY1Ho+RrM
- xytt/icl/aSRBBPhzyA/n4SAYeSuFLTH3vmgbYpCLXBiQdwKfdNiX3peFQ/ZtrhjSwF5
- xgbsRHseGLSxREwPos0eA7DoN/ag/xcV4zrNvjvoliBjP9ecb5IQeBU95vIQUZdocMC/ 1g== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 38md080du1-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 18 May 2021 08:03:54 -0400
-Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 14IC3re8116660;
- Tue, 18 May 2021 08:03:53 -0400
-Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.70])
- by mx0a-001b2d01.pphosted.com with ESMTP id 38md080dst-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 18 May 2021 08:03:53 -0400
-Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
- by ppma01fra.de.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 14IC20vk018196;
- Tue, 18 May 2021 12:03:51 GMT
-Received: from b06cxnps4074.portsmouth.uk.ibm.com
- (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
- by ppma01fra.de.ibm.com with ESMTP id 38m1gv0589-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 18 May 2021 12:03:51 +0000
-Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
- [9.149.105.60])
- by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 14IC3mLN41812326
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 18 May 2021 12:03:48 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D5F864204C;
- Tue, 18 May 2021 12:03:48 +0000 (GMT)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 931DF4204B;
- Tue, 18 May 2021 12:03:47 +0000 (GMT)
-Received: from [172.17.0.2] (unknown [9.40.192.207])
- by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Tue, 18 May 2021 12:03:47 +0000 (GMT)
-Subject: [PATCH v5 3/3] spapr: nvdimm: Introduce spapr-nvdimm device
-From: Shivaprasad G Bhat <sbhat@linux.ibm.com>
-To: david@gibson.dropbear.id.au, groug@kaod.org, qemu-ppc@nongnu.org
-Date: Tue, 18 May 2021 08:03:46 -0400
-Message-ID: <162133941905.610.8271873318598392825.stgit@4f1e6f2bd33e>
-In-Reply-To: <162133924680.610.15121309741756314238.stgit@4f1e6f2bd33e>
-References: <162133924680.610.15121309741756314238.stgit@4f1e6f2bd33e>
-User-Agent: StGit/0.21
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1liyYq-0004Pn-0H
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 08:11:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1621339854;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=M+Z4eQhmavNlCPYyICDaPUVEnnQ0k/btTeSB8dY+VtQ=;
+ b=UrI6z5XKdrrIWXJlTG942a8hF/2qGh635j3WB4T1U+NpprZhlCb82cgSZSJ45i+CMzzZFe
+ DZvgp79Els9+AxMGzhagO9fr5NdojM5HI+Z8C0DvkWSDzO3wJslbQt7OCeIpYsQ8JQOT4X
+ DB9uwcxegco/4P2gfdzc0q0G41E3d8U=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-585-lCv21t2VNpqP-cVqvGTL_w-1; Tue, 18 May 2021 08:10:52 -0400
+X-MC-Unique: lCv21t2VNpqP-cVqvGTL_w-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 12788800D55
+ for <qemu-devel@nongnu.org>; Tue, 18 May 2021 12:10:52 +0000 (UTC)
+Received: from work-vm (ovpn-115-45.ams2.redhat.com [10.36.115.45])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5B3A35C1C5;
+ Tue, 18 May 2021 12:10:44 +0000 (UTC)
+Date: Tue, 18 May 2021 13:10:41 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Vivek Goyal <vgoyal@redhat.com>
+Subject: Re: [PATCH 3/7] virtiofsd: Use iov_discard_front() to skip bytes
+Message-ID: <YKOuwXRixkhFa9vW@work-vm>
+References: <20210511213736.281016-1-vgoyal@redhat.com>
+ <20210511213736.281016-4-vgoyal@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: R7hDVuiW2Zb2uX5bnprOYpvS0t-OXP_b
-X-Proofpoint-GUID: gRCXZ_SrvcqOsgv4VD8cVYQGM-Fvqfpf
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
- definitions=2021-05-18_04:2021-05-18,
- 2021-05-18 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 phishscore=0
- impostorscore=0 mlxscore=0 mlxlogscore=932 priorityscore=1501 spamscore=0
- malwarescore=0 lowpriorityscore=0 clxscore=1015 adultscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104190000 definitions=main-2105180086
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=sbhat@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
-X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210511213736.281016-4-vgoyal@redhat.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.374,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -109,129 +79,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: nvdimm@lists.linux.dev, aneesh.kumar@linux.ibm.com, qemu-devel@nongnu.org,
- kvm-ppc@vger.kernel.org, shivaprasadbhat@gmail.com, bharata@linux.vnet.ibm.com
+Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If the device backend is not persistent memory for the nvdimm, there is
-need for explicit IO flushes on the backend to ensure persistence.
+* Vivek Goyal (vgoyal@redhat.com) wrote:
+> There are places where we need to skip few bytes from front of the iovec
+> array. We have our own custom code for that. Looks like iov_discard_front()
+> can do same thing. So use that helper instead.
+> 
+> Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
 
-On SPAPR, the issue is addressed by adding a new hcall to request for
-an explicit flush from the guest when the backend is not pmem. So, the
-approach here is to convey when the hcall flush is required in a device
-tree property. The guest once it knows the device backend is not pmem,
-makes the hcall whenever flush is required.
+Oh nice; I hadn't noticed that file; I bet there are loads of other
+places that can use it (and I still don't get why iov functions aren't
+part of libc)
 
-To set the device tree property, the patch introduces a new papr specific
-device type inheriting the nvdimm device. When the backend doesn't have
-pmem="yes", the device tree property "ibm,hcall-flush-required" is set,
-and the guest makes hcall H_SCM_FLUSH requesting for an explicit flush.
 
-Signed-off-by: Shivaprasad G Bhat <sbhat@linux.ibm.com>
----
- hw/ppc/spapr_nvdimm.c         |   46 +++++++++++++++++++++++++++++++++++++++++
- include/hw/ppc/spapr_nvdimm.h |    4 ++++
- 2 files changed, 50 insertions(+)
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
-diff --git a/hw/ppc/spapr_nvdimm.c b/hw/ppc/spapr_nvdimm.c
-index d460a098c0..9a04df4c47 100644
---- a/hw/ppc/spapr_nvdimm.c
-+++ b/hw/ppc/spapr_nvdimm.c
-@@ -54,6 +54,8 @@ bool spapr_nvdimm_validate(HotplugHandler *hotplug_dev, NVDIMMDevice *nvdimm,
- {
-     const MachineClass *mc = MACHINE_GET_CLASS(hotplug_dev);
-     const MachineState *ms = MACHINE(hotplug_dev);
-+    PCDIMMDevice *dimm = PC_DIMM(nvdimm);
-+    MemoryRegion *mr = host_memory_backend_get_memory(dimm->hostmem);
-     g_autofree char *uuidstr = NULL;
-     QemuUUID uuid;
-     int ret;
-@@ -91,6 +93,14 @@ bool spapr_nvdimm_validate(HotplugHandler *hotplug_dev, NVDIMMDevice *nvdimm,
-         return false;
-     }
- 
-+    if (object_dynamic_cast(OBJECT(nvdimm), TYPE_SPAPR_NVDIMM) &&
-+        (memory_region_get_fd(mr) < 0)) {
-+        error_setg(errp, "spapr-nvdimm device requires the "
-+                   "memdev %s to be of memory-backend-file type",
-+                   object_get_canonical_path_component(OBJECT(dimm->hostmem)));
-+        return false;
-+    }
-+
-     return true;
- }
- 
-@@ -162,6 +172,21 @@ static int spapr_dt_nvdimm(SpaprMachineState *spapr, void *fdt,
-                              "operating-system")));
-     _FDT(fdt_setprop(fdt, child_offset, "ibm,cache-flush-required", NULL, 0));
- 
-+    if (object_dynamic_cast(OBJECT(nvdimm), TYPE_SPAPR_NVDIMM)) {
-+        bool is_pmem = false;
-+#ifdef CONFIG_LIBPMEM
-+        PCDIMMDevice *dimm = PC_DIMM(nvdimm);
-+        HostMemoryBackend *hostmem = dimm->hostmem;
-+
-+        is_pmem = object_property_get_bool(OBJECT(hostmem), "pmem",
-+                                           &error_abort);
-+#endif
-+        if (!is_pmem) {
-+            _FDT(fdt_setprop(fdt, child_offset, "ibm,hcall-flush-required",
-+                             NULL, 0));
-+        }
-+    }
-+
-     return child_offset;
- }
- 
-@@ -585,7 +610,16 @@ static target_ulong h_scm_flush(PowerPCCPU *cpu, SpaprMachineState *spapr,
-     }
- 
-     dimm = PC_DIMM(drc->dev);
-+    if (!object_dynamic_cast(OBJECT(dimm), TYPE_SPAPR_NVDIMM)) {
-+        return H_PARAMETER;
-+    }
-+
-     backend = MEMORY_BACKEND(dimm->hostmem);
-+#ifdef CONFIG_LIBPMEM
-+    if (object_property_get_bool(OBJECT(backend), "pmem", &error_abort)) {
-+        return H_UNSUPPORTED;
-+    }
-+#endif
-     fd = memory_region_get_fd(&backend->mr);
- 
-     if (fd < 0) {
-@@ -766,3 +800,15 @@ static void spapr_scm_register_types(void)
- }
- 
- type_init(spapr_scm_register_types)
-+
-+static TypeInfo spapr_nvdimm_info = {
-+    .name          = TYPE_SPAPR_NVDIMM,
-+    .parent        = TYPE_NVDIMM,
-+};
-+
-+static void spapr_nvdimm_register_types(void)
-+{
-+    type_register_static(&spapr_nvdimm_info);
-+}
-+
-+type_init(spapr_nvdimm_register_types)
-diff --git a/include/hw/ppc/spapr_nvdimm.h b/include/hw/ppc/spapr_nvdimm.h
-index 24d8e37b33..fb4e56418e 100644
---- a/include/hw/ppc/spapr_nvdimm.h
-+++ b/include/hw/ppc/spapr_nvdimm.h
-@@ -13,6 +13,10 @@
- #include "hw/mem/nvdimm.h"
- #include "migration/vmstate.h"
- 
-+#define TYPE_SPAPR_NVDIMM "spapr-nvdimm"
-+OBJECT_DECLARE_SIMPLE_TYPE(SpaprNVDIMMDevice, SPAPR_NVDIMM)
-+
-+typedef struct SpaprNVDIMMDevice  SpaprNVDIMMDevice;
- typedef struct SpaprDrc SpaprDrc;
- typedef struct SpaprMachineState SpaprMachineState;
- 
-
+> ---
+>  tools/virtiofsd/fuse_virtio.c | 14 +++-----------
+>  1 file changed, 3 insertions(+), 11 deletions(-)
+> 
+> diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.c
+> index 5dcd08fccb..d56b225800 100644
+> --- a/tools/virtiofsd/fuse_virtio.c
+> +++ b/tools/virtiofsd/fuse_virtio.c
+> @@ -389,23 +389,15 @@ int virtio_send_data_iov(struct fuse_session *se, struct fuse_chan *ch,
+>      memcpy(in_sg_cpy, in_sg, sizeof(struct iovec) * in_num);
+>      /* These get updated as we skip */
+>      struct iovec *in_sg_ptr = in_sg_cpy;
+> -    int in_sg_cpy_count = in_num;
+> +    unsigned int in_sg_cpy_count = in_num;
+>  
+>      /* skip over parts of in_sg that contained the header iov */
+>      size_t skip_size = iov_len;
+>  
+>      size_t in_sg_left = 0;
+>      do {
+> -        while (skip_size != 0 && in_sg_cpy_count) {
+> -            if (skip_size >= in_sg_ptr[0].iov_len) {
+> -                skip_size -= in_sg_ptr[0].iov_len;
+> -                in_sg_ptr++;
+> -                in_sg_cpy_count--;
+> -            } else {
+> -                in_sg_ptr[0].iov_len -= skip_size;
+> -                in_sg_ptr[0].iov_base += skip_size;
+> -                break;
+> -            }
+> +        if (skip_size != 0) {
+> +	    iov_discard_front(&in_sg_ptr, &in_sg_cpy_count, skip_size);
+>          }
+>  
+>          int i;
+> -- 
+> 2.25.4
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
