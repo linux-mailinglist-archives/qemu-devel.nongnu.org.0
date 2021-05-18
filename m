@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A1853879E9
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 15:27:13 +0200 (CEST)
-Received: from localhost ([::1]:50282 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FD53387A2B
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 15:40:43 +0200 (CEST)
+Received: from localhost ([::1]:53850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lizke-0006Mf-3p
-	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 09:27:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33074)
+	id 1lizxi-0002oi-Gc
+	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 09:40:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39448)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lizhH-0002mO-PM
- for qemu-devel@nongnu.org; Tue, 18 May 2021 09:23:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30148)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lizhF-0004LW-S0
- for qemu-devel@nongnu.org; Tue, 18 May 2021 09:23:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621344221;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=S3QjXbmmOsHKSdBBTKRzMS1b6hVqkO4aPN+Hx0ZG2a4=;
- b=P3Uu+gAmEYwGpUz2gGhN3WiF5ArWjbwDFYL6ZXZ8rWgSfhqnAxXhobL8bu9cKiVfJNP0GS
- xDeMz0E5UImct2vU9F7bxGe4EfiFRnhJdSwCzCK+8hrzQKw2OqKI7L9YGpWIrkwHSr5Agv
- D05MrZLG6ljijNCmxHluzhEfCcs1M7s=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-175-8cy-DrWUPRS4mkuLHNTlZw-1; Tue, 18 May 2021 09:23:39 -0400
-X-MC-Unique: 8cy-DrWUPRS4mkuLHNTlZw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6D5CB100A5EE;
- Tue, 18 May 2021 13:23:38 +0000 (UTC)
-Received: from merkur.fritz.box (ovpn-113-192.ams2.redhat.com [10.36.113.192])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8DB5E100AE43;
- Tue, 18 May 2021 13:23:37 +0000 (UTC)
-Date: Tue, 18 May 2021 15:23:36 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 0/5] block: file-posix queue
-Message-ID: <YKO/2COfzVc0pHIQ@merkur.fritz.box>
-References: <20210518083901.97369-1-pbonzini@redhat.com>
+ (Exim 4.90_1) (envelope-from <scrameta@googlemail.com>)
+ id 1liwRU-0003sh-4p
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 05:55:13 -0400
+Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:37723)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <scrameta@googlemail.com>)
+ id 1liwRR-00085v-MH
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 05:55:11 -0400
+Received: by mail-ej1-x635.google.com with SMTP id et19so6533947ejc.4
+ for <qemu-devel@nongnu.org>; Tue, 18 May 2021 02:55:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=googlemail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to;
+ bh=QVYlsTxQGwPD4KFOdb0oyTd46JzRptwWRHCzXnNQY0A=;
+ b=N7jT4JxQabgHnO4p+Y4fGy025DEYpNOeLd5AW0b6wXm9c1LR8IBZUucNGZ+maZfv5X
+ N/AyMg/k/Thgx8NP7bOtpKJBrgQQWdTsIZyIxMX8oc0qWA1ZRagN4oxv/uYrzwMeMQaP
+ qUrpsqN2AlUmP73xiXmRRP1hsVBJqcn3PRrr57KYKVlvo7J26jcV7QPNK2d4LI6gB+4F
+ 4/rFZezLpgJW44H6yvlWAQJZxlQb3yi5lVO/ITxFyr6WDB/fMuzBoA/HQnZmI+zHZTaU
+ qiWnlnjLlwYSl1qCIB9Ipjj/3fQ3QUoy8VicL96rCaL+jkuRqdwpKFduUqj1tNy6B0qv
+ KjtA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=QVYlsTxQGwPD4KFOdb0oyTd46JzRptwWRHCzXnNQY0A=;
+ b=TnRpbpE558s2o1qhorVEHvzZy9lsceipbmALEQcyoMQMUvXvvK/igVKygb6AhH70O4
+ LJlGx0Fx9Z422IJgBgFLUUjXRJIS6Ysw4C3vUg+6iYSD9XdjOayZX2A0fVEvpX+9W42G
+ Rp53CwN1ZbrJ0+4nzJM/XANO+2hvXugjLwNgdfYE2lDCAu/xsBIvzE9dDEIH9jSl4TJl
+ P3JH8WaKwud2VNHfbBdwynOuON8l1PZybc/DWORbEFjJiAngMoWE8TWMN9JmwAOxfDsF
+ yRsl2k2rIIov7LLc6sep+e9ZtIA+khLVrgItZ+OFnCB293zQHGTSoCeKcQKkx3Lz1EOi
+ G8eA==
+X-Gm-Message-State: AOAM531eb060LJ9lSDJW+BJeYM5Wq76T6qAe1L1ii6DWikbcn+VwLu4X
+ HAS3IAfs4RXlXJRdPGeBT/bcpxLzcHPInbnDeLePtt1Nq8hkiQ==
+X-Google-Smtp-Source: ABdhPJwu1ZviXAn/agvUnlBXdvZdRxgTZluw0IDLGUtQc5GZvJBdx7wOsMatB8Ru2v0C7bF6PWFgMbCd7N+ncaEm9So=
+X-Received: by 2002:a17:906:15cc:: with SMTP id
+ l12mr5130691ejd.104.1621331706722; 
+ Tue, 18 May 2021 02:55:06 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210518083901.97369-1-pbonzini@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.374,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+From: Mark Watson <scrameta@googlemail.com>
+Date: Tue, 18 May 2021 11:54:55 +0200
+Message-ID: <CAOG2ctwMt9hpqu425+J5cCR_KCt1d2iSxMcbx6ENB41BNMqZ6g@mail.gmail.com>
+Subject: notdirty_write thrashing in simple for loop
+To: qemu-devel@nongnu.org
+Content-Type: multipart/alternative; boundary="000000000000713f4305c297b471"
+Received-SPF: pass client-ip=2a00:1450:4864:20::635;
+ envelope-from=scrameta@googlemail.com; helo=mail-ej1-x635.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Tue, 18 May 2021 09:39:06 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,20 +76,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 18.05.2021 um 10:38 hat Paolo Bonzini geschrieben:
-> Hi Max/Kevin,
-> 
-> this is a combination of two series that both affect host block device
-> support in block/file-posix.c.  I suspect both of them evaded your radar,
-> so I'm grouping them together and sending them out again.
+--000000000000713f4305c297b471
+Content-Type: text/plain; charset="UTF-8"
 
-Is this based on any other series? The first two patches seem to fail to
-apply, on my block branch as well as on master.
+Hi,
 
-Kevin
+I'm trying to implement my own machine for amiga emulation using a software
+cpu and fpga hardware. For this I have built my own machine which consists
+of a large malloced ram block and some fpga hardware mmapped elsewhere into
+the memory space.
 
+I'm using qemu to emulate a 68040 on an arm cortex a9 host in system mode.
+
+It is working, though I'm investigating a strange performance issue.
+
+I'm looking for advice on where to look next in debugging this from the
+specialist(s) of accel/tcg/cputlb.c please.
+
+To investigate the performance issue I tried to break it down to the
+simplest possible case. I can reproduce it with a simple for loop (compiled
+without optimisation).
+        for (int i=0;i!=0xffffff;++i)
+{
+if ((i&0xffff)==0)
+{
+}
+}
+Running it in user mode on the same host it takes ~0.6 seconds. In the
+built-in 'virtual' m68k machine running linux it takes 1.3 seconds.
+However in my machine under amigaos I'm seeing it typically taking 5 and a
+half minutes! Occasionally it seems to run at the correct speed of <2
+seconds, though I have yet to identify why. These are the logs of the
+captured code before it goes into the main chain loop.
+qemu_slow_stuck_fragment.log
+<http://www.64kib.com/qemu_slow_stuck_fragment.log>
+I have verified that this performance change is not due to slow fpga memory
+area access, i.e. there are no accesses to that memory region during this.
+
+I took a look in gdb while running this loop to see what is going on.
+Initially I was surprised that I didn't find the code in 'OUT:', however I
+guess it makes sense that it has to call into the framework for memory
+access. I noticed that a lot of calls to glib are made and see
+g_tree_lookup called a lot. This is caused by notdirty_write being called
+'000s of times and each time going into the page_collection_lock and
+tb_invalidate_phys_page_fast. I presume this is happening each time that
+"i" is incremented on the stack, which clearly has a huge overhead.
+
+Even being able to get a proper stack trace from gdb would be very helpful
+to understand this. I tried to configure qemu with '--enable-debug' but
+still do not get a proper stack if i attach to it. I'm not sure if this is
+the case due to it running dynamically compiled code before calling into
+this.
+
+Thanks,
+Mark
+
+--000000000000713f4305c297b471
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><div dir=3D"ltr"><div dir=3D"ltr"><div di=
+r=3D"ltr"><div dir=3D"ltr"><div dir=3D"ltr">Hi,<div><br></div><div>I&#39;m =
+trying to implement my own machine for amiga emulation using a software cpu=
+ and fpga hardware. For this I have built my own machine which consists of =
+a large malloced ram block and some fpga hardware mmapped elsewhere into th=
+e memory space.</div><div><br></div><div><div style=3D"color:rgb(0,0,0)">I&=
+#39;m using qemu to emulate a 68040 on an arm cortex a9 host in system mode=
+.</div></div><div style=3D"color:rgb(0,0,0)"><br></div>It is working, thoug=
+h I&#39;m investigating a strange performance issue.<br><br>I&#39;m looking=
+ for advice on where to look next in debugging this from the specialist(s) =
+of accel/tcg/cputlb.c please.</div><div dir=3D"ltr">=C2=A0=C2=A0<div>To inv=
+estigate the=C2=A0performance issue I tried to break it down to the simples=
+t possible case. I can reproduce it with a simple for loop (compiled withou=
+t optimisation).</div><div>=C2=A0 =C2=A0 =C2=A0 =C2=A0 for (int i=3D0;i!=3D=
+0xffffff;++i)</div><div><span class=3D"gmail-Apple-tab-span" style=3D"white=
+-space:pre">	</span>{</div><div><span class=3D"gmail-Apple-tab-span" style=
+=3D"white-space:pre">		</span>if ((i&amp;0xffff)=3D=3D0)</div><div><span cl=
+ass=3D"gmail-Apple-tab-span" style=3D"white-space:pre">		</span>{</div><div=
+><span class=3D"gmail-Apple-tab-span" style=3D"white-space:pre">		</span>}<=
+/div><div><span class=3D"gmail-Apple-tab-span" style=3D"white-space:pre">	<=
+/span>}</div><div>Running it in user mode on the same host it takes ~0.6 se=
+conds. In the built-in &#39;virtual&#39; m68k machine running linux it take=
+s 1.3 seconds.</div><div>However in my machine under amigaos I&#39;m seeing=
+ it typically taking 5 and a half minutes! Occasionally it seems to run at =
+the correct speed of &lt;2 seconds,=C2=A0though I have yet to identify why.=
+ These are the logs of the captured code before it goes into the main chain=
+ loop.</div><div><a href=3D"http://www.64kib.com/qemu_slow_stuck_fragment.l=
+og">qemu_slow_stuck_fragment.log</a></div><div>I have verified that this pe=
+rformance change is not due to slow fpga memory area access, i.e. there are=
+ no=C2=A0accesses to that memory region during this.</div><div><br></div>I =
+took a look in gdb while running this loop to see what is going on. Initial=
+ly I was surprised that I didn&#39;t find the code in &#39;OUT:&#39;, howev=
+er I guess it makes sense that it has to call into the framework for memory=
+ access. I noticed that a lot of calls to glib are made and see g_tree_look=
+up called a lot. This is caused by notdirty_write being called &#39;000s of=
+ times and each time going into the page_collection_lock and tb_invalidate_=
+phys_page_fast. I presume this is happening each time that &quot;i&quot; is=
+ incremented on the stack, which clearly has a huge overhead.</div><div dir=
+=3D"ltr"><br>Even being able to get a proper stack trace from gdb would be =
+very helpful to understand this. I tried to configure qemu with &#39;--enab=
+le-debug&#39; but still do not get a proper stack if i attach to it. I&#39;=
+m not sure if this is the case due to it running dynamically compiled code =
+before calling into this.<br><br>Thanks,<div>Mark</div><div></div></div></d=
+iv></div></div></div></div></div>
+
+--000000000000713f4305c297b471--
 
