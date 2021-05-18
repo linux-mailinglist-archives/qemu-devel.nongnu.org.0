@@ -2,54 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CCE93872B5
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 08:55:54 +0200 (CEST)
-Received: from localhost ([::1]:57516 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFFD83872D2
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 09:05:24 +0200 (CEST)
+Received: from localhost ([::1]:35094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1litdx-0007VR-4u
-	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 02:55:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54598)
+	id 1litn9-0003Tc-Cm
+	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 03:05:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56652)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1litbh-0005gT-NY; Tue, 18 May 2021 02:53:33 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:48366
- helo=mail.default.ilande.uk0.bigv.io)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1litlh-0002Ju-Q8
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 03:03:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60662)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1litbf-0004gf-R4; Tue, 18 May 2021 02:53:33 -0400
-Received: from host217-39-58-213.range217-39.btcentralplus.com
- ([217.39.58.213] helo=[192.168.1.65])
- by mail.default.ilande.uk0.bigv.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1litbg-0004lB-Gx; Tue, 18 May 2021 07:53:32 +0100
-To: David Gibson <david@gibson.dropbear.id.au>, "Paul A. Clarke"
- <pc@us.ibm.com>
-References: <20210517214032.156187-1-pc@us.ibm.com> <YKMZwVmfec0IocfV@yekko>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-ID: <25618d64-b40c-ff7e-8f69-1cddcd3863f1@ilande.co.uk>
-Date: Tue, 18 May 2021 07:53:26 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1litle-00024v-Kn
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 03:03:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1621321429;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=2IPvAeZ04YNKYEkIBTC6+qlC+f83y2IdlnvIIw1YcAc=;
+ b=Cp9bcTptjX6RYBofG1rxc5wn0BrVDie/mkXRDoGqiyqkH3Kdky6HzglZCPgmq5DibKybHo
+ OmYc3ooLd9fOGGjLoMk+m13lWpDIJ87c0VotW6TxtbAmmz8IJ3zJHVfFJiDYjV46Xrxcah
+ 89qAhS3bmFeZ2XLQ5dBHP/ltJVf292g=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-260-DkP0H09HMJq4uwyjg0Kp8Q-1; Tue, 18 May 2021 03:03:47 -0400
+X-MC-Unique: DkP0H09HMJq4uwyjg0Kp8Q-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A0F91180FD66;
+ Tue, 18 May 2021 07:03:46 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-114-0.ams2.redhat.com
+ [10.36.114.0])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5A1E8687D4;
+ Tue, 18 May 2021 07:03:46 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id B5019180079B; Tue, 18 May 2021 09:03:44 +0200 (CEST)
+Date: Tue, 18 May 2021 09:03:44 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: maobibo <maobibo@loongson.cn>
+Subject: Re: [PATCH] hw/display/qxl: Set pci rom address aligned with page size
+Message-ID: <20210518070344.eucma2btkgq3dcgp@sirius.home.kraxel.org>
+References: <1621065983-18305-1-git-send-email-maobibo@loongson.cn>
+ <20210517071900.q3kff56ixqgxj5lo@sirius.home.kraxel.org>
+ <90aba8a2-acdc-73b7-a83d-7bca630e9176@loongson.cn>
 MIME-Version: 1.0
-In-Reply-To: <YKMZwVmfec0IocfV@yekko>
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 217.39.58.213
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH] Fix `lxvdsx` (issue #212)
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.uk0.bigv.io
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+In-Reply-To: <90aba8a2-acdc-73b7-a83d-7bca630e9176@loongson.cn>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.374,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_TONAME_EQ_TOLOCAL_SHORT=1.878, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,69 +81,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Giuseppe Musacchio <thatlemon@gmail.com>, qemu-ppc@nongnu.org,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 18/05/2021 02:34, David Gibson wrote:
-
-> I'm having a hard time convincing myself this is correct in all cases.
-> Have you tested it with all combinations of BE/LE host and BE/LE guest
-> code?
+On Tue, May 18, 2021 at 09:06:31AM +0800, maobibo wrote:
+> Sorry I do not state the background clearly.
 > 
-> The description in the ISA is pretty inscrutable, since it's in terms
-> of the confusing numbering if different element types in BE vs LE
-> mode.
-> 
-> It looks to me like before bcb0b7b1a1c0 this originally resolved to
-> MO_Q modified by ctx->default_tcg_memop_mask, which appears to depend
-> on the current guest endian mode.  That's pretty hard to trace through
-> the various layers of macros, but for reference, before bcb0b7b1a1c0
-> this used gen_qemu_ld64_i64(), which appears to be constructed by the
-> line GEN_QEMU_LOAD_64(ld64,  DEF_MEMOP(MO_Q)) in translate.c.
-> 
-> Richard or Giuseppe, care to weigh in?
-> 
->> ---
->>   target/ppc/translate/vsx-impl.c.inc | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/target/ppc/translate/vsx-impl.c.inc b/target/ppc/translate/vsx-impl.c.inc
->> index b817d31260bb..46f97c029ca8 100644
->> --- a/target/ppc/translate/vsx-impl.c.inc
->> +++ b/target/ppc/translate/vsx-impl.c.inc
->> @@ -162,7 +162,7 @@ static void gen_lxvdsx(DisasContext *ctx)
->>       gen_addr_reg_index(ctx, EA);
->>   
->>       data = tcg_temp_new_i64();
->> -    tcg_gen_qemu_ld_i64(data, EA, ctx->mem_idx, MO_TEQ);
->> +    tcg_gen_qemu_ld_i64(data, EA, ctx->mem_idx, MO_LEQ);
->>       tcg_gen_gvec_dup_i64(MO_Q, vsr_full_offset(xT(ctx->opcode)), 16, 16, data);
->>   
->>       tcg_temp_free(EA);
+> Page size is 16K on my MIPS machine, and it supports running
+> guest OS in kvm mode and qxl vga card can used for VM.
 
-Right. I think what is happening here is currently the load uses MO_TE (i.e. target 
-endian) which defaults to big endian for PPC and that's why you're seeing the byte 
-swap. The reason this is required for the vector instructions is because the vector 
-registers need to be stored in host byte-order to allow them to make use of the 
-host's vector instructions.
+Ok.  Please add that to the commit message.
 
-A quick look around the same file at gen_lxvw4x() suggests that you need a solution 
-like this to work correctly with both big and little endian:
+Also there is no need to rewrite the function and drop the
+BUILD_BUG_ON().  Just using "return QEMU_ALIGN_UP(QXL_ROM_SZ, pagesize)"
+should work fine.
 
-     if (ctx->le_mode) {
-         tcg_gen_qemu_ld_i64(data, EA, ctx->mem_idx, MO_LEQ);
-     } else {
-         tcg_gen_qemu_ld_i64(data, EA, ctx->mem_idx, MO_BEQ);
-     }
+Is the host page size fixed on mips?
 
-The original commit message for bcb0b7b1a1c0 mentions that the implementation is 
-based upon that of the lxvwsx instruction, so I'm fairly sure that gen_lxvwsx() is 
-also broken for little endian and will need a similar fix too.
+take care,
+  Gerd
 
-
-ATB,
-
-Mark.
 
