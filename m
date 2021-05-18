@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AA5C38717E
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 07:56:12 +0200 (CEST)
-Received: from localhost ([::1]:49706 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 316FE387175
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 07:53:15 +0200 (CEST)
+Received: from localhost ([::1]:41458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lisiB-0001N1-ID
-	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 01:56:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38542)
+	id 1lisfK-0004C0-9U
+	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 01:53:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38510)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lisKc-0007Lt-LV
- for qemu-devel@nongnu.org; Tue, 18 May 2021 01:31:50 -0400
-Received: from mout.kundenserver.de ([212.227.126.134]:38329)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lisKb-0007IS-PJ
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 01:31:49 -0400
+Received: from mout.kundenserver.de ([212.227.126.134]:58975)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lisKX-00071f-Hg
- for qemu-devel@nongnu.org; Tue, 18 May 2021 01:31:50 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lisKY-00072y-2h
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 01:31:49 -0400
 Received: from quad ([82.142.31.78]) by mrelayeu.kundenserver.de (mreue010
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1MLiPA-1m0PDL1xDs-00HdQ4; Tue, 18
- May 2021 07:31:43 +0200
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1N4Qbu-1lJ8Z73ego-011O5a; Tue, 18
+ May 2021 07:31:44 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 20/59] linux-user/sparc: Remove target_rt_signal_frame as unused
-Date: Tue, 18 May 2021 07:30:52 +0200
-Message-Id: <20210518053131.87212-21-laurent@vivier.eu>
+Subject: [PULL 21/59] linux-user/sparc: Fix the stackframe structure
+Date: Tue, 18 May 2021 07:30:53 +0200
+Message-Id: <20210518053131.87212-22-laurent@vivier.eu>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210518053131.87212-1-laurent@vivier.eu>
 References: <20210518053131.87212-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:pzEhl5msB69SR1LsoqWXfpcEmhm28bWZGCNObjajD4vE5qRp2rh
- 7hjmXvwFhS33IFOyGAq21ravfx2HyotUI4fuxBwUQIpGULnjLkV/qsRRtYheWX2q1/fKcPh
- 3cBtwoG7lPJtb34QY+Hsq3RF2J85kpCZl8umSTp0s5Jr+V00qYBJ+taReBWp83X2sYMqhGR
- XlbPIKO81tCt7ym4W2hlA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:Z5KaRiB5JzM=:C+XKfrtCu4Q0bB+TnrZos2
- 4bftf59kDiCbAJcyXp0ZToAKhEn8WlNeqZocSDCtnzjtdDDn4P8ow/C6b1iaRjBx28apYA8rf
- IUtdVevZt3UAKjTiP4LdyPVSHa0XodEQLs5aSqO7r4awihP5ot3xLSK4p7I4Z+MjSQso7tjWn
- FxNRds3vhV0Yqu92AzyfursuLmwSLeMtUvRPlfTf08qQaY2NLpkz255T7ohURq8b5fnIrZcXR
- 850uPRT9CXPEUv7++w0rR1zro+kwk244TRQhxu1/RJwUfn8H0owMhvM0Y9BxJ835pnpP0ZFMy
- /wia5F1lAYbW6YKXYAKDx3wkrAAaQAWsadSsIIwXjwtmrldTkkCUC+TuwBVYagdAQhgNjSF1x
- J3W38/XG8M2LhJBI8mTaz3bFV2XoMUmG46E+M/TX0d3qYjYrlbyg4ZmfLQCpVhsFtMD1Bl6+M
- HsfEgtYNwiRoNDoOrXMRr4HgNmOYrrbwgZgMTJIxf95n0Nbtf0SjJWyVf7bLN8L/wHfrEy1ep
- nOsZFuolkpBTAwc/kXrKTI=
+X-Provags-ID: V03:K1:MB8TZn1JvmotdVuY4Vs1YvdS3+Jt2ru8wETuXRzGeOrUASHQa9T
+ 2LIQQvIEbu2LSdGJu5r7rr2J66/4DybFGU6PWMt5JCQXvRzH4rorfFYfI5UlV4M7+ZdOYUL
+ 3gchfatSgMArrq+N9MjblS4T7D5W5Occ5ss6d3q56HwZURN1w/44bzTFISFfCT0Z/qdkEvS
+ xGR3Tqz5WcLzT9Ot0JY1g==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:C1oN28GB6XY=:6s4HCu6cZy5gAfGSWBdyPK
+ 5yc61zOSzWlIZ1G0LojMcoh48CdF5OPJcEin2kPBRuyEY2gFhHevjLUyQwntH0+3ynejlzcbQ
+ 4FGBrPHanIiSXmxzuzRj1vM1L05URVX4HGfOje5GxZoOmB7JSoepwPehSz5ibGwcc1LsnEDgN
+ wEioOBROg6CvnDHKmVFU73UF5ksVgSy56ueGsd713CWKnT/AKDr49owmhHqZvA8tEM6EBXUBp
+ bMR/0gpMXNAmhL2TSUyaDJDp37Oqrj0r1W6S6DTWBBCn0nqsJmz6+GOLUk6v/HT6yYerdeAa9
+ JW2/TOFXxP5DlDNwWws1KWuv9MyuFPlv3WBa/BloVUry3LG9Nt2+eBpZO8Pw1Hav4AmJNcyv5
+ GdlwLmpv3mnVDylKGveqEB2nHit6eIvKZeFTNQ1RXeC9Md/RSPafvaWl6uDIYrlDfTd7yErdh
+ OpMaN4D1lyCjSgjH64ix+G+PdkGmUvY06/P01OD4aZ4cNpaKh1WJDbNhGpztd4VzuRTtPTvWv
+ xhfGRVihmQ9JkdrQGKEJ+4=
 Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
@@ -70,37 +70,91 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-It's wrong anyway.  Remove it for now.
+Move target_reg_window up and use it.  Fold structptr and xxargs
+into xargs -- the use of a host pointer was incorrect anyway.
+Rename the structure to target_stackf for consistency.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20210426025334.1168495-14-richard.henderson@linaro.org>
+Message-Id: <20210426025334.1168495-15-richard.henderson@linaro.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/sparc/signal.c | 11 -----------
- 1 file changed, 11 deletions(-)
+ linux-user/sparc/signal.c | 38 +++++++++++++++++++++-----------------
+ 1 file changed, 21 insertions(+), 17 deletions(-)
 
 diff --git a/linux-user/sparc/signal.c b/linux-user/sparc/signal.c
-index 3d068e095508..29c5e3b0c0be 100644
+index 29c5e3b0c0be..3474098641a6 100644
 --- a/linux-user/sparc/signal.c
 +++ b/linux-user/sparc/signal.c
-@@ -64,17 +64,6 @@ struct target_signal_frame {
-     abi_ulong           extra_size; /* Should be 0 */
-     qemu_siginfo_fpu_t fpu_state;
- };
--struct target_rt_signal_frame {
--    struct sparc_stackf ss;
--    siginfo_t           info;
--    abi_ulong           regs[20];
--    sigset_t            mask;
--    abi_ulong           fpu_save;
--    uint32_t            insns[2];
--    stack_t             stack;
--    unsigned int        extra_size; /* Should be 0 */
--    qemu_siginfo_fpu_t  fpu_state;
--};
+@@ -21,16 +21,26 @@
+ #include "signal-common.h"
+ #include "linux-user/trace.h"
  
- static inline abi_ulong get_sigframe(struct target_sigaction *sa, 
-                                      CPUSPARCState *env,
+-/* A Sparc stack frame */
+-struct sparc_stackf {
++/* A Sparc register window */
++struct target_reg_window {
+     abi_ulong locals[8];
+     abi_ulong ins[8];
+-    /* It's simpler to treat fp and callers_pc as elements of ins[]
+-         * since we never need to access them ourselves.
+-         */
+-    char *structptr;
+-    abi_ulong xargs[6];
+-    abi_ulong xxargs[1];
++};
++
++/* A Sparc stack frame. */
++struct target_stackf {
++    /*
++     * Since qemu does not reference fp or callers_pc directly,
++     * it's simpler to treat fp and callers_pc as elements of ins[],
++     * and then bundle locals[] and ins[] into reg_window.
++     */
++    struct target_reg_window win;
++    /*
++     * Similarly, bundle structptr and xxargs into xargs[].
++     * This portion of the struct is part of the function call abi,
++     * and belongs to the callee for spilling argument registers.
++     */
++    abi_ulong xargs[8];
+ };
+ 
+ typedef struct {
+@@ -56,7 +66,7 @@ typedef struct {
+ 
+ 
+ struct target_signal_frame {
+-    struct sparc_stackf ss;
++    struct target_stackf ss;
+     __siginfo_t         info;
+     abi_ulong           fpu_save;
+     uint32_t            insns[2] QEMU_ALIGNED(8);
+@@ -150,10 +160,10 @@ void setup_frame(int sig, struct target_sigaction *ka,
+     }
+ 
+     for (i = 0; i < 8; i++) {
+-        __put_user(env->regwptr[i + WREG_L0], &sf->ss.locals[i]);
++        __put_user(env->regwptr[i + WREG_L0], &sf->ss.win.locals[i]);
+     }
+     for (i = 0; i < 8; i++) {
+-        __put_user(env->regwptr[i + WREG_I0], &sf->ss.ins[i]);
++        __put_user(env->regwptr[i + WREG_I0], &sf->ss.win.ins[i]);
+     }
+     if (err)
+         goto sigsegv;
+@@ -349,12 +359,6 @@ struct target_ucontext {
+     target_mcontext_t tuc_mcontext;
+ };
+ 
+-/* A V9 register window */
+-struct target_reg_window {
+-    abi_ulong locals[8];
+-    abi_ulong ins[8];
+-};
+-
+ /* {set, get}context() needed for 64-bit SparcLinux userland. */
+ void sparc64_set_context(CPUSPARCState *env)
+ {
 -- 
 2.31.1
 
