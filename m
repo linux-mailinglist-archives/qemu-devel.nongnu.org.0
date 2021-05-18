@@ -2,91 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1A6D387714
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 13:05:30 +0200 (CEST)
-Received: from localhost ([::1]:56006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AE8538771A
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 13:07:22 +0200 (CEST)
+Received: from localhost ([::1]:58518 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lixXV-0000UX-R0
-	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 07:05:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49532)
+	id 1lixZJ-0002Kt-Hc
+	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 07:07:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52222)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lix0X-0001xi-P0
- for qemu-devel@nongnu.org; Tue, 18 May 2021 06:31:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42259)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lix0W-0004BF-0i
- for qemu-devel@nongnu.org; Tue, 18 May 2021 06:31:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621333883;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=RLIBdnmlv3jlGO2q5j5FtBFVWJISVClnPVyp5yKrMVc=;
- b=Ozs9Ux1IcyNvxeXZTRsWTVZbTKVidwA//3eGBZ2FO0cmxw+2mXRys/+YY2piI2rue4koIF
- 7+gZn+r0Qf7zvkEy7ZQx6gIfFxJgDdPwV8UHdSc6QLG6vGJq47/Nr1+v1SWSVyiKBeuBOE
- R6lh9s+FDXa4ged3EbZe0lbityuC3E8=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-419-wx0M-886MkuuAvBBmtXMVA-1; Tue, 18 May 2021 06:31:21 -0400
-X-MC-Unique: wx0M-886MkuuAvBBmtXMVA-1
-Received: by mail-wr1-f70.google.com with SMTP id
- a9-20020adfc4490000b0290112095ca785so161918wrg.14
- for <qemu-devel@nongnu.org>; Tue, 18 May 2021 03:31:21 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lixAx-0006XP-IT
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 06:42:11 -0400
+Received: from mail-vk1-xa29.google.com ([2607:f8b0:4864:20::a29]:46067)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lixAt-0002d7-9E
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 06:42:11 -0400
+Received: by mail-vk1-xa29.google.com with SMTP id f10so1020644vkm.12
+ for <qemu-devel@nongnu.org>; Tue, 18 May 2021 03:42:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=sgcsjHjPIU/FHjFOLnJPjUmRtsnAPRHzb7wxXFwGv+s=;
+ b=Kgz2LgEEDxptBGVCibEC7q8d5OBQWjYiBQSPrMgS0JvK9ysFlp1UzCo44bKQrnUz6E
+ 1BcUcrBfqAALdVV+b2ITjvJlA+voLBFZKmkdda4M66WXz5xmbHfJLVmBHBa0Y4ijJsGi
+ 4QH5eLnUhVfVNBskMmSv17zmjZ21GqgP1Lgu1TPuP23zabynbJAF68kvqi1g5fT4WvBN
+ 8IfzAVmfDUQgOjFGQ/k+uIMq/HtVBWJmBW4K+7mGfOEs8H6It4JjcZ8cVKaeIYpbunhp
+ ft/QQjIl9wKh1XWhP4if+rwoZN5XswLueKRM0KCkDJ8wb+6s7tLDMrMxMtkjlPEhcsgr
+ 4A8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=RLIBdnmlv3jlGO2q5j5FtBFVWJISVClnPVyp5yKrMVc=;
- b=G0PvtBRmq3/2J/NOByaaBFCHyBe9qCp96kHj8DS01XVFoE625Bl92lPNNeHJR0DADR
- Rh1fPeNzf484cg05EXCbZ1F3BY/5oBDLPh579JDq0SnqTaVpZsbJ5xQGeVTyqAswAseH
- KOdiw37LrNmppmkTxIPwKvoZguMJ0ZcdlBREYSytBaP/2VSbgsE5K3Ykvlml3Smi7yyj
- +HHxTH0AHbcVGOZeBKEyF4RDZy9R24elrBncCDSEU/T0mu/rlJEvKEkbnolOnm43MfPh
- AD5l6m9o9Ge3GCRRTpNJdc9sl3Q/yKfbWAdAOjUBKtg1Nfhom08aLdPmaglnl832Q9iR
- Jaqg==
-X-Gm-Message-State: AOAM5335YqdKZ4k4x3XcO5CCLQBNmrtvizYW8CCqm0AwbPxJCViCMuaw
- NOqh3LI4Q3rvxOIJSP1Z8BPFwMK6gAt1rZTnAWeDa/WudzrH8eRjdwiku2PcgGmBxLyAwhA+JcV
- 3pEYBgSESL2zkq3o=
-X-Received: by 2002:a7b:c778:: with SMTP id x24mr4103285wmk.23.1621333880863; 
- Tue, 18 May 2021 03:31:20 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyYjH/4ric8Emfn8HAYCYHxeSSZ+j2QGLVRZNnZuDj6UP/LzICOa24C+elFb8VVVzDtFnzzyA==
-X-Received: by 2002:a7b:c778:: with SMTP id x24mr4103264wmk.23.1621333880655; 
- Tue, 18 May 2021 03:31:20 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id f12sm14645483wre.88.2021.05.18.03.31.19
+ bh=sgcsjHjPIU/FHjFOLnJPjUmRtsnAPRHzb7wxXFwGv+s=;
+ b=KPGT1fkYeH/wVKbHQdSAcCz2xMpgZma02njeTozFFI+KJOGRyjXV0COOn09E4ZZ8aE
+ +rfRXniLFMhVKS1iH1k7nZu/uXZA1TeQJEfAq+zzPEs6iDmccnXkqkVVQrfJpKIO8hug
+ fY5YxdUXzN2J8Av4L143JdSHzUfJQuacPwWv1b/zL5SSvm2Setm+Bz299TNy0j5REBXL
+ JmRkHb18iD3l4LZz+fNZsGJxHZbzfj1KppQfQP5O40U1lYObIeVp6biG86BIF5pqgarB
+ MvZ1jsEnlFnZ4K0XqxOFF03sVRZGShEwpiC9EXy4yRmG+vrR54vcDoUbgvw9Q8r/aufE
+ ANWQ==
+X-Gm-Message-State: AOAM53165yKwSG7STeHZ1OsKBhjeQ2iL0k11ZR619Plz6ulIWE1PUQaG
+ G/0OXAMTyK3rzw0U/cWtxzE02Q==
+X-Google-Smtp-Source: ABdhPJyeyfNg7DczvqAwsQBVNnxpKIBy0XFmtcNxzhcjQGRWGGQFrBSwtaLaGejVC2MRePGKtjtHiA==
+X-Received: by 2002:a1f:dbc7:: with SMTP id s190mr4920672vkg.12.1621334525914; 
+ Tue, 18 May 2021 03:42:05 -0700 (PDT)
+Received: from [172.16.22.144] ([45.235.253.15])
+ by smtp.gmail.com with ESMTPSA id s136sm2708853vke.49.2021.05.18.03.42.05
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 18 May 2021 03:31:20 -0700 (PDT)
-Subject: Re: [PATCH v2 00/50] target/i386 translate cleanups
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20210514151342.384376-1-richard.henderson@linaro.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <81278bdc-ba3f-4902-f8b5-0b75ff423318@redhat.com>
-Date: Tue, 18 May 2021 12:31:19 +0200
+ Tue, 18 May 2021 03:42:05 -0700 (PDT)
+Subject: Re: [PATCH] target/ppc: Fix load endianness for lxvwsx/lxvdsx
+To: Giuseppe Musacchio <thatlemon@gmail.com>, qemu-devel@nongnu.org
+References: <20210518092352.43610-1-thatlemon@gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <422fa6b4-8d59-5028-4fd0-4484ed7bb3b8@linaro.org>
+Date: Tue, 18 May 2021 05:42:03 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210514151342.384376-1-richard.henderson@linaro.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20210518092352.43610-1-thatlemon@gmail.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.374,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::a29;
+ envelope-from=richard.henderson@linaro.org; helo=mail-vk1-xa29.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,30 +86,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: cfontana@suse.de, f4bug@amsat.org, ehabkost@redhat.com
+Cc: qemu-ppc@nongnu.org, pc@us.ibm.com, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 14/05/21 17:12, Richard Henderson wrote:
-> Supercedes: 20210228232321.322053-1-richard.henderson@linaro.org
-> ("i386 cleanup part 3")
+On 5/18/21 4:23 AM, Giuseppe Musacchio wrote:
+> TARGET_WORDS_BIGENDIAN may not match the machine endianness if that's a
+> runtime-configurable parameter.
 > 
-> Claudio's prerequite patch set ("i386 cleanup part 2"), is now merged.
-> Version 2 here fixes some minor rebase conflicts that crept in.
-> Only 4 of the 50 patches have been reviewed.
+> Fixes: bcb0b7b1a1c05707304f80ca6f523d557816f85c
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/212
 > 
-> Blurb from v1:
-> This started out to address a fixme in Claudio's patch set, then
-> wandered a bit, with cleanups and bug fixes in the code that I was
-> touching.  I stopped when I reached my original goal of removing
-> target/i386/tcg/user/*_stubs.c.
+> Signed-off-by: Giuseppe Musacchio <thatlemon@gmail.com>
+> ---
+>   target/ppc/translate/vsx-impl.c.inc | 12 ++++++++++--
+>   1 file changed, 10 insertions(+), 2 deletions(-)
 > 
-> There are a lot of patches, but hopefully they're all small
-> enough to be obvious.
+> diff --git a/target/ppc/translate/vsx-impl.c.inc b/target/ppc/translate/vsx-impl.c.inc
+> index b817d31260..3e840e756f 100644
+> --- a/target/ppc/translate/vsx-impl.c.inc
+> +++ b/target/ppc/translate/vsx-impl.c.inc
+> @@ -139,7 +139,11 @@ static void gen_lxvwsx(DisasContext *ctx)
+>       gen_addr_reg_index(ctx, EA);
+>   
+>       data = tcg_temp_new_i32();
+> -    tcg_gen_qemu_ld_i32(data, EA, ctx->mem_idx, MO_TEUL);
+> +    if (ctx->le_mode) {
+> +        tcg_gen_qemu_ld_i32(data, EA, ctx->mem_idx, MO_LEUL);
+> +    } else {
+> +        tcg_gen_qemu_ld_i32(data, EA, ctx->mem_idx, MO_BEUL);
+> +    }
 
-Nice, thanks.  I only left minor comments on 27 and 30, feel free to do 
-a pull request without v3.
+Reducing this replication is why we have default_tcg_memop_mask.
 
-Paolo
+This should be ctx->default_tcg_memop_mask | MO_UL.
 
+>       tcg_gen_gvec_dup_i32(MO_UL, vsr_full_offset(xT(ctx->opcode)), 16, 16, data);
+>   
+>       tcg_temp_free(EA);
+> @@ -162,7 +166,11 @@ static void gen_lxvdsx(DisasContext *ctx)
+>       gen_addr_reg_index(ctx, EA);
+>   
+>       data = tcg_temp_new_i64();
+> -    tcg_gen_qemu_ld_i64(data, EA, ctx->mem_idx, MO_TEQ);
+> +    if (ctx->le_mode) {
+> +        tcg_gen_qemu_ld_i64(data, EA, ctx->mem_idx, MO_LEQ);
+> +    } else {
+> +        tcg_gen_qemu_ld_i64(data, EA, ctx->mem_idx, MO_BEQ);
+> +    }
+
+Similarly ... | MO_Q.
+
+
+r~
 
