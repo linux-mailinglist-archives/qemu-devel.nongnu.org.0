@@ -2,75 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9F2F38797A
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 15:04:05 +0200 (CEST)
-Received: from localhost ([::1]:50224 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FEC83879FC
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 15:30:36 +0200 (CEST)
+Received: from localhost ([::1]:56872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lizOG-0003SC-Qn
-	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 09:04:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56268)
+	id 1liznt-0002OV-R3
+	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 09:30:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57270)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lizMY-0001sS-2L
- for qemu-devel@nongnu.org; Tue, 18 May 2021 09:02:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39983)
+ (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
+ id 1lizQz-00084h-Tm
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 09:06:53 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:12886)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lizMQ-0007tt-JO
- for qemu-devel@nongnu.org; Tue, 18 May 2021 09:02:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621342928;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=muxa3ZbtCw+8S/xHVIYmQBHyD4Ja+L2oc+Z8KtJMKOg=;
- b=DQ1/6IfWM7RCUSUztZ68sIlxKT4aMk3SMNa5ZJjVaHC01SW8750qlPx8+oU3hxAmM2Eoe7
- JaCvxUnOv6i844YJ5SRQlcizV74nwOCV1y5UPVBBxElo8oVhyh+eVJ3Wg+EzLvN/v7Br5n
- GErv2NTbZ+28HbY5eYoqcr0e63y9Fig=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-331-FwiViELsObCnJ6EmQWBJWw-1; Tue, 18 May 2021 09:02:06 -0400
-X-MC-Unique: FwiViELsObCnJ6EmQWBJWw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2FD0681DF00;
- Tue, 18 May 2021 13:02:03 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-115-121.ams2.redhat.com
- [10.36.115.121])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 72EDD5C230;
- Tue, 18 May 2021 13:01:49 +0000 (UTC)
-Subject: Re: [PATCH 14/21] block/copy-before-write: cbw_init(): rename
- variables
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20210517064428.16223-1-vsementsov@virtuozzo.com>
- <20210517064428.16223-16-vsementsov@virtuozzo.com>
-From: Max Reitz <mreitz@redhat.com>
-Message-ID: <f68d3f80-cb0a-36aa-aced-33dc92bc86d6@redhat.com>
-Date: Tue, 18 May 2021 15:01:47 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
+ id 1lizQy-0002Pt-4r
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 09:06:53 -0400
+Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 14ID3ADw073094
+ for <qemu-devel@nongnu.org>; Tue, 18 May 2021 09:06:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=m5NjsfXOWIoquk5FgPxvUURq+FqmzxcNFfYpqrCIQoE=;
+ b=UKPC3i8RVZFSJhgkjvgWZ3nIWSbXihzaVo3EBYb6vKpfVgNrhtrsKnsQmrEqj9AQBf16
+ artj9bB6/KmFRDAjzNY0ycDS5e0LL9wyvBf1m1hBOklP/54dWpjCQ8ge8OOQij94RQS2
+ YndHKgWBjLHHYcDSBoTZRc4u33AIDNHmXjAg/9AyERah/zTe5tfcLh3c5woqe6Az/9PG
+ eKC0c5zf2u7owyqZkXdaSW4ncAkWd+EBwaQqXZ1zChvno33xueOJ+ICqOqdLe9yJUe7q
+ 4OezyUJazW2SqBGdVRzh009bjo3c2IDbHpErtP5S+rXqTI7MiA3IIKkhGb3LgXwzsQoI AQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 38md082a5h-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Tue, 18 May 2021 09:06:49 -0400
+Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 14ID3k7o075687
+ for <qemu-devel@nongnu.org>; Tue, 18 May 2021 09:06:48 -0400
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 38md082a3t-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 18 May 2021 09:06:48 -0400
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 14ID39gU003147;
+ Tue, 18 May 2021 13:06:46 GMT
+Received: from b06cxnps3074.portsmouth.uk.ibm.com
+ (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+ by ppma06ams.nl.ibm.com with ESMTP id 38j5jgsepk-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 18 May 2021 13:06:45 +0000
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
+ [9.149.105.62])
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 14ID6hWU16384312
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 18 May 2021 13:06:43 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 9B2E9AE059;
+ Tue, 18 May 2021 13:06:43 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 14B7BAE057;
+ Tue, 18 May 2021 13:06:43 +0000 (GMT)
+Received: from linux01.pok.stglabs.ibm.com (unknown [9.114.17.81])
+ by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Tue, 18 May 2021 13:06:42 +0000 (GMT)
+From: Janosch Frank <frankja@linux.ibm.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] qobject: Fix maybe uninitialized in qdict_array_split
+Date: Tue, 18 May 2021 13:06:38 +0000
+Message-Id: <20210518130638.54529-1-frankja@linux.ibm.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-In-Reply-To: <20210517064428.16223-16-vsementsov@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.374,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: 8zOxIpHte5Iu0ETjGBQ3-hjVT6H2HD3H
+X-Proofpoint-GUID: wGcwX8pclOugMgsWd2X3gk216T5MgKNl
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
+ definitions=2021-05-18_04:2021-05-18,
+ 2021-05-18 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 phishscore=0
+ impostorscore=0 mlxscore=0 mlxlogscore=830 priorityscore=1501 spamscore=0
+ malwarescore=0 lowpriorityscore=0 clxscore=1015 adultscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104190000 definitions=main-2105180091
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=frankja@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
+X-Spam_bar: --
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,21 +108,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
- jsnow@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com, den@openvz.org,
- pbonzini@redhat.com
+Cc: pbonzini@redhat.com, cohuck@redhat.com, borntraeger@de.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 17.05.21 08:44, Vladimir Sementsov-Ogievskiy wrote:
-> One more step closer to real .bdrv_open() handler: use more usual names
-> for bs being initialized and its state.
-> 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->   block/copy-before-write.c | 29 ++++++++++++++---------------
->   1 file changed, 14 insertions(+), 15 deletions(-)
+Lets make the compiler happy.
 
-Reviewed-by: Max Reitz <mreitz@redhat.com>
+Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+---
+ qobject/block-qdict.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/qobject/block-qdict.c b/qobject/block-qdict.c
+index 1487cc5dd8..b26524429c 100644
+--- a/qobject/block-qdict.c
++++ b/qobject/block-qdict.c
+@@ -224,7 +224,7 @@ void qdict_array_split(QDict *src, QList **dst)
+     for (i = 0; i < UINT_MAX; i++) {
+         QObject *subqobj;
+         bool is_subqdict;
+-        QDict *subqdict;
++        QDict *subqdict = NULL;
+         char indexstr[32], prefix[32];
+         size_t snprintf_ret;
+ 
+-- 
+2.30.2
 
 
