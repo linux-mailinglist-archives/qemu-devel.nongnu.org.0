@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB3AB3875DC
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 11:57:35 +0200 (CEST)
-Received: from localhost ([::1]:38256 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 062ED3875CB
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 11:55:00 +0200 (CEST)
+Received: from localhost ([::1]:58858 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1liwTm-0006mW-TZ
-	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 05:57:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35844)
+	id 1liwRH-0001Xo-1v
+	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 05:54:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35834)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1liwEA-000303-Ov
- for qemu-devel@nongnu.org; Tue, 18 May 2021 05:41:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37034)
+ id 1liwE9-0002x8-Tx
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 05:41:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55884)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1liwE8-00084D-AI
- for qemu-devel@nongnu.org; Tue, 18 May 2021 05:41:26 -0400
+ id 1liwE8-000846-4k
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 05:41:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1621330883;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=a9axNQ1N7IcJKKH8L4qtlkhwZwrH8Sg1M9KEpCzuV5U=;
- b=W9ZwIwBAZNZu+kDOivocrBJXE76tulG8SbqjwN0G6+wDOwTWshmU/0PAKYPmx+2H7q+fVE
- +CUumwvdYd70uSwBiIEPp0PEQwiOxv0dqFH8uAdtAKxtvH/KKfirGAWLCy6oNn6NGMXnEy
- VI4msC7F38mA6nCwfdvN8iuVI95Dh0Y=
+ bh=o29XndGUfRwY0P3peJ9TK4DE+Rh+I26/FbueKykjyy8=;
+ b=HhT6Oxk/nyKJYmhTnTfx/FJbZtMthkHZ2HhC3ALM8UzwkVYLoQ+FDbm8VZI/Dmj18tUH5m
+ +CMiNINyf4pfOkQG2AqWQgQF6kcvm8HvJ8pk1REsS+RWivSEOcezDvPFePDZ4j7oJ2ZYPL
+ vdTY8fCu+Bcdryms/EUDwQUrb3GPGR8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-472-NzQmQx1KMRmTwB39LNcohw-1; Tue, 18 May 2021 05:41:18 -0400
-X-MC-Unique: NzQmQx1KMRmTwB39LNcohw-1
+ us-mta-497-d7yA4pt3PviZvUvUeGGipw-1; Tue, 18 May 2021 05:41:21 -0400
+X-MC-Unique: d7yA4pt3PviZvUvUeGGipw-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DB83981840B;
- Tue, 18 May 2021 09:41:17 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BC138101371E;
+ Tue, 18 May 2021 09:41:20 +0000 (UTC)
 Received: from localhost.localdomain (ovpn-114-236.ams2.redhat.com
  [10.36.114.236])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 46C0817A9B;
- Tue, 18 May 2021 09:41:15 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3F7742ED6F;
+ Tue, 18 May 2021 09:41:18 +0000 (UTC)
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v2 4/5] progressmeter: protect with a mutex
-Date: Tue, 18 May 2021 11:40:57 +0200
-Message-Id: <20210518094058.25952-5-eesposit@redhat.com>
+Subject: [PATCH v2 5/5] co-shared-resource: protect with a mutex
+Date: Tue, 18 May 2021 11:40:58 +0200
+Message-Id: <20210518094058.25952-6-eesposit@redhat.com>
 In-Reply-To: <20210518094058.25952-1-eesposit@redhat.com>
 References: <20210518094058.25952-1-eesposit@redhat.com>
 MIME-Version: 1.0
@@ -58,7 +58,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eesposit@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -87,340 +87,109 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Progressmeter is protected by the AioContext mutex, which
-is taken by the block jobs and their caller (like blockdev).
+co-shared-resource is currently not thread-safe, as also reported
+in co-shared-resource.h. Add a QemuMutex because co_try_get_from_shres
+can also be invoked from non-coroutine context.
 
-We would like to remove the dependency of block layer code on the
-AioContext mutex, since most drivers and the core I/O code are already
-not relying on it.
-
-Create a new C file to implement the ProgressMeter API, but keep the
-struct as public, to avoid forcing allocation on the heap.
-
-Also add a mutex to be able to provide an accurate snapshot of the
-progress values to the caller.
-
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 ---
- block/meson.build             |  1 +
- block/progress_meter.c        | 64 +++++++++++++++++++++++++++++++++++
- blockjob.c                    | 33 +++++++++++++-----
- include/qemu/progress_meter.h | 34 +++++++++++--------
- job-qmp.c                     |  8 +++--
- job.c                         |  3 ++
- qemu-img.c                    |  9 +++--
- 7 files changed, 124 insertions(+), 28 deletions(-)
- create mode 100644 block/progress_meter.c
+ include/qemu/co-shared-resource.h |  4 +---
+ util/qemu-co-shared-resource.c    | 27 ++++++++++++++++++++++-----
+ 2 files changed, 23 insertions(+), 8 deletions(-)
 
-diff --git a/block/meson.build b/block/meson.build
-index d21990ec95..90efd21ecf 100644
---- a/block/meson.build
-+++ b/block/meson.build
-@@ -13,6 +13,7 @@ block_ss.add(files(
-   'commit.c',
-   'copy-on-read.c',
-   'preallocate.c',
-+  'progress_meter.c',
-   'create.c',
-   'crypto.c',
-   'dirty-bitmap.c',
-diff --git a/block/progress_meter.c b/block/progress_meter.c
-new file mode 100644
-index 0000000000..aa2e60248c
---- /dev/null
-+++ b/block/progress_meter.c
-@@ -0,0 +1,64 @@
-+/*
-+ * Helper functionality for some process progress tracking.
-+ *
-+ * Copyright (c) 2011 IBM Corp.
-+ * Copyright (c) 2012, 2018 Red Hat, Inc.
-+ * Copyright (c) 2020 Virtuozzo International GmbH
-+ *
-+ * Permission is hereby granted, free of charge, to any person obtaining a copy
-+ * of this software and associated documentation files (the "Software"), to deal
-+ * in the Software without restriction, including without limitation the rights
-+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-+ * copies of the Software, and to permit persons to whom the Software is
-+ * furnished to do so, subject to the following conditions:
-+ *
-+ * The above copyright notice and this permission notice shall be included in
-+ * all copies or substantial portions of the Software.
-+ *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-+ * THE SOFTWARE.
-+ */
-+#include "qemu/osdep.h"
-+#include "qemu/progress_meter.h"
+diff --git a/include/qemu/co-shared-resource.h b/include/qemu/co-shared-resource.h
+index 4e4503004c..78ca5850f8 100644
+--- a/include/qemu/co-shared-resource.h
++++ b/include/qemu/co-shared-resource.h
+@@ -26,15 +26,13 @@
+ #ifndef QEMU_CO_SHARED_RESOURCE_H
+ #define QEMU_CO_SHARED_RESOURCE_H
+ 
+-
++/* Accesses to co-shared-resource API are thread-safe */
+ typedef struct SharedResource SharedResource;
+ 
+ /*
+  * Create SharedResource structure
+  *
+  * @total: total amount of some resource to be shared between clients
+- *
+- * Note: this API is not thread-safe.
+  */
+ SharedResource *shres_create(uint64_t total);
+ 
+diff --git a/util/qemu-co-shared-resource.c b/util/qemu-co-shared-resource.c
+index 1c83cd9d29..bb875a86be 100644
+--- a/util/qemu-co-shared-resource.c
++++ b/util/qemu-co-shared-resource.c
+@@ -28,10 +28,13 @@
+ #include "qemu/co-shared-resource.h"
+ 
+ struct SharedResource {
+-    uint64_t total;
+-    uint64_t available;
++    uint64_t total; /* Set in shres_create() and not changed anymore */
+ 
++    /* State fields protected by lock */
++    uint64_t available;
+     CoQueue queue;
 +
-+void progress_init(ProgressMeter *pm)
-+{
-+    qemu_mutex_init(&pm->lock);
-+}
-+
-+void progress_destroy(ProgressMeter *pm)
-+{
-+    qemu_mutex_destroy(&pm->lock);
-+}
-+
-+void progress_get_snapshot(ProgressMeter *pm, uint64_t *current,
-+                           uint64_t *total)
-+{
-+    QEMU_LOCK_GUARD(&pm->lock);
-+
-+    *current = pm->current;
-+    *total = pm->total;
-+}
-+
-+void progress_work_done(ProgressMeter *pm, uint64_t done)
-+{
-+    QEMU_LOCK_GUARD(&pm->lock);
-+    pm->current += done;
-+}
-+
-+void progress_set_remaining(ProgressMeter *pm, uint64_t remaining)
-+{
-+    QEMU_LOCK_GUARD(&pm->lock);
-+    pm->total = pm->current + remaining;
-+}
-+
-+void progress_increase_remaining(ProgressMeter *pm, uint64_t delta)
-+{
-+    QEMU_LOCK_GUARD(&pm->lock);
-+    pm->total += delta;
-+}
-diff --git a/blockjob.c b/blockjob.c
-index 22e5bb9b1f..4bad1408cb 100644
---- a/blockjob.c
-+++ b/blockjob.c
-@@ -306,18 +306,23 @@ int64_t block_job_ratelimit_get_delay(BlockJob *job, uint64_t n)
- BlockJobInfo *block_job_query(BlockJob *job, Error **errp)
++    QemuMutex lock;
+ };
+ 
+ SharedResource *shres_create(uint64_t total)
+@@ -40,6 +43,7 @@ SharedResource *shres_create(uint64_t total)
+ 
+     s->total = s->available = total;
+     qemu_co_queue_init(&s->queue);
++    qemu_mutex_init(&s->lock);
+ 
+     return s;
+ }
+@@ -47,10 +51,12 @@ SharedResource *shres_create(uint64_t total)
+ void shres_destroy(SharedResource *s)
  {
-     BlockJobInfo *info;
-+    uint64_t progress_current, progress_total;
- 
-     if (block_job_is_internal(job)) {
-         error_setg(errp, "Cannot query QEMU internal jobs");
-         return NULL;
-     }
-+
-+    progress_get_snapshot(&job->job.progress, &progress_current,
-+                          &progress_total);
-+
-     info = g_new0(BlockJobInfo, 1);
-     info->type      = g_strdup(job_type_str(&job->job));
-     info->device    = g_strdup(job->job.id);
-     info->busy      = qatomic_read(&job->job.busy);
-     info->paused    = job->job.pause_count > 0;
--    info->offset    = job->job.progress.current;
--    info->len       = job->job.progress.total;
-+    info->offset    = progress_current;
-+    info->len       = progress_total;
-     info->speed     = job->speed;
-     info->io_status = job->iostatus;
-     info->ready     = job_is_ready(&job->job),
-@@ -344,15 +349,19 @@ static void block_job_iostatus_set_err(BlockJob *job, int error)
- static void block_job_event_cancelled(Notifier *n, void *opaque)
- {
-     BlockJob *job = opaque;
-+    uint64_t progress_current, progress_total;
- 
-     if (block_job_is_internal(job)) {
-         return;
-     }
- 
-+    progress_get_snapshot(&job->job.progress, &progress_current,
-+                          &progress_total);
-+
-     qapi_event_send_block_job_cancelled(job_type(&job->job),
-                                         job->job.id,
--                                        job->job.progress.total,
--                                        job->job.progress.current,
-+                                        progress_total,
-+                                        progress_current,
-                                         job->speed);
+     assert(s->available == s->total);
++    qemu_mutex_destroy(&s->lock);
+     g_free(s);
  }
  
-@@ -360,6 +369,7 @@ static void block_job_event_completed(Notifier *n, void *opaque)
+-bool co_try_get_from_shres(SharedResource *s, uint64_t n)
++/* Called with lock held. */
++static bool co_try_get_from_shres_locked(SharedResource *s, uint64_t n)
  {
-     BlockJob *job = opaque;
-     const char *msg = NULL;
-+    uint64_t progress_current, progress_total;
- 
-     if (block_job_is_internal(job)) {
-         return;
-@@ -369,10 +379,13 @@ static void block_job_event_completed(Notifier *n, void *opaque)
-         msg = error_get_pretty(job->job.err);
-     }
- 
-+    progress_get_snapshot(&job->job.progress, &progress_current,
-+                          &progress_total);
-+
-     qapi_event_send_block_job_completed(job_type(&job->job),
-                                         job->job.id,
--                                        job->job.progress.total,
--                                        job->job.progress.current,
-+                                        progress_total,
-+                                        progress_current,
-                                         job->speed,
-                                         !!msg,
-                                         msg);
-@@ -393,15 +406,19 @@ static void block_job_event_pending(Notifier *n, void *opaque)
- static void block_job_event_ready(Notifier *n, void *opaque)
- {
-     BlockJob *job = opaque;
-+    uint64_t progress_current, progress_total;
- 
-     if (block_job_is_internal(job)) {
-         return;
-     }
- 
-+    progress_get_snapshot(&job->job.progress, &progress_current,
-+                          &progress_total);
-+
-     qapi_event_send_block_job_ready(job_type(&job->job),
-                                     job->job.id,
--                                    job->job.progress.total,
--                                    job->job.progress.current,
-+                                    progress_total,
-+                                    progress_current,
-                                     job->speed);
+     if (s->available >= n) {
+         s->available -= n;
+@@ -60,16 +66,27 @@ bool co_try_get_from_shres(SharedResource *s, uint64_t n)
+     return false;
  }
  
-diff --git a/include/qemu/progress_meter.h b/include/qemu/progress_meter.h
-index 9a23ff071c..dadf822bbf 100644
---- a/include/qemu/progress_meter.h
-+++ b/include/qemu/progress_meter.h
-@@ -27,6 +27,8 @@
- #ifndef QEMU_PROGRESS_METER_H
- #define QEMU_PROGRESS_METER_H
- 
-+#include "qemu/lockable.h"
++bool co_try_get_from_shres(SharedResource *s, uint64_t n)
++{
++    bool res;
++    QEMU_LOCK_GUARD(&s->lock);
++    res = co_try_get_from_shres_locked(s, n);
 +
- typedef struct ProgressMeter {
-     /**
-      * Current progress. The unit is arbitrary as long as the ratio between
-@@ -37,22 +39,24 @@ typedef struct ProgressMeter {
- 
-     /** Estimated current value at the completion of the process */
-     uint64_t total;
++    return res;
++}
 +
-+    QemuMutex lock; /* protects concurrent access to above fields */
- } ProgressMeter;
- 
--static inline void progress_work_done(ProgressMeter *pm, uint64_t done)
--{
--    pm->current += done;
--}
--
--static inline void progress_set_remaining(ProgressMeter *pm, uint64_t remaining)
--{
--    pm->total = pm->current + remaining;
--}
--
--static inline void progress_increase_remaining(ProgressMeter *pm,
--                                               uint64_t delta)
--{
--    pm->total += delta;
--}
-+void progress_init(ProgressMeter *pm);
-+void progress_destroy(ProgressMeter *pm);
-+
-+/* Get a snapshot of internal current and total values  */
-+void progress_get_snapshot(ProgressMeter *pm, uint64_t *current,
-+                           uint64_t *total);
-+
-+/* Increases the amount of work done so far by @done */
-+void progress_work_done(ProgressMeter *pm, uint64_t done);
-+
-+/* Sets how much work has to be done to complete to @remaining */
-+void progress_set_remaining(ProgressMeter *pm, uint64_t remaining);
-+
-+/* Increases the total work to do by @delta */
-+void progress_increase_remaining(ProgressMeter *pm, uint64_t delta);
- 
- #endif /* QEMU_PROGRESS_METER_H */
-diff --git a/job-qmp.c b/job-qmp.c
-index 34c4da094f..829a28aa70 100644
---- a/job-qmp.c
-+++ b/job-qmp.c
-@@ -144,16 +144,20 @@ void qmp_job_dismiss(const char *id, Error **errp)
- static JobInfo *job_query_single(Job *job, Error **errp)
+ void coroutine_fn co_get_from_shres(SharedResource *s, uint64_t n)
  {
-     JobInfo *info;
-+    uint64_t progress_current;
-+    uint64_t progress_total;
+     assert(n <= s->total);
+-    while (!co_try_get_from_shres(s, n)) {
+-        qemu_co_queue_wait(&s->queue, NULL);
++    QEMU_LOCK_GUARD(&s->lock);
++    while (!co_try_get_from_shres_locked(s, n)) {
++        qemu_co_queue_wait(&s->queue, &s->lock);
+     }
+ }
  
-     assert(!job_is_internal(job));
-+    progress_get_snapshot(&job->progress, &progress_current,
-+                          &progress_total);
- 
-     info = g_new(JobInfo, 1);
-     *info = (JobInfo) {
-         .id                 = g_strdup(job->id),
-         .type               = job_type(job),
-         .status             = job->status,
--        .current_progress   = job->progress.current,
--        .total_progress     = job->progress.total,
-+        .current_progress   = progress_current,
-+        .total_progress     = progress_total,
-         .has_error          = !!job->err,
-         .error              = job->err ? \
-                               g_strdup(error_get_pretty(job->err)) : NULL,
-diff --git a/job.c b/job.c
-index 4aff13d95a..00b0560052 100644
---- a/job.c
-+++ b/job.c
-@@ -339,6 +339,8 @@ void *job_create(const char *job_id, const JobDriver *driver, JobTxn *txn,
-     job->cb            = cb;
-     job->opaque        = opaque;
- 
-+    progress_init(&job->progress);
-+
-     notifier_list_init(&job->on_finalize_cancelled);
-     notifier_list_init(&job->on_finalize_completed);
-     notifier_list_init(&job->on_pending);
-@@ -382,6 +384,7 @@ void job_unref(Job *job)
- 
-         QLIST_REMOVE(job, job_list);
- 
-+        progress_destroy(&job->progress);
-         error_free(job->err);
-         g_free(job->id);
-         g_free(job);
-diff --git a/qemu-img.c b/qemu-img.c
-index a5993682aa..7956a89965 100644
---- a/qemu-img.c
-+++ b/qemu-img.c
-@@ -900,6 +900,7 @@ static void common_block_job_cb(void *opaque, int ret)
- 
- static void run_block_job(BlockJob *job, Error **errp)
+ void coroutine_fn co_put_to_shres(SharedResource *s, uint64_t n)
  {
-+    uint64_t progress_current, progress_total;
-     AioContext *aio_context = blk_get_aio_context(job->blk);
-     int ret = 0;
- 
-@@ -908,9 +909,11 @@ static void run_block_job(BlockJob *job, Error **errp)
-     do {
-         float progress = 0.0f;
-         aio_poll(aio_context, true);
--        if (job->job.progress.total) {
--            progress = (float)job->job.progress.current /
--                       job->job.progress.total * 100.f;
-+
-+        progress_get_snapshot(&job->job.progress, &progress_current,
-+                              &progress_total);
-+        if (progress_total) {
-+            progress = (float)progress_current / progress_total * 100.f;
-         }
-         qemu_progress_print(progress, 0);
-     } while (!job_is_ready(&job->job) && !job_is_completed(&job->job));
++    QEMU_LOCK_GUARD(&s->lock);
+     assert(s->total - s->available >= n);
+     s->available += n;
+     qemu_co_queue_restart_all(&s->queue);
 -- 
 2.30.2
 
