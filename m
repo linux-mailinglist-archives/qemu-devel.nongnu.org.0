@@ -2,43 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6245E386F7B
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 03:41:21 +0200 (CEST)
-Received: from localhost ([::1]:35006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 430B6386F5F
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 03:38:11 +0200 (CEST)
+Received: from localhost ([::1]:53676 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1liojY-0007fe-ET
-	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 21:41:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60968)
+	id 1liogU-0001JK-Bq
+	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 21:38:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60900)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lioeF-0006rG-Vc; Mon, 17 May 2021 21:35:52 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:54195 helo=ozlabs.org)
+ id 1lioeC-0006hs-4z; Mon, 17 May 2021 21:35:48 -0400
+Received: from ozlabs.org ([203.11.71.1]:40065)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lioeB-0006wS-N7; Mon, 17 May 2021 21:35:51 -0400
+ id 1lioe9-0006wv-F0; Mon, 17 May 2021 21:35:47 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4FkdqZ3n4jz9sW7; Tue, 18 May 2021 11:35:38 +1000 (AEST)
+ id 4Fkdqb2yCqz9sWX; Tue, 18 May 2021 11:35:38 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1621301738;
- bh=+n4hzaV4pxtz30RWhzjJ/2+nm1LrT5k/7rMfXVqo3Sc=;
+ d=gibson.dropbear.id.au; s=201602; t=1621301739;
+ bh=gTIgF0BXPkbTvoISXaDrCxpuhRooOHoVQ4lxg2Dos68=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=KxLRD/xpU284I842UNniswm7d2wxrsKTCQ4dnMu4vr/vcbNBGpDaKacNI+yrcRdRX
- LzVn1g+K8CxT1fOaI5B9lgWUX2HW+3/AbBfHsFcYGy0F9NhjUvq4vPf+tjfalJkLUM
- aYW5WvhYplSvYZ4QvSvl3pmW7MJ016SoxGbEuJ50=
-Date: Tue, 18 May 2021 10:13:49 +1000
+ b=ijOulkRMtKE5XzuXDruAimDvF9lUoGbRvHo1R+GO2a5sZ5497WOD9hWAMwWLXCqPN
+ IQxHVY/Gl1mw31sZub9AkeztLPcEj0mg0S1HDbuNIP8Q4pE0AzUY6QfZbz2rorC3OL
+ CftHPWIpqSrqEpAmkK3AUOK0edtPRTnnXr2SIVp0=
+Date: Tue, 18 May 2021 10:14:42 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
 To: matheus.ferst@eldorado.org.br
-Subject: Re: [PATCH v5 01/23] target/ppc: Introduce gen_icount_io_start
-Message-ID: <YKMGvSajoZtoc1m4@yekko>
+Subject: Re: [PATCH v5 02/23] target/ppc: Replace POWERPC_EXCP_STOP with
+ DISAS_EXIT_UPDATE
+Message-ID: <YKMG8hpwPw+MYaaj@yekko>
 References: <20210517205025.3777947-1-matheus.ferst@eldorado.org.br>
- <20210517205025.3777947-2-matheus.ferst@eldorado.org.br>
+ <20210517205025.3777947-3-matheus.ferst@eldorado.org.br>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="5rqPYiRT+/5++fSu"
+ protocol="application/pgp-signature"; boundary="BzOz3wUD9PXVkQXr"
 Content-Disposition: inline
-In-Reply-To: <20210517205025.3777947-2-matheus.ferst@eldorado.org.br>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+In-Reply-To: <20210517205025.3777947-3-matheus.ferst@eldorado.org.br>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -65,21 +66,16 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---5rqPYiRT+/5++fSu
+--BzOz3wUD9PXVkQXr
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, May 17, 2021 at 05:50:03PM -0300, matheus.ferst@eldorado.org.br wro=
+On Mon, May 17, 2021 at 05:50:04PM -0300, matheus.ferst@eldorado.org.br wro=
 te:
 > From: Richard Henderson <richard.henderson@linaro.org>
 >=20
-> Create a function to handle the details for interacting with icount.
->=20
-> Force the exit from the tb via DISAS_TOO_MANY, which allows chaining
-> to the next tb, where the code emitted for gen_tb_start() will
-> determine if we must exit.  We can thus remove any matching
-> conditional call to gen_stop_exception.
+> Remove the synthetic "exception" after no more uses.
 >=20
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
@@ -87,363 +83,142 @@ te:
 Applied to ppc-for-6.1, thanks.
 
 > ---
->  target/ppc/translate.c | 174 +++++++++--------------------------------
->  1 file changed, 39 insertions(+), 135 deletions(-)
+>  linux-user/ppc/cpu_loop.c |  3 ---
+>  target/ppc/cpu.h          |  1 -
+>  target/ppc/translate.c    | 24 +++++++-----------------
+>  3 files changed, 7 insertions(+), 21 deletions(-)
 >=20
+> diff --git a/linux-user/ppc/cpu_loop.c b/linux-user/ppc/cpu_loop.c
+> index 4a0f6c8dc2..fe526693d2 100644
+> --- a/linux-user/ppc/cpu_loop.c
+> +++ b/linux-user/ppc/cpu_loop.c
+> @@ -423,9 +423,6 @@ void cpu_loop(CPUPPCState *env)
+>              cpu_abort(cs, "Maintenance exception while in user mode. "
+>                        "Aborting\n");
+>              break;
+> -        case POWERPC_EXCP_STOP:     /* stop translation                 =
+     */
+> -            /* We did invalidate the instruction cache. Go on */
+> -            break;
+>          case POWERPC_EXCP_BRANCH:   /* branch instruction:              =
+     */
+>              /* We just stopped because of a branch. Go on */
+>              break;
+> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+> index 99ee1e09b2..9e38df685d 100644
+> --- a/target/ppc/cpu.h
+> +++ b/target/ppc/cpu.h
+> @@ -132,7 +132,6 @@ enum {
+>      /* EOL                                                              =
+     */
+>      POWERPC_EXCP_NB       =3D 103,
+>      /* QEMU exceptions: used internally during code translation         =
+     */
+> -    POWERPC_EXCP_STOP         =3D 0x200, /* stop translation            =
+       */
+>      POWERPC_EXCP_BRANCH       =3D 0x201, /* branch instruction          =
+       */
+>      /* QEMU exceptions: special cases we want to stop translation       =
+     */
+>      POWERPC_EXCP_SYSCALL_USER =3D 0x203, /* System call in user mode onl=
+y      */
 > diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-> index d51a1913a7..060ef83bc0 100644
+> index 060ef83bc0..f57b67be5f 100644
 > --- a/target/ppc/translate.c
 > +++ b/target/ppc/translate.c
-> @@ -304,6 +304,20 @@ static void gen_exception_nip(DisasContext *ctx, uin=
-t32_t excp,
->      ctx->base.is_jmp =3D DISAS_NORETURN;
+> @@ -369,13 +369,6 @@ static inline void gen_hvpriv_exception(DisasContext=
+ *ctx, uint32_t error)
+>      gen_exception_err(ctx, POWERPC_EXCP_HV_EMU, POWERPC_EXCP_PRIV | erro=
+r);
 >  }
 > =20
-> +static void gen_icount_io_start(DisasContext *ctx)
-> +{
-> +    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-> +        gen_io_start();
-> +        /*
-> +         * An I/O instruction must be last in the TB.
-> +         * Chain to the next TB, and let the code from gen_tb_start
-> +         * decide if we need to return to the main loop.
-> +         * Doing this first also allows this value to be overridden.
-> +         */
-> +        ctx->base.is_jmp =3D DISAS_TOO_MANY;
-> +    }
-> +}
-> +
->  /*
->   * Tells the caller what is the appropriate exception to generate and pr=
-epares
->   * SPR registers for this exception.
-> @@ -540,24 +554,14 @@ void spr_write_ureg(DisasContext *ctx, int sprn, in=
-t gprn)
->  #if !defined(CONFIG_USER_ONLY)
->  void spr_read_decr(DisasContext *ctx, int gprn, int sprn)
->  {
-> -    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-> -        gen_io_start();
-> -    }
-> +    gen_icount_io_start(ctx);
->      gen_helper_load_decr(cpu_gpr[gprn], cpu_env);
-> -    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-> -        gen_stop_exception(ctx);
-> -    }
->  }
+> -/* Stop translation */
+> -static inline void gen_stop_exception(DisasContext *ctx)
+> -{
+> -    gen_update_nip(ctx, ctx->base.pc_next);
+> -    ctx->exception =3D POWERPC_EXCP_STOP;
+> -}
+> -
+>  /***********************************************************************=
+******/
+>  /* SPR READ/WRITE CALLBACKS */
 > =20
->  void spr_write_decr(DisasContext *ctx, int sprn, int gprn)
+> @@ -829,7 +822,7 @@ void spr_write_hid0_601(DisasContext *ctx, int sprn, =
+int gprn)
 >  {
-> -    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-> -        gen_io_start();
-> -    }
-> +    gen_icount_io_start(ctx);
->      gen_helper_store_decr(cpu_env, cpu_gpr[gprn]);
-> -    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-> -        gen_stop_exception(ctx);
-> -    }
+>      gen_helper_store_hid0_601(cpu_env, cpu_gpr[gprn]);
+>      /* Must stop the translation as endianness may have changed */
+> -    gen_stop_exception(ctx);
+> +    ctx->base.is_jmp =3D DISAS_EXIT_UPDATE;
 >  }
 >  #endif
 > =20
-> @@ -565,24 +569,14 @@ void spr_write_decr(DisasContext *ctx, int sprn, in=
-t gprn)
->  /* Time base */
->  void spr_read_tbl(DisasContext *ctx, int gprn, int sprn)
->  {
-> -    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-> -        gen_io_start();
-> -    }
-> +    gen_icount_io_start(ctx);
->      gen_helper_load_tbl(cpu_gpr[gprn], cpu_env);
-> -    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-> -        gen_stop_exception(ctx);
-> -    }
->  }
-> =20
->  void spr_read_tbu(DisasContext *ctx, int gprn, int sprn)
->  {
-> -    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-> -        gen_io_start();
-> -    }
-> +    gen_icount_io_start(ctx);
->      gen_helper_load_tbu(cpu_gpr[gprn], cpu_env);
-> -    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-> -        gen_stop_exception(ctx);
-> -    }
->  }
-> =20
->  void spr_read_atbl(DisasContext *ctx, int gprn, int sprn)
-> @@ -598,24 +592,14 @@ void spr_read_atbu(DisasContext *ctx, int gprn, int=
- sprn)
->  #if !defined(CONFIG_USER_ONLY)
->  void spr_write_tbl(DisasContext *ctx, int sprn, int gprn)
->  {
-> -    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-> -        gen_io_start();
-> -    }
-> +    gen_icount_io_start(ctx);
->      gen_helper_store_tbl(cpu_env, cpu_gpr[gprn]);
-> -    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-> -        gen_stop_exception(ctx);
-> -    }
->  }
-> =20
->  void spr_write_tbu(DisasContext *ctx, int sprn, int gprn)
->  {
-> -    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-> -        gen_io_start();
-> -    }
-> +    gen_icount_io_start(ctx);
->      gen_helper_store_tbu(cpu_env, cpu_gpr[gprn]);
-> -    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-> -        gen_stop_exception(ctx);
-> -    }
->  }
-> =20
->  void spr_write_atbl(DisasContext *ctx, int sprn, int gprn)
-> @@ -631,80 +615,45 @@ void spr_write_atbu(DisasContext *ctx, int sprn, in=
-t gprn)
->  #if defined(TARGET_PPC64)
->  void spr_read_purr(DisasContext *ctx, int gprn, int sprn)
->  {
-> -    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-> -        gen_io_start();
-> -    }
-> +    gen_icount_io_start(ctx);
->      gen_helper_load_purr(cpu_gpr[gprn], cpu_env);
-> -    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-> -        gen_stop_exception(ctx);
-> -    }
->  }
-> =20
->  void spr_write_purr(DisasContext *ctx, int sprn, int gprn)
->  {
-> -    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-> -        gen_io_start();
-> -    }
-> +    gen_icount_io_start(ctx);
->      gen_helper_store_purr(cpu_env, cpu_gpr[gprn]);
-> -    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-> -        gen_stop_exception(ctx);
-> -    }
->  }
-> =20
->  /* HDECR */
->  void spr_read_hdecr(DisasContext *ctx, int gprn, int sprn)
->  {
-> -    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-> -        gen_io_start();
-> -    }
-> +    gen_icount_io_start(ctx);
->      gen_helper_load_hdecr(cpu_gpr[gprn], cpu_env);
-> -    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-> -        gen_stop_exception(ctx);
-> -    }
->  }
-> =20
->  void spr_write_hdecr(DisasContext *ctx, int sprn, int gprn)
->  {
-> -    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-> -        gen_io_start();
-> -    }
-> +    gen_icount_io_start(ctx);
->      gen_helper_store_hdecr(cpu_env, cpu_gpr[gprn]);
-> -    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-> -        gen_stop_exception(ctx);
-> -    }
->  }
-> =20
->  void spr_read_vtb(DisasContext *ctx, int gprn, int sprn)
->  {
-> -    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-> -        gen_io_start();
-> -    }
-> +    gen_icount_io_start(ctx);
->      gen_helper_load_vtb(cpu_gpr[gprn], cpu_env);
-> -    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-> -        gen_stop_exception(ctx);
-> -    }
->  }
-> =20
->  void spr_write_vtb(DisasContext *ctx, int sprn, int gprn)
->  {
-> -    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-> -        gen_io_start();
-> -    }
-> +    gen_icount_io_start(ctx);
->      gen_helper_store_vtb(cpu_env, cpu_gpr[gprn]);
-> -    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-> -        gen_stop_exception(ctx);
-> -    }
->  }
-> =20
->  void spr_write_tbu40(DisasContext *ctx, int sprn, int gprn)
->  {
-> -    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-> -        gen_io_start();
-> -    }
-> +    gen_icount_io_start(ctx);
->      gen_helper_store_tbu40(cpu_env, cpu_gpr[gprn]);
-> -    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-> -        gen_stop_exception(ctx);
-> -    }
->  }
-> =20
->  #endif
-> @@ -912,71 +861,41 @@ void spr_write_601_ubatl(DisasContext *ctx, int spr=
-n, int gprn)
->  #if !defined(CONFIG_USER_ONLY)
->  void spr_read_40x_pit(DisasContext *ctx, int gprn, int sprn)
->  {
-> -    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-> -        gen_io_start();
-> -    }
-> +    gen_icount_io_start(ctx);
->      gen_helper_load_40x_pit(cpu_gpr[gprn], cpu_env);
-> -    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-> -        gen_stop_exception(ctx);
-> -    }
->  }
-> =20
->  void spr_write_40x_pit(DisasContext *ctx, int sprn, int gprn)
->  {
-> -    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-> -        gen_io_start();
-> -    }
-> +    gen_icount_io_start(ctx);
->      gen_helper_store_40x_pit(cpu_env, cpu_gpr[gprn]);
-> -    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-> -        gen_stop_exception(ctx);
-> -    }
->  }
-> =20
->  void spr_write_40x_dbcr0(DisasContext *ctx, int sprn, int gprn)
->  {
-> -    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-> -        gen_io_start();
-> -    }
-> +    gen_icount_io_start(ctx);
+> @@ -877,7 +870,7 @@ void spr_write_40x_dbcr0(DisasContext *ctx, int sprn,=
+ int gprn)
 >      gen_store_spr(sprn, cpu_gpr[gprn]);
 >      gen_helper_store_40x_dbcr0(cpu_env, cpu_gpr[gprn]);
 >      /* We must stop translation as we may have rebooted */
->      gen_stop_exception(ctx);
-> -    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-> -        gen_stop_exception(ctx);
-> -    }
+> -    gen_stop_exception(ctx);
+> +    ctx->base.is_jmp =3D DISAS_EXIT_UPDATE;
 >  }
 > =20
 >  void spr_write_40x_sler(DisasContext *ctx, int sprn, int gprn)
->  {
-> -    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-> -        gen_io_start();
-> -    }
-> +    gen_icount_io_start(ctx);
->      gen_helper_store_40x_sler(cpu_env, cpu_gpr[gprn]);
-> -    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-> -        gen_stop_exception(ctx);
-> -    }
+> @@ -4080,7 +4073,7 @@ static void gen_isync(DisasContext *ctx)
+>          gen_check_tlb_flush(ctx, false);
+>      }
+>      tcg_gen_mb(TCG_MO_ALL | TCG_BAR_SC);
+> -    gen_stop_exception(ctx);
+> +    ctx->base.is_jmp =3D DISAS_EXIT_UPDATE;
 >  }
 > =20
->  void spr_write_booke_tcr(DisasContext *ctx, int sprn, int gprn)
->  {
-> -    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-> -        gen_io_start();
-> -    }
-> +    gen_icount_io_start(ctx);
->      gen_helper_store_booke_tcr(cpu_env, cpu_gpr[gprn]);
-> -    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-> -        gen_stop_exception(ctx);
-> -    }
+>  #define MEMOP_GET_SIZE(x)  (1 << ((x) & MO_SIZE))
+> @@ -5312,7 +5305,7 @@ static void gen_mtmsrd(DisasContext *ctx)
+>          gen_helper_store_msr(cpu_env, cpu_gpr[rS(ctx->opcode)]);
+>      }
+>      /* Must stop the translation as machine state (may have) changed */
+> -    gen_stop_exception(ctx);
+> +    ctx->base.is_jmp =3D DISAS_EXIT_UPDATE;
+>  #endif /* !defined(CONFIG_USER_ONLY) */
 >  }
-> =20
->  void spr_write_booke_tsr(DisasContext *ctx, int sprn, int gprn)
->  {
-> -    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-> -        gen_io_start();
-> -    }
-> +    gen_icount_io_start(ctx);
->      gen_helper_store_booke_tsr(cpu_env, cpu_gpr[gprn]);
-> -    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-> -        gen_stop_exception(ctx);
-> -    }
->  }
+>  #endif /* defined(TARGET_PPC64) */
+> @@ -5355,7 +5348,7 @@ static void gen_mtmsr(DisasContext *ctx)
+>          tcg_temp_free(msr);
+>      }
+>      /* Must stop the translation as machine state (may have) changed */
+> -    gen_stop_exception(ctx);
+> +    ctx->base.is_jmp =3D DISAS_EXIT_UPDATE;
 >  #endif
+>  }
 > =20
-> @@ -2860,18 +2779,13 @@ static void gen_darn(DisasContext *ctx)
->      if (l > 2) {
->          tcg_gen_movi_i64(cpu_gpr[rD(ctx->opcode)], -1);
+> @@ -7492,7 +7485,7 @@ static void gen_wrtee(DisasContext *ctx)
+>       * Stop translation to have a chance to raise an exception if we
+>       * just set msr_ee to 1
+>       */
+> -    gen_stop_exception(ctx);
+> +    ctx->base.is_jmp =3D DISAS_EXIT_UPDATE;
+>  #endif /* defined(CONFIG_USER_ONLY) */
+>  }
+> =20
+> @@ -7506,7 +7499,7 @@ static void gen_wrteei(DisasContext *ctx)
+>      if (ctx->opcode & 0x00008000) {
+>          tcg_gen_ori_tl(cpu_msr, cpu_msr, (1 << MSR_EE));
+>          /* Stop translation to have a chance to raise an exception */
+> -        gen_stop_exception(ctx);
+> +        ctx->base.is_jmp =3D DISAS_EXIT_UPDATE;
 >      } else {
-> -        if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-> -            gen_io_start();
-> -        }
-> +        gen_icount_io_start(ctx);
->          if (l =3D=3D 0) {
->              gen_helper_darn32(cpu_gpr[rD(ctx->opcode)]);
->          } else {
->              /* Return 64-bit random for both CRN and RRN */
->              gen_helper_darn64(cpu_gpr[rD(ctx->opcode)]);
->          }
-> -        if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-> -            gen_stop_exception(ctx);
-> -        }
+>          tcg_gen_andi_tl(cpu_msr, cpu_msr, ~(1 << MSR_EE));
 >      }
->  }
->  #endif
-> @@ -5013,9 +4927,7 @@ static void gen_rfi(DisasContext *ctx)
->      }
->      /* Restore CPU state */
->      CHK_SV;
-> -    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-> -        gen_io_start();
-> -    }
-> +    gen_icount_io_start(ctx);
->      gen_update_cfar(ctx, ctx->cia);
->      gen_helper_rfi(cpu_env);
->      ctx->base.is_jmp =3D DISAS_EXIT;
-> @@ -5030,9 +4942,7 @@ static void gen_rfid(DisasContext *ctx)
->  #else
->      /* Restore CPU state */
->      CHK_SV;
-> -    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-> -        gen_io_start();
-> -    }
-> +    gen_icount_io_start(ctx);
->      gen_update_cfar(ctx, ctx->cia);
->      gen_helper_rfid(cpu_env);
->      ctx->base.is_jmp =3D DISAS_EXIT;
-> @@ -5047,9 +4957,7 @@ static void gen_rfscv(DisasContext *ctx)
->  #else
->      /* Restore CPU state */
->      CHK_SV;
-> -    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-> -        gen_io_start();
-> -    }
-> +    gen_icount_io_start(ctx);
->      gen_update_cfar(ctx, ctx->cia);
->      gen_helper_rfscv(cpu_env);
->      ctx->base.is_jmp =3D DISAS_EXIT;
-> @@ -5379,9 +5287,7 @@ static void gen_mtmsrd(DisasContext *ctx)
->      CHK_SV;
-> =20
->  #if !defined(CONFIG_USER_ONLY)
-> -    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-> -        gen_io_start();
-> -    }
-> +    gen_icount_io_start(ctx);
->      if (ctx->opcode & 0x00010000) {
->          /* L=3D1 form only updates EE and RI */
->          TCGv t0 =3D tcg_temp_new();
-> @@ -5416,9 +5322,7 @@ static void gen_mtmsr(DisasContext *ctx)
->      CHK_SV;
-> =20
->  #if !defined(CONFIG_USER_ONLY)
-> -    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-> -        gen_io_start();
-> -    }
-> +    gen_icount_io_start(ctx);
->      if (ctx->opcode & 0x00010000) {
->          /* L=3D1 form only updates EE and RI */
->          TCGv t0 =3D tcg_temp_new();
+> @@ -9128,9 +9121,6 @@ static void ppc_tr_translate_insn(DisasContextBase =
+*dcbase, CPUState *cs)
+>          case POWERPC_EXCP_BRANCH:
+>              ctx->base.is_jmp =3D DISAS_NORETURN;
+>              break;
+> -        case POWERPC_EXCP_STOP:
+> -            ctx->base.is_jmp =3D DISAS_EXIT;
+> -            break;
+>          default:
+>              /* Every other ctx->exception should have set NORETURN. */
+>              g_assert_not_reached();
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -451,25 +226,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---5rqPYiRT+/5++fSu
+--BzOz3wUD9PXVkQXr
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmCjBr0ACgkQbDjKyiDZ
-s5LyiA//VPT98SljjixIxeVeYH4/dLYXs6OLXkEdSy4SYdOdUB56G6QXccu+8hNt
-+/F1LtkGfUrGqUqdIipIihlVTz73hmtH2Z90iwr6Udw27j7OTDJdQOdunW4cisGz
-jIVOSeyH2TSp2zOOFpsjLYgJ6c78IjbsLFxjogrvacqqHhBu5GNfRUhHqy93u/Ha
-hDjp34IzYsLONh5n+oFyxHvxIJxNQpm5P23rcmql68Oi1W/g+4a9sIuGzwkSVNWo
-nDIjhGnNJVRzPmX9Etxfoo5v6CgqRHeSgvp7+48S0pAvfcugLvkeXkITEzfghnTY
-nwKPuVjTUYLP/6X9pBllPjEIVaX0uiXiH5s8B9Y/6Ts3Wniw8I58fqT0qevk6gsP
-Bc4sVYNfKF0uBFiqP2CuTualwYitgUjbzP5Ssb+kJ3IwrTvx/cfndAaEl1KbKO54
-sFD9DZ1+BHMUNhq/aK4MbhAy7+nfEIKLmB0QXQkBB7WDkzWTd9uneuXhhdMdFBY3
-jP9I7KdmBOwwH8xlWf3QQxuQ8wR+pWRDk/eyfI0lsx2x8WwueqkYROOE6UQRJq7C
-BuT4HmSTNLq3FbyEudg0m9w/hipXezfWaPz/UyDRrVPuFTcTUiwdqXFOdq9jAMvJ
-IBwLrDs7Q5TxNHWnuMYqZ7LEgg+LINVJtFIJVR27Gg/snOhfEnI=
-=e5pO
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmCjBvIACgkQbDjKyiDZ
+s5IBRw//XnrcMjvNt9GpXqnbRWDNnH2wqTE0nqhhhTOjUjYpl1cmGBpi8Xn4K9Qo
+nAVRhonEa0Hz0wIPUXmxh0qG8LL++q+howmP6NCa1bz3/V61BmszObxn7kOunqMu
+P7Ai3RORddcL/NRVwr1DZF2TQI0xYLNlDs08qiFeHBWJVW6v7V9vmdZc44mSSBON
+0FtH8vflcendCTpZMYg3LvNzJXrBE3lLz55HC2xkjB2Jwb9gWqSLcuJkATO/2P7K
+nADrY0894HWtUXsNhLPrhp3iaNxCs7g/oUkyrkoa9clakNDBvNCwkZeqLEWIc1h5
+LFFRy/ppnWPVLl+4x6e3BNXZqTmueqsws0+kS3W35P328W8xVjsjmHqd7XBkSSzE
+IjOZ59vSK2C6W1TYmXBh0ECZXjjoKQMZorr2j9lB+JZ0LrhEN3N0Sjjc/RD0JHH8
+26+NKKR+xPZlvhXyaZLTmnOQXmNePDdU7vUMBX8wD39h008A8IvMA6ld0e+LdqIi
+gfprU+lcmlCjlqnf6II5Ly7cM/oDUlnJKdayf4BSADu+6i1Rpq07b3h7Oeem7OEO
+S78UBlBLbn3AN+QKJzAX0MXNlTpRJft8irz+LiULPjoEQQrzhFl8X36cyGkztZ3T
+B1wrUh4RmUrwyGULylviTBvm3RMFxmCzS+ZBI/o67fGD+qHFyn4=
+=82Wm
 -----END PGP SIGNATURE-----
 
---5rqPYiRT+/5++fSu--
+--BzOz3wUD9PXVkQXr--
 
