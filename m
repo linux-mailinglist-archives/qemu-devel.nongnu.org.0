@@ -2,78 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC0C63880C4
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 21:51:07 +0200 (CEST)
-Received: from localhost ([::1]:56378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAECF3880D0
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 21:54:07 +0200 (CEST)
+Received: from localhost ([::1]:35578 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lj5kA-0006YZ-S6
-	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 15:51:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36940)
+	id 1lj5n4-0003UB-PM
+	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 15:54:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37930)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <3yhmkYAcKCpkO7GMNK79HH9E7.5HFJ7FN-67O7EGHG9GN.HK9@flex--venture.bounces.google.com>)
- id 1lj5gj-0007z3-QN
- for qemu-devel@nongnu.org; Tue, 18 May 2021 15:47:33 -0400
-Received: from mail-qv1-xf49.google.com ([2607:f8b0:4864:20::f49]:34505)
+ (Exim 4.90_1) (envelope-from <titusr@google.com>) id 1lj5kf-0000Y3-Ss
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 15:51:37 -0400
+Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:39670)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from
- <3yhmkYAcKCpkO7GMNK79HH9E7.5HFJ7FN-67O7EGHG9GN.HK9@flex--venture.bounces.google.com>)
- id 1lj5gb-00079A-RZ
- for qemu-devel@nongnu.org; Tue, 18 May 2021 15:47:33 -0400
-Received: by mail-qv1-xf49.google.com with SMTP id
- f17-20020a0cf3d10000b02901eda24e6b92so8277483qvm.1
- for <qemu-devel@nongnu.org>; Tue, 18 May 2021 12:47:22 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <titusr@google.com>) id 1lj5kd-0001Ng-Vn
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 15:51:37 -0400
+Received: by mail-ed1-x531.google.com with SMTP id h16so12638695edr.6
+ for <qemu-devel@nongnu.org>; Tue, 18 May 2021 12:51:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=date:in-reply-to:message-id:mime-version:references:subject:from:to
- :cc; bh=1R4OqYgXALabVeS1jjyB5oy/+6Sj3iQ62rsKQF+LgxI=;
- b=Sk77cjIGQyY9yV3nr7g6YR0KnAHpng7S9Qf4iEH7CG2Oc6CZboVJGQgxCLKeg6x1vK
- iUy5WDpCQfFQxDW2JDo/hzw5ZHFQUn4P83Xhxhq4UKDwg6y+lkoleVjgNwIkX0xvDq4U
- sD4C+aoF7XVnRCb+6/2aMI5jIPCLumLRiba5BvHFFnPfPaKkyb+tZEv5DrG+zj6T2Yfr
- qfsFplwmMbQVR40jZhSLsBsT0ixITgfqiGWNM0G7lecw+PpAqkS2Kkt/nDn/Pq0Dk4my
- 8E18Hi74alLZqsWVHjKd3v8I8kYaXItaqHsXny7ZU1EXrcoHCLXZxyuVNkJoroMDXIqH
- RPLw==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=tyXck7Um18ApdEwm40WF6AqGkeLHXqrGv35AidTpKn4=;
+ b=UlBeNYrI2EBscM7Dd8GcWrz5PreA76lKgSWkn6AY1rh9Kq+NXY54Y5Su8EoRWeecFa
+ ql7/38owv9nNZlThAQLlg5Vke104safjcWXMjlt8yGiYAGmcvYWYp/2XEEjH//Lr7TQt
+ /VUfd6v/0lIzaLGFGf2ALHmJ10aV5DWJVk77WCa7CewoTiu/hL9emNIKRujTHQ46Czyq
+ ylhuDnhNesMwOpnMcYwZhR8R1lsxF6klxr20zzrGQ4ss6xdqW8Vp2hyAGVQJCsJQAmXB
+ Khb8la0vHVlVMf93wK7xXp8JrNVgurMNt+K1Njz6Adm2vxtcRprC8LK/CyYr8gHMqE35
+ JEmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:in-reply-to:message-id:mime-version
- :references:subject:from:to:cc;
- bh=1R4OqYgXALabVeS1jjyB5oy/+6Sj3iQ62rsKQF+LgxI=;
- b=dPY01HY2tfvdRgnLfRpSmeLgz7DvvOgyJdZhX5IA5hyVq+jNEzK8Ndg+Y1XCdGUlBf
- t/WX6MhGGMnkoYdnJeJfDydnuadQezY26q6ykdNhBhgjBJb1J447tYMXT0rD2HHaqsUv
- 64AzH7wH5vlIJrNsPT1vGdkSjHiYFDNdeB+/hi2RQLF1vhBIm0IDJT0YxRaWRtjcc2ZP
- zx+dXGmxz1QB3Fe3IlFhW2KVQ5iVaUtAhodsNvXt0QcRuP1tSDclmUJbS1tEgd4irtCa
- xfs7OYgoUb3QS2LUeVyofVuFj+5COTzuhBylezOKWCXAqVyYRSbVUHMqJH3aavcEsNQh
- t5wg==
-X-Gm-Message-State: AOAM532dUDtqKa5LlQJG3s5zs/Xev/GSyE8SyTGmBlIymMvrOcFF5t9W
- ym2sAZdiCSHubbtm9cjwoyBPOdnaB5WC
-X-Google-Smtp-Source: ABdhPJyuG+y9N0sP9rOVa3gOqjPnEOFA1IGeH7258RgYz5tyhmksj81u1aR/OX5kFxXWOU5V1h/qs/kCZJ5Z
-X-Received: from venture.svl.corp.google.com
- ([2620:15c:2a3:200:5902:8a04:d917:4e93])
- (user=venture job=sendgmr) by 2002:a0c:cdc8:: with SMTP id
- a8mr7897551qvn.12.1621367242071; Tue, 18 May 2021 12:47:22 -0700 (PDT)
-Date: Tue, 18 May 2021 12:47:04 -0700
-In-Reply-To: <20210518194704.764241-1-venture@google.com>
-Message-Id: <20210518194704.764241-3-venture@google.com>
-Mime-Version: 1.0
-References: <20210518194704.764241-1-venture@google.com>
-X-Mailer: git-send-email 2.31.1.751.gd2f1c929bd-goog
-Subject: [PATCH 2/2] hw/arm: quanta-gbs-bmc add i2c comments
-From: Patrick Venture <venture@google.com>
-To: hskinnemoen@google.com, kfting@nuvoton.com
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=tyXck7Um18ApdEwm40WF6AqGkeLHXqrGv35AidTpKn4=;
+ b=f3ix3Sqv0sXc8Ts99kagiML7Jh0182EuvlNrl7htIUcybSTt8U0W4ipFCpHGVtPgZL
+ qYJDpg2aKseV/N7O/zJ+ZP4+uWQEf4qNTNkOOPtsTr1hCa2Mdxk9XFbBZ2hNSvyqiug5
+ W9NLx31/55HZccpBUMoe7B5oZnlBk2O6fX4u+DeIKX2ICC7oBD0haYY41uEFYI+Ewr+E
+ xVVwFn592m+QaFEzQcUpCBqeB6jaCIn04ARh2NAPrUDIUsxmz4tRw+3yTuXkhnPFIZPh
+ PZWxeqNG+t0tQdMqwZSSKg57tcboYlisMJqYX3Qjycs31oISYlpCsmxjYVORE563IXKt
+ RqZw==
+X-Gm-Message-State: AOAM531ltNIZSU2bqG7I+djEFMETLDBjpjwiQhrygLoKpr9wx4JI2I2u
+ 8ZnNGeji9vJHUIIRxyxBmEqnDHucru61wffum13Bbg==
+X-Google-Smtp-Source: ABdhPJwmpv28gLfOINaCAZyvD7p7+P1f4VYLYYgz0h/8SLHVUBWqVgLFut3J4zbHvWgd1ZCcWEN4aE1tY+igwueBN1Q=
+X-Received: by 2002:a50:aa95:: with SMTP id q21mr8858159edc.329.1621367494238; 
+ Tue, 18 May 2021 12:51:34 -0700 (PDT)
+MIME-Version: 1.0
+References: <20210518184527.1037888-1-titusr@google.com>
+ <20210518194518.GY11196@minyard.net>
+In-Reply-To: <20210518194518.GY11196@minyard.net>
+From: Titus Rwantare <titusr@google.com>
+Date: Tue, 18 May 2021 15:50:57 -0400
+Message-ID: <CAMvPwGquxnT7RDOVCeXG1Jdjg1hU+a1-20Pu4c7ufQDytbNHag@mail.gmail.com>
+Subject: Re: [PATCH v3 0/5] Add support for PMBus in QEMU
+To: Corey Minyard <cminyard@mvista.com>
 Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, 
- Patrick Venture <venture@google.com>, Brandon Kim <brandonkim@google.com>,
- Hao Wu <wuhaotsh@google.com>
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
+ Hao Wu <wuhaotsh@google.com>, Joel Stanley <joel@jms.id.au>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f49;
- envelope-from=3yhmkYAcKCpkO7GMNK79HH9E7.5HFJ7FN-67O7EGHG9GN.HK9@flex--venture.bounces.google.com;
- helo=mail-qv1-xf49.google.com
-X-Spam_score_int: -95
-X-Spam_score: -9.6
-X-Spam_bar: ---------
-X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::531;
+ envelope-from=titusr@google.com; helo=mail-ed1-x531.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- USER_IN_DEF_DKIM_WL=-7.5 autolearn=unavailable autolearn_force=no
+ ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,95 +84,104 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a comment and i2c method that describes the board layout.
+I would also like a directory for sensors. There are quite a few of
+those incoming. Any objections?
 
-Tested: firmware booted to userspace.
-Signed-off-by: Patrick Venture <venture@google.com>
-Reviewed-by: Brandon Kim <brandonkim@google.com>
-Reviewed-by: Hao Wu <wuhaotsh@google.com>
----
- hw/arm/npcm7xx_boards.c | 60 +++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 60 insertions(+)
+-Titus
 
-diff --git a/hw/arm/npcm7xx_boards.c b/hw/arm/npcm7xx_boards.c
-index 34a214fe79..d9de375826 100644
---- a/hw/arm/npcm7xx_boards.c
-+++ b/hw/arm/npcm7xx_boards.c
-@@ -238,6 +238,65 @@ static void quanta_gsj_fan_init(NPCM7xxMachine *machine, NPCM7xxState *soc)
-     npcm7xx_connect_pwm_fan(soc, &splitter[2], 0x05, 1);
- }
- 
-+static void quanta_gbs_i2c_init(NPCM7xxState *soc)
-+{
-+    /*
-+     * i2c-0:
-+     *     pca9546@71
-+     *
-+     * i2c-1:
-+     *     pca9535@24
-+     *     pca9535@20
-+     *     pca9535@21
-+     *     pca9535@22
-+     *     pca9535@23
-+     *     pca9535@25
-+     *     pca9535@26
-+     *
-+     * i2c-2:
-+     *     sbtsi@4c
-+     *
-+     * i2c-5:
-+     *     atmel,24c64@50 mb_fru
-+     *     pca9546@71
-+     *         - channel 0: max31725@54
-+     *         - channel 1: max31725@55
-+     *         - channel 2: max31725@5d
-+     *                      atmel,24c64@51 fan_fru
-+     *         - channel 3: atmel,24c64@52 hsbp_fru
-+     *
-+     * i2c-6:
-+     *     pca9545@73
-+     *
-+     * i2c-7:
-+     *     pca9545@72
-+     *
-+     * i2c-8:
-+     *     adi,adm1272@10
-+     *
-+     * i2c-9:
-+     *     pca9546@71
-+     *         - channel 0: isil,isl68137@60
-+     *         - channel 1: isil,isl68137@61
-+     *         - channel 2: isil,isl68137@63
-+     *         - channel 3: isil,isl68137@45
-+     *
-+     * i2c-10:
-+     *     pca9545@71
-+     *
-+     * i2c-11:
-+     *     pca9545@76
-+     *
-+     * i2c-12:
-+     *     maxim,max34451@4e
-+     *     isil,isl68137@5d
-+     *     isil,isl68137@5e
-+     *
-+     * i2c-14:
-+     *     pca9545@70
-+     */
-+}
-+
- static void npcm750_evb_init(MachineState *machine)
- {
-     NPCM7xxState *soc;
-@@ -282,6 +341,7 @@ static void quanta_gbs_init(MachineState *machine)
-     npcm7xx_connect_flash(&soc->fiu[0], 0, "mx66u51235f",
-                           drive_get(IF_MTD, 0, 0));
- 
-+    quanta_gbs_i2c_init(soc);
-     npcm7xx_load_kernel(machine, soc);
- }
- 
--- 
-2.31.1.751.gd2f1c929bd-goog
-
+On Tue, 18 May 2021 at 15:45, Corey Minyard <cminyard@mvista.com> wrote:
+>
+> On Tue, May 18, 2021 at 11:45:22AM -0700, Titus Rwantare wrote:
+> > Hello,
+> >
+> > This patch series adds an interface to start supporting PMBus devices i=
+n QEMU.
+> > I=E2=80=99ve included two PMBus devices: MAX34451 and ADM1272.
+>
+> I've reviewed all these patches, and beyond my one comment, they look
+> good.
+>
+> I'm not too excited about putting the device files in misc.  I know some
+> SMBus sensors are in there, but they really aren't miscellaneous.  They
+> are really sensors.  But unless we want to create a sensors directory
+> and move things into that, misc will have to do, I guess.
+>
+> -corey
+>
+> >
+> > PMBus is a variant of SMBus meant for digital management of power suppl=
+ies.
+> > PMBus adds to the SMBus standard by defining a number of constants and =
+commands
+> > used by compliant devices. The specification for PMBus can be found at:
+> >
+> > https://pmbus.org/specification-archives/
+> >
+> > Currently, the goal for these devices is to emulate basic functionality=
+ by
+> > reading and writing registers. Timing, and some logical operation is no=
+t
+> > implemented. This implementation supports nearly all available register=
+s for
+> > PMBus including:
+> >    - Voltage inputs and outputs
+> >    - Current inputs and outputs
+> >    - Temperature sensors
+> >
+> > Unimplimented registers get passed through to the device model, and dev=
+ice
+> > models can opt out of using the standard registers with flags. The incl=
+uded
+> > devices make use of these fields and illustrate how to interface with t=
+he pmbus
+> > class.
+> >
+> > Datasheets for sensors:
+> >
+> > https://datasheets.maximintegrated.com/en/ds/MAX34451.pdf
+> > https://www.analog.com/media/en/technical-documentation/data-sheets/ADM=
+1272.pdf
+> >
+> > Since v2:
+> > - bump for feedback
+> > - removed commented out code
+> >
+> > Since v1:
+> > - addressed Joel's comments
+> > - split out tests into their own patches
+> >
+> > Thanks for reviewing,
+> >
+> > Titus Rwantare
+> >
+> > Titus Rwantare (5):
+> >   hw/i2c: add support for PMBus
+> >   hw/misc: add ADM1272 device
+> >   tests/qtest: add tests for ADM1272 device model
+> >   hw/misc: add MAX34451 device
+> >   tests/qtest: add tests for MAX34451 device model
+> >
+> >  include/hw/i2c/pmbus_device.h |  506 +++++++++++
+> >  hw/i2c/pmbus_device.c         | 1596 +++++++++++++++++++++++++++++++++
+> >  hw/misc/adm1272.c             |  543 +++++++++++
+> >  hw/misc/max34451.c            |  716 +++++++++++++++
+> >  tests/qtest/adm1272-test.c    |  445 +++++++++
+> >  tests/qtest/max34451-test.c   |  336 +++++++
+> >  hw/arm/Kconfig                |    3 +
+> >  hw/i2c/Kconfig                |    4 +
+> >  hw/i2c/meson.build            |    1 +
+> >  hw/misc/Kconfig               |    8 +
+> >  hw/misc/meson.build           |    2 +
+> >  tests/qtest/meson.build       |    2 +
+> >  12 files changed, 4162 insertions(+)
+> >  create mode 100644 include/hw/i2c/pmbus_device.h
+> >  create mode 100644 hw/i2c/pmbus_device.c
+> >  create mode 100644 hw/misc/adm1272.c
+> >  create mode 100644 hw/misc/max34451.c
+> >  create mode 100644 tests/qtest/adm1272-test.c
+> >  create mode 100644 tests/qtest/max34451-test.c
+> >
+> > --
+> > 2.31.1.751.gd2f1c929bd-goog
+> >
 
