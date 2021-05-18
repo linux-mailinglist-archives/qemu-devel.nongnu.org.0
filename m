@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCADA387FEA
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 20:49:42 +0200 (CEST)
-Received: from localhost ([::1]:33720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB391387FDF
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 20:46:49 +0200 (CEST)
+Received: from localhost ([::1]:51554 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lj4mj-00063J-St
-	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 14:49:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49596)
+	id 1lj4jw-0007Sh-GZ
+	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 14:46:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49646)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lj4bD-0001rE-8Z
- for qemu-devel@nongnu.org; Tue, 18 May 2021 14:37:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22195)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lj4bG-000229-Su
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 14:37:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50315)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lj4bA-0008F7-U7
- for qemu-devel@nongnu.org; Tue, 18 May 2021 14:37:47 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lj4bC-0008GP-UD
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 14:37:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621363061;
+ s=mimecast20190719; t=1621363066;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=aZKslzViTqwpl3Hg6nYmowKHUbwLNEE55VzLOcIM+9Y=;
- b=jAAPRPN0ctOp5BaW7FsENFys37g9YCCMFJB3DDs1K1jZjVwcjIBmakF1JVeZpQ2ov+u/Qz
- IBn061nETefSY4/ppvGvc8/GBsO0ZwHVYQkxz3jKu1pjNwFZdwZwJRQs/g1CM4F6OOGOFs
- sMCZEXeNBsfyrc9waiUbDrAbxez670g=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-554-_0zIPIXUPuOYFFzEEeWfBQ-1; Tue, 18 May 2021 14:37:39 -0400
-X-MC-Unique: _0zIPIXUPuOYFFzEEeWfBQ-1
-Received: by mail-ed1-f69.google.com with SMTP id
- x3-20020a50ba830000b029038caed0dd2eso6275550ede.7
- for <qemu-devel@nongnu.org>; Tue, 18 May 2021 11:37:39 -0700 (PDT)
+ bh=L4UOKckP4V9oUzE7TpxZ0flVen5pbcGekiky6msHo58=;
+ b=ILaTOsnyIOz3hFK/MX5KaEyLipq1wJtVA0jK2vZ9K8jMIrwnZuZYIcK++cP7bylp0sMyZg
+ HcCx7HT/Ur/ug95GMjKY2jWsrLcMxt682hk+CPWlcyAxSHlZ7Tg/+GgqBVRkcy+TxJTu6n
+ XODVQmoDkiHkU1uVs3cbu/NpKAFAk/c=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-270-uelf8BKlPwmBcEDi3nn0jg-1; Tue, 18 May 2021 14:37:44 -0400
+X-MC-Unique: uelf8BKlPwmBcEDi3nn0jg-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ q18-20020a0564025192b02903888712212fso6246214edd.19
+ for <qemu-devel@nongnu.org>; Tue, 18 May 2021 11:37:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=aZKslzViTqwpl3Hg6nYmowKHUbwLNEE55VzLOcIM+9Y=;
- b=Wdd+PmrwwLsmrBuglClgAFw0W0OGQsjN6ycSoUc9Deu79AMPCPA+VFcjrrL06nmKkA
- 64WhSrEEKJN4p4V3siKoIPOxyyjbFiq2jhLRKCYe9YV6BPFExxWCrSWWNRBslKUCsOkB
- 5fIuSLTmJeROV+AsOsTHGz0IqZPpi4a48iu5de7wWlSjN5pWXww8/Mi9UVBd651KHuQ9
- h8uVy0kYQwgNxX/ZEfYkIelpAGuiolg/Us1vwC3vbRZu5klhFh98C3qwGKUuNZ/0xHmw
- 7v+6C+f0+RR8r4dUSFVvpgImTSfpxm0aut/Ponmu809DwuSOtfW1UGlMy5rq5XjAlWJ/
- zrnw==
-X-Gm-Message-State: AOAM530s7mmT5xOgbJ/bAclUxzzfJI90401brrW9DciKcIkn5xbW9C+t
- pKnlXXDK61Z4Ug7WrUlKWlaldqZj2Rm0VjbQ/VaOrWdovC201K90m8ISj5dIt8RCig3Igj4V66w
- IYZF5gpKx/10WKCh8rXHpzqbZ/xUJOh/D9R8f1I0TwyWsR5KdQWlsLfvGxjuxlHcO
-X-Received: by 2002:aa7:de99:: with SMTP id j25mr8741062edv.91.1621363058332; 
- Tue, 18 May 2021 11:37:38 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw22sGT9sfU4WZUXNOE8AwUGz52Mh9LYDbMwF3CVppfHR+Bv/jH3aNbQFjgG0UOeCVDDZ4lQw==
-X-Received: by 2002:aa7:de99:: with SMTP id j25mr8741040edv.91.1621363058099; 
- Tue, 18 May 2021 11:37:38 -0700 (PDT)
+ bh=L4UOKckP4V9oUzE7TpxZ0flVen5pbcGekiky6msHo58=;
+ b=TfIObXdc4frhgHa7fYBEBvkB7//ZmdQWyGr54gQ8SNRRWLXmIgGWySNDfHDm1GaObe
+ 2CHk0nmMlPbcRrs5x3y470KrTy73QCD6AW8CcOZKuYK0JO79ktZHZF+s5FCMLle70ZGw
+ zIR2Giw/6MVdGYyNH8G1yA8KklMiM5wWR4pXH5HxVPHZP5FANMkuQLq/4h1zSjExTzrh
+ zW+2QP5VOcsavMCuRizFicaO8IxCZ3ZUyhP7fQPOQ7k1ZuF5aCDXp+rueie6Pb3Dz8yH
+ 2yPCihDpcEEFKmzV2n8xMtlNAT8STutJFM+FW+fPDwHgqcAJv08AI59oH7uwYgr4jaZR
+ 5yHQ==
+X-Gm-Message-State: AOAM531HS1QpGGtZcVLO7VU+YbJy6gxK9EK1QcM90bvlp3FFLoq82XwF
+ kILywEpY0yaZtWvJUrfJ+DJ5YSUFv0V240AqdHLmFeFSQU8fqSTXrTZkL0mnFiKRNAjFDv/Oq6H
+ pmuFen+kw0QLAlVdP+Ol9G+1p8PLZtO6dlHfJ7lupYhBkk5xKmMTL2XhhUn4VuTu/
+X-Received: by 2002:a17:906:1c46:: with SMTP id
+ l6mr7488888ejg.328.1621363063448; 
+ Tue, 18 May 2021 11:37:43 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyqtEhOspP41DPZl6H/khJhmutvLtF3+XqB6Cf1cI3Y7PnU/TrJhpIdULKfyUr5/8vL3YheXA==
+X-Received: by 2002:a17:906:1c46:: with SMTP id
+ l6mr7488869ejg.328.1621363063273; 
+ Tue, 18 May 2021 11:37:43 -0700 (PDT)
 Received: from x1w.redhat.com (31.red-83-51-215.dynamicip.rima-tde.net.
  [83.51.215.31])
- by smtp.gmail.com with ESMTPSA id dj17sm13468997edb.7.2021.05.18.11.37.37
+ by smtp.gmail.com with ESMTPSA id d11sm5184859ejr.58.2021.05.18.11.37.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 May 2021 11:37:37 -0700 (PDT)
+ Tue, 18 May 2021 11:37:42 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 08/25] qemu/bswap: Use ST_CONVERT() macro to emit 16-bit
- load/store functions
-Date: Tue, 18 May 2021 20:36:38 +0200
-Message-Id: <20210518183655.1711377-9-philmd@redhat.com>
+Subject: [RFC PATCH 09/25] qemu/bswap: Introduce LD_CONVERT() macro
+Date: Tue, 18 May 2021 20:36:39 +0200
+Message-Id: <20210518183655.1711377-10-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210518183655.1711377-1-philmd@redhat.com>
 References: <20210518183655.1711377-1-philmd@redhat.com>
@@ -104,60 +105,56 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+To be able to add more load/store operations,
+introduce the LD_CONVERT() macro.
+
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- include/qemu/bswap.h | 17 ++---------------
- 1 file changed, 2 insertions(+), 15 deletions(-)
+ include/qemu/bswap.h | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
 diff --git a/include/qemu/bswap.h b/include/qemu/bswap.h
-index 86f5ded6acf..4e2bd2e97ee 100644
+index 4e2bd2e97ee..c2fd4f31d20 100644
 --- a/include/qemu/bswap.h
 +++ b/include/qemu/bswap.h
-@@ -350,11 +350,6 @@ static inline int ldsw_he_p(const void *ptr)
-     return r;
+@@ -434,18 +434,37 @@ static inline void stq_be_p(void *ptr, uint64_t v)
+     stq_he_p(ptr, be_bswap(v, 64));
  }
  
--static inline void stw_he_p(void *ptr, uint16_t v)
--{
--    __builtin_memcpy(ptr, &v, sizeof(v));
--}
--
- static inline int ldl_he_p(const void *ptr)
- {
-     int32_t r;
-@@ -399,11 +394,6 @@ static inline uint64_t ldq_le_p(const void *ptr)
-     return le_bswap(ldq_he_p(ptr), 64);
- }
- 
--static inline void stw_le_p(void *ptr, uint16_t v)
--{
--    stw_he_p(ptr, le_bswap(v, 16));
--}
--
- static inline void stl_le_p(void *ptr, uint32_t v)
- {
-     stl_he_p(ptr, le_bswap(v, 32));
-@@ -434,11 +424,6 @@ static inline uint64_t ldq_be_p(const void *ptr)
-     return be_bswap(ldq_he_p(ptr), 64);
- }
- 
--static inline void stw_be_p(void *ptr, uint16_t v)
--{
--    stw_he_p(ptr, be_bswap(v, 16));
--}
--
- static inline void stl_be_p(void *ptr, uint32_t v)
- {
-     stl_he_p(ptr, be_bswap(v, 32));
-@@ -466,6 +451,8 @@ static inline void st ## size ## _ ## endian ## _p(void *ptr, vtype v)\
-     ST_CONVERT_END(le, bits, vtype, size)\
-     ST_CONVERT_END(be, bits, vtype, size)
- 
-+ST_CONVERT(16, uint16_t, w)
++#define LD_CONVERT_UNALIGNED(bits, rtype, vtype, size)\
++static inline rtype ld ## size ## _he_p(const void *ptr)\
++{\
++    vtype r;\
++    __builtin_memcpy(&r, ptr, sizeof(r));\
++    return r;\
++}
 +
- static inline unsigned long leul_to_cpu(unsigned long v)
- {
- #if HOST_LONG_BITS == 32
+ #define ST_CONVERT_UNALIGNED(bits, vtype, size)\
+ static inline void st ## size ## _he_p(void *ptr, vtype v)\
+ {\
+     __builtin_memcpy(ptr, &v, sizeof(v));\
+ }
+ 
++#define LD_CONVERT_END(endian, bits, rtype, vtype, size)\
++static inline rtype ld ## size ## _ ## endian ## _p(const void *ptr)\
++{\
++    return (vtype)glue(endian, _bswap)(ld ## size ## _he_p(ptr), bits);\
++}
++
+ #define ST_CONVERT_END(endian, bits, vtype, size)\
+ static inline void st ## size ## _ ## endian ## _p(void *ptr, vtype v)\
+ {\
+     st ## size ## _he_p(ptr, glue(endian, _bswap)(v, bits));\
+ }
+ 
++#define LD_CONVERT(bits, rtype, vtype, size)\
++    LD_CONVERT_UNALIGNED(bits, rtype, vtype, size)\
++    LD_CONVERT_END(le, bits, rtype, vtype, size)\
++    LD_CONVERT_END(be, bits, rtype, vtype, size)
++
+ #define ST_CONVERT(bits, vtype, size)\
+     ST_CONVERT_UNALIGNED(bits, vtype, size)\
+     ST_CONVERT_END(le, bits, vtype, size)\
 -- 
 2.26.3
 
