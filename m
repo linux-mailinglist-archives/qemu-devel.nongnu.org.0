@@ -2,44 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B700E386F94
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 03:47:00 +0200 (CEST)
-Received: from localhost ([::1]:54038 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6677A386F87
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 03:43:36 +0200 (CEST)
+Received: from localhost ([::1]:44398 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1liop1-0003e8-O2
-	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 21:46:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32808)
+	id 1liolj-0005XG-Es
+	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 21:43:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32856)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lioeK-000715-HC; Mon, 17 May 2021 21:35:56 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:34151 helo=ozlabs.org)
+ id 1lioeO-000733-Ca; Mon, 17 May 2021 21:36:01 -0400
+Received: from ozlabs.org ([203.11.71.1]:40867)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lioeH-00075J-R9; Mon, 17 May 2021 21:35:55 -0400
+ id 1lioeK-00077K-Lp; Mon, 17 May 2021 21:35:59 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4Fkdqd5b1hz9sfR; Tue, 18 May 2021 11:35:41 +1000 (AEST)
+ id 4Fkdqf0bywz9sj1; Tue, 18 May 2021 11:35:41 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1621301741;
- bh=W/omS1iGupesz5U7izyx78ox/mlaHrFmt9oTWQwfXwk=;
+ d=gibson.dropbear.id.au; s=201602; t=1621301742;
+ bh=2QvATueHZG6ivbntKmJLa0ln6UCm5in9Xyxpgwyi7k4=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=M+8Pg91vUUGFTZXuM81ywe9xE7ao0jqDsVTVzdjx59KVp8D/ImPbTc3BOkxifi1Kc
- B5VdrwMfZaYwKqZqxh6YrGcZK2JCyTe2ejB9/bsrgsfXurBsgLNuI8Eou12wj+dbEO
- ftbOWF2Kzu1JXFOkwuuPd6A0zzqu4ZIa9+lTkOhs=
-Date: Tue, 18 May 2021 10:35:40 +1000
+ b=c72J2k7H0EFos9WClnrZJiPwcAovxqJoHOSq4ITvwTBncZ+dN4OXSMLrpR9+ao1v9
+ vtvPsPaaeDsNTyh7AGe5MiHAbcLu/88mQxedVh94DDv6BbUHxgOnggmRqhXBVBU1kM
+ 7PhdlWpharVyT5VDVM/x7cfRoce9eSJS2BF5+dnc=
+Date: Tue, 18 May 2021 10:36:58 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
 To: matheus.ferst@eldorado.org.br
-Subject: Re: [PATCH v5 12/23] target/ppc: Move ADDI, ADDIS to decodetree,
- implement PADDI
-Message-ID: <YKML3O36xDPRlER3@yekko>
+Subject: Re: [PATCH v5 13/23] target/ppc: Implement PNOP
+Message-ID: <YKMMKkdpuBzrSC2N@yekko>
 References: <20210517205025.3777947-1-matheus.ferst@eldorado.org.br>
- <20210517205025.3777947-13-matheus.ferst@eldorado.org.br>
+ <20210517205025.3777947-14-matheus.ferst@eldorado.org.br>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="9zuFZm4HKVcW/hHr"
+ protocol="application/pgp-signature"; boundary="Ev4Ptu0a2lfamOAV"
 Content-Disposition: inline
-In-Reply-To: <20210517205025.3777947-13-matheus.ferst@eldorado.org.br>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+In-Reply-To: <20210517205025.3777947-14-matheus.ferst@eldorado.org.br>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -66,14 +65,17 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---9zuFZm4HKVcW/hHr
+--Ev4Ptu0a2lfamOAV
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, May 17, 2021 at 05:50:14PM -0300, matheus.ferst@eldorado.org.br wro=
+On Mon, May 17, 2021 at 05:50:15PM -0300, matheus.ferst@eldorado.org.br wro=
 te:
 > From: Richard Henderson <richard.henderson@linaro.org>
+>=20
+> The illegal suffix behavior matches what was observed in a
+> POWER10 DD2.0 machine.
 >=20
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
@@ -81,163 +83,108 @@ te:
 Applied to ppc-for-6.1, thanks.
 
 > ---
->  target/ppc/insn32.decode                   |  8 ++++
->  target/ppc/insn64.decode                   | 12 ++++++
->  target/ppc/translate.c                     | 29 --------------
->  target/ppc/translate/fixedpoint-impl.c.inc | 44 ++++++++++++++++++++++
->  4 files changed, 64 insertions(+), 29 deletions(-)
+> v5:
+> - Remove argument set from PNOP;
+> - Use no_overlap_group for invalid suffixes.
+> ---
+>  target/ppc/insn64.decode                   | 67 ++++++++++++++++++++++
+>  target/ppc/translate/fixedpoint-impl.c.inc | 11 ++++
+>  2 files changed, 78 insertions(+)
 >=20
-> diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-> index a3a8ae06bf..e7c062d8b4 100644
-> --- a/target/ppc/insn32.decode
-> +++ b/target/ppc/insn32.decode
-> @@ -16,3 +16,11 @@
->  # You should have received a copy of the GNU Lesser General Public
->  # License along with this library; if not, see <http://www.gnu.org/licen=
-ses/>.
->  #
-> +
-> +&D              rt ra si:int64_t
-> +@D              ...... rt:5 ra:5 si:s16                 &D
-> +
-> +### Fixed-Point Arithmetic Instructions
-> +
-> +ADDI            001110 ..... ..... ................     @D
-> +ADDIS           001111 ..... ..... ................     @D
 > diff --git a/target/ppc/insn64.decode b/target/ppc/insn64.decode
-> index a38b1f84dc..1965088915 100644
+> index 1965088915..9aa5097a98 100644
 > --- a/target/ppc/insn64.decode
 > +++ b/target/ppc/insn64.decode
-> @@ -16,3 +16,15 @@
->  # You should have received a copy of the GNU Lesser General Public
->  # License along with this library; if not, see <http://www.gnu.org/licen=
-ses/>.
->  #
-> +
-> +# Format MLS:D and 8LS:D
-> +&PLS_D          rt ra si:int64_t r:bool
-> +%pls_si         32:s18 0:16
-> +@PLS_D          ...... .. ... r:1 .. .................. \
-> +                ...... rt:5 ra:5 ................       \
-> +                &PLS_D si=3D%pls_si
-> +
-> +### Fixed-Point Arithmetic Instructions
-> +
-> +PADDI           000001 10 0--.-- ..................     \
-> +                001110 ..... ..... ................     @PLS_D
-> diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-> index 64d6acb078..5bf9001141 100644
-> --- a/target/ppc/translate.c
-> +++ b/target/ppc/translate.c
-> @@ -1846,19 +1846,6 @@ GEN_INT_ARITH_ADD(addex, 0x05, cpu_ov, 1, 1, 0);
->  /* addze  addze.  addzeo  addzeo.*/
->  GEN_INT_ARITH_ADD_CONST(addze, 0x06, 0, cpu_ca, 1, 1, 0)
->  GEN_INT_ARITH_ADD_CONST(addzeo, 0x16, 0, cpu_ca, 1, 1, 1)
-> -/* addi */
-> -static void gen_addi(DisasContext *ctx)
-> -{
-> -    target_long simm =3D SIMM(ctx->opcode);
-> -
-> -    if (rA(ctx->opcode) =3D=3D 0) {
-> -        /* li case */
-> -        tcg_gen_movi_tl(cpu_gpr[rD(ctx->opcode)], simm);
-> -    } else {
-> -        tcg_gen_addi_tl(cpu_gpr[rD(ctx->opcode)],
-> -                        cpu_gpr[rA(ctx->opcode)], simm);
-> -    }
-> -}
->  /* addic  addic.*/
->  static inline void gen_op_addic(DisasContext *ctx, bool compute_rc0)
->  {
-> @@ -1878,20 +1865,6 @@ static void gen_addic_(DisasContext *ctx)
->      gen_op_addic(ctx, 1);
->  }
+> @@ -28,3 +28,70 @@
 > =20
-> -/* addis */
-> -static void gen_addis(DisasContext *ctx)
-> -{
-> -    target_long simm =3D SIMM(ctx->opcode);
-> -
-> -    if (rA(ctx->opcode) =3D=3D 0) {
-> -        /* lis case */
-> -        tcg_gen_movi_tl(cpu_gpr[rD(ctx->opcode)], simm << 16);
-> -    } else {
-> -        tcg_gen_addi_tl(cpu_gpr[rD(ctx->opcode)],
-> -                        cpu_gpr[rA(ctx->opcode)], simm << 16);
-> -    }
-> -}
-> -
->  /* addpcis */
->  static void gen_addpcis(DisasContext *ctx)
->  {
-> @@ -7903,10 +7876,8 @@ GEN_HANDLER_E(cmpeqb, 0x1F, 0x00, 0x07, 0x00600000=
-, PPC_NONE, PPC2_ISA300),
->  GEN_HANDLER_E(cmpb, 0x1F, 0x1C, 0x0F, 0x00000001, PPC_NONE, PPC2_ISA205),
->  GEN_HANDLER_E(cmprb, 0x1F, 0x00, 0x06, 0x00400001, PPC_NONE, PPC2_ISA300=
-),
->  GEN_HANDLER(isel, 0x1F, 0x0F, 0xFF, 0x00000001, PPC_ISEL),
-> -GEN_HANDLER(addi, 0x0E, 0xFF, 0xFF, 0x00000000, PPC_INTEGER),
->  GEN_HANDLER(addic, 0x0C, 0xFF, 0xFF, 0x00000000, PPC_INTEGER),
->  GEN_HANDLER2(addic_, "addic.", 0x0D, 0xFF, 0xFF, 0x00000000, PPC_INTEGER=
-),
-> -GEN_HANDLER(addis, 0x0F, 0xFF, 0xFF, 0x00000000, PPC_INTEGER),
->  GEN_HANDLER_E(addpcis, 0x13, 0x2, 0xFF, 0x00000000, PPC_NONE, PPC2_ISA30=
-0),
->  GEN_HANDLER(mulhw, 0x1F, 0x0B, 0x02, 0x00000400, PPC_INTEGER),
->  GEN_HANDLER(mulhwu, 0x1F, 0x0B, 0x00, 0x00000400, PPC_INTEGER),
+>  PADDI           000001 10 0--.-- ..................     \
+>                  001110 ..... ..... ................     @PLS_D
+> +
+> +### Prefixed No-operation Instruction
+> +
+> +@PNOP           000001 11 0000-- 000000000000000000     \
+> +                ................................
+> +
+> +{
+> +  [
+> +    ## Invalid suffixes: Branch instruction
+> +    # bc[l][a]
+> +    INVALID     ................................        \
+> +                010000--------------------------        @PNOP
+> +    # b[l][a]
+> +    INVALID     ................................        \
+> +                010010--------------------------        @PNOP
+> +    # bclr[l]
+> +    INVALID     ................................        \
+> +                010011---------------0000010000-        @PNOP
+> +    # bcctr[l]
+> +    INVALID     ................................        \
+> +                010011---------------1000010000-        @PNOP
+> +    # bctar[l]
+> +    INVALID     ................................        \
+> +                010011---------------1000110000-        @PNOP
+> +
+> +    ## Invalid suffixes: rfebb
+> +    INVALID     ................................        \
+> +                010011---------------0010010010-        @PNOP
+> +
+> +    ## Invalid suffixes: context synchronizing other than isync
+> +    # sc
+> +    INVALID     ................................        \
+> +                010001------------------------1-        @PNOP
+> +    # scv
+> +    INVALID     ................................        \
+> +                010001------------------------01        @PNOP
+> +    # rfscv
+> +    INVALID     ................................        \
+> +                010011---------------0001010010-        @PNOP
+> +    # rfid
+> +    INVALID     ................................        \
+> +                010011---------------0000010010-        @PNOP
+> +    # hrfid
+> +    INVALID     ................................        \
+> +                010011---------------0100010010-        @PNOP
+> +    # urfid
+> +    INVALID     ................................        \
+> +                010011---------------0100110010-        @PNOP
+> +    # stop
+> +    INVALID     ................................        \
+> +                010011---------------0101110010-        @PNOP
+> +    # mtmsr w/ L=3D0
+> +    INVALID     ................................        \
+> +                011111---------0-----0010010010-        @PNOP
+> +    # mtmsrd w/ L=3D0
+> +    INVALID     ................................        \
+> +                011111---------0-----0010110010-        @PNOP
+> +
+> +    ## Invalid suffixes: Service Processor Attention
+> +    INVALID     ................................        \
+> +                000000----------------100000000-        @PNOP
+> +  ]
+> +
+> +  ## Valid suffixes
+> +  PNOP          ................................        \
+> +                --------------------------------        @PNOP
+> +}
 > diff --git a/target/ppc/translate/fixedpoint-impl.c.inc b/target/ppc/tran=
 slate/fixedpoint-impl.c.inc
-> index be75085cee..344a3ed54b 100644
+> index 344a3ed54b..ce034a14a7 100644
 > --- a/target/ppc/translate/fixedpoint-impl.c.inc
 > +++ b/target/ppc/translate/fixedpoint-impl.c.inc
-> @@ -16,3 +16,47 @@
->   * You should have received a copy of the GNU Lesser General Public
->   * License along with this library; if not, see <http://www.gnu.org/lice=
-nses/>.
->   */
+> @@ -60,3 +60,14 @@ static bool trans_ADDIS(DisasContext *ctx, arg_D *a)
+>      a->si <<=3D 16;
+>      return trans_ADDI(ctx, a);
+>  }
 > +
-> +/*
-> + * Incorporate CIA into the constant when R=3D1.
-> + * Validate that when R=3D1, RA=3D0.
-> + */
-> +static bool resolve_PLS_D(DisasContext *ctx, arg_D *d, arg_PLS_D *a)
+> +static bool trans_INVALID(DisasContext *ctx, arg_INVALID *a)
 > +{
-> +    d->rt =3D a->rt;
-> +    d->ra =3D a->ra;
-> +    d->si =3D a->si;
-> +    if (a->r) {
-> +        if (unlikely(a->ra !=3D 0)) {
-> +            gen_invalid(ctx);
-> +            return false;
-> +        }
-> +        d->si +=3D ctx->cia;
-> +    }
+> +    gen_invalid(ctx);
 > +    return true;
 > +}
 > +
-> +static bool trans_ADDI(DisasContext *ctx, arg_D *a)
+> +static bool trans_PNOP(DisasContext *ctx, arg_PNOP *a)
 > +{
-> +    if (a->ra) {
-> +        tcg_gen_addi_tl(cpu_gpr[a->rt], cpu_gpr[a->ra], a->si);
-> +    } else {
-> +        tcg_gen_movi_tl(cpu_gpr[a->rt], a->si);
-> +    }
 > +    return true;
-> +}
-> +
-> +static bool trans_PADDI(DisasContext *ctx, arg_PLS_D *a)
-> +{
-> +    arg_D d;
-> +    if (!resolve_PLS_D(ctx, &d, a)) {
-> +        return true;
-> +    }
-> +    return trans_ADDI(ctx, &d);
-> +}
-> +
-> +static bool trans_ADDIS(DisasContext *ctx, arg_D *a)
-> +{
-> +    a->si <<=3D 16;
-> +    return trans_ADDI(ctx, a);
 > +}
 
 --=20
@@ -246,25 +193,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---9zuFZm4HKVcW/hHr
+--Ev4Ptu0a2lfamOAV
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmCjC9oACgkQbDjKyiDZ
-s5IdNQ/9FHAa0yl/qLjPZTm6naB8hzLdJvQcTunu3ORpHbGBrzthKPtjBeLsfKQ6
-l73ffuHSREp3wTw9aPhkO7k7p0PBK1VUXd2heL6dEXsIVCFzkrO/cw6I4AE55sU/
-q0djZnh+Xq0fuyZKyNumwJdMRx57JCqdSL9pAuJnJ+li66mQUis4DTeWQleeVW+y
-3t3/8sEzN7o/neHD4cv0x7PrN4IZd5jIE9eFtpCjTjGOBmb9KXm7lPXnbb9Vbae4
-tnRlKG5A5fI8w+3dd/+yjbD+x2le3yVERFCbevssOlgsdvJTCpzos1Tc7IUncQ7c
-edcQnG40+mqRuL4nIhfdqSlYhTMpBrgnkbMiKcZD5EH/OR2RvdOoSqTlOdxUswZM
-aK1HStqFazxjElHD01Wao3dwUoVFdAFZACEe1A31ZSyxm1dwwrSTul+Ua/nKc7rv
-W7Ivz1w1fqscHvuQKuy5p/AbmP+sVJzM5I6khIZdDIOnjMsXbV43SadV5mDYs1bT
-e56Xi65O8n1uFrVuUwu/D64Ne+gxT6flSCgNfZDkZg4tYlSbC/04+nSBqsa+UdQ/
-lH0tk0c4XKV7IYODVH0U4f+Vxcn7jFW+dMz4nlPMtS+aG0TTMq6Lz8jtuC2/fSoc
-lwdYZ0gs/LMh3+OrhUqgCsOswU+xIC6s696cNCNR/CxHFRMan08=
-=UEES
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmCjDCoACgkQbDjKyiDZ
+s5JxOw/9FBNYPEcNQQ3G1eF5pLbAtSRn3vgzsT/3e3S1RhwhgWFFeNK0C04aXDRk
+A1f/PXeqoqC+gFLaHKn3UZc1tcMJ+PdvNB6d7Lw+5CHphi2Pfle6m58I6OUQkDHU
+cqbZ085ZMk+c5uZiG9SQk1mEhICMcxztpE6gO/AejtQsAaKOnonjsmu7425M3yxN
+ompzbDIEO8s+2WcJ0IhoqEuDgrdlnjRN7L2ye0l/ygP6F/Rc6ew3EulLgXfNITxe
+D56+b95rGBacV/HNT4MfvVYjJH0cwTRx1kK5VYTw2epPP9az+d9KeKqlJ4eOlqIp
+At7cIqq2tTILJWVyPi/I/YuQ8JBIhaLrvgCg6nM1HNHnk31UYJmwCQuOejPtq9vZ
+k0fv5M9Mish/HcO8AVBibSn24P3vYsObubqs72QrgCQ9DXs/VxyBsnCJxhIjl26f
+WICTxI2IwW+WQRIlW38PZm7p+WNwnrkwQOLfKCeQhcpFmc7F4givYvUXRB+gEl7l
+izoov5MTf1w6hUybJHPzX4LOBngWW7nrMfShOGTqnG9M/eVNJES3UBwp42DHJ4FQ
+E2iTBK7CWEhDhqhfdlQtEjjc98DD4RszxeCPWSlqp9BndEoSiWEBwiVmMMQQjoqo
+1DFBnLJT1XLq4xn//vlajhG79BN4j9X/1t7ix/aMj7HweM76hMc=
+=c9+2
 -----END PGP SIGNATURE-----
 
---9zuFZm4HKVcW/hHr--
+--Ev4Ptu0a2lfamOAV--
 
