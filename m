@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A639B387542
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 11:36:23 +0200 (CEST)
-Received: from localhost ([::1]:49840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60237387559
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 11:41:58 +0200 (CEST)
+Received: from localhost ([::1]:38386 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1liw9G-0007Jq-Oh
-	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 05:36:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57648)
+	id 1liwEf-0001uo-DN
+	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 05:41:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57722)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1livpC-00057d-MD
- for qemu-devel@nongnu.org; Tue, 18 May 2021 05:15:39 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:41497)
+ id 1livpH-0005IL-BR
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 05:15:46 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:41500)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1livow-00012M-66
- for qemu-devel@nongnu.org; Tue, 18 May 2021 05:15:37 -0400
-Received: by mail-wr1-x430.google.com with SMTP id d11so9344579wrw.8
- for <qemu-devel@nongnu.org>; Tue, 18 May 2021 02:15:20 -0700 (PDT)
+ id 1livp3-00014f-OC
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 05:15:42 -0400
+Received: by mail-wr1-x432.google.com with SMTP id d11so9345020wrw.8
+ for <qemu-devel@nongnu.org>; Tue, 18 May 2021 02:15:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Agdx3G/Ci/HmPNt/TIfwdrNu8lRgFz7owXgkXOV3/r0=;
- b=sC7DO1SCnSM9+8djo2q80o2jS2TVj4z/hoWtUbIgQrqdHFIrmqfRzAKw174EvSE2Fc
- MkPlCLtCSFE7MKuopDYHgc9/rN8wpJyskvWTwUDTekLvv8MGVj4kg+amaSIn3269t9Or
- LztXsX7kzVzOq3EhCiNgb0baW0EFwJITF1dtS8qHcvsFWRuzq9abCvUt5EZcRXgmh2Od
- LmGUaDL1gFJPKxVubF3CmQtHzQxlAcRCXG7Eu8qZ5YioLkAyQPNqAaFuPgqkTTTTn6yM
- 1tLA706/1cN1v2kIaH9kKt9KWVk/zmaI9q93t6ZuwgJlm1zGziPbkqIvnFGzvhMftqt1
- Hr4A==
+ bh=PdmEAT7DEu3lG1EeiXD5I5CWzOVFj+yeKWzonpH0EaM=;
+ b=IrROKLW1x0JEZN6bLLel6CpBS7kYVpeUwgv0wfvxeqjDQVBLLLsljczfv4LU2L5KL+
+ 4Nvs9IXe0hUjWHARRXjTOLiFMqN99Bxwhonx6Sb+elj8otw+4FC8Ns6HDhNaBuF1T/Gn
+ hEgQuKW4Ugr9KBIOyFO4NUFPk2HEC7Kx8r5NYZSZ8e2nfDIaadtICCCOTid1zLh040mI
+ zPdf+908qcIG/Ukvm5AX/e1pHBaQKvRoAQ99Ocvl1Zq2D1xOByHUlsmVu5ZXpoPWfLwh
+ o6qjAMqW7owDBvs+4fYMIEGRC7r9bvKpF4rOU5SjedukpErIDgzi798VFmSIf/UmVPta
+ xgZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Agdx3G/Ci/HmPNt/TIfwdrNu8lRgFz7owXgkXOV3/r0=;
- b=IcFsqdKLYtPfDLsBRdBCaq8Myt4pkbVJ1hor/WxgwihXnE3XgK9CEd5KmQWxTrYBhW
- uy76KFR02MEsxZPYEcbO11jpw0hxfTHHDGEVbFbv+WThLNUaQ+9eqMPArWqBXvZNG5H7
- BbfQVHquDM6bm1yQaW7jaz0s1ivHXXYjjiPRjP4CbGjLvoja1ZBm3spuzpyMEAR7rOVo
- lxJqL3uqBqTHjGMw2m4MTDpmA1D7rQzuOfo4nK1mAq8G92G0yDHXBM2RFGwy5CFfOx/r
- CBpADVSZjg/DRUikOh4rOWQk92z76UtmfY4X5YkEOokELVD+422DQV0Qfv8zEoKWXSAm
- O4jA==
-X-Gm-Message-State: AOAM530cvg8nM+Eg6cFAJYTwKyUmUNQhD1ypyCu6sEWlkEIn7L41P5zn
- hXVWBqCIujdLfHtqo7fXD9dGFw==
-X-Google-Smtp-Source: ABdhPJzw7UQo8QsuaN14klaqAFMHr5zUz5wJ/12dEO6ea6A8gCimWF2NWdL3+hkjl6rJKVmuevuRLQ==
-X-Received: by 2002:adf:faca:: with SMTP id a10mr5610502wrs.9.1621329319796;
- Tue, 18 May 2021 02:15:19 -0700 (PDT)
+ bh=PdmEAT7DEu3lG1EeiXD5I5CWzOVFj+yeKWzonpH0EaM=;
+ b=ICN27YyhWPmGs4PehXFORseM5d+wOdKi6U+yUz2eBaK3uZCNWvwgaA8r4CxjBkMHbm
+ 21AYtznPvCdKnA99YhMaHfSs59Vvao+8BJHqHFUr5+eYameE/VMHY8+w73xlOV+uZiol
+ XdPQzoqFG6YkNU6orKUN0+YQN3FS6i/pO6VZAsQBOKQajdDmt1L5LeAQiZVeDcHbr3n+
+ UHA6RrISqDiRn81rtmI9EwezDzKS7VQI3OFw1CuUmnVhVmU2v9AB8bpuIBhr15Y4sH1y
+ E9sgjIaU0eOip9arDkzfzYsFwPS7rbF8iZGFhXwCfwyCK4515yBv+4ywLh28KdjkTCAL
+ 0CNA==
+X-Gm-Message-State: AOAM532dxCgiNo1sfzrtffO+Yxy3qWtSxyz8ithI0xP1gaMWIwH4o0ou
+ US+fwJ8le2lEbda40fyhG21FvkgPGN6Uhg==
+X-Google-Smtp-Source: ABdhPJx3WT/W9rty6CoKXZe5egMQitTIVM4PO9cHzTI14metAi0+jTktHuli9viBlE9mLcwk4b9t2Q==
+X-Received: by 2002:a5d:64aa:: with SMTP id m10mr5612210wrp.291.1621329327329; 
+ Tue, 18 May 2021 02:15:27 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id y14sm1908548wmj.37.2021.05.18.02.15.13
+ by smtp.gmail.com with ESMTPSA id l3sm948363wmh.2.2021.05.18.02.15.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 18 May 2021 02:15:18 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 3DC8D1FF9D;
+ by zen.linaroharston (Postfix) with ESMTP id 850101FFA5;
  Tue, 18 May 2021 10:07:22 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL v2 14/29] configure: Emit HOST_CC to config-host.mak
-Date: Tue, 18 May 2021 10:07:05 +0100
-Message-Id: <20210518090720.21915-15-alex.bennee@linaro.org>
+Subject: [PULL v2 17/29] tests/tcg/tricore: Add clz test
+Date: Tue, 18 May 2021 10:07:08 +0100
+Message-Id: <20210518090720.21915-18-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210518090720.21915-1-alex.bennee@linaro.org>
 References: <20210518090720.21915-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,27 +93,40 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
 
-this is needed by the tricore-tcg-tests as tricore-gcc is not easily
-available. Thus we rely on the HOST_CC to do the preprocessing of the
-tricore assembly files.
-
+Tested-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
+[AJB: dropped duplicate Makefile]
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20210305170045.869437-6-kbastian@mail.uni-paderborn.de>
-Message-Id: <20210512102051.12134-16-alex.bennee@linaro.org>
+Message-Id: <20210305170045.869437-9-kbastian@mail.uni-paderborn.de>
+Message-Id: <20210512102051.12134-19-alex.bennee@linaro.org>
 
-diff --git a/configure b/configure
-index 0e4233fd8a..df11c8bad0 100755
---- a/configure
-+++ b/configure
-@@ -6164,6 +6164,7 @@ echo "GENISOIMAGE=$genisoimage" >> $config_host_mak
- echo "MESON=$meson" >> $config_host_mak
- echo "NINJA=$ninja" >> $config_host_mak
- echo "CC=$cc" >> $config_host_mak
-+echo "HOST_CC=$host_cc" >> $config_host_mak
- if $iasl -h > /dev/null 2>&1; then
-   echo "CONFIG_IASL=$iasl" >> $config_host_mak
- fi
+diff --git a/tests/tcg/tricore/Makefile.softmmu-target b/tests/tcg/tricore/Makefile.softmmu-target
+index de6a2cc88e..a9b81545e2 100644
+--- a/tests/tcg/tricore/Makefile.softmmu-target
++++ b/tests/tcg/tricore/Makefile.softmmu-target
+@@ -5,6 +5,7 @@ ASFLAGS =
+ 
+ TESTS += test_abs.tst
+ TESTS += test_bmerge.tst
++TESTS += test_clz.tst
+ 
+ QEMU_OPTS += -M tricore_testboard -nographic -kernel
+ 
+diff --git a/tests/tcg/tricore/test_clz.S b/tests/tcg/tricore/test_clz.S
+new file mode 100644
+index 0000000000..e03835f123
+--- /dev/null
++++ b/tests/tcg/tricore/test_clz.S
+@@ -0,0 +1,9 @@
++#include "macros.h"
++.text
++.global _start
++_start:
++    TEST_D_D(cls.h, 1, 0x0, 0x6db17976)
++    TEST_D_D(cls.h, 2, 0x000f000f, 0x0)
++
++    TEST_PASSFAIL
++
 -- 
 2.20.1
 
