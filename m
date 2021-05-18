@@ -2,70 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 092DE387936
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 14:52:48 +0200 (CEST)
-Received: from localhost ([::1]:53602 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FC42387962
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 14:59:25 +0200 (CEST)
+Received: from localhost ([::1]:42728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lizDL-0003Hn-1P
-	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 08:52:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52382)
+	id 1lizJk-0006fV-9z
+	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 08:59:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52802)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1liz8O-0001xN-4u
- for qemu-devel@nongnu.org; Tue, 18 May 2021 08:47:40 -0400
-Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e]:43721)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1liz8L-0007Ms-IZ
- for qemu-devel@nongnu.org; Tue, 18 May 2021 08:47:39 -0400
-Received: by mail-ed1-x52e.google.com with SMTP id s6so10923945edu.10
- for <qemu-devel@nongnu.org>; Tue, 18 May 2021 05:47:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=WzQQio6Z4cv2fZfJqaRuin61fcb4DAUKxWnvz/TufR8=;
- b=NqIkZp2+FZ0lPsfrarmz8OJfOp8y21eROQnp3sA4Y5J23oeDhq6y/BWspCDoiuuzrE
- ELJZpHMBPJwoZXlvWsja9aJ7WvOHr5+4ObNKRaGTkhx6b4JMZhB3H45brEPlaC+j4PRQ
- uV2JDyKlpbvmQP3DwNvQWj29DhTcijuQmxpv8pvHlzuf7sNNJYSyEwFVjTsV0MFyJSEf
- gDMUznuvqsYWy7gCIc7AHdo8eAAeaN+m7qlOug/uH8Rlk+SsH7c0XHhpvUvwC4ap3qbV
- BW2me6OUkffujDUd2O4MLSIU7t8ugSMZoSv28solzp0WjjGPGQtX0j5FxvTYQAv+CJd4
- xtnA==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1liz9U-00052W-11
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 08:48:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37028)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1liz9S-000838-B1
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 08:48:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1621342125;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=6GTJBcI3iONvU60K7cb9e3nPU7V7FAmBQHf0lv/MBaM=;
+ b=ACQiY+ArvDWvTR9HMZbmPdT1IWAGP8I/xsEbSBQ62HjryY2C5+4tmsUeWJw/On8IO/z4Ql
+ iBg5qY+05KEJebOXrHGxiwL8xBgCqCE0BG8e6CuWhXKTynAiUi5Ntj7/JTFteAXPsk29v6
+ 3h2l0bBRXUoSDrWwZ7eUd7C6G5OLgoU=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-27-WCgRvaaZOLy5iQaNwdzO9g-1; Tue, 18 May 2021 08:48:41 -0400
+X-MC-Unique: WCgRvaaZOLy5iQaNwdzO9g-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ u20-20020a0560001614b02901115c8f2d89so5479619wrb.3
+ for <qemu-devel@nongnu.org>; Tue, 18 May 2021 05:48:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=WzQQio6Z4cv2fZfJqaRuin61fcb4DAUKxWnvz/TufR8=;
- b=XI2JdMmJX71CGYtZJKqU7lVzcashvkV6JI8nqDqlsI+zIFHblcHLer5MHQkRdaj7YO
- yiCra/q8WfBEwnV/VDWr2ccJbTFm5FpGLGh+nyaNDyVGp/LWnA0p9nejptQF8TlIijcM
- T/X8H5klHY07lXklqxzhrHzKNsvnxgAESSJlk/WIDixHTwpS1mHsm9SFtN8oLoHR+tbx
- b/pxq4jdVA0Bs49Xa+5jgoIulB96Xie6TAGLl5db1COOOjA8Zu1mtFrOcH+d/8wMuHAO
- ZRbzN9CReItGq7q+RT69mx/pMXrz+YmrAZ6Ergk3Kn/RwZOldzQB2+VpUbpXGWWlEsv6
- ietA==
-X-Gm-Message-State: AOAM531vRUOrrxMn6CrIIcKftdw2ym9IEtksW+R/9i90FJYDWuzoMRam
- McwM6ArQLQ8H5Icc1By6+KjqVB7ugGOb3JOJlJZ4+Q==
-X-Google-Smtp-Source: ABdhPJy48uzVj/u4impllVU3N96Ur2l7CjBd9qf3gu+dWrfzhArcTa3PFWqE/Ejxx6G/vEWTc0OwsMd0VuqIWJUeC6M=
-X-Received: by 2002:a05:6402:416:: with SMTP id
- q22mr6934865edv.204.1621342056042; 
- Tue, 18 May 2021 05:47:36 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=6GTJBcI3iONvU60K7cb9e3nPU7V7FAmBQHf0lv/MBaM=;
+ b=iHy9eAS85+UjIelXe0b1k5bmLjti3l8mBze6zAZ1nWkQ0frvpGvc2tteG+jnX8FOrB
+ Wgy13BzpPcf9mtnnbBjeXmB6HQOtyers4Y+s7FJ9giBCmmfCgiVED7VztklQJ5Ayj5Mx
+ q6zzohqmpatbxjlriCbmrRFIX8wAyri59cCCEop8FgXGi1XlP+AEIOrzcOCx2nSd046d
+ ZOS+Tl9OPfSiHNvCd66ShEW+OBjgEdjabaozZDV7dNsJL8jzsTRPjaAbEXLf8w2oDZOo
+ 3HMvb4aWHQKAyPOjDQ/67TRM5cra1u6R7DYUhROo6NbThg2yER7qehIUWHRghmWnND2v
+ IaHA==
+X-Gm-Message-State: AOAM5310oFSM1AaOmwUaxV/8Kk5JXaWtfJ1CBn+LYGj5cF1wIMdm5EEF
+ FY7UBgTtUXI6yOgugzLmGkQE6QH3F1mfC4KG2nNWA1J53ywtp/eGVIre+Edn1/o3WZpiSxbsJO3
+ cWDh6xB6Fby5l/WmnjMbWKQmrkrtJKlUhkFjXa3hAHZRy8NbIJK0Og4RyHAH3pe++xVQ=
+X-Received: by 2002:adf:ea82:: with SMTP id s2mr6737553wrm.397.1621342120552; 
+ Tue, 18 May 2021 05:48:40 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw/Lj+BYHFM6n5RfJR3GcHJP7cG8+jChvN44tfrL4GsjjLtoM44Vzkbaw5zBS1oALgC6jBpdg==
+X-Received: by 2002:adf:ea82:: with SMTP id s2mr6737537wrm.397.1621342120342; 
+ Tue, 18 May 2021 05:48:40 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id x13sm11330967wro.31.2021.05.18.05.48.39
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 18 May 2021 05:48:39 -0700 (PDT)
+Subject: Re: [PATCH 2/3] ci: do not use #processors+1 jobs, #processors is
+ enough
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20210518084139.97957-1-pbonzini@redhat.com>
+ <20210518084139.97957-3-pbonzini@redhat.com>
+ <40f9d46b-d234-c029-3ba2-f5dcac8b87fc@redhat.com>
+ <7155c55a-1566-d7f0-d59e-ee48707302cf@redhat.com>
+ <YKO2ZbDsphiXh/pE@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <885e30da-8d6d-7d58-7733-f66477633e65@redhat.com>
+Date: Tue, 18 May 2021 14:48:39 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-References: <20210416235928.1631788-1-richard.henderson@linaro.org>
- <20210416235928.1631788-12-richard.henderson@linaro.org>
-In-Reply-To: <20210416235928.1631788-12-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 18 May 2021 13:47:19 +0100
-Message-ID: <CAFEAcA_YZe6xMfMFek-KEh8j3zO-AiquM3epyFET3R6XPDAjkQ@mail.gmail.com>
-Subject: Re: [PATCH v1 11/11] target/arm: Enable BFloat16 extensions
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <YKO2ZbDsphiXh/pE@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.374,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,63 +105,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Thomas Huth <thuth@redhat.com>, alex.bennee@linaro.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 17 Apr 2021 at 01:05, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  target/arm/cpu64.c   | 3 +++
->  target/arm/cpu_tcg.c | 1 +
->  2 files changed, 4 insertions(+)
->
-> diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-> index 379f90fab8..db4f48edcf 100644
-> --- a/target/arm/cpu64.c
-> +++ b/target/arm/cpu64.c
-> @@ -660,6 +660,7 @@ static void aarch64_max_initfn(Object *obj)
->          t = FIELD_DP64(t, ID_AA64ISAR1, FCMA, 1);
->          t = FIELD_DP64(t, ID_AA64ISAR1, SB, 1);
->          t = FIELD_DP64(t, ID_AA64ISAR1, SPECRES, 1);
-> +        t = FIELD_DP64(t, ID_AA64ISAR1, BF16, 1);
->          t = FIELD_DP64(t, ID_AA64ISAR1, FRINTTS, 1);
->          t = FIELD_DP64(t, ID_AA64ISAR1, LRCPC, 2); /* ARMv8.4-RCPC */
->          t = FIELD_DP64(t, ID_AA64ISAR1, I8MM, 1);
-> @@ -707,6 +708,7 @@ static void aarch64_max_initfn(Object *obj)
->          t = FIELD_DP64(t, ID_AA64ZFR0, SVEVER, 1);
->          t = FIELD_DP64(t, ID_AA64ZFR0, AES, 2);  /* PMULL */
->          t = FIELD_DP64(t, ID_AA64ZFR0, BITPERM, 1);
-> +        t = FIELD_DP64(t, ID_AA64ZFR0, BFLOAT16, 1);
->          t = FIELD_DP64(t, ID_AA64ZFR0, SHA3, 1);
->          t = FIELD_DP64(t, ID_AA64ZFR0, SM4, 1);
->          t = FIELD_DP64(t, ID_AA64ZFR0, I8MM, 1);
-> @@ -730,6 +732,7 @@ static void aarch64_max_initfn(Object *obj)
->          u = FIELD_DP32(u, ID_ISAR6, FHM, 1);
->          u = FIELD_DP32(u, ID_ISAR6, SB, 1);
->          u = FIELD_DP32(u, ID_ISAR6, SPECRES, 1);
-> +        u = FIELD_DP32(u, ID_ISAR6, BF16, 1);
->          u = FIELD_DP32(u, ID_ISAR6, I8MM, 1);
->          cpu->isar.id_isar6 = u;
->
-> diff --git a/target/arm/cpu_tcg.c b/target/arm/cpu_tcg.c
-> index 046e476f65..b2463cf109 100644
-> --- a/target/arm/cpu_tcg.c
-> +++ b/target/arm/cpu_tcg.c
-> @@ -968,6 +968,7 @@ static void arm_max_initfn(Object *obj)
->          t = FIELD_DP32(t, ID_ISAR6, FHM, 1);
->          t = FIELD_DP32(t, ID_ISAR6, SB, 1);
->          t = FIELD_DP32(t, ID_ISAR6, SPECRES, 1);
-> +        t = FIELD_DP32(t, ID_ISAR6, BF16, 1);
->          cpu->isar.id_isar6 = t;
->
->          t = cpu->isar.mvfr1;
+On 18/05/21 14:43, Daniel P. Berrangé wrote:
+> I'd be surprised if you can measure any statistically reliable difference
+> at all wrt public CI. I've tried measuring CI performance for small changes
+> and found it impossible in short time frames, as the deviation between runs
+> is way too large. GitLab CI speeds tend to slow down as the day goes on and
+> US wakes up, so by time you run QEMU CI a second time in the day, it will
+> be slower. They clearly overcommit resources on the cloud host so you're
+> at the mercy of whatever else is running.
 
-Same query as with SVE: do we need to clear these in the "!has_vfp"
-and "!has_neon" handling code in arm_cpu_realizefn() ?
+Yeah, I was going to test it locally (using CPU offlining and hugetlbfs 
+to simulate a 4-CPU machine with not that much memory).
 
-thanks
--- PMM
+Paolo
+
 
