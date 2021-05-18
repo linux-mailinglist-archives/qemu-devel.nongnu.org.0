@@ -2,139 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF77E387B34
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 16:34:59 +0200 (CEST)
-Received: from localhost ([::1]:58810 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4484B387B49
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 16:38:19 +0200 (CEST)
+Received: from localhost ([::1]:38276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lj0oE-0001Eo-Se
-	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 10:34:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48050)
+	id 1lj0rS-0006UF-BR
+	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 10:38:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48458)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lj0eq-0005ia-Iv; Tue, 18 May 2021 10:25:18 -0400
-Received: from mail-eopbgr00117.outbound.protection.outlook.com
- ([40.107.0.117]:33995 helo=EUR02-AM5-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lj0g3-0006wC-Ov
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 10:26:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36073)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lj0ef-0007zl-4J; Tue, 18 May 2021 10:25:11 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Xa5tY4WJH7J8tVy+lWn2s+b3RHlBcpYTh5KI1EA+7aqSvRiU9N2zbRVHjyEzq21Qb76rRckGN7wepxlF/2qzqA7dqW/Zxw58X1jA54q0/mJw6ptO/85nUmEiZhEtkxDxUgW1pRG77KZBKaACxxRyJlszcJ6EJR+Bv/9ewXb6lMlKLuxHP3YPxZv7Pu8dmLvhWCCF3hZ+dqnu4FESfJUPZFQIY5S6WPMECZISoyqBID6coTPi7XtPsJQVOZVCbpz1jWfx2Y3qBOA+VUf2EfB/pBiZHt7USGZ+nYyWR5OS9DBY3tD3lpyHGivhbSaKuqjAPsYhRGnUjnXxruY947O+6w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=I/FeEm3swh0qfyxEOjwDC/WW0I2XaY/DuGPlE8Mz9M8=;
- b=Ra3f1hNJSgghzXLCOOHF4kUSXRDRnIGiiPBiPkG3wPv3FjjktDnhu+h3C8sz4l2b0db+LyOFuhae4Co9hBatYTh/vSDIH9mPAUdliupz/BR+CsiEBMAvwK06ImbdfnJ1kUqmnPIkTDm9Nd0SAMq8ESpHVaHz14IpMCC0pqA0ZXBZIM5jbhr0Nwf5cXiY9/WN0TeHar0LXl7+RkK+Pfc4dHcCvv++hNC6ndv73SI7/aSDcs3xdjpYrjzlLaSEu4B4sDiHZ4hR5lAAelOzyrfrtR7zGZ9YP/ZXuMvGGBTivro/vx1QjB3Gd3tod209z6k1MU6ooq2v3lpA4qTZSpwSEg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=I/FeEm3swh0qfyxEOjwDC/WW0I2XaY/DuGPlE8Mz9M8=;
- b=P6R934DZBo2A5bLiLOm0cdyPKq8TLT06HjD8Usc66JZCoR0Zv1EhgZpWUzbSOQ1m3iYRQ6GJDQzNCL3jLVWNNOE7ATFFlhVYhkd/pBdETu2chcCFJQ0LN9A1Py6H2npSrv9y3m/X2psbtc9eLGW1WbOAbRAr26lextGsFkeYJxU=
-Authentication-Results: openvz.org; dkim=none (message not signed)
- header.d=none;openvz.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM6PR08MB3447.eurprd08.prod.outlook.com (2603:10a6:20b:44::20)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4129.28; Tue, 18 May
- 2021 14:25:01 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::b403:c1a9:6bb7:133]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::b403:c1a9:6bb7:133%7]) with mapi id 15.20.4129.031; Tue, 18 May 2021
- 14:25:01 +0000
-Subject: Re: [PATCH 16/21] block/copy-before-write: cbw_init(): use options
-To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, armbru@redhat.com, eblake@redhat.com,
- ehabkost@redhat.com, berrange@redhat.com, pbonzini@redhat.com,
- jsnow@redhat.com, kwolf@redhat.com, den@openvz.org
-References: <20210517064428.16223-1-vsementsov@virtuozzo.com>
- <20210517064428.16223-18-vsementsov@virtuozzo.com>
- <7fe834fc-741d-bac1-b325-35092473313e@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <a8694b70-e411-ac27-8dd1-8081c7a03b39@virtuozzo.com>
-Date: Tue, 18 May 2021 17:24:58 +0300
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lj0g1-0000WT-SI
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 10:26:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1621347989;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Ws9NUB0FwBt5mnVPKNSnBkbp+hiVlXhZumklxKWiFFc=;
+ b=Vg5je0hb8orRKEieP09jSrFSSjG1V8lnvYeYOoHJQLfBJe1r1CRl7MSmtAnd4XZUYFEMMB
+ IrOpPa1t2Rq/yFcueOwesHqG8hTC3XW51y4ndb/dyEiksz0oPHRorML/8O9nD2ibEhVOap
+ uP7rJotZoLPbZTFFTSSyt0Zok7Y1OkY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-600-5UmS7OaANxiVvL5UQY-KbQ-1; Tue, 18 May 2021 10:26:25 -0400
+X-MC-Unique: 5UmS7OaANxiVvL5UQY-KbQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AF5211854E25;
+ Tue, 18 May 2021 14:26:24 +0000 (UTC)
+Received: from [10.10.117.64] (ovpn-117-64.rdu2.redhat.com [10.10.117.64])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C5ECD60C04;
+ Tue, 18 May 2021 14:26:23 +0000 (UTC)
+Subject: Re: [PATCH v3 10/15] qemu_iotests: extent QMP socket timeout when
+ using valgrind
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
+References: <20210414170352.29927-1-eesposit@redhat.com>
+ <20210414170352.29927-11-eesposit@redhat.com>
+ <a7353583-27d2-762f-34b3-a4bda861057b@redhat.com>
+ <f265d653-e9a3-fe26-ab9a-2a8554b5a8fa@redhat.com>
+ <c9d0ac91-4d22-a041-c2ca-bfe227fe57ad@redhat.com>
+ <37fc7122-2bf3-a3a4-30cb-014ef8391f2e@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <7004fc54-d456-32f6-1c35-4cce1de00a6e@redhat.com>
+Date: Tue, 18 May 2021 10:26:23 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
-In-Reply-To: <7fe834fc-741d-bac1-b325-35092473313e@redhat.com>
+ Thunderbird/78.8.1
+MIME-Version: 1.0
+In-Reply-To: <37fc7122-2bf3-a3a4-30cb-014ef8391f2e@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [185.215.60.199]
-X-ClientProxiedBy: ZR0P278CA0085.CHEP278.PROD.OUTLOOK.COM
- (2603:10a6:910:22::18) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
-MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.8] (185.215.60.199) by
- ZR0P278CA0085.CHEP278.PROD.OUTLOOK.COM (2603:10a6:910:22::18) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4129.25 via Frontend Transport; Tue, 18 May 2021 14:25:00 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: a5c6e222-c93f-462e-45a5-08d91a08b8ac
-X-MS-TrafficTypeDiagnostic: AM6PR08MB3447:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB3447591A09D4A150FA55340CC12C9@AM6PR08MB3447.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:404;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: euj+LJig9kjemZDVR3h9F3/U+2EN1Jyu8XNdvQS0AZkcsvQ+g6cV9g7fbD7D/Lsea8Yszu9I7fceWDhVX0q6czqzCRSQo+ta56BNhGuEbiYRvs/Hb2qOfJuN3E8LKJ2WAzsjripM4XqjMN+P0ZpyAdDA/bHMvEAsceiEMidzU0iubsyevsjUZrfaaBwd7DQsvZHx7eKWe8p2DYV7cRQH0RLHh17PeQPtfc+J4ejst7DDkQgF/xdJPvbsHzeXSjb9cOFCVsyqDdxAHZORosnObUrr5M2QeicsYXLtkCF1tXHPw/yIQtuH+iZfR7Enj9yQXc3dKKfSq4sgJu4TUBsW/1+tOmYAcR/xx+zuWrw86uOA4jXQ5jNcNB5ILxC06Gu/Gx7il9l5kkH10bFZ3bLFS1a9OyJEKTGmimOeIQos6rK7yJkDB3yOOksF2b4AZGQQs19JpOUpCEiB4qU5QK6VQD+A+tl52DliFkndOaGtCbrjShZWx/HMSkLPn6NsSU9Mro417KCrVLfovkgMqWIuytv2ydrIu81vrN1L/Segteokmh90hUkSrqOipOGchfV5Ji0HhhozR16v+Yg+lgxnCapkL+kYc1eokNztdBVgQkHzuB/y4W3r0B0vSFF90cPaXHhrkFvyQeUttOajMnnoOBPMBRYv0VB/GdOyHZlDuCBrhkyUZYnRsxf2EpNAT13YAWEA5U/XKVYVmHbxtraMUFb6/vXI3KSo+R7leKFP2YI=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(136003)(366004)(376002)(39830400003)(396003)(346002)(52116002)(38100700002)(4326008)(16576012)(316002)(8676002)(107886003)(36756003)(86362001)(38350700002)(31696002)(8936002)(16526019)(186003)(478600001)(53546011)(2616005)(956004)(6486002)(31686004)(7416002)(26005)(66556008)(66476007)(5660300002)(66946007)(83380400001)(2906002)(43740500002)(45980500001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?MEwrQkp2dkdURlVPa3RWR0RwdjZuODk0TjBYNWRFR3BoUWttNnI1eW9HZ0xl?=
- =?utf-8?B?REVTYmEzTGlqTWNmcmRsQ1FIZ0toNkF6cWhtWi9YUVBvNDEvRm9xQm5RcGFG?=
- =?utf-8?B?REZRYVlKL3NkWTBPdTcranlWZ0lHNEVGWGF3UmRxdWY4RDZMWG9WK1hYUFha?=
- =?utf-8?B?Skprc0pjTkwxcWlMSDlxQ2hWUDg4NVJTcHkyVzlETzFNclNXWGNWVjNHZkRE?=
- =?utf-8?B?bzRXWS9LRURScnVNbHdrNFJndGZ3ZHp5MUNXdUZMVjlMQWJuLzhCT2RLS2hW?=
- =?utf-8?B?RlpLNEJiT0lQMnlwTVVVWGtySDB6emRYRjRNdGV6RDg4ZzhmSk15RzBmdTdp?=
- =?utf-8?B?NDNnWmE3OHBuQWNIWFZqSUdQR2NyekIwSnhZRGJjQ2g0U215YUY4SjF0Wndu?=
- =?utf-8?B?L29PUDAxWHRPbmEyMDdQakE1QjhyekdYYndHODhIMUdHWTUzMVkzTTB6U3V1?=
- =?utf-8?B?QTFzNmZiM0paSGtTajZzWmFCNjQ1TldYMHNLMDhrcGJLcXBRZWIyY3YxRWxi?=
- =?utf-8?B?b08rSTd1ZXVJRmJhTWdqajBxNTJEcExESWV0ZUZzS1VoNFRNMGxCbFVaRmFi?=
- =?utf-8?B?QVp1bVNkb0t6K1IwbjFhZnFxdmpqc2xCWm91WFJoaVFsS3d3ZVNmWmNOektk?=
- =?utf-8?B?UFpuQ3F2MTRDZ0pQdE8zZ0hEaVVDOUlIQU9hdW42U1ZKZGFybnJuT1VhNG1m?=
- =?utf-8?B?a085dlJ2emwyUTBjS1FkcFBaQ2hQdXQ5ZHg0VDNIejFxNDVqSEd2b1I3ZEx3?=
- =?utf-8?B?Wk96RzRmQkdudzNhQnliN0hCMW9henZ6WUNyR3BudENvamFsNjU2T2R1d2tn?=
- =?utf-8?B?dWxpTXZDM2F5YzRkU3pPVlU3OE9qMklqTElaSHJ1a0hzYUtzMnNPemFYSk85?=
- =?utf-8?B?a3FMK0d6b1FlMDRQRG5BcERtR01adHl2S1BCeHhnZWsyN29pclY2VHpxSmpu?=
- =?utf-8?B?MjZmb1hqMGVUUjVGSmRKcFZtaU5hUGdidXhxRHV4NHdMMGJtQTFsUHpjUTVv?=
- =?utf-8?B?aDRNSnc1STZSbkUzRXRlbDkzbGNCeEpiVGtGTkFjRDZ2N3k1eVlhOVpGVzVv?=
- =?utf-8?B?elF3Zis2dFBNQXcvVjdoNGhva05jb1FIUktXZWxxZEwwZnRoM3JJd2llSmZO?=
- =?utf-8?B?cUpac3NyZlJkcUJtNjEyalU2bmpkb3l4alB1NVlpSXI0MEJxVmNoM3g2VW5O?=
- =?utf-8?B?alhjMk8vdkQ3eXpnMkFPZVpsazFLTjBRMkhEd2kranY5cEJDU3cva2tXL3Av?=
- =?utf-8?B?T29yNGpzWVZ3eHhXVkhvS0hkc3FGbTRnNXFPblRUS3kvRWwvSWNZZldVdEIz?=
- =?utf-8?B?VjFtMFR0bWRiT2xpVHRITkFpRWg0NExpdnRxZ3c2eHdPMDBQZ2tUTjUzcmpE?=
- =?utf-8?B?anFuT2hXVkdUdkR6bUhxUjVuQ2toYXpOYU4xZmFhTnlaQ3c4eXRCOHlTUWhW?=
- =?utf-8?B?Q1dZUFYzNDZ2c2xuYkhNazg4Unh5R1pZalZ3SWxhMCtZSEhUcC82ZGg0OGhC?=
- =?utf-8?B?ajZBUU9GZ1JuUXZwRnVNbHpjZnVBSUlyWktpemcrUEh4S2JaaDdraUIxUkFM?=
- =?utf-8?B?QUpYM3pXd2R5d1NrYVdDQUEyTldNUkxqdElLZnlqQ2RsdGxoc29mU3V5dU9B?=
- =?utf-8?B?MUlkRGFCZEtlNWZXK1RoSG96SEhHeEUvYmZId2E2Uk5qYUpCc0Y1QXpadkEv?=
- =?utf-8?B?dlhlMEJtNStEaFhtUnJSYnVrVnVOSE5mMTUxTnNYdUdGa2orUmJBWGZOcUdS?=
- =?utf-8?Q?j7LkhRb/1sCmuR6hsnI0KEf6QGeXS1CvBQ4gcNr?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a5c6e222-c93f-462e-45a5-08d91a08b8ac
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 May 2021 14:25:01.0800 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: A6WtglVVqq39AiRqzO2frbRYpQjOhW3uPluZfmpc8m/2DU9W00KW2FS1PfUoTeli124Fu8ja+QSMjvhtdtkmQ6qGjJJjnyxE5a9wYJSNU4E=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3447
-Received-SPF: pass client-ip=40.107.0.117;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR02-AM5-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.374,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -147,112 +86,146 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-18.05.2021 16:56, Max Reitz wrote:
-> On 17.05.21 08:44, Vladimir Sementsov-Ogievskiy wrote:
->> One more step closer to .bdrv_open(): use options instead of plain
->> arguments. Move to bdrv_open_child() calls, native for drive open
->> handlers.
+On 5/18/21 9:58 AM, Emanuele Giuseppe Esposito wrote:
+> 
+>>> So the current plan I have for _qmp_timer is:
+>>>
+>>> - As Max suggested, move it in __init__ and check there for the 
+>>> wrapper contents. If we need to block forever (gdb, valgrind), we set 
+>>> it to None. Otherwise to 15 seconds. I think setting it always to 
+>>> None is not ideal, because if you are testing something that 
+>>> deadlocks (see my attempts to remove/add locks in QEMU multiqueue) 
+>>> and the socket is set to block forever, you don't know if the test is 
+>>> super slow or it just deadlocked.
+>>>
 >>
->> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
->> ---
->>   block/copy-before-write.c | 37 ++++++++++++++++++++-----------------
->>   1 file changed, 20 insertions(+), 17 deletions(-)
+>> I agree with your concern on rational defaults, let's focus on that 
+>> briefly:
 >>
->> diff --git a/block/copy-before-write.c b/block/copy-before-write.c
->> index ddd79b3686..9ff1bf676c 100644
->> --- a/block/copy-before-write.c
->> +++ b/block/copy-before-write.c
->> @@ -144,27 +144,20 @@ static void cbw_child_perm(BlockDriverState *bs, BdrvChild *c,
->>       }
->>   }
->> -static int cbw_init(BlockDriverState *bs, BlockDriverState *source,
->> -                    BlockDriverState *target, bool compress, Error **errp)
->> +static int cbw_init(BlockDriverState *bs, QDict *options, Error **errp)
->>   {
->>       BDRVCopyBeforeWriteState *s = bs->opaque;
->> -    bdrv_ref(target);
->> -    s->target = bdrv_attach_child(bs, target, "target", &child_of_bds,
->> -                                  BDRV_CHILD_DATA, errp);
->> -    if (!s->target) {
->> -        error_prepend(errp, "Cannot attach target child: ");
->> -        bdrv_unref(target);
->> +    bs->file = bdrv_open_child(NULL, options, "file", bs, &child_of_bds,
->> +                               BDRV_CHILD_FILTERED | BDRV_CHILD_PRIMARY,
->> +                               false, errp);
->> +    if (!bs->file) {
->>           return -EINVAL;
->>       }
->> -    bdrv_ref(source);
->> -    bs->file = bdrv_attach_child(bs, source, "file", &child_of_bds,
->> -                                 BDRV_CHILD_FILTERED | BDRV_CHILD_PRIMARY,
->> -                                 errp);
->> -    if (!bs->file) {
->> -        error_prepend(errp, "Cannot attach file child: ");
->> -        bdrv_unref(source);
->> +    s->target = bdrv_open_child(NULL, options, "target", bs, &child_of_bds,
->> +                                BDRV_CHILD_DATA, false, errp);
->> +    if (!s->target) {
->>           return -EINVAL;
->>       }
->> @@ -175,7 +168,10 @@ static int cbw_init(BlockDriverState *bs, BlockDriverState *source,
->>               ((BDRV_REQ_FUA | BDRV_REQ_MAY_UNMAP | BDRV_REQ_NO_FALLBACK) &
->>                bs->file->bs->supported_zero_flags);
->> -    s->bcs = block_copy_state_new(bs->file, s->target, false, compress, errp);
->> +    qdict_del(options, "cluster-size");
-> 
-> What is this about?
-
-accidental, will drop. (it's a remaining of my first solution where I tried to pass cluster-size, then I decided that's better move cluster-size detection to block_copy)
-
-> 
->> +    s->bcs = block_copy_state_new(bs->file, s->target, false,
->> +            qdict_get_try_bool(options, "x-deprecated-compress", false), errp);
-> 
-> First, I’d keep the `compress` variable and use it to store the value, because this doesn’t look very nice.
-
-OK
-
-> 
-> Second, what’s the story here?  “deprecated” sounds to me like you’re planning to use a different interface eventually, but looking ahead for a bit I didn’t find anything yet.
-> 
-
-I should have described it in commit message.
-
-We have "compress" filter driver. So instead adding "compress" option to every block job or filter, user should use "compress" filter. That's why I don't want to publish compress option for copy-before-write filter. Still we need it to maintain "compress" option of backup job. I also want to deprecate "compress" option in backup, then everything will be clear.
-
-> 
->> +    qdict_del(options, "x-deprecated-compress");
->>       if (!s->bcs) {
->>           error_prepend(errp, "Cannot create block-copy-state: ");
->>           return -EINVAL;
->> @@ -212,6 +208,7 @@ BlockDriverState *bdrv_cbw_append(BlockDriverState *source,
->>       int ret;
->>       BDRVCopyBeforeWriteState *state;
->>       BlockDriverState *top;
->> +    QDict *opts;
->>       assert(source->total_sectors == target->total_sectors);
->> @@ -223,7 +220,13 @@ BlockDriverState *bdrv_cbw_append(BlockDriverState *source,
->>       }
->>       state = top->opaque;
->> -    ret = cbw_init(top, source, target, compress, errp);
->> +    opts = qdict_new();
->> +    qdict_put_str(opts, "file", bdrv_get_node_name(source));
->> +    qdict_put_str(opts, "target", bdrv_get_node_name(target));
->> +    qdict_put_bool(opts, "x-deprecated-compress", compress);
->> +
->> +    ret = cbw_init(top, opts, errp);
->> +    qobject_unref(opts);
->>       if (ret < 0) {
->>           goto fail;
->>       }
+>> Let's have QEMUMachine default to *no timeouts* moving forward, and 
+>> have the timeouts be *opt-in*. This keeps the Machine class somewhat 
+>> pure and free of opinions. The separation of mechanism and policy.
+>>
+>> Next, instead of modifying hundreds of tests to opt-in to the timeout, 
+>> let's modify the VM class in iotests.py to opt-in to that timeout, 
+>> restoring the current "safe" behavior of iotests.
+>>
+>> The above items can happen in a single commit, preserving behavior in 
+>> the bisect.
+>>
+>> Finally, we can add a non-private property that individual tests can 
+>> re-override to opt BACK out of the default.
+>>
+>> Something as simple as:
+>>
+>> vm.qmp_timeout = None
+>>
+>> would be just fine.
 >>
 > 
+> I applied these suggested changes, will send v4 and we'll see what comes 
+> out of it.
+> 
+>>> Well, one can argue that in both cases this is not the expected 
+>>> behavior, but I think having an upper bound on each QMP command 
+>>> execution would be good.
+>>>
+>>> - pass _qmp_timer directly to self._qmp.accept() in _post launch, 
+>>> leaving _launch() intact. I think this makes sense because as you 
+>>> also mentioned, changing _post_launch() into taking a parameter 
+>>> requires changing also all subclasses and pass values around.
+>>>
+>>
+>> Sounds OK. If we do change the defaults back to "No Timeout" in a way 
+>> that allows an override by an opinionated class, we'll already have 
+>> the public property, though, so a parameter might not be needed.
+>>
+>> (Yes, this is the THIRD time I've changed my mind in 48 hours.)
+>>
+>>> Any opinion on this is very welcome.
+>>>
+>>
+>> Brave words!
+>>
+>> My last thought here is that I still don't like the idea of 
+>> QEMUMachine class changing its timeout behavior based on the 
+>> introspection of wrapper args.
+>>
+>> It feels much more like the case that a caller who is knowingly 
+>> wrapping it with a program that delays its execution should change its 
+>> parameters accordingly based on what the caller knows about what 
+>> they're trying to accomplish.
+>>
+>> Does that make the code too messy? I understand you probably want to 
+>> ensure that adding a GDB wrapper is painless and simple, so it might 
+>> not be great to always ask a caller to remember to set some timeout 
+>> value to use it.
+>>
+> I am not sure I follow you here, where do you want to move this logic? 
+> Can you please elaborate more, I did not understand what you mean.
+> 
+> I understand that tweaking the timers in iotests.py with checks like
+> 
+> if not (qemu_gdb or qemu_valgrind):
+>      normal timer
+> 
+> may not be the most beautiful piece of code, but as you said it keeps 
+> things as simple as they can.
+> 
+
+What I mean is that of the two patterns:
+
+caller.py:
+     vm = machine(..., wrapper_args=['gdb', ...])
+
+machine.py:
+     def __init__(...):
+         if 'gdb' in wrapper_args:
+             self.timer = None
+
+vs this one:
+
+caller.py:
+     vm = machine(..., wrapper_args=['gdb', ...], timer=None)
+
+machine.py:
+     def __init__(...):
+         ... # No introspection of wrapper_args
 
 
--- 
-Best regards,
-Vladimir
+I prefer the second. I would assume it's possible to localize the logic 
+that creates a GDB-wrapped machine alongside the knowledge that it needs 
+the timeout turned off *outside* of the machine class.
+
+I could be *very wrong* about that assumption though. The reason I 
+prefer the second pattern is because it avoids having to deal with what 
+happens when a caller specifies both a timeout and a gdb-wrapper. In the 
+second case, the caller explicitly requested the timeout to be None, so 
+anything that occurs afterwards is the fault of the caller, not machine.py.
+
+To me, that's "simpler". (I could be wrong, I don't have a great overall 
+view of your series, just the bits that I have seen that touch machine.py.)
+
+--js
+
+>> I figure that the right place to do this, though, is wherever the 
+>> boilerplate code gets written that knows how to set up the right gdb 
+>> args and so on, and not in machine.py. It sounds like iotests.py code 
+>> to me, maybe in the VM class.
+> 
+> After the changes suggested on qmp_timeout, iotests.py already contains 
+> the only code to perform the setup right for gdb and valgrind, and 
+> machine.py is not touched (except for qmp_timeout). iotests.py will 
+> essentially contain a couple of ifs like the one above, changing the 
+> timer when gdb and valgring are *not* needed.
+> 
+> Emanuele
+> 
+
 
