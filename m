@@ -2,71 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1F47387C7A
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 17:30:17 +0200 (CEST)
-Received: from localhost ([::1]:48442 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4D3A387C7C
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 17:31:30 +0200 (CEST)
+Received: from localhost ([::1]:47830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lj1fk-0000q0-PO
-	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 11:30:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34038)
+	id 1lj1gv-0000OL-Dc
+	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 11:31:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59348)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lj1TB-0001Zb-08
- for qemu-devel@nongnu.org; Tue, 18 May 2021 11:17:18 -0400
-Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:37871)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lj1T7-0004g5-K6
- for qemu-devel@nongnu.org; Tue, 18 May 2021 11:17:16 -0400
-Received: by mail-ej1-x631.google.com with SMTP id et19so8110713ejc.4
- for <qemu-devel@nongnu.org>; Tue, 18 May 2021 08:17:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=CJ89FbISvltT80mtwgYuuv06nBXALr2prTF+QCmVPwI=;
- b=JDqHyqF7piHNqxHVnGyljUGGB3S9gABIbsXqtQOYGqim+k5yZMRR4Z9OPNhzKAHMbT
- tf8ogWjDsFOzRp5rX5X+fGNClZkfv+Bw+vLCHweFrHkwqboAJsZsdurqMcc9rqOmKOyC
- H/IwqVLDu9GeWSEQuXvU+BkEurkl6q2bBOsSRtG2SxIsxN5LiZqms+6sKbPnanGYuH3v
- 7HxXxFg6UKd9Bj6SQCp3eOoRNGrT7fptZBVQeQwziCYj5zhKjoTSYK71+aHPrrmyCgmc
- CiAu6x64ySc9GFgVdwQugYq/8LMN1rN13zI6grWc0+xKEBtLj8Khi96u+9zZVV7Mfyoz
- nC3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=CJ89FbISvltT80mtwgYuuv06nBXALr2prTF+QCmVPwI=;
- b=H/ZwmoobEhUBAwnL/bVsVMiModht8W4bDediTqCd5e2xRb9g51/QFe5tFssaBPdv7p
- WC+4gt7oQr2ZON6ohR1+2XiAG/06KEhe9UjlFNbOcA4jY+9Dqiu5RRjVnbovP8z+JEcy
- xaIcbpm2r+6O9HLxc8f76y0vrDPdiv0LtxHtWQLvXRWvatUNHf9p1i4kT8DoZ9597Ytt
- ojmeSKNb/4GaP2At0vQSw+EQP3qKUTB3tuznc413R3zu6mcMuVVXMEqOSm4RBAjP9zZH
- IlmLHfAo9a9Ew4nODIqTqTP5r580WaQ1IA51yzA3hsX6q6NoZ8BRrzOfw10XLKFxVTqO
- QYAg==
-X-Gm-Message-State: AOAM530M40UdRGEVeEYE4pRQCgCJpHroOvageOMyBloTyhHn/MJgz3oJ
- 7t78w+HkASr3vPF9DYmlJR5uVwohU/3O81hCn5SKrg==
-X-Google-Smtp-Source: ABdhPJxmFxznDK5mcROX1UY5+U0JpN8qJHVzFHL9M7nIGNWnJmlUiLsBcNeleOU0kGlo+biskOg5dqNyijjIiMrxh7E=
-X-Received: by 2002:a17:906:d1d2:: with SMTP id
- bs18mr6615326ejb.56.1621351031762; 
- Tue, 18 May 2021 08:17:11 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210517112001.2564006-1-pbonzini@redhat.com>
-In-Reply-To: <20210517112001.2564006-1-pbonzini@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 18 May 2021 16:16:54 +0100
-Message-ID: <CAFEAcA_HWW_Xc-pkd6sjYYEndWyxX4OhHFEZCpR-1-+cirL0NQ@mail.gmail.com>
-Subject: Re: [PULL 00/20] Misc patches for 2020-05-17
-To: Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::631;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x631.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <bruno.larsen@eldorado.org.br>)
+ id 1lj1I4-0003Dp-33; Tue, 18 May 2021 11:05:48 -0400
+Received: from [201.28.113.2] (port=5990 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <bruno.larsen@eldorado.org.br>)
+ id 1lj1I2-0007Ay-Fm; Tue, 18 May 2021 11:05:47 -0400
+Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
+ Microsoft SMTPSVC(8.5.9600.16384); Tue, 18 May 2021 12:05:33 -0300
+Received: from eldorado.org.br (unknown [10.10.71.235])
+ by power9a (Postfix) with ESMTP id D4744801362;
+ Tue, 18 May 2021 12:05:32 -0300 (-03)
+From: "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 1/7] target/ppc: fix ppc_store_sdr1 for user-only
+ compilation
+Date: Tue, 18 May 2021 12:05:09 -0300
+Message-Id: <20210518150515.57983-2-bruno.larsen@eldorado.org.br>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20210518150515.57983-1-bruno.larsen@eldorado.org.br>
+References: <20210518150515.57983-1-bruno.larsen@eldorado.org.br>
+X-OriginalArrivalTime: 18 May 2021 15:05:33.0054 (UTC)
+ FILETIME=[3FD359E0:01D74BF7]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
+Received-SPF: pass client-ip=201.28.113.2;
+ envelope-from=bruno.larsen@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,68 +53,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: farosas@linux.ibm.com, richard.henderson@linaro.org,
+ luis.pires@eldorado.org.br, lucas.araujo@eldorado.org.br,
+ fernando.valle@eldorado.org.br, qemu-ppc@nongnu.org,
+ "Bruno Larsen \(billionai\)" <bruno.larsen@eldorado.org.br>,
+ matheus.ferst@eldorado.org.br, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 17 May 2021 at 12:24, Paolo Bonzini <pbonzini@redhat.com> wrote:
->
-> The following changes since commit 6005ee07c380cbde44292f5f6c96e7daa70f4f=
-7d:
->
->   Merge remote-tracking branch 'remotes/mst/tags/for_upstream' into stagi=
-ng (2021-05-16 17:22:46 +0100)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/bonzini/qemu.git tags/for-upstream
->
-> for you to fetch changes up to 9b2de449e9593facd562fa7478b5ab15c9a8b588:
->
->   KVM: Dirty ring support (2021-05-17 06:16:22 -0400)
->
-> ----------------------------------------------------------------
-> * submodule cleanups (Philippe, myself)
-> * tiny step towards a usable preconfig mode (myself)
-> * bump Meson submodule (myself)
-> * Kconfig and LOCK_GUARD cleanups (philippe)
-> * new x86 CPUID feature (Yang Zhong)
-> * "-object qtest" support (myself)
-> * Dirty ring support for KVM (Peter)
->
-> ----------------------------------------------------------------
-> Paolo Bonzini (6):
->       configure: check for submodules if --with-git-submodules=3Dignore
->       configure: simplify assignment to GIT_SUBMODULES
->       meson: bump submodule to 0.57.2
->       object: add more commands to preconfig mode
->       qtest: add a QOM object for qtest
->       KVM: do not allow setting properties at runtime
->
-> Peter Xu (10):
->       memory: Introduce log_sync_global() to memory listener
->       KVM: Use a big lock to replace per-kml slots_lock
->       KVM: Create the KVMSlot dirty bitmap on flag changes
->       KVM: Provide helper to get kvm dirty log
->       KVM: Provide helper to sync dirty bitmap from slot to ramblock
->       KVM: Simplify dirty log sync in kvm_set_phys_mem
->       KVM: Cache kvm slot dirty bitmap size
->       KVM: Add dirty-ring-size property
->       KVM: Disable manual dirty log when dirty ring enabled
->       KVM: Dirty ring support
->
-> Philippe Mathieu-Daud=C3=A9 (3):
->       configure: Only clone softfloat-3 repositories if TCG is enabled
->       hw/mem/nvdimm: Use Kconfig 'imply' instead of 'depends on'
->       backends/tpm: Replace qemu_mutex_lock calls with QEMU_LOCK_GUARD
->
-> Yang Zhong (1):
->       i386/cpu: Expose AVX_VNNI instruction to guest
+When the function was moved to cpu.c, it should have been wrapped with
+ #if !defined(CONFIG_USER_ONLY), otherwise linux-user builds don't work.
 
-    Signed-off-by: Philippe Mathieu-Daud=C3=83=C2=A9 <philmd@redhat.com>
-    Signed-off-by: Philippe Mathieu-Daud=C3=83=C2=A9 <philmd@redhat.com>
-ERROR: pull request includes tag with UTF-8 error in person name
+The cleanup suggested by Richard Henderson has also been applied,
+changing error_report(...) to qemu_log_mask(LOG_GUEST_ERROR, ...) in
+that function.
 
+Signed-off-by: Bruno Larsen (billionai) <bruno.larsen@eldorado.org.br>
+---
+ target/ppc/cpu.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
--- PMM
+diff --git a/target/ppc/cpu.c b/target/ppc/cpu.c
+index 0ab7ac1af1..82e276349a 100644
+--- a/target/ppc/cpu.c
++++ b/target/ppc/cpu.c
+@@ -65,6 +65,7 @@ uint32_t ppc_get_vscr(CPUPPCState *env)
+     return env->vscr | (sat << VSCR_SAT);
+ }
+ 
++#if !defined(CONFIG_USER_ONLY)
+ void ppc_store_sdr1(CPUPPCState *env, target_ulong value)
+ {
+     PowerPCCPU *cpu = env_archcpu(env);
+@@ -76,13 +77,13 @@ void ppc_store_sdr1(CPUPPCState *env, target_ulong value)
+         target_ulong htabsize = value & SDR_64_HTABSIZE;
+ 
+         if (value & ~sdr_mask) {
+-            error_report("Invalid bits 0x"TARGET_FMT_lx" set in SDR1",
+-                         value & ~sdr_mask);
++            qemu_log_mask(LOG_GUEST_ERROR, "Invalid bits 0x"TARGET_FMT_lx
++                     " set in SDR1", value & ~sdr_mask);
+             value &= sdr_mask;
+         }
+         if (htabsize > 28) {
+-            error_report("Invalid HTABSIZE 0x" TARGET_FMT_lx" stored in SDR1",
+-                         htabsize);
++            qemu_log_mask(LOG_GUEST_ERROR, "Invalid HTABSIZE 0x" TARGET_FMT_lx
++                     " stored in SDR1", htabsize);
+             return;
+         }
+     }
+@@ -90,3 +91,4 @@ void ppc_store_sdr1(CPUPPCState *env, target_ulong value)
+     /* FIXME: Should check for valid HTABMASK values in 32-bit case */
+     env->spr[SPR_SDR1] = value;
+ }
++#endif
+-- 
+2.17.1
+
 
