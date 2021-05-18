@@ -2,82 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BC65387380
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 09:47:47 +0200 (CEST)
-Received: from localhost ([::1]:39468 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1622238738A
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 09:51:45 +0200 (CEST)
+Received: from localhost ([::1]:42722 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1liuS9-0002Pc-NQ
-	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 03:47:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37182)
+	id 1liuW0-0004r6-5v
+	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 03:51:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38268)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1liuRH-0001X9-0d
- for qemu-devel@nongnu.org; Tue, 18 May 2021 03:46:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37050)
+ id 1liuUw-0003dP-Cf
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 03:50:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23808)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1liuRE-0004jO-Cq
- for qemu-devel@nongnu.org; Tue, 18 May 2021 03:46:50 -0400
+ id 1liuUs-00075H-2R
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 03:50:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621324007;
+ s=mimecast20190719; t=1621324232;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8SNBnIFxsBSmm7jNokMO6sEfQKHN0xu94C0x8dCYGjM=;
- b=OoKRqi0yL9xR8BB619+QwI+IwZpt4eHCwDgwsY7Z8OEj3tEn1GNo0PTKf+DRnti46o4oRS
- i9xSqrQps1XJXOCVlKY8TOkdgv8lulSkKMmkGsYjkasCO77nntDO/FvTdJCvekcPqSOpag
- FzDF0+gjUzBnSCeYzVO/mb6izn9dea4=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-420-7MWB3qOeOXy-zCYSJr5FEw-1; Tue, 18 May 2021 03:46:45 -0400
-X-MC-Unique: 7MWB3qOeOXy-zCYSJr5FEw-1
-Received: by mail-ej1-f69.google.com with SMTP id
- p25-20020a1709061419b0290378364a6464so2023511ejc.15
- for <qemu-devel@nongnu.org>; Tue, 18 May 2021 00:46:44 -0700 (PDT)
+ bh=NW4UL0U5sPtzfc4lmGw05bHMRbyTb+TE8EPYexCTqqU=;
+ b=VSREbdcO6qM7L034L+lHNFgh6pd/PhtiE0xHMRJF3rrYN3jxz7n6woBdx4tbHGED8e8qy9
+ PWY4biFoTsdikJfQbnrG2VMKppttfCK5irAP3A8Dz1G6lPhFNBD2tCIukrRSp0riSZgbNk
+ rG/+pKhTI4cH5W1knPvEHo380MqLfqk=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-1-kdXMiQEEPoKBL6MhPHiGUQ-1; Tue, 18 May 2021 03:50:31 -0400
+X-MC-Unique: kdXMiQEEPoKBL6MhPHiGUQ-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ q18-20020a0564025192b02903888712212fso5274912edd.19
+ for <qemu-devel@nongnu.org>; Tue, 18 May 2021 00:50:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=8SNBnIFxsBSmm7jNokMO6sEfQKHN0xu94C0x8dCYGjM=;
- b=NZucUfzPE3HFe7u5Oy4PRJcvdKbee3CV/sn1z45A9mGD4DI591rmqbGda4JW+txLka
- fLgtcrOlhTAKlMJUlNpWoG40ulaTKxANg5WmEWS9wGtjMYJpEnn0LbqGWz3zVvEXCaTr
- 5JFVEgcC4zULOPcnxpRT9AsIsloc6o/FNXUHoPW9aRCdmnR5hvk0y9H6E4I7RWi2A0Ha
- zr/qp/tUT5Rtum8fbFrU0opkFPYOh6fR9s30wGx7U8fc4+XAH14NbGz2gKWiV7d8Av7q
- 1ezxWOA3E9VhUQk6M8oZe8fv7DtNZPuNlz+WfLOhPo4MK8SSde1AqwHpCJ2ccynRVWX/
- n3aQ==
-X-Gm-Message-State: AOAM5338AGTQOcdVXjzbDmx21xIe3TuVLP838iGSdMzO2JsXdbU7f0U7
- voQUEL1kVmw6cC0odoWdVibHCeH3NwC5Z9eeD3pBsvY18GGStYivoXD6JXVSGg74JicfMx69xMf
- AicXYyKdTdwVfuUI=
-X-Received: by 2002:a17:906:84d:: with SMTP id
- f13mr4805537ejd.451.1621324003708; 
- Tue, 18 May 2021 00:46:43 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwl/EF+pLziswR/hBcL1tgQ+zzMKhwWDXr2rxfQ81aDyjIYIt0OMcMXmqSW0z+SaQK5JsOQ3g==
-X-Received: by 2002:a17:906:84d:: with SMTP id
- f13mr4805518ejd.451.1621324003525; 
- Tue, 18 May 2021 00:46:43 -0700 (PDT)
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=NW4UL0U5sPtzfc4lmGw05bHMRbyTb+TE8EPYexCTqqU=;
+ b=rDBkcLr+/8HTshkiUynn5cbs9Cq+u+y+7ceqERuoJDE5aNxmvivo7/J2s0hyyPPQny
+ rqMR+n2UN+CAXXBXI7yySd1DSEVZW+/8v20tfJ+pD8Nbs8ymxXaNJk7FDknC175Pli3W
+ 27tCH1rgX11PC94QPKAjNo08WTChXVTQKzcepi1wYawhDEOVgggQ6HK0iUjkJKhdhmuS
+ +S+M5l+6s9IU9nnzTyLFS0nk8m+UcZWMOTUjUdob1cQ01Zwybup/CPXlaf60sf0La6G4
+ kiYpufU+lshH0DyvrqihKHQTuUgDnJz90S4WTJfQY1HnNM1F1B7v23K1hg50BosW6A+s
+ UmGg==
+X-Gm-Message-State: AOAM531d6Vy7I0fsYdPMjCoj0Qn0j8mIznutbTbXsTEVDdfy2v9qeKYl
+ 4v3wxC8dtRhIGPjbWvVOIp4dsumyFwZlIIS2QHYgeUvc2/BtoyjJc5bloqfZLrKFFo0AFF8xM/g
+ 0lXPJ18LHBPnTa+g=
+X-Received: by 2002:a05:6402:2044:: with SMTP id
+ bc4mr5610926edb.282.1621324230286; 
+ Tue, 18 May 2021 00:50:30 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxFzMI5v4PnOH/SXzTHlKC/E2yBgzwUMmMGoQmrcpTZlsyGOhJk/7yGYBlnGzMGqecpBbtZew==
+X-Received: by 2002:a05:6402:2044:: with SMTP id
+ bc4mr5610896edb.282.1621324230081; 
+ Tue, 18 May 2021 00:50:30 -0700 (PDT)
 Received: from gator.home (cst2-174-132.cust.vodafone.cz. [31.30.174.132])
- by smtp.gmail.com with ESMTPSA id n15sm10062712eje.118.2021.05.18.00.46.42
+ by smtp.gmail.com with ESMTPSA id d15sm8128909eds.68.2021.05.18.00.50.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 May 2021 00:46:43 -0700 (PDT)
-Date: Tue, 18 May 2021 09:46:41 +0200
+ Tue, 18 May 2021 00:50:29 -0700 (PDT)
+Date: Tue, 18 May 2021 09:50:27 +0200
 From: Andrew Jones <drjones@redhat.com>
-To: "wangyanan (Y)" <wangyanan55@huawei.com>
-Subject: Re: [RFC PATCH v3 3/9] hw/arm/virt: Add cpu-map to device tree
-Message-ID: <20210518074641.q6zsjso55akie4o6@gator.home>
+To: Salil Mehta <salil.mehta@huawei.com>
+Subject: Re: [RFC PATCH v3 4/9] hw/arm/virt: Initialize the present cpu members
+Message-ID: <20210518075027.wjpdjvoam7dlzign@gator.home>
 References: <20210516102900.28036-1-wangyanan55@huawei.com>
- <20210516102900.28036-4-wangyanan55@huawei.com>
- <20210517064140.4cvurykbsofb7y3n@gator.home>
- <5eb2dc87-1c0a-11ae-0a4c-f26c4a90a18d@huawei.com>
+ <20210516102900.28036-5-wangyanan55@huawei.com>
+ <6c8f9c3502384f648f30c7381e87dda9@huawei.com>
+ <68883a1b-5303-da13-a051-e909e1d1f71b@huawei.com>
+ <6d8b9142e8a34d1390f2f0b4bfb53a00@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <5eb2dc87-1c0a-11ae-0a4c-f26c4a90a18d@huawei.com>
+In-Reply-To: <6d8b9142e8a34d1390f2f0b4bfb53a00@huawei.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=drjones@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=drjones@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -98,106 +102,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Barry Song <song.bao.hua@hisilicon.com>,
+Cc: "Song Bao Hua \(Barry Song\)" <song.bao.hua@hisilicon.com>,
  Peter Maydell <peter.maydell@linaro.org>,
- "Michael S . Tsirkin" <mst@redhat.com>, wanghaibin.wang@huawei.com,
- zhukeqian1@huawei.com, qemu-devel@nongnu.org, yangyicong@huawei.com,
- Shannon Zhao <shannon.zhaosl@gmail.com>, qemu-arm@nongnu.org,
- Alistair Francis <alistair.francis@wdc.com>, prime.zeng@hisilicon.com,
- Paolo Bonzini <pbonzini@redhat.com>, yuzenghui@huawei.com,
+ "linuxarm@openeuler.org" <linuxarm@openeuler.org>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ "Wanghaibin \(D\)" <wanghaibin.wang@huawei.com>,
+ zhukeqian <zhukeqian1@huawei.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ yangyicong <yangyicong@huawei.com>, "wangyanan \(Y\)" <wangyanan55@huawei.com>,
+ Shannon Zhao <shannon.zhaosl@gmail.com>,
+ "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ "Zengtao \(B\)" <prime.zeng@hisilicon.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, yuzenghui <yuzenghui@huawei.com>,
  Igor Mammedov <imammedo@redhat.com>,
  Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
  David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, May 17, 2021 at 11:00:07PM +0800, wangyanan (Y) wrote:
-> Hi Drew,
+On Tue, May 18, 2021 at 07:04:51AM +0000, Salil Mehta wrote:
+> > From: wangyanan (Y)
+> > Sent: Tuesday, May 18, 2021 5:43 AM
+> > 
+> > Hi Salil,
+> > 
+> > On 2021/5/18 4:48, Salil Mehta wrote:
+> > >> From: Qemu-arm
+> > [mailto:qemu-arm-bounces+salil.mehta=huawei.com@nongnu.org]
+> > >> On Behalf Of Yanan Wang
+> > >> Sent: Sunday, May 16, 2021 11:29 AM
+> > >> To: Peter Maydell <peter.maydell@linaro.org>; Andrew Jones
+> > >> <drjones@redhat.com>; Michael S . Tsirkin <mst@redhat.com>; Igor Mammedov
+> > >> <imammedo@redhat.com>; Shannon Zhao <shannon.zhaosl@gmail.com>; Alistair
+> > >> Francis <alistair.francis@wdc.com>; David Gibson
+> > >> <david@gibson.dropbear.id.au>; qemu-devel@nongnu.org; qemu-arm@nongnu.org
+> > >> Cc: Song Bao Hua (Barry Song) <song.bao.hua@hisilicon.com>; zhukeqian
+> > >> <zhukeqian1@huawei.com>; yangyicong <yangyicong@huawei.com>; Zengtao (B)
+> > >> <prime.zeng@hisilicon.com>; Wanghaibin (D) <wanghaibin.wang@huawei.com>;
+> > >> yuzenghui <yuzenghui@huawei.com>; Paolo Bonzini <pbonzini@redhat.com>;
+> > >> Philippe Mathieu-Daudé <philmd@redhat.com>
+> > >> Subject: [RFC PATCH v3 4/9] hw/arm/virt: Initialize the present cpu members
+> > >>
+> > >> We create and initialize a cpuobj for each present cpu in
+> > >> machvirt_init(). Now we also initialize the cpu member of
+> > >> structure CPUArchId for each present cpu in the function.
+> > > [...]
+> > >
+> > >>           qdev_realize(DEVICE(cpuobj), NULL, &error_fatal);
+> > >> +
+> > >> +        /*
+> > >> +         * As ARM cpu hotplug is not supported yet, we initialize
+> > >> +         * the present cpu members here.
+> > >> +         */
+> > >> +        machine->possible_cpus->cpus[n].cpu = cpuobj;
+> > >
+> > > when vcpu Hotplug is not supported yet, what necessitates this change now?
+> > >
+> > The initialization will gives a way to determine whether a CPU is
+> > present or not.
+> > At least, for now it will be used when generating ACPI tables, e.g.
+> > DSDT, MADT.
+> > See patch 5 and 6.
 > 
-> On 2021/5/17 14:41, Andrew Jones wrote:
-> > On Sun, May 16, 2021 at 06:28:54PM +0800, Yanan Wang wrote:
-> > > From: Andrew Jones <drjones@redhat.com>
-> > > 
-> > > Support device tree CPU topology descriptions.
-> > > 
-> > > In accordance with the Devicetree Specification, the Linux Doc
-> > > "arm/cpus.yaml" requires that cpus and cpu nodes in the DT are
-> > > present. And we meet the requirement by creating /cpus/cpu@*
-> > > nodes for members within ms->smp.cpus.
-> > > 
-> > > Correspondingly, we should also create subnodes in cpu-map for
-> > > the present cpus, each of which relates to an unique cpu node.
-> > > 
-> > > Signed-off-by: Andrew Jones <drjones@redhat.com>
-> > > Co-developed-by: Yanan Wang <wangyanan55@huawei.com>
-> > > Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
-> > > ---
-> > >   hw/arm/virt.c | 41 ++++++++++++++++++++++++++++++++++++++++-
-> > >   1 file changed, 40 insertions(+), 1 deletion(-)
-> > > 
-> > > diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-> > > index c07841e3a4..e5dcdebdbc 100644
-> > > --- a/hw/arm/virt.c
-> > > +++ b/hw/arm/virt.c
-> > > @@ -349,10 +349,11 @@ static void fdt_add_cpu_nodes(const VirtMachineState *vms)
-> > >       int cpu;
-> > >       int addr_cells = 1;
-> > >       const MachineState *ms = MACHINE(vms);
-> > > +    const VirtMachineClass *vmc = VIRT_MACHINE_GET_CLASS(vms);
-> > >       int smp_cpus = ms->smp.cpus;
-> > >       /*
-> > > -     * From Documentation/devicetree/bindings/arm/cpus.txt
-> > > +     *  See Linux Documentation/devicetree/bindings/arm/cpus.yaml
-> > Rather than aligning the top line with the lower lines, we could remove
-> > the extra space from the lower lines. Or, leave the formatting as it was,
-> > by putting 'See' where 'From' was, like I did in my original patch.
-> I think I prefer removing the extra space from the lower lines, which is
-> the right thing to do.
-
-OK
-
-> > >        *  On ARM v8 64-bit systems value should be set to 2,
-> > >        *  that corresponds to the MPIDR_EL1 register size.
-> > >        *  If MPIDR_EL1[63:32] value is equal to 0 on all CPUs
-> > > @@ -405,8 +406,46 @@ static void fdt_add_cpu_nodes(const VirtMachineState *vms)
-> > >                   ms->possible_cpus->cpus[cs->cpu_index].props.node_id);
-> > >           }
-> > > +        if (!vmc->no_cpu_topology) {
-> > > +            qemu_fdt_setprop_cell(ms->fdt, nodename, "phandle",
-> > > +                                  qemu_fdt_alloc_phandle(ms->fdt));
-> > > +        }
-> > > +
-> > >           g_free(nodename);
-> > >       }
-> > > +
-> > > +    if (!vmc->no_cpu_topology) {
-> > > +        /*
-> > > +         * See Linux Documentation/devicetree/bindings/cpu/cpu-topology.txt
-> > > +         * In a SMP system, the hierarchy of CPUs is defined through four
-> > > +         * entities that are used to describe the layout of physical CPUs
-> > s/entities/levels/
-> Above comment was completely from Linux Doc cpu-topology.txt. See [1].
-> I think entities may be more reasonable than levels here, since there can be
-> multiple levels of clusters in cpu-map which makes the total not four.
-
-OK
-
+> yes,  but why do you require it now as part of the vcpu topology change?
 > 
-> [1] https://github.com/torvalds/linux/blob/master/Documentation/devicetree/bindings/cpu/cpu-topology.txt
-> > > +         * in the system: socket/cluster/core/thread.
-> > The comment says there are four levels including 'cluster', but there's no
-> > 'cluster' below.
-> According to Doc [1] (line 114), a socket node's child nodes must be
-> *one or more* cluster nodes which means cluster is mandatory to be
-> socket's child in DT.
+> As-far-as-i-can-see, PPTT table changes(part of patch 5/9) do not require
+> this change. Change in Patch 5/9 has also been done in anticipation of
+> some future requirement(vcpu Hotplug?).
 > 
-> So I think maybe we should just keep the comment as-is, and change
-> the map-path from /cpus/cpu-map/socket*/cores*/threads* to
-> /cpus/cpu-map/socket*/cluster0/cores*/threads* in this patch?
+> Please correct me here if I am wrong?
+>
 
-I agree. In fact, that's how I implemented it myself[1]
+Hi Salil,
 
-[1] https://github.com/rhdrjones/qemu/commit/35feecdd43475608c8f55973a0c159eac4aafefd
+The problem is that we've never required smp.cpus == smp.maxcpus, so
+a user could have smp.cpus < smp.maxcpus. We want the topology to match
+maxcpus, but only enable cpus. However, if you think we should just not
+allow cpus < maxcpus until hot plug is sorted out, then we could discuss
+a way of trying to enforce cpus == maxcpus, but I'm not sure how we can
+without breaking existing command lines.
 
 Thanks,
 drew
