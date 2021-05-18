@@ -2,53 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C2D2388238
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 23:38:06 +0200 (CEST)
-Received: from localhost ([::1]:34862 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C499388244
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 23:39:53 +0200 (CEST)
+Received: from localhost ([::1]:42558 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lj7Pg-0001QR-Ss
-	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 17:38:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60810)
+	id 1lj7RQ-0006X9-GC
+	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 17:39:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60884)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1lj7Ne-00071m-7a
- for qemu-devel@nongnu.org; Tue, 18 May 2021 17:35:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50991)
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1lj7Ng-00077J-AT
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 17:36:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40795)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1lj7Na-0007Od-In
- for qemu-devel@nongnu.org; Tue, 18 May 2021 17:35:57 -0400
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1lj7Nb-0007Oi-E6
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 17:36:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621373752;
+ s=mimecast20190719; t=1621373753;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=JUWvjTtHfv8AZZkeJooqd4m+jB3+eGxchAvCm2M5B3g=;
- b=Ful8dAF774tBl40Zbq2vJdWb8xDhDgEZ+C0JDU0g4ptGpYjQzKccI6HPFAh6lD9ijXWweZ
- dfew+Q8jC4Vq/mKxykYziFd8AI43BBbQM7X0cC42iqBDCUrliEl2J3S4Ar6dUNwxTB9+AE
- No8Atwehu1Zihknz+zYCnlI7s487fsQ=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=/5yvAN4kT53e/nIfmuECRDsUp0kSLNj/hY2xN7GrUq4=;
+ b=TLol5U/8wnnB/yB7KAvFiySnOpwiHeTiHFLSNO5Wb105+GwfPayAKl7uQM4vzm2UHlh5Gj
+ unsLKbMYdschOLlJA6yOery4iIk6SKYMFNMWBbDjajQIVfJCeNhnqYShMfypysdnxhh986
+ zkudylWWD9qkMBpB78WFvr679sUzKg0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-541-Y-dZoTuRMpSxpIpYxOydnA-1; Tue, 18 May 2021 17:35:51 -0400
-X-MC-Unique: Y-dZoTuRMpSxpIpYxOydnA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-411-Jfm69jm7OXOoBgsrWHXmyQ-1; Tue, 18 May 2021 17:35:51 -0400
+X-MC-Unique: Jfm69jm7OXOoBgsrWHXmyQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 39621801817
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A0135FCB6
  for <qemu-devel@nongnu.org>; Tue, 18 May 2021 21:35:50 +0000 (UTC)
 Received: from horse.redhat.com (ovpn-114-77.rdu2.redhat.com [10.10.114.77])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DA29810074E0;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D9EB460C04;
  Tue, 18 May 2021 21:35:46 +0000 (UTC)
 Received: by horse.redhat.com (Postfix, from userid 10451)
- id 5B2B9220BCF; Tue, 18 May 2021 17:35:46 -0400 (EDT)
+ id 5F097223D99; Tue, 18 May 2021 17:35:46 -0400 (EDT)
 From: Vivek Goyal <vgoyal@redhat.com>
 To: qemu-devel@nongnu.org,
 	virtio-fs@redhat.com
-Subject: [PATCH v2 0/7] virtiofsd: Few cleanups in virtio_send_data_iov()
-Date: Tue, 18 May 2021 17:35:31 -0400
-Message-Id: <20210518213538.693422-1-vgoyal@redhat.com>
+Subject: [PATCH v2 1/7] virtiofsd: Check for EINTR in preadv() and retry
+Date: Tue, 18 May 2021 17:35:32 -0400
+Message-Id: <20210518213538.693422-2-vgoyal@redhat.com>
+In-Reply-To: <20210518213538.693422-1-vgoyal@redhat.com>
+References: <20210518213538.693422-1-vgoyal@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -80,34 +83,30 @@ Cc: ckuehl@redhat.com, dgilbert@redhat.com, vgoyal@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+We don't seem to check for EINTR and retry. There are other places
+in code where we check for EINTR. So lets add a check.
 
-This is V2 of the patches. Changes since V1 are.
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Reviewed-by: Connor Kuehl <ckuehl@redhat.com>
+Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
+---
+ tools/virtiofsd/fuse_virtio.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-- Took care of coding style issue.
-- Got rid of label "err" completely in last patch. (Dave, Connor). 
-- Captured Reviewed-by tags from Connor and David.
-
-Code in virtio_send_data_iov() little twisted and complicated. This
-patch series just tries to simplify it a bit to make it little easier
-to read this piece of code.
-
-Thanks
-Vivek
-
-
-Vivek Goyal (7):
-  virtiofsd: Check for EINTR in preadv() and retry
-  virtiofsd: Get rid of unreachable code in read
-  virtiofsd: Use iov_discard_front() to skip bytes
-  virtiofsd: get rid of in_sg_left variable
-  virtiofsd: Simplify skip byte logic
-  virtiofsd: Check EOF before short read
-  virtiofsd: Set req->reply_sent right after sending reply
-
- tools/virtiofsd/fuse_virtio.c | 81 +++++++++++------------------------
- 1 file changed, 25 insertions(+), 56 deletions(-)
-
+diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.c
+index 9efdbd8ffd..755d7fb25c 100644
+--- a/tools/virtiofsd/fuse_virtio.c
++++ b/tools/virtiofsd/fuse_virtio.c
+@@ -421,6 +421,9 @@ int virtio_send_data_iov(struct fuse_session *se, struct fuse_chan *ch,
+ 
+         if (ret == -1) {
+             ret = errno;
++            if (ret == EINTR) {
++                continue;
++            }
+             fuse_log(FUSE_LOG_DEBUG, "%s: preadv failed (%m) len=%zd\n",
+                      __func__, len);
+             goto err;
 -- 
 2.25.4
 
