@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FB2D3870AE
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 06:26:45 +0200 (CEST)
-Received: from localhost ([::1]:37574 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D23B3870B4
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 06:36:39 +0200 (CEST)
+Received: from localhost ([::1]:41950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lirJc-0008F4-Dt
-	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 00:26:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56452)
+	id 1lirTC-0003Gd-1t
+	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 00:36:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57690)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lirIp-0007Yn-0i
- for qemu-devel@nongnu.org; Tue, 18 May 2021 00:25:55 -0400
-Received: from indium.canonical.com ([91.189.90.7]:53324)
+ id 1lirSD-0001tm-5r
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 00:35:37 -0400
+Received: from indium.canonical.com ([91.189.90.7]:54002)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lirIm-0007zb-IF
- for qemu-devel@nongnu.org; Tue, 18 May 2021 00:25:54 -0400
+ id 1lirSB-0007T4-AI
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 00:35:36 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lirIh-0002ra-07
- for <qemu-devel@nongnu.org>; Tue, 18 May 2021 04:25:47 +0000
+ id 1lirS8-0003sR-54
+ for <qemu-devel@nongnu.org>; Tue, 18 May 2021 04:35:32 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 4A5572E81C6
- for <qemu-devel@nongnu.org>; Tue, 18 May 2021 04:25:45 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id D2BC22E8193
+ for <qemu-devel@nongnu.org>; Tue, 18 May 2021 04:35:31 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 18 May 2021 04:17:15 -0000
-From: Launchpad Bug Tracker <1796520@bugs.launchpad.net>
+Date: Tue, 18 May 2021 04:26:49 -0000
+From: Thomas Huth <1922102@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
+X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: linux-user sh4
+X-Launchpad-Bug-Tags: macos net network tap tap-net
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: glaubitz janitor pmaydell th-huth
-X-Launchpad-Bug-Reporter: John Paul Adrian Glaubitz (glaubitz)
-X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <153886120838.22456.12836438866392888832.malonedeb@gac.canonical.com>
-Message-Id: <162131143606.13196.13835967458938160468.malone@loganberry.canonical.com>
-Subject: [Bug 1796520] Re: autogen crashes on qemu-sh4-user after 61dedf2af7
+X-Launchpad-Bug-Commenters: shchukovl th-huth
+X-Launchpad-Bug-Reporter: Vladislav Yaroshchuk (shchukovl)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <161720333927.2408.17717907169331715630.malonedeb@chaenomeles.canonical.com>
+Message-Id: <162131201001.21648.13707166447065644667.malone@soybean.canonical.com>
+Subject: [Bug 1922102] Re: Broken tap networking on macOS host
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="5321c3f40fa4d4b847f4e47fb766e7b95ed5036c"; Instance="production"
-X-Launchpad-Hash: 5526f594467792e487316b14a30da58111d3475c
+X-Launchpad-Hash: c427c7ff8c5495fc7605b449370f349f30e54156
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,69 +71,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1796520 <1796520@bugs.launchpad.net>
+Reply-To: Bug 1922102 <1922102@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-[Expired for QEMU because there has been no activity for 60 days.]
+Ticket has been moved here (thanks, Vladislav!):
+https://gitlab.com/qemu-project/qemu/-/issues/335
+... thus I'm closing this on Launchpad now.
+
+** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #335
+   https://gitlab.com/qemu-project/qemu/-/issues/335
 
 ** Changed in: qemu
-       Status: Incomplete =3D> Expired
+       Status: Incomplete =3D> Invalid
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1796520
+https://bugs.launchpad.net/bugs/1922102
 
 Title:
-  autogen crashes on qemu-sh4-user after 61dedf2af7
+  Broken tap networking on macOS host
 
 Status in QEMU:
-  Expired
+  Invalid
 
 Bug description:
-  Running "autogen --help" crashes on qemu-sh4-user with:
+  Building QEMU with GLib newer than 2.58.3 corrupts tap networking on macO=
+S hosts.
+  Tap device was provided by Tun/Tap kernel extension installed from brew:
+  =C2=A0=C2=A0brew install tuntap
 
-  (sid-sh4-sbuild)root@nofan:/# autogen --help
-  Unhandled trap: 0x180
-  pc=3D0xf64dd2de sr=3D0x00000000 pr=3D0xf63b9c74 fpscr=3D0x00080000
-  spc=3D0x00000000 ssr=3D0x00000000 gbr=3D0xf61102a8 vbr=3D0x00000000
-  sgr=3D0x00000000 dbr=3D0x00000000 delayed_pc=3D0xf64dd2a0 fpul=3D0x000000=
-03
-  r0=3D0xf6fc1320 r1=3D0x00000000 r2=3D0xffff5dc4 r3=3D0xf67bfb50
-  r4=3D0xf6fc1230 r5=3D0xf6fc141c r6=3D0x000003ff r7=3D0x00000000
-  r8=3D0x00000004 r9=3D0xf63e20bc r10=3D0xf6fc141c r11=3D0xf63e28f0
-  r12=3D0xf63e2258 r13=3D0xf63eae1c r14=3D0x00000804 r15=3D0xf6fc1220
-  r16=3D0x00000000 r17=3D0x00000000 r18=3D0x00000000 r19=3D0x00000000
-  r20=3D0x00000000 r21=3D0x00000000 r22=3D0x00000000 r23=3D0x00000000
-  (sid-sh4-sbuild)root@nofan:/#
+  Checked revisions:
+  =C2=A0=C2=A0553032d (v5.2.0)
+  =C2=A0=C2=A06d40ce0 (v6.0.0-rc1)
 
-  Bi-secting found this commit to be the culprit:
+  Host:
+  =C2=A0MacBook Pro (Retina, 15-inch, Mid 2015)
+  =C2=A0macOS Catalina 10.15.6 (19G2021)
 
-  61dedf2af79fb5866dc7a0f972093682f2185e17 is the first bad commit
-  commit 61dedf2af79fb5866dc7a0f972093682f2185e17
-  Author: Richard Henderson <rth@twiddle.net>
-  Date:   Tue Jul 18 10:02:50 2017 -1000
+  Guest:
+  =C2=A0=C2=A0Linux Ubuntu 4.4.0-206-generic x86_64
+  =C2=A0=C2=A0Also tested macOS Catalina 10.15.7 as a guest, the behaviour =
+is the same.
 
-      target/sh4: Add missing FPSCR.PR =3D=3D 0 checks
-      =
+  QEMU command line:
 
-      Both frchg and fschg require PR =3D=3D 0, otherwise undefined_operati=
-on.
-      =
+  qemu-system-x86_64 \
+  =C2=A0=C2=A0-drive file=3Dhdd.qcow2,if=3Dvirtio,format=3Dqcow2 \
+  =C2=A0=C2=A0-m 3G \
+  =C2=A0=C2=A0-nic tap,script=3Dtap-up.sh
 
-      Reviewed-by: Aurelien Jarno <aurelien@aurel32.net>
-      Signed-off-by: Richard Henderson <rth@twiddle.net>
-      Message-Id: <20170718200255.31647-26-rth@twiddle.net>
-      Signed-off-by: Aurelien Jarno <aurelien@aurel32.net>
+  tap-up.sh:
 
-  :040000 040000 980d79b69ae712f23a1e4c56983e97a843153b4a
-  1024c109f506c7ad57367c63bc8bbbc8a7a36cd7 M      target
+  =C2=A0#!/bin/sh
 
-  Reverting 61dedf2af79fb5866dc7a0f972093682f2185e17 fixes the problem
-  for me.
+  =C2=A0TAPDEV=3D"$1"
+  =C2=A0BRIDGEDEV=3D"bridge0"
+
+  =C2=A0ifconfig "$BRIDGEDEV" addm "$TAPDEV"
+
+  Enabling/disabling Hypervisor.Framework acceleration (`-accel hvf`)
+  has no effect.
+
+  How to reproduce:
+  =C2=A0=C2=A01. Build & install GLib > 2.58.3 (tested 2.60.7)
+  =C2=A0=C2=A02. Build qemu-system-x86_64 with GLib > 2.58.3
+  =C2=A0=C2=A03. Boot any guest with tap networking enabled
+  =C2=A0=C2=A04. See that the external network is inaccessible
+
+  Hotfix:
+  =C2=A0=C2=A01. Build & install GLib 2.58.3
+  =C2=A0=C2=A02. Build qemu-system-x86_64 with GLib 2.58.3
+  =C2=A0=C2=A03. Boot any guest with tap networking enabled
+  =C2=A0=C2=A04. See that the external network is accessible, everything is=
+ working as expected
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1796520/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1922102/+subscriptions
 
