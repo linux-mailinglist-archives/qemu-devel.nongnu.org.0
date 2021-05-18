@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06EF8387755
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 13:19:05 +0200 (CEST)
-Received: from localhost ([::1]:49110 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB81038770A
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 13:01:27 +0200 (CEST)
+Received: from localhost ([::1]:49548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lixke-000078-41
-	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 07:19:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54828)
+	id 1lixTa-0004LN-2B
+	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 07:01:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55628)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lixLr-0005sN-Hm
- for qemu-devel@nongnu.org; Tue, 18 May 2021 06:53:27 -0400
-Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:43005)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lixLp-0000UA-2P
- for qemu-devel@nongnu.org; Tue, 18 May 2021 06:53:27 -0400
-Received: by mail-ej1-x635.google.com with SMTP id lg14so13841647ejb.9
- for <qemu-devel@nongnu.org>; Tue, 18 May 2021 03:53:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=PUb08Nbh7NGRiwKPFr9sRb2tkEp3Gl8xaSMWG9/AZlI=;
- b=TumZ5O3MKQ8BWUvckcNXsFeWLBGVhDR1NHFeV2SO/KuWjs6IeFHQ5npWRUBb4O8OU5
- 8WZ3prxiwHZuZ4/gq/5sMnpzjBny5cs058WLJHFrlQC0V1P3gJe1Fw/20zBeg8eUF9zE
- mjJLpeNMihu9UXVTe56/jRY0DamnXpDem2LdOCS3maHa9eCwjPtDRfjQJ0AigHezVjF0
- 2qhEO5NkRenTrV7Wlu1PNKpHG/uN9T6mK6a9++/fC16+ZnhfRWUg7gFl/vj2u43kfeZL
- eWdAsuKJBHF4jCE0cWZeRWo+RdYQzmxiN+KYO6aQgpfQ3enZmKt4H6AudA/NIID7XN1Z
- QAew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=PUb08Nbh7NGRiwKPFr9sRb2tkEp3Gl8xaSMWG9/AZlI=;
- b=UClSR04sUj2Gf6+dOKFJJE4gb105YsGySGLnX/UW3e1tAY9eA1HomjXH6QCZ1cmelC
- cGI5ryA68fFXWu8jSIToYboiYw8kEakMudjpW/DGO5vMp+Xw5TU/sv3VUOMKACC/gZcf
- 6rDtvoYQqkFh1bbNnAQWu1nObgyftosadCs6iN674mOQ++ee6sVuKg+Gp4mAZnz7SHCs
- t1nbbYQbklTuQ4+0QshWQdjxJZoQMb0RA+pgBBKXYgSDaxee99QgVM4mwUdhuc/RgsHQ
- eje31vfBuethr3pGjoeifux3JVK25lp5NBiN9Z+XoBeK5SidajYPHP0od5HfiHLsX10l
- ZMIw==
-X-Gm-Message-State: AOAM530WDW9qAqarizZM2/bx8c0zc4aYPzeGiVtaQmtQvjWW5wZuz8qZ
- yaU8BmxMsVyjCBhX48lAiNUm4P4TO2y7flOAhXtvoA==
-X-Google-Smtp-Source: ABdhPJyPFEJUy9kPKfJ1wKMaF5wc+tLtKn4KvrpGZ1XzUlcdmzxTAzuxY73gYP9fBjABnaeebTs/+59iP61HVw7TLNA=
-X-Received: by 2002:a17:906:b1cc:: with SMTP id
- bv12mr5294254ejb.407.1621335203428; 
- Tue, 18 May 2021 03:53:23 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lixQB-0002JK-Sa
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 06:57:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34237)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lixQ8-0003NI-2l
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 06:57:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1621335470;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=l0B7c9NphGTTDcxD6Nte3rvJmLXnKUMefVOMCXg7N1g=;
+ b=AAmeQ5N8JJ64Js+s2Pbolga8iS5maaYK8Rgn6aXgrUuywWL5cnkSPGovuTdlC1dWizGSMw
+ fk1UKuC2Rs0RvdroBGaS1pBDTTduxJI2jHOAyOJ6uLb/DKJPcoL9cgTgsnbtwd28dinc2v
+ iB72RcjD26Z22tKuohd+Meaa5rc0R08=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-75-vUoftNAgP8a4r-CSh4mHZA-1; Tue, 18 May 2021 06:57:49 -0400
+X-MC-Unique: vUoftNAgP8a4r-CSh4mHZA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 23AEB801B39
+ for <qemu-devel@nongnu.org>; Tue, 18 May 2021 10:57:48 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
+ [10.36.114.17])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E358250FA1;
+ Tue, 18 May 2021 10:57:47 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 582CD113861E; Tue, 18 May 2021 12:57:46 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH] remove qemu-options* from root directory
+References: <20210517121908.2624991-1-pbonzini@redhat.com>
+ <875yzg776s.fsf@dusky.pond.sub.org>
+ <ccfae3ab-e05a-7860-a841-f2aac0169c89@redhat.com>
+Date: Tue, 18 May 2021 12:57:46 +0200
+In-Reply-To: <ccfae3ab-e05a-7860-a841-f2aac0169c89@redhat.com> (Paolo
+ Bonzini's message of "Tue, 18 May 2021 12:33:29 +0200")
+Message-ID: <878s4c5mxh.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-References: <20210416235928.1631788-1-richard.henderson@linaro.org>
- <20210416235928.1631788-4-richard.henderson@linaro.org>
-In-Reply-To: <20210416235928.1631788-4-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 18 May 2021 11:53:07 +0100
-Message-ID: <CAFEAcA9sdSrc3Z_229fb7R-PA71am8HZkudhB1fEtbU+JEzxCA@mail.gmail.com>
-Subject: Re: [PATCH v1 03/11] target/arm: Implement scalar float32 to bfloat16
- conversion
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::635;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x635.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.374,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,20 +81,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 17 Apr 2021 at 00:59, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> This is the 64-bit BFCVT and the 32-bit VCVT{B,T}.BF16.F32.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
+Paolo Bonzini <pbonzini@redhat.com> writes:
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+> On 18/05/21 10:54, Markus Armbruster wrote:
+>> Paolo Bonzini <pbonzini@redhat.com> writes:
+>> 
+>>> These headers are also included from softmmu/vl.c, so they should be
+>>> in include/.  Removing qemu-options-wrapper.h, since elsewhere
+>>> we include "template" headers directly and #define the parameters in
+>>> the including file, and move qemu-options.h to include/.
+>>>
+>>> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+>>> ---
+>>>   qemu-options.h => include/qemu/qemu-options.h |  9 ++++-
+>>>   os-posix.c                                    |  2 +-
+>>>   os-win32.c                                    |  1 -
+>>>   qemu-options-wrapper.h                        | 40 -------------------
+>>>   qemu-options.hx                               |  4 ++
+>>>   softmmu/vl.c                                  | 24 ++++++++---
+>>>   6 files changed, 31 insertions(+), 49 deletions(-)
+>>>   rename qemu-options.h => include/qemu/qemu-options.h (88%)
+>>>   delete mode 100644 qemu-options-wrapper.h
+>> 
+>> Much nicer without qemu-options-wrapper.h.
+>> 
+>> I'd be tempted to rename qemu-options.def while there (what's .def?),
+>> but that's up to you.
+>> 
+>> Reviewed-by: Markus Armbruster <armbru@redhat.com>
+>
+> I was tempted too, but qemu-options.h is already taken (well, 
+> qemu/qemu-options.h) and I didn't have any good ideas about the name.
 
-thanks
--- PMM
+qemu-options.inc?
+
 
