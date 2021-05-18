@@ -2,86 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1622238738A
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 09:51:45 +0200 (CEST)
-Received: from localhost ([::1]:42722 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CCCD3873A4
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 09:58:06 +0200 (CEST)
+Received: from localhost ([::1]:47802 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1liuW0-0004r6-5v
-	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 03:51:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38268)
+	id 1liuc8-0008UA-QA
+	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 03:58:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39716)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1liuUw-0003dP-Cf
- for qemu-devel@nongnu.org; Tue, 18 May 2021 03:50:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23808)
+ (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1liubE-0007hc-Kh
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 03:57:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49713)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1liuUs-00075H-2R
- for qemu-devel@nongnu.org; Tue, 18 May 2021 03:50:38 -0400
+ (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1liubC-0002xs-0w
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 03:57:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621324232;
+ s=mimecast20190719; t=1621324624;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NW4UL0U5sPtzfc4lmGw05bHMRbyTb+TE8EPYexCTqqU=;
- b=VSREbdcO6qM7L034L+lHNFgh6pd/PhtiE0xHMRJF3rrYN3jxz7n6woBdx4tbHGED8e8qy9
- PWY4biFoTsdikJfQbnrG2VMKppttfCK5irAP3A8Dz1G6lPhFNBD2tCIukrRSp0riSZgbNk
- rG/+pKhTI4cH5W1knPvEHo380MqLfqk=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-1-kdXMiQEEPoKBL6MhPHiGUQ-1; Tue, 18 May 2021 03:50:31 -0400
-X-MC-Unique: kdXMiQEEPoKBL6MhPHiGUQ-1
-Received: by mail-ed1-f71.google.com with SMTP id
- q18-20020a0564025192b02903888712212fso5274912edd.19
- for <qemu-devel@nongnu.org>; Tue, 18 May 2021 00:50:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=NW4UL0U5sPtzfc4lmGw05bHMRbyTb+TE8EPYexCTqqU=;
- b=rDBkcLr+/8HTshkiUynn5cbs9Cq+u+y+7ceqERuoJDE5aNxmvivo7/J2s0hyyPPQny
- rqMR+n2UN+CAXXBXI7yySd1DSEVZW+/8v20tfJ+pD8Nbs8ymxXaNJk7FDknC175Pli3W
- 27tCH1rgX11PC94QPKAjNo08WTChXVTQKzcepi1wYawhDEOVgggQ6HK0iUjkJKhdhmuS
- +S+M5l+6s9IU9nnzTyLFS0nk8m+UcZWMOTUjUdob1cQ01Zwybup/CPXlaf60sf0La6G4
- kiYpufU+lshH0DyvrqihKHQTuUgDnJz90S4WTJfQY1HnNM1F1B7v23K1hg50BosW6A+s
- UmGg==
-X-Gm-Message-State: AOAM531d6Vy7I0fsYdPMjCoj0Qn0j8mIznutbTbXsTEVDdfy2v9qeKYl
- 4v3wxC8dtRhIGPjbWvVOIp4dsumyFwZlIIS2QHYgeUvc2/BtoyjJc5bloqfZLrKFFo0AFF8xM/g
- 0lXPJ18LHBPnTa+g=
-X-Received: by 2002:a05:6402:2044:: with SMTP id
- bc4mr5610926edb.282.1621324230286; 
- Tue, 18 May 2021 00:50:30 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxFzMI5v4PnOH/SXzTHlKC/E2yBgzwUMmMGoQmrcpTZlsyGOhJk/7yGYBlnGzMGqecpBbtZew==
-X-Received: by 2002:a05:6402:2044:: with SMTP id
- bc4mr5610896edb.282.1621324230081; 
- Tue, 18 May 2021 00:50:30 -0700 (PDT)
-Received: from gator.home (cst2-174-132.cust.vodafone.cz. [31.30.174.132])
- by smtp.gmail.com with ESMTPSA id d15sm8128909eds.68.2021.05.18.00.50.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 May 2021 00:50:29 -0700 (PDT)
-Date: Tue, 18 May 2021 09:50:27 +0200
-From: Andrew Jones <drjones@redhat.com>
-To: Salil Mehta <salil.mehta@huawei.com>
-Subject: Re: [RFC PATCH v3 4/9] hw/arm/virt: Initialize the present cpu members
-Message-ID: <20210518075027.wjpdjvoam7dlzign@gator.home>
-References: <20210516102900.28036-1-wangyanan55@huawei.com>
- <20210516102900.28036-5-wangyanan55@huawei.com>
- <6c8f9c3502384f648f30c7381e87dda9@huawei.com>
- <68883a1b-5303-da13-a051-e909e1d1f71b@huawei.com>
- <6d8b9142e8a34d1390f2f0b4bfb53a00@huawei.com>
+ bh=oY88r32tiuBksdFSOD9kbX9OzYmL77etYWP18nBmuzw=;
+ b=ASsd1eGky5ZgJP928iEWM3DmY2W9ziI+B6SezQ+LCyKRuZFXfh/6Yv8Xv9didaWhVr6711
+ fm9qZWoGfu4bOJauOm0ql/8DeBuIpoTUwDMc73RVkyeEdV2Do+bju46anp7pgV2pGBBYbQ
+ 0Oe/5u/uwimxMKiPCIEjgt78hMRU+9Y=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-170-8FttDqgUNJOVO_w1vsIyxg-1; Tue, 18 May 2021 03:57:00 -0400
+X-MC-Unique: 8FttDqgUNJOVO_w1vsIyxg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7F68D801107
+ for <qemu-devel@nongnu.org>; Tue, 18 May 2021 07:56:59 +0000 (UTC)
+Received: from localhost (ovpn-114-114.ams2.redhat.com [10.36.114.114])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AB5B15D9C0;
+ Tue, 18 May 2021 07:56:52 +0000 (UTC)
+Date: Tue, 18 May 2021 08:56:51 +0100
+From: "Richard W.M. Jones" <rjones@redhat.com>
+To: Eric Blake <eblake@redhat.com>
+Subject: Re: [PATCH] sockets: update SOCKET_ADDRESS_TYPE_FD listen(2) backlog
+Message-ID: <20210518075651.GE26415@redhat.com>
+References: <20210310173004.420190-1-stefanha@redhat.com>
+ <YFB17aYnCZlyp8b4@stefanha-x1.localdomain>
+ <2e7bb28d-0b3c-ac69-7984-687d4ee487c7@redhat.com>
+ <YJo+7m9mBB6AEX1y@stefanha-x1.localdomain>
 MIME-Version: 1.0
-In-Reply-To: <6d8b9142e8a34d1390f2f0b4bfb53a00@huawei.com>
+In-Reply-To: <YJo+7m9mBB6AEX1y@stefanha-x1.localdomain>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=rjones@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=drjones@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=rjones@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -102,89 +79,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Song Bao Hua \(Barry Song\)" <song.bao.hua@hisilicon.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- "linuxarm@openeuler.org" <linuxarm@openeuler.org>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- "Wanghaibin \(D\)" <wanghaibin.wang@huawei.com>,
- zhukeqian <zhukeqian1@huawei.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- yangyicong <yangyicong@huawei.com>, "wangyanan \(Y\)" <wangyanan55@huawei.com>,
- Shannon Zhao <shannon.zhaosl@gmail.com>,
- "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>,
- "Zengtao \(B\)" <prime.zeng@hisilicon.com>,
- Paolo Bonzini <pbonzini@redhat.com>, yuzenghui <yuzenghui@huawei.com>,
- Igor Mammedov <imammedo@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Juan Quintela <quintela@redhat.com>, Daniel Berrange <berrange@redhat.com>,
+ kraxel@redhat.com, Stefan Hajnoczi <stefanha@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, May 18, 2021 at 07:04:51AM +0000, Salil Mehta wrote:
-> > From: wangyanan (Y)
-> > Sent: Tuesday, May 18, 2021 5:43 AM
-> > 
-> > Hi Salil,
-> > 
-> > On 2021/5/18 4:48, Salil Mehta wrote:
-> > >> From: Qemu-arm
-> > [mailto:qemu-arm-bounces+salil.mehta=huawei.com@nongnu.org]
-> > >> On Behalf Of Yanan Wang
-> > >> Sent: Sunday, May 16, 2021 11:29 AM
-> > >> To: Peter Maydell <peter.maydell@linaro.org>; Andrew Jones
-> > >> <drjones@redhat.com>; Michael S . Tsirkin <mst@redhat.com>; Igor Mammedov
-> > >> <imammedo@redhat.com>; Shannon Zhao <shannon.zhaosl@gmail.com>; Alistair
-> > >> Francis <alistair.francis@wdc.com>; David Gibson
-> > >> <david@gibson.dropbear.id.au>; qemu-devel@nongnu.org; qemu-arm@nongnu.org
-> > >> Cc: Song Bao Hua (Barry Song) <song.bao.hua@hisilicon.com>; zhukeqian
-> > >> <zhukeqian1@huawei.com>; yangyicong <yangyicong@huawei.com>; Zengtao (B)
-> > >> <prime.zeng@hisilicon.com>; Wanghaibin (D) <wanghaibin.wang@huawei.com>;
-> > >> yuzenghui <yuzenghui@huawei.com>; Paolo Bonzini <pbonzini@redhat.com>;
-> > >> Philippe Mathieu-Daudé <philmd@redhat.com>
-> > >> Subject: [RFC PATCH v3 4/9] hw/arm/virt: Initialize the present cpu members
+On Tue, May 11, 2021 at 09:23:10AM +0100, Stefan Hajnoczi wrote:
+> On Tue, Mar 16, 2021 at 08:35:14AM -0500, Eric Blake wrote:
+> > On 3/16/21 4:10 AM, Stefan Hajnoczi wrote:
+> > > On Wed, Mar 10, 2021 at 05:30:04PM +0000, Stefan Hajnoczi wrote:
+> > >> socket_get_fd() fails with the error "socket_get_fd: too many
+> > >> connections" if the given listen backlog value is not 1.
 > > >>
-> > >> We create and initialize a cpuobj for each present cpu in
-> > >> machvirt_init(). Now we also initialize the cpu member of
-> > >> structure CPUArchId for each present cpu in the function.
-> > > [...]
-> > >
-> > >>           qdev_realize(DEVICE(cpuobj), NULL, &error_fatal);
-> > >> +
-> > >> +        /*
-> > >> +         * As ARM cpu hotplug is not supported yet, we initialize
-> > >> +         * the present cpu members here.
-> > >> +         */
-> > >> +        machine->possible_cpus->cpus[n].cpu = cpuobj;
-> > >
-> > > when vcpu Hotplug is not supported yet, what necessitates this change now?
-> > >
-> > The initialization will gives a way to determine whether a CPU is
-> > present or not.
-> > At least, for now it will be used when generating ACPI tables, e.g.
-> > DSDT, MADT.
-> > See patch 5 and 6.
+> > >> Not all callers set the backlog to 1. For example, commit
+> > >> 582d4210eb2f2ab5baac328fe4b479cd86da1647 ("qemu-nbd: Use SOMAXCONN for
+> > >> socket listen() backlog") uses SOMAXCONN. This will always fail with in
+> > >> socket_get_fd().
+> > >>
+> > >> This patch calls listen(2) on the fd to update the backlog value. The
+> > >> socket may already be in the listen state. I have tested that this works
+> > >> on Linux 5.10 and macOS Catalina.
+> > >>
+> > >> As a bonus this allows us to detect when the fd cannot listen. Now we'll
+> > >> be able to catch unbound or connected fds in socket_listen().
+> > >>
+> > >> Drop the num argument from socket_get_fd() since this function is also
+> > >> called by socket_connect() where a listen backlog value does not make
+> > >> sense.
+> > >>
+> > >> Fixes: e5b6353cf25c99c3f08bf51e29933352f7140e8f ("socket: Add backlog parameter to socket_listen")
+> > >> Reported-by: Richard W.M. Jones <rjones@redhat.com>
+> > >> Cc: Juan Quintela <quintela@redhat.com>
+> > >> Cc: Eric Blake <eblake@redhat.com>
+> > >> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> > >> ---
+> > >>  util/qemu-sockets.c | 29 ++++++++++++++++++++++-------
+> > >>  1 file changed, 22 insertions(+), 7 deletions(-)
+> > > 
+> > > Dan and Gerd: Can this go via one of your trees?
+> > > 
+> > 
+> > As it showed up as a regression in qemu-nbd, I can also consider queuing
+> > it in my NBD tree.  However, I claim it counts as a bug fix, so it is
+> > fine for -rc1 even if it misses soft freeze.
+> > 
+> > I'm fine whichever maintainer takes this, although I've now flagged it
+> > to go through an NBD pull request if it doesn't land elsewhere sooner.
 > 
-> yes,  but why do you require it now as part of the vcpu topology change?
-> 
-> As-far-as-i-can-see, PPTT table changes(part of patch 5/9) do not require
-> this change. Change in Patch 5/9 has also been done in anticipation of
-> some future requirement(vcpu Hotplug?).
-> 
-> Please correct me here if I am wrong?
->
+> Ping? I didn't see this land in qemu.git.
 
-Hi Salil,
+And a second reminder.  qemu-storage-daemon is broken in the released
+qemu 6.0.0 so it'd be good to get this commit into the stable branch
+as well.
 
-The problem is that we've never required smp.cpus == smp.maxcpus, so
-a user could have smp.cpus < smp.maxcpus. We want the topology to match
-maxcpus, but only enable cpus. However, if you think we should just not
-allow cpus < maxcpus until hot plug is sorted out, then we could discuss
-a way of trying to enforce cpus == maxcpus, but I'm not sure how we can
-without breaking existing command lines.
+Rich.
 
-Thanks,
-drew
+-- 
+Richard Jones, Virtualization Group, Red Hat http://people.redhat.com/~rjones
+Read my programming and virtualization blog: http://rwmj.wordpress.com
+virt-builder quickly builds VMs from scratch
+http://libguestfs.org/virt-builder.1.html
 
 
