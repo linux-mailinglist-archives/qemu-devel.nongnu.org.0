@@ -2,74 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48E87387FC0
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 20:40:43 +0200 (CEST)
-Received: from localhost ([::1]:34400 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66525387FCC
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 20:42:04 +0200 (CEST)
+Received: from localhost ([::1]:36418 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lj4e2-0004Dn-9w
-	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 14:40:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49322)
+	id 1lj4fL-0005Zw-DG
+	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 14:42:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49352)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lj4ab-0001H0-T3
- for qemu-devel@nongnu.org; Tue, 18 May 2021 14:37:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59555)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lj4al-0001Lf-0M
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 14:37:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55393)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lj4aY-0007s2-83
- for qemu-devel@nongnu.org; Tue, 18 May 2021 14:37:09 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lj4ab-0007xP-LK
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 14:37:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621363023;
+ s=mimecast20190719; t=1621363028;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=WHkvPFD//n3XyifbSKR/dgJ7Gu38+QgXPJS4UldoQSw=;
- b=Z4OqFXdEaDxOzcjfZorBj77kJA9Or4TCwXbp3ksBagYV9mtvlpFI/+aT0M2cXUTb0NWf/O
- vtyE/gZro8scPHLkfeddfhPc1/bLNC+y4m+BI809cEj4x+NM97UK7u69+Gb/Nt2Q+ALhSs
- OOsj0mWnOYfnFT4JRRbLv1ae+Dn1ZXc=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-308-sldaB4KAMYeGzO7L7Y0Wpg-1; Tue, 18 May 2021 14:36:59 -0400
-X-MC-Unique: sldaB4KAMYeGzO7L7Y0Wpg-1
-Received: by mail-ej1-f71.google.com with SMTP id
- z6-20020a17090665c6b02903700252d1ccso2736999ejn.10
- for <qemu-devel@nongnu.org>; Tue, 18 May 2021 11:36:59 -0700 (PDT)
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=2KSH1YwMn8zpDyDH9Uq0LVnJ/rgrT/JgFf8hkb+U/HU=;
+ b=gFpNFEIt2UlQ4k95yPFwmKNkymtjjy1ZW7FXoEemb2tZJt2E9g1vzgZt1b+Y2JqskDvVqR
+ 9Lnu15Ed4GE8KcXKwbKjfCygPf3OOp+qGoFOyG7zEwtqB/s4/dgbLduK1dNLHHH1vxBjGp
+ Wlb61XQjOPxWJ1kuia3ZIXz1Nb/aUHs=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-42-6v02HrMcMuCSj5__qFTIdQ-1; Tue, 18 May 2021 14:37:04 -0400
+X-MC-Unique: 6v02HrMcMuCSj5__qFTIdQ-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ sd18-20020a170906ce32b02903cedf584542so2749108ejb.9
+ for <qemu-devel@nongnu.org>; Tue, 18 May 2021 11:37:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=kXJIRH7HmUKq7wtXGg/obNyPaxCUq/yvm0M1k6PfB2Y=;
- b=FamXl6m7vYP8Bs1VLQcrcJkTlmRivcCgP4OVlWUTjlLSIndmBNk/A/DlGdAHbjZov/
- Bz15EKnKp5/sDJu5FGOlsx5YA4OQun2KfeF2htPKPLj5sy9t2Dm43h3/X7WZIkgNS+n6
- XILcrIUY1Y3nQe7J9kYcVkSn4SLTuPjGxy2r6/7PGAQYceheuYrQ2F3wVew2S+Flds/2
- J7HyYJ8AJM5ime0ZUdWREPaDLoLPxONAkTBZ/w822KnZ6TtC+f9c/Gnf/aKhbrVkcAoa
- vHP/aAnf2zh3GPlc7VU+Fi3SEe9vpEaTti9t2fqzcHr4F9kz1re6E/0rSIoqzbR0WAR/
- UEUA==
-X-Gm-Message-State: AOAM530evzlkhENgxh5PrpbuA1Pykc2Fym7sY2+Ii2hJHNN2UNVAZyqz
- oYdhBU47gRqg43oNYSKpPrTkn1mF6fgHVwVDrF6p6XgHp+RZzV4KEzKKXpy+MSGkoJDnlrmG1XO
- 9FCuZ77nlCX9uuDn9EVwxrhSfSW05iirJ8zop/4r4QdedFKmQlhcm8xYNZ2U3r3k6
-X-Received: by 2002:aa7:c349:: with SMTP id j9mr8589290edr.135.1621363018062; 
- Tue, 18 May 2021 11:36:58 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx3S1jK5s4esvhpLzxG7/aLhqa/nIkggY+AucoYKIdUE2wMKmPlI9R0Vi0QcKvoni5Bqy2kbw==
-X-Received: by 2002:aa7:c349:: with SMTP id j9mr8589266edr.135.1621363017863; 
- Tue, 18 May 2021 11:36:57 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=2KSH1YwMn8zpDyDH9Uq0LVnJ/rgrT/JgFf8hkb+U/HU=;
+ b=R+8wlKOWzpBQOaB4zIp3cjLHa5MbUD8YDI2R48DAzgjDrtEfqKNgiB84OUuT02jCMT
+ Q6lxZpRHBrRPOVlUZL4XkViEwGfYN0zFaM/bBHP3zP15HmSIKYhBMsrZP750vfU+XE+z
+ WAjs2okaYXIjWme8pgsxst2pYc69H0m0LxkjgRxDoBFGHLYmfXWX71ZlFSAOh/qMwWLY
+ zNQvaxErQwQZpWbGDmZnlCpYgco0KnSoEytokfJGrrB8iZITYJS6U69++h28UmOVQvNL
+ UrIAwA1xK/65fvF/N+XvgDe5RMrdKGZWCeR5L0iU9YSavG3VQGbT7v/eXFBuEEVwGsWQ
+ A1pQ==
+X-Gm-Message-State: AOAM533XQKQ7nMJSm4wkA1gptCnoDxKjkWXuGlOH1LE65gpk4+rhmhkU
+ Y9LN2XvrAAGN8dM8sVoXksLmKLtFJABYlsKH/xdFB+nyAJwoytkSmIR0ciODaXqm2hajq5zhIsh
+ SgC3FAzVwShD29qP7KLipRGbgfylBgOrO9E0bQp9l5fKXyuSRLi/4NTHTNAL2eIXO
+X-Received: by 2002:a17:906:6a93:: with SMTP id
+ p19mr7530826ejr.319.1621363023329; 
+ Tue, 18 May 2021 11:37:03 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxeaiQPF3WOuGpQWdo5nC++r5p8PP/2LpnCBv84WvvRoktgzHIqGPOczdkt801UNrz3CHD0LA==
+X-Received: by 2002:a17:906:6a93:: with SMTP id
+ p19mr7530793ejr.319.1621363022987; 
+ Tue, 18 May 2021 11:37:02 -0700 (PDT)
 Received: from x1w.redhat.com (31.red-83-51-215.dynamicip.rima-tde.net.
  [83.51.215.31])
- by smtp.gmail.com with ESMTPSA id i5sm6978293edt.11.2021.05.18.11.36.56
+ by smtp.gmail.com with ESMTPSA id k13sm4869145ejr.1.2021.05.18.11.37.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 May 2021 11:36:57 -0700 (PDT)
+ Tue, 18 May 2021 11:37:02 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 00/25] exec: Add load/store API for aligned pointers
-Date: Tue, 18 May 2021 20:36:30 +0200
-Message-Id: <20210518183655.1711377-1-philmd@redhat.com>
+Subject: [RFC PATCH 01/25] exec/memory_ldst_cached: Sort declarations
+Date: Tue, 18 May 2021 20:36:31 +0200
+Message-Id: <20210518183655.1711377-2-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.3
+In-Reply-To: <20210518183655.1711377-1-philmd@redhat.com>
+References: <20210518183655.1711377-1-philmd@redhat.com>
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
@@ -100,79 +105,93 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,=0D
-=0D
-This series is the result of a chat with Stefan after looking at=0D
-Peter response to Bibo on a problem with unoptimized memcpy()=0D
-leading to atomic issues:=0D
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg808209.html=0D
-=0D
-MIPS R6 (32/64-bit) does support unaligned accesses, but for the=0D
-older releases the compiler can't optimize the __builtin_memcpy().=0D
-=0D
-When a pointer is known to be aligned, we can skip the checks for=0D
-misalignment and directly access the data. The pair of virtio vring=0D
-fields happen to be aligned.=0D
-=0D
-To be able to call the aligned functions from the virtio layer, we=0D
-have to fill the gap in multiple API layers.=0D
-=0D
-The series is decomposed as:=0D
-- cleanups (1-6)=0D
-- clean ldst API using macros (7-13)=0D
-- add aligned ldst methods (14)=0D
-- add aligned memory methods (15-16)=0D
-- similar changes in virtio (17-24)=0D
-- use the new methods on vring aligned values (25)=0D
-=0D
-There are some checkpatch errors related to the macro used.=0D
-=0D
-Regards,=0D
-=0D
-Phil.=0D
-=0D
-Philippe Mathieu-Daud=C3=A9 (25):=0D
-  exec/memory_ldst_cached: Sort declarations=0D
-  exec/memory_ldst_phys: Sort declarations=0D
-  exec/memory_ldst: Use correct type sizes=0D
-  exec/memory_ldst_phys: Use correct type sizes=0D
-  exec/memory_ldst_cached: Use correct type size=0D
-  exec/memory: Use correct type size=0D
-  qemu/bswap: Introduce ST_CONVERT() macro=0D
-  qemu/bswap: Use ST_CONVERT() macro to emit 16-bit load/store functions=0D
-  qemu/bswap: Introduce LD_CONVERT() macro=0D
-  qemu/bswap: Use LD_CONVERT macro to emit 16-bit signed load/store code=0D
-  qemu/bswap: Use LD_CONVERT macro to emit 16-bit unsigned load/store=0D
-    code=0D
-  qemu/bswap: Use LDST_CONVERT macro to emit 32-bit load/store functions=0D
-  qemu/bswap: Use LDST_CONVERT macro to emit 64-bit load/store functions=0D
-  qemu/bswap: Introduce load/store for aligned pointer=0D
-  exec/memory: Add methods for aligned pointer access (address space)=0D
-  exec/memory: Add methods for aligned pointer access (physical memory)=0D
-  hw/virtio: Use correct type sizes=0D
-  hw/virtio: Introduce VIRTIO_LD_CONVERT() macro=0D
-  hw/virtio: Use LD_CONVERT macro to emit 16-bit unsigned load/store=0D
-    code=0D
-  hw/virtio: Introduce VIRTIO_ST_CONVERT() macro=0D
-  hw/virtio: Use ST_CONVERT() macro to emit 16-bit load/store functions=0D
-  hw/virtio: Use LDST_CONVERT macro to emit 32-bit load/store functions=0D
-  hw/virtio: Use LDST_CONVERT macro to emit 64-bit load/store functions=0D
-  hw/virtio: Add methods for aligned pointer access=0D
-  hw/virtio: Optimize accesses on vring aligned pointers=0D
-=0D
- docs/devel/loads-stores.rst           |  27 +--=0D
- include/exec/memory.h                 |  18 +-=0D
- include/hw/virtio/virtio-access.h     | 239 +++++++++-----------------=0D
- include/qemu/bswap.h                  | 149 ++++++----------=0D
- include/exec/memory_ldst.h.inc        |  16 +-=0D
- include/exec/memory_ldst_cached.h.inc |  66 ++++---=0D
- include/exec/memory_ldst_phys.h.inc   |  72 ++++----=0D
- hw/virtio/virtio.c                    |  13 +-=0D
- memory_ldst.c.inc                     |  20 +--=0D
- 9 files changed, 270 insertions(+), 350 deletions(-)=0D
-=0D
---=20=0D
-2.26.3=0D
-=0D
+To ease the file review, sort the declarations by the size of
+the access (8, 16, 32). Simple code movement, no logical change.
+
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+ include/exec/memory_ldst_cached.h.inc | 46 +++++++++++++--------------
+ 1 file changed, 23 insertions(+), 23 deletions(-)
+
+diff --git a/include/exec/memory_ldst_cached.h.inc b/include/exec/memory_ldst_cached.h.inc
+index 7bc8790d346..c33449d0cd5 100644
+--- a/include/exec/memory_ldst_cached.h.inc
++++ b/include/exec/memory_ldst_cached.h.inc
+@@ -24,6 +24,18 @@
+ #define LD_P(size) \
+     glue(glue(ld, size), glue(ENDIANNESS, _p))
+ 
++static inline uint32_t ADDRESS_SPACE_LD_CACHED(uw)(MemoryRegionCache *cache,
++    hwaddr addr, MemTxAttrs attrs, MemTxResult *result)
++{
++    assert(addr < cache->len && 2 <= cache->len - addr);
++    fuzz_dma_read_cb(cache->xlat + addr, 2, cache->mrs.mr);
++    if (likely(cache->ptr)) {
++        return LD_P(uw)(cache->ptr + addr);
++    } else {
++        return ADDRESS_SPACE_LD_CACHED_SLOW(uw)(cache, addr, attrs, result);
++    }
++}
++
+ static inline uint32_t ADDRESS_SPACE_LD_CACHED(l)(MemoryRegionCache *cache,
+     hwaddr addr, MemTxAttrs attrs, MemTxResult *result)
+ {
+@@ -48,18 +60,6 @@ static inline uint64_t ADDRESS_SPACE_LD_CACHED(q)(MemoryRegionCache *cache,
+     }
+ }
+ 
+-static inline uint32_t ADDRESS_SPACE_LD_CACHED(uw)(MemoryRegionCache *cache,
+-    hwaddr addr, MemTxAttrs attrs, MemTxResult *result)
+-{
+-    assert(addr < cache->len && 2 <= cache->len - addr);
+-    fuzz_dma_read_cb(cache->xlat + addr, 2, cache->mrs.mr);
+-    if (likely(cache->ptr)) {
+-        return LD_P(uw)(cache->ptr + addr);
+-    } else {
+-        return ADDRESS_SPACE_LD_CACHED_SLOW(uw)(cache, addr, attrs, result);
+-    }
+-}
+-
+ #undef ADDRESS_SPACE_LD_CACHED
+ #undef ADDRESS_SPACE_LD_CACHED_SLOW
+ #undef LD_P
+@@ -71,17 +71,6 @@ static inline uint32_t ADDRESS_SPACE_LD_CACHED(uw)(MemoryRegionCache *cache,
+ #define ST_P(size) \
+     glue(glue(st, size), glue(ENDIANNESS, _p))
+ 
+-static inline void ADDRESS_SPACE_ST_CACHED(l)(MemoryRegionCache *cache,
+-    hwaddr addr, uint32_t val, MemTxAttrs attrs, MemTxResult *result)
+-{
+-    assert(addr < cache->len && 4 <= cache->len - addr);
+-    if (likely(cache->ptr)) {
+-        ST_P(l)(cache->ptr + addr, val);
+-    } else {
+-        ADDRESS_SPACE_ST_CACHED_SLOW(l)(cache, addr, val, attrs, result);
+-    }
+-}
+-
+ static inline void ADDRESS_SPACE_ST_CACHED(w)(MemoryRegionCache *cache,
+     hwaddr addr, uint32_t val, MemTxAttrs attrs, MemTxResult *result)
+ {
+@@ -93,6 +82,17 @@ static inline void ADDRESS_SPACE_ST_CACHED(w)(MemoryRegionCache *cache,
+     }
+ }
+ 
++static inline void ADDRESS_SPACE_ST_CACHED(l)(MemoryRegionCache *cache,
++    hwaddr addr, uint32_t val, MemTxAttrs attrs, MemTxResult *result)
++{
++    assert(addr < cache->len && 4 <= cache->len - addr);
++    if (likely(cache->ptr)) {
++        ST_P(l)(cache->ptr + addr, val);
++    } else {
++        ADDRESS_SPACE_ST_CACHED_SLOW(l)(cache, addr, val, attrs, result);
++    }
++}
++
+ static inline void ADDRESS_SPACE_ST_CACHED(q)(MemoryRegionCache *cache,
+     hwaddr addr, uint64_t val, MemTxAttrs attrs, MemTxResult *result)
+ {
+-- 
+2.26.3
 
 
