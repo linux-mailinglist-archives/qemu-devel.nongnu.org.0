@@ -2,73 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFA34387A2A
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 15:40:37 +0200 (CEST)
-Received: from localhost ([::1]:53308 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E4DE387A1F
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 15:39:22 +0200 (CEST)
+Received: from localhost ([::1]:48406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lizxc-0002S5-Qr
-	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 09:40:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33402)
+	id 1lizwP-0007Sp-3m
+	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 09:39:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34956)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1liziy-0004wy-VN
- for qemu-devel@nongnu.org; Tue, 18 May 2021 09:25:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46272)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1liziw-0005Nu-AZ
- for qemu-devel@nongnu.org; Tue, 18 May 2021 09:25:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621344325;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=mmztSfkHGJ3MsijfJdev4A50Mb/v3CEurEoJGmJ/h6c=;
- b=FSdpoo8PnlPFFva5Fu0wyGBWQuLWxMAVMEuVHnIYpVW6R+Zir698pks2yapOlFQU+2DuYB
- FdQgs3jxvyNnIgYjMNiP5CaWuJ+BdbhM4BQ21U5T+7nbOmxrJhYT7LLggBz6jmVnApziSC
- VKWVrA+LXpW5B7QwVUMRDBvzznJ3gpY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-345-Wq0eawxGMLedSsIOSUMBFg-1; Tue, 18 May 2021 09:25:20 -0400
-X-MC-Unique: Wq0eawxGMLedSsIOSUMBFg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A14AC802939;
- Tue, 18 May 2021 13:25:18 +0000 (UTC)
-Received: from [10.10.117.64] (ovpn-117-64.rdu2.redhat.com [10.10.117.64])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1021E19D9F;
- Tue, 18 May 2021 13:25:17 +0000 (UTC)
-Subject: Re: [PATCH v2 12/21] qapi/parser: add type hint annotations
-To: Markus Armbruster <armbru@redhat.com>
-References: <20210511220601.2110055-1-jsnow@redhat.com>
- <20210511220601.2110055-13-jsnow@redhat.com>
- <87r1i445ez.fsf@dusky.pond.sub.org>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <05bc229f-7200-04e3-ec9d-bf506b54d28b@redhat.com>
-Date: Tue, 18 May 2021 09:25:17 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <thatlemon@gmail.com>)
+ id 1lizpk-00059V-N6; Tue, 18 May 2021 09:32:28 -0400
+Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:37586)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <thatlemon@gmail.com>)
+ id 1lizph-000176-Ps; Tue, 18 May 2021 09:32:28 -0400
+Received: by mail-ej1-x62b.google.com with SMTP id et19so7520526ejc.4;
+ Tue, 18 May 2021 06:32:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=SlCVKPY+Ve7GEJXcoRp8LiFCpUrJNFZgU6BEw8KGFUg=;
+ b=sTz6XE6L2QyBBpWnNlFO2yhHeZwJcEQjNZdNJpqugcmf6ZWRZ4MArbhNtldqM/uGtK
+ 76y4FTeo6yMtDtbbLyj1d0fpf4gjrQe1GiVQXdZGkZ8p9Isc6r6kR2dZ7gMTCrFsWcNi
+ +SpuDn6W2rLewu3FJApZTjWsOKNXItPHSvw9uZoc+cJkk66PtavycD7cuK5PXCulrM5C
+ eFDZK8PC3ZcP2CUEDXenDSIV/Bfy8T2Q5DR7XnYBYoEjXVzINjPR+DATcp4DMuaPtlgM
+ HJq/yVBfmiHTaLv5l5YX+DV3Jg47vf+CHG586Rwr6Pl6KeHP6tiXU34yXwaSQm/uEIgq
+ hSWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=SlCVKPY+Ve7GEJXcoRp8LiFCpUrJNFZgU6BEw8KGFUg=;
+ b=AzrEOOvSHsd8+X7TBnxWM1oBZ1KrDfvfd61jmktmH1uNILRNSGlxTxUWSBf35ZhAaX
+ 2s/a5BqPojuUKzG2s/Jxau4Br4++LPX8462YnSjlj52ynLVFlOYJqc2Go/PHTJoqlZXi
+ NsFMlpj/hpcKJmkVqJA4t/9poX39YM8TzJyhpxkeAumEZs6YaFoJG038JWKbzBFa+QtI
+ b54mFFD/3ih4AzljB6J1n3eEzcSTdII0wlWbjBlL2V0kSQ2qsKCRHZlAgeiai5/9kvES
+ xkn+5KmrVHaytKDK5QMSVxhkeYEri+nkJk0xbzFRMliazDTXJ6usFHDI5OuehsV/2WDI
+ BvLw==
+X-Gm-Message-State: AOAM532NdKBKsM2nigukMwxhtSO9oEmWdwQzDTBx8UhuKEwURx2fVMz+
+ L9xnIUvWgJ+eXAJ/2HCAu0dWamxUrevK6A==
+X-Google-Smtp-Source: ABdhPJytjXGxmebCX4torY/Tj/mJ484icisLzmIKfgjVRbUQaIN0He6ohH7ksUYGpmhtkMF6ThkU8Q==
+X-Received: by 2002:a17:906:a51:: with SMTP id
+ x17mr6146146ejf.25.1621344743299; 
+ Tue, 18 May 2021 06:32:23 -0700 (PDT)
+Received: from localhost.localdomain ([151.60.43.39])
+ by smtp.gmail.com with ESMTPSA id gn36sm10051562ejc.23.2021.05.18.06.32.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 18 May 2021 06:32:22 -0700 (PDT)
+From: Giuseppe Musacchio <thatlemon@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2] target/ppc: Fix load endianness for lxvwsx/lxvdsx
+Date: Tue, 18 May 2021 15:30:20 +0200
+Message-Id: <20210518133020.58927-1-thatlemon@gmail.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-In-Reply-To: <87r1i445ez.fsf@dusky.pond.sub.org>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.374,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
+ envelope-from=thatlemon@gmail.com; helo=mail-ej1-x62b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,201 +79,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Roth <michael.roth@amd.com>, Cleber Rosa <crosa@redhat.com>,
- qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
+Cc: qemu-stable@nongnu.org, qemu-ppc@nongnu.org, pc@us.ibm.com,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/18/21 8:01 AM, Markus Armbruster wrote:
-> John Snow <jsnow@redhat.com> writes:
-> 
->> Annotations do not change runtime behavior.
->> This commit *only* adds annotations.
->>
->> (Annotations for QAPIDoc are in a forthcoming commit.)
->>
->> Signed-off-by: John Snow <jsnow@redhat.com>
->> ---
->>   scripts/qapi/parser.py | 58 +++++++++++++++++++++++++++---------------
->>   1 file changed, 38 insertions(+), 20 deletions(-)
->>
->> diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
->> index 336959cbbb1..631863bac14 100644
->> --- a/scripts/qapi/parser.py
->> +++ b/scripts/qapi/parser.py
->> @@ -17,16 +17,26 @@
->>   from collections import OrderedDict
->>   import os
->>   import re
->> -from typing import List
->> +from typing import (
->> +    Dict,
->> +    List,
->> +    Optional,
->> +    Set,
->> +    Union,
->> +)
->>   
->>   from .common import must_match
->>   from .error import QAPISemError, QAPISourceError
->>   from .source import QAPISourceInfo
->>   
->>   
->> +# Return value alias for get_expr().
->> +_ExprValue = Union[List[object], Dict[str, object], str, bool]
->> +
->> +
->>   class QAPIParseError(QAPISourceError):
->>       """Error class for all QAPI schema parsing errors."""
->> -    def __init__(self, parser, msg):
->> +    def __init__(self, parser: 'QAPISchemaParser', msg: str):
->>           col = 1
->>           for ch in parser.src[parser.line_pos:parser.pos]:
->>               if ch == '\t':
->> @@ -38,7 +48,10 @@ def __init__(self, parser, msg):
->>   
->>   class QAPISchemaParser:
->>   
->> -    def __init__(self, fname, previously_included=None, incl_info=None):
->> +    def __init__(self,
->> +                 fname: str,
->> +                 previously_included: Optional[Set[str]] = None,
-> 
-> We talked about the somewhat unnatural use of None for the empty set,
-> and ways to avoid it.  I agree with simply typing what we have.
-> 
+TARGET_WORDS_BIGENDIAN may not match the machine endianness if that's a
+runtime-configurable parameter.
 
-Yup ... "later". We'll get to it.
+Fixes: bcb0b7b1a1c05707304f80ca6f523d557816f85c
+Fixes: afae37d98ae991c0792c867dbd9f32f988044318
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/212
 
->> +                 incl_info: Optional[QAPISourceInfo] = None):
->>           self._fname = fname
->>           self._included = previously_included or set()
->>           self._included.add(os.path.abspath(self._fname))
->> @@ -46,20 +59,20 @@ def __init__(self, fname, previously_included=None, incl_info=None):
->>   
->>           # Lexer state (see `accept` for details):
->>           self.info = QAPISourceInfo(self._fname, incl_info)
->> -        self.tok = None
->> +        self.tok: Union[None, str] = None
->>           self.pos = 0
->>           self.cursor = 0
->> -        self.val = None
->> +        self.val: Optional[Union[bool, str]] = None
->>           self.line_pos = 0
->>   
->>           # Parser output:
->> -        self.exprs = []
->> -        self.docs = []
->> +        self.exprs: List[Dict[str, object]] = []
->> +        self.docs: List[QAPIDoc] = []
->>   
->>           # Showtime!
->>           self._parse()
->>   
->> -    def _parse(self):
->> +    def _parse(self) -> None:
->>           cur_doc = None
->>   
->>           # May raise OSError; allow the caller to handle it.
->> @@ -125,7 +138,7 @@ def _parse(self):
->>           self.reject_expr_doc(cur_doc)
->>   
->>       @staticmethod
->> -    def reject_expr_doc(doc):
->> +    def reject_expr_doc(doc: Optional['QAPIDoc']) -> None:
->>           if doc and doc.symbol:
->>               raise QAPISemError(
->>                   doc.info,
->> @@ -133,10 +146,14 @@ def reject_expr_doc(doc):
->>                   % doc.symbol)
->>   
->>       @staticmethod
->> -    def _include(include, info, incl_fname, previously_included):
->> +    def _include(include: str,
->> +                 info: QAPISourceInfo,
->> +                 incl_fname: str,
->> +                 previously_included: Set[str]
->> +                 ) -> Optional['QAPISchemaParser']:
->>           incl_abs_fname = os.path.abspath(incl_fname)
->>           # catch inclusion cycle
->> -        inf = info
->> +        inf: Optional[QAPISourceInfo] = info
->>           while inf:
->>               if incl_abs_fname == os.path.abspath(inf.fname):
->>                   raise QAPISemError(info, "inclusion loop for %s" % include)
->> @@ -155,9 +172,9 @@ def _include(include, info, incl_fname, previously_included):
->>               ) from err
->>   
->>       @staticmethod
->> -    def _pragma(name, value, info):
->> +    def _pragma(name: str, value: object, info: QAPISourceInfo) -> None:
->>   
->> -        def check_list_str(name, value) -> List[str]:
->> +        def check_list_str(name: str, value: object) -> List[str]:
->>               if (not isinstance(value, list) or
->>                       any([not isinstance(elt, str) for elt in value])):
->>                   raise QAPISemError(
->> @@ -181,7 +198,7 @@ def check_list_str(name, value) -> List[str]:
->>           else:
->>               raise QAPISemError(info, "unknown pragma '%s'" % name)
->>   
->> -    def accept(self, skip_comment=True):
->> +    def accept(self, skip_comment: bool = True) -> None:
->>           while True:
->>               self.tok = self.src[self.cursor]
->>               self.pos = self.cursor
->> @@ -245,8 +262,8 @@ def accept(self, skip_comment=True):
->>                                      self.src[self.cursor-1:])
->>                   raise QAPIParseError(self, "stray '%s'" % match.group(0))
->>   
->> -    def get_members(self):
->> -        expr = OrderedDict()
->> +    def get_members(self) -> Dict[str, object]:
->> +        expr: Dict[str, object] = OrderedDict()
-> 
-> I wish we didn't have to repeat the type in
-> 
->      variable: type_of_thing = constructor_of_thing
-> 
-> So clumsy.  Using the constructor of a subtype doesn't exactly help.  Oh
-> well, that part should go away when we drop OrderedDict.
-> 
+Signed-off-by: Giuseppe Musacchio <thatlemon@gmail.com>
+---
+ target/ppc/translate/vsx-impl.c.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Yeah. Without an initial value it can't determine the types of the keys 
-and values.
-
->>           if self.tok == '}':
->>               self.accept()
->>               return expr
->> @@ -272,8 +289,8 @@ def get_members(self):
->>               if self.tok != "'":
->>                   raise QAPIParseError(self, "expected string")
->>   
->> -    def get_values(self):
->> -        expr = []
->> +    def get_values(self) -> List[object]:
->> +        expr: List[object] = []
->>           if self.tok == ']':
->>               self.accept()
->>               return expr
->> @@ -289,7 +306,8 @@ def get_values(self):
->>                   raise QAPIParseError(self, "expected ',' or ']'")
->>               self.accept()
->>   
->> -    def get_expr(self):
->> +    def get_expr(self) -> _ExprValue:
->> +        expr: _ExprValue
->>           if self.tok == '{':
->>               self.accept()
->>               expr = self.get_members()
->> @@ -305,7 +323,7 @@ def get_expr(self):
->>                   self, "expected '{', '[', string, or boolean")
->>           return expr
->>   
->> -    def get_doc(self, info):
->> +    def get_doc(self, info: QAPISourceInfo) -> List['QAPIDoc']:
->>           if self.val != '##':
->>               raise QAPIParseError(
->>                   self, "junk after '##' at start of documentation comment")
+diff --git a/target/ppc/translate/vsx-impl.c.inc b/target/ppc/translate/vsx-impl.c.inc
+index b817d31260..57a7f73bba 100644
+--- a/target/ppc/translate/vsx-impl.c.inc
++++ b/target/ppc/translate/vsx-impl.c.inc
+@@ -139,7 +139,7 @@ static void gen_lxvwsx(DisasContext *ctx)
+     gen_addr_reg_index(ctx, EA);
+ 
+     data = tcg_temp_new_i32();
+-    tcg_gen_qemu_ld_i32(data, EA, ctx->mem_idx, MO_TEUL);
++    tcg_gen_qemu_ld_i32(data, EA, ctx->mem_idx, DEF_MEMOP(MO_UL));
+     tcg_gen_gvec_dup_i32(MO_UL, vsr_full_offset(xT(ctx->opcode)), 16, 16, data);
+ 
+     tcg_temp_free(EA);
+@@ -162,7 +162,7 @@ static void gen_lxvdsx(DisasContext *ctx)
+     gen_addr_reg_index(ctx, EA);
+ 
+     data = tcg_temp_new_i64();
+-    tcg_gen_qemu_ld_i64(data, EA, ctx->mem_idx, MO_TEQ);
++    tcg_gen_qemu_ld_i64(data, EA, ctx->mem_idx, DEF_MEMOP(MO_Q));
+     tcg_gen_gvec_dup_i64(MO_Q, vsr_full_offset(xT(ctx->opcode)), 16, 16, data);
+ 
+     tcg_temp_free(EA);
+-- 
+2.30.2
 
 
