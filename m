@@ -2,54 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F7463878AA
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 14:27:05 +0200 (CEST)
-Received: from localhost ([::1]:34732 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CAFD3878BA
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 14:29:46 +0200 (CEST)
+Received: from localhost ([::1]:39188 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1liyoN-0002ZJ-1q
-	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 08:26:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46058)
+	id 1liyr3-0005i2-1s
+	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 08:29:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46920)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <maobibo@loongson.cn>)
- id 1liyig-0006da-Ji
- for qemu-devel@nongnu.org; Tue, 18 May 2021 08:21:08 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:57538 helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <maobibo@loongson.cn>) id 1liyiZ-0001Nv-FF
- for qemu-devel@nongnu.org; Tue, 18 May 2021 08:21:06 -0400
-Received: from kvm-dev1.localdomain (unknown [10.2.5.134])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9BxYOIgsaNgRREAAA--.407S2;
- Tue, 18 May 2021 20:20:48 +0800 (CST)
-From: Bibo Mao <maobibo@loongson.cn>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: [PATCH v2] hw/display/qxl: Set pci rom address aligned with page size
-Date: Tue, 18 May 2021 20:20:48 +0800
-Message-Id: <1621340448-31617-1-git-send-email-maobibo@loongson.cn>
-X-Mailer: git-send-email 1.8.3.1
-X-CM-TRANSID: AQAAf9BxYOIgsaNgRREAAA--.407S2
-X-Coremail-Antispam: 1UD129KBjvdXoWrKF1xAFW3GFyrAF13Aw1kZrb_yoWfArg_Ja
- 4UuwsrKr1jv3Z8ZFW8Xw1ftFW8t34kWF48XFy7Xa4UtryUKwn3AF1xWrnxWr1DZrZFk345
- Za1kCrZ8ArsxCjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUIcSsGvfJTRUUUb7xYjsxI4VWDJwAYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I
- 6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM2
- 8CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0
- cI8IcVCY1x0267AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z2
- 80aVCY1x0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAK
- zVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx
- 8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxkIecxEwVCm-wCF04k20xvY0x0E
- wIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E74
- 80Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jrv_JF1lIxkGc2Ij64vIr41lIxAIcVC0
- I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04
- k26cxKx2IYs7xG6rWUJVWrZr1UMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIE
- c7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07jY6wZUUUUU=
-X-CM-SenderInfo: xpdruxter6z05rqj20fqof0/
-Received-SPF: pass client-ip=114.242.206.163; envelope-from=maobibo@loongson.cn;
- helo=loongson.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1liymq-0002m6-Bt
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 08:25:26 -0400
+Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632]:35812)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1liymk-0003q3-Ih
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 08:25:23 -0400
+Received: by mail-ej1-x632.google.com with SMTP id k14so10747157eji.2
+ for <qemu-devel@nongnu.org>; Tue, 18 May 2021 05:25:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=G19OkqwUkgire3A559su7oqUaORn7ssYN+F9ROgHlGg=;
+ b=axNwHJpw7sg2Ks6sZQuOg4WglPaXPIj4p4+TkJaKLRrxW4ZpY+oeDrL5lYp/+ZXnth
+ rqrjo3zQQVLD17BJdey/SfB1SQnk+36L2Px2IvsIMxVEOxenWjMvstJ+B11G3HB6B/C5
+ Cn+9vKXnGcsFR/+PjDxkEzfeXusTSFNUe/E6T6U8+ZCO7K3w4M0gRqQZWtM287f4mVnj
+ c9/JgN3M1UFy0bBhjmotpIqP8QPIt07ivi+6EPG1QwhlAezF7OzB65zJCp/nRwoHqjrz
+ I0sV6Fw9F99CV3XxjV/Ytg5S7ORZWBvOo3M8annpEQmMqJycOivU9no2STaeTu/YwUCm
+ gAeQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=G19OkqwUkgire3A559su7oqUaORn7ssYN+F9ROgHlGg=;
+ b=EaYee/KRDPQ8aQDZpAeDf6it+Ow3L4axJoxlf8zgjZ+J/ZV96jXyJFxGbA2aS6uUaY
+ 2IcD829bTR59FpgeO49oFYnBMOdb+WS5KQYFU1UE3E3vufWJyBrcjGDp16p8LjFn6XGl
+ 8RN1ivNYpzCwAizVm1gz2E4Sn3lnPHfbn5WJkb6ZfznN5AKyCDUu+25WbXZjqmEn8qYT
+ VfpG69CW74H3RrPAG1kPnJGoCVutxNIaCbrfOOve4z9ISf7OgARELh2hBQQAP1jHjIdn
+ 3hEnXSTVNnA3PD9bxJtW+5MOKD2t+MBMHgU/tbcg+/tevpxboRnf9xulPB5TpNSW4M+v
+ IMRg==
+X-Gm-Message-State: AOAM532XKKIxvVOcJkAqFlrkLk53bd+9etbU/GSTU9Mt+8BV/Nm0YZP/
+ CPnikmjT7i9HTQgKhuGcE4OK3AUqJ2NWg1j3dkA9xA==
+X-Google-Smtp-Source: ABdhPJx6l46DLl8yABcDu+yTQLTlCefcS0HIEI0/itPPEbLHldxn9rvVD1Ah+poiu4CCbl3gWvccNtJdgFVmd+OCtIM=
+X-Received: by 2002:a17:906:b74f:: with SMTP id
+ fx15mr5839955ejb.85.1621340714276; 
+ Tue, 18 May 2021 05:25:14 -0700 (PDT)
+MIME-Version: 1.0
+References: <20210416235928.1631788-1-richard.henderson@linaro.org>
+ <20210416235928.1631788-8-richard.henderson@linaro.org>
+In-Reply-To: <20210416235928.1631788-8-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 18 May 2021 13:24:57 +0100
+Message-ID: <CAFEAcA-casxqgg-GJEckyTxRp3c2=kguU7YcOhvSYiFrnBvt-Q@mail.gmail.com>
+Subject: Re: [PATCH v1 07/11] target/arm: Implement bfloat16 dot product
+ (indexed)
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::632;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x632.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -63,39 +79,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: maobibo <maobibo@loongson.cn>
+On Sat, 17 Apr 2021 at 01:06, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> This is BFDOT for both AArch64 AdvSIMD and SVE,
+> and VDOT.BF16 for AArch32 NEON.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  target/arm/helper.h             |  2 ++
+>  target/arm/neon-shared.decode   |  2 ++
+>  target/arm/sve.decode           |  3 +++
+>  target/arm/translate-a64.c      | 41 +++++++++++++++++++++++++--------
+>  target/arm/translate-sve.c      | 12 ++++++++++
+>  target/arm/vec_helper.c         | 20 ++++++++++++++++
+>  target/arm/translate-neon.c.inc |  9 ++++++++
+>  7 files changed, 80 insertions(+), 9 deletions(-)
+>
+> @@ -13578,13 +13592,22 @@ static void disas_simd_indexed(DisasContext *s, uint32_t insn)
+>                           u ? gen_helper_gvec_udot_idx_b
+>                           : gen_helper_gvec_sdot_idx_b);
+>          return;
+> -    case 0x0f: /* SUDOT, USDOT */
+> -        gen_gvec_op4_ool(s, is_q, rd, rn, rm, rd, index,
+> -                         extract32(insn, 23, 1)
+> -                         ? gen_helper_gvec_usdot_idx_b
+> -                         : gen_helper_gvec_sudot_idx_b);
+> -        return;
+> -
+> +    case 0x0f:
+> +        switch (extract32(insn, 22, 2)) {
 
-On some MIPS system, page size is 16K, and qxl vga device can
-be used for VM in kvm mode. Qxl pci rom size is set 8K fixed,
-smaller than 16K page size on host system, it fails to be
-added into memslots in kvm mode where memory_size and GPA
-are required to align with page size.
+You already have bits [23:22] in 'size' at this point, I think.
 
-This patch fixes this issue.
+> +        case 0: /* SUDOT */
+> +            gen_gvec_op4_ool(s, is_q, rd, rn, rm, rd, index,
+> +                             gen_helper_gvec_sudot_idx_b);
+> +            return;
+> +        case 1: /* BFDOT */
+> +            gen_gvec_op4_ool(s, is_q, rd, rn, rm, rd, index,
+> +                             gen_helper_gvec_bfdot_idx);
+> +            return;
+> +        case 2: /* USDOT */
+> +            gen_gvec_op4_ool(s, is_q, rd, rn, rm, rd, index,
+> +                             gen_helper_gvec_usdot_idx_b);
+> +            return;
+> +        }
+> +        g_assert_not_reached();
 
-Signed-off-by: Bibo Mao <maobibo@loongson.cn>
----
- hw/display/qxl.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+otherwise
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-diff --git a/hw/display/qxl.c b/hw/display/qxl.c
-index 2ba7563..6e1f8ff 100644
---- a/hw/display/qxl.c
-+++ b/hw/display/qxl.c
-@@ -321,7 +321,7 @@ static ram_addr_t qxl_rom_size(void)
- #define QXL_ROM_SZ 8192
- 
-     QEMU_BUILD_BUG_ON(QXL_REQUIRED_SZ > QXL_ROM_SZ);
--    return QXL_ROM_SZ;
-+    return QEMU_ALIGN_UP(QXL_REQUIRED_SZ, qemu_real_host_page_size);
- }
- 
- static void init_qxl_rom(PCIQXLDevice *d)
--- 
-1.8.3.1
-
+thanks
+-- PMM
 
