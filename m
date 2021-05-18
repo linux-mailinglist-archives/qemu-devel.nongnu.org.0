@@ -2,94 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2F0738814C
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 22:22:27 +0200 (CEST)
-Received: from localhost ([::1]:56638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5543E388171
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 22:33:59 +0200 (CEST)
+Received: from localhost ([::1]:33976 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lj6EU-00041h-Ry
-	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 16:22:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42756)
+	id 1lj6Pe-0002hX-Ej
+	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 16:33:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42996)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lj64Y-0000b8-9H
- for qemu-devel@nongnu.org; Tue, 18 May 2021 16:12:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51174)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lj64O-0006FK-VE
- for qemu-devel@nongnu.org; Tue, 18 May 2021 16:12:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621368719;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=EtLwxEnsEfN6cj4xHan6As3MuvE7If+R0pjppMZsGg0=;
- b=i6SEj5XJBn+g6PrcEiDm5Zcm4FE4CzlrE69zvubuJCJXoeQ76SHPvjPbDCscwwhs/34ApE
- +DZb+JdvbX5JzbD6JAtnmCwDhDYc5lUwdh5fGm4yHGsPh9DikOm4c7wZM4sI1pBUoF9eN3
- TUIZcVxwhe1iNUteDJlQ3b+AyygKThQ=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-220-sW32GQ8MOS2eoN5Wcsb95Q-1; Tue, 18 May 2021 16:11:57 -0400
-X-MC-Unique: sW32GQ8MOS2eoN5Wcsb95Q-1
-Received: by mail-ej1-f70.google.com with SMTP id
- n25-20020a170906b319b02903d4dc1bc46cso2859079ejz.2
- for <qemu-devel@nongnu.org>; Tue, 18 May 2021 13:11:56 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lj64j-00018O-Jb
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 16:12:21 -0400
+Received: from mail-ot1-x336.google.com ([2607:f8b0:4864:20::336]:36397)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lj64X-0006Ld-HB
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 16:12:21 -0400
+Received: by mail-ot1-x336.google.com with SMTP id
+ n32-20020a9d1ea30000b02902a53d6ad4bdso9767629otn.3
+ for <qemu-devel@nongnu.org>; Tue, 18 May 2021 13:12:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=SAOCThhXXKzWEyU1N2Jujki8VzX4Cn5CzyuQOJ/ubYc=;
+ b=w5+1Ep5twbeCod/oZOv1NumS78bPPtAAFySPXFKJ2jxV2jyN1jwDGrqo0gLnPQ7qXe
+ CINEs7F1AIr+s9hzfA+TmV3feiOcZj0ow/GWiffwiQmzNdynWpfwLLLkBDpVh/QpGXHo
+ wPq1L76OFSUdLvKqf4Pbq+xwTIS15RZ83oVyAAyIMMYSqZI3dt3NzaACYDdEClIGU3BF
+ i4j72cQMWb5dAYeokblOl3fZq+53bf2LVYMLWUUxO7WwJHlpXizMyPGaxo3l3ii53fe+
+ DHuc2yhXGGKMKqRkSpMeMXubJkgiRjtAG4UMKsel8rK8qEMhuGMXF9vF+7DR4bPWwsxx
+ 59iA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=EtLwxEnsEfN6cj4xHan6As3MuvE7If+R0pjppMZsGg0=;
- b=OcXbnKfbe1RWiW0P+KjZa9gjyMx9E0ioUM0Jg4ymrkB4xUsmIR9ukfpcHCzd7fMfHx
- XLBkMHOQEnAuNA1C+cX7rNgC9nz+qbM3O+Oa+o8o9dxIfqiUBHIKyIRzuVgdCILQF8ar
- jDoCVMI2fIqvVi4hWTJq+tNsP22NPMx+JmJ76V1ibheIh63as8rFsj8LABobesRJxtcL
- G+0ES9VcOKE3nwJmX460jkYF3TOBHpW929kGIdWGhZW+MkTBHuHD3I1gZgToqPXd0mtB
- NSXsaYn1LMf2QKBsX0u6zpWOfoPb5gqr0Kor8bAoDA6VhVtNKcmcC5oPPi5kahXRKpKx
- K9pQ==
-X-Gm-Message-State: AOAM5333TNbFu7GJvrtVHamqMyOKVHd8T/KbJVXU2gYzlVpjvTpRvuIs
- yhPN9iLJv19J4hg/xPp/TS3q7eSyhYZ18WpGLSU3Eo0efeSHodexQqlQoPsnoolcI+Q+yBxJMbU
- CzK5PczfQuRsqFRI=
-X-Received: by 2002:a17:906:5291:: with SMTP id
- c17mr7697740ejm.527.1621368715793; 
- Tue, 18 May 2021 13:11:55 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyOvoLewqk7B22jcfp7eaqS/xLOgx1W3a4vSsHE8OXTrbHXyRAdYGK6W02CDmbGbH3LyAngOQ==
-X-Received: by 2002:a17:906:5291:: with SMTP id
- c17mr7697730ejm.527.1621368715659; 
- Tue, 18 May 2021 13:11:55 -0700 (PDT)
-Received: from [192.168.1.36] (31.red-83-51-215.dynamicip.rima-tde.net.
- [83.51.215.31])
- by smtp.gmail.com with ESMTPSA id n17sm13378101eds.72.2021.05.18.13.11.54
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 18 May 2021 13:11:55 -0700 (PDT)
-Subject: Re: [PATCH v2 00/12] hw: Various Kconfig fixes
-To: Eduardo Habkost <ehabkost@redhat.com>
-References: <20210515173716.358295-1-philmd@redhat.com>
- <20210517191856.enjxmb7v2ai6ecdh@habkost.net>
- <20210517200416.pt4xghxiuzuwknvn@habkost.net>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <610577a6-0aea-e6af-7f93-0caa9eb75e27@redhat.com>
-Date: Tue, 18 May 2021 22:11:53 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=SAOCThhXXKzWEyU1N2Jujki8VzX4Cn5CzyuQOJ/ubYc=;
+ b=AUYeecJK5PnziZbSWWe+ZALPHzdBvEcim/5lfh8U1J099qQytPjVd5AY1S/bPwNIm3
+ HJyKW+k9hZZGvw7uPXY4G8BYse0iDxyB0bHOHXe/uypS/x4uAPXbpNYx2tW/6xycRlDJ
+ JqEJFQVfPyqqpsY/Y/Ah0lrjU60xJqS9Qqdsffox8Vue7ixr3WQ5f23LOjyW/a222arX
+ K93hPZcRLI8Pkpw/ameTTXUtR1menwi6rncR4rrmlcOmFHQDS0c4+0DyAsrN/pynjr8H
+ 8Yq4rqnxibivXHO08Il5+7NNoetIsSW5ngBsfmmTdFjhwTaNs2hi5NhyFpv+U2uQucx6
+ OagQ==
+X-Gm-Message-State: AOAM533toaJLagh/IbSxKra1jjtIADDIW04jmzrt6kvAK6GZNnOgplWq
+ LGEdDwgUNgivIEVTdoYufxLjd1zWiRvz6ZLw
+X-Google-Smtp-Source: ABdhPJx5yP9BwlJ3NdbG2l3hBwmAPduEGrpSG3EodlhE88T3zOGPlj7ogwBG9S7DnxOpSGwV6PtY5A==
+X-Received: by 2002:a9d:39e3:: with SMTP id y90mr5854334otb.257.1621368728154; 
+ Tue, 18 May 2021 13:12:08 -0700 (PDT)
+Received: from localhost.localdomain ([45.235.253.15])
+ by smtp.gmail.com with ESMTPSA id u27sm3953204oof.38.2021.05.18.13.12.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 18 May 2021 13:12:07 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 20/24] target/ppc: Split out ppc_hash64_xlate
+Date: Tue, 18 May 2021 15:11:42 -0500
+Message-Id: <20210518201146.794854-21-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210518201146.794854-1-richard.henderson@linaro.org>
+References: <20210518201146.794854-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20210517200416.pt4xghxiuzuwknvn@habkost.net>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.374,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::336;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x336.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,41 +83,243 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair.francis@wdc.com>,
- "Daniel P. Berrange" <berrange@redhat.com>, Bin Meng <bin.meng@windriver.com>,
- qemu-devel@nongnu.org,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- qemu-arm@nongnu.org, qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-riscv@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
+Cc: bruno.larsen@eldorado.org.br, qemu-ppc@nongnu.org,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/17/21 10:04 PM, Eduardo Habkost wrote:
-> On Mon, May 17, 2021 at 03:18:56PM -0400, Eduardo Habkost wrote:
->> CCing Build system architecture maintainer (Daniel).
-> 
-> Oops, I was misled by the subsection title.  Daniel is
-> responsible only for the build system documentation.
-> 
-> Do we have any volunteers willing to be listed as reviewers for
-> build system changes in MAINTAINERS?  meson.build has a
-> non-trivial amount of code and no maintainers or reviewers at
-> all.
+Mirror the interface of ppc_radix64_xlate, putting all of
+the logic for hash64 translation into a single function.
 
-Hmmm OK I can add an entry. Ideally with Paolo/Thomas but I don't
-think they want to be listed in any new section ;)
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ target/ppc/mmu-hash64.c | 125 +++++++++++++++++++---------------------
+ 1 file changed, 59 insertions(+), 66 deletions(-)
 
->> On Sat, May 15, 2021 at 07:37:04PM +0200, Philippe Mathieu-Daudé wrote:
->>> Various Kconfig fixes when building stand-alone machine binaries.
->>
->> Who should merge this once it's ready?
-
-Paolo said in v1 that I can send the pull request myself :))
-
-I will do it in the next 48h~.
-
-Thanks,
-
-Phil.
+diff --git a/target/ppc/mmu-hash64.c b/target/ppc/mmu-hash64.c
+index 877a01a296..3024dd1e8c 100644
+--- a/target/ppc/mmu-hash64.c
++++ b/target/ppc/mmu-hash64.c
+@@ -866,8 +866,10 @@ static int build_vrma_slbe(PowerPCCPU *cpu, ppc_slb_t *slb)
+     return -1;
+ }
+ 
+-int ppc_hash64_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr,
+-                                MMUAccessType access_type, int mmu_idx)
++static bool ppc_hash64_xlate(PowerPCCPU *cpu, vaddr eaddr,
++                             MMUAccessType access_type,
++                             hwaddr *raddrp, int *psizep, int *protp,
++                             bool guest_visible)
+ {
+     CPUState *cs = CPU(cpu);
+     CPUPPCState *env = &cpu->env;
+@@ -911,9 +913,11 @@ int ppc_hash64_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr,
+             slb = &vrma_slbe;
+             if (build_vrma_slbe(cpu, slb) != 0) {
+                 /* Invalid VRMA setup, machine check */
+-                cs->exception_index = POWERPC_EXCP_MCHECK;
+-                env->error_code = 0;
+-                return 1;
++                if (guest_visible) {
++                    cs->exception_index = POWERPC_EXCP_MCHECK;
++                    env->error_code = 0;
++                }
++                return false;
+             }
+ 
+             goto skip_slb_search;
+@@ -922,6 +926,9 @@ int ppc_hash64_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr,
+ 
+             /* Emulated old-style RMO mode, bounds check against RMLS */
+             if (raddr >= limit) {
++                if (!guest_visible) {
++                    return false;
++                }
+                 switch (access_type) {
+                 case MMU_INST_FETCH:
+                     ppc_hash64_set_isi(cs, SRR1_PROTFAULT);
+@@ -936,15 +943,16 @@ int ppc_hash64_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr,
+                 default:
+                     g_assert_not_reached();
+                 }
+-                return 1;
++                return false;
+             }
+ 
+             raddr |= env->spr[SPR_RMOR];
+         }
+-        tlb_set_page(cs, eaddr & TARGET_PAGE_MASK, raddr & TARGET_PAGE_MASK,
+-                     PAGE_READ | PAGE_WRITE | PAGE_EXEC, mmu_idx,
+-                     TARGET_PAGE_SIZE);
+-        return 0;
++
++        *raddrp = raddr;
++        *protp = PAGE_READ | PAGE_WRITE | PAGE_EXEC;
++        *psizep = TARGET_PAGE_BITS;
++        return true;
+     }
+ 
+     /* 2. Translation is on, so look up the SLB */
+@@ -957,6 +965,9 @@ int ppc_hash64_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr,
+             exit(1);
+         }
+         /* Segment still not found, generate the appropriate interrupt */
++        if (!guest_visible) {
++            return false;
++        }
+         switch (access_type) {
+         case MMU_INST_FETCH:
+             cs->exception_index = POWERPC_EXCP_ISEG;
+@@ -971,20 +982,25 @@ int ppc_hash64_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr,
+         default:
+             g_assert_not_reached();
+         }
+-        return 1;
++        return false;
+     }
+ 
+-skip_slb_search:
++ skip_slb_search:
+ 
+     /* 3. Check for segment level no-execute violation */
+     if (access_type == MMU_INST_FETCH && (slb->vsid & SLB_VSID_N)) {
+-        ppc_hash64_set_isi(cs, SRR1_NOEXEC_GUARD);
+-        return 1;
++        if (guest_visible) {
++            ppc_hash64_set_isi(cs, SRR1_NOEXEC_GUARD);
++        }
++        return false;
+     }
+ 
+     /* 4. Locate the PTE in the hash table */
+     ptex = ppc_hash64_htab_lookup(cpu, slb, eaddr, &pte, &apshift);
+     if (ptex == -1) {
++        if (!guest_visible) {
++            return false;
++        }
+         switch (access_type) {
+         case MMU_INST_FETCH:
+             ppc_hash64_set_isi(cs, SRR1_NOPTE);
+@@ -998,7 +1014,7 @@ skip_slb_search:
+         default:
+             g_assert_not_reached();
+         }
+-        return 1;
++        return false;
+     }
+     qemu_log_mask(CPU_LOG_MMU,
+                   "found PTE at index %08" HWADDR_PRIx "\n", ptex);
+@@ -1014,6 +1030,9 @@ skip_slb_search:
+     if (need_prot & ~prot) {
+         /* Access right violation */
+         qemu_log_mask(CPU_LOG_MMU, "PTE access rejected\n");
++        if (!guest_visible) {
++            return false;
++        }
+         if (access_type == MMU_INST_FETCH) {
+             int srr1 = 0;
+             if (PAGE_EXEC & ~exec_prot) {
+@@ -1038,7 +1057,7 @@ skip_slb_search:
+             }
+             ppc_hash64_set_dsi(cs, eaddr, dsisr);
+         }
+-        return 1;
++        return false;
+     }
+ 
+     qemu_log_mask(CPU_LOG_MMU, "PTE access granted !\n");
+@@ -1062,66 +1081,40 @@ skip_slb_search:
+ 
+     /* 7. Determine the real address from the PTE */
+ 
+-    raddr = deposit64(pte.pte1 & HPTE64_R_RPN, 0, apshift, eaddr);
++    *raddrp = deposit64(pte.pte1 & HPTE64_R_RPN, 0, apshift, eaddr);
++    *protp = prot;
++    *psizep = apshift;
++    return true;
++}
++
++int ppc_hash64_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr,
++                                MMUAccessType access_type, int mmu_idx)
++{
++    CPUState *cs = CPU(cpu);
++    int page_size, prot;
++    hwaddr raddr;
++
++    if (!ppc_hash64_xlate(cpu, eaddr, access_type, &raddr,
++                          &page_size, &prot, true)) {
++        return 1;
++    }
+ 
+     tlb_set_page(cs, eaddr & TARGET_PAGE_MASK, raddr & TARGET_PAGE_MASK,
+-                 prot, mmu_idx, 1ULL << apshift);
+-
++                 prot, mmu_idx, 1UL << page_size);
+     return 0;
+ }
+ 
+-hwaddr ppc_hash64_get_phys_page_debug(PowerPCCPU *cpu, target_ulong addr)
++hwaddr ppc_hash64_get_phys_page_debug(PowerPCCPU *cpu, target_ulong eaddr)
+ {
+-    CPUPPCState *env = &cpu->env;
+-    ppc_slb_t vrma_slbe;
+-    ppc_slb_t *slb;
+-    hwaddr ptex, raddr;
+-    ppc_hash_pte64_t pte;
+-    unsigned apshift;
++    int psize, prot;
++    hwaddr raddr;
+ 
+-    /* Handle real mode */
+-    if (msr_dr == 0) {
+-        /* In real mode the top 4 effective address bits are ignored */
+-        raddr = addr & 0x0FFFFFFFFFFFFFFFULL;
+-
+-        if (cpu->vhyp) {
+-            /*
+-             * In virtual hypervisor mode, there's nothing to do:
+-             *   EA == GPA == qemu guest address
+-             */
+-            return raddr;
+-        } else if ((msr_hv || !env->has_hv_mode) && !(addr >> 63)) {
+-            /* In HV mode, add HRMOR if top EA bit is clear */
+-            return raddr | env->spr[SPR_HRMOR];
+-        } else if (ppc_hash64_use_vrma(env)) {
+-            /* Emulated VRMA mode */
+-            slb = &vrma_slbe;
+-            if (build_vrma_slbe(cpu, slb) != 0) {
+-                return -1;
+-            }
+-        } else {
+-            target_ulong limit = rmls_limit(cpu);
+-
+-            /* Emulated old-style RMO mode, bounds check against RMLS */
+-            if (raddr >= limit) {
+-                return -1;
+-            }
+-            return raddr | env->spr[SPR_RMOR];
+-        }
+-    } else {
+-        slb = slb_lookup(cpu, addr);
+-        if (!slb) {
+-            return -1;
+-        }
+-    }
+-
+-    ptex = ppc_hash64_htab_lookup(cpu, slb, addr, &pte, &apshift);
+-    if (ptex == -1) {
++    if (!ppc_hash64_xlate(cpu, eaddr, MMU_DATA_LOAD, &raddr,
++                          &psize, &prot, false)) {
+         return -1;
+     }
+ 
+-    return deposit64(pte.pte1 & HPTE64_R_RPN, 0, apshift, addr)
+-        & TARGET_PAGE_MASK;
++    return raddr & TARGET_PAGE_MASK;
+ }
+ 
+ void ppc_hash64_tlb_flush_hpte(PowerPCCPU *cpu, target_ulong ptex,
+-- 
+2.25.1
 
 
