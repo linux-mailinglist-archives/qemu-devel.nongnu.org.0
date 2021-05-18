@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00376387162
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 07:43:58 +0200 (CEST)
-Received: from localhost ([::1]:49360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3206A387152
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 07:35:20 +0200 (CEST)
+Received: from localhost ([::1]:52176 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lisWM-0007FD-2c
-	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 01:43:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38360)
+	id 1lisNz-0006xJ-92
+	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 01:35:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38392)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lisKV-0006u6-VJ
- for qemu-devel@nongnu.org; Tue, 18 May 2021 01:31:43 -0400
-Received: from mout.kundenserver.de ([217.72.192.75]:49477)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lisKX-00070j-Dw
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 01:31:45 -0400
+Received: from mout.kundenserver.de ([217.72.192.73]:49463)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lisKS-0006v4-Qi
- for qemu-devel@nongnu.org; Tue, 18 May 2021 01:31:43 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lisKT-0006wT-QU
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 01:31:45 -0400
 Received: from quad ([82.142.31.78]) by mrelayeu.kundenserver.de (mreue106
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1MwxRN-1lX7453OZP-00yTwY; Tue, 18
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1Mg6qO-1lGxl710Aw-00hdsl; Tue, 18
  May 2021 07:31:39 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 13/59] linux-user/sparc: Clean up init_thread
-Date: Tue, 18 May 2021 07:30:45 +0200
-Message-Id: <20210518053131.87212-14-laurent@vivier.eu>
+Subject: [PULL 14/59] linux-user/sparc: Merge sparc64 target_syscall.h
+Date: Tue, 18 May 2021 07:30:46 +0200
+Message-Id: <20210518053131.87212-15-laurent@vivier.eu>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210518053131.87212-1-laurent@vivier.eu>
 References: <20210518053131.87212-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:A+V8BPEdLq7Ux9hJEFv4mAbW7gmXjpjxN8GRKXhvyvRIViu2WdG
- vwG4nIf8En+t2iG+i5lmLcG6PGlKKJkBGEnal0RdW7C+xoEaS8lS8y/HkGN5jGzYrQeqMOw
- eNjKmtQ83AsAWdXjKewTsaVgW7tZu33Q9qRqkOY7WgGeWc/CBr+bnPZbfDvlRyGsVmdN9MM
- vgPZ159LNgU4ufONy2y7Q==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:MwvuRD7FbiQ=:y5ymzWnrZHdCjyyQd0/QxQ
- Gn43F+GKJ2tIG6wD6m1Wou50YbQHtYZkRnnIhBpzXkeQoWdP8unsuUK7UMbdIjRwb3xPFnKly
- teGXfGbf37nYWsxBAd2HRbVT5V2ilC/1IY5e5FlGAC1w8dckC3EGHLPF7L4Adv+2prqNgmbAx
- 2S77oubj+Vy2dxwhx2V8TO1woMJyI/SGAw61GgqQPOrfGJYYvkSfytuMNgyGbc3gYu+wUuxgW
- 8R5vLSJZWlNzlUTYrN0Hf49vAkeyhcm9o25V28C515n2CiZw/TmtyoOmZaMMrsALaCffz2rrD
- pYqsREXuDnikL99OAk41mhXMlsNxJPO3sXG9PQa1buo9q/Sbdm5y5M0Tr7tXire0G3NRDSzX9
- k5e85omxL46qjh83hfMSva3CXsHT4IquG+Ejq5fio6fyeKu573YObmy/IcSsDG3SdtaSjylsf
- qsovBZ2D3AZq74nXy/zuaVvHDaFVWRjHeIT3TngsZ/CrnDHoqQpQdvF0wXBx+6herUkAgXrGy
- cUNfdX4mFBud9J2nWleQSI=
-Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:zP0eWViHxxDL9FfgmA6x+3t6FcO1YueMs/xzTNXd9Vai0futfoA
+ D0iEp65oAkJurH/le9OQckNuCW/V+jo7i0UuM5KIvEBPkx6lDBJlN1na4NHMtX7AjNX5frp
+ vSSM7aLelUN4hJfsVniJg48rcyGvP5WIIJog/QlQzhhWlt1xULMkAvOwjIItpQCRIIGnQP+
+ 7bXwOKu1MubGgGUuWIK+A==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:rCrVIjbhFDk=:etvdoAc6TsiaSvyfR3DWK6
+ WeRV+AX8w7gyxOiSESRzbUco7TGImALfqvTXnmKOpZCQb1lGO+fdTczTiQ0vrYBxaDUqaYnkd
+ MVI7Plv/DztQ0CSrAdyUcMYP0/OpNAYK7rJzvcibsYEvVAlcGhb++IwaC5pzJtIFVvcEctKqQ
+ YqHNEDgffGejxVRKiA6I+Z8EQkEqWXp9JZsrRu/VvUngzeES1LKQVsbuliPeokM8Qg3F066fY
+ zvfhOztsfNzOjKpbVym2ZsXIHCAm5h71tr7HzT4sY0OKrenq/4jHByrarIwZnLsMqPouLWhmB
+ Ka3lTE6tNKTbjprue8MmIlj82gt+TeZG9ytjPWYLihbMcRRV3t+XXbDQr2T/1VDzAgaCO8ko+
+ HaSK+vF64qQ3sHlllAp3VEDBFPkvExCVnHzY6lWqW7a42T5s1cdJnQdy2n+Gj2W7MSQ8nOjDk
+ aUlMN2lXmcyghuluhoPa3z3LhUDzAlIDsO4vKzHdLz8z9pWYxGJWwSvgUxK6mVdAVgvJI507I
+ RbPHAo6+UVVvV4IU3QptTo=
+Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -70,75 +70,133 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Share code between sparc32 and sparc64, removing a bit of pointless
-difference wrt psr/tstate.  Use sizeof(abi_ulong) for allocating
-initial register window.  Use TARGET_STACK_BIAS.
+There are only a few differences in sparc32 vs sparc64.
+This fixes target_shmlba for sparc32plus, which is v9.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20210426025334.1168495-7-richard.henderson@linaro.org>
+Message-Id: <20210426025334.1168495-8-richard.henderson@linaro.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/elfload.c | 33 +++++----------------------------
- 1 file changed, 5 insertions(+), 28 deletions(-)
+ linux-user/sparc/target_syscall.h   | 42 +++++++++++++++++++++--------
+ linux-user/sparc64/target_syscall.h | 36 +------------------------
+ 2 files changed, 32 insertions(+), 46 deletions(-)
 
-diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-index fc9c4f12be92..ffc03d72f935 100644
---- a/linux-user/elfload.c
-+++ b/linux-user/elfload.c
-@@ -676,48 +676,25 @@ static uint32_t get_elf_hwcap2(void)
+diff --git a/linux-user/sparc/target_syscall.h b/linux-user/sparc/target_syscall.h
+index d8ea04ea837a..15d531f38978 100644
+--- a/linux-user/sparc/target_syscall.h
++++ b/linux-user/sparc/target_syscall.h
+@@ -3,18 +3,34 @@
  
- #define ELF_CLASS   ELFCLASS64
- #define ELF_ARCH    EM_SPARCV9
--
--#define STACK_BIAS              2047
--
--static inline void init_thread(struct target_pt_regs *regs,
--                               struct image_info *infop)
--{
--#ifndef TARGET_ABI32
--    regs->tstate = 0;
--#endif
--    regs->pc = infop->entry;
--    regs->npc = regs->pc + 4;
--    regs->y = 0;
--#ifdef TARGET_ABI32
--    regs->u_regs[14] = infop->start_stack - 16 * 4;
--#else
--    if (personality(infop->personality) == PER_LINUX32)
--        regs->u_regs[14] = infop->start_stack - 16 * 4;
--    else
--        regs->u_regs[14] = infop->start_stack - 16 * 8 - STACK_BIAS;
--#endif
--}
--
- #else
- #define ELF_START_MMAP 0x80000000
- #define ELF_HWCAP  (HWCAP_SPARC_FLUSH | HWCAP_SPARC_STBAR | HWCAP_SPARC_SWAP \
-                     | HWCAP_SPARC_MULDIV)
--
- #define ELF_CLASS   ELFCLASS32
- #define ELF_ARCH    EM_SPARC
-+#endif /* TARGET_SPARC64 */
+ #include "target_errno.h"
  
- static inline void init_thread(struct target_pt_regs *regs,
-                                struct image_info *infop)
++#if defined(TARGET_SPARC64) && !defined(TARGET_ABI32)
+ struct target_pt_regs {
+-	abi_ulong psr;
+-	abi_ulong pc;
+-	abi_ulong npc;
+-	abi_ulong y;
+-	abi_ulong u_regs[16];
++    abi_ulong u_regs[16];
++    abi_ulong tstate;
++    abi_ulong pc;
++    abi_ulong npc;
++    uint32_t y;
++    uint32_t magic;
+ };
++#else
++struct target_pt_regs {
++    abi_ulong psr;
++    abi_ulong pc;
++    abi_ulong npc;
++    abi_ulong y;
++    abi_ulong u_regs[16];
++};
++#endif
+ 
+-#define UNAME_MACHINE "sparc"
++#ifdef TARGET_SPARC64
++# define UNAME_MACHINE "sparc64"
++#else
++# define UNAME_MACHINE "sparc"
++#endif
+ #define UNAME_MINIMUM_RELEASE "2.6.32"
+ 
+-/* SPARC kernels don't define this in their Kconfig, but they have the
++/*
++ * SPARC kernels don't define this in their Kconfig, but they have the
+  * same ABI as if they did, implemented by sparc-specific code which fishes
+  * directly in the u_regs() struct for half the parameters in sparc_do_fork()
+  * and copy_thread().
+@@ -25,20 +41,24 @@ struct target_pt_regs {
+ #define TARGET_MCL_FUTURE  0x4000
+ #define TARGET_MCL_ONFAULT 0x8000
+ 
+-/* For SPARC SHMLBA is determined at runtime in the kernel, and
+- * libc has to runtime-detect it using the hwcaps (see glibc
+- * sysdeps/unix/sysv/linux/sparc/getshmlba; we follow the same
+- * logic here, though we know we're not the sparc v9 64-bit case).
++/*
++ * For SPARC SHMLBA is determined at runtime in the kernel, and
++ * libc has to runtime-detect it using the hwcaps.
++ * See glibc sysdeps/unix/sysv/linux/sparc/getshmlba.
+  */
+ #define TARGET_FORCE_SHMLBA
+ 
+ static inline abi_ulong target_shmlba(CPUSPARCState *env)
  {
--    regs->psr = 0;
-+    /* Note that target_cpu_copy_regs does not read psr/tstate. */
-     regs->pc = infop->entry;
-     regs->npc = regs->pc + 4;
-     regs->y = 0;
--    regs->u_regs[14] = infop->start_stack - 16 * 4;
-+    regs->u_regs[14] = (infop->start_stack - 16 * sizeof(abi_ulong)
-+                        - TARGET_STACK_BIAS);
++#ifdef TARGET_SPARC64
++    return MAX(TARGET_PAGE_SIZE, 16 * 1024);
++#else
+     if (!(env->def.features & CPU_FEATURE_FLUSH)) {
+         return 64 * 1024;
+     } else {
+         return 256 * 1024;
+     }
++#endif
  }
+ 
+ #endif /* SPARC_TARGET_SYSCALL_H */
+diff --git a/linux-user/sparc64/target_syscall.h b/linux-user/sparc64/target_syscall.h
+index 696a68b1ed4e..164a5fc6322f 100644
+--- a/linux-user/sparc64/target_syscall.h
++++ b/linux-user/sparc64/target_syscall.h
+@@ -1,35 +1 @@
+-#ifndef SPARC64_TARGET_SYSCALL_H
+-#define SPARC64_TARGET_SYSCALL_H
 -
--#endif
--#endif
-+#endif /* TARGET_SPARC */
- 
- #ifdef TARGET_PPC
- 
+-#include "../sparc/target_errno.h"
+-
+-struct target_pt_regs {
+-	abi_ulong u_regs[16];
+-	abi_ulong tstate;
+-	abi_ulong pc;
+-	abi_ulong npc;
+-	abi_ulong y;
+-	abi_ulong fprs;
+-};
+-
+-#define UNAME_MACHINE "sparc64"
+-#define UNAME_MINIMUM_RELEASE "2.6.32"
+-
+-/* SPARC kernels don't define this in their Kconfig, but they have the
+- * same ABI as if they did, implemented by sparc-specific code which fishes
+- * directly in the u_regs() struct for half the parameters in sparc_do_fork()
+- * and copy_thread().
+- */
+-#define TARGET_CLONE_BACKWARDS
+-#define TARGET_MINSIGSTKSZ      4096
+-#define TARGET_MCL_CURRENT 0x2000
+-#define TARGET_MCL_FUTURE  0x4000
+-#define TARGET_MCL_ONFAULT 0x8000
+-
+-#define TARGET_FORCE_SHMLBA
+-
+-static inline abi_ulong target_shmlba(CPUSPARCState *env)
+-{
+-    return MAX(TARGET_PAGE_SIZE, 16 * 1024);
+-}
+-#endif /* SPARC64_TARGET_SYSCALL_H */
++#include "../sparc/target_syscall.h"
 -- 
 2.31.1
 
