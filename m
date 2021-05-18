@@ -2,79 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89C56387BB1
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 16:52:16 +0200 (CEST)
-Received: from localhost ([::1]:36416 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BEC7387BB8
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 16:54:44 +0200 (CEST)
+Received: from localhost ([::1]:44990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lj14x-00086O-KX
-	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 10:52:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53876)
+	id 1lj17K-0006It-HO
+	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 10:54:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54364)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lj0yb-00036X-S7
- for qemu-devel@nongnu.org; Tue, 18 May 2021 10:45:44 -0400
-Received: from mail-vk1-xa2f.google.com ([2607:f8b0:4864:20::a2f]:39482)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lj0zz-0004wP-Na
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 10:47:08 -0400
+Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530]:42824)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lj0yI-00031G-LJ
- for qemu-devel@nongnu.org; Tue, 18 May 2021 10:45:35 -0400
-Received: by mail-vk1-xa2f.google.com with SMTP id k22so82387vko.6
- for <qemu-devel@nongnu.org>; Tue, 18 May 2021 07:45:21 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lj0zy-00041w-3K
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 10:47:07 -0400
+Received: by mail-ed1-x530.google.com with SMTP id i13so11515072edb.9
+ for <qemu-devel@nongnu.org>; Tue, 18 May 2021 07:47:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=da1X5FDtZQFaLk6YknN3fhzzydUuvdyIdH0SwN1kKAQ=;
- b=nerQXeJaZvqvPeX5A5IaVcnS9Sm0q1YKLrva0qUaA8foIkSn+U85sub19F4w9xUcLb
- RjedmwJPam29h1LhD34c8EJ7mIHw54g4VkbCSO7wbjmL1Td3fybRgcdAnDXGDbDa93BO
- p4KlzUXpg23qCCh5GRhkFYa6QlxDRTbOHKBc2Ej8/iHwRhZKKx9f7OIj6ftl8vPgs6Jc
- JuShjZ8VjT1PhtEMVJWmKqBixg/DoxihwUL0OQlgdVd0afbMaPs4OLlRjqhW/aNcwNLr
- 78kkT8jSr7BJ2RCPLMNHpuXX5nKh17HJErmbwBDcSMWZ6NP5gH6fxgpDJSO2pazzMo6M
- +7vw==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=xARzHUIRMEhCNf96AnGj29qMlJoEGNinUlqxQJUx2Qs=;
+ b=qnspe40xM/zI/uQp6iCeD/whvfic7pIZbseKy8vkAYZntvmfjMcnwOwBe0+OHDLgph
+ Bpnu7Zdy3u6gW1+6I9F3gswPP9XMjXEWUI1mhjLVyvwFy6LpRfMXfhX/rYAMlhIsrbav
+ Ti3AVHRYHuVs45a2NP7DPX1Kg6Qq3JzajnhScHK41zu8q9wTlNEHsDhMPIIyfOVSFi+n
+ PF+Lcrojwq6i84+r5be0KfcMw2aZsu/Q2gJ9yQHHPFM2glEjAwfkW0E+K5SjGY3kAb4B
+ 8gfnOxtzCusWAJ8OO0QLlk0+AoSP6AXdCdsbvsYSCTuQmUe+BtmxmOL2spv5gannXMsu
+ EOXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=da1X5FDtZQFaLk6YknN3fhzzydUuvdyIdH0SwN1kKAQ=;
- b=QLjQIe+3Rrfv7U/184XHnTqbo4LA7YKy5uVsIq4GifbtoBM+5qNwOJ6lO1/sj8DnWx
- WZg6aTZC6sGUTOGXaPjf8MRGhFZ8o2L1KCZ8X3Yu8d/XHTEIWwHNoMsrcMVnC9m3Y5h7
- WrdlxlCCPmS3126+DU/GWq4VFWLHyPiyUrxX/Xwkmxzs/e6Xeds0t4y6TEDR/HHoKRgE
- k4Uf9N20WhB1BQbWZEnbd3M2fZ6k/Gk9fClhnOZaO/WMUfP5/PCAtmm8QxvJc6+XNPNN
- G17V8N5SzJrho0G/avfzoRVDWa+YWblmAxDpTfDIG2cM/3ruexFSN8ivGaoxJ2npz1Pl
- le2A==
-X-Gm-Message-State: AOAM531saa5Pjz9hMu1NLdOqpmypnVc3kz9Ox7JaMZum41UvtUQIMZ4+
- S7t0YRuc8vmf/PSlp5Kx1gdgEg==
-X-Google-Smtp-Source: ABdhPJynNyah/DBGgOyIB/mHSiOsV7CHALnjlLliQaG2FPN3jVDgqmxA7KfKXqOlQW/WpjBG21sxaw==
-X-Received: by 2002:a1f:2b14:: with SMTP id r20mr6345684vkr.9.1621349121229;
- Tue, 18 May 2021 07:45:21 -0700 (PDT)
-Received: from [172.16.22.144] ([45.235.253.15])
- by smtp.gmail.com with ESMTPSA id o72sm1961830vka.30.2021.05.18.07.45.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 18 May 2021 07:45:20 -0700 (PDT)
-Subject: Re: [PATCH v1 08/11] target/arm: Implement bfloat16 matrix multiply
- accumulate
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20210416235928.1631788-1-richard.henderson@linaro.org>
- <20210416235928.1631788-9-richard.henderson@linaro.org>
- <CAFEAcA_T9f47uZSEt9BRsThxLsvauTPMiDSNM8B5=Dk5xRQ+wg@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <40bfafe9-ba14-f718-3240-102766f17811@linaro.org>
-Date: Tue, 18 May 2021 09:45:18 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=xARzHUIRMEhCNf96AnGj29qMlJoEGNinUlqxQJUx2Qs=;
+ b=qU6kMLaz86I3KAsIinAa2nbxAWWUMGTj7u2uTUox1kYThIaVzytnnSyPi6IDcCGf4f
+ 9h6bdizpoOlyj2+PiWH01OOW1h3lN2tkKo5HRSTTP8ADCYW94X9hpC4X+008PiCF6RXR
+ IoZf0fzut2e25+I5z8VXKhOuaXOqDxQhqg+WDst+s2yV7cXDCZPE0Tj64prgXk4JHa7V
+ KLSj4DTi2soXBTBvCGx4sgwJKrltqaeHZf2CrtGj/Y6oeoYDwecrY7Tk2NzQdrt6Z/xn
+ Ao+bpqfIXliD+UWZ6b1H1xdRO5lSY3nXYuxj+Ik60wDOnujmNuHmLTaYMfVUvly2k8+7
+ xyhg==
+X-Gm-Message-State: AOAM533/z26naYexjhGr76pfuXn0JO2hQ2miGc+nWhBq4gQzqhDrcHDF
+ nXxOMbfE5Nz5lTvTYv3PwxPxwk9dXpOMm5Q85HlzYg==
+X-Google-Smtp-Source: ABdhPJwJYJQcTLJOyHH5J6+iBb3EQk03+OYHzIcy9X7ifE9hoO92RV9IvKm4GiO4mGgC8X9K6QvVVNSuAuXbdhYfnQs=
+X-Received: by 2002:a05:6402:3548:: with SMTP id
+ f8mr7380990edd.251.1621349224321; 
+ Tue, 18 May 2021 07:47:04 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_T9f47uZSEt9BRsThxLsvauTPMiDSNM8B5=Dk5xRQ+wg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::a2f;
- envelope-from=richard.henderson@linaro.org; helo=mail-vk1-xa2f.google.com
+References: <20210429234201.125565-1-shashi.mallela@linaro.org>
+In-Reply-To: <20210429234201.125565-1-shashi.mallela@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 18 May 2021 15:46:47 +0100
+Message-ID: <CAFEAcA9wAnK11NNObOrqV8MMgf7h9=Q2nNarEe+GY0SNPPuneQ@mail.gmail.com>
+Subject: Re: [PATCH v3 0/8] GICv3 LPI and ITS feature implementation
+To: Shashi Mallela <shashi.mallela@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::530;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x530.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
@@ -89,48 +77,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Leif Lindholm <leif@nuviainc.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ qemu-arm <qemu-arm@nongnu.org>, Radoslaw Biernacki <rad@semihalf.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/18/21 7:37 AM, Peter Maydell wrote:
-> On Sat, 17 Apr 2021 at 01:00, Richard Henderson
-> <richard.henderson@linaro.org> wrote:
->>
->> This is BFMMLA for both AArch64 AdvSIMD and SVE,
->> and VMMLA.BF16 for AArch32 NEON.
->>
->> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> 
->> +void HELPER(gvec_bfmmla)(void *vd, void *vn, void *vm, void *va, uint32_t desc)
->> +{
->> +    intptr_t s, opr_sz = simd_oprsz(desc);
->> +    float32 *d = vd, *a = va;
->> +    uint32_t *n = vn, *m = vm;
->> +
->> +    for (s = 0; s < opr_sz / 4; s += 4) {
->> +        float32 sum00, sum01, sum10, sum11;
->> +
->> +        /*
->> +         * Process the entire segment at once, writing back the
->> +         * results only after we've consumed all of the inputs.
->> +         *
->> +         * Key to indicies by column:
-> 
-> "indices"
-> 
->> +         *               i   j           i   k             j   k
->> +         */
->> +        sum00 = a[s + H4(0 + 0)];
->> +        sum00 = bfdotadd(sum00, n[s + H4(0 + 0)], m[s + H4(0 + 0)]);
->> +        sum00 = bfdotadd(sum00, n[s + H4(0 + 1)], m[s + H4(0 + 1)]);
-> 
-> I can't make these indices match up with the arm arm pseudocode ones,
-> which index by "4*i + 2*k + 0" and "4*i + 2*k + 1", not "2*i + k";
-> are we hiding a division by 2 somewhere?
+On Fri, 30 Apr 2021 at 00:42, Shashi Mallela <shashi.mallela@linaro.org> wrote:
+>
+> This patchset implements qemu device model for enabling physical
+> LPI support and ITS functionality in GIC as per GICv3 specification.
+> Both flat table and 2 level tables are implemented.The ITS commands
+> for adding/deleting ITS table entries,trigerring LPI interrupts are
+> implemented.Translated LPI interrupt ids are processed by redistributor
+> to determine priority and set pending state appropriately before
+> forwarding the same to cpu interface.
+> The ITS feature support has been added to sbsa-ref platform as well as
+> virt platform,wherein the emulated functionality co-exists with kvm
+> kernel functionality.
+>
+> Changes in v3:
+>  - review comments addressed
+>
+> Shashi Mallela (8):
+>   hw/intc: GICv3 ITS initial framework
+>   hw/intc: GICv3 ITS register definitions added
+>   hw/intc: GICv3 ITS command queue framework
+>   hw/intc: GICv3 ITS Command processing
+>   hw/intc: GICv3 ITS Feature enablement
+>   hw/intc: GICv3 redistributor ITS processing
+>   hw/arm/sbsa-ref: add ITS support in SBSA GIC
+>   hw/arm/virt: add ITS support in virt GIC
 
-Yes.  We're passing BFloat16 pairs via uint32_t[] to bfdotadd().
+Something in here breaks "make check":
 
+MALLOC_PERTURB_=${MALLOC_PERTURB_:-$(( ${RANDOM:-0} % 255 + 1))}
+QTEST_QEMU_IMG=./qemu-img
+G_TEST_DBUS_DAEMON=/home/petmay01/linaro/qemu-from-laptop/qemu/tests/dbus-vmstate-daemon.sh
+QTEST_QEMU_BINARY=./qemu-system-aarch64 tests/qtest/bios-tables-test
+--tap -k
 
-r~
+Looking for expected file 'tests/data/acpi/virt/FACP'
+Using expected file 'tests/data/acpi/virt/FACP'
+Looking for expected file 'tests/data/acpi/virt/APIC'
+Using expected file 'tests/data/acpi/virt/APIC'
+Looking for expected file 'tests/data/acpi/virt/GTDT'
+Using expected file 'tests/data/acpi/virt/GTDT'
+Looking for expected file 'tests/data/acpi/virt/MCFG'
+Using expected file 'tests/data/acpi/virt/MCFG'
+Looking for expected file 'tests/data/acpi/virt/SPCR'
+Using expected file 'tests/data/acpi/virt/SPCR'
+Looking for expected file 'tests/data/acpi/virt/IORT'
+**
+ERROR:../../tests/qtest/bios-tables-test.c:385:load_expected_aml:
+assertion failed: (exp_sdt.aml_file)
+ERROR qtest-aarch64/bios-tables-test - Bail out!
+ERROR:../../tests/qtest/bios-tables-test.c:385:load_expected_aml:
+assertion failed: (exp_sdt.aml_file)
+
+(and then it hangs)
+
+-- PMM
 
