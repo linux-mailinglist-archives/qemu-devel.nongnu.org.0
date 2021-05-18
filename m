@@ -2,68 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BEC7387BB8
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 16:54:44 +0200 (CEST)
-Received: from localhost ([::1]:44990 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73611387BD0
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 16:59:38 +0200 (CEST)
+Received: from localhost ([::1]:53260 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lj17K-0006It-HO
-	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 10:54:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54364)
+	id 1lj1C5-0003tD-9y
+	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 10:59:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55116)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lj0zz-0004wP-Na
- for qemu-devel@nongnu.org; Tue, 18 May 2021 10:47:08 -0400
-Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530]:42824)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lj0zy-00041w-3K
- for qemu-devel@nongnu.org; Tue, 18 May 2021 10:47:07 -0400
-Received: by mail-ed1-x530.google.com with SMTP id i13so11515072edb.9
- for <qemu-devel@nongnu.org>; Tue, 18 May 2021 07:47:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=xARzHUIRMEhCNf96AnGj29qMlJoEGNinUlqxQJUx2Qs=;
- b=qnspe40xM/zI/uQp6iCeD/whvfic7pIZbseKy8vkAYZntvmfjMcnwOwBe0+OHDLgph
- Bpnu7Zdy3u6gW1+6I9F3gswPP9XMjXEWUI1mhjLVyvwFy6LpRfMXfhX/rYAMlhIsrbav
- Ti3AVHRYHuVs45a2NP7DPX1Kg6Qq3JzajnhScHK41zu8q9wTlNEHsDhMPIIyfOVSFi+n
- PF+Lcrojwq6i84+r5be0KfcMw2aZsu/Q2gJ9yQHHPFM2glEjAwfkW0E+K5SjGY3kAb4B
- 8gfnOxtzCusWAJ8OO0QLlk0+AoSP6AXdCdsbvsYSCTuQmUe+BtmxmOL2spv5gannXMsu
- EOXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=xARzHUIRMEhCNf96AnGj29qMlJoEGNinUlqxQJUx2Qs=;
- b=qU6kMLaz86I3KAsIinAa2nbxAWWUMGTj7u2uTUox1kYThIaVzytnnSyPi6IDcCGf4f
- 9h6bdizpoOlyj2+PiWH01OOW1h3lN2tkKo5HRSTTP8ADCYW94X9hpC4X+008PiCF6RXR
- IoZf0fzut2e25+I5z8VXKhOuaXOqDxQhqg+WDst+s2yV7cXDCZPE0Tj64prgXk4JHa7V
- KLSj4DTi2soXBTBvCGx4sgwJKrltqaeHZf2CrtGj/Y6oeoYDwecrY7Tk2NzQdrt6Z/xn
- Ao+bpqfIXliD+UWZ6b1H1xdRO5lSY3nXYuxj+Ik60wDOnujmNuHmLTaYMfVUvly2k8+7
- xyhg==
-X-Gm-Message-State: AOAM533/z26naYexjhGr76pfuXn0JO2hQ2miGc+nWhBq4gQzqhDrcHDF
- nXxOMbfE5Nz5lTvTYv3PwxPxwk9dXpOMm5Q85HlzYg==
-X-Google-Smtp-Source: ABdhPJwJYJQcTLJOyHH5J6+iBb3EQk03+OYHzIcy9X7ifE9hoO92RV9IvKm4GiO4mGgC8X9K6QvVVNSuAuXbdhYfnQs=
-X-Received: by 2002:a05:6402:3548:: with SMTP id
- f8mr7380990edd.251.1621349224321; 
- Tue, 18 May 2021 07:47:04 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lj12N-0007SM-VX
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 10:49:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23351)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lj12K-0005EL-EK
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 10:49:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1621349368;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=gQwM0ntWu58JBQ+w1Atn4FU0oCC0GuTFHNh9JAq89HI=;
+ b=Cl691uFpA9E0cLa+gVmlSHgWyijkVaBSiW9LS6ywEx7+vx/jgXAgMUv8UNQzwlJ3yj8n8u
+ WCJUU8h//+b4njuykRLTWIvkcVfSGchmfNV/u5l//pApg1WPK5mWFX/LivEMa+QMKRWqjY
+ d0yq9eWPROyhzSOf4le281klpRS8WqY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-322-Ej8LIzv8N_GO1Dd1oqUKsA-1; Tue, 18 May 2021 10:49:27 -0400
+X-MC-Unique: Ej8LIzv8N_GO1Dd1oqUKsA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A3D5D8D91EA;
+ Tue, 18 May 2021 14:48:55 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-115-121.ams2.redhat.com
+ [10.36.115.121])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 534555D6A1;
+ Tue, 18 May 2021 14:48:53 +0000 (UTC)
+Subject: Re: [PATCH 20/21] qapi: publish copy-before-write filter
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20210517064428.16223-1-vsementsov@virtuozzo.com>
+ <20210517064428.16223-22-vsementsov@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
+Message-ID: <b6c8a8e6-63f3-8437-93d4-5f1522383b7e@redhat.com>
+Date: Tue, 18 May 2021 16:48:51 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-References: <20210429234201.125565-1-shashi.mallela@linaro.org>
-In-Reply-To: <20210429234201.125565-1-shashi.mallela@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 18 May 2021 15:46:47 +0100
-Message-ID: <CAFEAcA9wAnK11NNObOrqV8MMgf7h9=Q2nNarEe+GY0SNPPuneQ@mail.gmail.com>
-Subject: Re: [PATCH v3 0/8] GICv3 LPI and ITS feature implementation
-To: Shashi Mallela <shashi.mallela@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::530;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x530.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210517064428.16223-22-vsementsov@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.374,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,64 +83,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Leif Lindholm <leif@nuviainc.com>, QEMU Developers <qemu-devel@nongnu.org>,
- qemu-arm <qemu-arm@nongnu.org>, Radoslaw Biernacki <rad@semihalf.com>
+Cc: kwolf@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
+ jsnow@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com, den@openvz.org,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 30 Apr 2021 at 00:42, Shashi Mallela <shashi.mallela@linaro.org> wrote:
->
-> This patchset implements qemu device model for enabling physical
-> LPI support and ITS functionality in GIC as per GICv3 specification.
-> Both flat table and 2 level tables are implemented.The ITS commands
-> for adding/deleting ITS table entries,trigerring LPI interrupts are
-> implemented.Translated LPI interrupt ids are processed by redistributor
-> to determine priority and set pending state appropriately before
-> forwarding the same to cpu interface.
-> The ITS feature support has been added to sbsa-ref platform as well as
-> virt platform,wherein the emulated functionality co-exists with kvm
-> kernel functionality.
->
-> Changes in v3:
->  - review comments addressed
->
-> Shashi Mallela (8):
->   hw/intc: GICv3 ITS initial framework
->   hw/intc: GICv3 ITS register definitions added
->   hw/intc: GICv3 ITS command queue framework
->   hw/intc: GICv3 ITS Command processing
->   hw/intc: GICv3 ITS Feature enablement
->   hw/intc: GICv3 redistributor ITS processing
->   hw/arm/sbsa-ref: add ITS support in SBSA GIC
->   hw/arm/virt: add ITS support in virt GIC
+On 17.05.21 08:44, Vladimir Sementsov-Ogievskiy wrote:
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>   qapi/block-core.json | 22 ++++++++++++++++++----
+>   1 file changed, 18 insertions(+), 4 deletions(-)
+> 
+> diff --git a/qapi/block-core.json b/qapi/block-core.json
+> index 2ea294129e..f8fbcb6416 100644
+> --- a/qapi/block-core.json
+> +++ b/qapi/block-core.json
+> @@ -2808,15 +2808,17 @@
+>   # @blklogwrites: Since 3.0
+>   # @blkreplay: Since 4.2
+>   # @compress: Since 5.0
+> +# @copy-before-write: Since 6.1
+>   #
+>   # Since: 2.9
+>   ##
+>   { 'enum': 'BlockdevDriver',
+>     'data': [ 'blkdebug', 'blklogwrites', 'blkreplay', 'blkverify', 'bochs',
+> -            'cloop', 'compress', 'copy-on-read', 'dmg', 'file', 'ftp', 'ftps',
+> -            'gluster', 'host_cdrom', 'host_device', 'http', 'https', 'iscsi',
+> -            'luks', 'nbd', 'nfs', 'null-aio', 'null-co', 'nvme', 'parallels',
+> -            'preallocate', 'qcow', 'qcow2', 'qed', 'quorum', 'raw', 'rbd',
+> +            'cloop', 'compress', 'copy-before-write', 'copy-on-read', 'dmg',
+> +            'file', 'ftp', 'ftps', 'gluster', 'host_cdrom', 'host_device',
+> +            'http', 'https', 'iscsi', 'luks', 'nbd', 'nfs', 'null-aio',
+> +            'null-co', 'nvme', 'parallels', 'preallocate', 'qcow', 'qcow2',
+> +            'qed', 'quorum', 'raw', 'rbd',
+>               { 'name': 'replication', 'if': 'defined(CONFIG_REPLICATION)' },
+>               'ssh', 'throttle', 'vdi', 'vhdx', 'vmdk', 'vpc', 'vvfat' ] }
+>   
+> @@ -3937,6 +3939,17 @@
+>     'base': 'BlockdevOptionsGenericFormat',
+>     'data': { '*bottom': 'str' } }
+>   
+> +##
+> +# @BlockdevOptionsCbw:
+> +#
+> +# Driver specific block device options for the copy-before-write driver.
+> +#
 
-Something in here breaks "make check":
+I think there should be a description of @target here.
 
-MALLOC_PERTURB_=${MALLOC_PERTURB_:-$(( ${RANDOM:-0} % 255 + 1))}
-QTEST_QEMU_IMG=./qemu-img
-G_TEST_DBUS_DAEMON=/home/petmay01/linaro/qemu-from-laptop/qemu/tests/dbus-vmstate-daemon.sh
-QTEST_QEMU_BINARY=./qemu-system-aarch64 tests/qtest/bios-tables-test
---tap -k
+(Looks good otherwise, though.)
 
-Looking for expected file 'tests/data/acpi/virt/FACP'
-Using expected file 'tests/data/acpi/virt/FACP'
-Looking for expected file 'tests/data/acpi/virt/APIC'
-Using expected file 'tests/data/acpi/virt/APIC'
-Looking for expected file 'tests/data/acpi/virt/GTDT'
-Using expected file 'tests/data/acpi/virt/GTDT'
-Looking for expected file 'tests/data/acpi/virt/MCFG'
-Using expected file 'tests/data/acpi/virt/MCFG'
-Looking for expected file 'tests/data/acpi/virt/SPCR'
-Using expected file 'tests/data/acpi/virt/SPCR'
-Looking for expected file 'tests/data/acpi/virt/IORT'
-**
-ERROR:../../tests/qtest/bios-tables-test.c:385:load_expected_aml:
-assertion failed: (exp_sdt.aml_file)
-ERROR qtest-aarch64/bios-tables-test - Bail out!
-ERROR:../../tests/qtest/bios-tables-test.c:385:load_expected_aml:
-assertion failed: (exp_sdt.aml_file)
+Max
 
-(and then it hangs)
+> +# Since: 6.1
+> +##
+> +{ 'struct': 'BlockdevOptionsCbw',
+> +  'base': 'BlockdevOptionsGenericFormat',
+> +  'data': { 'target': 'BlockdevRef' } }
+> +
+>   ##
+>   # @BlockdevOptions:
+>   #
+> @@ -3989,6 +4002,7 @@
+>         'bochs':      'BlockdevOptionsGenericFormat',
+>         'cloop':      'BlockdevOptionsGenericFormat',
+>         'compress':   'BlockdevOptionsGenericFormat',
+> +      'copy-before-write':'BlockdevOptionsCbw',
+>         'copy-on-read':'BlockdevOptionsCor',
+>         'dmg':        'BlockdevOptionsGenericFormat',
+>         'file':       'BlockdevOptionsFile',
+> 
 
--- PMM
 
