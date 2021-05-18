@@ -2,59 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17E4F38705D
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 05:49:33 +0200 (CEST)
-Received: from localhost ([::1]:48940 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEB0938707E
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 06:11:52 +0200 (CEST)
+Received: from localhost ([::1]:56288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1liqjb-0002zD-Mx
-	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 23:49:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51884)
+	id 1lir5D-0000tq-G6
+	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 00:11:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54366)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1liqir-00026T-0D; Mon, 17 May 2021 23:48:45 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:3004)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lir3Y-0007QX-JY
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 00:10:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40993)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1liqin-0002f6-Pf; Mon, 17 May 2021 23:48:44 -0400
-Received: from dggems706-chm.china.huawei.com (unknown [172.30.72.58])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4Fkhjq0Tv2zmVcW;
- Tue, 18 May 2021 11:45:51 +0800 (CST)
-Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
- dggems706-chm.china.huawei.com (10.3.19.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Tue, 18 May 2021 11:48:35 +0800
-Received: from [10.174.187.128] (10.174.187.128) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.1.2176.2; Tue, 18 May 2021 11:48:34 +0800
-Subject: Re: [RFC PATCH v3 4/4] hw/arm/virt: Parse -smp cluster parameter in
- virt_smp_parse
-To: Salil Mehta <salil.mehta@huawei.com>
-References: <20210516103228.37792-1-wangyanan55@huawei.com>
- <20210516103228.37792-5-wangyanan55@huawei.com>
- <01351414c3424710bf3dc5eb949f0d75@huawei.com>
-From: "wangyanan (Y)" <wangyanan55@huawei.com>
-Message-ID: <3f6756a9-409e-f273-a6be-8cff57a7cfff@huawei.com>
-Date: Tue, 18 May 2021 11:48:34 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lir3V-00038q-DM
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 00:10:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1621311003;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=qGo+Neu9gu6rnnOAUX8Ahoxmoc10d/9u8Xa8PQmkUsE=;
+ b=KUa1k4kBdylgRW4BmB2mDs9fYTPgKnV19DUDHG53U2byljNnL4w8iEqGyTGc2SddgK/3Hc
+ 1/AZ96amtO/+P5YWuF0vH9vyV+6LYjEZP016KIAgMF2D5SUi0s+Q5xIgB/38S9SzfbhruR
+ 2INSxVaiXLqMgivhT8ddvU2k2IyzMIY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-509-wNBWjR7oMhWveBgbVedQww-1; Tue, 18 May 2021 00:09:57 -0400
+X-MC-Unique: wNBWjR7oMhWveBgbVedQww-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9EB8C180FD6B
+ for <qemu-devel@nongnu.org>; Tue, 18 May 2021 04:09:56 +0000 (UTC)
+Received: from localhost (ovpn-115-22.phx2.redhat.com [10.3.115.22])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 394BD5C239;
+ Tue, 18 May 2021 04:09:53 +0000 (UTC)
+Date: Mon, 17 May 2021 23:33:13 -0400
+From: Cleber Rosa <crosa@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH v2 2/6] python/machine: use subprocess.DEVNULL instead of
+ open(os.path.devnull)
+Message-ID: <20210518033313.GA917386@amachine.somewhere>
+References: <20210517184808.3562549-1-jsnow@redhat.com>
+ <20210517184808.3562549-3-jsnow@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <01351414c3424710bf3dc5eb949f0d75@huawei.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-Originating-IP: [10.174.187.128]
-X-ClientProxiedBy: dggeme706-chm.china.huawei.com (10.1.199.102) To
- dggpemm500023.china.huawei.com (7.185.36.83)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.191;
- envelope-from=wangyanan55@huawei.com; helo=szxga05-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+In-Reply-To: <20210517184808.3562549-3-jsnow@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="IS0zKkzwUGydFO0o"
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=crosa@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.374,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -68,163 +78,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Barry Song <song.bao.hua@hisilicon.com>,
- Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
- "Michael S .
- Tsirkin" <mst@redhat.com>, wanghaibin.wang@huawei.com, zhukeqian1@huawei.com,
- qemu-devel@nongnu.org, yangyicong@huawei.com,
- Shannon Zhao <shannon.zhaosl@gmail.com>, qemu-arm@nongnu.org,
- prime.zeng@hisilicon.com, Paolo Bonzini <pbonzini@redhat.com>,
- yuzenghui@huawei.com, Igor Mammedov <imammedo@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Cc: Emanuele Giuseppe Esposito <eesposit@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Salil,
+--IS0zKkzwUGydFO0o
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 2021/5/17 23:17, Salil Mehta wrote:
->> From: Qemu-devel
->> [mailto:qemu-devel-bounces+salil.mehta=huawei.com@nongnu.org] On Behalf Of
->> Yanan Wang
->> Sent: Sunday, May 16, 2021 11:32 AM
->> To: Peter Maydell <peter.maydell@linaro.org>; Paolo Bonzini
->> <pbonzini@redhat.com>; Andrew Jones <drjones@redhat.com>; Michael S . Tsirkin
->> <mst@redhat.com>; Igor Mammedov <imammedo@redhat.com>; Shannon Zhao
->> <shannon.zhaosl@gmail.com>; qemu-devel@nongnu.org; qemu-arm@nongnu.org
->> Cc: Song Bao Hua (Barry Song) <song.bao.hua@hisilicon.com>; Philippe
->> Mathieu-Daudé <philmd@redhat.com>; wangyanan (Y) <wangyanan55@huawei.com>;
->> Zengtao (B) <prime.zeng@hisilicon.com>; Wanghaibin (D)
->> <wanghaibin.wang@huawei.com>; yuzenghui <yuzenghui@huawei.com>; yangyicong
->> <yangyicong@huawei.com>; zhukeqian <zhukeqian1@huawei.com>
->> Subject: [RFC PATCH v3 4/4] hw/arm/virt: Parse -smp cluster parameter in
->> virt_smp_parse
->>
->> There is a separate function virt_smp_parse() in hw/virt/arm.c used
->> to parse cpu topology for the ARM machines. So add parsing of -smp
->> cluster parameter in it, then total number of logical cpus will be
->> calculated like: max_cpus = sockets * clusters * cores * threads.
->>
->> Note, we will assume multi-cluster in one socket is not supported
->> and default the value of clusters to 1, if it's not explicitly
->> specified in -smp cmdline.
->>
->> Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
->> ---
->>   hw/arm/virt.c | 32 ++++++++++++++++++--------------
->>   1 file changed, 18 insertions(+), 14 deletions(-)
->>
->> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
->> index 7de822e491..678d5ef36c 100644
->> --- a/hw/arm/virt.c
->> +++ b/hw/arm/virt.c
->> @@ -2642,8 +2642,8 @@ static int virt_kvm_type(MachineState *ms, const char
->> *type_str)
->>    * with the -smp cmdlines when parsing them.
->>    *
->>    * We require that at least one of cpus or maxcpus must be provided.
->> - * Threads will default to 1 if not provided. Sockets and cores must
->> - * be either both provided or both not.
->> + * Clusters and threads will default to 1 if they are not provided.
->> + * Sockets and cores must be either both provided or both not.
->>    *
->>    * Note, if neither sockets nor cores are specified, we will calculate
->>    * all the missing values just like smp_parse() does, but will disable
->> @@ -2652,15 +2652,18 @@ static int virt_kvm_type(MachineState *ms, const char
->> *type_str)
->>   static void virt_smp_parse(MachineState *ms, QemuOpts *opts)
->>   {
->>       VirtMachineClass *vmc = VIRT_MACHINE_GET_CLASS(ms);
->> +    VirtMachineState *vms = VIRT_MACHINE(ms);
->>
->>       if (opts) {
->>           unsigned cpus = qemu_opt_get_number(opts, "cpus", 0);
->>           unsigned maxcpus = qemu_opt_get_number(opts, "maxcpus", 0);
->>           unsigned sockets = qemu_opt_get_number(opts, "sockets", 0);
->> +        unsigned clusters = qemu_opt_get_number(opts, "clusters", 0);
->>           unsigned cores = qemu_opt_get_number(opts, "cores", 0);
->>           unsigned threads = qemu_opt_get_number(opts, "threads", 0);
->>
->> -        /* Default threads to 1 if not provided */
->> +        /* Default clusters and threads to 1 if not provided */
->> +        clusters = clusters > 0 ? clusters : 1;
->>           threads = threads > 0 ? threads : 1;
->>
->>           if (cpus == 0 && maxcpus == 0) {
->> @@ -2676,13 +2679,13 @@ static void virt_smp_parse(MachineState *ms, QemuOpts
->> *opts)
->>               cores = 1;
->>               if (cpus == 0) {
->>                   sockets = 1;
->> -                cpus = sockets * cores * threads;
->> +                cpus = sockets * clusters * cores * threads;
->>               } else {
->>                   maxcpus = maxcpus > 0 ? maxcpus : cpus;
->> -                sockets = maxcpus / (cores * threads);
->> +                sockets = maxcpus / (clusters * cores * threads);
->>               }
->>           } else if (sockets > 0 && cores > 0) {
->> -            cpus = cpus > 0 ? cpus : sockets * cores * threads;
->> +            cpus = cpus > 0 ? cpus : sockets * clusters * cores * threads;
->>               maxcpus = maxcpus > 0 ? maxcpus : cpus;
->>           } else {
->>               error_report("sockets and cores must be both provided "
->> @@ -2695,25 +2698,26 @@ static void virt_smp_parse(MachineState *ms, QemuOpts
->> *opts)
->>               exit(1);
->>           }
->>
->> -        if (sockets * cores * threads < cpus) {
->> +        if (sockets * clusters * cores * threads < cpus) {
->>               error_report("cpu topology: "
->> -                         "sockets (%u) * cores (%u) * threads (%u) < "
->> -                         "smp_cpus (%u)",
->> -                         sockets, cores, threads, cpus);
->> +                         "sockets (%u) * clusters (%u) * cores (%u) * "
->> +                         "threads (%u) < smp_cpus (%u)",
->> +                         sockets, clusters, cores, threads, cpus);
->>               exit(1);
->>           }
->>
->> -        if (sockets * cores * threads != maxcpus) {
->> +        if (sockets * clusters * cores * threads != maxcpus) {
->>               error_report("cpu topology: "
->> -                         "sockets (%u) * cores (%u) * threads (%u) "
->> -                         "!= maxcpus (%u)",
->> -                         sockets, cores, threads, maxcpus);
->> +                         "sockets (%u) * clusters (%u) * cores (%u) * "
->> +                         "threads (%u) != maxcpus (%u)",
->> +                         sockets, clusters, cores, threads, maxcpus);
->>               exit(1);
->>           }
->>
->>           ms->smp.cpus = cpus;
->>           ms->smp.max_cpus = maxcpus;
->>           ms->smp.sockets = sockets;
->> +        vms->smp_clusters = clusters;
+On Mon, May 17, 2021 at 02:48:04PM -0400, John Snow wrote:
+> One less file resource to manage, and it helps quiet some pylint >=3D
+> 2.8.0 warnings about not using a with-context manager for the open call.
+>=20
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> Reviewed-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
+> ---
+>  python/qemu/machine.py | 6 ++----
+>  1 file changed, 2 insertions(+), 4 deletions(-)
 >
-> This variable naming *smp_clusters* looks out-of-sorts. I thought a similar
-> variable *smp_cpus* was destined to be removed for the reason given in below
-> link - a patch by Andrew Jones?
->
-> Link: https://lists.gnu.org/archive/html/qemu-arm/2020-12/msg00418.html
->
-> Am I missing anything here?
-The smp_clusters is added in VirtMachineState and nowhere else because
-it's currently only used for ARM. But I think maybe I should also move it to
-CpuTopology structure like [1] is doing to move dies to CpuTopology.
 
-Move clusters to CpuTopology won't affect other architectures that don't
-support it yet, and will also make it easy if they want to in the future.
+Reviewed-by: Cleber Rosa <crosa@redhat.com>
 
-[1] From Paolo:
-https://patchwork.kernel.org/project/qemu-devel/patch/20210513162901.1310239-10-pbonzini@redhat.com/
+--IS0zKkzwUGydFO0o
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Thanks,
-Yanan
-> Salil.
->
->>           ms->smp.cores = cores;
->>           ms->smp.threads = threads;
->>       }
-> .
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAmCjNXcACgkQZX6NM6Xy
+CfO+ARAAoh6i5dkuD3ol6PLUNSXqt7mr4f2N0+sGJfKKu5wg2o6lnV0ADxlJvlcK
+Oo3/0VzmV2W9BwoqF7+o/t4l2Tu+zRe4rT6JIebInuIHrt3mmVHpcz28pgfCC2uA
+GhbUGLmq+CJ150WDtLnOP2dWbvtVdUUgnO+BpPGZOkP90SUoh3btJryfQZGtMGIR
+ot2oJuk9xcYKcfZXlAeCtNfk/LgJbTn3bv4anuDbHsfdSpJgu25u95thuoyyMHG/
+Nyx0VXuPFzOYBc+JeyMl9dPY+YAQiBMyF6catYG0iXovpmXXbAX4rcSl0dW3De/3
++PuT1W4kUG10cvTazYvizJLotM39Uw8TkbpJh05l2JR1sJFzjmImHcCikVRd3f6W
+mZ3oI1j+CpSU40C4xDTpoRB1rtIQ1JQwE1Cl9E1g0094nBl8BYDdkmM8TyuLDHGQ
+5Q9wLybwZEhC/y9n7SNYP7jlgxNPBBFZdxkKPVvXD00RM6sjaKGI2BE/khBVFjxu
+9FR5S1uS1/oQQW0zew3FHE1o5ecfnMRFy86mx5xgc3mE8TACDuvLiYlSYO/UcQN9
+FjlFxgXm7/LLoGSO7Dk+Zyta1prxuLRa3sUd7ljifZZSQ23EQLIYoigWBMp8L/Bw
+Nsuh4NuBJN/oeiz3OuDVsibKdk2dwtZotpxH4/Y+MBezX/EP9hw=
+=SEoV
+-----END PGP SIGNATURE-----
+
+--IS0zKkzwUGydFO0o--
+
 
