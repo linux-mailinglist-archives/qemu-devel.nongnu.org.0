@@ -2,99 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FEC83879FC
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 15:30:36 +0200 (CEST)
-Received: from localhost ([::1]:56872 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C052F3879A8
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 15:13:37 +0200 (CEST)
+Received: from localhost ([::1]:35444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1liznt-0002OV-R3
-	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 09:30:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57270)
+	id 1lizXU-0004Md-F3
+	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 09:13:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58596)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
- id 1lizQz-00084h-Tm
- for qemu-devel@nongnu.org; Tue, 18 May 2021 09:06:53 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:12886)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
- id 1lizQy-0002Pt-4r
- for qemu-devel@nongnu.org; Tue, 18 May 2021 09:06:53 -0400
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 14ID3ADw073094
- for <qemu-devel@nongnu.org>; Tue, 18 May 2021 09:06:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : mime-version : content-transfer-encoding; s=pp1;
- bh=m5NjsfXOWIoquk5FgPxvUURq+FqmzxcNFfYpqrCIQoE=;
- b=UKPC3i8RVZFSJhgkjvgWZ3nIWSbXihzaVo3EBYb6vKpfVgNrhtrsKnsQmrEqj9AQBf16
- artj9bB6/KmFRDAjzNY0ycDS5e0LL9wyvBf1m1hBOklP/54dWpjCQ8ge8OOQij94RQS2
- YndHKgWBjLHHYcDSBoTZRc4u33AIDNHmXjAg/9AyERah/zTe5tfcLh3c5woqe6Az/9PG
- eKC0c5zf2u7owyqZkXdaSW4ncAkWd+EBwaQqXZ1zChvno33xueOJ+ICqOqdLe9yJUe7q
- 4OezyUJazW2SqBGdVRzh009bjo3c2IDbHpErtP5S+rXqTI7MiA3IIKkhGb3LgXwzsQoI AQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 38md082a5h-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Tue, 18 May 2021 09:06:49 -0400
-Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 14ID3k7o075687
- for <qemu-devel@nongnu.org>; Tue, 18 May 2021 09:06:48 -0400
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0a-001b2d01.pphosted.com with ESMTP id 38md082a3t-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 18 May 2021 09:06:48 -0400
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 14ID39gU003147;
- Tue, 18 May 2021 13:06:46 GMT
-Received: from b06cxnps3074.portsmouth.uk.ibm.com
- (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
- by ppma06ams.nl.ibm.com with ESMTP id 38j5jgsepk-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 18 May 2021 13:06:45 +0000
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
- [9.149.105.62])
- by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 14ID6hWU16384312
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 18 May 2021 13:06:43 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 9B2E9AE059;
- Tue, 18 May 2021 13:06:43 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 14B7BAE057;
- Tue, 18 May 2021 13:06:43 +0000 (GMT)
-Received: from linux01.pok.stglabs.ibm.com (unknown [9.114.17.81])
- by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Tue, 18 May 2021 13:06:42 +0000 (GMT)
-From: Janosch Frank <frankja@linux.ibm.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] qobject: Fix maybe uninitialized in qdict_array_split
-Date: Tue, 18 May 2021 13:06:38 +0000
-Message-Id: <20210518130638.54529-1-frankja@linux.ibm.com>
-X-Mailer: git-send-email 2.30.2
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lizWN-0003VO-G1
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 09:12:27 -0400
+Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530]:35391)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lizWK-000616-PP
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 09:12:27 -0400
+Received: by mail-ed1-x530.google.com with SMTP id di13so11080452edb.2
+ for <qemu-devel@nongnu.org>; Tue, 18 May 2021 06:12:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=jCCSKxroNVzJGKI8PzjzyI9BgotZdgWSK2IOkXEEX0U=;
+ b=YuWfbp2o6MH7ml+/Dw/AioIwuRus61A4Avj+nCOyKioXFodufR2j5+SvZ7sWDnrYca
+ qGVYweclvllb3VMBaCxqroeBPP5BkvB/1WRxgpX8mOP626uIiMzCylzGAT0HOXSkbgWL
+ PUUL5GQi6uFbJJGbq1pyjHRdc8Ql+Fuze7yBkfk6iefuDLJS28G+gDx+UnPCuCgIQqJQ
+ pC6gshEoQqgwkbeaO0fE7iBV94jKlF7z7vCy0VNAItf3mFVVNGE8Cte0cZQnzhhGGb3c
+ zEMVmLU7AOcdZd9urXOt/0hwIFMATt5plqOsrYIajii0LAP/afbq5eba3EHJGNFDOYnk
+ ANRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=jCCSKxroNVzJGKI8PzjzyI9BgotZdgWSK2IOkXEEX0U=;
+ b=kN0zoPy39rt0uzY5IHpL/cHdQa4mjJC+IWYQZKy5TxMXUxEOMvw5PoiddxsffetPk+
+ gtLiZ6rO4qs9P6rxRO/pMnDvJveCjMg1hNAN2GtqVA1MvwF2ieyHYVE+DAHwdh1hKvm2
+ 79lp6VFdENWdi2DDXgiQ9jp59vJzNorEfw1QSjoCIUoPE+cydWwQCEqxi3Kok08N569u
+ G0VploBqtUye03FFNgwSF00naj0JSDEFzUezfocOMIYuw1fa06PuQf6jCJEWUMM3klxu
+ dmecYrEd1qO5CzkP7fI9jh0R5U8s3YUZ4DkztBg8UO86B80WrdQ2gYdW8ukK5XWQHvpk
+ psXw==
+X-Gm-Message-State: AOAM532Vy4EZWxWnWQBYcu7/LBsnVO95/cfkHIIZFOAAKabryGAZCUP4
+ wMPTPsT0f6pu2IL4NgZCX//K4hUMyO51hUqKBQCXwA==
+X-Google-Smtp-Source: ABdhPJz4g+EjH7g2RrCxsh1JCPadGl/8aXfQ7jL3z+04mTTCN83A6Nc81oG77R7Y5B7b4E0eqKOTDRH70oAG2HQpkLM=
+X-Received: by 2002:a05:6402:12d3:: with SMTP id
+ k19mr6964023edx.52.1621343542964; 
+ Tue, 18 May 2021 06:12:22 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: 8zOxIpHte5Iu0ETjGBQ3-hjVT6H2HD3H
-X-Proofpoint-GUID: wGcwX8pclOugMgsWd2X3gk216T5MgKNl
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
- definitions=2021-05-18_04:2021-05-18,
- 2021-05-18 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 phishscore=0
- impostorscore=0 mlxscore=0 mlxlogscore=830 priorityscore=1501 spamscore=0
- malwarescore=0 lowpriorityscore=0 clxscore=1015 adultscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104190000 definitions=main-2105180091
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=frankja@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
+References: <20210517091737.841787-1-its@irrelevant.dk>
+In-Reply-To: <20210517091737.841787-1-its@irrelevant.dk>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 18 May 2021 14:12:06 +0100
+Message-ID: <CAFEAcA8YO1kggXmusnMMVFf7N006yZFKrfitcWy5PDGKvd46Yg@mail.gmail.com>
+Subject: Re: [PULL 00/20] emulated nvme updates
+To: Klaus Jensen <its@irrelevant.dk>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::530;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x530.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -108,31 +77,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, cohuck@redhat.com, borntraeger@de.ibm.com
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ Qemu-block <qemu-block@nongnu.org>, Klaus Jensen <k.jensen@samsung.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Keith Busch <kbusch@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Lets make the compiler happy.
+On Mon, 17 May 2021 at 10:17, Klaus Jensen <its@irrelevant.dk> wrote:
+>
+> From: Klaus Jensen <k.jensen@samsung.com>
+>
+> Hi Peter,
+>
+> The following changes since commit 6005ee07c380cbde44292f5f6c96e7daa70f4f7d:
+>
+>   Merge remote-tracking branch 'remotes/mst/tags/for_upstream' into staging (2021-05-16 17:22:46 +0100)
+>
+> are available in the Git repository at:
+>
+>   git://git.infradead.org/qemu-nvme.git tags/nvme-next-pull-request
+>
+> for you to fetch changes up to 88eea45c536470cd3c43440cbb1cd4d3b9fa519c:
+>
+>   hw/nvme: move nvme emulation out of hw/block (2021-05-17 09:19:00 +0200)
+>
+> ----------------------------------------------------------------
+> emulated nvme updates
+>
+> * various fixes (Gollu Appalanaidu)
+> * refactoring (me)
+> * move to hw/nvme from hw/block (me)
 
-Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
----
- qobject/block-qdict.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/qobject/block-qdict.c b/qobject/block-qdict.c
-index 1487cc5dd8..b26524429c 100644
---- a/qobject/block-qdict.c
-+++ b/qobject/block-qdict.c
-@@ -224,7 +224,7 @@ void qdict_array_split(QDict *src, QList **dst)
-     for (i = 0; i < UINT_MAX; i++) {
-         QObject *subqobj;
-         bool is_subqdict;
--        QDict *subqdict;
-+        QDict *subqdict = NULL;
-         char indexstr[32], prefix[32];
-         size_t snprintf_ret;
- 
--- 
-2.30.2
+Applied, thanks.
 
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.1
+for any user-visible changes.
+
+-- PMM
 
