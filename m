@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6210387FDA
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 20:45:43 +0200 (CEST)
-Received: from localhost ([::1]:47142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1041E387FD4
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 20:43:48 +0200 (CEST)
+Received: from localhost ([::1]:42940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lj4is-0004S1-R6
-	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 14:45:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49420)
+	id 1lj4h1-0001cT-2N
+	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 14:43:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49448)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lj4ar-0001c9-Hb
- for qemu-devel@nongnu.org; Tue, 18 May 2021 14:37:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43732)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lj4au-0001jQ-9j
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 14:37:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24116)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lj4ap-00085y-M0
- for qemu-devel@nongnu.org; Tue, 18 May 2021 14:37:25 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lj4as-00088V-Ke
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 14:37:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621363043;
+ s=mimecast20190719; t=1621363046;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YLH7tC7sd/ju26noenjhTGGhpMc2gBLlxO2UZKdJboA=;
- b=bcn0WThPUr8qEw1VeWtz91NCb/7cv5L1jZKi60JKusOIvqdGXHvGIH+rouG5rJa+JYAPO2
- uHJtkUb31lonlYwE/Qc6QXHUewVioMdA6Rcd0x/a0lEMwRMQLurPdbdAqud7l+USEJ1mOE
- PcH+S/tI/cLspDiwhFbdynOIsxMHvho=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-579-XwFVSay2NkSc5OkO8bsBAw-1; Tue, 18 May 2021 14:37:19 -0400
-X-MC-Unique: XwFVSay2NkSc5OkO8bsBAw-1
-Received: by mail-ed1-f72.google.com with SMTP id
- c15-20020a05640227cfb029038d710bf29cso254752ede.16
- for <qemu-devel@nongnu.org>; Tue, 18 May 2021 11:37:19 -0700 (PDT)
+ bh=Z2KMRus6wjZmSwZp3NDF0wx5q7DfpOUE+gwTHQ1DOIM=;
+ b=c3cU6VJGhkLgljKybVYTAbkFH1v0Hs/r6t9BSZSGGEWJXUkvT62TJOoOivDCSo+hDsTQp0
+ 8iH7ftgdadb4PQTNkiTJUMvPXrmq149prsd0/R7eim37+TAoUIDLjiAXOft4GmdFQXcvqs
+ uZ7CHD4/tagEjw5a8Zyn3bmaCP5CqLc=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-53-PezZF57iM2irKEGWRDb_rQ-1; Tue, 18 May 2021 14:37:24 -0400
+X-MC-Unique: PezZF57iM2irKEGWRDb_rQ-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ x3-20020a50ba830000b029038caed0dd2eso6275246ede.7
+ for <qemu-devel@nongnu.org>; Tue, 18 May 2021 11:37:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=YLH7tC7sd/ju26noenjhTGGhpMc2gBLlxO2UZKdJboA=;
- b=f6oMYTXI/V9e0A/JgjjT3Q9Dh4wuitSvfJhJajeR9bkROk6QaskFbY2Me2ATFMgHV3
- PIRE/OU979zo6nHrKehKWpFrJT9bB5JEjqcXV6VoNffHxSrc0Tv/un6QTl4XayDU60Y+
- 1DCBODGBLS7r+zCA3EHY4e0avuwfPyvozcqys3lO4cwIGrmt+SiB7GDiDo9R6odJ+l9T
- +EHPwYJ2brqrwgApBOSWF+Tpf9LEjeUNhdqMAfo5rdS0PUZf3OeQ+OIZDAtV8dyGjJDX
- 6mKQ6cEyGoooBBTeK6olaqWAjz4qFDt9smjko7IzpRX7x94lNvTquk/P6nrdVVWI54TR
- 7iAQ==
-X-Gm-Message-State: AOAM530dLD5/d/VrU3LKKEU40ROCPJVlcHCFJ96vI35wzrmfuLkbEnIy
- LEe2c3eqDXZ/mO64vvEsjSPtkAKXpDp3hs6l1LvANRArPkfYnww0Q6KuRtU+yzRRyPfBBfaleYC
- ixe9MlLxit9b8E+gX0IOJgrL8YDmPjAzT4aB7Gp+61ewBN7xP5mF1sHtjX3FnvFYa
-X-Received: by 2002:a17:906:2b4b:: with SMTP id
- b11mr7451848ejg.379.1621363038250; 
- Tue, 18 May 2021 11:37:18 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw/LdkZ2ZlBydKFNzHlPnIZ1OrnCGCaOeoOetmr9AHzezUlYe6gVD+JCn2t7ydjlCw8lZOjTg==
-X-Received: by 2002:a17:906:2b4b:: with SMTP id
- b11mr7451825ejg.379.1621363038013; 
- Tue, 18 May 2021 11:37:18 -0700 (PDT)
+ bh=Z2KMRus6wjZmSwZp3NDF0wx5q7DfpOUE+gwTHQ1DOIM=;
+ b=Q5KaKTgvWfIDtqdTpHSZ4w7yIntNv3w+R0pkNfwlTZWjAXQHAVgtvoGMuPbI4WyB0F
+ WQa7T2Nm/jXKEKpCRNoU4bbR1keU3j1+5myq8h5kPISHUhA8Y/W04vJ3KZwUVcqjgtGn
+ olSmcT5kQ7Y0b/te1CvraOM8UasHRW7hdYN2yNtY8s7gWdpNeb2LQ5R4J8W0vhj89VeV
+ aCP5Dufjlr4osurOTAVRUgFGWCKn4vQ/bh6FKaj4B+1Ku9ltXiMjg6H3c7uF3y0eymFe
+ pYy8dOADGGAWJeFYVyjyhE662W681joUm2vk2gIq0JKQxrwW2I+0U8AKwgc2Lm/7ZOGj
+ xWKw==
+X-Gm-Message-State: AOAM532FwWyKPVE+0Y4FKICWvUfgNMfkA//DxQPNS3t4D9IQXQ31SEVG
+ 6SK+ZTAEkozZMCSD7tczci1plsqaI7nYctFkGbTjga130129cTEf7SghM0ZIvisJx/SEG6BnxZO
+ 13UzCjut/dHm4O+qFvfCJdFcLMhCbnQOnoS4Q07Sgg8HOdvYSY2awlhJvuYKBPgEh
+X-Received: by 2002:a17:906:854e:: with SMTP id
+ h14mr1299386ejy.455.1621363043185; 
+ Tue, 18 May 2021 11:37:23 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwH6E+24DKPzpwS7SLv4ZANNH8MZc0+BA9a/2u3GFBr2frPnPRyGx/yU/KhGArKcOTwJ+xhnw==
+X-Received: by 2002:a17:906:854e:: with SMTP id
+ h14mr1299356ejy.455.1621363042942; 
+ Tue, 18 May 2021 11:37:22 -0700 (PDT)
 Received: from x1w.redhat.com (31.red-83-51-215.dynamicip.rima-tde.net.
  [83.51.215.31])
- by smtp.gmail.com with ESMTPSA id g13sm3993451ejr.63.2021.05.18.11.37.17
+ by smtp.gmail.com with ESMTPSA id k13sm4869539ejr.1.2021.05.18.11.37.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 May 2021 11:37:17 -0700 (PDT)
+ Tue, 18 May 2021 11:37:22 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 04/25] exec/memory_ldst_phys: Use correct type sizes
-Date: Tue, 18 May 2021 20:36:34 +0200
-Message-Id: <20210518183655.1711377-5-philmd@redhat.com>
+Subject: [RFC PATCH 05/25] exec/memory_ldst_cached: Use correct type size
+Date: Tue, 18 May 2021 20:36:35 +0200
+Message-Id: <20210518183655.1711377-6-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210518183655.1711377-1-philmd@redhat.com>
 References: <20210518183655.1711377-1-philmd@redhat.com>
@@ -105,82 +105,35 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use uint8_t for (unsigned) byte, and uint16_t for (unsigned)
-16-bit word.
+Use uint16_t for (unsigned) 16-bit word.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- include/exec/memory_ldst_phys.h.inc | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+ include/exec/memory_ldst_cached.h.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/include/exec/memory_ldst_phys.h.inc b/include/exec/memory_ldst_phys.h.inc
-index 4033795add7..ecd678610d1 100644
---- a/include/exec/memory_ldst_phys.h.inc
-+++ b/include/exec/memory_ldst_phys.h.inc
-@@ -20,7 +20,7 @@
-  */
+diff --git a/include/exec/memory_ldst_cached.h.inc b/include/exec/memory_ldst_cached.h.inc
+index c33449d0cd5..d7834f852c4 100644
+--- a/include/exec/memory_ldst_cached.h.inc
++++ b/include/exec/memory_ldst_cached.h.inc
+@@ -24,7 +24,7 @@
+ #define LD_P(size) \
+     glue(glue(ld, size), glue(ENDIANNESS, _p))
  
- #ifdef TARGET_ENDIANNESS
--static inline uint32_t glue(lduw_phys, SUFFIX)(ARG1_DECL, hwaddr addr)
-+static inline uint16_t glue(lduw_phys, SUFFIX)(ARG1_DECL, hwaddr addr)
+-static inline uint32_t ADDRESS_SPACE_LD_CACHED(uw)(MemoryRegionCache *cache,
++static inline uint16_t ADDRESS_SPACE_LD_CACHED(uw)(MemoryRegionCache *cache,
+     hwaddr addr, MemTxAttrs attrs, MemTxResult *result)
  {
-     return glue(address_space_lduw, SUFFIX)(ARG1, addr,
-                                             MEMTXATTRS_UNSPECIFIED, NULL);
-@@ -38,7 +38,7 @@ static inline uint64_t glue(ldq_phys, SUFFIX)(ARG1_DECL, hwaddr addr)
-                                            MEMTXATTRS_UNSPECIFIED, NULL);
- }
+     assert(addr < cache->len && 2 <= cache->len - addr);
+@@ -72,7 +72,7 @@ static inline uint64_t ADDRESS_SPACE_LD_CACHED(q)(MemoryRegionCache *cache,
+     glue(glue(st, size), glue(ENDIANNESS, _p))
  
--static inline void glue(stw_phys, SUFFIX)(ARG1_DECL, hwaddr addr, uint32_t val)
-+static inline void glue(stw_phys, SUFFIX)(ARG1_DECL, hwaddr addr, uint16_t val)
+ static inline void ADDRESS_SPACE_ST_CACHED(w)(MemoryRegionCache *cache,
+-    hwaddr addr, uint32_t val, MemTxAttrs attrs, MemTxResult *result)
++    hwaddr addr, uint16_t val, MemTxAttrs attrs, MemTxResult *result)
  {
-     glue(address_space_stw, SUFFIX)(ARG1, addr, val,
-                                     MEMTXATTRS_UNSPECIFIED, NULL);
-@@ -56,19 +56,19 @@ static inline void glue(stq_phys, SUFFIX)(ARG1_DECL, hwaddr addr, uint64_t val)
-                                     MEMTXATTRS_UNSPECIFIED, NULL);
- }
- #else
--static inline uint32_t glue(ldub_phys, SUFFIX)(ARG1_DECL, hwaddr addr)
-+static inline uint8_t glue(ldub_phys, SUFFIX)(ARG1_DECL, hwaddr addr)
- {
-     return glue(address_space_ldub, SUFFIX)(ARG1, addr,
-                                             MEMTXATTRS_UNSPECIFIED, NULL);
- }
- 
--static inline uint32_t glue(lduw_le_phys, SUFFIX)(ARG1_DECL, hwaddr addr)
-+static inline uint16_t glue(lduw_le_phys, SUFFIX)(ARG1_DECL, hwaddr addr)
- {
-     return glue(address_space_lduw_le, SUFFIX)(ARG1, addr,
-                                                MEMTXATTRS_UNSPECIFIED, NULL);
- }
- 
--static inline uint32_t glue(lduw_be_phys, SUFFIX)(ARG1_DECL, hwaddr addr)
-+static inline uint16_t glue(lduw_be_phys, SUFFIX)(ARG1_DECL, hwaddr addr)
- {
-     return glue(address_space_lduw_be, SUFFIX)(ARG1, addr,
-                                                MEMTXATTRS_UNSPECIFIED, NULL);
-@@ -98,19 +98,19 @@ static inline uint64_t glue(ldq_be_phys, SUFFIX)(ARG1_DECL, hwaddr addr)
-                                               MEMTXATTRS_UNSPECIFIED, NULL);
- }
- 
--static inline void glue(stb_phys, SUFFIX)(ARG1_DECL, hwaddr addr, uint32_t val)
-+static inline void glue(stb_phys, SUFFIX)(ARG1_DECL, hwaddr addr, uint8_t val)
- {
-     glue(address_space_stb, SUFFIX)(ARG1, addr, val,
-                                     MEMTXATTRS_UNSPECIFIED, NULL);
- }
- 
--static inline void glue(stw_le_phys, SUFFIX)(ARG1_DECL, hwaddr addr, uint32_t val)
-+static inline void glue(stw_le_phys, SUFFIX)(ARG1_DECL, hwaddr addr, uint16_t val)
- {
-     glue(address_space_stw_le, SUFFIX)(ARG1, addr, val,
-                                        MEMTXATTRS_UNSPECIFIED, NULL);
- }
- 
--static inline void glue(stw_be_phys, SUFFIX)(ARG1_DECL, hwaddr addr, uint32_t val)
-+static inline void glue(stw_be_phys, SUFFIX)(ARG1_DECL, hwaddr addr, uint16_t val)
- {
-     glue(address_space_stw_be, SUFFIX)(ARG1, addr, val,
-                                        MEMTXATTRS_UNSPECIFIED, NULL);
+     assert(addr < cache->len && 2 <= cache->len - addr);
+     if (likely(cache->ptr)) {
 -- 
 2.26.3
 
