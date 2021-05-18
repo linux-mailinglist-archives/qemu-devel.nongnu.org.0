@@ -2,59 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95E7C387A43
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 15:43:42 +0200 (CEST)
-Received: from localhost ([::1]:34714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C87F5387A4F
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 15:44:18 +0200 (CEST)
+Received: from localhost ([::1]:36398 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lj00b-0001ch-IJ
-	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 09:43:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47846)
+	id 1lj01B-0003CM-RE
+	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 09:44:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57722)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <thomas.parrott@canonical.com>)
- id 1liyrJ-0008CZ-6e
- for qemu-devel@nongnu.org; Tue, 18 May 2021 08:30:01 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:33621)
+ id 1lizT0-0001Ix-KD
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 09:09:00 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:34551)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_CBC_SHA1:128)
  (Exim 4.90_1) (envelope-from <thomas.parrott@canonical.com>)
- id 1liyrH-0006L3-AX
- for qemu-devel@nongnu.org; Tue, 18 May 2021 08:30:00 -0400
-Received: from mail-lj1-f197.google.com ([209.85.208.197])
+ id 1lizSu-0003oY-So
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 09:08:58 -0400
+Received: from mail-lf1-f71.google.com ([209.85.167.71])
  by youngberry.canonical.com with esmtps (TLS1.2) tls
  TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.93)
- (envelope-from <thomas.parrott@canonical.com>) id 1liyrF-0002EU-KH
- for qemu-devel@nongnu.org; Tue, 18 May 2021 12:29:57 +0000
-Received: by mail-lj1-f197.google.com with SMTP id
- b44-20020a05651c0b2cb02900ec3242ba00so4417798ljr.17
- for <qemu-devel@nongnu.org>; Tue, 18 May 2021 05:29:57 -0700 (PDT)
+ (envelope-from <thomas.parrott@canonical.com>) id 1lizSr-0004ng-FV
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 13:08:49 +0000
+Received: by mail-lf1-f71.google.com with SMTP id
+ o4-20020a0565120524b02901fc3210717eso2022626lfc.19
+ for <qemu-devel@nongnu.org>; Tue, 18 May 2021 06:08:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=41YalBJtRN8YgtpGQFFv7sgbPItohF8blq2XDv0xCN4=;
- b=CVt8OM0rSpYfgEId5EGgL/g7j+B64fgJeN3Y4kSKOaxWS9cNxIUVdKNBsxgzBv9TfF
- ZcCRtiyqGli7mZTHNGAYzgiCgBu+jOdl32cPlPOOBiJKE3GtOWuIcFOrS+iKEacrWFKA
- PgttdRMmMd+QVdndvj4j/dHRvbg4TtEH2gPr3+soDiVUclaxfQskYwb0XBZsDmMEI25z
- URw4NLkGO4UgEp2o9FLKJ09IQxqcnpAE5sAVWxHP341X8oGVZ8KDpBrfGgMLLJlX5CxE
- MFVI+NPt6mc0psKjn9ccmA8w5/G4qSbV10PtagH9v0fzS6ATUZv0hZuyj9e+pleCtOo9
- f6ZA==
-X-Gm-Message-State: AOAM530AcLfRMPT2HcGT3YbZm7GXr82G01KAbySsHqZ9Ee9fkfTw2LDD
- BU+STnreS1R9ddUgufFYZL2F63oqPtnU5jWe66tqeB3J3zRBvHL4tbqO/zpX6uozHGHpYiokW9F
- l/WhTjsT2wCOOWi552LiVc3i4ev6Ge+K/FkSw2hKapyi8/eVm
-X-Received: by 2002:a19:4085:: with SMTP id n127mr4212582lfa.415.1621340997142; 
- Tue, 18 May 2021 05:29:57 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwvrzfbxHIWKXFTk6zLir9oHZmXZDXUFUf/+wd3jTfVR+K4JbLIYnVK1mcFxDmRAmfn3/WNM5WDBlzrFJRgayI=
-X-Received: by 2002:a19:4085:: with SMTP id n127mr4212570lfa.415.1621340996961; 
- Tue, 18 May 2021 05:29:56 -0700 (PDT)
+ bh=pj3S4cKd9IOxRDJc3Ixq6IKWxGcPDR1iGsO69Dn8nQk=;
+ b=tEDFhbcBIRusvfJ0qa+06IdsyEC7zqc5NeBPeBEci0Yx2yVe/rbO2xPZNnv2n+8rSw
+ tLWTVhvAJ9IBiQJ13YBMKmE0bfR6MZqQ6NYIovCwdPzDZ7DlwaqrDXVlAOLqtvftsQ6a
+ ArjrQybsUZmSQpR/KobCTo4XacAo68Kl2DPb/peS8WrXkHbVyIADvqnCbO9WeHIZvtVG
+ 5lTL1E+hOrjuKt+5ypFSm6ULGSqEoTI27beHq0ujPeGzM0qd+xQnYCyE6rK8uar64rN8
+ 3niD1aj5x8gNcbRXZ8Mr+R+bl1Li5JOum4p64WGqiqqo05XN+4sS7K5wVuu+hUBBJZe0
+ 7Olg==
+X-Gm-Message-State: AOAM5317CAxJGKgO1EsGztC1cc1WhxFnGEkkhVt1eZVEJKhWHRateCmr
+ 5Fr7w3N8XTUeHq4Lvne4/vWYv5+/grrVoq4G2NMq6ZzxvjABWYOmUGkNMlbKCRNvp64Fn6M38oB
+ RqW5q2yN4A5P/QNGO71y0mxPJiYV0qZlaDBNE4gAkvEeuFYUs
+X-Received: by 2002:ac2:4f8b:: with SMTP id z11mr4031104lfs.482.1621343328966; 
+ Tue, 18 May 2021 06:08:48 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJypEV2DIeUtVj+ntj82x9M5CDpaY44qo110NhTwdxVCOfYHYSb+wI+6pzT948p5jk9YR+SPGL9+1eZi/AqXaME=
+X-Received: by 2002:ac2:4f8b:: with SMTP id z11mr4031081lfs.482.1621343328698; 
+ Tue, 18 May 2021 06:08:48 -0700 (PDT)
 MIME-Version: 1.0
-References: <CADNu6esr-fzfP8pug+Rfv+yJrEjDJaGy3EO+O-oLb_nMm7qLDg@mail.gmail.com>
-In-Reply-To: <CADNu6esr-fzfP8pug+Rfv+yJrEjDJaGy3EO+O-oLb_nMm7qLDg@mail.gmail.com>
+References: <CADNu6esx69UdccUHsFfinqcN=dPj0mceKX7WT755qWcPfDrwGQ@mail.gmail.com>
+ <CADNu6esNHqEPzpROiRu+PEFGZJhi3Sgs=duEqjAz53FJv-UMCQ@mail.gmail.com>
+ <848d4c41-6c05-2877-fae1-83a9d3a5082d@redhat.com>
+In-Reply-To: <848d4c41-6c05-2877-fae1-83a9d3a5082d@redhat.com>
 From: Thomas Parrott <thomas.parrott@canonical.com>
-Date: Tue, 18 May 2021 13:29:30 +0100
-Message-ID: <CADNu6ev6XQc1YoUfRx2y=odGVBykOLSAOfVbcPVKX_3HG4Rk9A@mail.gmail.com>
-Subject: Re: Adding pcie-root-port devices via QMP apparently isn't possible
-To: qemu-devel@nongnu.org
-Content-Type: multipart/alternative; boundary="0000000000002f248405c299de9e"
+Date: Tue, 18 May 2021 14:08:22 +0100
+Message-ID: <CADNu6esiDF15mzbCWR0boHX1C+C2tzGC04MVwbra0W8DZR6QTg@mail.gmail.com>
+Subject: Re: Fwd: Adding devices via QMP's device_add don't have their
+ bootindex setting respected
+To: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?St=C3=A9phane_Graber?= <stgraber@stgraber.org>
+Content-Type: multipart/alternative; boundary="0000000000002a9f2705c29a69fc"
 Received-SPF: none client-ip=91.189.89.112;
  envelope-from=thomas.parrott@canonical.com; helo=youngberry.canonical.com
 X-Spam_score_int: -68
@@ -76,99 +80,156 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcel@redhat.com, jusual@redhat.com
+Cc: Julia Suvorova <jusual@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000002f248405c299de9e
+--0000000000002a9f2705c29a69fc
 Content-Type: text/plain; charset="UTF-8"
 
-I meant to also add that it has been suggested we could discuss this
-further on one of the forthcoming weekly community calls.
+Thanks Paolo for confirming that `-readconfig` isn't planned for removal
+and that its just `-writeconfig` that is being deprecated, and that
+non-hotplug device add via QMP is planned for development in the future.
+
+We've had some reports from the Arch community that LXD on QEMU 6.0 is
+broken, and had understood that config file support was being removed,
+which is why we were focussing on switching to QMP.
+
+We'll get some more details on what isn't working with LXD and QEMU 6.0
+shortly.
 
 Thanks
 Tom
 
-On Tue, 18 May 2021 at 13:28, Thomas Parrott <thomas.parrott@canonical.com>
-wrote:
+On Tue, 18 May 2021 at 13:55, Paolo Bonzini <pbonzini@redhat.com> wrote:
 
-> Due to QEMU moving towards a QMP configuration mechanism and away from
-> config file support, the LXD team are currently in the process of migrating
-> to using QMP to add devices to VMs (so that we can support the use of QEMU
-> 6.0).
+> On 18/05/21 14:22, Thomas Parrott wrote:
+> > Due to QEMU moving towards a QMP configuration mechanism and away from
+> > config file support, the LXD team are currently in the process of
+> > migrating to using QMP to add devices to VMs (so that we can support the
+> > use of QEMU 6.0).
 >
-> Currently we are using the `-S` flag to freeze CPU at startup, then using
-> QMP to add NIC devices via the `device_add` command, and then using the
-> `cont` command to start the VM guest.
+> If the only issue you have is with -spice, that's just a bug that we
+> need to fix.  -readconfig is still supposed to work, even though
+> -writeconfig is deprecated and I'd like to remove it as soon as 6.1.
 >
-> However we have found that it is apparently not possible to add a
-> pcie-root-port device via QMP.
+> In particular, the issue you reported below is not a bug.  Devices that
+> are added after startup are considered hotplugged, and the boot index
+> list is frozen until the next reset.  QMP-based configuration of
+> coldplugged devices is in the works, but unfortunately it is not yet ready.
 >
-> Initially we tried using something like:
+> Paolo
 >
-> device_add
-> {"id":"qemu_pcie5","driver":"pcie-root-port","bus":"pcie.0","addr":"1.5","chassis":5,"multifunction":"on"}
->
-> Which was a straight conversion from the current config file we use.
->
-> However this gave the error:
->
-> Error: Bus 'pcie.0' does not support hotplugging
->
-> Then I found the `--preconfig` flag which sounded interesting, so we
-> removed the use of `-daemonize` which prevents the use of --preconfig` and
-> then tried adding the pcie-root-port devices in the preconfig stage.
->
-> But this resulted in the error:
->
-> The command 'device_add' isn't permitted in 'preconfig' state
->
-> So we wondered is this a bug, or if not, what is the correct way to be
-> adding pcie-root-ports going forward?
->
-> Thanks
-> Tom Parrott
->
+> > Currently we are using the `-S` flag to freeze CPU at startup, then
+> > using QMP to add NIC devices via the `device_add` command, and then
+> > using the `cont` command to start the VM guest.
+> >
+> > This is working mostly fine, but there is one issue; the provided
+> > "bootindex" property is not respected.
+> >
+> > E.g.
+> >
+> > device_add
+> >
+> {"addr":"00.0","bootindex":"0","bus":"qemu_pcie4","driver":"virtio-net-pci","id":"dev-lxd_eth0","mac":"00:16:3e:0c:69:e7","mq":"on","multifunction":"off","netdev":"lxd_eth0","vectors":"6"}
+> >
+> > The device is seen within the VM guest and the VM BIOS, but its boot
+> > order is last rather than first.
+> >
+> > We've also tried using a non-zero bootindex of 1 and that has the same
+> > effect.
+> >
+> > After discussions on #qemu IRC channel, we found that running
+> > `system_reset` after adding the devices allowed the `bootindex` property
+> > to be respected.
+> >
+> > So this looks like bug. Perhaps we can discuss it in one of the
+> > forthcoming community calls?
+> >
+> > Thanks
+> > Tom Parrott
 >
 >
 
---0000000000002f248405c299de9e
+--0000000000002a9f2705c29a69fc
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div>I meant to also add that it has been suggested we cou=
-ld discuss this further on one of the forthcoming weekly community calls.</=
-div><div><br></div><div>Thanks</div><div>Tom<br></div></div><br><div class=
-=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, 18 May 2021 =
-at 13:28, Thomas Parrott &lt;<a href=3D"mailto:thomas.parrott@canonical.com=
-">thomas.parrott@canonical.com</a>&gt; wrote:<br></div><blockquote class=3D=
-"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(2=
-04,204,204);padding-left:1ex"><div dir=3D"ltr"><div>Due to QEMU moving towa=
-rds a QMP configuration mechanism and away=20
-from config file support, the LXD team are currently in the process of=20
-migrating to using QMP to add devices to VMs (so that we can support the
- use of QEMU 6.0).</div><div><br></div><div>Currently we are using the=20
-`-S` flag to freeze CPU at startup, then using QMP to add NIC devices=20
-via the `device_add` command, and then using the `cont` command to start
- the VM guest.<br></div><div><br></div><div>However we have found that it i=
-s apparently not possible to add a pcie-root-port device via QMP.</div><div=
-><br></div><div>Initially we tried using something like:</div><div><br></di=
-v><div>device_add {&quot;id&quot;:&quot;qemu_pcie5&quot;,&quot;driver&quot;=
-:&quot;pcie-root-port&quot;,&quot;bus&quot;:&quot;pcie.0&quot;,&quot;addr&q=
-uot;:&quot;1.5&quot;,&quot;chassis&quot;:5,&quot;multifunction&quot;:&quot;=
-on&quot;}</div><div><br></div><div>Which was a straight conversion from the=
- current config file we use.</div><div><br></div><div>However this gave the=
- error:</div><div><br></div><div>Error: Bus &#39;pcie.0&#39; does not suppo=
-rt hotplugging</div><div><br></div><div>Then I found the `--preconfig` flag=
- which sounded interesting, so we removed the use of `-daemonize` which pre=
-vents the use of --preconfig` and then tried adding the pcie-root-port devi=
-ces in the preconfig stage.</div><div><br></div><div>But this resulted in t=
-he error:</div><div><br></div><div>The command &#39;device_add&#39; isn&#39=
-;t permitted in &#39;preconfig&#39; state</div><div><br></div><div>So we wo=
-ndered is this a bug, or if not, what is the correct way to be adding pcie-=
-root-ports going forward?</div><div><br></div><div>Thanks</div><div>Tom Par=
-rott<br></div><div><br></div><div><br></div></div>
+<div dir=3D"ltr"><div>Thanks Paolo for confirming that `-readconfig` isn&#3=
+9;t planned for removal and that its just `-writeconfig` that is being depr=
+ecated, and that non-hotplug device add via QMP is planned for development =
+in the future.<br></div><div><br></div><div>We&#39;ve had some reports from=
+ the Arch community that LXD on QEMU 6.0 is broken, and had understood that=
+ config file support was being removed, which is why we were focussing on s=
+witching to QMP.<br></div><div><br></div><div>We&#39;ll get some more detai=
+ls on what isn&#39;t working with LXD and QEMU 6.0 shortly.</div><div><br><=
+/div><div>Thanks</div><div>Tom<br></div></div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, 18 May 2021 at 13:55, Paolo=
+ Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com">pbonzini@redhat.com</a>=
+&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
+0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On 1=
+8/05/21 14:22, Thomas Parrott wrote:<br>
+&gt; Due to QEMU moving towards a QMP configuration mechanism and away from=
+ <br>
+&gt; config file support, the LXD team are currently in the process of <br>
+&gt; migrating to using QMP to add devices to VMs (so that we can support t=
+he <br>
+&gt; use of QEMU 6.0).<br>
+<br>
+If the only issue you have is with -spice, that&#39;s just a bug that we <b=
+r>
+need to fix.=C2=A0 -readconfig is still supposed to work, even though <br>
+-writeconfig is deprecated and I&#39;d like to remove it as soon as 6.1.<br=
+>
+<br>
+In particular, the issue you reported below is not a bug.=C2=A0 Devices tha=
+t <br>
+are added after startup are considered hotplugged, and the boot index <br>
+list is frozen until the next reset.=C2=A0 QMP-based configuration of <br>
+coldplugged devices is in the works, but unfortunately it is not yet ready.=
+<br>
+<br>
+Paolo<br>
+<br>
+&gt; Currently we are using the `-S` flag to freeze CPU at startup, then <b=
+r>
+&gt; using QMP to add NIC devices via the `device_add` command, and then <b=
+r>
+&gt; using the `cont` command to start the VM guest.<br>
+&gt; <br>
+&gt; This is working mostly fine, but there is one issue; the provided <br>
+&gt; &quot;bootindex&quot; property is not respected.<br>
+&gt; <br>
+&gt; E.g.<br>
+&gt; <br>
+&gt; device_add <br>
+&gt; {&quot;addr&quot;:&quot;00.0&quot;,&quot;bootindex&quot;:&quot;0&quot;=
+,&quot;bus&quot;:&quot;qemu_pcie4&quot;,&quot;driver&quot;:&quot;virtio-net=
+-pci&quot;,&quot;id&quot;:&quot;dev-lxd_eth0&quot;,&quot;mac&quot;:&quot;00=
+:16:3e:0c:69:e7&quot;,&quot;mq&quot;:&quot;on&quot;,&quot;multifunction&quo=
+t;:&quot;off&quot;,&quot;netdev&quot;:&quot;lxd_eth0&quot;,&quot;vectors&qu=
+ot;:&quot;6&quot;}<br>
+&gt; <br>
+&gt; The device is seen within the VM guest and the VM BIOS, but its boot <=
+br>
+&gt; order is last rather than first.<br>
+&gt; <br>
+&gt; We&#39;ve also tried using a non-zero bootindex of 1 and that has the =
+same <br>
+&gt; effect.<br>
+&gt; <br>
+&gt; After discussions on #qemu IRC channel, we found that running <br>
+&gt; `system_reset` after adding the devices allowed the `bootindex` proper=
+ty <br>
+&gt; to be respected.<br>
+&gt; <br>
+&gt; So this looks like bug. Perhaps we can discuss it in one of the <br>
+&gt; forthcoming community calls?<br>
+&gt; <br>
+&gt; Thanks<br>
+&gt; Tom Parrott<br>
+<br>
 </blockquote></div>
 
---0000000000002f248405c299de9e--
+--0000000000002a9f2705c29a69fc--
 
