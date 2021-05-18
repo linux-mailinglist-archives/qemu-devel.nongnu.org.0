@@ -2,73 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBB1F387AA6
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 16:06:28 +0200 (CEST)
-Received: from localhost ([::1]:51118 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CEA1387AC2
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 16:10:54 +0200 (CEST)
+Received: from localhost ([::1]:57584 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lj0Md-00007G-OL
-	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 10:06:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43174)
+	id 1lj0Qt-0004Yz-Ag
+	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 10:10:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44306)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lj0LT-0007Sp-RK
- for qemu-devel@nongnu.org; Tue, 18 May 2021 10:05:15 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:35472)
+ id 1lj0PD-0003Rv-7q
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 10:09:07 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:43631)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lj0LR-0004pw-MZ
- for qemu-devel@nongnu.org; Tue, 18 May 2021 10:05:15 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id a4so10419433wrr.2
- for <qemu-devel@nongnu.org>; Tue, 18 May 2021 07:05:13 -0700 (PDT)
+ id 1lj0PB-0007Nf-LG
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 10:09:06 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id p7so6662489wru.10
+ for <qemu-devel@nongnu.org>; Tue, 18 May 2021 07:09:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=vVkM021sA5EyshKtj7oKsd9vyKk4G8AphL19O80/EZI=;
- b=eR8CkmijlMjYu/wPkZ4IBhvYoRxTzvQkUIkyDLVaWBQGJ54DSWC+7aAfZw4rvSnpgi
- rnsRoQdDuY/wU/p6P1DZXMX4cHS9O06bQxTd0AcbqGmftN7M9YksDIUo+dypojHDyitd
- ajPtuVlM6QWmzCxD6Wrb7tc+ZJFPM1W7wVIiorz8zcxdI4mSIMObSpvKmRfb/7vbu+u7
- wz2g1+pSpwXY3BoWeG/UMwYnVFgvYnQYr1bgqoS/8rY1aq7XewHjPRh/JLIKs3PcnyEZ
- woK1m9w+WfXcHBfkWfBAwH2l2LU7nn56Bvhi3wg02eOW28ZvOjuG+2CvgiySytArYByu
- XtQA==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=PcR7/YFoVEAW3KXaSgVxAKjpvFQVGHErY729FLY+4X0=;
+ b=Y2FMoYAZKtUNcivtTc71NPh9OX5QCYwBpNxswQJRPElpdIjb0d6ioDGwS4xMX1/0ve
+ 0+BziGw3j3a5A3nHVOENZxMdj/rZZL/dNS3oAwqEVIicr0hB4xcwm13/uy81lwCTmoct
+ JpiwWESvwmXG8MjjwJ9dLPGFnce/8UkpLKVEOZEK9nfRXS/kjRje/XmkGJHmwbdCVEV2
+ yi36Mn6RL0jMRRrzok8cVanO/HyCNL59XNWATa4nBw0NNc7FZUPIskiiInxlBXDrZeBr
+ gsfEfEgGRRiGKxo72JGCxesqXCaHUccbjEo8519Wo5OGWzr25HSRTuFF1iuc49L35c+B
+ jNWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=vVkM021sA5EyshKtj7oKsd9vyKk4G8AphL19O80/EZI=;
- b=nzxfpOLztXr8i1IRHKgq10w91hDMfSs//omAkNkrK6rM9Z/GQXX89qd5V/S0B7p8uk
- Ns0Tbh4yPefIKhdXNcr3RSKoNC1VtPunFHSG9aFy+TrKyDvEKAMJ+gpccszwj3UnAfvD
- Ohiytk6gKH6cBp1B0dM015Xs6RaKGp2tFCuU1Z3z2CdPwh30QfDlm2RDWIyEVpJ28ABf
- +1+ICPFmwS9W3+43w8cop6i58gxbkTOMOwECnVJs8gK3ejTG0OfBKjJ32zEerHdxYq4j
- zFrWQbreYc1yVs9pvPQVyD/mG7TuOM5DcZqYCqW3i6JDG12XlmQNHbx8M7f42Zncji+d
- UFlA==
-X-Gm-Message-State: AOAM533V8lp/t5gpHGQSFyfztxgXHzztixug3xXNOqRoqfpyJVmtCVfP
- NeTsCs0POCF37/3wl1Gg81a13Q==
-X-Google-Smtp-Source: ABdhPJx8ObeNlG8NSh52ftxK/EKZvFXyW48a/q/DKjmCSBpJwzffUbn5hF6pwSWHKG7/FSwUsk2+Cg==
-X-Received: by 2002:adf:e40b:: with SMTP id g11mr7248293wrm.174.1621346711908; 
- Tue, 18 May 2021 07:05:11 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=PcR7/YFoVEAW3KXaSgVxAKjpvFQVGHErY729FLY+4X0=;
+ b=e80VYQrY0aTL0UWDoBJHE/IMSviNCM2djxcZRyjern2gArYDoJLcpB1VC0RhOkrwaA
+ p+pREYQrKubRcro4HSGvOOBPmYR5cu3+9c8WtOopry87qVX50/6H9hmiU24429gQKi6Q
+ /aV+/t52pZ5wDALRY5n9P1s/4SJzKz1oGJmDyM0BnGd8/DULVQOEufQmr8y8ZNvl4cnP
+ 1sH4yThysT8hbYHN1en7SDJYF8HJ5cq0b9Yj2P16NfLh0N/7JP/uYSLhbYHUWMx2UE3s
+ hdf2aiS1JHSkpEzzDttt91cUNWfIuA6/k75zdh/RSECaAVr+cStoEyvXehKEn+qgUqVk
+ maxg==
+X-Gm-Message-State: AOAM531UEobCcDyO1DXH4kt3RkA+TWinmmsU7ppRkWDdQ1M2Qd9+HUR/
+ QedGPCVwDtSIAklFj62hyigKrQ==
+X-Google-Smtp-Source: ABdhPJw/LgZvX+hsxQL4z9KPARaFIFQsHXxnSz7ypSnSF79GCV6W8JAnSaUkWLOZhtwbrwMDcsltlw==
+X-Received: by 2002:adf:f884:: with SMTP id u4mr3312348wrp.266.1621346943776; 
+ Tue, 18 May 2021 07:09:03 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id u14sm1839267wmc.41.2021.05.18.07.05.10
+ by smtp.gmail.com with ESMTPSA id p6sm6198715wma.4.2021.05.18.07.09.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 May 2021 07:05:10 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 387C11FF7E;
- Tue, 18 May 2021 15:05:10 +0100 (BST)
-References: <466cf154-cabf-2e8f-021f-a82cf7b88b31@suse.de>
- <20be5f7e-f475-4f3c-0fca-fff1750c08fe@suse.de>
-User-agent: mu4e 1.5.13; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Claudio Fontana <cfontana@suse.de>
-Subject: Re: latest GOOD state of series i386 cleanup, arm cleanup, s390
- cleanup
-Date: Tue, 18 May 2021 15:02:48 +0100
-In-reply-to: <20be5f7e-f475-4f3c-0fca-fff1750c08fe@suse.de>
-Message-ID: <87tun0cf3d.fsf@linaro.org>
+ Tue, 18 May 2021 07:09:02 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 1ED591FF7E;
+ Tue, 18 May 2021 15:09:02 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [RFC PATCH] hmp-commands: expand type of icount to "l" in replay
+ commands
+Date: Tue, 18 May 2021 15:08:55 +0100
+Message-Id: <20210518140855.27026-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42e.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,84 +85,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Liang Yan <lyan@suse.com>, Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>,
- Philippe =?utf-8?Q?M?= =?utf-8?Q?athieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Al Cho <ACho@suse.com>
+Cc: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This is not a 32 bit number, it can (and most likely will) be quite a
+big one.
 
-Claudio Fontana <cfontana@suse.de> writes:
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Cc: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
+---
+ hmp-commands.hx | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-> On 5/17/21 11:53 AM, Claudio Fontana wrote:
->> Hello all,
->>=20
->> due to my inactivity for a few weeks coupled likely with the upstream pr=
-ocesses around qemu-6.0 now the series:
->>=20
->> 1) i386 cleanup
->> 2) arm cleanup and experimental kvm-only build
->> 3) s390 cleanup
->>=20
->> have become stale and hard to rebase on latest master.
->> This effect is compounded by the fact that lots of broken tests in
->> master have been added.
+diff --git a/hmp-commands.hx b/hmp-commands.hx
+index 435c591a1c..5ee9cfd520 100644
+--- a/hmp-commands.hx
++++ b/hmp-commands.hx
+@@ -1667,7 +1667,7 @@ ERST
+ 
+     {
+         .name       = "replay_break",
+-        .args_type  = "icount:i",
++        .args_type  = "icount:l",
+         .params     = "icount",
+         .help       = "set breakpoint at the specified instruction count",
+         .cmd        = hmp_replay_break,
+@@ -1699,7 +1699,7 @@ ERST
+ 
+     {
+         .name       = "replay_seek",
+-        .args_type  = "icount:i",
++        .args_type  = "icount:l",
+         .params     = "icount",
+         .help       = "replay execution to the specified instruction count",
+         .cmd        = hmp_replay_seek,
+-- 
+2.20.1
 
-Which tests are these? I know master suffers a bit from occasional
-falling red but to my knowledge everything should be green (at least
-from my last PR anyway ;-).
-
->>=20
->> In the interest of not losing work,
->> I provide here the latest known good state of these series:
->>=20
->> For the i386 cleanup:
->> https://gitlab.com/hw-claudio/qemu/-/pipelines/293603386
->>=20
->> Tests started breaking horribly since about 1/2 weeks.
-
-The pipeline only shows one failed test (checkpatch) which is an
-allowfail I believe. /me is confused.
-
->> The latest version of the cleanup is reachable here:
->>=20
->> https://github.com/qemu/qemu.git branch "i386_cleanup_9"
->>=20
->> In my understanding, Paolo has now picked up this one.
->>=20
->> For the ARM cleanup and experimental kvm-only build:
->>=20
->> https://gitlab.com/hw-claudio/qemu/-/pipelines/293603376
->>=20
->> https://github.com/qemu/qemu.git branch "arm_cleanup_v15"
->>=20
->> Again here tests started misbehaving in the same timeframe.
->>=20
->> The state of ARM cleanup is still experimental, maybe Liang or Philippe =
-you can adopt this one?
->>=20
->> For the s390x cleanup:
->>=20
->> https://gitlab.com/hw-claudio/qemu/-/pipelines/293603379
->>=20
->> https://github.com/qemu/qemu.git branch "s390_cleanup_v1"
->>=20
->> Al, can you take this one to the finish line?
->>=20
->> Thanks,
->>=20
->> Claudio
->>=20
->
-> Adding also Alex Bennee in Cc:
->
-> Thanks,
->
-> Claudio
-
-
---=20
-Alex Benn=C3=A9e
 
