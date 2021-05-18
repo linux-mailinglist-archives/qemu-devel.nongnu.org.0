@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8983238815E
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 22:27:39 +0200 (CEST)
-Received: from localhost ([::1]:46630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6575A388167
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 22:29:42 +0200 (CEST)
+Received: from localhost ([::1]:54040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lj6JV-0008Nw-SI
-	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 16:27:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42986)
+	id 1lj6LV-0005PO-AS
+	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 16:29:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42974)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lj64j-00016H-1W
- for qemu-devel@nongnu.org; Tue, 18 May 2021 16:12:21 -0400
-Received: from mail-ot1-x334.google.com ([2607:f8b0:4864:20::334]:42976)
+ id 1lj64i-00013S-D9
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 16:12:20 -0400
+Received: from mail-ot1-x332.google.com ([2607:f8b0:4864:20::332]:38803)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lj64V-0006L6-UP
+ id 1lj64W-0006LL-3f
  for qemu-devel@nongnu.org; Tue, 18 May 2021 16:12:20 -0400
-Received: by mail-ot1-x334.google.com with SMTP id
- g7-20020a9d12870000b0290328b1342b73so1920367otg.9
- for <qemu-devel@nongnu.org>; Tue, 18 May 2021 13:12:06 -0700 (PDT)
+Received: by mail-ot1-x332.google.com with SMTP id
+ q7-20020a9d57870000b02902a5c2bd8c17so9760636oth.5
+ for <qemu-devel@nongnu.org>; Tue, 18 May 2021 13:12:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=yiIWnhh+AhXMOoA+lyy+GgIYPIOtyeBfLpA90XRjnLE=;
- b=K80mY28bC6nEnwQpmD+7EbZhI+s5JaqvBrFcomZGkioW6CoHtQrB7aFhHPM9wh4g0m
- 1M8lWQaZkb6Yjn9H53rjnoWq/bghIoJEsd9cbXg8vQICn3gyBA+oQXVuNPnyaQU6VX4o
- C2AHhdsL8GowFe/2GP0i87GF9iYWqu9sOCLwqB2VFVj/fcofDYm2bK6AwDwD7Q+i8/5h
- nYFOd5XPLngU6WBAkdXhAhfCSogpyBOpsBJ6o/O0tKZov7hax78Q3NM96IUgGgXJnhgG
- mLtXkQOKBhtwFNA4L/1CptBDpa3drV97RtbBUsGswmscY0bmOHNlL+Mrc6rANj9N3hNl
- qaZA==
+ bh=Ga6+PvszREjIhxPzZ4wKB8ru0YkaJYB0oJlgtxa3ZkM=;
+ b=FqjVjxK7FBBoMkX3/VJQo6F3VfY8kNbunHSSjfnW09eaLRIc3M6PMVNPlaqDghf6k3
+ yexF9+xild93TKPTk0iAdclCGUV9U+A1t+4Sf5SIm0GaDobG07oLThtUyq+dJcm49zPA
+ qlKLMvu11vuwnjPVSkvZs3Ohg1ogWteXkm1+wZUT8QkA+OwRiP14+SXIbwBPS57RcPLE
+ xCpZpH22v4zggjcMejheHQTjN7J8PV0MzwqHDUlyEqGOrW61N1hcMPErxURHHQnLE+aw
+ ql8ZqJLjyVN7W2VbZQfrB9ki3eN5WpogMUdlqwRf+3f+aw0bGPqRndsVHsXd3BFjS+Rt
+ fJ+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=yiIWnhh+AhXMOoA+lyy+GgIYPIOtyeBfLpA90XRjnLE=;
- b=UDxN9Hf+at6CYHsv3zO5HTPyu5hP9oYXK0OcH+JAAfkgi/iLY0TVngUncEf78bqgGS
- 1sTaUbikwnz2yFBRulm7IZ8h87D//17vR9KOEOZq8t45QC10jpn4gW0k6xUrodck0GGi
- Mao7z5J9k13JX79peChnlBnem6+zDp6H422DkSnMlrRORTKatIBWMLV+MH0yVxu5xmjH
- sxSdNJhkCeNQCP5KG7p9jE2b6UeDcSjaTdFtuQmkeoNTGuyFd3X2JSo3QY7TFNQhCvNC
- PFAMU0L4xfYld4BxCBRkJJWmPumAq2TeiUmpRpMNdGM63Vr0kqiYRQOCTjDu9PP7cVGM
- 4gXQ==
-X-Gm-Message-State: AOAM530fWBz+BtMmShmfa/88wL3ZEanxXzXOVoqiJ+dMkcNQCXz5m5Lw
- nc1wjHInLU+5wsvoSNku7KacLab00JmCdVtA
-X-Google-Smtp-Source: ABdhPJxbBeXAt1MSIi7CWyncEhWEs4NaecClaeJGAZISZbMMBqsh6OJFqqQYPIl1IVQShb9LUx93lQ==
-X-Received: by 2002:a9d:5e0a:: with SMTP id d10mr5575127oti.44.1621368726205; 
- Tue, 18 May 2021 13:12:06 -0700 (PDT)
+ bh=Ga6+PvszREjIhxPzZ4wKB8ru0YkaJYB0oJlgtxa3ZkM=;
+ b=s3nMX2AqaGJLIs5ttdarUwrNBqzBfbthjFfHF5vaQ/4sKOjGAcpr+NcSm1G4hbzaGv
+ /QEvCRF0RqBXSLoYHb31bxOl2oSESpBIuS4T4gIMVpoUFpzR21OnhEQpiCLZWRNU9yiA
+ ML8F3Pi7Rr9QME+Av4jCEGo/KEBRPbLtalWHPKD0PYY2zM5i7ZFC/KHlVG76k0y3QxTP
+ 1aUotfic6T/P9s1Q0cqPyZqe/g8XWdQMUBWstrjQ6S/DUpM9UTc8zDzVO81Mg1Vsrlys
+ OCbGyquztIxjqc3CWxMrQdWAAvrKrz9GV6IPjSqrQzTZyuguk9x8zVMcJWy4dK1wjdj4
+ 2Stg==
+X-Gm-Message-State: AOAM530wOlhH1lQt3zKR0aqpOUP5oPXXSGZsZL6S+e/hdnZYRze0Hxge
+ sHk2ojUqnx49SlDYlVBMtybofJpxyJXCpTGM
+X-Google-Smtp-Source: ABdhPJwrg9kK9cZpWXvVgtlJqun6nsWZsGB49fzeUXOSLNF8DB4dG4KrXdKjL7555seEphfnyNG36A==
+X-Received: by 2002:a05:6830:151a:: with SMTP id
+ k26mr5475361otp.10.1621368727162; 
+ Tue, 18 May 2021 13:12:07 -0700 (PDT)
 Received: from localhost.localdomain ([45.235.253.15])
- by smtp.gmail.com with ESMTPSA id u27sm3953204oof.38.2021.05.18.13.12.05
+ by smtp.gmail.com with ESMTPSA id u27sm3953204oof.38.2021.05.18.13.12.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 18 May 2021 13:12:06 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 18/24] target/ppc: Push real-mode handling into
- ppc_radix64_xlate
-Date: Tue, 18 May 2021 15:11:40 -0500
-Message-Id: <20210518201146.794854-19-richard.henderson@linaro.org>
+Subject: [PATCH 19/24] target/ppc: Use bool success for ppc_radix64_xlate
+Date: Tue, 18 May 2021 15:11:41 -0500
+Message-Id: <20210518201146.794854-20-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210518201146.794854-1-richard.henderson@linaro.org>
 References: <20210518201146.794854-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::334;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x334.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::332;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x332.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,128 +89,112 @@ Cc: bruno.larsen@eldorado.org.br, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This removes some incomplete duplication between
-ppc_radix64_handle_mmu_fault and ppc_radix64_get_phys_page_debug.
-The former was correct wrt SPR_HRMOR and the latter was not.
+Instead of returning non-zero for failure, return true for success.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/ppc/mmu-radix64.c | 77 ++++++++++++++++++----------------------
- 1 file changed, 34 insertions(+), 43 deletions(-)
+ target/ppc/mmu-radix64.c | 30 +++++++++++++++---------------
+ 1 file changed, 15 insertions(+), 15 deletions(-)
 
 diff --git a/target/ppc/mmu-radix64.c b/target/ppc/mmu-radix64.c
-index f6d96f73b2..76a5cc8cdb 100644
+index 76a5cc8cdb..7af3e697b2 100644
 --- a/target/ppc/mmu-radix64.c
 +++ b/target/ppc/mmu-radix64.c
-@@ -466,7 +466,6 @@ static int ppc_radix64_process_scoped_xlate(PowerPCCPU *cpu,
+@@ -464,10 +464,10 @@ static int ppc_radix64_process_scoped_xlate(PowerPCCPU *cpu,
+  *              | = On        | Process Scoped |    Scoped     |
+  *              +-------------+----------------+---------------+
   */
- static int ppc_radix64_xlate(PowerPCCPU *cpu, vaddr eaddr,
-                              MMUAccessType access_type,
--                             bool relocation,
-                              hwaddr *raddr, int *psizep, int *protp,
-                              bool guest_visible)
+-static int ppc_radix64_xlate(PowerPCCPU *cpu, vaddr eaddr,
+-                             MMUAccessType access_type,
+-                             hwaddr *raddr, int *psizep, int *protp,
+-                             bool guest_visible)
++static bool ppc_radix64_xlate(PowerPCCPU *cpu, vaddr eaddr,
++                              MMUAccessType access_type,
++                              hwaddr *raddr, int *psizep, int *protp,
++                              bool guest_visible)
  {
-@@ -475,6 +474,37 @@ static int ppc_radix64_xlate(PowerPCCPU *cpu, vaddr eaddr,
-     ppc_v3_pate_t pate;
-     int psize, prot;
-     hwaddr g_raddr;
-+    bool relocation;
-+
-+    assert(!(msr_hv && cpu->vhyp));
-+
-+    relocation = (access_type == MMU_INST_FETCH ? msr_ir : msr_dr);
-+
-+    /* HV or virtual hypervisor Real Mode Access */
-+    if (!relocation && (msr_hv || cpu->vhyp)) {
-+        /* In real mode top 4 effective addr bits (mostly) ignored */
-+        *raddr = eaddr & 0x0FFFFFFFFFFFFFFFULL;
-+
-+        /* In HV mode, add HRMOR if top EA bit is clear */
-+        if (msr_hv || !env->has_hv_mode) {
-+            if (!(eaddr >> 63)) {
-+                *raddr |= env->spr[SPR_HRMOR];
-+           }
-+        }
-+        *protp = PAGE_READ | PAGE_WRITE | PAGE_EXEC;
-+        *psizep = TARGET_PAGE_BITS;
-+        return 0;
-+    }
-+
-+    /*
-+     * Check UPRT (we avoid the check in real mode to deal with
-+     * transitional states during kexec.
-+     */
-+    if (guest_visible && !ppc64_use_proc_tbl(cpu)) {
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "LPCR:UPRT not set in radix mode ! LPCR="
-+                      TARGET_FMT_lx "\n", env->spr[SPR_LPCR]);
-+    }
+     CPUPPCState *env = &cpu->env;
+     uint64_t lpid, pid;
+@@ -493,7 +493,7 @@ static int ppc_radix64_xlate(PowerPCCPU *cpu, vaddr eaddr,
+         }
+         *protp = PAGE_READ | PAGE_WRITE | PAGE_EXEC;
+         *psizep = TARGET_PAGE_BITS;
+-        return 0;
++        return true;
+     }
  
-     /* Virtual Mode Access - get the fully qualified address */
-     if (!ppc_radix64_get_fully_qualified_addr(&cpu->env, eaddr, &lpid, &pid)) {
-@@ -560,43 +590,11 @@ int ppc_radix64_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr,
-                                  MMUAccessType access_type, int mmu_idx)
- {
-     CPUState *cs = CPU(cpu);
--    CPUPPCState *env = &cpu->env;
-     int page_size, prot;
--    bool relocation;
+     /*
+@@ -511,7 +511,7 @@ static int ppc_radix64_xlate(PowerPCCPU *cpu, vaddr eaddr,
+         if (guest_visible) {
+             ppc_radix64_raise_segi(cpu, access_type, eaddr);
+         }
+-        return 1;
++        return false;
+     }
+ 
+     /* Get Process Table */
+@@ -524,13 +524,13 @@ static int ppc_radix64_xlate(PowerPCCPU *cpu, vaddr eaddr,
+             if (guest_visible) {
+                 ppc_radix64_raise_si(cpu, access_type, eaddr, DSISR_NOPTE);
+             }
+-            return 1;
++            return false;
+         }
+         if (!validate_pate(cpu, lpid, &pate)) {
+             if (guest_visible) {
+                 ppc_radix64_raise_si(cpu, access_type, eaddr, DSISR_R_BADCONFIG);
+             }
+-            return 1;
++            return false;
+         }
+     }
+ 
+@@ -550,7 +550,7 @@ static int ppc_radix64_xlate(PowerPCCPU *cpu, vaddr eaddr,
+                                                    pate, &g_raddr, &prot,
+                                                    &psize, guest_visible);
+         if (ret) {
+-            return ret;
++            return false;
+         }
+         *psizep = MIN(*psizep, psize);
+         *protp &= prot;
+@@ -574,7 +574,7 @@ static int ppc_radix64_xlate(PowerPCCPU *cpu, vaddr eaddr,
+                                                      &prot, &psize, false,
+                                                      guest_visible);
+             if (ret) {
+-                return ret;
++                return false;
+             }
+             *psizep = MIN(*psizep, psize);
+             *protp &= prot;
+@@ -583,7 +583,7 @@ static int ppc_radix64_xlate(PowerPCCPU *cpu, vaddr eaddr,
+         }
+     }
+ 
+-    return 0;
++    return true;
+ }
+ 
+ int ppc_radix64_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr,
+@@ -594,8 +594,8 @@ int ppc_radix64_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr,
      hwaddr raddr;
  
--    assert(!(msr_hv && cpu->vhyp));
--
--    relocation = (access_type == MMU_INST_FETCH ? msr_ir : msr_dr);
--    /* HV or virtual hypervisor Real Mode Access */
--    if (!relocation && (msr_hv || cpu->vhyp)) {
--        /* In real mode top 4 effective addr bits (mostly) ignored */
--        raddr = eaddr & 0x0FFFFFFFFFFFFFFFULL;
--
--        /* In HV mode, add HRMOR if top EA bit is clear */
--        if (msr_hv || !env->has_hv_mode) {
--            if (!(eaddr >> 63)) {
--                raddr |= env->spr[SPR_HRMOR];
--           }
--        }
--        tlb_set_page(cs, eaddr & TARGET_PAGE_MASK, raddr & TARGET_PAGE_MASK,
--                     PAGE_READ | PAGE_WRITE | PAGE_EXEC, mmu_idx,
--                     TARGET_PAGE_SIZE);
--        return 0;
--    }
--
--    /*
--     * Check UPRT (we avoid the check in real mode to deal with
--     * transitional states during kexec.
--     */
--    if (!ppc64_use_proc_tbl(cpu)) {
--        qemu_log_mask(LOG_GUEST_ERROR,
--                      "LPCR:UPRT not set in radix mode ! LPCR="
--                      TARGET_FMT_lx "\n", env->spr[SPR_LPCR]);
--    }
--
      /* Translate eaddr to raddr (where raddr is addr qemu needs for access) */
--    if (ppc_radix64_xlate(cpu, eaddr, access_type, relocation, &raddr,
-+    if (ppc_radix64_xlate(cpu, eaddr, access_type, &raddr,
-                           &page_size, &prot, true)) {
+-    if (ppc_radix64_xlate(cpu, eaddr, access_type, &raddr,
+-                          &page_size, &prot, true)) {
++    if (!ppc_radix64_xlate(cpu, eaddr, access_type, &raddr,
++                           &page_size, &prot, true)) {
          return 1;
      }
-@@ -608,18 +606,11 @@ int ppc_radix64_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr,
  
- hwaddr ppc_radix64_get_phys_page_debug(PowerPCCPU *cpu, target_ulong eaddr)
- {
--    CPUPPCState *env = &cpu->env;
+@@ -609,8 +609,8 @@ hwaddr ppc_radix64_get_phys_page_debug(PowerPCCPU *cpu, target_ulong eaddr)
      int psize, prot;
      hwaddr raddr;
  
--    /* Handle Real Mode */
--    if ((msr_dr == 0) && (msr_hv || cpu->vhyp)) {
--        /* In real mode top 4 effective addr bits (mostly) ignored */
--        return eaddr & 0x0FFFFFFFFFFFFFFFULL;
--    }
--
--    if (ppc_radix64_xlate(cpu, eaddr, 0, msr_dr, &raddr, &psize,
--                          &prot, false)) {
-+    if (ppc_radix64_xlate(cpu, eaddr, MMU_DATA_LOAD, &raddr,
-+                          &psize, &prot, false)) {
+-    if (ppc_radix64_xlate(cpu, eaddr, MMU_DATA_LOAD, &raddr,
+-                          &psize, &prot, false)) {
++    if (!ppc_radix64_xlate(cpu, eaddr, MMU_DATA_LOAD, &raddr,
++                           &psize, &prot, false)) {
          return -1;
      }
  
