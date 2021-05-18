@@ -2,93 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADE0C38809D
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 21:40:57 +0200 (CEST)
-Received: from localhost ([::1]:55100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E8943880A7
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 21:42:58 +0200 (CEST)
+Received: from localhost ([::1]:60596 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lj5aF-0003LK-Gc
-	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 15:40:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33780)
+	id 1lj5cH-0007D9-NK
+	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 15:42:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35180)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lj5T9-0001Pl-GP
- for qemu-devel@nongnu.org; Tue, 18 May 2021 15:33:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44378)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lj5Su-0007H3-JQ
- for qemu-devel@nongnu.org; Tue, 18 May 2021 15:33:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621366393;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=6ktb/E9EO0a25OO2SuCF411Xiw3RFQnNg5asaFxGDPs=;
- b=QcvJIWOLxq2hD7/1ox4pUfVDBWoP+b+6EFTDqaHZvfaFozMGvZa+uKuFIsUyqwwvcTrHGT
- 2oMRo7u6jGhpbZVl8tSqyeb+4od96P1YtfoHk+cXPDy7NyV6wDG/Z4BMz6JN6goUr+Irno
- pByfJPxDMH+fqeVAV6LhrV8D0Z7MS14=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-128-vEHBSPsXNqy5wJSKS_EjDQ-1; Tue, 18 May 2021 15:33:12 -0400
-X-MC-Unique: vEHBSPsXNqy5wJSKS_EjDQ-1
-Received: by mail-ed1-f72.google.com with SMTP id
- h16-20020a0564020950b029038cbdae8cbaso6303772edz.6
- for <qemu-devel@nongnu.org>; Tue, 18 May 2021 12:33:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=6ktb/E9EO0a25OO2SuCF411Xiw3RFQnNg5asaFxGDPs=;
- b=YF8RBdJUVYbbO3pX0FYhknJKCZ+kffI3f427gGbb41IUsAMdhQEmp/+F85TZ2BJb0b
- gT8VVzJyBjy1EGIU7N44e1a6rxz7QsXqhHJ6VM740hfKPUGhIRDmCyhHC3r15cUjSZS9
- 9om/Xek5WEbcJ/bA5zTT5yatpMCM4Rrwx2udGtzGUb0imTuibbXL3r808YblzYrMtI3H
- 51ad/pNBBH8rXcef3J8iE+Eh/fZa41096FMRvRWsL53nxYf9VfKJ+MOda9re3emL0764
- O2sfoWA3303at0EHp6CGyNRd/VaRl7+i11UZeyFUvinldEhPpIK7DTciHTz2umjHpnGV
- eVNQ==
-X-Gm-Message-State: AOAM532Iydf2Y93XIxGj2pBhD6KIMdtZHM0jMHvXUGR1D+YfFwkRNZ8z
- qgAMpXCp5AI6tNgcdmdPvEY5jJq1H3N+cOAjMLZ4Ca7A8Nmf/vZb/dXnwQNvJ7/MtJ3tW8ksnba
- iK4LKN1ONLy3WFR1GLooFGcTifODIyIVJuR64lGzeVSaQtCNojlm4pFkTV390uqFW
-X-Received: by 2002:a05:6402:3594:: with SMTP id
- y20mr9038467edc.63.1621366390177; 
- Tue, 18 May 2021 12:33:10 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz8/QIl2FKm7DQLhOXO6Vi6b57VNjydjN0U5MxNslFyu+tmA5cQQkacpvcfjx34/VI+yfvoqw==
-X-Received: by 2002:a05:6402:3594:: with SMTP id
- y20mr9038451edc.63.1621366389957; 
- Tue, 18 May 2021 12:33:09 -0700 (PDT)
-Received: from x1w.redhat.com (31.red-83-51-215.dynamicip.rima-tde.net.
- [83.51.215.31])
- by smtp.gmail.com with ESMTPSA id t2sm11023385edd.58.2021.05.18.12.33.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 May 2021 12:33:09 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org,
-	John Snow <jsnow@redhat.com>
-Subject: [PATCH v5 6/6] hw/block/fdc: Add sysbus_fdc_init_drives() method
-Date: Tue, 18 May 2021 21:32:39 +0200
-Message-Id: <20210518193239.1725624-7-philmd@redhat.com>
-X-Mailer: git-send-email 2.26.3
-In-Reply-To: <20210518193239.1725624-1-philmd@redhat.com>
-References: <20210518193239.1725624-1-philmd@redhat.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lj5aQ-0004x7-LH
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 15:41:02 -0400
+Received: from indium.canonical.com ([91.189.90.7]:55408)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lj5aN-0003Dj-SR
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 15:41:02 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
+ id 1lj5aL-000241-DK
+ for <qemu-devel@nongnu.org>; Tue, 18 May 2021 19:40:57 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 633482E8188
+ for <qemu-devel@nongnu.org>; Tue, 18 May 2021 19:40:57 +0000 (UTC)
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.374,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 18 May 2021 19:34:30 -0000
+From: John Snow <1915539@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+ assignee=jsnow@redhat.com; 
+X-Launchpad-Bug-Tags: fuzzer
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: a1xndr jnsnow
+X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
+X-Launchpad-Bug-Modifier: John Snow (jnsnow)
+References: <161315020574.21876.12537756905714073964.malonedeb@wampee.canonical.com>
+Message-Id: <162136647047.7851.4628323348024750641.malone@gac.canonical.com>
+Subject: [Bug 1915539] Re: Null-ptr dereference on AHCICmdHdr in
+ ahci_pio_transfer
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="5321c3f40fa4d4b847f4e47fb766e7b95ed5036c"; Instance="production"
+X-Launchpad-Hash: b25824284ef9b3c8f612a4b2dde3bf9f1bffb534
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -97,95 +72,137 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Reply-To: Bug 1915539 <1915539@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-FDCtrlSysBus's FDCtrl state is a private field. However it is
-accessed by the public fdctrl_init_sysbus() and sun4m_fdctrl_init()
-methods. To be able to move them out of fdc-sysbus.c, first add
-the sysbus_fdc_init_drives() method and use it in these 2 functions.
+Confirmed. Please migrate to gitlab and assign me.
 
-Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
- include/hw/block/fdc.h |  2 ++
- hw/block/fdc-sysbus.c  | 23 ++++++++++++++++-------
- 2 files changed, 18 insertions(+), 7 deletions(-)
+--js
 
-diff --git a/include/hw/block/fdc.h b/include/hw/block/fdc.h
-index 1ecca7cac7f..52e45c53078 100644
---- a/include/hw/block/fdc.h
-+++ b/include/hw/block/fdc.h
-@@ -3,6 +3,7 @@
- 
- #include "exec/hwaddr.h"
- #include "qapi/qapi-types-block.h"
-+#include "hw/sysbus.h"
- 
- /* fdc.c */
- #define MAX_FD 2
-@@ -10,6 +11,7 @@
- #define TYPE_ISA_FDC "isa-fdc"
- 
- void isa_fdc_init_drives(ISADevice *fdc, DriveInfo **fds);
-+void sysbus_fdc_init_drives(SysBusDevice *dev, DriveInfo **fds);
- void fdctrl_init_sysbus(qemu_irq irq, int dma_chann,
-                         hwaddr mmio_base, DriveInfo **fds);
- void sun4m_fdctrl_init(qemu_irq irq, hwaddr io_base,
-diff --git a/hw/block/fdc-sysbus.c b/hw/block/fdc-sysbus.c
-index c6308f53004..e4105407280 100644
---- a/hw/block/fdc-sysbus.c
-+++ b/hw/block/fdc-sysbus.c
-@@ -94,6 +94,15 @@ static void fdctrl_handle_tc(void *opaque, int irq, int level)
-     trace_fdctrl_tc_pulse(level);
- }
- 
-+void sysbus_fdc_init_drives(SysBusDevice *dev, DriveInfo **fds)
-+{
-+    FDCtrlSysBus *fdc;
-+
-+    fdc = SYSBUS_FDC(dev);
-+
-+    fdctrl_init_drives(&fdc->state.bus, fds);
-+}
-+
- void fdctrl_init_sysbus(qemu_irq irq, int dma_chann,
-                         hwaddr mmio_base, DriveInfo **fds)
- {
-@@ -111,23 +120,23 @@ void fdctrl_init_sysbus(qemu_irq irq, int dma_chann,
-     sysbus_connect_irq(sbd, 0, irq);
-     sysbus_mmio_map(sbd, 0, mmio_base);
- 
--    fdctrl_init_drives(&sys->state.bus, fds);
-+    sysbus_fdc_init_drives(sbd, fds);
- }
- 
- void sun4m_fdctrl_init(qemu_irq irq, hwaddr io_base,
-                        DriveInfo **fds, qemu_irq *fdc_tc)
- {
-     DeviceState *dev;
--    FDCtrlSysBus *sys;
-+    SysBusDevice *sbd;
- 
-     dev = qdev_new("sun-fdtwo");
--    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
--    sys = SYSBUS_FDC(dev);
--    sysbus_connect_irq(SYS_BUS_DEVICE(sys), 0, irq);
--    sysbus_mmio_map(SYS_BUS_DEVICE(sys), 0, io_base);
-+    sbd = SYS_BUS_DEVICE(dev);
-+    sysbus_realize_and_unref(sbd, &error_fatal);
-+    sysbus_connect_irq(sbd, 0, irq);
-+    sysbus_mmio_map(sbd, 0, io_base);
-     *fdc_tc = qdev_get_gpio_in(dev, 0);
- 
--    fdctrl_init_drives(&sys->state.bus, fds);
-+    sysbus_fdc_init_drives(sbd, fds);
- }
- 
- static void sysbus_fdc_common_instance_init(Object *obj)
--- 
-2.26.3
+** Changed in: qemu
+     Assignee: (unassigned) =3D> John Snow (jnsnow)
 
+** Changed in: qemu
+       Status: New =3D> Confirmed
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1915539
+
+Title:
+  Null-ptr dereference on AHCICmdHdr in ahci_pio_transfer
+
+Status in QEMU:
+  Confirmed
+
+Bug description:
+  =3D=3D Reproducer =3D=3D
+
+  cat << EOF | ./qemu-system-i386 -display none \
+  -m 512M -machine q35 -nodefaults \
+  -drive file=3Dnull-co://,if=3Dnone,format=3Draw,id=3Ddisk0 \
+  -device ide-hd,drive=3Ddisk0 -machine accel=3Dqtest -qtest stdio
+  outl 0xcf8 0x8000fa24
+  outl 0xcfc 0xe0000000
+  outl 0xcf8 0x8000fa04
+  outw 0xcfc 0x06
+  write 0x10a 0x1 0x02
+  write 0xe0000398 0x1 0x01
+  write 0x20000 0x1 0x27
+  write 0x20001 0x1 0x80
+  write 0x20002 0x1 0x20
+  write 0x20005 0x1 0x02
+  write 0xe00003b8 0x2 0x0101
+  write 0xe0000004 0x1 0x01
+  write 0x2bb 0x1 0x00
+  write 0x2bf 0x1 0x00
+  write 0x2cf 0x1 0x00
+  write 0x2db 0x1 0x00
+  write 0x2df 0x1 0x00
+  write 0x2ed 0x1 0x00
+  write 0x2ef 0x1 0x00
+  write 0x2fb 0x1 0x00
+  write 0x2ff 0x1 0x00
+  write 0x31f 0x1 0x00
+  write 0x32b 0x1 0x00
+  write 0x32f 0x1 0x00
+  write 0x337 0x1 0x00
+  write 0x33f 0x1 0x00
+  write 0x347 0x1 0x00
+  write 0x357 0x1 0x00
+  write 0x35f 0x1 0x00
+  write 0x36b 0x1 0x00
+  write 0x36f 0x1 0x00
+  write 0x377 0x1 0x00
+  write 0x37f 0x1 0x00
+  write 0x397 0x1 0x00
+  write 0x39f 0x1 0x00
+  write 0x3ab 0x1 0x00
+  write 0x3af 0x1 0x00
+  write 0x3b7 0x1 0x00
+  write 0x3bf 0x1 0x00
+  write 0x3c7 0x1 0x00
+  write 0x3d7 0x1 0x00
+  write 0x3df 0x1 0x00
+  write 0x3eb 0x1 0x00
+  write 0x3ef 0x1 0x00
+  write 0x3f7 0x1 0x00
+  write 0x3ff 0x1 0x00
+  write 0xe0000394 0x1 0x00
+  write 0xe0000398 0x1 0x01
+  EOF
+
+  =3D=3D Stack Trace =3D=3D
+  ../hw/ide/ahci.c:1349:46: runtime error: member access within null pointe=
+r of
+  type 'AHCICmdHdr' (aka 'struct AHCICmdHdr') SUMMARY:
+  UndefinedBehaviorSanitizer: undefined-behavior ../hw/ide/ahci.c:1349:46 in
+  ../hw/ide/ahci.c:1349:46: runtime error: load of null pointer of type
+  'uint16_t' (aka 'unsigned short')
+  SUMMARY: UndefinedBehaviorSanitizer:
+  undefined-behavior ../hw/ide/ahci.c:1349:46 in AddressSanitizer:DEADLYSIG=
+NAL
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+  =3D=3D238806=3D=3DERROR: AddressSanitizer: SEGV on unknown address 0x0000=
+00000000 (pc
+  0x555787d414c9 bp 0x7fffe1bb41a0 sp 0x7fffe1bb3fe0 T0)
+  =3D=3D238806=3D=3DThe signal is caused by a READ memory access.
+  =3D=3D238806=3D=3DHint: address points to the zero page.
+  #0 0x555787d414c9 in ahci_pio_transfer build/../hw/ide/ahci.c:1349:46
+  #1 0x5557886089d6 in ide_transfer_start_norecurse build/../hw/ide/core.c:=
+553:5
+  #2 0x555788638945 in ide_transfer_start build/../hw/ide/core.c:560:9
+  #3 0x555788638945 in ide_sector_read_cb build/../hw/ide/core.c:761:5
+  #4 0x55578860c989 in ide_buffered_readv_cb build/../hw/ide/core.c:656:9
+  #5 0x5557898999d6 in blk_aio_complete build/../block/block-backend.c:1412=
+:9
+  #6 0x555789db8d26 in aio_bh_poll build/../util/async.c:164:13
+  #7 0x555789d80704 in aio_dispatch build/../util/aio-posix.c:381:5
+  #8 0x555789dbd94c in aio_ctx_dispatch build/../util/async.c:306:5
+  #9 0x7f6dcedcfbaa in g_main_context_dispatch (/usr/lib/x86_64-linux-gnu/l=
+ibglib-2.0.so.0+0x51baa)
+  #10 0x555789dc3763 in glib_pollfds_poll build/../util/main-loop.c:232:9
+  #11 0x555789dc3763 in os_host_main_loop_wait build/../util/main-loop.c:25=
+5:5
+  #12 0x555789dc3763 in main_loop_wait build/../util/main-loop.c:531:11
+  #13 0x555789206a49 in qemu_main_loop build/../softmmu/runstate.c:722:9
+  #14 0x555787d052ed in main build/../softmmu/main.c:50:5
+  #15 0x7f6dcd84ecc9 in __libc_start_main csu/../csu/libc-start.c:308:16
+  #16 0x555787c5b619 in _start (system-i386+0x2a13619)
+
+  AddressSanitizer can not provide additional info.
+  SUMMARY: AddressSanitizer: SEGV build/../hw/ide/ahci.c:1349:46 in ahci_pi=
+o_transfer
+  =3D=3D238806=3D=3DABORTING
+
+  OSS-Fuzz link: https://bugs.chromium.org/p/oss-
+  fuzz/issues/detail?id=3D30861
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1915539/+subscriptions
 
