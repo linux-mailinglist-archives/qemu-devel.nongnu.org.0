@@ -2,75 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15A6C38792A
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 14:50:13 +0200 (CEST)
-Received: from localhost ([::1]:45652 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C0E9387930
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 14:52:24 +0200 (CEST)
+Received: from localhost ([::1]:52194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lizAq-0005JR-5x
-	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 08:50:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49236)
+	id 1lizCx-0002Ij-I4
+	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 08:52:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50132)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1liywU-0006Qg-7r
- for qemu-devel@nongnu.org; Tue, 18 May 2021 08:35:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39625)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1liywS-0001RH-MP
- for qemu-devel@nongnu.org; Tue, 18 May 2021 08:35:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621341319;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=64ChIVxDyZg4X6eM1WyVlwxdPjYyGJf+8yQn5FZo+8U=;
- b=GgrUAKjxVE6b/cP6jLxTspfRe+89/O5YGekLZbg0v/+3c8PBGX0fUWThRq1KbsbnJ5rkBj
- WgXtEIYU8C8ec+s0hxCvBN8EuG2q/bRrAIhFDTDKWLAuq0labliKMeejPiygHoZoU/0GhZ
- rkuxteO/Z/xLY4yrQ6QrQ7iw0G3pbcA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-360-QHv22U_pOEqtP5ovz-mllw-1; Tue, 18 May 2021 08:35:13 -0400
-X-MC-Unique: QHv22U_pOEqtP5ovz-mllw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3AA95800D62;
- Tue, 18 May 2021 12:35:12 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-115-121.ams2.redhat.com
- [10.36.115.121])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id F250962A25;
- Tue, 18 May 2021 12:35:09 +0000 (UTC)
-Subject: Re: [PATCH 12/21] block/copy-before-write: bdrv_cbw_append(): replace
- child at last
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20210517064428.16223-1-vsementsov@virtuozzo.com>
- <20210517064428.16223-14-vsementsov@virtuozzo.com>
-From: Max Reitz <mreitz@redhat.com>
-Message-ID: <a1bfac52-75bb-c466-78ed-7bef1647e1fb@redhat.com>
-Date: Tue, 18 May 2021 14:35:08 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1liyzG-0001Lz-G7
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 08:38:14 -0400
+Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e]:38871)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1liyzC-00033n-AC
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 08:38:14 -0400
+Received: by mail-ed1-x52e.google.com with SMTP id o5so1940945edc.5
+ for <qemu-devel@nongnu.org>; Tue, 18 May 2021 05:38:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=3QOdQlWILkWnh99ps41PWVh/oeVlYiHxOpHjkNGMl3E=;
+ b=zRXer3Tjdk6PWQlmzzXkkTWlTu0bQ6n5McsKKxDwqDXiexXxivWYwn4C8wezrEwwUS
+ 2Z7RsbyN2boom9q/NbMStI3eLZ73NA44t8VRor1S1DwOy0Y/z1SHcZCeY482A4PS7sPq
+ peYrklJHARHCn6nyOYCI4NG8q4W6ovFljypInfzS36bKpZzrR8dPYUEHCkY7fjwoldBv
+ K8SoPToAIL+mI//2wMG4gtGrcfe7a8xQZbOV+Na6tsKCe785Ct6jAgwep5g0QTDZHtcs
+ mct1jqgW3ElaGrpgRNsfFc6Hv5/pcGaqGUF6BLJ6y+Lf7Lp23lESPlVZSINVYdddVcwv
+ TOYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=3QOdQlWILkWnh99ps41PWVh/oeVlYiHxOpHjkNGMl3E=;
+ b=B6JPBtY6cimIp+UMnyB3tPuR36qUMLQXqr5473uOWXEsjw2CcNFN5A7NkRL5o05jlB
+ yp226LcY/voGdxT0t4v5yJGphkcWlNlpQux0geouUCaVqgwOGjUzZ/LqQRIZAb6NZbLs
+ cZj0FeMO4qUVrYeswaPeXOkyAcoJlB5m5d9QeV8CshkfHjo9A7fi4/Eo8XI1ceC4DqPu
+ 8v9Uz8Gm9KlKqMEziAvriBWZogo6M/gNi2UQIOdPcu48X1bR+rWmI1vxLWjHaVdEjJ4B
+ 3HoW5fZWVUBD4KQbbke4kD81im9QaJyKdwOWwFj66cLmAur6B+WaVQg3srdI/y6lP6TG
+ 3saw==
+X-Gm-Message-State: AOAM532TG1JXGtTvPotDGDTj3LbMHE+UaH5erZsIfdu3/5/aIl1BbIsW
+ HwDAAGmYXJe4SmjUim8tVesQGpHtMuo+pQDp+X584w==
+X-Google-Smtp-Source: ABdhPJzCp0ZFlF7UMkMZxHKSL8hJZxAzeGA8sC6RQJ7zMaOYjqXZi8JUY0a2rkwWxMZaIRLTVGmaoVsYwLbh24fg5Q8=
+X-Received: by 2002:a05:6402:5243:: with SMTP id
+ t3mr6778797edd.146.1621341488247; 
+ Tue, 18 May 2021 05:38:08 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210517064428.16223-14-vsementsov@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.374,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+References: <20210416235928.1631788-1-richard.henderson@linaro.org>
+ <20210416235928.1631788-9-richard.henderson@linaro.org>
+In-Reply-To: <20210416235928.1631788-9-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 18 May 2021 13:37:51 +0100
+Message-ID: <CAFEAcA_T9f47uZSEt9BRsThxLsvauTPMiDSNM8B5=Dk5xRQ+wg@mail.gmail.com>
+Subject: Re: [PATCH v1 08/11] target/arm: Implement bfloat16 matrix multiply
+ accumulate
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,27 +79,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
- jsnow@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com, den@openvz.org,
- pbonzini@redhat.com
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 17.05.21 08:44, Vladimir Sementsov-Ogievskiy wrote:
-> Refactor the function to replace child at last. Thus we don't need to
-> revert it and code is simplified.
-> 
-> block-copy state initilization being done before replacing the child
+On Sat, 17 Apr 2021 at 01:00, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> This is BFMMLA for both AArch64 AdvSIMD and SVE,
+> and VMMLA.BF16 for AArch32 NEON.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-*initialization
+> +void HELPER(gvec_bfmmla)(void *vd, void *vn, void *vm, void *va, uint32_t desc)
+> +{
+> +    intptr_t s, opr_sz = simd_oprsz(desc);
+> +    float32 *d = vd, *a = va;
+> +    uint32_t *n = vn, *m = vm;
+> +
+> +    for (s = 0; s < opr_sz / 4; s += 4) {
+> +        float32 sum00, sum01, sum10, sum11;
+> +
+> +        /*
+> +         * Process the entire segment at once, writing back the
+> +         * results only after we've consumed all of the inputs.
+> +         *
+> +         * Key to indicies by column:
 
-> doesn't need any drained section.
-> 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->   block/copy-before-write.c | 33 +++++++++++----------------------
->   1 file changed, 11 insertions(+), 22 deletions(-)
+"indices"
 
-Reviewed-by: Max Reitz <mreitz@redhat.com>
+> +         *               i   j           i   k             j   k
+> +         */
+> +        sum00 = a[s + H4(0 + 0)];
+> +        sum00 = bfdotadd(sum00, n[s + H4(0 + 0)], m[s + H4(0 + 0)]);
+> +        sum00 = bfdotadd(sum00, n[s + H4(0 + 1)], m[s + H4(0 + 1)]);
 
+I can't make these indices match up with the arm arm pseudocode ones,
+which index by "4*i + 2*k + 0" and "4*i + 2*k + 1", not "2*i + k";
+are we hiding a division by 2 somewhere?
+
+> +
+> +        sum01 = a[s + H4(0 + 1)];
+> +        sum01 = bfdotadd(sum01, n[s + H4(0 + 0)], m[s + H4(2 + 0)]);
+> +        sum01 = bfdotadd(sum01, n[s + H4(0 + 1)], m[s + H4(2 + 1)]);
+> +
+> +        sum10 = a[s + H4(2 + 0)];
+> +        sum10 = bfdotadd(sum10, n[s + H4(2 + 0)], m[s + H4(0 + 0)]);
+> +        sum10 = bfdotadd(sum10, n[s + H4(2 + 1)], m[s + H4(0 + 1)]);
+> +
+> +        sum11 = a[s + H4(2 + 1)];
+> +        sum11 = bfdotadd(sum11, n[s + H4(2 + 0)], m[s + H4(2 + 0)]);
+> +        sum11 = bfdotadd(sum11, n[s + H4(2 + 1)], m[s + H4(2 + 1)]);
+> +
+> +        d[s + H4(0 + 0)] = sum00;
+> +        d[s + H4(0 + 1)] = sum01;
+> +        d[s + H4(2 + 0)] = sum10;
+> +        d[s + H4(2 + 1)] = sum11;
+> +    }
+> +    clear_tail(d, opr_sz, simd_maxsz(desc));
+
+Otherwise
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+
+thanks
+-- PMM
 
