@@ -2,59 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C67538804C
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 21:06:31 +0200 (CEST)
-Received: from localhost ([::1]:54952 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65F6238804F
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 21:08:12 +0200 (CEST)
+Received: from localhost ([::1]:35664 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lj530-0005nn-IR
-	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 15:06:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51540)
+	id 1lj54d-0003YG-F3
+	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 15:08:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51584)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bruno.larsen@eldorado.org.br>)
- id 1lj4ie-0005nn-Vu; Tue, 18 May 2021 14:45:29 -0400
-Received: from [201.28.113.2] (port=52130 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bruno.larsen@eldorado.org.br>)
- id 1lj4ic-0003fL-H7; Tue, 18 May 2021 14:45:28 -0400
-Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Tue, 18 May 2021 15:45:22 -0300
-Received: from [127.0.0.1] (unknown [10.10.71.235])
- by power9a (Postfix) with ESMTPS id C7E36801362;
- Tue, 18 May 2021 15:45:21 -0300 (-03)
-Subject: Re: [PATCH 09/11] include/exec: added functions to the stubs in
- exec-all.h
-To: Richard Henderson <richard.henderson@linaro.org>,
- Lucas Mateus Martins Araujo e Castro <lucas.araujo@eldorado.org.br>,
- David Gibson <david@gibson.dropbear.id.au>
-References: <20210512140813.112884-1-bruno.larsen@eldorado.org.br>
- <20210512140813.112884-10-bruno.larsen@eldorado.org.br>
- <c4b7cba3-eb5f-ff65-9376-da9dc8edf45f@linaro.org>
- <f0fbb69b-76e9-c951-f18d-cfc4629f5f2a@eldorado.org.br>
- <aad60a0c-1f07-24ab-821a-193047e4ad2e@linaro.org> <YKHpy53AwM8tTy3E@yekko>
- <06d4250b-4d4a-42a6-47fa-f5b75ea6c499@eldorado.org.br>
- <88f58334-8bae-a9bd-aac0-aa20d432595f@linaro.org>
-From: Bruno Piazera Larsen <bruno.larsen@eldorado.org.br>
-Message-ID: <af6641c4-0d64-c129-5e75-2c25f35232a6@eldorado.org.br>
-Date: Tue, 18 May 2021 15:45:21 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
-MIME-Version: 1.0
-In-Reply-To: <88f58334-8bae-a9bd-aac0-aa20d432595f@linaro.org>
-Content-Type: multipart/alternative;
- boundary="------------123AC5409CE653A9BFCF3F61"
-Content-Language: en-US
-X-OriginalArrivalTime: 18 May 2021 18:45:22.0235 (UTC)
- FILETIME=[F530A8B0:01D74C15]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
-Received-SPF: pass client-ip=201.28.113.2;
- envelope-from=bruno.larsen@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
- NICE_REPLY_A=-0.001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ (Exim 4.90_1) (envelope-from
+ <3TQukYAYKCv4zoz0yxmuumrk.iuswks0-jk1krtutmt0.uxm@flex--titusr.bounces.google.com>)
+ id 1lj4in-0006Kn-Ow
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 14:45:37 -0400
+Received: from mail-yb1-xb4a.google.com ([2607:f8b0:4864:20::b4a]:44732)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from
+ <3TQukYAYKCv4zoz0yxmuumrk.iuswks0-jk1krtutmt0.uxm@flex--titusr.bounces.google.com>)
+ id 1lj4il-0003oq-Oo
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 14:45:37 -0400
+Received: by mail-yb1-xb4a.google.com with SMTP id
+ u7-20020a259b470000b02904dca50820c2so14703559ybo.11
+ for <qemu-devel@nongnu.org>; Tue, 18 May 2021 11:45:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=date:message-id:mime-version:subject:from:to:cc
+ :content-transfer-encoding;
+ bh=/7BJw8502UhQaIpIovcHX1hAU8EOmHEhBDtrVv8IcWg=;
+ b=Ogskss3/pP4ofYzBvqqF6nZoDvyHuByBrdUlSUyQkAetsFFJjvxElbDg4GCTuhycba
+ /NIoX9oll39XwpgBSKIDkW4B7L1iPKb5xhrMeIFdtnz0eYsrZLiPp9oNJ6V50sKMQult
+ Q2bgXQ7376XlZYykxOc6YVtFql0W93eDOEpC6YrPRHtqSd3N6u4eG6UUozPNfF5YaWoW
+ 8a3HX7nwAwhACUun27hdz9Vm2BdvQQycAvSN3pWJpjiPy37dpa4pCGtruM2wgM6Ffhi3
+ uozASpwGMkHqsoEbhcp7Thi9d1nuvt6M8YIUiTyA2Cs+YRqemJ+yTGGuRCjiWTFPn9Kg
+ HvCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc
+ :content-transfer-encoding;
+ bh=/7BJw8502UhQaIpIovcHX1hAU8EOmHEhBDtrVv8IcWg=;
+ b=o0+joCXBwIUlBJVB1HROVZmCa145YVLrUDOsCRLyE7KMpzsmZ/EIR300oQbwjcZ/yi
+ jkXNCGF6SJiVZJP2O3iVPlmLgY5cmv6xukkAjmqBYGEZHll7mKj2n8nDzx2lg4/elxyZ
+ vo8guy1cRESygxHhEDn2OFSPPowsOUq/Wixy9HnR6sSWrPYBJqrB37jqnHAUkdzykr29
+ ajD19Mzi/3XhcmuKSjGsnDQZtsqleZ5vRLXT+omNKACBQsb/r4yaOK7CGFGf+rmJNzsm
+ LgWJGdbuPZ1uDS2SkY9r/z5jggH26EC80KWj2TrOKDyhegYYbQcm6ZgTV76+COvNAOP7
+ L7bg==
+X-Gm-Message-State: AOAM5305C6VuLOH6OduRyDuFIX2WVaT3+w/ZnQsyWBeuA5hKWA4nwdi1
+ RbIY6UORsAVZidyUjE1hhgmmirRTRrQ=
+X-Google-Smtp-Source: ABdhPJwDpr44WumiShxBFJqA0MY7y9cQq2s8NUAdqDhbKH3qQVVNaE/xVUo/sIN/uUF2OZ/zrp73IC7l//Q=
+X-Received: from titusr.svl.corp.google.com
+ ([2620:15c:2c5:13:4bf9:75f4:b656:df26])
+ (user=titusr job=sendgmr) by 2002:a25:3d3:: with SMTP id
+ 202mr527716ybd.271.1621363533253; 
+ Tue, 18 May 2021 11:45:33 -0700 (PDT)
+Date: Tue, 18 May 2021 11:45:22 -0700
+Message-Id: <20210518184527.1037888-1-titusr@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.31.1.751.gd2f1c929bd-goog
+Subject: [PATCH v3 0/5] Add support for PMBus in QEMU
+From: Titus Rwantare <titusr@google.com>
+To: Corey Minyard <cminyard@mvista.com>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, f4bug@amsat.org, 
+ Titus Rwantare <titusr@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b4a;
+ envelope-from=3TQukYAYKCv4zoz0yxmuumrk.iuswks0-jk1krtutmt0.uxm@flex--titusr.bounces.google.com;
+ helo=mail-yb1-xb4a.google.com
+X-Spam_score_int: -95
+X-Spam_score: -9.6
+X-Spam_bar: ---------
+X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ USER_IN_DEF_DKIM_WL=-7.5 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,142 +86,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: farosas@linux.ibm.com, qemu-devel@nongnu.org, luis.pires@eldorado.org.br,
- fernando.valle@eldorado.org.br, qemu-ppc@nongnu.org,
- matheus.ferst@eldorado.org.br
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a multi-part message in MIME format.
---------------123AC5409CE653A9BFCF3F61
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Hello,
 
+This patch series adds an interface to start supporting PMBus devices in QE=
+MU.
+I=E2=80=99ve included two PMBus devices: MAX34451 and ADM1272.
 
-On 17/05/2021 15:02, Richard Henderson wrote:
-> On 5/17/21 11:59 AM, Lucas Mateus Martins Araujo e Castro wrote:
->> I'm not completely sure how this should be handled, there's a 
->> get_physical_address in mmu_helper.c but it's a static function and 
->> divided by processor families instead of MMU types, so 
->> get_physical_address_* should be a new function?
->>
->> The new get_physical_address_* function would be a mmu-hash(32|64) 
->> that do something like ppc_radix64_xlate and add a function to 
->> mmu-book3s-v3 that call either the radix64 or the hash64 function and 
->> also handle real mode access.
->
-> The entry points that we are concerned about are:
->   ppc_cpu_get_phys_page_debug
->   ppc_cpu_tlb_fill
->
-> Currently there is a hook, pcc->handle_mmu_fault, which is used by 
-> ppc_cpu_tlb_fill, but is insufficiently general.  We're going to 
-> remove that hook.
->
-> We're going to add a new hook with the same interface as 
-> ppc_radix64_xlate that will be used by both 
-> ppc_cpu_get_phys_page_debug and ppc_cpu_tlb_fill.
->
-So, just to make sure we understand, what we want to do is:
+PMBus is a variant of SMBus meant for digital management of power supplies.
+PMBus adds to the SMBus standard by defining a number of constants and comm=
+ands
+used by compliant devices. The specification for PMBus can be found at:
 
-* take all the common code from *_handle_mmu_fault and put it in 
-ppc_cpu_tlb_fill
+https://pmbus.org/specification-archives/
 
-* take whatever is not common and hide it in an equivalent of 
-ppc_radix64_xlate
+Currently, the goal for these devices is to emulate basic functionality by
+reading and writing registers. Timing, and some logical operation is not
+implemented. This implementation supports nearly all available registers fo=
+r
+PMBus including:
+   - Voltage inputs and outputs
+   - Current inputs and outputs
+   - Temperature sensors
 
-* make the 2 entry points only use these new functions, so we can 
-compile ppc_cpu_get_phys_page_debug
+Unimplimented registers get passed through to the device model, and device
+models can opt out of using the standard registers with flags. The included
+devices make use of these fields and illustrate how to interface with the p=
+mbus
+class.
 
-* move get_physical_address and all functions called by it somewhere 
-that will compile when we disable tcg (again, to compile 
-get_phys_page_debug)
+Datasheets for sensors:
 
-Is that it? Sorry if this is very obvious, we never dealt with hardware 
-and mmu stuff before...
+https://datasheets.maximintegrated.com/en/ds/MAX34451.pdf
+https://www.analog.com/media/en/technical-documentation/data-sheets/ADM1272=
+.pdf
 
--- 
-Bruno Piazera Larsen
-Instituto de Pesquisas ELDORADO 
-<https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&utm_medium=email&utm_source=RD+Station>
-Departamento Computação Embarcada
-Analista de Software Trainee
-Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
+Since v2:
+- bump for feedback
+- removed commented out code
 
---------------123AC5409CE653A9BFCF3F61
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 8bit
+Since v1:
+- addressed Joel's comments
+- split out tests into their own patches
 
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">On 17/05/2021 15:02, Richard Henderson
-      wrote:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:88f58334-8bae-a9bd-aac0-aa20d432595f@linaro.org">On
-      5/17/21 11:59 AM, Lucas Mateus Martins Araujo e Castro wrote:
-      <br>
-      <blockquote type="cite">I'm not completely sure how this should be
-        handled, there's a get_physical_address in mmu_helper.c but it's
-        a static function and divided by processor families instead of
-        MMU types, so get_physical_address_* should be a new function?
-        <br>
-        <br>
-        The new get_physical_address_* function would be a
-        mmu-hash(32|64) that do something like ppc_radix64_xlate and add
-        a function to mmu-book3s-v3 that call either the radix64 or the
-        hash64 function and also handle real mode access.
-        <br>
-      </blockquote>
-      <br>
-      The entry points that we are concerned about are:
-      <br>
-        ppc_cpu_get_phys_page_debug
-      <br>
-        ppc_cpu_tlb_fill
-      <br>
-      <br>
-      Currently there is a hook, pcc-&gt;handle_mmu_fault, which is used
-      by ppc_cpu_tlb_fill, but is insufficiently general.  We're going
-      to remove that hook.
-      <br>
-      <br>
-      We're going to add a new hook with the same interface as
-      ppc_radix64_xlate that will be used by both
-      ppc_cpu_get_phys_page_debug and ppc_cpu_tlb_fill.
-      <br>
-      <br>
-    </blockquote>
-    <p>So, just to make sure we understand, what we want to do is:</p>
-    <p>* take all the common code from *_handle_mmu_fault and put it in
-      ppc_cpu_tlb_fill</p>
-    <p>* take whatever is not common and hide it in an equivalent of
-      ppc_radix64_xlate</p>
-    <p>* make the 2 entry points only use these new functions, so we can
-      compile ppc_cpu_get_phys_page_debug<br>
-    </p>
-    <p>* move get_physical_address and all functions called by it
-      somewhere that will compile when we disable tcg (again, to compile
-      get_phys_page_debug)</p>
-    <p>Is that it? Sorry if this is very obvious, we never dealt with
-      hardware and mmu stuff before...<br>
-    </p>
-    <div class="moz-signature">-- <br>
-      Bruno Piazera Larsen<br>
-      <a
-href="https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&amp;utm_medium=email&amp;utm_source=RD+Station">Instituto
-        de Pesquisas ELDORADO</a><br>
-      Departamento Computação Embarcada<br>
-      Analista de Software Trainee<br>
-      <a href="https://www.eldorado.org.br/disclaimer.html">Aviso Legal
-        - Disclaimer</a></div>
-  </body>
-</html>
+Thanks for reviewing,
 
---------------123AC5409CE653A9BFCF3F61--
+Titus Rwantare
+
+Titus Rwantare (5):
+  hw/i2c: add support for PMBus
+  hw/misc: add ADM1272 device
+  tests/qtest: add tests for ADM1272 device model
+  hw/misc: add MAX34451 device
+  tests/qtest: add tests for MAX34451 device model
+
+ include/hw/i2c/pmbus_device.h |  506 +++++++++++
+ hw/i2c/pmbus_device.c         | 1596 +++++++++++++++++++++++++++++++++
+ hw/misc/adm1272.c             |  543 +++++++++++
+ hw/misc/max34451.c            |  716 +++++++++++++++
+ tests/qtest/adm1272-test.c    |  445 +++++++++
+ tests/qtest/max34451-test.c   |  336 +++++++
+ hw/arm/Kconfig                |    3 +
+ hw/i2c/Kconfig                |    4 +
+ hw/i2c/meson.build            |    1 +
+ hw/misc/Kconfig               |    8 +
+ hw/misc/meson.build           |    2 +
+ tests/qtest/meson.build       |    2 +
+ 12 files changed, 4162 insertions(+)
+ create mode 100644 include/hw/i2c/pmbus_device.h
+ create mode 100644 hw/i2c/pmbus_device.c
+ create mode 100644 hw/misc/adm1272.c
+ create mode 100644 hw/misc/max34451.c
+ create mode 100644 tests/qtest/adm1272-test.c
+ create mode 100644 tests/qtest/max34451-test.c
+
+--=20
+2.31.1.751.gd2f1c929bd-goog
+
 
