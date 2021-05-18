@@ -2,37 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BF02387C64
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 17:25:12 +0200 (CEST)
-Received: from localhost ([::1]:37320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 848E0387C61
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 17:23:59 +0200 (CEST)
+Received: from localhost ([::1]:33678 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lj1ap-0001Gy-6i
-	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 11:25:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59392)
+	id 1lj1Ze-0006uc-KN
+	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 11:23:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59652)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bruno.larsen@eldorado.org.br>)
- id 1lj1I6-0003Jo-QE; Tue, 18 May 2021 11:05:50 -0400
-Received: from [201.28.113.2] (port=5990 helo=outlook.eldorado.org.br)
+ id 1lj1JA-0004oj-TU; Tue, 18 May 2021 11:06:56 -0400
+Received: from [201.28.113.2] (port=38818 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <bruno.larsen@eldorado.org.br>)
- id 1lj1I5-0007Ay-6U; Tue, 18 May 2021 11:05:50 -0400
+ id 1lj1J8-00087L-7e; Tue, 18 May 2021 11:06:56 -0400
 Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Tue, 18 May 2021 12:05:34 -0300
+ Microsoft SMTPSVC(8.5.9600.16384); Tue, 18 May 2021 12:05:36 -0300
 Received: from eldorado.org.br (unknown [10.10.71.235])
- by power9a (Postfix) with ESMTP id BE07A801362;
- Tue, 18 May 2021 12:05:34 -0300 (-03)
+ by power9a (Postfix) with ESMTP id 41214801362;
+ Tue, 18 May 2021 12:05:36 -0300 (-03)
 From: "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 2/7] target/ppc: moved ppc_store_lpcr and ppc_store_msr to
- cpu.c
-Date: Tue, 18 May 2021 12:05:10 -0300
-Message-Id: <20210518150515.57983-3-bruno.larsen@eldorado.org.br>
+Subject: [PATCH v2 3/7] target/ppc: reduce usage of fpscr_set_rounding_mode
+Date: Tue, 18 May 2021 12:05:11 -0300
+Message-Id: <20210518150515.57983-4-bruno.larsen@eldorado.org.br>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210518150515.57983-1-bruno.larsen@eldorado.org.br>
 References: <20210518150515.57983-1-bruno.larsen@eldorado.org.br>
-X-OriginalArrivalTime: 18 May 2021 15:05:34.0945 (UTC)
- FILETIME=[40F3E510:01D74BF7]
+X-OriginalArrivalTime: 18 May 2021 15:05:36.0429 (UTC)
+ FILETIME=[41D655D0:01D74BF7]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
 Received-SPF: pass client-ip=201.28.113.2;
  envelope-from=bruno.larsen@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -61,77 +60,58 @@ Cc: farosas@linux.ibm.com, richard.henderson@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These functions are used in hw/ppc logic, during machine startup, which
-means it must be compiled when --disable-tcg is selected, and so it has
-been moved into a common code file
+It is preferable to store the current rounding mode and restore from that
+than recalculating from fpscr, so we changed the behavior of do_fri and
+VSX_ROUND to do it like that.
 
+Suggested-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Bruno Larsen (billionai) <bruno.larsen@eldorado.org.br>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- target/ppc/cpu.c         | 17 +++++++++++++++++
- target/ppc/misc_helper.c | 16 ----------------
- 2 files changed, 17 insertions(+), 16 deletions(-)
+ target/ppc/fpu_helper.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/target/ppc/cpu.c b/target/ppc/cpu.c
-index 82e276349a..8a39cba5be 100644
---- a/target/ppc/cpu.c
-+++ b/target/ppc/cpu.c
-@@ -24,6 +24,7 @@
- #include "exec/log.h"
- #include "fpu/softfloat-helpers.h"
- #include "mmu-hash64.h"
-+#include "helper_regs.h"
- 
- target_ulong cpu_read_xer(CPUPPCState *env)
+diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
+index 44315fca0b..4799d5f5e4 100644
+--- a/target/ppc/fpu_helper.c
++++ b/target/ppc/fpu_helper.c
+@@ -822,6 +822,7 @@ static inline uint64_t do_fri(CPUPPCState *env, uint64_t arg,
+                               int rounding_mode)
  {
-@@ -92,3 +93,19 @@ void ppc_store_sdr1(CPUPPCState *env, target_ulong value)
-     env->spr[SPR_SDR1] = value;
- }
- #endif
-+
-+/* GDBstub can read and write MSR... */
-+void ppc_store_msr(CPUPPCState *env, target_ulong value)
-+{
-+    hreg_store_msr(env, value, 0);
-+}
-+
-+void ppc_store_lpcr(PowerPCCPU *cpu, target_ulong val)
-+{
-+    PowerPCCPUClass *pcc = POWERPC_CPU_GET_CLASS(cpu);
-+    CPUPPCState *env = &cpu->env;
-+
-+    env->spr[SPR_LPCR] = val & pcc->lpcr_mask;
-+    /* The gtse bit affects hflags */
-+    hreg_compute_hflags(env);
-+}
-diff --git a/target/ppc/misc_helper.c b/target/ppc/misc_helper.c
-index 08a31da289..442b12652c 100644
---- a/target/ppc/misc_helper.c
-+++ b/target/ppc/misc_helper.c
-@@ -255,22 +255,6 @@ target_ulong helper_clcs(CPUPPCState *env, uint32_t arg)
- /*****************************************************************************/
- /* Special registers manipulation */
+     CPU_DoubleU farg;
++    int old_rounding_mode = get_float_rounding_mode(&env->fp_status);
  
--/* GDBstub can read and write MSR... */
--void ppc_store_msr(CPUPPCState *env, target_ulong value)
--{
--    hreg_store_msr(env, value, 0);
--}
--
--void ppc_store_lpcr(PowerPCCPU *cpu, target_ulong val)
--{
--    PowerPCCPUClass *pcc = POWERPC_CPU_GET_CLASS(cpu);
--    CPUPPCState *env = &cpu->env;
--
--    env->spr[SPR_LPCR] = val & pcc->lpcr_mask;
--    /* The gtse bit affects hflags */
--    hreg_compute_hflags(env);
--}
--
- /*
-  * This code is lifted from MacOnLinux. It is called whenever THRM1,2
-  * or 3 is read an fixes up the values in such a way that will make
+     farg.ll = arg;
+ 
+@@ -834,8 +835,7 @@ static inline uint64_t do_fri(CPUPPCState *env, uint64_t arg,
+                       float_flag_inexact;
+         set_float_rounding_mode(rounding_mode, &env->fp_status);
+         farg.ll = float64_round_to_int(farg.d, &env->fp_status);
+-        /* Restore rounding mode from FPSCR */
+-        fpscr_set_rounding_mode(env);
++        set_float_rounding_mode(old_rounding_mode, &env->fp_status);
+ 
+         /* fri* does not set FPSCR[XX] */
+         if (!inexact) {
+@@ -3136,8 +3136,10 @@ void helper_##op(CPUPPCState *env, ppc_vsr_t *xt, ppc_vsr_t *xb)       \
+ {                                                                      \
+     ppc_vsr_t t = *xt;                                                 \
+     int i;                                                             \
++    int curr_rounding_mode;                                            \
+                                                                        \
+     if (rmode != FLOAT_ROUND_CURRENT) {                                \
++        curr_rounding_mode = get_float_rounding_mode(&env->fp_status); \
+         set_float_rounding_mode(rmode, &env->fp_status);               \
+     }                                                                  \
+                                                                        \
+@@ -3160,7 +3162,7 @@ void helper_##op(CPUPPCState *env, ppc_vsr_t *xt, ppc_vsr_t *xb)       \
+      * mode from FPSCR                                                 \
+      */                                                                \
+     if (rmode != FLOAT_ROUND_CURRENT) {                                \
+-        fpscr_set_rounding_mode(env);                                  \
++        set_float_rounding_mode(curr_rounding_mode, &env->fp_status);  \
+         env->fp_status.float_exception_flags &= ~float_flag_inexact;   \
+     }                                                                  \
+                                                                        \
 -- 
 2.17.1
 
