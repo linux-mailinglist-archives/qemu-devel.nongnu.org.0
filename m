@@ -2,60 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEF333882EB
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 01:02:42 +0200 (CEST)
-Received: from localhost ([::1]:40124 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DB5B3882F5
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 01:06:40 +0200 (CEST)
+Received: from localhost ([::1]:47434 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lj8jZ-0004tM-TI
-	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 19:02:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45800)
+	id 1lj8nP-0001Zi-9w
+	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 19:06:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46976)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
- id 1lj8hN-00035H-65
- for qemu-devel@nongnu.org; Tue, 18 May 2021 19:00:25 -0400
-Received: from alexa-out-sd-02.qualcomm.com ([199.106.114.39]:43008)
- by eggs.gnu.org with esmtps (TLS1.2:RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
- id 1lj8hJ-0001ft-9h
- for qemu-devel@nongnu.org; Tue, 18 May 2021 19:00:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1621378821; x=1652914821;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=tWHtKBgnflOpZom5LwTNqGs6gHFhKWBork947kc3apk=;
- b=lplkgSJe9jK5dJxdXIifCTPgsN3fcb1m8kxCFVCH/xO0DsJpm33EPAcj
- 7LEaWubLveiHqSlgnsM1rc1zxnp0U6FlZZGrpxgRH+12P68gsVvmjQ7h+
- ABDFHe9zwW49iZzwCRCxsh71Keiznc0KFG8ueB2tcdY2OZdmXHCpiOcHf I=;
-Received: from unknown (HELO ironmsg03-sd.qualcomm.com) ([10.53.140.143])
- by alexa-out-sd-02.qualcomm.com with ESMTP; 18 May 2021 16:00:19 -0700
-X-QCInternal: smtphost
-Received: from vu-tsimpson-aus.qualcomm.com (HELO
- vu-tsimpson1-aus.qualcomm.com) ([10.222.150.1])
- by ironmsg03-sd.qualcomm.com with ESMTP; 18 May 2021 16:00:18 -0700
-Received: by vu-tsimpson1-aus.qualcomm.com (Postfix, from userid 47164)
- id 88C4116EA; Tue, 18 May 2021 18:00:18 -0500 (CDT)
-From: Taylor Simpson <tsimpson@quicinc.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 2/2] Hexagon (target/hexagon) fix l2fetch instructions
-Date: Tue, 18 May 2021 18:00:10 -0500
-Message-Id: <1621378810-5284-3-git-send-email-tsimpson@quicinc.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1621378810-5284-1-git-send-email-tsimpson@quicinc.com>
-References: <1621378810-5284-1-git-send-email-tsimpson@quicinc.com>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1lj8mH-0000HE-6I
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 19:05:29 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:55312)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1lj8mD-0004uL-A9
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 19:05:28 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 65A3A7457EF;
+ Wed, 19 May 2021 01:05:21 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id EFD967457ED; Wed, 19 May 2021 01:05:20 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id EDCD87457E5;
+ Wed, 19 May 2021 01:05:20 +0200 (CEST)
+Date: Wed, 19 May 2021 01:05:20 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@redhat.com>
+Subject: Re: [RFC PATCH 02/11] hw/ide: Add PCIIDEState::isa_bus link
+In-Reply-To: <20210518215545.1793947-3-philmd@redhat.com>
+Message-ID: <f571a63d-d6a2-2085-740-bcc59b3424e5@eik.bme.hu>
+References: <20210518215545.1793947-1-philmd@redhat.com>
+ <20210518215545.1793947-3-philmd@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Received-SPF: pass client-ip=199.106.114.39;
- envelope-from=tsimpson@qualcomm.com; helo=alexa-out-sd-02.qualcomm.com
-X-Spam_score_int: -40
-X-Spam_score: -4.1
+Content-Type: multipart/mixed;
+ boundary="3866299591-2092232025-1621379120=:21440"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
 X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -68,51 +58,160 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ale@rev.ng, philmd@redhat.com, tsimpson@quicinc.com,
- richard.henderson@linaro.org, bcain@quicinc.com
+Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ John G Johnson <john.g.johnson@oracle.com>, Thomas Huth <thuth@redhat.com>,
+ Jagannathan Raman <jag.raman@oracle.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-WTRfbDJmZXRjaCA9PSBsMmZldGNoKFJzMzIsIFJ0MzIpClk1X2wyZmV0Y2ggPT0gbDJmZXRjaChS
-czMyLCBSdHQzMikKClRoZSBzZW1hbnRpY3MgZm9yIHRoZXNlIGluc3RydWN0aW9ucyBhcmUgcHJl
-c2VudCwgYnV0IHRoZSBlbmNvZGluZ3MKYXJlIG1pc3NpbmcuCgpOb3RlIHRoYXQgdGhlc2UgYXJl
-IHRyZWF0ZWQgYXMgbm9wcyBpbiBxZW11LCBzbyB3ZSBhZGQgb3ZlcnJpZGVzLgoKVGVzdCBjYXNl
-IGFkZGVkIHRvIHRlc3RzL3RjZy9oZXhhZ29uL21pc2MuYwoKU2lnbmVkLW9mZi1ieTogVGF5bG9y
-IFNpbXBzb24gPHRzaW1wc29uQHF1aWNpbmMuY29tPgotLS0KIHRhcmdldC9oZXhhZ29uL2dlbl90
-Y2cuaCAgICAgICAgICAgICAgfCAxMSArKysrKysrKysrKwogdGVzdHMvdGNnL2hleGFnb24vbWlz
-Yy5jICAgICAgICAgICAgICB8ICA5ICsrKysrKysrKwogdGFyZ2V0L2hleGFnb24vaW1wb3J0ZWQv
-ZW5jb2RlX3BwLmRlZiB8ICAzICsrKwogMyBmaWxlcyBjaGFuZ2VkLCAyMyBpbnNlcnRpb25zKCsp
-CgpkaWZmIC0tZ2l0IGEvdGFyZ2V0L2hleGFnb24vZ2VuX3RjZy5oIGIvdGFyZ2V0L2hleGFnb24v
-Z2VuX3RjZy5oCmluZGV4IDE4ZmNkYmMuLmEzNzVkNmEgMTAwNjQ0Ci0tLSBhL3RhcmdldC9oZXhh
-Z29uL2dlbl90Y2cuaAorKysgYi90YXJnZXQvaGV4YWdvbi9nZW5fdGNnLmgKQEAgLTczNCw0ICs3
-MzQsMTUgQEAKICNkZWZpbmUgZkdFTl9UQ0dfRjJfZGZtcHloaChTSE9SVENPREUpIFwKICAgICBn
-ZW5faGVscGVyX2RmbXB5aGgoUnh4ViwgY3B1X2VudiwgUnh4ViwgUnNzViwgUnR0VikKIAorLyog
-Tm90aGluZyB0byBkbyBmb3IgdGhlc2UgaW4gcWVtdSwgbmVlZCB0byBzdXBwcmVzcyBjb21waWxl
-ciB3YXJuaW5ncyAqLworI2RlZmluZSBmR0VOX1RDR19ZNF9sMmZldGNoKFNIT1JUQ09ERSkgXAor
-ICAgIGRvIHsgXAorICAgICAgICBSc1YgPSBSc1Y7IFwKKyAgICAgICAgUnRWID0gUnRWOyBcCisg
-ICAgfSB3aGlsZSAoMCkKKyNkZWZpbmUgZkdFTl9UQ0dfWTVfbDJmZXRjaChTSE9SVENPREUpIFwK
-KyAgICBkbyB7IFwKKyAgICAgICAgUnNWID0gUnNWOyBcCisgICAgfSB3aGlsZSAoMCkKKwogI2Vu
-ZGlmCmRpZmYgLS1naXQgYS90ZXN0cy90Y2cvaGV4YWdvbi9taXNjLmMgYi90ZXN0cy90Y2cvaGV4
-YWdvbi9taXNjLmMKaW5kZXggOWUxMzlmMy4uZjBiMTk0NyAxMDA2NDQKLS0tIGEvdGVzdHMvdGNn
-L2hleGFnb24vbWlzYy5jCisrKyBiL3Rlc3RzL3RjZy9oZXhhZ29uL21pc2MuYwpAQCAtMzI2LDYg
-KzMyNiwxMyBAQCB2b2lkIHRlc3RfbHNibmV3KHZvaWQpCiAgICAgY2hlY2socmVzdWx0LCA1KTsK
-IH0KIAordm9pZCB0ZXN0X2wyZmV0Y2godm9pZCkKK3sKKyAgICAvKiBUaGVzZSBkb24ndCBkbyBh
-bnl0aGluZyBpbiBxZW11LCBqdXN0IG1ha2Ugc3VyZSB0aGV5IGRvbid0IGFzc2VydCAqLworICAg
-IGFzbSB2b2xhdGlsZSAoImwyZmV0Y2gocjAsIHIxKVxuXHQiCisgICAgICAgICAgICAgICAgICAi
-bDJmZXRjaChyMCwgcjM6Milcblx0Iik7Cit9CisKIGludCBtYWluKCkKIHsKICAgICBpbnQgcmVz
-OwpAQCAtNDU5LDYgKzQ2Niw4IEBAIGludCBtYWluKCkKIAogICAgIHRlc3RfbHNibmV3KCk7CiAK
-KyAgICB0ZXN0X2wyZmV0Y2goKTsKKwogICAgIHB1dHMoZXJyID8gIkZBSUwiIDogIlBBU1MiKTsK
-ICAgICByZXR1cm4gZXJyOwogfQpkaWZmIC0tZ2l0IGEvdGFyZ2V0L2hleGFnb24vaW1wb3J0ZWQv
-ZW5jb2RlX3BwLmRlZiBiL3RhcmdldC9oZXhhZ29uL2ltcG9ydGVkL2VuY29kZV9wcC5kZWYKaW5k
-ZXggMzVhZTNkMi4uOTM5YzZmYyAxMDA2NDQKLS0tIGEvdGFyZ2V0L2hleGFnb24vaW1wb3J0ZWQv
-ZW5jb2RlX3BwLmRlZgorKysgYi90YXJnZXQvaGV4YWdvbi9pbXBvcnRlZC9lbmNvZGVfcHAuZGVm
-CkBAIC00OTMsNiArNDkzLDkgQEAgREVGX0VOQzMyKFkyX2RjY2xlYW5hLCAgICAgSUNMQVNTX1NU
-IiAwMDAgMDAgMDBzc3NzcyBQUC0tLS0tLSAtLS0tLS0tLSIpCiBERUZfRU5DMzIoWTJfZGNpbnZh
-LCAgICAgICBJQ0xBU1NfU1QiIDAwMCAwMCAwMXNzc3NzIFBQLS0tLS0tIC0tLS0tLS0tIikKIERF
-Rl9FTkMzMihZMl9kY2NsZWFuaW52YSwgIElDTEFTU19TVCIgMDAwIDAwIDEwc3Nzc3MgUFAtLS0t
-LS0gLS0tLS0tLS0iKQogCitERUZfRU5DMzIoWTRfbDJmZXRjaCwgICAgICBJQ0xBU1NfU1QiIDAx
-MSAwMCAwMHNzc3NzIFBQLXR0dHR0IDAwMC0tLS0tIikKK0RFRl9FTkMzMihZNV9sMmZldGNoLCAg
-ICAgIElDTEFTU19TVCIgMDExIDAxIDAwc3Nzc3MgUFAtdHR0dHQgLS0tLS0tLS0iKQorCiAvKioq
-KioqKioqKioqKioqKioqKioqKioqKioqKioqKi8KIC8qICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAqLwogLyogICAgICAgICAgICAgICAgICAgICAgICAgICAgICovCi0tIAoyLjcuNAoK
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
+
+--3866299591-2092232025-1621379120=:21440
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8BIT
+
+On Tue, 18 May 2021, Philippe Mathieu-Daudé wrote:
+> IDE bus depends on ISA bus for IRQ/DMA.
+>
+> Add an ISABus reference in PCIIDEState, and add link properties
+> to it in the PIIX and VIA objects (which inherit PCI_IDE).
+>
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> ---
+> include/hw/ide/pci.h |  1 +
+> hw/ide/piix.c        | 11 ++++++++++-
+> hw/ide/via.c         | 10 +++++++++-
+> 3 files changed, 20 insertions(+), 2 deletions(-)
+>
+> diff --git a/include/hw/ide/pci.h b/include/hw/ide/pci.h
+> index d8384e1c422..e790722ed14 100644
+> --- a/include/hw/ide/pci.h
+> +++ b/include/hw/ide/pci.h
+> @@ -47,6 +47,7 @@ struct PCIIDEState {
+>     PCIDevice parent_obj;
+>     /*< public >*/
+>
+> +    ISABus *isa_bus;
+
+I'm not sure that this belongs here. Previously we managed to remove 
+device specific fields from this structure so it's now really just holds 
+stuff related to PCI IDE (except the remaining "secondary" field specific 
+to CMD646). PCI IDE normaly has nothing to do with ISA except for those 
+south bridges that have IDE with legacy mode. So this ISABus reference 
+should be in those south bridges instead. But that may need a new subclass 
+just for this so putting it here is just avoiding boilerplate of declaring 
+new subclasses in piix and via-ide. I can sympathise with that but I'd 
+still prefer to keep it off here but I wonder if there's a way to do that 
+without subclassing and storing an ISABus ref? If I understand correctly 
+this ISABus ref is just needed to get appropriate ISA irqs. But could we 
+just store a ref to those irqs directly so we don't need to keep the ref 
+to the ISA bus? There's already a qemu_irq in BMDMAState but I'm not sure 
+how those are set and if you could store an isa irq there to simplify 
+this. I don't know the details and could not detangle it by a brief look 
+so not sure it can be done but conceptually it feels better to keep PCI 
+IDE separate from ISA and let it raise either PCI irq or ISA irq as 
+needed. For that a ref to the irq should be enough and that can either 
+come from a PCI bus (which is normaly expected for PCI IDE) or an ISA 
+bridge for legacy modes. Hope it makes sense and you get what I'm trying 
+to say. (Longer term we may want to make it changeable also after the 
+device is created to allow switching between legacy and PCI mode but so 
+far we could get away without emulating that so it's not a requirement 
+just something to consider when you're changing this. The real problem 
+that prevents switching modes is not irq I think but ioports and that ISA 
+devices are not configurable after creating them but that would need 
+QOM'ifying ISA emulation which probably does not worth the effort unless 
+we come across some guest that needs this.)
+
+Regards,
+BALATON Zoltan
+
+>     IDEBus bus[2];
+>     BMDMAState bmdma[2];
+>     uint32_t secondary; /* used only for cmd646 */
+> diff --git a/hw/ide/piix.c b/hw/ide/piix.c
+> index b9860e35a5c..48da68da37f 100644
+> --- a/hw/ide/piix.c
+> +++ b/hw/ide/piix.c
+> @@ -30,8 +30,9 @@
+> #include "sysemu/block-backend.h"
+> #include "sysemu/blockdev.h"
+> #include "sysemu/dma.h"
+> -
+> +#include "qapi/error.h"
+> #include "hw/ide/pci.h"
+> +#include "hw/isa/isa.h"
+> #include "trace.h"
+>
+> static uint64_t bmdma_read(void *opaque, hwaddr addr, unsigned size)
+> @@ -207,6 +208,12 @@ static void pci_piix_ide_exitfn(PCIDevice *dev)
+>     }
+> }
+>
+> +static Property piix_ide_properties[] = {
+> +    DEFINE_PROP_LINK("isa-bus", PCIIDEState, isa_bus,
+> +                     TYPE_ISA_BUS, ISABus *),
+> +    DEFINE_PROP_END_OF_LIST(),
+> +};
+> +
+> /* NOTE: for the PIIX3, the IRQs and IOports are hardcoded */
+> static void piix3_ide_class_init(ObjectClass *klass, void *data)
+> {
+> @@ -221,6 +228,7 @@ static void piix3_ide_class_init(ObjectClass *klass, void *data)
+>     k->class_id = PCI_CLASS_STORAGE_IDE;
+>     set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
+>     dc->hotpluggable = false;
+> +    device_class_set_props(dc, piix_ide_properties);
+> }
+>
+> static const TypeInfo piix3_ide_info = {
+> @@ -249,6 +257,7 @@ static void piix4_ide_class_init(ObjectClass *klass, void *data)
+>     k->class_id = PCI_CLASS_STORAGE_IDE;
+>     set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
+>     dc->hotpluggable = false;
+> +    device_class_set_props(dc, piix_ide_properties);
+> }
+>
+> static const TypeInfo piix4_ide_info = {
+> diff --git a/hw/ide/via.c b/hw/ide/via.c
+> index be09912b334..65fdca6dcf4 100644
+> --- a/hw/ide/via.c
+> +++ b/hw/ide/via.c
+> @@ -28,8 +28,9 @@
+> #include "hw/pci/pci.h"
+> #include "migration/vmstate.h"
+> #include "qemu/module.h"
+> +#include "qapi/error.h"
+> #include "sysemu/dma.h"
+> -
+> +#include "hw/isa/isa.h"
+> #include "hw/ide/pci.h"
+> #include "trace.h"
+>
+> @@ -210,6 +211,12 @@ static void via_ide_exitfn(PCIDevice *dev)
+>     }
+> }
+>
+> +static Property via_ide_properties[] = {
+> +    DEFINE_PROP_LINK("isa-bus", PCIIDEState, isa_bus,
+> +                     TYPE_ISA_BUS, ISABus *),
+> +    DEFINE_PROP_END_OF_LIST(),
+> +};
+> +
+> static void via_ide_class_init(ObjectClass *klass, void *data)
+> {
+>     DeviceClass *dc = DEVICE_CLASS(klass);
+> @@ -224,6 +231,7 @@ static void via_ide_class_init(ObjectClass *klass, void *data)
+>     k->revision = 0x06;
+>     k->class_id = PCI_CLASS_STORAGE_IDE;
+>     set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
+> +    device_class_set_props(dc, via_ide_properties);
+> }
+>
+> static const TypeInfo via_ide_info = {
+>
+--3866299591-2092232025-1621379120=:21440--
 
