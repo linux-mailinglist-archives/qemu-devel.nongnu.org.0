@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3B84387733
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 13:12:43 +0200 (CEST)
-Received: from localhost ([::1]:37826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4092E38775E
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 13:22:46 +0200 (CEST)
+Received: from localhost ([::1]:54370 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lixeU-00009V-VY
-	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 07:12:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58686)
+	id 1lixoA-0003l4-RW
+	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 07:22:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33046)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lixcr-0006Ad-RW
- for qemu-devel@nongnu.org; Tue, 18 May 2021 07:11:01 -0400
-Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:44022)
+ id 1lixmc-0002Um-LV
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 07:21:07 -0400
+Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:46850)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lixcq-0002am-57
- for qemu-devel@nongnu.org; Tue, 18 May 2021 07:11:01 -0400
-Received: by mail-ed1-x52a.google.com with SMTP id s6so10588232edu.10
- for <qemu-devel@nongnu.org>; Tue, 18 May 2021 04:10:59 -0700 (PDT)
+ id 1lixmZ-000094-O4
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 07:21:06 -0400
+Received: by mail-ed1-x532.google.com with SMTP id r11so10600964edt.13
+ for <qemu-devel@nongnu.org>; Tue, 18 May 2021 04:21:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Ujifz8r96MbSbstBWGtTzCM3QuTQgcct4fS4WWPXA28=;
- b=fCkJr1CRg5yKsRMkOz/R46z9RDnHvwVDZHr2dgGtqMK1SjBM70L/CQx30I9UA8JFhm
- 8a3k2qNBsALkGnLjdDrEeA85p07q2ItiVW873Kj0EBMOMCxZJa41gwC71Z84EHKnXjKA
- tj776AR5SKUlzFDjUj6jXOhdmY3EdnWhQClD0yBw35OqRrveG+gd45iFBLkpK5WS83Bo
- mGCaouClxGmE3wWVD1mwJ/xnaJmT/p7Mfl1LsnSmDzcnz/N285Eo6nS1MylqDrwAeGrA
- DSsYMgRJxyRWXXmoA12RlBnKGXpQCR/OfKAIKesxZpy4H6Hyem4D+yj5XnI9vAvdG70Z
- UJRw==
+ :cc; bh=Uu9i0a/38AEEDUVbTIUBlUl8u+zu5P7q5jVqaw0Vi40=;
+ b=I7WcCv/IBHlKSEVBgDKrRGnnvVJpwOW2m2zPiEYycRYM25gR3b6LClpvJnGlT32Y/5
+ sS+F0zbSyZN+veg9VnwiXPCYleeWcvvsIFBdGrDR9aWKe2d7kIGUkWzyxEk82DRU5xVT
+ yLm8dBbx+gvLjy1/gj0HXUME0cXowGD3FDe/gk1A35pvNRMy6U4YJznkWmAGBLIq5jro
+ 77bdMCF/jaPt1iGrf7x4e9b+/wOKhg+tBxZdKi4UkfFeUsSq2q1dew2M6NY7pZBFjVyc
+ WfqGj3ybKAaX5TLyjE2N0rF8S8xV19RbYUbV4+40mpKajA5bMrOxT0XRgIgNiporx9d7
+ UW3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=Ujifz8r96MbSbstBWGtTzCM3QuTQgcct4fS4WWPXA28=;
- b=SYIAmRC48NjEt8tFh4OpvQYgPrLd77TYfA+zAug9id/U8MsE6PNiWn+7+3W+QVfY5a
- 6Hwje0dr6XJ0tveVBdKS5CFIu/iuNTzC3PO3ge1kE1hF7srrHX4WOUgVTBmQNODqrh8i
- wViwf9EyAsklI3+k+18KbNRqMWy0tEgBZxgcEIXr671VAl04cgs6vx2mf+ZEOzRaYs2M
- TQTxklGuZWKW26yX7s+YggqKDE1ZjFDmnhfwz7DeY8t/g0xoStCx5JhDZZmPn7KCktcA
- DShro5ik6yZ65d8Vr5WHnHmUNmCYcjE1QlaDzih0XP/T5n88EKN1xDMqL5qb9tuJMFJM
- NlmQ==
-X-Gm-Message-State: AOAM532NqcUr8CXyLuO6hYS+wmcm9CKZvzG4zCawgre6qdWivokaJpau
- V1UZhGEr8CbhYZZ/gboRECaFSoaB0tozSPS19zzGag==
-X-Google-Smtp-Source: ABdhPJxRj1tYhRYRLzh9QWaXPkm2SbedcILQQPhxB4QCyASyXQk0S62nvJt5+eWprK8yw1jsfDKmutowrElmN87yQ+U=
-X-Received: by 2002:a05:6402:12d3:: with SMTP id
- k19mr6330937edx.52.1621336258078; 
- Tue, 18 May 2021 04:10:58 -0700 (PDT)
+ bh=Uu9i0a/38AEEDUVbTIUBlUl8u+zu5P7q5jVqaw0Vi40=;
+ b=mQ3kdPipsOSvH4nQTj6nd3XcFkWqgQJ88nCK4cbKgxBia8uxiteNEtAHkH3c32H2Dv
+ vMHrCq1HTCvHCM1ECkI5ldxbbJRszOM09OMGPdQiFE21tY9PiCmeG8gZ5KRHg2DQcgUQ
+ TvhspRXXxQWGo6h+Kcsz9YU3VtiBnc30JBVWXvrXsGqkNCNToNWwojmuWN1FpPHWZHco
+ fVjN7+hpchoXI+j+kjnvM8K7P5NOTGIKR0ymu9G93QTyhP2ZNEW8mJWROL7ZqFvJEw/w
+ QkK/GtsmmjqWGQtCGd94okHofHQErEPxZ+mHgFwIkR3X9pvC6SXREXkea1i3Hmf3Mo2z
+ ZMeQ==
+X-Gm-Message-State: AOAM5300SciukTKiGOgg+UvccH9/GUM0QlGhgUciB7plGh6lDe5H2K4Z
+ lh5/pW9zLmJ762J+jc5z8ynauGIBRIX1n5gNDjoK8Q==
+X-Google-Smtp-Source: ABdhPJxgPXB762sJ2+eam50H4MqE1LVsrPrCL/4pHPTjo6XT2x+6+Dd1BI+BFljzNZb/JF+xaDTY2n33gqHH5G9cfXM=
+X-Received: by 2002:a05:6402:3548:: with SMTP id
+ f8mr6274177edd.251.1621336859118; 
+ Tue, 18 May 2021 04:20:59 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210416235928.1631788-1-richard.henderson@linaro.org>
- <20210416235928.1631788-5-richard.henderson@linaro.org>
-In-Reply-To: <20210416235928.1631788-5-richard.henderson@linaro.org>
+ <20210416235928.1631788-6-richard.henderson@linaro.org>
+In-Reply-To: <20210416235928.1631788-6-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 18 May 2021 12:10:41 +0100
-Message-ID: <CAFEAcA_PwL-_=7REb_cCLtKK+=Un__ynVEus3GEoSi5p_c3caw@mail.gmail.com>
-Subject: Re: [PATCH v1 04/11] target/arm: Implement vector float32 to bfloat16
- conversion
+Date: Tue, 18 May 2021 12:20:42 +0100
+Message-ID: <CAFEAcA9_gDgL=QJASxS8ysDbFaNXYbMXAqg7X4jkYyM_5JTo2w@mail.gmail.com>
+Subject: Re: [PATCH v1 05/11] fpu: Add float_round_to_odd_inf
 To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::532;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x532.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,89 +82,84 @@ Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 17 Apr 2021 at 01:03, Richard Henderson
+On Sat, 17 Apr 2021 at 01:02, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> This is BFCVT{N,T} for both AArch64 AdvSIMD and SVE,
-> and VCVT.BF16.F32 for AArch32 NEON.
+> For Arm BFDOT and BFMMLA, we need a version of round-to-odd
+> that overflows to infinity, instead of the max normal number.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-
-> @@ -7567,6 +7568,7 @@ void HELPER(NAME)(void *vd, void *vn, void *vg, void *status, uint32_t desc)  \
->  }
+> ---
+>  include/fpu/softfloat-types.h | 4 +++-
+>  fpu/softfloat.c               | 8 ++++++--
+>  2 files changed, 9 insertions(+), 3 deletions(-)
 >
->  DO_FCVTNT(sve2_fcvtnt_sh, uint32_t, uint16_t, H1_4, H1_2, sve_f32_to_f16)
-> +DO_FCVTNT(sve_bfcvtnt,    uint32_t, uint16_t, H1_4, H1_2, float32_to_bfloat16)
->  DO_FCVTNT(sve2_fcvtnt_ds, uint64_t, uint32_t, H1_4, H1_2, float64_to_float32)
-
-Not related to this patch, but are the H macros for sve2_fcvtnt_ds definitely
-right? Just noticed they're the same as the ones being used for the f32->f16
-helpers despite the types being different sizes.
-
-> diff --git a/target/arm/translate-neon.c.inc b/target/arm/translate-neon.c.inc
-> index f1893b1dc8..8cc53892d6 100644
-> --- a/target/arm/translate-neon.c.inc
-> +++ b/target/arm/translate-neon.c.inc
-> @@ -3413,6 +3413,51 @@ static bool trans_VSHLL(DisasContext *s, arg_2misc *a)
->      return true;
->  }
+> diff --git a/include/fpu/softfloat-types.h b/include/fpu/softfloat-types.h
+> index 8a3f20fae9..3b757c3d6a 100644
+> --- a/include/fpu/softfloat-types.h
+> +++ b/include/fpu/softfloat-types.h
+> @@ -134,8 +134,10 @@ typedef enum __attribute__((__packed__)) {
+>      float_round_up           = 2,
+>      float_round_to_zero      = 3,
+>      float_round_ties_away    = 4,
+> -    /* Not an IEEE rounding mode: round to the closest odd mantissa value */
+> +    /* Not an IEEE rounding mode: round to closest odd, overflow to max */
+>      float_round_to_odd       = 5,
+> +    /* Not an IEEE rounding mode: round to closest odd, overflow to inf */
+> +    float_round_to_odd_inf   = 6,
+>  } FloatRoundMode;
 >
-> +static bool trans_VCVT_B16_F32(DisasContext *s, arg_2misc *a)
-> +{
-> +    TCGv_ptr fpst;
-> +    TCGv_i64 tmp;
-> +    TCGv_i32 dst0, dst1;
-> +
-> +    if (!dc_isar_feature(aa32_bf16, s)) {
-> +        return false;
-> +    }
+>  /*
+> diff --git a/fpu/softfloat.c b/fpu/softfloat.c
+> index 67cfa0fd82..76097679b0 100644
+> --- a/fpu/softfloat.c
+> +++ b/fpu/softfloat.c
+> @@ -694,13 +694,12 @@ static FloatParts round_canonical(FloatParts p, float_status *s,
+>
+>      switch (p.cls) {
+>      case float_class_normal:
+> +        overflow_norm = false;
+>          switch (s->float_rounding_mode) {
+>          case float_round_nearest_even:
+> -            overflow_norm = false;
+>              inc = ((frac & roundeven_mask) != frac_lsbm1 ? frac_lsbm1 : 0);
+>              break;
+>          case float_round_ties_away:
+> -            overflow_norm = false;
+>              inc = frac_lsbm1;
+>              break;
+>          case float_round_to_zero:
+> @@ -717,6 +716,8 @@ static FloatParts round_canonical(FloatParts p, float_status *s,
+>              break;
+>          case float_round_to_odd:
+>              overflow_norm = true;
+> +            /* fall through */
+> +        case float_round_to_odd_inf:
+>              inc = frac & frac_lsb ? 0 : round_mask;
+>              break;
+>          default:
+> @@ -771,6 +772,7 @@ static FloatParts round_canonical(FloatParts p, float_status *s,
+>                             ? frac_lsbm1 : 0);
+>                      break;
+>                  case float_round_to_odd:
+> +                case float_round_to_odd_inf:
+>                      inc = frac & frac_lsb ? 0 : round_mask;
+>                      break;
+>                  default:
+> @@ -6860,6 +6862,8 @@ float128 float128_round_to_int(float128 a, float_status *status)
+>
+>              case float_round_to_zero:
+>                  break;
+> +            default:
+> +                g_assert_not_reached();
+>              }
+>              return packFloat128( aSign, 0, 0, 0 );
+>          }
 
-Do we need to also check ARM_FEATURE_NEON here ?
-
-> +
-> +    /* UNDEF accesses to D16-D31 if they don't exist. */
-> +    if (!dc_isar_feature(aa32_simd_r32, s) &&
-> +        ((a->vd | a->vm) & 0x10)) {
-> +        return false;
-> +    }
-> +
-> +    if ((a->vm & 1) || (a->size != 1)) {
-> +        return false;
-> +    }
-> +
-> +    if (!vfp_access_check(s)) {
-> +        return true;
-> +    }
-> +
-> +    fpst = fpstatus_ptr(FPST_STD);
-> +    tmp = tcg_temp_new_i64();
-> +    dst0 = tcg_temp_new_i32();
-> +    dst1 = tcg_temp_new_i32();
-> +
-> +    read_neon_element64(tmp, a->vm, 0, MO_64);
-> +    gen_helper_bfcvt_pair(dst0, tmp, fpst);
-> +
-> +    read_neon_element64(tmp, a->vm, 1, MO_64);
-> +    gen_helper_bfcvt_pair(dst1, tmp, fpst);
-> +
-> +    write_neon_element32(dst0, a->vd, 0, MO_32);
-> +    write_neon_element32(dst1, a->vd, 1, MO_32);
-> +
-> +    tcg_temp_free_i64(tmp);
-> +    tcg_temp_free_i32(dst0);
-> +    tcg_temp_free_i32(dst1);
-> +    tcg_temp_free_ptr(fpst);
-> +    return true;
-> +}
-> +
->  static bool trans_VCVT_F16_F32(DisasContext *s, arg_2misc *a)
->  {
->      TCGv_ptr fpst;
-> --
-> 2.25.1
-
-Otherwise
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+This code change looks OK as far as it goes, but there are a bunch
+of other places in softfloat.c which switch on the float rounding mode.
+If this rounding mode is only supported for a particular subset of
+operations we should at least document that in the comment.
 
 thanks
 -- PMM
