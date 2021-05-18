@@ -2,87 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FC42387962
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 14:59:25 +0200 (CEST)
-Received: from localhost ([::1]:42728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C37138794F
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 14:57:49 +0200 (CEST)
+Received: from localhost ([::1]:39028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lizJk-0006fV-9z
-	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 08:59:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52802)
+	id 1lizIC-0004Br-JV
+	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 08:57:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54428)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1liz9U-00052W-11
- for qemu-devel@nongnu.org; Tue, 18 May 2021 08:48:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37028)
+ id 1lizGB-000224-Nz
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 08:55:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46904)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1liz9S-000838-B1
- for qemu-devel@nongnu.org; Tue, 18 May 2021 08:48:47 -0400
+ id 1lizG9-0003pi-1N
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 08:55:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621342125;
+ s=mimecast20190719; t=1621342539;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6GTJBcI3iONvU60K7cb9e3nPU7V7FAmBQHf0lv/MBaM=;
- b=ACQiY+ArvDWvTR9HMZbmPdT1IWAGP8I/xsEbSBQ62HjryY2C5+4tmsUeWJw/On8IO/z4Ql
- iBg5qY+05KEJebOXrHGxiwL8xBgCqCE0BG8e6CuWhXKTynAiUi5Ntj7/JTFteAXPsk29v6
- 3h2l0bBRXUoSDrWwZ7eUd7C6G5OLgoU=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-27-WCgRvaaZOLy5iQaNwdzO9g-1; Tue, 18 May 2021 08:48:41 -0400
-X-MC-Unique: WCgRvaaZOLy5iQaNwdzO9g-1
-Received: by mail-wr1-f70.google.com with SMTP id
- u20-20020a0560001614b02901115c8f2d89so5479619wrb.3
- for <qemu-devel@nongnu.org>; Tue, 18 May 2021 05:48:41 -0700 (PDT)
+ bh=a2X/3RjUzH+zh/kZCh5YGy6LnqG3BTEoaPnoPf3OC+o=;
+ b=V6vRaHlkJvX1tiOvgciXpaov5qVbNp+vI7wEwkC0e0d5WDCZ7Tu96CDzDysZnGkuoPM5AX
+ M8Nwj1CTsTPWf0kNJONCu1kqaUJScGBH7/p/K3e4O3xiCn053LKfeAvMC4dLmQ3ohdLepp
+ 1eHX/3z7kE5JyVzT6i9tj4b/L71TKOo=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-529-lycoDwpHPeqmM0Pwf9K68g-1; Tue, 18 May 2021 08:55:37 -0400
+X-MC-Unique: lycoDwpHPeqmM0Pwf9K68g-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ 1-20020adf93810000b029010fd5ac4ed7so5550097wrp.15
+ for <qemu-devel@nongnu.org>; Tue, 18 May 2021 05:55:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ h=x-gm-message-state:subject:to:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=6GTJBcI3iONvU60K7cb9e3nPU7V7FAmBQHf0lv/MBaM=;
- b=iHy9eAS85+UjIelXe0b1k5bmLjti3l8mBze6zAZ1nWkQ0frvpGvc2tteG+jnX8FOrB
- Wgy13BzpPcf9mtnnbBjeXmB6HQOtyers4Y+s7FJ9giBCmmfCgiVED7VztklQJ5Ayj5Mx
- q6zzohqmpatbxjlriCbmrRFIX8wAyri59cCCEop8FgXGi1XlP+AEIOrzcOCx2nSd046d
- ZOS+Tl9OPfSiHNvCd66ShEW+OBjgEdjabaozZDV7dNsJL8jzsTRPjaAbEXLf8w2oDZOo
- 3HMvb4aWHQKAyPOjDQ/67TRM5cra1u6R7DYUhROo6NbThg2yER7qehIUWHRghmWnND2v
- IaHA==
-X-Gm-Message-State: AOAM5310oFSM1AaOmwUaxV/8Kk5JXaWtfJ1CBn+LYGj5cF1wIMdm5EEF
- FY7UBgTtUXI6yOgugzLmGkQE6QH3F1mfC4KG2nNWA1J53ywtp/eGVIre+Edn1/o3WZpiSxbsJO3
- cWDh6xB6Fby5l/WmnjMbWKQmrkrtJKlUhkFjXa3hAHZRy8NbIJK0Og4RyHAH3pe++xVQ=
-X-Received: by 2002:adf:ea82:: with SMTP id s2mr6737553wrm.397.1621342120552; 
- Tue, 18 May 2021 05:48:40 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw/Lj+BYHFM6n5RfJR3GcHJP7cG8+jChvN44tfrL4GsjjLtoM44Vzkbaw5zBS1oALgC6jBpdg==
-X-Received: by 2002:adf:ea82:: with SMTP id s2mr6737537wrm.397.1621342120342; 
- Tue, 18 May 2021 05:48:40 -0700 (PDT)
+ bh=a2X/3RjUzH+zh/kZCh5YGy6LnqG3BTEoaPnoPf3OC+o=;
+ b=o0O4mVD46QVT0CyfhfveEL/t2LzgtkLFfwvIDx/5ceS+hZWFdbsPu+Np6yvIW5Dm+i
+ 6xGJWVU4+W52PGP1V9lu+OcapFdHmipWxP8zsv+1rQfka7jcyDQ45gIVMeC/UZm9c78v
+ W7Qdx8FKSRjHSMgSL4EkQQYEgikeiIA72d4u+7OEguGfR+J07tEX7ArPPa6NO+KouuEo
+ dNNav4FsWN6vZrN3N5LgbAmvpnN1LX6odECIbjofzZN0UN4QE0uzn7efGaobX90Oy2Ts
+ 3/LgqP0EnRxtXT7WiivGLyVB/5HXaOQrNQE7MKsZKZCuV7SO5aIs3hRJWrHHEKH4dwmF
+ sfJA==
+X-Gm-Message-State: AOAM533TuESJxDhz7l+aYDZG7BuSdmi9KMk5ckiHBLa5ynnBbeWQNbj9
+ VZdwoIVTGjh1TimB25d68Dm6j1FOUPTpfvgPdbhSx2uGfxUf41Rj5X4EbZigk6PtgZR+6zVJj8u
+ SC8FjD/CMz/HumsHbmKpA07bKS/EeXGYfCu+63YF8sszlW29MPBLTCu23KUsFXhwZrGM=
+X-Received: by 2002:a05:600c:b44:: with SMTP id
+ k4mr4932204wmr.152.1621342536404; 
+ Tue, 18 May 2021 05:55:36 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwOWwfLNCW8ghBTX+pfWdVWC+8hmtxahJnxJST7DtrWyWqmfmXu05gYndmxtoWYuvUUfz8Qow==
+X-Received: by 2002:a05:600c:b44:: with SMTP id
+ k4mr4932180wmr.152.1621342536077; 
+ Tue, 18 May 2021 05:55:36 -0700 (PDT)
 Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
  ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id x13sm11330967wro.31.2021.05.18.05.48.39
+ by smtp.gmail.com with ESMTPSA id p6sm5996640wma.4.2021.05.18.05.55.35
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 18 May 2021 05:48:39 -0700 (PDT)
-Subject: Re: [PATCH 2/3] ci: do not use #processors+1 jobs, #processors is
- enough
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20210518084139.97957-1-pbonzini@redhat.com>
- <20210518084139.97957-3-pbonzini@redhat.com>
- <40f9d46b-d234-c029-3ba2-f5dcac8b87fc@redhat.com>
- <7155c55a-1566-d7f0-d59e-ee48707302cf@redhat.com>
- <YKO2ZbDsphiXh/pE@redhat.com>
+ Tue, 18 May 2021 05:55:35 -0700 (PDT)
+Subject: Re: Fwd: Adding devices via QMP's device_add don't have their
+ bootindex setting respected
+To: Thomas Parrott <thomas.parrott@canonical.com>,
+ Julia Suvorova <jusual@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
+References: <CADNu6esx69UdccUHsFfinqcN=dPj0mceKX7WT755qWcPfDrwGQ@mail.gmail.com>
+ <CADNu6esNHqEPzpROiRu+PEFGZJhi3Sgs=duEqjAz53FJv-UMCQ@mail.gmail.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <885e30da-8d6d-7d58-7733-f66477633e65@redhat.com>
-Date: Tue, 18 May 2021 14:48:39 +0200
+Message-ID: <848d4c41-6c05-2877-fae1-83a9d3a5082d@redhat.com>
+Date: Tue, 18 May 2021 14:55:34 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <YKO2ZbDsphiXh/pE@redhat.com>
+In-Reply-To: <CADNu6esNHqEPzpROiRu+PEFGZJhi3Sgs=duEqjAz53FJv-UMCQ@mail.gmail.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
@@ -105,23 +105,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, alex.bennee@linaro.org,
- qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 18/05/21 14:43, Daniel P. Berrangé wrote:
-> I'd be surprised if you can measure any statistically reliable difference
-> at all wrt public CI. I've tried measuring CI performance for small changes
-> and found it impossible in short time frames, as the deviation between runs
-> is way too large. GitLab CI speeds tend to slow down as the day goes on and
-> US wakes up, so by time you run QEMU CI a second time in the day, it will
-> be slower. They clearly overcommit resources on the cloud host so you're
-> at the mercy of whatever else is running.
+On 18/05/21 14:22, Thomas Parrott wrote:
+> Due to QEMU moving towards a QMP configuration mechanism and away from 
+> config file support, the LXD team are currently in the process of 
+> migrating to using QMP to add devices to VMs (so that we can support the 
+> use of QEMU 6.0).
 
-Yeah, I was going to test it locally (using CPU offlining and hugetlbfs 
-to simulate a 4-CPU machine with not that much memory).
+If the only issue you have is with -spice, that's just a bug that we 
+need to fix.  -readconfig is still supposed to work, even though 
+-writeconfig is deprecated and I'd like to remove it as soon as 6.1.
+
+In particular, the issue you reported below is not a bug.  Devices that 
+are added after startup are considered hotplugged, and the boot index 
+list is frozen until the next reset.  QMP-based configuration of 
+coldplugged devices is in the works, but unfortunately it is not yet ready.
 
 Paolo
+
+> Currently we are using the `-S` flag to freeze CPU at startup, then 
+> using QMP to add NIC devices via the `device_add` command, and then 
+> using the `cont` command to start the VM guest.
+> 
+> This is working mostly fine, but there is one issue; the provided 
+> "bootindex" property is not respected.
+> 
+> E.g.
+> 
+> device_add 
+> {"addr":"00.0","bootindex":"0","bus":"qemu_pcie4","driver":"virtio-net-pci","id":"dev-lxd_eth0","mac":"00:16:3e:0c:69:e7","mq":"on","multifunction":"off","netdev":"lxd_eth0","vectors":"6"}
+> 
+> The device is seen within the VM guest and the VM BIOS, but its boot 
+> order is last rather than first.
+> 
+> We've also tried using a non-zero bootindex of 1 and that has the same 
+> effect.
+> 
+> After discussions on #qemu IRC channel, we found that running 
+> `system_reset` after adding the devices allowed the `bootindex` property 
+> to be respected.
+> 
+> So this looks like bug. Perhaps we can discuss it in one of the 
+> forthcoming community calls?
+> 
+> Thanks
+> Tom Parrott
 
 
