@@ -2,74 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2C32387741
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 13:16:24 +0200 (CEST)
-Received: from localhost ([::1]:45730 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06EF8387755
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 13:19:05 +0200 (CEST)
+Received: from localhost ([::1]:49110 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lixi3-0006Cz-Qt
-	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 07:16:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53996)
+	id 1lixke-000078-41
+	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 07:19:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54828)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lixIX-0001Rc-EX
- for qemu-devel@nongnu.org; Tue, 18 May 2021 06:50:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22206)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lixIV-00071a-NV
- for qemu-devel@nongnu.org; Tue, 18 May 2021 06:50:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621334998;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Qzchsy7W5yaFucidTbb6Zh+i9x5HCmmGxtxpkYQcZ+E=;
- b=LawbvcA1217MdPhyzWI5qHHKF1Ir33x9YOr7Ly4jV1S6DBXWeKZbL1lOO6p7wa7xouvRQ8
- i88dr2a0pc1vPXYK/iju+V7aX8kOb9Zih8ajdjV/98ZLDbwDDULEGodMpg47uxp6AXrKes
- 0KKvBRJOtgn7nMW6lQgXhzaiMDLhknw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-432-13rMrDO9MAu-1KKRP3BVCw-1; Tue, 18 May 2021 06:49:56 -0400
-X-MC-Unique: 13rMrDO9MAu-1KKRP3BVCw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8DD1C1966323;
- Tue, 18 May 2021 10:49:55 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-138.ams2.redhat.com [10.36.112.138])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A341E2ED75;
- Tue, 18 May 2021 10:49:54 +0000 (UTC)
-Subject: Re: [PATCH 2/3] ci: do not use #processors+1 jobs, #processors is
- enough
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-References: <20210518084139.97957-1-pbonzini@redhat.com>
- <20210518084139.97957-3-pbonzini@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <40f9d46b-d234-c029-3ba2-f5dcac8b87fc@redhat.com>
-Date: Tue, 18 May 2021 12:49:53 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lixLr-0005sN-Hm
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 06:53:27 -0400
+Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:43005)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lixLp-0000UA-2P
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 06:53:27 -0400
+Received: by mail-ej1-x635.google.com with SMTP id lg14so13841647ejb.9
+ for <qemu-devel@nongnu.org>; Tue, 18 May 2021 03:53:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=PUb08Nbh7NGRiwKPFr9sRb2tkEp3Gl8xaSMWG9/AZlI=;
+ b=TumZ5O3MKQ8BWUvckcNXsFeWLBGVhDR1NHFeV2SO/KuWjs6IeFHQ5npWRUBb4O8OU5
+ 8WZ3prxiwHZuZ4/gq/5sMnpzjBny5cs058WLJHFrlQC0V1P3gJe1Fw/20zBeg8eUF9zE
+ mjJLpeNMihu9UXVTe56/jRY0DamnXpDem2LdOCS3maHa9eCwjPtDRfjQJ0AigHezVjF0
+ 2qhEO5NkRenTrV7Wlu1PNKpHG/uN9T6mK6a9++/fC16+ZnhfRWUg7gFl/vj2u43kfeZL
+ eWdAsuKJBHF4jCE0cWZeRWo+RdYQzmxiN+KYO6aQgpfQ3enZmKt4H6AudA/NIID7XN1Z
+ QAew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=PUb08Nbh7NGRiwKPFr9sRb2tkEp3Gl8xaSMWG9/AZlI=;
+ b=UClSR04sUj2Gf6+dOKFJJE4gb105YsGySGLnX/UW3e1tAY9eA1HomjXH6QCZ1cmelC
+ cGI5ryA68fFXWu8jSIToYboiYw8kEakMudjpW/DGO5vMp+Xw5TU/sv3VUOMKACC/gZcf
+ 6rDtvoYQqkFh1bbNnAQWu1nObgyftosadCs6iN674mOQ++ee6sVuKg+Gp4mAZnz7SHCs
+ t1nbbYQbklTuQ4+0QshWQdjxJZoQMb0RA+pgBBKXYgSDaxee99QgVM4mwUdhuc/RgsHQ
+ eje31vfBuethr3pGjoeifux3JVK25lp5NBiN9Z+XoBeK5SidajYPHP0od5HfiHLsX10l
+ ZMIw==
+X-Gm-Message-State: AOAM530WDW9qAqarizZM2/bx8c0zc4aYPzeGiVtaQmtQvjWW5wZuz8qZ
+ yaU8BmxMsVyjCBhX48lAiNUm4P4TO2y7flOAhXtvoA==
+X-Google-Smtp-Source: ABdhPJyPFEJUy9kPKfJ1wKMaF5wc+tLtKn4KvrpGZ1XzUlcdmzxTAzuxY73gYP9fBjABnaeebTs/+59iP61HVw7TLNA=
+X-Received: by 2002:a17:906:b1cc:: with SMTP id
+ bv12mr5294254ejb.407.1621335203428; 
+ Tue, 18 May 2021 03:53:23 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210518084139.97957-3-pbonzini@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.374,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210416235928.1631788-1-richard.henderson@linaro.org>
+ <20210416235928.1631788-4-richard.henderson@linaro.org>
+In-Reply-To: <20210416235928.1631788-4-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 18 May 2021 11:53:07 +0100
+Message-ID: <CAFEAcA9sdSrc3Z_229fb7R-PA71am8HZkudhB1fEtbU+JEzxCA@mail.gmail.com>
+Subject: Re: [PATCH v1 03/11] target/arm: Implement scalar float32 to bfloat16
+ conversion
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::635;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x635.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,40 +79,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 18/05/2021 10.41, Paolo Bonzini wrote:
-> I could not reconstruct the origin of the $(($(nproc) + 1)) idiom,
-> but I suspect it was there only to have a sensible result when nproc
-> or getconf do not exist.  This can be achieved also with an "||".
-> 
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+On Sat, 17 Apr 2021 at 00:59, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> This is the 64-bit BFCVT and the 32-bit VCVT{B,T}.BF16.F32.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->   .gitlab-ci.yml | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-> index 4bd1a91aa8..3f0d86cf0a 100644
-> --- a/.gitlab-ci.yml
-> +++ b/.gitlab-ci.yml
-> @@ -17,7 +17,7 @@ include:
->     stage: build
->     image: $CI_REGISTRY_IMAGE/qemu/$IMAGE:latest
->     before_script:
-> -    - JOBS=$(expr $(nproc) + 1)
-> +    - JOBS=$(nproc || echo 1)
 
-The basic idea of the "+ 1" was to make sure that there is always a thread 
-that runs on a CPU while maybe another one is waiting for I/O to complete. 
-This is suggested by various sites on the web, e.g.:
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
- 
-https://unix.stackexchange.com/questions/519092/what-is-the-logic-of-using-nproc-1-in-make-command
-
-So not sure whether this patch here make sense ... I'd rather drop it.
-
-  Thomas
-
+thanks
+-- PMM
 
