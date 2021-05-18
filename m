@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 665BE388016
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 20:58:42 +0200 (CEST)
-Received: from localhost ([::1]:38424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60F60388015
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 20:58:18 +0200 (CEST)
+Received: from localhost ([::1]:37308 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lj4vR-0002qs-GY
-	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 14:58:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50182)
+	id 1lj4v3-00026H-Ag
+	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 14:58:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50248)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lj4cS-0003QZ-3T
- for qemu-devel@nongnu.org; Tue, 18 May 2021 14:39:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41175)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lj4cc-0003Wj-Tv
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 14:39:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23514)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lj4cP-0000Qj-Sq
- for qemu-devel@nongnu.org; Tue, 18 May 2021 14:39:03 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lj4cW-0000Tt-Qa
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 14:39:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621363141;
+ s=mimecast20190719; t=1621363148;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=F5bc/fLR7X3lBPxXh2gaq/EPG/Hnjmqk5I/R/ixg5NU=;
- b=PlO9uBcsdRqtdJBJkSj6wPWW5ybaOsaqyvYgu7UQ3kuOhDK60vl2Vku/FL96dnNok3Q9yy
- QBHKp29PMwEVz3Zq8C0KUw75IihqsqxKAZVHxpH8OET0zFJ2MGOWyBzZ0n8P0iEUzdJyIm
- Nu+PuGjrsIVsy2kqRIB7GPbieNuHphw=
+ bh=YTy8laNpOEvZ5nwMb6BJ8len0GRaZyxbwD2wWuJLiMU=;
+ b=UZ+TqCqQKLGlUiOSRgvJwMEWRgAggjPL1Oi/0gvOaoRkB1+xdO9A/tJtuNsZfYe2S/292T
+ y+IVv7LJc76qq7B5DunqXhJlGXIsL14Nj2dWNgawn3x2Wz0VWetasgURO0J7SPcSXB5G0A
+ zpsRFpdyUe0BR8CSFkCx9FvH9hw/AGE=
 Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
  [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-450-kYtk7CS7NqyU2F-JIuJbsA-1; Tue, 18 May 2021 14:38:59 -0400
-X-MC-Unique: kYtk7CS7NqyU2F-JIuJbsA-1
+ us-mta-366-UW2vwp00MZaVpxbhJLV6Rg-1; Tue, 18 May 2021 14:39:05 -0400
+X-MC-Unique: UW2vwp00MZaVpxbhJLV6Rg-1
 Received: by mail-ej1-f72.google.com with SMTP id
- w13-20020a170906384db02903d9ad6b26d8so877357ejc.0
- for <qemu-devel@nongnu.org>; Tue, 18 May 2021 11:38:59 -0700 (PDT)
+ c11-20020a170906170bb02903bbefa04cd1so2773045eje.8
+ for <qemu-devel@nongnu.org>; Tue, 18 May 2021 11:39:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=F5bc/fLR7X3lBPxXh2gaq/EPG/Hnjmqk5I/R/ixg5NU=;
- b=PwOJZTWzPVyv8Fg9VboiKZa13wfxRRF8wwBZZVb0xm+iYrf/31v20nUAbEH8ld0AdD
- 3BBdgqReVJBx9mi41fJdspHicfG9BpvuOPb7pbdLdHzkNKRg+SGq3GG3k0v6kXWDb+63
- AWOxvdI+a1mWNtyTACNmZsx8GKgil5wsLnS1v/MfsldOCHdT40Zl2e5gViJKkBu78rtB
- CDVua3tOJ8fN8Xb+Rxr/ZErttmgS8LF8ee16afV850fVCucnNVVknReKsbFC0D702M9K
- +FFDNNDXFJOF6NKsMygul2ji/vdVBqnEkjOr7vzMVz0naXFUVDcTf3OVhqHyu1yI+qct
- M5MA==
-X-Gm-Message-State: AOAM532tkSZlcV55Ftt0qkK+oJ7sIs62I29hFD7xEwqeKO54GALrSjqG
- hZFXCFlWrmQAekGTJX7QKTXf9IdPrlloDaJsfu1DOGwjoPR4DFEP/+OGirBAA7V48SuWkAJSz+R
- AyPRv14QSPjKinOWR2+vif9KK5pclf7y9YRNN6aVKg4vSx+yrvqxBoB3qI4RgywMA
-X-Received: by 2002:a17:906:a84e:: with SMTP id
- dx14mr7342977ejb.220.1621363138429; 
- Tue, 18 May 2021 11:38:58 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxUTZdzy85UcK5H0rImGDWfRk2nVcwF4b1HLgbSJFPlecoiwU8vAYSzL/WE4QBrgOza/mkmiQ==
-X-Received: by 2002:a17:906:a84e:: with SMTP id
- dx14mr7342949ejb.220.1621363138172; 
- Tue, 18 May 2021 11:38:58 -0700 (PDT)
+ bh=YTy8laNpOEvZ5nwMb6BJ8len0GRaZyxbwD2wWuJLiMU=;
+ b=dXTngsUF5aPyoLPpaBTqWS5uo+4v7WIq9sAaihyo9m+pxaer/onVLCagClkMHj9KN3
+ v9JdPB8GBNXosex63VzBI72cTw/AZvovRmFmvMfmIjdIU+qK8dJphjPS/TNY3+D8Mf87
+ Nx+o80VHXIbjYqaV51/rn3UtXpqKzf1Wb3yTIZFocMUYqyV1eQsz5W4Z0I5oeQwL9esJ
+ ZkyMRjyLaJZbo1M7luzyefShhOCv7v6/2wr5/pDt3+n2eCig0fswcPTQt9/GVosIdMIO
+ Niw78Ex7UNBNRUVhXs3su1xT7t946YQmnuuzl4EOZPwF5SvMXAMeSyxJJqGohlCXEfCz
+ ACBg==
+X-Gm-Message-State: AOAM5327CRMJiAzXYHzM88ix8Z//7PcxFS1Kuf9k2d938tabuTXTQNgz
+ zmLXPE4lW3b5FxNuzbMgemuNhc9UL4toyd/CidwVmTTE1mAJ7Fd1cRmsWnxFeUCyIgo/gVFFbcC
+ GBgQ3tUJykNjM5I5WKEXAMPGIGSx/1DekAbPlsxH9innA1rhczPxN2HkInyTpFRpa
+X-Received: by 2002:aa7:de1a:: with SMTP id h26mr8579046edv.240.1621363143509; 
+ Tue, 18 May 2021 11:39:03 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzewI5q9w4LIUHMUMfEoaVDnvZb3rhKtib+QlWRVX3MXnOn4+YpREw+F3uNlY8D0WfXStwvRg==
+X-Received: by 2002:aa7:de1a:: with SMTP id h26mr8579019edv.240.1621363143290; 
+ Tue, 18 May 2021 11:39:03 -0700 (PDT)
 Received: from x1w.redhat.com (31.red-83-51-215.dynamicip.rima-tde.net.
  [83.51.215.31])
- by smtp.gmail.com with ESMTPSA id e6sm1738171ejd.31.2021.05.18.11.38.57
+ by smtp.gmail.com with ESMTPSA id by20sm10484219ejc.74.2021.05.18.11.39.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 May 2021 11:38:57 -0700 (PDT)
+ Tue, 18 May 2021 11:39:02 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 24/25] hw/virtio: Add methods for aligned pointer access
-Date: Tue, 18 May 2021 20:36:54 +0200
-Message-Id: <20210518183655.1711377-25-philmd@redhat.com>
+Subject: [RFC PATCH 25/25] hw/virtio: Optimize accesses on vring aligned
+ pointers
+Date: Tue, 18 May 2021 20:36:55 +0200
+Message-Id: <20210518183655.1711377-26-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210518183655.1711377-1-philmd@redhat.com>
 References: <20210518183655.1711377-1-philmd@redhat.com>
@@ -106,51 +105,71 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Suggested-by: Stefan Hajnoczi <stefanha@redhat.com>
+By the virtio spec [*] the vring is aligned, so the 'idx' and 'flag'
+fields are also 16-bit aligned. Therefore we can use the load/store
+*aligned* API to set the value.
+
+[*] https://docs.oasis-open.org/virtio/virtio/v1.1/csprd01/virtio-v1.1-csprd01.html#x1-430008
+
+Reported-by: Bibo Mao <maobibo@loongson.cn>
+Inspired-by: Stefan Hajnoczi <stefanha@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- include/hw/virtio/virtio-access.h | 21 +++++++++++++++++++++
- 1 file changed, 21 insertions(+)
+ hw/virtio/virtio.c | 13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
 
-diff --git a/include/hw/virtio/virtio-access.h b/include/hw/virtio/virtio-access.h
-index ae66bbd74f9..5b20f004e12 100644
---- a/include/hw/virtio/virtio-access.h
-+++ b/include/hw/virtio/virtio-access.h
-@@ -66,6 +66,16 @@ static inline rtype virtio_ld ## size ## _phys_cached(VirtIODevice *vdev,\
-         return ld ## size ## _be_phys_cached(cache, pa);\
-     }\
-     return ld ## size ## _le_phys_cached(cache, pa);\
-+}\
-+static inline rtype virtio_ld ## size ## _phys_cached_aligned(\
-+                                                      VirtIODevice *vdev,\
-+                                                      MemoryRegionCache *cache,\
-+                                                      hwaddr pa)\
-+{\
-+    if (virtio_access_is_big_endian(vdev)) {\
-+        return ld ## size ## _be_phys_cached_aligned(cache, pa);\
-+    }\
-+    return ld ## size ## _le_phys_cached_aligned(cache, pa);\
+diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+index e02544b2df7..ebee9c4e643 100644
+--- a/hw/virtio/virtio.c
++++ b/hw/virtio/virtio.c
+@@ -296,7 +296,7 @@ static inline uint16_t vring_avail_flags(VirtQueue *vq)
+         return 0;
+     }
+ 
+-    return virtio_lduw_phys_cached(vq->vdev, &caches->avail, pa);
++    return virtio_lduw_phys_cached_aligned(vq->vdev, &caches->avail, pa);
  }
  
- #define VIRTIO_ST_CONVERT(size, vtype)\
-@@ -98,6 +108,17 @@ static inline void virtio_st ## size ## _phys_cached(VirtIODevice *vdev,\
-     } else {\
-         st ## size ## _le_phys_cached(cache, pa, value);\
-     }\
-+}\
-+static inline void virtio_st ## size ## _phys_cached_aligned(\
-+                                                     VirtIODevice *vdev,\
-+                                                     MemoryRegionCache *cache,\
-+                                                     hwaddr pa, vtype value)\
-+{\
-+    if (virtio_access_is_big_endian(vdev)) {\
-+        st ## size ## _be_phys_cached_aligned(cache, pa, value);\
-+    } else {\
-+        st ## size ## _le_phys_cached_aligned(cache, pa, value);\
-+    }\
+ /* Called within rcu_read_lock().  */
+@@ -309,7 +309,8 @@ static inline uint16_t vring_avail_idx(VirtQueue *vq)
+         return 0;
+     }
+ 
+-    vq->shadow_avail_idx = virtio_lduw_phys_cached(vq->vdev, &caches->avail, pa);
++    vq->shadow_avail_idx = virtio_lduw_phys_cached_aligned(vq->vdev,
++                                                           &caches->avail, pa);
+     return vq->shadow_avail_idx;
  }
  
- #define VIRTIO_LDST_CONVERT(size, rtype, vtype)\
+@@ -359,7 +360,7 @@ static uint16_t vring_used_idx(VirtQueue *vq)
+         return 0;
+     }
+ 
+-    return virtio_lduw_phys_cached(vq->vdev, &caches->used, pa);
++    return virtio_lduw_phys_cached_aligned(vq->vdev, &caches->used, pa);
+ }
+ 
+ /* Called within rcu_read_lock().  */
+@@ -369,7 +370,7 @@ static inline void vring_used_idx_set(VirtQueue *vq, uint16_t val)
+     hwaddr pa = offsetof(VRingUsed, idx);
+ 
+     if (caches) {
+-        virtio_stw_phys_cached(vq->vdev, &caches->used, pa, val);
++        virtio_stw_phys_cached_aligned(vq->vdev, &caches->used, pa, val);
+         address_space_cache_invalidate(&caches->used, pa, sizeof(val));
+     }
+ 
+@@ -388,8 +389,8 @@ static inline void vring_used_flags_set_bit(VirtQueue *vq, int mask)
+         return;
+     }
+ 
+-    flags = virtio_lduw_phys_cached(vq->vdev, &caches->used, pa);
+-    virtio_stw_phys_cached(vdev, &caches->used, pa, flags | mask);
++    flags = virtio_lduw_phys_cached_aligned(vq->vdev, &caches->used, pa);
++    virtio_stw_phys_cached_aligned(vdev, &caches->used, pa, flags | mask);
+     address_space_cache_invalidate(&caches->used, pa, sizeof(flags));
+ }
+ 
 -- 
 2.26.3
 
