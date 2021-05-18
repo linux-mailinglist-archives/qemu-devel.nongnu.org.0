@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77DD638753C
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 11:33:55 +0200 (CEST)
-Received: from localhost ([::1]:41156 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68AF0387540
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 11:35:32 +0200 (CEST)
+Received: from localhost ([::1]:46402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1liw6s-0001UR-I5
-	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 05:33:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57200)
+	id 1liw8R-0004yj-FK
+	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 05:35:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57680)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1livnr-0002rD-Qg
- for qemu-devel@nongnu.org; Tue, 18 May 2021 05:14:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32673)
+ id 1livpE-0005BD-QD
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 05:15:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52465)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1livnk-0000PE-Oj
- for qemu-devel@nongnu.org; Tue, 18 May 2021 05:14:15 -0400
+ id 1livpB-00017O-PQ
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 05:15:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621329247;
+ s=mimecast20190719; t=1621329336;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9nE8X0Dl/+hcGksc1DdM/J9mmK8lFp/uHwNii5psrLg=;
- b=RL9FJgMyFKT2E+WnY7KZ0ObwgmuWjeN1g2tB+EEWjQ6S1pJyYB7OxYIZLWoaGeUaNJWAgm
- 4Hi6w7TjWOoLBQna7UX1JR7bPPFurr7V5FJBGfmFbRw4Sge5EjR9y0lEtOpHQUdUJjb1RB
- WJxVY+NvdL6a4yWHg6ibsbVsIDlDmf4=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-374-eJ_qsnSJOqWBDEucH9Zzqw-1; Tue, 18 May 2021 05:14:03 -0400
-X-MC-Unique: eJ_qsnSJOqWBDEucH9Zzqw-1
-Received: by mail-wr1-f69.google.com with SMTP id
- d12-20020adfc3cc0000b029011166e2f1a7so4335178wrg.19
- for <qemu-devel@nongnu.org>; Tue, 18 May 2021 02:14:03 -0700 (PDT)
+ bh=ElGH/Ew/6g130uxiH4rl2uk6UWGp5xiwW5eX6CJnT2U=;
+ b=LUlLTu2Ya2UosYxvPIDizj8+Lu2vhtDJN38yBk/FYH/mJEZRSPMdHesK2GN5xd7l7RwdOZ
+ puFnttN3KD4I9FMe9SEEl+5dUfBVmi8zfc789BtDGg7dURvti2Z/S195fFPFAGKqLGoNUJ
+ MkI0viJfHv+3XFOZL2R6VSN13b2+dpc=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-124-FAiPwOuCOM-P059Od_XFgg-1; Tue, 18 May 2021 05:15:35 -0400
+X-MC-Unique: FAiPwOuCOM-P059Od_XFgg-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ x82-20020a1c63550000b0290158057efb6dso793650wmb.3
+ for <qemu-devel@nongnu.org>; Tue, 18 May 2021 02:15:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=9nE8X0Dl/+hcGksc1DdM/J9mmK8lFp/uHwNii5psrLg=;
- b=UhwP8sI+UutG1E1VEqDqG0GFr70CHugv+6CUrlw+/8aCb8frIidvwMguqCLnDSGXia
- lfBeGHn2khfu0Bk1xsUtdPtqQ5VVO6aQVe3230Ee3AcKw2e8Bwyio2n4nRQBJi5y9YvV
- dfi1LjNC2XBJM+SMMPbtEsuL/aCA52kLf7oLJvTyKmwaExkg02NWv0Tscb17fAn1GLVT
- kOhTQyu8HnlSkcXJMFTYHgahsPYOhf3p1PjHngULN8qmmZajWkuOlka/mDlaOaODT3Tt
- MQ/lBtu6vcisR5hVV1lru0WbjxhUFMSL/bMq+KjFiKGi+IWcuuVgUld3jDLkpEHZjVIs
- ZNXw==
-X-Gm-Message-State: AOAM532wzboCKGYq9vFvOYdQZXzFnEg0L1+VwdPn5XvJGweF7Thik31R
- +X4gxUXHE43hPlHsXdob790IW963XBUaJXoUQFTc9Oxqax9BE74nAlmx6VXgKxk3F5UqCc2DRwH
- tAY+DaFImjxuhbOo=
-X-Received: by 2002:adf:fb46:: with SMTP id c6mr5532205wrs.123.1621329242662; 
- Tue, 18 May 2021 02:14:02 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy54va0iwx5tGazFKAmZFt08FF0mvq0RZ/6flIRT6Mvpxt2c7qCa+dE63Ip+wB8m9p+Y0Vw4A==
-X-Received: by 2002:adf:fb46:: with SMTP id c6mr5532177wrs.123.1621329242458; 
- Tue, 18 May 2021 02:14:02 -0700 (PDT)
+ bh=ElGH/Ew/6g130uxiH4rl2uk6UWGp5xiwW5eX6CJnT2U=;
+ b=I4/HWma4b5waNXlr8ykSBGVB06dhC/yf/p6/xyPkV1LfX6BD9bzfwU1E2KnmILvcac
+ 0udfU+dfX1Z1nGXTCWeUYF0Qru8rqwb4Ww3SsyHwyH9T0WUNEoH2bHKw7WsCRmlceiLw
+ t3xHxBcdePW+4fcIE3xIP4vgT7WawHb7qgcDLsRF5+oaYRhAUS0RWdpUeKUUmvX7YXO8
+ bPX2kIT3Za3gxDIw0yySzj9FsvAgJj6oHTmJgd1R1HvcwJ6l5rsh85VwIdSlBDpp8ySD
+ cOt8XDdAPz2kTr/lSjxczNFX5K1psNSoIP4AfSxnIUzbeBWbh2NrhCvvNBIzg3VAXhLN
+ bZxA==
+X-Gm-Message-State: AOAM531c46vISFDV/0ixyB5JWjkegK1Uy7/4NF3De1wrtCSmMnUCaTVA
+ YhoV4XwR/J7UoSs5b33i7IhCTCiI0V9YMPk1075jFNRbHJ5SUgBrNhFTJ+gTnrt9AOY8WHUrhRD
+ fNfAznIJyRxwOwr8=
+X-Received: by 2002:a1c:2645:: with SMTP id m66mr3748857wmm.145.1621329334075; 
+ Tue, 18 May 2021 02:15:34 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyTwiCeJ7FJVGJrIm3U2u+yzhP5wX08CNZXGAVMlMGFsfBXf15zEePsfOoX5ytRyhHmB4F08w==
+X-Received: by 2002:a1c:2645:: with SMTP id m66mr3748836wmm.145.1621329333859; 
+ Tue, 18 May 2021 02:15:33 -0700 (PDT)
 Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
  ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id i11sm20974449wrq.26.2021.05.18.02.14.01
+ by smtp.gmail.com with ESMTPSA id c14sm20575474wrt.77.2021.05.18.02.15.32
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 18 May 2021 02:14:01 -0700 (PDT)
-Subject: Re: [PATCH v2 05/50] target/i386: Split out check_iopl
+ Tue, 18 May 2021 02:15:33 -0700 (PDT)
+Subject: Re: [PATCH v2 06/50] target/i386: Assert PE is set for user-only
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20210514151342.384376-1-richard.henderson@linaro.org>
- <20210514151342.384376-6-richard.henderson@linaro.org>
+ <20210514151342.384376-7-richard.henderson@linaro.org>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <fd3a823f-36dc-182f-0b07-55a39b6a5462@redhat.com>
-Date: Tue, 18 May 2021 11:14:00 +0200
+Message-ID: <500be2c9-38ef-21bb-ffdb-625a33fafda1@redhat.com>
+Date: Tue, 18 May 2021 11:15:32 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210514151342.384376-6-richard.henderson@linaro.org>
+In-Reply-To: <20210514151342.384376-7-richard.henderson@linaro.org>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -106,10 +106,10 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 14/05/21 17:12, Richard Henderson wrote:
+> A user-mode executable is never in real-mode.  Since we're adding
+> an accessor macro, pull the value directly out of flags for sysemu.
+> 
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->   target/i386/tcg/translate.c | 28 +++++++++++++---------------
->   1 file changed, 13 insertions(+), 15 deletions(-)
 
 Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 
