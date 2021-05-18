@@ -2,64 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1138E387437
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 10:42:17 +0200 (CEST)
-Received: from localhost ([::1]:50494 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38A6D38743F
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 10:44:37 +0200 (CEST)
+Received: from localhost ([::1]:58866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1livIt-0006SS-Sr
-	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 04:42:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49074)
+	id 1livLA-0003fB-8r
+	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 04:44:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49076)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1livFq-0003Xe-4T; Tue, 18 May 2021 04:39:06 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:43683)
+ id 1livFq-0003Xg-8z; Tue, 18 May 2021 04:39:06 -0400
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:41951)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1livFo-00047C-D2; Tue, 18 May 2021 04:39:05 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id p7so5494979wru.10;
+ id 1livFo-00047E-J9; Tue, 18 May 2021 04:39:06 -0400
+Received: by mail-wm1-x32f.google.com with SMTP id
+ o6-20020a05600c4fc6b029015ec06d5269so1012469wmq.0; 
  Tue, 18 May 2021 01:39:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=5UVNy9qZrdEj1hvWjeWPOJi0NspAIRfr+S0145n99q4=;
- b=VFaNV4qKbmn83Hs/E+schK9Wv/glED/4zAD+8KD8twlaY9zi6G9FD+gqfscepPQNK0
- ITq+g/2l8uOkilPX2IVqCw45iI4NKUqlSP8hM1LsY32TjrM1Bc6X86doDyMBfYf7ryRi
- rHvYYWLV6g18RAmu+j/+/IKseEiCVClbhPzN3+97ODZ92FYp2RhIOYgz/T31RFQ+rLeg
- bqkyxTZamhYmCY1fLmNDQKA0uOVhv1cHybqXVA0SsNsexBrjTu6UNDn0Q1Uouf4Tum0H
- iNUiGzWYYp/wpbNRJefkZO26bxqqyBn3FiD394YPD91evDfkFqNmVXI2JA7u2xCn4ZAv
- HZIA==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=bXssOFtwQI3r6hP5tP3UWXJ1+o0S9QmsQBbP86KdnTE=;
+ b=eu/37W0Ty7k/UltkaPHmEK1FySh0HcBao0VQnbOJ0aKzxT+7qSb+Hn4HzjXmOz8if/
+ dXH1F9TGYDSH3EMMtHMMjDgbe8X9IipzCv8KApWbZ5fgyWvDSVQEaqK/S62mkMNKt0+7
+ ylDtYvDmTTzye0JEJk5drKEp33D3FfTJ+yhcx/h+GjfmuG7Z16u4WjCuIZvlCqdOvx2F
+ kDEnJrZB112YRHIyTO4wv3688+jGqrtxfV2B38sBXwFvwvKZnT/Rm5VvZLW+FWHHyG70
+ tBNFyHfY+DQjmEmVVZUQ8X8DFehTJzmdmiTSc9IQ2hZA0igAllq26EwVAeAdKUtEV0eu
+ znHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=5UVNy9qZrdEj1hvWjeWPOJi0NspAIRfr+S0145n99q4=;
- b=G95+w9UWQhSAOJ/eZFCP0oiY37CDPhSAtI9oYku3ysIO8fJT9cIN0bfd3iVt5LCb4t
- eeue986Bj9dGC1NVCkMeixM4a/7J+XEzI2nR+Q3TPqpJ2mOXq7b+thBK4RG8fIxfqU1K
- uFV3ThRqTBpfY04ac4VberUIMFDVugiBxnEeQ+8Rn7FgfGs6mmG2WB2C6NE2WYS/kPNQ
- oWt61m5+jTfM9WKJwG9YdKdjPN7FvJEahFUSgK+Mw5N2WLqmsTpIkiJMzZjdHAKqgOgn
- 7AsChYm0BI4LO2/FXOZb37nIK1kC8wyB6l9x3axHQzkzX6JoCzH1NYhvFFPW2ybgJdsS
- 6+AQ==
-X-Gm-Message-State: AOAM533MSo08JGYyiS7NqT9KBUb70FmdaW7z+wFz9n4pXTzmowbsAOhl
- IOuXecg1SSyHYgwjI40RmSLLc+p/HPlGDw==
-X-Google-Smtp-Source: ABdhPJzZ9CdvK6RT0PAST0Vv6mFratexhONF2Ywj1w57uffbY0g3GFXk8xXJWR8kpuxnYx1caJwz4A==
-X-Received: by 2002:a5d:5508:: with SMTP id b8mr5190444wrv.278.1621327142197; 
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=bXssOFtwQI3r6hP5tP3UWXJ1+o0S9QmsQBbP86KdnTE=;
+ b=H8+D0DARrPMwoOjBAi2gzo4yG8+FCQi4v2SabcTBDNsw2CldPq1Wov6AdrUZXGWIpA
+ KsqOHMsR/LFUH6RKN421IfFXlGyBjrwGVlMw9R6K2yBSV8bg4GghCH0paK/dq3QAvY5h
+ x6b+/ndBGy3RreNONVi3PsvDBiPGNsh8JAoG6GrbRQWntqZ7UUqy25j27yqxYV2ZZqQ5
+ Q4BKkpyiJalSHInDOzBjoNGgbp/6t6t7fdyQc6ZK8Wtqx4XhK0HEGJ/d5u1/X2mL35YU
+ rgM95fVqeVvy2Fvyi5RZZlJO0eWKMJqhzDxFbhdR05xjcD04puJZqIuwMepBoZCIBcUY
+ Qafw==
+X-Gm-Message-State: AOAM531QT2Yp1fjUz+Ai5zKVSjNFsupiVAdtSHGgVyHwOJ/DfVBxu/ZE
+ 2Pml+TITh4JvvX+kiQYwDeTLZwOO92o6Lg==
+X-Google-Smtp-Source: ABdhPJyMAM1gO9uxzZzS/D4a9voN4KteMSRWS+dzJEc2Sync72J34cU/h7YU1rbYPbxfYancfymkyQ==
+X-Received: by 2002:a1c:b4c6:: with SMTP id d189mr4068783wmf.39.1621327142787; 
  Tue, 18 May 2021 01:39:02 -0700 (PDT)
 Received: from avogadro.redhat.com ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id y6sm70959wmy.23.2021.05.18.01.39.01
+ by smtp.gmail.com with ESMTPSA id y6sm70959wmy.23.2021.05.18.01.39.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 May 2021 01:39:01 -0700 (PDT)
+ Tue, 18 May 2021 01:39:02 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/5] block: file-posix queue
-Date: Tue, 18 May 2021 10:38:56 +0200
-Message-Id: <20210518083901.97369-1-pbonzini@redhat.com>
+Subject: [PATCH 1/5] file-posix: try BLKSECTGET on block devices too,
+ do not round to power of 2
+Date: Tue, 18 May 2021 10:38:57 +0200
+Message-Id: <20210518083901.97369-2-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210518083901.97369-1-pbonzini@redhat.com>
+References: <20210518083901.97369-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32f.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -84,29 +87,103 @@ Cc: qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Max/Kevin,
+bs->sg is only true for character devices, but block devices can also
+be used with scsi-block and scsi-generic.  Unfortunately BLKSECTGET
+returns bytes in an int for /dev/sgN devices, and sectors in a short
+for block devices, so account for that in the code.
 
-this is a combination of two series that both affect host block device
-support in block/file-posix.c.  I suspect both of them evaded your radar,
-so I'm grouping them together and sending them out again.
+The maximum transfer also need not be a power of 2 (for example I have
+seen disks with 1280 KiB maximum transfer) so there's no need to pass
+the result through pow2floor.
 
-Joelle van Dyne (3):
-  block: feature detection for host block support
-  block: check for sys/disk.h
-  block: detect DKIOCGETBLOCKCOUNT/SIZE before use
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ block/file-posix.c | 40 ++++++++++++++++++++++------------------
+ 1 file changed, 22 insertions(+), 18 deletions(-)
 
-Paolo Bonzini (2):
-  file-posix: try BLKSECTGET on block devices too, do not round to power
-    of 2
-  file-posix: fix max_iov for /dev/sg devices
-
- block.c              |   2 +-
- block/file-posix.c   | 101 ++++++++++++++++++++++++++-----------------
- meson.build          |   7 ++-
- qapi/block-core.json |  10 +++--
- 4 files changed, 76 insertions(+), 44 deletions(-)
-
+diff --git a/block/file-posix.c b/block/file-posix.c
+index 59c889d5a7..e5ef006aee 100644
+--- a/block/file-posix.c
++++ b/block/file-posix.c
+@@ -1149,22 +1149,27 @@ static void raw_reopen_abort(BDRVReopenState *state)
+     s->reopen_state = NULL;
+ }
+ 
+-static int sg_get_max_transfer_length(int fd)
++static int sg_get_max_transfer_length(int fd, struct stat *st)
+ {
+ #ifdef BLKSECTGET
+-    int max_bytes = 0;
+-
+-    if (ioctl(fd, BLKSECTGET, &max_bytes) == 0) {
+-        return max_bytes;
++    if (S_ISBLK(st->st_mode)) {
++        unsigned short max_sectors = 0;
++        if (ioctl(fd, BLKSECTGET, &max_sectors) == 0) {
++            return max_sectors * 512;
++        }
+     } else {
+-        return -errno;
++        int max_bytes = 0;
++        if (ioctl(fd, BLKSECTGET, &max_bytes) == 0) {
++            return max_bytes;
++        }
+     }
++    return -errno;
+ #else
+     return -ENOSYS;
+ #endif
+ }
+ 
+-static int sg_get_max_segments(int fd)
++static int sg_get_max_segments(int fd, struct stat *st)
+ {
+ #ifdef CONFIG_LINUX
+     char buf[32];
+@@ -1173,15 +1178,9 @@ static int sg_get_max_segments(int fd)
+     int ret;
+     int sysfd = -1;
+     long max_segments;
+-    struct stat st;
+-
+-    if (fstat(fd, &st)) {
+-        ret = -errno;
+-        goto out;
+-    }
+ 
+     sysfspath = g_strdup_printf("/sys/dev/block/%u:%u/queue/max_segments",
+-                                major(st.st_rdev), minor(st.st_rdev));
++                                major(st->st_rdev), minor(st->st_rdev));
+     sysfd = open(sysfspath, O_RDONLY);
+     if (sysfd == -1) {
+         ret = -errno;
+@@ -1218,15 +1217,20 @@ out:
+ static void raw_refresh_limits(BlockDriverState *bs, Error **errp)
+ {
+     BDRVRawState *s = bs->opaque;
++    struct stat st;
++
++    if (fstat(s->fd, &st)) {
++        return;
++    }
+ 
+-    if (bs->sg) {
+-        int ret = sg_get_max_transfer_length(s->fd);
++    if (bs->sg || S_ISBLK(st.st_mode)) {
++        int ret = sg_get_max_transfer_length(s->fd, &st);
+ 
+         if (ret > 0 && ret <= BDRV_REQUEST_MAX_BYTES) {
+-            bs->bl.max_transfer = pow2floor(ret);
++            bs->bl.max_transfer = ret;
+         }
+ 
+-        ret = sg_get_max_segments(s->fd);
++        ret = sg_get_max_segments(s->fd, &st);
+         if (ret > 0) {
+             bs->bl.max_iov = ret;
+         }
 -- 
 2.31.1
+
 
 
