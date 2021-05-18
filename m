@@ -2,42 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43214386F8C
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 03:43:56 +0200 (CEST)
-Received: from localhost ([::1]:45674 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B700E386F94
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 03:47:00 +0200 (CEST)
+Received: from localhost ([::1]:54038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1liom3-0006O2-3L
-	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 21:43:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32806)
+	id 1liop1-0003e8-O2
+	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 21:46:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32808)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lioeK-000714-IP; Mon, 17 May 2021 21:35:58 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:38213 helo=ozlabs.org)
+ id 1lioeK-000715-HC; Mon, 17 May 2021 21:35:56 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:34151 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lioeG-00074X-P5; Mon, 17 May 2021 21:35:54 -0400
+ id 1lioeH-00075J-R9; Mon, 17 May 2021 21:35:55 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4Fkdqd13SMz9sfG; Tue, 18 May 2021 11:35:41 +1000 (AEST)
+ id 4Fkdqd5b1hz9sfR; Tue, 18 May 2021 11:35:41 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1621301741;
- bh=kjYjU9oWywOrkCHr+NWWQU5SHQz4utU95BEUswJ7j9c=;
+ bh=W/omS1iGupesz5U7izyx78ox/mlaHrFmt9oTWQwfXwk=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=pskkGQ3WAYylEqtM7hZEx3bwZiv/mMVJgW8b0P+u/6uyVdGVxgWy/9tF8qv0aGljz
- 1ObiBCPD+V8CR9FVZkpOMzIm2QPql0wUzdxfeV7KwN6hm3FYVK2UNX4H0GKXA2juuU
- hlRZevLaRihHbQhtahSUqjmxUudSFycaCjixCIl4=
-Date: Tue, 18 May 2021 10:25:31 +1000
+ b=M+8Pg91vUUGFTZXuM81ywe9xE7ao0jqDsVTVzdjx59KVp8D/ImPbTc3BOkxifi1Kc
+ B5VdrwMfZaYwKqZqxh6YrGcZK2JCyTe2ejB9/bsrgsfXurBsgLNuI8Eou12wj+dbEO
+ ftbOWF2Kzu1JXFOkwuuPd6A0zzqu4ZIa9+lTkOhs=
+Date: Tue, 18 May 2021 10:35:40 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
 To: matheus.ferst@eldorado.org.br
-Subject: Re: [PATCH v5 11/23] target/ppc: Add infrastructure for prefixed insns
-Message-ID: <YKMJezGNvGxmoOib@yekko>
+Subject: Re: [PATCH v5 12/23] target/ppc: Move ADDI, ADDIS to decodetree,
+ implement PADDI
+Message-ID: <YKML3O36xDPRlER3@yekko>
 References: <20210517205025.3777947-1-matheus.ferst@eldorado.org.br>
- <20210517205025.3777947-12-matheus.ferst@eldorado.org.br>
+ <20210517205025.3777947-13-matheus.ferst@eldorado.org.br>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="XVrS9ME72+l1Cd30"
+ protocol="application/pgp-signature"; boundary="9zuFZm4HKVcW/hHr"
 Content-Disposition: inline
-In-Reply-To: <20210517205025.3777947-12-matheus.ferst@eldorado.org.br>
+In-Reply-To: <20210517205025.3777947-13-matheus.ferst@eldorado.org.br>
 Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
@@ -65,220 +66,179 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---XVrS9ME72+l1Cd30
+--9zuFZm4HKVcW/hHr
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, May 17, 2021 at 05:50:13PM -0300, matheus.ferst@eldorado.org.br wro=
+On Mon, May 17, 2021 at 05:50:14PM -0300, matheus.ferst@eldorado.org.br wro=
 te:
 > From: Richard Henderson <richard.henderson@linaro.org>
 >=20
-> Signed-off-by: Luis Pires <luis.pires@eldorado.org.br>
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 
 Applied to ppc-for-6.1, thanks.
 
 > ---
->  target/ppc/cpu.h                           |  1 +
->  target/ppc/insn32.decode                   | 18 ++++++++++++
->  target/ppc/insn64.decode                   | 18 ++++++++++++
->  target/ppc/meson.build                     |  9 ++++++
->  target/ppc/translate.c                     | 34 +++++++++++++++++++---
->  target/ppc/translate/fixedpoint-impl.c.inc | 18 ++++++++++++
->  6 files changed, 94 insertions(+), 4 deletions(-)
->  create mode 100644 target/ppc/insn32.decode
->  create mode 100644 target/ppc/insn64.decode
->  create mode 100644 target/ppc/translate/fixedpoint-impl.c.inc
+>  target/ppc/insn32.decode                   |  8 ++++
+>  target/ppc/insn64.decode                   | 12 ++++++
+>  target/ppc/translate.c                     | 29 --------------
+>  target/ppc/translate/fixedpoint-impl.c.inc | 44 ++++++++++++++++++++++
+>  4 files changed, 64 insertions(+), 29 deletions(-)
 >=20
-> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-> index cab33a3680..351fcdf5f8 100644
-> --- a/target/ppc/cpu.h
-> +++ b/target/ppc/cpu.h
-> @@ -144,6 +144,7 @@ enum {
->      POWERPC_EXCP_ALIGN_PROT    =3D 0x04,  /* Access cross protection bou=
-ndary  */
->      POWERPC_EXCP_ALIGN_BAT     =3D 0x05,  /* Access cross a BAT/seg boun=
-dary   */
->      POWERPC_EXCP_ALIGN_CACHE   =3D 0x06,  /* Impossible dcbz access     =
-       */
-> +    POWERPC_EXCP_ALIGN_INSN    =3D 0x07,  /* Pref. insn x-ing 64-byte bo=
-undary */
->      /* Exception subtypes for POWERPC_EXCP_PROGRAM                      =
-     */
->      /* FP exceptions                                                    =
-     */
->      POWERPC_EXCP_FP            =3D 0x10,
 > diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-> new file mode 100644
-> index 0000000000..a3a8ae06bf
-> --- /dev/null
+> index a3a8ae06bf..e7c062d8b4 100644
+> --- a/target/ppc/insn32.decode
 > +++ b/target/ppc/insn32.decode
-> @@ -0,0 +1,18 @@
-> +#
-> +# Power ISA decode for 32-bit insns (opcode space 0)
-> +#
-> +# Copyright (c) 2021 Instituto de Pesquisas Eldorado (eldorado.org.br)
-> +#
-> +# This library is free software; you can redistribute it and/or
-> +# modify it under the terms of the GNU Lesser General Public
-> +# License as published by the Free Software Foundation; either
-> +# version 2.1 of the License, or (at your option) any later version.
-> +#
-> +# This library is distributed in the hope that it will be useful,
-> +# but WITHOUT ANY WARRANTY; without even the implied warranty of
-> +# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-> +# Lesser General Public License for more details.
-> +#
-> +# You should have received a copy of the GNU Lesser General Public
-> +# License along with this library; if not, see <http://www.gnu.org/licen=
+> @@ -16,3 +16,11 @@
+>  # You should have received a copy of the GNU Lesser General Public
+>  # License along with this library; if not, see <http://www.gnu.org/licen=
 ses/>.
-> +#
-> diff --git a/target/ppc/insn64.decode b/target/ppc/insn64.decode
-> new file mode 100644
-> index 0000000000..a38b1f84dc
-> --- /dev/null
-> +++ b/target/ppc/insn64.decode
-> @@ -0,0 +1,18 @@
-> +#
-> +# Power ISA decode for 64-bit prefixed insns (opcode space 0 and 1)
-> +#
-> +# Copyright (c) 2021 Instituto de Pesquisas Eldorado (eldorado.org.br)
-> +#
-> +# This library is free software; you can redistribute it and/or
-> +# modify it under the terms of the GNU Lesser General Public
-> +# License as published by the Free Software Foundation; either
-> +# version 2.1 of the License, or (at your option) any later version.
-> +#
-> +# This library is distributed in the hope that it will be useful,
-> +# but WITHOUT ANY WARRANTY; without even the implied warranty of
-> +# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-> +# Lesser General Public License for more details.
-> +#
-> +# You should have received a copy of the GNU Lesser General Public
-> +# License along with this library; if not, see <http://www.gnu.org/licen=
-ses/>.
-> +#
-> diff --git a/target/ppc/meson.build b/target/ppc/meson.build
-> index d1aa7d5d39..512e3a0288 100644
-> --- a/target/ppc/meson.build
-> +++ b/target/ppc/meson.build
-> @@ -17,6 +17,15 @@ ppc_ss.add(files(
-> =20
->  ppc_ss.add(libdecnumber)
-> =20
-> +gen =3D [
-> +  decodetree.process('insn32.decode',
-> +                     extra_args: '--static-decode=3Ddecode_insn32'),
-> +  decodetree.process('insn64.decode',
-> +                     extra_args: ['--static-decode=3Ddecode_insn64',
-> +                                  '--insnwidth=3D64']),
-> +]
-> +ppc_ss.add(gen)
+>  #
 > +
->  ppc_ss.add(when: 'CONFIG_KVM', if_true: files('kvm.c'), if_false: files(=
-'kvm-stub.c'))
->  ppc_ss.add(when: 'CONFIG_USER_ONLY', if_true: files('user_only_helper.c'=
-))
-> =20
+> +&D              rt ra si:int64_t
+> +@D              ...... rt:5 ra:5 si:s16                 &D
+> +
+> +### Fixed-Point Arithmetic Instructions
+> +
+> +ADDI            001110 ..... ..... ................     @D
+> +ADDIS           001111 ..... ..... ................     @D
+> diff --git a/target/ppc/insn64.decode b/target/ppc/insn64.decode
+> index a38b1f84dc..1965088915 100644
+> --- a/target/ppc/insn64.decode
+> +++ b/target/ppc/insn64.decode
+> @@ -16,3 +16,15 @@
+>  # You should have received a copy of the GNU Lesser General Public
+>  # License along with this library; if not, see <http://www.gnu.org/licen=
+ses/>.
+>  #
+> +
+> +# Format MLS:D and 8LS:D
+> +&PLS_D          rt ra si:int64_t r:bool
+> +%pls_si         32:s18 0:16
+> +@PLS_D          ...... .. ... r:1 .. .................. \
+> +                ...... rt:5 ra:5 ................       \
+> +                &PLS_D si=3D%pls_si
+> +
+> +### Fixed-Point Arithmetic Instructions
+> +
+> +PADDI           000001 10 0--.-- ..................     \
+> +                001110 ..... ..... ................     @PLS_D
 > diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-> index b1873d2dcc..64d6acb078 100644
+> index 64d6acb078..5bf9001141 100644
 > --- a/target/ppc/translate.c
 > +++ b/target/ppc/translate.c
-> @@ -7776,6 +7776,10 @@ static inline void set_avr64(int regno, TCGv_i64 s=
-rc, bool high)
->  # define REQUIRE_64BIT(CTX)  REQUIRE_INSNS_FLAGS(CTX, 64B)
->  #endif
-> =20
-> +#include "decode-insn32.c.inc"
-> +#include "decode-insn64.c.inc"
-> +#include "translate/fixedpoint-impl.c.inc"
-> +
->  #include "translate/fp-impl.c.inc"
-> =20
->  #include "translate/vmx-impl.c.inc"
-> @@ -9089,11 +9093,18 @@ static bool ppc_tr_breakpoint_check(DisasContextB=
-ase *dcbase, CPUState *cs,
->      return true;
+> @@ -1846,19 +1846,6 @@ GEN_INT_ARITH_ADD(addex, 0x05, cpu_ov, 1, 1, 0);
+>  /* addze  addze.  addzeo  addzeo.*/
+>  GEN_INT_ARITH_ADD_CONST(addze, 0x06, 0, cpu_ca, 1, 1, 0)
+>  GEN_INT_ARITH_ADD_CONST(addzeo, 0x16, 0, cpu_ca, 1, 1, 1)
+> -/* addi */
+> -static void gen_addi(DisasContext *ctx)
+> -{
+> -    target_long simm =3D SIMM(ctx->opcode);
+> -
+> -    if (rA(ctx->opcode) =3D=3D 0) {
+> -        /* li case */
+> -        tcg_gen_movi_tl(cpu_gpr[rD(ctx->opcode)], simm);
+> -    } else {
+> -        tcg_gen_addi_tl(cpu_gpr[rD(ctx->opcode)],
+> -                        cpu_gpr[rA(ctx->opcode)], simm);
+> -    }
+> -}
+>  /* addic  addic.*/
+>  static inline void gen_op_addic(DisasContext *ctx, bool compute_rc0)
+>  {
+> @@ -1878,20 +1865,6 @@ static void gen_addic_(DisasContext *ctx)
+>      gen_op_addic(ctx, 1);
 >  }
 > =20
-> +static bool is_prefix_insn(DisasContext *ctx, uint32_t insn)
-> +{
-> +    REQUIRE_INSNS_FLAGS2(ctx, ISA310);
-> +    return opc1(insn) =3D=3D 1;
-> +}
-> +
->  static void ppc_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
+> -/* addis */
+> -static void gen_addis(DisasContext *ctx)
+> -{
+> -    target_long simm =3D SIMM(ctx->opcode);
+> -
+> -    if (rA(ctx->opcode) =3D=3D 0) {
+> -        /* lis case */
+> -        tcg_gen_movi_tl(cpu_gpr[rD(ctx->opcode)], simm << 16);
+> -    } else {
+> -        tcg_gen_addi_tl(cpu_gpr[rD(ctx->opcode)],
+> -                        cpu_gpr[rA(ctx->opcode)], simm << 16);
+> -    }
+> -}
+> -
+>  /* addpcis */
+>  static void gen_addpcis(DisasContext *ctx)
 >  {
->      DisasContext *ctx =3D container_of(dcbase, DisasContext, base);
->      PowerPCCPU *cpu =3D POWERPC_CPU(cs);
->      CPUPPCState *env =3D cs->env_ptr;
-> +    target_ulong pc;
->      uint32_t insn;
->      bool ok;
-> =20
-> @@ -9101,11 +9112,26 @@ static void ppc_tr_translate_insn(DisasContextBas=
-e *dcbase, CPUState *cs)
->      LOG_DISAS("nip=3D" TARGET_FMT_lx " super=3D%d ir=3D%d\n",
->                ctx->base.pc_next, ctx->mem_idx, (int)msr_ir);
-> =20
-> -    ctx->cia =3D ctx->base.pc_next;
-> -    insn =3D translator_ldl_swap(env, ctx->base.pc_next, need_byteswap(c=
-tx));
-> -    ctx->base.pc_next +=3D 4;
-> +    ctx->cia =3D pc =3D ctx->base.pc_next;
-> +    insn =3D translator_ldl_swap(env, pc, need_byteswap(ctx));
-> +    ctx->base.pc_next =3D pc +=3D 4;
-> =20
-> -    ok =3D decode_legacy(cpu, ctx, insn);
-> +    if (!is_prefix_insn(ctx, insn)) {
-> +        ok =3D (decode_insn32(ctx, insn) ||
-> +              decode_legacy(cpu, ctx, insn));
-> +    } else if ((pc & 63) =3D=3D 0) {
-> +        /*
-> +         * Power v3.1, section 1.9 Exceptions:
-> +         * attempt to execute a prefixed instruction that crosses a
-> +         * 64-byte address boundary (system alignment error).
-> +         */
-> +        gen_exception_err(ctx, POWERPC_EXCP_ALIGN, POWERPC_EXCP_ALIGN_IN=
-SN);
-> +        ok =3D true;
-> +    } else {
-> +        uint32_t insn2 =3D translator_ldl_swap(env, pc, need_byteswap(ct=
-x));
-> +        ctx->base.pc_next =3D pc +=3D 4;
-> +        ok =3D decode_insn64(ctx, deposit64(insn2, 32, 32, insn));
-> +    }
->      if (!ok) {
->          gen_invalid(ctx);
->      }
+> @@ -7903,10 +7876,8 @@ GEN_HANDLER_E(cmpeqb, 0x1F, 0x00, 0x07, 0x00600000=
+, PPC_NONE, PPC2_ISA300),
+>  GEN_HANDLER_E(cmpb, 0x1F, 0x1C, 0x0F, 0x00000001, PPC_NONE, PPC2_ISA205),
+>  GEN_HANDLER_E(cmprb, 0x1F, 0x00, 0x06, 0x00400001, PPC_NONE, PPC2_ISA300=
+),
+>  GEN_HANDLER(isel, 0x1F, 0x0F, 0xFF, 0x00000001, PPC_ISEL),
+> -GEN_HANDLER(addi, 0x0E, 0xFF, 0xFF, 0x00000000, PPC_INTEGER),
+>  GEN_HANDLER(addic, 0x0C, 0xFF, 0xFF, 0x00000000, PPC_INTEGER),
+>  GEN_HANDLER2(addic_, "addic.", 0x0D, 0xFF, 0xFF, 0x00000000, PPC_INTEGER=
+),
+> -GEN_HANDLER(addis, 0x0F, 0xFF, 0xFF, 0x00000000, PPC_INTEGER),
+>  GEN_HANDLER_E(addpcis, 0x13, 0x2, 0xFF, 0x00000000, PPC_NONE, PPC2_ISA30=
+0),
+>  GEN_HANDLER(mulhw, 0x1F, 0x0B, 0x02, 0x00000400, PPC_INTEGER),
+>  GEN_HANDLER(mulhwu, 0x1F, 0x0B, 0x00, 0x00000400, PPC_INTEGER),
 > diff --git a/target/ppc/translate/fixedpoint-impl.c.inc b/target/ppc/tran=
 slate/fixedpoint-impl.c.inc
-> new file mode 100644
-> index 0000000000..be75085cee
-> --- /dev/null
+> index be75085cee..344a3ed54b 100644
+> --- a/target/ppc/translate/fixedpoint-impl.c.inc
 > +++ b/target/ppc/translate/fixedpoint-impl.c.inc
-> @@ -0,0 +1,18 @@
-> +/*
-> + * Power ISA decode for Fixed-Point Facility instructions
-> + *
-> + * Copyright (c) 2021 Instituto de Pesquisas Eldorado (eldorado.org.br)
-> + *
-> + * This library is free software; you can redistribute it and/or
-> + * modify it under the terms of the GNU Lesser General Public
-> + * License as published by the Free Software Foundation; either
-> + * version 2.1 of the License, or (at your option) any later version.
-> + *
-> + * This library is distributed in the hope that it will be useful,
-> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
-> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-> + * Lesser General Public License for more details.
-> + *
-> + * You should have received a copy of the GNU Lesser General Public
-> + * License along with this library; if not, see <http://www.gnu.org/lice=
+> @@ -16,3 +16,47 @@
+>   * You should have received a copy of the GNU Lesser General Public
+>   * License along with this library; if not, see <http://www.gnu.org/lice=
 nses/>.
+>   */
+> +
+> +/*
+> + * Incorporate CIA into the constant when R=3D1.
+> + * Validate that when R=3D1, RA=3D0.
 > + */
+> +static bool resolve_PLS_D(DisasContext *ctx, arg_D *d, arg_PLS_D *a)
+> +{
+> +    d->rt =3D a->rt;
+> +    d->ra =3D a->ra;
+> +    d->si =3D a->si;
+> +    if (a->r) {
+> +        if (unlikely(a->ra !=3D 0)) {
+> +            gen_invalid(ctx);
+> +            return false;
+> +        }
+> +        d->si +=3D ctx->cia;
+> +    }
+> +    return true;
+> +}
+> +
+> +static bool trans_ADDI(DisasContext *ctx, arg_D *a)
+> +{
+> +    if (a->ra) {
+> +        tcg_gen_addi_tl(cpu_gpr[a->rt], cpu_gpr[a->ra], a->si);
+> +    } else {
+> +        tcg_gen_movi_tl(cpu_gpr[a->rt], a->si);
+> +    }
+> +    return true;
+> +}
+> +
+> +static bool trans_PADDI(DisasContext *ctx, arg_PLS_D *a)
+> +{
+> +    arg_D d;
+> +    if (!resolve_PLS_D(ctx, &d, a)) {
+> +        return true;
+> +    }
+> +    return trans_ADDI(ctx, &d);
+> +}
+> +
+> +static bool trans_ADDIS(DisasContext *ctx, arg_D *a)
+> +{
+> +    a->si <<=3D 16;
+> +    return trans_ADDI(ctx, a);
+> +}
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -286,25 +246,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---XVrS9ME72+l1Cd30
+--9zuFZm4HKVcW/hHr
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmCjCXoACgkQbDjKyiDZ
-s5JJEg//cC6c578cWKW6fpNyHYf3gu0CcjEzuu+7owoT+eRX9cS7RmVbjA8oUBR1
-7QUWQU5Q6kZ6AEaEhgeZl53zHPrtKJdrzbmUpVu5+A0Gl0wpw3IKMZLU0wKVmegI
-m/el5V++sCZxO4xYPXBbUuZoPBKPdeVup2YVLMxpJuMn5WzOPsLtn7OhMJKXda81
-TkfhxKDM0dhcBiDKzJa1zgIVeJkQjbbi45MtAluz57RvBn7EDiuI4pXbywLUbXIU
-Me43II1L6JNHBi4SnNaiYfL3ZCIt6XK1qFEr3m2cfW4lgeeebt/0G9YpGP1xKBkd
-ZeP4/hGg7cFYQFIvOoWCPEOWVZMIn4je4HpNSAMF3F1+Z1+ZZwM1U+23JPs0xf6T
-Rrreg/UWKEEu/Z4QgPnpZZgAlVfLGCng8paX9XVoFeHDhUd1b5Ys7w1GhxfVxuqj
-uMypxFul0PzSfx0cuqQ4JVOv4Dscu3czZ3q9dQl3JdB/z8Jslq4sdD8XA0nJMWC5
-08UuMrNVpVPFP9Kv+Ug16+NasVFVS2WU3brBzS6b0vdgPplNfzlDxBrZ5efeA2Yg
-EIBssdFiaaMwF4O9ofqX9n7jLRH4oUUi6UAWx2+eMOwStvgZtq4gwLYXayDJ3KJy
-pVwjfMLVpl2UKWDNlEuZ6cY5ISpditl1h0CSsXObTiraMt0wYCU=
-=CrOw
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmCjC9oACgkQbDjKyiDZ
+s5IdNQ/9FHAa0yl/qLjPZTm6naB8hzLdJvQcTunu3ORpHbGBrzthKPtjBeLsfKQ6
+l73ffuHSREp3wTw9aPhkO7k7p0PBK1VUXd2heL6dEXsIVCFzkrO/cw6I4AE55sU/
+q0djZnh+Xq0fuyZKyNumwJdMRx57JCqdSL9pAuJnJ+li66mQUis4DTeWQleeVW+y
+3t3/8sEzN7o/neHD4cv0x7PrN4IZd5jIE9eFtpCjTjGOBmb9KXm7lPXnbb9Vbae4
+tnRlKG5A5fI8w+3dd/+yjbD+x2le3yVERFCbevssOlgsdvJTCpzos1Tc7IUncQ7c
+edcQnG40+mqRuL4nIhfdqSlYhTMpBrgnkbMiKcZD5EH/OR2RvdOoSqTlOdxUswZM
+aK1HStqFazxjElHD01Wao3dwUoVFdAFZACEe1A31ZSyxm1dwwrSTul+Ua/nKc7rv
+W7Ivz1w1fqscHvuQKuy5p/AbmP+sVJzM5I6khIZdDIOnjMsXbV43SadV5mDYs1bT
+e56Xi65O8n1uFrVuUwu/D64Ne+gxT6flSCgNfZDkZg4tYlSbC/04+nSBqsa+UdQ/
+lH0tk0c4XKV7IYODVH0U4f+Vxcn7jFW+dMz4nlPMtS+aG0TTMq6Lz8jtuC2/fSoc
+lwdYZ0gs/LMh3+OrhUqgCsOswU+xIC6s696cNCNR/CxHFRMan08=
+=UEES
 -----END PGP SIGNATURE-----
 
---XVrS9ME72+l1Cd30--
+--9zuFZm4HKVcW/hHr--
 
