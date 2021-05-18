@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCD153874DA
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 11:13:38 +0200 (CEST)
-Received: from localhost ([::1]:44476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2455B3874DB
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 11:13:39 +0200 (CEST)
+Received: from localhost ([::1]:44522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1livnF-0007l8-QI
-	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 05:13:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55464)
+	id 1livnG-0007mi-68
+	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 05:13:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55488)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1livhJ-0007n8-4J
- for qemu-devel@nongnu.org; Tue, 18 May 2021 05:07:29 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:54861)
+ id 1livhL-0007tG-NJ
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 05:07:31 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:46674)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1livhH-0005Qo-Cf
- for qemu-devel@nongnu.org; Tue, 18 May 2021 05:07:28 -0400
-Received: by mail-wm1-x334.google.com with SMTP id o127so4979519wmo.4
- for <qemu-devel@nongnu.org>; Tue, 18 May 2021 02:07:26 -0700 (PDT)
+ id 1livhJ-0005Rx-KC
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 05:07:31 -0400
+Received: by mail-wr1-x434.google.com with SMTP id y14so7241191wrm.13
+ for <qemu-devel@nongnu.org>; Tue, 18 May 2021 02:07:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=k3GgIZwo1ALDw7AyuDX5LfQUKo52ZHvXcuy3wRBGlmI=;
- b=T1Ke2WSA+sKRz1V1wNjsW35K4N3kKn6JOCvD77u9/KQ7rqi1p7nVA97kFLrGfpHLhD
- oL5dnJAnYhI8dukQ6o7wuslvMuxabzj7VuKsCdC6V4PES0wFSYCJUXHY2xYVW+SMDYqm
- ElqNwo8wdv7JiIlSt/aPY9elcp5pWLc429P0ZtLc0zppNioM/1BQJSxTCr3C4WOm1Fhm
- qkwRbIxpsEZI9Ped0k2e1V76lDdtQ8sYjyG5xmuboLnWnIu3B/jefC8iOEBvNdgQQ7qI
- EtvAuYO1vAx07qXMZPk4S4xuzLrp5fhK3MYHeqSotBNWEUET4l1C+21eOxmd/rF/LIQi
- akdw==
+ bh=iLkCUVtUulJ2g8D+2QnEZXZOurs4a/57hc6xJ37hdkM=;
+ b=UAzAkxueHkNZvp4be7rfU4M1J81KAF0ullEP49AAgibsoS4tbdC6yPmtQcaVoVANx3
+ fHV1cT8hecGsYwo64Y75itJjzQT/FOfF5Xvw3vX1kzyty4rrw/vDGeHSEd7AVpoUFuQK
+ 3+8gtWUlaJfEGX8JynPcsADr96ApeV8YZTtyiXpJcIzHqWI97YrE6L+mQvG3yhqGAwdo
+ bmpVRbagl7Ec1DGna1SFq55O+fOr9wb2MuAOzQRZYnoyicRiI+aA7zskpWbmASrT5SpF
+ vlodJFwz6vaAe3SErODqy0LJHgS6vpL28VAxDzU7FoA5WbggEuasrpl2Ud4Fp0MELBUZ
+ ORPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=k3GgIZwo1ALDw7AyuDX5LfQUKo52ZHvXcuy3wRBGlmI=;
- b=Ze1qbadBRwWe/1/YCOCH9KjGYusN+c3nlM5fR2lIGa81FuUgFzREsqUeOi3Jk6BHqU
- cwELuJ9qgZKRR/oD96eRgSNRCtaxYeyWb5dRpfkhCiOGiOVjRcL3uscgYitfltBv3eWn
- FOnnvYNlQovds0Yzco3te8FWw4fQOkLptsI0wSIvh0ZazsQKw0o6NENHn1gmOJRJ0WvO
- v8cNOSSJr6j7xp+X5NVMYPZuldJk9i2FjjWnD03NtEQRLoRaMHIF7eWuztCbaHoxwDpO
- vojhaCmwIbiGT7/FL+Lag3GoK1wvprLiHA87ZdJQsnReqsnRoFFuXEEuZ84I56LORc69
- 4gtw==
-X-Gm-Message-State: AOAM5311/HZprSjnT7qW2In6ADOcY9Gf3yeL3wwwyHsXORBQXYr4Jcun
- bhiPxxbXqcH/MvDCX+H6OBQaZA==
-X-Google-Smtp-Source: ABdhPJyqZUw0XQ6eR+en05NbdZRZNRQT8/+v/CHBni3J6eMArBoOmeVbKo3cHHCJ2eYeB36RAC0MPQ==
-X-Received: by 2002:a7b:cb85:: with SMTP id m5mr926923wmi.118.1621328845970;
- Tue, 18 May 2021 02:07:25 -0700 (PDT)
+ bh=iLkCUVtUulJ2g8D+2QnEZXZOurs4a/57hc6xJ37hdkM=;
+ b=Fye74MptOhrRbLbcnTfyfJFnNZFRrjyjox7hrS7c42VbOXHQcZxypD31GEWcsTV5jm
+ YZpiAG8LGyfsULzwyAPksz7SyFnd4QebtHJ2dqGgtu/bYTXiZkdJk2vSQI9nD/8HPZDT
+ 5jRCe3jUBa8qKpGgsKcnFWpZxm9Fm00nYrz8CIjp43v24luWHhYMtQgXDNGjfWv6eLhT
+ RgM2uU6qrgqPK9On0EBz1m5b5JqgdsHhCpCk+7kggK1YNLwthCuc1qPkOhjGDWKY1pc8
+ tWMm70J6esvCMH/yMp4IH7is/kBXHuQD/uOIBvr29Fi53OKnQ7PvJdesPxdjwGvWlAxM
+ jdCQ==
+X-Gm-Message-State: AOAM533e7csE3WRVvDr3HJake2bUwfyVUDUf/02wGfDjUImyKLaia7bh
+ L2yjt9llQRKO8oNMvPpP5S6lig==
+X-Google-Smtp-Source: ABdhPJyfvoul09JAMghtRiMbs3hD49PZoOMfEmu/SzpVXE+SslKfNsEBfyBWR5Tbht+E2snxGrCpog==
+X-Received: by 2002:adf:ee0c:: with SMTP id y12mr5526772wrn.335.1621328848122; 
+ Tue, 18 May 2021 02:07:28 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id x13sm10604875wro.31.2021.05.18.02.07.21
+ by smtp.gmail.com with ESMTPSA id x16sm20442417wrp.6.2021.05.18.02.07.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 May 2021 02:07:22 -0700 (PDT)
+ Tue, 18 May 2021 02:07:25 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 3A7D81FF8F;
+ by zen.linaroharston (Postfix) with ESMTP id 5070C1FF90;
  Tue, 18 May 2021 10:07:21 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL v2 03/29] tests/docker: allow "update" to add the current user
-Date: Tue, 18 May 2021 10:06:54 +0100
-Message-Id: <20210518090720.21915-4-alex.bennee@linaro.org>
+Subject: [PULL v2 04/29] tests/docker: add "fetch" sub-command
+Date: Tue, 18 May 2021 10:06:55 +0100
+Message-Id: <20210518090720.21915-5-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210518090720.21915-1-alex.bennee@linaro.org>
 References: <20210518090720.21915-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x334.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,52 +94,41 @@ Cc: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The current user functionality is used for cross compiling to avoid
-complications with permissions when building test programs. However
-for images that come from the registry we still need the ability to
-add the user after the fact.
+This simply wraps up fetching a build from the registry and tagging it
+as the local build.
 
 Reviewed-by: Willian Rampazzo <willianr@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20210512102051.12134-5-alex.bennee@linaro.org>
+Message-Id: <20210512102051.12134-6-alex.bennee@linaro.org>
 
 diff --git a/tests/docker/docker.py b/tests/docker/docker.py
-index 9b3425fec2..7a14058801 100755
+index 7a14058801..4d9bb7c7ed 100755
 --- a/tests/docker/docker.py
 +++ b/tests/docker/docker.py
-@@ -517,7 +517,7 @@ def run(self, args, argv):
+@@ -515,6 +515,23 @@ def run(self, args, argv):
  
+         return 0
+ 
++class FetchCommand(SubCommand):
++    """ Fetch a docker image from the registry. Args: <tag> <registry>"""
++    name = "fetch"
++
++    def args(self, parser):
++        parser.add_argument("tag",
++                            help="Local tag for image")
++        parser.add_argument("registry",
++                            help="Docker registry")
++
++    def run(self, args, argv):
++        dkr = Docker()
++        dkr.command(cmd="pull", quiet=args.quiet,
++                    argv=["%s/%s" % (args.registry, args.tag)])
++        dkr.command(cmd="tag", quiet=args.quiet,
++                    argv=["%s/%s" % (args.registry, args.tag), args.tag])
++
  
  class UpdateCommand(SubCommand):
--    """ Update a docker image with new executables. Args: <tag> <executable>"""
-+    """ Update a docker image. Args: <tag> <actions>"""
-     name = "update"
- 
-     def args(self, parser):
-@@ -525,6 +525,9 @@ def args(self, parser):
-                             help="Image Tag")
-         parser.add_argument("--executable",
-                             help="Executable to copy")
-+        parser.add_argument("--add-current-user", "-u", dest="user",
-+                            action="store_true",
-+                            help="Add the current user to image's passwd")
- 
-     def run(self, args, argv):
-         # Create a temporary tarball with our whole build context and
-@@ -564,6 +567,13 @@ def run(self, args, argv):
- 
-             df.write(u"ADD . /\n")
- 
-+        if args.user:
-+            uid = os.getuid()
-+            uname = getpwuid(uid).pw_name
-+            df.write("\n")
-+            df.write("RUN id %s 2>/dev/null || useradd -u %d -U %s" %
-+                     (uname, uid, uname))
-+
-         df_bytes = BytesIO(bytes(df.getvalue(), "UTF-8"))
- 
-         df_tar = TarInfo(name="Dockerfile")
+     """ Update a docker image. Args: <tag> <actions>"""
 -- 
 2.20.1
 
