@@ -2,96 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1995D387631
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 12:11:51 +0200 (CEST)
-Received: from localhost ([::1]:44418 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2ED9538763F
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 12:14:49 +0200 (CEST)
+Received: from localhost ([::1]:52910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1liwha-00053O-4m
-	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 06:11:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41296)
+	id 1liwkS-0002lu-7P
+	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 06:14:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41340)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1liwXz-0008NM-Jw
- for qemu-devel@nongnu.org; Tue, 18 May 2021 06:01:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59831)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1liwYI-0000KP-4C
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 06:02:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37522)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1liwXx-0003tu-ST
- for qemu-devel@nongnu.org; Tue, 18 May 2021 06:01:55 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1liwYB-00041z-HS
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 06:02:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621332112;
+ s=mimecast20190719; t=1621332127;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=EnKv1A27WTOiQ/rEqx2uO/s33W8+/+Cwn/kWGD/2lws=;
- b=VC1zhT2xtMMIbs99m/3DTfIbfHeK5lTciBd23AFE67LEvrogNetZtmR86dCIUi+wvZLwY6
- 6dT0CwdqE+gHDKV2xoR/QXP+jjXu3DP+jqCzIA/fuj6D8FDxgKjrDNUr+axG4AwMwOwSNf
- A6xHsotU78XWIa2+5EVux05pWN1l7sU=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-162-Gamz0_GBPjOumU_GUdEjYw-1; Tue, 18 May 2021 06:01:51 -0400
-X-MC-Unique: Gamz0_GBPjOumU_GUdEjYw-1
-Received: by mail-ed1-f69.google.com with SMTP id
- i19-20020a05640242d3b0290388cea34ed3so5452547edc.15
- for <qemu-devel@nongnu.org>; Tue, 18 May 2021 03:01:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=EnKv1A27WTOiQ/rEqx2uO/s33W8+/+Cwn/kWGD/2lws=;
- b=kfTDWnTlYoN9Co1779ZFWgvJgXe68LH/kFi7gMNumFs97hW1z9Yl/FIHVQ8VcjGtNf
- ctf9DnFlxiHabg8c3vP0RwBn38f2lpkau5KHik7kHVEloRcNFCBgwTWGPl1Du9eqzSbE
- kEb4IFKCcgvLHtmtrDI1FU9HTjL7JEtAl1QCQGmD7nfdddxsgn+PQEKjyu+YRbXJgIjt
- 7ypJ84zn7CH7F7duWMAGq4cuONd7zRdUB4bJSMN0QRyGE5qT46fSnFypArdBBletvyJx
- C/4nVTz9qUpCB3siv8KxFlJvUbXcqTaL4kP5JYpre5GcS/tGCiheVNkdP3USe5/I5Npv
- eYxQ==
-X-Gm-Message-State: AOAM530mG5RzxOUpXrlrEGrI93KvwYOFqWHD3KNlvuCV61GcpPkx/0Q7
- Q8M6ZipL25/LM7lEkd0YJstesYyYNf3/nuzn8h4BrzUJtk03ptuLk7Q437tgH3MZE/w32ld9H3t
- 5Do7gyAERruxE1RM=
-X-Received: by 2002:a05:6402:cb0:: with SMTP id
- cn16mr5943588edb.15.1621332109921; 
- Tue, 18 May 2021 03:01:49 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzrH+8iCa7fXyf3RDL7aMhAdAn9OD8W7ylnl8vopCUFMyt9i5/2zl2SFG2oLf1wlDrCecn7Ug==
-X-Received: by 2002:a05:6402:cb0:: with SMTP id
- cn16mr5943570edb.15.1621332109806; 
- Tue, 18 May 2021 03:01:49 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id p4sm10058114ejr.81.2021.05.18.03.01.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 18 May 2021 03:01:49 -0700 (PDT)
-Subject: Re: [PATCH v2 44/50] target/i386: Eliminate user stubs for
- read/write_crN, rd/wrmsr
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20210514151342.384376-1-richard.henderson@linaro.org>
- <20210514151342.384376-45-richard.henderson@linaro.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <29d5c9a5-e6f0-ac7d-40c6-33b974acf151@redhat.com>
-Date: Tue, 18 May 2021 12:01:48 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ bh=1vzvKlMRalAcy8sD32DxCJSFGqYYyzJYKaNF44SwJHM=;
+ b=MildcdhKlTF1SHykHwGeAB48Kun0t8WkNHhtDbmsOTX/QT8ddta32CyYvnlju5lpGCGRAi
+ m07XrNHwK5O4/L63R0PIw5EU7GJpvPvR8Y/GFrCAJ5vATpIH/UnEtcLvRQuXLUozumV0zp
+ fyLtLvezV4p6EOAsJdKadv6p8v37ywI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-344-lpDUd9MrOFG3UoiQEqt8Og-1; Tue, 18 May 2021 06:02:05 -0400
+X-MC-Unique: lpDUd9MrOFG3UoiQEqt8Og-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 90AFA1936B60;
+ Tue, 18 May 2021 10:02:04 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
+ [10.36.114.17])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6359A687D4;
+ Tue, 18 May 2021 10:02:04 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id E29D1113861E; Tue, 18 May 2021 12:02:02 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH v2 05/21] qapi/parser: Assert lexer value is a string
+References: <20210511220601.2110055-1-jsnow@redhat.com>
+ <20210511220601.2110055-6-jsnow@redhat.com>
+Date: Tue, 18 May 2021 12:02:02 +0200
+In-Reply-To: <20210511220601.2110055-6-jsnow@redhat.com> (John Snow's message
+ of "Tue, 11 May 2021 18:05:45 -0400")
+Message-ID: <87lf8c5pid.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20210514151342.384376-45-richard.henderson@linaro.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.374,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -104,18 +80,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: cfontana@suse.de, f4bug@amsat.org, ehabkost@redhat.com
+Cc: Michael Roth <michael.roth@amd.com>, Cleber Rosa <crosa@redhat.com>,
+ qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 14/05/21 17:13, Richard Henderson wrote:
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->   target/i386/helper.h              |  8 ++++----
->   target/i386/tcg/translate.c       |  4 ++++
->   target/i386/tcg/user/misc_stubs.c | 20 --------------------
->   3 files changed, 8 insertions(+), 24 deletions(-)
+John Snow <jsnow@redhat.com> writes:
 
-Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
+> The type checker can't narrow the type of the token value to string,
+> because it's only loosely correlated with the return token.
+>
+> We know that a token of '#' should always have a "str" value.
+> Add an assertion.
+>
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> ---
+>  scripts/qapi/parser.py | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
+> index d620706fffb..ba17f1357ad 100644
+> --- a/scripts/qapi/parser.py
+> +++ b/scripts/qapi/parser.py
+> @@ -304,6 +304,7 @@ def get_doc(self, info):
+>          cur_doc = QAPIDoc(self, info)
+>          self.accept(False)
+>          while self.tok == '#':
+> +            assert isinstance(self.val, str)  # comment token MUST have str val
+
+What does the comment add to the assertion?  Isn't it all obvious?  Just
+wondering; if you genuinely think it isn't, I'm not going to argue.
+Except about the long line, which you could easily avoid:
+
+               assert isinstance(self.val, str)  # comment value MUST be str
+
+>              if self.val.startswith('##'):
+>                  # End of doc comment
+>                  if self.val != '##':
 
 
