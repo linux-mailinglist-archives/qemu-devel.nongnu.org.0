@@ -2,76 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A60638767E
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 12:28:53 +0200 (CEST)
-Received: from localhost ([::1]:33140 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CF1138768D
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 12:31:41 +0200 (CEST)
+Received: from localhost ([::1]:40542 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1liwy4-0003GP-Jt
-	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 06:28:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46170)
+	id 1lix0l-0008Mw-8H
+	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 06:31:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40504)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1liwpr-0006Uk-B1
- for qemu-devel@nongnu.org; Tue, 18 May 2021 06:20:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50280)
+ id 1liwV3-0003up-5Q
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 05:58:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22742)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1liwpp-0005rU-LN
- for qemu-devel@nongnu.org; Tue, 18 May 2021 06:20:23 -0400
+ id 1liwV1-0002Bg-EX
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 05:58:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621333221;
+ s=mimecast20190719; t=1621331930;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bOU8G7Yedh47h3NHHrszRQf783jw2/i8OwRVv4lOCRA=;
- b=abOL+AhOLuARQzLuE9Lyk2squn+ZjwYeyay+DoLj9s/oJsn9T4b3aIWm9IZqfyqXgL4O9S
- iqJTSxOj5FXICpJRw/OKYzD1J13NOdqHt3WA7YbKaTobIvBD4GIi6lFW+iFuZEtUcsvmNQ
- 5u+Mof3JCwNwJ8HpQLXv+KH+yVj1bNk=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-519-W_a3PsvDPfKyqaVL8T0yXg-1; Tue, 18 May 2021 06:20:19 -0400
-X-MC-Unique: W_a3PsvDPfKyqaVL8T0yXg-1
-Received: by mail-wm1-f71.google.com with SMTP id
- l185-20020a1c25c20000b029014b0624775eso386648wml.6
- for <qemu-devel@nongnu.org>; Tue, 18 May 2021 03:20:19 -0700 (PDT)
+ bh=Gj119yVjDXfPUSXhn3ohArMqO7iVxxG3bee6PNjrIao=;
+ b=QLAnCuGdT5Fz6E2yVamOb8r2KPdFn1Ch8+O8FnKaFEwFoEyO5Qavi++dmcrXnwhkCIdpy3
+ smVy7KBjgdhaW39b9ek8k7aF3P+KO4AypeG5N12MADU6fattuccWV1dA5IqypzfI/tY+54
+ 4x8xn41CF8Z7pxtGSfsZyba2bIZd6H4=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-340-0hUpnFD0NV2Hv21Np34kCw-1; Tue, 18 May 2021 05:58:48 -0400
+X-MC-Unique: 0hUpnFD0NV2Hv21Np34kCw-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ q18-20020a0564025192b02903888712212fso5448241edd.19
+ for <qemu-devel@nongnu.org>; Tue, 18 May 2021 02:58:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=bOU8G7Yedh47h3NHHrszRQf783jw2/i8OwRVv4lOCRA=;
- b=JAy47/0jmATGDfJX1WTh8SJ1EkdssF9wpPM3ZXDBgpBeMs0KDgBte/AFqmkH5NZvXb
- RwVage7xPQNc3xKpPFI7wH6SVV6/mOalH3lqaBVsnR8HRM5Ompp3NQH9R5DttdmIQBiB
- tiGmc3VOimhGFHdmwoArU2eQELPN7Jxo97tkstvgs9IKiholU21JCLAk+0i0fE13fpQb
- MxX+/VSx9ubTCov7+vrxO+S2Ha+Fr3ZLhCAmRo6yYqVZ8iOWnPAfBoCEtAFkh4dTEVDy
- 0pV7Ar6KK61BEPm53GsZMOSVxq60iQI6muMfqft2guCyahJBUCY3PiMjuf6W3cDpSQbl
- Bquw==
-X-Gm-Message-State: AOAM531I1XPXXvrmsKIZba9gP10gLM2L6TOD+Dnw11zk2G8xZgdJSybz
- PYzIeFjsPsl7y0CPSpDJVIEFbYRC1VTDIwUDqjQC47W4rVPOm4pcI9W1oB8CrugK2LHJ7PA84n2
- LN+xlwELRCmJ1FWo=
-X-Received: by 2002:adf:d20e:: with SMTP id j14mr5737806wrh.270.1621333217803; 
- Tue, 18 May 2021 03:20:17 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzMtZ/ZKokJuLjb05pBwh8l3GQd65hJF3uci/Qt6jtX6Uq7NR2/mQuAbCZQJvkr6ZyxqPQwZg==
-X-Received: by 2002:adf:d20e:: with SMTP id j14mr5737787wrh.270.1621333217580; 
- Tue, 18 May 2021 03:20:17 -0700 (PDT)
+ bh=Gj119yVjDXfPUSXhn3ohArMqO7iVxxG3bee6PNjrIao=;
+ b=PXH2Y0i13QYPsmX86wRmgmZTjOizrsRuZLSgkEigUgkSLNj1uKWRFOQ+JHk2C4BVzQ
+ KZ9NE290OhYCM1Y7sbXvCemgovVzoKfE6MFgwzNyPHiV4MjOfkbaiVJ2XPUSYkow8k2j
+ 21h/Iz/TXAKRmMfGQ7MbVEm61GCZJGtkTWh1RVf9RM1Znj639W6y4LEcNQkwmNWc+YJO
+ dn43TdQZUPzqyo0QMoMo/l0NA/Iwe7als7NPyiPehgJnSxlQW7RbZK2vXXTUbG8fy/js
+ MeiTIjWY0Cr83jjHiQDRJnfLZJ2tfVbDWgDl2xdITLfuarc7O54wCuJGeLbtPQ88W5/W
+ YEew==
+X-Gm-Message-State: AOAM531cnkgUFMPMJ3eXxZX5Ekutd7DFv8zSK5rPpcVhwxdx2jmwDASW
+ 9HB15rwOeOjP+NfRt4CuVK2ZxneJL2ocxp2siPktWgX7K2xGPodyEmizXJMDmPMq6BTctxguH8D
+ 8xZvUxMfaxHf4HYk=
+X-Received: by 2002:a05:6402:46:: with SMTP id
+ f6mr6046888edu.252.1621331926804; 
+ Tue, 18 May 2021 02:58:46 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz0iXWaofe7AeYqYp4rETI3GPWQDQeO1OSWvkho4f1zUaBKlqRvhTDdOtMswOHvZCiWLjFl9Q==
+X-Received: by 2002:a05:6402:46:: with SMTP id
+ f6mr6046876edu.252.1621331926622; 
+ Tue, 18 May 2021 02:58:46 -0700 (PDT)
 Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
  ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id f12sm14602712wre.88.2021.05.18.03.20.16
+ by smtp.gmail.com with ESMTPSA id da14sm2789906edb.44.2021.05.18.02.58.45
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 18 May 2021 03:20:17 -0700 (PDT)
-Subject: Re: [PATCH v2 47/50] target/i386: Pass in port to gen_check_io
+ Tue, 18 May 2021 02:58:46 -0700 (PDT)
+Subject: Re: [PATCH v2 38/50] target/i386: Remove user stub for cpu_vmexit
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20210514151342.384376-1-richard.henderson@linaro.org>
- <20210514151342.384376-48-richard.henderson@linaro.org>
+ <20210514151342.384376-39-richard.henderson@linaro.org>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <98818cd7-351c-35a2-8a08-8696e8371f08@redhat.com>
-Date: Tue, 18 May 2021 12:20:16 +0200
+Message-ID: <a2a48d6e-08cc-837a-0d44-fa1baebe9383@redhat.com>
+Date: Tue, 18 May 2021 11:58:45 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210514151342.384376-48-richard.henderson@linaro.org>
+In-Reply-To: <20210514151342.384376-39-richard.henderson@linaro.org>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -79,7 +81,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -106,15 +108,14 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 14/05/21 17:13, Richard Henderson wrote:
-> Pass in a pre-truncated TCGv_i32 value.  We were doing the
-> truncation of EDX in multiple places, now only once per insn.
-> While all callers use s->tmp2_i32, for cleanliness of the
-> subroutine, use a parameter anyway.
+> This function is only called from tcg/sysemu/.
+> There is no need for a stub in tcg/user/.
 > 
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->   target/i386/tcg/translate.c | 55 +++++++++++++++++++------------------
->   1 file changed, 29 insertions(+), 26 deletions(-)
+>   target/i386/tcg/helper-tcg.h     | 4 +++-
+>   target/i386/tcg/user/svm_stubs.c | 6 ------
+>   2 files changed, 3 insertions(+), 7 deletions(-)
 
 Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 
