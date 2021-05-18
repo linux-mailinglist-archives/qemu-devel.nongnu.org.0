@@ -2,55 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 097C038715C
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 07:39:09 +0200 (CEST)
-Received: from localhost ([::1]:40630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43B55387156
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 07:37:09 +0200 (CEST)
+Received: from localhost ([::1]:60370 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lisRg-0001Bw-39
-	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 01:39:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38598)
+	id 1lisPk-00041t-8d
+	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 01:37:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38596)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lisKe-0007PV-Tc
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lisKe-0007P7-QY
  for qemu-devel@nongnu.org; Tue, 18 May 2021 01:31:52 -0400
-Received: from mout.kundenserver.de ([212.227.126.187]:40141)
+Received: from mout.kundenserver.de ([212.227.126.131]:54723)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lisKb-00075J-Jk
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lisKb-00075g-Nl
  for qemu-devel@nongnu.org; Tue, 18 May 2021 01:31:52 -0400
 Received: from quad ([82.142.31.78]) by mrelayeu.kundenserver.de (mreue010
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1MgNQd-1lGgeq0o7b-00hzfn; Tue, 18
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1MFbBO-1lhG3B2ays-00H9AI; Tue, 18
  May 2021 07:31:47 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 28/59] linux-user/sparc: Minor corrections to do_sigreturn
-Date: Tue, 18 May 2021 07:31:00 +0200
-Message-Id: <20210518053131.87212-29-laurent@vivier.eu>
+Subject: [PULL 29/59] linux-user/sparc: Add 64-bit support to fpu save/restore
+Date: Tue, 18 May 2021 07:31:01 +0200
+Message-Id: <20210518053131.87212-30-laurent@vivier.eu>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210518053131.87212-1-laurent@vivier.eu>
 References: <20210518053131.87212-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:BFI5rHXYAIEDrRze942IqTicXNlMq9tNE+BxoP7KZFzabJYepyB
- +brjGrKOoVLssvJr7A/pyNbEF8sRpsmWUr5PB4aFlvTmqVWXRp/VvZGH0i5hg/3J0l3gHmx
- 802XSW+Fad/CCd423YjxHXx4moTWnPHqeiMkT18ewpGxAlaDttpkmKSr1bBCpeTSGN7OrId
- HeBvU5aP/jH7phxIQzKeg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:FRzrQkrgFgQ=:HC5I7Ol2cTI2lrPl0TjZTo
- XfHe5mgFt0aHFGAalVVEj4+febFF6vmpx0T2gM46p6+JPlyhG7md/DbylvjibfTzGzvnPkMu8
- bbTv7yhUDHYhYiesvIfD3/Uw/TgHufj5KCttjBc8KigLbIY+WVBFb3LiEAySCSEfHAkb5iHF2
- hBaX6s6g7lPTI0/auuDNEKQsINL6YtT8hyX6+XgB+zEjW9NcwMRmwwZuQ9hvxLlHi2P0rOKSU
- HHkA2xtZU99yNRKRyCHQpsdSk52B65ayG25eScJkrDLjngoRgCZpT4hoO+IcIqiSxHTxtDoId
- J8zJzi0qbhlnukq5b9gySFvCdaJZxbzDLr+CAmtILFkyAGCHbK4qMxn/sB2Cywz2GIPGLZ8Q5
- HgBu7VxfcHyw3yyvwZ9x8bgrZMQVNpjK+/S+Jg4YMKr1dRy4Kl1EO38RjJ+bwcDjnQbAhm/0q
- Dc+RFMRY0uyUgyc9hA0ZKtclma+QJu1mvEHbARERzQ2ylQAVM+SDjzBIbzy7WhrEReJMAYxxt
- VRORaMds5uaEGfX/zl//uM=
-Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:kbm87H6GosaiRgNfHBPWWlsPUgW5jJAWAt8CM7dvKd8pnjCOOo3
+ 4fbBeyGomwdL0YfmPPDQRpu1i5UrKkY+5Frg0+PtHXfY2CZizY0XRrB9MidXjEamq3CZojr
+ zb4HKD0+pFxCbNC3PSjB6dNlJHH72FnIL/mWmF5baWqzcRtUR61jFQ0Ry3BaE4OH/+smadM
+ JQMBvK37/W46omGgx/Ocg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:nppYtzIi45Y=:f8HQUzN/s2J0+LgxIg88ZA
+ ctIibT7A7SintwICXViQb7QjD4ckUtrmmgN9uoJnhPUS1Oz0zVB34pFl+7WAcsjgthiMUCc4O
+ KafOLDDyLru7RqUzTD7BVH4MPDewP+TTAExMEPgGBOVlO28jNn11gS6G1EKoUxUSGGUfMDdkw
+ EYcKTJpeVupvqFVSuvDb3VDYp1Ott4dEhI7WSN79HjCzJJa4d4Wvc0cw3ajcy3P1EnhKUT43f
+ F90kXdbfUkmVzyiX4mXYZd5fp1afUqJLomQ0+6QsBKXGoQNELG5gf/XiN3QS4q8SH9CVPUOpy
+ a70mpudWDA3cUF+AhARdL5CPcFV5U83eMbot9kX8CD+old1N+jXFkIUF+B/W1WPq1v+6fzCfZ
+ 9MtbTy0ug078g+zY+7+s4Y5eD5Mhe4DST5xZ8Hd7/i7VCvF+ZTivjf0L8gT6hiI/TzmkmZoKL
+ ZJthaabq0taY3Pd9isIXYyhPo+EZsgZsBYBpSJRzNNsdnccJVLr19ZkCO4stSJ99nhKDqIDPl
+ Pjq/bN+6rEs1Udsf+TiZBs=
+Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -70,68 +69,92 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Check that the input sp is 16 byte aligned, not 4.
-Do that before the lock_user_struct check.
-
-Validate the saved sp is 8 byte aligned.
+The shape of the kernel's __siginfo_fpu_t is dependent on
+the cpu type, not the abi.  Which is weird, but there ya go.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20210426025334.1168495-22-richard.henderson@linaro.org>
+Message-Id: <20210426025334.1168495-23-richard.henderson@linaro.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/sparc/signal.c | 19 +++++++++++--------
- 1 file changed, 11 insertions(+), 8 deletions(-)
+ linux-user/sparc/signal.c | 36 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 36 insertions(+)
 
 diff --git a/linux-user/sparc/signal.c b/linux-user/sparc/signal.c
-index f0f614a3af7a..0ff57af43d1e 100644
+index 0ff57af43d1e..41a8b33bac3c 100644
 --- a/linux-user/sparc/signal.c
 +++ b/linux-user/sparc/signal.c
-@@ -254,7 +254,7 @@ void setup_rt_frame(int sig, struct target_sigaction *ka,
- long do_sigreturn(CPUSPARCState *env)
+@@ -44,6 +44,12 @@ struct target_stackf {
+ };
+ 
+ struct target_siginfo_fpu {
++#ifdef TARGET_SPARC64
++    uint64_t si_double_regs[32];
++    uint64_t si_fsr;
++    uint64_t si_gsr;
++    uint64_t si_fprs;
++#else
+     /* It is more convenient for qemu to move doubles, not singles. */
+     uint64_t si_double_regs[16];
+     uint32_t si_fsr;
+@@ -52,6 +58,7 @@ struct target_siginfo_fpu {
+         uint32_t insn_addr;
+         uint32_t insn;
+     } si_fpqueue [16];
++#endif
+ };
+ 
+ struct target_signal_frame {
+@@ -167,21 +174,50 @@ static void save_fpu(struct target_siginfo_fpu *fpu, CPUSPARCState *env)
  {
-     abi_ulong sf_addr;
--    struct target_signal_frame *sf;
-+    struct target_signal_frame *sf = NULL;
-     abi_ulong pc, npc, ptr;
-     target_sigset_t set;
-     sigset_t host_set;
-@@ -262,18 +262,21 @@ long do_sigreturn(CPUSPARCState *env)
+     int i;
  
-     sf_addr = env->regwptr[WREG_SP];
-     trace_user_do_sigreturn(env, sf_addr);
--    if (!lock_user_struct(VERIFY_READ, sf, sf_addr, 1)) {
--        goto segv_and_exit;
--    }
- 
-     /* 1. Make sure we are not getting garbage from the user */
-+    if ((sf_addr & 15) || !lock_user_struct(VERIFY_READ, sf, sf_addr, 1)) {
-+        goto segv_and_exit;
++#ifdef TARGET_SPARC64
++    for (i = 0; i < 32; ++i) {
++        __put_user(env->fpr[i].ll, &fpu->si_double_regs[i]);
 +    }
- 
--    if (sf_addr & 3)
-+    /* Make sure stack pointer is aligned.  */
-+    __get_user(ptr, &sf->regs.u_regs[14]);
-+    if (ptr & 7) {
-         goto segv_and_exit;
-+    }
- 
--    __get_user(pc,  &sf->regs.pc);
-+    /* Make sure instruction pointers are aligned.  */
-+    __get_user(pc, &sf->regs.pc);
-     __get_user(npc, &sf->regs.npc);
--
-     if ((pc | npc) & 3) {
-         goto segv_and_exit;
++    __put_user(env->fsr, &fpu->si_fsr);
++    __put_user(env->gsr, &fpu->si_gsr);
++    __put_user(env->fprs, &fpu->si_fprs);
++#else
+     for (i = 0; i < 16; ++i) {
+         __put_user(env->fpr[i].ll, &fpu->si_double_regs[i]);
      }
-@@ -309,7 +312,7 @@ long do_sigreturn(CPUSPARCState *env)
-     unlock_user_struct(sf, sf_addr, 0);
-     return -TARGET_QEMU_ESIGRETURN;
+     __put_user(env->fsr, &fpu->si_fsr);
+     __put_user(0, &fpu->si_fpqdepth);
++#endif
+ }
  
--segv_and_exit:
-+ segv_and_exit:
-     unlock_user_struct(sf, sf_addr, 0);
-     force_sig(TARGET_SIGSEGV);
-     return -TARGET_QEMU_ESIGRETURN;
+ static void restore_fpu(struct target_siginfo_fpu *fpu, CPUSPARCState *env)
+ {
+     int i;
+ 
++#ifdef TARGET_SPARC64
++    uint64_t fprs;
++    __get_user(fprs, &fpu->si_fprs);
++
++    /* In case the user mucks about with FPRS, restore as directed. */
++    if (fprs & FPRS_DL) {
++        for (i = 0; i < 16; ++i) {
++            __get_user(env->fpr[i].ll, &fpu->si_double_regs[i]);
++        }
++    }
++    if (fprs & FPRS_DU) {
++        for (i = 16; i < 32; ++i) {
++            __get_user(env->fpr[i].ll, &fpu->si_double_regs[i]);
++        }
++    }
++    __get_user(env->fsr, &fpu->si_fsr);
++    __get_user(env->gsr, &fpu->si_gsr);
++    env->fprs |= fprs;
++#else
+     for (i = 0; i < 16; ++i) {
+         __get_user(env->fpr[i].ll, &fpu->si_double_regs[i]);
+     }
+     __get_user(env->fsr, &fpu->si_fsr);
++#endif
+ }
+ 
+ void setup_frame(int sig, struct target_sigaction *ka,
 -- 
 2.31.1
 
