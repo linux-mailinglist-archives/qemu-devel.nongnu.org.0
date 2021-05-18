@@ -2,69 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CA43387766
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 13:23:36 +0200 (CEST)
-Received: from localhost ([::1]:56780 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A515B3877BC
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 13:32:27 +0200 (CEST)
+Received: from localhost ([::1]:35394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lixp1-0005Og-CR
-	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 07:23:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33358)
+	id 1lixxa-0001yi-Gv
+	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 07:32:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35172)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lixng-0003tz-43
- for qemu-devel@nongnu.org; Tue, 18 May 2021 07:22:12 -0400
-Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:40833)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lixne-0000qx-CB
- for qemu-devel@nongnu.org; Tue, 18 May 2021 07:22:11 -0400
-Received: by mail-ej1-x62d.google.com with SMTP id n2so13953089ejy.7
- for <qemu-devel@nongnu.org>; Tue, 18 May 2021 04:22:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=2499h/GkY7p5xuQ4/MVuzdWJM5HyKuKCmQRDGWVS0Pg=;
- b=cKM5g07Y6hFoxoyNFky9kjnuuUMquUaMt9wj5g4gYuPzvrXcxWqAN3GQdqRPpNy8eu
- bBeVWt8iLxSeN+vRVGyT90WF5UkuwCISLtFpPg1dH7C7HfzzD4+5Pnq9Meo4Q+gm1Uva
- L3Jw7YYdIcHsrbJFdiQ2A3jfoLpusQwSz3QkBp+yzteyPrEKxHsXTTGTwl1bZCC4uHXt
- cX9bqDwsxvPaxTLW9CFUXDl/BZ8nwvVhP2y9MvtXugA7tObR4qUh0sgCWSWaRqnfxAT2
- aZfrz59+wZyIL6XQzSeSlnISt5VJhWhGfpG+OsSwh6K7axTGRMWWH9cCYWu+SK8AmQ4n
- eixw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=2499h/GkY7p5xuQ4/MVuzdWJM5HyKuKCmQRDGWVS0Pg=;
- b=MVONl3PZiDKXJHIzhcvm9xLDQXCa70Y4k9nupcvD2Ky3R2ODOQZ6HgnnbbfKodSkLN
- JtS7G1IaXaSgeLsPh/8dy8lC2adzF92tC+JlNNr54xzdY9dlf1k4go6U4DOjET0CEFsd
- HDFd4D5u+YBG1ZuaJkhYS7cTJH86j0YyNWLZbZBNkgN7YeWhFM0Xsq5T12YFXkYcV0HL
- k3KGHrJoUsyRdV5KdjpeDKHEwCQiqq6NCnS19cNBA3FzYgVqpX0ZG0vWHHBF/qF73/Ny
- /1pUJ0Fe/WHJ0eb61PwHFrbpBIFgFKvz08LxekKdUiQAM4VeqFTva8kFFBoWDT+LNxqn
- wKtA==
-X-Gm-Message-State: AOAM530ke1/DmmQvB0Eum3TM16Fngl+N9OMlGXHD8h6mJ/+1CwqU3yfM
- qSZtdG/RkNwgF0YYjxA7NYHOVLSksu8X35LZTrpg2A==
-X-Google-Smtp-Source: ABdhPJxSRaXorYnhAOwM63aTMjX4dTxcrmbRQCa7QTWMTv1e2lOKGl6sNDVX8OstiTHbNvrKcWbablDieLGuWyuats0=
-X-Received: by 2002:a17:906:b1cc:: with SMTP id
- bv12mr5423781ejb.407.1621336928877; 
- Tue, 18 May 2021 04:22:08 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lixw1-0000s8-VI
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 07:30:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28329)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lixvy-0006WP-NN
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 07:30:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1621337445;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=NucDJtw8uaAkY47hacvDYxNbf3a5COB1a5Yikd47DkM=;
+ b=R5evkKn1ZLydN9Pvw9DQSGNIV0xXi+n5U6kDuUHoxjbKXca72rz/Ws4+r9teUUMFSY1DZr
+ 27WBqDMIvU5jUVPPbhxgsdpPmsTzkgpJxyqnPFH+9i/JeKRHtOQcwGDFCFyPEzZwlfd2np
+ Zec1AxmPLWpEugK5sVZGDeyc/UgFE/E=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-165-p4DrVQ0gPquSOmENlNBwHg-1; Tue, 18 May 2021 07:30:43 -0400
+X-MC-Unique: p4DrVQ0gPquSOmENlNBwHg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7662A189C44B;
+ Tue, 18 May 2021 11:30:42 +0000 (UTC)
+Received: from merkur.fritz.box (ovpn-113-192.ams2.redhat.com [10.36.113.192])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 736D360657;
+ Tue, 18 May 2021 11:30:41 +0000 (UTC)
+From: Kevin Wolf <kwolf@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PULL v2 00/13] Block layer patches
+Date: Tue, 18 May 2021 13:30:28 +0200
+Message-Id: <20210518113028.53779-1-kwolf@redhat.com>
 MIME-Version: 1.0
-References: <20210516141133.739701-1-richard.henderson@linaro.org>
-In-Reply-To: <20210516141133.739701-1-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 18 May 2021 12:21:52 +0100
-Message-ID: <CAFEAcA_X5u1KJxLrNvH9iprbZmhjNCCy3XTaoDLjm=wgKz7U=A@mail.gmail.com>
-Subject: Re: [PULL v2 0/4] tcg patch queue
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.374,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,44 +73,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 16 May 2021 at 15:11, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Version 2 drops the bsd cleanup and includes a minor improvement
-> to the dump of the constant pool.
->
->
-> r~
->
->
-> The following changes since commit 2d3fc4e2b069494b1e9e2e4a1e3de24cbc036426:
->
->   Merge remote-tracking branch 'remotes/armbru/tags/pull-misc-2021-05-12' into staging (2021-05-13 20:13:24 +0100)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/rth7680/qemu.git tags/pull-tcg-20210516
->
-> for you to fetch changes up to 6c6a4a76eea900112c343ba4f9c5737e298feddf:
->
->   accel/tcg: Align data dumped at end of TB (2021-05-16 09:05:14 -0500)
->
-> ----------------------------------------------------------------
-> Minor MAINTAINERS update.
-> Tweak to includes.
-> Add tcg_constant_tl.
-> Improve constant pool dump.
->
+The following changes since commit 367196caa07ac31443bc360145cc10fbef4fdf92:
 
+  Merge remote-tracking branch 'remotes/vivier2/tags/trivial-branch-for-6.1-pull-request' into staging (2021-05-17 16:44:47 +0100)
 
-Applied, thanks.
+are available in the Git repository at:
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/6.1
-for any user-visible changes.
+  git://repo.or.cz/qemu/kevin.git tags/for-upstream
 
--- PMM
+for you to fetch changes up to c90bd505a3e8210c23d69fecab9ee6f56ec4a161:
+
+  vhost-user-blk: Check that num-queues is supported by backend (2021-05-18 12:57:39 +0200)
+
+----------------------------------------------------------------
+Block layer patches
+
+- vhost-user-blk: Fix error handling during initialisation
+- Add test cases for the vhost-user-blk export
+- Fix leaked Transaction objects
+- qcow2: Expose dirty bit in 'qemu-img info'
+
+----------------------------------------------------------------
+Coiby Xu (1):
+      test: new qTest case to test the vhost-user-blk-server
+
+Kevin Wolf (8):
+      block: Fix Transaction leak in bdrv_root_attach_child()
+      block: Fix Transaction leak in bdrv_reopen_multiple()
+      vhost-user-blk: Make sure to set Error on realize failure
+      vhost-user-blk: Don't reconnect during initialisation
+      vhost-user-blk: Improve error reporting in realize
+      vhost-user-blk: Get more feature flags from vhost device
+      virtio: Fail if iommu_platform is requested, but unsupported
+      vhost-user-blk: Check that num-queues is supported by backend
+
+Stefan Hajnoczi (3):
+      block/export: improve vu_blk_sect_range_ok()
+      tests/qtest: add multi-queue test case to vhost-user-blk-test
+      vhost-user-blk-test: test discard/write zeroes invalid inputs
+
+Vladimir Sementsov-Ogievskiy (1):
+      qcow2: set bdi->is_dirty
+
+ include/hw/virtio/vhost.h            |   2 +
+ tests/qtest/libqos/vhost-user-blk.h  |  48 ++
+ block.c                              |   9 +-
+ block/export/vhost-user-blk-server.c |   9 +-
+ block/qcow2.c                        |   1 +
+ hw/block/vhost-user-blk.c            |  85 ++-
+ hw/virtio/vhost-user.c               |   5 +
+ hw/virtio/virtio-bus.c               |   5 +
+ tests/qtest/libqos/vhost-user-blk.c  | 130 +++++
+ tests/qtest/vhost-user-blk-test.c    | 989 +++++++++++++++++++++++++++++++++++
+ MAINTAINERS                          |   2 +
+ tests/qtest/libqos/meson.build       |   1 +
+ tests/qtest/meson.build              |   4 +
+ 13 files changed, 1230 insertions(+), 60 deletions(-)
+ create mode 100644 tests/qtest/libqos/vhost-user-blk.h
+ create mode 100644 tests/qtest/libqos/vhost-user-blk.c
+ create mode 100644 tests/qtest/vhost-user-blk-test.c
+
 
