@@ -2,86 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10E903875E1
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 11:59:05 +0200 (CEST)
-Received: from localhost ([::1]:43834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B792B3875F4
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 12:04:21 +0200 (CEST)
+Received: from localhost ([::1]:57128 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1liwVE-000277-5H
-	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 05:59:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40032)
+	id 1liwaK-0002kE-PE
+	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 06:04:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34752)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1liwTQ-0007jk-4X
- for qemu-devel@nongnu.org; Tue, 18 May 2021 05:57:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43779)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1liwAJ-0003h9-0h
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 05:37:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48316)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1liwTO-00014E-6j
- for qemu-devel@nongnu.org; Tue, 18 May 2021 05:57:11 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1liwAH-0005oH-3r
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 05:37:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621331829;
+ s=mimecast20190719; t=1621330644;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=LJmeFbOf8YpBzau3rncSEE+bwpXAlYxubWBC7SzJP00=;
- b=KrPa6vAlmZyGybNvWb5US3+cZl4FsGVex2NFS0zBoRKL2y2gqFLcia5wBruH3T0uiiZJIX
- UufAyNb91B+iT1xL+vjMK9u5R6I8rySdJrP/T5iFVg+B/hjtKzLV+83N588qrNn717E7uB
- pv/73DGe3tNITPSH0527E7U5XaeQhF0=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-389-bEAePl76NtaNlnSCMmnp_A-1; Tue, 18 May 2021 05:57:07 -0400
-X-MC-Unique: bEAePl76NtaNlnSCMmnp_A-1
-Received: by mail-wm1-f70.google.com with SMTP id
- g206-20020a1c39d70000b029016ac627fbe9so221589wma.9
- for <qemu-devel@nongnu.org>; Tue, 18 May 2021 02:57:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=LJmeFbOf8YpBzau3rncSEE+bwpXAlYxubWBC7SzJP00=;
- b=Sno+z0klfP8jAn1e7mIaCrmc55dxTPeqblsLqmxQ1cSu1YdgcSsHnJ2EIJ0xjIBePj
- o6vXKonOckPHFYGzvXzk2YMFJPSHmCn6rUOHkj2LB/qR+wuJEBGCQHdMHlz2BFelojX4
- Hgge+XCItZ6LEKheCUemcVLAwhDqmuuLIiZTIx2nlKbYWrQ9wCzaMbf+fDejsKED+s4h
- VO94V9qATH2rxB3ofaO3KoIIRqCSRwki+IsVcvWe7faQfCFLocjWYE4qEPkxXqs79B0h
- sssNA7Coqm+9ZXru7bFoOxbDi0ZjdHib/jiH04hjXePoAQaWwrHs6aJBVSNwd2oTZ46o
- 8Orw==
-X-Gm-Message-State: AOAM5326GPbuTNMt75fv4xcxZFZ++L5QKySsvcUDAeOuNalxqgagx25k
- iqAF+pDR4crzOI+ybz+6pJUKwsYuOEnvkdXhlbCrGuM6vKth0yhQxjknydzPNxYpIZemABd23LT
- hA9L9KNvEupLwsW0=
-X-Received: by 2002:a05:600c:4998:: with SMTP id
- h24mr3982899wmp.10.1621331826148; 
- Tue, 18 May 2021 02:57:06 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwyEpYnnDcbfRbDIHEzpYbb6xCFX4/JoLPLw+DwZ6uS2SlhLgK7VlqkCCDCLlXvmR42qEtR+g==
-X-Received: by 2002:a05:600c:4998:: with SMTP id
- h24mr3982881wmp.10.1621331825972; 
- Tue, 18 May 2021 02:57:05 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id f15sm4722675wrs.47.2021.05.18.02.57.04
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 18 May 2021 02:57:05 -0700 (PDT)
-Subject: Re: [PATCH v2 36/50] target/i386: Tidy svm_check_intercept from tcg
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20210514151342.384376-1-richard.henderson@linaro.org>
- <20210514151342.384376-37-richard.henderson@linaro.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <1a34adc3-2721-90ca-0990-aa55b8f4eddd@redhat.com>
-Date: Tue, 18 May 2021 11:57:03 +0200
+ bh=YBz9QTT9pep7AG1dt3AoSjuGZzqwS5Wxu2+kXCFJC3o=;
+ b=arjDHvYYPD8a5ZUQzd11fgMmAWaR4pcbfghmODPZZ8ZIfGZiUDUrM8n8srYZZhNvLFQaeH
+ aDolO7C2xApNkKoIk2r1NZclHxaWY3T2niO7uSsBE82DcHgKbpGQl1rNoSE0vNGGKsR1LZ
+ JLtVxP2jwhP6gW5/4G6G5IE37ggQXho=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-233-hliNXusXO1quu50n2yNUhg-1; Tue, 18 May 2021 05:37:22 -0400
+X-MC-Unique: hliNXusXO1quu50n2yNUhg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B0EFE180FD62;
+ Tue, 18 May 2021 09:37:21 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-115-121.ams2.redhat.com
+ [10.36.115.121])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 606C951C48;
+ Tue, 18 May 2021 09:37:18 +0000 (UTC)
+Subject: Re: [PATCH 05/21] block: rename backup-top to copy-before-write
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20210517064428.16223-1-vsementsov@virtuozzo.com>
+ <20210517064428.16223-7-vsementsov@virtuozzo.com>
+ <75715377-5f8e-7be6-6fab-f87b015a33e3@redhat.com>
+ <22561008-81a7-d8ba-3895-440437168b92@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
+Message-ID: <c0abac5f-9c8f-b205-e919-f4f6ca259fb9@redhat.com>
+Date: Tue, 18 May 2021 11:37:16 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210514151342.384376-37-richard.henderson@linaro.org>
+In-Reply-To: <22561008-81a7-d8ba-3895-440437168b92@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -103,98 +85,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: cfontana@suse.de, f4bug@amsat.org, ehabkost@redhat.com
+Cc: kwolf@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
+ jsnow@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com, den@openvz.org,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 14/05/21 17:13, Richard Henderson wrote:
-> The param argument to helper_svm_check_intercept_param is always 0;
-> eliminate it and rename to helper_svm_check_intercept.  Fold
-> gen_sve_check_intercept_param into gen_svm_check_intercept.
-       ^^^
-
-Too much ARM lately. :)
-
-Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
-
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->   target/i386/helper.h                |  2 +-
->   target/i386/tcg/sysemu/svm_helper.c |  5 ++---
->   target/i386/tcg/translate.c         | 16 ++++------------
->   3 files changed, 7 insertions(+), 16 deletions(-)
+On 17.05.21 21:42, Vladimir Sementsov-Ogievskiy wrote:
+> 17.05.2021 19:05, Max Reitz wrote:
+>> On 17.05.21 08:44, Vladimir Sementsov-Ogievskiy wrote:
+>>> We are going to convert backup_top to full featured public filter,
+>>> which can be used in separate of backup job. Start from renaming from
+>>> "how it used" to "what it does".
+>>
+>> Is this safe?  The name was externally visible in queries after all. 
+>> (I’m not saying it is unsafe, I just don’t know and would like to know 
+>> whether you’ve considered this already.)
+>>
+>> (Regardless, renaming files and so on is fine, of course.)
 > 
-> diff --git a/target/i386/helper.h b/target/i386/helper.h
-> index f794d1c7c7..86484a4ec4 100644
-> --- a/target/i386/helper.h
-> +++ b/target/i386/helper.h
-> @@ -107,7 +107,7 @@ DEF_HELPER_2(inl, tl, env, i32)
->   
->   #ifndef CONFIG_USER_ONLY
->   DEF_HELPER_FLAGS_4(bpt_io, TCG_CALL_NO_WG, void, env, i32, i32, tl)
-> -DEF_HELPER_3(svm_check_intercept_param, void, env, i32, i64)
-> +DEF_HELPER_2(svm_check_intercept, void, env, i32)
->   DEF_HELPER_4(svm_check_io, void, env, i32, i32, i32)
->   DEF_HELPER_3(vmrun, void, env, int, int)
->   DEF_HELPER_1(vmmcall, void, env)
-> diff --git a/target/i386/tcg/sysemu/svm_helper.c b/target/i386/tcg/sysemu/svm_helper.c
-> index 79c73d67af..b431016e72 100644
-> --- a/target/i386/tcg/sysemu/svm_helper.c
-> +++ b/target/i386/tcg/sysemu/svm_helper.c
-> @@ -506,10 +506,9 @@ void cpu_svm_check_intercept_param(CPUX86State *env, uint32_t type,
->       }
->   }
->   
-> -void helper_svm_check_intercept_param(CPUX86State *env, uint32_t type,
-> -                                      uint64_t param)
-> +void helper_svm_check_intercept(CPUX86State *env, uint32_t type)
->   {
-> -    cpu_svm_check_intercept_param(env, type, param, GETPC());
-> +    cpu_svm_check_intercept_param(env, type, 0, GETPC());
->   }
->   
->   void helper_svm_check_io(CPUX86State *env, uint32_t port, uint32_t param,
-> diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
-> index 8a02c5a373..12ef2cf064 100644
-> --- a/target/i386/tcg/translate.c
-> +++ b/target/i386/tcg/translate.c
-> @@ -197,7 +197,7 @@ STUB_HELPER(clgi, TCGv_env env)
->   STUB_HELPER(invlpga, TCGv_env env, TCGv_i32 aflag)
->   STUB_HELPER(set_dr, TCGv_env env, TCGv_i32 reg, TCGv val)
->   STUB_HELPER(stgi, TCGv_env env)
-> -STUB_HELPER(svm_check_intercept_param, TCGv_env env, TCGv_i32 t, TCGv_i64 p)
-> +STUB_HELPER(svm_check_intercept, TCGv_env env, TCGv_i32 type)
->   STUB_HELPER(svm_check_io, TCGv_env env, TCGv_i32 port, TCGv_i32 p, TCGv_i32 a)
->   STUB_HELPER(vmload, TCGv_env env, TCGv_i32 aflag)
->   STUB_HELPER(vmmcall, TCGv_env env)
-> @@ -2423,9 +2423,8 @@ static inline int svm_is_rep(int prefixes)
->       return ((prefixes & (PREFIX_REPZ | PREFIX_REPNZ)) ? 8 : 0);
->   }
->   
-> -static inline void
-> -gen_svm_check_intercept_param(DisasContext *s, target_ulong pc_start,
-> -                              uint32_t type, uint64_t param)
-> +static void gen_svm_check_intercept(DisasContext *s, target_ulong pc_start,
-> +                                    uint32_t type)
->   {
->       /* no SVM activated; fast case */
->       if (likely(!GUEST(s))) {
-> @@ -2433,14 +2432,7 @@ gen_svm_check_intercept_param(DisasContext *s, target_ulong pc_start,
->       }
->       gen_update_cc_op(s);
->       gen_jmp_im(s, pc_start - s->cs_base);
-> -    gen_helper_svm_check_intercept_param(cpu_env, tcg_const_i32(type),
-> -                                         tcg_const_i64(param));
-> -}
-> -
-> -static inline void
-> -gen_svm_check_intercept(DisasContext *s, target_ulong pc_start, uint64_t type)
-> -{
-> -    gen_svm_check_intercept_param(s, pc_start, type, 0);
-> +    gen_helper_svm_check_intercept(cpu_env, tcg_constant_i32(type));
->   }
->   
->   static inline void gen_stack_update(DisasContext *s, int addend)
+> Hmmm. I don't know.
+> 
+> It was visible yes.. But we've never documented it. And if someone 
+> depends on name of the format of the filter automatically inserted 
+> during backup job, it's a kind of "undocumented feature" use..
+> 
+> Another change I is changing child from backing to file in 11, from this 
+> point of view it's unsafe too. But ше even more reasonable than good 
+> name: having all public filters behave similar is a very good thing.
+> 
+> So, may be it a bit risky, but I think good interface worth that risk. 
+> And we always can say "sorry guys, but that was not documented, we 
+> didn't promise anything".
+
+OK.
+
+Max
+
+> But I'm OK to go on with "backup-top" and "backing", is someone has 
+> strict opinion about this.
+> 
+>>
+>>> While updating comments in 283 iotest, drop and rephrase also things
+>>> about ".active", as this field is now dropped, and filter doesn't have
+>>> "inactive" mode.
+>>>
+>>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>>> ---
+>>>   block/{backup-top.h => copy-before-write.h} |  28 +++---
+>>>   block/backup.c                              |  22 ++---
+>>>   block/{backup-top.c => copy-before-write.c} | 100 ++++++++++----------
+>>>   MAINTAINERS                                 |   4 +-
+>>>   block/meson.build                           |   2 +-
+>>>   tests/qemu-iotests/283                      |  35 +++----
+>>>   tests/qemu-iotests/283.out                  |   4 +-
+>>>   7 files changed, 95 insertions(+), 100 deletions(-)
+>>>   rename block/{backup-top.h => copy-before-write.h} (56%)
+>>>   rename block/{backup-top.c => copy-before-write.c} (62%)
+>>
+>> [...]
+>>
+>>> diff --git a/block/backup-top.c b/block/copy-before-write.c
+>>> similarity index 62%
+>>> rename from block/backup-top.c
+>>> rename to block/copy-before-write.c
+>>> index 425e3778be..40e91832d7 100644
+>>> --- a/block/backup-top.c
+>>> +++ b/block/copy-before-write.c
+>>
+>> [...]
+>>
+>>> @@ -32,25 +32,25 @@
+>>
+>> [...]
+>>
+>>> -static coroutine_fn int backup_top_cbw(BlockDriverState *bs, 
+>>> uint64_t offset,
+>>> -                                       uint64_t bytes, 
+>>> BdrvRequestFlags flags)
+>>> +static coroutine_fn int cbw_cbw(BlockDriverState *bs, uint64_t offset,
+>>> +                                uint64_t bytes, BdrvRequestFlags flags)
+>>
+>> I’m sure you noticed it, too, but cbw_cbw() is weird.  Perhaps 
+>> cbw_do_cbw() at least?
+>>
+> 
+> OK. Maybe even cbw_do_copy_before_write()
+> 
 > 
 
 
