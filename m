@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 088E23875C2
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 11:53:41 +0200 (CEST)
-Received: from localhost ([::1]:53636 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C3B8387541
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 11:36:20 +0200 (CEST)
+Received: from localhost ([::1]:49274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1liwQ0-0006NI-2G
-	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 05:53:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60446)
+	id 1liw9D-0006sF-H9
+	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 05:36:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60592)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1liw1W-0002pj-Sa
- for qemu-devel@nongnu.org; Tue, 18 May 2021 05:28:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60107)
+ id 1liw23-0003r0-9c
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 05:28:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52261)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1liw1S-0008Ke-Nh
- for qemu-devel@nongnu.org; Tue, 18 May 2021 05:28:22 -0400
+ id 1liw21-0000HD-J6
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 05:28:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621330098;
+ s=mimecast20190719; t=1621330132;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=m6Q0VvoL0oExrvqvPcAD3t1h5hqPh9emBkw8Vg2WBNI=;
- b=SBJCSePwR4+1EhANhqP2ZQC+cJJB+yJBS7ms4PuYCe9jEROgQC+w8EDr88tVgWk/0ijo9S
- 6xcNIjSi+Ip6geSFyy5dC1iDUMhu5NEULEZnz3HRb39flNP+tioK+FwrlatXHV8vh0LACn
- xjuuf1o5VWLW7twbowXZc1OvwiE9uLY=
+ bh=/aVwxax7OhoRGnMnLe0TAZiNPmTevuzVtdvPvHlZPqg=;
+ b=KdxiJj+oGE8t7XNGlhQp5MNpRSGzekdSbdgWVQfgeBE1PVaeAC4E+fiLL2LziN6mNQOJpM
+ w6oXlEGn7c6Yd9JXrNQZPQMHPKzYdi7oWSZsgE1GZPSvMA9N3R+FMzGIhC282MCEcGvvas
+ nUTdfJhUewENDJZLTWtWipRjVJn90lM=
 Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
  [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-103-D2DjCN9YPKC9uD6An8BjCg-1; Tue, 18 May 2021 05:28:16 -0400
-X-MC-Unique: D2DjCN9YPKC9uD6An8BjCg-1
+ us-mta-539-KAhnupvYObOHdJrZUuvLvQ-1; Tue, 18 May 2021 05:28:51 -0400
+X-MC-Unique: KAhnupvYObOHdJrZUuvLvQ-1
 Received: by mail-ed1-f72.google.com with SMTP id
- w22-20020a05640234d6b029038d04376b6aso5385866edc.21
- for <qemu-devel@nongnu.org>; Tue, 18 May 2021 02:28:16 -0700 (PDT)
+ y15-20020aa7d50f0000b02903885ee98723so5387567edq.16
+ for <qemu-devel@nongnu.org>; Tue, 18 May 2021 02:28:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=m6Q0VvoL0oExrvqvPcAD3t1h5hqPh9emBkw8Vg2WBNI=;
- b=m6TDqy7cxVngIztZ7B4CZWd6SLdbqcv27v5e+vZF2pxiVmEnBeFcoVpLHAyD6y31YR
- RwBAPKHy9/1n7JNRWpnnX35d/sdS2jm3UtklgeIv3/6fBGwF2AuG6XQTptxEbyhPoRh2
- OA5x/OqdSMGCpKnOOIh4n3+4eetBBFoIsoMvIfqadK+tJ2IRhffu4FQ2u6eXgctT4s+P
- 8BdWj7Mldgb8t9xpeovau6YN0INzF0612iS6eFdfMYVHFgFcunZ/W4SArvqNrNygDEHV
- PQY7bHq5k3vmrFtkaT9yzeIxydOfkfTcX4+J7Z+VATrPXUz1w/YFpD8TO0eyYy1fsBJV
- 4mVA==
-X-Gm-Message-State: AOAM530OpPhjXHwBx26ici/xl+Ii41Pt2HNL1C31LhWpeu0BfNrR1zUA
- mo5pP3mg/9gP1OTZe3araB5X5V947tX0z5veBg942MpKJp/zd9gRoTee/64N3PgLNsaQ/fntmLD
- 9MqZg8k9gIn8SkK8=
-X-Received: by 2002:a17:906:a48:: with SMTP id
- x8mr5093650ejf.127.1621330094999; 
- Tue, 18 May 2021 02:28:14 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwXCkhhuN7hjg3Y+sZYAhUuq8L+I0rSJqpNJMC3gf8vOgxAuysKMRTNn+Zomo0IDA3lZzwoXA==
-X-Received: by 2002:a17:906:a48:: with SMTP id
- x8mr5093637ejf.127.1621330094842; 
- Tue, 18 May 2021 02:28:14 -0700 (PDT)
+ bh=/aVwxax7OhoRGnMnLe0TAZiNPmTevuzVtdvPvHlZPqg=;
+ b=MeTJ9x37t/7DxDmsX+BbZtPDIM7r3r/n/MNeKl28MpqN8Gi7kPxLsevMyMUECBEFqG
+ E9O31HWvmfFsAJeAbP5FZUmOuc0uBDIuvEQqpOnWD9RDThdYHRAdEVjZw3jZiE5kJ7j3
+ +uzvEhPa3TTzg8c31t5Dkx6lH20uMv2+Ip9hhc61B3pAgzFFDk+GXs9YqUM0Q70JLjbr
+ 3wUDBxx+hxRz8QaU3cYyiC/uVfUtDs2k2TfPphQBVkh8kC94zhq6Gl78Et6O/iX99wxb
+ KwsC39F2cButLCfwQAaodWhPV5tSJsyn4of+MYiYRAYWr9Fpu67r+T0G6kRfqbNODxM1
+ uALw==
+X-Gm-Message-State: AOAM5314tCUHvq0R34C/hL9h3o5filQ12o7LlaoJehDhsdFim7pa3plI
+ jDnr43oZZHYex+1SjziZpNy+ydBU8WBO3gaPz6/yvNdaDuAqbCmjL2MATzqpBl7i7YVFP7lzIh3
+ +hH8pH1dZvY3VxOY=
+X-Received: by 2002:a05:6402:34d5:: with SMTP id
+ w21mr5924918edc.38.1621330128860; 
+ Tue, 18 May 2021 02:28:48 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwNato0sXRZ1xorqCP3Rh+AhOW8YoPBMsb+IYnZKhGvyNPl4Rc8qUbk0DnCeDcSv3yY07xHaA==
+X-Received: by 2002:a05:6402:34d5:: with SMTP id
+ w21mr5924910edc.38.1621330128729; 
+ Tue, 18 May 2021 02:28:48 -0700 (PDT)
 Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
  ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id q16sm12794909edv.61.2021.05.18.02.28.13
+ by smtp.gmail.com with ESMTPSA id uz29sm3918175ejb.8.2021.05.18.02.28.47
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 18 May 2021 02:28:14 -0700 (PDT)
-Subject: Re: [PATCH v2 16/50] target/i386: Tidy REX_B, REX_X definition
+ Tue, 18 May 2021 02:28:48 -0700 (PDT)
+Subject: Re: [PATCH v2 17/50] target/i386: Move rex_r into DisasContext
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20210514151342.384376-1-richard.henderson@linaro.org>
- <20210514151342.384376-17-richard.henderson@linaro.org>
+ <20210514151342.384376-18-richard.henderson@linaro.org>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <5eda8504-448c-e55d-7dc6-8f3d1a263230@redhat.com>
-Date: Tue, 18 May 2021 11:28:13 +0200
+Message-ID: <f7403ad8-4426-bfc8-421e-53260fa3164d@redhat.com>
+Date: Tue, 18 May 2021 11:28:47 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210514151342.384376-17-richard.henderson@linaro.org>
+In-Reply-To: <20210514151342.384376-18-richard.henderson@linaro.org>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -108,74 +108,13 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 14/05/21 17:13, Richard Henderson wrote:
-> Change the storage from int to uint8_t since the value is in {0,8}.
-> For x86_64 add 0 in the macros to (1) promote the type back to int,
-> and (2) make the macro an rvalue.
+> Treat this flag exactly like we treat rex_b and rex_x.
 > 
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-
-Might be easier in the end to put all rex bits in the same uint8_t, but 
-that can be done later.
+> ---
+>   target/i386/tcg/translate.c | 84 ++++++++++++++++++++-----------------
+>   1 file changed, 45 insertions(+), 39 deletions(-)
 
 Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
-
-Paolo
-
-> ---
->   target/i386/tcg/translate.c | 17 +++++++----------
->   1 file changed, 7 insertions(+), 10 deletions(-)
-> 
-> diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
-> index 79a37fb1a7..9bb37215d8 100644
-> --- a/target/i386/tcg/translate.c
-> +++ b/target/i386/tcg/translate.c
-> @@ -41,14 +41,6 @@
->   #define PREFIX_VEX    0x20
->   #define PREFIX_REX    0x40
->   
-> -#ifdef TARGET_X86_64
-> -#define REX_X(s) ((s)->rex_x)
-> -#define REX_B(s) ((s)->rex_b)
-> -#else
-> -#define REX_X(s) 0
-> -#define REX_B(s) 0
-> -#endif
-> -
->   #ifdef TARGET_X86_64
->   # define ctztl  ctz64
->   # define clztl  clz64
-> @@ -100,7 +92,8 @@ typedef struct DisasContext {
->   #endif
->   
->   #ifdef TARGET_X86_64
-> -    int rex_x, rex_b;
-> +    uint8_t rex_x;
-> +    uint8_t rex_b;
->   #endif
->       int vex_l;  /* vex vector length */
->       int vex_v;  /* vex vvvv register, without 1's complement.  */
-> @@ -173,8 +166,12 @@ typedef struct DisasContext {
->   
->   #ifdef TARGET_X86_64
->   #define REX_PREFIX(S)  (((S)->prefix & PREFIX_REX) != 0)
-> +#define REX_X(S)       ((S)->rex_x + 0)
-> +#define REX_B(S)       ((S)->rex_b + 0)
->   #else
->   #define REX_PREFIX(S)  false
-> +#define REX_X(S)       0
-> +#define REX_B(S)       0
->   #endif
->   
->   static void gen_eob(DisasContext *s);
-> @@ -4617,7 +4614,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
->               rex_w = (b >> 3) & 1;
->               rex_r = (b & 0x4) << 1;
->               s->rex_x = (b & 0x2) << 2;
-> -            REX_B(s) = (b & 0x1) << 3;
-> +            s->rex_b = (b & 0x1) << 3;
->               goto next_byte;
->           }
->           break;
-> 
 
 
