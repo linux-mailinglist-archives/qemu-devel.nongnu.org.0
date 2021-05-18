@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5270387FFC
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 20:53:54 +0200 (CEST)
-Received: from localhost ([::1]:49348 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32983387FFB
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 20:53:51 +0200 (CEST)
+Received: from localhost ([::1]:49286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lj4qn-000821-S4
-	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 14:53:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50088)
+	id 1lj4qk-0007za-67
+	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 14:53:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50136)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lj4cE-0003Jw-Sm
- for qemu-devel@nongnu.org; Tue, 18 May 2021 14:38:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55994)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lj4cI-0003Ka-HA
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 14:38:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37815)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lj4c7-0000Ja-Ue
- for qemu-devel@nongnu.org; Tue, 18 May 2021 14:38:48 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lj4cE-0000KL-KM
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 14:38:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621363123;
+ s=mimecast20190719; t=1621363126;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nkQ439nwJVtM0Q48vhAoZUVzUukLms9COugvSIGg64M=;
- b=MdkkxRbyjdiIHwPHuLDhSaQCE6eNKwqPNYhLiKfno6mQe1XCez6o8LBKw5swMBtVXbYCwe
- z6EC76kKRFziym4YlfnTtKycspQK5iT6lwWZSa8CjjIBcSATZbcWiA+CO6BX0We1daW9wE
- da/vo9vEkcRCuzqIXRYJhwrs9HMGcMQ=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-512-LgoJto_xMUinUzDNFHhajw-1; Tue, 18 May 2021 14:38:39 -0400
-X-MC-Unique: LgoJto_xMUinUzDNFHhajw-1
-Received: by mail-ej1-f70.google.com with SMTP id
- h4-20020a1709067184b02903cbbd4c3d8fso2743178ejk.6
- for <qemu-devel@nongnu.org>; Tue, 18 May 2021 11:38:39 -0700 (PDT)
+ bh=OOncN2JUxXwt1CB1ePQ1qklSQzQ266j0ti3lLzidXpQ=;
+ b=B5Jmk2hfxvOMPZHH3FRSt7DTidW9xgtuQYxUNgUMRJEHmiU+0CKyHc7ynqiGuOJE4NzSBX
+ 2Sf943gNXOxW/Z9zDDWBwbsJ1C/5Q20yRaOvHU5d1gsMSre/ujrj4+i22IDvj/QnWf5IUO
+ n0Jrl9Dulawne3v1WU539wv67cbZy+0=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-543-ICVu2M9LM7WhJVzK-pZKXw-1; Tue, 18 May 2021 14:38:44 -0400
+X-MC-Unique: ICVu2M9LM7WhJVzK-pZKXw-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ q18-20020a50cc920000b029038cf491864cso6244146edi.14
+ for <qemu-devel@nongnu.org>; Tue, 18 May 2021 11:38:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=nkQ439nwJVtM0Q48vhAoZUVzUukLms9COugvSIGg64M=;
- b=NBLN4SQ9styQ3upePo0GeF2YHdbx1XB8WNgxH/I52JtMSt2Ge5/RDSsOU5UBBEoEA0
- UUwHzAIoZCUggvnZrObOSR0ZsI+3kCey8udrQopBYdkBjI9mrm7GfuIoqhK+0NvKG0/S
- NqMFySJ71MY9/ce5RMQE7X8sE4i8xumXEkEfF+LtD054tS5a2sVVrZzaEyybNyhp6qeK
- Wkr4RFu7S0LD6XA+4rHATDRscGiudB9Pmx0nQLftObGoB67FS16wuZXOABBZYxN9Vivg
- fSSnsjtsuNvPlgmuMrhs5ihKwqVMgSbGGkHe8qRd27EmNVxhr03w4wrvnj42WWrncil+
- Al1Q==
-X-Gm-Message-State: AOAM530c/n8Y7I9XGHFRr0oMy0ABQi5bVj8EMA+H6BCzUBJS/a/dg4li
- zPKV5hE9DGJAZVsPlec1J6ib+ejL5d4nV8dB6R+QrnfsaUcX+8sSybDYz4eu+D3EvkRr4K8qKz/
- 1w5xggBt0m7XQbM9ArTqvqdv6VzIRmBdvXS+p/ZFe+eha/wtI0jzm9rWn1cDZ3Jji
-X-Received: by 2002:a05:6402:14c2:: with SMTP id
- f2mr8796495edx.69.1621363118421; 
- Tue, 18 May 2021 11:38:38 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxvQtpgrJ5MmmBPxeO08o3LNXUyat80zCiU7ug+0l7vmM9WYlqOXbTeQWpLp/Pt0nYOPgfZvQ==
-X-Received: by 2002:a05:6402:14c2:: with SMTP id
- f2mr8796471edx.69.1621363118255; 
- Tue, 18 May 2021 11:38:38 -0700 (PDT)
+ bh=OOncN2JUxXwt1CB1ePQ1qklSQzQ266j0ti3lLzidXpQ=;
+ b=Ipa2cwxv7ydQnYXf87igC7PAsn80u8ejGCSrMNJi/M7/veoEJSMussekYPhYfDfgo7
+ lBNPLZNwoBFdGu8CtlMtn63THo9fwreSuAr24naCYSaWx9EbbShIBLtFkXl7Q68xpN0x
+ 77MnX3bkoak7qi33KND35A6V0xRFJ2ITufh5d4SQlVmmEk7nSjY2St7tLzp3ZbG6zyuE
+ NxxnhYr5Ne/vwwnypr+b9roFG9mIhSaip73zp0bZtm3cn/FaxbXoAfOahRUrV5ILNd9K
+ GWDIl9D3YuGA2/iiMvFsTUxUac1Yam57dXlXt1QkJoemUwXtHrI1GQcmSgETEp8QAPNl
+ yptA==
+X-Gm-Message-State: AOAM530rkEv57sCTMZYXVWU2/LHM9EK0/FtUMNW1IDlrIA3eR+nS8z9Q
+ gobbevF71Bwe533Ixt4GyZNfyFNE3zRHW38oj0kesTGv67g1wuFJ3r4+G2RAxSItcMkH9HPuC3P
+ TcEgodYbzGjs1Jb0/0zKB6vjl9r55uqz2IkXsm1nl7pZrEDxSQDOHjd/HPGRXE7tQ
+X-Received: by 2002:a05:6402:354b:: with SMTP id
+ f11mr8811437edd.139.1621363123424; 
+ Tue, 18 May 2021 11:38:43 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyPCKgxMyNR+YYL8pCHqk3egdpog5i3vlSZjgcwjLaqLCNd+qZW54mkRkwHArI09gscqZKOIA==
+X-Received: by 2002:a05:6402:354b:: with SMTP id
+ f11mr8811418edd.139.1621363123253; 
+ Tue, 18 May 2021 11:38:43 -0700 (PDT)
 Received: from x1w.redhat.com (31.red-83-51-215.dynamicip.rima-tde.net.
  [83.51.215.31])
- by smtp.gmail.com with ESMTPSA id v18sm1602931edc.76.2021.05.18.11.38.37
+ by smtp.gmail.com with ESMTPSA id i2sm7008863edc.96.2021.05.18.11.38.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 May 2021 11:38:37 -0700 (PDT)
+ Tue, 18 May 2021 11:38:42 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 20/25] hw/virtio: Introduce VIRTIO_ST_CONVERT() macro
-Date: Tue, 18 May 2021 20:36:50 +0200
-Message-Id: <20210518183655.1711377-21-philmd@redhat.com>
+Subject: [RFC PATCH 21/25] hw/virtio: Use ST_CONVERT() macro to emit 16-bit
+ load/store functions
+Date: Tue, 18 May 2021 20:36:51 +0200
+Message-Id: <20210518183655.1711377-22-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210518183655.1711377-1-philmd@redhat.com>
 References: <20210518183655.1711377-1-philmd@redhat.com>
@@ -75,7 +76,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -105,57 +106,76 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-To be able to add more load/store operations,
-introduce the VIRTIO_ST_CONVERT() macro.
-
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- include/hw/virtio/virtio-access.h | 32 +++++++++++++++++++++++++++++++
- 1 file changed, 32 insertions(+)
+ include/hw/virtio/virtio-access.h | 33 +------------------------------
+ 1 file changed, 1 insertion(+), 32 deletions(-)
 
 diff --git a/include/hw/virtio/virtio-access.h b/include/hw/virtio/virtio-access.h
-index 594247f6e35..a86819ef2fe 100644
+index a86819ef2fe..4341af9cb0f 100644
 --- a/include/hw/virtio/virtio-access.h
 +++ b/include/hw/virtio/virtio-access.h
-@@ -68,6 +68,38 @@ static inline rtype virtio_ld ## size ## _phys_cached(VirtIODevice *vdev,\
-     return ld ## size ## _le_phys_cached(cache, pa);\
+@@ -101,6 +101,7 @@ static inline void virtio_st ## size ## _phys_cached(VirtIODevice *vdev,\
  }
  
-+#define VIRTIO_ST_CONVERT(size, vtype)\
-+static inline void virtio_st## size ## _p(VirtIODevice *vdev,\
-+                                          void *ptr, vtype v)\
-+{\
-+    if (virtio_access_is_big_endian(vdev)) {\
-+        st## size ## _be_p(ptr, v);\
-+    } else {\
-+        st## size ## _le_p(ptr, v);\
-+    }\
-+}\
-+static inline void virtio_st## size ## _phys(VirtIODevice *vdev,\
-+                                             hwaddr pa, vtype value)\
-+{\
-+    AddressSpace *dma_as = vdev->dma_as;\
-+\
-+    if (virtio_access_is_big_endian(vdev)) {\
-+        st## size ## _be_phys(dma_as, pa, value);\
-+    } else {\
-+        st## size ## _le_phys(dma_as, pa, value);\
-+    }\
-+}\
-+static inline void virtio_st ## size ## _phys_cached(VirtIODevice *vdev,\
-+                                                     MemoryRegionCache *cache,\
-+                                                     hwaddr pa, vtype value)\
-+{\
-+    if (virtio_access_is_big_endian(vdev)) {\
-+        st ## size ## _be_phys_cached(cache, pa, value);\
-+    } else {\
-+        st ## size ## _le_phys_cached(cache, pa, value);\
-+    }\
-+}
-+
  VIRTIO_LD_CONVERT(uw, uint16_t)
++VIRTIO_ST_CONVERT(w, uint16_t)
  
  static inline uint32_t virtio_ldl_phys(VirtIODevice *vdev, hwaddr pa)
+ {
+@@ -122,18 +123,6 @@ static inline uint64_t virtio_ldq_phys(VirtIODevice *vdev, hwaddr pa)
+     return ldq_le_phys(dma_as, pa);
+ }
+ 
+-static inline void virtio_stw_phys(VirtIODevice *vdev, hwaddr pa,
+-                                   uint16_t value)
+-{
+-    AddressSpace *dma_as = vdev->dma_as;
+-
+-    if (virtio_access_is_big_endian(vdev)) {
+-        stw_be_phys(dma_as, pa, value);
+-    } else {
+-        stw_le_phys(dma_as, pa, value);
+-    }
+-}
+-
+ static inline void virtio_stl_phys(VirtIODevice *vdev, hwaddr pa,
+                                    uint32_t value)
+ {
+@@ -146,15 +135,6 @@ static inline void virtio_stl_phys(VirtIODevice *vdev, hwaddr pa,
+     }
+ }
+ 
+-static inline void virtio_stw_p(VirtIODevice *vdev, void *ptr, uint16_t v)
+-{
+-    if (virtio_access_is_big_endian(vdev)) {
+-        stw_be_p(ptr, v);
+-    } else {
+-        stw_le_p(ptr, v);
+-    }
+-}
+-
+ static inline void virtio_stl_p(VirtIODevice *vdev, void *ptr, uint32_t v)
+ {
+     if (virtio_access_is_big_endian(vdev)) {
+@@ -220,17 +200,6 @@ static inline uint64_t virtio_ldq_phys_cached(VirtIODevice *vdev,
+     return ldq_le_phys_cached(cache, pa);
+ }
+ 
+-static inline void virtio_stw_phys_cached(VirtIODevice *vdev,
+-                                          MemoryRegionCache *cache,
+-                                          hwaddr pa, uint16_t value)
+-{
+-    if (virtio_access_is_big_endian(vdev)) {
+-        stw_be_phys_cached(cache, pa, value);
+-    } else {
+-        stw_le_phys_cached(cache, pa, value);
+-    }
+-}
+-
+ static inline void virtio_stl_phys_cached(VirtIODevice *vdev,
+                                           MemoryRegionCache *cache,
+                                           hwaddr pa, uint32_t value)
 -- 
 2.26.3
 
