@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BB883878FB
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 14:39:46 +0200 (CEST)
-Received: from localhost ([::1]:57424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E6C7387923
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 14:47:50 +0200 (CEST)
+Received: from localhost ([::1]:38582 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1liz0j-0001Te-8u
-	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 08:39:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48188)
+	id 1liz8X-0008OZ-J9
+	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 08:47:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48596)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1liysR-0001F2-L9
- for qemu-devel@nongnu.org; Tue, 18 May 2021 08:31:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21451)
+ id 1liyu0-0002wn-IO
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 08:32:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36359)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1liysP-00075B-QO
- for qemu-devel@nongnu.org; Tue, 18 May 2021 08:31:11 -0400
+ id 1liyts-0007x9-N1
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 08:32:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621341068;
+ s=mimecast20190719; t=1621341159;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=6qu5LCbrfgXwgK43LhTSJnjgO7E9nGgP7sZgNbzhpqk=;
- b=RArR1uFS4LD7JG0DhtNj5fFtpMFMoyvOmm9wZAbHcsLUhnKqTk5jv4pBt1t5V9IO3fBttr
- LEdbKvTWpbLW8Gk2GWvwSuR5JjQhbMLXu+dj9KP7+XBaR7U3UWvBsNn1RqK7nATrUdwhc8
- MLOeX59WY6f7Mvao4a8C3VnVzOcqZD0=
+ bh=rzWcAlGz7ElmPeRo2dwTG1f1UUVZll+/VIl+xnY5oHM=;
+ b=T1nRk77cm08rQws08N6uIwvK3LBcfFihkehtGk/akMHtQ3Kn0aejYSYbRg1rlUfkqHkX/z
+ QAQn2zDpX9WrTLYHUPcBqveGTXtzEgJ2CS/FFA6gXzDjWKB1ykfnJQdOSaiIdU7FjAX59u
+ K9Mqh0gr57B9jU6JAA3GlhRpli2EM+M=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-343-JHeGaat9MYS0C9CtttIThg-1; Tue, 18 May 2021 08:31:06 -0400
-X-MC-Unique: JHeGaat9MYS0C9CtttIThg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-490-XJarmuMaMP6P_iRfkjND9A-1; Tue, 18 May 2021 08:32:37 -0400
+X-MC-Unique: XJarmuMaMP6P_iRfkjND9A-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 766596D249
- for <qemu-devel@nongnu.org>; Tue, 18 May 2021 12:31:05 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9EA92800D62
+ for <qemu-devel@nongnu.org>; Tue, 18 May 2021 12:32:36 +0000 (UTC)
 Received: from work-vm (ovpn-115-45.ams2.redhat.com [10.36.115.45])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 89B005D9C0;
- Tue, 18 May 2021 12:31:04 +0000 (UTC)
-Date: Tue, 18 May 2021 13:31:02 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3AEE160877;
+ Tue, 18 May 2021 12:32:32 +0000 (UTC)
+Date: Tue, 18 May 2021 13:32:29 +0100
 From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 To: Vivek Goyal <vgoyal@redhat.com>
-Subject: Re: [PATCH 6/7] virtiofsd: Check EOF before short read
-Message-ID: <YKOzhol+5jCuZBKn@work-vm>
+Subject: Re: [PATCH 7/7] virtiofsd: Set req->reply_sent right after sending
+ reply
+Message-ID: <YKOz3SRS2Xt//m/i@work-vm>
 References: <20210511213736.281016-1-vgoyal@redhat.com>
- <20210511213736.281016-7-vgoyal@redhat.com>
+ <20210511213736.281016-8-vgoyal@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210511213736.281016-7-vgoyal@redhat.com>
+In-Reply-To: <20210511213736.281016-8-vgoyal@redhat.com>
 User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -84,62 +85,35 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 * Vivek Goyal (vgoyal@redhat.com) wrote:
-> In virtio_send_data_iov() we are checking first for short read and then
-> EOF condition. Change the order. Basically check for error and EOF first
-> and last remaining piece is short ready which will lead to retry
-> automatically at the end of while loop.
-> 
-> Just that it is little simpler to read to the code. There is no need
-> to call "continue" and also one less call of "len-=ret".
+> There is no reason to set it in label "err". We should be able to set
+> it right after sending reply. It is easier to read.
 > 
 > Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
 
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
 > ---
->  tools/virtiofsd/fuse_virtio.c | 21 ++++++++++-----------
->  1 file changed, 10 insertions(+), 11 deletions(-)
+>  tools/virtiofsd/fuse_virtio.c | 5 +----
+>  1 file changed, 1 insertion(+), 4 deletions(-)
 > 
 > diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.c
-> index 434fe401cf..aa53808ef9 100644
+> index aa53808ef9..b1767dd5b9 100644
 > --- a/tools/virtiofsd/fuse_virtio.c
 > +++ b/tools/virtiofsd/fuse_virtio.c
-> @@ -410,25 +410,24 @@ int virtio_send_data_iov(struct fuse_session *se, struct fuse_chan *ch,
->                       __func__, len);
->              goto err;
->          }
-> -        fuse_log(FUSE_LOG_DEBUG, "%s: preadv ret=%d len=%zd\n", __func__,
-> -                 ret, len);
-> -        if (ret < len && ret) {
-> -            fuse_log(FUSE_LOG_DEBUG, "%s: ret < len\n", __func__);
-> -            /* Skip over this much next time around */
-> -            iov_discard_front(&in_sg_ptr, &in_sg_cpy_count, ret);
-> -            buf->buf[0].pos += ret;
-> -            len -= ret;
+> @@ -446,12 +446,9 @@ int virtio_send_data_iov(struct fuse_session *se, struct fuse_chan *ch,
+>      vu_queue_notify(dev, q);
+>      pthread_mutex_unlock(&qi->vq_lock);
+>      vu_dispatch_unlock(qi->virtio_dev);
+> +    req->reply_sent = true;
 >  
-> -            /* Lets do another read */
-> -            continue;
-> -        }
->          if (!ret) {
->              /* EOF case? */
->              fuse_log(FUSE_LOG_DEBUG, "%s: !ret len remaining=%zd\n", __func__,
->                       len);
->              break;
->          }
-> +        fuse_log(FUSE_LOG_DEBUG, "%s: preadv ret=%d len=%zd\n", __func__,
-> +                 ret, len);
-> +
->          len -= ret;
-> +        /* Short read. Retry reading remaining bytes */
-> +        if (len) {
-> +            fuse_log(FUSE_LOG_DEBUG, "%s: ret < len\n", __func__);
-> +            /* Skip over this much next time around */
-> +            iov_discard_front(&in_sg_ptr, &in_sg_cpy_count, ret);
-> +            buf->buf[0].pos += ret;
-> +        }
->      } while (len);
+>  err:
+> -    if (ret == 0) {
+> -        req->reply_sent = true;
+> -    }
+> -
+>      return ret;
+>  }
 >  
->      /* Need to fix out->len on EOF */
 > -- 
 > 2.25.4
 > 
