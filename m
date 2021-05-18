@@ -2,72 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04589387A6B
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 15:52:40 +0200 (CEST)
-Received: from localhost ([::1]:33592 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0ABE387A70
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 15:53:35 +0200 (CEST)
+Received: from localhost ([::1]:36616 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lj09H-0004ja-3N
-	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 09:52:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39354)
+	id 1lj0AA-0006m3-Sa
+	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 09:53:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39508)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lj08R-00044s-7R
- for qemu-devel@nongnu.org; Tue, 18 May 2021 09:51:47 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:36704)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lj092-0005Bo-7E
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 09:52:24 -0400
+Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633]:39606)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lj08P-0004mJ-Bg
- for qemu-devel@nongnu.org; Tue, 18 May 2021 09:51:46 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id c14so8534829wrx.3
- for <qemu-devel@nongnu.org>; Tue, 18 May 2021 06:51:43 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lj090-0005Gj-B9
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 09:52:23 -0400
+Received: by mail-ej1-x633.google.com with SMTP id l1so14692597ejb.6
+ for <qemu-devel@nongnu.org>; Tue, 18 May 2021 06:52:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=TWOWuO1tAQd2Q98LN/Ou+CeKejIRLoDp3eyp5EUcvco=;
- b=yDKDZv0tb7M4s7qAK/+NDeEAZQ8wjQIn4184uybnVJ8jmmpOoLjSxwrStbbe1Q8Kg6
- lK77CSs9FraBX2iZVGPbGlKI7zM0wk/onsfhyXQVMSWuiFeu101goT96op9hcg9t3JTF
- MNckgq7/ZDipLX2X49aJM7H1GxODelsB7wVxWEuHwRytg20snXOOe5nNZggXD18o4ZG0
- 2Nc4J4WxjppM3HWDBdx87LUdZEW04cjRdoqDzidV1noFjzAovrPs3EERaWE11yZZqC7k
- 5fnmPMV9pfK1FRNFxU7aYDQfgA1q8cXQjB6QhWlgYl/AeUMVrVOJTvZUz8UIJIipdH9O
- Rv2g==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Ja/d/Q+97Zk6pXltEKTyRT3wk4Xx8CBnNgj3Zz9dhMA=;
+ b=tJkFsfjIzMGLqrorgI1P4wRHJQ0sL43K1p+o/9cPBVAioj0Aj3K+byG8nBPhnWCC2j
+ bkj0ZXNCt7S5QVe8hMYt3IsLKs8D764JN8WeJT5Xx8rIqMsSNCnxG1BiJGjN43M3x01i
+ 0HGVenQKeiVfAtRfZyWHFiiZWnIKoggBsvkiNfC/6GDZIKkb2yzlFktLwH7Q5DInS6a+
+ c5u95+eDOrewrl6f+S/jzhitX/zp8BkOKXAo5vgSTbOe6Tzg1ICR0+4sB3LI9rNmYkmC
+ DBb2J+Vye61tJ4nTgTegzV0vZCDogdJu9BE6m41ur1P4lw0TvIJ3msOduRhyswI1rhwx
+ L1Uw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=TWOWuO1tAQd2Q98LN/Ou+CeKejIRLoDp3eyp5EUcvco=;
- b=jCUBm9+KxgZZEaUJYCt4vTgguTTjIXWFcsPrGLMwtKHgSfKr8/YQfhSkYnz81XoZ3E
- CjiqsLNWireeNLiRSDrfBwwDAG8eSiKEuaqRvK7BWZhMkr9n7xNios76MP5DYV75DFMA
- vusP1NiLBUI1VVaGnZUE+QVCSDFLyN3tJdnt9C0ihTlS0Y3nLLo2zYeO0iGgNk+fx5QH
- HzcE0QlE9CKR8u9f9gT8h4VdckeRWcoHqc+DgU9RhnigtL/B6grl2cGzt4kpYGYm0Jll
- iByIbuGjOAW+cX2lXgGXe8WTZoR+KWfvaKleRK8VydxByfSRC0BCkOHYrxrjm91i7PP/
- 8Xnw==
-X-Gm-Message-State: AOAM530jfetObetQGHSUQg2UVSXQgLS1Mh+SmfXCkdVUJ2CK0EHexlsw
- r/02+QGw27KrPV6O9EnSo3icfbQHGtfMKA==
-X-Google-Smtp-Source: ABdhPJzGyvEJUDTtrda6ED2MBBjaC8NQ2SrHAfF7sgWTkaNXDQsTd4vBTc1j4O8SwQLplrKhwvnswQ==
-X-Received: by 2002:adf:fe07:: with SMTP id n7mr7220530wrr.388.1621345901142; 
- Tue, 18 May 2021 06:51:41 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id y2sm12000973wrl.92.2021.05.18.06.51.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 May 2021 06:51:38 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 581631FF7E;
- Tue, 18 May 2021 14:51:38 +0100 (BST)
-References: <20210518084139.97957-1-pbonzini@redhat.com>
- <20210518084139.97957-2-pbonzini@redhat.com>
-User-agent: mu4e 1.5.13; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 1/3] cirrus-ci: test installation
-Date: Tue, 18 May 2021 14:50:58 +0100
-In-reply-to: <20210518084139.97957-2-pbonzini@redhat.com>
-Message-ID: <87wnrwcfpx.fsf@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Ja/d/Q+97Zk6pXltEKTyRT3wk4Xx8CBnNgj3Zz9dhMA=;
+ b=mpFjiSziHzwWbh68ix6lQC3i7DWB7TXoXxD+5tpsERfUDgKr7tGxnUQjOmzrHvL9+r
+ 7tL5APjJvkazYMrUsgzW9CExw3Ux6WPusAF22qnvo1BPbnCVVbXr4CCVR0wF0JLe2j6d
+ xEtejmUYzg5ZjuqpuATqeaAA4blKnAw+MZnSdr3upKCGdIbNcEX7OrJAgMWAzaULuCIX
+ UWCe9pPlJA4exuFPAt6C8XMM5TlzWRMoJPNEXrzUJhm0v72cEh6rPWTlSR7LE3pR27t3
+ LG0DvAdzRRFxm6Ntp19/B84BPV0bYPxA/S7/1+m71fVNpYKpshveYE3h+m96lAw2sfVT
+ oO1Q==
+X-Gm-Message-State: AOAM532lm2NedKchJE635PxlINkdtsLJM9dyi/cc0ZVi6/PFrlxrSkSt
+ E/BIauzs4+AWOZ7KkNIsPqV9P2dG3A8hHBtB5I5oVQ==
+X-Google-Smtp-Source: ABdhPJx1J2IrDQi6fDGAzwc0qXBzNSsbnAR0z4X0d/5izAAkuFFB2DeQf7yelzfgfA4BN4Ra7CtHbtMqlLN7daKg16s=
+X-Received: by 2002:a17:906:d1d2:: with SMTP id
+ bs18mr6229605ejb.56.1621345940649; 
+ Tue, 18 May 2021 06:52:20 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42c.google.com
+References: <20210429234201.125565-1-shashi.mallela@linaro.org>
+ <20210429234201.125565-2-shashi.mallela@linaro.org>
+In-Reply-To: <20210429234201.125565-2-shashi.mallela@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 18 May 2021 14:52:04 +0100
+Message-ID: <CAFEAcA_PGXKWy-u-cdOxEf+govTO1fLCoT0RRPQAyh=BkibnJA@mail.gmail.com>
+Subject: Re: [PATCH v3 1/8] hw/intc: GICv3 ITS initial framework
+To: Shashi Mallela <shashi.mallela@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::633;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x633.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,59 +78,121 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Leif Lindholm <leif@nuviainc.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ qemu-arm <qemu-arm@nongnu.org>, Radoslaw Biernacki <rad@semihalf.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Paolo Bonzini <pbonzini@redhat.com> writes:
-
-> Entitlements are applied via an install script that runs at installation
-> time.  Test it in CI.
+On Fri, 30 Apr 2021 at 00:42, Shashi Mallela <shashi.mallela@linaro.org> wrote:
 >
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> Added register definitions relevant to ITS,implemented overall
+> ITS device framework with stubs for ITS control and translater
+> regions read/write,extended ITS common to handle mmio init between
+> existing kvm device and newer qemu device.
+>
+> Signed-off-by: Shashi Mallela <shashi.mallela@linaro.org>
 > ---
->  .cirrus.yml | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+>  hw/intc/arm_gicv3_its.c                | 239 +++++++++++++++++++++++++
+>  hw/intc/arm_gicv3_its_common.c         |  11 +-
+>  hw/intc/arm_gicv3_its_kvm.c            |   2 +-
+>  hw/intc/gicv3_internal.h               |  88 +++++++--
+>  hw/intc/meson.build                    |   1 +
+>  include/hw/intc/arm_gicv3_its_common.h |  10 +-
+>  6 files changed, 331 insertions(+), 20 deletions(-)
+>  create mode 100644 hw/intc/arm_gicv3_its.c
 >
-> diff --git a/.cirrus.yml b/.cirrus.yml
-> index f4bf49b704..340fd395c0 100644
-> --- a/.cirrus.yml
-> +++ b/.cirrus.yml
-> @@ -37,6 +37,7 @@ macos_task:
->      - gmake check-qapi-schema V=3D1
->      - gmake check-softfloat V=3D1
->      - gmake check-qtest-x86_64 V=3D1
-> +    - gmake install DESTDIR=3D$PWD/destdir
->=20=20
->  macos_xcode_task:
->    osx_instance:
-> @@ -47,7 +48,7 @@ macos_xcode_task:
->    script:
->      - mkdir build
->      - cd build
-> -    - ../configure --extra-cflags=3D'-Wno-error=3Ddeprecated-declaration=
-s' --enable-modules
-> +    - ../configure --extra-cflags=3D'-Wno-error=3Ddeprecated-declaration=
-s' --enable-modules --disable-strip
+> diff --git a/hw/intc/arm_gicv3_its.c b/hw/intc/arm_gicv3_its.c
+> new file mode 100644
+> index 0000000000..7b11330e01
+> --- /dev/null
+> +++ b/hw/intc/arm_gicv3_its.c
+> @@ -0,0 +1,239 @@
+> +/*
+> + * ITS emulation for a GICv3-based system
+> + *
+> + * Copyright Linaro.org 2021
+> + *
+> + * Authors:
+> + *  Shashi Mallela <shashi.mallela@linaro.org>
+> + *
+> + * This work is licensed under the terms of the GNU GPL, version 2 or (at your
+> + * option) any later version.  See the COPYING file in the top-level directory.
+> + *
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "qemu/log.h"
+> +#include "hw/qdev-properties.h"
+> +#include "hw/intc/arm_gicv3_its_common.h"
+> +#include "gicv3_internal.h"
+> +#include "qom/object.h"
+> +
+> +typedef struct GICv3ITSClass GICv3ITSClass;
+> +/* This is reusing the GICv3ITSState typedef from ARM_GICV3_ITS_COMMON */
+> +DECLARE_OBJ_CHECKERS(GICv3ITSState, GICv3ITSClass,
+> +                     ARM_GICV3_ITS, TYPE_ARM_GICV3_ITS)
+> +
+> +struct GICv3ITSClass {
+> +    GICv3ITSCommonClass parent_class;
+> +    void (*parent_reset)(DeviceState *dev);
+> +};
+> +
+> +static MemTxResult gicv3_its_translation_write(void *opaque, hwaddr offset,
+> +                               uint64_t data, unsigned size, MemTxAttrs attrs)
 
-So what's the --disable-strip about? Surely we don't rely on the
-installer packaging to do that for us?
+Your indentation on function prototypes is still messed up; please fix it.
 
->                     --enable-werror --cc=3Dclang || { cat config.log meso=
-n-logs/meson-log.txt; exit 1; }
->      - gmake -j$(sysctl -n hw.ncpu)
->      - gmake check-unit V=3D1
-> @@ -55,6 +56,7 @@ macos_xcode_task:
->      - gmake check-qapi-schema V=3D1
->      - gmake check-softfloat V=3D1
->      - gmake check-qtest-x86_64 V=3D1
-> +    - gmake install DESTDIR=3D$PWD/destdir
->=20=20
->  windows_msys2_task:
->    timeout_in: 90m
+> +    if (s->gicv3->cpu->gicr_typer & GICR_TYPER_PLPIS) {
+> +        /* set the ITS default features supported */
+> +        s->typer = FIELD_DP64(s->typer, GITS_TYPER, PHYSICAL,
+> +                                       GITS_TYPE_PHYSICAL);
 
+More odd indentation. Second lines of function calls etc should line
+up with the first character after the '(' on the first line.
+Please fix this through the whole patchset.
 
---=20
-Alex Benn=C3=A9e
+> +type_init(gicv3_its_register_types)
+> diff --git a/hw/intc/arm_gicv3_its_common.c b/hw/intc/arm_gicv3_its_common.c
+> index 66c4c6a188..b4dddb16b8 100644
+> --- a/hw/intc/arm_gicv3_its_common.c
+> +++ b/hw/intc/arm_gicv3_its_common.c
+> @@ -50,12 +50,13 @@ static int gicv3_its_post_load(void *opaque, int version_id)
+>
+>  static const VMStateDescription vmstate_its = {
+>      .name = "arm_gicv3_its",
+> +    .version_id = 1,
+> +    .minimum_version_id = 1,
+>      .pre_save = gicv3_its_pre_save,
+>      .post_load = gicv3_its_post_load,
+>      .priority = MIG_PRI_GICV3_ITS,
+>      .fields = (VMStateField[]) {
+>          VMSTATE_UINT32(ctlr, GICv3ITSState),
+> -        VMSTATE_UINT32(iidr, GICv3ITSState),
+>          VMSTATE_UINT64(cbaser, GICv3ITSState),
+>          VMSTATE_UINT64(cwriter, GICv3ITSState),
+>          VMSTATE_UINT64(creadr, GICv3ITSState),
+
+You can't change the vmstate like this, you break migration compatibility.
+Why are you deleting the 'iidr' field anyway ?
+
+If we do need to remove the 'iidr', there is a mechanism for saying
+"ignore the UINT64 we get from a migration source, we don't need it".
+If we need to do that it should be a standalone patch at the start of
+the series.
+
+> @@ -51,7 +56,7 @@ struct GICv3ITSState {
+>
+>      /* Registers */
+>      uint32_t ctlr;
+> -    uint32_t iidr;
+> +    uint64_t typer;
+>      uint64_t cbaser;
+>      uint64_t cwriter;
+>      uint64_t creadr;
+
+This will break compilation of the KVM support code on aarch64 hosts,
+which is still using the 'iidr' field.
+
+thanks
+-- PMM
 
