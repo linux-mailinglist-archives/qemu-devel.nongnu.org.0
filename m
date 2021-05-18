@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2DE3387DD8
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 18:43:38 +0200 (CEST)
-Received: from localhost ([::1]:49474 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6383387DED
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 18:53:51 +0200 (CEST)
+Received: from localhost ([::1]:56966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lj2oj-0000I5-GG
-	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 12:43:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54134)
+	id 1lj2yc-0006CQ-Dl
+	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 12:53:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56190)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lj2lQ-0006yK-PL
- for qemu-devel@nongnu.org; Tue, 18 May 2021 12:40:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58615)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lj2vu-0004DJ-Nq
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 12:51:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33993)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lj2lM-0000dm-Br
- for qemu-devel@nongnu.org; Tue, 18 May 2021 12:40:11 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lj2vr-0005xP-Dr
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 12:51:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621356006;
+ s=mimecast20190719; t=1621356658;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RkAhv8rNMfRiKjF8GHs1nvjR7Ry+wkb1l4WsuiWSnEU=;
- b=AHquHU2k+pIzCIrs7FOpG22xx7dUSZpnonUNfVW8lWylhX5tDPRMuXpEknJgskumigsm/N
- u4dnHxypNwIYR9EPBQcdA5jwwkKEWNK2UcHt1iobPBSnepbai6d0d7oRZVRraMZEhxx0di
- JsT05aBxnWiQvs9leMEKWdpI/BmnIQc=
+ bh=dQGswRwxWt51vx5UQqvMgViazo3LFbiANBgR0pP24pw=;
+ b=cLtoPuDmNSuyE5nn8HlLK7lRHrr5camqhJ4pq/eGpQJRPR+9tKNCjqTfvMV1Hr72EwEXOZ
+ 0Z3K3fqH/LdsbbCpodjLDXu29vSSQsTTIqZ9Fj9rUulvvo6jwkkBxIH2ztWrp503OJUZz/
+ pPXaJg454zrUOLqcn7P/VbXZ5klkf0Y=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-343-cze578kSOk-LWc5wjZBA8w-1; Tue, 18 May 2021 12:39:13 -0400
-X-MC-Unique: cze578kSOk-LWc5wjZBA8w-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-483-yJFOBfisNnmrffK8-eIJzg-1; Tue, 18 May 2021 12:50:55 -0400
+X-MC-Unique: yJFOBfisNnmrffK8-eIJzg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B5133801817;
- Tue, 18 May 2021 16:39:11 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DF97910CE788;
+ Tue, 18 May 2021 16:50:40 +0000 (UTC)
 Received: from dresden.str.redhat.com (ovpn-115-121.ams2.redhat.com
  [10.36.115.121])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 09D9B5C1C5;
- Tue, 18 May 2021 16:39:05 +0000 (UTC)
-Subject: Re: RFC: Qemu backup interface plans
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9457C69322;
+ Tue, 18 May 2021 16:49:58 +0000 (UTC)
+Subject: Re: Qemu block filter insertion/removal API
 To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
  qemu-block@nongnu.org
-References: <ad71ced7-d0f6-5d99-4678-7d0e2d3e2561@virtuozzo.com>
+References: <a1de7e2e-2048-50d7-4373-7e04299cf7aa@virtuozzo.com>
 From: Max Reitz <mreitz@redhat.com>
-Message-ID: <eba2f2c5-a867-91bc-64ab-08dcd67a295d@redhat.com>
-Date: Tue, 18 May 2021 18:39:03 +0200
+Message-ID: <0f0ede72-5b40-4896-a9c4-488b31e74d5f@redhat.com>
+Date: Tue, 18 May 2021 18:49:56 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <ad71ced7-d0f6-5d99-4678-7d0e2d3e2561@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <a1de7e2e-2048-50d7-4373-7e04299cf7aa@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -69,7 +69,7 @@ X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.374,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,197 +87,105 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Krempa <pkrempa@redhat.com>,
  Dmitry Mishin <dim@virtuozzo.com>, Igor Sukhih <igor@virtuozzo.com>,
  qemu-devel <qemu-devel@nongnu.org>, yur@virtuozzo.com,
  Nikolay Shirokovskiy <nshirokovskiy@virtuozzo.com>,
- "Denis V. Lunev" <den@openvz.org>, John Snow <jsnow@redhat.com>
+ Stefan Hajnoczi <stefanha@redhat.com>, "Denis V. Lunev" <den@openvz.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
-
-Your proposal sounds good to me in general.  Some small independent 
-building blocks that seems to make sense to me.
-
-
-On 17.05.21 14:07, Vladimir Sementsov-Ogievskiy wrote:
-
-[...]
-
-> What we lack in this scheme:
+On 17.05.21 14:44, Vladimir Sementsov-Ogievskiy wrote:
+> Hi all!
 > 
-> 1. handling dirty bitmap in backup-top filter: backup-top does 
-> copy-before-write operation on any guest write, when actually we are 
-> interested only in "dirty" regions for incremental backup
+> I'd like to be sure that we know where we are going to.
 > 
-> Probable solution would allowing specifying bitmap for sync=none mode of 
-> backup, but I think what I propose below is better.
+> In blockdev-era where qemu user is aware about block nodes, all nodes 
+> have good names and controlled by user we can efficiently use block 
+> filters.
 > 
-> 2. [actually it's a tricky part of 1]: possibility to not do 
-> copy-before-write operations for regions that was already copied to 
-> final backup. With normal Qemu backup job, this is achieved by the fact 
-> that block-copy state with its internal bitmap is shared between backup 
-> job and copy-before-write filter.
+> We already have some useful filters: copy-on-read, throttling, compress. 
+> In my parallel series I make backup-top filter public and useful without 
+> backup block jobs. But now filters could be inserted only together with 
+> opening their child. We can specify filters in qemu cmdline, or filter 
+> can take place in the block node chain created by blockdev-add.
 > 
-> 3. Not a real problem but fact: backup block-job does nothing in the 
-> scheme, the whole job is done by filter. So, it would be interesting to 
-> have a possibility to simply insert/remove the filter, and avoid 
-> block-job creation and managing at all for external backup. (and I'd 
-> like to send another RFC on how to insert/remove filters, let's not 
-> discuss it here).
+> Still, it would be good to insert/remove filters on demand.
 > 
+> Currently we are going to use x-blockdev-reopen for this. Still it can't 
+> be used to insert a filter above root node (as x-blockdev-reopen can 
+> change only block node options and their children). In my series "[PATCH 
+> 00/21] block: publish backup-top filter" I propose (as Kevin suggested) 
+> to modify qom-set, so that it can set drive option of running device. 
+> That's not difficult, but it means that we have different scenario of 
+> inserting/removing filters:
 > 
-> Next. Think about internal backup. It has one drawback too:
-> 4. If target is remote with slow connection, copy-before-write 
-> operations will slow down guest writes appreciably.
+> 1. filter above root node X:
 > 
-> It may be solved with help of image fleecing: we create temporary qcow2 
-> image, setup fleecing scheme, and instead of exporting temp image 
-> through NBD we start a second backup with source = temporary image and 
-> target would be real backup target (NBD for example).
-
-How would a second backup work here?  Wouldn’t one want a mirror job to 
-copy the data off to the real target?
-
-(Because I see backup as something intrinsically synchronous, whereas 
-mirror by default is rather lazy.)
-
-[Note from future me where I read more below: I see you acknowledge that 
-you’ll need to modify backup to do what you need here, i.e. not do any 
-CBW operations.  So it’s effectively the same as a mirror that ignores 
-new dirty areas.  Which could work without changing mirror if block-copy 
-were to set BDRV_REQ_WRITE_UNCHANGED for the fleecing case, and 
-bdrv_co_write_req_finish() would skip bdrv_set_dirty() for such writes.]
-
-I mean, still has the problem that the mirror job can’t tell the CBW 
-filter which areas are already copied off and so don’t need to be 
-preserved anymore, but...
-
-> Still, with such 
-> solution there are same [1,2] problems, 3 becomes worse:
-
-Not sure how 3 can become worse when you said above it isn’t a real 
-problem (to which I agree).
-
-> 5. We'll have two jobs and two automatically inserted filters, when 
-> actually one filter and one job are enough (as first job is needed only 
-> to insert a filter, second job doesn't need a filter at all).
+> inserting:
 > 
-> Note also, that this (starting two backup jobs to make push backup with 
-> fleecing) doesn't work now, op-blockers will be against. It's simple to 
-> fix (and in Virtuozzo we live with downstream-only patch, which allows 
-> push backup with fleecing, based on starting two backup jobs).. But I 
-> never send a patch, as I have better plan, which will solve all listed 
-> problems.
+>    - do blockdev-add to add a filter (and specify X as its child)
+>    - do qom-set to set new filter as a rood node instead of X
+> 
+> removing
+> 
+>    - do qom-set to make X a root node again
+>    - do blockdev-del to drop a filter
+> 
+> 2. filter between two block nodes P and X. (For example, X is a backing 
+> child of P)
+> 
+> inserting
+> 
+>    - do blockdev-add to add a filter (and specify X as its child)
+>    - do blockdev-reopen to set P.backing = filter
+> 
+> remvoing
+> 
+>    - do blockdev-reopen to set P.backing = X
+>    - do blockdev-del to drop a filter
 > 
 > 
-> So, what I propose:
+> And, probably we'll want transaction support for all these things.
 > 
-> 1. We make backup-top filter public, so that it could be 
-> inserted/removed where user wants through QMP (how to properly 
-> insert/remove filter I'll post another RFC, as backup-top is not the 
-> only filter that can be usefully inserted somewhere). For this first 
-> step I've sent a series today:
 > 
->    subject: [PATCH 00/21] block: publish backup-top filter
->    id: <20210517064428.16223-1-vsementsov@virtuozzo.com>
->    patchew: 
-> https://patchew.org/QEMU/20210517064428.16223-1-vsementsov@virtuozzo.com/
+> Is it OK? Or do we need some kind of additional blockdev-replace 
+> command, that can replace one node by another, so in both cases we will do
 > 
-> (note, that one of things in this series is rename 
-> s/backup-top/copy-before-write/, still, I call it backup-top in this 
-> letter)
+> inserting:
 > 
-> This solves [3]. [4, 5] are solved partly: we still have one extra 
-> filter, created by backup block jobs, and also I didn't test does this 
-> work, probably some op-blockers or permissions should be tuned. So, let 
-> it be step 2:
+>    - blockdev-add filter
+>    - blockdev-replace (make all parents of X to point to the new filter 
+> instead (except for the filter itself of course)
 > 
-> 2. Test, that we can start backup job with source = (target of 
-> backup-top filter), so that we have "push backup with fleecing". Make an 
-> option for backup to start without a filter, when we don't need 
-> copy-before-write operations, to not create extra superfluous filter.
-
-OK, so the backup job is not really a backup job, but just anything that 
-copies data.
-
-> 3. Support bitmap in backup-top filter, to solve [1]
+> removing
+>    - blockdev-replace (make all parante of filter to be parents of X 
+> instead)
+>    - blockdev-del filter
 > 
-> 3.1 and make it possible to modify the bitmap externally, so that 
-> consumer of fleecing can say to backup-top filter: I've already copied 
-> these blocks, don't bother with copying them to temp image". This is to 
-> solve [2].
 > 
-> Still, how consumer of fleecing will reset shared bitmap after copying 
-> blocks? I have the following idea: we make a "discard-bitmap-filter" 
-> filter driver, that own some bitmap and on discard request unset 
-> corresponding bits. Also, on read, if read from the region with unset 
-> bits the EINVAL returned immediately. This way both consumers (backup 
-> job and NBD client) are able to use this interface:
+> It's simple to implement, and it seems for me that it is simpler to use. 
+> Any thoughts?
 
-Sounds almost like a 'bitmap' protocol block driver that, given some 
-dirty bitmap, basically just represents that bitmap as a block device. 
-*shrug*
+I’m afraid as a non-user of the blockdev interface, I can’t give a 
+valuable opinion that would have some actual weight.
 
-Anyway.  I think I’m wrong, it’s something very different, and that’s 
-clear when I turn your proposal around:  What this “filter” would do 
-primarily is to restrict access to its filtered node based on the bitmap 
-given to it, i.e. only dirty areas can be read.  (I say “filter” because 
-I’m not sure it’s a filter if it restricts the data that can be read.) 
-Secondarily, the bitmap can be cleared by sending discards.
+Doesn’t stop me from giving my personal and potentially invaluable 
+opinion, though, obviously:
 
-You know what, that would allow implement backing files for formats that 
-don’t support it.  Like, the overlay and the backing file are both 
-children of a FIFO quorum node, where the overlay has the bitmap filter 
-on top, and is the first child.  If writing to the bitmap filter then 
-also marks the bitmap dirty there (which it logically should, I 
-think)...  Don’t know if that’s good or not. :)
+I think we expect all users to know the block graph, so they should be 
+able to distinguish between cases 1 and 2.  However, I can imagine 
+having to distinguish still is kind of a pain, especially if it were 
+trivial for qemu to let the user not having to worry about it at all.
 
-> Backup job can simply call discard on source, we can add an option for 
-> this.
+Also, if you want a filter unconditionally above some node, all the 
+qom-set and blockdev-reopen operations for all of the original node’s 
+parents would need to happen atomically.  As you say, those operations 
+should perhaps be transactionable anyway, but...  Implementing 
+blockdev-replace would provide this for much less cost now, I suppose?
 
-Hm.  I would have expected the most straightforward solution would be to 
-share the job’s (backup or mirror, doesn’t matter) dirty bitmap with the 
-CBW node, so that the latter only copies what the former still considers 
-dirty.  Is the bitmap filter really still necessary then?
+I guess it can be argued that the downside is that having 
+blockdev-replace means less pressure to make qom-set for drive and 
+blockdev-reopen transactionable.
 
-Oh, I see, discarding also helps to save disk space.  Makes sense then.
-
-> External backup tool will send TRIM request after reading some region. 
-> This way disk space will be freed and no extra copy-before-write 
-> operations will be done. I also have a side idea that we can implement 
-> READ_ONCE flag, so that READ and TRIM can be done in one NBD command. 
-> But this works only for clients that don't want to implement any kind of 
-> retrying.
-
-[...]
-
-> This way data from copy-before-write filter goes first to ram-cache, and 
-> backup job could read it from ram. ram-cache will automatically flush 
-> data to temp qcow2 image, when ram-usage limit is reached. We'll also 
-> need a way to say backup-job that it should first read clusters that are 
-> cached in ram, and only then other clusters. So, we'll have a priory for 
-> clusters to be copied by block-copy:
-> 1. clusters in ram-cache
-> 2. clusters not in temp img (to avoid copy-before-write operations in 
-> future)
-> 3. clusters in temp img.
-> 
-> This will be a kind of block_status() thing, that allows a block driver 
-> to give recommendations on sequence of reading to be effective.
-
-You mean block_status should give that recommendation?  Is that really 
-necessary?  I think this is a rather special case, so block-copy could 
-figure that out itself.  All it needs to do is for any dirty area 
-determine how deep in the backing chain it is: Is it in the ram-cache, 
-is it in temp image, or is it below both?  It should be able to figure 
-that out with the *file information that block_status returns.
-
-> Not 
-> also, that there is another benefit of such thing: we'll implement this 
-> callback in qcow2 driver, so that backup will read clusters not in guest 
-> cluster order, but in host cluster order, to read more sequentially, 
-> which should bring better performance on rotating disks.
-
-I’m not exactly sure how you envision this to work, but block_status 
-also already gives you the host offset in *map.
+But well.  I don’t really have anything against a blockdev-replace, but 
+again, I don’t know whether my opinion on this topic really has weight.
 
 Max
 
