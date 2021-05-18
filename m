@@ -2,70 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A631C387D1A
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 18:12:16 +0200 (CEST)
-Received: from localhost ([::1]:49132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24DE2387D85
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 18:30:57 +0200 (CEST)
+Received: from localhost ([::1]:44114 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lj2KN-0002wb-4A
-	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 12:12:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46886)
+	id 1lj2cP-0004Ls-Uf
+	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 12:30:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52068)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lj2F5-0005mq-Fp
- for qemu-devel@nongnu.org; Tue, 18 May 2021 12:06:47 -0400
-Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:38582)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lj2F2-0001y7-Df
- for qemu-devel@nongnu.org; Tue, 18 May 2021 12:06:47 -0400
-Received: by mail-ej1-x629.google.com with SMTP id b25so15443350eju.5
- for <qemu-devel@nongnu.org>; Tue, 18 May 2021 09:06:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Zkc9LooPnZUpbQU+lh3TNAGdJxYUvfX3JI5THA3IFAE=;
- b=r7zpGj3a6Dz2M+kxhubNXsnvGpJgj5mlyPKspHFWVT6cRIbdE86zMC5eMFz9Hl9qFb
- G1cNGmjS1UhF2QB0UI5zEV1wM69XWS9ICBsVzhjthdJzFhiwbNOud0nTwFp32Qo48VeK
- yeikpGxRbEsJTayMxoh3OM3Xd/SSLSBtbfpn8urOastR/lwU/M8E5F7jfvv69LMwJIZC
- ydHifmT7gRX+g0YeNQDBZcxZ79Ip9PgPrE/QHJ4+PJvShqLeW3ABxOGPOOjuJx5AQSPm
- ldGFMVSWjIEH/oVNFHS2OqAXzr0JwjSoOI3tmXLYp4AnHpNcucCkXGGQEPyOcd0XqyDW
- y2mA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Zkc9LooPnZUpbQU+lh3TNAGdJxYUvfX3JI5THA3IFAE=;
- b=eVFPOZG9QdXl/PCfUyGAi2ApvbepLBDcwLu6S/vavU4+fRhvSennAlk83saK8lOHNg
- pYqMgFn5Bhf0wE9FOseRnbG1n1c6wHNO7yF1aq9tMyNz2BfeK/QuMqxx3KNvbkqlfzd0
- nwX1R1JllXQiZOt+HV1SydSDaK7pWfYMhE3KEe70dtEk+W4qjGQ+1MBG9JOVTvdbNHpC
- x6YAbdD7YDdEvVfG3KWyQoG7dS2KUgvL8I/UL27mnAPqvLOfKoefvJRO6Y8j40z3mhDZ
- yGZum+RSdUrfVocKr/BKkCv8vIDrw3kPkwqbu+wfRF/ZQcvjI6reRdas+FOwKoxCDeG8
- ZoMA==
-X-Gm-Message-State: AOAM531JzOPIEoY4VTOSPjvyhruczMMnrK89UIYAjzVxMOmvV/aq+Mnr
- Qh9rBeEQXwjmB9OUFwtn2uFRT19o1Upl8eRT8ECZHA==
-X-Google-Smtp-Source: ABdhPJzRPv9PIm2OCgxW4YEfCoDxGI/r+X13fijT375h6VNxyAZEbk2QIiSwKs0beuJKxXVRMoMeRBGhCUjbovf4gYI=
-X-Received: by 2002:a17:906:b74f:: with SMTP id
- fx15mr6859454ejb.85.1621354002991; 
- Tue, 18 May 2021 09:06:42 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
+ id 1lj2ao-0003eZ-Hk
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 12:29:14 -0400
+Received: from mail.ispras.ru ([83.149.199.84]:43550)
+ by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
+ id 1lj2am-0004fN-Ix
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 12:29:14 -0400
+Received: from [192.168.233.227] (unknown [185.102.120.181])
+ by mail.ispras.ru (Postfix) with ESMTPSA id 43D9540D403D;
+ Tue, 18 May 2021 16:29:04 +0000 (UTC)
+Subject: Re: [RFC PATCH] hmp-commands: expand type of icount to "l" in replay
+ commands
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20210518140855.27026-1-alex.bennee@linaro.org>
+From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
+Message-ID: <ffb09c46-8e3d-64ff-7785-12f1a435b7c8@ispras.ru>
+Date: Tue, 18 May 2021 19:28:59 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-References: <20210429234201.125565-1-shashi.mallela@linaro.org>
- <20210429234201.125565-9-shashi.mallela@linaro.org>
-In-Reply-To: <20210429234201.125565-9-shashi.mallela@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 18 May 2021 17:06:26 +0100
-Message-ID: <CAFEAcA9u3mR1ERWzE6kKsb33ZDEJX-ZabnPUJm7DLQpxHbXy-A@mail.gmail.com>
-Subject: Re: [PATCH v3 8/8] hw/arm/virt: add ITS support in virt GIC
-To: Shashi Mallela <shashi.mallela@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::629;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x629.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210518140855.27026-1-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=83.149.199.84;
+ envelope-from=pavel.dovgalyuk@ispras.ru; helo=mail.ispras.ru
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,27 +56,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Leif Lindholm <leif@nuviainc.com>, QEMU Developers <qemu-devel@nongnu.org>,
- qemu-arm <qemu-arm@nongnu.org>, Radoslaw Biernacki <rad@semihalf.com>
+Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 30 Apr 2021 at 00:42, Shashi Mallela <shashi.mallela@linaro.org> wrote:
->
-> Included creation of ITS as part of virt platform GIC
-> initialization.This Emulated ITS model now co-exists with kvm
+On 18.05.2021 17:08, Alex Bennée wrote:
+> This is not a 32 bit number, it can (and most likely will) be quite a
+> big one.
 
-Missing space after '.'.
+Thanks, I forgot about it.
 
-> ITS and is enabled in absence of kvm irq kernel support in a
-> platform.
->
-> Signed-off-by: Shashi Mallela <shashi.mallela@linaro.org>
+> 
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> Cc: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
+
+Reviewed-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
+
 > ---
+>   hmp-commands.hx | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/hmp-commands.hx b/hmp-commands.hx
+> index 435c591a1c..5ee9cfd520 100644
+> --- a/hmp-commands.hx
+> +++ b/hmp-commands.hx
+> @@ -1667,7 +1667,7 @@ ERST
+>   
+>       {
+>           .name       = "replay_break",
+> -        .args_type  = "icount:i",
+> +        .args_type  = "icount:l",
+>           .params     = "icount",
+>           .help       = "set breakpoint at the specified instruction count",
+>           .cmd        = hmp_replay_break,
+> @@ -1699,7 +1699,7 @@ ERST
+>   
+>       {
+>           .name       = "replay_seek",
+> -        .args_type  = "icount:i",
+> +        .args_type  = "icount:l",
+>           .params     = "icount",
+>           .help       = "replay execution to the specified instruction count",
+>           .cmd        = hmp_replay_seek,
+> 
 
-Otherwise
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-
-thanks
--- PMM
 
