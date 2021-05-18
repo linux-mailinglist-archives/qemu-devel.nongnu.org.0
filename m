@@ -2,57 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 840A5387925
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 14:48:16 +0200 (CEST)
-Received: from localhost ([::1]:40976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57EA8387922
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 14:47:41 +0200 (CEST)
+Received: from localhost ([::1]:37696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1liz8x-00025n-JV
-	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 08:48:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51482)
+	id 1liz8O-0007fp-8y
+	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 08:47:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51430)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yangxiaojuan@loongson.cn>)
- id 1liz4h-0004m8-BA
- for qemu-devel@nongnu.org; Tue, 18 May 2021 08:43:51 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:33238 helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yangxiaojuan@loongson.cn>) id 1liz4b-0005YF-9c
- for qemu-devel@nongnu.org; Tue, 18 May 2021 08:43:51 -0400
-Received: from kvm-dev1.localdomain (unknown [10.2.5.134])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9BxQOJktqNgahMAAA--.423S2;
- Tue, 18 May 2021 20:43:16 +0800 (CST)
-From: Xiaojuan Yang <yangxiaojuan@loongson.cn>
-To: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Laszlo Ersek <lersek@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>
-Subject: [PATCH] fw_cfg: Set the max fw_cfg mem read size to 8 bytes
-Date: Tue, 18 May 2021 20:43:14 +0800
-Message-Id: <1621341794-1041-1-git-send-email-yangxiaojuan@loongson.cn>
-X-Mailer: git-send-email 1.8.3.1
-X-CM-TRANSID: AQAAf9BxQOJktqNgahMAAA--.423S2
-X-Coremail-Antispam: 1UD129KBjvdXoWrtr1xXr43JrWUZFyrXFyftFb_yoW3Jwc_Aa
- 1fAr1kWw1UJ3s2kF9YvF15Zr1Sqw1xZF4vkFnrArs3Aas2qr4DZrsIvaykWrsxZay7CF1f
- K398XrW5Cw4q9jkaLaAFLSUrUUUUbb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUIcSsGvfJTRUUUbIkFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2IYs7xG
- 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
- A2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
- Cr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s
- 1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0
- cI8IcVAFwI0_Jrv_JF1lYx0Ex4A2jsIE14v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJVW8Jw
- ACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc2xSY4AK6svPMxAIw28I
- cxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMxCIbckI1I0E14v26r1Y6r17MI8I3I
- 0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWU
- AVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcV
- CY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Zr0_Wr1UMIIF0xvEx4A2jsIE
- 14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf
- 9x0JU-J5rUUUUU=
-X-CM-SenderInfo: p1dqw5xldry3tdq6z05rqj20fqof0/
-Received-SPF: pass client-ip=114.242.206.163;
- envelope-from=yangxiaojuan@loongson.cn; helo=loongson.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1liz4W-0004b5-3z
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 08:43:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50094)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1liz4P-0005al-H2
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 08:43:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1621341808;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=L9skpm/erEv8RoD5YBVicR4fdxKL6dteiYFrspGec40=;
+ b=S0/zEBD7fWDqqMFfwWMezPJeY/kNsr/yGzW/GbxLx9D8s9VWAfhuSowbig+nt8QFsfMGsf
+ EkFZr2J8NgwWki0ARvt7CJZsfp6hq9wd6T3kHElLtjczkgvYo9CoAQzRANZB/+haSPt6Bl
+ ivICb+OQETxq6zVxKraKl+B6e8CRi0U=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-311-V0x9GY_xMy-eioKq9KerDQ-1; Tue, 18 May 2021 08:43:23 -0400
+X-MC-Unique: V0x9GY_xMy-eioKq9KerDQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 613DA8042AA;
+ Tue, 18 May 2021 12:43:22 +0000 (UTC)
+Received: from redhat.com (ovpn-115-56.ams2.redhat.com [10.36.115.56])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1E7896267D;
+ Tue, 18 May 2021 12:43:20 +0000 (UTC)
+Date: Tue, 18 May 2021 13:43:17 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH 2/3] ci: do not use #processors+1 jobs, #processors is
+ enough
+Message-ID: <YKO2ZbDsphiXh/pE@redhat.com>
+References: <20210518084139.97957-1-pbonzini@redhat.com>
+ <20210518084139.97957-3-pbonzini@redhat.com>
+ <40f9d46b-d234-c029-3ba2-f5dcac8b87fc@redhat.com>
+ <7155c55a-1566-d7f0-d59e-ee48707302cf@redhat.com>
+MIME-Version: 1.0
+In-Reply-To: <7155c55a-1566-d7f0-d59e-ee48707302cf@redhat.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.374,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -65,36 +85,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yangxiaojuan <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, alex.bennee@linaro.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: yangxiaojuan <yangxiaojuan@loongson.cn>
+On Tue, May 18, 2021 at 02:30:04PM +0200, Paolo Bonzini wrote:
+> On 18/05/21 12:49, Thomas Huth wrote:
+> > > 
+> > > -    - JOBS=$(expr $(nproc) + 1)
+> > > +    - JOBS=$(nproc || echo 1)
+> > 
+> > The basic idea of the "+ 1" was to make sure that there is always a
+> > thread that runs on a CPU while maybe another one is waiting for I/O to
+> > complete.
+> 
+> Ah, I see.  It doesn't make much sense for "make check" jobs however, which
+> is where I wanted to get with the next patch.
+> 
+> I'm not sure it's even true anymore with current build machines (which tend
+> to have a large buffer cache for headers) and optimizing compilers that
+> compilation is I/O bound, so I'll time the two and see if there is an actual
+> difference.
 
-fw_cfg_data_read() func supports access widths from
-1 to 8 bytes while the ops set the wrong read size.
+I'd be surprised if you can measure any statistically reliable difference
+at all wrt public CI. I've tried measuring CI performance for small changes
+and found it impossible in short time frames, as the deviation between runs
+is way too large. GitLab CI speeds tend to slow down as the day goes on and
+US wakes up, so by time you run QEMU CI a second time in the day, it will
+be slower. They clearly overcommit resources on the cloud host so you're
+at the mercy of whatever else is running.
 
-Most arch use 8 bytes to send ram_size to bios.
-
-Signed-off-by: yangxiaojuan <yangxiaojuan@loongson.cn>
----
- hw/nvram/fw_cfg.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/hw/nvram/fw_cfg.c b/hw/nvram/fw_cfg.c
-index 9b8dcca4ea..242614152c 100644
---- a/hw/nvram/fw_cfg.c
-+++ b/hw/nvram/fw_cfg.c
-@@ -540,7 +540,7 @@ static const MemoryRegionOps fw_cfg_data_mem_ops = {
-     .endianness = DEVICE_BIG_ENDIAN,
-     .valid = {
-         .min_access_size = 1,
--        .max_access_size = 1,
-+        .max_access_size = 8,
-         .accepts = fw_cfg_data_mem_valid,
-     },
- };
+Regards,
+Daniel
 -- 
-2.27.0
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
