@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 523E538814A
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 22:21:56 +0200 (CEST)
-Received: from localhost ([::1]:54546 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31AB838813C
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 22:19:20 +0200 (CEST)
+Received: from localhost ([::1]:48008 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lj6Dz-0002Yl-Ag
-	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 16:21:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42670)
+	id 1lj6BT-0006cE-5W
+	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 16:19:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42716)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lj64T-0000Tp-Gv
- for qemu-devel@nongnu.org; Tue, 18 May 2021 16:12:05 -0400
-Received: from mail-oi1-x22d.google.com ([2607:f8b0:4864:20::22d]:37742)
+ id 1lj64W-0000Y4-5s
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 16:12:09 -0400
+Received: from mail-ot1-x336.google.com ([2607:f8b0:4864:20::336]:45578)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lj64O-0006DB-MS
- for qemu-devel@nongnu.org; Tue, 18 May 2021 16:12:05 -0400
-Received: by mail-oi1-x22d.google.com with SMTP id h9so10994673oih.4
+ id 1lj64O-0006FH-NA
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 16:12:07 -0400
+Received: by mail-ot1-x336.google.com with SMTP id
+ t10-20020a05683022eab0290304ed8bc759so9736038otc.12
  for <qemu-devel@nongnu.org>; Tue, 18 May 2021 13:11:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=iRIwmv/u97xPnpJtsivAqnqvUPyTpMn8dKYh7FflpCs=;
- b=RweNGdj98f77+VX/ZBp/221GVzK3yABDYjt2BKsHyEnqPZHFkizm6hoSDqr2plKuMr
- lR1Psf6VcGdSdbp3pOw0YB2J8Ur9yIYGDK/grpb4GWT/6yg5Zk/srWJPeVmIb69Az3GH
- SJo7DKZGY/YcAiP5Ecv3gKOUi5ysP3Q/sJu9vcqyV0mpaKHRvzfyzE2V63kUrp139AF9
- KnBRA4j5u5zxvQX4qlg6ZYdZGcV9nIag6ncM6PWrynRF7Xn8kKYFvcT6iQjRV0NCGbrA
- ocZUiD/Pdmmta18NTt9pd9KGuN6lX1F+8Y6C3Ealw7Eiu//M/BoODaPxRCjmMrtHe6E3
- ILJQ==
+ bh=qp5VjSCeaT10WMmzJ0whXnqim/gDuoCvf6zAj9wZwT4=;
+ b=GmIT0E9dNqlPSLKX2lWhkfNbxTMjDnJPhrvCOsqWtpRcaRLDUY7RFkPprkXuj3HTSE
+ U/l9Hm0OaXAZPBGcy0M2S1sd6AqkpIPqaTJsre3c1AVxjOFIfn6Y9sTnMF0hoyXhj4oQ
+ TjMfvs0VJvBKRelcRc+yNxR3hHhuN0SnCiodZrMtV1U7Y2a+/o9E2J5IG04KNmiFBRou
+ SW45+fDsYUyury84129J8bCa60nYe/+CGVpO6wAeidRjW6KDvh3Ikes0NvXh7jTFwbT0
+ feJpf85cc93dbdnbzjszFr9o8lyg3SHxwU2RjLGWUChG8prXM8nrJvgZznkKgZHLLQyh
+ YC5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=iRIwmv/u97xPnpJtsivAqnqvUPyTpMn8dKYh7FflpCs=;
- b=mGCEztqIDDfaINJL2vYmEL41SomZ6QiTLSKaaaxv+xw46vdJdZ2fVNds9Lxq0QzdxR
- SLznAg1s48YAWwhxJZ9eVFWPZ0iiu9rT4nWtzA6jyX8JXliTdOf0MdzVM+N4l1SJIQCP
- 5M/8bq7V1h1M/iC713GXBEbKP9B9Pv/V8SA6jzl7mZW2b6Z5hqRUiiowU/mX7cv44SqU
- Fqdj1/32DhYHeXwEmc5YaWvMrxvp/3jZNHyNNeLzlCFicoQaSDbllrxYhFXcoTtN/UrE
- YojqdPZoda9R8SfjZ734Ma9CQp+CMFPvzey8LmML1LWUepfLIIMHdQGZC4H49hbU0CQL
- fl8A==
-X-Gm-Message-State: AOAM530lpocJI8xKpZDHRi6cOn7V8cD47U3aKFt5uO6W49alTvIdClFL
- r8nDMK+yK+3+H6fhx46RjUP9ewA6xPvPpl6s
-X-Google-Smtp-Source: ABdhPJyngulsCPOW502wxRQ83+ZdyEAxCsOXU19sn231kcBH4NIHtNh4mBZBi6yFwSZB3Xq6ZnsLRg==
-X-Received: by 2002:aca:4a52:: with SMTP id x79mr4956852oia.115.1621368718451; 
- Tue, 18 May 2021 13:11:58 -0700 (PDT)
+ bh=qp5VjSCeaT10WMmzJ0whXnqim/gDuoCvf6zAj9wZwT4=;
+ b=KwXOmyR75TTwtJdXLD01cxVV8bWvShKJgd5Wze+Nz+B6FOEMUOgleoOZ7XlTA4xqPU
+ 592qQEWFZGYfQBePvvOzkcitSafS7q2qA0/pQIA5lxWrotqwqPCRvSEYFGUo708mlaU3
+ w9wEa33fboybX4AWcWzPYtkuifpFOugO9Tns+kCSJKh+5OZmjbPImVSMq3LV8r8Qv/FS
+ nD5WiYTghq1gZK0kNzU+AkQZTAVDGGWVFobzfU4B07j4YHkG75oCAZ2hwnaK+pJya4Z6
+ LCvrL7jwb6iaKyZvOZ4h1syRjRG+dr6H6PcOiUC5nvFP64if4cLCvWczOR7Mt3Qj3F0K
+ sr7g==
+X-Gm-Message-State: AOAM531C1vmXq4T8RB9NuzN6nDhCTCjqY8H0mA/Iz+31o+ue7aqp4cP8
+ qo8XdWB8klBuCZNsLYaMN3qoizBFham3VuuX
+X-Google-Smtp-Source: ABdhPJwCWDS/y+BIDB/CMUjDDZvqmD/GkoSm95TIvqRYg6NJ/dlBJWYkUd+WDCZN3reRGL00w5QDKA==
+X-Received: by 2002:a9d:3782:: with SMTP id x2mr5657632otb.228.1621368719402; 
+ Tue, 18 May 2021 13:11:59 -0700 (PDT)
 Received: from localhost.localdomain ([45.235.253.15])
- by smtp.gmail.com with ESMTPSA id u27sm3953204oof.38.2021.05.18.13.11.57
+ by smtp.gmail.com with ESMTPSA id u27sm3953204oof.38.2021.05.18.13.11.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 May 2021 13:11:58 -0700 (PDT)
+ Tue, 18 May 2021 13:11:59 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 10/24] target/ppc: Remove type argument from get_bat_6xx_tlb
-Date: Tue, 18 May 2021 15:11:32 -0500
-Message-Id: <20210518201146.794854-11-richard.henderson@linaro.org>
+Subject: [PATCH 11/24] target/ppc: Remove type argument from
+ mmu40x_get_physical_address
+Date: Tue, 18 May 2021 15:11:33 -0500
+Message-Id: <20210518201146.794854-12-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210518201146.794854-1-richard.henderson@linaro.org>
 References: <20210518201146.794854-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22d;
- envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x22d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::336;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x336.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,75 +89,37 @@ Cc: bruno.larsen@eldorado.org.br, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We can now use MMU_INST_FETCH from access_type for this.
+It is no longer used.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/ppc/mmu_helper.c | 19 ++++++++-----------
- 1 file changed, 8 insertions(+), 11 deletions(-)
+ target/ppc/mmu_helper.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
 diff --git a/target/ppc/mmu_helper.c b/target/ppc/mmu_helper.c
-index 506b0e4d90..0809210d3b 100644
+index 0809210d3b..6860a2aea0 100644
 --- a/target/ppc/mmu_helper.c
 +++ b/target/ppc/mmu_helper.c
-@@ -379,25 +379,22 @@ static inline void bat_size_prot(CPUPPCState *env, target_ulong *blp,
- }
+@@ -662,8 +662,7 @@ static inline void ppc4xx_tlb_invalidate_all(CPUPPCState *env)
  
- static int get_bat_6xx_tlb(CPUPPCState *env, mmu_ctx_t *ctx,
--                           target_ulong virtual, MMUAccessType access_type,
--                           int type)
-+                           target_ulong virtual, MMUAccessType access_type)
+ static int mmu40x_get_physical_address(CPUPPCState *env, mmu_ctx_t *ctx,
+                                        target_ulong address,
+-                                       MMUAccessType access_type,
+-                                       int type)
++                                       MMUAccessType access_type)
  {
-     target_ulong *BATlt, *BATut, *BATu, *BATl;
-     target_ulong BEPIl, BEPIu, bl;
-     int i, valid, prot;
-     int ret = -1;
-+    bool ifetch = access_type == MMU_INST_FETCH;
- 
-     LOG_BATS("%s: %cBAT v " TARGET_FMT_lx "\n", __func__,
--             type == ACCESS_CODE ? 'I' : 'D', virtual);
--    switch (type) {
--    case ACCESS_CODE:
-+             ifetch ? 'I' : 'D', virtual);
-+    if (ifetch) {
-         BATlt = env->IBAT[1];
-         BATut = env->IBAT[0];
--        break;
--    default:
-+    } else {
-         BATlt = env->DBAT[1];
-         BATut = env->DBAT[0];
--        break;
-     }
-     for (i = 0; i < env->nb_BATs; i++) {
-         BATu = &BATut[i];
-@@ -407,7 +404,7 @@ static int get_bat_6xx_tlb(CPUPPCState *env, mmu_ctx_t *ctx,
-         bat_size_prot(env, &bl, &valid, &prot, BATu, BATl);
-         LOG_BATS("%s: %cBAT%d v " TARGET_FMT_lx " BATu " TARGET_FMT_lx
-                  " BATl " TARGET_FMT_lx "\n", __func__,
--                 type == ACCESS_CODE ? 'I' : 'D', i, virtual, *BATu, *BATl);
-+                 ifetch ? 'I' : 'D', i, virtual, *BATu, *BATl);
-         if ((virtual & 0xF0000000) == BEPIu &&
-             ((virtual & 0x0FFE0000) & ~bl) == BEPIl) {
-             /* BAT matches */
-@@ -441,7 +438,7 @@ static int get_bat_6xx_tlb(CPUPPCState *env, mmu_ctx_t *ctx,
-                 LOG_BATS("%s: %cBAT%d v " TARGET_FMT_lx " BATu " TARGET_FMT_lx
-                          " BATl " TARGET_FMT_lx "\n\t" TARGET_FMT_lx " "
-                          TARGET_FMT_lx " " TARGET_FMT_lx "\n",
--                         __func__, type == ACCESS_CODE ? 'I' : 'D', i, virtual,
-+                         __func__, ifetch ? 'I' : 'D', i, virtual,
-                          *BATu, *BATl, BEPIu, BEPIl, bl);
-             }
-         }
-@@ -1415,7 +1412,7 @@ static int get_physical_address_wtlb(CPUPPCState *env, mmu_ctx_t *ctx,
+     ppcemb_tlb_t *tlb;
+     hwaddr raddr;
+@@ -1426,8 +1425,7 @@ static int get_physical_address_wtlb(CPUPPCState *env, mmu_ctx_t *ctx,
+         if (real_mode) {
+             ret = check_physical(env, ctx, eaddr, access_type);
          } else {
-             /* Try to find a BAT */
-             if (env->nb_BATs != 0) {
--                ret = get_bat_6xx_tlb(env, ctx, eaddr, access_type, type);
-+                ret = get_bat_6xx_tlb(env, ctx, eaddr, access_type);
-             }
-             if (ret < 0) {
-                 /* We didn't match any BAT entry or don't have BATs */
+-            ret = mmu40x_get_physical_address(env, ctx, eaddr,
+-                                              access_type, type);
++            ret = mmu40x_get_physical_address(env, ctx, eaddr, access_type);
+         }
+         break;
+     case POWERPC_MMU_BOOKE:
 -- 
 2.25.1
 
