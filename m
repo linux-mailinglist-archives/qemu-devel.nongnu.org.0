@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A4503871D8
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 08:23:13 +0200 (CEST)
-Received: from localhost ([::1]:49168 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 134133871E3
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 May 2021 08:28:25 +0200 (CEST)
+Received: from localhost ([::1]:58534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lit8K-0006Sp-3n
-	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 02:23:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38890)
+	id 1litDM-0004oJ-5Y
+	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 02:28:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38906)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lisKv-00082c-Js
- for qemu-devel@nongnu.org; Tue, 18 May 2021 01:32:09 -0400
-Received: from mout.kundenserver.de ([212.227.126.133]:36443)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lisKw-00085N-9X
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 01:32:10 -0400
+Received: from mout.kundenserver.de ([212.227.126.130]:40853)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lisKn-0007At-TL
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lisKo-0007B7-Ew
  for qemu-devel@nongnu.org; Tue, 18 May 2021 01:32:09 -0400
 Received: from quad ([82.142.31.78]) by mrelayeu.kundenserver.de (mreue012
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1MY5XR-1lz3kQ3ZOv-00YUrr; Tue, 18
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1M9Ib1-1lnXQl1NFX-006M81; Tue, 18
  May 2021 07:32:00 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 52/59] linux-user/alpha: Rename the sigaction restorer field
-Date: Tue, 18 May 2021 07:31:24 +0200
-Message-Id: <20210518053131.87212-53-laurent@vivier.eu>
+Subject: [PULL 53/59] linux-user: Pass ka_restorer to do_sigaction
+Date: Tue, 18 May 2021 07:31:25 +0200
+Message-Id: <20210518053131.87212-54-laurent@vivier.eu>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210518053131.87212-1-laurent@vivier.eu>
 References: <20210518053131.87212-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:K2psfa9jXqEEivhDCg+2n6aQTY9DWHOizqKOq3PZCCjgYx2pY4h
- i7g8TDkRNxflnWxZ1LgzMlQ6rtE9VSmCY2Er6udjyW29Wf+6zOJb6XUR0CmCTUTrxdTNSNh
- YxGswmwviR8RDi6vHP+9ADEED871dKPWktc6Z/ctmeXaGJWnidmV2TbYU15N79gOXL+xnLs
- ZKLRXsbqHnVI3hmFfDGCA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:i3+9xms7wIg=:Dz5kCIVe6H34KCYiYKhPE4
- g74QqcE5myoZT74nBs+4Igfi06VGOL4eDxhbwmhQLE2RC0or0gvE99nVj9a9tVIOj9rZFPUql
- 1Cwe6FKn8GmLfGAi6+uyqRg379+hDyNYwylmV0EOB3TmoiZAH4RQfJR8LoTImhJkxzBWbrhwh
- fQmFtgy7jktQ3rApDZxBt+XKuXJ3NpjjQPCViwNw+ZFX+g+yn9wd0HD6cBbJwdNFJlQCxSSiR
- 22D875CG62Hl3+Nb3fwUtxxIL+YtAsCR06vgWQGJtWQIurRqlnB9bKKuIW45SJZO+zf+rzUMk
- Y0RYwLgix2QdoSSlZUbuUv1deYcT7vwd1Lg6H04Vr+KGSSQl9XHeimOupBonDQPYIjdtLN1+d
- chsJFripOM2JOehtqB/u1PIGR/bfbicqVDNWPk9s7O9bCF4ufwFEqVMx3lBcrOXCMcqakxgMx
- M0wgKjV6trMd00F63PXY1kHeIrTdTvMw6VOSWNPefOdchliN3sssEc1KpG6ePLnSUb23YAcho
- E/IRwEllqwNGdkxHHqfhT0=
-Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:u0DZmha5GcjAO88SvCoHsHfehkDLTONIUtdiqV69nf58rJi/J5n
+ JLXBDenbZtCaKAQ4in73uYzSOuZdgaywFOGr/E9RLBp1R68h3WGby6mtqHccIqKisGSBJs2
+ 1B4mtrqPSMP9EndJYk+K6oVzj5LGzTtK1w4k/rdh+HKQeHuXjK/lze6PB1i5pDN+rFY5Inn
+ IThiJ/qJA85gvKdfAVBaw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:zg2Kb7W5opU=:YhUDY3QU5cBVWYuRfmIutZ
+ Fe7AXK2240mXXNp1qnnp4NrVbAxj51bs/s0qYOjHdD8k5n2IZvEcOZU1hFAam+DFU7rYm5C7y
+ 7PSqgDTAvP0QXcYuK2d1ibUh1v82pldLKq/zfurWgBVtQr89BgHaYDrRtFNHzwUGdFEJJmSuM
+ c3MzRLFP97VPutrE7GXinj0zyK7ulvJxurORt5S8x5ME+9WbGePmFVvwWO42E+mWgpLhwCHiO
+ Qav3mfraymHlTpYkyrCpqe8fdcSe8BmV3NG3tIUC6LMSuPRj/E4/SOfFOQGh1JqspgP7eSRHZ
+ Wlp9l9Okm1esXQ+JwIar49Hep6lvenY0H7hB7PL/hji2ytQuKV6tuVwqMkBReFddhM/JtNEZp
+ mRRkX+sn7iXIwDRtjoLrblF+fhk+Jr4chWGm/ctgZ93qfA603jUcXCpEaUXAVo0vW/gvvdCoZ
+ dZct71DUViTdF+lO4lVsNFhqEjf9gsKuIUtAO4jUoOJW+yQ3Qxt6Dm4fnzfWD+2dSeZe4jGA9
+ OD2t4/tZoGS+TEcHynv0Mc=
+Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -71,81 +71,140 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Use ka_restorer, in line with TARGET_ARCH_HAS_KA_RESTORER
-vs TARGET_ARCH_HAS_SA_RESTORER, since Alpha passes this
-field as a syscall argument.
+The value of ka_restorer needs to be saved in sigact_table.
+At the moment, the attempt to save it in do_syscall is
+improperly clobbering user memory.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20210422230227.314751-3-richard.henderson@linaro.org>
+Message-Id: <20210422230227.314751-4-richard.henderson@linaro.org>
+[lv: remove tab]
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/alpha/signal.c | 8 ++++----
- linux-user/syscall.c      | 4 ++--
- linux-user/syscall_defs.h | 2 +-
- 3 files changed, 7 insertions(+), 7 deletions(-)
+ linux-user/signal.c       |  5 ++++-
+ linux-user/syscall.c      | 19 ++++++-------------
+ linux-user/syscall_defs.h |  2 +-
+ 3 files changed, 11 insertions(+), 15 deletions(-)
 
-diff --git a/linux-user/alpha/signal.c b/linux-user/alpha/signal.c
-index 0eec9ba3fd82..1129ffeea1d8 100644
---- a/linux-user/alpha/signal.c
-+++ b/linux-user/alpha/signal.c
-@@ -138,8 +138,8 @@ void setup_frame(int sig, struct target_sigaction *ka,
+diff --git a/linux-user/signal.c b/linux-user/signal.c
+index cbd80b28cf5a..9016896dcda0 100644
+--- a/linux-user/signal.c
++++ b/linux-user/signal.c
+@@ -842,7 +842,7 @@ abi_long do_sigaltstack(abi_ulong uss_addr, abi_ulong uoss_addr,
  
-     setup_sigcontext(&frame->sc, env, frame_addr, set);
- 
--    if (ka->sa_restorer) {
--        r26 = ka->sa_restorer;
-+    if (ka->ka_restorer) {
-+        r26 = ka->ka_restorer;
-     } else {
-         __put_user(INSN_MOV_R30_R16, &frame->retcode[0]);
-         __put_user(INSN_LDI_R0 + TARGET_NR_sigreturn,
-@@ -192,8 +192,8 @@ void setup_rt_frame(int sig, struct target_sigaction *ka,
-         __put_user(set->sig[i], &frame->uc.tuc_sigmask.sig[i]);
-     }
- 
--    if (ka->sa_restorer) {
--        r26 = ka->sa_restorer;
-+    if (ka->ka_restorer) {
-+        r26 = ka->ka_restorer;
-     } else {
-         __put_user(INSN_MOV_R30_R16, &frame->retcode[0]);
-         __put_user(INSN_LDI_R0 + TARGET_NR_rt_sigreturn,
+ /* do_sigaction() return target values and host errnos */
+ int do_sigaction(int sig, const struct target_sigaction *act,
+-                 struct target_sigaction *oact)
++                 struct target_sigaction *oact, abi_ulong ka_restorer)
+ {
+     struct target_sigaction *k;
+     struct sigaction act1;
+@@ -875,6 +875,9 @@ int do_sigaction(int sig, const struct target_sigaction *act,
+         __get_user(k->sa_flags, &act->sa_flags);
+ #ifdef TARGET_ARCH_HAS_SA_RESTORER
+         __get_user(k->sa_restorer, &act->sa_restorer);
++#endif
++#ifdef TARGET_ARCH_HAS_KA_RESTORER
++        k->ka_restorer = ka_restorer;
+ #endif
+         /* To be swapped in target_to_host_sigset.  */
+         k->sa_mask = act->sa_mask;
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index e05870c33884..82736540ebcc 100644
+index 82736540ebcc..15b3af257bef 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -8989,7 +8989,7 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+@@ -8989,11 +8989,10 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
                  act._sa_handler = old_act->_sa_handler;
                  target_siginitset(&act.sa_mask, old_act->sa_mask);
                  act.sa_flags = old_act->sa_flags;
--                act.sa_restorer = 0;
-+                act.ka_restorer = 0;
+-                act.ka_restorer = 0;
                  unlock_user_struct(old_act, arg2, 0);
                  pact = &act;
              }
-@@ -9085,7 +9085,7 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+-            ret = get_errno(do_sigaction(arg1, pact, &oact));
++            ret = get_errno(do_sigaction(arg1, pact, &oact, 0));
+             if (!is_error(ret) && arg3) {
+                 if (!lock_user_struct(VERIFY_WRITE, old_act, arg3, 0))
+                     return -TARGET_EFAULT;
+@@ -9017,7 +9016,7 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+ 		pact = NULL;
+ 	    }
+ 
+-	    ret = get_errno(do_sigaction(arg1, pact, &oact));
++        ret = get_errno(do_sigaction(arg1, pact, &oact, 0));
+ 
+ 	    if (!is_error(ret) && arg3) {
+                 if (!lock_user_struct(VERIFY_WRITE, old_act, arg3, 0))
+@@ -9040,15 +9039,12 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+                 target_siginitset(&act.sa_mask, old_act->sa_mask);
+                 act.sa_flags = old_act->sa_flags;
+                 act.sa_restorer = old_act->sa_restorer;
+-#ifdef TARGET_ARCH_HAS_KA_RESTORER
+-                act.ka_restorer = 0;
+-#endif
+                 unlock_user_struct(old_act, arg2, 0);
+                 pact = &act;
+             } else {
+                 pact = NULL;
+             }
+-            ret = get_errno(do_sigaction(arg1, pact, &oact));
++            ret = get_errno(do_sigaction(arg1, pact, &oact, 0));
+             if (!is_error(ret) && arg3) {
+                 if (!lock_user_struct(VERIFY_WRITE, old_act, arg3, 0))
+                     return -TARGET_EFAULT;
+@@ -9085,11 +9081,10 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
                  act._sa_handler = rt_act->_sa_handler;
                  act.sa_mask = rt_act->sa_mask;
                  act.sa_flags = rt_act->sa_flags;
--                act.sa_restorer = arg5;
-+                act.ka_restorer = arg5;
+-                act.ka_restorer = arg5;
                  unlock_user_struct(rt_act, arg2, 0);
                  pact = &act;
              }
+-            ret = get_errno(do_sigaction(arg1, pact, &oact));
++            ret = get_errno(do_sigaction(arg1, pact, &oact, arg5));
+             if (!is_error(ret) && arg3) {
+                 if (!lock_user_struct(VERIFY_WRITE, rt_act, arg3, 0))
+                     return -TARGET_EFAULT;
+@@ -9104,6 +9099,7 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+             target_ulong sigsetsize = arg5;
+ #else
+             target_ulong sigsetsize = arg4;
++            target_ulong restorer = 0;
+ #endif
+             struct target_sigaction *act;
+             struct target_sigaction *oact;
+@@ -9115,9 +9111,6 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+                 if (!lock_user_struct(VERIFY_READ, act, arg2, 1)) {
+                     return -TARGET_EFAULT;
+                 }
+-#ifdef TARGET_ARCH_HAS_KA_RESTORER
+-                act->ka_restorer = restorer;
+-#endif
+             } else {
+                 act = NULL;
+             }
+@@ -9128,7 +9121,7 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+                 }
+             } else
+                 oact = NULL;
+-            ret = get_errno(do_sigaction(arg1, act, oact));
++            ret = get_errno(do_sigaction(arg1, act, oact, restorer));
+ 	rt_sigaction_fail:
+             if (act)
+                 unlock_user_struct(act, arg2, 0);
 diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
-index 25be414727f5..693d4f3788d4 100644
+index 693d4f3788d4..e4aaf8412f56 100644
 --- a/linux-user/syscall_defs.h
 +++ b/linux-user/syscall_defs.h
-@@ -519,7 +519,7 @@ struct target_sigaction {
-     abi_ulong _sa_handler;
-     abi_ulong sa_flags;
-     target_sigset_t sa_mask;
--    abi_ulong sa_restorer;
-+    abi_ulong ka_restorer;
- };
- #elif defined(TARGET_MIPS)
- struct target_sigaction {
+@@ -492,7 +492,7 @@ void target_to_host_old_sigset(sigset_t *sigset,
+                                const abi_ulong *old_sigset);
+ struct target_sigaction;
+ int do_sigaction(int sig, const struct target_sigaction *act,
+-                 struct target_sigaction *oact);
++                 struct target_sigaction *oact, abi_ulong ka_restorer);
+ 
+ #include "target_signal.h"
+ 
 -- 
 2.31.1
 
