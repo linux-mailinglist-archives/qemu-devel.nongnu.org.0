@@ -2,75 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8A74388A50
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 11:16:46 +0200 (CEST)
-Received: from localhost ([::1]:36042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53A84388AB1
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 11:33:24 +0200 (CEST)
+Received: from localhost ([::1]:39124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljIJp-0007Hd-SO
-	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 05:16:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37198)
+	id 1ljIZv-0001ts-0l
+	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 05:33:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41808)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1ljIHs-0006M6-6B
- for qemu-devel@nongnu.org; Wed, 19 May 2021 05:14:44 -0400
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:42984)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1ljIHq-0003As-LE
- for qemu-devel@nongnu.org; Wed, 19 May 2021 05:14:43 -0400
-Received: by mail-wm1-x336.google.com with SMTP id
- f75-20020a1c1f4e0000b0290171001e7329so2896558wmf.1
- for <qemu-devel@nongnu.org>; Wed, 19 May 2021 02:14:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=AFNWs1FXclFolejGYGyMyRBq4DnTBGu6t5Aj2BKC51s=;
- b=MfqrjPFVCUpqyjzwJwpoC/4Ca/yinSlE4zqjFiqIlGQ3vrlQgNxlJEpQ5Lz4Lz+B5K
- BJbrPKnpX6wnBoKAWEwkVx8PlqpurHUwG8vXnBvKPqDYonKTNRTGcKK/mhoCKhwGwBfX
- xvgm1bDAtww2Hiew8O6Bda/Ve7Qbc8A2kdk/pbLKiP0V+K+dLAxSoHVgUcwod5RAjke+
- 0/7ieZO2HCcv5nIKAQ99649OwTFLVZQo7ZoTwHsWCBKxDNAV6NOfh3I09TuBqB5Nhcni
- Paul1q7tyVkizV5ODi/UjsWqAH/y0xm5CxuGH+pEvQn+bmOlBiIXUxiIGHBQ/SfLNNV5
- Bu9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=AFNWs1FXclFolejGYGyMyRBq4DnTBGu6t5Aj2BKC51s=;
- b=t+FQflmFpzVYp3TAD1F/s3+NRl9nU4/QnQXEo76X+bAHdpoAN+9c4udmE+F79csBjk
- /vg0KiySUwgF4Sy1ZagBH+rMesKH5kdzqsg4bOuRrxaqfd8an9QanV3K3kLK9WttjgDw
- 3GJvodB2VgHZbM6FQ8zWChMw4Ut5C5RS+a1bAjdap5Yp7/mS2C7OODZr58pZbd1NciWg
- oEra2qZWySYb+fsEAqtXHcnTnmfh2bX6j1JenfrrMOoj1JIroDJ61PvE5WU3sU56Q9Cc
- ySf349jXH3FBWEtiBmnhIx3Jo3tq/wtoXyg9KJktvj9DFP4S7/NmPFHQq0iB+oTLRh8q
- eIPg==
-X-Gm-Message-State: AOAM532OYi0mQ/84PHaiLsoqbFKjHbs/GwlWI5D5qSgdMDRBHbxDeo9B
- CtHu1pSzvyrsYsUlaxlhSBg=
-X-Google-Smtp-Source: ABdhPJy6GHPGb17UsB3iTK+p2JsZ3uJmAFSTCCEe3WgCOiSVpM6hUKOZT19C0UUrOcfoeckVWGWCXg==
-X-Received: by 2002:a1c:c242:: with SMTP id s63mr9067556wmf.156.1621415677887; 
- Wed, 19 May 2021 02:14:37 -0700 (PDT)
-Received: from localhost (1.9.90.146.dyn.plus.net. [146.90.9.1])
- by smtp.gmail.com with ESMTPSA id s11sm2596537wmf.14.2021.05.19.02.14.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 May 2021 02:14:37 -0700 (PDT)
-Date: Wed, 19 May 2021 10:14:36 +0100
-From: Stefan Hajnoczi <stefanha@gmail.com>
-To: Gaelan Steele <gbs@canishe.com>
-Subject: Re: GSoC introduction: Rust vhost-user-scsi device
-Message-ID: <YKTW/JztNA7w1Jup@stefanha-x1.localdomain>
-References: <250A3378-EA7A-4B8C-8FEA-10AD611F00FA@canishe.com>
+ (Exim 4.90_1) (envelope-from <steven.price@arm.com>)
+ id 1ljIYn-0001Ey-4e
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 05:32:13 -0400
+Received: from foss.arm.com ([217.140.110.172]:48746)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <steven.price@arm.com>) id 1ljIYj-0005jN-6I
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 05:32:12 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C9B69101E;
+ Wed, 19 May 2021 02:32:05 -0700 (PDT)
+Received: from [192.168.1.179] (unknown [172.31.20.19])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 402773F73D;
+ Wed, 19 May 2021 02:32:03 -0700 (PDT)
+Subject: Re: [PATCH v12 3/8] arm64: mte: Sync tags for pages where PTE is
+ untagged
+To: Marc Zyngier <maz@kernel.org>
+References: <20210517123239.8025-1-steven.price@arm.com>
+ <20210517123239.8025-4-steven.price@arm.com> <87y2cdtk09.wl-maz@kernel.org>
+From: Steven Price <steven.price@arm.com>
+Message-ID: <f3a3f560-4d2b-9cd3-bbf4-ea8135ab4d17@arm.com>
+Date: Wed, 19 May 2021 10:32:01 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="8lac8xsq2z0l714J"
-Content-Disposition: inline
-In-Reply-To: <250A3378-EA7A-4B8C-8FEA-10AD611F00FA@canishe.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=stefanha@gmail.com; helo=mail-wm1-x336.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <87y2cdtk09.wl-maz@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=217.140.110.172;
+ envelope-from=steven.price@arm.com; helo=foss.arm.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,41 +59,146 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Sergio Lopez <slp@redhat.com>
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Andrew Jones <drjones@redhat.com>, Haibo Xu <Haibo.Xu@arm.com>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>, qemu-devel@nongnu.org,
+ Catalin Marinas <catalin.marinas@arm.com>, Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, linux-kernel@vger.kernel.org,
+ Dave Martin <Dave.Martin@arm.com>, James Morse <james.morse@arm.com>,
+ linux-arm-kernel@lists.infradead.org, Thomas Gleixner <tglx@linutronix.de>,
+ Will Deacon <will@kernel.org>, kvmarm@lists.cs.columbia.edu,
+ Julien Thierry <julien.thierry.kdev@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 17/05/2021 17:14, Marc Zyngier wrote:
+> On Mon, 17 May 2021 13:32:34 +0100,
+> Steven Price <steven.price@arm.com> wrote:
+>>
+>> A KVM guest could store tags in a page even if the VMM hasn't mapped
+>> the page with PROT_MTE. So when restoring pages from swap we will
+>> need to check to see if there are any saved tags even if !pte_tagged().
+>>
+>> However don't check pages for which pte_access_permitted() returns false
+>> as these will not have been swapped out.
+>>
+>> Signed-off-by: Steven Price <steven.price@arm.com>
+>> ---
+>>  arch/arm64/include/asm/pgtable.h |  9 +++++++--
+>>  arch/arm64/kernel/mte.c          | 16 ++++++++++++++--
+>>  2 files changed, 21 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/arch/arm64/include/asm/pgtable.h b/arch/arm64/include/asm/pgtable.h
+>> index 0b10204e72fc..275178a810c1 100644
+>> --- a/arch/arm64/include/asm/pgtable.h
+>> +++ b/arch/arm64/include/asm/pgtable.h
+>> @@ -314,8 +314,13 @@ static inline void set_pte_at(struct mm_struct *mm, unsigned long addr,
+>>  	if (pte_present(pte) && pte_user_exec(pte) && !pte_special(pte))
+>>  		__sync_icache_dcache(pte);
+>>  
+>> -	if (system_supports_mte() &&
+>> -	    pte_present(pte) && pte_tagged(pte) && !pte_special(pte))
+>> +	/*
+>> +	 * If the PTE would provide user space access to the tags associated
+>> +	 * with it then ensure that the MTE tags are synchronised.  Exec-only
+>> +	 * mappings don't expose tags (instruction fetches don't check tags).
+> 
+> I'm not sure I understand this comment. Of course, execution doesn't
+> match tags. But the memory could still have tags associated with
+> it. Does this mean such a page would lose its tags is swapped out?
 
---8lac8xsq2z0l714J
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Hmm, I probably should have reread that - the context of the comment is
+lost.
 
-On Tue, May 18, 2021 at 07:10:31PM -0700, Gaelan Steele wrote:
-> I'm Gaelan Steele, one of QEMU's Google Summer of Code students this
-> year. My mentor (Sergio Lopez) has asked me to introduce myself and my
-> project here.
+I added the comment when changing to pte_access_permitted(), and the
+comment on pte_access_permitted() explains a potential gotcha:
 
-Welcome, Gaelan! I look forward to your vhost-user-scsi contributions.
+ * p??_access_permitted() is true for valid user mappings (PTE_USER
+ * bit set, subject to the write permission check). For execute-only
+ * mappings, like PROT_EXEC with EPAN (both PTE_USER and PTE_UXN bits
+ * not set) must return false. PROT_NONE mappings do not have the
+ * PTE_VALID bit set.
 
-I'd like to follow your project. Will you and Sergio use #qemu IRC to
-communicate?
+So execute-only mappings return false even though that is effectively a
+type of user access. However, because MTE checks are not performed by
+the PE for instruction fetches this doesn't matter. I'll update the
+comment, how about:
 
-Stefan
+/*
+ * If the PTE would provide user space access to the tags associated
+ * with it then ensure that the MTE tags are synchronised.  Although
+ * pte_access_permitted() returns false for exec only mappings, they
+ * don't expose tags (instruction fetches don't check tags).
+ */
 
---8lac8xsq2z0l714J
-Content-Type: application/pgp-signature; name="signature.asc"
+Thanks,
 
------BEGIN PGP SIGNATURE-----
+Steve
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmCk1vwACgkQnKSrs4Gr
-c8hh6wgArCDTRBqMbEhrueIimkwJvX6+5y/YaodslrlLKDv63sL3Iiqfw1+Ns1eF
-E0OtzSvQg+Z6CaQMspo7imidDVhVtHqlJFZtDDWpgG8rgSUOD9JFEV14xnQ/uriC
-UjjeBNM52qmXiXT2V8aKV/umeAvXDi4LIzeFn93fuxHbcxw559PK83HCP58kTTaG
-I89AFBZXFus+/ZlYRyVvsVDnORFve7fhEs6EpgVgYYm8SRp3JLy7DWOep6ECnFti
-D9awmHW+lpkpMFQjKfcKQLqwXt7ogJdN0+B097jAgzTfmQgbNwWkKebUMcYVu98v
-WJMuFuK9J3fWO73MxcYusl6e/2HnYg==
-=8JzL
------END PGP SIGNATURE-----
+> Thanks,
+> 
+> 	M.
+> 
+>> +	 */
+>> +	if (system_supports_mte() && pte_present(pte) &&
+>> +	    pte_access_permitted(pte, false) && !pte_special(pte))
+>>  		mte_sync_tags(ptep, pte);
+>>  
+>>  	__check_racy_pte_update(mm, ptep, pte);
+>> diff --git a/arch/arm64/kernel/mte.c b/arch/arm64/kernel/mte.c
+>> index c88e778c2fa9..a604818c52c1 100644
+>> --- a/arch/arm64/kernel/mte.c
+>> +++ b/arch/arm64/kernel/mte.c
+>> @@ -33,11 +33,15 @@ DEFINE_STATIC_KEY_FALSE(mte_async_mode);
+>>  EXPORT_SYMBOL_GPL(mte_async_mode);
+>>  #endif
+>>  
+>> -static void mte_sync_page_tags(struct page *page, pte_t *ptep, bool check_swap)
+>> +static void mte_sync_page_tags(struct page *page, pte_t *ptep, bool check_swap,
+>> +			       bool pte_is_tagged)
+>>  {
+>>  	unsigned long flags;
+>>  	pte_t old_pte = READ_ONCE(*ptep);
+>>  
+>> +	if (!is_swap_pte(old_pte) && !pte_is_tagged)
+>> +		return;
+>> +
+>>  	spin_lock_irqsave(&tag_sync_lock, flags);
+>>  
+>>  	/* Recheck with the lock held */
+>> @@ -53,6 +57,9 @@ static void mte_sync_page_tags(struct page *page, pte_t *ptep, bool check_swap)
+>>  		}
+>>  	}
+>>  
+>> +	if (!pte_is_tagged)
+>> +		goto out;
+>> +
+>>  	page_kasan_tag_reset(page);
+>>  	/*
+>>  	 * We need smp_wmb() in between setting the flags and clearing the
+>> @@ -76,10 +83,15 @@ void mte_sync_tags(pte_t *ptep, pte_t pte)
+>>  	bool check_swap = nr_pages == 1;
+>>  	bool pte_is_tagged = pte_tagged(pte);
+>>  
+>> +	/* Early out if there's nothing to do */
+>> +	if (!check_swap && !pte_is_tagged)
+>> +		return;
+>> +
+>>  	/* if PG_mte_tagged is set, tags have already been initialised */
+>>  	for (i = 0; i < nr_pages; i++, page++) {
+>>  		if (!test_bit(PG_mte_tagged, &page->flags))
+>> -			mte_sync_page_tags(page, ptep, check_swap);
+>> +			mte_sync_page_tags(page, ptep, check_swap,
+>> +					   pte_is_tagged);
+>>  	}
+>>  }
+>>  
+>> -- 
+>> 2.20.1
+>>
+>>
+> 
 
---8lac8xsq2z0l714J--
 
