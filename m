@@ -2,85 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 012813891D8
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 16:48:00 +0200 (CEST)
-Received: from localhost ([::1]:40304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 111413891DC
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 16:49:07 +0200 (CEST)
+Received: from localhost ([::1]:42994 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljNUN-0002rC-3l
-	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 10:47:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33934)
+	id 1ljNVS-0004eq-68
+	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 10:49:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34188)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1ljNS3-0000xr-MB
- for qemu-devel@nongnu.org; Wed, 19 May 2021 10:45:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59504)
+ id 1ljNT6-00024H-8e
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 10:46:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31391)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1ljNS1-0001NR-EQ
- for qemu-devel@nongnu.org; Wed, 19 May 2021 10:45:35 -0400
+ id 1ljNT1-0001sp-8i
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 10:46:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621435532;
+ s=mimecast20190719; t=1621435594;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Ffut/mwT0skBaBHfa0WOn3fo4Z7Y5/8YJd6XXkw9TpU=;
- b=PPgDj8Hh9bnsWPpMoKiUez6lDSQpR9Gz93yhw4W+sdI+3Q48E5NoT1P8mkxE84pgYLfe+M
- iN50b7batUHbIRieY7jZr0wW5hvE+tlcLE5R0Ms27HBzGz8vRBeZwQMkhCewn+NjqA0qmf
- lsJsMuQ+XUdZlr5rhdjIyLBnk7FlPLQ=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-522-l4b8T1B5PWq63ahv4Va9Rg-1; Wed, 19 May 2021 10:45:30 -0400
-X-MC-Unique: l4b8T1B5PWq63ahv4Va9Rg-1
-Received: by mail-wm1-f70.google.com with SMTP id
- w7-20020a1cdf070000b02901698cfc1c04so1670976wmg.6
- for <qemu-devel@nongnu.org>; Wed, 19 May 2021 07:45:30 -0700 (PDT)
+ bh=of8rXyLAk2z0NcFFSnT7fG4BWo+UUNbTmGN/Q5bZrqE=;
+ b=Jzq10eaTb7HT1CCWhqoDrPIoNBh6p5f0WQzT3yUxhyP4ukcTHGUYbOHwRpaFsCW1hq4Bri
+ DoNXGOMufUsuUfsiGypmtfR43OjBeBIXfJ0K0AQNXiNseczKubDGBvv7RNGgi6MSnlY3n7
+ kGUvmOjEiBU9lOikATsKs4eJ7UiCZKg=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-296-Z0YzcMOBP4Obz0Eq8AvwjQ-1; Wed, 19 May 2021 10:46:31 -0400
+X-MC-Unique: Z0YzcMOBP4Obz0Eq8AvwjQ-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ y193-20020a1c32ca0000b029014cbf30c3f2so1610916wmy.1
+ for <qemu-devel@nongnu.org>; Wed, 19 May 2021 07:46:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=Ffut/mwT0skBaBHfa0WOn3fo4Z7Y5/8YJd6XXkw9TpU=;
- b=HB3KYY5xDb4Ikau1YYxX6n+SsKmRVsRDW6K/GK//5hx0C8jP795eaF2PyUGTsl7xS4
- h+bGNtIn6C94eBWM4dhZuw83zotiNI87fsDGcPeH6uQNXHFVNIJV/VD7QrSynbQXiDkx
- KSl+flmbXBctIoUBzUQ8SLVnGGPjcYCGVjP3AuhFjH5CqT3/Hmm4jH552fAN7mVrVgiA
- 3DhHUfKjEkJ8HzxhY7086R8CQUBZ/KyI8uNpPuzP4hB6oSlYNtdafjhbIjTOkfrI9tGj
- vCrO4LA+RzC+Uxnqk10UxtmROTNMkWKfa42GCGva4ObkLxAwL4UUnmdQCMrhhVTCcrNy
- tyEQ==
-X-Gm-Message-State: AOAM533A9qzeFm9D1/VbFWGXAq4+BgJwLedqgIAtyJHR1lG4x5WipjWN
- c0zaokrMTWNvhBiebOp3Otz/kOrY/j+QX6FCUb+2YP2xbpmH8dhqEP05FgEgp87nxbdUdsN5ykl
- 1RU81OR3v2KXZwTU=
-X-Received: by 2002:adf:f788:: with SMTP id q8mr14935233wrp.205.1621435529488; 
- Wed, 19 May 2021 07:45:29 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw0ffvm1B2j5x6rjRzifV51UAXsepm+E6BEUX54tLjpRXJi2j1xm6LbryYwXzDBZJCZJZ+T7Q==
-X-Received: by 2002:adf:f788:: with SMTP id q8mr14935210wrp.205.1621435529316; 
- Wed, 19 May 2021 07:45:29 -0700 (PDT)
+ bh=of8rXyLAk2z0NcFFSnT7fG4BWo+UUNbTmGN/Q5bZrqE=;
+ b=Pk5olWBADy+qfB3wXCorXQyXXHe/lGEP8UahIsFlsG96NI+A+boeUQeSmcdoCEjbRr
+ VZZUJ18g2yP0BE9muca+mLLiRjsaILD3pKaO5V7B01fR/RZo68cDJu1aaCH8dWYYS+9w
+ 8jTdcio+ojErhtlBFp0p2nnpvna60iMRLVZWL80JwxmzNXbQ+KqCWWffwfCfz7QPzKzs
+ na8eoE4hN7TwdFnuZK6/2ljKosA3lzfkmA2yPi1bF0XFlrhLSQNdfdePvo49MHnq2wdM
+ O0S/O5d6YuV/7QHkdxLe4TF4yT74vQW/MfUesBblxBBiO/zDY/eftTzCo+E6Ujurh0q9
+ iQoQ==
+X-Gm-Message-State: AOAM5322QVyGs4Pw3KQMees6tkjBn1JnVPRaSp4gZppL4vxp6y0d15Bv
+ Clxt+x7RYXWfSCil51AHVbDPDRY3x0ZCZDwXwXa7iZ+i5bnbsqvjTEPaeOuSANYKw0zDLuMyhhg
+ IrUwGFEox+HfYsGo=
+X-Received: by 2002:a05:600c:4ca7:: with SMTP id
+ g39mr12071901wmp.1.1621435590309; 
+ Wed, 19 May 2021 07:46:30 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzgCBP3NuJ8N2l/WXRPm9I3JU+aTFtxULd5ggoiSYYRMxOIwdJiD8xupwcvRIT89j05i7X/IA==
+X-Received: by 2002:a05:600c:4ca7:: with SMTP id
+ g39mr12071889wmp.1.1621435590109; 
+ Wed, 19 May 2021 07:46:30 -0700 (PDT)
 Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
  ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id r2sm27461657wrv.39.2021.05.19.07.45.27
+ by smtp.gmail.com with ESMTPSA id t17sm18224275wrp.89.2021.05.19.07.46.28
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 19 May 2021 07:45:27 -0700 (PDT)
-Subject: Re: [PATCH v2] configure: Avoid error messages about missing
- *-config-*.h files
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
-References: <20210519113840.298174-1-thuth@redhat.com>
- <8ee40976-4f27-0189-7e7a-0e62d022aa6b@redhat.com>
+ Wed, 19 May 2021 07:46:29 -0700 (PDT)
+Subject: Re: [PATCH 0/3] vl: add -object support back into -readconfig
+To: Kevin Wolf <kwolf@redhat.com>
+References: <20210518154014.2999326-1-pbonzini@redhat.com>
+ <YKUZoU7EIBwhFasL@merkur.fritz.box>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <b2b2db19-8ef7-50f5-d715-b24c17b99a5a@redhat.com>
-Date: Wed, 19 May 2021 16:45:26 +0200
+Message-ID: <36687456-6b50-affc-9d09-900c74b18eca@redhat.com>
+Date: Wed, 19 May 2021 16:46:28 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <8ee40976-4f27-0189-7e7a-0e62d022aa6b@redhat.com>
+In-Reply-To: <YKUZoU7EIBwhFasL@merkur.fritz.box>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
@@ -103,37 +103,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org
+Cc: qemu-stable@nongnu.org, qemu-devel@nongnu.org, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 19/05/21 14:35, Philippe Mathieu-Daudé wrote:
-> On 5/19/21 1:38 PM, Thomas Huth wrote:
->> When compiling with --disable-system there is a harmless yet still
->> annoying error message at the end of the "configure" step:
+On 19/05/21 15:58, Kevin Wolf wrote:
+> Am 18.05.2021 um 17:40 hat Paolo Bonzini geschrieben:
+>> LXD developers have reported that [object] stanzas have stopped
+>> working in configuration files.
 >>
->>   sed: can't read *-config-devices.h: No such file or directory
+>> The problem is that QEMU 6.0 switched the creation of objects from
+>> qemu_opts_foreach to a bespoke QTAILQ, in preparation for supporting
+>> JSON syntax in -object.  Entries from the configuration file however
+>> do not go through object_option_parse, and are thus lost.  Of the many
+>> fixes that are possible, I chose one that is slightly more invasive but
+>> more consistent with the plans for keyval-ification of options such as
+>> -M and -accel.
 >>
->> When only building the tools or docs, without any emulator at all,
->> there is even an additional message about missing *-config-target.h
->> files.
+>> -set was also broken by the same change, but for simplicity I chose
+>> not to add it back yet.  However, this series will report the
+>> breakage instead of failing silently.
 >>
->> Fix it by checking whether any of these files are available before
->> using them.
->>
->> Fixes: e0447a834d ("configure: Poison all current target-specific #defines")
->> Reported-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->> Signed-off-by: Thomas Huth <thuth@redhat.com>
->> ---
->>   v2: Use ":>" instead of "touch" as suggested by Philippe
->>
->>   configure | 12 ++++++++----
->>   1 file changed, 8 insertions(+), 4 deletions(-)
+>> The first two patches of this series are thus a reduced version of
+>> https://patchew.org/QEMU/20210513162901.1310239-1-pbonzini@redhat.com/
+>> ([PATCH 00/14] vl: compound properties for machines and accelerators),
+>> with the -set infrastructure removed.  The third is very simple and
+>> uses the newly-provided hooks to parse objects from configuration files.
 > 
-> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> 
+> Looks like this is
+> Based-on: <20210518131542.2941207-1-pbonzini@redhat.com>
 
-Queued, thanks.
+Just context, but yes it is.
 
 Paolo
 
