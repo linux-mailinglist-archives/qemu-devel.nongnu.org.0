@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F60B389663
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 21:17:10 +0200 (CEST)
-Received: from localhost ([::1]:33016 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24980389678
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 21:20:03 +0200 (CEST)
+Received: from localhost ([::1]:41278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljRgr-0006mV-5C
-	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 15:17:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57334)
+	id 1ljRje-000437-3L
+	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 15:20:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57362)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ljRCz-0000Nu-LK
- for qemu-devel@nongnu.org; Wed, 19 May 2021 14:46:18 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:35662)
+ id 1ljRD5-0000SP-C7
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 14:46:23 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:34528)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ljRCv-0005EV-Hm
- for qemu-devel@nongnu.org; Wed, 19 May 2021 14:46:16 -0400
-Received: by mail-wr1-x430.google.com with SMTP id a4so15116899wrr.2
- for <qemu-devel@nongnu.org>; Wed, 19 May 2021 11:46:12 -0700 (PDT)
+ id 1ljRD0-0005H8-Th
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 14:46:20 -0400
+Received: by mail-wr1-x430.google.com with SMTP id r12so15095172wrp.1
+ for <qemu-devel@nongnu.org>; Wed, 19 May 2021 11:46:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=2IUveWwI0J+7Ncapudv20RtB39QJD/A5pUhEcIazkKo=;
- b=Iha3kwznX10Vc2kZfXhF4IUMmUUULi6iUKyIc2jGnFDz3PkqySZhZdKeDBfLEuG9+u
- OqWTiSo/9pFqsHy/LvLYXsnH7VMxRpA+i0YA6Z1GHTE6CwOnoFzkhlYFBp1UhRKM81Mw
- AjECJVB6BwXCyFjlIY9Nz0XVWt9Yxyxq8SJpHuRYY2ZzeRJ9GCzNXBmd7T3qLq39aiGk
- ZsiOjKbag0jxFQHJT4ecUO2w+qtKumJ0jk/It3MxehrwOJ69xwi0W630x1BRsWTnfbCU
- TuVvL19IMSx5kUhEATN1IsXpAEergvLXr7Uu2Rr8WFPwAHjky4+qNqV85iGJf+kfn12N
- O/AA==
+ bh=3SkTTNfbgrgPZRsbTajuJ3tzgEyu0ZeYqUT1Kjom0eE=;
+ b=kFF4R7Cem/qf1QxILFeMqttHYRR9hyQNSpW2Gh1mskOSZTlXXSaiArXIYdVywxd/nk
+ WyNEMBKrgxVwTyS740ESbGZMTKdZlNFK5MZ0fhAWIMSl/nPycAKq64FOThAV2tGk+Cek
+ Qysx3N0Cul1qqcquIkhoqWsYCjfnix5+vj7r3OfGEaCokNHxgopRxg4vw9OHoaZ/B0AS
+ 08onmKOh5x9i18pULenBgqzsCN9syBUCg+IVascrjh8dqqS8aWTvmZjcW7Q0bdOY9KiE
+ kcjDqmSV0d4Q4BnzdPYq/gXAvRzD9+DAmg2Emw6k6qPwAZqb1MPCFGOywsMlTAB849bQ
+ NhBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=2IUveWwI0J+7Ncapudv20RtB39QJD/A5pUhEcIazkKo=;
- b=tm/mf/gpAOQgruN9iy16PzLtmZfFGxmQnGbRhBZgdTA08WK+PAjBxLpTVBp0Oe/A90
- hVybXX5UvuTgvOLo8/Zp3HW3TAzbG0ObPaphjdnyqXTqQFFGSFo0XjdtMWaITlbgLTm/
- XLVbkQTchpgGV07gHC6FRW0dH+C5xz/MlrMe0yGtWjaEqT5pLfz2H+IHjKdhOHhQTH44
- yh8nAR8zdl9h+KZ951nvIeXJL38QTMxbTwupA+pICx3XGUvxbG3sZjKhbpPf5tq76D6/
- mF8qo5NKD97zpVaC1EGwzlZ0KUq8L7EayV+3ePVnasBsPJsKYxtfxCPKRprB3+D4y1JI
- fDiw==
-X-Gm-Message-State: AOAM533yNUUcpPxykv+5U2u/9zTBWV34aSCm0Rsw5JIlsjbEEp7GWNfR
- svTa9Va9+ES10QKbQy1NRMCqoRHDny8o5w==
-X-Google-Smtp-Source: ABdhPJz6qo42P1rSeb0ij8vialaqMI3Lr87/6qVJzJQ6zp0AffaydltfhKYhYGf65P7pzR/MbFoNww==
-X-Received: by 2002:a05:6000:1b8a:: with SMTP id
- r10mr355872wru.296.1621449971326; 
- Wed, 19 May 2021 11:46:11 -0700 (PDT)
+ bh=3SkTTNfbgrgPZRsbTajuJ3tzgEyu0ZeYqUT1Kjom0eE=;
+ b=JiBpmv5WEP2lsgEMJG4Eq1UFv2ciyr5k/2BrlASX/MjU9RlqQmg8+WC1y9fwxbFrkZ
+ RjD0/naWwNNz+i0YlwLeBKTqihwBgfsQRmQgrh0LcVJGNtzEyDJ1jODOptEAGdBkXgLg
+ clpCy4Uyh/4YboZnEwcOFucRXwSv6EmbvWxIlwepmeVoEptoyNuEfLbtEmZMnQyGwESt
+ adEhsfUvnqcWxb9nGThxj5bibO33/l2vV9mdS7HXa9Dsqb2Lr9toCLtmsObz0rxi7g1t
+ ZwtDPaBjcNJ73cAy+hMaL1HUkIhpDn87e10q5diNefyQVW8IpxFlARTsFRRDafk/fvT2
+ Ma2Q==
+X-Gm-Message-State: AOAM530gNTt4/k+KmHFtbdfXPi9uWHTwPFFZsjDvf+pn8b5IE5n60i9m
+ OdS6qnMBWLFtcHm36T3Jutnt/wHgCCPiAA==
+X-Google-Smtp-Source: ABdhPJykWaRlBReyfgx3Yts2YqRxaVjNoTkhAMhrZm6+Pb/rLSpBY1r5HCrpoZZWIy6rJ4bRzRAkrA==
+X-Received: by 2002:adf:aad8:: with SMTP id i24mr385205wrc.0.1621449976437;
+ Wed, 19 May 2021 11:46:16 -0700 (PDT)
 Received: from x1w.redhat.com (31.red-83-51-215.dynamicip.rima-tde.net.
  [83.51.215.31])
- by smtp.gmail.com with ESMTPSA id x2sm2553247wmc.21.2021.05.19.11.46.10
+ by smtp.gmail.com with ESMTPSA id v20sm270550wmj.15.2021.05.19.11.46.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 May 2021 11:46:10 -0700 (PDT)
+ Wed, 19 May 2021 11:46:15 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 4/6] gitlab-ci: Add ccache in $PATH and display statistics
-Date: Wed, 19 May 2021 20:45:47 +0200
-Message-Id: <20210519184549.2192728-5-f4bug@amsat.org>
+Subject: [PATCH v3 5/6] gitlab-ci: Simplify before/after script for Avocado
+ based jobs
+Date: Wed, 19 May 2021 20:45:48 +0200
+Message-Id: <20210519184549.2192728-6-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210519184549.2192728-1-f4bug@amsat.org>
 References: <20210519184549.2192728-1-f4bug@amsat.org>
@@ -95,37 +95,35 @@ Cc: Thomas Huth <thuth@redhat.com>, Kyle Evans <kevans@freebsd.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If a runner has ccache installed, use it and display statistics
-at the end of the build.
-
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- .gitlab-ci.d/buildtest-template.yml | 5 +++++
- 1 file changed, 5 insertions(+)
+ .gitlab-ci.d/buildtest-template.yml | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
 diff --git a/.gitlab-ci.d/buildtest-template.yml b/.gitlab-ci.d/buildtest-template.yml
-index f284d7a0eec..a625c697d3b 100644
+index a625c697d3b..f968fa1ad99 100644
 --- a/.gitlab-ci.d/buildtest-template.yml
 +++ b/.gitlab-ci.d/buildtest-template.yml
-@@ -6,13 +6,18 @@
-       then
-         JOBS=$(sysctl -n hw.ncpu)
-         MAKE=gmake
-+        PATH=/usr/local/libexec/ccache:$PATH
-         ;
-       else
-         JOBS=$(expr $(nproc) + 1)
-         MAKE=make
-+        PATH=/usr/lib/ccache:/usr/lib64/ccache:$PATH
-         ;
+@@ -74,7 +74,7 @@
+       - build/tests/results/latest/test-results
+     reports:
+       junit: build/tests/results/latest/results.xml
+-  before_script:
++  script:
+     - mkdir -p ~/.config/avocado
+     - echo "[datadir.paths]" > ~/.config/avocado/avocado.conf
+     - echo "cache_dirs = ['${CI_PROJECT_DIR}/avocado-cache']"
+@@ -85,6 +85,9 @@
+         du -chs ${CI_PROJECT_DIR}/avocado-cache ;
        fi
-     - echo "=== Using $JOBS simultaneous jobs ==="
-+    - if command -v ccache > /dev/null ; then ccache --zero-stats ; fi
+     - export AVOCADO_ALLOW_UNTRUSTED_CODE=1
+-  after_script:
+     - cd build
++    - find . -type f -exec touch {} +
++    # Avoid recompiling by hiding ninja with NINJA=":"
++    - $MAKE NINJA=":" $MAKE_CHECK_ARGS
 +  after_script:
-+    - if command -v ccache > /dev/null ; then ccache --show-stats ; fi
- 
- .native_build_job_template:
-   stage: build
+     - du -chs ${CI_PROJECT_DIR}/avocado-cache
 -- 
 2.26.3
 
