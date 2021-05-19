@@ -2,79 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB96B3892E4
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 17:45:14 +0200 (CEST)
-Received: from localhost ([::1]:58654 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 485103892ED
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 17:47:30 +0200 (CEST)
+Received: from localhost ([::1]:34438 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljONl-00064k-Q6
-	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 11:45:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48682)
+	id 1ljOPx-0000QH-DS
+	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 11:47:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48850)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ljOMT-0004XR-Jc
- for qemu-devel@nongnu.org; Wed, 19 May 2021 11:43:53 -0400
-Received: from mail-ua1-x92e.google.com ([2607:f8b0:4864:20::92e]:38781)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1ljON5-0005I8-5I
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 11:44:31 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:41714)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ljOMR-0003CB-2g
- for qemu-devel@nongnu.org; Wed, 19 May 2021 11:43:53 -0400
-Received: by mail-ua1-x92e.google.com with SMTP id q8so93874uap.5
- for <qemu-devel@nongnu.org>; Wed, 19 May 2021 08:43:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=LLJ9KvdECIehzSj3mRRExloEyAODdoBOLEiahn8l//o=;
- b=T81O0MlKCThkOisrpD3qB1AOlhux2EV53jt6lye/ICue+gUfgBLznanoewcfP6iHCR
- BygRiLFcTba22RnBj/2OGdPrk6DSfJfOxYCW8vxfTZ2woc05pW/8uGKPwQERSfhQnJr5
- ZCe++Bo60LvDURfXmcyTOTBn3pcFUStHYt/s75QjgDdc91q15EZkqYShIuMlpcFCtYlk
- G5a4PTTDNOljAToJ8LDLe248I59YtHuLOtfGhB7/u02XMwIjiHdjE2pZfFGtYZG8EUt/
- iu3FlhYjXdjqZWlwHufDFPPX/RS72uFpzcspgb7PAqAYbOr2vNQNFbJaZ/usY81Gq2Zc
- fgkw==
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1ljON3-0003Ny-HI
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 11:44:30 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id d11so14501950wrw.8
+ for <qemu-devel@nongnu.org>; Wed, 19 May 2021 08:44:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=Dqy/Tanh3saK9AODAVtPmDxCTsXAVXyWSlG/ifULa3A=;
+ b=XxGCiDwENlSAyMFSRqsYybtimivUKelS0EgU/1EH4cYFwPt6pPVUntbQfEwaDSKdNB
+ vHr3gCkmNNIj9zhzmrZLQF8QJAB73jc5OnMRS5qxXkQa7s052OE/cBKaCDChnEz1qo+6
+ /MXMtNy6TmHvX1BiIicPqbJ6A4ADEq5No9l1p5zuX2SP32FrcJXsGUBRhP6Ve8/UTrCo
+ EaD8fXwsTxAJPdws32AdfUiFMK8jjbOUoFW5J51plnLEdbjkzyYPDHWPvFC66Q3TNwEp
+ wWGqPhUEpO520strOyuav2ikleggjvcykffViGsUcsV5uzFeuOcXePmryTn22Obj/OyQ
+ DLFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=LLJ9KvdECIehzSj3mRRExloEyAODdoBOLEiahn8l//o=;
- b=k7L6BSytVzFP+VFwZ4fMdHyZB7O2FSNyKIqZJ1CQ/6zUrfC8OKvkDMHCvfK7wR770c
- iGWoHYf1RaeLKIjAgxxBv6ygYJ/8yF/SyhEMelncH0Q9zc0hTDZZWWaaXmGdC6H2jXI2
- NcdHrYDAYRKf+6XAD46TvJLKTH1szrZGR+xynphvUA1CcOdXw1WepXc2E5+DJdqyVmnD
- vC5+hDhvgwResWU/swSYH4btCiytDVVQzoSo5qR+itfD+PxuV/5nSFPNz25RyzvbFMiy
- AlE5Vp6pbSIRNjR8PZTlWfe5zppfm6glrQmxM/04BQVyrLhMtcvYHTcPMO/3JXgjdmNy
- AMfA==
-X-Gm-Message-State: AOAM532lsKuLxDII/pgiIB509FF5MS2h6qc6BiN7cRdGPryNUCRrge9v
- sAeTkVKC7hW7aLIRgoIvLyTj0g==
-X-Google-Smtp-Source: ABdhPJwQE2horOz8UIV0uoBklnTVK7FlQe3qFGnIVwwdc+Vqt3S2dU5woIFl+10MXio2IEHW86qJfw==
-X-Received: by 2002:a9f:382c:: with SMTP id p41mr16294291uad.65.1621439029815; 
- Wed, 19 May 2021 08:43:49 -0700 (PDT)
-Received: from [172.16.22.144] ([45.235.253.15])
- by smtp.gmail.com with ESMTPSA id d8sm1226vka.15.2021.05.19.08.43.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 19 May 2021 08:43:49 -0700 (PDT)
-Subject: Re: [PATCH] target/hppa: Remove unused 'memory.h' header
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20210517101558.1040191-1-f4bug@amsat.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <f7acc5a6-fe81-0b68-75b7-951a28bab039@linaro.org>
-Date: Wed, 19 May 2021 10:43:47 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=Dqy/Tanh3saK9AODAVtPmDxCTsXAVXyWSlG/ifULa3A=;
+ b=VHWFd02oGzfXN2289grziBhNPRy79Mvxk4JkkR/Jriqcx8c9g2HxS2lTsRv7nhywRG
+ YiO1HuiknEvhRCWw78QS0oWrMH3VeVQL/Rcgel7iIyOMy4clVC4RtKBdmjfONln7f+RT
+ anft7JVHQmf9qnUxW2HpEiRLFEFEenNm0otAiUhbmmUMFef20kwcLoj1FB+B7pf1wp9y
+ aYxwyDSu6VMczGZa7M8vr3pOkw/5Zbkuyat0jX8Z5ALMnIu2mX0S0lk/HIq3KpZu0mqK
+ 3AfxDbaV1kiPyNJ9oHpNG9MRz9q5oU8tnBtgBN8qCyLZERMuXQCjObOL5w+dbGjjb3S1
+ xUnw==
+X-Gm-Message-State: AOAM530TylYyKOBdKnRpT1skgrKadqzACy5IcF0eHcqOedJg1n+2Tvtv
+ QsDWfCZ2P2/BWXwOjLCq1ag=
+X-Google-Smtp-Source: ABdhPJwhchcpZa8Qb5uVOa3F6mCpne9sNvCEsFZMGfV1NPGzhMu5hwaKwSLGfCGRpn/UBtp9u+GU9Q==
+X-Received: by 2002:adf:f98f:: with SMTP id f15mr15677056wrr.4.1621439068174; 
+ Wed, 19 May 2021 08:44:28 -0700 (PDT)
+Received: from localhost (1.9.90.146.dyn.plus.net. [146.90.9.1])
+ by smtp.gmail.com with ESMTPSA id h10sm6204336wrt.3.2021.05.19.08.44.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 19 May 2021 08:44:27 -0700 (PDT)
+Date: Wed, 19 May 2021 16:44:26 +0100
+From: Stefan Hajnoczi <stefanha@gmail.com>
+To: Ali Shirvani <alishir@routerhosting.com>
+Subject: Re: [PATCH] doc: Add notes about -mon option mode=control argument.
+Message-ID: <YKUyWpJradPmdLSG@stefanha-x1.localdomain>
+References: <0799f0de89ad2482672b5d61d0de61e6eba782da.1621407918.git.alishir@routerhosting.com>
 MIME-Version: 1.0
-In-Reply-To: <20210517101558.1040191-1-f4bug@amsat.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::92e;
- envelope-from=richard.henderson@linaro.org; helo=mail-ua1-x92e.google.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="zjW0yUWjVUcuou2U"
+Content-Disposition: inline
+In-Reply-To: <0799f0de89ad2482672b5d61d0de61e6eba782da.1621407918.git.alishir@routerhosting.com>
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=stefanha@gmail.com; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,30 +83,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org
+Cc: qemu-devel@nongnu.org, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/17/21 5:15 AM, Philippe Mathieu-Daudé wrote:
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
->   target/hppa/cpu.h | 1 -
->   1 file changed, 1 deletion(-)
-> 
-> diff --git a/target/hppa/cpu.h b/target/hppa/cpu.h
-> index 61178fa6a2a..748270bfa31 100644
-> --- a/target/hppa/cpu.h
-> +++ b/target/hppa/cpu.h
-> @@ -22,7 +22,6 @@
->   
->   #include "cpu-qom.h"
->   #include "exec/cpu-defs.h"
-> -#include "exec/memory.h"
->   
->   /* PA-RISC 1.x processors have a strong memory model.  */
->   /* ??? While we do not yet implement PA-RISC 2.0, those processors have
-> 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-r~
+--zjW0yUWjVUcuou2U
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, May 19, 2021 at 11:41:45AM +0430, Ali Shirvani via wrote:
+> The mode=3Dcontrol argument configures a QMP monitor.
+>=20
+> Signed-off-by: Ali Shirvani <alishir@routerhosting.com>
+> ---
+>  qemu-options.hx | 7 +++++--
+>  1 file changed, 5 insertions(+), 2 deletions(-)
+
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+
+--zjW0yUWjVUcuou2U
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmClMloACgkQnKSrs4Gr
+c8ge5AgAoQJcSgA0K5z/GQAzcRd3R7xxHoqmO13OT1VmsVh9h3nXruMUNGQtcMUS
+aRqBvmssZs1sSFQNLR8S2EE7GhlmI9ntIeFshQCRecEZiyiWL2LkjCLbvCtnSzKR
+eTYk9TRV/4h0nDZ0B/UoU+xjWySVxW9BaeHVXlU9FkX4GDa6Zr6Mxfb2ns3ynB0J
+awu6uFynaZhrkEw3q44GwcQKIgb+MLec9lP+6RJGwxOo65S9xJ6lMLht8NQ96+mK
+D9InuVXckiVCHTS5UHdSCW/rS/TaISTqTqY3DuCcfMOXE11fHotKzhVRc3w0CEtZ
+HUB0LSU244VVbe4Er5zI3GW/7guUKw==
+=bjnT
+-----END PGP SIGNATURE-----
+
+--zjW0yUWjVUcuou2U--
 
