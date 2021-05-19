@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76C3538968B
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 21:22:17 +0200 (CEST)
-Received: from localhost ([::1]:45048 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B56EA3896A7
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 21:28:06 +0200 (CEST)
+Received: from localhost ([::1]:42080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljRlo-0006eq-EI
-	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 15:22:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55294)
+	id 1ljRrR-0007gy-Nf
+	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 15:28:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55358)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ljR77-00062j-Ke
- for qemu-devel@nongnu.org; Wed, 19 May 2021 14:40:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32050)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ljR7H-00064m-T0
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 14:40:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25722)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ljR6z-00021w-Of
- for qemu-devel@nongnu.org; Wed, 19 May 2021 14:40:13 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ljR77-00025A-Bl
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 14:40:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621449604;
+ s=mimecast20190719; t=1621449612;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jVjMKiP7V5w3KL4bbzxvXjiaw3A5l5JPcZh2NCkf92s=;
- b=fKlTqGHp+rXgKRN6RqpZuJtskg1QhDtL5AX/y/PNRL7vj+YM+elbs7NJEh+Vy+c506MYK6
- x89etroY1S4iU/6o7RFaCuZE/ULkrOquhZmh7uzFFim8Aeq/tXFJKOvM8wToaBRkhpQ8fq
- q9H56S2GGkW1+7jEuzV66uZvQd9AuKo=
+ bh=5Won4SmCvj7mYBAtSANGNEVYeQbkzdlBm3wPfV06Ta4=;
+ b=DAdU2Jt/x58Qu1xw985/I6rZvB42ZzVSfUzzQy4OzRr9GeqlmHXTDDidMvH3MFvjYP4+2R
+ eIlk0lywq6dfM6HY2/Mv0IEEki7efRh/Mj/7tqRTDdj8RR8uqp7pN+9EZboNBBlZi6UOUF
+ QGjLjwvx/258q2YH2dXr1KaknLFpUMc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-48-YNIOhCC-NdK3FoIEzTtf-w-1; Wed, 19 May 2021 14:40:03 -0400
-X-MC-Unique: YNIOhCC-NdK3FoIEzTtf-w-1
+ us-mta-173-qm4z5I1QOxyxnI7Cl7jRnw-1; Wed, 19 May 2021 14:40:09 -0400
+X-MC-Unique: qm4z5I1QOxyxnI7Cl7jRnw-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 76FFA501ED;
- Wed, 19 May 2021 18:40:02 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 416411007477;
+ Wed, 19 May 2021 18:40:08 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-117-64.rdu2.redhat.com [10.10.117.64])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5BE31690FB;
- Wed, 19 May 2021 18:40:01 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 88EC450FA2;
+ Wed, 19 May 2021 18:40:07 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 09/15] qapi: add must_match helper
-Date: Wed, 19 May 2021 14:39:45 -0400
-Message-Id: <20210519183951.3946870-10-jsnow@redhat.com>
+Subject: [PATCH v3 11/15] qapi/parser: Rework _check_pragma_list_of_str as a
+ TypeGuard
+Date: Wed, 19 May 2021 14:39:47 -0400
+Message-Id: <20210519183951.3946870-12-jsnow@redhat.com>
 In-Reply-To: <20210519183951.3946870-1-jsnow@redhat.com>
 References: <20210519183951.3946870-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -55,7 +56,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -82,127 +83,91 @@ Cc: Michael Roth <michael.roth@amd.com>, Cleber Rosa <crosa@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Mypy cannot generally understand that these regex functions cannot
-possibly fail. Add a "must_match" helper that makes this clear for
-mypy.
+TypeGuards wont exist in Python proper until 3.10. Ah well. We can hack
+up our own by declaring this function to return the type we claim it
+checks for and using this to safely downcast object -> List[str].
+
+In so doing, I bring this function under _pragma so it can use the
+'info' object in its closure. Having done this, _pragma also now no
+longer needs to take a 'self' parameter, so drop it.
+
+To help with line-length, and with the context evident from its new
+scope, rename the function to the shorter check_list_str().
+
+Signed-off-by: John Snow <jsnow@redhat.com>
+
+---
+
+I left (name, value) as args to avoid creating a fully magic "macro",
+because this looked simply too weird:
+
+    info.pragma.foobar = check_list_str()
+
+and it looked more reasonable as:
+
+    info.pragma.foobar = check_list_str(name, value)
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qapi/common.py |  8 +++++++-
- scripts/qapi/main.py   |  6 ++----
- scripts/qapi/parser.py | 13 +++++++------
- 3 files changed, 16 insertions(+), 11 deletions(-)
+ scripts/qapi/parser.py | 30 ++++++++++++++++--------------
+ 1 file changed, 16 insertions(+), 14 deletions(-)
 
-diff --git a/scripts/qapi/common.py b/scripts/qapi/common.py
-index cbd3fd81d36..6ad1eeb61d4 100644
---- a/scripts/qapi/common.py
-+++ b/scripts/qapi/common.py
-@@ -12,7 +12,7 @@
- # See the COPYING file in the top-level directory.
- 
- import re
--from typing import Optional, Sequence
-+from typing import Match, Optional, Sequence
- 
- 
- #: Magic string that gets removed along with all space to its right.
-@@ -210,3 +210,9 @@ def gen_endif(ifcond: Sequence[str]) -> str:
- #endif /* %(cond)s */
- ''', cond=ifc)
-     return ret
-+
-+
-+def must_match(pattern: str, string: str) -> Match[str]:
-+    match = re.match(pattern, string)
-+    assert match is not None
-+    return match
-diff --git a/scripts/qapi/main.py b/scripts/qapi/main.py
-index 703e7ed1ed5..f2ea6e0ce4a 100644
---- a/scripts/qapi/main.py
-+++ b/scripts/qapi/main.py
-@@ -8,11 +8,11 @@
- """
- 
- import argparse
--import re
- import sys
- from typing import Optional
- 
- from .commands import gen_commands
-+from .common import must_match
- from .error import QAPIError
- from .events import gen_events
- from .introspect import gen_introspect
-@@ -22,9 +22,7 @@
- 
- 
- def invalid_prefix_char(prefix: str) -> Optional[str]:
--    match = re.match(r'([A-Za-z_.-][A-Za-z0-9_.-]*)?', prefix)
--    # match cannot be None, but mypy cannot infer that.
--    assert match is not None
-+    match = must_match(r'([A-Za-z_.-][A-Za-z0-9_.-]*)?', prefix)
-     if match.end() != len(prefix):
-         return prefix[match.end()]
-     return None
 diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
-index 7c718661950..48137d3fbec 100644
+index 9f980f75139..8a58e1228f0 100644
 --- a/scripts/qapi/parser.py
 +++ b/scripts/qapi/parser.py
-@@ -18,6 +18,7 @@
+@@ -17,6 +17,7 @@
+ from collections import OrderedDict
  import os
  import re
++from typing import List
  
-+from .common import must_match
+ from .common import must_match
  from .error import QAPISemError, QAPISourceError
- from .source import QAPISourceInfo
+@@ -154,28 +155,29 @@ def _include(include, info, incl_fname, previously_included):
+             ) from err
  
-@@ -238,8 +239,8 @@ def accept(self, skip_comment=True):
-             elif not self.tok.isspace():
-                 # Show up to next structural, whitespace or quote
-                 # character
--                match = re.match('[^[\\]{}:,\\s\'"]+',
--                                 self.src[self.cursor-1:])
-+                match = must_match('[^[\\]{}:,\\s\'"]+',
-+                                   self.src[self.cursor-1:])
-                 raise QAPIParseError(self, "stray '%s'" % match.group(0))
+     @staticmethod
+-    def _check_pragma_list_of_str(name, value, info):
+-        if (not isinstance(value, list)
+-                or any([not isinstance(elt, str) for elt in value])):
+-            raise QAPISemError(
+-                info,
+-                "pragma %s must be a list of strings" % name)
++    def _pragma(name, value, info):
++
++        def check_list_str(name, value) -> List[str]:
++            if (not isinstance(value, list) or
++                    any([not isinstance(elt, str) for elt in value])):
++                raise QAPISemError(
++                    info,
++                    "pragma %s must be a list of strings" % name)
++            return value
++
++        pragma = info.pragma
  
-     def get_members(self):
-@@ -369,7 +370,7 @@ def append(self, line):
-             # Strip leading spaces corresponding to the expected indent level
-             # Blank lines are always OK.
-             if line:
--                indent = re.match(r'\s*', line).end()
-+                indent = must_match(r'\s*', line).end()
-                 if indent < self._indent:
-                     raise QAPIParseError(
-                         self._parser,
-@@ -505,7 +506,7 @@ def _append_args_line(self, line):
-             # from line and replace it with spaces so that 'f' has the
-             # same index as it did in the original line and can be
-             # handled the same way we will handle following lines.
--            indent = re.match(r'@\S*:\s*', line).end()
-+            indent = must_match(r'@\S*:\s*', line).end()
-             line = line[indent:]
-             if not line:
-                 # Line was just the "@arg:" header; following lines
-@@ -540,7 +541,7 @@ def _append_features_line(self, line):
-             # from line and replace it with spaces so that 'f' has the
-             # same index as it did in the original line and can be
-             # handled the same way we will handle following lines.
--            indent = re.match(r'@\S*:\s*', line).end()
-+            indent = must_match(r'@\S*:\s*', line).end()
-             line = line[indent:]
-             if not line:
-                 # Line was just the "@arg:" header; following lines
-@@ -586,7 +587,7 @@ def _append_various_line(self, line):
-             # from line and replace it with spaces so that 'f' has the
-             # same index as it did in the original line and can be
-             # handled the same way we will handle following lines.
--            indent = re.match(r'\S*:\s*', line).end()
-+            indent = must_match(r'\S*:\s*', line).end()
-             line = line[indent:]
-             if not line:
-                 # Line was just the "Section:" header; following lines
+-    def _pragma(self, name, value, info):
+         if name == 'doc-required':
+             if not isinstance(value, bool):
+                 raise QAPISemError(info,
+                                    "pragma 'doc-required' must be boolean")
+-            info.pragma.doc_required = value
++            pragma.doc_required = value
+         elif name == 'command-name-exceptions':
+-            self._check_pragma_list_of_str(name, value, info)
+-            info.pragma.command_name_exceptions = value
++            pragma.command_name_exceptions = check_list_str(name, value)
+         elif name == 'command-returns-exceptions':
+-            self._check_pragma_list_of_str(name, value, info)
+-            info.pragma.command_returns_exceptions = value
++            pragma.command_returns_exceptions = check_list_str(name, value)
+         elif name == 'member-name-exceptions':
+-            self._check_pragma_list_of_str(name, value, info)
+-            info.pragma.member_name_exceptions = value
++            pragma.member_name_exceptions = check_list_str(name, value)
+         else:
+             raise QAPISemError(info, "unknown pragma '%s'" % name)
+ 
 -- 
 2.30.2
 
