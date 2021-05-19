@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29DE53895BF
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 20:48:00 +0200 (CEST)
-Received: from localhost ([::1]:51374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D261A3895D4
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 20:51:14 +0200 (CEST)
+Received: from localhost ([::1]:34544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljREd-0001hA-5N
-	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 14:47:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51696)
+	id 1ljRHl-0000qP-Rq
+	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 14:51:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51690)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ljQyn-0004LL-Ir
+ id 1ljQym-0004JH-Vp
  for qemu-devel@nongnu.org; Wed, 19 May 2021 14:31:37 -0400
-Received: from mail-ot1-x333.google.com ([2607:f8b0:4864:20::333]:34695)
+Received: from mail-ot1-x32f.google.com ([2607:f8b0:4864:20::32f]:38705)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ljQyZ-0005mP-VI
- for qemu-devel@nongnu.org; Wed, 19 May 2021 14:31:37 -0400
-Received: by mail-ot1-x333.google.com with SMTP id
- u25-20020a0568302319b02902ac3d54c25eso12656902ote.1
- for <qemu-devel@nongnu.org>; Wed, 19 May 2021 11:31:23 -0700 (PDT)
+ id 1ljQyb-0005mg-47
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 14:31:36 -0400
+Received: by mail-ot1-x32f.google.com with SMTP id
+ i14-20020a9d624e0000b029033683c71999so1434475otk.5
+ for <qemu-devel@nongnu.org>; Wed, 19 May 2021 11:31:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=1DqtU0WV8QcSF4+X7m6wigiX0PReSyvreleY4X8ijYI=;
- b=WWxnrjOYRyMGRp7PhTvkVpu3miWRLibTfUgyUV/rhQT+M8wEdZ497h7RoZ8xLo5DQu
- 3hqlKE5fDn0r/ZnlplfgvkdPcudGWeb2CIqzT6zzsH8AvxdY5f2yAazWcj6Q2q7fSRGz
- U6Y50UCvXyU/hovCVnwZePZ/ZsBOW0M7BUzY0WO9x2P0mf8qQYPmlYhF6PqPvzQJsZrA
- fWfpKuJhjaNwaCrUXLvh6lmXp5viVA80H1oqDlYjcB1TvimSU2u4S0IbJys6Ntd1s3LK
- ymO895eWwaRgeBX+pEbOhoKVlEZqHuPWs+hGO4jqeLQef0t5kjPAXp4z1+T2BC8i3O7F
- JBWA==
+ bh=oHyJNDPwLv7CDpqATFVKQ26htkoObORPlVS9sJxQt9M=;
+ b=eCJZBmBaTf45ebK9uSFdapKDqaTUgHY6JuY3IVmJK6/5RXPISNvg8iO1PFmSOVSGJV
+ fzxjfQe3GQpmmra00VjRNhe1TCMyTZ+Pr8VP+0oAsPK74FsJQhEiiEgyrsxUoxs5t+f1
+ +7IUZWthVlvJK3rD4HgOtJsr7KCmUbuefA/CEXzeT30hvxZS1wkZ/8VT4OQp3Fa2G3xx
+ pR36T9Gdv8utdZJYjwbYmRPWGH7IwfvRvQpfBoB56kd19CN/LOWPYveVCBPp0OQCvv7l
+ 3SSGkQfIROs/l9di3i+vRyQ0jo3dBuyHt5eU4hj2oI9czFiCJAPmMYykzNwiimYHt7HB
+ AIPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=1DqtU0WV8QcSF4+X7m6wigiX0PReSyvreleY4X8ijYI=;
- b=bniRptcmIHVhW38PelHgrF/Fj2z/UTa+kMDg54F3BR6hKKdbDko42lz9G/Cnabfz+g
- 8CQNvIiBnRtWmUamv/gCqY+UAo0FfjcBkatRatNkfcHkM9+uKaZ2eOFaVgG+NH7WwAc4
- W85puVA2VgPCNgC/xM00EUP6+M+phmnIrP9+1t973ZWh6dDTzZ5IFRlMWioMZzecVUPz
- or41odxHOph75n/q2vqaex6a4HSUp+HqmY79YgMGWVFNpcdQHRVXZmfKdkd2hOkgIdgi
- S0tVqktqVvk2BGU6VEm5RyjlREZZnktAjsmHBgMvm2jWAoNW1Jt7cV45q8r1JE84gsuN
- p0+w==
-X-Gm-Message-State: AOAM533Ric4rrIn1wTRbJMKel/Bv7y3mGFLi+3FqyFfaOnrginUjhNtG
- Jt+It3eArxxvSHT2Eosur2DJQA47Cx6AyVdi
-X-Google-Smtp-Source: ABdhPJxXTPZ2hdcdb/9ULLPWxQsxW/blLfo2P7DZ+uPhVW6FtDeEGUSMAoZv61yUWtFzguLPQLJEAg==
-X-Received: by 2002:a9d:5a7:: with SMTP id 36mr639756otd.321.1621449082775;
- Wed, 19 May 2021 11:31:22 -0700 (PDT)
+ bh=oHyJNDPwLv7CDpqATFVKQ26htkoObORPlVS9sJxQt9M=;
+ b=WpSG8XjNuf+3DrD2Bk6feKS94eibRmk/P598I6JEZ2C4JiHO2rMou7DfQSOA31MKUE
+ RpfkesQlZ24/Xupg2kNvRz0H/Ewn/id/DkBkfShmBvPf8l1pw38SKYhmdv/lm2waKF3W
+ z4XDXVBwBKRfev7wCrmUfNJ/DQpqJFaBKBp5Da+OPtJf7WbyXeKKWwv9HWYA5VYa2jhV
+ y3j3pyC44psQHbNO2A1DpmDOFsxnyM3ROtesr1hM92V295Yg8XwJxQyFKNoucA1pCFp1
+ 2ZMgN+Ng0irsoSOc2Yz8RJE89/jRwwfUnNWzJsVrsuE2cY+zwnRxhTWOV7EyWNsFLxoP
+ +7oQ==
+X-Gm-Message-State: AOAM5302bR/2QAJKqEIO9+TzEWjIAP9jheknh0+HoQMJ6AmGS1ivLdXQ
+ KjsGPx0fmkIA4qTd7nuIV3Oui5/AePVg157W
+X-Google-Smtp-Source: ABdhPJx5bC/qCjCn9wouLuzzt2FDsU+xN/f1JBcqDt+ANktIIBUOW9Z9esLG+vW0oK7qM6OluOrDKw==
+X-Received: by 2002:a9d:a37:: with SMTP id 52mr687003otg.280.1621449083752;
+ Wed, 19 May 2021 11:31:23 -0700 (PDT)
 Received: from localhost.localdomain ([45.235.253.15])
- by smtp.gmail.com with ESMTPSA id l9sm28428oou.43.2021.05.19.11.31.21
+ by smtp.gmail.com with ESMTPSA id l9sm28428oou.43.2021.05.19.11.31.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 May 2021 11:31:22 -0700 (PDT)
+ Wed, 19 May 2021 11:31:23 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 31/50] target/i386: Assert !GUEST for user-only
-Date: Wed, 19 May 2021 13:30:31 -0500
-Message-Id: <20210519183050.875453-32-richard.henderson@linaro.org>
+Subject: [PULL 32/50] target/i386: Implement skinit in translate.c
+Date: Wed, 19 May 2021 13:30:32 -0500
+Message-Id: <20210519183050.875453-33-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210519183050.875453-1-richard.henderson@linaro.org>
 References: <20210519183050.875453-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::333;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x333.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::32f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x32f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,61 +87,82 @@ Cc: peter.maydell@linaro.org, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For user-only, we do not need to check for VMM intercept.
+Our sysemu implementation is a stub.  We can already intercept
+instructions for vmexit, and raising #UD is trivial.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <20210514151342.384376-32-richard.henderson@linaro.org>
+Message-Id: <20210514151342.384376-33-richard.henderson@linaro.org>
 ---
- target/i386/tcg/translate.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ target/i386/helper.h                | 1 -
+ target/i386/tcg/sysemu/svm_helper.c | 7 -------
+ target/i386/tcg/translate.c         | 7 +++----
+ target/i386/tcg/user/svm_stubs.c    | 4 ----
+ 4 files changed, 3 insertions(+), 16 deletions(-)
 
+diff --git a/target/i386/helper.h b/target/i386/helper.h
+index 095520f81f..7a09efd55b 100644
+--- a/target/i386/helper.h
++++ b/target/i386/helper.h
+@@ -117,7 +117,6 @@ DEF_HELPER_2(vmload, void, env, int)
+ DEF_HELPER_2(vmsave, void, env, int)
+ DEF_HELPER_1(stgi, void, env)
+ DEF_HELPER_1(clgi, void, env)
+-DEF_HELPER_1(skinit, void, env)
+ DEF_HELPER_2(invlpga, void, env, int)
+ 
+ /* x86 FPU */
+diff --git a/target/i386/tcg/sysemu/svm_helper.c b/target/i386/tcg/sysemu/svm_helper.c
+index c4e8e717a9..79c73d67af 100644
+--- a/target/i386/tcg/sysemu/svm_helper.c
++++ b/target/i386/tcg/sysemu/svm_helper.c
+@@ -412,13 +412,6 @@ void helper_clgi(CPUX86State *env)
+     env->hflags2 &= ~HF2_GIF_MASK;
+ }
+ 
+-void helper_skinit(CPUX86State *env)
+-{
+-    cpu_svm_check_intercept_param(env, SVM_EXIT_SKINIT, 0, GETPC());
+-    /* XXX: not implemented */
+-    raise_exception(env, EXCP06_ILLOP);
+-}
+-
+ void helper_invlpga(CPUX86State *env, int aflag)
+ {
+     X86CPU *cpu = env_archcpu(env);
 diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
-index 235caa247b..200d205d7e 100644
+index 200d205d7e..f7f84f79fe 100644
 --- a/target/i386/tcg/translate.c
 +++ b/target/i386/tcg/translate.c
-@@ -139,11 +139,13 @@ typedef struct DisasContext {
- #define CPL(S)    3
- #define IOPL(S)   0
- #define SVME(S)   false
-+#define GUEST(S)  false
- #else
- #define PE(S)     (((S)->flags & HF_PE_MASK) != 0)
- #define CPL(S)    ((S)->cpl)
- #define IOPL(S)   ((S)->iopl)
- #define SVME(S)   (((S)->flags & HF_SVME_MASK) != 0)
-+#define GUEST(S)  (((S)->flags & HF_GUEST_MASK) != 0)
- #endif
- #if defined(CONFIG_USER_ONLY) && defined(TARGET_X86_64)
- #define VM86(S)   false
-@@ -677,7 +679,7 @@ static void gen_check_io(DisasContext *s, MemOp ot, target_ulong cur_eip,
-             tcg_abort();
-         }
-     }
--    if(s->flags & HF_GUEST_MASK) {
-+    if (GUEST(s)) {
-         gen_update_cc_op(s);
-         gen_jmp_im(s, cur_eip);
-         svm_flags |= (1 << (4 + ot));
-@@ -2417,8 +2419,9 @@ gen_svm_check_intercept_param(DisasContext *s, target_ulong pc_start,
-                               uint32_t type, uint64_t param)
- {
-     /* no SVM activated; fast case */
--    if (likely(!(s->flags & HF_GUEST_MASK)))
-+    if (likely(!GUEST(s))) {
-         return;
-+    }
-     gen_update_cc_op(s);
-     gen_jmp_im(s, pc_start - s->cs_base);
-     gen_helper_svm_check_intercept_param(cpu_env, tcg_const_i32(type),
-@@ -8517,6 +8520,7 @@ static void i386_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cpu)
-     g_assert(LMA(dc) == ((flags & HF_LMA_MASK) != 0));
-     g_assert(ADDSEG(dc) == ((flags & HF_ADDSEG_MASK) != 0));
-     g_assert(SVME(dc) == ((flags & HF_SVME_MASK) != 0));
-+    g_assert(GUEST(dc) == ((flags & HF_GUEST_MASK) != 0));
+@@ -7578,10 +7578,9 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+                 || !PE(s)) {
+                 goto illegal_op;
+             }
+-            gen_update_cc_op(s);
+-            gen_jmp_im(s, pc_start - s->cs_base);
+-            gen_helper_skinit(cpu_env);
+-            break;
++            gen_svm_check_intercept(s, pc_start, SVM_EXIT_SKINIT);
++            /* If not intercepted, not implemented -- raise #UD. */
++            goto illegal_op;
  
-     dc->cc_op = CC_OP_DYNAMIC;
-     dc->cc_op_dirty = false;
+         case 0xdf: /* INVLPGA */
+             if (!SVME(s) || !PE(s)) {
+diff --git a/target/i386/tcg/user/svm_stubs.c b/target/i386/tcg/user/svm_stubs.c
+index 97528b56ad..63b37f0de6 100644
+--- a/target/i386/tcg/user/svm_stubs.c
++++ b/target/i386/tcg/user/svm_stubs.c
+@@ -46,10 +46,6 @@ void helper_clgi(CPUX86State *env)
+ {
+ }
+ 
+-void helper_skinit(CPUX86State *env)
+-{
+-}
+-
+ void helper_invlpga(CPUX86State *env, int aflag)
+ {
+ }
 -- 
 2.25.1
 
