@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C87D83896F1
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 21:45:17 +0200 (CEST)
-Received: from localhost ([::1]:59266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEF923896DC
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 21:41:17 +0200 (CEST)
+Received: from localhost ([::1]:48724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljS83-0004l5-P9
-	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 15:45:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39034)
+	id 1ljS4C-00063L-Ni
+	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 15:41:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39042)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ljRhA-0001N7-U1
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ljRhB-0001PW-Jq
  for qemu-devel@nongnu.org; Wed, 19 May 2021 15:17:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37577)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48323)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ljRh9-0005SF-Bg
- for qemu-devel@nongnu.org; Wed, 19 May 2021 15:17:28 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ljRh9-0005Si-O0
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 15:17:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621451846;
+ s=mimecast20190719; t=1621451847;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zmDqW/TNOh7MpWKqmU3KIsSlhyQ0i9V7QbGLe/8xMv4=;
- b=Zax2R2F+GUG1btyhlbX4GZzs19jDpvGwnN5C5nRQkM62QL6r5hArb+oZsZHiyrkZ4Y/8K3
- Pq7SQzIYddH3+p1+IH6o2hz4DL/RFErUUcuRG4FRZz6bPQe6YU56NhoJ7q9ik7YsK/z5iL
- cZGGDFRLDy8z6fug+OUlwLRY271DTVQ=
+ bh=VsWEKjabr7sMpCHtFJFpR/YK9Ao1yGg7OZS5iTKDPGE=;
+ b=do/nS8+IgtAnbi7WnhURujg57nblDzSHJZMnvGsc5ZECIoQAbgrEOJ6fUAORhyXPXqM+hr
+ vLpK09qUNE225X8qdA0nJIag8+cd4WLhytsv+Q2ARnIgP5Wu+mFgIvMI/izR4WZxQyJ8YZ
+ rQ2/Aqqq4H2kAWbCzBzrG8Yv1tqvxeI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-360-p51krl_XPZWTS9FgeObUIw-1; Wed, 19 May 2021 15:17:24 -0400
-X-MC-Unique: p51krl_XPZWTS9FgeObUIw-1
+ us-mta-460-_LrNfDpoOCurVArUnjDQVg-1; Wed, 19 May 2021 15:17:25 -0400
+X-MC-Unique: _LrNfDpoOCurVArUnjDQVg-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ADC7F802575;
- Wed, 19 May 2021 19:17:23 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 903B38015F8;
+ Wed, 19 May 2021 19:17:24 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-117-64.rdu2.redhat.com [10.10.117.64])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 013935D9CC;
- Wed, 19 May 2021 19:17:22 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D402D5D9CC;
+ Wed, 19 May 2021 19:17:23 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 4/6] qapi/parser.py: enable mypy checks
-Date: Wed, 19 May 2021 15:17:16 -0400
-Message-Id: <20210519191718.3950330-5-jsnow@redhat.com>
+Subject: [PATCH 5/6] qapi/parser.py: Silence too-few-public-methods warning
+Date: Wed, 19 May 2021 15:17:17 -0400
+Message-Id: <20210519191718.3950330-6-jsnow@redhat.com>
 In-Reply-To: <20210519191718.3950330-1-jsnow@redhat.com>
 References: <20210519191718.3950330-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -82,27 +82,27 @@ Cc: Markus Armbruster <armbru@redhat.com>, John Snow <jsnow@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Eh. Two properties, a bool method and a public method are non-trivial
+enough for me. (Especially in typed python!)
+
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qapi/mypy.ini | 5 -----
- 1 file changed, 5 deletions(-)
+ scripts/qapi/parser.py | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/scripts/qapi/mypy.ini b/scripts/qapi/mypy.ini
-index 54ca4483d6d..66253564297 100644
---- a/scripts/qapi/mypy.ini
-+++ b/scripts/qapi/mypy.ini
-@@ -3,11 +3,6 @@ strict = True
- disallow_untyped_calls = False
- python_version = 3.6
- 
--[mypy-qapi.parser]
--disallow_untyped_defs = False
--disallow_incomplete_defs = False
--check_untyped_defs = False
--
- [mypy-qapi.schema]
- disallow_untyped_defs = False
- disallow_incomplete_defs = False
+diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
+index fefe4c37f44..36d4bd175a0 100644
+--- a/scripts/qapi/parser.py
++++ b/scripts/qapi/parser.py
+@@ -458,6 +458,8 @@ class QAPIDoc:
+     class Section:
+         def __init__(self, parser: QAPISchemaParser,
+                      name: Optional[str] = None, indent: int = 0):
++            # pylint: disable=too-few-public-methods
++
+             # parser, for error messages about indentation
+             self._parser = parser
+             # optional section name (argument/member or section name)
 -- 
 2.30.2
 
