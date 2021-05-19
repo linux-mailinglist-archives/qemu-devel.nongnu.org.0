@@ -2,42 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6F27388F3B
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 15:35:39 +0200 (CEST)
-Received: from localhost ([::1]:39936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0855C388F35
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 15:33:13 +0200 (CEST)
+Received: from localhost ([::1]:59814 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljMMM-00049b-RD
-	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 09:35:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33752)
+	id 1ljMK0-0006t6-1i
+	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 09:33:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33714)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1ljLhr-0002cK-RJ; Wed, 19 May 2021 08:53:47 -0400
-Received: from ozlabs.org ([203.11.71.1]:41239)
+ id 1ljLhn-0002J5-LC; Wed, 19 May 2021 08:53:43 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:37755)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1ljLhq-0001dC-0U; Wed, 19 May 2021 08:53:47 -0400
+ id 1ljLhj-0001jA-Um; Wed, 19 May 2021 08:53:42 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4FlXnr2bndz9s1l; Wed, 19 May 2021 22:52:15 +1000 (AEST)
+ id 4FlXns2D0kz9tD5; Wed, 19 May 2021 22:52:17 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1621428736;
- bh=HvzS/W9peBFoqRQMJFUOSjaaY1iY7OVTY37oKn+DsfQ=;
+ d=gibson.dropbear.id.au; s=201602; t=1621428737;
+ bh=lZKRM89jGQ5fffSDCjTPVVHmFfPRAxQ0VWRr7ZbUmek=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=VjXOUHaeck5kPa6GfIghQUtC6wZ9CCbz66C/SVvnhZ0ZyAEXd+TrJI3TuBT0+rnZ/
- mvV3YowDsqa/QNU6I8uMGS9vJ+Ck5Kv7axhgMUfsvjn7Z5sSIwZRDO6PV5H4iDVQYG
- Y9IGi4vMVY9xGFhRztrOXLLoUpCk64pzQk/tu/BQ=
+ b=dTq63/dnxdnJ8svWNTKPFtTaN6B+QQw6VzCuV4Gk7592eqP/B7hHWk+4zZQNPwwPq
+ MhTqE2lvsyL8i+PYKfRP/AR4lD1VfmlqiYiEygvRtLnN0TOVPWsuEt3BjcJYBaJTH0
+ 4osCzByZSn4H7ddAVi8U9x8nabFvsmaTbM273T+8=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org,
 	groug@kaod.org
-Subject: [PULL 43/48] target/ppc: Remove type argument from get_bat_6xx_tlb
-Date: Wed, 19 May 2021 22:51:43 +1000
-Message-Id: <20210519125148.27720-44-david@gibson.dropbear.id.au>
+Subject: [PULL 44/48] target/ppc: Remove type argument from
+ mmu40x_get_physical_address
+Date: Wed, 19 May 2021 22:51:44 +1000
+Message-Id: <20210519125148.27720-45-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210519125148.27720-1-david@gibson.dropbear.id.au>
 References: <20210519125148.27720-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -64,77 +65,39 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-We can now use MMU_INST_FETCH from access_type for this.
+It is no longer used.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20210518201146.794854-11-richard.henderson@linaro.org>
+Message-Id: <20210518201146.794854-12-richard.henderson@linaro.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- target/ppc/mmu_helper.c | 19 ++++++++-----------
- 1 file changed, 8 insertions(+), 11 deletions(-)
+ target/ppc/mmu_helper.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
 diff --git a/target/ppc/mmu_helper.c b/target/ppc/mmu_helper.c
-index 2f00955b80..0eba8302ee 100644
+index 0eba8302ee..1426973b4d 100644
 --- a/target/ppc/mmu_helper.c
 +++ b/target/ppc/mmu_helper.c
-@@ -379,25 +379,22 @@ static inline void bat_size_prot(CPUPPCState *env, target_ulong *blp,
- }
+@@ -662,8 +662,7 @@ static inline void ppc4xx_tlb_invalidate_all(CPUPPCState *env)
  
- static int get_bat_6xx_tlb(CPUPPCState *env, mmu_ctx_t *ctx,
--                           target_ulong virtual, MMUAccessType access_type,
--                           int type)
-+                           target_ulong virtual, MMUAccessType access_type)
+ static int mmu40x_get_physical_address(CPUPPCState *env, mmu_ctx_t *ctx,
+                                        target_ulong address,
+-                                       MMUAccessType access_type,
+-                                       int type)
++                                       MMUAccessType access_type)
  {
-     target_ulong *BATlt, *BATut, *BATu, *BATl;
-     target_ulong BEPIl, BEPIu, bl;
-     int i, valid, prot;
-     int ret = -1;
-+    bool ifetch = access_type == MMU_INST_FETCH;
- 
-     LOG_BATS("%s: %cBAT v " TARGET_FMT_lx "\n", __func__,
--             type == ACCESS_CODE ? 'I' : 'D', virtual);
--    switch (type) {
--    case ACCESS_CODE:
-+             ifetch ? 'I' : 'D', virtual);
-+    if (ifetch) {
-         BATlt = env->IBAT[1];
-         BATut = env->IBAT[0];
--        break;
--    default:
-+    } else {
-         BATlt = env->DBAT[1];
-         BATut = env->DBAT[0];
--        break;
-     }
-     for (i = 0; i < env->nb_BATs; i++) {
-         BATu = &BATut[i];
-@@ -407,7 +404,7 @@ static int get_bat_6xx_tlb(CPUPPCState *env, mmu_ctx_t *ctx,
-         bat_size_prot(env, &bl, &valid, &prot, BATu, BATl);
-         LOG_BATS("%s: %cBAT%d v " TARGET_FMT_lx " BATu " TARGET_FMT_lx
-                  " BATl " TARGET_FMT_lx "\n", __func__,
--                 type == ACCESS_CODE ? 'I' : 'D', i, virtual, *BATu, *BATl);
-+                 ifetch ? 'I' : 'D', i, virtual, *BATu, *BATl);
-         if ((virtual & 0xF0000000) == BEPIu &&
-             ((virtual & 0x0FFE0000) & ~bl) == BEPIl) {
-             /* BAT matches */
-@@ -441,7 +438,7 @@ static int get_bat_6xx_tlb(CPUPPCState *env, mmu_ctx_t *ctx,
-                 LOG_BATS("%s: %cBAT%d v " TARGET_FMT_lx " BATu " TARGET_FMT_lx
-                          " BATl " TARGET_FMT_lx "\n\t" TARGET_FMT_lx " "
-                          TARGET_FMT_lx " " TARGET_FMT_lx "\n",
--                         __func__, type == ACCESS_CODE ? 'I' : 'D', i, virtual,
-+                         __func__, ifetch ? 'I' : 'D', i, virtual,
-                          *BATu, *BATl, BEPIu, BEPIl, bl);
-             }
-         }
-@@ -1415,7 +1412,7 @@ static int get_physical_address_wtlb(CPUPPCState *env, mmu_ctx_t *ctx,
+     ppcemb_tlb_t *tlb;
+     hwaddr raddr;
+@@ -1426,8 +1425,7 @@ static int get_physical_address_wtlb(CPUPPCState *env, mmu_ctx_t *ctx,
+         if (real_mode) {
+             ret = check_physical(env, ctx, eaddr, access_type);
          } else {
-             /* Try to find a BAT */
-             if (env->nb_BATs != 0) {
--                ret = get_bat_6xx_tlb(env, ctx, eaddr, access_type, type);
-+                ret = get_bat_6xx_tlb(env, ctx, eaddr, access_type);
-             }
-             if (ret < 0) {
-                 /* We didn't match any BAT entry or don't have BATs */
+-            ret = mmu40x_get_physical_address(env, ctx, eaddr,
+-                                              access_type, type);
++            ret = mmu40x_get_physical_address(env, ctx, eaddr, access_type);
+         }
+         break;
+     case POWERPC_MMU_BOOKE:
 -- 
 2.31.1
 
