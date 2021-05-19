@@ -2,41 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88F793890F8
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 16:32:37 +0200 (CEST)
-Received: from localhost ([::1]:44420 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F40E389115
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 16:35:26 +0200 (CEST)
+Received: from localhost ([::1]:54974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljNFU-0002u0-KG
-	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 10:32:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57330)
+	id 1ljNID-0001de-6o
+	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 10:35:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57406)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1ljNCW-0000WD-2g
- for qemu-devel@nongnu.org; Wed, 19 May 2021 10:29:32 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:37842
+ id 1ljNCd-0000gK-Ht
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 10:29:39 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:37852
  helo=mail.default.ilande.bv.iomart.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1ljNCU-0008GD-3b
- for qemu-devel@nongnu.org; Wed, 19 May 2021 10:29:31 -0400
+ id 1ljNCY-0008Iy-CS
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 10:29:39 -0400
 Received: from host217-39-58-213.range217-39.btcentralplus.com
  ([217.39.58.213] helo=kentang.home)
  by mail.default.ilande.bv.iomart.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1ljNCN-0003Tz-GR; Wed, 19 May 2021 15:29:27 +0100
+ id 1ljNCR-0003Tz-Ny; Wed, 19 May 2021 15:29:31 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: qemu-devel@nongnu.org,
 	laurent@vivier.eu
-Date: Wed, 19 May 2021 15:29:13 +0100
-Message-Id: <20210519142917.16693-1-mark.cave-ayland@ilande.co.uk>
+Date: Wed, 19 May 2021 15:29:14 +0100
+Message-Id: <20210519142917.16693-2-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20210519142917.16693-1-mark.cave-ayland@ilande.co.uk>
+References: <20210519142917.16693-1-mark.cave-ayland@ilande.co.uk>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 217.39.58.213
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH 0/4] target/m68k: implement m68k "any instruction" trace mode
+Subject: [PATCH 1/4] target/m68k: introduce is_singlestepping() function
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -62,58 +64,75 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patchset implements the m68k "any instruction" tracing mode which is used
-by the NetBSD kernel debugger to implement single-stepping. It is based upon
-reading through the M68000 PRM and looking at how the ARM target handles both
-gdbstub and architectural single-step exceptions.
-
-With this patchset it becomes possible to single-step the NetBSD kernel using
-the in-built kernel debugger:
-
-Stopped in pid 0.1 (system) at  netbsd:cpu_Debugger+0x6:        unlk    a6
-db> s
-Stopped in pid 0.1 (system) at  netbsd:cpu_Debugger+0x8:        rts
-db> 
-Stopped in pid 0.1 (system) at  netbsd:main+0x2c:       jsr     kernel_lock_init
-        [addr:0x1a38f6 ]
-db> 
-Stopped in pid 0.1 (system) at  netbsd:kernel_lock_init:        linkw   a6,#0
-db> 
-Stopped in pid 0.1 (system) at  netbsd:kernel_lock_init+0x4:    clrb    kernel_l
-ock     [addr:0x33f400 ]
-db> 
-Stopped in pid 0.1 (system) at  netbsd:kernel_lock_init+0xa:    clrb    kernel_l
-ock_dodebug     [addr:0x35b48c ]
-db> 
-Stopped in pid 0.1 (system) at  netbsd:kernel_lock_init+0x10:   unlk    a6
-db> 
-Stopped in pid 0.1 (system) at  netbsd:kernel_lock_init+0x12:   rts
-db> c
-Copyright (c) 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005,
-[   1.0000000]     2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017,
-[   1.0000000]     2018, 2019, 2020 The NetBSD Foundation, Inc.  All rights reserved.
-[   1.0000000] Copyright (c) 1982, 1986, 1989, 1991, 1993
-[   1.0000000]     The Regents of the University of California.  All rights reserved.
-
-[   1.0000000] NetBSD 9.1 (GENERIC) #0: Sun Oct 18 19:24:30 UTC 2020
-... etc ...
-
+The m68k translator currently checks the DisasContextBase singlestep_enabled
+boolean directly to determine whether to single-step execution. Soon
+single-stepping may also be triggered by setting the appropriate bits in the
+SR register so centralise the check into a single is_singlestepping()
+function.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+---
+ target/m68k/translate.c | 19 +++++++++++++++----
+ 1 file changed, 15 insertions(+), 4 deletions(-)
 
-[q800-macos-upstream patchset series: 2]
-
-Mark Cave-Ayland (4):
-  target/m68k: introduce is_singlestepping() function
-  target/m68k: call gen_raise_exception() directly if single-stepping in
-    gen_jmp_tb()
-  target/m68k: introduce gen_singlestep_exception() function
-  target/m68k: implement m68k "any instruction" trace mode
-
- target/m68k/cpu.h       |  8 +++++++
- target/m68k/translate.c | 51 ++++++++++++++++++++++++++++++++++-------
- 2 files changed, 51 insertions(+), 8 deletions(-)
-
+diff --git a/target/m68k/translate.c b/target/m68k/translate.c
+index 200018ae6a..c774f2e8f0 100644
+--- a/target/m68k/translate.c
++++ b/target/m68k/translate.c
+@@ -194,6 +194,17 @@ static void do_writebacks(DisasContext *s)
+     }
+ }
+ 
++static bool is_singlestepping(DisasContext *s)
++{
++    /*
++     * Return true if we are singlestepping either because of QEMU gdbstub
++     * singlestep. This does not include the command line '-singlestep' mode
++     * which is rather misnamed as it only means "one instruction per TB" and
++     * doesn't affect the code we generate.
++     */
++    return s->base.singlestep_enabled;
++}
++
+ /* is_jmp field values */
+ #define DISAS_JUMP      DISAS_TARGET_0 /* only pc was modified dynamically */
+ #define DISAS_EXIT      DISAS_TARGET_1 /* cpu state was modified dynamically */
+@@ -1506,7 +1517,7 @@ static inline bool use_goto_tb(DisasContext *s, uint32_t dest)
+ /* Generate a jump to an immediate address.  */
+ static void gen_jmp_tb(DisasContext *s, int n, uint32_t dest)
+ {
+-    if (unlikely(s->base.singlestep_enabled)) {
++    if (unlikely(is_singlestepping(s))) {
+         gen_exception(s, dest, EXCP_DEBUG);
+     } else if (use_goto_tb(s, dest)) {
+         tcg_gen_goto_tb(n);
+@@ -6245,7 +6256,7 @@ static void m68k_tr_tb_stop(DisasContextBase *dcbase, CPUState *cpu)
+         break;
+     case DISAS_TOO_MANY:
+         update_cc_op(dc);
+-        if (dc->base.singlestep_enabled) {
++        if (is_singlestepping(dc)) {
+             tcg_gen_movi_i32(QREG_PC, dc->pc);
+             gen_raise_exception(EXCP_DEBUG);
+         } else {
+@@ -6254,7 +6265,7 @@ static void m68k_tr_tb_stop(DisasContextBase *dcbase, CPUState *cpu)
+         break;
+     case DISAS_JUMP:
+         /* We updated CC_OP and PC in gen_jmp/gen_jmp_im.  */
+-        if (dc->base.singlestep_enabled) {
++        if (is_singlestepping(dc)) {
+             gen_raise_exception(EXCP_DEBUG);
+         } else {
+             tcg_gen_lookup_and_goto_ptr();
+@@ -6265,7 +6276,7 @@ static void m68k_tr_tb_stop(DisasContextBase *dcbase, CPUState *cpu)
+          * We updated CC_OP and PC in gen_exit_tb, but also modified
+          * other state that may require returning to the main loop.
+          */
+-        if (dc->base.singlestep_enabled) {
++        if (is_singlestepping(dc)) {
+             gen_raise_exception(EXCP_DEBUG);
+         } else {
+             tcg_gen_exit_tb(NULL, 0);
 -- 
 2.20.1
 
