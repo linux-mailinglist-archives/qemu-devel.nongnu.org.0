@@ -2,72 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB71438996B
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 00:41:57 +0200 (CEST)
-Received: from localhost ([::1]:34580 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67829389977
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 00:48:15 +0200 (CEST)
+Received: from localhost ([::1]:40728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljUt2-00018M-QU
-	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 18:41:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47404)
+	id 1ljUz8-0005fV-9R
+	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 18:48:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48482)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1ljUqR-0007bk-Ar
- for qemu-devel@nongnu.org; Wed, 19 May 2021 18:39:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55647)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1ljUqO-00058u-5x
- for qemu-devel@nongnu.org; Wed, 19 May 2021 18:39:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621463950;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=GAafUN6YfIpBF+cE7Hhtlz4Inl3/zmgqur+Gf87+wbU=;
- b=WrI82KMqF0xfow84mjPgSqItQCOCR6pxTSfHoZqo0qVALPT11aFig/bfQHuDZBFNAMUg4w
- cV7Htkhe3fY5+ES7Q4q+tjJc1JvKgzJsBgl1ETUlPsPjVwYzR0ihWjUMvcBiKY36m9c+Yg
- YlED61IHiBXF7zhOA6JzcZnNtZhO718=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-501-7wiUIzYWNO2_uZ1F4D6zGA-1; Wed, 19 May 2021 18:39:08 -0400
-X-MC-Unique: 7wiUIzYWNO2_uZ1F4D6zGA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6642B801B13;
- Wed, 19 May 2021 22:39:07 +0000 (UTC)
-Received: from redhat.com (ovpn-113-225.phx2.redhat.com [10.3.113.225])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9CFDB1B480;
- Wed, 19 May 2021 22:38:52 +0000 (UTC)
-Date: Wed, 19 May 2021 16:38:52 -0600
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Steve Sistare <steven.sistare@oracle.com>
-Subject: Re: [PATCH V3 11/22] vfio-pci: refactor for cpr
-Message-ID: <20210519163852.016aa9dc.alex.williamson@redhat.com>
-In-Reply-To: <1620390320-301716-12-git-send-email-steven.sistare@oracle.com>
-References: <1620390320-301716-1-git-send-email-steven.sistare@oracle.com>
- <1620390320-301716-12-git-send-email-steven.sistare@oracle.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ljUy7-0004ps-KK
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 18:47:11 -0400
+Received: from mail-ua1-x933.google.com ([2607:f8b0:4864:20::933]:46006)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ljUy5-0001LQ-E3
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 18:47:11 -0400
+Received: by mail-ua1-x933.google.com with SMTP id 20so4960660uaf.12
+ for <qemu-devel@nongnu.org>; Wed, 19 May 2021 15:47:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:from:to:cc:references:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=eQtJDlgICXbFKPgxsC5dWdP2xsuhujFzbSYpNR3xSdU=;
+ b=jb2/nrqdCUKqk4AT0XmCmvi9PxdG10RfJKwA75d9Is4leR+nVqM4tFUn6xrvgfGQWE
+ qufpQSqv+Sni9H/11xiJwTiW4MPwSZV5+Xb1wVGk9ifn2aDhqjDsC6eoHcAyQZRQZOrZ
+ vWU2Lh6XJUet7WKk4d7o+mZxVib89BvGT2kvj1n19EBHfPABPunTE2Z0PeSx7EhrSQ5u
+ 8YFCyWJ0CiYijQZjySE2LM1uDxVYE0alH0oaxoki0z+u+VY/6OzGGdVxyxnajhx6UQ33
+ i8dNcNlB+nl+gB/Tb6oQ9Mbx41gi7esTBaan3ZVPGx1Kij6B6xlpB34VJMJCzFqJ3iGM
+ LJCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=eQtJDlgICXbFKPgxsC5dWdP2xsuhujFzbSYpNR3xSdU=;
+ b=WuPICGpBKRuvnrsDIDZu++4BCYE62SCVGzdYCetmHcUk/6LHPV9W9mWHxPZPdB0Vv8
+ adVfM1kxq+S9hpYJIRG4LDvaAeIUXiHbJYTnv8w/0vcQGBSR2BDU5X6TE6OJVTLMeNO+
+ 7z1xHbQ/s3C2HOuGFhQnnhQb9xDymVPnmYTfLxEhQ4zrYKxJJzDAeKi5JwY8vLk4BiOm
+ gdVp3ex55F9dB2iZzb2WUIOSTQjsFhYqaqzn2lPu60vTnh8I2dWsDZL+kntqoCfDdB0d
+ GQ5AsapziMJCcn97SsH1Q5eWMCkYp47hexVZ9gDRJw2qoWYyDHuBvJlFoteRpguciNAn
+ ZE+Q==
+X-Gm-Message-State: AOAM532zjXaJ2fy8xb/GeNcIvfwtAmuQKXPDqqd6JzCudMugxPMNQcET
+ c7w8gcGXjFKZnQIdeBgnNK44oAremVFr8XAt
+X-Google-Smtp-Source: ABdhPJz0FuOYt6m+ZEluRptcg192Al9zgX7K2nb5YiNem/nQtU3bPYIIGxIYLOnwhfNalO3rt2jPGA==
+X-Received: by 2002:a9f:2183:: with SMTP id 3mr2124822uac.0.1621464428273;
+ Wed, 19 May 2021 15:47:08 -0700 (PDT)
+Received: from [172.16.22.144] ([45.235.253.15])
+ by smtp.gmail.com with ESMTPSA id 5sm168028vkf.48.2021.05.19.15.47.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 19 May 2021 15:47:07 -0700 (PDT)
+Subject: Re: [PATCH 00/24] target/ppc: Clean up mmu translation
+From: Richard Henderson <richard.henderson@linaro.org>
+To: David Gibson <david@gibson.dropbear.id.au>
+References: <20210518201146.794854-1-richard.henderson@linaro.org>
+ <YKR9bZmPxOHKlnnP@yekko> <7a4c91d4-c813-2803-e5e7-4f8fe6d6f05d@linaro.org>
+Message-ID: <6bc68cda-a6aa-68c9-2c6f-f7c6ff95b7db@linaro.org>
+Date: Wed, 19 May 2021 17:47:05 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124;
- envelope-from=alex.williamson@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.39,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <7a4c91d4-c813-2803-e5e7-4f8fe6d6f05d@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::933;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ua1-x933.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,179 +87,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P. Berrange" <berrange@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Zeng <jason.zeng@linux.intel.com>,
- Alex =?UTF-8?B?QmVubsOpZQ==?= <alex.bennee@linaro.org>,
- Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6k=?= Lureau <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
+Cc: bruno.larsen@eldorado.org.br, qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri,  7 May 2021 05:25:09 -0700
-Steve Sistare <steven.sistare@oracle.com> wrote:
-
-> Export vfio_address_spaces and vfio_listener_skipped_section.
-> Add optional eventfd arg to vfio_add_kvm_msi_virq.
-> Refactor vector use into a helper vfio_vector_init.
-> All for use by cpr in a subsequent patch.  No functional change.
+On 5/19/21 3:37 PM, Richard Henderson wrote:
+> On 5/18/21 9:52 PM, David Gibson wrote:
+>> I've applied 1..15, still looking at the rest.
 > 
-> Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
-> ---
->  hw/vfio/common.c              |  4 ++--
->  hw/vfio/pci.c                 | 36 +++++++++++++++++++++++++-----------
->  include/hw/vfio/vfio-common.h |  3 +++
->  3 files changed, 30 insertions(+), 13 deletions(-)
-> 
-> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-> index ae5654f..9220e64 100644
-> --- a/hw/vfio/common.c
-> +++ b/hw/vfio/common.c
-> @@ -42,7 +42,7 @@
->  
->  VFIOGroupList vfio_group_list =
->      QLIST_HEAD_INITIALIZER(vfio_group_list);
-> -static QLIST_HEAD(, VFIOAddressSpace) vfio_address_spaces =
-> +VFIOAddressSpaceList vfio_address_spaces =
->      QLIST_HEAD_INITIALIZER(vfio_address_spaces);
->  
->  #ifdef CONFIG_KVM
-> @@ -534,7 +534,7 @@ static int vfio_host_win_del(VFIOContainer *container, hwaddr min_iova,
->      return -1;
->  }
->  
-> -static bool vfio_listener_skipped_section(MemoryRegionSection *section)
-> +bool vfio_listener_skipped_section(MemoryRegionSection *section)
->  {
->      return (!memory_region_is_ram(section->mr) &&
->              !memory_region_is_iommu(section->mr)) ||
-> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-> index 5c65aa0..7a4fb6c 100644
-> --- a/hw/vfio/pci.c
-> +++ b/hw/vfio/pci.c
-> @@ -411,7 +411,7 @@ static int vfio_enable_vectors(VFIOPCIDevice *vdev, bool msix)
->  }
->  
->  static void vfio_add_kvm_msi_virq(VFIOPCIDevice *vdev, VFIOMSIVector *vector,
-> -                                  int vector_n, bool msix)
-> +                                  int vector_n, bool msix, int eventfd)
->  {
->      int virq;
->  
-> @@ -419,7 +419,9 @@ static void vfio_add_kvm_msi_virq(VFIOPCIDevice *vdev, VFIOMSIVector *vector,
->          return;
->      }
->  
-> -    if (event_notifier_init(&vector->kvm_interrupt, 0)) {
-> +    if (eventfd >= 0) {
-> +        event_notifier_init_fd(&vector->kvm_interrupt, eventfd);
-> +    } else if (event_notifier_init(&vector->kvm_interrupt, 0)) {
->          return;
->      }
+> Please dequeue.  I want to create a new mmu-internal.h, which affects all the 
+> patches from #1.
 
-This seems very obfuscated.  The "active" arg of event_notifier_init()
-just seems to preload the eventfd with a signal.  What does that have
-to do with an eventfd arg to this function?  What if the first branch
-returns failure?
+Alternately, don't.  I can move the function later, and it may be a while 
+before I can get back to this.
 
->  
-> @@ -455,6 +457,22 @@ static void vfio_update_kvm_msi_virq(VFIOMSIVector *vector, MSIMessage msg,
->      kvm_irqchip_commit_routes(kvm_state);
->  }
->  
-> +static void vfio_vector_init(VFIOPCIDevice *vdev, int nr, int eventfd)
-> +{
-> +    VFIOMSIVector *vector = &vdev->msi_vectors[nr];
-> +    PCIDevice *pdev = &vdev->pdev;
-> +
-> +    vector->vdev = vdev;
-> +    vector->virq = -1;
-> +    if (eventfd >= 0) {
-> +        event_notifier_init_fd(&vector->interrupt, eventfd);
-> +    } else if (event_notifier_init(&vector->interrupt, 0)) {
-> +        error_report("vfio: Error: event_notifier_init failed");
-> +    }
+Two outstanding bugs:
 
-Gak, here's that same pattern.
+(1) mmu-radix64.c vs hypervisors.  You'll not see these unless you run kvm 
+inside of tcg.
 
-> +    vector->use = true;
-> +    msix_vector_use(pdev, nr);
-> +}
-> +
->  static int vfio_msix_vector_do_use(PCIDevice *pdev, unsigned int nr,
->                                     MSIMessage *msg, IOHandler *handler)
->  {
-> @@ -466,14 +484,10 @@ static int vfio_msix_vector_do_use(PCIDevice *pdev, unsigned int nr,
->  
->      vector = &vdev->msi_vectors[nr];
->  
-> +    vfio_vector_init(vdev, nr, -1);
-> +
->      if (!vector->use) {
-> -        vector->vdev = vdev;
-> -        vector->virq = -1;
-> -        if (event_notifier_init(&vector->interrupt, 0)) {
-> -            error_report("vfio: Error: event_notifier_init failed");
-> -        }
-> -        vector->use = true;
-> -        msix_vector_use(pdev, nr);
-> +        vfio_vector_init(vdev, nr, -1);
->      }
+Basically, all usage of msr_{hv,pr,ir,dr} within ppc_*_xlate is incorrect.  We 
+should be pulling these from the 3 bits of mmu_idx, as outlined in the table in 
+hreg_compute_hflags_value.
 
-Huh?  That's not at all "no functional change".  Also the branch is
-entirely dead code now.
+When you start propagating that around, you see that the second-level 
+translation for loading the pte (2 of the 3 calls to 
+ppc_radix64_partition_scoped_xlate) should not be using the mmu_idx related to 
+the user-mode guest access, but should be using the mmu_idx of the 
+kernel/hypervisor that owns the page table.
 
->  
->      qemu_set_fd_handler(event_notifier_get_fd(&vector->interrupt),
-> @@ -491,7 +505,7 @@ static int vfio_msix_vector_do_use(PCIDevice *pdev, unsigned int nr,
->          }
->      } else {
->          if (msg) {
-> -            vfio_add_kvm_msi_virq(vdev, vector, nr, true);
-> +            vfio_add_kvm_msi_virq(vdev, vector, nr, true, -1);
->          }
->      }
->  
-> @@ -641,7 +655,7 @@ retry:
->           * Attempt to enable route through KVM irqchip,
->           * default to userspace handling if unavailable.
->           */
-> -        vfio_add_kvm_msi_virq(vdev, vector, i, false);
-> +        vfio_add_kvm_msi_virq(vdev, vector, i, false, -1);
->      }
+I can't see that mmu-radix64.c has the same problem.  I'm not really sure how 
+the second-level translation for hypervisors works there.  Is it by the 
+hypervisor altering the hash table as it is loaded?
 
-And then we're not really passing an eventfd anyway :-\  I'm so
-confused...
+(2) The direct-segment accesses for 6xx and hash32 use ACCESS_* to 
+conditionally reject an mmu access.  This is flawed, because we only arrive 
+into these translation routines on the softtlb slow path.  If we have an 
+ACCESS_INT and then an ACCESS_FLOAT, the first will load a tlb entry which the 
+second will use to stay on the fast path.
 
-Thanks,
-Alex
+There are several possible solutions:
 
->  
->      /* Set interrupt type prior to possible interrupts */
-> diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
-> index 6141162..00acb85 100644
-> --- a/include/hw/vfio/vfio-common.h
-> +++ b/include/hw/vfio/vfio-common.h
-> @@ -204,6 +204,8 @@ int vfio_get_device(VFIOGroup *group, const char *name,
->  extern const MemoryRegionOps vfio_region_ops;
->  typedef QLIST_HEAD(VFIOGroupList, VFIOGroup) VFIOGroupList;
->  extern VFIOGroupList vfio_group_list;
-> +typedef QLIST_HEAD(, VFIOAddressSpace) VFIOAddressSpaceList;
-> +extern VFIOAddressSpaceList vfio_address_spaces;
->  
->  bool vfio_mig_active(void);
->  int64_t vfio_mig_bytes_transferred(void);
-> @@ -222,6 +224,7 @@ struct vfio_info_cap_header *
->  vfio_get_device_info_cap(struct vfio_device_info *info, uint16_t id);
->  #endif
->  extern const MemoryListener vfio_prereg_listener;
-> +bool vfio_listener_skipped_section(MemoryRegionSection *section);
->  
->  int vfio_spapr_create_window(VFIOContainer *container,
->                               MemoryRegionSection *section,
+  (A) Give tlb_set_page size == 1 for direct-segment addresses.
+      This will cause cputlb.c to force all references to the page
+      back through the slow path and through tlb_fill.  At which
+      point env->access_type is correct for each access, and we
+      can reject on type.
 
+      This could be really slow.  But since these direct-segment
+      accesses are also uncached, I would expect the guest OS to
+      only be using them for i/o access.  Which is already slow,
+      so perhaps the extra trip through tlb_fill isn't noticeable.
+
+  (B) Use additional mmu_idx.  Not ideal, since we wouldn't be
+      sharing softtlb entries for ACCESS_INT and ACCESS_FLOAT
+      and ACCESS_RES for the normal case.  But the relevant
+      mmu_models do not have hypervisor support, so we could
+      still fit them in to 8 mmu_idx.  We'd probably want to
+      use special code for ACCESS_CACHE and ACCESS_EXT here.
+
+  (C) Ignore this special case entirely, dropping everything
+      related to env->access_type.  The section of code that
+      uses them is all for really old machine types with
+      comments like
+
+         /* Direct-store segment : absolutely *BUGGY* for now */
+
+      which is not encouraging.  And short of writing our own
+      test cases we're not likely to have any code to exercise
+      this.
+
+
+r~
 
