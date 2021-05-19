@@ -2,58 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2057388FAA
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 15:57:27 +0200 (CEST)
-Received: from localhost ([::1]:39806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24231388FA0
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 15:54:47 +0200 (CEST)
+Received: from localhost ([::1]:60484 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljMhT-00018T-18
-	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 09:57:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46128)
+	id 1ljMes-0003Mi-6i
+	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 09:54:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47094)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1ljMXO-0000nU-MV
- for qemu-devel@nongnu.org; Wed, 19 May 2021 09:47:03 -0400
-Resent-Date: Wed, 19 May 2021 09:47:02 -0400
-Resent-Message-Id: <E1ljMXO-0000nU-MV@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21339)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1ljMXK-0007Rg-OC
- for qemu-devel@nongnu.org; Wed, 19 May 2021 09:47:02 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1621432015; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=A1R2WgM+9gBbEAXXs5DlqREWMW7Ign3z7+N9KpW46AJCxXjX5MjmasCQar8nqH1TBoJGbqLw2fufj9SqQcSeRVwoXrDt47IMYOjiEs4j5222r7NjxIoIHljk4K0JSAjquroFf4VsNt4m56HDta5Tm+5W4JogQhiT4d94nxXuf7E=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1621432015;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=qcXAKtj5+3l0c47mi+Fb773NsVhZidkC5z07QnsGSX0=; 
- b=MvJ1ge459jkuBrx3VKqDUJTb0s2bf+Vdo6cLCZlOQtHHK6O8ntYRlo9AKB3jOK7H9Eg7iiF9mIoHzNySQun5nRPmgzhemS12VacLz90/tMCZ4CUuwUn4nO8kSuJiqpvTh1NCssOxJLOmRnnBHMbtYS7fKMo4yUEeqla7yv8zi2A=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1621432010709249.35407230505416;
- Wed, 19 May 2021 06:46:50 -0700 (PDT)
-In-Reply-To: <0799f0de89ad2482672b5d61d0de61e6eba782da.1621407918.git.alishir@routerhosting.com>
-Subject: Re: [PATCH] doc: Add notes about -mon option mode=control argument.
-Message-ID: <162143200981.17859.11883477836290083155@0addf061776e>
+ (Exim 4.90_1) (envelope-from <steven.price@arm.com>)
+ id 1ljMcL-0007pC-Ot
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 09:52:10 -0400
+Received: from foss.arm.com ([217.140.110.172]:32856)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <steven.price@arm.com>) id 1ljMcI-0001qg-Sj
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 09:52:08 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9B5BA31B;
+ Wed, 19 May 2021 06:52:04 -0700 (PDT)
+Received: from [192.168.1.179] (unknown [172.31.20.19])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0C3DA3F73B;
+ Wed, 19 May 2021 06:52:01 -0700 (PDT)
+Subject: Re: [PATCH v12 7/8] KVM: arm64: ioctl to fetch/store tags in a guest
+To: Marc Zyngier <maz@kernel.org>
+References: <20210517123239.8025-1-steven.price@arm.com>
+ <20210517123239.8025-8-steven.price@arm.com> <87sg2ltexj.wl-maz@kernel.org>
+From: Steven Price <steven.price@arm.com>
+Message-ID: <5c0f6cd7-5f2d-de5b-f057-f3b307cb9416@arm.com>
+Date: Wed, 19 May 2021 14:51:56 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: qemu-devel@nongnu.org
-Cc: qemu-devel@nongnu.org
-Date: Wed, 19 May 2021 06:46:50 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+In-Reply-To: <87sg2ltexj.wl-maz@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=217.140.110.172;
+ envelope-from=steven.price@arm.com; helo=foss.arm.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -67,40 +58,144 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Andrew Jones <drjones@redhat.com>, Haibo Xu <Haibo.Xu@arm.com>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>, qemu-devel@nongnu.org,
+ Catalin Marinas <catalin.marinas@arm.com>, Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, linux-kernel@vger.kernel.org,
+ Dave Martin <Dave.Martin@arm.com>, James Morse <james.morse@arm.com>,
+ linux-arm-kernel@lists.infradead.org, Thomas Gleixner <tglx@linutronix.de>,
+ Will Deacon <will@kernel.org>, kvmarm@lists.cs.columbia.edu,
+ Julien Thierry <julien.thierry.kdev@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8wNzk5ZjBkZTg5YWQyNDgyNjcy
-YjVkNjFkMGRlNjFlNmViYTc4MmRhLjE2MjE0MDc5MTguZ2l0LmFsaXNoaXJAcm91dGVyaG9zdGlu
-Zy5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMgdG8gaGF2ZSBzb21lIGNvZGluZyBzdHls
-ZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IKbW9yZSBpbmZvcm1hdGlvbjoKClR5cGU6
-IHNlcmllcwpNZXNzYWdlLWlkOiAwNzk5ZjBkZTg5YWQyNDgyNjcyYjVkNjFkMGRlNjFlNmViYTc4
-MmRhLjE2MjE0MDc5MTguZ2l0LmFsaXNoaXJAcm91dGVyaG9zdGluZy5jb20KU3ViamVjdDogW1BB
-VENIXSBkb2M6IEFkZCBub3RlcyBhYm91dCAtbW9uIG9wdGlvbiBtb2RlPWNvbnRyb2wgYXJndW1l
-bnQuCgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCmdpdCByZXYtcGFyc2Ug
-YmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1l
-bGltaXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVzIFRydWUKZ2l0IGNvbmZpZyAt
-LWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhpc3RvZ3JhbQouL3NjcmlwdHMvY2hlY2twYXRjaC5wbCAt
-LW1haWxiYWNrIGJhc2UuLgo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKVXBkYXRpbmcgM2M4Y2Y1
-YTljMjFmZjg3ODIxNjRkMWRlZjdmNDRiZDg4ODcxMzM4NApTd2l0Y2hlZCB0byBhIG5ldyBicmFu
-Y2ggJ3Rlc3QnCjc3MzNlNDEgZG9jOiBBZGQgbm90ZXMgYWJvdXQgLW1vbiBvcHRpb24gbW9kZT1j
-b250cm9sIGFyZ3VtZW50LgoKPT09IE9VVFBVVCBCRUdJTiA9PT0KRVJST1I6IEF1dGhvciBlbWFp
-bCBhZGRyZXNzIGlzIG1hbmdsZWQgYnkgdGhlIG1haWxpbmcgbGlzdAojMjogCkF1dGhvcjogQWxp
-IFNoaXJ2YW5pIHZpYSA8cWVtdS1kZXZlbEBub25nbnUub3JnPgoKRVJST1I6IHRyYWlsaW5nIHdo
-aXRlc3BhY2UKIzI1OiBGSUxFOiBxZW11LW9wdGlvbnMuaHg6Mzc5MDoKKyAgICBTZXR1cCBtb25p
-dG9yIG9uIGNoYXJkZXYgbmFtZS4gYGBtb2RlPWNvbnRyb2xgYCBjb25maWd1cmVzICQKCkVSUk9S
-OiB0cmFpbGluZyB3aGl0ZXNwYWNlCiMyODogRklMRTogcWVtdS1vcHRpb25zLmh4OjM3OTM6Cisg
-ICAgYGBwcmV0dHlgYCBpcyBvbmx5IHZhbGlkIHdoZW4gYGBtb2RlPWNvbnRyb2xgYCwgJAoKdG90
-YWw6IDMgZXJyb3JzLCAwIHdhcm5pbmdzLCAxMyBsaW5lcyBjaGVja2VkCgpDb21taXQgNzczM2U0
-MTJhYjI4IChkb2M6IEFkZCBub3RlcyBhYm91dCAtbW9uIG9wdGlvbiBtb2RlPWNvbnRyb2wgYXJn
-dW1lbnQuKSBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhl
-c2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWlu
-ZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgo9PT0gT1VUUFVUIEVORCA9PT0KClRl
-c3QgY29tbWFuZCBleGl0ZWQgd2l0aCBjb2RlOiAxCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJs
-ZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8wNzk5ZjBkZTg5YWQyNDgyNjcyYjVkNjFkMGRl
-NjFlNmViYTc4MmRhLjE2MjE0MDc5MTguZ2l0LmFsaXNoaXJAcm91dGVyaG9zdGluZy5jb20vdGVz
-dGluZy5jaGVja3BhdGNoLz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21h
-dGljYWxseSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlv
-dXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
+On 17/05/2021 19:04, Marc Zyngier wrote:
+> On Mon, 17 May 2021 13:32:38 +0100,
+> Steven Price <steven.price@arm.com> wrote:
+>>
+>> The VMM may not wish to have it's own mapping of guest memory mapped
+>> with PROT_MTE because this causes problems if the VMM has tag checking
+>> enabled (the guest controls the tags in physical RAM and it's unlikely
+>> the tags are correct for the VMM).
+>>
+>> Instead add a new ioctl which allows the VMM to easily read/write the
+>> tags from guest memory, allowing the VMM's mapping to be non-PROT_MTE
+>> while the VMM can still read/write the tags for the purpose of
+>> migration.
+>>
+>> Signed-off-by: Steven Price <steven.price@arm.com>
+>> ---
+>>  arch/arm64/include/uapi/asm/kvm.h | 11 +++++
+>>  arch/arm64/kvm/arm.c              | 69 +++++++++++++++++++++++++++++++
+>>  include/uapi/linux/kvm.h          |  1 +
+>>  3 files changed, 81 insertions(+)
+>>
+>> diff --git a/arch/arm64/include/uapi/asm/kvm.h b/arch/arm64/include/uapi/asm/kvm.h
+>> index 24223adae150..b3edde68bc3e 100644
+>> --- a/arch/arm64/include/uapi/asm/kvm.h
+>> +++ b/arch/arm64/include/uapi/asm/kvm.h
+>> @@ -184,6 +184,17 @@ struct kvm_vcpu_events {
+>>  	__u32 reserved[12];
+>>  };
+>>  
+>> +struct kvm_arm_copy_mte_tags {
+>> +	__u64 guest_ipa;
+>> +	__u64 length;
+>> +	void __user *addr;
+>> +	__u64 flags;
+>> +	__u64 reserved[2];
+>> +};
+>> +
+>> +#define KVM_ARM_TAGS_TO_GUEST		0
+>> +#define KVM_ARM_TAGS_FROM_GUEST		1
+>> +
+>>  /* If you need to interpret the index values, here is the key: */
+>>  #define KVM_REG_ARM_COPROC_MASK		0x000000000FFF0000
+>>  #define KVM_REG_ARM_COPROC_SHIFT	16
+>> diff --git a/arch/arm64/kvm/arm.c b/arch/arm64/kvm/arm.c
+>> index e89a5e275e25..4b6c83beb75d 100644
+>> --- a/arch/arm64/kvm/arm.c
+>> +++ b/arch/arm64/kvm/arm.c
+>> @@ -1309,6 +1309,65 @@ static int kvm_vm_ioctl_set_device_addr(struct kvm *kvm,
+>>  	}
+>>  }
+>>  
+>> +static int kvm_vm_ioctl_mte_copy_tags(struct kvm *kvm,
+>> +				      struct kvm_arm_copy_mte_tags *copy_tags)
+>> +{
+>> +	gpa_t guest_ipa = copy_tags->guest_ipa;
+>> +	size_t length = copy_tags->length;
+>> +	void __user *tags = copy_tags->addr;
+>> +	gpa_t gfn;
+>> +	bool write = !(copy_tags->flags & KVM_ARM_TAGS_FROM_GUEST);
+>> +	int ret = 0;
+>> +
+>> +	if (copy_tags->reserved[0] || copy_tags->reserved[1])
+>> +		return -EINVAL;
+>> +
+>> +	if (copy_tags->flags & ~KVM_ARM_TAGS_FROM_GUEST)
+>> +		return -EINVAL;
+>> +
+>> +	if (length & ~PAGE_MASK || guest_ipa & ~PAGE_MASK)
+>> +		return -EINVAL;
+>> +
+>> +	gfn = gpa_to_gfn(guest_ipa);
+>> +
+>> +	mutex_lock(&kvm->slots_lock);
+>> +
+>> +	while (length > 0) {
+>> +		kvm_pfn_t pfn = gfn_to_pfn_prot(kvm, gfn, write, NULL);
+>> +		void *maddr;
+>> +		unsigned long num_tags = PAGE_SIZE / MTE_GRANULE_SIZE;
+> 
+> nit: this is a compile time constant, make it a #define. This will
+> avoid the confusing overloading of "num_tags" as both an input and an
+> output for the mte_copy_tags-* functions.
+
+No problem, I agree my usage of num_tags wasn't very clear.
+
+>> +
+>> +		if (is_error_noslot_pfn(pfn)) {
+>> +			ret = -EFAULT;
+>> +			goto out;
+>> +		}
+>> +
+>> +		maddr = page_address(pfn_to_page(pfn));
+>> +
+>> +		if (!write) {
+>> +			num_tags = mte_copy_tags_to_user(tags, maddr, num_tags);
+>> +			kvm_release_pfn_clean(pfn);
+>> +		} else {
+>> +			num_tags = mte_copy_tags_from_user(maddr, tags,
+>> +							   num_tags);
+>> +			kvm_release_pfn_dirty(pfn);
+>> +		}
+>> +
+>> +		if (num_tags != PAGE_SIZE / MTE_GRANULE_SIZE) {
+>> +			ret = -EFAULT;
+>> +			goto out;
+>> +		}
+>> +
+>> +		gfn++;
+>> +		tags += num_tags;
+>> +		length -= PAGE_SIZE;
+>> +	}
+>> +
+>> +out:
+>> +	mutex_unlock(&kvm->slots_lock);
+>> +	return ret;
+>> +}
+>> +
+> 
+> nit again: I'd really prefer it if you moved this to guest.c, where we
+> already have a bunch of the save/restore stuff.
+
+Sure - I'll move it across.
+
+Thanks,
+
+Steve
 
