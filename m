@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B56EA3896A7
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 21:28:06 +0200 (CEST)
-Received: from localhost ([::1]:42080 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93320389650
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 21:11:36 +0200 (CEST)
+Received: from localhost ([::1]:44324 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljRrR-0007gy-Nf
-	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 15:28:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55358)
+	id 1ljRbT-0003Cv-Gt
+	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 15:11:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55390)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ljR7H-00064m-T0
- for qemu-devel@nongnu.org; Wed, 19 May 2021 14:40:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25722)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ljR7K-00067g-C0
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 14:40:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47750)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ljR77-00025A-Bl
- for qemu-devel@nongnu.org; Wed, 19 May 2021 14:40:23 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ljR78-00025M-Fl
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 14:40:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621449612;
+ s=mimecast20190719; t=1621449613;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5Won4SmCvj7mYBAtSANGNEVYeQbkzdlBm3wPfV06Ta4=;
- b=DAdU2Jt/x58Qu1xw985/I6rZvB42ZzVSfUzzQy4OzRr9GeqlmHXTDDidMvH3MFvjYP4+2R
- eIlk0lywq6dfM6HY2/Mv0IEEki7efRh/Mj/7tqRTDdj8RR8uqp7pN+9EZboNBBlZi6UOUF
- QGjLjwvx/258q2YH2dXr1KaknLFpUMc=
+ bh=CaB/dKZi3LA71EToFZxutHlVaVmHVneNDElkORGEuDI=;
+ b=KAafdv6YT6iX8KBxZC2a9+Uujy5tshozp9/CU77t/tl2lVhG53Bqj42IDCnM6dxyNbf10t
+ UdglRpSa/Uf0b5+FMnuUPns/YyGXFRmjMCBQZ6sSt0+oEQz9krhdJXuRF55GoYubhdHB9p
+ moiRj/y1cr9T5+gkAVCcHrh8bd8QZ4Y=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-173-qm4z5I1QOxyxnI7Cl7jRnw-1; Wed, 19 May 2021 14:40:09 -0400
-X-MC-Unique: qm4z5I1QOxyxnI7Cl7jRnw-1
+ us-mta-303-zSc9SlF5OsGj90YO8vgqzw-1; Wed, 19 May 2021 14:40:10 -0400
+X-MC-Unique: zSc9SlF5OsGj90YO8vgqzw-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 416411007477;
- Wed, 19 May 2021 18:40:08 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 74858501E8;
+ Wed, 19 May 2021 18:40:09 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-117-64.rdu2.redhat.com [10.10.117.64])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 88EC450FA2;
- Wed, 19 May 2021 18:40:07 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 67F6D50FA2;
+ Wed, 19 May 2021 18:40:08 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 11/15] qapi/parser: Rework _check_pragma_list_of_str as a
- TypeGuard
-Date: Wed, 19 May 2021 14:39:47 -0400
-Message-Id: <20210519183951.3946870-12-jsnow@redhat.com>
+Subject: [PATCH v3 12/15] qapi/parser: add type hint annotations
+Date: Wed, 19 May 2021 14:39:48 -0400
+Message-Id: <20210519183951.3946870-13-jsnow@redhat.com>
 In-Reply-To: <20210519183951.3946870-1-jsnow@redhat.com>
 References: <20210519183951.3946870-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -83,91 +82,175 @@ Cc: Michael Roth <michael.roth@amd.com>, Cleber Rosa <crosa@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-TypeGuards wont exist in Python proper until 3.10. Ah well. We can hack
-up our own by declaring this function to return the type we claim it
-checks for and using this to safely downcast object -> List[str].
+Annotations do not change runtime behavior.
+This commit *only* adds annotations.
 
-In so doing, I bring this function under _pragma so it can use the
-'info' object in its closure. Having done this, _pragma also now no
-longer needs to take a 'self' parameter, so drop it.
-
-To help with line-length, and with the context evident from its new
-scope, rename the function to the shorter check_list_str().
-
-Signed-off-by: John Snow <jsnow@redhat.com>
-
----
-
-I left (name, value) as args to avoid creating a fully magic "macro",
-because this looked simply too weird:
-
-    info.pragma.foobar = check_list_str()
-
-and it looked more reasonable as:
-
-    info.pragma.foobar = check_list_str(name, value)
+(Annotations for QAPIDoc are in a forthcoming commit.)
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qapi/parser.py | 30 ++++++++++++++++--------------
- 1 file changed, 16 insertions(+), 14 deletions(-)
+ scripts/qapi/parser.py | 58 +++++++++++++++++++++++++++---------------
+ 1 file changed, 38 insertions(+), 20 deletions(-)
 
 diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
-index 9f980f75139..8a58e1228f0 100644
+index 8a58e1228f0..419e36c8702 100644
 --- a/scripts/qapi/parser.py
 +++ b/scripts/qapi/parser.py
-@@ -17,6 +17,7 @@
+@@ -17,16 +17,26 @@
  from collections import OrderedDict
  import os
  import re
-+from typing import List
+-from typing import List
++from typing import (
++    Dict,
++    List,
++    Optional,
++    Set,
++    Union,
++)
  
  from .common import must_match
  from .error import QAPISemError, QAPISourceError
-@@ -154,28 +155,29 @@ def _include(include, info, incl_fname, previously_included):
+ from .source import QAPISourceInfo
+ 
+ 
++# Return value alias for get_expr().
++_ExprValue = Union[List[object], Dict[str, object], str, bool]
++
++
+ class QAPIParseError(QAPISourceError):
+     """Error class for all QAPI schema parsing errors."""
+-    def __init__(self, parser, msg):
++    def __init__(self, parser: 'QAPISchemaParser', msg: str):
+         col = 1
+         for ch in parser.src[parser.line_pos:parser.pos]:
+             if ch == '\t':
+@@ -38,7 +48,10 @@ def __init__(self, parser, msg):
+ 
+ class QAPISchemaParser:
+ 
+-    def __init__(self, fname, previously_included=None, incl_info=None):
++    def __init__(self,
++                 fname: str,
++                 previously_included: Optional[Set[str]] = None,
++                 incl_info: Optional[QAPISourceInfo] = None):
+         self._fname = fname
+         self._included = previously_included or set()
+         self._included.add(os.path.abspath(self._fname))
+@@ -46,20 +59,20 @@ def __init__(self, fname, previously_included=None, incl_info=None):
+ 
+         # Lexer state (see `accept` for details):
+         self.info = QAPISourceInfo(self._fname, incl_info)
+-        self.tok = None
++        self.tok: Union[None, str] = None
+         self.pos = 0
+         self.cursor = 0
+-        self.val = None
++        self.val: Optional[Union[bool, str]] = None
+         self.line_pos = 0
+ 
+         # Parser output:
+-        self.exprs = []
+-        self.docs = []
++        self.exprs: List[Dict[str, object]] = []
++        self.docs: List[QAPIDoc] = []
+ 
+         # Showtime!
+         self._parse()
+ 
+-    def _parse(self):
++    def _parse(self) -> None:
+         cur_doc = None
+ 
+         # May raise OSError; allow the caller to handle it.
+@@ -125,7 +138,7 @@ def _parse(self):
+         self.reject_expr_doc(cur_doc)
+ 
+     @staticmethod
+-    def reject_expr_doc(doc):
++    def reject_expr_doc(doc: Optional['QAPIDoc']) -> None:
+         if doc and doc.symbol:
+             raise QAPISemError(
+                 doc.info,
+@@ -133,10 +146,14 @@ def reject_expr_doc(doc):
+                 % doc.symbol)
+ 
+     @staticmethod
+-    def _include(include, info, incl_fname, previously_included):
++    def _include(include: str,
++                 info: QAPISourceInfo,
++                 incl_fname: str,
++                 previously_included: Set[str]
++                 ) -> Optional['QAPISchemaParser']:
+         incl_abs_fname = os.path.abspath(incl_fname)
+         # catch inclusion cycle
+-        inf = info
++        inf: Optional[QAPISourceInfo] = info
+         while inf:
+             if incl_abs_fname == os.path.abspath(inf.fname):
+                 raise QAPISemError(info, "inclusion loop for %s" % include)
+@@ -155,9 +172,9 @@ def _include(include, info, incl_fname, previously_included):
              ) from err
  
      @staticmethod
--    def _check_pragma_list_of_str(name, value, info):
--        if (not isinstance(value, list)
--                or any([not isinstance(elt, str) for elt in value])):
--            raise QAPISemError(
--                info,
--                "pragma %s must be a list of strings" % name)
-+    def _pragma(name, value, info):
-+
-+        def check_list_str(name, value) -> List[str]:
-+            if (not isinstance(value, list) or
-+                    any([not isinstance(elt, str) for elt in value])):
-+                raise QAPISemError(
-+                    info,
-+                    "pragma %s must be a list of strings" % name)
-+            return value
-+
-+        pragma = info.pragma
+-    def _pragma(name, value, info):
++    def _pragma(name: str, value: object, info: QAPISourceInfo) -> None:
  
--    def _pragma(self, name, value, info):
-         if name == 'doc-required':
-             if not isinstance(value, bool):
-                 raise QAPISemError(info,
-                                    "pragma 'doc-required' must be boolean")
--            info.pragma.doc_required = value
-+            pragma.doc_required = value
-         elif name == 'command-name-exceptions':
--            self._check_pragma_list_of_str(name, value, info)
--            info.pragma.command_name_exceptions = value
-+            pragma.command_name_exceptions = check_list_str(name, value)
-         elif name == 'command-returns-exceptions':
--            self._check_pragma_list_of_str(name, value, info)
--            info.pragma.command_returns_exceptions = value
-+            pragma.command_returns_exceptions = check_list_str(name, value)
-         elif name == 'member-name-exceptions':
--            self._check_pragma_list_of_str(name, value, info)
--            info.pragma.member_name_exceptions = value
-+            pragma.member_name_exceptions = check_list_str(name, value)
+-        def check_list_str(name, value) -> List[str]:
++        def check_list_str(name: str, value: object) -> List[str]:
+             if (not isinstance(value, list) or
+                     any([not isinstance(elt, str) for elt in value])):
+                 raise QAPISemError(
+@@ -181,7 +198,7 @@ def check_list_str(name, value) -> List[str]:
          else:
              raise QAPISemError(info, "unknown pragma '%s'" % name)
  
+-    def accept(self, skip_comment=True):
++    def accept(self, skip_comment: bool = True) -> None:
+         while True:
+             self.tok = self.src[self.cursor]
+             self.pos = self.cursor
+@@ -245,8 +262,8 @@ def accept(self, skip_comment=True):
+                                    self.src[self.cursor-1:])
+                 raise QAPIParseError(self, "stray '%s'" % match.group(0))
+ 
+-    def get_members(self):
+-        expr = OrderedDict()
++    def get_members(self) -> Dict[str, object]:
++        expr: Dict[str, object] = OrderedDict()
+         if self.tok == '}':
+             self.accept()
+             return expr
+@@ -272,8 +289,8 @@ def get_members(self):
+             if self.tok != "'":
+                 raise QAPIParseError(self, "expected string")
+ 
+-    def get_values(self):
+-        expr = []
++    def get_values(self) -> List[object]:
++        expr: List[object] = []
+         if self.tok == ']':
+             self.accept()
+             return expr
+@@ -289,7 +306,8 @@ def get_values(self):
+                 raise QAPIParseError(self, "expected ',' or ']'")
+             self.accept()
+ 
+-    def get_expr(self):
++    def get_expr(self) -> _ExprValue:
++        expr: _ExprValue
+         if self.tok == '{':
+             self.accept()
+             expr = self.get_members()
+@@ -305,7 +323,7 @@ def get_expr(self):
+                 self, "expected '{', '[', string, or boolean")
+         return expr
+ 
+-    def get_doc(self, info):
++    def get_doc(self, info: QAPISourceInfo) -> List['QAPIDoc']:
+         if self.val != '##':
+             raise QAPIParseError(
+                 self, "junk after '##' at start of documentation comment")
 -- 
 2.30.2
 
