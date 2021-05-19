@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F22C389459
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 19:03:57 +0200 (CEST)
-Received: from localhost ([::1]:55750 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D08EB389460
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 19:05:09 +0200 (CEST)
+Received: from localhost ([::1]:60096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljPbw-0003Ef-9U
-	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 13:03:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36178)
+	id 1ljPd6-0006Bd-So
+	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 13:05:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36204)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ljPA3-00037E-0f
- for qemu-devel@nongnu.org; Wed, 19 May 2021 12:35:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22754)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ljPA9-0003Cx-MK
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 12:35:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32686)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ljP9z-0006vK-Cg
- for qemu-devel@nongnu.org; Wed, 19 May 2021 12:35:06 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ljPA3-0006wu-HJ
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 12:35:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621442102;
+ s=mimecast20190719; t=1621442106;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zQBaPB2rPx7zwmJ2L9PvToDExIoXxeF+Eyck4rA2oM0=;
- b=bhihmjEsJnbtjKgQedAaL8S4bGXe1nyyPfhZSfsKdDML6K5gdLcWYroxJMVRMPAyJk/iSs
- xXnz37shzXLFziNWQEvE361LfutGFf8jyT4K7PZnTmMduaTSjM2JwtHsdQuWOfBSbx94ku
- ANHQOOb1MTYlGlBk2Y4ms9vvAKVCOIk=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-405-_1BUL7g8N1O83g4dfRfSKw-1; Wed, 19 May 2021 12:35:00 -0400
-X-MC-Unique: _1BUL7g8N1O83g4dfRfSKw-1
-Received: by mail-wm1-f72.google.com with SMTP id
- r15-20020a05600c35cfb029017373d9f318so829936wmq.4
- for <qemu-devel@nongnu.org>; Wed, 19 May 2021 09:35:00 -0700 (PDT)
+ bh=ntuPDGRvSJUugCXT9BaH6p28w2jINXWjbJZ/rFQ7At4=;
+ b=RgnB+ttxrQlZQguKLXLG671MWn/PiXTK6uisg+bKWdPokfGR3/WgJvcbMyqEjzeAOfoOz/
+ UVRbyA/3i7ltgRPAlkwTj4Lw0r8ULXNCE5axij3uuRzW1dZqTwbNLdxwwVIi0PR6JO2O90
+ /6GxjmzQC0Eq5XtndeBZY6E0VGhe3QU=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-200-vmwCO-9XNjOyMVPpRUY6Jg-1; Wed, 19 May 2021 12:35:05 -0400
+X-MC-Unique: vmwCO-9XNjOyMVPpRUY6Jg-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ i15-20020a5d558f0000b029011215b1cf5cso1009674wrv.22
+ for <qemu-devel@nongnu.org>; Wed, 19 May 2021 09:35:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=zQBaPB2rPx7zwmJ2L9PvToDExIoXxeF+Eyck4rA2oM0=;
- b=D/k60l9N6+eR1cyZq2S2/jYaP8HDXT3s6S8qbQCt8kPnKf1DXXEJwA4bUQ/FlnNzfT
- Fcl718PMoHaxBszVvQcPGHvF5aVQIRrEDkLV1hoBnhxGx5N6ce7HN3AqFOjfHkj+nIC1
- R/ai/O5OAOGMo32MxU6QtyosrhntGuP+YnQEDRGt3AIwSbm9uz/kEeMegEaAL8oMc3++
- he942bTlTHIfeiXIsOuI3iTq1TlePUrHGWp1ju9+NYlirBExrMRfAVX46GDtuzrqTIFC
- oE0gTTGEBWY7xrerBvAaxZxAdBEI69Ypj6Yuy8YbaDRif5UKzEUSmtgO4vDRc2TW+f8m
- Al+w==
-X-Gm-Message-State: AOAM5325MJK7TSz8un81oLbZnpQYFAr8rhHdlzs6+g6rkFNucuULcW4J
- OuKE7/1kjQ7Oi5MyaWDuP3hojMDGN95RLkVK1gprN20kEmB0vAsN8zCcNq4I7kxdy98xA7pSWkN
- FuYZQvpD3EfTo3+g=
-X-Received: by 2002:a05:6000:244:: with SMTP id
- m4mr15692482wrz.225.1621442099154; 
- Wed, 19 May 2021 09:34:59 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJywwJOety9/DBSOSzzTvYDzInt8nSuOZZrF0A9b3n1kH6PiHULNuMGh/KNuFa2lyQsxUq0leQ==
-X-Received: by 2002:a05:6000:244:: with SMTP id
- m4mr15692468wrz.225.1621442099047; 
- Wed, 19 May 2021 09:34:59 -0700 (PDT)
+ bh=ntuPDGRvSJUugCXT9BaH6p28w2jINXWjbJZ/rFQ7At4=;
+ b=NUIYnAUz9PoAiwuBBu9GQDGQGNvDNeLCEb29M1nB6wnUg441+gYkfhEqNcl9+9ZwLw
+ o/Lk50ph3e7QAsiKh1Gat4GDLXkNUdSOm2WcWZ3r25v2m2ZRBF5OxYXfAn+5m96YRCMy
+ 22SQP1yifNYutxRNGK0RvaNZgylA/5vuS0ryxgyrmUUPdjsvv88zqbl2AqwrUluX542z
+ KAl/K4inIn6sABF/Q0A5lIQNN70t4+2s0OVh0Pz0wZpcqYBJvaaV6j4aJPjL9xAjAgL+
+ nj7xfF9LXg7L8K+8kb8U06KofWsk1IPTwJ2Qfjg2S7paJkELTjjgtLQlY/YJd7bF70G1
+ Lvqg==
+X-Gm-Message-State: AOAM533+wiRMWcztriMredhjyRZuZ8LgcQI27fRswXDpv7gq433LpsQp
+ yQvibZZhEyP/hA1Bek+xfwQBVs4yvCrLBpEfGn6IL0wRsF9DUncKfqH3YazJ13K9UsaLgQYJ55/
+ +BHeUlSpVNCCWQB4=
+X-Received: by 2002:adf:ffd2:: with SMTP id x18mr15750396wrs.144.1621442103883; 
+ Wed, 19 May 2021 09:35:03 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwaoIhbBdx083mlCjCuEXvdrUx1jFwCg5fNYku2rm0+TLo5EKeLr2qml/Hawtsnb4zohjLd8g==
+X-Received: by 2002:adf:ffd2:: with SMTP id x18mr15750357wrs.144.1621442103623; 
+ Wed, 19 May 2021 09:35:03 -0700 (PDT)
 Received: from x1w.redhat.com (31.red-83-51-215.dynamicip.rima-tde.net.
  [83.51.215.31])
- by smtp.gmail.com with ESMTPSA id b8sm27015076wrx.15.2021.05.19.09.34.58
+ by smtp.gmail.com with ESMTPSA id n129sm1401wma.19.2021.05.19.09.35.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 May 2021 09:34:58 -0700 (PDT)
+ Wed, 19 May 2021 09:35:03 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: John Snow <jsnow@redhat.com>,
 	qemu-devel@nongnu.org
-Subject: [PATCH v6 2/5] hw/block/fdc: Replace disabled fprintf() by trace event
-Date: Wed, 19 May 2021 18:34:45 +0200
-Message-Id: <20210519163448.2154339-3-philmd@redhat.com>
+Subject: [PATCH v6 3/5] hw/block/fdc: Declare shared prototypes in
+ fdc-internal.h
+Date: Wed, 19 May 2021 18:34:46 +0200
+Message-Id: <20210519163448.2154339-4-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210519163448.2154339-1-philmd@redhat.com>
 References: <20210519163448.2154339-1-philmd@redhat.com>
@@ -76,7 +75,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -102,45 +101,429 @@ Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reviewed-by: John Snow <jsnow@redhat.com>
+We want to extract ISA/SysBus code from the generic fdc.c file.
+First, declare the prototypes we will access from the new units
+into a new local header: "fdc-internal.h".
+
 Acked-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- hw/block/fdc.c        | 7 +------
- hw/block/trace-events | 1 +
- 2 files changed, 2 insertions(+), 6 deletions(-)
+ hw/block/fdc-internal.h | 158 ++++++++++++++++++++++++++++++++++++++++
+ hw/block/fdc.c          | 131 +++------------------------------
+ MAINTAINERS             |   1 +
+ 3 files changed, 168 insertions(+), 122 deletions(-)
+ create mode 100644 hw/block/fdc-internal.h
 
+diff --git a/hw/block/fdc-internal.h b/hw/block/fdc-internal.h
+new file mode 100644
+index 00000000000..036392e9fc1
+--- /dev/null
++++ b/hw/block/fdc-internal.h
+@@ -0,0 +1,158 @@
++/*
++ * QEMU Floppy disk emulator (Intel 82078)
++ *
++ * Copyright (c) 2003, 2007 Jocelyn Mayer
++ * Copyright (c) 2008 Hervé Poussineau
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a copy
++ * of this software and associated documentation files (the "Software"), to deal
++ * in the Software without restriction, including without limitation the rights
++ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++ * copies of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be included in
++ * all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
++ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++ * THE SOFTWARE.
++ */
++#ifndef HW_BLOCK_FDC_INTERNAL_H
++#define HW_BLOCK_FDC_INTERNAL_H
++
++#include "exec/memory.h"
++#include "exec/ioport.h"
++#include "hw/block/block.h"
++#include "hw/block/fdc.h"
++#include "qapi/qapi-types-block.h"
++
++typedef struct FDCtrl FDCtrl;
++
++/* Floppy bus emulation */
++
++typedef struct FloppyBus {
++    BusState bus;
++    FDCtrl *fdc;
++} FloppyBus;
++
++/* Floppy disk drive emulation */
++
++typedef enum FDriveRate {
++    FDRIVE_RATE_500K = 0x00,  /* 500 Kbps */
++    FDRIVE_RATE_300K = 0x01,  /* 300 Kbps */
++    FDRIVE_RATE_250K = 0x02,  /* 250 Kbps */
++    FDRIVE_RATE_1M   = 0x03,  /*   1 Mbps */
++} FDriveRate;
++
++typedef enum FDriveSize {
++    FDRIVE_SIZE_UNKNOWN,
++    FDRIVE_SIZE_350,
++    FDRIVE_SIZE_525,
++} FDriveSize;
++
++typedef struct FDFormat {
++    FloppyDriveType drive;
++    uint8_t last_sect;
++    uint8_t max_track;
++    uint8_t max_head;
++    FDriveRate rate;
++} FDFormat;
++
++typedef enum FDiskFlags {
++    FDISK_DBL_SIDES  = 0x01,
++} FDiskFlags;
++
++typedef struct FDrive {
++    FDCtrl *fdctrl;
++    BlockBackend *blk;
++    BlockConf *conf;
++    /* Drive status */
++    FloppyDriveType drive;    /* CMOS drive type        */
++    uint8_t perpendicular;    /* 2.88 MB access mode    */
++    /* Position */
++    uint8_t head;
++    uint8_t track;
++    uint8_t sect;
++    /* Media */
++    FloppyDriveType disk;     /* Current disk type      */
++    FDiskFlags flags;
++    uint8_t last_sect;        /* Nb sector per track    */
++    uint8_t max_track;        /* Nb of tracks           */
++    uint16_t bps;             /* Bytes per sector       */
++    uint8_t ro;               /* Is read-only           */
++    uint8_t media_changed;    /* Is media changed       */
++    uint8_t media_rate;       /* Data rate of medium    */
++
++    bool media_validated;     /* Have we validated the media? */
++} FDrive;
++
++struct FDCtrl {
++    MemoryRegion iomem;
++    qemu_irq irq;
++    /* Controller state */
++    QEMUTimer *result_timer;
++    int dma_chann;
++    uint8_t phase;
++    IsaDma *dma;
++    /* Controller's identification */
++    uint8_t version;
++    /* HW */
++    uint8_t sra;
++    uint8_t srb;
++    uint8_t dor;
++    uint8_t dor_vmstate; /* only used as temp during vmstate */
++    uint8_t tdr;
++    uint8_t dsr;
++    uint8_t msr;
++    uint8_t cur_drv;
++    uint8_t status0;
++    uint8_t status1;
++    uint8_t status2;
++    /* Command FIFO */
++    uint8_t *fifo;
++    int32_t fifo_size;
++    uint32_t data_pos;
++    uint32_t data_len;
++    uint8_t data_state;
++    uint8_t data_dir;
++    uint8_t eot; /* last wanted sector */
++    /* States kept only to be returned back */
++    /* precompensation */
++    uint8_t precomp_trk;
++    uint8_t config;
++    uint8_t lock;
++    /* Power down config (also with status regB access mode */
++    uint8_t pwrd;
++    /* Floppy drives */
++    FloppyBus bus;
++    uint8_t num_floppies;
++    FDrive drives[MAX_FD];
++    struct {
++        FloppyDriveType type;
++    } qdev_for_drives[MAX_FD];
++    int reset_sensei;
++    FloppyDriveType fallback; /* type=auto failure fallback */
++    /* Timers state */
++    uint8_t timer0;
++    uint8_t timer1;
++    PortioList portio_list;
++};
++
++extern const FDFormat fd_formats[];
++extern const VMStateDescription vmstate_fdc;
++
++uint32_t fdctrl_read(void *opaque, uint32_t reg);
++void fdctrl_write(void *opaque, uint32_t reg, uint32_t value);
++void fdctrl_reset(FDCtrl *fdctrl, int do_irq);
++void fdctrl_realize_common(DeviceState *dev, FDCtrl *fdctrl, Error **errp);
++
++int fdctrl_transfer_handler(void *opaque, int nchan, int dma_pos, int dma_len);
++
++void fdctrl_init_drives(FloppyBus *bus, DriveInfo **fds);
++
++#endif
 diff --git a/hw/block/fdc.c b/hw/block/fdc.c
-index a825c2acbae..1d3a0473678 100644
+index 1d3a0473678..20ddeb98d83 100644
 --- a/hw/block/fdc.c
 +++ b/hw/block/fdc.c
-@@ -1242,12 +1242,7 @@ static void fdctrl_external_reset_isa(DeviceState *d)
+@@ -48,6 +48,7 @@
+ #include "qemu/module.h"
+ #include "trace.h"
+ #include "qom/object.h"
++#include "fdc-internal.h"
  
- static void fdctrl_handle_tc(void *opaque, int irq, int level)
- {
--    //FDCtrl *s = opaque;
+ /********************************************************/
+ /* debug Floppy devices */
+@@ -68,15 +69,8 @@
+ #define TYPE_FLOPPY_BUS "floppy-bus"
+ OBJECT_DECLARE_SIMPLE_TYPE(FloppyBus, FLOPPY_BUS)
+ 
+-typedef struct FDCtrl FDCtrl;
+-typedef struct FDrive FDrive;
+ static FDrive *get_drv(FDCtrl *fdctrl, int unit);
+ 
+-struct FloppyBus {
+-    BusState bus;
+-    FDCtrl *fdc;
+-};
 -
--    if (level) {
--        // XXX
--        FLOPPY_DPRINTF("TC pulsed\n");
--    }
-+    trace_fdctrl_tc_pulse(level);
+ static const TypeInfo floppy_bus_info = {
+     .name = TYPE_FLOPPY_BUS,
+     .parent = TYPE_BUS,
+@@ -93,32 +87,11 @@ static void floppy_bus_create(FDCtrl *fdc, FloppyBus *bus, DeviceState *dev)
+ /********************************************************/
+ /* Floppy drive emulation                               */
+ 
+-typedef enum FDriveRate {
+-    FDRIVE_RATE_500K = 0x00,  /* 500 Kbps */
+-    FDRIVE_RATE_300K = 0x01,  /* 300 Kbps */
+-    FDRIVE_RATE_250K = 0x02,  /* 250 Kbps */
+-    FDRIVE_RATE_1M   = 0x03,  /*   1 Mbps */
+-} FDriveRate;
+-
+-typedef enum FDriveSize {
+-    FDRIVE_SIZE_UNKNOWN,
+-    FDRIVE_SIZE_350,
+-    FDRIVE_SIZE_525,
+-} FDriveSize;
+-
+-typedef struct FDFormat {
+-    FloppyDriveType drive;
+-    uint8_t last_sect;
+-    uint8_t max_track;
+-    uint8_t max_head;
+-    FDriveRate rate;
+-} FDFormat;
+-
+ /* In many cases, the total sector size of a format is enough to uniquely
+  * identify it. However, there are some total sector collisions between
+  * formats of different physical size, and these are noted below by
+  * highlighting the total sector size for entries with collisions. */
+-static const FDFormat fd_formats[] = {
++const FDFormat fd_formats[] = {
+     /* First entry is default format */
+     /* 1.44 MB 3"1/2 floppy disks */
+     { FLOPPY_DRIVE_TYPE_144, 18, 80, 1, FDRIVE_RATE_500K, }, /* 3.5" 2880 */
+@@ -186,35 +159,6 @@ static FDriveSize drive_size(FloppyDriveType drive)
+ #define FD_SECTOR_SC           2   /* Sector size code */
+ #define FD_RESET_SENSEI_COUNT  4   /* Number of sense interrupts on RESET */
+ 
+-/* Floppy disk drive emulation */
+-typedef enum FDiskFlags {
+-    FDISK_DBL_SIDES  = 0x01,
+-} FDiskFlags;
+-
+-struct FDrive {
+-    FDCtrl *fdctrl;
+-    BlockBackend *blk;
+-    BlockConf *conf;
+-    /* Drive status */
+-    FloppyDriveType drive;    /* CMOS drive type        */
+-    uint8_t perpendicular;    /* 2.88 MB access mode    */
+-    /* Position */
+-    uint8_t head;
+-    uint8_t track;
+-    uint8_t sect;
+-    /* Media */
+-    FloppyDriveType disk;     /* Current disk type      */
+-    FDiskFlags flags;
+-    uint8_t last_sect;        /* Nb sector per track    */
+-    uint8_t max_track;        /* Nb of tracks           */
+-    uint16_t bps;             /* Bytes per sector       */
+-    uint8_t ro;               /* Is read-only           */
+-    uint8_t media_changed;    /* Is media changed       */
+-    uint8_t media_rate;       /* Data rate of medium    */
+-
+-    bool media_validated;     /* Have we validated the media? */
+-};
+-
+ 
+ static FloppyDriveType get_fallback_drive_type(FDrive *drv);
+ 
+@@ -626,10 +570,7 @@ static const TypeInfo floppy_drive_info = {
+ /********************************************************/
+ /* Intel 82078 floppy disk controller emulation          */
+ 
+-static void fdctrl_reset(FDCtrl *fdctrl, int do_irq);
+ static void fdctrl_to_command_phase(FDCtrl *fdctrl);
+-static int fdctrl_transfer_handler (void *opaque, int nchan,
+-                                    int dma_pos, int dma_len);
+ static void fdctrl_raise_irq(FDCtrl *fdctrl);
+ static FDrive *get_cur_drv(FDCtrl *fdctrl);
+ 
+@@ -828,58 +769,6 @@ enum {
+ #define FD_MULTI_TRACK(state) ((state) & FD_STATE_MULTI)
+ #define FD_FORMAT_CMD(state) ((state) & FD_STATE_FORMAT)
+ 
+-struct FDCtrl {
+-    MemoryRegion iomem;
+-    qemu_irq irq;
+-    /* Controller state */
+-    QEMUTimer *result_timer;
+-    int dma_chann;
+-    uint8_t phase;
+-    IsaDma *dma;
+-    /* Controller's identification */
+-    uint8_t version;
+-    /* HW */
+-    uint8_t sra;
+-    uint8_t srb;
+-    uint8_t dor;
+-    uint8_t dor_vmstate; /* only used as temp during vmstate */
+-    uint8_t tdr;
+-    uint8_t dsr;
+-    uint8_t msr;
+-    uint8_t cur_drv;
+-    uint8_t status0;
+-    uint8_t status1;
+-    uint8_t status2;
+-    /* Command FIFO */
+-    uint8_t *fifo;
+-    int32_t fifo_size;
+-    uint32_t data_pos;
+-    uint32_t data_len;
+-    uint8_t data_state;
+-    uint8_t data_dir;
+-    uint8_t eot; /* last wanted sector */
+-    /* States kept only to be returned back */
+-    /* precompensation */
+-    uint8_t precomp_trk;
+-    uint8_t config;
+-    uint8_t lock;
+-    /* Power down config (also with status regB access mode */
+-    uint8_t pwrd;
+-    /* Floppy drives */
+-    FloppyBus bus;
+-    uint8_t num_floppies;
+-    FDrive drives[MAX_FD];
+-    struct {
+-        FloppyDriveType type;
+-    } qdev_for_drives[MAX_FD];
+-    int reset_sensei;
+-    FloppyDriveType fallback; /* type=auto failure fallback */
+-    /* Timers state */
+-    uint8_t timer0;
+-    uint8_t timer1;
+-    PortioList portio_list;
+-};
+-
+ static FloppyDriveType get_fallback_drive_type(FDrive *drv)
+ {
+     return drv->fdctrl->fallback;
+@@ -909,7 +798,7 @@ struct FDCtrlISABus {
+     int32_t bootindexB;
+ };
+ 
+-static uint32_t fdctrl_read (void *opaque, uint32_t reg)
++uint32_t fdctrl_read(void *opaque, uint32_t reg)
+ {
+     FDCtrl *fdctrl = opaque;
+     uint32_t retval;
+@@ -946,7 +835,7 @@ static uint32_t fdctrl_read (void *opaque, uint32_t reg)
+     return retval;
  }
  
- /* Change IRQ state */
-diff --git a/hw/block/trace-events b/hw/block/trace-events
-index 646917d045f..7b26fc738f0 100644
---- a/hw/block/trace-events
-+++ b/hw/block/trace-events
-@@ -3,6 +3,7 @@
- # fdc.c
- fdc_ioport_read(uint8_t reg, uint8_t value) "read reg 0x%02x val 0x%02x"
- fdc_ioport_write(uint8_t reg, uint8_t value) "write reg 0x%02x val 0x%02x"
-+fdctrl_tc_pulse(int level) "TC pulse: %u"
+-static void fdctrl_write (void *opaque, uint32_t reg, uint32_t value)
++void fdctrl_write(void *opaque, uint32_t reg, uint32_t value)
+ {
+     FDCtrl *fdctrl = opaque;
  
- # pflash_cfi01.c
- # pflash_cfi02.c
+@@ -1178,7 +1067,7 @@ static const VMStateDescription vmstate_fdc_phase = {
+     }
+ };
+ 
+-static const VMStateDescription vmstate_fdc = {
++const VMStateDescription vmstate_fdc = {
+     .name = "fdc",
+     .version_id = 2,
+     .minimum_version_id = 2,
+@@ -1268,7 +1157,7 @@ static void fdctrl_raise_irq(FDCtrl *fdctrl)
+ }
+ 
+ /* Reset controller */
+-static void fdctrl_reset(FDCtrl *fdctrl, int do_irq)
++void fdctrl_reset(FDCtrl *fdctrl, int do_irq)
+ {
+     int i;
+ 
+@@ -1747,8 +1636,7 @@ static void fdctrl_start_transfer_del(FDCtrl *fdctrl, int direction)
+ }
+ 
+ /* handlers for DMA transfers */
+-static int fdctrl_transfer_handler (void *opaque, int nchan,
+-                                    int dma_pos, int dma_len)
++int fdctrl_transfer_handler(void *opaque, int nchan, int dma_pos, int dma_len)
+ {
+     FDCtrl *fdctrl;
+     FDrive *cur_drv;
+@@ -2484,7 +2372,7 @@ static void fdctrl_result_timer(void *opaque)
+ 
+ /* Init functions */
+ 
+-static void fdctrl_init_drives(FloppyBus *bus, DriveInfo **fds)
++void fdctrl_init_drives(FloppyBus *bus, DriveInfo **fds)
+ {
+     DeviceState *dev;
+     int i;
+@@ -2542,8 +2430,7 @@ void sun4m_fdctrl_init(qemu_irq irq, hwaddr io_base,
+     fdctrl_init_drives(&sys->state.bus, fds);
+ }
+ 
+-static void fdctrl_realize_common(DeviceState *dev, FDCtrl *fdctrl,
+-                                  Error **errp)
++void fdctrl_realize_common(DeviceState *dev, FDCtrl *fdctrl, Error **errp)
+ {
+     int i, j;
+     FDrive *drive;
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 8fa85e40a52..153335e8a2e 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1659,6 +1659,7 @@ M: John Snow <jsnow@redhat.com>
+ L: qemu-block@nongnu.org
+ S: Supported
+ F: hw/block/fdc.c
++F: hw/block/fdc-internal.h
+ F: hw/block/fdc-isa-stubs.c
+ F: include/hw/block/fdc.h
+ F: tests/qtest/fdc-test.c
 -- 
 2.26.3
 
