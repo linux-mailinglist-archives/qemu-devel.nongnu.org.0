@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCA0F389654
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 21:12:43 +0200 (CEST)
-Received: from localhost ([::1]:48180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 245C6389647
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 21:10:05 +0200 (CEST)
+Received: from localhost ([::1]:39546 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljRcY-0005zk-RX
-	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 15:12:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53350)
+	id 1ljRa0-0008Jh-5N
+	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 15:10:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53326)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ljR1o-00038s-ND
- for qemu-devel@nongnu.org; Wed, 19 May 2021 14:34:44 -0400
-Received: from mail-ot1-x334.google.com ([2607:f8b0:4864:20::334]:37449)
+ id 1ljR1n-00036C-9f
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 14:34:43 -0400
+Received: from mail-ot1-x32b.google.com ([2607:f8b0:4864:20::32b]:46885)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ljR1j-0007S6-Im
- for qemu-devel@nongnu.org; Wed, 19 May 2021 14:34:44 -0400
-Received: by mail-ot1-x334.google.com with SMTP id
- v19-20020a0568301413b0290304f00e3d88so12628720otp.4
- for <qemu-devel@nongnu.org>; Wed, 19 May 2021 11:34:39 -0700 (PDT)
+ id 1ljR1k-0007UC-EX
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 14:34:43 -0400
+Received: by mail-ot1-x32b.google.com with SMTP id
+ d3-20020a9d29030000b029027e8019067fso12580135otb.13
+ for <qemu-devel@nongnu.org>; Wed, 19 May 2021 11:34:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=qnZV0wX95VAsWpNoAvBiFixvkFrekitqEJ+f9enV/uM=;
- b=tzs6fR9HuT5Ot6KIndiOlsq580qc4nj8kZdx4WwfaMk1u0obzIpr5uFCzCqTrmUfgZ
- /1AMB/5gbL4qcmfT71UL+o8uNor6i26dPgyWEr8gk7kyOyud/K9woHqCDdWba3ie/53V
- aaPgZi2CcfSMd0gsb2WdnmpLBPpNnHLHnP2GZbAY2AGlLzHGLG2rd1VOrdZ9YM6RunsD
- o+bEgJ+mEepfFGDnl9qPTrUZ1T7IMyDJeNBvYBBdlXGjDbuC1Z1b+jJT314zWw2kyBQE
- 8s8+Tp2ByvymprlJOGX8d3OzD89AFdC4UkCGxnjLuhHVwRLDvvD3RHc9X+dxYUpTrLQB
- ZTRw==
+ bh=MRsJOtWLsUiQQv1TYIL+rqHnyRD8cRIptjpT1vVaFRM=;
+ b=hfKff/cvZqQyYhkeAIFZYVsS9jheGJ5zUjL9tdJGvRPQxqG8rRivNY0kKdHwYPNlYz
+ eYSmTdUv1p8QPEHn2Pcts69iWr6CloS9aSzk929Ur9MWwKgGZNy6Ufdgrlu27MOFqFoH
+ Uw/K1fOTdaJlhbPYCI4+6STu2Oc81q1lZfv9K2RK8Flr60NTgNs+wXzH5JLLQiaweQUY
+ rtgqEklVjZi8WE10xLfC/MA+HyRsbZzt5CbdIdR52Xb7N7CnRUCEUu4xLqZpw0gLfqRf
+ J4us586YVF39c23yyEscCIW7ipKYfRIZ2arjc77ygYXr1A1Fav7g530NyjQGyDV++MRB
+ Qp6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=qnZV0wX95VAsWpNoAvBiFixvkFrekitqEJ+f9enV/uM=;
- b=nl02A+9xRMZ1LTygK+F/XTdn0JBer7iHAw65NzNKrkg2EfS7Ll70hYW+Oq0WMWWKoJ
- rnJTH6YjXZaQpQDBDChhMhnsyEw+VZYbB0ZFilcfYeSt3+NvZteoqGC9KhuYrfE0a5O8
- NPPqI6a2qVXxcy+s99Ye6T6d+uKGM87PxkyqyuxX5v28BxPUcF5BansBNf2ZrF8cYmBR
- W5N2IptMJu6EkLIAi7EIM4Vo3OcF1k/1qRfJTs7I6nWsR112x4nberLMfZycHLLX4P8P
- QnqzHzV+XTXRZXqCWoWOfTpKMrHogRW1zo53VgYixBAZ+0c/ilNdeNqnF1YnfHBLZ9+e
- WQTA==
-X-Gm-Message-State: AOAM531X3ju7lxSdiNHql1dBs5BaDPxxQE6NUOVno7fUzDjLnBeLgsIX
- MaNKiaPHFaYYxfZkYUY259fwUL5MFaBJCPuc
-X-Google-Smtp-Source: ABdhPJzTSca3sCgJjQ/pkEWghhh0ClTevByhFzdGz1woCib8ChL0SzeGOaU9W1m+H79UikUVtnEDOQ==
-X-Received: by 2002:a05:6830:33c7:: with SMTP id
- q7mr666332ott.308.1621449278475; 
- Wed, 19 May 2021 11:34:38 -0700 (PDT)
+ bh=MRsJOtWLsUiQQv1TYIL+rqHnyRD8cRIptjpT1vVaFRM=;
+ b=YHC1iUdf8c0+nsemfTwBz91j0yW/RrO7tsgL4EpI/2ANtLdi319k5/kFIZdx0LIxK4
+ X7crFAaxA7EmUWPBcI+gGxBGJbBaPYoiukNZK51T3l0+1ziCVtrLcH/o8I3Znhsig9me
+ HlS6ieI1iRvB+k6e00xVaozOWI6TLd8se9n2XeYjLGWBC1UHo0Gl4XCvI2n8McmTfn/l
+ pd3Dn7JPFd8RmA6vsbqYqSCPbIatDbcSmIxB6R5N36esVkBXpOU1wqV9POQVN5iIBE8G
+ nWoBc+3YiZcvLi/6YRc1KEFJColMWiNMZM2oMcM4NbSsAd7DyllEif1H6YJUhb5N4dDD
+ nK6Q==
+X-Gm-Message-State: AOAM531ve+5gXXE3lQGd8pYkDdlFY4BeoBH0Cn8Q2SxxZxjgD+XF5rGK
+ Bw93Np/jogxb2b5XAaWXZDBEDWkUXf9tGc6a
+X-Google-Smtp-Source: ABdhPJw5MxpDbeI+e3d0yBr7sjtg/Xkxp1KRB71SvM818GT5ag9IYEBJcqBm3095qZWPUQF/Ehk+lg==
+X-Received: by 2002:a9d:7747:: with SMTP id t7mr680892otl.96.1621449279410;
+ Wed, 19 May 2021 11:34:39 -0700 (PDT)
 Received: from localhost.localdomain ([45.235.253.15])
- by smtp.gmail.com with ESMTPSA id i9sm38642oog.17.2021.05.19.11.34.37
+ by smtp.gmail.com with ESMTPSA id i9sm38642oog.17.2021.05.19.11.34.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 May 2021 11:34:38 -0700 (PDT)
+ Wed, 19 May 2021 11:34:39 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 46/50] target/i386: Tidy gen_check_io
-Date: Wed, 19 May 2021 13:30:46 -0500
-Message-Id: <20210519183050.875453-47-richard.henderson@linaro.org>
+Subject: [PULL 47/50] target/i386: Pass in port to gen_check_io
+Date: Wed, 19 May 2021 13:30:47 -0500
+Message-Id: <20210519183050.875453-48-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210519183050.875453-1-richard.henderson@linaro.org>
 References: <20210519183050.875453-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::334;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x334.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::32b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x32b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,150 +87,161 @@ Cc: peter.maydell@linaro.org, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Get cur_eip from DisasContext.  Do not require the caller
-to use svm_is_rep; get prefix from DisasContext.  Use the
-proper symbolic constants for SVM_IOIO_*.
-
-While we're touching all call sites, return bool in
-preparation for gen_check_io raising #GP.
+Pass in a pre-truncated TCGv_i32 value.  We were doing the
+truncation of EDX in multiple places, now only once per insn.
+While all callers use s->tmp2_i32, for cleanliness of the
+subroutine, use a parameter anyway.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <20210514151342.384376-47-richard.henderson@linaro.org>
+Message-Id: <20210514151342.384376-48-richard.henderson@linaro.org>
 ---
- target/i386/tcg/translate.c | 57 +++++++++++++++++++------------------
- 1 file changed, 30 insertions(+), 27 deletions(-)
+ target/i386/tcg/translate.c | 55 +++++++++++++++++++------------------
+ 1 file changed, 29 insertions(+), 26 deletions(-)
 
 diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
-index ef0ba822e1..2282c3598c 100644
+index 2282c3598c..94193a8e00 100644
 --- a/target/i386/tcg/translate.c
 +++ b/target/i386/tcg/translate.c
-@@ -674,13 +674,10 @@ static void gen_helper_out_func(MemOp ot, TCGv_i32 v, TCGv_i32 n)
+@@ -674,19 +674,23 @@ static void gen_helper_out_func(MemOp ot, TCGv_i32 v, TCGv_i32 n)
      }
  }
  
--static void gen_check_io(DisasContext *s, MemOp ot, target_ulong cur_eip,
--                         uint32_t svm_flags)
-+static bool gen_check_io(DisasContext *s, MemOp ot, uint32_t svm_flags)
+-static bool gen_check_io(DisasContext *s, MemOp ot, uint32_t svm_flags)
++/*
++ * Validate that access to [port, port + 1<<ot) is allowed.
++ * Raise #GP, or VMM exit if not.
++ */
++static bool gen_check_io(DisasContext *s, MemOp ot, TCGv_i32 port,
++                         uint32_t svm_flags)
  {
--    target_ulong next_eip;
--
-+    tcg_gen_trunc_tl_i32(s->tmp2_i32, s->T0);
+-    tcg_gen_trunc_tl_i32(s->tmp2_i32, s->T0);
      if (PE(s) && (CPL(s) > IOPL(s) || VM86(s))) {
--        tcg_gen_trunc_tl_i32(s->tmp2_i32, s->T0);
          switch (ot) {
          case MO_8:
-             gen_helper_check_iob(cpu_env, s->tmp2_i32);
-@@ -696,15 +693,20 @@ static void gen_check_io(DisasContext *s, MemOp ot, target_ulong cur_eip,
+-            gen_helper_check_iob(cpu_env, s->tmp2_i32);
++            gen_helper_check_iob(cpu_env, port);
+             break;
+         case MO_16:
+-            gen_helper_check_iow(cpu_env, s->tmp2_i32);
++            gen_helper_check_iow(cpu_env, port);
+             break;
+         case MO_32:
+-            gen_helper_check_iol(cpu_env, s->tmp2_i32);
++            gen_helper_check_iol(cpu_env, port);
+             break;
+         default:
+             tcg_abort();
+@@ -702,7 +706,7 @@ static bool gen_check_io(DisasContext *s, MemOp ot, uint32_t svm_flags)
+             svm_flags |= SVM_IOIO_REP_MASK;
          }
+         svm_flags |= 1 << (SVM_IOIO_SIZE_SHIFT + ot);
+-        gen_helper_svm_check_io(cpu_env, s->tmp2_i32,
++        gen_helper_svm_check_io(cpu_env, port,
+                                 tcg_constant_i32(svm_flags),
+                                 tcg_constant_i32(next_eip - cur_eip));
      }
-     if (GUEST(s)) {
-+        target_ulong cur_eip = s->base.pc_next - s->cs_base;
-+        target_ulong next_eip = s->pc - s->cs_base;
-+
-         gen_update_cc_op(s);
-         gen_jmp_im(s, cur_eip);
--        svm_flags |= (1 << (4 + ot));
--        next_eip = s->pc - s->cs_base;
--        tcg_gen_trunc_tl_i32(s->tmp2_i32, s->T0);
-+        if (s->prefix & (PREFIX_REPZ | PREFIX_REPNZ)) {
-+            svm_flags |= SVM_IOIO_REP_MASK;
-+        }
-+        svm_flags |= 1 << (SVM_IOIO_SIZE_SHIFT + ot);
-         gen_helper_svm_check_io(cpu_env, s->tmp2_i32,
--                                tcg_const_i32(svm_flags),
--                                tcg_const_i32(next_eip - cur_eip));
-+                                tcg_constant_i32(svm_flags),
-+                                tcg_constant_i32(next_eip - cur_eip));
-     }
-+    return true;
- }
- 
- static inline void gen_movs(DisasContext *s, MemOp ot)
-@@ -2425,11 +2427,6 @@ static void gen_movl_seg_T0(DisasContext *s, X86Seg seg_reg)
-     }
- }
- 
--static inline int svm_is_rep(int prefixes)
--{
--    return ((prefixes & (PREFIX_REPZ | PREFIX_REPNZ)) ? 8 : 0);
--}
--
- static void gen_svm_check_intercept(DisasContext *s, uint32_t type)
- {
-     /* no SVM activated; fast case */
-@@ -6483,8 +6480,9 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+@@ -6479,8 +6483,10 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+     case 0x6c: /* insS */
      case 0x6d:
          ot = mo_b_d32(b, dflag);
-         tcg_gen_ext16u_tl(s->T0, cpu_regs[R_EDX]);
--        gen_check_io(s, ot, pc_start - s->cs_base, 
--                     SVM_IOIO_TYPE_MASK | svm_is_rep(prefixes) | 4);
-+        if (!gen_check_io(s, ot, SVM_IOIO_TYPE_MASK | SVM_IOIO_STR_MASK)) {
-+            break;
-+        }
-         if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
-             gen_io_start();
+-        tcg_gen_ext16u_tl(s->T0, cpu_regs[R_EDX]);
+-        if (!gen_check_io(s, ot, SVM_IOIO_TYPE_MASK | SVM_IOIO_STR_MASK)) {
++        tcg_gen_trunc_tl_i32(s->tmp2_i32, cpu_regs[R_EDX]);
++        tcg_gen_ext16u_i32(s->tmp2_i32, s->tmp2_i32);
++        if (!gen_check_io(s, ot, s->tmp2_i32,
++                          SVM_IOIO_TYPE_MASK | SVM_IOIO_STR_MASK)) {
+             break;
          }
-@@ -6502,8 +6500,9 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+         if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
+@@ -6499,8 +6505,9 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+     case 0x6e: /* outsS */
      case 0x6f:
          ot = mo_b_d32(b, dflag);
-         tcg_gen_ext16u_tl(s->T0, cpu_regs[R_EDX]);
--        gen_check_io(s, ot, pc_start - s->cs_base,
--                     svm_is_rep(prefixes) | 4);
-+        if (!gen_check_io(s, ot, SVM_IOIO_STR_MASK)) {
-+            break;
-+        }
+-        tcg_gen_ext16u_tl(s->T0, cpu_regs[R_EDX]);
+-        if (!gen_check_io(s, ot, SVM_IOIO_STR_MASK)) {
++        tcg_gen_trunc_tl_i32(s->tmp2_i32, cpu_regs[R_EDX]);
++        tcg_gen_ext16u_i32(s->tmp2_i32, s->tmp2_i32);
++        if (!gen_check_io(s, ot, s->tmp2_i32, SVM_IOIO_STR_MASK)) {
+             break;
+         }
+         if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
+@@ -6524,14 +6531,13 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+     case 0xe5:
+         ot = mo_b_d32(b, dflag);
+         val = x86_ldub_code(env, s);
+-        tcg_gen_movi_tl(s->T0, val);
+-        if (!gen_check_io(s, ot, SVM_IOIO_TYPE_MASK)) {
++        tcg_gen_movi_i32(s->tmp2_i32, val);
++        if (!gen_check_io(s, ot, s->tmp2_i32, SVM_IOIO_TYPE_MASK)) {
+             break;
+         }
          if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
              gen_io_start();
          }
-@@ -6526,8 +6525,9 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+-        tcg_gen_movi_i32(s->tmp2_i32, val);
+         gen_helper_in_func(ot, s->T1, s->tmp2_i32);
+         gen_op_mov_reg_v(s, ot, R_EAX, s->T1);
+         gen_bpt_io(s, s->tmp2_i32, ot);
+@@ -6543,16 +6549,14 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+     case 0xe7:
          ot = mo_b_d32(b, dflag);
          val = x86_ldub_code(env, s);
-         tcg_gen_movi_tl(s->T0, val);
--        gen_check_io(s, ot, pc_start - s->cs_base,
--                     SVM_IOIO_TYPE_MASK | svm_is_rep(prefixes));
-+        if (!gen_check_io(s, ot, SVM_IOIO_TYPE_MASK)) {
-+            break;
-+        }
+-        tcg_gen_movi_tl(s->T0, val);
+-        if (!gen_check_io(s, ot, 0)) {
++        tcg_gen_movi_i32(s->tmp2_i32, val);
++        if (!gen_check_io(s, ot, s->tmp2_i32, 0)) {
+             break;
+         }
+-        gen_op_mov_v_reg(s, ot, s->T1, R_EAX);
+-
          if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
              gen_io_start();
          }
-@@ -6544,8 +6544,9 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
-         ot = mo_b_d32(b, dflag);
-         val = x86_ldub_code(env, s);
-         tcg_gen_movi_tl(s->T0, val);
--        gen_check_io(s, ot, pc_start - s->cs_base,
--                     svm_is_rep(prefixes));
-+        if (!gen_check_io(s, ot, 0)) {
-+            break;
-+        }
-         gen_op_mov_v_reg(s, ot, s->T1, R_EAX);
- 
-         if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
-@@ -6563,8 +6564,9 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+-        tcg_gen_movi_i32(s->tmp2_i32, val);
++        gen_op_mov_v_reg(s, ot, s->T1, R_EAX);
+         tcg_gen_trunc_tl_i32(s->tmp3_i32, s->T1);
+         gen_helper_out_func(ot, s->tmp2_i32, s->tmp3_i32);
+         gen_bpt_io(s, s->tmp2_i32, ot);
+@@ -6563,14 +6567,14 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+     case 0xec:
      case 0xed:
          ot = mo_b_d32(b, dflag);
-         tcg_gen_ext16u_tl(s->T0, cpu_regs[R_EDX]);
--        gen_check_io(s, ot, pc_start - s->cs_base,
--                     SVM_IOIO_TYPE_MASK | svm_is_rep(prefixes));
-+        if (!gen_check_io(s, ot, SVM_IOIO_TYPE_MASK)) {
-+            break;
-+        }
+-        tcg_gen_ext16u_tl(s->T0, cpu_regs[R_EDX]);
+-        if (!gen_check_io(s, ot, SVM_IOIO_TYPE_MASK)) {
++        tcg_gen_trunc_tl_i32(s->tmp2_i32, cpu_regs[R_EDX]);
++        tcg_gen_ext16u_i32(s->tmp2_i32, s->tmp2_i32);
++        if (!gen_check_io(s, ot, s->tmp2_i32, SVM_IOIO_TYPE_MASK)) {
+             break;
+         }
          if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
              gen_io_start();
          }
-@@ -6580,8 +6582,9 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+-        tcg_gen_trunc_tl_i32(s->tmp2_i32, s->T0);
+         gen_helper_in_func(ot, s->T1, s->tmp2_i32);
+         gen_op_mov_reg_v(s, ot, R_EAX, s->T1);
+         gen_bpt_io(s, s->tmp2_i32, ot);
+@@ -6581,16 +6585,15 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+     case 0xee:
      case 0xef:
          ot = mo_b_d32(b, dflag);
-         tcg_gen_ext16u_tl(s->T0, cpu_regs[R_EDX]);
--        gen_check_io(s, ot, pc_start - s->cs_base,
--                     svm_is_rep(prefixes));
-+        if (!gen_check_io(s, ot, 0)) {
-+            break;
-+        }
-         gen_op_mov_v_reg(s, ot, s->T1, R_EAX);
- 
+-        tcg_gen_ext16u_tl(s->T0, cpu_regs[R_EDX]);
+-        if (!gen_check_io(s, ot, 0)) {
++        tcg_gen_trunc_tl_i32(s->tmp2_i32, cpu_regs[R_EDX]);
++        tcg_gen_ext16u_i32(s->tmp2_i32, s->tmp2_i32);
++        if (!gen_check_io(s, ot, s->tmp2_i32, 0)) {
+             break;
+         }
+-        gen_op_mov_v_reg(s, ot, s->T1, R_EAX);
+-
          if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
+             gen_io_start();
+         }
+-        tcg_gen_trunc_tl_i32(s->tmp2_i32, s->T0);
++        gen_op_mov_v_reg(s, ot, s->T1, R_EAX);
+         tcg_gen_trunc_tl_i32(s->tmp3_i32, s->T1);
+         gen_helper_out_func(ot, s->tmp2_i32, s->tmp3_i32);
+         gen_bpt_io(s, s->tmp2_i32, ot);
 -- 
 2.25.1
 
