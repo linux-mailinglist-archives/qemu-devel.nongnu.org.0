@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE00D3893DE
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 18:36:03 +0200 (CEST)
-Received: from localhost ([::1]:37176 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D04FD3893F1
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 18:38:19 +0200 (CEST)
+Received: from localhost ([::1]:45802 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljPAw-0002Wp-PU
-	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 12:36:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34368)
+	id 1ljPD8-0008RZ-UN
+	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 12:38:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34404)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1ljP54-0002Ub-H4
- for qemu-devel@nongnu.org; Wed, 19 May 2021 12:29:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39417)
+ id 1ljP58-0002hp-NK
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 12:30:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52561)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1ljP50-0005Cd-Ew
- for qemu-devel@nongnu.org; Wed, 19 May 2021 12:29:57 -0400
+ id 1ljP56-0005EW-Pv
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 12:30:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621441793;
+ s=mimecast20190719; t=1621441800;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lN9E94Er5x6d1jL2uZjeSkSsMx9OR6z4PGUDVqDULLg=;
- b=MeM2BPLexVJWQTb8wkp/iNvsqQWrSULFJvX+9UKcaqvEnW7WovnNb1F+xdVXRpfzYmCv/l
- 9vnRmnncrk2tSTRKJJrVX9S2BjX+1eTAwt3H4fxEbKsydKT0NjpHkJp93AYBwW0u7NeLZQ
- UNlHWRFwNcwVjbxmUTYU5c16mM8IUwM=
+ bh=6l3SqLSeKmEhV1NXWaESuTSmX7euR+x4nuSnTsSY50I=;
+ b=SIaMc5dU4+GB7ko04IJlMa2yGZVl4h0RLpdR/4JgMcNljBr6uDf3OA0E6v1GN2Jinwc7pk
+ 7T/1+g1IWJe60lxkhi84hciah5rnYJL94pTwS42fWberd8II9Oum9KBSn89jObbKWLO29z
+ CgtXatjbL3rHj6x90hRuOlfpA2+ZxiQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-405-s9GvOcEjMEOa3Uv9TLvyJg-1; Wed, 19 May 2021 12:29:51 -0400
-X-MC-Unique: s9GvOcEjMEOa3Uv9TLvyJg-1
+ us-mta-514-K64JIjBIN6qxux0KWwexJQ-1; Wed, 19 May 2021 12:29:58 -0400
+X-MC-Unique: K64JIjBIN6qxux0KWwexJQ-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2223A801817;
- Wed, 19 May 2021 16:29:50 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E8865180FD65;
+ Wed, 19 May 2021 16:29:56 +0000 (UTC)
 Received: from eperezma.remote.csb (ovpn-113-65.ams2.redhat.com [10.36.113.65])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9355B5D6AC;
- Wed, 19 May 2021 16:29:46 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 823045D6AC;
+ Wed, 19 May 2021 16:29:50 +0000 (UTC)
 From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC v3 05/29] virtio: Add VIRTIO_F_QUEUE_STATE
-Date: Wed, 19 May 2021 18:28:39 +0200
-Message-Id: <20210519162903.1172366-6-eperezma@redhat.com>
+Subject: [RFC v3 06/29] virtio-net: Honor VIRTIO_CONFIG_S_DEVICE_STOPPED
+Date: Wed, 19 May 2021 18:28:40 +0200
+Message-Id: <20210519162903.1172366-7-eperezma@redhat.com>
 In-Reply-To: <20210519162903.1172366-1-eperezma@redhat.com>
 References: <20210519162903.1172366-1-eperezma@redhat.com>
 MIME-Version: 1.0
@@ -57,7 +57,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eperezma@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -88,141 +88,51 @@ Cc: Parav Pandit <parav@mellanox.com>, "Michael S. Tsirkin" <mst@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Implementation of RFC of device state capability:
-https://lists.oasis-open.org/archives/virtio-comment/202012/msg00005.html
+So the guest can stop and start net device. It implements the RFC
+https://lists.oasis-open.org/archives/virtio-comment/202012/msg00027.html
 
-With this capability, vdpa device can reset it's index so it can start
-consuming from shadow virtqueue (SVQ), that start with state 0. Another
-approach would be to make SVQ to start forwarding from the state of the
-device when the later is stopped, but this device capability is needed
-at the destination of live migration anyway.
+To stop (as "pause") the device is required to migrate status and vring
+addresses between device and SVQ.
 
-The use case is to test SVQ with virtio-pci vdpa (vp_vdpa) with nested
-virtualization. Spawning a L0 qemu with a virtio-net device, use
-vp_vdpa driver to handle it in the guest, and then spawn a L1 qemu using
-that vdpa device. When L1 qemu calls device to set a new state though
-vdpa ioctl, vp_vdpa should set each queue state though virtio
-VIRTIO_PCI_COMMON_Q_AVAIL_STATE.
-
-Since this is only for testing vhost-vdpa, it's added here before of
-proposing to kernel code. No effort is done for checking that device
-can actually change its state, its layout, or if the device even
-supports to change state at all. These will be added in the future.
-
-Also, a modified version of vp_vdpa that allows to set these in PCI
-config is needed.
-
-TODO: Check for feature enabled and split in virtio pci config
+This is a WIP commit: as with VIRTIO_F_QUEUE_STATE, is introduced in
+virtio_config.h before of even proposing for the kernel, with no feature
+flag, and, with no checking in the device. It also needs a modified
+vp_vdpa driver that supports to set and retrieve status.
 
 Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 ---
- hw/virtio/virtio-pci.h                         | 1 +
- include/hw/virtio/virtio.h                     | 4 +++-
- include/standard-headers/linux/virtio_config.h | 3 +++
- include/standard-headers/linux/virtio_pci.h    | 2 ++
- hw/virtio/virtio-pci.c                         | 9 +++++++++
- 5 files changed, 18 insertions(+), 1 deletion(-)
+ include/standard-headers/linux/virtio_config.h | 2 ++
+ hw/net/virtio-net.c                            | 4 +++-
+ 2 files changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/hw/virtio/virtio-pci.h b/hw/virtio/virtio-pci.h
-index d7d5d403a9..69e34449cd 100644
---- a/hw/virtio/virtio-pci.h
-+++ b/hw/virtio/virtio-pci.h
-@@ -115,6 +115,7 @@ typedef struct VirtIOPCIQueue {
-   uint32_t desc[2];
-   uint32_t avail[2];
-   uint32_t used[2];
-+  uint16_t state;
- } VirtIOPCIQueue;
- 
- struct VirtIOPCIProxy {
-diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
-index c2c7cee993..dfcc7d8350 100644
---- a/include/hw/virtio/virtio.h
-+++ b/include/hw/virtio/virtio.h
-@@ -289,7 +289,9 @@ typedef struct VirtIORNGConf VirtIORNGConf;
-     DEFINE_PROP_BIT64("iommu_platform", _state, _field, \
-                       VIRTIO_F_IOMMU_PLATFORM, false), \
-     DEFINE_PROP_BIT64("packed", _state, _field, \
--                      VIRTIO_F_RING_PACKED, false)
-+                      VIRTIO_F_RING_PACKED, false), \
-+    DEFINE_PROP_BIT64("save_restore_q_state", _state, _field, \
-+                      VIRTIO_F_QUEUE_STATE, true)
- 
- hwaddr virtio_queue_get_desc_addr(VirtIODevice *vdev, int n);
- bool virtio_queue_enabled_legacy(VirtIODevice *vdev, int n);
 diff --git a/include/standard-headers/linux/virtio_config.h b/include/standard-headers/linux/virtio_config.h
-index 22e3a85f67..59fad3eb45 100644
+index 59fad3eb45..b3f6b1365d 100644
 --- a/include/standard-headers/linux/virtio_config.h
 +++ b/include/standard-headers/linux/virtio_config.h
-@@ -90,4 +90,7 @@
-  * Does the device support Single Root I/O Virtualization?
-  */
- #define VIRTIO_F_SR_IOV			37
-+
-+/* Device support save and restore virtqueue state */
-+#define VIRTIO_F_QUEUE_STATE            40
- #endif /* _LINUX_VIRTIO_CONFIG_H */
-diff --git a/include/standard-headers/linux/virtio_pci.h b/include/standard-headers/linux/virtio_pci.h
-index db7a8e2fcb..c8d9802a87 100644
---- a/include/standard-headers/linux/virtio_pci.h
-+++ b/include/standard-headers/linux/virtio_pci.h
-@@ -164,6 +164,7 @@ struct virtio_pci_common_cfg {
- 	uint32_t queue_avail_hi;		/* read-write */
- 	uint32_t queue_used_lo;		/* read-write */
- 	uint32_t queue_used_hi;		/* read-write */
-+	uint16_t queue_avail_state;     /* read-write */
- };
+@@ -40,6 +40,8 @@
+ #define VIRTIO_CONFIG_S_DRIVER_OK	4
+ /* Driver has finished configuring features */
+ #define VIRTIO_CONFIG_S_FEATURES_OK	8
++/* Device is stopped */
++#define VIRTIO_CONFIG_S_DEVICE_STOPPED 32
+ /* Device entered invalid state, driver must reset it */
+ #define VIRTIO_CONFIG_S_NEEDS_RESET	0x40
+ /* We've given up on this device. */
+diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+index 96a3cc8357..2d3caea289 100644
+--- a/hw/net/virtio-net.c
++++ b/hw/net/virtio-net.c
+@@ -198,7 +198,9 @@ static bool virtio_net_started(VirtIONet *n, uint8_t status)
+ {
+     VirtIODevice *vdev = VIRTIO_DEVICE(n);
+     return (status & VIRTIO_CONFIG_S_DRIVER_OK) &&
+-        (n->status & VIRTIO_NET_S_LINK_UP) && vdev->vm_running;
++        (!(n->status & VIRTIO_CONFIG_S_DEVICE_STOPPED)) &&
++        (n->status & VIRTIO_NET_S_LINK_UP) &&
++        vdev->vm_running;
+ }
  
- /* Fields in VIRTIO_PCI_CAP_PCI_CFG: */
-@@ -202,6 +203,7 @@ struct virtio_pci_cfg_cap {
- #define VIRTIO_PCI_COMMON_Q_AVAILHI	44
- #define VIRTIO_PCI_COMMON_Q_USEDLO	48
- #define VIRTIO_PCI_COMMON_Q_USEDHI	52
-+#define VIRTIO_PCI_COMMON_Q_AVAIL_STATE	56
- 
- #endif /* VIRTIO_PCI_NO_MODERN */
- 
-diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-index 883045a223..ddb6fff098 100644
---- a/hw/virtio/virtio-pci.c
-+++ b/hw/virtio/virtio-pci.c
-@@ -1216,6 +1216,9 @@ static uint64_t virtio_pci_common_read(void *opaque, hwaddr addr,
-     case VIRTIO_PCI_COMMON_Q_USEDHI:
-         val = proxy->vqs[vdev->queue_sel].used[1];
-         break;
-+    case VIRTIO_PCI_COMMON_Q_AVAIL_STATE:
-+        val = virtio_queue_get_last_avail_idx(vdev, vdev->queue_sel);
-+        break;
-     default:
-         val = 0;
-     }
-@@ -1298,6 +1301,8 @@ static void virtio_pci_common_write(void *opaque, hwaddr addr,
-                        proxy->vqs[vdev->queue_sel].avail[0],
-                        ((uint64_t)proxy->vqs[vdev->queue_sel].used[1]) << 32 |
-                        proxy->vqs[vdev->queue_sel].used[0]);
-+            virtio_queue_set_last_avail_idx(vdev, vdev->queue_sel,
-+                        proxy->vqs[vdev->queue_sel].state);
-             proxy->vqs[vdev->queue_sel].enabled = 1;
-         } else {
-             virtio_error(vdev, "wrong value for queue_enable %"PRIx64, val);
-@@ -1321,6 +1326,9 @@ static void virtio_pci_common_write(void *opaque, hwaddr addr,
-     case VIRTIO_PCI_COMMON_Q_USEDHI:
-         proxy->vqs[vdev->queue_sel].used[1] = val;
-         break;
-+    case VIRTIO_PCI_COMMON_Q_AVAIL_STATE:
-+        proxy->vqs[vdev->queue_sel].state = val;
-+        break;
-     default:
-         break;
-     }
-@@ -1900,6 +1908,7 @@ static void virtio_pci_reset(DeviceState *qdev)
-         proxy->vqs[i].desc[0] = proxy->vqs[i].desc[1] = 0;
-         proxy->vqs[i].avail[0] = proxy->vqs[i].avail[1] = 0;
-         proxy->vqs[i].used[0] = proxy->vqs[i].used[1] = 0;
-+        proxy->vqs[i].state = 0;
-     }
- 
-     if (pci_is_express(dev)) {
+ static void virtio_net_announce_notify(VirtIONet *net)
 -- 
 2.27.0
 
