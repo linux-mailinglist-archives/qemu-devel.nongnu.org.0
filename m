@@ -2,64 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 562D2388F7D
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 15:51:59 +0200 (CEST)
-Received: from localhost ([::1]:51824 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A09FB388F9F
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 15:54:13 +0200 (CEST)
+Received: from localhost ([::1]:58392 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljMcA-00062x-BF
-	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 09:51:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40522)
+	id 1ljMeJ-0001wM-4g
+	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 09:54:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40548)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1ljMDi-0003qw-1I; Wed, 19 May 2021 09:26:42 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:3626)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1ljMDe-0003PU-V7; Wed, 19 May 2021 09:26:41 -0400
-Received: from dggems706-chm.china.huawei.com (unknown [172.30.72.60])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4FlYV95B4dzsSXT;
- Wed, 19 May 2021 21:23:45 +0800 (CST)
-Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
- dggems706-chm.china.huawei.com (10.3.19.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Wed, 19 May 2021 21:26:31 +0800
-Received: from [10.174.187.128] (10.174.187.128) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.1.2176.2; Wed, 19 May 2021 21:26:30 +0800
-Subject: Re: [RFC PATCH v2 5/6] hw/arm/virt-acpi-build: Add PPTT table
-To: Andrew Jones <drjones@redhat.com>, Salil Mehta <salil.mehta@huawei.com>
-References: <20210413080745.33004-1-wangyanan55@huawei.com>
- <20210413080745.33004-6-wangyanan55@huawei.com>
- <1551b7d6-e010-e5c7-47e1-c347ca78a1db@huawei.com>
- <a6ccb20f19b743a29f6aaffcf3088df2@huawei.com>
- <20210518074221.umezsdedzyzmcbsk@gator.home>
- <80dca9f16c5b4bef9900f6cf76c99500@huawei.com>
- <20210518190539.fwsvl2ijb4jlzbyi@gator.home>
- <20210519082735.yru7wpusq7lnmgj5@gator.home>
-From: "wangyanan (Y)" <wangyanan55@huawei.com>
-Message-ID: <4b64cb10-7825-e83c-8728-f9dde0d53b4b@huawei.com>
-Date: Wed, 19 May 2021 21:26:30 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <steven.price@arm.com>)
+ id 1ljMDn-0004DT-Mz
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 09:26:47 -0400
+Received: from foss.arm.com ([217.140.110.172]:59534)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <steven.price@arm.com>) id 1ljMDl-0003V4-Cd
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 09:26:47 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 799E731B;
+ Wed, 19 May 2021 06:26:43 -0700 (PDT)
+Received: from [192.168.1.179] (unknown [172.31.20.19])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id F1AF63F73B;
+ Wed, 19 May 2021 06:26:40 -0700 (PDT)
+Subject: Re: [PATCH v12 6/8] arm64: kvm: Expose KVM_ARM_CAP_MTE
+To: Marc Zyngier <maz@kernel.org>
+References: <20210517123239.8025-1-steven.price@arm.com>
+ <20210517123239.8025-7-steven.price@arm.com> <87tun1tg1l.wl-maz@kernel.org>
+From: Steven Price <steven.price@arm.com>
+Message-ID: <4e1fc7b7-ea8c-a87c-9177-d9e03ff96cb8@arm.com>
+Date: Wed, 19 May 2021 14:26:31 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210519082735.yru7wpusq7lnmgj5@gator.home>
-Content-Type: text/plain; charset="utf-8"; format=flowed
+In-Reply-To: <87tun1tg1l.wl-maz@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
 Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Originating-IP: [10.174.187.128]
-X-ClientProxiedBy: dggeme719-chm.china.huawei.com (10.1.199.115) To
- dggpemm500023.china.huawei.com (7.185.36.83)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.191;
- envelope-from=wangyanan55@huawei.com; helo=szxga05-in.huawei.com
+Received-SPF: pass client-ip=217.140.110.172;
+ envelope-from=steven.price@arm.com; helo=foss.arm.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
 X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -72,98 +58,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "linuxarm@openeuler.org" <linuxarm@openeuler.org>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Linuxarm <linuxarm@huawei.com>, Shannon Zhao <shannon.zhaosl@gmail.com>,
- Igor Mammedov <imammedo@redhat.com>,
- "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>,
- "Zengtao \(B\)" <prime.zeng@hisilicon.com>, yangyicong <yangyicong@huawei.com>,
- yuzenghui <yuzenghui@huawei.com>,
- "Wanghaibin \(D\)" <wanghaibin.wang@huawei.com>,
- zhukeqian <zhukeqian1@huawei.com>, "lijiajie \(H\)" <lijiajie11@huawei.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Andrew Jones <drjones@redhat.com>, Haibo Xu <Haibo.Xu@arm.com>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>, qemu-devel@nongnu.org,
+ Catalin Marinas <catalin.marinas@arm.com>, Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, linux-kernel@vger.kernel.org,
+ Dave Martin <Dave.Martin@arm.com>, James Morse <james.morse@arm.com>,
+ linux-arm-kernel@lists.infradead.org, Thomas Gleixner <tglx@linutronix.de>,
+ Will Deacon <will@kernel.org>, kvmarm@lists.cs.columbia.edu,
+ Julien Thierry <julien.thierry.kdev@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Drew,
-
-On 2021/5/19 16:27, Andrew Jones wrote:
-> On Tue, May 18, 2021 at 09:05:39PM +0200, Andrew Jones wrote:
->> The problem is that -smp 4,maxcpus=8 doesn't error out today, even though
->> it doesn't do anything. OTOH, -smp 4,cores=2 doesn't error out either, but
->> we're proposing that it should. Maybe we can start erroring out when
->> cpus != maxcpus until hot plug is supported?
+On 17/05/2021 18:40, Marc Zyngier wrote:
+> On Mon, 17 May 2021 13:32:37 +0100,
+> Steven Price <steven.price@arm.com> wrote:
 >>
-> The more I think about this, the more I think we're in a bit of pickle and
-> need Peter Maydell to chime in. While we may want to make our -smp command
-> line option parsing more strict in order to bring some sanity to it, if
-> we do, then we'll break existing command lines, which, while may be
-> specifying useless inputs, have always gotten away with it. We probably
-> can't just change that now without forcing the user to opt into it.
-> Maybe we need to add another -smp parameter like 'strict' that has to
-> be set to 'on' in order to get this new behavior.
->
-> Peter, do you have some suggestions for this? A summary of the problem
-> we'd like to solve is as follows:
->
->   We'd like to start describing CPU topology to guests when provided
->   topology information with the '-smp ...' command line option. Currently,
->   a user may provide nearly whatever it wants on that command line option
->   and not get an error, even though the guest will not get a topology
->   description. When building the topology its important to know what
->   the user actually wants, so we're proposing to require both sockets
->   and cores be given if one of them is given. Also, since we don't yet
->   support hot plug for AArch64, we're proposing to enforce cpus == maxcpus.
->
-> Is it fine to make those changes to the parsing for 6.1 and later? (Note,
-> mach-virt will override the default smp_parse with its own, so this is
-> mach-virt specific.) Or, should we only do this if a new parameter is
-> also given, e.g. 'strict'. Something like
->
->    -smp strict=on,cpus=4,sockets=2,cores=2
->
-> would be needed by users who want to describe cpu topologies. Without
-> a strict description, then they get what they get today for their
-> DT/ACPI topology description, nothing.
- From my point of view, I like the idea of a new parameter like 
-"strict=on/off".
-I will explain the reason below but maybe I have missed something, so I also
-hope for some suggestions from Peter. :)
+>> It's now safe for the VMM to enable MTE in a guest, so expose the
+>> capability to user space.
+>>
+>> Signed-off-by: Steven Price <steven.price@arm.com>
+>> ---
+>>  arch/arm64/kvm/arm.c      | 9 +++++++++
+>>  arch/arm64/kvm/sys_regs.c | 3 +++
+>>  2 files changed, 12 insertions(+)
+>>
+>> diff --git a/arch/arm64/kvm/arm.c b/arch/arm64/kvm/arm.c
+>> index 1cb39c0803a4..e89a5e275e25 100644
+>> --- a/arch/arm64/kvm/arm.c
+>> +++ b/arch/arm64/kvm/arm.c
+>> @@ -93,6 +93,12 @@ int kvm_vm_ioctl_enable_cap(struct kvm *kvm,
+>>  		r = 0;
+>>  		kvm->arch.return_nisv_io_abort_to_user = true;
+>>  		break;
+>> +	case KVM_CAP_ARM_MTE:
+>> +		if (!system_supports_mte() || kvm->created_vcpus)
+>> +			return -EINVAL;
+>> +		r = 0;
+>> +		kvm->arch.mte_enabled = true;
+> 
+> As far as I can tell from the architecture, this isn't valid for a
+> 32bit guest.
 
-1) We don't need to worry about breaking any existing -smp command lines
-including the rare and strange ones any more, since we will only have more
-strict requirement for the new provided cmdlines with "strict=on" and only
-generate topology description to guest with these new cmdlines provided.
+Indeed, however the MTE flag is a property of the VM not of the vCPU.
+And, unless I'm mistaken, it's technically possible to create a VM where
+some CPUs are 32 bit and some 64 bit. Not that I can see much use of a
+configuration like that.
 
-2) This will provide an option for users to decide whether to enable the 
-feature
-or not. Furthermore, this feature can also work on older machine types, 
-if a user
-want to make use of cpu topology exposure to guest on older machines and is
-also sure it won't affect the application's behavior, then he can read 
-the Doc and
-properly provided a -smp cmdline with "strict=on" to boot a VM.
-
-3) We don't need to bother guessing different formats of -smp command lines
-in parsing. If the new parameter is not specified or "strict=off" is 
-provided, we
-totally follow the rules in smp_parse() and disable the topology 
-exposure. And if
-"strict=on" is provided, we enable the topology exposure and enforce 
-completely
-detailed configuration like "-smp strict=on,cpus=4,sockets=2,cores=2".
-
-But maxcpus will be optional, it will default to cpus if not provided. 
-We also ensure
-it matches cpus if provided, given that cpu hotplug is not available yet.
-
-Thanks,
-Yanan
-> Thanks,
-> drew
->
-> .
+Steve
 
