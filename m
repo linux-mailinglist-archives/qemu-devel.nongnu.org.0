@@ -2,59 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBD103883EB
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 02:50:09 +0200 (CEST)
-Received: from localhost ([::1]:59328 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BA14388486
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 03:41:57 +0200 (CEST)
+Received: from localhost ([::1]:36096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljAPT-000282-KQ
-	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 20:50:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33972)
+	id 1ljBDf-00084F-Kb
+	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 21:41:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41278)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1ljAOa-0001RH-VC
- for qemu-devel@nongnu.org; Tue, 18 May 2021 20:49:10 -0400
-Resent-Date: Tue, 18 May 2021 20:49:08 -0400
-Resent-Message-Id: <E1ljAOa-0001RH-VC@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21311)
+ (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
+ id 1ljBC4-0007FO-Nx; Tue, 18 May 2021 21:40:16 -0400
+Received: from mga03.intel.com ([134.134.136.65]:59269)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1ljAOW-0003gF-5P
- for qemu-devel@nongnu.org; Tue, 18 May 2021 20:49:08 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1621385331; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=RDLlg7Md2gJ/iOpzvP41lCEJ48VD12XIK73Ls1uhkfJtzX+ak85UI8xIZwijmh9KkNLf5lR9DBdlny3tAzih1FxLjrJqcT66YQpoj8V9juIxJfFsMgstC0eSe5wKSnlQul4fXWYy9rlQ5h3vgSQnnt8HLqZLkZvUTy9hnfHKqa0=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1621385331;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=uCXgf6ykXXtpGoTeeysFx9MMj+SsLFJOTp5J4NDxl1g=; 
- b=RP6V7QNB6r6bHuHy9MPzaD326znutY6azLWvFe9t88Ii7w3V6OHyT3ws0L/MpuT/aAujQAZFATtNTmAuSIO47gE0IxvMlCupIWDpapiAaHQhXl1taMcJ/4tjKCJ1hQFDqgw9U7hezwT11t4K04/wCaIa5c72v+1IHPqJQAeqHNc=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 162138532966429.647234635733298;
- Tue, 18 May 2021 17:48:49 -0700 (PDT)
-In-Reply-To: <20210519001414.786439-1-vivek.kasireddy@intel.com>
-Subject: Re: [PATCH v5 00/13] virtio-gpu: Add support for Blob resources
- feature (v5)
-Message-ID: <162138532856.12324.10017985796840589879@0addf061776e>
+ (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
+ id 1ljBC1-0002Vm-W1; Tue, 18 May 2021 21:40:16 -0400
+IronPort-SDR: MX1zTUxWMgGZx9cthptNKSLQRoJIdRJ6BlXjhdUv14jEWupz6izEl8oVBsL/4NBqYHqhjcTgyg
+ D8GMDDwOCA+g==
+X-IronPort-AV: E=McAfee;i="6200,9189,9988"; a="200926128"
+X-IronPort-AV: E=Sophos;i="5.82,310,1613462400"; d="scan'208";a="200926128"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 May 2021 18:40:03 -0700
+IronPort-SDR: jcG5xmQgwXhYMmPqerItpI/g4IUZ+yWncXmHP3c8+cgMb9jIcP3rmqDNli46tzK+0jWH23XxO9
+ Mb9IdoZiWE/A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.82,310,1613462400"; d="scan'208";a="542257110"
+Received: from fmsmsx605.amr.corp.intel.com ([10.18.126.85])
+ by fmsmga001.fm.intel.com with ESMTP; 18 May 2021 18:40:03 -0700
+Received: from shsmsx604.ccr.corp.intel.com (10.109.6.214) by
+ fmsmsx605.amr.corp.intel.com (10.18.126.85) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.4; Tue, 18 May 2021 18:40:03 -0700
+Received: from shsmsx605.ccr.corp.intel.com (10.109.6.215) by
+ SHSMSX604.ccr.corp.intel.com (10.109.6.214) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.4; Wed, 19 May 2021 09:40:01 +0800
+Received: from shsmsx605.ccr.corp.intel.com ([10.109.6.215]) by
+ SHSMSX605.ccr.corp.intel.com ([10.109.6.215]) with mapi id 15.01.2242.008;
+ Wed, 19 May 2021 09:40:01 +0800
+From: "Zhang, Chen" <chen.zhang@intel.com>
+To: Lukas Straub <lukasstraub2@web.de>, qemu-devel <qemu-devel@nongnu.org>
+Subject: RE: [PATCH Resend] block/quorum: Provide .bdrv_co_flush instead of
+ .bdrv_co_flush_to_disk
+Thread-Topic: [PATCH Resend] block/quorum: Provide .bdrv_co_flush instead of
+ .bdrv_co_flush_to_disk
+Thread-Index: AQHXS9rwsPv74C8lzEKAheS/DOMF16rqB8aQ
+Date: Wed, 19 May 2021 01:40:01 +0000
+Message-ID: <b78a19caf80f4353b6b83b9cf3f26126@intel.com>
+References: <20210518134214.11ccf05f@gecko.fritz.box>
+In-Reply-To: <20210518134214.11ccf05f@gecko.fritz.box>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.5.1.3
+dlp-reaction: no-action
+x-originating-ip: [10.239.127.36]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: vivek.kasireddy@intel.com
-Date: Tue, 18 May 2021 17:48:49 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=134.134.136.65; envelope-from=chen.zhang@intel.com;
+ helo=mga03.intel.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,83 +82,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: kraxel@redhat.com, qemu-devel@nongnu.org, vivek.kasireddy@intel.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Alberto Garcia <berto@igalia.com>,
+ qemu-block <qemu-block@nongnu.org>, Max Reitz <mreitz@redhat.com>,
+ Zhang Chen <zhangckid@gmail.com>, Minghao Yuan <meeho@qq.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDUxOTAwMTQxNC43ODY0
-MzktMS12aXZlay5rYXNpcmVkZHlAaW50ZWwuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1z
-IHRvIGhhdmUgc29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9y
-Cm1vcmUgaW5mb3JtYXRpb246CgpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMjAyMTA1MTkwMDE0
-MTQuNzg2NDM5LTEtdml2ZWsua2FzaXJlZGR5QGludGVsLmNvbQpTdWJqZWN0OiBbUEFUQ0ggdjUg
-MDAvMTNdIHZpcnRpby1ncHU6IEFkZCBzdXBwb3J0IGZvciBCbG9iIHJlc291cmNlcyBmZWF0dXJl
-ICh2NSkKCj09PSBURVNUIFNDUklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJz
-ZSBiYXNlID4gL2Rldi9udWxsIHx8IGV4aXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5h
-bWVsaW1pdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmln
-IC0tbG9jYWwgZGlmZi5hbGdvcml0aG0gaGlzdG9ncmFtCi4vc2NyaXB0cy9jaGVja3BhdGNoLnBs
-IC0tbWFpbGJhY2sgYmFzZS4uCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgpVcGRhdGluZyAzYzhj
-ZjVhOWMyMWZmODc4MjE2NGQxZGVmN2Y0NGJkODg4NzEzMzg0CkZyb20gaHR0cHM6Ly9naXRodWIu
-Y29tL3BhdGNoZXctcHJvamVjdC9xZW11CiAqIFtuZXcgdGFnXSAgICAgICAgIHBhdGNoZXcvMjAy
-MTA1MTkwMDE0MTQuNzg2NDM5LTEtdml2ZWsua2FzaXJlZGR5QGludGVsLmNvbSAtPiBwYXRjaGV3
-LzIwMjEwNTE5MDAxNDE0Ljc4NjQzOS0xLXZpdmVrLmthc2lyZWRkeUBpbnRlbC5jb20KU3dpdGNo
-ZWQgdG8gYSBuZXcgYnJhbmNoICd0ZXN0JwoxMjhhOWQyIHZpcnRpby1ncHU6IFVwZGF0ZSBjdXJz
-b3IgZGF0YSB1c2luZyBibG9iCjA1Zjk5ODEgdmlydGlvLWdwdTogQWRkIHZpcnRpb19ncHVfc2V0
-X3NjYW5vdXRfYmxvYgplM2M5MzE0IHZpcnRpby1ncHU6IEZhY3RvciBvdXQgdXBkYXRlIHNjYW5v
-dXQKZGJjNjdmMSB2aXJ0aW8tZ3B1OiBBZGQgaGVscGVycyB0byBjcmVhdGUgYW5kIGRlc3Ryb3kg
-ZG1hYnVmIG9iamVjdHMKOTU3MDk5MSB1aS9waXhtYW46IEFkZCBxZW11X3BpeG1hbl90b19kcm1f
-Zm9ybWF0KCkKNDVkYTI5ZiB2aXJ0aW8tZ3B1OiBBZGQgdmlydGlvX2dwdV9yZXNvdXJjZV9jcmVh
-dGVfYmxvYgoyZjdmMThhIHZpcnRpby1ncHU6IEFkZCBpbml0aWFsIGRlZmluaXRpb25zIGZvciBi
-bG9iIHJlc291cmNlcwo3ZTk5Y2FlIHZpcnRpby1ncHU6IFJlZmFjdG9yIHZpcnRpb19ncHVfY3Jl
-YXRlX21hcHBpbmdfaW92CjMyMWNlM2EgdmlydGlvLWdwdTogUmVmYWN0b3IgdmlydGlvX2dwdV9z
-ZXRfc2Nhbm91dAo0NDJlYzRhIHZpcnRpby1ncHU6IEFkZCB2aXJ0aW9fZ3B1X2ZpbmRfY2hlY2tf
-cmVzb3VyY2UKMGQ2NjYyMiB2aXJ0aW8tZ3B1OiBBZGQgdWRtYWJ1ZiBoZWxwZXJzCmFlNjllY2Eg
-aGVhZGVyczogQWRkIHVkbWFidWYuaAo0ZDdkOWUxIHVpOiBHZXQgdGhlIGZkIGFzc29jaWF0ZWQg
-d2l0aCB1ZG1hYnVmIGRyaXZlcgoKPT09IE9VVFBVVCBCRUdJTiA9PT0KMS8xMyBDaGVja2luZyBj
-b21taXQgNGQ3ZDllMWViM2U0ICh1aTogR2V0IHRoZSBmZCBhc3NvY2lhdGVkIHdpdGggdWRtYWJ1
-ZiBkcml2ZXIpCldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRvZXMg
-TUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8KIzQ1OiAKbmV3IGZpbGUgbW9kZSAxMDA2NDQKCnRv
-dGFsOiAwIGVycm9ycywgMSB3YXJuaW5ncywgNTQgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMS8xMyBo
-YXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3Jz
-CmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpD
-SEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoyLzEzIENoZWNraW5nIGNvbW1pdCBhZTY5ZWNhM2Fi
-MjMgKGhlYWRlcnM6IEFkZCB1ZG1hYnVmLmgpCldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxl
-dGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8KIzIxOiAKbmV3IGZp
-bGUgbW9kZSAxMDA2NDQKCnRvdGFsOiAwIGVycm9ycywgMSB3YXJuaW5ncywgNTMgbGluZXMgY2hl
-Y2tlZAoKUGF0Y2ggMi8xMyBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBh
-bnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhl
-IG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgozLzEzIENoZWNraW5n
-IGNvbW1pdCAwZDY2NjIyYzU0ODIgKHZpcnRpby1ncHU6IEFkZCB1ZG1hYnVmIGhlbHBlcnMpCldB
-Uk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMg
-bmVlZCB1cGRhdGluZz8KIzQyOiAKbmV3IGZpbGUgbW9kZSAxMDA2NDQKCnRvdGFsOiAwIGVycm9y
-cywgMSB3YXJuaW5ncywgMjEyIGxpbmVzIGNoZWNrZWQKClBhdGNoIDMvMTMgaGFzIHN0eWxlIHBy
-b2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2Ug
-cG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBp
-biBNQUlOVEFJTkVSUy4KNC8xMyBDaGVja2luZyBjb21taXQgNDQyZWM0YTZhNzhkICh2aXJ0aW8t
-Z3B1OiBBZGQgdmlydGlvX2dwdV9maW5kX2NoZWNrX3Jlc291cmNlKQo1LzEzIENoZWNraW5nIGNv
-bW1pdCAzMjFjZTNhNmZkNWEgKHZpcnRpby1ncHU6IFJlZmFjdG9yIHZpcnRpb19ncHVfc2V0X3Nj
-YW5vdXQpCjYvMTMgQ2hlY2tpbmcgY29tbWl0IDdlOTljYWU4NjEwZiAodmlydGlvLWdwdTogUmVm
-YWN0b3IgdmlydGlvX2dwdV9jcmVhdGVfbWFwcGluZ19pb3YpCjcvMTMgQ2hlY2tpbmcgY29tbWl0
-IDJmN2YxOGFjOTdhZCAodmlydGlvLWdwdTogQWRkIGluaXRpYWwgZGVmaW5pdGlvbnMgZm9yIGJs
-b2IgcmVzb3VyY2VzKQo4LzEzIENoZWNraW5nIGNvbW1pdCA0NWRhMjlmZjI4MzAgKHZpcnRpby1n
-cHU6IEFkZCB2aXJ0aW9fZ3B1X3Jlc291cmNlX2NyZWF0ZV9ibG9iKQo5LzEzIENoZWNraW5nIGNv
-bW1pdCA5NTcwOTkxMzNhYTQgKHVpL3BpeG1hbjogQWRkIHFlbXVfcGl4bWFuX3RvX2RybV9mb3Jt
-YXQoKSkKMTAvMTMgQ2hlY2tpbmcgY29tbWl0IGRiYzY3ZjEyYmI1MyAodmlydGlvLWdwdTogQWRk
-IGhlbHBlcnMgdG8gY3JlYXRlIGFuZCBkZXN0cm95IGRtYWJ1ZiBvYmplY3RzKQpFUlJPUjogY29k
-ZSBpbmRlbnQgc2hvdWxkIG5ldmVyIHVzZSB0YWJzCiM4MDogRklMRTogaHcvZGlzcGxheS92aXJ0
-aW8tZ3B1LXVkbWFidWYuYzoyMTY6CiteSV5JXkluZXdfcHJpbWFyeS0+YnVmLndpZHRoLCQKCnRv
-dGFsOiAxIGVycm9ycywgMCB3YXJuaW5ncywgMTE3IGxpbmVzIGNoZWNrZWQKClBhdGNoIDEwLzEz
-IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJv
-cnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2Vl
-CkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCgoxMS8xMyBDaGVja2luZyBjb21taXQgZTNjOTMx
-NGJjNzFhICh2aXJ0aW8tZ3B1OiBGYWN0b3Igb3V0IHVwZGF0ZSBzY2Fub3V0KQoxMi8xMyBDaGVj
-a2luZyBjb21taXQgMDVmOTk4MWFjZDk0ICh2aXJ0aW8tZ3B1OiBBZGQgdmlydGlvX2dwdV9zZXRf
-c2Nhbm91dF9ibG9iKQoxMy8xMyBDaGVja2luZyBjb21taXQgMTI4YTlkMjAwYmRjICh2aXJ0aW8t
-Z3B1OiBVcGRhdGUgY3Vyc29yIGRhdGEgdXNpbmcgYmxvYikKPT09IE9VVFBVVCBFTkQgPT09CgpU
-ZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFi
-bGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAyMTA1MTkwMDE0MTQuNzg2NDM5LTEtdml2
-ZWsua2FzaXJlZGR5QGludGVsLmNvbS90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVzc2FnZS4K
-LS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0
-Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJl
-ZGhhdC5jb20=
+
+
+> -----Original Message-----
+> From: Lukas Straub <lukasstraub2@web.de>
+> Sent: Tuesday, May 18, 2021 7:42 PM
+> To: qemu-devel <qemu-devel@nongnu.org>
+> Cc: qemu-block <qemu-block@nongnu.org>; Alberto Garcia
+> <berto@igalia.com>; Kevin Wolf <kwolf@redhat.com>; Max Reitz
+> <mreitz@redhat.com>; Minghao Yuan <meeho@qq.com>; Zhang, Chen
+> <chen.zhang@intel.com>; Zhang Chen <zhangckid@gmail.com>
+> Subject: [PATCH Resend] block/quorum: Provide .bdrv_co_flush instead
+> of .bdrv_co_flush_to_disk
+>=20
+> The quorum block driver uses a custom flush callback to handle the case
+> when some children return io errors. In that case it still returns succes=
+s if
+> enough children are healthy.
+> However, it provides it as the .bdrv_co_flush_to_disk callback, not
+> as .bdrv_co_flush. This causes the block layer to do it's own generic flu=
+shing
+> for the children instead, which doesn't handle errors properly.
+>=20
+> Fix this by providing .bdrv_co_flush instead of .bdrv_co_flush_to_disk so=
+ the
+> block layer uses the custom flush callback.
+>=20
+> Signed-off-by: Lukas Straub <lukasstraub2@web.de>
+> Reported-by: Minghao Yuan <meeho@qq.com>
+
+Tested-by: Zhang Chen <chen.zhang@intel.com>
+
+Thanks
+Chen
+
+> ---
+>=20
+> Resend: git send-mail put a newline in the Subject: header so the mailing=
+ list
+> rejected it.
+>=20
+>  block/quorum.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/block/quorum.c b/block/quorum.c index cfc1436abb..f2c0805000
+> 100644
+> --- a/block/quorum.c
+> +++ b/block/quorum.c
+> @@ -1279,7 +1279,7 @@ static BlockDriver bdrv_quorum =3D {
+>      .bdrv_dirname                       =3D quorum_dirname,
+>      .bdrv_co_block_status               =3D quorum_co_block_status,
+>=20
+> -    .bdrv_co_flush_to_disk              =3D quorum_co_flush,
+> +    .bdrv_co_flush                      =3D quorum_co_flush,
+>=20
+>      .bdrv_getlength                     =3D quorum_getlength,
+>=20
+> --
+> 2.31.1
 
