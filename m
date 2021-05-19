@@ -2,30 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66E083897E0
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 22:28:53 +0200 (CEST)
-Received: from localhost ([::1]:38426 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DA753897F4
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 22:34:00 +0200 (CEST)
+Received: from localhost ([::1]:53606 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljSoG-0007sE-5A
-	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 16:28:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53476)
+	id 1ljStD-0001IO-96
+	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 16:33:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53390)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <agraf@csgraf.de>)
- id 1ljSjH-0005HY-8c; Wed, 19 May 2021 16:23:43 -0400
-Received: from mail.csgraf.de ([85.25.223.15]:48284 helo=zulu616.server4you.de)
+ id 1ljSj1-0004la-1V; Wed, 19 May 2021 16:23:28 -0400
+Received: from mail.csgraf.de ([85.25.223.15]:48272 helo=zulu616.server4you.de)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <agraf@csgraf.de>)
- id 1ljSjF-0003Pb-A0; Wed, 19 May 2021 16:23:43 -0400
+ id 1ljSim-0003J9-Hz; Wed, 19 May 2021 16:23:26 -0400
 Received: from localhost.localdomain
  (dynamic-095-114-039-201.95.114.pool.telefonica.de [95.114.39.201])
- by csgraf.de (Postfix) with ESMTPSA id 2F87560806C2;
- Wed, 19 May 2021 22:23:04 +0200 (CEST)
+ by csgraf.de (Postfix) with ESMTPSA id 848246080686;
+ Wed, 19 May 2021 22:22:59 +0200 (CEST)
 From: Alexander Graf <agraf@csgraf.de>
 To: QEMU Developers <qemu-devel@nongnu.org>
-Subject: [PATCH v8 14/19] arm/hvf: Add a WFI handler
-Date: Wed, 19 May 2021 22:22:48 +0200
-Message-Id: <20210519202253.76782-15-agraf@csgraf.de>
+Subject: [PATCH v8 07/19] hvf: Split out common code on vcpu init and destroy
+Date: Wed, 19 May 2021 22:22:41 +0200
+Message-Id: <20210519202253.76782-8-agraf@csgraf.de>
 X-Mailer: git-send-email 2.30.1 (Apple Git-130)
 In-Reply-To: <20210519202253.76782-1-agraf@csgraf.de>
 References: <20210519202253.76782-1-agraf@csgraf.de>
@@ -60,176 +60,150 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Peter Collingbourne <pcc@google.com>
+Until now, Hypervisor.framework has only been available on x86_64 systems.
+With Apple Silicon shipping now, it extends its reach to aarch64. To
+prepare for support for multiple architectures, let's start moving common
+code out into its own accel directory.
 
-Sleep on WFI until the VTIMER is due but allow ourselves to be woken
-up on IPI.
+This patch splits the vcpu init and destroy functions into a generic and
+an architecture specific portion. This also allows us to move the generic
+functions into the generic hvf code, removing exported functions.
 
-In this implementation IPI is blocked on the CPU thread at startup and
-pselect() is used to atomically unblock the signal and begin sleeping.
-The signal is sent unconditionally so there's no need to worry about
-races between actually sleeping and the "we think we're sleeping"
-state. It may lead to an extra wakeup but that's better than missing
-it entirely.
-
-Signed-off-by: Peter Collingbourne <pcc@google.com>
-[agraf: Remove unused 'set' variable, always advance PC on WFX trap]
 Signed-off-by: Alexander Graf <agraf@csgraf.de>
-Acked-by: Roman Bolshakov <r.bolshakov@yadro.com>
-
 ---
-
-v6 -> v7:
-
-  - Move WFI into function
-  - Improve comment wording
----
- accel/hvf/hvf-accel-ops.c |  5 ++-
- include/sysemu/hvf_int.h  |  1 +
- target/arm/hvf/hvf.c      | 68 +++++++++++++++++++++++++++++++++++++++
- 3 files changed, 71 insertions(+), 3 deletions(-)
+ accel/hvf/hvf-accel-ops.c | 30 ++++++++++++++++++++++++++++++
+ accel/hvf/hvf-accel-ops.h |  2 --
+ include/sysemu/hvf_int.h  |  2 ++
+ target/i386/hvf/hvf.c     | 23 ++---------------------
+ 4 files changed, 34 insertions(+), 23 deletions(-)
 
 diff --git a/accel/hvf/hvf-accel-ops.c b/accel/hvf/hvf-accel-ops.c
-index 48e402ef57..63ec8a6f25 100644
+index 7370fcfba0..b262efd8b6 100644
 --- a/accel/hvf/hvf-accel-ops.c
 +++ b/accel/hvf/hvf-accel-ops.c
-@@ -369,15 +369,14 @@ static int hvf_init_vcpu(CPUState *cpu)
-     cpu->hvf = g_malloc0(sizeof(*cpu->hvf));
+@@ -363,6 +363,36 @@ static void hvf_type_init(void)
  
-     /* init cpu signals */
--    sigset_t set;
-     struct sigaction sigact;
+ type_init(hvf_type_init);
  
-     memset(&sigact, 0, sizeof(sigact));
-     sigact.sa_handler = dummy_signal;
-     sigaction(SIG_IPI, &sigact, NULL);
++static void hvf_vcpu_destroy(CPUState *cpu)
++{
++    hv_return_t ret = hv_vcpu_destroy(cpu->hvf_fd);
++    assert_hvf_ok(ret);
++
++    hvf_arch_vcpu_destroy(cpu);
++}
++
++static int hvf_init_vcpu(CPUState *cpu)
++{
++    int r;
++
++    /* init cpu signals */
++    sigset_t set;
++    struct sigaction sigact;
++
++    memset(&sigact, 0, sizeof(sigact));
++    sigact.sa_handler = dummy_signal;
++    sigaction(SIG_IPI, &sigact, NULL);
++
++    pthread_sigmask(SIG_BLOCK, NULL, &set);
++    sigdelset(&set, SIG_IPI);
++
++    r = hv_vcpu_create((hv_vcpuid_t *)&cpu->hvf_fd, HV_VCPU_DEFAULT);
++    cpu->vcpu_dirty = 1;
++    assert_hvf_ok(r);
++
++    return hvf_arch_init_vcpu(cpu);
++}
++
+ /*
+  * The HVF-specific vCPU thread function. This one should only run when the host
+  * CPU supports the VMX "unrestricted guest" feature.
+diff --git a/accel/hvf/hvf-accel-ops.h b/accel/hvf/hvf-accel-ops.h
+index 8f992da168..09fcf22067 100644
+--- a/accel/hvf/hvf-accel-ops.h
++++ b/accel/hvf/hvf-accel-ops.h
+@@ -12,12 +12,10 @@
  
--    pthread_sigmask(SIG_BLOCK, NULL, &set);
--    sigdelset(&set, SIG_IPI);
-+    pthread_sigmask(SIG_BLOCK, NULL, &cpu->hvf->unblock_ipi_mask);
-+    sigdelset(&cpu->hvf->unblock_ipi_mask, SIG_IPI);
+ #include "sysemu/cpus.h"
  
- #ifdef __aarch64__
-     r = hv_vcpu_create(&cpu->hvf->fd, (hv_vcpu_exit_t **)&cpu->hvf->exit, NULL);
+-int hvf_init_vcpu(CPUState *);
+ int hvf_vcpu_exec(CPUState *);
+ void hvf_cpu_synchronize_state(CPUState *);
+ void hvf_cpu_synchronize_post_reset(CPUState *);
+ void hvf_cpu_synchronize_post_init(CPUState *);
+ void hvf_cpu_synchronize_pre_loadvm(CPUState *);
+-void hvf_vcpu_destroy(CPUState *);
+ 
+ #endif /* HVF_CPUS_H */
 diff --git a/include/sysemu/hvf_int.h b/include/sysemu/hvf_int.h
-index e52d67ed5c..6d4eef8065 100644
+index d15fa3302a..80c1a8f946 100644
 --- a/include/sysemu/hvf_int.h
 +++ b/include/sysemu/hvf_int.h
-@@ -51,6 +51,7 @@ struct hvf_vcpu_state {
-     uint64_t fd;
-     void *exit;
-     bool vtimer_masked;
-+    sigset_t unblock_ipi_mask;
- };
+@@ -44,6 +44,8 @@ struct HVFState {
+ extern HVFState *hvf_state;
  
  void assert_hvf_ok(hv_return_t ret);
-diff --git a/target/arm/hvf/hvf.c b/target/arm/hvf/hvf.c
-index 3934c05979..67002efd36 100644
---- a/target/arm/hvf/hvf.c
-+++ b/target/arm/hvf/hvf.c
-@@ -2,6 +2,7 @@
-  * QEMU Hypervisor.framework support for Apple Silicon
- 
-  * Copyright 2020 Alexander Graf <agraf@csgraf.de>
-+ * Copyright 2020 Google LLC
-  *
-  * This work is licensed under the terms of the GNU GPL, version 2 or later.
-  * See the COPYING file in the top-level directory.
-@@ -17,6 +18,8 @@
- #include "sysemu/hvf_int.h"
- #include "sysemu/hw_accel.h"
- 
-+#include <mach/mach_time.h>
-+
- #include "exec/address-spaces.h"
- #include "hw/irq.h"
- #include "qemu/main-loop.h"
-@@ -457,6 +460,7 @@ int hvf_arch_init_vcpu(CPUState *cpu)
- 
- void hvf_kick_vcpu_thread(CPUState *cpu)
- {
-+    cpus_kick_thread(cpu);
-     hv_vcpus_exit(&cpu->hvf->fd, 1);
++int hvf_arch_init_vcpu(CPUState *cpu);
++void hvf_arch_vcpu_destroy(CPUState *cpu);
+ hvf_slot *hvf_find_overlap_slot(uint64_t, uint64_t);
+ int hvf_put_registers(CPUState *);
+ int hvf_get_registers(CPUState *);
+diff --git a/target/i386/hvf/hvf.c b/target/i386/hvf/hvf.c
+index 100ede2a4d..c7132ee370 100644
+--- a/target/i386/hvf/hvf.c
++++ b/target/i386/hvf/hvf.c
+@@ -158,14 +158,12 @@ static bool ept_emulation_fault(hvf_slot *slot, uint64_t gpa, uint64_t ept_qual)
+     return false;
  }
  
-@@ -536,6 +540,67 @@ static int hvf_inject_interrupts(CPUState *cpu)
-     return 0;
+-void hvf_vcpu_destroy(CPUState *cpu)
++void hvf_arch_vcpu_destroy(CPUState *cpu)
+ {
+     X86CPU *x86_cpu = X86_CPU(cpu);
+     CPUX86State *env = &x86_cpu->env;
+ 
+-    hv_return_t ret = hv_vcpu_destroy((hv_vcpuid_t)cpu->hvf_fd);
+     g_free(env->hvf_mmio_buf);
+-    assert_hvf_ok(ret);
  }
  
-+static void hvf_wait_for_ipi(CPUState *cpu, struct timespec *ts)
-+{
-+    /*
-+     * Use pselect to sleep so that other threads can IPI us while we're
-+     * sleeping.
-+     */
-+    qatomic_mb_set(&cpu->thread_kicked, false);
-+    qemu_mutex_unlock_iothread();
-+    pselect(0, 0, 0, 0, ts, &cpu->hvf->unblock_ipi_mask);
-+    qemu_mutex_lock_iothread();
-+}
-+
-+static void hvf_wfi(CPUState *cpu)
-+{
-+    ARMCPU *arm_cpu = ARM_CPU(cpu);
-+    hv_return_t r;
-+    uint64_t ctl;
-+
-+    if (cpu->interrupt_request & (CPU_INTERRUPT_HARD | CPU_INTERRUPT_FIQ)) {
-+        /* Interrupt pending, no need to wait */
-+        return;
-+    }
-+
-+    r = hv_vcpu_get_sys_reg(cpu->hvf->fd, HV_SYS_REG_CNTV_CTL_EL0,
-+                            &ctl);
-+    assert_hvf_ok(r);
-+
-+    if (!(ctl & 1) || (ctl & 2)) {
-+        /* Timer disabled or masked, just wait for an IPI. */
-+        hvf_wait_for_ipi(cpu, NULL);
-+        return;
-+    }
-+
-+    uint64_t cval;
-+    r = hv_vcpu_get_sys_reg(cpu->hvf->fd, HV_SYS_REG_CNTV_CVAL_EL0,
-+                            &cval);
-+    assert_hvf_ok(r);
-+
-+    int64_t ticks_to_sleep = cval - mach_absolute_time();
-+    if (ticks_to_sleep < 0) {
-+        return;
-+    }
-+
-+    uint64_t seconds = ticks_to_sleep / arm_cpu->gt_cntfrq_hz;
-+    uint64_t nanos =
-+        (ticks_to_sleep - arm_cpu->gt_cntfrq_hz * seconds) *
-+        1000000000 / arm_cpu->gt_cntfrq_hz;
-+
-+    /*
-+     * Don't sleep for less than the time a context switch would take,
-+     * so that we can satisfy fast timer requests on the same CPU.
-+     * Measurements on M1 show the sweet spot to be ~2ms.
-+     */
-+    if (!seconds && nanos < 2000000) {
-+        return;
-+    }
-+
-+    struct timespec ts = { seconds, nanos };
-+    hvf_wait_for_ipi(cpu, &ts);
-+}
-+
- static void hvf_sync_vtimer(CPUState *cpu)
+ static void init_tsc_freq(CPUX86State *env)
+@@ -210,23 +208,10 @@ static inline bool apic_bus_freq_is_known(CPUX86State *env)
+     return env->apic_bus_freq != 0;
+ }
+ 
+-int hvf_init_vcpu(CPUState *cpu)
++int hvf_arch_init_vcpu(CPUState *cpu)
  {
-     ARMCPU *arm_cpu = ARM_CPU(cpu);
-@@ -670,6 +735,9 @@ int hvf_vcpu_exec(CPUState *cpu)
+-
+     X86CPU *x86cpu = X86_CPU(cpu);
+     CPUX86State *env = &x86cpu->env;
+-    int r;
+-
+-    /* init cpu signals */
+-    sigset_t set;
+-    struct sigaction sigact;
+-
+-    memset(&sigact, 0, sizeof(sigact));
+-    sigact.sa_handler = dummy_signal;
+-    sigaction(SIG_IPI, &sigact, NULL);
+-
+-    pthread_sigmask(SIG_BLOCK, NULL, &set);
+-    sigdelset(&set, SIG_IPI);
+ 
+     init_emu();
+     init_decoder();
+@@ -243,10 +228,6 @@ int hvf_init_vcpu(CPUState *cpu)
+         }
      }
-     case EC_WFX_TRAP:
-         advance_pc = true;
-+        if (!(syndrome & WFX_IS_WFE)) {
-+            hvf_wfi(cpu);
-+        }
-         break;
-     case EC_AA64_HVC:
-         cpu_synchronize_state(cpu);
+ 
+-    r = hv_vcpu_create((hv_vcpuid_t *)&cpu->hvf_fd, HV_VCPU_DEFAULT);
+-    cpu->vcpu_dirty = 1;
+-    assert_hvf_ok(r);
+-
+     if (hv_vmx_read_capability(HV_VMX_CAP_PINBASED,
+         &hvf_state->hvf_caps->vmx_cap_pinbased)) {
+         abort();
 -- 
 2.30.1 (Apple Git-130)
 
