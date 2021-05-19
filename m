@@ -2,56 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4262B389835
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 22:47:11 +0200 (CEST)
-Received: from localhost ([::1]:53170 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70B3138986D
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 23:09:57 +0200 (CEST)
+Received: from localhost ([::1]:33136 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljT5y-0003H7-0z
-	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 16:47:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57510)
+	id 1ljTS0-0001W7-1y
+	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 17:09:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33074)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1ljT5C-0002aB-Gl; Wed, 19 May 2021 16:46:22 -0400
-Resent-Date: Wed, 19 May 2021 16:46:22 -0400
-Resent-Message-Id: <E1ljT5C-0002aB-Gl@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21332)
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1ljTQo-0000pM-M5
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 17:08:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48432)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1ljT59-0000iM-B4; Wed, 19 May 2021 16:46:22 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1621457155; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=GYbtseKsK+wgiAXx9N1sGfBFdnN1DXzhBu4Z/0NGk60jwUdYkTUVW08GsygBwATqLIFTmP/MaxgXArqkhyPoIe0V7wSF6a/zpd0DTkXf3Kjivc6CjQSzCCEWkSTPKPnBM1V2cUOBPsEhoRkc+4j8GeThVXaNUted5rPt5wSHaUk=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1621457155;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=1VTqfdlg0o+CyFY+G1uRB8D//GHoUasVtb5VWOYHzt4=; 
- b=L5kQmZms3j0jMS/MHFa3xfy2P0mKSuOJXvM9oV/yGePPqMt+7nhP7bCFwMkW53aOAJFqSgmMBBUdWIQqeLY/mslHYwH0kRz1cbpaNFU7c3vxgSbMVYo0gDZ8xFmlLgYIW8K9erAAzWJScvguu+Ifoe9A5tgQVXQ4c24UpEFw05s=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 162145715308911.687752060337289;
- Wed, 19 May 2021 13:45:53 -0700 (PDT)
-In-Reply-To: <20210519202253.76782-1-agraf@csgraf.de>
-Subject: Re: [PATCH v8 00/19] hvf: Implement Apple Silicon Support
-Message-ID: <162145715125.22783.12874209207034977556@0addf061776e>
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1ljTQl-00066X-91
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 17:08:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1621458517;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=0srEJPogk1eNi6HYQVbcVfD/T9hmM9s25IQX3SMlap4=;
+ b=AA4IEj6lON4p1RCDmXKWwYR6u0BqWvLx44pdNWt/mxfTuKx+mfnY6SthHkg729G/ZeUg7x
+ 2/bX35BXs2GYI7F1i7opTbNjZj2ezWhdoW0U2XxpLLjObbyrGSetGzyP+mSn9ZxgG2QDOz
+ 3BiChIBwslzFjBSwdANcW8gvX8H2Zz0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-92-wDIMoiQTPCiwkQP5fPNphw-1; Wed, 19 May 2021 17:08:35 -0400
+X-MC-Unique: wDIMoiQTPCiwkQP5fPNphw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DE43D803622;
+ Wed, 19 May 2021 21:08:32 +0000 (UTC)
+Received: from redhat.com (ovpn-113-225.phx2.redhat.com [10.3.113.225])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2D35E5D9CC;
+ Wed, 19 May 2021 21:08:18 +0000 (UTC)
+Date: Wed, 19 May 2021 15:08:17 -0600
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Thanos Makatos <thanos.makatos@nutanix.com>
+Subject: Re: [PATCH v8] introduce vfio-user protocol specification
+Message-ID: <20210519150817.6a90985b.alex.williamson@redhat.com>
+In-Reply-To: <20210414114122.236193-1-thanos.makatos@nutanix.com>
+References: <20210414114122.236193-1-thanos.makatos@nutanix.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: agraf@csgraf.de
-Date: Wed, 19 May 2021 13:45:53 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124;
+ envelope-from=alex.williamson@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.39,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -64,126 +79,328 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, ehabkost@redhat.com, pcc@google.com,
- richard.henderson@linaro.org, qemu-devel@nongnu.org, dirty@apple.com,
- r.bolshakov@yadro.com, qemu-arm@nongnu.org, lfy@google.com,
- pbonzini@redhat.com, philmd@redhat.com
+Cc: benjamin.walker@intel.com, John G Johnson <john.g.johnson@oracle.com>,
+ Swapnil Ingle <swapnil.ingle@nutanix.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ qemu-devel@nongnu.org, John Levon <levon@movementarian.org>,
+ Kirti Wankhede <kwankhede@nvidia.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ tina.zhang@intel.com, jag.raman@oracle.com, james.r.harris@intel.com,
+ John Levon <john.levon@nutanix.com>,
+ Elena Ufimtseva <elena.ufimtseva@oracle.com>, Kanth.Ghatraju@oracle.com,
+ Felipe Franciosi <felipe@nutanix.com>, marcandre.lureau@redhat.com,
+ Yan Zhao <yan.y.zhao@intel.com>, konrad.wilk@oracle.com,
+ yuvalkashtan@gmail.com, dgilbert@redhat.com, ismael@linux.com,
+ Stefan Hajnoczi <stefanha@redhat.com>, changpeng.liu@intel.com,
+ tomassetti.andrea@gmail.com, mpiszczek@ddn.com,
+ Cornelia Huck <cohuck@redhat.com>,
+ Christophe de Dinechin <cdupontd@redhat.com>,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>, xiuchun.lu@intel.com,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDUxOTIwMjI1My43Njc4
-Mi0xLWFncmFmQGNzZ3JhZi5kZS8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVtcyB0byBoYXZlIHNv
-bWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvcgptb3JlIGluZm9y
-bWF0aW9uOgoKVHlwZTogc2VyaWVzCk1lc3NhZ2UtaWQ6IDIwMjEwNTE5MjAyMjUzLjc2NzgyLTEt
-YWdyYWZAY3NncmFmLmRlClN1YmplY3Q6IFtQQVRDSCB2OCAwMC8xOV0gaHZmOiBJbXBsZW1lbnQg
-QXBwbGUgU2lsaWNvbiBTdXBwb3J0Cgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9i
-YXNoCmdpdCByZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0IDAKZ2l0IGNvbmZpZyAt
-LWxvY2FsIGRpZmYucmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVz
-IFRydWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhpc3RvZ3JhbQouL3Njcmlw
-dHMvY2hlY2twYXRjaC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVTVCBTQ1JJUFQgRU5EID09
-PQoKVXBkYXRpbmcgM2M4Y2Y1YTljMjFmZjg3ODIxNjRkMWRlZjdmNDRiZDg4ODcxMzM4NApGcm9t
-IGh0dHBzOi8vZ2l0aHViLmNvbS9wYXRjaGV3LXByb2plY3QvcWVtdQogLSBbdGFnIHVwZGF0ZV0g
-ICAgICBwYXRjaGV3LzIwMjEwNTE5MTY1MDAyLjExOTU3NDUtMS10aXR1c3JAZ29vZ2xlLmNvbSAt
-PiBwYXRjaGV3LzIwMjEwNTE5MTY1MDAyLjExOTU3NDUtMS10aXR1c3JAZ29vZ2xlLmNvbQogKiBb
-bmV3IHRhZ10gICAgICAgICBwYXRjaGV3LzIwMjEwNTE5MjAyMjUzLjc2NzgyLTEtYWdyYWZAY3Nn
-cmFmLmRlIC0+IHBhdGNoZXcvMjAyMTA1MTkyMDIyNTMuNzY3ODItMS1hZ3JhZkBjc2dyYWYuZGUK
-U3dpdGNoZWQgdG8gYSBuZXcgYnJhbmNoICd0ZXN0JwphOTE0OTFhIGh2ZjogYXJtOiBIYW5kbGUg
-V2luZG93cyAxMCBTTUMgY2FsbAozZGM3NTUzIGFybTogRW5hYmxlIFdpbmRvd3MgMTAgdHJ1c3Rl
-ZCBTTUNDQyBib290IGNhbGwKNjVlODExNSBhcm06IEFkZCBIeXBlcnZpc29yLmZyYW1ld29yayBi
-dWlsZCB0YXJnZXQKMWNmYTFkMCBodmY6IGFybTogSW1wbGVtZW50IFBTQ0kgaGFuZGxpbmcKNjNl
-MGY2ZiBodmY6IGFybTogSW1wbGVtZW50IC1jcHUgaG9zdAozY2Y4MzNlIGFybS9odmY6IEFkZCBh
-IFdGSSBoYW5kbGVyCmNhMzA4OTMgaHZmOiBBZGQgQXBwbGUgU2lsaWNvbiBzdXBwb3J0CjhhNTkx
-YmQgaHZmOiBTaW1wbGlmeSBwb3N0IHJlc2V0L2luaXQvbG9hZHZtIGhvb2tzCjBjZDE1ZTQgaHZm
-OiBJbnRyb2R1Y2UgaHZmIHZjcHUgc3RydWN0CjA4NmY0MmQgaHZmOiBSZW1vdmUgaHZmLWFjY2Vs
-LW9wcy5oCjYzY2E3NWIgaHZmOiBNYWtlIHN5bmNocm9uaXplIGZ1bmN0aW9ucyBzdGF0aWMKNmEx
-MDM5MCBodmY6IFVzZSBjcHVfc3luY2hyb25pemVfc3RhdGUoKQpiMDY1NThhIGh2ZjogU3BsaXQg
-b3V0IGNvbW1vbiBjb2RlIG9uIHZjcHUgaW5pdCBhbmQgZGVzdHJveQpkZThhY2U2IGh2ZjogUmVt
-b3ZlIHVzZSBvZiBodl91dmFkZHJfdCBhbmQgaHZfZ3BhZGRyX3QKZjRiNzk0MCBodmY6IE1ha2Ug
-aHZmX3NldF9waHlzX21lbSgpIHN0YXRpYwo4Mzk4M2ZjIGh2ZjogTW92ZSBodmYgaW50ZXJuYWwg
-ZGVmaW5pdGlvbnMgaW50byBjb21tb24gaGVhZGVyCmUwMTFkYmIgaHZmOiBNb3ZlIGNwdSBmdW5j
-dGlvbnMgaW50byBjb21tb24gZGlyZWN0b3J5CmFjN2Q1MjIgaHZmOiBNb3ZlIHZjcHUgdGhyZWFk
-IGZ1bmN0aW9ucyBpbnRvIGNvbW1vbiBkaXJlY3RvcnkKNzJhYTdhZSBodmY6IE1vdmUgYXNzZXJ0
-X2h2Zl9vaygpIGludG8gY29tbW9uIGRpcmVjdG9yeQoKPT09IE9VVFBVVCBCRUdJTiA9PT0KMS8x
-OSBDaGVja2luZyBjb21taXQgNzJhYTdhZWIwNWU3IChodmY6IE1vdmUgYXNzZXJ0X2h2Zl9vaygp
-IGludG8gY29tbW9uIGRpcmVjdG9yeSkKMi8xOSBDaGVja2luZyBjb21taXQgYWM3ZDUyMmUwY2Fl
-IChodmY6IE1vdmUgdmNwdSB0aHJlYWQgZnVuY3Rpb25zIGludG8gY29tbW9uIGRpcmVjdG9yeSkK
-V0FSTklORzogYWRkZWQsIG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVS
-UyBuZWVkIHVwZGF0aW5nPwojMTc6IAoge3RhcmdldC9pMzg2ID0+IGFjY2VsfS9odmYvaHZmLWFj
-Y2VsLW9wcy5jIHwgMAoKdG90YWw6IDAgZXJyb3JzLCAxIHdhcm5pbmdzLCAyMSBsaW5lcyBjaGVj
-a2VkCgpQYXRjaCAyLzE5IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFu
-eSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUg
-bWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjMvMTkgQ2hlY2tpbmcg
-Y29tbWl0IGUwMTFkYmI0Y2M1OCAoaHZmOiBNb3ZlIGNwdSBmdW5jdGlvbnMgaW50byBjb21tb24g
-ZGlyZWN0b3J5KQo0LzE5IENoZWNraW5nIGNvbW1pdCA4Mzk4M2ZjOTZlNGYgKGh2ZjogTW92ZSBo
-dmYgaW50ZXJuYWwgZGVmaW5pdGlvbnMgaW50byBjb21tb24gaGVhZGVyKQo1LzE5IENoZWNraW5n
-IGNvbW1pdCBmNGI3OTQwNWJjYzUgKGh2ZjogTWFrZSBodmZfc2V0X3BoeXNfbWVtKCkgc3RhdGlj
-KQo2LzE5IENoZWNraW5nIGNvbW1pdCBkZThhY2U2MDMzZjEgKGh2ZjogUmVtb3ZlIHVzZSBvZiBo
-dl91dmFkZHJfdCBhbmQgaHZfZ3BhZGRyX3QpCjcvMTkgQ2hlY2tpbmcgY29tbWl0IGIwNjU1OGE4
-MjZhNCAoaHZmOiBTcGxpdCBvdXQgY29tbW9uIGNvZGUgb24gdmNwdSBpbml0IGFuZCBkZXN0cm95
-KQo4LzE5IENoZWNraW5nIGNvbW1pdCA2YTEwMzkwM2Y0MDEgKGh2ZjogVXNlIGNwdV9zeW5jaHJv
-bml6ZV9zdGF0ZSgpKQo5LzE5IENoZWNraW5nIGNvbW1pdCA2M2NhNzViN2M5MDQgKGh2ZjogTWFr
-ZSBzeW5jaHJvbml6ZSBmdW5jdGlvbnMgc3RhdGljKQoxMC8xOSBDaGVja2luZyBjb21taXQgMDg2
-ZjQyZGUyNGI1IChodmY6IFJlbW92ZSBodmYtYWNjZWwtb3BzLmgpCldBUk5JTkc6IGFkZGVkLCBt
-b3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8K
-IzMzOiAKZGVsZXRlZCBmaWxlIG1vZGUgMTAwNjQ0Cgp0b3RhbDogMCBlcnJvcnMsIDEgd2Fybmlu
-Z3MsIDIzIGxpbmVzIGNoZWNrZWQKClBhdGNoIDEwLzE5IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxl
-YXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyBy
-ZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5F
-UlMuCjExLzE5IENoZWNraW5nIGNvbW1pdCAwY2QxNWU0ODA3NWEgKGh2ZjogSW50cm9kdWNlIGh2
-ZiB2Y3B1IHN0cnVjdCkKV0FSTklORzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzE1NDogRklM
-RTogdGFyZ2V0L2kzODYvaHZmL2h2Zi5jOjI2MzoKKyAgICB3dm1jcyhjcHUtPmh2Zi0+ZmQsIFZN
-Q1NfRU5UUllfQ1RMUywgY2FwMmN0cmwoaHZmX3N0YXRlLT5odmZfY2Fwcy0+dm14X2NhcF9lbnRy
-eSwKCkVSUk9SOiAiKGZvbyopIiBzaG91bGQgYmUgIihmb28gKikiCiM3Njc6IEZJTEU6IHRhcmdl
-dC9pMzg2L2h2Zi94ODZodmYuYzo4MzoKKyAgICBpZiAoaHZfdmNwdV93cml0ZV9mcHN0YXRlKGNw
-dV9zdGF0ZS0+aHZmLT5mZCwgKHZvaWQqKXhzYXZlLCA0MDk2KSkgewoKRVJST1I6ICIoZm9vKiki
-IHNob3VsZCBiZSAiKGZvbyAqKSIKIzg0ODogRklMRTogdGFyZ2V0L2kzODYvaHZmL3g4Nmh2Zi5j
-OjE2NToKKyAgICBpZiAoaHZfdmNwdV9yZWFkX2Zwc3RhdGUoY3B1X3N0YXRlLT5odmYtPmZkLCAo
-dm9pZCopeHNhdmUsIDQwOTYpKSB7Cgp0b3RhbDogMiBlcnJvcnMsIDEgd2FybmluZ3MsIDEwMDEg
-bGluZXMgY2hlY2tlZAoKUGF0Y2ggMTEvMTkgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2
-aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0
-aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KCjEy
-LzE5IENoZWNraW5nIGNvbW1pdCA4YTU5MWJkNGI4NmIgKGh2ZjogU2ltcGxpZnkgcG9zdCByZXNl
-dC9pbml0L2xvYWR2bSBob29rcykKMTMvMTkgQ2hlY2tpbmcgY29tbWl0IGNhMzA4OTMyMWNiOSAo
-aHZmOiBBZGQgQXBwbGUgU2lsaWNvbiBzdXBwb3J0KQpXQVJOSU5HOiBhcmNoaXRlY3R1cmUgc3Bl
-Y2lmaWMgZGVmaW5lcyBzaG91bGQgYmUgYXZvaWRlZAojNTY6IEZJTEU6IGFjY2VsL2h2Zi9odmYt
-YWNjZWwtb3BzLmM6NjM6CisjaWZkZWYgX19hYXJjaDY0X18KCldBUk5JTkc6IGFyY2hpdGVjdHVy
-ZSBzcGVjaWZpYyBkZWZpbmVzIHNob3VsZCBiZSBhdm9pZGVkCiM2NzogRklMRTogYWNjZWwvaHZm
-L2h2Zi1hY2NlbC1vcHMuYzozODI6CisjaWZkZWYgX19hYXJjaDY0X18KCldBUk5JTkc6IGFyY2hp
-dGVjdHVyZSBzcGVjaWZpYyBkZWZpbmVzIHNob3VsZCBiZSBhdm9pZGVkCiMxMDE6IEZJTEU6IGlu
-Y2x1ZGUvc3lzZW11L2h2Zl9pbnQuaDoxNDoKKyNpZmRlZiBfX2FhcmNoNjRfXwoKdG90YWw6IDAg
-ZXJyb3JzLCAzIHdhcm5pbmdzLCA3OTYgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMTMvMTkgaGFzIHN0
-eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUg
-ZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQ
-QVRDSCBpbiBNQUlOVEFJTkVSUy4KMTQvMTkgQ2hlY2tpbmcgY29tbWl0IDNjZjgzM2VkZTE4MiAo
-YXJtL2h2ZjogQWRkIGEgV0ZJIGhhbmRsZXIpCjE1LzE5IENoZWNraW5nIGNvbW1pdCA2M2UwZjZm
-YjhjNjUgKGh2ZjogYXJtOiBJbXBsZW1lbnQgLWNwdSBob3N0KQpXQVJOSU5HOiBhZGRlZCwgbW92
-ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBkb2VzIE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/CiMx
-Nzk6IApuZXcgZmlsZSBtb2RlIDEwMDY0NAoKdG90YWw6IDAgZXJyb3JzLCAxIHdhcm5pbmdzLCAx
-NjAgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMTUvMTkgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2Ug
-cmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9y
-dCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4K
-MTYvMTkgQ2hlY2tpbmcgY29tbWl0IDFjZmExZDA4Mjk2OCAoaHZmOiBhcm06IEltcGxlbWVudCBQ
-U0NJIGhhbmRsaW5nKQpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgYSBsZWFkaW5nIC8qIG9u
-IGEgc2VwYXJhdGUgbGluZQojMTI0OiBGSUxFOiB0YXJnZXQvYXJtL2h2Zi9odmYuYzo2MTg6Cisg
-ICAgICAgIC8qIFFFTVUgcmVzZXQgYW5kIHNodXRkb3duIGFyZSBhc3luYyByZXF1ZXN0cywgYnV0
-IFBTQ0kKCnRvdGFsOiAwIGVycm9ycywgMSB3YXJuaW5ncywgMTcwIGxpbmVzIGNoZWNrZWQKClBh
-dGNoIDE2LzE5IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0
-aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRh
-aW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjE3LzE5IENoZWNraW5nIGNvbW1p
-dCA2NWU4MTE1MWNjNTcgKGFybTogQWRkIEh5cGVydmlzb3IuZnJhbWV3b3JrIGJ1aWxkIHRhcmdl
-dCkKV0FSTklORzogYWRkZWQsIG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJ
-TkVSUyBuZWVkIHVwZGF0aW5nPwojNDE6IApuZXcgZmlsZSBtb2RlIDEwMDY0NAoKdG90YWw6IDAg
-ZXJyb3JzLCAxIHdhcm5pbmdzLCAyMyBsaW5lcyBjaGVja2VkCgpQYXRjaCAxNy8xOSBoYXMgc3R5
-bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBm
-YWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BB
-VENIIGluIE1BSU5UQUlORVJTLgoxOC8xOSBDaGVja2luZyBjb21taXQgM2RjNzU1MzE4MGZiIChh
-cm06IEVuYWJsZSBXaW5kb3dzIDEwIHRydXN0ZWQgU01DQ0MgYm9vdCBjYWxsKQoxOS8xOSBDaGVj
-a2luZyBjb21taXQgYTkxNDkxYTYxZmZjIChodmY6IGFybTogSGFuZGxlIFdpbmRvd3MgMTAgU01D
-IGNhbGwpCj09PSBPVVRQVVQgRU5EID09PQoKVGVzdCBjb21tYW5kIGV4aXRlZCB3aXRoIGNvZGU6
-IDEKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dz
-LzIwMjEwNTE5MjAyMjUzLjc2NzgyLTEtYWdyYWZAY3NncmFmLmRlL3Rlc3RpbmcuY2hlY2twYXRj
-aC8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0
-Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRv
-IHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
+On Wed, 14 Apr 2021 04:41:22 -0700
+Thanos Makatos <thanos.makatos@nutanix.com> wrote:
+> +
+> +VFIO_USER_DMA_MAP
+> +-----------------
+> +
+> +Message Format
+> +^^^^^^^^^^^^^^
+> +
+> ++--------------+------------------------+
+> +| Name         | Value                  |
+> ++==============+========================+
+> +| Message ID   | <ID>                   |
+> ++--------------+------------------------+
+> +| Command      | 2                      |
+> ++--------------+------------------------+
+> +| Message size | 16 + table size        |
+> ++--------------+------------------------+
+> +| Flags        | Reply bit set in reply |
+> ++--------------+------------------------+
+> +| Error        | 0/errno                |
+> ++--------------+------------------------+
+> +| Table        | array of table entries |
+> ++--------------+------------------------+
+> +
+> +This command message is sent by the client to the server to inform it of the
+> +memory regions the server can access. It must be sent before the server can
+> +perform any DMA to the client. It is normally sent directly after the version
+> +handshake is completed, but may also occur when memory is added to the client,
+> +or if the client uses a vIOMMU. If the client does not expect the server to
+> +perform DMA then it does not need to send to the server VFIO_USER_DMA_MAP
+> +commands. If the server does not need to perform DMA then it can ignore such
+> +commands but it must still reply to them. The table is an array of the
+> +following structure:
+> +
+> +Table entry format
+> +^^^^^^^^^^^^^^^^^^
+> +
+> ++-------------+--------+-------------+
+> +| Name        | Offset | Size        |
+> ++=============+========+=============+
+> +| Address     | 0      | 8           |
+> ++-------------+--------+-------------+
+> +| Size        | 8      | 8           |
+> ++-------------+--------+-------------+
+> +| Offset      | 16     | 8           |
+> ++-------------+--------+-------------+
+> +| Protections | 24     | 4           |
+> ++-------------+--------+-------------+
+> +| Flags       | 28     | 4           |
+> ++-------------+--------+-------------+
+> +|             | +-----+------------+ |
+> +|             | | Bit | Definition | |
+> +|             | +=====+============+ |
+> +|             | | 0   | Mappable   | |
+> +|             | +-----+------------+ |
+> ++-------------+--------+-------------+
+> +
+> +* *Address* is the base DMA address of the region.
+> +* *Size* is the size of the region.
+> +* *Offset* is the file offset of the region with respect to the associated file
+> +  descriptor.
+
+It might help to explicitly state this value is ignored by the server
+for non-mappable DMA, otherwise a server might assume a specific value
+is required (ex. zero) for such cases.
+
+> +* *Protections* are the region's protection attributes as encoded in
+> +  ``<sys/mman.h>``.
+> +* *Flags* contains the following region attributes:
+> +
+> +  * *Mappable* indicates that the region can be mapped via the mmap() system
+> +    call using the file descriptor provided in the message meta-data.
+> +
+> +This structure is 32 bytes in size, so the message size is:
+> +16 + (# of table entries * 32).
+> +
+> +If a DMA region being added can be directly mapped by the server, an array of
+> +file descriptors must be sent as part of the message meta-data. Each mappable
+> +region entry must have a corresponding file descriptor. On AF_UNIX sockets, the
+
+Is this saying that if the client provides table entries where indexes
+1, 3, and 5 are indicated as mappable, then there must be an ancillary
+file descriptor array with 3 entries, where fd[0] maps to entry[1],
+fd[1]:entry[3], and fd[2]:entry[5], even if fd[0-2] are all the
+same file descriptor?
+
+> +file descriptors must be passed as SCM_RIGHTS type ancillary data. Otherwise,
+> +if a DMA region cannot be directly mapped by the server, it can be accessed by
+> +the server using VFIO_USER_DMA_READ and VFIO_USER_DMA_WRITE messages, explained
+> +in `Read and Write Operations`_. A command to map over an existing region must
+> +be failed by the server with ``EEXIST`` set in error field in the reply.
+> +
+> +Adding multiple DMA regions can partially fail. The response does not indicate
+> +which regions were added and which were not, therefore it is a client
+> +implementation detail how to recover from the failure.
+> +
+> +.. Note::
+> +   The server can optionally remove succesfully added DMA regions making this
+> +   operation atomic.
+> +   The client can recover by attempting to unmap one by one all the DMA regions
+> +   in the VFIO_USER_DMA_MAP command, ignoring failures for regions that do not
+> +   exist.
+
+What's the benefit of specifying this server behavior as optional?  I'm
+afraid this unspecified error recovery behavior might actually deter
+clients from performing batch mappings.  Servers also have little
+incentive to do their own cleanup if the client has no way to detect
+that behavior.
+
+> +
+> +
+> +VFIO_USER_DMA_UNMAP
+> +-------------------
+> +
+> +Message Format
+> +^^^^^^^^^^^^^^
+> +
+> ++--------------+------------------------+
+> +| Name         | Value                  |
+> ++==============+========================+
+> +| Message ID   | <ID>                   |
+> ++--------------+------------------------+
+> +| Command      | 3                      |
+> ++--------------+------------------------+
+> +| Message size | 16 + table size        |
+> ++--------------+------------------------+
+> +| Flags        | Reply bit set in reply |
+> ++--------------+------------------------+
+> +| Error        | 0/errno                |
+> ++--------------+------------------------+
+> +| Table        | array of table entries |
+> ++--------------+------------------------+
+> +
+> +This command message is sent by the client to the server to inform it that a
+> +DMA region, previously made available via a VFIO_USER_DMA_MAP command message,
+> +is no longer available for DMA. It typically occurs when memory is subtracted
+> +from the client or if the client uses a vIOMMU. If the client does not expect
+> +the server to perform DMA then it does not need to send to the server
+> +VFIO_USER_DMA_UNMAP commands. If the server does not need to perform DMA then
+> +it can ignore such commands but it must still reply to them. The table is an
+
+I'm confused why expectation of DMA plays a factor here.  For example,
+if QEMU unplugs a DIMM and the server has an mmap of the file descriptor
+related to that DIMM, does it get to retain the mmap if it doesn't
+currently have any DMA queued targeting that address range?  Can QEMU
+skip sending an unmap if the PCI bus master bit is disabled on the
+device preventing further DMA?  How can the associated file descriptor
+get released?  This doesn't feel strongly specified.
+
+
+> +array of the following structure:
+> +
+> +Table entry format
+> +^^^^^^^^^^^^^^^^^^
+> +
+> ++--------------+--------+---------------------------------------+
+> +| Name         | Offset | Size                                  |
+> ++==============+========+=======================================+
+> +| Address      | 0      | 8                                     |
+> ++--------------+--------+---------------------------------------+
+> +| Size         | 8      | 8                                     |
+> ++--------------+--------+---------------------------------------+
+> +| Offset       | 16     | 8                                     |
+> ++--------------+--------+---------------------------------------+
+> +| Protections  | 24     | 4                                     |
+> ++--------------+--------+---------------------------------------+
+> +| Flags        | 28     | 4                                     |
+> ++--------------+--------+---------------------------------------+
+> +|              | +-----+--------------------------------------+ |
+> +|              | | Bit | Definition                           | |
+> +|              | +=====+======================================+ |
+> +|              | | 0   | VFIO_DMA_UNMAP_FLAG_GET_DIRTY_BITMAP | |
+> +|              | +-----+--------------------------------------+ |
+> ++--------------+--------+---------------------------------------+
+> +| VFIO Bitmaps | 32     | variable                              |
+> ++--------------+--------+---------------------------------------+
+> +
+> +* *Address* is the base DMA address of the region.
+> +* *Size* is the size of the region.
+
+Are there any assumptions about address and size of the unmap command
+relative to the original map command or is the client freely allowed to
+bisect, overlap, or overextend previous mappings?
+
+
+> +* *Offset* is the file offset of the region with respect to the associated file
+> +  descriptor.
+> +* *Protections* are the region's protection attributes as encoded in
+> +  ``<sys/mman.h>``.
+> +* *Flags* contains the following region attributes:
+> +
+> +  * *VFIO_DMA_UNMAP_FLAG_GET_DIRTY_BITMAP* indicates that a dirty page bitmap
+> +    must be populated before unmapping the DMA region. The client must provide
+> +    a ``struct vfio_bitmap`` in the VFIO bitmaps field for each region, with
+> +    the ``vfio_bitmap.pgsize`` and ``vfio_bitmap.size`` fields initialized.
+> +
+> +* *VFIO Bitmaps* contains one ``struct vfio_bitmap`` per region (explained
+> +  below) if ``VFIO_DMA_UNMAP_FLAG_GET_DIRTY_BITMAP`` is set in Flags.
+
+How will this be extended when new flags are added to get new data or
+new data formats?  Note for instance that the kernel struct
+vfio_iommu_type1_dma_unmap specifies the data[] as opaque in general and
+only specifies it as struct vfio_bitmap for the case where
+GET_DIRTY_BITMAP is specified.
+
+
+> +
+> +.. _VFIO bitmap format:
+> +
+> +VFIO bitmap format
+> +^^^^^^^^^^^^^^^^^^
+> +
+> +If the VFIO_DMA_UNMAP_FLAG_GET_DIRTY_BITMAP bit is set in the request, the
+> +server must append to the header the ``struct vfio_bitmap`` received in the
+> +command followed by the bitmap, for each region. ``struct vfio_bitmap`` has the
+> +following format:
+> +
+> ++--------+--------+------+
+> +| Name   | Offset | Size |
+> ++========+========+======+
+> +| pgsize | 0      | 8    |
+> ++--------+--------+------+
+> +| size   | 8      | 8    |
+> ++--------+--------+------+
+> +| data   | 16     | 8    |
+> ++--------+--------+------+
+> +
+> +* *pgsize* is the page size for the bitmap, in bytes.
+> +* *size* is the size for the bitmap, in bytes, excluding the VFIO bitmap header.
+> +* *data* This field is unused in vfio-user.
+> +
+> +The VFIO bitmap structure is defined in ``<linux/vfio.h>``
+> +(``struct vfio_bitmap``).
+> +
+> +Each ``struct vfio_bitmap`` entry is followed by the region's bitmap. Each bit
+> +in the bitmap represents one page of size ``struct vfio_bitmap.pgsize``.
+> +
+> +If ``VFIO_DMA_UNMAP_FLAG_GET_DIRTY_BITMAP`` is not set in Flags then the size
+> +of the message is: 16 + (# of table entries * 32).
+> +If ``VFIO_DMA_UNMAP_FLAG_GET_DIRTY_BITMAP`` is set in Flags then the size of
+> +the message is: 16 + (# of table entries * 56) + size of all bitmaps.
+> +
+> +Upon receiving a VFIO_USER_DMA_UNMAP command, if the file descriptor is mapped
+> +then the server must release all references to that DMA region before replying,
+> +which includes potentially in flight DMA transactions. Removing a portion of a
+> +DMA region is possible.
+
+Ah, maybe this answers my question about unmap vs map, but it also seems
+to contradict the description allowing the server to ignore unmap
+requests if no DMA is expected when we state here that the server MUST
+release references.  How might we indicate unmap granularity must match
+mapping granularity restrictions to the user in the future should some
+acceleration technology require it?  This is akin to the TYPE1 vs
+TYPE1v2 distinction in the kernel.
+
+Is this also a good place to point out that the max messages size of
+4096 is extremely limiting for returning a dirty bitmap for most use
+cases?  Some discussion of the error codes for such a case might be
+relevant here too.
+
+...
+> +VFIO_USER_VM_INTERRUPT
+> +----------------------
+> +
+> +Message format
+> +^^^^^^^^^^^^^^
+> +
+> ++----------------+------------------------+
+> +| Name           | Value                  |
+> ++================+========================+
+> +| Message ID     | <ID>                   |
+> ++----------------+------------------------+
+> +| Command        | 13                     |
+> ++----------------+------------------------+
+> +| Message size   | 20                     |
+> ++----------------+------------------------+
+> +| Flags          | Reply bit set in reply |
+> ++----------------+------------------------+
+> +| Error          | 0/errno                |
+> ++----------------+------------------------+
+> +| Interrupt info | <interrupt>            |
+> ++----------------+------------------------+
+> +
+> +This command message is sent from the server to the client to signal the device
+> +has raised an interrupt.
+> +
+> +Interrupt info format
+> +^^^^^^^^^^^^^^^^^^^^^
+> +
+> ++-----------+--------+------+
+> +| Name      | Offset | Size |
+> ++===========+========+======+
+> +| Sub-index | 16     | 4    |
+> ++-----------+--------+------+
+> +
+> +* *Sub-index* is relative to the IRQ index, e.g., the vector number used in PCI
+> +  MSI/X type interrupts.
+
+Sorry if I'm blind, but where is the index itself provided?
+
+Thanks,
+Alex
+
 
