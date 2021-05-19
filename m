@@ -2,41 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BDDD3883C9
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 02:31:40 +0200 (CEST)
-Received: from localhost ([::1]:35146 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1A463883CE
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 02:34:17 +0200 (CEST)
+Received: from localhost ([::1]:41912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljA7f-00022U-9T
-	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 20:31:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58756)
+	id 1ljAAC-0006gA-FW
+	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 20:34:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58770)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vivek.kasireddy@intel.com>)
- id 1ljA32-00036c-SC
- for qemu-devel@nongnu.org; Tue, 18 May 2021 20:26:53 -0400
+ id 1ljA35-000371-DZ
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 20:26:56 -0400
 Received: from mga09.intel.com ([134.134.136.24]:43003)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vivek.kasireddy@intel.com>)
- id 1ljA30-0006Qv-61
- for qemu-devel@nongnu.org; Tue, 18 May 2021 20:26:52 -0400
-IronPort-SDR: X0cWCs1bmQq1y4QKcbmKU+9vOz+N6Fns4KUImcwGGlpgTF7BQ3n75BFrI3HSb8N0krBDHIULGL
- GVJA4LpdwUqA==
-X-IronPort-AV: E=McAfee;i="6200,9189,9988"; a="200902429"
-X-IronPort-AV: E=Sophos;i="5.82,310,1613462400"; d="scan'208";a="200902429"
+ id 1ljA33-0006Qv-6d
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 20:26:55 -0400
+IronPort-SDR: NxgaAhjD9AWEHBY4cTQxcP4ufxQIIGdgORN9KNZkkM0rb2H4icHDh8mHV8sVfcSnYCFVycYwKu
+ Pevj8KWEK1wg==
+X-IronPort-AV: E=McAfee;i="6200,9189,9988"; a="200902431"
+X-IronPort-AV: E=Sophos;i="5.82,310,1613462400"; d="scan'208";a="200902431"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  18 May 2021 17:26:40 -0700
-IronPort-SDR: u3FExC8N31VLUDfuW5m50pej/TN5a92UIgXvGsqG7F/6YMy8zRKZWLPa86SWobYtOJZQ1X7epr
- qxndB3pW0Scg==
-X-IronPort-AV: E=Sophos;i="5.82,310,1613462400"; d="scan'208";a="394177342"
+IronPort-SDR: TuJPQ21FYc7zvLswiZxKEVwEe2AWYYGXowk6Wv6Q/lQAobBv6W6P7LdmKoghXRqdhZcQsRyN/w
+ 5XaWybH2opHQ==
+X-IronPort-AV: E=Sophos;i="5.82,310,1613462400"; d="scan'208";a="394177347"
 Received: from vkasired-desk2.fm.intel.com ([10.105.128.127])
  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  18 May 2021 17:26:40 -0700
 From: Vivek Kasireddy <vivek.kasireddy@intel.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 01/13] ui: Get the fd associated with udmabuf driver
-Date: Tue, 18 May 2021 17:14:02 -0700
-Message-Id: <20210519001414.786439-2-vivek.kasireddy@intel.com>
+Subject: [PATCH v5 02/13] headers: Add udmabuf.h
+Date: Tue, 18 May 2021 17:14:03 -0700
+Message-Id: <20210519001414.786439-3-vivek.kasireddy@intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210519001414.786439-1-vivek.kasireddy@intel.com>
 References: <20210519001414.786439-1-vivek.kasireddy@intel.com>
@@ -67,89 +67,85 @@ Cc: Vivek Kasireddy <vivek.kasireddy@intel.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Try to open the udmabuf dev node for the first time or return the
-fd if the device was previously opened.
+This adds udmabuf header to standard headers so that the
+relevant udmabuf objects can be accessed in subsequent
+patches.
 
 Based-on-patch-by: Gerd Hoffmann <kraxel@redhat.com>
 Cc: Gerd Hoffmann <kraxel@redhat.com>
 Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
 ---
- include/ui/console.h |  3 +++
- ui/meson.build       |  1 +
- ui/udmabuf.c         | 40 ++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 44 insertions(+)
- create mode 100644 ui/udmabuf.c
+ include/standard-headers/linux/udmabuf.h | 32 ++++++++++++++++++++++++
+ scripts/update-linux-headers.sh          |  3 +++
+ 2 files changed, 35 insertions(+)
+ create mode 100644 include/standard-headers/linux/udmabuf.h
 
-diff --git a/include/ui/console.h b/include/ui/console.h
-index ca3c7af6a6..b30b63976a 100644
---- a/include/ui/console.h
-+++ b/include/ui/console.h
-@@ -471,4 +471,7 @@ bool vnc_display_reload_certs(const char *id,  Error **errp);
- /* input.c */
- int index_from_key(const char *key, size_t key_length);
- 
-+/* udmabuf.c */
-+int udmabuf_fd(void);
-+
- #endif
-diff --git a/ui/meson.build b/ui/meson.build
-index e8d3ff41b9..7a709ff548 100644
---- a/ui/meson.build
-+++ b/ui/meson.build
-@@ -11,6 +11,7 @@ softmmu_ss.add(files(
-   'kbd-state.c',
-   'keymaps.c',
-   'qemu-pixman.c',
-+  'udmabuf.c',
- ))
- softmmu_ss.add([spice_headers, files('spice-module.c')])
- 
-diff --git a/ui/udmabuf.c b/ui/udmabuf.c
+diff --git a/include/standard-headers/linux/udmabuf.h b/include/standard-headers/linux/udmabuf.h
 new file mode 100644
-index 0000000000..e6234fd86f
+index 0000000000..e19eb5b5ce
 --- /dev/null
-+++ b/ui/udmabuf.c
-@@ -0,0 +1,40 @@
-+/*
-+ * udmabuf helper functions.
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
-+#include "qemu/osdep.h"
-+#include "qapi/error.h"
-+#include "ui/console.h"
++++ b/include/standard-headers/linux/udmabuf.h
+@@ -0,0 +1,32 @@
++/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
++#ifndef _LINUX_UDMABUF_H
++#define _LINUX_UDMABUF_H
 +
-+#ifdef CONFIG_LINUX
++#include "standard-headers/linux/types.h"
 +
-+#include <sys/fcntl.h>
-+#include <sys/ioctl.h>
++#define UDMABUF_FLAGS_CLOEXEC	0x01
 +
-+int udmabuf_fd(void)
-+{
-+    static bool first = true;
-+    static int udmabuf;
++struct udmabuf_create {
++	uint32_t memfd;
++	uint32_t flags;
++	uint64_t offset;
++	uint64_t size;
++};
 +
-+    if (!first) {
-+        return udmabuf;
-+    }
-+    first = false;
++struct udmabuf_create_item {
++	uint32_t memfd;
++	uint32_t __pad;
++	uint64_t offset;
++	uint64_t size;
++};
 +
-+    udmabuf = open("/dev/udmabuf", O_RDWR);
-+    if (udmabuf < 0) {
-+        warn_report("open /dev/udmabuf: %s", strerror(errno));
-+    }
-+    return udmabuf;
-+}
++struct udmabuf_create_list {
++	uint32_t flags;
++	uint32_t count;
++	struct udmabuf_create_item list[];
++};
 +
-+#else
++#define UDMABUF_CREATE       _IOW('u', 0x42, struct udmabuf_create)
++#define UDMABUF_CREATE_LIST  _IOW('u', 0x43, struct udmabuf_create_list)
 +
-+int udmabuf_fd(void)
-+{
-+    return -1;
-+}
-+
-+#endif
++#endif /* _LINUX_UDMABUF_H */
+diff --git a/scripts/update-linux-headers.sh b/scripts/update-linux-headers.sh
+index 1050e36169..fea4d6eb65 100755
+--- a/scripts/update-linux-headers.sh
++++ b/scripts/update-linux-headers.sh
+@@ -34,6 +34,7 @@ cp_portable() {
+     if
+         grep '#include' "$f" | grep -v -e 'linux/virtio' \
+                                      -e 'linux/types' \
++                                     -e 'linux/ioctl' \
+                                      -e 'stdint' \
+                                      -e 'linux/if_ether' \
+                                      -e 'input-event-codes' \
+@@ -66,6 +67,7 @@ cp_portable() {
+         -e 's/__BITS_PER_LONG/HOST_LONG_BITS/' \
+         -e '/\"drm.h\"/d' \
+         -e '/sys\/ioctl.h/d' \
++        -e '/linux\/ioctl.h/d' \
+         -e 's/SW_MAX/SW_MAX_/' \
+         -e 's/atomic_t/int/' \
+         -e 's/__kernel_long_t/long/' \
+@@ -190,6 +192,7 @@ for i in "$tmpdir"/include/linux/*virtio*.h \
+          "$tmpdir/include/linux/fuse.h" \
+          "$tmpdir/include/linux/input.h" \
+          "$tmpdir/include/linux/input-event-codes.h" \
++         "$tmpdir/include/linux/udmabuf.h" \
+          "$tmpdir/include/linux/pci_regs.h" \
+          "$tmpdir/include/linux/ethtool.h" \
+          "$tmpdir/include/linux/const.h" \
 -- 
 2.30.2
 
