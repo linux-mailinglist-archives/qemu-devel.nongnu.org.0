@@ -2,42 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 991E5388F11
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 15:28:01 +0200 (CEST)
-Received: from localhost ([::1]:46526 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C22A388EEE
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 15:22:39 +0200 (CEST)
+Received: from localhost ([::1]:59010 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljMEy-00063w-MG
-	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 09:28:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33702)
+	id 1ljM9m-0003Nl-MJ
+	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 09:22:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33604)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1ljLhl-0002Hv-Nf; Wed, 19 May 2021 08:53:43 -0400
-Received: from ozlabs.org ([203.11.71.1]:50731)
+ id 1ljLhT-00023C-As; Wed, 19 May 2021 08:53:23 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:59893)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1ljLhi-0001Xp-E2; Wed, 19 May 2021 08:53:40 -0400
+ id 1ljLhR-0001Zw-Dz; Wed, 19 May 2021 08:53:22 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4FlXnp1JT1z9t9y; Wed, 19 May 2021 22:52:13 +1000 (AEST)
+ id 4FlXnp57Cmz9tB1; Wed, 19 May 2021 22:52:14 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1621428734;
- bh=YLQV41tCRO0Sn+ZD8X4LB0WgTPfP62gFsVq0Rcx24EI=;
+ bh=4JnAYd9TRyRFu4bSK2imsM+WTU2zQGtEP0etK1q9SSg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=n3KAM+HZOnlUAtSE3L4VD8o1tH3ngwXlVveTnBZe1HowlL/F0MW0DNJDefuFVNmuk
- Rr4C2hJvYm8gkTRne9PE3VRZotWJhSOHcjZe7LIh1n3IIljilvYZ3ufEJhl7b8GDMR
- PtoGKCXnUp83YbEi2G3J6oRyazJEspehcokACcsw=
+ b=YdDSE1AOW4z8k3HUiuqrAzhk0kARUEBpONkvF+QH96mGh3FsFgCszm2cQG0aJaZSq
+ mSIpggS0NMAJwfmKua130XWHmGf7ecq25rlIsEv5vnUMPp81GdURYC96YpDBQgVwEU
+ 5hXf4ZJevIIGzkTZSSo1j3S1DYh9t6l9NhCUo8FM=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org,
 	groug@kaod.org
-Subject: [PULL 40/48] target/ppc: Remove type argument from check_prot
-Date: Wed, 19 May 2021 22:51:40 +1000
-Message-Id: <20210519125148.27720-41-david@gibson.dropbear.id.au>
+Subject: [PULL 41/48] target/ppc: Remove type argument from
+ ppc6xx_tlb_pte_check
+Date: Wed, 19 May 2021 22:51:41 +1000
+Message-Id: <20210519125148.27720-42-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210519125148.27720-1-david@gibson.dropbear.id.au>
 References: <20210519125148.27720-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -64,90 +65,37 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-We can now use MMU_INST_FETCH from access_type for this.
-Use prot_for_access_type to simplify everything.
+It is no longer used.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20210518201146.794854-8-richard.henderson@linaro.org>
-[dwg: Remove a stray trailing whitespace]
+Message-Id: <20210518201146.794854-9-richard.henderson@linaro.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- target/ppc/mmu_helper.c | 33 ++++++---------------------------
- 1 file changed, 6 insertions(+), 27 deletions(-)
+ target/ppc/mmu_helper.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/target/ppc/mmu_helper.c b/target/ppc/mmu_helper.c
-index 2aa1b777de..2c813af924 100644
+index 2c813af924..0c10677ade 100644
 --- a/target/ppc/mmu_helper.c
 +++ b/target/ppc/mmu_helper.c
-@@ -32,6 +32,7 @@
- #include "qemu/error-report.h"
- #include "qemu/main-loop.h"
- #include "qemu/qemu-print.h"
-+#include "internal.h"
- #include "mmu-book3s-v3.h"
- #include "mmu-radix64.h"
- 
-@@ -126,31 +127,9 @@ static int pp_check(int key, int pp, int nx)
-     return access;
- }
- 
--static int check_prot(int prot, MMUAccessType access_type, int type)
-+static int check_prot(int prot, MMUAccessType access_type)
- {
--    int ret;
--
--    if (type == ACCESS_CODE) {
--        if (prot & PAGE_EXEC) {
--            ret = 0;
--        } else {
--            ret = -2;
--        }
--    } else if (access_type == MMU_DATA_STORE) {
--        if (prot & PAGE_WRITE) {
--            ret = 0;
--        } else {
--            ret = -2;
--        }
--    } else {
--        if (prot & PAGE_READ) {
--            ret = 0;
--        } else {
--            ret = -2;
--        }
--    }
--
--    return ret;
-+    return prot & prot_for_access_type(access_type) ? 0 : -2;
- }
+@@ -134,7 +134,7 @@ static int check_prot(int prot, MMUAccessType access_type)
  
  static int ppc6xx_tlb_pte_check(mmu_ctx_t *ctx, target_ulong pte0,
-@@ -182,7 +161,7 @@ static int ppc6xx_tlb_pte_check(mmu_ctx_t *ctx, target_ulong pte0,
-             /* Keep the matching PTE information */
-             ctx->raddr = pte1;
-             ctx->prot = access;
--            ret = check_prot(ctx->prot, access_type, type);
-+            ret = check_prot(ctx->prot, access_type);
-             if (ret == 0) {
-                 /* Access granted */
-                 qemu_log_mask(CPU_LOG_MMU, "PTE access granted !\n");
-@@ -441,7 +420,7 @@ static int get_bat_6xx_tlb(CPUPPCState *env, mmu_ctx_t *ctx,
-                     (virtual & 0x0001F000);
-                 /* Compute access rights */
-                 ctx->prot = prot;
--                ret = check_prot(ctx->prot, access_type, type);
-+                ret = check_prot(ctx->prot, access_type);
-                 if (ret == 0) {
-                     LOG_BATS("BAT %d match: r " TARGET_FMT_plx " prot=%c%c\n",
-                              i, ctx->raddr, ctx->prot & PAGE_READ ? 'R' : '-',
-@@ -733,7 +712,7 @@ static int mmu40x_get_physical_address(CPUPPCState *env, mmu_ctx_t *ctx,
-         check_perms:
-             /* Check from TLB entry */
-             ctx->prot = tlb->prot;
--            ret = check_prot(ctx->prot, access_type, type);
-+            ret = check_prot(ctx->prot, access_type);
-             if (ret == -2) {
-                 env->spr[SPR_40x_ESR] = 0;
-             }
+                                 target_ulong pte1, int h,
+-                                MMUAccessType access_type, int type)
++                                MMUAccessType access_type)
+ {
+     target_ulong ptem, mmask;
+     int access, ret, pteh, ptev, pp;
+@@ -316,7 +316,7 @@ static int ppc6xx_tlb_check(CPUPPCState *env, mmu_ctx_t *ctx,
+                   access_type == MMU_DATA_STORE ? 'S' : 'L',
+                   type == ACCESS_CODE ? 'I' : 'D');
+         switch (ppc6xx_tlb_pte_check(ctx, tlb->pte0, tlb->pte1,
+-                                     0, access_type, type)) {
++                                     0, access_type)) {
+         case -3:
+             /* TLB inconsistency */
+             return -1;
 -- 
 2.31.1
 
