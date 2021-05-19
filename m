@@ -2,67 +2,126 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B61C38899F
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 10:43:14 +0200 (CEST)
-Received: from localhost ([::1]:47366 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCA06388A2C
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 11:07:46 +0200 (CEST)
+Received: from localhost ([::1]:57392 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljHnM-0002er-Od
-	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 04:43:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58492)
+	id 1ljIB7-0002ER-CR
+	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 05:07:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1ljHmS-0001k6-0O; Wed, 19 May 2021 04:42:16 -0400
-Received: from szxga04-in.huawei.com ([45.249.212.190]:3248)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1ljI9L-0001Lj-IE; Wed, 19 May 2021 05:05:56 -0400
+Received: from mail-eopbgr70118.outbound.protection.outlook.com
+ ([40.107.7.118]:23783 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1ljHmO-0008CT-50; Wed, 19 May 2021 04:42:15 -0400
-Received: from dggems703-chm.china.huawei.com (unknown [172.30.72.58])
- by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4FlR9x1yQtz1BNgH;
- Wed, 19 May 2021 16:39:17 +0800 (CST)
-Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
- dggems703-chm.china.huawei.com (10.3.19.180) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Wed, 19 May 2021 16:42:03 +0800
-Received: from [10.174.187.128] (10.174.187.128) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.1.2176.2; Wed, 19 May 2021 16:42:01 +0800
-Subject: Re: [RFC PATCH v2 5/6] hw/arm/virt-acpi-build: Add PPTT table
-To: Andrew Jones <drjones@redhat.com>, Salil Mehta <salil.mehta@huawei.com>
-References: <20210413080745.33004-1-wangyanan55@huawei.com>
- <20210413080745.33004-6-wangyanan55@huawei.com>
- <1551b7d6-e010-e5c7-47e1-c347ca78a1db@huawei.com>
- <a6ccb20f19b743a29f6aaffcf3088df2@huawei.com>
- <20210518074221.umezsdedzyzmcbsk@gator.home>
- <80dca9f16c5b4bef9900f6cf76c99500@huawei.com>
- <20210518190539.fwsvl2ijb4jlzbyi@gator.home>
- <b61a7413f98a430685b838eecc2db74f@huawei.com>
- <224d54ac-0c03-afc4-4aec-ea3435aa68e7@huawei.com>
- <f766805215ac439bb988dab02247ec71@huawei.com>
- <20210519081507.mnk43k77wbekeany@gator.home>
-From: "wangyanan (Y)" <wangyanan55@huawei.com>
-Message-ID: <d42d0132-43dd-9bd5-f3c5-a3f3e2eeb81e@huawei.com>
-Date: Wed, 19 May 2021 16:42:01 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1ljI9I-0006KO-K3; Wed, 19 May 2021 05:05:54 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=AiViEv+8e2c65rDxG/QWWRwj9EHUZJPdea/GKn1dn25KewoeOFRSWVYeeO7LdyaE65qH4PlJjT5hDgOkjakJZPKkwYZsQzVWf7LjO2xjqhbbpfpn/NWwe0FdSLFJ9dSjj9BtkVmrFcE9F2X1l8fqIJnXUY/nd5eCKSLpdoQ+fUY6OFK+obFREUDLJcbf5la2Hr+U7quoDEJ0TVJnY3GbqearErOxPg3ZxYFwEJj7zOlaJT8EEF/rAC8p99ILohtM+jJLvV4v8VA7lH5MgsxtkZ8h/N2qo59BcTRLB/LDQgIUqYwT2el9RzKMqVJM8fOACEl15M2Q0+/8Bf7C7+JW/w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9jABq1thuZxGXeO5ZIWPblyNZEwo3AJF0vKMPdUDV/Q=;
+ b=ZSHQ28RHYOgByTf0hf8jNF/RhVGaD4tzQeGZi9X63Dj5Pyyi8DOhK2Af8iwTrVbrqH1qT6Ey1f2V0d+QPInH3tnaC0VwSMVxF6i4fBbRI/RDONsoi3ZhP1jhvxvngFlSTa97ijBqRqWNDyl60z4f8wUa8h3eKXFy053yn2C/BSwF1BPIkKoGO4TCw2JK6wUYElhVlwh2pOTFlkixqcl5z6GQqOUKUJbNpyCH7mEGY0xcyG3rci8UTSSiC+hBb2G6OqAWggktZ63D0Mq3jhHdzr604uij806HQf7CYUWUdaDobmK5nWUJiAC1StIojkObbuYtZ3n/i0FyBq1fQ3vgyA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9jABq1thuZxGXeO5ZIWPblyNZEwo3AJF0vKMPdUDV/Q=;
+ b=iMwJJUi4Zcbe4bgiI8JF1Rooifg0HFrIB8QOwNhH8dvdbaMmu2WOeCKGnveY4xC51KNpNCXwMr1ZJXiKm0pwBfBIiSvh7UUM1sdImWTwPdi/TPIn+Z31N+0I8qVk6nH5wuR8+728/u/xtILpVYHuGRvLoN8kUjViKfHrR99Av/0=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM5PR0801MB1841.eurprd08.prod.outlook.com (2603:10a6:203:2e::7)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4129.26; Wed, 19 May
+ 2021 09:05:47 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::b403:c1a9:6bb7:133]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::b403:c1a9:6bb7:133%7]) with mapi id 15.20.4129.033; Wed, 19 May 2021
+ 09:05:47 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, mreitz@redhat.com, kwolf@redhat.com,
+ stefanha@gmail.com, Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: [PATCH] qemu-io-cmds: assert that we don't have .perm requested in
+ no-blk case
+Date: Wed, 19 May 2021 12:05:32 +0300
+Message-Id: <20210519090532.3753-1-vsementsov@virtuozzo.com>
+X-Mailer: git-send-email 2.29.2
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [185.215.60.218]
+X-ClientProxiedBy: HE1PR06CA0140.eurprd06.prod.outlook.com
+ (2603:10a6:7:16::27) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-In-Reply-To: <20210519081507.mnk43k77wbekeany@gator.home>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Originating-IP: [10.174.187.128]
-X-ClientProxiedBy: dggeme704-chm.china.huawei.com (10.1.199.100) To
- dggpemm500023.china.huawei.com (7.185.36.83)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.190;
- envelope-from=wangyanan55@huawei.com; helo=szxga04-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from localhost.localdomain (185.215.60.218) by
+ HE1PR06CA0140.eurprd06.prod.outlook.com (2603:10a6:7:16::27) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4129.33 via Frontend Transport; Wed, 19 May 2021 09:05:46 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: f5ace4a2-b1b7-449a-24eb-08d91aa54a55
+X-MS-TrafficTypeDiagnostic: AM5PR0801MB1841:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM5PR0801MB18410095AC3DA0E45CB73E0DC12B9@AM5PR0801MB1841.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 7r20neFLqB/eU8QNjCPqox3MaypCGes8SONtJmvggXKzkMO30TMytxkHP2/bB0fdHs8clRvE3vjpLh5FFDWSY3SxPs2/okL9Pw0W6hBm8REiJo7E2+KobdqRNJi1WcBaNEJMLK+vM5wbc47/W8nJFh3vz82fHgR+2uYrwy344v1s2SI0LTlsmJAQBZJheQTcPRGjd7UukP0FBrEQoE25YTnSBpfZEsciO1PAIApzJFACARzXlWFx5fSRDpg5ThvigSUpmTZeZsbRrlHrXazwyoR+eoBw93yiWRyCum9W/TCDpvdbXUURonCW+h+hb2QlJtDRUWchB/QhaBnCBGkinGuy1rOnVLjIjkaDYx86qcskfMF0x2osLR8li/KJ4avUEKcNEvx3Dyr4CJVW1HvfuAjsEBaHD0o72IkR4tNsJs5ygnsQMe6F11Do9L3te2CcaHq6QTtTTjwAGhhyAs4l+ysSY/rMmA74oUlyw4MtY25yK0XJSC//0d9PjRyueMZh+yjszyNlD8z3O4ggdFCIsEMf7Ja+hptR/CMfRTWnhhZQoXbOPZNgZQFMrgDxGzDwvEPjQYalBrJTW9nOUNjVB+xa/SfMceRLZSad3NmbMOQlaDztYkQrY7GBSOyxrjzclgzZjgh4gefWPX+Pr12gy2L7JLG0cEs0vaPahlvTDKcokUNfG+GLhnCLSccWyEcjk3tLGRjdkRxV9d+OTZUMZg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(396003)(39830400003)(346002)(136003)(376002)(8936002)(4326008)(6916009)(36756003)(86362001)(6666004)(38100700002)(38350700002)(5660300002)(6486002)(83380400001)(107886003)(6512007)(6506007)(66946007)(16526019)(26005)(478600001)(316002)(186003)(52116002)(66476007)(2906002)(66556008)(1076003)(2616005)(8676002)(956004)(69590400013)(142923001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?iVn8glBoAMczVX+kg2wItWm/VdezNtjGFunHpn+Chp70M3q8o+rubJdiRLfU?=
+ =?us-ascii?Q?1X6SivpLjt4V5toznYbJpasyyK2tdKk6yO2RIEcZYIad7tNNVw/3CCk0TmyR?=
+ =?us-ascii?Q?eSVgb5M0xGxzKO68CzeoZN8sZQPfyk9PZaZFJCzPqOEZL2kuxf1xzAaxui+z?=
+ =?us-ascii?Q?BEB29Oq71BO49oGEgn1cJzZ9e2phG73YwgPJXLrnwVS3+sbxwiJGIR7wVVsI?=
+ =?us-ascii?Q?Z+YvomGqoW3FKbHfz+qHm7hO4Aei1Xd/FZ827zf72uUjjW4S3gcDyfwyAQWh?=
+ =?us-ascii?Q?70DGnwyyli1a3L2yjDWaxl8xhoFO37R4gr56U3iVbkaPHIVAcuXLBpRx9uOA?=
+ =?us-ascii?Q?HnnEUnte39TxjMMPMXPKLRGObAOMjH0da17uj0xUxaXlDV+RgslMrdbf3BQI?=
+ =?us-ascii?Q?X2WPyLV26HL6VDXObAMCJSxGVohYhw0NJOitkOle1zjWS+tNtzaXP3GkdGvb?=
+ =?us-ascii?Q?2SEjeyQcspLB0umcIgLKEynMRNFd+zj3ywwltNuUuQ/CUBCQKAEs733P+r6g?=
+ =?us-ascii?Q?xxzrPAARbVVEi3nqdnsKB2nw7KNa8MlZAK/73cv9gzY1NWI3NZt1OzRZLtAK?=
+ =?us-ascii?Q?OarZeJgs2lclqBTbvVn0rYkJfns/dMYXFp1+/erWJONVjP/3vs1jZAJDPUBM?=
+ =?us-ascii?Q?zbYIkMSa4Tq1Gg36u3Y5NHztUr6zNI9/qyyxKsSs7ZUBA9ftRluF8c0tA10u?=
+ =?us-ascii?Q?FwsHkZQA/RZM0n2QhB/d2R3zqZs2vXDif/Y06k762eCMwoj6JyOySsBXh72G?=
+ =?us-ascii?Q?aKX19QDpU73RBgE0dU8RPkLpJTsmz5RAooOaSqlUKkAtA0McK11VN4IDhxkY?=
+ =?us-ascii?Q?cqHQ9qT7KYMvYM1VeApoDqaQaGAqAbnoDa5mMBIKLm4HxrAACb1v8TsSkjEx?=
+ =?us-ascii?Q?AP6q1NJdXJlJ9vKnkiWypGLHliB/ldwLTEBAEsbO6zlA9UIF/ADzrrmF2Ih2?=
+ =?us-ascii?Q?sxZwiY4Mu666/vrjmVjZaZk3r4Ws/ySj6UQE0NLlXkbpviZlLy4V6rM+1TMc?=
+ =?us-ascii?Q?KoY/MkPLilNcQxP8k1Qn7S8AJv7p92FctrwTXQgZ+waST3rjRNkHUSMieF92?=
+ =?us-ascii?Q?4Jf594ubLQZ3WOEtdimHQzduCUI6aSW7x5tgE3/aEsgd1nkVQOHoLTpc04BU?=
+ =?us-ascii?Q?zS4L+lQlHruvvHmpkZfwSUM/iZwwSndtSld82SwSp9eP/nP0WDUZsAoeWkts?=
+ =?us-ascii?Q?ldMjhh1bQ2QdRQlrwG2doTooOO0gg1rHSSbP1WYSQG0HSTwjM8o+VYrMtcWg?=
+ =?us-ascii?Q?rFAJC0m01JiP4b7yO3b2DMpiAWZUAbUWtjOMPiNqe6MOZ6lge0prH7GD8Wi0?=
+ =?us-ascii?Q?xcmUlPn3JihCywUs3eByWk0d?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f5ace4a2-b1b7-449a-24eb-08d91aa54a55
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 May 2021 09:05:47.1483 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: e2GnOa3G+JPVxLv+aBLtbfK1ICETZ3kjyz3pjeQRLFkB7NqoXvuOZ6/VlYAIgCwpqkIKoCuNz+ZD1xvpHGVTby6+z014W6IAWe4ageSDRbE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0801MB1841
+Received-SPF: pass client-ip=40.107.7.118;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR04-HE1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -75,142 +134,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "linuxarm@openeuler.org" <linuxarm@openeuler.org>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Linuxarm <linuxarm@huawei.com>, Shannon Zhao <shannon.zhaosl@gmail.com>,
- Igor Mammedov <imammedo@redhat.com>,
- "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>,
- "Zengtao \(B\)" <prime.zeng@hisilicon.com>, yangyicong <yangyicong@huawei.com>,
- yuzenghui <yuzenghui@huawei.com>,
- "Wanghaibin \(D\)" <wanghaibin.wang@huawei.com>,
- zhukeqian <zhukeqian1@huawei.com>, "lijiajie \(H\)" <lijiajie11@huawei.com>,
- David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Coverity things blk may be NULL. It's a false-positive, as described in
+a new comment.
 
-On 2021/5/19 16:15, Andrew Jones wrote:
-> On Wed, May 19, 2021 at 07:54:37AM +0000, Salil Mehta wrote:
->>> From: wangyanan (Y)
->>> Sent: Wednesday, May 19, 2021 4:18 AM
->>>
->>>
->>> On 2021/5/19 3:22, Salil Mehta wrote:
->>>>> From: Andrew Jones [mailto:drjones@redhat.com]
->>>>> Sent: Tuesday, May 18, 2021 8:06 PM
->>>>> To: Salil Mehta <salil.mehta@huawei.com>
->>>>> Cc: wangyanan (Y) <wangyanan55@huawei.com>; Peter Maydell
->>>>> <peter.maydell@linaro.org>; Michael S . Tsirkin <mst@redhat.com>; Wanghaibin
->>>>> (D) <wanghaibin.wang@huawei.com>; qemu-devel@nongnu.org; Shannon Zhao
->>>>> <shannon.zhaosl@gmail.com>; qemu-arm@nongnu.org; Alistair Francis
->>>>> <alistair.francis@wdc.com>; Zengtao (B) <prime.zeng@hisilicon.com>;
->>>>> yangyicong <yangyicong@huawei.com>; yuzenghui <yuzenghui@huawei.com>; Igor
->>>>> Mammedov <imammedo@redhat.com>; zhukeqian <zhukeqian1@huawei.com>; lijiajie
->>> (H)
->>>>> <lijiajie11@huawei.com>; David Gibson <david@gibson.dropbear.id.au>;
->>> Linuxarm
->>>>> <linuxarm@huawei.com>; linuxarm@openeuler.org
->>>>> Subject: Re: [RFC PATCH v2 5/6] hw/arm/virt-acpi-build: Add PPTT table
->>>>>
->>>>> On Tue, May 18, 2021 at 06:34:08PM +0000, Salil Mehta wrote:
->>>>>>    Those benefits, when vcpu pinning is used, are the same benefits
->>>>>>> as for the host, which already use PPTT tables to describe topology, even
->>>>>>> though hot plug isn't supported.
->>>>>> yes sure, you mean pinning vcpus according to the cpu topology for performance?
->>>>> Yup
->>>> Already Agreed :)
->>>>
->>>>>>> Now, if you're saying we should only generate tables for smp.cpus, not
->>>>>> Correct. This is what I thought we must be doing even now
->>>>>>
->>>>>>> smp.maxcpus, because hot plug isn't supported anyway, then I see your
->>>>>>> point. But, it'd be better to require smp.cpus == smp.maxcpus in our
->>>>>>> smp_parse function to do that, which we've never done before, so we may
->>>>>>> have trouble supporting existing command lines.
->>>>>> I am trying to recall, if the vcpu Hotplug is not supported then can they
->>>>>> ever be different?
->>>>>>
->>>>>> cpus =  (threads * cores * sockets)
->>>>>>
->>>>>> static void smp_parse(MachineState *ms, QemuOpts *opts)
->>>>>> {
->>>>>>        [...]
->>>>>>
->>>>>>           if (sockets * cores * threads != ms->smp.max_cpus) {
->>>>>>               warn_report("Invalid CPU topology deprecated: "
->>>>>>                           "sockets (%u) * cores (%u) * threads (%u) "
->>>>>>                           "!= maxcpus (%u)",
->>>>>>                           sockets, cores, threads,
->>>>>>                           ms->smp.max_cpus);
->>>>>>           }
->>>>>>        [...]
->>>>>> }
->>>>>>
->>>>>> Although, above check does not exit(1) and just warns on detecting invalid
->>>>>> CPU topology. Not sure why?
->>>>> Hmm, not sure what code you have there. I see this in
->>>>> hw/core/machine.c:smp_parse
->>>>>
->>>>>           if (ms->smp.max_cpus < cpus) {
->>>>>               error_report("maxcpus must be equal to or greater than smp");
->>>>>               exit(1);
->>>>>           }
->>>>>
->>>>>           if (sockets * cores * threads != ms->smp.max_cpus) {
->>>>>               error_report("Invalid CPU topology: "
->>>>>                            "sockets (%u) * cores (%u) * threads (%u) "
->>>>>                            "!= maxcpus (%u)",
->>>>>                            sockets, cores, threads,
->>>>>                            ms->smp.max_cpus);
->>>>>               exit(1);
->>>>>           }
->>>>>
->>>>>> Well if you think there are subtleties to support above implementation and
->>>>>> we cannot do it now then sure it is your call. :)
->>> Hi Salil, Drew,
->>>>> The problem is that -smp 4,maxcpus=8 doesn't error out today, even though
->>>>> it doesn't do anything. OTOH, -smp 4,cores=2 doesn't error out either, but
->>>>> we're proposing that it should. Maybe we can start erroring out when
->>>>> cpus != maxcpus until hot plug is supported?
->>>> Agreed, both don't make any sense if hotplug is not supported and ideally should
->>>> fail with error. We should block any such topology configuration.
->>> In the ARM-specific function virt_smp_parse() (patch 9), there already
->>> have been some restrictions for the given -smp configuration.
->>> We now only allow:
->>> -smp N
->>> -smp maxcpus=M
->>> -smp N, maxcpus=M
->>>
->>> -smp N, sockets=X, cores=Y
->>> -smp N, sockets=X, cores=Y, threads=Z
->>>
->>> -smp maxcpus=M, sockets=X, cores=Y
->>> -smp maxcpus=M, sockets=X, cores=Y, threads=Z
->>>
->>> -smp N, maxcpus=M, sockets=X, cores=Y
->>> -smp N, maxcpus=M, sockets=X, cores=Y, threads=Z
->>>
->>> and disallow the other strange and rare formats that shouldn't be provided.
->>>
->>> It's reasonable to block the topology configuration which is not useful
->>> currently. I will add the requirement for "cpus==maxcpus" in this fuction
->>> if the possible conflict with existing command lines is not a big problem.
->> Hi Yanan,
->> Makes sense. I did see your other patch-set in which cluster support has been
->> added. Are we deferring that too?
-> The merge of that needs to be deferred, but for a different reason. It
-> shouldn't impact hot plug, because if hot plug doesn't like clusters,
-> then one could configure a topology which doesn't have clusters. But,
-> it can't be merged to QEMU until the kernel has merged its support.
-Agreed!
+Fixes: Coverity CID 1453194
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+---
+ qemu-io-cmds.c | 14 ++++++++++++--
+ 1 file changed, 12 insertions(+), 2 deletions(-)
 
-Thanks,
-Yanan
-> Thanks,
-> drew
->
-> .
+diff --git a/qemu-io-cmds.c b/qemu-io-cmds.c
+index 998b67186d..3b7cceecbf 100644
+--- a/qemu-io-cmds.c
++++ b/qemu-io-cmds.c
+@@ -92,9 +92,19 @@ static int command(BlockBackend *blk, const cmdinfo_t *ct, int argc,
+         return -EINVAL;
+     }
+ 
+-    /* Request additional permissions if necessary for this command. The caller
++    /*
++     * Request additional permissions if necessary for this command. The caller
+      * is responsible for restoring the original permissions afterwards if this
+-     * is what it wants. */
++     * is what it wants.
++     *
++     * Coverity things that blk may be NULL in the following if condition. It's
++     * not so: in init_check_command() we fail if blk is NULL for command with
++     * both CMD_FLAG_GLOBAL and CMD_NOFILE_OK flags unset. And in
++     * qemuio_add_command() we assert that command with non-zero .perm field
++     * doesn't set this flags. So, the following assertion is to silence
++     * Coverity:
++     */
++    assert(blk || !ct->perm);
+     if (ct->perm && blk_is_available(blk)) {
+         uint64_t orig_perm, orig_shared_perm;
+         blk_get_perm(blk, &orig_perm, &orig_shared_perm);
+-- 
+2.29.2
+
 
