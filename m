@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 549D3389411
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 18:48:02 +0200 (CEST)
-Received: from localhost ([::1]:34926 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BADE389416
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 18:51:07 +0200 (CEST)
+Received: from localhost ([::1]:43706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljPMX-0003Zi-Ct
-	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 12:48:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34838)
+	id 1ljPPV-0001FB-AD
+	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 12:51:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34862)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1ljP69-0004ZC-S6
- for qemu-devel@nongnu.org; Wed, 19 May 2021 12:31:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58322)
+ id 1ljP6C-0004kC-N0
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 12:31:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35956)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1ljP67-0005fl-OK
- for qemu-devel@nongnu.org; Wed, 19 May 2021 12:31:05 -0400
+ id 1ljP6B-0005h2-2E
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 12:31:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621441863;
+ s=mimecast20190719; t=1621441866;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=L2lLIl9UsgREXs2nPJJjVHAoVYw+HdUzi/kUksrz3ms=;
- b=SQB9dl1VT+jxN/gBdHd4xofx+1fC3gIkuwPAsXLOyTh/nQ3drE7EeU6VLDq6InqciPcK4T
- Z+GT38dygA2o2NYC34LkdBq4B1qpfecO6m5L7ObKBN0/x/yVZ1WqjWVytvGfAuF8Zc6dAb
- kongxf4k4QqtewzFy+5qnnGZ3rQwUT4=
+ bh=eDk6ORb0CFQX0SjnjEy5Mjgwnx7Of5HDLZ0WqbSxD4w=;
+ b=c9qJE3yIss8CfECwZSLXDq4OEY8M2KTVbfziJFGOTR0jDne8v41O0fn/HjVLvg1LDIphYm
+ 95WVYwm8kMqAtsIR/2LC9oaJACN8Ze9bR9ugmftCD7/7BPUBUSaw4WdpPmAkNAAzU0omGX
+ pxCaFJPd01B0F9crQ0Jx7WV6gFWuEAY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-447-l-anlM_ZMQKjN4oyPi9KlA-1; Wed, 19 May 2021 12:31:00 -0400
-X-MC-Unique: l-anlM_ZMQKjN4oyPi9KlA-1
+ us-mta-272-OB_nGhGKP5y1vWnP045JCA-1; Wed, 19 May 2021 12:31:03 -0400
+X-MC-Unique: OB_nGhGKP5y1vWnP045JCA-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2EA80180FD69;
- Wed, 19 May 2021 16:30:59 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 72BFE108BD0C;
+ Wed, 19 May 2021 16:31:02 +0000 (UTC)
 Received: from eperezma.remote.csb (ovpn-113-65.ams2.redhat.com [10.36.113.65])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3DC5F5D6AC;
- Wed, 19 May 2021 16:30:56 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 859ED5D6D5;
+ Wed, 19 May 2021 16:30:59 +0000 (UTC)
 From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC v3 13/29] vhost: Add vhost_get_iova_range operation
-Date: Wed, 19 May 2021 18:28:47 +0200
-Message-Id: <20210519162903.1172366-14-eperezma@redhat.com>
+Subject: [RFC v3 14/29] vhost: add vhost_has_limited_iova_range
+Date: Wed, 19 May 2021 18:28:48 +0200
+Message-Id: <20210519162903.1172366-15-eperezma@redhat.com>
 In-Reply-To: <20210519162903.1172366-1-eperezma@redhat.com>
 References: <20210519162903.1172366-1-eperezma@redhat.com>
 MIME-Version: 1.0
@@ -57,7 +57,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eperezma@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -88,92 +88,70 @@ Cc: Parav Pandit <parav@mellanox.com>, "Michael S. Tsirkin" <mst@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For simplicity, If a device does not support this operation it means
-that it can handle full (uint64_t)-1 iova address.
-
 Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 ---
- include/hw/virtio/vhost-backend.h |  5 +++++
- hw/virtio/vhost-vdpa.c            | 18 ++++++++++++++++++
- hw/virtio/trace-events            |  1 +
- 3 files changed, 24 insertions(+)
+ include/hw/virtio/vhost.h |  5 +++++
+ hw/virtio/vhost.c         | 17 +++++++++++++++++
+ 2 files changed, 22 insertions(+)
 
-diff --git a/include/hw/virtio/vhost-backend.h b/include/hw/virtio/vhost-backend.h
-index 94d3323905..bcb112c166 100644
---- a/include/hw/virtio/vhost-backend.h
-+++ b/include/hw/virtio/vhost-backend.h
-@@ -36,6 +36,7 @@ struct vhost_vring_addr;
- struct vhost_scsi_target;
- struct vhost_iotlb_msg;
- struct vhost_virtqueue;
-+struct vhost_vdpa_iova_range;
+diff --git a/include/hw/virtio/vhost.h b/include/hw/virtio/vhost.h
+index 67cedf83da..c97a4c0017 100644
+--- a/include/hw/virtio/vhost.h
++++ b/include/hw/virtio/vhost.h
+@@ -88,6 +88,10 @@ struct vhost_dev {
+     bool log_enabled;
+     bool shadow_vqs_enabled;
+     uint64_t log_size;
++    struct {
++        hwaddr first;
++        hwaddr last;
++    } iova_range;
+     VhostShadowVirtqueue **shadow_vqs;
+     Error *migration_blocker;
+     const VhostOps *vhost_ops;
+@@ -129,6 +133,7 @@ uint64_t vhost_get_features(struct vhost_dev *hdev, const int *feature_bits,
+ void vhost_ack_features(struct vhost_dev *hdev, const int *feature_bits,
+                         uint64_t features);
+ bool vhost_has_free_slot(void);
++bool vhost_has_limited_iova_range(const struct vhost_dev *hdev);
  
- typedef int (*vhost_backend_init)(struct vhost_dev *dev, void *opaque);
- typedef int (*vhost_backend_cleanup)(struct vhost_dev *dev);
-@@ -127,6 +128,9 @@ typedef bool (*vhost_force_iommu_op)(struct vhost_dev *dev);
+ int vhost_net_set_backend(struct vhost_dev *hdev,
+                           struct vhost_vring_file *file);
+diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
+index 9c9c63345b..333877ca3b 100644
+--- a/hw/virtio/vhost.c
++++ b/hw/virtio/vhost.c
+@@ -1386,6 +1386,18 @@ int vhost_dev_init(struct vhost_dev *hdev, void *opaque,
+         goto fail;
+     }
  
- typedef int (*vhost_vring_pause_op)(struct vhost_dev *dev);
- 
-+typedef int (*vhost_get_iova_range)(struct vhost_dev *dev,
-+                                    hwaddr *first, hwaddr *last);
-+
- typedef struct VhostOps {
-     VhostBackendType backend_type;
-     vhost_backend_init vhost_backend_init;
-@@ -173,6 +177,7 @@ typedef struct VhostOps {
-     vhost_get_device_id_op vhost_get_device_id;
-     vhost_vring_pause_op vhost_vring_pause;
-     vhost_force_iommu_op vhost_force_iommu;
-+    vhost_get_iova_range vhost_get_iova_range;
- } VhostOps;
- 
- extern const VhostOps user_ops;
-diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-index 01d2101d09..74fe92935e 100644
---- a/hw/virtio/vhost-vdpa.c
-+++ b/hw/virtio/vhost-vdpa.c
-@@ -579,6 +579,23 @@ static bool  vhost_vdpa_force_iommu(struct vhost_dev *dev)
-     return true;
- }
- 
-+static int vhost_vdpa_get_iova_range(struct vhost_dev *dev,
-+                                     hwaddr *first, hwaddr *last)
-+{
-+    int ret;
-+    struct vhost_vdpa_iova_range range;
-+
-+    ret = vhost_vdpa_call(dev, VHOST_VDPA_GET_IOVA_RANGE, &range);
-+    if (ret != 0) {
-+        return ret;
++    if (hdev->vhost_ops->vhost_get_iova_range) {
++        r = hdev->vhost_ops->vhost_get_iova_range(hdev,
++                                                 &hdev->iova_range.first,
++                                                 &hdev->iova_range.last);
++        if (unlikely(r != 0)) {
++            error_report("Can't request IOVA range");
++            goto fail;
++        }
++    } else {
++        hdev->iova_range.last = (hwaddr)-1;
 +    }
 +
-+    *first = range.first;
-+    *last = range.last;
-+    trace_vhost_vdpa_get_iova_range(dev, *first, *last);
-+    return ret;
+     for (i = 0; i < hdev->nvqs; ++i, ++n_initialized_vqs) {
+         r = vhost_virtqueue_init(hdev, hdev->vqs + i, hdev->vq_index + i);
+         if (r < 0) {
+@@ -1622,6 +1634,11 @@ void vhost_virtqueue_mask(struct vhost_dev *hdev, VirtIODevice *vdev, int n,
+     }
+ }
+ 
++bool vhost_has_limited_iova_range(const struct vhost_dev *hdev)
++{
++    return hdev->iova_range.first || hdev->iova_range.last != HWADDR_MAX;
 +}
 +
- const VhostOps vdpa_ops = {
-         .backend_type = VHOST_BACKEND_TYPE_VDPA,
-         .vhost_backend_init = vhost_vdpa_init,
-@@ -611,4 +628,5 @@ const VhostOps vdpa_ops = {
-         .vhost_get_device_id = vhost_vdpa_get_device_id,
-         .vhost_vq_get_addr = vhost_vdpa_vq_get_addr,
-         .vhost_force_iommu = vhost_vdpa_force_iommu,
-+        .vhost_get_iova_range = vhost_vdpa_get_iova_range,
- };
-diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
-index c62727f879..5debe3a681 100644
---- a/hw/virtio/trace-events
-+++ b/hw/virtio/trace-events
-@@ -52,6 +52,7 @@ vhost_vdpa_set_vring_call(void *dev, unsigned int index, int fd) "dev: %p index:
- vhost_vdpa_get_features(void *dev, uint64_t features) "dev: %p features: 0x%"PRIx64
- vhost_vdpa_set_owner(void *dev) "dev: %p"
- vhost_vdpa_vq_get_addr(void *dev, void *vq, uint64_t desc_user_addr, uint64_t avail_user_addr, uint64_t used_user_addr) "dev: %p vq: %p desc_user_addr: 0x%"PRIx64" avail_user_addr: 0x%"PRIx64" used_user_addr: 0x%"PRIx64
-+vhost_vdpa_get_iova_range(void *dev, uint64_t first, uint64_t last) "dev: %p first: 0x%"PRIx64" last: 0x%"PRIx64
- 
- # virtio.c
- virtqueue_alloc_element(void *elem, size_t sz, unsigned in_num, unsigned out_num) "elem %p size %zd in_num %u out_num %u"
+ uint64_t vhost_get_features(struct vhost_dev *hdev, const int *feature_bits,
+                             uint64_t features)
+ {
 -- 
 2.27.0
 
