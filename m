@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29B7B38962C
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 21:07:37 +0200 (CEST)
-Received: from localhost ([::1]:59082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1A8C38962B
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 21:07:08 +0200 (CEST)
+Received: from localhost ([::1]:57542 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljRXc-0002Y2-4R
-	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 15:07:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53148)
+	id 1ljRX9-0001Wz-KM
+	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 15:07:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53170)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ljR1h-0002o2-7x
- for qemu-devel@nongnu.org; Wed, 19 May 2021 14:34:37 -0400
-Received: from mail-oi1-x235.google.com ([2607:f8b0:4864:20::235]:46811)
+ id 1ljR1i-0002rA-0L
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 14:34:38 -0400
+Received: from mail-ot1-x336.google.com ([2607:f8b0:4864:20::336]:42771)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ljR1e-0007Od-VV
- for qemu-devel@nongnu.org; Wed, 19 May 2021 14:34:36 -0400
-Received: by mail-oi1-x235.google.com with SMTP id x15so13967791oic.13
- for <qemu-devel@nongnu.org>; Wed, 19 May 2021 11:34:34 -0700 (PDT)
+ id 1ljR1f-0007P1-Vm
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 14:34:37 -0400
+Received: by mail-ot1-x336.google.com with SMTP id
+ g7-20020a9d12870000b0290328b1342b73so4784928otg.9
+ for <qemu-devel@nongnu.org>; Wed, 19 May 2021 11:34:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=klTWXaUSPDXpDuYjtqmoOjms0PHU2tWWOTJOUfsWPG4=;
- b=g6tMDS5KMFejpwHK5Q5lFtH2qaJ8iBDdCKwRP0hoQ6hs4cUOGgHu2M9qGuN/0DF0xE
- lwg7z8jqQix7omXfaQr3OGfbIXlyRhqJEoiTBWyPHFDqC1T3uhCTXtwRoY2ZePJ7dH+t
- 2BeMZ+1wfUJznLWzS5VCyb8kwNLEeingjN+lPoAiMSXlIJ635nLG2xDiQPIRdRPXTB8o
- kLTeEIKueUm9X0hEIOSzzwD5J5LLFBOtaJ/BhTFJir6a2y7k+602Nj+gI8GRZ8oRlB8h
- SHfwUDbQAZxl+24G74hmJFvtFETD/4rvfqKk7sHn/byLbV1CnZELZfof6JmWzHnoQuSf
- 2v/g==
+ bh=qedixzyYh5iaufNZBAKxPaR/qjTosX24RNXw6yX0DSU=;
+ b=KQ9ITebUGUh4+9o4JBgxns0Q5NIWXY6FwRHGSNy0ggkeASd5R3NxAPpLG0rVcJHtJH
+ iPRu7VEgL5AXT3KZZ4aubUBe+SfCbo/l3lfBTIal1C2tXldulUqAAF3IQgIPONdOuD1C
+ XewMf6/1u4yk5m/i6tp7FnYk7zdJF2SojwU0w2tvhzS7M7rKE5cHjT1MEbT/WIaOc5Oq
+ z7Vm2ipUaWKtySv58AvoYwA0cxIhC5NS+6BEK1GJ/oP2XOd2l3KZHNr1FBNDu4AmjD0O
+ rK/wyxpSzlr/d3UpGKT7tEPhHv07mTp029HQrY8EA+YHDeHoaf+lNwWI/htNfHB1mPVN
+ 5PWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=klTWXaUSPDXpDuYjtqmoOjms0PHU2tWWOTJOUfsWPG4=;
- b=DzRlYQueJ22s3F1y+vYMaR/KcQtnN/NQ00kcF5sPmxOEns44r/50oq5ok8hwOK1QaB
- zPmIvjWCpHguoLcfDJpOdy2X5cSFlUsSRPz3Vmdn2hpBJkLNIuAxjghYtgeH7S5qW3qL
- bOJkmHvyXmFg5aQMOXSY8xQNEoyEk8NpT84q3pr9lmDo18Ajp38YJUC4ttcs6+L9h6jI
- /w3ZQ28pM1AIxr3Fr/XRcZqCqgG8/fM4lT9+QdLF3vnk+I1szNRcqsVjeC/slP8JIip6
- ny0gvHPKRcLebHQgUvDO5CqFTuo5uBSPbLINsM4l8H3sC5d69ELfOahwvWnHT1yNurKQ
- TCrA==
-X-Gm-Message-State: AOAM532YiU8XR4pSzXb9M6zO9P2ZjgiN6If7USevkbLEGWM0lfM/NtZL
- YOkJtbapfE344owoed+XycjfiLAylLP9Fh8c
-X-Google-Smtp-Source: ABdhPJybfPRFCXeawAQf6vkvjlzMsy7xNeO3z7DCgtRqG4tOe98Sy/xWgz5+f57+v4JkW1mCLEjxQg==
-X-Received: by 2002:aca:5c04:: with SMTP id q4mr394929oib.11.1621449273688;
- Wed, 19 May 2021 11:34:33 -0700 (PDT)
+ bh=qedixzyYh5iaufNZBAKxPaR/qjTosX24RNXw6yX0DSU=;
+ b=bZVqyEIvSULlQ7eJ8DmQ9Yf39CaxbQt7iCFK462IJMCS+qw4lgQlkK00nrWfh5dgGL
+ oH5m3rSQXvXY0yKsMKuxJXNdZvzn0+SItSX56WIhxdVBoHLr3VmfkCwKy+YzFbJlyDKm
+ I6kXNKX/5zWQLhiCR3zZQe/RIl9+trpnwLwKc++FThn4tTAGBv095Bu4vBtKUw9oGzif
+ W4TAz8tSLYsAbgCxhHVz5addXqD1sPEQY2Yxb6hKy1N2D36X5pkf+6jdfknRFyu/H87S
+ 4UZw9Cm/j98pi25NjI3Ne8jlcUpcwfaR9SMkNkqZXEN4uootbsNVdu3yQGbGb09sQOQO
+ HnwA==
+X-Gm-Message-State: AOAM530f7+CBD4f6wasgS0Hk0KT22KYnPgJzi4lVubwrejBawiWQAOIk
+ EjFC7jTrQUtgj4bHb72PvDOu6jfASqfwdSqd
+X-Google-Smtp-Source: ABdhPJw35eVhnA4vOmBue4peTRwLcSr+gOnLLx7aiFLWE/eN0Va86tUJIg4KFobXT4+MYoqd8jTWtw==
+X-Received: by 2002:a9d:1918:: with SMTP id j24mr619519ota.329.1621449274636; 
+ Wed, 19 May 2021 11:34:34 -0700 (PDT)
 Received: from localhost.localdomain ([45.235.253.15])
- by smtp.gmail.com with ESMTPSA id i9sm38642oog.17.2021.05.19.11.34.32
+ by smtp.gmail.com with ESMTPSA id i9sm38642oog.17.2021.05.19.11.34.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 May 2021 11:34:33 -0700 (PDT)
+ Wed, 19 May 2021 11:34:34 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 41/50] target/i386: Move invlpg, hlt, monitor, mwait to sysemu
-Date: Wed, 19 May 2021 13:30:41 -0500
-Message-Id: <20210519183050.875453-42-richard.henderson@linaro.org>
+Subject: [PULL 42/50] target/i386: Unify invlpg, invlpga
+Date: Wed, 19 May 2021 13:30:42 -0500
+Message-Id: <20210519183050.875453-43-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210519183050.875453-1-richard.henderson@linaro.org>
 References: <20210519183050.875453-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::235;
- envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x235.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::336;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x336.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,221 +87,129 @@ Cc: peter.maydell@linaro.org, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These instructions are all privileged.
+Use a single helper, flush_page, to do the work.
+Use gen_svm_check_intercept.
+Perform the zero-extension for invlpga inline.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <20210514151342.384376-42-richard.henderson@linaro.org>
+Message-Id: <20210514151342.384376-43-richard.henderson@linaro.org>
 ---
- target/i386/helper.h                 |  8 ++--
- target/i386/tcg/helper-tcg.h         |  1 +
- target/i386/tcg/misc_helper.c        | 55 +---------------------------
- target/i386/tcg/sysemu/misc_helper.c | 53 +++++++++++++++++++++++++++
- target/i386/tcg/translate.c          |  4 ++
- 5 files changed, 63 insertions(+), 58 deletions(-)
+ target/i386/helper.h                 |  3 +--
+ target/i386/tcg/sysemu/misc_helper.c |  7 ++-----
+ target/i386/tcg/sysemu/svm_helper.c  | 18 ------------------
+ target/i386/tcg/translate.c          | 20 ++++++++++++--------
+ 4 files changed, 15 insertions(+), 33 deletions(-)
 
 diff --git a/target/i386/helper.h b/target/i386/helper.h
-index ebfaca66dd..ab72eba52a 100644
+index ab72eba52a..0264fba335 100644
 --- a/target/i386/helper.h
 +++ b/target/i386/helper.h
-@@ -51,7 +51,6 @@ DEF_HELPER_FLAGS_3(set_dr, TCG_CALL_NO_WG, void, env, int, tl)
- #endif /* !CONFIG_USER_ONLY */
- 
- DEF_HELPER_FLAGS_2(get_dr, TCG_CALL_NO_WG, tl, env, int)
--DEF_HELPER_2(invlpg, void, env, tl)
- 
- DEF_HELPER_1(sysenter, void, env)
- DEF_HELPER_2(sysexit, void, env, int)
-@@ -59,9 +58,6 @@ DEF_HELPER_2(sysexit, void, env, int)
- DEF_HELPER_2(syscall, void, env, int)
- DEF_HELPER_2(sysret, void, env, int)
- #endif
--DEF_HELPER_FLAGS_2(hlt, TCG_CALL_NO_WG, noreturn, env, int)
--DEF_HELPER_FLAGS_2(monitor, TCG_CALL_NO_WG, void, env, tl)
--DEF_HELPER_FLAGS_2(mwait, TCG_CALL_NO_WG, noreturn, env, int)
- DEF_HELPER_FLAGS_2(pause, TCG_CALL_NO_WG, noreturn, env, int)
- DEF_HELPER_FLAGS_1(debug, TCG_CALL_NO_WG, noreturn, env)
- DEF_HELPER_1(reset_rf, void, env)
-@@ -115,6 +111,10 @@ DEF_HELPER_2(vmsave, void, env, int)
+@@ -110,8 +110,7 @@ DEF_HELPER_2(vmload, void, env, int)
+ DEF_HELPER_2(vmsave, void, env, int)
  DEF_HELPER_1(stgi, void, env)
  DEF_HELPER_1(clgi, void, env)
- DEF_HELPER_2(invlpga, void, env, int)
-+DEF_HELPER_2(invlpg, void, env, tl)
-+DEF_HELPER_FLAGS_2(hlt, TCG_CALL_NO_WG, noreturn, env, int)
-+DEF_HELPER_FLAGS_2(monitor, TCG_CALL_NO_WG, void, env, tl)
-+DEF_HELPER_FLAGS_2(mwait, TCG_CALL_NO_WG, noreturn, env, int)
- #endif /* !CONFIG_USER_ONLY */
- 
- /* x86 FPU */
-diff --git a/target/i386/tcg/helper-tcg.h b/target/i386/tcg/helper-tcg.h
-index 85a8b0ebd6..2510cc244e 100644
---- a/target/i386/tcg/helper-tcg.h
-+++ b/target/i386/tcg/helper-tcg.h
-@@ -76,6 +76,7 @@ extern const uint8_t parity_table[256];
- 
- /* misc_helper.c */
- void cpu_load_eflags(CPUX86State *env, int eflags, int update_mask);
-+void do_pause(CPUX86State *env) QEMU_NORETURN;
- 
- /* sysemu/svm_helper.c */
- #ifndef CONFIG_USER_ONLY
-diff --git a/target/i386/tcg/misc_helper.c b/target/i386/tcg/misc_helper.c
-index 23287b330e..baffa5d7ba 100644
---- a/target/i386/tcg/misc_helper.c
-+++ b/target/i386/tcg/misc_helper.c
-@@ -60,14 +60,6 @@ void helper_cpuid(CPUX86State *env)
-     env->regs[R_EDX] = edx;
+-DEF_HELPER_2(invlpga, void, env, int)
+-DEF_HELPER_2(invlpg, void, env, tl)
++DEF_HELPER_FLAGS_2(flush_page, TCG_CALL_NO_RWG, void, env, tl)
+ DEF_HELPER_FLAGS_2(hlt, TCG_CALL_NO_WG, noreturn, env, int)
+ DEF_HELPER_FLAGS_2(monitor, TCG_CALL_NO_WG, void, env, tl)
+ DEF_HELPER_FLAGS_2(mwait, TCG_CALL_NO_WG, noreturn, env, int)
+diff --git a/target/i386/tcg/sysemu/misc_helper.c b/target/i386/tcg/sysemu/misc_helper.c
+index 803c39e2fb..0cef2f1a4c 100644
+--- a/target/i386/tcg/sysemu/misc_helper.c
++++ b/target/i386/tcg/sysemu/misc_helper.c
+@@ -439,12 +439,9 @@ void helper_rdmsr(CPUX86State *env)
+     env->regs[R_EDX] = (uint32_t)(val >> 32);
  }
  
 -void helper_invlpg(CPUX86State *env, target_ulong addr)
--{
++void helper_flush_page(CPUX86State *env, target_ulong addr)
+ {
 -    X86CPU *cpu = env_archcpu(env);
 -
 -    cpu_svm_check_intercept_param(env, SVM_EXIT_INVLPG, 0, GETPC());
 -    tlb_flush_page(CPU(cpu), addr);
--}
--
- void helper_rdtsc(CPUX86State *env)
- {
-     uint64_t val;
-@@ -101,7 +93,7 @@ void QEMU_NORETURN helper_rdpmc(CPUX86State *env)
-     raise_exception_err(env, EXCP06_ILLOP, 0);
++    tlb_flush_page(env_cpu(env), addr);
  }
  
--static void QEMU_NORETURN do_pause(CPUX86State *env)
-+void QEMU_NORETURN do_pause(CPUX86State *env)
- {
-     CPUState *cs = env_cpu(env);
- 
-@@ -110,51 +102,6 @@ static void QEMU_NORETURN do_pause(CPUX86State *env)
-     cpu_loop_exit(cs);
+ static void QEMU_NORETURN do_hlt(CPUX86State *env)
+diff --git a/target/i386/tcg/sysemu/svm_helper.c b/target/i386/tcg/sysemu/svm_helper.c
+index b431016e72..9d671297cf 100644
+--- a/target/i386/tcg/sysemu/svm_helper.c
++++ b/target/i386/tcg/sysemu/svm_helper.c
+@@ -412,24 +412,6 @@ void helper_clgi(CPUX86State *env)
+     env->hflags2 &= ~HF2_GIF_MASK;
  }
  
--static void QEMU_NORETURN do_hlt(CPUX86State *env)
+-void helper_invlpga(CPUX86State *env, int aflag)
 -{
--    CPUState *cs = env_cpu(env);
+-    X86CPU *cpu = env_archcpu(env);
+-    target_ulong addr;
 -
--    env->hflags &= ~HF_INHIBIT_IRQ_MASK; /* needed if sti is just before */
--    cs->halted = 1;
--    cs->exception_index = EXCP_HLT;
--    cpu_loop_exit(cs);
--}
+-    cpu_svm_check_intercept_param(env, SVM_EXIT_INVLPGA, 0, GETPC());
 -
--void QEMU_NORETURN helper_hlt(CPUX86State *env, int next_eip_addend)
--{
--    cpu_svm_check_intercept_param(env, SVM_EXIT_HLT, 0, GETPC());
--    env->eip += next_eip_addend;
--
--    do_hlt(env);
--}
--
--void helper_monitor(CPUX86State *env, target_ulong ptr)
--{
--    if ((uint32_t)env->regs[R_ECX] != 0) {
--        raise_exception_ra(env, EXCP0D_GPF, GETPC());
--    }
--    /* XXX: store address? */
--    cpu_svm_check_intercept_param(env, SVM_EXIT_MONITOR, 0, GETPC());
--}
--
--void QEMU_NORETURN helper_mwait(CPUX86State *env, int next_eip_addend)
--{
--    CPUState *cs = env_cpu(env);
--
--    if ((uint32_t)env->regs[R_ECX] != 0) {
--        raise_exception_ra(env, EXCP0D_GPF, GETPC());
--    }
--    cpu_svm_check_intercept_param(env, SVM_EXIT_MWAIT, 0, GETPC());
--    env->eip += next_eip_addend;
--
--    /* XXX: not complete but not completely erroneous */
--    if (cs->cpu_index != 0 || CPU_NEXT(cs) != NULL) {
--        do_pause(env);
+-    if (aflag == 2) {
+-        addr = env->regs[R_EAX];
 -    } else {
--        do_hlt(env);
+-        addr = (uint32_t)env->regs[R_EAX];
 -    }
+-
+-    /* XXX: could use the ASID to see if it is needed to do the
+-       flush */
+-    tlb_flush_page(CPU(cpu), addr);
 -}
 -
- void QEMU_NORETURN helper_pause(CPUX86State *env, int next_eip_addend)
+ void cpu_svm_check_intercept_param(CPUX86State *env, uint32_t type,
+                                    uint64_t param, uintptr_t retaddr)
  {
-     cpu_svm_check_intercept_param(env, SVM_EXIT_PAUSE, 0, GETPC());
-diff --git a/target/i386/tcg/sysemu/misc_helper.c b/target/i386/tcg/sysemu/misc_helper.c
-index c7381ef7e8..803c39e2fb 100644
---- a/target/i386/tcg/sysemu/misc_helper.c
-+++ b/target/i386/tcg/sysemu/misc_helper.c
-@@ -438,3 +438,56 @@ void helper_rdmsr(CPUX86State *env)
-     env->regs[R_EAX] = (uint32_t)(val);
-     env->regs[R_EDX] = (uint32_t)(val >> 32);
- }
-+
-+void helper_invlpg(CPUX86State *env, target_ulong addr)
-+{
-+    X86CPU *cpu = env_archcpu(env);
-+
-+    cpu_svm_check_intercept_param(env, SVM_EXIT_INVLPG, 0, GETPC());
-+    tlb_flush_page(CPU(cpu), addr);
-+}
-+
-+static void QEMU_NORETURN do_hlt(CPUX86State *env)
-+{
-+    CPUState *cs = env_cpu(env);
-+
-+    env->hflags &= ~HF_INHIBIT_IRQ_MASK; /* needed if sti is just before */
-+    cs->halted = 1;
-+    cs->exception_index = EXCP_HLT;
-+    cpu_loop_exit(cs);
-+}
-+
-+void QEMU_NORETURN helper_hlt(CPUX86State *env, int next_eip_addend)
-+{
-+    cpu_svm_check_intercept_param(env, SVM_EXIT_HLT, 0, GETPC());
-+    env->eip += next_eip_addend;
-+
-+    do_hlt(env);
-+}
-+
-+void helper_monitor(CPUX86State *env, target_ulong ptr)
-+{
-+    if ((uint32_t)env->regs[R_ECX] != 0) {
-+        raise_exception_ra(env, EXCP0D_GPF, GETPC());
-+    }
-+    /* XXX: store address? */
-+    cpu_svm_check_intercept_param(env, SVM_EXIT_MONITOR, 0, GETPC());
-+}
-+
-+void QEMU_NORETURN helper_mwait(CPUX86State *env, int next_eip_addend)
-+{
-+    CPUState *cs = env_cpu(env);
-+
-+    if ((uint32_t)env->regs[R_ECX] != 0) {
-+        raise_exception_ra(env, EXCP0D_GPF, GETPC());
-+    }
-+    cpu_svm_check_intercept_param(env, SVM_EXIT_MWAIT, 0, GETPC());
-+    env->eip += next_eip_addend;
-+
-+    /* XXX: not complete but not completely erroneous */
-+    if (cs->cpu_index != 0 || CPU_NEXT(cs) != NULL) {
-+        do_pause(env);
-+    } else {
-+        do_hlt(env);
-+    }
-+}
 diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
-index 14a44a00ca..39af147a87 100644
+index 39af147a87..eb11a75e86 100644
 --- a/target/i386/tcg/translate.c
 +++ b/target/i386/tcg/translate.c
-@@ -194,7 +194,11 @@ typedef struct DisasContext {
+@@ -194,9 +194,8 @@ typedef struct DisasContext {
  
  #ifdef CONFIG_USER_ONLY
  STUB_HELPER(clgi, TCGv_env env)
-+STUB_HELPER(hlt, TCGv_env env, TCGv_i32 pc_ofs)
- STUB_HELPER(invlpga, TCGv_env env, TCGv_i32 aflag)
-+STUB_HELPER(invlpg, TCGv_env env, TCGv addr)
-+STUB_HELPER(monitor, TCGv_env env, TCGv addr)
-+STUB_HELPER(mwait, TCGv_env env, TCGv_i32 pc_ofs)
++STUB_HELPER(flush_page, TCGv_env env, TCGv addr)
+ STUB_HELPER(hlt, TCGv_env env, TCGv_i32 pc_ofs)
+-STUB_HELPER(invlpga, TCGv_env env, TCGv_i32 aflag)
+-STUB_HELPER(invlpg, TCGv_env env, TCGv addr)
+ STUB_HELPER(monitor, TCGv_env env, TCGv addr)
+ STUB_HELPER(mwait, TCGv_env env, TCGv_i32 pc_ofs)
  STUB_HELPER(set_dr, TCGv_env env, TCGv_i32 reg, TCGv val)
- STUB_HELPER(stgi, TCGv_env env)
- STUB_HELPER(svm_check_intercept, TCGv_env env, TCGv_i32 type)
+@@ -7592,9 +7591,15 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+             if (!check_cpl0(s)) {
+                 break;
+             }
+-            gen_update_cc_op(s);
+-            gen_jmp_im(s, pc_start - s->cs_base);
+-            gen_helper_invlpga(cpu_env, tcg_const_i32(s->aflag - 1));
++            gen_svm_check_intercept(s, SVM_EXIT_INVLPGA);
++            if (s->aflag == MO_64) {
++                tcg_gen_mov_tl(s->A0, cpu_regs[R_EAX]);
++            } else {
++                tcg_gen_ext32u_tl(s->A0, cpu_regs[R_EAX]);
++            }
++            gen_helper_flush_page(cpu_env, s->A0);
++            gen_jmp_im(s, s->pc - s->cs_base);
++            gen_eob(s);
+             break;
+ 
+         CASE_MODRM_MEM_OP(2): /* lgdt */
+@@ -7682,10 +7687,9 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+             if (!check_cpl0(s)) {
+                 break;
+             }
+-            gen_update_cc_op(s);
+-            gen_jmp_im(s, pc_start - s->cs_base);
++            gen_svm_check_intercept(s, SVM_EXIT_INVLPG);
+             gen_lea_modrm(env, s, modrm);
+-            gen_helper_invlpg(cpu_env, s->A0);
++            gen_helper_flush_page(cpu_env, s->A0);
+             gen_jmp_im(s, s->pc - s->cs_base);
+             gen_eob(s);
+             break;
 -- 
 2.25.1
 
