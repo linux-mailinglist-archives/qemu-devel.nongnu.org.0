@@ -2,55 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51369388F75
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 15:48:00 +0200 (CEST)
-Received: from localhost ([::1]:43142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 562D2388F7D
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 15:51:59 +0200 (CEST)
+Received: from localhost ([::1]:51824 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljMYJ-00004x-Ep
-	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 09:47:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40190)
+	id 1ljMcA-00062x-BF
+	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 09:51:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40522)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pl@kamp.de>) id 1ljMBz-0000LZ-UY
- for qemu-devel@nongnu.org; Wed, 19 May 2021 09:24:57 -0400
-Received: from kerio.kamp.de ([195.62.97.192]:37355)
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1ljMDi-0003qw-1I; Wed, 19 May 2021 09:26:42 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:3626)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pl@kamp.de>) id 1ljMBv-0002SQ-Lk
- for qemu-devel@nongnu.org; Wed, 19 May 2021 09:24:55 -0400
-X-Footer: a2FtcC5kZQ==
-Received: from submission.kamp.de ([195.62.97.28]) by kerio.kamp.de with ESMTPS
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256 bits))
- for qemu-devel@nongnu.org; Wed, 19 May 2021 15:24:39 +0200
-Received: (qmail 18859 invoked from network); 19 May 2021 13:24:41 -0000
-Received: from ac40.vpn.kamp-intra.net (HELO ?172.20.250.40?)
- (pl@kamp.de@::ffff:172.20.250.40)
- by submission.kamp.de with ESMTPS (DHE-RSA-AES128-SHA encrypted) ESMTPA;
- 19 May 2021 13:24:41 -0000
-Subject: Re: [RFC PATCH 2/2] qemu-img convert: Fix sparseness detection
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Kevin Wolf <kwolf@redhat.com>
-References: <20210415152214.279844-1-kwolf@redhat.com>
- <20210415152214.279844-3-kwolf@redhat.com>
- <06e1910c-102a-e41d-116f-00458f41243c@virtuozzo.com>
- <YH7tah47XxdYs3VW@merkur.fritz.box>
- <f0ba8d30-3380-41d5-e3e7-c1ee52fc46be@virtuozzo.com>
-From: Peter Lieven <pl@kamp.de>
-Message-ID: <dde3af63-994d-4b60-03f7-fc71273e149f@kamp.de>
-Date: Wed, 19 May 2021 15:24:40 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1ljMDe-0003PU-V7; Wed, 19 May 2021 09:26:41 -0400
+Received: from dggems706-chm.china.huawei.com (unknown [172.30.72.60])
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4FlYV95B4dzsSXT;
+ Wed, 19 May 2021 21:23:45 +0800 (CST)
+Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
+ dggems706-chm.china.huawei.com (10.3.19.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Wed, 19 May 2021 21:26:31 +0800
+Received: from [10.174.187.128] (10.174.187.128) by
+ dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
+ 15.1.2176.2; Wed, 19 May 2021 21:26:30 +0800
+Subject: Re: [RFC PATCH v2 5/6] hw/arm/virt-acpi-build: Add PPTT table
+To: Andrew Jones <drjones@redhat.com>, Salil Mehta <salil.mehta@huawei.com>
+References: <20210413080745.33004-1-wangyanan55@huawei.com>
+ <20210413080745.33004-6-wangyanan55@huawei.com>
+ <1551b7d6-e010-e5c7-47e1-c347ca78a1db@huawei.com>
+ <a6ccb20f19b743a29f6aaffcf3088df2@huawei.com>
+ <20210518074221.umezsdedzyzmcbsk@gator.home>
+ <80dca9f16c5b4bef9900f6cf76c99500@huawei.com>
+ <20210518190539.fwsvl2ijb4jlzbyi@gator.home>
+ <20210519082735.yru7wpusq7lnmgj5@gator.home>
+From: "wangyanan (Y)" <wangyanan55@huawei.com>
+Message-ID: <4b64cb10-7825-e83c-8728-f9dde0d53b4b@huawei.com>
+Date: Wed, 19 May 2021 21:26:30 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <f0ba8d30-3380-41d5-e3e7-c1ee52fc46be@virtuozzo.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210519082735.yru7wpusq7lnmgj5@gator.home>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 Content-Language: en-US
-Received-SPF: pass client-ip=195.62.97.192; envelope-from=pl@kamp.de;
- helo=kerio.kamp.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Originating-IP: [10.174.187.128]
+X-ClientProxiedBy: dggeme719-chm.china.huawei.com (10.1.199.115) To
+ dggpemm500023.china.huawei.com (7.185.36.83)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.191;
+ envelope-from=wangyanan55@huawei.com; helo=szxga05-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -63,128 +72,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, mreitz@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "linuxarm@openeuler.org" <linuxarm@openeuler.org>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Linuxarm <linuxarm@huawei.com>, Shannon Zhao <shannon.zhaosl@gmail.com>,
+ Igor Mammedov <imammedo@redhat.com>,
+ "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ "Zengtao \(B\)" <prime.zeng@hisilicon.com>, yangyicong <yangyicong@huawei.com>,
+ yuzenghui <yuzenghui@huawei.com>,
+ "Wanghaibin \(D\)" <wanghaibin.wang@huawei.com>,
+ zhukeqian <zhukeqian1@huawei.com>, "lijiajie \(H\)" <lijiajie11@huawei.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 20.04.21 um 18:52 schrieb Vladimir Sementsov-Ogievskiy:
-> 20.04.2021 18:04, Kevin Wolf wrote:
->> Am 20.04.2021 um 16:31 hat Vladimir Sementsov-Ogievskiy geschrieben:
->>> 15.04.2021 18:22, Kevin Wolf wrote:
->>>> In order to avoid RMW cycles, is_allocated_sectors() treats zeroed areas
->>>> like non-zero data if the end of the checked area isn't aligned. This
->>>> can improve the efficiency of the conversion and was introduced in
->>>> commit 8dcd3c9b91a.
->>>>
->>>> However, it comes with a correctness problem: qemu-img convert is
->>>> supposed to sparsify areas that contain only zeros, which it doesn't do
->>>> any more. It turns out that this even happens when not only the
->>>> unaligned area is zeroed, but also the blocks before and after it. In
->>>> the bug report, conversion of a fragmented 10G image containing only
->>>> zeros resulted in an image consuming 2.82 GiB even though the expected
->>>> size is only 4 KiB.
->>>>
->>>> As a tradeoff between both, let's ignore zeroed sectors only after
->>>> non-zero data to fix the alignment, but if we're only looking at zeros,
->>>> keep them as such, even if it may mean additional RMW cycles.
->>>>
->>>
->>> Hmm.. If I understand correctly, we are going to do unaligned
->>> write-zero. And that helps.
->>
->> This can happen (mostly raw images on block devices, I think?), but
->> usually it just means skipping the write because we know that the target
->> image is already zeroed.
->>
->> What it does mean is that if the next part is data, we'll have an
->> unaligned data write.
->>
->>> Doesn't that mean that alignment is wrongly detected?
->>
->> The problem is that you can have bdrv_block_status_above() return the
->> same allocation status multiple times in a row, but *pnum can be
->> unaligned for the conversion.
->>
->> We only look at a single range returned by it when detecting the
->> alignment, so it could be that we have zero buffers for both 0-11 and
->> 12-16 and detect two misaligned ranges, when both together are a
->> perfectly aligned zeroed range.
->>
->> In theory we could try to do some lookahead and merge ranges where
->> possible, which should give us the perfect result, but it would make the
->> code considerably more complicated. (Whether we want to merge them
->> doesn't only depend on the block status, but possibly also on the
->> content of a DATA range.)
->>
->> Kevin
->>
->
-> Oh, I understand now the problem, thanks for explanation.
->
-> Hmm, yes that means, that if the whole buf is zero, is_allocated_sectors must not align it down, to be possibly "merged" with next chunk if it is zero too.
->
-> But it's still good to align zeroes down, if data starts somewhere inside the buf, isn't it?
->
-> what about something like this:
->
-> diff --git a/qemu-img.c b/qemu-img.c
-> index babb5573ab..d1704584a0 100644
-> --- a/qemu-img.c
-> +++ b/qemu-img.c
-> @@ -1167,19 +1167,39 @@ static int is_allocated_sectors(const uint8_t *buf, int n, int *pnum,
->          }
->      }
->  
-> +    if (i == n) {
-> +        /*
-> +         * The whole buf is the same.
-> +         *
-> +         * if it's data, just return it. It's the old behavior.
-> +         *
-> +         * if it's zero, just return too. It will work good if target is alredy
-> +         * zeroed. And if next chunk is zero too we'll have no RMW and no reason
-> +         * to write data.
-> +         */
-> +        *pnum = i;
-> +        return !is_zero;
-> +    }
-> +
->      tail = (sector_num + i) & (alignment - 1);
->      if (tail) {
->          if (is_zero && i <= tail) {
-> -            /* treat unallocated areas which only consist
-> -             * of a small tail as allocated. */
-> +            /*
-> +             * For sure next sector after i is data, and it will rewrite this
-> +             * tail anyway due to RMW. So, let's just write data now.
-> +             */
->              is_zero = false;
->          }
->          if (!is_zero) {
-> -            /* align up end offset of allocated areas. */
-> +            /* If possible, align up end offset of allocated areas. */
->              i += alignment - tail;
->              i = MIN(i, n);
->          } else {
-> -            /* align down end offset of zero areas. */
-> +            /*
-> +             * For sure next sector after i is data, and it will rewrite this
-> +             * tail anyway due to RMW. Better is avoid RMW and write zeroes up
-> +             * to aligned bound.
-> +             */
->              i -= tail;
->          }
->      }
->
->
+Hi Drew,
 
-I think we forgot to follow up on this. Has anyone tested this suggestion?
+On 2021/5/19 16:27, Andrew Jones wrote:
+> On Tue, May 18, 2021 at 09:05:39PM +0200, Andrew Jones wrote:
+>> The problem is that -smp 4,maxcpus=8 doesn't error out today, even though
+>> it doesn't do anything. OTOH, -smp 4,cores=2 doesn't error out either, but
+>> we're proposing that it should. Maybe we can start erroring out when
+>> cpus != maxcpus until hot plug is supported?
+>>
+> The more I think about this, the more I think we're in a bit of pickle and
+> need Peter Maydell to chime in. While we may want to make our -smp command
+> line option parsing more strict in order to bring some sanity to it, if
+> we do, then we'll break existing command lines, which, while may be
+> specifying useless inputs, have always gotten away with it. We probably
+> can't just change that now without forcing the user to opt into it.
+> Maybe we need to add another -smp parameter like 'strict' that has to
+> be set to 'on' in order to get this new behavior.
+>
+> Peter, do you have some suggestions for this? A summary of the problem
+> we'd like to solve is as follows:
+>
+>   We'd like to start describing CPU topology to guests when provided
+>   topology information with the '-smp ...' command line option. Currently,
+>   a user may provide nearly whatever it wants on that command line option
+>   and not get an error, even though the guest will not get a topology
+>   description. When building the topology its important to know what
+>   the user actually wants, so we're proposing to require both sockets
+>   and cores be given if one of them is given. Also, since we don't yet
+>   support hot plug for AArch64, we're proposing to enforce cpus == maxcpus.
+>
+> Is it fine to make those changes to the parsing for 6.1 and later? (Note,
+> mach-virt will override the default smp_parse with its own, so this is
+> mach-virt specific.) Or, should we only do this if a new parameter is
+> also given, e.g. 'strict'. Something like
+>
+>    -smp strict=on,cpus=4,sockets=2,cores=2
+>
+> would be needed by users who want to describe cpu topologies. Without
+> a strict description, then they get what they get today for their
+> DT/ACPI topology description, nothing.
+ From my point of view, I like the idea of a new parameter like 
+"strict=on/off".
+I will explain the reason below but maybe I have missed something, so I also
+hope for some suggestions from Peter. :)
 
-Otherwise, I would try to rerun the tests I did with the my old and Kevins suggestion.
+1) We don't need to worry about breaking any existing -smp command lines
+including the rare and strange ones any more, since we will only have more
+strict requirement for the new provided cmdlines with "strict=on" and only
+generate topology description to guest with these new cmdlines provided.
 
+2) This will provide an option for users to decide whether to enable the 
+feature
+or not. Furthermore, this feature can also work on older machine types, 
+if a user
+want to make use of cpu topology exposure to guest on older machines and is
+also sure it won't affect the application's behavior, then he can read 
+the Doc and
+properly provided a -smp cmdline with "strict=on" to boot a VM.
 
-Peter
+3) We don't need to bother guessing different formats of -smp command lines
+in parsing. If the new parameter is not specified or "strict=off" is 
+provided, we
+totally follow the rules in smp_parse() and disable the topology 
+exposure. And if
+"strict=on" is provided, we enable the topology exposure and enforce 
+completely
+detailed configuration like "-smp strict=on,cpus=4,sockets=2,cores=2".
 
+But maxcpus will be optional, it will default to cpus if not provided. 
+We also ensure
+it matches cpus if provided, given that cpu hotplug is not available yet.
 
-
+Thanks,
+Yanan
+> Thanks,
+> drew
+>
+> .
 
