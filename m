@@ -2,77 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C645389827
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 22:42:37 +0200 (CEST)
-Received: from localhost ([::1]:48230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4262B389835
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 22:47:11 +0200 (CEST)
+Received: from localhost ([::1]:53170 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljT1Y-0008Cy-4c
-	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 16:42:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56614)
+	id 1ljT5y-0003H7-0z
+	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 16:47:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57510)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cminyard@mvista.com>)
- id 1ljT08-0006bL-RY
- for qemu-devel@nongnu.org; Wed, 19 May 2021 16:41:09 -0400
-Received: from mail-ot1-x336.google.com ([2607:f8b0:4864:20::336]:39602)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cminyard@mvista.com>)
- id 1ljT04-0005op-Kx
- for qemu-devel@nongnu.org; Wed, 19 May 2021 16:41:07 -0400
-Received: by mail-ot1-x336.google.com with SMTP id
- d25-20020a0568300459b02902f886f7dd43so12946348otc.6
- for <qemu-devel@nongnu.org>; Wed, 19 May 2021 13:41:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mvista-com.20150623.gappssmtp.com; s=20150623;
- h=date:from:to:cc:subject:message-id:reply-to:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=NX8L2mgZZFtB20GajHqNmwUBgiQ+JBs1sStzbhoL4wc=;
- b=ouUojgvLQqS51R+2vdR6Q8Qn5OwNeisnpun7yLvqvgHI64wiJ4p+gqfGUEzdfDZPu6
- TiRQETjxc0jKUhSLtXV4zURBO2xKeGnBW403lAXi8h0oUqljqeMy7gB3XDa5wamXYE70
- FQcdahR7tnl1tmYiQA7/6gUlTgVPKpYjNvvDnMoFBQ7ST0ARp5n2vJ0RWxBeZNhV3IH6
- DEUwzssYHlxlpssg33Hbq88WG656ry54Mw9HyYVzt5oN+wjRICCgSTsyaGP3C2Fw+8ql
- 0Im77TD6SxgFpuN4tZZ2hUsPRO4tHEBd5APZA43Ywf8wuV5UNsSx/1jKqoaAeAJ1fZqZ
- wQww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:reply-to
- :references:mime-version:content-disposition
- :content-transfer-encoding:in-reply-to;
- bh=NX8L2mgZZFtB20GajHqNmwUBgiQ+JBs1sStzbhoL4wc=;
- b=iE8jfK7z8w5hFBlwmDEKbjbBmmeTx1eLTQG03qD8Yt/6SudJqrLutDASQD1fyWr4C7
- RFf3eAePjOgHYRxwq/4wIiLddlM5KDh2r24TbHybCLU8qfotTVPXQC3cDGA3y0We9d47
- T9H77/LOo6sB60FWpwmGPIcjImkxOxb+nuj0hi23Cbx+BQWkTP+vUo3ENfLfl4Y/IXmU
- qdxR5C+XYr6dxaUvrWMdecoP2lVckihWlVO+kb3CX0oGZJnehxFP8zwRwXabwOvksIU4
- inchX/VBlx8nYEnvaUBPSor8yi3h/QLLwIgx6nANAogux+pthxyTCzTzWFM1yzC8g4xU
- nHiA==
-X-Gm-Message-State: AOAM5332uoe6RTbdYGR9bVRmvJQtBlXB39r1WnN06x6DV1HEw4/RVbOS
- nWpFI9RuGLSamiB9XYqcfKxQrA==
-X-Google-Smtp-Source: ABdhPJwyhzkd2mlDHEsb5aVNNJFhw/zgctX3HiODY0+ErQuEzZcDt6mrk5BNBZajZ1lxYqhKoYhs/w==
-X-Received: by 2002:a05:6830:410d:: with SMTP id
- w13mr1085382ott.173.1621456862457; 
- Wed, 19 May 2021 13:41:02 -0700 (PDT)
-Received: from minyard.net ([2001:470:b8f6:1b:ecd2:e60e:d7a6:d643])
- by smtp.gmail.com with ESMTPSA id f3sm105569ooj.1.2021.05.19.13.41.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 May 2021 13:41:01 -0700 (PDT)
-Date: Wed, 19 May 2021 15:41:00 -0500
-From: Corey Minyard <cminyard@mvista.com>
-To: Titus Rwantare <titusr@google.com>
-Subject: Re: [PATCH v4 0/5] Add support for PMBus in QEMU
-Message-ID: <20210519204100.GB11196@minyard.net>
-References: <20210519165002.1195745-1-titusr@google.com>
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1ljT5C-0002aB-Gl; Wed, 19 May 2021 16:46:22 -0400
+Resent-Date: Wed, 19 May 2021 16:46:22 -0400
+Resent-Message-Id: <E1ljT5C-0002aB-Gl@lists.gnu.org>
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21332)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1ljT59-0000iM-B4; Wed, 19 May 2021 16:46:22 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1621457155; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=GYbtseKsK+wgiAXx9N1sGfBFdnN1DXzhBu4Z/0NGk60jwUdYkTUVW08GsygBwATqLIFTmP/MaxgXArqkhyPoIe0V7wSF6a/zpd0DTkXf3Kjivc6CjQSzCCEWkSTPKPnBM1V2cUOBPsEhoRkc+4j8GeThVXaNUted5rPt5wSHaUk=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1621457155;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=1VTqfdlg0o+CyFY+G1uRB8D//GHoUasVtb5VWOYHzt4=; 
+ b=L5kQmZms3j0jMS/MHFa3xfy2P0mKSuOJXvM9oV/yGePPqMt+7nhP7bCFwMkW53aOAJFqSgmMBBUdWIQqeLY/mslHYwH0kRz1cbpaNFU7c3vxgSbMVYo0gDZ8xFmlLgYIW8K9erAAzWJScvguu+Ifoe9A5tgQVXQ4c24UpEFw05s=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 162145715308911.687752060337289;
+ Wed, 19 May 2021 13:45:53 -0700 (PDT)
+In-Reply-To: <20210519202253.76782-1-agraf@csgraf.de>
+Subject: Re: [PATCH v8 00/19] hvf: Implement Apple Silicon Support
+Message-ID: <162145715125.22783.12874209207034977556@0addf061776e>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210519165002.1195745-1-titusr@google.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::336;
- envelope-from=cminyard@mvista.com; helo=mail-ot1-x336.google.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: agraf@csgraf.de
+Date: Wed, 19 May 2021 13:45:53 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o53.zoho.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,90 +64,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: cminyard@mvista.com
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, f4bug@amsat.org
+Reply-To: qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, ehabkost@redhat.com, pcc@google.com,
+ richard.henderson@linaro.org, qemu-devel@nongnu.org, dirty@apple.com,
+ r.bolshakov@yadro.com, qemu-arm@nongnu.org, lfy@google.com,
+ pbonzini@redhat.com, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, May 19, 2021 at 09:49:57AM -0700, Titus Rwantare wrote:
-> Hello,
-> 
-> This patch series adds an interface to start supporting PMBus devices in QEMU.
-> I’ve included two PMBus devices: MAX34451 and ADM1272.
-> 
-
-Ok, I've added this to my next tree.  I moved the files to the sensor
-directory, too.
-
--corey
-
-> PMBus is a variant of SMBus meant for digital management of power supplies.
-> PMBus adds to the SMBus standard by defining a number of constants and commands
-> used by compliant devices. The specification for PMBus can be found at:
-> 
-> https://pmbus.org/specification-archives/
-> 
-> Currently, the goal for these devices is to emulate basic functionality by
-> reading and writing registers. Timing, and some logical operation is not
-> implemented. This implementation supports nearly all available registers for
-> PMBus including:
->    - Voltage inputs and outputs
->    - Current inputs and outputs
->    - Temperature sensors
-> 
-> Unimplimented registers get passed through to the device model, and device
-> models can opt out of using the standard registers with flags. The included
-> devices make use of these fields and illustrate how to interface with the pmbus
-> class.
-> 
-> Datasheets for sensors:
-> 
-> https://datasheets.maximintegrated.com/en/ds/MAX34451.pdf
-> https://www.analog.com/media/en/technical-documentation/data-sheets/ADM1272.pdf
-> 
-> Since v3:
-> - added VMState descriptions. Adding PMBusPage info to the vmsd has proven to be tricky, it's a TODO for now.
-> 
-> Since v2:
-> - bump for feedback
-> - removed commented out code
-> 
-> Since v1:
-> - addressed Joel's comments
-> - split out tests into their own patches
-> 
-> Thanks for reviewing,
-> 
-> Titus Rwantare
-> 
-> Titus Rwantare (5):
->   hw/i2c: add support for PMBus
->   hw/misc: add ADM1272 device
->   tests/qtest: add tests for ADM1272 device model
->   hw/misc: add MAX34451 device
->   tests/qtest: add tests for MAX34451 device model
-> 
->  include/hw/i2c/pmbus_device.h |  517 +++++++++++
->  hw/i2c/pmbus_device.c         | 1612 +++++++++++++++++++++++++++++++++
->  hw/misc/adm1272.c             |  544 +++++++++++
->  hw/misc/max34451.c            |  775 ++++++++++++++++
->  tests/qtest/adm1272-test.c    |  445 +++++++++
->  tests/qtest/max34451-test.c   |  336 +++++++
->  hw/arm/Kconfig                |    3 +
->  hw/i2c/Kconfig                |    4 +
->  hw/i2c/meson.build            |    1 +
->  hw/misc/Kconfig               |    8 +
->  hw/misc/meson.build           |    2 +
->  tests/qtest/meson.build       |    2 +
->  12 files changed, 4249 insertions(+)
->  create mode 100644 include/hw/i2c/pmbus_device.h
->  create mode 100644 hw/i2c/pmbus_device.c
->  create mode 100644 hw/misc/adm1272.c
->  create mode 100644 hw/misc/max34451.c
->  create mode 100644 tests/qtest/adm1272-test.c
->  create mode 100644 tests/qtest/max34451-test.c
-> 
-> -- 
-> 2.31.1.751.gd2f1c929bd-goog
-> 
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDUxOTIwMjI1My43Njc4
+Mi0xLWFncmFmQGNzZ3JhZi5kZS8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVtcyB0byBoYXZlIHNv
+bWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvcgptb3JlIGluZm9y
+bWF0aW9uOgoKVHlwZTogc2VyaWVzCk1lc3NhZ2UtaWQ6IDIwMjEwNTE5MjAyMjUzLjc2NzgyLTEt
+YWdyYWZAY3NncmFmLmRlClN1YmplY3Q6IFtQQVRDSCB2OCAwMC8xOV0gaHZmOiBJbXBsZW1lbnQg
+QXBwbGUgU2lsaWNvbiBTdXBwb3J0Cgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9i
+YXNoCmdpdCByZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0IDAKZ2l0IGNvbmZpZyAt
+LWxvY2FsIGRpZmYucmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVz
+IFRydWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhpc3RvZ3JhbQouL3Njcmlw
+dHMvY2hlY2twYXRjaC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVTVCBTQ1JJUFQgRU5EID09
+PQoKVXBkYXRpbmcgM2M4Y2Y1YTljMjFmZjg3ODIxNjRkMWRlZjdmNDRiZDg4ODcxMzM4NApGcm9t
+IGh0dHBzOi8vZ2l0aHViLmNvbS9wYXRjaGV3LXByb2plY3QvcWVtdQogLSBbdGFnIHVwZGF0ZV0g
+ICAgICBwYXRjaGV3LzIwMjEwNTE5MTY1MDAyLjExOTU3NDUtMS10aXR1c3JAZ29vZ2xlLmNvbSAt
+PiBwYXRjaGV3LzIwMjEwNTE5MTY1MDAyLjExOTU3NDUtMS10aXR1c3JAZ29vZ2xlLmNvbQogKiBb
+bmV3IHRhZ10gICAgICAgICBwYXRjaGV3LzIwMjEwNTE5MjAyMjUzLjc2NzgyLTEtYWdyYWZAY3Nn
+cmFmLmRlIC0+IHBhdGNoZXcvMjAyMTA1MTkyMDIyNTMuNzY3ODItMS1hZ3JhZkBjc2dyYWYuZGUK
+U3dpdGNoZWQgdG8gYSBuZXcgYnJhbmNoICd0ZXN0JwphOTE0OTFhIGh2ZjogYXJtOiBIYW5kbGUg
+V2luZG93cyAxMCBTTUMgY2FsbAozZGM3NTUzIGFybTogRW5hYmxlIFdpbmRvd3MgMTAgdHJ1c3Rl
+ZCBTTUNDQyBib290IGNhbGwKNjVlODExNSBhcm06IEFkZCBIeXBlcnZpc29yLmZyYW1ld29yayBi
+dWlsZCB0YXJnZXQKMWNmYTFkMCBodmY6IGFybTogSW1wbGVtZW50IFBTQ0kgaGFuZGxpbmcKNjNl
+MGY2ZiBodmY6IGFybTogSW1wbGVtZW50IC1jcHUgaG9zdAozY2Y4MzNlIGFybS9odmY6IEFkZCBh
+IFdGSSBoYW5kbGVyCmNhMzA4OTMgaHZmOiBBZGQgQXBwbGUgU2lsaWNvbiBzdXBwb3J0CjhhNTkx
+YmQgaHZmOiBTaW1wbGlmeSBwb3N0IHJlc2V0L2luaXQvbG9hZHZtIGhvb2tzCjBjZDE1ZTQgaHZm
+OiBJbnRyb2R1Y2UgaHZmIHZjcHUgc3RydWN0CjA4NmY0MmQgaHZmOiBSZW1vdmUgaHZmLWFjY2Vs
+LW9wcy5oCjYzY2E3NWIgaHZmOiBNYWtlIHN5bmNocm9uaXplIGZ1bmN0aW9ucyBzdGF0aWMKNmEx
+MDM5MCBodmY6IFVzZSBjcHVfc3luY2hyb25pemVfc3RhdGUoKQpiMDY1NThhIGh2ZjogU3BsaXQg
+b3V0IGNvbW1vbiBjb2RlIG9uIHZjcHUgaW5pdCBhbmQgZGVzdHJveQpkZThhY2U2IGh2ZjogUmVt
+b3ZlIHVzZSBvZiBodl91dmFkZHJfdCBhbmQgaHZfZ3BhZGRyX3QKZjRiNzk0MCBodmY6IE1ha2Ug
+aHZmX3NldF9waHlzX21lbSgpIHN0YXRpYwo4Mzk4M2ZjIGh2ZjogTW92ZSBodmYgaW50ZXJuYWwg
+ZGVmaW5pdGlvbnMgaW50byBjb21tb24gaGVhZGVyCmUwMTFkYmIgaHZmOiBNb3ZlIGNwdSBmdW5j
+dGlvbnMgaW50byBjb21tb24gZGlyZWN0b3J5CmFjN2Q1MjIgaHZmOiBNb3ZlIHZjcHUgdGhyZWFk
+IGZ1bmN0aW9ucyBpbnRvIGNvbW1vbiBkaXJlY3RvcnkKNzJhYTdhZSBodmY6IE1vdmUgYXNzZXJ0
+X2h2Zl9vaygpIGludG8gY29tbW9uIGRpcmVjdG9yeQoKPT09IE9VVFBVVCBCRUdJTiA9PT0KMS8x
+OSBDaGVja2luZyBjb21taXQgNzJhYTdhZWIwNWU3IChodmY6IE1vdmUgYXNzZXJ0X2h2Zl9vaygp
+IGludG8gY29tbW9uIGRpcmVjdG9yeSkKMi8xOSBDaGVja2luZyBjb21taXQgYWM3ZDUyMmUwY2Fl
+IChodmY6IE1vdmUgdmNwdSB0aHJlYWQgZnVuY3Rpb25zIGludG8gY29tbW9uIGRpcmVjdG9yeSkK
+V0FSTklORzogYWRkZWQsIG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVS
+UyBuZWVkIHVwZGF0aW5nPwojMTc6IAoge3RhcmdldC9pMzg2ID0+IGFjY2VsfS9odmYvaHZmLWFj
+Y2VsLW9wcy5jIHwgMAoKdG90YWw6IDAgZXJyb3JzLCAxIHdhcm5pbmdzLCAyMSBsaW5lcyBjaGVj
+a2VkCgpQYXRjaCAyLzE5IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFu
+eSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUg
+bWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjMvMTkgQ2hlY2tpbmcg
+Y29tbWl0IGUwMTFkYmI0Y2M1OCAoaHZmOiBNb3ZlIGNwdSBmdW5jdGlvbnMgaW50byBjb21tb24g
+ZGlyZWN0b3J5KQo0LzE5IENoZWNraW5nIGNvbW1pdCA4Mzk4M2ZjOTZlNGYgKGh2ZjogTW92ZSBo
+dmYgaW50ZXJuYWwgZGVmaW5pdGlvbnMgaW50byBjb21tb24gaGVhZGVyKQo1LzE5IENoZWNraW5n
+IGNvbW1pdCBmNGI3OTQwNWJjYzUgKGh2ZjogTWFrZSBodmZfc2V0X3BoeXNfbWVtKCkgc3RhdGlj
+KQo2LzE5IENoZWNraW5nIGNvbW1pdCBkZThhY2U2MDMzZjEgKGh2ZjogUmVtb3ZlIHVzZSBvZiBo
+dl91dmFkZHJfdCBhbmQgaHZfZ3BhZGRyX3QpCjcvMTkgQ2hlY2tpbmcgY29tbWl0IGIwNjU1OGE4
+MjZhNCAoaHZmOiBTcGxpdCBvdXQgY29tbW9uIGNvZGUgb24gdmNwdSBpbml0IGFuZCBkZXN0cm95
+KQo4LzE5IENoZWNraW5nIGNvbW1pdCA2YTEwMzkwM2Y0MDEgKGh2ZjogVXNlIGNwdV9zeW5jaHJv
+bml6ZV9zdGF0ZSgpKQo5LzE5IENoZWNraW5nIGNvbW1pdCA2M2NhNzViN2M5MDQgKGh2ZjogTWFr
+ZSBzeW5jaHJvbml6ZSBmdW5jdGlvbnMgc3RhdGljKQoxMC8xOSBDaGVja2luZyBjb21taXQgMDg2
+ZjQyZGUyNGI1IChodmY6IFJlbW92ZSBodmYtYWNjZWwtb3BzLmgpCldBUk5JTkc6IGFkZGVkLCBt
+b3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8K
+IzMzOiAKZGVsZXRlZCBmaWxlIG1vZGUgMTAwNjQ0Cgp0b3RhbDogMCBlcnJvcnMsIDEgd2Fybmlu
+Z3MsIDIzIGxpbmVzIGNoZWNrZWQKClBhdGNoIDEwLzE5IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxl
+YXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyBy
+ZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5F
+UlMuCjExLzE5IENoZWNraW5nIGNvbW1pdCAwY2QxNWU0ODA3NWEgKGh2ZjogSW50cm9kdWNlIGh2
+ZiB2Y3B1IHN0cnVjdCkKV0FSTklORzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzE1NDogRklM
+RTogdGFyZ2V0L2kzODYvaHZmL2h2Zi5jOjI2MzoKKyAgICB3dm1jcyhjcHUtPmh2Zi0+ZmQsIFZN
+Q1NfRU5UUllfQ1RMUywgY2FwMmN0cmwoaHZmX3N0YXRlLT5odmZfY2Fwcy0+dm14X2NhcF9lbnRy
+eSwKCkVSUk9SOiAiKGZvbyopIiBzaG91bGQgYmUgIihmb28gKikiCiM3Njc6IEZJTEU6IHRhcmdl
+dC9pMzg2L2h2Zi94ODZodmYuYzo4MzoKKyAgICBpZiAoaHZfdmNwdV93cml0ZV9mcHN0YXRlKGNw
+dV9zdGF0ZS0+aHZmLT5mZCwgKHZvaWQqKXhzYXZlLCA0MDk2KSkgewoKRVJST1I6ICIoZm9vKiki
+IHNob3VsZCBiZSAiKGZvbyAqKSIKIzg0ODogRklMRTogdGFyZ2V0L2kzODYvaHZmL3g4Nmh2Zi5j
+OjE2NToKKyAgICBpZiAoaHZfdmNwdV9yZWFkX2Zwc3RhdGUoY3B1X3N0YXRlLT5odmYtPmZkLCAo
+dm9pZCopeHNhdmUsIDQwOTYpKSB7Cgp0b3RhbDogMiBlcnJvcnMsIDEgd2FybmluZ3MsIDEwMDEg
+bGluZXMgY2hlY2tlZAoKUGF0Y2ggMTEvMTkgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2
+aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0
+aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KCjEy
+LzE5IENoZWNraW5nIGNvbW1pdCA4YTU5MWJkNGI4NmIgKGh2ZjogU2ltcGxpZnkgcG9zdCByZXNl
+dC9pbml0L2xvYWR2bSBob29rcykKMTMvMTkgQ2hlY2tpbmcgY29tbWl0IGNhMzA4OTMyMWNiOSAo
+aHZmOiBBZGQgQXBwbGUgU2lsaWNvbiBzdXBwb3J0KQpXQVJOSU5HOiBhcmNoaXRlY3R1cmUgc3Bl
+Y2lmaWMgZGVmaW5lcyBzaG91bGQgYmUgYXZvaWRlZAojNTY6IEZJTEU6IGFjY2VsL2h2Zi9odmYt
+YWNjZWwtb3BzLmM6NjM6CisjaWZkZWYgX19hYXJjaDY0X18KCldBUk5JTkc6IGFyY2hpdGVjdHVy
+ZSBzcGVjaWZpYyBkZWZpbmVzIHNob3VsZCBiZSBhdm9pZGVkCiM2NzogRklMRTogYWNjZWwvaHZm
+L2h2Zi1hY2NlbC1vcHMuYzozODI6CisjaWZkZWYgX19hYXJjaDY0X18KCldBUk5JTkc6IGFyY2hp
+dGVjdHVyZSBzcGVjaWZpYyBkZWZpbmVzIHNob3VsZCBiZSBhdm9pZGVkCiMxMDE6IEZJTEU6IGlu
+Y2x1ZGUvc3lzZW11L2h2Zl9pbnQuaDoxNDoKKyNpZmRlZiBfX2FhcmNoNjRfXwoKdG90YWw6IDAg
+ZXJyb3JzLCAzIHdhcm5pbmdzLCA3OTYgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMTMvMTkgaGFzIHN0
+eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUg
+ZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQ
+QVRDSCBpbiBNQUlOVEFJTkVSUy4KMTQvMTkgQ2hlY2tpbmcgY29tbWl0IDNjZjgzM2VkZTE4MiAo
+YXJtL2h2ZjogQWRkIGEgV0ZJIGhhbmRsZXIpCjE1LzE5IENoZWNraW5nIGNvbW1pdCA2M2UwZjZm
+YjhjNjUgKGh2ZjogYXJtOiBJbXBsZW1lbnQgLWNwdSBob3N0KQpXQVJOSU5HOiBhZGRlZCwgbW92
+ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBkb2VzIE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/CiMx
+Nzk6IApuZXcgZmlsZSBtb2RlIDEwMDY0NAoKdG90YWw6IDAgZXJyb3JzLCAxIHdhcm5pbmdzLCAx
+NjAgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMTUvMTkgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2Ug
+cmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9y
+dCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4K
+MTYvMTkgQ2hlY2tpbmcgY29tbWl0IDFjZmExZDA4Mjk2OCAoaHZmOiBhcm06IEltcGxlbWVudCBQ
+U0NJIGhhbmRsaW5nKQpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgYSBsZWFkaW5nIC8qIG9u
+IGEgc2VwYXJhdGUgbGluZQojMTI0OiBGSUxFOiB0YXJnZXQvYXJtL2h2Zi9odmYuYzo2MTg6Cisg
+ICAgICAgIC8qIFFFTVUgcmVzZXQgYW5kIHNodXRkb3duIGFyZSBhc3luYyByZXF1ZXN0cywgYnV0
+IFBTQ0kKCnRvdGFsOiAwIGVycm9ycywgMSB3YXJuaW5ncywgMTcwIGxpbmVzIGNoZWNrZWQKClBh
+dGNoIDE2LzE5IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0
+aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRh
+aW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjE3LzE5IENoZWNraW5nIGNvbW1p
+dCA2NWU4MTE1MWNjNTcgKGFybTogQWRkIEh5cGVydmlzb3IuZnJhbWV3b3JrIGJ1aWxkIHRhcmdl
+dCkKV0FSTklORzogYWRkZWQsIG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJ
+TkVSUyBuZWVkIHVwZGF0aW5nPwojNDE6IApuZXcgZmlsZSBtb2RlIDEwMDY0NAoKdG90YWw6IDAg
+ZXJyb3JzLCAxIHdhcm5pbmdzLCAyMyBsaW5lcyBjaGVja2VkCgpQYXRjaCAxNy8xOSBoYXMgc3R5
+bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBm
+YWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BB
+VENIIGluIE1BSU5UQUlORVJTLgoxOC8xOSBDaGVja2luZyBjb21taXQgM2RjNzU1MzE4MGZiIChh
+cm06IEVuYWJsZSBXaW5kb3dzIDEwIHRydXN0ZWQgU01DQ0MgYm9vdCBjYWxsKQoxOS8xOSBDaGVj
+a2luZyBjb21taXQgYTkxNDkxYTYxZmZjIChodmY6IGFybTogSGFuZGxlIFdpbmRvd3MgMTAgU01D
+IGNhbGwpCj09PSBPVVRQVVQgRU5EID09PQoKVGVzdCBjb21tYW5kIGV4aXRlZCB3aXRoIGNvZGU6
+IDEKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dz
+LzIwMjEwNTE5MjAyMjUzLjc2NzgyLTEtYWdyYWZAY3NncmFmLmRlL3Rlc3RpbmcuY2hlY2twYXRj
+aC8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0
+Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRv
+IHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
 
