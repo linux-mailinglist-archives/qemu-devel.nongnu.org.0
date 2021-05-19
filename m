@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 309AB3894DE
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 19:58:26 +0200 (CEST)
-Received: from localhost ([::1]:54814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8B2B3894F0
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 20:00:20 +0200 (CEST)
+Received: from localhost ([::1]:59672 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljQSf-0003aM-8U
-	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 13:58:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35738)
+	id 1ljQUV-0006sK-Lr
+	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 14:00:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36186)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ljQR4-0001lA-Mr; Wed, 19 May 2021 13:56:46 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:42983)
+ id 1ljQRu-0003cO-W1; Wed, 19 May 2021 13:57:39 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:43727)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ljQR1-00046t-PQ; Wed, 19 May 2021 13:56:45 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id
- f75-20020a1c1f4e0000b0290171001e7329so3796576wmf.1; 
- Wed, 19 May 2021 10:56:42 -0700 (PDT)
+ id 1ljQRt-0004dJ-Ie; Wed, 19 May 2021 13:57:38 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id p7so11203104wru.10;
+ Wed, 19 May 2021 10:57:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=l2WMgSS2Hi3pHW0kyRJ5D9AQK7t5YV81Z089LMT/YRw=;
- b=Rw/FdpALP2x+d9AZkmyIA/LvnWK5E7mYVDTbeb8RTgD0jmRWcZJuH5l5UKfZRQoCQR
- GeXNqIwir3gH5lHfIT3ApP9m5I/Igt7Gc9Ubz+nmQwIkypYKQ6qwshAAzmLgsEeTGApd
- PFKEmWBceEP/tKgmSenh9eHmvIrVIL7FBnhciQ/Hi84IEmLz+hlTxOeozqP5HB0WEf/6
- w3NguQwkL6x/muXKCNEr13BPMzGRV62C1RXPjkZz+67/YSyIkct/XuIAW3U0WdDFFrkf
- aSc8uor8qTqX5nGV7mkBsHUh/XHbP6vyrQ86xqYpDDgqWsR3okHCppiBYfM+HH3XqpLq
- YlaQ==
+ bh=/2sPs+ru2T4x3kpaPoLZ4bxZnL9mzLFOYVpuWjbVtWM=;
+ b=InPNeW9DTJOzXF2r7VXxqLHGdYyHRM4r4quC5VwRGUfFw9vTAmHJX6aCPirULXiLXN
+ cefPUf6T2wpAjZy+5plcMxpvn07zDWS3oXpylalpHkz3+uAaLGp12QaPOVMecU31+Ljo
+ 2BAu4UbNFhVTonfvrAGuwFXSVss+GOl3J+AqDHoFlABGyVVHqDaK6HUecsMWsYoDwxdW
+ Dk/cZWuFUnX44zeAtXPYJE9U+yU48feYq6bDdoLDYOBCQNlQ2J4jofh33JXw//ylFaxE
+ 3Z9Fnhvi9JX9uAbJ6GE7G+/Q89gJPZsJXCvIZLzULLmokcaK9EouqJX6a50Iahkky9m0
+ Umfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=l2WMgSS2Hi3pHW0kyRJ5D9AQK7t5YV81Z089LMT/YRw=;
- b=EX3DXczANBa6MENmLqzuNnbDnMvgYfaNitS6BfSN5+S2+JWwfmBDcATFR+aMTdPfh1
- cEbh3/C+NccKBRij6YRw1cORlzxK6Yv50UyMcSZmV0/fcmj2s8CJzHJNGX3CkxNtwt1O
- +lN7Bv5PngEHRtKzUfZmVYMNNe06l9FFuQCz/wIaCaJxttMQTBgklQQuXrPUtvnA9ZiB
- BwCYw1CJacUh1nbeYBF02p5n3d0g0auXB07O+gMSppfTTkokQYqfMebcgwtuxsG7SwlK
- /c+yzRwMx78Cyqhy4CEndU1BM2oHLaN7QeVmS6g2b/v7Fwtg0p4ytXC2ze03QpkX7XTN
- Ma2w==
-X-Gm-Message-State: AOAM530ZWJ+r3/7G1i+RkIw9giooCjc9HKgfuqoZAZAeH4WTIlC8IBkY
- /YlCR46/6PWlkNMN5jiazSVV+voXz1osUg==
-X-Google-Smtp-Source: ABdhPJyCDS83uiqJrv6xsisR9Hznzn4ZDY9vu2E8labt7Bh6t8ylRcsrGMDvQBILijY4P/dJPZE2HQ==
-X-Received: by 2002:a1c:6503:: with SMTP id z3mr64116wmb.72.1621447001710;
- Wed, 19 May 2021 10:56:41 -0700 (PDT)
+ bh=/2sPs+ru2T4x3kpaPoLZ4bxZnL9mzLFOYVpuWjbVtWM=;
+ b=aJYq4lqKFmWObMtUiQ7x82RWwDIYcurYUctU0kRwKmNGQXDKlELkGvolkW6vtTLePv
+ MVDG0YJg5/NH1KYXZpWRvsPt1uAn0VYLK6o2NmGJswtxyD+A9a0L/Fig6PlXhjA70Ytm
+ owP55Bp3oJTuQjouByNZsDzDVyA967eEzFF9mebrenCJNTxqHwArqQGF3iugezBJCqyy
+ xqoNSeID6hNmvVe1bxS7lQRTc+qsAlSJK9l3aQIyWEMxk8xuEFlHXSAXIz4D4sYNsMmA
+ eY9kaUgwMThq152+T2nTfV0Gi6jLFkNIjjVqlHd8hCvV8Dt9oXyMYe1WT9Hxbx57BbFw
+ 2BvQ==
+X-Gm-Message-State: AOAM5322yQo8c71omNdGRa0mjt6wid0ZwdCMRJKVMd+RZ3+0xCBXBfRF
+ Zx5hkhhFF8SBAxy3H8EaRngaVoKMRL2wxw==
+X-Google-Smtp-Source: ABdhPJwpvV4AWxaJf6YFDng6b3n5Co9Eg5tZ+0rOpYPj3qm48mHnJwdFcyDVgzDPptNzUrtvf+LB+g==
+X-Received: by 2002:adf:e484:: with SMTP id i4mr132614wrm.117.1621447055195;
+ Wed, 19 May 2021 10:57:35 -0700 (PDT)
 Received: from [192.168.1.36] (31.red-83-51-215.dynamicip.rima-tde.net.
  [83.51.215.31])
- by smtp.gmail.com with ESMTPSA id k6sm73372wrh.61.2021.05.19.10.56.40
+ by smtp.gmail.com with ESMTPSA id q186sm163538wme.20.2021.05.19.10.57.33
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 19 May 2021 10:56:41 -0700 (PDT)
+ Wed, 19 May 2021 10:57:34 -0700 (PDT)
 Subject: Re: [PATCH 1/3] adc: Move the zynq-xadc file to the adc directories
 To: minyard@acm.org, qemu-devel@nongnu.org, Titus Rwantare <titusr@google.com>
 References: <20210519000331.3690536-1-minyard@acm.org>
  <20210519000331.3690536-2-minyard@acm.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <656069a4-08d6-e1fc-9cb3-68f3d2189d7b@amsat.org>
-Date: Wed, 19 May 2021 19:56:40 +0200
+Message-ID: <b08ac221-e8fa-fbc0-5dbc-158841c79405@amsat.org>
+Date: Wed, 19 May 2021 19:57:33 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
@@ -66,8 +65,8 @@ In-Reply-To: <20210519000331.3690536-2-minyard@acm.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -115,5 +114,7 @@ On 5/19/21 2:03 AM, minyard@acm.org wrote:
 >  rename hw/{misc => adc}/zynq-xadc.c (99%)
 >  rename include/hw/{misc => adc}/zynq-xadc.h (100%)
 
-Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
+
 
