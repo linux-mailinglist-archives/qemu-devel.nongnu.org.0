@@ -2,53 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73661389123
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 16:36:53 +0200 (CEST)
-Received: from localhost ([::1]:58242 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC8DE38919C
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 16:42:22 +0200 (CEST)
+Received: from localhost ([::1]:34998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljNJc-0003vK-JE
-	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 10:36:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57436)
+	id 1ljNOt-0007Vt-Dz
+	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 10:42:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32826)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1ljNCe-0000j4-LP
- for qemu-devel@nongnu.org; Wed, 19 May 2021 10:29:40 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:37868
- helo=mail.default.ilande.bv.iomart.io)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ljNNM-0006in-IB
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 10:40:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31517)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1ljNCY-0008Jz-SZ
- for qemu-devel@nongnu.org; Wed, 19 May 2021 10:29:40 -0400
-Received: from host217-39-58-213.range217-39.btcentralplus.com
- ([217.39.58.213] helo=kentang.home)
- by mail.default.ilande.bv.iomart.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1ljNCW-0003Tz-Kz; Wed, 19 May 2021 15:29:32 +0100
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-To: qemu-devel@nongnu.org,
-	laurent@vivier.eu
-Date: Wed, 19 May 2021 15:29:17 +0100
-Message-Id: <20210519142917.16693-5-mark.cave-ayland@ilande.co.uk>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210519142917.16693-1-mark.cave-ayland@ilande.co.uk>
-References: <20210519142917.16693-1-mark.cave-ayland@ilande.co.uk>
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ljNNF-0006l9-KU
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 10:40:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1621435235;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=7mZZNiKJ6gEEI2VRrVE1bj8ItNYUOohFg+SpArgkExQ=;
+ b=bMz+oTzSNmmyLDqYrRVZEnGooI/SRxJEflZGvT1sFGIkS3qCVyrfs3HkWq+OsrMafBXc7q
+ cbQ4BB9GMpF/C9eLWaJLhNil2TqWhRlLjPDIYhYXid94FpIiNx3OQh0iT7oQi+YGMP4TPa
+ TuELOT+gJN5HDeuE93nAP70zPPuC+QA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-512-TY0V4bZCP-ezzSbHlQ4SeQ-1; Wed, 19 May 2021 10:40:33 -0400
+X-MC-Unique: TY0V4bZCP-ezzSbHlQ4SeQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0656A106BB24;
+ Wed, 19 May 2021 14:40:33 +0000 (UTC)
+Received: from merkur.fritz.box (ovpn-115-58.ams2.redhat.com [10.36.115.58])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E26495D6D5;
+ Wed, 19 May 2021 14:40:31 +0000 (UTC)
+Date: Wed, 19 May 2021 16:40:30 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH 1/3] qemu-config: parse configuration files to a QDict
+Message-ID: <YKUjXnThNZk6YfTZ@merkur.fritz.box>
+References: <20210518154014.2999326-1-pbonzini@redhat.com>
+ <20210518154059.3002446-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 217.39.58.213
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH 4/4] target/m68k: implement m68k "any instruction" trace mode
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.bv.iomart.io
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210518154059.3002446-1-pbonzini@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.39,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -61,118 +76,159 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-stable@nongnu.org, qemu-devel@nongnu.org, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The m68k trace mode is controlled by the top 2 bits in the SR register. Implement
-the m68k "any instruction" trace mode where bit T1=1 and bit T0=0 in which the CPU
-generates an EXCP_TRACE exception (vector 9 or offset 0x24) after executing each
-instruction.
+Am 18.05.2021 um 17:40 hat Paolo Bonzini geschrieben:
+> Change the parser to put the values into a QDict and pass them
+> to a callback.  qemu_config_parse's QemuOpts creation is
+> itself turned into a callback function.
+> 
+> This is useful for -readconfig to support keyval-based options;
+> getting a QDict from the parser removes a roundtrip from
+> QDict to QemuOpts and then back to QDict.
+> 
+> Cc: Kevin Wolf <kwolf@redhat.com>
+> Cc: Markus Armbruster <armbru@redhat.com>
+> Cc: qemu-stable@nongnu.org
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 
-This functionality is used by the NetBSD kernel debugger to allow single-stepping
-on m68k architectures.
+> diff --git a/util/qemu-config.c b/util/qemu-config.c
+> index 34974c4b47..7bca153c6c 100644
+> --- a/util/qemu-config.c
+> +++ b/util/qemu-config.c
+> @@ -351,19 +351,19 @@ void qemu_config_write(FILE *fp)
+>  }
+>  
+>  /* Returns number of config groups on success, -errno on error */
+> -int qemu_config_parse(FILE *fp, QemuOptsList **lists, const char *fname, Error **errp)
+> +static int qemu_config_foreach(FILE *fp, QEMUConfigCB *cb, void *opaque,
+> +                               const char *fname, Error **errp)
+>  {
+> -    char line[1024], group[64], id[64], arg[64], value[1024];
+> +    char line[1024], prev_group[64], group[64], arg[64], value[1024];
+>      Location loc;
+> -    QemuOptsList *list = NULL;
+>      Error *local_err = NULL;
+> -    QemuOpts *opts = NULL;
+> +    QDict *qdict = NULL;
+>      int res = -EINVAL, lno = 0;
+>      int count = 0;
+>  
+>      loc_push_none(&loc);
+>      while (fgets(line, sizeof(line), fp) != NULL) {
+> -        loc_set_file(fname, ++lno);
+> +        ++lno;
+>          if (line[0] == '\n') {
+>              /* skip empty lines */
+>              continue;
+> @@ -372,39 +372,39 @@ int qemu_config_parse(FILE *fp, QemuOptsList **lists, const char *fname, Error *
+>              /* comment */
+>              continue;
+>          }
+> -        if (sscanf(line, "[%63s \"%63[^\"]\"]", group, id) == 2) {
+> -            /* group with id */
+> -            list = find_list(lists, group, &local_err);
+> -            if (local_err) {
+> -                error_propagate(errp, local_err);
+> -                goto out;
+> +        if (line[0] == '[') {
+> +            QDict *prev = qdict;
+> +            if (sscanf(line, "[%63s \"%63[^\"]\"]", group, value) == 2) {
+> +                qdict = qdict_new();
+> +                qdict_put_str(qdict, "id", value);
+> +                count++;
+> +            } else if (sscanf(line, "[%63[^]]]", group) == 1) {
+> +                qdict = qdict_new();
+> +                count++;
+>              }
+> -            opts = qemu_opts_create(list, id, 1, NULL);
+> -            count++;
+> -            continue;
+> -        }
+> -        if (sscanf(line, "[%63[^]]]", group) == 1) {
+> -            /* group without id */
+> -            list = find_list(lists, group, &local_err);
+> -            if (local_err) {
+> -                error_propagate(errp, local_err);
+> -                goto out;
+> +            if (qdict != prev) {
+> +                if (prev) {
+> +                    cb(prev_group, prev, opaque, &local_err);
+> +                    qobject_unref(prev);
+> +                    if (local_err) {
+> +                        error_propagate(errp, local_err);
+> +                        goto out;
+> +                    }
+> +                }
+> +                strcpy(prev_group, group);
+> +                continue;
+>              }
+> -            opts = qemu_opts_create(list, NULL, 0, &error_abort);
+> -            count++;
+> -            continue;
+>          }
+> +        loc_set_file(fname, lno);
 
-Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
----
- target/m68k/cpu.h       |  8 ++++++++
- target/m68k/translate.c | 27 ++++++++++++++++++++-------
- 2 files changed, 28 insertions(+), 7 deletions(-)
+Error reporting is going to suffer quite a bit from this delayed
+parsing, reporting the last line of a group for most cases now.
 
-diff --git a/target/m68k/cpu.h b/target/m68k/cpu.h
-index 402c86c876..997d588911 100644
---- a/target/m68k/cpu.h
-+++ b/target/m68k/cpu.h
-@@ -230,6 +230,9 @@ typedef enum {
- #define SR_T_SHIFT 14
- #define SR_T  0xc000
- 
-+#define M68K_SR_TRACE(sr) ((sr & SR_T) >> SR_T_SHIFT)
-+#define M68K_SR_TRACE_ANY_INS 0x2
-+
- #define M68K_SSP    0
- #define M68K_USP    1
- #define M68K_ISP    2
-@@ -590,6 +593,8 @@ typedef M68kCPU ArchCPU;
- #define TB_FLAGS_SFC_S          (1 << TB_FLAGS_SFC_S_BIT)
- #define TB_FLAGS_DFC_S_BIT      15
- #define TB_FLAGS_DFC_S          (1 << TB_FLAGS_DFC_S_BIT)
-+#define TB_FLAGS_TRACE          16
-+#define TB_FLAGS_TRACE_BIT      (1 << TB_FLAGS_TRACE)
- 
- static inline void cpu_get_tb_cpu_state(CPUM68KState *env, target_ulong *pc,
-                                         target_ulong *cs_base, uint32_t *flags)
-@@ -602,6 +607,9 @@ static inline void cpu_get_tb_cpu_state(CPUM68KState *env, target_ulong *pc,
-         *flags |= (env->sfc << (TB_FLAGS_SFC_S_BIT - 2)) & TB_FLAGS_SFC_S;
-         *flags |= (env->dfc << (TB_FLAGS_DFC_S_BIT - 2)) & TB_FLAGS_DFC_S;
-     }
-+    if (M68K_SR_TRACE(env->sr) == M68K_SR_TRACE_ANY_INS) {
-+        *flags |= TB_FLAGS_TRACE;
-+    }
- }
- 
- void dump_mmu(CPUM68KState *env);
-diff --git a/target/m68k/translate.c b/target/m68k/translate.c
-index 10e8aba42e..f0c5bf9154 100644
---- a/target/m68k/translate.c
-+++ b/target/m68k/translate.c
-@@ -124,6 +124,7 @@ typedef struct DisasContext {
- #define MAX_TO_RELEASE 8
-     int release_count;
-     TCGv release[MAX_TO_RELEASE];
-+    bool ss_active;
- } DisasContext;
- 
- static void init_release_array(DisasContext *s)
-@@ -197,12 +198,13 @@ static void do_writebacks(DisasContext *s)
- static bool is_singlestepping(DisasContext *s)
- {
-     /*
--     * Return true if we are singlestepping either because of QEMU gdbstub
--     * singlestep. This does not include the command line '-singlestep' mode
--     * which is rather misnamed as it only means "one instruction per TB" and
--     * doesn't affect the code we generate.
-+     * Return true if we are singlestepping either because of
-+     * architectural singlestep or QEMU gdbstub singlestep. This does
-+     * not include the command line '-singlestep' mode which is rather
-+     * misnamed as it only means "one instruction per TB" and doesn't
-+     * affect the code we generate.
-      */
--    return s->base.singlestep_enabled;
-+    return s->base.singlestep_enabled || s->ss_active;
- }
- 
- /* is_jmp field values */
-@@ -323,9 +325,14 @@ static void gen_singlestep_exception(DisasContext *s)
- {
-     /*
-      * Generate the right kind of exception for singlestep, which is
--     * EXCP_DEBUG for QEMU's gdb singlestepping.
-+     * either the architectural singlestep or EXCP_DEBUG for QEMU's
-+     * gdb singlestepping.
-      */
--    gen_raise_exception(EXCP_DEBUG);
-+    if (s->ss_active) {
-+        gen_raise_exception(EXCP_TRACE);
-+    } else {
-+        gen_raise_exception(EXCP_DEBUG);
-+    }
- }
- 
- static inline void gen_addr_fault(DisasContext *s)
-@@ -6194,6 +6201,12 @@ static void m68k_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cpu)
-     dc->done_mac = 0;
-     dc->writeback_mask = 0;
-     init_release_array(dc);
-+
-+    dc->ss_active = (M68K_SR_TRACE(env->sr) == M68K_SR_TRACE_ANY_INS);
-+    /* If architectural single step active, limit to 1 */
-+    if (is_singlestepping(dc)) {
-+        dc->base.max_insns = 1;
-+    }
- }
- 
- static void m68k_tr_tb_start(DisasContextBase *dcbase, CPUState *cpu)
--- 
-2.20.1
+I think it's acceptable for an option that we want to get rid of in the
+long term anyway, but worth noting.
+
+>          value[0] = '\0';
+>          if (sscanf(line, " %63s = \"%1023[^\"]\"", arg, value) == 2 ||
+>              sscanf(line, " %63s = \"\"", arg) == 1) {
+>              /* arg = value */
+> -            if (opts == NULL) {
+> +            if (qdict == NULL) {
+>                  error_setg(errp, "no group defined");
+>                  goto out;
+>              }
+> -            if (!qemu_opt_set(opts, arg, value, errp)) {
+> -                goto out;
+> -            }
+> +            qdict_put_str(qdict, arg, value);
+>              continue;
+>          }
+>          error_setg(errp, "parse error");
+> @@ -418,10 +418,41 @@ int qemu_config_parse(FILE *fp, QemuOptsList **lists, const char *fname, Error *
+>      res = count;
+>  out:
+>      loc_pop(&loc);
+> +    if (qdict) {
+> +        cb(group, qdict, opaque, errp);
+> +        qobject_unref(qdict);
+> +    }
+>      return res;
+>  }
+>  
+> -int qemu_read_config_file(const char *filename, Error **errp)
+> +void qemu_config_do_parse(const char *group, QDict *qdict, void *opaque, Error **errp)
+> +{
+> +    QemuOptsList **lists = opaque;
+> +    const char *id = qdict_get_try_str(qdict, "id");
+> +    QemuOptsList *list;
+> +    QemuOpts *opts;
+> +
+> +    list = find_list(lists, group, errp);
+> +    if (!list) {
+> +        return;
+> +    }
+> +
+> +    opts = qemu_opts_create(list, id, 1, errp);
+> +    if (!opts) {
+> +        return;
+> +    }
+> +    if (id) {
+> +        qdict_del(qdict, "id");
+> +    }
+> +    qemu_opts_absorb_qdict(opts, qdict, errp);
+
+Shouldn't we check that qdict is empty now and return an error if there
+are any options that the QemuOptsList doesn't accept?
+
+Kevin
 
 
