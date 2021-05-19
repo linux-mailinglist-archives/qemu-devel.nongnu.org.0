@@ -2,71 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 266D838836E
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 02:06:34 +0200 (CEST)
-Received: from localhost ([::1]:45666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3C24388391
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 02:09:11 +0200 (CEST)
+Received: from localhost ([::1]:49924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lj9jN-0005mZ-76
-	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 20:06:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54914)
+	id 1lj9lu-0000Jr-IB
+	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 20:09:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <tcminyard@gmail.com>)
- id 1lj9gi-0002t7-Gd; Tue, 18 May 2021 20:03:48 -0400
-Received: from mail-ot1-x32a.google.com ([2607:f8b0:4864:20::32a]:45647)
+ id 1lj9gj-0002tO-00; Tue, 18 May 2021 20:03:49 -0400
+Received: from mail-ot1-x32e.google.com ([2607:f8b0:4864:20::32e]:44804)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <tcminyard@gmail.com>)
- id 1lj9gg-0000OA-9S; Tue, 18 May 2021 20:03:48 -0400
-Received: by mail-ot1-x32a.google.com with SMTP id
- t10-20020a05683022eab0290304ed8bc759so10208782otc.12; 
- Tue, 18 May 2021 17:03:44 -0700 (PDT)
+ id 1lj9gg-0000OM-LP; Tue, 18 May 2021 20:03:48 -0400
+Received: by mail-ot1-x32e.google.com with SMTP id
+ r26-20020a056830121ab02902a5ff1c9b81so10215703otp.11; 
+ Tue, 18 May 2021 17:03:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Ei6hA6Voi4g0dxlsggCJS5H+up1et4z2XYyd28qRn04=;
- b=u0qKP/xqeHh+yTgId4OkBau82lJv4LlWwlwLNkd2dvMQcE/z122YWnzPCWLX5dlAcJ
- UuttqGwChKN5yFVNvmWbnmy366qiZwbVcPnkRvTIN4drHcCJGSg6Yp3eG50an/AVelw7
- CyV+frVqJXqgGAlMdKn+aXLvjXBJSX9CPOfEanM4/nI/RdiVZW8LU2E5MAmApkO5uP60
- Lj75JgDa3uCykew/3I8607m6ESQx6ZDkB3f+zA6uACs0xzO9yb7YzFieTm1ETmk1LYoo
- YnNaoPl9STPA4NAQ0usEZpbtU5YoC216bWowdmFvsLBh75vJejv97qQjVhpPSaqoGORU
- ickg==
+ bh=fFac46k6fWx/dZttIiXR5ZeGKeQBto4t86AuZxEHLC4=;
+ b=Eygen7hwAY7NcNJWLVOOQiPvBOwdjhHXTD/XhVZqcc3oKrkt372+veZvkUKVHaKBm/
+ Phbl7djIpo7WB83n/kBv5wdQJW/bGeCZK3YYBnZXXR+dTyh60wMN5l77qx7z6vMUj6DH
+ Zhe90RRw93vPH0GBfZC2iiud83dfwr0G08wkA+FiK7lZdc9jt7PhmxsG+MDBDqt5Io6w
+ w9wVZvORw6Py8PNbtEJlZPn6x1IcC8e0N1Mykou4c4DinyClyb4omJokLZnvuU+j/CZk
+ KYF0WiYBX2BWo10J1Rop2saopeRn+4ilXtKG1ociReZPkcWm16GQv36gVR3btRnpUb0u
+ ph/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=Ei6hA6Voi4g0dxlsggCJS5H+up1et4z2XYyd28qRn04=;
- b=crWGMmEde2ygZAelvttXOnp3E7oQkDrLYHWRiVBvj/KsHVR+r5xoLOX3/gFdLENSsy
- VpWvrDlpdmcjR7H6iqkqSIXtPbG1Szjr4HUbX247VnrAAdFZSXQPZqXU7phd+qjpe0ur
- tAHRFuQGK/kT6mMdoaf4HR0Lb3i+OXco3AQq+/axwQnJ8Vx9mSbUaB39LYpaGe2S6C2S
- CwNOr7f+6/P+kFoLuO19NZ4IUbIc1tNTZslysWcvGIXVhMR1v4yN+be0sXTvEMLv9n/B
- 6dAGIpyGn9Z8mWDOrP2Ggu3A44ABfsSe82DiP1KtZcY3S1+6Gpz36g2PgQIzaXwVsOD+
- QSsA==
-X-Gm-Message-State: AOAM531bocXnSm4p6xc65WZIMtlYRTmQea/SO/0hWtQaHQtUcfCcGuQ5
- 1FhQMVtjQdyJJmOgv5UM2A==
-X-Google-Smtp-Source: ABdhPJzkpDakpzLNEB5ohVo5yTlM5pnHHvyZFoe66lWZEDaaXp4rEhfKoeOjYtENkU0Wsg2DuCENAw==
-X-Received: by 2002:a9d:17d0:: with SMTP id j74mr6238191otj.92.1621382624312; 
- Tue, 18 May 2021 17:03:44 -0700 (PDT)
+ bh=fFac46k6fWx/dZttIiXR5ZeGKeQBto4t86AuZxEHLC4=;
+ b=TmBzCdchK92qkbYMt6iiWmhzmDLTP/wIZs05oy1NdzuNMoYpNaFeSg6MXKtpu9HWj0
+ LeKtgCcoeSQz+6fCiFzUX8TyBTcwXCzhA9sSfvd9uMPOKmDHH7zREyBPJxhv/qVx1OrB
+ 5GF0jaFl8eEb2Sxn0QAsiF6dTuGmrY++KjK6phmbhUh5rPkT1IBVUImgj5luzIGEuc+0
+ 8RXI1TQg1fgSSEIYTvvFevovVnY0d3JaOW6FnqspEsFiukSdGMooSMg00L8thDzFnmi9
+ ployIo+ahB/A4Nzxmo0G3tqwJ0Yg/KPTswkNc+HLcSr0AdYnp9XO3pspKsc+ptXD4thS
+ xKTg==
+X-Gm-Message-State: AOAM5339Mj8UmBDOmZpf8mzlzRN5+pX3Wk8BF1Zt6ScNNI1WEMP3/khH
+ uK20bFULCV5j77SwunDFHA==
+X-Google-Smtp-Source: ABdhPJz9a3cJKJdhTAc2cxCkdW+dkB3t5w/fLshvovMjcHiSzFwUNff9SKDmQrYN+neZokoHZDiXQA==
+X-Received: by 2002:a05:6830:3115:: with SMTP id
+ b21mr5994567ots.291.1621382625240; 
+ Tue, 18 May 2021 17:03:45 -0700 (PDT)
 Received: from serve.minyard.net ([47.184.156.158])
- by smtp.gmail.com with ESMTPSA id o1sm4268877otj.39.2021.05.18.17.03.42
+ by smtp.gmail.com with ESMTPSA id p21sm4147147ota.26.2021.05.18.17.03.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 May 2021 17:03:43 -0700 (PDT)
+ Tue, 18 May 2021 17:03:44 -0700 (PDT)
 Received: from t560.minyard.net (unknown
  [IPv6:2001:470:b8f6:1b:9144:ba66:ea13:f260])
- by serve.minyard.net (Postfix) with ESMTPA id 4297D1800EA;
+ by serve.minyard.net (Postfix) with ESMTPA id 58DFB1800EB;
  Wed, 19 May 2021 00:03:42 +0000 (UTC)
 From: minyard@acm.org
 To: qemu-devel@nongnu.org,
 	Titus Rwantare <titusr@google.com>
-Subject: [PATCH 2/3] adc: Move the max111x driver to the adc directory
-Date: Tue, 18 May 2021 19:03:30 -0500
-Message-Id: <20210519000331.3690536-3-minyard@acm.org>
+Subject: [PATCH 3/3] sensor: Move hardware sensors from misc to a sensor
+ directory
+Date: Tue, 18 May 2021 19:03:31 -0500
+Message-Id: <20210519000331.3690536-4-minyard@acm.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210519000331.3690536-1-minyard@acm.org>
 References: <20210519000331.3690536-1-minyard@acm.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::32a;
- envelope-from=tcminyard@gmail.com; helo=mail-ot1-x32a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::32e;
+ envelope-from=tcminyard@gmail.com; helo=mail-ot1-x32e.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -87,127 +90,267 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Corey Minyard <cminyard@mvista.com>, qemu-arm@nongnu.org,
- Peter Maydell <peter.maydell@linaro.org>
+Cc: Corey Minyard <cminyard@mvista.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
+ qemu-arm@nongnu.org, Joel Stanley <joel@jms.id.au>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Corey Minyard <cminyard@mvista.com>
 
-It's an adc, put it where it belongs.
+Lots of this are expected to be coming in, create a directory for them.
 
-Cc: Andrzej Zaborowski <balrogg@gmail.com>
+Also move the tmp105.h file into the include directory where it
+should be.
+
+Cc: Cédric Le Goater <clg@kaod.org>
 Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: Andrew Jeffery <andrew@aj.id.au>
+Cc: Joel Stanley <joel@jms.id.au>
+Cc: Andrzej Zaborowski <balrogg@gmail.com>
 Cc: qemu-arm@nongnu.org
 Signed-off-by: Corey Minyard <cminyard@mvista.com>
 ---
- MAINTAINERS                        | 4 ++--
- hw/adc/Kconfig                     | 3 +++
- hw/{misc => adc}/max111x.c         | 2 +-
- hw/adc/meson.build                 | 3 ++-
- hw/arm/spitz.c                     | 2 +-
- hw/misc/Kconfig                    | 3 ---
- hw/misc/meson.build                | 1 -
- include/hw/{misc => adc}/max111x.h | 0
- 8 files changed, 9 insertions(+), 9 deletions(-)
- rename hw/{misc => adc}/max111x.c (99%)
- rename include/hw/{misc => adc}/max111x.h (100%)
+ hw/Kconfig                                 |  1 +
+ hw/arm/aspeed.c                            |  2 +-
+ hw/arm/nseries.c                           |  2 +-
+ hw/meson.build                             |  1 +
+ hw/misc/Kconfig                            | 12 ------------
+ hw/misc/meson.build                        |  3 ---
+ hw/sensor/Kconfig                          | 11 +++++++++++
+ hw/{misc => sensor}/emc141x.c              |  2 +-
+ hw/sensor/meson.build                      |  3 +++
+ hw/{misc => sensor}/tmp105.c               |  2 +-
+ hw/{misc => sensor}/tmp421.c               |  0
+ include/hw/{misc => sensor}/emc141x_regs.h |  0
+ {hw/misc => include/hw/sensor}/tmp105.h    |  2 +-
+ include/hw/{misc => sensor}/tmp105_regs.h  |  0
+ tests/qtest/emc141x-test.c                 |  2 +-
+ tests/qtest/npcm7xx_smbus-test.c           |  2 +-
+ tests/qtest/tmp105-test.c                  |  2 +-
+ 17 files changed, 24 insertions(+), 23 deletions(-)
+ create mode 100644 hw/sensor/Kconfig
+ rename hw/{misc => sensor}/emc141x.c (99%)
+ create mode 100644 hw/sensor/meson.build
+ rename hw/{misc => sensor}/tmp105.c (99%)
+ rename hw/{misc => sensor}/tmp421.c (100%)
+ rename include/hw/{misc => sensor}/emc141x_regs.h (100%)
+ rename {hw/misc => include/hw/sensor}/tmp105.h (97%)
+ rename include/hw/{misc => sensor}/tmp105_regs.h (100%)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 6cb3b15f97..4fbedc7c11 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -834,8 +834,8 @@ F: hw/display/tc6393xb.c
- F: hw/gpio/max7310.c
- F: hw/gpio/zaurus.c
- F: hw/misc/mst_fpga.c
--F: hw/misc/max111x.c
--F: include/hw/misc/max111x.h
-+F: hw/adc/max111x.c
-+F: include/hw/adc/max111x.h
- F: include/hw/arm/pxa.h
- F: include/hw/arm/sharpsl.h
- F: include/hw/display/tc6393xb.h
-diff --git a/hw/adc/Kconfig b/hw/adc/Kconfig
-index 25d2229fb8..a825bd3d34 100644
---- a/hw/adc/Kconfig
-+++ b/hw/adc/Kconfig
-@@ -1,2 +1,5 @@
- config STM32F2XX_ADC
-     bool
-+
-+config MAX111X
-+    bool
-diff --git a/hw/misc/max111x.c b/hw/adc/max111x.c
-similarity index 99%
-rename from hw/misc/max111x.c
-rename to hw/adc/max111x.c
-index 1b3234a519..e8bf4cccd4 100644
---- a/hw/misc/max111x.c
-+++ b/hw/adc/max111x.c
-@@ -11,7 +11,7 @@
-  */
- 
- #include "qemu/osdep.h"
--#include "hw/misc/max111x.h"
-+#include "hw/adc/max111x.h"
- #include "hw/irq.h"
- #include "migration/vmstate.h"
- #include "qemu/module.h"
-diff --git a/hw/adc/meson.build b/hw/adc/meson.build
-index 3d397b4ea1..ac4f093fea 100644
---- a/hw/adc/meson.build
-+++ b/hw/adc/meson.build
-@@ -1,3 +1,4 @@
- softmmu_ss.add(when: 'CONFIG_STM32F2XX_ADC', if_true: files('stm32f2xx_adc.c'))
- softmmu_ss.add(when: 'CONFIG_NPCM7XX', if_true: files('npcm7xx_adc.c'))
--softmmu_ss.add(when: 'CONFIG_ZYNQ', if_true: files('zynq-xadc.c'))
-\ No newline at end of file
-+softmmu_ss.add(when: 'CONFIG_ZYNQ', if_true: files('zynq-xadc.c'))
-+softmmu_ss.add(when: 'CONFIG_MAX111X', if_true: files('max111x.c'))
-diff --git a/hw/arm/spitz.c b/hw/arm/spitz.c
-index b45a929cbd..0e2626125e 100644
---- a/hw/arm/spitz.c
-+++ b/hw/arm/spitz.c
-@@ -30,7 +30,7 @@
- #include "audio/audio.h"
- #include "hw/boards.h"
- #include "hw/sysbus.h"
--#include "hw/misc/max111x.h"
-+#include "hw/adc/max111x.h"
- #include "migration/vmstate.h"
- #include "exec/address-spaces.h"
- #include "cpu.h"
+diff --git a/hw/Kconfig b/hw/Kconfig
+index 805860f564..8cb7664d70 100644
+--- a/hw/Kconfig
++++ b/hw/Kconfig
+@@ -32,6 +32,7 @@ source remote/Kconfig
+ source rtc/Kconfig
+ source scsi/Kconfig
+ source sd/Kconfig
++source sensor/Kconfig
+ source smbios/Kconfig
+ source ssi/Kconfig
+ source timer/Kconfig
+diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+index 3fe6c55744..272b17f999 100644
+--- a/hw/arm/aspeed.c
++++ b/hw/arm/aspeed.c
+@@ -16,7 +16,7 @@
+ #include "hw/arm/aspeed_soc.h"
+ #include "hw/i2c/smbus_eeprom.h"
+ #include "hw/misc/pca9552.h"
+-#include "hw/misc/tmp105.h"
++#include "hw/sensor/tmp105.h"
+ #include "hw/misc/led.h"
+ #include "hw/qdev-properties.h"
+ #include "sysemu/block-backend.h"
+diff --git a/hw/arm/nseries.c b/hw/arm/nseries.c
+index 0aefa5d0f3..a10d8f53b5 100644
+--- a/hw/arm/nseries.c
++++ b/hw/arm/nseries.c
+@@ -36,7 +36,7 @@
+ #include "hw/display/blizzard.h"
+ #include "hw/input/tsc2xxx.h"
+ #include "hw/misc/cbus.h"
+-#include "hw/misc/tmp105.h"
++#include "hw/sensor/tmp105.h"
+ #include "hw/qdev-properties.h"
+ #include "hw/block/flash.h"
+ #include "hw/hw.h"
+diff --git a/hw/meson.build b/hw/meson.build
+index ba0601e36e..b3366c888e 100644
+--- a/hw/meson.build
++++ b/hw/meson.build
+@@ -31,6 +31,7 @@ subdir('rdma')
+ subdir('rtc')
+ subdir('scsi')
+ subdir('sd')
++subdir('sensor')
+ subdir('smbios')
+ subdir('ssi')
+ subdir('timer')
 diff --git a/hw/misc/Kconfig b/hw/misc/Kconfig
-index c71ed25820..996d45aff5 100644
+index 996d45aff5..507058d8bf 100644
 --- a/hw/misc/Kconfig
 +++ b/hw/misc/Kconfig
-@@ -11,9 +11,6 @@ config ARMSSE_MHU
+@@ -11,18 +11,6 @@ config ARMSSE_MHU
  config ARMSSE_CPU_PWRCTRL
      bool
  
--config MAX111X
+-config TMP105
 -    bool
+-    depends on I2C
 -
- config TMP105
+-config TMP421
+-    bool
+-    depends on I2C
+-
+-config EMC141X
+-    bool
+-    depends on I2C
+-
+ config ISA_DEBUG
      bool
-     depends on I2C
+     depends on ISA_BUS
 diff --git a/hw/misc/meson.build b/hw/misc/meson.build
-index 508fce50c7..b0a8ee8994 100644
+index b0a8ee8994..046c7e0c72 100644
 --- a/hw/misc/meson.build
 +++ b/hw/misc/meson.build
-@@ -3,7 +3,6 @@ softmmu_ss.add(when: 'CONFIG_EDU', if_true: files('edu.c'))
- softmmu_ss.add(when: 'CONFIG_FW_CFG_DMA', if_true: files('vmcoreinfo.c'))
- softmmu_ss.add(when: 'CONFIG_ISA_DEBUG', if_true: files('debugexit.c'))
- softmmu_ss.add(when: 'CONFIG_ISA_TESTDEV', if_true: files('pc-testdev.c'))
--softmmu_ss.add(when: 'CONFIG_MAX111X', if_true: files('max111x.c'))
+@@ -6,9 +6,6 @@ softmmu_ss.add(when: 'CONFIG_ISA_TESTDEV', if_true: files('pc-testdev.c'))
  softmmu_ss.add(when: 'CONFIG_PCA9552', if_true: files('pca9552.c'))
  softmmu_ss.add(when: 'CONFIG_PCI_TESTDEV', if_true: files('pci-testdev.c'))
  softmmu_ss.add(when: 'CONFIG_SGA', if_true: files('sga.c'))
-diff --git a/include/hw/misc/max111x.h b/include/hw/adc/max111x.h
+-softmmu_ss.add(when: 'CONFIG_TMP105', if_true: files('tmp105.c'))
+-softmmu_ss.add(when: 'CONFIG_TMP421', if_true: files('tmp421.c'))
+-softmmu_ss.add(when: 'CONFIG_EMC141X', if_true: files('emc141x.c'))
+ softmmu_ss.add(when: 'CONFIG_UNIMP', if_true: files('unimp.c'))
+ softmmu_ss.add(when: 'CONFIG_EMPTY_SLOT', if_true: files('empty_slot.c'))
+ softmmu_ss.add(when: 'CONFIG_LED', if_true: files('led.c'))
+diff --git a/hw/sensor/Kconfig b/hw/sensor/Kconfig
+new file mode 100644
+index 0000000000..097cb8f11e
+--- /dev/null
++++ b/hw/sensor/Kconfig
+@@ -0,0 +1,11 @@
++config TMP105
++    bool
++    depends on I2C
++
++config TMP421
++    bool
++    depends on I2C
++
++config EMC141X
++    bool
++    depends on I2C
+diff --git a/hw/misc/emc141x.c b/hw/sensor/emc141x.c
+similarity index 99%
+rename from hw/misc/emc141x.c
+rename to hw/sensor/emc141x.c
+index f7c53d48a4..7ce8f4e979 100644
+--- a/hw/misc/emc141x.c
++++ b/hw/sensor/emc141x.c
+@@ -25,7 +25,7 @@
+ #include "qapi/visitor.h"
+ #include "qemu/module.h"
+ #include "qom/object.h"
+-#include "hw/misc/emc141x_regs.h"
++#include "hw/sensor/emc141x_regs.h"
+ 
+ #define SENSORS_COUNT_MAX    4
+ 
+diff --git a/hw/sensor/meson.build b/hw/sensor/meson.build
+new file mode 100644
+index 0000000000..9e0f3ab1fd
+--- /dev/null
++++ b/hw/sensor/meson.build
+@@ -0,0 +1,3 @@
++softmmu_ss.add(when: 'CONFIG_TMP105', if_true: files('tmp105.c'))
++softmmu_ss.add(when: 'CONFIG_TMP421', if_true: files('tmp421.c'))
++softmmu_ss.add(when: 'CONFIG_EMC141X', if_true: files('emc141x.c'))
+diff --git a/hw/misc/tmp105.c b/hw/sensor/tmp105.c
+similarity index 99%
+rename from hw/misc/tmp105.c
+rename to hw/sensor/tmp105.c
+index d299d9b21b..2056449489 100644
+--- a/hw/misc/tmp105.c
++++ b/hw/sensor/tmp105.c
+@@ -22,7 +22,7 @@
+ #include "hw/i2c/i2c.h"
+ #include "hw/irq.h"
+ #include "migration/vmstate.h"
+-#include "tmp105.h"
++#include "hw/sensor/tmp105.h"
+ #include "qapi/error.h"
+ #include "qapi/visitor.h"
+ #include "qemu/module.h"
+diff --git a/hw/misc/tmp421.c b/hw/sensor/tmp421.c
 similarity index 100%
-rename from include/hw/misc/max111x.h
-rename to include/hw/adc/max111x.h
+rename from hw/misc/tmp421.c
+rename to hw/sensor/tmp421.c
+diff --git a/include/hw/misc/emc141x_regs.h b/include/hw/sensor/emc141x_regs.h
+similarity index 100%
+rename from include/hw/misc/emc141x_regs.h
+rename to include/hw/sensor/emc141x_regs.h
+diff --git a/hw/misc/tmp105.h b/include/hw/sensor/tmp105.h
+similarity index 97%
+rename from hw/misc/tmp105.h
+rename to include/hw/sensor/tmp105.h
+index 7c97071ad7..244e2989fe 100644
+--- a/hw/misc/tmp105.h
++++ b/include/hw/sensor/tmp105.h
+@@ -15,7 +15,7 @@
+ #define QEMU_TMP105_H
+ 
+ #include "hw/i2c/i2c.h"
+-#include "hw/misc/tmp105_regs.h"
++#include "hw/sensor/tmp105_regs.h"
+ #include "qom/object.h"
+ 
+ #define TYPE_TMP105 "tmp105"
+diff --git a/include/hw/misc/tmp105_regs.h b/include/hw/sensor/tmp105_regs.h
+similarity index 100%
+rename from include/hw/misc/tmp105_regs.h
+rename to include/hw/sensor/tmp105_regs.h
+diff --git a/tests/qtest/emc141x-test.c b/tests/qtest/emc141x-test.c
+index 714058806a..8c86694091 100644
+--- a/tests/qtest/emc141x-test.c
++++ b/tests/qtest/emc141x-test.c
+@@ -11,7 +11,7 @@
+ #include "libqos/qgraph.h"
+ #include "libqos/i2c.h"
+ #include "qapi/qmp/qdict.h"
+-#include "hw/misc/emc141x_regs.h"
++#include "hw/sensor/emc141x_regs.h"
+ 
+ #define EMC1414_TEST_ID   "emc1414-test"
+ 
+diff --git a/tests/qtest/npcm7xx_smbus-test.c b/tests/qtest/npcm7xx_smbus-test.c
+index 4f9f493872..6b3038ac59 100644
+--- a/tests/qtest/npcm7xx_smbus-test.c
++++ b/tests/qtest/npcm7xx_smbus-test.c
+@@ -18,7 +18,7 @@
+ #include "qemu/bitops.h"
+ #include "libqos/i2c.h"
+ #include "libqos/libqtest.h"
+-#include "hw/misc/tmp105_regs.h"
++#include "hw/sensor/tmp105_regs.h"
+ 
+ #define NR_SMBUS_DEVICES    16
+ #define SMBUS_ADDR(x)       (0xf0080000 + 0x1000 * (x))
+diff --git a/tests/qtest/tmp105-test.c b/tests/qtest/tmp105-test.c
+index f930a96b83..3678646df5 100644
+--- a/tests/qtest/tmp105-test.c
++++ b/tests/qtest/tmp105-test.c
+@@ -13,7 +13,7 @@
+ #include "libqos/qgraph.h"
+ #include "libqos/i2c.h"
+ #include "qapi/qmp/qdict.h"
+-#include "hw/misc/tmp105_regs.h"
++#include "hw/sensor/tmp105_regs.h"
+ 
+ #define TMP105_TEST_ID   "tmp105-test"
+ #define TMP105_TEST_ADDR 0x49
 -- 
 2.25.1
 
