@@ -2,42 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 834B93883D8
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 02:39:55 +0200 (CEST)
-Received: from localhost ([::1]:52804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACEB63883CA
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 02:32:22 +0200 (CEST)
+Received: from localhost ([::1]:36762 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljAFe-0005iX-LY
-	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 20:39:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58896)
+	id 1ljA8L-0003D7-Q8
+	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 20:32:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58950)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vivek.kasireddy@intel.com>)
- id 1ljA3M-0003EF-BJ
- for qemu-devel@nongnu.org; Tue, 18 May 2021 20:27:12 -0400
-Received: from mga09.intel.com ([134.134.136.24]:43003)
+ id 1ljA3P-0003Ip-W9
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 20:27:16 -0400
+Received: from mga09.intel.com ([134.134.136.24]:43020)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vivek.kasireddy@intel.com>)
- id 1ljA3H-0006Qv-1D
- for qemu-devel@nongnu.org; Tue, 18 May 2021 20:27:12 -0400
-IronPort-SDR: /JQkTkiBhfajvX1GQZle1KFvXL6GDk74EjE+iNFmHdqS62tBQ4J8KVDcS7sdPU6rOQuy2YzszU
- /Yfg4WGyLVww==
-X-IronPort-AV: E=McAfee;i="6200,9189,9988"; a="200902439"
-X-IronPort-AV: E=Sophos;i="5.82,310,1613462400"; d="scan'208";a="200902439"
+ id 1ljA3M-0006ZW-Cs
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 20:27:15 -0400
+IronPort-SDR: 0RofoOPOqF+ze+9Tt/m/1cgMYIjDp9kdbk7mmsoA6jcWRPqhBUS/7ZgWbLIAp1cn1IWijTAnfw
+ r0m4yqCOrXCw==
+X-IronPort-AV: E=McAfee;i="6200,9189,9988"; a="200902441"
+X-IronPort-AV: E=Sophos;i="5.82,310,1613462400"; d="scan'208";a="200902441"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  18 May 2021 17:26:41 -0700
-IronPort-SDR: j1DuHmXXO+dGPI57h6nUoAvwjRTWX81zw6kKngMPmT633ea9SBDSt8vyJGvy6dPAbsVWIQ3vcT
- pb1FMq/n8g4w==
-X-IronPort-AV: E=Sophos;i="5.82,310,1613462400"; d="scan'208";a="394177369"
+IronPort-SDR: 33LHAbViTRDP4a3IMYzzOohmMLbs+AHcpNPtUjhyuunNKhr3HkROLtzrddDPDWC4DfZyReS3Wj
+ Kj0Lep8+QH1g==
+X-IronPort-AV: E=Sophos;i="5.82,310,1613462400"; d="scan'208";a="394177378"
 Received: from vkasired-desk2.fm.intel.com ([10.105.128.127])
  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  18 May 2021 17:26:41 -0700
 From: Vivek Kasireddy <vivek.kasireddy@intel.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 07/13] virtio-gpu: Add initial definitions for blob
- resources
-Date: Tue, 18 May 2021 17:14:08 -0700
-Message-Id: <20210519001414.786439-8-vivek.kasireddy@intel.com>
+Subject: [PATCH v5 09/13] ui/pixman: Add qemu_pixman_to_drm_format()
+Date: Tue, 18 May 2021 17:14:10 -0700
+Message-Id: <20210519001414.786439-10-vivek.kasireddy@intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210519001414.786439-1-vivek.kasireddy@intel.com>
 References: <20210519001414.786439-1-vivek.kasireddy@intel.com>
@@ -68,85 +67,79 @@ Cc: Vivek Kasireddy <vivek.kasireddy@intel.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add the property bit, configuration flag and other relevant
-macros and definitions associated with this feature.
+This new function to get the drm_format associated with a pixman
+format will be useful while creating a dmabuf.
 
 Based-on-patch-by: Gerd Hoffmann <kraxel@redhat.com>
 Cc: Gerd Hoffmann <kraxel@redhat.com>
 Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
 ---
- hw/display/virtio-gpu-base.c   |  3 +++
- hw/display/virtio-gpu.c        | 14 ++++++++++++++
- include/hw/virtio/virtio-gpu.h |  3 +++
- 3 files changed, 20 insertions(+)
+ include/ui/qemu-pixman.h |  1 +
+ ui/qemu-pixman.c         | 35 ++++++++++++++++++++++++-----------
+ 2 files changed, 25 insertions(+), 11 deletions(-)
 
-diff --git a/hw/display/virtio-gpu-base.c b/hw/display/virtio-gpu-base.c
-index afb3ee7d9a..dd294276cb 100644
---- a/hw/display/virtio-gpu-base.c
-+++ b/hw/display/virtio-gpu-base.c
-@@ -208,6 +208,9 @@ virtio_gpu_base_get_features(VirtIODevice *vdev, uint64_t features,
-     if (virtio_gpu_edid_enabled(g->conf)) {
-         features |= (1 << VIRTIO_GPU_F_EDID);
-     }
-+    if (virtio_gpu_blob_enabled(g->conf)) {
-+        features |= (1 << VIRTIO_GPU_F_RESOURCE_BLOB);
-+    }
- 
-     return features;
+diff --git a/include/ui/qemu-pixman.h b/include/ui/qemu-pixman.h
+index 87737a6f16..806ddcd7cd 100644
+--- a/include/ui/qemu-pixman.h
++++ b/include/ui/qemu-pixman.h
+@@ -62,6 +62,7 @@ typedef struct PixelFormat {
+ PixelFormat qemu_pixelformat_from_pixman(pixman_format_code_t format);
+ pixman_format_code_t qemu_default_pixman_format(int bpp, bool native_endian);
+ pixman_format_code_t qemu_drm_format_to_pixman(uint32_t drm_format);
++uint32_t qemu_pixman_to_drm_format(pixman_format_code_t pixman);
+ int qemu_pixman_get_type(int rshift, int gshift, int bshift);
+ pixman_format_code_t qemu_pixman_get_format(PixelFormat *pf);
+ bool qemu_pixman_check_format(DisplayChangeListener *dcl,
+diff --git a/ui/qemu-pixman.c b/ui/qemu-pixman.c
+index 85f2945e88..3ab7e2e958 100644
+--- a/ui/qemu-pixman.c
++++ b/ui/qemu-pixman.c
+@@ -89,21 +89,34 @@ pixman_format_code_t qemu_default_pixman_format(int bpp, bool native_endian)
  }
-diff --git a/hw/display/virtio-gpu.c b/hw/display/virtio-gpu.c
-index 7a0db3a860..f77a7fc7dd 100644
---- a/hw/display/virtio-gpu.c
-+++ b/hw/display/virtio-gpu.c
-@@ -1108,6 +1108,18 @@ void virtio_gpu_device_realize(DeviceState *qdev, Error **errp)
-     VirtIODevice *vdev = VIRTIO_DEVICE(qdev);
-     VirtIOGPU *g = VIRTIO_GPU(qdev);
  
-+    if (virtio_gpu_blob_enabled(g->parent_obj.conf)) {
-+        if (!virtio_gpu_have_udmabuf()) {
-+            error_setg(errp, "cannot enable blob resources without udmabuf");
-+            return;
-+        }
+ /* Note: drm is little endian, pixman is native endian */
++static const struct {
++    uint32_t drm_format;
++    pixman_format_code_t pixman_format;
++} drm_format_pixman_map[] = {
++    { DRM_FORMAT_RGB888,   PIXMAN_LE_r8g8b8   },
++    { DRM_FORMAT_ARGB8888, PIXMAN_LE_a8r8g8b8 },
++    { DRM_FORMAT_XRGB8888, PIXMAN_LE_x8r8g8b8 }
++};
 +
-+        if (virtio_gpu_virgl_enabled(g->parent_obj.conf)) {
-+            error_setg(errp, "blobs and virgl are not compatible (yet)");
-+            return;
+ pixman_format_code_t qemu_drm_format_to_pixman(uint32_t drm_format)
+ {
+-    static const struct {
+-        uint32_t drm_format;
+-        pixman_format_code_t pixman;
+-    } map[] = {
+-        { DRM_FORMAT_RGB888,   PIXMAN_LE_r8g8b8   },
+-        { DRM_FORMAT_ARGB8888, PIXMAN_LE_a8r8g8b8 },
+-        { DRM_FORMAT_XRGB8888, PIXMAN_LE_x8r8g8b8 }
+-    };
+     int i;
+ 
+-    for (i = 0; i < ARRAY_SIZE(map); i++) {
+-        if (drm_format == map[i].drm_format) {
+-            return map[i].pixman;
++    for (i = 0; i < ARRAY_SIZE(drm_format_pixman_map); i++) {
++        if (drm_format == drm_format_pixman_map[i].drm_format) {
++            return drm_format_pixman_map[i].pixman_format;
 +        }
 +    }
++    return 0;
++}
 +
-     if (!virtio_gpu_base_device_realize(qdev,
-                                         virtio_gpu_handle_ctrl_cb,
-                                         virtio_gpu_handle_cursor_cb,
-@@ -1201,6 +1213,8 @@ static Property virtio_gpu_properties[] = {
-     VIRTIO_GPU_BASE_PROPERTIES(VirtIOGPU, parent_obj.conf),
-     DEFINE_PROP_SIZE("max_hostmem", VirtIOGPU, conf_max_hostmem,
-                      256 * MiB),
-+    DEFINE_PROP_BIT("blob", VirtIOGPU, parent_obj.conf.flags,
-+                    VIRTIO_GPU_FLAG_BLOB_ENABLED, false),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
-diff --git a/include/hw/virtio/virtio-gpu.h b/include/hw/virtio/virtio-gpu.h
-index dad9a1d221..66e7aaad0e 100644
---- a/include/hw/virtio/virtio-gpu.h
-+++ b/include/hw/virtio/virtio-gpu.h
-@@ -89,6 +89,7 @@ enum virtio_gpu_base_conf_flags {
-     VIRTIO_GPU_FLAG_STATS_ENABLED,
-     VIRTIO_GPU_FLAG_EDID_ENABLED,
-     VIRTIO_GPU_FLAG_DMABUF_ENABLED,
-+    VIRTIO_GPU_FLAG_BLOB_ENABLED,
- };
- 
- #define virtio_gpu_virgl_enabled(_cfg) \
-@@ -99,6 +100,8 @@ enum virtio_gpu_base_conf_flags {
-     (_cfg.flags & (1 << VIRTIO_GPU_FLAG_EDID_ENABLED))
- #define virtio_gpu_dmabuf_enabled(_cfg) \
-     (_cfg.flags & (1 << VIRTIO_GPU_FLAG_DMABUF_ENABLED))
-+#define virtio_gpu_blob_enabled(_cfg) \
-+    (_cfg.flags & (1 << VIRTIO_GPU_FLAG_BLOB_ENABLED))
- 
- struct virtio_gpu_base_conf {
-     uint32_t max_outputs;
++uint32_t qemu_pixman_to_drm_format(pixman_format_code_t pixman_format)
++{
++    int i;
++
++    for (i = 0; i < ARRAY_SIZE(drm_format_pixman_map); i++) {
++        if (pixman_format == drm_format_pixman_map[i].pixman_format) {
++            return drm_format_pixman_map[i].drm_format;
+         }
+     }
+     return 0;
 -- 
 2.30.2
 
