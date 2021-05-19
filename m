@@ -2,53 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CACD8388F12
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 15:28:18 +0200 (CEST)
-Received: from localhost ([::1]:45628 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95AFE388F4C
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 15:40:11 +0200 (CEST)
+Received: from localhost ([::1]:51734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljMFF-0005Sz-RT
-	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 09:28:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35536)
+	id 1ljMQk-0003fh-N3
+	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 09:40:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35964)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bruno.larsen@eldorado.org.br>)
- id 1ljLqJ-00030x-3T; Wed, 19 May 2021 09:02:31 -0400
-Received: from [201.28.113.2] (port=49845 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bruno.larsen@eldorado.org.br>)
- id 1ljLqF-0006sB-ER; Wed, 19 May 2021 09:02:29 -0400
-Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Wed, 19 May 2021 10:02:21 -0300
-Received: from [127.0.0.1] (unknown [10.10.71.235])
- by power9a (Postfix) with ESMTPS id 3612380139F;
- Wed, 19 May 2021 10:02:21 -0300 (-03)
-Subject: Re: [PATCH 17/24] target/ppc: Use MMUAccessType with
- *_handle_mmu_fault
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20210518201146.794854-1-richard.henderson@linaro.org>
- <20210518201146.794854-18-richard.henderson@linaro.org>
-From: Bruno Piazera Larsen <bruno.larsen@eldorado.org.br>
-Message-ID: <e0131486-c9b7-5b4d-339b-ab538a61e6c1@eldorado.org.br>
-Date: Wed, 19 May 2021 10:02:21 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <alishir@routerhosting.com>)
+ id 1ljGN9-0002Ub-9R
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 03:12:03 -0400
+Received: from box.routerhosting.com ([37.10.113.220]:52635)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alishir@routerhosting.com>)
+ id 1ljGN7-0001He-OT
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 03:12:03 -0400
+Received: from authenticated-user (box.routerhosting.com [37.10.113.220])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ by box.routerhosting.com (Postfix) with ESMTPSA id C42DE4DB9A
+ for <qemu-devel@nongnu.org>; Wed, 19 May 2021 11:41:59 +0430 (+0430)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=routerhosting.com;
+ s=mail; t=1621408320;
+ bh=OcAM4gQf3GQM8j3nHLIqeMJf+/r+97+HCT6LGWV5oH8=;
+ h=From:To:Subject:Date:From;
+ b=1jPfCZmL/0958Ley9mfgsJ2JPJ+kBlCbKVFPNrJJ1vDUASAbX7X/3xxK94Ac9MqJN
+ aw5uXbkqDOQcPzxtcNMD0C6UBgjpgQjN8spPa1FHFVLgpBquA/x21FOciFf68CPX5j
+ tETWavJ1PLZfxS5Upjc/R+2pEhQyW0FbbpNe08me8TM90Puqh4QdxTwx3IonmwoQzT
+ E0mz+Bxvrsv499056bC0UJNAFNTT2ykbx7yCs3M+/vO2efvqSCju7DQEKhus4+pPO5
+ sA9+oKP2qnuQDzgWuJL7ayS1AW06/Qb/AfVXfpBHjtioLpfmOc67ZU55FpnGc/C3uq
+ lOPxnRufTG2xw==
+To: qemu-devel@nongnu.org
+Subject: [PATCH] doc: Add notes about -mon option mode=control argument.
+Date: Wed, 19 May 2021 11:41:45 +0430
+Message-Id: <0799f0de89ad2482672b5d61d0de61e6eba782da.1621407918.git.alishir@routerhosting.com>
 MIME-Version: 1.0
-In-Reply-To: <20210518201146.794854-18-richard.henderson@linaro.org>
-Content-Type: multipart/alternative;
- boundary="------------52010F3C066975C558FD774F"
-Content-Language: en-US
-X-OriginalArrivalTime: 19 May 2021 13:02:21.0426 (UTC)
- FILETIME=[347C2D20:01D74CAF]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
-Received-SPF: pass client-ip=201.28.113.2;
- envelope-from=bruno.larsen@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
- NICE_REPLY_A=-0.001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=37.10.113.220;
+ envelope-from=alishir@routerhosting.com; helo=box.routerhosting.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Wed, 19 May 2021 09:34:45 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,338 +61,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Ali Shirvani <alishir@routerhosting.com>
+From:  Ali Shirvani via <qemu-devel@nongnu.org>
 
-This is a multi-part message in MIME format.
---------------52010F3C066975C558FD774F
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+The mode=control argument configures a QMP monitor.
 
-
-On 18/05/2021 17:11, Richard Henderson wrote:
-> These changes were waiting until we didn't need to match
-> the function type of PowerPCCPUClass.handle_mmu_fault.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-
-Reviewed-by: Bruno Larsen (billionai)<bruno.larsen@eldorado.org.br>
-
-> ---
->   target/ppc/mmu-hash32.h  | 4 ++--
->   target/ppc/mmu-hash64.h  | 4 ++--
->   target/ppc/mmu-radix64.h | 4 ++--
->   target/ppc/mmu-hash32.c  | 7 ++-----
->   target/ppc/mmu-hash64.c  | 6 +-----
->   target/ppc/mmu-radix64.c | 7 ++-----
->   6 files changed, 11 insertions(+), 21 deletions(-)
->
-> diff --git a/target/ppc/mmu-hash32.h b/target/ppc/mmu-hash32.h
-> index 898021f0d8..30e35718a7 100644
-> --- a/target/ppc/mmu-hash32.h
-> +++ b/target/ppc/mmu-hash32.h
-> @@ -5,8 +5,8 @@
->   
->   hwaddr get_pteg_offset32(PowerPCCPU *cpu, hwaddr hash);
->   hwaddr ppc_hash32_get_phys_page_debug(PowerPCCPU *cpu, target_ulong addr);
-> -int ppc_hash32_handle_mmu_fault(PowerPCCPU *cpu, vaddr address, int rw,
-> -                                int mmu_idx);
-> +int ppc_hash32_handle_mmu_fault(PowerPCCPU *cpu, vaddr address,
-> +                                MMUAccessType access_type, int mmu_idx);
->   
->   /*
->    * Segment register definitions
-> diff --git a/target/ppc/mmu-hash64.h b/target/ppc/mmu-hash64.h
-> index 4b8b8e7950..3e8a8eec1f 100644
-> --- a/target/ppc/mmu-hash64.h
-> +++ b/target/ppc/mmu-hash64.h
-> @@ -8,8 +8,8 @@ void dump_slb(PowerPCCPU *cpu);
->   int ppc_store_slb(PowerPCCPU *cpu, target_ulong slot,
->                     target_ulong esid, target_ulong vsid);
->   hwaddr ppc_hash64_get_phys_page_debug(PowerPCCPU *cpu, target_ulong addr);
-> -int ppc_hash64_handle_mmu_fault(PowerPCCPU *cpu, vaddr address, int rw,
-> -                                int mmu_idx);
-> +int ppc_hash64_handle_mmu_fault(PowerPCCPU *cpu, vaddr address,
-> +                                MMUAccessType access_type, int mmu_idx);
->   void ppc_hash64_tlb_flush_hpte(PowerPCCPU *cpu,
->                                  target_ulong pte_index,
->                                  target_ulong pte0, target_ulong pte1);
-> diff --git a/target/ppc/mmu-radix64.h b/target/ppc/mmu-radix64.h
-> index f28c5794d0..94bd72cb38 100644
-> --- a/target/ppc/mmu-radix64.h
-> +++ b/target/ppc/mmu-radix64.h
-> @@ -44,8 +44,8 @@
->   
->   #ifdef TARGET_PPC64
->   
-> -int ppc_radix64_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr, int rwx,
-> -                                 int mmu_idx);
-> +int ppc_radix64_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr,
-> +                                 MMUAccessType access_type, int mmu_idx);
->   hwaddr ppc_radix64_get_phys_page_debug(PowerPCCPU *cpu, target_ulong addr);
->   
->   static inline int ppc_radix64_get_prot_eaa(uint64_t pte)
-> diff --git a/target/ppc/mmu-hash32.c b/target/ppc/mmu-hash32.c
-> index 744a763f44..d51be59f95 100644
-> --- a/target/ppc/mmu-hash32.c
-> +++ b/target/ppc/mmu-hash32.c
-> @@ -416,8 +416,8 @@ static hwaddr ppc_hash32_pte_raddr(target_ulong sr, ppc_hash_pte32_t pte,
->       return (rpn & ~mask) | (eaddr & mask);
->   }
->   
-> -int ppc_hash32_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr, int rwx,
-> -                                int mmu_idx)
-> +int ppc_hash32_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr,
-> +                                MMUAccessType access_type, int mmu_idx)
->   {
->       CPUState *cs = CPU(cpu);
->       CPUPPCState *env = &cpu->env;
-> @@ -426,11 +426,8 @@ int ppc_hash32_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr, int rwx,
->       ppc_hash_pte32_t pte;
->       int prot;
->       int need_prot;
-> -    MMUAccessType access_type;
->       hwaddr raddr;
->   
-> -    assert((rwx == 0) || (rwx == 1) || (rwx == 2));
-> -    access_type = rwx;
->       need_prot = prot_for_access_type(access_type);
->   
->       /* 1. Handle real mode accesses */
-> diff --git a/target/ppc/mmu-hash64.c b/target/ppc/mmu-hash64.c
-> index f48b625f48..877a01a296 100644
-> --- a/target/ppc/mmu-hash64.c
-> +++ b/target/ppc/mmu-hash64.c
-> @@ -867,7 +867,7 @@ static int build_vrma_slbe(PowerPCCPU *cpu, ppc_slb_t *slb)
->   }
->   
->   int ppc_hash64_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr,
-> -                                int rwx, int mmu_idx)
-> +                                MMUAccessType access_type, int mmu_idx)
->   {
->       CPUState *cs = CPU(cpu);
->       CPUPPCState *env = &cpu->env;
-> @@ -877,13 +877,9 @@ int ppc_hash64_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr,
->       hwaddr ptex;
->       ppc_hash_pte64_t pte;
->       int exec_prot, pp_prot, amr_prot, prot;
-> -    MMUAccessType access_type;
->       int need_prot;
->       hwaddr raddr;
->   
-> -    assert((rwx == 0) || (rwx == 1) || (rwx == 2));
-> -    access_type = rwx;
-> -
->       /*
->        * Note on LPCR usage: 970 uses HID4, but our special variant of
->        * store_spr copies relevant fields into env->spr[SPR_LPCR].
-> diff --git a/target/ppc/mmu-radix64.c b/target/ppc/mmu-radix64.c
-> index 7972153f23..f6d96f73b2 100644
-> --- a/target/ppc/mmu-radix64.c
-> +++ b/target/ppc/mmu-radix64.c
-> @@ -556,19 +556,16 @@ static int ppc_radix64_xlate(PowerPCCPU *cpu, vaddr eaddr,
->       return 0;
->   }
->   
-> -int ppc_radix64_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr, int rwx,
-> -                                 int mmu_idx)
-> +int ppc_radix64_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr,
-> +                                 MMUAccessType access_type, int mmu_idx)
->   {
->       CPUState *cs = CPU(cpu);
->       CPUPPCState *env = &cpu->env;
->       int page_size, prot;
->       bool relocation;
-> -    MMUAccessType access_type;
->       hwaddr raddr;
->   
->       assert(!(msr_hv && cpu->vhyp));
-> -    assert((rwx == 0) || (rwx == 1) || (rwx == 2));
-> -    access_type = rwx;
->   
->       relocation = (access_type == MMU_INST_FETCH ? msr_ir : msr_dr);
->       /* HV or virtual hypervisor Real Mode Access */
--- 
-Bruno Piazera Larsen
-Instituto de Pesquisas ELDORADO 
-<https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&utm_medium=email&utm_source=RD+Station>
-Departamento Computação Embarcada
-Analista de Software Trainee
-Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
-
---------------52010F3C066975C558FD774F
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">On 18/05/2021 17:11, Richard Henderson
-      wrote:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:20210518201146.794854-18-richard.henderson@linaro.org">
-      <pre class="moz-quote-pre" wrap="">These changes were waiting until we didn't need to match
-the function type of PowerPCCPUClass.handle_mmu_fault.
-
-Signed-off-by: Richard Henderson <a class="moz-txt-link-rfc2396E" href="mailto:richard.henderson@linaro.org">&lt;richard.henderson@linaro.org&gt;</a></pre>
-    </blockquote>
-    <pre class="moz-quote-pre" wrap="">Reviewed-by: Bruno Larsen (billionai) <a class="moz-txt-link-rfc2396E" href="mailto:bruno.larsen@eldorado.org.br">&lt;bruno.larsen@eldorado.org.br&gt;</a></pre>
-    <blockquote type="cite"
-      cite="mid:20210518201146.794854-18-richard.henderson@linaro.org">
-      <pre class="moz-quote-pre" wrap="">
+Signed-off-by: Ali Shirvani <alishir@routerhosting.com>
 ---
- target/ppc/mmu-hash32.h  | 4 ++--
- target/ppc/mmu-hash64.h  | 4 ++--
- target/ppc/mmu-radix64.h | 4 ++--
- target/ppc/mmu-hash32.c  | 7 ++-----
- target/ppc/mmu-hash64.c  | 6 +-----
- target/ppc/mmu-radix64.c | 7 ++-----
- 6 files changed, 11 insertions(+), 21 deletions(-)
+ qemu-options.hx | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/target/ppc/mmu-hash32.h b/target/ppc/mmu-hash32.h
-index 898021f0d8..30e35718a7 100644
---- a/target/ppc/mmu-hash32.h
-+++ b/target/ppc/mmu-hash32.h
-@@ -5,8 +5,8 @@
+diff --git a/qemu-options.hx b/qemu-options.hx
+index e22fb94d99..292c6f6bdc 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -3787,8 +3787,11 @@ DEF("mon", HAS_ARG, QEMU_OPTION_mon, \
+     "-mon [chardev=]name[,mode=readline|control][,pretty[=on|off]]\n", QEMU_ARCH_ALL)
+ SRST
+ ``-mon [chardev=]name[,mode=readline|control][,pretty[=on|off]]``
+-    Setup monitor on chardev name. ``pretty`` is only valid when
+-    ``mode=control``, turning on JSON pretty printing to ease
++    Setup monitor on chardev name. ``mode=control`` configures 
++    a QMP monitor (a JSON RPC-style protocol) and it is not the
++    same as HMP, the human monitor that has a "(qemu)" prompt.
++    ``pretty`` is only valid when ``mode=control``, 
++    turning on JSON pretty printing to ease
+     human reading and debugging.
+ ERST
  
- hwaddr get_pteg_offset32(PowerPCCPU *cpu, hwaddr hash);
- hwaddr ppc_hash32_get_phys_page_debug(PowerPCCPU *cpu, target_ulong addr);
--int ppc_hash32_handle_mmu_fault(PowerPCCPU *cpu, vaddr address, int rw,
--                                int mmu_idx);
-+int ppc_hash32_handle_mmu_fault(PowerPCCPU *cpu, vaddr address,
-+                                MMUAccessType access_type, int mmu_idx);
- 
- /*
-  * Segment register definitions
-diff --git a/target/ppc/mmu-hash64.h b/target/ppc/mmu-hash64.h
-index 4b8b8e7950..3e8a8eec1f 100644
---- a/target/ppc/mmu-hash64.h
-+++ b/target/ppc/mmu-hash64.h
-@@ -8,8 +8,8 @@ void dump_slb(PowerPCCPU *cpu);
- int ppc_store_slb(PowerPCCPU *cpu, target_ulong slot,
-                   target_ulong esid, target_ulong vsid);
- hwaddr ppc_hash64_get_phys_page_debug(PowerPCCPU *cpu, target_ulong addr);
--int ppc_hash64_handle_mmu_fault(PowerPCCPU *cpu, vaddr address, int rw,
--                                int mmu_idx);
-+int ppc_hash64_handle_mmu_fault(PowerPCCPU *cpu, vaddr address,
-+                                MMUAccessType access_type, int mmu_idx);
- void ppc_hash64_tlb_flush_hpte(PowerPCCPU *cpu,
-                                target_ulong pte_index,
-                                target_ulong pte0, target_ulong pte1);
-diff --git a/target/ppc/mmu-radix64.h b/target/ppc/mmu-radix64.h
-index f28c5794d0..94bd72cb38 100644
---- a/target/ppc/mmu-radix64.h
-+++ b/target/ppc/mmu-radix64.h
-@@ -44,8 +44,8 @@
- 
- #ifdef TARGET_PPC64
- 
--int ppc_radix64_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr, int rwx,
--                                 int mmu_idx);
-+int ppc_radix64_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr,
-+                                 MMUAccessType access_type, int mmu_idx);
- hwaddr ppc_radix64_get_phys_page_debug(PowerPCCPU *cpu, target_ulong addr);
- 
- static inline int ppc_radix64_get_prot_eaa(uint64_t pte)
-diff --git a/target/ppc/mmu-hash32.c b/target/ppc/mmu-hash32.c
-index 744a763f44..d51be59f95 100644
---- a/target/ppc/mmu-hash32.c
-+++ b/target/ppc/mmu-hash32.c
-@@ -416,8 +416,8 @@ static hwaddr ppc_hash32_pte_raddr(target_ulong sr, ppc_hash_pte32_t pte,
-     return (rpn &amp; ~mask) | (eaddr &amp; mask);
- }
- 
--int ppc_hash32_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr, int rwx,
--                                int mmu_idx)
-+int ppc_hash32_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr,
-+                                MMUAccessType access_type, int mmu_idx)
- {
-     CPUState *cs = CPU(cpu);
-     CPUPPCState *env = &amp;cpu-&gt;env;
-@@ -426,11 +426,8 @@ int ppc_hash32_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr, int rwx,
-     ppc_hash_pte32_t pte;
-     int prot;
-     int need_prot;
--    MMUAccessType access_type;
-     hwaddr raddr;
- 
--    assert((rwx == 0) || (rwx == 1) || (rwx == 2));
--    access_type = rwx;
-     need_prot = prot_for_access_type(access_type);
- 
-     /* 1. Handle real mode accesses */
-diff --git a/target/ppc/mmu-hash64.c b/target/ppc/mmu-hash64.c
-index f48b625f48..877a01a296 100644
---- a/target/ppc/mmu-hash64.c
-+++ b/target/ppc/mmu-hash64.c
-@@ -867,7 +867,7 @@ static int build_vrma_slbe(PowerPCCPU *cpu, ppc_slb_t *slb)
- }
- 
- int ppc_hash64_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr,
--                                int rwx, int mmu_idx)
-+                                MMUAccessType access_type, int mmu_idx)
- {
-     CPUState *cs = CPU(cpu);
-     CPUPPCState *env = &amp;cpu-&gt;env;
-@@ -877,13 +877,9 @@ int ppc_hash64_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr,
-     hwaddr ptex;
-     ppc_hash_pte64_t pte;
-     int exec_prot, pp_prot, amr_prot, prot;
--    MMUAccessType access_type;
-     int need_prot;
-     hwaddr raddr;
- 
--    assert((rwx == 0) || (rwx == 1) || (rwx == 2));
--    access_type = rwx;
--
-     /*
-      * Note on LPCR usage: 970 uses HID4, but our special variant of
-      * store_spr copies relevant fields into env-&gt;spr[SPR_LPCR].
-diff --git a/target/ppc/mmu-radix64.c b/target/ppc/mmu-radix64.c
-index 7972153f23..f6d96f73b2 100644
---- a/target/ppc/mmu-radix64.c
-+++ b/target/ppc/mmu-radix64.c
-@@ -556,19 +556,16 @@ static int ppc_radix64_xlate(PowerPCCPU *cpu, vaddr eaddr,
-     return 0;
- }
- 
--int ppc_radix64_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr, int rwx,
--                                 int mmu_idx)
-+int ppc_radix64_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr,
-+                                 MMUAccessType access_type, int mmu_idx)
- {
-     CPUState *cs = CPU(cpu);
-     CPUPPCState *env = &amp;cpu-&gt;env;
-     int page_size, prot;
-     bool relocation;
--    MMUAccessType access_type;
-     hwaddr raddr;
- 
-     assert(!(msr_hv &amp;&amp; cpu-&gt;vhyp));
--    assert((rwx == 0) || (rwx == 1) || (rwx == 2));
--    access_type = rwx;
- 
-     relocation = (access_type == MMU_INST_FETCH ? msr_ir : msr_dr);
-     /* HV or virtual hypervisor Real Mode Access */
-</pre>
-    </blockquote>
-    <div class="moz-signature">-- <br>
-      Bruno Piazera Larsen<br>
-      <a
-href="https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&amp;utm_medium=email&amp;utm_source=RD+Station">Instituto
-        de Pesquisas ELDORADO</a><br>
-      Departamento Computação Embarcada<br>
-      Analista de Software Trainee<br>
-      <a href="https://www.eldorado.org.br/disclaimer.html">Aviso Legal
-        - Disclaimer</a></div>
-  </body>
-</html>
+-- 
+2.30.2
 
---------------52010F3C066975C558FD774F--
 
