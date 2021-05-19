@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEF923896DC
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 21:41:17 +0200 (CEST)
-Received: from localhost ([::1]:48724 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66A8C3896F2
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 21:45:45 +0200 (CEST)
+Received: from localhost ([::1]:33048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljS4C-00063L-Ni
-	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 15:41:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39042)
+	id 1ljS8V-00067b-TE
+	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 15:45:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39056)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ljRhB-0001PW-Jq
- for qemu-devel@nongnu.org; Wed, 19 May 2021 15:17:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48323)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ljRhD-0001X5-Gc
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 15:17:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52456)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ljRh9-0005Si-O0
- for qemu-devel@nongnu.org; Wed, 19 May 2021 15:17:29 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ljRhB-0005Ub-Tw
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 15:17:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621451847;
+ s=mimecast20190719; t=1621451849;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VsWEKjabr7sMpCHtFJFpR/YK9Ao1yGg7OZS5iTKDPGE=;
- b=do/nS8+IgtAnbi7WnhURujg57nblDzSHJZMnvGsc5ZECIoQAbgrEOJ6fUAORhyXPXqM+hr
- vLpK09qUNE225X8qdA0nJIag8+cd4WLhytsv+Q2ARnIgP5Wu+mFgIvMI/izR4WZxQyJ8YZ
- rQ2/Aqqq4H2kAWbCzBzrG8Yv1tqvxeI=
+ bh=Bb7HOwstpcV+VJjAKv1JqV4YALy7uIFV9AvAvZXxkwE=;
+ b=ZOkBLi0CMM17MTkoKGCUvnhCmwtumFOIBtuJO20hfQw6zFphR2YxYucWfCubsYY3ZgGkvW
+ gVtKBPY/ZG8rIi5VsAu0ghRdXzfEwYDi/MGe9NXPLFWJWYY5aCNkWwxFdvzIa7cucbH8V7
+ ceAb22f6CUF6h6s/D4QxijAepJDgH8w=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-460-_LrNfDpoOCurVArUnjDQVg-1; Wed, 19 May 2021 15:17:25 -0400
-X-MC-Unique: _LrNfDpoOCurVArUnjDQVg-1
+ us-mta-56-5LdZfULRO6exT0kwlBfR4g-1; Wed, 19 May 2021 15:17:26 -0400
+X-MC-Unique: 5LdZfULRO6exT0kwlBfR4g-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 903B38015F8;
- Wed, 19 May 2021 19:17:24 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 82A11106BB2B;
+ Wed, 19 May 2021 19:17:25 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-117-64.rdu2.redhat.com [10.10.117.64])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D402D5D9CC;
- Wed, 19 May 2021 19:17:23 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B6A235D9DC;
+ Wed, 19 May 2021 19:17:24 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 5/6] qapi/parser.py: Silence too-few-public-methods warning
-Date: Wed, 19 May 2021 15:17:17 -0400
-Message-Id: <20210519191718.3950330-6-jsnow@redhat.com>
+Subject: [PATCH 6/6] qapi/parser.py: enable pylint checks
+Date: Wed, 19 May 2021 15:17:18 -0400
+Message-Id: <20210519191718.3950330-7-jsnow@redhat.com>
 In-Reply-To: <20210519191718.3950330-1-jsnow@redhat.com>
 References: <20210519191718.3950330-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -82,27 +82,25 @@ Cc: Markus Armbruster <armbru@redhat.com>, John Snow <jsnow@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Eh. Two properties, a bool method and a public method are non-trivial
-enough for me. (Especially in typed python!)
-
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qapi/parser.py | 2 ++
- 1 file changed, 2 insertions(+)
+ scripts/qapi/pylintrc | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
-index fefe4c37f44..36d4bd175a0 100644
---- a/scripts/qapi/parser.py
-+++ b/scripts/qapi/parser.py
-@@ -458,6 +458,8 @@ class QAPIDoc:
-     class Section:
-         def __init__(self, parser: QAPISchemaParser,
-                      name: Optional[str] = None, indent: int = 0):
-+            # pylint: disable=too-few-public-methods
-+
-             # parser, for error messages about indentation
-             self._parser = parser
-             # optional section name (argument/member or section name)
+diff --git a/scripts/qapi/pylintrc b/scripts/qapi/pylintrc
+index c5275d5f59b..1a633b2b88e 100644
+--- a/scripts/qapi/pylintrc
++++ b/scripts/qapi/pylintrc
+@@ -2,8 +2,7 @@
+ 
+ # Add files or directories matching the regex patterns to the ignore list.
+ # The regex matches against base names, not paths.
+-ignore-patterns=parser.py,
+-                schema.py,
++ignore-patterns=schema.py,
+ 
+ 
+ [MESSAGES CONTROL]
 -- 
 2.30.2
 
