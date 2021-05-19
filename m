@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95E8F388ED6
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 15:18:58 +0200 (CEST)
-Received: from localhost ([::1]:46218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25F9A388EFD
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 15:25:06 +0200 (CEST)
+Received: from localhost ([::1]:35500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljM6D-0002R0-Kl
-	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 09:18:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33392)
+	id 1ljMC9-0006ni-6S
+	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 09:25:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33550)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1ljLh7-0001K6-M8; Wed, 19 May 2021 08:53:02 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:34641)
+ id 1ljLhN-0001hF-TD; Wed, 19 May 2021 08:53:17 -0400
+Received: from ozlabs.org ([203.11.71.1]:34041)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1ljLgz-0001MS-5J; Wed, 19 May 2021 08:52:54 -0400
+ id 1ljLhM-0001NW-0Z; Wed, 19 May 2021 08:53:17 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4FlXnk4TYPz9t2b; Wed, 19 May 2021 22:52:10 +1000 (AEST)
+ id 4FlXnk60FBz9t2g; Wed, 19 May 2021 22:52:10 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1621428730;
- bh=zpsVKsxnnsx7gNVqFu7VaZXETBUW1ZEzg+RP1HiSQ60=;
+ bh=ZI3fDpteXkqz4sW9NRYMUjXas2QCe5a4ah42UX9HtA0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=VFUvbgYMwi077GBmHek974H6xexwWteRL5gbHtKL2ld0r/QiLtVTxx6XWo2eHrXSE
- RuQAvtzPRiy3SIJ7f/nIjfUwO8xIMoTEEGZwuNSrINB/XFJ3gGb37yAvrh6fmgx7oq
- yGN5Q1d07qXjLnTxQO00DdcGvHP0ykPhakFhdd+g=
+ b=f3AMYTrIxI2Xu+k5WHh1RUUyZuccgSxTLhyDvPFSUiGpRoNjLEH1itCU//QmjX3I4
+ ZckULf2sDFhmmxWg5OtFsjysgem8z+2U5LkW/pxbkIzBH75wVDRPk8soByqdCs/cWF
+ uy4m6mnMAeou7qLPQfyXHeEm3/cxAXvJ1/Bb8nJw=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org,
 	groug@kaod.org
-Subject: [PULL 30/48] target/ppc: Tidy exception vs exit_tb
-Date: Wed, 19 May 2021 22:51:30 +1000
-Message-Id: <20210519125148.27720-31-david@gibson.dropbear.id.au>
+Subject: [PULL 31/48] target/ppc: Mark helper_raise_exception* as noreturn
+Date: Wed, 19 May 2021 22:51:31 +1000
+Message-Id: <20210519125148.27720-32-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210519125148.27720-1-david@gibson.dropbear.id.au>
 References: <20210519125148.27720-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -65,32 +65,26 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-We do not need to emit an exit_tb after an exception,
-as the latter will exit via longjmp.
-
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
-Message-Id: <20210517205025.3777947-7-matheus.ferst@eldorado.org.br>
+Message-Id: <20210517205025.3777947-8-matheus.ferst@eldorado.org.br>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- target/ppc/translate.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ target/ppc/helper.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-index 05e3c0417a..e68152810e 100644
---- a/target/ppc/translate.c
-+++ b/target/ppc/translate.c
-@@ -4648,8 +4648,9 @@ static void gen_lookup_and_goto_ptr(DisasContext *ctx)
-         } else if (sse & (CPU_SINGLE_STEP | CPU_BRANCH_STEP)) {
-             uint32_t excp = gen_prep_dbgex(ctx);
-             gen_exception(ctx, excp);
-+        } else {
-+            tcg_gen_exit_tb(NULL, 0);
-         }
--        tcg_gen_exit_tb(NULL, 0);
-     } else {
-         tcg_gen_lookup_and_goto_ptr();
-     }
+diff --git a/target/ppc/helper.h b/target/ppc/helper.h
+index 513066d54d..ea9f2a236c 100644
+--- a/target/ppc/helper.h
++++ b/target/ppc/helper.h
+@@ -1,5 +1,5 @@
+-DEF_HELPER_FLAGS_3(raise_exception_err, TCG_CALL_NO_WG, void, env, i32, i32)
+-DEF_HELPER_FLAGS_2(raise_exception, TCG_CALL_NO_WG, void, env, i32)
++DEF_HELPER_FLAGS_3(raise_exception_err, TCG_CALL_NO_WG, noreturn, env, i32, i32)
++DEF_HELPER_FLAGS_2(raise_exception, TCG_CALL_NO_WG, noreturn, env, i32)
+ DEF_HELPER_FLAGS_4(tw, TCG_CALL_NO_WG, void, env, tl, tl, i32)
+ #if defined(TARGET_PPC64)
+ DEF_HELPER_FLAGS_4(td, TCG_CALL_NO_WG, void, env, tl, tl, i32)
 -- 
 2.31.1
 
