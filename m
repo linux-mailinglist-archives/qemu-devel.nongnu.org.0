@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 179723895EC
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 20:57:03 +0200 (CEST)
-Received: from localhost ([::1]:57658 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2515B3895D0
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 20:50:36 +0200 (CEST)
+Received: from localhost ([::1]:60672 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljRNO-0007qj-4w
-	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 14:57:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51626)
+	id 1ljRH9-0007ru-5L
+	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 14:50:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51662)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ljQyj-0004C7-GL
- for qemu-devel@nongnu.org; Wed, 19 May 2021 14:31:33 -0400
-Received: from mail-oi1-x22e.google.com ([2607:f8b0:4864:20::22e]:45624)
+ id 1ljQyl-0004Gy-BS
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 14:31:35 -0400
+Received: from mail-oi1-x22b.google.com ([2607:f8b0:4864:20::22b]:33465)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ljQyZ-0005lT-AU
- for qemu-devel@nongnu.org; Wed, 19 May 2021 14:31:33 -0400
-Received: by mail-oi1-x22e.google.com with SMTP id w127so10159708oig.12
- for <qemu-devel@nongnu.org>; Wed, 19 May 2021 11:31:21 -0700 (PDT)
+ id 1ljQyZ-0005m2-Cc
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 14:31:35 -0400
+Received: by mail-oi1-x22b.google.com with SMTP id b25so14061359oic.0
+ for <qemu-devel@nongnu.org>; Wed, 19 May 2021 11:31:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ml4zJu8F2mL1vM6aa47NTwYNU0UFpq7nQwZNWCia1A4=;
- b=Ab1gIVwrXJnRY4PbLD8umcTkk7p573EO+5uSd5XQW4JbkGWTC1J/9IP+DYlXvmv4QH
- jHqzvCiEh+9Aes/2FrepBkrFMG4T1coptd1V/okpiP3PxxAGxNecERsf8ab0XlVZittW
- valXFVeZpoWS+7EO842SeYoUeBd+fEsJ6GSJbO7zlIn3tBnahHeaWwAemdaVW6YfwYeW
- DXocG2XOmiXIeRm1LvpydHIkwfuxoPyDB3chQqO169CNRIaRA9GPIVCPq47ef4JmX0YA
- eUn9KFmYqwgm8L6aGGHvu8Mw06JTRzQ/kpcVTNI3dT9qFZ2UibZt71TGmo/cYQuYQ3A1
- u5rQ==
+ bh=nqW7XsN57M2hYAJUK6/QOBNZBxSwu2T66IctV1Y0s/A=;
+ b=SnqMeTAjuWrxkMmy3a+oCbs8vSN0TfPhkZuiS4KDL7XXc5/nHizmyNHswCzDOi52xz
+ 5May5pa1u/OsClq0PGP4PPZS4aK/QPrYv9i4UPVTjptuDQ5p8xidsIfEJjzIEajaT4l1
+ st3GHrfSO2Y5Q/lF+Us0fuhlQAbXEClvr0CK8AR7NSiqw1ppUTAYaljaXCqecRGWxpjE
+ hzywhtrzPYy495RmVaQx33Ryewo7yYO1cY/KxhGpicZk06sT3XY3yHSX9TmtzpWtYdGo
+ SBU0l3CCUZgAOKMu2+wKUPL98ai8CK776Q9YAgKbIiux04GPBV0/85LqYTuLKvJVXWpC
+ BwwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ml4zJu8F2mL1vM6aa47NTwYNU0UFpq7nQwZNWCia1A4=;
- b=FpDQj7TcujE3if1tvsfnHNcUbTPsirMl4rubMHTuMAIEoZFbEyJWl2EFcfajqzBa95
- 80WsWeOl0PNQXgYuH/gFcPIOvLq25qugJHArUklrY8ovpGa0ka9RDuYfD/gs2/1N+MGI
- XIUIE0SXfFm4HZc78RaZi5zEgRmGkQiZtolQ5NCf+nkco5Xe4MKngJA9HX53JDe7LqOm
- 4C/9FsICrLG68rAyKZW3exkbH7IVuZUk5hGcFyOnT+QlvaGwNEh/jzmT/RSwoAUfr09e
- 4zSEIaCuGTOQ27nmeKGIMWcTsoZn03TQoNlXs9OjS7Qh0oDMzPl4TShkiUKPrP6TChLD
- WxNQ==
-X-Gm-Message-State: AOAM533A+XyGkEnn5qCS0G1O3cQHJg6ZRt1nhws4zu2W2B8nhLerPNsW
- Ye+4N2ry+b37xp37+iFfQIEpZR1n0eor3gSY
-X-Google-Smtp-Source: ABdhPJybAA3h6M65Mxdu0xOIIuaU9Eo7NFRZ5jw+08+nGAWuceXmcNUY/mRuEBiVET7D+l9bOdIRig==
-X-Received: by 2002:a05:6808:1154:: with SMTP id
- u20mr389559oiu.35.1621449080911; 
- Wed, 19 May 2021 11:31:20 -0700 (PDT)
+ bh=nqW7XsN57M2hYAJUK6/QOBNZBxSwu2T66IctV1Y0s/A=;
+ b=XRvRkHUmGY2KAUf5tpi4+/mSEoibrakuSiUCZANnJx43slLnCKIznyhnHtBUkp3RtF
+ SWUlC+0BtHVazYTowpBvvEWP+wcLUQ2iBkYP6WXdUMkPoq2UrFJ6NFvfee1P1r/SIMWM
+ GztmUEZJubnu1RfjjYqH3ndLCZY9y5Tdgkf/rnp7V2c4iqO2qV+hYIEMeyqh5D4ckPfW
+ 7LEoRzwaJa5tu1BU0E2jPzv8OZFSAjmO8uT0DYrhMbWQ5INXK66aY/MMBTyeaFEWo6II
+ RKTfhuf7fljA28SfGbt8CwUwXC2AyUnk9SYyCoi+wEoZbIr8CHrrooJJgZJRKfnlFfFy
+ EX+A==
+X-Gm-Message-State: AOAM533dR7jpYYqJ05f4RvfTppgMC1ilVO5OXuOiZTVsXLrGrVzS4X4J
+ z4H4ukgti31t2g6iS+ASfM/1WqGwXR6ri9+V
+X-Google-Smtp-Source: ABdhPJxP6SGatmwWkQR0QkF2ltZ8/e38JcD/QMUcGZ5JGwiOY1hwNuLQPqSLa1wkx4uF5Kyi8+l6qw==
+X-Received: by 2002:a54:4396:: with SMTP id u22mr524959oiv.118.1621449081845; 
+ Wed, 19 May 2021 11:31:21 -0700 (PDT)
 Received: from localhost.localdomain ([45.235.253.15])
- by smtp.gmail.com with ESMTPSA id l9sm28428oou.43.2021.05.19.11.31.20
+ by smtp.gmail.com with ESMTPSA id l9sm28428oou.43.2021.05.19.11.31.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 May 2021 11:31:20 -0700 (PDT)
+ Wed, 19 May 2021 11:31:21 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 29/50] target/i386: Add stub generator for helper_set_dr
-Date: Wed, 19 May 2021 13:30:29 -0500
-Message-Id: <20210519183050.875453-30-richard.henderson@linaro.org>
+Subject: [PULL 30/50] target/i386: Assert !SVME for user-only
+Date: Wed, 19 May 2021 13:30:30 -0500
+Message-Id: <20210519183050.875453-31-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210519183050.875453-1-richard.henderson@linaro.org>
 References: <20210519183050.875453-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22e;
- envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x22e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x22b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,56 +86,119 @@ Cc: peter.maydell@linaro.org, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This removes an ifdef from the middle of disas_insn,
-and ensures that the branch is not reachable.
+Most of the VMM instructions are already disabled for user-only,
+by being usable only from ring 0.
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+The spec is intentionally loose for VMMCALL, allowing the VMM to
+define syscalls for user-only.  However, we're not emulating any
+VMM, so VMMCALL can just raise #UD unconditionally.
+
 Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <20210514151342.384376-30-richard.henderson@linaro.org>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20210514151342.384376-31-richard.henderson@linaro.org>
 ---
- target/i386/tcg/translate.c | 15 +++++++++++++--
- 1 file changed, 13 insertions(+), 2 deletions(-)
+ target/i386/tcg/translate.c | 21 +++++++++++----------
+ 1 file changed, 11 insertions(+), 10 deletions(-)
 
 diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
-index 5c321b338e..28eb0e8adf 100644
+index 28eb0e8adf..235caa247b 100644
 --- a/target/i386/tcg/translate.c
 +++ b/target/i386/tcg/translate.c
-@@ -179,6 +179,19 @@ typedef struct DisasContext {
- #define REX_B(S)       0
+@@ -138,10 +138,12 @@ typedef struct DisasContext {
+ #define PE(S)     true
+ #define CPL(S)    3
+ #define IOPL(S)   0
++#define SVME(S)   false
+ #else
+ #define PE(S)     (((S)->flags & HF_PE_MASK) != 0)
+ #define CPL(S)    ((S)->cpl)
+ #define IOPL(S)   ((S)->iopl)
++#define SVME(S)   (((S)->flags & HF_SVME_MASK) != 0)
  #endif
+ #if defined(CONFIG_USER_ONLY) && defined(TARGET_X86_64)
+ #define VM86(S)   false
+@@ -7495,7 +7497,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+             break;
  
-+/*
-+ * Many sysemu-only helpers are not reachable for user-only.
-+ * Define stub generators here, so that we need not either sprinkle
-+ * ifdefs through the translator, nor provide the helper function.
-+ */
-+#define STUB_HELPER(NAME, ...) \
-+    static inline void gen_helper_##NAME(__VA_ARGS__) \
-+    { qemu_build_not_reached(); }
-+
-+#ifdef CONFIG_USER_ONLY
-+STUB_HELPER(set_dr, TCGv_env env, TCGv_i32 reg, TCGv val)
-+#endif
-+
- static void gen_eob(DisasContext *s);
- static void gen_jr(DisasContext *s, TCGv dest);
- static void gen_jmp(DisasContext *s, target_ulong eip);
-@@ -8075,7 +8088,6 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
-     case 0x121: /* mov reg, drN */
-     case 0x123: /* mov drN, reg */
-         if (check_cpl0(s)) {
--#ifndef CONFIG_USER_ONLY
-             modrm = x86_ldub_code(env, s);
-             /* Ignore the mod bits (assume (modrm&0xc0)==0xc0).
-              * AMD documentation (24594.pdf) and testing of
-@@ -8104,7 +8116,6 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
-                 gen_helper_get_dr(s->T0, cpu_env, s->tmp2_i32);
-                 gen_op_mov_reg_v(s, ot, rm, s->T0);
+         case 0xd8: /* VMRUN */
+-            if (!(s->flags & HF_SVME_MASK) || !PE(s)) {
++            if (!SVME(s) || !PE(s)) {
+                 goto illegal_op;
              }
--#endif /* !CONFIG_USER_ONLY */
-         }
-         break;
-     case 0x106: /* clts */
+             if (!check_cpl0(s)) {
+@@ -7510,7 +7512,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+             break;
+ 
+         case 0xd9: /* VMMCALL */
+-            if (!(s->flags & HF_SVME_MASK)) {
++            if (!SVME(s)) {
+                 goto illegal_op;
+             }
+             gen_update_cc_op(s);
+@@ -7519,7 +7521,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+             break;
+ 
+         case 0xda: /* VMLOAD */
+-            if (!(s->flags & HF_SVME_MASK) || !PE(s)) {
++            if (!SVME(s) || !PE(s)) {
+                 goto illegal_op;
+             }
+             if (!check_cpl0(s)) {
+@@ -7531,7 +7533,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+             break;
+ 
+         case 0xdb: /* VMSAVE */
+-            if (!(s->flags & HF_SVME_MASK) || !PE(s)) {
++            if (!SVME(s) || !PE(s)) {
+                 goto illegal_op;
+             }
+             if (!check_cpl0(s)) {
+@@ -7543,8 +7545,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+             break;
+ 
+         case 0xdc: /* STGI */
+-            if ((!(s->flags & HF_SVME_MASK)
+-                   && !(s->cpuid_ext3_features & CPUID_EXT3_SKINIT))
++            if ((!SVME(s) && !(s->cpuid_ext3_features & CPUID_EXT3_SKINIT))
+                 || !PE(s)) {
+                 goto illegal_op;
+             }
+@@ -7558,7 +7559,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+             break;
+ 
+         case 0xdd: /* CLGI */
+-            if (!(s->flags & HF_SVME_MASK) || !PE(s)) {
++            if (!SVME(s) || !PE(s)) {
+                 goto illegal_op;
+             }
+             if (!check_cpl0(s)) {
+@@ -7570,8 +7571,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+             break;
+ 
+         case 0xde: /* SKINIT */
+-            if ((!(s->flags & HF_SVME_MASK)
+-                 && !(s->cpuid_ext3_features & CPUID_EXT3_SKINIT))
++            if ((!SVME(s) && !(s->cpuid_ext3_features & CPUID_EXT3_SKINIT))
+                 || !PE(s)) {
+                 goto illegal_op;
+             }
+@@ -7581,7 +7581,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+             break;
+ 
+         case 0xdf: /* INVLPGA */
+-            if (!(s->flags & HF_SVME_MASK) || !PE(s)) {
++            if (!SVME(s) || !PE(s)) {
+                 goto illegal_op;
+             }
+             if (!check_cpl0(s)) {
+@@ -8516,6 +8516,7 @@ static void i386_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cpu)
+     g_assert(SS32(dc) == ((flags & HF_SS32_MASK) != 0));
+     g_assert(LMA(dc) == ((flags & HF_LMA_MASK) != 0));
+     g_assert(ADDSEG(dc) == ((flags & HF_ADDSEG_MASK) != 0));
++    g_assert(SVME(dc) == ((flags & HF_SVME_MASK) != 0));
+ 
+     dc->cc_op = CC_OP_DYNAMIC;
+     dc->cc_op_dirty = false;
 -- 
 2.25.1
 
