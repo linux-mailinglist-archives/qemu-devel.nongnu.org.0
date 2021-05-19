@@ -2,83 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 627453884AB
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 04:11:42 +0200 (CEST)
-Received: from localhost ([::1]:40796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4091538851F
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 05:09:18 +0200 (CEST)
+Received: from localhost ([::1]:47716 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljBgS-0004TE-Um
-	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 22:11:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45488)
+	id 1ljCaC-0003v0-Gf
+	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 23:09:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53392)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gbs@canishe.com>) id 1ljBfT-0003ji-UQ
- for qemu-devel@nongnu.org; Tue, 18 May 2021 22:10:39 -0400
-Received: from wout2-smtp.messagingengine.com ([64.147.123.25]:49191)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gbs@canishe.com>) id 1ljBfR-0005xi-Sw
- for qemu-devel@nongnu.org; Tue, 18 May 2021 22:10:39 -0400
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailout.west.internal (Postfix) with ESMTP id B475F166D;
- Tue, 18 May 2021 22:10:34 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute6.internal (MEProxy); Tue, 18 May 2021 22:10:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canishe.com; h=
- from:content-type:content-transfer-encoding:mime-version:subject
- :message-id:date:cc:to; s=fm2; bh=hJzIytr8OgKE9ZZ+5ZVdnWtPqzlZHD
- K/APbGbHQVvvs=; b=CI4RVVKvlM13tJebwM0UzOLZTpswMSNEECUL9ymx9oTtE1
- oTMkazfLyNhtT5RFr5rQNG0JHtLS0DpYaTGD701eus3HTtqlX9+yb2401/4R6TOV
- JLSxMQJWEilsDhSK7UDk6cBuMsa3DBur7nLGEUv5ChFrQRyNJjR13YIQtOAX0Aj2
- 6lG12nw3bTSi1s4ZEdFzV0ejLZuHgBmxCJYP/cAdtH4f3+k28Urd4+cQ8/rvm6xX
- 7ph0GquX/Wn57lY4m/Vwk6ygnWsDJjokc7igVqN5KZNz5oI17450D4JO7M89S37x
- LibPy8+GMmgifuJVW97LpuSZwsyVU/S0zZlnweeA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:content-type
- :date:from:message-id:mime-version:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=hJzIyt
- r8OgKE9ZZ+5ZVdnWtPqzlZHDK/APbGbHQVvvs=; b=FiaAfTvGxURe17idlXQqr5
- kJowf+t9gDehvI+oLqTtA2vbkTu1bCvpkYYwytntS/y7Tb8jPkLyscyLFQQ0p8t9
- HX33yxSXRdXmZqmBxLrpCbuCWqsfiOyGf9MjlYo9TcCHmQwuhmYvsRRDDRGz00aL
- NPdKOyhLp6Wyvwyetah5JGiuFAsSTRiZdfGj4/ZwelgjAgNzLitMZdLNAa2FSVwu
- 8bSYPeRbzDWcjX6T+rAVUao7BPhaJwoHeo+H8UDY+zoJULw1pLqSO9u0+bxCbOSV
- AfKC8jFJN9mSVoHt2GVd7jepHCld2B1IbYKMMgx6599NG+RScy0S1aYACVzwG1sw
- ==
-X-ME-Sender: <xms:mXOkYGD8ylV4X10Old1lW9RDnnbii9hiVwfXRksrM3fwr4CIhQ3itg>
- <xme:mXOkYAjRoRY4xFdP2n8GHrkRLRi3s7QNWV_OC0MAGKOzEO0t76rQWb3iMngQvxlFh
- NcPeyfW69O6FcygHA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdeikedghedvucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucenucfjughrpefhtgfgggfukfffvffosehtjehmtd
- hhtddvnecuhfhrohhmpefirggvlhgrnhcuufhtvggvlhgvuceoghgsshestggrnhhishhh
- vgdrtghomheqnecuggftrfgrthhtvghrnhephffguedtkeevgfevtdehfeejudeujeettd
- ettdetjeffteehueejiedtheegffeinecukfhppeelkedrvdefvddrjedvrdejleenucev
- lhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehgsghssegtrg
- hnihhshhgvrdgtohhm
-X-ME-Proxy: <xmx:mXOkYJmIc58-ridIdja0UqZaqev7udeRcT9fR_PibYzjPRcY1h97Ig>
- <xmx:mXOkYEwL2pADJeus2Q0KccOYLs1DHDRrMAXb2zRUKYvpvEDz14iY5A>
- <xmx:mXOkYLTbUCE7plArJsJdmRWzfMfmnNEPD796Y3oJLsl6qDGO58YnBw>
- <xmx:mnOkYCeTGsikAYCtN7fZRjiaI2pPeef40q55YO9xgGGSp-14pX9gvg>
-Received: from smtpclient.apple (c-98-232-72-79.hsd1.wa.comcast.net
- [98.232.72.79]) by mail.messagingengine.com (Postfix) with ESMTPA;
- Tue, 18 May 2021 22:10:33 -0400 (EDT)
-From: Gaelan Steele <gbs@canishe.com>
-Content-Type: text/plain;
-	charset=us-ascii
+ (Exim 4.90_1) (envelope-from <yangxiaojuan@loongson.cn>)
+ id 1ljCZO-0003ET-C5
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 23:08:26 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:44634 helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <yangxiaojuan@loongson.cn>) id 1ljCZM-0006qc-3N
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 23:08:26 -0400
+Received: from localhost.localdomain (unknown [10.20.42.60])
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9BxwOIggaRgIFAAAA--.1813S3;
+ Wed, 19 May 2021 11:08:16 +0800 (CST)
+Subject: Re: [PATCH] fw_cfg: Set the max fw_cfg mem read size to 8 bytes
+To: Laszlo Ersek <lersek@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>
+References: <1621341794-1041-1-git-send-email-yangxiaojuan@loongson.cn>
+ <7e258317-2027-6c0f-1953-675f3aa1ee0c@redhat.com>
+From: yangxiaojuan <yangxiaojuan@loongson.cn>
+Message-ID: <f272c1d2-a88e-b6af-94b9-c38618991d15@loongson.cn>
+Date: Wed, 19 May 2021 11:08:16 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.0
+MIME-Version: 1.0
+In-Reply-To: <7e258317-2027-6c0f-1953-675f3aa1ee0c@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.80.0.2.43\))
-Subject: GSoC introduction: Rust vhost-user-scsi device
-Message-Id: <250A3378-EA7A-4B8C-8FEA-10AD611F00FA@canishe.com>
-Date: Tue, 18 May 2021 19:10:31 -0700
-To: qemu-devel@nongnu.org
-X-Mailer: Apple Mail (2.3654.80.0.2.43)
-Received-SPF: none client-ip=64.147.123.25; envelope-from=gbs@canishe.com;
- helo=wout2-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-CM-TRANSID: AQAAf9BxwOIggaRgIFAAAA--.1813S3
+X-Coremail-Antispam: 1UD129KBjvJXoW7CrWxCw45AF4rtrW7uw15urg_yoW8ur13pF
+ 97u3WUCFWktr4DCF42g3y7Xa4rZ39rGr1UKa17tF1v9rn0krWkJFyjvasak3yUXrn7JF1j
+ 9w1kWry5X3Z0yFDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUvFb7Iv0xC_Cr1lb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I2
+ 0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
+ A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xII
+ jxv20xvEc7CjxVAFwI0_Cr0_Gr1UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4
+ vEx4A2jsIEc7CjxVAFwI0_Cr1j6rxdM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVAC
+ Y4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1Y6r17McIj6I8E87Iv67AKxVWUJV
+ W8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0VAS07AlzVAYIcxG
+ 8wCY02Avz4vE-syl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxV
+ Aqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r12
+ 6r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6x
+ kF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVW3JVWrJr1lIxAIcVC2z280aVAF
+ wI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvj
+ xU29YwUUUUU
+X-CM-SenderInfo: p1dqw5xldry3tdq6z05rqj20fqof0/
+Received-SPF: pass client-ip=114.242.206.163;
+ envelope-from=yangxiaojuan@loongson.cn; helo=loongson.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,51 +74,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Sergio Lopez <slp@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello all,
+Hi,Laszlo
 
-I'm Gaelan Steele, one of QEMU's Google Summer of Code students this
-year. My mentor (Sergio Lopez) has asked me to introduce myself and my
-project here.
+Thanks for your kindly reply.This is my first time to submit
+code to the community. I spent some time learning how to configure
+the email and reply.
 
-As you all may know, QEMU supports virtio-scsi in one of two ways: it
-can use a built-in C implementation, running in the main QEMU process,
-or delegate to another implementation over vhost-user. We have an
-existing proof-of-concept vhost-user-scsi implementation in contrib/
-that  passes requests through to an iSCSI target, but we don't have
-such an implementation for a local disk image. My goal is to write 
-one, in Rust. This has a few primary advantages over the existing
-in-process SCSI implementation:
+Yes you are right, fw_cfg_init_mem_wide can solve my problem.
+I just want to access 8 bytes width.I did not look at the code
+carefully.I am so sorry. My patch can be abandoned.
 
-* Security - SCSI is a complex binary protocol - a fairly large attack
-  surface. By moving the SCSI implementation into a separate process in
-  a memory-safe language, we both reduce the risk of bugs in the first
-  place, and make it possible to sandbox the vhost-user-scsi process,
-  reducing the potential impact even if the process is compromised.
-* Reusability - the plan is for this implementation to live with the
-  rust-vmm project, where it can be used by QEMU but also by any other
-  VMM that speaks vhost-user.
-* Performance - living in a separate process might allow some
-  optimizations that would be difficult to implement within QEMU proper.
+I am from loongson. We want to add a new board support to
+the community.Later we will submit more code.
 
-My minimum goal is to implement enough of SCSI for the guest to be able
-to mount a block device read-only; if I have time, I'll also implement
-write support, add support for forwarding to an iSCSI target, and spend
-time benchmarking and optimizing the new implementation.
+thanks
+Xiaojuan Yang
 
-We're currently in GSoC's "community bonding period", which I'll use
-to get acquainted with the community and the rust-vmm codebase, and
-nail down any toolchain issues. The coding period proper starts June 7
-and continues for 10 weeks until August 16.
 
-Finally, a bit about me: I'm an undergraduate computer science student
-at the University of St Andrews, Scotland; physically, I'm at home in
-the Pacific Northwest USA for the summer. I've been contributing to
-open source for about a decade now.
+On 5/18/21 11:49 PM, Laszlo Ersek wrote:
+> On 05/18/21 14:43, Xiaojuan Yang wrote:
+>> From: yangxiaojuan <yangxiaojuan@loongson.cn>
+>>
+>> fw_cfg_data_read() func supports access widths from
+>> 1 to 8 bytes while the ops set the wrong read size.
+>>
+>> Most arch use 8 bytes to send ram_size to bios.
+>>
+>> Signed-off-by: yangxiaojuan <yangxiaojuan@loongson.cn>
+>> ---
+>>  hw/nvram/fw_cfg.c | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/hw/nvram/fw_cfg.c b/hw/nvram/fw_cfg.c
+>> index 9b8dcca4ea..242614152c 100644
+>> --- a/hw/nvram/fw_cfg.c
+>> +++ b/hw/nvram/fw_cfg.c
+>> @@ -540,7 +540,7 @@ static const MemoryRegionOps fw_cfg_data_mem_ops = {
+>>      .endianness = DEVICE_BIG_ENDIAN,
+>>      .valid = {
+>>          .min_access_size = 1,
+>> -        .max_access_size = 1,
+>> +        .max_access_size = 8,
+>>          .accepts = fw_cfg_data_mem_valid,
+>>      },
+>>  };
+>>
+> 
+> This patch conflicts with (adjacent) commits
+> 
+> - cfaadf0e89e7 ("fw_cfg_mem: introduce the "data_width" property",
+> 2014-12-22) and
+> 
+> - 6c87e3d5967a ("fw_cfg_mem: expose the "data_width" property with
+> fw_cfg_init_mem_wide()", 2014-12-22)
+> 
+> Your board code is supposed to call the fw_cfg_init_mem_wide() function,
+> for setting the maximum access width.
+> 
+> In fact, I see a call to fw_cfg_init_mem_wide() in
+> "hw/mips/loongson3_virt.c" already, from commit c76b409fef19 ("hw/mips:
+> Add Loongson-3 machine support", 2021-01-04). (I'm only highlighting
+> this board because your email address is from domain "loongson.cn".)
+> 
+> What is the actual problem you're trying to solve?
+> 
+> Thanks
+> Laszlo
+> 
 
-Thanks for welcoming me into your community!
-Gaelan Steele
 
