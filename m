@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69593388EDB
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 15:19:38 +0200 (CEST)
-Received: from localhost ([::1]:47712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95E8F388ED6
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 15:18:58 +0200 (CEST)
+Received: from localhost ([::1]:46218 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljM6r-0003Xc-FJ
-	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 09:19:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33526)
+	id 1ljM6D-0002R0-Kl
+	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 09:18:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33392)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1ljLhL-0001ZF-Uu; Wed, 19 May 2021 08:53:15 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:41139 helo=ozlabs.org)
+ id 1ljLh7-0001K6-M8; Wed, 19 May 2021 08:53:02 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:34641)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1ljLhH-0001Ly-B0; Wed, 19 May 2021 08:53:15 -0400
+ id 1ljLgz-0001MS-5J; Wed, 19 May 2021 08:52:54 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4FlXnk2CV5z9t2G; Wed, 19 May 2021 22:52:10 +1000 (AEST)
+ id 4FlXnk4TYPz9t2b; Wed, 19 May 2021 22:52:10 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1621428730;
- bh=B+5+CBFSKc5hIzIcxZ8RF3BK6uJSaw1YPUgVkZADPZo=;
+ bh=zpsVKsxnnsx7gNVqFu7VaZXETBUW1ZEzg+RP1HiSQ60=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Ux//wOvidDozkXZ5Q9U2PgU6JbJyXjlW49CTtAcWtV7/4ETOUm+nJSdBua+gykSEk
- CKPwsWDSX9d621euRdSWY/UVP8o6s9tbC4rfstYThVHd26sHeWMWKrmFIX1u0hQn1u
- Z0n86PIpBF6BWh/3AQ51eCiOvp4uTmRDXrwvnl74=
+ b=VFUvbgYMwi077GBmHek974H6xexwWteRL5gbHtKL2ld0r/QiLtVTxx6XWo2eHrXSE
+ RuQAvtzPRiy3SIJ7f/nIjfUwO8xIMoTEEGZwuNSrINB/XFJ3gGb37yAvrh6fmgx7oq
+ yGN5Q1d07qXjLnTxQO00DdcGvHP0ykPhakFhdd+g=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org,
 	groug@kaod.org
-Subject: [PULL 29/48] target/ppc: Move single-step check to ppc_tr_tb_stop
-Date: Wed, 19 May 2021 22:51:29 +1000
-Message-Id: <20210519125148.27720-30-david@gibson.dropbear.id.au>
+Subject: [PULL 30/48] target/ppc: Tidy exception vs exit_tb
+Date: Wed, 19 May 2021 22:51:30 +1000
+Message-Id: <20210519125148.27720-31-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210519125148.27720-1-david@gibson.dropbear.id.au>
 References: <20210519125148.27720-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -65,100 +65,32 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-When single-stepping, force max_insns to 1 in init_disas
-so that we exit the translation loop immediately.
-
-Combine the single-step checks in tb_stop, and give the
-gdb exception priority over the cpu exception, just as
-we already do in gen_lookup_and_goto_ptr.
+We do not need to emit an exit_tb after an exception,
+as the latter will exit via longjmp.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
-Message-Id: <20210517205025.3777947-6-matheus.ferst@eldorado.org.br>
+Message-Id: <20210517205025.3777947-7-matheus.ferst@eldorado.org.br>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- target/ppc/translate.c | 33 +++++++++++++++++++--------------
- 1 file changed, 19 insertions(+), 14 deletions(-)
+ target/ppc/translate.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-index 80cd11b3f8..05e3c0417a 100644
+index 05e3c0417a..e68152810e 100644
 --- a/target/ppc/translate.c
 +++ b/target/ppc/translate.c
-@@ -8992,7 +8992,6 @@ static void ppc_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
-     DisasContext *ctx = container_of(dcbase, DisasContext, base);
-     CPUPPCState *env = cs->env_ptr;
-     uint32_t hflags = ctx->base.tb->flags;
--    int bound;
- 
-     ctx->spr_cb = env->spr_cb;
-     ctx->pr = (hflags >> HFLAGS_PR) & 1;
-@@ -9032,8 +9031,12 @@ static void ppc_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
-         ctx->singlestep_enabled |= GDBSTUB_SINGLE_STEP;
-     }
- 
--    bound = -(ctx->base.pc_first | TARGET_PAGE_MASK) / 4;
--    ctx->base.max_insns = MIN(ctx->base.max_insns, bound);
-+    if (ctx->singlestep_enabled & (CPU_SINGLE_STEP | GDBSTUB_SINGLE_STEP)) {
-+        ctx->base.max_insns = 1;
-+    } else {
-+        int bound = -(ctx->base.pc_first | TARGET_PAGE_MASK) / 4;
-+        ctx->base.max_insns = MIN(ctx->base.max_insns, bound);
-+    }
- }
- 
- static void ppc_tr_tb_start(DisasContextBase *db, CPUState *cs)
-@@ -9087,14 +9090,6 @@ static void ppc_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
-     handler->count++;
- #endif
- 
--    /* Check trace mode exceptions */
--    if (unlikely(ctx->singlestep_enabled & CPU_SINGLE_STEP &&
--                 (ctx->base.pc_next <= 0x100 || ctx->base.pc_next > 0xF00) &&
--                 ctx->base.is_jmp != DISAS_NORETURN)) {
--        uint32_t excp = gen_prep_dbgex(ctx);
--        gen_exception_nip(ctx, excp, ctx->base.pc_next);
--    }
--
-     if (tcg_check_temp_count()) {
-         qemu_log("Opcode %02x %02x %02x %02x (%08x) leaked "
-                  "temporaries\n", opc1(ctx->opcode), opc2(ctx->opcode),
-@@ -9107,6 +9102,7 @@ static void ppc_tr_tb_stop(DisasContextBase *dcbase, CPUState *cs)
-     DisasContext *ctx = container_of(dcbase, DisasContext, base);
-     DisasJumpType is_jmp = ctx->base.is_jmp;
-     target_ulong nip = ctx->base.pc_next;
-+    int sse;
- 
-     if (is_jmp == DISAS_NORETURN) {
-         /* We have already exited the TB. */
-@@ -9114,7 +9110,8 @@ static void ppc_tr_tb_stop(DisasContextBase *dcbase, CPUState *cs)
-     }
- 
-     /* Honor single stepping. */
--    if (unlikely(ctx->base.singlestep_enabled)) {
-+    sse = ctx->singlestep_enabled & (CPU_SINGLE_STEP | GDBSTUB_SINGLE_STEP);
-+    if (unlikely(sse)) {
-         switch (is_jmp) {
-         case DISAS_TOO_MANY:
-         case DISAS_EXIT_UPDATE:
-@@ -9127,8 +9124,16 @@ static void ppc_tr_tb_stop(DisasContextBase *dcbase, CPUState *cs)
-         default:
-             g_assert_not_reached();
+@@ -4648,8 +4648,9 @@ static void gen_lookup_and_goto_ptr(DisasContext *ctx)
+         } else if (sse & (CPU_SINGLE_STEP | CPU_BRANCH_STEP)) {
+             uint32_t excp = gen_prep_dbgex(ctx);
+             gen_exception(ctx, excp);
++        } else {
++            tcg_gen_exit_tb(NULL, 0);
          }
--        gen_debug_exception(ctx);
--        return;
-+
-+        if (sse & GDBSTUB_SINGLE_STEP) {
-+            gen_debug_exception(ctx);
-+            return;
-+        }
-+        /* else CPU_SINGLE_STEP... */
-+        if (nip <= 0x100 || nip > 0xf00) {
-+            gen_exception(ctx, gen_prep_dbgex(ctx));
-+            return;
-+        }
+-        tcg_gen_exit_tb(NULL, 0);
+     } else {
+         tcg_gen_lookup_and_goto_ptr();
      }
- 
-     switch (is_jmp) {
 -- 
 2.31.1
 
