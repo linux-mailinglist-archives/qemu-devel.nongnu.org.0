@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC8E93896C7
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 21:32:20 +0200 (CEST)
-Received: from localhost ([::1]:54738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DE733896E5
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 21:43:10 +0200 (CEST)
+Received: from localhost ([::1]:53574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljRvX-0007qi-T0
-	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 15:32:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37676)
+	id 1ljS61-0000xM-4m
+	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 15:43:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38172)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1ljRd5-0001PI-7a
- for qemu-devel@nongnu.org; Wed, 19 May 2021 15:13:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21101)
+ id 1ljReT-0002vG-CJ
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 15:14:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42585)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1ljRd3-00039h-JX
- for qemu-devel@nongnu.org; Wed, 19 May 2021 15:13:14 -0400
+ id 1ljReQ-0003oE-UA
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 15:14:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621451593;
+ s=mimecast20190719; t=1621451674;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ByoRaIG8V3FPox0Sf6LiKRa389AQBXwrdd1DXFx0BQo=;
- b=gjjrjkKRUM0slQsRkTZmDOFhFjUB/E37Z9284kriyyg9NMqsICpGQnUATuC95TYvVZdWzf
- btZRjKFzcAz5ODcAYf988q4ah+58xTFnYSb8Cq7YGPm/wSFX54vR+5I65xcIDh3/OJMIip
- NQvaBIC4pqRziNZc0t3v7d/QdTnbTmw=
-Received: from mail-vs1-f70.google.com (mail-vs1-f70.google.com
- [209.85.217.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-518-HZPJziDYOZ2GOsOPbM1ktg-1; Wed, 19 May 2021 15:13:09 -0400
-X-MC-Unique: HZPJziDYOZ2GOsOPbM1ktg-1
-Received: by mail-vs1-f70.google.com with SMTP id
- n18-20020a67e0520000b02902351ac5b72bso3278131vsl.15
- for <qemu-devel@nongnu.org>; Wed, 19 May 2021 12:13:09 -0700 (PDT)
+ bh=YnivI2uQeL2QZDhjh8ZcXcHW4nXnxn6pAmSf0NzTFpY=;
+ b=E9WMNoySLmDA1uHvVHNWH6FPlI+ZVF7qeBVSTmHT728C4gBxgtgJRXMSbdnIvWA9nuxYIG
+ D4sEhtD7E4onI02uYtrGWWibB+jxFQxqFVNvdljIKOovXgI2dvYIGu7q2F/KW/RJClePfW
+ jvSueNB9rl2I+bcjZkU7/C/CzYUutQg=
+Received: from mail-ua1-f70.google.com (mail-ua1-f70.google.com
+ [209.85.222.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-5-NvPpujRXOZGWkR35Qha-Ig-1; Wed, 19 May 2021 15:14:33 -0400
+X-MC-Unique: NvPpujRXOZGWkR35Qha-Ig-1
+Received: by mail-ua1-f70.google.com with SMTP id
+ b8-20020ab026c80000b029020f97f38cfcso5164020uap.3
+ for <qemu-devel@nongnu.org>; Wed, 19 May 2021 12:14:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=ByoRaIG8V3FPox0Sf6LiKRa389AQBXwrdd1DXFx0BQo=;
- b=atAge1/r6QIn9aLPAkw6+n8fFY1uUOGcLg2HezLVuYHZrLhDUHJ9u8mT7N15nllQ6b
- BibQ/mMdZ1QPhy/quU2ijzPcKm8hWdImKxbPG7zrTVGpVNXMzoPN4TBxKH7q33y1gNgM
- O839lPh2KiDjG3Krfp1fh+08gK56pZG2e7ajSt3F7gTEtvYEqrJaBhQHwxdUiz1A41oL
- TvJ7t7znZWh3CQVLlePMUFu78/ouAUucexCcx5YfgrqHJNPyekaIIAaCJxLXG2T6WG8E
- ABtsezmwgidBbP6rWvrVoNuL7FdLKiNl/icwkz0x73NS1U1NTzFAZMaHbuDwg4Qe3g/f
- zlsw==
-X-Gm-Message-State: AOAM530nFeFfGNtrdywtDHbgxOW4IpsNsi295pRZLT+tRNcEUUDem9dJ
- lCSYls71xoQiYoNtPOxAcfqUBn8SMsIJjTTh3K2qXFwDKteiXKzg214fy89NDHeDlvaV7jwDNRn
- 65hwBhlKjPacVA7nv5CMIgTJJUTUA53o=
-X-Received: by 2002:ab0:60c5:: with SMTP id g5mr1277182uam.5.1621451589038;
- Wed, 19 May 2021 12:13:09 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzgkMQnAQOxL9bsCHXeppaoCvzTF5P1m+5pYUpoz0i3sWUutt2Kqcva+rwLk6Wn/OtXQFlflPVrBSnPWOq9EA8=
-X-Received: by 2002:ab0:60c5:: with SMTP id g5mr1277157uam.5.1621451588875;
- Wed, 19 May 2021 12:13:08 -0700 (PDT)
+ bh=YnivI2uQeL2QZDhjh8ZcXcHW4nXnxn6pAmSf0NzTFpY=;
+ b=drcWIhTII3gssExvouBFv7vQ/2r1FaX7a323VnrHhu+5NzC4weazjFA5Y7IGMo9lzz
+ auw64fZHRbjphVoxIdOX6hxJiKH01LnkRm0dOQAbFgElMa0TI4Cv4MP1tfnybMNykfqT
+ GOikzmiyaMste7fcj/f2piwPxdZynSJGxgpPuQwAU5k9k3y2KhMxv60cCGD3yderaPsr
+ xSvwCmFz8cGNv/9jBIfY5XDkOM9RzFWRmk7+m0BnJxBYWbByOfOVbVw96okD3cn8gUMB
+ pXsW80vYtCAipu6XmhYcOsyclVpwvgtb1dn0reDH4GUC6xdO3ZeDlnPSkMWt9kIPVgOo
+ mQ3g==
+X-Gm-Message-State: AOAM532tHLJwTQ29gC82HmIMruNGGkETAgOJIYgJ+rK6hyexrJM19gtp
+ RQh4ZsbKHlmBCdep8BznJlAcRI0FLEwrdjYp9BM4Lj62a7aI5CcMeh6VtjxBeu9CUwV4l+JPO4A
+ Wh8YRQp6r5wV3uEA1Nh17LfTjKKGzXnk=
+X-Received: by 2002:a67:c31c:: with SMTP id r28mr765244vsj.50.1621451672884;
+ Wed, 19 May 2021 12:14:32 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxQUoJqmeHN/HxGn2qbZ8hWLH8JKAPerlmo/Pge+lNN0ha58y5rUCozDQJhhTvuoDLa1y+5LnJMFz9hJv6kzJQ=
+X-Received: by 2002:a67:c31c:: with SMTP id r28mr765228vsj.50.1621451672737;
+ Wed, 19 May 2021 12:14:32 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210519184549.2192728-1-f4bug@amsat.org>
- <20210519184549.2192728-2-f4bug@amsat.org>
-In-Reply-To: <20210519184549.2192728-2-f4bug@amsat.org>
+ <20210519184549.2192728-5-f4bug@amsat.org>
+In-Reply-To: <20210519184549.2192728-5-f4bug@amsat.org>
 From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Wed, 19 May 2021 16:12:42 -0300
-Message-ID: <CAKJDGDa6z9Nozt-YyeWtguAd+QNObUZT_z2j8Ta3Ew2h-WuE5A@mail.gmail.com>
-Subject: Re: [PATCH v3 1/6] gitlab-ci: Extract &environment_variables template
+Date: Wed, 19 May 2021 16:14:06 -0300
+Message-ID: <CAKJDGDadGkony8ru+A_r6ypQvgbhpe56Dns3HUMFChatDADUAw@mail.gmail.com>
+Subject: Re: [PATCH v3 4/6] gitlab-ci: Add ccache in $PATH and display
+ statistics
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
@@ -70,7 +71,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=wrampazz@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=wrampazz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -102,13 +103,13 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Wed, May 19, 2021 at 3:46 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
 g> wrote:
 >
-> To be able to set the same environment variables to multiple jobs,
-> extract what we currently have as a template.
+> If a runner has ccache installed, use it and display statistics
+> at the end of the build.
 >
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 > ---
->  .gitlab-ci.d/buildtest-template.yml | 7 +++++--
->  1 file changed, 5 insertions(+), 2 deletions(-)
+>  .gitlab-ci.d/buildtest-template.yml | 5 +++++
+>  1 file changed, 5 insertions(+)
 >
 
 Reviewed-by: Willian Rampazzo <willianr@redhat.com>
