@@ -2,58 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24D52388B47
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 12:02:45 +0200 (CEST)
-Received: from localhost ([::1]:54838 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FB21388B4D
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 12:03:11 +0200 (CEST)
+Received: from localhost ([::1]:56458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljJ2J-0005hN-JW
-	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 06:02:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47802)
+	id 1ljJ2k-0006lc-1U
+	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 06:03:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48020)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chenyi.qiang@intel.com>)
- id 1ljJ0I-0004bL-Qv
- for qemu-devel@nongnu.org; Wed, 19 May 2021 06:00:38 -0400
-Received: from mga14.intel.com ([192.55.52.115]:41569)
+ (Exim 4.90_1) (envelope-from <salil.mehta@huawei.com>)
+ id 1ljJ0d-0004xr-09; Wed, 19 May 2021 06:00:59 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:3620)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chenyi.qiang@intel.com>)
- id 1ljJ0D-0007AX-Ku
- for qemu-devel@nongnu.org; Wed, 19 May 2021 06:00:38 -0400
-IronPort-SDR: XsMJkaacB1TLqVg6+tqIjQSrVRngwgpG82HPNIaBmNR7mR/TcAUoah4jiZkE9JR6pwXSZjPRww
- 37Z4ne8iHDiQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,9988"; a="200632388"
-X-IronPort-AV: E=Sophos;i="5.82,312,1613462400"; d="scan'208";a="200632388"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 May 2021 03:00:22 -0700
-IronPort-SDR: epVJgVLg3HAUtUMKxV0rOngm/lpkYvh7+GIEudPnTrFVvltgH3jdDh56ZZ5oh03Nc/Rdalfoba
- 99qiwJo+6eLA==
-X-IronPort-AV: E=Sophos;i="5.82,312,1613462400"; d="scan'208";a="473425087"
-Received: from cqiang-mobl.ccr.corp.intel.com (HELO [10.238.0.151])
- ([10.238.0.151])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 May 2021 03:00:20 -0700
-Subject: Re: [PATCH v3] i386: Add ratelimit for bus locks acquired in guest
-To: Eduardo Habkost <ehabkost@redhat.com>
-References: <20210430103305.28849-1-chenyi.qiang@intel.com>
- <20210517194629.k4aff57k74lukywd@habkost.net>
-From: Chenyi Qiang <chenyi.qiang@intel.com>
-Message-ID: <db3234a1-5bf2-de6e-c40d-93b6398bafba@intel.com>
-Date: Wed, 19 May 2021 18:00:18 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
-MIME-Version: 1.0
-In-Reply-To: <20210517194629.k4aff57k74lukywd@habkost.net>
-Content-Type: text/plain; charset=utf-8; format=flowed
+ (Exim 4.90_1) (envelope-from <salil.mehta@huawei.com>)
+ id 1ljJ0Z-0007ai-Ly; Wed, 19 May 2021 06:00:58 -0400
+Received: from dggems705-chm.china.huawei.com (unknown [172.30.72.60])
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4FlSwq6xFczsS5B;
+ Wed, 19 May 2021 17:58:03 +0800 (CST)
+Received: from dggpeml500021.china.huawei.com (7.185.36.21) by
+ dggems705-chm.china.huawei.com (10.3.19.182) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Wed, 19 May 2021 18:00:49 +0800
+Received: from lhreml703-chm.china.huawei.com (10.201.108.52) by
+ dggpeml500021.china.huawei.com (7.185.36.21) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
+ 15.1.2176.2; Wed, 19 May 2021 18:00:48 +0800
+Received: from lhreml703-chm.china.huawei.com ([10.201.68.198]) by
+ lhreml703-chm.china.huawei.com ([10.201.68.198]) with mapi id 15.01.2176.012; 
+ Wed, 19 May 2021 11:00:46 +0100
+From: Salil Mehta <salil.mehta@huawei.com>
+To: Andrew Jones <drjones@redhat.com>
+Subject: RE: [RFC PATCH v2 5/6] hw/arm/virt-acpi-build: Add PPTT table
+Thread-Topic: [RFC PATCH v2 5/6] hw/arm/virt-acpi-build: Add PPTT table
+Thread-Index: AQHXMDzb5q8WzYljr0ilpO+8Rxsx7Krg+0EAgAgNE7D///kagIAAE+FggACrCICAABT0MIAAdLEAgABcmnD///ZUgIAALRwQ
+Date: Wed, 19 May 2021 10:00:46 +0000
+Message-ID: <082ae8a278274dcab8bd3b78bbd514e7@huawei.com>
+References: <20210413080745.33004-1-wangyanan55@huawei.com>
+ <20210413080745.33004-6-wangyanan55@huawei.com>
+ <1551b7d6-e010-e5c7-47e1-c347ca78a1db@huawei.com>
+ <a6ccb20f19b743a29f6aaffcf3088df2@huawei.com>
+ <20210518074221.umezsdedzyzmcbsk@gator.home>
+ <80dca9f16c5b4bef9900f6cf76c99500@huawei.com>
+ <20210518190539.fwsvl2ijb4jlzbyi@gator.home>
+ <b61a7413f98a430685b838eecc2db74f@huawei.com>
+ <224d54ac-0c03-afc4-4aec-ea3435aa68e7@huawei.com>
+ <f766805215ac439bb988dab02247ec71@huawei.com>
+ <20210519081507.mnk43k77wbekeany@gator.home>
+In-Reply-To: <20210519081507.mnk43k77wbekeany@gator.home>
+Accept-Language: en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=192.55.52.115;
- envelope-from=chenyi.qiang@intel.com; helo=mga14.intel.com
-X-Spam_score_int: -68
-X-Spam_score: -6.9
-X-Spam_bar: ------
-X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.47.67.225]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.191;
+ envelope-from=salil.mehta@huawei.com; helo=szxga05-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -67,217 +79,173 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Xiaoyao Li <xiaoyao.li@intel.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "linuxarm@openeuler.org" <linuxarm@openeuler.org>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Linuxarm <linuxarm@huawei.com>, "wangyanan \(Y\)" <wangyanan55@huawei.com>,
+ Shannon Zhao <shannon.zhaosl@gmail.com>, Igor
+ Mammedov <imammedo@redhat.com>, "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ "Zengtao \(B\)" <prime.zeng@hisilicon.com>, yangyicong <yangyicong@huawei.com>,
+ yuzenghui <yuzenghui@huawei.com>,
+ "Wanghaibin \(D\)" <wanghaibin.wang@huawei.com>,
+ zhukeqian <zhukeqian1@huawei.com>, "lijiajie
+ \(H\)" <lijiajie11@huawei.com>, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+> From: Andrew Jones [mailto:drjones@redhat.com]
+> Sent: Wednesday, May 19, 2021 9:15 AM
+>=20
+> On Wed, May 19, 2021 at 07:54:37AM +0000, Salil Mehta wrote:
+> > > From: wangyanan (Y)
+> > > Sent: Wednesday, May 19, 2021 4:18 AM
+> > >
+> > >
+> > > On 2021/5/19 3:22, Salil Mehta wrote:
+> > > >> From: Andrew Jones [mailto:drjones@redhat.com]
+> > > >> Sent: Tuesday, May 18, 2021 8:06 PM
+> > > >> To: Salil Mehta <salil.mehta@huawei.com>
+> > > >> Cc: wangyanan (Y) <wangyanan55@huawei.com>; Peter Maydell
+> > > >> <peter.maydell@linaro.org>; Michael S . Tsirkin <mst@redhat.com>; =
+Wanghaibin
+> > > >> (D) <wanghaibin.wang@huawei.com>; qemu-devel@nongnu.org; Shannon Z=
+hao
+> > > >> <shannon.zhaosl@gmail.com>; qemu-arm@nongnu.org; Alistair Francis
+> > > >> <alistair.francis@wdc.com>; Zengtao (B) <prime.zeng@hisilicon.com>=
+;
+> > > >> yangyicong <yangyicong@huawei.com>; yuzenghui <yuzenghui@huawei.co=
+m>; Igor
+> > > >> Mammedov <imammedo@redhat.com>; zhukeqian <zhukeqian1@huawei.com>;=
+ lijiajie (H)
+> > > >> <lijiajie11@huawei.com>; David Gibson <david@gibson.dropbear.id.au=
+>; Linuxarm
+> > > >> <linuxarm@huawei.com>; linuxarm@openeuler.org
+> > > >> Subject: Re: [RFC PATCH v2 5/6] hw/arm/virt-acpi-build: Add PPTT t=
+able
+> > > >>
+> > > >> On Tue, May 18, 2021 at 06:34:08PM +0000, Salil Mehta wrote:
+> > > >>>   Those benefits, when vcpu pinning is used, are the same benefit=
+s
+> > > >>>> as for the host, which already use PPTT tables to describe topol=
+ogy, even
+> > > >>>> though hot plug isn't supported.
+> > > >>> yes sure, you mean pinning vcpus according to the cpu topology fo=
+r performance?
+> > > >> Yup
+> > > > Already Agreed :)
+> > > >
+> > > >>>> Now, if you're saying we should only generate tables for smp.cpu=
+s, not
+> > > >>> Correct. This is what I thought we must be doing even now
+> > > >>>
+> > > >>>> smp.maxcpus, because hot plug isn't supported anyway, then I see=
+ your
+> > > >>>> point. But, it'd be better to require smp.cpus =3D=3D smp.maxcpu=
+s in our
+> > > >>>> smp_parse function to do that, which we've never done before, so=
+ we may
+> > > >>>> have trouble supporting existing command lines.
+> > > >>> I am trying to recall, if the vcpu Hotplug is not supported then =
+can they
+> > > >>> ever be different?
+> > > >>>
+> > > >>> cpus =3D  (threads * cores * sockets)
+> > > >>>
+> > > >>> static void smp_parse(MachineState *ms, QemuOpts *opts)
+> > > >>> {
+> > > >>>       [...]
+> > > >>>
+> > > >>>          if (sockets * cores * threads !=3D ms->smp.max_cpus) {
+> > > >>>              warn_report("Invalid CPU topology deprecated: "
+> > > >>>                          "sockets (%u) * cores (%u) * threads (%u=
+) "
+> > > >>>                          "!=3D maxcpus (%u)",
+> > > >>>                          sockets, cores, threads,
+> > > >>>                          ms->smp.max_cpus);
+> > > >>>          }
+> > > >>>       [...]
+> > > >>> }
+> > > >>>
+> > > >>> Although, above check does not exit(1) and just warns on detectin=
+g invalid
+> > > >>> CPU topology. Not sure why?
+> > > >> Hmm, not sure what code you have there. I see this in
+> > > >> hw/core/machine.c:smp_parse
+> > > >>
+> > > >>          if (ms->smp.max_cpus < cpus) {
+> > > >>              error_report("maxcpus must be equal to or greater tha=
+n smp");
+> > > >>              exit(1);
+> > > >>          }
+> > > >>
+> > > >>          if (sockets * cores * threads !=3D ms->smp.max_cpus) {
+> > > >>              error_report("Invalid CPU topology: "
+> > > >>                           "sockets (%u) * cores (%u) * threads (%u=
+) "
+> > > >>                           "!=3D maxcpus (%u)",
+> > > >>                           sockets, cores, threads,
+> > > >>                           ms->smp.max_cpus);
+> > > >>              exit(1);
+> > > >>          }
+> > > >>
+> > > >>> Well if you think there are subtleties to support above implement=
+ation and
+> > > >>> we cannot do it now then sure it is your call. :)
+> > > Hi Salil, Drew,
+> > > >> The problem is that -smp 4,maxcpus=3D8 doesn't error out today, ev=
+en though
+> > > >> it doesn't do anything. OTOH, -smp 4,cores=3D2 doesn't error out e=
+ither, but
+> > > >> we're proposing that it should. Maybe we can start erroring out wh=
+en
+> > > >> cpus !=3D maxcpus until hot plug is supported?
+> > > > Agreed, both don't make any sense if hotplug is not supported and i=
+deally should
+> > > > fail with error. We should block any such topology configuration.
+> > > In the ARM-specific function virt_smp_parse() (patch 9), there alread=
+y
+> > > have been some restrictions for the given -smp configuration.
+> > > We now only allow:
+> > > -smp N
+> > > -smp maxcpus=3DM
+> > > -smp N, maxcpus=3DM
+> > >
+> > > -smp N, sockets=3DX, cores=3DY
+> > > -smp N, sockets=3DX, cores=3DY, threads=3DZ
+> > >
+> > > -smp maxcpus=3DM, sockets=3DX, cores=3DY
+> > > -smp maxcpus=3DM, sockets=3DX, cores=3DY, threads=3DZ
+> > >
+> > > -smp N, maxcpus=3DM, sockets=3DX, cores=3DY
+> > > -smp N, maxcpus=3DM, sockets=3DX, cores=3DY, threads=3DZ
+> > >
+> > > and disallow the other strange and rare formats that shouldn't be pro=
+vided.
+> > >
+> > > It's reasonable to block the topology configuration which is not usef=
+ul
+> > > currently. I will add the requirement for "cpus=3D=3Dmaxcpus" in this=
+ fuction
+> > > if the possible conflict with existing command lines is not a big pro=
+blem.
+> >
+> > Hi Yanan,
+> > Makes sense. I did see your other patch-set in which cluster support ha=
+s been
+> > added. Are we deferring that too?
+>=20
+> The merge of that needs to be deferred, but for a different reason. It
+> shouldn't impact hot plug, because if hot plug doesn't like clusters,
+> then one could configure a topology which doesn't have clusters. But,
+
+yes, agreed.
+
+> it can't be merged to QEMU until the kernel has merged its support.
+
+sure.
 
 
-On 5/18/2021 3:46 AM, Eduardo Habkost wrote:
-> +Stefan
-> 
-> I have a question about ratelimit_set_speed() below:
-> 
-> On Fri, Apr 30, 2021 at 06:33:05PM +0800, Chenyi Qiang wrote:
->> A bus lock is acquired through either split locked access to writeback
->> (WB) memory or any locked access to non-WB memory. It is typically >1000
->> cycles slower than an atomic operation within a cache and can also
->> disrupts performance on other cores.
->>
->> Virtual Machines can exploit bus locks to degrade the performance of
->> system. To address this kind of performance DOS attack coming from the
->> VMs, bus lock VM exit is introduced in KVM and it can report the bus
->> locks detected in guest. If enabled in KVM, it would exit to the
->> userspace to let the user enforce throttling policies once bus locks
->> acquired in VMs.
->>
->> The availability of bus lock VM exit can be detected through the
->> KVM_CAP_X86_BUS_LOCK_EXIT. The returned bitmap contains the potential
->> policies supported by KVM. The field KVM_BUS_LOCK_DETECTION_EXIT in
->> bitmap is the only supported strategy at present. It indicates that KVM
->> will exit to userspace to handle the bus locks.
->>
->> This patch adds a ratelimit on the bus locks acquired in guest as a
->> mitigation policy.
->>
->> Introduce a new field "bus_lock_ratelimit" to record the limited speed
->> of bus locks in the target VM. The user can specify it through the
->> "bus-lock-ratelimit" as a machine property. In current implementation,
->> the default value of the speed is 0 per second, which means no
->> restrictions on the bus locks
->>
->> As for ratelimit on detected bus locks, simply set the ratelimit
->> interval to 1s and restrict the quota of bus lock occurence to the value
->> of "bus_lock_ratelimit". A potential alternative is to introduce the
->> time slice as a property which can help the user achieve more precise
->> control.
->>
->> The detail of Bus lock VM exit can be found in spec:
->> https://software.intel.com/content/www/us/en/develop/download/intel-architecture-instruction-set-extensions-programming-reference.html
->>
->> Signed-off-by: Chenyi Qiang <chenyi.qiang@intel.com>
->>
->> ---
->> Changes from v2:
->>    - do some rename work (bus-lock-ratelimit and BUS_LOCK_TIME_SLICE).
->>      (Eduardo)
->>    - change to register a class property at the x86_machine_class_init()
->>      and write the gettter/setter for the bus_lock_ratelimit property.
->>      (Eduardo)
->>    - add the lock to access the Ratelimit instance to avoid vcpu thread
->>      race condition. (Eduardo)
->>    - v2: https://lore.kernel.org/qemu-devel/20210420093736.17613-1-chenyi.qiang@intel.com/
->>
->> Changes from RFC v1:
->>    - Remove the rip info output, as the rip can't reflect the bus lock
->>      position correctly. (Xiaoyao)
->>    - RFC v1: https://lore.kernel.org/qemu-devel/20210317084709.15605-1-chenyi.qiang@intel.com/
-> [...]
->> diff --git a/include/hw/i386/x86.h b/include/hw/i386/x86.h
->> index c09b648dff..49b130a649 100644
->> --- a/include/hw/i386/x86.h
->> +++ b/include/hw/i386/x86.h
->> @@ -74,12 +74,21 @@ struct X86MachineState {
->>        * will be translated to MSI messages in the address space.
->>        */
->>       AddressSpace *ioapic_as;
->> +
->> +    /*
->> +     * Ratelimit enforced on detected bus locks in guest.
->> +     * The default value of the bus_lock_ratelimit is 0 per second,
->> +     * which means no limitation on the guest's bus locks.
->> +     */
->> +    uint64_t bus_lock_ratelimit;
->> +    RateLimit bus_lock_ratelimit_ctrl;
->>   };
->>   
->>   #define X86_MACHINE_SMM              "smm"
->>   #define X86_MACHINE_ACPI             "acpi"
->>   #define X86_MACHINE_OEM_ID           "x-oem-id"
->>   #define X86_MACHINE_OEM_TABLE_ID     "x-oem-table-id"
->> +#define X86_MACHINE_BUS_LOCK_RATELIMIT  "bus-lock-ratelimit"
->>   
->>   #define TYPE_X86_MACHINE   MACHINE_TYPE_NAME("x86")
->>   OBJECT_DECLARE_TYPE(X86MachineState, X86MachineClass, X86_MACHINE)
->> diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
->> index 7fe9f52710..19b6c4a7e8 100644
->> --- a/target/i386/kvm/kvm.c
->> +++ b/target/i386/kvm/kvm.c
->> @@ -130,6 +130,9 @@ static bool has_msr_mcg_ext_ctl;
->>   static struct kvm_cpuid2 *cpuid_cache;
->>   static struct kvm_msr_list *kvm_feature_msrs;
->>   
->> +#define BUS_LOCK_SLICE_TIME 1000000000ULL /* ns */
->> +static QemuMutex bus_lock_ratelimit_lock;
->> +
->>   int kvm_has_pit_state2(void)
->>   {
->>       return has_pit_state2;
->> @@ -2267,6 +2270,28 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
->>           }
->>       }
->>   
->> +    if (object_dynamic_cast(OBJECT(ms), TYPE_X86_MACHINE)) {
->> +        X86MachineState *x86ms = X86_MACHINE(ms);
->> +
->> +        if (x86ms->bus_lock_ratelimit > 0) {
->> +            ret = kvm_check_extension(s, KVM_CAP_X86_BUS_LOCK_EXIT);
->> +            if (!(ret & KVM_BUS_LOCK_DETECTION_EXIT)) {
->> +                error_report("kvm: bus lock detection unsupported");
->> +                return -ENOTSUP;
->> +            }
->> +            ret = kvm_vm_enable_cap(s, KVM_CAP_X86_BUS_LOCK_EXIT, 0,
->> +                                    KVM_BUS_LOCK_DETECTION_EXIT);
->> +            if (ret < 0) {
->> +                error_report("kvm: Failed to enable bus lock detection cap: %s",
->> +                             strerror(-ret));
->> +                return ret;
->> +            }
->> +            qemu_mutex_init(&bus_lock_ratelimit_lock);
->> +            ratelimit_set_speed(&x86ms->bus_lock_ratelimit_ctrl, x86ms->bus_lock_ratelimit,
->> +                                BUS_LOCK_SLICE_TIME);
->> +        }
->> +    }
->> +
->>       return 0;
->>   }
->>   
->> @@ -4221,6 +4246,20 @@ void kvm_arch_pre_run(CPUState *cpu, struct kvm_run *run)
->>       }
->>   }
->>   
->> +static void kvm_rate_limit_on_bus_lock(void)
->> +{
->> +    MachineState *ms = MACHINE(qdev_get_machine());
-> 
-> qdev_get_machine() seems thread safe except for the first call,
-> but it's not documented as such.
-> 
-> Until it is documented as thread safe (which could take a while,
-> considering that there are ongoing attempts to clean it up), I
-> would avoid calling without the BQL, just in case.
-> 
 
-OK, I would add the BQL here.
-
->> +    X86MachineState *x86ms = X86_MACHINE(ms);
->> +
->> +    qemu_mutex_lock(&bus_lock_ratelimit_lock);
->> +    uint64_t delay_ns = ratelimit_calculate_delay(&x86ms->bus_lock_ratelimit_ctrl, 1);
->> +    qemu_mutex_unlock(&bus_lock_ratelimit_lock);
-> 
-> Stefan, ratelimit_calculate_delay() is supposed to be thread
-> safe, correct?
-> 
-> In that case, bus_lock_ratelimit_lock would be completely unnecessary.
-> 
-
-Will remove it.
-
-> I normally prefer to avoid static variables, but in this case a
-> 
->     static RateLimit bus_lock_ratelimit_ctrl;
-> 
-> variable could be the simplest solution here.
-> 
-
-Yes, static variable is simpler. will change it if acceptable.
-
-> 
->> +
->> +    if (delay_ns) {
->> +        g_usleep(delay_ns / SCALE_US);
->> +    }
->> +}
->> +
->>   MemTxAttrs kvm_arch_post_run(CPUState *cpu, struct kvm_run *run)
->>   {
->>       X86CPU *x86_cpu = X86_CPU(cpu);
->> @@ -4236,6 +4275,9 @@ MemTxAttrs kvm_arch_post_run(CPUState *cpu, struct kvm_run *run)
->>       } else {
->>           env->eflags &= ~IF_MASK;
->>       }
->> +    if (run->flags & KVM_RUN_X86_BUS_LOCK) {
->> +        kvm_rate_limit_on_bus_lock();
->> +    }
->>   
->>       /* We need to protect the apic state against concurrent accesses from
->>        * different threads in case the userspace irqchip is used. */
->> @@ -4594,6 +4636,10 @@ int kvm_arch_handle_exit(CPUState *cs, struct kvm_run *run)
->>           ioapic_eoi_broadcast(run->eoi.vector);
->>           ret = 0;
->>           break;
->> +    case KVM_EXIT_X86_BUS_LOCK:
->> +        /* already handled in kvm_arch_post_run */
->> +        ret = 0;
->> +        break;
->>       default:
->>           fprintf(stderr, "KVM: unknown exit reason %d\n", run->exit_reason);
->>           ret = -1;
->> -- 
->> 2.17.1
->>
-> 
 
