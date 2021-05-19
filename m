@@ -2,54 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B694C3883C4
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 02:29:29 +0200 (CEST)
-Received: from localhost ([::1]:56852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60BD13883C0
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 02:28:50 +0200 (CEST)
+Received: from localhost ([::1]:54800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljA5Y-000668-Q7
-	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 20:29:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58926)
+	id 1ljA4u-0004jF-TD
+	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 20:28:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58706)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vivek.kasireddy@intel.com>)
- id 1ljA3O-0003FZ-Sj
- for qemu-devel@nongnu.org; Tue, 18 May 2021 20:27:14 -0400
-Received: from mga09.intel.com ([134.134.136.24]:43019)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vivek.kasireddy@intel.com>)
- id 1ljA3I-0006XW-IV
- for qemu-devel@nongnu.org; Tue, 18 May 2021 20:27:14 -0400
-IronPort-SDR: Tb+3bcI9/dlp+CGt/HEAeoZKe8cmExY2VAYreX0Ym4OCFNZwrtjL2kWcGqbT3ZiCXbIHCmbdLa
- 7MwcAz8DMePg==
-X-IronPort-AV: E=McAfee;i="6200,9189,9988"; a="200902440"
-X-IronPort-AV: E=Sophos;i="5.82,310,1613462400"; d="scan'208";a="200902440"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 May 2021 17:26:41 -0700
-IronPort-SDR: kYCITjyv/xxNzbjyJEgp2WFschpieIqE6d17SDtVCBSp22VGm3fiOqMsWsgdrXqm6Mf9YXAeQ9
- seTG1EQ6uKrA==
-X-IronPort-AV: E=Sophos;i="5.82,310,1613462400"; d="scan'208";a="394177374"
-Received: from vkasired-desk2.fm.intel.com ([10.105.128.127])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 May 2021 17:26:41 -0700
-From: Vivek Kasireddy <vivek.kasireddy@intel.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v5 08/13] virtio-gpu: Add virtio_gpu_resource_create_blob
-Date: Tue, 18 May 2021 17:14:09 -0700
-Message-Id: <20210519001414.786439-9-vivek.kasireddy@intel.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210519001414.786439-1-vivek.kasireddy@intel.com>
-References: <20210519001414.786439-1-vivek.kasireddy@intel.com>
+ (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
+ id 1ljA2g-0002od-4j
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 20:26:30 -0400
+Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:43691)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
+ id 1ljA2e-0006DU-HG
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 20:26:29 -0400
+Received: by mail-ed1-x531.google.com with SMTP id s6so13239209edu.10
+ for <qemu-devel@nongnu.org>; Tue, 18 May 2021 17:26:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=zAQ08oYs89I4TbVNK6w+ekqo1eDIkQruE598GJs3z4A=;
+ b=rUtkGTsWEda6SGNea2nfrwdIRACdI+U+xEGLfDiH+QHdSOEANyQO17P4+DaxAjTssm
+ 2bin2Wi2e2I21FcZ+MXoM6TdVi/ozyQcAAU+yTI3Fe2YH2dM8nCwHtfybMfsFehre2dg
+ SQrcsEwXtrz6q7/+FUu5az8di4YPHrpF15mIcXSKVzFlZaWPmqaz2Df7mQKzSRiNR8CU
+ vOYz74MVP/wH6wPPMYtLChFPepFJsM1tNoSbapZre4ndKQKwhipqKrBqF6gBqSsxPFXV
+ /Q3qBi5QRIltFW0GAHbbZENU4HNChWeaBI9AiZCr+vTU+Cnzj4fr+eSGoUHJvfedIO8G
+ 37tw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=zAQ08oYs89I4TbVNK6w+ekqo1eDIkQruE598GJs3z4A=;
+ b=R+loGUmorrWY/+Lp9RA9cP4Y6/XrLnpvPtxIfQZ9uzrQgeKMoNXwAHNB7jvzyexq/U
+ 0WedVYnOYIyZIHshQ/X+HVeYMgql7uyctdWKZfVk4ZnM3PxdxWQpBKfy8G38tC0pC4cV
+ HppsuZ3VKQww8eGoUCuK+iR1PPrfok1fn271pRchcmlRpCi8ul9WdQ1WWMC0yVjXCjgv
+ a/wbwXRlES+twQdN2Fa7mOgXdArkvo2qX73R0CpOuoFXEyODKRjoG4s5v9g++9GKgJEQ
+ iDMQjhNRzw57VRL7FlFta3JAKXB/vjDUUXRf1eFGTH161vBRQTAd8CJIkdaazfD/tXGF
+ jvqA==
+X-Gm-Message-State: AOAM530UxAKuZiIKw7GV/UREvFyj+ye+rHI9+JwxbqTa3lvRNsHVVFZr
+ GTzex4DYmZXdI69ffBLq3XCWg2vK00ggBPzm8zE=
+X-Google-Smtp-Source: ABdhPJx5x2XCqu+z+p3xczM6PU1AS2msc/3rinz6dg3j9snXq5NzrhbJeYGq2io7qM+vcoCo3YfCdmmeulsYuUXPmEA=
+X-Received: by 2002:aa7:d801:: with SMTP id v1mr10122586edq.349.1621383984993; 
+ Tue, 18 May 2021 17:26:24 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=134.134.136.24;
- envelope-from=vivek.kasireddy@intel.com; helo=mga09.intel.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210517205259.13241-1-jcmvbkbc@gmail.com>
+ <28fe6216-b6e7-36f8-cbd7-97a880ab0a44@linaro.org>
+In-Reply-To: <28fe6216-b6e7-36f8-cbd7-97a880ab0a44@linaro.org>
+From: Max Filippov <jcmvbkbc@gmail.com>
+Date: Tue, 18 May 2021 17:26:13 -0700
+Message-ID: <CAMo8BfLpR6-i20NhL3Oz5L26zn_mXLTEprHxPrAKXmXfEcYvPg@mail.gmail.com>
+Subject: Re: [PATCH v3] target/xtensa: clean up unaligned access
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::531;
+ envelope-from=jcmvbkbc@gmail.com; helo=mail-ed1-x531.google.com
+X-Spam_score_int: 4
+X-Spam_score: 0.4
+X-Spam_bar: /
+X-Spam_report: (0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ FROM_LOCAL_NOVOWEL=0.5, HK_RANDOM_ENVFROM=0.999, HK_RANDOM_FROM=1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,175 +78,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vivek Kasireddy <vivek.kasireddy@intel.com>,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This API allows Qemu to register the blob allocated by the Guest
-as a new resource and map its backing storage.
+Hi Richard,
 
-Based-on-patch-by: Gerd Hoffmann <kraxel@redhat.com>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
-Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
----
- hw/display/trace-events              |  1 +
- hw/display/virtio-gpu.c              | 75 ++++++++++++++++++++++++++--
- include/hw/virtio/virtio-gpu-bswap.h |  9 ++++
- 3 files changed, 82 insertions(+), 3 deletions(-)
+On Tue, May 18, 2021 at 1:11 PM Richard Henderson
+<richard.henderson@linaro.org> wrote:
+> On 5/17/21 3:52 PM, Max Filippov wrote:
+> > @@ -1784,10 +1770,11 @@ static void translate_l32e(DisasContext *dc, const OpcodeArg arg[],
+> >                              const uint32_t par[])
+> >   {
+> >       TCGv_i32 addr = tcg_temp_new_i32();
+> > +    MemOp al;
+> >
+> >       tcg_gen_addi_i32(addr, arg[1].in, arg[2].imm);
+> > -    gen_load_store_alignment(dc, 2, addr, false);
+> > -    tcg_gen_qemu_ld_tl(arg[0].out, addr, dc->ring, MO_TEUL);
+> > +    al = gen_load_store_alignment(dc, 2, addr, false);
+> > +    tcg_gen_qemu_ld_tl(arg[0].out, addr, dc->ring, MO_TEUL | al);
+>
+> You're duplicating the information about the size of the alignment.
+>
+> I think it would be better to pass the partial MemOp into
+> get_load_store_alignment and return the complete MemOp.  E.g.:
 
-diff --git a/hw/display/trace-events b/hw/display/trace-events
-index 9fccca18a1..f3f77b6984 100644
---- a/hw/display/trace-events
-+++ b/hw/display/trace-events
-@@ -32,6 +32,7 @@ virtio_gpu_cmd_get_edid(uint32_t scanout) "scanout %d"
- virtio_gpu_cmd_set_scanout(uint32_t id, uint32_t res, uint32_t w, uint32_t h, uint32_t x, uint32_t y) "id %d, res 0x%x, w %d, h %d, x %d, y %d"
- virtio_gpu_cmd_res_create_2d(uint32_t res, uint32_t fmt, uint32_t w, uint32_t h) "res 0x%x, fmt 0x%x, w %d, h %d"
- virtio_gpu_cmd_res_create_3d(uint32_t res, uint32_t fmt, uint32_t w, uint32_t h, uint32_t d) "res 0x%x, fmt 0x%x, w %d, h %d, d %d"
-+virtio_gpu_cmd_res_create_blob(uint32_t res, uint64_t size) "res 0x%x, size %" PRId64
- virtio_gpu_cmd_res_unref(uint32_t res) "res 0x%x"
- virtio_gpu_cmd_res_back_attach(uint32_t res) "res 0x%x"
- virtio_gpu_cmd_res_back_detach(uint32_t res) "res 0x%x"
-diff --git a/hw/display/virtio-gpu.c b/hw/display/virtio-gpu.c
-index f77a7fc7dd..e35c59f74f 100644
---- a/hw/display/virtio-gpu.c
-+++ b/hw/display/virtio-gpu.c
-@@ -137,7 +137,7 @@ virtio_gpu_find_check_resource(VirtIOGPU *g, uint32_t resource_id,
-     }
- 
-     if (require_backing) {
--        if (!res->iov || !res->image) {
-+        if (!res->iov || (!res->image && !res->blob)) {
-             qemu_log_mask(LOG_GUEST_ERROR, "%s: no backing storage %d\n",
-                           caller, resource_id);
-             if (error) {
-@@ -313,6 +313,64 @@ static void virtio_gpu_resource_create_2d(VirtIOGPU *g,
-     g->hostmem += res->hostmem;
- }
- 
-+static void virtio_gpu_resource_create_blob(VirtIOGPU *g,
-+                                            struct virtio_gpu_ctrl_command *cmd)
-+{
-+    struct virtio_gpu_simple_resource *res;
-+    struct virtio_gpu_resource_create_blob cblob;
-+    int ret;
-+
-+    VIRTIO_GPU_FILL_CMD(cblob);
-+    virtio_gpu_create_blob_bswap(&cblob);
-+    trace_virtio_gpu_cmd_res_create_blob(cblob.resource_id, cblob.size);
-+
-+    if (cblob.resource_id == 0) {
-+        qemu_log_mask(LOG_GUEST_ERROR, "%s: resource id 0 is not allowed\n",
-+                      __func__);
-+        cmd->error = VIRTIO_GPU_RESP_ERR_INVALID_RESOURCE_ID;
-+        return;
-+    }
-+
-+    res = virtio_gpu_find_resource(g, cblob.resource_id);
-+    if (res) {
-+        qemu_log_mask(LOG_GUEST_ERROR, "%s: resource already exists %d\n",
-+                      __func__, cblob.resource_id);
-+        cmd->error = VIRTIO_GPU_RESP_ERR_INVALID_RESOURCE_ID;
-+        return;
-+    }
-+
-+    res = g_new0(struct virtio_gpu_simple_resource, 1);
-+    res->resource_id = cblob.resource_id;
-+    res->blob_size = cblob.size;
-+
-+    if (cblob.blob_mem != VIRTIO_GPU_BLOB_MEM_GUEST &&
-+        cblob.blob_flags != VIRTIO_GPU_BLOB_FLAG_USE_SHAREABLE) {
-+        qemu_log_mask(LOG_GUEST_ERROR, "%s: invalid memory type\n",
-+                      __func__);
-+        cmd->error = VIRTIO_GPU_RESP_ERR_INVALID_PARAMETER;
-+        g_free(res);
-+        return;
-+    }
-+
-+    if (res->iov) {
-+        cmd->error = VIRTIO_GPU_RESP_ERR_UNSPEC;
-+        return;
-+    }
-+
-+    ret = virtio_gpu_create_mapping_iov(g, cblob.nr_entries, sizeof(cblob),
-+                                        cmd, &res->addrs, &res->iov,
-+                                        &res->iov_cnt);
-+    if (ret != 0) {
-+        cmd->error = VIRTIO_GPU_RESP_ERR_UNSPEC;
-+        return;
-+    }
-+
-+    res->iov_cnt = cblob.nr_entries;
-+    virtio_gpu_init_udmabuf(res);
-+
-+    QTAILQ_INSERT_HEAD(&g->reslist, res, next);
-+}
-+
- static void virtio_gpu_disable_scanout(VirtIOGPU *g, int scanout_id)
- {
-     struct virtio_gpu_scanout *scanout = &g->parent_obj.scanout[scanout_id];
-@@ -390,7 +448,7 @@ static void virtio_gpu_transfer_to_host_2d(VirtIOGPU *g,
- 
-     res = virtio_gpu_find_check_resource(g, t2d.resource_id, true,
-                                          __func__, &cmd->error);
--    if (!res) {
-+    if (!res || res->blob) {
-         return;
-     }
- 
-@@ -446,7 +504,7 @@ static void virtio_gpu_resource_flush(VirtIOGPU *g,
- 
-     res = virtio_gpu_find_check_resource(g, rf.resource_id, false,
-                                          __func__, &cmd->error);
--    if (!res) {
-+    if (!res || res->blob) {
-         return;
-     }
- 
-@@ -715,6 +773,10 @@ static void virtio_gpu_cleanup_mapping(VirtIOGPU *g,
-     res->iov_cnt = 0;
-     g_free(res->addrs);
-     res->addrs = NULL;
-+
-+    if (res->blob) {
-+        virtio_gpu_fini_udmabuf(res);
-+    }
- }
- 
- static void
-@@ -785,6 +847,13 @@ void virtio_gpu_simple_process_cmd(VirtIOGPU *g,
-     case VIRTIO_GPU_CMD_RESOURCE_CREATE_2D:
-         virtio_gpu_resource_create_2d(g, cmd);
-         break;
-+    case VIRTIO_GPU_CMD_RESOURCE_CREATE_BLOB:
-+        if (!virtio_gpu_blob_enabled(g->parent_obj.conf)) {
-+            cmd->error = VIRTIO_GPU_RESP_ERR_INVALID_PARAMETER;
-+            break;
-+        }
-+        virtio_gpu_resource_create_blob(g, cmd);
-+        break;
-     case VIRTIO_GPU_CMD_RESOURCE_UNREF:
-         virtio_gpu_resource_unref(g, cmd);
-         break;
-diff --git a/include/hw/virtio/virtio-gpu-bswap.h b/include/hw/virtio/virtio-gpu-bswap.h
-index 203f9e1718..d23ac5cc4a 100644
---- a/include/hw/virtio/virtio-gpu-bswap.h
-+++ b/include/hw/virtio/virtio-gpu-bswap.h
-@@ -59,4 +59,13 @@ virtio_gpu_t2d_bswap(struct virtio_gpu_transfer_to_host_2d *t2d)
-     le32_to_cpus(&t2d->padding);
- }
- 
-+static inline void
-+virtio_gpu_create_blob_bswap(struct virtio_gpu_resource_create_blob *cblob)
-+{
-+    virtio_gpu_ctrl_hdr_bswap(&cblob->hdr);
-+    le32_to_cpus(&cblob->resource_id);
-+    le32_to_cpus(&cblob->blob_flags);
-+    le64_to_cpus(&cblob->size);
-+}
-+
- #endif
+That indeed looks better. Let me make another version of this patch.
+Thanks for taking a look!
+
 -- 
-2.30.2
-
+Thanks.
+-- Max
 
