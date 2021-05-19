@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6938A388EA4
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 15:09:33 +0200 (CEST)
-Received: from localhost ([::1]:45794 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E916388EA2
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 15:07:31 +0200 (CEST)
+Received: from localhost ([::1]:39590 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljLx6-0008H3-DY
-	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 09:09:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33280)
+	id 1ljLv8-00049c-OU
+	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 09:07:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33278)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1ljLgt-0000te-Fj; Wed, 19 May 2021 08:52:47 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:39709)
+ id 1ljLgt-0000tU-FN; Wed, 19 May 2021 08:52:47 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:58767 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1ljLgl-0001Fj-Rf; Wed, 19 May 2021 08:52:43 -0400
+ id 1ljLgl-0001FQ-QH; Wed, 19 May 2021 08:52:42 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4FlXnf1ksSz9t0Y; Wed, 19 May 2021 22:52:06 +1000 (AEST)
+ id 4FlXnf5xcbz9t0k; Wed, 19 May 2021 22:52:06 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1621428726;
- bh=1qq2Mawzr6KV3EhLLOeymzMmFvoWBKz70OCiWQZZgJ0=;
+ bh=NBMnjqZ/xpl6gB1P2IE3gJJo99S1X1o/Lz1YdkFZp+A=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=f/VeYfmPvDQP+bhePTQP2TP6BSG8oMAGjOCRLuaDe+XDwPqesMS5vtHZtZCVG1zCd
- b5A5l/jRsjzKpH5Z0puAryyinFyOdU1rq3f8GKPE5tQhgPhVQkyJOvdxJrf+e0QGXq
- EWstNIdDMAYnFvyggo2uouavUacXD8ceNb2JFkD4=
+ b=KOB2BU414rTSgKs191tewlUzz9ZzGVgojwc5LloQYtwT9NpqxUAVL3dAXsW3M1Ik2
+ u6BLGdKZY+mcIK2fJBtCF0kKyMqDy4RmKajY8EeJit5YNj9LnVR4Zu2JbRIjZXkrLd
+ gZiBq1aGn248dWH5uxkDoUhEOd2vphnuQP5nPGRw=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org,
 	groug@kaod.org
-Subject: [PULL 19/48] target/ppc: Remove special case for POWERPC_SYSCALL
-Date: Wed, 19 May 2021 22:51:19 +1000
-Message-Id: <20210519125148.27720-20-david@gibson.dropbear.id.au>
+Subject: [PULL 20/48] target/ppc: Remove special case for POWERPC_EXCP_TRAP
+Date: Wed, 19 May 2021 22:51:20 +1000
+Message-Id: <20210519125148.27720-21-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210519125148.27720-1-david@gibson.dropbear.id.au>
 References: <20210519125148.27720-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -6
 X-Spam_score: -0.7
@@ -67,30 +67,30 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Since POWERPC_SYSCALL is raised by gen_exception_err,
+Since POWERPC_EXCP_TRAP is raised by gen_exception_err,
 we will have also set DISAS_NORETURN.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Luis Pires <luis.pires@eldorado.org.br>
 Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
-Message-Id: <20210512185441.3619828-5-matheus.ferst@eldorado.org.br>
+Message-Id: <20210512185441.3619828-6-matheus.ferst@eldorado.org.br>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
  target/ppc/translate.c | 1 -
  1 file changed, 1 deletion(-)
 
 diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-index ac0c0e5b2c..18f581e495 100644
+index 18f581e495..9626bea9d5 100644
 --- a/target/ppc/translate.c
 +++ b/target/ppc/translate.c
 @@ -9225,7 +9225,6 @@ static void ppc_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
      /* Check trace mode exceptions */
      if (unlikely(ctx->singlestep_enabled & CPU_SINGLE_STEP &&
                   (ctx->base.pc_next <= 0x100 || ctx->base.pc_next > 0xF00) &&
--                 ctx->exception != POWERPC_SYSCALL &&
-                  ctx->exception != POWERPC_EXCP_TRAP &&
+-                 ctx->exception != POWERPC_EXCP_TRAP &&
                   ctx->exception != POWERPC_EXCP_BRANCH &&
                   ctx->base.is_jmp != DISAS_NORETURN)) {
+         uint32_t excp = gen_prep_dbgex(ctx);
 -- 
 2.31.1
 
