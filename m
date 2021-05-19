@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 988B2389665
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 21:18:01 +0200 (CEST)
-Received: from localhost ([::1]:36424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76C3538968B
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 21:22:17 +0200 (CEST)
+Received: from localhost ([::1]:45048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljRhg-0000g2-Ie
-	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 15:18:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55282)
+	id 1ljRlo-0006eq-EI
+	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 15:22:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55294)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ljR75-00062V-I9
- for qemu-devel@nongnu.org; Wed, 19 May 2021 14:40:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54452)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ljR77-00062j-Ke
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 14:40:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32050)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ljR6x-00021M-QJ
- for qemu-devel@nongnu.org; Wed, 19 May 2021 14:40:11 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ljR6z-00021w-Of
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 14:40:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621449603;
+ s=mimecast20190719; t=1621449604;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Cv0ANjeTyt53VFYW0L9D5b7rB0+9bbslIVfOzPEcSuo=;
- b=X2taRPQCtiv/oiP5etIdW6rXCim4ybIMobO6g/APIM5EouNMfw4856D5c6r7qWWEjNs6sW
- AbXAWkpUtGTF31SoMKzY0hBk29PjeaBtDG7dS1NrvD0+lIgMUM3qsNRIfJbjoznyADTphx
- oehq9VJIuDK1BLpxWvsuXP2dvquj5VQ=
+ bh=jVjMKiP7V5w3KL4bbzxvXjiaw3A5l5JPcZh2NCkf92s=;
+ b=fKlTqGHp+rXgKRN6RqpZuJtskg1QhDtL5AX/y/PNRL7vj+YM+elbs7NJEh+Vy+c506MYK6
+ x89etroY1S4iU/6o7RFaCuZE/ULkrOquhZmh7uzFFim8Aeq/tXFJKOvM8wToaBRkhpQ8fq
+ q9H56S2GGkW1+7jEuzV66uZvQd9AuKo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-131-D6yMNMGkOmWJWnye3VKeLA-1; Wed, 19 May 2021 14:40:01 -0400
-X-MC-Unique: D6yMNMGkOmWJWnye3VKeLA-1
+ us-mta-48-YNIOhCC-NdK3FoIEzTtf-w-1; Wed, 19 May 2021 14:40:03 -0400
+X-MC-Unique: YNIOhCC-NdK3FoIEzTtf-w-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4BAEE100747A;
- Wed, 19 May 2021 18:40:00 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 76FFA501ED;
+ Wed, 19 May 2021 18:40:02 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-117-64.rdu2.redhat.com [10.10.117.64])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8F85C5944C;
- Wed, 19 May 2021 18:39:59 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5BE31690FB;
+ Wed, 19 May 2021 18:40:01 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 07/15] qapi/parser: assert object keys are strings
-Date: Wed, 19 May 2021 14:39:43 -0400
-Message-Id: <20210519183951.3946870-8-jsnow@redhat.com>
+Subject: [PATCH v3 09/15] qapi: add must_match helper
+Date: Wed, 19 May 2021 14:39:45 -0400
+Message-Id: <20210519183951.3946870-10-jsnow@redhat.com>
 In-Reply-To: <20210519183951.3946870-1-jsnow@redhat.com>
 References: <20210519183951.3946870-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -55,7 +55,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -82,27 +82,127 @@ Cc: Michael Roth <michael.roth@amd.com>, Cleber Rosa <crosa@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The single quote token implies the value is a string. Assert this to be
-the case, to allow us to write an accurate return type for get_members.
+Mypy cannot generally understand that these regex functions cannot
+possibly fail. Add a "must_match" helper that makes this clear for
+mypy.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qapi/parser.py | 2 ++
- 1 file changed, 2 insertions(+)
+ scripts/qapi/common.py |  8 +++++++-
+ scripts/qapi/main.py   |  6 ++----
+ scripts/qapi/parser.py | 13 +++++++------
+ 3 files changed, 16 insertions(+), 11 deletions(-)
 
+diff --git a/scripts/qapi/common.py b/scripts/qapi/common.py
+index cbd3fd81d36..6ad1eeb61d4 100644
+--- a/scripts/qapi/common.py
++++ b/scripts/qapi/common.py
+@@ -12,7 +12,7 @@
+ # See the COPYING file in the top-level directory.
+ 
+ import re
+-from typing import Optional, Sequence
++from typing import Match, Optional, Sequence
+ 
+ 
+ #: Magic string that gets removed along with all space to its right.
+@@ -210,3 +210,9 @@ def gen_endif(ifcond: Sequence[str]) -> str:
+ #endif /* %(cond)s */
+ ''', cond=ifc)
+     return ret
++
++
++def must_match(pattern: str, string: str) -> Match[str]:
++    match = re.match(pattern, string)
++    assert match is not None
++    return match
+diff --git a/scripts/qapi/main.py b/scripts/qapi/main.py
+index 703e7ed1ed5..f2ea6e0ce4a 100644
+--- a/scripts/qapi/main.py
++++ b/scripts/qapi/main.py
+@@ -8,11 +8,11 @@
+ """
+ 
+ import argparse
+-import re
+ import sys
+ from typing import Optional
+ 
+ from .commands import gen_commands
++from .common import must_match
+ from .error import QAPIError
+ from .events import gen_events
+ from .introspect import gen_introspect
+@@ -22,9 +22,7 @@
+ 
+ 
+ def invalid_prefix_char(prefix: str) -> Optional[str]:
+-    match = re.match(r'([A-Za-z_.-][A-Za-z0-9_.-]*)?', prefix)
+-    # match cannot be None, but mypy cannot infer that.
+-    assert match is not None
++    match = must_match(r'([A-Za-z_.-][A-Za-z0-9_.-]*)?', prefix)
+     if match.end() != len(prefix):
+         return prefix[match.end()]
+     return None
 diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
-index ffdd4298b6b..4959630ce64 100644
+index 7c718661950..48137d3fbec 100644
 --- a/scripts/qapi/parser.py
 +++ b/scripts/qapi/parser.py
-@@ -249,6 +249,8 @@ def get_members(self):
-             raise QAPIParseError(self, "expected string or '}'")
-         while True:
-             key = self.val
-+            assert isinstance(key, str)  # Guaranteed by tok == "'"
-+
-             self.accept()
-             if self.tok != ':':
-                 raise QAPIParseError(self, "expected ':'")
+@@ -18,6 +18,7 @@
+ import os
+ import re
+ 
++from .common import must_match
+ from .error import QAPISemError, QAPISourceError
+ from .source import QAPISourceInfo
+ 
+@@ -238,8 +239,8 @@ def accept(self, skip_comment=True):
+             elif not self.tok.isspace():
+                 # Show up to next structural, whitespace or quote
+                 # character
+-                match = re.match('[^[\\]{}:,\\s\'"]+',
+-                                 self.src[self.cursor-1:])
++                match = must_match('[^[\\]{}:,\\s\'"]+',
++                                   self.src[self.cursor-1:])
+                 raise QAPIParseError(self, "stray '%s'" % match.group(0))
+ 
+     def get_members(self):
+@@ -369,7 +370,7 @@ def append(self, line):
+             # Strip leading spaces corresponding to the expected indent level
+             # Blank lines are always OK.
+             if line:
+-                indent = re.match(r'\s*', line).end()
++                indent = must_match(r'\s*', line).end()
+                 if indent < self._indent:
+                     raise QAPIParseError(
+                         self._parser,
+@@ -505,7 +506,7 @@ def _append_args_line(self, line):
+             # from line and replace it with spaces so that 'f' has the
+             # same index as it did in the original line and can be
+             # handled the same way we will handle following lines.
+-            indent = re.match(r'@\S*:\s*', line).end()
++            indent = must_match(r'@\S*:\s*', line).end()
+             line = line[indent:]
+             if not line:
+                 # Line was just the "@arg:" header; following lines
+@@ -540,7 +541,7 @@ def _append_features_line(self, line):
+             # from line and replace it with spaces so that 'f' has the
+             # same index as it did in the original line and can be
+             # handled the same way we will handle following lines.
+-            indent = re.match(r'@\S*:\s*', line).end()
++            indent = must_match(r'@\S*:\s*', line).end()
+             line = line[indent:]
+             if not line:
+                 # Line was just the "@arg:" header; following lines
+@@ -586,7 +587,7 @@ def _append_various_line(self, line):
+             # from line and replace it with spaces so that 'f' has the
+             # same index as it did in the original line and can be
+             # handled the same way we will handle following lines.
+-            indent = re.match(r'\S*:\s*', line).end()
++            indent = must_match(r'\S*:\s*', line).end()
+             line = line[indent:]
+             if not line:
+                 # Line was just the "Section:" header; following lines
 -- 
 2.30.2
 
