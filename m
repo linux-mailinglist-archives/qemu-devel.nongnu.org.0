@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E94B388B68
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 12:12:50 +0200 (CEST)
-Received: from localhost ([::1]:38456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16134388B91
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 12:20:18 +0200 (CEST)
+Received: from localhost ([::1]:49970 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljJC5-0005b0-Hk
-	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 06:12:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50062)
+	id 1ljJJJ-0005RE-5b
+	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 06:20:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50084)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1ljJ7j-0002bn-HD
- for qemu-devel@nongnu.org; Wed, 19 May 2021 06:08:19 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:37254
+ id 1ljJ7k-0002dV-4C
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 06:08:20 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:37260
  helo=mail.default.ilande.bv.iomart.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1ljJ7g-0003Hc-Mo
+ id 1ljJ7h-0003Hu-5Z
  for qemu-devel@nongnu.org; Wed, 19 May 2021 06:08:19 -0400
 Received: from host217-39-58-213.range217-39.btcentralplus.com
  ([217.39.58.213] helo=kentang.home)
  by mail.default.ilande.bv.iomart.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1ljJ7e-0001Gv-E6; Wed, 19 May 2021 11:08:14 +0100
+ id 1ljJ7e-0001Gv-Td; Wed, 19 May 2021 11:08:15 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: qemu-devel@nongnu.org, pbonzini@redhat.com, fam@euphon.net,
  laurent@vivier.eu, hpoussin@reactos.org
-Date: Wed, 19 May 2021 11:08:01 +0100
-Message-Id: <20210519100803.10293-4-mark.cave-ayland@ilande.co.uk>
+Date: Wed, 19 May 2021 11:08:02 +0100
+Message-Id: <20210519100803.10293-5-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210519100803.10293-1-mark.cave-ayland@ilande.co.uk>
 References: <20210519100803.10293-1-mark.cave-ayland@ilande.co.uk>
@@ -38,8 +38,8 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 217.39.58.213
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH 3/5] esp: ensure PDMA write transfers are flushed from the
- FIFO to the target immediately
+Subject: [PATCH 4/5] esp: revert 75ef849696 "esp: correctly fill bus id with
+ requested lun"
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -65,94 +65,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-After each PDMA write transfer the MacOS CDROM driver waits until the FIFO is empty
-(i.e. its contents have been written out to the SCSI bus) by polling the FIFO count
-register until it reads 0. This doesn't work with the current PDMA write
-implementation which waits until either the FIFO is full or the transfer is complete
-before invoking the PDMA callback to process the FIFO contents.
+This commit from nearly 10 years ago no longer appears to be required and in its
+current form prevents the MacOS CDROM driver from detecting the CDROM drive. The
+error is caused by the MacOS CDROM driver sending this CDB without DMA:
 
-Change the PDMA write transfer logic so that the PDMA callback is invoked after each
-PDMA write to transfer the FIFO contents to the target buffer immediately, and hence
-avoid getting stuck in the FIFO count register polling loop.
+    0x12 0x00 0x00 0x00 0x05 0x00 (INQUIRY)
+
+This is a valid INQUIRY command, however with this logic present the 3rd byte
+(0x0) is copied over the 1st byte (0x12) which silently converts the INQUIRY
+command to a TEST UNIT READY command before passing it to the QEMU SCSI layer.
+Since the TEST UNIT READY command has a zero length response the MacOS CDROM
+driver never receives a response and assumes the CDROM is not present.
+
+Resolve the issue by reverting the original commit which I'm fairly sure is now
+obsolete so that the original MacOS CDB is passed unaltered to the QEMU SCSI
+layer.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
- hw/scsi/esp.c | 25 +++++++++++--------------
- 1 file changed, 11 insertions(+), 14 deletions(-)
+ hw/scsi/esp.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
 diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
-index f2fd4e443a..afb4a7f9f1 100644
+index afb4a7f9f1..a6f7c6c1bf 100644
 --- a/hw/scsi/esp.c
 +++ b/hw/scsi/esp.c
-@@ -338,9 +338,9 @@ static void do_cmd(ESPState *s)
- 
- static void satn_pdma_cb(ESPState *s)
- {
--    s->do_cmd = 0;
--    if (!fifo8_is_empty(&s->cmdfifo)) {
-+    if (!esp_get_tc(s) && !fifo8_is_empty(&s->cmdfifo)) {
-         s->cmdfifo_cdb_offset = 1;
-+        s->do_cmd = 0;
-         do_cmd(s);
+@@ -260,9 +260,6 @@ static uint32_t get_cmd(ESPState *s, uint32_t maxlen)
+             return 0;
+         }
+         n = esp_fifo_pop_buf(&s->fifo, buf, dmalen);
+-        if (n >= 3) {
+-            buf[0] = buf[2] >> 5;
+-        }
+         n = MIN(fifo8_num_free(&s->cmdfifo), n);
+         fifo8_push_all(&s->cmdfifo, buf, n);
      }
- }
-@@ -369,12 +369,9 @@ static void handle_satn(ESPState *s)
- 
- static void s_without_satn_pdma_cb(ESPState *s)
- {
--    uint32_t len;
--
--    s->do_cmd = 0;
--    len = fifo8_num_used(&s->cmdfifo);
--    if (len) {
-+    if (!esp_get_tc(s) && !fifo8_is_empty(&s->cmdfifo)) {
-         s->cmdfifo_cdb_offset = 0;
-+        s->do_cmd = 0;
-         do_busid_cmd(s, 0);
-     }
- }
-@@ -403,8 +400,7 @@ static void handle_s_without_atn(ESPState *s)
- 
- static void satn_stop_pdma_cb(ESPState *s)
- {
--    s->do_cmd = 0;
--    if (!fifo8_is_empty(&s->cmdfifo)) {
-+    if (!esp_get_tc(s) && !fifo8_is_empty(&s->cmdfifo)) {
-         trace_esp_handle_satn_stop(fifo8_num_used(&s->cmdfifo));
-         s->do_cmd = 1;
-         s->cmdfifo_cdb_offset = 1;
-@@ -494,6 +490,11 @@ static void do_dma_pdma_cb(ESPState *s)
-     uint32_t n;
- 
-     if (s->do_cmd) {
-+        /* Ensure we have received complete command after SATN and stop */
-+        if (esp_get_tc(s) || fifo8_is_empty(&s->cmdfifo)) {
-+            return;
-+        }
-+
-         s->ti_size = 0;
-         s->do_cmd = 0;
-         do_cmd(s);
-@@ -1213,7 +1214,6 @@ static void sysbus_esp_pdma_write(void *opaque, hwaddr addr,
- {
-     SysBusESPState *sysbus = opaque;
-     ESPState *s = ESP(&sysbus->esp);
--    uint32_t dmalen;
- 
-     trace_esp_pdma_write(size);
- 
-@@ -1226,10 +1226,7 @@ static void sysbus_esp_pdma_write(void *opaque, hwaddr addr,
-         esp_pdma_write(s, val);
-         break;
-     }
--    dmalen = esp_get_tc(s);
--    if (dmalen == 0 || fifo8_num_free(&s->fifo) < 2) {
--        s->pdma_cb(s);
--    }
-+    s->pdma_cb(s);
- }
- 
- static uint64_t sysbus_esp_pdma_read(void *opaque, hwaddr addr,
 -- 
 2.20.1
 
