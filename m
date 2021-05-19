@@ -2,56 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34A14389631
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 21:09:06 +0200 (CEST)
-Received: from localhost ([::1]:36154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C851389661
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 21:16:06 +0200 (CEST)
+Received: from localhost ([::1]:56250 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljRZ3-00064d-4v
-	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 15:09:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55212)
+	id 1ljRfj-0003Ff-AA
+	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 15:15:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55270)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ljR70-0005xi-UB
- for qemu-devel@nongnu.org; Wed, 19 May 2021 14:40:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30528)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ljR73-00061u-NY
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 14:40:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34283)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ljR6v-0001yU-N3
- for qemu-devel@nongnu.org; Wed, 19 May 2021 14:40:05 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ljR6w-0001z9-2w
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 14:40:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621449596;
+ s=mimecast20190719; t=1621449597;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=iytE/MlQel0mp/XMfjvd2LdYiRbMp+i9XC/oId+AuG0=;
- b=ZYbiKG6DoGenlOq5B7bQWyUbiK4lQPB6P5sw/T9L/EsT/8xxRBWvEfKXP+ihudSXxgTG0L
- ikQRs822FOrfUKZtc2hWjgpRl8ocIfEQNDMVGLo/F87rzfv8l/HUtBUlomRa6/a2hHnHFJ
- Mx+pLykx1GX9mnn2E3gf6Sf1btVErHA=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Cfw1pJJnQNieEEbqPWCtUB8RGpx680d1YC/REGKv2AE=;
+ b=N1mzkaVNKcrmfWxm2K5T1LW4b3brkZTDy/rl4QEM3M0S1aT8gJNcJqD7Vos3MO7/Vptv1e
+ PEp8O+XS1kJtkJHv1u2+zk1oMxwlt23LhY9ZqMYfu0irqxYGiVrNCMBRAe+7bVVZtsdlI1
+ qfHt3qXmokauTJuaYgB7XRxXbpVXg7Q=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-303-_TGNL7FONLO3TvposawdGA-1; Wed, 19 May 2021 14:39:54 -0400
-X-MC-Unique: _TGNL7FONLO3TvposawdGA-1
+ us-mta-489-t7DRotyuPOykSZ8fmWvw4g-1; Wed, 19 May 2021 14:39:55 -0400
+X-MC-Unique: t7DRotyuPOykSZ8fmWvw4g-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7F011800D55;
- Wed, 19 May 2021 18:39:53 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 64C5C501F4;
+ Wed, 19 May 2021 18:39:54 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-117-64.rdu2.redhat.com [10.10.117.64])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 771F860BD9;
- Wed, 19 May 2021 18:39:52 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A7CD95944C;
+ Wed, 19 May 2021 18:39:53 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 00/15] qapi: static typing conversion, pt5a
-Date: Wed, 19 May 2021 14:39:36 -0400
-Message-Id: <20210519183951.3946870-1-jsnow@redhat.com>
+Subject: [PATCH v3 01/15] qapi/parser: Don't try to handle file errors
+Date: Wed, 19 May 2021 14:39:37 -0400
+Message-Id: <20210519183951.3946870-2-jsnow@redhat.com>
+In-Reply-To: <20210519183951.3946870-1-jsnow@redhat.com>
+References: <20210519183951.3946870-1-jsnow@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
@@ -79,138 +82,209 @@ Cc: Michael Roth <michael.roth@amd.com>, Cleber Rosa <crosa@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is part five (a), and focuses on QAPISchemaParser in parser.py.=0D
-It does not touch QAPIDoc yet, which will be covered next.=0D
-=0D
-gitlab: https://gitlab.com/jsnow/qemu/-/commits/python-qapi-cleanup-pt5a=0D
-=0D
-Requirements:=0D
-- Python 3.6+=0D
-- mypy >=3D 0.770=0D
-- pylint >=3D 2.6.0 (2.7.0+ when using Python 3.9+)=0D
-=0D
-Every commit should pass with:=0D
- - `isort -c qapi/`=0D
- - `flake8 qapi/`=0D
- - `pylint --rcfile=3Dqapi/pylintrc qapi/`=0D
- - `mypy --config-file=3Dqapi/mypy.ini qapi/`=0D
-=0D
-V3:=0D
-=0D
-001: Commit message changed=0D
-004: Commit message changed=0D
-005/15:[0002] [FC] 'qapi/parser: Assert lexer value is a string'=0D
-        - Remove comment=0D
-015/15:[0019] [FC] 'qapi/parser: add docstrings'=0D
-        - Futz with docstrings based on review from armbru=0D
-=0D
-V2:=0D
-=0D
-001/21:[0024] [FC] 'qapi/parser: Don't try to handle file errors'=0D
-002/21:[down] 'qapi: Add test for nonexistent schema file'=0D
-003/21:[0008] [FC] 'qapi/source: Remove line number from QAPISourceInfo ini=
-tializer'=0D
-004/21:[0003] [FC] 'qapi/parser: factor parsing routine into method'=0D
-005/21:[0002] [FC] 'qapi/parser: Assert lexer value is a string'=0D
-006/21:[down] 'qapi/parser: enforce all top-level expressions must be dict =
-in _parse()'=0D
-007/21:[----] [--] 'qapi/parser: assert object keys are strings'=0D
-008/21:[----] [--] 'qapi/parser: Use @staticmethod where appropriate'=0D
-009/21:[down] 'qapi: add must_match helper'=0D
-010/21:[down] 'qapi/parser: Fix token membership tests when token can be No=
-ne'=0D
-011/21:[0012] [FC] 'qapi/parser: Rework _check_pragma_list_of_str as a Type=
-Guard'=0D
-012/21:[0019] [FC] 'qapi/parser: add type hint annotations'=0D
-013/21:[down] 'qapi/parser: Remove superfluous list comprehension'=0D
-014/21:[----] [--] 'qapi/parser: allow 'ch' variable name'=0D
-015/21:[0080] [FC] 'qapi/parser: add docstrings'=0D
-=0D
-01:=0D
-  - Futzed with the commit message a lot.=0D
-  - Added new try/except to QAPISchema() instead of main().=0D
-  - Adjusted "let caller handle this error" comment=0D
-  - Adjusted test-qapi not to crash.=0D
-02:=0D
-  - New, add test for nonexistant root schema file.=0D
-03:=0D
-  - Commit message changes.=0D
-  - Rebase changes, removed _column RFC patch that preceded it.=0D
-04:=0D
-  - Commit message changes.=0D
-  - Minor rebase changes (from changed comment in 01)=0D
-05:=0D
-  - Remove assert message, replace w/ comment=0D
-06:=0D
-  - Replaces 'qapi/parser: assert get_expr returns object in outer loop'=0D
-09:=0D
-  - Renamed match_nofail() to must_match()=0D
-10:=0D
-  - Use tuple() for token membership tests=0D
-  - Add test cases to prevent regressions=0D
-11:=0D
-  - _check =3D> _check_list_str=0D
-  - info.pragma =3D> pragma=0D
-12:=0D
-  - Remove 'Expression' type entirely for now=0D
-  - Highlight self.tok as actively taking None type with Union[str, None]=
-=0D
-  - Minor rebase confetti.=0D
-13:=0D
-  - Renamed commit message.=0D
-15:=0D
-  - Reworked.=0D
-  - Note that 'pos' is indeed interface as it is used by the error handlers=
-.=0D
-=0D
-John Snow (15):=0D
-  qapi/parser: Don't try to handle file errors=0D
-  qapi: Add test for nonexistent schema file=0D
-  qapi/source: Remove line number from QAPISourceInfo initializer=0D
-  qapi/parser: factor parsing routine into method=0D
-  qapi/parser: Assert lexer value is a string=0D
-  qapi/parser: enforce all top-level expressions must be dict in=0D
-    _parse()=0D
-  qapi/parser: assert object keys are strings=0D
-  qapi/parser: Use @staticmethod where appropriate=0D
-  qapi: add must_match helper=0D
-  qapi/parser: Fix token membership tests when token can be None=0D
-  qapi/parser: Rework _check_pragma_list_of_str as a TypeGuard=0D
-  qapi/parser: add type hint annotations=0D
-  qapi/parser: Remove superfluous list comprehension=0D
-  qapi/parser: allow 'ch' variable name=0D
-  qapi/parser: add docstrings=0D
-=0D
- scripts/qapi/common.py                        |   8 +-=0D
- scripts/qapi/main.py                          |   6 +-=0D
- scripts/qapi/parser.py                        | 230 +++++++++++++-----=0D
- scripts/qapi/pylintrc                         |   1 +=0D
- scripts/qapi/schema.py                        |  11 +-=0D
- scripts/qapi/source.py                        |  13 +-=0D
- tests/qapi-schema/meson.build                 |   9 +-=0D
- tests/qapi-schema/missing-array-rsqb.err      |   1 +=0D
- tests/qapi-schema/missing-array-rsqb.json     |   1 +=0D
- tests/qapi-schema/missing-array-rsqb.out      |   0=0D
- .../missing-object-member-element.err         |   1 +=0D
- .../missing-object-member-element.json        |   1 +=0D
- .../missing-object-member-element.out         |   0=0D
- tests/qapi-schema/missing-schema.err          |   1 +=0D
- tests/qapi-schema/missing-schema.out          |   0=0D
- tests/qapi-schema/non-objects.err             |   2 +-=0D
- tests/qapi-schema/quoted-structural-chars.err |   2 +-=0D
- tests/qapi-schema/test-qapi.py                |   3 -=0D
- 18 files changed, 209 insertions(+), 81 deletions(-)=0D
- create mode 100644 tests/qapi-schema/missing-array-rsqb.err=0D
- create mode 100644 tests/qapi-schema/missing-array-rsqb.json=0D
- create mode 100644 tests/qapi-schema/missing-array-rsqb.out=0D
- create mode 100644 tests/qapi-schema/missing-object-member-element.err=0D
- create mode 100644 tests/qapi-schema/missing-object-member-element.json=0D
- create mode 100644 tests/qapi-schema/missing-object-member-element.out=0D
- create mode 100644 tests/qapi-schema/missing-schema.err=0D
- create mode 100644 tests/qapi-schema/missing-schema.out=0D
-=0D
---=20=0D
-2.30.2=0D
-=0D
+Fixes: f5d4361cda
+Fixes: 52a474180a
+Fixes: 46f49468c6
+
+Remove the try/except block that handles file-opening errors in
+QAPISchemaParser.__init__() and add one each to
+QAPISchemaParser._include() and QAPISchema.__init__() respectively.
+
+This simultaneously fixes the typing of info.fname (f5d4361cda), A
+static typing violation in test-qapi (46f49468c6), and a regression of
+an error message (52a474180a).
+
+
+The short-ish version of what motivates this patch is:
+
+- It's hard to write a good error message in the init method,
+  because we need to determine the context of our caller to do so.
+  It's easier to just let the caller write the message.
+- We don't want to allow QAPISourceInfo(None, None, None) to exist. The
+  typing introduced by commit f5d4361cda types the 'fname' field as
+  (non-optional) str, which was premature until the removal of this
+  construct.
+- Errors made using such an object are currently incorrect (since
+  52a474180a)
+- It's not technically a semantic error if we cannot open the schema.
+- There are various typing constraints that make mixing these two cases
+  undesirable for a single special case.
+- test-qapi's code handling an fname of 'None' is now dead, drop it.
+  Additionally, Not all QAPIError objects have an 'info' field (since
+  46f49468), so deleting this stanza corrects a typing oversight in
+  test-qapi introduced by that commit.
+
+
+Other considerations:
+
+- open() is moved to a 'with' block to ensure file pointers are
+  cleaned up deterministically.
+- Python 3.3 deprecated IOError and made it a synonym for OSError.
+  Avoid the misleading perception these exception handlers are
+  narrower than they really are.
+
+
+The long version:
+
+The error message here is incorrect (since commit 52a474180a):
+
+> python3 qapi-gen.py 'fake.json'
+qapi-gen.py: qapi-gen.py: can't read schema file 'fake.json': No such file or directory
+
+In pursuing it, we find that QAPISourceInfo has a special accommodation
+for when there's no filename. Meanwhile, the intent when QAPISourceInfo
+was typed (f5d4361cda) was non-optional 'str'. This usage was
+overlooked.
+
+To remove this, I'd want to avoid having a "fake" QAPISourceInfo
+object. I also don't want to explicitly begin accommodating
+QAPISourceInfo itself being None, because we actually want to eventually
+prove that this can never happen -- We don't want to confuse "The file
+isn't open yet" with "This error stems from a definition that wasn't
+defined in any file".
+
+(An earlier series tried to create a dummy info object, but it was tough
+to prove in review that it worked correctly without creating new
+regressions. This patch avoids that distraction. We would like to first
+prove that we never raise QAPISemError for any built-in object before we
+add "special" info objects. We aren't ready to do that yet.)
+
+So, which way out of the labyrinth?
+
+Here's one way: Don't try to handle errors at a level with "mixed"
+semantic contexts; i.e. don't mix inclusion errors (should report a
+source line where the include was triggered) and command line errors
+(where we specified a file we couldn't read).
+
+Remove the error handling from the initializer of the parser. Pythonic!
+Now it's the caller's job to figure out what to do about it. Handle the
+error in QAPISchemaParser._include() instead, where we can write a
+targeted error message where we are guaranteed to have an 'info' context
+to report with.
+
+The root level error can similarly move to QAPISchema.__init__(), where
+we know we'll never have an info context to report with, so we use a
+more abstract error type.
+
+Now the error looks sensible again:
+
+> python3 qapi-gen.py 'fake.json'
+qapi-gen.py: can't read schema file 'fake.json': No such file or directory
+
+With these error cases separated, QAPISourceInfo can be solidified as
+never having placeholder arguments that violate our desired types. Clean
+up test-qapi along similar lines.
+
+Signed-off-by: John Snow <jsnow@redhat.com>
+---
+ scripts/qapi/parser.py         | 18 +++++++++---------
+ scripts/qapi/schema.py         | 11 +++++++++--
+ scripts/qapi/source.py         |  3 ---
+ tests/qapi-schema/test-qapi.py |  3 ---
+ 4 files changed, 18 insertions(+), 17 deletions(-)
+
+diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
+index ca5e8e18e00..a53b735e7de 100644
+--- a/scripts/qapi/parser.py
++++ b/scripts/qapi/parser.py
+@@ -40,15 +40,9 @@ def __init__(self, fname, previously_included=None, incl_info=None):
+         previously_included = previously_included or set()
+         previously_included.add(os.path.abspath(fname))
+ 
+-        try:
+-            fp = open(fname, 'r', encoding='utf-8')
++        # May raise OSError; allow the caller to handle it.
++        with open(fname, 'r', encoding='utf-8') as fp:
+             self.src = fp.read()
+-        except IOError as e:
+-            raise QAPISemError(incl_info or QAPISourceInfo(None, None, None),
+-                               "can't read %s file '%s': %s"
+-                               % ("include" if incl_info else "schema",
+-                                  fname,
+-                                  e.strerror))
+ 
+         if self.src == '' or self.src[-1] != '\n':
+             self.src += '\n'
+@@ -129,7 +123,13 @@ def _include(self, include, info, incl_fname, previously_included):
+         if incl_abs_fname in previously_included:
+             return None
+ 
+-        return QAPISchemaParser(incl_fname, previously_included, info)
++        try:
++            return QAPISchemaParser(incl_fname, previously_included, info)
++        except OSError as err:
++            raise QAPISemError(
++                info,
++                f"can't read include file '{incl_fname}': {err.strerror}"
++            ) from err
+ 
+     def _check_pragma_list_of_str(self, name, value, info):
+         if (not isinstance(value, list)
+diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
+index 3a4172fb749..d1d27ff7ee8 100644
+--- a/scripts/qapi/schema.py
++++ b/scripts/qapi/schema.py
+@@ -20,7 +20,7 @@
+ from typing import Optional
+ 
+ from .common import POINTER_SUFFIX, c_name
+-from .error import QAPISemError, QAPISourceError
++from .error import QAPIError, QAPISemError, QAPISourceError
+ from .expr import check_exprs
+ from .parser import QAPISchemaParser
+ 
+@@ -849,7 +849,14 @@ def visit(self, visitor):
+ class QAPISchema:
+     def __init__(self, fname):
+         self.fname = fname
+-        parser = QAPISchemaParser(fname)
++
++        try:
++            parser = QAPISchemaParser(fname)
++        except OSError as err:
++            raise QAPIError(
++                f"can't read schema file '{fname}': {err.strerror}"
++            ) from err
++
+         exprs = check_exprs(parser.exprs)
+         self.docs = parser.docs
+         self._entity_list = []
+diff --git a/scripts/qapi/source.py b/scripts/qapi/source.py
+index 03b6ede0828..1ade864d7b9 100644
+--- a/scripts/qapi/source.py
++++ b/scripts/qapi/source.py
+@@ -10,7 +10,6 @@
+ # See the COPYING file in the top-level directory.
+ 
+ import copy
+-import sys
+ from typing import List, Optional, TypeVar
+ 
+ 
+@@ -53,8 +52,6 @@ def next_line(self: T) -> T:
+         return info
+ 
+     def loc(self) -> str:
+-        if self.fname is None:
+-            return sys.argv[0]
+         ret = self.fname
+         if self.line is not None:
+             ret += ':%d' % self.line
+diff --git a/tests/qapi-schema/test-qapi.py b/tests/qapi-schema/test-qapi.py
+index e8db9d09d91..f1c4deb9a51 100755
+--- a/tests/qapi-schema/test-qapi.py
++++ b/tests/qapi-schema/test-qapi.py
+@@ -128,9 +128,6 @@ def test_and_diff(test_name, dir_name, update):
+     try:
+         test_frontend(os.path.join(dir_name, test_name + '.json'))
+     except QAPIError as err:
+-        if err.info.fname is None:
+-            print("%s" % err, file=sys.stderr)
+-            return 2
+         errstr = str(err) + '\n'
+         if dir_name:
+             errstr = errstr.replace(dir_name + '/', '')
+-- 
+2.30.2
 
 
