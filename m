@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C11533892AE
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 17:31:14 +0200 (CEST)
-Received: from localhost ([::1]:46596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47F9D3892B4
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 17:32:13 +0200 (CEST)
+Received: from localhost ([::1]:48008 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljOAD-0005No-Nr
-	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 11:31:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44964)
+	id 1ljOBA-0006SI-Cr
+	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 11:32:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45446)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ljO71-0002vN-KJ
- for qemu-devel@nongnu.org; Wed, 19 May 2021 11:27:55 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:42830)
+ id 1ljO8p-0004sd-UX
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 11:29:48 -0400
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:34695)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ljO6w-0005ka-V6
- for qemu-devel@nongnu.org; Wed, 19 May 2021 11:27:55 -0400
-Received: by mail-wr1-x433.google.com with SMTP id x8so14455426wrq.9
- for <qemu-devel@nongnu.org>; Wed, 19 May 2021 08:27:45 -0700 (PDT)
+ id 1ljO8l-0006H9-2S
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 11:29:47 -0400
+Received: by mail-wm1-x329.google.com with SMTP id
+ u5-20020a7bc0450000b02901480e40338bso3508358wmc.1
+ for <qemu-devel@nongnu.org>; Wed, 19 May 2021 08:29:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=references:user-agent:from:to:cc:subject:date:in-reply-to
  :message-id:mime-version:content-transfer-encoding;
- bh=yTVa0tl4ospmeskMkPGL2F6r7MB0cKwldGTkp39oL5Y=;
- b=MAC+CYZQkVnBgXcZS1GllJ+Gt7Der4BGKgGBO4RzHOJjQhaJGKRDfSrxmmu/HgrGTt
- HKQBgKip8mX+ZQ6lundFAN/5tY3lObIYbOHSCI9IeljtBem1hXSwoKVJRZ3avY2XEo3J
- KExZtBK6IxmdBUWI/ehAUnUXBNvtFQvg88QqM30/LIM1lPNdq39WQJUSn3jQSq2uxbis
- 0Fr3qk+3fJoSoOsy5YEG5sOdOQCcgKVvvJv67O1QHKyP3hI6byktI5HAZlyKbHKGDoZ9
- m7sL6TQ8pv5dg4ltL+9ntorGmfTLsOhvTnVbXRM5PusjYYkDbsLtrmFGRZrxHQCAJcJb
- S49w==
+ bh=HyQWRijrvel77pD1mKq9H/wT3MnpT+t3mChxCUUCDCg=;
+ b=J6HVjNSZacHzSoanGh2QgmqLmwhdiklTlm2Od/BUgvck0Rxp0mmoMUQeZHKLV0ouoe
+ k3nM2vSCW/cGtn2yn9uIYiwQadSt4cFQFmXGWDKKvDE/Kz+khI1cgaJ3V6JmymbZM3rJ
+ 9tsElbXzwNeC4h766i4qfOcLnKu5TjlzgMsayAe5V6HJ/TRBdenNorE99dpZAeNXqt3R
+ ORE+iTqPWvyTQElL9GNLcVhvyu0+EHTFxS8nDwgpfhCc7bScxi/P2ehuk4tun+X3M3zF
+ TG0y/U1sZzttNYXa++RM1YodljYMdd4rjwxyBJtcDl56qaCAHZWmr/jW6tn2n7hwbP39
+ HGiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
  :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=yTVa0tl4ospmeskMkPGL2F6r7MB0cKwldGTkp39oL5Y=;
- b=iAnVZvIDEvZ+MTZcamosd+fhgnGX5BTYCHH775oEqB/YSbXJVUYIhUXV988WXinoEM
- a6hH/0F6AN4m8C4HP/Hcx2legk3T5S+EpItobd/+F9wKkGexlgOjVZJ9K811USV9d/pt
- q9YI7gAU9DtaENKmC50xqGK8gcAM3se0qjFwyi0nb/ORRYctoQhUfRx5fI6FV3ebVqeQ
- xk22VVXNwHAvgu3PIzYfnMkwOGai+bFEXuDvipRjcMDJkVQOpUvoOyPJ9F2F+Cjq4PXq
- jHmX/t3GzVOl4tD8ohfnFjRNPh2SiMQzWoBhlGgjl9BxmpOP4eze+ihSME1hY+80ch3F
- 5LPg==
-X-Gm-Message-State: AOAM530lRjYP2Ri/hmDqfgLXfVllcFAPsIjrwK+71QjT1MLz6FBZiZxx
- HwLK+DfXwnV+YtzECHMxCfssAQ==
-X-Google-Smtp-Source: ABdhPJwk1id3lT+aPyD+vBEE4Rhkda/+ywimmBQoPM+HUz1wiMTlOmZfIoU8MUb2oQcqqMWky0nK5g==
-X-Received: by 2002:a5d:4910:: with SMTP id x16mr15335204wrq.112.1621438064429; 
- Wed, 19 May 2021 08:27:44 -0700 (PDT)
+ bh=HyQWRijrvel77pD1mKq9H/wT3MnpT+t3mChxCUUCDCg=;
+ b=Mjzs1gWh+rrnWdCltTvjlubAuwGdecfCB8U4AWLE07eTba1rFhb1A0NSL53qsynEAC
+ qAhrZhZpy0ei40U3TADbs8j5AozexUCsak04/mYgKZpCW0ILfsnytF6rMGu/7z5wd7/K
+ C6B4BxmgosBpYpp2n2yyIfuVdopduMQWaYEaRPBhXx227EPV58ENJonQwtrmOHzz+Bwt
+ CcSJpGWX75PFVTUjFdWEX7IHk/0/8wHq13QEfCRLVVlT8v2NW3OUjQUIqU6xV2YRv8te
+ qiPIkhT5BrdAOXmgpkeChI+B+Mn2giFWnNWZ8OnVx7J3fZ9/tWP1eeGW0B3MNtFwPCWu
+ CHqA==
+X-Gm-Message-State: AOAM533Gpv9TsTutJrJNrGsx2mrSEX99c66EGE7KVdpX4TZEbwvnx8yz
+ WWJCAqiaeV0tXTMH2TOXs5pofgzeMRrBwA==
+X-Google-Smtp-Source: ABdhPJyHCwTExsRI3I8HN67b8nC9pmlT+ubNnvACcd6uXMhiQp+31P7Q2sDODjG2sfVnekbGCHTgdA==
+X-Received: by 2002:a7b:c005:: with SMTP id c5mr12336755wmb.113.1621438176564; 
+ Wed, 19 May 2021 08:29:36 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id l22sm6149371wmq.28.2021.05.19.08.27.43
+ by smtp.gmail.com with ESMTPSA id q27sm23592673wrz.79.2021.05.19.08.29.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 May 2021 08:27:43 -0700 (PDT)
+ Wed, 19 May 2021 08:29:35 -0700 (PDT)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id AA3331FF7E;
- Wed, 19 May 2021 16:27:42 +0100 (BST)
-References: <20210518090720.21915-1-alex.bennee@linaro.org>
- <CAFEAcA_biNmALCd9hkCiRXWOiiKv9hPhHFH9=Yt1PMVCTF+kNg@mail.gmail.com>
+ by zen.linaroharston (Postfix) with ESMTP id B3CE61FF7E;
+ Wed, 19 May 2021 16:29:34 +0100 (BST)
+References: <20210518084139.97957-1-pbonzini@redhat.com>
 User-agent: mu4e 1.5.13; emacs 28.0.50
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PULL v2 00/29] testing and plugin updates
-Date: Wed, 19 May 2021 16:26:54 +0100
-In-reply-to: <CAFEAcA_biNmALCd9hkCiRXWOiiKv9hPhHFH9=Yt1PMVCTF+kNg@mail.gmail.com>
-Message-ID: <87o8d6d9qp.fsf@linaro.org>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH 0/3] Small CI improvements
+Date: Wed, 19 May 2021 16:28:45 +0100
+In-reply-to: <20210518084139.97957-1-pbonzini@redhat.com>
+Message-ID: <87lf8ad9nl.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x329.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,67 +87,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-Peter Maydell <peter.maydell@linaro.org> writes:
+Paolo Bonzini <pbonzini@redhat.com> writes:
 
-> On Tue, 18 May 2021 at 10:07, Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
-rote:
->>
->> The following changes since commit 367196caa07ac31443bc360145cc10fbef4fd=
-f92:
->>
->>   Merge remote-tracking branch 'remotes/vivier2/tags/trivial-branch-for-=
-6.1-pull-request' into staging (2021-05-17 16:44:47 +0100)
->>
->> are available in the Git repository at:
->>
->>   https://github.com/stsquad/qemu.git tags/pull-testing-and-plugin-updat=
-es-180521-2
->>
->> for you to fetch changes up to b1aa4de12e846e0ad18969ee823c19b66d8d4d8f:
->>
->>   configure: use cc, not host_cc to set cross_cc for build arch (2021-05=
--18 09:36:21 +0100)
->>
->> ----------------------------------------------------------------
->> testing and plugin updates:
->>
->>   - various fixes for binfmt_misc docker images
->>   - add hexagon check-tcg support docker image
->>   - add tricore check-tcg support
->>   - refactor ppc docker images
->>   - add missing ppc64le tests
->>   - don't use host_cc for test fallback
->>   - check-tcg configure.sh tweaks for cross compile/clang
->>   - fix some memory leaks in plugins
->>
->> ----------------------------------------------------------------
+> Patch 1 adjusts cirrus-ci to also test installation, and thus
+> entitlement application on macOS.
 >
-> This fails the 'build-user-hexagon' job in gitlab:
->
-> https://gitlab.com/qemu-project/qemu/-/jobs/1276171518
->
-> "ERROR: Cannot find Ninja" seems likely to be the main issue...
+> Patch 2 and 3 tweak the number of jobs during "make".
 
-Hmm that's weird:
+Hmm this seemed to time out a load and fail with some exit codes:
 
-+RUN apt update && \
-+    DEBIAN_FRONTEND=3Dnoninteractive apt install -yy eatmydata && \
-+    DEBIAN_FRONTEND=3Dnoninteractive eatmydata apt install -yy git ninja-b=
-uild && \
-+    DEBIAN_FRONTEND=3Dnoninteractive eatmydata \
-
-so ninja should have been installed. I thought I had pushed to both the
-qemu-project and my personal registries as well.
+  https://gitlab.com/stsquad/qemu/-/pipelines/304979329/failures
 
 >
+> Paolo Bonzini (3):
+>   cirrus-ci: test installation
+>   ci: do not use #processors+1 jobs, #processors is enough
+>   ci: add -j to all "make" jobs
 >
-> thanks
-> -- PMM
+>  .cirrus.yml    | 22 ++++++++++++----------
+>  .gitlab-ci.yml | 10 +++++-----
+>  .travis.yml    | 10 +++++-----
+>  3 files changed, 22 insertions(+), 20 deletions(-)
 
 
 --=20
