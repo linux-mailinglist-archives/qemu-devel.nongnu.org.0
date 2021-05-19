@@ -2,51 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 551C8389545
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 20:26:44 +0200 (CEST)
-Received: from localhost ([::1]:58256 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BD1538953E
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 20:23:54 +0200 (CEST)
+Received: from localhost ([::1]:53988 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljQu1-0000nP-Kn
-	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 14:26:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47056)
+	id 1ljQrJ-0006N6-Jy
+	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 14:23:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47298)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bruno.larsen@eldorado.org.br>)
- id 1ljQoW-00044A-G5; Wed, 19 May 2021 14:21:00 -0400
-Received: from [201.28.113.2] (port=65057 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bruno.larsen@eldorado.org.br>)
- id 1ljQoS-00005U-J6; Wed, 19 May 2021 14:20:59 -0400
-Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Wed, 19 May 2021 15:20:51 -0300
-Received: from [127.0.0.1] (unknown [10.10.71.235])
- by power9a (Postfix) with ESMTPS id 2F1868013F7;
- Wed, 19 May 2021 15:20:51 -0300 (-03)
-Subject: Re: [PATCH 21/24] target/ppc: Split out ppc_hash32_xlate
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20210518201146.794854-1-richard.henderson@linaro.org>
- <20210518201146.794854-22-richard.henderson@linaro.org>
-From: Bruno Piazera Larsen <bruno.larsen@eldorado.org.br>
-Message-ID: <f8892275-5d5a-c261-9475-b445bc17eb6b@eldorado.org.br>
-Date: Wed, 19 May 2021 15:20:50 -0300
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ljQoy-0004Eu-En
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 14:21:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60353)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ljQoo-0000I2-7j
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 14:21:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1621448475;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=oPVBVYAXqT6fgMFaqs2Bc55kxdETI64Uq6kOuEIR7Bc=;
+ b=c273dgyDIi8W1BG7z5MFTvXPiRC56thwce6YLuKvYvh3unXE8CXaLAnLi0qLb7iMFDocsn
+ 81vkup8paI/alcRBI7EgM/PyHrby+zKIaPzr3R3skssTMJU+BWekv8ROILkG/7EjZE+2rs
+ 1OojyOTPHBhdaSZww+uVrmrbprTPIc4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-191-_lRy8maMPJecucZi8N0a8w-1; Wed, 19 May 2021 14:21:12 -0400
+X-MC-Unique: _lRy8maMPJecucZi8N0a8w-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C2A2F1A8A63;
+ Wed, 19 May 2021 18:21:11 +0000 (UTC)
+Received: from [10.10.117.64] (ovpn-117-64.rdu2.redhat.com [10.10.117.64])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1C9439473;
+ Wed, 19 May 2021 18:21:11 +0000 (UTC)
+Subject: Re: [PATCH v2 15/21] qapi/parser: add docstrings
+To: Markus Armbruster <armbru@redhat.com>
+References: <20210511220601.2110055-1-jsnow@redhat.com>
+ <20210511220601.2110055-16-jsnow@redhat.com>
+ <87h7iz1azx.fsf@dusky.pond.sub.org>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <537041f0-9691-4881-7274-81794ce6e0f2@redhat.com>
+Date: Wed, 19 May 2021 14:21:10 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210518201146.794854-22-richard.henderson@linaro.org>
-Content-Type: multipart/alternative;
- boundary="------------6530EA2F3E65D2D209E6AC37"
+In-Reply-To: <87h7iz1azx.fsf@dusky.pond.sub.org>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-X-OriginalArrivalTime: 19 May 2021 18:20:51.0484 (UTC)
- FILETIME=[B2F79DC0:01D74CDB]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
-Received-SPF: pass client-ip=201.28.113.2;
- envelope-from=bruno.larsen@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
- NICE_REPLY_A=-0.001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.39,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,798 +82,225 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
+Cc: Michael Roth <michael.roth@amd.com>, Cleber Rosa <crosa@redhat.com>,
+ qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a multi-part message in MIME format.
---------------6530EA2F3E65D2D209E6AC37
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+On 5/19/21 2:41 AM, Markus Armbruster wrote:
+> John Snow <jsnow@redhat.com> writes:
+> 
+>> Signed-off-by: John Snow <jsnow@redhat.com>
+>> ---
+>>   scripts/qapi/parser.py | 68 ++++++++++++++++++++++++++++++++++++++++++
+>>   1 file changed, 68 insertions(+)
+>>
+>> diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
+>> index e80e0a7d965..ed543a2b7a4 100644
+>> --- a/scripts/qapi/parser.py
+>> +++ b/scripts/qapi/parser.py
+>> @@ -47,7 +47,27 @@ def __init__(self, parser: 'QAPISchemaParser', msg: str):
+>>   
+>>   
+>>   class QAPISchemaParser:
+>> +    """
+>> +    Performs syntactic parsing of a QAPI schema source file.
+> 
+> "Syntactic parsing" makes me wonder what non-syntactic parsing could be.
+> 
+> Also, PEP 257 wants imperative mood: "Perform X", not "Performs X".
+> 
+> What about a laconic "Parse QAPI schema source"?
+> 
 
-On 18/05/2021 17:11, Richard Henderson wrote:
-> Mirror the interface of ppc_radix64_xlate, putting all of
-> the logic for hash32 translation into a single entry point.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-I'm a bit out of my depth with the logic here, but I tried some 
-acceptance tests, everything worked, and the logic sounds reasonable, so
+Sure. It was just that in an earlier review you seemed keen to spell out 
+that this performs the lower-level parsing and not the uh, 
+language-level parsing of the QAPI Schema language.
 
-Acked-by: Bruno Larsen (billionai)<bruno.larsen@eldorado.org.br>
+....ehhhhhhh whatever.
 
-> ---
->   target/ppc/mmu-hash32.c | 224 ++++++++++++++++++++--------------------
->   1 file changed, 113 insertions(+), 111 deletions(-)
->
-> diff --git a/target/ppc/mmu-hash32.c b/target/ppc/mmu-hash32.c
-> index d51be59f95..959dc2ab53 100644
-> --- a/target/ppc/mmu-hash32.c
-> +++ b/target/ppc/mmu-hash32.c
-> @@ -219,10 +219,11 @@ static hwaddr ppc_hash32_bat_lookup(PowerPCCPU *cpu, target_ulong ea,
->       return -1;
->   }
->   
-> -static int ppc_hash32_direct_store(PowerPCCPU *cpu, target_ulong sr,
-> -                                   target_ulong eaddr,
-> -                                   MMUAccessType access_type,
-> -                                   hwaddr *raddr, int *prot)
-> +static bool ppc_hash32_direct_store(PowerPCCPU *cpu, target_ulong sr,
-> +                                    target_ulong eaddr,
-> +                                    MMUAccessType access_type,
-> +                                    hwaddr *raddr, int *prot,
-> +                                    bool guest_visible)
->   {
->       CPUState *cs = CPU(cpu);
->       CPUPPCState *env = &cpu->env;
-> @@ -239,17 +240,23 @@ static int ppc_hash32_direct_store(PowerPCCPU *cpu, target_ulong sr,
->            */
->           *raddr = ((sr & 0xF) << 28) | (eaddr & 0x0FFFFFFF);
->           *prot = PAGE_READ | PAGE_WRITE | PAGE_EXEC;
-> -        return 0;
-> +        return true;
->       }
->   
->       if (access_type == MMU_INST_FETCH) {
->           /* No code fetch is allowed in direct-store areas */
-> -        cs->exception_index = POWERPC_EXCP_ISI;
-> -        env->error_code = 0x10000000;
-> -        return 1;
-> +        if (guest_visible) {
-> +            cs->exception_index = POWERPC_EXCP_ISI;
-> +            env->error_code = 0x10000000;
-> +        }
-> +        return false;
->       }
->   
-> -    switch (env->access_type) {
-> +    /*
-> +     * From ppc_cpu_get_phys_page_debug, env->access_type is not set.
-> +     * Assume ACCESS_INT for that case.
-> +     */
-> +    switch (guest_visible ? env->access_type : ACCESS_INT) {
->       case ACCESS_INT:
->           /* Integer load/store : only access allowed */
->           break;
-> @@ -258,7 +265,7 @@ static int ppc_hash32_direct_store(PowerPCCPU *cpu, target_ulong sr,
->           cs->exception_index = POWERPC_EXCP_ALIGN;
->           env->error_code = POWERPC_EXCP_ALIGN_FP;
->           env->spr[SPR_DAR] = eaddr;
-> -        return 1;
-> +        return false;
->       case ACCESS_RES:
->           /* lwarx, ldarx or srwcx. */
->           env->error_code = 0;
-> @@ -268,7 +275,7 @@ static int ppc_hash32_direct_store(PowerPCCPU *cpu, target_ulong sr,
->           } else {
->               env->spr[SPR_DSISR] = 0x04000000;
->           }
-> -        return 1;
-> +        return false;
->       case ACCESS_CACHE:
->           /*
->            * dcba, dcbt, dcbtst, dcbf, dcbi, dcbst, dcbz, or icbi
-> @@ -277,7 +284,7 @@ static int ppc_hash32_direct_store(PowerPCCPU *cpu, target_ulong sr,
->            * no-op, it's quite easy :-)
->            */
->           *raddr = eaddr;
-> -        return 0;
-> +        return true;
->       case ACCESS_EXT:
->           /* eciwx or ecowx */
->           cs->exception_index = POWERPC_EXCP_DSI;
-> @@ -288,16 +295,18 @@ static int ppc_hash32_direct_store(PowerPCCPU *cpu, target_ulong sr,
->           } else {
->               env->spr[SPR_DSISR] = 0x04100000;
->           }
-> -        return 1;
-> +        return false;
->       default:
-> -        cpu_abort(cs, "ERROR: instruction should not need "
-> -                 "address translation\n");
-> +        cpu_abort(cs, "ERROR: insn should not need address translation\n");
->       }
-> -    if ((access_type == MMU_DATA_STORE || key != 1) &&
-> -        (access_type == MMU_DATA_LOAD || key != 0)) {
-> +
-> +    *prot = key ? PAGE_READ | PAGE_WRITE : PAGE_READ;
-> +    if (*prot & prot_for_access_type(access_type)) {
->           *raddr = eaddr;
-> -        return 0;
-> -    } else {
-> +        return true;
-> +    }
-> +
-> +    if (guest_visible) {
->           cs->exception_index = POWERPC_EXCP_DSI;
->           env->error_code = 0;
->           env->spr[SPR_DAR] = eaddr;
-> @@ -306,8 +315,8 @@ static int ppc_hash32_direct_store(PowerPCCPU *cpu, target_ulong sr,
->           } else {
->               env->spr[SPR_DSISR] = 0x08000000;
->           }
-> -        return 1;
->       }
-> +    return false;
->   }
->   
->   hwaddr get_pteg_offset32(PowerPCCPU *cpu, hwaddr hash)
-> @@ -416,8 +425,10 @@ static hwaddr ppc_hash32_pte_raddr(target_ulong sr, ppc_hash_pte32_t pte,
->       return (rpn & ~mask) | (eaddr & mask);
->   }
->   
-> -int ppc_hash32_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr,
-> -                                MMUAccessType access_type, int mmu_idx)
-> +static bool ppc_hash32_xlate(PowerPCCPU *cpu, vaddr eaddr,
-> +                             MMUAccessType access_type,
-> +                             hwaddr *raddrp, int *psizep, int *protp,
-> +                             bool guest_visible)
->   {
->       CPUState *cs = CPU(cpu);
->       CPUPPCState *env = &cpu->env;
-> @@ -428,43 +439,43 @@ int ppc_hash32_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr,
->       int need_prot;
->       hwaddr raddr;
->   
-> -    need_prot = prot_for_access_type(access_type);
-> +    /* There are no hash32 large pages. */
-> +    *psizep = TARGET_PAGE_BITS;
->   
->       /* 1. Handle real mode accesses */
->       if (access_type == MMU_INST_FETCH ? !msr_ir : !msr_dr) {
->           /* Translation is off */
-> -        raddr = eaddr;
-> -        tlb_set_page(cs, eaddr & TARGET_PAGE_MASK, raddr & TARGET_PAGE_MASK,
-> -                     PAGE_READ | PAGE_WRITE | PAGE_EXEC, mmu_idx,
-> -                     TARGET_PAGE_SIZE);
-> -        return 0;
-> +        *raddrp = eaddr;
-> +        *protp = PAGE_READ | PAGE_WRITE | PAGE_EXEC;
-> +        return true;
->       }
->   
-> +    need_prot = prot_for_access_type(access_type);
-> +
->       /* 2. Check Block Address Translation entries (BATs) */
->       if (env->nb_BATs != 0) {
-> -        raddr = ppc_hash32_bat_lookup(cpu, eaddr, access_type, &prot);
-> +        raddr = ppc_hash32_bat_lookup(cpu, eaddr, access_type, protp);
->           if (raddr != -1) {
-> -            if (need_prot & ~prot) {
-> -                if (access_type == MMU_INST_FETCH) {
-> -                    cs->exception_index = POWERPC_EXCP_ISI;
-> -                    env->error_code = 0x08000000;
-> -                } else {
-> -                    cs->exception_index = POWERPC_EXCP_DSI;
-> -                    env->error_code = 0;
-> -                    env->spr[SPR_DAR] = eaddr;
-> -                    if (access_type == MMU_DATA_STORE) {
-> -                        env->spr[SPR_DSISR] = 0x0a000000;
-> +            if (need_prot & ~*protp) {
-> +                if (guest_visible) {
-> +                    if (access_type == MMU_INST_FETCH) {
-> +                        cs->exception_index = POWERPC_EXCP_ISI;
-> +                        env->error_code = 0x08000000;
->                       } else {
-> -                        env->spr[SPR_DSISR] = 0x08000000;
-> +                        cs->exception_index = POWERPC_EXCP_DSI;
-> +                        env->error_code = 0;
-> +                        env->spr[SPR_DAR] = eaddr;
-> +                        if (access_type == MMU_DATA_STORE) {
-> +                            env->spr[SPR_DSISR] = 0x0a000000;
-> +                        } else {
-> +                            env->spr[SPR_DSISR] = 0x08000000;
-> +                        }
->                       }
->                   }
-> -                return 1;
-> +                return false;
->               }
-> -
-> -            tlb_set_page(cs, eaddr & TARGET_PAGE_MASK,
-> -                         raddr & TARGET_PAGE_MASK, prot, mmu_idx,
-> -                         TARGET_PAGE_SIZE);
-> -            return 0;
-> +            *raddrp = raddr;
-> +            return true;
->           }
->       }
->   
-> @@ -473,42 +484,38 @@ int ppc_hash32_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr,
->   
->       /* 4. Handle direct store segments */
->       if (sr & SR32_T) {
-> -        if (ppc_hash32_direct_store(cpu, sr, eaddr, access_type,
-> -                                    &raddr, &prot) == 0) {
-> -            tlb_set_page(cs, eaddr & TARGET_PAGE_MASK,
-> -                         raddr & TARGET_PAGE_MASK, prot, mmu_idx,
-> -                         TARGET_PAGE_SIZE);
-> -            return 0;
-> -        } else {
-> -            return 1;
-> -        }
-> +        return ppc_hash32_direct_store(cpu, sr, eaddr, access_type,
-> +                                       raddrp, protp, guest_visible);
->       }
->   
->       /* 5. Check for segment level no-execute violation */
->       if (access_type == MMU_INST_FETCH && (sr & SR32_NX)) {
-> -        cs->exception_index = POWERPC_EXCP_ISI;
-> -        env->error_code = 0x10000000;
-> -        return 1;
-> +        if (guest_visible) {
-> +            cs->exception_index = POWERPC_EXCP_ISI;
-> +            env->error_code = 0x10000000;
-> +        }
-> +        return false;
->       }
->   
->       /* 6. Locate the PTE in the hash table */
->       pte_offset = ppc_hash32_htab_lookup(cpu, sr, eaddr, &pte);
->       if (pte_offset == -1) {
-> -        if (access_type == MMU_INST_FETCH) {
-> -            cs->exception_index = POWERPC_EXCP_ISI;
-> -            env->error_code = 0x40000000;
-> -        } else {
-> -            cs->exception_index = POWERPC_EXCP_DSI;
-> -            env->error_code = 0;
-> -            env->spr[SPR_DAR] = eaddr;
-> -            if (access_type == MMU_DATA_STORE) {
-> -                env->spr[SPR_DSISR] = 0x42000000;
-> +        if (guest_visible) {
-> +            if (access_type == MMU_INST_FETCH) {
-> +                cs->exception_index = POWERPC_EXCP_ISI;
-> +                env->error_code = 0x40000000;
->               } else {
-> -                env->spr[SPR_DSISR] = 0x40000000;
-> +                cs->exception_index = POWERPC_EXCP_DSI;
-> +                env->error_code = 0;
-> +                env->spr[SPR_DAR] = eaddr;
-> +                if (access_type == MMU_DATA_STORE) {
-> +                    env->spr[SPR_DSISR] = 0x42000000;
-> +                } else {
-> +                    env->spr[SPR_DSISR] = 0x40000000;
-> +                }
->               }
->           }
-> -
-> -        return 1;
-> +        return false;
->       }
->       qemu_log_mask(CPU_LOG_MMU,
->                   "found PTE at offset %08" HWADDR_PRIx "\n", pte_offset);
-> @@ -520,20 +527,22 @@ int ppc_hash32_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr,
->       if (need_prot & ~prot) {
->           /* Access right violation */
->           qemu_log_mask(CPU_LOG_MMU, "PTE access rejected\n");
-> -        if (access_type == MMU_INST_FETCH) {
-> -            cs->exception_index = POWERPC_EXCP_ISI;
-> -            env->error_code = 0x08000000;
-> -        } else {
-> -            cs->exception_index = POWERPC_EXCP_DSI;
-> -            env->error_code = 0;
-> -            env->spr[SPR_DAR] = eaddr;
-> -            if (access_type == MMU_DATA_STORE) {
-> -                env->spr[SPR_DSISR] = 0x0a000000;
-> +        if (guest_visible) {
-> +            if (access_type == MMU_INST_FETCH) {
-> +                cs->exception_index = POWERPC_EXCP_ISI;
-> +                env->error_code = 0x08000000;
->               } else {
-> -                env->spr[SPR_DSISR] = 0x08000000;
-> +                cs->exception_index = POWERPC_EXCP_DSI;
-> +                env->error_code = 0;
-> +                env->spr[SPR_DAR] = eaddr;
-> +                if (access_type == MMU_DATA_STORE) {
-> +                    env->spr[SPR_DSISR] = 0x0a000000;
-> +                } else {
-> +                    env->spr[SPR_DSISR] = 0x08000000;
-> +                }
->               }
->           }
-> -        return 1;
-> +        return false;
->       }
->   
->       qemu_log_mask(CPU_LOG_MMU, "PTE access granted !\n");
-> @@ -557,45 +566,38 @@ int ppc_hash32_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr,
->   
->       /* 9. Determine the real address from the PTE */
->   
-> -    raddr = ppc_hash32_pte_raddr(sr, pte, eaddr);
-> +    *raddrp = ppc_hash32_pte_raddr(sr, pte, eaddr);
-> +    *protp = prot;
-> +    return true;
-> +}
-> +
-> +int ppc_hash32_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr,
-> +                                MMUAccessType access_type, int mmu_idx)
-> +{
-> +    CPUState *cs = CPU(cpu);
-> +    int page_size, prot;
-> +    hwaddr raddr;
-> +
-> +    /* Translate eaddr to raddr (where raddr is addr qemu needs for access) */
-> +    if (!ppc_hash32_xlate(cpu, eaddr, access_type, &raddr,
-> +                           &page_size, &prot, true)) {
-> +        return 1;
-> +    }
->   
->       tlb_set_page(cs, eaddr & TARGET_PAGE_MASK, raddr & TARGET_PAGE_MASK,
-> -                 prot, mmu_idx, TARGET_PAGE_SIZE);
-> -
-> +                 prot, mmu_idx, 1UL << page_size);
->       return 0;
->   }
->   
->   hwaddr ppc_hash32_get_phys_page_debug(PowerPCCPU *cpu, target_ulong eaddr)
->   {
-> -    CPUPPCState *env = &cpu->env;
-> -    target_ulong sr;
-> -    hwaddr pte_offset;
-> -    ppc_hash_pte32_t pte;
-> -    int prot;
-> +    int psize, prot;
-> +    hwaddr raddr;
->   
-> -    if (msr_dr == 0) {
-> -        /* Translation is off */
-> -        return eaddr;
-> -    }
-> -
-> -    if (env->nb_BATs != 0) {
-> -        hwaddr raddr = ppc_hash32_bat_lookup(cpu, eaddr, 0, &prot);
-> -        if (raddr != -1) {
-> -            return raddr;
-> -        }
-> -    }
-> -
-> -    sr = env->sr[eaddr >> 28];
-> -
-> -    if (sr & SR32_T) {
-> -        /* FIXME: Add suitable debug support for Direct Store segments */
-> +    if (!ppc_hash32_xlate(cpu, eaddr, MMU_DATA_LOAD, &raddr,
-> +                           &psize, &prot, false)) {
->           return -1;
->       }
->   
-> -    pte_offset = ppc_hash32_htab_lookup(cpu, sr, eaddr, &pte);
-> -    if (pte_offset == -1) {
-> -        return -1;
-> -    }
-> -
-> -    return ppc_hash32_pte_raddr(sr, pte, eaddr) & TARGET_PAGE_MASK;
-> +    return raddr & TARGET_PAGE_MASK;
->   }
--- 
-Bruno Piazera Larsen
-Instituto de Pesquisas ELDORADO 
-<https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&utm_medium=email&utm_source=RD+Station>
-Departamento Computação Embarcada
-Analista de Software Trainee
-Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
+"Parse QAPI schema source" it is.
 
---------------6530EA2F3E65D2D209E6AC37
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 8bit
+>>   
+>> +    Parses a JSON-esque schema file, See qapi-code-gen.txt section
+> 
+> Imperative mood, please.  Period, not comma.
+> 
+>> +    "Schema Syntax" for more information. Grammatical validation
+>> +    is handled later by `expr.check_exprs()`.
+> 
+> We could mention the processing of directives.  Perhaps:
+> 
+>         Parse a JSON-esque schema file.  See qapi-code-gen.txt section
+>         "Schema Syntax" for the exact syntax.  Also process directives.
+>         Grammatical validation is handled later by `expr.check_exprs()`.
+> 
+> What do you think?
+> 
 
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <div class="moz-cite-prefix">On 18/05/2021 17:11, Richard Henderson
-      wrote:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:20210518201146.794854-22-richard.henderson@linaro.org">
-      <pre class="moz-quote-pre" wrap="">Mirror the interface of ppc_radix64_xlate, putting all of
-the logic for hash32 translation into a single entry point.
+     Parse a JSON-esque schema file and process directives.  See 
 
-Signed-off-by: Richard Henderson <a class="moz-txt-link-rfc2396E" href="mailto:richard.henderson@linaro.org">&lt;richard.henderson@linaro.org&gt;</a></pre>
-    </blockquote>
-    I'm a bit out of my depth with the logic here, but I tried some
-    acceptance tests, everything worked, and the logic sounds
-    reasonable, so<br>
-    <pre class="moz-quote-pre" wrap="">Acked-by: Bruno Larsen (billionai) <a class="moz-txt-link-rfc2396E" href="mailto:bruno.larsen@eldorado.org.br">&lt;bruno.larsen@eldorado.org.br&gt;</a></pre>
-    <blockquote type="cite"
-      cite="mid:20210518201146.794854-22-richard.henderson@linaro.org">
-      <pre class="moz-quote-pre" wrap="">
----
- target/ppc/mmu-hash32.c | 224 ++++++++++++++++++++--------------------
- 1 file changed, 113 insertions(+), 111 deletions(-)
+     qapi-code-gen.txt section "Schema Syntax" for the exact syntax. 
 
-diff --git a/target/ppc/mmu-hash32.c b/target/ppc/mmu-hash32.c
-index d51be59f95..959dc2ab53 100644
---- a/target/ppc/mmu-hash32.c
-+++ b/target/ppc/mmu-hash32.c
-@@ -219,10 +219,11 @@ static hwaddr ppc_hash32_bat_lookup(PowerPCCPU *cpu, target_ulong ea,
-     return -1;
- }
- 
--static int ppc_hash32_direct_store(PowerPCCPU *cpu, target_ulong sr,
--                                   target_ulong eaddr,
--                                   MMUAccessType access_type,
--                                   hwaddr *raddr, int *prot)
-+static bool ppc_hash32_direct_store(PowerPCCPU *cpu, target_ulong sr,
-+                                    target_ulong eaddr,
-+                                    MMUAccessType access_type,
-+                                    hwaddr *raddr, int *prot,
-+                                    bool guest_visible)
- {
-     CPUState *cs = CPU(cpu);
-     CPUPPCState *env = &amp;cpu-&gt;env;
-@@ -239,17 +240,23 @@ static int ppc_hash32_direct_store(PowerPCCPU *cpu, target_ulong sr,
-          */
-         *raddr = ((sr &amp; 0xF) &lt;&lt; 28) | (eaddr &amp; 0x0FFFFFFF);
-         *prot = PAGE_READ | PAGE_WRITE | PAGE_EXEC;
--        return 0;
-+        return true;
-     }
- 
-     if (access_type == MMU_INST_FETCH) {
-         /* No code fetch is allowed in direct-store areas */
--        cs-&gt;exception_index = POWERPC_EXCP_ISI;
--        env-&gt;error_code = 0x10000000;
--        return 1;
-+        if (guest_visible) {
-+            cs-&gt;exception_index = POWERPC_EXCP_ISI;
-+            env-&gt;error_code = 0x10000000;
-+        }
-+        return false;
-     }
- 
--    switch (env-&gt;access_type) {
-+    /*
-+     * From ppc_cpu_get_phys_page_debug, env-&gt;access_type is not set.
-+     * Assume ACCESS_INT for that case.
-+     */
-+    switch (guest_visible ? env-&gt;access_type : ACCESS_INT) {
-     case ACCESS_INT:
-         /* Integer load/store : only access allowed */
-         break;
-@@ -258,7 +265,7 @@ static int ppc_hash32_direct_store(PowerPCCPU *cpu, target_ulong sr,
-         cs-&gt;exception_index = POWERPC_EXCP_ALIGN;
-         env-&gt;error_code = POWERPC_EXCP_ALIGN_FP;
-         env-&gt;spr[SPR_DAR] = eaddr;
--        return 1;
-+        return false;
-     case ACCESS_RES:
-         /* lwarx, ldarx or srwcx. */
-         env-&gt;error_code = 0;
-@@ -268,7 +275,7 @@ static int ppc_hash32_direct_store(PowerPCCPU *cpu, target_ulong sr,
-         } else {
-             env-&gt;spr[SPR_DSISR] = 0x04000000;
-         }
--        return 1;
-+        return false;
-     case ACCESS_CACHE:
-         /*
-          * dcba, dcbt, dcbtst, dcbf, dcbi, dcbst, dcbz, or icbi
-@@ -277,7 +284,7 @@ static int ppc_hash32_direct_store(PowerPCCPU *cpu, target_ulong sr,
-          * no-op, it's quite easy :-)
-          */
-         *raddr = eaddr;
--        return 0;
-+        return true;
-     case ACCESS_EXT:
-         /* eciwx or ecowx */
-         cs-&gt;exception_index = POWERPC_EXCP_DSI;
-@@ -288,16 +295,18 @@ static int ppc_hash32_direct_store(PowerPCCPU *cpu, target_ulong sr,
-         } else {
-             env-&gt;spr[SPR_DSISR] = 0x04100000;
-         }
--        return 1;
-+        return false;
-     default:
--        cpu_abort(cs, "ERROR: instruction should not need "
--                 "address translation\n");
-+        cpu_abort(cs, "ERROR: insn should not need address translation\n");
-     }
--    if ((access_type == MMU_DATA_STORE || key != 1) &amp;&amp;
--        (access_type == MMU_DATA_LOAD || key != 0)) {
-+
-+    *prot = key ? PAGE_READ | PAGE_WRITE : PAGE_READ;
-+    if (*prot &amp; prot_for_access_type(access_type)) {
-         *raddr = eaddr;
--        return 0;
--    } else {
-+        return true;
-+    }
-+
-+    if (guest_visible) {
-         cs-&gt;exception_index = POWERPC_EXCP_DSI;
-         env-&gt;error_code = 0;
-         env-&gt;spr[SPR_DAR] = eaddr;
-@@ -306,8 +315,8 @@ static int ppc_hash32_direct_store(PowerPCCPU *cpu, target_ulong sr,
-         } else {
-             env-&gt;spr[SPR_DSISR] = 0x08000000;
-         }
--        return 1;
-     }
-+    return false;
- }
- 
- hwaddr get_pteg_offset32(PowerPCCPU *cpu, hwaddr hash)
-@@ -416,8 +425,10 @@ static hwaddr ppc_hash32_pte_raddr(target_ulong sr, ppc_hash_pte32_t pte,
-     return (rpn &amp; ~mask) | (eaddr &amp; mask);
- }
- 
--int ppc_hash32_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr,
--                                MMUAccessType access_type, int mmu_idx)
-+static bool ppc_hash32_xlate(PowerPCCPU *cpu, vaddr eaddr,
-+                             MMUAccessType access_type,
-+                             hwaddr *raddrp, int *psizep, int *protp,
-+                             bool guest_visible)
- {
-     CPUState *cs = CPU(cpu);
-     CPUPPCState *env = &amp;cpu-&gt;env;
-@@ -428,43 +439,43 @@ int ppc_hash32_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr,
-     int need_prot;
-     hwaddr raddr;
- 
--    need_prot = prot_for_access_type(access_type);
-+    /* There are no hash32 large pages. */
-+    *psizep = TARGET_PAGE_BITS;
- 
-     /* 1. Handle real mode accesses */
-     if (access_type == MMU_INST_FETCH ? !msr_ir : !msr_dr) {
-         /* Translation is off */
--        raddr = eaddr;
--        tlb_set_page(cs, eaddr &amp; TARGET_PAGE_MASK, raddr &amp; TARGET_PAGE_MASK,
--                     PAGE_READ | PAGE_WRITE | PAGE_EXEC, mmu_idx,
--                     TARGET_PAGE_SIZE);
--        return 0;
-+        *raddrp = eaddr;
-+        *protp = PAGE_READ | PAGE_WRITE | PAGE_EXEC;
-+        return true;
-     }
- 
-+    need_prot = prot_for_access_type(access_type);
-+
-     /* 2. Check Block Address Translation entries (BATs) */
-     if (env-&gt;nb_BATs != 0) {
--        raddr = ppc_hash32_bat_lookup(cpu, eaddr, access_type, &amp;prot);
-+        raddr = ppc_hash32_bat_lookup(cpu, eaddr, access_type, protp);
-         if (raddr != -1) {
--            if (need_prot &amp; ~prot) {
--                if (access_type == MMU_INST_FETCH) {
--                    cs-&gt;exception_index = POWERPC_EXCP_ISI;
--                    env-&gt;error_code = 0x08000000;
--                } else {
--                    cs-&gt;exception_index = POWERPC_EXCP_DSI;
--                    env-&gt;error_code = 0;
--                    env-&gt;spr[SPR_DAR] = eaddr;
--                    if (access_type == MMU_DATA_STORE) {
--                        env-&gt;spr[SPR_DSISR] = 0x0a000000;
-+            if (need_prot &amp; ~*protp) {
-+                if (guest_visible) {
-+                    if (access_type == MMU_INST_FETCH) {
-+                        cs-&gt;exception_index = POWERPC_EXCP_ISI;
-+                        env-&gt;error_code = 0x08000000;
-                     } else {
--                        env-&gt;spr[SPR_DSISR] = 0x08000000;
-+                        cs-&gt;exception_index = POWERPC_EXCP_DSI;
-+                        env-&gt;error_code = 0;
-+                        env-&gt;spr[SPR_DAR] = eaddr;
-+                        if (access_type == MMU_DATA_STORE) {
-+                            env-&gt;spr[SPR_DSISR] = 0x0a000000;
-+                        } else {
-+                            env-&gt;spr[SPR_DSISR] = 0x08000000;
-+                        }
-                     }
-                 }
--                return 1;
-+                return false;
-             }
--
--            tlb_set_page(cs, eaddr &amp; TARGET_PAGE_MASK,
--                         raddr &amp; TARGET_PAGE_MASK, prot, mmu_idx,
--                         TARGET_PAGE_SIZE);
--            return 0;
-+            *raddrp = raddr;
-+            return true;
-         }
-     }
- 
-@@ -473,42 +484,38 @@ int ppc_hash32_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr,
- 
-     /* 4. Handle direct store segments */
-     if (sr &amp; SR32_T) {
--        if (ppc_hash32_direct_store(cpu, sr, eaddr, access_type,
--                                    &amp;raddr, &amp;prot) == 0) {
--            tlb_set_page(cs, eaddr &amp; TARGET_PAGE_MASK,
--                         raddr &amp; TARGET_PAGE_MASK, prot, mmu_idx,
--                         TARGET_PAGE_SIZE);
--            return 0;
--        } else {
--            return 1;
--        }
-+        return ppc_hash32_direct_store(cpu, sr, eaddr, access_type,
-+                                       raddrp, protp, guest_visible);
-     }
- 
-     /* 5. Check for segment level no-execute violation */
-     if (access_type == MMU_INST_FETCH &amp;&amp; (sr &amp; SR32_NX)) {
--        cs-&gt;exception_index = POWERPC_EXCP_ISI;
--        env-&gt;error_code = 0x10000000;
--        return 1;
-+        if (guest_visible) {
-+            cs-&gt;exception_index = POWERPC_EXCP_ISI;
-+            env-&gt;error_code = 0x10000000;
-+        }
-+        return false;
-     }
- 
-     /* 6. Locate the PTE in the hash table */
-     pte_offset = ppc_hash32_htab_lookup(cpu, sr, eaddr, &amp;pte);
-     if (pte_offset == -1) {
--        if (access_type == MMU_INST_FETCH) {
--            cs-&gt;exception_index = POWERPC_EXCP_ISI;
--            env-&gt;error_code = 0x40000000;
--        } else {
--            cs-&gt;exception_index = POWERPC_EXCP_DSI;
--            env-&gt;error_code = 0;
--            env-&gt;spr[SPR_DAR] = eaddr;
--            if (access_type == MMU_DATA_STORE) {
--                env-&gt;spr[SPR_DSISR] = 0x42000000;
-+        if (guest_visible) {
-+            if (access_type == MMU_INST_FETCH) {
-+                cs-&gt;exception_index = POWERPC_EXCP_ISI;
-+                env-&gt;error_code = 0x40000000;
-             } else {
--                env-&gt;spr[SPR_DSISR] = 0x40000000;
-+                cs-&gt;exception_index = POWERPC_EXCP_DSI;
-+                env-&gt;error_code = 0;
-+                env-&gt;spr[SPR_DAR] = eaddr;
-+                if (access_type == MMU_DATA_STORE) {
-+                    env-&gt;spr[SPR_DSISR] = 0x42000000;
-+                } else {
-+                    env-&gt;spr[SPR_DSISR] = 0x40000000;
-+                }
-             }
-         }
--
--        return 1;
-+        return false;
-     }
-     qemu_log_mask(CPU_LOG_MMU,
-                 "found PTE at offset %08" HWADDR_PRIx "\n", pte_offset);
-@@ -520,20 +527,22 @@ int ppc_hash32_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr,
-     if (need_prot &amp; ~prot) {
-         /* Access right violation */
-         qemu_log_mask(CPU_LOG_MMU, "PTE access rejected\n");
--        if (access_type == MMU_INST_FETCH) {
--            cs-&gt;exception_index = POWERPC_EXCP_ISI;
--            env-&gt;error_code = 0x08000000;
--        } else {
--            cs-&gt;exception_index = POWERPC_EXCP_DSI;
--            env-&gt;error_code = 0;
--            env-&gt;spr[SPR_DAR] = eaddr;
--            if (access_type == MMU_DATA_STORE) {
--                env-&gt;spr[SPR_DSISR] = 0x0a000000;
-+        if (guest_visible) {
-+            if (access_type == MMU_INST_FETCH) {
-+                cs-&gt;exception_index = POWERPC_EXCP_ISI;
-+                env-&gt;error_code = 0x08000000;
-             } else {
--                env-&gt;spr[SPR_DSISR] = 0x08000000;
-+                cs-&gt;exception_index = POWERPC_EXCP_DSI;
-+                env-&gt;error_code = 0;
-+                env-&gt;spr[SPR_DAR] = eaddr;
-+                if (access_type == MMU_DATA_STORE) {
-+                    env-&gt;spr[SPR_DSISR] = 0x0a000000;
-+                } else {
-+                    env-&gt;spr[SPR_DSISR] = 0x08000000;
-+                }
-             }
-         }
--        return 1;
-+        return false;
-     }
- 
-     qemu_log_mask(CPU_LOG_MMU, "PTE access granted !\n");
-@@ -557,45 +566,38 @@ int ppc_hash32_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr,
- 
-     /* 9. Determine the real address from the PTE */
- 
--    raddr = ppc_hash32_pte_raddr(sr, pte, eaddr);
-+    *raddrp = ppc_hash32_pte_raddr(sr, pte, eaddr);
-+    *protp = prot;
-+    return true;
-+}
-+
-+int ppc_hash32_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr,
-+                                MMUAccessType access_type, int mmu_idx)
-+{
-+    CPUState *cs = CPU(cpu);
-+    int page_size, prot;
-+    hwaddr raddr;
-+
-+    /* Translate eaddr to raddr (where raddr is addr qemu needs for access) */
-+    if (!ppc_hash32_xlate(cpu, eaddr, access_type, &amp;raddr,
-+                           &amp;page_size, &amp;prot, true)) {
-+        return 1;
-+    }
- 
-     tlb_set_page(cs, eaddr &amp; TARGET_PAGE_MASK, raddr &amp; TARGET_PAGE_MASK,
--                 prot, mmu_idx, TARGET_PAGE_SIZE);
--
-+                 prot, mmu_idx, 1UL &lt;&lt; page_size);
-     return 0;
- }
- 
- hwaddr ppc_hash32_get_phys_page_debug(PowerPCCPU *cpu, target_ulong eaddr)
- {
--    CPUPPCState *env = &amp;cpu-&gt;env;
--    target_ulong sr;
--    hwaddr pte_offset;
--    ppc_hash_pte32_t pte;
--    int prot;
-+    int psize, prot;
-+    hwaddr raddr;
- 
--    if (msr_dr == 0) {
--        /* Translation is off */
--        return eaddr;
--    }
--
--    if (env-&gt;nb_BATs != 0) {
--        hwaddr raddr = ppc_hash32_bat_lookup(cpu, eaddr, 0, &amp;prot);
--        if (raddr != -1) {
--            return raddr;
--        }
--    }
--
--    sr = env-&gt;sr[eaddr &gt;&gt; 28];
--
--    if (sr &amp; SR32_T) {
--        /* FIXME: Add suitable debug support for Direct Store segments */
-+    if (!ppc_hash32_xlate(cpu, eaddr, MMU_DATA_LOAD, &amp;raddr,
-+                           &amp;psize, &amp;prot, false)) {
-         return -1;
-     }
- 
--    pte_offset = ppc_hash32_htab_lookup(cpu, sr, eaddr, &amp;pte);
--    if (pte_offset == -1) {
--        return -1;
--    }
--
--    return ppc_hash32_pte_raddr(sr, pte, eaddr) &amp; TARGET_PAGE_MASK;
-+    return raddr &amp; TARGET_PAGE_MASK;
- }
-</pre>
-    </blockquote>
-    <div class="moz-signature">-- <br>
-      Bruno Piazera Larsen<br>
-      <a
-href="https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&amp;utm_medium=email&amp;utm_source=RD+Station">Instituto
-        de Pesquisas ELDORADO</a><br>
-      Departamento Computação Embarcada<br>
-      Analista de Software Trainee<br>
-      <a href="https://www.eldorado.org.br/disclaimer.html">Aviso Legal
-        - Disclaimer</a></div>
-  </body>
-</html>
+     Grammatical validation is handled later by `expr.check_exprs()`. 
 
---------------6530EA2F3E65D2D209E6AC37--
+
+>> +
+>> +    :param fname: Source filename.
+>> +    :param previously_included:
+>> +        The absolute pathnames of previously included source files,
+> 
+> Either file name / filename (either spelling, but let's pick one), or
+> pathname, but not both, please.
+> 
+> Possible resolution:
+> 
+>         :param fname: Source file name.
+>         :param previously_included:
+>             The absolute names of previously included source files,
+> 
+
+You got it, boss.
+
+>> +        if being invoked from another parser.
+>> +    :param incl_info:
+>> +       `QAPISourceInfo` belonging to the parent module.
+>> +       ``None`` implies this is the root module.
+>> +
+>> +    :ivar exprs: Resulting parsed expressions.
+>> +    :ivar docs: Resulting parsed documentation blocks.
+>> +
+>> +    :raise OSError: For problems opening the root schema document.
+> 
+> Hardly matters, but here we go: its both for open() and .read().  We
+> could say "reading" instead of "opening".
+> 
+
+True enough. Fixed.
+
+>> +    :raise QAPIError: For syntactic or semantic parsing errors.
+> 
+> "Semantic parsing errors" sounds like "triangular squares" :)
+> 
+
+I am horrified to learn that words mean things to people. I just pick 
+the ones that are the prettiest and cause me to experience dopamine. Am 
+I to believe that other people do otherwise?
+
+> I figure you wrote this because we're using both QAPIParseError and
+> QAPISemError.  The latter gets raised where we do more than just parse,
+> e.g. in directive processing.  It hardly matters, as we don't really
+> care for the difference between these error classes anywhere, and
+> pragmatically use whatever class is convenient.
+> 
+> Perhaps we should have a single class with multiple constructors
+> instead.  Even if yes, not now.
+> 
+
+Moving the column tracking stuff directly into QAPISourceInfo would be a 
+way to do it. The special constructor there could go away. It could help 
+solidify the token :: info correlation.
+
+Then we don't need the two error classes anymore, really. Except for 
+semantics, if we want them, to help provide hints at the CLI level about 
+which phase went wrong.
+
+Yes, later. Don't worry about it right now. I am facing similar design 
+consideration challenges for my Async QMP client over trying to decide 
+which errors to "hide" or wrap and which to promote as interface. 
+Ongoing learning process for me.
+
+> I recommend to gloss over (irrelevant) details and say "For parse
+> errors".  Yes, some of the errors aren't parse errors in the theory of
+> parsing sense, but I doubt readers care.  If *you* care, then maybe "For
+> errors in the schema source".  And then you might want to tweak the
+> OSError explanation to "For problems reading the root schema source
+> file".
+> 
+
+I care a *little*. I am still trying to develop a sense of consistency 
+for which things to document with :raise: and which I shouldn't.
+
+(You are not the only person doing some guinea pig experiments and 
+abusing a review process, you see ...)
+
+I like the phrasing of "For errors in the schema source" more than "For 
+parse errors" anyway. 1% less cryptic, even if the context is 
+"inherently obvious".
+
+>> +    """
+>>       def __init__(self,
+>>                    fname: str,
+>>                    previously_included: Optional[Set[str]] = None,
+>> @@ -73,6 +93,11 @@ def __init__(self,
+>>           self._parse()
+>>   
+>>       def _parse(self) -> None:
+>> +        """
+>> +        Parse the QAPI schema document.
+>> +
+>> +        :return: None. Results are stored in ``.exprs`` and ``.docs``.
+>> +        """
+>>           cur_doc = None
+>>   
+>>           # May raise OSError; allow the caller to handle it.
+>> @@ -199,6 +224,49 @@ def check_list_str(name: str, value: object) -> List[str]:
+>>               raise QAPISemError(info, "unknown pragma '%s'" % name)
+>>   
+>>       def accept(self, skip_comment: bool = True) -> None:
+>> +        """Read and store the next token.
+>> +
+>> +        :param skip_comment:
+>> +            When false, return COMMENT tokens ("#").
+>> +            This is used when reading documentation blocks.
+>> +
+>> +        :return:
+>> +            None. Several instance attributes are updated instead:
+>> +
+>> +            - ``.tok`` represents the token type. See below for values.
+>> +            - ``.info`` describes the token's source location.
+>> +            - ``.val`` is the token's value, if any. See below.
+>> +            - ``.pos`` is the buffer index of the first character of
+>> +              the token.
+>> +
+>> +        * Single-character tokens:
+>> +
+>> +            These are "{", "}", ":", ",", "[", and "]". ``.tok`` holds
+>> +            the single character and ``.val`` is None.
+>> +
+>> +        * Multi-character tokens:
+>> +
+>> +          * COMMENT:
+>> +
+>> +            This token is not normally returned by the lexer, but it can
+>> +            be when ``skip_comment`` is False. ``.tok`` is "#", and
+>> +            ``.val`` is a string including all chars until end-of-line,
+>> +            including the "#" itself.
+>> +
+>> +          * STRING:
+>> +
+>> +            ``.tok`` is "'", the single quote. ``.val`` contains the
+>> +            string, excluding the surrounding quotes.
+>> +
+>> +          * TRUE and FALSE:
+>> +
+>> +            ``.tok`` is either "t" or "f", ``.val`` will be the
+>> +            corresponding bool value.
+>> +
+>> +          * EOF:
+>> +
+>> +            ``.tok`` and ``.val`` will both be None at EOF.
+>> +        """
+>>           while True:
+>>               self.tok = self.src[self.cursor]
+>>               self.pos = self.cursor
+> 
+> This doc string is much better now, thanks!
+> 
+
+Great! I took some liberties with your suggestions as I always do, but I 
+like indicating the state changes in the :return: blurb in particular.
+
+--js
+
 
