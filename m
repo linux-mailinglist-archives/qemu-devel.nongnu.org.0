@@ -2,51 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EA94389292
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 17:28:44 +0200 (CEST)
-Received: from localhost ([::1]:41996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C11533892AE
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 17:31:14 +0200 (CEST)
+Received: from localhost ([::1]:46596 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljO7n-0002Cu-D7
-	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 11:28:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44508)
+	id 1ljOAD-0005No-Nr
+	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 11:31:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44964)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mwilck@suse.com>) id 1ljO5E-0000p3-0O
- for qemu-devel@nongnu.org; Wed, 19 May 2021 11:26:05 -0400
-Received: from mx2.suse.de ([195.135.220.15]:52962)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ljO71-0002vN-KJ
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 11:27:55 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:42830)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <mwilck@suse.com>) id 1ljO5B-00059Q-Gq
- for qemu-devel@nongnu.org; Wed, 19 May 2021 11:26:03 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
- t=1621437957; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=I8JhVWVz6KyBXk7bAPgVzdfokz0q7ya5EdUcoFPkKgI=;
- b=ByLOj/TAoEaaeTjEHScooTJPDHNIP/Aa0A0cKNq4i9UaS5S43JzntRVAF5oxz0hqSjflPw
- Thd8SymSYorv/GfeySdpwfmIk/p36Cnv7vMLXA3/zJT6elrw80cLqEb9TwIEf2KitqDdCQ
- DGXVH3SbQWIKP7mmjmWC+58MqOiWLnQ=
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id DB4D5B172;
- Wed, 19 May 2021 15:25:57 +0000 (UTC)
-From: mwilck@suse.com
-To: Laurent Vivier <lvivier@redhat.com>,
-	qemu-devel@nongnu.org
-Cc: Martin Wilck <mwilck@suse.com>
-Subject: [PATCH] qemu-binfmt-conf.sh: fix -F option
-Date: Wed, 19 May 2021 17:25:41 +0200
-Message-Id: <20210519152541.30625-1-mwilck@suse.com>
-X-Mailer: git-send-email 2.31.1
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ljO6w-0005ka-V6
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 11:27:55 -0400
+Received: by mail-wr1-x433.google.com with SMTP id x8so14455426wrq.9
+ for <qemu-devel@nongnu.org>; Wed, 19 May 2021 08:27:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=yTVa0tl4ospmeskMkPGL2F6r7MB0cKwldGTkp39oL5Y=;
+ b=MAC+CYZQkVnBgXcZS1GllJ+Gt7Der4BGKgGBO4RzHOJjQhaJGKRDfSrxmmu/HgrGTt
+ HKQBgKip8mX+ZQ6lundFAN/5tY3lObIYbOHSCI9IeljtBem1hXSwoKVJRZ3avY2XEo3J
+ KExZtBK6IxmdBUWI/ehAUnUXBNvtFQvg88QqM30/LIM1lPNdq39WQJUSn3jQSq2uxbis
+ 0Fr3qk+3fJoSoOsy5YEG5sOdOQCcgKVvvJv67O1QHKyP3hI6byktI5HAZlyKbHKGDoZ9
+ m7sL6TQ8pv5dg4ltL+9ntorGmfTLsOhvTnVbXRM5PusjYYkDbsLtrmFGRZrxHQCAJcJb
+ S49w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=yTVa0tl4ospmeskMkPGL2F6r7MB0cKwldGTkp39oL5Y=;
+ b=iAnVZvIDEvZ+MTZcamosd+fhgnGX5BTYCHH775oEqB/YSbXJVUYIhUXV988WXinoEM
+ a6hH/0F6AN4m8C4HP/Hcx2legk3T5S+EpItobd/+F9wKkGexlgOjVZJ9K811USV9d/pt
+ q9YI7gAU9DtaENKmC50xqGK8gcAM3se0qjFwyi0nb/ORRYctoQhUfRx5fI6FV3ebVqeQ
+ xk22VVXNwHAvgu3PIzYfnMkwOGai+bFEXuDvipRjcMDJkVQOpUvoOyPJ9F2F+Cjq4PXq
+ jHmX/t3GzVOl4tD8ohfnFjRNPh2SiMQzWoBhlGgjl9BxmpOP4eze+ihSME1hY+80ch3F
+ 5LPg==
+X-Gm-Message-State: AOAM530lRjYP2Ri/hmDqfgLXfVllcFAPsIjrwK+71QjT1MLz6FBZiZxx
+ HwLK+DfXwnV+YtzECHMxCfssAQ==
+X-Google-Smtp-Source: ABdhPJwk1id3lT+aPyD+vBEE4Rhkda/+ywimmBQoPM+HUz1wiMTlOmZfIoU8MUb2oQcqqMWky0nK5g==
+X-Received: by 2002:a5d:4910:: with SMTP id x16mr15335204wrq.112.1621438064429; 
+ Wed, 19 May 2021 08:27:44 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id l22sm6149371wmq.28.2021.05.19.08.27.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 19 May 2021 08:27:43 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id AA3331FF7E;
+ Wed, 19 May 2021 16:27:42 +0100 (BST)
+References: <20210518090720.21915-1-alex.bennee@linaro.org>
+ <CAFEAcA_biNmALCd9hkCiRXWOiiKv9hPhHFH9=Yt1PMVCTF+kNg@mail.gmail.com>
+User-agent: mu4e 1.5.13; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PULL v2 00/29] testing and plugin updates
+Date: Wed, 19 May 2021 16:26:54 +0100
+In-reply-to: <CAFEAcA_biNmALCd9hkCiRXWOiiKv9hPhHFH9=Yt1PMVCTF+kNg@mail.gmail.com>
+Message-ID: <87o8d6d9qp.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=mwilck@suse.com;
- helo=mx2.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x433.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,33 +87,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Martin Wilck <mwilck@suse.com>
 
-qemu-binfmt-conf.sh should use "-F" as short option for "--qemu-suffix".
-Fix the getopt call to make this work.
+Peter Maydell <peter.maydell@linaro.org> writes:
 
-Signed-off-by: Martin Wilck <mwilck@suse.com>
----
- scripts/qemu-binfmt-conf.sh | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> On Tue, 18 May 2021 at 10:07, Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
+rote:
+>>
+>> The following changes since commit 367196caa07ac31443bc360145cc10fbef4fd=
+f92:
+>>
+>>   Merge remote-tracking branch 'remotes/vivier2/tags/trivial-branch-for-=
+6.1-pull-request' into staging (2021-05-17 16:44:47 +0100)
+>>
+>> are available in the Git repository at:
+>>
+>>   https://github.com/stsquad/qemu.git tags/pull-testing-and-plugin-updat=
+es-180521-2
+>>
+>> for you to fetch changes up to b1aa4de12e846e0ad18969ee823c19b66d8d4d8f:
+>>
+>>   configure: use cc, not host_cc to set cross_cc for build arch (2021-05=
+-18 09:36:21 +0100)
+>>
+>> ----------------------------------------------------------------
+>> testing and plugin updates:
+>>
+>>   - various fixes for binfmt_misc docker images
+>>   - add hexagon check-tcg support docker image
+>>   - add tricore check-tcg support
+>>   - refactor ppc docker images
+>>   - add missing ppc64le tests
+>>   - don't use host_cc for test fallback
+>>   - check-tcg configure.sh tweaks for cross compile/clang
+>>   - fix some memory leaks in plugins
+>>
+>> ----------------------------------------------------------------
+>
+> This fails the 'build-user-hexagon' job in gitlab:
+>
+> https://gitlab.com/qemu-project/qemu/-/jobs/1276171518
+>
+> "ERROR: Cannot find Ninja" seems likely to be the main issue...
 
-diff --git a/scripts/qemu-binfmt-conf.sh b/scripts/qemu-binfmt-conf.sh
-index fb504a4..29ea33b 100755
---- a/scripts/qemu-binfmt-conf.sh
-+++ b/scripts/qemu-binfmt-conf.sh
-@@ -338,7 +338,7 @@ PERSISTENT=no
- PRESERVE_ARG0=no
- QEMU_SUFFIX=""
- 
--options=$(getopt -o ds:Q:S:e:hc:p:g: -l debian,systemd:,qemu-path:,qemu-suffix:,exportdir:,help,credential:,persistent:,preserve-argv0: -- "$@")
-+options=$(getopt -o ds:Q:S:e:hc:p:g:F: -l debian,systemd:,qemu-path:,qemu-suffix:,exportdir:,help,credential:,persistent:,preserve-argv0: -- "$@")
- eval set -- "$options"
- 
- while true ; do
--- 
-2.31.1
+Hmm that's weird:
 
++RUN apt update && \
++    DEBIAN_FRONTEND=3Dnoninteractive apt install -yy eatmydata && \
++    DEBIAN_FRONTEND=3Dnoninteractive eatmydata apt install -yy git ninja-b=
+uild && \
++    DEBIAN_FRONTEND=3Dnoninteractive eatmydata \
+
+so ninja should have been installed. I thought I had pushed to both the
+qemu-project and my personal registries as well.
+
+>
+>
+> thanks
+> -- PMM
+
+
+--=20
+Alex Benn=C3=A9e
 
