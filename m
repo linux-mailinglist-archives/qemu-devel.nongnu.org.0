@@ -2,77 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62AFA38949B
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 19:22:55 +0200 (CEST)
-Received: from localhost ([::1]:42290 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9ED073894A0
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 19:26:46 +0200 (CEST)
+Received: from localhost ([::1]:48452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljPuI-0008EQ-Es
-	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 13:22:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49160)
+	id 1ljPy1-00041Z-LR
+	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 13:26:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49552)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <venture@google.com>)
- id 1ljPqA-0002Ab-SS
- for qemu-devel@nongnu.org; Wed, 19 May 2021 13:18:38 -0400
-Received: from mail-qt1-x836.google.com ([2607:f8b0:4864:20::836]:41837)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ljPry-0004ad-W2
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 13:20:31 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:43896)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <venture@google.com>)
- id 1ljPq9-0007Iu-1B
- for qemu-devel@nongnu.org; Wed, 19 May 2021 13:18:38 -0400
-Received: by mail-qt1-x836.google.com with SMTP id t20so10684678qtx.8
- for <qemu-devel@nongnu.org>; Wed, 19 May 2021 10:18:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=4T96VZMkZ1KnlLg5Ic8ua/tiugK4QPCAdCIRiTPIdVI=;
- b=KT9lUrXPgRFpZWpZ0v+WyzTh6ALo3wGYk6Bg5fgKlNij0C4Rc1YY0kPK83F5GESfsW
- QEf9dDg5BlBxQLrs0qws/PAYQG1ssBxwOBnFsVtPIIOOA20fx2+BaVHnoqBazQHbPRbG
- yzHHgzUz+Nvuv4mHvOfagVVOCriRpEP0GS2DY0btrN2p1KDrWcUe3WcxSSL6nfMVVDbq
- Z59qxw/zREQ7dIAMlL3jaVVXrE95iXsjPp/CcXnBh9mj+8V4A4s9iZXAy+xrx7tjUry8
- p8ClHfC0B4ZfeT029yHomHk6YGZlDyAWa+poyfgzSvxiM7TDJgJyosT8Cs66mVDHEXGH
- fTDw==
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ljPrw-0008Gh-S6
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 13:20:30 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id p7so11098039wru.10
+ for <qemu-devel@nongnu.org>; Wed, 19 May 2021 10:20:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=hlfxI4GdyglrHlVe9pq+6l7D8aq8IBBy7pRMJBzAHdI=;
+ b=g7It9T/htDmkdj1hFIsQdwKAugTDL/YOnU9jdVK2BMp5bJCCiPH3FUF3staoZWySK0
+ uqLs8ec1dQjursLIkvkS0SR/Swm7t6U2N4+Y1UvLSuvq5ZB3eof/iJBI+5mznqQfBjpW
+ KB27tSfhpOnW/ESKMHMoJEePLwSS4Wj06gWVskURCAUcykZDGOpM2KLRfwsMY2yWp4ej
+ yLABn/oYqN2rdh09nza+ml+CNMqyA04c71M4hgPia5+rr1zAnAYoDQEfutk0rbEHRw2C
+ Sc/DgwP5/RF70L3x2MrV+hgMBAdB727JPy7YiNxuA9IZQ+xNhMI1uVTrWV293DVbISy0
+ TEVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=4T96VZMkZ1KnlLg5Ic8ua/tiugK4QPCAdCIRiTPIdVI=;
- b=QRBhW2p/ZtK8lHS5A0NgnekkPjasg5DNXG/Rv+o0wXQQOKJbX3VFbmEbds4T30DYcw
- xv7klhD820vjyw8kyVC256iv1kJyG4rKeeoXARUytz4v1CGy57l2rt7qdDN/Umvn+dGG
- 4yUHSBLdJCNTouv5P0N4iN3mazW2bJZMJFy0aojqnT0lI/kX+XPMGJ6ETtG1tz3s8w3R
- xrDgYpjYy1Na1QQvQhQqTaiPYFZHabRyqLSVe8P0BCXbOFPERL/YQ+tZN5S6SMZIdn36
- jDtRSfDd9f2cQN8DIZII1c4dPfCuJ2qft2VbHdHHLbZGnv8KIPXRDrbNAZfHvQlbak86
- Lyjw==
-X-Gm-Message-State: AOAM5308TD4wbnLOFQjWNfE8lEanHEnEbYByU4IeBDtTON2PEGjgUI64
- h4gtKraqKFVVWQkBEiVtp4ZGkuEsPo8xrZB0+1qgdw==
-X-Google-Smtp-Source: ABdhPJz4WVaQxSrH2fhVDltG66JBbDJdC18eUh8PwnQbmGlAXU6jINwhY/coBVnYM+aPfgL9TkDiYQh0Mcj+cSapqB8=
-X-Received: by 2002:ac8:6605:: with SMTP id c5mr549129qtp.21.1621444714988;
- Wed, 19 May 2021 10:18:34 -0700 (PDT)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=hlfxI4GdyglrHlVe9pq+6l7D8aq8IBBy7pRMJBzAHdI=;
+ b=eIK/cXa5rvuqCPcqgYJ0XkB0HOMD8HMfK0Xb+c02GcE+6cA7AtrD/Xhai2zBTy7v9j
+ CfC+0MSVx9sgAujIis7gkJ32S/N0A7Eu1u4ykJYpk65I6fhk2E/WmNHhrgOauZ3A8a6U
+ BtJiYz0++HW+twRLqVW6zDKUuAPr7KKRnsZOTZb6dKWjiLEBpnws67fmRiKzM/ZDJ1KA
+ QMhrSjObV67RJxSGRvHVBoYBKplgE1VrV+uYPvCvrLG7WTYBOx2173KWPyKf+1g0lU44
+ kU4t49hr3d1ds85Qr9Yjw992vYfQ1k6tn9wP5wpxeGCAkr+/4NHRYOORNS+mme2eKLqD
+ aoSQ==
+X-Gm-Message-State: AOAM532il3OjGxnk5rjY01S6yhyuumULtpYUiCTXnMWS6YFlPlocYXHV
+ xtgkvB4axgqHwc7f/uYWQVqCJQ==
+X-Google-Smtp-Source: ABdhPJz7r2bVWjRKOSacz/AmGAG8a0g3jF9D0KOAacS0Tqt96nX66SmHcHxBUPurwkyCF84rfwBa7w==
+X-Received: by 2002:a05:6000:1544:: with SMTP id 4mr17994wry.370.1621444827087; 
+ Wed, 19 May 2021 10:20:27 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id n7sm1357wri.14.2021.05.19.10.20.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 19 May 2021 10:20:26 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id C0B551FF7E;
+ Wed, 19 May 2021 18:20:25 +0100 (BST)
+References: <20210518090720.21915-1-alex.bennee@linaro.org>
+ <CAFEAcA_biNmALCd9hkCiRXWOiiKv9hPhHFH9=Yt1PMVCTF+kNg@mail.gmail.com>
+User-agent: mu4e 1.5.13; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PULL v2 00/29] testing and plugin updates
+Date: Wed, 19 May 2021 18:19:34 +0100
+In-reply-to: <CAFEAcA_biNmALCd9hkCiRXWOiiKv9hPhHFH9=Yt1PMVCTF+kNg@mail.gmail.com>
+Message-ID: <87im3ed4iu.fsf@linaro.org>
 MIME-Version: 1.0
-References: <20210518194118.755410-1-venture@google.com>
- <20210518194118.755410-5-venture@google.com>
- <CACPK8XcCOTQe2ObaBP3rfbM1oe0h=E2murXyPAvGBewKV=qBdw@mail.gmail.com>
-In-Reply-To: <CACPK8XcCOTQe2ObaBP3rfbM1oe0h=E2murXyPAvGBewKV=qBdw@mail.gmail.com>
-From: Patrick Venture <venture@google.com>
-Date: Wed, 19 May 2021 10:18:23 -0700
-Message-ID: <CAO=notyU64PAS003P97hiZ+V3ShSWiF3OmBRfL5D9fOJQByjEQ@mail.gmail.com>
-Subject: Re: [PATCH 4/4] aspeed: sonorapass: enable pca954x muxes
-To: Joel Stanley <joel@jms.id.au>
-Cc: Havard Skinnemoen <hskinnemoen@google.com>,
- Tyrone Ting <kfting@nuvoton.com>, 
- =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>, 
- Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>, 
- qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>, 
- Hao Wu <wuhaotsh@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::836;
- envelope-from=venture@google.com; helo=mail-qt1-x836.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,83 +87,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, May 18, 2021 at 4:27 PM Joel Stanley <joel@jms.id.au> wrote:
->
-> On Tue, 18 May 2021 at 19:41, Patrick Venture <venture@google.com> wrote:
-> >
-> > Enables the pca954x muxes in the bmc board configuration.
-> >
-> > Signed-off-by: Patrick Venture <venture@google.com>
-> > Reviewed-by: Hao Wu <wuhaotsh@google.com>
->
-> Not sure about this one, there's no device tree for it in Linux.
 
-Yeah, this was just a pick-up from grepping other BMC boards.  I added
-these going off the comment alone.  I'd be okay with dropping this in
-the series.
+Peter Maydell <peter.maydell@linaro.org> writes:
+
+> On Tue, 18 May 2021 at 10:07, Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
+rote:
+>>
+>> The following changes since commit 367196caa07ac31443bc360145cc10fbef4fd=
+f92:
+>>
+>>   Merge remote-tracking branch 'remotes/vivier2/tags/trivial-branch-for-=
+6.1-pull-request' into staging (2021-05-17 16:44:47 +0100)
+>>
+>> are available in the Git repository at:
+>>
+>>   https://github.com/stsquad/qemu.git tags/pull-testing-and-plugin-updat=
+es-180521-2
+>>
+>> for you to fetch changes up to b1aa4de12e846e0ad18969ee823c19b66d8d4d8f:
+>>
+>>   configure: use cc, not host_cc to set cross_cc for build arch (2021-05=
+-18 09:36:21 +0100)
+>>
+>> ----------------------------------------------------------------
+>> testing and plugin updates:
+>>
+>>   - various fixes for binfmt_misc docker images
+>>   - add hexagon check-tcg support docker image
+>>   - add tricore check-tcg support
+>>   - refactor ppc docker images
+>>   - add missing ppc64le tests
+>>   - don't use host_cc for test fallback
+>>   - check-tcg configure.sh tweaks for cross compile/clang
+>>   - fix some memory leaks in plugins
+>>
+>> ----------------------------------------------------------------
+>
+> This fails the 'build-user-hexagon' job in gitlab:
+>
+> https://gitlab.com/qemu-project/qemu/-/jobs/1276171518
+>
+> "ERROR: Cannot find Ninja" seems likely to be the main issue...
+
+OK the proper image is now pushed to the qemu-project registry (my tests
+used my personal registry as a preference):
+
+  17:16:11 [alex.bennee@hackbox2:~/l/q/b/all] testing/next=E2=86=91244|=E2=
+=9C=94 + docker push registry.gitlab.com/qemu-project/qemu/qemu/debian-hexa=
+gon-cross
+  Using default tag: latest
+  The push refers to repository [registry.gitlab.com/qemu-project/qemu/qemu=
+/debian-hexagon-cross]
+  512e7ffed4ce: Mounted from stsquad/qemu/qemu/debian-hexagon-cross
+  d608c89fd339: Mounted from stsquad/qemu/qemu/debian-hexagon-cross
+  07cc4994a1db: Mounted from stsquad/qemu/qemu/debian-hexagon-cross
+  14a1ca976738: Layer already exists
+  latest: digest: sha256:44fbef81dc947e643d6d15ee89ac609a28109fdaced61cbf1a=
+9c5292f2e23076 size: 1162
+
+And now that failing test passes:
+
+  https://gitlab.com/qemu-project/qemu/-/jobs/1277078226
 
 >
-> > ---
-> >  hw/arm/aspeed.c | 22 +++++++++++-----------
-> >  1 file changed, 11 insertions(+), 11 deletions(-)
-> >
-> > diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
-> > index 35a28b0e8b..27fd51980c 100644
-> > --- a/hw/arm/aspeed.c
-> > +++ b/hw/arm/aspeed.c
-> > @@ -541,14 +541,16 @@ static void swift_bmc_i2c_init(AspeedMachineState *bmc)
-> >
-> >  static void sonorapass_bmc_i2c_init(AspeedMachineState *bmc)
-> >  {
-> > +    I2CSlave *i2c_mux;
-> >      AspeedSoCState *soc = &bmc->soc;
-> >
-> >      /* bus 2 : */
-> >      i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 2), "tmp105", 0x48);
-> >      i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 2), "tmp105", 0x49);
-> > -    /* bus 2 : pca9546 @ 0x73 */
-> > +    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 2), "pca9546", 0x73);
-> >
-> > -    /* bus 3 : pca9548 @ 0x70 */
-> > +    /* bus 3 : */
-> > +    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 3), "pca9548", 0x70);
-> >
-> >      /* bus 4 : */
-> >      uint8_t *eeprom4_54 = g_malloc0(8 * 1024);
-> > @@ -562,7 +564,7 @@ static void sonorapass_bmc_i2c_init(AspeedMachineState *bmc)
-> >      /* bus 6 : */
-> >      i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 6), "tmp105", 0x48);
-> >      i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 6), "tmp105", 0x49);
-> > -    /* bus 6 : pca9546 @ 0x73 */
-> > +    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 6), "pca9546", 0x73);
-> >
-> >      /* bus 8 : */
-> >      uint8_t *eeprom8_56 = g_malloc0(8 * 1024);
-> > @@ -573,14 +575,12 @@ static void sonorapass_bmc_i2c_init(AspeedMachineState *bmc)
-> >      /* bus 8 : adc128d818 @ 0x1d */
-> >      /* bus 8 : adc128d818 @ 0x1f */
-> >
-> > -    /*
-> > -     * bus 13 : pca9548 @ 0x71
-> > -     *      - channel 3:
-> > -     *          - tmm421 @ 0x4c
-> > -     *          - tmp421 @ 0x4e
-> > -     *          - tmp421 @ 0x4f
-> > -     */
-> > -
-> > +    /* bus 13 : */
-> > +    i2c_mux = i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 13),
-> > +                                      "pca9548", 0x71);
-> > +    i2c_slave_create_simple(pca954x_i2c_get_bus(i2c_mux, 3), "tmp421", 0x4c);
-> > +    i2c_slave_create_simple(pca954x_i2c_get_bus(i2c_mux, 3), "tmp421", 0x4e);
-> > +    i2c_slave_create_simple(pca954x_i2c_get_bus(i2c_mux, 3), "tmp421", 0x4f);
-> >  }
-> >
-> >  static void witherspoon_bmc_i2c_init(AspeedMachineState *bmc)
-> > --
-> > 2.31.1.751.gd2f1c929bd-goog
-> >
+>
+> thanks
+> -- PMM
+
+
+--=20
+Alex Benn=C3=A9e
 
