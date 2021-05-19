@@ -2,43 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 937FC3883C2
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 02:29:24 +0200 (CEST)
-Received: from localhost ([::1]:56290 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EB9A3883C3
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 02:29:28 +0200 (CEST)
+Received: from localhost ([::1]:56662 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljA5T-0005ij-JE
-	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 20:29:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58794)
+	id 1ljA5X-0005y7-6p
+	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 20:29:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58842)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vivek.kasireddy@intel.com>)
- id 1ljA37-00037K-0R
- for qemu-devel@nongnu.org; Tue, 18 May 2021 20:26:57 -0400
-Received: from mga09.intel.com ([134.134.136.24]:43019)
+ id 1ljA3C-00038M-5P
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 20:27:03 -0400
+Received: from mga09.intel.com ([134.134.136.24]:43020)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vivek.kasireddy@intel.com>)
- id 1ljA35-0006XW-3M
- for qemu-devel@nongnu.org; Tue, 18 May 2021 20:26:56 -0400
-IronPort-SDR: RMtU0kwyp2ftM9mT+wjXHljQWG5I7qN9zrXi9Bzxo8yPBIrA/q7KMqbR/Fhe7Ph+twzpKK9qbP
- Ws/vl1YD4jQQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,9988"; a="200902430"
-X-IronPort-AV: E=Sophos;i="5.82,310,1613462400"; d="scan'208";a="200902430"
+ id 1ljA36-0006ZW-HB
+ for qemu-devel@nongnu.org; Tue, 18 May 2021 20:27:01 -0400
+IronPort-SDR: xnBad2q0afvQTCbiKg+E/svsi7hpWkJK4hzPd2nYDvlAaE48lpz7PYxZz6V0drLzWFkCbyvuQA
+ JfeU4uqEci2Q==
+X-IronPort-AV: E=McAfee;i="6200,9189,9988"; a="200902434"
+X-IronPort-AV: E=Sophos;i="5.82,310,1613462400"; d="scan'208";a="200902434"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 May 2021 17:26:40 -0700
-IronPort-SDR: +4GyuQObWmy0rd8S10qz6XT2gUbJ23NjlAvckXdfimMw+66j7j4bsdXSXPXStzR0z7ihi2XyA8
- pPZYhw1LoEdA==
-X-IronPort-AV: E=Sophos;i="5.82,310,1613462400"; d="scan'208";a="394177344"
+ 18 May 2021 17:26:41 -0700
+IronPort-SDR: efhv2w7MRbBRTtr/XG6P9wZhRaH127j3bL2AtTk6LSWwSBWCci89CcwLbeGeoFLVaKugnUfsR7
+ CQ7/wb/oHqFw==
+X-IronPort-AV: E=Sophos;i="5.82,310,1613462400"; d="scan'208";a="394177355"
 Received: from vkasired-desk2.fm.intel.com ([10.105.128.127])
  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  18 May 2021 17:26:40 -0700
 From: Vivek Kasireddy <vivek.kasireddy@intel.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 00/13] virtio-gpu: Add support for Blob resources feature
- (v5)
-Date: Tue, 18 May 2021 17:14:01 -0700
-Message-Id: <20210519001414.786439-1-vivek.kasireddy@intel.com>
+Subject: [PATCH v5 04/13] virtio-gpu: Add virtio_gpu_find_check_resource
+Date: Tue, 18 May 2021 17:14:05 -0700
+Message-Id: <20210519001414.786439-5-vivek.kasireddy@intel.com>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210519001414.786439-1-vivek.kasireddy@intel.com>
+References: <20210519001414.786439-1-vivek.kasireddy@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=134.134.136.24;
@@ -66,73 +67,137 @@ Cc: Vivek Kasireddy <vivek.kasireddy@intel.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Enabling this feature would eliminate data copies from the resource
-object in the Guest to the shadow resource in Qemu. This patch series
-however adds support only for Blobs of type
-VIRTIO_GPU_BLOB_MEM_GUEST with property VIRTIO_GPU_BLOB_FLAG_USE_SHAREABLE.
+Move finding the resource and validating its backing storage into one
+function.
 
-Most of the patches in this series are a rebased, refactored and bugfixed 
-versions of Gerd Hoffmann's patches located here:
-https://gitlab.freedesktop.org/virgl/qemu/-/commits/virtio-gpu-next
-
-v2:
-- Moved dpy_gl_update from set_scanout to resource_flush
-- Dropped the modifier
-- Rebase and other minor refactoring
-
-v3:
-- Rebased on top of Gerd's virgl device split series
-- Split the udmabuf helpers patch from the previous 
-  version into two (Gerd)
-- Added explicit flush feature (last 7 patches)
-
-v4 (Gerd):
-- Dropped explicit flush feature patches from the series
-- Slightly refactored udmabuf helpers patch (#3) to introduce
-  and use blob and blob_size fields
-- Fixed indentation issues and made other small changes in
-  set_scanout_blob patch (#12)
-
-v5:
-- Rebase (only #6 - Refactor virtio_gpu_create_mapping_iov)
-
+Based-on-patch-by: Gerd Hoffmann <kraxel@redhat.com>
 Cc: Gerd Hoffmann <kraxel@redhat.com>
+Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
+---
+ hw/display/virtio-gpu.c | 66 +++++++++++++++++++++++++++++------------
+ 1 file changed, 47 insertions(+), 19 deletions(-)
 
-Vivek Kasireddy (13):
-  ui: Get the fd associated with udmabuf driver
-  headers: Add udmabuf.h
-  virtio-gpu: Add udmabuf helpers
-  virtio-gpu: Add virtio_gpu_find_check_resource
-  virtio-gpu: Refactor virtio_gpu_set_scanout
-  virtio-gpu: Refactor virtio_gpu_create_mapping_iov
-  virtio-gpu: Add initial definitions for blob resources
-  virtio-gpu: Add virtio_gpu_resource_create_blob
-  ui/pixman: Add qemu_pixman_to_drm_format()
-  virtio-gpu: Add helpers to create and destroy dmabuf objects
-  virtio-gpu: Factor out update scanout
-  virtio-gpu: Add virtio_gpu_set_scanout_blob
-  virtio-gpu: Update cursor data using blob
-
- hw/display/meson.build                   |   2 +-
- hw/display/trace-events                  |   2 +
- hw/display/virtio-gpu-base.c             |   3 +
- hw/display/virtio-gpu-udmabuf.c          | 255 +++++++++++++
- hw/display/virtio-gpu-virgl.c            |   3 +-
- hw/display/virtio-gpu.c                  | 433 ++++++++++++++++++-----
- include/hw/virtio/virtio-gpu-bswap.h     |  16 +
- include/hw/virtio/virtio-gpu.h           |  39 +-
- include/standard-headers/linux/udmabuf.h |  32 ++
- include/ui/console.h                     |   3 +
- include/ui/qemu-pixman.h                 |   1 +
- scripts/update-linux-headers.sh          |   3 +
- ui/meson.build                           |   1 +
- ui/qemu-pixman.c                         |  35 +-
- ui/udmabuf.c                             |  40 +++
- 15 files changed, 758 insertions(+), 110 deletions(-)
- create mode 100644 hw/display/virtio-gpu-udmabuf.c
- create mode 100644 include/standard-headers/linux/udmabuf.h
- create mode 100644 ui/udmabuf.c
-
+diff --git a/hw/display/virtio-gpu.c b/hw/display/virtio-gpu.c
+index db56f0454a..7b5296f0d0 100644
+--- a/hw/display/virtio-gpu.c
++++ b/hw/display/virtio-gpu.c
+@@ -35,6 +35,10 @@
+ 
+ static struct virtio_gpu_simple_resource*
+ virtio_gpu_find_resource(VirtIOGPU *g, uint32_t resource_id);
++static struct virtio_gpu_simple_resource *
++virtio_gpu_find_check_resource(VirtIOGPU *g, uint32_t resource_id,
++                               bool require_backing,
++                               const char *caller, uint32_t *error);
+ 
+ static void virtio_gpu_cleanup_mapping(VirtIOGPU *g,
+                                        struct virtio_gpu_simple_resource *res);
+@@ -46,7 +50,8 @@ void virtio_gpu_update_cursor_data(VirtIOGPU *g,
+     struct virtio_gpu_simple_resource *res;
+     uint32_t pixels;
+ 
+-    res = virtio_gpu_find_resource(g, resource_id);
++    res = virtio_gpu_find_check_resource(g, resource_id, false,
++                                         __func__, NULL);
+     if (!res) {
+         return;
+     }
+@@ -114,6 +119,37 @@ virtio_gpu_find_resource(VirtIOGPU *g, uint32_t resource_id)
+     return NULL;
+ }
+ 
++static struct virtio_gpu_simple_resource *
++virtio_gpu_find_check_resource(VirtIOGPU *g, uint32_t resource_id,
++                               bool require_backing,
++                               const char *caller, uint32_t *error)
++{
++    struct virtio_gpu_simple_resource *res;
++
++    res = virtio_gpu_find_resource(g, resource_id);
++    if (!res) {
++        qemu_log_mask(LOG_GUEST_ERROR, "%s: invalid resource specified %d\n",
++                      caller, resource_id);
++        if (error) {
++            *error = VIRTIO_GPU_RESP_ERR_INVALID_RESOURCE_ID;
++        }
++        return NULL;
++    }
++
++    if (require_backing) {
++        if (!res->iov || !res->image) {
++            qemu_log_mask(LOG_GUEST_ERROR, "%s: no backing storage %d\n",
++                          caller, resource_id);
++            if (error) {
++                *error = VIRTIO_GPU_RESP_ERR_UNSPEC;
++            }
++            return NULL;
++        }
++    }
++
++    return res;
++}
++
+ void virtio_gpu_ctrl_response(VirtIOGPU *g,
+                               struct virtio_gpu_ctrl_command *cmd,
+                               struct virtio_gpu_ctrl_hdr *resp,
+@@ -352,11 +388,9 @@ static void virtio_gpu_transfer_to_host_2d(VirtIOGPU *g,
+     virtio_gpu_t2d_bswap(&t2d);
+     trace_virtio_gpu_cmd_res_xfer_toh_2d(t2d.resource_id);
+ 
+-    res = virtio_gpu_find_resource(g, t2d.resource_id);
+-    if (!res || !res->iov) {
+-        qemu_log_mask(LOG_GUEST_ERROR, "%s: illegal resource specified %d\n",
+-                      __func__, t2d.resource_id);
+-        cmd->error = VIRTIO_GPU_RESP_ERR_INVALID_RESOURCE_ID;
++    res = virtio_gpu_find_check_resource(g, t2d.resource_id, true,
++                                         __func__, &cmd->error);
++    if (!res) {
+         return;
+     }
+ 
+@@ -410,11 +444,9 @@ static void virtio_gpu_resource_flush(VirtIOGPU *g,
+     trace_virtio_gpu_cmd_res_flush(rf.resource_id,
+                                    rf.r.width, rf.r.height, rf.r.x, rf.r.y);
+ 
+-    res = virtio_gpu_find_resource(g, rf.resource_id);
++    res = virtio_gpu_find_check_resource(g, rf.resource_id, false,
++                                         __func__, &cmd->error);
+     if (!res) {
+-        qemu_log_mask(LOG_GUEST_ERROR, "%s: illegal resource specified %d\n",
+-                      __func__, rf.resource_id);
+-        cmd->error = VIRTIO_GPU_RESP_ERR_INVALID_RESOURCE_ID;
+         return;
+     }
+ 
+@@ -497,11 +529,9 @@ static void virtio_gpu_set_scanout(VirtIOGPU *g,
+     }
+ 
+     /* create a surface for this scanout */
+-    res = virtio_gpu_find_resource(g, ss.resource_id);
++    res = virtio_gpu_find_check_resource(g, ss.resource_id, true,
++                                         __func__, &cmd->error);
+     if (!res) {
+-        qemu_log_mask(LOG_GUEST_ERROR, "%s: illegal resource specified %d\n",
+-                      __func__, ss.resource_id);
+-        cmd->error = VIRTIO_GPU_RESP_ERR_INVALID_RESOURCE_ID;
+         return;
+     }
+ 
+@@ -709,11 +739,9 @@ virtio_gpu_resource_detach_backing(VirtIOGPU *g,
+     virtio_gpu_bswap_32(&detach, sizeof(detach));
+     trace_virtio_gpu_cmd_res_back_detach(detach.resource_id);
+ 
+-    res = virtio_gpu_find_resource(g, detach.resource_id);
+-    if (!res || !res->iov) {
+-        qemu_log_mask(LOG_GUEST_ERROR, "%s: illegal resource specified %d\n",
+-                      __func__, detach.resource_id);
+-        cmd->error = VIRTIO_GPU_RESP_ERR_INVALID_RESOURCE_ID;
++    res = virtio_gpu_find_check_resource(g, detach.resource_id, true,
++                                         __func__, &cmd->error);
++    if (!res) {
+         return;
+     }
+     virtio_gpu_cleanup_mapping(g, res);
 -- 
 2.30.2
 
