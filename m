@@ -2,68 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66A8C3896F2
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 21:45:45 +0200 (CEST)
-Received: from localhost ([::1]:33048 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D51A389700
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 21:49:26 +0200 (CEST)
+Received: from localhost ([::1]:44398 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljS8V-00067b-TE
-	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 15:45:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39056)
+	id 1ljSC5-0005fc-Ba
+	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 15:49:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39854)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ljRhD-0001X5-Gc
- for qemu-devel@nongnu.org; Wed, 19 May 2021 15:17:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52456)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ljRhB-0005Ub-Tw
- for qemu-devel@nongnu.org; Wed, 19 May 2021 15:17:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621451849;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Bb7HOwstpcV+VJjAKv1JqV4YALy7uIFV9AvAvZXxkwE=;
- b=ZOkBLi0CMM17MTkoKGCUvnhCmwtumFOIBtuJO20hfQw6zFphR2YxYucWfCubsYY3ZgGkvW
- gVtKBPY/ZG8rIi5VsAu0ghRdXzfEwYDi/MGe9NXPLFWJWYY5aCNkWwxFdvzIa7cucbH8V7
- ceAb22f6CUF6h6s/D4QxijAepJDgH8w=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-56-5LdZfULRO6exT0kwlBfR4g-1; Wed, 19 May 2021 15:17:26 -0400
-X-MC-Unique: 5LdZfULRO6exT0kwlBfR4g-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 82A11106BB2B;
- Wed, 19 May 2021 19:17:25 +0000 (UTC)
-Received: from scv.redhat.com (ovpn-117-64.rdu2.redhat.com [10.10.117.64])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B6A235D9DC;
- Wed, 19 May 2021 19:17:24 +0000 (UTC)
-From: John Snow <jsnow@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 6/6] qapi/parser.py: enable pylint checks
-Date: Wed, 19 May 2021 15:17:18 -0400
-Message-Id: <20210519191718.3950330-7-jsnow@redhat.com>
-In-Reply-To: <20210519191718.3950330-1-jsnow@redhat.com>
-References: <20210519191718.3950330-1-jsnow@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ljRkS-00070T-4k
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 15:20:52 -0400
+Received: from mail-ot1-x32e.google.com ([2607:f8b0:4864:20::32e]:33705)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ljRkN-0007Q0-UU
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 15:20:50 -0400
+Received: by mail-ot1-x32e.google.com with SMTP id
+ i23-20020a9d68d70000b02902dc19ed4c15so12789700oto.0
+ for <qemu-devel@nongnu.org>; Wed, 19 May 2021 12:20:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=tYTEaXQW/iHt+ROKJNXSIENc1t2UJbtSVTK39o/TkDk=;
+ b=LAMjyTwM2kNVcQwNNOHq3oGWHNQED4hunm07JQqUiGe6jQSqASEAQF/l+rqZ0najJq
+ XgAfJJea/bbwUCBZRh73ZjGpqp7hijbaHuhqvteKVLtQ2zaTWwCq7mDDfpjodcFluP+r
+ OfwzlXKBzLSciBl0yoxxnoSucfeBEDOyEwYQHif5Zu1E7xbjq5O+2DjP00NAsQvPIetZ
+ UIb+MX00WrYODJv+3ZEv8EVfomtXHQmgfPXp9vm9+HicfTUot0yLr3HJHZTGpFiah58e
+ J4UVXe5bC/1/K6KO6U8ybZ0kCCCAGwdCNKynh2GgcwgCE4xYvDd/e91lgIW8xHrsBxH+
+ kskw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=tYTEaXQW/iHt+ROKJNXSIENc1t2UJbtSVTK39o/TkDk=;
+ b=TS/SeIjJr4ytTb24+ysikl5n/1YosEeQGoXXbkKgWsgNvnv/7ey9mwJHrIYpj6KOG+
+ VVVapCzdImNhzEDwLYoAn2rba08fSRjCGFFRDBKll7zXGRRrIvj/zbDrDGTvIvE327/o
+ jZt1PYa9s67lUwYA7W0xXDONlDod2jGKotiH9IrBBruls8W49Lre9fDuoET/4G/tJLL5
+ nNUUSaBt00sN18+x9M3E1DRs6cx/wyhPofUyuf/bM2SUWl+uzUH3yfAl8E6f31mXASEQ
+ ft5n3Y/zk7peusIjkFuDvXG+ZMqVBKjNuE9Nc5+uflvx6BEhijGS8j15566myhuZlT3i
+ lnxA==
+X-Gm-Message-State: AOAM5335FsxBDHXFfvtbCOUnUPspcaSA/vzOo48UdmG93qo9Th5Y6S9y
+ BaCOlvuWg9ud05PFDNYRZKoPiA==
+X-Google-Smtp-Source: ABdhPJzKwsgL9qgmuVs7lwGA7xrFV391j8joCC9wi9EZG9u6snE0bRzJSPw3xqErN9SOSGRVReiiWg==
+X-Received: by 2002:a05:6830:1d64:: with SMTP id
+ l4mr815946oti.95.1621452046733; 
+ Wed, 19 May 2021 12:20:46 -0700 (PDT)
+Received: from [172.16.22.144] ([45.235.253.15])
+ by smtp.gmail.com with ESMTPSA id x8sm57714oov.29.2021.05.19.12.20.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 19 May 2021 12:20:46 -0700 (PDT)
+Subject: Re: [RFC PATCH 00/25] exec: Add load/store API for aligned pointers
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20210518183655.1711377-1-philmd@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <c4f5ae75-b0a6-7d70-b563-c30ad2415ae4@linaro.org>
+Date: Wed, 19 May 2021 14:20:43 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20210518183655.1711377-1-philmd@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.39,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::32e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x32e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,32 +89,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Markus Armbruster <armbru@redhat.com>, John Snow <jsnow@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Michael Roth <michael.roth@amd.com>,
- Cleber Rosa <crosa@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Huacai Chen <chenhuacai@kernel.org>,
+ Peter Xu <peterx@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Bibo Mao <maobibo@loongson.cn>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: John Snow <jsnow@redhat.com>
----
- scripts/qapi/pylintrc | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+On 5/18/21 1:36 PM, Philippe Mathieu-Daudé wrote:
+> The series is decomposed as:
+> - cleanups (1-6)
+> - clean ldst API using macros (7-13)
+> - add aligned ldst methods (14)
+> - add aligned memory methods (15-16)
+> - similar changes in virtio (17-24)
+> - use the new methods on vring aligned values (25)
+> 
+> There are some checkpatch errors related to the macro used.
 
-diff --git a/scripts/qapi/pylintrc b/scripts/qapi/pylintrc
-index c5275d5f59b..1a633b2b88e 100644
---- a/scripts/qapi/pylintrc
-+++ b/scripts/qapi/pylintrc
-@@ -2,8 +2,7 @@
- 
- # Add files or directories matching the regex patterns to the ignore list.
- # The regex matches against base names, not paths.
--ignore-patterns=parser.py,
--                schema.py,
-+ignore-patterns=schema.py,
- 
- 
- [MESSAGES CONTROL]
--- 
-2.30.2
+I think we should emphasize the atomicness of the access as opposed to the 
+alignedness.  That's the only thing that's important to virtio.
 
+Thus s/aligned/atomic/g and use qatomic_read/qatomic_set.
+
+
+r~
 
