@@ -2,71 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58335388CE8
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 13:36:38 +0200 (CEST)
-Received: from localhost ([::1]:38620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 255C1388D1C
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 13:40:32 +0200 (CEST)
+Received: from localhost ([::1]:41248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljKVB-0007wY-FT
-	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 07:36:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42738)
+	id 1ljKYx-0001Qa-7q
+	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 07:40:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43240)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <davoronetskiy@gmail.com>)
- id 1ljKUF-00075f-GL; Wed, 19 May 2021 07:35:39 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:41782)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <davoronetskiy@gmail.com>)
- id 1ljKUD-0005JT-IV; Wed, 19 May 2021 07:35:39 -0400
-Received: by mail-wr1-x436.google.com with SMTP id d11so13637636wrw.8;
- Wed, 19 May 2021 04:35:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=EQ5ZZu5iKyrCLKKpNhgHlz+eUdy3gYnoLVKrJVGGKWc=;
- b=ItV8MBKvK2XvoZLnwrkJfgJCPvvX80D8+CKkOfQu2qLoJK2fRQm8kVEx/5HHL44S4d
- 8BniWWZpCwluITx/oQCuMiEFD3OtrniyZmWclVIz+kpu1Imrm2dAmQPTyBBr+nBFsHYu
- f4+81F/TQzbMNWllaqrdKqCZAFjhiHPZ10LdPsl60QinX7KNSGag+WeMcUC5JYSW7I9S
- dzBswj1/yIPiHvTDzeLBtJIXbx9OseI6foiYyQxHgTp4daywnf1PI9Azbv9BDbObkcIV
- DVzl1hJuh2mlIJ8KGcb1OS7Rug2mQP111IfjunCs4yLm1d5v/WcT51fBWUeqwhWXU0hR
- nrrw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=EQ5ZZu5iKyrCLKKpNhgHlz+eUdy3gYnoLVKrJVGGKWc=;
- b=DZrGRT8Cois2z27c4tVSOKk6OACnGjWxHufdMjFhXf+hJ8MtBQ6VL2YnJXXZGRXc5O
- 4oqNEYAtEhPKVYJniiUaoW4TI1WtnVD0OZOQJ/wvz1kV3LLT/y8NEylQ+byuRiwvAMbX
- dsmH5OajoeJU3zK6j6XcBQD8mgJlFmZrN8tLIiXgxpoDkbfIzUVE0S/ckbwLXesWhliJ
- AbpUjoB2z9MYEnxlkeX72Kep4y3Ih84FE8pldbAlX4DewSmitEGxsNNsYdxTCFMn3LWy
- tkJE7T+wiEVQNZ6HguZ18F6TpVua/Wh1ZvzJ+bUo+tDt0aL3bp8GEpU97qBMVg1pX9Jf
- 3XGQ==
-X-Gm-Message-State: AOAM532ff+x4H5wUAoR55qoe+oVW7W6NEUp614vbg2HZNJqCWctSQxCR
- 6AqBeAd/itgxP7camLLe2jLECWN/Q/rSUg==
-X-Google-Smtp-Source: ABdhPJxnIJmyZnC7e1g3Rf6gMFWKYtjlrL3uWO6G9NuSX+yOGDHWGU71GpgNr8euhFgwbDiiq6v1aQ==
-X-Received: by 2002:adf:f78d:: with SMTP id q13mr13997945wrp.405.1621424134366; 
- Wed, 19 May 2021 04:35:34 -0700 (PDT)
-Received: from dima-Latitude-5300.fritz.box (93-62-248.netrun.cytanet.com.cy.
- [93.109.62.248])
- by smtp.gmail.com with ESMTPSA id z3sm5585092wmi.31.2021.05.19.04.35.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 May 2021 04:35:33 -0700 (PDT)
-From: Dmitry Voronetskiy <davoronetskiy@gmail.com>
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ljKXJ-0000UK-Ir
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 07:38:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60221)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ljKXH-0007JY-Fg
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 07:38:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1621424326;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=4tHC9cW4sOIgmwu3FfEV145O9OPG3CwI6wjHrKIzqtw=;
+ b=XgDJZA+ZCWbsNFVoWZb9i08VemZ9631E72UBxR31Ohhmh3a71A+ilyRlxGwPuWVVjU/uMa
+ ObrjJZUevcH6Fv2qZXZmSyJb+jYrdJW4I6AOdDm6I11+AahyT+kOIcP/me7dlMmudAlM6J
+ nNEUkgT0J5Oocn0YgJzgq1nBe3TKgzI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-586-yLF4v8lxNCmaLjN6l4GGbw-1; Wed, 19 May 2021 07:38:44 -0400
+X-MC-Unique: yLF4v8lxNCmaLjN6l4GGbw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E84188015C6;
+ Wed, 19 May 2021 11:38:43 +0000 (UTC)
+Received: from thuth.com (ovpn-112-85.ams2.redhat.com [10.36.112.85])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EA20670137;
+ Wed, 19 May 2021 11:38:42 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH] i386/kvm: The value passed to strerror should be positive
-Date: Wed, 19 May 2021 14:35:28 +0300
-Message-Id: <20210519113528.12474-1-davoronetskiy@gmail.com>
-X-Mailer: git-send-email 2.25.1
+Subject: [PATCH v2] configure: Avoid error messages about missing *-config-*.h
+ files
+Date: Wed, 19 May 2021 13:38:40 +0200
+Message-Id: <20210519113840.298174-1-thuth@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=davoronetskiy@gmail.com; helo=mail-wr1-x436.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.39,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,151 +74,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Dmitry Voronetskiy <vda1999@yandex.ru>
+Cc: qemu-trivial@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Dmitry Voronetskiy <vda1999@yandex.ru>
+When compiling with --disable-system there is a harmless yet still
+annoying error message at the end of the "configure" step:
 
-Signed-off-by: Dmitry Voronetskiy <vda1999@yandex.ru>
+ sed: can't read *-config-devices.h: No such file or directory
 
+When only building the tools or docs, without any emulator at all,
+there is even an additional message about missing *-config-target.h
+files.
+
+Fix it by checking whether any of these files are available before
+using them.
+
+Fixes: e0447a834d ("configure: Poison all current target-specific #defines")
+Reported-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- hw/i386/kvm/apic.c   |  2 +-
- hw/i386/kvm/clock.c  |  4 ++--
- hw/i386/kvm/i8254.c  | 10 +++++-----
- hw/i386/kvm/i8259.c  |  4 ++--
- hw/i386/kvm/ioapic.c |  4 ++--
- 5 files changed, 12 insertions(+), 12 deletions(-)
+ v2: Use ":>" instead of "touch" as suggested by Philippe
 
-diff --git a/hw/i386/kvm/apic.c b/hw/i386/kvm/apic.c
-index 52ff490910..1e89ca0899 100644
---- a/hw/i386/kvm/apic.c
-+++ b/hw/i386/kvm/apic.c
-@@ -145,7 +145,7 @@ static void kvm_apic_put(CPUState *cs, run_on_cpu_data data)
+ configure | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
+
+diff --git a/configure b/configure
+index 963e35b9a7..bf1c740494 100755
+--- a/configure
++++ b/configure
+@@ -6458,10 +6458,14 @@ fi
  
-     ret = kvm_vcpu_ioctl(CPU(s->cpu), KVM_SET_LAPIC, &kapic);
-     if (ret < 0) {
--        fprintf(stderr, "KVM_SET_LAPIC failed: %s\n", strerror(ret));
-+        fprintf(stderr, "KVM_SET_LAPIC failed: %s\n", strerror(-ret));
-         abort();
-     }
- }
-diff --git a/hw/i386/kvm/clock.c b/hw/i386/kvm/clock.c
-index efbc1e0d12..df70b4a033 100644
---- a/hw/i386/kvm/clock.c
-+++ b/hw/i386/kvm/clock.c
-@@ -105,7 +105,7 @@ static void kvm_update_clock(KVMClockState *s)
+ # Create list of config switches that should be poisoned in common code...
+ # but filter out CONFIG_TCG and CONFIG_USER_ONLY which are special.
+-sed -n -e '/CONFIG_TCG/d' -e '/CONFIG_USER_ONLY/d' \
+-    -e '/^#define / { s///; s/ .*//; s/^/#pragma GCC poison /p; }' \
+-    *-config-devices.h *-config-target.h | \
+-    sort -u > config-poison.h
++target_configs_h=$(ls *-config-devices.h *-config-target.h 2>/dev/null)
++if test -n "$target_configs_h" ; then
++    sed -n -e '/CONFIG_TCG/d' -e '/CONFIG_USER_ONLY/d' \
++        -e '/^#define / { s///; s/ .*//; s/^/#pragma GCC poison /p; }' \
++        $target_configs_h | sort -u > config-poison.h
++else
++    :> config-poison.h
++fi
  
-     ret = kvm_vm_ioctl(kvm_state, KVM_GET_CLOCK, &data);
-     if (ret < 0) {
--        fprintf(stderr, "KVM_GET_CLOCK failed: %s\n", strerror(ret));
-+        fprintf(stderr, "KVM_GET_CLOCK failed: %s\n", strerror(-ret));
-                 abort();
-     }
-     s->clock = data.clock;
-@@ -189,7 +189,7 @@ static void kvmclock_vm_state_change(void *opaque, bool running,
-         data.clock = s->clock;
-         ret = kvm_vm_ioctl(kvm_state, KVM_SET_CLOCK, &data);
-         if (ret < 0) {
--            fprintf(stderr, "KVM_SET_CLOCK failed: %s\n", strerror(ret));
-+            fprintf(stderr, "KVM_SET_CLOCK failed: %s\n", strerror(-ret));
-             abort();
-         }
- 
-diff --git a/hw/i386/kvm/i8254.c b/hw/i386/kvm/i8254.c
-index c558893961..fa68669e8a 100644
---- a/hw/i386/kvm/i8254.c
-+++ b/hw/i386/kvm/i8254.c
-@@ -104,7 +104,7 @@ static void kvm_pit_get(PITCommonState *pit)
-     if (kvm_has_pit_state2()) {
-         ret = kvm_vm_ioctl(kvm_state, KVM_GET_PIT2, &kpit);
-         if (ret < 0) {
--            fprintf(stderr, "KVM_GET_PIT2 failed: %s\n", strerror(ret));
-+            fprintf(stderr, "KVM_GET_PIT2 failed: %s\n", strerror(-ret));
-             abort();
-         }
-         pit->channels[0].irq_disabled = kpit.flags & KVM_PIT_FLAGS_HPET_LEGACY;
-@@ -115,7 +115,7 @@ static void kvm_pit_get(PITCommonState *pit)
-          */
-         ret = kvm_vm_ioctl(kvm_state, KVM_GET_PIT, &kpit);
-         if (ret < 0) {
--            fprintf(stderr, "KVM_GET_PIT failed: %s\n", strerror(ret));
-+            fprintf(stderr, "KVM_GET_PIT failed: %s\n", strerror(-ret));
-             abort();
-         }
-     }
-@@ -180,7 +180,7 @@ static void kvm_pit_put(PITCommonState *pit)
-     if (ret < 0) {
-         fprintf(stderr, "%s failed: %s\n",
-                 kvm_has_pit_state2() ? "KVM_SET_PIT2" : "KVM_SET_PIT",
--                strerror(ret));
-+                strerror(-ret));
-         abort();
-     }
- }
-@@ -272,7 +272,7 @@ static void kvm_pit_realizefn(DeviceState *dev, Error **errp)
-     }
-     if (ret < 0) {
-         error_setg(errp, "Create kernel PIC irqchip failed: %s",
--                   strerror(ret));
-+                   strerror(-ret));
-         return;
-     }
-     switch (s->lost_tick_policy) {
-@@ -286,7 +286,7 @@ static void kvm_pit_realizefn(DeviceState *dev, Error **errp)
-             if (ret < 0) {
-                 error_setg(errp,
-                            "Can't disable in-kernel PIT reinjection: %s",
--                           strerror(ret));
-+                           strerror(-ret));
-                 return;
-             }
-         }
-diff --git a/hw/i386/kvm/i8259.c b/hw/i386/kvm/i8259.c
-index 3f8bf69e9c..d61bae4dc3 100644
---- a/hw/i386/kvm/i8259.c
-+++ b/hw/i386/kvm/i8259.c
-@@ -43,7 +43,7 @@ static void kvm_pic_get(PICCommonState *s)
-     chip.chip_id = s->master ? KVM_IRQCHIP_PIC_MASTER : KVM_IRQCHIP_PIC_SLAVE;
-     ret = kvm_vm_ioctl(kvm_state, KVM_GET_IRQCHIP, &chip);
-     if (ret < 0) {
--        fprintf(stderr, "KVM_GET_IRQCHIP failed: %s\n", strerror(ret));
-+        fprintf(stderr, "KVM_GET_IRQCHIP failed: %s\n", strerror(-ret));
-         abort();
-     }
- 
-@@ -96,7 +96,7 @@ static void kvm_pic_put(PICCommonState *s)
- 
-     ret = kvm_vm_ioctl(kvm_state, KVM_SET_IRQCHIP, &chip);
-     if (ret < 0) {
--        fprintf(stderr, "KVM_SET_IRQCHIP failed: %s\n", strerror(ret));
-+        fprintf(stderr, "KVM_SET_IRQCHIP failed: %s\n", strerror(-ret));
-         abort();
-     }
- }
-diff --git a/hw/i386/kvm/ioapic.c b/hw/i386/kvm/ioapic.c
-index 71a563181e..ee7c8ef68b 100644
---- a/hw/i386/kvm/ioapic.c
-+++ b/hw/i386/kvm/ioapic.c
-@@ -62,7 +62,7 @@ static void kvm_ioapic_get(IOAPICCommonState *s)
-     chip.chip_id = KVM_IRQCHIP_IOAPIC;
-     ret = kvm_vm_ioctl(kvm_state, KVM_GET_IRQCHIP, &chip);
-     if (ret < 0) {
--        fprintf(stderr, "KVM_GET_IRQCHIP failed: %s\n", strerror(ret));
-+        fprintf(stderr, "KVM_GET_IRQCHIP failed: %s\n", strerror(-ret));
-         abort();
-     }
- 
-@@ -95,7 +95,7 @@ static void kvm_ioapic_put(IOAPICCommonState *s)
- 
-     ret = kvm_vm_ioctl(kvm_state, KVM_SET_IRQCHIP, &chip);
-     if (ret < 0) {
--        fprintf(stderr, "KVM_SET_IRQCHIP failed: %s\n", strerror(ret));
-+        fprintf(stderr, "KVM_SET_IRQCHIP failed: %s\n", strerror(-ret));
-         abort();
-     }
- }
+ # Save the configure command line for later reuse.
+ cat <<EOD >config.status
 -- 
-2.25.1
+2.27.0
 
 
