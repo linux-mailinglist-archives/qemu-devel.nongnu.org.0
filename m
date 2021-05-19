@@ -2,66 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4091538851F
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 05:09:18 +0200 (CEST)
-Received: from localhost ([::1]:47716 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7372538852F
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 05:20:17 +0200 (CEST)
+Received: from localhost ([::1]:54578 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljCaC-0003v0-Gf
-	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 23:09:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53392)
+	id 1ljCkq-0000o8-0s
+	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 23:20:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55016)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yangxiaojuan@loongson.cn>)
- id 1ljCZO-0003ET-C5
- for qemu-devel@nongnu.org; Tue, 18 May 2021 23:08:26 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:44634 helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yangxiaojuan@loongson.cn>) id 1ljCZM-0006qc-3N
- for qemu-devel@nongnu.org; Tue, 18 May 2021 23:08:26 -0400
-Received: from localhost.localdomain (unknown [10.20.42.60])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9BxwOIggaRgIFAAAA--.1813S3;
- Wed, 19 May 2021 11:08:16 +0800 (CST)
-Subject: Re: [PATCH] fw_cfg: Set the max fw_cfg mem read size to 8 bytes
-To: Laszlo Ersek <lersek@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>
-References: <1621341794-1041-1-git-send-email-yangxiaojuan@loongson.cn>
- <7e258317-2027-6c0f-1953-675f3aa1ee0c@redhat.com>
-From: yangxiaojuan <yangxiaojuan@loongson.cn>
-Message-ID: <f272c1d2-a88e-b6af-94b9-c38618991d15@loongson.cn>
-Date: Wed, 19 May 2021 11:08:16 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1ljCjE-0007QK-Pc; Tue, 18 May 2021 23:18:36 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:3429)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1ljCjB-0005xx-V9; Tue, 18 May 2021 23:18:36 -0400
+Received: from dggems702-chm.china.huawei.com (unknown [172.30.72.59])
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4FlHzZ0N3szNywX;
+ Wed, 19 May 2021 11:14:50 +0800 (CST)
+Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
+ dggems702-chm.china.huawei.com (10.3.19.179) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Wed, 19 May 2021 11:18:19 +0800
+Received: from [10.174.187.128] (10.174.187.128) by
+ dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
+ 15.1.2176.2; Wed, 19 May 2021 11:18:18 +0800
+Subject: Re: [RFC PATCH v2 5/6] hw/arm/virt-acpi-build: Add PPTT table
+To: Salil Mehta <salil.mehta@huawei.com>, Andrew Jones <drjones@redhat.com>
+References: <20210413080745.33004-1-wangyanan55@huawei.com>
+ <20210413080745.33004-6-wangyanan55@huawei.com>
+ <1551b7d6-e010-e5c7-47e1-c347ca78a1db@huawei.com>
+ <a6ccb20f19b743a29f6aaffcf3088df2@huawei.com>
+ <20210518074221.umezsdedzyzmcbsk@gator.home>
+ <80dca9f16c5b4bef9900f6cf76c99500@huawei.com>
+ <20210518190539.fwsvl2ijb4jlzbyi@gator.home>
+ <b61a7413f98a430685b838eecc2db74f@huawei.com>
+From: "wangyanan (Y)" <wangyanan55@huawei.com>
+Message-ID: <224d54ac-0c03-afc4-4aec-ea3435aa68e7@huawei.com>
+Date: Wed, 19 May 2021 11:18:18 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <7e258317-2027-6c0f-1953-675f3aa1ee0c@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+In-Reply-To: <b61a7413f98a430685b838eecc2db74f@huawei.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 7bit
-X-CM-TRANSID: AQAAf9BxwOIggaRgIFAAAA--.1813S3
-X-Coremail-Antispam: 1UD129KBjvJXoW7CrWxCw45AF4rtrW7uw15urg_yoW8ur13pF
- 97u3WUCFWktr4DCF42g3y7Xa4rZ39rGr1UKa17tF1v9rn0krWkJFyjvasak3yUXrn7JF1j
- 9w1kWry5X3Z0yFDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUvFb7Iv0xC_Cr1lb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I2
- 0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
- A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xII
- jxv20xvEc7CjxVAFwI0_Cr0_Gr1UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4
- vEx4A2jsIEc7CjxVAFwI0_Cr1j6rxdM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVAC
- Y4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1Y6r17McIj6I8E87Iv67AKxVWUJV
- W8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0VAS07AlzVAYIcxG
- 8wCY02Avz4vE-syl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxV
- Aqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r12
- 6r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6x
- kF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVW3JVWrJr1lIxAIcVC2z280aVAF
- wI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvj
- xU29YwUUUUU
-X-CM-SenderInfo: p1dqw5xldry3tdq6z05rqj20fqof0/
-Received-SPF: pass client-ip=114.242.206.163;
- envelope-from=yangxiaojuan@loongson.cn; helo=loongson.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Language: en-US
+X-Originating-IP: [10.174.187.128]
+X-ClientProxiedBy: dggeme718-chm.china.huawei.com (10.1.199.114) To
+ dggpemm500023.china.huawei.com (7.185.36.83)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.191;
+ envelope-from=wangyanan55@huawei.com; helo=szxga05-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -74,76 +72,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "linuxarm@openeuler.org" <linuxarm@openeuler.org>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Linuxarm <linuxarm@huawei.com>, Shannon Zhao <shannon.zhaosl@gmail.com>,
+ Igor Mammedov <imammedo@redhat.com>,
+ "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ "Zengtao \(B\)" <prime.zeng@hisilicon.com>, yangyicong <yangyicong@huawei.com>,
+ yuzenghui <yuzenghui@huawei.com>,
+ "Wanghaibin \(D\)" <wanghaibin.wang@huawei.com>,
+ zhukeqian <zhukeqian1@huawei.com>, "lijiajie \(H\)" <lijiajie11@huawei.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,Laszlo
 
-Thanks for your kindly reply.This is my first time to submit
-code to the community. I spent some time learning how to configure
-the email and reply.
-
-Yes you are right, fw_cfg_init_mem_wide can solve my problem.
-I just want to access 8 bytes width.I did not look at the code
-carefully.I am so sorry. My patch can be abandoned.
-
-I am from loongson. We want to add a new board support to
-the community.Later we will submit more code.
-
-thanks
-Xiaojuan Yang
-
-
-On 5/18/21 11:49 PM, Laszlo Ersek wrote:
-> On 05/18/21 14:43, Xiaojuan Yang wrote:
->> From: yangxiaojuan <yangxiaojuan@loongson.cn>
+On 2021/5/19 3:22, Salil Mehta wrote:
+>> From: Andrew Jones [mailto:drjones@redhat.com]
+>> Sent: Tuesday, May 18, 2021 8:06 PM
+>> To: Salil Mehta <salil.mehta@huawei.com>
+>> Cc: wangyanan (Y) <wangyanan55@huawei.com>; Peter Maydell
+>> <peter.maydell@linaro.org>; Michael S . Tsirkin <mst@redhat.com>; Wanghaibin
+>> (D) <wanghaibin.wang@huawei.com>; qemu-devel@nongnu.org; Shannon Zhao
+>> <shannon.zhaosl@gmail.com>; qemu-arm@nongnu.org; Alistair Francis
+>> <alistair.francis@wdc.com>; Zengtao (B) <prime.zeng@hisilicon.com>;
+>> yangyicong <yangyicong@huawei.com>; yuzenghui <yuzenghui@huawei.com>; Igor
+>> Mammedov <imammedo@redhat.com>; zhukeqian <zhukeqian1@huawei.com>; lijiajie (H)
+>> <lijiajie11@huawei.com>; David Gibson <david@gibson.dropbear.id.au>; Linuxarm
+>> <linuxarm@huawei.com>; linuxarm@openeuler.org
+>> Subject: Re: [RFC PATCH v2 5/6] hw/arm/virt-acpi-build: Add PPTT table
 >>
->> fw_cfg_data_read() func supports access widths from
->> 1 to 8 bytes while the ops set the wrong read size.
+>> On Tue, May 18, 2021 at 06:34:08PM +0000, Salil Mehta wrote:
+>>>   Those benefits, when vcpu pinning is used, are the same benefits
+>>>> as for the host, which already use PPTT tables to describe topology, even
+>>>> though hot plug isn't supported.
+>>> yes sure, you mean pinning vcpus according to the cpu topology for performance?
+>> Yup
+> Already Agreed :)
+>
+>>>> Now, if you're saying we should only generate tables for smp.cpus, not
+>>> Correct. This is what I thought we must be doing even now
+>>>
+>>>> smp.maxcpus, because hot plug isn't supported anyway, then I see your
+>>>> point. But, it'd be better to require smp.cpus == smp.maxcpus in our
+>>>> smp_parse function to do that, which we've never done before, so we may
+>>>> have trouble supporting existing command lines.
+>>> I am trying to recall, if the vcpu Hotplug is not supported then can they
+>>> ever be different?
+>>>
+>>> cpus =  (threads * cores * sockets)
+>>>
+>>> static void smp_parse(MachineState *ms, QemuOpts *opts)
+>>> {
+>>>       [...]
+>>>
+>>>          if (sockets * cores * threads != ms->smp.max_cpus) {
+>>>              warn_report("Invalid CPU topology deprecated: "
+>>>                          "sockets (%u) * cores (%u) * threads (%u) "
+>>>                          "!= maxcpus (%u)",
+>>>                          sockets, cores, threads,
+>>>                          ms->smp.max_cpus);
+>>>          }
+>>>       [...]
+>>> }
+>>>
+>>> Although, above check does not exit(1) and just warns on detecting invalid
+>>> CPU topology. Not sure why?
+>> Hmm, not sure what code you have there. I see this in
+>> hw/core/machine.c:smp_parse
 >>
->> Most arch use 8 bytes to send ram_size to bios.
+>>          if (ms->smp.max_cpus < cpus) {
+>>              error_report("maxcpus must be equal to or greater than smp");
+>>              exit(1);
+>>          }
 >>
->> Signed-off-by: yangxiaojuan <yangxiaojuan@loongson.cn>
->> ---
->>  hw/nvram/fw_cfg.c | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>          if (sockets * cores * threads != ms->smp.max_cpus) {
+>>              error_report("Invalid CPU topology: "
+>>                           "sockets (%u) * cores (%u) * threads (%u) "
+>>                           "!= maxcpus (%u)",
+>>                           sockets, cores, threads,
+>>                           ms->smp.max_cpus);
+>>              exit(1);
+>>          }
 >>
->> diff --git a/hw/nvram/fw_cfg.c b/hw/nvram/fw_cfg.c
->> index 9b8dcca4ea..242614152c 100644
->> --- a/hw/nvram/fw_cfg.c
->> +++ b/hw/nvram/fw_cfg.c
->> @@ -540,7 +540,7 @@ static const MemoryRegionOps fw_cfg_data_mem_ops = {
->>      .endianness = DEVICE_BIG_ENDIAN,
->>      .valid = {
->>          .min_access_size = 1,
->> -        .max_access_size = 1,
->> +        .max_access_size = 8,
->>          .accepts = fw_cfg_data_mem_valid,
->>      },
->>  };
->>
-> 
-> This patch conflicts with (adjacent) commits
-> 
-> - cfaadf0e89e7 ("fw_cfg_mem: introduce the "data_width" property",
-> 2014-12-22) and
-> 
-> - 6c87e3d5967a ("fw_cfg_mem: expose the "data_width" property with
-> fw_cfg_init_mem_wide()", 2014-12-22)
-> 
-> Your board code is supposed to call the fw_cfg_init_mem_wide() function,
-> for setting the maximum access width.
-> 
-> In fact, I see a call to fw_cfg_init_mem_wide() in
-> "hw/mips/loongson3_virt.c" already, from commit c76b409fef19 ("hw/mips:
-> Add Loongson-3 machine support", 2021-01-04). (I'm only highlighting
-> this board because your email address is from domain "loongson.cn".)
-> 
-> What is the actual problem you're trying to solve?
-> 
+>>> Well if you think there are subtleties to support above implementation and
+>>> we cannot do it now then sure it is your call. :)
+Hi Salil, Drew,
+>> The problem is that -smp 4,maxcpus=8 doesn't error out today, even though
+>> it doesn't do anything. OTOH, -smp 4,cores=2 doesn't error out either, but
+>> we're proposing that it should. Maybe we can start erroring out when
+>> cpus != maxcpus until hot plug is supported?
+> Agreed, both don't make any sense if hotplug is not supported and ideally should
+> fail with error. We should block any such topology configuration.
+In the ARM-specific function virt_smp_parse() (patch 9), there already
+have been some restrictions for the given -smp configuration.
+We now only allow:
+-smp N
+-smp maxcpus=M
+-smp N, maxcpus=M
+
+-smp N, sockets=X, cores=Y
+-smp N, sockets=X, cores=Y, threads=Z
+
+-smp maxcpus=M, sockets=X, cores=Y
+-smp maxcpus=M, sockets=X, cores=Y, threads=Z
+
+-smp N, maxcpus=M, sockets=X, cores=Y
+-smp N, maxcpus=M, sockets=X, cores=Y, threads=Z
+
+and disallow the other strange and rare formats that shouldn't be provided.
+
+It's reasonable to block the topology configuration which is not useful
+currently. I will add the requirement for "cpus==maxcpus" in this fuction
+if the possible conflict with existing command lines is not a big problem.
+
+Thanks,
+Yanan
+>
 > Thanks
-> Laszlo
-> 
-
+> Salil
+> .
 
