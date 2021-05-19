@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D9A9389103
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 16:33:50 +0200 (CEST)
-Received: from localhost ([::1]:45880 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A9E138910A
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 16:34:49 +0200 (CEST)
+Received: from localhost ([::1]:53616 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljNGf-0003tO-2B
-	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 10:33:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57208)
+	id 1ljNHc-0000kF-3j
+	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 10:34:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57432)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bruno.larsen@eldorado.org.br>)
- id 1ljNCO-00008y-0L; Wed, 19 May 2021 10:29:24 -0400
-Received: from [201.28.113.2] (port=49677 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bruno.larsen@eldorado.org.br>)
- id 1ljNCJ-00088S-Vp; Wed, 19 May 2021 10:29:21 -0400
-Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Wed, 19 May 2021 11:29:16 -0300
-Received: from [127.0.0.1] (unknown [10.10.71.235])
- by power9a (Postfix) with ESMTPS id C515880139F;
- Wed, 19 May 2021 11:29:15 -0300 (-03)
-Subject: Re: [PATCH v2 7/7] target/ppc: wrapped some TCG only logic with ifdefs
-To: David Gibson <david@gibson.dropbear.id.au>
-References: <20210518150515.57983-1-bruno.larsen@eldorado.org.br>
- <20210518150515.57983-8-bruno.larsen@eldorado.org.br>
- <YKRxu6mcVAfQJUwo@yekko>
-From: Bruno Piazera Larsen <bruno.larsen@eldorado.org.br>
-Message-ID: <92c78813-ffb3-413f-e794-c287a72d4a1d@eldorado.org.br>
-Date: Wed, 19 May 2021 11:29:15 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1ljNCe-0000iW-EN
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 10:29:40 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:37862
+ helo=mail.default.ilande.bv.iomart.io)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1ljNCY-0008Je-Dl
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 10:29:40 -0400
+Received: from host217-39-58-213.range217-39.btcentralplus.com
+ ([217.39.58.213] helo=kentang.home)
+ by mail.default.ilande.bv.iomart.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1ljNCW-0003Tz-A8; Wed, 19 May 2021 15:29:32 +0100
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+To: qemu-devel@nongnu.org,
+	laurent@vivier.eu
+Date: Wed, 19 May 2021 15:29:16 +0100
+Message-Id: <20210519142917.16693-4-mark.cave-ayland@ilande.co.uk>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20210519142917.16693-1-mark.cave-ayland@ilande.co.uk>
+References: <20210519142917.16693-1-mark.cave-ayland@ilande.co.uk>
 MIME-Version: 1.0
-In-Reply-To: <YKRxu6mcVAfQJUwo@yekko>
-Content-Type: multipart/alternative;
- boundary="------------BFF8937A1EF248A8306F7E6F"
-Content-Language: en-US
-X-OriginalArrivalTime: 19 May 2021 14:29:16.0128 (UTC)
- FILETIME=[58B08E00:01D74CBB]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
-Received-SPF: pass client-ip=201.28.113.2;
- envelope-from=bruno.larsen@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -10
-X-Spam_score: -1.1
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 217.39.58.213
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: [PATCH 3/4] target/m68k: introduce gen_singlestep_exception() function
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.bv.iomart.io
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
- NICE_REPLY_A=-0.001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -60,268 +61,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: farosas@linux.ibm.com, richard.henderson@linaro.org, qemu-devel@nongnu.org,
- lucas.araujo@eldorado.org.br, fernando.valle@eldorado.org.br,
- qemu-ppc@nongnu.org, matheus.ferst@eldorado.org.br, luis.pires@eldorado.org.br
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a multi-part message in MIME format.
---------------BFF8937A1EF248A8306F7E6F
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 8bit
+Introduce a new gen_singlestep_exception() function to be called when generating
+the EXCP_DEBUG exception in single-step mode rather than calling
+gen_raise_exception(EXCP_DEBUG) directly. This allows for the single-step
+exception behaviour for all callers to be managed in a single place.
 
+Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+---
+ target/m68k/translate.c | 17 +++++++++++++----
+ 1 file changed, 13 insertions(+), 4 deletions(-)
 
-On 18/05/2021 23:02, David Gibson wrote:
-> On Tue, May 18, 2021 at 12:05:15PM -0300, Bruno Larsen (billionai) wrote:
->> Wrapped some function calls in cpu_init.c, gdbstub.c, mmu-hash64.c and
->> excp_helper.c that were TCG only with ifdef CONFIG_TCG, to support
->> building without TCG.
->>
->> for excp_helper we also moved the function do_rfi higher in the file to
->> reduce the ifdef count.
-> The description's no longer really accurate since some of the fixups
-> are no longer ifdef based.
-Sure, will do
-> <snip>
->>                            0x00000000);
->>           }
->>       }
->> @@ -8605,11 +8603,13 @@ static void ppc_cpu_realize(DeviceState *dev, Error **errp)
->>           }
->>       }
->>   
->> +#ifdef CONFIG_TCG
->>       create_ppc_opcodes(cpu, &local_err);
->>       if (local_err != NULL) {
->>           error_propagate(errp, local_err);
->>           goto unrealize;
->>       }
->> +#endif
-> In this instance, I think it would be cleaner to create a no-op stub
-> for create_ppc_opcodes() and destroy_ppc_opcodes() rather than using
-> ifdefs.
-Ok. will add the stubs in tcg-stubs.c
->
->>       init_ppc_proc(cpu);
->>   
->>       ppc_gdb_init(cs, pcc);
->> @@ -8798,7 +8798,9 @@ static void ppc_cpu_unrealize(DeviceState *dev)
->>   
->>       cpu_remove_sync(CPU(cpu));
->>   
->> +#ifdef CONFIG_TCG
->>       destroy_ppc_opcodes(cpu);
->> +#endif
->>   }
->>   
->>   static gint ppc_cpu_compare_class_pvr(gconstpointer a, gconstpointer b)
->> @@ -9296,7 +9298,9 @@ static void ppc_cpu_class_init(ObjectClass *oc, void *data)
->>       cc->class_by_name = ppc_cpu_class_by_name;
->>       cc->has_work = ppc_cpu_has_work;
->>       cc->dump_state = ppc_cpu_dump_state;
->> +#ifdef CONFIG_TCG
->>       cc->dump_statistics = ppc_cpu_dump_statistics;
->> +#endif
->>       cc->set_pc = ppc_cpu_set_pc;
->>       cc->gdb_read_register = ppc_cpu_gdb_read_register;
->>       cc->gdb_write_register = ppc_cpu_gdb_write_register;
->> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
->> index 80bb6e70e9..a14b529722 100644
->> --- a/target/ppc/excp_helper.c
->> +++ b/target/ppc/excp_helper.c
->> @@ -19,9 +19,13 @@
->>   #include "qemu/osdep.h"
->>   #include "qemu/main-loop.h"
->>   #include "cpu.h"
->> +#ifdef CONFIG_TCG
->>   #include "exec/helper-proto.h"
->> +#endif
-> I don't like the look of ifdefs amongst the includes.  Generally the
-> headers themselves should be made safe (if unnecessary) to include for
-> !TCG builds.
-
-The problems that happen with exec/helper-proto.h and exec/cpu_ldst.h is 
-that they include headers themselves, trace/generated-helpers.h and 
-tcg-target.h respectively, which are in folders that are not included as 
--iquote in the gcc CLI call.
-
-So the problem is that it is trying to include headers that gcc doesn't 
-see as part of the project anymore. The best option (I think) would be 
-to fix the gcc command generation so headers are safe to include, but 
-since I was very confused with all the scripts related to generating 
-everything, I ended up going with not including the files. Should I 
-change the configure script, so that we can include headers from 
-tcg/ppc? I can also just separate headers that can be ifdef'd away from 
-the rest with a blank line, so it's more visible later
-
->
->>   #include "exec/exec-all.h"
->> +#ifdef CONFIG_TCG
->>   #include "exec/cpu_ldst.h"
->> +#endif
->>   #include "internal.h"
->>   #include "helper_regs.h"
-> The remaining ifdef changes look fine.  Some it would be nice to clean
-> up better in future, but there's no rush.
->
--- 
-Bruno Piazera Larsen
-Instituto de Pesquisas ELDORADO 
-<https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&utm_medium=email&utm_source=RD+Station>
-Departamento Computação Embarcada
-Analista de Software Trainee
-Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
-
---------------BFF8937A1EF248A8306F7E6F
-Content-Type: text/html; charset=windows-1252
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html;
-      charset=windows-1252">
-  </head>
-  <body>
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">On 18/05/2021 23:02, David Gibson
-      wrote:<br>
-    </div>
-    <blockquote type="cite" cite="mid:YKRxu6mcVAfQJUwo@yekko">
-      <pre class="moz-quote-pre" wrap="">On Tue, May 18, 2021 at 12:05:15PM -0300, Bruno Larsen (billionai) wrote:
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">Wrapped some function calls in cpu_init.c, gdbstub.c, mmu-hash64.c and
-excp_helper.c that were TCG only with ifdef CONFIG_TCG, to support
-building without TCG.
-
-for excp_helper we also moved the function do_rfi higher in the file to
-reduce the ifdef count.
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-The description's no longer really accurate since some of the fixups
-are no longer ifdef based.</pre>
-    </blockquote>
-    Sure, will do<br>
-    <blockquote type="cite" cite="mid:YKRxu6mcVAfQJUwo@yekko">
-      <pre class="moz-quote-pre" wrap="">
-&lt;snip&gt;</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">                          0x00000000);
-         }
-     }
-@@ -8605,11 +8603,13 @@ static void ppc_cpu_realize(DeviceState *dev, Error **errp)
-         }
-     }
- 
-+#ifdef CONFIG_TCG
-     create_ppc_opcodes(cpu, &amp;local_err);
-     if (local_err != NULL) {
-         error_propagate(errp, local_err);
-         goto unrealize;
-     }
-+#endif
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-In this instance, I think it would be cleaner to create a no-op stub
-for create_ppc_opcodes() and destroy_ppc_opcodes() rather than using
-ifdefs.</pre>
-    </blockquote>
-    Ok. will add the stubs in tcg-stubs.c<br>
-    <blockquote type="cite" cite="mid:YKRxu6mcVAfQJUwo@yekko">
-      <pre class="moz-quote-pre" wrap="">
-
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">     init_ppc_proc(cpu);
- 
-     ppc_gdb_init(cs, pcc);
-@@ -8798,7 +8798,9 @@ static void ppc_cpu_unrealize(DeviceState *dev)
- 
-     cpu_remove_sync(CPU(cpu));
- 
-+#ifdef CONFIG_TCG
-     destroy_ppc_opcodes(cpu);
-+#endif
+diff --git a/target/m68k/translate.c b/target/m68k/translate.c
+index f14ecab5a5..10e8aba42e 100644
+--- a/target/m68k/translate.c
++++ b/target/m68k/translate.c
+@@ -319,6 +319,15 @@ static void gen_exception(DisasContext *s, uint32_t dest, int nr)
+     s->base.is_jmp = DISAS_NORETURN;
  }
  
- static gint ppc_cpu_compare_class_pvr(gconstpointer a, gconstpointer b)
-@@ -9296,7 +9298,9 @@ static void ppc_cpu_class_init(ObjectClass *oc, void *data)
-     cc-&gt;class_by_name = ppc_cpu_class_by_name;
-     cc-&gt;has_work = ppc_cpu_has_work;
-     cc-&gt;dump_state = ppc_cpu_dump_state;
-+#ifdef CONFIG_TCG
-     cc-&gt;dump_statistics = ppc_cpu_dump_statistics;
-+#endif
-     cc-&gt;set_pc = ppc_cpu_set_pc;
-     cc-&gt;gdb_read_register = ppc_cpu_gdb_read_register;
-     cc-&gt;gdb_write_register = ppc_cpu_gdb_write_register;
-diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-index 80bb6e70e9..a14b529722 100644
---- a/target/ppc/excp_helper.c
-+++ b/target/ppc/excp_helper.c
-@@ -19,9 +19,13 @@
- #include "qemu/osdep.h"
- #include "qemu/main-loop.h"
- #include "cpu.h"
-+#ifdef CONFIG_TCG
- #include "exec/helper-proto.h"
-+#endif
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-I don't like the look of ifdefs amongst the includes.  Generally the
-headers themselves should be made safe (if unnecessary) to include for
-!TCG builds.</pre>
-    </blockquote>
-    <p>The problems that happen with exec/helper-proto.h and
-      exec/cpu_ldst.h is that they include headers themselves,
-      trace/generated-helpers.h and tcg-target.h respectively, which are
-      in folders that are not included as -iquote in the gcc CLI call. <br>
-    </p>
-    <p>So the problem is that it is trying to include headers that gcc
-      doesn't see as part of the project anymore. The best option (I
-      think) would be to fix the gcc command generation so headers are
-      safe to include, but since I was very confused with all the
-      scripts related to generating everything, I ended up going with
-      not including the files. Should I change the configure script, so
-      that we can include headers from tcg/ppc? I can also just separate
-      headers that can be ifdef'd away from the rest with a blank line,
-      so it's more visible later<br>
-    </p>
-    <blockquote type="cite" cite="mid:YKRxu6mcVAfQJUwo@yekko">
-      <pre class="moz-quote-pre" wrap="">
++static void gen_singlestep_exception(DisasContext *s)
++{
++    /*
++     * Generate the right kind of exception for singlestep, which is
++     * EXCP_DEBUG for QEMU's gdb singlestepping.
++     */
++    gen_raise_exception(EXCP_DEBUG);
++}
++
+ static inline void gen_addr_fault(DisasContext *s)
+ {
+     gen_exception(s, s->base.pc_next, EXCP_ADDRESS);
+@@ -1520,7 +1529,7 @@ static void gen_jmp_tb(DisasContext *s, int n, uint32_t dest)
+     if (unlikely(is_singlestepping(s))) {
+         update_cc_op(s);
+         tcg_gen_movi_i32(QREG_PC, dest);
+-        gen_raise_exception(EXCP_DEBUG);
++        gen_singlestep_exception(s);
+     } else if (use_goto_tb(s, dest)) {
+         tcg_gen_goto_tb(n);
+         tcg_gen_movi_i32(QREG_PC, dest);
+@@ -6260,7 +6269,7 @@ static void m68k_tr_tb_stop(DisasContextBase *dcbase, CPUState *cpu)
+         update_cc_op(dc);
+         if (is_singlestepping(dc)) {
+             tcg_gen_movi_i32(QREG_PC, dc->pc);
+-            gen_raise_exception(EXCP_DEBUG);
++            gen_singlestep_exception(dc);
+         } else {
+             gen_jmp_tb(dc, 0, dc->pc);
+         }
+@@ -6268,7 +6277,7 @@ static void m68k_tr_tb_stop(DisasContextBase *dcbase, CPUState *cpu)
+     case DISAS_JUMP:
+         /* We updated CC_OP and PC in gen_jmp/gen_jmp_im.  */
+         if (is_singlestepping(dc)) {
+-            gen_raise_exception(EXCP_DEBUG);
++            gen_singlestep_exception(dc);
+         } else {
+             tcg_gen_lookup_and_goto_ptr();
+         }
+@@ -6279,7 +6288,7 @@ static void m68k_tr_tb_stop(DisasContextBase *dcbase, CPUState *cpu)
+          * other state that may require returning to the main loop.
+          */
+         if (is_singlestepping(dc)) {
+-            gen_raise_exception(EXCP_DEBUG);
++            gen_singlestep_exception(dc);
+         } else {
+             tcg_gen_exit_tb(NULL, 0);
+         }
+-- 
+2.20.1
 
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap=""> #include "exec/exec-all.h"
-+#ifdef CONFIG_TCG
- #include "exec/cpu_ldst.h"
-+#endif
- #include "internal.h"
- #include "helper_regs.h"
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-The remaining ifdef changes look fine.  Some it would be nice to clean
-up better in future, but there's no rush.
-
-</pre>
-    </blockquote>
-    <div class="moz-signature">-- <br>
-      Bruno Piazera Larsen<br>
-      <a
-href="https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&amp;utm_medium=email&amp;utm_source=RD+Station">Instituto
-        de Pesquisas ELDORADO</a><br>
-      Departamento Computação Embarcada<br>
-      Analista de Software Trainee<br>
-      <a href="https://www.eldorado.org.br/disclaimer.html">Aviso Legal
-        - Disclaimer</a></div>
-  </body>
-</html>
-
---------------BFF8937A1EF248A8306F7E6F--
 
