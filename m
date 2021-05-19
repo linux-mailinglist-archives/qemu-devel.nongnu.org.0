@@ -2,62 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00149389448
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 19:02:15 +0200 (CEST)
-Received: from localhost ([::1]:52424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F22C389459
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 19:03:57 +0200 (CEST)
+Received: from localhost ([::1]:55750 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljPaJ-0000zF-0B
-	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 13:02:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35544)
+	id 1ljPbw-0003Ef-9U
+	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 13:03:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1ljP7r-0007fg-QL
- for qemu-devel@nongnu.org; Wed, 19 May 2021 12:32:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21460)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ljPA3-00037E-0f
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 12:35:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22754)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1ljP7m-0006Gw-SF
- for qemu-devel@nongnu.org; Wed, 19 May 2021 12:32:51 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ljP9z-0006vK-Cg
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 12:35:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621441966;
+ s=mimecast20190719; t=1621442102;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+g8d0jKeRijJXiCoq8EJzNGXAKyOpUZngFpIrBOn7os=;
- b=REuiomhS8ymmMn7XkdeFFVxDZ/SR8sCCIRKd9pIFfqHz4xGidhxveBoI9pppYbmyLLuK86
- JwI7Vy6h79OX88Mq9GtFtKZQpQDXXmUK8s2PB4YB3/nWUpFWTx1SvHR6dQtykhzQvIJy1P
- N2WwVmy6C2Me+QdmwkVPhf5UaoXmVDA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-239-5x9-pw_HObC5X-ENtfFT-A-1; Wed, 19 May 2021 12:32:44 -0400
-X-MC-Unique: 5x9-pw_HObC5X-ENtfFT-A-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4F5EA101962A;
- Wed, 19 May 2021 16:32:43 +0000 (UTC)
-Received: from eperezma.remote.csb (ovpn-113-65.ams2.redhat.com [10.36.113.65])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 62DFE5D6AC;
- Wed, 19 May 2021 16:32:40 +0000 (UTC)
-From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [RFC v3 28/29] vhost-vdpa: never map with vDPA listener
-Date: Wed, 19 May 2021 18:29:02 +0200
-Message-Id: <20210519162903.1172366-29-eperezma@redhat.com>
-In-Reply-To: <20210519162903.1172366-1-eperezma@redhat.com>
-References: <20210519162903.1172366-1-eperezma@redhat.com>
+ bh=zQBaPB2rPx7zwmJ2L9PvToDExIoXxeF+Eyck4rA2oM0=;
+ b=bhihmjEsJnbtjKgQedAaL8S4bGXe1nyyPfhZSfsKdDML6K5gdLcWYroxJMVRMPAyJk/iSs
+ xXnz37shzXLFziNWQEvE361LfutGFf8jyT4K7PZnTmMduaTSjM2JwtHsdQuWOfBSbx94ku
+ ANHQOOb1MTYlGlBk2Y4ms9vvAKVCOIk=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-405-_1BUL7g8N1O83g4dfRfSKw-1; Wed, 19 May 2021 12:35:00 -0400
+X-MC-Unique: _1BUL7g8N1O83g4dfRfSKw-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ r15-20020a05600c35cfb029017373d9f318so829936wmq.4
+ for <qemu-devel@nongnu.org>; Wed, 19 May 2021 09:35:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=zQBaPB2rPx7zwmJ2L9PvToDExIoXxeF+Eyck4rA2oM0=;
+ b=D/k60l9N6+eR1cyZq2S2/jYaP8HDXT3s6S8qbQCt8kPnKf1DXXEJwA4bUQ/FlnNzfT
+ Fcl718PMoHaxBszVvQcPGHvF5aVQIRrEDkLV1hoBnhxGx5N6ce7HN3AqFOjfHkj+nIC1
+ R/ai/O5OAOGMo32MxU6QtyosrhntGuP+YnQEDRGt3AIwSbm9uz/kEeMegEaAL8oMc3++
+ he942bTlTHIfeiXIsOuI3iTq1TlePUrHGWp1ju9+NYlirBExrMRfAVX46GDtuzrqTIFC
+ oE0gTTGEBWY7xrerBvAaxZxAdBEI69Ypj6Yuy8YbaDRif5UKzEUSmtgO4vDRc2TW+f8m
+ Al+w==
+X-Gm-Message-State: AOAM5325MJK7TSz8un81oLbZnpQYFAr8rhHdlzs6+g6rkFNucuULcW4J
+ OuKE7/1kjQ7Oi5MyaWDuP3hojMDGN95RLkVK1gprN20kEmB0vAsN8zCcNq4I7kxdy98xA7pSWkN
+ FuYZQvpD3EfTo3+g=
+X-Received: by 2002:a05:6000:244:: with SMTP id
+ m4mr15692482wrz.225.1621442099154; 
+ Wed, 19 May 2021 09:34:59 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJywwJOety9/DBSOSzzTvYDzInt8nSuOZZrF0A9b3n1kH6PiHULNuMGh/KNuFa2lyQsxUq0leQ==
+X-Received: by 2002:a05:6000:244:: with SMTP id
+ m4mr15692468wrz.225.1621442099047; 
+ Wed, 19 May 2021 09:34:59 -0700 (PDT)
+Received: from x1w.redhat.com (31.red-83-51-215.dynamicip.rima-tde.net.
+ [83.51.215.31])
+ by smtp.gmail.com with ESMTPSA id b8sm27015076wrx.15.2021.05.19.09.34.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 19 May 2021 09:34:58 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: John Snow <jsnow@redhat.com>,
+	qemu-devel@nongnu.org
+Subject: [PATCH v6 2/5] hw/block/fdc: Replace disabled fprintf() by trace event
+Date: Wed, 19 May 2021 18:34:45 +0200
+Message-Id: <20210519163448.2154339-3-philmd@redhat.com>
+X-Mailer: git-send-email 2.26.3
+In-Reply-To: <20210519163448.2154339-1-philmd@redhat.com>
+References: <20210519163448.2154339-1-philmd@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eperezma@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -78,107 +97,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Parav Pandit <parav@mellanox.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Jason Wang <jasowang@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- virtualization@lists.linux-foundation.org,
- Harpreet Singh Anand <hanand@xilinx.com>, Xiao W Wang <xiao.w.wang@intel.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Eli Cohen <eli@mellanox.com>,
- Michael Lilja <ml@napatech.com>, Stefano Garzarella <sgarzare@redhat.com>
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This commit is a workaround that will not go to the final version.
-
-vp_vdpa is not able to reset all IOTLBs, so we force to not to map them
-in the first place.
-
-Checkpath detects a few errors because of #if 0 / #endif pairs, but it's
-the less intrusive way to comment out all the code we want to skip.
-Since this commit is not intended to go to the final series, I left it
-that way.
-
-Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+Reviewed-by: John Snow <jsnow@redhat.com>
+Acked-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- include/hw/virtio/vhost-vdpa.h | 2 +-
- hw/virtio/vhost-vdpa.c         | 8 +++++++-
- 2 files changed, 8 insertions(+), 2 deletions(-)
+ hw/block/fdc.c        | 7 +------
+ hw/block/trace-events | 1 +
+ 2 files changed, 2 insertions(+), 6 deletions(-)
 
-diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio/vhost-vdpa.h
-index 9b81a409da..06afe42ab6 100644
---- a/include/hw/virtio/vhost-vdpa.h
-+++ b/include/hw/virtio/vhost-vdpa.h
-@@ -17,7 +17,7 @@
- typedef struct vhost_vdpa {
-     int device_fd;
-     uint32_t msg_type;
--    MemoryListener listener;
-+    /* MemoryListener listener; */
-     struct vhost_dev *dev;
- } VhostVDPA;
+diff --git a/hw/block/fdc.c b/hw/block/fdc.c
+index a825c2acbae..1d3a0473678 100644
+--- a/hw/block/fdc.c
++++ b/hw/block/fdc.c
+@@ -1242,12 +1242,7 @@ static void fdctrl_external_reset_isa(DeviceState *d)
  
-diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-index dfb465be96..30e4e306fb 100644
---- a/hw/virtio/vhost-vdpa.c
-+++ b/hw/virtio/vhost-vdpa.c
-@@ -23,6 +23,7 @@
- #include "trace.h"
- #include "qemu-common.h"
- 
-+#if 0
- static bool vhost_vdpa_listener_skipped_section(MemoryRegionSection *section)
+ static void fdctrl_handle_tc(void *opaque, int irq, int level)
  {
-     return (!memory_region_is_ram(section->mr) &&
-@@ -35,6 +36,7 @@ static bool vhost_vdpa_listener_skipped_section(MemoryRegionSection *section)
-             */
-            section->offset_within_address_space & (1ULL << 63);
- }
-+#endif
- 
- int vhost_vdpa_dma_map(struct vhost_vdpa *v, hwaddr iova, hwaddr size,
-                               void *vaddr, bool readonly)
-@@ -62,6 +64,7 @@ int vhost_vdpa_dma_map(struct vhost_vdpa *v, hwaddr iova, hwaddr size,
-     return ret;
+-    //FDCtrl *s = opaque;
+-
+-    if (level) {
+-        // XXX
+-        FLOPPY_DPRINTF("TC pulsed\n");
+-    }
++    trace_fdctrl_tc_pulse(level);
  }
  
-+#if 0
- static int vhost_vdpa_dma_unmap(struct vhost_vdpa *v, hwaddr iova,
-                                 hwaddr size)
- {
-@@ -246,6 +249,7 @@ static const MemoryListener vhost_vdpa_memory_listener = {
-     .region_add = vhost_vdpa_listener_region_add,
-     .region_del = vhost_vdpa_listener_region_del,
- };
-+#endif
+ /* Change IRQ state */
+diff --git a/hw/block/trace-events b/hw/block/trace-events
+index 646917d045f..7b26fc738f0 100644
+--- a/hw/block/trace-events
++++ b/hw/block/trace-events
+@@ -3,6 +3,7 @@
+ # fdc.c
+ fdc_ioport_read(uint8_t reg, uint8_t value) "read reg 0x%02x val 0x%02x"
+ fdc_ioport_write(uint8_t reg, uint8_t value) "write reg 0x%02x val 0x%02x"
++fdctrl_tc_pulse(int level) "TC pulse: %u"
  
- static int vhost_vdpa_call(struct vhost_dev *dev, unsigned long int request,
-                              void *arg)
-@@ -274,6 +278,7 @@ static void vhost_vdpa_add_status(struct vhost_dev *dev, uint8_t status)
- 
- static int vhost_vdpa_enable_custom_iommu(struct vhost_dev *dev, bool enable)
- {
-+#if 0
-     struct vhost_vdpa *v = dev->opaque;
-     hwaddr iova_range_last = dev->iova_range.last;
-     if (iova_range_last != (hwaddr)-1) {
-@@ -291,6 +296,7 @@ static int vhost_vdpa_enable_custom_iommu(struct vhost_dev *dev, bool enable)
-         memory_listener_unregister(&v->listener);
-         return vhost_vdpa_dma_unmap(v, dev->iova_range.first, iova_range_last);
-     }
-+#endif
- 
-     return 0;
- }
-@@ -307,7 +313,7 @@ static int vhost_vdpa_init(struct vhost_dev *dev, void *opaque)
-     dev->opaque =  opaque ;
-     vhost_vdpa_call(dev, VHOST_GET_FEATURES, &features);
-     dev->backend_features = features;
--    v->listener = vhost_vdpa_memory_listener;
-+    /* v->listener = vhost_vdpa_memory_listener; */
-     v->msg_type = VHOST_IOTLB_MSG_V2;
- 
-     vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_ACKNOWLEDGE |
+ # pflash_cfi01.c
+ # pflash_cfi02.c
 -- 
-2.27.0
+2.26.3
 
 
