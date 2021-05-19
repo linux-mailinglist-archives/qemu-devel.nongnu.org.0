@@ -2,72 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15330388533
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 05:25:42 +0200 (CEST)
-Received: from localhost ([::1]:33110 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AB96388558
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 05:34:53 +0200 (CEST)
+Received: from localhost ([::1]:45004 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljCq4-0005e2-VW
-	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 23:25:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56440)
+	id 1ljCyy-0005lh-EC
+	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 23:34:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57516)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
- id 1ljCpD-0004xd-O9
- for qemu-devel@nongnu.org; Tue, 18 May 2021 23:24:47 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:42640)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
- id 1ljCp8-0002jW-44
- for qemu-devel@nongnu.org; Tue, 18 May 2021 23:24:47 -0400
-Received: by mail-wr1-x435.google.com with SMTP id x8so12321809wrq.9
- for <qemu-devel@nongnu.org>; Tue, 18 May 2021 20:24:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ll72BrYeL0r2l17o+PneiMvZGla9vfMJ4EKZ7zu6Kro=;
- b=vFl12YT8xvMsF8qRSj+DMUn7WkAPg7I3ILzkkdEIVT3auyEmtqMTgAehjGP0peX+ok
- kcL3s8BjUJwRzZfket/uGfDMVO2sFcelcYXRziZA42RjcvwHSWds+63jgWVKlnz5YRW6
- B5qcGk0IAy95CWmZRh0aLRz0JMBrDbN/3IioLXA2Ck0wmb1cdGNMgVF2jvWKAj/SLFDs
- AXCWe5cf4Y2LgOKQlWe5bBi8JActLOvfCvH6KbSbKTF/1u3u7xINGJ/JKXg8aaFT7aVp
- o6R5Ok+DLVcnDsIpF0gJJZrplUA6o30c4Bh7CVrBd8YoHF1q0TKwqh0fAeLTJuZU1xg4
- IFMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ll72BrYeL0r2l17o+PneiMvZGla9vfMJ4EKZ7zu6Kro=;
- b=jKDli6J7xJ+snyRqI5oTGcm4GmyMhxhZuu92OPgTXD42ViZZa9v6XnNSM+gqK6rNRH
- Bhmxe7NSx4aSfKSBtK8uaah9BmLehA2y6rks75bF1vZnrTilf6y7Ij4iNYbewEUvHlDf
- pyLJNSKZH0ftGZivnOJFdVxroIDUdol3eywdD+TNDpHaUyaFrXcwHY5BPg5PXHcbncwd
- 0ZBZcSa4Ks/fFVjeQ0cwv3qMHDiT2hVjhwW3HYHzKZiDPkWsegj/Ru8OJy8BUSSrLusQ
- xx6YAwv9JKtx6OFR3uGMcUpFm/AG0yhe9h7uRGdExGh23OGfNym1MwZWdfW/todIL8nm
- OFyw==
-X-Gm-Message-State: AOAM532fDM4F5fIn2Ezdbg/GN4PBTaKph84B+ppan/XFVaQk7+TL85w5
- eI5bYsP4gpNi3hwAmom7f855O6NSilof3Q==
-X-Google-Smtp-Source: ABdhPJwCzDaab/D3yu7DcXtEFWtyZELhEl8ivGPODrUiEYtmMwfMAnHJ0pHe7jEbn2dYHsq3T1tSyQ==
-X-Received: by 2002:adf:ce09:: with SMTP id p9mr11616665wrn.114.1621394678205; 
- Tue, 18 May 2021 20:24:38 -0700 (PDT)
-Received: from localhost.localdomain ([41.238.37.184])
- by smtp.googlemail.com with ESMTPSA id z66sm4673226wmc.4.2021.05.18.20.24.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 May 2021 20:24:37 -0700 (PDT)
-From: Mahmoud Mandour <ma.mandourr@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v4] plugins/syscall: Added a table-like summary output
-Date: Wed, 19 May 2021 05:24:09 +0200
-Message-Id: <20210519032409.3041-1-ma.mandourr@gmail.com>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1ljCuO-0006zu-VA; Tue, 18 May 2021 23:30:10 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:58049)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1ljCuI-0006ho-2g; Tue, 18 May 2021 23:30:07 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4FlJK15Zc0z9sWp; Wed, 19 May 2021 13:29:57 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1621394997;
+ bh=1XE4jem83+4PKXf1ZEcEzvVDIooe0npqXWq2PaT1I8Q=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=HT0J5IXvnJMoQEPo2U0xvb6ihTlLMRVhf8EUpkAbX9n57MEbM6nzjj9N/B2my8cT1
+ 06rDHAI6iGj8MAajrhO0oxJDJ0wC6kpMezElSVNwE75fRFsDmhNuPz6sNjIs6BUKO3
+ RMRSDfumDebPkLz0V/hqOkIgV8QqTcF7S/3TIGZY=
+Date: Wed, 19 May 2021 10:42:54 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Giuseppe Musacchio <thatlemon@gmail.com>
+Subject: Re: [PATCH v2] target/ppc: Fix load endianness for lxvwsx/lxvdsx
+Message-ID: <YKRfDozCgk8wlg6z@yekko>
+References: <20210518133020.58927-1-thatlemon@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=ma.mandourr@gmail.com; helo=mail-wr1-x435.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="mLy0A6CYIaQN13je"
+Content-Disposition: inline
+In-Reply-To: <20210518133020.58927-1-thatlemon@gmail.com>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,155 +57,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mahmoud Mandour <ma.mandourr@gmail.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: qemu-stable@nongnu.org, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ pc@us.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Added a table-like output which contains the total number of calls
-for each used syscall along with the number of errors that occurred.
 
-Per-call tracing is still available through supplying the argument
-``print`` to the plugin.
+--mLy0A6CYIaQN13je
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
----
-v3 -> v4: Added a missing ``static`` that was causing a compilation 
-          error. Otherwise, everything else is left in place.
- tests/plugin/syscall.c | 98 +++++++++++++++++++++++++++++++++++++++---
- 1 file changed, 93 insertions(+), 5 deletions(-)
+On Tue, May 18, 2021 at 03:30:20PM +0200, Giuseppe Musacchio wrote:
+> TARGET_WORDS_BIGENDIAN may not match the machine endianness if that's a
+> runtime-configurable parameter.
+>=20
+> Fixes: bcb0b7b1a1c05707304f80ca6f523d557816f85c
+> Fixes: afae37d98ae991c0792c867dbd9f32f988044318
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/212
+>=20
+> Signed-off-by: Giuseppe Musacchio <thatlemon@gmail.com>
 
-diff --git a/tests/plugin/syscall.c b/tests/plugin/syscall.c
-index 53ee2ab6c4..6dd71092e1 100644
---- a/tests/plugin/syscall.c
-+++ b/tests/plugin/syscall.c
-@@ -16,32 +16,120 @@
- 
- QEMU_PLUGIN_EXPORT int qemu_plugin_version = QEMU_PLUGIN_VERSION;
- 
-+typedef struct {
-+    int64_t num;
-+    int64_t calls;
-+    int64_t errors;
-+} SyscallStats;
-+
-+static GMutex lock;
-+static GHashTable *statistics;
-+
-+static SyscallStats *get_or_create_entry(int64_t num)
-+{
-+    SyscallStats *entry =
-+        (SyscallStats *) g_hash_table_lookup(statistics, GINT_TO_POINTER(num));
-+
-+    if (!entry) {
-+        entry = g_new0(SyscallStats, 1);
-+        entry->num = num;
-+        g_hash_table_insert(statistics, GINT_TO_POINTER(num), (gpointer) entry);
-+    }
-+
-+    return entry;
-+}
-+
- static void vcpu_syscall(qemu_plugin_id_t id, unsigned int vcpu_index,
-                          int64_t num, uint64_t a1, uint64_t a2,
-                          uint64_t a3, uint64_t a4, uint64_t a5,
-                          uint64_t a6, uint64_t a7, uint64_t a8)
- {
--    g_autofree gchar *out = g_strdup_printf("syscall #%" PRIi64 "\n", num);
--    qemu_plugin_outs(out);
-+    if (statistics) {
-+        SyscallStats *entry;
-+        g_mutex_lock(&lock);
-+        entry = get_or_create_entry(num);
-+        entry->calls++;
-+        g_mutex_unlock(&lock);
-+    } else {
-+        g_autofree gchar *out = g_strdup_printf("syscall #%" PRIi64 "\n", num);
-+        qemu_plugin_outs(out);
-+    }
- }
- 
- static void vcpu_syscall_ret(qemu_plugin_id_t id, unsigned int vcpu_idx,
-                              int64_t num, int64_t ret)
-+{
-+    if (statistics) {
-+        SyscallStats *entry;
-+
-+        g_mutex_lock(&lock);
-+        /* Should always return an existent entry. */
-+        entry = get_or_create_entry(num);
-+        if (ret < 0) {
-+            entry->errors++;
-+        }
-+        g_mutex_unlock(&lock);
-+    } else {
-+        g_autofree gchar *out;
-+        out = g_strdup_printf("syscall #%" PRIi64 " returned -> %" PRIi64 "\n",
-+                num, ret);
-+        qemu_plugin_outs(out);
-+    }
-+}
-+
-+static void print_entry(gpointer val, gpointer user_data)
- {
-     g_autofree gchar *out;
--    out = g_strdup_printf("syscall #%" PRIi64 " returned -> %" PRIi64 "\n",
--            num, ret);
-+    SyscallStats *entry = (SyscallStats *) val;
-+    int64_t syscall_num = entry->num;
-+    out = g_strdup_printf(
-+        "%-13" PRIi64 "%-6" PRIi64 " %" PRIi64 "\n",
-+        syscall_num, entry->calls, entry->errors);
-     qemu_plugin_outs(out);
- }
- 
-+static gint comp_func(gconstpointer ea, gconstpointer eb)
-+{
-+    SyscallStats *ent_a = (SyscallStats *) ea;
-+    SyscallStats *ent_b = (SyscallStats *) eb;
-+
-+    return ent_a->calls > ent_b->calls ? -1 : 1;
-+}
-+
- /* ************************************************************************* */
-+static void plugin_exit(qemu_plugin_id_t id, void *p)
-+{
-+    if (!statistics) {
-+        return;
-+    }
-+
-+    g_mutex_lock(&lock);
-+    GList *entries = g_hash_table_get_values(statistics);
-+    entries = g_list_sort(entries, comp_func);
-+    qemu_plugin_outs("syscall no.  calls  errors\n");
- 
--static void plugin_exit(qemu_plugin_id_t id, void *p) {}
-+    g_list_foreach(entries, print_entry, NULL);
-+
-+    g_list_free(entries);
-+    g_hash_table_destroy(statistics);
-+    g_mutex_unlock(&lock);
-+}
- 
- QEMU_PLUGIN_EXPORT int qemu_plugin_install(qemu_plugin_id_t id,
-                                            const qemu_info_t *info,
-                                            int argc, char **argv)
- {
-+    if (argc == 0) {
-+        statistics = g_hash_table_new_full(NULL, g_direct_equal, NULL, g_free);
-+    } else {
-+        for (int i = 0; i < argc; i++) {
-+            if (g_strcmp0(argv[i], "print") != 0) {
-+                fprintf(stderr, "unsupported argument: %s\n", argv[i]);
-+                return -1;
-+            }
-+        }
-+    }
-+
-     qemu_plugin_register_vcpu_syscall_cb(id, vcpu_syscall);
-     qemu_plugin_register_vcpu_syscall_ret_cb(id, vcpu_syscall_ret);
-     qemu_plugin_register_atexit_cb(id, plugin_exit, NULL);
--- 
-2.25.1
+That looks more like it.  Applied to ppc-for-6.1, thanks.
 
+> ---
+>  target/ppc/translate/vsx-impl.c.inc | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/target/ppc/translate/vsx-impl.c.inc b/target/ppc/translate/v=
+sx-impl.c.inc
+> index b817d31260..57a7f73bba 100644
+> --- a/target/ppc/translate/vsx-impl.c.inc
+> +++ b/target/ppc/translate/vsx-impl.c.inc
+> @@ -139,7 +139,7 @@ static void gen_lxvwsx(DisasContext *ctx)
+>      gen_addr_reg_index(ctx, EA);
+> =20
+>      data =3D tcg_temp_new_i32();
+> -    tcg_gen_qemu_ld_i32(data, EA, ctx->mem_idx, MO_TEUL);
+> +    tcg_gen_qemu_ld_i32(data, EA, ctx->mem_idx, DEF_MEMOP(MO_UL));
+>      tcg_gen_gvec_dup_i32(MO_UL, vsr_full_offset(xT(ctx->opcode)), 16, 16=
+, data);
+> =20
+>      tcg_temp_free(EA);
+> @@ -162,7 +162,7 @@ static void gen_lxvdsx(DisasContext *ctx)
+>      gen_addr_reg_index(ctx, EA);
+> =20
+>      data =3D tcg_temp_new_i64();
+> -    tcg_gen_qemu_ld_i64(data, EA, ctx->mem_idx, MO_TEQ);
+> +    tcg_gen_qemu_ld_i64(data, EA, ctx->mem_idx, DEF_MEMOP(MO_Q));
+>      tcg_gen_gvec_dup_i64(MO_Q, vsr_full_offset(xT(ctx->opcode)), 16, 16,=
+ data);
+> =20
+>      tcg_temp_free(EA);
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--mLy0A6CYIaQN13je
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmCkXwwACgkQbDjKyiDZ
+s5J5sw//R4AYRlBeKU32NMtMVu6UleGYjne/weadHka01coyUHMATh2904DTAhPw
+n0M6fYBsoBwgQ0EzG5WcbH0HQ5fimqCxmdCluQl9zzlNrtjS2XMFXtmzHyZlbtpU
+VGxyeZWEj8zWQd+rkcYlYRLbW87Ib4KdNdSB/CieMvcClls8wi99NXuWz6BSCWhF
+NCS5nKaCZW3yjcNSV5ZbmTaL25ThBpAy0dyHghyHyQRKYoobnC1AOZ9FWd3sjLgj
+PR517isFONvSwDEDruxQ5apRLt5pBQ23U08EuLh+7ZBjKfQu8LaWXULBfaMsWOy9
+2FVSUAJ8mouc5EgYCciQlZuHgYTZPu08/pHSuV5aZABPEgduXstZti4geKQ2Y+dq
+vkRL/Ajzto5MYY+LLwwvcEP5glk1Cv00uWdknT3akIgwFVG3jNx8aGI6CBypA90G
+iTmaOUciyZacIz+r+Rv48DDqxx2rj65iqO4YC/o4+ZhlWl3YzY65diDQK1sXsOyW
+fQs5TminHxWa2/XPMEaGcfabMo62JQTvdHEHbKVSUJKsUS0e10Jz57EV4pg+43VL
+gdkfJG54yqyh0nZJ++n5ZVUyms8GlivX9SVqFSl+rPKQRHv1OfLKBtsGc43NTd8J
+fOms+i5saBasT6X/WqqWgJQV/aELoukLKT02s+W0hgE2IYy+ALA=
+=vkk9
+-----END PGP SIGNATURE-----
+
+--mLy0A6CYIaQN13je--
 
