@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95AFE38965A
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 21:14:44 +0200 (CEST)
-Received: from localhost ([::1]:52968 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8719389659
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 21:14:17 +0200 (CEST)
+Received: from localhost ([::1]:52086 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljReV-0000vq-6U
-	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 15:14:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57174)
+	id 1ljRe4-0000Io-Q2
+	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 15:14:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57196)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ljRCh-0000A2-RA
- for qemu-devel@nongnu.org; Wed, 19 May 2021 14:45:59 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:46826)
+ id 1ljRCn-0000Gn-L7
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 14:46:07 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:35665)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ljRCg-00057U-Eb
- for qemu-devel@nongnu.org; Wed, 19 May 2021 14:45:59 -0400
-Received: by mail-wr1-x432.google.com with SMTP id y14so12989869wrm.13
- for <qemu-devel@nongnu.org>; Wed, 19 May 2021 11:45:58 -0700 (PDT)
+ id 1ljRCl-0005AD-2e
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 14:46:04 -0400
+Received: by mail-wr1-x435.google.com with SMTP id a4so15116360wrr.2
+ for <qemu-devel@nongnu.org>; Wed, 19 May 2021 11:46:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=bp3Jtw7C12/rHMWvD6mwBuDijE8hJ1LIDyBcdtavfR0=;
- b=eRL1oQ7k4OAZrjzf+Cg9MhvHn1GF8kARINOK2hGKPEP4RKhMalANhvSyQ1LfYOz2EZ
- tnzTp0EIaDdz+PnHDJ+NyDxFRhFcGOk1b/nCvqLKODj5lQxswYQ6u8mcl/eC1Nt3OohX
- 1BzPAlAn2/fyEv6juCsszphSwRCeZyOY+nQMKVYdOfI6B+/K5SQ0yKABnocXJGB1bMqx
- BX9/NbA7tkga6mO6eSvHpHZIDM3sXU/AOl5omEiildX8W7AAj+AZmR8Nn+/v6LrWDAlb
- SSHsFCw6CyRm7CO8She88lO9E4TNiefNK77TizyHHlFwc/wYhhU3IGTOaUps9QDS6aEr
- 8/aA==
+ bh=uOMO62Q92IuNdNSfONgd4MnSVajL3jCH8wZPtpwgeBk=;
+ b=Y98e67dpeXKqeI+2AZbWshcySi/SwNQlRpYqnfMdi8llt/jw+5i9it+hthnuHRCcca
+ 7DFGv07614TmdjD421rOAQl1tdzxqQrNC1IDCxRcrFUhusoM59Le2N07GVsEIdzAyiVs
+ 42jWQEUj8rIAfrDLLV3TUygUpkxD+aDO1yXoTPyzU2Ae5I4qTxmi944G2IRZNJkiM+H7
+ ubKoC8vBvuG9YFk7akZ4Ylw5nMGJFqZYPmZuvlHxiFMDZ3gY/WS+sEH6Di08+7tDeRWq
+ V5T9lsIgBYHvuxRUPTHpp0YOCsKHFBiket2et+kqAkW3dgqr3S60syln6ONWkmmVVpJY
+ OF9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=bp3Jtw7C12/rHMWvD6mwBuDijE8hJ1LIDyBcdtavfR0=;
- b=i9bT1KjO0/jvizGMUfbuDmfeda8BFZqKuiy3rLywTAX16dHAEOnl08/15421F97xbr
- oXD12+SVGdkejdT2wtKuk1N6E0/+Gba9AuEQq/hT2IUqIwN7mKhKYcSlTqMa+SNDIfqY
- zy6mP38LJ+oieCDdgA+cLiXwzmtYKyOyuN/tECqHtP0sgaNAWh4rA4p52TRAONWGrTah
- PgeGBlL7oskN/748GDmd8FrXwlU2DJx35PIanGsHmSoalpCFHwpXpDt61rEUdq2GU2xB
- S9P+bCWLHX+ESjsPMmqfnWD7LtJh5vApl/j8A0D7+YdCxsZrDD60A51eKs0cS8IlJH4Y
- A8aA==
-X-Gm-Message-State: AOAM530w2HZeeg40AwxW5BitIR9SWP0Hjxg0HzOOcO1XBCOdB0Ob5zof
- fQkP5AXMsOIEtLzDnTFy73MeFotGzZHSNw==
-X-Google-Smtp-Source: ABdhPJy98CEDzJcOVI7pOSMEaz4qPljb431cmvTUb7YZrx6XitouBehjvbGdJMHDDKnHlX5qP85hKQ==
-X-Received: by 2002:adf:dc8a:: with SMTP id r10mr327405wrj.119.1621449956622; 
- Wed, 19 May 2021 11:45:56 -0700 (PDT)
+ bh=uOMO62Q92IuNdNSfONgd4MnSVajL3jCH8wZPtpwgeBk=;
+ b=NP6AiXY0Nj19Wt4JvX+Zuai6Kq97IEfgXohjjvM/8YYPKJXX0QsqG5nowGFJJ8gQ5F
+ v0VIQiNSRAxgYVerI1/zE4ib94tjNhGlJBoZAZ7RJ1SvbYV4kT6O17claBCesm7y4NTm
+ iU9mYMYm0q2PaqBIzD03LzLNaQBVrOdHHdRNHnCijiJUcbCwTIzc+gfJfLetY5KdKnG0
+ iRb6jGjcc9PtisGm1f/P2nU6OPCIgCSWku9yK1aF1UmsolZMo0slcQBTR4II7rVKNAwJ
+ ZRhy4lbFPWlxr5+kwz1pg9eahyEemHiJDz5AqHnDNr2XJhYlgW/cB70XLtc9qqyRj8Jm
+ xDzQ==
+X-Gm-Message-State: AOAM531AIZmIbpw4xeYP3zrtF8yqNPubkYnCrAiY5DW2LwX2iA4zzbhH
+ hKpKEPb/hDm2Uc6H4QM+aF6a82bsJDWOrA==
+X-Google-Smtp-Source: ABdhPJw0iL6ts75u0hDpzdQwyQJDKeO4qdpxb1X/Mo6TOMdQdJcx+qoto53eL0Z5mUtdnvoDQ6U0iQ==
+X-Received: by 2002:a5d:62c7:: with SMTP id o7mr345843wrv.372.1621449961484;
+ Wed, 19 May 2021 11:46:01 -0700 (PDT)
 Received: from x1w.redhat.com (31.red-83-51-215.dynamicip.rima-tde.net.
  [83.51.215.31])
- by smtp.gmail.com with ESMTPSA id a11sm247625wrx.38.2021.05.19.11.45.55
+ by smtp.gmail.com with ESMTPSA id v12sm199005wru.73.2021.05.19.11.46.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 May 2021 11:45:56 -0700 (PDT)
+ Wed, 19 May 2021 11:46:00 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 1/6] gitlab-ci: Extract &environment_variables template
-Date: Wed, 19 May 2021 20:45:44 +0200
-Message-Id: <20210519184549.2192728-2-f4bug@amsat.org>
+Subject: [PATCH v3 2/6] gitlab-ci: Adapt JOBS variable for FreeBSD runners
+Date: Wed, 19 May 2021 20:45:45 +0200
+Message-Id: <20210519184549.2192728-3-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210519184549.2192728-1-f4bug@amsat.org>
 References: <20210519184549.2192728-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -94,32 +94,41 @@ Cc: Thomas Huth <thuth@redhat.com>, Kyle Evans <kevans@freebsd.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-To be able to set the same environment variables to multiple jobs,
-extract what we currently have as a template.
+'nproc' is not available on FreeBSD:
+
+  $ JOBS=$(expr $(nproc) + 1)
+  bash: line 119: nproc: command not found
+  expr: syntax error
+
+Instead, use 'sysctl -n hw.ncpu'.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- .gitlab-ci.d/buildtest-template.yml | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ .gitlab-ci.d/buildtest-template.yml | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
 
 diff --git a/.gitlab-ci.d/buildtest-template.yml b/.gitlab-ci.d/buildtest-template.yml
-index 32aaef1a213..58b01744751 100644
+index 58b01744751..fe4f18595ac 100644
 --- a/.gitlab-ci.d/buildtest-template.yml
 +++ b/.gitlab-ci.d/buildtest-template.yml
-@@ -1,8 +1,11 @@
-+.environment_variables_template:
-+  before_script:
-+    - JOBS=$(expr $(nproc) + 1)
-+
+@@ -1,6 +1,16 @@
+ .environment_variables_template:
+   before_script:
+-    - JOBS=$(expr $(nproc) + 1)
++    - if
++        test $(uname) = "FreeBSD"
++        ;
++      then
++        JOBS=$(sysctl -n hw.ncpu)
++        ;
++      else
++        JOBS=$(expr $(nproc) + 1)
++        ;
++      fi
++    - echo "=== Using $JOBS simultaneous jobs ==="
+ 
  .native_build_job_template:
    stage: build
-   image: $CI_REGISTRY_IMAGE/qemu/$IMAGE:latest
--  before_script:
--    - JOBS=$(expr $(nproc) + 1)
-+  extends: .environment_variables_template
-   script:
-     - if test -n "$LD_JOBS";
-       then
 -- 
 2.26.3
 
