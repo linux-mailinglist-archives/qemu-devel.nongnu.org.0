@@ -2,68 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96C1E389443
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 18:59:03 +0200 (CEST)
-Received: from localhost ([::1]:44416 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 333E538943A
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 18:57:40 +0200 (CEST)
+Received: from localhost ([::1]:39786 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljPXC-0003xN-Mq
-	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 12:59:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37654)
+	id 1ljPVq-0000sY-UJ
+	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 12:57:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37818)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ljPGg-0006IO-VP
- for qemu-devel@nongnu.org; Wed, 19 May 2021 12:41:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44613)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ljPGf-00013b-Ca
- for qemu-devel@nongnu.org; Wed, 19 May 2021 12:41:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621442516;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=e3W9ePNNIy+/ZCKzTZSWtaXpoa6TPZk1kadVZgOr5cs=;
- b=IXjIcTN5w5uKyUplq4kecPP9fq34qPserVeJ8NvxEhFkdI2TZsdpmDWbc2gFCQx1Rjohin
- 9ANghjMF+ehY8dFpBsAgO0VEzYokKZHft2ARPKuiazZ7E4k9u8V7NNmdUIixoohqGpHVm5
- fnWcY4LG1qiiMKcztcvJa8gr3Jp1U4k=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-269-LGKEX8lqN1SNy-Y48D0vBA-1; Wed, 19 May 2021 12:41:53 -0400
-X-MC-Unique: LGKEX8lqN1SNy-Y48D0vBA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5A57A101371C;
- Wed, 19 May 2021 16:41:52 +0000 (UTC)
-Received: from merkur.fritz.box (ovpn-115-58.ams2.redhat.com [10.36.115.58])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5337A60C03;
- Wed, 19 May 2021 16:41:51 +0000 (UTC)
-Date: Wed, 19 May 2021 18:41:49 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 3/3] vl: plug -object back into -readconfig
-Message-ID: <YKU/zY2hjRC+ZsUC@merkur.fritz.box>
-References: <20210518154014.2999326-1-pbonzini@redhat.com>
- <20210518154059.3002446-3-pbonzini@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ljPHj-0007jo-VT
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 12:43:05 -0400
+Received: from mail-ua1-x92e.google.com ([2607:f8b0:4864:20::92e]:45863)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ljPHb-0001NR-6r
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 12:43:03 -0400
+Received: by mail-ua1-x92e.google.com with SMTP id 20so4636148uaf.12
+ for <qemu-devel@nongnu.org>; Wed, 19 May 2021 09:42:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=w+QKaYSYXvS8N8BUF7VXThPiChr0N+nP5zSmKVVlc7w=;
+ b=y38KBNrH589jNCgQAcpHosHqJYbbACv033jDifrW/DFLwxIY5dZHwIE77vMio+ApCk
+ vDvGQT/Dd1xiqb3ISoDOaewT9YVZ90vVXhqXIdE6j0NkOxVJ3X+lJ3xwkXUGTooZTsg+
+ Fqy99lJf2YUjs83vOJZD3osZzuGl+x/j0ZFV94+khn6m/a9KuRIEFdX7lLyBWJ7golCW
+ 6YFm4PB83JvM1r/7E+Ku8WMOrgCR7gZePSovuCeIQQnTNR733w1mExcNXcpdruymTI1U
+ Un6I9JfRwwE5ftoFkVQCLp4uApWYXTNZHMzMkqHptBDLyJ0OiHF+aOc3dQXOX04O+BzB
+ XMRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=w+QKaYSYXvS8N8BUF7VXThPiChr0N+nP5zSmKVVlc7w=;
+ b=sWlRsCENHPkZpiTf9nsVy1VoTvg90CUtneR9+ElxpM14A/a3LLd5kNErMGIj2iFRhf
+ cXnfb7nMuu6bQKG48SIIwQOYLUjaYXd76mH48Y0w9JSddXga/E6KU0qdn6h8kCXsfqst
+ W8M8QSBZBz+0f6vjaeJxiyN2lz+yHBevllXV+GpcjoPHOSgvjz9w0qEGH7AsL8LNJ0R0
+ qBNofCEgKQLrjrYI/YiEut6rpMix4sEJ2gGt5ois7b/G3tNhpy86a5Z2Msff0zRgLXio
+ 1FIN6/QUhpgykKuA14D+NkgsUo4jDsvSU73YHcoaDiPmYCHXnVGd/XJmJ3F41BbeN+BZ
+ lvYQ==
+X-Gm-Message-State: AOAM531Qpz2EhfZAvU2+6k5oBHZhEs6nNvxFDv7eJeWTTV0xETzjpYt3
+ xIcbkFGvlphvgF6uvyzg0u/iUw==
+X-Google-Smtp-Source: ABdhPJw0X3Wf1GIJVC1f4JdhformnzAxjt3/mzijiTHxNzLJ+DS0KsADTxckT0mjh9Qa42Hri0e0Lg==
+X-Received: by 2002:ab0:6cac:: with SMTP id j12mr451946uaa.34.1621442574069;
+ Wed, 19 May 2021 09:42:54 -0700 (PDT)
+Received: from [172.16.22.144] ([45.235.253.15])
+ by smtp.gmail.com with ESMTPSA id d12sm29252vsc.8.2021.05.19.09.42.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 19 May 2021 09:42:53 -0700 (PDT)
+Subject: Re: [PATCH v2 2/2] tests/tcg/x86_64: add vsyscall smoke test
+To: Ilya Leoshkevich <iii@linux.ibm.com>, Cornelia Huck <cohuck@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Paolo Bonzini
+ <pbonzini@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
+References: <20210519045738.1335210-1-iii@linux.ibm.com>
+ <20210519045738.1335210-3-iii@linux.ibm.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <4a2aef95-dbe1-28dd-8b78-15520f6e9553@linaro.org>
+Date: Wed, 19 May 2021 11:42:51 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210518154059.3002446-3-pbonzini@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.39,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210519045738.1335210-3-iii@linux.ibm.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::92e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ua1-x92e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,28 +89,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-stable@nongnu.org, qemu-devel@nongnu.org, armbru@redhat.com
+Cc: Christian Borntraeger <borntraeger@de.ibm.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 18.05.2021 um 17:40 hat Paolo Bonzini geschrieben:
-> Commit bc2f4fcb1d ("qom: move user_creatable_add_opts logic to vl.c
-> and QAPIfy it", 2021-03-19) switched the creation of objects from
-> qemu_opts_foreach to a bespoke QTAILQ in preparation for supporting JSON
-> syntax in -object.
+On 5/18/21 11:57 PM, Ilya Leoshkevich wrote:
+> Having a small test will prevent trivial regressions in the future.
 > 
-> Unfortunately in doing so it lost support for [object] stanzas in
-> configuration files and also for "-set object.ID.KEY=VAL".  The latter
-> is hard to re-establish and probably best solved by deprecating -set.
-> This patch uses the infrastructure introduced by the previous two
-> patches in order to parse QOM objects correctly from configuration
-> files.
-> 
-> Cc: Kevin Wolf <kwolf@redhat.com>
-> Cc: Markus Armbruster <armbru@redhat.com>
-> Cc: qemu-stable@nongnu.org
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> Signed-off-by: Ilya Leoshkevich<iii@linux.ibm.com>
+> ---
+>   tests/tcg/x86_64/Makefile.target |  6 +++++-
+>   tests/tcg/x86_64/vsyscall.c      | 12 ++++++++++++
+>   2 files changed, 17 insertions(+), 1 deletion(-)
+>   create mode 100644 tests/tcg/x86_64/vsyscall.c
 
-Reviewed-by: Kevin Wolf <kwolf@redhat.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
+r~
 
