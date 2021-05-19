@@ -2,72 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA97A388F70
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 15:46:16 +0200 (CEST)
-Received: from localhost ([::1]:39736 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51369388F75
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 15:48:00 +0200 (CEST)
+Received: from localhost ([::1]:43142 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljMWd-0006Bu-M0
-	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 09:46:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38400)
+	id 1ljMYJ-00004x-Ep
+	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 09:47:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40190)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ljM3K-0006jv-49
- for qemu-devel@nongnu.org; Wed, 19 May 2021 09:15:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26812)
+ (Exim 4.90_1) (envelope-from <pl@kamp.de>) id 1ljMBz-0000LZ-UY
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 09:24:57 -0400
+Received: from kerio.kamp.de ([195.62.97.192]:37355)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ljM3G-00066K-4B
- for qemu-devel@nongnu.org; Wed, 19 May 2021 09:15:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621430152;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=yVTDva9+6M2BjP6SYdfmn5x0oF3SC97Zbfn4ueP2do8=;
- b=iOwA1bn/4rmQ/5RICXMCmPrfPobjal+5W8xCXibR94z4fGyKSIrHSWVZT/D6nYHNtSe1t2
- xFPgPBQpTLLWS4qg+9iT44UFRbI5H+rhubl3a44l6+/46IC3ExkOYfdWJVM9CM6P9a0uaX
- t57oebX3bEuTa2iFU2oi4sgqTMCOKHI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-550-qdYlAMwlOW--Bzj_1nbbjA-1; Wed, 19 May 2021 09:15:48 -0400
-X-MC-Unique: qdYlAMwlOW--Bzj_1nbbjA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A227F8064DE
- for <qemu-devel@nongnu.org>; Wed, 19 May 2021 13:15:02 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
- [10.36.114.17])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 934AA5D6AC;
- Wed, 19 May 2021 13:14:58 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 1F3FB113861E; Wed, 19 May 2021 15:14:54 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Automatic module loading (was: [PATCH] qemu-config: load modules
- when instantiating option groups)
-References: <20210518131542.2941207-1-pbonzini@redhat.com>
-Date: Wed, 19 May 2021 15:14:54 +0200
-In-Reply-To: <20210518131542.2941207-1-pbonzini@redhat.com> (Paolo Bonzini's
- message of "Tue, 18 May 2021 09:15:42 -0400")
-Message-ID: <87h7iyoofl.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <pl@kamp.de>) id 1ljMBv-0002SQ-Lk
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 09:24:55 -0400
+X-Footer: a2FtcC5kZQ==
+Received: from submission.kamp.de ([195.62.97.28]) by kerio.kamp.de with ESMTPS
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256 bits))
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 15:24:39 +0200
+Received: (qmail 18859 invoked from network); 19 May 2021 13:24:41 -0000
+Received: from ac40.vpn.kamp-intra.net (HELO ?172.20.250.40?)
+ (pl@kamp.de@::ffff:172.20.250.40)
+ by submission.kamp.de with ESMTPS (DHE-RSA-AES128-SHA encrypted) ESMTPA;
+ 19 May 2021 13:24:41 -0000
+Subject: Re: [RFC PATCH 2/2] qemu-img convert: Fix sparseness detection
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Kevin Wolf <kwolf@redhat.com>
+References: <20210415152214.279844-1-kwolf@redhat.com>
+ <20210415152214.279844-3-kwolf@redhat.com>
+ <06e1910c-102a-e41d-116f-00458f41243c@virtuozzo.com>
+ <YH7tah47XxdYs3VW@merkur.fritz.box>
+ <f0ba8d30-3380-41d5-e3e7-c1ee52fc46be@virtuozzo.com>
+From: Peter Lieven <pl@kamp.de>
+Message-ID: <dde3af63-994d-4b60-03f7-fc71273e149f@kamp.de>
+Date: Wed, 19 May 2021 15:24:40 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.39,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <f0ba8d30-3380-41d5-e3e7-c1ee52fc46be@virtuozzo.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=195.62.97.192; envelope-from=pl@kamp.de;
+ helo=kerio.kamp.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,75 +63,128 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org, kraxel@redhat.com
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Paolo Bonzini <pbonzini@redhat.com> writes:
-
-> Right now the SPICE module is special cased to be loaded when processing
-> of the -spice command line option.  However, the spice option group
-> can also be brought in via -readconfig, in which case the module is
-> not loaded.
+Am 20.04.21 um 18:52 schrieb Vladimir Sementsov-Ogievskiy:
+> 20.04.2021 18:04, Kevin Wolf wrote:
+>> Am 20.04.2021 um 16:31 hat Vladimir Sementsov-Ogievskiy geschrieben:
+>>> 15.04.2021 18:22, Kevin Wolf wrote:
+>>>> In order to avoid RMW cycles, is_allocated_sectors() treats zeroed areas
+>>>> like non-zero data if the end of the checked area isn't aligned. This
+>>>> can improve the efficiency of the conversion and was introduced in
+>>>> commit 8dcd3c9b91a.
+>>>>
+>>>> However, it comes with a correctness problem: qemu-img convert is
+>>>> supposed to sparsify areas that contain only zeros, which it doesn't do
+>>>> any more. It turns out that this even happens when not only the
+>>>> unaligned area is zeroed, but also the blocks before and after it. In
+>>>> the bug report, conversion of a fragmented 10G image containing only
+>>>> zeros resulted in an image consuming 2.82 GiB even though the expected
+>>>> size is only 4 KiB.
+>>>>
+>>>> As a tradeoff between both, let's ignore zeroed sectors only after
+>>>> non-zero data to fix the alignment, but if we're only looking at zeros,
+>>>> keep them as such, even if it may mean additional RMW cycles.
+>>>>
+>>>
+>>> Hmm.. If I understand correctly, we are going to do unaligned
+>>> write-zero. And that helps.
+>>
+>> This can happen (mostly raw images on block devices, I think?), but
+>> usually it just means skipping the write because we know that the target
+>> image is already zeroed.
+>>
+>> What it does mean is that if the next part is data, we'll have an
+>> unaligned data write.
+>>
+>>> Doesn't that mean that alignment is wrongly detected?
+>>
+>> The problem is that you can have bdrv_block_status_above() return the
+>> same allocation status multiple times in a row, but *pnum can be
+>> unaligned for the conversion.
+>>
+>> We only look at a single range returned by it when detecting the
+>> alignment, so it could be that we have zero buffers for both 0-11 and
+>> 12-16 and detect two misaligned ranges, when both together are a
+>> perfectly aligned zeroed range.
+>>
+>> In theory we could try to do some lookahead and merge ranges where
+>> possible, which should give us the perfect result, but it would make the
+>> code considerably more complicated. (Whether we want to merge them
+>> doesn't only depend on the block status, but possibly also on the
+>> content of a DATA range.)
+>>
+>> Kevin
+>>
 >
-> Add a generic hook to load modules that provide a QemuOpts group,
-> and use it for the "spice" and "iscsi" groups.
+> Oh, I understand now the problem, thanks for explanation.
 >
-> Fixes: #194
-> Fixes: https://bugs.launchpad.net/qemu/+bug/1910696
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> Hmm, yes that means, that if the whole buf is zero, is_allocated_sectors must not align it down, to be possibly "merged" with next chunk if it is zero too.
+>
+> But it's still good to align zeroes down, if data starts somewhere inside the buf, isn't it?
+>
+> what about something like this:
+>
+> diff --git a/qemu-img.c b/qemu-img.c
+> index babb5573ab..d1704584a0 100644
+> --- a/qemu-img.c
+> +++ b/qemu-img.c
+> @@ -1167,19 +1167,39 @@ static int is_allocated_sectors(const uint8_t *buf, int n, int *pnum,
+>          }
+>      }
+>  
+> +    if (i == n) {
+> +        /*
+> +         * The whole buf is the same.
+> +         *
+> +         * if it's data, just return it. It's the old behavior.
+> +         *
+> +         * if it's zero, just return too. It will work good if target is alredy
+> +         * zeroed. And if next chunk is zero too we'll have no RMW and no reason
+> +         * to write data.
+> +         */
+> +        *pnum = i;
+> +        return !is_zero;
+> +    }
+> +
+>      tail = (sector_num + i) & (alignment - 1);
+>      if (tail) {
+>          if (is_zero && i <= tail) {
+> -            /* treat unallocated areas which only consist
+> -             * of a small tail as allocated. */
+> +            /*
+> +             * For sure next sector after i is data, and it will rewrite this
+> +             * tail anyway due to RMW. So, let's just write data now.
+> +             */
+>              is_zero = false;
+>          }
+>          if (!is_zero) {
+> -            /* align up end offset of allocated areas. */
+> +            /* If possible, align up end offset of allocated areas. */
+>              i += alignment - tail;
+>              i = MIN(i, n);
+>          } else {
+> -            /* align down end offset of zero areas. */
+> +            /*
+> +             * For sure next sector after i is data, and it will rewrite this
+> +             * tail anyway due to RMW. Better is avoid RMW and write zeroes up
+> +             * to aligned bound.
+> +             */
+>              i -= tail;
+>          }
+>      }
+>
+>
 
-What follows is not an objection to this patch.
+I think we forgot to follow up on this. Has anyone tested this suggestion?
 
-I think we have this kind of bugs because we're kind of wobbly on when
-to load modules.
-
-On the one hand, we're trying to load modules only when needed.  This is
-obviously useful to conserve resources, and to keep the attack surface
-small.  Some background in
-
-    Message-ID: <20210409064642.ah2tz5vjz2ngfiyo@sirius.home.kraxel.org>
-    https://lists.gnu.org/archive/html/qemu-devel/2021-04/msg01393.html
-
-On the other hand, we're trying to make modules transparent to
-management applications, i.e. QEMU looks the same whether something was
-compiled as a loadable module or linked into QEMU itself.  See
-
-    Message-ID: <YHAhQWdX15V54U8G@redhat.com>
-    https://lists.gnu.org/archive/html/qemu-devel/2021-04/msg01450.html
-
-I'm afraid we sort of fail at both.
-
-Transparency to management applications requires us to load modules on
-QOM introspection already.
-
-Example: to answer "show me all QOM types", we need to load all modules
-that could possibly register QOM types.  As long as module code can do
-whatever it wants, that means loading all of them.
-
-Example: to answer "show me QOM type FOO", where FOO is currently
-unknown, we need to load all modules that could possible register QOM
-type FOO.  Again, that means loading all of them.
-
-We don't actually do this.  Instead, we hardcode a map from type name to
-module name[*], so we don't have to load them all, and we actually load
-the module specified by this map only sometimes, namely when we call
-module_object_class_by_name() instead of object_class_by_name().  I
-can't discern rules when to call which one.  Wobbly.
-
-Things other than QOM might be affected, too.
-
-QAPI introspection is not: the value of query-qmp-schema is fixed at
-compile-time, and *how* something is compiled (loadable module
-vs. linked into QEMU itself) does not affect it.
-
-I'd like us to develop a clearer understanding when exactly modules are
-to be loaded.
+Otherwise, I would try to rerun the tests I did with the my old and Kevins suggestion.
 
 
-[*] qom_modules[] in util/module.c.  This is a basically an (unchecked)
-assertion that the (unrelated!) module code won't register anything
-else.  Ugh!
+Peter
+
+
 
 
