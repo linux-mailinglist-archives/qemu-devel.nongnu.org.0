@@ -2,36 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D020E388EA6
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 15:10:45 +0200 (CEST)
-Received: from localhost ([::1]:47946 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F185388EBC
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 15:13:33 +0200 (CEST)
+Received: from localhost ([::1]:57586 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljLyG-0001Gy-TM
-	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 09:10:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33204)
+	id 1ljM0y-0007nK-HR
+	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 09:13:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33276)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1ljLgl-0000nW-Nt; Wed, 19 May 2021 08:52:41 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:38703)
+ id 1ljLgt-0000tQ-EK; Wed, 19 May 2021 08:52:47 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:33637)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1ljLgh-0001Eh-Pl; Wed, 19 May 2021 08:52:38 -0400
+ id 1ljLgl-0001Fh-S6; Wed, 19 May 2021 08:52:42 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4FlXnd2gh3z9t0G; Wed, 19 May 2021 22:52:05 +1000 (AEST)
+ id 4FlXnd65Rnz9t0T; Wed, 19 May 2021 22:52:05 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1621428725;
- bh=ybLxUFWCZnNn3UfoPCjH3zvWc/PUDjOMEzazDlxW048=;
+ bh=YepioIO6fM+22aWQNVJNN/CrWq02C6DWs1hzecs1a84=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=SHEisfKbhS56ZpDWGnYbsvUvqR7620d92WLyQdTICibMoUn15FFiJENUokPsdxL5F
- Nc5uxFTx7d1U0uG/ipFlpBUWhapgVHHqD1dEdwktLHzOxAd1gk4btlhtpxJhOaYjk0
- 9cNWug4mZPUDwTSV9TlZGciYlBueJ6DY5SbGIDXg=
+ b=gqpRfAV2JQ1LBZCCvgl9BFAj8BM/+Zbc6k1/IAWVzOvvSduQQna1hlEBjxanlHuxO
+ Qm/PO4C/6yYrVT8p/tUvZdGq1MwgP5DrOgtHSFUlE5/VS9zMAl48HlUuTUa+BVIAWd
+ GW4MinpqwFf/cnaGot7yXVlTzLb4e5a+2PeV04HA=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org,
 	groug@kaod.org
-Subject: [PULL 17/48] target/ppc: Split out decode_legacy
-Date: Wed, 19 May 2021 22:51:17 +1000
-Message-Id: <20210519125148.27720-18-david@gibson.dropbear.id.au>
+Subject: [PULL 18/48] target/ppc: Move DISAS_NORETURN setting into
+ gen_exception*
+Date: Wed, 19 May 2021 22:51:18 +1000
+Message-Id: <20210519125148.27720-19-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210519125148.27720-1-david@gibson.dropbear.id.au>
 References: <20210519125148.27720-1-david@gibson.dropbear.id.au>
@@ -66,157 +67,114 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
+There are other valid settings for is_jmp besides
+DISAS_NEXT and DISAS_NORETURN, so eliminating that
+dichotomy from ppc_tr_translate_insn is helpful.
+
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Luis Pires <luis.pires@eldorado.org.br>
 Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
-Message-Id: <20210512185441.3619828-3-matheus.ferst@eldorado.org.br>
+Message-Id: <20210512185441.3619828-4-matheus.ferst@eldorado.org.br>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- target/ppc/translate.c | 115 +++++++++++++++++++++++------------------
- 1 file changed, 64 insertions(+), 51 deletions(-)
+ target/ppc/translate.c | 26 ++++++++++++++++++--------
+ 1 file changed, 18 insertions(+), 8 deletions(-)
 
 diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-index abdef7e291..d6a8a04380 100644
+index d6a8a04380..ac0c0e5b2c 100644
 --- a/target/ppc/translate.c
 +++ b/target/ppc/translate.c
-@@ -9062,6 +9062,62 @@ void ppc_cpu_dump_statistics(CPUState *cs, int flags)
- #endif
+@@ -264,7 +264,8 @@ static void gen_exception_err(DisasContext *ctx, uint32_t excp, uint32_t error)
+     gen_helper_raise_exception_err(cpu_env, t0, t1);
+     tcg_temp_free_i32(t0);
+     tcg_temp_free_i32(t1);
+-    ctx->exception = (excp);
++    ctx->exception = excp;
++    ctx->base.is_jmp = DISAS_NORETURN;
  }
  
-+static bool decode_legacy(PowerPCCPU *cpu, DisasContext *ctx, uint32_t insn)
-+{
-+    opc_handler_t **table, *handler;
-+    uint32_t inval;
-+
-+    ctx->opcode = insn;
-+
-+    LOG_DISAS("translate opcode %08x (%02x %02x %02x %02x) (%s)\n",
-+              insn, opc1(insn), opc2(insn), opc3(insn), opc4(insn),
-+              ctx->le_mode ? "little" : "big");
-+
-+    table = cpu->opcodes;
-+    handler = table[opc1(insn)];
-+    if (is_indirect_opcode(handler)) {
-+        table = ind_table(handler);
-+        handler = table[opc2(insn)];
-+        if (is_indirect_opcode(handler)) {
-+            table = ind_table(handler);
-+            handler = table[opc3(insn)];
-+            if (is_indirect_opcode(handler)) {
-+                table = ind_table(handler);
-+                handler = table[opc4(insn)];
-+            }
-+        }
-+    }
-+
-+    /* Is opcode *REALLY* valid ? */
-+    if (unlikely(handler->handler == &gen_invalid)) {
-+        qemu_log_mask(LOG_GUEST_ERROR, "invalid/unsupported opcode: "
-+                      "%02x - %02x - %02x - %02x (%08x) "
-+                      TARGET_FMT_lx "\n",
-+                      opc1(insn), opc2(insn), opc3(insn), opc4(insn),
-+                      insn, ctx->cia);
-+        return false;
-+    }
-+
-+    if (unlikely(handler->type & (PPC_SPE | PPC_SPE_SINGLE | PPC_SPE_DOUBLE)
-+                 && Rc(insn))) {
-+        inval = handler->inval2;
-+    } else {
-+        inval = handler->inval1;
-+    }
-+
-+    if (unlikely((insn & inval) != 0)) {
-+        qemu_log_mask(LOG_GUEST_ERROR, "invalid bits: %08x for opcode: "
-+                      "%02x - %02x - %02x - %02x (%08x) "
-+                      TARGET_FMT_lx "\n", insn & inval,
-+                      opc1(insn), opc2(insn), opc3(insn), opc4(insn),
-+                      insn, ctx->cia);
-+        return false;
-+    }
-+
-+    handler->handler(ctx);
-+    return true;
-+}
-+
- static void ppc_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
- {
+ static void gen_exception(DisasContext *ctx, uint32_t excp)
+@@ -281,7 +282,8 @@ static void gen_exception(DisasContext *ctx, uint32_t excp)
+     t0 = tcg_const_i32(excp);
+     gen_helper_raise_exception(cpu_env, t0);
+     tcg_temp_free_i32(t0);
+-    ctx->exception = (excp);
++    ctx->exception = excp;
++    ctx->base.is_jmp = DISAS_NORETURN;
+ }
+ 
+ static void gen_exception_nip(DisasContext *ctx, uint32_t excp,
+@@ -293,7 +295,8 @@ static void gen_exception_nip(DisasContext *ctx, uint32_t excp,
+     t0 = tcg_const_i32(excp);
+     gen_helper_raise_exception(cpu_env, t0);
+     tcg_temp_free_i32(t0);
+-    ctx->exception = (excp);
++    ctx->exception = excp;
++    ctx->base.is_jmp = DISAS_NORETURN;
+ }
+ 
+ /*
+@@ -339,6 +342,7 @@ static void gen_debug_exception(DisasContext *ctx)
+     t0 = tcg_const_i32(EXCP_DEBUG);
+     gen_helper_raise_exception(cpu_env, t0);
+     tcg_temp_free_i32(t0);
++    ctx->base.is_jmp = DISAS_NORETURN;
+ }
+ 
+ static inline void gen_inval_exception(DisasContext *ctx, uint32_t error)
+@@ -9183,7 +9187,6 @@ static bool ppc_tr_breakpoint_check(DisasContextBase *dcbase, CPUState *cs,
      DisasContext *ctx = container_of(dcbase, DisasContext, base);
-@@ -9143,66 +9199,23 @@ static void ppc_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
-     DisasContext *ctx = container_of(dcbase, DisasContext, base);
-     PowerPCCPU *cpu = POWERPC_CPU(cs);
-     CPUPPCState *env = cs->env_ptr;
--    opc_handler_t **table, *handler;
-+    uint32_t insn;
-+    bool ok;
  
-     LOG_DISAS("----------------\n");
-     LOG_DISAS("nip=" TARGET_FMT_lx " super=%d ir=%d\n",
-               ctx->base.pc_next, ctx->mem_idx, (int)msr_ir);
- 
-     ctx->cia = ctx->base.pc_next;
--    ctx->opcode = translator_ldl_swap(env, ctx->base.pc_next,
--                                      need_byteswap(ctx));
--
--    LOG_DISAS("translate opcode %08x (%02x %02x %02x %02x) (%s)\n",
--              ctx->opcode, opc1(ctx->opcode), opc2(ctx->opcode),
--              opc3(ctx->opcode), opc4(ctx->opcode),
--              ctx->le_mode ? "little" : "big");
-+    insn = translator_ldl_swap(env, ctx->base.pc_next, need_byteswap(ctx));
-     ctx->base.pc_next += 4;
--    table = cpu->opcodes;
--    handler = table[opc1(ctx->opcode)];
--    if (is_indirect_opcode(handler)) {
--        table = ind_table(handler);
--        handler = table[opc2(ctx->opcode)];
--        if (is_indirect_opcode(handler)) {
--            table = ind_table(handler);
--            handler = table[opc3(ctx->opcode)];
--            if (is_indirect_opcode(handler)) {
--                table = ind_table(handler);
--                handler = table[opc4(ctx->opcode)];
--            }
--        }
--    }
--    /* Is opcode *REALLY* valid ? */
--    if (unlikely(handler->handler == &gen_invalid)) {
--        qemu_log_mask(LOG_GUEST_ERROR, "invalid/unsupported opcode: "
--                      "%02x - %02x - %02x - %02x (%08x) "
--                      TARGET_FMT_lx " %d\n",
--                      opc1(ctx->opcode), opc2(ctx->opcode),
--                      opc3(ctx->opcode), opc4(ctx->opcode),
--                      ctx->opcode, ctx->cia, (int)msr_ir);
--    } else {
--        uint32_t inval;
- 
--        if (unlikely(handler->type & (PPC_SPE | PPC_SPE_SINGLE | PPC_SPE_DOUBLE)
--                     && Rc(ctx->opcode))) {
--            inval = handler->inval2;
--        } else {
--            inval = handler->inval1;
--        }
--
--        if (unlikely((ctx->opcode & inval) != 0)) {
--            qemu_log_mask(LOG_GUEST_ERROR, "invalid bits: %08x for opcode: "
--                          "%02x - %02x - %02x - %02x (%08x) "
--                          TARGET_FMT_lx "\n", ctx->opcode & inval,
--                          opc1(ctx->opcode), opc2(ctx->opcode),
--                          opc3(ctx->opcode), opc4(ctx->opcode),
--                          ctx->opcode, ctx->cia);
--            gen_inval_exception(ctx, POWERPC_EXCP_INVAL_INVAL);
--            ctx->base.is_jmp = DISAS_NORETURN;
--            return;
--        }
-+    ok = decode_legacy(cpu, ctx, insn);
-+    if (!ok) {
-+        gen_invalid(ctx);
-+        ctx->base.is_jmp = DISAS_NORETURN;
+     gen_debug_exception(ctx);
+-    dcbase->is_jmp = DISAS_NORETURN;
+     /*
+      * The address covered by the breakpoint must be included in
+      * [tb->pc, tb->pc + tb->size) in order to for it to be properly
+@@ -9213,18 +9216,19 @@ static void ppc_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
+     ok = decode_legacy(cpu, ctx, insn);
+     if (!ok) {
+         gen_invalid(ctx);
+-        ctx->base.is_jmp = DISAS_NORETURN;
      }
--    (*(handler->handler))(ctx);
-+
+ 
  #if defined(DO_PPC_STATISTICS)
      handler->count++;
  #endif
++
+     /* Check trace mode exceptions */
+     if (unlikely(ctx->singlestep_enabled & CPU_SINGLE_STEP &&
+                  (ctx->base.pc_next <= 0x100 || ctx->base.pc_next > 0xF00) &&
+                  ctx->exception != POWERPC_SYSCALL &&
+                  ctx->exception != POWERPC_EXCP_TRAP &&
+-                 ctx->exception != POWERPC_EXCP_BRANCH)) {
++                 ctx->exception != POWERPC_EXCP_BRANCH &&
++                 ctx->base.is_jmp != DISAS_NORETURN)) {
+         uint32_t excp = gen_prep_dbgex(ctx);
+         gen_exception_nip(ctx, excp, ctx->base.pc_next);
+     }
+@@ -9235,14 +9239,20 @@ static void ppc_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
+                  opc3(ctx->opcode), opc4(ctx->opcode), ctx->opcode);
+     }
+ 
+-    ctx->base.is_jmp = ctx->exception == POWERPC_EXCP_NONE ?
+-        DISAS_NEXT : DISAS_NORETURN;
++    if (ctx->base.is_jmp == DISAS_NEXT
++        && ctx->exception != POWERPC_EXCP_NONE) {
++        ctx->base.is_jmp = DISAS_TOO_MANY;
++    }
+ }
+ 
+ static void ppc_tr_tb_stop(DisasContextBase *dcbase, CPUState *cs)
+ {
+     DisasContext *ctx = container_of(dcbase, DisasContext, base);
+ 
++    if (ctx->base.is_jmp == DISAS_NORETURN) {
++        return;
++    }
++
+     if (ctx->exception == POWERPC_EXCP_NONE) {
+         gen_goto_tb(ctx, 0, ctx->base.pc_next);
+     } else if (ctx->exception != POWERPC_EXCP_BRANCH) {
 -- 
 2.31.1
 
