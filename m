@@ -2,43 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00354388549
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 05:32:20 +0200 (CEST)
-Received: from localhost ([::1]:38588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7338138855B
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 05:36:20 +0200 (CEST)
+Received: from localhost ([::1]:50096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljCwW-0001Mv-2U
-	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 23:32:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57480)
+	id 1ljD0N-0000lZ-Hi
+	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 23:36:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57530)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1ljCuL-0006xx-Ay; Tue, 18 May 2021 23:30:05 -0400
-Received: from ozlabs.org ([203.11.71.1]:35213)
+ id 1ljCuQ-00071L-Hw; Tue, 18 May 2021 23:30:10 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:52313)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1ljCuH-0006i7-LE; Tue, 18 May 2021 23:30:05 -0400
+ id 1ljCuM-0006oI-GM; Tue, 18 May 2021 23:30:08 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4FlJK201Jnz9sXM; Wed, 19 May 2021 13:29:57 +1000 (AEST)
+ id 4FlJK20kcMz9sXN; Wed, 19 May 2021 13:29:58 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1621394998;
- bh=KqFX/gJz8T7iAGhTJInWzKoQg48O3ZiDaw1VuDppdA4=;
+ bh=bDTCgSYJZ2wXicEoPDgQK+RnP1ank3VXrLrbE9lHXTE=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=NpUDgybvxbppeb6371BEL70tIkF+QoY3SSxUQMdanJsiHB2di0Nfo8xvdIa9s6jPq
- NAUOTMHjtOXL5z6ahEJSYZCrK5SrFpBCqQojsv/Tlxy8ndH2NsnSzwOeim3RIuZh2/
- PS0thr7bpSOoAPJudPhZUymo8h4FAGsyq6eMKir0=
-Date: Wed, 19 May 2021 12:02:35 +1000
+ b=AyPsA+ozSuFLiQBMjP0B1e+9AADiUFQ6U8Peg7ydyTA9b8upNVFRVQOeXIA6W2Ned
+ KCRrVf3zuX+cO8jaUBXW7KoR2k61ZQ4NYrOBfn66ziiBQv2r2VEH+fpmZtD8AMdFVS
+ uUuY75/RHO7olk2NzimKHcGMkfDVAXBhYxmP7Alg=
+Date: Wed, 19 May 2021 12:52:29 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
-To: "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br>
-Subject: Re: [PATCH v2 7/7] target/ppc: wrapped some TCG only logic with ifdefs
-Message-ID: <YKRxu6mcVAfQJUwo@yekko>
-References: <20210518150515.57983-1-bruno.larsen@eldorado.org.br>
- <20210518150515.57983-8-bruno.larsen@eldorado.org.br>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH 00/24] target/ppc: Clean up mmu translation
+Message-ID: <YKR9bZmPxOHKlnnP@yekko>
+References: <20210518201146.794854-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="jkdN6aQlizKRNa2X"
+ protocol="application/pgp-signature"; boundary="kKR15HyZO/NG1kkN"
 Content-Disposition: inline
-In-Reply-To: <20210518150515.57983-8-bruno.larsen@eldorado.org.br>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+In-Reply-To: <20210518201146.794854-1-richard.henderson@linaro.org>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -58,132 +57,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: farosas@linux.ibm.com, richard.henderson@linaro.org, qemu-devel@nongnu.org,
- lucas.araujo@eldorado.org.br, fernando.valle@eldorado.org.br,
- qemu-ppc@nongnu.org, matheus.ferst@eldorado.org.br, luis.pires@eldorado.org.br
+Cc: bruno.larsen@eldorado.org.br, qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---jkdN6aQlizKRNa2X
+--kKR15HyZO/NG1kkN
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, May 18, 2021 at 12:05:15PM -0300, Bruno Larsen (billionai) wrote:
-> Wrapped some function calls in cpu_init.c, gdbstub.c, mmu-hash64.c and
-> excp_helper.c that were TCG only with ifdef CONFIG_TCG, to support
-> building without TCG.
+On Tue, May 18, 2021 at 03:11:22PM -0500, Richard Henderson wrote:
+> This attempts the cleanup I've been talking about with Bruno.
 >=20
-> for excp_helper we also moved the function do_rfi higher in the file to
-> reduce the ifdef count.
+> On the way, there's a lot of MMUAccessType cleanup, to get the
+> code into the form I wanted the interface to share.  There's a
+> lot more cleanup that could be done, particularly wrt the older
+> mmu models.
 
-The description's no longer really accurate since some of the fixups
-are no longer ifdef based.
-
-
-> Signed-off-by: Bruno Larsen (billionai) <bruno.larsen@eldorado.org.br>
-> ---
->  target/ppc/cpu_init.c    | 16 +++++---
->  target/ppc/excp_helper.c | 82 +++++++++++++++++++++++-----------------
->  target/ppc/mmu-hash64.c  |  8 ++++
->  3 files changed, 66 insertions(+), 40 deletions(-)
->=20
-> diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
-> index 88a8344eea..5ab4d4ef2b 100644
-> --- a/target/ppc/cpu_init.c
-> +++ b/target/ppc/cpu_init.c
-> @@ -1203,15 +1203,13 @@ static void register_BookE206_sprs(CPUPPCState *e=
-nv, uint32_t mas_mask,
->      /* TLB assist registers */
->      /* XXX : not implemented */
->      for (i =3D 0; i < 8; i++) {
-> -        void (*uea_write)(DisasContext *ctx, int sprn, int gprn) =3D
-> -            &spr_write_generic32;
-> -        if (i =3D=3D 2 && (mas_mask & (1 << i)) && (env->insns_flags & P=
-PC_64B)) {
-> -            uea_write =3D &spr_write_generic;
-> -        }
->          if (mas_mask & (1 << i)) {
->              spr_register(env, mas_sprn[i], mas_names[i],
->                           SPR_NOACCESS, SPR_NOACCESS,
-> -                         &spr_read_generic, uea_write,
-> +                         &spr_read_generic,
-> +                         (i =3D=3D 2 && (mas_mask & (1 << i)) &&
-> +                         (env->insns_flags & PPC_64B))
-> +                         ? &spr_write_generic : &spr_write_generic32,
-
-
-Looks good.
->                           0x00000000);
->          }
->      }
-> @@ -8605,11 +8603,13 @@ static void ppc_cpu_realize(DeviceState *dev, Err=
-or **errp)
->          }
->      }
-> =20
-> +#ifdef CONFIG_TCG
->      create_ppc_opcodes(cpu, &local_err);
->      if (local_err !=3D NULL) {
->          error_propagate(errp, local_err);
->          goto unrealize;
->      }
-> +#endif
-
-In this instance, I think it would be cleaner to create a no-op stub
-for create_ppc_opcodes() and destroy_ppc_opcodes() rather than using
-ifdefs.
-
->      init_ppc_proc(cpu);
-> =20
->      ppc_gdb_init(cs, pcc);
-> @@ -8798,7 +8798,9 @@ static void ppc_cpu_unrealize(DeviceState *dev)
-> =20
->      cpu_remove_sync(CPU(cpu));
-> =20
-> +#ifdef CONFIG_TCG
->      destroy_ppc_opcodes(cpu);
-> +#endif
->  }
-> =20
->  static gint ppc_cpu_compare_class_pvr(gconstpointer a, gconstpointer b)
-> @@ -9296,7 +9298,9 @@ static void ppc_cpu_class_init(ObjectClass *oc, voi=
-d *data)
->      cc->class_by_name =3D ppc_cpu_class_by_name;
->      cc->has_work =3D ppc_cpu_has_work;
->      cc->dump_state =3D ppc_cpu_dump_state;
-> +#ifdef CONFIG_TCG
->      cc->dump_statistics =3D ppc_cpu_dump_statistics;
-> +#endif
->      cc->set_pc =3D ppc_cpu_set_pc;
->      cc->gdb_read_register =3D ppc_cpu_gdb_read_register;
->      cc->gdb_write_register =3D ppc_cpu_gdb_write_register;
-> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-> index 80bb6e70e9..a14b529722 100644
-> --- a/target/ppc/excp_helper.c
-> +++ b/target/ppc/excp_helper.c
-> @@ -19,9 +19,13 @@
->  #include "qemu/osdep.h"
->  #include "qemu/main-loop.h"
->  #include "cpu.h"
-> +#ifdef CONFIG_TCG
->  #include "exec/helper-proto.h"
-> +#endif
-
-I don't like the look of ifdefs amongst the includes.  Generally the
-headers themselves should be made safe (if unnecessary) to include for
-!TCG builds.
-
->  #include "exec/exec-all.h"
-> +#ifdef CONFIG_TCG
->  #include "exec/cpu_ldst.h"
-> +#endif
->  #include "internal.h"
->  #include "helper_regs.h"
-
-The remaining ifdef changes look fine.  Some it would be nice to clean
-up better in future, but there's no rush.
+I've applied 1..15, still looking at the rest.
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -191,25 +83,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---jkdN6aQlizKRNa2X
+--kKR15HyZO/NG1kkN
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmCkcboACgkQbDjKyiDZ
-s5KmIhAAs/wDzzu3w78XNqlA3grfzLJKPizWMuLQ4Mvrfj6v2HPiVQq4g0tgJThv
-S0EuhhVZIzSy3n6RqqE6yK8qcUuYNA1wOF4f5hjJFiAhprwLPdsRP35HBVFXhqWA
-+3sQRXDdnUbsysaCKsns8p73/lA/smUuTmYdsoBYKeZcl9Q9CSJEMzt6076xYD6S
-lhw2hnNZzqHjByg6kCzCFqAlBJ1ZwJ2xt0SU3Al0OVJpzGF4krP8KUJjAG17iLKl
-VCVPa1vaQBGK8ybGIv28eQgiCAL33Vw6g1lErtqI0JlsjAXkr8muVR4Z9+ovSrxz
-3X34/AVnKSF2FwhJqxtJMm0XeAgxEEhS33d+LUZGoOmFWR4002etk3hAYhw2dKLh
-+l+W3PCKpA9Tx4tXIqILw5jgLxbZqIETvy7RIn2UUqctk81TulBtpteSr6FVzhQS
-kTHosTd4cQRkRZAMRBTXiYanVMDE11U8Z1anodm9rm4lzMQf0iurvy6IgMkI8bNO
-Cjt/hbN0qN7swGPUzXMmgJfHiH1D+OzjYO1Qr6gBRGtvN05uU+k/a0dWL50iEr6d
-1MkGCSGyAg3Qzbfsw+iMIUWIovnQu76U5NkHFpo1mgD57jHZksPLMeNAw+ztELJj
-U+/Z+/ZxZjFZF+HyB4YTGzjtZ4FRwwgaczNsJp/QmtkiWbuOTbQ=
-=qLtK
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmCkfWoACgkQbDjKyiDZ
+s5JzkQ/6A/Tij6UTYV6C2HpO6XATMXvQXJJTwunkHF8LMq/jeVUMSi9suuqXc1tM
+zplDjXtwPWLgtXvwpx90RXXOztOH37byUEbMmlBD2QRUY4hRCWD4PfyEsuranUtf
+znyqkWeuDyqzIRAydbk5IIIMDIChozn7BLtuXi+pPorEmyabN/Qbim5ZBqNEUFSZ
+D168RDOHntBLvKySmxUiV6w1D4vLoWvtBd6oJ9hkaTJIdUtoJEuTI1QORgnyA4JV
+6gEnnngORD3oDS56WkObCl7Xh65rYD4pE6yQ+IRFvkOWETiYZ+8gpdZxaaCVGXDe
+xuorLPYlQTKcp/3gVUyxTuxTls8tGICL0dVXEneZaS+GaXCKuLbRWwsKXGLfwvTY
+IKokkzt6gZhpaOnUaQjIsiF+1ssNB0FOvVRu/hOc1lM4jKxMFnx8wsN0EutjRUy7
+2gbcQ+aNOm021m02RMIdlY25yZeKS+aIxspRfkCVvZqH3GSMJaEZSm+YLis/i4Na
+XnzN+7Xfqr9FfEej3TPEufhmKlPsNAsbyHNSq8+KDIhRgc5CjPtudPFvC/a8Aa7i
+jeg2s4dupoo3OufqjgrD/ZpO9PUqGqhSHWdiZ5R9mQwE+KTvv8lhYe8/nhtMn/2y
+Dc/eKKFeqyKquDYY4pA+I58Ek+aVMeuWMM6T+WCN/G3AJ8KT9s8=
+=3QZQ
 -----END PGP SIGNATURE-----
 
---jkdN6aQlizKRNa2X--
+--kKR15HyZO/NG1kkN--
 
