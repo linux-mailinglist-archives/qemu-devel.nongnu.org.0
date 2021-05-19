@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 272AF3896EF
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 21:44:49 +0200 (CEST)
-Received: from localhost ([::1]:58284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73FF73896F3
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 21:47:00 +0200 (CEST)
+Received: from localhost ([::1]:36508 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljS7c-000479-62
-	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 15:44:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45628)
+	id 1ljS9j-0008Ve-GM
+	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 15:46:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45772)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1ljS6C-00025o-02
- for qemu-devel@nongnu.org; Wed, 19 May 2021 15:43:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32236)
+ id 1ljS6i-0002nJ-Bq
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 15:43:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20908)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1ljS68-0003Ip-1H
- for qemu-devel@nongnu.org; Wed, 19 May 2021 15:43:19 -0400
+ id 1ljS6d-0003Ye-3h
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 15:43:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621453394;
+ s=mimecast20190719; t=1621453426;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YEtFg6JHs2r2vA7tl9Xy3ubScRyEPLk9CsSThE5SifU=;
- b=foMlCrXHlhBx7vJzlhBk6k7lRGzIyGoAeqG4J7anhjSULjcOABB3GcJlufoQU2ivcSQgmA
- MetGx54B942fWCU4vN94NgLgcRXhca5Yy/Ae2nPzG1Hlz0VEC94qWdVnqmAjR62m9fjr7f
- aDxmg5kAc0/OjIaov47n4ibCkobSBNI=
-Received: from mail-vs1-f72.google.com (mail-vs1-f72.google.com
- [209.85.217.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-566-f6lkGOmnOei2Zf8Elo1pIw-1; Wed, 19 May 2021 15:43:08 -0400
-X-MC-Unique: f6lkGOmnOei2Zf8Elo1pIw-1
-Received: by mail-vs1-f72.google.com with SMTP id
- n26-20020a67d61a0000b029023651d629a4so2465261vsj.0
- for <qemu-devel@nongnu.org>; Wed, 19 May 2021 12:43:07 -0700 (PDT)
+ bh=SBLAr+bdkHddNCXH3RMOJFmvAhm87cp8juWpGOlVRpU=;
+ b=WYhz9o4aTd+ycp88jvqhmznHOdl+gklCt29fhzESLEIF0PRyoGz9F96tgZ812/jbV8kDqj
+ 2ASfHQMr1/b07lyJs48m4VajKN6fEUu4pMDmbqGo2VJuDOEto18bs4qvJhB8wUQy+7wAoD
+ HHSYr8qOuIxb2jndiPU7DtM5Ui6G/+M=
+Received: from mail-vs1-f70.google.com (mail-vs1-f70.google.com
+ [209.85.217.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-438-akMI8Du2NEeYXhkKdyquuQ-1; Wed, 19 May 2021 15:43:42 -0400
+X-MC-Unique: akMI8Du2NEeYXhkKdyquuQ-1
+Received: by mail-vs1-f70.google.com with SMTP id
+ m17-20020a67d5910000b02902284fa9a2c5so3473945vsj.8
+ for <qemu-devel@nongnu.org>; Wed, 19 May 2021 12:43:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=YEtFg6JHs2r2vA7tl9Xy3ubScRyEPLk9CsSThE5SifU=;
- b=hw4FU43gprVWSEYi9AdslmMxWOgCFFKS3WMO7pjSurSyklFQnC70TsAtuLoAc3iqq7
- dkC/FncK+fQ7TArl7K1gVEkupKgfE5IxhP2EehoVRPh+EdkpgIi4rzwwijV7p8S0OfzJ
- 87Of1wMWMwJ8K+4jV4lTmllB6hr7XM7t6EicTl78P7ASaOoqIEVxay07Q4wUryHRR5Xf
- a9bxKMExKBNb272QdnN+uHV24+lmn2dUyMwW2oEYLWlrZuKe4IjpQfZbZeViN+YgrTCF
- o+dvtXBj30PzIjWZbUj5m53LFCj4+toQD+BE7cVR7RuR6xxjZMNBnMOx71sIIiaKwpaB
- jCzQ==
-X-Gm-Message-State: AOAM531uo3l1dTHEGtja2ewysZZH/dUy7WMDeW2HdL+2evQ3aaq9dBDm
- gz10MCw6/5GLhObLuWqiZAV8Oc9vNnEM9DP0vsZSv6aWo76y/AFGHtFXWRkmqgdKbYTaZfMJX3B
- s478HzTMX5VMPEf/u1jydk2i7j1I/CJU=
-X-Received: by 2002:ab0:4042:: with SMTP id h60mr1386209uad.133.1621453386908; 
- Wed, 19 May 2021 12:43:06 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzTkSechWAMljUrB1qqJDAK8+p7rDGY+5m5fo++opeWmxwwLwMcGG/jEoEL1OT/Y1NYO9f49GvgkuBq04TPDGc=
-X-Received: by 2002:ab0:4042:: with SMTP id h60mr1386198uad.133.1621453386771; 
- Wed, 19 May 2021 12:43:06 -0700 (PDT)
+ bh=SBLAr+bdkHddNCXH3RMOJFmvAhm87cp8juWpGOlVRpU=;
+ b=eMpNk2a/Os6HSS6BFHG0KPZ5OA8RaXFgmrOdFJA6WqTnYLnczZ3UQ667cg2A6nC0u+
+ LmMUuvDN0Q+o620vYpuYZS1uIMMWWPdZN7ukeSCPlkOTBAi0VyHe5a4cRwZsud0guxKt
+ G0GyU+shVdcPmS7WzVeGg1SuwtahJWNAuVOXsK4uIHGFX6jNZZW21TT4mA6XmOfXtSo7
+ udREXwNU4tN/ljaHCDAiDx0bPQAZhW1YVGEHX4ta1XZuxXOiN8Nt7XrZT9eOcIIWRfCO
+ vR5jyIxfrI3+kOo1ghY62QOu6PObDwmSKbGjZh1/sDp6jw1vSMRR08etPbQvRlR3zvA9
+ Najw==
+X-Gm-Message-State: AOAM532l++RD2PbO++BLzwYQCFP4Pfhu1bWKXayFoE4JGiSCanwNYIZt
+ pz5+fgAQG/ySTGU7iKqC/cNv9v8CnhUYHtQnMtL1zIYNQeJ8R2A5c6DDwNaPcD8GuUyJVpfslju
+ Y2xYC1zTIUUzCg8xXbpnvB5iJP1JKh78=
+X-Received: by 2002:a05:6102:2431:: with SMTP id
+ l17mr743216vsi.45.1621453422320; 
+ Wed, 19 May 2021 12:43:42 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwf7r9PVJahlj8lj2q7lxsCjB5Ln7tiIMm12LCHgozgrHyIXapH38Yb4X6eCfJo6u5bPnt93BXTdqx+x7rXyZE=
+X-Received: by 2002:a05:6102:2431:: with SMTP id
+ l17mr743211vsi.45.1621453422205; 
+ Wed, 19 May 2021 12:43:42 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210519184549.2192728-1-f4bug@amsat.org>
- <20210519184549.2192728-6-f4bug@amsat.org>
-In-Reply-To: <20210519184549.2192728-6-f4bug@amsat.org>
+ <20210519184549.2192728-7-f4bug@amsat.org>
+In-Reply-To: <20210519184549.2192728-7-f4bug@amsat.org>
 From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Wed, 19 May 2021 16:42:40 -0300
-Message-ID: <CAKJDGDYNZFEK1neQqXmnc6jMKnrWo-RYFRW9ReAro8G67hg8Mw@mail.gmail.com>
-Subject: Re: [PATCH v3 5/6] gitlab-ci: Simplify before/after script for
- Avocado based jobs
+Date: Wed, 19 May 2021 16:43:16 -0300
+Message-ID: <CAKJDGDbVA24PmZ38-aTcPd8nu-SZrL7VdKyMHn6T7V-HDVeyGw@mail.gmail.com>
+Subject: Re: [PATCH v3 6/6] gitlab-ci: Add FreeBSD jobs
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
@@ -103,10 +104,19 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Wed, May 19, 2021 at 3:46 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
 g> wrote:
 >
+> Add system/user emulation jobs on FreeBSD host.
+>
+> To build these jobs, you need to add a FreeBSD runner and
+> add 'freebsd' to the QEMU_CUSTOM_RUNNER variable in your
+> GitLab project.
+>
+> Reviewed by: Warner Losh <imp@bsdimp.com>
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 > ---
->  .gitlab-ci.d/buildtest-template.yml | 7 +++++--
->  1 file changed, 5 insertions(+), 2 deletions(-)
+>  .gitlab-ci.d/buildtest-freebsd.yml | 59 ++++++++++++++++++++++++++++++
+>  .gitlab-ci.d/qemu-project.yml      |  1 +
+>  2 files changed, 60 insertions(+)
+>  create mode 100644 .gitlab-ci.d/buildtest-freebsd.yml
 >
 
 Reviewed-by: Willian Rampazzo <willianr@redhat.com>
