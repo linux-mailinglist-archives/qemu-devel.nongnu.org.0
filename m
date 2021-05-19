@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFB1C389408
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 18:43:51 +0200 (CEST)
-Received: from localhost ([::1]:55076 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E2DA389412
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 18:48:10 +0200 (CEST)
+Received: from localhost ([::1]:35696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljPIU-0006Mk-G5
-	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 12:43:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35098)
+	id 1ljPMf-000455-8C
+	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 12:48:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35216)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1ljP6h-0005vw-20
- for qemu-devel@nongnu.org; Wed, 19 May 2021 12:31:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42824)
+ id 1ljP72-0006Fs-Bp
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 12:32:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58414)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1ljP6e-0005vj-TV
- for qemu-devel@nongnu.org; Wed, 19 May 2021 12:31:38 -0400
+ id 1ljP6p-00060U-KF
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 12:31:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621441896;
+ s=mimecast20190719; t=1621441907;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=V9LrI5P9tyxXNbE1l58yZAifcj59RDu8GvtjXC0K7Og=;
- b=LcAqFqh2X7II5mS0+IPAK4TKFiTeAhxo7lCajMKLXbhmgYoE7gCR5w1fjAL1iM4knhxnVb
- Nq+sJ4bWG7efgL858jw3RkzgD9r89+yiG18w+pk7sRtsUxVzpnmh5rOE2EenFQ3aWBRi4/
- HVbCUAN5Lg5y07vaKlVW1oyPQo/opWc=
+ bh=ZO2vXSOcAYgTvZTq5H2SUet7zYlpax2GmAqSpPcJRYk=;
+ b=BIz3LTB0+D9xJDfSJZzYpUJLcqc6eKzEyWon7H3YCX24u+tTyLTEdMFVY4soTqp9XoUoFN
+ 8cRGSdQUdSG0mKUW0Cf7foM6Yl0wdy3NOjk+HRBWqpTVgFr90AlJrT5nElzT3VQ3ttaEdk
+ wqjs0a59XYwYW2RumQpWjZOeMm0vw/k=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-273-83H4Bj-EPdO9aS9zczD4mQ-1; Wed, 19 May 2021 12:31:33 -0400
-X-MC-Unique: 83H4Bj-EPdO9aS9zczD4mQ-1
+ us-mta-560-xwHAtvnaM5qWs_jpKoKhdg-1; Wed, 19 May 2021 12:31:45 -0400
+X-MC-Unique: xwHAtvnaM5qWs_jpKoKhdg-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9F607C73A4;
- Wed, 19 May 2021 16:31:31 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 49338180FD6D;
+ Wed, 19 May 2021 16:31:44 +0000 (UTC)
 Received: from eperezma.remote.csb (ovpn-113-65.ams2.redhat.com [10.36.113.65])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A24495D6AC;
- Wed, 19 May 2021 16:31:28 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F3EF45D6AC;
+ Wed, 19 May 2021 16:31:31 +0000 (UTC)
 From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC v3 18/29] vhost: Use vhost_enable_custom_iommu to unmap
- everything if available
-Date: Wed, 19 May 2021 18:28:52 +0200
-Message-Id: <20210519162903.1172366-19-eperezma@redhat.com>
+Subject: [RFC v3 19/29] vhost: Check for device VRING_USED_F_NO_NOTIFY at
+ shadow virtqueue kick
+Date: Wed, 19 May 2021 18:28:53 +0200
+Message-Id: <20210519162903.1172366-20-eperezma@redhat.com>
 In-Reply-To: <20210519162903.1172366-1-eperezma@redhat.com>
 References: <20210519162903.1172366-1-eperezma@redhat.com>
 MIME-Version: 1.0
@@ -58,7 +58,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eperezma@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -89,65 +89,40 @@ Cc: Parav Pandit <parav@mellanox.com>, "Michael S. Tsirkin" <mst@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This call is the right way to unmap every IOTLB in devices with non
-standard IOMMU (vdpa devices), since regular one would require an IOTLB
-message they don't support.
-
-Another possible solution would be to implement
-.vhost_send_device_iotlb_msg vhost operation in vhost-vdpa, but it
-could conflict with expected backend iommu operations.
-
-Currently, this method does not work for vp_vdpa. For some reason, intel
-IOMMU is not able to map anything when vdpa has unmapped everything.
-However that is on kernel side, this commit code should be as intended
-in the final version.
-
 Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 ---
- hw/virtio/vhost.c | 16 ++++++++++++----
- 1 file changed, 12 insertions(+), 4 deletions(-)
+ hw/virtio/vhost-shadow-virtqueue.c | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
-diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
-index 5b5001a08a..c8fa9df9b3 100644
---- a/hw/virtio/vhost.c
-+++ b/hw/virtio/vhost.c
-@@ -1241,7 +1241,12 @@ static int vhost_sw_live_migration_stop(struct vhost_dev *dev)
+diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-virtqueue.c
+index 6d767fe248..6b42147449 100644
+--- a/hw/virtio/vhost-shadow-virtqueue.c
++++ b/hw/virtio/vhost-shadow-virtqueue.c
+@@ -135,6 +135,15 @@ static void vhost_shadow_vq_add(VhostShadowVirtqueue *svq,
+     svq->ring_id_maps[qemu_head] = elem;
+ }
  
-     r = dev->vhost_ops->vhost_vring_pause(dev);
-     assert(r == 0);
--    if (vhost_backend_invalidate_device_iotlb(dev, 0, -1ULL)) {
-+    if (dev->vhost_ops->vhost_enable_custom_iommu) {
-+        r = dev->vhost_ops->vhost_enable_custom_iommu(dev, false);
-+    } else {
-+        r = vhost_backend_invalidate_device_iotlb(dev, 0, -1ULL);
++static void vhost_shadow_vq_kick(VhostShadowVirtqueue *svq)
++{
++    /* Make sure we are reading updated device flag */
++    smp_rmb();
++    if (!(svq->vring.used->flags & VRING_USED_F_NO_NOTIFY)) {
++        event_notifier_set(&svq->kick_notifier);
 +    }
-+    if (r) {
-         error_report("Fail to invalidate device iotlb");
-     }
++}
++
+ /* Handle guest->device notifications */
+ static void vhost_handle_guest_kick(EventNotifier *n)
+ {
+@@ -159,7 +168,7 @@ static void vhost_handle_guest_kick(EventNotifier *n)
+             }
  
-@@ -1343,7 +1348,12 @@ static int vhost_sw_live_migration_start(struct vhost_dev *dev)
- 
-     r = dev->vhost_ops->vhost_vring_pause(dev);
-     assert(r == 0);
--    if (vhost_backend_invalidate_device_iotlb(dev, 0, -1ULL)) {
-+    if (dev->vhost_ops->vhost_enable_custom_iommu) {
-+        r = dev->vhost_ops->vhost_enable_custom_iommu(dev, false);
-+    } else {
-+        r = vhost_backend_invalidate_device_iotlb(dev, 0, -1ULL);
-+    }
-+    if (r) {
-         error_report("Fail to invalidate device iotlb");
-     }
- 
-@@ -2100,8 +2110,6 @@ void qmp_x_vhost_enable_shadow_vq(const char *name, bool enable, Error **errp)
-             err_cause = "Cannot pause device";
-         } else if (hdev->vhost_ops->vhost_get_iova_range) {
-             err_cause = "Device may not support all iova range";
--        } else if (hdev->vhost_ops->vhost_enable_custom_iommu) {
--            err_cause = "Device does not use regular IOMMU";
-         } else if (!virtio_vdev_has_feature(hdev->vdev, VIRTIO_F_VERSION_1)) {
-             err_cause = "Legacy VirtIO device";
+             vhost_shadow_vq_add(svq, elem);
+-            event_notifier_set(&svq->kick_notifier);
++            vhost_shadow_vq_kick(svq);
          }
+ 
+         virtio_queue_set_notification(svq->vq, true);
 -- 
 2.27.0
 
