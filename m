@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6686A388FBB
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 16:01:47 +0200 (CEST)
-Received: from localhost ([::1]:49996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56CA8388FBF
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 16:03:09 +0200 (CEST)
+Received: from localhost ([::1]:53890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljMld-00083L-7l
-	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 10:01:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48928)
+	id 1ljMmy-0002Mn-CE
+	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 10:03:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49944)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ljMj8-0005vr-CV
- for qemu-devel@nongnu.org; Wed, 19 May 2021 09:59:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56658)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ljMj5-0006DM-4G
- for qemu-devel@nongnu.org; Wed, 19 May 2021 09:59:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621432745;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=t2DwkG1Ey9w1AP07+zYJyeJxeaEBnbdEULeM6/7g8mw=;
- b=a7KodluBHutCSLb5to8aAie+YQF5Dd0TxT+2rCdxBSqOrMjLU85wXireV89bcyulIMU2Re
- ejAb1iH5S4MI78omcB4GSJr4ZJ2ysfS6GGghwj2fnm88S5OsmPrczZgPy6cYHMiVBlqUZ/
- erp4mMWjN2mg8k56kVQnuU1oUjl0pqQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-81-AdC9R94OPg6UKBdjYmQ8tA-1; Wed, 19 May 2021 09:59:01 -0400
-X-MC-Unique: AdC9R94OPg6UKBdjYmQ8tA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3D1721936B72;
- Wed, 19 May 2021 13:59:00 +0000 (UTC)
-Received: from merkur.fritz.box (ovpn-115-58.ams2.redhat.com [10.36.115.58])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4F2D85C1CF;
- Wed, 19 May 2021 13:58:59 +0000 (UTC)
-Date: Wed, 19 May 2021 15:58:57 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 0/3] vl: add -object support back into -readconfig
-Message-ID: <YKUZoU7EIBwhFasL@merkur.fritz.box>
-References: <20210518154014.2999326-1-pbonzini@redhat.com>
+ (Exim 4.90_1) (envelope-from <liliang324@gmail.com>)
+ id 1ljMkX-0008Om-F2
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 10:00:37 -0400
+Received: from mail-lj1-x22a.google.com ([2a00:1450:4864:20::22a]:42623)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <liliang324@gmail.com>)
+ id 1ljMkV-0007Hv-IU
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 10:00:37 -0400
+Received: by mail-lj1-x22a.google.com with SMTP id w4so15759386ljw.9
+ for <qemu-devel@nongnu.org>; Wed, 19 May 2021 07:00:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=cH5U9Az7eYofu3eA4ftQUffWK1rQQwjbWurlsdJWGcs=;
+ b=PsWmCiUmc0h6jhfs8n0zs3WyblSVZ2kUwHfBnc2GdYbUF8tQ/EAduwiPqpCBvvWuAV
+ 7EBu6Di5txh7+u0aguiGdClwNmaz4jJmdsAPd5jkwP/ynfSUqEmpdorkx0uXGEliS0HL
+ V4gvbj4hLt0shXfOLVUVx4u6jYkqiFJNktSpgbI/rNy4Z/6+Vh8HXBTAA5d5m7MP0C9T
+ bc1cbB8SNyiS9coO2Yy7SqhmCa1y/rpQmJMZ1h48CrC/7tzF6K118RVnOuTM0JaW0i8w
+ 57W7aksfsjkAzQ7C0mpUOtbLcHw0FtCEdK5DKFQu2GCYHE5cMoB0VZ4vLuYr3BsKj70T
+ e9gg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=cH5U9Az7eYofu3eA4ftQUffWK1rQQwjbWurlsdJWGcs=;
+ b=YcxUh7GUxj0wGzEi09EYWdZL0AB89qjdz38NLWXPwikTtyJYEhTAVVL1glGVggAp2Z
+ Zs0541ZDKT8tbcUhLBAZksX0ibGQm7Qz/74mMF82CxEqhhUJN47u35xYJy2K/fDtirDd
+ 7k5WQTTtUNQgXFgOY/uEz8bjVTNhLZ6tumJA/4kWGTARie9R23Yl3Ynbw8oYWmzRMf4Q
+ vWlyRktupurzfUp1TFqr/Kp/lMXqXRORVLxTtY+RN08ExIqAwY+vLsfa4pMiklXywPAd
+ Ab8egwlSsovYdpO4SY8DU8DKgXNLNyNXC4AIE4HzBO65vpZcPjnYR8dHCnMDPxfpB7ep
+ JyRw==
+X-Gm-Message-State: AOAM531jic40gYq5pdvZErFKge+dHIL6SSLsGcKOx2+HwWBC4lwjGGeR
+ LXe23mcy1SqjfuuUMagGweF7zWF5eLxYSnyv+Ko=
+X-Google-Smtp-Source: ABdhPJyt1aYpq0/SyLXL0dDpoeoKQD/5+WHAgE9KRT3tffH8yD1OazmgdUfzxGyYtnxIbTs1l9olrGfYGX8yIUMEGYw=
+X-Received: by 2002:a2e:8e26:: with SMTP id r6mr5780477ljk.472.1621432832689; 
+ Wed, 19 May 2021 07:00:32 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210518154014.2999326-1-pbonzini@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.39,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+From: Liang Li <liliang324@gmail.com>
+Date: Wed, 19 May 2021 22:00:20 +0800
+Message-ID: <CA+2MQi-_06J1cmLhKAmV1vkPEnvDx6+bOnK06OciYmdymaNruw@mail.gmail.com>
+Subject: About the performance of hyper-v
+To: vkuznets@redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::22a;
+ envelope-from=liliang324@gmail.com; helo=mail-lj1-x22a.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -75,35 +74,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-stable@nongnu.org, qemu-devel@nongnu.org, armbru@redhat.com
+Cc: Tianyu.Lan@microsoft.com, qemu-devel@nongnu.org, kvm@vger.kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 18.05.2021 um 17:40 hat Paolo Bonzini geschrieben:
-> LXD developers have reported that [object] stanzas have stopped
-> working in configuration files.
-> 
-> The problem is that QEMU 6.0 switched the creation of objects from
-> qemu_opts_foreach to a bespoke QTAILQ, in preparation for supporting
-> JSON syntax in -object.  Entries from the configuration file however
-> do not go through object_option_parse, and are thus lost.  Of the many
-> fixes that are possible, I chose one that is slightly more invasive but
-> more consistent with the plans for keyval-ification of options such as
-> -M and -accel.
-> 
-> -set was also broken by the same change, but for simplicity I chose
-> not to add it back yet.  However, this series will report the
-> breakage instead of failing silently.
-> 
-> The first two patches of this series are thus a reduced version of
-> https://patchew.org/QEMU/20210513162901.1310239-1-pbonzini@redhat.com/
-> ([PATCH 00/14] vl: compound properties for machines and accelerators),
-> with the -set infrastructure removed.  The third is very simple and
-> uses the newly-provided hooks to parse objects from configuration files.
+[resend for missing cc]
 
-Looks like this is
-Based-on: <20210518131542.2941207-1-pbonzini@redhat.com>
+Hi Vitaly,
 
-Kevin
+I found a case that the virtualization overhead was almost doubled
+when turning on Hper-v related features compared to that without any
+no hyper-v feature.  It happens when running a 3D game in windows
+guest in qemu kvm environment.
 
+By investigation, I found there are a lot of IPIs triggered by guest,
+when turning on the hyer-v related features including stimer, for the
+apicv is turned off, at least two vm exits are needed for processing a
+single IPI.
+
+
+perf stat will show something like below [recorded for 5 seconds]
+
+---------
+
+Analyze events for all VMs, all VCPUs:
+             VM-EXIT    Samples  Samples%     Time%    Min Time    Max
+Time         Avg time
+  EXTERNAL_INTERRUPT     471831    59.89%    68.58%      0.64us
+65.42us      2.34us ( +-   0.11% )
+           MSR_WRITE     238932    30.33%    23.07%      0.48us
+41.05us      1.56us ( +-   0.14% )
+
+Total Samples:787803, Total events handled time:1611193.84us.
+
+I tried turning off hyper-v for the same workload and repeat the test,
+the overall virtualization overhead reduced by about of 50%:
+
+-------
+
+Analyze events for all VMs, all VCPUs:
+
+             VM-EXIT    Samples  Samples%     Time%    Min Time    Max
+Time         Avg time
+          APIC_WRITE     255152    74.43%    50.72%      0.49us
+50.01us      1.42us ( +-   0.14% )
+       EPT_MISCONFIG      39967    11.66%    40.58%      1.55us
+686.05us      7.27us ( +-   0.43% )
+           DR_ACCESS      35003    10.21%     4.64%      0.32us
+40.03us      0.95us ( +-   0.32% )
+  EXTERNAL_INTERRUPT       6622     1.93%     2.08%      0.70us
+57.38us      2.25us ( +-   1.42% )
+
+Total Samples:342788, Total events handled time:715695.62us.
+
+For this scenario,  hyper-v works really bad.  stimer works better
+than hpet, but on the other hand, it relies on SynIC which has
+negative effects for IPI intensive workloads.
+Do you have any plans for improvement?
+
+
+Thanks!
+Liang
 
