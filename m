@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 981EE3896A3
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 21:26:58 +0200 (CEST)
-Received: from localhost ([::1]:36480 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F60B389663
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 21:17:10 +0200 (CEST)
+Received: from localhost ([::1]:33016 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljRqL-0003wc-JV
-	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 15:26:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57250)
+	id 1ljRgr-0006mV-5C
+	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 15:17:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57334)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ljRCs-0000Jz-JT
- for qemu-devel@nongnu.org; Wed, 19 May 2021 14:46:11 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:37762)
+ id 1ljRCz-0000Nu-LK
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 14:46:18 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:35662)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ljRCq-0005C6-19
- for qemu-devel@nongnu.org; Wed, 19 May 2021 14:46:09 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id q5so15072348wrs.4
- for <qemu-devel@nongnu.org>; Wed, 19 May 2021 11:46:07 -0700 (PDT)
+ id 1ljRCv-0005EV-Hm
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 14:46:16 -0400
+Received: by mail-wr1-x430.google.com with SMTP id a4so15116899wrr.2
+ for <qemu-devel@nongnu.org>; Wed, 19 May 2021 11:46:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=bxIn0INwdcSb5lb9f8fZG1avNfdlG4L8wrUYhmTwTc0=;
- b=EppczxByJXAMutDFYy/13i2SzyQrC74vxvsbe1iy+rryBZHrjjOf4akdT9dHyRdr2B
- KT997xM0z516IoKlUSup76Bhq0ZHUDcHq2Ltro+5MNerE8niJ8KEwwsKEC3grwIpZsrG
- qqFQ/o1QbMhwNhlkYjdR5qQRmIOHnPlFewrqsVmHZVPZTlY23X8IHzXZcGNeetd8xqag
- W2O3zpLIbMJQ4r155gR2g4NDYCj9D4HX+JDRIwXG3rUQfvjhy+q6o6MlI7O48FtrlXDz
- vD7hZlmpRE9dEBj0aNYu688SvDYAwC50w8oFuimzNMlnSo9Zz02GlGSnhqKh5uRS0CLk
- SRew==
+ bh=2IUveWwI0J+7Ncapudv20RtB39QJD/A5pUhEcIazkKo=;
+ b=Iha3kwznX10Vc2kZfXhF4IUMmUUULi6iUKyIc2jGnFDz3PkqySZhZdKeDBfLEuG9+u
+ OqWTiSo/9pFqsHy/LvLYXsnH7VMxRpA+i0YA6Z1GHTE6CwOnoFzkhlYFBp1UhRKM81Mw
+ AjECJVB6BwXCyFjlIY9Nz0XVWt9Yxyxq8SJpHuRYY2ZzeRJ9GCzNXBmd7T3qLq39aiGk
+ ZsiOjKbag0jxFQHJT4ecUO2w+qtKumJ0jk/It3MxehrwOJ69xwi0W630x1BRsWTnfbCU
+ TuVvL19IMSx5kUhEATN1IsXpAEergvLXr7Uu2Rr8WFPwAHjky4+qNqV85iGJf+kfn12N
+ O/AA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=bxIn0INwdcSb5lb9f8fZG1avNfdlG4L8wrUYhmTwTc0=;
- b=Z8zXWOPI1bNeBaRlUNKss+JuTtthHvP5p729/EGECyMuQpnXXQfdsHmP3Y5utitMhU
- TTzLbdNS7I6HXVyhjPd03IGNPiZh7y4tVn4wpK5oM+h4HgbTXgShoqCmZ8nVi8l8STtP
- ItFIKPnHeyLMp4BL1QG8L81seO0J9n8y74ne046fT59gXxg7i/b9Iq2Zvc/B2SWvU9g7
- 3YmbrYjd5jju8aTkqjpvpHGaSqQh22Zjzu0AtooDFuqSOcBUeoj5dOhmZTdyUN4tGXg1
- Q2zEh4N3OcvP3P0iz/O9jMvLdYZcpAEvWWHkR5GzOo3KYFzoYnAgEsLfbPWMJHg041hj
- 2fAA==
-X-Gm-Message-State: AOAM530LAWv8nr7o9UMAzsoeWX5NrE7SOGncr6Xnfyl3nsVbpXF6Zdys
- b9CVRPokstRL5u4F9eL5yS8yrPuFT9KISg==
-X-Google-Smtp-Source: ABdhPJwwbMV/JrSZaaTi1Dgj3phWxe+dRSVIXgwPv431LHQLVLTC32niwYXvV3dt4rzpji8tJm48rA==
-X-Received: by 2002:a5d:6b43:: with SMTP id x3mr324999wrw.263.1621449966468;
- Wed, 19 May 2021 11:46:06 -0700 (PDT)
+ bh=2IUveWwI0J+7Ncapudv20RtB39QJD/A5pUhEcIazkKo=;
+ b=tm/mf/gpAOQgruN9iy16PzLtmZfFGxmQnGbRhBZgdTA08WK+PAjBxLpTVBp0Oe/A90
+ hVybXX5UvuTgvOLo8/Zp3HW3TAzbG0ObPaphjdnyqXTqQFFGSFo0XjdtMWaITlbgLTm/
+ XLVbkQTchpgGV07gHC6FRW0dH+C5xz/MlrMe0yGtWjaEqT5pLfz2H+IHjKdhOHhQTH44
+ yh8nAR8zdl9h+KZ951nvIeXJL38QTMxbTwupA+pICx3XGUvxbG3sZjKhbpPf5tq76D6/
+ mF8qo5NKD97zpVaC1EGwzlZ0KUq8L7EayV+3ePVnasBsPJsKYxtfxCPKRprB3+D4y1JI
+ fDiw==
+X-Gm-Message-State: AOAM533yNUUcpPxykv+5U2u/9zTBWV34aSCm0Rsw5JIlsjbEEp7GWNfR
+ svTa9Va9+ES10QKbQy1NRMCqoRHDny8o5w==
+X-Google-Smtp-Source: ABdhPJz6qo42P1rSeb0ij8vialaqMI3Lr87/6qVJzJQ6zp0AffaydltfhKYhYGf65P7pzR/MbFoNww==
+X-Received: by 2002:a05:6000:1b8a:: with SMTP id
+ r10mr355872wru.296.1621449971326; 
+ Wed, 19 May 2021 11:46:11 -0700 (PDT)
 Received: from x1w.redhat.com (31.red-83-51-215.dynamicip.rima-tde.net.
  [83.51.215.31])
- by smtp.gmail.com with ESMTPSA id d3sm208820wri.75.2021.05.19.11.46.05
+ by smtp.gmail.com with ESMTPSA id x2sm2553247wmc.21.2021.05.19.11.46.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 May 2021 11:46:05 -0700 (PDT)
+ Wed, 19 May 2021 11:46:10 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 3/6] gitlab-ci: Run GNU make via the $MAKE variable
-Date: Wed, 19 May 2021 20:45:46 +0200
-Message-Id: <20210519184549.2192728-4-f4bug@amsat.org>
+Subject: [PATCH v3 4/6] gitlab-ci: Add ccache in $PATH and display statistics
+Date: Wed, 19 May 2021 20:45:47 +0200
+Message-Id: <20210519184549.2192728-5-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210519184549.2192728-1-f4bug@amsat.org>
 References: <20210519184549.2192728-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -94,62 +95,37 @@ Cc: Thomas Huth <thuth@redhat.com>, Kyle Evans <kevans@freebsd.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add the $MAKE variable to call GNU make, and set it to 'gmake'
-on FreeBSD to avoid:
-
-  $ make -j"$JOBS"
-  make: Unknown modifier ','
-  make: "/builds/dTyar424/0/qemu/build/Makefile" line 3: Need an operator
-  make: "/builds/dTyar424/0/qemu/build/Makefile" line 4: Missing dependency operator
+If a runner has ccache installed, use it and display statistics
+at the end of the build.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- .gitlab-ci.d/buildtest-template.yml | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ .gitlab-ci.d/buildtest-template.yml | 5 +++++
+ 1 file changed, 5 insertions(+)
 
 diff --git a/.gitlab-ci.d/buildtest-template.yml b/.gitlab-ci.d/buildtest-template.yml
-index fe4f18595ac..f284d7a0eec 100644
+index f284d7a0eec..a625c697d3b 100644
 --- a/.gitlab-ci.d/buildtest-template.yml
 +++ b/.gitlab-ci.d/buildtest-template.yml
-@@ -5,9 +5,11 @@
-         ;
+@@ -6,13 +6,18 @@
        then
          JOBS=$(sysctl -n hw.ncpu)
-+        MAKE=gmake
+         MAKE=gmake
++        PATH=/usr/local/libexec/ccache:$PATH
          ;
        else
          JOBS=$(expr $(nproc) + 1)
-+        MAKE=make
+         MAKE=make
++        PATH=/usr/lib/ccache:/usr/lib64/ccache:$PATH
          ;
        fi
      - echo "=== Using $JOBS simultaneous jobs ==="
-@@ -33,22 +35,23 @@
-       then
-         ../meson/meson.py configure . -Dbackend_max_links="$LD_JOBS" ;
-       fi || exit 1;
--    - make -j"$JOBS"
-+    - $MAKE -j"$JOBS"
-     - if test -n "$MAKE_CHECK_ARGS";
-       then
--        make -j"$JOBS" $MAKE_CHECK_ARGS ;
-+        $MAKE -j"$JOBS" $MAKE_CHECK_ARGS ;
-       fi
++    - if command -v ccache > /dev/null ; then ccache --zero-stats ; fi
++  after_script:
++    - if command -v ccache > /dev/null ; then ccache --show-stats ; fi
  
- .native_test_job_template:
-   stage: test
-   image: $CI_REGISTRY_IMAGE/qemu/$IMAGE:latest
-+  extends: .environment_variables_template
-   script:
-     - scripts/git-submodule.sh update
-         $(sed -n '/GIT_SUBMODULES=/ s/.*=// p' build/config-host.mak)
-     - cd build
-     - find . -type f -exec touch {} +
-     # Avoid recompiling by hiding ninja with NINJA=":"
--    - make NINJA=":" $MAKE_CHECK_ARGS
-+    - $MAKE NINJA=":" $MAKE_CHECK_ARGS
- 
- .integration_test_job_template:
-   extends: .native_test_job_template
+ .native_build_job_template:
+   stage: build
 -- 
 2.26.3
 
