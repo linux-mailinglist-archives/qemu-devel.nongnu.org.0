@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E752E3895D5
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 20:52:41 +0200 (CEST)
-Received: from localhost ([::1]:40208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84C453895F5
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 20:59:03 +0200 (CEST)
+Received: from localhost ([::1]:39210 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljRJA-0004gN-Vc
-	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 14:52:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53220)
+	id 1ljRPK-0005yz-In
+	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 14:59:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53310)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ljR1j-0002ux-1F
- for qemu-devel@nongnu.org; Wed, 19 May 2021 14:34:39 -0400
-Received: from mail-ot1-x334.google.com ([2607:f8b0:4864:20::334]:33326)
+ id 1ljR1m-000340-HU
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 14:34:42 -0400
+Received: from mail-ot1-x329.google.com ([2607:f8b0:4864:20::329]:35698)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ljR1g-0007Py-Md
- for qemu-devel@nongnu.org; Wed, 19 May 2021 14:34:38 -0400
-Received: by mail-ot1-x334.google.com with SMTP id
- i23-20020a9d68d70000b02902dc19ed4c15so12670527oto.0
- for <qemu-devel@nongnu.org>; Wed, 19 May 2021 11:34:36 -0700 (PDT)
+ id 1ljR1h-0007Qk-Hp
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 14:34:42 -0400
+Received: by mail-ot1-x329.google.com with SMTP id
+ 69-20020a9d0a4b0000b02902ed42f141e1so12625301otg.2
+ for <qemu-devel@nongnu.org>; Wed, 19 May 2021 11:34:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=NyRgc+Gn7oqqf/QHFgizxweLPsqaDiM3F1V+G4Xmf04=;
- b=hZnP/N1Dt2eLr/hb2J5uhosXENVCy+o6S3b2z3hByRkbVu6ucDwLyyCZjrJmOGYHgY
- fIa7Q6IkoiEBF34HqgFzfWFTIMH8jiW755uj8eEccO8DMM/PzZ61p2guHKqtzuVg2vXH
- OsdZ+VMz9UhiCocKLjPhrwVx0MRp6xz0cyDPSGYYu/JU/GKIjMmLEmGoThXfrNC/K/lD
- kaZ4FOoTMlnKtm2cX/ktPNOuDUHCKvCjka2EBCL6Vra0Dr5C16Ydtl+xKSO5HCOeiPqf
- IdXP5p4RK+yEsaRdLXV5XYY3Z4sWpt6DoHsT/oU0WBLO1ZCzX83v02vGXpOUY9CB63no
- L9LA==
+ bh=5FZEkPjS4wJtxJ82VN/fE6regNmzsPr0FO89DJYk2Ek=;
+ b=DM32tm/9glhf1FkBdEJiHNAfhe4OHqcDeKdIJeJl+TDAJl0aHqH2+hTlTNvLOy+db2
+ rwEZywZxmFybont52Y5DQy/yputet4q4vWFWO4ZEZatRpKyQ4MQCGEM1hVjD82tW5pzX
+ eNAFBbTq3p0HwN86Hrj1QrZDR+/IuKfs4S3cZvQuvA4UOanX4zvPFTNAfpjTWtWrkf1S
+ 3Q4tYxQ0PKzQoc/2C3fHHBVg++MNX27Q8cRoV5SKz8ndD9GZ244mUrvCOJk7NAZuiXUU
+ QWcrzzoWizksrqfNBBMBwjXawLyLJSchcRs9FXlmPZZFI/dumUelFCDF2FDZ4m2yBjdd
+ 2TlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=NyRgc+Gn7oqqf/QHFgizxweLPsqaDiM3F1V+G4Xmf04=;
- b=AT7KDF2b2Hh1NKl75lWkQMCBfrQ17Hd95ymLcblUJw/qWlcxlxrSAX9VCYHFIJdd8f
- BiIW0UzYOAOMukQM/wa9XNcPTYMS2sgFet+dMK4e8c8olHIqngV1QYu9uzW7F2vOLbaB
- hpNEHv2OkA3dG8Biapg4pcK5TECypKKoOBOD0QGbGZh8blJFSzyiiVo0E8+D0huVoTdv
- ijFXdXq3GpDhyNSmVtoEBLeYYc2/gSRTEoSoyXlR7xD95sKGMYJNCLCUGW3QkABi4kY4
- 9bh4bohZnpNdi2qHPANFxtvl+QkjsoJD2Gv9rD+wqcY57oTcZsVc5kyFoejdZDvHUHdn
- pt2g==
-X-Gm-Message-State: AOAM531Ww8r9V+UaP1jCr3EauZwYGd8Rc2E8/GkGAVRR0zjqfXc5Iz5g
- UvDyA1OTioyAxraTb+Cm+tmipRkIjSIIPPCw
-X-Google-Smtp-Source: ABdhPJyeppZGyk+MZlGE+L1q/C4vshRdSv1o2W5Hs/XRYIyQUhHPlNOujY1dKvtTAINUm+yYZ4nVXQ==
-X-Received: by 2002:a9d:5c08:: with SMTP id o8mr651089otk.261.1621449275543;
- Wed, 19 May 2021 11:34:35 -0700 (PDT)
+ bh=5FZEkPjS4wJtxJ82VN/fE6regNmzsPr0FO89DJYk2Ek=;
+ b=Bc2yCk4EA5aRItC2GWgVHp8tpkTBjj12BhZoOIvJgS+ihGpvywcd7dJtA7tbJE/nwm
+ NOrRYczq05uBh2WA1CdEJNX0MjsjbadtIt5To660xw7VPAI99WYlMStqjHlC350AYzlz
+ n5nKdBPG91ZBuqngkm0emZHXiRgtudnL9cA4XzDAICYUTry8BYCQ8U+wplF8VmfMRYEa
+ Wb78ri6vWLsCh9cR8mGJ0oib7SfL9Fyww7UPXa+yhCHFE0knjGlwubPXRJ3X3p52vTVq
+ yjJpB8dW/Wn1K4RjFPyur71hAARvZU09w1P8xdLuBMzKeyrI3SuLWB7jTIY8vtsQKmuE
+ iK3Q==
+X-Gm-Message-State: AOAM530ghkhEhmXfbDFyxwLbb7b64FGl1V3igr4X6TIJO+gY/4NoB2yT
+ txCco/AJJQZUSlkOEzH9UPayFLwB0EKYhRpj
+X-Google-Smtp-Source: ABdhPJzyfyKv/fN8CEmhXRcJXl3BbWe41kHG0CrMdgjYeR9aNfyvq21RPgR1qD30WBW8zG5tqLhDdw==
+X-Received: by 2002:a05:6830:1388:: with SMTP id
+ d8mr659926otq.53.1621449276484; 
+ Wed, 19 May 2021 11:34:36 -0700 (PDT)
 Received: from localhost.localdomain ([45.235.253.15])
- by smtp.gmail.com with ESMTPSA id i9sm38642oog.17.2021.05.19.11.34.34
+ by smtp.gmail.com with ESMTPSA id i9sm38642oog.17.2021.05.19.11.34.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 May 2021 11:34:35 -0700 (PDT)
+ Wed, 19 May 2021 11:34:36 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 43/50] target/i386: Inline user cpu_svm_check_intercept_param
-Date: Wed, 19 May 2021 13:30:43 -0500
-Message-Id: <20210519183050.875453-44-richard.henderson@linaro.org>
+Subject: [PULL 44/50] target/i386: Eliminate user stubs for read/write_crN,
+ rd/wrmsr
+Date: Wed, 19 May 2021 13:30:44 -0500
+Message-Id: <20210519183050.875453-45-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210519183050.875453-1-richard.henderson@linaro.org>
 References: <20210519183050.875453-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::334;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x334.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::329;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x329.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,85 +89,98 @@ Cc: peter.maydell@linaro.org, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The user-version is a no-op.  This lets us completely
-remove tcg/user/svm_stubs.c.
-
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <20210514151342.384376-44-richard.henderson@linaro.org>
+Message-Id: <20210514151342.384376-45-richard.henderson@linaro.org>
 ---
- target/i386/cpu.h                |  8 ++++++++
- target/i386/tcg/user/svm_stubs.c | 28 ----------------------------
- target/i386/tcg/user/meson.build |  1 -
- 3 files changed, 8 insertions(+), 29 deletions(-)
- delete mode 100644 target/i386/tcg/user/svm_stubs.c
+ target/i386/helper.h              |  8 ++++----
+ target/i386/tcg/translate.c       |  4 ++++
+ target/i386/tcg/user/misc_stubs.c | 20 --------------------
+ 3 files changed, 8 insertions(+), 24 deletions(-)
 
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 324ef92beb..e6836393f7 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -2146,8 +2146,16 @@ static inline void cpu_set_fpuc(CPUX86State *env, uint16_t fpuc)
- void helper_lock_init(void);
+diff --git a/target/i386/helper.h b/target/i386/helper.h
+index 0264fba335..1d85f033df 100644
+--- a/target/i386/helper.h
++++ b/target/i386/helper.h
+@@ -42,8 +42,6 @@ DEF_HELPER_5(lcall_protected, void, env, int, tl, int, tl)
+ DEF_HELPER_2(iret_real, void, env, int)
+ DEF_HELPER_3(iret_protected, void, env, int, int)
+ DEF_HELPER_3(lret_protected, void, env, int, int)
+-DEF_HELPER_FLAGS_2(read_crN, TCG_CALL_NO_RWG, tl, env, int)
+-DEF_HELPER_FLAGS_3(write_crN, TCG_CALL_NO_RWG, void, env, int, tl)
+ DEF_HELPER_1(clts, void, env)
  
- /* svm_helper.c */
-+#ifdef CONFIG_USER_ONLY
-+static inline void
-+cpu_svm_check_intercept_param(CPUX86State *env1, uint32_t type,
-+                              uint64_t param, uintptr_t retaddr)
-+{ /* no-op */ }
-+#else
- void cpu_svm_check_intercept_param(CPUX86State *env1, uint32_t type,
-                                    uint64_t param, uintptr_t retaddr);
-+#endif
-+
- /* apic.c */
- void cpu_report_tpr_access(CPUX86State *env, TPRAccess access);
- void apic_handle_tpr_access_report(DeviceState *d, target_ulong ip,
-diff --git a/target/i386/tcg/user/svm_stubs.c b/target/i386/tcg/user/svm_stubs.c
-deleted file mode 100644
-index db818f89a8..0000000000
---- a/target/i386/tcg/user/svm_stubs.c
-+++ /dev/null
-@@ -1,28 +0,0 @@
--/*
-- *  x86 SVM helpers (user-mode)
-- *
-- *  Copyright (c) 2003 Fabrice Bellard
-- *
-- * This library is free software; you can redistribute it and/or
-- * modify it under the terms of the GNU Lesser General Public
-- * License as published by the Free Software Foundation; either
-- * version 2.1 of the License, or (at your option) any later version.
-- *
-- * This library is distributed in the hope that it will be useful,
-- * but WITHOUT ANY WARRANTY; without even the implied warranty of
-- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-- * Lesser General Public License for more details.
-- *
-- * You should have received a copy of the GNU Lesser General Public
-- * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-- */
+ #ifndef CONFIG_USER_ONLY
+@@ -87,8 +85,6 @@ DEF_HELPER_1(cpuid, void, env)
+ DEF_HELPER_1(rdtsc, void, env)
+ DEF_HELPER_1(rdtscp, void, env)
+ DEF_HELPER_FLAGS_1(rdpmc, TCG_CALL_NO_WG, noreturn, env)
+-DEF_HELPER_1(rdmsr, void, env)
+-DEF_HELPER_1(wrmsr, void, env)
+ 
+ DEF_HELPER_2(check_iob, void, env, i32)
+ DEF_HELPER_2(check_iow, void, env, i32)
+@@ -114,6 +110,10 @@ DEF_HELPER_FLAGS_2(flush_page, TCG_CALL_NO_RWG, void, env, tl)
+ DEF_HELPER_FLAGS_2(hlt, TCG_CALL_NO_WG, noreturn, env, int)
+ DEF_HELPER_FLAGS_2(monitor, TCG_CALL_NO_WG, void, env, tl)
+ DEF_HELPER_FLAGS_2(mwait, TCG_CALL_NO_WG, noreturn, env, int)
++DEF_HELPER_1(rdmsr, void, env)
++DEF_HELPER_1(wrmsr, void, env)
++DEF_HELPER_FLAGS_2(read_crN, TCG_CALL_NO_RWG, tl, env, int)
++DEF_HELPER_FLAGS_3(write_crN, TCG_CALL_NO_RWG, void, env, int, tl)
+ #endif /* !CONFIG_USER_ONLY */
+ 
+ /* x86 FPU */
+diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
+index eb11a75e86..9501089861 100644
+--- a/target/i386/tcg/translate.c
++++ b/target/i386/tcg/translate.c
+@@ -198,6 +198,8 @@ STUB_HELPER(flush_page, TCGv_env env, TCGv addr)
+ STUB_HELPER(hlt, TCGv_env env, TCGv_i32 pc_ofs)
+ STUB_HELPER(monitor, TCGv_env env, TCGv addr)
+ STUB_HELPER(mwait, TCGv_env env, TCGv_i32 pc_ofs)
++STUB_HELPER(rdmsr, TCGv_env env)
++STUB_HELPER(read_crN, TCGv ret, TCGv_env env, TCGv_i32 reg)
+ STUB_HELPER(set_dr, TCGv_env env, TCGv_i32 reg, TCGv val)
+ STUB_HELPER(stgi, TCGv_env env)
+ STUB_HELPER(svm_check_intercept, TCGv_env env, TCGv_i32 type)
+@@ -206,6 +208,8 @@ STUB_HELPER(vmload, TCGv_env env, TCGv_i32 aflag)
+ STUB_HELPER(vmmcall, TCGv_env env)
+ STUB_HELPER(vmrun, TCGv_env env, TCGv_i32 aflag, TCGv_i32 pc_ofs)
+ STUB_HELPER(vmsave, TCGv_env env, TCGv_i32 aflag)
++STUB_HELPER(write_crN, TCGv_env env, TCGv_i32 reg, TCGv val)
++STUB_HELPER(wrmsr, TCGv_env env)
+ #endif
+ 
+ static void gen_eob(DisasContext *s);
+diff --git a/target/i386/tcg/user/misc_stubs.c b/target/i386/tcg/user/misc_stubs.c
+index 84df4e65ff..df38b44d6e 100644
+--- a/target/i386/tcg/user/misc_stubs.c
++++ b/target/i386/tcg/user/misc_stubs.c
+@@ -53,23 +53,3 @@ target_ulong helper_inl(CPUX86State *env, uint32_t port)
+     g_assert_not_reached();
+     return 0;
+ }
 -
--#include "qemu/osdep.h"
--#include "cpu.h"
--#include "exec/helper-proto.h"
--#include "tcg/helper-tcg.h"
--
--void cpu_svm_check_intercept_param(CPUX86State *env, uint32_t type,
--                                   uint64_t param, uintptr_t retaddr)
+-target_ulong helper_read_crN(CPUX86State *env, int reg)
 -{
+-    g_assert_not_reached();
 -}
-diff --git a/target/i386/tcg/user/meson.build b/target/i386/tcg/user/meson.build
-index 9eac0e69ca..3555b15bdd 100644
---- a/target/i386/tcg/user/meson.build
-+++ b/target/i386/tcg/user/meson.build
-@@ -1,6 +1,5 @@
- i386_user_ss.add(when: ['CONFIG_TCG', 'CONFIG_USER_ONLY'], if_true: files(
-   'excp_helper.c',
-   'misc_stubs.c',
--  'svm_stubs.c',
-   'seg_helper.c',
- ))
+-
+-void helper_write_crN(CPUX86State *env, int reg, target_ulong t0)
+-{
+-    g_assert_not_reached();
+-}
+-
+-void helper_wrmsr(CPUX86State *env)
+-{
+-    g_assert_not_reached();
+-}
+-
+-void helper_rdmsr(CPUX86State *env)
+-{
+-    g_assert_not_reached();
+-}
 -- 
 2.25.1
 
