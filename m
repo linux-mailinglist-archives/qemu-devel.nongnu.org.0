@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C196338968E
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 21:23:47 +0200 (CEST)
-Received: from localhost ([::1]:52578 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5C0138969C
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 21:25:32 +0200 (CEST)
+Received: from localhost ([::1]:60910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljRnG-0003yI-N0
-	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 15:23:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60422)
+	id 1ljRox-0001L8-LG
+	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 15:25:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60436)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ljRML-0008Gf-E8
- for qemu-devel@nongnu.org; Wed, 19 May 2021 14:55:59 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:42974)
+ id 1ljRMP-0008JL-6J
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 14:56:01 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:46920)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ljRMH-0002YE-Kg
- for qemu-devel@nongnu.org; Wed, 19 May 2021 14:55:56 -0400
-Received: by mail-wr1-x434.google.com with SMTP id x8so15096103wrq.9
- for <qemu-devel@nongnu.org>; Wed, 19 May 2021 11:55:53 -0700 (PDT)
+ id 1ljRMM-0002am-Mj
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 14:56:00 -0400
+Received: by mail-wr1-x435.google.com with SMTP id y14so13016840wrm.13
+ for <qemu-devel@nongnu.org>; Wed, 19 May 2021 11:55:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=HRopQewtuLZOViqEaTD8BXlHJncJTww870DKUQGoAbQ=;
- b=MGPAyhZ9uWgff5Vy6CbfhaSYmmNrmWzYG0pqYzPn3wPAI5dlEbW0cg9UoNb2t9S39q
- gJk+o4iFWS9jstL7WW4Ucy3gY5l3T3kKndm1Tn/SntDcTB96qiTygDIImPWAjOB1soqm
- aKBT0TiwFD9ukkg5j7H4jfoRliOhIMIB4tZ4iR8vnODlA3nIUZj5+H1DpjpqPqs31UVC
- TuV3Y387xYE48GtZsDCGH32ji/x8g0AzndKjocPuc4LpjIZUX1Viy8gkb1pdmV4FqdJr
- 8JFMeoxswOp1gzpg5yAo0/3zLk8zdTTPrfvGbMBTdpJbbIl3mnLGkI6HGlQT001YSCPB
- 4m+Q==
+ bh=k7v32F7sA+s0nX/521Wn9idR1Uq3Ai0OnDxbO/sW8qQ=;
+ b=B2mN9RHFMg88UwUpNsvJVUp/2S1lV4FuA8pBoLUa85j+3Y/JC1WidxHiV0Q86ixXD0
+ 2vpcU3igt0vIY7PvLd38a1Z2XxI1VmG/+StvWNdIUpo2Vu+iRfaRbpUofAY6oaG8AVQU
+ RAZ4/kFZ/3x6kFKNA1HaYLXVz4rQdYHS7ZoRyENftuoIB7HO2dHkpFPzOOmLrtn0NV1M
+ tacHKT3mRzb3vh8cKkrh6eLm2nt8fkcTZ44WDWoWAWJnw0kDUS4oOd24bVDOAObHtoYM
+ YcSEyeIr4DJy8CvJIHs5VL+t/kpBhgSeazkL0X4gsVKYNoJr9VTMSaDgzyKXfj5wqOJh
+ nBgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=HRopQewtuLZOViqEaTD8BXlHJncJTww870DKUQGoAbQ=;
- b=axPDnzjMl82QMJnjicvNIbU3DnTRq8g4lfy8NMS6zzmr1Tjmj8Y+nJjqzcbH4PtvBU
- FR4DQMa1AbNrWsP1uE4+pXb/K5SrfhG38UjolAw42t7K7Wy5C5oSlf5LkoOAK/DrWtOP
- 6gXj+LFoH7RYNn4cwlwXIMw2blLSS2yycWkLGnzUY7hITZBlW+WjZChs8hiBsG+/rYoV
- WjqRkxZ0jbRMs32l4Nxhra2hcn4g1ztbGd48vsu2RrIhgXxSbvOuz2rYLvctMOVEbsAC
- YxZpY6qGuzbiobAuwcPdc+Nk2SvFsM/qJosjaOQM/HbEi9+t4OSyLEpA3jMvnanTpy8l
- MuJA==
-X-Gm-Message-State: AOAM530GxqXsw4XeR3MIEXJ0kBouHufXiPJLV+Au4cwKAUFJfMoioqJ0
- v/IoZ28/HM21IWVG+AHIqgl6XYJx4DbMIw==
-X-Google-Smtp-Source: ABdhPJwjQL2iNf+t5dIfFFwTjrQBUPX6f6K3H7sr2EUmDBf7JYpOz+kw3ORcWEtlsMX0Ln8spaTp4g==
-X-Received: by 2002:adf:8b03:: with SMTP id n3mr355609wra.227.1621450552031;
- Wed, 19 May 2021 11:55:52 -0700 (PDT)
+ bh=k7v32F7sA+s0nX/521Wn9idR1Uq3Ai0OnDxbO/sW8qQ=;
+ b=EebVJs9OkikuQk8DVTrtyIrGECCuziNNzmT8Pr5Z1JliC3uxgtWOZze/yoSidB4R2m
+ IAwJWF6RAsACgo999uT0wn4CiUxdFXlK9ab59LbbIzMPQDShl8OEiJlIX5xQ7KvHV3K2
+ 14eclTBpxubC0xFCpb9kJ49PsGqfnG4wa9svJuK4vhAzZjwX89DqrfhFPi4CKaxF3FYr
+ AmPAdKgfbV7BIrnqiRb1Oq63REv/d7bSe+Z12dxBQZpmX6zLvDnO25KYjUHKiNIBP0QK
+ As5aUhHbN5n5a6MRKXZiK7VgGYfN53YEV/LPLs4tY4g2pzWL4JtNXxVwr8ahml+zQVti
+ ZEKg==
+X-Gm-Message-State: AOAM532Hrc6L2kj32/xYLMdEwYJFDol6ln/W5Z6K60rQC8f76Rh9yuoM
+ +DUGfbfeWHB6g+q3fpO/FdF+/uWDHX63rw==
+X-Google-Smtp-Source: ABdhPJybzbtZsKZlWwQTcGxlIOewrpe2QDYbTCw3a3qlYC7J2ZReWaLIF3FYVR37BatCZXwmtSawMg==
+X-Received: by 2002:adf:e110:: with SMTP id t16mr355760wrz.359.1621450557184; 
+ Wed, 19 May 2021 11:55:57 -0700 (PDT)
 Received: from x1w.redhat.com (31.red-83-51-215.dynamicip.rima-tde.net.
  [83.51.215.31])
- by smtp.gmail.com with ESMTPSA id s83sm305114wms.16.2021.05.19.11.55.51
+ by smtp.gmail.com with ESMTPSA id a11sm277368wrx.38.2021.05.19.11.55.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 May 2021 11:55:51 -0700 (PDT)
+ Wed, 19 May 2021 11:55:56 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 09/10] gitlab-ci: Extract core container jobs to
- container-core.yml
-Date: Wed, 19 May 2021 20:55:03 +0200
-Message-Id: <20210519185504.2198573-10-f4bug@amsat.org>
+Subject: [PATCH v3 10/10] gitlab-ci: Move current job set to qemu-project.yml
+Date: Wed, 19 May 2021 20:55:04 +0200
+Message-Id: <20210519185504.2198573-11-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210519185504.2198573-1-f4bug@amsat.org>
 References: <20210519185504.2198573-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -95,83 +94,51 @@ Cc: Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It is not possible to use the previously extracted templates
-without this set of core containers. Extract them into a new
-file (container-core.yml) to be able to build them without
-having to build all the other containers by default.
+To allow forks to easily decide which jobs they want to run,
+but without disrupting the current default, move the current
+set of jobs to a new file corresponding to the jobs run by
+the mainstream project CI:
+https://gitlab.com/qemu-project/qemu/-/pipelines
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
 Reviewed-by: Willian Rampazzo <willianr@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- .gitlab-ci.d/container-core.yml | 17 +++++++++++++++++
- .gitlab-ci.d/containers.yml     | 17 +----------------
- 2 files changed, 18 insertions(+), 16 deletions(-)
- create mode 100644 .gitlab-ci.d/container-core.yml
+ .gitlab-ci.d/qemu-project.yml | 11 +++++++++++
+ .gitlab-ci.yml                |  8 +-------
+ 2 files changed, 12 insertions(+), 7 deletions(-)
+ create mode 100644 .gitlab-ci.d/qemu-project.yml
 
-diff --git a/.gitlab-ci.d/container-core.yml b/.gitlab-ci.d/container-core.yml
+diff --git a/.gitlab-ci.d/qemu-project.yml b/.gitlab-ci.d/qemu-project.yml
 new file mode 100644
-index 00000000000..e8dd1f476a2
+index 00000000000..64cb2ba1da5
 --- /dev/null
-+++ b/.gitlab-ci.d/container-core.yml
-@@ -0,0 +1,17 @@
++++ b/.gitlab-ci.d/qemu-project.yml
+@@ -0,0 +1,11 @@
++# This file contains the set of jobs run by the QEMU project:
++# https://gitlab.com/qemu-project/qemu/-/pipelines
++
 +include:
-+  - local: '/.gitlab-ci.d/container-template.yml'
-+
-+amd64-centos8-container:
-+  extends: .container_job_template
-+  variables:
-+    NAME: centos8
-+
-+amd64-fedora-container:
-+  extends: .container_job_template
-+  variables:
-+    NAME: fedora
-+
-+amd64-debian10-container:
-+  extends: .container_job_template
-+  variables:
-+    NAME: debian10
-diff --git a/.gitlab-ci.d/containers.yml b/.gitlab-ci.d/containers.yml
-index 0bf4899df10..2c1380158f8 100644
---- a/.gitlab-ci.d/containers.yml
-+++ b/.gitlab-ci.d/containers.yml
-@@ -1,5 +1,5 @@
++  - local: '/.gitlab-ci.d/stages.yml'
++  - local: '/.gitlab-ci.d/edk2.yml'
++  - local: '/.gitlab-ci.d/opensbi.yml'
++  - local: '/.gitlab-ci.d/containers.yml'
++  - local: '/.gitlab-ci.d/crossbuilds.yml'
++  - local: '/.gitlab-ci.d/buildtest.yml'
++  - local: '/.gitlab-ci.d/static_checks.yml'
+diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+index aea58813a25..533a7e61339 100644
+--- a/.gitlab-ci.yml
++++ b/.gitlab-ci.yml
+@@ -1,8 +1,2 @@
  include:
--  - local: '/.gitlab-ci.d/container-template.yml'
-+  - local: '/.gitlab-ci.d/container-core.yml'
- 
- amd64-alpine-container:
-   extends: .container_job_template
-@@ -11,16 +11,6 @@ amd64-centos7-container:
-   variables:
-     NAME: centos7
- 
--amd64-centos8-container:
--  extends: .container_job_template
--  variables:
--    NAME: centos8
--
--amd64-debian10-container:
--  extends: .container_job_template
--  variables:
--    NAME: debian10
--
- amd64-debian11-container:
-   extends: .container_job_template
-   variables:
-@@ -190,11 +180,6 @@ cris-fedora-cross-container:
-   variables:
-     NAME: fedora-cris-cross
- 
--amd64-fedora-container:
--  extends: .container_job_template
--  variables:
--    NAME: fedora
--
- i386-fedora-cross-container:
-   extends: .container_job_template
-   variables:
+-  - local: '/.gitlab-ci.d/stages.yml'
+-  - local: '/.gitlab-ci.d/edk2.yml'
+-  - local: '/.gitlab-ci.d/opensbi.yml'
+-  - local: '/.gitlab-ci.d/containers.yml'
+-  - local: '/.gitlab-ci.d/crossbuilds.yml'
+-  - local: '/.gitlab-ci.d/buildtest.yml'
+-  - local: '/.gitlab-ci.d/static_checks.yml'
++  - local: '/.gitlab-ci.d/qemu-project.yml'
 -- 
 2.26.3
 
