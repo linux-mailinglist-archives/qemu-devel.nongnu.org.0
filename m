@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDCBB38935C
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 18:13:07 +0200 (CEST)
-Received: from localhost ([::1]:37594 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DF2D389385
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 18:20:00 +0200 (CEST)
+Received: from localhost ([::1]:40360 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljOok-00072V-J4
-	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 12:13:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55866)
+	id 1ljOvP-0001Rk-2g
+	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 12:19:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57758)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1ljOnY-0006El-Cb
- for qemu-devel@nongnu.org; Wed, 19 May 2021 12:11:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26166)
+ (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1ljOt2-0000P1-Pk
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 12:17:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29537)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1ljOnV-0005so-27
- for qemu-devel@nongnu.org; Wed, 19 May 2021 12:11:50 -0400
+ (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1ljOt0-0000GG-Ja
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 12:17:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621440706;
+ s=mimecast20190719; t=1621441049;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cz+qP+ghLUeLHm6Dpk38/TZ5EWZkuinyFGd4e8Vy5Mo=;
- b=N1glGBqaMahNawGimW+RPWHIYlvBmhE3m3xxgI72XVfC8//sA+B/1JqkyfPEfoH+inv2Ga
- uCsbgp4XQowutMba7zxStiOn+AptF3Ci6bju/5VLn6oSLN3IXghpMbVj1vuON/2ibwcZZJ
- 8nKocsw0y631obazlzfO8LB2/SUP68E=
+ bh=s+lv2pVhcCHi86MjEjjHD7WFh4iVae8urrFS247UYhs=;
+ b=XbAvND46ncN2mbQsXUDHBnLxIDz+fFAcepu/RZjnwrw+tUUPQvtUn1c57NUH+ckMKTIdGx
+ xgULgSKxW8sTh2VZFkDXUQjkYpwEKtPGO8wv1Sfpxh8uXtxm5BeyV+hBWNmdXZw02U3Lp2
+ CBdcClY8UZbiwB8AAt+ESI20IToz+AE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-331-n8f6CPQ6M3G_ZuBpbKcwxA-1; Wed, 19 May 2021 12:11:44 -0400
-X-MC-Unique: n8f6CPQ6M3G_ZuBpbKcwxA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-327-03-thXx4MXS61AXvvYaiGQ-1; Wed, 19 May 2021 12:17:25 -0400
+X-MC-Unique: 03-thXx4MXS61AXvvYaiGQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B99B1107ACCD;
- Wed, 19 May 2021 16:11:42 +0000 (UTC)
-Received: from localhost (ovpn-114-43.ams2.redhat.com [10.36.114.43])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 535FD10027A5;
- Wed, 19 May 2021 16:11:42 +0000 (UTC)
-Date: Wed, 19 May 2021 17:11:41 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [RFC PATCH 10/11] hw/isa: Remove use of global isa bus
-Message-ID: <YKU4vdslgbumOJix@stefanha-x1.localdomain>
-References: <20210518215545.1793947-1-philmd@redhat.com>
- <20210518215545.1793947-11-philmd@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 44351801106;
+ Wed, 19 May 2021 16:17:24 +0000 (UTC)
+Received: from localhost (ovpn-114-114.ams2.redhat.com [10.36.114.114])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6E80419C59;
+ Wed, 19 May 2021 16:17:23 +0000 (UTC)
+Date: Wed, 19 May 2021 17:17:22 +0100
+From: "Richard W.M. Jones" <rjones@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH] block/ssh: Bump minimum libssh version to 0.8.7
+Message-ID: <20210519161722.GO26415@redhat.com>
+References: <20210519155859.344569-1-thuth@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210518215545.1793947-11-philmd@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <20210519155859.344569-1-thuth@redhat.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=rjones@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="V4ERlevDQ5QjTHAV"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=rjones@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -79,46 +78,214 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- John G Johnson <john.g.johnson@oracle.com>, Thomas Huth <thuth@redhat.com>,
- Jagannathan Raman <jag.raman@oracle.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, John Snow <jsnow@redhat.com>
+Cc: berrange@redhat.com, qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---V4ERlevDQ5QjTHAV
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Wed, May 19, 2021 at 05:58:59PM +0200, Thomas Huth wrote:
+> It has been over two years since RHEL-8 was released, and thus per the
+> platform build policy, we no longer need to support RHEL-7 as a build
+> target. So from the RHEL-7 perspective, we do not have to support
+> libssh v0.7 anymore now.
 
-On Tue, May 18, 2021 at 11:55:44PM +0200, Philippe Mathieu-Daud=E9 wrote:
-> In the previous commit we removed all call to these functions
-> passing a NULL ISADevice argument. We can simplify and remove
-> the use of the global isabus object.
->=20
-> Signed-off-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
+Not an objection, just an FYI: RHEL 7 has libssh-0.7.1-7.el7.x86_64
+
+nbdkit-ssh-plugin settled on only supporting libssh >= 0.8.0, mainly
+because we require knownhosts support which seems a fairly fundamental
+requirement for security.
+
+> Let's look at the versions from other distributions and operating
+> systems - according to repology.org, current shipping versions are:
+> 
+>              RHEL-8: 0.9.4
+>       Debian Buster: 0.8.7
+>  openSUSE Leap 15.2: 0.8.7
+>    Ubuntu LTS 18.04: 0.8.0 *
+>    Ubuntu LTS 20.04: 0.9.3
+>             FreeBSD: 0.9.5
+>           Fedora 33: 0.9.5
+>           Fedora 34: 0.9.5
+>             OpenBSD: 0.9.5
+>      macOS HomeBrew: 0.9.5
+>          HaikuPorts: 0.9.5
+> 
+> * The version of libssh in Ubuntu 18.04 claims to be 0.8.0 from the
+> name of the package, but in reality it is a 0.7 patched up as a
+> Frankenstein monster with patches from the 0.8 development branch.
+> This gave us some headaches in the past already and so it never worked
+> with QEMU. All attempts to get it supported have failed in the past,
+> patches for QEMU have never been merged and a request to Ubuntu to
+> fix it in their 18.04 distro has been ignored:
+> 
+>  https://bugs.launchpad.net/ubuntu/+source/libssh/+bug/1847514
+> 
+> Thus we really should ignore the libssh in Ubuntu 18.04 in QEMU, too.
+> 
+> Fix it by bumping the minimum libssh version to something that is
+> greater than 0.8.0 now. Debian Buster and openSUSE Leap have the
+> oldest version and so 0.8.7 is the new minimum.
+> 
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
 > ---
->  hw/isa/isa-bus.c | 23 +++++++++++++++++------
->  1 file changed, 17 insertions(+), 6 deletions(-)
+>  block/ssh.c | 59 -----------------------------------------------------
+>  configure   | 19 +----------------
+>  2 files changed, 1 insertion(+), 77 deletions(-)
+> 
+> diff --git a/block/ssh.c b/block/ssh.c
+> index ebe3d8b631..b51a031620 100644
+> --- a/block/ssh.c
+> +++ b/block/ssh.c
+> @@ -277,7 +277,6 @@ static void ssh_parse_filename(const char *filename, QDict *options,
+>  static int check_host_key_knownhosts(BDRVSSHState *s, Error **errp)
+>  {
+>      int ret;
+> -#ifdef HAVE_LIBSSH_0_8
+>      enum ssh_known_hosts_e state;
+>      int r;
+>      ssh_key pubkey;
+> @@ -343,46 +342,6 @@ static int check_host_key_knownhosts(BDRVSSHState *s, Error **errp)
+>          error_setg(errp, "error while checking for known server (%d)", state);
+>          goto out;
+>      }
+> -#else /* !HAVE_LIBSSH_0_8 */
+> -    int state;
+> -
+> -    state = ssh_is_server_known(s->session);
+> -    trace_ssh_server_status(state);
+> -
+> -    switch (state) {
+> -    case SSH_SERVER_KNOWN_OK:
+> -        /* OK */
+> -        trace_ssh_check_host_key_knownhosts();
+> -        break;
+> -    case SSH_SERVER_KNOWN_CHANGED:
+> -        ret = -EINVAL;
+> -        error_setg(errp,
+> -                   "host key does not match the one in known_hosts; this "
+> -                   "may be a possible attack");
+> -        goto out;
+> -    case SSH_SERVER_FOUND_OTHER:
+> -        ret = -EINVAL;
+> -        error_setg(errp,
+> -                   "host key for this server not found, another type exists");
+> -        goto out;
+> -    case SSH_SERVER_FILE_NOT_FOUND:
+> -        ret = -ENOENT;
+> -        error_setg(errp, "known_hosts file not found");
+> -        goto out;
+> -    case SSH_SERVER_NOT_KNOWN:
+> -        ret = -EINVAL;
+> -        error_setg(errp, "no host key was found in known_hosts");
+> -        goto out;
+> -    case SSH_SERVER_ERROR:
+> -        ret = -EINVAL;
+> -        error_setg(errp, "server error");
+> -        goto out;
+> -    default:
+> -        ret = -EINVAL;
+> -        error_setg(errp, "error while checking for known server (%d)", state);
+> -        goto out;
+> -    }
+> -#endif /* !HAVE_LIBSSH_0_8 */
+>  
+>      /* known_hosts checking successful. */
+>      ret = 0;
+> @@ -438,11 +397,7 @@ check_host_key_hash(BDRVSSHState *s, const char *hash,
+>      unsigned char *server_hash;
+>      size_t server_hash_len;
+>  
+> -#ifdef HAVE_LIBSSH_0_8
+>      r = ssh_get_server_publickey(s->session, &pubkey);
+> -#else
+> -    r = ssh_get_publickey(s->session, &pubkey);
+> -#endif
+>      if (r != SSH_OK) {
+>          session_error_setg(errp, s, "failed to read remote host key");
+>          return -EINVAL;
+> @@ -1233,8 +1188,6 @@ static void unsafe_flush_warning(BDRVSSHState *s, const char *what)
+>      }
+>  }
+>  
+> -#ifdef HAVE_LIBSSH_0_8
+> -
+>  static coroutine_fn int ssh_flush(BDRVSSHState *s, BlockDriverState *bs)
+>  {
+>      int r;
+> @@ -1271,18 +1224,6 @@ static coroutine_fn int ssh_co_flush(BlockDriverState *bs)
+>      return ret;
+>  }
+>  
+> -#else /* !HAVE_LIBSSH_0_8 */
+> -
+> -static coroutine_fn int ssh_co_flush(BlockDriverState *bs)
+> -{
+> -    BDRVSSHState *s = bs->opaque;
+> -
+> -    unsafe_flush_warning(s, "libssh >= 0.8.0");
+> -    return 0;
+> -}
+> -
+> -#endif /* !HAVE_LIBSSH_0_8 */
+> -
+>  static int64_t ssh_getlength(BlockDriverState *bs)
+>  {
+>      BDRVSSHState *s = bs->opaque;
+> diff --git a/configure b/configure
+> index 879a8e8f17..bf1c740494 100755
+> --- a/configure
+> +++ b/configure
+> @@ -3512,7 +3512,7 @@ fi
+>  ##########################################
+>  # libssh probe
+>  if test "$libssh" != "no" ; then
+> -  if $pkg_config --exists libssh; then
+> +  if $pkg_config --exists "libssh >= 0.8.7"; then
+>      libssh_cflags=$($pkg_config libssh --cflags)
+>      libssh_libs=$($pkg_config libssh --libs)
+>      libssh=yes
+> @@ -3524,23 +3524,6 @@ if test "$libssh" != "no" ; then
+>    fi
+>  fi
+>  
+> -##########################################
+> -# Check for libssh 0.8
+> -# This is done like this instead of using the LIBSSH_VERSION_* and
+> -# SSH_VERSION_* macros because some distributions in the past shipped
+> -# snapshots of the future 0.8 from Git, and those snapshots did not
+> -# have updated version numbers (still referring to 0.7.0).
+> -
+> -if test "$libssh" = "yes"; then
+> -  cat > $TMPC <<EOF
+> -#include <libssh/libssh.h>
+> -int main(void) { return ssh_get_server_publickey(NULL, NULL); }
+> -EOF
+> -  if compile_prog "$libssh_cflags" "$libssh_libs"; then
+> -    libssh_cflags="-DHAVE_LIBSSH_0_8 $libssh_cflags"
+> -  fi
+> -fi
+> -
+>  ##########################################
+>  # linux-aio probe
+>  
+> -- 
+> 2.27.0
 
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+The patch looks completely obvious and mechanical.
 
---V4ERlevDQ5QjTHAV
-Content-Type: application/pgp-signature; name="signature.asc"
+Also I applied it on top of qemu and tested it by doing some
+“qemu-system-x86-64 -hda ssh://remote/fedora-33.img” commands and it
+appears to work fine.  Therefore:
 
------BEGIN PGP SIGNATURE-----
+Acked-by: Richard W.M. Jones <rjones@redhat.com>
+Tested-by: Richard W.M. Jones <rjones@redhat.com>
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmClOL0ACgkQnKSrs4Gr
-c8jqfwgAn+zQup1vCnACb2Z8NWu+GYm7QsIjGXFQKnA5EwjMcXgCdDxV/uhaQ8DB
-cc2xxiaRV806SElT0o5gQ77+WYOmLKxgMH4qDAeXeEJC6ZvVfSIOVfABEPWfZzpJ
-f9N5SZaD+Rt5pd7YF6pz3hRES4sNgGEuHaWlhWfHNE5a+9rUXlut4KjiOARcq1JB
-jJ4mMnmlRQDg8fhcvSHlCIKy5/vl7RL437/iGK77uVW815OytFbhFdssXd62ijU4
-DX3rPf7ujmPUCz5ZweAQVgwU2qt9WXbRyO1cdb8yiDNaONALmdhFAvW7OQ6n6PDG
-GqYPIii4zZ+PIUrdIVyB55k5QQPB9w==
-=PG8q
------END PGP SIGNATURE-----
+Rich.
 
---V4ERlevDQ5QjTHAV--
+-- 
+Richard Jones, Virtualization Group, Red Hat http://people.redhat.com/~rjones
+Read my programming and virtualization blog: http://rwmj.wordpress.com
+virt-top is 'top' for virtual machines.  Tiny program with many
+powerful monitoring features, net stats, disk stats, logging, etc.
+http://people.redhat.com/~rjones/virt-top
 
 
