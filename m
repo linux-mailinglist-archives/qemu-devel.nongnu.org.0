@@ -2,79 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8B2B3894F0
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 20:00:20 +0200 (CEST)
-Received: from localhost ([::1]:59672 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31BEF389504
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 20:08:04 +0200 (CEST)
+Received: from localhost ([::1]:35158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljQUV-0006sK-Lr
-	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 14:00:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36186)
+	id 1ljQby-0001Pv-NN
+	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 14:08:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40766)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ljQRu-0003cO-W1; Wed, 19 May 2021 13:57:39 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:43727)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ljQRt-0004dJ-Ie; Wed, 19 May 2021 13:57:38 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id p7so11203104wru.10;
- Wed, 19 May 2021 10:57:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=/2sPs+ru2T4x3kpaPoLZ4bxZnL9mzLFOYVpuWjbVtWM=;
- b=InPNeW9DTJOzXF2r7VXxqLHGdYyHRM4r4quC5VwRGUfFw9vTAmHJX6aCPirULXiLXN
- cefPUf6T2wpAjZy+5plcMxpvn07zDWS3oXpylalpHkz3+uAaLGp12QaPOVMecU31+Ljo
- 2BAu4UbNFhVTonfvrAGuwFXSVss+GOl3J+AqDHoFlABGyVVHqDaK6HUecsMWsYoDwxdW
- Dk/cZWuFUnX44zeAtXPYJE9U+yU48feYq6bDdoLDYOBCQNlQ2J4jofh33JXw//ylFaxE
- 3Z9Fnhvi9JX9uAbJ6GE7G+/Q89gJPZsJXCvIZLzULLmokcaK9EouqJX6a50Iahkky9m0
- Umfw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=/2sPs+ru2T4x3kpaPoLZ4bxZnL9mzLFOYVpuWjbVtWM=;
- b=aJYq4lqKFmWObMtUiQ7x82RWwDIYcurYUctU0kRwKmNGQXDKlELkGvolkW6vtTLePv
- MVDG0YJg5/NH1KYXZpWRvsPt1uAn0VYLK6o2NmGJswtxyD+A9a0L/Fig6PlXhjA70Ytm
- owP55Bp3oJTuQjouByNZsDzDVyA967eEzFF9mebrenCJNTxqHwArqQGF3iugezBJCqyy
- xqoNSeID6hNmvVe1bxS7lQRTc+qsAlSJK9l3aQIyWEMxk8xuEFlHXSAXIz4D4sYNsMmA
- eY9kaUgwMThq152+T2nTfV0Gi6jLFkNIjjVqlHd8hCvV8Dt9oXyMYe1WT9Hxbx57BbFw
- 2BvQ==
-X-Gm-Message-State: AOAM5322yQo8c71omNdGRa0mjt6wid0ZwdCMRJKVMd+RZ3+0xCBXBfRF
- Zx5hkhhFF8SBAxy3H8EaRngaVoKMRL2wxw==
-X-Google-Smtp-Source: ABdhPJwpvV4AWxaJf6YFDng6b3n5Co9Eg5tZ+0rOpYPj3qm48mHnJwdFcyDVgzDPptNzUrtvf+LB+g==
-X-Received: by 2002:adf:e484:: with SMTP id i4mr132614wrm.117.1621447055195;
- Wed, 19 May 2021 10:57:35 -0700 (PDT)
-Received: from [192.168.1.36] (31.red-83-51-215.dynamicip.rima-tde.net.
- [83.51.215.31])
- by smtp.gmail.com with ESMTPSA id q186sm163538wme.20.2021.05.19.10.57.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 19 May 2021 10:57:34 -0700 (PDT)
-Subject: Re: [PATCH 1/3] adc: Move the zynq-xadc file to the adc directories
-To: minyard@acm.org, qemu-devel@nongnu.org, Titus Rwantare <titusr@google.com>
-References: <20210519000331.3690536-1-minyard@acm.org>
- <20210519000331.3690536-2-minyard@acm.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <b08ac221-e8fa-fbc0-5dbc-158841c79405@amsat.org>
-Date: Wed, 19 May 2021 19:57:33 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <cmarinas@kernel.org>)
+ id 1ljQaM-0000QT-LH
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 14:06:23 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50584)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cmarinas@kernel.org>)
+ id 1ljQaK-0001NP-1V
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 14:06:22 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 9D76D611BF;
+ Wed, 19 May 2021 18:06:13 +0000 (UTC)
+Date: Wed, 19 May 2021 19:06:10 +0100
+From: Catalin Marinas <catalin.marinas@arm.com>
+To: Steven Price <steven.price@arm.com>
+Subject: Re: [PATCH v12 3/8] arm64: mte: Sync tags for pages where PTE is
+ untagged
+Message-ID: <20210519180610.GE21619@arm.com>
+References: <20210517123239.8025-1-steven.price@arm.com>
+ <20210517123239.8025-4-steven.price@arm.com>
 MIME-Version: 1.0
-In-Reply-To: <20210519000331.3690536-2-minyard@acm.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42a.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210517123239.8025-4-steven.price@arm.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Received-SPF: pass client-ip=198.145.29.99; envelope-from=cmarinas@kernel.org;
+ helo=mail.kernel.org
+X-Spam_score_int: -66
+X-Spam_score: -6.7
+X-Spam_bar: ------
+X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,34 +54,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Alistair Francis <alistair@alistair23.me>, qemu-arm@nongnu.org,
- Corey Minyard <cminyard@mvista.com>
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Andrew Jones <drjones@redhat.com>, Haibo Xu <Haibo.Xu@arm.com>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>, qemu-devel@nongnu.org,
+ Marc Zyngier <maz@kernel.org>, Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, linux-kernel@vger.kernel.org,
+ Dave Martin <Dave.Martin@arm.com>, James Morse <james.morse@arm.com>,
+ linux-arm-kernel@lists.infradead.org, Thomas Gleixner <tglx@linutronix.de>,
+ Will Deacon <will@kernel.org>, kvmarm@lists.cs.columbia.edu,
+ Julien Thierry <julien.thierry.kdev@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/19/21 2:03 AM, minyard@acm.org wrote:
-> From: Corey Minyard <cminyard@mvista.com>
+On Mon, May 17, 2021 at 01:32:34PM +0100, Steven Price wrote:
+> A KVM guest could store tags in a page even if the VMM hasn't mapped
+> the page with PROT_MTE. So when restoring pages from swap we will
+> need to check to see if there are any saved tags even if !pte_tagged().
 > 
-> It's an ADC, put it where it belongs.
+> However don't check pages for which pte_access_permitted() returns false
+> as these will not have been swapped out.
 > 
-> Cc: Edgar E. Iglesias <edgar.iglesias@gmail.com>
-> Cc: Alistair Francis <alistair@alistair23.me>
-> Cc: Peter Maydell <peter.maydell@linaro.org>
-> Cc: qemu-arm@nongnu.org
-> Signed-off-by: Corey Minyard <cminyard@mvista.com>
+> Signed-off-by: Steven Price <steven.price@arm.com>
 > ---
->  MAINTAINERS                          | 6 ++++--
->  hw/adc/meson.build                   | 1 +
->  hw/{misc => adc}/zynq-xadc.c         | 2 +-
->  hw/arm/xilinx_zynq.c                 | 2 +-
->  hw/misc/meson.build                  | 2 +-
->  include/hw/{misc => adc}/zynq-xadc.h | 0
->  6 files changed, 8 insertions(+), 5 deletions(-)
->  rename hw/{misc => adc}/zynq-xadc.c (99%)
->  rename include/hw/{misc => adc}/zynq-xadc.h (100%)
+>  arch/arm64/include/asm/pgtable.h |  9 +++++++--
+>  arch/arm64/kernel/mte.c          | 16 ++++++++++++++--
+>  2 files changed, 21 insertions(+), 4 deletions(-)
+> 
+> diff --git a/arch/arm64/include/asm/pgtable.h b/arch/arm64/include/asm/pgtable.h
+> index 0b10204e72fc..275178a810c1 100644
+> --- a/arch/arm64/include/asm/pgtable.h
+> +++ b/arch/arm64/include/asm/pgtable.h
+> @@ -314,8 +314,13 @@ static inline void set_pte_at(struct mm_struct *mm, unsigned long addr,
+>  	if (pte_present(pte) && pte_user_exec(pte) && !pte_special(pte))
+>  		__sync_icache_dcache(pte);
+>  
+> -	if (system_supports_mte() &&
+> -	    pte_present(pte) && pte_tagged(pte) && !pte_special(pte))
+> +	/*
+> +	 * If the PTE would provide user space access to the tags associated
+> +	 * with it then ensure that the MTE tags are synchronised.  Exec-only
+> +	 * mappings don't expose tags (instruction fetches don't check tags).
+> +	 */
+> +	if (system_supports_mte() && pte_present(pte) &&
+> +	    pte_access_permitted(pte, false) && !pte_special(pte))
+>  		mte_sync_tags(ptep, pte);
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Looking at the mte_sync_page_tags() logic, we bail out early if it's the
+old pte is not a swap one and the new pte is not tagged. So we only need
+to call mte_sync_tags() if it's a tagged new pte or the old one is swap.
+What about changing the set_pte_at() test to:
 
+	if (system_supports_mte() && pte_present(pte) && !pte_special(pte) &&
+	    (pte_tagged(pte) || is_swap_pte(READ_ONCE(*ptep))))
+		mte_sync_tags(ptep, pte);
 
+We can even change mte_sync_tags() to take the old pte directly:
+
+	if (system_supports_mte() && pte_present(pte) && !pte_special(pte)) {
+		pte_t old_pte = READ_ONCE(*ptep);
+		if (pte_tagged(pte) || is_swap_pte(old_pte))
+			mte_sync_tags(old_pte, pte);
+	}
+
+It would save a function call in most cases where the page is not
+tagged.
+
+-- 
+Catalin
 
