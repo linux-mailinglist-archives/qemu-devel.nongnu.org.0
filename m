@@ -2,74 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D3D3388B07
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 11:49:21 +0200 (CEST)
-Received: from localhost ([::1]:44888 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59AA5388B27
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 11:51:43 +0200 (CEST)
+Received: from localhost ([::1]:49436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljIpM-0006hh-DE
-	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 05:49:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44728)
+	id 1ljIre-0001Nl-EE
+	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 05:51:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44832)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1ljInX-0004Sb-Sw
- for qemu-devel@nongnu.org; Wed, 19 May 2021 05:47:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38145)
+ id 1ljIne-0004mQ-7y
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 05:47:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49087)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1ljInR-0007Dr-PV
- for qemu-devel@nongnu.org; Wed, 19 May 2021 05:47:27 -0400
+ id 1ljIna-0007L3-NO
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 05:47:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621417639;
+ s=mimecast20190719; t=1621417650;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=+30oIBinGQ4KxFZhA9Q7/cYLLKFcco9HPmzeNj4a3ho=;
- b=i10Sbp0GaVQq6Z6/U/ss7D4olNpmBDsnEK7BEQWeLGcA0VM0rsGxw03fyr5Efv825Z1zkX
- Hxy54cBWM+0Sb2KbV5IZB++a4oCMbglLjMG6M4hDZpmVnUWgOZDdWHG9yS2JIYrMk20AJb
- vGkQ+pIjHfo1EUv3nzmGOvUp6IOk9Zw=
-Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com
- [209.85.214.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-292-BrdWA4tAMzKm3kkhrScjAw-1; Wed, 19 May 2021 05:47:16 -0400
-X-MC-Unique: BrdWA4tAMzKm3kkhrScjAw-1
-Received: by mail-pl1-f197.google.com with SMTP id
- f2-20020a1709031042b02900ef82a95ef4so5467322plc.3
- for <qemu-devel@nongnu.org>; Wed, 19 May 2021 02:47:16 -0700 (PDT)
+ bh=oUF/zUm/gxwCnzzHpLzRbHxAIYLbMfarFZjzl0YYjuw=;
+ b=IOEyjqUu6DlMJxZt3/JcUxEkmFc4pPg7JRmP+q1wTWC4h+duJvEckjW/8SHYTvT8hRWPGk
+ LFh9V8bogNVKnBGJxPMhrmIm/Xhiw5bxnPv3nsUr+0YbpjHfemyUnJ+x/jXZCuYLaUPeiO
+ gRU7YMw3WQQuoBhVfphlf+ReOII1kf4=
+Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com
+ [209.85.210.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-582-zdsZz30qOlSg2zVZFolYYg-1; Wed, 19 May 2021 05:47:27 -0400
+X-MC-Unique: zdsZz30qOlSg2zVZFolYYg-1
+Received: by mail-pf1-f200.google.com with SMTP id
+ l199-20020a6288d00000b02902db317806d5so5670742pfd.18
+ for <qemu-devel@nongnu.org>; Wed, 19 May 2021 02:47:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=+30oIBinGQ4KxFZhA9Q7/cYLLKFcco9HPmzeNj4a3ho=;
- b=bDPFU1c2a8FbLbmtGCfuaLIvJxwGJ61roEWE9gBBRx1mxB2s2KBxc+kiVmi9Bw7ajI
- fKEqV05mDwq+fyx0skOobgSxxFyTYzaQIdgew1abGkxliUytiGm2gq7u845aqA4rJDjo
- 1oJYHF7VZp4upLDVIkviiu3Zzm9GWAUoeWD5uZqLKyWlSM+muxExjcMaZgnESFxOHdJr
- NUCiM5kx/pbAjQe1jiBXWLop/ub0w2gRL0RBU7rv5iHkK4Dj9JnkR6U/RrFIZEvX/JVV
- HIWIofLbwYXGZ4RriStRJQv9rpaBV0EXCQrvZ57fdPdc30MMFyXpqb1H/9+QPcnez5/O
- pPIw==
-X-Gm-Message-State: AOAM533ZztkqDjOAnxJOlD/q0gC3XG9RWiCeAkqbP7gNEgDiF7hl/UNc
- w48LOLBlYUNsWxJVQPKyIGFWF70r9o764PavjnflItt03xCzmjmOC9p6elKYhi7Qz5/u2L6kgau
- LYoWW4Pc/Im2uRPwe2oDFC//VkVO+bDc=
-X-Received: by 2002:a17:90a:510d:: with SMTP id
- t13mr10418040pjh.97.1621417635672; 
- Wed, 19 May 2021 02:47:15 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyFJmDcQqaMi8NPkSxEQ/dnYcHp2P087WsHbwW1+o+pAIo2qzFlTrvq7vu5UNehAL5OXkLBiPSaoEonMt5XxIM=
-X-Received: by 2002:a17:90a:510d:: with SMTP id
- t13mr10418017pjh.97.1621417635416; 
- Wed, 19 May 2021 02:47:15 -0700 (PDT)
+ bh=oUF/zUm/gxwCnzzHpLzRbHxAIYLbMfarFZjzl0YYjuw=;
+ b=uUB4AiWYkdKP10tUNJIzi+brfW2J2UO0BllPulLTbnD7GIDYsnwxt6f0bAGSYWJvMp
+ bAeDMqYo4S62hK2dATEIx/6axf0iJmkNd7Ie/Wq8cB74eUQ9rBTdYmFwiZSteShCgMo1
+ brhSkNq24AFvnteDwfVnD8JVz0ZK6CFzRlGNrWqS+od+F2CJhBWBxgcNaAElUT0LAzqF
+ 1TeFAHuCXdYVnIAw7JDndNsHS4aecCTqwGgR9QQK3OYzJYuBdjPhZ5UXwBAcWyJp+viL
+ WcuP2S2d61DWStdE5T68XO+sE9qV5GLQki/rLBexqbuZ//g/ld8kykWV/NoGZTVnEWZJ
+ wx+g==
+X-Gm-Message-State: AOAM533QFb6jq7qq1UG0et73rUnZDKmaSfY8/zOa6e6z7E/yWl03I61i
+ xcz5QyR7oSYFO54bXw7NHvSfhWYWobMSxDaZvN/qqchfRn0OXZwlPIxyEtcw5YdHjM3rm4n+nly
+ pDNKiNUVDQwO/9sh1QrZ5EDafpwEm/ks=
+X-Received: by 2002:a63:3c0e:: with SMTP id j14mr10031309pga.427.1621417646828; 
+ Wed, 19 May 2021 02:47:26 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxDWx7r9+ynF746C5yugH5in8zsG6nBrUUjlLwVxfv+JRLkyGsZFcYpqxE15ynVqcO7kDahcbw6WY8iAuhJc5Q=
+X-Received: by 2002:a63:3c0e:: with SMTP id j14mr10031287pga.427.1621417646550; 
+ Wed, 19 May 2021 02:47:26 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210519053940.1888907-1-kraxel@redhat.com>
- <20210519053940.1888907-7-kraxel@redhat.com>
-In-Reply-To: <20210519053940.1888907-7-kraxel@redhat.com>
+ <20210519053940.1888907-5-kraxel@redhat.com>
+In-Reply-To: <20210519053940.1888907-5-kraxel@redhat.com>
 From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Wed, 19 May 2021 13:47:04 +0400
-Message-ID: <CAMxuvaxwpuK55Hj_knQ4uMOZN2EN=KfpkA6WzSL67SLWB1DnOQ@mail.gmail.com>
-Subject: Re: [PATCH v6 6/9] ui/vdagent: add clipboard support
+Date: Wed, 19 May 2021 13:47:15 +0400
+Message-ID: <CAMxuvayM0Qqwh-E=75rtW4En900tK2MGFZh1O-UMgK8o1_x+LA@mail.gmail.com>
+Subject: Re: [PATCH v6 4/9] ui/vdagent: core infrastructure
 To: Gerd Hoffmann <kraxel@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlureau@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="00000000000031269d05c2abb68a"
+Content-Type: multipart/alternative; boundary="000000000000db059005c2abb6e0"
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=mlureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
@@ -97,479 +95,501 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000031269d05c2abb68a
+--000000000000db059005c2abb6e0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 On Wed, May 19, 2021 at 9:40 AM Gerd Hoffmann <kraxel@redhat.com> wrote:
 
-> This patch adds support for clipboard messages to the qemu vdagent
-> implementation, which allows the guest exchange clipboard data with
-> qemu.  Clipboard support can be enabled/disabled using the new
-> 'clipboard' parameter for the vdagent chardev.  Default is off.
+> The vdagent protocol allows the guest agent (spice-vdagent) and the
+> spice client exchange messages to implement features which require
+> guest cooperation, for example clipboard support.
+>
+> This is a qemu implementation of the spice client side.  This allows
+> the spice guest agent talk to qemu directly when not using the spice
+> protocol.
+>
+> usage: qemu \
+>   -chardev qemu-vdagent,id=3Dvdagent \
+>   -device virtserialport,chardev=3Dvdagent,name=3Dcom.redhat.spice.0
+>
+> This patch adds just the protocol basics: initial handshake and
+> capability negotiation.  The following patches will add actual
+> functionality and also add fields to the initially empty
+> ChardevVDAgent qapi struct.
 >
 > Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> Acked-by: Markus Armbruster <armbru@redhat.com>
 >
 
 Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
 ---
->  chardev/char.c  |   3 +
->  ui/vdagent.c    | 293 ++++++++++++++++++++++++++++++++++++++++++++++++
->  qapi/char.json  |   4 +-
->  ui/trace-events |   2 +
->  4 files changed, 301 insertions(+), 1 deletion(-)
+>  ui/vdagent.c    | 361 ++++++++++++++++++++++++++++++++++++++++++++++++
+>  qapi/char.json  |  17 ++-
+>  ui/meson.build  |   1 +
+>  ui/trace-events |   8 ++
+>  4 files changed, 386 insertions(+), 1 deletion(-)
+>  create mode 100644 ui/vdagent.c
 >
-> diff --git a/chardev/char.c b/chardev/char.c
-> index 52c567e8ff00..d959eec5229c 100644
-> --- a/chardev/char.c
-> +++ b/chardev/char.c
-> @@ -934,6 +934,9 @@ QemuOptsList qemu_chardev_opts =3D {
->          },{
->              .name =3D "mouse",
->              .type =3D QEMU_OPT_BOOL,
-> +        },{
-> +            .name =3D "clipboard",
-> +            .type =3D QEMU_OPT_BOOL,
->  #ifdef CONFIG_LINUX
->          },{
->              .name =3D "tight",
 > diff --git a/ui/vdagent.c b/ui/vdagent.c
-> index cf81ab6beb68..a253a8fe63a6 100644
-> --- a/ui/vdagent.c
+> new file mode 100644
+> index 000000000000..21e55a41eaba
+> --- /dev/null
 > +++ b/ui/vdagent.c
-> @@ -6,6 +6,7 @@
->  #include "qemu/option.h"
->  #include "qemu/units.h"
->  #include "hw/qdev-core.h"
-> +#include "ui/clipboard.h"
->  #include "ui/console.h"
->  #include "ui/input.h"
->  #include "trace.h"
-> @@ -17,12 +18,14 @@
->
->  #define VDAGENT_BUFFER_LIMIT (1 * MiB)
->  #define VDAGENT_MOUSE_DEFAULT true
-> +#define VDAGENT_CLIPBOARD_DEFAULT false
->
->  struct VDAgentChardev {
->      Chardev parent;
->
->      /* config */
->      bool mouse;
-> +    bool clipboard;
->
->      /* guest vdagent */
->      uint32_t caps;
-> @@ -41,6 +44,11 @@ struct VDAgentChardev {
->      uint32_t mouse_btn;
->      uint32_t mouse_display;
->      QemuInputHandlerState *mouse_hs;
+> @@ -0,0 +1,361 @@
+> +#include "qemu/osdep.h"
+> +#include "qapi/error.h"
+> +#include "include/qemu-common.h"
+> +#include "chardev/char.h"
+> +#include "qemu/buffer.h"
+> +#include "qemu/units.h"
+> +#include "trace.h"
 > +
-> +    /* clipboard */
-> +    QemuClipboardPeer cbpeer;
-> +    QemuClipboardInfo *cbinfo[QEMU_CLIPBOARD_SELECTION__COUNT];
-> +    uint32_t cbpending[QEMU_CLIPBOARD_SELECTION__COUNT];
->  };
->  typedef struct VDAgentChardev VDAgentChardev;
->
-> @@ -96,6 +104,24 @@ static const char *msg_name[] =3D {
->  #endif
->  };
->
-> +static const char *sel_name[] =3D {
-> +    [VD_AGENT_CLIPBOARD_SELECTION_CLIPBOARD] =3D "clipboard",
-> +    [VD_AGENT_CLIPBOARD_SELECTION_PRIMARY]   =3D "primary",
-> +    [VD_AGENT_CLIPBOARD_SELECTION_SECONDARY] =3D "secondary",
+> +#include "qapi/qapi-types-char.h"
+> +
+> +#include "spice/vd_agent.h"
+> +
+> +#define VDAGENT_BUFFER_LIMIT (1 * MiB)
+> +
+> +struct VDAgentChardev {
+> +    Chardev parent;
+> +
+> +    /* guest vdagent */
+> +    uint32_t caps;
+> +    VDIChunkHeader chunk;
+> +    uint32_t chunksize;
+> +    uint8_t *msgbuf;
+> +    uint32_t msgsize;
+> +    uint8_t *xbuf;
+> +    uint32_t xoff, xsize;
+> +    Buffer outbuf;
 > +};
+> +typedef struct VDAgentChardev VDAgentChardev;
 > +
-> +static const char *type_name[] =3D {
-> +    [VD_AGENT_CLIPBOARD_NONE]       =3D "none",
-> +    [VD_AGENT_CLIPBOARD_UTF8_TEXT]  =3D "text",
-> +    [VD_AGENT_CLIPBOARD_IMAGE_PNG]  =3D "png",
-> +    [VD_AGENT_CLIPBOARD_IMAGE_BMP]  =3D "bmp",
-> +    [VD_AGENT_CLIPBOARD_IMAGE_TIFF] =3D "tiff",
-> +    [VD_AGENT_CLIPBOARD_IMAGE_JPG]  =3D "jpg",
+> +#define TYPE_CHARDEV_QEMU_VDAGENT "chardev-qemu-vdagent"
+> +
+> +DECLARE_INSTANCE_CHECKER(VDAgentChardev, QEMU_VDAGENT_CHARDEV,
+> +                         TYPE_CHARDEV_QEMU_VDAGENT);
+> +
+> +/* ------------------------------------------------------------------ */
+> +/* names, for debug logging                                           */
+> +
+> +static const char *cap_name[] =3D {
+> +    [VD_AGENT_CAP_MOUSE_STATE]                    =3D "mouse-state",
+> +    [VD_AGENT_CAP_MONITORS_CONFIG]                =3D "monitors-config",
+> +    [VD_AGENT_CAP_REPLY]                          =3D "reply",
+> +    [VD_AGENT_CAP_CLIPBOARD]                      =3D "clipboard",
+> +    [VD_AGENT_CAP_DISPLAY_CONFIG]                 =3D "display-config",
+> +    [VD_AGENT_CAP_CLIPBOARD_BY_DEMAND]            =3D "clipboard-by-dema=
+nd",
+> +    [VD_AGENT_CAP_CLIPBOARD_SELECTION]            =3D "clipboard-selecti=
+on",
+> +    [VD_AGENT_CAP_SPARSE_MONITORS_CONFIG]         =3D
+> "sparse-monitors-config",
+> +    [VD_AGENT_CAP_GUEST_LINEEND_LF]               =3D "guest-lineend-lf"=
+,
+> +    [VD_AGENT_CAP_GUEST_LINEEND_CRLF]             =3D "guest-lineend-crl=
+f",
+> +    [VD_AGENT_CAP_MAX_CLIPBOARD]                  =3D "max-clipboard",
+> +    [VD_AGENT_CAP_AUDIO_VOLUME_SYNC]              =3D "audio-volume-sync=
+",
+> +    [VD_AGENT_CAP_MONITORS_CONFIG_POSITION]       =3D
+> "monitors-config-position",
+> +    [VD_AGENT_CAP_FILE_XFER_DISABLED]             =3D "file-xfer-disable=
+d",
+> +    [VD_AGENT_CAP_FILE_XFER_DETAILED_ERRORS]      =3D
+> "file-xfer-detailed-errors",
 > +#if 0
-> +    [VD_AGENT_CLIPBOARD_FILE_LIST]  =3D "files",
+> +    [VD_AGENT_CAP_GRAPHICS_DEVICE_INFO]           =3D
+> "graphics-device-info",
+> +    [VD_AGENT_CAP_CLIPBOARD_NO_RELEASE_ON_REGRAB] =3D
+> "clipboard-no-release-on-regrab",
+> +    [VD_AGENT_CAP_CLIPBOARD_GRAB_SERIAL]          =3D
+> "clipboard-grab-serial",
 > +#endif
 > +};
 > +
->  #define GET_NAME(_m, _v) \
->      (((_v) < ARRAY_SIZE(_m) && (_m[_v])) ? (_m[_v]) : "???")
->
-> @@ -161,6 +187,10 @@ static void vdagent_send_caps(VDAgentChardev *vd)
->      if (vd->mouse) {
->          caps->caps[0] |=3D (1 << VD_AGENT_CAP_MOUSE_STATE);
->      }
-> +    if (vd->clipboard) {
-> +        caps->caps[0] |=3D (1 << VD_AGENT_CAP_CLIPBOARD_BY_DEMAND);
-> +        caps->caps[0] |=3D (1 << VD_AGENT_CAP_CLIPBOARD_SELECTION);
-> +    }
->
->      vdagent_send_msg(vd, msg);
->  }
-> @@ -261,6 +291,244 @@ static QemuInputHandler vdagent_mouse_handler =3D {
->      .sync  =3D vdagent_pointer_sync,
->  };
->
+> +static const char *msg_name[] =3D {
+> +    [VD_AGENT_MOUSE_STATE]           =3D "mouse-state",
+> +    [VD_AGENT_MONITORS_CONFIG]       =3D "monitors-config",
+> +    [VD_AGENT_REPLY]                 =3D "reply",
+> +    [VD_AGENT_CLIPBOARD]             =3D "clipboard",
+> +    [VD_AGENT_DISPLAY_CONFIG]        =3D "display-config",
+> +    [VD_AGENT_ANNOUNCE_CAPABILITIES] =3D "announce-capabilities",
+> +    [VD_AGENT_CLIPBOARD_GRAB]        =3D "clipboard-grab",
+> +    [VD_AGENT_CLIPBOARD_REQUEST]     =3D "clipboard-request",
+> +    [VD_AGENT_CLIPBOARD_RELEASE]     =3D "clipboard-release",
+> +    [VD_AGENT_FILE_XFER_START]       =3D "file-xfer-start",
+> +    [VD_AGENT_FILE_XFER_STATUS]      =3D "file-xfer-status",
+> +    [VD_AGENT_FILE_XFER_DATA]        =3D "file-xfer-data",
+> +    [VD_AGENT_CLIENT_DISCONNECTED]   =3D "client-disconnected",
+> +    [VD_AGENT_MAX_CLIPBOARD]         =3D "max-clipboard",
+> +    [VD_AGENT_AUDIO_VOLUME_SYNC]     =3D "audio-volume-sync",
+> +#if 0
+> +    [VD_AGENT_GRAPHICS_DEVICE_INFO]  =3D "graphics-device-info",
+> +#endif
+> +};
+> +
+> +#define GET_NAME(_m, _v) \
+> +    (((_v) < ARRAY_SIZE(_m) && (_m[_v])) ? (_m[_v]) : "???")
+> +
 > +/* ------------------------------------------------------------------ */
-> +/* clipboard                                                          */
+> +/* send messages                                                      */
 > +
-> +static bool have_clipboard(VDAgentChardev *vd)
+> +static void vdagent_send_buf(VDAgentChardev *vd)
 > +{
-> +    return vd->clipboard &&
-> +        (vd->caps & (1 << VD_AGENT_CAP_CLIPBOARD_BY_DEMAND));
-> +}
+> +    uint32_t len;
 > +
-> +static bool have_selection(VDAgentChardev *vd)
-> +{
-> +    return vd->caps & (1 << VD_AGENT_CAP_CLIPBOARD_SELECTION);
-> +}
-> +
-> +static uint32_t type_qemu_to_vdagent(enum QemuClipboardType type)
-> +{
-> +    switch (type) {
-> +    case QEMU_CLIPBOARD_TYPE_TEXT:
-> +        return VD_AGENT_CLIPBOARD_UTF8_TEXT;
-> +    default:
-> +        return VD_AGENT_CLIPBOARD_NONE;
+> +    while (!buffer_empty(&vd->outbuf)) {
+> +        len =3D qemu_chr_be_can_write(CHARDEV(vd));
+> +        if (len =3D=3D 0) {
+> +            return;
+> +        }
+> +        if (len > vd->outbuf.offset) {
+> +            len =3D vd->outbuf.offset;
+> +        }
+> +        qemu_chr_be_write(CHARDEV(vd), vd->outbuf.buffer, len);
+> +        buffer_advance(&vd->outbuf, len);
 > +    }
 > +}
 > +
-> +static void vdagent_send_clipboard_grab(VDAgentChardev *vd,
-> +                                        QemuClipboardInfo *info)
+> +static void vdagent_send_msg(VDAgentChardev *vd, VDAgentMessage *msg)
 > +{
-> +    g_autofree VDAgentMessage *msg =3D
-> +        g_malloc0(sizeof(VDAgentMessage) +
-> +                  sizeof(uint32_t) * (QEMU_CLIPBOARD_TYPE__COUNT + 1));
-> +    uint8_t *s =3D msg->data;
-> +    uint32_t *data =3D (uint32_t *)msg->data;
-> +    uint32_t q, type;
+> +    uint8_t *msgbuf =3D (void *)msg;
+> +    uint32_t msgsize =3D sizeof(VDAgentMessage) + msg->size;
+> +    uint32_t msgoff =3D 0;
+> +    VDIChunkHeader chunk;
 > +
-> +    if (have_selection(vd)) {
-> +        *s =3D info->selection;
-> +        data++;
-> +        msg->size +=3D sizeof(uint32_t);
-> +    } else if (info->selection !=3D QEMU_CLIPBOARD_SELECTION_CLIPBOARD) =
-{
+> +    trace_vdagent_send(GET_NAME(msg_name, msg->type));
+> +
+> +    msg->protocol =3D VD_AGENT_PROTOCOL;
+> +
+> +    if (vd->outbuf.offset + msgsize > VDAGENT_BUFFER_LIMIT) {
+> +        error_report("buffer full, dropping message");
 > +        return;
 > +    }
 > +
-> +    for (q =3D 0; q < QEMU_CLIPBOARD_TYPE__COUNT; q++) {
-> +        type =3D type_qemu_to_vdagent(q);
-> +        if (type !=3D VD_AGENT_CLIPBOARD_NONE && info->types[q].availabl=
-e) {
-> +            *data =3D type;
-> +            data++;
-> +            msg->size +=3D sizeof(uint32_t);
+> +    while (msgoff < msgsize) {
+> +        chunk.port =3D VDP_CLIENT_PORT;
+> +        chunk.size =3D msgsize - msgoff;
+> +        if (chunk.size > 1024) {
+> +            chunk.size =3D 1024;
 > +        }
+> +        buffer_reserve(&vd->outbuf, sizeof(chunk) + chunk.size);
+> +        buffer_append(&vd->outbuf, &chunk, sizeof(chunk));
+> +        buffer_append(&vd->outbuf, msgbuf + msgoff, chunk.size);
+> +        msgoff +=3D chunk.size;
 > +    }
-> +
-> +    msg->type =3D VD_AGENT_CLIPBOARD_GRAB;
-> +    vdagent_send_msg(vd, msg);
+> +    vdagent_send_buf(vd);
 > +}
 > +
-> +static void vdagent_send_clipboard_data(VDAgentChardev *vd,
-> +                                        QemuClipboardInfo *info,
-> +                                        QemuClipboardType type)
+> +static void vdagent_send_caps(VDAgentChardev *vd)
 > +{
 > +    g_autofree VDAgentMessage *msg =3D g_malloc0(sizeof(VDAgentMessage) =
 +
-> +                                               sizeof(uint32_t) * 2 +
-> +                                               info->types[type].size);
 > +
-> +    uint8_t *s =3D msg->data;
-> +    uint32_t *data =3D (uint32_t *)msg->data;
+>  sizeof(VDAgentAnnounceCapabilities) +
+> +                                               sizeof(uint32_t));
 > +
-> +    if (have_selection(vd)) {
-> +        *s =3D info->selection;
-> +        data++;
-> +        msg->size +=3D sizeof(uint32_t);
-> +    } else if (info->selection !=3D QEMU_CLIPBOARD_SELECTION_CLIPBOARD) =
-{
-> +        return;
-> +    }
+> +    msg->type =3D VD_AGENT_ANNOUNCE_CAPABILITIES;
+> +    msg->size =3D sizeof(VDAgentAnnounceCapabilities) + sizeof(uint32_t)=
+;
 > +
-> +    *data =3D type_qemu_to_vdagent(type);
-> +    data++;
-> +    msg->size +=3D sizeof(uint32_t);
-> +
-> +    memcpy(data, info->types[type].data, info->types[type].size);
-> +    msg->size +=3D info->types[type].size;
-> +
-> +    msg->type =3D VD_AGENT_CLIPBOARD;
 > +    vdagent_send_msg(vd, msg);
 > +}
 > +
-> +static void vdagent_clipboard_notify(Notifier *notifier, void *data)
+> +/* ------------------------------------------------------------------ */
+> +/* chardev backend                                                    */
+> +
+> +static void vdagent_chr_open(Chardev *chr,
+> +                             ChardevBackend *backend,
+> +                             bool *be_opened,
+> +                             Error **errp)
 > +{
-> +    VDAgentChardev *vd =3D container_of(notifier, VDAgentChardev,
-> cbpeer.update);
-> +    QemuClipboardInfo *info =3D data;
-> +    QemuClipboardSelection s =3D info->selection;
-> +    QemuClipboardType type;
-> +    bool self_update =3D info->owner =3D=3D &vd->cbpeer;
+> +#if defined(HOST_WORDS_BIGENDIAN)
+> +    /*
+> +     * TODO: vdagent protocol is defined to be LE,
+> +     * so we have to byteswap everything on BE hosts.
+> +     */
+> +    error_setg(errp, "vdagent is not supported on bigendian hosts");
+> +    return;
+> +#endif
 > +
-> +    if (info !=3D vd->cbinfo[s]) {
-> +        qemu_clipboard_info_unref(vd->cbinfo[s]);
-> +        vd->cbinfo[s] =3D qemu_clipboard_info_ref(info);
-> +        vd->cbpending[s] =3D 0;
-> +        if (!self_update) {
-> +            vdagent_send_clipboard_grab(vd, info);
-> +        }
+> +    *be_opened =3D true;
+> +}
+> +
+> +static void vdagent_chr_recv_caps(VDAgentChardev *vd, VDAgentMessage *ms=
+g)
+> +{
+> +    VDAgentAnnounceCapabilities *caps =3D (void *)msg->data;
+> +    int i;
+> +
+> +    if (msg->size < (sizeof(VDAgentAnnounceCapabilities) +
+> +                     sizeof(uint32_t))) {
 > +        return;
 > +    }
 > +
-> +    if (self_update) {
-> +        return;
+> +    for (i =3D 0; i < ARRAY_SIZE(cap_name); i++) {
+> +        if (caps->caps[0] & (1 << i)) {
+> +            trace_vdagent_peer_cap(GET_NAME(cap_name, i));
+> +        }
 > +    }
 > +
-> +    for (type =3D 0; type < QEMU_CLIPBOARD_TYPE__COUNT; type++) {
-> +        if (vd->cbpending[s] & (1 << type)) {
-> +            vd->cbpending[s] &=3D ~(1 << type);
-> +            vdagent_send_clipboard_data(vd, info, type);
-> +        }
+> +    vd->caps =3D caps->caps[0];
+> +    if (caps->request) {
+> +        vdagent_send_caps(vd);
 > +    }
 > +}
 > +
-> +static void vdagent_clipboard_request(QemuClipboardInfo *info,
-> +                                      QemuClipboardType qtype)
+> +static void vdagent_chr_recv_msg(VDAgentChardev *vd, VDAgentMessage *msg=
+)
 > +{
-> +    VDAgentChardev *vd =3D container_of(info->owner, VDAgentChardev,
-> cbpeer);
-> +    g_autofree VDAgentMessage *msg =3D g_malloc0(sizeof(VDAgentMessage) =
-+
-> +                                               sizeof(uint32_t) * 2);
-> +    uint32_t type =3D type_qemu_to_vdagent(qtype);
-> +    uint8_t *s =3D msg->data;
-> +    uint32_t *data =3D (uint32_t *)msg->data;
-> +
-> +    if (type =3D=3D VD_AGENT_CLIPBOARD_NONE) {
-> +        return;
-> +    }
-> +
-> +    if (have_selection(vd)) {
-> +        *s =3D info->selection;
-> +        data++;
-> +        msg->size +=3D sizeof(uint32_t);
-> +    }
-> +
-> +    *data =3D type;
-> +    msg->size +=3D sizeof(uint32_t);
-> +
-> +    msg->type =3D VD_AGENT_CLIPBOARD_REQUEST;
-> +    vdagent_send_msg(vd, msg);
-> +}
-> +
-> +static void vdagent_chr_recv_clipboard(VDAgentChardev *vd, VDAgentMessag=
-e
-> *msg)
-> +{
-> +    uint8_t s =3D VD_AGENT_CLIPBOARD_SELECTION_CLIPBOARD;
-> +    uint32_t size =3D msg->size;
-> +    void *data =3D msg->data;
-> +    QemuClipboardInfo *info;
-> +    QemuClipboardType type;
-> +
-> +    if (have_selection(vd)) {
-> +        if (size < 4) {
-> +            return;
-> +        }
-> +        s =3D *(uint8_t *)data;
-> +        if (s >=3D QEMU_CLIPBOARD_SELECTION__COUNT) {
-> +            return;
-> +        }
-> +        data +=3D 4;
-> +        size -=3D 4;
-> +    }
+> +    trace_vdagent_recv_msg(GET_NAME(msg_name, msg->type), msg->size);
 > +
 > +    switch (msg->type) {
-> +    case VD_AGENT_CLIPBOARD_GRAB:
-> +        trace_vdagent_cb_grab_selection(GET_NAME(sel_name, s));
-> +        info =3D qemu_clipboard_info_new(&vd->cbpeer, s);
-> +        if (size > sizeof(uint32_t) * 10) {
-> +            /*
-> +             * spice has 6 types as of 2021. Limiting to 10 entries
-> +             * so we we have some wiggle room.
-> +             */
-> +            return;
-> +        }
-> +        while (size >=3D sizeof(uint32_t)) {
-> +            trace_vdagent_cb_grab_type(GET_NAME(type_name, *(uint32_t
-> *)data));
-> +            switch (*(uint32_t *)data) {
-> +            case VD_AGENT_CLIPBOARD_UTF8_TEXT:
-> +                info->types[QEMU_CLIPBOARD_TYPE_TEXT].available =3D true=
-;
-> +                break;
-> +            default:
-> +                break;
-> +            }
-> +            data +=3D sizeof(uint32_t);
-> +            size -=3D sizeof(uint32_t);
-> +        }
-> +        qemu_clipboard_update(info);
-> +        qemu_clipboard_info_unref(info);
+> +    case VD_AGENT_ANNOUNCE_CAPABILITIES:
+> +        vdagent_chr_recv_caps(vd, msg);
 > +        break;
-> +    case VD_AGENT_CLIPBOARD_REQUEST:
-> +        if (size < sizeof(uint32_t)) {
-> +            return;
-> +        }
-> +        switch (*(uint32_t *)data) {
-> +        case VD_AGENT_CLIPBOARD_UTF8_TEXT:
-> +            type =3D QEMU_CLIPBOARD_TYPE_TEXT;
-> +            break;
-> +        default:
-> +            return;
-> +        }
-> +        if (vd->cbinfo[s] &&
-> +            vd->cbinfo[s]->types[type].available &&
-> +            vd->cbinfo[s]->owner !=3D &vd->cbpeer) {
-> +            if (vd->cbinfo[s]->types[type].data) {
-> +                vdagent_send_clipboard_data(vd, vd->cbinfo[s], type);
-> +            } else {
-> +                vd->cbpending[s] |=3D (1 << type);
-> +                qemu_clipboard_request(vd->cbinfo[s], type);
-> +            }
-> +        }
-> +        break;
-> +    case VD_AGENT_CLIPBOARD: /* data */
-> +        if (size < sizeof(uint32_t)) {
-> +            return;
-> +        }
-> +        switch (*(uint32_t *)data) {
-> +        case VD_AGENT_CLIPBOARD_UTF8_TEXT:
-> +            type =3D QEMU_CLIPBOARD_TYPE_TEXT;
-> +            break;
-> +        default:
-> +            return;
-> +        }
-> +        data +=3D 4;
-> +        size -=3D 4;
-> +        qemu_clipboard_set_data(&vd->cbpeer, vd->cbinfo[s], type,
-> +                                size, data, true);
-> +        break;
-> +    case VD_AGENT_CLIPBOARD_RELEASE: /* data */
-> +        if (vd->cbinfo[s] &&
-> +            vd->cbinfo[s]->owner =3D=3D &vd->cbpeer) {
-> +            /* set empty clipboard info */
-> +            info =3D qemu_clipboard_info_new(NULL, s);
-> +            qemu_clipboard_update(info);
-> +            qemu_clipboard_info_unref(info);
-> +        }
+> +    default:
 > +        break;
 > +    }
 > +}
 > +
->  /* ------------------------------------------------------------------ */
->  /* chardev backend                                                    */
->
-> @@ -286,6 +554,11 @@ static void vdagent_chr_open(Chardev *chr,
->          vd->mouse =3D cfg->mouse;
->      }
->
-> +    vd->clipboard =3D VDAGENT_CLIPBOARD_DEFAULT;
-> +    if (cfg->has_clipboard) {
-> +        vd->clipboard =3D cfg->clipboard;
+> +static void vdagent_reset_xbuf(VDAgentChardev *vd)
+> +{
+> +    g_clear_pointer(&vd->xbuf, g_free);
+> +    vd->xoff =3D 0;
+> +    vd->xsize =3D 0;
+> +}
+> +
+> +static void vdagent_chr_recv_chunk(VDAgentChardev *vd)
+> +{
+> +    VDAgentMessage *msg =3D (void *)vd->msgbuf;
+> +
+> +    if (!vd->xsize) {
+> +        if (vd->msgsize < sizeof(*msg)) {
+> +            error_report("%s: message too small: %d < %zd", __func__,
+> +                         vd->msgsize, sizeof(*msg));
+> +            return;
+> +        }
+> +        if (vd->msgsize =3D=3D msg->size + sizeof(*msg)) {
+> +            vdagent_chr_recv_msg(vd, msg);
+> +            return;
+> +        }
 > +    }
 > +
->      if (vd->mouse) {
->          vd->mouse_hs =3D qemu_input_handler_register(&vd->mouse_dev,
->
-> &vdagent_mouse_handler);
-> @@ -317,6 +590,12 @@ static void vdagent_chr_recv_caps(VDAgentChardev *vd=
-,
-> VDAgentMessage *msg)
->      if (have_mouse(vd) && vd->mouse_hs) {
->          qemu_input_handler_activate(vd->mouse_hs);
->      }
-> +    if (have_clipboard(vd) && vd->cbpeer.update.notify =3D=3D NULL) {
-> +        vd->cbpeer.name =3D "vdagent";
-> +        vd->cbpeer.update.notify =3D vdagent_clipboard_notify;
-> +        vd->cbpeer.request =3D vdagent_clipboard_request;
-> +        qemu_clipboard_peer_register(&vd->cbpeer);
+> +    if (!vd->xsize) {
+> +        vd->xsize =3D msg->size + sizeof(*msg);
+> +        vd->xbuf =3D g_malloc0(vd->xsize);
 > +    }
->  }
->
->  static void vdagent_chr_recv_msg(VDAgentChardev *vd, VDAgentMessage *msg=
-)
-> @@ -327,6 +606,14 @@ static void vdagent_chr_recv_msg(VDAgentChardev *vd,
-> VDAgentMessage *msg)
->      case VD_AGENT_ANNOUNCE_CAPABILITIES:
->          vdagent_chr_recv_caps(vd, msg);
->          break;
-> +    case VD_AGENT_CLIPBOARD:
-> +    case VD_AGENT_CLIPBOARD_GRAB:
-> +    case VD_AGENT_CLIPBOARD_REQUEST:
-> +    case VD_AGENT_CLIPBOARD_RELEASE:
-> +        if (have_clipboard(vd)) {
-> +            vdagent_chr_recv_clipboard(vd, msg);
+> +
+> +    if (vd->xoff + vd->msgsize > vd->xsize) {
+> +        error_report("%s: Oops: %d+%d > %d", __func__,
+> +                     vd->xoff, vd->msgsize, vd->xsize);
+> +        vdagent_reset_xbuf(vd);
+> +        return;
+> +    }
+> +
+> +    memcpy(vd->xbuf + vd->xoff, vd->msgbuf, vd->msgsize);
+> +    vd->xoff +=3D vd->msgsize;
+> +    if (vd->xoff < vd->xsize) {
+> +        return;
+> +    }
+> +
+> +    msg =3D (void *)vd->xbuf;
+> +    vdagent_chr_recv_msg(vd, msg);
+> +    vdagent_reset_xbuf(vd);
+> +}
+> +
+> +static void vdagent_reset_bufs(VDAgentChardev *vd)
+> +{
+> +    memset(&vd->chunk, 0, sizeof(vd->chunk));
+> +    vd->chunksize =3D 0;
+> +    g_free(vd->msgbuf);
+> +    vd->msgbuf =3D NULL;
+> +    vd->msgsize =3D 0;
+> +}
+> +
+> +static int vdagent_chr_write(Chardev *chr, const uint8_t *buf, int len)
+> +{
+> +    VDAgentChardev *vd =3D QEMU_VDAGENT_CHARDEV(chr);
+> +    uint32_t copy, ret =3D len;
+> +
+> +    while (len) {
+> +        if (vd->chunksize < sizeof(vd->chunk)) {
+> +            copy =3D sizeof(vd->chunk) - vd->chunksize;
+> +            if (copy > len) {
+> +                copy =3D len;
+> +            }
+> +            memcpy((void *)(&vd->chunk) + vd->chunksize, buf, copy);
+> +            vd->chunksize +=3D copy;
+> +            buf +=3D copy;
+> +            len -=3D copy;
+> +            if (vd->chunksize < sizeof(vd->chunk)) {
+> +                break;
+> +            }
+> +
+> +            assert(vd->msgbuf =3D=3D NULL);
+> +            vd->msgbuf =3D g_malloc0(vd->chunk.size);
 > +        }
-> +        break;
->      default:
->          break;
->      }
-> @@ -448,6 +735,10 @@ static void vdagent_chr_set_fe_open(struct Chardev
-> *chr, int fe_open)
->          if (vd->mouse_hs) {
->              qemu_input_handler_deactivate(vd->mouse_hs);
->          }
-> +        if (vd->cbpeer.update.notify) {
-> +            qemu_clipboard_peer_unregister(&vd->cbpeer);
-> +            memset(&vd->cbpeer, 0, sizeof(vd->cbpeer));
+> +
+> +        copy =3D vd->chunk.size - vd->msgsize;
+> +        if (copy > len) {
+> +            copy =3D len;
 > +        }
->          return;
->      }
->
-> @@ -464,6 +755,8 @@ static void vdagent_chr_parse(QemuOpts *opts,
-> ChardevBackend *backend,
->      qemu_chr_parse_common(opts, qapi_ChardevQemuVDAgent_base(cfg));
->      cfg->has_mouse =3D true;
->      cfg->mouse =3D qemu_opt_get_bool(opts, "mouse", VDAGENT_MOUSE_DEFAUL=
-T);
-> +    cfg->has_clipboard =3D true;
-> +    cfg->clipboard =3D qemu_opt_get_bool(opts, "clipboard",
-> VDAGENT_CLIPBOARD_DEFAULT);
->  }
->
->  /* ------------------------------------------------------------------ */
+> +        memcpy(vd->msgbuf + vd->msgsize, buf, copy);
+> +        vd->msgsize +=3D copy;
+> +        buf +=3D copy;
+> +        len -=3D copy;
+> +
+> +        if (vd->msgsize =3D=3D vd->chunk.size) {
+> +            trace_vdagent_recv_chunk(vd->chunk.size);
+> +            vdagent_chr_recv_chunk(vd);
+> +            vdagent_reset_bufs(vd);
+> +        }
+> +    }
+> +
+> +    return ret;
+> +}
+> +
+> +static void vdagent_chr_accept_input(Chardev *chr)
+> +{
+> +    VDAgentChardev *vd =3D QEMU_VDAGENT_CHARDEV(chr);
+> +
+> +    vdagent_send_buf(vd);
+> +}
+> +
+> +static void vdagent_chr_set_fe_open(struct Chardev *chr, int fe_open)
+> +{
+> +    VDAgentChardev *vd =3D QEMU_VDAGENT_CHARDEV(chr);
+> +
+> +    if (!fe_open) {
+> +        trace_vdagent_close();
+> +        /* reset state */
+> +        vdagent_reset_bufs(vd);
+> +        vd->caps =3D 0;
+> +        return;
+> +    }
+> +
+> +    trace_vdagent_open();
+> +}
+> +
+> +/* ------------------------------------------------------------------ */
+> +
+> +static void vdagent_chr_class_init(ObjectClass *oc, void *data)
+> +{
+> +    ChardevClass *cc =3D CHARDEV_CLASS(oc);
+> +
+> +    cc->open             =3D vdagent_chr_open;
+> +    cc->chr_write        =3D vdagent_chr_write;
+> +    cc->chr_set_fe_open  =3D vdagent_chr_set_fe_open;
+> +    cc->chr_accept_input =3D vdagent_chr_accept_input;
+> +}
+> +
+> +static void vdagent_chr_init(Object *obj)
+> +{
+> +    VDAgentChardev *vd =3D QEMU_VDAGENT_CHARDEV(obj);
+> +
+> +    buffer_init(&vd->outbuf, "vdagent-outbuf");
+> +}
+> +
+> +static void vdagent_chr_fini(Object *obj)
+> +{
+> +    VDAgentChardev *vd =3D QEMU_VDAGENT_CHARDEV(obj);
+> +
+> +    buffer_free(&vd->outbuf);
+> +}
+> +
+> +static const TypeInfo vdagent_chr_type_info =3D {
+> +    .name =3D TYPE_CHARDEV_QEMU_VDAGENT,
+> +    .parent =3D TYPE_CHARDEV,
+> +    .instance_size =3D sizeof(VDAgentChardev),
+> +    .instance_init =3D vdagent_chr_init,
+> +    .instance_finalize =3D vdagent_chr_fini,
+> +    .class_init =3D vdagent_chr_class_init,
+> +};
+> +
+> +static void register_types(void)
+> +{
+> +    type_register_static(&vdagent_chr_type_info);
+> +}
+> +
+> +type_init(register_types);
 > diff --git a/qapi/char.json b/qapi/char.json
-> index 5711e8c60aeb..adf2685f6889 100644
+> index 6413970fa73b..990801e642bb 100644
 > --- a/qapi/char.json
 > +++ b/qapi/char.json
-> @@ -396,12 +396,14 @@
->  # Configuration info for qemu vdagent implementation.
->  #
->  # @mouse: enable/disable mouse, default is enabled.
-> +# @clipboard: enable/disable clipboard, default is disabled.
->  #
->  # Since: 6.1
->  #
->  ##
->  { 'struct': 'ChardevQemuVDAgent',
-> -  'data': { '*mouse': 'bool' },
-> +  'data': { '*mouse': 'bool',
-> +            '*clipboard': 'bool' },
->    'base': 'ChardevCommon',
->    'if': 'defined(CONFIG_SPICE_PROTOCOL)' }
+> @@ -390,12 +390,25 @@
+>    'data': { '*size': 'int' },
+>    'base': 'ChardevCommon' }
 >
+> +##
+> +# @ChardevQemuVDAgent:
+> +#
+> +# Configuration info for qemu vdagent implementation.
+> +#
+> +# Since: 6.1
+> +#
+> +##
+> +{ 'struct': 'ChardevQemuVDAgent',
+> +  'data': { },
+> +  'base': 'ChardevCommon',
+> +  'if': 'defined(CONFIG_SPICE_PROTOCOL)' }
+> +
+>  ##
+>  # @ChardevBackend:
+>  #
+>  # Configuration info for the new chardev backend.
+>  #
+> -# Since: 1.4 (testdev since 2.2, wctablet since 2.9)
+> +# Since: 1.4 (testdev since 2.2, wctablet since 2.9, vdagent since 6.1)
+>  ##
+>  { 'union': 'ChardevBackend',
+>    'data': { 'file': 'ChardevFile',
+> @@ -417,6 +430,8 @@
+>                            'if': 'defined(CONFIG_SPICE)' },
+>              'spiceport': { 'type': 'ChardevSpicePort',
+>                             'if': 'defined(CONFIG_SPICE)' },
+> +            'qemu-vdagent': { 'type': 'ChardevQemuVDAgent',
+> +                              'if': 'defined(CONFIG_SPICE_PROTOCOL)' },
+>              'vc': 'ChardevVC',
+>              'ringbuf': 'ChardevRingbuf',
+>              # next one is just for compatibility
+> diff --git a/ui/meson.build b/ui/meson.build
+> index fc4fb75c2869..bad49fb6de60 100644
+> --- a/ui/meson.build
+> +++ b/ui/meson.build
+> @@ -14,6 +14,7 @@ softmmu_ss.add(files(
+>    'qemu-pixman.c',
+>  ))
+>  softmmu_ss.add([spice_headers, files('spice-module.c')])
+> +softmmu_ss.add(when: spice_protocol, if_true: files('vdagent.c'))
+>
+>  softmmu_ss.add(when: 'CONFIG_LINUX', if_true: files('input-linux.c'))
+>  softmmu_ss.add(when: cocoa, if_true: files('cocoa.m'))
 > diff --git a/ui/trace-events b/ui/trace-events
-> index c34cffb0452b..c86542e2b69b 100644
+> index 5d1da6f23668..c34cffb0452b 100644
 > --- a/ui/trace-events
 > +++ b/ui/trace-events
-> @@ -132,3 +132,5 @@ vdagent_send(const char *name) "msg %s"
->  vdagent_recv_chunk(uint32_t size) "size %d"
->  vdagent_recv_msg(const char *name, uint32_t size) "msg %s, size %d"
->  vdagent_peer_cap(const char *name) "cap %s"
-> +vdagent_cb_grab_selection(const char *name) "selection %s"
-> +vdagent_cb_grab_type(const char *name) "type %s"
+> @@ -124,3 +124,11 @@ xkeymap_extension(const char *name) "extension '%s'"
+>  xkeymap_vendor(const char *name) "vendor '%s'"
+>  xkeymap_keycodes(const char *name) "keycodes '%s'"
+>  xkeymap_keymap(const char *name) "keymap '%s'"
+> +
+> +# vdagent.c
+> +vdagent_open(void) ""
+> +vdagent_close(void) ""
+> +vdagent_send(const char *name) "msg %s"
+> +vdagent_recv_chunk(uint32_t size) "size %d"
+> +vdagent_recv_msg(const char *name, uint32_t size) "msg %s, size %d"
+> +vdagent_peer_cap(const char *name) "cap %s"
 > --
 > 2.31.1
 >
 >
 
---00000000000031269d05c2abb68a
+--000000000000db059005c2abb6e0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -577,562 +597,597 @@ Content-Transfer-Encoding: quoted-printable
 <div dir=3D"ltr" class=3D"gmail_attr">On Wed, May 19, 2021 at 9:40 AM Gerd =
 Hoffmann &lt;<a href=3D"mailto:kraxel@redhat.com">kraxel@redhat.com</a>&gt;=
  wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
-0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">This pat=
-ch adds support for clipboard messages to the qemu vdagent<br>
-implementation, which allows the guest exchange clipboard data with<br>
-qemu.=C2=A0 Clipboard support can be enabled/disabled using the new<br>
-&#39;clipboard&#39; parameter for the vdagent chardev.=C2=A0 Default is off=
-.<br>
+0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">The vdag=
+ent protocol allows the guest agent (spice-vdagent) and the<br>
+spice client exchange messages to implement features which require<br>
+guest cooperation, for example clipboard support.<br>
+<br>
+This is a qemu implementation of the spice client side.=C2=A0 This allows<b=
+r>
+the spice guest agent talk to qemu directly when not using the spice<br>
+protocol.<br>
+<br>
+usage: qemu \<br>
+=C2=A0 -chardev qemu-vdagent,id=3Dvdagent \<br>
+=C2=A0 -device virtserialport,chardev=3Dvdagent,name=3Dcom.redhat.spice.0<b=
+r>
+<br>
+This patch adds just the protocol basics: initial handshake and<br>
+capability negotiation.=C2=A0 The following patches will add actual<br>
+functionality and also add fields to the initially empty<br>
+ChardevVDAgent qapi struct.<br>
 <br>
 Signed-off-by: Gerd Hoffmann &lt;<a href=3D"mailto:kraxel@redhat.com" targe=
-t=3D"_blank">kraxel@redhat.com</a>&gt;<br></blockquote><div><br></div><div>=
-Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@=
-redhat.com">marcandre.lureau@redhat.com</a>&gt;=C2=A0 <br></div><div><br></=
-div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bor=
-der-left:1px solid rgb(204,204,204);padding-left:1ex">
+t=3D"_blank">kraxel@redhat.com</a>&gt;<br>
+Acked-by: Markus Armbruster &lt;<a href=3D"mailto:armbru@redhat.com" target=
+=3D"_blank">armbru@redhat.com</a>&gt;<br></blockquote><div><br></div><div>R=
+eviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@r=
+edhat.com">marcandre.lureau@redhat.com</a>&gt;=C2=A0 <br></div><div><br></d=
+iv><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bord=
+er-left:1px solid rgb(204,204,204);padding-left:1ex">
 ---<br>
-=C2=A0chardev/char.c=C2=A0 |=C2=A0 =C2=A03 +<br>
-=C2=A0ui/vdagent.c=C2=A0 =C2=A0 | 293 +++++++++++++++++++++++++++++++++++++=
+=C2=A0ui/vdagent.c=C2=A0 =C2=A0 | 361 +++++++++++++++++++++++++++++++++++++=
 +++++++++++<br>
-=C2=A0qapi/char.json=C2=A0 |=C2=A0 =C2=A04 +-<br>
-=C2=A0ui/trace-events |=C2=A0 =C2=A02 +<br>
-=C2=A04 files changed, 301 insertions(+), 1 deletion(-)<br>
+=C2=A0qapi/char.json=C2=A0 |=C2=A0 17 ++-<br>
+=C2=A0ui/meson.build=C2=A0 |=C2=A0 =C2=A01 +<br>
+=C2=A0ui/trace-events |=C2=A0 =C2=A08 ++<br>
+=C2=A04 files changed, 386 insertions(+), 1 deletion(-)<br>
+=C2=A0create mode 100644 ui/vdagent.c<br>
 <br>
-diff --git a/chardev/char.c b/chardev/char.c<br>
-index 52c567e8ff00..d959eec5229c 100644<br>
---- a/chardev/char.c<br>
-+++ b/chardev/char.c<br>
-@@ -934,6 +934,9 @@ QemuOptsList qemu_chardev_opts =3D {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0},{<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0.name =3D &quot;mouse&quot;=
-,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0.type =3D QEMU_OPT_BOOL,<br=
->
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 },{<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .name =3D &quot;clipboard&quot;,=
-<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .type =3D QEMU_OPT_BOOL,<br>
-=C2=A0#ifdef CONFIG_LINUX<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0},{<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0.name =3D &quot;tight&quot;=
-,<br>
 diff --git a/ui/vdagent.c b/ui/vdagent.c<br>
-index cf81ab6beb68..a253a8fe63a6 100644<br>
---- a/ui/vdagent.c<br>
+new file mode 100644<br>
+index 000000000000..21e55a41eaba<br>
+--- /dev/null<br>
 +++ b/ui/vdagent.c<br>
-@@ -6,6 +6,7 @@<br>
-=C2=A0#include &quot;qemu/option.h&quot;<br>
-=C2=A0#include &quot;qemu/units.h&quot;<br>
-=C2=A0#include &quot;hw/qdev-core.h&quot;<br>
-+#include &quot;ui/clipboard.h&quot;<br>
-=C2=A0#include &quot;ui/console.h&quot;<br>
-=C2=A0#include &quot;ui/input.h&quot;<br>
-=C2=A0#include &quot;trace.h&quot;<br>
-@@ -17,12 +18,14 @@<br>
-<br>
-=C2=A0#define VDAGENT_BUFFER_LIMIT (1 * MiB)<br>
-=C2=A0#define VDAGENT_MOUSE_DEFAULT true<br>
-+#define VDAGENT_CLIPBOARD_DEFAULT false<br>
-<br>
-=C2=A0struct VDAgentChardev {<br>
-=C2=A0 =C2=A0 =C2=A0Chardev parent;<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0/* config */<br>
-=C2=A0 =C2=A0 =C2=A0bool mouse;<br>
-+=C2=A0 =C2=A0 bool clipboard;<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0/* guest vdagent */<br>
-=C2=A0 =C2=A0 =C2=A0uint32_t caps;<br>
-@@ -41,6 +44,11 @@ struct VDAgentChardev {<br>
-=C2=A0 =C2=A0 =C2=A0uint32_t mouse_btn;<br>
-=C2=A0 =C2=A0 =C2=A0uint32_t mouse_display;<br>
-=C2=A0 =C2=A0 =C2=A0QemuInputHandlerState *mouse_hs;<br>
+@@ -0,0 +1,361 @@<br>
++#include &quot;qemu/osdep.h&quot;<br>
++#include &quot;qapi/error.h&quot;<br>
++#include &quot;include/qemu-common.h&quot;<br>
++#include &quot;chardev/char.h&quot;<br>
++#include &quot;qemu/buffer.h&quot;<br>
++#include &quot;qemu/units.h&quot;<br>
++#include &quot;trace.h&quot;<br>
 +<br>
-+=C2=A0 =C2=A0 /* clipboard */<br>
-+=C2=A0 =C2=A0 QemuClipboardPeer cbpeer;<br>
-+=C2=A0 =C2=A0 QemuClipboardInfo *cbinfo[QEMU_CLIPBOARD_SELECTION__COUNT];<=
-br>
-+=C2=A0 =C2=A0 uint32_t cbpending[QEMU_CLIPBOARD_SELECTION__COUNT];<br>
-=C2=A0};<br>
-=C2=A0typedef struct VDAgentChardev VDAgentChardev;<br>
-<br>
-@@ -96,6 +104,24 @@ static const char *msg_name[] =3D {<br>
-=C2=A0#endif<br>
-=C2=A0};<br>
-<br>
-+static const char *sel_name[] =3D {<br>
-+=C2=A0 =C2=A0 [VD_AGENT_CLIPBOARD_SELECTION_CLIPBOARD] =3D &quot;clipboard=
-&quot;,<br>
-+=C2=A0 =C2=A0 [VD_AGENT_CLIPBOARD_SELECTION_PRIMARY]=C2=A0 =C2=A0=3D &quot=
-;primary&quot;,<br>
-+=C2=A0 =C2=A0 [VD_AGENT_CLIPBOARD_SELECTION_SECONDARY] =3D &quot;secondary=
-&quot;,<br>
++#include &quot;qapi/qapi-types-char.h&quot;<br>
++<br>
++#include &quot;spice/vd_agent.h&quot;<br>
++<br>
++#define VDAGENT_BUFFER_LIMIT (1 * MiB)<br>
++<br>
++struct VDAgentChardev {<br>
++=C2=A0 =C2=A0 Chardev parent;<br>
++<br>
++=C2=A0 =C2=A0 /* guest vdagent */<br>
++=C2=A0 =C2=A0 uint32_t caps;<br>
++=C2=A0 =C2=A0 VDIChunkHeader chunk;<br>
++=C2=A0 =C2=A0 uint32_t chunksize;<br>
++=C2=A0 =C2=A0 uint8_t *msgbuf;<br>
++=C2=A0 =C2=A0 uint32_t msgsize;<br>
++=C2=A0 =C2=A0 uint8_t *xbuf;<br>
++=C2=A0 =C2=A0 uint32_t xoff, xsize;<br>
++=C2=A0 =C2=A0 Buffer outbuf;<br>
 +};<br>
++typedef struct VDAgentChardev VDAgentChardev;<br>
 +<br>
-+static const char *type_name[] =3D {<br>
-+=C2=A0 =C2=A0 [VD_AGENT_CLIPBOARD_NONE]=C2=A0 =C2=A0 =C2=A0 =C2=A0=3D &quo=
-t;none&quot;,<br>
-+=C2=A0 =C2=A0 [VD_AGENT_CLIPBOARD_UTF8_TEXT]=C2=A0 =3D &quot;text&quot;,<b=
++#define TYPE_CHARDEV_QEMU_VDAGENT &quot;chardev-qemu-vdagent&quot;<br>
++<br>
++DECLARE_INSTANCE_CHECKER(VDAgentChardev, QEMU_VDAGENT_CHARDEV,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0TYPE_CHARDEV_QEMU_VDAGENT);<br>
++<br>
++/* ------------------------------------------------------------------ */<b=
 r>
-+=C2=A0 =C2=A0 [VD_AGENT_CLIPBOARD_IMAGE_PNG]=C2=A0 =3D &quot;png&quot;,<br=
->
-+=C2=A0 =C2=A0 [VD_AGENT_CLIPBOARD_IMAGE_BMP]=C2=A0 =3D &quot;bmp&quot;,<br=
->
-+=C2=A0 =C2=A0 [VD_AGENT_CLIPBOARD_IMAGE_TIFF] =3D &quot;tiff&quot;,<br>
-+=C2=A0 =C2=A0 [VD_AGENT_CLIPBOARD_IMAGE_JPG]=C2=A0 =3D &quot;jpg&quot;,<br=
->
++/* names, for debug logging=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*/<br>
++<br>
++static const char *cap_name[] =3D {<br>
++=C2=A0 =C2=A0 [VD_AGENT_CAP_MOUSE_STATE]=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D &quot;mouse-state&quot;,<br>
++=C2=A0 =C2=A0 [VD_AGENT_CAP_MONITORS_CONFIG]=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D &quot;monitors-config&quot;,<br>
++=C2=A0 =C2=A0 [VD_AGENT_CAP_REPLY]=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D &quot;reply&quot;,=
+<br>
++=C2=A0 =C2=A0 [VD_AGENT_CAP_CLIPBOARD]=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D &quot;clipboard&quot;,<br>
++=C2=A0 =C2=A0 [VD_AGENT_CAP_DISPLAY_CONFIG]=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D &quot;display-config&quot;,<br>
++=C2=A0 =C2=A0 [VD_AGENT_CAP_CLIPBOARD_BY_DEMAND]=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =3D &quot;clipboard-by-demand&quot;,<br>
++=C2=A0 =C2=A0 [VD_AGENT_CAP_CLIPBOARD_SELECTION]=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =3D &quot;clipboard-selection&quot;,<br>
++=C2=A0 =C2=A0 [VD_AGENT_CAP_SPARSE_MONITORS_CONFIG]=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0=3D &quot;sparse-monitors-config&quot;,<br>
++=C2=A0 =C2=A0 [VD_AGENT_CAP_GUEST_LINEEND_LF]=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0=3D &quot;guest-lineend-lf&quot;,<br>
++=C2=A0 =C2=A0 [VD_AGENT_CAP_GUEST_LINEEND_CRLF]=C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0=3D &quot;guest-lineend-crlf&quot;,<br>
++=C2=A0 =C2=A0 [VD_AGENT_CAP_MAX_CLIPBOARD]=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D &quot;max-clipboard&quot;,<br>
++=C2=A0 =C2=A0 [VD_AGENT_CAP_AUDIO_VOLUME_SYNC]=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =3D &quot;audio-volume-sync&quot;,<br>
++=C2=A0 =C2=A0 [VD_AGENT_CAP_MONITORS_CONFIG_POSITION]=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0=3D &quot;monitors-config-position&quot;,<br>
++=C2=A0 =C2=A0 [VD_AGENT_CAP_FILE_XFER_DISABLED]=C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0=3D &quot;file-xfer-disabled&quot;,<br>
++=C2=A0 =C2=A0 [VD_AGENT_CAP_FILE_XFER_DETAILED_ERRORS]=C2=A0 =C2=A0 =C2=A0=
+ =3D &quot;file-xfer-detailed-errors&quot;,<br>
 +#if 0<br>
-+=C2=A0 =C2=A0 [VD_AGENT_CLIPBOARD_FILE_LIST]=C2=A0 =3D &quot;files&quot;,<=
-br>
++=C2=A0 =C2=A0 [VD_AGENT_CAP_GRAPHICS_DEVICE_INFO]=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0=3D &quot;graphics-device-info&quot;,<br>
++=C2=A0 =C2=A0 [VD_AGENT_CAP_CLIPBOARD_NO_RELEASE_ON_REGRAB] =3D &quot;clip=
+board-no-release-on-regrab&quot;,<br>
++=C2=A0 =C2=A0 [VD_AGENT_CAP_CLIPBOARD_GRAB_SERIAL]=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =3D &quot;clipboard-grab-serial&quot;,<br>
 +#endif<br>
 +};<br>
 +<br>
-=C2=A0#define GET_NAME(_m, _v) \<br>
-=C2=A0 =C2=A0 =C2=A0(((_v) &lt; ARRAY_SIZE(_m) &amp;&amp; (_m[_v])) ? (_m[_=
-v]) : &quot;???&quot;)<br>
-<br>
-@@ -161,6 +187,10 @@ static void vdagent_send_caps(VDAgentChardev *vd)<br>
-=C2=A0 =C2=A0 =C2=A0if (vd-&gt;mouse) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0caps-&gt;caps[0] |=3D (1 &lt;&lt; VD_AGEN=
-T_CAP_MOUSE_STATE);<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-+=C2=A0 =C2=A0 if (vd-&gt;clipboard) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 caps-&gt;caps[0] |=3D (1 &lt;&lt; VD_AGENT_CAP=
-_CLIPBOARD_BY_DEMAND);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 caps-&gt;caps[0] |=3D (1 &lt;&lt; VD_AGENT_CAP=
-_CLIPBOARD_SELECTION);<br>
-+=C2=A0 =C2=A0 }<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0vdagent_send_msg(vd, msg);<br>
-=C2=A0}<br>
-@@ -261,6 +291,244 @@ static QemuInputHandler vdagent_mouse_handler =3D {<b=
-r>
-=C2=A0 =C2=A0 =C2=A0.sync=C2=A0 =3D vdagent_pointer_sync,<br>
-=C2=A0};<br>
-<br>
++static const char *msg_name[] =3D {<br>
++=C2=A0 =C2=A0 [VD_AGENT_MOUSE_STATE]=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0=3D &quot;mouse-state&quot;,<br>
++=C2=A0 =C2=A0 [VD_AGENT_MONITORS_CONFIG]=C2=A0 =C2=A0 =C2=A0 =C2=A0=3D &qu=
+ot;monitors-config&quot;,<br>
++=C2=A0 =C2=A0 [VD_AGENT_REPLY]=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0=3D &quot;reply&quot;,<br>
++=C2=A0 =C2=A0 [VD_AGENT_CLIPBOARD]=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0=3D &quot;clipboard&quot;,<br>
++=C2=A0 =C2=A0 [VD_AGENT_DISPLAY_CONFIG]=C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D &qu=
+ot;display-config&quot;,<br>
++=C2=A0 =C2=A0 [VD_AGENT_ANNOUNCE_CAPABILITIES] =3D &quot;announce-capabili=
+ties&quot;,<br>
++=C2=A0 =C2=A0 [VD_AGENT_CLIPBOARD_GRAB]=C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D &qu=
+ot;clipboard-grab&quot;,<br>
++=C2=A0 =C2=A0 [VD_AGENT_CLIPBOARD_REQUEST]=C2=A0 =C2=A0 =C2=A0=3D &quot;cl=
+ipboard-request&quot;,<br>
++=C2=A0 =C2=A0 [VD_AGENT_CLIPBOARD_RELEASE]=C2=A0 =C2=A0 =C2=A0=3D &quot;cl=
+ipboard-release&quot;,<br>
++=C2=A0 =C2=A0 [VD_AGENT_FILE_XFER_START]=C2=A0 =C2=A0 =C2=A0 =C2=A0=3D &qu=
+ot;file-xfer-start&quot;,<br>
++=C2=A0 =C2=A0 [VD_AGENT_FILE_XFER_STATUS]=C2=A0 =C2=A0 =C2=A0 =3D &quot;fi=
+le-xfer-status&quot;,<br>
++=C2=A0 =C2=A0 [VD_AGENT_FILE_XFER_DATA]=C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D &qu=
+ot;file-xfer-data&quot;,<br>
++=C2=A0 =C2=A0 [VD_AGENT_CLIENT_DISCONNECTED]=C2=A0 =C2=A0=3D &quot;client-=
+disconnected&quot;,<br>
++=C2=A0 =C2=A0 [VD_AGENT_MAX_CLIPBOARD]=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+=3D &quot;max-clipboard&quot;,<br>
++=C2=A0 =C2=A0 [VD_AGENT_AUDIO_VOLUME_SYNC]=C2=A0 =C2=A0 =C2=A0=3D &quot;au=
+dio-volume-sync&quot;,<br>
++#if 0<br>
++=C2=A0 =C2=A0 [VD_AGENT_GRAPHICS_DEVICE_INFO]=C2=A0 =3D &quot;graphics-dev=
+ice-info&quot;,<br>
++#endif<br>
++};<br>
++<br>
++#define GET_NAME(_m, _v) \<br>
++=C2=A0 =C2=A0 (((_v) &lt; ARRAY_SIZE(_m) &amp;&amp; (_m[_v])) ? (_m[_v]) :=
+ &quot;???&quot;)<br>
++<br>
 +/* ------------------------------------------------------------------ */<b=
 r>
-+/* clipboard=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
-+<br>
-+static bool have_clipboard(VDAgentChardev *vd)<br>
-+{<br>
-+=C2=A0 =C2=A0 return vd-&gt;clipboard &amp;&amp;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 (vd-&gt;caps &amp; (1 &lt;&lt; VD_AGENT_CAP_CL=
-IPBOARD_BY_DEMAND));<br>
-+}<br>
-+<br>
-+static bool have_selection(VDAgentChardev *vd)<br>
-+{<br>
-+=C2=A0 =C2=A0 return vd-&gt;caps &amp; (1 &lt;&lt; VD_AGENT_CAP_CLIPBOARD_=
-SELECTION);<br>
-+}<br>
-+<br>
-+static uint32_t type_qemu_to_vdagent(enum QemuClipboardType type)<br>
-+{<br>
-+=C2=A0 =C2=A0 switch (type) {<br>
-+=C2=A0 =C2=A0 case QEMU_CLIPBOARD_TYPE_TEXT:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return VD_AGENT_CLIPBOARD_UTF8_TEXT;<br>
-+=C2=A0 =C2=A0 default:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return VD_AGENT_CLIPBOARD_NONE;<br>
-+=C2=A0 =C2=A0 }<br>
-+}<br>
-+<br>
-+static void vdagent_send_clipboard_grab(VDAgentChardev *vd,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 QemuClip=
-boardInfo *info)<br>
-+{<br>
-+=C2=A0 =C2=A0 g_autofree VDAgentMessage *msg =3D<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 g_malloc0(sizeof(VDAgentMessage) +<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 sizeof(uint=
-32_t) * (QEMU_CLIPBOARD_TYPE__COUNT + 1));<br>
-+=C2=A0 =C2=A0 uint8_t *s =3D msg-&gt;data;<br>
-+=C2=A0 =C2=A0 uint32_t *data =3D (uint32_t *)msg-&gt;data;<br>
-+=C2=A0 =C2=A0 uint32_t q, type;<br>
-+<br>
-+=C2=A0 =C2=A0 if (have_selection(vd)) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 *s =3D info-&gt;selection;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 data++;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 msg-&gt;size +=3D sizeof(uint32_t);<br>
-+=C2=A0 =C2=A0 } else if (info-&gt;selection !=3D QEMU_CLIPBOARD_SELECTION_=
-CLIPBOARD) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 for (q =3D 0; q &lt; QEMU_CLIPBOARD_TYPE__COUNT; q++) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 type =3D type_qemu_to_vdagent(q);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (type !=3D VD_AGENT_CLIPBOARD_NONE &amp;&am=
-p; info-&gt;types[q].available) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 *data =3D type;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 data++;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 msg-&gt;size +=3D sizeof(uint32_=
-t);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 msg-&gt;type =3D VD_AGENT_CLIPBOARD_GRAB;<br>
-+=C2=A0 =C2=A0 vdagent_send_msg(vd, msg);<br>
-+}<br>
-+<br>
-+static void vdagent_send_clipboard_data(VDAgentChardev *vd,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 QemuClip=
-boardInfo *info,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 QemuClip=
-boardType type)<br>
-+{<br>
-+=C2=A0 =C2=A0 g_autofree VDAgentMessage *msg =3D g_malloc0(sizeof(VDAgentM=
-essage) +<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0sizeof(uint32_t) * 2 +<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0info-&gt;types[type].size);<br>
-+<br>
-+=C2=A0 =C2=A0 uint8_t *s =3D msg-&gt;data;<br>
-+=C2=A0 =C2=A0 uint32_t *data =3D (uint32_t *)msg-&gt;data;<br>
-+<br>
-+=C2=A0 =C2=A0 if (have_selection(vd)) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 *s =3D info-&gt;selection;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 data++;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 msg-&gt;size +=3D sizeof(uint32_t);<br>
-+=C2=A0 =C2=A0 } else if (info-&gt;selection !=3D QEMU_CLIPBOARD_SELECTION_=
-CLIPBOARD) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 *data =3D type_qemu_to_vdagent(type);<br>
-+=C2=A0 =C2=A0 data++;<br>
-+=C2=A0 =C2=A0 msg-&gt;size +=3D sizeof(uint32_t);<br>
-+<br>
-+=C2=A0 =C2=A0 memcpy(data, info-&gt;types[type].data, info-&gt;types[type]=
-.size);<br>
-+=C2=A0 =C2=A0 msg-&gt;size +=3D info-&gt;types[type].size;<br>
-+<br>
-+=C2=A0 =C2=A0 msg-&gt;type =3D VD_AGENT_CLIPBOARD;<br>
-+=C2=A0 =C2=A0 vdagent_send_msg(vd, msg);<br>
-+}<br>
-+<br>
-+static void vdagent_clipboard_notify(Notifier *notifier, void *data)<br>
-+{<br>
-+=C2=A0 =C2=A0 VDAgentChardev *vd =3D container_of(notifier, VDAgentChardev=
-, cbpeer.update);<br>
-+=C2=A0 =C2=A0 QemuClipboardInfo *info =3D data;<br>
-+=C2=A0 =C2=A0 QemuClipboardSelection s =3D info-&gt;selection;<br>
-+=C2=A0 =C2=A0 QemuClipboardType type;<br>
-+=C2=A0 =C2=A0 bool self_update =3D info-&gt;owner =3D=3D &amp;vd-&gt;cbpee=
-r;<br>
-+<br>
-+=C2=A0 =C2=A0 if (info !=3D vd-&gt;cbinfo[s]) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_clipboard_info_unref(vd-&gt;cbinfo[s]);<b=
-r>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 vd-&gt;cbinfo[s] =3D qemu_clipboard_info_ref(i=
-nfo);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 vd-&gt;cbpending[s] =3D 0;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!self_update) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 vdagent_send_clipboard_grab(vd, =
-info);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 if (self_update) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 for (type =3D 0; type &lt; QEMU_CLIPBOARD_TYPE__COUNT; type+=
-+) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (vd-&gt;cbpending[s] &amp; (1 &lt;&lt; type=
-)) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 vd-&gt;cbpending[s] &amp;=3D ~(1=
- &lt;&lt; type);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 vdagent_send_clipboard_data(vd, =
-info, type);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 }<br>
-+}<br>
-+<br>
-+static void vdagent_clipboard_request(QemuClipboardInfo *info,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 QemuClipboardTy=
-pe qtype)<br>
-+{<br>
-+=C2=A0 =C2=A0 VDAgentChardev *vd =3D container_of(info-&gt;owner, VDAgentC=
-hardev, cbpeer);<br>
-+=C2=A0 =C2=A0 g_autofree VDAgentMessage *msg =3D g_malloc0(sizeof(VDAgentM=
-essage) +<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0sizeof(uint32_t) * 2);<br>
-+=C2=A0 =C2=A0 uint32_t type =3D type_qemu_to_vdagent(qtype);<br>
-+=C2=A0 =C2=A0 uint8_t *s =3D msg-&gt;data;<br>
-+=C2=A0 =C2=A0 uint32_t *data =3D (uint32_t *)msg-&gt;data;<br>
-+<br>
-+=C2=A0 =C2=A0 if (type =3D=3D VD_AGENT_CLIPBOARD_NONE) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 if (have_selection(vd)) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 *s =3D info-&gt;selection;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 data++;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 msg-&gt;size +=3D sizeof(uint32_t);<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 *data =3D type;<br>
-+=C2=A0 =C2=A0 msg-&gt;size +=3D sizeof(uint32_t);<br>
-+<br>
-+=C2=A0 =C2=A0 msg-&gt;type =3D VD_AGENT_CLIPBOARD_REQUEST;<br>
-+=C2=A0 =C2=A0 vdagent_send_msg(vd, msg);<br>
-+}<br>
-+<br>
-+static void vdagent_chr_recv_clipboard(VDAgentChardev *vd, VDAgentMessage =
-*msg)<br>
-+{<br>
-+=C2=A0 =C2=A0 uint8_t s =3D VD_AGENT_CLIPBOARD_SELECTION_CLIPBOARD;<br>
-+=C2=A0 =C2=A0 uint32_t size =3D msg-&gt;size;<br>
-+=C2=A0 =C2=A0 void *data =3D msg-&gt;data;<br>
-+=C2=A0 =C2=A0 QemuClipboardInfo *info;<br>
-+=C2=A0 =C2=A0 QemuClipboardType type;<br>
-+<br>
-+=C2=A0 =C2=A0 if (have_selection(vd)) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (size &lt; 4) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 s =3D *(uint8_t *)data;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (s &gt;=3D QEMU_CLIPBOARD_SELECTION__COUNT)=
- {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 data +=3D 4;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 size -=3D 4;<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 switch (msg-&gt;type) {<br>
-+=C2=A0 =C2=A0 case VD_AGENT_CLIPBOARD_GRAB:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 trace_vdagent_cb_grab_selection(GET_NAME(sel_n=
-ame, s));<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 info =3D qemu_clipboard_info_new(&amp;vd-&gt;c=
-bpeer, s);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (size &gt; sizeof(uint32_t) * 10) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /*<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* spice has 6 types as of =
-2021. Limiting to 10 entries<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* so we we have some wiggl=
-e room.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*/<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 while (size &gt;=3D sizeof(uint32_t)) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 trace_vdagent_cb_grab_type(GET_N=
-AME(type_name, *(uint32_t *)data));<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 switch (*(uint32_t *)data) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 case VD_AGENT_CLIPBOARD_UTF8_TEX=
-T:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 info-&gt;types[QEM=
-U_CLIPBOARD_TYPE_TEXT].available =3D true;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 default:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 data +=3D sizeof(uint32_t);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 size -=3D sizeof(uint32_t);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_clipboard_update(info);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_clipboard_info_unref(info);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-+=C2=A0 =C2=A0 case VD_AGENT_CLIPBOARD_REQUEST:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (size &lt; sizeof(uint32_t)) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 switch (*(uint32_t *)data) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 case VD_AGENT_CLIPBOARD_UTF8_TEXT:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 type =3D QEMU_CLIPBOARD_TYPE_TEX=
-T;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 default:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (vd-&gt;cbinfo[s] &amp;&amp;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 vd-&gt;cbinfo[s]-&gt;types[type]=
-.available &amp;&amp;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 vd-&gt;cbinfo[s]-&gt;owner !=3D =
-&amp;vd-&gt;cbpeer) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (vd-&gt;cbinfo[s]-&gt;types[t=
-ype].data) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 vdagent_send_clipb=
-oard_data(vd, vd-&gt;cbinfo[s], type);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 } else {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 vd-&gt;cbpending[s=
-] |=3D (1 &lt;&lt; type);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_clipboard_req=
-uest(vd-&gt;cbinfo[s], type);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-+=C2=A0 =C2=A0 case VD_AGENT_CLIPBOARD: /* data */<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (size &lt; sizeof(uint32_t)) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 switch (*(uint32_t *)data) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 case VD_AGENT_CLIPBOARD_UTF8_TEXT:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 type =3D QEMU_CLIPBOARD_TYPE_TEX=
-T;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 default:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 data +=3D 4;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 size -=3D 4;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_clipboard_set_data(&amp;vd-&gt;cbpeer, vd=
--&gt;cbinfo[s], type,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 size, data, true);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-+=C2=A0 =C2=A0 case VD_AGENT_CLIPBOARD_RELEASE: /* data */<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (vd-&gt;cbinfo[s] &amp;&amp;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 vd-&gt;cbinfo[s]-&gt;owner =3D=
-=3D &amp;vd-&gt;cbpeer) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* set empty clipboard info */<b=
-r>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 info =3D qemu_clipboard_info_new=
-(NULL, s);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_clipboard_update(info);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_clipboard_info_unref(info);=
-<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-+=C2=A0 =C2=A0 }<br>
-+}<br>
-+<br>
-=C2=A0/* ------------------------------------------------------------------=
- */<br>
-=C2=A0/* chardev backend=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
++/* send messages=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
 =A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
-<br>
-@@ -286,6 +554,11 @@ static void vdagent_chr_open(Chardev *chr,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0vd-&gt;mouse =3D cfg-&gt;mouse;<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-<br>
-+=C2=A0 =C2=A0 vd-&gt;clipboard =3D VDAGENT_CLIPBOARD_DEFAULT;<br>
-+=C2=A0 =C2=A0 if (cfg-&gt;has_clipboard) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 vd-&gt;clipboard =3D cfg-&gt;clipboard;<br>
++<br>
++static void vdagent_send_buf(VDAgentChardev *vd)<br>
++{<br>
++=C2=A0 =C2=A0 uint32_t len;<br>
++<br>
++=C2=A0 =C2=A0 while (!buffer_empty(&amp;vd-&gt;outbuf)) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 len =3D qemu_chr_be_can_write(CHARDEV(vd));<br=
+>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (len =3D=3D 0) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (len &gt; vd-&gt;outbuf.offset) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 len =3D vd-&gt;outbuf.offset;<br=
+>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_chr_be_write(CHARDEV(vd), vd-&gt;outbuf.b=
+uffer, len);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 buffer_advance(&amp;vd-&gt;outbuf, len);<br>
++=C2=A0 =C2=A0 }<br>
++}<br>
++<br>
++static void vdagent_send_msg(VDAgentChardev *vd, VDAgentMessage *msg)<br>
++{<br>
++=C2=A0 =C2=A0 uint8_t *msgbuf =3D (void *)msg;<br>
++=C2=A0 =C2=A0 uint32_t msgsize =3D sizeof(VDAgentMessage) + msg-&gt;size;<=
+br>
++=C2=A0 =C2=A0 uint32_t msgoff =3D 0;<br>
++=C2=A0 =C2=A0 VDIChunkHeader chunk;<br>
++<br>
++=C2=A0 =C2=A0 trace_vdagent_send(GET_NAME(msg_name, msg-&gt;type));<br>
++<br>
++=C2=A0 =C2=A0 msg-&gt;protocol =3D VD_AGENT_PROTOCOL;<br>
++<br>
++=C2=A0 =C2=A0 if (vd-&gt;outbuf.offset + msgsize &gt; VDAGENT_BUFFER_LIMIT=
+) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_report(&quot;buffer full, dropping messa=
+ge&quot;);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
 +=C2=A0 =C2=A0 }<br>
 +<br>
-=C2=A0 =C2=A0 =C2=A0if (vd-&gt;mouse) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0vd-&gt;mouse_hs =3D qemu_input_handler_re=
-gister(&amp;vd-&gt;mouse_dev,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &amp;vdagent_mouse_handler);<br>
-@@ -317,6 +590,12 @@ static void vdagent_chr_recv_caps(VDAgentChardev *vd, =
-VDAgentMessage *msg)<br>
-=C2=A0 =C2=A0 =C2=A0if (have_mouse(vd) &amp;&amp; vd-&gt;mouse_hs) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qemu_input_handler_activate(vd-&gt;mouse_=
-hs);<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-+=C2=A0 =C2=A0 if (have_clipboard(vd) &amp;&amp; vd-&gt;cbpeer.update.notif=
-y =3D=3D NULL) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 vd-&gt;<a href=3D"http://cbpeer.name" rel=3D"n=
-oreferrer" target=3D"_blank">cbpeer.name</a> =3D &quot;vdagent&quot;;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 vd-&gt;cbpeer.update.notify =3D vdagent_clipbo=
-ard_notify;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 vd-&gt;cbpeer.request =3D vdagent_clipboard_re=
-quest;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_clipboard_peer_register(&amp;vd-&gt;cbpee=
-r);<br>
++=C2=A0 =C2=A0 while (msgoff &lt; msgsize) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 chunk.port =3D VDP_CLIENT_PORT;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 chunk.size =3D msgsize - msgoff;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (chunk.size &gt; 1024) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 chunk.size =3D 1024;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 buffer_reserve(&amp;vd-&gt;outbuf, sizeof(chun=
+k) + chunk.size);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 buffer_append(&amp;vd-&gt;outbuf, &amp;chunk, =
+sizeof(chunk));<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 buffer_append(&amp;vd-&gt;outbuf, msgbuf + msg=
+off, chunk.size);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 msgoff +=3D chunk.size;<br>
 +=C2=A0 =C2=A0 }<br>
-=C2=A0}<br>
++=C2=A0 =C2=A0 vdagent_send_buf(vd);<br>
++}<br>
++<br>
++static void vdagent_send_caps(VDAgentChardev *vd)<br>
++{<br>
++=C2=A0 =C2=A0 g_autofree VDAgentMessage *msg =3D g_malloc0(sizeof(VDAgentM=
+essage) +<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0sizeof(VDAgentAnnounceCapabilities) +<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0sizeof(uint32_t));<br>
++<br>
++=C2=A0 =C2=A0 msg-&gt;type =3D VD_AGENT_ANNOUNCE_CAPABILITIES;<br>
++=C2=A0 =C2=A0 msg-&gt;size =3D sizeof(VDAgentAnnounceCapabilities) + sizeo=
+f(uint32_t);<br>
++<br>
++=C2=A0 =C2=A0 vdagent_send_msg(vd, msg);<br>
++}<br>
++<br>
++/* ------------------------------------------------------------------ */<b=
+r>
++/* chardev backend=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
++<br>
++static void vdagent_chr_open(Chardev *chr,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ChardevBackend *backend,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bool *be_opened,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Error **errp)<br>
++{<br>
++#if defined(HOST_WORDS_BIGENDIAN)<br>
++=C2=A0 =C2=A0 /*<br>
++=C2=A0 =C2=A0 =C2=A0* TODO: vdagent protocol is defined to be LE,<br>
++=C2=A0 =C2=A0 =C2=A0* so we have to byteswap everything on BE hosts.<br>
++=C2=A0 =C2=A0 =C2=A0*/<br>
++=C2=A0 =C2=A0 error_setg(errp, &quot;vdagent is not supported on bigendian=
+ hosts&quot;);<br>
++=C2=A0 =C2=A0 return;<br>
++#endif<br>
++<br>
++=C2=A0 =C2=A0 *be_opened =3D true;<br>
++}<br>
++<br>
++static void vdagent_chr_recv_caps(VDAgentChardev *vd, VDAgentMessage *msg)=
 <br>
-=C2=A0static void vdagent_chr_recv_msg(VDAgentChardev *vd, VDAgentMessage *=
-msg)<br>
-@@ -327,6 +606,14 @@ static void vdagent_chr_recv_msg(VDAgentChardev *vd, V=
-DAgentMessage *msg)<br>
-=C2=A0 =C2=A0 =C2=A0case VD_AGENT_ANNOUNCE_CAPABILITIES:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0vdagent_chr_recv_caps(vd, msg);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
-+=C2=A0 =C2=A0 case VD_AGENT_CLIPBOARD:<br>
-+=C2=A0 =C2=A0 case VD_AGENT_CLIPBOARD_GRAB:<br>
-+=C2=A0 =C2=A0 case VD_AGENT_CLIPBOARD_REQUEST:<br>
-+=C2=A0 =C2=A0 case VD_AGENT_CLIPBOARD_RELEASE:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (have_clipboard(vd)) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 vdagent_chr_recv_clipboard(vd, m=
-sg);<br>
++{<br>
++=C2=A0 =C2=A0 VDAgentAnnounceCapabilities *caps =3D (void *)msg-&gt;data;<=
+br>
++=C2=A0 =C2=A0 int i;<br>
++<br>
++=C2=A0 =C2=A0 if (msg-&gt;size &lt; (sizeof(VDAgentAnnounceCapabilities) +=
+<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0sizeof(uint32_t))) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
++=C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 for (i =3D 0; i &lt; ARRAY_SIZE(cap_name); i++) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (caps-&gt;caps[0] &amp; (1 &lt;&lt; i)) {<b=
+r>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 trace_vdagent_peer_cap(GET_NAME(=
+cap_name, i));<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 vd-&gt;caps =3D caps-&gt;caps[0];<br>
++=C2=A0 =C2=A0 if (caps-&gt;request) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 vdagent_send_caps(vd);<br>
++=C2=A0 =C2=A0 }<br>
++}<br>
++<br>
++static void vdagent_chr_recv_msg(VDAgentChardev *vd, VDAgentMessage *msg)<=
+br>
++{<br>
++=C2=A0 =C2=A0 trace_vdagent_recv_msg(GET_NAME(msg_name, msg-&gt;type), msg=
+-&gt;size);<br>
++<br>
++=C2=A0 =C2=A0 switch (msg-&gt;type) {<br>
++=C2=A0 =C2=A0 case VD_AGENT_ANNOUNCE_CAPABILITIES:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 vdagent_chr_recv_caps(vd, msg);<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-=C2=A0 =C2=A0 =C2=A0default:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-@@ -448,6 +735,10 @@ static void vdagent_chr_set_fe_open(struct Chardev *ch=
-r, int fe_open)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (vd-&gt;mouse_hs) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qemu_input_handler_deactiva=
-te(vd-&gt;mouse_hs);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (vd-&gt;cbpeer.update.notify) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_clipboard_peer_unregister(&=
-amp;vd-&gt;cbpeer);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 memset(&amp;vd-&gt;cbpeer, 0, si=
-zeof(vd-&gt;cbpeer));<br>
++=C2=A0 =C2=A0 default:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
++=C2=A0 =C2=A0 }<br>
++}<br>
++<br>
++static void vdagent_reset_xbuf(VDAgentChardev *vd)<br>
++{<br>
++=C2=A0 =C2=A0 g_clear_pointer(&amp;vd-&gt;xbuf, g_free);<br>
++=C2=A0 =C2=A0 vd-&gt;xoff =3D 0;<br>
++=C2=A0 =C2=A0 vd-&gt;xsize =3D 0;<br>
++}<br>
++<br>
++static void vdagent_chr_recv_chunk(VDAgentChardev *vd)<br>
++{<br>
++=C2=A0 =C2=A0 VDAgentMessage *msg =3D (void *)vd-&gt;msgbuf;<br>
++<br>
++=C2=A0 =C2=A0 if (!vd-&gt;xsize) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (vd-&gt;msgsize &lt; sizeof(*msg)) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 error_report(&quot;%s: message t=
+oo small: %d &lt; %zd&quot;, __func__,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0vd-&gt;msgsize, sizeof(*msg));<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return;<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (vd-&gt;msgsize =3D=3D msg-&gt;size + sizeo=
+f(*msg)) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 vdagent_chr_recv_msg(vd, msg);<b=
+r>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 if (!vd-&gt;xsize) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 vd-&gt;xsize =3D msg-&gt;size + sizeof(*msg);<=
+br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 vd-&gt;xbuf =3D g_malloc0(vd-&gt;xsize);<br>
++=C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 if (vd-&gt;xoff + vd-&gt;msgsize &gt; vd-&gt;xsize) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_report(&quot;%s: Oops: %d+%d &gt; %d&quo=
+t;, __func__,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0vd-&gt;xoff, vd-&gt;msgsize, vd-&gt;xsize);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 vdagent_reset_xbuf(vd);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
++=C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 memcpy(vd-&gt;xbuf + vd-&gt;xoff, vd-&gt;msgbuf, vd-&gt;msgs=
+ize);<br>
++=C2=A0 =C2=A0 vd-&gt;xoff +=3D vd-&gt;msgsize;<br>
++=C2=A0 =C2=A0 if (vd-&gt;xoff &lt; vd-&gt;xsize) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
++=C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 msg =3D (void *)vd-&gt;xbuf;<br>
++=C2=A0 =C2=A0 vdagent_chr_recv_msg(vd, msg);<br>
++=C2=A0 =C2=A0 vdagent_reset_xbuf(vd);<br>
++}<br>
++<br>
++static void vdagent_reset_bufs(VDAgentChardev *vd)<br>
++{<br>
++=C2=A0 =C2=A0 memset(&amp;vd-&gt;chunk, 0, sizeof(vd-&gt;chunk));<br>
++=C2=A0 =C2=A0 vd-&gt;chunksize =3D 0;<br>
++=C2=A0 =C2=A0 g_free(vd-&gt;msgbuf);<br>
++=C2=A0 =C2=A0 vd-&gt;msgbuf =3D NULL;<br>
++=C2=A0 =C2=A0 vd-&gt;msgsize =3D 0;<br>
++}<br>
++<br>
++static int vdagent_chr_write(Chardev *chr, const uint8_t *buf, int len)<br=
+>
++{<br>
++=C2=A0 =C2=A0 VDAgentChardev *vd =3D QEMU_VDAGENT_CHARDEV(chr);<br>
++=C2=A0 =C2=A0 uint32_t copy, ret =3D len;<br>
++<br>
++=C2=A0 =C2=A0 while (len) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (vd-&gt;chunksize &lt; sizeof(vd-&gt;chunk)=
+) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 copy =3D sizeof(vd-&gt;chunk) - =
+vd-&gt;chunksize;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (copy &gt; len) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 copy =3D len;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 memcpy((void *)(&amp;vd-&gt;chun=
+k) + vd-&gt;chunksize, buf, copy);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 vd-&gt;chunksize +=3D copy;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 buf +=3D copy;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 len -=3D copy;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (vd-&gt;chunksize &lt; sizeof=
+(vd-&gt;chunk)) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 assert(vd-&gt;msgbuf =3D=3D NULL=
+);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 vd-&gt;msgbuf =3D g_malloc0(vd-&=
+gt;chunk.size);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 copy =3D vd-&gt;chunk.size - vd-&gt;msgsize;<b=
+r>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (copy &gt; len) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 copy =3D len;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 memcpy(vd-&gt;msgbuf + vd-&gt;msgsize, buf, co=
+py);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 vd-&gt;msgsize +=3D copy;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 buf +=3D copy;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 len -=3D copy;<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (vd-&gt;msgsize =3D=3D vd-&gt;chunk.size) {=
 <br>
-@@ -464,6 +755,8 @@ static void vdagent_chr_parse(QemuOpts *opts, ChardevBa=
-ckend *backend,<br>
-=C2=A0 =C2=A0 =C2=A0qemu_chr_parse_common(opts, qapi_ChardevQemuVDAgent_bas=
-e(cfg));<br>
-=C2=A0 =C2=A0 =C2=A0cfg-&gt;has_mouse =3D true;<br>
-=C2=A0 =C2=A0 =C2=A0cfg-&gt;mouse =3D qemu_opt_get_bool(opts, &quot;mouse&q=
-uot;, VDAGENT_MOUSE_DEFAULT);<br>
-+=C2=A0 =C2=A0 cfg-&gt;has_clipboard =3D true;<br>
-+=C2=A0 =C2=A0 cfg-&gt;clipboard =3D qemu_opt_get_bool(opts, &quot;clipboar=
-d&quot;, VDAGENT_CLIPBOARD_DEFAULT);<br>
-=C2=A0}<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 trace_vdagent_recv_chunk(vd-&gt;=
+chunk.size);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 vdagent_chr_recv_chunk(vd);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 vdagent_reset_bufs(vd);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 return ret;<br>
++}<br>
++<br>
++static void vdagent_chr_accept_input(Chardev *chr)<br>
++{<br>
++=C2=A0 =C2=A0 VDAgentChardev *vd =3D QEMU_VDAGENT_CHARDEV(chr);<br>
++<br>
++=C2=A0 =C2=A0 vdagent_send_buf(vd);<br>
++}<br>
++<br>
++static void vdagent_chr_set_fe_open(struct Chardev *chr, int fe_open)<br>
++{<br>
++=C2=A0 =C2=A0 VDAgentChardev *vd =3D QEMU_VDAGENT_CHARDEV(chr);<br>
++<br>
++=C2=A0 =C2=A0 if (!fe_open) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 trace_vdagent_close();<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* reset state */<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 vdagent_reset_bufs(vd);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 vd-&gt;caps =3D 0;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
++=C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 trace_vdagent_open();<br>
++}<br>
++<br>
++/* ------------------------------------------------------------------ */<b=
+r>
++<br>
++static void vdagent_chr_class_init(ObjectClass *oc, void *data)<br>
++{<br>
++=C2=A0 =C2=A0 ChardevClass *cc =3D CHARDEV_CLASS(oc);<br>
++<br>
++=C2=A0 =C2=A0 cc-&gt;open=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+=3D vdagent_chr_open;<br>
++=C2=A0 =C2=A0 cc-&gt;chr_write=C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D vdagent_chr_=
+write;<br>
++=C2=A0 =C2=A0 cc-&gt;chr_set_fe_open=C2=A0 =3D vdagent_chr_set_fe_open;<br=
+>
++=C2=A0 =C2=A0 cc-&gt;chr_accept_input =3D vdagent_chr_accept_input;<br>
++}<br>
++<br>
++static void vdagent_chr_init(Object *obj)<br>
++{<br>
++=C2=A0 =C2=A0 VDAgentChardev *vd =3D QEMU_VDAGENT_CHARDEV(obj);<br>
++<br>
++=C2=A0 =C2=A0 buffer_init(&amp;vd-&gt;outbuf, &quot;vdagent-outbuf&quot;);=
 <br>
-=C2=A0/* ------------------------------------------------------------------=
- */<br>
++}<br>
++<br>
++static void vdagent_chr_fini(Object *obj)<br>
++{<br>
++=C2=A0 =C2=A0 VDAgentChardev *vd =3D QEMU_VDAGENT_CHARDEV(obj);<br>
++<br>
++=C2=A0 =C2=A0 buffer_free(&amp;vd-&gt;outbuf);<br>
++}<br>
++<br>
++static const TypeInfo vdagent_chr_type_info =3D {<br>
++=C2=A0 =C2=A0 .name =3D TYPE_CHARDEV_QEMU_VDAGENT,<br>
++=C2=A0 =C2=A0 .parent =3D TYPE_CHARDEV,<br>
++=C2=A0 =C2=A0 .instance_size =3D sizeof(VDAgentChardev),<br>
++=C2=A0 =C2=A0 .instance_init =3D vdagent_chr_init,<br>
++=C2=A0 =C2=A0 .instance_finalize =3D vdagent_chr_fini,<br>
++=C2=A0 =C2=A0 .class_init =3D vdagent_chr_class_init,<br>
++};<br>
++<br>
++static void register_types(void)<br>
++{<br>
++=C2=A0 =C2=A0 type_register_static(&amp;vdagent_chr_type_info);<br>
++}<br>
++<br>
++type_init(register_types);<br>
 diff --git a/qapi/char.json b/qapi/char.json<br>
-index 5711e8c60aeb..adf2685f6889 100644<br>
+index 6413970fa73b..990801e642bb 100644<br>
 --- a/qapi/char.json<br>
 +++ b/qapi/char.json<br>
-@@ -396,12 +396,14 @@<br>
-=C2=A0# Configuration info for qemu vdagent implementation.<br>
-=C2=A0#<br>
-=C2=A0# @mouse: enable/disable mouse, default is enabled.<br>
-+# @clipboard: enable/disable clipboard, default is disabled.<br>
-=C2=A0#<br>
-=C2=A0# Since: 6.1<br>
-=C2=A0#<br>
-=C2=A0##<br>
-=C2=A0{ &#39;struct&#39;: &#39;ChardevQemuVDAgent&#39;,<br>
--=C2=A0 &#39;data&#39;: { &#39;*mouse&#39;: &#39;bool&#39; },<br>
-+=C2=A0 &#39;data&#39;: { &#39;*mouse&#39;: &#39;bool&#39;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;*clipboard&#39;: &#39;bool&=
-#39; },<br>
-=C2=A0 =C2=A0&#39;base&#39;: &#39;ChardevCommon&#39;,<br>
-=C2=A0 =C2=A0&#39;if&#39;: &#39;defined(CONFIG_SPICE_PROTOCOL)&#39; }<br>
+@@ -390,12 +390,25 @@<br>
+=C2=A0 =C2=A0&#39;data&#39;: { &#39;*size&#39;: &#39;int&#39; },<br>
+=C2=A0 =C2=A0&#39;base&#39;: &#39;ChardevCommon&#39; }<br>
 <br>
++##<br>
++# @ChardevQemuVDAgent:<br>
++#<br>
++# Configuration info for qemu vdagent implementation.<br>
++#<br>
++# Since: 6.1<br>
++#<br>
++##<br>
++{ &#39;struct&#39;: &#39;ChardevQemuVDAgent&#39;,<br>
++=C2=A0 &#39;data&#39;: { },<br>
++=C2=A0 &#39;base&#39;: &#39;ChardevCommon&#39;,<br>
++=C2=A0 &#39;if&#39;: &#39;defined(CONFIG_SPICE_PROTOCOL)&#39; }<br>
++<br>
+=C2=A0##<br>
+=C2=A0# @ChardevBackend:<br>
+=C2=A0#<br>
+=C2=A0# Configuration info for the new chardev backend.<br>
+=C2=A0#<br>
+-# Since: 1.4 (testdev since 2.2, wctablet since 2.9)<br>
++# Since: 1.4 (testdev since 2.2, wctablet since 2.9, vdagent since 6.1)<br=
+>
+=C2=A0##<br>
+=C2=A0{ &#39;union&#39;: &#39;ChardevBackend&#39;,<br>
+=C2=A0 =C2=A0&#39;data&#39;: { &#39;file&#39;: &#39;ChardevFile&#39;,<br>
+@@ -417,6 +430,8 @@<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0&#39;if&#39;: &#39;defined(CONFIG_SPICE)&#39; },<br=
+>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;spiceport&#39;: { &#39=
+;type&#39;: &#39;ChardevSpicePort&#39;,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 &#39;if&#39;: &#39;defined(CONFIG_SPICE)&#39; },<b=
+r>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;qemu-vdagent&#39;: { &#39;t=
+ype&#39;: &#39;ChardevQemuVDAgent&#39;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;if&#39;: &#39;defined(CONFIG_SPICE_PRO=
+TOCOL)&#39; },<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;vc&#39;: &#39;ChardevV=
+C&#39;,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;ringbuf&#39;: &#39;Cha=
+rdevRingbuf&#39;,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# next one is just for comp=
+atibility<br>
+diff --git a/ui/meson.build b/ui/meson.build<br>
+index fc4fb75c2869..bad49fb6de60 100644<br>
+--- a/ui/meson.build<br>
++++ b/ui/meson.build<br>
+@@ -14,6 +14,7 @@ softmmu_ss.add(files(<br>
+=C2=A0 =C2=A0&#39;qemu-pixman.c&#39;,<br>
+=C2=A0))<br>
+=C2=A0softmmu_ss.add([spice_headers, files(&#39;spice-module.c&#39;)])<br>
++softmmu_ss.add(when: spice_protocol, if_true: files(&#39;vdagent.c&#39;))<=
+br>
+<br>
+=C2=A0softmmu_ss.add(when: &#39;CONFIG_LINUX&#39;, if_true: files(&#39;inpu=
+t-linux.c&#39;))<br>
+=C2=A0softmmu_ss.add(when: cocoa, if_true: files(&#39;cocoa.m&#39;))<br>
 diff --git a/ui/trace-events b/ui/trace-events<br>
-index c34cffb0452b..c86542e2b69b 100644<br>
+index 5d1da6f23668..c34cffb0452b 100644<br>
 --- a/ui/trace-events<br>
 +++ b/ui/trace-events<br>
-@@ -132,3 +132,5 @@ vdagent_send(const char *name) &quot;msg %s&quot;<br>
-=C2=A0vdagent_recv_chunk(uint32_t size) &quot;size %d&quot;<br>
-=C2=A0vdagent_recv_msg(const char *name, uint32_t size) &quot;msg %s, size =
-%d&quot;<br>
-=C2=A0vdagent_peer_cap(const char *name) &quot;cap %s&quot;<br>
-+vdagent_cb_grab_selection(const char *name) &quot;selection %s&quot;<br>
-+vdagent_cb_grab_type(const char *name) &quot;type %s&quot;<br>
+@@ -124,3 +124,11 @@ xkeymap_extension(const char *name) &quot;extension &#=
+39;%s&#39;&quot;<br>
+=C2=A0xkeymap_vendor(const char *name) &quot;vendor &#39;%s&#39;&quot;<br>
+=C2=A0xkeymap_keycodes(const char *name) &quot;keycodes &#39;%s&#39;&quot;<=
+br>
+=C2=A0xkeymap_keymap(const char *name) &quot;keymap &#39;%s&#39;&quot;<br>
++<br>
++# vdagent.c<br>
++vdagent_open(void) &quot;&quot;<br>
++vdagent_close(void) &quot;&quot;<br>
++vdagent_send(const char *name) &quot;msg %s&quot;<br>
++vdagent_recv_chunk(uint32_t size) &quot;size %d&quot;<br>
++vdagent_recv_msg(const char *name, uint32_t size) &quot;msg %s, size %d&qu=
+ot;<br>
++vdagent_peer_cap(const char *name) &quot;cap %s&quot;<br>
 -- <br>
 2.31.1<br>
 <br>
 </blockquote></div></div>
 
---00000000000031269d05c2abb68a--
+--000000000000db059005c2abb6e0--
 
 
