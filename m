@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 604D4388EE9
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 15:21:36 +0200 (CEST)
-Received: from localhost ([::1]:54188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 315BE388F1B
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 15:29:10 +0200 (CEST)
+Received: from localhost ([::1]:48944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljM8l-00004q-Dv
-	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 09:21:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33750)
+	id 1ljMG3-0007jd-OD
+	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 09:29:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33726)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1ljLhr-0002bh-MG; Wed, 19 May 2021 08:53:47 -0400
-Received: from ozlabs.org ([203.11.71.1]:35001)
+ id 1ljLho-0002Ow-TG; Wed, 19 May 2021 08:53:44 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:49581)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1ljLhp-0001cx-Qf; Wed, 19 May 2021 08:53:47 -0400
+ id 1ljLhl-0001kP-Rw; Wed, 19 May 2021 08:53:44 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4FlXnq3ZW1z9tD4; Wed, 19 May 2021 22:52:15 +1000 (AEST)
+ id 4FlXnt1gTgz9sPf; Wed, 19 May 2021 22:52:17 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1621428735;
- bh=8tUdgfIdEqkaF1Yz6xbubshybQ+yxSkeZ1Oy1ZBYEZc=;
+ d=gibson.dropbear.id.au; s=201602; t=1621428738;
+ bh=sipivPMIlLrzXZG/dcDLE4GTPmzZmFYDG/cqAob/gEY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=eqeovtGt5ESQZ/vJ6AwRVrww1wUL/H0mh2vKh8z37U2Qzco+hypwDbvP+WJIz0wza
- wCl+60GzgLJ87Dls1c928FxILpU3o9VogHy0JwwD2vZsJ3Gst4fzLlfG4SRg5vH3ag
- Qd7CZMIGoiFj435S362prwcl8vq4KiZM84i2aqt0=
+ b=FacMkJ3Rgoa6b8AAR2Pz2c7vlQDswNtxeiDHx2v3xHSfVSRbsD3dGB0coG0X2wGW0
+ 5jxAkrspfsYhbFgKP7WwC6+fSL0Yr8Jmg5xoNaD7rFnQ1wqmFV777wP8OjjazRgCtr
+ HNPIAXT/n2YQoc+du3pfhUOxIwK46m4d+in+qVIA=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org,
 	groug@kaod.org
-Subject: [PULL 42/48] target/ppc: Remove type argument from ppc6xx_tlb_check
-Date: Wed, 19 May 2021 22:51:42 +1000
-Message-Id: <20210519125148.27720-43-david@gibson.dropbear.id.au>
+Subject: [PULL 45/48] target/ppc: Remove type argument from mmubooke_check_tlb
+Date: Wed, 19 May 2021 22:51:45 +1000
+Message-Id: <20210519125148.27720-46-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210519125148.27720-1-david@gibson.dropbear.id.au>
 References: <20210519125148.27720-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -65,56 +65,88 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Richard Henderson <richard.henderson@linaro.org>
 
 We can now use MMU_INST_FETCH from access_type for this.
+Unify the I/D code paths, making use of prot_for_access_type.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20210518201146.794854-10-richard.henderson@linaro.org>
+Message-Id: <20210518201146.794854-13-richard.henderson@linaro.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- target/ppc/mmu_helper.c | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+ target/ppc/mmu_helper.c | 44 ++++++++++++-----------------------------
+ 1 file changed, 13 insertions(+), 31 deletions(-)
 
 diff --git a/target/ppc/mmu_helper.c b/target/ppc/mmu_helper.c
-index 0c10677ade..2f00955b80 100644
+index 1426973b4d..4e5cc11b44 100644
 --- a/target/ppc/mmu_helper.c
 +++ b/target/ppc/mmu_helper.c
-@@ -288,8 +288,7 @@ static void ppc6xx_tlb_store(CPUPPCState *env, target_ulong EPN, int way,
+@@ -738,9 +738,9 @@ void store_40x_sler(CPUPPCState *env, uint32_t val)
+ 
+ static int mmubooke_check_tlb(CPUPPCState *env, ppcemb_tlb_t *tlb,
+                               hwaddr *raddr, int *prot, target_ulong address,
+-                              MMUAccessType access_type, int type, int i)
++                              MMUAccessType access_type, int i)
+ {
+-    int ret, prot2;
++    int prot2;
+ 
+     if (ppcemb_tlb_check(env, tlb, raddr, address,
+                          env->spr[SPR_BOOKE_PID],
+@@ -772,37 +772,19 @@ found_tlb:
+     }
+ 
+     /* Check the address space */
+-    if (type == ACCESS_CODE) {
+-        if (msr_ir != (tlb->attr & 1)) {
+-            LOG_SWTLB("%s: AS doesn't match\n", __func__);
+-            return -1;
+-        }
+-
+-        *prot = prot2;
+-        if (prot2 & PAGE_EXEC) {
+-            LOG_SWTLB("%s: good TLB!\n", __func__);
+-            return 0;
+-        }
+-
+-        LOG_SWTLB("%s: no PAGE_EXEC: %x\n", __func__, prot2);
+-        ret = -3;
+-    } else {
+-        if (msr_dr != (tlb->attr & 1)) {
+-            LOG_SWTLB("%s: AS doesn't match\n", __func__);
+-            return -1;
+-        }
+-
+-        *prot = prot2;
+-        if (prot2 & (access_type == MMU_DATA_LOAD ? PAGE_READ : PAGE_WRITE)) {
+-            LOG_SWTLB("%s: found TLB!\n", __func__);
+-            return 0;
+-        }
++    if ((access_type == MMU_INST_FETCH ? msr_ir : msr_dr) != (tlb->attr & 1)) {
++        LOG_SWTLB("%s: AS doesn't match\n", __func__);
++        return -1;
++    }
+ 
+-        LOG_SWTLB("%s: PAGE_READ/WRITE doesn't match: %x\n", __func__, prot2);
+-        ret = -2;
++    *prot = prot2;
++    if (prot2 & prot_for_access_type(access_type)) {
++        LOG_SWTLB("%s: good TLB!\n", __func__);
++        return 0;
+     }
+ 
+-    return ret;
++    LOG_SWTLB("%s: no prot match: %x\n", __func__, prot2);
++    return access_type == MMU_INST_FETCH ? -3 : -2;
  }
  
- static int ppc6xx_tlb_check(CPUPPCState *env, mmu_ctx_t *ctx,
--                            target_ulong eaddr,
--                            MMUAccessType access_type, int type)
-+                            target_ulong eaddr, MMUAccessType access_type)
- {
-     ppc6xx_tlb_t *tlb;
-     int nr, best, way;
-@@ -298,8 +297,7 @@ static int ppc6xx_tlb_check(CPUPPCState *env, mmu_ctx_t *ctx,
-     best = -1;
-     ret = -1; /* No TLB found */
-     for (way = 0; way < env->nb_ways; way++) {
--        nr = ppc6xx_tlb_getnum(env, eaddr, way,
--                               type == ACCESS_CODE ? 1 : 0);
-+        nr = ppc6xx_tlb_getnum(env, eaddr, way, access_type == MMU_INST_FETCH);
-         tlb = &env->tlb.tlb6[nr];
-         /* This test "emulates" the PTE index match for hardware TLBs */
-         if ((eaddr & TARGET_PAGE_MASK) != tlb->EPN) {
-@@ -314,7 +312,7 @@ static int ppc6xx_tlb_check(CPUPPCState *env, mmu_ctx_t *ctx,
-                   pte_is_valid(tlb->pte0) ? "valid" : "inval",
-                   tlb->EPN, eaddr, tlb->pte1,
-                   access_type == MMU_DATA_STORE ? 'S' : 'L',
--                  type == ACCESS_CODE ? 'I' : 'D');
-+                  access_type == MMU_INST_FETCH ? 'I' : 'D');
-         switch (ppc6xx_tlb_pte_check(ctx, tlb->pte0, tlb->pte1,
-                                      0, access_type)) {
-         case -3:
-@@ -503,7 +501,7 @@ static int get_segment_6xx_tlb(CPUPPCState *env, mmu_ctx_t *ctx,
-             /* Initialize real address with an invalid value */
-             ctx->raddr = (hwaddr)-1ULL;
-             /* Software TLB search */
--            ret = ppc6xx_tlb_check(env, ctx, eaddr, access_type, type);
-+            ret = ppc6xx_tlb_check(env, ctx, eaddr, access_type);
- #if defined(DUMP_PAGE_TABLES)
-             if (qemu_loglevel_mask(CPU_LOG_MMU)) {
-                 CPUState *cs = env_cpu(env);
+ static int mmubooke_get_physical_address(CPUPPCState *env, mmu_ctx_t *ctx,
+@@ -819,7 +801,7 @@ static int mmubooke_get_physical_address(CPUPPCState *env, mmu_ctx_t *ctx,
+     for (i = 0; i < env->nb_tlb; i++) {
+         tlb = &env->tlb.tlbe[i];
+         ret = mmubooke_check_tlb(env, tlb, &raddr, &ctx->prot, address,
+-                                 access_type, type, i);
++                                 access_type, i);
+         if (ret != -1) {
+             break;
+         }
 -- 
 2.31.1
 
