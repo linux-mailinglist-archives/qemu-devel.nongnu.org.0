@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0855C388F35
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 15:33:13 +0200 (CEST)
-Received: from localhost ([::1]:59814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83EC0388F32
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 15:32:29 +0200 (CEST)
+Received: from localhost ([::1]:57610 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljMK0-0006t6-1i
-	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 09:33:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33714)
+	id 1ljMJI-0005K7-Je
+	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 09:32:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33854)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1ljLhn-0002J5-LC; Wed, 19 May 2021 08:53:43 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:37755)
+ id 1ljLi9-0003mC-FD; Wed, 19 May 2021 08:54:05 -0400
+Received: from ozlabs.org ([203.11.71.1]:45529)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1ljLhj-0001jA-Um; Wed, 19 May 2021 08:53:42 -0400
+ id 1ljLi7-0001lX-My; Wed, 19 May 2021 08:54:05 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4FlXns2D0kz9tD5; Wed, 19 May 2021 22:52:17 +1000 (AEST)
+ id 4FlXnv0c2Fz9sW4; Wed, 19 May 2021 22:52:18 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1621428737;
- bh=lZKRM89jGQ5fffSDCjTPVVHmFfPRAxQ0VWRr7ZbUmek=;
+ d=gibson.dropbear.id.au; s=201602; t=1621428739;
+ bh=q4+HBdkEmxsP6UfQyseNs8hlAjJHCKfGvZ9rqVlm7xQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=dTq63/dnxdnJ8svWNTKPFtTaN6B+QQw6VzCuV4Gk7592eqP/B7hHWk+4zZQNPwwPq
- MhTqE2lvsyL8i+PYKfRP/AR4lD1VfmlqiYiEygvRtLnN0TOVPWsuEt3BjcJYBaJTH0
- 4osCzByZSn4H7ddAVi8U9x8nabFvsmaTbM273T+8=
+ b=WL3bMujjnykOCFyBM6hXq7dEO3NsfMap2zKoMX5YPX2FnNvvdYJQkpao4E5EsuSvB
+ 54MluyYtstJbaZXAFXgfVXTU328xdB41Z9rhs95wS7QbtwHHLMltC4NeF4Y+/7X30O
+ 0dPgfS/jMXaLWt719n20Ip/dlR6BdsFp47cV+Hfw=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org,
 	groug@kaod.org
-Subject: [PULL 44/48] target/ppc: Remove type argument from
- mmu40x_get_physical_address
-Date: Wed, 19 May 2021 22:51:44 +1000
-Message-Id: <20210519125148.27720-45-david@gibson.dropbear.id.au>
+Subject: [PULL 46/48] target/ppc: Remove type argument from
+ mmubooke_get_physical_address
+Date: Wed, 19 May 2021 22:51:46 +1000
+Message-Id: <20210519125148.27720-47-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210519125148.27720-1-david@gibson.dropbear.id.au>
 References: <20210519125148.27720-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -68,36 +68,36 @@ From: Richard Henderson <richard.henderson@linaro.org>
 It is no longer used.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20210518201146.794854-12-richard.henderson@linaro.org>
+Message-Id: <20210518201146.794854-14-richard.henderson@linaro.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
  target/ppc/mmu_helper.c | 6 ++----
  1 file changed, 2 insertions(+), 4 deletions(-)
 
 diff --git a/target/ppc/mmu_helper.c b/target/ppc/mmu_helper.c
-index 0eba8302ee..1426973b4d 100644
+index 4e5cc11b44..7535a1aa7d 100644
 --- a/target/ppc/mmu_helper.c
 +++ b/target/ppc/mmu_helper.c
-@@ -662,8 +662,7 @@ static inline void ppc4xx_tlb_invalidate_all(CPUPPCState *env)
+@@ -789,8 +789,7 @@ found_tlb:
  
- static int mmu40x_get_physical_address(CPUPPCState *env, mmu_ctx_t *ctx,
-                                        target_ulong address,
--                                       MMUAccessType access_type,
--                                       int type)
-+                                       MMUAccessType access_type)
+ static int mmubooke_get_physical_address(CPUPPCState *env, mmu_ctx_t *ctx,
+                                          target_ulong address,
+-                                         MMUAccessType access_type,
+-                                         int type)
++                                         MMUAccessType access_type)
  {
      ppcemb_tlb_t *tlb;
      hwaddr raddr;
-@@ -1426,8 +1425,7 @@ static int get_physical_address_wtlb(CPUPPCState *env, mmu_ctx_t *ctx,
-         if (real_mode) {
-             ret = check_physical(env, ctx, eaddr, access_type);
-         } else {
--            ret = mmu40x_get_physical_address(env, ctx, eaddr,
--                                              access_type, type);
-+            ret = mmu40x_get_physical_address(env, ctx, eaddr, access_type);
+@@ -1411,8 +1410,7 @@ static int get_physical_address_wtlb(CPUPPCState *env, mmu_ctx_t *ctx,
          }
          break;
      case POWERPC_MMU_BOOKE:
+-        ret = mmubooke_get_physical_address(env, ctx, eaddr,
+-                                            access_type, type);
++        ret = mmubooke_get_physical_address(env, ctx, eaddr, access_type);
+         break;
+     case POWERPC_MMU_BOOKE206:
+         ret = mmubooke206_get_physical_address(env, ctx, eaddr, access_type,
 -- 
 2.31.1
 
