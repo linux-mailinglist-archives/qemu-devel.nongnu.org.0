@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51DA838854C
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 05:32:30 +0200 (CEST)
-Received: from localhost ([::1]:38608 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE5FD388548
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 05:32:18 +0200 (CEST)
+Received: from localhost ([::1]:38448 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljCwd-0001Nd-LO
-	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 23:32:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57482)
+	id 1ljCwT-0001Gt-Ui
+	for lists+qemu-devel@lfdr.de; Tue, 18 May 2021 23:32:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57450)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1ljCuM-0006yE-42; Tue, 18 May 2021 23:30:06 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:56627 helo=ozlabs.org)
+ id 1ljCuJ-0006xi-Q9; Tue, 18 May 2021 23:30:03 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:55191)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1ljCuH-0006hq-JX; Tue, 18 May 2021 23:30:05 -0400
+ id 1ljCuH-0006i6-OV; Tue, 18 May 2021 23:30:03 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4FlJK16Pnhz9sX1; Wed, 19 May 2021 13:29:57 +1000 (AEST)
+ id 4FlJK16mklz9sXF; Wed, 19 May 2021 13:29:57 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1621394997;
- bh=OMf7Tl0iTVj5YxPZWx4jmEReX5oAF9+/qwRo3fkC3Ag=;
+ bh=2PjEmzz95oIt06mJH93gQWxWyg3bWojrbUaRbPH5+C0=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Tu3Jz3VZHqZGX4brlLVMi6eDORCIrZxHL3YxUmLix611kXXdMP47bX9DuKeAkVq46
- sFg9yvts3X1/6qc12QHdjtAIWoVxuZ8x7U5HgF/WVAs1Th1ofg1P4g8bhBSKvWifee
- LB1BLR3e6u+zKI9frBfau6mmko3qckfdaxzZqklY=
-Date: Wed, 19 May 2021 10:46:40 +1000
+ b=JT/VL+C159XtGMk72y21UatJbddBKti9xgWbX47ikexicrUYxrIM7tUmbmMSEtwEa
+ GgI4Gd7KuoekbTSVoEI/2ilZ+LfQ/pWYy/+UhGHYH3AW67ZicKmJcoio8djxoPBPeN
+ VLM7wG4q/dDRqKVps8SyfAPFwx3304FBogVa9MmM=
+Date: Wed, 19 May 2021 11:54:30 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH] Fix `lxvdsx` (issue #212)
-Message-ID: <YKRf8LUQh5l/l00r@yekko>
-References: <20210517214032.156187-1-pc@us.ibm.com> <YKMZwVmfec0IocfV@yekko>
- <91759ae2-f1f0-f839-6938-1271165e0a10@gmail.com>
- <20210518093038.28ca0c3d@bahia.lan>
+To: "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br>
+Subject: Re: [PATCH v2 1/7] target/ppc: fix ppc_store_sdr1 for user-only
+ compilation
+Message-ID: <YKRv1lUvFANBeTIz@yekko>
+References: <20210518150515.57983-1-bruno.larsen@eldorado.org.br>
+ <20210518150515.57983-2-bruno.larsen@eldorado.org.br>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="KNE7CP3sqj3putl8"
+ protocol="application/pgp-signature"; boundary="PA07fQhG1XaV9rrC"
 Content-Disposition: inline
-In-Reply-To: <20210518093038.28ca0c3d@bahia.lan>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+In-Reply-To: <20210518150515.57983-2-bruno.larsen@eldorado.org.br>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -59,109 +59,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Giuseppe Musacchio <thatlemon@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org, "Paul A. Clarke" <pc@us.ibm.com>
+Cc: farosas@linux.ibm.com, richard.henderson@linaro.org, qemu-devel@nongnu.org,
+ lucas.araujo@eldorado.org.br, fernando.valle@eldorado.org.br,
+ qemu-ppc@nongnu.org, matheus.ferst@eldorado.org.br, luis.pires@eldorado.org.br
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---KNE7CP3sqj3putl8
+--PA07fQhG1XaV9rrC
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, May 18, 2021 at 09:30:38AM +0200, Greg Kurz wrote:
-> On Tue, 18 May 2021 08:40:36 +0200
-> Giuseppe Musacchio <thatlemon@gmail.com> wrote:
->=20
-> > The ISA [1] specifies the load order to be the target one, hence
-> > the use of MO_TEQ in my patch (in both lxvwsx and lxvdsx).
-> >=20
-> > I believe the error is hidden in some of the .mak files: I could not
-> > reproduce this problem with Qemu's user-mode emulation in either
-> > BE nor LE mode, this lead me to discover that ppc64-softmmu.mak is
-> > always defining TARGET_WORDS_BIGENDIAN=3Dy. The user-mode targets are
-> > correctly split into ppc64 and ppc64le, where only the former is
-> > declared as BE.
-> >=20
->=20
-> Yes. In system-mode emulation, modern POWER CPUs are expected to
-> be able to switch from BE to LE and vice-versa at runtime. Older
-> PowerPC CPUs are BE. The qemu-system-ppc64 binary is thus built
-> with TARGET_WORDS_BIGENDIAN=3Dy and every place where runtime
-> endianness matters need to do a check and only byteswap if needed.
+On Tue, May 18, 2021 at 12:05:09PM -0300, Bruno Larsen (billionai) wrote:
+> When the function was moved to cpu.c, it should have been wrapped with
+>  #if !defined(CONFIG_USER_ONLY), otherwise linux-user builds don't work.
 
-Right.  With modern POWER (and ARM and several others), "target
-endian" isn't really a well-defined concept, since the processor can
-switch at runtime.
+I already corrected this in my tree, folding it into the original
+change to avoid breaking bisect.
+
+> The cleanup suggested by Richard Henderson has also been applied,
+> changing error_report(...) to qemu_log_mask(LOG_GUEST_ERROR, ...) in
+> that function.
+
+That's a reasonable change, but doesn't belong with the compile fix.
+Please rebase and update the commit message.
 
 >=20
-> Mark's suggestion in another mail of this thread is the way to go.
+> Signed-off-by: Bruno Larsen (billionai) <bruno.larsen@eldorado.org.br>
+> ---
+>  target/ppc/cpu.c | 10 ++++++----
+>  1 file changed, 6 insertions(+), 4 deletions(-)
 >=20
-> > The presence of that define is unconditionally making MO_TE an alias
-> > for MO_BE, that's why Paul's patch seems to fix the problem.
-> >=20
-> > I didn't catch this problem earlier as pretty much of our testing is
-> > done using the Linux user-mode emulation.
-> >=20
-> > Cheers,
-> > G.M.
-> >=20
-> > [1] https://ibm.ent.box.com/s/1hzcwkwf8rbju5h9iyf44wm94amnlcrv
-> >=20
-> > On 18/05/21 03:34, David Gibson wrote:
-> > >=20
-> > > On Mon, May 17, 2021 at 04:40:32PM -0500, Paul A. Clarke wrote:
-> > >> `lxvdsx` is byte-swapping the data it loads, which it should not
-> > >> do.  Fix it.
-> > >>
-> > >> Fixes #212.
-> > >>
-> > >> Fixes: bcb0b7b1a1c05707304f80ca6f523d557816f85c
-> > >> Signed-off-by:  Paul A. Clarke <pc@us.ibm.com
-> > >                            nit, missing '>' ...^
-> > >=20
-> > > I'm having a hard time convincing myself this is correct in all cases.
-> > > Have you tested it with all combinations of BE/LE host and BE/LE guest
-> > > code?
-> > >=20
-> > > The description in the ISA is pretty inscrutable, since it's in terms
-> > > of the confusing numbering if different element types in BE vs LE
-> > > mode.
-> > >=20
-> > > It looks to me like before bcb0b7b1a1c0 this originally resolved to
-> > > MO_Q modified by ctx->default_tcg_memop_mask, which appears to depend
-> > > on the current guest endian mode.  That's pretty hard to trace through
-> > > the various layers of macros, but for reference, before bcb0b7b1a1c0
-> > > this used gen_qemu_ld64_i64(), which appears to be constructed by the
-> > > line GEN_QEMU_LOAD_64(ld64,  DEF_MEMOP(MO_Q)) in translate.c.
-> > >=20
-> > > Richard or Giuseppe, care to weigh in?
-> > >=20
-> > >> ---
-> > >>  target/ppc/translate/vsx-impl.c.inc | 2 +-
-> > >>  1 file changed, 1 insertion(+), 1 deletion(-)
-> > >>
-> > >> diff --git a/target/ppc/translate/vsx-impl.c.inc b/target/ppc/transl=
-ate/vsx-impl.c.inc
-> > >> index b817d31260bb..46f97c029ca8 100644
-> > >> --- a/target/ppc/translate/vsx-impl.c.inc
-> > >> +++ b/target/ppc/translate/vsx-impl.c.inc
-> > >> @@ -162,7 +162,7 @@ static void gen_lxvdsx(DisasContext *ctx)
-> > >>      gen_addr_reg_index(ctx, EA);
-> > >> =20
-> > >>      data =3D tcg_temp_new_i64();
-> > >> -    tcg_gen_qemu_ld_i64(data, EA, ctx->mem_idx, MO_TEQ);
-> > >> +    tcg_gen_qemu_ld_i64(data, EA, ctx->mem_idx, MO_LEQ);
-> > >>      tcg_gen_gvec_dup_i64(MO_Q, vsr_full_offset(xT(ctx->opcode)), 16=
-, 16, data);
-> > >> =20
-> > >>      tcg_temp_free(EA);
-> > >=20
-> >=20
->=20
+> diff --git a/target/ppc/cpu.c b/target/ppc/cpu.c
+> index 0ab7ac1af1..82e276349a 100644
+> --- a/target/ppc/cpu.c
+> +++ b/target/ppc/cpu.c
+> @@ -65,6 +65,7 @@ uint32_t ppc_get_vscr(CPUPPCState *env)
+>      return env->vscr | (sat << VSCR_SAT);
+>  }
+> =20
+> +#if !defined(CONFIG_USER_ONLY)
+>  void ppc_store_sdr1(CPUPPCState *env, target_ulong value)
+>  {
+>      PowerPCCPU *cpu =3D env_archcpu(env);
+> @@ -76,13 +77,13 @@ void ppc_store_sdr1(CPUPPCState *env, target_ulong va=
+lue)
+>          target_ulong htabsize =3D value & SDR_64_HTABSIZE;
+> =20
+>          if (value & ~sdr_mask) {
+> -            error_report("Invalid bits 0x"TARGET_FMT_lx" set in SDR1",
+> -                         value & ~sdr_mask);
+> +            qemu_log_mask(LOG_GUEST_ERROR, "Invalid bits 0x"TARGET_FMT_lx
+> +                     " set in SDR1", value & ~sdr_mask);
+>              value &=3D sdr_mask;
+>          }
+>          if (htabsize > 28) {
+> -            error_report("Invalid HTABSIZE 0x" TARGET_FMT_lx" stored in =
+SDR1",
+> -                         htabsize);
+> +            qemu_log_mask(LOG_GUEST_ERROR, "Invalid HTABSIZE 0x" TARGET_=
+FMT_lx
+> +                     " stored in SDR1", htabsize);
+>              return;
+>          }
+>      }
+> @@ -90,3 +91,4 @@ void ppc_store_sdr1(CPUPPCState *env, target_ulong valu=
+e)
+>      /* FIXME: Should check for valid HTABMASK values in 32-bit case */
+>      env->spr[SPR_SDR1] =3D value;
+>  }
+> +#endif
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -169,25 +137,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---KNE7CP3sqj3putl8
+--PA07fQhG1XaV9rrC
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmCkX/AACgkQbDjKyiDZ
-s5JCvQ//Y+1HpQ6p1jVKx9x+8ET6+AsZDU0hyIeMoTupfYHr6/qlF+8YgQMtbERU
-7uW+IRzfNTg8rxtPm4mH0tWqa78MuJUhoyaFfM7cOf6IActjT9seH9iQ+ntArXAH
-fUaqcYIxbQYx6ve8R5VZ9zhiQOY+nhsTxL+du/du4rh/FkQJqn23pJ6KLeATD/bO
-zpwSjyXSvIDuVjJZFV5sV796sLVU8MXGHxZbJTViaefpn5cBFwo9orbcVdOU/1XK
-Yayqv0UMYWtT3d/cHb+PwAMZTfugSlBEiVHIaTETUEdq67/csvf8fxZhJ1qPVCFb
-CdRk/Q694jvVdDToTtQVFh4QpKAhtz/16UUZV2N6BqdNIpYdFusigERsPqKWBPmn
-uvO/9G22fCc9dVEcQAMiuCandsbuUnHR6WmQ3RGf1zW6y3DNOwdTq8JTZgP62326
-7j6JwElLviEJDF1DZATGscYsh2RkNm/IwMJCBlXmatLPgBsr/UnLGOh8ZdVQUB2m
-TFSceL6RVtVwRBq7CKElqHih9Rz7d5LnLkyWvWMIXmCAC73SJeOXLsCYtHU1uksj
-moNtfbGw86LXZr6Hdzsv+9KZVPQUI7MvDebJpl5cQhJw5AHNsDKmLXjahG7TGrI1
-rsWlT0cbeVL2v1SNZSbqAq200ec6rK8ZnDf1PpD2B2VNfZ0qrIM=
-=4XAp
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmCkb9QACgkQbDjKyiDZ
+s5LS5A/5ARvujReKzFDtNS/n3mWJNyva0rxTtfwJB6LQFqq0DysOHzHmlAILJfJB
+++sJKTA+TC3jas50t2GBgXk+yWH2PIyTM9378M60N7aYK7cqibvJWYYN3coIyB+6
+WHWd9k+7tPiIQPRqR+bQfmlTgimD8JcF6SxQIgrjeuts0b21UntCqNUt4ys7leck
+PFpl8LnIAT5w3oHViqvNKClU7qcRYZYhsfs1QVUXyEV1MMY26Er0kY+ud6a5rM4o
+I5rlTwhJFucmfpYQEyovyI7ul3Hlzm/JkjLEm5e5qDrpNhKW21ZeJEQ65Vw+CybY
+adG+jy4L3YZXw0HyaFB4Azlidem+/8T9OvGrdXIDu8Jicbl3U28a9cpOcQjyqgqV
+HoI8lm5/kTy/ePjn1dSLVtUK0fsREA+8hg20ltudYe3o2JwehnLh9g0L1YTgck0Z
+GIU8Sxjf8NqRxQc3jpprBOliliEA83Qy5pX27YNQOAXn2b5yfw4YqogkYrzvThNc
+TGAC+Cm/8cBXlIWDmjDE7VKaFbh0lIch5z80ZhmaJP392Y911euG3MXM0j3DtCHD
+Qz3Q06kvNU0/UsH+BcWJr+oYhENlZ7+xk8aSe+LPWbxxYb+PKRxXusEz8xL8ESt3
+D/oSTeXPJWcGTFgcc+SGCfEmww89ZNjZRi+1tUF/s6VRKgHuSvw=
+=Q7Vz
 -----END PGP SIGNATURE-----
 
---KNE7CP3sqj3putl8--
+--PA07fQhG1XaV9rrC--
 
