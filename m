@@ -2,77 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B5B1389628
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 21:06:42 +0200 (CEST)
-Received: from localhost ([::1]:56048 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34A14389631
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 21:09:06 +0200 (CEST)
+Received: from localhost ([::1]:36154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljRWi-0000RA-Iu
-	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 15:06:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53364)
+	id 1ljRZ3-00064d-4v
+	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 15:09:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55212)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ljR1p-0003Ac-Vt
- for qemu-devel@nongnu.org; Wed, 19 May 2021 14:34:46 -0400
-Received: from mail-ot1-x32e.google.com ([2607:f8b0:4864:20::32e]:42765)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ljR1n-0007WG-GW
- for qemu-devel@nongnu.org; Wed, 19 May 2021 14:34:45 -0400
-Received: by mail-ot1-x32e.google.com with SMTP id
- g7-20020a9d12870000b0290328b1342b73so4785188otg.9
- for <qemu-devel@nongnu.org>; Wed, 19 May 2021 11:34:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=GoaUZegljsvDJfRohRECaMQH5QJK/M1GVc1IxmvKhBI=;
- b=zdMfo6By8V0AtxRbYG74VsfaRhtWl/d58Oj/kndtbdsYTnr2u8RpwK/Kk0DuMDc4aE
- m2LE9sf1Ljtz7CQecGMX7n3F7eSmIMuxoYhMxmWQ3afxeP/+2DzrgfBwg9hPEST6YNOV
- 6ubsWJqew186EsIb9G5jyl1DD+if1f6adQxGC6lgC66B8wslvpSYBEMCsx7KcCleUJgX
- Na/BUe9jut+Sw4cLtSVBYOgipMyvY5fcWNieOIOGRjwyadZc75p0cuTY36ziCDlqsW+N
- d9wbldLe6lNkpBE/pWIMkXK+DENt7SFeWmpcQsyld44u8aPEUP4pxXdZxHtVQ9Hgztfp
- 158w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=GoaUZegljsvDJfRohRECaMQH5QJK/M1GVc1IxmvKhBI=;
- b=K5zU7a3i5f7Su2idSlAghuRyDssKUyd4g8VFlqtvX3fBQaj2e/nM+TD6Ev0/rvudNp
- QPYiLACJyTCcg/qJqwRmnm6lVD/q28n/HQjiAVXwR5mIcaMurL6JJZN3CS2zolpjPfi4
- qRQdJwimyURoq/XOHQi4HzOQRr1hFr4zFx9vyDY+5m1EvX3GTk2jfUNy+wRYfm50eW/S
- VUmW5o2gOr4Vxq+/iFE30vdGee7/hYfYrKlZD5op7tiA3F8Mmpgg/vTHOzvITx3K/CIf
- 1ZNkBWN0gcVIZLbLQpIy3JnZK7czoqywQNnOPhTH0TthmdBTFMaLLCeOAhnFZep5qEZu
- yARA==
-X-Gm-Message-State: AOAM530kZWB7wS0fzDSCT9DIkesWDJYGtA2k6MSvdfr7vqZBdE0f0ExP
- JLLgSyY9kM8gHGBxsD5IWjNx5xY426+vTAgR
-X-Google-Smtp-Source: ABdhPJz+g+40/n4qD1aWInwVFPTX+mN9ue0elOtyE8rh2P+fvi5aX1raEMNy0z1qCNVJt8IB8yq71w==
-X-Received: by 2002:a05:6830:18fb:: with SMTP id
- d27mr637157otf.235.1621449282385; 
- Wed, 19 May 2021 11:34:42 -0700 (PDT)
-Received: from localhost.localdomain ([45.235.253.15])
- by smtp.gmail.com with ESMTPSA id i9sm38642oog.17.2021.05.19.11.34.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 May 2021 11:34:42 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ljR70-0005xi-UB
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 14:40:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30528)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ljR6v-0001yU-N3
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 14:40:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1621449596;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=iytE/MlQel0mp/XMfjvd2LdYiRbMp+i9XC/oId+AuG0=;
+ b=ZYbiKG6DoGenlOq5B7bQWyUbiK4lQPB6P5sw/T9L/EsT/8xxRBWvEfKXP+ihudSXxgTG0L
+ ikQRs822FOrfUKZtc2hWjgpRl8ocIfEQNDMVGLo/F87rzfv8l/HUtBUlomRa6/a2hHnHFJ
+ Mx+pLykx1GX9mnn2E3gf6Sf1btVErHA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-303-_TGNL7FONLO3TvposawdGA-1; Wed, 19 May 2021 14:39:54 -0400
+X-MC-Unique: _TGNL7FONLO3TvposawdGA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7F011800D55;
+ Wed, 19 May 2021 18:39:53 +0000 (UTC)
+Received: from scv.redhat.com (ovpn-117-64.rdu2.redhat.com [10.10.117.64])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 771F860BD9;
+ Wed, 19 May 2021 18:39:52 +0000 (UTC)
+From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 50/50] target/i386: Remove user-only i/o stubs
-Date: Wed, 19 May 2021 13:30:50 -0500
-Message-Id: <20210519183050.875453-51-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210519183050.875453-1-richard.henderson@linaro.org>
-References: <20210519183050.875453-1-richard.henderson@linaro.org>
+Subject: [PATCH v3 00/15] qapi: static typing conversion, pt5a
+Date: Wed, 19 May 2021 14:39:36 -0400
+Message-Id: <20210519183951.3946870-1-jsnow@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::32e;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x32e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.39,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,138 +73,144 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Michael Roth <michael.roth@amd.com>, Cleber Rosa <crosa@redhat.com>,
+ John Snow <jsnow@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-With the previous patch for check_io, we now have enough for
-the compiler to dead-code eliminate all of the i/o helpers.
-
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <20210514151342.384376-51-richard.henderson@linaro.org>
----
- target/i386/helper.h              |  3 +-
- target/i386/tcg/translate.c       |  6 ++++
- target/i386/tcg/user/misc_stubs.c | 55 -------------------------------
- target/i386/tcg/user/meson.build  |  1 -
- 4 files changed, 7 insertions(+), 58 deletions(-)
- delete mode 100644 target/i386/tcg/user/misc_stubs.c
-
-diff --git a/target/i386/helper.h b/target/i386/helper.h
-index 3fd0253298..f3d8c3f949 100644
---- a/target/i386/helper.h
-+++ b/target/i386/helper.h
-@@ -86,14 +86,13 @@ DEF_HELPER_1(rdtsc, void, env)
- DEF_HELPER_1(rdtscp, void, env)
- DEF_HELPER_FLAGS_1(rdpmc, TCG_CALL_NO_WG, noreturn, env)
- 
-+#ifndef CONFIG_USER_ONLY
- DEF_HELPER_3(outb, void, env, i32, i32)
- DEF_HELPER_2(inb, tl, env, i32)
- DEF_HELPER_3(outw, void, env, i32, i32)
- DEF_HELPER_2(inw, tl, env, i32)
- DEF_HELPER_3(outl, void, env, i32, i32)
- DEF_HELPER_2(inl, tl, env, i32)
--
--#ifndef CONFIG_USER_ONLY
- DEF_HELPER_FLAGS_3(check_io, TCG_CALL_NO_WG, void, env, i32, i32)
- DEF_HELPER_FLAGS_4(bpt_io, TCG_CALL_NO_WG, void, env, i32, i32, tl)
- DEF_HELPER_2(svm_check_intercept, void, env, i32)
-diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
-index 86b93a010d..051b6dff18 100644
---- a/target/i386/tcg/translate.c
-+++ b/target/i386/tcg/translate.c
-@@ -196,8 +196,14 @@ typedef struct DisasContext {
- STUB_HELPER(clgi, TCGv_env env)
- STUB_HELPER(flush_page, TCGv_env env, TCGv addr)
- STUB_HELPER(hlt, TCGv_env env, TCGv_i32 pc_ofs)
-+STUB_HELPER(inb, TCGv ret, TCGv_env env, TCGv_i32 port)
-+STUB_HELPER(inw, TCGv ret, TCGv_env env, TCGv_i32 port)
-+STUB_HELPER(inl, TCGv ret, TCGv_env env, TCGv_i32 port)
- STUB_HELPER(monitor, TCGv_env env, TCGv addr)
- STUB_HELPER(mwait, TCGv_env env, TCGv_i32 pc_ofs)
-+STUB_HELPER(outb, TCGv_env env, TCGv_i32 port, TCGv_i32 val)
-+STUB_HELPER(outw, TCGv_env env, TCGv_i32 port, TCGv_i32 val)
-+STUB_HELPER(outl, TCGv_env env, TCGv_i32 port, TCGv_i32 val)
- STUB_HELPER(rdmsr, TCGv_env env)
- STUB_HELPER(read_crN, TCGv ret, TCGv_env env, TCGv_i32 reg)
- STUB_HELPER(set_dr, TCGv_env env, TCGv_i32 reg, TCGv val)
-diff --git a/target/i386/tcg/user/misc_stubs.c b/target/i386/tcg/user/misc_stubs.c
-deleted file mode 100644
-index df38b44d6e..0000000000
---- a/target/i386/tcg/user/misc_stubs.c
-+++ /dev/null
-@@ -1,55 +0,0 @@
--/*
-- *  x86 misc helpers
-- *
-- *  Copyright (c) 2003 Fabrice Bellard
-- *
-- * This library is free software; you can redistribute it and/or
-- * modify it under the terms of the GNU Lesser General Public
-- * License as published by the Free Software Foundation; either
-- * version 2.1 of the License, or (at your option) any later version.
-- *
-- * This library is distributed in the hope that it will be useful,
-- * but WITHOUT ANY WARRANTY; without even the implied warranty of
-- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-- * Lesser General Public License for more details.
-- *
-- * You should have received a copy of the GNU Lesser General Public
-- * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-- */
--
--#include "qemu/osdep.h"
--#include "cpu.h"
--#include "exec/helper-proto.h"
--
--void helper_outb(CPUX86State *env, uint32_t port, uint32_t data)
--{
--    g_assert_not_reached();
--}
--
--target_ulong helper_inb(CPUX86State *env, uint32_t port)
--{
--    g_assert_not_reached();
--    return 0;
--}
--
--void helper_outw(CPUX86State *env, uint32_t port, uint32_t data)
--{
--    g_assert_not_reached();
--}
--
--target_ulong helper_inw(CPUX86State *env, uint32_t port)
--{
--    g_assert_not_reached();
--    return 0;
--}
--
--void helper_outl(CPUX86State *env, uint32_t port, uint32_t data)
--{
--    g_assert_not_reached();
--}
--
--target_ulong helper_inl(CPUX86State *env, uint32_t port)
--{
--    g_assert_not_reached();
--    return 0;
--}
-diff --git a/target/i386/tcg/user/meson.build b/target/i386/tcg/user/meson.build
-index 3555b15bdd..1df6bc4343 100644
---- a/target/i386/tcg/user/meson.build
-+++ b/target/i386/tcg/user/meson.build
-@@ -1,5 +1,4 @@
- i386_user_ss.add(when: ['CONFIG_TCG', 'CONFIG_USER_ONLY'], if_true: files(
-   'excp_helper.c',
--  'misc_stubs.c',
-   'seg_helper.c',
- ))
--- 
-2.25.1
+This is part five (a), and focuses on QAPISchemaParser in parser.py.=0D
+It does not touch QAPIDoc yet, which will be covered next.=0D
+=0D
+gitlab: https://gitlab.com/jsnow/qemu/-/commits/python-qapi-cleanup-pt5a=0D
+=0D
+Requirements:=0D
+- Python 3.6+=0D
+- mypy >=3D 0.770=0D
+- pylint >=3D 2.6.0 (2.7.0+ when using Python 3.9+)=0D
+=0D
+Every commit should pass with:=0D
+ - `isort -c qapi/`=0D
+ - `flake8 qapi/`=0D
+ - `pylint --rcfile=3Dqapi/pylintrc qapi/`=0D
+ - `mypy --config-file=3Dqapi/mypy.ini qapi/`=0D
+=0D
+V3:=0D
+=0D
+001: Commit message changed=0D
+004: Commit message changed=0D
+005/15:[0002] [FC] 'qapi/parser: Assert lexer value is a string'=0D
+        - Remove comment=0D
+015/15:[0019] [FC] 'qapi/parser: add docstrings'=0D
+        - Futz with docstrings based on review from armbru=0D
+=0D
+V2:=0D
+=0D
+001/21:[0024] [FC] 'qapi/parser: Don't try to handle file errors'=0D
+002/21:[down] 'qapi: Add test for nonexistent schema file'=0D
+003/21:[0008] [FC] 'qapi/source: Remove line number from QAPISourceInfo ini=
+tializer'=0D
+004/21:[0003] [FC] 'qapi/parser: factor parsing routine into method'=0D
+005/21:[0002] [FC] 'qapi/parser: Assert lexer value is a string'=0D
+006/21:[down] 'qapi/parser: enforce all top-level expressions must be dict =
+in _parse()'=0D
+007/21:[----] [--] 'qapi/parser: assert object keys are strings'=0D
+008/21:[----] [--] 'qapi/parser: Use @staticmethod where appropriate'=0D
+009/21:[down] 'qapi: add must_match helper'=0D
+010/21:[down] 'qapi/parser: Fix token membership tests when token can be No=
+ne'=0D
+011/21:[0012] [FC] 'qapi/parser: Rework _check_pragma_list_of_str as a Type=
+Guard'=0D
+012/21:[0019] [FC] 'qapi/parser: add type hint annotations'=0D
+013/21:[down] 'qapi/parser: Remove superfluous list comprehension'=0D
+014/21:[----] [--] 'qapi/parser: allow 'ch' variable name'=0D
+015/21:[0080] [FC] 'qapi/parser: add docstrings'=0D
+=0D
+01:=0D
+  - Futzed with the commit message a lot.=0D
+  - Added new try/except to QAPISchema() instead of main().=0D
+  - Adjusted "let caller handle this error" comment=0D
+  - Adjusted test-qapi not to crash.=0D
+02:=0D
+  - New, add test for nonexistant root schema file.=0D
+03:=0D
+  - Commit message changes.=0D
+  - Rebase changes, removed _column RFC patch that preceded it.=0D
+04:=0D
+  - Commit message changes.=0D
+  - Minor rebase changes (from changed comment in 01)=0D
+05:=0D
+  - Remove assert message, replace w/ comment=0D
+06:=0D
+  - Replaces 'qapi/parser: assert get_expr returns object in outer loop'=0D
+09:=0D
+  - Renamed match_nofail() to must_match()=0D
+10:=0D
+  - Use tuple() for token membership tests=0D
+  - Add test cases to prevent regressions=0D
+11:=0D
+  - _check =3D> _check_list_str=0D
+  - info.pragma =3D> pragma=0D
+12:=0D
+  - Remove 'Expression' type entirely for now=0D
+  - Highlight self.tok as actively taking None type with Union[str, None]=
+=0D
+  - Minor rebase confetti.=0D
+13:=0D
+  - Renamed commit message.=0D
+15:=0D
+  - Reworked.=0D
+  - Note that 'pos' is indeed interface as it is used by the error handlers=
+.=0D
+=0D
+John Snow (15):=0D
+  qapi/parser: Don't try to handle file errors=0D
+  qapi: Add test for nonexistent schema file=0D
+  qapi/source: Remove line number from QAPISourceInfo initializer=0D
+  qapi/parser: factor parsing routine into method=0D
+  qapi/parser: Assert lexer value is a string=0D
+  qapi/parser: enforce all top-level expressions must be dict in=0D
+    _parse()=0D
+  qapi/parser: assert object keys are strings=0D
+  qapi/parser: Use @staticmethod where appropriate=0D
+  qapi: add must_match helper=0D
+  qapi/parser: Fix token membership tests when token can be None=0D
+  qapi/parser: Rework _check_pragma_list_of_str as a TypeGuard=0D
+  qapi/parser: add type hint annotations=0D
+  qapi/parser: Remove superfluous list comprehension=0D
+  qapi/parser: allow 'ch' variable name=0D
+  qapi/parser: add docstrings=0D
+=0D
+ scripts/qapi/common.py                        |   8 +-=0D
+ scripts/qapi/main.py                          |   6 +-=0D
+ scripts/qapi/parser.py                        | 230 +++++++++++++-----=0D
+ scripts/qapi/pylintrc                         |   1 +=0D
+ scripts/qapi/schema.py                        |  11 +-=0D
+ scripts/qapi/source.py                        |  13 +-=0D
+ tests/qapi-schema/meson.build                 |   9 +-=0D
+ tests/qapi-schema/missing-array-rsqb.err      |   1 +=0D
+ tests/qapi-schema/missing-array-rsqb.json     |   1 +=0D
+ tests/qapi-schema/missing-array-rsqb.out      |   0=0D
+ .../missing-object-member-element.err         |   1 +=0D
+ .../missing-object-member-element.json        |   1 +=0D
+ .../missing-object-member-element.out         |   0=0D
+ tests/qapi-schema/missing-schema.err          |   1 +=0D
+ tests/qapi-schema/missing-schema.out          |   0=0D
+ tests/qapi-schema/non-objects.err             |   2 +-=0D
+ tests/qapi-schema/quoted-structural-chars.err |   2 +-=0D
+ tests/qapi-schema/test-qapi.py                |   3 -=0D
+ 18 files changed, 209 insertions(+), 81 deletions(-)=0D
+ create mode 100644 tests/qapi-schema/missing-array-rsqb.err=0D
+ create mode 100644 tests/qapi-schema/missing-array-rsqb.json=0D
+ create mode 100644 tests/qapi-schema/missing-array-rsqb.out=0D
+ create mode 100644 tests/qapi-schema/missing-object-member-element.err=0D
+ create mode 100644 tests/qapi-schema/missing-object-member-element.json=0D
+ create mode 100644 tests/qapi-schema/missing-object-member-element.out=0D
+ create mode 100644 tests/qapi-schema/missing-schema.err=0D
+ create mode 100644 tests/qapi-schema/missing-schema.out=0D
+=0D
+--=20=0D
+2.30.2=0D
+=0D
 
 
