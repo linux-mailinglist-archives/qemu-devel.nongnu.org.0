@@ -2,51 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84050388F64
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 15:43:41 +0200 (CEST)
-Received: from localhost ([::1]:60184 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53DDC388F46
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 15:39:33 +0200 (CEST)
+Received: from localhost ([::1]:50000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljMU8-0000z9-GP
-	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 09:43:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35508)
+	id 1ljMQ8-0002Xu-CQ
+	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 09:39:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35758)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bruno.larsen@eldorado.org.br>)
- id 1ljLqD-0002uo-S0; Wed, 19 May 2021 09:02:25 -0400
-Received: from [201.28.113.2] (port=49845 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bruno.larsen@eldorado.org.br>)
- id 1ljLq9-0006sB-2W; Wed, 19 May 2021 09:02:24 -0400
-Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Wed, 19 May 2021 10:02:16 -0300
-Received: from [127.0.0.1] (unknown [10.10.71.235])
- by power9a (Postfix) with ESMTPS id 3407E80139F;
- Wed, 19 May 2021 10:02:16 -0300 (-03)
-Subject: Re: [PATCH 16/24] target/ppc: Remove PowerPCCPUClass.handle_mmu_fault
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20210518201146.794854-1-richard.henderson@linaro.org>
- <20210518201146.794854-17-richard.henderson@linaro.org>
-From: Bruno Piazera Larsen <bruno.larsen@eldorado.org.br>
-Message-ID: <777cbabc-f36b-91c6-f474-f4bb7c5b5955@eldorado.org.br>
-Date: Wed, 19 May 2021 10:02:15 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ljLqr-0004Hu-I4
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 09:03:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24827)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ljLqm-0007Eg-TK
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 09:03:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1621429379;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=p+gNJOH+BWQ830cU5pTA723f+1qSLVE8skwYUfZJN6k=;
+ b=ZEM7vVwiE6XV/s0tvpu46zmxogRnQJhoA/gvfCYjGfvd3z5GUP3MbZFEKGpSsSAUcOnAY4
+ ESv6RCV61DP9ObdSckzX5ZGIrNNeLWAOH4l80MYDbcqIgAD+H8hoxzmfxGj7IwGAsr34oW
+ AxLLNqpCDUcpdQzz7zYunQGz4gwvt0g=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-78-cvR1Hyx3N4S4J1IiqcC8AQ-1; Wed, 19 May 2021 09:02:55 -0400
+X-MC-Unique: cvR1Hyx3N4S4J1IiqcC8AQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 228A01009446;
+ Wed, 19 May 2021 13:02:54 +0000 (UTC)
+Received: from merkur.fritz.box (ovpn-115-58.ams2.redhat.com [10.36.115.58])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8FBF15D6AC;
+ Wed, 19 May 2021 13:02:51 +0000 (UTC)
+Date: Wed, 19 May 2021 15:02:50 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: Qemu block filter insertion/removal API
+Message-ID: <YKUMeq/EY+TyXZGk@merkur.fritz.box>
+References: <a1de7e2e-2048-50d7-4373-7e04299cf7aa@virtuozzo.com>
+ <YKT6D1jg4gYi8nZE@merkur.fritz.box>
+ <a6435411-d4dd-29a0-02b7-d99e9b42597b@virtuozzo.com>
 MIME-Version: 1.0
-In-Reply-To: <20210518201146.794854-17-richard.henderson@linaro.org>
-Content-Type: multipart/alternative;
- boundary="------------B6F5663B03DA6AF5AE33D5B3"
-Content-Language: en-US
-X-OriginalArrivalTime: 19 May 2021 13:02:16.0457 (UTC)
- FILETIME=[3185F790:01D74CAF]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
-Received-SPF: pass client-ip=201.28.113.2;
- envelope-from=bruno.larsen@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: 0
-X-Spam_score: -0.1
-X-Spam_bar: /
-X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
- NICE_REPLY_A=-0.001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- TVD_SUBJ_WIPE_DEBT=1.004 autolearn=no autolearn_force=no
+In-Reply-To: <a6435411-d4dd-29a0-02b7-d99e9b42597b@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.39,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,548 +77,162 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
+Cc: Peter Krempa <pkrempa@redhat.com>, qemu-block@nongnu.org,
+ "libvir-list@redhat.com" <libvir-list@redhat.com>, armbru@redhat.com,
+ Dmitry Mishin <dim@virtuozzo.com>, Igor Sukhih <igor@virtuozzo.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
+ yur@virtuozzo.com, Nikolay Shirokovskiy <nshirokovskiy@virtuozzo.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, "Denis V. Lunev" <den@openvz.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a multi-part message in MIME format.
---------------B6F5663B03DA6AF5AE33D5B3
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Am 19.05.2021 um 14:19 hat Vladimir Sementsov-Ogievskiy geschrieben:
+> 19.05.2021 14:44, Kevin Wolf wrote:
+> > Am 17.05.2021 um 14:44 hat Vladimir Sementsov-Ogievskiy geschrieben:
+> > > Hi all!
+> > > 
+> > > I'd like to be sure that we know where we are going to.
+> > > 
+> > > In blockdev-era where qemu user is aware about block nodes, all nodes have good names and controlled by user we can efficiently use block filters.
+> > > 
+> > > We already have some useful filters: copy-on-read, throttling, compress. In my parallel series I make backup-top filter public and useful without backup block jobs. But now filters could be inserted only together with opening their child. We can specify filters in qemu cmdline, or filter can take place in the block node chain created by blockdev-add.
+> > > 
+> > > Still, it would be good to insert/remove filters on demand.
+> > > 
+> > > Currently we are going to use x-blockdev-reopen for this. Still it can't be used to insert a filter above root node (as x-blockdev-reopen can change only block node options and their children). In my series "[PATCH 00/21] block: publish backup-top filter" I propose (as Kevin suggested) to modify qom-set, so that it can set drive option of running device. That's not difficult, but it means that we have different scenario of inserting/removing filters:
+> > > 
+> > > 1. filter above root node X:
+> > > 
+> > > inserting:
+> > > 
+> > >    - do blockdev-add to add a filter (and specify X as its child)
+> > >    - do qom-set to set new filter as a rood node instead of X
+> > > 
+> > > removing
+> > > 
+> > >    - do qom-set to make X a root node again
+> > >    - do blockdev-del to drop a filter
+> > > 
+> > > 2. filter between two block nodes P and X. (For example, X is a backing child of P)
+> > > 
+> > > inserting
+> > > 
+> > >    - do blockdev-add to add a filter (and specify X as its child)
+> > >    - do blockdev-reopen to set P.backing = filter
+> > > 
+> > > remvoing
+> > > 
+> > >    - do blockdev-reopen to set P.backing = X
+> > >    - do blockdev-del to drop a filter
+> > > 
+> > > 
+> > > And, probably we'll want transaction support for all these things.
+> > > 
+> > > 
+> > > Is it OK? Or do we need some kind of additional blockdev-replace command, that can replace one node by another, so in both cases we will do
+> > > 
+> > > inserting:
+> > >    - blockdev-add filter
+> > >    - blockdev-replace (make all parents of X to point to the new filter instead (except for the filter itself of course)
+> > > 
+> > > removing
+> > >    - blockdev-replace (make all parante of filter to be parents of X instead)
+> > >    - blockdev-del filter
+> > > 
+> > > It's simple to implement, and it seems for me that it is simpler to use. Any thoughts?
+> > 
+> > One reason I remember why we didn't decide to go this way in the many
+> > "dynamic graph reconfiguration" discussions we had, is that it's not
+> > generic enough to cover all cases. But I'm not sure if we ever
+> > considered root nodes as a separate case. I acknowledge that having two
+> > different interfaces is inconvenient, and integrating qom-set in a
+> > transaction is rather unlikely to happen.
+> > 
+> > The reason why it's not generic is that it restricts you to doing the
+> > same thing for all parents. Imagine this:
+> > 
+> >                      +- virtio-blk
+> >                      |
+> >      file <- qcow2 <-+
+> >                      |
+> >                      +- NBD export
+> > 
+> > Now you want to throttle the NBD export so that it doesn't interfere
+> > with your VM too much. With your simple blockdev-replace this isn't
+> > possible. You would have to add the filter to both users or to none.
+> > 
+> > In theory, blockdev-replace could take a list of the edges that should
+> > be changed to the new node. The problem is that edges don't have names,
+> > and even the parents don't necessarily have one (and if they do, they
+> > are in separate namespaces, so a BlockBackend, a job and an export could
+> > all have the same name), so finding a good way to refer to them in QMP
+> > doesn't sound trivial.
+> > 
+> 
+> Hm. I like the idea. And it seems feasible to me:
+> 
+> Both export and block jobs works through BlockBackend.
+> 
+> So, for block-jobs, we can add optional parameters like
+> source-blk-name, and target-blk-name. If parameters specified, blk's
+> will be named, and user will be able to do blockdev-replace.
 
+I'm not sure if giving them a name is a good idea. Wouldn't it make the
+BlockBackend accessible for the user who could then make a device use
+it?
 
-On 18/05/2021 17:11, Richard Henderson wrote:
-> Instead, use a switch on env->mmu_model.  This avoids some
-> replicated information in cpu setup.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> For export it's a bit trickier: it would be strange to add separate
+> argument for export blk, as export already has id. So, I'd do the
+> following:
+> 
+> 1. make blk named (with same name as the export itself) iff name does
+>    not conflict with other blks
+> 2. deprecate duplicating existing blk names by export name.
 
-Reviewed-by: Bruno Larsen (billionai)<bruno.larsen@eldorado.org.br>
+Yes, if we decide that giving them a name is a good idea, it's possible,
+but still a change that requires deprecation, as you say.
 
-> ---
->   target/ppc/cpu-qom.h    |  1 -
->   target/ppc/cpu_init.c   | 45 -----------------------------------------
->   target/ppc/mmu_helper.c | 24 ++++++++++++++++++----
->   3 files changed, 20 insertions(+), 50 deletions(-)
->
-> diff --git a/target/ppc/cpu-qom.h b/target/ppc/cpu-qom.h
-> index 06b6571bc9..3b14d2f134 100644
-> --- a/target/ppc/cpu-qom.h
-> +++ b/target/ppc/cpu-qom.h
-> @@ -198,7 +198,6 @@ struct PowerPCCPUClass {
->       int n_host_threads;
->       void (*init_proc)(CPUPPCState *env);
->       int  (*check_pow)(CPUPPCState *env);
-> -    int (*handle_mmu_fault)(PowerPCCPU *cpu, vaddr eaddr, int rwx, int mmu_idx);
->       bool (*interrupts_big_endian)(PowerPCCPU *cpu);
->   };
->   
-> diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
-> index d0fa219880..d33aded7cf 100644
-> --- a/target/ppc/cpu_init.c
-> +++ b/target/ppc/cpu_init.c
-> @@ -4580,9 +4580,6 @@ POWERPC_FAMILY(601)(ObjectClass *oc, void *data)
->                       (1ull << MSR_IR) |
->                       (1ull << MSR_DR);
->       pcc->mmu_model = POWERPC_MMU_601;
-> -#if defined(CONFIG_SOFTMMU)
-> -    pcc->handle_mmu_fault = ppc_hash32_handle_mmu_fault;
-> -#endif
->       pcc->excp_model = POWERPC_EXCP_601;
->       pcc->bus_model = PPC_FLAGS_INPUT_6xx;
->       pcc->bfd_mach = bfd_mach_ppc_601;
-> @@ -4625,9 +4622,6 @@ POWERPC_FAMILY(601v)(ObjectClass *oc, void *data)
->                       (1ull << MSR_IR) |
->                       (1ull << MSR_DR);
->       pcc->mmu_model = POWERPC_MMU_601;
-> -#if defined(CONFIG_SOFTMMU)
-> -    pcc->handle_mmu_fault = ppc_hash32_handle_mmu_fault;
-> -#endif
->       pcc->bus_model = PPC_FLAGS_INPUT_6xx;
->       pcc->bfd_mach = bfd_mach_ppc_601;
->       pcc->flags = POWERPC_FLAG_SE | POWERPC_FLAG_RTC_CLK | POWERPC_FLAG_HID0_LE;
-> @@ -4891,9 +4885,6 @@ POWERPC_FAMILY(604)(ObjectClass *oc, void *data)
->                       (1ull << MSR_RI) |
->                       (1ull << MSR_LE);
->       pcc->mmu_model = POWERPC_MMU_32B;
-> -#if defined(CONFIG_SOFTMMU)
-> -    pcc->handle_mmu_fault = ppc_hash32_handle_mmu_fault;
-> -#endif
->       pcc->excp_model = POWERPC_EXCP_604;
->       pcc->bus_model = PPC_FLAGS_INPUT_6xx;
->       pcc->bfd_mach = bfd_mach_ppc_604;
-> @@ -4975,9 +4966,6 @@ POWERPC_FAMILY(604E)(ObjectClass *oc, void *data)
->                       (1ull << MSR_RI) |
->                       (1ull << MSR_LE);
->       pcc->mmu_model = POWERPC_MMU_32B;
-> -#if defined(CONFIG_SOFTMMU)
-> -    pcc->handle_mmu_fault = ppc_hash32_handle_mmu_fault;
-> -#endif
->       pcc->excp_model = POWERPC_EXCP_604;
->       pcc->bus_model = PPC_FLAGS_INPUT_6xx;
->       pcc->bfd_mach = bfd_mach_ppc_604;
-> @@ -5046,9 +5034,6 @@ POWERPC_FAMILY(740)(ObjectClass *oc, void *data)
->                       (1ull << MSR_RI) |
->                       (1ull << MSR_LE);
->       pcc->mmu_model = POWERPC_MMU_32B;
-> -#if defined(CONFIG_SOFTMMU)
-> -    pcc->handle_mmu_fault = ppc_hash32_handle_mmu_fault;
-> -#endif
->       pcc->excp_model = POWERPC_EXCP_7x0;
->       pcc->bus_model = PPC_FLAGS_INPUT_6xx;
->       pcc->bfd_mach = bfd_mach_ppc_750;
-> @@ -5126,9 +5111,6 @@ POWERPC_FAMILY(750)(ObjectClass *oc, void *data)
->                       (1ull << MSR_RI) |
->                       (1ull << MSR_LE);
->       pcc->mmu_model = POWERPC_MMU_32B;
-> -#if defined(CONFIG_SOFTMMU)
-> -    pcc->handle_mmu_fault = ppc_hash32_handle_mmu_fault;
-> -#endif
->       pcc->excp_model = POWERPC_EXCP_7x0;
->       pcc->bus_model = PPC_FLAGS_INPUT_6xx;
->       pcc->bfd_mach = bfd_mach_ppc_750;
-> @@ -5329,9 +5311,6 @@ POWERPC_FAMILY(750cl)(ObjectClass *oc, void *data)
->                       (1ull << MSR_RI) |
->                       (1ull << MSR_LE);
->       pcc->mmu_model = POWERPC_MMU_32B;
-> -#if defined(CONFIG_SOFTMMU)
-> -    pcc->handle_mmu_fault = ppc_hash32_handle_mmu_fault;
-> -#endif
->       pcc->excp_model = POWERPC_EXCP_7x0;
->       pcc->bus_model = PPC_FLAGS_INPUT_6xx;
->       pcc->bfd_mach = bfd_mach_ppc_750;
-> @@ -5412,9 +5391,6 @@ POWERPC_FAMILY(750cx)(ObjectClass *oc, void *data)
->                       (1ull << MSR_RI) |
->                       (1ull << MSR_LE);
->       pcc->mmu_model = POWERPC_MMU_32B;
-> -#if defined(CONFIG_SOFTMMU)
-> -    pcc->handle_mmu_fault = ppc_hash32_handle_mmu_fault;
-> -#endif
->       pcc->excp_model = POWERPC_EXCP_7x0;
->       pcc->bus_model = PPC_FLAGS_INPUT_6xx;
->       pcc->bfd_mach = bfd_mach_ppc_750;
-> @@ -5500,9 +5476,6 @@ POWERPC_FAMILY(750fx)(ObjectClass *oc, void *data)
->                       (1ull << MSR_RI) |
->                       (1ull << MSR_LE);
->       pcc->mmu_model = POWERPC_MMU_32B;
-> -#if defined(CONFIG_SOFTMMU)
-> -    pcc->handle_mmu_fault = ppc_hash32_handle_mmu_fault;
-> -#endif
->       pcc->excp_model = POWERPC_EXCP_7x0;
->       pcc->bus_model = PPC_FLAGS_INPUT_6xx;
->       pcc->bfd_mach = bfd_mach_ppc_750;
-> @@ -5588,9 +5561,6 @@ POWERPC_FAMILY(750gx)(ObjectClass *oc, void *data)
->                       (1ull << MSR_RI) |
->                       (1ull << MSR_LE);
->       pcc->mmu_model = POWERPC_MMU_32B;
-> -#if defined(CONFIG_SOFTMMU)
-> -    pcc->handle_mmu_fault = ppc_hash32_handle_mmu_fault;
-> -#endif
->       pcc->excp_model = POWERPC_EXCP_7x0;
->       pcc->bus_model = PPC_FLAGS_INPUT_6xx;
->       pcc->bfd_mach = bfd_mach_ppc_750;
-> @@ -5830,9 +5800,6 @@ POWERPC_FAMILY(7400)(ObjectClass *oc, void *data)
->                       (1ull << MSR_RI) |
->                       (1ull << MSR_LE);
->       pcc->mmu_model = POWERPC_MMU_32B;
-> -#if defined(CONFIG_SOFTMMU)
-> -    pcc->handle_mmu_fault = ppc_hash32_handle_mmu_fault;
-> -#endif
->       pcc->excp_model = POWERPC_EXCP_74xx;
->       pcc->bus_model = PPC_FLAGS_INPUT_6xx;
->       pcc->bfd_mach = bfd_mach_ppc_7400;
-> @@ -5916,9 +5883,6 @@ POWERPC_FAMILY(7410)(ObjectClass *oc, void *data)
->                       (1ull << MSR_RI) |
->                       (1ull << MSR_LE);
->       pcc->mmu_model = POWERPC_MMU_32B;
-> -#if defined(CONFIG_SOFTMMU)
-> -    pcc->handle_mmu_fault = ppc_hash32_handle_mmu_fault;
-> -#endif
->       pcc->excp_model = POWERPC_EXCP_74xx;
->       pcc->bus_model = PPC_FLAGS_INPUT_6xx;
->       pcc->bfd_mach = bfd_mach_ppc_7400;
-> @@ -6745,9 +6709,6 @@ POWERPC_FAMILY(e600)(ObjectClass *oc, void *data)
->                       (1ull << MSR_RI) |
->                       (1ull << MSR_LE);
->       pcc->mmu_model = POWERPC_MMU_32B;
-> -#if defined(CONFIG_SOFTMMU)
-> -    pcc->handle_mmu_fault = ppc_hash32_handle_mmu_fault;
-> -#endif
->       pcc->excp_model = POWERPC_EXCP_74xx;
->       pcc->bus_model = PPC_FLAGS_INPUT_6xx;
->       pcc->bfd_mach = bfd_mach_ppc_7400;
-> @@ -7507,7 +7468,6 @@ POWERPC_FAMILY(970)(ObjectClass *oc, void *data)
->                       (1ull << MSR_RI);
->       pcc->mmu_model = POWERPC_MMU_64B;
->   #if defined(CONFIG_SOFTMMU)
-> -    pcc->handle_mmu_fault = ppc_hash64_handle_mmu_fault;
->       pcc->hash64_opts = &ppc_hash64_opts_basic;
->   #endif
->       pcc->excp_model = POWERPC_EXCP_970;
-> @@ -7585,7 +7545,6 @@ POWERPC_FAMILY(POWER5P)(ObjectClass *oc, void *data)
->           LPCR_RMI | LPCR_HDICE;
->       pcc->mmu_model = POWERPC_MMU_2_03;
->   #if defined(CONFIG_SOFTMMU)
-> -    pcc->handle_mmu_fault = ppc_hash64_handle_mmu_fault;
->       pcc->hash64_opts = &ppc_hash64_opts_basic;
->       pcc->lrg_decr_bits = 32;
->   #endif
-> @@ -7729,7 +7688,6 @@ POWERPC_FAMILY(POWER7)(ObjectClass *oc, void *data)
->       pcc->lpcr_pm = LPCR_P7_PECE0 | LPCR_P7_PECE1 | LPCR_P7_PECE2;
->       pcc->mmu_model = POWERPC_MMU_2_06;
->   #if defined(CONFIG_SOFTMMU)
-> -    pcc->handle_mmu_fault = ppc_hash64_handle_mmu_fault;
->       pcc->hash64_opts = &ppc_hash64_opts_POWER7;
->       pcc->lrg_decr_bits = 32;
->   #endif
-> @@ -7906,7 +7864,6 @@ POWERPC_FAMILY(POWER8)(ObjectClass *oc, void *data)
->                      LPCR_P8_PECE3 | LPCR_P8_PECE4;
->       pcc->mmu_model = POWERPC_MMU_2_07;
->   #if defined(CONFIG_SOFTMMU)
-> -    pcc->handle_mmu_fault = ppc_hash64_handle_mmu_fault;
->       pcc->hash64_opts = &ppc_hash64_opts_POWER7;
->       pcc->lrg_decr_bits = 32;
->       pcc->n_host_threads = 8;
-> @@ -8122,7 +8079,6 @@ POWERPC_FAMILY(POWER9)(ObjectClass *oc, void *data)
->       pcc->lpcr_pm = LPCR_PDEE | LPCR_HDEE | LPCR_EEE | LPCR_DEE | LPCR_OEE;
->       pcc->mmu_model = POWERPC_MMU_3_00;
->   #if defined(CONFIG_SOFTMMU)
-> -    pcc->handle_mmu_fault = ppc64_v3_handle_mmu_fault;
->       /* segment page size remain the same */
->       pcc->hash64_opts = &ppc_hash64_opts_POWER7;
->       pcc->radix_page_info = &POWER9_radix_page_info;
-> @@ -8334,7 +8290,6 @@ POWERPC_FAMILY(POWER10)(ObjectClass *oc, void *data)
->       pcc->lpcr_pm = LPCR_PDEE | LPCR_HDEE | LPCR_EEE | LPCR_DEE | LPCR_OEE;
->       pcc->mmu_model = POWERPC_MMU_3_00;
->   #if defined(CONFIG_SOFTMMU)
-> -    pcc->handle_mmu_fault = ppc64_v3_handle_mmu_fault;
->       /* segment page size remain the same */
->       pcc->hash64_opts = &ppc_hash64_opts_POWER7;
->       pcc->radix_page_info = &POWER10_radix_page_info;
-> diff --git a/target/ppc/mmu_helper.c b/target/ppc/mmu_helper.c
-> index ef634fcb33..863e556a22 100644
-> --- a/target/ppc/mmu_helper.c
-> +++ b/target/ppc/mmu_helper.c
-> @@ -2963,14 +2963,30 @@ bool ppc_cpu_tlb_fill(CPUState *cs, vaddr addr, int size,
->                         bool probe, uintptr_t retaddr)
->   {
->       PowerPCCPU *cpu = POWERPC_CPU(cs);
-> -    PowerPCCPUClass *pcc = POWERPC_CPU_GET_CLASS(cs);
->       CPUPPCState *env = &cpu->env;
->       int ret;
->   
-> -    if (pcc->handle_mmu_fault) {
-> -        ret = pcc->handle_mmu_fault(cpu, addr, access_type, mmu_idx);
-> -    } else {
-> +    switch (env->mmu_model) {
-> +#if defined(TARGET_PPC64)
-> +    case POWERPC_MMU_64B:
-> +    case POWERPC_MMU_2_03:
-> +    case POWERPC_MMU_2_06:
-> +    case POWERPC_MMU_2_07:
-> +        ret = ppc_hash64_handle_mmu_fault(cpu, addr, access_type, mmu_idx);
-> +        break;
-> +    case POWERPC_MMU_3_00:
-> +        ret = ppc64_v3_handle_mmu_fault(cpu, addr, access_type, mmu_idx);
-> +        break;
-> +#endif
-> +
-> +    case POWERPC_MMU_32B:
-> +    case POWERPC_MMU_601:
-> +        ret = ppc_hash32_handle_mmu_fault(cpu, addr, access_type, mmu_idx);
-> +        break;
-> +
-> +    default:
->           ret = cpu_ppc_handle_mmu_fault(env, addr, access_type, mmu_idx);
-> +        break;
->       }
->       if (unlikely(ret != 0)) {
->           if (probe) {
--- 
-Bruno Piazera Larsen
-Instituto de Pesquisas ELDORADO 
-<https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&utm_medium=email&utm_source=RD+Station>
-Departamento Computação Embarcada
-Analista de Software Trainee
-Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
+The third one is devices (which is what I actually meant when I said
+BlockBackend), which also have anonymous BlockBackends in the -blockdev
+world. The same approach could work, but it would essentially mean
+unifying the QOM and the block namespace, which sounds more likely to
+produce conflicts than exports.
 
---------------B6F5663B03DA6AF5AE33D5B3
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 8bit
+> Then, blockdev-replace take a parents list, where parent is either
+> node-name or blk name.
 
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">On 18/05/2021 17:11, Richard Henderson
-      wrote:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:20210518201146.794854-17-richard.henderson@linaro.org">
-      <pre class="moz-quote-pre" wrap="">Instead, use a switch on env-&gt;mmu_model.  This avoids some
-replicated information in cpu setup.
+Note that you need both a node-name and a child name to unambiguously
+identify an edge.
 
-Signed-off-by: Richard Henderson <a class="moz-txt-link-rfc2396E" href="mailto:richard.henderson@linaro.org">&lt;richard.henderson@linaro.org&gt;</a></pre>
-    </blockquote>
-    <pre class="moz-quote-pre" wrap="">Reviewed-by: Bruno Larsen (billionai) <a class="moz-txt-link-rfc2396E" href="mailto:bruno.larsen@eldorado.org.br">&lt;bruno.larsen@eldorado.org.br&gt;</a></pre>
-    <blockquote type="cite"
-      cite="mid:20210518201146.794854-17-richard.henderson@linaro.org">
-      <pre class="moz-quote-pre" wrap="">
----
- target/ppc/cpu-qom.h    |  1 -
- target/ppc/cpu_init.c   | 45 -----------------------------------------
- target/ppc/mmu_helper.c | 24 ++++++++++++++++++----
- 3 files changed, 20 insertions(+), 50 deletions(-)
+I guess you could do something like the following, it's just a bit
+verbose:
 
-diff --git a/target/ppc/cpu-qom.h b/target/ppc/cpu-qom.h
-index 06b6571bc9..3b14d2f134 100644
---- a/target/ppc/cpu-qom.h
-+++ b/target/ppc/cpu-qom.h
-@@ -198,7 +198,6 @@ struct PowerPCCPUClass {
-     int n_host_threads;
-     void (*init_proc)(CPUPPCState *env);
-     int  (*check_pow)(CPUPPCState *env);
--    int (*handle_mmu_fault)(PowerPCCPU *cpu, vaddr eaddr, int rwx, int mmu_idx);
-     bool (*interrupts_big_endian)(PowerPCCPU *cpu);
- };
- 
-diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
-index d0fa219880..d33aded7cf 100644
---- a/target/ppc/cpu_init.c
-+++ b/target/ppc/cpu_init.c
-@@ -4580,9 +4580,6 @@ POWERPC_FAMILY(601)(ObjectClass *oc, void *data)
-                     (1ull &lt;&lt; MSR_IR) |
-                     (1ull &lt;&lt; MSR_DR);
-     pcc-&gt;mmu_model = POWERPC_MMU_601;
--#if defined(CONFIG_SOFTMMU)
--    pcc-&gt;handle_mmu_fault = ppc_hash32_handle_mmu_fault;
--#endif
-     pcc-&gt;excp_model = POWERPC_EXCP_601;
-     pcc-&gt;bus_model = PPC_FLAGS_INPUT_6xx;
-     pcc-&gt;bfd_mach = bfd_mach_ppc_601;
-@@ -4625,9 +4622,6 @@ POWERPC_FAMILY(601v)(ObjectClass *oc, void *data)
-                     (1ull &lt;&lt; MSR_IR) |
-                     (1ull &lt;&lt; MSR_DR);
-     pcc-&gt;mmu_model = POWERPC_MMU_601;
--#if defined(CONFIG_SOFTMMU)
--    pcc-&gt;handle_mmu_fault = ppc_hash32_handle_mmu_fault;
--#endif
-     pcc-&gt;bus_model = PPC_FLAGS_INPUT_6xx;
-     pcc-&gt;bfd_mach = bfd_mach_ppc_601;
-     pcc-&gt;flags = POWERPC_FLAG_SE | POWERPC_FLAG_RTC_CLK | POWERPC_FLAG_HID0_LE;
-@@ -4891,9 +4885,6 @@ POWERPC_FAMILY(604)(ObjectClass *oc, void *data)
-                     (1ull &lt;&lt; MSR_RI) |
-                     (1ull &lt;&lt; MSR_LE);
-     pcc-&gt;mmu_model = POWERPC_MMU_32B;
--#if defined(CONFIG_SOFTMMU)
--    pcc-&gt;handle_mmu_fault = ppc_hash32_handle_mmu_fault;
--#endif
-     pcc-&gt;excp_model = POWERPC_EXCP_604;
-     pcc-&gt;bus_model = PPC_FLAGS_INPUT_6xx;
-     pcc-&gt;bfd_mach = bfd_mach_ppc_604;
-@@ -4975,9 +4966,6 @@ POWERPC_FAMILY(604E)(ObjectClass *oc, void *data)
-                     (1ull &lt;&lt; MSR_RI) |
-                     (1ull &lt;&lt; MSR_LE);
-     pcc-&gt;mmu_model = POWERPC_MMU_32B;
--#if defined(CONFIG_SOFTMMU)
--    pcc-&gt;handle_mmu_fault = ppc_hash32_handle_mmu_fault;
--#endif
-     pcc-&gt;excp_model = POWERPC_EXCP_604;
-     pcc-&gt;bus_model = PPC_FLAGS_INPUT_6xx;
-     pcc-&gt;bfd_mach = bfd_mach_ppc_604;
-@@ -5046,9 +5034,6 @@ POWERPC_FAMILY(740)(ObjectClass *oc, void *data)
-                     (1ull &lt;&lt; MSR_RI) |
-                     (1ull &lt;&lt; MSR_LE);
-     pcc-&gt;mmu_model = POWERPC_MMU_32B;
--#if defined(CONFIG_SOFTMMU)
--    pcc-&gt;handle_mmu_fault = ppc_hash32_handle_mmu_fault;
--#endif
-     pcc-&gt;excp_model = POWERPC_EXCP_7x0;
-     pcc-&gt;bus_model = PPC_FLAGS_INPUT_6xx;
-     pcc-&gt;bfd_mach = bfd_mach_ppc_750;
-@@ -5126,9 +5111,6 @@ POWERPC_FAMILY(750)(ObjectClass *oc, void *data)
-                     (1ull &lt;&lt; MSR_RI) |
-                     (1ull &lt;&lt; MSR_LE);
-     pcc-&gt;mmu_model = POWERPC_MMU_32B;
--#if defined(CONFIG_SOFTMMU)
--    pcc-&gt;handle_mmu_fault = ppc_hash32_handle_mmu_fault;
--#endif
-     pcc-&gt;excp_model = POWERPC_EXCP_7x0;
-     pcc-&gt;bus_model = PPC_FLAGS_INPUT_6xx;
-     pcc-&gt;bfd_mach = bfd_mach_ppc_750;
-@@ -5329,9 +5311,6 @@ POWERPC_FAMILY(750cl)(ObjectClass *oc, void *data)
-                     (1ull &lt;&lt; MSR_RI) |
-                     (1ull &lt;&lt; MSR_LE);
-     pcc-&gt;mmu_model = POWERPC_MMU_32B;
--#if defined(CONFIG_SOFTMMU)
--    pcc-&gt;handle_mmu_fault = ppc_hash32_handle_mmu_fault;
--#endif
-     pcc-&gt;excp_model = POWERPC_EXCP_7x0;
-     pcc-&gt;bus_model = PPC_FLAGS_INPUT_6xx;
-     pcc-&gt;bfd_mach = bfd_mach_ppc_750;
-@@ -5412,9 +5391,6 @@ POWERPC_FAMILY(750cx)(ObjectClass *oc, void *data)
-                     (1ull &lt;&lt; MSR_RI) |
-                     (1ull &lt;&lt; MSR_LE);
-     pcc-&gt;mmu_model = POWERPC_MMU_32B;
--#if defined(CONFIG_SOFTMMU)
--    pcc-&gt;handle_mmu_fault = ppc_hash32_handle_mmu_fault;
--#endif
-     pcc-&gt;excp_model = POWERPC_EXCP_7x0;
-     pcc-&gt;bus_model = PPC_FLAGS_INPUT_6xx;
-     pcc-&gt;bfd_mach = bfd_mach_ppc_750;
-@@ -5500,9 +5476,6 @@ POWERPC_FAMILY(750fx)(ObjectClass *oc, void *data)
-                     (1ull &lt;&lt; MSR_RI) |
-                     (1ull &lt;&lt; MSR_LE);
-     pcc-&gt;mmu_model = POWERPC_MMU_32B;
--#if defined(CONFIG_SOFTMMU)
--    pcc-&gt;handle_mmu_fault = ppc_hash32_handle_mmu_fault;
--#endif
-     pcc-&gt;excp_model = POWERPC_EXCP_7x0;
-     pcc-&gt;bus_model = PPC_FLAGS_INPUT_6xx;
-     pcc-&gt;bfd_mach = bfd_mach_ppc_750;
-@@ -5588,9 +5561,6 @@ POWERPC_FAMILY(750gx)(ObjectClass *oc, void *data)
-                     (1ull &lt;&lt; MSR_RI) |
-                     (1ull &lt;&lt; MSR_LE);
-     pcc-&gt;mmu_model = POWERPC_MMU_32B;
--#if defined(CONFIG_SOFTMMU)
--    pcc-&gt;handle_mmu_fault = ppc_hash32_handle_mmu_fault;
--#endif
-     pcc-&gt;excp_model = POWERPC_EXCP_7x0;
-     pcc-&gt;bus_model = PPC_FLAGS_INPUT_6xx;
-     pcc-&gt;bfd_mach = bfd_mach_ppc_750;
-@@ -5830,9 +5800,6 @@ POWERPC_FAMILY(7400)(ObjectClass *oc, void *data)
-                     (1ull &lt;&lt; MSR_RI) |
-                     (1ull &lt;&lt; MSR_LE);
-     pcc-&gt;mmu_model = POWERPC_MMU_32B;
--#if defined(CONFIG_SOFTMMU)
--    pcc-&gt;handle_mmu_fault = ppc_hash32_handle_mmu_fault;
--#endif
-     pcc-&gt;excp_model = POWERPC_EXCP_74xx;
-     pcc-&gt;bus_model = PPC_FLAGS_INPUT_6xx;
-     pcc-&gt;bfd_mach = bfd_mach_ppc_7400;
-@@ -5916,9 +5883,6 @@ POWERPC_FAMILY(7410)(ObjectClass *oc, void *data)
-                     (1ull &lt;&lt; MSR_RI) |
-                     (1ull &lt;&lt; MSR_LE);
-     pcc-&gt;mmu_model = POWERPC_MMU_32B;
--#if defined(CONFIG_SOFTMMU)
--    pcc-&gt;handle_mmu_fault = ppc_hash32_handle_mmu_fault;
--#endif
-     pcc-&gt;excp_model = POWERPC_EXCP_74xx;
-     pcc-&gt;bus_model = PPC_FLAGS_INPUT_6xx;
-     pcc-&gt;bfd_mach = bfd_mach_ppc_7400;
-@@ -6745,9 +6709,6 @@ POWERPC_FAMILY(e600)(ObjectClass *oc, void *data)
-                     (1ull &lt;&lt; MSR_RI) |
-                     (1ull &lt;&lt; MSR_LE);
-     pcc-&gt;mmu_model = POWERPC_MMU_32B;
--#if defined(CONFIG_SOFTMMU)
--    pcc-&gt;handle_mmu_fault = ppc_hash32_handle_mmu_fault;
--#endif
-     pcc-&gt;excp_model = POWERPC_EXCP_74xx;
-     pcc-&gt;bus_model = PPC_FLAGS_INPUT_6xx;
-     pcc-&gt;bfd_mach = bfd_mach_ppc_7400;
-@@ -7507,7 +7468,6 @@ POWERPC_FAMILY(970)(ObjectClass *oc, void *data)
-                     (1ull &lt;&lt; MSR_RI);
-     pcc-&gt;mmu_model = POWERPC_MMU_64B;
- #if defined(CONFIG_SOFTMMU)
--    pcc-&gt;handle_mmu_fault = ppc_hash64_handle_mmu_fault;
-     pcc-&gt;hash64_opts = &amp;ppc_hash64_opts_basic;
- #endif
-     pcc-&gt;excp_model = POWERPC_EXCP_970;
-@@ -7585,7 +7545,6 @@ POWERPC_FAMILY(POWER5P)(ObjectClass *oc, void *data)
-         LPCR_RMI | LPCR_HDICE;
-     pcc-&gt;mmu_model = POWERPC_MMU_2_03;
- #if defined(CONFIG_SOFTMMU)
--    pcc-&gt;handle_mmu_fault = ppc_hash64_handle_mmu_fault;
-     pcc-&gt;hash64_opts = &amp;ppc_hash64_opts_basic;
-     pcc-&gt;lrg_decr_bits = 32;
- #endif
-@@ -7729,7 +7688,6 @@ POWERPC_FAMILY(POWER7)(ObjectClass *oc, void *data)
-     pcc-&gt;lpcr_pm = LPCR_P7_PECE0 | LPCR_P7_PECE1 | LPCR_P7_PECE2;
-     pcc-&gt;mmu_model = POWERPC_MMU_2_06;
- #if defined(CONFIG_SOFTMMU)
--    pcc-&gt;handle_mmu_fault = ppc_hash64_handle_mmu_fault;
-     pcc-&gt;hash64_opts = &amp;ppc_hash64_opts_POWER7;
-     pcc-&gt;lrg_decr_bits = 32;
- #endif
-@@ -7906,7 +7864,6 @@ POWERPC_FAMILY(POWER8)(ObjectClass *oc, void *data)
-                    LPCR_P8_PECE3 | LPCR_P8_PECE4;
-     pcc-&gt;mmu_model = POWERPC_MMU_2_07;
- #if defined(CONFIG_SOFTMMU)
--    pcc-&gt;handle_mmu_fault = ppc_hash64_handle_mmu_fault;
-     pcc-&gt;hash64_opts = &amp;ppc_hash64_opts_POWER7;
-     pcc-&gt;lrg_decr_bits = 32;
-     pcc-&gt;n_host_threads = 8;
-@@ -8122,7 +8079,6 @@ POWERPC_FAMILY(POWER9)(ObjectClass *oc, void *data)
-     pcc-&gt;lpcr_pm = LPCR_PDEE | LPCR_HDEE | LPCR_EEE | LPCR_DEE | LPCR_OEE;
-     pcc-&gt;mmu_model = POWERPC_MMU_3_00;
- #if defined(CONFIG_SOFTMMU)
--    pcc-&gt;handle_mmu_fault = ppc64_v3_handle_mmu_fault;
-     /* segment page size remain the same */
-     pcc-&gt;hash64_opts = &amp;ppc_hash64_opts_POWER7;
-     pcc-&gt;radix_page_info = &amp;POWER9_radix_page_info;
-@@ -8334,7 +8290,6 @@ POWERPC_FAMILY(POWER10)(ObjectClass *oc, void *data)
-     pcc-&gt;lpcr_pm = LPCR_PDEE | LPCR_HDEE | LPCR_EEE | LPCR_DEE | LPCR_OEE;
-     pcc-&gt;mmu_model = POWERPC_MMU_3_00;
- #if defined(CONFIG_SOFTMMU)
--    pcc-&gt;handle_mmu_fault = ppc64_v3_handle_mmu_fault;
-     /* segment page size remain the same */
-     pcc-&gt;hash64_opts = &amp;ppc_hash64_opts_POWER7;
-     pcc-&gt;radix_page_info = &amp;POWER10_radix_page_info;
-diff --git a/target/ppc/mmu_helper.c b/target/ppc/mmu_helper.c
-index ef634fcb33..863e556a22 100644
---- a/target/ppc/mmu_helper.c
-+++ b/target/ppc/mmu_helper.c
-@@ -2963,14 +2963,30 @@ bool ppc_cpu_tlb_fill(CPUState *cs, vaddr addr, int size,
-                       bool probe, uintptr_t retaddr)
- {
-     PowerPCCPU *cpu = POWERPC_CPU(cs);
--    PowerPCCPUClass *pcc = POWERPC_CPU_GET_CLASS(cs);
-     CPUPPCState *env = &amp;cpu-&gt;env;
-     int ret;
- 
--    if (pcc-&gt;handle_mmu_fault) {
--        ret = pcc-&gt;handle_mmu_fault(cpu, addr, access_type, mmu_idx);
--    } else {
-+    switch (env-&gt;mmu_model) {
-+#if defined(TARGET_PPC64)
-+    case POWERPC_MMU_64B:
-+    case POWERPC_MMU_2_03:
-+    case POWERPC_MMU_2_06:
-+    case POWERPC_MMU_2_07:
-+        ret = ppc_hash64_handle_mmu_fault(cpu, addr, access_type, mmu_idx);
-+        break;
-+    case POWERPC_MMU_3_00:
-+        ret = ppc64_v3_handle_mmu_fault(cpu, addr, access_type, mmu_idx);
-+        break;
-+#endif
-+
-+    case POWERPC_MMU_32B:
-+    case POWERPC_MMU_601:
-+        ret = ppc_hash32_handle_mmu_fault(cpu, addr, access_type, mmu_idx);
-+        break;
-+
-+    default:
-         ret = cpu_ppc_handle_mmu_fault(env, addr, access_type, mmu_idx);
-+        break;
-     }
-     if (unlikely(ret != 0)) {
-         if (probe) {
-</pre>
-    </blockquote>
-    <div class="moz-signature">-- <br>
-      Bruno Piazera Larsen<br>
-      <a
-href="https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&amp;utm_medium=email&amp;utm_source=RD+Station">Instituto
-        de Pesquisas ELDORADO</a><br>
-      Departamento Computação Embarcada<br>
-      Analista de Software Trainee<br>
-      <a href="https://www.eldorado.org.br/disclaimer.html">Aviso Legal
-        - Disclaimer</a></div>
-  </body>
-</html>
+{ 'enum': 'BlockEdgeParentType',
+  'data': ['node', 'device', 'export', 'job'] }
 
---------------B6F5663B03DA6AF5AE33D5B3--
+{ 'struct': 'BlockEdgeNode',
+  'data': { 'node-name': 'str', 'child-name': 'str' } }
+{ 'struct': 'BlockEdgeDevice', 'data': { 'qdev': 'str' } }
+{ 'struct': 'BlockEdgeExport', 'data': { 'id': 'str' } }
+{ 'struct': 'BlockEdgeJob',
+  'data': { 'id': 'str',
+            'role': '...some enum...?' } }
+
+{ 'union': 'BlockEdge',
+  'base': { 'parent-type': 'BlockEdgeParentType' },
+  'discriminator': 'parent-type',
+  'data': {
+      'block-node': 'BlockEdgeNode',
+      'device': 'BlockEdgeDevice',
+      'export': 'BlockEdgeExport',
+      'job': 'BlockEdgeJob'
+  } }
+
+Maybe BlockEdgeJob (where the correct definition isn't obvious) is
+actually unnecessary if we can make sure that jobs always go through
+their filter instead of owning a BlockBackend. That's what they really
+should be doing anyway.
+
+Kevin
+
 
