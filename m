@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A21FC388F31
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 15:32:02 +0200 (CEST)
-Received: from localhost ([::1]:56692 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00ACD388F42
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 15:38:05 +0200 (CEST)
+Received: from localhost ([::1]:46772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljMIr-0004gQ-Km
-	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 09:32:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33874)
+	id 1ljMOg-0000OE-88
+	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 09:38:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33872)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1ljLiA-0003rX-Rf; Wed, 19 May 2021 08:54:07 -0400
-Received: from ozlabs.org ([203.11.71.1]:35721)
+ id 1ljLiA-0003rS-SM; Wed, 19 May 2021 08:54:07 -0400
+Received: from ozlabs.org ([203.11.71.1]:52777)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1ljLi7-0001lZ-OE; Wed, 19 May 2021 08:54:06 -0400
+ id 1ljLi8-0001mU-BT; Wed, 19 May 2021 08:54:06 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4FlXnv3vbfz9sWp; Wed, 19 May 2021 22:52:19 +1000 (AEST)
+ id 4FlXnv6ltXz9sWl; Wed, 19 May 2021 22:52:19 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1621428739;
- bh=umesooVcUeFH4XPX81RM+rIlHRDgiF1YwCRIpSTNnjg=;
+ bh=a8ezrDhP56G/3k0UPoFxLdwiJbNoCTDgOHu1OoN77F8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=IhSX28fSoIUYsS4Gw6MB5NvLp14+yMQ+kBUCmjm8Q/KDdQbkmydpDsyFYPrcjppvW
- EbfUW1hDJLCSNMOd0Ndb9fnMy2+yfIC4pawY5NeG/hmVMbSRXfZmsVQXFmVoalfTBJ
- LbLO0s220j2Ha99UbIyn699YBHSaqUZbmBCNLrL4=
+ b=grH9J5R2mCpS1Y4Hf0ZQzGTkpa7zgyeXBQ/n/IcErQYqVk3By0WYyTMM9HUzwvtat
+ 3cezgqcAWvKAU64y0dND2GRkBxgylD7qRensnb4K/sTF30U21GSfyT5pB+OR6g0rJP
+ K/Z283QVEWmthSpQBKiEtpLrkwkSMoThumPkmeRU=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org,
 	groug@kaod.org
-Subject: [PULL 47/48] target/ppc: Remove type argument from
- mmubooke206_check_tlb
-Date: Wed, 19 May 2021 22:51:47 +1000
-Message-Id: <20210519125148.27720-48-david@gibson.dropbear.id.au>
+Subject: [PULL 48/48] target/ppc: Remove type argument for
+ mmubooke206_get_physical_address
+Date: Wed, 19 May 2021 22:51:48 +1000
+Message-Id: <20210519125148.27720-49-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210519125148.27720-1-david@gibson.dropbear.id.au>
 References: <20210519125148.27720-1-david@gibson.dropbear.id.au>
@@ -65,94 +65,37 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-We can now use MMU_INST_FETCH from access_type for this.
-Unify the I/D code paths, making use of prot_for_access_type.
+It is no longer used.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20210518201146.794854-15-richard.henderson@linaro.org>
+Message-Id: <20210518201146.794854-16-richard.henderson@linaro.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- target/ppc/mmu_helper.c | 46 ++++++++++++++---------------------------
- 1 file changed, 15 insertions(+), 31 deletions(-)
+ target/ppc/mmu_helper.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/target/ppc/mmu_helper.c b/target/ppc/mmu_helper.c
-index 7535a1aa7d..144a14abd9 100644
+index 144a14abd9..37986c59ba 100644
 --- a/target/ppc/mmu_helper.c
 +++ b/target/ppc/mmu_helper.c
-@@ -944,10 +944,8 @@ static bool mmubooke206_get_as(CPUPPCState *env,
- static int mmubooke206_check_tlb(CPUPPCState *env, ppcmas_tlb_t *tlb,
-                                  hwaddr *raddr, int *prot,
-                                  target_ulong address,
--                                 MMUAccessType access_type,
--                                 int type, int mmu_idx)
-+                                 MMUAccessType access_type, int mmu_idx)
- {
--    int ret;
-     int prot2 = 0;
-     uint32_t epid;
-     bool as, pr;
-@@ -1004,39 +1002,25 @@ found_tlb:
-     }
- 
-     /* Check the address space and permissions */
--    if (type == ACCESS_CODE) {
-+    if (access_type == MMU_INST_FETCH) {
-         /* There is no way to fetch code using epid load */
-         assert(!use_epid);
--        if (msr_ir != ((tlb->mas1 & MAS1_TS) >> MAS1_TS_SHIFT)) {
--            LOG_SWTLB("%s: AS doesn't match\n", __func__);
--            return -1;
--        }
--
--        *prot = prot2;
--        if (prot2 & PAGE_EXEC) {
--            LOG_SWTLB("%s: good TLB!\n", __func__);
--            return 0;
--        }
--
--        LOG_SWTLB("%s: no PAGE_EXEC: %x\n", __func__, prot2);
--        ret = -3;
--    } else {
--        if (as != ((tlb->mas1 & MAS1_TS) >> MAS1_TS_SHIFT)) {
--            LOG_SWTLB("%s: AS doesn't match\n", __func__);
--            return -1;
--        }
-+        as = msr_ir;
-+    }
- 
--        *prot = prot2;
--        if (prot2 & (access_type == MMU_DATA_LOAD ? PAGE_READ : PAGE_WRITE)) {
--            LOG_SWTLB("%s: found TLB!\n", __func__);
--            return 0;
--        }
-+    if (as != ((tlb->mas1 & MAS1_TS) >> MAS1_TS_SHIFT)) {
-+        LOG_SWTLB("%s: AS doesn't match\n", __func__);
-+        return -1;
-+    }
- 
--        LOG_SWTLB("%s: PAGE_READ/WRITE doesn't match: %x\n", __func__, prot2);
--        ret = -2;
-+    *prot = prot2;
-+    if (prot2 & prot_for_access_type(access_type)) {
-+        LOG_SWTLB("%s: good TLB!\n", __func__);
-+        return 0;
-     }
- 
--    return ret;
-+    LOG_SWTLB("%s: no prot match: %x\n", __func__, prot2);
-+    return access_type == MMU_INST_FETCH ? -3 : -2;
- }
- 
+@@ -1026,7 +1026,7 @@ found_tlb:
  static int mmubooke206_get_physical_address(CPUPPCState *env, mmu_ctx_t *ctx,
-@@ -1060,7 +1044,7 @@ static int mmubooke206_get_physical_address(CPUPPCState *env, mmu_ctx_t *ctx,
-                 continue;
-             }
-             ret = mmubooke206_check_tlb(env, tlb, &raddr, &ctx->prot, address,
--                                        access_type, type, mmu_idx);
-+                                        access_type, mmu_idx);
-             if (ret != -1) {
-                 goto found_tlb;
-             }
+                                             target_ulong address,
+                                             MMUAccessType access_type,
+-                                            int type, int mmu_idx)
++                                            int mmu_idx)
+ {
+     ppcmas_tlb_t *tlb;
+     hwaddr raddr;
+@@ -1398,7 +1398,7 @@ static int get_physical_address_wtlb(CPUPPCState *env, mmu_ctx_t *ctx,
+         break;
+     case POWERPC_MMU_BOOKE206:
+         ret = mmubooke206_get_physical_address(env, ctx, eaddr, access_type,
+-                                               type, mmu_idx);
++                                               mmu_idx);
+         break;
+     case POWERPC_MMU_MPC8xx:
+         /* XXX: TODO */
 -- 
 2.31.1
 
