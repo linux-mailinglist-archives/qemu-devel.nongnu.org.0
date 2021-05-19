@@ -2,37 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA930388E6D
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 14:57:34 +0200 (CEST)
-Received: from localhost ([::1]:38958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6204F388E67
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 14:54:52 +0200 (CEST)
+Received: from localhost ([::1]:59150 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljLlV-0000ln-Qx
-	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 08:57:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33010)
+	id 1ljLis-0003XC-I8
+	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 08:54:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33004)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1ljLgR-00009m-6H; Wed, 19 May 2021 08:52:19 -0400
-Received: from ozlabs.org ([203.11.71.1]:52905)
+ id 1ljLgQ-00009F-VP; Wed, 19 May 2021 08:52:18 -0400
+Received: from ozlabs.org ([203.11.71.1]:50281)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1ljLgN-0000u4-Nz; Wed, 19 May 2021 08:52:18 -0400
+ id 1ljLgN-0000u0-TM; Wed, 19 May 2021 08:52:18 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4FlXnW0vMCz9sWl; Wed, 19 May 2021 22:51:59 +1000 (AEST)
+ id 4FlXnW1dGJz9sW4; Wed, 19 May 2021 22:51:59 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1621428719;
- bh=nJF+r7ZGgZsykebQt2M0d/n63ep5pxY2QLtd/sr8pVM=;
- h=From:To:Cc:Subject:Date:From;
- b=jeVyanePaESDdvgBfPQSweg6gCBmrjvUuZJVQ4Ix5fvlr1veFAWyiMJKfBmfz1JmE
- Aa6BxRlJz8mPdzLN/aOfsF4DWRlLBlH5YtJYPHGRlSuUjFjouritJm8PIhYmc2d+hz
- YXMMc6TiUwUTU3Q1pb4xlIg5yRiitJ+eImCVqZAw=
+ bh=UO6os0+vfAzQShdgN+GBe7ZtACXALNneJWbkKexnSZ4=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=CcaQk9PScXK/ad2GKZRzHlV8sADtnpm3//rp/eoa0UAB3u0bQOy7HxjUO3uf/+ReB
+ M/2gDBjGUJeJMSRk+ZH2CCABqDgJwxPkHgKfIMckTiHwSfe5OoucDcFthgY9OA+Nay
+ pQqKAKL3gksCfVGCvoUPtWBZoEmu6BnZm4nThLWs=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org,
 	groug@kaod.org
-Subject: [PULL 00/48] ppc-for-6.1 queue 20210519
-Date: Wed, 19 May 2021 22:51:00 +1000
-Message-Id: <20210519125148.27720-1-david@gibson.dropbear.id.au>
+Subject: [PULL 01/48] hw/ppc/spapr.c: Extract MMU mode error reporting into a
+ function
+Date: Wed, 19 May 2021 22:51:01 +1000
+Message-Id: <20210519125148.27720-2-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210519125148.27720-1-david@gibson.dropbear.id.au>
+References: <20210519125148.27720-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
@@ -55,118 +58,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: richard.henderson@linaro.org, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: richard.henderson@linaro.org, David Gibson <david@gibson.dropbear.id.au>,
+ qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ Fabiano Rosas <farosas@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit c313e52e6459de2e9064767083a0c949c476e32b:
+From: Fabiano Rosas <farosas@linux.ibm.com>
 
-  Merge remote-tracking branch 'remotes/vivier2/tags/linux-user-for-6.1-pull-request' into staging (2021-05-18 16:17:22 +0100)
+A following patch will make use of it.
 
-are available in the Git repository at:
+Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
+Message-Id: <20210505001130.3999968-2-farosas@linux.ibm.com>
+Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+---
+ hw/ppc/spapr.c         | 16 ++++++++++++++++
+ hw/ppc/spapr_hcall.c   | 14 ++------------
+ include/hw/ppc/spapr.h |  1 +
+ 3 files changed, 19 insertions(+), 12 deletions(-)
 
-  https://gitlab.com/dgibson/qemu.git tags/ppc-for-6.1-20210519
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index 8f40319aee..3e51560d57 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -1556,6 +1556,22 @@ void spapr_setup_hpt(SpaprMachineState *spapr)
+     }
+ }
+ 
++void spapr_check_mmu_mode(bool guest_radix)
++{
++    if (guest_radix) {
++        if (kvm_enabled() && !kvmppc_has_cap_mmu_radix()) {
++            error_report("Guest requested unavailable MMU mode (radix).");
++            exit(EXIT_FAILURE);
++        }
++    } else {
++        if (kvm_enabled() && kvmppc_has_cap_mmu_radix()
++            && !kvmppc_has_cap_mmu_hash_v3()) {
++            error_report("Guest requested unavailable MMU mode (hash).");
++            exit(EXIT_FAILURE);
++        }
++    }
++}
++
+ static void spapr_machine_reset(MachineState *machine)
+ {
+     SpaprMachineState *spapr = SPAPR_MACHINE(machine);
+diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
+index 16c719c3de..186b7666cc 100644
+--- a/hw/ppc/spapr_hcall.c
++++ b/hw/ppc/spapr_hcall.c
+@@ -1760,18 +1760,8 @@ target_ulong do_client_architecture_support(PowerPCCPU *cpu,
+     spapr_ovec_intersect(spapr->ov5_cas, spapr->ov5, ov5_guest);
+     spapr_ovec_cleanup(ov5_guest);
+ 
+-    if (guest_radix) {
+-        if (kvm_enabled() && !kvmppc_has_cap_mmu_radix()) {
+-            error_report("Guest requested unavailable MMU mode (radix).");
+-            exit(EXIT_FAILURE);
+-        }
+-    } else {
+-        if (kvm_enabled() && kvmppc_has_cap_mmu_radix()
+-            && !kvmppc_has_cap_mmu_hash_v3()) {
+-            error_report("Guest requested unavailable MMU mode (hash).");
+-            exit(EXIT_FAILURE);
+-        }
+-    }
++    spapr_check_mmu_mode(guest_radix);
++
+     spapr->cas_pre_isa3_guest = !spapr_ovec_test(ov1_guest, OV1_PPC_3_00);
+     spapr_ovec_cleanup(ov1_guest);
+ 
+diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+index 7f40a158f4..92ca246509 100644
+--- a/include/hw/ppc/spapr.h
++++ b/include/hw/ppc/spapr.h
+@@ -821,6 +821,7 @@ void spapr_dt_events(SpaprMachineState *sm, void *fdt);
+ void close_htab_fd(SpaprMachineState *spapr);
+ void spapr_setup_hpt(SpaprMachineState *spapr);
+ void spapr_free_hpt(SpaprMachineState *spapr);
++void spapr_check_mmu_mode(bool guest_radix);
+ SpaprTceTable *spapr_tce_new_table(DeviceState *owner, uint32_t liobn);
+ void spapr_tce_table_enable(SpaprTceTable *tcet,
+                             uint32_t page_shift, uint64_t bus_offset,
+-- 
+2.31.1
 
-for you to fetch changes up to e543f946856da31c3a7a45ba193f106e042ad907:
-
-  target/ppc: Remove type argument for mmubooke206_get_physical_address (2021-05-19 12:52:07 +1000)
-
-----------------------------------------------------------------
-ppc patch queue 2021-05-19
-
-Next set of ppc related patches for qemu-6.1.  Highlights are:
- * Start of a significant softmmu cleanup from Richard Henderson
- * Further work towards allowing builds without CONFIG_TCG
-
-----------------------------------------------------------------
-Bruno Larsen (billionai) (9):
-      target/ppc: Fold gen_*_xer into their callers
-      target/ppc: renamed SPR registration functions
-      target/ppc: move SPR R/W callbacks to translate.c
-      target/ppc: turned SPR R/W callbacks not static
-      target/ppc: isolated cpu init from translation logic
-      target/ppc: created ppc_{store,get}_vscr for generic vscr usage
-      target/ppc: updated vscr manipulation in machine.c
-      target/ppc: moved ppc_store_sdr1 to cpu.c
-      target/ppc: moved ppc_cpu_dump_state to cpu_init.c
-
-Fabiano Rosas (2):
-      hw/ppc/spapr.c: Extract MMU mode error reporting into a function
-      hw/ppc/spapr.c: Make sure the host supports the selected MMU mode
-
-Giuseppe Musacchio (1):
-      target/ppc: Fix load endianness for lxvwsx/lxvdsx
-
-Lucas Mateus Castro (alqotel) (4):
-      hw/ppc: moved hcalls that depend on softmmu
-      target/ppc: moved function out of mmu-hash64
-      target/ppc: moved ppc_store_lpcr to misc_helper.c
-      hw/ppc: moved has_spr to cpu.h
-
-Richard Henderson (32):
-      target/ppc: Add cia field to DisasContext
-      target/ppc: Split out decode_legacy
-      target/ppc: Move DISAS_NORETURN setting into gen_exception*
-      target/ppc: Remove special case for POWERPC_SYSCALL
-      target/ppc: Remove special case for POWERPC_EXCP_TRAP
-      target/ppc: Simplify gen_debug_exception
-      target/ppc: Introduce DISAS_{EXIT,CHAIN}{,_UPDATE}
-      target/ppc: Replace POWERPC_EXCP_SYNC with DISAS_EXIT
-      target/ppc: Remove unnecessary gen_io_end calls
-      target/ppc: Introduce gen_icount_io_start
-      target/ppc: Replace POWERPC_EXCP_STOP with DISAS_EXIT_UPDATE
-      target/ppc: Replace POWERPC_EXCP_BRANCH with DISAS_NORETURN
-      target/ppc: Remove DisasContext.exception
-      target/ppc: Move single-step check to ppc_tr_tb_stop
-      target/ppc: Tidy exception vs exit_tb
-      target/ppc: Mark helper_raise_exception* as noreturn
-      target/ppc: Use translator_loop_temp_check
-      target/ppc: Introduce prot_for_access_type
-      target/ppc: Use MMUAccessType in mmu-radix64.c
-      target/ppc: Use MMUAccessType in mmu-hash64.c
-      target/ppc: Use MMUAccessType in mmu-hash32.c
-      target/ppc: Rename access_type to type in mmu_helper.c
-      target/ppc: Use MMUAccessType in mmu_helper.c
-      target/ppc: Remove type argument from check_prot
-      target/ppc: Remove type argument from ppc6xx_tlb_pte_check
-      target/ppc: Remove type argument from ppc6xx_tlb_check
-      target/ppc: Remove type argument from get_bat_6xx_tlb
-      target/ppc: Remove type argument from mmu40x_get_physical_address
-      target/ppc: Remove type argument from mmubooke_check_tlb
-      target/ppc: Remove type argument from mmubooke_get_physical_address
-      target/ppc: Remove type argument from mmubooke206_check_tlb
-      target/ppc: Remove type argument for mmubooke206_get_physical_address
-
- hw/ppc/meson.build                              |    3 +
- hw/ppc/pnv.c                                    |    2 +-
- hw/ppc/spapr.c                                  |   21 +-
- hw/ppc/spapr_caps.c                             |   59 +
- hw/ppc/spapr_hcall.c                            |  634 +------
- hw/ppc/spapr_softmmu.c                          |  627 +++++++
- include/hw/ppc/spapr.h                          |    7 +
- linux-user/ppc/cpu_loop.c                       |    6 -
- target/ppc/arch_dump.c                          |    3 +-
- target/ppc/cpu.c                                |   47 +
- target/ppc/cpu.h                                |   13 +-
- target/ppc/{translate_init.c.inc => cpu_init.c} | 2034 +++++++----------------
- target/ppc/gdbstub.c                            |    4 +-
- target/ppc/helper.h                             |    4 +-
- target/ppc/int_helper.c                         |    9 +-
- target/ppc/internal.h                           |   19 +
- target/ppc/machine.c                            |    7 +-
- target/ppc/meson.build                          |    1 +
- target/ppc/misc_helper.c                        |   10 +
- target/ppc/mmu-hash32.c                         |   59 +-
- target/ppc/mmu-hash64.c                         |  136 +-
- target/ppc/mmu-hash64.h                         |    4 -
- target/ppc/mmu-radix64.c                        |  123 +-
- target/ppc/mmu_helper.c                         |  325 ++--
- target/ppc/spr_tcg.h                            |  136 ++
- target/ppc/translate.c                          | 1559 ++++++++++++-----
- target/ppc/translate/vsx-impl.c.inc             |    4 +-
- 27 files changed, 3020 insertions(+), 2836 deletions(-)
- create mode 100644 hw/ppc/spapr_softmmu.c
- rename target/ppc/{translate_init.c.inc => cpu_init.c} (89%)
- create mode 100644 target/ppc/spr_tcg.h
 
