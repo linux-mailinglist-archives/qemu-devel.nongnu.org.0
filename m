@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42BC93895DC
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 20:54:46 +0200 (CEST)
-Received: from localhost ([::1]:50006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E752E3895D5
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 20:52:41 +0200 (CEST)
+Received: from localhost ([::1]:40208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljRLB-0002jV-8z
-	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 14:54:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51816)
+	id 1ljRJA-0004gN-Vc
+	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 14:52:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53220)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ljQyv-0004cu-W0
- for qemu-devel@nongnu.org; Wed, 19 May 2021 14:31:46 -0400
-Received: from mail-ot1-x32c.google.com ([2607:f8b0:4864:20::32c]:37413)
+ id 1ljR1j-0002ux-1F
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 14:34:39 -0400
+Received: from mail-ot1-x334.google.com ([2607:f8b0:4864:20::334]:33326)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ljQyh-0005ql-On
- for qemu-devel@nongnu.org; Wed, 19 May 2021 14:31:45 -0400
-Received: by mail-ot1-x32c.google.com with SMTP id
- v19-20020a0568301413b0290304f00e3d88so12620353otp.4
- for <qemu-devel@nongnu.org>; Wed, 19 May 2021 11:31:31 -0700 (PDT)
+ id 1ljR1g-0007Py-Md
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 14:34:38 -0400
+Received: by mail-ot1-x334.google.com with SMTP id
+ i23-20020a9d68d70000b02902dc19ed4c15so12670527oto.0
+ for <qemu-devel@nongnu.org>; Wed, 19 May 2021 11:34:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=uACQlfQ1L4lJXOLq7mztjHzJAGN3TYb66yJkvd3rBv4=;
- b=P0wCPtX+ts8CT7tpL5nc1xWLPnbkjkgc6quRJQXHgZI85puFlJq7LzTYR3XPgvQv10
- CNselL13FORw5hAl1EMFp+EmvBrF+zcaKTnHhFqRirHmzVRqWesbl1aHGEjjbvKP/Vsn
- SE6nYHTnv4CK2/utRFC5rE+66ibqbqiGAWbQUeGcDw7ORihlD3XHoadoLdFxKaZ7MsKS
- Tl8lIDaznEftfiYuxcfNvNLaNG77eUbNvhn48doicZtYOcUy4qDwPIt7FMPBX6LI/iTl
- KkwGyok/O+Ge5yCGAN7vDdVohuxNmYvEIvC/xjPGGE9Qyc4EyLXfkKLp69+fxz/6QWN8
- V+qQ==
+ bh=NyRgc+Gn7oqqf/QHFgizxweLPsqaDiM3F1V+G4Xmf04=;
+ b=hZnP/N1Dt2eLr/hb2J5uhosXENVCy+o6S3b2z3hByRkbVu6ucDwLyyCZjrJmOGYHgY
+ fIa7Q6IkoiEBF34HqgFzfWFTIMH8jiW755uj8eEccO8DMM/PzZ61p2guHKqtzuVg2vXH
+ OsdZ+VMz9UhiCocKLjPhrwVx0MRp6xz0cyDPSGYYu/JU/GKIjMmLEmGoThXfrNC/K/lD
+ kaZ4FOoTMlnKtm2cX/ktPNOuDUHCKvCjka2EBCL6Vra0Dr5C16Ydtl+xKSO5HCOeiPqf
+ IdXP5p4RK+yEsaRdLXV5XYY3Z4sWpt6DoHsT/oU0WBLO1ZCzX83v02vGXpOUY9CB63no
+ L9LA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=uACQlfQ1L4lJXOLq7mztjHzJAGN3TYb66yJkvd3rBv4=;
- b=rdfBGpxOBxrJIDog5mwkCBsnbAUc1VrI7XJrW6cjaZNzF/HENdyXTVx2XM/76P/Zat
- mSAaGBCWDGHg0hvIWJcW4X5usjtDyNNbJcHwz+E+27iQRfJ27pOyw+5nwfV8o99JmCTh
- v9RN35s8aEGLkrwITpMFXgyO987Spsgi/fYdwg5pvg0ZDQvpeNvB22+CF4JzPs6nSu/Y
- ALA/FabOMW98Smu+dqCZk0NKA6wj2iO9iW2DhR6cnG4D4wCA/7gq79R+ooahh0jaEEIU
- u5P5gOvnGM/q8H/fdEFpMaNnYvke2dFjKnzLN6LcMklggz/QPKDS7L7B1pD8OXkpGP4C
- uDUQ==
-X-Gm-Message-State: AOAM532EnYUPREPNehJ/cWWLaS30L8gbO6vUz2tjck2YUnDmK3gubE2N
- cLKgkco2AP4/xHTgxobNFFQC5vUyzwneNIoH
-X-Google-Smtp-Source: ABdhPJyaid9qrV97D37JhOBsjX3EWl/MIaq9nvGJisfRF2hbAjEt9CMa8U5eZLwjIy83vJ1UHXhT/A==
-X-Received: by 2002:a9d:be2:: with SMTP id 89mr633099oth.269.1621449090650;
- Wed, 19 May 2021 11:31:30 -0700 (PDT)
+ bh=NyRgc+Gn7oqqf/QHFgizxweLPsqaDiM3F1V+G4Xmf04=;
+ b=AT7KDF2b2Hh1NKl75lWkQMCBfrQ17Hd95ymLcblUJw/qWlcxlxrSAX9VCYHFIJdd8f
+ BiIW0UzYOAOMukQM/wa9XNcPTYMS2sgFet+dMK4e8c8olHIqngV1QYu9uzW7F2vOLbaB
+ hpNEHv2OkA3dG8Biapg4pcK5TECypKKoOBOD0QGbGZh8blJFSzyiiVo0E8+D0huVoTdv
+ ijFXdXq3GpDhyNSmVtoEBLeYYc2/gSRTEoSoyXlR7xD95sKGMYJNCLCUGW3QkABi4kY4
+ 9bh4bohZnpNdi2qHPANFxtvl+QkjsoJD2Gv9rD+wqcY57oTcZsVc5kyFoejdZDvHUHdn
+ pt2g==
+X-Gm-Message-State: AOAM531Ww8r9V+UaP1jCr3EauZwYGd8Rc2E8/GkGAVRR0zjqfXc5Iz5g
+ UvDyA1OTioyAxraTb+Cm+tmipRkIjSIIPPCw
+X-Google-Smtp-Source: ABdhPJyeppZGyk+MZlGE+L1q/C4vshRdSv1o2W5Hs/XRYIyQUhHPlNOujY1dKvtTAINUm+yYZ4nVXQ==
+X-Received: by 2002:a9d:5c08:: with SMTP id o8mr651089otk.261.1621449275543;
+ Wed, 19 May 2021 11:34:35 -0700 (PDT)
 Received: from localhost.localdomain ([45.235.253.15])
- by smtp.gmail.com with ESMTPSA id l9sm28428oou.43.2021.05.19.11.31.29
+ by smtp.gmail.com with ESMTPSA id i9sm38642oog.17.2021.05.19.11.34.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 May 2021 11:31:30 -0700 (PDT)
+ Wed, 19 May 2021 11:34:35 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 39/50] target/i386: Cleanup read_crN, write_crN, lmsw
-Date: Wed, 19 May 2021 13:30:39 -0500
-Message-Id: <20210519183050.875453-40-richard.henderson@linaro.org>
+Subject: [PULL 43/50] target/i386: Inline user cpu_svm_check_intercept_param
+Date: Wed, 19 May 2021 13:30:43 -0500
+Message-Id: <20210519183050.875453-44-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210519183050.875453-1-richard.henderson@linaro.org>
 References: <20210519183050.875453-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::32c;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x32c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::334;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x334.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,205 +87,85 @@ Cc: peter.maydell@linaro.org, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Pull the svm intercept check into the translator.
-Pull the entire implementation of lmsw into the translator.
-Push the check for CR8LEG into the regno validation switch.
-Unify the gen_io_start check between read/write.
+The user-version is a no-op.  This lets us completely
+remove tcg/user/svm_stubs.c.
 
-Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20210514151342.384376-40-richard.henderson@linaro.org>
+Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
+Message-Id: <20210514151342.384376-44-richard.henderson@linaro.org>
 ---
- target/i386/helper.h                 |  5 +-
- target/i386/tcg/misc_helper.c        |  8 ---
- target/i386/tcg/sysemu/misc_helper.c |  2 -
- target/i386/tcg/translate.c          | 97 +++++++++++++++-------------
- 4 files changed, 54 insertions(+), 58 deletions(-)
+ target/i386/cpu.h                |  8 ++++++++
+ target/i386/tcg/user/svm_stubs.c | 28 ----------------------------
+ target/i386/tcg/user/meson.build |  1 -
+ 3 files changed, 8 insertions(+), 29 deletions(-)
+ delete mode 100644 target/i386/tcg/user/svm_stubs.c
 
-diff --git a/target/i386/helper.h b/target/i386/helper.h
-index 86484a4ec4..ebfaca66dd 100644
---- a/target/i386/helper.h
-+++ b/target/i386/helper.h
-@@ -42,9 +42,8 @@ DEF_HELPER_5(lcall_protected, void, env, int, tl, int, tl)
- DEF_HELPER_2(iret_real, void, env, int)
- DEF_HELPER_3(iret_protected, void, env, int, int)
- DEF_HELPER_3(lret_protected, void, env, int, int)
--DEF_HELPER_2(read_crN, tl, env, int)
--DEF_HELPER_3(write_crN, void, env, int, tl)
--DEF_HELPER_2(lmsw, void, env, tl)
-+DEF_HELPER_FLAGS_2(read_crN, TCG_CALL_NO_RWG, tl, env, int)
-+DEF_HELPER_FLAGS_3(write_crN, TCG_CALL_NO_RWG, void, env, int, tl)
- DEF_HELPER_1(clts, void, env)
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index 324ef92beb..e6836393f7 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -2146,8 +2146,16 @@ static inline void cpu_set_fpuc(CPUX86State *env, uint16_t fpuc)
+ void helper_lock_init(void);
  
- #ifndef CONFIG_USER_ONLY
-diff --git a/target/i386/tcg/misc_helper.c b/target/i386/tcg/misc_helper.c
-index 0e9a4f0bfc..931dbd9db0 100644
---- a/target/i386/tcg/misc_helper.c
-+++ b/target/i386/tcg/misc_helper.c
-@@ -60,14 +60,6 @@ void helper_cpuid(CPUX86State *env)
-     env->regs[R_EDX] = edx;
- }
- 
--void helper_lmsw(CPUX86State *env, target_ulong t0)
--{
--    /* only 4 lower bits of CR0 are modified. PE cannot be set to zero
--       if already set to one. */
--    t0 = (env->cr[0] & ~0xe) | (t0 & 0xf);
--    helper_write_crN(env, 0, t0);
--}
+ /* svm_helper.c */
++#ifdef CONFIG_USER_ONLY
++static inline void
++cpu_svm_check_intercept_param(CPUX86State *env1, uint32_t type,
++                              uint64_t param, uintptr_t retaddr)
++{ /* no-op */ }
++#else
+ void cpu_svm_check_intercept_param(CPUX86State *env1, uint32_t type,
+                                    uint64_t param, uintptr_t retaddr);
++#endif
++
+ /* apic.c */
+ void cpu_report_tpr_access(CPUX86State *env, TPRAccess access);
+ void apic_handle_tpr_access_report(DeviceState *d, target_ulong ip,
+diff --git a/target/i386/tcg/user/svm_stubs.c b/target/i386/tcg/user/svm_stubs.c
+deleted file mode 100644
+index db818f89a8..0000000000
+--- a/target/i386/tcg/user/svm_stubs.c
++++ /dev/null
+@@ -1,28 +0,0 @@
+-/*
+- *  x86 SVM helpers (user-mode)
+- *
+- *  Copyright (c) 2003 Fabrice Bellard
+- *
+- * This library is free software; you can redistribute it and/or
+- * modify it under the terms of the GNU Lesser General Public
+- * License as published by the Free Software Foundation; either
+- * version 2.1 of the License, or (at your option) any later version.
+- *
+- * This library is distributed in the hope that it will be useful,
+- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+- * Lesser General Public License for more details.
+- *
+- * You should have received a copy of the GNU Lesser General Public
+- * License along with this library; if not, see <http://www.gnu.org/licenses/>.
+- */
 -
- void helper_invlpg(CPUX86State *env, target_ulong addr)
- {
-     X86CPU *cpu = env_archcpu(env);
-diff --git a/target/i386/tcg/sysemu/misc_helper.c b/target/i386/tcg/sysemu/misc_helper.c
-index 66e7939537..c7381ef7e8 100644
---- a/target/i386/tcg/sysemu/misc_helper.c
-+++ b/target/i386/tcg/sysemu/misc_helper.c
-@@ -65,7 +65,6 @@ target_ulong helper_read_crN(CPUX86State *env, int reg)
- {
-     target_ulong val;
- 
--    cpu_svm_check_intercept_param(env, SVM_EXIT_READ_CR0 + reg, 0, GETPC());
-     switch (reg) {
-     default:
-         val = env->cr[reg];
-@@ -83,7 +82,6 @@ target_ulong helper_read_crN(CPUX86State *env, int reg)
- 
- void helper_write_crN(CPUX86State *env, int reg, target_ulong t0)
- {
--    cpu_svm_check_intercept_param(env, SVM_EXIT_WRITE_CR0 + reg, 0, GETPC());
-     switch (reg) {
-     case 0:
-         cpu_x86_update_cr0(env, t0);
-diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
-index 3844c0342e..14a44a00ca 100644
---- a/target/i386/tcg/translate.c
-+++ b/target/i386/tcg/translate.c
-@@ -7654,13 +7654,22 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
-             tcg_gen_trunc_tl_i32(s->tmp2_i32, cpu_regs[R_ECX]);
-             gen_helper_wrpkru(cpu_env, s->tmp2_i32, s->tmp1_i64);
-             break;
-+
-         CASE_MODRM_OP(6): /* lmsw */
-             if (!check_cpl0(s)) {
-                 break;
-             }
-             gen_svm_check_intercept(s, SVM_EXIT_WRITE_CR0);
-             gen_ldst_modrm(env, s, modrm, MO_16, OR_TMP0, 0);
--            gen_helper_lmsw(cpu_env, s->T0);
-+            /*
-+             * Only the 4 lower bits of CR0 are modified.
-+             * PE cannot be set to zero if already set to one.
-+             */
-+            tcg_gen_ld_tl(s->T1, cpu_env, offsetof(CPUX86State, cr[0]));
-+            tcg_gen_andi_tl(s->T0, s->T0, 0xf);
-+            tcg_gen_andi_tl(s->T1, s->T1, ~0xe);
-+            tcg_gen_or_tl(s->T0, s->T0, s->T1);
-+            gen_helper_write_crN(cpu_env, tcg_constant_i32(0), s->T0);
-             gen_jmp_im(s, s->pc - s->cs_base);
-             gen_eob(s);
-             break;
-@@ -8034,58 +8043,56 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
-         modrm = x86_ldub_code(env, s);
-         gen_nop_modrm(env, s, modrm);
-         break;
-+
-     case 0x120: /* mov reg, crN */
-     case 0x122: /* mov crN, reg */
--        if (check_cpl0(s)) {
--            modrm = x86_ldub_code(env, s);
--            /* Ignore the mod bits (assume (modrm&0xc0)==0xc0).
--             * AMD documentation (24594.pdf) and testing of
--             * intel 386 and 486 processors all show that the mod bits
--             * are assumed to be 1's, regardless of actual values.
--             */
--            rm = (modrm & 7) | REX_B(s);
--            reg = ((modrm >> 3) & 7) | REX_R(s);
--            if (CODE64(s))
--                ot = MO_64;
--            else
--                ot = MO_32;
--            if ((prefixes & PREFIX_LOCK) && (reg == 0) &&
-+        if (!check_cpl0(s)) {
-+            break;
-+        }
-+        modrm = x86_ldub_code(env, s);
-+        /*
-+         * Ignore the mod bits (assume (modrm&0xc0)==0xc0).
-+         * AMD documentation (24594.pdf) and testing of Intel 386 and 486
-+         * processors all show that the mod bits are assumed to be 1's,
-+         * regardless of actual values.
-+         */
-+        rm = (modrm & 7) | REX_B(s);
-+        reg = ((modrm >> 3) & 7) | REX_R(s);
-+        switch (reg) {
-+        case 0:
-+            if ((prefixes & PREFIX_LOCK) &&
-                 (s->cpuid_ext3_features & CPUID_EXT3_CR8LEG)) {
-                 reg = 8;
-             }
--            switch(reg) {
--            case 0:
--            case 2:
--            case 3:
--            case 4:
--            case 8:
--                gen_update_cc_op(s);
--                gen_jmp_im(s, pc_start - s->cs_base);
--                if (b & 2) {
--                    if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
--                        gen_io_start();
--                    }
--                    gen_op_mov_v_reg(s, ot, s->T0, rm);
--                    gen_helper_write_crN(cpu_env, tcg_const_i32(reg),
--                                         s->T0);
--                    gen_jmp_im(s, s->pc - s->cs_base);
--                    gen_eob(s);
--                } else {
--                    if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
--                        gen_io_start();
--                    }
--                    gen_helper_read_crN(s->T0, cpu_env, tcg_const_i32(reg));
--                    gen_op_mov_reg_v(s, ot, rm, s->T0);
--                    if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
--                        gen_jmp(s, s->pc - s->cs_base);
--                    }
--                }
--                break;
--            default:
--                goto unknown_op;
-+            break;
-+        case 2:
-+        case 3:
-+        case 4:
-+            break;
-+        default:
-+            goto unknown_op;
-+        }
-+        ot  = (CODE64(s) ? MO_64 : MO_32);
-+
-+        if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
-+            gen_io_start();
-+        }
-+        if (b & 2) {
-+            gen_svm_check_intercept(s, SVM_EXIT_WRITE_CR0 + reg);
-+            gen_op_mov_v_reg(s, ot, s->T0, rm);
-+            gen_helper_write_crN(cpu_env, tcg_constant_i32(reg), s->T0);
-+            gen_jmp_im(s, s->pc - s->cs_base);
-+            gen_eob(s);
-+        } else {
-+            gen_svm_check_intercept(s, SVM_EXIT_READ_CR0 + reg);
-+            gen_helper_read_crN(s->T0, cpu_env, tcg_constant_i32(reg));
-+            gen_op_mov_reg_v(s, ot, rm, s->T0);
-+            if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
-+                gen_jmp(s, s->pc - s->cs_base);
-             }
-         }
-         break;
-+
-     case 0x121: /* mov reg, drN */
-     case 0x123: /* mov drN, reg */
-         if (check_cpl0(s)) {
+-#include "qemu/osdep.h"
+-#include "cpu.h"
+-#include "exec/helper-proto.h"
+-#include "tcg/helper-tcg.h"
+-
+-void cpu_svm_check_intercept_param(CPUX86State *env, uint32_t type,
+-                                   uint64_t param, uintptr_t retaddr)
+-{
+-}
+diff --git a/target/i386/tcg/user/meson.build b/target/i386/tcg/user/meson.build
+index 9eac0e69ca..3555b15bdd 100644
+--- a/target/i386/tcg/user/meson.build
++++ b/target/i386/tcg/user/meson.build
+@@ -1,6 +1,5 @@
+ i386_user_ss.add(when: ['CONFIG_TCG', 'CONFIG_USER_ONLY'], if_true: files(
+   'excp_helper.c',
+   'misc_stubs.c',
+-  'svm_stubs.c',
+   'seg_helper.c',
+ ))
 -- 
 2.25.1
 
