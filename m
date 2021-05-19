@@ -2,75 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5C0138969C
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 21:25:32 +0200 (CEST)
-Received: from localhost ([::1]:60910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 379033896A6
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 21:28:01 +0200 (CEST)
+Received: from localhost ([::1]:41300 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljRox-0001L8-LG
-	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 15:25:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60436)
+	id 1ljRrI-0007Bj-Qd
+	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 15:27:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33336)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ljRMP-0008JL-6J
- for qemu-devel@nongnu.org; Wed, 19 May 2021 14:56:01 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:46920)
+ id 1ljRR6-0002iw-Io; Wed, 19 May 2021 15:00:52 -0400
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:55911)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ljRMM-0002am-Mj
- for qemu-devel@nongnu.org; Wed, 19 May 2021 14:56:00 -0400
-Received: by mail-wr1-x435.google.com with SMTP id y14so13016840wrm.13
- for <qemu-devel@nongnu.org>; Wed, 19 May 2021 11:55:58 -0700 (PDT)
+ id 1ljRQx-0005FL-En; Wed, 19 May 2021 15:00:51 -0400
+Received: by mail-wm1-x331.google.com with SMTP id b7so7238351wmh.5;
+ Wed, 19 May 2021 12:00:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=k7v32F7sA+s0nX/521Wn9idR1Uq3Ai0OnDxbO/sW8qQ=;
- b=B2mN9RHFMg88UwUpNsvJVUp/2S1lV4FuA8pBoLUa85j+3Y/JC1WidxHiV0Q86ixXD0
- 2vpcU3igt0vIY7PvLd38a1Z2XxI1VmG/+StvWNdIUpo2Vu+iRfaRbpUofAY6oaG8AVQU
- RAZ4/kFZ/3x6kFKNA1HaYLXVz4rQdYHS7ZoRyENftuoIB7HO2dHkpFPzOOmLrtn0NV1M
- tacHKT3mRzb3vh8cKkrh6eLm2nt8fkcTZ44WDWoWAWJnw0kDUS4oOd24bVDOAObHtoYM
- YcSEyeIr4DJy8CvJIHs5VL+t/kpBhgSeazkL0X4gsVKYNoJr9VTMSaDgzyKXfj5wqOJh
- nBgQ==
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=O6r/FaizYTt5pKLmAwSHTTyKmxIOk51GrZU0CpZ3Cxk=;
+ b=VkgkKbQd3tZM+pf/lzuEy+z4+GtSJxBGWtBHotcBUoFNeYZdac6Zqizwn2hQygIr5Q
+ mEoacmfRNNBt+Hl6oIcL8FapNTzlq6ozNv6iI3Twij12tLwSaxC9HoIlEFCUSxTB6SSb
+ Sj1IpLl/GBTUpfNUV9yHoN/MxRso7k4jF7UpyrhLMUdJAsH3o8Zq2rh8fMRxD7mA8URN
+ xsXVNN7Yxc8QEz58LhXVXHw+W+n9UCXBuZ4bNE8cVkEZ0bEH75mIzx99dux+hqcADBVq
+ FjcXwTaY1knoliYhRfqMLQOTA5fRd3Evog1cGuXz2E07K0cK5CgXbZ5PP31gasLJgX/a
+ YIyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=k7v32F7sA+s0nX/521Wn9idR1Uq3Ai0OnDxbO/sW8qQ=;
- b=EebVJs9OkikuQk8DVTrtyIrGECCuziNNzmT8Pr5Z1JliC3uxgtWOZze/yoSidB4R2m
- IAwJWF6RAsACgo999uT0wn4CiUxdFXlK9ab59LbbIzMPQDShl8OEiJlIX5xQ7KvHV3K2
- 14eclTBpxubC0xFCpb9kJ49PsGqfnG4wa9svJuK4vhAzZjwX89DqrfhFPi4CKaxF3FYr
- AmPAdKgfbV7BIrnqiRb1Oq63REv/d7bSe+Z12dxBQZpmX6zLvDnO25KYjUHKiNIBP0QK
- As5aUhHbN5n5a6MRKXZiK7VgGYfN53YEV/LPLs4tY4g2pzWL4JtNXxVwr8ahml+zQVti
- ZEKg==
-X-Gm-Message-State: AOAM532Hrc6L2kj32/xYLMdEwYJFDol6ln/W5Z6K60rQC8f76Rh9yuoM
- +DUGfbfeWHB6g+q3fpO/FdF+/uWDHX63rw==
-X-Google-Smtp-Source: ABdhPJybzbtZsKZlWwQTcGxlIOewrpe2QDYbTCw3a3qlYC7J2ZReWaLIF3FYVR37BatCZXwmtSawMg==
-X-Received: by 2002:adf:e110:: with SMTP id t16mr355760wrz.359.1621450557184; 
- Wed, 19 May 2021 11:55:57 -0700 (PDT)
-Received: from x1w.redhat.com (31.red-83-51-215.dynamicip.rima-tde.net.
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=O6r/FaizYTt5pKLmAwSHTTyKmxIOk51GrZU0CpZ3Cxk=;
+ b=Dj6DROWuicAbCillWxF/w4ruwg5T7PXOUHXhqUpMNmVGiX7vXisClPYG6bH3uTX77k
+ 4SO77Az7UJUL/LSkm8DUI/S8ZaCXABzkUtb/BgKbmq6XsgEixEopYPFWaxdNKLhx3ktJ
+ Ysmv7U72g1LbD4dg5naPAF/5y9HIsk3RrkqhwVK8N8aNTUZTxTdKOZEwVc1F9oB9PJuJ
+ MGFbguUKRWdUeBAHpwEdZfwNweiTRRmsAb/8sNCIwzJHjF3odMSYd4iHBi3of1yrtj5X
+ rDB/NrtTfEF8kXAW4WNg6KXOn7onaJVvO2u3zlV0tbD+T/HSHOf+iu5qA55dZh+Fupwh
+ kOEA==
+X-Gm-Message-State: AOAM5315kiD9oOi4QOIwB/fNHk2k4xVMvKEATce7RS09s1YgwXZgOBTi
+ tWpODm6KQ5D6hdnAq06MtzU=
+X-Google-Smtp-Source: ABdhPJyUT+3vU6SdBD217paOkJib0/Zan0cZlgUoWRxMGCmL0FqNc/G9HKKn6L4HtHIKVnO4TbXPdw==
+X-Received: by 2002:a1c:98c7:: with SMTP id a190mr260624wme.60.1621450839723; 
+ Wed, 19 May 2021 12:00:39 -0700 (PDT)
+Received: from [192.168.1.36] (31.red-83-51-215.dynamicip.rima-tde.net.
  [83.51.215.31])
- by smtp.gmail.com with ESMTPSA id a11sm277368wrx.38.2021.05.19.11.55.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 May 2021 11:55:56 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 10/10] gitlab-ci: Move current job set to qemu-project.yml
-Date: Wed, 19 May 2021 20:55:04 +0200
-Message-Id: <20210519185504.2198573-11-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.3
-In-Reply-To: <20210519185504.2198573-1-f4bug@amsat.org>
-References: <20210519185504.2198573-1-f4bug@amsat.org>
+ by smtp.gmail.com with ESMTPSA id c14sm226415wrt.77.2021.05.19.12.00.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 19 May 2021 12:00:38 -0700 (PDT)
+Subject: Re: [PATCH v3 1/5] hw/usb: Add basic i.MX USB Phy support
+To: Guenter Roeck <linux@roeck-us.net>,
+ Peter Maydell <peter.maydell@linaro.org>
+References: <20200313014551.12554-1-linux@roeck-us.net>
+ <20200313014551.12554-2-linux@roeck-us.net>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <89489dd2-ac9b-0bc0-88a9-a401ff37473f@amsat.org>
+Date: Wed, 19 May 2021 21:00:37 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x435.google.com
+In-Reply-To: <20200313014551.12554-2-linux@roeck-us.net>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
 X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
@@ -85,61 +88,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Willian Rampazzo <willianr@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Jean-Christophe Dubois <jcd@tribudubois.net>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-To allow forks to easily decide which jobs they want to run,
-but without disrupting the current default, move the current
-set of jobs to a new file corresponding to the jobs run by
-the mainstream project CI:
-https://gitlab.com/qemu-project/qemu/-/pipelines
+On 3/13/20 2:45 AM, Guenter Roeck wrote:
+> Add basic USB PHY support as implemented in i.MX23, i.MX28, i.MX6,
+> and i.MX7 SoCs.
+> 
+> The only support really needed - at least to boot Linux - is support
+> for soft reset, which needs to reset various registers to their initial
+> value. Otherwise, just record register values.
+> 
+> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+> ---
+> v3: Added Reviewed-by:;
+>     dropped duplicate "the" in comments;
+>     added new files to MAINTAINERS
+> v2: New patch, replacing dummy STMP register support with basic USB PHY
+>     emulation.
+> 
+>  MAINTAINERS                  |   2 +
+>  hw/arm/Kconfig               |   1 +
+>  hw/usb/Kconfig               |   5 +
+>  hw/usb/Makefile.objs         |   2 +
+>  hw/usb/imx-usb-phy.c         | 225 +++++++++++++++++++++++++++++++++++
+>  include/hw/usb/imx-usb-phy.h |  53 +++++++++
+>  6 files changed, 288 insertions(+)
+>  create mode 100644 hw/usb/imx-usb-phy.c
+>  create mode 100644 include/hw/usb/imx-usb-phy.h
 
-Reviewed-by: Willian Rampazzo <willianr@redhat.com>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- .gitlab-ci.d/qemu-project.yml | 11 +++++++++++
- .gitlab-ci.yml                |  8 +-------
- 2 files changed, 12 insertions(+), 7 deletions(-)
- create mode 100644 .gitlab-ci.d/qemu-project.yml
+> diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+> index bc54fd61f9..21c627c3b7 100644
+> --- a/hw/arm/Kconfig
+> +++ b/hw/arm/Kconfig
+> @@ -361,6 +361,7 @@ config FSL_IMX6
+>      select IMX
+>      select IMX_FEC
+>      select IMX_I2C
+> +    select IMX_USBPHY
+>      select SDHCI
 
-diff --git a/.gitlab-ci.d/qemu-project.yml b/.gitlab-ci.d/qemu-project.yml
-new file mode 100644
-index 00000000000..64cb2ba1da5
---- /dev/null
-+++ b/.gitlab-ci.d/qemu-project.yml
-@@ -0,0 +1,11 @@
-+# This file contains the set of jobs run by the QEMU project:
-+# https://gitlab.com/qemu-project/qemu/-/pipelines
-+
-+include:
-+  - local: '/.gitlab-ci.d/stages.yml'
-+  - local: '/.gitlab-ci.d/edk2.yml'
-+  - local: '/.gitlab-ci.d/opensbi.yml'
-+  - local: '/.gitlab-ci.d/containers.yml'
-+  - local: '/.gitlab-ci.d/crossbuilds.yml'
-+  - local: '/.gitlab-ci.d/buildtest.yml'
-+  - local: '/.gitlab-ci.d/static_checks.yml'
-diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-index aea58813a25..533a7e61339 100644
---- a/.gitlab-ci.yml
-+++ b/.gitlab-ci.yml
-@@ -1,8 +1,2 @@
- include:
--  - local: '/.gitlab-ci.d/stages.yml'
--  - local: '/.gitlab-ci.d/edk2.yml'
--  - local: '/.gitlab-ci.d/opensbi.yml'
--  - local: '/.gitlab-ci.d/containers.yml'
--  - local: '/.gitlab-ci.d/crossbuilds.yml'
--  - local: '/.gitlab-ci.d/buildtest.yml'
--  - local: '/.gitlab-ci.d/static_checks.yml'
-+  - local: '/.gitlab-ci.d/qemu-project.yml'
--- 
-2.26.3
-
+I know it is merged, but FYI this change belongs to patch 5
+of this series "hw/arm/fsl-imx6: Wire up USB controllers"
+where you add the dependency to the machine.
 
