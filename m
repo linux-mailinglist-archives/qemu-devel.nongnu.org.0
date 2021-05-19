@@ -2,91 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FB9338949C
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 19:24:06 +0200 (CEST)
-Received: from localhost ([::1]:43840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 026EA3894D2
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 19:54:13 +0200 (CEST)
+Received: from localhost ([::1]:49436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljPvR-0000p9-EL
-	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 13:24:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50042)
+	id 1ljQOZ-0008Ak-Qi
+	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 13:54:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33506)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ljPt0-0006zj-C8
- for qemu-devel@nongnu.org; Wed, 19 May 2021 13:21:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54447)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1ljQNJ-0006wl-54
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 13:52:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37596)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ljPsy-0000Xb-5D
- for qemu-devel@nongnu.org; Wed, 19 May 2021 13:21:34 -0400
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1ljQNG-0001kC-SW
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 13:52:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621444891;
+ s=mimecast20190719; t=1621446769;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=j52am1h7j/EawXLXaOo4biSSF1z8kOWHRYbrXWFd3SU=;
- b=FTf7sD3gg2+hxSMariErBl6uBybcMjo9IQNIrkLWzyGI1uOaFZkpNKwbgolFfn1554wM+z
- Nr7Wh7B4xkzmSgQdUnr2JoiOHaSadfn7+G0CksqDGdL3LcGp4CBNVy4WelhpHJns19dEKU
- Juvy0vup2stjptxogUHPJBPr8EJMGDc=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-314-fOTOrRGAPq-qn2u7Eydgjg-1; Wed, 19 May 2021 13:21:27 -0400
-X-MC-Unique: fOTOrRGAPq-qn2u7Eydgjg-1
-Received: by mail-wr1-f70.google.com with SMTP id
- f19-20020adfb6130000b02901121afc9a31so732797wre.10
- for <qemu-devel@nongnu.org>; Wed, 19 May 2021 10:21:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=j52am1h7j/EawXLXaOo4biSSF1z8kOWHRYbrXWFd3SU=;
- b=JkIrjrMCcfb9zT9pi4iL0cMw/M1Ehd3z0/HgyEOlwn3rHcOg0DKmOD99i4jMhQ2qnv
- ArU6SC9cWd2Bv6RBxoiHhKfyCVN+rO8kg/pGGOK9UK8h23xhdB7fBt0AOPkAgjffVBJe
- lwPx/3btmGMB3B9pbkxGGgJCJiqG5PMZFMWFH+ugawvRYdkNJx2KqBInQcFHxRdNbbmE
- SgPIGAU1wRWvavKcImXff7KsRwBJAQMsgIkjVL7lhK9+hc5qA9AwhEArc5ExKsl1FZh3
- WFbbvnYqxQo/02eG5BjufoUEdO4NoN2YbWZK/Fqf1YaVu2cHew41noJP7qbac2qKm3Lq
- cBTw==
-X-Gm-Message-State: AOAM532kz2+nNleznxNne3m/YUB/apyIKay+AU8Szq4gNRm0wioGID+w
- H7CwFnYG3agYzQskJOMPsjFjpKGr+jfdSu4fmLMog6TlOe+db23CZ2oK8q0uRjFtGmtYVwRrPaV
- NZDQH+zSOU2JY7Qw=
-X-Received: by 2002:a05:600c:214f:: with SMTP id
- v15mr360354wml.146.1621444886010; 
- Wed, 19 May 2021 10:21:26 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyd79QF17ZtSS64qxKz1EHTljfopt1vYHu7ZgRK0+Gg4nyiX4btcKI5qXDsUmw/0VqUTp3ugg==
-X-Received: by 2002:a05:600c:214f:: with SMTP id
- v15mr360340wml.146.1621444885779; 
- Wed, 19 May 2021 10:21:25 -0700 (PDT)
-Received: from [192.168.1.36] (31.red-83-51-215.dynamicip.rima-tde.net.
- [83.51.215.31])
- by smtp.gmail.com with ESMTPSA id l8sm2008939wrw.71.2021.05.19.10.21.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 19 May 2021 10:21:25 -0700 (PDT)
-Subject: Re: [PATCH] block/ssh: Bump minimum libssh version to 0.8.7
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- "Richard W.M. Jones" <rjones@redhat.com>
-References: <20210519155859.344569-1-thuth@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <9f7ef009-3b8f-652b-a7b5-e9e788342721@redhat.com>
-Date: Wed, 19 May 2021 19:21:24 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ bh=ZBGx9Xswh4Fpkgj59nd1ygI8NwG/mh+Yy6cKVBWlQ2s=;
+ b=eUd0oHTbKl1+SK1AinB8HFvwFjUWykLhON378QNzk/l+HCSAdejz08M6RxrBpbT9fi1gDe
+ OCMtaEsEiI+Bd1966bRbyiResUCj488BMm6mDfiRICf478VgimR2JFzkPFQ8Cq6AhDL7N4
+ veLVNnVWj/qKP0mI2Re+kSbYiMazJMI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-460-5kxllunlPEua3q0uS4O4Iw-1; Wed, 19 May 2021 13:52:46 -0400
+X-MC-Unique: 5kxllunlPEua3q0uS4O4Iw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ED07E100C61E;
+ Wed, 19 May 2021 17:52:45 +0000 (UTC)
+Received: from localhost (ovpn-119-37.rdu2.redhat.com [10.10.119.37])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 62C9660BF1;
+ Wed, 19 May 2021 17:52:42 +0000 (UTC)
+Date: Wed, 19 May 2021 08:08:27 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Chenyi Qiang <chenyi.qiang@intel.com>
+Subject: Re: [PATCH v3] i386: Add ratelimit for bus locks acquired in guest
+Message-ID: <20210519120827.ojd7jjqtuepel3au@habkost.net>
+References: <20210430103305.28849-1-chenyi.qiang@intel.com>
+ <20210517194629.k4aff57k74lukywd@habkost.net>
+ <db3234a1-5bf2-de6e-c40d-93b6398bafba@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20210519155859.344569-1-thuth@redhat.com>
+In-Reply-To: <db3234a1-5bf2-de6e-c40d-93b6398bafba@intel.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.39,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+X-Spam_score_int: -15
+X-Spam_score: -1.6
+X-Spam_bar: -
+X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_03_06=1.592,
+ DKIMWL_WL_HIGH=-0.39, DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
+ DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -101,192 +80,232 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, qemu-block@nongnu.org,
- Pino Toscano <ptoscano@redhat.com>
+Cc: Xiaoyao Li <xiaoyao.li@intel.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/19/21 5:58 PM, Thomas Huth wrote:
-> It has been over two years since RHEL-8 was released, and thus per the
-> platform build policy, we no longer need to support RHEL-7 as a build
-> target. So from the RHEL-7 perspective, we do not have to support
-> libssh v0.7 anymore now.
+On Wed, May 19, 2021 at 06:00:18PM +0800, Chenyi Qiang wrote:
 > 
-> Let's look at the versions from other distributions and operating
-> systems - according to repology.org, current shipping versions are:
 > 
->              RHEL-8: 0.9.4
->       Debian Buster: 0.8.7
->  openSUSE Leap 15.2: 0.8.7
->    Ubuntu LTS 18.04: 0.8.0 *
->    Ubuntu LTS 20.04: 0.9.3
->             FreeBSD: 0.9.5
->           Fedora 33: 0.9.5
->           Fedora 34: 0.9.5
->             OpenBSD: 0.9.5
->      macOS HomeBrew: 0.9.5
->          HaikuPorts: 0.9.5
+> On 5/18/2021 3:46 AM, Eduardo Habkost wrote:
+> > +Stefan
+> > 
+> > I have a question about ratelimit_set_speed() below:
+> > 
+> > On Fri, Apr 30, 2021 at 06:33:05PM +0800, Chenyi Qiang wrote:
+> > > A bus lock is acquired through either split locked access to writeback
+> > > (WB) memory or any locked access to non-WB memory. It is typically >1000
+> > > cycles slower than an atomic operation within a cache and can also
+> > > disrupts performance on other cores.
+> > > 
+> > > Virtual Machines can exploit bus locks to degrade the performance of
+> > > system. To address this kind of performance DOS attack coming from the
+> > > VMs, bus lock VM exit is introduced in KVM and it can report the bus
+> > > locks detected in guest. If enabled in KVM, it would exit to the
+> > > userspace to let the user enforce throttling policies once bus locks
+> > > acquired in VMs.
+> > > 
+> > > The availability of bus lock VM exit can be detected through the
+> > > KVM_CAP_X86_BUS_LOCK_EXIT. The returned bitmap contains the potential
+> > > policies supported by KVM. The field KVM_BUS_LOCK_DETECTION_EXIT in
+> > > bitmap is the only supported strategy at present. It indicates that KVM
+> > > will exit to userspace to handle the bus locks.
+> > > 
+> > > This patch adds a ratelimit on the bus locks acquired in guest as a
+> > > mitigation policy.
+> > > 
+> > > Introduce a new field "bus_lock_ratelimit" to record the limited speed
+> > > of bus locks in the target VM. The user can specify it through the
+> > > "bus-lock-ratelimit" as a machine property. In current implementation,
+> > > the default value of the speed is 0 per second, which means no
+> > > restrictions on the bus locks
+> > > 
+> > > As for ratelimit on detected bus locks, simply set the ratelimit
+> > > interval to 1s and restrict the quota of bus lock occurence to the value
+> > > of "bus_lock_ratelimit". A potential alternative is to introduce the
+> > > time slice as a property which can help the user achieve more precise
+> > > control.
+> > > 
+> > > The detail of Bus lock VM exit can be found in spec:
+> > > https://software.intel.com/content/www/us/en/develop/download/intel-architecture-instruction-set-extensions-programming-reference.html
+> > > 
+> > > Signed-off-by: Chenyi Qiang <chenyi.qiang@intel.com>
+> > > 
+> > > ---
+> > > Changes from v2:
+> > >    - do some rename work (bus-lock-ratelimit and BUS_LOCK_TIME_SLICE).
+> > >      (Eduardo)
+> > >    - change to register a class property at the x86_machine_class_init()
+> > >      and write the gettter/setter for the bus_lock_ratelimit property.
+> > >      (Eduardo)
+> > >    - add the lock to access the Ratelimit instance to avoid vcpu thread
+> > >      race condition. (Eduardo)
+> > >    - v2: https://lore.kernel.org/qemu-devel/20210420093736.17613-1-chenyi.qiang@intel.com/
+> > > 
+> > > Changes from RFC v1:
+> > >    - Remove the rip info output, as the rip can't reflect the bus lock
+> > >      position correctly. (Xiaoyao)
+> > >    - RFC v1: https://lore.kernel.org/qemu-devel/20210317084709.15605-1-chenyi.qiang@intel.com/
+> > [...]
+> > > diff --git a/include/hw/i386/x86.h b/include/hw/i386/x86.h
+> > > index c09b648dff..49b130a649 100644
+> > > --- a/include/hw/i386/x86.h
+> > > +++ b/include/hw/i386/x86.h
+> > > @@ -74,12 +74,21 @@ struct X86MachineState {
+> > >        * will be translated to MSI messages in the address space.
+> > >        */
+> > >       AddressSpace *ioapic_as;
+> > > +
+> > > +    /*
+> > > +     * Ratelimit enforced on detected bus locks in guest.
+> > > +     * The default value of the bus_lock_ratelimit is 0 per second,
+> > > +     * which means no limitation on the guest's bus locks.
+> > > +     */
+> > > +    uint64_t bus_lock_ratelimit;
+> > > +    RateLimit bus_lock_ratelimit_ctrl;
+> > >   };
+> > >   #define X86_MACHINE_SMM              "smm"
+> > >   #define X86_MACHINE_ACPI             "acpi"
+> > >   #define X86_MACHINE_OEM_ID           "x-oem-id"
+> > >   #define X86_MACHINE_OEM_TABLE_ID     "x-oem-table-id"
+> > > +#define X86_MACHINE_BUS_LOCK_RATELIMIT  "bus-lock-ratelimit"
+> > >   #define TYPE_X86_MACHINE   MACHINE_TYPE_NAME("x86")
+> > >   OBJECT_DECLARE_TYPE(X86MachineState, X86MachineClass, X86_MACHINE)
+> > > diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
+> > > index 7fe9f52710..19b6c4a7e8 100644
+> > > --- a/target/i386/kvm/kvm.c
+> > > +++ b/target/i386/kvm/kvm.c
+> > > @@ -130,6 +130,9 @@ static bool has_msr_mcg_ext_ctl;
+> > >   static struct kvm_cpuid2 *cpuid_cache;
+> > >   static struct kvm_msr_list *kvm_feature_msrs;
+> > > +#define BUS_LOCK_SLICE_TIME 1000000000ULL /* ns */
+> > > +static QemuMutex bus_lock_ratelimit_lock;
+> > > +
+> > >   int kvm_has_pit_state2(void)
+> > >   {
+> > >       return has_pit_state2;
+> > > @@ -2267,6 +2270,28 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
+> > >           }
+> > >       }
+> > > +    if (object_dynamic_cast(OBJECT(ms), TYPE_X86_MACHINE)) {
+> > > +        X86MachineState *x86ms = X86_MACHINE(ms);
+> > > +
+> > > +        if (x86ms->bus_lock_ratelimit > 0) {
+> > > +            ret = kvm_check_extension(s, KVM_CAP_X86_BUS_LOCK_EXIT);
+> > > +            if (!(ret & KVM_BUS_LOCK_DETECTION_EXIT)) {
+> > > +                error_report("kvm: bus lock detection unsupported");
+> > > +                return -ENOTSUP;
+> > > +            }
+> > > +            ret = kvm_vm_enable_cap(s, KVM_CAP_X86_BUS_LOCK_EXIT, 0,
+> > > +                                    KVM_BUS_LOCK_DETECTION_EXIT);
+> > > +            if (ret < 0) {
+> > > +                error_report("kvm: Failed to enable bus lock detection cap: %s",
+> > > +                             strerror(-ret));
+> > > +                return ret;
+> > > +            }
+> > > +            qemu_mutex_init(&bus_lock_ratelimit_lock);
+> > > +            ratelimit_set_speed(&x86ms->bus_lock_ratelimit_ctrl, x86ms->bus_lock_ratelimit,
+> > > +                                BUS_LOCK_SLICE_TIME);
+> > > +        }
+> > > +    }
+> > > +
+> > >       return 0;
+> > >   }
+> > > @@ -4221,6 +4246,20 @@ void kvm_arch_pre_run(CPUState *cpu, struct kvm_run *run)
+> > >       }
+> > >   }
+> > > +static void kvm_rate_limit_on_bus_lock(void)
+> > > +{
+> > > +    MachineState *ms = MACHINE(qdev_get_machine());
+> > 
+> > qdev_get_machine() seems thread safe except for the first call,
+> > but it's not documented as such.
+> > 
+> > Until it is documented as thread safe (which could take a while,
+> > considering that there are ongoing attempts to clean it up), I
+> > would avoid calling without the BQL, just in case.
+> > 
 > 
-> * The version of libssh in Ubuntu 18.04 claims to be 0.8.0 from the
-> name of the package, but in reality it is a 0.7 patched up as a
-> Frankenstein monster with patches from the 0.8 development branch.
-> This gave us some headaches in the past already and so it never worked
-> with QEMU. All attempts to get it supported have failed in the past,
-> patches for QEMU have never been merged and a request to Ubuntu to
-> fix it in their 18.04 distro has been ignored:
+> OK, I would add the BQL here.
+
+My suggestion was to avoid calling qdev_get_machine() at all, so
+you don't need the BQL.  The static variable mentioned below
+would solve this.
+
 > 
->  https://bugs.launchpad.net/ubuntu/+source/libssh/+bug/1847514
+> > > +    X86MachineState *x86ms = X86_MACHINE(ms);
+> > > +
+> > > +    qemu_mutex_lock(&bus_lock_ratelimit_lock);
+> > > +    uint64_t delay_ns = ratelimit_calculate_delay(&x86ms->bus_lock_ratelimit_ctrl, 1);
+> > > +    qemu_mutex_unlock(&bus_lock_ratelimit_lock);
+> > 
+> > Stefan, ratelimit_calculate_delay() is supposed to be thread
+> > safe, correct?
+> > 
+> > In that case, bus_lock_ratelimit_lock would be completely unnecessary.
+> > 
 > 
-> Thus we really should ignore the libssh in Ubuntu 18.04 in QEMU, too.
+> Will remove it.
 > 
-> Fix it by bumping the minimum libssh version to something that is
-> greater than 0.8.0 now. Debian Buster and openSUSE Leap have the
-> oldest version and so 0.8.7 is the new minimum.
+> > I normally prefer to avoid static variables, but in this case a
+> > 
+> >     static RateLimit bus_lock_ratelimit_ctrl;
+> > 
+> > variable could be the simplest solution here.
+> > 
 > 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->  block/ssh.c | 59 -----------------------------------------------------
->  configure   | 19 +----------------
->  2 files changed, 1 insertion(+), 77 deletions(-)
+> Yes, static variable is simpler. will change it if acceptable.
+
+Thanks.
+
+The static variable sounds good enough to me, despite not being
+the ideal solution.  Maybe other people have suggestions.
+
+Note: don't forget to call ratelimit_init(), which is a new
+requirement of the ratelimit API added by commit 4951967d84a0
+("ratelimit: protect with a mutex").
+
+
 > 
-> diff --git a/block/ssh.c b/block/ssh.c
-> index ebe3d8b631..b51a031620 100644
-> --- a/block/ssh.c
-> +++ b/block/ssh.c
-> @@ -277,7 +277,6 @@ static void ssh_parse_filename(const char *filename, QDict *options,
->  static int check_host_key_knownhosts(BDRVSSHState *s, Error **errp)
->  {
->      int ret;
-> -#ifdef HAVE_LIBSSH_0_8
->      enum ssh_known_hosts_e state;
->      int r;
->      ssh_key pubkey;
-> @@ -343,46 +342,6 @@ static int check_host_key_knownhosts(BDRVSSHState *s, Error **errp)
->          error_setg(errp, "error while checking for known server (%d)", state);
->          goto out;
->      }
-> -#else /* !HAVE_LIBSSH_0_8 */
-> -    int state;
-> -
-> -    state = ssh_is_server_known(s->session);
-> -    trace_ssh_server_status(state);
-> -
-> -    switch (state) {
-> -    case SSH_SERVER_KNOWN_OK:
-> -        /* OK */
-> -        trace_ssh_check_host_key_knownhosts();
-> -        break;
-> -    case SSH_SERVER_KNOWN_CHANGED:
-> -        ret = -EINVAL;
-> -        error_setg(errp,
-> -                   "host key does not match the one in known_hosts; this "
-> -                   "may be a possible attack");
-> -        goto out;
-> -    case SSH_SERVER_FOUND_OTHER:
-> -        ret = -EINVAL;
-> -        error_setg(errp,
-> -                   "host key for this server not found, another type exists");
-> -        goto out;
-> -    case SSH_SERVER_FILE_NOT_FOUND:
-> -        ret = -ENOENT;
-> -        error_setg(errp, "known_hosts file not found");
-> -        goto out;
-> -    case SSH_SERVER_NOT_KNOWN:
-> -        ret = -EINVAL;
-> -        error_setg(errp, "no host key was found in known_hosts");
-> -        goto out;
-> -    case SSH_SERVER_ERROR:
-> -        ret = -EINVAL;
-> -        error_setg(errp, "server error");
-> -        goto out;
-> -    default:
-> -        ret = -EINVAL;
-> -        error_setg(errp, "error while checking for known server (%d)", state);
-> -        goto out;
-> -    }
-> -#endif /* !HAVE_LIBSSH_0_8 */
->  
->      /* known_hosts checking successful. */
->      ret = 0;
-> @@ -438,11 +397,7 @@ check_host_key_hash(BDRVSSHState *s, const char *hash,
->      unsigned char *server_hash;
->      size_t server_hash_len;
->  
-> -#ifdef HAVE_LIBSSH_0_8
->      r = ssh_get_server_publickey(s->session, &pubkey);
-> -#else
-> -    r = ssh_get_publickey(s->session, &pubkey);
-> -#endif
->      if (r != SSH_OK) {
->          session_error_setg(errp, s, "failed to read remote host key");
->          return -EINVAL;
-> @@ -1233,8 +1188,6 @@ static void unsafe_flush_warning(BDRVSSHState *s, const char *what)
->      }
->  }
->  
-> -#ifdef HAVE_LIBSSH_0_8
-> -
->  static coroutine_fn int ssh_flush(BDRVSSHState *s, BlockDriverState *bs)
->  {
->      int r;
-> @@ -1271,18 +1224,6 @@ static coroutine_fn int ssh_co_flush(BlockDriverState *bs)
->      return ret;
->  }
->  
-> -#else /* !HAVE_LIBSSH_0_8 */
-> -
-> -static coroutine_fn int ssh_co_flush(BlockDriverState *bs)
-> -{
-> -    BDRVSSHState *s = bs->opaque;
-> -
-> -    unsafe_flush_warning(s, "libssh >= 0.8.0");
-> -    return 0;
-> -}
-> -
-> -#endif /* !HAVE_LIBSSH_0_8 */
-> -
->  static int64_t ssh_getlength(BlockDriverState *bs)
->  {
->      BDRVSSHState *s = bs->opaque;
-> diff --git a/configure b/configure
-> index 879a8e8f17..bf1c740494 100755
-> --- a/configure
-> +++ b/configure
-> @@ -3512,7 +3512,7 @@ fi
->  ##########################################
->  # libssh probe
->  if test "$libssh" != "no" ; then
-> -  if $pkg_config --exists libssh; then
-> +  if $pkg_config --exists "libssh >= 0.8.7"; then
->      libssh_cflags=$($pkg_config libssh --cflags)
->      libssh_libs=$($pkg_config libssh --libs)
->      libssh=yes
-> @@ -3524,23 +3524,6 @@ if test "$libssh" != "no" ; then
->    fi
->  fi
->  
-> -##########################################
-> -# Check for libssh 0.8
-> -# This is done like this instead of using the LIBSSH_VERSION_* and
-> -# SSH_VERSION_* macros because some distributions in the past shipped
-> -# snapshots of the future 0.8 from Git, and those snapshots did not
-> -# have updated version numbers (still referring to 0.7.0).
-> -
-> -if test "$libssh" = "yes"; then
-> -  cat > $TMPC <<EOF
-> -#include <libssh/libssh.h>
-> -int main(void) { return ssh_get_server_publickey(NULL, NULL); }
-> -EOF
-> -  if compile_prog "$libssh_cflags" "$libssh_libs"; then
-> -    libssh_cflags="-DHAVE_LIBSSH_0_8 $libssh_cflags"
-> -  fi
-> -fi
-> -
->  ##########################################
->  # linux-aio probe
->  
+> > 
+> > > +
+> > > +    if (delay_ns) {
+> > > +        g_usleep(delay_ns / SCALE_US);
+> > > +    }
+> > > +}
+> > > +
+> > >   MemTxAttrs kvm_arch_post_run(CPUState *cpu, struct kvm_run *run)
+> > >   {
+> > >       X86CPU *x86_cpu = X86_CPU(cpu);
+> > > @@ -4236,6 +4275,9 @@ MemTxAttrs kvm_arch_post_run(CPUState *cpu, struct kvm_run *run)
+> > >       } else {
+> > >           env->eflags &= ~IF_MASK;
+> > >       }
+> > > +    if (run->flags & KVM_RUN_X86_BUS_LOCK) {
+> > > +        kvm_rate_limit_on_bus_lock();
+> > > +    }
+> > >       /* We need to protect the apic state against concurrent accesses from
+> > >        * different threads in case the userspace irqchip is used. */
+> > > @@ -4594,6 +4636,10 @@ int kvm_arch_handle_exit(CPUState *cs, struct kvm_run *run)
+> > >           ioapic_eoi_broadcast(run->eoi.vector);
+> > >           ret = 0;
+> > >           break;
+> > > +    case KVM_EXIT_X86_BUS_LOCK:
+> > > +        /* already handled in kvm_arch_post_run */
+> > > +        ret = 0;
+> > > +        break;
+> > >       default:
+> > >           fprintf(stderr, "KVM: unknown exit reason %d\n", run->exit_reason);
+> > >           ret = -1;
+> > > -- 
+> > > 2.17.1
+> > > 
+> > 
 > 
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+-- 
+Eduardo
 
 
