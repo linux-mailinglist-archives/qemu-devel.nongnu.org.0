@@ -2,30 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3A0F3897D8
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 22:25:36 +0200 (CEST)
-Received: from localhost ([::1]:53248 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 082A23897DF
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 22:27:55 +0200 (CEST)
+Received: from localhost ([::1]:35186 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljSl5-0007QU-5q
-	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 16:25:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53156)
+	id 1ljSnK-0005ig-2z
+	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 16:27:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53300)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <agraf@csgraf.de>)
- id 1ljSil-00044K-CN; Wed, 19 May 2021 16:23:11 -0400
-Received: from mail.csgraf.de ([85.25.223.15]:48100 helo=zulu616.server4you.de)
+ id 1ljSit-0004ca-Ce; Wed, 19 May 2021 16:23:19 -0400
+Received: from mail.csgraf.de ([85.25.223.15]:48106 helo=zulu616.server4you.de)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <agraf@csgraf.de>)
- id 1ljSic-0003CT-Py; Wed, 19 May 2021 16:23:10 -0400
+ id 1ljSic-0003CZ-OX; Wed, 19 May 2021 16:23:19 -0400
 Received: from localhost.localdomain
  (dynamic-095-114-039-201.95.114.pool.telefonica.de [95.114.39.201])
- by csgraf.de (Postfix) with ESMTPSA id A76B360803BD;
- Wed, 19 May 2021 22:22:55 +0200 (CEST)
+ by csgraf.de (Postfix) with ESMTPSA id 54AA360803D8;
+ Wed, 19 May 2021 22:22:56 +0200 (CEST)
 From: Alexander Graf <agraf@csgraf.de>
 To: QEMU Developers <qemu-devel@nongnu.org>
-Subject: [PATCH v8 01/19] hvf: Move assert_hvf_ok() into common directory
-Date: Wed, 19 May 2021 22:22:35 +0200
-Message-Id: <20210519202253.76782-2-agraf@csgraf.de>
+Subject: [PATCH v8 02/19] hvf: Move vcpu thread functions into common directory
+Date: Wed, 19 May 2021 22:22:36 +0200
+Message-Id: <20210519202253.76782-3-agraf@csgraf.de>
 X-Mailer: git-send-email 2.30.1 (Apple Git-130)
 In-Reply-To: <20210519202253.76782-1-agraf@csgraf.de>
 References: <20210519202253.76782-1-agraf@csgraf.de>
@@ -36,8 +36,8 @@ Received-SPF: pass client-ip=85.25.223.15; envelope-from=agraf@csgraf.de;
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_PASS=-0.001,
+ T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -65,193 +65,63 @@ With Apple Silicon shipping now, it extends its reach to aarch64. To
 prepare for support for multiple architectures, let's start moving common
 code out into its own accel directory.
 
-This patch moves assert_hvf_ok() and introduces generic build infrastructure.
+This patch moves the vCPU thread loop over.
 
 Signed-off-by: Alexander Graf <agraf@csgraf.de>
 ---
- MAINTAINERS              |  8 +++++++
- accel/hvf/hvf-all.c      | 47 ++++++++++++++++++++++++++++++++++++++++
- accel/hvf/meson.build    |  6 +++++
- accel/meson.build        |  1 +
- include/sysemu/hvf_int.h | 18 +++++++++++++++
- target/i386/hvf/hvf.c    | 33 +---------------------------
- 6 files changed, 81 insertions(+), 32 deletions(-)
- create mode 100644 accel/hvf/hvf-all.c
- create mode 100644 accel/hvf/meson.build
- create mode 100644 include/sysemu/hvf_int.h
+ {target/i386 => accel}/hvf/hvf-accel-ops.c | 0
+ {target/i386 => accel}/hvf/hvf-accel-ops.h | 0
+ accel/hvf/meson.build                      | 1 +
+ target/i386/hvf/meson.build                | 1 -
+ target/i386/hvf/x86hvf.c                   | 2 +-
+ 5 files changed, 2 insertions(+), 2 deletions(-)
+ rename {target/i386 => accel}/hvf/hvf-accel-ops.c (100%)
+ rename {target/i386 => accel}/hvf/hvf-accel-ops.h (100%)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 89741cfc19..262e96714b 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -434,7 +434,15 @@ M: Roman Bolshakov <r.bolshakov@yadro.com>
- W: https://wiki.qemu.org/Features/HVF
- S: Maintained
- F: target/i386/hvf/
-+
-+HVF
-+M: Cameron Esfahani <dirty@apple.com>
-+M: Roman Bolshakov <r.bolshakov@yadro.com>
-+W: https://wiki.qemu.org/Features/HVF
-+S: Maintained
-+F: accel/hvf/
- F: include/sysemu/hvf.h
-+F: include/sysemu/hvf_int.h
- 
- WHPX CPUs
- M: Sunil Muthuswamy <sunilmut@microsoft.com>
-diff --git a/accel/hvf/hvf-all.c b/accel/hvf/hvf-all.c
-new file mode 100644
-index 0000000000..f185b0830a
---- /dev/null
-+++ b/accel/hvf/hvf-all.c
-@@ -0,0 +1,47 @@
-+/*
-+ * QEMU Hypervisor.framework support
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2.  See
-+ * the COPYING file in the top-level directory.
-+ *
-+ * Contributions after 2012-01-13 are licensed under the terms of the
-+ * GNU GPL, version 2 or (at your option) any later version.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qemu-common.h"
-+#include "qemu/error-report.h"
-+#include "sysemu/hvf.h"
-+#include "sysemu/hvf_int.h"
-+
-+void assert_hvf_ok(hv_return_t ret)
-+{
-+    if (ret == HV_SUCCESS) {
-+        return;
-+    }
-+
-+    switch (ret) {
-+    case HV_ERROR:
-+        error_report("Error: HV_ERROR");
-+        break;
-+    case HV_BUSY:
-+        error_report("Error: HV_BUSY");
-+        break;
-+    case HV_BAD_ARGUMENT:
-+        error_report("Error: HV_BAD_ARGUMENT");
-+        break;
-+    case HV_NO_RESOURCES:
-+        error_report("Error: HV_NO_RESOURCES");
-+        break;
-+    case HV_NO_DEVICE:
-+        error_report("Error: HV_NO_DEVICE");
-+        break;
-+    case HV_UNSUPPORTED:
-+        error_report("Error: HV_UNSUPPORTED");
-+        break;
-+    default:
-+        error_report("Unknown Error");
-+    }
-+
-+    abort();
-+}
+diff --git a/target/i386/hvf/hvf-accel-ops.c b/accel/hvf/hvf-accel-ops.c
+similarity index 100%
+rename from target/i386/hvf/hvf-accel-ops.c
+rename to accel/hvf/hvf-accel-ops.c
+diff --git a/target/i386/hvf/hvf-accel-ops.h b/accel/hvf/hvf-accel-ops.h
+similarity index 100%
+rename from target/i386/hvf/hvf-accel-ops.h
+rename to accel/hvf/hvf-accel-ops.h
 diff --git a/accel/hvf/meson.build b/accel/hvf/meson.build
-new file mode 100644
-index 0000000000..227b11cd71
---- /dev/null
+index 227b11cd71..fc52cb7843 100644
+--- a/accel/hvf/meson.build
 +++ b/accel/hvf/meson.build
-@@ -0,0 +1,6 @@
-+hvf_ss = ss.source_set()
-+hvf_ss.add(files(
-+  'hvf-all.c',
-+))
-+
-+specific_ss.add_all(when: 'CONFIG_HVF', if_true: hvf_ss)
-diff --git a/accel/meson.build b/accel/meson.build
-index b44ba30c86..dfd808d2c8 100644
---- a/accel/meson.build
-+++ b/accel/meson.build
-@@ -2,6 +2,7 @@ specific_ss.add(files('accel-common.c'))
- softmmu_ss.add(files('accel-softmmu.c'))
- user_ss.add(files('accel-user.c'))
+@@ -1,6 +1,7 @@
+ hvf_ss = ss.source_set()
+ hvf_ss.add(files(
+   'hvf-all.c',
++  'hvf-accel-ops.c',
+ ))
  
-+subdir('hvf')
- subdir('qtest')
- subdir('kvm')
- subdir('tcg')
-diff --git a/include/sysemu/hvf_int.h b/include/sysemu/hvf_int.h
-new file mode 100644
-index 0000000000..3deb4cfacc
---- /dev/null
-+++ b/include/sysemu/hvf_int.h
-@@ -0,0 +1,18 @@
-+/*
-+ * QEMU Hypervisor.framework (HVF) support
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ *
-+ */
-+
-+/* header to be included in HVF-specific code */
-+
-+#ifndef HVF_INT_H
-+#define HVF_INT_H
-+
-+#include <Hypervisor/hv.h>
-+
-+void assert_hvf_ok(hv_return_t ret);
-+
-+#endif
-diff --git a/target/i386/hvf/hvf.c b/target/i386/hvf/hvf.c
-index f044181d06..32f42f1592 100644
---- a/target/i386/hvf/hvf.c
-+++ b/target/i386/hvf/hvf.c
-@@ -51,6 +51,7 @@
- #include "qemu/error-report.h"
+ specific_ss.add_all(when: 'CONFIG_HVF', if_true: hvf_ss)
+diff --git a/target/i386/hvf/meson.build b/target/i386/hvf/meson.build
+index d253d5fd10..f6d4c394d3 100644
+--- a/target/i386/hvf/meson.build
++++ b/target/i386/hvf/meson.build
+@@ -1,6 +1,5 @@
+ i386_softmmu_ss.add(when: [hvf, 'CONFIG_HVF'], if_true: files(
+   'hvf.c',
+-  'hvf-accel-ops.c',
+   'x86.c',
+   'x86_cpuid.c',
+   'x86_decode.c',
+diff --git a/target/i386/hvf/x86hvf.c b/target/i386/hvf/x86hvf.c
+index 0d7533742e..2b99f3eaa2 100644
+--- a/target/i386/hvf/x86hvf.c
++++ b/target/i386/hvf/x86hvf.c
+@@ -32,7 +32,7 @@
+ #include <Hypervisor/hv.h>
+ #include <Hypervisor/hv_vmx.h>
  
- #include "sysemu/hvf.h"
-+#include "sysemu/hvf_int.h"
- #include "sysemu/runstate.h"
- #include "hvf-i386.h"
- #include "vmcs.h"
-@@ -76,38 +77,6 @@
+-#include "hvf-accel-ops.h"
++#include "accel/hvf/hvf-accel-ops.h"
  
- HVFState *hvf_state;
- 
--static void assert_hvf_ok(hv_return_t ret)
--{
--    if (ret == HV_SUCCESS) {
--        return;
--    }
--
--    switch (ret) {
--    case HV_ERROR:
--        error_report("Error: HV_ERROR");
--        break;
--    case HV_BUSY:
--        error_report("Error: HV_BUSY");
--        break;
--    case HV_BAD_ARGUMENT:
--        error_report("Error: HV_BAD_ARGUMENT");
--        break;
--    case HV_NO_RESOURCES:
--        error_report("Error: HV_NO_RESOURCES");
--        break;
--    case HV_NO_DEVICE:
--        error_report("Error: HV_NO_DEVICE");
--        break;
--    case HV_UNSUPPORTED:
--        error_report("Error: HV_UNSUPPORTED");
--        break;
--    default:
--        error_report("Unknown Error");
--    }
--
--    abort();
--}
--
- /* Memory slots */
- hvf_slot *hvf_find_overlap_slot(uint64_t start, uint64_t size)
- {
+ void hvf_set_segment(struct CPUState *cpu, struct vmx_segment *vmx_seg,
+                      SegmentCache *qseg, bool is_tr)
 -- 
 2.30.1 (Apple Git-130)
 
