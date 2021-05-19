@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 147DD389404
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 18:43:24 +0200 (CEST)
-Received: from localhost ([::1]:54384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36A92389401
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 18:42:51 +0200 (CEST)
+Received: from localhost ([::1]:53662 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljPI3-0005rg-3g
-	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 12:43:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34768)
+	id 1ljPHW-0005Nb-9s
+	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 12:42:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34790)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1ljP63-0004EI-MG
- for qemu-devel@nongnu.org; Wed, 19 May 2021 12:30:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57267)
+ id 1ljP65-0004L8-D4
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 12:31:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49750)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1ljP62-0005dd-4h
- for qemu-devel@nongnu.org; Wed, 19 May 2021 12:30:59 -0400
+ id 1ljP63-0005eT-HT
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 12:31:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621441857;
+ s=mimecast20190719; t=1621441859;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BPDJ6rlrGlC64b964g2dBDdzErcAu+xMc+j3FyHfLC8=;
- b=Q1WbOWkPPJ9YP6Dzyi3oHSd+x6FFv0wLUKfvEMbT9zYZDESn/oXHFavkdxoACMlIcznAby
- FVw5Hrd0b2uQvIj9v+35nHiCakUnc9YwdI2fWry6vtGzpTlKcWQ/bwKLhEbTlp+7obNtTN
- dDIB8BKD6DETZYVH+TioFmiCZPTqgzA=
+ bh=jpVWSZqTF2zL6nviKEiZCIGpvvk/+5NdTzfZHJLDvZQ=;
+ b=etorMLhgKOEQjiUe5n8dSpdkJVkm2t8Q42xO+HeCCWyqXnhoG8Am8L1VH5sEIK+xSSha6F
+ d6s/Ku3Go6PRPo3cEbmTA0Vk6FJfOVR4WBAyDyCNP4iqkc5NypoPrsRyF9TAlc89T3faYl
+ EoaxbTqR/tk+wst23qbIVYTuaCo99LE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-572-RJCtkZlqP4uGb6QFxJk5ow-1; Wed, 19 May 2021 12:30:53 -0400
-X-MC-Unique: RJCtkZlqP4uGb6QFxJk5ow-1
+ us-mta-121-D8nMnuc4MFGOubFuMZ2Ljw-1; Wed, 19 May 2021 12:30:57 -0400
+X-MC-Unique: D8nMnuc4MFGOubFuMZ2Ljw-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0BC158015F5;
- Wed, 19 May 2021 16:30:52 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D4ED5100747E;
+ Wed, 19 May 2021 16:30:55 +0000 (UTC)
 Received: from eperezma.remote.csb (ovpn-113-65.ams2.redhat.com [10.36.113.65])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E87185D6AC;
- Wed, 19 May 2021 16:30:35 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 624745D720;
+ Wed, 19 May 2021 16:30:52 +0000 (UTC)
 From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC v3 11/29] vhost: Add vhost_vring_pause operation
-Date: Wed, 19 May 2021 18:28:45 +0200
-Message-Id: <20210519162903.1172366-12-eperezma@redhat.com>
+Subject: [RFC v3 12/29] vhost: add vhost_kernel_vring_pause
+Date: Wed, 19 May 2021 18:28:46 +0200
+Message-Id: <20210519162903.1172366-13-eperezma@redhat.com>
 In-Reply-To: <20210519162903.1172366-1-eperezma@redhat.com>
 References: <20210519162903.1172366-1-eperezma@redhat.com>
 MIME-Version: 1.0
@@ -57,7 +57,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -88,35 +88,87 @@ Cc: Parav Pandit <parav@mellanox.com>, "Michael S. Tsirkin" <mst@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-With this operation a device can be paused by a backend, allowing the
-later to ask status without the risk of the device override it.
+This is just a commit to allow the testing with vhost-net, not intended
+for the final version or any other device.
+
+vhost_kernel_vring_pause stops the device, so qemu can ask for its status
+(next available idx the device was going to consume) and to replace
+vring addresses. When SVQ starts it can resume consuming the guest's
+driver ring, without notice from the latter. Not stopping the device
+before of the swapping could imply that it process more buffers than
+reported, what would duplicate the device action.
+
+Mimic vhost-vdpa behavior, vhost_kernel_start is intended to resume the
+device. In the former it performs a full reset. Since this is a
+temporary commit to allow testing with vhost-net, the latter just set a
+new backend, that is enough for vhost-net to realize the new vring
+addresses.
 
 Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 ---
- include/hw/virtio/vhost-backend.h | 3 +++
- 1 file changed, 3 insertions(+)
+ hw/virtio/vhost-backend.c | 42 +++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 42 insertions(+)
 
-diff --git a/include/hw/virtio/vhost-backend.h b/include/hw/virtio/vhost-backend.h
-index 8a6f8e2a7a..94d3323905 100644
---- a/include/hw/virtio/vhost-backend.h
-+++ b/include/hw/virtio/vhost-backend.h
-@@ -125,6 +125,8 @@ typedef int (*vhost_get_device_id_op)(struct vhost_dev *dev, uint32_t *dev_id);
+diff --git a/hw/virtio/vhost-backend.c b/hw/virtio/vhost-backend.c
+index 31b33bde37..9653b7fddb 100644
+--- a/hw/virtio/vhost-backend.c
++++ b/hw/virtio/vhost-backend.c
+@@ -201,6 +201,46 @@ static int vhost_kernel_get_vq_index(struct vhost_dev *dev, int idx)
+     return idx - dev->vq_index;
+ }
  
- typedef bool (*vhost_force_iommu_op)(struct vhost_dev *dev);
- 
-+typedef int (*vhost_vring_pause_op)(struct vhost_dev *dev);
++static int vhost_kernel_set_vq_pause(struct vhost_dev *dev, unsigned idx,
++                                     bool pause)
++{
++    struct vhost_vring_file file = {
++        .index = idx,
++    };
 +
- typedef struct VhostOps {
-     VhostBackendType backend_type;
-     vhost_backend_init vhost_backend_init;
-@@ -169,6 +171,7 @@ typedef struct VhostOps {
-     vhost_dev_start_op vhost_dev_start;
-     vhost_vq_get_addr_op  vhost_vq_get_addr;
-     vhost_get_device_id_op vhost_get_device_id;
-+    vhost_vring_pause_op vhost_vring_pause;
-     vhost_force_iommu_op vhost_force_iommu;
- } VhostOps;
- 
++    if (pause) {
++        file.fd = -1; /* Pass -1 to unbind from file. */
++    } else {
++        struct vhost_net *vn_dev = container_of(dev, struct vhost_net, dev);
++        file.fd = vn_dev->backend;
++    }
++
++    return vhost_kernel_net_set_backend(dev, &file);
++}
++
++static int vhost_kernel_vring_pause(struct vhost_dev *dev)
++{
++    int i;
++
++    for (i = 0; i < dev->nvqs; ++i) {
++        vhost_kernel_set_vq_pause(dev, i, true);
++    }
++
++    return 0;
++}
++
++static int vhost_kernel_start(struct vhost_dev *dev, bool start)
++{
++    int i;
++
++    assert(start);
++    for (i = 0; i < dev->nvqs; ++i) {
++        vhost_kernel_set_vq_pause(dev, i, false);
++    }
++
++    return 0;
++}
++
+ #ifdef CONFIG_VHOST_VSOCK
+ static int vhost_kernel_vsock_set_guest_cid(struct vhost_dev *dev,
+                                             uint64_t guest_cid)
+@@ -317,6 +357,8 @@ static const VhostOps kernel_ops = {
+         .vhost_set_owner = vhost_kernel_set_owner,
+         .vhost_reset_device = vhost_kernel_reset_device,
+         .vhost_get_vq_index = vhost_kernel_get_vq_index,
++        .vhost_dev_start = vhost_kernel_start,
++        .vhost_vring_pause = vhost_kernel_vring_pause,
+ #ifdef CONFIG_VHOST_VSOCK
+         .vhost_vsock_set_guest_cid = vhost_kernel_vsock_set_guest_cid,
+         .vhost_vsock_set_running = vhost_kernel_vsock_set_running,
 -- 
 2.27.0
 
