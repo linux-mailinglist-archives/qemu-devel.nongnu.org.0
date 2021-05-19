@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DCEF3893CF
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 18:32:19 +0200 (CEST)
-Received: from localhost ([::1]:56188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36C4F3893D1
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 18:32:24 +0200 (CEST)
+Received: from localhost ([::1]:56858 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljP7I-0004WF-4q
-	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 12:32:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34266)
+	id 1ljP7P-0004zC-7z
+	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 12:32:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34296)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1ljP4i-00021k-Ir
- for qemu-devel@nongnu.org; Wed, 19 May 2021 12:29:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57427)
+ id 1ljP4n-0002Al-Ig
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 12:29:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50966)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1ljP4f-00054g-DP
- for qemu-devel@nongnu.org; Wed, 19 May 2021 12:29:35 -0400
+ id 1ljP4m-00057l-3s
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 12:29:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621441772;
+ s=mimecast20190719; t=1621441779;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0kky/RYc9A8VMyn0hQWQkkpfFNLpVtNdxBiYEiHpkaQ=;
- b=eJDh0zhZOXD98hUWOoWntl8vsO4jJJ7Nqfxw6kWvPNRYUSIGCZc4muUichlRGzvw0RXCI6
- 4glhJznqsKrY+jcFGfGk0+s+qCaO9mymajS13LyTdtw1p94SMqGLBEoGiMGWRhUHfapUls
- 6AgUdm0VyRrwq5FKQRxVBkI2fxodhds=
+ bh=+kHOjQsXC/K2n38pcbsFNStVeupnDFmkXVqAbKuxVWo=;
+ b=dAjnADT1bCapyKAUEK6dJkpyb/Gp+8GYH4ojRBuafc9jhampQYLzPAmOMXGo0/vzifVLE3
+ 8mWYEdXzjD1zzWoP6NS6Q/7asTP/icdeIo1wEelE4aqflB0SRvz7pe9Z9T5t8L+d9o3xs1
+ 07gfgGFwcSS0QAoYPQaONBOKGNJZn7A=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-62-lhhaU_8DPOCyP62SY4dwTw-1; Wed, 19 May 2021 12:29:29 -0400
-X-MC-Unique: lhhaU_8DPOCyP62SY4dwTw-1
+ us-mta-50-HfP3HZ3COZWfBf3K6Djmdw-1; Wed, 19 May 2021 12:29:36 -0400
+X-MC-Unique: HfP3HZ3COZWfBf3K6Djmdw-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D39B1180FD6A;
- Wed, 19 May 2021 16:29:27 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C9F7C1005E40;
+ Wed, 19 May 2021 16:29:34 +0000 (UTC)
 Received: from eperezma.remote.csb (ovpn-113-65.ams2.redhat.com [10.36.113.65])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 849565D6AC;
- Wed, 19 May 2021 16:29:24 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4C1C15D6AC;
+ Wed, 19 May 2021 16:29:28 +0000 (UTC)
 From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC v3 01/29] virtio: Add virtio_queue_is_host_notifier_enabled
-Date: Wed, 19 May 2021 18:28:35 +0200
-Message-Id: <20210519162903.1172366-2-eperezma@redhat.com>
+Subject: [RFC v3 02/29] vhost: Save masked_notifier state
+Date: Wed, 19 May 2021 18:28:36 +0200
+Message-Id: <20210519162903.1172366-3-eperezma@redhat.com>
 In-Reply-To: <20210519162903.1172366-1-eperezma@redhat.com>
 References: <20210519162903.1172366-1-eperezma@redhat.com>
 MIME-Version: 1.0
@@ -88,43 +88,42 @@ Cc: Parav Pandit <parav@mellanox.com>, "Michael S. Tsirkin" <mst@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This allows shadow virtqueue code to assert the queue status before
-making changes.
+It will be used to configure shadow virtqueue. Shadow virtqueue will
+relay the device->guest notifications, so vhost need to be able to tell
+the masking status.
 
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 ---
- include/hw/virtio/virtio.h | 1 +
- hw/virtio/virtio.c         | 5 +++++
- 2 files changed, 6 insertions(+)
+ include/hw/virtio/vhost.h | 1 +
+ hw/virtio/vhost.c         | 2 ++
+ 2 files changed, 3 insertions(+)
 
-diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
-index b7ece7a6a8..c2c7cee993 100644
---- a/include/hw/virtio/virtio.h
-+++ b/include/hw/virtio/virtio.h
-@@ -316,6 +316,7 @@ void virtio_device_release_ioeventfd(VirtIODevice *vdev);
- bool virtio_device_ioeventfd_enabled(VirtIODevice *vdev);
- EventNotifier *virtio_queue_get_host_notifier(VirtQueue *vq);
- void virtio_queue_set_host_notifier_enabled(VirtQueue *vq, bool enabled);
-+bool virtio_queue_is_host_notifier_enabled(const VirtQueue *vq);
- void virtio_queue_host_notifier_read(EventNotifier *n);
- void virtio_queue_aio_set_host_notifier_handler(VirtQueue *vq, AioContext *ctx,
-                                                 VirtIOHandleAIOOutput handle_output);
-diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-index 07f4e60b30..a86b3f9c26 100644
---- a/hw/virtio/virtio.c
-+++ b/hw/virtio/virtio.c
-@@ -3594,6 +3594,11 @@ EventNotifier *virtio_queue_get_host_notifier(VirtQueue *vq)
-     return &vq->host_notifier;
+diff --git a/include/hw/virtio/vhost.h b/include/hw/virtio/vhost.h
+index 4a8bc75415..ac963bf23d 100644
+--- a/include/hw/virtio/vhost.h
++++ b/include/hw/virtio/vhost.h
+@@ -28,6 +28,7 @@ struct vhost_virtqueue {
+     unsigned avail_size;
+     unsigned long long used_phys;
+     unsigned used_size;
++    bool notifier_is_masked;
+     EventNotifier masked_notifier;
+     struct vhost_dev *dev;
+ };
+diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
+index bbc2f228b5..40f9f64ebd 100644
+--- a/hw/virtio/vhost.c
++++ b/hw/virtio/vhost.c
+@@ -1527,6 +1527,8 @@ void vhost_virtqueue_mask(struct vhost_dev *hdev, VirtIODevice *vdev, int n,
+     r = hdev->vhost_ops->vhost_set_vring_call(hdev, &file);
+     if (r < 0) {
+         VHOST_OPS_DEBUG("vhost_set_vring_call failed");
++    } else {
++        hdev->vqs[index].notifier_is_masked = mask;
+     }
  }
  
-+bool virtio_queue_is_host_notifier_enabled(const VirtQueue *vq)
-+{
-+    return vq->host_notifier_enabled;
-+}
-+
- void virtio_queue_set_host_notifier_enabled(VirtQueue *vq, bool enabled)
- {
-     vq->host_notifier_enabled = enabled;
 -- 
 2.27.0
 
