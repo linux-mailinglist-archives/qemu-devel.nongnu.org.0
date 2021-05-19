@@ -2,82 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A43A3896D9
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 21:39:41 +0200 (CEST)
-Received: from localhost ([::1]:42834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D17553896CE
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 21:34:34 +0200 (CEST)
+Received: from localhost ([::1]:32814 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljS2e-00024i-29
-	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 15:39:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60322)
+	id 1ljRxh-0003cn-R6
+	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 15:34:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38458)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ljRM4-0007Oz-EB
- for qemu-devel@nongnu.org; Wed, 19 May 2021 14:55:40 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:53877)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1ljRfW-0004oq-S0
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 15:15:46 -0400
+Received: from indium.canonical.com ([91.189.90.7]:47086)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ljRM2-0002Oh-LG
- for qemu-devel@nongnu.org; Wed, 19 May 2021 14:55:40 -0400
-Received: by mail-wm1-x331.google.com with SMTP id 62so6800676wmb.3
- for <qemu-devel@nongnu.org>; Wed, 19 May 2021 11:55:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=h/Ig0v1yuZQWNoZm6vkO9AxQtQH1VqcNpoimhQNUuSQ=;
- b=RgPnsHxaboWY8UujdPCoIWTYfg4Nud1MyqhVI/F+MXCIsq+e4EUtR+MxwQPZh0vJeU
- WMCJWwkZE6/tWHOhP8yeLozhP+v+VfZ/S06fX96epkbxfcNMDKWZHARHDc0qqoy+jH6h
- 2XMpT2zdQPediaZG5zAUU4j1wQKzgzrBgHZqZlY72Dsz9ySpNUd+OS7iE3J9w473MYed
- leKa2UVLShg5syhMuAsnDplDHt35QrAjU2TAo4RiPQIeNlr1jNVnz0g36eR4p1mWMQ0d
- ynay9yu0edeHsBU/UiKQPSAUZXOZaSBGwxZ1YacbqUmS6nwmEwKOBZ3n37ESGcwZD6Bp
- c8fA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=h/Ig0v1yuZQWNoZm6vkO9AxQtQH1VqcNpoimhQNUuSQ=;
- b=UrW7a10AhEkbb+4HTyUbXMOX9TbQr0A5PKygw69x+1WqE5Vy8CBifr9APurx8EQsoB
- w1CfGyL9+h0oWSqr0dLWnlKS5C48/pfRbOzImx2+PcE015X5R3simQ/mgrU+h6N5BJ/3
- wOqLyGxZ5iggio0pTxFpm0aaD8q26S6iNSEN5ImJY9wP7Mtn/Q8ksBb4cQPslz0PDaT8
- PkuLzboBPaXwS/yVsZkGaJmf7ool6geqClyYgr/mbeHioh0mtnz0Iu9dznHhal01CQFf
- i/937nNHXGk8iPNiiGwAUSZQvWDpPmak3pqDywbbKUtD4H6VyQTu0Ry+IlXa9kIK4x9M
- znRA==
-X-Gm-Message-State: AOAM530PI281JYI1WDS3lSuAlyWuefpSgRzrag3IknbJIOsV6TpdnWDe
- 3lappxjVRNtawl7tKhZ3RNqyM58IlLEUJg==
-X-Google-Smtp-Source: ABdhPJwZBjMZMf2IuE2kVoJu/Ka05CB8zfhHYMh1lNxLIlL1P00xq0q7Dv/FEgsJ58hFbsTqUGRT2g==
-X-Received: by 2002:a05:600c:2143:: with SMTP id
- v3mr605075wml.57.1621450537011; 
- Wed, 19 May 2021 11:55:37 -0700 (PDT)
-Received: from x1w.redhat.com (31.red-83-51-215.dynamicip.rima-tde.net.
- [83.51.215.31])
- by smtp.gmail.com with ESMTPSA id t204sm7211656wmg.38.2021.05.19.11.55.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 May 2021 11:55:36 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 06/10] gitlab-ci: Extract build stages to stages.yml
-Date: Wed, 19 May 2021 20:55:00 +0200
-Message-Id: <20210519185504.2198573-7-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.3
-In-Reply-To: <20210519185504.2198573-1-f4bug@amsat.org>
-References: <20210519185504.2198573-1-f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1ljRfU-0004Q5-No
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 15:15:46 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
+ id 1ljRfR-0006xX-1x
+ for <qemu-devel@nongnu.org>; Wed, 19 May 2021 19:15:41 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 9A9242E8189
+ for <qemu-devel@nongnu.org>; Wed, 19 May 2021 19:15:40 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x331.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 19 May 2021 19:08:20 -0000
+From: Ralph G <1887604@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: feature-request
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: superflip th-huth
+X-Launchpad-Bug-Reporter: Ralph G (superflip)
+X-Launchpad-Bug-Modifier: Ralph G (superflip)
+References: <159478506417.12547.6442940817184262205.malonedeb@soybean.canonical.com>
+Message-Id: <162145130113.1620.9366465680371731498.launchpad@soybean.canonical.com>
+Subject: [Bug 1887604] Re: Forward host UNIX socket to guest TCP port
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="716e08a550b901207b3abbeb098dd682f9ecb267"; Instance="production"
+X-Launchpad-Hash: 8b2db31ea95d49e0ca6b1ceb6e94487922e8d429
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -86,62 +70,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Willian Rampazzo <willianr@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Reply-To: Bug 1887604 <1887604@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Extract the build stages used by our job templates to a new file
-(stages.yml) to be able to include it with the other templates,
-without having to run all the jobs included in the default
-.gitlab-ci.yml, which are mainly useful for mainstream CI.
+** Changed in: qemu
+       Status: Incomplete =3D> New
 
-Reviewed-by: Willian Rampazzo <willianr@redhat.com>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- .gitlab-ci.d/stages.yml |  8 ++++++++
- .gitlab-ci.yml          | 10 +---------
- 2 files changed, 9 insertions(+), 9 deletions(-)
- create mode 100644 .gitlab-ci.d/stages.yml
+-- =
 
-diff --git a/.gitlab-ci.d/stages.yml b/.gitlab-ci.d/stages.yml
-new file mode 100644
-index 00000000000..f50826018df
---- /dev/null
-+++ b/.gitlab-ci.d/stages.yml
-@@ -0,0 +1,8 @@
-+# Currently we have two build stages after our containers are built:
-+#  - build (for traditional build and test or first stage build)
-+#  - test (for test stages, using build artefacts from a build stage)
-+stages:
-+  - containers
-+  - containers-layer2
-+  - build
-+  - test
-diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-index bc7bad3d905..a348c101f6d 100644
---- a/.gitlab-ci.yml
-+++ b/.gitlab-ci.yml
-@@ -1,13 +1,5 @@
--# Currently we have two build stages after our containers are built:
--#  - build (for traditional build and test or first stage build)
--#  - test (for test stages, using build artefacts from a build stage)
--stages:
--  - containers
--  - containers-layer2
--  - build
--  - test
--
- include:
-+  - local: '/.gitlab-ci.d/stages.yml'
-   - local: '/.gitlab-ci.d/edk2.yml'
-   - local: '/.gitlab-ci.d/opensbi.yml'
-   - local: '/.gitlab-ci.d/containers.yml'
--- 
-2.26.3
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1887604
 
+Title:
+  Forward host UNIX socket to guest TCP port
+
+Status in QEMU:
+  New
+
+Bug description:
+  Hello. I've been racking my brain trying to work out if this is
+  possible.
+
+  I would like to be able to forward to a guest TCP port, via a host
+  UNIX socket to avoid opening a TCP port on the host. For example:
+
+  qemu-system-i386 [...] -nic user,hostfwd=3Dunix:/path/to/socket-:22
+
+  and then connect to the VM like:
+
+  ssh -o "ProxyCommand socat - unix-connect:/path/to/socket"
+  user@0.0.0.0
+
+  QEMU, as versatile as it is, doesn't appreciate my intuited syntax
+  "hostfwd=3Dunix:...". It is also unhappy with:
+
+  qemu-system-i386 [...] \
+      -chardev socket,id=3Dfoo,path=3D/path/to/socket,server,nowait \
+      -nic user,hostfwd=3Dchardev:foo-:22
+
+  And:
+
+  qemu-system-i386 [...] \
+      -nic user \
+      -chardev socket,id=3Dfoo,path=3D/path/to/socket,server,nowait \
+      -chardev socket,id=3Dfoo,host=3D10.0.2.15,port=3D22
+
+  I already found out how to connect in the opposite direction, **from**
+  guest TCP to host UNIX, via guestfwd -> cmd -> socat. So I feel like
+  there ought to be a way.
+
+  If this is not yet a feature I would like to request it, and if it is,
+  please tell me how!
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1887604/+subscriptions
 
