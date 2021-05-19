@@ -2,50 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD46F3894DA
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 19:57:52 +0200 (CEST)
-Received: from localhost ([::1]:52582 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 366063894DD
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 19:58:23 +0200 (CEST)
+Received: from localhost ([::1]:54566 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljQS7-00027a-Qu
-	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 13:57:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34820)
+	id 1ljQSc-0003QU-9W
+	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 13:58:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35608)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bruno.larsen@eldorado.org.br>)
- id 1ljQPc-0000gr-WC; Wed, 19 May 2021 13:55:17 -0400
-Received: from [201.28.113.2] (port=42347 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bruno.larsen@eldorado.org.br>)
- id 1ljQPa-00038C-3s; Wed, 19 May 2021 13:55:16 -0400
-Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Wed, 19 May 2021 14:53:56 -0300
-Received: from [127.0.0.1] (unknown [10.10.71.235])
- by power9a (Postfix) with ESMTPS id 7D1D880139F;
- Wed, 19 May 2021 14:53:56 -0300 (-03)
-Subject: Re: [PATCH 19/24] target/ppc: Use bool success for ppc_radix64_xlate
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20210518201146.794854-1-richard.henderson@linaro.org>
- <20210518201146.794854-20-richard.henderson@linaro.org>
-From: Bruno Piazera Larsen <bruno.larsen@eldorado.org.br>
-Message-ID: <05f2d33a-9435-f01c-62da-fb7be6587ced@eldorado.org.br>
-Date: Wed, 19 May 2021 14:53:56 -0300
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1ljQQl-0001bC-Qg; Wed, 19 May 2021 13:56:27 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:35682)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1ljQQk-0003yQ-7K; Wed, 19 May 2021 13:56:27 -0400
+Received: by mail-wr1-x429.google.com with SMTP id a4so14978366wrr.2;
+ Wed, 19 May 2021 10:56:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=t4Kwb+iEZFHI2wd/Q7LeYEnxIg2Cj9YnjFHdai+EliQ=;
+ b=UJNL8v9PJS1ovSKZjM9H9pGIbl3nM9iFp8i2Rj5CKZdPEuIkcdMMxjAWEOL0GalgV4
+ IOXd3z66BUf9DBPN19gGNNPeup+jHNVFZ67/YHz7mQd/s07Ze3rvU4QMY7pCmj6oIFjM
+ 4OEAi4yatPPfqzerzgvoLi2WcG53Nlqk9GauyaLqtUMjGVecj0Rh/k+mHO96o8PXPoTA
+ /RZEDkBka1pTOlU1ztXzwD6Yjstk3dcYDbTqvXZeeAcCeoAKQ+3y9KvXeRriRmTOnZPt
+ uqsBLal+N+USpinVw1cst1OQTm8H7C9s4wIUBkz0LII1X9I9dbtt92tBP1EiXJarWamV
+ 0fwQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=t4Kwb+iEZFHI2wd/Q7LeYEnxIg2Cj9YnjFHdai+EliQ=;
+ b=RHtwOa+Ny739oGoExZ7ZkFv2SMyJ9UMYBjkxWjic0m4B/xOWVJPnHwz/t2ATfiq9wT
+ sHEV2eeCsZfpUt8WYutw8IwcTuTWj3CFjKViW8mw+9dmzHbzv1lMgw4JfGnGLYEKc1Ok
+ LJprXPZ2G224EqX8NpA7VBrS5nR6StYB0J0Y/e8AUHiVyP/881pbXobV2O2wPUDVjoBQ
+ zLCcVqXPpI9Gth6K/Qi42TapHC4R5sRrfVvL6qsc4/Fs2apvxxP4jrKbG4pRqkbR+sPI
+ SMBuzzfP8r7oLHPmsaKRF5P3h2FcuM+RJ0A8rFQ0VkP1zNz8kf4aeN5hu35p2bO1qOxa
+ nW/g==
+X-Gm-Message-State: AOAM532nWupqSxbp3inRcjuQlcwoPt8Q7sOUXdw50Zea8VfBvZbaOYo0
+ 0LnDwdK3LU/w4KHqBtv70Q8=
+X-Google-Smtp-Source: ABdhPJwovpb5zvlOCbeCZsbqFPXH/xal8mkfqK03QlMVSsuPA89Jckb7NEEbk/1zvfPBazu10pu43Q==
+X-Received: by 2002:adf:fc44:: with SMTP id e4mr140638wrs.23.1621446984370;
+ Wed, 19 May 2021 10:56:24 -0700 (PDT)
+Received: from [192.168.1.36] (31.red-83-51-215.dynamicip.rima-tde.net.
+ [83.51.215.31])
+ by smtp.gmail.com with ESMTPSA id r5sm57126wrw.96.2021.05.19.10.56.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 19 May 2021 10:56:23 -0700 (PDT)
+Subject: Re: [PATCH 2/3] adc: Move the max111x driver to the adc directory
+To: minyard@acm.org, qemu-devel@nongnu.org, Titus Rwantare <titusr@google.com>
+References: <20210519000331.3690536-1-minyard@acm.org>
+ <20210519000331.3690536-3-minyard@acm.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <f50724bc-abd6-e50d-d447-6086da2a1fa2@amsat.org>
+Date: Wed, 19 May 2021 19:56:22 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210518201146.794854-20-richard.henderson@linaro.org>
-Content-Type: multipart/alternative;
- boundary="------------264AA9AB8E65913D12DF723D"
+In-Reply-To: <20210519000331.3690536-3-minyard@acm.org>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-X-OriginalArrivalTime: 19 May 2021 17:53:56.0723 (UTC)
- FILETIME=[F07EA430:01D74CD7]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
-Received-SPF: pass client-ip=201.28.113.2;
- envelope-from=bruno.larsen@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -10
-X-Spam_score: -1.1
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x429.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
 X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
- NICE_REPLY_A=-0.001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -59,280 +87,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
+Cc: Corey Minyard <cminyard@mvista.com>, qemu-arm@nongnu.org,
+ Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a multi-part message in MIME format.
---------------264AA9AB8E65913D12DF723D
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-
-
-On 18/05/2021 17:11, Richard Henderson wrote:
-> Instead of returning non-zero for failure, return true for success.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-
-Reviewed-by: Bruno Larsen (billionai)<bruno.larsen@eldorado.org.br>
-
+On 5/19/21 2:03 AM, minyard@acm.org wrote:
+> From: Corey Minyard <cminyard@mvista.com>
+> 
+> It's an adc, put it where it belongs.
+> 
+> Cc: Andrzej Zaborowski <balrogg@gmail.com>
+> Cc: Peter Maydell <peter.maydell@linaro.org>
+> Cc: qemu-arm@nongnu.org
+> Signed-off-by: Corey Minyard <cminyard@mvista.com>
 > ---
->   target/ppc/mmu-radix64.c | 30 +++++++++++++++---------------
->   1 file changed, 15 insertions(+), 15 deletions(-)
->
-> diff --git a/target/ppc/mmu-radix64.c b/target/ppc/mmu-radix64.c
-> index 76a5cc8cdb..7af3e697b2 100644
-> --- a/target/ppc/mmu-radix64.c
-> +++ b/target/ppc/mmu-radix64.c
-> @@ -464,10 +464,10 @@ static int ppc_radix64_process_scoped_xlate(PowerPCCPU *cpu,
->    *              | = On        | Process Scoped |    Scoped     |
->    *              +-------------+----------------+---------------+
->    */
-> -static int ppc_radix64_xlate(PowerPCCPU *cpu, vaddr eaddr,
-> -                             MMUAccessType access_type,
-> -                             hwaddr *raddr, int *psizep, int *protp,
-> -                             bool guest_visible)
-> +static bool ppc_radix64_xlate(PowerPCCPU *cpu, vaddr eaddr,
-> +                              MMUAccessType access_type,
-> +                              hwaddr *raddr, int *psizep, int *protp,
-> +                              bool guest_visible)
->   {
->       CPUPPCState *env = &cpu->env;
->       uint64_t lpid, pid;
-> @@ -493,7 +493,7 @@ static int ppc_radix64_xlate(PowerPCCPU *cpu, vaddr eaddr,
->           }
->           *protp = PAGE_READ | PAGE_WRITE | PAGE_EXEC;
->           *psizep = TARGET_PAGE_BITS;
-> -        return 0;
-> +        return true;
->       }
->   
->       /*
-> @@ -511,7 +511,7 @@ static int ppc_radix64_xlate(PowerPCCPU *cpu, vaddr eaddr,
->           if (guest_visible) {
->               ppc_radix64_raise_segi(cpu, access_type, eaddr);
->           }
-> -        return 1;
-> +        return false;
->       }
->   
->       /* Get Process Table */
-> @@ -524,13 +524,13 @@ static int ppc_radix64_xlate(PowerPCCPU *cpu, vaddr eaddr,
->               if (guest_visible) {
->                   ppc_radix64_raise_si(cpu, access_type, eaddr, DSISR_NOPTE);
->               }
-> -            return 1;
-> +            return false;
->           }
->           if (!validate_pate(cpu, lpid, &pate)) {
->               if (guest_visible) {
->                   ppc_radix64_raise_si(cpu, access_type, eaddr, DSISR_R_BADCONFIG);
->               }
-> -            return 1;
-> +            return false;
->           }
->       }
->   
-> @@ -550,7 +550,7 @@ static int ppc_radix64_xlate(PowerPCCPU *cpu, vaddr eaddr,
->                                                      pate, &g_raddr, &prot,
->                                                      &psize, guest_visible);
->           if (ret) {
-> -            return ret;
-> +            return false;
->           }
->           *psizep = MIN(*psizep, psize);
->           *protp &= prot;
-> @@ -574,7 +574,7 @@ static int ppc_radix64_xlate(PowerPCCPU *cpu, vaddr eaddr,
->                                                        &prot, &psize, false,
->                                                        guest_visible);
->               if (ret) {
-> -                return ret;
-> +                return false;
->               }
->               *psizep = MIN(*psizep, psize);
->               *protp &= prot;
-> @@ -583,7 +583,7 @@ static int ppc_radix64_xlate(PowerPCCPU *cpu, vaddr eaddr,
->           }
->       }
->   
-> -    return 0;
-> +    return true;
->   }
->   
->   int ppc_radix64_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr,
-> @@ -594,8 +594,8 @@ int ppc_radix64_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr,
->       hwaddr raddr;
->   
->       /* Translate eaddr to raddr (where raddr is addr qemu needs for access) */
-> -    if (ppc_radix64_xlate(cpu, eaddr, access_type, &raddr,
-> -                          &page_size, &prot, true)) {
-> +    if (!ppc_radix64_xlate(cpu, eaddr, access_type, &raddr,
-> +                           &page_size, &prot, true)) {
->           return 1;
->       }
->   
-> @@ -609,8 +609,8 @@ hwaddr ppc_radix64_get_phys_page_debug(PowerPCCPU *cpu, target_ulong eaddr)
->       int psize, prot;
->       hwaddr raddr;
->   
-> -    if (ppc_radix64_xlate(cpu, eaddr, MMU_DATA_LOAD, &raddr,
-> -                          &psize, &prot, false)) {
-> +    if (!ppc_radix64_xlate(cpu, eaddr, MMU_DATA_LOAD, &raddr,
-> +                           &psize, &prot, false)) {
->           return -1;
->       }
->   
--- 
-Bruno Piazera Larsen
-Instituto de Pesquisas ELDORADO 
-<https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&utm_medium=email&utm_source=RD+Station>
-Departamento Computação Embarcada
-Analista de Software Trainee
-Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
+>  MAINTAINERS                        | 4 ++--
+>  hw/adc/Kconfig                     | 3 +++
+>  hw/{misc => adc}/max111x.c         | 2 +-
+>  hw/adc/meson.build                 | 3 ++-
+>  hw/arm/spitz.c                     | 2 +-
+>  hw/misc/Kconfig                    | 3 ---
+>  hw/misc/meson.build                | 1 -
+>  include/hw/{misc => adc}/max111x.h | 0
+>  8 files changed, 9 insertions(+), 9 deletions(-)
+>  rename hw/{misc => adc}/max111x.c (99%)
+>  rename include/hw/{misc => adc}/max111x.h (100%)
 
---------------264AA9AB8E65913D12DF723D
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">On 18/05/2021 17:11, Richard Henderson
-      wrote:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:20210518201146.794854-20-richard.henderson@linaro.org">
-      <pre class="moz-quote-pre" wrap="">Instead of returning non-zero for failure, return true for success.
-
-Signed-off-by: Richard Henderson <a class="moz-txt-link-rfc2396E" href="mailto:richard.henderson@linaro.org">&lt;richard.henderson@linaro.org&gt;</a></pre>
-    </blockquote>
-    <pre class="moz-quote-pre" wrap="">Reviewed-by: Bruno Larsen (billionai) <a class="moz-txt-link-rfc2396E" href="mailto:bruno.larsen@eldorado.org.br">&lt;bruno.larsen@eldorado.org.br&gt;</a></pre>
-    <blockquote type="cite"
-      cite="mid:20210518201146.794854-20-richard.henderson@linaro.org">
-      <pre class="moz-quote-pre" wrap="">
----
- target/ppc/mmu-radix64.c | 30 +++++++++++++++---------------
- 1 file changed, 15 insertions(+), 15 deletions(-)
-
-diff --git a/target/ppc/mmu-radix64.c b/target/ppc/mmu-radix64.c
-index 76a5cc8cdb..7af3e697b2 100644
---- a/target/ppc/mmu-radix64.c
-+++ b/target/ppc/mmu-radix64.c
-@@ -464,10 +464,10 @@ static int ppc_radix64_process_scoped_xlate(PowerPCCPU *cpu,
-  *              | = On        | Process Scoped |    Scoped     |
-  *              +-------------+----------------+---------------+
-  */
--static int ppc_radix64_xlate(PowerPCCPU *cpu, vaddr eaddr,
--                             MMUAccessType access_type,
--                             hwaddr *raddr, int *psizep, int *protp,
--                             bool guest_visible)
-+static bool ppc_radix64_xlate(PowerPCCPU *cpu, vaddr eaddr,
-+                              MMUAccessType access_type,
-+                              hwaddr *raddr, int *psizep, int *protp,
-+                              bool guest_visible)
- {
-     CPUPPCState *env = &amp;cpu-&gt;env;
-     uint64_t lpid, pid;
-@@ -493,7 +493,7 @@ static int ppc_radix64_xlate(PowerPCCPU *cpu, vaddr eaddr,
-         }
-         *protp = PAGE_READ | PAGE_WRITE | PAGE_EXEC;
-         *psizep = TARGET_PAGE_BITS;
--        return 0;
-+        return true;
-     }
- 
-     /*
-@@ -511,7 +511,7 @@ static int ppc_radix64_xlate(PowerPCCPU *cpu, vaddr eaddr,
-         if (guest_visible) {
-             ppc_radix64_raise_segi(cpu, access_type, eaddr);
-         }
--        return 1;
-+        return false;
-     }
- 
-     /* Get Process Table */
-@@ -524,13 +524,13 @@ static int ppc_radix64_xlate(PowerPCCPU *cpu, vaddr eaddr,
-             if (guest_visible) {
-                 ppc_radix64_raise_si(cpu, access_type, eaddr, DSISR_NOPTE);
-             }
--            return 1;
-+            return false;
-         }
-         if (!validate_pate(cpu, lpid, &amp;pate)) {
-             if (guest_visible) {
-                 ppc_radix64_raise_si(cpu, access_type, eaddr, DSISR_R_BADCONFIG);
-             }
--            return 1;
-+            return false;
-         }
-     }
- 
-@@ -550,7 +550,7 @@ static int ppc_radix64_xlate(PowerPCCPU *cpu, vaddr eaddr,
-                                                    pate, &amp;g_raddr, &amp;prot,
-                                                    &amp;psize, guest_visible);
-         if (ret) {
--            return ret;
-+            return false;
-         }
-         *psizep = MIN(*psizep, psize);
-         *protp &amp;= prot;
-@@ -574,7 +574,7 @@ static int ppc_radix64_xlate(PowerPCCPU *cpu, vaddr eaddr,
-                                                      &amp;prot, &amp;psize, false,
-                                                      guest_visible);
-             if (ret) {
--                return ret;
-+                return false;
-             }
-             *psizep = MIN(*psizep, psize);
-             *protp &amp;= prot;
-@@ -583,7 +583,7 @@ static int ppc_radix64_xlate(PowerPCCPU *cpu, vaddr eaddr,
-         }
-     }
- 
--    return 0;
-+    return true;
- }
- 
- int ppc_radix64_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr,
-@@ -594,8 +594,8 @@ int ppc_radix64_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr,
-     hwaddr raddr;
- 
-     /* Translate eaddr to raddr (where raddr is addr qemu needs for access) */
--    if (ppc_radix64_xlate(cpu, eaddr, access_type, &amp;raddr,
--                          &amp;page_size, &amp;prot, true)) {
-+    if (!ppc_radix64_xlate(cpu, eaddr, access_type, &amp;raddr,
-+                           &amp;page_size, &amp;prot, true)) {
-         return 1;
-     }
- 
-@@ -609,8 +609,8 @@ hwaddr ppc_radix64_get_phys_page_debug(PowerPCCPU *cpu, target_ulong eaddr)
-     int psize, prot;
-     hwaddr raddr;
- 
--    if (ppc_radix64_xlate(cpu, eaddr, MMU_DATA_LOAD, &amp;raddr,
--                          &amp;psize, &amp;prot, false)) {
-+    if (!ppc_radix64_xlate(cpu, eaddr, MMU_DATA_LOAD, &amp;raddr,
-+                           &amp;psize, &amp;prot, false)) {
-         return -1;
-     }
- 
-</pre>
-    </blockquote>
-    <div class="moz-signature">-- <br>
-      Bruno Piazera Larsen<br>
-      <a
-href="https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&amp;utm_medium=email&amp;utm_source=RD+Station">Instituto
-        de Pesquisas ELDORADO</a><br>
-      Departamento Computação Embarcada<br>
-      Analista de Software Trainee<br>
-      <a href="https://www.eldorado.org.br/disclaimer.html">Aviso Legal
-        - Disclaimer</a></div>
-  </body>
-</html>
-
---------------264AA9AB8E65913D12DF723D--
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
