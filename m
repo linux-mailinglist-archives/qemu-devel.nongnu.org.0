@@ -2,69 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6476E388827
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 09:29:21 +0200 (CEST)
-Received: from localhost ([::1]:41648 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAB7E3888D5
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 09:58:16 +0200 (CEST)
+Received: from localhost ([::1]:57178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljGds-00019u-Ft
-	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 03:29:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38590)
+	id 1ljH5s-0004qD-2T
+	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 03:58:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48250)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
- id 1ljGcn-0000LK-JH
- for qemu-devel@nongnu.org; Wed, 19 May 2021 03:28:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60117)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
- id 1ljGck-0003Ai-AG
- for qemu-devel@nongnu.org; Wed, 19 May 2021 03:28:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621409288;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=YHDRRV5oBGaIOsINRLcDQJTrUDbD9baT/TtdJILP1Uk=;
- b=Edvx/sElHf6nBY35CBdE6SQZdRBXCrw3gwO4w75YdJRNHYxtBQf4SwerJxou8penjNFyGy
- r1NkJZ6FItaQXaf+uW3AY7n+HYFa/3QdXVydgkZERZipTfJDDgbed2GSo7B4EwgnCk77Gp
- PrFJZErCbBIBr9gadmdEMASKoH/vrXM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-430-uYkNhpZlMrWvsiTsZlJPnQ-1; Wed, 19 May 2021 03:28:06 -0400
-X-MC-Unique: uYkNhpZlMrWvsiTsZlJPnQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CDCE4800D62;
- Wed, 19 May 2021 07:28:05 +0000 (UTC)
-Received: from kaapi (unknown [10.74.9.64])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 99EF4687EE;
- Wed, 19 May 2021 07:28:03 +0000 (UTC)
-Date: Wed, 19 May 2021 12:57:59 +0530 (IST)
-From: P J P <ppandit@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH v2] fdc: check null block pointer before r/w data transfer
-In-Reply-To: <f6abc649-172d-ccd6-49dc-7c12488c04e0@redhat.com>
-Message-ID: <1qq5n2sp-7n1p-8n9n-s913-r09375s3r751@erqung.pbz>
-References: <20200922092722.344518-1-ppandit@redhat.com>
- <f6abc649-172d-ccd6-49dc-7c12488c04e0@redhat.com>
+ (Exim 4.90_1) (envelope-from <lizhijian@fujitsu.com>)
+ id 1ljH4L-0003aS-9h
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 03:56:41 -0400
+Received: from mail.cn.fujitsu.com ([183.91.158.132]:5559
+ helo=heian.cn.fujitsu.com) by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <lizhijian@fujitsu.com>) id 1ljH4J-0004xD-2k
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 03:56:41 -0400
+IronPort-HdrOrdr: =?us-ascii?q?A9a23=3AqZO0CammnlQiijRlzBysBjd2oZbpDfIQ3DAb?=
+ =?us-ascii?q?v31ZSRFFG/Fw9vre+MjzsCWYtN9/Yh8dcK+7UpVoLUm8yXcX2/h1AV7BZniEhI?=
+ =?us-ascii?q?LAFugLgrcKqAeQeREWmNQ86Y5QN4B6CPDVSWNxlNvG5mCDeOoI8Z2q97+JiI7l?=
+ =?us-ascii?q?o0tQcQ=3D=3D?=
+X-IronPort-AV: E=Sophos;i="5.82,312,1613404800"; d="scan'208";a="108461986"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+ by heian.cn.fujitsu.com with ESMTP; 19 May 2021 15:56:34 +0800
+Received: from G08CNEXMBPEKD04.g08.fujitsu.local (unknown [10.167.33.201])
+ by cn.fujitsu.com (Postfix) with ESMTP id 5DE3E4D0BA81;
+ Wed, 19 May 2021 15:56:28 +0800 (CST)
+Received: from G08CNEXJMPEKD02.g08.fujitsu.local (10.167.33.202) by
+ G08CNEXMBPEKD04.g08.fujitsu.local (10.167.33.201) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.2; Wed, 19 May 2021 15:56:22 +0800
+Received: from G08CNEXCHPEKD08.g08.fujitsu.local (10.167.33.83) by
+ G08CNEXJMPEKD02.g08.fujitsu.local (10.167.33.202) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.2; Wed, 19 May 2021 15:56:21 +0800
+Received: from FNSTPC.g08.fujitsu.local (10.167.226.45) by
+ G08CNEXCHPEKD08.g08.fujitsu.local (10.167.33.209) with Microsoft SMTP Server
+ id 15.0.1497.2 via Frontend Transport; Wed, 19 May 2021 15:56:23 +0800
+From: Li Zhijian <lizhijian@cn.fujitsu.com>
+To: <quintela@redhat.com>, <dgilbert@redhat.com>
+Subject: [PATCH v2] migration/rdma: Fix cm_event used before being initialized
+Date: Wed, 19 May 2021 14:47:40 +0800
+Message-ID: <20210519064740.10828-1-lizhijian@cn.fujitsu.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ppandit@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=ppandit@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-yoursite-MailScanner-ID: 5DE3E4D0BA81.AE56B
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: lizhijian@fujitsu.com
+Received-SPF: neutral client-ip=183.91.158.132;
+ envelope-from=lizhijian@fujitsu.com; helo=heian.cn.fujitsu.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
 X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.374,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_NEUTRAL=0.779 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,33 +68,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ruhr-University <bugs-syssec@rub.de>, Li Qiang <liq3ea@gmail.com>,
- QEMU Developers <qemu-devel@nongnu.org>, qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, Li Zhijian <lizhijian@cn.fujitsu.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-+-- On Tue, 18 May 2021, John Snow wrote --+
-| I assume it can be rolled into the most recent issue that actually grabbed 
-| my attention:
-|
-|  -> https://gitlab.com/qemu-project/qemu/-/issues/338
-| 
-| And we can credit both reporters (and Alexander) and solve all of these issues
-| all at once.
-| 
-| I am therefore dropping this patch from my queue. Please let me know if I am
-| mistaken.
+A segmentation fault was triggered when i try to abort a postcopy + rdma
+migration.
 
-* It should be okay to collate patches together under above gitlab issue as a 
-  series.
+since rdma_ack_cm_event releases a uninitialized cm_event in these case.
+
+like below:
+2496     ret = rdma_get_cm_event(rdma->channel, &cm_event);
+2497     if (ret) {
+2498         perror("rdma_get_cm_event after rdma_connect");
+2499         ERROR(errp, "connecting to destination!");
+2500         rdma_ack_cm_event(cm_event); <<<< cause segmentation fault
+2501         goto err_rdma_source_connect;
+2502     }
+
+Refer to the rdma_get_cm_event() code, cm_event will be
+updated/changed only if rdma_get_cm_event() returns 0. So it's okey to
+remove the ack in error patch.
+
+Signed-off-by: Li Zhijian <lizhijian@cn.fujitsu.com>
+
+---
+V2: remove ack from the error patch (Dave)
+---
+ migration/rdma.c | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/migration/rdma.c b/migration/rdma.c
+index 00eac34232..41726cc74a 100644
+--- a/migration/rdma.c
++++ b/migration/rdma.c
+@@ -2497,7 +2497,6 @@ static int qemu_rdma_connect(RDMAContext *rdma, Error **errp)
+     if (ret) {
+         perror("rdma_get_cm_event after rdma_connect");
+         ERROR(errp, "connecting to destination!");
+-        rdma_ack_cm_event(cm_event);
+         goto err_rdma_source_connect;
+     }
  
-  Considering they've individual CVEs assigned, we'll still need to tag them 
-  with CVEs, so that it's easier for downstream users to pick them.
+-- 
+2.30.2
 
 
-Thank you.
---
- - P J P
-8685 545E B54C 486B C6EB 271E E285 8B5A F050 DE8D
 
 
