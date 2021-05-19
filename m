@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE944388B06
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 11:49:11 +0200 (CEST)
-Received: from localhost ([::1]:44376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D3D3388B07
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 11:49:21 +0200 (CEST)
+Received: from localhost ([::1]:44888 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljIpC-0006MP-0Y
-	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 05:49:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44554)
+	id 1ljIpM-0006hh-DE
+	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 05:49:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44728)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1ljInM-0004L3-6A
- for qemu-devel@nongnu.org; Wed, 19 May 2021 05:47:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31710)
+ id 1ljInX-0004Sb-Sw
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 05:47:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38145)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1ljInE-00077G-G9
- for qemu-devel@nongnu.org; Wed, 19 May 2021 05:47:15 -0400
+ id 1ljInR-0007Dr-PV
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 05:47:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621417626;
+ s=mimecast20190719; t=1621417639;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=xRDANo6K2Su0lUksuKn5+D774zRXLkjOwHav8ogB2wM=;
- b=YdS6v6IDJ6EzBZHs2ARj6JsO6yB5n0fmeIwhPvLrkNKjWgDYzyxm8xICaIN+Dbleea+n0c
- I7yxjbwmpxpsjqP3uSoiRhVYXHGGZj4kxuLF4c+s3vn6UnWAkVNrNqlzH02EMOj3ouD6bp
- KlUFjZyO/1Z5Mb9CArvVN0WhxUPakDM=
-Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
- [209.85.216.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-409-RMq3FzDcNhSVhIW57xSIXg-1; Wed, 19 May 2021 05:47:02 -0400
-X-MC-Unique: RMq3FzDcNhSVhIW57xSIXg-1
-Received: by mail-pj1-f72.google.com with SMTP id
- w12-20020a17090a528cb029015d7f990752so3575896pjh.0
- for <qemu-devel@nongnu.org>; Wed, 19 May 2021 02:47:02 -0700 (PDT)
+ bh=+30oIBinGQ4KxFZhA9Q7/cYLLKFcco9HPmzeNj4a3ho=;
+ b=i10Sbp0GaVQq6Z6/U/ss7D4olNpmBDsnEK7BEQWeLGcA0VM0rsGxw03fyr5Efv825Z1zkX
+ Hxy54cBWM+0Sb2KbV5IZB++a4oCMbglLjMG6M4hDZpmVnUWgOZDdWHG9yS2JIYrMk20AJb
+ vGkQ+pIjHfo1EUv3nzmGOvUp6IOk9Zw=
+Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com
+ [209.85.214.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-292-BrdWA4tAMzKm3kkhrScjAw-1; Wed, 19 May 2021 05:47:16 -0400
+X-MC-Unique: BrdWA4tAMzKm3kkhrScjAw-1
+Received: by mail-pl1-f197.google.com with SMTP id
+ f2-20020a1709031042b02900ef82a95ef4so5467322plc.3
+ for <qemu-devel@nongnu.org>; Wed, 19 May 2021 02:47:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=xRDANo6K2Su0lUksuKn5+D774zRXLkjOwHav8ogB2wM=;
- b=IMmC/DX+YcyFgw/90yluUMl9hKjSRDMJdkNU3ItmZikfTBC/kV3Zxhjp8qW95Xb8va
- fuYOID2yvk5XOt3TVAj/tiIcNCZanAas0YKJwQcloPUAcCos6YzzBjBid1yL51h8uqFu
- 7tg+dvM920DOB6myO8DvyL1Bjy3wQWc77y6n75cpv16cvdKNdj3VIzWc/lMjlL3ftBDs
- AlSqr2cQ2PlghjIfzgXZ/Y2xd/2q34o5dnNCgQo/eTKp4AUXt1rYSNmP2K+TJzfzEk6C
- fAzX9gl8ew0ot2aklRE8sVzkmuEY2BTaHhs/DD683rC8uQYiOvpVeYjSa1u7Cws/xaw0
- phFA==
-X-Gm-Message-State: AOAM531ubefQ0ZhHGabvwUrT1me7wtZq0xFJEkZZ0AkyLobYcUuNaKH+
- FB1RuLJV4irIs5LxxqIQKRs3iRy7q2Tjg8uHlUJ8Mkhet/fiJTHMfigu3JHUuLeRvuRalgBur7Q
- idyGjZyQlu6uAsTrtGFdxV3lZNoW5WsU=
-X-Received: by 2002:a17:903:31d3:b029:ee:bccd:e686 with SMTP id
- v19-20020a17090331d3b02900eebccde686mr10051419ple.1.1621417621676; 
- Wed, 19 May 2021 02:47:01 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzKO004VBosWXYDZpRl/4XbF+UO0/6yFgEcRp+MFi5c4F6gSo1IbfpGigQ104UZB9Zh0n5HFt7D0/Tw0jw1J4c=
-X-Received: by 2002:a17:903:31d3:b029:ee:bccd:e686 with SMTP id
- v19-20020a17090331d3b02900eebccde686mr10051401ple.1.1621417621377; Wed, 19
- May 2021 02:47:01 -0700 (PDT)
+ bh=+30oIBinGQ4KxFZhA9Q7/cYLLKFcco9HPmzeNj4a3ho=;
+ b=bDPFU1c2a8FbLbmtGCfuaLIvJxwGJ61roEWE9gBBRx1mxB2s2KBxc+kiVmi9Bw7ajI
+ fKEqV05mDwq+fyx0skOobgSxxFyTYzaQIdgew1abGkxliUytiGm2gq7u845aqA4rJDjo
+ 1oJYHF7VZp4upLDVIkviiu3Zzm9GWAUoeWD5uZqLKyWlSM+muxExjcMaZgnESFxOHdJr
+ NUCiM5kx/pbAjQe1jiBXWLop/ub0w2gRL0RBU7rv5iHkK4Dj9JnkR6U/RrFIZEvX/JVV
+ HIWIofLbwYXGZ4RriStRJQv9rpaBV0EXCQrvZ57fdPdc30MMFyXpqb1H/9+QPcnez5/O
+ pPIw==
+X-Gm-Message-State: AOAM533ZztkqDjOAnxJOlD/q0gC3XG9RWiCeAkqbP7gNEgDiF7hl/UNc
+ w48LOLBlYUNsWxJVQPKyIGFWF70r9o764PavjnflItt03xCzmjmOC9p6elKYhi7Qz5/u2L6kgau
+ LYoWW4Pc/Im2uRPwe2oDFC//VkVO+bDc=
+X-Received: by 2002:a17:90a:510d:: with SMTP id
+ t13mr10418040pjh.97.1621417635672; 
+ Wed, 19 May 2021 02:47:15 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyFJmDcQqaMi8NPkSxEQ/dnYcHp2P087WsHbwW1+o+pAIo2qzFlTrvq7vu5UNehAL5OXkLBiPSaoEonMt5XxIM=
+X-Received: by 2002:a17:90a:510d:: with SMTP id
+ t13mr10418017pjh.97.1621417635416; 
+ Wed, 19 May 2021 02:47:15 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210519053940.1888907-1-kraxel@redhat.com>
- <20210519053940.1888907-10-kraxel@redhat.com>
-In-Reply-To: <20210519053940.1888907-10-kraxel@redhat.com>
+ <20210519053940.1888907-7-kraxel@redhat.com>
+In-Reply-To: <20210519053940.1888907-7-kraxel@redhat.com>
 From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Wed, 19 May 2021 13:46:50 +0400
-Message-ID: <CAMxuvaxfQchy8zuqY1J4yjbNCSj1UnL=AxOfvJaQAuECDjV59g@mail.gmail.com>
-Subject: Re: [PATCH v6 9/9] ui/gtk: add clipboard support
+Date: Wed, 19 May 2021 13:47:04 +0400
+Message-ID: <CAMxuvaxwpuK55Hj_knQ4uMOZN2EN=KfpkA6WzSL67SLWB1DnOQ@mail.gmail.com>
+Subject: Re: [PATCH v6 6/9] ui/vdagent: add clipboard support
 To: Gerd Hoffmann <kraxel@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlureau@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="0000000000005ae8a605c2abb551"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mlureau@redhat.com;
+Content-Type: multipart/alternative; boundary="00000000000031269d05c2abb68a"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mlureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -97,13 +97,16 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000005ae8a605c2abb551
+--00000000000031269d05c2abb68a
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 On Wed, May 19, 2021 at 9:40 AM Gerd Hoffmann <kraxel@redhat.com> wrote:
 
-> This patch adds clipboard support to the qemu gtk ui.
+> This patch adds support for clipboard messages to the qemu vdagent
+> implementation, which allows the guest exchange clipboard data with
+> qemu.  Clipboard support can be enabled/disabled using the new
+> 'clipboard' parameter for the vdagent chardev.  Default is off.
 >
 > Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 >
@@ -111,162 +114,209 @@ On Wed, May 19, 2021 at 9:40 AM Gerd Hoffmann <kraxel@redhat.com> wrote:
 Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
 ---
->  include/ui/gtk.h   |  10 +++
->  ui/gtk-clipboard.c | 192 +++++++++++++++++++++++++++++++++++++++++++++
->  ui/gtk.c           |   1 +
->  ui/meson.build     |   2 +-
->  4 files changed, 204 insertions(+), 1 deletion(-)
->  create mode 100644 ui/gtk-clipboard.c
+>  chardev/char.c  |   3 +
+>  ui/vdagent.c    | 293 ++++++++++++++++++++++++++++++++++++++++++++++++
+>  qapi/char.json  |   4 +-
+>  ui/trace-events |   2 +
+>  4 files changed, 301 insertions(+), 1 deletion(-)
 >
-> diff --git a/include/ui/gtk.h b/include/ui/gtk.h
-> index 6e751794043f..9516670ebc87 100644
-> --- a/include/ui/gtk.h
-> +++ b/include/ui/gtk.h
-> @@ -18,6 +18,7 @@
->  #include <gdk/gdkwayland.h>
->  #endif
->
+> diff --git a/chardev/char.c b/chardev/char.c
+> index 52c567e8ff00..d959eec5229c 100644
+> --- a/chardev/char.c
+> +++ b/chardev/char.c
+> @@ -934,6 +934,9 @@ QemuOptsList qemu_chardev_opts =3D {
+>          },{
+>              .name =3D "mouse",
+>              .type =3D QEMU_OPT_BOOL,
+> +        },{
+> +            .name =3D "clipboard",
+> +            .type =3D QEMU_OPT_BOOL,
+>  #ifdef CONFIG_LINUX
+>          },{
+>              .name =3D "tight",
+> diff --git a/ui/vdagent.c b/ui/vdagent.c
+> index cf81ab6beb68..a253a8fe63a6 100644
+> --- a/ui/vdagent.c
+> +++ b/ui/vdagent.c
+> @@ -6,6 +6,7 @@
+>  #include "qemu/option.h"
+>  #include "qemu/units.h"
+>  #include "hw/qdev-core.h"
 > +#include "ui/clipboard.h"
 >  #include "ui/console.h"
->  #include "ui/kbd-state.h"
->  #if defined(CONFIG_OPENGL)
-> @@ -137,6 +138,12 @@ struct GtkDisplayState {
+>  #include "ui/input.h"
+>  #include "trace.h"
+> @@ -17,12 +18,14 @@
 >
->      bool external_pause_update;
+>  #define VDAGENT_BUFFER_LIMIT (1 * MiB)
+>  #define VDAGENT_MOUSE_DEFAULT true
+> +#define VDAGENT_CLIPBOARD_DEFAULT false
 >
+>  struct VDAgentChardev {
+>      Chardev parent;
+>
+>      /* config */
+>      bool mouse;
+> +    bool clipboard;
+>
+>      /* guest vdagent */
+>      uint32_t caps;
+> @@ -41,6 +44,11 @@ struct VDAgentChardev {
+>      uint32_t mouse_btn;
+>      uint32_t mouse_display;
+>      QemuInputHandlerState *mouse_hs;
+> +
+> +    /* clipboard */
 > +    QemuClipboardPeer cbpeer;
 > +    QemuClipboardInfo *cbinfo[QEMU_CLIPBOARD_SELECTION__COUNT];
 > +    uint32_t cbpending[QEMU_CLIPBOARD_SELECTION__COUNT];
-> +    GtkClipboard *gtkcb[QEMU_CLIPBOARD_SELECTION__COUNT];
-> +    bool cbowner[QEMU_CLIPBOARD_SELECTION__COUNT];
-> +
->      DisplayOptions *opts;
+>  };
+>  typedef struct VDAgentChardev VDAgentChardev;
+>
+> @@ -96,6 +104,24 @@ static const char *msg_name[] =3D {
+>  #endif
 >  };
 >
-> @@ -207,4 +214,7 @@ void gtk_gl_area_init(void);
->  int gd_gl_area_make_current(DisplayChangeListener *dcl,
->                              QEMUGLContext ctx);
+> +static const char *sel_name[] =3D {
+> +    [VD_AGENT_CLIPBOARD_SELECTION_CLIPBOARD] =3D "clipboard",
+> +    [VD_AGENT_CLIPBOARD_SELECTION_PRIMARY]   =3D "primary",
+> +    [VD_AGENT_CLIPBOARD_SELECTION_SECONDARY] =3D "secondary",
+> +};
+> +
+> +static const char *type_name[] =3D {
+> +    [VD_AGENT_CLIPBOARD_NONE]       =3D "none",
+> +    [VD_AGENT_CLIPBOARD_UTF8_TEXT]  =3D "text",
+> +    [VD_AGENT_CLIPBOARD_IMAGE_PNG]  =3D "png",
+> +    [VD_AGENT_CLIPBOARD_IMAGE_BMP]  =3D "bmp",
+> +    [VD_AGENT_CLIPBOARD_IMAGE_TIFF] =3D "tiff",
+> +    [VD_AGENT_CLIPBOARD_IMAGE_JPG]  =3D "jpg",
+> +#if 0
+> +    [VD_AGENT_CLIPBOARD_FILE_LIST]  =3D "files",
+> +#endif
+> +};
+> +
+>  #define GET_NAME(_m, _v) \
+>      (((_v) < ARRAY_SIZE(_m) && (_m[_v])) ? (_m[_v]) : "???")
 >
-> +/* gtk-clipboard.c */
-> +void gd_clipboard_init(GtkDisplayState *gd);
+> @@ -161,6 +187,10 @@ static void vdagent_send_caps(VDAgentChardev *vd)
+>      if (vd->mouse) {
+>          caps->caps[0] |=3D (1 << VD_AGENT_CAP_MOUSE_STATE);
+>      }
+> +    if (vd->clipboard) {
+> +        caps->caps[0] |=3D (1 << VD_AGENT_CAP_CLIPBOARD_BY_DEMAND);
+> +        caps->caps[0] |=3D (1 << VD_AGENT_CAP_CLIPBOARD_SELECTION);
+> +    }
+>
+>      vdagent_send_msg(vd, msg);
+>  }
+> @@ -261,6 +291,244 @@ static QemuInputHandler vdagent_mouse_handler =3D {
+>      .sync  =3D vdagent_pointer_sync,
+>  };
+>
+> +/* ------------------------------------------------------------------ */
+> +/* clipboard                                                          */
 > +
->  #endif /* UI_GTK_H */
-> diff --git a/ui/gtk-clipboard.c b/ui/gtk-clipboard.c
-> new file mode 100644
-> index 000000000000..bff28d203014
-> --- /dev/null
-> +++ b/ui/gtk-clipboard.c
-> @@ -0,0 +1,192 @@
-> +/*
-> + * GTK UI -- clipboard support
-> + *
-> + * Copyright (C) 2021 Gerd Hoffmann <kraxel@redhat.com>
-> + *
-> + * This program is free software; you can redistribute it and/or modify
-> + * it under the terms of the GNU General Public License as published by
-> + * the Free Software Foundation; either version 2 of the License, or
-> + * (at your option) any later version.
-> + *
-> + * This program is distributed in the hope that it will be useful,
-> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
-> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-> + * General Public License for more details.
-> + *
-> + * You should have received a copy of the GNU General Public License
-> + * along with this program; if not, see <http://www.gnu.org/licenses/>.
-> + *
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +#include "qemu-common.h"
-> +#include "qemu/main-loop.h"
-> +
-> +#include "ui/gtk.h"
-> +
-> +static QemuClipboardSelection gd_find_selection(GtkDisplayState *gd,
-> +                                                GtkClipboard *clipboard)
+> +static bool have_clipboard(VDAgentChardev *vd)
 > +{
-> +    QemuClipboardSelection s;
+> +    return vd->clipboard &&
+> +        (vd->caps & (1 << VD_AGENT_CAP_CLIPBOARD_BY_DEMAND));
+> +}
 > +
-> +    for (s =3D 0; s < QEMU_CLIPBOARD_SELECTION__COUNT; s++) {
-> +        if (gd->gtkcb[s] =3D=3D clipboard) {
-> +            return s;
+> +static bool have_selection(VDAgentChardev *vd)
+> +{
+> +    return vd->caps & (1 << VD_AGENT_CAP_CLIPBOARD_SELECTION);
+> +}
+> +
+> +static uint32_t type_qemu_to_vdagent(enum QemuClipboardType type)
+> +{
+> +    switch (type) {
+> +    case QEMU_CLIPBOARD_TYPE_TEXT:
+> +        return VD_AGENT_CLIPBOARD_UTF8_TEXT;
+> +    default:
+> +        return VD_AGENT_CLIPBOARD_NONE;
+> +    }
+> +}
+> +
+> +static void vdagent_send_clipboard_grab(VDAgentChardev *vd,
+> +                                        QemuClipboardInfo *info)
+> +{
+> +    g_autofree VDAgentMessage *msg =3D
+> +        g_malloc0(sizeof(VDAgentMessage) +
+> +                  sizeof(uint32_t) * (QEMU_CLIPBOARD_TYPE__COUNT + 1));
+> +    uint8_t *s =3D msg->data;
+> +    uint32_t *data =3D (uint32_t *)msg->data;
+> +    uint32_t q, type;
+> +
+> +    if (have_selection(vd)) {
+> +        *s =3D info->selection;
+> +        data++;
+> +        msg->size +=3D sizeof(uint32_t);
+> +    } else if (info->selection !=3D QEMU_CLIPBOARD_SELECTION_CLIPBOARD) =
+{
+> +        return;
+> +    }
+> +
+> +    for (q =3D 0; q < QEMU_CLIPBOARD_TYPE__COUNT; q++) {
+> +        type =3D type_qemu_to_vdagent(q);
+> +        if (type !=3D VD_AGENT_CLIPBOARD_NONE && info->types[q].availabl=
+e) {
+> +            *data =3D type;
+> +            data++;
+> +            msg->size +=3D sizeof(uint32_t);
 > +        }
 > +    }
-> +    return QEMU_CLIPBOARD_SELECTION_CLIPBOARD;
+> +
+> +    msg->type =3D VD_AGENT_CLIPBOARD_GRAB;
+> +    vdagent_send_msg(vd, msg);
 > +}
 > +
-> +static void gd_clipboard_get_data(GtkClipboard     *clipboard,
-> +                                  GtkSelectionData *selection_data,
-> +                                  guint             selection_info,
-> +                                  gpointer          data)
+> +static void vdagent_send_clipboard_data(VDAgentChardev *vd,
+> +                                        QemuClipboardInfo *info,
+> +                                        QemuClipboardType type)
 > +{
-> +    GtkDisplayState *gd =3D data;
-> +    QemuClipboardSelection s =3D gd_find_selection(gd, clipboard);
-> +    QemuClipboardType type =3D QEMU_CLIPBOARD_TYPE_TEXT;
-> +    QemuClipboardInfo *info =3D qemu_clipboard_info_ref(gd->cbinfo[s]);
+> +    g_autofree VDAgentMessage *msg =3D g_malloc0(sizeof(VDAgentMessage) =
++
+> +                                               sizeof(uint32_t) * 2 +
+> +                                               info->types[type].size);
 > +
-> +    qemu_clipboard_request(info, type);
-> +    while (info =3D=3D gd->cbinfo[s] &&
-> +           info->types[type].available &&
-> +           info->types[type].data =3D=3D NULL) {
-> +        main_loop_wait(false);
+> +    uint8_t *s =3D msg->data;
+> +    uint32_t *data =3D (uint32_t *)msg->data;
+> +
+> +    if (have_selection(vd)) {
+> +        *s =3D info->selection;
+> +        data++;
+> +        msg->size +=3D sizeof(uint32_t);
+> +    } else if (info->selection !=3D QEMU_CLIPBOARD_SELECTION_CLIPBOARD) =
+{
+> +        return;
 > +    }
 > +
-> +    if (info =3D=3D gd->cbinfo[s] && gd->cbowner[s]) {
-> +        gtk_selection_data_set_text(selection_data,
-> +                                    info->types[type].data,
-> +                                    info->types[type].size);
-> +    } else {
-> +        /* clipboard owner changed while waiting for the data */
-> +    }
+> +    *data =3D type_qemu_to_vdagent(type);
+> +    data++;
+> +    msg->size +=3D sizeof(uint32_t);
 > +
-> +    qemu_clipboard_info_unref(info);
+> +    memcpy(data, info->types[type].data, info->types[type].size);
+> +    msg->size +=3D info->types[type].size;
+> +
+> +    msg->type =3D VD_AGENT_CLIPBOARD;
+> +    vdagent_send_msg(vd, msg);
 > +}
 > +
-> +static void gd_clipboard_clear(GtkClipboard *clipboard,
-> +                               gpointer data)
+> +static void vdagent_clipboard_notify(Notifier *notifier, void *data)
 > +{
-> +    GtkDisplayState *gd =3D data;
-> +    QemuClipboardSelection s =3D gd_find_selection(gd, clipboard);
-> +
-> +    gd->cbowner[s] =3D false;
-> +}
-> +
-> +static void gd_clipboard_notify(Notifier *notifier, void *data)
-> +{
-> +    GtkDisplayState *gd =3D container_of(notifier, GtkDisplayState,
+> +    VDAgentChardev *vd =3D container_of(notifier, VDAgentChardev,
 > cbpeer.update);
 > +    QemuClipboardInfo *info =3D data;
 > +    QemuClipboardSelection s =3D info->selection;
-> +    bool self_update =3D info->owner =3D=3D &gd->cbpeer;
+> +    QemuClipboardType type;
+> +    bool self_update =3D info->owner =3D=3D &vd->cbpeer;
 > +
-> +    if (info !=3D gd->cbinfo[s]) {
-> +        qemu_clipboard_info_unref(gd->cbinfo[s]);
-> +        gd->cbinfo[s] =3D qemu_clipboard_info_ref(info);
-> +        gd->cbpending[s] =3D 0;
+> +    if (info !=3D vd->cbinfo[s]) {
+> +        qemu_clipboard_info_unref(vd->cbinfo[s]);
+> +        vd->cbinfo[s] =3D qemu_clipboard_info_ref(info);
+> +        vd->cbpending[s] =3D 0;
 > +        if (!self_update) {
-> +            GtkTargetList *list;
-> +            GtkTargetEntry *targets;
-> +            gint n_targets;
-> +
-> +            list =3D gtk_target_list_new(NULL, 0);
-> +            if (info->types[QEMU_CLIPBOARD_TYPE_TEXT].available) {
-> +                gtk_target_list_add_text_targets(list, 0);
-> +            }
-> +            targets =3D gtk_target_table_new_from_list(list, &n_targets)=
-;
-> +
-> +            gtk_clipboard_clear(gd->gtkcb[s]);
-> +            gd->cbowner[s] =3D true;
-> +            gtk_clipboard_set_with_data(gd->gtkcb[s],
-> +                                        targets, n_targets,
-> +                                        gd_clipboard_get_data,
-> +                                        gd_clipboard_clear,
-> +                                        gd);
-> +
-> +            gtk_target_table_free(targets, n_targets);
-> +            gtk_target_list_unref(list);
+> +            vdagent_send_clipboard_grab(vd, info);
 > +        }
 > +        return;
 > +    }
@@ -275,119 +325,251 @@ Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 > +        return;
 > +    }
 > +
-> +    /*
-> +     * Clipboard got updated, with data probably.  No action here, we
-> +     * are waiting for updates in gd_clipboard_get_data().
-> +     */
-> +}
-> +
-> +static void gd_clipboard_request(QemuClipboardInfo *info,
-> +                                 QemuClipboardType type)
-> +{
-> +    GtkDisplayState *gd =3D container_of(info->owner, GtkDisplayState,
-> cbpeer);
-> +    char *text;
-> +
-> +    switch (type) {
-> +    case QEMU_CLIPBOARD_TYPE_TEXT:
-> +        text =3D gtk_clipboard_wait_for_text(gd->gtkcb[info->selection])=
-;
-> +        if (text) {
-> +            qemu_clipboard_set_data(&gd->cbpeer, info, type,
-> +                                    strlen(text), text, true);
-> +            g_free(text);
+> +    for (type =3D 0; type < QEMU_CLIPBOARD_TYPE__COUNT; type++) {
+> +        if (vd->cbpending[s] & (1 << type)) {
+> +            vd->cbpending[s] &=3D ~(1 << type);
+> +            vdagent_send_clipboard_data(vd, info, type);
 > +        }
-> +        break;
-> +    default:
-> +        break;
 > +    }
 > +}
 > +
-> +static void gd_owner_change(GtkClipboard *clipboard,
-> +                            GdkEvent *event,
-> +                            gpointer data)
+> +static void vdagent_clipboard_request(QemuClipboardInfo *info,
+> +                                      QemuClipboardType qtype)
 > +{
-> +    GtkDisplayState *gd =3D data;
-> +    QemuClipboardSelection s =3D gd_find_selection(gd, clipboard);
-> +    QemuClipboardInfo *info;
+> +    VDAgentChardev *vd =3D container_of(info->owner, VDAgentChardev,
+> cbpeer);
+> +    g_autofree VDAgentMessage *msg =3D g_malloc0(sizeof(VDAgentMessage) =
++
+> +                                               sizeof(uint32_t) * 2);
+> +    uint32_t type =3D type_qemu_to_vdagent(qtype);
+> +    uint8_t *s =3D msg->data;
+> +    uint32_t *data =3D (uint32_t *)msg->data;
 > +
-> +    if (gd->cbowner[s]) {
-> +        /* ignore notifications about our own grabs */
+> +    if (type =3D=3D VD_AGENT_CLIPBOARD_NONE) {
 > +        return;
 > +    }
 > +
+> +    if (have_selection(vd)) {
+> +        *s =3D info->selection;
+> +        data++;
+> +        msg->size +=3D sizeof(uint32_t);
+> +    }
 > +
-> +    switch (event->owner_change.reason) {
-> +    case GDK_SETTING_ACTION_NEW:
-> +        info =3D qemu_clipboard_info_new(&gd->cbpeer, s);
-> +        if (gtk_clipboard_wait_is_text_available(clipboard)) {
-> +            info->types[QEMU_CLIPBOARD_TYPE_TEXT].available =3D true;
+> +    *data =3D type;
+> +    msg->size +=3D sizeof(uint32_t);
+> +
+> +    msg->type =3D VD_AGENT_CLIPBOARD_REQUEST;
+> +    vdagent_send_msg(vd, msg);
+> +}
+> +
+> +static void vdagent_chr_recv_clipboard(VDAgentChardev *vd, VDAgentMessag=
+e
+> *msg)
+> +{
+> +    uint8_t s =3D VD_AGENT_CLIPBOARD_SELECTION_CLIPBOARD;
+> +    uint32_t size =3D msg->size;
+> +    void *data =3D msg->data;
+> +    QemuClipboardInfo *info;
+> +    QemuClipboardType type;
+> +
+> +    if (have_selection(vd)) {
+> +        if (size < 4) {
+> +            return;
 > +        }
+> +        s =3D *(uint8_t *)data;
+> +        if (s >=3D QEMU_CLIPBOARD_SELECTION__COUNT) {
+> +            return;
+> +        }
+> +        data +=3D 4;
+> +        size -=3D 4;
+> +    }
 > +
+> +    switch (msg->type) {
+> +    case VD_AGENT_CLIPBOARD_GRAB:
+> +        trace_vdagent_cb_grab_selection(GET_NAME(sel_name, s));
+> +        info =3D qemu_clipboard_info_new(&vd->cbpeer, s);
+> +        if (size > sizeof(uint32_t) * 10) {
+> +            /*
+> +             * spice has 6 types as of 2021. Limiting to 10 entries
+> +             * so we we have some wiggle room.
+> +             */
+> +            return;
+> +        }
+> +        while (size >=3D sizeof(uint32_t)) {
+> +            trace_vdagent_cb_grab_type(GET_NAME(type_name, *(uint32_t
+> *)data));
+> +            switch (*(uint32_t *)data) {
+> +            case VD_AGENT_CLIPBOARD_UTF8_TEXT:
+> +                info->types[QEMU_CLIPBOARD_TYPE_TEXT].available =3D true=
+;
+> +                break;
+> +            default:
+> +                break;
+> +            }
+> +            data +=3D sizeof(uint32_t);
+> +            size -=3D sizeof(uint32_t);
+> +        }
 > +        qemu_clipboard_update(info);
 > +        qemu_clipboard_info_unref(info);
 > +        break;
-> +    default:
+> +    case VD_AGENT_CLIPBOARD_REQUEST:
+> +        if (size < sizeof(uint32_t)) {
+> +            return;
+> +        }
+> +        switch (*(uint32_t *)data) {
+> +        case VD_AGENT_CLIPBOARD_UTF8_TEXT:
+> +            type =3D QEMU_CLIPBOARD_TYPE_TEXT;
+> +            break;
+> +        default:
+> +            return;
+> +        }
+> +        if (vd->cbinfo[s] &&
+> +            vd->cbinfo[s]->types[type].available &&
+> +            vd->cbinfo[s]->owner !=3D &vd->cbpeer) {
+> +            if (vd->cbinfo[s]->types[type].data) {
+> +                vdagent_send_clipboard_data(vd, vd->cbinfo[s], type);
+> +            } else {
+> +                vd->cbpending[s] |=3D (1 << type);
+> +                qemu_clipboard_request(vd->cbinfo[s], type);
+> +            }
+> +        }
+> +        break;
+> +    case VD_AGENT_CLIPBOARD: /* data */
+> +        if (size < sizeof(uint32_t)) {
+> +            return;
+> +        }
+> +        switch (*(uint32_t *)data) {
+> +        case VD_AGENT_CLIPBOARD_UTF8_TEXT:
+> +            type =3D QEMU_CLIPBOARD_TYPE_TEXT;
+> +            break;
+> +        default:
+> +            return;
+> +        }
+> +        data +=3D 4;
+> +        size -=3D 4;
+> +        qemu_clipboard_set_data(&vd->cbpeer, vd->cbinfo[s], type,
+> +                                size, data, true);
+> +        break;
+> +    case VD_AGENT_CLIPBOARD_RELEASE: /* data */
+> +        if (vd->cbinfo[s] &&
+> +            vd->cbinfo[s]->owner =3D=3D &vd->cbpeer) {
+> +            /* set empty clipboard info */
+> +            info =3D qemu_clipboard_info_new(NULL, s);
+> +            qemu_clipboard_update(info);
+> +            qemu_clipboard_info_unref(info);
+> +        }
 > +        break;
 > +    }
 > +}
 > +
-> +void gd_clipboard_init(GtkDisplayState *gd)
-> +{
-> +    gd->cbpeer.name =3D "gtk";
-> +    gd->cbpeer.update.notify =3D gd_clipboard_notify;
-> +    gd->cbpeer.request =3D gd_clipboard_request;
-> +    qemu_clipboard_peer_register(&gd->cbpeer);
-> +
-> +    gd->gtkcb[QEMU_CLIPBOARD_SELECTION_CLIPBOARD] =3D
-> +        gtk_clipboard_get(gdk_atom_intern("CLIPBOARD", FALSE));
-> +    gd->gtkcb[QEMU_CLIPBOARD_SELECTION_PRIMARY] =3D
-> +        gtk_clipboard_get(gdk_atom_intern("PRIMARY", FALSE));
-> +    gd->gtkcb[QEMU_CLIPBOARD_SELECTION_SECONDARY] =3D
-> +        gtk_clipboard_get(gdk_atom_intern("SECONDARY", FALSE));
-> +
-> +    g_signal_connect(gd->gtkcb[QEMU_CLIPBOARD_SELECTION_CLIPBOARD],
-> +                     "owner-change", G_CALLBACK(gd_owner_change), gd);
-> +    g_signal_connect(gd->gtkcb[QEMU_CLIPBOARD_SELECTION_PRIMARY],
-> +                     "owner-change", G_CALLBACK(gd_owner_change), gd);
-> +    g_signal_connect(gd->gtkcb[QEMU_CLIPBOARD_SELECTION_SECONDARY],
-> +                     "owner-change", G_CALLBACK(gd_owner_change), gd);
-> +}
-> diff --git a/ui/gtk.c b/ui/gtk.c
-> index 7da288a25156..98046f577b9d 100644
-> --- a/ui/gtk.c
-> +++ b/ui/gtk.c
-> @@ -2267,6 +2267,7 @@ static void gtk_display_init(DisplayState *ds,
-> DisplayOptions *opts)
->          opts->u.gtk.grab_on_hover) {
->          gtk_menu_item_activate(GTK_MENU_ITEM(s->grab_on_hover_item));
+>  /* ------------------------------------------------------------------ */
+>  /* chardev backend                                                    */
+>
+> @@ -286,6 +554,11 @@ static void vdagent_chr_open(Chardev *chr,
+>          vd->mouse =3D cfg->mouse;
 >      }
-> +    gd_clipboard_init(s);
+>
+> +    vd->clipboard =3D VDAGENT_CLIPBOARD_DEFAULT;
+> +    if (cfg->has_clipboard) {
+> +        vd->clipboard =3D cfg->clipboard;
+> +    }
+> +
+>      if (vd->mouse) {
+>          vd->mouse_hs =3D qemu_input_handler_register(&vd->mouse_dev,
+>
+> &vdagent_mouse_handler);
+> @@ -317,6 +590,12 @@ static void vdagent_chr_recv_caps(VDAgentChardev *vd=
+,
+> VDAgentMessage *msg)
+>      if (have_mouse(vd) && vd->mouse_hs) {
+>          qemu_input_handler_activate(vd->mouse_hs);
+>      }
+> +    if (have_clipboard(vd) && vd->cbpeer.update.notify =3D=3D NULL) {
+> +        vd->cbpeer.name =3D "vdagent";
+> +        vd->cbpeer.update.notify =3D vdagent_clipboard_notify;
+> +        vd->cbpeer.request =3D vdagent_clipboard_request;
+> +        qemu_clipboard_peer_register(&vd->cbpeer);
+> +    }
 >  }
 >
->  static void early_gtk_display_init(DisplayOptions *opts)
-> diff --git a/ui/meson.build b/ui/meson.build
-> index f37ef882e0e3..b5aed14886cf 100644
-> --- a/ui/meson.build
-> +++ b/ui/meson.build
-> @@ -65,7 +65,7 @@ if gtk.found()
->    softmmu_ss.add(when: 'CONFIG_WIN32', if_true: files('win32-kbd-hook.c'=
-))
+>  static void vdagent_chr_recv_msg(VDAgentChardev *vd, VDAgentMessage *msg=
+)
+> @@ -327,6 +606,14 @@ static void vdagent_chr_recv_msg(VDAgentChardev *vd,
+> VDAgentMessage *msg)
+>      case VD_AGENT_ANNOUNCE_CAPABILITIES:
+>          vdagent_chr_recv_caps(vd, msg);
+>          break;
+> +    case VD_AGENT_CLIPBOARD:
+> +    case VD_AGENT_CLIPBOARD_GRAB:
+> +    case VD_AGENT_CLIPBOARD_REQUEST:
+> +    case VD_AGENT_CLIPBOARD_RELEASE:
+> +        if (have_clipboard(vd)) {
+> +            vdagent_chr_recv_clipboard(vd, msg);
+> +        }
+> +        break;
+>      default:
+>          break;
+>      }
+> @@ -448,6 +735,10 @@ static void vdagent_chr_set_fe_open(struct Chardev
+> *chr, int fe_open)
+>          if (vd->mouse_hs) {
+>              qemu_input_handler_deactivate(vd->mouse_hs);
+>          }
+> +        if (vd->cbpeer.update.notify) {
+> +            qemu_clipboard_peer_unregister(&vd->cbpeer);
+> +            memset(&vd->cbpeer, 0, sizeof(vd->cbpeer));
+> +        }
+>          return;
+>      }
 >
->    gtk_ss =3D ss.source_set()
-> -  gtk_ss.add(gtk, vte, pixman, files('gtk.c'))
-> +  gtk_ss.add(gtk, vte, pixman, files('gtk.c', 'gtk-clipboard.c'))
->    gtk_ss.add(when: x11, if_true: files('x_keymap.c'))
->    gtk_ss.add(when: [opengl, 'CONFIG_OPENGL'], if_true:
-> files('gtk-gl-area.c'))
->    gtk_ss.add(when: [x11, opengl, 'CONFIG_OPENGL'], if_true:
-> files('gtk-egl.c'))
+> @@ -464,6 +755,8 @@ static void vdagent_chr_parse(QemuOpts *opts,
+> ChardevBackend *backend,
+>      qemu_chr_parse_common(opts, qapi_ChardevQemuVDAgent_base(cfg));
+>      cfg->has_mouse =3D true;
+>      cfg->mouse =3D qemu_opt_get_bool(opts, "mouse", VDAGENT_MOUSE_DEFAUL=
+T);
+> +    cfg->has_clipboard =3D true;
+> +    cfg->clipboard =3D qemu_opt_get_bool(opts, "clipboard",
+> VDAGENT_CLIPBOARD_DEFAULT);
+>  }
+>
+>  /* ------------------------------------------------------------------ */
+> diff --git a/qapi/char.json b/qapi/char.json
+> index 5711e8c60aeb..adf2685f6889 100644
+> --- a/qapi/char.json
+> +++ b/qapi/char.json
+> @@ -396,12 +396,14 @@
+>  # Configuration info for qemu vdagent implementation.
+>  #
+>  # @mouse: enable/disable mouse, default is enabled.
+> +# @clipboard: enable/disable clipboard, default is disabled.
+>  #
+>  # Since: 6.1
+>  #
+>  ##
+>  { 'struct': 'ChardevQemuVDAgent',
+> -  'data': { '*mouse': 'bool' },
+> +  'data': { '*mouse': 'bool',
+> +            '*clipboard': 'bool' },
+>    'base': 'ChardevCommon',
+>    'if': 'defined(CONFIG_SPICE_PROTOCOL)' }
+>
+> diff --git a/ui/trace-events b/ui/trace-events
+> index c34cffb0452b..c86542e2b69b 100644
+> --- a/ui/trace-events
+> +++ b/ui/trace-events
+> @@ -132,3 +132,5 @@ vdagent_send(const char *name) "msg %s"
+>  vdagent_recv_chunk(uint32_t size) "size %d"
+>  vdagent_recv_msg(const char *name, uint32_t size) "msg %s, size %d"
+>  vdagent_peer_cap(const char *name) "cap %s"
+> +vdagent_cb_grab_selection(const char *name) "selection %s"
+> +vdagent_cb_grab_type(const char *name) "type %s"
 > --
 > 2.31.1
 >
 >
 
---0000000000005ae8a605c2abb551
+--00000000000031269d05c2abb68a
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -396,7 +578,11 @@ Content-Transfer-Encoding: quoted-printable
 Hoffmann &lt;<a href=3D"mailto:kraxel@redhat.com">kraxel@redhat.com</a>&gt;=
  wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">This pat=
-ch adds clipboard support to the qemu gtk ui.<br>
+ch adds support for clipboard messages to the qemu vdagent<br>
+implementation, which allows the guest exchange clipboard data with<br>
+qemu.=C2=A0 Clipboard support can be enabled/disabled using the new<br>
+&#39;clipboard&#39; parameter for the vdagent chardev.=C2=A0 Default is off=
+.<br>
 <br>
 Signed-off-by: Gerd Hoffmann &lt;<a href=3D"mailto:kraxel@redhat.com" targe=
 t=3D"_blank">kraxel@redhat.com</a>&gt;<br></blockquote><div><br></div><div>=
@@ -405,211 +591,251 @@ redhat.com">marcandre.lureau@redhat.com</a>&gt;=C2=A0 <br></div><div><br></=
 div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bor=
 der-left:1px solid rgb(204,204,204);padding-left:1ex">
 ---<br>
-=C2=A0include/ui/gtk.h=C2=A0 =C2=A0|=C2=A0 10 +++<br>
-=C2=A0ui/gtk-clipboard.c | 192 ++++++++++++++++++++++++++++++++++++++++++++=
-+<br>
-=C2=A0ui/gtk.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A01 +<br=
+=C2=A0chardev/char.c=C2=A0 |=C2=A0 =C2=A03 +<br>
+=C2=A0ui/vdagent.c=C2=A0 =C2=A0 | 293 +++++++++++++++++++++++++++++++++++++=
++++++++++++<br>
+=C2=A0qapi/char.json=C2=A0 |=C2=A0 =C2=A04 +-<br>
+=C2=A0ui/trace-events |=C2=A0 =C2=A02 +<br>
+=C2=A04 files changed, 301 insertions(+), 1 deletion(-)<br>
+<br>
+diff --git a/chardev/char.c b/chardev/char.c<br>
+index 52c567e8ff00..d959eec5229c 100644<br>
+--- a/chardev/char.c<br>
++++ b/chardev/char.c<br>
+@@ -934,6 +934,9 @@ QemuOptsList qemu_chardev_opts =3D {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0},{<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0.name =3D &quot;mouse&quot;=
+,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0.type =3D QEMU_OPT_BOOL,<br=
 >
-=C2=A0ui/meson.build=C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A02 +-<br>
-=C2=A04 files changed, 204 insertions(+), 1 deletion(-)<br>
-=C2=A0create mode 100644 ui/gtk-clipboard.c<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 },{<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .name =3D &quot;clipboard&quot;,=
 <br>
-diff --git a/include/ui/gtk.h b/include/ui/gtk.h<br>
-index 6e751794043f..9516670ebc87 100644<br>
---- a/include/ui/gtk.h<br>
-+++ b/include/ui/gtk.h<br>
-@@ -18,6 +18,7 @@<br>
-=C2=A0#include &lt;gdk/gdkwayland.h&gt;<br>
-=C2=A0#endif<br>
-<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .type =3D QEMU_OPT_BOOL,<br>
+=C2=A0#ifdef CONFIG_LINUX<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0},{<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0.name =3D &quot;tight&quot;=
+,<br>
+diff --git a/ui/vdagent.c b/ui/vdagent.c<br>
+index cf81ab6beb68..a253a8fe63a6 100644<br>
+--- a/ui/vdagent.c<br>
++++ b/ui/vdagent.c<br>
+@@ -6,6 +6,7 @@<br>
+=C2=A0#include &quot;qemu/option.h&quot;<br>
+=C2=A0#include &quot;qemu/units.h&quot;<br>
+=C2=A0#include &quot;hw/qdev-core.h&quot;<br>
 +#include &quot;ui/clipboard.h&quot;<br>
 =C2=A0#include &quot;ui/console.h&quot;<br>
-=C2=A0#include &quot;ui/kbd-state.h&quot;<br>
-=C2=A0#if defined(CONFIG_OPENGL)<br>
-@@ -137,6 +138,12 @@ struct GtkDisplayState {<br>
+=C2=A0#include &quot;ui/input.h&quot;<br>
+=C2=A0#include &quot;trace.h&quot;<br>
+@@ -17,12 +18,14 @@<br>
 <br>
-=C2=A0 =C2=A0 =C2=A0bool external_pause_update;<br>
+=C2=A0#define VDAGENT_BUFFER_LIMIT (1 * MiB)<br>
+=C2=A0#define VDAGENT_MOUSE_DEFAULT true<br>
++#define VDAGENT_CLIPBOARD_DEFAULT false<br>
 <br>
+=C2=A0struct VDAgentChardev {<br>
+=C2=A0 =C2=A0 =C2=A0Chardev parent;<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0/* config */<br>
+=C2=A0 =C2=A0 =C2=A0bool mouse;<br>
++=C2=A0 =C2=A0 bool clipboard;<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0/* guest vdagent */<br>
+=C2=A0 =C2=A0 =C2=A0uint32_t caps;<br>
+@@ -41,6 +44,11 @@ struct VDAgentChardev {<br>
+=C2=A0 =C2=A0 =C2=A0uint32_t mouse_btn;<br>
+=C2=A0 =C2=A0 =C2=A0uint32_t mouse_display;<br>
+=C2=A0 =C2=A0 =C2=A0QemuInputHandlerState *mouse_hs;<br>
++<br>
++=C2=A0 =C2=A0 /* clipboard */<br>
 +=C2=A0 =C2=A0 QemuClipboardPeer cbpeer;<br>
 +=C2=A0 =C2=A0 QemuClipboardInfo *cbinfo[QEMU_CLIPBOARD_SELECTION__COUNT];<=
 br>
 +=C2=A0 =C2=A0 uint32_t cbpending[QEMU_CLIPBOARD_SELECTION__COUNT];<br>
-+=C2=A0 =C2=A0 GtkClipboard *gtkcb[QEMU_CLIPBOARD_SELECTION__COUNT];<br>
-+=C2=A0 =C2=A0 bool cbowner[QEMU_CLIPBOARD_SELECTION__COUNT];<br>
-+<br>
-=C2=A0 =C2=A0 =C2=A0DisplayOptions *opts;<br>
+=C2=A0};<br>
+=C2=A0typedef struct VDAgentChardev VDAgentChardev;<br>
+<br>
+@@ -96,6 +104,24 @@ static const char *msg_name[] =3D {<br>
+=C2=A0#endif<br>
 =C2=A0};<br>
 <br>
-@@ -207,4 +214,7 @@ void gtk_gl_area_init(void);<br>
-=C2=A0int gd_gl_area_make_current(DisplayChangeListener *dcl,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0QEMUGLContext ctx);<br>
-<br>
-+/* gtk-clipboard.c */<br>
-+void gd_clipboard_init(GtkDisplayState *gd);<br>
++static const char *sel_name[] =3D {<br>
++=C2=A0 =C2=A0 [VD_AGENT_CLIPBOARD_SELECTION_CLIPBOARD] =3D &quot;clipboard=
+&quot;,<br>
++=C2=A0 =C2=A0 [VD_AGENT_CLIPBOARD_SELECTION_PRIMARY]=C2=A0 =C2=A0=3D &quot=
+;primary&quot;,<br>
++=C2=A0 =C2=A0 [VD_AGENT_CLIPBOARD_SELECTION_SECONDARY] =3D &quot;secondary=
+&quot;,<br>
++};<br>
 +<br>
-=C2=A0#endif /* UI_GTK_H */<br>
-diff --git a/ui/gtk-clipboard.c b/ui/gtk-clipboard.c<br>
-new file mode 100644<br>
-index 000000000000..bff28d203014<br>
---- /dev/null<br>
-+++ b/ui/gtk-clipboard.c<br>
-@@ -0,0 +1,192 @@<br>
-+/*<br>
-+ * GTK UI -- clipboard support<br>
-+ *<br>
-+ * Copyright (C) 2021 Gerd Hoffmann &lt;<a href=3D"mailto:kraxel@redhat.co=
-m" target=3D"_blank">kraxel@redhat.com</a>&gt;<br>
-+ *<br>
-+ * This program is free software; you can redistribute it and/or modify<br=
++static const char *type_name[] =3D {<br>
++=C2=A0 =C2=A0 [VD_AGENT_CLIPBOARD_NONE]=C2=A0 =C2=A0 =C2=A0 =C2=A0=3D &quo=
+t;none&quot;,<br>
++=C2=A0 =C2=A0 [VD_AGENT_CLIPBOARD_UTF8_TEXT]=C2=A0 =3D &quot;text&quot;,<b=
+r>
++=C2=A0 =C2=A0 [VD_AGENT_CLIPBOARD_IMAGE_PNG]=C2=A0 =3D &quot;png&quot;,<br=
 >
-+ * it under the terms of the GNU General Public License as published by<br=
++=C2=A0 =C2=A0 [VD_AGENT_CLIPBOARD_IMAGE_BMP]=C2=A0 =3D &quot;bmp&quot;,<br=
 >
-+ * the Free Software Foundation; either version 2 of the License, or<br>
-+ * (at your option) any later version.<br>
-+ *<br>
-+ * This program is distributed in the hope that it will be useful,<br>
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of<br>
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.=C2=A0 See the GNU<=
++=C2=A0 =C2=A0 [VD_AGENT_CLIPBOARD_IMAGE_TIFF] =3D &quot;tiff&quot;,<br>
++=C2=A0 =C2=A0 [VD_AGENT_CLIPBOARD_IMAGE_JPG]=C2=A0 =3D &quot;jpg&quot;,<br=
+>
++#if 0<br>
++=C2=A0 =C2=A0 [VD_AGENT_CLIPBOARD_FILE_LIST]=C2=A0 =3D &quot;files&quot;,<=
 br>
-+ * General Public License for more details.<br>
-+ *<br>
-+ * You should have received a copy of the GNU General Public License<br>
-+ * along with this program; if not, see &lt;<a href=3D"http://www.gnu.org/=
-licenses/" rel=3D"noreferrer" target=3D"_blank">http://www.gnu.org/licenses=
-/</a>&gt;.<br>
-+ *<br>
-+ */<br>
++#endif<br>
++};<br>
 +<br>
-+#include &quot;qemu/osdep.h&quot;<br>
-+#include &quot;qemu-common.h&quot;<br>
-+#include &quot;qemu/main-loop.h&quot;<br>
-+<br>
-+#include &quot;ui/gtk.h&quot;<br>
-+<br>
-+static QemuClipboardSelection gd_find_selection(GtkDisplayState *gd,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 GtkClipboard *clipboard)<br>
-+{<br>
-+=C2=A0 =C2=A0 QemuClipboardSelection s;<br>
-+<br>
-+=C2=A0 =C2=A0 for (s =3D 0; s &lt; QEMU_CLIPBOARD_SELECTION__COUNT; s++) {=
+=C2=A0#define GET_NAME(_m, _v) \<br>
+=C2=A0 =C2=A0 =C2=A0(((_v) &lt; ARRAY_SIZE(_m) &amp;&amp; (_m[_v])) ? (_m[_=
+v]) : &quot;???&quot;)<br>
 <br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (gd-&gt;gtkcb[s] =3D=3D clipboard) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return s;<br>
+@@ -161,6 +187,10 @@ static void vdagent_send_caps(VDAgentChardev *vd)<br>
+=C2=A0 =C2=A0 =C2=A0if (vd-&gt;mouse) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0caps-&gt;caps[0] |=3D (1 &lt;&lt; VD_AGEN=
+T_CAP_MOUSE_STATE);<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
++=C2=A0 =C2=A0 if (vd-&gt;clipboard) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 caps-&gt;caps[0] |=3D (1 &lt;&lt; VD_AGENT_CAP=
+_CLIPBOARD_BY_DEMAND);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 caps-&gt;caps[0] |=3D (1 &lt;&lt; VD_AGENT_CAP=
+_CLIPBOARD_SELECTION);<br>
++=C2=A0 =C2=A0 }<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0vdagent_send_msg(vd, msg);<br>
+=C2=A0}<br>
+@@ -261,6 +291,244 @@ static QemuInputHandler vdagent_mouse_handler =3D {<b=
+r>
+=C2=A0 =C2=A0 =C2=A0.sync=C2=A0 =3D vdagent_pointer_sync,<br>
+=C2=A0};<br>
+<br>
++/* ------------------------------------------------------------------ */<b=
+r>
++/* clipboard=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
++<br>
++static bool have_clipboard(VDAgentChardev *vd)<br>
++{<br>
++=C2=A0 =C2=A0 return vd-&gt;clipboard &amp;&amp;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 (vd-&gt;caps &amp; (1 &lt;&lt; VD_AGENT_CAP_CL=
+IPBOARD_BY_DEMAND));<br>
++}<br>
++<br>
++static bool have_selection(VDAgentChardev *vd)<br>
++{<br>
++=C2=A0 =C2=A0 return vd-&gt;caps &amp; (1 &lt;&lt; VD_AGENT_CAP_CLIPBOARD_=
+SELECTION);<br>
++}<br>
++<br>
++static uint32_t type_qemu_to_vdagent(enum QemuClipboardType type)<br>
++{<br>
++=C2=A0 =C2=A0 switch (type) {<br>
++=C2=A0 =C2=A0 case QEMU_CLIPBOARD_TYPE_TEXT:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return VD_AGENT_CLIPBOARD_UTF8_TEXT;<br>
++=C2=A0 =C2=A0 default:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return VD_AGENT_CLIPBOARD_NONE;<br>
++=C2=A0 =C2=A0 }<br>
++}<br>
++<br>
++static void vdagent_send_clipboard_grab(VDAgentChardev *vd,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 QemuClip=
+boardInfo *info)<br>
++{<br>
++=C2=A0 =C2=A0 g_autofree VDAgentMessage *msg =3D<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 g_malloc0(sizeof(VDAgentMessage) +<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 sizeof(uint=
+32_t) * (QEMU_CLIPBOARD_TYPE__COUNT + 1));<br>
++=C2=A0 =C2=A0 uint8_t *s =3D msg-&gt;data;<br>
++=C2=A0 =C2=A0 uint32_t *data =3D (uint32_t *)msg-&gt;data;<br>
++=C2=A0 =C2=A0 uint32_t q, type;<br>
++<br>
++=C2=A0 =C2=A0 if (have_selection(vd)) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 *s =3D info-&gt;selection;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 data++;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 msg-&gt;size +=3D sizeof(uint32_t);<br>
++=C2=A0 =C2=A0 } else if (info-&gt;selection !=3D QEMU_CLIPBOARD_SELECTION_=
+CLIPBOARD) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
++=C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 for (q =3D 0; q &lt; QEMU_CLIPBOARD_TYPE__COUNT; q++) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 type =3D type_qemu_to_vdagent(q);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (type !=3D VD_AGENT_CLIPBOARD_NONE &amp;&am=
+p; info-&gt;types[q].available) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 *data =3D type;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 data++;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 msg-&gt;size +=3D sizeof(uint32_=
+t);<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
 +=C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 return QEMU_CLIPBOARD_SELECTION_CLIPBOARD;<br>
++<br>
++=C2=A0 =C2=A0 msg-&gt;type =3D VD_AGENT_CLIPBOARD_GRAB;<br>
++=C2=A0 =C2=A0 vdagent_send_msg(vd, msg);<br>
 +}<br>
 +<br>
-+static void gd_clipboard_get_data(GtkClipboard=C2=A0 =C2=A0 =C2=A0*clipboa=
-rd,<br>
++static void vdagent_send_clipboard_data(VDAgentChardev *vd,<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 GtkSelectionData *selection_d=
-ata,<br>
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 QemuClip=
+boardInfo *info,<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 guint=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0selection_info,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 gpointer=C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 data)<br>
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 QemuClip=
+boardType type)<br>
 +{<br>
-+=C2=A0 =C2=A0 GtkDisplayState *gd =3D data;<br>
-+=C2=A0 =C2=A0 QemuClipboardSelection s =3D gd_find_selection(gd, clipboard=
-);<br>
-+=C2=A0 =C2=A0 QemuClipboardType type =3D QEMU_CLIPBOARD_TYPE_TEXT;<br>
-+=C2=A0 =C2=A0 QemuClipboardInfo *info =3D qemu_clipboard_info_ref(gd-&gt;c=
-binfo[s]);<br>
++=C2=A0 =C2=A0 g_autofree VDAgentMessage *msg =3D g_malloc0(sizeof(VDAgentM=
+essage) +<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0sizeof(uint32_t) * 2 +<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0info-&gt;types[type].size);<br>
 +<br>
-+=C2=A0 =C2=A0 qemu_clipboard_request(info, type);<br>
-+=C2=A0 =C2=A0 while (info =3D=3D gd-&gt;cbinfo[s] &amp;&amp;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0info-&gt;types[type].available &a=
-mp;&amp;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0info-&gt;types[type].data =3D=3D =
-NULL) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 main_loop_wait(false);<br>
++=C2=A0 =C2=A0 uint8_t *s =3D msg-&gt;data;<br>
++=C2=A0 =C2=A0 uint32_t *data =3D (uint32_t *)msg-&gt;data;<br>
++<br>
++=C2=A0 =C2=A0 if (have_selection(vd)) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 *s =3D info-&gt;selection;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 data++;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 msg-&gt;size +=3D sizeof(uint32_t);<br>
++=C2=A0 =C2=A0 } else if (info-&gt;selection !=3D QEMU_CLIPBOARD_SELECTION_=
+CLIPBOARD) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
 +=C2=A0 =C2=A0 }<br>
 +<br>
-+=C2=A0 =C2=A0 if (info =3D=3D gd-&gt;cbinfo[s] &amp;&amp; gd-&gt;cbowner[s=
-]) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 gtk_selection_data_set_text(selection_data,<br=
->
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 info-&gt;types[type].d=
-ata,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 info-&gt;types[type].s=
-ize);<br>
-+=C2=A0 =C2=A0 } else {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* clipboard owner changed while waiting for t=
-he data */<br>
-+=C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 *data =3D type_qemu_to_vdagent(type);<br>
++=C2=A0 =C2=A0 data++;<br>
++=C2=A0 =C2=A0 msg-&gt;size +=3D sizeof(uint32_t);<br>
 +<br>
-+=C2=A0 =C2=A0 qemu_clipboard_info_unref(info);<br>
++=C2=A0 =C2=A0 memcpy(data, info-&gt;types[type].data, info-&gt;types[type]=
+.size);<br>
++=C2=A0 =C2=A0 msg-&gt;size +=3D info-&gt;types[type].size;<br>
++<br>
++=C2=A0 =C2=A0 msg-&gt;type =3D VD_AGENT_CLIPBOARD;<br>
++=C2=A0 =C2=A0 vdagent_send_msg(vd, msg);<br>
 +}<br>
 +<br>
-+static void gd_clipboard_clear(GtkClipboard *clipboard,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gpointer data)<br>
++static void vdagent_clipboard_notify(Notifier *notifier, void *data)<br>
 +{<br>
-+=C2=A0 =C2=A0 GtkDisplayState *gd =3D data;<br>
-+=C2=A0 =C2=A0 QemuClipboardSelection s =3D gd_find_selection(gd, clipboard=
-);<br>
-+<br>
-+=C2=A0 =C2=A0 gd-&gt;cbowner[s] =3D false;<br>
-+}<br>
-+<br>
-+static void gd_clipboard_notify(Notifier *notifier, void *data)<br>
-+{<br>
-+=C2=A0 =C2=A0 GtkDisplayState *gd =3D container_of(notifier, GtkDisplaySta=
-te, cbpeer.update);<br>
++=C2=A0 =C2=A0 VDAgentChardev *vd =3D container_of(notifier, VDAgentChardev=
+, cbpeer.update);<br>
 +=C2=A0 =C2=A0 QemuClipboardInfo *info =3D data;<br>
 +=C2=A0 =C2=A0 QemuClipboardSelection s =3D info-&gt;selection;<br>
-+=C2=A0 =C2=A0 bool self_update =3D info-&gt;owner =3D=3D &amp;gd-&gt;cbpee=
++=C2=A0 =C2=A0 QemuClipboardType type;<br>
++=C2=A0 =C2=A0 bool self_update =3D info-&gt;owner =3D=3D &amp;vd-&gt;cbpee=
 r;<br>
 +<br>
-+=C2=A0 =C2=A0 if (info !=3D gd-&gt;cbinfo[s]) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_clipboard_info_unref(gd-&gt;cbinfo[s]);<b=
++=C2=A0 =C2=A0 if (info !=3D vd-&gt;cbinfo[s]) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_clipboard_info_unref(vd-&gt;cbinfo[s]);<b=
 r>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 gd-&gt;cbinfo[s] =3D qemu_clipboard_info_ref(i=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 vd-&gt;cbinfo[s] =3D qemu_clipboard_info_ref(i=
 nfo);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 gd-&gt;cbpending[s] =3D 0;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 vd-&gt;cbpending[s] =3D 0;<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!self_update) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 GtkTargetList *list;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 GtkTargetEntry *targets;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 gint n_targets;<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 list =3D gtk_target_list_new(NUL=
-L, 0);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (info-&gt;types[QEMU_CLIPBOAR=
-D_TYPE_TEXT].available) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 gtk_target_list_ad=
-d_text_targets(list, 0);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 targets =3D gtk_target_table_new=
-_from_list(list, &amp;n_targets);<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 gtk_clipboard_clear(gd-&gt;gtkcb=
-[s]);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 gd-&gt;cbowner[s] =3D true;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 gtk_clipboard_set_with_data(gd-&=
-gt;gtkcb[s],<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 targets,=
- n_targets,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 gd_clipb=
-oard_get_data,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 gd_clipb=
-oard_clear,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 gd);<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 gtk_target_table_free(targets, n=
-_targets);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 gtk_target_list_unref(list);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 vdagent_send_clipboard_grab(vd, =
+info);<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
 +=C2=A0 =C2=A0 }<br>
@@ -618,144 +844,295 @@ _targets);<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
 +=C2=A0 =C2=A0 }<br>
 +<br>
-+=C2=A0 =C2=A0 /*<br>
-+=C2=A0 =C2=A0 =C2=A0* Clipboard got updated, with data probably.=C2=A0 No =
-action here, we<br>
-+=C2=A0 =C2=A0 =C2=A0* are waiting for updates in gd_clipboard_get_data().<=
-br>
-+=C2=A0 =C2=A0 =C2=A0*/<br>
-+}<br>
-+<br>
-+static void gd_clipboard_request(QemuClipboardInfo *info,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0QemuClipboardType type)<br>
-+{<br>
-+=C2=A0 =C2=A0 GtkDisplayState *gd =3D container_of(info-&gt;owner, GtkDisp=
-layState, cbpeer);<br>
-+=C2=A0 =C2=A0 char *text;<br>
-+<br>
-+=C2=A0 =C2=A0 switch (type) {<br>
-+=C2=A0 =C2=A0 case QEMU_CLIPBOARD_TYPE_TEXT:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 text =3D gtk_clipboard_wait_for_text(gd-&gt;gt=
-kcb[info-&gt;selection]);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (text) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_clipboard_set_data(&amp;gd-=
-&gt;cbpeer, info, type,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 strlen(text), text, tr=
-ue);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 g_free(text);<br>
++=C2=A0 =C2=A0 for (type =3D 0; type &lt; QEMU_CLIPBOARD_TYPE__COUNT; type+=
++) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (vd-&gt;cbpending[s] &amp; (1 &lt;&lt; type=
+)) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 vd-&gt;cbpending[s] &amp;=3D ~(1=
+ &lt;&lt; type);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 vdagent_send_clipboard_data(vd, =
+info, type);<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-+=C2=A0 =C2=A0 default:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
 +=C2=A0 =C2=A0 }<br>
 +}<br>
 +<br>
-+static void gd_owner_change(GtkClipboard *clipboard,<br>
++static void vdagent_clipboard_request(QemuClipboardInfo *info,<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 GdkEvent *event,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 gpointer data)<br>
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 QemuClipboardTy=
+pe qtype)<br>
 +{<br>
-+=C2=A0 =C2=A0 GtkDisplayState *gd =3D data;<br>
-+=C2=A0 =C2=A0 QemuClipboardSelection s =3D gd_find_selection(gd, clipboard=
-);<br>
-+=C2=A0 =C2=A0 QemuClipboardInfo *info;<br>
++=C2=A0 =C2=A0 VDAgentChardev *vd =3D container_of(info-&gt;owner, VDAgentC=
+hardev, cbpeer);<br>
++=C2=A0 =C2=A0 g_autofree VDAgentMessage *msg =3D g_malloc0(sizeof(VDAgentM=
+essage) +<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0sizeof(uint32_t) * 2);<br>
++=C2=A0 =C2=A0 uint32_t type =3D type_qemu_to_vdagent(qtype);<br>
++=C2=A0 =C2=A0 uint8_t *s =3D msg-&gt;data;<br>
++=C2=A0 =C2=A0 uint32_t *data =3D (uint32_t *)msg-&gt;data;<br>
 +<br>
-+=C2=A0 =C2=A0 if (gd-&gt;cbowner[s]) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* ignore notifications about our own grabs */=
-<br>
++=C2=A0 =C2=A0 if (type =3D=3D VD_AGENT_CLIPBOARD_NONE) {<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
 +=C2=A0 =C2=A0 }<br>
 +<br>
++=C2=A0 =C2=A0 if (have_selection(vd)) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 *s =3D info-&gt;selection;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 data++;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 msg-&gt;size +=3D sizeof(uint32_t);<br>
++=C2=A0 =C2=A0 }<br>
 +<br>
-+=C2=A0 =C2=A0 switch (event-&gt;owner_change.reason) {<br>
-+=C2=A0 =C2=A0 case GDK_SETTING_ACTION_NEW:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 info =3D qemu_clipboard_info_new(&amp;gd-&gt;c=
-bpeer, s);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (gtk_clipboard_wait_is_text_available(clipb=
-oard)) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 info-&gt;types[QEMU_CLIPBOARD_TY=
-PE_TEXT].available =3D true;<br>
++=C2=A0 =C2=A0 *data =3D type;<br>
++=C2=A0 =C2=A0 msg-&gt;size +=3D sizeof(uint32_t);<br>
++<br>
++=C2=A0 =C2=A0 msg-&gt;type =3D VD_AGENT_CLIPBOARD_REQUEST;<br>
++=C2=A0 =C2=A0 vdagent_send_msg(vd, msg);<br>
++}<br>
++<br>
++static void vdagent_chr_recv_clipboard(VDAgentChardev *vd, VDAgentMessage =
+*msg)<br>
++{<br>
++=C2=A0 =C2=A0 uint8_t s =3D VD_AGENT_CLIPBOARD_SELECTION_CLIPBOARD;<br>
++=C2=A0 =C2=A0 uint32_t size =3D msg-&gt;size;<br>
++=C2=A0 =C2=A0 void *data =3D msg-&gt;data;<br>
++=C2=A0 =C2=A0 QemuClipboardInfo *info;<br>
++=C2=A0 =C2=A0 QemuClipboardType type;<br>
++<br>
++=C2=A0 =C2=A0 if (have_selection(vd)) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (size &lt; 4) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 s =3D *(uint8_t *)data;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (s &gt;=3D QEMU_CLIPBOARD_SELECTION__COUNT)=
+ {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 data +=3D 4;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 size -=3D 4;<br>
++=C2=A0 =C2=A0 }<br>
 +<br>
++=C2=A0 =C2=A0 switch (msg-&gt;type) {<br>
++=C2=A0 =C2=A0 case VD_AGENT_CLIPBOARD_GRAB:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 trace_vdagent_cb_grab_selection(GET_NAME(sel_n=
+ame, s));<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 info =3D qemu_clipboard_info_new(&amp;vd-&gt;c=
+bpeer, s);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (size &gt; sizeof(uint32_t) * 10) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /*<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* spice has 6 types as of =
+2021. Limiting to 10 entries<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* so we we have some wiggl=
+e room.<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*/<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 while (size &gt;=3D sizeof(uint32_t)) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 trace_vdagent_cb_grab_type(GET_N=
+AME(type_name, *(uint32_t *)data));<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 switch (*(uint32_t *)data) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 case VD_AGENT_CLIPBOARD_UTF8_TEX=
+T:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 info-&gt;types[QEM=
+U_CLIPBOARD_TYPE_TEXT].available =3D true;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 default:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 data +=3D sizeof(uint32_t);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 size -=3D sizeof(uint32_t);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_clipboard_update(info);<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_clipboard_info_unref(info);<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-+=C2=A0 =C2=A0 default:<br>
++=C2=A0 =C2=A0 case VD_AGENT_CLIPBOARD_REQUEST:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (size &lt; sizeof(uint32_t)) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 switch (*(uint32_t *)data) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 case VD_AGENT_CLIPBOARD_UTF8_TEXT:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 type =3D QEMU_CLIPBOARD_TYPE_TEX=
+T;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 default:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (vd-&gt;cbinfo[s] &amp;&amp;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 vd-&gt;cbinfo[s]-&gt;types[type]=
+.available &amp;&amp;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 vd-&gt;cbinfo[s]-&gt;owner !=3D =
+&amp;vd-&gt;cbpeer) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (vd-&gt;cbinfo[s]-&gt;types[t=
+ype].data) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 vdagent_send_clipb=
+oard_data(vd, vd-&gt;cbinfo[s], type);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 } else {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 vd-&gt;cbpending[s=
+] |=3D (1 &lt;&lt; type);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_clipboard_req=
+uest(vd-&gt;cbinfo[s], type);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
++=C2=A0 =C2=A0 case VD_AGENT_CLIPBOARD: /* data */<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (size &lt; sizeof(uint32_t)) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 switch (*(uint32_t *)data) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 case VD_AGENT_CLIPBOARD_UTF8_TEXT:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 type =3D QEMU_CLIPBOARD_TYPE_TEX=
+T;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 default:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 data +=3D 4;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 size -=3D 4;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_clipboard_set_data(&amp;vd-&gt;cbpeer, vd=
+-&gt;cbinfo[s], type,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 size, data, true);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
++=C2=A0 =C2=A0 case VD_AGENT_CLIPBOARD_RELEASE: /* data */<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (vd-&gt;cbinfo[s] &amp;&amp;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 vd-&gt;cbinfo[s]-&gt;owner =3D=
+=3D &amp;vd-&gt;cbpeer) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* set empty clipboard info */<b=
+r>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 info =3D qemu_clipboard_info_new=
+(NULL, s);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_clipboard_update(info);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_clipboard_info_unref(info);=
+<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
 +=C2=A0 =C2=A0 }<br>
 +}<br>
 +<br>
-+void gd_clipboard_init(GtkDisplayState *gd)<br>
-+{<br>
-+=C2=A0 =C2=A0 gd-&gt;<a href=3D"http://cbpeer.name" rel=3D"noreferrer" tar=
-get=3D"_blank">cbpeer.name</a> =3D &quot;gtk&quot;;<br>
-+=C2=A0 =C2=A0 gd-&gt;cbpeer.update.notify =3D gd_clipboard_notify;<br>
-+=C2=A0 =C2=A0 gd-&gt;cbpeer.request =3D gd_clipboard_request;<br>
-+=C2=A0 =C2=A0 qemu_clipboard_peer_register(&amp;gd-&gt;cbpeer);<br>
-+<br>
-+=C2=A0 =C2=A0 gd-&gt;gtkcb[QEMU_CLIPBOARD_SELECTION_CLIPBOARD] =3D<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 gtk_clipboard_get(gdk_atom_intern(&quot;CLIPBO=
-ARD&quot;, FALSE));<br>
-+=C2=A0 =C2=A0 gd-&gt;gtkcb[QEMU_CLIPBOARD_SELECTION_PRIMARY] =3D<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 gtk_clipboard_get(gdk_atom_intern(&quot;PRIMAR=
-Y&quot;, FALSE));<br>
-+=C2=A0 =C2=A0 gd-&gt;gtkcb[QEMU_CLIPBOARD_SELECTION_SECONDARY] =3D<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 gtk_clipboard_get(gdk_atom_intern(&quot;SECOND=
-ARY&quot;, FALSE));<br>
-+<br>
-+=C2=A0 =C2=A0 g_signal_connect(gd-&gt;gtkcb[QEMU_CLIPBOARD_SELECTION_CLIPB=
-OARD],<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0&quot;owner-change&quot;, G_CALLBACK(gd_owner_change), gd);<br>
-+=C2=A0 =C2=A0 g_signal_connect(gd-&gt;gtkcb[QEMU_CLIPBOARD_SELECTION_PRIMA=
-RY],<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0&quot;owner-change&quot;, G_CALLBACK(gd_owner_change), gd);<br>
-+=C2=A0 =C2=A0 g_signal_connect(gd-&gt;gtkcb[QEMU_CLIPBOARD_SELECTION_SECON=
-DARY],<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0&quot;owner-change&quot;, G_CALLBACK(gd_owner_change), gd);<br>
-+}<br>
-diff --git a/ui/gtk.c b/ui/gtk.c<br>
-index 7da288a25156..98046f577b9d 100644<br>
---- a/ui/gtk.c<br>
-+++ b/ui/gtk.c<br>
-@@ -2267,6 +2267,7 @@ static void gtk_display_init(DisplayState *ds, Displa=
-yOptions *opts)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0opts-&gt;u.gtk.grab_on_hover) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gtk_menu_item_activate(GTK_MENU_ITEM(s-&g=
-t;grab_on_hover_item));<br>
+=C2=A0/* ------------------------------------------------------------------=
+ */<br>
+=C2=A0/* chardev backend=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+<br>
+@@ -286,6 +554,11 @@ static void vdagent_chr_open(Chardev *chr,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0vd-&gt;mouse =3D cfg-&gt;mouse;<br>
 =C2=A0 =C2=A0 =C2=A0}<br>
-+=C2=A0 =C2=A0 gd_clipboard_init(s);<br>
+<br>
++=C2=A0 =C2=A0 vd-&gt;clipboard =3D VDAGENT_CLIPBOARD_DEFAULT;<br>
++=C2=A0 =C2=A0 if (cfg-&gt;has_clipboard) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 vd-&gt;clipboard =3D cfg-&gt;clipboard;<br>
++=C2=A0 =C2=A0 }<br>
++<br>
+=C2=A0 =C2=A0 =C2=A0if (vd-&gt;mouse) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0vd-&gt;mouse_hs =3D qemu_input_handler_re=
+gister(&amp;vd-&gt;mouse_dev,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &amp;vdagent_mouse_handler);<br>
+@@ -317,6 +590,12 @@ static void vdagent_chr_recv_caps(VDAgentChardev *vd, =
+VDAgentMessage *msg)<br>
+=C2=A0 =C2=A0 =C2=A0if (have_mouse(vd) &amp;&amp; vd-&gt;mouse_hs) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qemu_input_handler_activate(vd-&gt;mouse_=
+hs);<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
++=C2=A0 =C2=A0 if (have_clipboard(vd) &amp;&amp; vd-&gt;cbpeer.update.notif=
+y =3D=3D NULL) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 vd-&gt;<a href=3D"http://cbpeer.name" rel=3D"n=
+oreferrer" target=3D"_blank">cbpeer.name</a> =3D &quot;vdagent&quot;;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 vd-&gt;cbpeer.update.notify =3D vdagent_clipbo=
+ard_notify;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 vd-&gt;cbpeer.request =3D vdagent_clipboard_re=
+quest;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_clipboard_peer_register(&amp;vd-&gt;cbpee=
+r);<br>
++=C2=A0 =C2=A0 }<br>
 =C2=A0}<br>
 <br>
-=C2=A0static void early_gtk_display_init(DisplayOptions *opts)<br>
-diff --git a/ui/meson.build b/ui/meson.build<br>
-index f37ef882e0e3..b5aed14886cf 100644<br>
---- a/ui/meson.build<br>
-+++ b/ui/meson.build<br>
-@@ -65,7 +65,7 @@ if gtk.found()<br>
-=C2=A0 =C2=A0softmmu_ss.add(when: &#39;CONFIG_WIN32&#39;, if_true: files(&#=
-39;win32-kbd-hook.c&#39;))<br>
+=C2=A0static void vdagent_chr_recv_msg(VDAgentChardev *vd, VDAgentMessage *=
+msg)<br>
+@@ -327,6 +606,14 @@ static void vdagent_chr_recv_msg(VDAgentChardev *vd, V=
+DAgentMessage *msg)<br>
+=C2=A0 =C2=A0 =C2=A0case VD_AGENT_ANNOUNCE_CAPABILITIES:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0vdagent_chr_recv_caps(vd, msg);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
++=C2=A0 =C2=A0 case VD_AGENT_CLIPBOARD:<br>
++=C2=A0 =C2=A0 case VD_AGENT_CLIPBOARD_GRAB:<br>
++=C2=A0 =C2=A0 case VD_AGENT_CLIPBOARD_REQUEST:<br>
++=C2=A0 =C2=A0 case VD_AGENT_CLIPBOARD_RELEASE:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (have_clipboard(vd)) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 vdagent_chr_recv_clipboard(vd, m=
+sg);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+=C2=A0 =C2=A0 =C2=A0default:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+@@ -448,6 +735,10 @@ static void vdagent_chr_set_fe_open(struct Chardev *ch=
+r, int fe_open)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (vd-&gt;mouse_hs) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qemu_input_handler_deactiva=
+te(vd-&gt;mouse_hs);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (vd-&gt;cbpeer.update.notify) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_clipboard_peer_unregister(&=
+amp;vd-&gt;cbpeer);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 memset(&amp;vd-&gt;cbpeer, 0, si=
+zeof(vd-&gt;cbpeer));<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return;<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
 <br>
-=C2=A0 =C2=A0gtk_ss =3D ss.source_set()<br>
--=C2=A0 gtk_ss.add(gtk, vte, pixman, files(&#39;gtk.c&#39;))<br>
-+=C2=A0 gtk_ss.add(gtk, vte, pixman, files(&#39;gtk.c&#39;, &#39;gtk-clipbo=
-ard.c&#39;))<br>
-=C2=A0 =C2=A0gtk_ss.add(when: x11, if_true: files(&#39;x_keymap.c&#39;))<br=
->
-=C2=A0 =C2=A0gtk_ss.add(when: [opengl, &#39;CONFIG_OPENGL&#39;], if_true: f=
-iles(&#39;gtk-gl-area.c&#39;))<br>
-=C2=A0 =C2=A0gtk_ss.add(when: [x11, opengl, &#39;CONFIG_OPENGL&#39;], if_tr=
-ue: files(&#39;gtk-egl.c&#39;))<br>
+@@ -464,6 +755,8 @@ static void vdagent_chr_parse(QemuOpts *opts, ChardevBa=
+ckend *backend,<br>
+=C2=A0 =C2=A0 =C2=A0qemu_chr_parse_common(opts, qapi_ChardevQemuVDAgent_bas=
+e(cfg));<br>
+=C2=A0 =C2=A0 =C2=A0cfg-&gt;has_mouse =3D true;<br>
+=C2=A0 =C2=A0 =C2=A0cfg-&gt;mouse =3D qemu_opt_get_bool(opts, &quot;mouse&q=
+uot;, VDAGENT_MOUSE_DEFAULT);<br>
++=C2=A0 =C2=A0 cfg-&gt;has_clipboard =3D true;<br>
++=C2=A0 =C2=A0 cfg-&gt;clipboard =3D qemu_opt_get_bool(opts, &quot;clipboar=
+d&quot;, VDAGENT_CLIPBOARD_DEFAULT);<br>
+=C2=A0}<br>
+<br>
+=C2=A0/* ------------------------------------------------------------------=
+ */<br>
+diff --git a/qapi/char.json b/qapi/char.json<br>
+index 5711e8c60aeb..adf2685f6889 100644<br>
+--- a/qapi/char.json<br>
++++ b/qapi/char.json<br>
+@@ -396,12 +396,14 @@<br>
+=C2=A0# Configuration info for qemu vdagent implementation.<br>
+=C2=A0#<br>
+=C2=A0# @mouse: enable/disable mouse, default is enabled.<br>
++# @clipboard: enable/disable clipboard, default is disabled.<br>
+=C2=A0#<br>
+=C2=A0# Since: 6.1<br>
+=C2=A0#<br>
+=C2=A0##<br>
+=C2=A0{ &#39;struct&#39;: &#39;ChardevQemuVDAgent&#39;,<br>
+-=C2=A0 &#39;data&#39;: { &#39;*mouse&#39;: &#39;bool&#39; },<br>
++=C2=A0 &#39;data&#39;: { &#39;*mouse&#39;: &#39;bool&#39;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;*clipboard&#39;: &#39;bool&=
+#39; },<br>
+=C2=A0 =C2=A0&#39;base&#39;: &#39;ChardevCommon&#39;,<br>
+=C2=A0 =C2=A0&#39;if&#39;: &#39;defined(CONFIG_SPICE_PROTOCOL)&#39; }<br>
+<br>
+diff --git a/ui/trace-events b/ui/trace-events<br>
+index c34cffb0452b..c86542e2b69b 100644<br>
+--- a/ui/trace-events<br>
++++ b/ui/trace-events<br>
+@@ -132,3 +132,5 @@ vdagent_send(const char *name) &quot;msg %s&quot;<br>
+=C2=A0vdagent_recv_chunk(uint32_t size) &quot;size %d&quot;<br>
+=C2=A0vdagent_recv_msg(const char *name, uint32_t size) &quot;msg %s, size =
+%d&quot;<br>
+=C2=A0vdagent_peer_cap(const char *name) &quot;cap %s&quot;<br>
++vdagent_cb_grab_selection(const char *name) &quot;selection %s&quot;<br>
++vdagent_cb_grab_type(const char *name) &quot;type %s&quot;<br>
 -- <br>
 2.31.1<br>
 <br>
 </blockquote></div></div>
 
---0000000000005ae8a605c2abb551--
+--00000000000031269d05c2abb68a--
 
 
