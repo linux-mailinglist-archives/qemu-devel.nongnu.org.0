@@ -2,78 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2C3438931C
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 17:57:16 +0200 (CEST)
-Received: from localhost ([::1]:39098 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A6EB389327
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 17:59:36 +0200 (CEST)
+Received: from localhost ([::1]:41558 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljOZP-0003rw-Jo
-	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 11:57:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51610)
+	id 1ljObf-0005e9-Hp
+	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 11:59:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51950)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ljOYM-00030U-I6
- for qemu-devel@nongnu.org; Wed, 19 May 2021 11:56:10 -0400
-Received: from mail-ua1-x935.google.com ([2607:f8b0:4864:20::935]:34604)
+ (Exim 4.90_1) (envelope-from <changbin.du@gmail.com>)
+ id 1ljOaL-0004nZ-Rz; Wed, 19 May 2021 11:58:15 -0400
+Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532]:45744)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ljOYK-0008Ln-TU
- for qemu-devel@nongnu.org; Wed, 19 May 2021 11:56:10 -0400
-Received: by mail-ua1-x935.google.com with SMTP id x1so4076173uau.1
- for <qemu-devel@nongnu.org>; Wed, 19 May 2021 08:56:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=nk1t6j0mxpmBtLfTkdqElpJJl7vyBE61p8JfNN5UOjg=;
- b=ZaaT/EbT8WPcTCBgT+0W6czoZBQRp07JwoO3LfcNqqhHEVLms0ZlIlBKLSdFfqbMbR
- YOY4gZR5aP3PRHVfGbJoGDWzrkar0SQq+r5r3KcQjuwNt4wut7qO+VmNTR+J6Ghd+lac
- 1afxnj/QeqrQfInyoffPFvKf8fBtpLl5uZPJUVM36+QPhgyhZMFNF+NZccS57vcvNsCS
- yi+L+06WPC4mv7lAtTtb3i5EiARXVBCSPWI7r4DVmXpCmZiFu+TyA5iZXbbXdv6ViDuo
- vLruUxyrl7DH/HJygoxDInvRPksyLDpVAwJ+XSSwlsT8aAyaHCFMo7qtADAluX0umKIC
- uA1w==
+ (Exim 4.90_1) (envelope-from <changbin.du@gmail.com>)
+ id 1ljOaD-0000Zb-VJ; Wed, 19 May 2021 11:58:11 -0400
+Received: by mail-pg1-x532.google.com with SMTP id q15so9758880pgg.12;
+ Wed, 19 May 2021 08:57:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=N6wCzkPkZTyv1wdPSKFx12Z8+u+8agTsZVhlUSq53yE=;
+ b=bEr4oZC8KQGwY/pvomZ0LKR3rpgOYeCB7hJNcUreCliI0cXUXn9d0BvuiT79R8NxoM
+ KZk6dRqlK9nEMCzlvnVtrsvS0/BArJFaavra0eayAzSe5t7ubeRZqqhq1Wc5sB0vvDYX
+ 8W2BaYsTZj4Z78lvsVhcZyOp7jbdk0qWSBzYIkrKJHZVmFYktui6uf+Xyrk6rsafLau8
+ GbDENAZQ/7HiAj0uvcxe0iZ3UbLmhJ95TSdyXGwQrrr3Sdv4yinEqLZ4qPmi/oUbAfK3
+ a4r2oHr9LuxXCDR+us4dezVx+jIiBZSi8wTc9L9pMaQtYrEHtmky5YdYVf8146UWfeVa
+ 6Z6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=nk1t6j0mxpmBtLfTkdqElpJJl7vyBE61p8JfNN5UOjg=;
- b=L96CS+OIdZia4Kdk4KYrI+RdCCmHV6e/hL8wAoVTg5QwvnHvv6FOOOZWoR6Xk+i1vY
- 2BBOSdh8f6UPwaFWVuXS2rygXIGKBUoLy5PW2xtJ9Wt8BmO5eWDpUnJ2ZGs9sqf7w2x9
- 4TgWVKqE9b7+xrArsqygWfarxQ+ejlPZeO7uAwjupfuqwzRTNGSsAPZQ+9VIEd3rk+Ud
- +Xwv0Z8UgV39h8Wuzdb57ci+PvrQtF8BC1NC0TRCHw/4NrLVdS5eY5HqrJrLkWf2RMJO
- KlgbDfS3JGG3JwDSqYzt6b4zmMKghU/p3MuA2gzuTj1fUb0mPZCZQK9lhmW+hZqsD1UR
- QAjg==
-X-Gm-Message-State: AOAM530v84Xm6/u0pYsYI43exz/wQIOJSWz+jPNBdtgjMSBbhE07R1IZ
- h8ofCr1IkI/zlOBqCKdn5yVy+Q==
-X-Google-Smtp-Source: ABdhPJy0W4GfA28bm0EAW2O1HHTpaFzHcjLYzCcccRnhe8WBR9i9/HhYeVkTS5vTVp7Awaj0jW6wiw==
-X-Received: by 2002:ab0:64da:: with SMTP id j26mr79024uaq.44.1621439767687;
- Wed, 19 May 2021 08:56:07 -0700 (PDT)
-Received: from [172.16.22.144] ([45.235.253.15])
- by smtp.gmail.com with ESMTPSA id w144sm2388vke.47.2021.05.19.08.56.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 19 May 2021 08:56:07 -0700 (PDT)
-Subject: Re: [PATCH v2 3/7] target/ppc: reduce usage of fpscr_set_rounding_mode
-To: "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br>,
- qemu-devel@nongnu.org
-References: <20210518150515.57983-1-bruno.larsen@eldorado.org.br>
- <20210518150515.57983-4-bruno.larsen@eldorado.org.br>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <34e387ee-d428-22f2-2ef6-65b6a7a8744e@linaro.org>
-Date: Wed, 19 May 2021 10:56:05 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ bh=N6wCzkPkZTyv1wdPSKFx12Z8+u+8agTsZVhlUSq53yE=;
+ b=a0XQihYhRLrAvlFdoCPpNXdULwuaarqCutg45BF8RXplbgDMOMXwIlTo78JlrtXe62
+ sw+QNAC/3kvahJbtzkTFpaEtnHycpto4z5x7TBR8tkpFFDx+K6zgqXBIAdaSwfOFJ8fU
+ JH/qrMIq5Evn2gjUucTC1sGfDQ76gji7osP0XaElm6PxDl62rA/EjtfJJYXy5zJNVCdc
+ 6BY6WB1yaqD6VJ1ulwNeOIYguuJxxiJLtHL5LTQgBZPMrRqhvZpbCi6WJwXMQu8yrEsO
+ fe9iyZ33Vnfp5ZD7E4StW3zokIvN1JzP6AlMvN8Sh5H5m5LRJ/wP2PhU66yInxlAgD9u
+ BDww==
+X-Gm-Message-State: AOAM532Ww2baEm8GxBt3FM1JxWlli4sAnZuDnsb3zY9L9/goKcG0MqC9
+ Iu/9xB+0b+HMK2hqti/GqjA=
+X-Google-Smtp-Source: ABdhPJydGslKEp7I4/KFi1KmwMEGzR0GrV+1CqjX2DJn9aHchr/aUIvnKOHl/bDigzmI1OXQ4t31/g==
+X-Received: by 2002:a63:d242:: with SMTP id t2mr11503908pgi.210.1621439878093; 
+ Wed, 19 May 2021 08:57:58 -0700 (PDT)
+Received: from WRT-WX9.. ([141.164.41.4])
+ by smtp.gmail.com with ESMTPSA id b12sm4548203pjd.22.2021.05.19.08.57.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 19 May 2021 08:57:57 -0700 (PDT)
+From: Changbin Du <changbin.du@gmail.com>
+To: Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
+Subject: [PATCH v2] target/riscv: Dump CSR mscratch/sscratch/satp
+Date: Wed, 19 May 2021 23:57:38 +0800
+Message-Id: <20210519155738.20486-1-changbin.du@gmail.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-In-Reply-To: <20210518150515.57983-4-bruno.larsen@eldorado.org.br>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::935;
- envelope-from=richard.henderson@linaro.org; helo=mail-ua1-x935.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
+ envelope-from=changbin.du@gmail.com; helo=mail-pg1-x532.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -88,27 +81,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: farosas@linux.ibm.com, luis.pires@eldorado.org.br,
- lucas.araujo@eldorado.org.br, fernando.valle@eldorado.org.br,
- qemu-ppc@nongnu.org, matheus.ferst@eldorado.org.br,
- david@gibson.dropbear.id.au
+Cc: Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bmeng.cn@gmail.com>,
+ qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
+ Changbin Du <changbin.du@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/18/21 10:05 AM, Bruno Larsen (billionai) wrote:
-> +    int old_rounding_mode = get_float_rounding_mode(&env->fp_status);
+This dumps the CSR mscratch/sscratch/satp and meanwhile aligns
+the output of CSR mtval/stval.
 
-FloatRoundMode is a better type for the variable.
+Signed-off-by: Changbin Du <changbin.du@gmail.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
 
-> @@ -3136,8 +3136,10 @@ void helper_##op(CPUPPCState *env, ppc_vsr_t *xt, ppc_vsr_t *xb)       \
->  {                                                                      \
->      ppc_vsr_t t = *xt;                                                 \
->      int i;                                                             \
-> +    int curr_rounding_mode;                                            \
+---
+v2: Rebase to latest mainline.
+---
+ target/riscv/cpu.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-Likewise.  Otherwise,
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index 3191fd0082..c4132d9845 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -286,12 +286,15 @@ static void riscv_cpu_dump_state(CPUState *cs, FILE *f, int flags)
+     if (riscv_has_ext(env, RVH)) {
+         qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "vscause ", env->vscause);
+     }
+-    qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "mtval ", env->mtval);
+-    qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "stval ", env->stval);
++    qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "mtval   ", env->mtval);
++    qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "stval   ", env->stval);
+     if (riscv_has_ext(env, RVH)) {
+         qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "htval ", env->htval);
+         qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "mtval2 ", env->mtval2);
+     }
++    qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "mscratch", env->mscratch);
++    qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "sscratch", env->sscratch);
++    qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "satp    ", env->satp);
+ #endif
+ 
+     for (i = 0; i < 32; i++) {
+-- 
+2.30.2
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
-r~
 
