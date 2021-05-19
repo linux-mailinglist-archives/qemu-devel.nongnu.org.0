@@ -2,74 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BD1538953E
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 20:23:54 +0200 (CEST)
-Received: from localhost ([::1]:53988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 511A5389542
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 May 2021 20:24:27 +0200 (CEST)
+Received: from localhost ([::1]:55426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljQrJ-0006N6-Jy
-	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 14:23:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47298)
+	id 1ljQrq-0007Ky-D9
+	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 14:24:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47786)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ljQoy-0004Eu-En
- for qemu-devel@nongnu.org; Wed, 19 May 2021 14:21:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60353)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ljQoo-0000I2-7j
- for qemu-devel@nongnu.org; Wed, 19 May 2021 14:21:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621448475;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=oPVBVYAXqT6fgMFaqs2Bc55kxdETI64Uq6kOuEIR7Bc=;
- b=c273dgyDIi8W1BG7z5MFTvXPiRC56thwce6YLuKvYvh3unXE8CXaLAnLi0qLb7iMFDocsn
- 81vkup8paI/alcRBI7EgM/PyHrby+zKIaPzr3R3skssTMJU+BWekv8ROILkG/7EjZE+2rs
- 1OojyOTPHBhdaSZww+uVrmrbprTPIc4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-191-_lRy8maMPJecucZi8N0a8w-1; Wed, 19 May 2021 14:21:12 -0400
-X-MC-Unique: _lRy8maMPJecucZi8N0a8w-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C2A2F1A8A63;
- Wed, 19 May 2021 18:21:11 +0000 (UTC)
-Received: from [10.10.117.64] (ovpn-117-64.rdu2.redhat.com [10.10.117.64])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1C9439473;
- Wed, 19 May 2021 18:21:11 +0000 (UTC)
-Subject: Re: [PATCH v2 15/21] qapi/parser: add docstrings
-To: Markus Armbruster <armbru@redhat.com>
-References: <20210511220601.2110055-1-jsnow@redhat.com>
- <20210511220601.2110055-16-jsnow@redhat.com>
- <87h7iz1azx.fsf@dusky.pond.sub.org>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <537041f0-9691-4881-7274-81794ce6e0f2@redhat.com>
-Date: Wed, 19 May 2021 14:21:10 -0400
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1ljQqN-0005XU-B5; Wed, 19 May 2021 14:22:55 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:37537)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1ljQqL-000159-C7; Wed, 19 May 2021 14:22:54 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id q5so15010617wrs.4;
+ Wed, 19 May 2021 11:22:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=jHO8dmw1MigvtVCo4d6zcWwIP4phs2Z1g6GWUe3kglk=;
+ b=Uqv9IdoVp+aqmWJfvvNBQl/R/hztTqTCv8QNxdVyiemf7/xNs9ybj1G467XE9aTqvQ
+ 9KKweVgUwkUM/NY9Fo7XCvQAL1QzoSz3FQPZ9yWAOq+e24L8hPfc+i1ojHJmIRRepJTu
+ d5WkS3jD0q5/FOiFD6AxZyrekpBfLWPHQLJuu25wI1wc7VHFqU8znp/N1/CHMq1a8k2S
+ VF4zsDet9hG/0DNw72Psve0LnZfCAGvx5QI3QhxeI9Yj0D/l1Sd4k6E3bNcReitvE6Of
+ 0fGszCsntLFzQB/eIbhtwAOlGxtQ825SrOkZIWpklB7BPZMgKN5XdZiPh4wHaT4/CHln
+ dbIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=jHO8dmw1MigvtVCo4d6zcWwIP4phs2Z1g6GWUe3kglk=;
+ b=Y0gBbFkTS9oMjGkYj8JjOwd4DV5DKEU7T5w4NYAntZy6xy+rISfvltQOSj/96yItQY
+ Y5iJx9AyHYeiBiorGcV9OlzgOwblbBR8G8q6JTWoGlZ68gSPIk3GvZZajzLG7tuLbmkS
+ Tj8nhDzfMowM28+CX3NmRQR9r5oQaNb/xQLLcNKcVyTXhGICm1Yg+fWpqRDb1gtyftWY
+ vMQ5pIKMrhdjvirSuo+ofYvQJOwRblC7+pCLbouAtM4m5e3wByGEgywl8ZfFdWxi7s81
+ WRtEvGl5DVg+53wMEHEIu1/exfwf+ICacX0UqfYy8E3fqGis/YegIO+Hmluv1yPn7JI2
+ ti6A==
+X-Gm-Message-State: AOAM532KJfy7y4FfwXg+SiY6nbr7XHSDxgKRRvYKkOQYDFLHfGgTLEXJ
+ jFlWY1tPBxttrQIJqccIQxU=
+X-Google-Smtp-Source: ABdhPJzb9COU+5Q3A2h+a9H5ff894Csjj4mBtJEOcVCVD/DhZW/adYQh6Iy8BNkzpqO5hmCe6aucBA==
+X-Received: by 2002:adf:e944:: with SMTP id m4mr293525wrn.10.1621448571585;
+ Wed, 19 May 2021 11:22:51 -0700 (PDT)
+Received: from [192.168.1.36] (31.red-83-51-215.dynamicip.rima-tde.net.
+ [83.51.215.31])
+ by smtp.gmail.com with ESMTPSA id q27sm153972wrz.79.2021.05.19.11.22.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 19 May 2021 11:22:50 -0700 (PDT)
+Subject: Re: [PATCH v2 1/3] hw/display/bcm2835_fb: Resize console on reset
+To: Gerd Hoffmann <kraxel@redhat.com>
+References: <20210323161443.245636-1-f4bug@amsat.org>
+ <20210323161443.245636-2-f4bug@amsat.org>
+ <CAFEAcA8hKY2XGUhWoyvB8wb+mqc8nhUJHhM7J2=0EUiMBXsstQ@mail.gmail.com>
+ <2953bd3c-bdde-0a51-8938-eb3fa4808213@amsat.org>
+ <20210329055915.zvkxo5u6cvk7hycp@sirius.home.kraxel.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <7520ac3d-3505-ada6-d277-763c5c9f6229@amsat.org>
+Date: Wed, 19 May 2021 20:22:49 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <87h7iz1azx.fsf@dusky.pond.sub.org>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <20210329055915.zvkxo5u6cvk7hycp@sirius.home.kraxel.org>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.39,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42a.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,225 +90,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Roth <michael.roth@amd.com>, Cleber Rosa <crosa@redhat.com>,
- qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm <qemu-arm@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/19/21 2:41 AM, Markus Armbruster wrote:
-> John Snow <jsnow@redhat.com> writes:
+Hi Gerd,
+
+On 3/29/21 7:59 AM, Gerd Hoffmann wrote:
+>>> and realize
+>>> already calls qemu_console_resize(), so how can adding a
+>>> call to resize here in reset cause the console surface to
+>>> be created any earlier than it already is ?
+>>>
+>>> I also don't understand how the GUI timer can call us before
+>>> the device is realized, given that we only register ourselves
+>>> via graphics_console_init() in the device realize.
 > 
->> Signed-off-by: John Snow <jsnow@redhat.com>
->> ---
->>   scripts/qapi/parser.py | 68 ++++++++++++++++++++++++++++++++++++++++++
->>   1 file changed, 68 insertions(+)
->>
->> diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
->> index e80e0a7d965..ed543a2b7a4 100644
->> --- a/scripts/qapi/parser.py
->> +++ b/scripts/qapi/parser.py
->> @@ -47,7 +47,27 @@ def __init__(self, parser: 'QAPISchemaParser', msg: str):
->>   
->>   
->>   class QAPISchemaParser:
->> +    """
->> +    Performs syntactic parsing of a QAPI schema source file.
+> Yes, should not happen.  Also note that graphics_console_init()
+> creates a surface.
 > 
-> "Syntactic parsing" makes me wonder what non-syntactic parsing could be.
+>>> Is it possible to get the UI layer to
+>>> not start calling into graphics devices until after the
+>>> system has been reset for the first time, for instance?
 > 
-> Also, PEP 257 wants imperative mood: "Perform X", not "Performs X".
-> 
-> What about a laconic "Parse QAPI schema source"?
-> 
+> Can that actually happen?  I don't think it could in the past,
+> but maybe now with the initialization changes.  We can add a
+> check to gui_update() ...
 
-Sure. It was just that in an earlier review you seemed keen to spell out 
-that this performs the lower-level parsing and not the uh, 
-language-level parsing of the QAPI Schema language.
+Do you mind sending a patch?
 
-....ehhhhhhh whatever.
+Thanks,
 
-"Parse QAPI schema source" it is.
-
->>   
->> +    Parses a JSON-esque schema file, See qapi-code-gen.txt section
-> 
-> Imperative mood, please.  Period, not comma.
-> 
->> +    "Schema Syntax" for more information. Grammatical validation
->> +    is handled later by `expr.check_exprs()`.
-> 
-> We could mention the processing of directives.  Perhaps:
-> 
->         Parse a JSON-esque schema file.  See qapi-code-gen.txt section
->         "Schema Syntax" for the exact syntax.  Also process directives.
->         Grammatical validation is handled later by `expr.check_exprs()`.
-> 
-> What do you think?
-> 
-
-     Parse a JSON-esque schema file and process directives.  See 
-
-     qapi-code-gen.txt section "Schema Syntax" for the exact syntax. 
-
-     Grammatical validation is handled later by `expr.check_exprs()`. 
-
-
->> +
->> +    :param fname: Source filename.
->> +    :param previously_included:
->> +        The absolute pathnames of previously included source files,
-> 
-> Either file name / filename (either spelling, but let's pick one), or
-> pathname, but not both, please.
-> 
-> Possible resolution:
-> 
->         :param fname: Source file name.
->         :param previously_included:
->             The absolute names of previously included source files,
-> 
-
-You got it, boss.
-
->> +        if being invoked from another parser.
->> +    :param incl_info:
->> +       `QAPISourceInfo` belonging to the parent module.
->> +       ``None`` implies this is the root module.
->> +
->> +    :ivar exprs: Resulting parsed expressions.
->> +    :ivar docs: Resulting parsed documentation blocks.
->> +
->> +    :raise OSError: For problems opening the root schema document.
-> 
-> Hardly matters, but here we go: its both for open() and .read().  We
-> could say "reading" instead of "opening".
-> 
-
-True enough. Fixed.
-
->> +    :raise QAPIError: For syntactic or semantic parsing errors.
-> 
-> "Semantic parsing errors" sounds like "triangular squares" :)
-> 
-
-I am horrified to learn that words mean things to people. I just pick 
-the ones that are the prettiest and cause me to experience dopamine. Am 
-I to believe that other people do otherwise?
-
-> I figure you wrote this because we're using both QAPIParseError and
-> QAPISemError.  The latter gets raised where we do more than just parse,
-> e.g. in directive processing.  It hardly matters, as we don't really
-> care for the difference between these error classes anywhere, and
-> pragmatically use whatever class is convenient.
-> 
-> Perhaps we should have a single class with multiple constructors
-> instead.  Even if yes, not now.
-> 
-
-Moving the column tracking stuff directly into QAPISourceInfo would be a 
-way to do it. The special constructor there could go away. It could help 
-solidify the token :: info correlation.
-
-Then we don't need the two error classes anymore, really. Except for 
-semantics, if we want them, to help provide hints at the CLI level about 
-which phase went wrong.
-
-Yes, later. Don't worry about it right now. I am facing similar design 
-consideration challenges for my Async QMP client over trying to decide 
-which errors to "hide" or wrap and which to promote as interface. 
-Ongoing learning process for me.
-
-> I recommend to gloss over (irrelevant) details and say "For parse
-> errors".  Yes, some of the errors aren't parse errors in the theory of
-> parsing sense, but I doubt readers care.  If *you* care, then maybe "For
-> errors in the schema source".  And then you might want to tweak the
-> OSError explanation to "For problems reading the root schema source
-> file".
-> 
-
-I care a *little*. I am still trying to develop a sense of consistency 
-for which things to document with :raise: and which I shouldn't.
-
-(You are not the only person doing some guinea pig experiments and 
-abusing a review process, you see ...)
-
-I like the phrasing of "For errors in the schema source" more than "For 
-parse errors" anyway. 1% less cryptic, even if the context is 
-"inherently obvious".
-
->> +    """
->>       def __init__(self,
->>                    fname: str,
->>                    previously_included: Optional[Set[str]] = None,
->> @@ -73,6 +93,11 @@ def __init__(self,
->>           self._parse()
->>   
->>       def _parse(self) -> None:
->> +        """
->> +        Parse the QAPI schema document.
->> +
->> +        :return: None. Results are stored in ``.exprs`` and ``.docs``.
->> +        """
->>           cur_doc = None
->>   
->>           # May raise OSError; allow the caller to handle it.
->> @@ -199,6 +224,49 @@ def check_list_str(name: str, value: object) -> List[str]:
->>               raise QAPISemError(info, "unknown pragma '%s'" % name)
->>   
->>       def accept(self, skip_comment: bool = True) -> None:
->> +        """Read and store the next token.
->> +
->> +        :param skip_comment:
->> +            When false, return COMMENT tokens ("#").
->> +            This is used when reading documentation blocks.
->> +
->> +        :return:
->> +            None. Several instance attributes are updated instead:
->> +
->> +            - ``.tok`` represents the token type. See below for values.
->> +            - ``.info`` describes the token's source location.
->> +            - ``.val`` is the token's value, if any. See below.
->> +            - ``.pos`` is the buffer index of the first character of
->> +              the token.
->> +
->> +        * Single-character tokens:
->> +
->> +            These are "{", "}", ":", ",", "[", and "]". ``.tok`` holds
->> +            the single character and ``.val`` is None.
->> +
->> +        * Multi-character tokens:
->> +
->> +          * COMMENT:
->> +
->> +            This token is not normally returned by the lexer, but it can
->> +            be when ``skip_comment`` is False. ``.tok`` is "#", and
->> +            ``.val`` is a string including all chars until end-of-line,
->> +            including the "#" itself.
->> +
->> +          * STRING:
->> +
->> +            ``.tok`` is "'", the single quote. ``.val`` contains the
->> +            string, excluding the surrounding quotes.
->> +
->> +          * TRUE and FALSE:
->> +
->> +            ``.tok`` is either "t" or "f", ``.val`` will be the
->> +            corresponding bool value.
->> +
->> +          * EOF:
->> +
->> +            ``.tok`` and ``.val`` will both be None at EOF.
->> +        """
->>           while True:
->>               self.tok = self.src[self.cursor]
->>               self.pos = self.cursor
-> 
-> This doc string is much better now, thanks!
-> 
-
-Great! I took some liberties with your suggestions as I always do, but I 
-like indicating the state changes in the :return: blurb in particular.
-
---js
-
+Phil.
 
