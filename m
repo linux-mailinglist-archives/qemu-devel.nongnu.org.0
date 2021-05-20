@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A42B38B1AD
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 16:25:48 +0200 (CEST)
-Received: from localhost ([::1]:47404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DCEF38B1B2
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 16:28:14 +0200 (CEST)
+Received: from localhost ([::1]:55668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljjcR-0001jn-40
-	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 10:25:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60738)
+	id 1ljjen-0007Wl-AW
+	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 10:28:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60810)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1ljjZe-0005ln-D7; Thu, 20 May 2021 10:22:54 -0400
-Received: from mail-eopbgr00114.outbound.protection.outlook.com
- ([40.107.0.114]:2638 helo=EUR02-AM5-obe.outbound.protection.outlook.com)
+ id 1ljjZm-0005qc-RR; Thu, 20 May 2021 10:23:04 -0400
+Received: from mail-eopbgr00128.outbound.protection.outlook.com
+ ([40.107.0.128]:8320 helo=EUR02-AM5-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1ljjZV-0005ik-Ne; Thu, 20 May 2021 10:22:54 -0400
+ id 1ljjZe-0005ij-I3; Thu, 20 May 2021 10:23:02 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ThCfbzf6wlAoVFG1ADQs87SX+Qa12tgqKgDXTEemoBOnqGsAeboygsLPSjzAskE7J5153TwGSLkyL4MZZp1yHfVUKnS/SXKQdBYWtVH1cq6p2afW8NQP0lTBm+UkALBa6GoB3XXZVwZFrlPnf0OrkRAKCXqoJYkGv4Ytj1g1AAnCYzWdEfJd9LshpSUWyuCo1USGDF9bwU+05OvyAZT0fihf9TwAtBr8P/QRwDaKw2WePU8LJrh8sZBDbtOGCOPDEgngCfp+IRr0yTxqqFafSymtDEeD2qeWKpeBFrREvjwHs7HS4V2d8pgNzCJ0kv/pjfjCeJ7KOt1fvMWS0fLRtQ==
+ b=T3BHxCTY+pAE/rjX1Kgpgfm72MucrENZpeiMjQQ9UAVyIKvoLuzV+xWeJbenmG38sytnwbXTxjD8t6Za1C2XAyuEIR2JWnmrsAHFHzjbio6dpx01MM0nezpiuCslJ3z12E7TAtI/h/hFc2brCYfA1gn9RMIrAzF0tqmTdtlcu+wi7Lk0LlyfjxRmqsUyDhrzuQUzgTwTh7GYNW1kM/p8dOd8Ubpftq0r7PGdKfEqboOlJjx9DoZ4pHzFBC+zdDZDeqa7HO9dzKqNJDiRRMN2dLEhQ//k/2YFQipCTvplWZCwPYgRyfkt5R1OQ25sHw3QlDUsObxp0VU3bmKCCnn0cA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ag6HkjN4ZORgbMSu/sVXWoLoxMRBtbVFZ1425eoP0wY=;
- b=BkKwWxg0uBd+R9Qp5oTEecFy3vSX/AZcAO5o3No+0OVMpTpPguzE24gnAFVlWf9ArXTxTCp8+GcnCj/EliaMA+DjR/bZhskdXeKLuhqlqadTPY8OA7rvDLVB+R/jbsXh6O35mZyj7xwcE9HvXJyjG2BjQDCR8Zt2W2x04utfjrUTvP7sCGl1SJ65P+QB9QrGVj31bdcW8nAX1iag5mE1Z1LIqj+s4XV/Es1Q3pO+OQPPgWUTioE8P3n1ty5GCk6JeFTh+sgkcJjmQk+gsB/SgYoxyRQDhkNivOxHzON8LU1gWOLw79QBkaZueFc/Bxiyj86LBxygHNCUVy0viKpsJg==
+ bh=vFZ2N8HbuZD1E5/sueLbbBtUq4xdCLJaWlsPftjA7no=;
+ b=dQuoDXhu/MRzd/5J+Y4r5m51gIWNX61Am3mcN6uVVoq35weWQt4i+LvKrbawIVDCUFtvONGBeGI1rzhiWRxJW2mhgrh4iR9+1SAngxkxYqWaM6Lyh14yoki4/NLZh4qAWMj4gm7KmNYkPHSJYWxA7MalRAJgmNIPDTdaWDzB3UaZE+RIHfomEQTR/nb1U52fhPfCQLe2VTyGFKoaAG/PppCqGBA9WtwqHqozWQn3UlRjUTwi0EVED7jHr76XW9evklRbhAhb+jXjB9bxD0Ddy7nkCIn6JBdCAzg08IVcgQ9kjTqDilu3TWkkQfu075gi3HMLZg4hK1ecROJdkYNVBA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ag6HkjN4ZORgbMSu/sVXWoLoxMRBtbVFZ1425eoP0wY=;
- b=YQzv2cjfgqCx6AZVI641FDnTo9T3p+xzYDgpqAPxyndE9kBzXZhrXcBOs13iLy77e3BCg/Y0UDIc/NI9boboEyIpkY353zdwzIYrKDVl2WBWVls6hzz0nkVlOwYKokXamVegDJAPoRAB7Vr7Hn72+fJJHA6oXN9TGoza1GliU5c=
+ bh=vFZ2N8HbuZD1E5/sueLbbBtUq4xdCLJaWlsPftjA7no=;
+ b=R3DsTEb4QvtdQC+m4jNEuoiWbXuTRFiH0RZ9tJu8VU1t6XdcgEcsvvvAnKRWjoTNUHkNYh/QcCf+TALvucDuBDbbvCwDCkU6UxXWzXDiYIkN/UZqdV2BFr86e04HYNJ8XgTg9u2zopA+r6vrYd9UHXlzY6u1iBvgfjLVpDmd4Vw=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AM6PR08MB3544.eurprd08.prod.outlook.com (2603:10a6:20b:4e::30)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4129.25; Thu, 20 May
- 2021 14:22:36 +0000
+ 2021 14:22:38 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::b403:c1a9:6bb7:133]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::b403:c1a9:6bb7:133%7]) with mapi id 15.20.4129.033; Thu, 20 May 2021
- 14:22:36 +0000
+ 14:22:38 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, eblake@redhat.com, armbru@redhat.com,
  crosa@redhat.com, ehabkost@redhat.com, berrange@redhat.com,
  pbonzini@redhat.com, vsementsov@virtuozzo.com, jsnow@redhat.com,
  mreitz@redhat.com, kwolf@redhat.com, den@openvz.org
-Subject: [PATCH v2 10/33] block/backup: move cluster size calculation to
- block-copy
-Date: Thu, 20 May 2021 17:21:42 +0300
-Message-Id: <20210520142205.607501-11-vsementsov@virtuozzo.com>
+Subject: [PATCH v2 11/33] block/copy-before-write: relax permission
+ requirements when no parents
+Date: Thu, 20 May 2021 17:21:43 +0300
+Message-Id: <20210520142205.607501-12-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210520142205.607501-1-vsementsov@virtuozzo.com>
 References: <20210520142205.607501-1-vsementsov@virtuozzo.com>
@@ -68,64 +68,63 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost.localdomain (185.215.60.197) by
  HE1P190CA0034.EURP190.PROD.OUTLOOK.COM (2603:10a6:7:52::23) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4150.23 via Frontend Transport; Thu, 20 May 2021 14:22:35 +0000
+ 15.20.4150.23 via Frontend Transport; Thu, 20 May 2021 14:22:36 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: cdb14322-c59d-4efe-c1c2-08d91b9ab76f
+X-MS-Office365-Filtering-Correlation-Id: 1bd68a64-dbea-4f34-14ac-08d91b9ab84f
 X-MS-TrafficTypeDiagnostic: AM6PR08MB3544:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB3544B5C8BDFE543C939CD8F7C12A9@AM6PR08MB3544.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:88;
+X-Microsoft-Antispam-PRVS: <AM6PR08MB354409ED95090A9C4BCC7FB5C12A9@AM6PR08MB3544.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4303;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: +Fl5TZVf7HUT+5GRt7Qdi91uvaCgmEnWxA3UdYeOrrGVzyb9LtnrK5DLhfWoC6f0MvYZMgcBr+Nde+02w6+CUpr7H5HAo/g21zf9k20PgqSHj+Jx31tvi66IDcpMFmS+afrKrOGWKgpzWAaL7RkzZgosRxOMcG4xyJwnIAju28DbdMSlGIEGY6l8Res+wS3G0VaVrY8cU95pgWscAEYgjT/w/FrjEIx11axe6de0lRn3EcLZtCcroIZYI4Jt8rhy0guYi/maqS+j1NS+7wotz90NMAfyHK0jY/Q8Qk241wJcsrlQi2ZRhwsN2V85LfsHWA41j4zVwesZTMGG4A9Myk70l2Rhg75ySRuPtyngOqytWKUCVtYVUB3+MLWvc/yYomLbUnzqtBiRybJz+9ev7yOYAuPYn8YMBZOYfj82hOBjpi4eGamiotWXPzmB5FoxO9vlTUAo3NkMb5RQgnMb5YWimjqi1cATTXW5W/9wB97hS3jBrqa7pgJc3pC4RR40r6QAIJmhWqzdAvCY5auqbFg5gVYGmkYorP3bvtjSB1i8JhIHXKi/+RRJaEO3V4IdV74GN3OdWO3/CajCQsK5jbxEepnGGWpwMsI7fQtCP7tBR7gVptTX6TBt5T/0EoLabCID8sbFuFP9ERsrWzyVP5rmumTgQEQDGr8tx25j5e2TVFwB60RlSYoSBx4WpYSg
+X-Microsoft-Antispam-Message-Info: 6Em3VFMXvcuc49C/Ixstyx9I+BSe32uoQ9J5dVsZY5I7hz5JT+KMI24SqeXZU7csClcxvH/XO/2JDlFQcCOVBN5IuX0XCmmE8ppDDJC+hvM7cRiBGUuYh/cOW+w/HS1uPU+yOtGNwVc7BF10j8b/g9Iy3Itrh+SKLlHvUdPFzRZH4Ju6yMMLpcmr7KK7K/u0hglg7dsCvS6wNQLIPP1VlwDufy8NVjWt0VA5KVwU5ewMBlh2r24sI2z0EVLHV7Iqikk+06Os6lvcEYrX+FElPwVW1kDg2chCcE7ZBsr0LU5EsMHABsB85bfwjK8uZxy2WngYn4R2/hVRrLcZMj6/p8GJflhphgFrnq8ZXSggVvsU7tmvo1tlLsgJuwE3MaEOR5hJ7CREPNHIBBxxmh51Q8LSg3BuNyjog7VHAQnbhKx261tyUMjYUtC4itZpj/o1KmrxUQY7qnyYCRDx48RE8MQQR4FckhydK/wZGj1Q6KUbu6WzdFnomR8NG/dHIMTRHsECYaEsYi+br73FHyxLg3psUjGP9aODNnstvPmIf17Rw/DCGXOjbvh/92KDDWFTnuy1dGizjw+ai279SWvRtW03x3E4qxXelSpOGVnu7Gltd3iZBKJZTdWglZkD5eoBAfYomRGqXGOvzSteUGdFPLR4WTJHPAOdXO+9MOckrMXwidJPfVrSZHyX70coiUpO
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(4636009)(366004)(346002)(376002)(396003)(136003)(39830400003)(478600001)(1076003)(52116002)(86362001)(66946007)(66476007)(4326008)(6486002)(2616005)(66556008)(956004)(26005)(5660300002)(6506007)(107886003)(7416002)(38100700002)(2906002)(8936002)(36756003)(186003)(316002)(6916009)(6512007)(8676002)(16526019)(6666004)(38350700002)(83380400001)(69590400013);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?ROIoQS+Wt02CQSyJucB4sUGHNuTZjcSLbkpuSIJBizLP3jTbQ69uxWOGDGsv?=
- =?us-ascii?Q?Gf2QRAHS3ld5Sn4jW1bD+vlmG7D4lwj5hTXaWylny/fBflWOr4thI+wd3N/X?=
- =?us-ascii?Q?d+YOejDwtVTDA0AYYuTjV/vqk2uWQspNQjcuzGheCmtWHeH84WuH0aw2Wn/C?=
- =?us-ascii?Q?KZcDWpk8gxmUgrYsfLaMhqeJXCs4vn5n3wCZDEnTfeEldxe6YJwC0SsAo+4f?=
- =?us-ascii?Q?ruB2eBPixvfuAx3jZSDBPev1+gnKYV4u7kIDH3iGcLQlLJljxROMfkNKbn6r?=
- =?us-ascii?Q?WfeRmK9cF0BXc8OP9xes6Jvo5881twZ7u83Av/OKN5t6WC4BDUCjcxYa6Kdy?=
- =?us-ascii?Q?EBXvyRfv8QuRfA7/4eBME+ZaNGnIX6slZ8CTNHHYjrC/u05GFkRUyG3aozv4?=
- =?us-ascii?Q?WjtZi5ep+Hem+JkuIaFKppgakBczZhk7QDKVWKFDI122Ag/0cJQBlWFrvFQK?=
- =?us-ascii?Q?E+IHBbtpiYJRV3ygi5TsJyGrBg7KvNjsnuocqJEuuQ86XeRabJ2qDRDEMomY?=
- =?us-ascii?Q?5CLSEKZjRoIlQy5+Dl6ByHpw5euJvDCPs38eY5mFnARD0cHSAVKhlJDhbzPv?=
- =?us-ascii?Q?5SkDnApFVunxDfB8TlTFFWTo9YAWDKSIcP/3NlU8RjYmcZoJKIdKOYLkizqF?=
- =?us-ascii?Q?4DQttwRJq5ei/A4iUCw1FFAQaKHXb1QqXN821FHOkcb2WxmIe7ppDjVlpnXu?=
- =?us-ascii?Q?kA2T5kItp1C3UuWMDz47dH7/ejRvYQE/OcwpJi6bf05lN6a4G4KznnLgiSMj?=
- =?us-ascii?Q?LBIU8C8TeY8w6nkQpmC9dXVCzPwyD76I/Tc+Tb+QSXdo25/p5T7tKU7iX8qI?=
- =?us-ascii?Q?UODQAowXOTMxyER0wI/ME1UqRgE3Y0Sz+NhfSGgHQz2Hke04DoPFP/+YjYTx?=
- =?us-ascii?Q?TZzaAzh985VZ0qELndIBsIq+KmgBTOoFGV8Kr9Z87PfnRo16zAl0IkRc4AH4?=
- =?us-ascii?Q?36uW2/SovaRFERFux50ug/ZVP75xogmIu256NTfFtdZ/n6bB7xJ2eTchfuAj?=
- =?us-ascii?Q?rhEKAUzGgPwi8Wv1Td87eMpzG8F/68UDdOS1aSUgOLZDpxGZyT0zxSsL48me?=
- =?us-ascii?Q?U4Pbz5jGbHSzVtcoPsMlk+bDpCXP4PwfCOv3tN+Y7XSYi8G3EKUWIdEvnkyA?=
- =?us-ascii?Q?QKtplxMcsYeLc1x33eSbCcutGSYXUtGTyADGoiqcWSaDY+7wtjoII7QBpbYc?=
- =?us-ascii?Q?g+YG9Bfq4vxfxYxWKlcH1pzRtfMOTFwL6AvuDGoqAbHATvY2DIO+PRIO+YvS?=
- =?us-ascii?Q?7GyWQgliiR/GH2UQvCI393N843TiWxK0Fcfa/7imHaUUPxFSlYKjANBHU5/a?=
- =?us-ascii?Q?S+bMPzLMj2Tyb7JsFjkq75GU?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?68G5Wb9clwyRdbwoNCUFKOHetPhLJ9TIvGIGsybjJg1NKmdCMv2edkWj8h/j?=
+ =?us-ascii?Q?7hmcoxggjRT1qkgpK/KEhKqPo2pzpLuux4pD2i6vw4qw22CTn/6h/r8TltmP?=
+ =?us-ascii?Q?sdOSjE8HQgZLGkwwWBSBsfSk/DCsQ8IPSAhbVhzQdvoUS7OudeeFT1I1DXwg?=
+ =?us-ascii?Q?WLLioEmeVt2NjGJ2e1H+ZMBfOfPgpyVM/pFO1PV8TFALjTdlFJDEqFQp7BJ6?=
+ =?us-ascii?Q?2b8c6Gql3xKjxUldvc5zQbQIYlCWUHSNjuXSjMsED4MwniwUbqqy1Z5f6KoK?=
+ =?us-ascii?Q?wgg/zQV+vaYDx497S/Y9nKRXi4LXPeeYcDcV7JLT0t+SR6/8KlSeUNW5C/jp?=
+ =?us-ascii?Q?oE8Jg5+9qm0aMKihBZGV5STqtm6jusytaqMEYd6Grk1zHFdNcIpFfSz/kmOX?=
+ =?us-ascii?Q?DncreeVANPh/uQ6wCUnd4eHaJr2M+zlHJMSXim7mnJNPZkHZ3vx4NLt0LaH8?=
+ =?us-ascii?Q?rKYJTSH5RvmKQ0s2Ug+lFX4ZQNWcmAGKmA+4Qg8Zjv3kZsStK/6ci46ThOLu?=
+ =?us-ascii?Q?Wnj/LwA7xTqWNgDKfnJ92LT4X1coS5sewtN5hD7UcZF0BUuYVB5trbNOES1T?=
+ =?us-ascii?Q?GFo5D7Y0BteK9ry0JwkTaoCQmlR6su5LQ7G3zdPPBvGrp9kJoceuN4ZHCXh/?=
+ =?us-ascii?Q?Fb/rN0Tx05byQj4US7GP/mZrr4atVl5pmjh4M7cMAPAXk9jveg4bMnvbVlnz?=
+ =?us-ascii?Q?sbbFjIwaym0YYfCtAUWJ2CZoeiUTw+JSE8f2hS/iZvfC+bGNV4By5mwG4Z8q?=
+ =?us-ascii?Q?sIlNdDvG8sNa0sCCp7lMN6s6mhrGtOlcjLDUq/m6SngILgWGAo//FUhXM+9g?=
+ =?us-ascii?Q?x69rXkCjqAiBKIqVbAXpzKs4yryBsIMp7qxjKfqn727sBFIOeZ7Wi9pGvkkx?=
+ =?us-ascii?Q?h6HMFfG8qd0ZTZlaFrMAqDDD/hZ3t0NwjY9/glE5AEILC9f50dflsA9OMx4G?=
+ =?us-ascii?Q?EzunGGtTKphwoU/X1rEU0QKn+M+cu689C5KRS+k/65NB+eTtygimmgYNzrtD?=
+ =?us-ascii?Q?OJCAHoJ2/I7Kl29xk9rk5pm/loSMiuXO6fnH6PYxfrBPdaN668Zd+f5MHUFp?=
+ =?us-ascii?Q?m65QVKZ2ieVJHyfG+zBpFhy9zEMqE1OxtWVc6knaD4yOk0pScp11QEIOs0Jk?=
+ =?us-ascii?Q?nM9TqENZ0RRv8YmHWxgdkgY7oQYutEqw4+Qu9U0KUDqQ8ZXauPHuXANiqdhT?=
+ =?us-ascii?Q?6duhnQWGb7G38p0hDLC+0KVkzzyG7Vv0ENB341moe13Ua7SMs7FEA+CtnoOz?=
+ =?us-ascii?Q?Kt40qvc0SuebHw38XLkaCFnOrkUGWA5EyRYzyf5NIwH3jJ9mVLrkMeHzzcfG?=
+ =?us-ascii?Q?6yfSOBzkZVMwmHt0+E2fESrL?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cdb14322-c59d-4efe-c1c2-08d91b9ab76f
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1bd68a64-dbea-4f34-14ac-08d91b9ab84f
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 May 2021 14:22:36.7637 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 May 2021 14:22:38.2073 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 3/K/wigVNioD/nnxN/nZxoYin5iBjqvP3/SB51cke4xj8MTt/cTWTriiGx7mV6pg2R6Q9wgum5jqDrz+r/rRF6ZxHm9uv3vN6a/wS6+dzcE=
+X-MS-Exchange-CrossTenant-UserPrincipalName: UCZBDrMsq2wdlNFsgY63uzipcEVX4rR9h7IBZn1uOHAUWhN8sdvWha7JJ2Cmd+wrFScuEsBUJFT80Kfe2E6CN5B3MoTHiVfGFHj45ccpZSQ=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3544
-Received-SPF: pass client-ip=40.107.0.114;
+Received-SPF: pass client-ip=40.107.0.128;
  envelope-from=vsementsov@virtuozzo.com;
  helo=EUR02-AM5-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -141,295 +140,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The main consumer of cluster-size is block-copy. Let's calculate it
-here instead of passing through backup-top.
+We are going to publish copy-before-write filter. So, user should be
+able to create it with blockdev-add first, specifying both filtered and
+target children. And then do blockdev-reopen, to actually insert the
+filter where needed.
 
-We are going to publish copy-before-write filter soon, so it will be
-created through options. But we don't want for now to make explicit
-option for cluster-size, let's continue to calculate it automatically.
-So, now is the time to get rid of cluster_size argument for
-bdrv_cbw_append().
+Currently, filter unshares write permission unconditionally on source
+node. It's good, but it will not allow to do blockdev-add. So, let's
+relax restrictions when filter doesn't have any parent.
+
+Test output is modified, as now permission conflict happens only when
+job creates a blk parent for filter node.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: Max Reitz <mreitz@redhat.com>
 ---
- block/copy-before-write.h  |  1 -
- include/block/block-copy.h |  5 +--
- block/backup.c             | 62 ++++++--------------------------------
- block/block-copy.c         | 51 ++++++++++++++++++++++++++++++-
- block/copy-before-write.c  | 10 +++---
- 5 files changed, 66 insertions(+), 63 deletions(-)
+ block/copy-before-write.c  | 8 +++++---
+ tests/qemu-iotests/283.out | 2 +-
+ 2 files changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/block/copy-before-write.h b/block/copy-before-write.h
-index 538aab8bdb..b386fd8f01 100644
---- a/block/copy-before-write.h
-+++ b/block/copy-before-write.h
-@@ -32,7 +32,6 @@
- BlockDriverState *bdrv_cbw_append(BlockDriverState *source,
-                                   BlockDriverState *target,
-                                   const char *filter_node_name,
--                                  uint64_t cluster_size,
-                                   bool compress,
-                                   BlockCopyState **bcs,
-                                   Error **errp);
-diff --git a/include/block/block-copy.h b/include/block/block-copy.h
-index c013a20e1e..8138686eb4 100644
---- a/include/block/block-copy.h
-+++ b/include/block/block-copy.h
-@@ -23,8 +23,8 @@ typedef struct BlockCopyState BlockCopyState;
- typedef struct BlockCopyCallState BlockCopyCallState;
- 
- BlockCopyState *block_copy_state_new(BdrvChild *source, BdrvChild *target,
--                                     int64_t cluster_size, bool use_copy_range,
--                                     bool compress, Error **errp);
-+                                     bool use_copy_range, bool compress,
-+                                     Error **errp);
- 
- void block_copy_set_progress_meter(BlockCopyState *s, ProgressMeter *pm);
- 
-@@ -86,6 +86,7 @@ void block_copy_kick(BlockCopyCallState *call_state);
- void block_copy_call_cancel(BlockCopyCallState *call_state);
- 
- BdrvDirtyBitmap *block_copy_dirty_bitmap(BlockCopyState *s);
-+int64_t block_copy_cluster_size(BlockCopyState *s);
- void block_copy_set_skip_unallocated(BlockCopyState *s, bool skip);
- 
- #endif /* BLOCK_COPY_H */
-diff --git a/block/backup.c b/block/backup.c
-index 29db3a0ef6..af17149f22 100644
---- a/block/backup.c
-+++ b/block/backup.c
-@@ -29,8 +29,6 @@
- 
- #include "block/copy-before-write.h"
- 
--#define BACKUP_CLUSTER_SIZE_DEFAULT (1 << 16)
--
- typedef struct BackupBlockJob {
-     BlockJob common;
-     BlockDriverState *cbw;
-@@ -354,43 +352,6 @@ static const BlockJobDriver backup_job_driver = {
-     .set_speed = backup_set_speed,
- };
- 
--static int64_t backup_calculate_cluster_size(BlockDriverState *target,
--                                             Error **errp)
--{
--    int ret;
--    BlockDriverInfo bdi;
--    bool target_does_cow = bdrv_backing_chain_next(target);
--
--    /*
--     * If there is no backing file on the target, we cannot rely on COW if our
--     * backup cluster size is smaller than the target cluster size. Even for
--     * targets with a backing file, try to avoid COW if possible.
--     */
--    ret = bdrv_get_info(target, &bdi);
--    if (ret == -ENOTSUP && !target_does_cow) {
--        /* Cluster size is not defined */
--        warn_report("The target block device doesn't provide "
--                    "information about the block size and it doesn't have a "
--                    "backing file. The default block size of %u bytes is "
--                    "used. If the actual block size of the target exceeds "
--                    "this default, the backup may be unusable",
--                    BACKUP_CLUSTER_SIZE_DEFAULT);
--        return BACKUP_CLUSTER_SIZE_DEFAULT;
--    } else if (ret < 0 && !target_does_cow) {
--        error_setg_errno(errp, -ret,
--            "Couldn't determine the cluster size of the target image, "
--            "which has no backing file");
--        error_append_hint(errp,
--            "Aborting, since this may create an unusable destination image\n");
--        return ret;
--    } else if (ret < 0 && target_does_cow) {
--        /* Not fatal; just trudge on ahead. */
--        return BACKUP_CLUSTER_SIZE_DEFAULT;
--    }
--
--    return MAX(BACKUP_CLUSTER_SIZE_DEFAULT, bdi.cluster_size);
--}
--
- BlockJob *backup_job_create(const char *job_id, BlockDriverState *bs,
-                   BlockDriverState *target, int64_t speed,
-                   MirrorSyncMode sync_mode, BdrvDirtyBitmap *sync_bitmap,
-@@ -448,11 +409,6 @@ BlockJob *backup_job_create(const char *job_id, BlockDriverState *bs,
-         return NULL;
-     }
- 
--    cluster_size = backup_calculate_cluster_size(target, errp);
--    if (cluster_size < 0) {
--        goto error;
--    }
--
-     if (perf->max_workers < 1) {
-         error_setg(errp, "max-workers must be greater than zero");
-         return NULL;
-@@ -464,13 +420,6 @@ BlockJob *backup_job_create(const char *job_id, BlockDriverState *bs,
-         return NULL;
-     }
- 
--    if (perf->max_chunk && perf->max_chunk < cluster_size) {
--        error_setg(errp, "Required max-chunk (%" PRIi64 ") is less than backup "
--                   "cluster size (%" PRIi64 ")", perf->max_chunk, cluster_size);
--        return NULL;
--    }
--
--
-     if (sync_bitmap) {
-         /* If we need to write to this bitmap, check that we can: */
-         if (bitmap_mode != BITMAP_SYNC_MODE_NEVER &&
-@@ -503,12 +452,19 @@ BlockJob *backup_job_create(const char *job_id, BlockDriverState *bs,
-         goto error;
-     }
- 
--    cbw = bdrv_cbw_append(bs, target, filter_node_name,
--                          cluster_size, compress, &bcs, errp);
-+    cbw = bdrv_cbw_append(bs, target, filter_node_name, compress, &bcs, errp);
-     if (!cbw) {
-         goto error;
-     }
- 
-+    cluster_size = block_copy_cluster_size(bcs);
-+
-+    if (perf->max_chunk && perf->max_chunk < cluster_size) {
-+        error_setg(errp, "Required max-chunk (%" PRIi64 ") is less than backup "
-+                   "cluster size (%" PRIi64 ")", perf->max_chunk, cluster_size);
-+        goto error;
-+    }
-+
-     /* job->len is fixed, so we can't allow resize */
-     job = block_job_create(job_id, &backup_job_driver, txn, cbw,
-                            0, BLK_PERM_ALL,
-diff --git a/block/block-copy.c b/block/block-copy.c
-index daa1a2bf9f..9389c7c6c8 100644
---- a/block/block-copy.c
-+++ b/block/block-copy.c
-@@ -27,6 +27,7 @@
- #define BLOCK_COPY_MAX_MEM (128 * MiB)
- #define BLOCK_COPY_MAX_WORKERS 64
- #define BLOCK_COPY_SLICE_TIME 100000000ULL /* ns */
-+#define BLOCK_COPY_CLUSTER_SIZE_DEFAULT (1 << 16)
- 
- static coroutine_fn int block_copy_task_entry(AioTask *task);
- 
-@@ -243,13 +244,56 @@ static uint32_t block_copy_max_transfer(BdrvChild *source, BdrvChild *target)
-                                      target->bs->bl.max_transfer));
- }
- 
-+static int64_t block_copy_calculate_cluster_size(BlockDriverState *target,
-+                                                 Error **errp)
-+{
-+    int ret;
-+    BlockDriverInfo bdi;
-+    bool target_does_cow = bdrv_backing_chain_next(target);
-+
-+    /*
-+     * If there is no backing file on the target, we cannot rely on COW if our
-+     * backup cluster size is smaller than the target cluster size. Even for
-+     * targets with a backing file, try to avoid COW if possible.
-+     */
-+    ret = bdrv_get_info(target, &bdi);
-+    if (ret == -ENOTSUP && !target_does_cow) {
-+        /* Cluster size is not defined */
-+        warn_report("The target block device doesn't provide "
-+                    "information about the block size and it doesn't have a "
-+                    "backing file. The default block size of %u bytes is "
-+                    "used. If the actual block size of the target exceeds "
-+                    "this default, the backup may be unusable",
-+                    BLOCK_COPY_CLUSTER_SIZE_DEFAULT);
-+        return BLOCK_COPY_CLUSTER_SIZE_DEFAULT;
-+    } else if (ret < 0 && !target_does_cow) {
-+        error_setg_errno(errp, -ret,
-+            "Couldn't determine the cluster size of the target image, "
-+            "which has no backing file");
-+        error_append_hint(errp,
-+            "Aborting, since this may create an unusable destination image\n");
-+        return ret;
-+    } else if (ret < 0 && target_does_cow) {
-+        /* Not fatal; just trudge on ahead. */
-+        return BLOCK_COPY_CLUSTER_SIZE_DEFAULT;
-+    }
-+
-+    return MAX(BLOCK_COPY_CLUSTER_SIZE_DEFAULT, bdi.cluster_size);
-+}
-+
- BlockCopyState *block_copy_state_new(BdrvChild *source, BdrvChild *target,
--                                     int64_t cluster_size, bool use_copy_range,
-+                                     bool use_copy_range,
-                                      bool compress, Error **errp)
- {
-     BlockCopyState *s;
-+    int64_t cluster_size;
-     BdrvDirtyBitmap *copy_bitmap;
- 
-+    cluster_size = block_copy_calculate_cluster_size(target->bs, errp);
-+    if (cluster_size < 0) {
-+        return NULL;
-+    }
-+
-     copy_bitmap = bdrv_create_dirty_bitmap(source->bs, cluster_size, NULL,
-                                            errp);
-     if (!copy_bitmap) {
-@@ -843,6 +887,11 @@ BdrvDirtyBitmap *block_copy_dirty_bitmap(BlockCopyState *s)
-     return s->copy_bitmap;
- }
- 
-+int64_t block_copy_cluster_size(BlockCopyState *s)
-+{
-+    return s->cluster_size;
-+}
-+
- void block_copy_set_skip_unallocated(BlockCopyState *s, bool skip)
- {
-     s->skip_unallocated = skip;
 diff --git a/block/copy-before-write.c b/block/copy-before-write.c
-index 235251a640..a7996d54db 100644
+index a7996d54db..2a51cc64e4 100644
 --- a/block/copy-before-write.c
 +++ b/block/copy-before-write.c
-@@ -37,7 +37,6 @@
- typedef struct BDRVCopyBeforeWriteState {
-     BlockCopyState *bcs;
-     BdrvChild *target;
--    int64_t cluster_size;
- } BDRVCopyBeforeWriteState;
+@@ -142,10 +142,12 @@ static void cbw_child_perm(BlockDriverState *bs, BdrvChild *c,
+         bdrv_default_perms(bs, c, role, reopen_queue,
+                            perm, shared, nperm, nshared);
  
- static coroutine_fn int cbw_co_preadv(
-@@ -52,13 +51,14 @@ static coroutine_fn int cbw_do_copy_before_write(BlockDriverState *bs,
- {
-     BDRVCopyBeforeWriteState *s = bs->opaque;
-     uint64_t off, end;
-+    int64_t cluster_size = block_copy_cluster_size(s->bcs);
- 
-     if (flags & BDRV_REQ_WRITE_UNCHANGED) {
-         return 0;
+-        if (perm & BLK_PERM_WRITE) {
+-            *nperm = *nperm | BLK_PERM_CONSISTENT_READ;
++        if (!QLIST_EMPTY(&bs->parents)) {
++            if (perm & BLK_PERM_WRITE) {
++                *nperm = *nperm | BLK_PERM_CONSISTENT_READ;
++            }
++            *nshared &= ~(BLK_PERM_WRITE | BLK_PERM_RESIZE);
+         }
+-        *nshared &= ~(BLK_PERM_WRITE | BLK_PERM_RESIZE);
      }
- 
--    off = QEMU_ALIGN_DOWN(offset, s->cluster_size);
--    end = QEMU_ALIGN_UP(offset + bytes, s->cluster_size);
-+    off = QEMU_ALIGN_DOWN(offset, cluster_size);
-+    end = QEMU_ALIGN_UP(offset + bytes, cluster_size);
- 
-     return block_copy(s->bcs, off, end - off, true);
  }
-@@ -169,7 +169,6 @@ BlockDriver bdrv_cbw_filter = {
- BlockDriverState *bdrv_cbw_append(BlockDriverState *source,
-                                   BlockDriverState *target,
-                                   const char *filter_node_name,
--                                  uint64_t cluster_size,
-                                   bool compress,
-                                   BlockCopyState **bcs,
-                                   Error **errp)
-@@ -214,9 +213,8 @@ BlockDriverState *bdrv_cbw_append(BlockDriverState *source,
-     }
-     appended = true;
  
--    state->cluster_size = cluster_size;
-     state->bcs = block_copy_state_new(top->backing, state->target,
--                                      cluster_size, false, compress, errp);
-+                                      false, compress, errp);
-     if (!state->bcs) {
-         error_prepend(errp, "Cannot create block-copy-state: ");
-         goto fail;
+diff --git a/tests/qemu-iotests/283.out b/tests/qemu-iotests/283.out
+index e08f807dab..d5350ce7a7 100644
+--- a/tests/qemu-iotests/283.out
++++ b/tests/qemu-iotests/283.out
+@@ -5,7 +5,7 @@
+ {"execute": "blockdev-add", "arguments": {"driver": "blkdebug", "image": "base", "node-name": "other", "take-child-perms": ["write"]}}
+ {"return": {}}
+ {"execute": "blockdev-backup", "arguments": {"device": "source", "sync": "full", "target": "target"}}
+-{"error": {"class": "GenericError", "desc": "Cannot append copy-before-write filter: Conflicts with use by source as 'image', which does not allow 'write' on base"}}
++{"error": {"class": "GenericError", "desc": "Conflicts with use by source as 'image', which does not allow 'write' on base"}}
+ 
+ === copy-before-write filter should be gone after job-finalize ===
+ 
 -- 
 2.29.2
 
