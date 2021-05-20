@@ -2,70 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8D7838B0A6
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 15:58:33 +0200 (CEST)
-Received: from localhost ([::1]:46392 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E3F138B0D4
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 16:00:59 +0200 (CEST)
+Received: from localhost ([::1]:52814 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljjC4-0005W9-BM
-	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 09:58:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53660)
+	id 1ljjEQ-0001h4-4N
+	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 10:00:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53998)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ljj9e-0003rb-Ca
- for qemu-devel@nongnu.org; Thu, 20 May 2021 09:56:02 -0400
-Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c]:35570)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ljj9c-0005dk-NQ
- for qemu-devel@nongnu.org; Thu, 20 May 2021 09:56:02 -0400
-Received: by mail-ed1-x52c.google.com with SMTP id y7so1990566eda.2
- for <qemu-devel@nongnu.org>; Thu, 20 May 2021 06:56:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=rYne+pta4HbcVQgDWy6ZmNYMyTMdpMVpim+iCoweDwU=;
- b=feeSm2rtC7faPQwJRhCr7lP+SK+I1B0pqH82/1s8ux8RrAfexmCeoRKZ7q7chFg4mh
- U6SWM6ITK+vozM0Ejzs9dT4oZ0yP24lBJaWHz4LTxJgrc32DEoXFBWO3wRiDZv5kJiQY
- W0EgFRKu2rSToKGOw8qFb8gOGwzTEHgjIua7xl0lM6pNm5AX1lnaGBRqDiQ50th3KuZ9
- NSXDRQpLUEU9oh127B3VWnWXnkA1ml10T4t43NLxNMnD95hfoq4S0Ipi+dEE40e2fw2A
- 1Z61FayT/nsS5GlPZ9XbyTcvtjAaARqYuJWiWAyzuckEVE6k/TF9YVB29T4E/GPVhtwy
- RHPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=rYne+pta4HbcVQgDWy6ZmNYMyTMdpMVpim+iCoweDwU=;
- b=GIR6aIXhGJ3CwSXHE7pGMt3cq0xtHKTGI945BcuqMqsVWwdOaxRaCCbY9tS8jJNNQU
- D/m7T+p0c4HNe7wlhGuTMISlKRwdacv0PKeZdxTLqFZk2mDShXMyubvBTgmkjmwa8zt/
- zSjNutjhPodxcqcyNQHF8/vSYUT2e2kww0lXangTMSz50W++Mcg8jQ0qhLYOE6KpJt4J
- 47pQ0ZgMG7Z+qCqj54nnbo40LC3KUcVg4uJLSvcJVTJ1G/pHliw2C2WHKYdufBS8yNAM
- 2glbfiD8gwB5IBttyNryuQJwcYwbOheVjU6SKz833FD6NyGImRY5DdmQ0iv3lNj0mcLf
- hRvg==
-X-Gm-Message-State: AOAM533bm97hidhXI92+UFIT9ztFElF89DGLLg+fa0wMF66e9jrOhgpl
- 4szJsUoHz/UhhgVSTz+kWPvyABJ/y4qfwOKSnPAFrvOBtt4+uw==
-X-Google-Smtp-Source: ABdhPJzXv2UANbCfstlex9/AZmF8vA9hA3ESzbjcytG+38aiWX02AwkPFQuf2zo6SUal1LaG57V9RGz+w6vclxFEq1s=
-X-Received: by 2002:a05:6402:203c:: with SMTP id
- ay28mr5095824edb.100.1621518958952; 
- Thu, 20 May 2021 06:55:58 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1ljjBP-0006Sp-Cu
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 09:57:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27623)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1ljjBI-0006c9-HX
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 09:57:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1621519062;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=rBifVzFW0zn5d9kBI7mjM+Zt5nKeZ1ZhoXYe+UG9Ebw=;
+ b=EmmUkq0YvwMuvHSsn03fSoGQVRibr6j2ejCDpp67KTgbso2Y4EqQ7Mj5u3RV4oONCUJ7NK
+ gbW/BTy97+VS4MOgokAMWDWcRnYa9lA78NePSC3azdSb6/Xb5WQDRGUwcxMbNTzIobVIjr
+ f5un9vR1A3TWG+DPRBO3GbcTtjStQm4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-141-HqiGzflEMfq64ifnvd8u4Q-1; Thu, 20 May 2021 09:57:41 -0400
+X-MC-Unique: HqiGzflEMfq64ifnvd8u4Q-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D67CD8189C9;
+ Thu, 20 May 2021 13:57:39 +0000 (UTC)
+Received: from [10.36.114.4] (ovpn-114-4.ams2.redhat.com [10.36.114.4])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BE9CF608DB;
+ Thu, 20 May 2021 13:57:35 +0000 (UTC)
+Subject: Re: QEMU SMMUv3 stage 2 translation
+To: Shashi Mallela <shashi.mallela@linaro.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+References: <6146FAFB-FDAF-4C37-A488-9A0797CB5405@getmailspring.com>
+From: Auger Eric <eric.auger@redhat.com>
+Message-ID: <83bd5d21-7c9f-1d49-559b-f45e966e5292@redhat.com>
+Date: Thu, 20 May 2021 15:57:33 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-References: <20210511101951.165287-1-alistair.francis@wdc.com>
- <20210511101951.165287-37-alistair.francis@wdc.com>
-In-Reply-To: <20210511101951.165287-37-alistair.francis@wdc.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 20 May 2021 14:55:40 +0100
-Message-ID: <CAFEAcA-ZPxvdTE13cjxy7o7mcD7DT7p8nRPbueF_S9QO0F3_FA@mail.gmail.com>
-Subject: Re: [PULL v3 36/42] target/riscv: Remove the hardcoded MSTATUS_SD
- macro
-To: Alistair Francis <alistair.francis@wdc.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <6146FAFB-FDAF-4C37-A488-9A0797CB5405@getmailspring.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.39,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,50 +83,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair23@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
+ Auger Eric <eric.auger@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 11 May 2021 at 11:22, Alistair Francis <alistair.francis@wdc.com> wrote:
->
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> Message-id: fcc125d96da941b56c817c9dd6068dc36478fc53.1619234854.git.alistair.francis@wdc.com
-> ---
->  target/riscv/cpu_bits.h  | 10 ----------
->  target/riscv/csr.c       | 12 ++++++++++--
->  target/riscv/translate.c | 19 +++++++++++++++++--
->  3 files changed, 27 insertions(+), 14 deletions(-)
+Hi Shashi,
 
-> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-> index 26eccc5eb1..a596f80f20 100644
-> --- a/target/riscv/translate.c
-> +++ b/target/riscv/translate.c
-> @@ -78,6 +78,17 @@ static inline bool has_ext(DisasContext *ctx, uint32_t ext)
->      return ctx->misa & ext;
->  }
->
-> +#ifdef TARGET_RISCV32
-> +# define is_32bit(ctx)  true
-> +#elif defined(CONFIG_USER_ONLY)
-> +# define is_32bit(ctx)  false
-> +#else
-> +static inline bool is_32bit(DisasContext *ctx)
-> +{
-> +    return (ctx->misa & RV32) == RV32;
-> +}
-> +#endif
+[ fixing my email address ]
 
-Hi; Coverity points out (CID 1453107) that this is_32bit() function
-can never return true for at least some build configs, because RV32
-is defined as ((target_ulong)1 << (TARGET_LONG_BITS - 2))
-but ctx->misa is a uint32_t field, which (if TARGET_LONG_BITS is
-64) is not big enough for the RV32 bit.
+On 5/13/21 4:25 PM, Shashi Mallela wrote:
+> Hi,
+> 
+> Since the current SMMUv3 qemu implementation only supports stage 1
+> translation,wanted to understand if the implementation could be extended
+> to stage 2 translation support and if yes what is the overall scope
+> involved.This is required for sbsa-ref platforms.
 
-Bug, or false positive ?
+Yes I think this is feasible. This would require some additionnal
+decoding in the STE and also adapt the page table decoding to stage2
+according to AArch64 Virtual Memory System Architecture.
 
-thanks
--- PMM
+If you proceed I would like this code to be isolated of the stage1
+decoding as much as possible to alleviate the maintainance all the more
+so the stage1 code is the one likely to be used in production for DPDK
+or SVA use cases, let's dream. One of the tricky part is the internal
+TLB modeling (cache and IOTLB). In your case you may not need to
+implement such internal IOTLB for stage 2 entries as I guess you do not
+really target perf and this is the source of lots of bugs/headaches ;-)
+
+Thanks
+
+Eric
+> .
+> Thanks
+> Shashi
+> Sent from Mailspring
+
 
