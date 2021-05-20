@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C29FE38A030
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 10:50:53 +0200 (CEST)
-Received: from localhost ([::1]:54194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98E1F38A00C
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 10:45:57 +0200 (CEST)
+Received: from localhost ([::1]:40154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljeOJ-00007J-BH
-	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 04:50:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50646)
+	id 1ljeJY-0007Tw-J7
+	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 04:45:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50656)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ljdxm-0005RS-OK; Thu, 20 May 2021 04:23:29 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:53206)
+ id 1ljdxm-0005RW-PB; Thu, 20 May 2021 04:23:29 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:38625)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ljdxg-0001Zw-95; Thu, 20 May 2021 04:23:25 -0400
-Received: by mail-wm1-x330.google.com with SMTP id z130so8617902wmg.2;
+ id 1ljdxf-0001aW-Ce; Thu, 20 May 2021 04:23:24 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id j14so14936013wrq.5;
  Thu, 20 May 2021 01:23:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=NURTTjYEkN5qlT+hGLhGVfDulriBn9GBwNW8du6ptW0=;
- b=URwszSumYIrvfAs60g4B2RtmFdJ2cBYbIGRs3Oe54uk9a2SaAr4nzRhj2aex4CJw32
- gPlY190Htn42Apx+VA8/d6nP63OS4xsigXsSI7MHCgI2NkwIUfB31/kNtULO9SB/yUkZ
- 54kCj0FMQtY5AY6In6jNJ2R1JQdohM7NHKpQbbBsMQmzX0WY8n8YhNljN7cn5jp3xsqa
- PxRynBZKchM6tod2gRiwmn1TB9dJwRadPbMOffOUdwuT1SkA3KJ27fjWTT3QA+15ONng
- l1EvNu6ed52PCnKyQ8T2krHMLYKtnt4FHZG3ywZkbNInF0y3DdAJ6x+J5VontOPZSogg
- bwVw==
+ bh=TzYzur0aoGcQcPzxTRLpL0L9tdlIkO4njHPHcUkBeIQ=;
+ b=TZuepqtSVyNOsHYJfSmxL8gSPUwQzx9YjmRu1386qnZjhudiWB7GhpEIH1qegAp7Mq
+ CXWVWYgH5cTfeN2zckNHlbp0b2qB8XBQrZwjeRqHecsHt2UYyNvhxjR8ke3T+tqxN1HN
+ 9Vo/YOv3smsMqG11qLzAcaG7F5gw4ONr2rGM3aRx0PXxdAb/AUosVt0tFgh3iJgEqun9
+ wskNA8c84wkPNLu3iBdLN/73dcrlOaZeXWSsrNMJFii4l5VL73njUfylWTDrB8cMqWkW
+ 1Nqb6GHOpQUMqjCVXs8le+Z7DjMPoFDFWYVwLpVU2kb3jp5Uw9B7pLQIVmsxEqKlkv6s
+ f8dQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=NURTTjYEkN5qlT+hGLhGVfDulriBn9GBwNW8du6ptW0=;
- b=H5SYiLI0LvBovGpzL2whWscUzBCs6pcpOhIznZXN/IakJETNZ+n44BjgCv1yBGcKUc
- eFm9Q8p9I/cXVFSlSnq6WU0caQou4WsDqFvOprtKzNxNpEoQgGtA6MI00LPOPgCkDqnn
- 9Kg0wf0ux82AwdE2qWKLjHirCqItvLw0rdqjDfpZvIbVlLzatsfXKht8CZq5iAW91c1A
- st9MsxI1VY25xVcadMSsX8I66jiTthioHpSV5JDz1R/LFplx4W9gG1J7nRmNqnTbMBmg
- yUBB0tOtRMPBzKw0MTGF1oLdUSr2f12TMlM+mcGN/lmz40rcyQtodJq7VhevvJPZDxav
- EzYA==
-X-Gm-Message-State: AOAM532s7oRUtZmh/gFGaGkgGDtDpsQ01lNKPEaSlqiMkPAOAzurPjLC
- tpKsTXhjF2mgKZ01vcLteraTsvQRSPBKWA==
-X-Google-Smtp-Source: ABdhPJxh+pH/8DNw5pcxS5s9K+bdA8646jjq1HXX4ZGBrIEc+bxhTMi55tr1dgIGOU4m0PggYYsUfw==
-X-Received: by 2002:a1c:b4c6:: with SMTP id d189mr2350993wmf.39.1621498994280; 
+ bh=TzYzur0aoGcQcPzxTRLpL0L9tdlIkO4njHPHcUkBeIQ=;
+ b=Hnu75gkjBWL5Pb55vBPIDO1IPz8bC+cyW6IHuHpl/umw44xbiJaUtXPj0JP1Lr+1CQ
+ 28rXxA5FzPoZtCZFq/YJsYzPmx0cxL9HY1vudYopqY1MlaBMkzZlAfKWxe+mFuUL9+o0
+ LqM2JyKPRKMlKKtIjHlVoXq4T/EuxWl3WnMpEgA55sWXrYUiKtyUZdCZjKlFB1e28AbI
+ Ey6aFVb8qJti0PvkqOE8VPMq6sZi8BCi+JkZ9tusNU8mAsIir7u91CG+o6f0RctQox0E
+ ATpFCSDbVIKtZIa5qS54Dcmc5Rsbp5x4emrLDc/sUbLB0gdBDr1jzogT1YZnjjSK4TD9
+ VHxw==
+X-Gm-Message-State: AOAM530R7NdjZQYNRjM6EDBESyM1gaRyjnZzk0FIcDqTlSbjIXEALk1G
+ /M1pEF19xZp0zVQ+1SHxG/Cmk1z2R+th0g==
+X-Google-Smtp-Source: ABdhPJymirXYMt9D3I3ovbxh51bUx2/IQrNQ4BY/+fhZyU39c2i010z/7AXFDPZeEJsHRfUJP56Lvw==
+X-Received: by 2002:a5d:4c49:: with SMTP id n9mr2877485wrt.417.1621498994869; 
  Thu, 20 May 2021 01:23:14 -0700 (PDT)
 Received: from avogadro.redhat.com ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- v10sm2603506wrq.0.2021.05.20.01.23.13
+ v10sm2603506wrq.0.2021.05.20.01.23.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 May 2021 01:23:13 -0700 (PDT)
+ Thu, 20 May 2021 01:23:14 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 24/26] vl: allow not specifying size in -m when using -M
- memory-backend
-Date: Thu, 20 May 2021 10:22:55 +0200
-Message-Id: <20210520082257.187061-25-pbonzini@redhat.com>
+Subject: [PULL 25/26] qemu-config: load modules when instantiating option
+ groups
+Date: Thu, 20 May 2021 10:22:56 +0200
+Message-Id: <20210520082257.187061-26-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210520082257.187061-1-pbonzini@redhat.com>
 References: <20210520082257.187061-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -87,40 +87,115 @@ Cc: qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Starting in QEMU 6.0's commit f5c9fcb82d ("vl: separate
-qemu_create_machine", 2020-12-10), a function have_custom_ram_size()
-replaced the return value of set_memory_options().
+Right now the SPICE module is special cased to be loaded when processing
+of the -spice command line option.  However, the spice option group
+can also be brought in via -readconfig, in which case the module is
+not loaded.
 
-The purpose of the return value was to record the presence of
-"-m size", and if it was not there, change the default RAM
-size to the size of the memory backend passed with "-M
-memory-backend".
+Add a generic hook to load modules that provide a QemuOpts group,
+and use it for the "spice" and "iscsi" groups.
 
-With that commit, however, have_custom_ram_size() is now queried only
-after set_memory_options has stored the fixed-up RAM size in QemuOpts for
-"future use".  This was actually the only future use of the fixed-up RAM
-size, so remove that code and fix the bug.
-
+Fixes: #194
+Fixes: https://bugs.launchpad.net/qemu/+bug/1910696
 Cc: qemu-stable@nongnu.org
-Fixes: f5c9fcb82d ("vl: separate qemu_create_machine", 2020-12-10)
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- softmmu/vl.c | 2 --
- 1 file changed, 2 deletions(-)
+ include/qemu/config-file.h |  2 +-
+ softmmu/vl.c               | 21 +++++++++++++++++----
+ stubs/meson.build          |  1 +
+ stubs/module-opts.c        |  6 ++++++
+ util/qemu-config.c         |  1 +
+ 5 files changed, 26 insertions(+), 5 deletions(-)
+ create mode 100644 stubs/module-opts.c
 
+diff --git a/include/qemu/config-file.h b/include/qemu/config-file.h
+index 8d3e53ae4d..0500b3668d 100644
+--- a/include/qemu/config-file.h
++++ b/include/qemu/config-file.h
+@@ -1,7 +1,7 @@
+ #ifndef QEMU_CONFIG_FILE_H
+ #define QEMU_CONFIG_FILE_H
+ 
+-
++void qemu_load_module_for_opts(const char *group);
+ QemuOptsList *qemu_find_opts(const char *group);
+ QemuOptsList *qemu_find_opts_err(const char *group, Error **errp);
+ QemuOpts *qemu_find_opts_singleton(const char *group);
 diff --git a/softmmu/vl.c b/softmmu/vl.c
-index ac0ff6e160..21e55718a6 100644
+index 21e55718a6..6054f6f0b9 100644
 --- a/softmmu/vl.c
 +++ b/softmmu/vl.c
-@@ -2039,8 +2039,6 @@ static void set_memory_options(MachineClass *mc)
-         exit(EXIT_FAILURE);
+@@ -2627,6 +2627,23 @@ void qmp_x_exit_preconfig(Error **errp)
      }
+ }
  
--    /* store value for the future use */
--    qemu_opt_set_number(opts, "size", ram_size, &error_abort);
-     maxram_size = ram_size;
++#ifdef CONFIG_MODULES
++void qemu_load_module_for_opts(const char *group)
++{
++    static bool spice_tried;
++    if (g_str_equal(group, "spice") && !spice_tried) {
++        ui_module_load_one("spice-core");
++        spice_tried = true;
++    }
++
++    static bool iscsi_tried;
++    if (g_str_equal(group, "iscsi") && !iscsi_tried) {
++        block_module_load_one("iscsi");
++        iscsi_tried = true;
++    }
++}
++#endif
++
+ void qemu_init(int argc, char **argv, char **envp)
+ {
+     QemuOpts *opts;
+@@ -3386,10 +3403,6 @@ void qemu_init(int argc, char **argv, char **envp)
+                 break;
+             case QEMU_OPTION_spice:
+                 olist = qemu_find_opts_err("spice", NULL);
+-                if (!olist) {
+-                    ui_module_load_one("spice-core");
+-                    olist = qemu_find_opts("spice");
+-                }
+                 if (!olist) {
+                     error_report("spice support is disabled");
+                     exit(1);
+diff --git a/stubs/meson.build b/stubs/meson.build
+index 3faef16892..f3f979c3fe 100644
+--- a/stubs/meson.build
++++ b/stubs/meson.build
+@@ -22,6 +22,7 @@ stub_ss.add(files('isa-bus.c'))
+ stub_ss.add(files('is-daemonized.c'))
+ stub_ss.add(when: 'CONFIG_LINUX_AIO', if_true: files('linux-aio.c'))
+ stub_ss.add(files('migr-blocker.c'))
++stub_ss.add(files('module-opts.c'))
+ stub_ss.add(files('monitor.c'))
+ stub_ss.add(files('monitor-core.c'))
+ stub_ss.add(files('pci-bus.c'))
+diff --git a/stubs/module-opts.c b/stubs/module-opts.c
+new file mode 100644
+index 0000000000..a7d0e4ad6e
+--- /dev/null
++++ b/stubs/module-opts.c
+@@ -0,0 +1,6 @@
++#include "qemu/osdep.h"
++#include "qemu/config-file.h"
++
++void qemu_load_module_for_opts(const char *group)
++{
++}
+diff --git a/util/qemu-config.c b/util/qemu-config.c
+index 670bd6ebca..34974c4b47 100644
+--- a/util/qemu-config.c
++++ b/util/qemu-config.c
+@@ -16,6 +16,7 @@ static QemuOptsList *find_list(QemuOptsList **lists, const char *group,
+ {
+     int i;
  
-     if (qemu_opt_get(opts, "maxmem")) {
++    qemu_load_module_for_opts(group);
+     for (i = 0; lists[i] != NULL; i++) {
+         if (strcmp(lists[i]->name, group) == 0)
+             break;
 -- 
 2.31.1
 
