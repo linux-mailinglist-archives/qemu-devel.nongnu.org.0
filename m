@@ -2,84 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27B10389E3C
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 08:50:31 +0200 (CEST)
-Received: from localhost ([::1]:59938 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EACA5389E54
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 08:54:14 +0200 (CEST)
+Received: from localhost ([::1]:34790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljcVq-00012I-7D
-	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 02:50:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52796)
+	id 1ljcZS-0003Hd-0w
+	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 02:54:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54414)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ljcUb-0008Mh-EE
- for qemu-devel@nongnu.org; Thu, 20 May 2021 02:49:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49863)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ljcY6-00028c-JY
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 02:52:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34374)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ljcUV-0000Ex-15
- for qemu-devel@nongnu.org; Thu, 20 May 2021 02:49:13 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ljcY0-0003KT-TG
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 02:52:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621493345;
+ s=mimecast20190719; t=1621493564;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=Qb2jTKgpI/8jzWMA/fGcIeY07/BtSeOxotYpWWJgiMA=;
- b=W0udbSbZ7Tq4VPP88lfpnrL+l54x0DBrLf4tEvB1nPq8Y25VbIfZlsosQnJ+IoBhQNhsBV
- bgPW2DUUHCbUh1A4Tch0JqJFgCiYWmqfW/qV16g0n75hfX6oLTU+c9T2Kk8ZPRbC49RNFe
- zn2srKl+fl1xYJb29Yz/IPRW8Hkn8Ck=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-449-Fw5zq195O-qDdhr_9B34CA-1; Thu, 20 May 2021 02:49:03 -0400
-X-MC-Unique: Fw5zq195O-qDdhr_9B34CA-1
-Received: by mail-wr1-f71.google.com with SMTP id
- j33-20020adf91240000b029010e4009d2ffso8294258wrj.0
- for <qemu-devel@nongnu.org>; Wed, 19 May 2021 23:49:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Qb2jTKgpI/8jzWMA/fGcIeY07/BtSeOxotYpWWJgiMA=;
- b=cLZ7U/aPmjLw1OUdSFRtEvw9QAivZcbz2r4DdsosKvuNTTAEsTmLe8cT1Z9inOqVUt
- Kw+b8nuFsUJfb7OuZ56CQZt/nXDMps6kLl7YHTAa69pPfSX5IRULJDHLwNnKcNPnisdu
- SvuqIuM2SkHzihHn3Vwlfmo9EZKHj94G/w8oYEneTX948RQZNCfhtdDjJoOcHe/h+e7m
- B5DfiogaZp6YFF23d0D3EnYyKPJBE3FrM/fkOuWigy00cgwsnzaP1P0ubyuoyYpsAhd5
- Vwah+RbMBaBxFxfMjwJv7OvYlPdQrLrX48xwcfFH09kCfrRnSXVh+rB3608zK3nv833w
- boEA==
-X-Gm-Message-State: AOAM531rMrcLFVUqrKUhJIUexu5pl5ewL9/IGMD6hE5A3BzqreCsYCeZ
- +Cd+GP6YeYaV/014wjumTKjy0vikqYHY1vgcBgnmNBlJkYGbad2gRhhNuxrcWni/EbsPqkPzZak
- QVwdQ1j5RQKbTUQIkawdMLP8SVQ6oF+JK8a2G2o14wGsQMzF+DsA3TAThd71olPxA
-X-Received: by 2002:a5d:638b:: with SMTP id p11mr2598947wru.90.1621493342542; 
- Wed, 19 May 2021 23:49:02 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxglwyztEVEdE7RE97jv69WDujaCXZDD23lEnshfpec5hG0doeGDUiwGAL4x6ES7ZT4n/UPJg==
-X-Received: by 2002:a5d:638b:: with SMTP id p11mr2598931wru.90.1621493342351; 
- Wed, 19 May 2021 23:49:02 -0700 (PDT)
-Received: from x1w.redhat.com (31.red-83-51-215.dynamicip.rima-tde.net.
- [83.51.215.31])
- by smtp.gmail.com with ESMTPSA id u126sm9580157wmb.9.2021.05.19.23.49.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 May 2021 23:49:01 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] hw/virtio: Document *_should_notify() are called within
- rcu_read_lock()
-Date: Thu, 20 May 2021 08:49:00 +0200
-Message-Id: <20210520064900.2413612-1-philmd@redhat.com>
-X-Mailer: git-send-email 2.26.3
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=A54V6nvYbEe+CX8sCYVLHPeB5VpHulUN1sn8FOAtetY=;
+ b=X10VMQUVkjwmJTMsfLR9zj/rYFtau+83sWqvQT3k9+VwXDFjAZuf8G2MlbR5UfvMhY14R0
+ fr8aPqcP8Y/1JCFC2KQpsxyU3SCuxsVMjPnkl0DxstnmKCCGKmHLjrsqrayJM46lLIwxwq
+ EK7cUFAuyG8ZQcqn7mRi4shjD7jgHUs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-148-HKbpjun_MOClKknDQpq0OA-1; Thu, 20 May 2021 02:52:40 -0400
+X-MC-Unique: HKbpjun_MOClKknDQpq0OA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8E99F8015C6;
+ Thu, 20 May 2021 06:52:39 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-71.ams2.redhat.com [10.36.112.71])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B8BAA1349A;
+ Thu, 20 May 2021 06:52:34 +0000 (UTC)
+To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
+References: <20210519213202.3979359-1-jsnow@redhat.com>
+ <20210519213202.3979359-3-jsnow@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH 2/2] Gitlab: Add "Feature Request" issue template.
+Message-ID: <e79bc75c-93b7-6810-e07e-35c03c9c2983@redhat.com>
+Date: Thu, 20 May 2021 08:52:33 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.0
 MIME-Version: 1.0
+In-Reply-To: <20210519213202.3979359-3-jsnow@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.39,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,40 +81,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Peter Krempa <pkrempa@redhat.com>,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Such comments make reviewing this file somehow easier.
+On 19/05/2021 23.32, John Snow wrote:
+> Copied from Peter Krempa's libvirt template, feature.md.
+> 
+> CC: Peter Krempa <pkrempa@redhat.com>
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> ---
+>   .gitlab/issue_templates/feature_request.md | 13 +++++++++++++
+>   1 file changed, 13 insertions(+)
+>   create mode 100644 .gitlab/issue_templates/feature_request.md
+> 
+> diff --git a/.gitlab/issue_templates/feature_request.md b/.gitlab/issue_templates/feature_request.md
+> new file mode 100644
+> index 00000000000..26901ff00c4
+> --- /dev/null
+> +++ b/.gitlab/issue_templates/feature_request.md
+> @@ -0,0 +1,13 @@
+> +## Goal
+> +<!-- Describe the final result you want to achieve. Avoid design specifics. -->
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
- hw/virtio/virtio.c | 2 ++
- 1 file changed, 2 insertions(+)
+Since some people apparently had wrong expectations when filing a feature 
+request in the past, it might be good to add some words about what to 
+expect. Maybe something like this (re-using some wording that Daniel already 
+added to some tickets in the past IIRC):
 
-diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-index e02544b2df7..2b4c6c4b875 100644
---- a/hw/virtio/virtio.c
-+++ b/hw/virtio/virtio.c
-@@ -2449,6 +2449,7 @@ static void virtio_set_isr(VirtIODevice *vdev, int value)
-     }
- }
- 
-+/* Called within rcu_read_lock().  */
- static bool virtio_split_should_notify(VirtIODevice *vdev, VirtQueue *vq)
- {
-     uint16_t old, new;
-@@ -2485,6 +2486,7 @@ static bool vring_packed_need_event(VirtQueue *vq, bool wrap,
-     return vring_need_event(off, new, old);
- }
- 
-+/* Called within rcu_read_lock().  */
- static bool virtio_packed_should_notify(VirtIODevice *vdev, VirtQueue *vq)
- {
-     VRingPackedDescEvent e;
--- 
-2.26.3
+  Please note that the QEMU, like most open source projects, relies on 
+contributors who have motivation, skills and available time to work on 
+implementing particular features. Contributors naturally tend to focus on 
+features that result in the greatest benefit to their own use cases. Thus 
+the QEMU project doesn't implement new big features (like target 
+architectures or board models) on demand based on feature requests here; 
+they're a lot of work to do. Instead we simply code-review and incorporate 
+new big features as and when people decide to write them and submit the 
+patches. So please only submit small requests here. Thanks!
+
+?
+
+  Thomas
 
 
