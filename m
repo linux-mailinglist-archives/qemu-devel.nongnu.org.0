@@ -2,76 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13D0C389ED1
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 09:21:03 +0200 (CEST)
-Received: from localhost ([::1]:49158 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D91C389ED7
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 09:22:16 +0200 (CEST)
+Received: from localhost ([::1]:51470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljczO-0005zQ-50
-	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 03:21:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59820)
+	id 1ljd0Z-0007aK-H2
+	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 03:22:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34924)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ljcuu-0001Y8-5z
- for qemu-devel@nongnu.org; Thu, 20 May 2021 03:16:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24824)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ljcuq-00044z-8Q
- for qemu-devel@nongnu.org; Thu, 20 May 2021 03:16:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621494979;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=i+PyPZQeGb7J63QfmoeVYJJXpjLjHB6COx+Y1KWcP0c=;
- b=WI1kiq5kV/29a1fOWyiLW/JgNr5EkkBWR1tyLm+N5uNX0DJSgb0G4yd0KV7nahQ0YV/HaF
- oZFNRke1kNB04mT7/fAr/nA4JNebSLv6eRSY34P4wfwvlD9l9pz669bRXX4fdbpND5YkFM
- BHCxYVlJlDAn1ncF1FrIs/c1Qx6WBDM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-96-H0lqQllJNSONT0rx4atn9Q-1; Thu, 20 May 2021 03:16:17 -0400
-X-MC-Unique: H0lqQllJNSONT0rx4atn9Q-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4AB9E805EE1
- for <qemu-devel@nongnu.org>; Thu, 20 May 2021 07:16:16 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-71.ams2.redhat.com [10.36.112.71])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 57B3A9808;
- Thu, 20 May 2021 07:16:15 +0000 (UTC)
-Subject: Re: [PATCH v5 1/6] hw/isa/Kconfig: Fix missing dependency ISA_SUPERIO
- -> FDC
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, John Snow <jsnow@redhat.com>
-References: <20210518193239.1725624-1-philmd@redhat.com>
- <20210518193239.1725624-2-philmd@redhat.com>
- <977f921f-7dfe-707b-51d4-85e6c7aba164@redhat.com>
- <1888fae1-5546-490c-b564-68be17904fca@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <736efc80-3f55-80e7-9f15-f4a6c619c7d1@redhat.com>
-Date: Thu, 20 May 2021 09:16:14 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1ljczf-0006mm-5I; Thu, 20 May 2021 03:21:19 -0400
+Received: from mail-il1-x130.google.com ([2607:f8b0:4864:20::130]:40740)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1ljczZ-0008Bz-O7; Thu, 20 May 2021 03:21:18 -0400
+Received: by mail-il1-x130.google.com with SMTP id h6so14389455ila.7;
+ Thu, 20 May 2021 00:21:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Vu2NIKPg1s+KXbitjc2w6/Xvd9FkAfXo70ctr48j8BM=;
+ b=FpzaaTNbIkQycy9P9uAtM4G/QkEQy2rg+VXK7jHhZhT23qPhb6KZjHR6p+u8pHDuBD
+ aWq20PQnMHQlb/QIhA06zByAOYzcKrgeTVRt4YxxrtjNfVcexMA3OqGOq1v8Eol5Zbwt
+ porfEAP3N+gSHrzYT0mrTOMa0Nse7b14CtXtol8/LCplu0HJxLl2/rbghPbdmjbnbPT0
+ 8+TDiiJia49q9t+3gdi4R4q3eJxOnssXZHZBxNSJyXLk2VuB08zmhIC1lAnLVvbNEWzZ
+ 3T+g163ZwPwst5lku+kdnXFaLtaBlFaI6vdQgJz+LOi/yMKcVtC8Odoarmu2ryAcQhKf
+ 8Izw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Vu2NIKPg1s+KXbitjc2w6/Xvd9FkAfXo70ctr48j8BM=;
+ b=TlgXaDlxlU2biQyipzbD6SYXB7QknVFCI06otEMRl3nlUWH9KEnOWA0mPkCKS39q9M
+ v5dkzQkRS/lJ0bHgYOps3y8/TX6vU5j/BXEJPPacem7WDEEHQd9APDkq/upnUpbZORy2
+ 0UQaI7Ynez5RWbdaUnz/LIW01bcb5Mu9hrT/4vBNwqLN1NEC1cBDsJTbExSnaGxaEJtk
+ KIQ5j08B9knBR2Xee+BTr70GIKqX0vs3lByynZYm4qaWlp0DjYP2SzBio6Wrugk3e3xV
+ lIOLr5ApIG9SUjf9d11DL0is5z9hlDscuBs4hAYQiC4uqRiQ0m4HCuFgJ3NUh07rrS/K
+ mlFg==
+X-Gm-Message-State: AOAM5320Z3/5RYgeTGl454PFAcZuDkhcrgtQ8yMzRW+lXXAUsxpD6RZq
+ 2FuJc1wq/HW2758MMYqaTTqBG46FOZWW6r9nRow=
+X-Google-Smtp-Source: ABdhPJz4dldB/SNyo4fu7A8A+JoR7fnnTZrLO/WM3mp/FI4oSqZNUVz7zF8gKeAWuCV8Cuh7PrUsO7OCmfU8K2zbskE=
+X-Received: by 2002:a92:6b05:: with SMTP id g5mr3613084ilc.40.1621495272365;
+ Thu, 20 May 2021 00:21:12 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1888fae1-5546-490c-b564-68be17904fca@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.39,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+References: <20210519155738.20486-1-changbin.du@gmail.com>
+In-Reply-To: <20210519155738.20486-1-changbin.du@gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 20 May 2021 17:20:46 +1000
+Message-ID: <CAKmqyKMm4zDEiC+pJWRTBSy6VdvbaC+vMXV30YKQxyAGJbdO8g@mail.gmail.com>
+Subject: Re: [PATCH v2] target/riscv: Dump CSR mscratch/sscratch/satp
+To: Changbin Du <changbin.du@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::130;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x130.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,25 +75,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bmeng.cn@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 19/05/2021 13.05, Philippe Mathieu-Daudé wrote:
-> On 5/19/21 10:23 AM, Thomas Huth wrote:
->> On 18/05/2021 21.32, Philippe Mathieu-Daudé wrote:
->>> isa_superio_realize() calls isa_fdc_init_drives(), which is defined
->>> in hw/block/fdc.c, so ISA_SUPERIO needs to select the FDC symbol.
->>
->> If I get that right, not all superio chipsets provide a floppy drive
->> (there's this "k->floppy.is_enabled" check in there) ... but for boards
->> that don't need the FDC, this would currently require a stub for that
->> function
-> 
-> Good point. I'll try to get it right.
+On Thu, May 20, 2021 at 1:58 AM Changbin Du <changbin.du@gmail.com> wrote:
+>
+> This dumps the CSR mscratch/sscratch/satp and meanwhile aligns
+> the output of CSR mtval/stval.
+>
+> Signed-off-by: Changbin Du <changbin.du@gmail.com>
+> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+> Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
 
-As discussed in v6, all superio chips currently have a way to use an FDC, so 
-this version of the patch is fine:
+Thanks!
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+Applied to riscv-to-apply.next
 
+Alistair
+
+>
+> ---
+> v2: Rebase to latest mainline.
+> ---
+>  target/riscv/cpu.c | 7 +++++--
+>  1 file changed, 5 insertions(+), 2 deletions(-)
+>
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index 3191fd0082..c4132d9845 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -286,12 +286,15 @@ static void riscv_cpu_dump_state(CPUState *cs, FILE *f, int flags)
+>      if (riscv_has_ext(env, RVH)) {
+>          qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "vscause ", env->vscause);
+>      }
+> -    qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "mtval ", env->mtval);
+> -    qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "stval ", env->stval);
+> +    qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "mtval   ", env->mtval);
+> +    qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "stval   ", env->stval);
+>      if (riscv_has_ext(env, RVH)) {
+>          qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "htval ", env->htval);
+>          qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "mtval2 ", env->mtval2);
+>      }
+> +    qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "mscratch", env->mscratch);
+> +    qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "sscratch", env->sscratch);
+> +    qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "satp    ", env->satp);
+>  #endif
+>
+>      for (i = 0; i < 32; i++) {
+> --
+> 2.30.2
+>
+>
 
