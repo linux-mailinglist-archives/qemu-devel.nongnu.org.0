@@ -2,47 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 238D5389AA6
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 02:48:54 +0200 (CEST)
-Received: from localhost ([::1]:35784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB6B1389B0E
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 03:51:24 +0200 (CEST)
+Received: from localhost ([::1]:39770 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljWrs-0002jF-O3
-	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 20:48:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36694)
+	id 1ljXqN-0000dW-Ck
+	for lists+qemu-devel@lfdr.de; Wed, 19 May 2021 21:51:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46158)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1ljWq9-0001wa-Ce
- for qemu-devel@nongnu.org; Wed, 19 May 2021 20:47:05 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:18737)
+ (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
+ id 1ljXpS-0008Je-ID
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 21:50:26 -0400
+Received: from mga17.intel.com ([192.55.52.151]:60627)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1ljWpx-0001n1-7C
- for qemu-devel@nongnu.org; Wed, 19 May 2021 20:47:04 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 59D7E74570D;
- Thu, 20 May 2021 02:46:48 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id BC7427456E3; Thu, 20 May 2021 02:46:47 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id B9A4F7456B4;
- Thu, 20 May 2021 02:46:47 +0200 (CEST)
-Date: Thu, 20 May 2021 02:46:47 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [RFC PATCH 02/11] hw/ide: Add PCIIDEState::isa_bus link
-In-Reply-To: <3ba44704-6418-4aee-23ad-7d4dcc1fe60d@redhat.com>
-Message-ID: <babbf5da-b4c0-9736-b09-426e3a358587@eik.bme.hu>
-References: <20210518215545.1793947-1-philmd@redhat.com>
- <20210518215545.1793947-3-philmd@redhat.com>
- <f571a63d-d6a2-2085-740-bcc59b3424e5@eik.bme.hu>
- <3ba44704-6418-4aee-23ad-7d4dcc1fe60d@redhat.com>
+ (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
+ id 1ljXpO-0006zS-Tm
+ for qemu-devel@nongnu.org; Wed, 19 May 2021 21:50:25 -0400
+IronPort-SDR: vKCJAYILUjGmjS2P+R3v1p/c33jjJuPHuPg1WDllbNBAe9YrVpXSycbJ/+yeYOSB1pcEM9BmOb
+ NRCPBSLS7HMg==
+X-IronPort-AV: E=McAfee;i="6200,9189,9989"; a="181399760"
+X-IronPort-AV: E=Sophos;i="5.82,313,1613462400"; d="scan'208";a="181399760"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 May 2021 18:50:17 -0700
+IronPort-SDR: ZFcILlp2W90u+QkYhFifjDFrpQ92MHx+KTi9MEU8+zNfbW+w7q36G8okMX638EBP2AOILJ+QLd
+ srhgyUAcJJ0g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.82,313,1613462400"; d="scan'208";a="474929930"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+ by fmsmga002.fm.intel.com with ESMTP; 19 May 2021 18:50:17 -0700
+Received: from shsmsx606.ccr.corp.intel.com (10.109.6.216) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.4; Wed, 19 May 2021 18:50:16 -0700
+Received: from shsmsx605.ccr.corp.intel.com (10.109.6.215) by
+ SHSMSX606.ccr.corp.intel.com (10.109.6.216) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.4; Thu, 20 May 2021 09:50:14 +0800
+Received: from shsmsx605.ccr.corp.intel.com ([10.109.6.215]) by
+ SHSMSX605.ccr.corp.intel.com ([10.109.6.215]) with mapi id 15.01.2242.008;
+ Thu, 20 May 2021 09:50:14 +0800
+From: "Zhang, Chen" <chen.zhang@intel.com>
+To: Lukas Straub <lukasstraub2@web.de>
+Subject: RE: [PATCH V6 4/6] net/colo-compare: Move data structure and define
+ to .h file.
+Thread-Topic: [PATCH V6 4/6] net/colo-compare: Move data structure and define
+ to .h file.
+Thread-Index: AQHXNfjtMvzw0DFerkq94PRUQO3+Y6rnvWcAgAJ48XA=
+Date: Thu, 20 May 2021 01:50:14 +0000
+Message-ID: <834c0738041d4ebc82774b8231b0f76c@intel.com>
+References: <20210420151537.64360-1-chen.zhang@intel.com>
+ <20210420151537.64360-5-chen.zhang@intel.com>
+ <20210517220340.387bd21e@gecko.fritz.box>
+In-Reply-To: <20210517220340.387bd21e@gecko.fritz.box>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.5.1.3
+dlp-reaction: no-action
+x-originating-ip: [10.239.127.36]
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-368746287-1621471607=:90135"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
+Received-SPF: pass client-ip=192.55.52.151; envelope-from=chen.zhang@intel.com;
+ helo=mga17.intel.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
@@ -60,226 +86,440 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- John G Johnson <john.g.johnson@oracle.com>, Thomas Huth <thuth@redhat.com>,
- Jagannathan Raman <jag.raman@oracle.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@redhat.com>
+Cc: =?iso-8859-1?Q?Daniel_P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Li Zhijian <lizhijian@cn.fujitsu.com>, Jason Wang <jasowang@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-dev <qemu-devel@nongnu.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Zhang Chen <zhangckid@gmail.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
 
---3866299591-368746287-1621471607=:90135
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8BIT
 
-On Wed, 19 May 2021, John Snow wrote:
-> On 5/18/21 7:05 PM, BALATON Zoltan wrote:
->> On Tue, 18 May 2021, Philippe Mathieu-Daudé wrote:
->>> IDE bus depends on ISA bus for IRQ/DMA.
->>> 
->>> Add an ISABus reference in PCIIDEState, and add link properties
->>> to it in the PIIX and VIA objects (which inherit PCI_IDE).
->>> 
->>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->>> ---
->>> include/hw/ide/pci.h |  1 +
->>> hw/ide/piix.c        | 11 ++++++++++-
->>> hw/ide/via.c         | 10 +++++++++-
->>> 3 files changed, 20 insertions(+), 2 deletions(-)
->>> 
->>> diff --git a/include/hw/ide/pci.h b/include/hw/ide/pci.h
->>> index d8384e1c422..e790722ed14 100644
->>> --- a/include/hw/ide/pci.h
->>> +++ b/include/hw/ide/pci.h
->>> @@ -47,6 +47,7 @@ struct PCIIDEState {
->>>     PCIDevice parent_obj;
->>>     /*< public >*/
->>> 
->>> +    ISABus *isa_bus;
->> 
->> I'm not sure that this belongs here. Previously we managed to remove device 
->> specific fields from this structure so it's now really just holds stuff 
->> related to PCI IDE (except the remaining "secondary" field specific to 
->> CMD646). PCI IDE normaly has nothing to do with ISA except for those south 
->> bridges that have IDE with legacy mode. So this ISABus reference should be 
->> in those south bridges instead. But that may need a 
->
-> by "those south bridges" I assume you are referring to the integrated PIIX 
-> and VIA controller implementations.
+> -----Original Message-----
+> From: Lukas Straub <lukasstraub2@web.de>
+> Sent: Tuesday, May 18, 2021 4:04 AM
+> To: Zhang, Chen <chen.zhang@intel.com>
+> Cc: Jason Wang <jasowang@redhat.com>; qemu-dev <qemu-
+> devel@nongnu.org>; Eric Blake <eblake@redhat.com>; Dr. David Alan
+> Gilbert <dgilbert@redhat.com>; Markus Armbruster <armbru@redhat.com>;
+> Daniel P. Berrang=E9 <berrange@redhat.com>; Gerd Hoffmann
+> <kraxel@redhat.com>; Li Zhijian <lizhijian@cn.fujitsu.com>; Zhang Chen
+> <zhangckid@gmail.com>
+> Subject: Re: [PATCH V6 4/6] net/colo-compare: Move data structure and
+> define to .h file.
+>=20
+> On Tue, 20 Apr 2021 23:15:35 +0800
+> Zhang Chen <chen.zhang@intel.com> wrote:
+>=20
+> > Rename structure with COLO index and move it to .h file, It make other
+> > modules can reuse COLO code.
+>=20
+> Hi,
+> There are some definitions that don't need to be moved into the header,
+> more comments below.
+>=20
 
-Yes, those are that also have an ISA bridge so the IDE in those can use 
-either ISA or PCI IRQs but we probably only emulate one mode. At least 
-that's the case for via-ide which we have gone into great detail before 
-and concluded we can't cleanly switch between legacy ISA or PCI mode and 
-the pegasos2 needs hard coded ISA interrupts even when in PCI mode so we 
-only emulate that.
+OK.
 
-Apart from that this PCI IDE is also used by CMD646 and sii3112 that are 
-pure PCI IDE devices without any ISA dependency so that's why I think we 
-should not need this ISABus here to keep this implementing PCI IDE and 
-only keep ISA in the south bridge models.
+> In general I think the new passthrough feature can be exclusive to colo-
+> compare for now and that everything can remain there. If other net filter=
+s
+> implement the feature, we can still move it outside of colo-compare later=
+.
+>=20
 
->> new subclass just for this so putting it here is just avoiding boilerplate 
->> of declaring new subclasses in piix and via-ide. I can sympathise with that 
->> but I'd still prefer to keep it off here but I wonder if there's a way to 
->> do that without subclassing and storing an ISABus ref? If I understand 
->> correctly this ISABus ref is just needed to get appropriate ISA irqs. But 
->> could we just store a ref to those irqs 
->
-> It looks like it's just the IRQs, yeah.
->
->> directly so we don't need to keep the ref to the ISA bus? There's 
->
-> I think the idea actually is to formalize the dependency of these models on 
-> the ISA bus instead of hacking / faking one. I think we DO want the 
-> dependency.
+Agree, This patch move some code to colo-compare.h, it still in colo-compar=
+e.
 
-Right, but only piix and via depend on ISA so the dependency should be in 
-those not in PCI IDE in my opinion. But I don't mind too much so if it 
-would be too difficult to put it elsewhere I don't mind introducing this 
-ISABus field but we should at least look if it could be avoided first.
+Thanks
+Chen
 
->> already a qemu_irq in BMDMAState but I'm not sure how those are set and if 
->> you could store an isa irq there to simplify this. I don't know the details 
->> and could not detangle it by a brief look so not sure it can be done but 
->> conceptually it feels better to keep PCI IDE separate from ISA and let it 
->> raise either PCI irq or ISA irq as needed. For that a ref to the irq should 
->> be enough and that can either come from a PCI bus (which is normaly 
->> expected for PCI IDE) or an ISA bridge for legacy modes. Hope it makes 
->> sense and you get what I'm trying to say. (Longer term we may want to make 
->> it changeable also after the device is created to allow switching between 
->> legacy and PCI mode but so far we could get away without emulating that so 
->> it's not a requirement just something to consider when you're changing 
->> this. The real problem that prevents switching modes is not irq I think but 
->> ioports and that ISA devices are not configurable after creating them but 
->> that would need QOM'ifying ISA emulation which probably does not worth the 
->> effort unless we come across some guest that needs this.)
->> 
->> Regards,
->> BALATON Zoltan
->> 
->
-> I assume the idea here is that PCIIDE does not technically need "ISA" to 
-> provide ioport access to the ATA drives, so taxonomically it's odd for the 
-> generic/abstract PCIIDE device to require an ISA bus.
->
-> Am I understanding correctly?
+> > Signed-off-by: Zhang Chen <chen.zhang@intel.com>
+> > ---
+> >  net/colo-compare.c | 134
+> > +++++----------------------------------------
+> >  net/colo-compare.h | 106 +++++++++++++++++++++++++++++++++++
+> >  2 files changed, 120 insertions(+), 120 deletions(-)
+> >
+> > diff --git a/net/colo-compare.c b/net/colo-compare.c index
+> > 9d1ad99941..b51b1437ef 100644
+> > --- a/net/colo-compare.c
+> > +++ b/net/colo-compare.c
+> > @@ -17,44 +17,24 @@
+> >  #include "qemu/error-report.h"
+> >  #include "trace.h"
+> >  #include "qapi/error.h"
+> > -#include "net/net.h"
+> >  #include "net/eth.h"
+> >  #include "qom/object_interfaces.h"
+> >  #include "qemu/iov.h"
+> >  #include "qom/object.h"
+> >  #include "net/queue.h"
+> > -#include "chardev/char-fe.h"
+> >  #include "qemu/sockets.h"
+> > -#include "colo.h"
+> > -#include "sysemu/iothread.h"
+> >  #include "net/colo-compare.h"
+> > -#include "migration/colo.h"
+> > -#include "migration/migration.h"
+> >  #include "util.h"
+> >
+> >  #include "block/aio-wait.h"
+> >  #include "qemu/coroutine.h"
+> >
+> > -#define TYPE_COLO_COMPARE "colo-compare"
+> > -typedef struct CompareState CompareState;
+> > -DECLARE_INSTANCE_CHECKER(CompareState, COLO_COMPARE,
+> > -                         TYPE_COLO_COMPARE)
+> > -
+> >  static QTAILQ_HEAD(, CompareState) net_compares =3D
+> >         QTAILQ_HEAD_INITIALIZER(net_compares);
+> >
+> >  static NotifierList colo_compare_notifiers =3D
+> >      NOTIFIER_LIST_INITIALIZER(colo_compare_notifiers);
+> >
+> > -#define COMPARE_READ_LEN_MAX NET_BUFSIZE -#define
+> MAX_QUEUE_SIZE 1024
+> > -
+> > -#define COLO_COMPARE_FREE_PRIMARY     0x01
+> > -#define COLO_COMPARE_FREE_SECONDARY   0x02
+> > -
+> > -#define REGULAR_PACKET_CHECK_MS 1000
+> > -#define DEFAULT_TIME_OUT_MS 3000
+> > -
+>=20
+> These 6 defines should stay here.
+>=20
+> >  /* #define DEBUG_COLO_PACKETS */
+> >
+> >  static QemuMutex colo_compare_mutex;
+> > @@ -64,92 +44,6 @@ static QemuCond event_complete_cond;  static int
+> > event_unhandled_count;  static uint32_t max_queue_size;
+> >
+> > -/*
+> > - *  + CompareState ++
+> > - *  |               |
+> > - *  +---------------+   +---------------+         +---------------+
+> > - *  |   conn list   + - >      conn     + ------- >      conn     + --=
+ > ......
+> > - *  +---------------+   +---------------+         +---------------+
+> > - *  |               |     |           |             |          |
+> > - *  +---------------+ +---v----+  +---v----+    +---v----+ +---v----+
+> > - *                    |primary |  |secondary    |primary | |secondary
+> > - *                    |packet  |  |packet  +    |packet  | |packet  +
+> > - *                    +--------+  +--------+    +--------+ +--------+
+> > - *                        |           |             |          |
+> > - *                    +---v----+  +---v----+    +---v----+ +---v----+
+> > - *                    |primary |  |secondary    |primary | |secondary
+> > - *                    |packet  |  |packet  +    |packet  | |packet  +
+> > - *                    +--------+  +--------+    +--------+ +--------+
+> > - *                        |           |             |          |
+> > - *                    +---v----+  +---v----+    +---v----+ +---v----+
+> > - *                    |primary |  |secondary    |primary | |secondary
+> > - *                    |packet  |  |packet  +    |packet  | |packet  +
+> > - *                    +--------+  +--------+    +--------+ +--------+
+> > - */
+> > -
+> > -typedef struct SendCo {
+> > -    Coroutine *co;
+> > -    struct CompareState *s;
+> > -    CharBackend *chr;
+> > -    GQueue send_list;
+> > -    bool notify_remote_frame;
+> > -    bool done;
+> > -    int ret;
+> > -} SendCo;
+>=20
+> This struct should stay here.
+>=20
+> > -typedef struct SendEntry {
+> > -    uint32_t size;
+> > -    uint32_t vnet_hdr_len;
+> > -    uint8_t *buf;
+> > -} SendEntry;
+>=20
+> This struct should stay here.
+>=20
+> > -struct CompareState {
+> > -    Object parent;
+> > -
+> > -    char *pri_indev;
+> > -    char *sec_indev;
+> > -    char *outdev;
+> > -    char *notify_dev;
+> > -    CharBackend chr_pri_in;
+> > -    CharBackend chr_sec_in;
+> > -    CharBackend chr_out;
+> > -    CharBackend chr_notify_dev;
+> > -    SocketReadState pri_rs;
+> > -    SocketReadState sec_rs;
+> > -    SocketReadState notify_rs;
+> > -    SendCo out_sendco;
+> > -    SendCo notify_sendco;
+> > -    bool vnet_hdr;
+> > -    uint64_t compare_timeout;
+> > -    uint32_t expired_scan_cycle;
+> > -
+> > -    /*
+> > -     * Record the connection that through the NIC
+> > -     * Element type: Connection
+> > -     */
+> > -    GQueue conn_list;
+> > -    /* Record the connection without repetition */
+> > -    GHashTable *connection_track_table;
+> > -
+> > -    IOThread *iothread;
+> > -    GMainContext *worker_context;
+> > -    QEMUTimer *packet_check_timer;
+> > -
+> > -    QEMUBH *event_bh;
+> > -    enum colo_event event;
+> > -
+> > -    QTAILQ_ENTRY(CompareState) next;
+> > -};
+> > -
+> > -typedef struct CompareClass {
+> > -    ObjectClass parent_class;
+> > -} CompareClass;
+> > -
+> > -enum {
+> > -    PRIMARY_IN =3D 0,
+> > -    SECONDARY_IN,
+> > -};
+>=20
+> The enum should stay here.
+>=20
+> >  static const char *colo_mode[] =3D {
+> >      [PRIMARY_IN] =3D "primary",
+> >      [SECONDARY_IN] =3D "secondary",
+> > @@ -737,19 +631,19 @@ static void colo_compare_connection(void
+> > *opaque, void *user_data)
+> >
+> >  static void coroutine_fn _compare_chr_send(void *opaque)  {
+> > -    SendCo *sendco =3D opaque;
+> > +    COLOSendCo *sendco =3D opaque;
+> >      CompareState *s =3D sendco->s;
+> >      int ret =3D 0;
+> >
+> >      while (!g_queue_is_empty(&sendco->send_list)) {
+> > -        SendEntry *entry =3D g_queue_pop_tail(&sendco->send_list);
+> > +        COLOSendEntry *entry =3D g_queue_pop_tail(&sendco->send_list);
+> >          uint32_t len =3D htonl(entry->size);
+> >
+> >          ret =3D qemu_chr_fe_write_all(sendco->chr, (uint8_t *)&len,
+> > sizeof(len));
+> >
+> >          if (ret !=3D sizeof(len)) {
+> >              g_free(entry->buf);
+> > -            g_slice_free(SendEntry, entry);
+> > +            g_slice_free(COLOSendEntry, entry);
+> >              goto err;
+> >          }
+> >
+> > @@ -766,7 +660,7 @@ static void coroutine_fn _compare_chr_send(void
+> > *opaque)
+> >
+> >              if (ret !=3D sizeof(len)) {
+> >                  g_free(entry->buf);
+> > -                g_slice_free(SendEntry, entry);
+> > +                g_slice_free(COLOSendEntry, entry);
+> >                  goto err;
+> >              }
+> >          }
+> > @@ -777,12 +671,12 @@ static void coroutine_fn
+> _compare_chr_send(void
+> > *opaque)
+> >
+> >          if (ret !=3D entry->size) {
+> >              g_free(entry->buf);
+> > -            g_slice_free(SendEntry, entry);
+> > +            g_slice_free(COLOSendEntry, entry);
+> >              goto err;
+> >          }
+> >
+> >          g_free(entry->buf);
+> > -        g_slice_free(SendEntry, entry);
+> > +        g_slice_free(COLOSendEntry, entry);
+> >      }
+> >
+> >      sendco->ret =3D 0;
+> > @@ -790,9 +684,9 @@ static void coroutine_fn _compare_chr_send(void
+> > *opaque)
+> >
+> >  err:
+> >      while (!g_queue_is_empty(&sendco->send_list)) {
+> > -        SendEntry *entry =3D g_queue_pop_tail(&sendco->send_list);
+> > +        COLOSendEntry *entry =3D g_queue_pop_tail(&sendco->send_list);
+> >          g_free(entry->buf);
+> > -        g_slice_free(SendEntry, entry);
+> > +        g_slice_free(COLOSendEntry, entry);
+> >      }
+> >      sendco->ret =3D ret < 0 ? ret : -EIO;
+> >  out:
+> > @@ -808,8 +702,8 @@ static int compare_chr_send(CompareState *s,
+> >                              bool notify_remote_frame,
+> >                              bool zero_copy)  {
+> > -    SendCo *sendco;
+> > -    SendEntry *entry;
+> > +    COLOSendCo *sendco;
+> > +    COLOSendEntry *entry;
+> >
+> >      if (notify_remote_frame) {
+> >          sendco =3D &s->notify_sendco;
+> > @@ -821,7 +715,7 @@ static int compare_chr_send(CompareState *s,
+> >          return 0;
+> >      }
+> >
+> > -    entry =3D g_slice_new(SendEntry);
+> > +    entry =3D g_slice_new(COLOSendEntry);
+> >      entry->size =3D size;
+> >      entry->vnet_hdr_len =3D vnet_hdr_len;
+> >      if (zero_copy) {
+> > @@ -1274,17 +1168,17 @@ static void
+> > colo_compare_complete(UserCreatable *uc, Error **errp)
+> >
+> >      if (!s->compare_timeout) {
+> >          /* Set default value to 3000 MS */
+> > -        s->compare_timeout =3D DEFAULT_TIME_OUT_MS;
+> > +        s->compare_timeout =3D COLO_DEFAULT_TIME_OUT_MS;
+> >      }
+> >
+> >      if (!s->expired_scan_cycle) {
+> >          /* Set default value to 3000 MS */
+> > -        s->expired_scan_cycle =3D REGULAR_PACKET_CHECK_MS;
+> > +        s->expired_scan_cycle =3D COLO_REGULAR_PACKET_CHECK_MS;
+> >      }
+> >
+> >      if (!max_queue_size) {
+> >          /* Set default queue size to 1024 */
+> > -        max_queue_size =3D MAX_QUEUE_SIZE;
+> > +        max_queue_size =3D MAX_COLO_QUEUE_SIZE;
+> >      }
+> >
+> >      if (find_and_check_chardev(&chr, s->pri_indev, errp) || diff
+> > --git a/net/colo-compare.h b/net/colo-compare.h index
+> > 22ddd512e2..ab649c9dbe 100644
+> > --- a/net/colo-compare.h
+> > +++ b/net/colo-compare.h
+> > @@ -17,6 +17,112 @@
+> >  #ifndef QEMU_COLO_COMPARE_H
+> >  #define QEMU_COLO_COMPARE_H
+> >
+> > +#include "net/net.h"
+> > +#include "chardev/char-fe.h"
+> > +#include "migration/colo.h"
+> > +#include "migration/migration.h"
+> > +#include "sysemu/iothread.h"
+> > +#include "colo.h"
+> > +
+> > +#define TYPE_COLO_COMPARE "colo-compare"
+> > +typedef struct CompareState CompareState;
+> > +DECLARE_INSTANCE_CHECKER(CompareState, COLO_COMPARE,
+> > +                         TYPE_COLO_COMPARE)
+> > +
+> > +#define COMPARE_READ_LEN_MAX NET_BUFSIZE #define
+> MAX_COLO_QUEUE_SIZE
+> > +1024
+> > +
+> > +#define COLO_COMPARE_FREE_PRIMARY     0x01
+> > +#define COLO_COMPARE_FREE_SECONDARY   0x02
+> > +
+> > +#define COLO_REGULAR_PACKET_CHECK_MS 1000 #define
+> > +COLO_DEFAULT_TIME_OUT_MS 3000
+> > +
+> > +typedef struct COLOSendCo {
+> > +    Coroutine *co;
+> > +    struct CompareState *s;
+> > +    CharBackend *chr;
+> > +    GQueue send_list;
+> > +    bool notify_remote_frame;
+> > +    bool done;
+> > +    int ret;
+> > +} COLOSendCo;
+> > +
+> > +typedef struct COLOSendEntry {
+> > +    uint32_t size;
+> > +    uint32_t vnet_hdr_len;
+> > +    uint8_t *buf;
+> > +} COLOSendEntry;
+> > +
+> > +/*
+> > + *  + CompareState ++
+> > + *  |               |
+> > + *  +---------------+   +---------------+         +---------------+
+> > + *  |   conn list   + - >      conn     + ------- >      conn     + --=
+ > ......
+> > + *  +---------------+   +---------------+         +---------------+
+> > + *  |               |     |           |             |          |
+> > + *  +---------------+ +---v----+  +---v----+    +---v----+ +---v----+
+> > + *                    |primary |  |secondary    |primary | |secondary
+> > + *                    |packet  |  |packet  +    |packet  | |packet  +
+> > + *                    +--------+  +--------+    +--------+ +--------+
+> > + *                        |           |             |          |
+> > + *                    +---v----+  +---v----+    +---v----+ +---v----+
+> > + *                    |primary |  |secondary    |primary | |secondary
+> > + *                    |packet  |  |packet  +    |packet  | |packet  +
+> > + *                    +--------+  +--------+    +--------+ +--------+
+> > + *                        |           |             |          |
+> > + *                    +---v----+  +---v----+    +---v----+ +---v----+
+> > + *                    |primary |  |secondary    |primary | |secondary
+> > + *                    |packet  |  |packet  +    |packet  | |packet  +
+> > + *                    +--------+  +--------+    +--------+ +--------+
+> > + */
+> > +struct CompareState {
+> > +    Object parent;
+> > +
+> > +    char *pri_indev;
+> > +    char *sec_indev;
+> > +    char *outdev;
+> > +    char *notify_dev;
+> > +    CharBackend chr_pri_in;
+> > +    CharBackend chr_sec_in;
+> > +    CharBackend chr_out;
+> > +    CharBackend chr_notify_dev;
+> > +    SocketReadState pri_rs;
+> > +    SocketReadState sec_rs;
+> > +    SocketReadState notify_rs;
+> > +    COLOSendCo out_sendco;
+> > +    COLOSendCo notify_sendco;
+> > +    bool vnet_hdr;
+> > +    uint64_t compare_timeout;
+> > +    uint32_t expired_scan_cycle;
+> > +
+> > +    /*
+> > +     * Record the connection that through the NIC
+> > +     * Element type: Connection
+> > +     */
+> > +    GQueue conn_list;
+> > +    /* Record the connection without repetition */
+> > +    GHashTable *connection_track_table;
+> > +
+> > +    IOThread *iothread;
+> > +    GMainContext *worker_context;
+> > +    QEMUTimer *packet_check_timer;
+> > +
+> > +    QEMUBH *event_bh;
+> > +    enum colo_event event;
+> > +
+> > +    QTAILQ_ENTRY(CompareState) next;
+> > +};
+> > +
+> > +typedef struct CompareClass {
+> > +    ObjectClass parent_class;
+> > +} CompareClass;
+> > +
+> > +enum {
+> > +    PRIMARY_IN =3D 0,
+> > +    SECONDARY_IN,
+> > +};
+> > +
+> >  void colo_notify_compares_event(void *opaque, int event, Error
+> > **errp);  void colo_compare_register_notifier(Notifier *notify);  void
+> > colo_compare_unregister_notifier(Notifier *notify);
+>=20
+>=20
+>=20
+> --
 
-I'm not sure I understand all of the IDE emulation but in my view PCI IDE 
-should be independent of ISA so instead of adding a reference to an ISA 
-bus to PCIIDEState maybe it's enough to set the irqs used by PCI IDE to 
-the appropriate irq to raise which could be an ISA interrupt for the south 
-bridges in legacy mode or a PCI irq for PCI cards and that way we don't 
-need a dependency on ISABus in PCI IDE. But I'm not sure how IDE 
-interrupts are set so don't know if that would work so it's just an idea 
-to avoid introducing ISA into PCI IDE where it does not seem to belong.
-
-A simpler way keeping the current code may be to subclass PCI IDE in piix 
-and via and put the ISABus ref in those subclasses but that's more boiler 
-plate and the result may not be simpler so while conceptually may be 
-cleaner the code may be longer and harder to understand that way. So 
-cleaning up the interrupt handling could make it simpler and also avoid 
-the subclasses but that needs more work to detangle how IDE interrupts are 
-emulated and add some clean way to set them if that's not yet available. 
-But I don't completely understand what the qemu_irqs are in BMDMAState and 
-if those could be connected to an ISA interrupt or some more changes would 
-be needed.
-
-Regards,
-BALATON Zoltan
-
->>>     IDEBus bus[2];
->>>     BMDMAState bmdma[2];
->>>     uint32_t secondary; /* used only for cmd646 */
->>> diff --git a/hw/ide/piix.c b/hw/ide/piix.c
->>> index b9860e35a5c..48da68da37f 100644
->>> --- a/hw/ide/piix.c
->>> +++ b/hw/ide/piix.c
->>> @@ -30,8 +30,9 @@
->>> #include "sysemu/block-backend.h"
->>> #include "sysemu/blockdev.h"
->>> #include "sysemu/dma.h"
->>> -
->>> +#include "qapi/error.h"
->>> #include "hw/ide/pci.h"
->>> +#include "hw/isa/isa.h"
->>> #include "trace.h"
->>> 
->>> static uint64_t bmdma_read(void *opaque, hwaddr addr, unsigned size)
->>> @@ -207,6 +208,12 @@ static void pci_piix_ide_exitfn(PCIDevice *dev)
->>>     }
->>> }
->>> 
->>> +static Property piix_ide_properties[] = {
->>> +    DEFINE_PROP_LINK("isa-bus", PCIIDEState, isa_bus,
->>> +                     TYPE_ISA_BUS, ISABus *),
->>> +    DEFINE_PROP_END_OF_LIST(),
->>> +};
->>> +
->>> /* NOTE: for the PIIX3, the IRQs and IOports are hardcoded */
->>> static void piix3_ide_class_init(ObjectClass *klass, void *data)
->>> {
->>> @@ -221,6 +228,7 @@ static void piix3_ide_class_init(ObjectClass *klass, 
->>> void *data)
->>>     k->class_id = PCI_CLASS_STORAGE_IDE;
->>>     set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
->>>     dc->hotpluggable = false;
->>> +    device_class_set_props(dc, piix_ide_properties);
->>> }
->>> 
->>> static const TypeInfo piix3_ide_info = {
->>> @@ -249,6 +257,7 @@ static void piix4_ide_class_init(ObjectClass *klass, 
->>> void *data)
->>>     k->class_id = PCI_CLASS_STORAGE_IDE;
->>>     set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
->>>     dc->hotpluggable = false;
->>> +    device_class_set_props(dc, piix_ide_properties);
->>> }
->>> 
->>> static const TypeInfo piix4_ide_info = {
->>> diff --git a/hw/ide/via.c b/hw/ide/via.c
->>> index be09912b334..65fdca6dcf4 100644
->>> --- a/hw/ide/via.c
->>> +++ b/hw/ide/via.c
->>> @@ -28,8 +28,9 @@
->>> #include "hw/pci/pci.h"
->>> #include "migration/vmstate.h"
->>> #include "qemu/module.h"
->>> +#include "qapi/error.h"
->>> #include "sysemu/dma.h"
->>> -
->>> +#include "hw/isa/isa.h"
->>> #include "hw/ide/pci.h"
->>> #include "trace.h"
->>> 
->>> @@ -210,6 +211,12 @@ static void via_ide_exitfn(PCIDevice *dev)
->>>     }
->>> }
->>> 
->>> +static Property via_ide_properties[] = {
->>> +    DEFINE_PROP_LINK("isa-bus", PCIIDEState, isa_bus,
->>> +                     TYPE_ISA_BUS, ISABus *),
->>> +    DEFINE_PROP_END_OF_LIST(),
->>> +};
->>> +
->>> static void via_ide_class_init(ObjectClass *klass, void *data)
->>> {
->>>     DeviceClass *dc = DEVICE_CLASS(klass);
->>> @@ -224,6 +231,7 @@ static void via_ide_class_init(ObjectClass *klass, 
->>> void *data)
->>>     k->revision = 0x06;
->>>     k->class_id = PCI_CLASS_STORAGE_IDE;
->>>     set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
->>> +    device_class_set_props(dc, via_ide_properties);
->>> }
->>> 
->>> static const TypeInfo via_ide_info = {
->>> 
->
->
---3866299591-368746287-1621471607=:90135--
 
