@@ -2,49 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1449338B3F9
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 18:02:36 +0200 (CEST)
-Received: from localhost ([::1]:32924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F209D38B406
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 18:07:11 +0200 (CEST)
+Received: from localhost ([::1]:45792 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljl82-0007tR-Qz
-	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 12:02:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56036)
+	id 1ljlCS-0008Jq-4X
+	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 12:07:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <steven.price@arm.com>)
- id 1ljl3z-0006IR-Mr
- for qemu-devel@nongnu.org; Thu, 20 May 2021 11:58:20 -0400
-Received: from foss.arm.com ([217.140.110.172]:47230)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <steven.price@arm.com>) id 1ljl3n-0005bU-EP
- for qemu-devel@nongnu.org; Thu, 20 May 2021 11:58:16 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 563B131B;
- Thu, 20 May 2021 08:58:05 -0700 (PDT)
-Received: from [192.168.1.179] (unknown [172.31.20.19])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 804E03F73B;
- Thu, 20 May 2021 08:58:02 -0700 (PDT)
-From: Steven Price <steven.price@arm.com>
-Subject: Re: [PATCH v12 7/8] KVM: arm64: ioctl to fetch/store tags in a guest
-To: Catalin Marinas <catalin.marinas@arm.com>
-References: <20210517123239.8025-1-steven.price@arm.com>
- <20210517123239.8025-8-steven.price@arm.com> <20210520120556.GC12251@arm.com>
-Message-ID: <dd5ab3a0-5a74-b145-2485-d6d871be945b@arm.com>
-Date: Thu, 20 May 2021 16:58:01 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ljlAZ-0006SZ-M0
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 12:05:11 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:35810)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ljlAS-0008If-Pv
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 12:05:07 -0400
+Received: by mail-wr1-x431.google.com with SMTP id a4so18265521wrr.2
+ for <qemu-devel@nongnu.org>; Thu, 20 May 2021 09:04:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=pIgUFuK4GjatAeUaxzKXkqtZnvCBfiJ3fSAhuCayS54=;
+ b=ry2V26QjkqB5KU5gqHnAQOiDk7MO58XUbWjoFOCQ3gfECDFWen03oa7hBxJwZ+6A8d
+ mo9P588LF+EafXanZErCxXQeiyWMW5T9PZ/sMQoIwWeqGFP6GXEsvp9UWb14C5HXjrDa
+ i0lpOPLsaEMqLJE5Wq99geccbPTcm4C6aZUH8j5eu/PahbZ+8NfNghLHMDQKmnpkmOdk
+ CDzNBz2DcxLmjRdJLMg1L15k2vWB2VeAptlRfgQyrBkqS3xuaAVw4PbopjI5FLtJ9qFn
+ ISvltrxrLPEXgSSClm/sn9/XQS/pzfcu1sdmkXBLBp5noE8xKxpMFrur175SI3xR79J7
+ KyxA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=pIgUFuK4GjatAeUaxzKXkqtZnvCBfiJ3fSAhuCayS54=;
+ b=WpplCfI9O0aKO3scWGM25+fVsPsFr0XXefkV+WyuNdlDaZur9iQEVwevk/Ob1gB7mj
+ VYHSKx1jEZ2xQNZ42ENNgMKtuTNc08QXiOzmW1Qf1lze/xnDSX5otkgqfvZAcd7cGbt/
+ ncLqTOxQwLTQJTibVOZsRDh0TMDIGOT5utmMbp3/MZpPACCDmpiym34n6vsTCuxBq5Dj
+ jCW6a06bFalJD/BcfcaTtEC5x86Q5eg4OUxREgG51F1bb4FNa/7tT8FUZvW+ItIeDDH9
+ LfpJiFf6OxvN63Wwfh+fMFBlQ1sh70VcM3caVFhLENxcjdB6rSXauWghA1DQr/Dctlnr
+ N30g==
+X-Gm-Message-State: AOAM530axS6+USefrIA4r4eiZaL3ut5xaSRYTmnCZaavFOATLA1ibrFg
+ eXqgRKyaxWjxZNTag/ITNtcvBQ==
+X-Google-Smtp-Source: ABdhPJxZ5furVucIpLUHSwt93mGG+1Sur/dkGAoZjtza/utWoLIkymcf52UKA24mCKkPQp2PFqi5vg==
+X-Received: by 2002:a05:6000:1849:: with SMTP id
+ c9mr4954830wri.282.1621526697689; 
+ Thu, 20 May 2021 09:04:57 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id s11sm7220960wmf.14.2021.05.20.09.04.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 20 May 2021 09:04:56 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 6D4F91FF7E;
+ Thu, 20 May 2021 17:04:55 +0100 (BST)
+References: <466cf154-cabf-2e8f-021f-a82cf7b88b31@suse.de>
+ <20be5f7e-f475-4f3c-0fca-fff1750c08fe@suse.de> <87tun0cf3d.fsf@linaro.org>
+ <198d8ef3-cc15-6f9d-6455-286748a705a8@suse.de>
+User-agent: mu4e 1.5.13; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Claudio Fontana <cfontana@suse.de>
+Subject: Re: latest GOOD state of series i386 cleanup, arm cleanup, s390
+ cleanup
+Date: Thu, 20 May 2021 17:02:45 +0100
+In-reply-to: <198d8ef3-cc15-6f9d-6455-286748a705a8@suse.de>
+Message-ID: <871ra1crx4.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20210520120556.GC12251@arm.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=217.140.110.172;
- envelope-from=steven.price@arm.com; helo=foss.arm.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x431.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -58,145 +90,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Andrew Jones <drjones@redhat.com>, Haibo Xu <Haibo.Xu@arm.com>,
- Suzuki K Poulose <suzuki.poulose@arm.com>, qemu-devel@nongnu.org,
- Marc Zyngier <maz@kernel.org>, Juan Quintela <quintela@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, linux-kernel@vger.kernel.org,
- Dave Martin <Dave.Martin@arm.com>, James Morse <james.morse@arm.com>,
- linux-arm-kernel@lists.infradead.org, Thomas Gleixner <tglx@linutronix.de>,
- Will Deacon <will@kernel.org>, kvmarm@lists.cs.columbia.edu,
- Julien Thierry <julien.thierry.kdev@gmail.com>
+Cc: Liang Yan <lyan@suse.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>,
+ Philippe =?utf-8?Q?M?= =?utf-8?Q?athieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Al Cho <ACho@suse.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 20/05/2021 13:05, Catalin Marinas wrote:
-> On Mon, May 17, 2021 at 01:32:38PM +0100, Steven Price wrote:
->> diff --git a/arch/arm64/include/uapi/asm/kvm.h b/arch/arm64/include/uapi/asm/kvm.h
->> index 24223adae150..b3edde68bc3e 100644
->> --- a/arch/arm64/include/uapi/asm/kvm.h
->> +++ b/arch/arm64/include/uapi/asm/kvm.h
->> @@ -184,6 +184,17 @@ struct kvm_vcpu_events {
->>  	__u32 reserved[12];
->>  };
->>  
->> +struct kvm_arm_copy_mte_tags {
->> +	__u64 guest_ipa;
->> +	__u64 length;
->> +	void __user *addr;
->> +	__u64 flags;
->> +	__u64 reserved[2];
-> 
-> I forgot the past discussions, what's the reserved for? Future
-> expansion?
 
-Yes - for future expansion. Marc asked for them[1]:
+Claudio Fontana <cfontana@suse.de> writes:
 
-> I'd be keen on a couple of reserved __64s. Just in case...
+> On 5/18/21 4:02 PM, Alex Benn=C3=A9e wrote:
+>>=20
+>> Claudio Fontana <cfontana@suse.de> writes:
+>>=20
+>>> On 5/17/21 11:53 AM, Claudio Fontana wrote:
+>>>> Hello all,
+>>>>
+>>>> due to my inactivity for a few weeks coupled likely with the upstream =
+processes around qemu-6.0 now the series:
+>>>>
+>>>> 1) i386 cleanup
+>>>> 2) arm cleanup and experimental kvm-only build
+>>>> 3) s390 cleanup
+>>>>
+>>>> have become stale and hard to rebase on latest master.
+>>>> This effect is compounded by the fact that lots of broken tests in
+>>>> master have been added.
+>>=20
+>> Which tests are these? I know master suffers a bit from occasional
+>> falling red but to my knowledge everything should be green (at least
+>> from my last PR anyway ;-).
+>>=20
+>>>>
+>>>> In the interest of not losing work,
+>>>> I provide here the latest known good state of these series:
+>>>>
+>>>> For the i386 cleanup:
+>>>> https://gitlab.com/hw-claudio/qemu/-/pipelines/293603386
+>>>>
+>>>> Tests started breaking horribly since about 1/2 weeks.
+>>=20
+>> The pipeline only shows one failed test (checkpatch) which is an
+>> allowfail I believe. /me is confused.
+>
+> Hi Alex, yes, I pointed to the last pipeline that works :-)
+>
+>>=20
+>>>> The latest version of the cleanup is reachable here:
+>>>>
+>>>> https://github.com/qemu/qemu.git branch "i386_cleanup_9"
+>>>>
+>>>> In my understanding, Paolo has now picked up this one.
+>>>>
+>>>> For the ARM cleanup and experimental kvm-only build:
+>>>>
+>>>> https://gitlab.com/hw-claudio/qemu/-/pipelines/293603376
+>>>>
+>>>> https://github.com/qemu/qemu.git branch "arm_cleanup_v15"
+>>>>
+>>>> Again here tests started misbehaving in the same timeframe.
+>>>>
+>>>> The state of ARM cleanup is still experimental, maybe Liang or
+>>>> Philippe you can adopt this one?
 
-[1] https://lore.kernel.org/r/87ft14xl9e.wl-maz%40kernel.org
+I've done a re-base onto the current master (and my testing/next):
 
->> diff --git a/arch/arm64/kvm/arm.c b/arch/arm64/kvm/arm.c
->> index e89a5e275e25..4b6c83beb75d 100644
->> --- a/arch/arm64/kvm/arm.c
->> +++ b/arch/arm64/kvm/arm.c
->> @@ -1309,6 +1309,65 @@ static int kvm_vm_ioctl_set_device_addr(struct kvm *kvm,
->>  	}
->>  }
->>  
->> +static int kvm_vm_ioctl_mte_copy_tags(struct kvm *kvm,
->> +				      struct kvm_arm_copy_mte_tags *copy_tags)
->> +{
->> +	gpa_t guest_ipa = copy_tags->guest_ipa;
->> +	size_t length = copy_tags->length;
->> +	void __user *tags = copy_tags->addr;
->> +	gpa_t gfn;
->> +	bool write = !(copy_tags->flags & KVM_ARM_TAGS_FROM_GUEST);
->> +	int ret = 0;
->> +
->> +	if (copy_tags->reserved[0] || copy_tags->reserved[1])
->> +		return -EINVAL;
->> +
->> +	if (copy_tags->flags & ~KVM_ARM_TAGS_FROM_GUEST)
->> +		return -EINVAL;
->> +
->> +	if (length & ~PAGE_MASK || guest_ipa & ~PAGE_MASK)
->> +		return -EINVAL;
->> +
->> +	gfn = gpa_to_gfn(guest_ipa);
->> +
->> +	mutex_lock(&kvm->slots_lock);
->> +
->> +	while (length > 0) {
->> +		kvm_pfn_t pfn = gfn_to_pfn_prot(kvm, gfn, write, NULL);
->> +		void *maddr;
->> +		unsigned long num_tags = PAGE_SIZE / MTE_GRANULE_SIZE;
->> +
->> +		if (is_error_noslot_pfn(pfn)) {
->> +			ret = -EFAULT;
->> +			goto out;
->> +		}
->> +
->> +		maddr = page_address(pfn_to_page(pfn));
->> +
->> +		if (!write) {
->> +			num_tags = mte_copy_tags_to_user(tags, maddr, num_tags);
->> +			kvm_release_pfn_clean(pfn);
-> 
-> Do we need to check if PG_mte_tagged is set? If the page was not faulted
-> into the guest address space but the VMM has the page, does the
-> gfn_to_pfn_prot() guarantee that a kvm_set_spte_gfn() was called? If
-> not, this may read stale tags.
+  https://github.com/stsquad/qemu/tree/review/arm_cleanup_v15
 
-Ah, I hadn't thought about that... No I don't believe gfn_to_pfn_prot()
-will fault it into the guest.
+which is currently working it's way through my CI:
 
->> +		} else {
->> +			num_tags = mte_copy_tags_from_user(maddr, tags,
->> +							   num_tags);
->> +			kvm_release_pfn_dirty(pfn);
->> +		}
-> 
-> Same question here, if the we can't guarantee the stage 2 pte being set,
-> we'd need to set PG_mte_tagged.
+  https://gitlab.com/stsquad/qemu/-/pipelines/306727076
 
-This is arguably worse as we'll be writing tags into the guest but
-without setting PG_mte_tagged - so they'll be lost when the guest then
-faults the pages in. Which sounds like it should break migration.
+As I've got patches waiting for this re-factor I'm happy to take the
+series on if you've run out of time/patience ;-)
 
-I think the below should be safe, and avoids the overhead of setting the
-flag just for reads.
-
-Thanks,
-
-Steve
-
-----8<----
-		page = pfn_to_page(pfn);
-		maddr = page_address(page);
-
-		if (!write) {
-			if (test_bit(PG_mte_tagged, &page->flags))
-				num_tags = mte_copy_tags_to_user(tags, maddr,
-							MTE_GRANULES_PER_PAGE);
-			else
-				/* No tags in memory, so write zeros */
-				num_tags = MTE_GRANULES_PER_PAGE -
-					clear_user(tag, MTE_GRANULES_PER_PAGE);
-			kvm_release_pfn_clean(pfn);
-		} else {
-			num_tags = mte_copy_tags_from_user(maddr, tags,
-							MTE_GRANULES_PER_PAGE);
-			kvm_release_pfn_dirty(pfn);
-		}
-
-		if (num_tags != MTE_GRANULES_PER_PAGE) {
-			ret = -EFAULT;
-			goto out;
-		}
-
-		if (write)
-			test_and_set_bit(PG_mte_tagged, &page->flags);
+--=20
+Alex Benn=C3=A9e
 
