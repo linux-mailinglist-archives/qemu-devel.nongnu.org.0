@@ -2,75 +2,138 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EFE838B365
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 17:39:59 +0200 (CEST)
-Received: from localhost ([::1]:37698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 044F238B34E
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 17:34:26 +0200 (CEST)
+Received: from localhost ([::1]:48724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljkmE-0007zd-3I
-	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 11:39:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49780)
+	id 1ljkgq-0004b1-T9
+	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 11:34:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50116)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ljkbV-00089y-AF
- for qemu-devel@nongnu.org; Thu, 20 May 2021 11:28:53 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:50751)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ljkbS-0000iA-Us
- for qemu-devel@nongnu.org; Thu, 20 May 2021 11:28:53 -0400
-Received: by mail-wm1-x330.google.com with SMTP id t206so9468265wmf.0
- for <qemu-devel@nongnu.org>; Thu, 20 May 2021 08:28:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=PEqMXhVTCuRe0JtaB2Xv9j94Ph2CmIe5jNctvMp+E7g=;
- b=AChR9As+LwNxnJJGr+XOWQPoitDm0bQlsGZYsOwUzApt24opiHBW1dMs741cO/9UxG
- +DQr8cNUprZh1apLUJfKgz67TS8/BBFvI2B7yvSju813MqD06d9FCCRVfIDpHoZyV/+8
- XPXSK+fccKRKwTyXRmsuai5HxwNMzhaYfyXyEVckkN+PZv8YWLFUAec312xCkmRN6C4u
- e2vXJMPeaW5ZGe6/ljHzHft/0Q5UV9xdBGNzim4Wbwn3M+BUcP0pgqcTitxMEAzH6XkR
- dFcStwIknjQkpwd4zz4I/LirQ4+si8XX+pTi8b8C3GBzoGltOMYRE2Evx0d2c0y3jKNK
- oZOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=PEqMXhVTCuRe0JtaB2Xv9j94Ph2CmIe5jNctvMp+E7g=;
- b=ZkIJaBXaPUypkyVq2kKBOavieSqOgvPR3wEv4kstb2XCRNqbgRQtEK8/sIG1nwOTJ6
- 0g/4y98/3iibbnK88uXWONDKbQyVj23dsHfTkE9FMp6kUi3U9pqwiFvmr8T6QVPA5rbj
- exDoUOnBGwjxvvJbBhDaQx6qOf6ToXwBTOyE4pjzmgorO9nxHrW4RZA5WyybqrQvW+4s
- vHCgW67cjY7E4LLzjJ3KR7FD4i1ajHHQaj0CFD2UX7UeUZx6UTrRXTeyIG/XNmB+AMao
- x6pktnQyMRcMPPttvzzGHMEklrR3UdIId413t2pRB9CSdFLGgwmbGlg0nJuB3lOWMm/O
- IUyg==
-X-Gm-Message-State: AOAM531keCq0guhZKyEvUYpeKuJoh264fkkP9zWf8kZK4g2/d3I7viH7
- s4QLOxW1+O1KTlzjWmp8LvObwg==
-X-Google-Smtp-Source: ABdhPJylCAaiRgXLNA/239zTwY4brz/qttEpSMGGyNwCmG/SFslwsie6kLl1yfqFxpvwfcmtZw9yfQ==
-X-Received: by 2002:a1c:4482:: with SMTP id r124mr4722902wma.42.1621524529333; 
- Thu, 20 May 2021 08:28:49 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id r2sm3916126wrv.39.2021.05.20.08.28.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 May 2021 08:28:49 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Subject: [PATCH 9/9] target/arm: Allow board models to specify initial NS VTOR
-Date: Thu, 20 May 2021 16:28:40 +0100
-Message-Id: <20210520152840.24453-10-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210520152840.24453-1-peter.maydell@linaro.org>
-References: <20210520152840.24453-1-peter.maydell@linaro.org>
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1ljkd1-0001bh-St; Thu, 20 May 2021 11:30:27 -0400
+Received: from mail-eopbgr60096.outbound.protection.outlook.com
+ ([40.107.6.96]:39687 helo=EUR04-DB3-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1ljkcy-0001R0-Uh; Thu, 20 May 2021 11:30:27 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=BVjVsDd8vygafQrZOMDjLQf+dmJgFNR6q7LC+5pJKZW/D/vL+7pF7kE6lyBrSkD8smZEg9UuNw25uhnKiQyeR/7OKzCyI2kTX1Rq5KoZSlM0gYAT4+s4QN3gqI3kTzbMra9ZhUH3orXdQPnkAOOYGqu2Cjh/VjnbQe2pOSz2fTKObTg8hqGGWnv16y0K7OBp2CBENkfGdcnBeRYIoOt0H+bfA5+Aj5baVE8mGB4NAPo6Ket3wNfMH9HPJ7C3roh0yhxMhsK72o56HZleUEHY5w9VM2hnUUS9SCMxPUbbH4+l3Cs4gf5J6nxpLXsKo6ICmeygTqgz6UMOhSs0vZsJvg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=A9MpnIBHk+K+AxSVKjlIhONQoDuNHZS/j689wWPgduw=;
+ b=OH1lJiYyrECQRt1uGwddLwJ8EgKv7D1YMmOaOKY/SczbtPjeCobRyAZXIrw1UhBc9X7D/lE61BCzP1D6i3DHxJVFKhAdqAn4/x2f9199LieMm908TRtL8tk1e9pABwTUAMLC386LdrmIdvXGIbAt7L47MqpMM/Pmlk4DmCmbUMgnXKcnSxm4UDJaLMrCdrSrMRpIeMempWMB4Xhr03nyVtDr1nI+Xuq0PKIpxqGu/gTBcxNcoh+CBfPx9K+xzMEy9R+kqEYfeZgOp5ItbSLu/AiAvdKSoE+trSFMPhZAudP6OLgeUAy7Kky2lqlXTJiwc883JNaNOt5A9J0wiWDCfQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=A9MpnIBHk+K+AxSVKjlIhONQoDuNHZS/j689wWPgduw=;
+ b=OiJ0zFwHcATARxB7yDuRrCHHhY0SBaEitNUC/TraqEyJOkQWu36XrJuwHXjWLDfh95Rp1W8LbBHRzmv1xmKuqV9Ct0ByDtrqvuaYV1e4EQHhCHVaTfp/EsUSZsRnxXnudVeIP7wPqlxghdhtMuEGzXDGdicCMsO5I9AWeM+7E68=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM6PR08MB3383.eurprd08.prod.outlook.com (2603:10a6:20b:50::29)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4150.23; Thu, 20 May
+ 2021 15:30:21 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::b403:c1a9:6bb7:133]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::b403:c1a9:6bb7:133%7]) with mapi id 15.20.4129.033; Thu, 20 May 2021
+ 15:30:21 +0000
+Subject: Re: [PATCH v2 5/7] block-copy: add QemuMutex lock for
+ BlockCopyCallState list
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
+Cc: John Snow <jsnow@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
+References: <20210518100757.31243-1-eesposit@redhat.com>
+ <20210518100757.31243-6-eesposit@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <e1170527-29de-0eda-9f66-399e12923bca@virtuozzo.com>
+Date: Thu, 20 May 2021 18:30:19 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.2
+In-Reply-To: <20210518100757.31243-6-eesposit@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [185.215.60.197]
+X-ClientProxiedBy: PR0P264CA0167.FRAP264.PROD.OUTLOOK.COM
+ (2603:10a6:100:1b::35) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x330.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.8] (185.215.60.197) by
+ PR0P264CA0167.FRAP264.PROD.OUTLOOK.COM (2603:10a6:100:1b::35) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4150.23 via Frontend Transport; Thu, 20 May 2021 15:30:21 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 245f09e7-ac82-4e6b-b9f1-08d91ba42e6e
+X-MS-TrafficTypeDiagnostic: AM6PR08MB3383:
+X-Microsoft-Antispam-PRVS: <AM6PR08MB33834258BA676EE1C9457CEFC12A9@AM6PR08MB3383.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:415;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ELroVYMNk7Lv9nxZKcgFAvMMznmlmL0UAvruTbkrIRa6GMkamTumOzz24StrmGPROAhmSk7Xf+WW7iWlQMObZ55Q7AYqwWQjLVIqizRMhTXon92oEXOR69oyk286v1wuh0lA5nufUAD4sLTI+wjVGf18A+m8vBIOo3kNz9D1aMoI2maWNvD7y+Hk7PXMM2dL01C2G8CjLYvQ78+rS5ZtGz71rOHXV32ODqJg5h16AbG1B4x1z/uN/rNQ9Zpq+NSZipSS54lF2qmAjMFhQyhLOgwbLOvemnOUZ51E6EuiNWoBibEnbqwsz/I95zeo+bvOJ1QODC/PwZhyWIMybEoeFElpvu5yazYqY6/4qHt5g1uzsgrFFdfexf0rRuSBHK8cVxwxeog+DToznlpVQ5UM6xggciAMhHO0eV/lVByUOyd946d3qZwnttNo9dRfHYV8oH/SgoBPRR0OOeA+l8kX1emEOeZs26GbhLcSoRpZrlhyrDSRiGmrSq8UXctqWig7Sg1mCC5IuvYbzV5SX/mnRd+P95xeA6XpAd49t2p+KfcMS14XK3roqFzXgNKK1WAFiDILOsYurHwM+53ARmm2mldE2NUl5yLmSwNkSgKTn7e6Y3rXO54+1E7tbgo7Hxz/xzUYSipWUR6B0xtpj8ogHjHS+8FWkJzZ2m3+IcJ/DAB5OLM8u+hnwR+mLJrZdmn6UerSCbZFo0E+2hIkFCW7v6SfSao6DIzZkZnL2FwlH04=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(136003)(376002)(346002)(39830400003)(396003)(366004)(38350700002)(6486002)(38100700002)(54906003)(36756003)(316002)(4326008)(16576012)(83380400001)(186003)(8936002)(31686004)(66556008)(956004)(66946007)(52116002)(66476007)(2616005)(2906002)(16526019)(8676002)(5660300002)(31696002)(26005)(86362001)(478600001)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?N3dENXN6eEprVlFRTk5FaUdDc1p4blQ2aUlHcnI5VWlyQUpiSXorbmsycHFz?=
+ =?utf-8?B?TFZhdHpHSnd1VHZJSXR6ZVVEWVBKZEZxNnBoZFBnTW4zRTRIeXd3blJEa2cz?=
+ =?utf-8?B?N0poK28wTDQrRFJ2azl2MElHMzB1TG93aEZ6dXpjaXN3OXFrd3ZEMC9HQkZY?=
+ =?utf-8?B?OUpCTGs3WVRQSVIwcjBoWXdRR3ZqYXE1Y3YrTXBJR2RRN1ZrSm9OQzV0NDRu?=
+ =?utf-8?B?RHgyKy9Cb2FyQ0RTNktwVXByT1FiaVNyWHRiR0h3VE94ZkJLRmt0VU4vRE9p?=
+ =?utf-8?B?dXVtSFZTeWdIZ3lQRUpmVVVKZlhyRTBMbTQ5Z1VtQzU0L2pKQlRBcHkrWCtB?=
+ =?utf-8?B?bnRNcFBvblpqenBpdzZzTTFHQkt3dGFPd0QzVnZ1UmFFUWVCWi9UQk1zd2ta?=
+ =?utf-8?B?TGl3M1ZyNDNyakpjd01CUDJZaEtXSXV6cURqbU05QWlKQUhwSWdVWlBoUGh6?=
+ =?utf-8?B?ZmJyUCtvS0tlLzI4KytIVVhTQVhyZ2ZTYVUveXNkVWIzQ1ErKzQ0V2lRL3FO?=
+ =?utf-8?B?bUhsdjVkYXBLSUhJckd6dncrRVhxa0YwTjJTNlpZcUxod3ozTGlEZ3haVFky?=
+ =?utf-8?B?WmtremUxbXNQUURUem1JSnpzNkVyVDE4UExyMGJPZjVid1FmZDBaeWFOZkpV?=
+ =?utf-8?B?OXpPZzVKV1BBMDlQZ2Z6MnNHZnp6cXorK0VrSFRXOXNRVkNMVGI4ZVpuWTN2?=
+ =?utf-8?B?STV5M0lYSTRNczdJK2k3SGVTS1FKZ25pekN2c1NVSlBVbmQreUUwNFBPZFRv?=
+ =?utf-8?B?VkFtMjY3YlVmT01uVW9SQXVtMnRNTDd4Sjh1ZlB5YTUvM29SUk0rUS9ZTWpy?=
+ =?utf-8?B?VndHcGphdU9WdVR0Q2FtVmNjQ0dWbURZeTJHa25lVnA1K2pxWm5hTHRaN1E2?=
+ =?utf-8?B?NitqOWcwNFp0MllyNHNDTXRsLzZ4eEZ5NTlhNEpRQXhNcjhkUS9kRElqK1Zr?=
+ =?utf-8?B?eFB6T1E4bFFCSS9Kai8wQzVTMmsydEdIOWpUYm95ZUxDc1I3cjlTZ1J4djUy?=
+ =?utf-8?B?SVV6WnB5QlI4Uy8yK1Z0OVA4dFRVbGgxRUh1aGpOSFJhSm9rNWZyeGQxNlBh?=
+ =?utf-8?B?WjRTMndoWTJyWktleUV6cWJ5UzdGTDY1TWIxRGFZUzBkdHIrYXROZkJlMFlR?=
+ =?utf-8?B?anZUNlRlMXcxVFM0OVoxYzBnRndrNkV1cEdZbXB3cFl6bHRxMHBBaGMyT215?=
+ =?utf-8?B?UXJNVDZFQ0RnYzVya1V4TVQwUG4wc0tXQzU1ZG1DVXJiMlJFeUJLTlhCMXJy?=
+ =?utf-8?B?ak5ZdE1EQnRBYlVXRWF4SDVqNmdKbENSeEQxVGtrR1N1SGtxOXlJVXNzNEVx?=
+ =?utf-8?B?SWFJbHZsUkJCUU1YOVhwaTdPaUU5N3BsTk5hS2o5VlZhTWFNR0M2MW43Q3FU?=
+ =?utf-8?B?TVBZVXV2djBYbklyZWlJZFE4dWxHYzdKRk0zMzh5S3FZOFU5MHpzY1dkM0tT?=
+ =?utf-8?B?ZXNwWHV5UXdjRWZEa3JxdFFySm5VaFVteHZxK3o5QmlTd0xTSDZOVHVLMjAx?=
+ =?utf-8?B?N1ZBM1BoV3pCREZ3VVJKT096UXlFbUczMEo0TEpzeWw2dnhJbUxyU1NwREdj?=
+ =?utf-8?B?cUJPeEdQRmVzV2szOXlEblhMeFg4dXp0ejFVekVhWm1xZjBBRzY5U09UVDcx?=
+ =?utf-8?B?VlI5d2J6YTFLYXJtSmhnM24xbUNlOGF3eFRFZ1lhNTFoN0tHZXZaZmpEaml3?=
+ =?utf-8?B?eFFubmtSdnlDbWxvKy9TblJsUTlOdERjN01PSzlCQUI5L3ZRb3R5WGdNd0s5?=
+ =?utf-8?Q?PQcp/Z4RLO7V7V+OrF8mGORmEGwYgFxtWzgJvaH?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 245f09e7-ac82-4e6b-b9f1-08d91ba42e6e
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 May 2021 15:30:21.7977 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 5rhcyL4fDFjrD3+vIscoH7YsmNOKBbMzxLUeHZrk5QYqxTjbioAEQQ0PEGjh5RSASSuS/nen48sH+cPlwDp0gN6Pw+c+aWXaWL1EsuA6908=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3383
+Received-SPF: pass client-ip=40.107.6.96;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR04-DB3-obe.outbound.protection.outlook.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,113 +149,117 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently we allow board models to specify the initial value of the
-Secure VTOR register, using an init-svtor property on the TYPE_ARMV7M
-object which is plumbed through to the CPU.  Allow board models to
-also specify the initial value of the Non-secure VTOR via a similar
-init-nsvtor property.
+18.05.2021 13:07, Emanuele Giuseppe Esposito wrote:
+> As for BlockCopyTask, add a lock to protect BlockCopyCallState
+> ret and sleep_state fields. Also move ret, finished and cancelled
+> in the OUT fields of BlockCopyCallState.
+> 
+> Here a QemuMutex is used to protect QemuCoSleep field, since it
+> can be concurrently invoked also from outside threads.
+> 
+> .finished, .cancelled and reads to .ret and .error_is_read will be
+> protected in the following patch.
+> 
+> .sleep state is handled in the series "coroutine: new sleep/wake API"
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
-I admit to not having a publicly-visible use for this yet, but
-it does bring the NSVTOR into line with both our handling of the
-SVTOR and also with the hardware, which allows both to be set
-via reset-time config signal inputs, as seen eg on the Cortex-M55:
-https://developer.arm.com/documentation/101051/0002/Signal-descriptions/Reset-configuration-signals?lang=en
----
- include/hw/arm/armv7m.h |  2 ++
- target/arm/cpu.h        |  2 ++
- hw/arm/armv7m.c         |  7 +++++++
- target/arm/cpu.c        | 10 ++++++++++
- 4 files changed, 21 insertions(+)
+Could we live with one mutex for all needs? Why to add one more?
 
-diff --git a/include/hw/arm/armv7m.h b/include/hw/arm/armv7m.h
-index 189b23a8ceb..bc6733c5184 100644
---- a/include/hw/arm/armv7m.h
-+++ b/include/hw/arm/armv7m.h
-@@ -46,6 +46,7 @@ OBJECT_DECLARE_SIMPLE_TYPE(ARMv7MState, ARMV7M)
-  *   devices will be automatically layered on top of this view.)
-  * + Property "idau": IDAU interface (forwarded to CPU object)
-  * + Property "init-svtor": secure VTOR reset value (forwarded to CPU object)
-+ * + Property "init-nsvtor": non-secure VTOR reset value (forwarded to CPU object)
-  * + Property "vfp": enable VFP (forwarded to CPU object)
-  * + Property "dsp": enable DSP (forwarded to CPU object)
-  * + Property "enable-bitband": expose bitbanded IO
-@@ -69,6 +70,7 @@ struct ARMv7MState {
-     MemoryRegion *board_memory;
-     Object *idau;
-     uint32_t init_svtor;
-+    uint32_t init_nsvtor;
-     bool enable_bitband;
-     bool start_powered_off;
-     bool vfp;
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index 0e33db88240..af67e2bf2e3 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -869,6 +869,8 @@ struct ARMCPU {
- 
-     /* For v8M, initial value of the Secure VTOR */
-     uint32_t init_svtor;
-+    /* For v8M, initial value of the Non-secure VTOR */
-+    uint32_t init_nsvtor;
- 
-     /* [QEMU_]KVM_ARM_TARGET_* constant for this CPU, or
-      * QEMU_KVM_ARM_TARGET_NONE if the kernel doesn't support this CPU type.
-diff --git a/hw/arm/armv7m.c b/hw/arm/armv7m.c
-index af0d935bf78..9ce5c30cd5c 100644
---- a/hw/arm/armv7m.c
-+++ b/hw/arm/armv7m.c
-@@ -176,6 +176,12 @@ static void armv7m_realize(DeviceState *dev, Error **errp)
-             return;
-         }
-     }
-+    if (object_property_find(OBJECT(s->cpu), "init-nsvtor")) {
-+        if (!object_property_set_uint(OBJECT(s->cpu), "init-nsvtor",
-+                                      s->init_nsvtor, errp)) {
-+            return;
-+        }
-+    }
-     if (object_property_find(OBJECT(s->cpu), "start-powered-off")) {
-         if (!object_property_set_bool(OBJECT(s->cpu), "start-powered-off",
-                                       s->start_powered_off, errp)) {
-@@ -254,6 +260,7 @@ static Property armv7m_properties[] = {
-                      MemoryRegion *),
-     DEFINE_PROP_LINK("idau", ARMv7MState, idau, TYPE_IDAU_INTERFACE, Object *),
-     DEFINE_PROP_UINT32("init-svtor", ARMv7MState, init_svtor, 0),
-+    DEFINE_PROP_UINT32("init-nsvtor", ARMv7MState, init_nsvtor, 0),
-     DEFINE_PROP_BOOL("enable-bitband", ARMv7MState, enable_bitband, false),
-     DEFINE_PROP_BOOL("start-powered-off", ARMv7MState, start_powered_off,
-                      false),
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 4eb0d2f85c4..167c4feee4b 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -327,6 +327,7 @@ static void arm_cpu_reset(DeviceState *dev)
-         env->regs[14] = 0xffffffff;
- 
-         env->v7m.vecbase[M_REG_S] = cpu->init_svtor & 0xffffff80;
-+        env->v7m.vecbase[M_REG_NS] = cpu->init_nsvtor & 0xffffff80;
- 
-         /* Load the initial SP and PC from offset 0 and 4 in the vector table */
-         vecbase = env->v7m.vecbase[env->v7m.secure];
-@@ -1272,6 +1273,15 @@ void arm_cpu_post_init(Object *obj)
-                                        &cpu->init_svtor,
-                                        OBJ_PROP_FLAG_READWRITE);
-     }
-+    if (arm_feature(&cpu->env, ARM_FEATURE_M)) {
-+        /*
-+         * Initial value of the NS VTOR (for cores without the Security
-+         * extension, this is the only VTOR)
-+         */
-+        object_property_add_uint32_ptr(obj, "init-nsvtor",
-+                                       &cpu->init_nsvtor,
-+                                       OBJ_PROP_FLAG_READWRITE);
-+    }
- 
-     qdev_property_add_static(DEVICE(obj), &arm_cpu_cfgend_property);
- 
+> 
+> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+> ---
+>   block/block-copy.c | 27 +++++++++++++++++++--------
+>   1 file changed, 19 insertions(+), 8 deletions(-)
+> 
+> diff --git a/block/block-copy.c b/block/block-copy.c
+> index 3a949fab64..d5ed5932b0 100644
+> --- a/block/block-copy.c
+> +++ b/block/block-copy.c
+> @@ -55,13 +55,14 @@ typedef struct BlockCopyCallState {
+>       QLIST_ENTRY(BlockCopyCallState) list;
+>   
+>       /* State */
+> -    int ret;
+>       bool finished;
+> -    QemuCoSleep sleep;
+> -    bool cancelled;
+> +    QemuCoSleep sleep; /* TODO: protect API with a lock */
+>   
+>       /* OUT parameters */
+> +    bool cancelled;
+> +    /* Fields protected by calls_lock in BlockCopyState */
+>       bool error_is_read;
+> +    int ret;
+>   } BlockCopyCallState;
+>   
+>   typedef struct BlockCopyTask {
+> @@ -110,6 +111,7 @@ typedef struct BlockCopyState {
+>       BlockCopyMethod method;
+>       CoMutex tasks_lock;
+>       QLIST_HEAD(, BlockCopyTask) tasks; /* All tasks from all block-copy calls */
+> +    QemuMutex calls_lock;
+>       QLIST_HEAD(, BlockCopyCallState) calls;
+>       /* State fields that use a thread-safe API */
+>       BdrvDirtyBitmap *copy_bitmap;
+> @@ -289,6 +291,7 @@ void block_copy_state_free(BlockCopyState *s)
+>       }
+>   
+>       ratelimit_destroy(&s->rate_limit);
+> +    qemu_mutex_destroy(&s->calls_lock);
+>       bdrv_release_dirty_bitmap(s->copy_bitmap);
+>       shres_destroy(s->mem);
+>       g_free(s);
+> @@ -349,6 +352,7 @@ BlockCopyState *block_copy_state_new(BdrvChild *source, BdrvChild *target,
+>   
+>       ratelimit_init(&s->rate_limit);
+>       qemu_co_mutex_init(&s->tasks_lock);
+> +    qemu_mutex_init(&s->calls_lock);
+>       QLIST_INIT(&s->tasks);
+>       QLIST_INIT(&s->calls);
+>   
+> @@ -492,11 +496,14 @@ static coroutine_fn int block_copy_task_entry(AioTask *task)
+>   
+>       ret = block_copy_do_copy(t->s, t->offset, t->bytes, t->zeroes,
+>                                &error_is_read);
+> -    if (ret < 0 && !t->call_state->ret) {
+> -        t->call_state->ret = ret;
+> -        t->call_state->error_is_read = error_is_read;
+> -    } else {
+> -        progress_work_done(t->s->progress, t->bytes);
+> +
+> +    WITH_QEMU_LOCK_GUARD(&t->s->calls_lock) {
+> +        if (ret < 0 && !t->call_state->ret) {
+> +            t->call_state->ret = ret;
+> +            t->call_state->error_is_read = error_is_read;
+> +        } else {
+> +            progress_work_done(t->s->progress, t->bytes);
+> +        }
+>       }
+>       co_put_to_shres(t->s->mem, t->bytes);
+>       block_copy_task_end(t, ret);
+> @@ -740,7 +747,9 @@ static int coroutine_fn block_copy_common(BlockCopyCallState *call_state)
+>   {
+>       int ret;
+>   
+> +    qemu_mutex_lock(&call_state->s->calls_lock);
+>       QLIST_INSERT_HEAD(&call_state->s->calls, call_state, list);
+> +    qemu_mutex_unlock(&call_state->s->calls_lock);
+>   
+>       do {
+>           ret = block_copy_dirty_clusters(call_state);
+> @@ -767,7 +776,9 @@ static int coroutine_fn block_copy_common(BlockCopyCallState *call_state)
+>           call_state->cb(call_state->cb_opaque);
+>       }
+>   
+> +    qemu_mutex_lock(&call_state->s->calls_lock);
+>       QLIST_REMOVE(call_state, list);
+> +    qemu_mutex_unlock(&call_state->s->calls_lock);
+>   
+>       return ret;
+>   }
+> 
+
+
 -- 
-2.20.1
-
+Best regards,
+Vladimir
 
