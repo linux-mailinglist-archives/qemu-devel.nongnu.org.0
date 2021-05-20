@@ -2,65 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFB9F38B03F
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 15:42:55 +0200 (CEST)
-Received: from localhost ([::1]:48974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8433338B04C
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 15:46:17 +0200 (CEST)
+Received: from localhost ([::1]:52114 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljiwr-0004Rr-EP
-	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 09:42:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50264)
+	id 1ljj0C-0006gt-Jq
+	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 09:46:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51184)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ljiv8-0003dv-K6
- for qemu-devel@nongnu.org; Thu, 20 May 2021 09:41:03 -0400
-Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:43686)
+ id 1ljiyf-0005xD-2B
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 09:44:41 -0400
+Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:43745)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ljiv6-0004zP-Iz
- for qemu-devel@nongnu.org; Thu, 20 May 2021 09:41:02 -0400
-Received: by mail-ej1-x631.google.com with SMTP id l4so25342998ejc.10
- for <qemu-devel@nongnu.org>; Thu, 20 May 2021 06:40:59 -0700 (PDT)
+ id 1ljiyZ-0006tJ-Ac
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 09:44:40 -0400
+Received: by mail-ej1-x630.google.com with SMTP id l4so25361566ejc.10
+ for <qemu-devel@nongnu.org>; Thu, 20 May 2021 06:44:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=Chru3fcjdYBD1Ork3gJ2EWKQv+k7ilFsYFF63K3qb5o=;
- b=hwKEvwh6eCYHunOTdhyt7980QHD8DX+wiqHSVCmMysBtAm/ssO70XJCNTSrOGUqo4s
- SaWR+eFmzuEBKKHjaKUb2GhFUJ2ZLdXBLM96kHHmQ7RVQLLd8P/99a9ZYwl6YV89NA+a
- LDgxPnkJ4nf6T89zZaKtc216ESlrQFmJQnAAKwy5VYGB76mt4HLqEpNe7LkEQ0FvSE0g
- qGU7zNR/gw2h4C9GSJhRemQDqyHxDPeZmylEz3TinYwSX9qTF45t4aHQ81H1FDRBVTdf
- cHb3F0zstHgiI8xty/I3SVolyX+cSTKYw4xQGzEM6OTId1nKIVIBStmeKEhFqT4FzZyJ
- LX0w==
+ :cc; bh=L5UpEfik/almutf4QneFNxzRblrk5C2E8VQtMj4vkhU=;
+ b=rKU+QX4wi/n+dE5Ri0WR5nZgy6cquV1lWk91+wYBjHeer/tt0ES0mu2sN5Sj6wizOW
+ cgvjpAk7oOr/HmEuehRTIXRdQwp3qJ/SvrAEJAlNAqv3pBI/hXlanQz9orivaPY9zTXh
+ oh5AAt0UyTfdntkIJzADrpV6vwCvpDy5O1+6qmdiw4LasAPjasDsv8A4cEuWybsDKRwy
+ M7/PGx+ws9RBNCu7bk0BI9vXaDdpQes+TMw0DIjeL3MopncnRex6rMM2UM0Wm/oxxWfO
+ 6Gnrskl/4cTLHhTQKGSJFzjzSk582+ISudMpNKlbdnAf2wRjYIrmOI2okJye83Lf/Owi
+ NEow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Chru3fcjdYBD1Ork3gJ2EWKQv+k7ilFsYFF63K3qb5o=;
- b=joGcsyKyjpaG3T/7JbgI2ekC/5OpY1Pi5HVHpZpEUV4lo6tGgcY0F8lS3ehmLuKtKj
- KRcibkzmSqRpo42sCBLSXYlvo2Byxh2en4+/re+u1aaSOaleV77sWT8FImH3yA/zLCL9
- grFx1lTZvRPMBsFeJ3PefU4s36bvtOyeq0cEcBjBfr+fFKXrWP7itxLE7PO1wYzKQr9z
- QbUT3Vn3Rt9n4+fO/JksMwlIug/DsJ0aMu2x3+FlXv+KRvmEhiW18wZGPTDlpDqVa59Y
- J4TK6kUowIPU9SBa/q2tNxXcJfoXVNAubp43B9ExIfCuJZAVWjhoikGhirj4P6IuoR+r
- HLCQ==
-X-Gm-Message-State: AOAM5317DTzBn+AO+FYIxALq7xRjGdK/8CCh2/21ilyo/o7hurrpgan1
- 0rC0J3w0HNIzOmxnP07jXfhn32qUun0YneW38/9URA==
-X-Google-Smtp-Source: ABdhPJybzQtU5nL2PIOUWugKCBAzKtBX5O1/LMJ+GD7CAj+CVm67lTMTHKhL5JvFQTEvDXb2E0ETSvYLKhzvaiQ8TpY=
-X-Received: by 2002:a17:906:d8cb:: with SMTP id
- re11mr4800184ejb.482.1621518058657; 
- Thu, 20 May 2021 06:40:58 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=L5UpEfik/almutf4QneFNxzRblrk5C2E8VQtMj4vkhU=;
+ b=FJu9dVGZclWylGGpXN9RwLYfrb0ejbbU/oCaOaUUHloa91qK2ONu4V0QebppeRRHDN
+ wLBGemY0M0ElXmHpH7KWQ66hLovZtJpT/Jtx7SJ9vOFPp62BkkPQwurEza+2XwWHeY3a
+ JyKqxI/gEB6K1BhJGh6QGUD50J+krssQ9I/UPOmf5WtsZkg0jBQDZwM3mmMqsVmhc6V9
+ 087PNV/k5QtIzcqnNPCorY22Sj3ne4v92kol6HCDPbYFFGXminIWETLt5b3SvEt0vYqw
+ f8O7Z4wsZOuDhyI1C795yE37lafAyu7u7Wfg2Cr1eDQg/FbTA398ChtN8ITcyjYynKI/
+ BOWA==
+X-Gm-Message-State: AOAM530wowtZHsa4vcyE6fxfqh99BeWYl1yCoOKthBqa8JMKX60ESw6P
+ GO48HIEgK4IXJg3Tn7OL+DQsVpE7CAbD0BaYgJSuIpQ4Miy3lA==
+X-Google-Smtp-Source: ABdhPJxN4OCVrdMw7Vy1ZZ6FKDoApzMiIz5hWAiVOYAE2NOsev2QpN8PbpDSc+hTNn0GQj7Wg8Wwv36DQsH8z9h7M68=
+X-Received: by 2002:a17:906:d1d2:: with SMTP id
+ bs18mr4864450ejb.56.1621518273854; 
+ Thu, 20 May 2021 06:44:33 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210516123431.718318-1-richard.henderson@linaro.org>
- <20210516123431.718318-43-richard.henderson@linaro.org>
-In-Reply-To: <20210516123431.718318-43-richard.henderson@linaro.org>
+References: <20210514164514.1057680-1-mreitz@redhat.com>
+ <20210514164514.1057680-4-mreitz@redhat.com>
+In-Reply-To: <20210514164514.1057680-4-mreitz@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 20 May 2021 14:40:40 +0100
-Message-ID: <CAFEAcA_qmHQr8C_xGqixqNEiU_c6P37=ZEEo07k0X7_=EJWY-g@mail.gmail.com>
-Subject: Re: [PULL 42/46] softfloat: Move div_floats to softfloat-parts.c.inc
-To: Richard Henderson <richard.henderson@linaro.org>
+Date: Thu, 20 May 2021 14:44:15 +0100
+Message-ID: <CAFEAcA_MynMjOYHmYrkGigV2hF7sFEofFW2vxZuOOs-rxk1=Bg@mail.gmail.com>
+Subject: Re: [PULL 03/19] monitor: hmp_qemu_io: acquire aio contex, fix crash
+To: Max Reitz <mreitz@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::631;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x631.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::630;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x630.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -80,54 +78,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Qemu-block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 16 May 2021 at 13:38, Richard Henderson
-<richard.henderson@linaro.org> wrote:
+On Fri, 14 May 2021 at 17:45, Max Reitz <mreitz@redhat.com> wrote:
 >
-> Rename to parts$N_div.
-> Implement float128_div with FloatParts128.
->
-> Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
+> From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-> +static bool frac64_div(FloatParts64 *a, FloatParts64 *b)
+Hi; Coverity complains about this code (CID 1453194):
+
+> diff --git a/qemu-io.c b/qemu-io.c
+> index bf902302e9..57f07501df 100644
+> --- a/qemu-io.c
+> +++ b/qemu-io.c
+> @@ -411,6 +411,19 @@ static void prep_fetchline(void *opaque)
+>      *fetchable= 1;
+>  }
+>
+> +static int do_qemuio_command(const char *cmd)
 > +{
-> +    uint64_t n1, n0, r, q;
-> +    bool ret;
+> +    int ret;
+> +    AioContext *ctx =
+> +        qemuio_blk ? blk_get_aio_context(qemuio_blk) : qemu_get_aio_context();
+
+Here we check whether qemuio_blk is NULL...
+
 > +
-> +    /*
-> +     * We want a 2*N / N-bit division to produce exactly an N-bit
-> +     * result, so that we do not lose any precision and so that we
-> +     * do not have to renormalize afterward.  If A.frac < B.frac,
-> +     * then division would produce an (N-1)-bit result; shift A left
-> +     * by one to produce the an N-bit result, and return true to
-> +     * decrement the exponent to match.
-> +     *
-> +     * The udiv_qrnnd algorithm that we're using requires normalization,
-> +     * i.e. the msb of the denominator must be set, which is already tru=
-e.
-> +     */
-> +    ret =3D a->frac < b->frac;
-> +    if (ret) {
-> +        n0 =3D a->frac;
-> +        n1 =3D 0;
-> +    } else {
-> +        n0 =3D a->frac >> 1;
-> +        n1 =3D a->frac << 63;
-> +    }
-> +    q =3D udiv_qrnnd(&r, n0, n1, b->frac);
+> +    aio_context_acquire(ctx);
+> +    ret = qemuio_command(qemuio_blk, cmd);
 
-Hi -- Coverity is suspicious about this line (CID 1453209),
-because udiv_qrrnd()'s prototype is
-static inline uint64_t udiv_qrnnd(uint64_t *r, uint64_t n1,
-                                  uint64_t n0, uint64_t d)
-
-but here we pass n0, n1 rather than n1, n0...
+...but here we pass it to qemuio_command(), which assumes it must
+be non-NULL (via calling command() which calls blk_is_available()).
 
 Bug, or false positive ?
 
