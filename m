@@ -2,53 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B958E389FC2
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 10:27:34 +0200 (CEST)
-Received: from localhost ([::1]:56824 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF54B389FA2
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 10:16:32 +0200 (CEST)
+Received: from localhost ([::1]:34952 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lje1l-0004ck-PJ
-	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 04:27:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49834)
+	id 1ljdr5-0005sQ-Vg
+	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 04:16:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1ljduD-00030E-TJ
- for qemu-devel@nongnu.org; Thu, 20 May 2021 04:19:47 -0400
-Received: from mga11.intel.com ([192.55.52.93]:60494)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1ljdu7-0007Oc-Md
- for qemu-devel@nongnu.org; Thu, 20 May 2021 04:19:44 -0400
-IronPort-SDR: uwaRfIktDJ/9NDTE7CMwf1lA1O3Bn5aC00JPmtZ7zMWO7vyDtm6ajhCJDxcRjX6UmwLtVwMI1e
- t0WXIB5bQkmw==
-X-IronPort-AV: E=McAfee;i="6200,9189,9989"; a="198086862"
-X-IronPort-AV: E=Sophos;i="5.82,313,1613462400"; d="scan'208";a="198086862"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 May 2021 01:19:32 -0700
-IronPort-SDR: Yrf8rhZpN86wzNkkTJ+iGu3Cg/zfnRvVX+EgB8KWJlMnTCn5bAjRiiCW32J9U4pDLfNkzxSXTY
- SatNAYBh1dFg==
-X-IronPort-AV: E=Sophos;i="5.82,313,1613462400"; d="scan'208";a="473895730"
-Received: from yangzhon-virtual.bj.intel.com (HELO yangzhon-Virtual)
- ([10.238.144.101])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-SHA256;
- 20 May 2021 01:19:30 -0700
-Date: Thu, 20 May 2021 16:06:52 +0800
-From: Yang Zhong <yang.zhong@intel.com>
-To: qemu-devel@nongnu.org
-Subject: The latest Qemu release can't bootup VM with latest guest kernel.
-Message-ID: <20210520080652.GA16421@yangzhon-Virtual>
+ (Exim 4.90_1) (envelope-from <lizhijian@fujitsu.com>)
+ id 1ljdn6-0001u8-NR
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 04:12:24 -0400
+Received: from mail.cn.fujitsu.com ([183.91.158.132]:9009
+ helo=heian.cn.fujitsu.com) by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <lizhijian@fujitsu.com>) id 1ljdn3-00024x-Ps
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 04:12:24 -0400
+IronPort-Data: =?us-ascii?q?A9a23=3Ai3f9E699jmUpYCu6ht/2DrUDunyTJUtcMsCJ2f8?=
+ =?us-ascii?q?bfWQNrUp2hT0GymUXWWqDPf2JMWD8c9EkaIu090JQvZbUnNMyQFdlrnsFo1Bi8?=
+ =?us-ascii?q?5ScXYvDRqvT04J+FuWaFQQ/qZx2huDodKjYdVeB4Ef3WlTdhSMkj/jQG+OtULC?=
+ =?us-ascii?q?s1h1ZHmeIdg9w0HqPpMZp2uaEsfDha++8kYuaT//3YTdJ6BYoWo4g0J9vnTs01?=
+ =?us-ascii?q?BjEVJz0iXRlDRxDlAe2e3D4l/vzL4npR5fzatE88uJX24/+IL+FEmPxp3/BC/u?=
+ =?us-ascii?q?ulPD1b08LXqXPewOJjxK6WYD72l4b+HN0if19aZLwam8O49mNt9Rw2tVMt525T?=
+ =?us-ascii?q?y8nI6/NhP8AFRJfFkmSOIUfoO+aeSfn7JX7I0ruNiGEL+9VJFg7OJBd9utpDGV?=
+ =?us-ascii?q?m8/seJzYQKBeZiIqezL26TuNhnNgLNsTnPIoD/HpnyFnxFOsnR4zOR6zi/9JU3?=
+ =?us-ascii?q?D4swMtJGJ7ji2AxAdZ0RE2YJUQRZRFMU9Rj9NpET0LXK1VwwG95b4Jui4QL8DF?=
+ =?us-ascii?q?M7Q=3D=3D?=
+IronPort-HdrOrdr: =?us-ascii?q?A9a23=3Ad1lNga6CRLa+GqbXkwPXwCLXdLJyesId70hD?=
+ =?us-ascii?q?6qhwISY1TiX+rbHIoB17726TtN9/YgBCpTntAsa9qBDnhPpICOsqTNWftWDd0Q?=
+ =?us-ascii?q?PCRuwP0WKI+V3d8kPFmNK1rZ0QFpSWFueAd2RSvILr5hWiCdY8zJ2i+KCsv+3X?=
+ =?us-ascii?q?yHBgVmhRGtldxjY8GgCGCVd3WQUDIZI4EaCX7s1BqyHlVm8Qaq2AdwI4dtmGt9?=
+ =?us-ascii?q?vWj4jnfBJDIxYm7TOFhTSu5KW/MzXw5GZmbw9y?=
+X-IronPort-AV: E=Sophos;i="5.82,313,1613404800"; d="scan'208";a="108507051"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+ by heian.cn.fujitsu.com with ESMTP; 20 May 2021 16:12:18 +0800
+Received: from G08CNEXMBPEKD06.g08.fujitsu.local (unknown [10.167.33.206])
+ by cn.fujitsu.com (Postfix) with ESMTP id 2E3F3499D6C0;
+ Thu, 20 May 2021 16:12:15 +0800 (CST)
+Received: from G08CNEXJMPEKD02.g08.fujitsu.local (10.167.33.202) by
+ G08CNEXMBPEKD06.g08.fujitsu.local (10.167.33.206) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.2; Thu, 20 May 2021 16:12:15 +0800
+Received: from G08CNEXCHPEKD08.g08.fujitsu.local (10.167.33.83) by
+ G08CNEXJMPEKD02.g08.fujitsu.local (10.167.33.202) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.2; Thu, 20 May 2021 16:12:14 +0800
+Received: from FNSTPC.g08.fujitsu.local (10.167.226.45) by
+ G08CNEXCHPEKD08.g08.fujitsu.local (10.167.33.209) with Microsoft SMTP Server
+ id 15.0.1497.2 via Frontend Transport; Thu, 20 May 2021 16:12:15 +0800
+From: Li Zhijian <lizhijian@cn.fujitsu.com>
+To: <quintela@redhat.com>, <dgilbert@redhat.com>
+Subject: [PATCH RESEND 1/4] migration/rdma: cleanup rmda in
+ rdma_start_incoming_migration error path
+Date: Thu, 20 May 2021 16:11:45 +0800
+Message-ID: <20210520081148.17001-1-lizhijian@cn.fujitsu.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Received-SPF: pass client-ip=192.55.52.93; envelope-from=yang.zhong@intel.com;
- helo=mga11.intel.com
-X-Spam_score_int: -68
-X-Spam_score: -6.9
-X-Spam_bar: ------
-X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-yoursite-MailScanner-ID: 2E3F3499D6C0.ADFC8
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: lizhijian@fujitsu.com
+Received-SPF: neutral client-ip=183.91.158.132;
+ envelope-from=lizhijian@fujitsu.com; helo=heian.cn.fujitsu.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_NEUTRAL=0.779 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -61,73 +80,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yang.zhong@intel.com, pbonzini@redhat.com, richard.henderson@linaro.org,
- cfontana@suse.de
+Cc: qemu-devel@nongnu.org, Li Zhijian <lizhijian@cn.fujitsu.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello all,
+the error path after calling qemu_rdma_dest_init() should do rdma cleanup
 
-I found the latest Qemu release can't bootup the VM with latest guest kernel(>5.13).
+Signed-off-by: Li Zhijian <lizhijian@cn.fujitsu.com>
+---
+ migration/rdma.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-The normal v6.0.0 release is good to bootup the latest guest kernel.
+diff --git a/migration/rdma.c b/migration/rdma.c
+index 41726cc74a..7e7595faab 100644
+--- a/migration/rdma.c
++++ b/migration/rdma.c
+@@ -4040,7 +4040,7 @@ void rdma_start_incoming_migration(const char *host_port, Error **errp)
+ 
+     if (ret) {
+         ERROR(errp, "listening on socket!");
+-        goto err;
++        goto cleanup_rdma;
+     }
+ 
+     trace_rdma_start_incoming_migration_after_rdma_listen();
+@@ -4050,7 +4050,7 @@ void rdma_start_incoming_migration(const char *host_port, Error **errp)
+         rdma_return_path = qemu_rdma_data_init(host_port, &local_err);
+ 
+         if (rdma_return_path == NULL) {
+-            goto err;
++            goto cleanup_rdma;
+         }
+ 
+         qemu_rdma_return_path_dest_init(rdma_return_path, rdma);
+@@ -4059,6 +4059,9 @@ void rdma_start_incoming_migration(const char *host_port, Error **errp)
+     qemu_set_fd_handler(rdma->channel->fd, rdma_accept_incoming_migration,
+                         NULL, (void *)(intptr_t)rdma);
+     return;
++
++cleanup_rdma:
++    qemu_rdma_cleanup(rdma);
+ err:
+     error_propagate(errp, local_err);
+     if (rdma) {
+-- 
+2.30.2
 
-There are two issues were found
-1. Guest kernel panic.
-2. kvm disabled by bios
-
-The panic log as below:
-[    2.250024] BUG: unable to handle page fault for address: ffffffffac06c55f
-[    2.252226] #PF: supervisor write access in kernel mode
-[    2.253892] #PF: error_code(0x0003) - permissions violation
-[    2.255671] PGD 5940e067 P4D 5940f067 PUD 59410063 PMD 580001e1
-[    2.257567] Oops: 0003 [#1] SMP NOPTI
-[    2.258738] CPU: 2 PID: 313 Comm: systemd-udevd Not tainted 5.13.0-rc1+ #1
-[    2.260899] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 0.0.0 02/06/2015
-[    2.263375] RIP: 0010:__send_ipi_mask+0x1bf/0x240
-[    2.264855] Code: c0 48 c7 44 24 18 00 00 00 00 e9 48 ff ff ff 48 89 d0 4c 09 c8 74 1b 49 63 d7 48 63 74 24 0c b8 0a 00 00 00 4c 89 cb 4c 89 d1 <0f> 01 d9 48 85 c0 78 4a 48 f7 04 24 00 02 00 00 0f 84 80 fe ff ff
-[    2.270643] RSP: 0018:ff591a62c0193ab0 EFLAGS: 00010006
-[    2.272277] RAX: 000000000000000a RBX: 0000000000000009 RCX: 0000000000000000
-[    2.274482] RDX: 0000000000000000 RSI: 00000000000000fc RDI: ff13a83dc003c830
-[    2.276663] RBP: ff591a62c0193b08 R08: 0000000000000004 R09: 0000000000000009
-[    2.278866] R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000000
-[    2.281065] R13: ff13a83dc003c830 R14: 0000000000011580 R15: 0000000000000000
-[    2.283272] FS:  00007f23ebd07940(0000) GS:ff13a83e3bd00000(0000) knlGS:0000000000000000
-[    2.285794] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[    2.287574] CR2: ffffffffac06c55f CR3: 0000000106ce2003 CR4: 0000000000771ee0
-[    2.289757] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-[    2.291972] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-[    2.294177] PKRU: 55555554
-[    2.295043] Call Trace:
-[    2.295820]  kvm_smp_send_call_func_ipi+0xe/0x60
-[    2.297220]  smp_call_function_many_cond+0x25d/0x2a0
-[    2.298772]  ? flush_tlb_one_kernel+0x20/0x20
-[    2.300145]  on_each_cpu_cond_mask+0x1e/0x20
-[    2.301514]  flush_tlb_kernel_range+0x8d/0x90
-[    2.302799]  __purge_vmap_area_lazy+0xc1/0x6a0
-[    2.304097]  ? cpumask_next+0x1f/0x20
-[    2.305160]  ? purge_fragmented_blocks_allcpus+0x3d/0x210
-[    2.306686]  _vm_unmap_aliases+0xf1/0x120
-[    2.307861]  change_page_attr_set_clr+0x95/0x280
-[    2.309203]  set_memory_ro+0x26/0x30
-[    2.310259]  ? 0xffffffffc00f7000
-[    2.311214]  module_enable_ro.part.58+0x62/0xc0
-[    2.312417]  do_init_module+0x17a/0x230
-[    2.313460]  load_module+0x1a30/0x1b00
-[    2.314463]  ? __do_sys_finit_module+0xad/0x110
-[    2.315702]  __do_sys_finit_module+0xad/0x110
-[    2.316890]  do_syscall_64+0x39/0x80
-[    2.317868]  entry_SYSCALL_64_after_hwframe+0x44/0xae
-[    2.319226] RIP: 0033:0x7f23ea8f32bd
-
-
-I also used the bisect to get the bad commit id: f5cc5a5c168674f84bf061cdb307c2d25fba5448
-
-This issue is known issue? or some fixs are ready to fix those issues? thanks!
-
-Regards,
-
-Yang
 
 
 
