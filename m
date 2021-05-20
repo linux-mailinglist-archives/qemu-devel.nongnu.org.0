@@ -2,73 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AF0938B23F
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 16:52:59 +0200 (CEST)
-Received: from localhost ([::1]:51800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3BBA38B251
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 16:56:52 +0200 (CEST)
+Received: from localhost ([::1]:33992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljk2j-0003rk-Q4
-	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 10:52:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33788)
+	id 1ljk6V-0002Rg-Jc
+	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 10:56:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36014)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ljje4-0007Qa-3b
- for qemu-devel@nongnu.org; Thu, 20 May 2021 10:27:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37342)
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1ljjkV-0005DU-N8
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 10:34:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52395)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ljje1-0008HC-Vx
- for qemu-devel@nongnu.org; Thu, 20 May 2021 10:27:27 -0400
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1ljjkS-0003d7-UR
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 10:34:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621520845;
+ s=mimecast20190719; t=1621521244;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=IUOJRbBnEgzk1cwERywx1tZ7NbuffzEe7GsMdSH5d+k=;
- b=gM9GaPEi+OM7syLy+cYnukZexClzU01XpzwK+MG65w1EkIycPJWK1nq4EPhEas2JKM/aS0
- 7i+GcjoPcOKNucgCGGaFfN3UtwSSOzkjYGRaMkv8LoZ3JWPpX1U3IHNm/5VaUy4wX2339W
- aeHhtLlGWc3Elh29TTrJ6w911oYv5TU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-499-b7_uUCbhPUyUGGXffmvcCQ-1; Thu, 20 May 2021 10:27:19 -0400
-X-MC-Unique: b7_uUCbhPUyUGGXffmvcCQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D789F108BD13;
- Thu, 20 May 2021 14:27:18 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
- [10.36.114.17])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A36712A2C9;
- Thu, 20 May 2021 14:27:18 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 3A7DA113865F; Thu, 20 May 2021 16:27:17 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH 1/6] qapi/parser.py: remove unused check_args_section
- arguments
-References: <20210519191718.3950330-1-jsnow@redhat.com>
- <20210519191718.3950330-2-jsnow@redhat.com>
-Date: Thu, 20 May 2021 16:27:17 +0200
-In-Reply-To: <20210519191718.3950330-2-jsnow@redhat.com> (John Snow's message
- of "Wed, 19 May 2021 15:17:13 -0400")
-Message-ID: <8735uh5vlm.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ bh=u/1FoDjB+33JIseTrqNUFb4qRnjJYr1cKJ7vJVPAacQ=;
+ b=b1Vlk+TzO6Zz29+pSwfo4EG5Yhb9ERzcGZBTXQ3LX/mp+4GY9HAyb0FvxI5c3MsnKx2Lwi
+ mFbgcJa9Zw1+GAUUWIzkUaRfP8wf28U1kLdZl6V9WdeQ/koB8PW7x3gQvz0iNzfAWRvV85
+ tpWiAXpzQhDOjbh8u4LbDmQcWxkVAZ8=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-39-p68uEKcFMkiAKpbx8C1BmQ-1; Thu, 20 May 2021 10:34:02 -0400
+X-MC-Unique: p68uEKcFMkiAKpbx8C1BmQ-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ g17-20020a05600c0011b029014399f816a3so1493485wmc.7
+ for <qemu-devel@nongnu.org>; Thu, 20 May 2021 07:34:02 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=u/1FoDjB+33JIseTrqNUFb4qRnjJYr1cKJ7vJVPAacQ=;
+ b=mCLe06pUFukumLGXPc/M1nVk3OZgn6NMFnuQM+sK9xlQ+FdTu65fK92jxPPpnNte7r
+ zOyf51fhQwxIbl1ZWKcZzQknSRfQFbsZVETfZm2+yXARxvtRAjcSA0WxsXsXH/36JCrX
+ cjQjDjO//tGLHp6nzeztrWzS/YWT7bj52LY1Q1n0QyaAXfJTE2NjMjT9DoJAO2nrE9MI
+ bB/wTMNIdl93rwXZJOwaKdZnYEo4uMkTW86W7PNVV3irY9MzJkUYT8IrfClT9KUKPPBJ
+ CvaNcyFZQ3nvEniE66JvqEHw4vpwTtukVNQRMWlj18hcvi8Y5LP1i2tTp44iHsQxX/1r
+ sL5g==
+X-Gm-Message-State: AOAM531g/bvr1hloPTDA4yl16G8Az/n+385Ed/68RhlV3BajJc/dOTwO
+ cy0NiiBZq7X9bDHJouqn7JJSDKt9MWHyQ/e0jCnKxFRcAQ2N0uRXQI8aVNbqF79zSd4uSjj/aZg
+ Hhzo19GamWcUYkBYMzDK1mHT0rNUwy0puGzx9YXMAjgJHkiOrKtrhstGjF22/HFSZPS4=
+X-Received: by 2002:a1c:ed0a:: with SMTP id l10mr4004820wmh.151.1621521241162; 
+ Thu, 20 May 2021 07:34:01 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy4uDjB2zAsLWfgZj9qewxZFJYlJG8yz5cjmh6NH8coy4LgYwbRoDOf4bjdRWAOw7fZmRxoqw==
+X-Received: by 2002:a1c:ed0a:: with SMTP id l10mr4004781wmh.151.1621521240780; 
+ Thu, 20 May 2021 07:34:00 -0700 (PDT)
+Received: from localhost.localdomain ([2a04:ee41:4:31cb:e591:1e1e:abde:a8f1])
+ by smtp.gmail.com with ESMTPSA id
+ d9sm3450595wrx.11.2021.05.20.07.33.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 20 May 2021 07:34:00 -0700 (PDT)
+Subject: Re: [PATCH v2 0/7] block-copy: protect block-copy internal structures
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20210518100757.31243-1-eesposit@redhat.com>
+ <461d6a3f-9eea-1988-e283-7025329c2f33@virtuozzo.com>
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Message-ID: <aeba4cb7-a83b-689b-c323-c9bfb5f6d527@redhat.com>
+Date: Thu, 20 May 2021 16:33:59 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <461d6a3f-9eea-1988-e283-7025329c2f33@virtuozzo.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eesposit@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.39,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,66 +102,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Roth <michael.roth@amd.com>, Cleber Rosa <crosa@redhat.com>,
- qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-John Snow <jsnow@redhat.com> writes:
 
-> (Addresses a pylint warning.)
->
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> ---
->  scripts/qapi/parser.py | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
-> index 06167ed3e0a..b3a468504fc 100644
-> --- a/scripts/qapi/parser.py
-> +++ b/scripts/qapi/parser.py
-> @@ -753,7 +753,7 @@ def check_expr(self, expr):
->  
->      def check(self):
->  
-> -        def check_args_section(args, info, what):
-> +        def check_args_section(args):
->              bogus = [name for name, section in args.items()
->                       if not section.member]
->              if bogus:
-> @@ -764,5 +764,5 @@ def check_args_section(args, info, what):
->                         "', '".join(bogus),
->                         "do" if len(bogus) > 1 else "does"))
->  
-> -        check_args_section(self.args, self.info, 'members')
-> -        check_args_section(self.features, self.info, 'features')
-> +        check_args_section(self.args)
-> +        check_args_section(self.features)
 
-I messed this up in commit e151941d1b "qapi: Check feature documentation
-against the schema".
+On 20/05/2021 15:47, Vladimir Sementsov-Ogievskiy wrote:
+> 18.05.2021 13:07, Emanuele Giuseppe Esposito wrote:
+>> This serie of patches aims to reduce the usage of the global
+>> AioContexlock in block-copy, by introducing smaller granularity
+>> locks thus on making the block layer thread safe.
+>>
+>> This serie depends on Paolo's coroutine_sleep API and my previous
+>> serie that brings thread safety to the smaller API used by block-copy,
+>> like ratelimit, progressmeter abd co-shared-resource.
+>>
+>> What's missing for block-copy to be fully thread-safe is fixing
+>> the CoSleep API to allow cross-thread sleep and wakeup.
+>> Paolo is working on it and will post the patches once his new
+>> CoSleep API is accepted.
+>>
+>> Patch 1 introduces the .method field instead of .use_copy_range
+>> and .copy_size, so that it can be later used as atomic.
+>> Patch 2-3 provide comments and refactoring in preparation to
+>> the locks added in patch 4 on BlockCopyTask, patch 5-6 on
+>> BlockCopyCallState and 7 BlockCopyState.
+>>
+>> Based-on: <20210517100548.28806-1-pbonzini@redhat.com>
+>> Based-on: <20210518094058.25952-1-eesposit@redhat.com>
+> 
+> Hi! I failed to apply this all. Could you please export your branch with 
+> your patches at some public git repo?
 
-I "obviously" meant to use @info, but used self.info instead.  Dropping
-@info is fine.
+Hi, thank you for applying the patches. My branch is here:
 
-I "obviously" meant to use @what in the error message, but hardcoded
-"member" instead, resulting in a confusing error message when it's about
-features.  Test case qapi-schema/doc-bad-feature.json shows it:
+https://gitlab.com/eesposit/qemu/-/commits/dataplane_new
 
-    $ cat tests/qapi-schema/doc-bad-feature.json 
-    # Features listed in the doc comment must exist in the actual schema
-
-    ##
-    # @foo:
-    #
-    # Features:
-    # @a: a
-    ##
-    { 'command': 'foo' }
-    $ cat tests/qapi-schema/doc-bad-feature.err 
-    doc-bad-feature.json:3: documented member 'a' does not exist
-
-Instead of dropping what, let's put it to use to improve this error
-message.
+Emanuele
+> 
+>> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+>> ---
+>> v1 -> v2:
+>> * More field categorized as IN/State/OUT in the various struct, better
+>>    documentation in the structs
+>> * Fix a couple of places where I missed locks [Vladimir, Paolo]
+>>
+>>
+>> Emanuele Giuseppe Esposito (6):
+>>    block-copy: improve documentation of BlockCopyTask and BlockCopyState
+>>      types and functions
+>>    block-copy: move progress_set_remaining in block_copy_task_end
+>>    block-copy: add a CoMutex to the BlockCopyTask list
+>>    block-copy: add QemuMutex lock for BlockCopyCallState list
+>>    block-copy: atomic .cancelled and .finished fields in
+>>      BlockCopyCallState
+>>    block-copy: protect BlockCopyState .method fields
+>>
+>> Paolo Bonzini (1):
+>>    block-copy: streamline choice of copy_range vs. read/write
+>>
+>>   block/block-copy.c | 234 +++++++++++++++++++++++++++++----------------
+>>   1 file changed, 150 insertions(+), 84 deletions(-)
+>>
+> 
+> 
 
 
