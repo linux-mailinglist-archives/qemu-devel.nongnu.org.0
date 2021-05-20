@@ -2,72 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E33338B2AC
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 17:10:50 +0200 (CEST)
-Received: from localhost ([::1]:41764 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5474A38B30B
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 17:22:45 +0200 (CEST)
+Received: from localhost ([::1]:49416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljkK1-0002iW-7Z
-	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 11:10:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43082)
+	id 1ljkVY-0002lZ-CC
+	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 11:22:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43054)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ljkFQ-0003j0-P0
- for qemu-devel@nongnu.org; Thu, 20 May 2021 11:06:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57753)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ljkFL-0005Q3-Pl
- for qemu-devel@nongnu.org; Thu, 20 May 2021 11:06:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621523158;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Hz/PNyEUW5jul73FLBehXxNMzfWlmSCEWXq0VtrWGgU=;
- b=RmZtgHNUa9Gu9Np9TdcadX5jiFRDhLAFT/+G6zp2iP1dUkWHRykg6l5b0y+f9kCPw5Jkq3
- 48sIUAOE7nk1LETTvyjCxjv5Jrir6ghBkIZoznjqZZaJzBZJhGDIupKubNZqkTTQ1y49jR
- G3f9ftMx41FtsXhpglSwX/iOb+yJI3c=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-391-VV_jbnrBO7uffUlyHygIRg-1; Thu, 20 May 2021 11:05:38 -0400
-X-MC-Unique: VV_jbnrBO7uffUlyHygIRg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 887C3107ACCA;
- Thu, 20 May 2021 15:05:37 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
- [10.36.114.17])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 32F1C19C71;
- Thu, 20 May 2021 15:05:37 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id BFDEF113865F; Thu, 20 May 2021 17:05:35 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH 3/6] qapi/parser.py: add type hint annotations (QAPIDoc)
-References: <20210519191718.3950330-1-jsnow@redhat.com>
- <20210519191718.3950330-4-jsnow@redhat.com>
-Date: Thu, 20 May 2021 17:05:35 +0200
-In-Reply-To: <20210519191718.3950330-4-jsnow@redhat.com> (John Snow's message
- of "Wed, 19 May 2021 15:17:15 -0400")
-Message-ID: <87r1i14f9c.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <steven.price@arm.com>)
+ id 1ljkFM-0003UA-MR
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 11:06:00 -0400
+Received: from foss.arm.com ([217.140.110.172]:46098)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <steven.price@arm.com>) id 1ljkFI-0005OI-Jj
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 11:05:59 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B333D11B3;
+ Thu, 20 May 2021 08:05:54 -0700 (PDT)
+Received: from [192.168.1.179] (unknown [172.31.20.19])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id F08993F73B;
+ Thu, 20 May 2021 08:05:51 -0700 (PDT)
+Subject: Re: [PATCH v12 4/8] arm64: kvm: Introduce MTE VM feature
+To: Catalin Marinas <catalin.marinas@arm.com>
+References: <20210517123239.8025-1-steven.price@arm.com>
+ <20210517123239.8025-5-steven.price@arm.com> <20210520115426.GB12251@arm.com>
+From: Steven Price <steven.price@arm.com>
+Message-ID: <5f0996d6-0a6e-ebcd-afcd-8290faba6780@arm.com>
+Date: Thu, 20 May 2021 16:05:46 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.39,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210520115426.GB12251@arm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=217.140.110.172;
+ envelope-from=steven.price@arm.com; helo=foss.arm.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,278 +58,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Roth <michael.roth@amd.com>, Cleber Rosa <crosa@redhat.com>,
- qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Andrew Jones <drjones@redhat.com>, Haibo Xu <Haibo.Xu@arm.com>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>, qemu-devel@nongnu.org,
+ Marc Zyngier <maz@kernel.org>, Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, linux-kernel@vger.kernel.org,
+ Dave Martin <Dave.Martin@arm.com>, James Morse <james.morse@arm.com>,
+ linux-arm-kernel@lists.infradead.org, Thomas Gleixner <tglx@linutronix.de>,
+ Will Deacon <will@kernel.org>, kvmarm@lists.cs.columbia.edu,
+ Julien Thierry <julien.thierry.kdev@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-John Snow <jsnow@redhat.com> writes:
+On 20/05/2021 12:54, Catalin Marinas wrote:
+> On Mon, May 17, 2021 at 01:32:35PM +0100, Steven Price wrote:
+>> diff --git a/arch/arm64/kvm/mmu.c b/arch/arm64/kvm/mmu.c
+>> index c5d1f3c87dbd..8660f6a03f51 100644
+>> --- a/arch/arm64/kvm/mmu.c
+>> +++ b/arch/arm64/kvm/mmu.c
+>> @@ -822,6 +822,31 @@ transparent_hugepage_adjust(struct kvm_memory_slot *memslot,
+>>  	return PAGE_SIZE;
+>>  }
+>>  
+>> +static int sanitise_mte_tags(struct kvm *kvm, unsigned long size,
+>> +			     kvm_pfn_t pfn)
+>> +{
+>> +	if (kvm_has_mte(kvm)) {
+>> +		/*
+>> +		 * The page will be mapped in stage 2 as Normal Cacheable, so
+>> +		 * the VM will be able to see the page's tags and therefore
+>> +		 * they must be initialised first. If PG_mte_tagged is set,
+>> +		 * tags have already been initialised.
+>> +		 */
+>> +		unsigned long i, nr_pages = size >> PAGE_SHIFT;
+>> +		struct page *page = pfn_to_online_page(pfn);
+>> +
+>> +		if (!page)
+>> +			return -EFAULT;
+> 
+> IIRC we ended up with pfn_to_online_page() to reject ZONE_DEVICE pages
+> that may be mapped into a guest and we have no idea whether they support
+> MTE. It may be worth adding a comment, otherwise, as Marc said, the page
+> wouldn't disappear.
 
-> Annotations do not change runtime behavior.
->
-> This commit adds mostly annotations, but uses a TYPE_CHECKING runtime
-> check to conditionally import dependencies, which only triggers during
-> runs of mypy.
->
-> Signed-off-by: John Snow <jsnow@redhat.com>
->
-> ---
->
-> TopLevelExpr, an idea from previous drafts, makes a return here in order
-> to give a semantic meaning to check_expr(). The type is intended to be
-> used more in forthcoming commits (pt5c), but I opted to include it now
-> instead of creating yet-another Dict[str, object] type hint that I would
-> forget to change later.
+I'll add a comment.
 
-There's just one use.  Since you assure me it'll make sense later...
+>> +
+>> +		for (i = 0; i < nr_pages; i++, page++) {
+>> +			if (!test_and_set_bit(PG_mte_tagged, &page->flags))
+>> +				mte_clear_page_tags(page_address(page));
+> 
+> We started the page->flags thread and ended up fixing it for the host
+> set_pte_at() as per the first patch:
+> 
+> https://lore.kernel.org/r/c3293d47-a5f2-ea4a-6730-f5cae26d8a7e@arm.com
+> 
+> Now, can we have a race between the stage 2 kvm_set_spte_gfn() and a
+> stage 1 set_pte_at()? Only the latter takes a lock. Or between two
+> kvm_set_spte_gfn() in different VMs? I think in the above thread we
+> concluded that there's only a problem if the page is shared between
+> multiple VMMs (MAP_SHARED). How realistic is this and what's the
+> workaround?
+> 
+> Either way, I think it's worth adding a comment here on the race on
+> page->flags as it looks strange that here it's just a test_and_set_bit()
+> while set_pte_at() uses a spinlock.
+> 
 
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> ---
->  scripts/qapi/parser.py | 74 +++++++++++++++++++++++++-----------------
->  1 file changed, 45 insertions(+), 29 deletions(-)
->
-> diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
-> index 71e982bff57..fefe4c37f44 100644
-> --- a/scripts/qapi/parser.py
-> +++ b/scripts/qapi/parser.py
-> @@ -18,6 +18,7 @@
->  import os
->  import re
->  from typing import (
-> +    TYPE_CHECKING,
->      Dict,
->      List,
->      Optional,
-> @@ -30,6 +31,14 @@
->  from .source import QAPISourceInfo
->  
->  
-> +if TYPE_CHECKING:
-> +    # pylint: disable=cyclic-import
-> +    from .schema import QAPISchemaFeature, QAPISchemaMember
+Very good point! I should have thought about that. I think splitting the
+test_and_set_bit() in two (as with the cache flush) is sufficient. While
+there technically still is a race which could lead to user space tags
+being clobbered:
 
-Oh boy :)
+a) It's very odd for a VMM to be doing an mprotect() after the fact to
+add PROT_MTE, or to be sharing the memory with another process which
+sets PROT_MTE.
 
-Any ideas on how to clean this up later?
+b) The window for the race is incredibly small and the VMM (generally)
+needs to be robust against the guest changing tags anyway.
 
-> +
-> +
-> +#: Represents a single Top Level QAPI schema expression.
-> +TopLevelExpr = Dict[str, object]
-> +
->  # Return value alias for get_expr().
->  _ExprValue = Union[List[object], Dict[str, object], str, bool]
->  
-> @@ -447,7 +456,8 @@ class QAPIDoc:
->      """
->  
->      class Section:
-> -        def __init__(self, parser, name=None, indent=0):
-> +        def __init__(self, parser: QAPISchemaParser,
-> +                     name: Optional[str] = None, indent: int = 0):
->              # parser, for error messages about indentation
->              self._parser = parser
->              # optional section name (argument/member or section name)
-> @@ -459,7 +469,7 @@ def __init__(self, parser, name=None, indent=0):
->          def __bool__(self) -> bool:
->              return bool(self.name or self.text)
->  
-> -        def append(self, line):
-> +        def append(self, line: str) -> None:
->              # Strip leading spaces corresponding to the expected indent level
->              # Blank lines are always OK.
->              if line:
-> @@ -474,39 +484,40 @@ def append(self, line):
->              self.text += line.rstrip() + '\n'
->  
->      class ArgSection(Section):
-> -        def __init__(self, parser, name, indent=0):
-> +        def __init__(self, parser: QAPISchemaParser,
-> +                     name: Optional[str] = None, indent: int = 0):
->              super().__init__(parser, name, indent)
-> -            self.member = None
-> +            self.member: Optional['QAPISchemaMember'] = None
->  
-> -        def connect(self, member):
-> +        def connect(self, member: 'QAPISchemaMember') -> None:
->              self.member = member
->  
-> -    def __init__(self, parser, info):
-> +    def __init__(self, parser: QAPISchemaParser, info: QAPISourceInfo):
->          # self._parser is used to report errors with QAPIParseError.  The
->          # resulting error position depends on the state of the parser.
->          # It happens to be the beginning of the comment.  More or less
->          # servicable, but action at a distance.
->          self._parser = parser
->          self.info = info
-> -        self.symbol = None
-> +        self.symbol: Optional[str] = None
->          self.body = QAPIDoc.Section(parser)
->          # dict mapping parameter name to ArgSection
-> -        self.args = OrderedDict()
-> -        self.features = OrderedDict()
-> +        self.args: Dict[str, QAPIDoc.ArgSection] = OrderedDict()
-> +        self.features: Dict[str, QAPIDoc.ArgSection] = OrderedDict()
->          # a list of Section
-> -        self.sections = []
-> +        self.sections: List[QAPIDoc.Section] = []
->          # the current section
->          self._section = self.body
->          self._append_line = self._append_body_line
->  
-> -    def has_section(self, name):
-> +    def has_section(self, name: str) -> bool:
->          """Return True if we have a section with this name."""
->          for i in self.sections:
->              if i.name == name:
->                  return True
->          return False
->  
-> -    def append(self, line):
-> +    def append(self, line: str) -> None:
->          """
->          Parse a comment line and add it to the documentation.
->  
-> @@ -527,18 +538,18 @@ def append(self, line):
->          line = line[1:]
->          self._append_line(line)
->  
-> -    def end_comment(self):
-> +    def end_comment(self) -> None:
->          self._end_section()
->  
->      @staticmethod
-> -    def _is_section_tag(name):
-> +    def _is_section_tag(name: str) -> bool:
->          return name in ('Returns:', 'Since:',
->                          # those are often singular or plural
->                          'Note:', 'Notes:',
->                          'Example:', 'Examples:',
->                          'TODO:')
->  
-> -    def _append_body_line(self, line):
-> +    def _append_body_line(self, line: str) -> None:
->          """
->          Process a line of documentation text in the body section.
->  
-> @@ -578,7 +589,7 @@ def _append_body_line(self, line):
->              # This is a free-form documentation block
->              self._append_freeform(line)
->  
-> -    def _append_args_line(self, line):
-> +    def _append_args_line(self, line: str) -> None:
->          """
->          Process a line of documentation text in an argument section.
->  
-> @@ -624,7 +635,7 @@ def _append_args_line(self, line):
->  
->          self._append_freeform(line)
->  
-> -    def _append_features_line(self, line):
-> +    def _append_features_line(self, line: str) -> None:
->          name = line.split(' ', 1)[0]
->  
->          if name.startswith('@') and name.endswith(':'):
-> @@ -656,7 +667,7 @@ def _append_features_line(self, line):
->  
->          self._append_freeform(line)
->  
-> -    def _append_various_line(self, line):
-> +    def _append_various_line(self, line: str) -> None:
->          """
->          Process a line of documentation text in an additional section.
->  
-> @@ -692,7 +703,11 @@ def _append_various_line(self, line):
->  
->          self._append_freeform(line)
->  
-> -    def _start_symbol_section(self, symbols_dict, name, indent):
-> +    def _start_symbol_section(
-> +            self,
-> +            symbols_dict: Dict[str, 'QAPIDoc.ArgSection'],
+But I'll add a comment here as well:
 
-Sure we need to quote QAPIDoc.ArgSection here?
+	/*
+	 * There is a potential race between sanitising the
+	 * flags here and user space using mprotect() to add
+	 * PROT_MTE to access the tags, however by splitting
+	 * the test/set the only risk is user space tags
+	 * being overwritten by the mte_clear_page_tags() call.
+	 */
 
-> +            name: str,
-> +            indent: int) -> None:
->          # FIXME invalid names other than the empty string aren't flagged
->          if not name:
->              raise QAPIParseError(self._parser, "invalid parameter name")
-> @@ -704,13 +719,14 @@ def _start_symbol_section(self, symbols_dict, name, indent):
->          self._section = QAPIDoc.ArgSection(self._parser, name, indent)
->          symbols_dict[name] = self._section
->  
-> -    def _start_args_section(self, name, indent):
-> +    def _start_args_section(self, name: str, indent: int) -> None:
->          self._start_symbol_section(self.args, name, indent)
->  
-> -    def _start_features_section(self, name, indent):
-> +    def _start_features_section(self, name: str, indent: int) -> None:
->          self._start_symbol_section(self.features, name, indent)
->  
-> -    def _start_section(self, name=None, indent=0):
-> +    def _start_section(self, name: Optional[str] = None,
-> +                       indent: int = 0) -> None:
->          if name in ('Returns', 'Since') and self.has_section(name):
->              raise QAPIParseError(self._parser,
->                                   "duplicated '%s' section" % name)
-> @@ -718,7 +734,7 @@ def _start_section(self, name=None, indent=0):
->          self._section = QAPIDoc.Section(self._parser, name, indent)
->          self.sections.append(self._section)
->  
-> -    def _end_section(self):
-> +    def _end_section(self) -> None:
->          if self._section:
->              text = self._section.text = self._section.text.strip()
->              if self._section.name and (not text or text.isspace()):
-> @@ -727,7 +743,7 @@ def _end_section(self):
->                      "empty doc section '%s'" % self._section.name)
->              self._section = QAPIDoc.Section(self._parser)
->  
-> -    def _append_freeform(self, line):
-> +    def _append_freeform(self, line: str) -> None:
->          match = re.match(r'(@\S+:)', line)
->          if match:
->              raise QAPIParseError(self._parser,
-> @@ -735,28 +751,28 @@ def _append_freeform(self, line):
->                                   % match.group(1))
->          self._section.append(line)
->  
-> -    def connect_member(self, member):
-> +    def connect_member(self, member: 'QAPISchemaMember') -> None:
+Thanks,
 
-Sure we need to quote QAPISchemaMember here?
-
->          if member.name not in self.args:
->              # Undocumented TODO outlaw
->              self.args[member.name] = QAPIDoc.ArgSection(self._parser,
->                                                          member.name)
->          self.args[member.name].connect(member)
->  
-> -    def connect_feature(self, feature):
-> +    def connect_feature(self, feature: 'QAPISchemaFeature') -> None:
-
-Sure we need to quote QAPISchemaFeature here?
-
->          if feature.name not in self.features:
->              raise QAPISemError(feature.info,
->                                 "feature '%s' lacks documentation"
->                                 % feature.name)
->          self.features[feature.name].connect(feature)
->  
-> -    def check_expr(self, expr):
-> +    def check_expr(self, expr: TopLevelExpr) -> None:
->          if self.has_section('Returns') and 'command' not in expr:
->              raise QAPISemError(self.info,
->                                 "'Returns:' is only valid for commands")
->  
-> -    def check(self):
-> +    def check(self) -> None:
->  
-> -        def check_args_section(args):
-> +        def check_args_section(args: Dict[str, QAPIDoc.ArgSection]) -> None:
->              bogus = [name for name, section in args.items()
->                       if not section.member]
->              if bogus:
-
+Steve
 
