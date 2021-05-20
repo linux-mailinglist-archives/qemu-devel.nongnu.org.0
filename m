@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB42C389FBE
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 10:26:06 +0200 (CEST)
-Received: from localhost ([::1]:50108 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00432389FC5
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 10:27:54 +0200 (CEST)
+Received: from localhost ([::1]:58530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lje0L-0008IK-SN
-	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 04:26:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50336)
+	id 1lje26-0005pl-1q
+	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 04:27:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50426)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ljdxW-0005Mt-2h
- for qemu-devel@nongnu.org; Thu, 20 May 2021 04:23:14 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:54929)
+ id 1ljdxb-0005NU-FM
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 04:23:18 -0400
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:45026)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ljdxN-0001Sd-C4
- for qemu-devel@nongnu.org; Thu, 20 May 2021 04:23:03 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id o127so8608771wmo.4
- for <qemu-devel@nongnu.org>; Thu, 20 May 2021 01:23:00 -0700 (PDT)
+ id 1ljdxV-0001Ul-Ri
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 04:23:13 -0400
+Received: by mail-wm1-x32f.google.com with SMTP id
+ y184-20020a1ce1c10000b02901769b409001so4671125wmg.3
+ for <qemu-devel@nongnu.org>; Thu, 20 May 2021 01:23:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=bvDJqezYLepT2RXLvaDux71VTpVELHG55s53GJHq5qM=;
- b=kxGeCAJvBhfPmu30v3LFLfmyjHZ3ga07oxKMcnl+c4xLsGB53YyPvgiwMj8fuaWF4U
- pMZzfFSrKGTvgZaBRkBjvpWaLzIU78YBbUsZRsl06ype3ZhPX83UfccFjHscADPdFHR6
- ZClM9eHkQxqKwvj+iugMwENSayPqZJSM+y8Twl0+5ToAZjqGy00p/LK7ORfLOFDNKHu5
- Z08ii/RqfamuD3ZeBTVoiql7oB/Hup7G2UQwq8PROqrENPiXl7X0YfTToSfE9APaKVbD
- DNdhj12ka4fQPP/V7ZEsfDT1KsV/RZgFrq5aG+NcOq9BQb1/KAs1euLKJLjHhw68NWw8
- gGGg==
+ bh=wULB0dT529terV3VemdiO1RbK/5UYU6YHyBr4JHxFbU=;
+ b=Z8cz6PXe+9jdi7ZTbluXVqf2qe/ccyRCHWcB8gWswkBu2s/5pH6f39oyEMS4MyhTE9
+ ppv6kR0baT5C4SA/gASEC/7+cM6/RG1nRYItKSb7BPyHzBv6dVXPUIGf00ghvfY9Bt15
+ 3GH5SLgjfE7vigxCm1k4oeu0eCn8aMW79mfOJnQoTIKgrBea4wYJKnXo+yh5+kSahPzD
+ JNMQn/qqTlDGrCgELVBVG69igUNSnK9Ix3oU0YSN+SdF/sObYSTRRuxm2iNfb5EZ8siT
+ VTU+8o2RA8Dx/LlERCLBrxKoZT+wk0KHToVNDazf2W33f6fsU71nsOW67AzRUfIj8Wtu
+ URHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=bvDJqezYLepT2RXLvaDux71VTpVELHG55s53GJHq5qM=;
- b=jxua6011APXZEGyq2CjvQCTci4rwvb/PZLO2u73Z/nvlzvCkXd5f6B4nrkH7W5yqX3
- 2z4kEfiqt3DRUUJ9mwS+z29BWOpyiIakqCij1NcBNK8frzakoMP68ZgLltye3HDEKQf7
- sZcroZwnPuBGQDjh4aZMAkie3NkBEdhfZJwh5nuvmHn/qBb3a5f4wpZm429cHmkzuvhM
- sH59gXru7rxZ6xd/Df9+DJf00AXy/Lx08pCgmX8+sjs0jmryrLMBbDSRayJaeyvYHs7A
- QhCzaz3SqofzOgDG5xttEeVGZbs+cYpH4q9e5VJzLOowLNryQx8xVtAnttCmgEjx93s+
- QrNQ==
-X-Gm-Message-State: AOAM531U41DuQuVD3yl2sbuZKnk2wYWQ/OSD6iCCXLtfUwOv0ynVp1mf
- 8PZVImq4VyCQ2IUUrXA65vePURcPRNXOAw==
-X-Google-Smtp-Source: ABdhPJwPGi331u1GWUPOoWMOpfRy81Jm7Pf848iObL9pZ0IT0xmtV+TtA+nQf+AJY5p/Ey8nDEjR9g==
-X-Received: by 2002:a1c:f705:: with SMTP id v5mr2827916wmh.69.1621498980017;
- Thu, 20 May 2021 01:23:00 -0700 (PDT)
+ bh=wULB0dT529terV3VemdiO1RbK/5UYU6YHyBr4JHxFbU=;
+ b=NuqGeJpnNinIkAUvFOs0hn2gpI3cTQlIXBqHuc/wWnvv+weDfq+02nr0fn5vl6BrZw
+ Bpy3i1DJeA1fvFoBxh4FlyseMhqNp1D6zrdosoe1GZourxVfIh0LkDiGBinBKySjxztr
+ smr1wHCr4pYOWI5CZAAJHmlJgV1kv9El4ktBpgJ14ZGJy7a1f7GSD1S2H8JQaLmFhFPX
+ kQtNORLvZ3Uu5v0cB17eJFAEAHBESVa4Kh98fHyVhyHKsIEnBjGKl/rPWIGSd0n6T2WK
+ rpMlZIymwu9XuUsNTwFT4BokZ+i1isuBPgin5DJP/kkmuLl+H3zh3BSawUfF7GDvPBqw
+ awfA==
+X-Gm-Message-State: AOAM533lnmvHszWyUKftP64fnTsVx3Ao4lu45S7g3pTNM/lI86iQfC6C
+ sphTT5kcvkf6A+3WNUzoGdoDDvzCwLpNtQ==
+X-Google-Smtp-Source: ABdhPJz4dD3aJ/HnK8K+Va/dF8JCyS0YLKVMCFlPYKwAU/fi52wHW55TqvQ2TPidXgIn/Rr1FsHGmQ==
+X-Received: by 2002:a1c:2b05:: with SMTP id r5mr2338979wmr.66.1621498983315;
+ Thu, 20 May 2021 01:23:03 -0700 (PDT)
 Received: from avogadro.redhat.com ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- v10sm2603506wrq.0.2021.05.20.01.22.59 for <qemu-devel@nongnu.org>
+ v10sm2603506wrq.0.2021.05.20.01.23.02 for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 May 2021 01:22:59 -0700 (PDT)
+ Thu, 20 May 2021 01:23:03 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/26] configure: check for submodules if
- --with-git-submodules=ignore
-Date: Thu, 20 May 2021 10:22:33 +0200
-Message-Id: <20210520082257.187061-3-pbonzini@redhat.com>
+Subject: [PULL 07/26] object: add more commands to preconfig mode
+Date: Thu, 20 May 2021 10:22:38 +0200
+Message-Id: <20210520082257.187061-8-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210520082257.187061-1-pbonzini@redhat.com>
 References: <20210520082257.187061-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32f.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -88,76 +88,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Right now --with-git-submodules=ignore has a subtle difference from
-just running without a .git directory, in that it does not check
-that submodule sources actually exist.  Move the check for
-ui/keycodemapdb/README so that it happens even if the user
-specified --with-git-submodules=ignore, with a customized
-error message that is more suitable for this situation.
+Creating and destroying QOM objects does not require a fully constructed
+machine.  Allow running object-add and object-del before machine
+initialization has concluded.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure | 40 ++++++++++++++++++++++------------------
- 1 file changed, 22 insertions(+), 18 deletions(-)
+ hmp-commands.hx | 2 ++
+ qapi/qom.json   | 6 ++++--
+ 2 files changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/configure b/configure
-index 1bb29fcda1..4681cbe2d7 100755
---- a/configure
-+++ b/configure
-@@ -260,24 +260,6 @@ then
- else
-     git_submodules_action="ignore"
-     git_submodules=""
--
--    if ! test -f "$source_path/ui/keycodemapdb/README"
--    then
--        echo
--        echo "ERROR: missing file $source_path/ui/keycodemapdb/README"
--        echo
--        echo "This is not a GIT checkout but module content appears to"
--        echo "be missing. Do not use 'git archive' or GitHub download links"
--        echo "to acquire QEMU source archives. Non-GIT builds are only"
--        echo "supported with source archives linked from:"
--        echo
--        echo "  https://www.qemu.org/download/#source"
--        echo
--        echo "Developers working with GIT can use scripts/archive-source.sh"
--        echo "if they need to create valid source archives."
--        echo
--        exit 1
--    fi
- fi
- git="git"
+diff --git a/hmp-commands.hx b/hmp-commands.hx
+index 435c591a1c..146a13c896 100644
+--- a/hmp-commands.hx
++++ b/hmp-commands.hx
+@@ -1297,6 +1297,7 @@ ERST
+         .help       = "create QOM object",
+         .cmd        = hmp_object_add,
+         .command_completion = object_add_completion,
++        .flags      = "p",
+     },
  
-@@ -1582,6 +1564,28 @@ case $git_submodules_action in
-         fi
-     ;;
-     ignore)
-+        if ! test -f "$source_path/ui/keycodemapdb/README"
-+        then
-+            echo
-+            echo "ERROR: missing GIT submodules"
-+            echo
-+            if test -e "$source_path/.git"; then
-+                echo "--with-git-submodules=ignore specified but submodules were not"
-+                echo "checked out.  Please initialize and update submodules."
-+            else
-+                echo "This is not a GIT checkout but module content appears to"
-+                echo "be missing. Do not use 'git archive' or GitHub download links"
-+                echo "to acquire QEMU source archives. Non-GIT builds are only"
-+                echo "supported with source archives linked from:"
-+                echo
-+                echo "  https://www.qemu.org/download/#source"
-+                echo
-+                echo "Developers working with GIT can use scripts/archive-source.sh"
-+                echo "if they need to create valid source archives."
-+            fi
-+            echo
-+            exit 1
-+        fi
-     ;;
-     *)
-         echo "ERROR: invalid --with-git-submodules= value '$git_submodules_action'"
+ SRST
+@@ -1311,6 +1312,7 @@ ERST
+         .help       = "destroy QOM object",
+         .cmd        = hmp_object_del,
+         .command_completion = object_del_completion,
++        .flags      = "p",
+     },
+ 
+ SRST
+diff --git a/qapi/qom.json b/qapi/qom.json
+index 40d70c434a..4f48035831 100644
+--- a/qapi/qom.json
++++ b/qapi/qom.json
+@@ -857,7 +857,8 @@
+ # <- { "return": {} }
+ #
+ ##
+-{ 'command': 'object-add', 'data': 'ObjectOptions', 'boxed': true }
++{ 'command': 'object-add', 'data': 'ObjectOptions', 'boxed': true,
++  'allow-preconfig': true }
+ 
+ ##
+ # @object-del:
+@@ -877,4 +878,5 @@
+ # <- { "return": {} }
+ #
+ ##
+-{ 'command': 'object-del', 'data': {'id': 'str'} }
++{ 'command': 'object-del', 'data': {'id': 'str'},
++  'allow-preconfig': true }
 -- 
 2.31.1
 
