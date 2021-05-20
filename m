@@ -2,57 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53C0538B4E3
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 19:07:06 +0200 (CEST)
-Received: from localhost ([::1]:53492 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44DA038B4ED
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 19:08:56 +0200 (CEST)
+Received: from localhost ([::1]:59712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljm8X-0003lC-Bo
-	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 13:07:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42824)
+	id 1ljmAJ-0007w5-04
+	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 13:08:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42854)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1ljm72-0001Cp-Py
- for qemu-devel@nongnu.org; Thu, 20 May 2021 13:05:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48341)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1ljm76-0001Mc-VO
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 13:05:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60721)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1ljm6z-0005XM-J8
- for qemu-devel@nongnu.org; Thu, 20 May 2021 13:05:32 -0400
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1ljm75-0005a8-7y
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 13:05:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621530328;
+ s=mimecast20190719; t=1621530334;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=ACfmMUsWKTmoRy79FtQeGuuY/cfdG++NA4f2Vd4YU/o=;
- b=RaIll9owNB77ihu9WjwvB5WZ2P3BMOQRR2cGbmTSIFX4D9X/R33Zr8JJ4vV1sWbCLpn2gg
- Upe4uPPkIeRHSxvmfkN0UMVgKBupZk+uDaIYzHZAEudRuFIUFDeNMqZ/nZ/UM46ncg4kUC
- 3n/Ix839zYLfInAXuJbjE/HfxDBU6Uo=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=5bvvQ+jCtf8ckhRg23/RTaEsh9OIQNq4YfyNz/nXjCw=;
+ b=Rl2zsEEtjrJ8AMCp8/RO42CBFQ/QBNLfwcKvuJ0JyRqdiOHo4BiS67M3+2pJGaszMQXeGX
+ OqtsHwP5xlfVeSMbHPiHAwYT8OWkPPcODrDilhhhlqnm1y8RIJ3QSCy8QBmp1He2+lxPOt
+ aH8ylQ6XuTfooIqRySjQP+3aF/dYhmA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-562-0aKLP3w3NFWvsGWq3k1_0g-1; Thu, 20 May 2021 13:05:26 -0400
-X-MC-Unique: 0aKLP3w3NFWvsGWq3k1_0g-1
+ us-mta-154-z1Zf9IGuOMS-VCb2ixpjtA-1; Thu, 20 May 2021 13:05:32 -0400
+X-MC-Unique: z1Zf9IGuOMS-VCb2ixpjtA-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D6FCE8030CF;
- Thu, 20 May 2021 17:05:25 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5B118107ACE3;
+ Thu, 20 May 2021 17:05:31 +0000 (UTC)
 Received: from gondolin.fritz.box (ovpn-113-166.ams2.redhat.com
  [10.36.113.166])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A263D5D6D5;
- Thu, 20 May 2021 17:05:24 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 31FBF5D6D5;
+ Thu, 20 May 2021 17:05:26 +0000 (UTC)
 From: Cornelia Huck <cohuck@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL v2 0/9] s390x update
-Date: Thu, 20 May 2021 19:05:10 +0200
-Message-Id: <20210520170519.300951-1-cohuck@redhat.com>
+Subject: [PULL v2 1/9] target/s390x: Fix translation exception on illegal
+ instruction
+Date: Thu, 20 May 2021 19:05:11 +0200
+Message-Id: <20210520170519.300951-2-cohuck@redhat.com>
+In-Reply-To: <20210520170519.300951-1-cohuck@redhat.com>
+References: <20210520170519.300951-1-cohuck@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=cohuck@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
@@ -61,7 +65,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.39,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -74,63 +78,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
- qemu-devel@nongnu.org
+Cc: Cornelia Huck <cohuck@redhat.com>, qemu-s390x@nongnu.org,
+ David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org,
+ Ilya Leoshkevich <iii@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-[Note: there's an unrelated hexagon failure in the CI for this tag;
- fixed by <20210520153831.11873-1-alex.bennee@linaro.org>]
+From: Ilya Leoshkevich <iii@linux.ibm.com>
 
-The following changes since commit fea2ad71c3e23f743701741346b51fdfbbff5ebf:
+Hitting an uretprobe in a s390x TCG guest causes a SIGSEGV. What
+happens is:
 
-  Merge remote-tracking branch 'remotes/stsquad/tags/pull-testing-and-plugin-updates-180521-2' into staging (2021-05-20 10:00:58 +0100)
+* uretprobe maps a userspace page containing an invalid instruction.
+* uretprobe replaces the target function's return address with the
+  address of that page.
+* When tb_gen_code() is called on that page, tb->size ends up being 0
+  (because the page starts with the invalid instruction), which causes
+  virt_page2 to point to the previous page.
+* The previous page is not mapped, so this causes a spurious
+  translation exception.
 
-are available in the Git repository at:
+tb->size must never be 0: even if there is an illegal instruction, the
+instruction bytes that have been looked at must count towards tb->size.
+So adjust s390x's translate_one() to act this way for both illegal
+instructions and instructions that are known to generate exceptions.
 
-  https://gitlab.com/cohuck/qemu.git tags/s390x-20210520-v2
+Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
+Reviewed-by: David Hildenbrand <david@redhat.com>
+Message-Id: <20210416154939.32404-2-iii@linux.ibm.com>
+Signed-off-by: Cornelia Huck <cohuck@redhat.com>
+---
+ target/s390x/translate.c | 16 +++++++++++-----
+ 1 file changed, 11 insertions(+), 5 deletions(-)
 
-for you to fetch changes up to f66487756b0553b156d8e3e81bc6411cfc38176e:
-
-  tests/tcg/x86_64: add vsyscall smoke test (2021-05-20 14:19:30 +0200)
-
-----------------------------------------------------------------
-s390x fixes and cleanups; also related fixes in xtensa,
-arm, and x86 code
-
-----------------------------------------------------------------
-
-Eric Farman (2):
-  vfio-ccw: Permit missing IRQs
-  vfio-ccw: Attempt to clean up all IRQs on error
-
-Ilya Leoshkevich (6):
-  target/s390x: Fix translation exception on illegal instruction
-  target/arm: Make sure that commpage's tb->size != 0
-  target/xtensa: Make sure that tb->size != 0
-  accel/tcg: Assert that tb->size != 0 after translation
-  target/i386: Make sure that vsyscall's tb->size != 0
-  tests/tcg/x86_64: add vsyscall smoke test
-
-Philippe Mathieu-Daudé (1):
-  hw/s390x/ccw: Register qbus type in abstract TYPE_CCW_DEVICE parent
-
- accel/tcg/translate-all.c        |  1 +
- hw/s390x/3270-ccw.c              |  1 -
- hw/s390x/ccw-device.c            |  1 +
- hw/s390x/ccw-device.h            |  1 +
- hw/s390x/s390-ccw.c              |  2 --
- hw/s390x/virtio-ccw.c            |  1 -
- hw/vfio/ccw.c                    | 18 +++++++++++-------
- target/arm/translate.c           |  2 ++
- target/i386/tcg/translate.c      |  1 +
- target/s390x/translate.c         | 16 +++++++++++-----
- target/xtensa/translate.c        |  3 +++
- tests/tcg/x86_64/Makefile.target |  6 +++++-
- tests/tcg/x86_64/vsyscall.c      | 12 ++++++++++++
- 13 files changed, 48 insertions(+), 17 deletions(-)
- create mode 100644 tests/tcg/x86_64/vsyscall.c
-
+diff --git a/target/s390x/translate.c b/target/s390x/translate.c
+index 4f953ddfbaf6..e243624d2a62 100644
+--- a/target/s390x/translate.c
++++ b/target/s390x/translate.c
+@@ -6412,7 +6412,8 @@ static DisasJumpType translate_one(CPUS390XState *env, DisasContext *s)
+         qemu_log_mask(LOG_UNIMP, "unimplemented opcode 0x%02x%02x\n",
+                       s->fields.op, s->fields.op2);
+         gen_illegal_opcode(s);
+-        return DISAS_NORETURN;
++        ret = DISAS_NORETURN;
++        goto out;
+     }
+ 
+ #ifndef CONFIG_USER_ONLY
+@@ -6428,7 +6429,8 @@ static DisasJumpType translate_one(CPUS390XState *env, DisasContext *s)
+         /* privileged instruction */
+         if ((s->base.tb->flags & FLAG_MASK_PSTATE) && (insn->flags & IF_PRIV)) {
+             gen_program_exception(s, PGM_PRIVILEGED);
+-            return DISAS_NORETURN;
++            ret = DISAS_NORETURN;
++            goto out;
+         }
+ 
+         /* if AFP is not enabled, instructions and registers are forbidden */
+@@ -6455,7 +6457,8 @@ static DisasJumpType translate_one(CPUS390XState *env, DisasContext *s)
+             }
+             if (dxc) {
+                 gen_data_exception(dxc);
+-                return DISAS_NORETURN;
++                ret = DISAS_NORETURN;
++                goto out;
+             }
+         }
+ 
+@@ -6463,7 +6466,8 @@ static DisasJumpType translate_one(CPUS390XState *env, DisasContext *s)
+         if (insn->flags & IF_VEC) {
+             if (!((s->base.tb->flags & FLAG_MASK_VECTOR))) {
+                 gen_data_exception(0xfe);
+-                return DISAS_NORETURN;
++                ret = DISAS_NORETURN;
++                goto out;
+             }
+         }
+ 
+@@ -6484,7 +6488,8 @@ static DisasJumpType translate_one(CPUS390XState *env, DisasContext *s)
+             (insn->spec & SPEC_r1_f128 && !is_fp_pair(get_field(s, r1))) ||
+             (insn->spec & SPEC_r2_f128 && !is_fp_pair(get_field(s, r2)))) {
+             gen_program_exception(s, PGM_SPECIFICATION);
+-            return DISAS_NORETURN;
++            ret = DISAS_NORETURN;
++            goto out;
+         }
+     }
+ 
+@@ -6544,6 +6549,7 @@ static DisasJumpType translate_one(CPUS390XState *env, DisasContext *s)
+     }
+ #endif
+ 
++out:
+     /* Advance to the next instruction.  */
+     s->base.pc_next = s->pc_tmp;
+     return ret;
 -- 
 2.31.1
 
