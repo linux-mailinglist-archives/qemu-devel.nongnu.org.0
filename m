@@ -2,79 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E531D38B9D8
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 May 2021 00:58:16 +0200 (CEST)
-Received: from localhost ([::1]:48024 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4511438B9DE
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 May 2021 01:00:09 +0200 (CEST)
+Received: from localhost ([::1]:54848 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljrcN-0006Ft-VM
-	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 18:58:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35962)
+	id 1ljreC-0002Vs-Au
+	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 19:00:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36154)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=767f8a997=alistair.francis@wdc.com>)
- id 1ljraL-0004mD-Ft; Thu, 20 May 2021 18:56:10 -0400
-Received: from esa5.hgst.iphmx.com ([216.71.153.144]:8231)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ljrbT-0006gZ-Kd
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 18:57:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45300)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=767f8a997=alistair.francis@wdc.com>)
- id 1ljraD-0004zS-Qh; Thu, 20 May 2021 18:56:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1621551359; x=1653087359;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=acliKGG3l829OIT5BBImeLeUsVa419f4dlzLIRV3Vqc=;
- b=P6Bnm9kRyJqvaWJOvscdFyc+aiYZ4UICGbSL1wEkQj/Ah+SB00o374R8
- DHS5GW3P2En0KEuo6bYDEa8yhe7mRaNyZRBGpha2O2OHnpfavlriK6e2g
- L9PGrj4ZbS3jy5CSeanJthWoB0xeBJPMrYuAAi3C78avW1sUbam/spk6f
- ez08Ip5q5wihR1sv+y7jqAaFh/EFKKXfsF1jwX2Gh4xONmHvqFe8rZ4pi
- frcYhrZdtbc5oHiy56vMfahf6w7gVqp27WdpcnoEL/aUhOeaGEJNGU1tm
- MtGXidb8QzDMj9KR1BLsy6uOsG3UVKjD9iJY3nEfJ0SAhuJQ8qTuSG+IA Q==;
-IronPort-SDR: AfLoFDgrhjUrd9Nr71ZxXH6BthmnJ+6Anhb0JJ7r2qLj+58lDqWJTI5QtcNeCKiHc4uxE4+Qfi
- PPqVPxd1gso2DFu8j2ZwZXjdec6+4vPCT9tWg63QdAmULxojvLCtJYeTXNoBaTQDMf32nDgHjj
- x21RB5lp7XZYyp7zjAc3hZ75dHVIFBojnP5ahUCEyF8Z4okrd8SipfJjVhusHhpBYL4YYXga6k
- Rn4b9ql2WQRAX/vU3UUfxdsdfU39iHo2mZYy5jNPdnUNtkqOleCiFHMhwcPF9FpWYJyNE4nS2w
- b5I=
-X-IronPort-AV: E=Sophos;i="5.82,313,1613404800"; d="scan'208";a="168919101"
-Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
- ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 21 May 2021 06:55:57 +0800
-IronPort-SDR: g1IhWAnj35X01ZGrmM8EXhHXMn7AluKQqysJVp8pUhnMrkgoqpHe27i1sTpRFypaAUayRUN5ha
- FoDcyzfs5/HhD9w+gUbQuJiJJ/fRvdqju0hZxdd3urZ4sgfkNZE/EQK3di1W6DR4/OpbxTG0cs
- 04T7onmHrIkAdxB5iksimhraXNJ8zql0rbjcy9Fg0yhh22l6JMnPYZ6wBMzWy07Xzs2MByl7QT
- MYLXQfqZbLkKvs7Qr1PlkKE6vHkDmcDv0v5sEW+vGX2rdUNxL8MhJTymQF0eR0i7pvCBKFOdBf
- C9i1lwOmAuEItORFudXlkrLf
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
- by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 May 2021 15:34:21 -0700
-IronPort-SDR: yuSxlp54yNBmuoUdsyq/k9KVcA/tLZ4k33+RCr4JwJfuUc5kbb3KwPB5WAfH0QjPVPhegZUqSr
- FfcWSdmmWvmQAK0wOTZ1Ej6b+KiRAsVzoObo0bdbpi0BqJYCewVVgNaIq/tZ+nDZFK3/0B35cl
- DPYqCv7K/OR3p4wvnFNSPmUNrvAWYhOVceEJFZl0LNA+UShPiwJHmzEFh0jnode4cMKdG5uEXk
- sunWmPhMP3/BsP0BBqQp7KXsCsczee+nEOzXfLbPP4jx/XqWeZ1tzzC8PFgXTVO48riaaFadPd
- T+8=
-WDCIronportException: Internal
-Received: from unknown (HELO toolbox.wdc.com) ([10.225.165.61])
- by uls-op-cesaip02.wdc.com with ESMTP; 20 May 2021 15:55:56 -0700
-From: Alistair Francis <alistair.francis@wdc.com>
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Subject: [PATCH v1 1/1] target/riscv/pmp: Add assert for ePMP operations
-Date: Fri, 21 May 2021 06:55:53 +0800
-Message-Id: <ec5f225928eec448278c82fcb1f6805ee61dde82.1621550996.git.alistair.francis@wdc.com>
-X-Mailer: git-send-email 2.31.1
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ljrbQ-0005ov-Bg
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 18:57:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1621551435;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=TvjJ1XNXx4SnLecfD8ZlGo+LJDzCV3d+/AFOIvUQOl0=;
+ b=ikF/tqJ8Az8235p6t+hC5XNXV3nH4BnERCvr0VGBAJvMn+PVD1OOE7cJmfisQcQKwKw3fl
+ atawnJd6CaV6CYoyTUlagGbO5W+LPnCMixsf9KOoJVFRxa4WtPRA3WFX9Nk0FlxmOwFT+u
+ KU8nkewvtsGa+DYMXkpsrjo0fOxyDYw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-156-H-Jbl_MCNDq9D3uWz4mUnA-1; Thu, 20 May 2021 18:57:13 -0400
+X-MC-Unique: H-Jbl_MCNDq9D3uWz4mUnA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7E6EA1854E20;
+ Thu, 20 May 2021 22:57:12 +0000 (UTC)
+Received: from scv.redhat.com (ovpn-117-64.rdu2.redhat.com [10.10.117.64])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AE70710027C4;
+ Thu, 20 May 2021 22:57:11 +0000 (UTC)
+From: John Snow <jsnow@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/6] qapi: static typing conversion, pt5b
+Date: Thu, 20 May 2021 18:57:04 -0400
+Message-Id: <20210520225710.168356-1-jsnow@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.71.153.144;
- envelope-from=prvs=767f8a997=alistair.francis@wdc.com;
- helo=esa5.hgst.iphmx.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.39,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,46 +73,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair.francis@wdc.com, bmeng.cn@gmail.com, palmer@dabbelt.com,
- alistair23@gmail.com
+Cc: Michael Roth <michael.roth@amd.com>, John Snow <jsnow@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Although we construct epmp_operation in such a way that it can only be
-between 0 and 15 Coverity complains that we don't handle the other
-possible cases. To fix Coverity and make it easier for humans to read
-add a default case to the switch statement that calls
-g_assert_not_reached().
-
-Fixes: CID 1453108
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
----
- target/riscv/pmp.c | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/target/riscv/pmp.c b/target/riscv/pmp.c
-index 78203291de..82ed020b10 100644
---- a/target/riscv/pmp.c
-+++ b/target/riscv/pmp.c
-@@ -402,6 +402,8 @@ bool pmp_hart_has_privs(CPURISCVState *env, target_ulong addr,
-                     case 15:
-                         *allowed_privs = PMP_READ;
-                         break;
-+                    default:
-+                        g_assert_not_reached();
-                     }
-                 } else {
-                     switch (epmp_operation) {
-@@ -433,6 +435,8 @@ bool pmp_hart_has_privs(CPURISCVState *env, target_ulong addr,
-                     case 7:
-                         *allowed_privs = PMP_READ | PMP_WRITE | PMP_EXEC;
-                         break;
-+                    default:
-+                        g_assert_not_reached();
-                     }
-                 }
-             }
--- 
-2.31.1
+This is part five (b), and focuses on QAPIDoc in parser.py.=0D
+=0D
+gitlab: https://gitlab.com/jsnow/qemu/-/commits/python-qapi-cleanup-pt5b=0D
+=0D
+Requirements:=0D
+- Python 3.6+=0D
+- mypy >=3D 0.770=0D
+- pylint >=3D 2.6.0 (2.7.0+ when using Python 3.9+)=0D
+=0D
+Every commit should pass with:=0D
+ - `isort -c qapi/`=0D
+ - `flake8 qapi/`=0D
+ - `pylint --rcfile=3Dqapi/pylintrc qapi/`=0D
+ - `mypy --config-file=3Dqapi/mypy.ini qapi/`=0D
+=0D
+V2:=0D
+ - Changed patch 01 to fix error message.=0D
+ - Add a TODO for fixing the cycle in patch 03.=0D
+ - Changed some commit messages, patch names=0D
+=0D
+John Snow (6):=0D
+  qapi/parser: fix unused check_args_section arguments=0D
+  qapi/parser: Allow empty QAPIDoc Sections=0D
+  qapi/parser: add type hint annotations (QAPIDoc)=0D
+  qapi/parser: enable mypy checks=0D
+  qapi/parser: Silence too-few-public-methods warning=0D
+  qapi/parser: enable pylint checks=0D
+=0D
+ scripts/qapi/mypy.ini                 |  5 --=0D
+ scripts/qapi/parser.py                | 98 +++++++++++++++++----------=0D
+ scripts/qapi/pylintrc                 |  3 +-=0D
+ tests/qapi-schema/doc-bad-feature.err |  2 +-=0D
+ 4 files changed, 64 insertions(+), 44 deletions(-)=0D
+=0D
+--=20=0D
+2.30.2=0D
+=0D
 
 
