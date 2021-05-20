@@ -2,61 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C7BD38AFFE
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 15:31:02 +0200 (CEST)
-Received: from localhost ([::1]:42964 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFB9F38B03F
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 15:42:55 +0200 (CEST)
+Received: from localhost ([::1]:48974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljilR-0007uC-LZ
-	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 09:31:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46452)
+	id 1ljiwr-0004Rr-EP
+	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 09:42:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50264)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ljihe-0004Nd-Td
- for qemu-devel@nongnu.org; Thu, 20 May 2021 09:27:07 -0400
-Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:45734)
+ id 1ljiv8-0003dv-K6
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 09:41:03 -0400
+Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:43686)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ljihd-0004GK-2D
- for qemu-devel@nongnu.org; Thu, 20 May 2021 09:27:06 -0400
-Received: by mail-ed1-x533.google.com with SMTP id a25so19364282edr.12
- for <qemu-devel@nongnu.org>; Thu, 20 May 2021 06:27:04 -0700 (PDT)
+ id 1ljiv6-0004zP-Iz
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 09:41:02 -0400
+Received: by mail-ej1-x631.google.com with SMTP id l4so25342998ejc.10
+ for <qemu-devel@nongnu.org>; Thu, 20 May 2021 06:40:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=fZ2Vkng0XpOtvMTBpyhvkOO+SzE5TIyduVzbsQrgIZ0=;
- b=GRlP+EnA8DJeCYh7WdQ2FCHwNnP3P4NDjNiM2oHjFyzuiVLPv1aHrTffTbcckwExi6
- eGRZnC1jFP5au8CoYcOF0PHbfOEpLYFKoqjvxBDthqXC7thOU2lYenVOvH1GlkGVLq2S
- Yl8lLIR9BOKSawTRDg9ClOtfpbRo0WGZfbF6BmDnBypVY+UhtNOcKWWf0Dm5QibyI1v9
- hPnDYTTK6tmvdrrq7NU7qOqy4X0i9y1aYfeuJnyz/NuVZfhn4j0ZYSRlTx6UHWTuKCYI
- gdiLpXnpez1HWBbeFeFWwufWLMI7xofNX6QLM07IGmHUBJXw8H+FFoV4EreHDQ2J4qZV
- mRvw==
+ :cc:content-transfer-encoding;
+ bh=Chru3fcjdYBD1Ork3gJ2EWKQv+k7ilFsYFF63K3qb5o=;
+ b=hwKEvwh6eCYHunOTdhyt7980QHD8DX+wiqHSVCmMysBtAm/ssO70XJCNTSrOGUqo4s
+ SaWR+eFmzuEBKKHjaKUb2GhFUJ2ZLdXBLM96kHHmQ7RVQLLd8P/99a9ZYwl6YV89NA+a
+ LDgxPnkJ4nf6T89zZaKtc216ESlrQFmJQnAAKwy5VYGB76mt4HLqEpNe7LkEQ0FvSE0g
+ qGU7zNR/gw2h4C9GSJhRemQDqyHxDPeZmylEz3TinYwSX9qTF45t4aHQ81H1FDRBVTdf
+ cHb3F0zstHgiI8xty/I3SVolyX+cSTKYw4xQGzEM6OTId1nKIVIBStmeKEhFqT4FzZyJ
+ LX0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=fZ2Vkng0XpOtvMTBpyhvkOO+SzE5TIyduVzbsQrgIZ0=;
- b=p8MtWyxGE8XKFDQ8rX1MX5GZsre7615X6CKfwIML4UcYpcNO1s+EVjMUGjZNqZIdMB
- ELGgNJ6C2Ai84dMa//sWH6KFd0n0nQW8kese1AZ8fhuam9wX0lDvV3CM3F67y8gE8djp
- h832zhVkFEliFBANf6+Xbe7SG62otIR5UjQvWTzl6jXw5e+2QaK/Z5uJze2sPm8ObiT4
- O7ASyYBttHjQksxmQk1B2AplWEXW9Uapk+YAKEJXx1X868F8ezYpiYdKceoGd75pSxug
- vCP8rgONSLjlSPLxlESFQjbzB9B5unU0ddQXRV/sTJcLxEgE1uZHQh0WJsVUjYbIxRx6
- Q66g==
-X-Gm-Message-State: AOAM531b1Zg03wlaIHlccTmfxl+aDpJ6RHj9CchBRkCivCN7XJRVbc2i
- r1mpw0Qp4MONCGWOvOwrKX8nNN7spsl+Ir5iZBHb4w==
-X-Google-Smtp-Source: ABdhPJytV0n9jIqqM01zR+au3Pja6orNwzsxKjZx674/DLHOVIC0Cv4lpIzo+HOt9bHJPkeyfGadKYUkH7SrEwRr2sY=
-X-Received: by 2002:aa7:cb0a:: with SMTP id s10mr4962484edt.36.1621517223537; 
- Thu, 20 May 2021 06:27:03 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=Chru3fcjdYBD1Ork3gJ2EWKQv+k7ilFsYFF63K3qb5o=;
+ b=joGcsyKyjpaG3T/7JbgI2ekC/5OpY1Pi5HVHpZpEUV4lo6tGgcY0F8lS3ehmLuKtKj
+ KRcibkzmSqRpo42sCBLSXYlvo2Byxh2en4+/re+u1aaSOaleV77sWT8FImH3yA/zLCL9
+ grFx1lTZvRPMBsFeJ3PefU4s36bvtOyeq0cEcBjBfr+fFKXrWP7itxLE7PO1wYzKQr9z
+ QbUT3Vn3Rt9n4+fO/JksMwlIug/DsJ0aMu2x3+FlXv+KRvmEhiW18wZGPTDlpDqVa59Y
+ J4TK6kUowIPU9SBa/q2tNxXcJfoXVNAubp43B9ExIfCuJZAVWjhoikGhirj4P6IuoR+r
+ HLCQ==
+X-Gm-Message-State: AOAM5317DTzBn+AO+FYIxALq7xRjGdK/8CCh2/21ilyo/o7hurrpgan1
+ 0rC0J3w0HNIzOmxnP07jXfhn32qUun0YneW38/9URA==
+X-Google-Smtp-Source: ABdhPJybzQtU5nL2PIOUWugKCBAzKtBX5O1/LMJ+GD7CAj+CVm67lTMTHKhL5JvFQTEvDXb2E0ETSvYLKhzvaiQ8TpY=
+X-Received: by 2002:a17:906:d8cb:: with SMTP id
+ re11mr4800184ejb.482.1621518058657; 
+ Thu, 20 May 2021 06:40:58 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210520082257.187061-1-pbonzini@redhat.com>
-In-Reply-To: <20210520082257.187061-1-pbonzini@redhat.com>
+References: <20210516123431.718318-1-richard.henderson@linaro.org>
+ <20210516123431.718318-43-richard.henderson@linaro.org>
+In-Reply-To: <20210516123431.718318-43-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 20 May 2021 14:26:45 +0100
-Message-ID: <CAFEAcA_MV=UiHW4Kp3Zb4iT_5BHgqVwj9Qem1xjmp1AJ++K=sQ@mail.gmail.com>
-Subject: Re: [PULL 00/26] Misc patches for 2021-05-20
-To: Paolo Bonzini <pbonzini@redhat.com>
+Date: Thu, 20 May 2021 14:40:40 +0100
+Message-ID: <CAFEAcA_qmHQr8C_xGqixqNEiU_c6P37=ZEEo07k0X7_=EJWY-g@mail.gmail.com>
+Subject: Re: [PULL 42/46] softfloat: Move div_floats to softfloat-parts.c.inc
+To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::533;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x533.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::631;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x631.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -76,50 +80,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 20 May 2021 at 09:31, Paolo Bonzini <pbonzini@redhat.com> wrote:
+On Sun, 16 May 2021 at 13:38, Richard Henderson
+<richard.henderson@linaro.org> wrote:
 >
-> The following changes since commit 15e147b3c778f9f4c08c79b99747b848b6e2117b:
+> Rename to parts$N_div.
+> Implement float128_div with FloatParts128.
 >
->   Merge remote-tracking branch 'remotes/nvme/tags/nvme-next-pull-request' into staging (2021-05-18 12:22:16 +0100)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/bonzini/qemu.git tags/tags/for-upstream-v2
->
-> for you to fetch changes up to 976551ba504a3284f9ab9862d9434b422c6841a1:
->
->   scsi-generic: pass max_segments via max_iov field in BlockLimits (2021-05-18 17:51:15 +0200)
->
-> ----------------------------------------------------------------
-> * submodule cleanups (Philippe, myself)
-> * tiny step towards a usable preconfig mode (myself)
-> * bump Meson submodule (myself)
-> * Kconfig and LOCK_GUARD cleanups (philippe)
-> * new x86 CPUID feature (Yang Zhong)
-> * "-object qtest" support (myself)
-> * Dirty ring support for KVM (Peter)
-> * Fixes for 6.0 command line parsing breakage (myself)
-> * Fix for macOS 11.3 SDK (Katsuhiro)
-> * Fix for scsi-generic handling (myself)
->
+> Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
 
+> +static bool frac64_div(FloatParts64 *a, FloatParts64 *b)
+> +{
+> +    uint64_t n1, n0, r, q;
+> +    bool ret;
+> +
+> +    /*
+> +     * We want a 2*N / N-bit division to produce exactly an N-bit
+> +     * result, so that we do not lose any precision and so that we
+> +     * do not have to renormalize afterward.  If A.frac < B.frac,
+> +     * then division would produce an (N-1)-bit result; shift A left
+> +     * by one to produce the an N-bit result, and return true to
+> +     * decrement the exponent to match.
+> +     *
+> +     * The udiv_qrnnd algorithm that we're using requires normalization,
+> +     * i.e. the msb of the denominator must be set, which is already tru=
+e.
+> +     */
+> +    ret =3D a->frac < b->frac;
+> +    if (ret) {
+> +        n0 =3D a->frac;
+> +        n1 =3D 0;
+> +    } else {
+> +        n0 =3D a->frac >> 1;
+> +        n1 =3D a->frac << 63;
+> +    }
+> +    q =3D udiv_qrnnd(&r, n0, n1, b->frac);
 
-Fails to build on PPC64:
+Hi -- Coverity is suspicious about this line (CID 1453209),
+because udiv_qrrnd()'s prototype is
+static inline uint64_t udiv_qrnnd(uint64_t *r, uint64_t n1,
+                                  uint64_t n0, uint64_t d)
 
-WARNING: Project specifies a minimum meson_version '>=0.55.0' but uses
-features which were added in newer versions:
- * 0.57.0: {'test() timeout <= 0'}
+but here we pass n0, n1 rather than n1, n0...
 
-
-ERROR: Could not detect Ninja v1.8.2 or newer
-
-
-(This system has ninja-build 1.7.2.)
-
+Bug, or false positive ?
 
 thanks
 -- PMM
