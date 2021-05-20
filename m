@@ -2,82 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 446ED38B4B8
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 18:57:52 +0200 (CEST)
-Received: from localhost ([::1]:46570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA9BA38B4E1
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 19:06:42 +0200 (CEST)
+Received: from localhost ([::1]:50860 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljlza-0006sY-QI
-	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 12:57:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40552)
+	id 1ljm89-0001z6-Ki
+	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 13:06:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42698)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1ljlyH-00062r-Sg
- for qemu-devel@nongnu.org; Thu, 20 May 2021 12:56:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59391)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1ljlyE-00018k-CF
- for qemu-devel@nongnu.org; Thu, 20 May 2021 12:56:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621529782;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=upbr1yOyr+Mzrx+5R6a4nYgM5rCSvgax2WW2ImSmiD8=;
- b=SSEFQYgLrWNcSmjkmJByos8vts9LiGXPdx2Pewz1xj2AQmHWUzA19gSNxSN67naVT4lmn+
- oWr8CJWPjTxAVMnAkfnUUoVjW5rhGU6MXmJNA3Ply0bheGFbT+UseHZ2S5FT04yac7Gk27
- 5Ntnfepl5VS5vs1KeATe/MrK9341GqE=
-Received: from mail-vs1-f71.google.com (mail-vs1-f71.google.com
- [209.85.217.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-75-xbevkBeNNFuImRteInxxVQ-1; Thu, 20 May 2021 12:56:21 -0400
-X-MC-Unique: xbevkBeNNFuImRteInxxVQ-1
-Received: by mail-vs1-f71.google.com with SMTP id
- y13-20020a67d20d0000b02902354e7b1beaso4917048vsi.5
- for <qemu-devel@nongnu.org>; Thu, 20 May 2021 09:56:21 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ljm6W-0000ht-N9
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 13:05:00 -0400
+Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:40769)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ljm6U-0005En-Sv
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 13:05:00 -0400
+Received: by mail-ej1-x636.google.com with SMTP id n2so26433698ejy.7
+ for <qemu-devel@nongnu.org>; Thu, 20 May 2021 10:04:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=iMTcXLB0GKtlNPNxgstSUVxhX+4w+hrg1jdSgv+gRc8=;
+ b=fsmHA7MIedYEUJedsEar00ZvqmCQ+ZDpeEu3wZKGfAlENq5FZV8cw6JUFxfewxNvta
+ bqwuxIXdFGPpN56ObY1GisPpLxSk53paCyMQhmhDxlnCkfH9iFeXH9no3pvSXnB9rnYD
+ geNCkCBNjsHRzNpBZV3LBh8dwWKY+/QKIJ+/QeZLg0vCH4ruivW/isFNq0uBRste6iIu
+ rR/0RB3ozTCTr49YstSWoqdxOlTrPYY9AqnRFUSOwuj92RVsyv1wsLmrQ6xUJHdETtDG
+ AWc+h1to0/6A7GbYloR3FIxDBIwlYo/8STKxhhqp9Mgksx9HlU9T2CrMxBf/A5F7UIPL
+ VJ3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=upbr1yOyr+Mzrx+5R6a4nYgM5rCSvgax2WW2ImSmiD8=;
- b=Wy+u83Xlkd+exOi49187w8/70Fj4gnkx28ih+/CKlfkcbzbVkDUQofN60X7wzQeoIb
- mKWQSuqrW/VFe+FmEHnH3vwGFzYcVaA5VqxN4HbklH7yMkkEa0pfr2DiOck09IF0QaOc
- ayCwYEiVJa9vjY34Ctll5pDi86tQXJd5wjXZJw8e3r0jk99wL7751cnkLCHq2Dq51Hov
- UBEQUUPN7qi0cavm3rnrfbc0t2soFiZ0aLGFKUvwbXTz1uBj7IQwkmY2Aic1FFfLTbAY
- C9WUg2g32/tGXywYsAPABjXSLahKxGPuC2PIU47+Byg2cgn9+s3vQmosXHfGbbI0gP7b
- NSbg==
-X-Gm-Message-State: AOAM531SwIZ43W8/7VCQcTpBwvUdOaiRX8tS82xxbBPgEb/sZPvQV/ZC
- gH7ad4ODdrhCEwleitZHPswcQ9jWHp9tzR/N5E9YFs2FfoiEqK2GWxFj9W2ch6aNoKKBBvzyfdH
- jFR19Lbk5UgOPiboAM2r1Y3f6CElEH6M=
-X-Received: by 2002:a1f:9d90:: with SMTP id g138mr5734369vke.2.1621529780538; 
- Thu, 20 May 2021 09:56:20 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxjuio7bsCA3m5HEzhchmoW/GvZDogOFRFEWVXSo/JSQ+meg7k3cwNZbZUIsUj6wHqUVLUZqVuWeeJZqZUnHu4=
-X-Received: by 2002:a1f:9d90:: with SMTP id g138mr5734357vke.2.1621529780354; 
- Thu, 20 May 2021 09:56:20 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=iMTcXLB0GKtlNPNxgstSUVxhX+4w+hrg1jdSgv+gRc8=;
+ b=avwRAuT/dY7HUXJkX/hLyTD8wXcsgu8C1USoSkLUbFI05kOq7+/mekUB5rH/2JHrhM
+ OVfLCv8VpCyr52NiraKYMcGxoroWA3gY7N6JhOVJfQT7Np9wvO3NeBH8uChsdvvuUuT2
+ /2OJLm7cnvU1ayx6REJwc0Y6n1GvWlbj7tReSnSEQJxrPBC9ntqqa9dNQqg7JCY0PgCp
+ 6ooyjzksfECq1AyDmfwSPuvJ5ftLrmRS9oR63TXEK1+menzmVELTSRpSylmWcY0k688M
+ /g9IioYf5u6FPM7S2c61yITLFwYA/MGCyKgIAdyKqanl/Mdi58HbbrmHSLktuAlujS2N
+ swLg==
+X-Gm-Message-State: AOAM531TQXUXW83JjfJo9W4Mvw3+emWQCGMGUHpRRnp9TozupZYJE1/j
+ I9ZYJzGtMJldwqovGJ5kADH/m0rA+nIY6I3UeDPm1w==
+X-Google-Smtp-Source: ABdhPJxrKEwbwCFlGE6Itq/5BHiJwd3Heh8fwS16q4fPc8HRNF8bBs4vv9BSW8lrwhAStOPrf49ryQiplrtqyFs/FAQ=
+X-Received: by 2002:a17:906:d1d2:: with SMTP id
+ bs18mr5763159ejb.56.1621530297068; 
+ Thu, 20 May 2021 10:04:57 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210520153831.11873-1-alex.bennee@linaro.org>
-In-Reply-To: <20210520153831.11873-1-alex.bennee@linaro.org>
-From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Thu, 20 May 2021 13:55:54 -0300
-Message-ID: <CAKJDGDbfUNZYA5c1PfUqgzE6mNjNc9rDtG1crpkMN8RV5WKYjw@mail.gmail.com>
-Subject: Re: [RFC PATCH v2] gitlab: add special rule for the hexagon container
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+References: <20210516123431.718318-1-richard.henderson@linaro.org>
+ <20210516123431.718318-43-richard.henderson@linaro.org>
+ <CAFEAcA_qmHQr8C_xGqixqNEiU_c6P37=ZEEo07k0X7_=EJWY-g@mail.gmail.com>
+ <218865da-9748-6820-7749-1fc6f905e3a9@linaro.org>
+In-Reply-To: <218865da-9748-6820-7749-1fc6f905e3a9@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 20 May 2021 18:04:38 +0100
+Message-ID: <CAFEAcA93tnrd0H7qazn3Mdqy35FsbbjNXfk84nuLHR5brZoL5g@mail.gmail.com>
+Subject: Re: [PULL 42/46] softfloat: Move div_floats to softfloat-parts.c.inc
+To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=wrampazz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.39,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::636;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x636.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,37 +80,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, May 20, 2021 at 12:38 PM Alex Benn=C3=A9e <alex.bennee@linaro.org> =
-wrote:
+On Thu, 20 May 2021 at 17:15, Richard Henderson
+<richard.henderson@linaro.org> wrote:
 >
-> The hexagon container is always manually built but of course not
-> everyone will be building it themselves and pushing to their
-> registries. We still need to create a "local" registry copy for the
-> actual gitlab tests to run. We don't build it in this case, just pull
-> it across from the upstream registry. We disable this rule from
-> running on the qemu-project itself so it doesn't accidentally wipe out
-> our master copy.
+> On 5/20/21 8:40 AM, Peter Maydell wrote:
+> > On Sun, 16 May 2021 at 13:38, Richard Henderson
+> > Hi -- Coverity is suspicious about this line (CID 1453209),
+> > because udiv_qrrnd()'s prototype is
+> > static inline uint64_t udiv_qrnnd(uint64_t *r, uint64_t n1,
+> >                                    uint64_t n0, uint64_t d)
+> >
+> > but here we pass n0, n1 rather than n1, n0...
+> >
+> > Bug, or false positive ?
 >
-> Fixes: 910c40ee94 ("gitlab: add build-user-hexagon test")
-> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> Cc: Cornelia Huck <cohuck@redhat.com>
+> I think it's a false positive.
 >
-> ---
-> v2
->   - fix silly typo
-> ---
->  .gitlab-ci.d/containers.yml | 27 +++++++++++++++++++++++++++
->  .gitlab-ci.yml              |  2 ++
->  2 files changed, 29 insertions(+)
->
+> Different naming schemes between gcc (from whence qrrnd came, 0 as least
+> significant element) and the Berkeley softfloat code (0 as most significant
+> element).
 
-Reviewed-by: Willian Rampazzo <willianr@redhat.com>
+OK; I've marked it as an fp in the coverity UI.
 
+thanks
+-- PMM
 
