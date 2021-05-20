@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 197C038A00A
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 10:44:19 +0200 (CEST)
-Received: from localhost ([::1]:34870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 401D9389FF2
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 10:36:49 +0200 (CEST)
+Received: from localhost ([::1]:47036 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljeHy-0003wm-28
-	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 04:44:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50576)
+	id 1ljeAh-0001AO-So
+	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 04:36:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50472)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ljdxj-0005RK-8v
- for qemu-devel@nongnu.org; Thu, 20 May 2021 04:23:29 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:51061)
+ id 1ljdxf-0005OP-9i
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 04:23:20 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:39925)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ljdxf-0001Y5-08
- for qemu-devel@nongnu.org; Thu, 20 May 2021 04:23:22 -0400
-Received: by mail-wm1-x332.google.com with SMTP id t206so8638725wmf.0
- for <qemu-devel@nongnu.org>; Thu, 20 May 2021 01:23:10 -0700 (PDT)
+ id 1ljdxa-0001Yf-EZ
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 04:23:16 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id v12so16672838wrq.6
+ for <qemu-devel@nongnu.org>; Thu, 20 May 2021 01:23:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=+6To3R747Gt8KrZIdybi9XgGpLzBn8XFWqjsTJBScXc=;
- b=naWvRZUwVgLVlkiEDYK/2S4K54bNcNJ0G3DKgqUJpVP4fs7tdUvQQBBdtRzSCEe9HT
- iIs1Hmm9S2+m6E0TC+d9wpHVbw3jkNBqOwSaEIVxdqXwhnYYWQkFeU2MTlH35jy4VZCw
- D/mfqFNbLlqHQ7tPcotn/Byuh+RhYRSrfr2rCfMXIBFY1oXf9bf4VWkFb+NLYlsOTL5E
- bwHiiA8hDPOsoiMzUyHOgEwHcKXCUO3FzsedlR3BkdGieWzjpVl8Wu+iwLPHaK4ys/gx
- X3Q2JPLh1C27XxD1yBlcX2CeQNeuP0YlGzFhm0kuzjSmxLA4pOIoZ78JBbVmy6m8yk/x
- qUzg==
+ bh=GBwYk/KWMuO+/yxHf80rqOKUhqHBFBQaoC17YufQN2w=;
+ b=hJFoEmJmyFG9zwvVkX8sqnKLEOdhIE67k8ZTAQ56WJHOuUt27AXzQRTGnitMPoeaKu
+ tzxhz+LZwHYq6Q1h8+DFTXSuIeMSKdUAgWlzQ9kel5TR7e19aWys1t+Ng2EUgvlhV4hV
+ /xY/uETrb+6uKP+I89fyX/PeXEdnHMBXjkqoIagyIfelPyspXU+2gv2bK5pXGeYktJLb
+ ydBWp15dQow27rJQxpKBGIVpnBfRdqGv4gA+NWrB3GjYNVPR5ygYSw3cnxv01833m6ry
+ cAANsNk3dhXOwODqD3Bm6wyhucJIL07g/nc4DuNyFQWLtLY3JrT90t8XGdWr6qT3VpdP
+ RkUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=+6To3R747Gt8KrZIdybi9XgGpLzBn8XFWqjsTJBScXc=;
- b=HiUT3e/4wxzq4LadKcX41XLMb6+f1ai2JFozbE00/oSB8RINhmDAlBniGfIyZe/QO/
- R7nDNHSr6vvTArktEMpmotJYYhcQKcCy1rTpqmIE0e1PMo4fuU6+s5wFqJqXBDDhogbc
- F8if2FmP7EcFxGnjg6X84QHrdiQR3PZvw2gMTRT6KyR5/TwAboGxPIn0BY+SE5T3XkVO
- gH79gGct97ZG+uR+LAXTv8BIvgTGx1vh2OZmcqVdDgNJs8i0t1Kx0gB7ewF+aOhZJkdd
- NPW1JhChYqbTb8wEtW4l3Qe3LcWzecPChKznoI1OFeKuuI7RMzUMFPH5Xy/COPPaCJzG
- hlnw==
-X-Gm-Message-State: AOAM531oHm+WNTLgjcIoIsxL+HX3vStcIL71/OaPd+OT7SLi5rxypbpZ
- SpPcw/bWeSN8Nyq7BvZGFtdun7ZY5V5FFg==
-X-Google-Smtp-Source: ABdhPJzSAenX3C9bCSoZbUP2MXyJQ69B+ZAZRXIjEZpUzG4pr4gNfGpjgF0fhpmh4HSY0SvJ72saTg==
-X-Received: by 2002:a1c:2507:: with SMTP id l7mr2399148wml.188.1621498989713; 
- Thu, 20 May 2021 01:23:09 -0700 (PDT)
+ bh=GBwYk/KWMuO+/yxHf80rqOKUhqHBFBQaoC17YufQN2w=;
+ b=UUlkiMUaRjlEHp4wHtoYo0Pi0uDFbjfgwG1DoGU6YEQ1X2VKwrTEySadsKK6IZZuOv
+ hFmYx9z+gb2TQx8Z4Xu9oqjGqRl42/H86FMNw73vn/wV7x0TzghpS9UgB65bVw5woG6+
+ QvrWsd4r9I9kNyI6lxCUf484jVxysU5RLNvlGRWUviKfAWbpVhIAfPhkyT3KYb8uFBRr
+ EET1vlrENiMMkTLK1+ubcEM9jyyuf7BSE/IBJCHdYl7c9XYuIQo2JEBg9hu1kA504FJh
+ DjMaNdeZNIWn5MuqLV4gvzgDW2WkQYCr5M3kUKc6yB+3p2RFc3pZAmbDF6EBIVeB0Frb
+ 02oA==
+X-Gm-Message-State: AOAM532zccmSIEFjOqaRj8X9fqoZvqHNa1qK4pO3y8F1+sPKHqa2/m9g
+ fCdZOONc7YNlUKtSwkNxCI8RX3o9xl+d4w==
+X-Google-Smtp-Source: ABdhPJxtVNuBdY5j5VyeNOgUfDiXX7l3LYIfWqn/Hbux3I5b1FqOaEjefN09xt4fDLAtR0c1SN/ldg==
+X-Received: by 2002:adf:eac9:: with SMTP id o9mr2957322wrn.120.1621498990388; 
+ Thu, 20 May 2021 01:23:10 -0700 (PDT)
 Received: from avogadro.redhat.com ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
  v10sm2603506wrq.0.2021.05.20.01.23.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 May 2021 01:23:09 -0700 (PDT)
+ Thu, 20 May 2021 01:23:10 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 17/26] KVM: Add dirty-ring-size property
-Date: Thu, 20 May 2021 10:22:48 +0200
-Message-Id: <20210520082257.187061-18-pbonzini@redhat.com>
+Subject: [PULL 18/26] KVM: Disable manual dirty log when dirty ring enabled
+Date: Thu, 20 May 2021 10:22:49 +0200
+Message-Id: <20210520082257.187061-19-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210520082257.187061-1-pbonzini@redhat.com>
 References: <20210520082257.187061-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x332.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -90,129 +90,70 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Peter Xu <peterx@redhat.com>
 
-Add a parameter for dirty gfn count for dirty rings.  If zero, dirty ring is
-disabled.  Otherwise dirty ring will be enabled with the per-vcpu gfn count as
-specified.  If dirty ring cannot be enabled due to unsupported kernel or
-illegal parameter, it'll fallback to dirty logging.
+KVM_CAP_MANUAL_DIRTY_LOG_PROTECT2 is for KVM_CLEAR_DIRTY_LOG, which is only
+useful for KVM_GET_DIRTY_LOG.  Skip enabling it for kvm dirty ring.
 
-By default, dirty ring is not enabled (dirty-gfn-count default to 0).
+More importantly, KVM_DIRTY_LOG_INITIALLY_SET will not wr-protect all the pages
+initially, which is against how kvm dirty ring is used - there's no way for kvm
+dirty ring to re-protect a page before it's notified as being written first
+with a GFN entry in the ring!  So when KVM_DIRTY_LOG_INITIALLY_SET is enabled
+with dirty ring, we'll see silent data loss after migration.
 
 Signed-off-by: Peter Xu <peterx@redhat.com>
-Message-Id: <20210506160549.130416-9-peterx@redhat.com>
+Message-Id: <20210506160549.130416-10-peterx@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- accel/kvm/kvm-all.c | 46 +++++++++++++++++++++++++++++++++++++++++++++
- qemu-options.hx     | 12 ++++++++++++
- 2 files changed, 58 insertions(+)
+ accel/kvm/kvm-all.c | 37 +++++++++++++++++++++++--------------
+ 1 file changed, 23 insertions(+), 14 deletions(-)
 
 diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-index df9fbf59a6..5afe15ae66 100644
+index 5afe15ae66..e1a6c7c89b 100644
 --- a/accel/kvm/kvm-all.c
 +++ b/accel/kvm/kvm-all.c
-@@ -126,6 +126,8 @@ struct KVMState
-         KVMMemoryListener *ml;
-         AddressSpace *as;
-     } *as;
-+    uint64_t kvm_dirty_ring_bytes;  /* Size of the per-vcpu dirty ring */
-+    uint32_t kvm_dirty_ring_size;   /* Number of dirty GFNs per ring */
- };
+@@ -2131,20 +2131,29 @@ static int kvm_init(MachineState *ms)
+     s->coalesced_pio = s->coalesced_mmio &&
+                        kvm_check_extension(s, KVM_CAP_COALESCED_PIO);
  
- KVMState *kvm_state;
-@@ -3182,6 +3184,42 @@ bool kvm_kernel_irqchip_split(void)
-     return kvm_state->kernel_irqchip_split == ON_OFF_AUTO_ON;
- }
+-    dirty_log_manual_caps =
+-        kvm_check_extension(s, KVM_CAP_MANUAL_DIRTY_LOG_PROTECT2);
+-    dirty_log_manual_caps &= (KVM_DIRTY_LOG_MANUAL_PROTECT_ENABLE |
+-                              KVM_DIRTY_LOG_INITIALLY_SET);
+-    s->manual_dirty_log_protect = dirty_log_manual_caps;
+-    if (dirty_log_manual_caps) {
+-        ret = kvm_vm_enable_cap(s, KVM_CAP_MANUAL_DIRTY_LOG_PROTECT2, 0,
+-                                   dirty_log_manual_caps);
+-        if (ret) {
+-            warn_report("Trying to enable capability %"PRIu64" of "
+-                        "KVM_CAP_MANUAL_DIRTY_LOG_PROTECT2 but failed. "
+-                        "Falling back to the legacy mode. ",
+-                        dirty_log_manual_caps);
+-            s->manual_dirty_log_protect = 0;
++    /*
++     * KVM_CAP_MANUAL_DIRTY_LOG_PROTECT2 is not needed when dirty ring is
++     * enabled.  More importantly, KVM_DIRTY_LOG_INITIALLY_SET will assume no
++     * page is wr-protected initially, which is against how kvm dirty ring is
++     * usage - kvm dirty ring requires all pages are wr-protected at the very
++     * beginning.  Enabling this feature for dirty ring causes data corruption.
++     */
++    if (!s->kvm_dirty_ring_size) {
++        dirty_log_manual_caps =
++            kvm_check_extension(s, KVM_CAP_MANUAL_DIRTY_LOG_PROTECT2);
++        dirty_log_manual_caps &= (KVM_DIRTY_LOG_MANUAL_PROTECT_ENABLE |
++                                  KVM_DIRTY_LOG_INITIALLY_SET);
++        s->manual_dirty_log_protect = dirty_log_manual_caps;
++        if (dirty_log_manual_caps) {
++            ret = kvm_vm_enable_cap(s, KVM_CAP_MANUAL_DIRTY_LOG_PROTECT2, 0,
++                                    dirty_log_manual_caps);
++            if (ret) {
++                warn_report("Trying to enable capability %"PRIu64" of "
++                            "KVM_CAP_MANUAL_DIRTY_LOG_PROTECT2 but failed. "
++                            "Falling back to the legacy mode. ",
++                            dirty_log_manual_caps);
++                s->manual_dirty_log_protect = 0;
++            }
+         }
+     }
  
-+static void kvm_get_dirty_ring_size(Object *obj, Visitor *v,
-+                                    const char *name, void *opaque,
-+                                    Error **errp)
-+{
-+    KVMState *s = KVM_STATE(obj);
-+    uint32_t value = s->kvm_dirty_ring_size;
-+
-+    visit_type_uint32(v, name, &value, errp);
-+}
-+
-+static void kvm_set_dirty_ring_size(Object *obj, Visitor *v,
-+                                    const char *name, void *opaque,
-+                                    Error **errp)
-+{
-+    KVMState *s = KVM_STATE(obj);
-+    Error *error = NULL;
-+    uint32_t value;
-+
-+    if (s->fd != -1) {
-+        error_setg(errp, "Cannot set properties after the accelerator has been initialized");
-+        return;
-+    }
-+
-+    visit_type_uint32(v, name, &value, &error);
-+    if (error) {
-+        error_propagate(errp, error);
-+        return;
-+    }
-+    if (value & (value - 1)) {
-+        error_setg(errp, "dirty-ring-size must be a power of two.");
-+        return;
-+    }
-+
-+    s->kvm_dirty_ring_size = value;
-+}
-+
- static void kvm_accel_instance_init(Object *obj)
- {
-     KVMState *s = KVM_STATE(obj);
-@@ -3191,6 +3229,8 @@ static void kvm_accel_instance_init(Object *obj)
-     s->kvm_shadow_mem = -1;
-     s->kernel_irqchip_allowed = true;
-     s->kernel_irqchip_split = ON_OFF_AUTO_AUTO;
-+    /* KVM dirty ring is by default off */
-+    s->kvm_dirty_ring_size = 0;
- }
- 
- static void kvm_accel_class_init(ObjectClass *oc, void *data)
-@@ -3212,6 +3252,12 @@ static void kvm_accel_class_init(ObjectClass *oc, void *data)
-         NULL, NULL);
-     object_class_property_set_description(oc, "kvm-shadow-mem",
-         "KVM shadow MMU size");
-+
-+    object_class_property_add(oc, "dirty-ring-size", "uint32",
-+        kvm_get_dirty_ring_size, kvm_set_dirty_ring_size,
-+        NULL, NULL);
-+    object_class_property_set_description(oc, "dirty-ring-size",
-+        "Size of KVM dirty page ring buffer (default: 0, i.e. use bitmap)");
- }
- 
- static const TypeInfo kvm_accel_type = {
-diff --git a/qemu-options.hx b/qemu-options.hx
-index e22fb94d99..ecdb064409 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -141,6 +141,7 @@ DEF("accel", HAS_ARG, QEMU_OPTION_accel,
-     "                kvm-shadow-mem=size of KVM shadow MMU in bytes\n"
-     "                split-wx=on|off (enable TCG split w^x mapping)\n"
-     "                tb-size=n (TCG translation block cache size)\n"
-+    "                dirty-ring-size=n (KVM dirty ring GFN count, default 0)\n"
-     "                thread=single|multi (enable multi-threaded TCG)\n", QEMU_ARCH_ALL)
- SRST
- ``-accel name[,prop=value[,...]]``
-@@ -181,6 +182,17 @@ SRST
-         where both the back-end and front-ends support it and no
-         incompatible TCG features have been enabled (e.g.
-         icount/replay).
-+
-+    ``dirty-ring-size=n``
-+        When the KVM accelerator is used, it controls the size of the per-vCPU
-+        dirty page ring buffer (number of entries for each vCPU). It should
-+        be a value that is power of two, and it should be 1024 or bigger (but
-+        still less than the maximum value that the kernel supports).  4096
-+        could be a good initial value if you have no idea which is the best.
-+        Set this value to 0 to disable the feature.  By default, this feature
-+        is disabled (dirty-ring-size=0).  When enabled, KVM will instead
-+        record dirty pages in a bitmap.
-+
- ERST
- 
- DEF("smp", HAS_ARG, QEMU_OPTION_smp,
 -- 
 2.31.1
 
