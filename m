@@ -2,144 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7469338A015
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 10:48:36 +0200 (CEST)
-Received: from localhost ([::1]:47678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0447F38A044
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 10:54:26 +0200 (CEST)
+Received: from localhost ([::1]:60974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljeM7-0004Ab-HH
-	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 04:48:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51978)
+	id 1ljeRl-0004sL-41
+	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 04:54:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52636)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lizhijian@fujitsu.com>)
- id 1lje4x-0005G5-SA
- for qemu-devel@nongnu.org; Thu, 20 May 2021 04:30:51 -0400
-Received: from esa6.fujitsucc.c3s2.iphmx.com ([68.232.159.83]:55876)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lje9Q-0001iM-PY
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 04:35:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27126)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lizhijian@fujitsu.com>)
- id 1lje4u-0006c1-Jj
- for qemu-devel@nongnu.org; Thu, 20 May 2021 04:30:51 -0400
-IronPort-SDR: hbSmabxmejcmD/HDmiOnNoHk/lph7aFxWJQNKy7ZeIHy4o9/MDF7rZ95mQAuzJkQXxJxjtVBWp
- Gus1mGoQ6WfrblnszryzfBimaO5HTPanDVq5qJmkyisW5fGtc9VejDXi8zqEQgxOxiEWEsvjcG
- AKppepcU3SV/EWkQdbXOCP01eq7kLFRdOtd9uz4qvkEbIVWOCIGpgb1LYUJpsdI8okVuKbsP/W
- Phoy06zNSSLxmafBErZ3X7Fe4Tw7GvTJGxfNHBr7Z+GvDnxGKGstNuE4tpWSDBJGioXEzjMkQs
- Sj4=
-X-IronPort-AV: E=McAfee;i="6200,9189,9989"; a="31741557"
-X-IronPort-AV: E=Sophos;i="5.82,313,1613401200"; d="scan'208";a="31741557"
-Received: from mail-ty1jpn01lp2056.outbound.protection.outlook.com (HELO
- JPN01-TY1-obe.outbound.protection.outlook.com) ([104.47.93.56])
- by ob1.fujitsucc.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 May 2021 17:30:41 +0900
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WG+/3z41xnRytxW4bDUoG7hi5e0u4E2vcjxLsLa8o6UUHaUQy/UEW3cVANAvYhMbkU+HDfX6u5+HAV12xpou7Umyi1DLRu+OJffdQ/b+PqlEu1qR5c5HyOcmDviqYahOYa7e6Kj6x5DqQ6RmMPIYJR1Z+AqnnC5NuRKHROcCfRjm6j+F88g4R3RiNFzdj7gWcm4xK53UOaRC33MMbQh6YNL04mxpwJIhLUdYKV92KxfrZsPvtWLeldp/4T+EijuclzwD4NupC0443/K/JydhrdPydnUYOlQYuBagZSrFAvcb47w/XEDX+tlkSn0mgMZFF7lJd1TkS5Gb1bVdwEb2eg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mhji/Jj+e6UorXqhNMgNyGnuR12MKQnbx2Kg/0MmQZ4=;
- b=ezdILC/p2pOqJklOokXAkzV7o8QyXysmLxs4uRk+0Ip+QR0huyBiBtoWV/PtYDNitsZAxgO6yW06msIB+Hb4IODZBEGyoheoicav7MPYDKGs5pW6p6AAucvRQ8oRaZJO3OVmyc929tEVn8ndmZYkQ7+ioSPJfqi4LbAgWLfk9hLG1KfymOQDSsWfS8CFIH34cgds9b54met+xr+nwjPM5qlRoMxmvzXEEcvpEi1VSI83I+6EQQY3tdmHQwG6a5uVdfn3zX9+eXkdKLpHpW+13TVKNX7S51oRoBKVRBXEJYxuNth92Ra0N6aQmWM71WjIx/JuXIBR4b3Tc0Iy68wA9g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=fujitsu.com; dmarc=pass action=none header.from=fujitsu.com;
- dkim=pass header.d=fujitsu.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fujitsu.onmicrosoft.com; s=selector2-fujitsu-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mhji/Jj+e6UorXqhNMgNyGnuR12MKQnbx2Kg/0MmQZ4=;
- b=jC2Lz5lfSaDI4bVlWOOQNuu/P/S5Acs0afLY+c/eCjKoAzlL9jRYha7PI+026nJfpDFROidLPRr++40ehzxsae4sPVKdSjaQP/X5uU6vGn/Zk7oXCB2EvEpbabJ1oox7QOFczKwp/Zlt90fxIz9XBlCiuQTfMaK++uI6Q+DFdAs=
-Received: from TY2PR01MB2571.jpnprd01.prod.outlook.com (2603:1096:404:6b::12)
- by TYAPR01MB6010.jpnprd01.prod.outlook.com (2603:1096:402:31::13)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4129.25; Thu, 20 May
- 2021 08:30:33 +0000
-Received: from TY2PR01MB2571.jpnprd01.prod.outlook.com
- ([fe80::c81b:26d8:726b:4239]) by TY2PR01MB2571.jpnprd01.prod.outlook.com
- ([fe80::c81b:26d8:726b:4239%5]) with mapi id 15.20.4129.033; Thu, 20 May 2021
- 08:30:33 +0000
-From: "lizhijian@fujitsu.com" <lizhijian@fujitsu.com>
-To: "lizhijian@fujitsu.com" <lizhijian@fujitsu.com>, "quintela@redhat.com"
- <quintela@redhat.com>, "dgilbert@redhat.com" <dgilbert@redhat.com>
-Subject: Re: [PATCH RESEND 3/4] migration/rdma: destination: create the return
- patch after the first accept
-Thread-Topic: [PATCH RESEND 3/4] migration/rdma: destination: create the
- return patch after the first accept
-Thread-Index: AQHXTU/q2UXzJf/thkWSKti9G+XxdarsChgA
-Date: Thu, 20 May 2021 08:30:33 +0000
-Message-ID: <557bff12-3b43-3aab-ef70-758471ab5eb1@fujitsu.com>
-References: <20210520081148.17001-1-lizhijian@cn.fujitsu.com>
- <20210520081148.17001-3-lizhijian@cn.fujitsu.com>
-In-Reply-To: <20210520081148.17001-3-lizhijian@cn.fujitsu.com>
-Accept-Language: zh-CN, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: fujitsu.com; dkim=none (message not signed)
- header.d=none;fujitsu.com; dmarc=none action=none header.from=fujitsu.com;
-x-originating-ip: [223.111.68.150]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: d37f657a-26ab-4b90-0903-08d91b698908
-x-ms-traffictypediagnostic: TYAPR01MB6010:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <TYAPR01MB60107431B5D6D2C2E30D0A80A52A9@TYAPR01MB6010.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:2000;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: dKYA4T45+bl21PfyHKGmgFW888xH9EhNqSZhA0psG9v7KJKmko6TBF28wqvot/Er5RBHTKnCUMTNsdViGNyG4faAyteBZnCU+JxP01OqBkk25xVSfzOtDzmOmv7FSe0L86LcmkwvcfacqRgmsrkH9Uj74+V2sE2AWdvE9btJeIhB6uNebp7BmzC5kVMfLZ5bEuk3bqS4Jqb7v4wdHsmobzf871gHLrWaaPtHDM8pLsvEOYboFQHqjKiww45Au6P4sgdgmOwVdlB979hL3sK9k5jBzbVQnCFz0cgDOCq6y+ANFJkZMCuHQm60LqAXjYY7F5qhG5sldFy/V92uC6h7h2jm0QrCBBge+VMB3UCScdNb/npZv/1Xo+3/QXuv+96mK35dWWEYi/aWQYMgyhOy+k5e6odHRVlYYr34Ita2Iug5DOZwEwPgMxWxqoL/26qqO8G67kOsx8kKX/0c8BqqwkXECwZZtNzqOdsAeSN5QXJsLOsIu7jf2IPFMxv6L7S+/e8SBMh4z1jg2475oD7kmkf68cmzvnNZ2xj5P2T1VXH0y6EmJB1lscGyr00vG2TKuIL/B4BwlHGj6kHRvHwzlUpKPl5XooRx07WecPgCmOqLBxN8BlrkIGwaGG089lpIeh4xwOqop+4tH9XLq5xwvy6RT4jz1mvTJzTo38gSEwc=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:TY2PR01MB2571.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(136003)(39860400002)(376002)(346002)(396003)(31696002)(2616005)(5660300002)(86362001)(66446008)(66946007)(76116006)(91956017)(66556008)(38100700002)(66476007)(36756003)(4326008)(316002)(110136005)(64756008)(122000001)(83380400001)(2906002)(85182001)(6512007)(31686004)(8676002)(26005)(71200400001)(6506007)(6486002)(478600001)(186003)(8936002)(45980500001);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata: =?utf-8?B?YXJ5bitBblpkTjBma05JTXBudHdXWk1PWlg0Q0dKbG9WNjUxS3RLNFpGTm5T?=
- =?utf-8?B?SFowUUFQZnhRZ2FvYWM0bGZrWk5XdFVDM2lkRURKbUtyK1ZUM3VEckdUblZx?=
- =?utf-8?B?VkRYK2t4RFdESEUvTUdHV29UOHFDMGpiQTFRNUZNQkY2cDk3YkkrTzN5c2Iy?=
- =?utf-8?B?MFZHTGd6aFRqSzVsV0cxWkorR3Z0TDI4blF4YmFyOER1eVN5K3Bpc3BZUEl0?=
- =?utf-8?B?T1FlcXdzRURYNlNjNnM1VURpSFBkUS83cGt2S0UyY25rSU1oa2NYZ2UxMWZW?=
- =?utf-8?B?SW1vVXQzWlBpenEyRDBOSUxQbHRVUGdiNjFsOTJ5ZEFmemM2NElFNkx3dWtq?=
- =?utf-8?B?Nk95M0dGaUdRWmhOWDJZdGZvSUhQVmhGLzlVZWVUNC9hWnY4ekpzMWlDYnVh?=
- =?utf-8?B?NlBEajNwNytLSGxKWHE4Z25JU3JsUE5IOFExNEcrdXhQV2ZIME4zbk9PbVVS?=
- =?utf-8?B?enZaeHBtZ0NIV1czeXY3SUo1SVJFWkVlcFVhVWloTHU2NklDSDBYMjdoRXdQ?=
- =?utf-8?B?L0ZpbU9taWNqNFI5M24zb1FMVEthOStjQ3d0dWxoT2U0S3FoL1NqZHI2QzVN?=
- =?utf-8?B?bEpwZnl1SDdsbGpKNVVNZ2JEVHJvNzZXekZXZlhCbzZTWEVWd2IrLy9XQk5u?=
- =?utf-8?B?RUIrdWRkSG1nNzlLRnNTOEc3dzk1TUdubTJoRHRtNDVQZThuK1lYcnlEVXJ5?=
- =?utf-8?B?YjkrNVZRWUxhSWw1bndsYUVMbytkQjJPQTZsdmRHQkJLOW9QUnhDbG9Fd2d6?=
- =?utf-8?B?dEdDblkzVXovdkFGb3grSEVJNkVpcEZrd1FuamtpaEFpTklBYkF0WE03ZXpC?=
- =?utf-8?B?b3FONkIvNlRVWjNyaGNtNnJydm5Ub3d3djR0aWhtT3hHaTZ3Z0Npc2NlbGl1?=
- =?utf-8?B?S2FOYlN1cEtJK2w3ODNOV1poQ05VWEF5cGNsMGQvMWdmOGNCVHo2WStFNUVN?=
- =?utf-8?B?YkdPVXdiTnNKT0VHRUQ4UERtRUVOd1VoU0FuM0hIWjNobjJlT3JkWFh0R0RO?=
- =?utf-8?B?a2R6OHdJQjh4dmhONXJGVG93WGRtQ0dva2hBYXZ2ZmcyVFlsREhMdzZBc2dq?=
- =?utf-8?B?SnZhU2JLOFJRU0Rxa203emtMektOTlFydndML3EvWEZka1RNVWQ5UFB0SHI4?=
- =?utf-8?B?Skx4QTZlQkhkUTRrVE9QekN2SWpmVzlMM1NiWlJTSXZDU05uVkhrUyt2TVJx?=
- =?utf-8?B?U3ZGaFlSRTJaU21QekdLNXJyZEpwQkg0NFBuVUtkWHE5dzVIQnFWcDVydXF4?=
- =?utf-8?B?c2FBRHJuZ3dNWmh2dXd1allSQXY4bTFmNFhJQUI1RGRSZEU2TUlBMWZhZmsw?=
- =?utf-8?B?VkNycm5hMnI1WWgwMGlqZW9ZS2h6RWduUEJBc0lYWEZ3Vk5Ic0IwQ012K2hF?=
- =?utf-8?B?TDFneXFMVklxOU1uQS9iVEdWT053Q0ExNk9ESGZvRFFnalRYbDBtb2prMEF3?=
- =?utf-8?B?MG5YLzRwSFBKYURTeXV6ZGpVRXJuM1BYdFZKcHJna3RjajV0THV3T0FYeGhB?=
- =?utf-8?B?aEFTdzYwSVJqV3BMcUU2TGN3Uk45djNmVnFxampZTmZJNS93OGVmK0pVU002?=
- =?utf-8?B?cEVYL1d1Q1hiWjFzSnBnUTl6dWRxMkpLMG14YTBiWTFENUJXSEsvVDgwcXNV?=
- =?utf-8?B?TmVsbTJpZDBPdktVeU1wTU1KSjdWZTF1SkFaMzZBbVJPUTdlanoyYUFUaGYv?=
- =?utf-8?B?NUNBWms3MmlYbngza1ZnRktCNWFFTUprRTlCUnBJNVZYNXBuaDA1WlFJdnJL?=
- =?utf-8?Q?4XlxB66KHO+IK/FyE6+zESoD9Rd54RoKaZHT4dr?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <E6137A7A75151B4AA6CD5B0C1D53AF0A@jpnprd01.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lje9J-0000Wu-4F
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 04:35:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1621499718;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=uFdvgWVCMzRrcOD8JNV33rQs3WZBWBNz3v6eB6eonGo=;
+ b=GapfsjrMtFf999pa7Jk/eA5+wOj5SuhoaSPK13z2LTiGRuTnrglWR2NC8Mo+Q3N3ohfeaF
+ DxnvFOlORWTtC2BiFgyO5B9mIwpK2LbCzQZR8zpAdOd9gxgtIv9oXwzKxmkWVowHjAAMTK
+ hgZBOw9tyOq8wb7sr+Tphpbifr6qVHc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-516-k0cQ9rm0NbuCN5t7_iDxLg-1; Thu, 20 May 2021 04:35:17 -0400
+X-MC-Unique: k0cQ9rm0NbuCN5t7_iDxLg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9396786ABD2;
+ Thu, 20 May 2021 08:35:15 +0000 (UTC)
+Received: from localhost (ovpn-113-245.ams2.redhat.com [10.36.113.245])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AE1C65DDAD;
+ Thu, 20 May 2021 08:35:05 +0000 (UTC)
+Date: Thu, 20 May 2021 09:35:04 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: BALATON Zoltan <balaton@eik.bme.hu>
+Subject: Re: [RFC PATCH 02/11] hw/ide: Add PCIIDEState::isa_bus link
+Message-ID: <YKYfOMUvCnQTcQtZ@stefanha-x1.localdomain>
+References: <20210518215545.1793947-1-philmd@redhat.com>
+ <20210518215545.1793947-3-philmd@redhat.com>
+ <f571a63d-d6a2-2085-740-bcc59b3424e5@eik.bme.hu>
+ <3ba44704-6418-4aee-23ad-7d4dcc1fe60d@redhat.com>
+ <babbf5da-b4c0-9736-b09-426e3a358587@eik.bme.hu>
 MIME-Version: 1.0
-X-OriginatorOrg: fujitsu.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TY2PR01MB2571.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d37f657a-26ab-4b90-0903-08d91b698908
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 May 2021 08:30:33.3077 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: a19f121d-81e1-4858-a9d8-736e267fd4c7
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 0K3dSIzV0NgPBHk2A7vrPbWCuIssCNWNTSh/T/e/olroEqn+zgZM46o9mVMKx2tfdG4ymm5YMIm+N/4YRD804g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB6010
-Received-SPF: pass client-ip=68.232.159.83; envelope-from=lizhijian@fujitsu.com;
- helo=esa6.fujitsucc.c3s2.iphmx.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <babbf5da-b4c0-9736-b09-426e3a358587@eik.bme.hu>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="1OdjQrt7LH924zFl"
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.39,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -152,129 +82,182 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ John G Johnson <john.g.johnson@oracle.com>, Thomas Huth <thuth@redhat.com>,
+ Jagannathan Raman <jag.raman@oracle.com>, John Snow <jsnow@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-c2hvdWxkIG1ha2Ugc29tZSBjaGFuZ2VzIGZvciB0aGlzIHBhdGNoIGxpa2UgYmVsb3c6DQoNCiMg
-Z2l0IGRpZmYNCmRpZmYgLS1naXQgYS9taWdyYXRpb24vcmRtYS5jIGIvbWlncmF0aW9uL3JkbWEu
-Yw0KaW5kZXggM2IyMjhjNDZlYmYuLjA2N2VhMjcyMjc2IDEwMDY0NA0KLS0tIGEvbWlncmF0aW9u
-L3JkbWEuYw0KKysrIGIvbWlncmF0aW9uL3JkbWEuYw0KQEAgLTMxNiw3ICszMTYsNyBAQCB0eXBl
-ZGVmIHN0cnVjdCBSRE1BTG9jYWxCbG9ja3Mgew0KIMKgdHlwZWRlZiBzdHJ1Y3QgUkRNQUNvbnRl
-eHQgew0KIMKgwqDCoMKgIGNoYXIgKmhvc3Q7DQogwqDCoMKgwqAgaW50IHBvcnQ7DQotwqDCoMKg
-IGNvbnN0IGNoYXIgKmhvc3RfcG9ydDsNCivCoMKgwqAgY2hhciAqaG9zdF9wb3J0Ow0KDQogwqDC
-oMKgwqAgUkRNQVdvcmtSZXF1ZXN0RGF0YSB3cl9kYXRhW1JETUFfV1JJRF9NQVhdOw0KDQpAQCAt
-MjM5Myw3ICsyMzkzLDkgQEAgc3RhdGljIHZvaWQgcWVtdV9yZG1hX2NsZWFudXAoUkRNQUNvbnRl
-eHQgKnJkbWEpDQogwqDCoMKgwqDCoMKgwqDCoCByZG1hLT5jaGFubmVsID0gTlVMTDsNCiDCoMKg
-wqDCoCB9DQogwqDCoMKgwqAgZ19mcmVlKHJkbWEtPmhvc3QpOw0KK8KgwqDCoCBnX2ZyZWUocmRt
-YS0+aG9zdF9wb3J0KTsNCiDCoMKgwqDCoCByZG1hLT5ob3N0ID0gTlVMTDsNCivCoMKgwqAgcmRt
-YS0+aG9zdF9wb3J0ID0gTlVMTDsNCiDCoH0NCg0KDQpAQCAtMjY0OSw3ICsyNjUxLDcgQEAgc3Rh
-dGljIHZvaWQgKnFlbXVfcmRtYV9kYXRhX2luaXQoY29uc3QgY2hhciAqaG9zdF9wb3J0LCBFcnJv
-ciAqKmVycnApDQogwqDCoMKgwqDCoMKgwqDCoCBpZiAoIWluZXRfcGFyc2UoYWRkciwgaG9zdF9w
-b3J0LCBOVUxMKSkgew0KIMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCByZG1hLT5wb3J0ID0gYXRv
-aShhZGRyLT5wb3J0KTsNCiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgcmRtYS0+aG9zdCA9IGdf
-c3RyZHVwKGFkZHItPmhvc3QpOw0KLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgcmRtYS0+aG9zdF9w
-b3J0ID0gaG9zdF9wb3J0Ow0KK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqAgcmRtYS0+aG9zdF9wb3J0
-ID0gZ19zdHJkdXAoaG9zdF9wb3J0KTsNCiDCoMKgwqDCoMKgwqDCoMKgIH0gZWxzZSB7DQogwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgIEVSUk9SKGVycnAsICJiYWQgUkRNQSBtaWdyYXRpb24gYWRk
-cmVzcyAnJXMnIiwgaG9zdF9wb3J0KTsNCiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZ19mcmVl
-KHJkbWEpOw0KQEAgLTQwNzYsNiArNDA3OCw3IEBAIGVycjoNCiDCoMKgwqDCoCBlcnJvcl9wcm9w
-YWdhdGUoZXJycCwgbG9jYWxfZXJyKTsNCiDCoMKgwqDCoCBpZiAocmRtYSkgew0KIMKgwqDCoMKg
-wqDCoMKgwqAgZ19mcmVlKHJkbWEtPmhvc3QpOw0KK8KgwqDCoMKgwqDCoMKgIGdfZnJlZShyZG1h
-LT5ob3N0X3BvcnQpOw0KIMKgwqDCoMKgIH0NCiDCoMKgwqDCoCBnX2ZyZWUocmRtYSk7DQogwqDC
-oMKgwqAgZ19mcmVlKHJkbWFfcmV0dXJuX3BhdGgpOw0KDQoNCk9uIDIwLzA1LzIwMjEgMTYuMTEs
-IExpIFpoaWppYW4gd3JvdGU6DQo+IGRlc3RpbmF0aW9uIHNpZGU6DQo+ICQgYnVpbGQvcWVtdS1z
-eXN0ZW0teDg2XzY0IC1lbmFibGUta3ZtIC1uZXRkZXYgdGFwLGlkPWhuMCxzY3JpcHQ9L2V0Yy9x
-ZW11LWlmdXAsZG93bnNjcmlwdD0vZXRjL3FlbXUtaWZkb3duIC1kZXZpY2UgZTEwMDAsbmV0ZGV2
-PWhuMCxtYWM9NTA6NTI6NTQ6MDA6MTE6MjIgLWJvb3QgYyAtZHJpdmUgaWY9bm9uZSxmaWxlPS4v
-RmVkb3JhLXJkbWEtc2VydmVyLW1pZ3JhdGlvbi5xY293MixpZD1kcml2ZS12aXJ0aW8tZGlzazAg
-LWRldmljZSB2aXJ0aW8tYmxrLXBjaSxidXM9cGNpLjAsYWRkcj0weDQsZHJpdmU9ZHJpdmUtdmly
-dGlvLWRpc2swLGlkPXZpcnRpby1kaXNrMCAtbSAyMDQ4IC1zbXAgMiAtZGV2aWNlIHBpaXgzLXVz
-Yi11aGNpIC1kZXZpY2UgdXNiLXRhYmxldCAtbW9uaXRvciBzdGRpbyAtdmdhIHF4bCAtc3BpY2Ug
-c3RyZWFtaW5nLXZpZGVvPWZpbHRlcixwb3J0PTU5MDIsZGlzYWJsZS10aWNrZXRpbmcgLWluY29t
-aW5nIHJkbWE6MTkyLjE2OC4xLjEwOjg4ODgNCj4gKHFlbXUpIG1pZ3JhdGVfc2V0X2NhcGFiaWxp
-dHkgcG9zdGNvcHktcmFtIG9uDQo+IChxZW11KQ0KPiBkZXN0X2luaXQgUkRNQSBEZXZpY2Ugb3Bl
-bmVkOiBrZXJuZWwgbmFtZSByb2NlcDFzMGYwIHV2ZXJicyBkZXZpY2UgbmFtZSB1dmVyYnMwLCBp
-bmZpbmliYW5kX3ZlcmJzIGNsYXNzIGRldmljZSBwYXRoIC9zeXMvY2xhc3MvaW5maW5pYmFuZF92
-ZXJicy91dmVyYnMwLCBpbmZpbmliYW5kIGNsYXNzIGRldmljZSBwYXRoIC9zeXMvY2xhc3MvaW5m
-aW5pYmFuZC9yb2NlcDFzMGYwLCB0cmFuc3BvcnQ6ICgyKSBFdGhlcm5ldA0KPiBTZWdtZW50YXRp
-b24gZmF1bHQgKGNvcmUgZHVtcGVkKQ0KPg0KPiAgIChnZGIpIGJ0DQo+ICAgIzAgIHFlbXVfcmRt
-YV9hY2NlcHQgKHJkbWE9MHgwKSBhdCAuLi9taWdyYXRpb24vcmRtYS5jOjMyNzINCj4gICAjMSAg
-cmRtYV9hY2NlcHRfaW5jb21pbmdfbWlncmF0aW9uIChvcGFxdWU9MHgwKSBhdCAgICAgLi4vbWln
-cmF0aW9uL3JkbWEuYzozOTg2DQo+ICAgIzIgIDB4MDAwMDU2M2M5ZTUxZjAyYSBpbiBhaW9fZGlz
-cGF0Y2hfaGFuZGxlcg0KPiAgICAgICAoY3R4PWN0eEBlbnRyeT0weDU2M2NhMDYwNjAxMCwgbm9k
-ZT0weDU2M2NhMTJiMjE1MCkgYXQgLi4vdXRpbC9haW8tcG9zaXguYzozMjkNCj4gICAjMyAgMHgw
-MDAwNTYzYzllNTFmNzUyIGluIGFpb19kaXNwYXRjaF9oYW5kbGVycyAoY3R4PTB4NTYzY2EwNjA2
-MDEwKSBhdCAgICAgIC4uL3V0aWwvYWlvLXBvc2l4LmM6MzcyDQo+ICAgIzQgIGFpb19kaXNwYXRj
-aCAoY3R4PTB4NTYzY2EwNjA2MDEwKSBhdCAuLi91dGlsL2Fpby1wb3NpeC5jOjM4Mg0KPiAgICM1
-ICAweDAwMDA1NjNjOWU0ZjRkOWUgaW4gYWlvX2N0eF9kaXNwYXRjaCAoc291cmNlPTxvcHRpbWl6
-ZWQgb3V0PiwgICAgICBjYWxsYmFjaz08b3B0aW1pemVkIG91dD4sIHVzZXJfZGF0YT08b3B0aW1p
-emVkIG91dD4pICAgIGF0IC4uL3V0aWwvYXN5bmMuYzozMDYNCj4gICAjNiAgMHgwMDAwN2ZlOTZl
-ZjNmYTlmIGluIGdfbWFpbl9jb250ZXh0X2Rpc3BhdGNoICgpIGF0ICAgICAgL2xpYjY0L2xpYmds
-aWItMi4wLnNvLjANCj4gICAjNyAgMHgwMDAwNTYzYzllNGZmZWI4IGluIGdsaWJfcG9sbGZkc19w
-b2xsICgpIGF0ICAgICAuLi91dGlsL21haW4tbG9vcC5jOjIzMQ0KPiAgICM4ICBvc19ob3N0X21h
-aW5fbG9vcF93YWl0ICh0aW1lb3V0PTEyMTg4Nzg5KSBhdCAgICAgLi4vdXRpbC9tYWluLWxvb3Au
-YzoyNTQNCj4gICAjOSAgbWFpbl9sb29wX3dhaXQgKG5vbmJsb2NraW5nPW5vbmJsb2NraW5nQGVu
-dHJ5PTApIGF0ICAgICAuLi91dGlsL21haW4tbG9vcC5jOjUzMA0KPiAgICMxMCAweDAwMDA1NjNj
-OWUzYzcyMTEgaW4gcWVtdV9tYWluX2xvb3AgKCkgYXQgICAgIC4uL3NvZnRtbXUvcnVuc3RhdGUu
-Yzo3MjUNCj4gICAjMTEgMHgwMDAwNTYzYzlkZmQ0NmZlIGluIG1haW4gKGFyZ2M9PG9wdGltaXpl
-ZCBvdXQ+LCBhcmd2PTxvcHRpbWl6ZWQgICAgIG91dD4sIGVudnA9PG9wdGltaXplZCBvdXQ+KSBh
-dCAuLi9zb2Z0bW11L21haW4uYzo1MA0KPg0KPiBUaGUgcmRtYSByZXR1cm4gcGF0aCB3aWxsIG5v
-dCBiZSBjcmVhdGVkIHdoZW4gcWVtdSBpbmNvbWluZyBpcyBzdGFydGluZw0KPiBzaW5jZSBtaWdy
-YXRlX2NvcHkoKSBpcyBmYWxzZSBhdCB0aGF0IG1vbWVudCwgdGhlbiBhICBOVUxMIHJldHVybiBw
-YXRoDQo+IHJkbWEgd2FzIHJlZmVyZW5jZWQgaWYgdGhlIHVzZXIgZW5hYmxlZCBwb3N0Y29weSBs
-YXRlci4NCj4NCj4gU2lnbmVkLW9mZi1ieTogTGkgWmhpamlhbiA8bGl6aGlqaWFuQGNuLmZ1aml0
-c3UuY29tPg0KPiAtLS0NCj4gICBtaWdyYXRpb24vcmRtYS5jIHwgMjkgKysrKysrKysrKysrKysr
-KysrLS0tLS0tLS0tLS0NCj4gICAxIGZpbGUgY2hhbmdlZCwgMTggaW5zZXJ0aW9ucygrKSwgMTEg
-ZGVsZXRpb25zKC0pDQo+DQo+IGRpZmYgLS1naXQgYS9taWdyYXRpb24vcmRtYS5jIGIvbWlncmF0
-aW9uL3JkbWEuYw0KPiBpbmRleCA2NTE1MzRlODI1Li4zYjIyOGM0NmViIDEwMDY0NA0KPiAtLS0g
-YS9taWdyYXRpb24vcmRtYS5jDQo+ICsrKyBiL21pZ3JhdGlvbi9yZG1hLmMNCj4gQEAgLTMxNiw2
-ICszMTYsNyBAQCB0eXBlZGVmIHN0cnVjdCBSRE1BTG9jYWxCbG9ja3Mgew0KPiAgIHR5cGVkZWYg
-c3RydWN0IFJETUFDb250ZXh0IHsNCj4gICAgICAgY2hhciAqaG9zdDsNCj4gICAgICAgaW50IHBv
-cnQ7DQo+ICsgICAgY29uc3QgY2hhciAqaG9zdF9wb3J0Ow0KPiAgIA0KPiAgICAgICBSRE1BV29y
-a1JlcXVlc3REYXRhIHdyX2RhdGFbUkRNQV9XUklEX01BWF07DQo+ICAgDQo+IEBAIC0yNjQ4LDYg
-KzI2NDksNyBAQCBzdGF0aWMgdm9pZCAqcWVtdV9yZG1hX2RhdGFfaW5pdChjb25zdCBjaGFyICpo
-b3N0X3BvcnQsIEVycm9yICoqZXJycCkNCj4gICAgICAgICAgIGlmICghaW5ldF9wYXJzZShhZGRy
-LCBob3N0X3BvcnQsIE5VTEwpKSB7DQo+ICAgICAgICAgICAgICAgcmRtYS0+cG9ydCA9IGF0b2ko
-YWRkci0+cG9ydCk7DQo+ICAgICAgICAgICAgICAgcmRtYS0+aG9zdCA9IGdfc3RyZHVwKGFkZHIt
-Pmhvc3QpOw0KPiArICAgICAgICAgICAgcmRtYS0+aG9zdF9wb3J0ID0gaG9zdF9wb3J0Ow0KPiAg
-ICAgICAgICAgfSBlbHNlIHsNCj4gICAgICAgICAgICAgICBFUlJPUihlcnJwLCAiYmFkIFJETUEg
-bWlncmF0aW9uIGFkZHJlc3MgJyVzJyIsIGhvc3RfcG9ydCk7DQo+ICAgICAgICAgICAgICAgZ19m
-cmVlKHJkbWEpOw0KPiBAQCAtMzI3Niw2ICszMjc4LDcgQEAgc3RhdGljIGludCBxZW11X3JkbWFf
-YWNjZXB0KFJETUFDb250ZXh0ICpyZG1hKQ0KPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgLnByaXZhdGVfZGF0YSA9ICZjYXAsDQo+ICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAucHJpdmF0ZV9kYXRhX2xlbiA9IHNpemVv
-ZihjYXApLA0KPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfTsN
-Cj4gKyAgICBSRE1BQ29udGV4dCAqcmRtYV9yZXR1cm5fcGF0aCA9IE5VTEw7DQo+ICAgICAgIHN0
-cnVjdCByZG1hX2NtX2V2ZW50ICpjbV9ldmVudDsNCj4gICAgICAgc3RydWN0IGlidl9jb250ZXh0
-ICp2ZXJiczsNCj4gICAgICAgaW50IHJldCA9IC1FSU5WQUw7DQo+IEBAIC0zMjkxLDYgKzMyOTQs
-MjAgQEAgc3RhdGljIGludCBxZW11X3JkbWFfYWNjZXB0KFJETUFDb250ZXh0ICpyZG1hKQ0KPiAg
-ICAgICAgICAgZ290byBlcnJfcmRtYV9kZXN0X3dhaXQ7DQo+ICAgICAgIH0NCj4gICANCj4gKyAg
-ICAvKg0KPiArICAgICAqIGluaXRpYWxpemUgdGhlIFJETUFDb250ZXh0IGZvciByZXR1cm4gcGF0
-aCBmb3IgcG9zdGNvcHkgYWZ0ZXIgZmlyc3QNCj4gKyAgICAgKiBjb25uZWN0aW9uIGlzIGFjY2Vw
-dGVkLg0KPiArICAgICAqLw0KPiArICAgIGlmIChtaWdyYXRlX3Bvc3Rjb3B5KCkgJiYgIXJkbWEt
-PmlzX3JldHVybl9wYXRoKSB7DQo+ICsgICAgICAgIHJkbWFfcmV0dXJuX3BhdGggPSBxZW11X3Jk
-bWFfZGF0YV9pbml0KHJkbWEtPmhvc3RfcG9ydCwgTlVMTCk7DQo+ICsgICAgICAgIGlmIChyZG1h
-X3JldHVybl9wYXRoID09IE5VTEwpIHsNCj4gKyAgICAgICAgICAgIHJkbWFfYWNrX2NtX2V2ZW50
-KGNtX2V2ZW50KTsNCj4gKyAgICAgICAgICAgIGdvdG8gZXJyX3JkbWFfZGVzdF93YWl0Ow0KPiAr
-ICAgICAgICB9DQo+ICsNCj4gKyAgICAgICAgcWVtdV9yZG1hX3JldHVybl9wYXRoX2Rlc3RfaW5p
-dChyZG1hX3JldHVybl9wYXRoLCByZG1hKTsNCj4gKyAgICB9DQo+ICsNCj4gICAgICAgbWVtY3B5
-KCZjYXAsIGNtX2V2ZW50LT5wYXJhbS5jb25uLnByaXZhdGVfZGF0YSwgc2l6ZW9mKGNhcCkpOw0K
-PiAgIA0KPiAgICAgICBuZXR3b3JrX3RvX2NhcHMoJmNhcCk7DQo+IEBAIC0zNDA2LDYgKzM0MjMs
-NyBAQCBzdGF0aWMgaW50IHFlbXVfcmRtYV9hY2NlcHQoUkRNQUNvbnRleHQgKnJkbWEpDQo+ICAg
-ZXJyX3JkbWFfZGVzdF93YWl0Og0KPiAgICAgICByZG1hLT5lcnJvcl9zdGF0ZSA9IHJldDsNCj4g
-ICAgICAgcWVtdV9yZG1hX2NsZWFudXAocmRtYSk7DQo+ICsgICAgZ19mcmVlKHJkbWFfcmV0dXJu
-X3BhdGgpOw0KPiAgICAgICByZXR1cm4gcmV0Ow0KPiAgIH0NCj4gICANCj4gQEAgLTQwNDgsMTcg
-KzQwNjYsNiBAQCB2b2lkIHJkbWFfc3RhcnRfaW5jb21pbmdfbWlncmF0aW9uKGNvbnN0IGNoYXIg
-Kmhvc3RfcG9ydCwgRXJyb3IgKiplcnJwKQ0KPiAgIA0KPiAgICAgICB0cmFjZV9yZG1hX3N0YXJ0
-X2luY29taW5nX21pZ3JhdGlvbl9hZnRlcl9yZG1hX2xpc3RlbigpOw0KPiAgIA0KPiAtICAgIC8q
-IGluaXRpYWxpemUgdGhlIFJETUFDb250ZXh0IGZvciByZXR1cm4gcGF0aCAqLw0KPiAtICAgIGlm
-IChtaWdyYXRlX3Bvc3Rjb3B5KCkpIHsNCj4gLSAgICAgICAgcmRtYV9yZXR1cm5fcGF0aCA9IHFl
-bXVfcmRtYV9kYXRhX2luaXQoaG9zdF9wb3J0LCAmbG9jYWxfZXJyKTsNCj4gLQ0KPiAtICAgICAg
-ICBpZiAocmRtYV9yZXR1cm5fcGF0aCA9PSBOVUxMKSB7DQo+IC0gICAgICAgICAgICBnb3RvIGNs
-ZWFudXBfcmRtYTsNCj4gLSAgICAgICAgfQ0KPiAtDQo+IC0gICAgICAgIHFlbXVfcmRtYV9yZXR1
-cm5fcGF0aF9kZXN0X2luaXQocmRtYV9yZXR1cm5fcGF0aCwgcmRtYSk7DQo+IC0gICAgfQ0KPiAt
-DQo+ICAgICAgIHFlbXVfc2V0X2ZkX2hhbmRsZXIocmRtYS0+Y2hhbm5lbC0+ZmQsIHJkbWFfYWNj
-ZXB0X2luY29taW5nX21pZ3JhdGlvbiwNCj4gICAgICAgICAgICAgICAgICAgICAgICAgICBOVUxM
-LCAodm9pZCAqKShpbnRwdHJfdClyZG1hKTsNCj4gICAgICAgcmV0dXJuOw0K
+--1OdjQrt7LH924zFl
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, May 20, 2021 at 02:46:47AM +0200, BALATON Zoltan wrote:
+> On Wed, 19 May 2021, John Snow wrote:
+> > On 5/18/21 7:05 PM, BALATON Zoltan wrote:
+> > > On Tue, 18 May 2021, Philippe Mathieu-Daud=E9 wrote:
+> > > > IDE bus depends on ISA bus for IRQ/DMA.
+> > > >=20
+> > > > Add an ISABus reference in PCIIDEState, and add link properties
+> > > > to it in the PIIX and VIA objects (which inherit PCI_IDE).
+> > > >=20
+> > > > Signed-off-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
+> > > > ---
+> > > > include/hw/ide/pci.h |=A0 1 +
+> > > > hw/ide/piix.c=A0=A0=A0=A0=A0=A0=A0 | 11 ++++++++++-
+> > > > hw/ide/via.c=A0=A0=A0=A0=A0=A0=A0=A0 | 10 +++++++++-
+> > > > 3 files changed, 20 insertions(+), 2 deletions(-)
+> > > >=20
+> > > > diff --git a/include/hw/ide/pci.h b/include/hw/ide/pci.h
+> > > > index d8384e1c422..e790722ed14 100644
+> > > > --- a/include/hw/ide/pci.h
+> > > > +++ b/include/hw/ide/pci.h
+> > > > @@ -47,6 +47,7 @@ struct PCIIDEState {
+> > > > =A0=A0=A0 PCIDevice parent_obj;
+> > > > =A0=A0=A0 /*< public >*/
+> > > >=20
+> > > > +=A0=A0=A0 ISABus *isa_bus;
+> > >=20
+> > > I'm not sure that this belongs here. Previously we managed to remove
+> > > device specific fields from this structure so it's now really just
+> > > holds stuff related to PCI IDE (except the remaining "secondary"
+> > > field specific to CMD646). PCI IDE normaly has nothing to do with
+> > > ISA except for those south bridges that have IDE with legacy mode.
+> > > So this ISABus reference should be in those south bridges instead.
+> > > But that may need a
+> >=20
+> > by "those south bridges" I assume you are referring to the integrated
+> > PIIX and VIA controller implementations.
+>=20
+> Yes, those are that also have an ISA bridge so the IDE in those can use
+> either ISA or PCI IRQs but we probably only emulate one mode. At least
+> that's the case for via-ide which we have gone into great detail before a=
+nd
+> concluded we can't cleanly switch between legacy ISA or PCI mode and the
+> pegasos2 needs hard coded ISA interrupts even when in PCI mode so we only
+> emulate that.
+>=20
+> Apart from that this PCI IDE is also used by CMD646 and sii3112 that are
+> pure PCI IDE devices without any ISA dependency so that's why I think we
+> should not need this ISABus here to keep this implementing PCI IDE and on=
+ly
+> keep ISA in the south bridge models.
+>=20
+> > > new subclass just for this so putting it here is just avoiding
+> > > boilerplate of declaring new subclasses in piix and via-ide. I can
+> > > sympathise with that but I'd still prefer to keep it off here but I
+> > > wonder if there's a way to do that without subclassing and storing
+> > > an ISABus ref? If I understand correctly this ISABus ref is just
+> > > needed to get appropriate ISA irqs. But could we just store a ref to
+> > > those irqs
+> >=20
+> > It looks like it's just the IRQs, yeah.
+> >=20
+> > > directly so we don't need to keep the ref to the ISA bus? There's
+> >=20
+> > I think the idea actually is to formalize the dependency of these model=
+s
+> > on the ISA bus instead of hacking / faking one. I think we DO want the
+> > dependency.
+>=20
+> Right, but only piix and via depend on ISA so the dependency should be in
+> those not in PCI IDE in my opinion. But I don't mind too much so if it wo=
+uld
+> be too difficult to put it elsewhere I don't mind introducing this ISABus
+> field but we should at least look if it could be avoided first.
+>=20
+> > > already a qemu_irq in BMDMAState but I'm not sure how those are set
+> > > and if you could store an isa irq there to simplify this. I don't
+> > > know the details and could not detangle it by a brief look so not
+> > > sure it can be done but conceptually it feels better to keep PCI IDE
+> > > separate from ISA and let it raise either PCI irq or ISA irq as
+> > > needed. For that a ref to the irq should be enough and that can
+> > > either come from a PCI bus (which is normaly expected for PCI IDE)
+> > > or an ISA bridge for legacy modes. Hope it makes sense and you get
+> > > what I'm trying to say. (Longer term we may want to make it
+> > > changeable also after the device is created to allow switching
+> > > between legacy and PCI mode but so far we could get away without
+> > > emulating that so it's not a requirement just something to consider
+> > > when you're changing this. The real problem that prevents switching
+> > > modes is not irq I think but ioports and that ISA devices are not
+> > > configurable after creating them but that would need QOM'ifying ISA
+> > > emulation which probably does not worth the effort unless we come
+> > > across some guest that needs this.)
+> > >=20
+> > > Regards,
+> > > BALATON Zoltan
+> > >=20
+> >=20
+> > I assume the idea here is that PCIIDE does not technically need "ISA" t=
+o
+> > provide ioport access to the ATA drives, so taxonomically it's odd for
+> > the generic/abstract PCIIDE device to require an ISA bus.
+> >=20
+> > Am I understanding correctly?
+>=20
+> I'm not sure I understand all of the IDE emulation but in my view PCI IDE
+> should be independent of ISA so instead of adding a reference to an ISA b=
+us
+> to PCIIDEState maybe it's enough to set the irqs used by PCI IDE to the
+> appropriate irq to raise which could be an ISA interrupt for the south
+> bridges in legacy mode or a PCI irq for PCI cards and that way we don't n=
+eed
+> a dependency on ISABus in PCI IDE. But I'm not sure how IDE interrupts ar=
+e
+> set so don't know if that would work so it's just an idea to avoid
+> introducing ISA into PCI IDE where it does not seem to belong.
+>=20
+> A simpler way keeping the current code may be to subclass PCI IDE in piix
+> and via and put the ISABus ref in those subclasses but that's more boiler
+> plate and the result may not be simpler so while conceptually may be clea=
+ner
+> the code may be longer and harder to understand that way. So cleaning up =
+the
+> interrupt handling could make it simpler and also avoid the subclasses bu=
+t
+> that needs more work to detangle how IDE interrupts are emulated and add
+> some clean way to set them if that's not yet available. But I don't
+> completely understand what the qemu_irqs are in BMDMAState and if those
+> could be connected to an ISA interrupt or some more changes would be need=
+ed.
+
+I realized I don't really understand how ISA IDE and PCI IDE interact in
+PIIX3:
+
+- ISA IDE has well-known PIO registers that are always present?
+
+- PCI IDE has the same registers, but the BAR must be mapped and PCI IO
+  space access must be enabled?
+
+- ISA IDE has a hardcoded ISA irq number?
+
+- PCI IDE has a normal PCI irq that is routed like any legacy PCI INTx
+  irq?
+
+- What combinations of ISA enabled/disabled and PCI enabled/disabled
+  need to be supported?
+
+Stefan
+
+--1OdjQrt7LH924zFl
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmCmHzgACgkQnKSrs4Gr
+c8hFzggAw3+7BQtkoL6tbhKtPK2ECfffT1pxIA4UVYl05XHaR4VimoVH/i7d6pQU
+aW7Q2b1D2C7Y71G3Qy0ilz13sYOV4LcshOM4MHcW5nhV6WLU+9xLMrOKSF8e3mi4
+OeuopSk5EkbyB5mskD94pYuQWp/k9uQiGaM087DUcGO0583GNzCMEh0ZOY4SSGa4
+o09H3t8jzxfVHRolfuB1Dj8VXyyMnkJb5jj2+N1ubUM2YPqsezjtlYuYz+l5C7BD
+Oig+jhSZyDX6Xcjn55dvCgevPubwn68Q5g6UM8gCzdPM78N8VNwwwLCj+KxrGpSk
+VYrbyIeZF4CBfehrDPADen5gek9UTw==
+=qL78
+-----END PGP SIGNATURE-----
+
+--1OdjQrt7LH924zFl--
+
 
