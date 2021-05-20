@@ -2,50 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF24638AD31
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 13:56:51 +0200 (CEST)
-Received: from localhost ([::1]:60946 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C411038AD98
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 14:07:20 +0200 (CEST)
+Received: from localhost ([::1]:43222 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljhII-0005Uj-QG
-	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 07:56:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53600)
+	id 1ljhSR-0004kX-Bg
+	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 08:07:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56070)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <steven.price@arm.com>)
- id 1ljhH4-0004Lr-6X
- for qemu-devel@nongnu.org; Thu, 20 May 2021 07:55:34 -0400
-Received: from foss.arm.com ([217.140.110.172]:41510)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <steven.price@arm.com>) id 1ljhH1-0006wg-CQ
- for qemu-devel@nongnu.org; Thu, 20 May 2021 07:55:33 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id AC8AC101E;
- Thu, 20 May 2021 04:55:29 -0700 (PDT)
-Received: from [192.168.1.179] (unknown [172.31.20.19])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EC54F3F73D;
- Thu, 20 May 2021 04:55:26 -0700 (PDT)
-From: Steven Price <steven.price@arm.com>
-Subject: Re: [PATCH v12 3/8] arm64: mte: Sync tags for pages where PTE is
- untagged
-To: Catalin Marinas <catalin.marinas@arm.com>
+ (Exim 4.90_1) (envelope-from <cmarinas@kernel.org>)
+ id 1ljhRI-0003yD-Mq
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 08:06:08 -0400
+Received: from mail.kernel.org ([198.145.29.99]:56438)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cmarinas@kernel.org>)
+ id 1ljhRD-0005EI-JJ
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 08:06:08 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 07E1661059;
+ Thu, 20 May 2021 12:05:58 +0000 (UTC)
+Date: Thu, 20 May 2021 13:05:56 +0100
+From: Catalin Marinas <catalin.marinas@arm.com>
+To: Steven Price <steven.price@arm.com>
+Subject: Re: [PATCH v12 7/8] KVM: arm64: ioctl to fetch/store tags in a guest
+Message-ID: <20210520120556.GC12251@arm.com>
 References: <20210517123239.8025-1-steven.price@arm.com>
- <20210517123239.8025-4-steven.price@arm.com> <20210519180610.GE21619@arm.com>
-Message-ID: <3bac3a47-9f96-c7bf-e401-fdef60dcc9d8@arm.com>
-Date: Thu, 20 May 2021 12:55:21 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ <20210517123239.8025-8-steven.price@arm.com>
 MIME-Version: 1.0
-In-Reply-To: <20210519180610.GE21619@arm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=217.140.110.172;
- envelope-from=steven.price@arm.com; helo=foss.arm.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210517123239.8025-8-steven.price@arm.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Received-SPF: pass client-ip=198.145.29.99; envelope-from=cmarinas@kernel.org;
+ helo=mail.kernel.org
+X-Spam_score_int: -66
+X-Spam_score: -6.7
+X-Spam_bar: ------
+X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -73,86 +67,103 @@ Cc: Mark Rutland <mark.rutland@arm.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 19/05/2021 19:06, Catalin Marinas wrote:
-> On Mon, May 17, 2021 at 01:32:34PM +0100, Steven Price wrote:
->> A KVM guest could store tags in a page even if the VMM hasn't mapped
->> the page with PROT_MTE. So when restoring pages from swap we will
->> need to check to see if there are any saved tags even if !pte_tagged().
->>
->> However don't check pages for which pte_access_permitted() returns false
->> as these will not have been swapped out.
->>
->> Signed-off-by: Steven Price <steven.price@arm.com>
->> ---
->>  arch/arm64/include/asm/pgtable.h |  9 +++++++--
->>  arch/arm64/kernel/mte.c          | 16 ++++++++++++++--
->>  2 files changed, 21 insertions(+), 4 deletions(-)
->>
->> diff --git a/arch/arm64/include/asm/pgtable.h b/arch/arm64/include/asm/pgtable.h
->> index 0b10204e72fc..275178a810c1 100644
->> --- a/arch/arm64/include/asm/pgtable.h
->> +++ b/arch/arm64/include/asm/pgtable.h
->> @@ -314,8 +314,13 @@ static inline void set_pte_at(struct mm_struct *mm, unsigned long addr,
->>  	if (pte_present(pte) && pte_user_exec(pte) && !pte_special(pte))
->>  		__sync_icache_dcache(pte);
->>  
->> -	if (system_supports_mte() &&
->> -	    pte_present(pte) && pte_tagged(pte) && !pte_special(pte))
->> +	/*
->> +	 * If the PTE would provide user space access to the tags associated
->> +	 * with it then ensure that the MTE tags are synchronised.  Exec-only
->> +	 * mappings don't expose tags (instruction fetches don't check tags).
->> +	 */
->> +	if (system_supports_mte() && pte_present(pte) &&
->> +	    pte_access_permitted(pte, false) && !pte_special(pte))
->>  		mte_sync_tags(ptep, pte);
-> 
-> Looking at the mte_sync_page_tags() logic, we bail out early if it's the
-> old pte is not a swap one and the new pte is not tagged. So we only need
-> to call mte_sync_tags() if it's a tagged new pte or the old one is swap.
-> What about changing the set_pte_at() test to:
-> 
-> 	if (system_supports_mte() && pte_present(pte) && !pte_special(pte) &&
-> 	    (pte_tagged(pte) || is_swap_pte(READ_ONCE(*ptep))))
-> 		mte_sync_tags(ptep, pte);
-> 
-> We can even change mte_sync_tags() to take the old pte directly:
-> 
-> 	if (system_supports_mte() && pte_present(pte) && !pte_special(pte)) {
-> 		pte_t old_pte = READ_ONCE(*ptep);
-> 		if (pte_tagged(pte) || is_swap_pte(old_pte))
-> 			mte_sync_tags(old_pte, pte);
-> 	}
-> 
-> It would save a function call in most cases where the page is not
-> tagged.
-> 
+On Mon, May 17, 2021 at 01:32:38PM +0100, Steven Price wrote:
+> diff --git a/arch/arm64/include/uapi/asm/kvm.h b/arch/arm64/include/uapi/asm/kvm.h
+> index 24223adae150..b3edde68bc3e 100644
+> --- a/arch/arm64/include/uapi/asm/kvm.h
+> +++ b/arch/arm64/include/uapi/asm/kvm.h
+> @@ -184,6 +184,17 @@ struct kvm_vcpu_events {
+>  	__u32 reserved[12];
+>  };
+>  
+> +struct kvm_arm_copy_mte_tags {
+> +	__u64 guest_ipa;
+> +	__u64 length;
+> +	void __user *addr;
+> +	__u64 flags;
+> +	__u64 reserved[2];
 
-Yes that looks like a good optimisation - although you've missed the
-pte_access_permitted() part of the check ;) The problem I hit is one of
-include dependencies:
+I forgot the past discussions, what's the reserved for? Future
+expansion?
 
-is_swap_pte() is defined (as a static inline) in
-include/linux/swapops.h. However the definition depends on
-pte_none()/pte_present() which are defined in pgtable.h - so there's a
-circular dependency.
+> diff --git a/arch/arm64/kvm/arm.c b/arch/arm64/kvm/arm.c
+> index e89a5e275e25..4b6c83beb75d 100644
+> --- a/arch/arm64/kvm/arm.c
+> +++ b/arch/arm64/kvm/arm.c
+> @@ -1309,6 +1309,65 @@ static int kvm_vm_ioctl_set_device_addr(struct kvm *kvm,
+>  	}
+>  }
+>  
+> +static int kvm_vm_ioctl_mte_copy_tags(struct kvm *kvm,
+> +				      struct kvm_arm_copy_mte_tags *copy_tags)
+> +{
+> +	gpa_t guest_ipa = copy_tags->guest_ipa;
+> +	size_t length = copy_tags->length;
+> +	void __user *tags = copy_tags->addr;
+> +	gpa_t gfn;
+> +	bool write = !(copy_tags->flags & KVM_ARM_TAGS_FROM_GUEST);
+> +	int ret = 0;
+> +
+> +	if (copy_tags->reserved[0] || copy_tags->reserved[1])
+> +		return -EINVAL;
+> +
+> +	if (copy_tags->flags & ~KVM_ARM_TAGS_FROM_GUEST)
+> +		return -EINVAL;
+> +
+> +	if (length & ~PAGE_MASK || guest_ipa & ~PAGE_MASK)
+> +		return -EINVAL;
+> +
+> +	gfn = gpa_to_gfn(guest_ipa);
+> +
+> +	mutex_lock(&kvm->slots_lock);
+> +
+> +	while (length > 0) {
+> +		kvm_pfn_t pfn = gfn_to_pfn_prot(kvm, gfn, write, NULL);
+> +		void *maddr;
+> +		unsigned long num_tags = PAGE_SIZE / MTE_GRANULE_SIZE;
+> +
+> +		if (is_error_noslot_pfn(pfn)) {
+> +			ret = -EFAULT;
+> +			goto out;
+> +		}
+> +
+> +		maddr = page_address(pfn_to_page(pfn));
+> +
+> +		if (!write) {
+> +			num_tags = mte_copy_tags_to_user(tags, maddr, num_tags);
+> +			kvm_release_pfn_clean(pfn);
 
-Open coding is_swap_pte() in set_pte_at() works, but it's a bit ugly.
-Any ideas on how to improve on the below?
+Do we need to check if PG_mte_tagged is set? If the page was not faulted
+into the guest address space but the VMM has the page, does the
+gfn_to_pfn_prot() guarantee that a kvm_set_spte_gfn() was called? If
+not, this may read stale tags.
 
-	if (system_supports_mte() && pte_present(pte) &&
-	    pte_access_permitted(pte, false) && !pte_special(pte)) {
-		pte_t old_pte = READ_ONCE(*ptep);
-		/*
-		 * We only need to synchronise if the new PTE has tags enabled
-		 * or if swapping in (in which case another mapping may have
-		 * set tags in the past even if this PTE isn't tagged).
-		 * (!pte_none() && !pte_present()) is an open coded version of
-		 * is_swap_pte()
-		 */
-		if (pte_tagged(pte) || (!pte_none(pte) && !pte_present(pte)))
-			mte_sync_tags(old_pte, pte);
-	}
+> +		} else {
+> +			num_tags = mte_copy_tags_from_user(maddr, tags,
+> +							   num_tags);
+> +			kvm_release_pfn_dirty(pfn);
+> +		}
 
-Steve
+Same question here, if the we can't guarantee the stage 2 pte being set,
+we'd need to set PG_mte_tagged.
+
+> +
+> +		if (num_tags != PAGE_SIZE / MTE_GRANULE_SIZE) {
+> +			ret = -EFAULT;
+> +			goto out;
+> +		}
+> +
+> +		gfn++;
+> +		tags += num_tags;
+> +		length -= PAGE_SIZE;
+> +	}
+> +
+> +out:
+> +	mutex_unlock(&kvm->slots_lock);
+> +	return ret;
+> +}
+> +
+
+-- 
+Catalin
 
