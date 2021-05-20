@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29F1C38B57F
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 19:51:27 +0200 (CEST)
-Received: from localhost ([::1]:32996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF1E238B566
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 19:45:18 +0200 (CEST)
+Received: from localhost ([::1]:46750 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljmpS-0007Sy-7O
-	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 13:51:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53002)
+	id 1ljmjV-000615-Q0
+	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 13:45:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53056)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ljmhT-0003Dw-Qa
- for qemu-devel@nongnu.org; Thu, 20 May 2021 13:43:11 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:37723)
+ id 1ljmhV-0003J9-N0
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 13:43:13 -0400
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:54909)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ljmhR-00015C-VV
- for qemu-devel@nongnu.org; Thu, 20 May 2021 13:43:11 -0400
-Received: by mail-wm1-x334.google.com with SMTP id
- f19-20020a05600c1553b02901794fafcfefso5289621wmg.2
- for <qemu-devel@nongnu.org>; Thu, 20 May 2021 10:43:09 -0700 (PDT)
+ id 1ljmhT-000160-P3
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 13:43:13 -0400
+Received: by mail-wm1-x32f.google.com with SMTP id o127so9683532wmo.4
+ for <qemu-devel@nongnu.org>; Thu, 20 May 2021 10:43:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ZqZq31xIHMpm7PrjzBNfBJf8EWF7gp75FhioXeH7/II=;
- b=zNfSRLNpt/dQDSEvgY+LQ3B5iZjfyPMbVVG9mbCFiH7+ZsBJ4T/NtaO9nP6lYOT4jR
- D7lPteeDf3rFgWduHhoywRAX1bNvS7YpM9STXGQKD5eUfWkH5zzRNgcYg9Z2WJCAiXSH
- J7e1LdmQyWDhpvGhSkOLYUWYV0vqdCk1OmsSKsxfbbhjZZxi7uJ+mThiI9u1Op/EwtOz
- mvCMVLgoXBigizwLewxc7FWWJBKb6x03GIlsOi3ohVXDJ4XW4jkkPWzkiYFnkibza1xo
- +BR2qY3LISBWGn6MI5hyiHzz1fF8CcqIw+ISscuj5m7yXbWnyMVsXhGpebTBpETcHePb
- FKSA==
+ bh=IIiaXXWvs7n+iPufxQMNc/1JVO6hJcCtlhG0IxEVHLs=;
+ b=x6SurHdZGHF4s/ndxsgeItdovn9gVa7pgKZGQesAsOvMi81fO0OaBxQIGSRfhPg/Lt
+ 8uhIIvgzNUQqfPL9urti+p8LXJVI3vr3sF+dWuutFLXRBV+QUJbtaU2DEpJUoeUt7Zqb
+ GrTMx9YAZ2g2KVjX5b6RD4XmzTTyGSERaWLf3qro7BJqkJw5+XHkaTKmbi8frArmoOJF
+ hwsVX67PapkPRJKQRCdiPETDowHjqN8uM4t7sT8KoSzkYf4A5pALbi/muBqcfAPccAwG
+ p/E+FDQXy5xOQgPelzGfrS8xOiWVUrNqGQhcyPOJPyqY3TO3fglVDAHhiM1OlTLfPHfw
+ oppw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ZqZq31xIHMpm7PrjzBNfBJf8EWF7gp75FhioXeH7/II=;
- b=WoZqhDqXSKew7b8PnxCVubYDcrwi+HpMXg3IfIwfFT8faDPQNGJGk/XBKci4NzPCuD
- IHjivwJBshVrRO6YddMxfaoGO/HxbzJvKUuX+7s0f4ovUdOfeVGHvGAiJyq9zzqgR9Be
- XSot8sVilsWSi6EkKnksfObtCjAAhqm2csAZ1DW3bzWBGVPMKUjKdbCx0pKaoVFpovsB
- /cbGEMzCGKq2nKTGF/gHMjNmO1Viv3thO3PuBr2KKBTUab7POolZQliSjcKNIfoWz8sI
- c56RqSXpw2wYPoRRkXj3ciZezvQcUh4TP9wGXWcYYN1M8rLxY8sXEIwwsMaAnhk4r2bu
- FPTA==
-X-Gm-Message-State: AOAM531v98NONPR2XITGt7c08mvlb40PciXAZ4p2rM/lQSvRqS/lqnPk
- JEQJFi5KELAemWWSwODxixurjA==
-X-Google-Smtp-Source: ABdhPJzEwxU/L0DMV9AfGZbNdTOczCnDAKcA0k2xqqeu+3Pp/7+Kg095IgLFy0T445ELJ+Ak6+sF3w==
-X-Received: by 2002:a1c:b403:: with SMTP id d3mr4780296wmf.79.1621532588557;
- Thu, 20 May 2021 10:43:08 -0700 (PDT)
+ bh=IIiaXXWvs7n+iPufxQMNc/1JVO6hJcCtlhG0IxEVHLs=;
+ b=PFCrFoLyK8Vrx0nmGEy1dH3StyVpsR1XF9QFZzNsTqw8EZ1ilYYio3T7KLdrwuiKpi
+ y3ZeVWrY5KL4j8jXV6S60uCbtHmtZz24JvyBntC4pNzha4Mqn4xFTA+uW5U2UmfgFHDd
+ g98GKMrne3KVxdIfpGkGtp2+jZzB4mBTDD3WnhFH7Kfh3aioUK2Vebbm06wjBYpZ1P/d
+ A3md2LjM8dO92GBKDx39EdmiSp9u0HYUepb0hfSaXpB/8B51a6yPSoVHmMSH2tHyHreo
+ pen2ePc7C6UNFC1pSGUh97ysHtmZHeinFrrzfE6J4Os+o2yDGVM4CG0uG39LgHDt/4LX
+ BHIw==
+X-Gm-Message-State: AOAM530q8NPoxKwyuEJs1pCdc0jGpvbc9xtzgJEJJN2ITiybg5W8p8D4
+ EAMyZxxxXSIP4kg52VRiHzsRPQ==
+X-Google-Smtp-Source: ABdhPJwykXVaXN2S09GVMg+E0J0cZBWNfdhj3wbvzexrs1ynQhFOHDrFECIIAuZYyMJL04yA12RFjA==
+X-Received: by 2002:a05:600c:19c8:: with SMTP id
+ u8mr5242353wmq.50.1621532590318; 
+ Thu, 20 May 2021 10:43:10 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id s11sm7492865wmf.14.2021.05.20.10.43.04
+ by smtp.gmail.com with ESMTPSA id i15sm1554489wru.17.2021.05.20.10.43.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 20 May 2021 10:43:07 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id DCBAF1FF8F;
- Thu, 20 May 2021 18:43:03 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 102D51FF90;
+ Thu, 20 May 2021 18:43:04 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 3/8] gitlab: add special rule for the hexagon container
-Date: Thu, 20 May 2021 18:42:58 +0100
-Message-Id: <20210520174303.12310-4-alex.bennee@linaro.org>
+Subject: [PATCH  v1 4/8] gdbstub: Constify GdbCmdParseEntry
+Date: Thu, 20 May 2021 18:42:59 +0100
+Message-Id: <20210520174303.12310-5-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210520174303.12310-1-alex.bennee@linaro.org>
 References: <20210520174303.12310-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x334.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,88 +87,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, Thomas Huth <thuth@redhat.com>, berrange@redhat.com,
- Cornelia Huck <cohuck@redhat.com>, f4bug@amsat.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Willian Rampazzo <willianr@redhat.com>, stefanha@redhat.com, crosa@redhat.com,
- pbonzini@redhat.com, =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+Cc: fam@euphon.net, berrange@redhat.com,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, f4bug@amsat.org,
+ stefanha@redhat.com, crosa@redhat.com, pbonzini@redhat.com,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The hexagon container is always manually built but of course not
-everyone will be building it themselves and pushing to their
-registries. We still need to create a "local" registry copy for the
-actual gitlab tests to run. We don't build it in this case, just pull
-it across from the upstream registry. We disable this rule from
-running on the qemu-project itself so it doesn't accidentally wipe out
-our master copy.
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Fixes: 910c40ee94 ("gitlab: add build-user-hexagon test")
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Tested-by: Cornelia Huck <cohuck@redhat.com>
-Reviewed-by: Willian Rampazzo <willianr@redhat.com>
-Cc: Cornelia Huck <cohuck@redhat.com>
-
+Message-Id: <20210505170055.1415360-3-philmd@redhat.com>
 ---
-v2
-  - fix silly typo
----
- .gitlab-ci.d/containers.yml | 27 +++++++++++++++++++++++++++
- .gitlab-ci.yml              |  2 ++
- 2 files changed, 29 insertions(+)
+ gdbstub.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/.gitlab-ci.d/containers.yml b/.gitlab-ci.d/containers.yml
-index 3fb3c14f06..088c7e68c3 100644
---- a/.gitlab-ci.d/containers.yml
-+++ b/.gitlab-ci.d/containers.yml
-@@ -101,6 +101,33 @@ armhf-debian-cross-container:
-   variables:
-     NAME: debian-armhf-cross
+diff --git a/gdbstub.c b/gdbstub.c
+index 9103ffc902..83d47c6732 100644
+--- a/gdbstub.c
++++ b/gdbstub.c
+@@ -1981,7 +1981,7 @@ static void handle_v_kill(GdbCmdContext *gdb_ctx, void *user_ctx)
+     exit(0);
+ }
  
-+# We never want to build hexagon in the CI system and by default we
-+# always want to refer to the master registry where it lives.
-+hexagon-cross-container:
-+  image: docker:stable
-+  stage: containers
-+  except:
-+    variables:
-+      - $CI_PROJECT_NAMESPACE == 'qemu-project'
-+  variables:
-+    NAME: debian-hexagon-cross
-+    GIT_DEPTH: 1
-+  services:
-+    - docker:dind
-+  before_script:
-+    - export TAG="$CI_REGISTRY_IMAGE/qemu/$NAME:latest"
-+    - export COMMON_TAG="$CI_REGISTRY/qemu-project/qemu/qemu/$NAME:latest"
-+    - docker info
-+    - docker login $CI_REGISTRY -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD"
-+  script:
-+    - echo "TAG:$TAG"
-+    - echo "COMMON_TAG:$COMMON_TAG"
-+    - docker pull $COMMON_TAG
-+    - docker tag $COMMON_TAG $TAG
-+    - docker push "$TAG"
-+  after_script:
-+    - docker logout
-+
- hppa-debian-cross-container:
-   extends: .container_job_template
-   stage: containers-layer2
-diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-index f718b61fa7..b2f929c758 100644
---- a/.gitlab-ci.yml
-+++ b/.gitlab-ci.yml
-@@ -421,6 +421,8 @@ build-user-static:
- # declared. The image is manually uploaded.
- build-user-hexagon:
-   extends: .native_build_job_template
-+  needs:
-+    job: hexagon-cross-container
-   variables:
-     IMAGE: debian-hexagon-cross
-     TARGETS: hexagon-linux-user
+-static GdbCmdParseEntry gdb_v_commands_table[] = {
++static const GdbCmdParseEntry gdb_v_commands_table[] = {
+     /* Order is important if has same prefix */
+     {
+         .handler = handle_v_cont_query,
+@@ -2324,7 +2324,7 @@ static void handle_set_qemu_phy_mem_mode(GdbCmdContext *gdb_ctx, void *user_ctx)
+ }
+ #endif
+ 
+-static GdbCmdParseEntry gdb_gen_query_set_common_table[] = {
++static const GdbCmdParseEntry gdb_gen_query_set_common_table[] = {
+     /* Order is important if has same prefix */
+     {
+         .handler = handle_query_qemu_sstepbits,
+@@ -2342,7 +2342,7 @@ static GdbCmdParseEntry gdb_gen_query_set_common_table[] = {
+     },
+ };
+ 
+-static GdbCmdParseEntry gdb_gen_query_table[] = {
++static const GdbCmdParseEntry gdb_gen_query_table[] = {
+     {
+         .handler = handle_query_curr_tid,
+         .cmd = "C",
+@@ -2420,7 +2420,7 @@ static GdbCmdParseEntry gdb_gen_query_table[] = {
+ #endif
+ };
+ 
+-static GdbCmdParseEntry gdb_gen_set_table[] = {
++static const GdbCmdParseEntry gdb_gen_set_table[] = {
+     /* Order is important if has same prefix */
+     {
+         .handler = handle_set_qemu_sstep,
 -- 
 2.20.1
 
