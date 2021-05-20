@@ -2,74 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B54F38B28E
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 17:06:46 +0200 (CEST)
-Received: from localhost ([::1]:58398 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C54D38B286
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 17:04:58 +0200 (CEST)
+Received: from localhost ([::1]:52698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljkG5-00035G-I5
-	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 11:06:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40046)
+	id 1ljkEL-0007E7-8Y
+	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 11:04:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40268)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ljk5u-0002Ba-9E
- for qemu-devel@nongnu.org; Thu, 20 May 2021 10:56:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41999)
+ (Exim 4.90_1) (envelope-from <david.edmondson@oracle.com>)
+ id 1ljk6b-0003mV-Ev
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 10:56:57 -0400
+Received: from forward1-smtp.messagingengine.com ([66.111.4.223]:33463)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ljk5p-0008NW-V8
- for qemu-devel@nongnu.org; Thu, 20 May 2021 10:56:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621522568;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0n1626wP3Kn6h/VElXM6JgPOipY9JSwtCERGqvDTjlQ=;
- b=biLE7lkMQdEGXlgC4RDZH2Nf7htnLgKx+D+6aYzQssS2A1TbIbEsGSv8qkXYIkkJjIJLAn
- YkCyxixlaFlV1JJc5fIv0ZVzQeFgy6LTK5h1Ue4fD9qahesGC7It5Fr4vlIf24D6LsFrVc
- iRw+syNu7g/zS1azmWQ+0f96SuR4Nnw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-418-FIL7Ts--PSK-26I1ESL4Vw-1; Thu, 20 May 2021 10:56:06 -0400
-X-MC-Unique: FIL7Ts--PSK-26I1ESL4Vw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2FF6D107ACC7;
- Thu, 20 May 2021 14:54:37 +0000 (UTC)
-Received: from [10.10.117.64] (ovpn-117-64.rdu2.redhat.com [10.10.117.64])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 911EC10013C1;
- Thu, 20 May 2021 14:54:36 +0000 (UTC)
-Subject: Re: [PATCH v3 14/15] qapi/parser: allow 'ch' variable name
-To: Markus Armbruster <armbru@redhat.com>
-References: <20210519183951.3946870-1-jsnow@redhat.com>
- <20210519183951.3946870-15-jsnow@redhat.com>
- <878s49bvcn.fsf@dusky.pond.sub.org>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <29502dd2-753e-46ab-0bf0-d62c186dff6c@redhat.com>
-Date: Thu, 20 May 2021 10:54:36 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <david.edmondson@oracle.com>)
+ id 1ljk6Z-0000Qy-9c
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 10:56:57 -0400
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailforward.nyi.internal (Postfix) with ESMTP id 1827A19409BD;
+ Thu, 20 May 2021 10:56:51 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute3.internal (MEProxy); Thu, 20 May 2021 10:56:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=1RuXScUYzcGIpx3b8
+ iFAVEDzYE0Pc6TLx+tOKwThO3g=; b=EakPvUnCYOg3KzbxK+3agXEvK8p6cKvpF
+ E6KUYj7YyCERSqBtNAVZ8EHWPpK17aadwSrxa1XYlVGcjV283vl3O32ww79Q/cyM
+ kw7XEay91Q7g33yITV3Gx6mOjBJYhuVm8uAFNIahwn9SrSONEKFsYw14LwryxGrB
+ 1UskGMsXA+zxzeyMBUWwIWls4svjgzXhJTkd21Qk/a6JZuO/F+G/1O+YzaRysv8a
+ yvUHhWftyI0TCcXIuD1H936au+paMMBzciJGGm+8yNowLVa2vvGJ+kDRjyYRobrT
+ dwFOMEkgTqUAU+BayqHkW8OWZMpEPebulOrksph1uKidLdPCNSjuw==
+X-ME-Sender: <xms:snimYAl4O7Vl-BwUsYqThqxoYXpRxMqz7NZ4LgIVwbmzeW6S1DBw3Q>
+ <xme:snimYP1NbFZoygUewhWa45ynzjOzmpTlPniVKWlh3mAtgV1QA0GYj8UGbJ2ZJjVtn
+ rXojDjFjE1othgk1KA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdejuddgkeefucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhephffvufffkffoggfgsedtkeertdertddtnecuhfhrohhmpeffrghvihguucfg
+ ughmohhnughsohhnuceouggrvhhiugdrvggumhhonhgushhonhesohhrrggtlhgvrdgtoh
+ hmqeenucggtffrrghtthgvrhhnpeduhfetvdfhgfeltddtgeelheetveeufeegteevtddu
+ iedvgeejhfdukeegteehheenucfkphepkedurddukeejrddviedrvdefkeenucevlhhush
+ htvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegurghvihgurdgvughm
+ ohhnughsohhnsehorhgrtghlvgdrtghomh
+X-ME-Proxy: <xmx:snimYOrayly7AW4ha6POw5SGQUrwfLDxjE7Xsvt_Z1eAfJrNGKBgJA>
+ <xmx:snimYMndqMOi-OgP0RptekQu2103daQJ45I5r3-olgGyTloq1t6I1A>
+ <xmx:snimYO3IuAXizCBB1CwQ_Y7Az1HacfJo47_N8iV2V9fR_gLnsdNkMw>
+ <xmx:s3imYB2ZBALk_UjMcesyWhXI4UdsHwuXFyrnR1Pf3cAcCipCmfkLig>
+Received: from disaster-area.hh.sledj.net (disaster-area.hh.sledj.net
+ [81.187.26.238]) by mail.messagingengine.com (Postfix) with ESMTPA;
+ Thu, 20 May 2021 10:56:49 -0400 (EDT)
+Received: from localhost (disaster-area.hh.sledj.net [local])
+ by disaster-area.hh.sledj.net (OpenSMTPD) with ESMTPA id 7d490b61;
+ Thu, 20 May 2021 14:56:47 +0000 (UTC)
+From: David Edmondson <david.edmondson@oracle.com>
+To: qemu-devel@nongnu.org
+Subject: [RFC PATCH 0/7] Support protection keys in an AMD EPYC-Milan VM
+Date: Thu, 20 May 2021 15:56:40 +0100
+Message-Id: <20210520145647.3483809-1-david.edmondson@oracle.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-In-Reply-To: <878s49bvcn.fsf@dusky.pond.sub.org>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.39,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: softfail client-ip=66.111.4.223;
+ envelope-from=david.edmondson@oracle.com;
+ helo=forward1-smtp.messagingengine.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+ SPF_SOFTFAIL=0.665, UNPARSEABLE_RELAY=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,64 +85,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Roth <michael.roth@amd.com>, qemu-devel@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>, Cleber Rosa <crosa@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
+ Marcelo Tosatti <mtosatti@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ David Edmondson <david.edmondson@oracle.com>, Babu Moger <babu.moger@amd.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/20/21 5:36 AM, Markus Armbruster wrote:
-> Uh, one more little thing... this commit message isn't quite right:
-> 
-> John Snow <jsnow@redhat.com> writes:
-> 
->> We can have a two-letter variable name, as a treat.
->>
->> Signed-off-by: John Snow <jsnow@redhat.com>
->>
->> --
-> 
-> This line is not a separator.
-> 
->>
->> I don't want to use 'chr' or 'char', and in context 'ch' works well
->> enough. I will assume that any possible future uses will also be obvious
->> enough.
->>
->> Signed-off-by: John Snow <jsnow@redhat.com>
->> ---
-> 
-> This one is.
-> 
-> Two S-o-b.  Okay to manually toss everything after the "--" line?
-> 
+AMD EPYC-Milan CPUs introduced support for protection keys, previously
+available only with Intel CPUs.
 
-Whoops. Script failure because of the typo in the separator I added 
-manually. Yes.
+AMD chose to place the XSAVE state component for the protection keys
+at a different offset in the XSAVE state area than that chosen by
+Intel.
 
-```
-qapi/parser: allow 'ch' variable name
+To accommodate this, modify QEMU to behave appropriately on AMD
+systems, allowing a VM to properly take advantage of the new feature.
 
-We can have a two-letter variable name, as a treat.
+Further, avoid manipulating XSAVE state components that are not
+present on AMD systems.
 
-Signed-off-by: John Snow <jsnow@redhat.com>
-```
+The code in patch 6 that changes the CPUID 0x0d leaf is mostly dumped
+somewhere that seemed to work - I'm not sure where it really belongs.
 
-Is fine. Any edits you want to make to my joking, not-that-useful commit 
-message is also fine.
+David Edmondson (7):
+  target/i386: Declare constants for XSAVE offsets
+  target/i386: Use constants for XSAVE offsets
+  target/i386: Clarify the padding requirements of X86XSaveArea
+  target/i386: Prepare for per-vendor X86XSaveArea layout
+  target/i386: Introduce AMD X86XSaveArea sub-union
+  target/i386: Adjust AMD XSAVE PKRU area offset in CPUID leaf 0xd
+  target/i386: Manipulate only AMD XSAVE state on AMD
 
->>   scripts/qapi/pylintrc | 1 +
->>   1 file changed, 1 insertion(+)
->>
->> diff --git a/scripts/qapi/pylintrc b/scripts/qapi/pylintrc
->> index 88efbf71cb2..c5275d5f59b 100644
->> --- a/scripts/qapi/pylintrc
->> +++ b/scripts/qapi/pylintrc
->> @@ -43,6 +43,7 @@ good-names=i,
->>              _,
->>              fp,  # fp = open(...)
->>              fd,  # fd = os.open(...)
->> +           ch,
->>   
->>   [VARIABLES]
+ target/i386/cpu.c            | 19 +++++----
+ target/i386/cpu.h            | 80 ++++++++++++++++++++++++++++--------
+ target/i386/kvm/kvm.c        | 57 +++++++++----------------
+ target/i386/tcg/fpu_helper.c | 20 ++++++---
+ target/i386/xsave_helper.c   | 70 +++++++++++++++++++------------
+ 5 files changed, 152 insertions(+), 94 deletions(-)
+
+-- 
+2.30.2
 
 
