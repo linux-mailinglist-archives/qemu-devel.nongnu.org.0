@@ -2,70 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBA3038B36B
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 17:42:12 +0200 (CEST)
-Received: from localhost ([::1]:44350 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA94038B391
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 17:48:28 +0200 (CEST)
+Received: from localhost ([::1]:51964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljkoN-00049u-Q8
-	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 11:42:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51704)
+	id 1ljkuR-0001Ir-Ha
+	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 11:48:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53262)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ljkkz-0006ES-Lf
- for qemu-devel@nongnu.org; Thu, 20 May 2021 11:38:41 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:52976)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ljkrP-0007vs-Dc
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 11:45:19 -0400
+Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:38642)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ljkkx-0004pW-Sw
- for qemu-devel@nongnu.org; Thu, 20 May 2021 11:38:41 -0400
-Received: by mail-wm1-x329.google.com with SMTP id z130so9468430wmg.2
- for <qemu-devel@nongnu.org>; Thu, 20 May 2021 08:38:37 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ljkrN-00088P-R2
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 11:45:19 -0400
+Received: by mail-ej1-x62b.google.com with SMTP id i7so8214912ejc.5
+ for <qemu-devel@nongnu.org>; Thu, 20 May 2021 08:45:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=4PzK0QKrc/sxz/uK0uupygknAR9gMxyZHWgoVewc2C0=;
- b=lrH8hbKtNYAzd1T3kcYRUPB66C0MRS0lN/VMWMWWYVPo8LLkj+ucFwjq3qcxdu9Qxc
- JbYpvlardYkplnLavU4XdL5sQTbYKOUjnPEEhFuV3bvWPE794Shwnzn+9pAfpnR0Tu2y
- mS1K/Fd4M/Z9aJWMo+l2eV4C8pvHhBmVw8iwGiDWawRawbZrRwohmr5Gqy5mjzRCYo1f
- dlMjcwnb3meMzGt/dO4hGDp0hLUONFBY4nA1+tjUSHORxj5moGViXwf7uPlhKDtx1ZId
- 31ZrWjiybIU0REvJlcjMFHvRw9vHME6xbAgMS0VktxBn4z0Nl8uxi8kxAae5qgM4k/MC
- UsCw==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=I6O8/L3ylxIpnQe9NkcAetgPjV6Xg3rsE+K/q/jQeh0=;
+ b=W6ZmMg9qp+HDBXl8qWCRbf33Z0Zr/BeDF3LoknVn+sRmccnBbXG02UJGeAd1uRedVp
+ quVN+N1t8bxON2jhn0dQH4eq70IYOGN+YhNZyWiYOd0GbHlcfJr+LrF0GAMYKoRuJvKW
+ qkJABAqEHWqtEGXuQWMcGRoTv3aqAuNDCIuLKZ/9YfIwXJ4AFstIRNm6ZYax3HN6+nQQ
+ QaK9ZRYBSnyKT7pF4zUw7hm6vry/cE7rlZzlwcXe+58wK6THCLm4GGmkOnsDvKBK1gQl
+ wbxUmNNJnqSIPAItOrgthFehwLMqmTBdV/dCUM3/ZYp2lusLw+U252cocdhtvvSVKFZl
+ zqcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=4PzK0QKrc/sxz/uK0uupygknAR9gMxyZHWgoVewc2C0=;
- b=cibHoK3N/ebGjqv/F8JPAsfwQ5SZkbejMxxxXvp8zzhUk2hHFj50VmPYFfMZ7H0XU2
- qjIzzWN656aVd60bZTazqxF95AuUs1GKAW+MnW4rST+8jQ8W6ANX6yNlS1dNOkgmb9N+
- KV4TBp5vhpX3rR1qtwkXOMiUU3hQpZF+KrgGov6qw161m84f9RiQXNP2L85SgYklimni
- ZIoiHoRL+jnJxg9cY2K1JSohG4GNonkRAimbINhJjm70q2AqZdBq61MveSVGrJRUeg8V
- BIxVHJ1TlFCe7Z4ip7b9sbYsP0Yf9J4s+lxiFrobEIBeSmNq0z3f/C5PkGP4t/XuSocr
- Mwpg==
-X-Gm-Message-State: AOAM531V4KuU3VGuTeVpo4UjftQRow6bLO/tB53C2QcuVh/CvAxq7LjU
- 0guNbudbX942qnl4PLwXI0S5CQ==
-X-Google-Smtp-Source: ABdhPJzHrf4LXSrNgiBlYMhtoKWM+xsxt7sDWBC6C+T7AGCdndzd7D++tJgolpZuazqV5znYixsDTQ==
-X-Received: by 2002:a05:600c:358f:: with SMTP id
- p15mr4817382wmq.14.1621525116427; 
- Thu, 20 May 2021 08:38:36 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id t11sm3615385wrz.57.2021.05.20.08.38.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 May 2021 08:38:35 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 6D2EE1FF7E;
- Thu, 20 May 2021 16:38:34 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v2] gitlab: add special rule for the hexagon container
-Date: Thu, 20 May 2021 16:38:31 +0100
-Message-Id: <20210520153831.11873-1-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=I6O8/L3ylxIpnQe9NkcAetgPjV6Xg3rsE+K/q/jQeh0=;
+ b=G0WjGGUYwtzBlOiKJWEzyKFpZHdYUklM+ieE+MKcQIWtnOF1bstLxtE/ALujz3EdYP
+ Pi3W2zhh/S/LbUnWM5wlntJNlYiHeF3S1Oiae9JYnhqhBgM1M81XvbetMSaNX+OybGxG
+ BD35718U0kQK+DJ1q1YeuHQ3vTEYk2ywMxblN/YPEnkf+bbs7Vr1FC0orw9h5kz9E432
+ D4zstuqAM4ybEoVMOU+eeQJJBJYuBXRr3gUyGzw4UH4SFo75SHoHsBmIGdABLweAg62K
+ 0dHKPVhUsLdOpjj5wKEbg9XDpZbF5134IAt4dCfIFks/KA+UAYveJHl9i1RbXQ5SWpam
+ ibXA==
+X-Gm-Message-State: AOAM5328GfkAwNcyKtO1QsEASes6L5tEfsh87qT2L+ZCGeUL1r7HqMuJ
+ NzF/tazm/mfdcZEoLsAzWZWuu3zZ/tLvxU9qGJBAnA==
+X-Google-Smtp-Source: ABdhPJyf5Iko/ZSQaNMbFugR2NCllk+1Pd5+ZGQ4nC1zryiiGaR+LQkKOESD1BKQ4oCHQmvozhUlvp7Cs9NxAUKJmgI=
+X-Received: by 2002:a17:906:d8cb:: with SMTP id
+ re11mr5364132ejb.482.1621525516235; 
+ Thu, 20 May 2021 08:45:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x329.google.com
+References: <20210510124747.780877-1-eric.auger@redhat.com>
+In-Reply-To: <20210510124747.780877-1-eric.auger@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 20 May 2021 16:44:57 +0100
+Message-ID: <CAFEAcA88KZSL6V5c7PmRSKvcT38OghVH_sRHgXddJOZ2HdPUsQ@mail.gmail.com>
+Subject: Re: [PATCH v2] hw/arm/smmuv3: Another range invalidation fix
+To: Eric Auger <eric.auger@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,85 +77,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- f4bug@amsat.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Willian Rampazzo <willianr@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Kunkun Jiang <jiangkunkun@huawei.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Peter Xu <peterx@redhat.com>,
+ qemu-arm <qemu-arm@nongnu.org>,
+ Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>,
+ Eric Auger <eric.auger.pro@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The hexagon container is always manually built but of course not
-everyone will be building it themselves and pushing to their
-registries. We still need to create a "local" registry copy for the
-actual gitlab tests to run. We don't build it in this case, just pull
-it across from the upstream registry. We disable this rule from
-running on the qemu-project itself so it doesn't accidentally wipe out
-our master copy.
+On Mon, 10 May 2021 at 13:48, Eric Auger <eric.auger@redhat.com> wrote:
+>
+> 6d9cd115b9 ("hw/arm/smmuv3: Enforce invalidation on a power of two range")
+> failed to completely fix misalignment issues with range
+> invalidation. For instance invalidations patterns like "invalidate 32
+> 4kB pages starting from 0xff395000 are not correctly handled" due
+> to the fact the previous fix only made sure the number of invalidated
+> pages were a power of 2 but did not properly handle the start
+> address was not aligned with the range. This can be noticed when
+> boothing a fedora 33 with protected virtio-blk-pci.
+>
+> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+> Fixes: 6d9cd115b9 ("hw/arm/smmuv3: Enforce invalidation on a power of two range")
+>
+> ---
 
-Fixes: 910c40ee94 ("gitlab: add build-user-hexagon test")
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Cc: Cornelia Huck <cohuck@redhat.com>
 
----
-v2
-  - fix silly typo
----
- .gitlab-ci.d/containers.yml | 27 +++++++++++++++++++++++++++
- .gitlab-ci.yml              |  2 ++
- 2 files changed, 29 insertions(+)
 
-diff --git a/.gitlab-ci.d/containers.yml b/.gitlab-ci.d/containers.yml
-index 3fb3c14f06..088c7e68c3 100644
---- a/.gitlab-ci.d/containers.yml
-+++ b/.gitlab-ci.d/containers.yml
-@@ -101,6 +101,33 @@ armhf-debian-cross-container:
-   variables:
-     NAME: debian-armhf-cross
- 
-+# We never want to build hexagon in the CI system and by default we
-+# always want to refer to the master registry where it lives.
-+hexagon-cross-container:
-+  image: docker:stable
-+  stage: containers
-+  except:
-+    variables:
-+      - $CI_PROJECT_NAMESPACE == 'qemu-project'
-+  variables:
-+    NAME: debian-hexagon-cross
-+    GIT_DEPTH: 1
-+  services:
-+    - docker:dind
-+  before_script:
-+    - export TAG="$CI_REGISTRY_IMAGE/qemu/$NAME:latest"
-+    - export COMMON_TAG="$CI_REGISTRY/qemu-project/qemu/qemu/$NAME:latest"
-+    - docker info
-+    - docker login $CI_REGISTRY -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD"
-+  script:
-+    - echo "TAG:$TAG"
-+    - echo "COMMON_TAG:$COMMON_TAG"
-+    - docker pull $COMMON_TAG
-+    - docker tag $COMMON_TAG $TAG
-+    - docker push "$TAG"
-+  after_script:
-+    - docker logout
-+
- hppa-debian-cross-container:
-   extends: .container_job_template
-   stage: containers-layer2
-diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-index f718b61fa7..b2f929c758 100644
---- a/.gitlab-ci.yml
-+++ b/.gitlab-ci.yml
-@@ -421,6 +421,8 @@ build-user-static:
- # declared. The image is manually uploaded.
- build-user-hexagon:
-   extends: .native_build_job_template
-+  needs:
-+    job: hexagon-cross-container
-   variables:
-     IMAGE: debian-hexagon-cross
-     TARGETS: hexagon-linux-user
--- 
-2.20.1
+Applied to target-arm.next, thanks.
 
+-- PMM
 
