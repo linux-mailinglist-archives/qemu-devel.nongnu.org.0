@@ -2,135 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7AB238B77A
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 21:24:36 +0200 (CEST)
-Received: from localhost ([::1]:42066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C64B838B7E6
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 21:57:10 +0200 (CEST)
+Received: from localhost ([::1]:56784 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljoHb-0007bU-Oe
-	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 15:24:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48308)
+	id 1ljon7-0002E8-St
+	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 15:57:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54648)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1ljoGH-0006jH-96; Thu, 20 May 2021 15:23:13 -0400
-Received: from mail-eopbgr50104.outbound.protection.outlook.com
- ([40.107.5.104]:6332 helo=EUR03-VE1-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1ljokR-0007si-VD
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 15:54:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60606)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1ljoGE-0000A6-Gi; Thu, 20 May 2021 15:23:12 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ln5KP964UdCFF/R9uSMkZykn9ke5Usns3TaCgQB/HOpmPzHozDqPxM8zIYVIaBxgIXWpxO0LUwFEOSAXw+dS8OIfhuUN99mcDlJp/0YzgNYpnIFVWomPrJbULqjEU9nzblSKrjQ8MD8aAnokexlnICfO7cpiJj4vE9VEatw/8v1IPX2KpHvwDq53lCFXrcSZIv/YCuJasR9QMBGaeKaf4G1izv5qD9v6qbaExsmeuFcDHUZjD2FbGC9BCkDPRiJAaSWitigyvTbUyAfsfRd+BP4f7edjMOjEJ0sBAgYTuksNOVVjinW6ydVvqBDUgnyPsBiDWUDnPsSpSCpFxAdOiQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZTImjyhKa85yaRGxT8o8RAU3EhiiiZCMoCOSFh2Ljnk=;
- b=e318qXhf8EZO0GZPd5Q/ZybrKttYY9jkmGDcdNPR6+mCzre9s7nqCXRliO6eWJeiFOR1QeV0JDFqgLUGXjQ0vEt2Ymolhklj74W1VfP10MyPu9BQ1Q0Es9JomKxPC4e+Q7ZJ6sc/rGwohwSGGLJ4fm+DA3MOtig+442iVLPd/5Ih9rq9Z9O2nl0Kt0d1tCKzTzzjc7NDbwBzW5w0QGO3db6y5LgHpL4dDngC1z6cOJDX+Ck+gFvS2Mn0TaKJ8ZWYb3MgHkhl2RsumfMJTbaR2NQIN7hLKxdkBCptpP1yCukTmEuCFcAcT+OGPPsobIBn7lLWRGyER2S9Q4CN+t7K7w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZTImjyhKa85yaRGxT8o8RAU3EhiiiZCMoCOSFh2Ljnk=;
- b=lmQsgHV/YFNst4Ui6/qwyL67v8eh+lVmUpoSBragh9od82nLLUdH0/LykUvTb5u2JZLH0DU7B729XzIrftR9ZwvKQvyteuiBdIokRPmJ6ENu+dHMwO/3jyS12UCezVruJfateMzmb3UDS8lwnlssmU9NIHyFGS1g1FmqEpqQf6A=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AS8PR08MB6995.eurprd08.prod.outlook.com (2603:10a6:20b:34d::13)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4150.23; Thu, 20 May
- 2021 19:23:05 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::b403:c1a9:6bb7:133]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::b403:c1a9:6bb7:133%7]) with mapi id 15.20.4129.033; Thu, 20 May 2021
- 19:23:05 +0000
-Subject: Re: [PULL 0/9] scripts/simplebench patches
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: Qemu-block <qemu-block@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
-References: <20210504090113.21311-1-vsementsov@virtuozzo.com>
- <CAFEAcA_Zi3sYZ15R7szGd+Gghm=X2Qg3DwT486_deqsM8os5xQ@mail.gmail.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <1f018929-aeb5-5b3f-a886-4fd76106eb1e@virtuozzo.com>
-Date: Thu, 20 May 2021 22:23:03 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.2
-In-Reply-To: <CAFEAcA_Zi3sYZ15R7szGd+Gghm=X2Qg3DwT486_deqsM8os5xQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [185.215.60.197]
-X-ClientProxiedBy: FR3P281CA0035.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:1c::8) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1ljokL-00027I-2p
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 15:54:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1621540455;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=aV8t8hZBMfYUOCUVwaLhcEp/v19oEAuJl0Lqr1MH6HY=;
+ b=UlxbGOU23MV5BC8/DMBbW8WqBkSNhrqgL5WjsnAly8Ipx+40EhwIsfONHy3CTqfC8P4Vtz
+ Ku1Kx32ki8uOFa6FXqrioa8tfURNOZPvjnseqYV+qa1iLdDYcSLkBofAYn2LsDelkG9kzx
+ /VJZSUzBLJKVAE6NdIX4o+i+flt6Ddg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-128-T5OuLSE-O4qqt9yys79Yhg-1; Thu, 20 May 2021 15:54:14 -0400
+X-MC-Unique: T5OuLSE-O4qqt9yys79Yhg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7A7E8802690
+ for <qemu-devel@nongnu.org>; Thu, 20 May 2021 19:54:13 +0000 (UTC)
+Received: from localhost (ovpn-115-27.rdu2.redhat.com [10.10.115.27])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3043560CCC;
+ Thu, 20 May 2021 19:54:13 +0000 (UTC)
+Date: Thu, 20 May 2021 15:49:05 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Vitaly Kuznetsov <vkuznets@redhat.com>
+Subject: Re: [PATCH v6 04/19] i386: stop using env->features[] for filling
+ Hyper-V CPUIDs
+Message-ID: <20210520194905.lomw2obshfy3anad@habkost.net>
+References: <20210422161130.652779-1-vkuznets@redhat.com>
+ <20210422161130.652779-5-vkuznets@redhat.com>
+ <20210501003440.xoqjfmvwxu7ykwva@habkost.net>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.8] (185.215.60.197) by
- FR3P281CA0035.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:1c::8) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4173.11 via Frontend Transport; Thu, 20 May 2021 19:23:04 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 13273131-96d0-4580-ff6a-08d91bc4b128
-X-MS-TrafficTypeDiagnostic: AS8PR08MB6995:
-X-Microsoft-Antispam-PRVS: <AS8PR08MB69950A19E8713D7FC2CF2122C12A9@AS8PR08MB6995.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 2vikUnwBvPhVKgkqTMqG5JxMgh1d38SaBnYlGzDU44DIxC+QynaMAnX9my0mWnOB2WRHCH6s8unaoIE72ZsZtbj6bLWTluRZMNGO4drx6K64C4BI9FdejiDiHlDE9aYMgFyTm0Sh48aO0Ila0egf6YWitmBgwLG7NToIV4+l1AfmzwdTwSTJi0511lO/mIqB8qyVk0XTD39i29pAESgqagAvJd7/vkje+vM6ThQs96+ULU504+tyFJmeVZkRXoHDujhWhI/+zTH983DHOvczG20zxL9tc70tDNeQ70gwo/ZY2KhqzDcVmpmiqD0nY54TX19/bgnIg1qhS+vxjhE7PabhSrxVPMddsbr1QjV9qXbtFuEr4RaYR8x60cCritP0p1cjhknFxtkQ4+tXontSxM5V+dVfSQkcDc1mteuu4OKReeQn9s4elC/G5OI7rlAUKQEvGmrBrJqNc9aUW6a739g8eG2Pf/+ZBbXBsoCtXkAvRJoAHh6I7EQbYfgXF7qhk3uFlSfcsngS7ZOId+BTljSUsYtEJgHS9vAW7ZMgt3h4iN/CX0S3KgKUXXfEL4nuwtpB0o2OrXh/H0+sweVfjtwEucvjT2+mH0g1//7NcmK7cVXLWl9cVXVMsO1f3mAqugRZX+d4f92RgoZbSmCGDsfOhZfM/L1P7hafrbV1l0PsCfZDBrJIZvF+0p3pKnDpmjWUo2fbYyW1mpemJKVJaVMZv7qxnGEMWeerlmSXgxkEanSqbFpHc0sF3R43m13cXwbkIgk6otJCqKAgyG5iGx0uhAwaDeVte1xuS0zUvuk=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(346002)(366004)(396003)(376002)(39840400004)(136003)(2906002)(8936002)(8676002)(6916009)(31696002)(66946007)(66556008)(6486002)(66476007)(966005)(26005)(83380400001)(186003)(16576012)(54906003)(316002)(52116002)(38100700002)(86362001)(16526019)(38350700002)(31686004)(2616005)(478600001)(956004)(4326008)(36756003)(5660300002)(43740500002)(45980500001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?WjgzbEFBZk1LcWZnbEo5NjhuYmh3RldacW12T0haMVBtVWhnNjUvcEZsSWxK?=
- =?utf-8?B?a3Q2V3NuY0cwWXJrWCtyTjhLdjNqWFVUaG1kSVN1ZXEwelVpbE1UMG4ydHBy?=
- =?utf-8?B?Q3FNL3IyMnY5cU5CbFppY1hoendIM2NwbVhEUWJnekwraitsVkF0ODQvemJv?=
- =?utf-8?B?NmFzRzVGdGpTOVJTcThScXZzVmJIU3BJV3dzTldKR1R3SWc5eDk3TVpuNXph?=
- =?utf-8?B?bm1BSEkzV0hZMjIzY2lmKzRiZ3BYQUU5YTRLTnhnUFNvZ2Q1WHZFeE1JRU9y?=
- =?utf-8?B?eDMzTHdDNStUbXRwTU9Wams1akphUnYwTUtuWGVjSmdiQW5pQzdsVm5VcDFl?=
- =?utf-8?B?aFVxM1h5bEhvOWVmcU1OZTBnbVd2eVUyRUU4TzRhbUR6K0dZRVhXNTdrK3Mx?=
- =?utf-8?B?WklXb28ybW4zYkVtZnJUQ0RJdmVrVkRBcCtKRlBqMGplV1lkcVIzQWJBL1dX?=
- =?utf-8?B?ekpWeHZPeHVkYUxQVkYwcncxdnB5TkFIMXUvcjZtSHdremNVSzRjbnFFMzc1?=
- =?utf-8?B?UmlFQjdvdythclBGWjloaVpvcjRiV0R4R1o2dUs0NjZHNlZheXJWN0FDb1p0?=
- =?utf-8?B?MHNaMG9GbG9GZjZQZDVjZ0FhQzR5WHpVL3lWSFdwUUFweThCV2YweG5naGY5?=
- =?utf-8?B?SlJ0YnNDSFdFUWhJd2wxVHQxNTFqZHZEQ0tOUFFscEVtV3JJRUxkaWMydUZv?=
- =?utf-8?B?VTduam5aK1JOU0ZaN05ydVB2NnVCSmZRZmpXMHJ5bzFWSHF6YTV3L0dORU5R?=
- =?utf-8?B?MFQ2NUhBd1Q3dGczM0lMbWw0bmtRQ0JDVXBRNnhNZzU5OXlOQVpJWTNXbXMw?=
- =?utf-8?B?c1EwNGEwaWlpMXJwd3pjc2dtOGptVllEbVJRNzFWNnI2eUl4djVzcEd1TTNB?=
- =?utf-8?B?dkJ4WWFpMThWOElCVWtlYnhMR3grd1kxNFR1T1MyWjM2aWJZL2hYZUJLTWo4?=
- =?utf-8?B?eHJUVkhic2ZKSnR3NHk5cjAybnZQRVNBUnUyTUFNazU5Z2NzSGU2bDBnaVhr?=
- =?utf-8?B?L3hvMEMwS0N3L0lydzRZYzRaM2dhTk5jdEo0UVBhYS92YTJLNEQzTjJkb1pw?=
- =?utf-8?B?YzhiQnB4MHNyOFRVM3RBeGhrbzU5NUJrUW81OFgyRVU0eHdNR1gwNjIyQ21N?=
- =?utf-8?B?RzM5N0ZwaHZrQkN0RXVQb2I5c1FvK28zbDFJMWdERkpzTVd2VXNCYmdMSXdH?=
- =?utf-8?B?UHM2Yk1jNXRlclVXMWpmQWhrcXJ5YjhCY3FFbS9WdWxYVFdsM0xnUHJhNjV3?=
- =?utf-8?B?RnFuL0RmU3duYnp5VG55TTBXYzlDTFZsR0dCeUxqNE5peE9ncytyUGZlWnN0?=
- =?utf-8?B?VjA2clk0RTZiUGtUbEdlL29mOXhuVW1aWldnRkJ3YWZwaFlRdFlMRUlIYWRo?=
- =?utf-8?B?cEpVTFpIYXNVN291bFM0MDlLSTAxREE3UDg5VHV3ZmxYVVFkYzJUMG9pdTNq?=
- =?utf-8?B?RHR4T2p4ODZFTEdmalpRUjYvMjhjOVpSa1p1Z1ZjUHhWUmdBeGNlNHRIOEo3?=
- =?utf-8?B?eDFxQTl6SGtJUnFLZ2M2ait5RkJUSHE2RVNjZ2VFV2hENGM0MWcrbmhCbzR3?=
- =?utf-8?B?eVlNbFNTVkJJblB5OFdTZFRmZXFLRHo5NWgwQlJFNSs5aFlSdHE1Z2NnQ1pP?=
- =?utf-8?B?L1UydEZQNHhHaTg1MXhBMlVTU2lMTDdEdENEVHczcGliNnI3KytxcEx6RjM4?=
- =?utf-8?B?TkVnYUFsdzZ0SlhDcURsR0IwTFFsSW9sY2xlSjRyOEdDcTQrb2I3QlFhWEN1?=
- =?utf-8?Q?CykQ94kqN5M2SibOGa+mHPY/LezJe8lKJWs2AXg?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 13273131-96d0-4580-ff6a-08d91bc4b128
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 May 2021 19:23:05.1341 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 5RI9USozFkfCw70tgP86v9dDWEMBfCNZhbFhTdBJoskdX/nzTRQucFaOGxt95zMGQKbWLbloQcbNQH04VCts+/HXZnuniYpPMuDLGBHvy7c=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6995
-Received-SPF: pass client-ip=40.107.5.104;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR03-VE1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210501003440.xoqjfmvwxu7ykwva@habkost.net>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.39,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -143,37 +80,418 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ qemu-devel@nongnu.org, Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-20.05.2021 22:17, Peter Maydell wrote:
-> On Tue, 4 May 2021 at 10:01, Vladimir Sementsov-Ogievskiy
-> <vsementsov@virtuozzo.com> wrote:
->>
->> The following changes since commit 53c5433e84e8935abed8e91d4a2eb813168a0ecf:
->>
->>    Merge remote-tracking branch 'remotes/rth-gitlab/tags/pull-tcg-20210501' into staging (2021-05-02 12:02:46 +0100)
->>
->> are available in the Git repository at:
->>
->>    https://src.openvz.org/scm/~vsementsov/qemu.git tags/pull-simplebench-2021-05-04
->>
->> for you to fetch changes up to e34bd02694026722410b80cee02ab7f33f893e9b:
->>
->>    MAINTAINERS: update Benchmark util: add git tree (2021-05-04 11:37:26 +0300)
->>
->> ----------------------------------------------------------------
->> scripts/simplebench improvements for 2021-05-04
->>
+On Fri, Apr 30, 2021 at 08:34:40PM -0400, Eduardo Habkost wrote:
+> On Thu, Apr 22, 2021 at 06:11:15PM +0200, Vitaly Kuznetsov wrote:
+> > As a preparatory patch to dropping Hyper-V CPUID leaves from
+> > feature_word_info[] stop using env->features[] as a temporary
+> > storage of Hyper-V CPUIDs, just build Hyper-V CPUID leaves directly
+> > from kvm_hyperv_properties[] data.
+> > 
+> > Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
+> > ---
+> >  target/i386/cpu.h     |  1 +
+> >  target/i386/kvm/kvm.c | 80 +++++++++++++++++++++++--------------------
+> >  2 files changed, 43 insertions(+), 38 deletions(-)
+> > 
+> > diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+> > index 570f916878f9..c8295aa2a1e7 100644
+> > --- a/target/i386/cpu.h
+> > +++ b/target/i386/cpu.h
+> > @@ -1684,6 +1684,7 @@ struct X86CPU {
+> >      uint32_t hyperv_interface_id[4];
+> >      uint32_t hyperv_version_id[4];
+> >      uint32_t hyperv_limits[3];
+> > +    uint32_t hyperv_nested[4];
+> >  
+> >      bool check_cpuid;
+> >      bool enforce_cpuid;
+> > diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
+> > index 7c751185491f..f791baa29acf 100644
+> > --- a/target/i386/kvm/kvm.c
+> > +++ b/target/i386/kvm/kvm.c
+> > @@ -1111,7 +1111,6 @@ static int hv_cpuid_check_and_set(CPUState *cs, struct kvm_cpuid2 *cpuid,
+> >                                    int feature)
+> >  {
+> >      X86CPU *cpu = X86_CPU(cs);
+> > -    CPUX86State *env = &cpu->env;
+> >      uint32_t r, fw, bits;
+> >      uint64_t deps;
+> >      int i, dep_feat;
+> > @@ -1151,8 +1150,6 @@ static int hv_cpuid_check_and_set(CPUState *cs, struct kvm_cpuid2 *cpuid,
+> >                  return 0;
+> >              }
+> >          }
+> > -
+> > -        env->features[fw] |= bits;
+> >      }
+> >  
+> >      if (cpu->hyperv_passthrough) {
+> > @@ -1162,6 +1159,29 @@ static int hv_cpuid_check_and_set(CPUState *cs, struct kvm_cpuid2 *cpuid,
+> >      return 0;
+> >  }
+> >  
+> > +static uint32_t hv_build_cpuid_leaf(CPUState *cs, uint32_t fw)
+> > +{
+> > +    X86CPU *cpu = X86_CPU(cs);
+> > +    uint32_t r = 0;
+> > +    int i, j;
+> > +
+> > +    for (i = 0; i < ARRAY_SIZE(kvm_hyperv_properties); i++) {
+> > +        if (!hyperv_feat_enabled(cpu, i)) {
+> > +            continue;
+> > +        }
+> > +
+> > +        for (j = 0; j < ARRAY_SIZE(kvm_hyperv_properties[i].flags); j++) {
+> > +            if (kvm_hyperv_properties[i].flags[j].fw != fw) {
+> > +                continue;
+> > +            }
+> > +
+> > +            r |= kvm_hyperv_properties[i].flags[j].bits;
+> > +        }
+> > +    }
+> > +
+> > +    return r;
+> > +}
+> > +
+> >  /*
+> >   * Fill in Hyper-V CPUIDs. Returns the number of entries filled in cpuid_ent in
+> >   * case of success, errno < 0 in case of failure and 0 when no Hyper-V
+> > @@ -1171,9 +1191,8 @@ static int hyperv_handle_properties(CPUState *cs,
+> >                                      struct kvm_cpuid_entry2 *cpuid_ent)
+> >  {
+> >      X86CPU *cpu = X86_CPU(cs);
+> > -    CPUX86State *env = &cpu->env;
+> >      struct kvm_cpuid2 *cpuid;
+> > -    struct kvm_cpuid_entry2 *c;
+> > +    struct kvm_cpuid_entry2 *c, *c2;
+> >      uint32_t cpuid_i = 0;
+> >      int r;
+> >  
+> > @@ -1194,9 +1213,7 @@ static int hyperv_handle_properties(CPUState *cs,
+> >          }
+> >  
+> >          if (!r) {
 > 
-> I couldn't find the gpg key you signed this with on the public
-> keyserver. Could you point me at where you uploaded it, please?
+> I think I now I understand why removing FEAT_HYPERV_* makes sense:
+> 
+> The rules mapping hyperv features to CPUID bits were encoded
+> twice in the code: in both hyperv_handle_properties() and
+> kvm_hyperv_properties[].  More work to maintain the rules, and
+> too easy to accidentally make them inconsistent.
+> 
+> 
+> Now, let me see if I can prove to myself that the new code works:
+> 
+> > -            env->features[FEAT_HV_RECOMM_EAX] |=
+> > -                HV_ENLIGHTENED_VMCS_RECOMMENDED;
+> 
+> [Line1]
+> 
+> The only code reading env->features[FEAT_HV_RECOMM_EAX] seems to
+> be [Line2] below:
+> 
+>   eax = env->features[FEAT_HV_RECOMM_EAX];
+> 
+> which is replaced with [Line3]:
+> 
+>   c->eax = hv_build_cpuid_leaf(cs, FEAT_HV_RECOMM_EAX);
+> 
+> so if hv_build_cpuid_leaf() do its job and set return
+> HV_ENLIGHTENED_VMCS_RECOMMENDED set at [Line2], we can safely
+> delete [Line1].
+> 
+> Will hv_build_cpuid_leaf() set HV_ENLIGHTENED_VMCS_RECOMMENDED in
+> [Line2] for all cases where [Line1] was being executed?
+> 
+> Let's check what's necessary to make hv_build_cpuid_leaf()
+> set HV_ENLIGHTENED_VMCS_RECOMMENDED:
+> 
+> There's only one entry with
+> FEAT_HV_RECOMM_EAX/HV_ENLIGHTENED_VMCS_RECOMMENDED at
+> kvm_hyperv_properties:
+> 
+>     [HYPERV_FEAT_EVMCS] = {
+>         .desc = "enlightened VMCS (hv-evmcs)",
+>         .flags = {
+>             {.fw = FEAT_HV_RECOMM_EAX,
+>              .bits = HV_ENLIGHTENED_VMCS_RECOMMENDED}
+>         },
+>         .dependencies = BIT(HYPERV_FEAT_VAPIC)
+>     },
+> 
+> The logic at hv_build_cpuid_leaf() will make
+> HV_ENLIGHTENED_VMCS_RECOMMENDED be set only if
+> hyperv_feat_enabled(HYPERV_FEAT_EVMCS) is true.  Which is what I
+> expected, because the line of code you are removing is inside a
+> hyperv_feat_enabled(cpu, HYPERV_FEAT_EVMCS) conditional.
+> 
+> For reference, hyperv_feat_enabled(cpu, feat) returns:
+>   !!(cpu->hyperv_features & BIT(feat))
+> 
+> I don't see any code _clearing_ hyperv_features, except for
+> properties that could change hyperv_features.  I don't expect the
+> "hv-evmcs" QOM property to be touched by this function, so we
+> should be safe: if hyperv_feat_enabled(cpu, HYPERV_FEAT_EVMCS)
+> returned before executing [Line1], it will return true when
+> executing [Line2].
+> 
+> This means hv_build_cpuid_leaf() will set
+> HV_ENLIGHTENED_VMCS_RECOMMENDED if
+> hyperv_feat_enabled(HYPERV_FEAT_EVMCS) is true, and
+> hyperv_feat_enabled(HYPERV_FEAT_EVMCS) will be true at [Line2] on
+> all cases when [Line1] was being executed.
+> 
+> We also need to be sure the HV_ENLIGHTENED_VMCS_RECOMMENDED will
+> be _unset_ at hv_build_cpuid_leaf() when expected, but the rules
+> are trickier (due to hyperv_passthrough). I'll try to prove that
+> later.
+> 
+> 
+> > -            env->features[FEAT_HV_NESTED_EAX] = evmcs_version;
+> 
+> [Line4]
+> 
+> 
+> Can we delete [Line4]?
+> 
+> The only code reading env->features[FEAT_HV_NESTED_EAX]
+> is [Line5]:
+>     c->eax = env->features[FEAT_HV_NESTED_EAX];
+> which is replaced with [Line6]:
+>     c->eax = cpu->hyperv_nested[0];
+> 
+> We are also replacing env->features[FEAT_HV_NESTED_EAX] with
+> cpu->hyperv_nested[0], here:
+> 
+> > +            cpu->hyperv_nested[0] = evmcs_version;
+> 
+> This will make [Line6] set c->eax to evmcs_version, unless other
+> code writes to cpu->hyperv_nested[0].
+> 
+> I don't see any other code writing to hyperv_nested in this
+> patch, so we are good.
+> 
+> >          }
+> >      }
+> >  
+> > @@ -1235,13 +1252,6 @@ static int hyperv_handle_properties(CPUState *cs,
+> >              cpu->hyperv_version_id[3] = c->edx;
+> >          }
+> >  
+> > -        c = cpuid_find_entry(cpuid, HV_CPUID_FEATURES, 0);
+> > -        if (c) {
+> > -            env->features[FEAT_HYPERV_EAX] = c->eax;
+> 
+> [Line7A]
+> 
+> > -            env->features[FEAT_HYPERV_EBX] = c->ebx;
+> 
+> [Line7B]
+> 
+> > -            env->features[FEAT_HYPERV_EDX] = c->edx;
+> 
+> [Line7D]
+> 
+> 
+> Can we delete [Line7*]?
+> 
+> The only code reading env->features[FEAT_HYPERV_*] seems to be
+> [Line8*]:
+>     c->eax = env->features[FEAT_HYPERV_EAX];
+>     c->ebx = env->features[FEAT_HYPERV_EBX];
+>     c->edx = env->features[FEAT_HYPERV_EDX];
+> which is replaced by [Line9*]:
+>     c->eax = hv_build_cpuid_leaf(cs, FEAT_HYPERV_EAX);
+>     c->ebx = hv_build_cpuid_leaf(cs, FEAT_HYPERV_EBX);
+>     c->edx = hv_build_cpuid_leaf(cs, FEAT_HYPERV_EDX);
+> 
+> So we need to make sure hv_build_cpuid_leaf() will return the
+> right values at [Line9*].
+> 
+> This one will be trickier to evaluate: there are lots of entries in
+> kvm_hyperv_properties[] that affect FEAT_HYPERV_EAX.
+> 
+> I will pause here and continue next week.   :)
 > 
 
-Here it is: http://keys.gnupg.net/pks/lookup?op=vindex&fingerprint=on&search=0x561F24C1F19F79FB
+Continuing:
 
+So, [Line7*] above was for hyperv_passthrough mode only.  This
+means now hv-passthrough will enable only known features (the
+ones at kvm_hyperv_properties).
+
+The same comment I sent to the previous patch applies here:
+
+"""
+This makes hv-passthrough less useful for debugging and
+development, but safer for using in production.  I assume we want
+to eventually make hv-passthrough supported in production when
+live migration support isn't required.
+
+I'll trust your judgement here and assume this is really a good
+change, but maybe this should be documented more explicitly in
+the hv-passthrough section at docs/hyperv.txt?
+"""
+
+
+
+> This smells like it could have been split into smaller patches,
+> but I'm not sure if it would be possible.  Maybe the existing
+> code was too tangled for splitting this refactor into smaller
+> patches.
+> 
+> 
+> > -        }
+> > -
+> >          c = cpuid_find_entry(cpuid, HV_CPUID_IMPLEMENT_LIMITS, 0);
+> >          if (c) {
+> >              cpu->hv_max_vps = c->eax;
+> > @@ -1252,23 +1262,8 @@ static int hyperv_handle_properties(CPUState *cs,
+> >  
+> >          c = cpuid_find_entry(cpuid, HV_CPUID_ENLIGHTMENT_INFO, 0);
+> >          if (c) {
+> > -            env->features[FEAT_HV_RECOMM_EAX] = c->eax;
+
+Same as above: this is hv-passthrough code, and the comment above
+applies.
+
+> >              cpu->hyperv_spinlock_attempts = c->ebx;
+> >          }
+> > -        c = cpuid_find_entry(cpuid, HV_CPUID_NESTED_FEATURES, 0);
+> > -        if (c) {
+> > -            env->features[FEAT_HV_NESTED_EAX] = c->eax;
+> > -        }
+
+Same as above: this is hv-passthrough code, and the comment above
+applies.
+
+> > -    }
+> > -
+
+Now we're outside the hv-passthrough code:
+
+> > -    if (cpu->hyperv_no_nonarch_cs == ON_OFF_AUTO_ON) {
+> > -        env->features[FEAT_HV_RECOMM_EAX] |= HV_NO_NONARCH_CORESHARING;
+> > -    } else if (cpu->hyperv_no_nonarch_cs == ON_OFF_AUTO_AUTO) {
+> > -        c = cpuid_find_entry(cpuid, HV_CPUID_ENLIGHTMENT_INFO, 0);
+> > -        if (c) {
+> > -            env->features[FEAT_HV_RECOMM_EAX] |=
+> > -                c->eax & HV_NO_NONARCH_CORESHARING;
+> > -        }
+> >      }
+
+The hack above is copied to [Line10] below.  Looks OK.
+
+> >  
+> >      /* Features */
+> > @@ -1298,9 +1293,6 @@ static int hyperv_handle_properties(CPUState *cs,
+> >          r |= 1;
+> >      }
+> >  
+> > -    /* Not exposed by KVM but needed to make CPU hotplug in Windows work */
+> > -    env->features[FEAT_HYPERV_EDX] |= HV_CPU_DYNAMIC_PARTITIONING_AVAILABLE;
+
+The hack above is copied to [Line10] below.  Looks OK.
+
+> > -
+> >      if (r) {
+> >          r = -ENOSYS;
+> >          goto free;
+> > @@ -1330,15 +1322,27 @@ static int hyperv_handle_properties(CPUState *cs,
+> >  
+> >      c = &cpuid_ent[cpuid_i++];
+> >      c->function = HV_CPUID_FEATURES;
+> > -    c->eax = env->features[FEAT_HYPERV_EAX];
+> 
+> [Line8A]
+> 
+> > -    c->ebx = env->features[FEAT_HYPERV_EBX];
+> 
+> [Line8B]
+> 
+> > -    c->edx = env->features[FEAT_HYPERV_EDX];
+> 
+> [Line8D]
+> 
+> > +    c->eax = hv_build_cpuid_leaf(cs, FEAT_HYPERV_EAX);
+> 
+> [Line9A]
+> 
+> > +    c->ebx = hv_build_cpuid_leaf(cs, FEAT_HYPERV_EBX);
+> 
+> [Line9B]
+> 
+> > +    c->edx = hv_build_cpuid_leaf(cs, FEAT_HYPERV_EDX);
+> 
+> [Line9D]
+
+Already reviewed at [Line7*] above.
+
+> 
+> > +
+> > +    /* Not exposed by KVM but needed to make CPU hotplug in Windows work */
+> > +    c->edx |= HV_CPU_DYNAMIC_PARTITIONING_AVAILABLE;
+
+[Line11]
+
+Looks OK, but I wonder if this could be encoded in
+kvm_hyperv_properties somehow.
+
+
+> >  
+> >      c = &cpuid_ent[cpuid_i++];
+> >      c->function = HV_CPUID_ENLIGHTMENT_INFO;
+> > -    c->eax = env->features[FEAT_HV_RECOMM_EAX];
+> 
+> [Line2]
+> 
+> > +    c->eax = hv_build_cpuid_leaf(cs, FEAT_HV_RECOMM_EAX);
+> 
+> [Line3]
+> 
+> >      c->ebx = cpu->hyperv_spinlock_attempts;
+> >  
+> > +    if (cpu->hyperv_no_nonarch_cs == ON_OFF_AUTO_ON) {
+> > +        c->eax |= HV_NO_NONARCH_CORESHARING;
+> > +    } else if (cpu->hyperv_no_nonarch_cs == ON_OFF_AUTO_AUTO) {
+> > +        c2 = cpuid_find_entry(cpuid, HV_CPUID_ENLIGHTMENT_INFO, 0);
+> > +        if (c2) {
+> > +            c->eax |= c2->eax & HV_NO_NONARCH_CORESHARING;
+> > +        }
+> > +    }
+
+[Line10]
+
+Matches the code above.
+
+> > +
+> >      c = &cpuid_ent[cpuid_i++];
+> >      c->function = HV_CPUID_IMPLEMENT_LIMITS;
+> >      c->eax = cpu->hv_max_vps;
+> > @@ -1358,7 +1362,7 @@ static int hyperv_handle_properties(CPUState *cs,
+> >  
+> >          c = &cpuid_ent[cpuid_i++];
+> >          c->function = HV_CPUID_NESTED_FEATURES;
+> > -        c->eax = env->features[FEAT_HV_NESTED_EAX];
+> > +        c->eax = cpu->hyperv_nested[0];
+> >      }
+> >      r = cpuid_i;
+> >  
+> > -- 
+> > 2.30.2
+> > 
+> 
+
+Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
+
+Sorry for the long delay in reviewing this!
 
 -- 
-Best regards,
-Vladimir
+Eduardo
+
 
