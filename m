@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9509638B5A5
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 19:58:42 +0200 (CEST)
-Received: from localhost ([::1]:51008 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F23A38B597
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 19:55:14 +0200 (CEST)
+Received: from localhost ([::1]:42604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljmwT-00034P-Mi
-	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 13:58:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56244)
+	id 1ljmt7-0005fE-Iy
+	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 13:55:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56312)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ljmrQ-0002pQ-GZ
- for qemu-devel@nongnu.org; Thu, 20 May 2021 13:53:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28183)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ljmrX-0002sU-IU
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 13:53:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56418)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ljmr1-0006aO-AV
- for qemu-devel@nongnu.org; Thu, 20 May 2021 13:53:21 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ljmr9-0006dr-Av
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 13:53:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621533181;
+ s=mimecast20190719; t=1621533188;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TTSBUHyyZ4C9VH87or9MiGZwdNubQ0xMg/dYqRxpjps=;
- b=AhbSqaqO1DTg3zOWc4Zl0eNyfru10Jfi+YJ8mnW0MUGOpoqPcwGvUVS9UevcTWotl6T09l
- 9X11tNekbv8/+d/ROnnd7Era5Uilvlqo1qw+KqS224wq8QTFgMUUVIinfWVp/+rDhNHrYu
- 1ZvL4SVTSOAQ8Sfajr6wIChKm6pg2UI=
+ bh=vqpZSkG9ZDrPtDa0QqRSNgCGX7MW2yyDXgUF7Am+AfI=;
+ b=LyViRd0KHqLb4D8BSPLULaUT5laOT2ITGjCs4C1nbBWMjS3iMRs1WlAGg5oGf7GnaMGq92
+ B2hcJVLa5nyvStV1fjas7wm50wE6875sg5zhSWR5BzvJC5f/nNNVV5/HLuFoxoKrbgfTpT
+ aNM/VLj71k3wjhR5IaCq6uVZUDl5YZk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-505-hG6Mie6FPG2dMtuhmEajYw-1; Thu, 20 May 2021 13:52:58 -0400
-X-MC-Unique: hG6Mie6FPG2dMtuhmEajYw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-300-2P1giw3kP2KmsIEy0jd87Q-1; Thu, 20 May 2021 13:52:58 -0400
+X-MC-Unique: 2P1giw3kP2KmsIEy0jd87Q-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CB74F800D62;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C5C6A501ED;
  Thu, 20 May 2021 17:52:57 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
  [10.36.114.17])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9A9A219C59;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9976F5D74D;
  Thu, 20 May 2021 17:52:57 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 3BA101138529; Thu, 20 May 2021 19:52:56 +0200 (CEST)
+ id 3F97811384A2; Thu, 20 May 2021 19:52:56 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/15] qapi: Add test for nonexistent schema file
-Date: Thu, 20 May 2021 19:52:43 +0200
-Message-Id: <20210520175256.1119684-3-armbru@redhat.com>
+Subject: [PULL 03/15] qapi/source: Remove line number from QAPISourceInfo
+ initializer
+Date: Thu, 20 May 2021 19:52:44 +0200
+Message-Id: <20210520175256.1119684-4-armbru@redhat.com>
 In-Reply-To: <20210520175256.1119684-1-armbru@redhat.com>
 References: <20210520175256.1119684-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -85,54 +86,64 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: John Snow <jsnow@redhat.com>
 
-This tests the error-return pathway introduced in the previous commit.
-(Thanks to Paolo for the help with the Meson magic.)
+With the QAPISourceInfo(None, None, None) construct gone, there's no
+longer any reason to have to specify that a file starts on the first
+line. Remove it from the initializer and default it to 1.
+
+Remove the last vestiges where we check for 'line' being unset, that
+can't happen, now.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
-
-Message-Id: <20210519183951.3946870-3-jsnow@redhat.com>
+Message-Id: <20210519183951.3946870-4-jsnow@redhat.com>
 Reviewed-by: Markus Armbruster <armbru@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- tests/qapi-schema/meson.build        | 7 ++++++-
- tests/qapi-schema/missing-schema.err | 1 +
- tests/qapi-schema/missing-schema.out | 0
- 3 files changed, 7 insertions(+), 1 deletion(-)
- create mode 100644 tests/qapi-schema/missing-schema.err
- create mode 100644 tests/qapi-schema/missing-schema.out
+ scripts/qapi/parser.py |  2 +-
+ scripts/qapi/source.py | 10 +++-------
+ 2 files changed, 4 insertions(+), 8 deletions(-)
 
-diff --git a/tests/qapi-schema/meson.build b/tests/qapi-schema/meson.build
-index d7163e6601..dc448e8f74 100644
---- a/tests/qapi-schema/meson.build
-+++ b/tests/qapi-schema/meson.build
-@@ -199,11 +199,16 @@ schemas = [
-   'unknown-escape.json',
-   'unknown-expr-key.json',
- ]
-+schemas = files(schemas)
-+
-+# Intentionally missing schema file test -- not passed through files():
-+schemas += [meson.current_source_dir() / 'missing-schema.json']
+diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
+index a53b735e7d..39dbcc4eac 100644
+--- a/scripts/qapi/parser.py
++++ b/scripts/qapi/parser.py
+@@ -47,7 +47,7 @@ def __init__(self, fname, previously_included=None, incl_info=None):
+         if self.src == '' or self.src[-1] != '\n':
+             self.src += '\n'
+         self.cursor = 0
+-        self.info = QAPISourceInfo(fname, 1, incl_info)
++        self.info = QAPISourceInfo(fname, incl_info)
+         self.line_pos = 0
+         self.exprs = []
+         self.docs = []
+diff --git a/scripts/qapi/source.py b/scripts/qapi/source.py
+index 1ade864d7b..04193cc964 100644
+--- a/scripts/qapi/source.py
++++ b/scripts/qapi/source.py
+@@ -31,10 +31,9 @@ def __init__(self) -> None:
+ class QAPISourceInfo:
+     T = TypeVar('T', bound='QAPISourceInfo')
  
- # Because people may want to use test-qapi.py from the command line, we
- # are not using the "#! /usr/bin/env python3" trick here.  See
- # docs/devel/build-system.txt
--test('QAPI schema regression tests', python, args: files('test-qapi.py', schemas),
-+test('QAPI schema regression tests', python,
-+     args: files('test-qapi.py') + schemas,
-      env: test_env, suite: ['qapi-schema', 'qapi-frontend'])
+-    def __init__(self, fname: str, line: int,
+-                 parent: Optional['QAPISourceInfo']):
++    def __init__(self, fname: str, parent: Optional['QAPISourceInfo']):
+         self.fname = fname
+-        self.line = line
++        self.line = 1
+         self.parent = parent
+         self.pragma: QAPISchemaPragma = (
+             parent.pragma if parent else QAPISchemaPragma()
+@@ -52,10 +51,7 @@ def next_line(self: T) -> T:
+         return info
  
- diff = find_program('diff')
-diff --git a/tests/qapi-schema/missing-schema.err b/tests/qapi-schema/missing-schema.err
-new file mode 100644
-index 0000000000..b4d9ff1fb2
---- /dev/null
-+++ b/tests/qapi-schema/missing-schema.err
-@@ -0,0 +1 @@
-+can't read schema file 'missing-schema.json': No such file or directory
-diff --git a/tests/qapi-schema/missing-schema.out b/tests/qapi-schema/missing-schema.out
-new file mode 100644
-index 0000000000..e69de29bb2
+     def loc(self) -> str:
+-        ret = self.fname
+-        if self.line is not None:
+-            ret += ':%d' % self.line
+-        return ret
++        return f"{self.fname}:{self.line}"
+ 
+     def in_defn(self) -> str:
+         if self.defn_name:
 -- 
 2.26.3
 
