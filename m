@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E857238AFF9
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 15:28:49 +0200 (CEST)
-Received: from localhost ([::1]:40508 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C7BD38AFFE
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 15:31:02 +0200 (CEST)
+Received: from localhost ([::1]:42964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljijI-0006A2-F5
-	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 09:28:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45426)
+	id 1ljilR-0007uC-LZ
+	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 09:31:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46452)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ljieK-0007oR-C2
- for qemu-devel@nongnu.org; Thu, 20 May 2021 09:23:40 -0400
-Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:46884)
+ id 1ljihe-0004Nd-Td
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 09:27:07 -0400
+Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:45734)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ljieG-0002B5-D2
- for qemu-devel@nongnu.org; Thu, 20 May 2021 09:23:40 -0400
-Received: by mail-ej1-x62f.google.com with SMTP id u21so25204598ejo.13
- for <qemu-devel@nongnu.org>; Thu, 20 May 2021 06:23:35 -0700 (PDT)
+ id 1ljihd-0004GK-2D
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 09:27:06 -0400
+Received: by mail-ed1-x533.google.com with SMTP id a25so19364282edr.12
+ for <qemu-devel@nongnu.org>; Thu, 20 May 2021 06:27:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=q7nhkV8dR1gqqYkRQBangM/CVplsjsHm8X43lQFIaN4=;
- b=K5m6Af5EnC1QFJaTFu/+981ZG4I9HbnU83bNxHeQ9+p9+pNihO4m4Ob1pbZQX2JJ2/
- IR2PWJmU5wSEYB725LuewoX7BkxZD8Vc4QMfBDrJ4oufbdmAYO8jkOxY4BXfAwxP9DJs
- owcapw+Iz3c1t9p+QJNh7xoOWfgleFAHzwghx6gdZsGbQi76d4fA+bhTG7DobgSamQIs
- F4nbsa7V0gtzj7UB4LvVtXH+g4i0BSfj48PrjKu3GgkITZFOgb2U2SrsozTHE4p3A98l
- GA0DZdMMkVGJiVBiGZqjj18jNJeJLa/Z7dmivBB8dmcgRQmXG1lkktbnLjk8XaKcvqEW
- A4XQ==
+ :cc; bh=fZ2Vkng0XpOtvMTBpyhvkOO+SzE5TIyduVzbsQrgIZ0=;
+ b=GRlP+EnA8DJeCYh7WdQ2FCHwNnP3P4NDjNiM2oHjFyzuiVLPv1aHrTffTbcckwExi6
+ eGRZnC1jFP5au8CoYcOF0PHbfOEpLYFKoqjvxBDthqXC7thOU2lYenVOvH1GlkGVLq2S
+ Yl8lLIR9BOKSawTRDg9ClOtfpbRo0WGZfbF6BmDnBypVY+UhtNOcKWWf0Dm5QibyI1v9
+ hPnDYTTK6tmvdrrq7NU7qOqy4X0i9y1aYfeuJnyz/NuVZfhn4j0ZYSRlTx6UHWTuKCYI
+ gdiLpXnpez1HWBbeFeFWwufWLMI7xofNX6QLM07IGmHUBJXw8H+FFoV4EreHDQ2J4qZV
+ mRvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=q7nhkV8dR1gqqYkRQBangM/CVplsjsHm8X43lQFIaN4=;
- b=nedx6TfBo8bWRw0qGfhz6zoPcSUIa48E7DfZ647ItakCZ2HtCTQ7ndCePXBWtE46Yk
- RRXDg9XyHIVC1eXs65HvEZNg6vfsLTpSqwkxeSEEdDUVJvmYo+aSau+jYg2VDXP3vQAk
- QmL0np82QMncygJrVhR9X8M0uhj7BmzHMdHbigzZVWuoQ2iaH0rwhdvc/Zgo5Lg6WiLb
- TR0mHUkGoSvaYOXo8aORudyf+5Rsg3HKBp0UYoReyt1PVy3Slfmgq2m7tSy0eTlzI+pc
- vbaxW5+pxQHssvElYDGsth7+2AKg9NMbbCUifJ5mO70i8YeQFxZ3ZNdzXYAzadajpAk5
- 5WTQ==
-X-Gm-Message-State: AOAM5305f2/NjNjmUFAIwMjiLbmKDqtnG7+I2t0lS/4SH328C4Xc3kz8
- EueSRSxcYOsXnnqES6HkYS+aMNyCN4v3/bo358IINw==
-X-Google-Smtp-Source: ABdhPJy5YwrBemxujU1VKNwJGdyISTtAHZR/DhC0DHw/skItXmS7JPq5kbVBtMtISOIa2SHalelYwwDPlTDhsJq4Quw=
-X-Received: by 2002:a17:906:b74f:: with SMTP id
- fx15mr4707742ejb.85.1621517014894; 
- Thu, 20 May 2021 06:23:34 -0700 (PDT)
+ bh=fZ2Vkng0XpOtvMTBpyhvkOO+SzE5TIyduVzbsQrgIZ0=;
+ b=p8MtWyxGE8XKFDQ8rX1MX5GZsre7615X6CKfwIML4UcYpcNO1s+EVjMUGjZNqZIdMB
+ ELGgNJ6C2Ai84dMa//sWH6KFd0n0nQW8kese1AZ8fhuam9wX0lDvV3CM3F67y8gE8djp
+ h832zhVkFEliFBANf6+Xbe7SG62otIR5UjQvWTzl6jXw5e+2QaK/Z5uJze2sPm8ObiT4
+ O7ASyYBttHjQksxmQk1B2AplWEXW9Uapk+YAKEJXx1X868F8ezYpiYdKceoGd75pSxug
+ vCP8rgONSLjlSPLxlESFQjbzB9B5unU0ddQXRV/sTJcLxEgE1uZHQh0WJsVUjYbIxRx6
+ Q66g==
+X-Gm-Message-State: AOAM531b1Zg03wlaIHlccTmfxl+aDpJ6RHj9CchBRkCivCN7XJRVbc2i
+ r1mpw0Qp4MONCGWOvOwrKX8nNN7spsl+Ir5iZBHb4w==
+X-Google-Smtp-Source: ABdhPJytV0n9jIqqM01zR+au3Pja6orNwzsxKjZx674/DLHOVIC0Cv4lpIzo+HOt9bHJPkeyfGadKYUkH7SrEwRr2sY=
+X-Received: by 2002:aa7:cb0a:: with SMTP id s10mr4962484edt.36.1621517223537; 
+ Thu, 20 May 2021 06:27:03 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210510190844.17799-1-peter.maydell@linaro.org>
-In-Reply-To: <20210510190844.17799-1-peter.maydell@linaro.org>
+References: <20210520082257.187061-1-pbonzini@redhat.com>
+In-Reply-To: <20210520082257.187061-1-pbonzini@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 20 May 2021 14:23:16 +0100
-Message-ID: <CAFEAcA-WwZTSGx0tg1msLw2BeFvwdv9_45tEL1gtFntN2MDoTQ@mail.gmail.com>
-Subject: Re: [PATCH 0/6] hw/arm: Fix modelling of SSE-300 TCMs and SRAM
-To: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Date: Thu, 20 May 2021 14:26:45 +0100
+Message-ID: <CAFEAcA_MV=UiHW4Kp3Zb4iT_5BHgqVwj9Qem1xjmp1AJ++K=sQ@mail.gmail.com>
+Subject: Re: [PULL 00/26] Misc patches for 2021-05-20
+To: Paolo Bonzini <pbonzini@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::533;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x533.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,40 +76,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kumar Gala <kumar.gala@linaro.org>,
- Jimmy Brisson <jimmy.brisson@linaro.org>,
- Kevin Townsend <kevin.townsend@linaro.org>,
- Devaraj Ranganna <devaraj.ranganna@linaro.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 10 May 2021 at 20:08, Peter Maydell <peter.maydell@linaro.org> wrote:
+On Thu, 20 May 2021 at 09:31, Paolo Bonzini <pbonzini@redhat.com> wrote:
 >
-> This patchset fixes some bugs in how we were modelling the
-> TCMs and the SRAM in the SSE-300 which were preventing
-> Arm TF-M from booting on our AN547 model; there are also
-> some fixes to things I noticed while I was in the code.
+> The following changes since commit 15e147b3c778f9f4c08c79b99747b848b6e2117b:
 >
-> The specific bugs preventing boot were:
->  * SRAM_ADDR_WIDTH for the AN547 is 21, not 15, so the SRAM
->    area was too small
->  * we were putting the SRAMs at the wrong address (0x2100_0000
->    for SSE-300, not 0x2000_0000 as for SSE-200)
+>   Merge remote-tracking branch 'remotes/nvme/tags/nvme-next-pull-request' into staging (2021-05-18 12:22:16 +0100)
 >
-> The other stuff I've fixed is:
->  * we were modelling the SRAM in the AN524 both in the SSE
->    and in the board model (harmlessly, as the board-model
->    memory was just always shadowed in the memory map and
->    unreachable)
->  * we were modelling the TCMs in the AN547 board model,
->    which is conceptually wrong because in hardware they're
->    part of the SSE-300. No guest-visible change, but it will
->    avoid problems if/when we add another SSE-300 board model
+> are available in the Git repository at:
 >
-> thanks
-> -- PMM
+>   https://gitlab.com/bonzini/qemu.git tags/tags/for-upstream-v2
+>
+> for you to fetch changes up to 976551ba504a3284f9ab9862d9434b422c6841a1:
+>
+>   scsi-generic: pass max_segments via max_iov field in BlockLimits (2021-05-18 17:51:15 +0200)
+>
+> ----------------------------------------------------------------
+> * submodule cleanups (Philippe, myself)
+> * tiny step towards a usable preconfig mode (myself)
+> * bump Meson submodule (myself)
+> * Kconfig and LOCK_GUARD cleanups (philippe)
+> * new x86 CPUID feature (Yang Zhong)
+> * "-object qtest" support (myself)
+> * Dirty ring support for KVM (Peter)
+> * Fixes for 6.0 command line parsing breakage (myself)
+> * Fix for macOS 11.3 SDK (Katsuhiro)
+> * Fix for scsi-generic handling (myself)
+>
 
-Ping for code review, please?
+
+Fails to build on PPC64:
+
+WARNING: Project specifies a minimum meson_version '>=0.55.0' but uses
+features which were added in newer versions:
+ * 0.57.0: {'test() timeout <= 0'}
+
+
+ERROR: Could not detect Ninja v1.8.2 or newer
+
+
+(This system has ninja-build 1.7.2.)
+
 
 thanks
 -- PMM
