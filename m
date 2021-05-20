@@ -2,51 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1762638AFD1
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 15:21:40 +0200 (CEST)
-Received: from localhost ([::1]:49904 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 797C738AFD0
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 15:21:37 +0200 (CEST)
+Received: from localhost ([::1]:51492 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljicN-0001TC-3E
-	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 09:21:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43866)
+	id 1ljicK-0002c9-9C
+	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 09:21:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44162)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bruno.larsen@eldorado.org.br>)
- id 1ljiZp-0007Ke-DW; Thu, 20 May 2021 09:19:02 -0400
-Received: from [201.28.113.2] (port=6295 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bruno.larsen@eldorado.org.br>)
- id 1ljiZm-0007R1-Sf; Thu, 20 May 2021 09:19:01 -0400
-Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Thu, 20 May 2021 10:18:54 -0300
-Received: from [127.0.0.1] (unknown [10.10.71.235])
- by power9a (Postfix) with ESMTPS id A30AD8013D0;
- Thu, 20 May 2021 10:18:54 -0300 (-03)
-Subject: Re: [PATCH 24/24] target/ppc: Restrict ppc_cpu_tlb_fill to TCG
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20210518201146.794854-1-richard.henderson@linaro.org>
- <20210518201146.794854-25-richard.henderson@linaro.org>
-From: Bruno Piazera Larsen <bruno.larsen@eldorado.org.br>
-Message-ID: <c50f336a-37bc-2d16-0c7f-87562cb017c3@eldorado.org.br>
-Date: Thu, 20 May 2021 10:18:54 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ljial-0000gw-61
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 09:19:59 -0400
+Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529]:45632)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ljiaj-00089k-Fz
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 09:19:58 -0400
+Received: by mail-ed1-x529.google.com with SMTP id a25so19337160edr.12
+ for <qemu-devel@nongnu.org>; Thu, 20 May 2021 06:19:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=q/5ORSFjEJgAf31kwGSzu+ywy7zE3Mxnq87AOx2Qan4=;
+ b=ALfDlIU/G8malmyUMbWXchTRCSnsk+dzgiXY0xxXpHxe3Rx8wlQANJTZ3DmG6lvrqW
+ RHCg032L+mM19KR055Vi9nogP5SnkwxdqJ0tN9dOefm7OGul4VfWIbyHOEtwe1pHdKws
+ wGrKMhMny1/4LCi8Ly68463gGvY36FOfqi9a1/LhZKUPGw2dRzhEapSZASvxMwWmMgMh
+ +rcD73F2aU2p04ofhDgkpXVadFQE2TaE/llqXRGgC5tEa2V2eNUW2keXsfjvOQkfA8vB
+ UOID/6WSgWArM0cKo6lnB2lNLk8gREMWeDXgVGJy3Xn7wfPOv3rm+fM+8NUoW4K+BfT2
+ aheA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=q/5ORSFjEJgAf31kwGSzu+ywy7zE3Mxnq87AOx2Qan4=;
+ b=BIUEqUFDNbTcmtvQs35jh2nHt4Z2wXMW2JPYcoiwtZEQP+3duOqY1EtFRmY/4BX0Jo
+ RhcwpUCwnraMUSoeQPbAd79lxP8AOkkFkuW2TIgcbbp/l9PySeKfnECRjIbP2siSN5rF
+ x4Cjq9dmNGMwtzWCAC//bQE2vPjLeF8+7SuLjEUXM+pc70ZcxTD/cymp9FG1NVHSGBN6
+ MvaAzv0+sQEWUWcQpXvaefJSxwBw0o9gWQqdpOssQwY7ao0eBF4oe1fuSOWe/IxlV2Fv
+ tzVlMhJsOgGMZA/lmal5gust4OACxT4g6oADLqzpBhxTpvNfX++IF0+mOo7hWTL0l1vF
+ 7umw==
+X-Gm-Message-State: AOAM532a+fkeR7iS+wH3mvVzNjNCJ5BAloRT9BmiuWLVRu/2usEdcdPN
+ tA5D4Zgm79w7/qMTAeWUw8z9kFox8D9UP5K9DlG/gA==
+X-Google-Smtp-Source: ABdhPJwgYZh4cBpaCl0PWThbNEyPm+O4xmIWk5FQGoNl0AWD4alCiL4VOlMggEMnh1rE079NUjWTmwbax2+ZLDV0nxo=
+X-Received: by 2002:aa7:dc12:: with SMTP id b18mr4928090edu.52.1621516796026; 
+ Thu, 20 May 2021 06:19:56 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210518201146.794854-25-richard.henderson@linaro.org>
-Content-Type: multipart/alternative;
- boundary="------------9A1B832A57354DB1474FE7D1"
-Content-Language: en-US
-X-OriginalArrivalTime: 20 May 2021 13:18:54.0866 (UTC)
- FILETIME=[AF08D720:01D74D7A]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
-Received-SPF: pass client-ip=201.28.113.2;
- envelope-from=bruno.larsen@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
- NICE_REPLY_A=-0.001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+References: <20210519183050.875453-1-richard.henderson@linaro.org>
+In-Reply-To: <20210519183050.875453-1-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 20 May 2021 14:19:37 +0100
+Message-ID: <CAFEAcA8NRdoZZvhY4mG6PKD628D2DW-zCkEQPNmsY-1Uk9xOpg@mail.gmail.com>
+Subject: Re: [PULL 00/50] target/i386 translate cleanups
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::529;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x529.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,113 +76,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a multi-part message in MIME format.
---------------9A1B832A57354DB1474FE7D1
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-
-
-On 18/05/2021 17:11, Richard Henderson wrote:
-> This function is used by TCGCPUOps, and is thus TCG specific.
+On Wed, 19 May 2021 at 19:30, Richard Henderson
+<richard.henderson@linaro.org> wrote:
 >
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->   target/ppc/mmu_helper.c | 2 ++
->   1 file changed, 2 insertions(+)
+> The following changes since commit c313e52e6459de2e9064767083a0c949c476e32b:
 >
-> diff --git a/target/ppc/mmu_helper.c b/target/ppc/mmu_helper.c
-> index 2535ea1836..78e6f7496b 100644
-> --- a/target/ppc/mmu_helper.c
-> +++ b/target/ppc/mmu_helper.c
-> @@ -2964,6 +2964,7 @@ hwaddr ppc_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
->       return -1;
->   }
->   
-> +#ifdef CONFIG_TCG
->   bool ppc_cpu_tlb_fill(CPUState *cs, vaddr eaddr, int size,
->                         MMUAccessType access_type, int mmu_idx,
->                         bool probe, uintptr_t retaddr)
-> @@ -2984,3 +2985,4 @@ bool ppc_cpu_tlb_fill(CPUState *cs, vaddr eaddr, int size,
->       raise_exception_err_ra(&cpu->env, cs->exception_index,
->                              cpu->env.error_code, retaddr);
->   }
-> +#endif
+>   Merge remote-tracking branch 'remotes/vivier2/tags/linux-user-for-6.1-pull-request' into staging (2021-05-18 16:17:22 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/rth7680/qemu.git tags/pull-x86-20210519
+>
+> for you to fetch changes up to 7fb7c42394c032eeaa419c869ff3b50491f6379d:
+>
+>   target/i386: Remove user-only i/o stubs (2021-05-19 12:17:23 -0500)
+>
+> ----------------------------------------------------------------
+> Eliminate user-only helper stubs for privledged insns.
+>
+> ----------------------------------------------------------------
 
-This patch makes it look like we would compile mmu_helper.c after all. 
-Is that it? That looks like the simplest solution (ifdef'ing away all 
-helpers) but I thought mmu_helper was supposed to have all TCG-only code 
-relating to MMU.
 
--- 
+Applied, thanks.
 
-Bruno Piazera Larsen
-Instituto de Pesquisas ELDORADO 
-<https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&utm_medium=email&utm_source=RD+Station>
-Departamento Computação Embarcada
-Analista de Software Trainee
-Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.1
+for any user-visible changes.
 
---------------9A1B832A57354DB1474FE7D1
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">On 18/05/2021 17:11, Richard Henderson
-      wrote:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:20210518201146.794854-25-richard.henderson@linaro.org">
-      <pre class="moz-quote-pre" wrap="">This function is used by TCGCPUOps, and is thus TCG specific.
-
-Signed-off-by: Richard Henderson <a class="moz-txt-link-rfc2396E" href="mailto:richard.henderson@linaro.org">&lt;richard.henderson@linaro.org&gt;</a>
----
- target/ppc/mmu_helper.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/target/ppc/mmu_helper.c b/target/ppc/mmu_helper.c
-index 2535ea1836..78e6f7496b 100644
---- a/target/ppc/mmu_helper.c
-+++ b/target/ppc/mmu_helper.c
-@@ -2964,6 +2964,7 @@ hwaddr ppc_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
-     return -1;
- }
- 
-+#ifdef CONFIG_TCG
- bool ppc_cpu_tlb_fill(CPUState *cs, vaddr eaddr, int size,
-                       MMUAccessType access_type, int mmu_idx,
-                       bool probe, uintptr_t retaddr)
-@@ -2984,3 +2985,4 @@ bool ppc_cpu_tlb_fill(CPUState *cs, vaddr eaddr, int size,
-     raise_exception_err_ra(&amp;cpu-&gt;env, cs-&gt;exception_index,
-                            cpu-&gt;env.error_code, retaddr);
- }
-+#endif</pre>
-    </blockquote>
-    <p>This patch makes it look like we would compile mmu_helper.c after
-      all. Is that it? That looks like the simplest solution (ifdef'ing
-      away all helpers) but I thought mmu_helper was supposed to have
-      all TCG-only code relating to MMU. <br>
-    </p>
-    <p>-- </p>
-    <div class="moz-signature">Bruno Piazera Larsen<br>
-      <a
-href="https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&amp;utm_medium=email&amp;utm_source=RD+Station">Instituto
-        de Pesquisas ELDORADO</a><br>
-      Departamento Computação Embarcada<br>
-      Analista de Software Trainee<br>
-      <a href="https://www.eldorado.org.br/disclaimer.html">Aviso Legal
-        - Disclaimer</a></div>
-  </body>
-</html>
-
---------------9A1B832A57354DB1474FE7D1--
+-- PMM
 
