@@ -2,53 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00DC038AE0B
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 14:22:04 +0200 (CEST)
-Received: from localhost ([::1]:55268 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0407E38AE3E
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 14:31:15 +0200 (CEST)
+Received: from localhost ([::1]:36692 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljhgg-0005V8-Gs
-	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 08:22:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58910)
+	id 1ljhpZ-00049B-Lc
+	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 08:31:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60396)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1ljhdb-0003ii-Tc
- for qemu-devel@nongnu.org; Thu, 20 May 2021 08:18:51 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:27874)
+ (Exim 4.90_1) (envelope-from <cmarinas@kernel.org>)
+ id 1ljhkb-0008M3-13
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 08:26:05 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33040)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1ljhdW-00041O-IU
- for qemu-devel@nongnu.org; Thu, 20 May 2021 08:18:51 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 71F1E746346;
- Thu, 20 May 2021 14:18:39 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 3D73D7462DB; Thu, 20 May 2021 14:18:39 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 3B9DB7462BD;
- Thu, 20 May 2021 14:18:39 +0200 (CEST)
-Date: Thu, 20 May 2021 14:18:39 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Subject: Re: [RFC PATCH 02/11] hw/ide: Add PCIIDEState::isa_bus link
-In-Reply-To: <ae7509a1-2934-7780-6fae-ea9f4bf16e8d@ilande.co.uk>
-Message-ID: <b1e050a-d98-b2cf-942b-ee92773e4f0@eik.bme.hu>
-References: <20210518215545.1793947-1-philmd@redhat.com>
- <20210518215545.1793947-3-philmd@redhat.com>
- <f571a63d-d6a2-2085-740-bcc59b3424e5@eik.bme.hu>
- <3ba44704-6418-4aee-23ad-7d4dcc1fe60d@redhat.com>
- <babbf5da-b4c0-9736-b09-426e3a358587@eik.bme.hu>
- <YKYfOMUvCnQTcQtZ@stefanha-x1.localdomain>
- <ae7509a1-2934-7780-6fae-ea9f4bf16e8d@ilande.co.uk>
+ (Exim 4.90_1) (envelope-from <cmarinas@kernel.org>)
+ id 1ljhkT-0007tD-Sk
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 08:26:04 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 5391A6124C;
+ Thu, 20 May 2021 12:25:53 +0000 (UTC)
+Date: Thu, 20 May 2021 13:25:50 +0100
+From: Catalin Marinas <catalin.marinas@arm.com>
+To: Steven Price <steven.price@arm.com>
+Subject: Re: [PATCH v12 3/8] arm64: mte: Sync tags for pages where PTE is
+ untagged
+Message-ID: <20210520122550.GD12251@arm.com>
+References: <20210517123239.8025-1-steven.price@arm.com>
+ <20210517123239.8025-4-steven.price@arm.com>
+ <20210519180610.GE21619@arm.com>
+ <3bac3a47-9f96-c7bf-e401-fdef60dcc9d8@arm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; format=flowed; charset=US-ASCII
-X-Spam-Probability: 8%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3bac3a47-9f96-c7bf-e401-fdef60dcc9d8@arm.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Received-SPF: pass client-ip=198.145.29.99; envelope-from=cmarinas@kernel.org;
+ helo=mail.kernel.org
+X-Spam_score_int: -66
+X-Spam_score: -6.7
+X-Spam_bar: ------
+X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -62,145 +56,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- John G Johnson <john.g.johnson@oracle.com>, Thomas Huth <thuth@redhat.com>,
- Jagannathan Raman <jag.raman@oracle.com>, John Snow <jsnow@redhat.com>,
- qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@redhat.com>
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Andrew Jones <drjones@redhat.com>, Haibo Xu <Haibo.Xu@arm.com>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>, qemu-devel@nongnu.org,
+ Marc Zyngier <maz@kernel.org>, Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, linux-kernel@vger.kernel.org,
+ Dave Martin <Dave.Martin@arm.com>, James Morse <james.morse@arm.com>,
+ linux-arm-kernel@lists.infradead.org, Thomas Gleixner <tglx@linutronix.de>,
+ Will Deacon <will@kernel.org>, kvmarm@lists.cs.columbia.edu,
+ Julien Thierry <julien.thierry.kdev@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 20 May 2021, Mark Cave-Ayland wrote:
-> On 20/05/2021 09:35, Stefan Hajnoczi wrote:
->> I realized I don't really understand how ISA IDE and PCI IDE interact in
->> PIIX3:
+On Thu, May 20, 2021 at 12:55:21PM +0100, Steven Price wrote:
+> On 19/05/2021 19:06, Catalin Marinas wrote:
+> > On Mon, May 17, 2021 at 01:32:34PM +0100, Steven Price wrote:
+> >> A KVM guest could store tags in a page even if the VMM hasn't mapped
+> >> the page with PROT_MTE. So when restoring pages from swap we will
+> >> need to check to see if there are any saved tags even if !pte_tagged().
+> >>
+> >> However don't check pages for which pte_access_permitted() returns false
+> >> as these will not have been swapped out.
+> >>
+> >> Signed-off-by: Steven Price <steven.price@arm.com>
+> >> ---
+> >>  arch/arm64/include/asm/pgtable.h |  9 +++++++--
+> >>  arch/arm64/kernel/mte.c          | 16 ++++++++++++++--
+> >>  2 files changed, 21 insertions(+), 4 deletions(-)
+> >>
+> >> diff --git a/arch/arm64/include/asm/pgtable.h b/arch/arm64/include/asm/pgtable.h
+> >> index 0b10204e72fc..275178a810c1 100644
+> >> --- a/arch/arm64/include/asm/pgtable.h
+> >> +++ b/arch/arm64/include/asm/pgtable.h
+> >> @@ -314,8 +314,13 @@ static inline void set_pte_at(struct mm_struct *mm, unsigned long addr,
+> >>  	if (pte_present(pte) && pte_user_exec(pte) && !pte_special(pte))
+> >>  		__sync_icache_dcache(pte);
+> >>  
+> >> -	if (system_supports_mte() &&
+> >> -	    pte_present(pte) && pte_tagged(pte) && !pte_special(pte))
+> >> +	/*
+> >> +	 * If the PTE would provide user space access to the tags associated
+> >> +	 * with it then ensure that the MTE tags are synchronised.  Exec-only
+> >> +	 * mappings don't expose tags (instruction fetches don't check tags).
+> >> +	 */
+> >> +	if (system_supports_mte() && pte_present(pte) &&
+> >> +	    pte_access_permitted(pte, false) && !pte_special(pte))
+> >>  		mte_sync_tags(ptep, pte);
+> > 
+> > Looking at the mte_sync_page_tags() logic, we bail out early if it's the
+> > old pte is not a swap one and the new pte is not tagged. So we only need
+> > to call mte_sync_tags() if it's a tagged new pte or the old one is swap.
+> > What about changing the set_pte_at() test to:
+> > 
+> > 	if (system_supports_mte() && pte_present(pte) && !pte_special(pte) &&
+> > 	    (pte_tagged(pte) || is_swap_pte(READ_ONCE(*ptep))))
+> > 		mte_sync_tags(ptep, pte);
+> > 
+> > We can even change mte_sync_tags() to take the old pte directly:
+> > 
+> > 	if (system_supports_mte() && pte_present(pte) && !pte_special(pte)) {
+> > 		pte_t old_pte = READ_ONCE(*ptep);
+> > 		if (pte_tagged(pte) || is_swap_pte(old_pte))
+> > 			mte_sync_tags(old_pte, pte);
+> > 	}
+> > 
+> > It would save a function call in most cases where the page is not
+> > tagged.
+> 
+> Yes that looks like a good optimisation - although you've missed the
+> pte_access_permitted() part of the check ;)
 
-You're not alone with that. :-)
+I was actually wondering if we could remove it. I don't think it buys us
+much as we have a pte_present() check already, so we know it is pointing
+to a valid page. Currently we'd only get a tagged pte on user mappings,
+same with swap entries.
 
->> - ISA IDE has well-known PIO registers that are always present?
->> 
->> - PCI IDE has the same registers, but the BAR must be mapped and PCI IO
->>    space access must be enabled?
->> 
->> - ISA IDE has a hardcoded ISA irq number?
->> 
->> - PCI IDE has a normal PCI irq that is routed like any legacy PCI INTx
->>    irq?
->> 
->> - What combinations of ISA enabled/disabled and PCI enabled/disabled
->>    need to be supported?
->
-> Yeah a lot of this discussion happened several months back in the Pegasos 
-> threads, but here is my understanding:
->
-> - Older legacy PCI devices such as IDE controllers connected via a host 
-> containing a PCI-ISA bridge can be switched by the guest OS into PCI legacy 
-> (also known as compatibility mode) via a PCI config space register so that IO 
-> space accesses, IRQs (and possible DMA?) are done via the ISA bus
+When vmalloc kasan_hw will be added, I think we have a set_pte_at() with
+a tagged pte but init_mm and high address (we might as well add a
+warning if addr > TASK_SIZE_64 on the mte_sync_tags path so that we
+don't forget).
 
-Maybe you can look at the VIA VT82C686B and VT8231 docs that have some 
-info on how this works for these integrated "super south bridges" (superio 
-+ PCI bridge). The concept for PIIX may be similar but registers may be 
-different. There are at least two modes: a legacy mode that uses normal 
-ISA IDE ioports and IRQs so that older drivers work without change and 
-some native mode that may be full PCI mode with BARs and PCI irq-s or some 
-strange non-100& native mode (as Linux calls it) on some systems such as 
-pegasos2 where in this mode port addresses can be set indepently but IRQs 
-are still hard coded to use ISA IRQs regardless of what the documented IRQ 
-reg is set to. (I'm still not sure how this is implemented in hardware but 
-that's how guests expect it to work and this caused some problem with 
-implementing this as another machine using via-ide (the MIPS fuloong2e) 
-has either legacy or a real native mode with IRQ also set by a register 
-(it's still not a PCI IRQ I think as an ISA IRQ is selected by this 
-register but instead of the legacy IRQ 14+15 in this mode it's using a 
-single interrupt for both channels set by a reg e.g. 9 while normal PCI 
-interrupts may be connected somewhere else). On pegasos2 where setting 
-this IRQ reg does not change the IRQ 14+15 mapping, there native mode only 
-changes ports to use configured port numbers instead of the legacy 1f0-170 
-ones but keeping the legacy ISA IRQs. We have to model this otherwise 
-guests don't work because they often expect things to work a certain way 
-without checking.
+> The problem I hit is one of include dependencies:
+> 
+> is_swap_pte() is defined (as a static inline) in
+> include/linux/swapops.h. However the definition depends on
+> pte_none()/pte_present() which are defined in pgtable.h - so there's a
+> circular dependency.
+> 
+> Open coding is_swap_pte() in set_pte_at() works, but it's a bit ugly.
+> Any ideas on how to improve on the below?
+> 
+> 	if (system_supports_mte() && pte_present(pte) &&
+> 	    pte_access_permitted(pte, false) && !pte_special(pte)) {
+> 		pte_t old_pte = READ_ONCE(*ptep);
+> 		/*
+> 		 * We only need to synchronise if the new PTE has tags enabled
+> 		 * or if swapping in (in which case another mapping may have
+> 		 * set tags in the past even if this PTE isn't tagged).
+> 		 * (!pte_none() && !pte_present()) is an open coded version of
+> 		 * is_swap_pte()
+> 		 */
+> 		if (pte_tagged(pte) || (!pte_none(pte) && !pte_present(pte)))
+> 			mte_sync_tags(old_pte, pte);
+> 	}
 
-Maybe the IDE in these integrated south bridges are not really PCI IDE but 
-in native mode behaves more or less like a real PCI IDE card so we just 
-reusing the QEMU PCI IDE model to emulate them but we also need to emulate 
-the quirks of their native mode in some cases. Currently we likely only 
-emulate one of the possible modes that work with the guests and not fully 
-emulate all modes due to ISA model not being QOM that can be added or 
-removed on demand so if we set it up in the beginning then we're stuck 
-with legacy mode as we can't really disable the legacy io ports any more 
-to switch to native mode without hacking into ISA emulation. (A similar 
-problem was also found with other superio devices in the VIA south bridge, 
-such as serial, parallel, FDC, that also have configurable io ports but we 
-can't emulate that as ISA superio devices can only be created with port 
-addresses but these addresses cannot be set later. Fortunately guests set 
-it up once at startup and usually don't change the default so if we put it 
-there it works.)
+That's why I avoided testing my suggestion ;). I think we should just
+add !pte_none() in there with a comment that it may be a swap pte and
+use the is_swap_pte() again on the mte_sync_tags() path. We already have
+the pte_present() check.
 
-> - QEMU handles the IO memory accesses fine, since in these cases 
-> isa_bus_new() is given the IO space by pci_address_space_io(dev) so IO space 
-> access generally "just works"
->
-> - Currently it is the responsibility of these older PCI devices to determine 
-> how they have been configured and either use e.g. pci_set_irq() or 
-> qemu_raise_irq() on the ISA IRQ for interrupts
-
-This is probably OK considering that these IDE device can be in different 
-modes and probably the only part that knows which mode it's in is the 
-device itself so it has to determine what IRQ to use. But as in the 
-via-ide case the modes (and thus IRQs used) can be different based on 
-which south bridge or machine it's used in so maybe it should be the 
-higher level object (south bridge or machine) which instantiates via-ide 
-that decides which irq to use. So I wonder if it would be possible to 
-remove the decision of using pci_set_irq or using an ISA irq from via-ide 
-and only pass it a qemu_irq that it can raise without caring where it's 
-connected and the south bridge or machine that creates via-ide could then 
-pass it an appropriate irq (PCI or ISA based on how it's configured). This 
-seems the simplest way but due to the current entanglement of IRQ handling 
-in the different models it's not clear to me how to implement this or if 
-it's possible at all.
-
-> - Generally ISA IRQs are fixed as per the old AT-style PCs so IDE would be 
-> 14/15
->
-> My thoughts above were about how to allow a PCIDevice to locate its ISABus if 
-> it is connected to a bus with a PCI-ISA bridge to potentially allow access to 
-> ISA IRQs and DMA if configured in PCI legacy mode.
-
-In my opinion a PCI device should have no knowledge about ISA at all, it's 
-probably the south bridge that uses this PCI IDE device that should 
-connect it to ISA as that's the one that knows about ISA bus or ISA IRQs. 
-I'm a bit concerned about the performance of your proposed 
-pci_device_get_isabus() function that walks the PCI bus to get an ISA bus 
-to get an ISA IRQ. Do you really want to do that every time an IRQ is 
-raised which can be quite frequent? I think it would be better to find the 
-IRQ once when the PCI IDE device is set up in it's parent object that also 
-already has a reference to ISA bus and just pass the IRQ to the IDE device 
-removing the need for it to know about ISA. I think that's a better 
-direction to go but don't know how to get there.
-
-As a side note, in my understanding the main problem with fully emulating 
-these south bridges is that ISA emulation predates everything and it's not 
-fully QOM-ified so a lot of it still uses global vars and legacy init 
-functions that allow creating these ISA devices but not changing them 
-afterwards in any way. This prevents cleanly modelling south bridges that 
-can switch between legacy and PCI mode for IDE for example because we can 
-create legacy IDE ports but then we cannot switch tnem off to use BARs 
-instead when the mode change so without ovethauling the ISA emulation we 
-can only emulate one mode or the other. I've stumbled upon this for 
-via-ide and VT8231 serial and decided I don't want to try cleaning up ISA 
-as it's a basic device class that could break a lot of things so I did not 
-feel like wanting to attempt that. This patch set from Philippe tries to 
-go a bit further in that direction but maybe not all the way for the same 
-reason that it's a big task with a lot of potential breakage. So I'm OK 
-with leaving it as it is now as it works well enough or make small clean 
-ups as possible without breaking too many things. If this introduces an 
-ISABus link in PCI IDE I can live with that knowing that it's to avoid 
-more extensive changes or adding new subclasses but if there's a simpler 
-way by passing IRQs directly and it could be done that seems to be a 
-cleaner way to me.
-
-Regards,
-BALATON Zoltan
+-- 
+Catalin
 
