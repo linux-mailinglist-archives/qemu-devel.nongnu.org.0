@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96D7938B233
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 16:49:23 +0200 (CEST)
-Received: from localhost ([::1]:40528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA42038B23B
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 16:50:31 +0200 (CEST)
+Received: from localhost ([::1]:44846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljjzG-0004hc-AN
-	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 10:49:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32962)
+	id 1ljk0M-0007Zg-Pk
+	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 10:50:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33500)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1ljjak-0008WQ-DB
- for qemu-devel@nongnu.org; Thu, 20 May 2021 10:24:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37551)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1ljjah-0006MG-FH
- for qemu-devel@nongnu.org; Thu, 20 May 2021 10:24:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621520638;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=KTi//mjCqnBzz6Y3sA+wHLQW/qw0zDc8rhE7GVTCcuA=;
- b=R8K+/G95eoNwitN8u/O31JqpgLwbB8P0EKQxw6gLa9Gq+uuZMNMsNMv967RYdgFVnwK83A
- R/trSeJ0OW1EW8hx+0nPXmgCdn5CuSzBTdQG/nfWF31NRyppLYZXBrxcK/hHPecygP3xBN
- /Ku3/Z8MOtBLDgwjrqAS5j5GxvkbH+Q=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-513-oyZfSQYLMPOspQJkmGhfTA-1; Thu, 20 May 2021 10:23:54 -0400
-X-MC-Unique: oyZfSQYLMPOspQJkmGhfTA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B0F9780295C
- for <qemu-devel@nongnu.org>; Thu, 20 May 2021 14:23:43 +0000 (UTC)
-Received: from localhost (unknown [10.40.208.32])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 44EBD648A9;
- Thu, 20 May 2021 14:23:42 +0000 (UTC)
-Date: Thu, 20 May 2021 16:23:41 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Julia Suvorova <jusual@redhat.com>
-Subject: Re: [RFC PATCH v4 6/7] hw/acpi/ich9: Set ACPI PCI hot-plug as
- default on Q35
-Message-ID: <20210520162341.3a5f549c@redhat.com>
-In-Reply-To: <20210513062642.3027987-7-jusual@redhat.com>
-References: <20210513062642.3027987-1-jusual@redhat.com>
- <20210513062642.3027987-7-jusual@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ljjci-00041P-OX
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 10:26:05 -0400
+Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535]:39580)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ljjcf-0007HL-Cg
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 10:26:04 -0400
+Received: by mail-ed1-x535.google.com with SMTP id h16so19627654edr.6
+ for <qemu-devel@nongnu.org>; Thu, 20 May 2021 07:25:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=e0wcKNwqOSWjVO2rtFlsvn/tzi0qgzoH6F2AM/1qc60=;
+ b=cEx1Mcl6H/JyqFHhfzrDQdUgKAysJFMdO4frbnqRsXr7ijqy9xerWbv9YMulS/vRpj
+ mPnk8iPhP+9Y0wHMC6c/HadionwKuDha9qDVmY6+YfjNq0Kwg59WFGUR8dOYRlS0nkoF
+ IYQNsJYASkIpLzm5s0OaKZEx45W5VmsFh88k2PNDh9q+DQP2FWxUdGe40e+Op4RizVjo
+ x5bGLdiXdXJLgtjL4Pwv40MkRJMzDT127HJyTAYNDWhG3AnJeTm0rNo/YYBaZNRV0plb
+ 8HHwZkc4g4+K6oobhTWoKxDnljYZ9qQGfMNA8xWWJEZ3jEvcnzLr6OCWqiFwqK3UKIZz
+ qtUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=e0wcKNwqOSWjVO2rtFlsvn/tzi0qgzoH6F2AM/1qc60=;
+ b=Om2AgDxqJVrfnbl+hg2ZU1QXOX7dOVuS11In/4UY0l7sM9M18PXyU6yO71Fu0DbO8x
+ cT8e26wfIDtlqFYNccMTJS42ERtGuim8VKHf7Y5GOv1vGHIDuElSlbYy+tu9H0Zbn3IR
+ j2WptDUYNtiZuVhVRH2aNy0CE2zvKZZfsfP97FghAQwzJfRgTyy1/5jm7mf+jxHUFVD5
+ Tp2LU5bDLI3ns+A2Hzk/aOkMLXaZtmhFz4+xK84qSz5cnX6XwZAEPNdzCgjRpsuWASfQ
+ ra+FWUonw047awgFb37OqUsg7uW7xJfw5hLl6oYmpZk89lNdAiDhkWyInetRF4PNLhkh
+ 1uGg==
+X-Gm-Message-State: AOAM530Y7r10dKL0i+sVByO5MuHYpDTEu2m2nG4GyzLQKvIeZLN7xAXu
+ rZnAPboILa1kA928ZhFKWjI6Tao3sYSPDswalRG+wQ==
+X-Google-Smtp-Source: ABdhPJzJdSVgrQNdFglEiAaXYtDglCvPtz6V6zF13Xa1S7Pzfq97vuvnkRaOiBnYmcJ3cadNOH7u/QKiso0QDXyt7xI=
+X-Received: by 2002:a05:6402:203c:: with SMTP id
+ ay28mr5252823edb.100.1621520758549; 
+ Thu, 20 May 2021 07:25:58 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.39,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210520082257.187061-1-pbonzini@redhat.com>
+ <CAFEAcA_MV=UiHW4Kp3Zb4iT_5BHgqVwj9Qem1xjmp1AJ++K=sQ@mail.gmail.com>
+ <CAFEAcA-w-EtshAEcx0u-k_iWjt8ynurpWB7nMdDZRHLcBaHDJA@mail.gmail.com>
+In-Reply-To: <CAFEAcA-w-EtshAEcx0u-k_iWjt8ynurpWB7nMdDZRHLcBaHDJA@mail.gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 20 May 2021 15:25:39 +0100
+Message-ID: <CAFEAcA_Tyn6kDVEbR4EfHdjqMQm_CRvswCjgaLytFZQjdyBNrg@mail.gmail.com>
+Subject: Re: [PULL 00/26] Misc patches for 2021-05-20
+To: Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::535;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x535.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,78 +79,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 13 May 2021 08:26:41 +0200
-Julia Suvorova <jusual@redhat.com> wrote:
+On Thu, 20 May 2021 at 15:20, Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> On Thu, 20 May 2021 at 14:26, Peter Maydell <peter.maydell@linaro.org> wrote:
+> >
+> > On Thu, 20 May 2021 at 09:31, Paolo Bonzini <pbonzini@redhat.com> wrote:
 
-> Q35 has three different types of PCI devices hot-plug: PCIe Native,
-> SHPC Native and ACPI hot-plug. This patch changes the default choice
-> for cold-plugged bridges from PCIe Native to ACPI Hot-plug with
-> ability to use SHPC and PCIe Native for hot-plugged bridges.
-> 
-> This is a list of the PCIe Native hot-plug issues that led to this
-> change:
->     * no racy behavior during boot (see 110c477c2ed)
->     * no delay during deleting - after the actual power off software
->       must wait at least 1 second before indicating about it. This case
->       is quite important for users, it even has its own bug:
->           https://bugzilla.redhat.com/show_bug.cgi?id=1594168
->     * no timer-based behavior - in addition to the previous example,
->       the attention button has a 5-second waiting period, during which
->       the operation can be canceled with a second press. While this
->       looks fine for manual button control, automation will result in
->       the need to queue or drop events, and the software receiving
->       events in all sort of unspecified combinations of attention/power
->       indicator states, which is racy and uppredictable.
->     * fixes or reduces the likelihood of the bug:
->         * https://bugzilla.redhat.com/show_bug.cgi?id=1833187
->         * https://bugzilla.redhat.com/show_bug.cgi?id=1657077
->         * https://bugzilla.redhat.com/show_bug.cgi?id=1669931
->         * https://bugzilla.redhat.com/show_bug.cgi?id=1678290
-> 
-> To return to PCIe Native hot-plug:
->     -global ICH9-LPC.acpi-pci-hotplug-with-bridge-support=off
-> 
-> Signed-off-by: Julia Suvorova <jusual@redhat.com>
+> > > ----------------------------------------------------------------
+> > > * submodule cleanups (Philippe, myself)
+> > > * tiny step towards a usable preconfig mode (myself)
+> > > * bump Meson submodule (myself)
+> > > * Kconfig and LOCK_GUARD cleanups (philippe)
+> > > * new x86 CPUID feature (Yang Zhong)
+> > > * "-object qtest" support (myself)
+> > > * Dirty ring support for KVM (Peter)
+> > > * Fixes for 6.0 command line parsing breakage (myself)
+> > > * Fix for macOS 11.3 SDK (Katsuhiro)
+> > > * Fix for scsi-generic handling (myself)
+> > >
+> >
+> >
+> > Fails to build on PPC64:
+> >
+> > WARNING: Project specifies a minimum meson_version '>=0.55.0' but uses
+> > features which were added in newer versions:
+> >  * 0.57.0: {'test() timeout <= 0'}
+> >
+> >
+> > ERROR: Could not detect Ninja v1.8.2 or newer
+>
+> Also, my OSX build which I configure with
+> ../..configure --extra-cflags='-fdiagnostics-color=never -Werror
+> -Wno-error=deprecated-declarations'
+>
+> now triggers a meson.build warning:
 
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+Also also, dropping the merge commit reveals that the pullreq somehow
+broke the build trees such that trying to do a build on master no
+longer works:
 
-> ---
->  hw/acpi/ich9.c | 2 +-
->  hw/i386/pc.c   | 4 +++-
->  2 files changed, 4 insertions(+), 2 deletions(-)
-> 
-> diff --git a/hw/acpi/ich9.c b/hw/acpi/ich9.c
-> index f6819c4f2a..e7b2cd9719 100644
-> --- a/hw/acpi/ich9.c
-> +++ b/hw/acpi/ich9.c
-> @@ -425,7 +425,7 @@ void ich9_pm_add_properties(Object *obj, ICH9LPCPMRegs *pm)
->      pm->disable_s3 = 0;
->      pm->disable_s4 = 0;
->      pm->s4_val = 2;
-> -    pm->use_acpi_hotplug_bridge = false;
-> +    pm->use_acpi_hotplug_bridge = true;
->  
->      object_property_add_uint32_ptr(obj, ACPI_PM_PROP_PM_IO_BASE,
->                                     &pm->pm_io_base, OBJ_PROP_FLAG_READ);
-> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-> index 8cfaf216e7..5c2d3d11a2 100644
-> --- a/hw/i386/pc.c
-> +++ b/hw/i386/pc.c
-> @@ -94,7 +94,9 @@
->  #include "trace.h"
->  #include CONFIG_DEVICES
->  
-> -GlobalProperty pc_compat_6_0[] = {};
-> +GlobalProperty pc_compat_6_0[] = {
-> +    { "ICH9-LPC", "acpi-pci-hotplug-with-bridge-support", "off" },
-> +};
->  const size_t pc_compat_6_0_len = G_N_ELEMENTS(pc_compat_6_0);
->  
->  GlobalProperty pc_compat_5_2[] = {
+make: Entering directory '/home/pm/qemu/build/all'
+config-host.mak is out-of-date, running configure
+  GIT     ui/keycodemapdb meson tests/fp/berkeley-testfloat-3
+tests/fp/berkeley-softfloat-3 dtc capstone slirp
+/usr/bin/ninja  build.ninja && touch build.ninja.stamp
+[0/1] Regenerating build files.
+Traceback (most recent call last):
+  File "/home/pm/qemu/meson/mesonbuild/mesonmain.py", line 140, in run
+    return options.run_func(options)
+  File "/home/pm/qemu/meson/mesonbuild/msetup.py", line 245, in run
+    app.generate()
+  File "/home/pm/qemu/meson/mesonbuild/msetup.py", line 154, in generate
+    env = environment.Environment(self.source_dir, self.build_dir, self.options)
+  File "/home/pm/qemu/meson/mesonbuild/environment.py", line 523, in __init__
+    self.coredata = coredata.load(self.get_build_dir())
+  File "/home/pm/qemu/meson/mesonbuild/coredata.py", line 1016, in load
+    obj = pickle.load(f)
+ModuleNotFoundError: No module named 'mesonbuild.mesonlib.universal';
+'mesonbuild.mesonlib' is not a package
+FAILED: build.ninja
 
+
+This seems like a meson bug -- if the cached data isn't valid for
+this version of meson it should just blow it away, not die with
+a backtrace.
+
+thanks
+-- PMM
 
