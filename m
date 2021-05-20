@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98E1F38A00C
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 10:45:57 +0200 (CEST)
-Received: from localhost ([::1]:40154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5A4438A004
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 10:41:26 +0200 (CEST)
+Received: from localhost ([::1]:54256 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljeJY-0007Tw-J7
-	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 04:45:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50656)
+	id 1ljeFB-0006K8-RX
+	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 04:41:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50572)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ljdxm-0005RW-PB; Thu, 20 May 2021 04:23:29 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:38625)
+ id 1ljdxj-0005RI-98
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 04:23:29 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:39932)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ljdxf-0001aW-Ce; Thu, 20 May 2021 04:23:24 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id j14so14936013wrq.5;
- Thu, 20 May 2021 01:23:15 -0700 (PDT)
+ id 1ljdxe-0001bZ-W4
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 04:23:22 -0400
+Received: by mail-wr1-x435.google.com with SMTP id v12so16673106wrq.6
+ for <qemu-devel@nongnu.org>; Thu, 20 May 2021 01:23:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=TzYzur0aoGcQcPzxTRLpL0L9tdlIkO4njHPHcUkBeIQ=;
- b=TZuepqtSVyNOsHYJfSmxL8gSPUwQzx9YjmRu1386qnZjhudiWB7GhpEIH1qegAp7Mq
- CXWVWYgH5cTfeN2zckNHlbp0b2qB8XBQrZwjeRqHecsHt2UYyNvhxjR8ke3T+tqxN1HN
- 9Vo/YOv3smsMqG11qLzAcaG7F5gw4ONr2rGM3aRx0PXxdAb/AUosVt0tFgh3iJgEqun9
- wskNA8c84wkPNLu3iBdLN/73dcrlOaZeXWSsrNMJFii4l5VL73njUfylWTDrB8cMqWkW
- 1Nqb6GHOpQUMqjCVXs8le+Z7DjMPoFDFWYVwLpVU2kb3jp5Uw9B7pLQIVmsxEqKlkv6s
- f8dQ==
+ bh=mfZamIf15Ke/BeRA5FMstz0DDkSoart1dVqPlrNSeDc=;
+ b=I1RxqJIAGCZETtJiQ3/FCP+aDY4XqtU0xy6PW9CzitxLHzkV3HmMTVRJSQRLPTQIGR
+ keL6aGjv+2IPQ0Q6IrDAdmsuweMcaeKNyReE3M84HQD6WssSwF1Estp+YqUyWKQ7+HxO
+ sO/lhmalHGEK/osf+UNx8rV08+oSfNy1lSl2QvgNiyokqZ0lhluLqJE7CiV+vnTtVICC
+ qtUIrI9cfn2PfmN+ccu1XSOUviDpjbvldqpl+CRgkUorC9DDt2pVpziSoBSx4JENcTtA
+ JcJyWQdAVBcX1ppt5fUBWDX+yuY+V1Muzs1sKyhqMxPTFz5Mg2VTvN0BoKJMDK2aaUBa
+ 10Rg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=TzYzur0aoGcQcPzxTRLpL0L9tdlIkO4njHPHcUkBeIQ=;
- b=Hnu75gkjBWL5Pb55vBPIDO1IPz8bC+cyW6IHuHpl/umw44xbiJaUtXPj0JP1Lr+1CQ
- 28rXxA5FzPoZtCZFq/YJsYzPmx0cxL9HY1vudYopqY1MlaBMkzZlAfKWxe+mFuUL9+o0
- LqM2JyKPRKMlKKtIjHlVoXq4T/EuxWl3WnMpEgA55sWXrYUiKtyUZdCZjKlFB1e28AbI
- Ey6aFVb8qJti0PvkqOE8VPMq6sZi8BCi+JkZ9tusNU8mAsIir7u91CG+o6f0RctQox0E
- ATpFCSDbVIKtZIa5qS54Dcmc5Rsbp5x4emrLDc/sUbLB0gdBDr1jzogT1YZnjjSK4TD9
- VHxw==
-X-Gm-Message-State: AOAM530R7NdjZQYNRjM6EDBESyM1gaRyjnZzk0FIcDqTlSbjIXEALk1G
- /M1pEF19xZp0zVQ+1SHxG/Cmk1z2R+th0g==
-X-Google-Smtp-Source: ABdhPJymirXYMt9D3I3ovbxh51bUx2/IQrNQ4BY/+fhZyU39c2i010z/7AXFDPZeEJsHRfUJP56Lvw==
-X-Received: by 2002:a5d:4c49:: with SMTP id n9mr2877485wrt.417.1621498994869; 
- Thu, 20 May 2021 01:23:14 -0700 (PDT)
+ bh=mfZamIf15Ke/BeRA5FMstz0DDkSoart1dVqPlrNSeDc=;
+ b=MJHJa1YKP4JecaWTCvo9uvyqzeaf3g8bE3T3Q/NkGh6jowVHphnJP6b1nY7c4EXjVJ
+ +E5In56HQxRksR7dcvd9syWFIToqpBeHLvO+X09g9/DLcnA5ed5z3Vn3b74RI8ptLK+b
+ dNAZbtZ+nuvPdfqL53b1TlarUH4DopJ+yC7528MmfhQXjQdDxQZ7DMCZa6SVOA2PvHMS
+ XuKcSSuzfpAr9mUa5QXM6DajQaTkCAEZmkwMeKy+HpmkLxNuyGVsWyy/z0F8vHNFGA+u
+ jLSUgINYeOuwai9xMhqUPnvkUF2NoyzieXmQysdBY3KXZZvd2PWU6BArBkSrKYwzeiUm
+ PPgg==
+X-Gm-Message-State: AOAM533NHUWFQEZs8EDuYcMGdXBMmBwO0E0E5BQEgM1Ai/K+h6zQLs/d
+ ZKauFdCFsqqA0NTtRj06C5eO7DyL1v4NwQ==
+X-Google-Smtp-Source: ABdhPJyCdQRDXg2SyeudYiC9s8IxLwanuBspulh9+FnW9YDj6zADI0veQyqLhC1npaiPbLQjbhOKqw==
+X-Received: by 2002:adf:b64b:: with SMTP id i11mr2998959wre.157.1621498995569; 
+ Thu, 20 May 2021 01:23:15 -0700 (PDT)
 Received: from avogadro.redhat.com ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- v10sm2603506wrq.0.2021.05.20.01.23.14
+ v10sm2603506wrq.0.2021.05.20.01.23.14 for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 May 2021 01:23:14 -0700 (PDT)
+ Thu, 20 May 2021 01:23:15 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 25/26] qemu-config: load modules when instantiating option
- groups
-Date: Thu, 20 May 2021 10:22:56 +0200
-Message-Id: <20210520082257.187061-26-pbonzini@redhat.com>
+Subject: [PULL 26/26] scsi-generic: pass max_segments via max_iov field in
+ BlockLimits
+Date: Thu, 20 May 2021 10:22:57 +0200
+Message-Id: <20210520082257.187061-27-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210520082257.187061-1-pbonzini@redhat.com>
 References: <20210520082257.187061-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -83,121 +85,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Right now the SPICE module is special cased to be loaded when processing
-of the -spice command line option.  However, the spice option group
-can also be brought in via -readconfig, in which case the module is
-not loaded.
+I/O to a disk via read/write is not limited by the number of segments allowed
+by the host adapter; the kernel can split requests if needed, and the limit
+imposed by the host adapter can be very low (256k or so) to avoid that SG_IO
+returns EINVAL if memory is heavily fragmented.
 
-Add a generic hook to load modules that provide a QemuOpts group,
-and use it for the "spice" and "iscsi" groups.
+Since this value is only interesting for SG_IO-based I/O, do not include
+it in the max_transfer and only take it into account when patching the
+block limits VPD page in the scsi-generic device.
 
-Fixes: #194
-Fixes: https://bugs.launchpad.net/qemu/+bug/1910696
-Cc: qemu-stable@nongnu.org
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- include/qemu/config-file.h |  2 +-
- softmmu/vl.c               | 21 +++++++++++++++++----
- stubs/meson.build          |  1 +
- stubs/module-opts.c        |  6 ++++++
- util/qemu-config.c         |  1 +
- 5 files changed, 26 insertions(+), 5 deletions(-)
- create mode 100644 stubs/module-opts.c
+ block/file-posix.c     | 3 +--
+ hw/scsi/scsi-generic.c | 6 ++++--
+ 2 files changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/include/qemu/config-file.h b/include/qemu/config-file.h
-index 8d3e53ae4d..0500b3668d 100644
---- a/include/qemu/config-file.h
-+++ b/include/qemu/config-file.h
-@@ -1,7 +1,7 @@
- #ifndef QEMU_CONFIG_FILE_H
- #define QEMU_CONFIG_FILE_H
+diff --git a/block/file-posix.c b/block/file-posix.c
+index 10b71d9a13..59c889d5a7 100644
+--- a/block/file-posix.c
++++ b/block/file-posix.c
+@@ -1228,8 +1228,7 @@ static void raw_refresh_limits(BlockDriverState *bs, Error **errp)
  
--
-+void qemu_load_module_for_opts(const char *group);
- QemuOptsList *qemu_find_opts(const char *group);
- QemuOptsList *qemu_find_opts_err(const char *group, Error **errp);
- QemuOpts *qemu_find_opts_singleton(const char *group);
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 21e55718a6..6054f6f0b9 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -2627,6 +2627,23 @@ void qmp_x_exit_preconfig(Error **errp)
+         ret = sg_get_max_segments(s->fd);
+         if (ret > 0) {
+-            bs->bl.max_transfer = MIN(bs->bl.max_transfer,
+-                                      ret * qemu_real_host_page_size);
++            bs->bl.max_iov = ret;
+         }
      }
- }
  
-+#ifdef CONFIG_MODULES
-+void qemu_load_module_for_opts(const char *group)
-+{
-+    static bool spice_tried;
-+    if (g_str_equal(group, "spice") && !spice_tried) {
-+        ui_module_load_one("spice-core");
-+        spice_tried = true;
-+    }
-+
-+    static bool iscsi_tried;
-+    if (g_str_equal(group, "iscsi") && !iscsi_tried) {
-+        block_module_load_one("iscsi");
-+        iscsi_tried = true;
-+    }
-+}
-+#endif
-+
- void qemu_init(int argc, char **argv, char **envp)
- {
-     QemuOpts *opts;
-@@ -3386,10 +3403,6 @@ void qemu_init(int argc, char **argv, char **envp)
-                 break;
-             case QEMU_OPTION_spice:
-                 olist = qemu_find_opts_err("spice", NULL);
--                if (!olist) {
--                    ui_module_load_one("spice-core");
--                    olist = qemu_find_opts("spice");
--                }
-                 if (!olist) {
-                     error_report("spice support is disabled");
-                     exit(1);
-diff --git a/stubs/meson.build b/stubs/meson.build
-index 3faef16892..f3f979c3fe 100644
---- a/stubs/meson.build
-+++ b/stubs/meson.build
-@@ -22,6 +22,7 @@ stub_ss.add(files('isa-bus.c'))
- stub_ss.add(files('is-daemonized.c'))
- stub_ss.add(when: 'CONFIG_LINUX_AIO', if_true: files('linux-aio.c'))
- stub_ss.add(files('migr-blocker.c'))
-+stub_ss.add(files('module-opts.c'))
- stub_ss.add(files('monitor.c'))
- stub_ss.add(files('monitor-core.c'))
- stub_ss.add(files('pci-bus.c'))
-diff --git a/stubs/module-opts.c b/stubs/module-opts.c
-new file mode 100644
-index 0000000000..a7d0e4ad6e
---- /dev/null
-+++ b/stubs/module-opts.c
-@@ -0,0 +1,6 @@
-+#include "qemu/osdep.h"
-+#include "qemu/config-file.h"
-+
-+void qemu_load_module_for_opts(const char *group)
-+{
-+}
-diff --git a/util/qemu-config.c b/util/qemu-config.c
-index 670bd6ebca..34974c4b47 100644
---- a/util/qemu-config.c
-+++ b/util/qemu-config.c
-@@ -16,6 +16,7 @@ static QemuOptsList *find_list(QemuOptsList **lists, const char *group,
- {
-     int i;
+diff --git a/hw/scsi/scsi-generic.c b/hw/scsi/scsi-generic.c
+index 98c30c5d5c..82e1e2ee79 100644
+--- a/hw/scsi/scsi-generic.c
++++ b/hw/scsi/scsi-generic.c
+@@ -179,10 +179,12 @@ static void scsi_handle_inquiry_reply(SCSIGenericReq *r, SCSIDevice *s)
+         (r->req.cmd.buf[1] & 0x01)) {
+         page = r->req.cmd.buf[2];
+         if (page == 0xb0) {
+-            uint32_t max_transfer =
+-                blk_get_max_transfer(s->conf.blk) / s->blocksize;
++            uint32_t max_transfer = blk_get_max_transfer(s->conf.blk);
++            uint32_t max_iov = blk_get_max_iov(s->conf.blk);
  
-+    qemu_load_module_for_opts(group);
-     for (i = 0; lists[i] != NULL; i++) {
-         if (strcmp(lists[i]->name, group) == 0)
-             break;
+             assert(max_transfer);
++            max_transfer = MIN_NON_ZERO(max_transfer, max_iov * qemu_real_host_page_size)
++                / s->blocksize;
+             stl_be_p(&r->buf[8], max_transfer);
+             /* Also take care of the opt xfer len. */
+             stl_be_p(&r->buf[12],
 -- 
 2.31.1
-
 
 
