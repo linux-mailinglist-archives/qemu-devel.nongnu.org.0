@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2CED38B517
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 19:20:38 +0200 (CEST)
-Received: from localhost ([::1]:56304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8840E38B50D
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 19:17:37 +0200 (CEST)
+Received: from localhost ([::1]:48908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljmLd-0000Nz-FZ
-	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 13:20:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43108)
+	id 1ljmIi-0003Mt-AA
+	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 13:17:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43110)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1ljm7U-0001wp-Bi
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1ljm7U-0001wr-Da
  for qemu-devel@nongnu.org; Thu, 20 May 2021 13:06:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39733)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35990)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1ljm7J-0005en-Bx
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1ljm7K-0005fh-2N
  for qemu-devel@nongnu.org; Thu, 20 May 2021 13:06:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621530348;
+ s=mimecast20190719; t=1621530349;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gYbc/1vr0hl1H+rXHx7E2qRHbUcFCjELrIk1jhbNKuc=;
- b=aO/gJpQQhSjt844ypjBrW92fyH0Oqc4Cd7k5I448RwNxWhmuAqExqcnCvVXFzkv6CmBnED
- suy2MNn84tsDoLkOovj0cUwy/c05etnhWOrbqS/6GM6xB0ZilBt/uFy/k88JgPTvRE+FiD
- 8CJfEyNm2fHhFU9CM1ubtQxG6yRGxHM=
+ bh=pdOZcruB1pNkMCesftF2wj8eJkVMil4kQmgcUFP93NY=;
+ b=O1FDF8T6+YkJcfc8QyQN1CKNj61gXsA/8HIAD3t3P8J5wjUW5getNITAVOX4tUl6MWRddZ
+ wPC/CZaO9DC7HlH4OdslP78AhsYmWq/siKtD2rxqnZT54HiWOyWl2FeiKbJF3tfz0cKeSt
+ NLJZ0eSGgKurMZzXtoghFHbnOsSP4Bk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-195-iZHqq2QJPPC2AYAWDQ67hw-1; Thu, 20 May 2021 13:05:44 -0400
-X-MC-Unique: iZHqq2QJPPC2AYAWDQ67hw-1
+ us-mta-175-1g8xtBAEMC6K7PHXDM8KIg-1; Thu, 20 May 2021 13:05:45 -0400
+X-MC-Unique: 1g8xtBAEMC6K7PHXDM8KIg-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8B5961927801;
- Thu, 20 May 2021 17:05:42 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2DEA61E560;
+ Thu, 20 May 2021 17:05:44 +0000 (UTC)
 Received: from gondolin.fritz.box (ovpn-113-166.ams2.redhat.com
  [10.36.113.166])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 40C085D6D5;
- Thu, 20 May 2021 17:05:41 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D66DC5D6D5;
+ Thu, 20 May 2021 17:05:42 +0000 (UTC)
 From: Cornelia Huck <cohuck@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL v2 8/9] target/i386: Make sure that vsyscall's tb->size != 0
-Date: Thu, 20 May 2021 19:05:18 +0200
-Message-Id: <20210520170519.300951-9-cohuck@redhat.com>
+Subject: [PULL v2 9/9] tests/tcg/x86_64: add vsyscall smoke test
+Date: Thu, 20 May 2021 19:05:19 +0200
+Message-Id: <20210520170519.300951-10-cohuck@redhat.com>
 In-Reply-To: <20210520170519.300951-1-cohuck@redhat.com>
 References: <20210520170519.300951-1-cohuck@redhat.com>
 MIME-Version: 1.0
@@ -85,33 +85,60 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Ilya Leoshkevich <iii@linux.ibm.com>
 
-tb_gen_code() assumes that tb->size must never be zero, otherwise it
-may produce spurious exceptions. For x86_64 this may happen when
-creating a translation block for the vsyscall page.
-
-Fix by pretending that vsyscall translation blocks have at least one
-instruction.
+Having a small test will prevent trivial regressions in the future.
 
 Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
+Message-Id: <20210519045738.1335210-3-iii@linux.ibm.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20210519045738.1335210-2-iii@linux.ibm.com>
 Signed-off-by: Cornelia Huck <cohuck@redhat.com>
 ---
- target/i386/tcg/translate.c | 1 +
- 1 file changed, 1 insertion(+)
+ tests/tcg/x86_64/Makefile.target |  6 +++++-
+ tests/tcg/x86_64/vsyscall.c      | 12 ++++++++++++
+ 2 files changed, 17 insertions(+), 1 deletion(-)
+ create mode 100644 tests/tcg/x86_64/vsyscall.c
 
-diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
-index db56a483435d..3ab8c2385560 100644
---- a/target/i386/tcg/translate.c
-+++ b/target/i386/tcg/translate.c
-@@ -8583,6 +8583,7 @@ static void i386_tr_translate_insn(DisasContextBase *dcbase, CPUState *cpu)
-      */
-     if ((dc->base.pc_next & TARGET_PAGE_MASK) == TARGET_VSYSCALL_PAGE) {
-         gen_exception(dc, EXCP_VSYSCALL, dc->base.pc_next);
-+        dc->base.pc_next = dc->pc + 1;
-         return;
-     }
- #endif
+diff --git a/tests/tcg/x86_64/Makefile.target b/tests/tcg/x86_64/Makefile.target
+index 20bf96202ad2..2151ea6302ec 100644
+--- a/tests/tcg/x86_64/Makefile.target
++++ b/tests/tcg/x86_64/Makefile.target
+@@ -3,14 +3,18 @@
+ # x86_64 tests - included from tests/tcg/Makefile.target
+ #
+ # Currently we only build test-x86_64 and test-i386-ssse3 from
+-# $(SRC)/tests/tcg/i386/
++# $(SRC_PATH)/tests/tcg/i386/
+ #
+ 
+ include $(SRC_PATH)/tests/tcg/i386/Makefile.target
+ 
++X86_64_TESTS += vsyscall
+ TESTS=$(MULTIARCH_TESTS) $(X86_64_TESTS) test-x86_64
+ QEMU_OPTS += -cpu max
+ 
+ test-x86_64: LDFLAGS+=-lm -lc
+ test-x86_64: test-i386.c test-i386.h test-i386-shift.h test-i386-muldiv.h
+ 	$(CC) $(CFLAGS) $< -o $@ $(LDFLAGS)
++
++vsyscall: $(SRC_PATH)/tests/tcg/x86_64/vsyscall.c
++	$(CC) $(CFLAGS) $< -o $@ $(LDFLAGS)
+diff --git a/tests/tcg/x86_64/vsyscall.c b/tests/tcg/x86_64/vsyscall.c
+new file mode 100644
+index 000000000000..786b047053aa
+--- /dev/null
++++ b/tests/tcg/x86_64/vsyscall.c
+@@ -0,0 +1,12 @@
++#include <stdio.h>
++#include <time.h>
++
++#define VSYSCALL_PAGE 0xffffffffff600000
++#define TIME_OFFSET 0x400
++typedef time_t (*time_func)(time_t *);
++
++int main(void)
++{
++    printf("%ld\n", ((time_func)(VSYSCALL_PAGE + TIME_OFFSET))(NULL));
++    return 0;
++}
 -- 
 2.31.1
 
