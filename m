@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 658CC389F65
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 10:02:55 +0200 (CEST)
-Received: from localhost ([::1]:33942 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60FD6389F93
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 10:12:22 +0200 (CEST)
+Received: from localhost ([::1]:55144 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljddu-0002SD-0n
-	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 04:02:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43816)
+	id 1ljdn3-0000Co-Fx
+	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 04:12:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43976)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1ljdVN-0003zI-67
- for qemu-devel@nongnu.org; Thu, 20 May 2021 03:54:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41677)
+ id 1ljdVb-00047c-R4
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 03:54:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28351)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1ljdVK-0006Wg-Jv
- for qemu-devel@nongnu.org; Thu, 20 May 2021 03:54:04 -0400
+ id 1ljdVV-0006bN-3o
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 03:54:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621497242;
+ s=mimecast20190719; t=1621497247;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BjjmBSyX5i0IsPh5QsO59JCvf1tOo7qIWPnFRSpgVj8=;
- b=cSL0r2Pq5NqOhZVrX/6jeqR0gYfqxkMg8f62nfiywwCBt8A1spHGIK6YzkrxARYOs4mYNV
- /mWKitzb5y2WWFN/KUppqOtOeTMN4lka0IM2BStKSN5UN6zWvmvaYPm7/n7YRqZLFNVPIZ
- fOlpzdaLYR3wgyqg5//Xg68YOv2+UHI=
+ bh=L4T7wmyXJeC23Lg3xt19s4bJPCvZpYuudlhCGRu4+QY=;
+ b=La/8rIXGn8xpj1KMBSdSkNlYBHGekxMXYyab3+tCjUgzVa92/53ACzVbEB/bXico4XNuhi
+ xI3dLT1YfeHi5uR3BgVqu8YlHYVc6cjf7KHvaQhBuAG4T3ZFA8XM3DUZq3WaFpE9UFP+St
+ BKLEbFPWlDt2XwZWtnLoWe94edg0er4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-103-BfAsNFMbOVSceJT-iIvNGQ-1; Thu, 20 May 2021 03:54:00 -0400
-X-MC-Unique: BfAsNFMbOVSceJT-iIvNGQ-1
+ us-mta-535-NvivMFHTMi6Q6AUx1PTkrw-1; Thu, 20 May 2021 03:54:05 -0400
+X-MC-Unique: NvivMFHTMi6Q6AUx1PTkrw-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1EDCF1014C07;
- Thu, 20 May 2021 07:53:45 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 74AFB81461F;
+ Thu, 20 May 2021 07:53:47 +0000 (UTC)
 Received: from localhost.localdomain (ovpn-113-52.ams2.redhat.com
  [10.36.113.52])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0EBB16E6FF;
- Thu, 20 May 2021 07:53:42 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 746CB6E6FF;
+ Thu, 20 May 2021 07:53:45 +0000 (UTC)
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v4 10/15] qemu-iotests: extent QMP socket timeout when using
- valgrind
-Date: Thu, 20 May 2021 09:52:31 +0200
-Message-Id: <20210520075236.44723-11-eesposit@redhat.com>
+Subject: [PATCH v4 11/15] qemu-iotests: allow valgrind to read/delete the
+ generated log file
+Date: Thu, 20 May 2021 09:52:32 +0200
+Message-Id: <20210520075236.44723-12-eesposit@redhat.com>
 In-Reply-To: <20210520075236.44723-1-eesposit@redhat.com>
 References: <20210520075236.44723-1-eesposit@redhat.com>
 MIME-Version: 1.0
@@ -88,42 +88,43 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As with gdbserver, valgrind delays the test execution, so
-the default QMP socket timeout timeout too soon.
+When using -valgrind on the script tests, it generates a log file
+in $TEST_DIR that is either read (if valgrind finds problems) or
+otherwise deleted. Provide the same exact behavior when using
+-valgrind on the python tests.
 
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 ---
- tests/qemu-iotests/iotests.py | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ tests/qemu-iotests/iotests.py | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
 diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
-index 41462a80fc..5d75094ba6 100644
+index 5d75094ba6..a06284acad 100644
 --- a/tests/qemu-iotests/iotests.py
 +++ b/tests/qemu-iotests/iotests.py
-@@ -489,12 +489,12 @@ def __init__(self, seconds, errmsg="Timeout"):
-         self.seconds = seconds
-         self.errmsg = errmsg
-     def __enter__(self):
--        if not qemu_gdb:
-+        if not (qemu_gdb or qemu_valgrind):
-             signal.signal(signal.SIGALRM, self.timeout)
-             signal.setitimer(signal.ITIMER_REAL, self.seconds)
-         return self
-     def __exit__(self, exc_type, value, traceback):
--        if not qemu_gdb:
-+        if not (qemu_gdb or qemu_valgrind):
-             signal.setitimer(signal.ITIMER_REAL, 0)
-         return False
-     def timeout(self, signum, frame):
-@@ -589,7 +589,7 @@ class VM(qtest.QEMUQtestMachine):
+@@ -597,6 +597,22 @@ def __init__(self, path_suffix=''):
+                          sock_dir=sock_dir, qmp_timer=timer)
+         self._num_drives = 0
  
-     def __init__(self, path_suffix=''):
-         name = "qemu%s-%d" % (path_suffix, os.getpid())
--        timer = 15.0 if not qemu_gdb else None
-+        timer = 15.0 if not (qemu_gdb or qemu_valgrind) else None
-         super().__init__(qemu_prog, qemu_opts, wrapper=qemu_gdb,
-                          name=name,
-                          test_dir=test_dir,
++    def subprocess_check_valgrind(self, valgrind: List[str]) -> None:
++        if not valgrind or not self._popen:
++            return
++
++        valgrind_filename =  f"{test_dir}/{self._popen.pid}.valgrind"
++
++        if self.exitcode() == 99:
++            with open(valgrind_filename) as f:
++                print(f.read())
++        else:
++            os.remove(valgrind_filename)
++
++    def _post_shutdown(self) -> None:
++        super()._post_shutdown()
++        self.subprocess_check_valgrind(qemu_valgrind)
++
+     def add_object(self, opts):
+         self._args.append('-object')
+         self._args.append(opts)
 -- 
 2.30.2
 
