@@ -2,68 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAD66389EC8
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 09:19:52 +0200 (CEST)
-Received: from localhost ([::1]:46848 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13D0C389ED1
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 09:21:03 +0200 (CEST)
+Received: from localhost ([::1]:49158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljcyF-0004FQ-UH
-	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 03:19:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59750)
+	id 1ljczO-0005zQ-50
+	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 03:21:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59820)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1ljcue-0001CF-G4; Thu, 20 May 2021 03:16:08 -0400
-Received: from mail-il1-x12c.google.com ([2607:f8b0:4864:20::12c]:45735)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1ljcub-0003vu-K1; Thu, 20 May 2021 03:16:07 -0400
-Received: by mail-il1-x12c.google.com with SMTP id e14so14356390ils.12;
- Thu, 20 May 2021 00:16:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=/mDKd9lpHYwhy+AqMDMAGnrAAeayUPSk8ofdwO0Eb5A=;
- b=HmfMM5XAWzHyadTuSjoX5KdmvUFaaCDLsD39Yig++Si0cIpmx7YE5vfFaQ7H94LpQ2
- F4kJt8eVo4KnHokhmp54DHIBuNYzV5zj0ORHY//vLQ/qln5ZtgvnucOVcWDkBGchtLtf
- R6J/vqyFb3pxa79kTJMKkQHMZoWS32WczAcwJBBgJ/GeeX5KO/mCXGw0TGah3oFmsIG9
- X5wA+IR/KMi3gUdCb3QKu7OfnORnLeuksmVywq9hZtrGQ0pVXUm2750xN7UEn6s2V+Im
- cIAFs/3zv09IAp1kVvvDcBOTY3CQLmPYq8xRbEczxBj+OwGEYNYS/kexARX2WZjBGACh
- uxlw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=/mDKd9lpHYwhy+AqMDMAGnrAAeayUPSk8ofdwO0Eb5A=;
- b=GuE0Yn9BUQVXK4dKd/HFFU3ZWUDbYuauBSNLuyYScabymSHjg8iEW7gOXzeGARYsXV
- iSYOYDsr3Xl4UeLAswWRbJtb8kxm6TTl9luwA69hUF3/SOVhp/rWD1hJ+3onIFBt+wyF
- MISwZTCjlNz+W51j3qsvgmWf3mUBppuxsZm0jWV2cyQlDHGIgEkiLqqNJIBuchGpVaX2
- ye/ZdpOzPO/gvHoLwX7Kmm7e2ovEvMePfD5FMc4rHPzBavssdp37lBfrTHH6/03ovdI0
- Lw5uz0Q5QDZxQNZFmbCphDjA/GQHy10dR+nK6cLi57yDoUGp9VnBg/8uQFEOJCYSws2t
- K95Q==
-X-Gm-Message-State: AOAM5306N6FKFfIC9FrNnEMk9Qms87/N9xtUvB+oebUW6fdKwxSS/rTP
- FVJP4aMLxDl6teMt1L9VnLx8c7VAGcpRXwzo30E=
-X-Google-Smtp-Source: ABdhPJw5i9/NewIiDh6Krmdy4c2W+cPMvu+0kDAzaiKMU//1MvaQPLJrRRfA2SDmBE4TXSkiC7MMnudcRwSqVVRoLrE=
-X-Received: by 2002:a05:6e02:671:: with SMTP id
- l17mr3649523ilt.267.1621494964318; 
- Thu, 20 May 2021 00:16:04 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ljcuu-0001Y8-5z
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 03:16:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24824)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ljcuq-00044z-8Q
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 03:16:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1621494979;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=i+PyPZQeGb7J63QfmoeVYJJXpjLjHB6COx+Y1KWcP0c=;
+ b=WI1kiq5kV/29a1fOWyiLW/JgNr5EkkBWR1tyLm+N5uNX0DJSgb0G4yd0KV7nahQ0YV/HaF
+ oZFNRke1kNB04mT7/fAr/nA4JNebSLv6eRSY34P4wfwvlD9l9pz669bRXX4fdbpND5YkFM
+ BHCxYVlJlDAn1ncF1FrIs/c1Qx6WBDM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-96-H0lqQllJNSONT0rx4atn9Q-1; Thu, 20 May 2021 03:16:17 -0400
+X-MC-Unique: H0lqQllJNSONT0rx4atn9Q-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4AB9E805EE1
+ for <qemu-devel@nongnu.org>; Thu, 20 May 2021 07:16:16 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-71.ams2.redhat.com [10.36.112.71])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 57B3A9808;
+ Thu, 20 May 2021 07:16:15 +0000 (UTC)
+Subject: Re: [PATCH v5 1/6] hw/isa/Kconfig: Fix missing dependency ISA_SUPERIO
+ -> FDC
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, John Snow <jsnow@redhat.com>
+References: <20210518193239.1725624-1-philmd@redhat.com>
+ <20210518193239.1725624-2-philmd@redhat.com>
+ <977f921f-7dfe-707b-51d4-85e6c7aba164@redhat.com>
+ <1888fae1-5546-490c-b564-68be17904fca@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <736efc80-3f55-80e7-9f15-f4a6c619c7d1@redhat.com>
+Date: Thu, 20 May 2021 09:16:14 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.0
 MIME-Version: 1.0
-References: <20210514052435.2203156-1-bmeng.cn@gmail.com>
-In-Reply-To: <20210514052435.2203156-1-bmeng.cn@gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 20 May 2021 17:15:38 +1000
-Message-ID: <CAKmqyKOC64g0g1Tsj=2Vd=XM97Q9Bup1gCKX-uip5ZfmL+3cGg@mail.gmail.com>
-Subject: Re: [PATCH] target/riscv: Remove unnecessary riscv_*_names[]
- declaration
-To: Bin Meng <bmeng.cn@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::12c;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x12c.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <1888fae1-5546-490c-b564-68be17904fca@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.39,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,68 +85,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, May 14, 2021 at 3:24 PM Bin Meng <bmeng.cn@gmail.com> wrote:
->
-> riscv_excp_names[] and riscv_intr_names[] are only referenced by
-> target/riscv/cpu.c locally.
->
-> Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
+On 19/05/2021 13.05, Philippe Mathieu-Daudé wrote:
+> On 5/19/21 10:23 AM, Thomas Huth wrote:
+>> On 18/05/2021 21.32, Philippe Mathieu-Daudé wrote:
+>>> isa_superio_realize() calls isa_fdc_init_drives(), which is defined
+>>> in hw/block/fdc.c, so ISA_SUPERIO needs to select the FDC symbol.
+>>
+>> If I get that right, not all superio chipsets provide a floppy drive
+>> (there's this "k->floppy.is_enabled" check in there) ... but for boards
+>> that don't need the FDC, this would currently require a stub for that
+>> function
+> 
+> Good point. I'll try to get it right.
 
-Thanks!
+As discussed in v6, all superio chips currently have a way to use an FDC, so 
+this version of the patch is fine:
 
-Applied to riscv-to-apply.next
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
-Alistair
-
-> ---
->
->  target/riscv/cpu.h | 2 --
->  target/riscv/cpu.c | 4 ++--
->  2 files changed, 2 insertions(+), 4 deletions(-)
->
-> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> index 7e879fb9ca..adba2ff533 100644
-> --- a/target/riscv/cpu.h
-> +++ b/target/riscv/cpu.h
-> @@ -318,8 +318,6 @@ static inline bool riscv_feature(CPURISCVState *env, int feature)
->
->  extern const char * const riscv_int_regnames[];
->  extern const char * const riscv_fpr_regnames[];
-> -extern const char * const riscv_excp_names[];
-> -extern const char * const riscv_intr_names[];
->
->  const char *riscv_cpu_get_trap_name(target_ulong cause, bool async);
->  void riscv_cpu_do_interrupt(CPUState *cpu);
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index 3191fd0082..7ee31f97a3 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -51,7 +51,7 @@ const char * const riscv_fpr_regnames[] = {
->    "f30/ft10", "f31/ft11"
->  };
->
-> -const char * const riscv_excp_names[] = {
-> +static const char * const riscv_excp_names[] = {
->      "misaligned_fetch",
->      "fault_fetch",
->      "illegal_instruction",
-> @@ -78,7 +78,7 @@ const char * const riscv_excp_names[] = {
->      "guest_store_page_fault",
->  };
->
-> -const char * const riscv_intr_names[] = {
-> +static const char * const riscv_intr_names[] = {
->      "u_software",
->      "s_software",
->      "vs_software",
-> --
-> 2.25.1
->
->
 
