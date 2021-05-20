@@ -2,46 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FD4A38B52A
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 19:28:14 +0200 (CEST)
-Received: from localhost ([::1]:36044 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0965F38B55C
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 19:41:17 +0200 (CEST)
+Received: from localhost ([::1]:38648 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljmSz-0006PB-D1
-	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 13:28:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47340)
+	id 1ljmfb-0000Sj-KX
+	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 13:41:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51182)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cmarinas@kernel.org>)
- id 1ljmSE-0005js-JY
- for qemu-devel@nongnu.org; Thu, 20 May 2021 13:27:26 -0400
-Received: from mail.kernel.org ([198.145.29.99]:32826)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cmarinas@kernel.org>)
- id 1ljmSC-0008Pk-B8
- for qemu-devel@nongnu.org; Thu, 20 May 2021 13:27:26 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 75DE860240;
- Thu, 20 May 2021 17:27:18 +0000 (UTC)
-Date: Thu, 20 May 2021 18:27:16 +0100
-From: Catalin Marinas <catalin.marinas@arm.com>
-To: Steven Price <steven.price@arm.com>
-Subject: Re: [PATCH v12 7/8] KVM: arm64: ioctl to fetch/store tags in a guest
-Message-ID: <20210520172713.GF12251@arm.com>
-References: <20210517123239.8025-1-steven.price@arm.com>
- <20210517123239.8025-8-steven.price@arm.com>
- <20210520120556.GC12251@arm.com>
- <dd5ab3a0-5a74-b145-2485-d6d871be945b@arm.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ljmdr-0008BW-Jc
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 13:39:27 -0400
+Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536]:33433)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ljmdo-00078u-Mh
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 13:39:27 -0400
+Received: by mail-ed1-x536.google.com with SMTP id b17so20408503ede.0
+ for <qemu-devel@nongnu.org>; Thu, 20 May 2021 10:39:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=N3MGvdRzgR1LtJ7Az3ZPPkmgQc4FSkvvpKBdGKvOLvM=;
+ b=jE73w8HjnsDWz+mkVdLn/JyklyUnWGN9gjrtP28vIM7lY7lH/fo+TZPYUW/o8SGXfF
+ acWzd/mj35CiMPM5VvVTDkL06CSslkcbswDvxE70zQ4aBWU01BXKizVk4P+u8nLt8K2v
+ rWSIUO2ZHT+Yexj7vW4LLI5kMtX4sExoa3k/Arf2qlxb4nX8RgfBEi99TScueS79ej2c
+ rP1NkDIZSx1jzsgd+PgPkYxOVkdXMTz3L7KCwM68fkk2t+ut/DQ5AuWG9QK/of2pJNrz
+ 6snq9UwroQiWpBEiibaTqXATWngYRLbzTAjIa1rjQd0xyyJvVuRWru1ZbF60LcbJoEz4
+ IWKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=N3MGvdRzgR1LtJ7Az3ZPPkmgQc4FSkvvpKBdGKvOLvM=;
+ b=obOEb8xHDwpvMz2EUnL1lTkLR9d8PML4srEunIMTedvi1LaQNVu1op1JADh+8PlIjD
+ FekgJOYpfyQtzVVk/8PT84G/iB7XOx07kC10reHgGc7Z6CxQyEKLImGbHKiBaofiu05Y
+ RquwrHmM4uZP8agtPeamp3xjQe6C3C67pA8iJk0CCOSXoco/i+q6BF2+OOy01EgTih4K
+ +V1F45vNUKgd8SpGgcv0Qx83LjH+uECWD0321La0QKrJJ4La3ufGH0GlAme3Hqjg8QK+
+ l3sxoFNv2nVZUFGeheTsvkdgXIOaZZp9oySBKzSyh200ktSf1lgnSyo0zx+/x7tDCtu7
+ j19Q==
+X-Gm-Message-State: AOAM530oqJpGr6E1mjMCNJpYrCn58ioOnzk6zVjoVDCUebD9f6K+ULY1
+ 245IufsZ18tLjY1P5gHsVxAwxNcRTS/zvEGWG2rqRA==
+X-Google-Smtp-Source: ABdhPJwsFFo5NWmQ87KfiO124b2/uwyVZnPzAlgl6WVAd04AEWi+mYpGQuJLH+6AClrF/FqUy1Xvq9+xtvJkHYLjMng=
+X-Received: by 2002:a05:6402:19a:: with SMTP id
+ r26mr6133661edv.44.1621532357246; 
+ Thu, 20 May 2021 10:39:17 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <dd5ab3a0-5a74-b145-2485-d6d871be945b@arm.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Received-SPF: pass client-ip=198.145.29.99; envelope-from=cmarinas@kernel.org;
- helo=mail.kernel.org
-X-Spam_score_int: -66
-X-Spam_score: -6.7
-X-Spam_bar: ------
-X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+References: <alpine.DEB.2.21.2005152117400.3469@digraph.polyomino.org.uk>
+ <alpine.DEB.2.21.2005152120280.3469@digraph.polyomino.org.uk>
+In-Reply-To: <alpine.DEB.2.21.2005152120280.3469@digraph.polyomino.org.uk>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 20 May 2021 18:38:58 +0100
+Message-ID: <CAFEAcA9tbvj47UMM=8yqgsRYu3mia9wzmVTQ8zsBYJey9U42Pw@mail.gmail.com>
+Subject: Re: [PATCH 2/2] target/i386: fix IEEE x87 floating-point exception
+ raising
+To: Joseph Myers <joseph@codesourcery.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::536;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x536.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -55,146 +79,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Andrew Jones <drjones@redhat.com>, Haibo Xu <Haibo.Xu@arm.com>,
- Suzuki K Poulose <suzuki.poulose@arm.com>, qemu-devel@nongnu.org,
- Marc Zyngier <maz@kernel.org>, Juan Quintela <quintela@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, linux-kernel@vger.kernel.org,
- Dave Martin <Dave.Martin@arm.com>, James Morse <james.morse@arm.com>,
- linux-arm-kernel@lists.infradead.org, Thomas Gleixner <tglx@linutronix.de>,
- Will Deacon <will@kernel.org>, kvmarm@lists.cs.columbia.edu,
- Julien Thierry <julien.thierry.kdev@gmail.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, May 20, 2021 at 04:58:01PM +0100, Steven Price wrote:
-> On 20/05/2021 13:05, Catalin Marinas wrote:
-> > On Mon, May 17, 2021 at 01:32:38PM +0100, Steven Price wrote:
-> >> diff --git a/arch/arm64/kvm/arm.c b/arch/arm64/kvm/arm.c
-> >> index e89a5e275e25..4b6c83beb75d 100644
-> >> --- a/arch/arm64/kvm/arm.c
-> >> +++ b/arch/arm64/kvm/arm.c
-> >> @@ -1309,6 +1309,65 @@ static int kvm_vm_ioctl_set_device_addr(struct kvm *kvm,
-> >>  	}
-> >>  }
-> >>  
-> >> +static int kvm_vm_ioctl_mte_copy_tags(struct kvm *kvm,
-> >> +				      struct kvm_arm_copy_mte_tags *copy_tags)
-> >> +{
-> >> +	gpa_t guest_ipa = copy_tags->guest_ipa;
-> >> +	size_t length = copy_tags->length;
-> >> +	void __user *tags = copy_tags->addr;
-> >> +	gpa_t gfn;
-> >> +	bool write = !(copy_tags->flags & KVM_ARM_TAGS_FROM_GUEST);
-> >> +	int ret = 0;
-> >> +
-> >> +	if (copy_tags->reserved[0] || copy_tags->reserved[1])
-> >> +		return -EINVAL;
-> >> +
-> >> +	if (copy_tags->flags & ~KVM_ARM_TAGS_FROM_GUEST)
-> >> +		return -EINVAL;
-> >> +
-> >> +	if (length & ~PAGE_MASK || guest_ipa & ~PAGE_MASK)
-> >> +		return -EINVAL;
-> >> +
-> >> +	gfn = gpa_to_gfn(guest_ipa);
-> >> +
-> >> +	mutex_lock(&kvm->slots_lock);
-> >> +
-> >> +	while (length > 0) {
-> >> +		kvm_pfn_t pfn = gfn_to_pfn_prot(kvm, gfn, write, NULL);
-> >> +		void *maddr;
-> >> +		unsigned long num_tags = PAGE_SIZE / MTE_GRANULE_SIZE;
-> >> +
-> >> +		if (is_error_noslot_pfn(pfn)) {
-> >> +			ret = -EFAULT;
-> >> +			goto out;
-> >> +		}
-> >> +
-> >> +		maddr = page_address(pfn_to_page(pfn));
-> >> +
-> >> +		if (!write) {
-> >> +			num_tags = mte_copy_tags_to_user(tags, maddr, num_tags);
-> >> +			kvm_release_pfn_clean(pfn);
-> > 
-> > Do we need to check if PG_mte_tagged is set? If the page was not faulted
-> > into the guest address space but the VMM has the page, does the
-> > gfn_to_pfn_prot() guarantee that a kvm_set_spte_gfn() was called? If
-> > not, this may read stale tags.
-> 
-> Ah, I hadn't thought about that... No I don't believe gfn_to_pfn_prot()
-> will fault it into the guest.
+On Fri, 15 May 2020 at 22:23, Joseph Myers <joseph@codesourcery.com> wrote:
+>
+> Most x87 instruction implementations fail to raise the expected IEEE
+> floating-point exceptions because they do nothing to convert the
+> exception state from the softfloat machinery into the exception flags
+> in the x87 status word.  There is special-case handling of division to
+> raise the divide-by-zero exception, but that handling is itself buggy:
+> it raises the exception in inappropriate cases (inf / 0 and nan / 0,
+> which should not raise any exceptions, and 0 / 0, which should raise
+> "invalid" instead).
 
-It doesn't indeed. What it does is a get_user_pages() but it's not of
-much help since the VMM pte wouldn't be tagged (we would have solved
-lots of problems if we required PROT_MTE in the VMM...)
+> Signed-off-by: Joseph Myers <joseph@codesourcery.com>
+> ---
+>  target/i386/fpu_helper.c                 | 126 +++-
+>  tests/tcg/i386/test-i386-fp-exceptions.c | 831 +++++++++++++++++++++++
+>  2 files changed, 926 insertions(+), 31 deletions(-)
+>  create mode 100644 tests/tcg/i386/test-i386-fp-exceptions.c
 
-> >> +		} else {
-> >> +			num_tags = mte_copy_tags_from_user(maddr, tags,
-> >> +							   num_tags);
-> >> +			kvm_release_pfn_dirty(pfn);
-> >> +		}
-> > 
-> > Same question here, if the we can't guarantee the stage 2 pte being set,
-> > we'd need to set PG_mte_tagged.
-> 
-> This is arguably worse as we'll be writing tags into the guest but
-> without setting PG_mte_tagged - so they'll be lost when the guest then
-> faults the pages in. Which sounds like it should break migration.
-> 
-> I think the below should be safe, and avoids the overhead of setting the
-> flag just for reads.
-> 
-> Thanks,
-> 
-> Steve
-> 
-> ----8<----
-> 		page = pfn_to_page(pfn);
-> 		maddr = page_address(page);
-> 
-> 		if (!write) {
-> 			if (test_bit(PG_mte_tagged, &page->flags))
-> 				num_tags = mte_copy_tags_to_user(tags, maddr,
-> 							MTE_GRANULES_PER_PAGE);
-> 			else
-> 				/* No tags in memory, so write zeros */
-> 				num_tags = MTE_GRANULES_PER_PAGE -
-> 					clear_user(tag, MTE_GRANULES_PER_PAGE);
-> 			kvm_release_pfn_clean(pfn);
+I've just noticed that the new test program here provokes compiler
+warnings when 'make check-tcg' builds it:
 
-For ptrace we return a -EOPNOTSUPP if the address doesn't have VM_MTE
-but I don't think it makes sense here, so I'm fine with clearing the
-destination and assuming that the tags are zero (as they'd be on
-faulting into the guest.
+make[2]: Entering directory
+'/home/petmay01/linaro/qemu-for-merges/build/all-linux-static/tests/tcg/i386-linux-user'
+/home/petmay01/linaro/qemu-for-merges/tests/docker/docker.py --engine
+auto cc --cc gcc -i qemu/fedora-i386-cross -s
+/home/petmay01/linaro/qemu-for-merges --   -Wall -Werror -O0 -g
+-fno-strict-aliasing -m32
+/home/petmay01/linaro/qemu-for-merges/tests/tcg/i386/test-i386-fp-exceptions.c
+-o test-i386-fp-exceptions  -static
+/home/petmay01/linaro/qemu-for-merges/tests/tcg/i386/test-i386-fp-exceptions.c:
+Assembler messages:
+/home/petmay01/linaro/qemu-for-merges/tests/tcg/i386/test-i386-fp-exceptions.c:426:
+Warning: no instruction mnemonic suffix given and no register
+operands; using default for `fistp'
+/home/petmay01/linaro/qemu-for-merges/tests/tcg/i386/test-i386-fp-exceptions.c:433:
+Warning: no instruction mnemonic suffix given and no register
+operands; using default for `fistp'
+/home/petmay01/linaro/qemu-for-merges/tests/tcg/i386/test-i386-fp-exceptions.c:440:
+Warning: no instruction mnemonic suffix given and no register
+operands; using default for `fistp'
+/home/petmay01/linaro/qemu-for-merges/tests/tcg/i386/test-i386-fp-exceptions.c:447:
+Warning: no instruction mnemonic suffix given and no register
+operands; using default for `fistp'
+/home/petmay01/linaro/qemu-for-merges/tests/tcg/i386/test-i386-fp-exceptions.c:454:
+Warning: no instruction mnemonic suffix given and no register
+operands; using default for `fistp'
+/home/petmay01/linaro/qemu-for-merges/tests/tcg/i386/test-i386-fp-exceptions.c:541:
+Warning: no instruction mnemonic suffix given and no register
+operands; using default for `fisttp'
+/home/petmay01/linaro/qemu-for-merges/tests/tcg/i386/test-i386-fp-exceptions.c:548:
+Warning: no instruction mnemonic suffix given and no register
+operands; using default for `fisttp'
+/home/petmay01/linaro/qemu-for-merges/tests/tcg/i386/test-i386-fp-exceptions.c:555:
+Warning: no instruction mnemonic suffix given and no register
+operands; using default for `fisttp'
+/home/petmay01/linaro/qemu-for-merges/tests/tcg/i386/test-i386-fp-exceptions.c:562:
+Warning: no instruction mnemonic suffix given and no register
+operands; using default for `fisttp'
+/home/petmay01/linaro/qemu-for-merges/tests/tcg/i386/test-i386-fp-exceptions.c:569:
+Warning: no instruction mnemonic suffix given and no register
+operands; using default for `fisttp'
+/home/petmay01/linaro/qemu-for-merges/tests/tcg/i386/test-i386-fp-exceptions.c:576:
+Warning: no instruction mnemonic suffix given and no register
+operands; using default for `fisttp'
+/home/petmay01/linaro/qemu-for-merges/tests/tcg/i386/test-i386-fp-exceptions.c:583:
+Warning: no instruction mnemonic suffix given and no register
+operands; using default for `fisttp'
 
-Another thing I forgot to ask, what's guaranteeing that the page
-supports tags? Does this ioctl ensure that it would attempt the tag
-copying from some device mapping? Do we need some kvm_is_device_pfn()
-check? I guess ZONE_DEVICE memory we just refuse to map in an earlier
-patch.
 
-> 		} else {
-> 			num_tags = mte_copy_tags_from_user(maddr, tags,
-> 							MTE_GRANULES_PER_PAGE);
-> 			kvm_release_pfn_dirty(pfn);
-> 		}
-> 
-> 		if (num_tags != MTE_GRANULES_PER_PAGE) {
-> 			ret = -EFAULT;
-> 			goto out;
-> 		}
-> 
-> 		if (write)
-> 			test_and_set_bit(PG_mte_tagged, &page->flags);
+There's a similar warning also in test-i386.c:
 
-I think a set_bit() would do, I doubt it's any more efficient. But why
-not add it in the 'else' block above where we actually wrote the tags?
-The copy function may have failed part-way through. Maybe your logic is
-correct though, there are invalid tags in the page. Just add a comment.
+/home/petmay01/linaro/qemu-for-merges/tests/docker/docker.py --engine
+auto cc --cc gcc -i qemu/fedora-i386-cross -s
+/home/petmay01/linaro/qemu-for-merges --   -Wall -Werror -O0 -g
+-fno-strict-aliasing -fno-pie  -static -m32 -o test-i386 \
+   /home/petmay01/linaro/qemu-for-merges/tests/tcg/i386/test-i386.c
+/home/petmay01/linaro/qemu-for-merges/tests/tcg/i386/test-i386-code16.S
+/home/petmay01/linaro/qemu-for-merges/tests/tcg/i386/test-i386-vm86.S
+-lm
+/home/petmay01/linaro/qemu-for-merges/tests/tcg/i386/test-i386.c:
+Assembler messages:
+/home/petmay01/linaro/qemu-for-merges/tests/tcg/i386/test-i386.c:869:
+Warning: no instruction mnemonic suffix given and no register
+operands; using default for `fist'
 
--- 
-Catalin
+They don't make the build fail but it would be nice if we could
+make them go away...
+
+thanks
+-- PMM
 
