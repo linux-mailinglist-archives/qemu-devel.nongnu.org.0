@@ -2,71 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F331389FBF
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 10:26:07 +0200 (CEST)
-Received: from localhost ([::1]:50110 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D8CF389FEC
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 10:35:47 +0200 (CEST)
+Received: from localhost ([::1]:45898 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lje0M-0008IM-7U
-	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 04:26:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50430)
+	id 1lje9i-0000N0-9W
+	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 04:35:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50378)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ljdxb-0005NW-FC
- for qemu-devel@nongnu.org; Thu, 20 May 2021 04:23:18 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:41913)
+ id 1ljdxY-0005Mz-9m
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 04:23:14 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:37821)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ljdxX-0001X3-BN
- for qemu-devel@nongnu.org; Thu, 20 May 2021 04:23:13 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id
- l11-20020a05600c4f0bb029017a7cd488f5so2020668wmq.0
- for <qemu-devel@nongnu.org>; Thu, 20 May 2021 01:23:08 -0700 (PDT)
+ id 1ljdxQ-0001TK-9e
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 04:23:11 -0400
+Received: by mail-wr1-x435.google.com with SMTP id q5so16672209wrs.4
+ for <qemu-devel@nongnu.org>; Thu, 20 May 2021 01:23:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=0kzAGXdJzBdfA3QG0wpa3vohEalvQkpe/xDroTVz8aI=;
- b=cbKVhyGtK43alYsCZFGvsWIKWH8VqYgKH8ocJRjAmlndhWGxxCiVYIPU1SCKFxlzXg
- YdTrxr+KofRyUSJ/P7ekCpXF7hCkaTLqLCeafokn8DYLBDmKqF2mqOuFHgCKbmx1l4ef
- m4HWAxmBboeR/DvVZPTJTGN1FLw+0D70PLA1GR+pYwOPRxGghWipyAFeuLm0TOtocVj0
- YpCsO/56GbWM8aLKOM5yBdTl6t8YCGxGZSS4M16qFcw0o2WgzJ1rywWLO1P71ZRabQC+
- xi2HVMOsMypKL93JvFxnDtBhEDabFYmD6sI7xju5C3wEaInzHpPqC/kiKVrcNa44hpH6
- M07g==
+ bh=KQzNl8zfqVtZdobfUUEZ5QYEJ0jQDvY20mVSPHPLVm0=;
+ b=I1W9sJ5tsIia86k6doWbz5+z/cQ9uHu8a0FaPjMRqnky2pJuo4gz5E/IQY/ti/kKhG
+ Ko4KKCHz+3gkl0MZDVpDOdzgPEmrC9BpTIKtjt35fehmBpuue0JDFdVnLtm6A1U77zDV
+ kVZVsrkN6TUWPwFFMxX3xZVGtT6CX6+PUpiHTdcKKTtrM74CSVDowQj4+SZn2arCbue7
+ CuI5TLMiuX0EhYVY4sYP76jaiS+qnnu1E+MJCaJ5e7sI/+hYGxXQtgF2c4mOwzzEA+ao
+ jbNS4ypomkwmbwfD+xpyLc3cd8i7AhXqZmXisj581XWUC2iBDXrhaqUMZ6+apZw4WRog
+ JAXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=0kzAGXdJzBdfA3QG0wpa3vohEalvQkpe/xDroTVz8aI=;
- b=RizCu750q+aW8L4//qOcueh10FZ0bLjfp5Wzi+EqzD3WBcWdUx5souqioVej3XlKyW
- eNnuUhLzq/clWt/tO0KX3Pz/H0moZfIghoi09dHlOYSqVx5XkfSIJCY9HMz46TdO9Cq5
- Tvb0hQIRZkyIZIupU5Q2Ky3dLq5E65MOl/yBK5mOqhUoW4KWlnlvnkFhZoUtjFXyHrcX
- LXjDS3OljV7Aldcbg1qlmuldjedw0KIkY3BGADlTFLc2YTeUNnNNebWVGU9M9660JaNM
- r/MgGxE7rdiBJ5838KEfE5RGFmyY3EJYQwvouhcibQCUG5lnFrGllRX9ZqS8N2M7JdzK
- Hh4A==
-X-Gm-Message-State: AOAM530A2YvaaA5EOQg8ndsKjCBbMbRm32agu8IlEYupgRHt1edpAVao
- ZzaQERmgJaLxx+ampZU8mMn4t6ZsfoHzBQ==
-X-Google-Smtp-Source: ABdhPJw0oSvdRr2EPcCNbtVUU7uJ580dAnL6go8hzpxEIz0EmdpdwAwrPbksldHyKiTWEPQB41ZvAg==
-X-Received: by 2002:a05:600c:896:: with SMTP id
- l22mr2428979wmp.164.1621498987759; 
- Thu, 20 May 2021 01:23:07 -0700 (PDT)
+ bh=KQzNl8zfqVtZdobfUUEZ5QYEJ0jQDvY20mVSPHPLVm0=;
+ b=p/mq6d5HQC1XI4GeObZG3e1yNzz8SNdh6wkxaEB7N6ntVqUnbUJubE57MPc2v4i/5d
+ y8t24xAIkHPsh/WX8gSaBnxhFJJcEqKywZJiy3meuttyzxrCdq0QSaFukZzB80HWD7Rb
+ m18KWuY0Rb1uPzJi2rmk06RPZXcIZV3xngRB+mhRRvewtL+fGCwc8tzjfGzHgc+ne1YW
+ m6ENH7AJqZfD0fdMOGQXyoU6bjVTumPlOTjPg8kAByZWcmy/V8k+bY+uIkaOLB9SDYuh
+ lAh4z2LBH0kCsFu9acWM5TLO7sL/+6s6+rC8XKR2ApdX7yzjQaz05uPgrNaY/P4ZR3aG
+ 26hg==
+X-Gm-Message-State: AOAM530k75hkCD2SYiejgq8mEIaQDihDDfvHQRAc/3fE2IvrHlfbriXe
+ s1T5fR/cLbN8he3E8FjgSra4rjoKkGf67g==
+X-Google-Smtp-Source: ABdhPJzC57ToSBPEUfxIWcKg3wvmWcHa3hZ9Z/XvVLGuFnSv2opTnHyVKSnc971fBFNZYqftJP2lTg==
+X-Received: by 2002:adf:dd51:: with SMTP id u17mr3009970wrm.87.1621498980631; 
+ Thu, 20 May 2021 01:23:00 -0700 (PDT)
 Received: from avogadro.redhat.com ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- v10sm2603506wrq.0.2021.05.20.01.23.07
+ v10sm2603506wrq.0.2021.05.20.01.23.00 for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 May 2021 01:23:07 -0700 (PDT)
+ Thu, 20 May 2021 01:23:00 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 14/26] KVM: Provide helper to sync dirty bitmap from slot to
- ramblock
-Date: Thu, 20 May 2021 10:22:45 +0200
-Message-Id: <20210520082257.187061-15-pbonzini@redhat.com>
+Subject: [PULL 03/26] configure: simplify assignment to GIT_SUBMODULES
+Date: Thu, 20 May 2021 10:22:34 +0200
+Message-Id: <20210520082257.187061-4-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210520082257.187061-1-pbonzini@redhat.com>
 References: <20210520082257.187061-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -87,141 +84,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Peter Xu <peterx@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Peter Xu <peterx@redhat.com>
+Do not guard each assignment with a check for --with-git-submodules=ignore.
+To avoid a confusing "GIT" line from the Makefile, guard the git-submodule-update
+recipe so that it is empty when --with-git-submodules=ignore.
 
-kvm_physical_sync_dirty_bitmap() calculates the ramblock offset in an
-awkward way from the MemoryRegionSection that passed in from the
-caller.  The truth is for each KVMSlot the ramblock offset never
-change for the lifecycle.  Cache the ramblock offset for each KVMSlot
-into the structure when the KVMSlot is created.
-
-With that, we can further simplify kvm_physical_sync_dirty_bitmap()
-with a helper to sync KVMSlot dirty bitmap to the ramblock dirty
-bitmap of a specific KVMSlot.
-
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Signed-off-by: Peter Xu <peterx@redhat.com>
-Message-Id: <20210506160549.130416-6-peterx@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- accel/kvm/kvm-all.c      | 37 +++++++++++++++++--------------------
- include/sysemu/kvm_int.h |  2 ++
- 2 files changed, 19 insertions(+), 20 deletions(-)
+ Makefile  |  2 ++
+ configure | 20 ++++++--------------
+ 2 files changed, 8 insertions(+), 14 deletions(-)
 
-diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-index caaa2a5c98..7031dd4250 100644
---- a/accel/kvm/kvm-all.c
-+++ b/accel/kvm/kvm-all.c
-@@ -573,15 +573,12 @@ static void kvm_log_stop(MemoryListener *listener,
- }
+diff --git a/Makefile b/Makefile
+index 4cab10a2a4..30f19d33bb 100644
+--- a/Makefile
++++ b/Makefile
+@@ -48,9 +48,11 @@ Makefile: .git-submodule-status
  
- /* get kvm's dirty pages bitmap and update qemu's */
--static int kvm_get_dirty_pages_log_range(MemoryRegionSection *section,
--                                         unsigned long *bitmap)
-+static void kvm_slot_sync_dirty_pages(KVMSlot *slot)
- {
--    ram_addr_t start = section->offset_within_region +
--                       memory_region_get_ram_addr(section->mr);
--    ram_addr_t pages = int128_get64(section->size) / qemu_real_host_page_size;
-+    ram_addr_t start = slot->ram_start_offset;
-+    ram_addr_t pages = slot->memory_size / qemu_real_host_page_size;
+ .PHONY: git-submodule-update
+ git-submodule-update:
++ifneq ($(GIT_SUBMODULES_ACTION),ignore)
+ 	$(call quiet-command, \
+ 		(GIT="$(GIT)" "$(SRC_PATH)/scripts/git-submodule.sh" $(GIT_SUBMODULES_ACTION) $(GIT_SUBMODULES)), \
+ 		"GIT","$(GIT_SUBMODULES)")
++endif
  
--    cpu_physical_memory_set_dirty_lebitmap(bitmap, start, pages);
--    return 0;
-+    cpu_physical_memory_set_dirty_lebitmap(slot->dirty_bmap, start, pages);
- }
+ # 0. ensure the build tree is okay
  
- #define ALIGN(x, y)  (((x)+(y)-1) & ~((y)-1))
-@@ -656,26 +653,19 @@ static void kvm_physical_sync_dirty_bitmap(KVMMemoryListener *kml,
-     KVMState *s = kvm_state;
-     KVMSlot *mem;
-     hwaddr start_addr, size;
--    hwaddr slot_size, slot_offset = 0;
-+    hwaddr slot_size;
- 
-     size = kvm_align_section(section, &start_addr);
-     while (size) {
--        MemoryRegionSection subsection = *section;
--
-         slot_size = MIN(kvm_max_slot_size, size);
-         mem = kvm_lookup_matching_slot(kml, start_addr, slot_size);
-         if (!mem) {
-             /* We don't have a slot if we want to trap every access. */
-             return;
-         }
--
-         if (kvm_slot_get_dirty_log(s, mem)) {
--            subsection.offset_within_region += slot_offset;
--            subsection.size = int128_make64(slot_size);
--            kvm_get_dirty_pages_log_range(&subsection, d.dirty_bitmap);
-+            kvm_slot_sync_dirty_pages(mem);
-         }
--
--        slot_offset += slot_size;
-         start_addr += slot_size;
-         size -= slot_size;
-     }
-@@ -1134,7 +1124,8 @@ static void kvm_set_phys_mem(KVMMemoryListener *kml,
-     int err;
-     MemoryRegion *mr = section->mr;
-     bool writeable = !mr->readonly && !mr->rom_device;
--    hwaddr start_addr, size, slot_size;
-+    hwaddr start_addr, size, slot_size, mr_offset;
-+    ram_addr_t ram_start_offset;
-     void *ram;
- 
-     if (!memory_region_is_ram(mr)) {
-@@ -1152,9 +1143,13 @@ static void kvm_set_phys_mem(KVMMemoryListener *kml,
-         return;
-     }
- 
--    /* use aligned delta to align the ram address */
--    ram = memory_region_get_ram_ptr(mr) + section->offset_within_region +
--          (start_addr - section->offset_within_address_space);
-+    /* The offset of the kvmslot within the memory region */
-+    mr_offset = section->offset_within_region + start_addr -
-+        section->offset_within_address_space;
+diff --git a/configure b/configure
+index 4681cbe2d7..55049fe930 100755
+--- a/configure
++++ b/configure
+@@ -256,11 +256,11 @@ gdb_bin=$(command -v "gdb-multiarch" || command -v "gdb")
+ if test -e "$source_path/.git"
+ then
+     git_submodules_action="update"
+-    git_submodules="ui/keycodemapdb"
+ else
+     git_submodules_action="ignore"
+-    git_submodules=""
+ fi
 +
-+    /* use aligned delta to align the ram address and offset */
-+    ram = memory_region_get_ram_ptr(mr) + mr_offset;
-+    ram_start_offset = memory_region_get_ram_addr(mr) + mr_offset;
++git_submodules="ui/keycodemapdb"
+ git="git"
  
-     kvm_slots_lock();
+ # Don't accept a target_list environment variable.
+@@ -3617,9 +3617,7 @@ fi
+ case "$fdt" in
+   auto | enabled | internal)
+     # Simpler to always update submodule, even if not needed.
+-    if test "$git_submodules_action" != "ignore"; then
+-      git_submodules="${git_submodules} dtc"
+-    fi
++    git_submodules="${git_submodules} dtc"
+     ;;
+ esac
  
-@@ -1193,6 +1188,7 @@ static void kvm_set_phys_mem(KVMMemoryListener *kml,
-         mem->as_id = kml->as_id;
-         mem->memory_size = slot_size;
-         mem->start_addr = start_addr;
-+        mem->ram_start_offset = ram_start_offset;
-         mem->ram = ram;
-         mem->flags = kvm_mem_flags(mr);
-         kvm_slot_init_dirty_bitmap(mem);
-@@ -1203,6 +1199,7 @@ static void kvm_set_phys_mem(KVMMemoryListener *kml,
-             abort();
-         }
-         start_addr += slot_size;
-+        ram_start_offset += slot_size;
-         ram += slot_size;
-         size -= slot_size;
-     } while (size);
-diff --git a/include/sysemu/kvm_int.h b/include/sysemu/kvm_int.h
-index e13075f738..ab09a150e1 100644
---- a/include/sysemu/kvm_int.h
-+++ b/include/sysemu/kvm_int.h
-@@ -25,6 +25,8 @@ typedef struct KVMSlot
-     unsigned long *dirty_bmap;
-     /* Cache of the address space ID */
-     int as_id;
-+    /* Cache of the offset in ram address space */
-+    ram_addr_t ram_start_offset;
- } KVMSlot;
+@@ -4328,9 +4326,7 @@ fi
+ case "$capstone" in
+   auto | enabled | internal)
+     # Simpler to always update submodule, even if not needed.
+-    if test "$git_submodules_action" != "ignore"; then
+-      git_submodules="${git_submodules} capstone"
+-    fi
++    git_submodules="${git_submodules} capstone"
+     ;;
+ esac
  
- typedef struct KVMMemoryListener {
+@@ -5260,9 +5256,7 @@ fi
+ case "$slirp" in
+   auto | enabled | internal)
+     # Simpler to always update submodule, even if not needed.
+-    if test "$git_submodules_action" != "ignore"; then
+-      git_submodules="${git_submodules} slirp"
+-    fi
++    git_submodules="${git_submodules} slirp"
+     ;;
+ esac
+ 
+@@ -5454,9 +5448,7 @@ if test "$cpu" = "s390x" ; then
+     roms="$roms s390-ccw"
+     # SLOF is required for building the s390-ccw firmware on s390x,
+     # since it is using the libnet code from SLOF for network booting.
+-    if test "$git_submodules_action" != "ignore"; then
+-      git_submodules="${git_submodules} roms/SLOF"
+-    fi
++    git_submodules="${git_submodules} roms/SLOF"
+   fi
+ fi
+ 
 -- 
 2.31.1
 
