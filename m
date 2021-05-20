@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A1EB389FC7
+	by mail.lfdr.de (Postfix) with ESMTPS id 32D46389FC6
 	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 10:27:57 +0200 (CEST)
-Received: from localhost ([::1]:58616 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:58642 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lje28-0005tM-BX
+	id 1lje28-0005uP-8K
 	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 04:27:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50428)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50466)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ljdxb-0005NV-Ef
- for qemu-devel@nongnu.org; Thu, 20 May 2021 04:23:18 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:35741)
+ id 1ljdxf-0005OF-8n
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 04:23:20 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:39929)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ljdxV-0001Wj-Rt
- for qemu-devel@nongnu.org; Thu, 20 May 2021 04:23:13 -0400
-Received: by mail-wr1-x432.google.com with SMTP id a4so16713811wrr.2
- for <qemu-devel@nongnu.org>; Thu, 20 May 2021 01:23:05 -0700 (PDT)
+ id 1ljdxY-0001Wp-12
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 04:23:15 -0400
+Received: by mail-wr1-x434.google.com with SMTP id v12so16672602wrq.6
+ for <qemu-devel@nongnu.org>; Thu, 20 May 2021 01:23:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=wOmCbiEylv+BfpPB3BvKqjoJGXomxSB65srB+i+LnhU=;
- b=Op+UybUh6jkIjjkbH75pLuRpUK85tznaIUaqiGd5NWZT3YaifjDoeQuLwVOZRreEhh
- AZaiyesiQGtO5yq8H3K1HW2dU2+EBVUmT4Tbg4nLufqydfiyZ1q6dY9EDf5r65hmpvtG
- DPMI2UH80p2XEp5cVyzM+aGo3ui/IvhQ8VeBKZ+jGEjj+262zW9iaswGsifEOzR4gsQv
- EETK5KttM8fjKKRT1FdWJj0oWSGj8MhgHkaRNCz1CJKYcCd5AFi7DXMNxiNHQXyAWVWy
- POJguB34+qqBaM9AwgcEOBfHIiXCa9R+qeUjmRkqpqW+wejE/PrPXZvJy/9ZOH1GoTXv
- jaCg==
+ bh=Dm9fdtL6t7afNY/kOhuKcUr0Mn8HCiKEsUB/elQwJdU=;
+ b=Xpv16JC1lI0DEFy3A6clqgPyC7qz5Yh7uJxqWnohJnudKrIPDlSbO765USVlStTM9U
+ 99rzmQM/AoH/At4S4HPF4Ln/9RGAj/Kp2DtaN2st814CwDLG4vy0CXPRrmO4bUomfV3n
+ PTOV5xiaKFjrFMJ2oNpZFsAn9zki+7VN3NqwSdzirxN/l0hm1Zpgfu7kJpUlpLZWSDrK
+ WnDc3F3652YAOLDEcOE2XDw1FlpwaGig08dd8lMihxmOPS4vnVp/IV1Z7N+YlmbCwZma
+ nADSD7iNAdFne7n1ObuAyHrQ4hF9K4eAit8/CCmh09Xukgx8AHlIUWbwh7lXWw2peszw
+ g8Ag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=wOmCbiEylv+BfpPB3BvKqjoJGXomxSB65srB+i+LnhU=;
- b=ZGiRZ2FXhSiDZ/W2Rj4QAfdCa4PujALvCHwPjbQtqnF4J6CHbOJJzmEd6bVzcnLEbs
- YMDffd/ANbGme0PWQgPubYqYuDj2HIh9zdEZP8a+aHAUrHReuVQg31NgrpfjZWK3hJTz
- y3KwN6pPNn8In04QtvZCGoymP0ZKtZmX7/FW/FEnJSlMInGiTj/H4lrrnGEcfJzknCu1
- sfr75dbEa98t3HMfwE5kQ1DKpSvQCrzD9AuOVn2ZjgvwKKKQmycHaxO3uyMzFmNj9hpe
- kSdELMHudK/jMg9CnZj/Zqxx8hJ+rp4gD45wDMzj2bDhtYMxcIJ7T93bJSqcBpZVuU7I
- vBZg==
-X-Gm-Message-State: AOAM5301PYOy7PqS2i0yksoLNnRXZg6VD60xZqMj30hJJlARgs1zgWSI
- u8pnrUYL/2Bs7tNvJqKFWmVR4O4LVBnWBg==
-X-Google-Smtp-Source: ABdhPJxTO4Bagl4lV0/KfiurZe94KWAhZCU8N3gwmt+6EtxrftYilKQZEVWcTlt3yLoyPnXnKFp25g==
-X-Received: by 2002:adf:e484:: with SMTP id i4mr2929470wrm.117.1621498985145; 
+ bh=Dm9fdtL6t7afNY/kOhuKcUr0Mn8HCiKEsUB/elQwJdU=;
+ b=gGTGYcpRV/f6dxzU2HmnrSjCymcdQ7Gl7lNRLCkjwZjvH3KL3JvDc3HEFVGInnt9aM
+ zHCYFnTjqN+fpjkETs1VPdSQ0vJfuLhvEiEdRccGbF5npIZkG/oUWvLaTfbESAx2M2o0
+ 5QYsTGHfZ21Phc2EMhkDgSmvnjJfhwlcyJ5YVGNzo4g2GYKF9xZM58Sc/iPbQ0a2z6p4
+ 5szGcAi0p/QdLGC9aosMNxZhMZS4h1hvCTP85qwu6mM+hdkXbvvjFj2M6mLb0ajJRGX1
+ 7ldQDY1fTZ4i7w1Z/k4OYTJye4vSuGv5UDB7JoQhTYF1f9ggX9Xw3npuY0jyN2GZGR9K
+ bYmw==
+X-Gm-Message-State: AOAM532+FFvm3DBLJUZjHkZHWAYRNpQJktq9MUNyCuo7f9ZC+a7UaM4S
+ 4ns06Y6bsQ7TWN276EDCnwjTbT3cISMQJA==
+X-Google-Smtp-Source: ABdhPJzTDHqCoJkxq0PkvXsAs1XqBinMf2MenqZ840+6dmmpCI/x69uSKFga9QsLUX3xc3O45CJ1GA==
+X-Received: by 2002:a5d:570c:: with SMTP id a12mr2926498wrv.354.1621498985740; 
  Thu, 20 May 2021 01:23:05 -0700 (PDT)
 Received: from avogadro.redhat.com ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- v10sm2603506wrq.0.2021.05.20.01.23.04
+ v10sm2603506wrq.0.2021.05.20.01.23.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 May 2021 01:23:04 -0700 (PDT)
+ Thu, 20 May 2021 01:23:05 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 10/26] memory: Introduce log_sync_global() to memory listener
-Date: Thu, 20 May 2021 10:22:41 +0200
-Message-Id: <20210520082257.187061-11-pbonzini@redhat.com>
+Subject: [PULL 11/26] KVM: Use a big lock to replace per-kml slots_lock
+Date: Thu, 20 May 2021 10:22:42 +0200
+Message-Id: <20210520082257.187061-12-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210520082257.187061-1-pbonzini@redhat.com>
 References: <20210520082257.187061-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -84,118 +84,175 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Peter Xu <peterx@redhat.com>
+Cc: Peter Xu <peterx@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Peter Xu <peterx@redhat.com>
 
-Some of the memory listener may want to do log synchronization without
-being able to specify a range of memory to sync but always globally.
-Such a memory listener should provide this new method instead of the
-log_sync() method.
+Per-kml slots_lock will bring some trouble if we want to take all slots_lock of
+all the KMLs, especially when we're in a context that we could have taken some
+of the KML slots_lock, then we even need to figure out what we've taken and
+what we need to take.
 
-Obviously we can also achieve similar thing when we put the global
-sync logic into a log_sync() handler. However that's not efficient
-enough because otherwise memory_global_dirty_log_sync() may do the
-global sync N times, where N is the number of flat ranges in the
-address space.
+Make this simple by merging all KML slots_lock into a single slots lock.
 
-Make this new method be exclusive to log_sync().
+Per-kml slots_lock isn't anything that helpful anyway - so far only x86 has two
+address spaces (so, two slots_locks).  All the rest archs will be having one
+address space always, which means there's actually one slots_lock so it will be
+the same as before.
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: Peter Xu <peterx@redhat.com>
-Message-Id: <20210506160549.130416-2-peterx@redhat.com>
+Message-Id: <20210506160549.130416-3-peterx@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- include/exec/memory.h | 12 ++++++++++++
- softmmu/memory.c      | 33 +++++++++++++++++++++++----------
- 2 files changed, 35 insertions(+), 10 deletions(-)
+ accel/kvm/kvm-all.c      | 33 ++++++++++++++++++---------------
+ include/sysemu/kvm_int.h |  2 --
+ 2 files changed, 18 insertions(+), 17 deletions(-)
 
-diff --git a/include/exec/memory.h b/include/exec/memory.h
-index c8b9088924..e38b7e3dce 100644
---- a/include/exec/memory.h
-+++ b/include/exec/memory.h
-@@ -616,6 +616,18 @@ struct MemoryListener {
-      */
-     void (*log_sync)(MemoryListener *listener, MemoryRegionSection *section);
+diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+index 54c0860979..f8980e155b 100644
+--- a/accel/kvm/kvm-all.c
++++ b/accel/kvm/kvm-all.c
+@@ -172,8 +172,10 @@ typedef struct KVMResampleFd KVMResampleFd;
+ static QLIST_HEAD(, KVMResampleFd) kvm_resample_fd_list =
+     QLIST_HEAD_INITIALIZER(kvm_resample_fd_list);
  
-+    /**
-+     * @log_sync_global:
-+     *
-+     * This is the global version of @log_sync when the listener does
-+     * not have a way to synchronize the log with finer granularity.
-+     * When the listener registers with @log_sync_global defined, then
-+     * its @log_sync must be NULL.  Vice versa.
-+     *
-+     * @listener: The #MemoryListener.
-+     */
-+    void (*log_sync_global)(MemoryListener *listener);
+-#define kvm_slots_lock(kml)      qemu_mutex_lock(&(kml)->slots_lock)
+-#define kvm_slots_unlock(kml)    qemu_mutex_unlock(&(kml)->slots_lock)
++static QemuMutex kml_slots_lock;
 +
-     /**
-      * @log_clear:
-      *
-diff --git a/softmmu/memory.c b/softmmu/memory.c
-index 3bb533c0bc..c19b0be6b1 100644
---- a/softmmu/memory.c
-+++ b/softmmu/memory.c
-@@ -2055,6 +2055,10 @@ void memory_region_set_dirty(MemoryRegion *mr, hwaddr addr,
-                                         memory_region_get_dirty_log_mask(mr));
- }
++#define kvm_slots_lock()    qemu_mutex_lock(&kml_slots_lock)
++#define kvm_slots_unlock()  qemu_mutex_unlock(&kml_slots_lock)
  
-+/*
-+ * If memory region `mr' is NULL, do global sync.  Otherwise, sync
-+ * dirty bitmap for the specified memory region.
-+ */
- static void memory_region_sync_dirty_bitmap(MemoryRegion *mr)
+ static inline void kvm_resample_fd_remove(int gsi)
  {
-     MemoryListener *listener;
-@@ -2068,18 +2072,24 @@ static void memory_region_sync_dirty_bitmap(MemoryRegion *mr)
-      * address space once.
-      */
-     QTAILQ_FOREACH(listener, &memory_listeners, link) {
--        if (!listener->log_sync) {
--            continue;
--        }
--        as = listener->address_space;
--        view = address_space_get_flatview(as);
--        FOR_EACH_FLAT_RANGE(fr, view) {
--            if (fr->dirty_log_mask && (!mr || fr->mr == mr)) {
--                MemoryRegionSection mrs = section_from_flat_range(fr, view);
--                listener->log_sync(listener, &mrs);
-+        if (listener->log_sync) {
-+            as = listener->address_space;
-+            view = address_space_get_flatview(as);
-+            FOR_EACH_FLAT_RANGE(fr, view) {
-+                if (fr->dirty_log_mask && (!mr || fr->mr == mr)) {
-+                    MemoryRegionSection mrs = section_from_flat_range(fr, view);
-+                    listener->log_sync(listener, &mrs);
-+                }
-             }
-+            flatview_unref(view);
-+        } else if (listener->log_sync_global) {
-+            /*
-+             * No matter whether MR is specified, what we can do here
-+             * is to do a global sync, because we are not capable to
-+             * sync in a finer granularity.
-+             */
-+            listener->log_sync_global(listener);
+@@ -239,9 +241,9 @@ bool kvm_has_free_slot(MachineState *ms)
+     bool result;
+     KVMMemoryListener *kml = &s->memory_listener;
+ 
+-    kvm_slots_lock(kml);
++    kvm_slots_lock();
+     result = !!kvm_get_free_slot(kml);
+-    kvm_slots_unlock(kml);
++    kvm_slots_unlock();
+ 
+     return result;
+ }
+@@ -307,7 +309,7 @@ int kvm_physical_memory_addr_from_host(KVMState *s, void *ram,
+     KVMMemoryListener *kml = &s->memory_listener;
+     int i, ret = 0;
+ 
+-    kvm_slots_lock(kml);
++    kvm_slots_lock();
+     for (i = 0; i < s->nr_slots; i++) {
+         KVMSlot *mem = &kml->slots[i];
+ 
+@@ -317,7 +319,7 @@ int kvm_physical_memory_addr_from_host(KVMState *s, void *ram,
+             break;
          }
--        flatview_unref(view);
      }
+-    kvm_slots_unlock(kml);
++    kvm_slots_unlock();
+ 
+     return ret;
+ }
+@@ -513,7 +515,7 @@ static int kvm_section_update_flags(KVMMemoryListener *kml,
+         return 0;
+     }
+ 
+-    kvm_slots_lock(kml);
++    kvm_slots_lock();
+ 
+     while (size && !ret) {
+         slot_size = MIN(kvm_max_slot_size, size);
+@@ -529,7 +531,7 @@ static int kvm_section_update_flags(KVMMemoryListener *kml,
+     }
+ 
+ out:
+-    kvm_slots_unlock(kml);
++    kvm_slots_unlock();
+     return ret;
  }
  
-@@ -2767,6 +2777,9 @@ void memory_listener_register(MemoryListener *listener, AddressSpace *as)
- {
-     MemoryListener *other = NULL;
+@@ -810,7 +812,7 @@ static int kvm_physical_log_clear(KVMMemoryListener *kml,
+         return ret;
+     }
  
-+    /* Only one of them can be defined for a listener */
-+    assert(!(listener->log_sync && listener->log_sync_global));
+-    kvm_slots_lock(kml);
++    kvm_slots_lock();
+ 
+     for (i = 0; i < s->nr_slots; i++) {
+         mem = &kml->slots[i];
+@@ -836,7 +838,7 @@ static int kvm_physical_log_clear(KVMMemoryListener *kml,
+         }
+     }
+ 
+-    kvm_slots_unlock(kml);
++    kvm_slots_unlock();
+ 
+     return ret;
+ }
+@@ -1141,7 +1143,7 @@ static void kvm_set_phys_mem(KVMMemoryListener *kml,
+     ram = memory_region_get_ram_ptr(mr) + section->offset_within_region +
+           (start_addr - section->offset_within_address_space);
+ 
+-    kvm_slots_lock(kml);
++    kvm_slots_lock();
+ 
+     if (!add) {
+         do {
+@@ -1199,7 +1201,7 @@ static void kvm_set_phys_mem(KVMMemoryListener *kml,
+     } while (size);
+ 
+ out:
+-    kvm_slots_unlock(kml);
++    kvm_slots_unlock();
+ }
+ 
+ static void kvm_region_add(MemoryListener *listener,
+@@ -1226,9 +1228,9 @@ static void kvm_log_sync(MemoryListener *listener,
+     KVMMemoryListener *kml = container_of(listener, KVMMemoryListener, listener);
+     int r;
+ 
+-    kvm_slots_lock(kml);
++    kvm_slots_lock();
+     r = kvm_physical_sync_dirty_bitmap(kml, section);
+-    kvm_slots_unlock(kml);
++    kvm_slots_unlock();
+     if (r < 0) {
+         abort();
+     }
+@@ -1328,7 +1330,6 @@ void kvm_memory_listener_register(KVMState *s, KVMMemoryListener *kml,
+ {
+     int i;
+ 
+-    qemu_mutex_init(&kml->slots_lock);
+     kml->slots = g_malloc0(s->nr_slots * sizeof(KVMSlot));
+     kml->as_id = as_id;
+ 
+@@ -2001,6 +2002,8 @@ static int kvm_init(MachineState *ms)
+     int type = 0;
+     uint64_t dirty_log_manual_caps;
+ 
++    qemu_mutex_init(&kml_slots_lock);
 +
-     listener->address_space = as;
-     if (QTAILQ_EMPTY(&memory_listeners)
-         || listener->priority >= QTAILQ_LAST(&memory_listeners)->priority) {
+     s = KVM_STATE(ms->accelerator);
+ 
+     /*
+diff --git a/include/sysemu/kvm_int.h b/include/sysemu/kvm_int.h
+index ccb8869f01..1da30e1884 100644
+--- a/include/sysemu/kvm_int.h
++++ b/include/sysemu/kvm_int.h
+@@ -27,8 +27,6 @@ typedef struct KVMSlot
+ 
+ typedef struct KVMMemoryListener {
+     MemoryListener listener;
+-    /* Protects the slots and all inside them */
+-    QemuMutex slots_lock;
+     KVMSlot *slots;
+     int as_id;
+ } KVMMemoryListener;
 -- 
 2.31.1
 
