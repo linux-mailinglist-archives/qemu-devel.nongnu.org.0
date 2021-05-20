@@ -2,55 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CE9A38B393
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 17:48:40 +0200 (CEST)
-Received: from localhost ([::1]:52690 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1449338B3F9
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 18:02:36 +0200 (CEST)
+Received: from localhost ([::1]:32924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljkud-0001qe-K0
-	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 11:48:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53514)
+	id 1ljl82-0007tR-Qz
+	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 12:02:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56036)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1ljksB-00005n-4i; Thu, 20 May 2021 11:46:07 -0400
-Resent-Date: Thu, 20 May 2021 11:46:07 -0400
-Resent-Message-Id: <E1ljksB-00005n-4i@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21384)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1ljks6-0008SZ-SR; Thu, 20 May 2021 11:46:06 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1621525552; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=ePtzOlmapiV8JkixF8yhxC74cO0cP+IEnFtOVGshTTmaVXitdqGoQJa2QzCKmdpYLC3MqtPHyf4iJOACkyjPBYyYV1zqHgUUJ1sqvqSVJ+JQWoOmuhhIwK3FOSwmVf5krGAUVxRg9w5iGAgxRrBKhGiVZIKYKl8B9hG5NpyfchQ=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1621525552;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=/OY1Zwthdk8Wy1s3tejRNkuwWfd5mmM/tL9V6LXcQ8k=; 
- b=JrGIcp0szmE8KGBlKQzaA2cG7cUNHfBcFHok52iuacXjFwv4zXhRST+e4SF7P3vbA8tthAv7+FfAYR1Pxp3KZwzUHQZT5I3cc/aA9cvREXWE8TfQXH7RjgQ8Kn3ajH6tIzRiYEchV+AyjJ2PBS58MJx0r+QkW6qGCvjwQwbx2jg=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1621525549294572.0422077754996;
- Thu, 20 May 2021 08:45:49 -0700 (PDT)
-In-Reply-To: <20210520152840.24453-1-peter.maydell@linaro.org>
-Subject: Re: [PATCH 0/9] target/arm: MVE preliminaries
-Message-ID: <162152554825.4995.718077746100009057@0addf061776e>
+ (Exim 4.90_1) (envelope-from <steven.price@arm.com>)
+ id 1ljl3z-0006IR-Mr
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 11:58:20 -0400
+Received: from foss.arm.com ([217.140.110.172]:47230)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <steven.price@arm.com>) id 1ljl3n-0005bU-EP
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 11:58:16 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 563B131B;
+ Thu, 20 May 2021 08:58:05 -0700 (PDT)
+Received: from [192.168.1.179] (unknown [172.31.20.19])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 804E03F73B;
+ Thu, 20 May 2021 08:58:02 -0700 (PDT)
+From: Steven Price <steven.price@arm.com>
+Subject: Re: [PATCH v12 7/8] KVM: arm64: ioctl to fetch/store tags in a guest
+To: Catalin Marinas <catalin.marinas@arm.com>
+References: <20210517123239.8025-1-steven.price@arm.com>
+ <20210517123239.8025-8-steven.price@arm.com> <20210520120556.GC12251@arm.com>
+Message-ID: <dd5ab3a0-5a74-b145-2485-d6d871be945b@arm.com>
+Date: Thu, 20 May 2021 16:58:01 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: peter.maydell@linaro.org
-Date: Thu, 20 May 2021 08:45:49 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210520120556.GC12251@arm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=217.140.110.172;
+ envelope-from=steven.price@arm.com; helo=foss.arm.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -64,70 +58,145 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Andrew Jones <drjones@redhat.com>, Haibo Xu <Haibo.Xu@arm.com>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>, qemu-devel@nongnu.org,
+ Marc Zyngier <maz@kernel.org>, Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, linux-kernel@vger.kernel.org,
+ Dave Martin <Dave.Martin@arm.com>, James Morse <james.morse@arm.com>,
+ linux-arm-kernel@lists.infradead.org, Thomas Gleixner <tglx@linutronix.de>,
+ Will Deacon <will@kernel.org>, kvmarm@lists.cs.columbia.edu,
+ Julien Thierry <julien.thierry.kdev@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDUyMDE1Mjg0MC4yNDQ1
-My0xLXBldGVyLm1heWRlbGxAbGluYXJvLm9yZy8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVtcyB0
-byBoYXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvcgpt
-b3JlIGluZm9ybWF0aW9uOgoKVHlwZTogc2VyaWVzCk1lc3NhZ2UtaWQ6IDIwMjEwNTIwMTUyODQw
-LjI0NDUzLTEtcGV0ZXIubWF5ZGVsbEBsaW5hcm8ub3JnClN1YmplY3Q6IFtQQVRDSCAwLzldIHRh
-cmdldC9hcm06IE1WRSBwcmVsaW1pbmFyaWVzCgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMh
-L2Jpbi9iYXNoCmdpdCByZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0IDAKZ2l0IGNv
-bmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5y
-ZW5hbWVzIFRydWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhpc3RvZ3JhbQou
-L3NjcmlwdHMvY2hlY2twYXRjaC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVTVCBTQ1JJUFQg
-RU5EID09PQoKVXBkYXRpbmcgM2M4Y2Y1YTljMjFmZjg3ODIxNjRkMWRlZjdmNDRiZDg4ODcxMzM4
-NApGcm9tIGh0dHBzOi8vZ2l0aHViLmNvbS9wYXRjaGV3LXByb2plY3QvcWVtdQogKiBbbmV3IHRh
-Z10gICAgICAgICBwYXRjaGV3LzIwMjEwNTIwMTUyODQwLjI0NDUzLTEtcGV0ZXIubWF5ZGVsbEBs
-aW5hcm8ub3JnIC0+IHBhdGNoZXcvMjAyMTA1MjAxNTI4NDAuMjQ0NTMtMS1wZXRlci5tYXlkZWxs
-QGxpbmFyby5vcmcKICogW25ldyB0YWddICAgICAgICAgcGF0Y2hldy8yMDIxMDUyMDE1MzgzMS4x
-MTg3My0xLWFsZXguYmVubmVlQGxpbmFyby5vcmcgLT4gcGF0Y2hldy8yMDIxMDUyMDE1MzgzMS4x
-MTg3My0xLWFsZXguYmVubmVlQGxpbmFyby5vcmcKU3dpdGNoZWQgdG8gYSBuZXcgYnJhbmNoICd0
-ZXN0Jwo1NzE0YjI5IHRhcmdldC9hcm06IEFsbG93IGJvYXJkIG1vZGVscyB0byBzcGVjaWZ5IGlu
-aXRpYWwgTlMgVlRPUgowYTkxYzRkIHRhcmdldC9hcm06IEVuYWJsZSBGUFNDUi5RQyBiaXQgZm9y
-IE1WRQpkNDdkYTc4IHRhcmdldC9hcm06IE1ha2UgRlBTQ1IuTFRQU0laRSB3cml0YWJsZSBmb3Ig
-TVZFCjZjNzIyOWEgdGFyZ2V0L2FybTogSW1wbGVtZW50IE0tcHJvZmlsZSBWUFIgcmVnaXN0ZXIK
-NDdkYmVkMiB0YXJnZXQvYXJtOiBGaXggcmV0dXJuIHZhbHVlcyBpbiBmcF9zeXNyZWdfY2hlY2tz
-KCkKNGIzNmE3MiB0YXJnZXQvYXJtOiBBZGQgTVZFIGNoZWNrIHRvIFZNT1ZfcmVnX3NwIGFuZCBW
-TU9WX3JlZ19kcApkYmVmYWZkIHRhcmdldC9hcm06IE1vdmUgZnBzcC9mcGRwIGlzYXIgY2hlY2sg
-aW50byBjYWxsZXJzIG9mIGRvX3ZmcF8yb3Bfc3AvZHAKNDkzYTg1OSB0YXJnZXQvYXJtOiBVcGRh
-dGUgZmVhdHVyZSBjaGVja3MgZm9yIGluc25zIHdoaWNoIGFyZSAiTVZFIG9yIEZQIgo2MzNmYTBj
-IHRhcmdldC9hcm06IEFkZCBpc2FyIGZlYXR1cmUgY2hlY2sgZnVuY3Rpb25zIGZvciBNVkUKCj09
-PSBPVVRQVVQgQkVHSU4gPT09CjEvOSBDaGVja2luZyBjb21taXQgNjMzZmEwYzhkZTBiICh0YXJn
-ZXQvYXJtOiBBZGQgaXNhciBmZWF0dXJlIGNoZWNrIGZ1bmN0aW9ucyBmb3IgTVZFKQoyLzkgQ2hl
-Y2tpbmcgY29tbWl0IDQ5M2E4NTljMWQ3MiAodGFyZ2V0L2FybTogVXBkYXRlIGZlYXR1cmUgY2hl
-Y2tzIGZvciBpbnNucyB3aGljaCBhcmUgIk1WRSBvciBGUCIpCjMvOSBDaGVja2luZyBjb21taXQg
-ZGJlZmFmZGZlZmYzICh0YXJnZXQvYXJtOiBNb3ZlIGZwc3AvZnBkcCBpc2FyIGNoZWNrIGludG8g
-Y2FsbGVycyBvZiBkb192ZnBfMm9wX3NwL2RwKQo0LzkgQ2hlY2tpbmcgY29tbWl0IDRiMzZhNzJi
-NGZkNyAodGFyZ2V0L2FybTogQWRkIE1WRSBjaGVjayB0byBWTU9WX3JlZ19zcCBhbmQgVk1PVl9y
-ZWdfZHApCkVSUk9SOiBzcGFjZXMgcmVxdWlyZWQgYXJvdW5kIHRoYXQgJyonIChjdHg6V3hWKQoj
-Mjg6IEZJTEU6IHRhcmdldC9hcm0vdHJhbnNsYXRlLXZmcC5jOjI4MjM6CisgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgIGFyZ18jI0lOU04jI18jI1BSRUMgKmEpICAgXAogICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIF4K
-CnRvdGFsOiAxIGVycm9ycywgMCB3YXJuaW5ncywgMjEgbGluZXMgY2hlY2tlZAoKUGF0Y2ggNC85
-IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJv
-cnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2Vl
-CkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCgo1LzkgQ2hlY2tpbmcgY29tbWl0IDQ3ZGJlZDIy
-Y2Y1YSAodGFyZ2V0L2FybTogRml4IHJldHVybiB2YWx1ZXMgaW4gZnBfc3lzcmVnX2NoZWNrcygp
-KQo2LzkgQ2hlY2tpbmcgY29tbWl0IDZjNzIyOWFhYjQ0NSAodGFyZ2V0L2FybTogSW1wbGVtZW50
-IE0tcHJvZmlsZSBWUFIgcmVnaXN0ZXIpCjcvOSBDaGVja2luZyBjb21taXQgZDQ3ZGE3ODQ1NmUw
-ICh0YXJnZXQvYXJtOiBNYWtlIEZQU0NSLkxUUFNJWkUgd3JpdGFibGUgZm9yIE1WRSkKOC85IENo
-ZWNraW5nIGNvbW1pdCAwYTkxYzRkZWIyODUgKHRhcmdldC9hcm06IEVuYWJsZSBGUFNDUi5RQyBi
-aXQgZm9yIE1WRSkKOS85IENoZWNraW5nIGNvbW1pdCA1NzE0YjI5YTNiNmUgKHRhcmdldC9hcm06
-IEFsbG93IGJvYXJkIG1vZGVscyB0byBzcGVjaWZ5IGluaXRpYWwgTlMgVlRPUikKV0FSTklORzog
-bGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzU1OiBGSUxFOiBpbmNsdWRlL2h3L2FybS9hcm12N20u
-aDo0OToKKyAqICsgUHJvcGVydHkgImluaXQtbnN2dG9yIjogbm9uLXNlY3VyZSBWVE9SIHJlc2V0
-IHZhbHVlIChmb3J3YXJkZWQgdG8gQ1BVIG9iamVjdCkKCnRvdGFsOiAwIGVycm9ycywgMSB3YXJu
-aW5ncywgNjMgbGluZXMgY2hlY2tlZAoKUGF0Y2ggOS85IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxl
-YXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyBy
-ZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5F
-UlMuCj09PSBPVVRQVVQgRU5EID09PQoKVGVzdCBjb21tYW5kIGV4aXRlZCB3aXRoIGNvZGU6IDEK
-CgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIw
-MjEwNTIwMTUyODQwLjI0NDUzLTEtcGV0ZXIubWF5ZGVsbEBsaW5hcm8ub3JnL3Rlc3RpbmcuY2hl
-Y2twYXRjaC8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkg
-YnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRi
-YWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
+On 20/05/2021 13:05, Catalin Marinas wrote:
+> On Mon, May 17, 2021 at 01:32:38PM +0100, Steven Price wrote:
+>> diff --git a/arch/arm64/include/uapi/asm/kvm.h b/arch/arm64/include/uapi/asm/kvm.h
+>> index 24223adae150..b3edde68bc3e 100644
+>> --- a/arch/arm64/include/uapi/asm/kvm.h
+>> +++ b/arch/arm64/include/uapi/asm/kvm.h
+>> @@ -184,6 +184,17 @@ struct kvm_vcpu_events {
+>>  	__u32 reserved[12];
+>>  };
+>>  
+>> +struct kvm_arm_copy_mte_tags {
+>> +	__u64 guest_ipa;
+>> +	__u64 length;
+>> +	void __user *addr;
+>> +	__u64 flags;
+>> +	__u64 reserved[2];
+> 
+> I forgot the past discussions, what's the reserved for? Future
+> expansion?
+
+Yes - for future expansion. Marc asked for them[1]:
+
+> I'd be keen on a couple of reserved __64s. Just in case...
+
+[1] https://lore.kernel.org/r/87ft14xl9e.wl-maz%40kernel.org
+
+>> diff --git a/arch/arm64/kvm/arm.c b/arch/arm64/kvm/arm.c
+>> index e89a5e275e25..4b6c83beb75d 100644
+>> --- a/arch/arm64/kvm/arm.c
+>> +++ b/arch/arm64/kvm/arm.c
+>> @@ -1309,6 +1309,65 @@ static int kvm_vm_ioctl_set_device_addr(struct kvm *kvm,
+>>  	}
+>>  }
+>>  
+>> +static int kvm_vm_ioctl_mte_copy_tags(struct kvm *kvm,
+>> +				      struct kvm_arm_copy_mte_tags *copy_tags)
+>> +{
+>> +	gpa_t guest_ipa = copy_tags->guest_ipa;
+>> +	size_t length = copy_tags->length;
+>> +	void __user *tags = copy_tags->addr;
+>> +	gpa_t gfn;
+>> +	bool write = !(copy_tags->flags & KVM_ARM_TAGS_FROM_GUEST);
+>> +	int ret = 0;
+>> +
+>> +	if (copy_tags->reserved[0] || copy_tags->reserved[1])
+>> +		return -EINVAL;
+>> +
+>> +	if (copy_tags->flags & ~KVM_ARM_TAGS_FROM_GUEST)
+>> +		return -EINVAL;
+>> +
+>> +	if (length & ~PAGE_MASK || guest_ipa & ~PAGE_MASK)
+>> +		return -EINVAL;
+>> +
+>> +	gfn = gpa_to_gfn(guest_ipa);
+>> +
+>> +	mutex_lock(&kvm->slots_lock);
+>> +
+>> +	while (length > 0) {
+>> +		kvm_pfn_t pfn = gfn_to_pfn_prot(kvm, gfn, write, NULL);
+>> +		void *maddr;
+>> +		unsigned long num_tags = PAGE_SIZE / MTE_GRANULE_SIZE;
+>> +
+>> +		if (is_error_noslot_pfn(pfn)) {
+>> +			ret = -EFAULT;
+>> +			goto out;
+>> +		}
+>> +
+>> +		maddr = page_address(pfn_to_page(pfn));
+>> +
+>> +		if (!write) {
+>> +			num_tags = mte_copy_tags_to_user(tags, maddr, num_tags);
+>> +			kvm_release_pfn_clean(pfn);
+> 
+> Do we need to check if PG_mte_tagged is set? If the page was not faulted
+> into the guest address space but the VMM has the page, does the
+> gfn_to_pfn_prot() guarantee that a kvm_set_spte_gfn() was called? If
+> not, this may read stale tags.
+
+Ah, I hadn't thought about that... No I don't believe gfn_to_pfn_prot()
+will fault it into the guest.
+
+>> +		} else {
+>> +			num_tags = mte_copy_tags_from_user(maddr, tags,
+>> +							   num_tags);
+>> +			kvm_release_pfn_dirty(pfn);
+>> +		}
+> 
+> Same question here, if the we can't guarantee the stage 2 pte being set,
+> we'd need to set PG_mte_tagged.
+
+This is arguably worse as we'll be writing tags into the guest but
+without setting PG_mte_tagged - so they'll be lost when the guest then
+faults the pages in. Which sounds like it should break migration.
+
+I think the below should be safe, and avoids the overhead of setting the
+flag just for reads.
+
+Thanks,
+
+Steve
+
+----8<----
+		page = pfn_to_page(pfn);
+		maddr = page_address(page);
+
+		if (!write) {
+			if (test_bit(PG_mte_tagged, &page->flags))
+				num_tags = mte_copy_tags_to_user(tags, maddr,
+							MTE_GRANULES_PER_PAGE);
+			else
+				/* No tags in memory, so write zeros */
+				num_tags = MTE_GRANULES_PER_PAGE -
+					clear_user(tag, MTE_GRANULES_PER_PAGE);
+			kvm_release_pfn_clean(pfn);
+		} else {
+			num_tags = mte_copy_tags_from_user(maddr, tags,
+							MTE_GRANULES_PER_PAGE);
+			kvm_release_pfn_dirty(pfn);
+		}
+
+		if (num_tags != MTE_GRANULES_PER_PAGE) {
+			ret = -EFAULT;
+			goto out;
+		}
+
+		if (write)
+			test_and_set_bit(PG_mte_tagged, &page->flags);
 
