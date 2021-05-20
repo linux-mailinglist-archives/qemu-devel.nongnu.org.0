@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E878938B33B
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 17:27:26 +0200 (CEST)
-Received: from localhost ([::1]:35622 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCFB138B303
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 17:22:16 +0200 (CEST)
+Received: from localhost ([::1]:47648 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljka6-00043s-0G
-	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 11:27:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46902)
+	id 1ljkV5-0001bE-Up
+	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 11:22:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ljkR5-00054q-Qn
- for qemu-devel@nongnu.org; Thu, 20 May 2021 11:18:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59963)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ljkR6-00058J-Vo
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 11:18:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58358)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ljkR2-0003uC-K8
- for qemu-devel@nongnu.org; Thu, 20 May 2021 11:18:07 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ljkR4-0003wQ-SD
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 11:18:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621523883;
+ s=mimecast20190719; t=1621523885;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=z85wLyi/Bh1rXl9DWz5K+raZ30zdPxU2no06+piLtVQ=;
- b=CJHaDAN3gHHqGtbXlb4g5W3PDCNYf1P6oqQYNX3grtamA3ZfhYbYNuXCGjeKyHwa2TA2Sf
- pGwvXYLvN895nQFDDJvID7w0/2BiLBBxY6UXzaGt0fGuUKeME9UcAt01Q/KtFjtQj0RQbP
- sSFYpKROpFqENZKGP/P0EloHTAagC0Y=
+ bh=d+gK0iWz83spFrtFnLD87oxCq0K8Ibm8tVN5l43FphQ=;
+ b=HhuUGYcuQ6AmIWF8zKhZmxCBdFfGIwdgbjVYQ2hDJwTo9j6DzzMKy7OikFJabPtuWblh90
+ isKsQgowu3Qkh1ff5axI3a4cxE4xAnHXcQrzF66N8vNr7pPGI3XmQHoLBFuj9/4VhPnhTD
+ ehzm7G6Ku4tpkviSkoC+Pel9Vcq7kw0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-401-KbtpVRi4MeGCWDuEkri3gA-1; Thu, 20 May 2021 11:18:02 -0400
-X-MC-Unique: KbtpVRi4MeGCWDuEkri3gA-1
+ us-mta-436-OY74SVZSOKyhISv5G6ECHg-1; Thu, 20 May 2021 11:18:03 -0400
+X-MC-Unique: OY74SVZSOKyhISv5G6ECHg-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 23D501013722;
- Thu, 20 May 2021 15:18:01 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 289D8180FD65;
+ Thu, 20 May 2021 15:18:02 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-117-64.rdu2.redhat.com [10.10.117.64])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7707A19CBE;
- Thu, 20 May 2021 15:18:00 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 48E096062F;
+ Thu, 20 May 2021 15:18:01 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/3] qapi/expr: Split check_expr out from check_exprs
-Date: Thu, 20 May 2021 11:17:57 -0400
-Message-Id: <20210520151759.91929-2-jsnow@redhat.com>
+Subject: [PATCH 2/3] qapi/parser.py: add ParsedExpression type
+Date: Thu, 20 May 2021 11:17:58 -0400
+Message-Id: <20210520151759.91929-3-jsnow@redhat.com>
 In-Reply-To: <20210520151759.91929-1-jsnow@redhat.com>
 References: <20210520151759.91929-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -55,7 +55,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -81,223 +81,179 @@ Cc: Michael Roth <michael.roth@amd.com>, John Snow <jsnow@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Primarily, this reduces a nesting level of a particularly long
-block. Mostly code movement, a new docstring is created.
+This is an immutable, named, typed tuple. It's nicer than arbitrary
+dicts for passing data around when using strict typing. We may upgrade
+this to a @dataclass style class in the future if we want to support
+mutability at a later time. (And after 3.7+ is available for use.)
 
-(It also has the effect of creating a fairly convenient choke point in
-check_exprs for try/catch wrappers without making the nesting level even
-worse.)
+Turn parser.exprs into a list of ParsedExpressions instead, and adjust
+expr.py to match.
+
+This allows the types we specify in parser.py to be remembered all the
+way through expr.py and into schema.py. Several assertions around
+packing and unpacking this data can be removed as a result.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qapi/expr.py | 189 +++++++++++++++++++++++--------------------
- 1 file changed, 100 insertions(+), 89 deletions(-)
+ scripts/qapi/expr.py   | 29 +++++++++--------------------
+ scripts/qapi/parser.py | 29 ++++++++++++++++++-----------
+ scripts/qapi/schema.py |  6 +++---
+ 3 files changed, 30 insertions(+), 34 deletions(-)
 
 diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
-index 496f7e0333e..9dff0cd9080 100644
+index 9dff0cd9080..6d89343897c 100644
 --- a/scripts/qapi/expr.py
 +++ b/scripts/qapi/expr.py
-@@ -586,6 +586,104 @@ def check_event(expr: _JSONObject, info: QAPISourceInfo) -> None:
+@@ -44,7 +44,7 @@
+ 
+ from .common import c_name
+ from .error import QAPISemError
+-from .parser import QAPIDoc
++from .parser import ParsedExpression
+ from .source import QAPISourceInfo
+ 
+ 
+@@ -586,29 +586,17 @@ def check_event(expr: _JSONObject, info: QAPISourceInfo) -> None:
      check_type(args, info, "'data'", allow_dict=not boxed)
  
  
-+def check_expr(expr_elem: _JSONObject) -> None:
-+    """
-+    Validate and normalize a parsed QAPI schema expression.
-+
-+    :param expr_elem: The parsed expression to normalize and validate.
-+
-+    :raise QAPISemError: When this expression fails validation.
-+    :return: None, ``expr`` is normalized in-place as needed.
-+    """
-+    # Expression
-+    assert isinstance(expr_elem['expr'], dict)
-+    for key in expr_elem['expr'].keys():
-+        assert isinstance(key, str)
-+    expr: _JSONObject = expr_elem['expr']
-+
-+    # QAPISourceInfo
-+    assert isinstance(expr_elem['info'], QAPISourceInfo)
-+    info: QAPISourceInfo = expr_elem['info']
-+
-+    # Optional[QAPIDoc]
-+    tmp = expr_elem.get('doc')
-+    assert tmp is None or isinstance(tmp, QAPIDoc)
-+    doc: Optional[QAPIDoc] = tmp
-+
-+    if 'include' in expr:
-+        return
-+
-+    if 'enum' in expr:
-+        meta = 'enum'
-+    elif 'union' in expr:
-+        meta = 'union'
-+    elif 'alternate' in expr:
-+        meta = 'alternate'
-+    elif 'struct' in expr:
-+        meta = 'struct'
-+    elif 'command' in expr:
-+        meta = 'command'
-+    elif 'event' in expr:
-+        meta = 'event'
-+    else:
-+        raise QAPISemError(info, "expression is missing metatype")
-+
-+    check_name_is_str(expr[meta], info, "'%s'" % meta)
-+    name = cast(str, expr[meta])
-+    info.set_defn(meta, name)
-+    check_defn_name_str(name, info, meta)
-+
-+    if doc:
-+        if doc.symbol != name:
-+            raise QAPISemError(
-+                info, "documentation comment is for '%s'" % doc.symbol)
-+        doc.check_expr(expr)
-+    elif info.pragma.doc_required:
-+        raise QAPISemError(info,
-+                           "documentation comment required")
-+
-+    if meta == 'enum':
-+        check_keys(expr, info, meta,
-+                   ['enum', 'data'], ['if', 'features', 'prefix'])
-+        check_enum(expr, info)
-+    elif meta == 'union':
-+        check_keys(expr, info, meta,
-+                   ['union', 'data'],
-+                   ['base', 'discriminator', 'if', 'features'])
-+        normalize_members(expr.get('base'))
-+        normalize_members(expr['data'])
-+        check_union(expr, info)
-+    elif meta == 'alternate':
-+        check_keys(expr, info, meta,
-+                   ['alternate', 'data'], ['if', 'features'])
-+        normalize_members(expr['data'])
-+        check_alternate(expr, info)
-+    elif meta == 'struct':
-+        check_keys(expr, info, meta,
-+                   ['struct', 'data'], ['base', 'if', 'features'])
-+        normalize_members(expr['data'])
-+        check_struct(expr, info)
-+    elif meta == 'command':
-+        check_keys(expr, info, meta,
-+                   ['command'],
-+                   ['data', 'returns', 'boxed', 'if', 'features',
-+                    'gen', 'success-response', 'allow-oob',
-+                    'allow-preconfig', 'coroutine'])
-+        normalize_members(expr.get('data'))
-+        check_command(expr, info)
-+    elif meta == 'event':
-+        check_keys(expr, info, meta,
-+                   ['event'], ['data', 'boxed', 'if', 'features'])
-+        normalize_members(expr.get('data'))
-+        check_event(expr, info)
-+    else:
-+        assert False, 'unexpected meta type'
-+
-+    check_if(expr, info, meta)
-+    check_features(expr.get('features'), info)
-+    check_flags(expr, info)
-+
-+
- def check_exprs(exprs: List[_JSONObject]) -> List[_JSONObject]:
+-def check_expr(expr_elem: _JSONObject) -> None:
++def check_expr(pexpr: ParsedExpression) -> None:
+     """
+-    Validate and normalize a parsed QAPI schema expression.
++    Validate and normalize a `ParsedExpression`.
+ 
+-    :param expr_elem: The parsed expression to normalize and validate.
++    :param pexpr: The parsed expression to normalize and validate.
+ 
+     :raise QAPISemError: When this expression fails validation.
+-    :return: None, ``expr`` is normalized in-place as needed.
++    :return: None, ``pexpr`` is normalized in-place as needed.
+     """
+-    # Expression
+-    assert isinstance(expr_elem['expr'], dict)
+-    for key in expr_elem['expr'].keys():
+-        assert isinstance(key, str)
+-    expr: _JSONObject = expr_elem['expr']
+-
+-    # QAPISourceInfo
+-    assert isinstance(expr_elem['info'], QAPISourceInfo)
+-    info: QAPISourceInfo = expr_elem['info']
+-
+-    # Optional[QAPIDoc]
+-    tmp = expr_elem.get('doc')
+-    assert tmp is None or isinstance(tmp, QAPIDoc)
+-    doc: Optional[QAPIDoc] = tmp
++    expr = pexpr.expr
++    info = pexpr.info
+ 
+     if 'include' in expr:
+         return
+@@ -633,6 +621,7 @@ def check_expr(expr_elem: _JSONObject) -> None:
+     info.set_defn(meta, name)
+     check_defn_name_str(name, info, meta)
+ 
++    doc = pexpr.doc
+     if doc:
+         if doc.symbol != name:
+             raise QAPISemError(
+@@ -684,7 +673,7 @@ def check_expr(expr_elem: _JSONObject) -> None:
+     check_flags(expr, info)
+ 
+ 
+-def check_exprs(exprs: List[_JSONObject]) -> List[_JSONObject]:
++def check_exprs(exprs: List[ParsedExpression]) -> List[ParsedExpression]:
      """
      Validate and normalize a list of parsed QAPI schema expressions.
-@@ -598,93 +696,6 @@ def check_exprs(exprs: List[_JSONObject]) -> List[_JSONObject]:
-     :raise QAPISemError: When any expression fails validation.
-     :return: The same list of expressions (now modified).
-     """
--    for expr_elem in exprs:
--        # Expression
--        assert isinstance(expr_elem['expr'], dict)
--        for key in expr_elem['expr'].keys():
--            assert isinstance(key, str)
--        expr: _JSONObject = expr_elem['expr']
--
--        # QAPISourceInfo
--        assert isinstance(expr_elem['info'], QAPISourceInfo)
--        info: QAPISourceInfo = expr_elem['info']
--
--        # Optional[QAPIDoc]
--        tmp = expr_elem.get('doc')
--        assert tmp is None or isinstance(tmp, QAPIDoc)
--        doc: Optional[QAPIDoc] = tmp
--
--        if 'include' in expr:
--            continue
--
--        if 'enum' in expr:
--            meta = 'enum'
--        elif 'union' in expr:
--            meta = 'union'
--        elif 'alternate' in expr:
--            meta = 'alternate'
--        elif 'struct' in expr:
--            meta = 'struct'
--        elif 'command' in expr:
--            meta = 'command'
--        elif 'event' in expr:
--            meta = 'event'
--        else:
--            raise QAPISemError(info, "expression is missing metatype")
--
--        check_name_is_str(expr[meta], info, "'%s'" % meta)
--        name = cast(str, expr[meta])
--        info.set_defn(meta, name)
--        check_defn_name_str(name, info, meta)
--
--        if doc:
--            if doc.symbol != name:
--                raise QAPISemError(
--                    info, "documentation comment is for '%s'" % doc.symbol)
--            doc.check_expr(expr)
--        elif info.pragma.doc_required:
--            raise QAPISemError(info,
--                               "documentation comment required")
--
--        if meta == 'enum':
--            check_keys(expr, info, meta,
--                       ['enum', 'data'], ['if', 'features', 'prefix'])
--            check_enum(expr, info)
--        elif meta == 'union':
--            check_keys(expr, info, meta,
--                       ['union', 'data'],
--                       ['base', 'discriminator', 'if', 'features'])
--            normalize_members(expr.get('base'))
--            normalize_members(expr['data'])
--            check_union(expr, info)
--        elif meta == 'alternate':
--            check_keys(expr, info, meta,
--                       ['alternate', 'data'], ['if', 'features'])
--            normalize_members(expr['data'])
--            check_alternate(expr, info)
--        elif meta == 'struct':
--            check_keys(expr, info, meta,
--                       ['struct', 'data'], ['base', 'if', 'features'])
--            normalize_members(expr['data'])
--            check_struct(expr, info)
--        elif meta == 'command':
--            check_keys(expr, info, meta,
--                       ['command'],
--                       ['data', 'returns', 'boxed', 'if', 'features',
--                        'gen', 'success-response', 'allow-oob',
--                        'allow-preconfig', 'coroutine'])
--            normalize_members(expr.get('data'))
--            check_command(expr, info)
--        elif meta == 'event':
--            check_keys(expr, info, meta,
--                       ['event'], ['data', 'boxed', 'if', 'features'])
--            normalize_members(expr.get('data'))
--            check_event(expr, info)
--        else:
--            assert False, 'unexpected meta type'
--
--        check_if(expr, info, meta)
--        check_features(expr.get('features'), info)
--        check_flags(expr, info)
--
-+    for expr in exprs:
-+        check_expr(expr)
-     return exprs
+ 
+diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
+index 36d4bd175a0..5ea9b643837 100644
+--- a/scripts/qapi/parser.py
++++ b/scripts/qapi/parser.py
+@@ -21,6 +21,7 @@
+     TYPE_CHECKING,
+     Dict,
+     List,
++    NamedTuple,
+     Optional,
+     Set,
+     Union,
+@@ -43,6 +44,12 @@
+ _ExprValue = Union[List[object], Dict[str, object], str, bool]
+ 
+ 
++class ParsedExpression(NamedTuple):
++    expr: TopLevelExpr
++    info: QAPISourceInfo
++    doc: Optional['QAPIDoc']
++
++
+ class QAPIParseError(QAPISourceError):
+     """Error class for all QAPI schema parsing errors."""
+     def __init__(self, parser: 'QAPISchemaParser', msg: str):
+@@ -95,7 +102,7 @@ def __init__(self,
+         self.line_pos = 0
+ 
+         # Parser output:
+-        self.exprs: List[Dict[str, object]] = []
++        self.exprs: List[ParsedExpression] = []
+         self.docs: List[QAPIDoc] = []
+ 
+         # Showtime!
+@@ -142,8 +149,7 @@ def _parse(self) -> None:
+                                        "value of 'include' must be a string")
+                 incl_fname = os.path.join(os.path.dirname(self._fname),
+                                           include)
+-                self.exprs.append({'expr': {'include': incl_fname},
+-                                   'info': info})
++                self._add_expr(OrderedDict({'include': incl_fname}), info)
+                 exprs_include = self._include(include, info, incl_fname,
+                                               self._included)
+                 if exprs_include:
+@@ -160,17 +166,18 @@ def _parse(self) -> None:
+                 for name, value in pragma.items():
+                     self._pragma(name, value, info)
+             else:
+-                expr_elem = {'expr': expr,
+-                             'info': info}
+-                if cur_doc:
+-                    if not cur_doc.symbol:
+-                        raise QAPISemError(
+-                            cur_doc.info, "definition documentation required")
+-                    expr_elem['doc'] = cur_doc
+-                self.exprs.append(expr_elem)
++                if cur_doc and not cur_doc.symbol:
++                    raise QAPISemError(
++                        cur_doc.info, "definition documentation required")
++                self._add_expr(expr, info, cur_doc)
+             cur_doc = None
+         self.reject_expr_doc(cur_doc)
+ 
++    def _add_expr(self, expr: TopLevelExpr,
++                  info: QAPISourceInfo,
++                  doc: Optional['QAPIDoc'] = None) -> None:
++        self.exprs.append(ParsedExpression(expr, info, doc))
++
+     @staticmethod
+     def reject_expr_doc(doc: Optional['QAPIDoc']) -> None:
+         if doc and doc.symbol:
+diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
+index d1d27ff7ee8..025b22cd3df 100644
+--- a/scripts/qapi/schema.py
++++ b/scripts/qapi/schema.py
+@@ -1148,9 +1148,9 @@ def _def_event(self, expr, info, doc):
+ 
+     def _def_exprs(self, exprs):
+         for expr_elem in exprs:
+-            expr = expr_elem['expr']
+-            info = expr_elem['info']
+-            doc = expr_elem.get('doc')
++            expr = expr_elem.expr
++            info = expr_elem.info
++            doc = expr_elem.doc
+             if 'enum' in expr:
+                 self._def_enum_type(expr, info, doc)
+             elif 'struct' in expr:
 -- 
 2.30.2
 
