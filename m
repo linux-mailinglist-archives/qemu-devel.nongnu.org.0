@@ -2,84 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9941638ABCB
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 13:30:09 +0200 (CEST)
-Received: from localhost ([::1]:42252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DABB38AC1F
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 13:34:14 +0200 (CEST)
+Received: from localhost ([::1]:48582 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljgsS-0007wq-2z
-	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 07:30:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47740)
+	id 1ljgwP-00040C-2v
+	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 07:34:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48032)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ljgpg-0005jV-1s
- for qemu-devel@nongnu.org; Thu, 20 May 2021 07:27:17 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:44791)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ljgpb-00068M-US
- for qemu-devel@nongnu.org; Thu, 20 May 2021 07:27:15 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id i17so17244426wrq.11
- for <qemu-devel@nongnu.org>; Thu, 20 May 2021 04:27:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=p67oOBLUZF/8PGnCGnpjkL6MCAxivHrFEfmO+lpBLPM=;
- b=NNrnmlz2/OKlCxu552CMMuRlT4lvEvencBD1PYnVDFfAGuJ4Ort7nBMYXSTYxQ4gd+
- 1Owv6+8J7X6l6HCAUnEf83ZCTyGDz00whjYTzk0W0dZxU9ew1n2ZxDS+LBoHSo32Zj70
- GsyuYl+2dfgTFu9t0XyUZbVNIpnpnesaKD9oX5OUQ1KReEYxYVXLPIxnDcExuGaboijf
- qdFWz1DX7OxtVjoN4hXufLChpG1DoTWnQxI2Kc1JAbMvQaAbG1LRcPI2kNVBvURR3lw8
- 1xR36kRvK4BF/qY/EksZ3IiiSS2aDLAtC8wjnbRiSwxUoWACicnJCJTRyJgs7+XP0w16
- Jkdg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=p67oOBLUZF/8PGnCGnpjkL6MCAxivHrFEfmO+lpBLPM=;
- b=PzPABV/GUun7+UmAY6dNM1bHOaB7XBBevDMcyjf1AyvlFyF0wnf/FR+168xbh5gSQW
- OE/VuVf164SpJTPTynfLYpvIu8JUN4HR4iH94tn25FvtbkKESeJX3Tl7OqiM9Zsr9dVb
- T/Rbg+PTI7Gsq2s6CmPhL8bcK7xb0Rv8YzzaqGelNvy8Suk5dOEhZIP+9HXOkT9pd7eQ
- KS014b7Egr0L72SkW13MEXt8HW05tTAfLKrodYW8X3nsw5Id057tjzN4Lc/a7Hw+etDG
- ogUjQDMwfL3H06COb7nPu+S2cnsA8DQBZA/pJPgSOj6HW5DjC3HYqia+i72imkT6sdYY
- /fvw==
-X-Gm-Message-State: AOAM532n/o0LkSrW4ghWxTeM5SMKawRIQCnfOB4QFoNtDpsqndBnVD08
- 1AbOIWSLrCo+wv6ztTV7rGc=
-X-Google-Smtp-Source: ABdhPJxars3ikztwnAnMPgYK4Z/cr0GxgTmYKXyQoJTqsb55JZY5HuBAF+YeZ6+JNVfntIaHcxaYxg==
-X-Received: by 2002:adf:eb82:: with SMTP id t2mr3777468wrn.337.1621510026371; 
- Thu, 20 May 2021 04:27:06 -0700 (PDT)
-Received: from [192.168.1.36] (31.red-83-51-215.dynamicip.rima-tde.net.
- [83.51.215.31])
- by smtp.gmail.com with ESMTPSA id n189sm2364192wme.9.2021.05.20.04.27.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 20 May 2021 04:27:05 -0700 (PDT)
-Subject: Re: [PATCH v3 4/6] gitlab-ci: Add ccache in $PATH and display
- statistics
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20210519184549.2192728-1-f4bug@amsat.org>
- <20210519184549.2192728-5-f4bug@amsat.org>
- <5a77ade3-1a6c-2389-4a1c-2c7c2266f298@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <20c001a0-60ed-df08-b67d-884022e74d04@amsat.org>
-Date: Thu, 20 May 2021 13:27:04 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1ljgrQ-0007bL-Ra
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 07:29:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32637)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1ljgrN-0006mO-9d
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 07:29:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1621510134;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=lE97Ce1HvrjbPWxnkONGXWggB4bk+WBOSto/+27nh+E=;
+ b=a9ivzRp32INDIQZ/FYJPZ9dDsB901BTXiKmwuXv1lLTiuNjQkyce67hYGdyFihgj9nAIWm
+ 9r1eL+1dpGEdktbr2CcMZmYhX5TisrhAzsNTRy4woOUIf04CyVrksYAQKfIoqgzN52vLDs
+ uW8wqTQk9FhzVC0QDZRU54FTgCifcoo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-168-9GsDH9e4NZuI8tWGLQQkgA-1; Thu, 20 May 2021 07:28:51 -0400
+X-MC-Unique: 9GsDH9e4NZuI8tWGLQQkgA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5604080476A
+ for <qemu-devel@nongnu.org>; Thu, 20 May 2021 11:28:47 +0000 (UTC)
+Received: from work-vm (ovpn-115-44.ams2.redhat.com [10.36.115.44])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 06C0860C04;
+ Thu, 20 May 2021 11:28:45 +0000 (UTC)
+Date: Thu, 20 May 2021 12:28:43 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Max Reitz <mreitz@redhat.com>
+Subject: Re: [PATCH 1/3] virtiofsd: Find original inode ID of mount points
+Message-ID: <YKZH69V8ZZvtF3kF@work-vm>
+References: <20210512125544.9536-1-mreitz@redhat.com>
+ <20210512125544.9536-2-mreitz@redhat.com>
+ <20210517145739.GE546943@horse.lan>
+ <13641be2-e875-ca43-1cc4-8d06a4e6f81c@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <5a77ade3-1a6c-2389-4a1c-2c7c2266f298@redhat.com>
+In-Reply-To: <13641be2-e875-ca43-1cc4-8d06a4e6f81c@redhat.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42b.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.39,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,81 +83,209 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P . Berrange" <berrange@redhat.com>,
- Kyle Evans <kevans@freebsd.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Willian Rampazzo <willianr@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Warner Losh <imp@bsdimp.com>
+Cc: virtio-fs-list <virtio-fs@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org,
+ Vivek Goyal <vgoyal@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-+Stefan/Daniel
-
-On 5/20/21 10:02 AM, Thomas Huth wrote:
-> On 19/05/2021 20.45, Philippe Mathieu-Daudé wrote:
->> If a runner has ccache installed, use it and display statistics
->> at the end of the build.
->>
->> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->> ---
->>   .gitlab-ci.d/buildtest-template.yml | 5 +++++
->>   1 file changed, 5 insertions(+)
->>
->> diff --git a/.gitlab-ci.d/buildtest-template.yml
->> b/.gitlab-ci.d/buildtest-template.yml
->> index f284d7a0eec..a625c697d3b 100644
->> --- a/.gitlab-ci.d/buildtest-template.yml
->> +++ b/.gitlab-ci.d/buildtest-template.yml
->> @@ -6,13 +6,18 @@
->>         then
->>           JOBS=$(sysctl -n hw.ncpu)
->>           MAKE=gmake
->> +        PATH=/usr/local/libexec/ccache:$PATH
->>           ;
->>         else
->>           JOBS=$(expr $(nproc) + 1)
->>           MAKE=make
->> +        PATH=/usr/lib/ccache:/usr/lib64/ccache:$PATH
+* Max Reitz (mreitz@redhat.com) wrote:
+> On 17.05.21 16:57, Vivek Goyal wrote:
+> > On Wed, May 12, 2021 at 02:55:42PM +0200, Max Reitz wrote:
+> > > Mount point directories represent two inodes: On one hand, they are a
+> > > normal directory on their parent filesystem.  On the other, they are the
+> > > root node of the filesystem mounted there.  Thus, they have two inode
+> > > IDs.
+> > > 
+> > > Right now, we only report the latter inode ID (i.e. the inode ID of the
+> > > mounted filesystem's root node).  This is fine once the guest has
+> > > auto-mounted a submount there (so this inode ID goes with a device ID
+> > > that is distinct from the parent filesystem), but before the auto-mount,
+> > > they have the device ID of the parent and the inode ID for the submount.
+> > > This is problematic because this is likely exactly the same
+> > > st_dev/st_ino combination as the parent filesystem's root node.  This
+> > > leads to problems for example with `find`, which will thus complain
+> > > about a filesystem loop if it has visited the parent filesystem's root
+> > > node before, and then refuse to descend into the submount.
+> > > 
+> > > There is a way to find the mount directory's original inode ID, and that
+> > > is to readdir(3) the parent directory, look for the mount directory, and
+> > > read the dirent.d_ino field.  Using this, we can let lookup and
+> > > readdirplus return that original inode ID, which the guest will thus
+> > > show until the submount is auto-mounted.  (Then, it will invoke getattr
+> > > and that stat(2) call will return the inode ID for the submount.)
+> > > 
+> > > Signed-off-by: Max Reitz <mreitz@redhat.com>
+> > > ---
+> > >   tools/virtiofsd/passthrough_ll.c | 104 +++++++++++++++++++++++++++++--
+> > >   1 file changed, 99 insertions(+), 5 deletions(-)
+> > > 
+> > > diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
+> > > index 1553d2ef45..110b6e7e5b 100644
+> > > --- a/tools/virtiofsd/passthrough_ll.c
+> > > +++ b/tools/virtiofsd/passthrough_ll.c
+> > > @@ -968,14 +968,87 @@ static int do_statx(struct lo_data *lo, int dirfd, const char *pathname,
+> > >       return 0;
+> > >   }
+> > > +/*
+> > > + * Use readdir() to find mp_name's inode ID on the parent's filesystem.
+> > > + * (For mount points, stat() will only return the inode ID on the
+> > > + * filesystem mounted there, i.e. the root directory's inode ID.  The
+> > > + * mount point originally was a directory on the parent filesystem,
+> > > + * though, and so has a different inode ID there.  When passing
+> > > + * submount information to the guest, we need to pass this other ID,
+> > > + * so the guest can use it as the inode ID until the submount is
+> > > + * auto-mounted.  (At which point the guest will invoke getattr and
+> > > + * find the inode ID on the submount.))
+> > > + *
+> > > + * Return 0 on success, and -errno otherwise.  *pino is set only in
+> > > + * case of success.
+> > > + */
+> > > +static int get_mp_ino_on_parent(const struct lo_inode *dir, const char *mp_name,
+> > > +                                ino_t *pino)
+> > > +{
+> > > +    int dirfd = -1;
+> > > +    int ret;
+> > > +    DIR *dp = NULL;
+> > > +
+> > > +    dirfd = openat(dir->fd, ".", O_RDONLY);
+> > > +    if (dirfd < 0) {
+> > > +        ret = -errno;
+> > > +        goto out;
+> > > +    }
+> > > +
+> > > +    dp = fdopendir(dirfd);
+> > > +    if (!dp) {
+> > > +        ret = -errno;
+> > > +        goto out;
+> > > +    }
+> > > +    /* Owned by dp now */
+> > > +    dirfd = -1;
+> > > +
+> > > +    while (true) {
+> > > +        struct dirent *de;
+> > > +
+> > > +        errno = 0;
+> > > +        de = readdir(dp);
+> > > +        if (!de) {
+> > > +            ret = errno ? -errno : -ENOENT;
+> > > +            goto out;
+> > > +        }
+> > > +
+> > > +        if (!strcmp(de->d_name, mp_name)) {
+> > > +            *pino = de->d_ino;
+> > > +            ret = 0;
+> > > +            goto out;
+> > > +        }
+> > > +    }
+> > > +
+> > > +out:
+> > > +    if (dp) {
+> > > +        closedir(dp);
+> > > +    }
+> > > +    if (dirfd >= 0) {
+> > > +        close(dirfd);
+> > > +    }
+> > > +    return ret;
+> > > +}
+> > > +
+> > >   /*
+> > >    * Increments nlookup on the inode on success. unref_inode_lolocked() must be
+> > >    * called eventually to decrement nlookup again. If inodep is non-NULL, the
+> > >    * inode pointer is stored and the caller must call lo_inode_put().
+> > > + *
+> > > + * If parent_fs_st_ino is true, the entry is a mount point, and submounts are
+> > > + * announced to the guest, set e->attr.st_ino to the entry's inode ID on its
+> > > + * parent filesystem instead of its inode ID on the filesystem mounted on it.
+> > > + * (For mount points, the entry encompasses two inodes: One on the parent FS,
+> > > + * and one on the mounted FS (where it is the root node), so it has two inode
+> > > + * IDs.  When looking up entries, we should show the guest the parent FS's inode
+> > > + * ID, because as long as the guest has not auto-mounted the submount, it should
+> > > + * see that original ID.  Once it does perform the auto-mount, it will invoke
+> > > + * getattr and see the root node's inode ID.)
+> > >    */
+> > >   static int lo_do_lookup(fuse_req_t req, fuse_ino_t parent, const char *name,
+> > >                           struct fuse_entry_param *e,
+> > > -                        struct lo_inode **inodep)
+> > > +                        struct lo_inode **inodep,
+> > > +                        bool parent_fs_st_ino)
+> > >   {
+> > >       int newfd;
+> > >       int res;
+> > > @@ -984,6 +1057,7 @@ static int lo_do_lookup(fuse_req_t req, fuse_ino_t parent, const char *name,
+> > >       struct lo_data *lo = lo_data(req);
+> > >       struct lo_inode *inode = NULL;
+> > >       struct lo_inode *dir = lo_inode(req, parent);
+> > > +    ino_t ino_id_for_guest;
+> > >       if (inodep) {
+> > >           *inodep = NULL; /* in case there is an error */
+> > > @@ -1018,9 +1092,22 @@ static int lo_do_lookup(fuse_req_t req, fuse_ino_t parent, const char *name,
+> > >           goto out_err;
+> > >       }
+> > > +    ino_id_for_guest = e->attr.st_ino;
+> > > +
+> > >       if (S_ISDIR(e->attr.st_mode) && lo->announce_submounts &&
+> > >           (e->attr.st_dev != dir->key.dev || mnt_id != dir->key.mnt_id)) {
+> > >           e->attr_flags |= FUSE_ATTR_SUBMOUNT;
+> > > +
+> > > +        if (parent_fs_st_ino) {
+> > > +            /*
+> > > +             * Best effort, so ignore errors.
+> > > +             * Also note that using readdir() means there may be races:
+> > > +             * The directory entry we find (if any) may be different
+> > > +             * from newfd.  Again, this is a best effort.  Reporting
+> > > +             * the wrong inode ID to the guest is not catastrophic.
+> > > +             */
+> > > +            get_mp_ino_on_parent(dir, name, &ino_id_for_guest);
+> > 
+> > Hi Max,
+> > 
+> > [CC virtio-fs list ]
+> > 
+> > In general patch looks good to me. A minor nit. get_mp_ino_on_parent()
+> > is retruning error. It might be better to capture error and print a
+> > message and continue.
 > 
-> That does not make sense for the shared runners yet. We first need
-> something to enable the caching there - see my series "Use ccache in the
-> gitlab-CI" from April (which is currently stalled unfortunately).
+> Sure, why not.
+> 
+> > I have couple of general questions about submounts.
+> > 
+> > - What happens in case of single file mounted on top of another file.
+> > 
+> >    mount --bind foo.txt bar.txt
+> > 
+> > Do submounts work when mount point is not a directory.
+> 
+> No, as you can see in the condition quoted above, we only set the
+> FUSE_ATTR_SUBMOUNT flag for directories.  That seemed the most common case
+> for me, and I didn’t want to have to worry about weirdness that might ensue
+> for file mounts.
 
-TL;DR: I don't think we should restrict our templates to shared runners.
+It might be worth checking file mounts don't break too badly; I'm pretty
+sure I've seen the container systems use them a lot in /etc
 
-I don't think mainstream interest for shared runners use should limit
-forks... This is a great improvement for contributors having to use
-private/custom runner, see this example:
+Dave
 
-https://gitlab.com/philmd/qemu/-/jobs/1255197705
-cache hit (direct)                  1529
-cache hit (preprocessed)             736
-cache miss                           855
-cache hit rate                     72.60 %
+> > - Say a directory is not a mount point yet and lookup instantiates an
+> >    inode. Later user mounts something on that directory. When does
+> >    client/server notice this change. I am assuming this is probably
+> >    part of revalidation path.
+> 
+> I guess at least before this patch this is no different from any other
+> filesystem change.  Because st_dev+st_ino changed, it should basically look
+> like the old directory was removed and a different one was put in its place.
+> 
+> Now, with this patch, we will return the old st_ino to the guest, but
+> internally virtiofsd will still use the submount’s st_dev/st_ino, so a new
+> lo_inode should be created, and so fuse_dentry_revalidate()’s lookup should
+> return a different node ID, resulting it to consider the entry expired.
+> 
+> Besides, fuse_dentry_revalidate() has a condition on IS_AUTOMOUNT(inode) !=
+> flags & FUSE_ATTR_SUBMOUNT.  Considering the previous paragraph, this
+> doesn’t seem necessary to me, but it can’t hurt.
+> 
+> Max
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
-Having been caught 2 times for testing as hard as crypto miner, I
-can not rely on shared runners for my workflow.
-
-Beside, the recent announcement:
-https://about.gitlab.com/blog/2021/05/17/prevent-crypto-mining-abuse/
-"starting May 17, 2021, GitLab will require new free users to provide a
-valid credit or debit card number in order to use shared runners on
-GitLab.com."
-
-On this report only 17/142 countries are listed as having more than
-50% of their population with a credit card:
-https://www.theglobaleconomy.com/rankings/people_with_credit_cards/
-and 60 with a debit card:
-https://www.theglobaleconomy.com/rankings/people_with_debit_cards/
-
-We have some contributors in countries with low percentage. I don't
-think we should start a poll to verify, but I do think relying on
-shared runners without proposing free alternative is discriminatory
-to a part of our community.
-
-I am very open to alternatives to improve the CI/testing situation.
-
-Regards,
-
-Phil.
 
