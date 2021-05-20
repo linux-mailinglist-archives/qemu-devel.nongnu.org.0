@@ -2,58 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A541D38A063
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 10:57:55 +0200 (CEST)
-Received: from localhost ([::1]:37634 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CC3D38A075
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 10:59:01 +0200 (CEST)
+Received: from localhost ([::1]:40762 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljeV8-0000M5-O5
-	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 04:57:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59126)
+	id 1ljeWC-0002wc-Jr
+	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 04:59:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59314)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1ljeSZ-0006sY-Rs
- for qemu-devel@nongnu.org; Thu, 20 May 2021 04:55:15 -0400
-Resent-Date: Thu, 20 May 2021 04:55:15 -0400
-Resent-Message-Id: <E1ljeSZ-0006sY-Rs@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21329)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1ljeTP-0000VI-00
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 04:56:07 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:39190
+ helo=mail.default.ilande.bv.iomart.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1ljeSW-0006Uu-Ul
- for qemu-devel@nongnu.org; Thu, 20 May 2021 04:55:15 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1621500902; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=Mx0xYW9jFDEByHKZAgjGdSC9zuDsgYlRKWaWjs9FoBIX+KuwSMOsrhYVLTsSJ+QI2q+jm+urfiSTJIxlyVR9fui7R9v/2t7nfYRFlBnlPvf3MPP8w7v21Vvw8CVnAWYeHu/N+Z6XQU25l8oCD9+KHdtGeYaXBoqRXEcDlyde5iA=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1621500902;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=hN9Mexhils7GXvn0fPlC89MRHYq5jK0n5Soqd7fCUa0=; 
- b=UgKNO/QKiJs9l8Cx+fsv8UgyzkhRxOqHGsw2zI/oZ+SKRX1PeZBOGucm8eGPJihliKonEycpepCxc/Qr3+5rKSJBgzWuVA5PPtKPUF317WrxdiZ0+11GKtIQJp96ttcLR2xQJ353zvHJ6DuIUR5Wtpt6VFw36ZL7uFbaWp5UHic=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1621500892969996.271976043929;
- Thu, 20 May 2021 01:54:52 -0700 (PDT)
-In-Reply-To: <20210520082257.187061-1-pbonzini@redhat.com>
-Subject: Re: [PULL 00/26] Misc patches for 2021-05-20
-Message-ID: <162150089196.357.3896059946463774997@0addf061776e>
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1ljeTM-00077D-NN
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 04:56:06 -0400
+Received: from host217-39-58-213.range217-39.btcentralplus.com
+ ([217.39.58.213] helo=[192.168.1.65])
+ by mail.default.ilande.bv.iomart.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1ljeTI-000CJw-SL; Thu, 20 May 2021 09:56:01 +0100
+To: Stefan Hajnoczi <stefanha@redhat.com>, BALATON Zoltan <balaton@eik.bme.hu>
+References: <20210518215545.1793947-1-philmd@redhat.com>
+ <20210518215545.1793947-3-philmd@redhat.com>
+ <f571a63d-d6a2-2085-740-bcc59b3424e5@eik.bme.hu>
+ <3ba44704-6418-4aee-23ad-7d4dcc1fe60d@redhat.com>
+ <babbf5da-b4c0-9736-b09-426e3a358587@eik.bme.hu>
+ <YKYfOMUvCnQTcQtZ@stefanha-x1.localdomain>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Message-ID: <ae7509a1-2934-7780-6fae-ea9f4bf16e8d@ilande.co.uk>
+Date: Thu, 20 May 2021 09:56:01 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: pbonzini@redhat.com
-Date: Thu, 20 May 2021 01:54:52 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
+In-Reply-To: <YKYfOMUvCnQTcQtZ@stefanha-x1.localdomain>
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 217.39.58.213
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [RFC PATCH 02/11] hw/ide: Add PCIIDEState::isa_bus link
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.bv.iomart.io
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -66,145 +68,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: qemu-devel@nongnu.org
+Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ John G Johnson <john.g.johnson@oracle.com>, Thomas Huth <thuth@redhat.com>,
+ Jagannathan Raman <jag.raman@oracle.com>, John Snow <jsnow@redhat.com>,
+ qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDUyMDA4MjI1Ny4xODcw
-NjEtMS1wYm9uemluaUByZWRoYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRvIGhh
-dmUgc29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1vcmUg
-aW5mb3JtYXRpb246CgpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMjAyMTA1MjAwODIyNTcuMTg3
-MDYxLTEtcGJvbnppbmlAcmVkaGF0LmNvbQpTdWJqZWN0OiBbUFVMTCAwMC8yNl0gTWlzYyBwYXRj
-aGVzIGZvciAyMDIxLTA1LTIwCgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNo
-CmdpdCByZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0IDAKZ2l0IGNvbmZpZyAtLWxv
-Y2FsIGRpZmYucmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVzIFRy
-dWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhpc3RvZ3JhbQouL3NjcmlwdHMv
-Y2hlY2twYXRjaC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoK
-VXBkYXRpbmcgM2M4Y2Y1YTljMjFmZjg3ODIxNjRkMWRlZjdmNDRiZDg4ODcxMzM4NApGcm9tIGh0
-dHBzOi8vZ2l0aHViLmNvbS9wYXRjaGV3LXByb2plY3QvcWVtdQogLSBbdGFnIHVwZGF0ZV0gICAg
-ICBwYXRjaGV3LzIwMjEwNTE5MTYzNDQ4LjIxNTQzMzktMS1waGlsbWRAcmVkaGF0LmNvbSAtPiBw
-YXRjaGV3LzIwMjEwNTE5MTYzNDQ4LjIxNTQzMzktMS1waGlsbWRAcmVkaGF0LmNvbQogKiBbbmV3
-IHRhZ10gICAgICAgICBwYXRjaGV3LzIwMjEwNTIwMDgyMjU3LjE4NzA2MS0xLXBib256aW5pQHJl
-ZGhhdC5jb20gLT4gcGF0Y2hldy8yMDIxMDUyMDA4MjI1Ny4xODcwNjEtMS1wYm9uemluaUByZWRo
-YXQuY29tClN3aXRjaGVkIHRvIGEgbmV3IGJyYW5jaCAndGVzdCcKZmQ0MGVhNSBzY3NpLWdlbmVy
-aWM6IHBhc3MgbWF4X3NlZ21lbnRzIHZpYSBtYXhfaW92IGZpZWxkIGluIEJsb2NrTGltaXRzCjM3
-YTY5NzkgcWVtdS1jb25maWc6IGxvYWQgbW9kdWxlcyB3aGVuIGluc3RhbnRpYXRpbmcgb3B0aW9u
-IGdyb3VwcwozMmI5NGRhIHZsOiBhbGxvdyBub3Qgc3BlY2lmeWluZyBzaXplIGluIC1tIHdoZW4g
-dXNpbmcgLU0gbWVtb3J5LWJhY2tlbmQKNjc1OTk3YSByZXBsaWNhdGlvbjogbW92ZSBpbmNsdWRl
-IG91dCBvZiByb290IGRpcmVjdG9yeQoyZTM5NzNiIHJlbW92ZSBxZW11LW9wdGlvbnMqIGZyb20g
-cm9vdCBkaXJlY3RvcnkKNWQ3MjRlOSBtZXNvbjogU2V0IGltcGxpY2l0X2luY2x1ZGVfZGlyZWN0
-b3JpZXMgdG8gZmFsc2UKZWNjNzQyZiB0ZXN0cy9xdGVzdC9mdXp6OiBGaXggYnVpbGQgZmFpbHVy
-ZQozZTA0NDEyIEtWTTogRGlydHkgcmluZyBzdXBwb3J0CmE5NTQ0NTEgS1ZNOiBEaXNhYmxlIG1h
-bnVhbCBkaXJ0eSBsb2cgd2hlbiBkaXJ0eSByaW5nIGVuYWJsZWQKMjRhOThlMiBLVk06IEFkZCBk
-aXJ0eS1yaW5nLXNpemUgcHJvcGVydHkKNTg5YWY3YiBLVk06IENhY2hlIGt2bSBzbG90IGRpcnR5
-IGJpdG1hcCBzaXplCjczNDQyYWMgS1ZNOiBTaW1wbGlmeSBkaXJ0eSBsb2cgc3luYyBpbiBrdm1f
-c2V0X3BoeXNfbWVtCjUzMjc4ZWEgS1ZNOiBQcm92aWRlIGhlbHBlciB0byBzeW5jIGRpcnR5IGJp
-dG1hcCBmcm9tIHNsb3QgdG8gcmFtYmxvY2sKZWEzYjZmOSBLVk06IFByb3ZpZGUgaGVscGVyIHRv
-IGdldCBrdm0gZGlydHkgbG9nCjUxZDU1NTAgS1ZNOiBDcmVhdGUgdGhlIEtWTVNsb3QgZGlydHkg
-Yml0bWFwIG9uIGZsYWcgY2hhbmdlcwpjODM0ODkzIEtWTTogVXNlIGEgYmlnIGxvY2sgdG8gcmVw
-bGFjZSBwZXIta21sIHNsb3RzX2xvY2sKMWYyY2Y3NiBtZW1vcnk6IEludHJvZHVjZSBsb2dfc3lu
-Y19nbG9iYWwoKSB0byBtZW1vcnkgbGlzdGVuZXIKZDkyZmU0YiBLVk06IGRvIG5vdCBhbGxvdyBz
-ZXR0aW5nIHByb3BlcnRpZXMgYXQgcnVudGltZQo3NWQwZjUxIHF0ZXN0OiBhZGQgYSBRT00gb2Jq
-ZWN0IGZvciBxdGVzdAo1MGE2M2EzIG9iamVjdDogYWRkIG1vcmUgY29tbWFuZHMgdG8gcHJlY29u
-ZmlnIG1vZGUKNTY4MWZkOCBtZXNvbjogYnVtcCBzdWJtb2R1bGUgdG8gMC41Ny4yCjM4Mzg1NzQg
-aTM4Ni9jcHU6IEV4cG9zZSBBVlhfVk5OSSBpbnN0cnVjdGlvbiB0byBndWVzdAphNTMxODcwIGh3
-L21lbS9udmRpbW06IFVzZSBLY29uZmlnICdpbXBseScgaW5zdGVhZCBvZiAnZGVwZW5kcyBvbicK
-ODQzMWI3YSBjb25maWd1cmU6IHNpbXBsaWZ5IGFzc2lnbm1lbnQgdG8gR0lUX1NVQk1PRFVMRVMK
-ZjM1YmM1YyBjb25maWd1cmU6IGNoZWNrIGZvciBzdWJtb2R1bGVzIGlmIC0td2l0aC1naXQtc3Vi
-bW9kdWxlcz1pZ25vcmUKZGFkNzA2MyBjb25maWd1cmU6IE9ubHkgY2xvbmUgc29mdGZsb2F0LTMg
-cmVwb3NpdG9yaWVzIGlmIFRDRyBpcyBlbmFibGVkCgo9PT0gT1VUUFVUIEJFR0lOID09PQoxLzI2
-IENoZWNraW5nIGNvbW1pdCBkYWQ3MDYzN2UwYmMgKGNvbmZpZ3VyZTogT25seSBjbG9uZSBzb2Z0
-ZmxvYXQtMyByZXBvc2l0b3JpZXMgaWYgVENHIGlzIGVuYWJsZWQpCjIvMjYgQ2hlY2tpbmcgY29t
-bWl0IGYzNWJjNWM3ZmRlNCAoY29uZmlndXJlOiBjaGVjayBmb3Igc3VibW9kdWxlcyBpZiAtLXdp
-dGgtZ2l0LXN1Ym1vZHVsZXM9aWdub3JlKQozLzI2IENoZWNraW5nIGNvbW1pdCA4NDMxYjdhODcw
-NTQgKGNvbmZpZ3VyZTogc2ltcGxpZnkgYXNzaWdubWVudCB0byBHSVRfU1VCTU9EVUxFUykKNC8y
-NiBDaGVja2luZyBjb21taXQgYTUzMTg3MGFhM2M4IChody9tZW0vbnZkaW1tOiBVc2UgS2NvbmZp
-ZyAnaW1wbHknIGluc3RlYWQgb2YgJ2RlcGVuZHMgb24nKQo1LzI2IENoZWNraW5nIGNvbW1pdCAz
-ODM4NTc0Y2QzOGQgKGkzODYvY3B1OiBFeHBvc2UgQVZYX1ZOTkkgaW5zdHJ1Y3Rpb24gdG8gZ3Vl
-c3QpCjYvMjYgQ2hlY2tpbmcgY29tbWl0IDU2ODFmZDgwNGY4ZiAobWVzb246IGJ1bXAgc3VibW9k
-dWxlIHRvIDAuNTcuMikKNy8yNiBDaGVja2luZyBjb21taXQgNTBhNjNhMzQ5MmFmIChvYmplY3Q6
-IGFkZCBtb3JlIGNvbW1hbmRzIHRvIHByZWNvbmZpZyBtb2RlKQo4LzI2IENoZWNraW5nIGNvbW1p
-dCA3NWQwZjUxNjdmNWIgKHF0ZXN0OiBhZGQgYSBRT00gb2JqZWN0IGZvciBxdGVzdCkKOS8yNiBD
-aGVja2luZyBjb21taXQgZDkyZmU0YjcyOTcyIChLVk06IGRvIG5vdCBhbGxvdyBzZXR0aW5nIHBy
-b3BlcnRpZXMgYXQgcnVudGltZSkKRVJST1I6IGxpbmUgb3ZlciA5MCBjaGFyYWN0ZXJzCiMzMzog
-RklMRTogYWNjZWwva3ZtL2t2bS1hbGwuYzozMTE1OgorICAgICAgICBlcnJvcl9zZXRnKGVycnAs
-ICJDYW5ub3Qgc2V0IHByb3BlcnRpZXMgYWZ0ZXIgdGhlIGFjY2VsZXJhdG9yIGhhcyBiZWVuIGlu
-aXRpYWxpemVkIik7CgpFUlJPUjogbGluZSBvdmVyIDkwIGNoYXJhY3RlcnMKIzQ1OiBGSUxFOiBh
-Y2NlbC9rdm0va3ZtLWFsbC5jOjMxMzQ6CisgICAgICAgIGVycm9yX3NldGcoZXJycCwgIkNhbm5v
-dCBzZXQgcHJvcGVydGllcyBhZnRlciB0aGUgYWNjZWxlcmF0b3IgaGFzIGJlZW4gaW5pdGlhbGl6
-ZWQiKTsKCnRvdGFsOiAyIGVycm9ycywgMCB3YXJuaW5ncywgMzcgbGluZXMgY2hlY2tlZAoKUGF0
-Y2ggOS8yNiBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhl
-c2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWlu
-ZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoKMTAvMjYgQ2hlY2tpbmcgY29tbWl0
-IDFmMmNmNzZiMGVhMCAobWVtb3J5OiBJbnRyb2R1Y2UgbG9nX3N5bmNfZ2xvYmFsKCkgdG8gbWVt
-b3J5IGxpc3RlbmVyKQoxMS8yNiBDaGVja2luZyBjb21taXQgYzgzNDg5MzljYTEyIChLVk06IFVz
-ZSBhIGJpZyBsb2NrIHRvIHJlcGxhY2UgcGVyLWttbCBzbG90c19sb2NrKQoxMi8yNiBDaGVja2lu
-ZyBjb21taXQgNTFkNTU1MDVkNDE2IChLVk06IENyZWF0ZSB0aGUgS1ZNU2xvdCBkaXJ0eSBiaXRt
-YXAgb24gZmxhZyBjaGFuZ2VzKQoxMy8yNiBDaGVja2luZyBjb21taXQgZWEzYjZmOWRiNTUzIChL
-Vk06IFByb3ZpZGUgaGVscGVyIHRvIGdldCBrdm0gZGlydHkgbG9nKQoxNC8yNiBDaGVja2luZyBj
-b21taXQgNTMyNzhlYTQzNjhmIChLVk06IFByb3ZpZGUgaGVscGVyIHRvIHN5bmMgZGlydHkgYml0
-bWFwIGZyb20gc2xvdCB0byByYW1ibG9jaykKMTUvMjYgQ2hlY2tpbmcgY29tbWl0IDczNDQyYWNk
-MmU5NiAoS1ZNOiBTaW1wbGlmeSBkaXJ0eSBsb2cgc3luYyBpbiBrdm1fc2V0X3BoeXNfbWVtKQox
-Ni8yNiBDaGVja2luZyBjb21taXQgNTg5YWY3YjI1NGQyIChLVk06IENhY2hlIGt2bSBzbG90IGRp
-cnR5IGJpdG1hcCBzaXplKQoxNy8yNiBDaGVja2luZyBjb21taXQgMjRhOThlMjhiMjg0IChLVk06
-IEFkZCBkaXJ0eS1yaW5nLXNpemUgcHJvcGVydHkpCkVSUk9SOiBsaW5lIG92ZXIgOTAgY2hhcmFj
-dGVycwojNTk6IEZJTEU6IGFjY2VsL2t2bS9rdm0tYWxsLmM6MzIwNjoKKyAgICAgICAgZXJyb3Jf
-c2V0ZyhlcnJwLCAiQ2Fubm90IHNldCBwcm9wZXJ0aWVzIGFmdGVyIHRoZSBhY2NlbGVyYXRvciBo
-YXMgYmVlbiBpbml0aWFsaXplZCIpOwoKdG90YWw6IDEgZXJyb3JzLCAwIHdhcm5pbmdzLCA5NCBs
-aW5lcyBjaGVja2VkCgpQYXRjaCAxNy8yNiBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZp
-ZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRo
-ZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoKMTgv
-MjYgQ2hlY2tpbmcgY29tbWl0IGE5NTQ0NTE5NTVlZiAoS1ZNOiBEaXNhYmxlIG1hbnVhbCBkaXJ0
-eSBsb2cgd2hlbiBkaXJ0eSByaW5nIGVuYWJsZWQpCjE5LzI2IENoZWNraW5nIGNvbW1pdCAzZTA0
-NDEyZjc2NzAgKEtWTTogRGlydHkgcmluZyBzdXBwb3J0KQpXQVJOSU5HOiBsaW5lIG92ZXIgODAg
-Y2hhcmFjdGVycwojNDUxOiBGSUxFOiBhY2NlbC9rdm0va3ZtLWFsbC5jOjI0NjY6CisgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICJTdWdnZXN0ZWQgbWluaW51bSB2YWx1ZSBpcyAxMDI0LiIs
-IHN0cmVycm9yKC1yZXQpKTsKCnRvdGFsOiAwIGVycm9ycywgMSB3YXJuaW5ncywgNDk4IGxpbmVz
-IGNoZWNrZWQKClBhdGNoIDE5LzI2IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4g
-IElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0
-byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjIwLzI2IENo
-ZWNraW5nIGNvbW1pdCBlY2M3NDJmM2Y1ZjMgKHRlc3RzL3F0ZXN0L2Z1eno6IEZpeCBidWlsZCBm
-YWlsdXJlKQoyMS8yNiBDaGVja2luZyBjb21taXQgNWQ3MjRlOTM2MWY0IChtZXNvbjogU2V0IGlt
-cGxpY2l0X2luY2x1ZGVfZGlyZWN0b3JpZXMgdG8gZmFsc2UpCjIyLzI2IENoZWNraW5nIGNvbW1p
-dCAyZTM5NzNiZjhkZTkgKHJlbW92ZSBxZW11LW9wdGlvbnMqIGZyb20gcm9vdCBkaXJlY3Rvcnkp
-CldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5F
-UlMgbmVlZCB1cGRhdGluZz8KIzI2OiAKcmVuYW1lIGZyb20gcWVtdS1vcHRpb25zLmgKCkVSUk9S
-OiBNYWNyb3Mgd2l0aCBjb21wbGV4IHZhbHVlcyBzaG91bGQgYmUgZW5jbG9zZWQgaW4gcGFyZW50
-aGVzaXMKIzM4OiBGSUxFOiBpbmNsdWRlL3FlbXUvcWVtdS1vcHRpb25zLmg6MzM6CisjZGVmaW5l
-IERFRihvcHRpb24sIG9wdF9hcmcsIG9wdF9lbnVtLCBvcHRfaGVscCwgYXJjaF9tYXNrKSAgICAg
-XAorICAgIG9wdF9lbnVtLAoKdG90YWw6IDEgZXJyb3JzLCAxIHdhcm5pbmdzLCA3OSBsaW5lcyBj
-aGVja2VkCgpQYXRjaCAyMi8yNiBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJ
-ZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8g
-dGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoKMjMvMjYgQ2hl
-Y2tpbmcgY29tbWl0IDY3NTk5N2E1M2ZmMCAocmVwbGljYXRpb246IG1vdmUgaW5jbHVkZSBvdXQg
-b2Ygcm9vdCBkaXJlY3RvcnkpCldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZpbGUo
-cyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8KIzM1OiAKcmVuYW1lIGZyb20gcmVw
-bGljYXRpb24uaAoKdG90YWw6IDAgZXJyb3JzLCAxIHdhcm5pbmdzLCA0OCBsaW5lcyBjaGVja2Vk
-CgpQYXRjaCAyMy8yNiBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkg
-b2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1h
-aW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoyNC8yNiBDaGVja2luZyBj
-b21taXQgMzJiOTRkYTc3M2U3ICh2bDogYWxsb3cgbm90IHNwZWNpZnlpbmcgc2l6ZSBpbiAtbSB3
-aGVuIHVzaW5nIC1NIG1lbW9yeS1iYWNrZW5kKQoyNS8yNiBDaGVja2luZyBjb21taXQgMzdhNjk3
-OTdlNzZjIChxZW11LWNvbmZpZzogbG9hZCBtb2R1bGVzIHdoZW4gaW5zdGFudGlhdGluZyBvcHRp
-b24gZ3JvdXBzKQpXQVJOSU5HOiBhZGRlZCwgbW92ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBkb2Vz
-IE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/CiM5MzogCm5ldyBmaWxlIG1vZGUgMTAwNjQ0Cgp0
-b3RhbDogMCBlcnJvcnMsIDEgd2FybmluZ3MsIDYxIGxpbmVzIGNoZWNrZWQKClBhdGNoIDI1LzI2
-IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJv
-cnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2Vl
-CkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjI2LzI2IENoZWNraW5nIGNvbW1pdCBmZDQwZWE1
-OTYxNWIgKHNjc2ktZ2VuZXJpYzogcGFzcyBtYXhfc2VnbWVudHMgdmlhIG1heF9pb3YgZmllbGQg
-aW4gQmxvY2tMaW1pdHMpCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiM1MTogRklM
-RTogaHcvc2NzaS9zY3NpLWdlbmVyaWMuYzoxODY6CisgICAgICAgICAgICBtYXhfdHJhbnNmZXIg
-PSBNSU5fTk9OX1pFUk8obWF4X3RyYW5zZmVyLCBtYXhfaW92ICogcWVtdV9yZWFsX2hvc3RfcGFn
-ZV9zaXplKQoKdG90YWw6IDAgZXJyb3JzLCAxIHdhcm5pbmdzLCAyMyBsaW5lcyBjaGVja2VkCgpQ
-YXRjaCAyNi8yNiBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2Yg
-dGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50
-YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgo9PT0gT1VUUFVUIEVORCA9PT0K
-ClRlc3QgY29tbWFuZCBleGl0ZWQgd2l0aCBjb2RlOiAxCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWls
-YWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDIxMDUyMDA4MjI1Ny4xODcwNjEtMS1w
-Ym9uemluaUByZWRoYXQuY29tL3Rlc3RpbmcuY2hlY2twYXRjaC8/dHlwZT1tZXNzYWdlLgotLS0K
-RW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3
-Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0
-LmNvbQ==
+On 20/05/2021 09:35, Stefan Hajnoczi wrote:
+
+> I realized I don't really understand how ISA IDE and PCI IDE interact in
+> PIIX3:
+> 
+> - ISA IDE has well-known PIO registers that are always present?
+> 
+> - PCI IDE has the same registers, but the BAR must be mapped and PCI IO
+>    space access must be enabled?
+> 
+> - ISA IDE has a hardcoded ISA irq number?
+> 
+> - PCI IDE has a normal PCI irq that is routed like any legacy PCI INTx
+>    irq?
+> 
+> - What combinations of ISA enabled/disabled and PCI enabled/disabled
+>    need to be supported?
+
+Yeah a lot of this discussion happened several months back in the Pegasos threads, 
+but here is my understanding:
+
+- Older legacy PCI devices such as IDE controllers connected via a host containing a 
+PCI-ISA bridge can be switched by the guest OS into PCI legacy (also known as 
+compatibility mode) via a PCI config space register so that IO space accesses, IRQs 
+(and possible DMA?) are done via the ISA bus
+
+- QEMU handles the IO memory accesses fine, since in these cases isa_bus_new() is 
+given the IO space by pci_address_space_io(dev) so IO space access generally "just works"
+
+- Currently it is the responsibility of these older PCI devices to determine how they 
+have been configured and either use e.g. pci_set_irq() or qemu_raise_irq() on the ISA 
+IRQ for interrupts
+
+- Generally ISA IRQs are fixed as per the old AT-style PCs so IDE would be 14/15
+
+My thoughts above were about how to allow a PCIDevice to locate its ISABus if it is 
+connected to a bus with a PCI-ISA bridge to potentially allow access to ISA IRQs and 
+DMA if configured in PCI legacy mode.
+
+
+ATB,
+
+Mark.
 
