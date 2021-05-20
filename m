@@ -2,76 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7641A389DD8
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 08:25:45 +0200 (CEST)
-Received: from localhost ([::1]:47758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FC32389E1A
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 08:41:32 +0200 (CEST)
+Received: from localhost ([::1]:55790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljc7r-0008F4-W8
-	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 02:25:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45312)
+	id 1ljcN9-00062g-6j
+	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 02:41:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48570)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vivek.kasireddy@intel.com>)
- id 1ljc6O-0007Q4-N3
- for qemu-devel@nongnu.org; Thu, 20 May 2021 02:24:12 -0400
-Received: from mga04.intel.com ([192.55.52.120]:54486)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1ljcLy-0005H6-Ro; Thu, 20 May 2021 02:40:18 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:60791 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vivek.kasireddy@intel.com>)
- id 1ljc6L-000665-8h
- for qemu-devel@nongnu.org; Thu, 20 May 2021 02:24:11 -0400
-IronPort-SDR: 1RsavCiG23B0bobTz7M+yWsYffggLfgngSvnyfBjX2O2I49ErrfTQsVTUzHbcffGEukYnqcXeB
- 0iWGas08Z8kA==
-X-IronPort-AV: E=McAfee;i="6200,9189,9989"; a="199203043"
-X-IronPort-AV: E=Sophos;i="5.82,313,1613462400"; d="scan'208";a="199203043"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 May 2021 23:24:00 -0700
-IronPort-SDR: w97zMF2yoQATUYKqvi6uMLt6EMmRDlnbb2akSVYM+EOEIfk6Ve+DEeXtJJmg8oy4ZIUs+XvBWR
- CLnGSz/7IY8w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,313,1613462400"; d="scan'208";a="631286377"
-Received: from orsmsx606.amr.corp.intel.com ([10.22.229.19])
- by fmsmga005.fm.intel.com with ESMTP; 19 May 2021 23:24:00 -0700
-Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
- ORSMSX606.amr.corp.intel.com (10.22.229.19) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.4; Wed, 19 May 2021 23:23:59 -0700
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.4; Wed, 19 May 2021 23:23:58 -0700
-Received: from orsmsx611.amr.corp.intel.com ([10.22.229.24]) by
- ORSMSX611.amr.corp.intel.com ([10.22.229.24]) with mapi id 15.01.2242.008;
- Wed, 19 May 2021 23:23:58 -0700
-From: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: RE: [PATCH v5 03/13] virtio-gpu: Add udmabuf helpers
-Thread-Topic: [PATCH v5 03/13] virtio-gpu: Add udmabuf helpers
-Thread-Index: AQHXTEWkoA54FN3boUiBxzpmEs7P9KrqyQWAgAEVuLA=
-Date: Thu, 20 May 2021 06:23:58 +0000
-Message-ID: <957d144a53ed4549944cbb09fdffe2cb@intel.com>
-References: <20210519001414.786439-1-vivek.kasireddy@intel.com>
- <20210519001414.786439-4-vivek.kasireddy@intel.com>
- <20210519061339.dq4yfrc7j42jdj5g@sirius.home.kraxel.org>
-In-Reply-To: <20210519061339.dq4yfrc7j42jdj5g@sirius.home.kraxel.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.5.1.3
-dlp-reaction: no-action
-x-originating-ip: [10.1.200.100]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1ljcLw-0001D0-Bu; Thu, 20 May 2021 02:40:18 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4Fm0V11RrKz9sWX; Thu, 20 May 2021 16:40:08 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1621492809;
+ bh=LvIt7mKsb/KyXpsqM9uGW29JAhKlgvlapJUV77w0s+g=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=PWduVsN1MY/4wYcJsWV/9YEhiwMtRcJqMiegsFJpUIWXEDhkFdyVgx1rLGJ5CM4pS
+ XLeIGyosQjwMsg2Qpdrytv7JQLa4M1VPJFymQVhgqINbVxEqzGaXj/dypYxQM9Tj94
+ Tihfkjm1toabL6TxPb4uf0em8Jsgt6zTj/wgBaeQ=
+Date: Thu, 20 May 2021 10:42:33 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: qemu-devel@nongnu.org
+Subject: Re: [PULL 00/48] ppc-for-6.1 queue 20210519
+Message-ID: <YKWweU5YQRqd8Z8b@yekko>
+References: <20210519125148.27720-1-david@gibson.dropbear.id.au>
+ <162143196022.17859.450741207443396482@0addf061776e>
 MIME-Version: 1.0
-Received-SPF: pass client-ip=192.55.52.120;
- envelope-from=vivek.kasireddy@intel.com; helo=mga04.intel.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="HtwXTUgMo2cqrqVH"
+Content-Disposition: inline
+In-Reply-To: <162143196022.17859.450741207443396482@0addf061776e>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-Spam_score_int: -1
+X-Spam_score: -0.2
+X-Spam_bar: /
+X-Spam_report: (-0.2 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_03_06=1.592,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,92 +59,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: qemu-ppc@nongnu.org, peter.maydell@linaro.org, richard.henderson@linaro.org,
+ groug@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Gerd,
-=20
-> > +#ifdef CONFIG_LINUX
->=20
-> > +void virtio_gpu_init_udmabuf(struct virtio_gpu_simple_resource *res)
->=20
-> > +#else
->=20
-> > +void *virtio_gpu_init_udmabuf(struct virtio_gpu_simple_resource *res)
-> > +{
-> > +    /* nothing (stub) */
-> > +    return NULL
-> > +}
->=20
-> Fails to build for !linux ...
->=20
-> You can place the stubs in a file in the stubs/ directory instead.
-> They'll be used via weak symbol references instead of #ifdefs then.
-[Kasireddy, Vivek] Will do; should I send the whole series (v6) again with =
-this and the
-other error in patch #10 fixed or just the fixed versions of these specific=
- patches?
 
-Sorry for the tangential discussion...
-On a completely different topic, I wanted to ask a question on behalf of a =
-colleague who
-is trying to enable passthrough with virtio-gpu but for a Windows guest. It=
- appears the
-guest boots only if we specify the option -vga virtio (not sure what happen=
-s with virtio=3Dstd)
-as Windows launches a "Microsoft Basic Display Adapter" driver for this VGA=
- device=20
-and Qemu displays the Desktop for this device (via the calls in virtio-vga.=
-c). However,
-since we only care about virtio-gpu-pci device for which we created a guest=
- driver, we=20
-want to have Qemu display the content/fb from virtio-gpu instead of the vga=
- device.=20
-I see that in set_scanout:
+--HtwXTUgMo2cqrqVH
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-g->parent_obj.enable =3D 1;
-and, then this in virtio-vga.c:
+On Wed, May 19, 2021 at 06:46:01AM -0700, no-reply@patchew.org wrote:
+> Patchew URL:
+> https://patchew.org/QEMU/20210519125148.27720-1-david@gibson.dropbear.id.=
+au/
 
-static void virtio_vga_base_update_display(void *opaque)                   =
-                                                                           =
-                                                            VirtIOVGABase *=
-vvga =3D opaque;                                                           =
-                                                                           =
-                                                VirtIOGPUBase *g =3D vvga->=
-vgpu;                                                                      =
-                                                                           =
-                                                                           =
-                                                                           =
-                                                                           =
-                      if (g->enable) {
-    g->hw_ops->gfx_update(g);
-} else {
-    vvga->vga.hw_ops->gfx_update(&vvga->vga);
-}
+So, these style warnings are actually existing style problems just
+being triggered in checkpatch by code motion.  Yes we'd like to clean
+those up at some point, but holding off this re-org for that is not
+worth it.
 
-Since the parent_obj is different the above code is always going into the e=
-lse part.=20
-Is the goal here to show the content from virtio-gpu if there is a set_scan=
-out?
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
-The only way we are able to get everything to work as expected is to enable=
- our virtio-gpu
-guest driver for the VGA device instead of the virtio-gpu PCI device. But w=
-e are not sure
-if this would be OK or not. We don't run into these issues for Linux guests=
- as we only=20
-enable virtio-gpu-pci as we have -vga none. We'd like to the do the same fo=
-r Windows
-guests but it looks like it needs the VGA device to be available to boot. S=
-o, our other
-option (as we cannot disable the vga device) is to have Qemu accept content=
- only from=20
-virtio-gpu-pci instead of virtio-vga. Would it make sense to do this? Do yo=
-u think there
-is a better way to do what we are trying to do?
+--HtwXTUgMo2cqrqVH
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Thanks,
-Vivek
+-----BEGIN PGP SIGNATURE-----
 
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmClsHcACgkQbDjKyiDZ
+s5KJNBAArxoQsjsSgR+4wRah984YDfL80fa3UgXZ5+3QzNUBnmXL2q7qRiKEzDOz
+B68g7h32k9quvWmwQLOXD/mJeAm6abestOUWb8zYce8h4bTZazLxfZdqG0o+1Hbv
+SHE44C0xpDEKWaon9h0DMxH/l0v3DFw5XvrvgNBBk0nguXIAwBUV43If9eJewAX5
+9JNxlBRdY32+jftIWa/KKRUU33fl9bYngp9Fv63x9lwAP+TO91BTup/PC+qUtlMJ
+Lti4Qh2jR79G/xFf3rdFiUZnIh/1zsq1hDNo6E7pdd318hBAHtxAzmC5yywUIwTu
+/ihsUXeWDKp+I7KlVPFrtm5uyUcaOB2cUzYKwP0SrXh0woD4c4ilBGzozFSJcfVc
+LkC+dFTcDS1AT3x1jonzzYvADmhCgm8uxGh1AQgkmLr6C0XFmG462DiM4Q4j9J0T
+4gcFJrS06ESpGUvZKdWF5QCUe4ZivSXrYuoph9VAYfNQpM4Tnrb7ymNngQGkTplD
+s7FZDuS/UNpEgIngRq4izyFgPpJkFVGX823urNNexqXJJ4Jx1PikTKciV7JIs85E
+dPm5v2AvbZJgAetczyv/1L1F4X4x6V/lGZkr9bRKpZ5E0chh5uTFsiNt1WPyloOW
+5zguTVZQtS84cBRp5J/srMrr+ehh4NB/kjw8UUzJU6yaeQErAMo=
+=wWPJ
+-----END PGP SIGNATURE-----
+
+--HtwXTUgMo2cqrqVH--
 
