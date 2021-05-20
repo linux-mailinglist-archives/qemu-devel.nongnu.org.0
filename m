@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9641A38AFEE
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 15:24:48 +0200 (CEST)
-Received: from localhost ([::1]:58918 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E857238AFF9
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 15:28:49 +0200 (CEST)
+Received: from localhost ([::1]:40508 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljifP-0007lG-F8
-	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 09:24:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45198)
+	id 1ljijI-0006A2-F5
+	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 09:28:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45426)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ljidU-0006LF-1G
- for qemu-devel@nongnu.org; Thu, 20 May 2021 09:22:48 -0400
-Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e]:35652)
+ id 1ljieK-0007oR-C2
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 09:23:40 -0400
+Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:46884)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ljidR-0001hl-Mk
- for qemu-devel@nongnu.org; Thu, 20 May 2021 09:22:47 -0400
-Received: by mail-ed1-x52e.google.com with SMTP id y7so1859291eda.2
- for <qemu-devel@nongnu.org>; Thu, 20 May 2021 06:22:45 -0700 (PDT)
+ id 1ljieG-0002B5-D2
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 09:23:40 -0400
+Received: by mail-ej1-x62f.google.com with SMTP id u21so25204598ejo.13
+ for <qemu-devel@nongnu.org>; Thu, 20 May 2021 06:23:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=MJkc4iF6xzpAzMqlWyGf8DzlO9FkYxYCi1eaYfORvaA=;
- b=vZY0mZNRujY7IFyG1Ge6yWT7beqaGkikvsVP2+EA/0dMydvc2vcXWK1xCBZUDQsqxT
- 14TlG34nSA77EFiexeQRv7TA1c3N5i/cIx4OH7Oa4BvMGUvr1qVfLFJ7dX6DqMwHaRwC
- gRcXRgg90LVo8/hi/obQiaHkHaF341gnEaRE6lKWx/e1g7jYehA04F6d44cmffS6GfHe
- TdrjukGpJOT/z/8EqN95izdy82H5S2QhafRpEbdOhENDXXMvXjebmN1dfZJB5J1mjFv3
- Gk6iFZQOX6WlEvLlA7KgRA3woA0EXOZBNPYiavLZvmLtN/lbAMczB1qGPbJaHnMq98yU
- ybzQ==
+ :cc; bh=q7nhkV8dR1gqqYkRQBangM/CVplsjsHm8X43lQFIaN4=;
+ b=K5m6Af5EnC1QFJaTFu/+981ZG4I9HbnU83bNxHeQ9+p9+pNihO4m4Ob1pbZQX2JJ2/
+ IR2PWJmU5wSEYB725LuewoX7BkxZD8Vc4QMfBDrJ4oufbdmAYO8jkOxY4BXfAwxP9DJs
+ owcapw+Iz3c1t9p+QJNh7xoOWfgleFAHzwghx6gdZsGbQi76d4fA+bhTG7DobgSamQIs
+ F4nbsa7V0gtzj7UB4LvVtXH+g4i0BSfj48PrjKu3GgkITZFOgb2U2SrsozTHE4p3A98l
+ GA0DZdMMkVGJiVBiGZqjj18jNJeJLa/Z7dmivBB8dmcgRQmXG1lkktbnLjk8XaKcvqEW
+ A4XQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=MJkc4iF6xzpAzMqlWyGf8DzlO9FkYxYCi1eaYfORvaA=;
- b=Z8QQRCraU8/4sO4saWby/x7jIeKUwjVU0kDUeDljL+Tre+Y28YkulFn2TOlUM8zd1K
- nB+q6SpZ01z4sz4p+w0iTnf3sHKZcsNL5EeK9PfdO3Jvt8/gdQXbm6i2H9GNzFB/B+Nm
- IyszSnne1tG+S3kyilOAcvONDMzXb7n9HzRZeF3EbExeF2mu/k8HaRL84Z+iCmSqukxQ
- HA4lOMHGW2wQ1iwhcJxwBz3hmNhNUbYxocwZqieNAAodbfqqOI/TPRxM2CF/oAK2S0eM
- dxj6aGWuH9PHSD9KU8TYbTcW9ygl4E6lF+xbzSyfkDAOz8W9DNmtxBKfRiAWdJlhVLZT
- ytcA==
-X-Gm-Message-State: AOAM533mZNXDKEk1Sxq+OZM8NSBC6NeAlKW19hUDMefdv0ivc1KTQcF4
- l7gelkF6w3o5V2ulP5QT3ubKqpCc2abfeJckj0Cs0Q==
-X-Google-Smtp-Source: ABdhPJxdq8GCOWhWBDTORHMUQYBkE0VrnR4gon24vOxQTxby5ZthvV6xk7YPmMqcsvOuY56H2Mrq0CMTUApd+RVhhh8=
-X-Received: by 2002:aa7:cb0a:: with SMTP id s10mr4943387edt.36.1621516964254; 
- Thu, 20 May 2021 06:22:44 -0700 (PDT)
+ bh=q7nhkV8dR1gqqYkRQBangM/CVplsjsHm8X43lQFIaN4=;
+ b=nedx6TfBo8bWRw0qGfhz6zoPcSUIa48E7DfZ647ItakCZ2HtCTQ7ndCePXBWtE46Yk
+ RRXDg9XyHIVC1eXs65HvEZNg6vfsLTpSqwkxeSEEdDUVJvmYo+aSau+jYg2VDXP3vQAk
+ QmL0np82QMncygJrVhR9X8M0uhj7BmzHMdHbigzZVWuoQ2iaH0rwhdvc/Zgo5Lg6WiLb
+ TR0mHUkGoSvaYOXo8aORudyf+5Rsg3HKBp0UYoReyt1PVy3Slfmgq2m7tSy0eTlzI+pc
+ vbaxW5+pxQHssvElYDGsth7+2AKg9NMbbCUifJ5mO70i8YeQFxZ3ZNdzXYAzadajpAk5
+ 5WTQ==
+X-Gm-Message-State: AOAM5305f2/NjNjmUFAIwMjiLbmKDqtnG7+I2t0lS/4SH328C4Xc3kz8
+ EueSRSxcYOsXnnqES6HkYS+aMNyCN4v3/bo358IINw==
+X-Google-Smtp-Source: ABdhPJy5YwrBemxujU1VKNwJGdyISTtAHZR/DhC0DHw/skItXmS7JPq5kbVBtMtISOIa2SHalelYwwDPlTDhsJq4Quw=
+X-Received: by 2002:a17:906:b74f:: with SMTP id
+ fx15mr4707742ejb.85.1621517014894; 
+ Thu, 20 May 2021 06:23:34 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210510150016.24910-1-peter.maydell@linaro.org>
-In-Reply-To: <20210510150016.24910-1-peter.maydell@linaro.org>
+References: <20210510190844.17799-1-peter.maydell@linaro.org>
+In-Reply-To: <20210510190844.17799-1-peter.maydell@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 20 May 2021 14:22:25 +0100
-Message-ID: <CAFEAcA82FvAViwCbUP93HDjmdnZ3kHhJ0DAHkB+fkdpf=ukiXg@mail.gmail.com>
-Subject: Re: [PATCH] hw/intc/arm_gicv3_cpuif: Fix EOIR write access check logic
+Date: Thu, 20 May 2021 14:23:16 +0100
+Message-ID: <CAFEAcA-WwZTSGx0tg1msLw2BeFvwdv9_45tEL1gtFntN2MDoTQ@mail.gmail.com>
+Subject: Re: [PATCH 0/6] hw/arm: Fix modelling of SSE-300 TCMs and SRAM
 To: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,117 +77,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Chan Kim <ckim@etri.re.kr>
+Cc: Kumar Gala <kumar.gala@linaro.org>,
+ Jimmy Brisson <jimmy.brisson@linaro.org>,
+ Kevin Townsend <kevin.townsend@linaro.org>,
+ Devaraj Ranganna <devaraj.ranganna@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+
+On Mon, 10 May 2021 at 20:08, Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> This patchset fixes some bugs in how we were modelling the
+> TCMs and the SRAM in the SSE-300 which were preventing
+> Arm TF-M from booting on our AN547 model; there are also
+> some fixes to things I noticed while I was in the code.
+>
+> The specific bugs preventing boot were:
+>  * SRAM_ADDR_WIDTH for the AN547 is 21, not 15, so the SRAM
+>    area was too small
+>  * we were putting the SRAMs at the wrong address (0x2100_0000
+>    for SSE-300, not 0x2000_0000 as for SSE-200)
+>
+> The other stuff I've fixed is:
+>  * we were modelling the SRAM in the AN524 both in the SSE
+>    and in the board model (harmlessly, as the board-model
+>    memory was just always shadowed in the memory map and
+>    unreachable)
+>  * we were modelling the TCMs in the AN547 board model,
+>    which is conceptually wrong because in hardware they're
+>    part of the SSE-300. No guest-visible change, but it will
+>    avoid problems if/when we add another SSE-300 board model
+>
+> thanks
+> -- PMM
 
 Ping for code review, please?
 
 thanks
 -- PMM
-
-On Mon, 10 May 2021 at 16:00, Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> In icc_eoir_write() we assume that we can identify the group of the
-> IRQ being completed based purely on which register is being written
-> to and the current CPU state, and that "CPU state matches group
-> indicated by register" is the only necessary access check.
->
-> This isn't correct: if the CPU is not in Secure state then EOIR1 will
-> only complete Group 1 NS IRQs, but if the CPU is in EL3 it can
-> complete both Group 1 S and Group 1 NS IRQs.  (The pseudocode
-> ICC_EOIR1_EL1 makes this clear.) We were also missing the logic to
-> prevent EOIR0 writes completing G0 IRQs when they should not.
->
-> Rearrange the logic to first identify the group of the current
-> highest priority interrupt and then look at whether we should
-> complete it or ignore the access based on which register was accessed
-> and the state of the CPU.  The resulting behavioural change is:
->  * EL3 can now complete G1NS interrupts
->  * G0 interrupt completion is now ignored if the GIC
->    and the CPU have the security extension enabled and
->    the CPU is not secure
->
-> Reported-by: Chan Kim <ckim@etri.re.kr>
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
->  hw/intc/arm_gicv3_cpuif.c | 48 ++++++++++++++++++++++++++-------------
->  1 file changed, 32 insertions(+), 16 deletions(-)
->
-> diff --git a/hw/intc/arm_gicv3_cpuif.c b/hw/intc/arm_gicv3_cpuif.c
-> index 43ef1d7a840..81f94c7f4ad 100644
-> --- a/hw/intc/arm_gicv3_cpuif.c
-> +++ b/hw/intc/arm_gicv3_cpuif.c
-> @@ -1307,27 +1307,16 @@ static void icc_eoir_write(CPUARMState *env, const ARMCPRegInfo *ri,
->      GICv3CPUState *cs = icc_cs_from_env(env);
->      int irq = value & 0xffffff;
->      int grp;
-> +    bool is_eoir0 = ri->crm == 8;
->
-> -    if (icv_access(env, ri->crm == 8 ? HCR_FMO : HCR_IMO)) {
-> +    if (icv_access(env, is_eoir0 ? HCR_FMO : HCR_IMO)) {
->          icv_eoir_write(env, ri, value);
->          return;
->      }
->
-> -    trace_gicv3_icc_eoir_write(ri->crm == 8 ? 0 : 1,
-> +    trace_gicv3_icc_eoir_write(is_eoir0 ? 0 : 1,
->                                 gicv3_redist_affid(cs), value);
->
-> -    if (ri->crm == 8) {
-> -        /* EOIR0 */
-> -        grp = GICV3_G0;
-> -    } else {
-> -        /* EOIR1 */
-> -        if (arm_is_secure(env)) {
-> -            grp = GICV3_G1;
-> -        } else {
-> -            grp = GICV3_G1NS;
-> -        }
-> -    }
-> -
->      if (irq >= cs->gic->num_irq) {
->          /* This handles two cases:
->           * 1. If software writes the ID of a spurious interrupt [ie 1020-1023]
-> @@ -1340,8 +1329,35 @@ static void icc_eoir_write(CPUARMState *env, const ARMCPRegInfo *ri,
->          return;
->      }
->
-> -    if (icc_highest_active_group(cs) != grp) {
-> -        return;
-> +    grp = icc_highest_active_group(cs);
-> +    switch (grp) {
-> +    case GICV3_G0:
-> +        if (!is_eoir0) {
-> +            return;
-> +        }
-> +        if (!(cs->gic->gicd_ctlr & GICD_CTLR_DS)
-> +            && arm_feature(env, ARM_FEATURE_EL3) && !arm_is_secure(env)) {
-> +            return;
-> +        }
-> +        break;
-> +    case GICV3_G1:
-> +        if (is_eoir0) {
-> +            return;
-> +        }
-> +        if (!arm_is_secure(env)) {
-> +            return;
-> +        }
-> +        break;
-> +    case GICV3_G1NS:
-> +        if (is_eoir0) {
-> +            return;
-> +        }
-> +        if (!arm_is_el3_or_mon(env) && arm_is_secure(env)) {
-> +            return;
-> +        }
-> +        break;
-> +    default:
-> +        g_assert_not_reached();
->      }
->
->      icc_drop_prio(cs, grp);
-> --
-> 2.20.1
->
 
