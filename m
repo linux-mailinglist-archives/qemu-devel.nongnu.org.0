@@ -2,79 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8B6338A991
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 13:03:01 +0200 (CEST)
-Received: from localhost ([::1]:49540 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7993138A992
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 13:04:17 +0200 (CEST)
+Received: from localhost ([::1]:53144 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljgSC-0007Hb-Pi
-	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 07:03:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42852)
+	id 1ljgTQ-0001J0-J2
+	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 07:04:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43082)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1ljgQO-0006K8-8e
- for qemu-devel@nongnu.org; Thu, 20 May 2021 07:01:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22972)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1ljgQM-0007gv-DY
- for qemu-devel@nongnu.org; Thu, 20 May 2021 07:01:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621508465;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ZSYVzw4vsWO6xPBgF/9Eq5HXFPlzPGG8fy/HbflRN1k=;
- b=Zgkh093AwApyU1gRqrcw7dZd0SC7iPT5qCdZROgw+Uvwyf72oZeIF9MRkqv3m6hIz6pteg
- oUDgW1lRyyQK2gObHsljn3aIBecZjjrykkVO0I8PDmpVJ/fZpiHKVappi27/S9XNN8KFb7
- mzgOWwCVhnOGEO14UUF7xaxRXDiP7ug=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-471-PFd4xfC1NIWUPYt8wo3N0Q-1; Thu, 20 May 2021 07:01:03 -0400
-X-MC-Unique: PFd4xfC1NIWUPYt8wo3N0Q-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A26161922965;
- Thu, 20 May 2021 11:01:01 +0000 (UTC)
-Received: from localhost (unknown [10.40.208.32])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 549FA5D9DC;
- Thu, 20 May 2021 11:00:49 +0000 (UTC)
-Date: Thu, 20 May 2021 13:00:47 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Eric DeVolder <eric.devolder@oracle.com>
-Subject: Re: [PATCH v2 3/7] ACPI ERST: support for ACPI ERST feature
-Message-ID: <20210520130047.1a89d520@redhat.com>
-In-Reply-To: <CO1PR10MB4531D0D81AEDA7FD7F10DF19972C9@CO1PR10MB4531.namprd10.prod.outlook.com>
-References: <1612817879-21511-1-git-send-email-eric.devolder@oracle.com>
- <1612817879-21511-4-git-send-email-eric.devolder@oracle.com>
- <20210406213131.21045f68@redhat.com>
- <CO1PR10MB4531392E4B963B163A0FC89C97739@CO1PR10MB4531.namprd10.prod.outlook.com>
- <20210414111759.66e78f71@redhat.com>
- <CO1PR10MB4531ACA8EFC99E57809E1499975B9@CO1PR10MB4531.namprd10.prod.outlook.com>
- <20210503190734.12e4c1ac@redhat.com>
- <CO1PR10MB453130B44F61C9E82C431789972D9@CO1PR10MB4531.namprd10.prod.outlook.com>
- <20210517183138.5a429692@redhat.com>
- <CO1PR10MB4531D0D81AEDA7FD7F10DF19972C9@CO1PR10MB4531.namprd10.prod.outlook.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ljgRF-0006rR-ES
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 07:02:01 -0400
+Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632]:43582)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ljgRC-0008DG-OS
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 07:02:01 -0400
+Received: by mail-ej1-x632.google.com with SMTP id l4so24559329ejc.10
+ for <qemu-devel@nongnu.org>; Thu, 20 May 2021 04:01:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ki0+fKc+qYhCu/umnU5E1TG7SbsImF6Iy9aOHQKz2q8=;
+ b=CBgTfNWJV5LnvMx1N7dNcn5RCOMr6Et2rXB+/XCDQaORL9V/HdvxpgyAYNbBG0VWhf
+ POGgcV4FqDuUg3u/yo1Czkotay8tVE7oyyJo/PStQHcfJMJdWdeAsTHSzvGupCWaNpIA
+ oIwW/aubVsJzUF4JoF+FPprgFeSPu4rnBogcNvDlP8WlX8AoG02lcBAPhl1pBd10y9wG
+ RtD07/YQxkCWJkWivHCD8v1EAHPHQHkjKh+RqnNWO9ZSTNbE/yjent84ZbAu+zqURYT6
+ qw/OnSoqNfDX9qwZh0u1wdcpymGxLZ9QeMHiM6sS7Frdrowv4cmg8HXQfMIZKjEddBvm
+ p6TA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ki0+fKc+qYhCu/umnU5E1TG7SbsImF6Iy9aOHQKz2q8=;
+ b=ow9FRMsHRZ47g9B9Q+3CVOFd8LLWH73nmvN41r5SDyjZHhmOQxsyJ53Fpj/B1iCPa7
+ iDGCHrTUwvGwURnPMCpRReCKDN/Lj9vFqxkui2CvKVR2pPYSUA8zbncTBQ4i4VXghysg
+ Hp3YCzoTLuVoBN+lFsWuPl752O34WT4qHxETf1kaBjs8q0Ka6tajmHbpilV358+QWVkj
+ dpv1SHQ6S0Q8G+z92uoDAVk+yF9XHLhla8WIH0i/Qr6Bs5b40Gy+X75c2WHbkNG/2L6I
+ K3kg+znInGyqync4PyoqV7C/lruGXUlSWkiJ4HpW6fI1zc6b7wkqdLaiehwU5aI496YN
+ k7oQ==
+X-Gm-Message-State: AOAM530UFIMMtKBi4tXdc6eUpaDUGvi+vM5cRONYJdnuxUnirTqsNJon
+ On2yIipWaxz3gDxokmSFcIuolTwcXhltdFSMjAR3+w==
+X-Google-Smtp-Source: ABdhPJyTxczjemyQlPQQWYugCt7xbAs3NmukDJtKlbW5zGXiznK1ypZF83zMIJZEmPs0HlZUcWt1E1y1G2T4iJwQbU4=
+X-Received: by 2002:a17:906:d1d2:: with SMTP id
+ bs18mr4174531ejb.56.1621508516435; 
+ Thu, 20 May 2021 04:01:56 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.39,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210429234201.125565-1-shashi.mallela@linaro.org>
+ <20210429234201.125565-7-shashi.mallela@linaro.org>
+In-Reply-To: <20210429234201.125565-7-shashi.mallela@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 20 May 2021 12:01:37 +0100
+Message-ID: <CAFEAcA_GhRkfYgNpu+QDZEKr-HNUCx5Zq5JTF+DrWsKLd+p3PA@mail.gmail.com>
+Subject: Re: [PATCH v3 6/8] hw/intc: GICv3 redistributor ITS processing
+To: Shashi Mallela <shashi.mallela@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::632;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x632.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,99 +78,325 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "ehabkost@redhat.com" <ehabkost@redhat.com>,
- Konrad Wilk <konrad.wilk@oracle.com>, "mst@redhat.com" <mst@redhat.com>,
- "jusual@redhat.com" <jusual@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>,
- Boris Ostrovsky <boris.ostrovsky@oracle.com>,
- "rth@twiddle.net" <rth@twiddle.net>
+Cc: Leif Lindholm <leif@nuviainc.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ qemu-arm <qemu-arm@nongnu.org>, Radoslaw Biernacki <rad@semihalf.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 18 May 2021 17:08:31 +0000
-Eric DeVolder <eric.devolder@oracle.com> wrote:
+On Fri, 30 Apr 2021 at 00:42, Shashi Mallela <shashi.mallela@linaro.org> wrote:
+>
+> Implemented lpi processing at redistributor to get lpi config info
+> from lpi configuration table,determine priority,set pending state in
+> lpi pending table and forward the lpi to cpuif.Added logic to invoke
+> redistributor lpi processing with translated LPI which set/clear LPI
+> from ITS device as part of ITS INT,CLEAR,DISCARD command and
+> GITS_TRANSLATER processing.
+>
+> Signed-off-by: Shashi Mallela <shashi.mallela@linaro.org>
+> ---
+>  hw/intc/arm_gicv3.c        |   6 ++
+>  hw/intc/arm_gicv3_cpuif.c  |  20 ++++--
+>  hw/intc/arm_gicv3_its.c    |  12 ++--
+>  hw/intc/arm_gicv3_redist.c | 133 +++++++++++++++++++++++++++++++++++++
+>  hw/intc/gicv3_internal.h   |   9 +++
+>  5 files changed, 171 insertions(+), 9 deletions(-)
+>
+> diff --git a/hw/intc/arm_gicv3.c b/hw/intc/arm_gicv3.c
+> index 66eaa97198..618fa1af95 100644
+> --- a/hw/intc/arm_gicv3.c
+> +++ b/hw/intc/arm_gicv3.c
+> @@ -166,6 +166,12 @@ static void gicv3_redist_update_noirqset(GICv3CPUState *cs)
+>          cs->hppi.grp = gicv3_irq_group(cs->gic, cs, cs->hppi.irq);
+>      }
+>
+> +    if (cs->gic->lpi_enable) {
+> +        if (gicv3_redist_update_lpi(cs)) {
+> +            seenbetter = true;
+> +        }
+> +    }
+> +
 
-> Hi Igor,
-> Thanks for the information. I am primarily interested in ensuring data persistence in the case of #1.
-> As it stands so far, I have yet to observe any kind of write back into the backing file. Just to summarize,
-> what I've done thus far is:
-> 
-> in erst_realizefn():
-> ...
->     s->hostmem_obj = object_new(TYPE_MEMORY_BACKEND_FILE);
->     object_property_set_str(s->hostmem_obj, "mem-path", (const char *)(TYPE_ACPI_ERST ".hostmem"), &error_fatal);
->     object_property_set_int(s->hostmem_obj, "size", s->prop_size, &error_fatal);
->     user_creatable_complete(USER_CREATABLE(s->hostmem_obj), &error_fatal);
->     s->hostmem = MEMORY_BACKEND(s->hostmem_obj);
+I'm not sure if this call is in the right place. This function
+(gicv3_redist_update_noirqset()) is specifically for when state
+in the *redistributor* has changed, and it is trying to be a fast
+path for "we know that only the redistributor state has changed,
+so we might be able to find the new best interrupt by looking only
+at the redistributor state". It has a fallback case at the bottom
+of the function for "the redistributor state changed such that
+we have to actually look at the whole of the GIC state to find
+the new best interrupt".
 
-backend should be provided by user on CLI so all backend's properties are configured there
-as user desires and frontend should access it via link property.
-see how pc-dimm's memdev property is used.
+>      /* If the best interrupt we just found would preempt whatever
+>       * was the previous best interrupt before this update, then
+>       * we know it's definitely the best one now.
+> diff --git a/hw/intc/arm_gicv3_cpuif.c b/hw/intc/arm_gicv3_cpuif.c
+> index 43ef1d7a84..11b1df5b6b 100644
+> --- a/hw/intc/arm_gicv3_cpuif.c
+> +++ b/hw/intc/arm_gicv3_cpuif.c
+> @@ -899,9 +899,14 @@ static void icc_activate_irq(GICv3CPUState *cs, int irq)
+>          cs->gicr_ipendr0 = deposit32(cs->gicr_ipendr0, irq, 1, 0);
+>          gicv3_redist_update(cs);
+>      } else {
+> -        gicv3_gicd_active_set(cs->gic, irq);
+> -        gicv3_gicd_pending_clear(cs->gic, irq);
+> -        gicv3_update(cs->gic, irq, 1);
+> +        if (irq >= GICV3_LPI_INTID_START) {
+> +            gicv3_redist_lpi_pending(cs, irq, 0);
+> +            gicv3_redist_update(cs);
+> +        } else {
+> +            gicv3_gicd_active_set(cs->gic, irq);
+> +            gicv3_gicd_pending_clear(cs->gic, irq);
+> +            gicv3_update(cs->gic, irq, 1);
+> +        }
 
-> and then in erst_update_backing_file(), which is called when records are created/updated:
-> 
-> ...
->     if ((mr = host_memory_backend_get_memory(s->hostmem))) {
->         uint8_t *p = (uint8_t *)memory_region_get_ram_ptr(mr);
->         memcpy(p + offset, data, length);
->         memory_region_msync(mr, 0, s->prop_size); /* for now, the whole thing */
-> }
-> 
-> I've instrumented this code, and I can see the records. I've instrumented memory_region_msync() all the way down
-> to qemu_msync() and it makes it into that code. But the end result has always been the same, the backing file is
-> never updated.
-> 
-> I'm not really sure what else I need to do to get the hostmem contents to be written back into the file.
+Don't nest this if(), instead write the whole ladder at the same
+nesting depth:
+    if (irq < GIC_INTERNAL) {
+        handle internal irq;
+    } else if (irq < GICV3_LPI_INTID_START) {
+        handle normal irq;
+    } else {
+        handle LPI;
+    }
 
-see "man mmap"
- in particular MAP_SHARED vs MAP_PRIVATE
+>      }
+>  }
+>
+> @@ -1328,7 +1333,8 @@ static void icc_eoir_write(CPUARMState *env, const ARMCPRegInfo *ri,
+>          }
+>      }
+>
+> -    if (irq >= cs->gic->num_irq) {
+> +    if ((irq >= cs->gic->num_irq) && (!(cs->gic->lpi_enable &&
+> +        (irq >= GICV3_LPI_INTID_START)))) {
+>          /* This handles two cases:
+>           * 1. If software writes the ID of a spurious interrupt [ie 1020-1023]
+>           * to the GICC_EOIR, the GIC ignores that write.
+> @@ -1348,7 +1354,11 @@ static void icc_eoir_write(CPUARMState *env, const ARMCPRegInfo *ri,
+>
+>      if (!icc_eoi_split(env, cs)) {
+>          /* Priority drop and deactivate not split: deactivate irq now */
+> -        icc_deactivate_irq(cs, irq);
+> +        if (irq >= GICV3_LPI_INTID_START) {
+> +            gicv3_update(cs->gic, irq, 1);
 
-and there is a corresponding property for the file backend to manage that.
+This doesn't look right. You're not actually doing anything here for
+an LPI interrupt, so you shouldn't need to call gicv3_update().
 
-in case #1 no explicit sync is needed, backing file should be updated on close at the latest
-(whether it's graceful/or forced (i.e. crash))
+> +        } else {
+> +            icc_deactivate_irq(cs, irq);
+> +        }
+>      }
+>  }
+>
+> diff --git a/hw/intc/arm_gicv3_its.c b/hw/intc/arm_gicv3_its.c
+> index 98c984dd22..28da2d1d77 100644
+> --- a/hw/intc/arm_gicv3_its.c
+> +++ b/hw/intc/arm_gicv3_its.c
+> @@ -219,6 +219,7 @@ static MemTxResult process_int(GICv3ITSState *s, uint64_t value,
+>      bool ite_valid = false;
+>      uint64_t cte = 0;
+>      bool cte_valid = false;
+> +    uint64_t rdbase;
+>      uint64_t itel = 0;
+>      uint32_t iteh = 0;
+>
+> @@ -275,10 +276,13 @@ static MemTxResult process_int(GICv3ITSState *s, uint64_t value,
+>           * command in the queue
+>           */
+>      } else {
+> -        /*
+> -         * Current implementation only supports rdbase == procnum
+> -         * Hence rdbase physical address is ignored
+> -         */
+> +        rdbase = (cte >> 1U) & RDBASE_PROCNUM_MASK;
+> +        if ((cmd == CLEAR) || (cmd == DISCARD)) {
+> +            gicv3_redist_process_lpi(&s->gicv3->cpu[rdbase], pIntid, 0);
+> +        } else {
+> +            gicv3_redist_process_lpi(&s->gicv3->cpu[rdbase], pIntid, 1);
+> +        }
+
+You need to check that rdbase is actually within the range of the
+number of CPUs here, otherwise you might access the cpu[] array
+out of bounds.
+
+> +
+>          if (cmd == DISCARD) {
+>              /* remove mapping from interrupt translation table */
+>              res = update_ite(s, eventid, dte, itel, iteh);
+> diff --git a/hw/intc/arm_gicv3_redist.c b/hw/intc/arm_gicv3_redist.c
+> index 7604ccdc83..82ca9d71e5 100644
+> --- a/hw/intc/arm_gicv3_redist.c
+> +++ b/hw/intc/arm_gicv3_redist.c
+> @@ -256,6 +256,8 @@ static MemTxResult gicr_writel(GICv3CPUState *cs, hwaddr offset,
+>          if (cs->gicr_typer & GICR_TYPER_PLPIS) {
+>              if (value & GICR_CTLR_ENABLE_LPIS) {
+>                  cs->gicr_ctlr |= GICR_CTLR_ENABLE_LPIS;
+> +                /* Check for any pending interr in pending table */
+> +                gicv3_redist_update(cs);
+>              } else {
+>                  cs->gicr_ctlr &= ~GICR_CTLR_ENABLE_LPIS;
+>              }
+> @@ -546,6 +548,137 @@ MemTxResult gicv3_redist_write(void *opaque, hwaddr offset, uint64_t data,
+>      return r;
+>  }
+>
+> +bool gicv3_redist_update_lpi(GICv3CPUState *cs)
+> +{
+> +    /*
+> +     * This function scans the LPI pending table and for each pending
+> +     * LPI, reads the corresponding entry from LPI configuration table
+> +     * to extract the priority info and determine if the LPI priority
+> +     * is lower than the current high priority interrupt.If yes, update
+> +     * high priority pending interrupt to that of LPI.
+> +     */
+
+I would still like to see some profiling of whether we spend a significant
+amount of time in this function...
+
+> +    AddressSpace *as = &cs->gic->dma_as;
+> +    uint64_t lpict_baddr, lpipt_baddr;
+> +    uint32_t pendt_size = 0;
+> +    uint8_t lpite;
+> +    uint8_t prio, pend;
+> +    int i;
+> +    bool seenbetter = false;
+> +
+> +    if ((!cs->gicr_ctlr & GICR_CTLR_ENABLE_LPIS) || !cs->gicr_propbaser ||
+> +        !cs->gicr_pendbaser || (FIELD_EX64(cs->gicr_propbaser, GICR_PROPBASER,
+> +        IDBITS) < GICR_PROPBASER_IDBITS_THRESHOLD)) {
+> +        return seenbetter;
+> +    }
+> +
+> +    lpict_baddr = FIELD_EX64(cs->gicr_propbaser, GICR_PROPBASER, PHYADDR);
+> +    lpict_baddr <<= R_GICR_PROPBASER_PHYADDR_SHIFT;
+> +
+> +    lpipt_baddr =  FIELD_EX64(cs->gicr_pendbaser, GICR_PENDBASER, PHYADDR);
+> +    lpipt_baddr <<= R_GICR_PENDBASER_PHYADDR_SHIFT;
+> +
+> +    /* Determine the highest priority pending interrupt among LPIs */
+> +    pendt_size = (1UL << (FIELD_EX64(cs->gicr_propbaser, GICR_PROPBASER,
+> +                          IDBITS) - 1));
+> +
+> +    for (i = 0; i < pendt_size; i++) {
+> +        address_space_read(as, lpipt_baddr +
+> +                (((GICV3_LPI_INTID_START + i) / 8) * sizeof(pend)),
+> +                MEMTXATTRS_UNSPECIFIED, &pend, sizeof(pend));
+> +
+> +        if ((1 << ((GICV3_LPI_INTID_START + i) % 8)) & pend) {
+> +            address_space_read(as, lpict_baddr + (i * sizeof(lpite)),
+> +                      MEMTXATTRS_UNSPECIFIED, &lpite, sizeof(lpite));
+> +
+> +            prio = ((lpite >> LPI_CTE_PRIORITY_OFFSET) &
+> +                     LPI_CTE_PRIORITY_MASK);
+> +            prio &= LPI_PRIORITY_MASK;
 
 
-> Thanks,
-> eric
-> 
-> 
-> ________________________________
-> From: Igor Mammedov <imammedo@redhat.com>
-> Sent: Monday, May 17, 2021 11:31 AM
-> To: Eric DeVolder <eric.devolder@oracle.com>
-> Cc: ehabkost@redhat.com <ehabkost@redhat.com>; mst@redhat.com <mst@redhat.com>; Konrad Wilk <konrad.wilk@oracle.com>; qemu-devel@nongnu.org <qemu-devel@nongnu.org>; pbonzini@redhat.com <pbonzini@redhat.com>; Boris Ostrovsky <boris.ostrovsky@oracle.com>; rth@twiddle.net <rth@twiddle.net>; jusual@redhat.com <jusual@redhat.com>
-> Subject: Re: [PATCH v2 3/7] ACPI ERST: support for ACPI ERST feature
-> 
-> On Mon, 17 May 2021 15:01:02 +0000
-> Eric DeVolder <eric.devolder@oracle.com> wrote:
-> 
-> > Hi Igor,
-> > I've been working to transition ERST to use the hostmem-file object as the backing store, as requested.
-> >
-> > I have the backend-file object now in ERST, and I have a question for you. This hostmem-file initializes
-> > itself from a file, but in looking at the code, I do not see that it ever writes back to the file!? Furthermore,
-> > I don't see a "flush" type method to force writeback of data in the object back to file?
-> >
-> > The original ERST code would flush/write to the backing file each record as it was created. I don't see
-> > any equivalent way of doing that with hostmem-file?  
-> 
-> To force flush you can use memory_region_msync() on MemoryRegion that you get from hostmem backend.
-> But question is what are you trying to achieve with sync
->   1. data persistence in case of QEMU crash
->   2. data persistence in case of host crash
-> 
-> for the former you do not need explicit sync as memory buffers should be flushed to disk by kernel
-> if you put backend on nvdimm, you should get 2 without sync as well (see pmem=on property)
-> 
-> just do not forget that sync is not free, so if #1 is acceptable I'd avoid explicit sync.
-> 
-> 
-> > Please point out where I am misunderstanding.
-> >
-> > Thanks,
-> > eric
-[...]
+The priority field interpretation depends on whether GICD_CTLR.DS is 0 or 1,
+(see section 5.1.1 in the GICv3 spec).
 
+> +
+> +            if (prio < cs->hppi.prio) {
+> +                cs->hppi.irq = GICV3_LPI_INTID_START + i;
+> +                cs->hppi.prio = prio;
+> +                /* LPIs are always non-secure Grp1 interrupts */
+> +                cs->hppi.grp = GICV3_G1NS;
+> +                seenbetter = true;
+> +            }
+> +        }
+> +    }
+> +    return seenbetter;
+> +}
+> +
+> +void gicv3_redist_lpi_pending(GICv3CPUState *cs, int irq, int level)
+> +{
+> +    AddressSpace *as = &cs->gic->dma_as;
+> +    uint64_t lpipt_baddr;
+> +    bool ispend = false;
+> +    uint8_t pend;
+> +
+> +    /*
+> +     * get the bit value corresponding to this irq in the
+> +     * lpi pending table
+> +     */
+> +    lpipt_baddr = FIELD_EX64(cs->gicr_pendbaser, GICR_PENDBASER, PHYADDR);
+> +    lpipt_baddr <<= R_GICR_PENDBASER_PHYADDR_SHIFT;
+
+You can write
+  lpipt_baddr = cs->gicr_pendbaser & R_GICR_PENDBASER_PHYADDR_MASK;
+
+because the register is laid out deliberately so that bits [51:16] in the
+register specify bits [51:16] of the address.
+
+> +
+> +    address_space_read(as, lpipt_baddr + ((irq / 8) * sizeof(pend)),
+> +                         MEMTXATTRS_UNSPECIFIED, &pend, sizeof(pend));
+> +    ispend = ((pend >> (irq % 8)) & 0x1);
+> +
+> +    if (ispend) {
+> +        if (!level) {
+> +            /*
+> +             * clear the pending bit and update the lpi pending table
+> +             */
+> +            pend &= ~(1 << (irq % 8));
+> +
+> +            address_space_write(as, lpipt_baddr + ((irq / 8) * sizeof(pend)),
+> +                                 MEMTXATTRS_UNSPECIFIED, &pend, sizeof(pend));
+> +        }
+> +    } else {
+> +        if (level) {
+> +            /*
+> +             * if pending bit is not already set for this irq,turn-on the
+> +             * pending bit and update the lpi pending table
+> +             */
+> +            pend |= (1 << (irq % 8));
+> +
+> +            address_space_write(as, lpipt_baddr + ((irq / 8) * sizeof(pend)),
+> +                                 MEMTXATTRS_UNSPECIFIED, &pend, sizeof(pend));
+> +        }
+> +    }
+> +}
+> +
+> +void gicv3_redist_process_lpi(GICv3CPUState *cs, int irq, int level)
+> +{
+> +    AddressSpace *as = &cs->gic->dma_as;
+> +    uint64_t lpict_baddr;
+> +    uint8_t lpite;
+> +
+> +    if ((!cs->gicr_ctlr & GICR_CTLR_ENABLE_LPIS) || !cs->gicr_propbaser ||
+> +         !cs->gicr_pendbaser || (FIELD_EX64(cs->gicr_propbaser, GICR_PROPBASER,
+> +         IDBITS) < GICR_PROPBASER_IDBITS_THRESHOLD)) {
+> +        return;
+> +    }
+
+Something needs to be checking for "attempt to work with an interrupt
+number that is too large according to either GICR_PROPBASER.IDbits or
+GICD_TYPER.IDbits". You could do it either in this function or in the
+callers; doing it here is probably as good as anywhere.
+
+> +    lpict_baddr = FIELD_EX64(cs->gicr_propbaser, GICR_PROPBASER, PHYADDR);
+> +    lpict_baddr <<= R_GICR_PROPBASER_PHYADDR_SHIFT;
+> +
+> +    /* get the lpi config table entry corresponding to this irq */
+> +    address_space_read(as, lpict_baddr + ((irq - GICV3_LPI_INTID_START) *
+> +                        sizeof(lpite)), MEMTXATTRS_UNSPECIFIED,
+> +                        &lpite, sizeof(lpite));
+> +
+> +    /* check if this irq is enabled before proceeding further */
+> +    if (!(lpite & LPI_CTE_ENABLED)) {
+> +        return;
+> +    }
+> +
+> +    /* set/clear the pending bit for this irq */
+> +    gicv3_redist_lpi_pending(cs, irq, level);
+> +
+> +    gicv3_redist_update(cs);
+> +}
+> +
+>  void gicv3_redist_set_irq(GICv3CPUState *cs, int irq, int level)
+>  {
+>      /* Update redistributor state for a change in an external PPI input line */
+
+thanks
+-- PMM
 
