@@ -2,60 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CC3D38A075
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 10:59:01 +0200 (CEST)
-Received: from localhost ([::1]:40762 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A85338A08C
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 11:05:55 +0200 (CEST)
+Received: from localhost ([::1]:50506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljeWC-0002wc-Jr
-	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 04:59:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59314)
+	id 1ljecs-0001eg-2V
+	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 05:05:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33040)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1ljeTP-0000VI-00
- for qemu-devel@nongnu.org; Thu, 20 May 2021 04:56:07 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:39190
- helo=mail.default.ilande.bv.iomart.io)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1ljeTM-00077D-NN
- for qemu-devel@nongnu.org; Thu, 20 May 2021 04:56:06 -0400
-Received: from host217-39-58-213.range217-39.btcentralplus.com
- ([217.39.58.213] helo=[192.168.1.65])
- by mail.default.ilande.bv.iomart.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1ljeTI-000CJw-SL; Thu, 20 May 2021 09:56:01 +0100
-To: Stefan Hajnoczi <stefanha@redhat.com>, BALATON Zoltan <balaton@eik.bme.hu>
-References: <20210518215545.1793947-1-philmd@redhat.com>
- <20210518215545.1793947-3-philmd@redhat.com>
- <f571a63d-d6a2-2085-740-bcc59b3424e5@eik.bme.hu>
- <3ba44704-6418-4aee-23ad-7d4dcc1fe60d@redhat.com>
- <babbf5da-b4c0-9736-b09-426e3a358587@eik.bme.hu>
- <YKYfOMUvCnQTcQtZ@stefanha-x1.localdomain>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-ID: <ae7509a1-2934-7780-6fae-ea9f4bf16e8d@ilande.co.uk>
-Date: Thu, 20 May 2021 09:56:01 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ljeY3-0006PV-DX
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 05:00:55 -0400
+Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633]:46740)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ljeXx-0001SO-VE
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 05:00:55 -0400
+Received: by mail-ej1-x633.google.com with SMTP id u21so24004901ejo.13
+ for <qemu-devel@nongnu.org>; Thu, 20 May 2021 02:00:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=gph9QBLGq7MzueZaWzi/Cxqb6i/+uzLDlKKFVxqdhnw=;
+ b=nalvt/uGaFHQtNmWPQI04H4GM/hRofO1J7YDQ2KAqkB0sYfGvWkS401rLTySellWUv
+ 15Ux8w7E6ojBEnNGmaaEtgudQ1AIV15gIL0z+Y/dPUS3bci6lTQU1YLYm0i9LSEjY3Rk
+ 7r+JO8RZrc9iHNSNcveaWvpWikoVIYBI1GWYhbQm5aqAM8QwQpyATdAknQ4mZ/VdXsiY
+ VNxt0zlqsrZuoNUjD7OTAgzpDgZjGJk8DsQxXzPU8fbHRFoDiLp52uEroCb1AJbE0YSH
+ yszen8tI4tK3W0ZNvJ2WzHQerDUb28mfkqrOILNx9MrfEXZl00ewhZlWv74p9F/D/pH+
+ ahow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=gph9QBLGq7MzueZaWzi/Cxqb6i/+uzLDlKKFVxqdhnw=;
+ b=fphvUxKK/b0aB5DmJFXIqEqXuN1zKhdEABa872ezKJ+3CAzqW8Ocm5MnrS9Z0cEqiN
+ I3kv5OHeXKKmUIgsh0ZyWwcHPSwcRxmI7WoF7Cyg7t+JHPdM9XDUgkgk24wn9tPTDGuv
+ l35exNp1BYvuvOFR7YsvexBpH1EmrdnSJErEV38cLgwOky4WTiKVlulwwDqiX9lT0Nua
+ CIBTf/rWWyyw/zbOKnmOXJXWs35Xr3oEmIX4J6/lGR+2Q01PpkQjiMtgxaqCjkFsJ1iz
+ 9VLTav348E57lYeUCng6m6B7UeifGhT23o3KYT42+Yog7EXW55R4Mo6mD7ZbbLQyQEeW
+ xHqg==
+X-Gm-Message-State: AOAM530r4qB18jqWpUWTqaunsDsz+1LP6zOnmKiUy9Krvpr57EBjFyBW
+ zzbdZ8WMQ1uGQmygerL119Dk/+qY8Y3bORkYaIBUyA==
+X-Google-Smtp-Source: ABdhPJzLEuCmyKdEb/d+w1qzIit66/PscGYBMpnqEMaycanG9oa+ridFy28XypB4c/3z0tqADi/aZ8Y+bTtnrS21pIM=
+X-Received: by 2002:a17:906:b1cc:: with SMTP id
+ bv12mr3523423ejb.407.1621501247681; 
+ Thu, 20 May 2021 02:00:47 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <YKYfOMUvCnQTcQtZ@stefanha-x1.localdomain>
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 217.39.58.213
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [RFC PATCH 02/11] hw/ide: Add PCIIDEState::isa_bus link
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.bv.iomart.io
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210519125148.27720-1-david@gibson.dropbear.id.au>
+In-Reply-To: <20210519125148.27720-1-david@gibson.dropbear.id.au>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 20 May 2021 10:00:29 +0100
+Message-ID: <CAFEAcA8MqfNKX8EFO9ow_CqRN1FHmegFCa6auJJQUC_rNLGPqQ@mail.gmail.com>
+Subject: Re: [PULL 00/48] ppc-for-6.1 queue 20210519
+To: David Gibson <david@gibson.dropbear.id.au>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::633;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x633.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -68,55 +77,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- John G Johnson <john.g.johnson@oracle.com>, Thomas Huth <thuth@redhat.com>,
- Jagannathan Raman <jag.raman@oracle.com>, John Snow <jsnow@redhat.com>,
- qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ qemu-ppc <qemu-ppc@nongnu.org>, Greg Kurz <groug@kaod.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 20/05/2021 09:35, Stefan Hajnoczi wrote:
-
-> I realized I don't really understand how ISA IDE and PCI IDE interact in
-> PIIX3:
-> 
-> - ISA IDE has well-known PIO registers that are always present?
-> 
-> - PCI IDE has the same registers, but the BAR must be mapped and PCI IO
->    space access must be enabled?
-> 
-> - ISA IDE has a hardcoded ISA irq number?
-> 
-> - PCI IDE has a normal PCI irq that is routed like any legacy PCI INTx
->    irq?
-> 
-> - What combinations of ISA enabled/disabled and PCI enabled/disabled
->    need to be supported?
-
-Yeah a lot of this discussion happened several months back in the Pegasos threads, 
-but here is my understanding:
-
-- Older legacy PCI devices such as IDE controllers connected via a host containing a 
-PCI-ISA bridge can be switched by the guest OS into PCI legacy (also known as 
-compatibility mode) via a PCI config space register so that IO space accesses, IRQs 
-(and possible DMA?) are done via the ISA bus
-
-- QEMU handles the IO memory accesses fine, since in these cases isa_bus_new() is 
-given the IO space by pci_address_space_io(dev) so IO space access generally "just works"
-
-- Currently it is the responsibility of these older PCI devices to determine how they 
-have been configured and either use e.g. pci_set_irq() or qemu_raise_irq() on the ISA 
-IRQ for interrupts
-
-- Generally ISA IRQs are fixed as per the old AT-style PCs so IDE would be 14/15
-
-My thoughts above were about how to allow a PCIDevice to locate its ISABus if it is 
-connected to a bus with a PCI-ISA bridge to potentially allow access to ISA IRQs and 
-DMA if configured in PCI legacy mode.
+On Wed, 19 May 2021 at 13:52, David Gibson <david@gibson.dropbear.id.au> wrote:
+>
+> The following changes since commit c313e52e6459de2e9064767083a0c949c476e32b:
+>
+>   Merge remote-tracking branch 'remotes/vivier2/tags/linux-user-for-6.1-pull-request' into staging (2021-05-18 16:17:22 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/dgibson/qemu.git tags/ppc-for-6.1-20210519
+>
+> for you to fetch changes up to e543f946856da31c3a7a45ba193f106e042ad907:
+>
+>   target/ppc: Remove type argument for mmubooke206_get_physical_address (2021-05-19 12:52:07 +1000)
+>
+> ----------------------------------------------------------------
+> ppc patch queue 2021-05-19
+>
+> Next set of ppc related patches for qemu-6.1.  Highlights are:
+>  * Start of a significant softmmu cleanup from Richard Henderson
+>  * Further work towards allowing builds without CONFIG_TCG
+>
 
 
-ATB,
+Applied, thanks.
 
-Mark.
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.1
+for any user-visible changes.
+
+-- PMM
 
