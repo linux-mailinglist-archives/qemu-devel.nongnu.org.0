@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53C4138AA46
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 13:12:21 +0200 (CEST)
-Received: from localhost ([::1]:38444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87C4E38AADD
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 13:17:35 +0200 (CEST)
+Received: from localhost ([::1]:53246 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljgbE-0002IB-Ba
-	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 07:12:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44516)
+	id 1ljggI-0003yG-JS
+	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 07:17:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44560)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ljgYd-0007xx-MT
- for qemu-devel@nongnu.org; Thu, 20 May 2021 07:09:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35781)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ljgYl-0008GD-RA
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 07:09:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58647)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ljgYb-0004T8-Uz
- for qemu-devel@nongnu.org; Thu, 20 May 2021 07:09:39 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ljgYi-0004Ww-6r
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 07:09:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621508977;
+ s=mimecast20190719; t=1621508983;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BIUKBelUrGAg7JFPfqNH9aSjg1FuXfUME+/SSVTybmA=;
- b=Ads1KW9jf9UgrIJmirUn3zN7HPJfZ5ueJX7QxY6xv6GAxf4+6ZUCM+On44IQMEJsteOeco
- TplGyI/JF8kn8EFRxlGQfSnAIowyYSHsrfLSV+7ZDUYaPGF7WgZfx9dV7bZ9VgkcxWwwr1
- HVhd1CP/v6Lt/kXk2rQH7c5q1SwAlUE=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-60-g_FFBUT2Pa-3SQk7IAGPzg-1; Thu, 20 May 2021 07:09:36 -0400
-X-MC-Unique: g_FFBUT2Pa-3SQk7IAGPzg-1
-Received: by mail-wr1-f71.google.com with SMTP id
- q15-20020adfc50f0000b0290111f48b865cso5029323wrf.4
- for <qemu-devel@nongnu.org>; Thu, 20 May 2021 04:09:36 -0700 (PDT)
+ bh=2KSH1YwMn8zpDyDH9Uq0LVnJ/rgrT/JgFf8hkb+U/HU=;
+ b=OV0nHobY3dvLLfiopvZSXcoTv1UjiNcdnLbdNWCjm4Eht7yL6sTM2me6EE2YSS2SPBrjuF
+ mZUALYfdK7dbtfr1WLmkvkcDwkO0++Zm2LjggKx2QY3P4J1sQEoGyvIdWGsgCu2eh2U5m/
+ MUKZEGbsiAv/9J77EijjldqgI0YQWsQ=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-27-B2yJIMNrM6m4_NNJ8VYKvw-1; Thu, 20 May 2021 07:09:40 -0400
+X-MC-Unique: B2yJIMNrM6m4_NNJ8VYKvw-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ c13-20020a5d6ccd0000b029010ec741b84bso8490480wrc.23
+ for <qemu-devel@nongnu.org>; Thu, 20 May 2021 04:09:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=BIUKBelUrGAg7JFPfqNH9aSjg1FuXfUME+/SSVTybmA=;
- b=AmxfUdEDpbguboRsqF+jDJMavSSNJRCp2AGTmoch+UPq9h0C/zM4WYxzTQ0vrbkhOi
- wsW3VxV/jHAB0zQsYJ6H+ff8trA8/WyZv1hXSD8APXcWW2DOrTa9NzOrSXtiaUY2ycph
- /Q0GFaOmw2pqqim/hu/oDW/uICEK3RgqdBuQHDAI/MuRuhNh+KIxMl6tF4zlW0GaNEgy
- ML1ZzdEiyRmfv/sOgy2bU3vYNFde1UQW0c45OycSdvaUIq1DKbAZrL+NSJlXl9D0VmNw
- dKvBJwEOz5GKXo+cBDsjVOBuk/dOeE94tqSag87IYQt1SoZGWoKXU1JKUK23df5kX2Wc
- o4Ig==
-X-Gm-Message-State: AOAM532HUL7y6pfX5NgVQeNBHwGMi0Fun04/Zzbvh3h08o4dkesss4gB
- CJfyhnoDpmdlGqYUl1Y9YBwSINtqfCXpCJmPOE+MEQIlgkj3qmCvHgb4BpjIMEaY2eqsx2y0+78
- pk0GM/Tn2iP1u9SjFPdQ6JiXXTBuQ0V9N6l5l2ZJqY+HJYwYsqp5ZFuMh4+aRFKHq
-X-Received: by 2002:a5d:62c7:: with SMTP id o7mr3673020wrv.372.1621508974757; 
- Thu, 20 May 2021 04:09:34 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwEUAwnlIZe3JtCq7uoFHBWXQoJs3UxNmzzOa9mrg8Z+HtdwTbQUbXUK7S5h4KZbQr5i0Yq5A==
-X-Received: by 2002:a5d:62c7:: with SMTP id o7mr3672987wrv.372.1621508974526; 
- Thu, 20 May 2021 04:09:34 -0700 (PDT)
+ bh=2KSH1YwMn8zpDyDH9Uq0LVnJ/rgrT/JgFf8hkb+U/HU=;
+ b=Kdl4GodgcA7nUOB4tnBN9QyIfg3SUEgQkfTL0JdeVl282cbliYKsHM5ux4OiwILnHU
+ SGHwsab9QnUX6GZJEIYjAJSyHeqJKOz/w/VLExBrznLFXFMmRw8QnCi5ilMm+h2DMtqr
+ JdRy7ahgA/ZzWmSk8J5OYJfTuOsBRpItPnzGvkIPBx6v53IGc/SS/adI14zYhhlDZgyg
+ +bDSdI9V2x3TdasIlV06sJCVG6kjNSHTrQ2xzVMWiybzlEjCQdCEYfLEY+TAXHYj9OFZ
+ CbjYRWBaSG4f4RXgHLbElw6RCOq0/GtffkzJaXtgPFthJ9IwsE25rnzjXYEBKCT5pXvj
+ sDaw==
+X-Gm-Message-State: AOAM5302salVs6+nRJLD0F+WZKqVD76GyHEv6JaWfQ/wPm6iPRBreVtL
+ NCyfhAaaprrWZoJw17KLOBBKYU/J6Sh04E1ZTqI5PRZn1gPKHsLcYkIXQBvGWkxkhHRE+tEQut1
+ x/8dj5krVGzejEnZAViPBm+i+g9LCj9iY6M0Ej80e0H5AW+T7AtSRugCq6QdAEq0Z
+X-Received: by 2002:a7b:c14f:: with SMTP id z15mr3523690wmi.149.1621508979357; 
+ Thu, 20 May 2021 04:09:39 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJypV8QrtTFYcqAaQN2mqsbrJHwtiEW9wPUgdsnxyNxoDiibzKWPs82c8gxFMqHEngLwVBDtKA==
+X-Received: by 2002:a7b:c14f:: with SMTP id z15mr3523669wmi.149.1621508979128; 
+ Thu, 20 May 2021 04:09:39 -0700 (PDT)
 Received: from x1w.redhat.com (31.red-83-51-215.dynamicip.rima-tde.net.
  [83.51.215.31])
- by smtp.gmail.com with ESMTPSA id c6sm2750046wru.50.2021.05.20.04.09.33
+ by smtp.gmail.com with ESMTPSA id m7sm2774233wrv.35.2021.05.20.04.09.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 May 2021 04:09:34 -0700 (PDT)
+ Thu, 20 May 2021 04:09:38 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 03/12] exec/memory_ldst: Return MEMTX_UNALIGNED_ERROR for
- unaligned addresses
-Date: Thu, 20 May 2021 13:09:10 +0200
-Message-Id: <20210520110919.2483190-4-philmd@redhat.com>
+Subject: [RFC PATCH 04/12] exec/memory_ldst_cached: Sort declarations
+Date: Thu, 20 May 2021 13:09:11 +0200
+Message-Id: <20210520110919.2483190-5-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210520110919.2483190-1-philmd@redhat.com>
 References: <20210520110919.2483190-1-philmd@redhat.com>
@@ -74,7 +73,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -104,121 +103,92 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-All address_space internal handlers have the /* warning: addr
-must be aligned */ comment, so we don't expect any caller to
-pass unaligned addresses.
-
-Now than we added the MemTxAttrs.aligned attribute, callers
-might want to pass unaligned addresses. In case they do, be
-ready and return MEMTX_UNALIGNED_ERROR.
+To ease the file review, sort the declarations by the size of
+the access (8, 16, 32). Simple code movement, no logical change.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- memory_ldst.c.inc | 49 +++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 49 insertions(+)
+ include/exec/memory_ldst_cached.h.inc | 46 +++++++++++++--------------
+ 1 file changed, 23 insertions(+), 23 deletions(-)
 
-diff --git a/memory_ldst.c.inc b/memory_ldst.c.inc
-index 84b868f2946..efeb545479e 100644
---- a/memory_ldst.c.inc
-+++ b/memory_ldst.c.inc
-@@ -32,6 +32,13 @@ static inline uint32_t glue(address_space_ldl_internal, SUFFIX)(ARG1_DECL,
-     MemTxResult r;
-     bool release_lock = false;
+diff --git a/include/exec/memory_ldst_cached.h.inc b/include/exec/memory_ldst_cached.h.inc
+index 7bc8790d346..c33449d0cd5 100644
+--- a/include/exec/memory_ldst_cached.h.inc
++++ b/include/exec/memory_ldst_cached.h.inc
+@@ -24,6 +24,18 @@
+ #define LD_P(size) \
+     glue(glue(ld, size), glue(ENDIANNESS, _p))
  
-+    if (unlikely(!QEMU_IS_ALIGNED(addr, sizeof(uint32_t)))) {
-+        if (result) {
-+            *result = MEMTX_UNALIGNED_ERROR;
-+        }
-+        return (uint32_t)-1; /* XXX */
++static inline uint32_t ADDRESS_SPACE_LD_CACHED(uw)(MemoryRegionCache *cache,
++    hwaddr addr, MemTxAttrs attrs, MemTxResult *result)
++{
++    assert(addr < cache->len && 2 <= cache->len - addr);
++    fuzz_dma_read_cb(cache->xlat + addr, 2, cache->mrs.mr);
++    if (likely(cache->ptr)) {
++        return LD_P(uw)(cache->ptr + addr);
++    } else {
++        return ADDRESS_SPACE_LD_CACHED_SLOW(uw)(cache, addr, attrs, result);
 +    }
++}
 +
-     RCU_READ_LOCK();
-     mr = TRANSLATE(addr, &addr1, &l, false, attrs);
-     if (l < 4 || !memory_access_is_direct(mr, false)) {
-@@ -101,6 +108,13 @@ static inline uint64_t glue(address_space_ldq_internal, SUFFIX)(ARG1_DECL,
-     MemTxResult r;
-     bool release_lock = false;
+ static inline uint32_t ADDRESS_SPACE_LD_CACHED(l)(MemoryRegionCache *cache,
+     hwaddr addr, MemTxAttrs attrs, MemTxResult *result)
+ {
+@@ -48,18 +60,6 @@ static inline uint64_t ADDRESS_SPACE_LD_CACHED(q)(MemoryRegionCache *cache,
+     }
+ }
  
-+    if (unlikely(!QEMU_IS_ALIGNED(addr, sizeof(uint64_t)))) {
-+        if (result) {
-+            *result = MEMTX_UNALIGNED_ERROR;
-+        }
-+        return (uint64_t)-1; /* XXX */
-+    }
-+
-     RCU_READ_LOCK();
-     mr = TRANSLATE(addr, &addr1, &l, false, attrs);
-     if (l < 8 || !memory_access_is_direct(mr, false)) {
-@@ -205,6 +219,13 @@ static inline uint16_t glue(address_space_lduw_internal, SUFFIX)(ARG1_DECL,
-     MemTxResult r;
-     bool release_lock = false;
+-static inline uint32_t ADDRESS_SPACE_LD_CACHED(uw)(MemoryRegionCache *cache,
+-    hwaddr addr, MemTxAttrs attrs, MemTxResult *result)
+-{
+-    assert(addr < cache->len && 2 <= cache->len - addr);
+-    fuzz_dma_read_cb(cache->xlat + addr, 2, cache->mrs.mr);
+-    if (likely(cache->ptr)) {
+-        return LD_P(uw)(cache->ptr + addr);
+-    } else {
+-        return ADDRESS_SPACE_LD_CACHED_SLOW(uw)(cache, addr, attrs, result);
+-    }
+-}
+-
+ #undef ADDRESS_SPACE_LD_CACHED
+ #undef ADDRESS_SPACE_LD_CACHED_SLOW
+ #undef LD_P
+@@ -71,17 +71,6 @@ static inline uint32_t ADDRESS_SPACE_LD_CACHED(uw)(MemoryRegionCache *cache,
+ #define ST_P(size) \
+     glue(glue(st, size), glue(ENDIANNESS, _p))
  
-+    if (unlikely(!QEMU_IS_ALIGNED(addr, sizeof(uint16_t)))) {
-+        if (result) {
-+            *result = MEMTX_UNALIGNED_ERROR;
-+        }
-+        return (uint16_t)-1; /* XXX */
-+    }
-+
-     RCU_READ_LOCK();
-     mr = TRANSLATE(addr, &addr1, &l, false, attrs);
-     if (l < 2 || !memory_access_is_direct(mr, false)) {
-@@ -275,6 +296,13 @@ void glue(address_space_stl_notdirty, SUFFIX)(ARG1_DECL,
-     uint8_t dirty_log_mask;
-     bool release_lock = false;
+-static inline void ADDRESS_SPACE_ST_CACHED(l)(MemoryRegionCache *cache,
+-    hwaddr addr, uint32_t val, MemTxAttrs attrs, MemTxResult *result)
+-{
+-    assert(addr < cache->len && 4 <= cache->len - addr);
+-    if (likely(cache->ptr)) {
+-        ST_P(l)(cache->ptr + addr, val);
+-    } else {
+-        ADDRESS_SPACE_ST_CACHED_SLOW(l)(cache, addr, val, attrs, result);
+-    }
+-}
+-
+ static inline void ADDRESS_SPACE_ST_CACHED(w)(MemoryRegionCache *cache,
+     hwaddr addr, uint32_t val, MemTxAttrs attrs, MemTxResult *result)
+ {
+@@ -93,6 +82,17 @@ static inline void ADDRESS_SPACE_ST_CACHED(w)(MemoryRegionCache *cache,
+     }
+ }
  
-+    if (unlikely(!QEMU_IS_ALIGNED(addr, sizeof(uint32_t)))) {
-+        if (result) {
-+            *result = MEMTX_UNALIGNED_ERROR;
-+        }
-+        return;
++static inline void ADDRESS_SPACE_ST_CACHED(l)(MemoryRegionCache *cache,
++    hwaddr addr, uint32_t val, MemTxAttrs attrs, MemTxResult *result)
++{
++    assert(addr < cache->len && 4 <= cache->len - addr);
++    if (likely(cache->ptr)) {
++        ST_P(l)(cache->ptr + addr, val);
++    } else {
++        ADDRESS_SPACE_ST_CACHED_SLOW(l)(cache, addr, val, attrs, result);
 +    }
++}
 +
-     RCU_READ_LOCK();
-     mr = TRANSLATE(addr, &addr1, &l, true, attrs);
-     if (l < 4 || !memory_access_is_direct(mr, true)) {
-@@ -312,6 +340,13 @@ static inline void glue(address_space_stl_internal, SUFFIX)(ARG1_DECL,
-     MemTxResult r;
-     bool release_lock = false;
- 
-+    if (unlikely(!QEMU_IS_ALIGNED(addr, sizeof(uint32_t)))) {
-+        if (result) {
-+            *result = MEMTX_UNALIGNED_ERROR;
-+        }
-+        return;
-+    }
-+
-     RCU_READ_LOCK();
-     mr = TRANSLATE(addr, &addr1, &l, true, attrs);
-     if (l < 4 || !memory_access_is_direct(mr, true)) {
-@@ -408,6 +443,13 @@ static inline void glue(address_space_stw_internal, SUFFIX)(ARG1_DECL,
-     MemTxResult r;
-     bool release_lock = false;
- 
-+    if (unlikely(!QEMU_IS_ALIGNED(addr, sizeof(uint16_t)))) {
-+        if (result) {
-+            *result = MEMTX_UNALIGNED_ERROR;
-+        }
-+        return;
-+    }
-+
-     RCU_READ_LOCK();
-     mr = TRANSLATE(addr, &addr1, &l, true, attrs);
-     if (l < 2 || !memory_access_is_direct(mr, true)) {
-@@ -472,6 +514,13 @@ static void glue(address_space_stq_internal, SUFFIX)(ARG1_DECL,
-     MemTxResult r;
-     bool release_lock = false;
- 
-+    if (unlikely(!QEMU_IS_ALIGNED(addr, sizeof(uint64_t)))) {
-+        if (result) {
-+            *result = MEMTX_UNALIGNED_ERROR;
-+        }
-+        return;
-+    }
-+
-     RCU_READ_LOCK();
-     mr = TRANSLATE(addr, &addr1, &l, true, attrs);
-     if (l < 8 || !memory_access_is_direct(mr, true)) {
+ static inline void ADDRESS_SPACE_ST_CACHED(q)(MemoryRegionCache *cache,
+     hwaddr addr, uint64_t val, MemTxAttrs attrs, MemTxResult *result)
+ {
 -- 
 2.26.3
 
