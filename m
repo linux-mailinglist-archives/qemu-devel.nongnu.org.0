@@ -2,75 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 173A9389F77
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 10:08:15 +0200 (CEST)
-Received: from localhost ([::1]:46182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF5A1389F88
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 10:10:56 +0200 (CEST)
+Received: from localhost ([::1]:52782 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljdj4-0002UO-2f
-	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 04:08:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46382)
+	id 1ljdlf-000718-Nf
+	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 04:10:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47052)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ljdfz-0007tL-VP
- for qemu-devel@nongnu.org; Thu, 20 May 2021 04:05:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20976)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ljdfx-0005NU-R3
- for qemu-devel@nongnu.org; Thu, 20 May 2021 04:05:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621497901;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=2bWyu1bhKRZNdxYHV+kabdE1OaL17WaJz4j1ZDjldxM=;
- b=KiQHT4Tx/XHl6VGVF7uhgRGLWdfLge5WarUj5rcVHwGskns7ofMwVG6/dhw6AZnkkfXx5p
- zJQzCyPW5S8xvJehVxejQO5NO7hd359kUAzPvWu+GtLq41CZvIS+e/LSljX5/CyAuaENUF
- 3Rf5EYxRnbdtW6pjW9ikK5ynmKykUPs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-28-gRJqZ4NYP-erh67kFYxQ3g-1; Thu, 20 May 2021 04:04:57 -0400
-X-MC-Unique: gRJqZ4NYP-erh67kFYxQ3g-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A3C28107ACC7;
- Thu, 20 May 2021 08:04:56 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-71.ams2.redhat.com [10.36.112.71])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8158F5D9CC;
- Thu, 20 May 2021 08:04:47 +0000 (UTC)
-Subject: Re: [PATCH v3 5/6] gitlab-ci: Simplify before/after script for
- Avocado based jobs
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20210519184549.2192728-1-f4bug@amsat.org>
- <20210519184549.2192728-6-f4bug@amsat.org>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <06235f4a-cea1-3446-1641-1bb7962ea21d@redhat.com>
-Date: Thu, 20 May 2021 10:04:46 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
+ (Exim 4.90_1) (envelope-from <lizhijian@fujitsu.com>)
+ id 1ljdhC-0001oY-PC
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 04:06:18 -0400
+Received: from mail.cn.fujitsu.com ([183.91.158.132]:38222
+ helo=heian.cn.fujitsu.com) by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <lizhijian@fujitsu.com>) id 1ljdhA-0006HZ-H0
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 04:06:18 -0400
+IronPort-Data: =?us-ascii?q?A9a23=3ASHwbfamePHJVnyFQZxM5/JPo5gy7JERdPkR7XQ2?=
+ =?us-ascii?q?eYbTBsI5bp2dWn2AXXWDVPfqNMWP3ftwib4i19ktV68KGyoVgTFc++CA2RRqmi?=
+ =?us-ascii?q?+KfW43BcR2Y0wB+jyH7ZBs+qZ1YM7EsFehsJpPnjkrrYuKJQUVUj/nSH+KhUb+?=
+ =?us-ascii?q?cZEideCc/IMsfoUM68wIGqt4w6TSJK1vlVeLa+6UzCnf8s9JHGj58B5a4lf9al?=
+ =?us-ascii?q?K+aVAX0EbAJTasjUFf2zxH5BX+ETE27ByOQroJ8RoZWSwtfpYxV8F81/z91Yj+?=
+ =?us-ascii?q?kur39NEMXQL/OJhXIgX1TM0SgqkEa4HVsjeBgb7xBAatUo2zhc9RZzNRftZ2yS?=
+ =?us-ascii?q?A4vFqPRmuUBSAQeGCZ7VUFD0OafcSXn75PNkyUqdFOpmZ2CFnoeJIAd56N7DH9?=
+ =?us-ascii?q?D8dQeLzYCaA3FgPi5qJq3RehojMk5MOHxMY8fs20mxjbcZd4/XJHFX6jO7PdC0?=
+ =?us-ascii?q?Tswj9wIFvHbD/f1wxIHgA/oOkUJYwlITsll2rrAu5U2SBUAwHr9mEb9yzG7INR?=
+ =?us-ascii?q?N7YXQ?=
+IronPort-HdrOrdr: =?us-ascii?q?A9a23=3AQJsPRaqF6q1bYdp9acVsC3EaV5oXeYIsimQD?=
+ =?us-ascii?q?101hICG9E/bo8/xG+c536faaslgssQ4b8+xoVJPgfZq+z+8R3WByB8bAYOCOgg?=
+ =?us-ascii?q?LBQ72KhrGSoQEIdRefysdtkY9kc4VbTOb7FEVGi6/BizWQIpINx8am/cmT6dvj?=
+ =?us-ascii?q?8w=3D=3D?=
+X-IronPort-AV: E=Sophos;i="5.82,313,1613404800"; d="scan'208";a="108506764"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+ by heian.cn.fujitsu.com with ESMTP; 20 May 2021 16:06:11 +0800
+Received: from G08CNEXMBPEKD04.g08.fujitsu.local (unknown [10.167.33.201])
+ by cn.fujitsu.com (Postfix) with ESMTP id 5F4054D0C138;
+ Thu, 20 May 2021 16:06:10 +0800 (CST)
+Received: from G08CNEXCHPEKD08.g08.fujitsu.local (10.167.33.83) by
+ G08CNEXMBPEKD04.g08.fujitsu.local (10.167.33.201) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.2; Thu, 20 May 2021 16:06:10 +0800
+Received: from FNSTPC.g08.fujitsu.local (10.167.226.45) by
+ G08CNEXCHPEKD08.g08.fujitsu.local (10.167.33.209) with Microsoft SMTP Server
+ id 15.0.1497.2 via Frontend Transport; Thu, 20 May 2021 16:06:11 +0800
+From: Li Zhijian <lizhijian@cn.fujitsu.com>
+To: <quintela@redhat.com>, <dgilbert@redhat.com>
+Subject: [PATCH 1/4] migration/rdma: cleanup rmda in
+ rdma_start_incoming_migration error path
+Date: Thu, 20 May 2021 16:05:33 +0800
+Message-ID: <20210520080536.16048-1-lizhijian@cn.fujitsu.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-In-Reply-To: <20210519184549.2192728-6-f4bug@amsat.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
+Content-Type: text/plain
+X-yoursite-MailScanner-ID: 5F4054D0C138.ACDA0
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: lizhijian@fujitsu.com
+Received-SPF: neutral client-ip=183.91.158.132;
+ envelope-from=lizhijian@fujitsu.com; helo=heian.cn.fujitsu.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
 X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.39,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_NEUTRAL=0.779 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,50 +76,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Willian Rampazzo <willianr@redhat.com>, Kyle Evans <kevans@freebsd.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Warner Losh <imp@bsdimp.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
+Cc: qemu-devel@nongnu.org, Li Zhijian <lizhijian@cn.fujitsu.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+the error path after calling qemu_rdma_dest_init() should do rdma cleanup
 
-Missing patch description. Could you please elaborate why this change is ok?
+Signed-off-by: Li Zhijian <lizhijian@cn.fujitsu.com>
+---
+ migration/rdma.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-  Thanks,
-   Thomas
+diff --git a/migration/rdma.c b/migration/rdma.c
+index 41726cc74a..7e7595faab 100644
+--- a/migration/rdma.c
++++ b/migration/rdma.c
+@@ -4040,7 +4040,7 @@ void rdma_start_incoming_migration(const char *host_port, Error **errp)
+ 
+     if (ret) {
+         ERROR(errp, "listening on socket!");
+-        goto err;
++        goto cleanup_rdma;
+     }
+ 
+     trace_rdma_start_incoming_migration_after_rdma_listen();
+@@ -4050,7 +4050,7 @@ void rdma_start_incoming_migration(const char *host_port, Error **errp)
+         rdma_return_path = qemu_rdma_data_init(host_port, &local_err);
+ 
+         if (rdma_return_path == NULL) {
+-            goto err;
++            goto cleanup_rdma;
+         }
+ 
+         qemu_rdma_return_path_dest_init(rdma_return_path, rdma);
+@@ -4059,6 +4059,9 @@ void rdma_start_incoming_migration(const char *host_port, Error **errp)
+     qemu_set_fd_handler(rdma->channel->fd, rdma_accept_incoming_migration,
+                         NULL, (void *)(intptr_t)rdma);
+     return;
++
++cleanup_rdma:
++    qemu_rdma_cleanup(rdma);
+ err:
+     error_propagate(errp, local_err);
+     if (rdma) {
+-- 
+2.30.2
 
 
-On 19/05/2021 20.45, Philippe Mathieu-Daudé wrote:
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
->   .gitlab-ci.d/buildtest-template.yml | 7 +++++--
->   1 file changed, 5 insertions(+), 2 deletions(-)
-> 
-> diff --git a/.gitlab-ci.d/buildtest-template.yml b/.gitlab-ci.d/buildtest-template.yml
-> index a625c697d3b..f968fa1ad99 100644
-> --- a/.gitlab-ci.d/buildtest-template.yml
-> +++ b/.gitlab-ci.d/buildtest-template.yml
-> @@ -74,7 +74,7 @@
->         - build/tests/results/latest/test-results
->       reports:
->         junit: build/tests/results/latest/results.xml
-> -  before_script:
-> +  script:
->       - mkdir -p ~/.config/avocado
->       - echo "[datadir.paths]" > ~/.config/avocado/avocado.conf
->       - echo "cache_dirs = ['${CI_PROJECT_DIR}/avocado-cache']"
-> @@ -85,6 +85,9 @@
->           du -chs ${CI_PROJECT_DIR}/avocado-cache ;
->         fi
->       - export AVOCADO_ALLOW_UNTRUSTED_CODE=1
-> -  after_script:
->       - cd build
-> +    - find . -type f -exec touch {} +
-> +    # Avoid recompiling by hiding ninja with NINJA=":"
-> +    - $MAKE NINJA=":" $MAKE_CHECK_ARGS
-> +  after_script:
->       - du -chs ${CI_PROJECT_DIR}/avocado-cache
-> 
 
 
