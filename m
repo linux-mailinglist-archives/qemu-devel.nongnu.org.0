@@ -2,51 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F14538A010
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 10:46:17 +0200 (CEST)
-Received: from localhost ([::1]:41344 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BDB1389FF3
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 10:36:52 +0200 (CEST)
+Received: from localhost ([::1]:47178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljeJq-0008HH-Fr
-	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 04:46:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50580)
+	id 1ljeAl-0001Gb-DP
+	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 04:36:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50570)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ljdxj-0005RM-8P
+ id 1ljdxj-0005RH-8a
  for qemu-devel@nongnu.org; Thu, 20 May 2021 04:23:29 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:43794)
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:33650)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ljdxb-0001Ys-6k
+ id 1ljdxb-0001ZN-6s
  for qemu-devel@nongnu.org; Thu, 20 May 2021 04:23:21 -0400
-Received: by mail-wr1-x435.google.com with SMTP id p7so12940434wru.10
- for <qemu-devel@nongnu.org>; Thu, 20 May 2021 01:23:12 -0700 (PDT)
+Received: by mail-wm1-x332.google.com with SMTP id
+ z137-20020a1c7e8f0000b02901774f2a7dc4so4605173wmc.0
+ for <qemu-devel@nongnu.org>; Thu, 20 May 2021 01:23:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=4v/9OYPB+jHGFxocgWm85QsiZNWsRItB2trj79AKSsE=;
- b=YS7dpZ8wyJeZCP0lsoyn1FI23oT8uPsFxCujyU0AHYkpINptrDNTp4LEMSI9VwGoUK
- ulpNwNIrOuArIJ/ntO9h8Un5DTI1MriMP3luTaBY6kZwFpqBnp6CLjDlQQquYgRbreow
- HTWtvNYcvqNIceuTBlDp4Q/+7Yg0y68ZfTTInJIsh3p8rxQfZvq15grlPWx/zkRQ8Z7n
- jxqAYt+ChikdAIePso8UkDEtjIM236YSVU3vQ8woo0/gTK287zX5D8Q2SfbZasURluhx
- DAEL/c5ceSaIA1E8ucdra1id2uMBXxOgLPmiFw+axZIyAMsYxcxrrV/OVaRtUZmiygJE
- mfmQ==
+ bh=8IhabcaqhDrc9tLSsH3atAhctazNweFNZbmm5n9WDvA=;
+ b=eFZ9hed3TMl3fgoe41lt9QHFooIZ/ovGc/u6D8zKsewJxk4qsWqlsjZFN9UvElZK/t
+ lw2YLcmNF0+kEtiSidbzCnBxS3eTnN2UoGnYsuaYDK2CAnuqMpGSSR+QKDkL29amMhJ2
+ KML0YbVW4e/hCqq3dWFN94sWzAlyvkTUBnlVGldDBHs7gAPGlFK4th9f5AtbvI/ePHV1
+ R2hEgf+MxfomhOBr1AiArsF36WILEu9kNGhDVZ+16IbzFiP2rbDdFr55M2vDLJ5/Yf0s
+ c+3melFZO/W8D7Q7wQonyoKzdp+ZbFwljHrGYcSd5uf949fQYGnfdYsmOyz+5gp+KlBI
+ m5SA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=4v/9OYPB+jHGFxocgWm85QsiZNWsRItB2trj79AKSsE=;
- b=iI0aroCQ2KfK593x+blYn4TT+vHNUcOFe6S2a3uv/eVpHv8exuhtDrIMbJXQ7UHyfI
- pUEmRW3Ys7MWSs2vsqgT9XGIjD+vUNfOrHhH8Ha9BJEnKs9IrYmFmL5PWM0m0DQ5EggR
- 2drQgsnSwOG3EaGMnb+p5ibTHM7G0mH5bQnkurBdYkhxk2KmNubiWblBx6RC3EvVwjU6
- 0ShB2VsxLJY2pqLqkBpFyObXca2bUWmvL/g2QHaOdo6EWXUxbAn/TDb8jp8qgkj1k63i
- ZGDWC4ZUTLKhkgM/XFnzK+4FkWCPiMd4lY9kf7kWdY6EejveBHpq8WULORQ+N4ciMzXC
- p4xQ==
-X-Gm-Message-State: AOAM532gHvQr+nYdfCEubCloCU99fe5ekigR2hGkwIf40pOJVky35mFs
- UINFMuwnmBSZPP7k42Qvgr6/kYPirmF1OQ==
-X-Google-Smtp-Source: ABdhPJx5f6JFWfLz5ObCKOO3DzN5kIi5AfQ3LSQsWUrm3B8hVNg9GWbqhQzwQid/nZeTUjM61lsxrQ==
-X-Received: by 2002:a5d:570c:: with SMTP id a12mr2926995wrv.354.1621498991673; 
- Thu, 20 May 2021 01:23:11 -0700 (PDT)
+ bh=8IhabcaqhDrc9tLSsH3atAhctazNweFNZbmm5n9WDvA=;
+ b=k3XGxB4yDr91VzQQWd4d28qnrzbnlcSVTaqRUuMBT1u860OxVPZQsywRpNua3YHDL2
+ ffxzxBmNScy53cWeM2SiqkhWnMefYduu8Yac0RmLE7ixXsuO6v9AJFFqzX5MJ4OpxXPV
+ EEh3BD0BlDomU+3ZkQBewtI01Mx92QnejObZpIpgml8NM8sOZhOG07KTUaImIHxD5j4N
+ pouEZ9m8BX/HQuOTBpdpBO3EB0C2bxknj01FGVIebbhi4BwOlNpkONXOeolK6VONlEXB
+ fcU6ie3E77Hxp0zQlJKNYkxXSKdyWILxiwtMlXki8/26LbkjZK81mYPDdlWHHIsvhpiT
+ Hc5Q==
+X-Gm-Message-State: AOAM5301QWdpybJ7EKSwaztq3HqW4U+KFGcs3uYhHrA5rkjZxsaD1fBQ
+ 6YUs8fjOYRgrpEJVLqtXI4J9HDBchf8gdQ==
+X-Google-Smtp-Source: ABdhPJw4uGBo8tq+a0Qmwv313pVKv2zYMnsvRKX5cqrilt5SJlKmjj98T5gTlWogYHCWmW3l0r4Apw==
+X-Received: by 2002:a1c:2b05:: with SMTP id r5mr2339578wmr.66.1621498992285;
+ Thu, 20 May 2021 01:23:12 -0700 (PDT)
 Received: from avogadro.redhat.com ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
  v10sm2603506wrq.0.2021.05.20.01.23.11
@@ -54,17 +55,16 @@ Received: from avogadro.redhat.com ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  Thu, 20 May 2021 01:23:11 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 20/26] tests/qtest/fuzz: Fix build failure
-Date: Thu, 20 May 2021 10:22:51 +0200
-Message-Id: <20210520082257.187061-21-pbonzini@redhat.com>
+Subject: [PULL 21/26] meson: Set implicit_include_directories to false
+Date: Thu, 20 May 2021 10:22:52 +0200
+Message-Id: <20210520082257.187061-22-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210520082257.187061-1-pbonzini@redhat.com>
 References: <20210520082257.187061-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x435.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x332.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -85,40 +85,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Alexander Graf <agraf@csgraf.de>, Katsuhiro Ueno <uenobk@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+From: Katsuhiro Ueno <uenobk@gmail.com>
 
-On Fedora 32, using clang (version 10.0.1-3.fc32) we get:
+Without this, libvixl cannot be compiled with macOS 11.3 SDK due to
+include file name conflict (usr/include/c++/v1/version conflicts with
+VERSION).
 
-  tests/qtest/fuzz/fuzz.c:237:5: error: implicit declaration of function 'qemu_init' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-      qemu_init(result.we_wordc, result.we_wordv, NULL);
-      ^
-
-qemu_init() is declared in "sysemu/sysemu.h", include this
-header to fix.
-
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20210513162008.3922223-1-philmd@redhat.com>
+Signed-off-by: Katsuhiro Ueno <uenobk@gmail.com>
+Message-Id: <CA+pCdY09+OQfXq3YmRNuQE59ACOq7Py2q4hqOwgq4PnepCXhTA@mail.gmail.com>
+Tested-by: Alexander Graf <agraf@csgraf.de>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- tests/qtest/fuzz/fuzz.c | 1 +
+ meson.build | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/tests/qtest/fuzz/fuzz.c b/tests/qtest/fuzz/fuzz.c
-index 04b70e114b..5f77c84983 100644
---- a/tests/qtest/fuzz/fuzz.c
-+++ b/tests/qtest/fuzz/fuzz.c
-@@ -16,6 +16,7 @@
- #include <wordexp.h>
+diff --git a/meson.build b/meson.build
+index 1559e8d873..82977bf11f 100644
+--- a/meson.build
++++ b/meson.build
+@@ -2141,6 +2141,7 @@ common_all = common_ss.apply(config_all, strict: false)
+ common_all = static_library('common',
+                             build_by_default: false,
+                             sources: common_all.sources() + genh,
++                            implicit_include_directories: false,
+                             dependencies: common_all.dependencies(),
+                             name_suffix: 'fa')
  
- #include "qemu/datadir.h"
-+#include "sysemu/sysemu.h"
- #include "sysemu/qtest.h"
- #include "sysemu/runstate.h"
- #include "qemu/main-loop.h"
 -- 
 2.31.1
 
