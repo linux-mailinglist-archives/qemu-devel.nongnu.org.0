@@ -2,74 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7AE9389D5F
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 07:52:35 +0200 (CEST)
-Received: from localhost ([::1]:41696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E963389D3D
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 07:46:07 +0200 (CEST)
+Received: from localhost ([::1]:53254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljbbh-0002B7-Pu
-	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 01:52:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35850)
+	id 1ljbVV-0007fd-Pm
+	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 01:46:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60678)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ljba7-0000SX-G7
- for qemu-devel@nongnu.org; Thu, 20 May 2021 01:50:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52151)
+ (Exim 4.90_1) (envelope-from <weijiang.yang@intel.com>)
+ id 1ljbTD-00055J-QI
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 01:43:43 -0400
+Received: from mga06.intel.com ([134.134.136.31]:7412)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ljba4-0004QU-Br
- for qemu-devel@nongnu.org; Thu, 20 May 2021 01:50:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621489847;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=kTZlA/N3NwU1Yc3XhrMvD3n7Wz9l/Sg7UXYJCl8Q1Rc=;
- b=NL7C25EJfbX7EAA0j3UG+odaVI7WboI1GKL+GEnmf4gP7C7JXmErg+c46VbvU7UKxcEBkh
- /0mOWH4rOKvtkcuHjeTYhvTgO2ZS+KmC47bzoWFfxSCEZbZ1zNKHBfxNzLd+gUCTfuEaHz
- iAHAJ1/XkhdJJK3VQYIq5O5dpMWlllo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-309-gW3ccrMJM9WDC__lkngjMg-1; Thu, 20 May 2021 01:50:45 -0400
-X-MC-Unique: gW3ccrMJM9WDC__lkngjMg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 74BF9802690;
- Thu, 20 May 2021 05:50:44 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-71.ams2.redhat.com [10.36.112.71])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 992E210027C4;
- Thu, 20 May 2021 05:50:34 +0000 (UTC)
-Subject: Re: [PATCH v3 2/6] gitlab-ci: Adapt JOBS variable for FreeBSD runners
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20210519184549.2192728-1-f4bug@amsat.org>
- <20210519184549.2192728-3-f4bug@amsat.org>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <3a20c09e-6356-b961-8aaf-dcf14ba4b705@redhat.com>
-Date: Thu, 20 May 2021 07:50:33 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
-MIME-Version: 1.0
-In-Reply-To: <20210519184549.2192728-3-f4bug@amsat.org>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.39,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <weijiang.yang@intel.com>)
+ id 1ljbTA-000736-KS
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 01:43:43 -0400
+IronPort-SDR: ibMHIsAgqi3piVotp4bKVdvqbZkfdhdsaAeBXM9rj2CJXhgQPoNevbJRt4mgYAdVfnRhZTtPUc
+ QxHADfuH1SMg==
+X-IronPort-AV: E=McAfee;i="6200,9189,9989"; a="262370927"
+X-IronPort-AV: E=Sophos;i="5.82,313,1613462400"; d="scan'208";a="262370927"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 May 2021 22:43:33 -0700
+IronPort-SDR: n3O+14PWJTQ0MUWrvf08martYtv6lVc7Ru0hSuFsbqGNNwijTesT7KnPeBMwwphR8dqN0Y+vU2
+ pNo0HELEKDXw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.82,313,1613462400"; d="scan'208";a="440160277"
+Received: from michael-optiplex-9020.sh.intel.com ([10.239.159.172])
+ by fmsmga008.fm.intel.com with ESMTP; 19 May 2021 22:43:31 -0700
+From: Yang Weijiang <weijiang.yang@intel.com>
+To: pbonzini@redhat.com, ehabkost@redhat.com, mtosatti@redhat.com,
+ seanjc@google.com, richard.henderson@linaro.org, qemu-devel@nongnu.org,
+ kvm@vger.kernel.org
+Subject: [PATCH v8 0/6] Enable CET support for guest
+Date: Thu, 20 May 2021 13:57:05 +0800
+Message-Id: <1621490231-4765-1-git-send-email-weijiang.yang@intel.com>
+X-Mailer: git-send-email 2.7.4
+Received-SPF: pass client-ip=134.134.136.31;
+ envelope-from=weijiang.yang@intel.com; helo=mga06.intel.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,26 +59,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kyle Evans <kevans@freebsd.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Willian Rampazzo <willianr@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Warner Losh <imp@bsdimp.com>
+Cc: Yang Weijiang <weijiang.yang@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 19/05/2021 20.45, Philippe Mathieu-Daudé wrote:
-> 'nproc' is not available on FreeBSD:
-> 
->    $ JOBS=$(expr $(nproc) + 1)
->    bash: line 119: nproc: command not found
->    expr: syntax error
-> 
-> Instead, use 'sysctl -n hw.ncpu'.
+Control-flow Enforcement Technology (CET) provides protection against
+Return/Jump-Oriented Programming (ROP/JOP). It includes two features:
+Shadow Stack(SHSTK) and Indirect Branch Tracking(IBT).
+This patch series is to enable CET related CPUID report, XSAVES/XRSTORS
+support and MSR access etc. for guest.
 
-Could we maybe use "getconf _NPROCESSORS_ONLN" instead? ... that might work 
-on both, Linux and FreeBSD...?
+Change in v8:
+- Extended xsave_area_size() to accommodate compacted format size calculation.
+- Added CPUID(0xD,1).EBX assigment per maintain's feedback.
+- Changed XSS field check and added more comments to make things clearer.
+- Other ajustment per maintainer's review feedback.
+- Rebased to 6.0.0.
 
-  Thomas
+v7 patch:
+https://lore.kernel.org/kvm/20210226022058.24562-1-weijiang.yang@intel.com
+
+CET KVM patches:
+https://git.kernel.org/pub/scm/virt/kvm/kvm.git/log/?h=intel
+
+CET kernel patches:
+https://lkml.kernel.org/r/20210427204315.24153-1-yu-cheng.yu@intel.com
+
+
+Yang Weijiang (6):
+  target/i386: Change XSAVE related feature-word names
+  target/i386: Enable XSS feature CPUID enumeration
+  target/i386: Enable XSAVES support for CET states
+  target/i386: Add user-space MSR access interface for CET
+  target/i386: Add CET state support for guest migration
+  target/i386: Advise CET bits in CPU/MSR feature words
+
+ target/i386/cpu.c     | 138 +++++++++++++++++++++++++++++-------
+ target/i386/cpu.h     |  52 +++++++++++++-
+ target/i386/kvm/kvm.c |  72 +++++++++++++++++++
+ target/i386/machine.c | 161 ++++++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 395 insertions(+), 28 deletions(-)
+
+-- 
+2.26.2
 
 
