@@ -2,73 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BDC838A370
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 11:51:25 +0200 (CEST)
-Received: from localhost ([::1]:54018 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DBA238A439
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 12:01:45 +0200 (CEST)
+Received: from localhost ([::1]:60350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljfKu-0001FG-BA
-	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 05:51:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51030)
+	id 1ljfUs-00065y-Pe
+	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 06:01:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54016)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ljfJx-0000Qg-TP
- for qemu-devel@nongnu.org; Thu, 20 May 2021 05:50:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53585)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1ljfTK-0005Cq-IJ
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 06:00:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59924)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ljfJu-0006a8-Ul
- for qemu-devel@nongnu.org; Thu, 20 May 2021 05:50:24 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1ljfTI-0004d2-Ds
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 06:00:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621504221;
+ s=mimecast20190719; t=1621504802;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=s1ZGn+JnDqLkh49Rzvg99C6NYXBzpykyCeC02z7AbKo=;
- b=XE4Uuz3LZScm+ydm5dMFZLHu0SDfSaYJMVD3dzRGd1dDcYzdI2IqG7pgRFpwjTOzdO8K49
- mf1L9zk3HLHR+rK156vTfeAxZQNfYm+iMQV3RtyYekMD7ZuhlB5XWZ4WwtYcSGDkZln1pq
- 3XUkZ91NBww0vRjPp+Kyll/87gHW728=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-200-1bD-dujYO6-GQVotE-LUQQ-1; Thu, 20 May 2021 05:50:19 -0400
-X-MC-Unique: 1bD-dujYO6-GQVotE-LUQQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8DB078189E5;
- Thu, 20 May 2021 09:50:14 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-114-0.ams2.redhat.com
- [10.36.114.0])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 55A0519C59;
- Thu, 20 May 2021 09:50:14 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id C10151800393; Thu, 20 May 2021 11:50:12 +0200 (CEST)
-Date: Thu, 20 May 2021 11:50:12 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
-Subject: Re: [PATCH v5 03/13] virtio-gpu: Add udmabuf helpers
-Message-ID: <20210520095012.h3naydbrycpuv5xa@sirius.home.kraxel.org>
-References: <20210519001414.786439-1-vivek.kasireddy@intel.com>
- <20210519001414.786439-4-vivek.kasireddy@intel.com>
- <20210519061339.dq4yfrc7j42jdj5g@sirius.home.kraxel.org>
- <957d144a53ed4549944cbb09fdffe2cb@intel.com>
+ bh=soJikgRAvJEbzQ2zOKRv46JF4OIJLWe8tjByVE1XiAY=;
+ b=evKsoMPG4+lFt39EctnEsmgvOZXvQm/9knm2zolz1W3dc9LqWXIeWT9hulzfvph8wkHqT3
+ z9ZigIXaWTXLpjUoKVyaFRmuUOfbZIiws1nvwhdUdqZ0uO6MqcmQSaPDrl0MNfC68a9Frz
+ kg6gy8a8p1guilyECtYVoiFvm1Wb4TE=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-59-kWv2EApMMGGes06l2y-TTQ-1; Thu, 20 May 2021 06:00:00 -0400
+X-MC-Unique: kWv2EApMMGGes06l2y-TTQ-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ a9-20020adfc4490000b0290112095ca785so3247418wrg.14
+ for <qemu-devel@nongnu.org>; Thu, 20 May 2021 03:00:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=soJikgRAvJEbzQ2zOKRv46JF4OIJLWe8tjByVE1XiAY=;
+ b=TWq3Zc5SoAxKmABkuj2tVS0a4vci3lbGKPxrBEgYRv/q/VHJL6hbe6G+ZIeb3/P7rX
+ IoOv/OvEDfpKsh1NSLK6TBqE6QldDUclZDLJyLulF1pYrdKptOrzTGrmZdOZdTrfWt7W
+ iHK9Qmm9bjx9O8/MF+nmS7KxSq34+kmj4N9jyhhnbsRp9+dpEyPglwNN+RTeUameBenW
+ fTfR1H6osRtff1YZhM2jAPSdDekQpO8XZUUi43fcGz3Xzpac45uf/740dqEf7sDaUKx/
+ 34JdMxCReYAaZ+rrFGoh28Jj3/EoKVOVGb+O/nKkmkp7Er9RkKbQIqedJnkckVw9hqeQ
+ IQ2w==
+X-Gm-Message-State: AOAM532kQPfhqSFfmF1fFi0EWf6iN3xu47GHcSPsD03tNnIgJYpRoB8k
+ 9qLxcH1/M3R941JtfYSknYy5SIOu59GfkydpqhW6tr4gj8QqlAj/VF1jLqBgCZM9w8Z9bfw0Zny
+ VgksQuJU3xfhZd/A=
+X-Received: by 2002:a5d:6e06:: with SMTP id h6mr3367794wrz.201.1621504799017; 
+ Thu, 20 May 2021 02:59:59 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwR+d72nCbh7B6x80XJHlC8ofbGCEYhUIPBVjuaPwrYXxj3DVL05lZ1EZ4k3EVdHzlPwLIuuw==
+X-Received: by 2002:a5d:6e06:: with SMTP id h6mr3367786wrz.201.1621504798823; 
+ Thu, 20 May 2021 02:59:58 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id f13sm2747649wrt.86.2021.05.20.02.59.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 20 May 2021 02:59:57 -0700 (PDT)
+Subject: Re: [PATCH v6 0/5] hw/block/fdc: Allow Kconfig-selecting ISA
+ bus/SysBus floppy controllers
+To: John Snow <jsnow@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philmd@redhat.com>, qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>
+References: <20210519163448.2154339-1-philmd@redhat.com>
+ <07fb087d-38dd-15ce-b04f-2dbc06a103e4@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <405241a2-f512-b600-b97c-cc9019fa2162@redhat.com>
+Date: Thu, 20 May 2021 11:59:56 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <957d144a53ed4549944cbb09fdffe2cb@intel.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <07fb087d-38dd-15ce-b04f-2dbc06a103e4@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.39,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,85 +103,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, May 20, 2021 at 06:23:58AM +0000, Kasireddy, Vivek wrote:
-> Hi Gerd,
->  
-> > > +#ifdef CONFIG_LINUX
-> > 
-> > > +void virtio_gpu_init_udmabuf(struct virtio_gpu_simple_resource *res)
-> > 
-> > > +#else
-> > 
-> > > +void *virtio_gpu_init_udmabuf(struct virtio_gpu_simple_resource *res)
-> > > +{
-> > > +    /* nothing (stub) */
-> > > +    return NULL
-> > > +}
-> > 
-> > Fails to build for !linux ...
-> > 
-> > You can place the stubs in a file in the stubs/ directory instead.
-> > They'll be used via weak symbol references instead of #ifdefs then.
-> [Kasireddy, Vivek] Will do; should I send the whole series (v6) again with this and the
-> other error in patch #10 fixed or just the fixed versions of these specific patches?
-
-New series please.
-
-> I see that in set_scanout:
+On 19/05/21 23:39, John Snow wrote:
+> On 5/19/21 12:34 PM, Philippe Mathieu-Daudé wrote:
+>> Hi,
+>>
+>> The floppy disc controllers pulls in irrelevant devices (sysbus in
+>> an ISA-only machine, ISA bus + isa devices on a sysbus-only machine).
+>>
+>> This series clean that by extracting each device in its own file,
+>> adding the corresponding Kconfig symbols: FDC_ISA and FDC_SYSBUS.
+>>
+>> Since v5:
+>> - Added stub (thuth)
+>>
+>> Since v4:
+>> - Dropped machine patches for later due to DMA jazz issue
+>>
+>> Since v3:
+>> - Fix ISA_SUPERIO -> FDC Kconfig dependency (jsnow)
+>>
+>> Since v2:
+>> - rebased
+>>
+>> Since v1:
+>> - added missing "hw/block/block.h" header (jsnow)
+>> - inlined hardware specific calls (Mark)
+>> - added R-b/A-b tags
+>>
+>> Regards,
+>>
+>> Phil.
+>>
 > 
-> g->parent_obj.enable = 1;
-
-Yep.  When the guest configured a scanout for the first time enable is
-set.  device reset clears it btw.  And set_scanout_blob should take care
-to set enable too.
-
-> VirtIOGPUBase *g = vvga->vgpu;
->
-> if (g->enable) {
->     g->hw_ops->gfx_update(g);
-> } else {
->     vvga->vga.hw_ops->gfx_update(&vvga->vga);
-> }
+> Tentatively staged to floppy branch again.
 > 
-> Since the parent_obj is different the above code is always going into the else part. 
+> Allowing Paolo/Thomas et al a chance to reject 01/05 it before sending a 
+> PR.
+> 
+> (I am also, unrelatedly, waiting on PJP to send more patches for FDC and 
+> I will collect all the FDC patches together and send. Thanks!)
 
-No.  VirtIOGPU->parent_obj actually *is* VirtIOGPUBase.
-
-> Is the goal here to show the content from virtio-gpu if there is a set_scanout?
-
-Yes.  The idea is to switch into virtio-gpu mode when the guest driver
-did load and successfully initialized the scanout.  Go back into vga
-mode when the device get reset due to reboot (or other reasons).
-
-> The only way we are able to get everything to work as expected is to enable our virtio-gpu
-> guest driver for the VGA device instead of the virtio-gpu PCI device. But we are not sure
-> if this would be OK or not. We don't run into these issues for Linux guests as we only 
-> enable virtio-gpu-pci as we have -vga none.
-
-I'd suggest to run qemu with "-vga none" or "-nodefaults" so qemu will
-not automatically add a display device.  Then explicitly add the device
-you want.
-
-  "-device virtio-gpu-pci" is the pure virtio-gpu.
-  "-device virtio-vga" is the virtio-gpu device with vga compatibility.
-
-Both should work just fine with both linux and windows.  The only
-difference is that you'll get boot messages with virtio-vga (thanks to
-vga compat mode) whereas virtio-gpu-pci doesn't display anything until
-the guest display driver is loaded.
-
-OVMF can handle both virtio-gpu-pci and virtio-vga so you should see
-the grub boot menu with both devices.  A GOP (used by efifb) is only
-available with virtio-vga though.  Not sure how windows behaves here,
-probably it wants a GOP too for the early boot screen.
-
-The standard vga is "-device VGA", cirrus is "-device cirrus-vga".
-
-HTH,
-  Gerd
+Acked-by: Paolo Bonzini <pbonzini@redhat.com>
 
 
