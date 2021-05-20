@@ -2,97 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3296B38B2DE
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 17:18:31 +0200 (CEST)
-Received: from localhost ([::1]:39248 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D9A838B2DF
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 17:18:45 +0200 (CEST)
+Received: from localhost ([::1]:40422 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljkRS-0003xK-84
-	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 11:18:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46212)
+	id 1ljkRg-0004kH-3q
+	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 11:18:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46442)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1ljkOe-0007Rl-Mh
- for qemu-devel@nongnu.org; Thu, 20 May 2021 11:15:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47978)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1ljkPF-0000FR-V4
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 11:16:13 -0400
+Resent-Date: Thu, 20 May 2021 11:16:13 -0400
+Resent-Message-Id: <E1ljkPF-0000FR-V4@lists.gnu.org>
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21374)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1ljkOc-0002pG-3C
- for qemu-devel@nongnu.org; Thu, 20 May 2021 11:15:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621523732;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=n3vegyKjEXxlYciBM+VVdYJ1nFBzZO1GtzGI5KaoD/U=;
- b=Vvvv3ClLAN8t1GVQi3YOHbwRhKD1GBibXxOWoxcLdRWbn9FPtJE2vaDP/A10y85KOMqZv6
- GIr/nUFirVP1keu5DRi1yruDw2HtrT/KMa79q6O6krNYrTsOsESIl9jFwmlvjQdT0Zhua9
- sdC/P1P7PiCsB9s1OT2LSWpcGEBGbSI=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-322-k-0zm4YRP8SAvqeC3ShkUA-1; Thu, 20 May 2021 11:15:30 -0400
-X-MC-Unique: k-0zm4YRP8SAvqeC3ShkUA-1
-Received: by mail-ej1-f71.google.com with SMTP id
- p18-20020a1709067852b02903dab2a3e1easo2160121ejm.17
- for <qemu-devel@nongnu.org>; Thu, 20 May 2021 08:15:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=n3vegyKjEXxlYciBM+VVdYJ1nFBzZO1GtzGI5KaoD/U=;
- b=AB1LJlS++87kn1PmDqX3XqdO2W3G/fD7MiFLi6lbSCjrHkVsGcyDqOoUiKBBv94JpM
- FojFyeoTSiaTpFF0PrpHE/iMn7rLC7xyQgDp5Z2ctE+OCH7Q2PkLyctN5hYaU7nBRtLB
- Pm4P8GFUCl0InGSL/XvZqHTy8XgMbglm1HDznVqiiXZqymswyr0hao+r40eVjfkqSyDH
- qr8xY7bPztKGCr5uhoCK+SoS2s1vmEcGrpHOwW4Gid2tvHGNKqvNE35cIAQtSkhMZn5/
- 8anWK9n+GIkenn48YNEu5cI/wvdZx64z7v/kQon/CPPWcfMmQrv262aeRgAO7vKQTsh+
- pReQ==
-X-Gm-Message-State: AOAM530v6+oPx+WqqlKpoQkUdPV5AK6FVUSanVJ6mKacPyy83Ho47fKh
- Isfi2NpeUaB9c20o2aC801/0hYoLtJvJsMkeQpn9eqBKUEnDFAD1wk/9Ymd8gFIFJWwEE8ZosZL
- LRMki8Q9AG4S0WzQ+On5FtlSXFRdpiJJZKwECyO7eTpV5gouP36lb40CBNuXSadxdaOI=
-X-Received: by 2002:a17:907:c1c:: with SMTP id
- ga28mr5393918ejc.320.1621523728687; 
- Thu, 20 May 2021 08:15:28 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyV/GA4Ge0xDXnuQdUWmEZJDL0XygZjMGGeU9YlyuaP7EKuUKHjDWRcZ7CgLpaCth48ZHjlQA==
-X-Received: by 2002:a17:907:c1c:: with SMTP id
- ga28mr5393882ejc.320.1621523728317; 
- Thu, 20 May 2021 08:15:28 -0700 (PDT)
-Received: from localhost.localdomain ([2a04:ee41:4:31cb:e591:1e1e:abde:a8f1])
- by smtp.gmail.com with ESMTPSA id
- m10sm1691599edp.48.2021.05.20.08.15.27
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 20 May 2021 08:15:27 -0700 (PDT)
-Subject: Re: [PATCH v2 2/7] block-copy: improve documentation of BlockCopyTask
- and BlockCopyState types and functions
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20210518100757.31243-1-eesposit@redhat.com>
- <20210518100757.31243-3-eesposit@redhat.com>
- <833e7298-1293-5fab-4277-3ced3c3347f4@virtuozzo.com>
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Message-ID: <58e040eb-a24e-12cd-c9b7-f8efcaa36789@redhat.com>
-Date: Thu, 20 May 2021 17:15:26 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1ljkPA-00037A-Gc
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 11:16:13 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1621523751; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=HYv0aRS5cqlYayRIoVPghHKD8Gbe5uTtv5GVBtTaqIN0goD8MOa8dqGOeTmsGC4JAo3Z/QJ/uUfhDasix7KarPBgSexihcEzqTSn6hwP00wyal/bXhPKg1A7V7hbQj4SjYm+YJqCS2oWdMR8WxALraYaKnF7WlGoty3dwh6fuSo=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1621523751;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=HAfd9W+Vk5MhP7ysIKfbEY52OlCw6lqEQxlg2JYZhgY=; 
+ b=fA5CrPpM51i9MDlpLPGxFtEAxT9wDdL6fr6FEdha1eP0Vrs83vqQeIkIvgIQDRjOSCkuaR7etNe6PJk7q+J4bdqNKv3CPBo8xrlzXQ/YB6EbvD69j15BvRJ5BOGQBD2YjCg2tPSe1ZeRY69MwqtbZX9fPWcrEkNAkSPhPBAThk0=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1621523750299534.8047477106126;
+ Thu, 20 May 2021 08:15:50 -0700 (PDT)
+In-Reply-To: <20210520145647.3483809-1-david.edmondson@oracle.com>
+Subject: Re: [RFC PATCH 0/7] Support protection keys in an AMD EPYC-Milan VM
+Message-ID: <162152374779.4995.3945715207326940335@0addf061776e>
 MIME-Version: 1.0
-In-Reply-To: <833e7298-1293-5fab-4277-3ced3c3347f4@virtuozzo.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.39,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: david.edmondson@oracle.com
+Date: Thu, 20 May 2021 08:15:50 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o53.zoho.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -106,72 +66,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
+Reply-To: qemu-devel@nongnu.org
+Cc: ehabkost@redhat.com, kvm@vger.kernel.org, mtosatti@redhat.com,
+ richard.henderson@linaro.org, qemu-devel@nongnu.org,
+ david.edmondson@oracle.com, babu.moger@amd.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 20/05/2021 17:00, Vladimir Sementsov-Ogievskiy wrote:
-> 18.05.2021 13:07, Emanuele Giuseppe Esposito wrote:
->> As done in BlockCopyCallState, categorize BlockCopyTask
->> and BlockCopyState in IN, State and OUT fields.
->> This is just to understand which field has to be protected with a lock.
->>
->> BlockCopyTask .zeroes is a special case, because it is only initialized
->> and then read by the coroutine in block_copy_task_entry.
->>
->> Also set block_copy_task_create as coroutine_fn because:
->> 1) it is static and only invoked by coroutine functions
->> 2) next patches will introduce and use a CoMutex lock there
-> 
-> this change is unrelated, why not to put it into commit, which adds use 
-> of CoMutex in that function?
-
-Ok I will move it in patch 4.
-
-> 
->>
->> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-
-[...]
-> 
-> you add an empty line before group, it looks good
-> 
->> +    /* State */
->>       int64_t in_flight_bytes;
->> -    int64_t cluster_size;
->>       BlockCopyMethod method;
->> -    int64_t max_transfer;
->> -    uint64_t len;
->>       QLIST_HEAD(, BlockCopyTask) tasks; /* All tasks from all 
->> block-copy calls */
->>       QLIST_HEAD(, BlockCopyCallState) calls;
-> 
-> but not here..
-
-Because these are still State fields, so in the same State group. It is 
-a different sub-category.
-
-> 
->> +    /* State fields that use a thread-safe API */
->> +    BdrvDirtyBitmap *copy_bitmap;
->> +    ProgressMeter *progress;
->> +    SharedResource *mem;
->> +    RateLimit rate_limit;
->> +    /*
->> +     * IN parameters. Initialized in block_copy_state_new()
->> +     * and never changed.
->> +     */
->> +    int64_t cluster_size;
->> +    int64_t max_transfer;
->> +    uint64_t len;
->>       BdrvRequestFlags write_flags;
->>       /*
-
-Thank you,
-Emanuele
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDUyMDE0NTY0Ny4zNDgz
+ODA5LTEtZGF2aWQuZWRtb25kc29uQG9yYWNsZS5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2Vl
+bXMgdG8gaGF2ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBm
+b3IKbW9yZSBpbmZvcm1hdGlvbjoKClR5cGU6IHNlcmllcwpNZXNzYWdlLWlkOiAyMDIxMDUyMDE0
+NTY0Ny4zNDgzODA5LTEtZGF2aWQuZWRtb25kc29uQG9yYWNsZS5jb20KU3ViamVjdDogW1JGQyBQ
+QVRDSCAwLzddIFN1cHBvcnQgcHJvdGVjdGlvbiBrZXlzIGluIGFuIEFNRCBFUFlDLU1pbGFuIFZN
+Cgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCmdpdCByZXYtcGFyc2UgYmFz
+ZSA+IC9kZXYvbnVsbCB8fCBleGl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lbGlt
+aXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVzIFRydWUKZ2l0IGNvbmZpZyAtLWxv
+Y2FsIGRpZmYuYWxnb3JpdGhtIGhpc3RvZ3JhbQouL3NjcmlwdHMvY2hlY2twYXRjaC5wbCAtLW1h
+aWxiYWNrIGJhc2UuLgo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKVXBkYXRpbmcgM2M4Y2Y1YTlj
+MjFmZjg3ODIxNjRkMWRlZjdmNDRiZDg4ODcxMzM4NApGcm9tIGh0dHBzOi8vZ2l0aHViLmNvbS9w
+YXRjaGV3LXByb2plY3QvcWVtdQogKiBbbmV3IHRhZ10gICAgICAgICBwYXRjaGV3LzIwMjEwNTIw
+MTQ1NjQ3LjM0ODM4MDktMS1kYXZpZC5lZG1vbmRzb25Ab3JhY2xlLmNvbSAtPiBwYXRjaGV3LzIw
+MjEwNTIwMTQ1NjQ3LjM0ODM4MDktMS1kYXZpZC5lZG1vbmRzb25Ab3JhY2xlLmNvbQpTd2l0Y2hl
+ZCB0byBhIG5ldyBicmFuY2ggJ3Rlc3QnCjk3NjFhZDQgdGFyZ2V0L2kzODY6IE1hbmlwdWxhdGUg
+b25seSBBTUQgWFNBVkUgc3RhdGUgb24gQU1ECmZjYmE3ZDUgdGFyZ2V0L2kzODY6IEFkanVzdCBB
+TUQgWFNBVkUgUEtSVSBhcmVhIG9mZnNldCBpbiBDUFVJRCBsZWFmIDB4ZAowNDkzZGEyIHRhcmdl
+dC9pMzg2OiBJbnRyb2R1Y2UgQU1EIFg4NlhTYXZlQXJlYSBzdWItdW5pb24KZThkNDAwYyB0YXJn
+ZXQvaTM4NjogUHJlcGFyZSBmb3IgcGVyLXZlbmRvciBYODZYU2F2ZUFyZWEgbGF5b3V0CjVhNzhi
+MDYgdGFyZ2V0L2kzODY6IENsYXJpZnkgdGhlIHBhZGRpbmcgcmVxdWlyZW1lbnRzIG9mIFg4NlhT
+YXZlQXJlYQpiYTNjM2FmIHRhcmdldC9pMzg2OiBVc2UgY29uc3RhbnRzIGZvciBYU0FWRSBvZmZz
+ZXRzCjg0NGFmYTkgdGFyZ2V0L2kzODY6IERlY2xhcmUgY29uc3RhbnRzIGZvciBYU0FWRSBvZmZz
+ZXRzCgo9PT0gT1VUUFVUIEJFR0lOID09PQoxLzcgQ2hlY2tpbmcgY29tbWl0IDg0NGFmYTk5Mjll
+MyAodGFyZ2V0L2kzODY6IERlY2xhcmUgY29uc3RhbnRzIGZvciBYU0FWRSBvZmZzZXRzKQpXQVJO
+SU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwojNjA6IEZJTEU6IHRhcmdldC9pMzg2L2NwdS5o
+OjEzNTI6CitRRU1VX0JVSUxEX0JVR19PTihvZmZzZXRvZihYODZYU2F2ZUFyZWEsIHptbV9oaTI1
+Nl9zdGF0ZSkgIT0gWFNBVkVfWk1NX0hJMjU2X09GRlNFVCk7CgpXQVJOSU5HOiBsaW5lIG92ZXIg
+ODAgY2hhcmFjdGVycwojNjM6IEZJTEU6IHRhcmdldC9pMzg2L2NwdS5oOjEzNTQ6CitRRU1VX0JV
+SUxEX0JVR19PTihvZmZzZXRvZihYODZYU2F2ZUFyZWEsIGhpMTZfem1tX3N0YXRlKSAhPSBYU0FW
+RV9ISTE2X1pNTV9PRkZTRVQpOwoKdG90YWw6IDAgZXJyb3JzLCAyIHdhcm5pbmdzLCA0OCBsaW5l
+cyBjaGVja2VkCgpQYXRjaCAxLzcgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAg
+SWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRv
+IHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KMi83IENoZWNr
+aW5nIGNvbW1pdCBiYTNjM2FmZTk3OTUgKHRhcmdldC9pMzg2OiBVc2UgY29uc3RhbnRzIGZvciBY
+U0FWRSBvZmZzZXRzKQozLzcgQ2hlY2tpbmcgY29tbWl0IDVhNzhiMDY5ZjZkNCAodGFyZ2V0L2kz
+ODY6IENsYXJpZnkgdGhlIHBhZGRpbmcgcmVxdWlyZW1lbnRzIG9mIFg4NlhTYXZlQXJlYSkKNC83
+IENoZWNraW5nIGNvbW1pdCBlOGQ0MDBjM2U0MGUgKHRhcmdldC9pMzg2OiBQcmVwYXJlIGZvciBw
+ZXItdmVuZG9yIFg4NlhTYXZlQXJlYSBsYXlvdXQpCjUvNyBDaGVja2luZyBjb21taXQgMDQ5M2Rh
+MjliY2Q5ICh0YXJnZXQvaTM4NjogSW50cm9kdWNlIEFNRCBYODZYU2F2ZUFyZWEgc3ViLXVuaW9u
+KQo2LzcgQ2hlY2tpbmcgY29tbWl0IGZjYmE3ZDU4MDkwZCAodGFyZ2V0L2kzODY6IEFkanVzdCBB
+TUQgWFNBVkUgUEtSVSBhcmVhIG9mZnNldCBpbiBDUFVJRCBsZWFmIDB4ZCkKNy83IENoZWNraW5n
+IGNvbW1pdCA5NzYxYWQ0MWNkNjggKHRhcmdldC9pMzg2OiBNYW5pcHVsYXRlIG9ubHkgQU1EIFhT
+QVZFIHN0YXRlIG9uIEFNRCkKRVJST1I6IHNwYWNlcyByZXF1aXJlZCBhcm91bmQgdGhhdCAnKycg
+KGN0eDpWeFYpCiM5MDogRklMRTogdGFyZ2V0L2kzODYveHNhdmVfaGVscGVyLmM6NTM6CisgICAg
+ICAgICAgICBzdHFfcCh6bW1oKzgsICBlbnYtPnhtbV9yZWdzW2ldLlpNTV9RKDUpKTsKICAgICAg
+ICAgICAgICAgICAgICAgICBeCgpFUlJPUjogc3BhY2VzIHJlcXVpcmVkIGFyb3VuZCB0aGF0ICcr
+JyAoY3R4OlZ4VikKIzkxOiBGSUxFOiB0YXJnZXQvaTM4Ni94c2F2ZV9oZWxwZXIuYzo1NDoKKyAg
+ICAgICAgICAgIHN0cV9wKHptbWgrMTYsIGVudi0+eG1tX3JlZ3NbaV0uWk1NX1EoNikpOwogICAg
+ICAgICAgICAgICAgICAgICAgIF4KCkVSUk9SOiBzcGFjZXMgcmVxdWlyZWQgYXJvdW5kIHRoYXQg
+JysnIChjdHg6VnhWKQojOTI6IEZJTEU6IHRhcmdldC9pMzg2L3hzYXZlX2hlbHBlci5jOjU1Ogor
+ICAgICAgICAgICAgc3RxX3Aoem1taCsyNCwgZW52LT54bW1fcmVnc1tpXS5aTU1fUSg3KSk7CiAg
+ICAgICAgICAgICAgICAgICAgICAgXgoKRVJST1I6IHNwYWNlcyByZXF1aXJlZCBhcm91bmQgdGhh
+dCAnKycgKGN0eDpWeFYpCiMxNTA6IEZJTEU6IHRhcmdldC9pMzg2L3hzYXZlX2hlbHBlci5jOjEx
+NDoKKyAgICAgICAgICAgIGVudi0+eG1tX3JlZ3NbaV0uWk1NX1EoNSkgPSBsZHFfcCh6bW1oKzgp
+OwogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBeCgpF
+UlJPUjogc3BhY2VzIHJlcXVpcmVkIGFyb3VuZCB0aGF0ICcrJyAoY3R4OlZ4VikKIzE1MTogRklM
+RTogdGFyZ2V0L2kzODYveHNhdmVfaGVscGVyLmM6MTE1OgorICAgICAgICAgICAgZW52LT54bW1f
+cmVnc1tpXS5aTU1fUSg2KSA9IGxkcV9wKHptbWgrMTYpOwogICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICBeCgpFUlJPUjogc3BhY2VzIHJlcXVpcmVkIGFy
+b3VuZCB0aGF0ICcrJyAoY3R4OlZ4VikKIzE1MjogRklMRTogdGFyZ2V0L2kzODYveHNhdmVfaGVs
+cGVyLmM6MTE2OgorICAgICAgICAgICAgZW52LT54bW1fcmVnc1tpXS5aTU1fUSg3KSA9IGxkcV9w
+KHptbWgrMjQpOwogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICBeCgp0b3RhbDogNiBlcnJvcnMsIDAgd2FybmluZ3MsIDE0MCBsaW5lcyBjaGVja2VkCgpQ
+YXRjaCA3LzcgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRo
+ZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFp
+bmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KCj09PSBPVVRQVVQgRU5EID09PQoK
+VGVzdCBjb21tYW5kIGV4aXRlZCB3aXRoIGNvZGU6IDEKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxh
+YmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMjEwNTIwMTQ1NjQ3LjM0ODM4MDktMS1k
+YXZpZC5lZG1vbmRzb25Ab3JhY2xlLmNvbS90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVzc2Fn
+ZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8v
+cGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVs
+QHJlZGhhdC5jb20=
 
