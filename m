@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E04638B1F1
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 16:39:46 +0200 (CEST)
-Received: from localhost ([::1]:37000 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCBCB38B222
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 16:45:22 +0200 (CEST)
+Received: from localhost ([::1]:53756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljjpx-0000In-9q
-	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 10:39:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60950)
+	id 1ljjvN-000371-QN
+	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 10:45:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60988)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1ljjZx-0006Pr-GN; Thu, 20 May 2021 10:23:13 -0400
+ id 1ljja0-0006Z6-E8; Thu, 20 May 2021 10:23:16 -0400
 Received: from mail-eopbgr10092.outbound.protection.outlook.com
  ([40.107.1.92]:6738 helo=EUR02-HE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1ljjZv-0005se-Fv; Thu, 20 May 2021 10:23:13 -0400
+ id 1ljjZy-0005se-B4; Thu, 20 May 2021 10:23:16 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=SpE+VvvqQiuROhOUQz+NMDR8qS8D/y7UhZ5rR3QhCoGNyEPtng/0zsaaVpGVDkCtqv5FtGWFa4vAaXW3N+zfZjA9qntGXSN39HTsiR14fg9AAMoM36MzCoasdjFLt7XEf+0gsCAE4zKvfkMhA+h/qF7m8xlipkqSNhYVQsoRBFpOup4Sk0MM0IyahGBX1J6AebsrqoIj41zx+HI7FtqdxGJxM/k5j02OYx++YJoz1ftQwIvy57aTJ/SDJMn//J9lV69v/eOFCqpzPtM2t9mzsiui9/uM6lJ4edoLY7SnEFU6xHI+29JloPZ9MbHbweeRVZ8cy2f9ivsOYu9TrCbXfw==
+ b=UqkOoq+Z6GaNgWy3NixElAd5X2ZMMz5+TIWpwdHQ9/yZAJNO7hhHNq5wURfbC3ozC/9pv+JWT3HywLB2Lgeq98u2VLi2eyrbOP2lHkZpgX2Syu0US4eTbh7PwLWFwNTQIy1fRd3xMpnaoZzmQ0841tjw+ihz+xjcIKLtSpb3ytJLmf80qiMrw1CgJOjj5E4XQLdN3GDkST9wnNwWrtJ14SaqTGwzZx7vLDpZTYUdku+AJwMWWmGZ9U1HfM4QduduLde8x/pM5tTtDnj0c0GeEzsTjfA4gIEVpnStfUXcFd7EkdhMJSRbX6dZCOskfUTA84IkGxCT0mt853qwwEDxJA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cJxV4WU2wXEdkHVvm72koYegMn4aHd+CVc2XIYDBOM4=;
- b=morZ1YqBYK9xMnzOlfC7DCXkYQbLuZt37jq5K30PBPvmg5hIB9dx4V0L9AQJdQPHYZzBpRbQ7AX7oT6zChr3/U9MI+dkxgS6G4DIFx7ffqqK13fKdngMBSXEFz7QjSczILb9k496FkfynZuQO55Pndww3dtPF+V5zl1WcHesFhM6nJawV7y2f0jWGVUUXa95PDaRrIhpr8ReUAo5Svxh35HPlGf1llwwft8eXpUST1Hk/U0x5ewAkeihQ5SXWeYeKa5JBhAq4i2lejYfOcoF8mSMioIZPlRv9kQBxLcTxgt0HLXqksL3Jux3EweAf2Ejs14fuESjnXp0pxJggmR+2A==
+ bh=OUjsfgYFLc/ZRc1eg2TVpgHPZi4LHvF/o+fq4jaekYg=;
+ b=SQDdVVOW1iwuuj1tZWGfUiPoF9Y1S333CGl+92Qy9cn5or0h+d2KRC5sWNWd366px1ZV1+Mol+GqIBPgBOuGDQX8+gmJYKNuj+ZLnY8q7d+VHw3bToFZglWnM6DTnPFDrUfuBHAlY4e8Dau/YlgZ/8FEwor1Qc31iNbdIz3GlydE4uHo+W1RqODL4wQmxuKon2yMgZ5C6Fosc1k3hvN6zwM+Gy4+xjtweaZH8G6Wx11CWB5bEt/0iax5635d1z6FPDIW1zV/NXYJVum7T6rfebvxbXk93ThBaZj4Pyx0QlZXCxeq2Nkv0Aea1L7a0TiDp/2CfqMmaw7cHpG8+TdiFw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cJxV4WU2wXEdkHVvm72koYegMn4aHd+CVc2XIYDBOM4=;
- b=kL8IQAoxthih9V8SDamwOCR/BjBP9GBZpFJ2YDQvwKbmPi42XJRDPOGEJah+Pr70cwcETt+Y8vcJq74qG5YZN0WVrF11FLmIMO06AcC97iDAzcxdfDovRUF40lW1xfoBGE+yMe6VDnmyIsP65couqOgyvwZP29EzZ0ngo/qoA5k=
+ bh=OUjsfgYFLc/ZRc1eg2TVpgHPZi4LHvF/o+fq4jaekYg=;
+ b=pTrgCuVsi61mRBY4tfvq7iN2N73EveNSvApbE79SinvN0z2jnVwNaNMuYneZXooz2orwsvlbo0PjPRM0fSHC9a468VxYczF9lmkraOaY06rm9M5Yj5AvZ6GrKQsUSvjim3ddsCzh6e8q2W8EJFeuWMNCdEeoAlTFSH7mtDfIb5c=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AM6PR08MB4072.eurprd08.prod.outlook.com (2603:10a6:20b:a8::14)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4150.23; Thu, 20 May
- 2021 14:23:00 +0000
+ 2021 14:23:01 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::b403:c1a9:6bb7:133]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::b403:c1a9:6bb7:133%7]) with mapi id 15.20.4129.033; Thu, 20 May 2021
- 14:23:00 +0000
+ 14:23:01 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, eblake@redhat.com, armbru@redhat.com,
  crosa@redhat.com, ehabkost@redhat.com, berrange@redhat.com,
  pbonzini@redhat.com, vsementsov@virtuozzo.com, jsnow@redhat.com,
  mreitz@redhat.com, kwolf@redhat.com, den@openvz.org
-Subject: [PATCH v2 26/33] iotests/222: fix pylint and mypy complains
-Date: Thu, 20 May 2021 17:21:58 +0300
-Message-Id: <20210520142205.607501-27-vsementsov@virtuozzo.com>
+Subject: [PATCH v2 27/33] iotests/222: constantly use single quotes for strings
+Date: Thu, 20 May 2021 17:21:59 +0300
+Message-Id: <20210520142205.607501-28-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210520142205.607501-1-vsementsov@virtuozzo.com>
 References: <20210520142205.607501-1-vsementsov@virtuozzo.com>
@@ -67,52 +67,52 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost.localdomain (185.215.60.197) by
  HE1P190CA0034.EURP190.PROD.OUTLOOK.COM (2603:10a6:7:52::23) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4150.23 via Frontend Transport; Thu, 20 May 2021 14:22:58 +0000
+ 15.20.4150.23 via Frontend Transport; Thu, 20 May 2021 14:23:00 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 8e47eca3-d607-4220-d676-08d91b9ac560
+X-MS-Office365-Filtering-Correlation-Id: 38de5771-54aa-42c8-6382-08d91b9ac63a
 X-MS-TrafficTypeDiagnostic: AM6PR08MB4072:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB4072D64D9F667927F33D3D2EC12A9@AM6PR08MB4072.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:454;
+X-Microsoft-Antispam-PRVS: <AM6PR08MB407299B8E9BA99F309403320C12A9@AM6PR08MB4072.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:446;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: v3C1Tnd/tn6oEZV79NZqyJaZDG3FuU0dNUSzUfmnQcwhG9eiT8bPOE4XisqmfE3peJXJ5VCezzopVYpKAmQXPf2QGOoq1Fb3JvcNIwOMSAfybUtlTfOttu4vxqD8QGDpgwpvz7gwy+DHVQEALmEcbQvIj+52x0mp1Qb6jXxFNL8AXU3ghdCEDftbpfT1cvXCfZa6K/I3huBUgxA/hrzuDWFR3GMfJ0dUTbGvQgnOJsHZFBXbObQU1pCuWUfgFkSa6vb4fRDi1d3tZnmVzkFmzFDbI+JacK3XzxcGd6SAOxX3s0JCtGWXfV4GAx3P9NBUxhJB2AhKN/IALNLHqzfa7azEb+bJzNAgXFiE9yQVv5aF3uwpiq9g7KD9fO+VHw9NkYOlKSntgzDnQGt/UwjXoXTBng6+bZ54zNL0jgIOiGGgJ9MDP3y/fg6O1SX/2V/Vo9fFP5EOiHdsFVLuBokSU0xtfXGOztjCJ4zg8O4phdtA2+bIFqb8FpPoVjBWVdgxrWm7Ad9BZDIiYefVwNM1lN78vva112Y0Dx3MO+yb4+9ugGgnV8PDvGGfahpuwOGnN9SkH9ictqSu8CssE3wS5016EcuCQAZCDe0mFXickXg7eaPIgWlksfo6bmnAK/AVVYLmxRF+jjDwO7fE/Bql7z+ti1rRtw6GimH49FvKcO6v1jmrSsx9T6bzviHGC2Lu
+X-Microsoft-Antispam-Message-Info: dAW4Jaf2V7mLHPTlqNfvEoUxsOn8avC79OfpLAu2poMGaAv5cVQ8XBol1bOw2AfDEUwEQFjeyDtZgJWka3C/YI94/QxL55hVReb0LCiW2ZKaUprZNCAWxV6lvXWJd1HceZsU/rOfzA3drh1eIBUR6xQhrM1Z/INa8sGjMl95km0EgTVJoMmlXgEeUxvmcTbxyXZ127ijHHDaeGQBB8dlDTVEpYW/G3+vjqH0TBD7oc3bI4yHp5ZqytU3CT5liDa7AKt5k4UiRs2KvylB1rTnwZHq+Iqsg9tMJRRvKm5AGRTQgkF6a3cKo0dWUnjavtrikeUsqcXqM/pJbf4IEW45I562Sr7a0dQ4g4/xGQCBUW1Ic71zn6XYyXzIb66JEx1uIlgcOfnyVe+eFGtOHWp6+GZALfNFupRut50tyvlUokBt3FEf9m/v0CYXeBgGk7Xi6pJGIQJPmbeYMWqT048IjISeAdGYryg5NwgpouF3hMsJsQkfXG43R+Q1h5lVzTh09DQpeuG+NJCe+LDrnK47E6RedxQMYALJSxbiVAfNEp+tte0hr0CLK4ECxul+X3+yBnUznvppX6PeLCRsey8sdJaz5jH5azdAZIjfqSVkN1lTCjC6gR/1bj2pZNVSUYyge+3Hm6mtUP6qoQ2rpNh86ImMA0cOpU/BFSQnMMQCAa6admbjJP6BNKTR6M70HMAc
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(4636009)(376002)(136003)(366004)(39840400004)(396003)(346002)(38100700002)(478600001)(186003)(1076003)(38350700002)(2906002)(36756003)(4326008)(26005)(52116002)(6506007)(6486002)(66556008)(6512007)(66946007)(2616005)(66476007)(8676002)(16526019)(956004)(6916009)(8936002)(83380400001)(107886003)(86362001)(316002)(5660300002)(7416002)(69590400013);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?j9+jLRt5sxuIhgjiYjxpqDTI711gPvvg2e/InuoJQblRhWGTV6QmT0fCAg1A?=
- =?us-ascii?Q?Y6X3SDMCbGkY8TXbB/avpXCNcq5iuP8ms8K2yAMQcF5kw3Ou4lFEpfl+eQZ7?=
- =?us-ascii?Q?gChBbHQhc0kgvK3ralHVrrWjyJWFAcgNI1YHxW3JNUaM6OWv3od3PBrXhiAF?=
- =?us-ascii?Q?YcKvJgkoT7ByzROCA+6uKeZVS5e7pqYdigavlAUk36L+hb9WFTxG3G7Tlqwf?=
- =?us-ascii?Q?J0tNEVV5MJu5r1oVRKWiY+9g3Z7rIgjV/zBr8AjbWC+sH4+NLI7nTaZg7XSo?=
- =?us-ascii?Q?TJ6kvmnNgzSbbqJlLong8pKQDh/Jgu0rDYvhxduiFc82T9WzS1urUS3t152r?=
- =?us-ascii?Q?sD3xGjdma9TX+8edBhVFML8xhBTFhJpS/HLdBmMTzjz2/Q3dnW0S1jD60xzT?=
- =?us-ascii?Q?0SJ4QYkiZAhx+/Q6Vg8nubqoPGXISZVxNut/FQW3gg8ZfRbbaeVndJMwE0ow?=
- =?us-ascii?Q?gl3K34it7gzuGZByE14M8g1wcUiB1GJi5s/EjGjruMcUcYHyoXUASVuIrqlG?=
- =?us-ascii?Q?pJ2p0HwAYeWk/DdHOkBPy9kMbpg2FDpqhGt2qsvk93v7EbyAEhy+IAo7eitC?=
- =?us-ascii?Q?RX7xJMd+atFuCcRYoVX04GmpBCvutVwCSMaAZrjif5vl5meeK9YvqIo89GjW?=
- =?us-ascii?Q?iMhdSroMtmZcDZ/lCPyzxk0BdqL9iI4N9eMfN9aaN5rCp2aABzUTgsXKMVKN?=
- =?us-ascii?Q?zN516/iE5pEm2udQ5RrfP+rOzj0JQauSrY9zbGhgHWHmb2U0gbo5/JH4Mr+P?=
- =?us-ascii?Q?9fYaU6MV158ZYiNcPtxtowH8iWcs+yDANelgLL0uMBcDV5kNhYq7FCIuW6D+?=
- =?us-ascii?Q?lWchW75/C6tvJ8bnEOzShyq+OVG6MCNiI+AJiRwX0Ge9SBlRtkF1ch+eDhbg?=
- =?us-ascii?Q?9auy7fnJtrJIfybLnTQNOFmaQSMOcNE7+/cY3h03RrtB5EnO4SzAT5vQvEPz?=
- =?us-ascii?Q?FuOi8z8+61fJu5sxRr+nv0hfEalitAQL8CED7Z2xVzJzEJsXXYZbG8yVBlaK?=
- =?us-ascii?Q?1UtDSHIAo7E8I7v2p4p7Q5/mHe85R5GX+XlZg8pHeQH3VS4uiGozCBuLHL73?=
- =?us-ascii?Q?VWqGmc2euKwgFZcBhgOg+chQLeXR8NR3J468RkIUc7hwjUlGSIMaAIgr5Mlb?=
- =?us-ascii?Q?GnR+5Vqji6MTV3nI9rw75f0dsxqHZ3wNiHHO63NaQdZj5n1IMK0NM7M6NmMn?=
- =?us-ascii?Q?1VqDacI3MV8njpEd8+O7bKBLlpwNOY1Jf5JhJkn/1BrFrCj2uiui78SglBCk?=
- =?us-ascii?Q?6e23HqLkkhXZnGAHQHqBfBfU6ybpqDRsrbFkHr4jV/mQxYPWYLSlYGzB4usd?=
- =?us-ascii?Q?eL4hIlxBynBb75ECtlCMKdoI?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?rBGOTQKg16LIuqDc/P6UYDSVwYEELayexulwESNunnsiNqcsdKV+9oa1uVQ/?=
+ =?us-ascii?Q?J+M3RTv9V3atA4oE09cajsBqgRA2D2YCf23JkUKXrgASW/2o9UAWowDx5V0b?=
+ =?us-ascii?Q?Fot7VHisQF787w81nOceZWhBnyajDtAXZQV4Ekp61VpexhgrxoxGvjiY4JSj?=
+ =?us-ascii?Q?cWZuya31Tz9jCAy1MKmJyQNAhpLVycDFmp4tlGkITzibYdb6mwn6VLUVqXFy?=
+ =?us-ascii?Q?p68VmFrtqWWae1WO6lwuTiq6JCoHz7tgXWGO/2g2RuAl1hrXTB7hgQWG7qW7?=
+ =?us-ascii?Q?WLguJ/0+Y4hsv8hjwBnISACYl90p0bv5lIGVtVxcn3YBTAJWsIT6DQdvuQ/G?=
+ =?us-ascii?Q?3g4aOiU+FAKRveTmdHMF9O95vQH35/rKjrtRZsWHwtXCmn1BoWqEDHzvuzRV?=
+ =?us-ascii?Q?AGxTn1y0bB1/eSayV/2D/44Ml8WQg82xtbUu5+7Y8rjlgXtjlD59Jb6HxZeH?=
+ =?us-ascii?Q?BINelDwAtQOw7UsNhSvDSl6S6WKCpdwwwlHZBYLXG0/Xj2psIQlEnn3EEevi?=
+ =?us-ascii?Q?xhVn8VLnaI4e4Y7ZFUPkmKVvFMZISPtqeuOCMhLaZp9D65wO7+7p2EaulzJq?=
+ =?us-ascii?Q?nTjdWj0TUIGOxayiXiI7TtjcxRE9ORRzOE4TJeCE3JTOoD+NAY/KoUy5iVXj?=
+ =?us-ascii?Q?H9T08+GZrynU/l8bYeESqWVjChnfVnXg6M0/+peAyIHPmLdExZWAkOMVVSCB?=
+ =?us-ascii?Q?QF+ZT2Vz9vY+U1hp01VbJcIN5GriB5N7sllIDCkbgLmy8Acm6VvK5X/sow5D?=
+ =?us-ascii?Q?Ln6jB4psWEMH0F7NeRokYaD9cyY+cph35iKNcdH0WjNSrQe+BHQiYIaNt12n?=
+ =?us-ascii?Q?eD1txjZ1jJZwcCaupSNVrMKj48Kf7b7sFANhlQT12l3UtdPCOBS35fT+b6BG?=
+ =?us-ascii?Q?KwYuKztZyERvWH0c9ysM9lZEry4guagb7J8H4keHv47IBMnFOVy05G2PUbvA?=
+ =?us-ascii?Q?8SKPU4U/7xjE8Vhoxq99LzHkSiajGFO8Yejv8mMP0OI7h/f1LceJQbkzxxde?=
+ =?us-ascii?Q?A0TgVMfAGH7K3DaK1yMc7v6S84i8JJ4jO1MmqbtjZtbY+s6Kq1UwN8McP2ry?=
+ =?us-ascii?Q?VuoV4rF2I3Uy8WK+WItvOEmGJ1d+8Py181nZW29492cA1hJgYcVxIoYgG2vq?=
+ =?us-ascii?Q?YNrHbKbrlzpABvuJ2tXbQb+ZgQqrP415X2oxjLpS0c0vCG++e26bGSSdga/D?=
+ =?us-ascii?Q?Q9GN/Vwf/GBJirIWEAXVcG6P+4j2uwsApoLfYz5+WWihywOqUwxLCrREL9/t?=
+ =?us-ascii?Q?ueQM4oTPdRcdR/L/25C4HjxDCj8J2IUjOdo0xI5rid9ijjIRZs9OgEDORqL1?=
+ =?us-ascii?Q?MUIVDou5wLxkf7ohpHp3zvTc?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8e47eca3-d607-4220-d676-08d91b9ac560
+X-MS-Exchange-CrossTenant-Network-Message-Id: 38de5771-54aa-42c8-6382-08d91b9ac63a
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 May 2021 14:23:00.1411 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 May 2021 14:23:01.6096 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Tfut8uwKJTLTDnAX++k/lxxI7/XAmq4qjx4dtfIx3KcFbI7frjI9NuIknBu2v0Lr2R3mzMinbGhKXHvZts9GcYXhk2gB82nheyBoNrWOZhM=
+X-MS-Exchange-CrossTenant-UserPrincipalName: B3JhzajZJDhkLFRnseBaEbZfqKsY1/aaFVwBCiegqXgSz1zuHfpAaonksUzZFGx0cuhd3mUrV2Xc0zyIotb6DwUJVgRILXV6s+h4wRw/lgg=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4072
 Received-SPF: pass client-ip=40.107.1.92;
  envelope-from=vsementsov@virtuozzo.com;
@@ -140,106 +140,152 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Here:
- - long line
- - move to new interface of vm.qmp() (direct passing dict), to avoid
-   mypy false-positive, as it thinks that unpacked dict is a positional
-   argument.
- - extra parenthesis
- - handle event_wait possible None value
+The file use both single and double quotes for strings. Let's be
+consistent.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- tests/qemu-iotests/222 | 20 +++++++++++---------
- tests/qemu-iotests/297 |  2 +-
- 2 files changed, 12 insertions(+), 10 deletions(-)
+ tests/qemu-iotests/222 | 68 +++++++++++++++++++++---------------------
+ 1 file changed, 34 insertions(+), 34 deletions(-)
 
 diff --git a/tests/qemu-iotests/222 b/tests/qemu-iotests/222
-index b48afe623e..5e2556f8df 100755
+index 5e2556f8df..799369e290 100755
 --- a/tests/qemu-iotests/222
 +++ b/tests/qemu-iotests/222
-@@ -50,7 +50,8 @@ remainder = [("0xd5", "0x108000",  "32k"), # Right-end of partial-left [1]
+@@ -30,23 +30,23 @@ iotests.script_initialize(
+     supported_platforms=['linux'],
+ )
+ 
+-patterns = [("0x5d", "0",         "64k"),
+-            ("0xd5", "1M",        "64k"),
+-            ("0xdc", "32M",       "64k"),
+-            ("0xcd", "0x3ff0000", "64k")]  # 64M - 64K
++patterns = [('0x5d', '0',         '64k'),
++            ('0xd5', '1M',        '64k'),
++            ('0xdc', '32M',       '64k'),
++            ('0xcd', '0x3ff0000', '64k')]  # 64M - 64K
+ 
+-overwrite = [("0xab", "0",         "64k"), # Full overwrite
+-             ("0xad", "0x00f8000", "64k"), # Partial-left (1M-32K)
+-             ("0x1d", "0x2008000", "64k"), # Partial-right (32M+32K)
+-             ("0xea", "0x3fe0000", "64k")] # Adjacent-left (64M - 128K)
++overwrite = [('0xab', '0',         '64k'), # Full overwrite
++             ('0xad', '0x00f8000', '64k'), # Partial-left (1M-32K)
++             ('0x1d', '0x2008000', '64k'), # Partial-right (32M+32K)
++             ('0xea', '0x3fe0000', '64k')] # Adjacent-left (64M - 128K)
+ 
+-zeroes = [("0", "0x00f8000", "32k"), # Left-end of partial-left (1M-32K)
+-          ("0", "0x2010000", "32k"), # Right-end of partial-right (32M+64K)
+-          ("0", "0x3fe0000", "64k")] # overwrite[3]
++zeroes = [('0', '0x00f8000', '32k'), # Left-end of partial-left (1M-32K)
++          ('0', '0x2010000', '32k'), # Right-end of partial-right (32M+64K)
++          ('0', '0x3fe0000', '64k')] # overwrite[3]
+ 
+-remainder = [("0xd5", "0x108000",  "32k"), # Right-end of partial-left [1]
+-             ("0xdc", "32M",       "32k"), # Left-end of partial-right [2]
+-             ("0xcd", "0x3ff0000", "64k")] # patterns[3]
++remainder = [('0xd5', '0x108000',  '32k'), # Right-end of partial-left [1]
++             ('0xdc', '32M',       '32k'), # Left-end of partial-right [2]
++             ('0xcd', '0x3ff0000', '64k')] # patterns[3]
  
  with iotests.FilePath('base.img') as base_img_path, \
       iotests.FilePath('fleece.img') as fleece_img_path, \
--     iotests.FilePath('nbd.sock', base_dir=iotests.sock_dir) as nbd_sock_path, \
-+     iotests.FilePath('nbd.sock',
-+                      base_dir=iotests.sock_dir) as nbd_sock_path, \
-      iotests.VM() as vm:
+@@ -58,7 +58,7 @@ with iotests.FilePath('base.img') as base_img_path, \
+     log('')
  
-     log('--- Setting up images ---')
-@@ -81,7 +82,7 @@ with iotests.FilePath('base.img') as base_img_path, \
-     tgt_node = "fleeceNode"
+     assert qemu_img('create', '-f', iotests.imgfmt, base_img_path, '64M') == 0
+-    assert qemu_img('create', '-f', "qcow2", fleece_img_path, '64M') == 0
++    assert qemu_img('create', '-f', 'qcow2', fleece_img_path, '64M') == 0
+ 
+     for p in patterns:
+         qemu_io('-f', iotests.imgfmt,
+@@ -78,43 +78,43 @@ with iotests.FilePath('base.img') as base_img_path, \
+     log('--- Setting up Fleecing Graph ---')
+     log('')
+ 
+-    src_node = "drive0"
+-    tgt_node = "fleeceNode"
++    src_node = 'drive0'
++    tgt_node = 'fleeceNode'
  
      # create tgt_node backed by src_node
--    log(vm.qmp("blockdev-add", **{
-+    log(vm.qmp("blockdev-add", {
-         "driver": "qcow2",
-         "node-name": tgt_node,
-         "file": {
-@@ -103,8 +104,8 @@ with iotests.FilePath('base.img') as base_img_path, \
+-    log(vm.qmp("blockdev-add", {
+-        "driver": "qcow2",
+-        "node-name": tgt_node,
+-        "file": {
+-            "driver": "file",
+-            "filename": fleece_img_path,
++    log(vm.qmp('blockdev-add', {
++        'driver': 'qcow2',
++        'node-name': tgt_node,
++        'file': {
++            'driver': 'file',
++            'filename': fleece_img_path,
+         },
+-        "backing": src_node,
++        'backing': src_node,
+     }))
+ 
+     # Establish COW from source to fleecing node
+-    log(vm.qmp("blockdev-backup",
++    log(vm.qmp('blockdev-backup',
+                device=src_node,
+                target=tgt_node,
+-               sync="none"))
++               sync='none'))
+ 
+     log('')
+     log('--- Setting up NBD Export ---')
+     log('')
  
      nbd_uri = 'nbd+unix:///%s?socket=%s' % (tgt_node, nbd_sock_path)
-     log(vm.qmp("nbd-server-start",
--               **{"addr": { "type": "unix",
--                            "data": { "path": nbd_sock_path } } }))
-+               {"addr": { "type": "unix",
-+                          "data": { "path": nbd_sock_path } } }))
+-    log(vm.qmp("nbd-server-start",
+-               {"addr": { "type": "unix",
+-                          "data": { "path": nbd_sock_path } } }))
++    log(vm.qmp('nbd-server-start',
++               {'addr': { 'type': 'unix',
++                          'data': { 'path': nbd_sock_path } } }))
  
-     log(vm.qmp("nbd-server-add", device=tgt_node))
+-    log(vm.qmp("nbd-server-add", device=tgt_node))
++    log(vm.qmp('nbd-server-add', device=tgt_node))
  
-@@ -112,7 +113,7 @@ with iotests.FilePath('base.img') as base_img_path, \
+     log('')
      log('--- Sanity Check ---')
      log('')
  
--    for p in (patterns + zeroes):
-+    for p in patterns + zeroes:
-         cmd = "read -P%s %s %s" % p
+     for p in patterns + zeroes:
+-        cmd = "read -P%s %s %s" % p
++        cmd = 'read -P%s %s %s' % p
          log(cmd)
          assert qemu_io_silent('-r', '-f', 'raw', '-c', cmd, nbd_uri) == 0
-@@ -130,7 +131,7 @@ with iotests.FilePath('base.img') as base_img_path, \
-     log('--- Verifying Data ---')
+ 
+@@ -123,7 +123,7 @@ with iotests.FilePath('base.img') as base_img_path, \
      log('')
  
--    for p in (patterns + zeroes):
-+    for p in patterns + zeroes:
-         cmd = "read -P%s %s %s" % p
+     for p in overwrite:
+-        cmd = "write -P%s %s %s" % p
++        cmd = 'write -P%s %s %s' % p
+         log(cmd)
+         log(vm.hmp_qemu_io(src_node, cmd))
+ 
+@@ -132,7 +132,7 @@ with iotests.FilePath('base.img') as base_img_path, \
+     log('')
+ 
+     for p in patterns + zeroes:
+-        cmd = "read -P%s %s %s" % p
++        cmd = 'read -P%s %s %s' % p
          log(cmd)
          assert qemu_io_silent('-r', '-f', 'raw', '-c', cmd, nbd_uri) == 0
-@@ -140,8 +141,9 @@ with iotests.FilePath('base.img') as base_img_path, \
+ 
+@@ -153,7 +153,7 @@ with iotests.FilePath('base.img') as base_img_path, \
      log('')
  
-     log(vm.qmp('block-job-cancel', device=src_node))
--    log(vm.event_wait('BLOCK_JOB_CANCELLED'),
--        filters=[iotests.filter_qmp_event])
-+    e = vm.event_wait('BLOCK_JOB_CANCELLED')
-+    assert e is not None
-+    log(e, filters=[iotests.filter_qmp_event])
-     log(vm.qmp('nbd-server-stop'))
-     log(vm.qmp('blockdev-del', node_name=tgt_node))
-     vm.shutdown()
-@@ -150,7 +152,7 @@ with iotests.FilePath('base.img') as base_img_path, \
-     log('--- Confirming writes ---')
-     log('')
- 
--    for p in (overwrite + remainder):
-+    for p in overwrite + remainder:
-         cmd = "read -P%s %s %s" % p
+     for p in overwrite + remainder:
+-        cmd = "read -P%s %s %s" % p
++        cmd = 'read -P%s %s %s' % p
          log(cmd)
          assert qemu_io_silent(base_img_path, '-c', cmd) == 0
-diff --git a/tests/qemu-iotests/297 b/tests/qemu-iotests/297
-index a37910b42d..7cb8c531fd 100755
---- a/tests/qemu-iotests/297
-+++ b/tests/qemu-iotests/297
-@@ -31,7 +31,7 @@ SKIP_FILES = (
-     '096', '118', '124', '132', '136', '139', '147', '148', '149',
-     '151', '152', '155', '163', '165', '169', '194', '196', '199', '202',
-     '203', '205', '206', '207', '208', '210', '211', '212', '213', '216',
--    '218', '219', '222', '224', '228', '234', '235', '236', '237', '238',
-+    '218', '219', '224', '228', '234', '235', '236', '237', '238',
-     '240', '242', '245', '246', '248', '255', '256', '257', '258', '260',
-     '262', '264', '266', '274', '277', '280', '281', '295', '296', '298',
-     '299', '302', '303', '304', '307',
+ 
 -- 
 2.29.2
 
