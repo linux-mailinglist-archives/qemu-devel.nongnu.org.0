@@ -2,77 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FF6138B5F7
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 20:28:06 +0200 (CEST)
-Received: from localhost ([::1]:43668 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F057838B6D5
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 21:13:22 +0200 (CEST)
+Received: from localhost ([::1]:33336 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljnOu-0003tn-Tk
-	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 14:28:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35918)
+	id 1ljo6j-00018u-Gs
+	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 15:13:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46078)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1ljnNY-00036m-EZ
- for qemu-devel@nongnu.org; Thu, 20 May 2021 14:26:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54007)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1ljnNV-0000PZ-R3
- for qemu-devel@nongnu.org; Thu, 20 May 2021 14:26:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621535196;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=7eIlyQfAzTsmR7fSR0hnz7du51UHoYypsp+BaxqZU/c=;
- b=cOwVF7wKjvanIv8TIjjh+IaDC0Rdm8DU61hBZ2RaSdgDLT7mtyNlcSdaFpM8CBLQsrDamD
- 5ll8CPvCvtAOAiVOD14Ihr2Fn+veQ2MUccx0fWz+tC8NVpcwwXQKXeD369V7gPwTug5Ugm
- 0OHLrI4gs2EBgSjwP//ZwqT9eyXxYTk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-502-fI3dRbSuM2-6ZjjkV_jgvQ-1; Thu, 20 May 2021 14:26:29 -0400
-X-MC-Unique: fI3dRbSuM2-6ZjjkV_jgvQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3F1A0A40C0;
- Thu, 20 May 2021 18:26:28 +0000 (UTC)
-Received: from wainer-laptop.localdomain (ovpn-116-139.gru2.redhat.com
- [10.97.116.139])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DB6F92BFDE;
- Thu, 20 May 2021 18:26:19 +0000 (UTC)
-Subject: Re: [PATCH v3 3/6] gitlab-ci: Run GNU make via the $MAKE variable
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20210519184549.2192728-1-f4bug@amsat.org>
- <20210519184549.2192728-4-f4bug@amsat.org>
-From: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-ID: <c38ed8d1-5803-d15e-392b-277c570e6b51@redhat.com>
-Date: Thu, 20 May 2021 15:26:15 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ljo5Y-0000Kj-B9
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 15:12:08 -0400
+Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:40532)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ljo5V-00020w-0p
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 15:12:08 -0400
+Received: by mail-ej1-x636.google.com with SMTP id n2so26970375ejy.7
+ for <qemu-devel@nongnu.org>; Thu, 20 May 2021 12:12:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Q8FM4fUxCk0DNAp5JB7vj9ypPgzBrTf4dHj6xEztMZI=;
+ b=bI23ajEVP95gqDImKjnlI551Ja0LrtA5QF8fcnPy3yByN0lyKsGNkffJ6bC6IMi1iB
+ D6yTeqnivDapzAdxMm3mwH4ljAQqLFBe7E3KmoOvbmhuxCmWZ51MbyTocG3/zedRcPBE
+ QZRg2tCtfpGXm30BnGPHSsMWGnkpBgL7IT3IPF9Gh6rSYYQ86X13f9Z5H2+54dggjLj9
+ EdygGt7+A54sWTXcT0JQN4Uv0ZrUUUJGYyyVWie/8hMu2L+A25q2GhQzM3Zfv+VBup8L
+ GO0uSRT5DUyOZphPHYpyikYV3zNHhjXd31svaNVPUyX3x2F222QfKkZcOW36D7ueFmwj
+ x3mA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Q8FM4fUxCk0DNAp5JB7vj9ypPgzBrTf4dHj6xEztMZI=;
+ b=rnKGAm0I7+YI6oecok4g+CvFjgKdYK27Tl19Ou3qk40uuWJ2+UmI5yuyojrcedfhkL
+ 9ykoy9n4wwYCmZxD7OoO0GNtV+IQQBS73W66pf89YhRu2kCDEfAKMPMJRHBpqCzp8ZRx
+ ekKuw38yLEbDFzYsp7+SGyCTDUiC9UiIIS6ip6BXw0kjDQFpRuzqlHzXuKdo3sDg7FCj
+ B6qUIzt8iqxrAaDSJN+8sl2tFu+h9CTkLIpvgkxN1DSdZAyXQUG5w8xY0tgGxJfE/+Hv
+ WR5SukmjJrWYvrkLonZ7dF0znh2kzDRuD8SRoFClN4nDEnAzDbFio3klSM+EAj3HPlkQ
+ aynQ==
+X-Gm-Message-State: AOAM5302XYl2sdeNaip9sP6U5HvsjzX8lQXgoEkzvepETdVW3HC+YVsy
+ SZDgwWX7LcEwnE2eGXB+lFws8vBJvnNY/HCKCMAo5Q==
+X-Google-Smtp-Source: ABdhPJyBlAfQ0s/K5IRTJlLdlOgSm2IFXTnDAPi6bzZek+0Tis2oQN2XyNxXS4gG9zA8gS11x7t00uplA92pKynNuZg=
+X-Received: by 2002:a17:906:d8cb:: with SMTP id
+ re11mr6227920ejb.482.1621537923026; 
+ Thu, 20 May 2021 12:12:03 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210519184549.2192728-4-f4bug@amsat.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=wainersm@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.39,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210520170519.300951-1-cohuck@redhat.com>
+In-Reply-To: <20210520170519.300951-1-cohuck@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 20 May 2021 20:11:44 +0100
+Message-ID: <CAFEAcA9JS_C1RA1BfUK5BdfpYJUAcn-RdyEXnYvm_zKQib6O_w@mail.gmail.com>
+Subject: Re: [PULL v2 0/9] s390x update
+To: Cornelia Huck <cohuck@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::636;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x636.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,75 +77,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Willian Rampazzo <willianr@redhat.com>, Kyle Evans <kevans@freebsd.org>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Warner Losh <imp@bsdimp.com>
+Cc: qemu-s390x <qemu-s390x@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-On 5/19/21 3:45 PM, Philippe Mathieu-Daudé wrote:
-> Add the $MAKE variable to call GNU make, and set it to 'gmake'
-> on FreeBSD to avoid:
+On Thu, 20 May 2021 at 18:05, Cornelia Huck <cohuck@redhat.com> wrote:
 >
->    $ make -j"$JOBS"
->    make: Unknown modifier ','
->    make: "/builds/dTyar424/0/qemu/build/Makefile" line 3: Need an operator
->    make: "/builds/dTyar424/0/qemu/build/Makefile" line 4: Missing dependency operator
+> [Note: there's an unrelated hexagon failure in the CI for this tag;
+>  fixed by <20210520153831.11873-1-alex.bennee@linaro.org>]
 >
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
->   .gitlab-ci.d/buildtest-template.yml | 9 ++++++---
->   1 file changed, 6 insertions(+), 3 deletions(-)
-
-
-Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-
-
+> The following changes since commit fea2ad71c3e23f743701741346b51fdfbbff5ebf:
 >
-> diff --git a/.gitlab-ci.d/buildtest-template.yml b/.gitlab-ci.d/buildtest-template.yml
-> index fe4f18595ac..f284d7a0eec 100644
-> --- a/.gitlab-ci.d/buildtest-template.yml
-> +++ b/.gitlab-ci.d/buildtest-template.yml
-> @@ -5,9 +5,11 @@
->           ;
->         then
->           JOBS=$(sysctl -n hw.ncpu)
-> +        MAKE=gmake
->           ;
->         else
->           JOBS=$(expr $(nproc) + 1)
-> +        MAKE=make
->           ;
->         fi
->       - echo "=== Using $JOBS simultaneous jobs ==="
-> @@ -33,22 +35,23 @@
->         then
->           ../meson/meson.py configure . -Dbackend_max_links="$LD_JOBS" ;
->         fi || exit 1;
-> -    - make -j"$JOBS"
-> +    - $MAKE -j"$JOBS"
->       - if test -n "$MAKE_CHECK_ARGS";
->         then
-> -        make -j"$JOBS" $MAKE_CHECK_ARGS ;
-> +        $MAKE -j"$JOBS" $MAKE_CHECK_ARGS ;
->         fi
->   
->   .native_test_job_template:
->     stage: test
->     image: $CI_REGISTRY_IMAGE/qemu/$IMAGE:latest
-> +  extends: .environment_variables_template
->     script:
->       - scripts/git-submodule.sh update
->           $(sed -n '/GIT_SUBMODULES=/ s/.*=// p' build/config-host.mak)
->       - cd build
->       - find . -type f -exec touch {} +
->       # Avoid recompiling by hiding ninja with NINJA=":"
-> -    - make NINJA=":" $MAKE_CHECK_ARGS
-> +    - $MAKE NINJA=":" $MAKE_CHECK_ARGS
->   
->   .integration_test_job_template:
->     extends: .native_test_job_template
+>   Merge remote-tracking branch 'remotes/stsquad/tags/pull-testing-and-plugin-updates-180521-2' into staging (2021-05-20 10:00:58 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/cohuck/qemu.git tags/s390x-20210520-v2
+>
+> for you to fetch changes up to f66487756b0553b156d8e3e81bc6411cfc38176e:
+>
+>   tests/tcg/x86_64: add vsyscall smoke test (2021-05-20 14:19:30 +0200)
+>
+> ----------------------------------------------------------------
+> s390x fixes and cleanups; also related fixes in xtensa,
+> arm, and x86 code
+>
 
+
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.1
+for any user-visible changes.
+
+-- PMM
 
