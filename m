@@ -2,48 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B26D389D4D
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 07:48:11 +0200 (CEST)
-Received: from localhost ([::1]:59972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7641A389DD8
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 08:25:45 +0200 (CEST)
+Received: from localhost ([::1]:47758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljbXW-0003nH-E5
-	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 01:48:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60770)
+	id 1ljc7r-0008F4-W8
+	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 02:25:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45312)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <weijiang.yang@intel.com>)
- id 1ljbTM-0005EL-UT
- for qemu-devel@nongnu.org; Thu, 20 May 2021 01:43:52 -0400
-Received: from mga06.intel.com ([134.134.136.31]:7428)
+ (Exim 4.90_1) (envelope-from <vivek.kasireddy@intel.com>)
+ id 1ljc6O-0007Q4-N3
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 02:24:12 -0400
+Received: from mga04.intel.com ([192.55.52.120]:54486)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <weijiang.yang@intel.com>)
- id 1ljbTJ-0007Ed-VL
- for qemu-devel@nongnu.org; Thu, 20 May 2021 01:43:52 -0400
-IronPort-SDR: E+Nv6HkK62VuO+3ouN9HIzsALySHqVrO/yHBT5gu/uyhfBDh4/Ne+vco88GGZxcP4hjcXdPkYt
- kakgQQXgpy+g==
-X-IronPort-AV: E=McAfee;i="6200,9189,9989"; a="262370953"
-X-IronPort-AV: E=Sophos;i="5.82,313,1613462400"; d="scan'208";a="262370953"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 May 2021 22:43:49 -0700
-IronPort-SDR: l86XHgvatcBptmpFu20V5aILv2evHBb0zd6N8/ETmsvws9g1pH0G5RhSv3WcxZrVL91D2+7ULl
- R0J8GxBjTG+g==
+ (Exim 4.90_1) (envelope-from <vivek.kasireddy@intel.com>)
+ id 1ljc6L-000665-8h
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 02:24:11 -0400
+IronPort-SDR: 1RsavCiG23B0bobTz7M+yWsYffggLfgngSvnyfBjX2O2I49ErrfTQsVTUzHbcffGEukYnqcXeB
+ 0iWGas08Z8kA==
+X-IronPort-AV: E=McAfee;i="6200,9189,9989"; a="199203043"
+X-IronPort-AV: E=Sophos;i="5.82,313,1613462400"; d="scan'208";a="199203043"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 May 2021 23:24:00 -0700
+IronPort-SDR: w97zMF2yoQATUYKqvi6uMLt6EMmRDlnbb2akSVYM+EOEIfk6Ve+DEeXtJJmg8oy4ZIUs+XvBWR
+ CLnGSz/7IY8w==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,313,1613462400"; d="scan'208";a="440160347"
-Received: from michael-optiplex-9020.sh.intel.com ([10.239.159.172])
- by fmsmga008.fm.intel.com with ESMTP; 19 May 2021 22:43:46 -0700
-From: Yang Weijiang <weijiang.yang@intel.com>
-To: pbonzini@redhat.com, ehabkost@redhat.com, mtosatti@redhat.com,
- seanjc@google.com, richard.henderson@linaro.org, qemu-devel@nongnu.org,
- kvm@vger.kernel.org
-Subject: [PATCH v8 6/6] target/i386: Advise CET bits in CPU/MSR feature words
-Date: Thu, 20 May 2021 13:57:11 +0800
-Message-Id: <1621490231-4765-7-git-send-email-weijiang.yang@intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1621490231-4765-1-git-send-email-weijiang.yang@intel.com>
-References: <1621490231-4765-1-git-send-email-weijiang.yang@intel.com>
-Received-SPF: pass client-ip=134.134.136.31;
- envelope-from=weijiang.yang@intel.com; helo=mga06.intel.com
+X-IronPort-AV: E=Sophos;i="5.82,313,1613462400"; d="scan'208";a="631286377"
+Received: from orsmsx606.amr.corp.intel.com ([10.22.229.19])
+ by fmsmga005.fm.intel.com with ESMTP; 19 May 2021 23:24:00 -0700
+Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX606.amr.corp.intel.com (10.22.229.19) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.4; Wed, 19 May 2021 23:23:59 -0700
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.4; Wed, 19 May 2021 23:23:58 -0700
+Received: from orsmsx611.amr.corp.intel.com ([10.22.229.24]) by
+ ORSMSX611.amr.corp.intel.com ([10.22.229.24]) with mapi id 15.01.2242.008;
+ Wed, 19 May 2021 23:23:58 -0700
+From: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: RE: [PATCH v5 03/13] virtio-gpu: Add udmabuf helpers
+Thread-Topic: [PATCH v5 03/13] virtio-gpu: Add udmabuf helpers
+Thread-Index: AQHXTEWkoA54FN3boUiBxzpmEs7P9KrqyQWAgAEVuLA=
+Date: Thu, 20 May 2021 06:23:58 +0000
+Message-ID: <957d144a53ed4549944cbb09fdffe2cb@intel.com>
+References: <20210519001414.786439-1-vivek.kasireddy@intel.com>
+ <20210519001414.786439-4-vivek.kasireddy@intel.com>
+ <20210519061339.dq4yfrc7j42jdj5g@sirius.home.kraxel.org>
+In-Reply-To: <20210519061339.dq4yfrc7j42jdj5g@sirius.home.kraxel.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.5.1.3
+dlp-reaction: no-action
+x-originating-ip: [10.1.200.100]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+Received-SPF: pass client-ip=192.55.52.120;
+ envelope-from=vivek.kasireddy@intel.com; helo=mga04.intel.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
@@ -61,60 +84,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yang Weijiang <weijiang.yang@intel.com>
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-CET SHSTK and IBT feature are enumerated via CPUID.(EAX=07H,ECX=0H):ECX[bit 7]
-and EDX[bit 20]. CET state load/restore at vmentry/vmexit are enabled via
-VMX_ENTRY_CTLS[bit 20] and VMX_EXIT_CTLS[bit 28].
+Hi Gerd,
+=20
+> > +#ifdef CONFIG_LINUX
+>=20
+> > +void virtio_gpu_init_udmabuf(struct virtio_gpu_simple_resource *res)
+>=20
+> > +#else
+>=20
+> > +void *virtio_gpu_init_udmabuf(struct virtio_gpu_simple_resource *res)
+> > +{
+> > +    /* nothing (stub) */
+> > +    return NULL
+> > +}
+>=20
+> Fails to build for !linux ...
+>=20
+> You can place the stubs in a file in the stubs/ directory instead.
+> They'll be used via weak symbol references instead of #ifdefs then.
+[Kasireddy, Vivek] Will do; should I send the whole series (v6) again with =
+this and the
+other error in patch #10 fixed or just the fixed versions of these specific=
+ patches?
 
-Signed-off-by: Yang Weijiang <weijiang.yang@intel.com>
----
- target/i386/cpu.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+Sorry for the tangential discussion...
+On a completely different topic, I wanted to ask a question on behalf of a =
+colleague who
+is trying to enable passthrough with virtio-gpu but for a Windows guest. It=
+ appears the
+guest boots only if we specify the option -vga virtio (not sure what happen=
+s with virtio=3Dstd)
+as Windows launches a "Microsoft Basic Display Adapter" driver for this VGA=
+ device=20
+and Qemu displays the Desktop for this device (via the calls in virtio-vga.=
+c). However,
+since we only care about virtio-gpu-pci device for which we created a guest=
+ driver, we=20
+want to have Qemu display the content/fb from virtio-gpu instead of the vga=
+ device.=20
+I see that in set_scanout:
 
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index bae827c8d5..b432b681d8 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -958,7 +958,7 @@ static FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
-         .type = CPUID_FEATURE_WORD,
-         .feat_names = {
-             NULL, "avx512vbmi", "umip", "pku",
--            NULL /* ospke */, "waitpkg", "avx512vbmi2", NULL,
-+            NULL /* ospke */, "waitpkg", "avx512vbmi2", "shstk",
-             "gfni", "vaes", "vpclmulqdq", "avx512vnni",
-             "avx512bitalg", NULL, "avx512-vpopcntdq", NULL,
-             "la57", NULL, NULL, NULL,
-@@ -981,7 +981,7 @@ static FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
-             "avx512-vp2intersect", NULL, "md-clear", NULL,
-             NULL, NULL, "serialize", NULL,
-             "tsx-ldtrk", NULL, NULL /* pconfig */, NULL,
--            NULL, NULL, NULL, "avx512-fp16",
-+            "ibt", NULL, NULL, "avx512-fp16",
-             NULL, NULL, "spec-ctrl", "stibp",
-             NULL, "arch-capabilities", "core-capability", "ssbd",
-         },
-@@ -1243,7 +1243,7 @@ static FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
-             "vmx-exit-save-efer", "vmx-exit-load-efer",
-                 "vmx-exit-save-preemption-timer", "vmx-exit-clear-bndcfgs",
-             NULL, "vmx-exit-clear-rtit-ctl", NULL, NULL,
--            NULL, "vmx-exit-load-pkrs", NULL, NULL,
-+            "vmx-exit-save-cet-ctl", "vmx-exit-load-pkrs", NULL, NULL,
-         },
-         .msr = {
-             .index = MSR_IA32_VMX_TRUE_EXIT_CTLS,
-@@ -1258,7 +1258,7 @@ static FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
-             NULL, "vmx-entry-ia32e-mode", NULL, NULL,
-             NULL, "vmx-entry-load-perf-global-ctrl", "vmx-entry-load-pat", "vmx-entry-load-efer",
-             "vmx-entry-load-bndcfgs", NULL, "vmx-entry-load-rtit-ctl", NULL,
--            NULL, NULL, "vmx-entry-load-pkrs", NULL,
-+            "vmx-entry-load-cet-ctl", NULL, "vmx-entry-load-pkrs", NULL,
-             NULL, NULL, NULL, NULL,
-             NULL, NULL, NULL, NULL,
-         },
--- 
-2.26.2
+g->parent_obj.enable =3D 1;
+and, then this in virtio-vga.c:
+
+static void virtio_vga_base_update_display(void *opaque)                   =
+                                                                           =
+                                                            VirtIOVGABase *=
+vvga =3D opaque;                                                           =
+                                                                           =
+                                                VirtIOGPUBase *g =3D vvga->=
+vgpu;                                                                      =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                      if (g->enable) {
+    g->hw_ops->gfx_update(g);
+} else {
+    vvga->vga.hw_ops->gfx_update(&vvga->vga);
+}
+
+Since the parent_obj is different the above code is always going into the e=
+lse part.=20
+Is the goal here to show the content from virtio-gpu if there is a set_scan=
+out?
+
+The only way we are able to get everything to work as expected is to enable=
+ our virtio-gpu
+guest driver for the VGA device instead of the virtio-gpu PCI device. But w=
+e are not sure
+if this would be OK or not. We don't run into these issues for Linux guests=
+ as we only=20
+enable virtio-gpu-pci as we have -vga none. We'd like to the do the same fo=
+r Windows
+guests but it looks like it needs the VGA device to be available to boot. S=
+o, our other
+option (as we cannot disable the vga device) is to have Qemu accept content=
+ only from=20
+virtio-gpu-pci instead of virtio-vga. Would it make sense to do this? Do yo=
+u think there
+is a better way to do what we are trying to do?
+
+Thanks,
+Vivek
 
 
