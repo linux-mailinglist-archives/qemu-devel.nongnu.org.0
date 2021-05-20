@@ -2,80 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F209D38B406
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 18:07:11 +0200 (CEST)
-Received: from localhost ([::1]:45792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70C9B38B419
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 18:17:06 +0200 (CEST)
+Received: from localhost ([::1]:53956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljlCS-0008Jq-4X
-	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 12:07:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57934)
+	id 1ljlM8-0006U0-Vr
+	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 12:17:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60264)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ljlAZ-0006SZ-M0
- for qemu-devel@nongnu.org; Thu, 20 May 2021 12:05:11 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:35810)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ljlL8-0005ZI-6j
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 12:16:02 -0400
+Received: from mail-vk1-xa2f.google.com ([2607:f8b0:4864:20::a2f]:38624)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ljlAS-0008If-Pv
- for qemu-devel@nongnu.org; Thu, 20 May 2021 12:05:07 -0400
-Received: by mail-wr1-x431.google.com with SMTP id a4so18265521wrr.2
- for <qemu-devel@nongnu.org>; Thu, 20 May 2021 09:04:59 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ljlL6-0005fe-DE
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 12:16:01 -0400
+Received: by mail-vk1-xa2f.google.com with SMTP id o24so1505743vkf.5
+ for <qemu-devel@nongnu.org>; Thu, 20 May 2021 09:15:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=pIgUFuK4GjatAeUaxzKXkqtZnvCBfiJ3fSAhuCayS54=;
- b=ry2V26QjkqB5KU5gqHnAQOiDk7MO58XUbWjoFOCQ3gfECDFWen03oa7hBxJwZ+6A8d
- mo9P588LF+EafXanZErCxXQeiyWMW5T9PZ/sMQoIwWeqGFP6GXEsvp9UWb14C5HXjrDa
- i0lpOPLsaEMqLJE5Wq99geccbPTcm4C6aZUH8j5eu/PahbZ+8NfNghLHMDQKmnpkmOdk
- CDzNBz2DcxLmjRdJLMg1L15k2vWB2VeAptlRfgQyrBkqS3xuaAVw4PbopjI5FLtJ9qFn
- ISvltrxrLPEXgSSClm/sn9/XQS/pzfcu1sdmkXBLBp5noE8xKxpMFrur175SI3xR79J7
- KyxA==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=zHfsYXxeVroGA/mPajEpsznSbwa752tyGVWLbE5686o=;
+ b=Y6qz4Qo9yfV/c1GFBtwtLBbvRKeyd3SwNp4bMxWnB0fzuG4Ub5XRFYz4HLyDD1zYCp
+ ri4H5IxBIWrLhvmlXXmHLFs8amRNhhoJWYZALSvWNFld+Cd9ZDte9NL2pjqetntAtykk
+ ztj8z07q66sJVafvW0NsfF7yZSkjSn7GsubW6cX80JqZmppE4On+nxxMbihdfJsVvpRr
+ z51ibHDXfH7dEGuY9I3CcDUwgEUCX17D/YB3cPlQeFoOKb7GFek2Vhd0UZNaLhEQXKAH
+ ooOh+cpXUm9tjmEAGGRjZPrsW+ix7lMPuwM7mlSSTdAueiAUeq8DzcVDtwFw235Ii4Bz
+ j8oQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=pIgUFuK4GjatAeUaxzKXkqtZnvCBfiJ3fSAhuCayS54=;
- b=WpplCfI9O0aKO3scWGM25+fVsPsFr0XXefkV+WyuNdlDaZur9iQEVwevk/Ob1gB7mj
- VYHSKx1jEZ2xQNZ42ENNgMKtuTNc08QXiOzmW1Qf1lze/xnDSX5otkgqfvZAcd7cGbt/
- ncLqTOxQwLTQJTibVOZsRDh0TMDIGOT5utmMbp3/MZpPACCDmpiym34n6vsTCuxBq5Dj
- jCW6a06bFalJD/BcfcaTtEC5x86Q5eg4OUxREgG51F1bb4FNa/7tT8FUZvW+ItIeDDH9
- LfpJiFf6OxvN63Wwfh+fMFBlQ1sh70VcM3caVFhLENxcjdB6rSXauWghA1DQr/Dctlnr
- N30g==
-X-Gm-Message-State: AOAM530axS6+USefrIA4r4eiZaL3ut5xaSRYTmnCZaavFOATLA1ibrFg
- eXqgRKyaxWjxZNTag/ITNtcvBQ==
-X-Google-Smtp-Source: ABdhPJxZ5furVucIpLUHSwt93mGG+1Sur/dkGAoZjtza/utWoLIkymcf52UKA24mCKkPQp2PFqi5vg==
-X-Received: by 2002:a05:6000:1849:: with SMTP id
- c9mr4954830wri.282.1621526697689; 
- Thu, 20 May 2021 09:04:57 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id s11sm7220960wmf.14.2021.05.20.09.04.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 May 2021 09:04:56 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 6D4F91FF7E;
- Thu, 20 May 2021 17:04:55 +0100 (BST)
-References: <466cf154-cabf-2e8f-021f-a82cf7b88b31@suse.de>
- <20be5f7e-f475-4f3c-0fca-fff1750c08fe@suse.de> <87tun0cf3d.fsf@linaro.org>
- <198d8ef3-cc15-6f9d-6455-286748a705a8@suse.de>
-User-agent: mu4e 1.5.13; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Claudio Fontana <cfontana@suse.de>
-Subject: Re: latest GOOD state of series i386 cleanup, arm cleanup, s390
- cleanup
-Date: Thu, 20 May 2021 17:02:45 +0100
-In-reply-to: <198d8ef3-cc15-6f9d-6455-286748a705a8@suse.de>
-Message-ID: <871ra1crx4.fsf@linaro.org>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=zHfsYXxeVroGA/mPajEpsznSbwa752tyGVWLbE5686o=;
+ b=ePV0Nh8Sp9uKf9WXQrfCpISTt2vGFavm2WcwTm6DAAVI6UM7c/Zbq8rF0ghK2E+5zK
+ TRDSTCJ6UMGRsrgzXlWmcxmgJZ5csXm2nRfplgQJgELxAIF4MRn0GpjCb1T1/aCw4vu1
+ fN3rMJUpaF7kPviqMKCyQKlSic3RvkOMfpUHGZ5jJSnJMSHTmilEuRwDR3mhperfFZ9U
+ C1qPQx4y/i3ytMN5qWduZDATmG0xNZHZ9axlj7Qi1/1VW+J2SRrtnGnR+WGM087kn5rX
+ 57C7CEGM8HNvYVi79jS8+8lb82DG3tcKL7GD5ReXC/gH6iUwoc/MuWgeEgx8wHO2EPyB
+ Sm7Q==
+X-Gm-Message-State: AOAM530Uqm1gpGHQhyAqFjHgdNra2QRt+ryriZLeEQ4ZlkOdy5e0YBbl
+ zm6jWkTAUo0jEeAykq2bJTAH8A==
+X-Google-Smtp-Source: ABdhPJzPRdviLuTh5XsRtqXl6Fy/K3t5MIEILZsM8KKXMQdvHLgWKs4PXFBvswovGrmd2flx4Nn7lg==
+X-Received: by 2002:a1f:9352:: with SMTP id v79mr5180389vkd.4.1621527358606;
+ Thu, 20 May 2021 09:15:58 -0700 (PDT)
+Received: from [172.16.22.144] ([45.235.253.15])
+ by smtp.gmail.com with ESMTPSA id d25sm517978vsh.5.2021.05.20.09.15.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 20 May 2021 09:15:58 -0700 (PDT)
+Subject: Re: [PULL 42/46] softfloat: Move div_floats to softfloat-parts.c.inc
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20210516123431.718318-1-richard.henderson@linaro.org>
+ <20210516123431.718318-43-richard.henderson@linaro.org>
+ <CAFEAcA_qmHQr8C_xGqixqNEiU_c6P37=ZEEo07k0X7_=EJWY-g@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <218865da-9748-6820-7749-1fc6f905e3a9@linaro.org>
+Date: Thu, 20 May 2021 11:15:56 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x431.google.com
+In-Reply-To: <CAFEAcA_qmHQr8C_xGqixqNEiU_c6P37=ZEEo07k0X7_=EJWY-g@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::a2f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-vk1-xa2f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -90,82 +88,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Liang Yan <lyan@suse.com>, Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>,
- Philippe =?utf-8?Q?M?= =?utf-8?Q?athieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Al Cho <ACho@suse.com>
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 5/20/21 8:40 AM, Peter Maydell wrote:
+> On Sun, 16 May 2021 at 13:38, Richard Henderson
+> <richard.henderson@linaro.org> wrote:
+>>
+>> Rename to parts$N_div.
+>> Implement float128_div with FloatParts128.
+>>
+>> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>> ---
+> 
+>> +static bool frac64_div(FloatParts64 *a, FloatParts64 *b)
+>> +{
+>> +    uint64_t n1, n0, r, q;
+>> +    bool ret;
+>> +
+>> +    /*
+>> +     * We want a 2*N / N-bit division to produce exactly an N-bit
+>> +     * result, so that we do not lose any precision and so that we
+>> +     * do not have to renormalize afterward.  If A.frac < B.frac,
+>> +     * then division would produce an (N-1)-bit result; shift A left
+>> +     * by one to produce the an N-bit result, and return true to
+>> +     * decrement the exponent to match.
+>> +     *
+>> +     * The udiv_qrnnd algorithm that we're using requires normalization,
+>> +     * i.e. the msb of the denominator must be set, which is already true.
+>> +     */
+>> +    ret = a->frac < b->frac;
+>> +    if (ret) {
+>> +        n0 = a->frac;
+>> +        n1 = 0;
+>> +    } else {
+>> +        n0 = a->frac >> 1;
+>> +        n1 = a->frac << 63;
+>> +    }
+>> +    q = udiv_qrnnd(&r, n0, n1, b->frac);
+> 
+> Hi -- Coverity is suspicious about this line (CID 1453209),
+> because udiv_qrrnd()'s prototype is
+> static inline uint64_t udiv_qrnnd(uint64_t *r, uint64_t n1,
+>                                    uint64_t n0, uint64_t d)
+> 
+> but here we pass n0, n1 rather than n1, n0...
+> 
+> Bug, or false positive ?
 
-Claudio Fontana <cfontana@suse.de> writes:
+I think it's a false positive.
 
-> On 5/18/21 4:02 PM, Alex Benn=C3=A9e wrote:
->>=20
->> Claudio Fontana <cfontana@suse.de> writes:
->>=20
->>> On 5/17/21 11:53 AM, Claudio Fontana wrote:
->>>> Hello all,
->>>>
->>>> due to my inactivity for a few weeks coupled likely with the upstream =
-processes around qemu-6.0 now the series:
->>>>
->>>> 1) i386 cleanup
->>>> 2) arm cleanup and experimental kvm-only build
->>>> 3) s390 cleanup
->>>>
->>>> have become stale and hard to rebase on latest master.
->>>> This effect is compounded by the fact that lots of broken tests in
->>>> master have been added.
->>=20
->> Which tests are these? I know master suffers a bit from occasional
->> falling red but to my knowledge everything should be green (at least
->> from my last PR anyway ;-).
->>=20
->>>>
->>>> In the interest of not losing work,
->>>> I provide here the latest known good state of these series:
->>>>
->>>> For the i386 cleanup:
->>>> https://gitlab.com/hw-claudio/qemu/-/pipelines/293603386
->>>>
->>>> Tests started breaking horribly since about 1/2 weeks.
->>=20
->> The pipeline only shows one failed test (checkpatch) which is an
->> allowfail I believe. /me is confused.
->
-> Hi Alex, yes, I pointed to the last pipeline that works :-)
->
->>=20
->>>> The latest version of the cleanup is reachable here:
->>>>
->>>> https://github.com/qemu/qemu.git branch "i386_cleanup_9"
->>>>
->>>> In my understanding, Paolo has now picked up this one.
->>>>
->>>> For the ARM cleanup and experimental kvm-only build:
->>>>
->>>> https://gitlab.com/hw-claudio/qemu/-/pipelines/293603376
->>>>
->>>> https://github.com/qemu/qemu.git branch "arm_cleanup_v15"
->>>>
->>>> Again here tests started misbehaving in the same timeframe.
->>>>
->>>> The state of ARM cleanup is still experimental, maybe Liang or
->>>> Philippe you can adopt this one?
+Different naming schemes between gcc (from whence qrrnd came, 0 as least 
+significant element) and the Berkeley softfloat code (0 as most significant 
+element).
 
-I've done a re-base onto the current master (and my testing/next):
 
-  https://github.com/stsquad/qemu/tree/review/arm_cleanup_v15
-
-which is currently working it's way through my CI:
-
-  https://gitlab.com/stsquad/qemu/-/pipelines/306727076
-
-As I've got patches waiting for this re-factor I'm happy to take the
-series on if you've run out of time/patience ;-)
-
---=20
-Alex Benn=C3=A9e
+r~
 
