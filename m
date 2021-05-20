@@ -2,51 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FC32389E1A
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 08:41:32 +0200 (CEST)
-Received: from localhost ([::1]:55790 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC39E389E02
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 08:36:10 +0200 (CEST)
+Received: from localhost ([::1]:53476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljcN9-00062g-6j
-	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 02:41:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48570)
+	id 1ljcHx-00049L-Em
+	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 02:36:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47514)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1ljcLy-0005H6-Ro; Thu, 20 May 2021 02:40:18 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:60791 helo=ozlabs.org)
+ (Exim 4.90_1) (envelope-from <pkrempa@redhat.com>)
+ id 1ljcGi-0003Tg-VJ
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 02:34:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20425)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1ljcLw-0001D0-Bu; Thu, 20 May 2021 02:40:18 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4Fm0V11RrKz9sWX; Thu, 20 May 2021 16:40:08 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1621492809;
- bh=LvIt7mKsb/KyXpsqM9uGW29JAhKlgvlapJUV77w0s+g=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=PWduVsN1MY/4wYcJsWV/9YEhiwMtRcJqMiegsFJpUIWXEDhkFdyVgx1rLGJ5CM4pS
- XLeIGyosQjwMsg2Qpdrytv7JQLa4M1VPJFymQVhgqINbVxEqzGaXj/dypYxQM9Tj94
- Tihfkjm1toabL6TxPb4uf0em8Jsgt6zTj/wgBaeQ=
-Date: Thu, 20 May 2021 10:42:33 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: qemu-devel@nongnu.org
-Subject: Re: [PULL 00/48] ppc-for-6.1 queue 20210519
-Message-ID: <YKWweU5YQRqd8Z8b@yekko>
-References: <20210519125148.27720-1-david@gibson.dropbear.id.au>
- <162143196022.17859.450741207443396482@0addf061776e>
+ (Exim 4.90_1) (envelope-from <pkrempa@redhat.com>)
+ id 1ljcGe-0005Mq-Md
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 02:34:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1621492468;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Ke9wOtija8rbcDjULbQAXuGaiJEdtTCqDHR/23oOq5U=;
+ b=Hnd/I9YmgzMF18SV2IYvEypBaOJduTFbPP+RV29bHo/kfQv/wq2PddO7ZSvMU3M1q+B1Jb
+ 1gl22m5nZ3bwa+Vl0cViKQ+rjKTLIkIdBI0/948406DZnz35TVv2C3RMMnEtNgJNdVRoDQ
+ DPdJ3taCdXKY0iONcsG/uStYQswdfzs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-165-76-ScgzrNce7etfg1HXacg-1; Thu, 20 May 2021 02:34:25 -0400
+X-MC-Unique: 76-ScgzrNce7etfg1HXacg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2763E6D255;
+ Thu, 20 May 2021 06:34:24 +0000 (UTC)
+Received: from angien.pipo.sk (unknown [10.40.208.61])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4D30D60C04;
+ Thu, 20 May 2021 06:34:18 +0000 (UTC)
+Date: Thu, 20 May 2021 08:34:15 +0200
+From: Peter Krempa <pkrempa@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH 1/2] Gitlab: Add "Bug" issue reporting template
+Message-ID: <YKYC505NAm89qslG@angien.pipo.sk>
+References: <20210519213202.3979359-1-jsnow@redhat.com>
+ <20210519213202.3979359-2-jsnow@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="HtwXTUgMo2cqrqVH"
+In-Reply-To: <20210519213202.3979359-2-jsnow@redhat.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pkrempa@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <162143196022.17859.450741207443396482@0addf061776e>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-Spam_score_int: -1
-X-Spam_score: -0.2
-X-Spam_bar: /
-X-Spam_report: (-0.2 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_03_06=1.592,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pkrempa@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.39,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,52 +79,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, peter.maydell@linaro.org, richard.henderson@linaro.org,
- groug@kaod.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Daniel P =?iso-8859-1?Q?=2E_Berrang=E9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Wed, May 19, 2021 at 17:32:01 -0400, John Snow wrote:
+> Based loosely on libvirt's template, written by Peter Krempa.
+> 
+> CC: Peter Krempa <pkrempa@redhat.com>
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> ---
+>  .gitlab/issue_templates/bug.md | 52 ++++++++++++++++++++++++++++++++++
+>  1 file changed, 52 insertions(+)
+>  create mode 100644 .gitlab/issue_templates/bug.md
+> 
+> diff --git a/.gitlab/issue_templates/bug.md b/.gitlab/issue_templates/bug.md
+> new file mode 100644
+> index 00000000000..3f31b5e4a09
+> --- /dev/null
+> +++ b/.gitlab/issue_templates/bug.md
+> @@ -0,0 +1,52 @@
+> +<!--
+> +This is the upstream QEMU issue tracker.
+> +
+> +Before submitting a bug, please attempt to reproduce your problem using
+> +the latest development version of QEMU obtained from
+> +https://gitlab.com/qemu-project/qemu/.
+> +
+> +QEMU generally supports the last two releases advertised via
+> +https://www.qemu.org/. Problems with distro-packaged versions of QEMU
+> +older than this should be reported to the distribution instead.
+> +
+> +See https://www.qemu.org/contribute/report-a-bug/ for guidance.
+> +-->
+> +
+> +## Host environment
+> + - Operating system: <!-- Windows 10, Fedora 34, etc. -->
+> + - OS/kernel version: <!-- For POSIX hosts, use `uname -a` -->
+> + - Architecture: <!-- x86, ARM, etc. -->
+> + - QEMU flavor: <!-- qemu-system-x86_64, qemu-aarch64, qemu-img, etc. -->
+> + - QEMU version: <!-- `qemu-system-x86_64 --version` -->
 
---HtwXTUgMo2cqrqVH
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In the libvirt templates we've refrained from mixing lines to be filled
+by users and comments. The users might fill in the required data into
+the comment and thus it would not show up in the default view.
 
-On Wed, May 19, 2021 at 06:46:01AM -0700, no-reply@patchew.org wrote:
-> Patchew URL:
-> https://patchew.org/QEMU/20210519125148.27720-1-david@gibson.dropbear.id.=
-au/
 
-So, these style warnings are actually existing style problems just
-being triggered in checkpatch by code motion.  Yes we'd like to clean
-those up at some point, but holding off this re-org for that is not
-worth it.
+> + - QEMU command line:
+> +   <!--
+> +   Provide the smallest (but complete) command line that reproduces the problem.
+> +   Example:
+> +       ./qemu-system-x86_64 -M q35 -m 4096 -enable-kvm -hda fedora32.qcow2
+> +   -->
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+Same here, if the commandline is put into this example section it will
+not be visible unless editing the issue. I'd suggest a single-line
+comment including the comment tags ...
 
---HtwXTUgMo2cqrqVH
-Content-Type: application/pgp-signature; name="signature.asc"
+> +   ```
+> +   Insert command line here.
 
------BEGIN PGP SIGNATURE-----
+... and put the example here to make the user edit it.
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmClsHcACgkQbDjKyiDZ
-s5KJNBAArxoQsjsSgR+4wRah984YDfL80fa3UgXZ5+3QzNUBnmXL2q7qRiKEzDOz
-B68g7h32k9quvWmwQLOXD/mJeAm6abestOUWb8zYce8h4bTZazLxfZdqG0o+1Hbv
-SHE44C0xpDEKWaon9h0DMxH/l0v3DFw5XvrvgNBBk0nguXIAwBUV43If9eJewAX5
-9JNxlBRdY32+jftIWa/KKRUU33fl9bYngp9Fv63x9lwAP+TO91BTup/PC+qUtlMJ
-Lti4Qh2jR79G/xFf3rdFiUZnIh/1zsq1hDNo6E7pdd318hBAHtxAzmC5yywUIwTu
-/ihsUXeWDKp+I7KlVPFrtm5uyUcaOB2cUzYKwP0SrXh0woD4c4ilBGzozFSJcfVc
-LkC+dFTcDS1AT3x1jonzzYvADmhCgm8uxGh1AQgkmLr6C0XFmG462DiM4Q4j9J0T
-4gcFJrS06ESpGUvZKdWF5QCUe4ZivSXrYuoph9VAYfNQpM4Tnrb7ymNngQGkTplD
-s7FZDuS/UNpEgIngRq4izyFgPpJkFVGX823urNNexqXJJ4Jx1PikTKciV7JIs85E
-dPm5v2AvbZJgAetczyv/1L1F4X4x6V/lGZkr9bRKpZ5E0chh5uTFsiNt1WPyloOW
-5zguTVZQtS84cBRp5J/srMrr+ehh4NB/kjw8UUzJU6yaeQErAMo=
-=wWPJ
------END PGP SIGNATURE-----
+> +   ```
+> +
+> +## Emulated/Virtualized environment
+> + - Operating system: <!-- Windows 10 21H1, Fedora 34, etc. -->
+> + - OS/kernel version: <!-- For POSIX guests, use `uname -a` -->
+> + - Architecture: <!-- x86, ARM, s390x, etc. -->
+> +
+> +
+> +## Description of problem
+> +
+> +
+> +## Steps to reproduce
+> +1.
+> +2.
+> +3.
+> +
+> +
+> +## Additional information
+> +<!-- Attach logs, stack traces, screenshots, etc. Compress the files if necessary.
+> +<!-- See https://qemu-project.gitlab.io/qemu/devel/tracing.html on how to configure additional QEMU logging. -->
+> +
+> +
+> +<!-- The line below ensures that proper tags are added to the issue. Please do not remove it. -- >
+> +/label ~"kind::Bug"
 
---HtwXTUgMo2cqrqVH--
+Unfortunately this doesn't seem to work if the user doesn't have
+permission to tag issues, which is the default. I'm considering removing
+these in libvirt.
+
+In addition, after committing these you should consider copying this
+template into the default issue template, which is set via the
+repository settings (it needs to be copied and pasted into a textarea in
+the web) as gitlab doesn't have a possibility to pick one of the
+templates as a default.
+
 
