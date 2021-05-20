@@ -2,70 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E07C38AB4E
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 13:22:43 +0200 (CEST)
-Received: from localhost ([::1]:35404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC5BC38AAA4
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 13:14:56 +0200 (CEST)
+Received: from localhost ([::1]:46922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljglG-0002jo-Ds
-	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 07:22:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44770)
+	id 1ljgdj-00083N-Oq
+	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 07:14:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44768)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ljgZR-0000qy-8P
- for qemu-devel@nongnu.org; Thu, 20 May 2021 07:10:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24036)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ljgZN-0000pc-7m
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 07:10:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36684)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ljgZE-0004q0-G6
- for qemu-devel@nongnu.org; Thu, 20 May 2021 07:10:29 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ljgZJ-0004tt-1h
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 07:10:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621509015;
+ s=mimecast20190719; t=1621509020;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hT9YCxRj1ou3uPTM7bSJ+zjEyH6kGbopTpVH+99i5eA=;
- b=U0IC6NNcPAIICAYcoZ4O9ALpga3nVinRx7fhfowFpObaM96alSsHC4Ib3mHWn08lGX1BO/
- XOJSPmfPXPjBElkWfLSkJcrq6sQ72PELYcQU/udoAtj9m25tqEt0CpBkQ+UP2vYjkPoP0w
- +rRSiwLDKgVSuj7mYL4PuiEVYV6P6Sg=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-357--UsEFaXqOyu41KoHqu9Dwg-1; Thu, 20 May 2021 07:10:12 -0400
-X-MC-Unique: -UsEFaXqOyu41KoHqu9Dwg-1
-Received: by mail-wr1-f69.google.com with SMTP id
- q15-20020adfc50f0000b0290111f48b865cso5029759wrf.4
- for <qemu-devel@nongnu.org>; Thu, 20 May 2021 04:10:12 -0700 (PDT)
+ bh=SEIK0+f8xAhENSUO1Wsp9GXIhMyGmKAMVfEhOA0o4Xo=;
+ b=IIMtm31G01fbJRopAxbhH7p8buMyEOQZHrhosTd9GPQ1zoZJj29q+ElTscOu+fYZQXFCeP
+ cCl13pTg9uN85T91tbKsfNH1vwBsRCorUhu6sUzY/fNG8K/97bdp8bGGcVdQ5DiXJtCPTE
+ PX/176Az6F3ucQ9cRO5I8Jj3XQEDGr8=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-381-Fp4JHnprOZamwN8lYhcukQ-1; Thu, 20 May 2021 07:10:17 -0400
+X-MC-Unique: Fp4JHnprOZamwN8lYhcukQ-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ u203-20020a1cddd40000b029016dbb86d796so2199564wmg.0
+ for <qemu-devel@nongnu.org>; Thu, 20 May 2021 04:10:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=hT9YCxRj1ou3uPTM7bSJ+zjEyH6kGbopTpVH+99i5eA=;
- b=avnEio57j91LfZn14vKfrx5HHM0m9GLUlFMxaAiTKaPhj2fZmgsY5F+j1nC1G/271Q
- +sR4XDsBw3wzJOkI9xbB9sXnfhr1h0G6jALICUga1BXzP54l2ZtL5p//Uuv4EgcSIxAM
- d/zFYSfV0eZPoH47907q1SMxo48PO87/8IhpFC23+NICs/ahUvcu5yzTzPfal9t5AR6R
- TLPjnYnyJ7u/fs3SOFN6MBpaEoy6JEpehvVL7CfmwqBXKIYshl5TdKldmRHtu8JAvERJ
- AfIX4RRAfOXRkGJQ17BJ6u6nOQOzmmWsKPfDpas/17qdcmkElcql2Eo9rt2VZaC90Xbz
- U+JA==
-X-Gm-Message-State: AOAM532cA5n5FzRNyT2W4m4DVHwM7bJRPXC/9fob7awxGvOHI4dX7V8H
- s1X+B/yepQskWYX3IRg3595nlv5zgvrtKdP7+S+7ONmdizZUCbPC4nOx4zRTGH5O9dLhmHfDxdJ
- je67tKm23PuaEGlmB257VW3dP1q+xSEx9b7UXENr9ACv0Hmi95c4iR9XicRHfJSqx
-X-Received: by 2002:a05:600c:1909:: with SMTP id
- j9mr3175859wmq.100.1621509011020; 
- Thu, 20 May 2021 04:10:11 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwNpo4h4UrADIjXZ1b95pgvWd070pZ4FEyaaomJsGttuRFQyMPcbIM8LWkbeqgCSQnyXkoUtA==
-X-Received: by 2002:a05:600c:1909:: with SMTP id
- j9mr3175822wmq.100.1621509010775; 
- Thu, 20 May 2021 04:10:10 -0700 (PDT)
+ bh=SEIK0+f8xAhENSUO1Wsp9GXIhMyGmKAMVfEhOA0o4Xo=;
+ b=Ir3Wwx8rZm0lclAV7RDTTvWN9cifmD3c40TE4hh1enz39PyMZAKO3pwXO6wyQ78ulH
+ dVVcbXhep6oycvrbj17aHUd41a/OFLLUih2O1i48cvaXPSmbSH3d4yXZy4pDkj5ezjdK
+ L5Tuud2+029v7Hu98OimU6oWXKrYrAVmyAZ/kUlGHNjTk7RgUD9QqwGhM+4QlbDk2fQu
+ H/e0gK8OklpD+D1IrhAi//XfKNjruwByCXYR94wGZeq8ygDed80iK/RpfnscQTSyTGI8
+ pKR/LibBCcEfNZZEwF+CHHAK+yOfP6+Egrwo1f+cORzGEkCf/8b2bkrqzyXDS65wMphT
+ zJ+g==
+X-Gm-Message-State: AOAM531Byx+t3Umcek1qmLBl12w9mPWJGIEGF5eiBwwU93dFo5vwjgpo
+ Fy6YMx18Ybgo3wZiz615gpZY5XIFQ1Y+EOV4mX+fHyUzumI2/oWvxOuol2NNxXHnThq/AE2nFqZ
+ Zmtg5LkXeqNu/v2ZOxt0l5Y28BpWSvGsnqzpf0cWnMtlQ2jA6LcRt7OTTzw1Zwi0i
+X-Received: by 2002:adf:e608:: with SMTP id p8mr3801845wrm.162.1621509015623; 
+ Thu, 20 May 2021 04:10:15 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzgOa3Tel7oAr+U0C0L/KLNS+VyKeVlMa8TYcIL1vcCGh34R3TMJnS/Xhv4kOqefrqVE7VApA==
+X-Received: by 2002:adf:e608:: with SMTP id p8mr3801817wrm.162.1621509015405; 
+ Thu, 20 May 2021 04:10:15 -0700 (PDT)
 Received: from x1w.redhat.com (31.red-83-51-215.dynamicip.rima-tde.net.
  [83.51.215.31])
- by smtp.gmail.com with ESMTPSA id f13sm3010371wrt.86.2021.05.20.04.10.10
+ by smtp.gmail.com with ESMTPSA id l3sm2331270wmh.2.2021.05.20.04.10.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 May 2021 04:10:10 -0700 (PDT)
+ Thu, 20 May 2021 04:10:15 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 11/12] hw/virtio: Have vring_avail_flags() return a
- boolean value
-Date: Thu, 20 May 2021 13:09:18 +0200
-Message-Id: <20210520110919.2483190-12-philmd@redhat.com>
+Subject: [RFC PATCH 12/12] hw/virtio: Display error if vring flag field is not
+ aligned
+Date: Thu, 20 May 2021 13:09:19 +0200
+Message-Id: <20210520110919.2483190-13-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210520110919.2483190-1-philmd@redhat.com>
 References: <20210520110919.2483190-1-philmd@redhat.com>
@@ -106,53 +104,49 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-To be able to check the memory transaction succeeded, change
-the vring_avail_flags() to take the value to read by argument,
-so we can return a boolean whether we succeeded or not.
+Per the virtio spec [*] the vring is aligned, so the 'flag' field
+is also 16-bit aligned. If it is not, this is a guest error, and
+we'd rather report any malicious activity.
+
+Enforce the transaction alignment by setting the 'aligned' attribute
+and log unaligned addresses.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- hw/virtio/virtio.c | 13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
+ hw/virtio/virtio.c | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
 
 diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-index e02544b2df7..1b8bc194ce1 100644
+index 1b8bc194ce1..f19d12fc71e 100644
 --- a/hw/virtio/virtio.c
 +++ b/hw/virtio/virtio.c
-@@ -287,16 +287,19 @@ static VRingMemoryRegionCaches *vring_get_region_caches(struct VirtQueue *vq)
- }
- 
- /* Called within rcu_read_lock().  */
--static inline uint16_t vring_avail_flags(VirtQueue *vq)
-+static inline bool vring_avail_flags(VirtQueue *vq, uint16_t *val)
+@@ -291,15 +291,24 @@ static inline bool vring_avail_flags(VirtQueue *vq, uint16_t *val)
  {
      VRingMemoryRegionCaches *caches = vring_get_region_caches(vq);
      hwaddr pa = offsetof(VRingAvail, flags);
++    MemTxAttrs attrs = { .aligned = 1 };
++    MemTxResult res;
  
      if (!caches) {
--        return 0;
-+        *val = 0;
-+        return true;
+         *val = 0;
+         return true;
      }
  
--    return virtio_lduw_phys_cached(vq->vdev, &caches->avail, pa);
-+    *val = virtio_lduw_phys_cached_with_attrs(vq->vdev, &caches->avail, pa);
-+
-+    return true;
+-    *val = virtio_lduw_phys_cached_with_attrs(vq->vdev, &caches->avail, pa);
++    *val = virtio_lduw_phys_cached_with_attrs(vq->vdev, &caches->avail,
++                                              pa, attrs, &res);
++    if (res == MEMTX_UNALIGNED_ERROR) {
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "virtio: vring flag address 0x%" HWADDR_PRIX " "
++                      "is not aligned\n", pa);
++        return false;
++    }
+ 
+-    return true;
++    return res == MEMTX_OK;
  }
  
  /* Called within rcu_read_lock().  */
-@@ -2462,7 +2465,9 @@ static bool virtio_split_should_notify(VirtIODevice *vdev, VirtQueue *vq)
-     }
- 
-     if (!virtio_vdev_has_feature(vdev, VIRTIO_RING_F_EVENT_IDX)) {
--        return !(vring_avail_flags(vq) & VRING_AVAIL_F_NO_INTERRUPT);
-+        uint16_t flags;
-+        return vring_avail_flags(vq, &flags)
-+               && !(flags & VRING_AVAIL_F_NO_INTERRUPT);
-     }
- 
-     v = vq->signalled_used_valid;
 -- 
 2.26.3
 
