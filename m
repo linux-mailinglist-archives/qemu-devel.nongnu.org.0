@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D8CF389FEC
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 10:35:47 +0200 (CEST)
-Received: from localhost ([::1]:45898 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEB90389FD6
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 10:31:20 +0200 (CEST)
+Received: from localhost ([::1]:38648 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lje9i-0000N0-9W
-	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 04:35:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50378)
+	id 1lje5P-0003Xw-Ov
+	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 04:31:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50424)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ljdxY-0005Mz-9m
- for qemu-devel@nongnu.org; Thu, 20 May 2021 04:23:14 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:37821)
+ id 1ljdxb-0005NT-Dt
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 04:23:18 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:43780)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ljdxQ-0001TK-9e
- for qemu-devel@nongnu.org; Thu, 20 May 2021 04:23:11 -0400
-Received: by mail-wr1-x435.google.com with SMTP id q5so16672209wrs.4
- for <qemu-devel@nongnu.org>; Thu, 20 May 2021 01:23:01 -0700 (PDT)
+ id 1ljdxQ-0001UO-9q
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 04:23:12 -0400
+Received: by mail-wr1-x429.google.com with SMTP id p7so12939907wru.10
+ for <qemu-devel@nongnu.org>; Thu, 20 May 2021 01:23:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:subject:date:message-id:in-reply-to:references
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=KQzNl8zfqVtZdobfUUEZ5QYEJ0jQDvY20mVSPHPLVm0=;
- b=I1W9sJ5tsIia86k6doWbz5+z/cQ9uHu8a0FaPjMRqnky2pJuo4gz5E/IQY/ti/kKhG
- Ko4KKCHz+3gkl0MZDVpDOdzgPEmrC9BpTIKtjt35fehmBpuue0JDFdVnLtm6A1U77zDV
- kVZVsrkN6TUWPwFFMxX3xZVGtT6CX6+PUpiHTdcKKTtrM74CSVDowQj4+SZn2arCbue7
- CuI5TLMiuX0EhYVY4sYP76jaiS+qnnu1E+MJCaJ5e7sI/+hYGxXQtgF2c4mOwzzEA+ao
- jbNS4ypomkwmbwfD+xpyLc3cd8i7AhXqZmXisj581XWUC2iBDXrhaqUMZ6+apZw4WRog
- JAXQ==
+ bh=LJ7zb0d3J9pbQsFoNs7yYsC3rg5PuI/z4b6K7acxh+A=;
+ b=rdD1yD8RlHL0CRCnj+xtf9O0KH6xl+AwSVbZ92Z375m4+omjpzdbGKzXrACIH/K0m2
+ nhDMJgAYAdtSQIUAnpSRE5xRG2+bYtIwewkwyaIO8ef51khMTEdhP9L65bNKCeOkwy5w
+ ph0piTjEND8GWZB1W0q1AB8mUACS4FfkJcfzn9MrdngtKwo+YgDU95Im3bHQlteJhPx/
+ oZGVj0zLOoVZZf89p89WrZMAiOdFbd+F+ToJLeJqx90IKpv+o1uFePfytGq35TaCeB5w
+ ChFxTa+bcVyeC20JhCfBNxYv2W8oQfME8fet2sal92Pf7s8KmTMyzCyqO+1Ccspf2IVA
+ bpvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:subject:date:message-id
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=KQzNl8zfqVtZdobfUUEZ5QYEJ0jQDvY20mVSPHPLVm0=;
- b=p/mq6d5HQC1XI4GeObZG3e1yNzz8SNdh6wkxaEB7N6ntVqUnbUJubE57MPc2v4i/5d
- y8t24xAIkHPsh/WX8gSaBnxhFJJcEqKywZJiy3meuttyzxrCdq0QSaFukZzB80HWD7Rb
- m18KWuY0Rb1uPzJi2rmk06RPZXcIZV3xngRB+mhRRvewtL+fGCwc8tzjfGzHgc+ne1YW
- m6ENH7AJqZfD0fdMOGQXyoU6bjVTumPlOTjPg8kAByZWcmy/V8k+bY+uIkaOLB9SDYuh
- lAh4z2LBH0kCsFu9acWM5TLO7sL/+6s6+rC8XKR2ApdX7yzjQaz05uPgrNaY/P4ZR3aG
- 26hg==
-X-Gm-Message-State: AOAM530k75hkCD2SYiejgq8mEIaQDihDDfvHQRAc/3fE2IvrHlfbriXe
- s1T5fR/cLbN8he3E8FjgSra4rjoKkGf67g==
-X-Google-Smtp-Source: ABdhPJzC57ToSBPEUfxIWcKg3wvmWcHa3hZ9Z/XvVLGuFnSv2opTnHyVKSnc971fBFNZYqftJP2lTg==
-X-Received: by 2002:adf:dd51:: with SMTP id u17mr3009970wrm.87.1621498980631; 
- Thu, 20 May 2021 01:23:00 -0700 (PDT)
+ bh=LJ7zb0d3J9pbQsFoNs7yYsC3rg5PuI/z4b6K7acxh+A=;
+ b=cs7TkL+z0Kmx8vneBLAXe4WsLTdMKiTrvDtgg/pGR2fHTxo8RUquGj6KqCKZ2FgSO9
+ GEqKxMt8eAnUoL4TUPJpMw0zqnEny5d8hyxxt3A4kCfRoYrwszcfPl2FMNmIprcwR/od
+ 9iuQCCUxxJpnWWxFNDE2630ALab4zYei2h4+24w/KTZVGr5LWvKR6H8GqRg3RQugPOzq
+ MVRkkv+3wa4M2kBdeDozxa798UE+XYfk0MXMKlhDF78d9ulVWDtbz46DIUmabPKJRIsq
+ NbZkJ15Uz6VGeNjMw3RJzOkHAcVGSl5ztbrBPF/nX8fV9dLZRxk4QzQudYFRX1stUVCo
+ yp8A==
+X-Gm-Message-State: AOAM533zPL9RcgMN/OJbkcMEEyKgNNUaaBbVK8WKuUsPtEm6PLXUahqb
+ rJCGPf1qRjo6nBOo3grIzcZj+y0kRtuyMw==
+X-Google-Smtp-Source: ABdhPJydkdyLA2cyJ6aLeW9RskeRmg0qJp4zeboHMmEJK/0BB+fjD5L36DT5Ra3RSL/6Q2Vm+vQYtA==
+X-Received: by 2002:adf:d081:: with SMTP id y1mr2927134wrh.179.1621498981281; 
+ Thu, 20 May 2021 01:23:01 -0700 (PDT)
 Received: from avogadro.redhat.com ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- v10sm2603506wrq.0.2021.05.20.01.23.00 for <qemu-devel@nongnu.org>
+ v10sm2603506wrq.0.2021.05.20.01.23.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 20 May 2021 01:23:00 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 03/26] configure: simplify assignment to GIT_SUBMODULES
-Date: Thu, 20 May 2021 10:22:34 +0200
-Message-Id: <20210520082257.187061-4-pbonzini@redhat.com>
+Subject: [PULL 04/26] hw/mem/nvdimm: Use Kconfig 'imply' instead of 'depends
+ on'
+Date: Thu, 20 May 2021 10:22:35 +0200
+Message-Id: <20210520082257.187061-5-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210520082257.187061-1-pbonzini@redhat.com>
 References: <20210520082257.187061-1-pbonzini@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x435.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -84,97 +86,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Do not guard each assignment with a check for --with-git-submodules=ignore.
-To avoid a confusing "GIT" line from the Makefile, guard the git-submodule-update
-recipe so that it is empty when --with-git-submodules=ignore.
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
+Per the kconfig.rst:
+
+  A device should be listed [...] ``imply`` if (depending on
+  the QEMU command line) the board may or  may not be started
+  without it.
+
+This is the case with the NVDIMM device, so use the 'imply'
+weak reverse dependency to select the symbol.
+
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20210511155354.3069141-2-philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- Makefile  |  2 ++
- configure | 20 ++++++--------------
- 2 files changed, 8 insertions(+), 14 deletions(-)
+ default-configs/devices/ppc64-softmmu.mak | 1 -
+ hw/arm/Kconfig                            | 1 +
+ hw/i386/Kconfig                           | 1 +
+ hw/mem/Kconfig                            | 2 --
+ hw/ppc/Kconfig                            | 1 +
+ 5 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/Makefile b/Makefile
-index 4cab10a2a4..30f19d33bb 100644
---- a/Makefile
-+++ b/Makefile
-@@ -48,9 +48,11 @@ Makefile: .git-submodule-status
+diff --git a/default-configs/devices/ppc64-softmmu.mak b/default-configs/devices/ppc64-softmmu.mak
+index ae0841fa3a..cca52665d9 100644
+--- a/default-configs/devices/ppc64-softmmu.mak
++++ b/default-configs/devices/ppc64-softmmu.mak
+@@ -8,4 +8,3 @@ CONFIG_POWERNV=y
  
- .PHONY: git-submodule-update
- git-submodule-update:
-+ifneq ($(GIT_SUBMODULES_ACTION),ignore)
- 	$(call quiet-command, \
- 		(GIT="$(GIT)" "$(SRC_PATH)/scripts/git-submodule.sh" $(GIT_SUBMODULES_ACTION) $(GIT_SUBMODULES)), \
- 		"GIT","$(GIT_SUBMODULES)")
-+endif
+ # For pSeries
+ CONFIG_PSERIES=y
+-CONFIG_NVDIMM=y
+diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+index b887f6a5b1..67723d9ea6 100644
+--- a/hw/arm/Kconfig
++++ b/hw/arm/Kconfig
+@@ -6,6 +6,7 @@ config ARM_VIRT
+     imply VFIO_PLATFORM
+     imply VFIO_XGMAC
+     imply TPM_TIS_SYSBUS
++    imply NVDIMM
+     select ARM_GIC
+     select ACPI
+     select ARM_SMMUV3
+diff --git a/hw/i386/Kconfig b/hw/i386/Kconfig
+index 7f91f30877..66838fa397 100644
+--- a/hw/i386/Kconfig
++++ b/hw/i386/Kconfig
+@@ -23,6 +23,7 @@ config PC
+     imply TPM_TIS_ISA
+     imply VGA_PCI
+     imply VIRTIO_VGA
++    imply NVDIMM
+     select FDC
+     select I8259
+     select I8254
+diff --git a/hw/mem/Kconfig b/hw/mem/Kconfig
+index a0ef2cf648..8b19fdc49f 100644
+--- a/hw/mem/Kconfig
++++ b/hw/mem/Kconfig
+@@ -7,6 +7,4 @@ config MEM_DEVICE
  
- # 0. ensure the build tree is okay
- 
-diff --git a/configure b/configure
-index 4681cbe2d7..55049fe930 100755
---- a/configure
-+++ b/configure
-@@ -256,11 +256,11 @@ gdb_bin=$(command -v "gdb-multiarch" || command -v "gdb")
- if test -e "$source_path/.git"
- then
-     git_submodules_action="update"
--    git_submodules="ui/keycodemapdb"
- else
-     git_submodules_action="ignore"
--    git_submodules=""
- fi
-+
-+git_submodules="ui/keycodemapdb"
- git="git"
- 
- # Don't accept a target_list environment variable.
-@@ -3617,9 +3617,7 @@ fi
- case "$fdt" in
-   auto | enabled | internal)
-     # Simpler to always update submodule, even if not needed.
--    if test "$git_submodules_action" != "ignore"; then
--      git_submodules="${git_submodules} dtc"
--    fi
-+    git_submodules="${git_submodules} dtc"
-     ;;
- esac
- 
-@@ -4328,9 +4326,7 @@ fi
- case "$capstone" in
-   auto | enabled | internal)
-     # Simpler to always update submodule, even if not needed.
--    if test "$git_submodules_action" != "ignore"; then
--      git_submodules="${git_submodules} capstone"
--    fi
-+    git_submodules="${git_submodules} capstone"
-     ;;
- esac
- 
-@@ -5260,9 +5256,7 @@ fi
- case "$slirp" in
-   auto | enabled | internal)
-     # Simpler to always update submodule, even if not needed.
--    if test "$git_submodules_action" != "ignore"; then
--      git_submodules="${git_submodules} slirp"
--    fi
-+    git_submodules="${git_submodules} slirp"
-     ;;
- esac
- 
-@@ -5454,9 +5448,7 @@ if test "$cpu" = "s390x" ; then
-     roms="$roms s390-ccw"
-     # SLOF is required for building the s390-ccw firmware on s390x,
-     # since it is using the libnet code from SLOF for network booting.
--    if test "$git_submodules_action" != "ignore"; then
--      git_submodules="${git_submodules} roms/SLOF"
--    fi
-+    git_submodules="${git_submodules} roms/SLOF"
-   fi
- fi
- 
+ config NVDIMM
+     bool
+-    default y
+-    depends on (PC || PSERIES || ARM_VIRT)
+     select MEM_DEVICE
+diff --git a/hw/ppc/Kconfig b/hw/ppc/Kconfig
+index e51e0e5e5a..66e0b15d9e 100644
+--- a/hw/ppc/Kconfig
++++ b/hw/ppc/Kconfig
+@@ -3,6 +3,7 @@ config PSERIES
+     imply PCI_DEVICES
+     imply TEST_DEVICES
+     imply VIRTIO_VGA
++    imply NVDIMM
+     select DIMM
+     select PCI
+     select SPAPR_VSCSI
 -- 
 2.31.1
 
