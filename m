@@ -2,60 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 929D938B89E
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 22:51:07 +0200 (CEST)
-Received: from localhost ([::1]:42670 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 252F238B8A1
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 22:51:14 +0200 (CEST)
+Received: from localhost ([::1]:42844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljpdJ-0008Kn-Vu
-	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 16:51:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36672)
+	id 1ljpdR-0008Rw-6f
+	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 16:51:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36696)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <willianr@redhat.com>)
- id 1ljpaO-0006iK-8V
- for qemu-devel@nongnu.org; Thu, 20 May 2021 16:48:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34476)
+ id 1ljpaR-0006kT-2l
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 16:48:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41025)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <willianr@redhat.com>)
- id 1ljpaK-0001Wq-FB
- for qemu-devel@nongnu.org; Thu, 20 May 2021 16:48:03 -0400
+ id 1ljpaP-0001ZL-Aw
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 16:48:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621543679;
+ s=mimecast20190719; t=1621543684;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=U8pl9fQCIkdoKEG+Dsvn1VnGlvicvr191DURq+vLCTY=;
- b=Ymh3mMnH1grOmk7HMreZ4pKvRgeO2QZq6EXXXuLOYzTCw20BVH5uwYrung03tq+uByHNv+
- LOhag9BDFyHyER1JO+BpvD/FugHKPkt7u2BWLx41E42pMGnIkVNmKhOLo1oMMx7Vs5O3o2
- oOYwoF3EUdmAkBUq458rfV9UOwEu7dY=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=taNOnZ4D7p0XpRKn4QtLPQv0UqeiicP/YMEmlzAlaro=;
+ b=f5Q3HclqUewcpuVKLGRAD6kxqAlDencKYM2ASf2Q72CkpoOIwYRVB0FGfLXiE06AFWml/C
+ MluYuUXRJJyV3zgivVoXLWp/a2TPPxeRikt1HSPhNbWT7CcYKRGHzNUkU7o9XV88k5vPlI
+ eY1TS2gcQVpD3t6QYzba27N+EdOQwBA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-271-8dxgBa_5PauumWC7UriiCA-1; Thu, 20 May 2021 16:47:55 -0400
-X-MC-Unique: 8dxgBa_5PauumWC7UriiCA-1
+ us-mta-152-EILC2mC2P96CNQjaJ3Ng7A-1; Thu, 20 May 2021 16:48:01 -0400
+X-MC-Unique: EILC2mC2P96CNQjaJ3Ng7A-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8912980006E;
- Thu, 20 May 2021 20:47:54 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C2AE1107ACCD;
+ Thu, 20 May 2021 20:48:00 +0000 (UTC)
 Received: from wrampazz.redhat.com (ovpn-113-104.rdu2.redhat.com
  [10.10.113.104])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3133259461;
- Thu, 20 May 2021 20:47:48 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2145059461;
+ Thu, 20 May 2021 20:47:54 +0000 (UTC)
 From: Willian Rampazzo <willianr@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC 0/1] acceptance tests: bump Avocado version to 88.1
-Date: Thu, 20 May 2021 17:47:46 -0300
-Message-Id: <20210520204747.210764-1-willianr@redhat.com>
+Subject: [RFC 1/1] acceptance tests: bump Avocado version to 88.1
+Date: Thu, 20 May 2021 17:47:47 -0300
+Message-Id: <20210520204747.210764-2-willianr@redhat.com>
+In-Reply-To: <20210520204747.210764-1-willianr@redhat.com>
+References: <20210520204747.210764-1-willianr@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=willianr@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=willianr@redhat.com;
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=willianr@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -84,29 +87,31 @@ Cc: Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-CI pipeline: https://gitlab.com/willianrampazzo/qemu/-/pipelines/306904401=
-=0D
-=0D
-Besides some internal changes, new features, and bug fixes, on the QEMU sid=
-e,=0D
-this version fixes the following message seen when running the acceptance=
-=0D
-tests: "Error running method "pre_tests" of plugin "fetchasset": 'bytes'=0D
-object has no attribute 'encode'".=0D
-=0D
-The release notes are available at=0D
-https://avocado-framework.readthedocs.io/en/latest/releases/88_0.html.=0D
-=0D
-Signed-off-by: Willian Rampazzo <willianr@redhat.com>=0D
-=0D
-Willian Rampazzo (1):=0D
-  acceptance tests: bump Avocado version to 88.1=0D
-=0D
- tests/requirements.txt | 2 +-=0D
- 1 file changed, 1 insertion(+), 1 deletion(-)=0D
-=0D
---=20=0D
-2.31.1=0D
-=0D
+Besides some internal changes, new features, and bug fixes, on the QEMU side,
+this version fixes the following message seen when running the acceptance
+tests: "Error running method "pre_tests" of plugin "fetchasset": 'bytes'
+object has no attribute 'encode'".
+
+The release notes are available at
+https://avocado-framework.readthedocs.io/en/latest/releases/88_0.html.
+
+Signed-off-by: Willian Rampazzo <willianr@redhat.com>
+---
+ tests/requirements.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/tests/requirements.txt b/tests/requirements.txt
+index 91f3a343b9..a21b59b443 100644
+--- a/tests/requirements.txt
++++ b/tests/requirements.txt
+@@ -1,5 +1,5 @@
+ # Add Python module requirements, one per line, to be installed
+ # in the tests/venv Python virtual environment. For more info,
+ # refer to: https://pip.pypa.io/en/stable/user_guide/#id1
+-avocado-framework==85.0
++avocado-framework==88.1
+ pycdlib==1.11.0
+-- 
+2.31.1
 
 
