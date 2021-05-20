@@ -2,73 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28646389FBB
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 10:25:28 +0200 (CEST)
-Received: from localhost ([::1]:48730 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B140389FD1
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 10:30:42 +0200 (CEST)
+Received: from localhost ([::1]:37508 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljdzj-0007Le-4X
-	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 04:25:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48340)
+	id 1lje4n-0002jH-EA
+	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 04:30:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50326)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lizhijian@fujitsu.com>)
- id 1ljdnR-0002D6-TQ
- for qemu-devel@nongnu.org; Thu, 20 May 2021 04:12:45 -0400
-Received: from mail.cn.fujitsu.com ([183.91.158.132]:10757
- helo=heian.cn.fujitsu.com) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lizhijian@fujitsu.com>) id 1ljdnP-0002OH-Vt
- for qemu-devel@nongnu.org; Thu, 20 May 2021 04:12:45 -0400
-IronPort-Data: =?us-ascii?q?A9a23=3AAiDMPqJRWBnNQUKUFE+R65clxSXFcZb7ZxGrkP8?=
- =?us-ascii?q?bfHC6gjp23zVWzGceC2CAPf2MY2agcop/b4Sy8UoB68fczYNqS1BcGVNFFSwT8?=
- =?us-ascii?q?ZWfbTi6wuYcBwvLd4ubChsPA/w2MrEsF+hpCC+GzvuRGuK59yAkiPjZHuSU5NP?=
- =?us-ascii?q?sYUideyc1EU/Ntjozw4bVsqYw6TSIK1vlVeHa+qUzC3f5s9JACV/43orYwP9ZU?=
- =?us-ascii?q?FsejxtD1rA2TagjUFYzDBD5BrpHTU26ByOQroW5goeHq+j/ILGRpgs1/j8mDJW?=
- =?us-ascii?q?rj7T6blYXBLXVOGBiiFIPA+773EcE/Xd0j87XN9JFAatTozGIjdBwytREs7S+V?=
- =?us-ascii?q?AUoIrbR3u8aVnG0FgknZf0boOCffiLXXcu7iheun2HX6+xjCVxzMYAG9+JfB2Z?=
- =?us-ascii?q?I+voFbjcXYXiri+23xLi2UPVEnMkvLMD3eogYvxlI1CzYC+orRZnrWajG5dZEm?=
- =?us-ascii?q?jw3g6hz8Vz2DyYCQWM3Kk2ePFsUYRFKYK/SVdyA3hHXGwC0YnrPzUbv31Xu8Q?=
- =?us-ascii?q?=3D=3D?=
-IronPort-HdrOrdr: =?us-ascii?q?A9a23=3A3t+FF69ehFddy2NnOstuk+DkI+orL9Y04lQ7?=
- =?us-ascii?q?vn2ZKCYlFvBw8vrCoB1173HJYUkqMk3I9ergBEDiewK4yXcW2/hzAV7KZmCP11?=
- =?us-ascii?q?dAR7sSj7cKrQeBJwTOssZZ1YpFN5N1EcDMCzFB5vrS0U2VFMkBzbC8nJyVuQ?=
- =?us-ascii?q?=3D=3D?=
-X-IronPort-AV: E=Sophos;i="5.82,313,1613404800"; d="scan'208";a="108507072"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
- by heian.cn.fujitsu.com with ESMTP; 20 May 2021 16:12:38 +0800
-Received: from G08CNEXMBPEKD04.g08.fujitsu.local (unknown [10.167.33.201])
- by cn.fujitsu.com (Postfix) with ESMTP id 4D5F4499D6C0;
- Thu, 20 May 2021 16:12:38 +0800 (CST)
-Received: from G08CNEXJMPEKD02.g08.fujitsu.local (10.167.33.202) by
- G08CNEXMBPEKD04.g08.fujitsu.local (10.167.33.201) with Microsoft SMTP Server
- (TLS) id 15.0.1497.2; Thu, 20 May 2021 16:12:38 +0800
-Received: from G08CNEXCHPEKD08.g08.fujitsu.local (10.167.33.83) by
- G08CNEXJMPEKD02.g08.fujitsu.local (10.167.33.202) with Microsoft SMTP Server
- (TLS) id 15.0.1497.2; Thu, 20 May 2021 16:12:37 +0800
-Received: from FNSTPC.g08.fujitsu.local (10.167.226.45) by
- G08CNEXCHPEKD08.g08.fujitsu.local (10.167.33.209) with Microsoft SMTP Server
- id 15.0.1497.2 via Frontend Transport; Thu, 20 May 2021 16:12:39 +0800
-From: Li Zhijian <lizhijian@cn.fujitsu.com>
-To: <quintela@redhat.com>, <dgilbert@redhat.com>
-Subject: [PATCH RESEND 4/4] migration/rdma: source: get accept cm_event from
- return path in non-block mode
-Date: Thu, 20 May 2021 16:11:48 +0800
-Message-ID: <20210520081148.17001-4-lizhijian@cn.fujitsu.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210520081148.17001-1-lizhijian@cn.fujitsu.com>
-References: <20210520081148.17001-1-lizhijian@cn.fujitsu.com>
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1ljdxU-0005Ma-Hg
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 04:23:09 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:43788)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1ljdxM-0001SE-Ix
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 04:23:02 -0400
+Received: by mail-wr1-x432.google.com with SMTP id p7so12939793wru.10
+ for <qemu-devel@nongnu.org>; Thu, 20 May 2021 01:22:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=LbsX/0Zl5aR3mKf3/HFCjswwVuUnU990G1ukApX+aSs=;
+ b=dpmM7DMIrwdH0n38JmLIpxXohKjudh96OQe39H5FoKhEKhPTMdnjipMDnynPQitusF
+ pnEOLSYTG+LMD7qRgjndEtAtnb71G8Bwi7fWiChkwtDct2naRcG7OVEFUyDWhtktgoyB
+ pA9pva7SAM76vANQ5lcdIEHPVWq3O0BI181a49rf2cadIpzozCKsEHJe4HMGfQg9Fm4a
+ 3Ce9TNF5Xj8LA3rExFAHfqOX+Or79sbChFi7O2wmrXdDNfRRLgEnZNfKMjGCTg6obtkP
+ akxcxr3tqCZp/WlDOLt19C4sQUVRgG2jihLumFwjKLcoVwaVz+jgSd/HXPtx03bOcPf+
+ thRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=LbsX/0Zl5aR3mKf3/HFCjswwVuUnU990G1ukApX+aSs=;
+ b=OSE6kXe1z5V6OHqHBQtJ/vsxV/HSWCmUbNprcyWcfh8Q73s1HJJVEipveEPHplWUDK
+ Dk5ODiwsjVQR/VBP8gBKU1D8i6ZOd5vii6rdT+zd536ok+ucEEIHZBAo3Yq2KmeNes0T
+ NMBZtXwOEpp229i5FD8iN3uOlB7RWuUYhssTQqFXyp9ZKw9TnKLutzrqsiNbDh4b+vSe
+ 9IWLW1EzoAHJJr90mZAgUOdH/TvHEeOr9vfRcRIsSrkzGz6OU57gHtbQ3YoOuCIgHpw6
+ yNSIidseruB+zqwRYd5K4nTqLUuvmXOEfCW71uLgiZQA7X0t/rjdrQxZ7Ee7ktjwRLPi
+ 6PJw==
+X-Gm-Message-State: AOAM531YJwWS4ExojZEdkOh5+f4rHnf6eV5+CjoHzZI/yXPYAAgQrqIJ
+ lUwTVGtVx+zEJ750SKXZpM6efmTitLWqeQ==
+X-Google-Smtp-Source: ABdhPJzeOzLCZzVpK00asTW3+Gb4MHgMeRimXlgGnZkE+eF7NnEtGPrCrRMfHN/EaLmZSOecEaZLwg==
+X-Received: by 2002:adf:e484:: with SMTP id i4mr2928973wrm.117.1621498978822; 
+ Thu, 20 May 2021 01:22:58 -0700 (PDT)
+Received: from avogadro.redhat.com ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id
+ v10sm2603506wrq.0.2021.05.20.01.22.58 for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 20 May 2021 01:22:58 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/26] Misc patches for 2021-05-20
+Date: Thu, 20 May 2021 10:22:31 +0200
+Message-Id: <20210520082257.187061-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-yoursite-MailScanner-ID: 4D5F4499D6C0.AEDD5
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: lizhijian@fujitsu.com
-Received-SPF: neutral client-ip=183.91.158.132;
- envelope-from=lizhijian@fujitsu.com; helo=heian.cn.fujitsu.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_NEUTRAL=0.779 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x432.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,114 +83,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Li Zhijian <lizhijian@cn.fujitsu.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-source side always blocks if postcopy is only enabled at source side.
-users are not able to cancel this migration in this case.
+The following changes since commit 15e147b3c778f9f4c08c79b99747b848b6e2117b:
 
-Here we try to get the cm_event every 100ms tile timeout.
+  Merge remote-tracking branch 'remotes/nvme/tags/nvme-next-pull-request' into staging (2021-05-18 12:22:16 +0100)
 
-Signed-off-by: Li Zhijian <lizhijian@cn.fujitsu.com>
----
- migration/rdma.c | 59 ++++++++++++++++++++++++++++++++++++++++++++----
- 1 file changed, 55 insertions(+), 4 deletions(-)
+are available in the Git repository at:
 
-diff --git a/migration/rdma.c b/migration/rdma.c
-index 3b228c46eb..181ad03849 100644
---- a/migration/rdma.c
-+++ b/migration/rdma.c
-@@ -2458,7 +2458,54 @@ err_rdma_source_init:
-     return -1;
- }
- 
--static int qemu_rdma_connect(RDMAContext *rdma, Error **errp)
-+#define RDMA_GET_EVENT_INTERVAL 100000 /* 100ms */
-+static int qemu_get_cm_event_timeout(RDMAContext *rdma,
-+                                     struct rdma_cm_event **cm_event,
-+                                     long sec, Error **errp)
-+{
-+    long wait_ns = 0;
-+    int ret;
-+    int flags = fcntl(rdma->channel->fd, F_GETFL), save_flags;
-+
-+    if (flags == -1) {
-+        perror("failed to get file flags");
-+        return flags;
-+    }
-+    save_flags = flags;
-+    flags |= O_NONBLOCK;
-+    ret = fcntl(rdma->channel->fd, F_SETFL, flags);
-+    if (ret) {
-+        perror("failed to set file flags nonblocking");
-+        return ret;
-+    }
-+
-+retry:
-+    ret = rdma_get_cm_event(rdma->channel, cm_event);
-+    if (ret && errno == EAGAIN) {
-+        if (wait_ns < sec * 1000000) {
-+            perror("rdma_get_cm_event after rdma_connect");
-+            wait_ns += RDMA_GET_EVENT_INTERVAL;
-+            usleep(RDMA_GET_EVENT_INTERVAL);
-+            goto retry;
-+        }
-+    }
-+    if (ret) {
-+        perror("rdma_get_cm_event after rdma_connect");
-+        ERROR(errp, "connecting to destination!");
-+        return ret;
-+    }
-+
-+    /* restore flags */
-+    ret = fcntl(rdma->channel->fd, F_SETFL, save_flags);
-+    if (ret) {
-+        rdma_ack_cm_event(*cm_event);
-+        perror("failed to restore file flags");
-+    }
-+
-+    return ret;
-+}
-+
-+static int qemu_rdma_connect(RDMAContext *rdma, Error **errp, bool return_path)
- {
-     RDMACapabilities cap = {
-                                 .version = RDMA_CONTROL_VERSION_CURRENT,
-@@ -2496,7 +2543,11 @@ static int qemu_rdma_connect(RDMAContext *rdma, Error **errp)
-         goto err_rdma_source_connect;
-     }
- 
--    ret = rdma_get_cm_event(rdma->channel, &cm_event);
-+    if (return_path) {
-+        ret = qemu_get_cm_event_timeout(rdma, &cm_event, 2, errp);
-+    } else {
-+        ret = rdma_get_cm_event(rdma->channel, &cm_event);
-+    }
-     if (ret) {
-         perror("rdma_get_cm_event after rdma_connect");
-         ERROR(errp, "connecting to destination!");
-@@ -4108,7 +4159,7 @@ void rdma_start_outgoing_migration(void *opaque,
-     }
- 
-     trace_rdma_start_outgoing_migration_after_rdma_source_init();
--    ret = qemu_rdma_connect(rdma, errp);
-+    ret = qemu_rdma_connect(rdma, errp, false);
- 
-     if (ret) {
-         goto err;
-@@ -4129,7 +4180,7 @@ void rdma_start_outgoing_migration(void *opaque,
-             goto return_path_err;
-         }
- 
--        ret = qemu_rdma_connect(rdma_return_path, errp);
-+        ret = qemu_rdma_connect(rdma_return_path, errp, true);
- 
-         if (ret) {
-             goto return_path_err;
+  https://gitlab.com/bonzini/qemu.git tags/tags/for-upstream-v2
+
+for you to fetch changes up to 976551ba504a3284f9ab9862d9434b422c6841a1:
+
+  scsi-generic: pass max_segments via max_iov field in BlockLimits (2021-05-18 17:51:15 +0200)
+
+----------------------------------------------------------------
+* submodule cleanups (Philippe, myself)
+* tiny step towards a usable preconfig mode (myself)
+* bump Meson submodule (myself)
+* Kconfig and LOCK_GUARD cleanups (philippe)
+* new x86 CPUID feature (Yang Zhong)
+* "-object qtest" support (myself)
+* Dirty ring support for KVM (Peter)
+* Fixes for 6.0 command line parsing breakage (myself)
+* Fix for macOS 11.3 SDK (Katsuhiro)
+* Fix for scsi-generic handling (myself)
+
+----------------------------------------------------------------
+Katsuhiro Ueno (1):
+      meson: Set implicit_include_directories to false
+
+Paolo Bonzini (11):
+      configure: check for submodules if --with-git-submodules=ignore
+      configure: simplify assignment to GIT_SUBMODULES
+      meson: bump submodule to 0.57.2
+      object: add more commands to preconfig mode
+      qtest: add a QOM object for qtest
+      KVM: do not allow setting properties at runtime
+      remove qemu-options* from root directory
+      replication: move include out of root directory
+      vl: allow not specifying size in -m when using -M memory-backend
+      qemu-config: load modules when instantiating option groups
+      scsi-generic: pass max_segments via max_iov field in BlockLimits
+
+Peter Xu (10):
+      memory: Introduce log_sync_global() to memory listener
+      KVM: Use a big lock to replace per-kml slots_lock
+      KVM: Create the KVMSlot dirty bitmap on flag changes
+      KVM: Provide helper to get kvm dirty log
+      KVM: Provide helper to sync dirty bitmap from slot to ramblock
+      KVM: Simplify dirty log sync in kvm_set_phys_mem
+      KVM: Cache kvm slot dirty bitmap size
+      KVM: Add dirty-ring-size property
+      KVM: Disable manual dirty log when dirty ring enabled
+      KVM: Dirty ring support
+
+Philippe Mathieu-Daudé (3):
+      configure: Only clone softfloat-3 repositories if TCG is enabled
+      hw/mem/nvdimm: Use Kconfig 'imply' instead of 'depends on'
+      tests/qtest/fuzz: Fix build failure
+
+Yang Zhong (1):
+      i386/cpu: Expose AVX_VNNI instruction to guest
+
+ Makefile                                      |   2 +
+ accel/kvm/kvm-all.c                           | 615 ++++++++++++++++++++++----
+ accel/kvm/trace-events                        |   7 +
+ block/file-posix.c                            |   3 +-
+ block/replication.c                           |   2 +-
+ configure                                     |  67 ++-
+ default-configs/devices/ppc64-softmmu.mak     |   1 -
+ hmp-commands.hx                               |   2 +
+ hw/arm/Kconfig                                |   1 +
+ hw/i386/Kconfig                               |   1 +
+ hw/mem/Kconfig                                |   2 -
+ hw/ppc/Kconfig                                |   1 +
+ hw/scsi/scsi-generic.c                        |   6 +-
+ replication.h => include/block/replication.h  |   4 +-
+ include/exec/memory.h                         |  12 +
+ include/hw/core/cpu.h                         |   7 +
+ include/qemu/config-file.h                    |   2 +-
+ qemu-options.h => include/qemu/qemu-options.h |   9 +-
+ include/sysemu/kvm_int.h                      |   7 +-
+ meson                                         |   2 +-
+ meson.build                                   |   1 +
+ migration/colo.c                              |   2 +-
+ os-posix.c                                    |   2 +-
+ os-win32.c                                    |   1 -
+ qapi/qom.json                                 |  23 +-
+ qemu-options-wrapper.h                        |  40 --
+ qemu-options.hx                               |  16 +
+ replication.c                                 |   2 +-
+ softmmu/memory.c                              |  33 +-
+ softmmu/qtest.c                               | 185 +++++++-
+ softmmu/vl.c                                  |  52 ++-
+ stubs/meson.build                             |   1 +
+ stubs/module-opts.c                           |   6 +
+ target/i386/cpu.c                             |   4 +-
+ target/i386/cpu.h                             |   2 +
+ tests/qtest/fuzz/fuzz.c                       |   1 +
+ tests/unit/test-replication.c                 |   2 +-
+ util/qemu-config.c                            |   1 +
+ 38 files changed, 908 insertions(+), 219 deletions(-)
+ rename replication.h => include/block/replication.h (98%)
+ rename qemu-options.h => include/qemu/qemu-options.h (88%)
+ delete mode 100644 qemu-options-wrapper.h
+ create mode 100644 stubs/module-opts.c
 -- 
-2.30.2
-
-
+2.31.1
 
 
