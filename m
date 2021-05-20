@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36DCD38B574
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 19:49:22 +0200 (CEST)
-Received: from localhost ([::1]:55324 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5797038B568
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 19:45:23 +0200 (CEST)
+Received: from localhost ([::1]:47154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljmnR-0003Qm-7v
-	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 13:49:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53162)
+	id 1ljmja-0006Gz-DP
+	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 13:45:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53138)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ljmhc-0003cm-3d
- for qemu-devel@nongnu.org; Thu, 20 May 2021 13:43:20 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:45019)
+ id 1ljmha-0003Ya-Rj
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 13:43:18 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:33548)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ljmhY-0001AH-5F
- for qemu-devel@nongnu.org; Thu, 20 May 2021 13:43:19 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id
- y184-20020a1ce1c10000b02901769b409001so5741058wmg.3
- for <qemu-devel@nongnu.org>; Thu, 20 May 2021 10:43:15 -0700 (PDT)
+ id 1ljmhZ-0001Ay-0C
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 13:43:18 -0400
+Received: by mail-wr1-x435.google.com with SMTP id n2so18597822wrm.0
+ for <qemu-devel@nongnu.org>; Thu, 20 May 2021 10:43:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=xKAsfqZlgQlw53LEWwrI3OJPttiUgB7fACa4Oi4oEMo=;
- b=bqHD+lij5L2oDyyUpb6mch2z5/zFUVEMoGbvGk5czA5kkmS/e6k6lTgKY8wzdNR2oP
- 8Rxmf432QDipJy551BXPnaT4dDlDZbDPxhD/4FrQez0U7ogpDhvuZEwo80nlWIdl0whd
- JlfNfJGD8JWIjEhIqw6KeTNxMCnukTEg2ngZGska+Xf8zDwO75d8IKFsy4ngu1Nh3UZB
- JL/4USirrCjQyQbIVikhsZK3QK3QWJbmEzEYOcGqhlZVSkZCsVS43Gp3RWCDsY8EhqEe
- dW97XCOHi0pMEWuYdIi3DuseBrX095djRbdomabem2BcT9akK5FUHG9yC4fwvejPe1Tu
- rAhQ==
+ bh=AMEc95i31AY77+bT+r3OtP0SO6eeuibPTNGNNWAs+D0=;
+ b=bKXtC5cLcTmq1F9vbjI+y9SXz2J16eIUOO009GcodDmX1BeY9Zp856KHOIzpHtJJC3
+ NqBKRh4XEWYx9mJqELAGBt8QlOyux4w+SkCvUIp/mwwKbC2yatIuJG7EKS0k6nk8qh2h
+ yKCNhxNFoaijlp/ahqSUr5+vVIn29liFUb9di1C5ukrfRNxrSpTNNjA1RTNpyYJS8iCf
+ 5sAh55I6nVx86iGc8RlIfkvdFEdU53Z4S8c3TtLPvwWTXhauYTvz+HofM8+euYQFLBW+
+ vykQnVOQxeqE1C3DBLgqLwGGE3hPGWa+94hdAxhD8jWqgErhXmG4bvzUgaTN+5StWUlS
+ mYCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=xKAsfqZlgQlw53LEWwrI3OJPttiUgB7fACa4Oi4oEMo=;
- b=fNG+hCD3Vwky9VHJaSEi1qlO5BGyihzG3iG3w9kT4sbAuoFwp3UXTHBx/8apgKuhVB
- t1AvVxR4MvAgYOaMYHVT0EuEv5bfSAQYHaA/nDObJ+GOS/+YItDAiQmnk3CVLMoqDYOK
- yau/qvbhcC31Q9XGY3tWiYQ3qHeF/Ik5xYzALmRGCY8dZZcjUiz85nCj0pg72jJ9aQ2r
- IzYI6FVo7h6f9zWaYSWAM1ibACPI+V745lKkp7I0FmFvIZ62reUX3rj1hFiCuy6uwF13
- GejYS+FK2i1Z8ydyyalqJ7C68DTcQCGhnefkqBrw6UkcEw6FillfyvYwHJA0tdy701H6
- XBWg==
-X-Gm-Message-State: AOAM532CVK+O014uFacTtxP3sGkv3TN+q4CiBQ5859358pLJhSS2gcR9
- XtX79XxE6Tz9hPWgj9XE8z+pPw==
-X-Google-Smtp-Source: ABdhPJz4hgMH4uYsRgwm0vfBzEibfU0UHBee84GMp5006dOc2Y2ZFR12rVKp9rdgmCjkOkg/Qf0PgA==
-X-Received: by 2002:a7b:cb85:: with SMTP id m5mr5262138wmi.118.1621532594868; 
- Thu, 20 May 2021 10:43:14 -0700 (PDT)
+ bh=AMEc95i31AY77+bT+r3OtP0SO6eeuibPTNGNNWAs+D0=;
+ b=Cd4TAQUaZk6c1I8tw+Ic9c2X9d9TvCiu7hsu5bRRzFhi4yLDY98kac3dWz1VC9m/bv
+ AD/CuAqQnknVWIyVByVfGKEVNyrbnuYBbNjRYJcc9r8H9r+IQPWq3WnapDH5jWeAHOeD
+ 92RrZBwe84BuX1egK8BQGgefxP+IFg7pnSR/lcKKJztpnLI7IycUQ8x7XK4SVffD+Ky+
+ 0K5H5ii/5In0h1CWqqTn3gprRhiBLLAO77lDJ7lKDU284Q6RxB2kl21bzLMlg1E6NB+y
+ b61J7CVrJijNcLOE6LaH7bJIO89ybTZwIvhtIflw+KXhWLlu9FqLCpngiZnEzU4xV83F
+ ujVg==
+X-Gm-Message-State: AOAM530COG80noApBKpFw3liXop/0no7yVaMLJfao5FAMEG236kKZNYT
+ lr/YJLP7n3QoWyBfbwPJV2+Q2w==
+X-Google-Smtp-Source: ABdhPJySeKT5m08yAD0pHil519FXWIFEpbzKeLSLU4/dgnmJI1nvcXRygPHQ2IOWxK7ZiCpseDrMHg==
+X-Received: by 2002:adf:f20b:: with SMTP id p11mr1389889wro.190.1621532595683; 
+ Thu, 20 May 2021 10:43:15 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id w20sm3540607wmc.44.2021.05.20.10.43.06
+ by smtp.gmail.com with ESMTPSA id e26sm3281333wmh.39.2021.05.20.10.43.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 20 May 2021 10:43:07 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 8D5B11FF93;
+ by zen.linaroharston (Postfix) with ESMTP id C19461FF96;
  Thu, 20 May 2021 18:43:04 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 7/8] gdbstub: tidy away reverse debugging check into
- function
-Date: Thu, 20 May 2021 18:43:02 +0100
-Message-Id: <20210520174303.12310-8-alex.bennee@linaro.org>
+Subject: [PATCH  v1 8/8] plugins/syscall: Added a table-like summary output
+Date: Thu, 20 May 2021 18:43:03 +0100
+Message-Id: <20210520174303.12310-9-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210520174303.12310-1-alex.bennee@linaro.org>
 References: <20210520174303.12310-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,61 +86,157 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>, f4bug@amsat.org,
- stefanha@redhat.com, crosa@redhat.com, pbonzini@redhat.com,
+Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, stefanha@redhat.com,
+ crosa@redhat.com, pbonzini@redhat.com, Mahmoud Mandour <ma.mandourr@gmail.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In theory we don't need an actual record/replay to enact reverse
-debugging on a purely deterministic system (i.e one with no external
-inputs running under icount). Tidy away the logic into a little
-function.
+From: Mahmoud Mandour <ma.mandourr@gmail.com>
 
+Added a table-like output which contains the total number of calls
+for each used syscall along with the number of errors that occurred.
+
+Per-call tracing is still available through supplying the argument
+``print`` to the plugin.
+
+Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Message-Id: <20210519032409.3041-1-ma.mandourr@gmail.com>
 ---
- gdbstub.c | 13 +++++++++++--
- 1 file changed, 11 insertions(+), 2 deletions(-)
+ tests/plugin/syscall.c | 98 +++++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 93 insertions(+), 5 deletions(-)
 
-diff --git a/gdbstub.c b/gdbstub.c
-index 84ce770a04..52bde5bdc9 100644
---- a/gdbstub.c
-+++ b/gdbstub.c
-@@ -465,6 +465,15 @@ int use_gdb_syscalls(void)
-     return gdb_syscall_mode == GDB_SYS_ENABLED;
- }
+diff --git a/tests/plugin/syscall.c b/tests/plugin/syscall.c
+index 53ee2ab6c4..6dd71092e1 100644
+--- a/tests/plugin/syscall.c
++++ b/tests/plugin/syscall.c
+@@ -16,32 +16,120 @@
  
-+static bool stub_can_reverse(void)
+ QEMU_PLUGIN_EXPORT int qemu_plugin_version = QEMU_PLUGIN_VERSION;
+ 
++typedef struct {
++    int64_t num;
++    int64_t calls;
++    int64_t errors;
++} SyscallStats;
++
++static GMutex lock;
++static GHashTable *statistics;
++
++static SyscallStats *get_or_create_entry(int64_t num)
 +{
-+#ifdef CONFIG_USER_ONLY
-+    return false;
-+#else
-+    return replay_mode == REPLAY_MODE_PLAY;
-+#endif
++    SyscallStats *entry =
++        (SyscallStats *) g_hash_table_lookup(statistics, GINT_TO_POINTER(num));
++
++    if (!entry) {
++        entry = g_new0(SyscallStats, 1);
++        entry->num = num;
++        g_hash_table_insert(statistics, GINT_TO_POINTER(num), (gpointer) entry);
++    }
++
++    return entry;
 +}
 +
- /* Resume execution.  */
- static inline void gdb_continue(void)
+ static void vcpu_syscall(qemu_plugin_id_t id, unsigned int vcpu_index,
+                          int64_t num, uint64_t a1, uint64_t a2,
+                          uint64_t a3, uint64_t a4, uint64_t a5,
+                          uint64_t a6, uint64_t a7, uint64_t a8)
  {
-@@ -1880,7 +1889,7 @@ static void handle_step(GArray *params, void *user_ctx)
+-    g_autofree gchar *out = g_strdup_printf("syscall #%" PRIi64 "\n", num);
+-    qemu_plugin_outs(out);
++    if (statistics) {
++        SyscallStats *entry;
++        g_mutex_lock(&lock);
++        entry = get_or_create_entry(num);
++        entry->calls++;
++        g_mutex_unlock(&lock);
++    } else {
++        g_autofree gchar *out = g_strdup_printf("syscall #%" PRIi64 "\n", num);
++        qemu_plugin_outs(out);
++    }
+ }
  
- static void handle_backward(GArray *params, void *user_ctx)
+ static void vcpu_syscall_ret(qemu_plugin_id_t id, unsigned int vcpu_idx,
+                              int64_t num, int64_t ret)
++{
++    if (statistics) {
++        SyscallStats *entry;
++
++        g_mutex_lock(&lock);
++        /* Should always return an existent entry. */
++        entry = get_or_create_entry(num);
++        if (ret < 0) {
++            entry->errors++;
++        }
++        g_mutex_unlock(&lock);
++    } else {
++        g_autofree gchar *out;
++        out = g_strdup_printf("syscall #%" PRIi64 " returned -> %" PRIi64 "\n",
++                num, ret);
++        qemu_plugin_outs(out);
++    }
++}
++
++static void print_entry(gpointer val, gpointer user_data)
  {
--    if (replay_mode != REPLAY_MODE_PLAY) {
-+    if (!stub_can_reverse()) {
-         put_packet("E22");
-     }
-     if (params->len == 1) {
-@@ -2153,7 +2162,7 @@ static void handle_query_supported(GArray *params, void *user_ctx)
-         g_string_append(gdbserver_state.str_buf, ";qXfer:features:read+");
-     }
+     g_autofree gchar *out;
+-    out = g_strdup_printf("syscall #%" PRIi64 " returned -> %" PRIi64 "\n",
+-            num, ret);
++    SyscallStats *entry = (SyscallStats *) val;
++    int64_t syscall_num = entry->num;
++    out = g_strdup_printf(
++        "%-13" PRIi64 "%-6" PRIi64 " %" PRIi64 "\n",
++        syscall_num, entry->calls, entry->errors);
+     qemu_plugin_outs(out);
+ }
  
--    if (replay_mode == REPLAY_MODE_PLAY) {
-+    if (stub_can_reverse()) {
-         g_string_append(gdbserver_state.str_buf,
-             ";ReverseStep+;ReverseContinue+");
-     }
++static gint comp_func(gconstpointer ea, gconstpointer eb)
++{
++    SyscallStats *ent_a = (SyscallStats *) ea;
++    SyscallStats *ent_b = (SyscallStats *) eb;
++
++    return ent_a->calls > ent_b->calls ? -1 : 1;
++}
++
+ /* ************************************************************************* */
++static void plugin_exit(qemu_plugin_id_t id, void *p)
++{
++    if (!statistics) {
++        return;
++    }
++
++    g_mutex_lock(&lock);
++    GList *entries = g_hash_table_get_values(statistics);
++    entries = g_list_sort(entries, comp_func);
++    qemu_plugin_outs("syscall no.  calls  errors\n");
+ 
+-static void plugin_exit(qemu_plugin_id_t id, void *p) {}
++    g_list_foreach(entries, print_entry, NULL);
++
++    g_list_free(entries);
++    g_hash_table_destroy(statistics);
++    g_mutex_unlock(&lock);
++}
+ 
+ QEMU_PLUGIN_EXPORT int qemu_plugin_install(qemu_plugin_id_t id,
+                                            const qemu_info_t *info,
+                                            int argc, char **argv)
+ {
++    if (argc == 0) {
++        statistics = g_hash_table_new_full(NULL, g_direct_equal, NULL, g_free);
++    } else {
++        for (int i = 0; i < argc; i++) {
++            if (g_strcmp0(argv[i], "print") != 0) {
++                fprintf(stderr, "unsupported argument: %s\n", argv[i]);
++                return -1;
++            }
++        }
++    }
++
+     qemu_plugin_register_vcpu_syscall_cb(id, vcpu_syscall);
+     qemu_plugin_register_vcpu_syscall_ret_cb(id, vcpu_syscall_ret);
+     qemu_plugin_register_atexit_cb(id, plugin_exit, NULL);
 -- 
 2.20.1
 
