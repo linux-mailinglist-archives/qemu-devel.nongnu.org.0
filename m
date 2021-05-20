@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D43A38B82A
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 22:14:51 +0200 (CEST)
-Received: from localhost ([::1]:50534 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EC7338B836
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 22:18:26 +0200 (CEST)
+Received: from localhost ([::1]:56184 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljp4E-0000wX-7z
-	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 16:14:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58210)
+	id 1ljp7h-0004wE-CI
+	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 16:18:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58640)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1ljp2z-0000Ga-8H
- for qemu-devel@nongnu.org; Thu, 20 May 2021 16:13:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54613)
+ id 1ljp5t-0003Uq-5c
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 16:16:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26145)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1ljp2w-0005VJ-DD
- for qemu-devel@nongnu.org; Thu, 20 May 2021 16:13:32 -0400
+ id 1ljp5r-0007Ol-JX
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 16:16:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621541608;
+ s=mimecast20190719; t=1621541790;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=qgViUnzwmAn3l2PkqOh7U0s8ouhJ2+RO5BgabplXVqA=;
- b=iIiT6b0F63Av/oypEaj2y/+0cw1zAI3tz4CyWdBqGTV9hUh4y5+rwOwGNrBWM3NSH8HBVr
- lXGnK2nfe+f5R4BM7NGU+1BjiD3M1MDajELL8oVHZJPNaOnDxieZCfsp0EdGUe5Q8LA++1
- PKiQRwlmx4JTQmE+04mHLZmo3aw436Y=
+ bh=P6l+6GC0LgvbBsnc1hlStKMXjECUinxVAPUr+NG8V4w=;
+ b=H2h043qwyA2UTdK5iJr0zJAVZrwKRO6ZIPoomI9iDSQ15R4qxd9+BaqrOlYwiGyzCsJCkk
+ TUUzjQQhbl/4eFKmkUQNiA8n3m5spz7rJkvSzlERe8qniZGluO/3+emsEOlDLynC8zvxjM
+ me4SyNyg/zT2J7i16ZjmFzIQyPgWDrI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-428-MyyO7RqxPR6vDXM9TioUuw-1; Thu, 20 May 2021 16:13:26 -0400
-X-MC-Unique: MyyO7RqxPR6vDXM9TioUuw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-586-n3O2AcmwOhW1UKMEv-bkxw-1; Thu, 20 May 2021 16:16:29 -0400
+X-MC-Unique: n3O2AcmwOhW1UKMEv-bkxw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F0FDA180FD66
- for <qemu-devel@nongnu.org>; Thu, 20 May 2021 20:13:25 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AF2FC8015F5
+ for <qemu-devel@nongnu.org>; Thu, 20 May 2021 20:16:28 +0000 (UTC)
 Received: from localhost (ovpn-115-27.rdu2.redhat.com [10.10.115.27])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B9F9C5D9DC;
- Thu, 20 May 2021 20:13:25 +0000 (UTC)
-Date: Thu, 20 May 2021 16:13:25 -0400
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6BE3660C04;
+ Thu, 20 May 2021 20:16:26 +0000 (UTC)
+Date: Thu, 20 May 2021 16:16:26 -0400
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: Vitaly Kuznetsov <vkuznets@redhat.com>
-Subject: Re: [PATCH v6 07/19] i386: drop FEAT_HYPERV feature leaves
-Message-ID: <20210520201325.7nvg5ggxte4kxelq@habkost.net>
+Subject: Re: [PATCH v6 08/19] i386: introduce hv_cpuid_cache
+Message-ID: <20210520201626.kdx2rla7s5rfcveo@habkost.net>
 References: <20210422161130.652779-1-vkuznets@redhat.com>
- <20210422161130.652779-8-vkuznets@redhat.com>
+ <20210422161130.652779-9-vkuznets@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210422161130.652779-8-vkuznets@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <20210422161130.652779-9-vkuznets@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -83,35 +83,17 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Apr 22, 2021 at 06:11:18PM +0200, Vitaly Kuznetsov wrote:
-> Hyper-V feature leaves are weird. We have some of them in
-> feature_word_info[] array but we don't use feature_word_info
-> magic to enable them. Neither do we use feature_dependencies[]
-> mechanism to validate the configuration as it doesn't allign
-> well with Hyper-V's many-to-many dependency chains. Some of
-> the feature leaves hold not only feature bits, but also values.
-> E.g. FEAT_HV_NESTED_EAX contains both features and the supported
-> Enlightened VMCS range.
+On Thu, Apr 22, 2021 at 06:11:19PM +0200, Vitaly Kuznetsov wrote:
+> Just like with cpuid_cache, it makes no sense to call
+> KVM_GET_SUPPORTED_HV_CPUID more than once and instead of (ab)using
+> env->features[] and/or trying to keep all the code in one place, it is
+> better to introduce persistent hv_cpuid_cache and hv_cpuid_get_host()
+> accessor to it.
 > 
-> Hyper-V features are already represented in 'struct X86CPU' with
-> uint64_t hyperv_features so duplicating them in env->features adds
-> little (or zero) benefits. THe other half of Hyper-V emulation features
-> is also stored with values in hyperv_vendor_id[], hyperv_limits[],...
-> so env->features[] is already incomplete.
-> 
-> Remove Hyper-V feature leaves from env->features[] completely.
-> kvm_hyperv_properties[] is converted to using raw CPUID func/reg
-> pairs for features, this allows us to get rid of hv_cpuid_get_fw()
-> conversion.
+> Note, hv_cpuid_get_fw() is converted to using hv_cpuid_get_host()
+> just to be removed later with Hyper-V specific feature words.
 > 
 > Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
-> ---
->  target/i386/cpu.c     |  90 +----------------------------------
->  target/i386/cpu.h     |   5 --
->  target/i386/kvm/kvm.c | 108 ++++++++++++++----------------------------
->  3 files changed, 37 insertions(+), 166 deletions(-)
-
-Nice diffstat!
 
 Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
 
