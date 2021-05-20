@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A52D038A502
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 12:10:36 +0200 (CEST)
-Received: from localhost ([::1]:37918 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7E0F38A67A
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 12:26:39 +0200 (CEST)
+Received: from localhost ([::1]:48818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljfdT-00023h-87
-	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 06:10:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55920)
+	id 1ljfsv-0001wh-E6
+	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 06:26:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33494)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <maz@kernel.org>) id 1ljfch-0001N7-C4
- for qemu-devel@nongnu.org; Thu, 20 May 2021 06:09:47 -0400
-Received: from mail.kernel.org ([198.145.29.99]:34604)
+ (Exim 4.90_1) (envelope-from <maz@kernel.org>) id 1ljfqk-00018e-G6
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 06:24:18 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45584)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <maz@kernel.org>) id 1ljfcf-0002AH-EP
- for qemu-devel@nongnu.org; Thu, 20 May 2021 06:09:47 -0400
+ (Exim 4.90_1) (envelope-from <maz@kernel.org>) id 1ljfqh-0002Xu-Sa
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 06:24:18 -0400
 Received: from disco-boy.misterjones.org (disco-boy.misterjones.org
  [51.254.78.96])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id E512C61D6A;
- Thu, 20 May 2021 10:09:43 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 142BA61279;
+ Thu, 20 May 2021 10:24:14 +0000 (UTC)
 Received: from 78.163-31-62.static.virginmediabusiness.co.uk ([62.31.163.78]
  helo=why.misterjones.org)
  by disco-boy.misterjones.org with esmtpsa (TLS1.3) tls
  TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
  (envelope-from <maz@kernel.org>)
- id 1ljfcb-002Ul9-16; Thu, 20 May 2021 11:09:41 +0100
-Date: Thu, 20 May 2021 11:09:40 +0100
-Message-ID: <8735uhvhqz.wl-maz@kernel.org>
+ id 1ljfqe-002V85-2q; Thu, 20 May 2021 11:24:12 +0100
+Date: Thu, 20 May 2021 11:24:11 +0100
+Message-ID: <871ra1vh2s.wl-maz@kernel.org>
 From: Marc Zyngier <maz@kernel.org>
 To: Steven Price <steven.price@arm.com>
-Subject: Re: [PATCH v12 6/8] arm64: kvm: Expose KVM_ARM_CAP_MTE
-In-Reply-To: <4e1fc7b7-ea8c-a87c-9177-d9e03ff96cb8@arm.com>
+Subject: Re: [PATCH v12 8/8] KVM: arm64: Document MTE capability and ioctl
+In-Reply-To: <3b4cca00-e81d-322e-6f65-4d0850aac5a5@arm.com>
 References: <20210517123239.8025-1-steven.price@arm.com>
- <20210517123239.8025-7-steven.price@arm.com>
- <87tun1tg1l.wl-maz@kernel.org>
- <4e1fc7b7-ea8c-a87c-9177-d9e03ff96cb8@arm.com>
+ <20210517123239.8025-9-steven.price@arm.com>
+ <87r1i5teou.wl-maz@kernel.org>
+ <3b4cca00-e81d-322e-6f65-4d0850aac5a5@arm.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
  FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
  (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
@@ -89,74 +89,124 @@ Cc: Mark Rutland <mark.rutland@arm.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 19 May 2021 14:26:31 +0100,
+On Wed, 19 May 2021 15:09:23 +0100,
 Steven Price <steven.price@arm.com> wrote:
 > 
-> On 17/05/2021 18:40, Marc Zyngier wrote:
-> > On Mon, 17 May 2021 13:32:37 +0100,
+> On 17/05/2021 19:09, Marc Zyngier wrote:
+> > On Mon, 17 May 2021 13:32:39 +0100,
 > > Steven Price <steven.price@arm.com> wrote:
 > >>
-> >> It's now safe for the VMM to enable MTE in a guest, so expose the
-> >> capability to user space.
+> >> A new capability (KVM_CAP_ARM_MTE) identifies that the kernel supports
+> >> granting a guest access to the tags, and provides a mechanism for the
+> >> VMM to enable it.
+> >>
+> >> A new ioctl (KVM_ARM_MTE_COPY_TAGS) provides a simple way for a VMM to
+> >> access the tags of a guest without having to maintain a PROT_MTE mapping
+> >> in userspace. The above capability gates access to the ioctl.
 > >>
 > >> Signed-off-by: Steven Price <steven.price@arm.com>
 > >> ---
-> >>  arch/arm64/kvm/arm.c      | 9 +++++++++
-> >>  arch/arm64/kvm/sys_regs.c | 3 +++
-> >>  2 files changed, 12 insertions(+)
+> >>  Documentation/virt/kvm/api.rst | 53 ++++++++++++++++++++++++++++++++++
+> >>  1 file changed, 53 insertions(+)
 > >>
-> >> diff --git a/arch/arm64/kvm/arm.c b/arch/arm64/kvm/arm.c
-> >> index 1cb39c0803a4..e89a5e275e25 100644
-> >> --- a/arch/arm64/kvm/arm.c
-> >> +++ b/arch/arm64/kvm/arm.c
-> >> @@ -93,6 +93,12 @@ int kvm_vm_ioctl_enable_cap(struct kvm *kvm,
-> >>  		r = 0;
-> >>  		kvm->arch.return_nisv_io_abort_to_user = true;
-> >>  		break;
-> >> +	case KVM_CAP_ARM_MTE:
-> >> +		if (!system_supports_mte() || kvm->created_vcpus)
-> >> +			return -EINVAL;
-> >> +		r = 0;
-> >> +		kvm->arch.mte_enabled = true;
+> >> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+> >> index 22d077562149..a31661b870ba 100644
+> >> --- a/Documentation/virt/kvm/api.rst
+> >> +++ b/Documentation/virt/kvm/api.rst
+> >> @@ -5034,6 +5034,40 @@ see KVM_XEN_VCPU_SET_ATTR above.
+> >>  The KVM_XEN_VCPU_ATTR_TYPE_RUNSTATE_ADJUST type may not be used
+> >>  with the KVM_XEN_VCPU_GET_ATTR ioctl.
+> >>  
+> >> +4.130 KVM_ARM_MTE_COPY_TAGS
+> >> +---------------------------
+> >> +
+> >> +:Capability: KVM_CAP_ARM_MTE
+> >> +:Architectures: arm64
+> >> +:Type: vm ioctl
+> >> +:Parameters: struct kvm_arm_copy_mte_tags
+> >> +:Returns: 0 on success, < 0 on error
+> >> +
+> >> +::
+> >> +
+> >> +  struct kvm_arm_copy_mte_tags {
+> >> +	__u64 guest_ipa;
+> >> +	__u64 length;
+> >> +	union {
+> >> +		void __user *addr;
+> >> +		__u64 padding;
+> >> +	};
+> >> +	__u64 flags;
+> >> +	__u64 reserved[2];
+> >> +  };
 > > 
-> > As far as I can tell from the architecture, this isn't valid for a
-> > 32bit guest.
+> > This doesn't exactly match the structure in the previous patch :-(.
 > 
-> Indeed, however the MTE flag is a property of the VM not of the vCPU.
-> And, unless I'm mistaken, it's technically possible to create a VM where
-> some CPUs are 32 bit and some 64 bit. Not that I can see much use of a
-> configuration like that.
+> :( I knew there was a reason I didn't include it in the documentation
+> for the first 9 versions... I'll fix this up, thanks for spotting it.
+> 
+> >> +
+> >> +Copies Memory Tagging Extension (MTE) tags to/from guest tag memory. The
+> >> +``guest_ipa`` and ``length`` fields must be ``PAGE_SIZE`` aligned. The ``addr``
+> >> +fieldmust point to a buffer which the tags will be copied to or from.
+> >> +
+> >> +``flags`` specifies the direction of copy, either ``KVM_ARM_TAGS_TO_GUEST`` or
+> >> +``KVM_ARM_TAGS_FROM_GUEST``.
+> >> +
+> >> +The size of the buffer to store the tags is ``(length / MTE_GRANULE_SIZE)``
+> > 
+> > Should we add a UAPI definition for MTE_GRANULE_SIZE?
+> 
+> I wasn't sure whether to export this or not. The ioctl is based around
+> the existing ptrace interface (PTRACE_{PEEK,POKE}MTETAGS) which doesn't
+> expose a UAPI definition. Admittedly the documentation there also just
+> says "16-byte granule" rather than MTE_GRANULE_SIZE.
+> 
+> So I'll just remove the reference to MTE_GRANULE_SIZE in the
+> documentation unless you feel that we should have a UAPI definition.
 
-It looks that this is indeed a bug, and I'm on my way to squash it.
-Can't believe we allowed that for so long...
+Dropping the mention of this symbol and replacing it by the value 16
+matches the architecture and doesn't require any extra UAPI
+definition, so let's just do that.
 
-But the architecture clearly states:
+> 
+> >> +bytes (i.e. 1/16th of the corresponding size). Each byte contains a single tag
+> >> +value. This matches the format of ``PTRACE_PEEKMTETAGS`` and
+> >> +``PTRACE_POKEMTETAGS``.
+> >> +
+> >>  5. The kvm_run structure
+> >>  ========================
+> >>  
+> >> @@ -6362,6 +6396,25 @@ default.
+> >>  
+> >>  See Documentation/x86/sgx/2.Kernel-internals.rst for more details.
+> >>  
+> >> +7.26 KVM_CAP_ARM_MTE
+> >> +--------------------
+> >> +
+> >> +:Architectures: arm64
+> >> +:Parameters: none
+> >> +
+> >> +This capability indicates that KVM (and the hardware) supports exposing the
+> >> +Memory Tagging Extensions (MTE) to the guest. It must also be enabled by the
+> >> +VMM before the guest will be granted access.
+> >> +
+> >> +When enabled the guest is able to access tags associated with any memory given
+> >> +to the guest. KVM will ensure that the pages are flagged ``PG_mte_tagged`` so
+> >> +that the tags are maintained during swap or hibernation of the host; however
+> >> +the VMM needs to manually save/restore the tags as appropriate if the VM is
+> >> +migrated.
+> >> +
+> >> +When enabled the VMM may make use of the ``KVM_ARM_MTE_COPY_TAGS`` ioctl to
+> >> +perform a bulk copy of tags to/from the guest.
+> >> +
+> > 
+> > Missing limitation to AArch64 guests.
+> 
+> As mentioned previously it's not technically limited to AArch64, but
+> I'll expand this to make it clear that MTE isn't usable from a AArch32 VCPU.
 
-<quote>
-These features are supported in AArch64 state only.
-</quote>
-
-So I'd expect something like:
-
-diff --git a/arch/arm64/kvm/reset.c b/arch/arm64/kvm/reset.c
-index 956cdc240148..50635eacfa43 100644
---- a/arch/arm64/kvm/reset.c
-+++ b/arch/arm64/kvm/reset.c
-@@ -220,7 +220,8 @@ int kvm_reset_vcpu(struct kvm_vcpu *vcpu)
- 	switch (vcpu->arch.target) {
- 	default:
- 		if (test_bit(KVM_ARM_VCPU_EL1_32BIT, vcpu->arch.features)) {
--			if (!cpus_have_const_cap(ARM64_HAS_32BIT_EL1)) {
-+			if (!cpus_have_const_cap(ARM64_HAS_32BIT_EL1) ||
-+			    vcpu->kvm->arch.mte_enabled) {
- 				ret = -EINVAL;
- 				goto out;
- 			}
-
-that makes it completely impossible to create 32bit CPUs within a
-MTE-enabled guest.
-
-Thanks,
+I believe the architecture is quite clear that it *is* limited to
+AArch64. The clarification is welcome though.
 
 	M.
 
