@@ -2,74 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F263938AFB5
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 15:10:31 +0200 (CEST)
-Received: from localhost ([::1]:37596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EC0038AFBE
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 May 2021 15:13:18 +0200 (CEST)
+Received: from localhost ([::1]:41856 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljiRa-0000yo-Qw
-	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 09:10:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41894)
+	id 1ljiUH-00042N-5S
+	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 09:13:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42270)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ljiQN-0007og-Dl
- for qemu-devel@nongnu.org; Thu, 20 May 2021 09:09:15 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:44021)
+ id 1ljiS2-0002tk-Mm
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 09:11:00 -0400
+Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:43668)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ljiQI-0001cm-AM
- for qemu-devel@nongnu.org; Thu, 20 May 2021 09:09:15 -0400
-Received: by mail-wm1-x332.google.com with SMTP id
- z85-20020a1c7e580000b029017a76f3afbaso2663024wmc.2
- for <qemu-devel@nongnu.org>; Thu, 20 May 2021 06:09:09 -0700 (PDT)
+ id 1ljiRz-0002lG-Jh
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 09:10:58 -0400
+Received: by mail-ej1-x635.google.com with SMTP id l4so25179095ejc.10
+ for <qemu-devel@nongnu.org>; Thu, 20 May 2021 06:10:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=7gjzzaVXa0Sy8IMXM97M+gM0f0kAcQs0lDAVE2RbtsU=;
- b=Iy2l+jH13H23q1stoAEo+wEqU4UKP+VtGOPCGoCP39WK4THr1fTKMF4EOetjla12kH
- pFnqIYo5Xq/Y+2oJd0AhmpFL1ZJgtlztcLGomR8EPIoWZjIJkIzZ/orbaoKyeOcV4pq3
- 2Paamwj029N8S8WhGlqm2jS6THaFPSFSrZgZrae6CxNl9lXTfLx97Do/nw07hLqRJQB+
- 6tnFbT2G0dwEFs5UXfevp1PM6NEnPPHv9/W3NsKG09tSDOwsx8Uv6i24Y/DfvnNt7mWU
- zOVCfbQSRcfi6CDVeSJbQVxT/ZaJ14/2alh/B4o0PAqB7OFVOMwlF31ZTXTfaQIJVB4C
- Z3xw==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=XK/k8Hwg70+xMCTfbFNGsb0UKGrM5B3TmgWFj24X+/0=;
+ b=gPzhY+xA5ICMVnfbaXll/EahhZ29sKNXIneBMVpoNZlGP2t3g5zxgzats30Ufhn2Rj
+ I7SvZKWoCYIJnDnPQFFii4fbAjvpP+RR7oypWC5c0Oyv/zN74p1zlaqUp9vd9VhEs/4O
+ Z0G5guXdpp1/Rx5R6yWZyLVZHEHz8Ks8vv7pFr8yqohhwU0pWXbzJjNSKwbWd/ivL7r7
+ FlBJBXB0aRJmkRs1XuBFy4M1rn1KVqhhsomhnSU33w9kwy6yFIdXvExF3DegQw2wa/4E
+ biIaVmSmCs0+JwCj2qrkISP933PK0PcGJ7barYhY6tzjVls2pB9eWlWBP1kOVgVwSWWX
+ RZrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=7gjzzaVXa0Sy8IMXM97M+gM0f0kAcQs0lDAVE2RbtsU=;
- b=mtH4+JIiLwz0HWYzhGSCVfoSsGRTfymAuvxllblhO5Yoyk4483ipCTuEvkHlSIwbLp
- fmczWmUxB68zvz327+VnQIA9gMzfZhIgnTnSg8zzA4EMzTzWckhJX/v5wWBy5KDUGGnA
- ywxrfKnRFzQM+AgzFDOZcAWZ3ZKQqRxtizQ7VfiJ0IQiVOH4g7XqwSRIwoIa6Xysia6+
- SXDn6EO6KwDFUQxDCVIM5HS0/BY0CXNuCkyWYenK4wv0WNvoNVyuzhZlk2PGoIVnn6cl
- pD6+XhUOL2nYECSLQRGxJjyt0uOBShAHofhYAi2E4OMyuqO/1cgiDFdtupxadC9nDzkE
- 7Rxg==
-X-Gm-Message-State: AOAM5321/01dKLBondLjklnysaMP/LXiCfsUrRVJVtEjT1CF6FZ5G16m
- 06PwtOi7U97NuSPlqb/yYjGbtw==
-X-Google-Smtp-Source: ABdhPJw54ynmXtwfkmdRrKDWXNWiCtkfAi1qTnwVS2ejPksreCwWMBFEJMN0s+iisdp1BamZvd08cw==
-X-Received: by 2002:a1c:f30a:: with SMTP id q10mr3604376wmq.138.1621516148684; 
- Thu, 20 May 2021 06:09:08 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id g10sm3351951wrq.12.2021.05.20.06.09.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 May 2021 06:09:08 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Subject: [PATCH] target/arm: Use correct SP in M-profile exception return
-Date: Thu, 20 May 2021 14:09:05 +0100
-Message-Id: <20210520130905.2049-1-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=XK/k8Hwg70+xMCTfbFNGsb0UKGrM5B3TmgWFj24X+/0=;
+ b=DJDEpFoi0EULPjF4qP1Qb7MZygqQgq4WMQLqoH6xwQbdolgvD7HkkSf/A+/MQdp0sw
+ SR8KGStbFeGO0Wgwp/Z0x6MefmOfJHw2SAyJTSOp0AjTBHll8DLO5Sm461XxxQ3snmY8
+ ERebKajDWDH0o69PTe62ZG0Kymh7oOIAv2UyohQTJtai+3fktF/kkGrFEYk4oAgGq41C
+ EuPqGP2GwdjOtU4o2iAdNOiSTTRAC+DwdNxXbTTEnnyZrWt4gLZYnS6DrbXZ1itWqSPc
+ JfW9XLETU4+d5b6y5Eqg5EjQH41SlQaw88+ZTC9BmZRomCvvx3xnYy5YtuyOvn6cOpbF
+ 9IkA==
+X-Gm-Message-State: AOAM532ntjGzz8bRs82+uCAluL7/u2PoZpO0a+8FilyoVmBeRdYbUjMj
+ i2W0hKCBc7I2PxzF8WHramANU4SKnDa23SOSG0aPdQ==
+X-Google-Smtp-Source: ABdhPJw0uRWPOk7uvfooR3gq9hwAW3TygS3lkL1Ge4vg/UrYiVOUcqop5jMO3Wva25wO6YFXlYt6S90rPFLSxoKLkag=
+X-Received: by 2002:a17:906:b1cc:: with SMTP id
+ bv12mr4512930ejb.407.1621516253973; 
+ Thu, 20 May 2021 06:10:53 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x332.google.com
+References: <20210503104456.1036472-1-thuth@redhat.com>
+ <CAFEAcA8k1DnOFT+5pjQ4ytene3asVDKB7TUOZgGhucTp_ypz2g@mail.gmail.com>
+ <66206f67-f3c8-eb1c-fd5d-8c7555fe5316@redhat.com>
+ <CAFEAcA_9o+h29L1Y0BVFhg9JbQbo6A=MgGwCaH_=vt3OhcERBw@mail.gmail.com>
+ <c748372a-d585-7777-9dda-9faf33e97e30@redhat.com>
+ <d5bf0064-052e-a0c7-cc17-72db815949e2@redhat.com>
+ <b2a28a69-2525-b07e-bec8-65d7439f1154@redhat.com>
+ <11382e1f-4ab9-6f04-6c53-938bd50a1e78@redhat.com>
+ <9840231d-9b5b-a61e-fd8c-098c1a9a7596@redhat.com>
+ <75e088da-b815-8f97-acf2-1743205967f5@redhat.com>
+ <3b1e8f37-7d38-1450-b288-c23c2d14b90a@redhat.com>
+ <924f165c-369e-7f52-7287-fc7211c6abbf@redhat.com>
+ <8dd49eba-29c8-617c-c61a-d5c7e0bcacec@redhat.com>
+In-Reply-To: <8dd49eba-29c8-617c-c61a-d5c7e0bcacec@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 20 May 2021 14:10:35 +0100
+Message-ID: <CAFEAcA9YDZa=+XjxswAhB8bOpUS1Aypw-5dbtTTfz3dd+gxHjw@mail.gmail.com>
+Subject: Re: [PULL 00/10] Gitlab-CI, qtest, moxie removal and misc patches
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::635;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x635.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,57 +91,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When an M-profile CPU is restoring registers from the stack on
-exception return, the stack pointer to use is determined based on
-bits in the magic exception return type value.  We were not getting
-this logic entirely correct.
+On Thu, 20 May 2021 at 14:06, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
+m> wrote:
+>
+> On 5/20/21 9:43 AM, Paolo Bonzini wrote:
+> > On 20/05/21 07:08, Thomas Huth wrote:
+> >>> OK... Not sure how to detect it from ninja then.
+> >>
+> >> Every time you pull, there could be changes to the "configure" script
+> >> which affect the build ... I guess you also won't notice those when
+> >> you're only compiling with ninja? Thus at least after pulling from
+> >> upstream, I think you have to type "make" once at least.
+> >
+> > Yes, and using "ninja" directly is not supported.
+>
+> Unrelated to my issue, but I find it unfair to state "using
+> ninja directly is not supported" when the majority of the
+> QEMU developers don't have access to the Meson 0.57 bugfix.
 
-Whether we use one of the Secure stack pointers or one of the
-Non-Secure stack pointers depends on the EXCRET.S bit.  However,
-whether we use the MSP or the PSP then depends on the SPSEL bit in
-either the CONTROL_S or CONTROL_NS register.  We were incorrectly
-selecting MSP vs PSP based on the EXCRET.SPSEL bit.
+I dunno about "unfair". It's simply the case that the only way we document
+to build QEMU is to run 'make'. Anything else might or might not work.
+If there's an issue that we should be trying to fix by updating our
+meson submodule, we should address it by making that update.
 
-(In the pseudocode this is in the PopStack() function, which calls
-LookUpSp_with_security_mode() which in turn looks at the relevant
-CONTROL.SPSEL bit.)
-
-The buggy behaviour wasn't noticeable in most cases, because we write
-EXCRET.SPSEL to the CONTROL.SPSEL bit for the S/NS register selected
-by EXCRET.ES, so we only do the wrong thing when EXCRET.S and
-EXCRET.ES are different.  This will happen when secure code takes a
-secure exception, which then tail-chains to a non-secure exception
-which finally returns to the original secure code.
-
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
-This was noticed by the Arm TF-M folks, who have a pending change
-to their code which will run into the situation we mishandle.
----
- target/arm/m_helper.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/target/arm/m_helper.c b/target/arm/m_helper.c
-index d63ae465e1e..eda74e55450 100644
---- a/target/arm/m_helper.c
-+++ b/target/arm/m_helper.c
-@@ -1597,10 +1597,11 @@ static void do_v7m_exception_exit(ARMCPU *cpu)
-          * We use this limited C variable scope so we don't accidentally
-          * use 'frame_sp_p' after we do something that makes it invalid.
-          */
-+        bool spsel = env->v7m.control[return_to_secure] & R_V7M_CONTROL_SPSEL_MASK;
-         uint32_t *frame_sp_p = get_v7m_sp_ptr(env,
-                                               return_to_secure,
-                                               !return_to_handler,
--                                              return_to_sp_process);
-+                                              spsel);
-         uint32_t frameptr = *frame_sp_p;
-         bool pop_ok = true;
-         ARMMMUIdx mmu_idx;
--- 
-2.20.1
-
+thanks
+-- PMM
 
