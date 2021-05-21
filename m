@@ -2,74 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3804138C565
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 May 2021 13:07:38 +0200 (CEST)
-Received: from localhost ([::1]:60538 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69FD038C592
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 May 2021 13:21:15 +0200 (CEST)
+Received: from localhost ([::1]:37224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lk30D-0007je-Ai
-	for lists+qemu-devel@lfdr.de; Fri, 21 May 2021 07:07:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58108)
+	id 1lk3DO-0003Fm-1u
+	for lists+qemu-devel@lfdr.de; Fri, 21 May 2021 07:21:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60856)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <viresh.kumar@linaro.org>)
- id 1lk2zU-000751-FA
- for qemu-devel@nongnu.org; Fri, 21 May 2021 07:06:52 -0400
-Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533]:38463)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <viresh.kumar@linaro.org>)
- id 1lk2zS-0003R8-Ht
- for qemu-devel@nongnu.org; Fri, 21 May 2021 07:06:52 -0400
-Received: by mail-pg1-x533.google.com with SMTP id 6so13933420pgk.5
- for <qemu-devel@nongnu.org>; Fri, 21 May 2021 04:06:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=iWD9Tc/v/LNCeNJ/pfXU/wGEcMZsUwMNmBhpAyUWFGQ=;
- b=qCt9O7kApvXKgwoxZ/K+ilJuq/YL130LjRG5j0s+2Py3vMOdYy5vkrXKcOvbpmmz+v
- HqLifWyxe8BKueDeJ4o2fECaQ12E4TVVa81Cg7JzP7+YeAuxNyIdEqUEIXXeb19wEyt6
- zdpNZ7dUCjdSRZVlXicQ48PA2bZGC2vD4Ymml4u8gzS43XUocPZj8WDT/1SHzjunrQNI
- XhTo6XNXpUppyoq1bAGqXb39WjhNWLOJebcFGjVs26LUUVk/OJzpJbCIkFW8J+aGQoqc
- 9m2gqBWG/fFUkhOtDJR+rLmSSqTE37XFEX8DsOLp84em/vdPDP4bSBFkNC0xTDgR/T2W
- ZKHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=iWD9Tc/v/LNCeNJ/pfXU/wGEcMZsUwMNmBhpAyUWFGQ=;
- b=X9JzltBuF9AhT5Mvh5vWzkGXAP+ukAgHmko19/ZcLOslpU5MF4lTiHHa8AUYXXv8So
- 6sd4MZUHJ1PWl05RlirzSC3exAhwpuVtK0jZiBMTJqQirqzZKgqp+2gJJGRCxmFXgeP3
- vQItD7HGVYjYx15yo9kQkfhveWL+KTzmx507q4y8Ldhqnur07v4SJ0hSc1Uk9qveqzMb
- HFPVtKyl4PmgpZKzbBkEifferXSyVS0uMOQS2kdP8NtojhYc4JyBW4uQ5BjidHJkmwI6
- TRTJS+FJlYibyy1EmREIYUZLxJLDJA8QBnwa3dY4Ot2uE5FKuW6FSWwk3bJsBjcMCKiX
- eoKg==
-X-Gm-Message-State: AOAM531ED7xTWdbGgLTXnoWv8IeL3rvn9Eu3GN/ZEvbdhBXjqD4xKmw+
- Scu0p8fWkbM15xl3TA9HMooeLg==
-X-Google-Smtp-Source: ABdhPJyUMQXw09zBQOxfwAUPhmEqOvmgQZA5jbf/NRRpKEMVl2mXpM94z02o/fziYhWGnmAdHeqESA==
-X-Received: by 2002:a63:3686:: with SMTP id d128mr9187229pga.305.1621595208064; 
- Fri, 21 May 2021 04:06:48 -0700 (PDT)
-Received: from localhost ([136.185.154.93])
- by smtp.gmail.com with ESMTPSA id i8sm4623246pgt.58.2021.05.21.04.06.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 May 2021 04:06:47 -0700 (PDT)
-Date: Fri, 21 May 2021 16:36:44 +0530
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: stratos-dev@op-lists.linaro.org
-Subject: Re: [RUST] Add crate for generic vhost-user-i2c backend daemon
-Message-ID: <20210521110644.7rvps7zo4m42vefk@vireshk-i7>
-References: <20210428122247.ymwshfuoojxzsebf@vireshk-i7>
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1lk3BZ-0001of-Sj; Fri, 21 May 2021 07:19:21 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:28618
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1lk3BV-0002vW-GG; Fri, 21 May 2021 07:19:21 -0400
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 14LB3AQn118019; Fri, 21 May 2021 07:19:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : content-transfer-encoding : mime-version; s=pp1;
+ bh=6I+G3DMLIgXp78b25k0C5qpu4Ccgoen9hRY42ycuWY4=;
+ b=VdkhBBMWZc4Tgk6lq60O41Qiuc8V1F1bid0TrHxZDcbmbtBeWr/WINKJI5LHfDIZDGIX
+ mg+BA5jWSYIv4+R986BVGZHGtlgRWuehVzFexOrGRfmiOljpjC8/q1mVu2kZxMGlqvFM
+ v65ELuEXUTBi6r+L0yHF2oB/0M2zQ5oHhyjYMui+LU6AXqF0EKH4WZzh4S1Tmbl39GhU
+ VXkg5rLia/kG6No1r6g8O6CkE/Qfm8D2vTNEvngsibkGp+A8eTREIzp6zc2Bgu1k8PFv
+ g4x80chJ35b7gdkkQheRTAV+GTRri76aRhO0cmSzkZlL0hbowZwnGwLhQhA1w3185VJE 3w== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 38pamqsy91-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 21 May 2021 07:19:15 -0400
+Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 14LB4uxs128966;
+ Fri, 21 May 2021 07:19:14 -0400
+Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.108])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 38pamqsy8m-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 21 May 2021 07:19:14 -0400
+Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
+ by ppma05fra.de.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 14LB7eTn030424;
+ Fri, 21 May 2021 11:19:12 GMT
+Received: from b06cxnps4074.portsmouth.uk.ibm.com
+ (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
+ by ppma05fra.de.ibm.com with ESMTP id 38m19ss415-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 21 May 2021 11:19:12 +0000
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
+ [9.149.105.62])
+ by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 14LBJAqC38535536
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 21 May 2021 11:19:10 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id E7A52AE04D;
+ Fri, 21 May 2021 11:19:09 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 6FBF6AE059;
+ Fri, 21 May 2021 11:19:09 +0000 (GMT)
+Received: from vm.lan (unknown [9.145.39.144])
+ by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Fri, 21 May 2021 11:19:09 +0000 (GMT)
+From: Ilya Leoshkevich <iii@linux.ibm.com>
+To: Richard Henderson <richard.henderson@linaro.org>,
+ David Hildenbrand <david@redhat.com>,
+ Laurent Vivier <laurent@vivier.eu>, Cornelia Huck <cohuck@redhat.com>
+Subject: [PATCH v2 0/2] target/s390x: Fix SIGILL psw.addr reporting
+Date: Fri, 21 May 2021 13:19:06 +0200
+Message-Id: <20210521111908.2843735-1-iii@linux.ibm.com>
+X-Mailer: git-send-email 2.31.1
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: qJrVFDWlFkp3KAodbJulNVBnDtZ__SUS
+X-Proofpoint-GUID: TmmoWjsdgAsSnJDuC2PXZBe7RoCSMKRp
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210428122247.ymwshfuoojxzsebf@vireshk-i7>
-User-Agent: NeoMutt/20180716-391-311a52
-Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
- envelope-from=viresh.kumar@linaro.org; helo=mail-pg1-x533.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
+ definitions=2021-05-21_04:2021-05-20,
+ 2021-05-21 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ phishscore=0 adultscore=0 malwarescore=0 mlxlogscore=867 clxscore=1015
+ impostorscore=0 mlxscore=0 bulkscore=0 priorityscore=1501 suspectscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104190000 definitions=main-2105210069
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=iii@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,29 +109,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vincent Guittot <vincent.guittot@linaro.org>, Jie Deng <jie.deng@intel.com>,
- Bill Mills <bill.mills@linaro.org>, qemu-devel@nongnu.org,
- Arnd Bergmann <arnd.bergmann@linaro.com>, Trilok Soni <tsoni@quicinc.com>,
- Mike Holmes <mike.holmes@linaro.org>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ qemu-devel@nongnu.org, Ilya Leoshkevich <iii@linux.ibm.com>,
+ Andreas Krebbel <krebbel@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 28-04-21, 17:52, Viresh Kumar wrote:
-> Hello,
-> 
-> In my earlier attempt [1], I implemented the vhost-user-i2c backend
-> deamon for QEMU (though the code was generic enough to be used with
-> any hypervisor).
-> 
-> And here is a Rust implementation of the vhost-user-i2c backend
-> daemon. Again this is generic enough to be used with any hypervisor
-> and can live in its own repository now:
-> 
->   https://github.com/vireshk/vhost-user-i2c
+qemu-s390x puts a wrong value into SIGILL's siginfo_t's psw.addr: it
+should be a pointer to the instruction following the illegal
+instruction, but at the moment it is a pointer to the illegal
+instruction itself. This breaks OpenJDK, which relies on this value.
 
-FWIW, I have updated the implementation to support multiple guests now.
+Patch 1 fixes the issue, patch 2 adds a test.
+
+v1: https://lists.nongnu.org/archive/html/qemu-devel/2021-05/msg06592.html
+v1 -> v2: Use a better buglink (Cornelia), simplify the inline asm
+          magic in the test and add an explanation (David).
+
+Ilya Leoshkevich (2):
+  target/s390x: Fix SIGILL psw.addr reporting
+  tests/tcg/s390x: Test SIGILL handling
+
+ linux-user/s390x/cpu_loop.c     |  6 ++-
+ target/s390x/excp_helper.c      | 69 ++++++++++++++++++---------------
+ target/s390x/internal.h         |  1 +
+ tests/tcg/s390x/Makefile.target |  1 +
+ tests/tcg/s390x/sigill.c        | 52 +++++++++++++++++++++++++
+ 5 files changed, 96 insertions(+), 33 deletions(-)
+ create mode 100644 tests/tcg/s390x/sigill.c
 
 -- 
-viresh
+2.31.1
+
 
