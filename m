@@ -2,70 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64B8C38C1B9
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 May 2021 10:24:20 +0200 (CEST)
-Received: from localhost ([::1]:53328 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED38538C24E
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 May 2021 10:54:32 +0200 (CEST)
+Received: from localhost ([::1]:41522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lk0SB-0002ge-0t
-	for lists+qemu-devel@lfdr.de; Fri, 21 May 2021 04:24:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54244)
+	id 1lk0vP-0007Ex-Sd
+	for lists+qemu-devel@lfdr.de; Fri, 21 May 2021 04:54:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58212)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liliang324@gmail.com>)
- id 1lk0R8-00020Y-L6
- for qemu-devel@nongnu.org; Fri, 21 May 2021 04:23:14 -0400
-Received: from mail-lf1-x12a.google.com ([2a00:1450:4864:20::12a]:42982)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <liliang324@gmail.com>)
- id 1lk0R6-0002N7-Tu
- for qemu-devel@nongnu.org; Fri, 21 May 2021 04:23:14 -0400
-Received: by mail-lf1-x12a.google.com with SMTP id a2so28434961lfc.9
- for <qemu-devel@nongnu.org>; Fri, 21 May 2021 01:23:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=E5BzorGsri5488PSjL1siEN5kekGXz/1aX5aJvAEN+U=;
- b=IWXIQBLEb9e1Sj1s4dOXalSrJzpAasLAI9bAOkcpIwhDghJ15i/kr/gBcVltz4gu5J
- 1ANJo35KfXx9ZMDE8ZsR6wAey3dTTxWABR5Pd0TUf+1BzP3wvWlfWO3eTqUm8HKoKZtX
- p9AJQA9jjU882lGpte7NucfRmybEtPLgN3JA1yl/KdcEdweILCjKgwBIPRPykveDcahH
- uCZhYQsfOuyXkbEW4ehMSybVjCWfVqNQyUs1CiYtlhOBijatgBrM6GPwAaFnZq4oclVS
- EfLqfr32VgUxSZhTJ5oaj+Wzhf2CLDe2ZTZoRANj9611fRKMcGbG9rOq1rDBM8UXEmLF
- 3mSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=E5BzorGsri5488PSjL1siEN5kekGXz/1aX5aJvAEN+U=;
- b=U0AVedUYdX/vkj4kBjoYra/15zVlDtVywLxhievE4RM7KwD1iiOQlGFQu3eC3VMdDz
- lI3EsPl3eiNu1SFblyidpv8vGQPHgbOo1y4y3LFiGOohBBe1glf/b3O4Fn12ZVY4j3gP
- QRWqdhXX+zb9odAhmFJ4LQsHKtULn8pxbQWfGh19XyVSFtzLopJ9Rq7+WsFqythECPsT
- Ja4YodGzLRJfUQbY6SYSyrigfJ4NOSUAlZ+dAPkolugkOW2GtL3svjPJILXE+Lix2dhw
- LeF8Fbh7b4A27UsG4IroCZQM6BSMAPpjs2RHYrh+CqMR8k4s0J4orBNcyjWQ2G6pNlKo
- jNCA==
-X-Gm-Message-State: AOAM530q55nwQqQhyva+5tz3NBVE8bpqry8O2nqI2mjBt9r05wJTLBLU
- CvLLljqK/DSq3PDQtq0SKNBGJBRKrZ2gdbZpuuU=
-X-Google-Smtp-Source: ABdhPJyS44Ti1OVEFySlaupWDk5WVhczzgVIgAOAkvsOoTOPdg5CVNd5Td6i2iiVTizwX9DTqg19oDU0p4RawDY6qyI=
-X-Received: by 2002:a05:6512:2398:: with SMTP id
- c24mr1420928lfv.638.1621585390193; 
- Fri, 21 May 2021 01:23:10 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1lk0qF-0002ti-M0; Fri, 21 May 2021 04:49:11 -0400
+Received: from wout4-smtp.messagingengine.com ([64.147.123.20]:56485)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1lk0q2-0000mN-Eh; Fri, 21 May 2021 04:49:09 -0400
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.west.internal (Postfix) with ESMTP id BBC231296;
+ Fri, 21 May 2021 04:48:53 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute5.internal (MEProxy); Fri, 21 May 2021 04:48:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm3; bh=mWuJKGhGA/YVLGAM2S+ROeUxbjT
+ /Fqzf58w1R/QVPbk=; b=daIr5QKthHl3yEw1l7OmUvTWsje3D6jjz8rzJC2xyoU
+ AgaAVRe/QrIQAJ/rBYMsu+AtVhq3fDVligxXnhnQv2NVXb5n/RSCpEGezzR9RtHJ
+ n0RGrJ4vk60swe0KCXvaRTlda4AZLsmLNmKLBPGu/po6o75gjXcD1yO01xlOQV+n
+ y5rjQqL+Q/xqxP/ZVKpb6KovWVPRwxRqPBTUipuCrlZ+vp/O87IaPsM+WWZhZm6f
+ uH3l8y3KCYWwJhrRQSNIMucFSLYjEpU24C8gZbZL91R0J5xfXfnKvxAdHx74MeKN
+ nnh4NgT986Vjnu1lnthDYOGaJUem2+z2bpwN8HnUjEQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=mWuJKG
+ hGA/YVLGAM2S+ROeUxbjT/Fqzf58w1R/QVPbk=; b=R0yNefgIMhxFOIvcftGt9f
+ pv2yjjZc7oVtNSdQEv/8N64zAubKURxrOwefl76UT9wl/JsEX31JUUsjQN5eFD+C
+ TqNJjwVjfC5PCZB83b2C866cZlOyD3Wt5tYtaRH2d3gnryhlKD3SFEM6bm2RyLeg
+ knpSQoTKO3XH7fn9gqdJe5FJYJYnlGp81zePMMZFtbHR3E4hts7CvlM0l3LuEKoa
+ ya694QNa+dFU6dhV7mlbFoceLk9KdauFG7pAj8ZVMNh9Dba+2BpLtArCK0C2e2zs
+ AP2Sx6yXNEggSoHLdPOUqmtIeNEuXP76yiWOtQ8Rx2vMFJVvzfDoeyROQLav6Ndw
+ ==
+X-ME-Sender: <xms:9HOnYPNpYVppF2_QJB8Xn8Kdqk9JyZObJv5Ot7toBPf-iD4lwBXgtQ>
+ <xme:9HOnYJ-KpK6J1o3wicdDRyhM8FULKzidIiGXI2mtgSvHh9_86q7HeJI6WHNQU0m2A
+ aA9f7bq4aYJXyTjLDo>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdejfedgtdekucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
+ keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
+ curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:9HOnYOQ3jtST2eYPdN9wN24T1SaCL-AwfNaCqtafF-bGzTDbaWJy4A>
+ <xmx:9HOnYDsQ2Mk_EoqckWmuYwl0oZICCySM36ZD5KgpvmFFnFshbyudvQ>
+ <xmx:9HOnYHevO2w_6DrHp_AOVuQIylLWSMNR6iHm9qyRmjhVsGl4Mq6Iaw>
+ <xmx:9XOnYO5hhC7eK-NNF19xwGRNZ-q8RK_Jd6xtz0VUB4mJG4mrW34BfQ>
+Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190]) by mail.messagingengine.com (Postfix) with ESMTPA;
+ Fri, 21 May 2021 04:48:51 -0400 (EDT)
+Date: Fri, 21 May 2021 10:48:50 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: making a qdev bus available from a (non-qtree?) device
+Message-ID: <YKdz8k+RqGjr6sAK@apples.localdomain>
+References: <YJrKRsF4/38QheKn@apples.localdomain>
+ <87im3o2m8l.fsf@dusky.pond.sub.org>
+ <YKIQsI4F49R4hEmd@apples.localdomain>
+ <878s48pmlh.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-References: <CA+2MQi-_06J1cmLhKAmV1vkPEnvDx6+bOnK06OciYmdymaNruw@mail.gmail.com>
- <87cztmkdlp.fsf@vitty.brq.redhat.com>
-In-Reply-To: <87cztmkdlp.fsf@vitty.brq.redhat.com>
-From: Liang Li <liliang324@gmail.com>
-Date: Fri, 21 May 2021 16:22:58 +0800
-Message-ID: <CA+2MQi_LG57KRRFjMR_zPvJBDaH4z16S5J=c+U+-Ss_Z71Ax7g@mail.gmail.com>
-Subject: Re: About the performance of hyper-v
-To: Vitaly Kuznetsov <vkuznets@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::12a;
- envelope-from=liliang324@gmail.com; helo=mail-lf1-x12a.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="5w4OBfho6v2kzwxc"
+Content-Disposition: inline
+In-Reply-To: <878s48pmlh.fsf@dusky.pond.sub.org>
+Received-SPF: pass client-ip=64.147.123.20; envelope-from=its@irrelevant.dk;
+ helo=wout4-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,88 +95,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Tianyu.Lan@microsoft.com, qemu-devel@nongnu.org, kvm@vger.kernel.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, stefanha@redhat.com, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> > Hi Vitaly,
-> >
-> > I found a case that the virtualization overhead was almost doubled
-> > when turning on Hper-v related features compared to that without any
-> > no hyper-v feature.  It happens when running a 3D game in windows
-> > guest in qemu kvm environment.
-> >
-> > By investigation, I found there are a lot of IPIs triggered by guest,
-> > when turning on the hyer-v related features including stimer, for the
-> > apicv is turned off, at least two vm exits are needed for processing a
-> > single IPI.
-> >
-> >
-> > perf stat will show something like below [recorded for 5 seconds]
-> >
-> > ---------
-> >
-> > Analyze events for all VMs, all VCPUs:
-> >              VM-EXIT    Samples  Samples%     Time%    Min Time    Max
-> > Time         Avg time
-> >   EXTERNAL_INTERRUPT     471831    59.89%    68.58%      0.64us
-> > 65.42us      2.34us ( +-   0.11% )
-> >            MSR_WRITE     238932    30.33%    23.07%      0.48us
-> > 41.05us      1.56us ( +-   0.14% )
-> >
-> > Total Samples:787803, Total events handled time:1611193.84us.
-> >
-> > I tried turning off hyper-v for the same workload and repeat the test,
-> > the overall virtualization overhead reduced by about of 50%:
-> >
-> > -------
-> >
-> > Analyze events for all VMs, all VCPUs:
-> >
-> >              VM-EXIT    Samples  Samples%     Time%    Min Time    Max
-> > Time         Avg time
-> >           APIC_WRITE     255152    74.43%    50.72%      0.49us
-> > 50.01us      1.42us ( +-   0.14% )
-> >        EPT_MISCONFIG      39967    11.66%    40.58%      1.55us
-> > 686.05us      7.27us ( +-   0.43% )
-> >            DR_ACCESS      35003    10.21%     4.64%      0.32us
-> > 40.03us      0.95us ( +-   0.32% )
-> >   EXTERNAL_INTERRUPT       6622     1.93%     2.08%      0.70us
-> > 57.38us      2.25us ( +-   1.42% )
-> >
-> > Total Samples:342788, Total events handled time:715695.62us.
-> >
-> > For this scenario,  hyper-v works really bad.  stimer works better
-> > than hpet, but on the other hand, it relies on SynIC which has
-> > negative effects for IPI intensive workloads.
-> > Do you have any plans for improvement?
-> >
->
-> Hey,
->
-> the above can be caused by the fact that when 'hv-synic' is enabled, KVM
-> automatically disables APICv and this can explain the overhead and the
-> fact that you're seeing more vmexits. KVM disables APICv because SynIC's
-> 'AutoEOI' feature is incompatible with it. We can, however, tell Windows
-> to not use AutoEOI ('Recommend deprecating AutoEOI' bit) and only
-> inhibit APICv if the recommendation was ignored. This is implemented in
-> the following KVM patch series:
-> https://lore.kernel.org/kvm/20210518144339.1987982-1-vkuznets@redhat.com/
->
-> It will, however, require a new 'hv-something' flag to QEMU. For now, it
-> can be tested with 'hv-passthrough'.
->
-> It would be great if you could give it a spin!
->
-> --
-> Vitaly
 
-It's great to know that you already have a solution for this. :)
+--5w4OBfho6v2kzwxc
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
 
-By the way,  is there any requirement for the version of windows or
-windows updates for the new feature to work?
+On May 21 09:33, Markus Armbruster wrote:
+>I'm about to drop off for two weeks of much-needed vacation.  I meant to
+>study your explanation and give design advice before I leave, but I'm
+>out of time.  Regrettable.  I hope Stefan can help you.  Or perhaps
+>Paolo.  If you still have questions when I'm back, feel free to contact
+>me again.
+>
 
-Thanks!
+No worries Markus, enjoy :)
 
-Liang
+--5w4OBfho6v2kzwxc
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmCnc/AACgkQTeGvMW1P
+Deki2Qf+JWTYuEv0FM33eeUrDzPi3Y7NX/mMZ0aW1hnemMxVs0imd92w3iNTdMV5
+SvatuAWmlJKsrb4LN6ZhjIUF6x92V7Snhz3+lmfevbLgD69h2H6ToVHvITf0X4hA
+US4pyxCNIXFIAk5A1uUHtwATUoZD578J0VSIOLnTpCJDMyql+O1vo2e/ZuD4IjEI
+LNesKj249q2djM8+W7XWN7zrh+vGB+3woygLzgLCjfUMoPN+XFqfqMQkZ5nMgmR4
+gAO/j8k/hg6mUhvTyCQwyg1O2zMWfxOpFsINT25LEDAJ2g8UlJBAk/+h8hrp7rMO
+kZfa4N88LjrUWR9AjEhnitri7Z8mYA==
+=ryyx
+-----END PGP SIGNATURE-----
+
+--5w4OBfho6v2kzwxc--
 
