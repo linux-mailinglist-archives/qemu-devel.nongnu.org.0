@@ -2,36 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEF6138CF06
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 May 2021 22:25:11 +0200 (CEST)
-Received: from localhost ([::1]:53198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7553E38CEFC
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 May 2021 22:21:35 +0200 (CEST)
+Received: from localhost ([::1]:44830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lkBhm-0005cn-A6
-	for lists+qemu-devel@lfdr.de; Fri, 21 May 2021 16:25:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49940)
+	id 1lkBeH-0008ME-AT
+	for lists+qemu-devel@lfdr.de; Fri, 21 May 2021 16:21:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49968)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bruno.larsen@eldorado.org.br>)
- id 1lkBbM-0005up-F5; Fri, 21 May 2021 16:18:32 -0400
+ id 1lkBbO-0005yv-TP; Fri, 21 May 2021 16:18:34 -0400
 Received: from [201.28.113.2] (port=1319 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <bruno.larsen@eldorado.org.br>)
- id 1lkBbL-0001Nf-51; Fri, 21 May 2021 16:18:32 -0400
+ id 1lkBbN-0001Nf-Eb; Fri, 21 May 2021 16:18:34 -0400
 Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
  Microsoft SMTPSVC(8.5.9600.16384); Fri, 21 May 2021 17:18:19 -0300
 Received: from eldorado.org.br (unknown [10.10.71.235])
- by power9a (Postfix) with ESMTP id 282EF8013E6;
+ by power9a (Postfix) with ESMTP id 3FE148013E3;
  Fri, 21 May 2021 17:18:19 -0300 (-03)
 From: "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 1/9] target/ppc: cleaned error_report from ppc_store_sdr1
-Date: Fri, 21 May 2021 17:17:51 -0300
-Message-Id: <20210521201759.85475-2-bruno.larsen@eldorado.org.br>
+Subject: [PATCH v3 2/9] target/ppc: moved ppc_store_lpcr and ppc_store_msr to
+ cpu.c
+Date: Fri, 21 May 2021 17:17:52 -0300
+Message-Id: <20210521201759.85475-3-bruno.larsen@eldorado.org.br>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210521201759.85475-1-bruno.larsen@eldorado.org.br>
 References: <20210521201759.85475-1-bruno.larsen@eldorado.org.br>
-X-OriginalArrivalTime: 21 May 2021 20:18:19.0307 (UTC)
- FILETIME=[709F8FB0:01D74E7E]
+X-OriginalArrivalTime: 21 May 2021 20:18:19.0385 (UTC)
+ FILETIME=[70AB7690:01D74E7E]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
 Received-SPF: pass client-ip=201.28.113.2;
  envelope-from=bruno.larsen@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -59,37 +60,77 @@ Cc: farosas@linux.ibm.com, richard.henderson@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Changed how the function ppc_store_sdr1, from error_report(...) to
-qemu_log_mask(LOG_GUEST_ERROR, ...).
+These functions are used in hw/ppc logic, during machine startup, which
+means it must be compiled when --disable-tcg is selected, and so it has
+been moved into a common code file
 
 Signed-off-by: Bruno Larsen (billionai) <bruno.larsen@eldorado.org.br>
-Suggested-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- target/ppc/cpu.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ target/ppc/cpu.c         | 17 +++++++++++++++++
+ target/ppc/misc_helper.c | 16 ----------------
+ 2 files changed, 17 insertions(+), 16 deletions(-)
 
 diff --git a/target/ppc/cpu.c b/target/ppc/cpu.c
-index d957d1a687..9cf3288b7a 100644
+index 9cf3288b7a..c8e87e30f1 100644
 --- a/target/ppc/cpu.c
 +++ b/target/ppc/cpu.c
-@@ -77,13 +77,13 @@ void ppc_store_sdr1(CPUPPCState *env, target_ulong value)
-         target_ulong htabsize = value & SDR_64_HTABSIZE;
+@@ -24,6 +24,7 @@
+ #include "exec/log.h"
+ #include "fpu/softfloat-helpers.h"
+ #include "mmu-hash64.h"
++#include "helper_regs.h"
  
-         if (value & ~sdr_mask) {
--            error_report("Invalid bits 0x"TARGET_FMT_lx" set in SDR1",
--                         value & ~sdr_mask);
-+            qemu_log_mask(LOG_GUEST_ERROR, "Invalid bits 0x"TARGET_FMT_lx
-+                     " set in SDR1", value & ~sdr_mask);
-             value &= sdr_mask;
-         }
-         if (htabsize > 28) {
--            error_report("Invalid HTABSIZE 0x" TARGET_FMT_lx" stored in SDR1",
--                         htabsize);
-+            qemu_log_mask(LOG_GUEST_ERROR, "Invalid HTABSIZE 0x" TARGET_FMT_lx
-+                     " stored in SDR1", htabsize);
-             return;
-         }
-     }
+ target_ulong cpu_read_xer(CPUPPCState *env)
+ {
+@@ -92,3 +93,19 @@ void ppc_store_sdr1(CPUPPCState *env, target_ulong value)
+     env->spr[SPR_SDR1] = value;
+ }
+ #endif /* CONFIG_SOFTMMU */
++
++/* GDBstub can read and write MSR... */
++void ppc_store_msr(CPUPPCState *env, target_ulong value)
++{
++    hreg_store_msr(env, value, 0);
++}
++
++void ppc_store_lpcr(PowerPCCPU *cpu, target_ulong val)
++{
++    PowerPCCPUClass *pcc = POWERPC_CPU_GET_CLASS(cpu);
++    CPUPPCState *env = &cpu->env;
++
++    env->spr[SPR_LPCR] = val & pcc->lpcr_mask;
++    /* The gtse bit affects hflags */
++    hreg_compute_hflags(env);
++}
+diff --git a/target/ppc/misc_helper.c b/target/ppc/misc_helper.c
+index 08a31da289..442b12652c 100644
+--- a/target/ppc/misc_helper.c
++++ b/target/ppc/misc_helper.c
+@@ -255,22 +255,6 @@ target_ulong helper_clcs(CPUPPCState *env, uint32_t arg)
+ /*****************************************************************************/
+ /* Special registers manipulation */
+ 
+-/* GDBstub can read and write MSR... */
+-void ppc_store_msr(CPUPPCState *env, target_ulong value)
+-{
+-    hreg_store_msr(env, value, 0);
+-}
+-
+-void ppc_store_lpcr(PowerPCCPU *cpu, target_ulong val)
+-{
+-    PowerPCCPUClass *pcc = POWERPC_CPU_GET_CLASS(cpu);
+-    CPUPPCState *env = &cpu->env;
+-
+-    env->spr[SPR_LPCR] = val & pcc->lpcr_mask;
+-    /* The gtse bit affects hflags */
+-    hreg_compute_hflags(env);
+-}
+-
+ /*
+  * This code is lifted from MacOnLinux. It is called whenever THRM1,2
+  * or 3 is read an fixes up the values in such a way that will make
 -- 
 2.17.1
 
