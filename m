@@ -2,90 +2,125 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5F2B38CCB5
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 May 2021 19:51:33 +0200 (CEST)
-Received: from localhost ([::1]:53942 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06CE238CCB6
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 May 2021 19:51:43 +0200 (CEST)
+Received: from localhost ([::1]:54464 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lk9J6-000857-Oa
-	for lists+qemu-devel@lfdr.de; Fri, 21 May 2021 13:51:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47496)
+	id 1lk9JG-0008QG-3r
+	for lists+qemu-devel@lfdr.de; Fri, 21 May 2021 13:51:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47512)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1lk9HE-0005Vs-5v
- for qemu-devel@nongnu.org; Fri, 21 May 2021 13:49:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47815)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1lk9HN-0005ay-Rv; Fri, 21 May 2021 13:49:46 -0400
+Received: from mail-eopbgr80131.outbound.protection.outlook.com
+ ([40.107.8.131]:27182 helo=EUR04-VI1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1lk9HA-00063E-4N
- for qemu-devel@nongnu.org; Fri, 21 May 2021 13:49:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621619371;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=RI2pmeWcT28+sYUe+GlPSFbS6fQkmCrOz5peViPMPMY=;
- b=V24f6IXtsiwtVq26u34ZKGxc9EqeVRf9MQJFWXIPVU++Q2j7pNfcQA+HmMWXL8QUW8RDP1
- HyJSvr3TCRplCyvyhL7PTq6H2GnuWQpkCSFMGjNX/rjHYf9HemPEjusrvBkuVWIxsNA9Uz
- +9Fkn7BfrO2Itx80zYi568J1FdCEKuQ=
-Received: from mail-ua1-f69.google.com (mail-ua1-f69.google.com
- [209.85.222.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-389-sLcwZNPBPdCc9KjxBJq1xw-1; Fri, 21 May 2021 13:49:29 -0400
-X-MC-Unique: sLcwZNPBPdCc9KjxBJq1xw-1
-Received: by mail-ua1-f69.google.com with SMTP id
- b34-20020ab014250000b02901eb696c5fbaso7840445uae.22
- for <qemu-devel@nongnu.org>; Fri, 21 May 2021 10:49:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=RI2pmeWcT28+sYUe+GlPSFbS6fQkmCrOz5peViPMPMY=;
- b=uUSW7kre6T77QZ1iFLHoFOWKCRxOPO5s8l2tYrZGaN95wUcl3saYIMAI4TPMxI9kYJ
- KGkQiyEGqw10P10ff9Lvi01Sz/UH2askriJ4E6NtUkNLQ9kVbgC2DIo854hOoZ2Y8tmJ
- GpiUdF4fqyLDfDHCuXmBrmAtBLIiffa6wV3oXYZdiXrAC9lrsG03elJDyF8hYGYTleS5
- NLNZjp8AJIiQKR29N7Xm3ID8sANmhLIti/p/a8t8AvNDHgVqShJOFcw5MrYgXgdzkp0R
- biUlvyi9ibaX38O8UNENjB1QJg6UlKtwVD3Pgpgt1VBC31fVOYkzD4ZWoYz0cYplU+K0
- ZaJA==
-X-Gm-Message-State: AOAM533GDMySfWGje+vCsGuSDBzd6AJU1kTIcDrEg2V78D4BV6IW1S4T
- +P6jxotqF2oempfUUrmrAF/s79QhZjiVDQbwpxt7SD7QslrrHwtevjuTDlrOmMALJudaAZnneSs
- 8bd8POh2qSGPOOQfW8GRkOjCRuVEEIFk=
-X-Received: by 2002:a67:f357:: with SMTP id p23mr11767790vsm.50.1621619368839; 
- Fri, 21 May 2021 10:49:28 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxZ2GRS1U/aHq+hiLzx5zNTIiSx0EpZA3v5twHmTSaR5OCj4Tabf/ZPqqsBd4rwtPacbb3eBdmfJsLmKYsvqmc=
-X-Received: by 2002:a67:f357:: with SMTP id p23mr11767768vsm.50.1621619368643; 
- Fri, 21 May 2021 10:49:28 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1lk9HL-000645-5d; Fri, 21 May 2021 13:49:45 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=eysmzSr7OqXviEGVf8QUnEgkKV5NwEX8OshtIU+AAfmg9OQnnDYthL7cQ9TvjMVLCeyHmUeBaczsRTNMggolm9nRm9NbIvxQmUcFQcRoOSyhyIOe+P1lipPFQFzsQcJ1J5XKC3T5pmX3jckU8zGdov2xwI6PamCRLDvFZhVkWdJfwYt3mmqqvXUCgWRv3YfztObND9U5RKwnXaFRKqLc2UQL62Hog5auYXFG9mlQ8zcyaueytgUg+wbWxY3yMlV7JIwbskdKE9TKB+yv2fzUyy5yd+EhFN/PhP7T/SPHmhi5pDgtQvAsQHWIqS1MK/ggZoNu1fJFbwSmC8HCJGO0TA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=bivdEjSYZlZ80iWxeFkCOv+P0L+q3HkuOSBCwg4+hy8=;
+ b=jyHgbyTjdBdXopq408CPF9jAWS6KLWekKzWw4EZoMMB8eH0rR7xhrhXlf/lEZOYow6XcMc9iiwD0TSU7iGUE/4MuUuagbq4tjuyphLQCN9QFQ/z7X51CwrOrEkbbMzwoRN+jaN3dBRTKnrG0EupWLkmbd4RbT4MDZ6wQjwjy0GigiCAy7tf80s4ciZ/Lfg99sUfyee6iOTaUvpDC6AwZEztYzNj0bMIzQCrPPbi+YXRkkncZOTTXdTnPdLSc85C+5sGyGXmk56IUGvvmAW4gsSNdhy4mXWCyFbuKrrseYbPt0KkBplbxA/reKq86XD5vgl0zWB5TKIkXxA9sJp3ybQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=bivdEjSYZlZ80iWxeFkCOv+P0L+q3HkuOSBCwg4+hy8=;
+ b=ZTsW9ox7x6L3/Viri/YlMHOb9+eKf7qIRoA/zg6BGB3VQ+PY0D8/j8EcLYcYgK63WuKy66oa+uli2BhUUQJzBhLrqhyua+WcjghDTIqsTw7bMp71mzNYmNhpBSGoUBmdzucuzhXcgxNiqDQKKvYdQWVPIggAcDylr6Ql42P6epU=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AS8PR08MB5911.eurprd08.prod.outlook.com (2603:10a6:20b:292::17)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4150.26; Fri, 21 May
+ 2021 17:49:39 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::b403:c1a9:6bb7:133]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::b403:c1a9:6bb7:133%8]) with mapi id 15.20.4150.025; Fri, 21 May 2021
+ 17:49:39 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, vsementsov@virtuozzo.com, jsnow@redhat.com,
+ mreitz@redhat.com, kwolf@redhat.com
+Subject: [PATCH 0/6] push backup with fleecing
+Date: Fri, 21 May 2021 20:49:19 +0300
+Message-Id: <20210521174925.62781-1-vsementsov@virtuozzo.com>
+X-Mailer: git-send-email 2.29.2
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [185.215.60.197]
+X-ClientProxiedBy: HE1PR09CA0083.eurprd09.prod.outlook.com
+ (2603:10a6:7:3d::27) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-References: <20210520195322.205691-1-willianr@redhat.com>
- <20210520195322.205691-2-willianr@redhat.com>
- <0f4a1c6c-ddba-ae57-2d55-f59c478dc9c5@redhat.com>
- <943fcdae-168a-adf8-c82b-b1a88369441c@redhat.com>
- <CAKJDGDZgnsFe9S967jjm1OMHPa25rb-tFmycpdC53WDK6DK1xA@mail.gmail.com>
- <a95cfa21-dde1-cf7c-a4e4-a5cf43c1de1d@redhat.com> <87sg2gb5lf.fsf@linaro.org>
- <b53b690c-f542-cc35-35a6-e577529ac303@amsat.org>
- <CAFEAcA98XBN2x=FvJod8U4+NM3fpmJigQsWoi-v4L5HXQpT+Rw@mail.gmail.com>
- <27149825-16a4-6820-2740-ab110eb231a5@redhat.com>
-In-Reply-To: <27149825-16a4-6820-2740-ab110eb231a5@redhat.com>
-From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Fri, 21 May 2021 14:49:02 -0300
-Message-ID: <CAKJDGDZ2guQ2cpnV0Q-f6YgjPMe88TJddG473FC155td23GrrA@mail.gmail.com>
-Subject: Re: [RFC 1/1] acceptance tests: rename acceptance to system
-To: qemu-devel <qemu-devel@nongnu.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=wrampazz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.374,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from localhost.localdomain (185.215.60.197) by
+ HE1PR09CA0083.eurprd09.prod.outlook.com (2603:10a6:7:3d::27) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4150.23 via Frontend Transport; Fri, 21 May 2021 17:49:38 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 8a46245d-7d30-41ec-f8f3-08d91c80ce65
+X-MS-TrafficTypeDiagnostic: AS8PR08MB5911:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AS8PR08MB5911C6DC9D6E0AA07D749314C1299@AS8PR08MB5911.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2449;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 9FfaJrnbl+piIriex6cMoruKq25hfBk17XGe65z5zBUK1zODQPsH4TL6X9VPL2v/jkfMV4wD28U0P1dTUcApc2INEO+VHbqZbpooydCuGxdur2lwHZEQbh+GCpxzKBbU5K7bCWm9uKthRUcLG9PRkOTAmOnX0R8IubTiGVza6VAbiHHnGaIm1H21BgE1gvqMscRDfswAcM7AdBvSLW3OKfIpkMjTPFxp7Adp+EuzHESYhYSKeDX3FgJruSM+ZWspk9k31CyUG6i0Pd5dzVyTSgsZNVlnWC3rMiBxEFBam7wv2Rd/VH3znStJDJ62gktJ6XdRSERvMW/suwaXnSNq5iltoa/RvAhvSyGxTF7BkhO9Se67ih5arrLafQ+ma7BsXBp3pKR1EH8FEL+jbIc7KaGiPtBPCZ0t4cE4hCDQ78ZatGxEmTGxbDP7ZhGVJQUvzeBwiz/dGUtYztetlNNa2M3ndRZzOypMoIQuimmJW73REvbScqavk/b91F4RRrQpBd/HBtbvmfnKgdDM6Ua8Q6gFqEyCtOf0MuBvSh/70cCK+eJDoF5zIIIMDQQTKy4c4sZcKKAdCP63O7ApgrOVGJxt5FSEZV2EXXRQBOsPFDXS3GAal6pCzF7VaT5C76TkgqNGjFCWb7D/g4c4qbLc7I3rJwoYjBRV5tzHLok4XAZSj6oFqDzCo8DC9M+79lhb
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(346002)(136003)(396003)(376002)(39840400004)(6506007)(38100700002)(38350700002)(6916009)(6666004)(86362001)(52116002)(478600001)(36756003)(316002)(2616005)(956004)(4326008)(8676002)(5660300002)(1076003)(26005)(83380400001)(6512007)(8936002)(66476007)(66946007)(66556008)(186003)(2906002)(16526019)(6486002)(69590400013);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?/DTTuHtc6oGn6tTsgjNpuReIZajNRDT34sgZP4ixPStYqbPrU8DqS0F1wOLA?=
+ =?us-ascii?Q?qnOPA7OiE4J2J42Wp7gb/cDJCExVA4pbaZunSPpOImbZO/Is5AH9eOVpQ5ZH?=
+ =?us-ascii?Q?PMdau1+8qtRgC2w4QLvIlLe/XjUItBqWQTKjfM2dkCGuDVqmG7sSyc4QWueI?=
+ =?us-ascii?Q?ewTUPaXpKU8Y7tuRtaNJoNxj5+SXEUUmk9tsOLw5jQkEXLJ3/V2xBjcZ95Uw?=
+ =?us-ascii?Q?AUkD4TnUlNwkVPTFCiCrhfx5ItzzZD2qbJg+DnRAxVykrqUkf//dI7aw4Lgj?=
+ =?us-ascii?Q?nrXgnZmgIXmdK3yczIXniD9R+/2R176AMY7HlTJ7IFbVqKoHt1QtJNZmJ+hW?=
+ =?us-ascii?Q?3FttBugtKw17/UwceM93lwN5zBcE8Nnm6GxmgH2g5s+hqc3ju47J79KOeJs+?=
+ =?us-ascii?Q?fWMybybqPrywFEIg3DMHPtJwcXerwmWmOnbXq0i12sy2nxsiKzj32B36Ql5A?=
+ =?us-ascii?Q?CZQ1WiHiv92CubYU/EQyj+7+Qw0Qr69EZVgSMB8d5iJhjKT++3hzCL5P/Qdq?=
+ =?us-ascii?Q?oF77pUSp5COr9xclrbYGiPW65B7oRNsN1ANNY7UThe2HDR+c352PIm+e47gX?=
+ =?us-ascii?Q?zK/tcUizRMwNlVDiQVPe/PeLN3ozSiiOv0Ggas9by4SfuaMrPlqrcF/JQMWc?=
+ =?us-ascii?Q?LfKwM2aUWVxkezkp3oqWeERHyifwAesMva69w+gueLorXMOqbaURQGwjyb1n?=
+ =?us-ascii?Q?X4PH9xblau50NutF1SnhjgvhQi6AhvGCtxRipVMt4oCuFL/0Q6chqMa5clFu?=
+ =?us-ascii?Q?vUIPNCqSolUN1TBvWtOOc7O6AsZFxg3o/pLGKMtoa7V8rTN3x7nol4N8o+fE?=
+ =?us-ascii?Q?jcVXp+bx3L4oe779UldqsPhK5od4L7ljI2IotM/+uC2u60v5ymmH0D9L4736?=
+ =?us-ascii?Q?wwNBqetBEPTLRI833hQcM3VvPJKqBR7Ez9eZyXN17JTbGz0JFLNpIPV2uP/S?=
+ =?us-ascii?Q?gsFr682Ew4BFeB8Hubj4ijIT4eCDd326640UXlfDMe9zDptvdRwFbPohYE4D?=
+ =?us-ascii?Q?Z6G+5bJHjHH/+qISnV8i3vFVqFoo7LgVU3aYlXHVETv3sNJvMW2XI2SwGCQ7?=
+ =?us-ascii?Q?NQl361hj2uAiQIxctJrQmDTacAIms4MTg+5IHEp2NBLr6O9gpsoZNXD6FgtY?=
+ =?us-ascii?Q?s/1KLpTCSAm1RZcfgLENS6n4aPTgoWhqhi1SbGkVjN9a7+ONG+mwfzW0L1J5?=
+ =?us-ascii?Q?3nfcbP6HlS6Le2nQxfaIbm9xEJ1W1pUJkBl6UPH/5rj2a3cuzMeDWTx3c6MJ?=
+ =?us-ascii?Q?sSfCXTnT5yB6omAVbZHMKsP1U4+QrPh0cJhwHB31fEvaCilrRVqyRfXoZNCd?=
+ =?us-ascii?Q?2GPE/WtcIA96M/V0aNULM1y/?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8a46245d-7d30-41ec-f8f3-08d91c80ce65
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 May 2021 17:49:39.5579 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: pKTm8xjYZr5MnW8gHXipvhlh8g5R3PSPZFlLdV4bO55i0c22+4Wx2bQCASZJkHF/hAEfgs0MbaXhtl3A5HIZ4ymNUe3Fd5Xxi5MIqSyilFI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB5911
+Received-SPF: pass client-ip=40.107.8.131;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR04-VI1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,81 +133,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Niek Linnenbank <nieklinnenbank@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
- Michael Rolnik <mrolnik@gmail.com>, Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, May 21, 2021 at 2:14 PM Thomas Huth <thuth@redhat.com> wrote:
->
-> On 21/05/2021 16.29, Peter Maydell wrote:
-> > On Fri, 21 May 2021 at 15:19, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.=
-org> wrote:
-> >> If you think these tests belong to tests/tcg/, I am OK to put
-> >> them they, but I don't think adding the Avocado buildsys
-> >> machinery to the already-complex tests/tcg/ Makefiles is going
-> >> to help us...
-> >
-> > This does raise the question of what we're actually trying
-> > to distinguish. It seems to me somewhat that what tests/acceptance/
-> > actually contains that makes it interestingly different from other
-> > tests/ stuff is that it's specifically "tests using the Avocado
-> > framework". On that theory we might name it tests/avocado/.
->
-> I think there are two aspects:
->
-> 1) These tests are using the avocado framework
->
-> 2) These tests are downloading other stuff from the internet (unlike the
-> other tests that we have)
->
+Hi all!
 
-After Peter's reply, I noticed QEMU does not organize tests under the
-tests folder by software engineering test category but by the
-mechanism/machinery the tests run on. This makes me think that we may
-need to handle the folders name and the CI jobs name differently:
+Here is push-backup with fleecing. What is it:
 
-1 - Change the current "test/acceptance" folder name to "test/(avocado
-or avoqado)." Change the "make check-acceptance" to "make
-check-validation," and the GitLab CI job names to "validation,"
-meaning that, in a promising future, other tests running on a
-different framework and acting like validation tests would run in the
-same make command and same GitLab CI job.
+1. Make fleecing scheme
 
-2 - Change the current "test/acceptance" folder name to "test/(avocado
-or avoqado)." Change the "make check-acceptance" to "make
-check-(avocado or avoqaco)" and the GitLab CI job names to "(avocado
-or avoqado)," meaning that, in a promising future, we can categorize
-validation jobs inside the CI and run each of the different validation
-tests supported by a framework on its own GitLab CI job.
+guest blk
+  |
+  |root
+  v
+copy-before-write filter  -------> temp qcow2
+  |                                  |
+  |file                              | backing
+  V                                  |
+active disk <-------------------------
 
-Personally, I prefer option 2 as it gives more flexibility to decide
-how to set a GitLab CI job or run it when testing locally.
+2. Start backup job from temp qcow2 to final remote target (NBD or
+   something)
 
-> > Or we could just leave it as it is -- is the current naming
-> > actually confusing anybody? :-)
->
-> Yes, I think "acceptance" is rather confusing. So far they haven't been p=
-art
-> of your PR acceptance tests (well, now they are part of the gitlab-CI,
-> though), and it's also not about tests that have been set up by customers=
-,
-> which is what you normally think of when hearing "acceptance tests". So a
-> different name would be adequate.
->
-> I think I'd vote for either "avocado", "avoqado" or "validation".
->
+Benefit in comparison with simple backup job: for remote final target
+write operations are not very fast. And guest have to wait for
+copy-before-write operations. With fleecing scheme target for
+copy-before-write operations is local qcow2 file with faster access than
+actual backup target. So, guest is less disturbed by copy-before-write
+operations.
 
-Even laughing every time I read "avoqado" (and thanks for that), I
-liked the idea as there is supplementary code added inside
-"tests/acceptance/avocado_qemu" to support the tests, meaning they are
-not "pure" avocado.
+Based-on: <20210520142205.607501-1-vsementsov@virtuozzo.com>
+  ([PATCH v2 00/33] block: publish backup-top filter)
 
->   Thomas
->
+Vladimir Sementsov-Ogievskiy (6):
+  block/block-copy: use write-unchanged for fleecing scheme
+  block/copy-before-write: require BLK_PERM_WRITE_UNCHANGED for fleecing
+  block: share writes on backing child of fleecing node
+  block: blk_root(): return non-const pointer
+  block/backup: don't insert filter if no writers
+  iotests/image-fleecing: test push backup with fleecing
+
+ block/copy-before-write.h                   |   1 +
+ include/sysemu/block-backend.h              |   2 +-
+ block.c                                     |   3 +-
+ block/backup.c                              |  55 ++++++++++-
+ block/block-backend.c                       |   2 +-
+ block/block-copy.c                          |  14 ++-
+ block/copy-before-write.c                   |  48 ++++++++-
+ tests/qemu-iotests/tests/image-fleecing     | 104 +++++++++++++++-----
+ tests/qemu-iotests/tests/image-fleecing.out |  60 +++++++++++
+ 9 files changed, 252 insertions(+), 37 deletions(-)
+
+-- 
+2.29.2
 
 
