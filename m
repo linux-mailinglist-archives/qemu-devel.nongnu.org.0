@@ -2,73 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1ED938C0CF
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 May 2021 09:35:20 +0200 (CEST)
-Received: from localhost ([::1]:53604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC8ED38C0E0
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 May 2021 09:43:56 +0200 (CEST)
+Received: from localhost ([::1]:58136 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljzgl-0006jU-JZ
-	for lists+qemu-devel@lfdr.de; Fri, 21 May 2021 03:35:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45162)
+	id 1ljzp5-0001l3-6x
+	for lists+qemu-devel@lfdr.de; Fri, 21 May 2021 03:43:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47078)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ljzfZ-0005uP-L6
- for qemu-devel@nongnu.org; Fri, 21 May 2021 03:34:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24252)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1ljzo7-0000x2-Sj
+ for qemu-devel@nongnu.org; Fri, 21 May 2021 03:42:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44018)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ljzfS-00025W-QF
- for qemu-devel@nongnu.org; Fri, 21 May 2021 03:34:05 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1ljzo4-0000iu-VR
+ for qemu-devel@nongnu.org; Fri, 21 May 2021 03:42:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621582437;
+ s=mimecast20190719; t=1621582971;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MyMXJOORGvU6R+Qf0gvwVeCqIZi/t9wJOHJ1ercKz/o=;
- b=D+bR4kxL/Y21RFwqVSB0klHpaWtdNPODZik4/ZlYYYZqlLdbOaLEFIX8V7iySBNFeuHg0v
- OC6CM6xLMZjPApk/hU27+i3OQw4KMDYDxrTC/QaqVClcZAwUwsTZbyzwrD5ROFzLPLNyha
- PaETIx96Lhn0okzlZ8BydCMNM9V8kJk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-559-FW7uZtpYNLu4CWhplw9pNQ-1; Fri, 21 May 2021 03:33:55 -0400
-X-MC-Unique: FW7uZtpYNLu4CWhplw9pNQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ADA57106BB2A;
- Fri, 21 May 2021 07:33:54 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-41.ams2.redhat.com
- [10.36.112.41])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D56291349A;
- Fri, 21 May 2021 07:33:47 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 51D90113865F; Fri, 21 May 2021 09:33:46 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Klaus Jensen <its@irrelevant.dk>
-Subject: Re: making a qdev bus available from a (non-qtree?) device
-References: <YJrKRsF4/38QheKn@apples.localdomain>
- <87im3o2m8l.fsf@dusky.pond.sub.org>
- <YKIQsI4F49R4hEmd@apples.localdomain>
-Date: Fri, 21 May 2021 09:33:46 +0200
-In-Reply-To: <YKIQsI4F49R4hEmd@apples.localdomain> (Klaus Jensen's message of
- "Mon, 17 May 2021 08:44:00 +0200")
-Message-ID: <878s48pmlh.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ bh=GQk77kpNqwGjei3HR/0IS25Ze7MpSV1SowB16cN759A=;
+ b=XraH7/tOCC9p4l6thPLJ/dx8T+fSSYPfwinfJG78/mM1eC8f9bx0kTzXzHcRRJW3axRx+s
+ 9oPtMq4jfO9bnA/BiFl8vHIHdGmrUqN9fzihgK/GR9vW13i54GzKr6941YF1CzGraacPZ/
+ DwKdzufz5jIJ/oAW+6aXslAx8f59bzA=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-8-UUAq27IsMiapvQmy6o1MSg-1; Fri, 21 May 2021 03:42:48 -0400
+X-MC-Unique: UUAq27IsMiapvQmy6o1MSg-1
+Received: by mail-ej1-f70.google.com with SMTP id
+ dt6-20020a170906b786b02903dc2a6918d6so930435ejb.1
+ for <qemu-devel@nongnu.org>; Fri, 21 May 2021 00:42:47 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:organization
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=GQk77kpNqwGjei3HR/0IS25Ze7MpSV1SowB16cN759A=;
+ b=JITt9GGQTXyd6qMJ4B1qWJq5T9P6M8TeMvFHUzPsX7eV353OxJxPQ0VOA+ehX74mDq
+ tl/NYcyhTtnKjXPIwD2ZxU8XDBGTggFOe9gBULOe6eGKyzr9n/RnW5YfTAiIPDMHrjhx
+ A9JpGzb4VxX9EXwlBlQXGAbA/AxyIxO4uKv31q4VDci7k7D4qYoGifDs1YGMrlY9940S
+ IShHsuetv6iCFlRCCv0tDu1wUK1XTuzf0DGoO8chVgjdl2EB/WgpuqY7O1bblTxzASQK
+ 0Ro6JEFazucnULAXqWC3s0g558TRslQc0MSnFQWUY/qigAJUxreIRXS/ctFkpPeJ2OHM
+ zhZQ==
+X-Gm-Message-State: AOAM530UCkCFfYN3QvS3uSaFTacXsUqFkvbcWCcxaqJpsS6qYxlxA35o
+ hXeWL/c6OIV21h37O1g/wFCpGC7s6AWphuC6mL1kD0X7AJfhHZ5ptJ+ZcG7tTtGbxq/j/PZwd3M
+ p4sYkgQWT8pdrk2E=
+X-Received: by 2002:a17:906:4a81:: with SMTP id
+ x1mr8764077eju.508.1621582967033; 
+ Fri, 21 May 2021 00:42:47 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz25p+Vbd3p3X35FgXWp8noT0C6OSC/U1d2YxyATo4IZSzOOvpCxr454z9fO5wJYAo+sGB6hw==
+X-Received: by 2002:a17:906:4a81:: with SMTP id
+ x1mr8764049eju.508.1621582966713; 
+ Fri, 21 May 2021 00:42:46 -0700 (PDT)
+Received: from [192.168.3.132] (p5b0c6502.dip0.t-ipconnect.de. [91.12.101.2])
+ by smtp.gmail.com with ESMTPSA id
+ g22sm2996247ejz.46.2021.05.21.00.42.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 21 May 2021 00:42:46 -0700 (PDT)
+Subject: Re: [PATCH 0/2] Fix SIGILL psw.addr reporting
+To: Ilya Leoshkevich <iii@linux.ibm.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>
+References: <20210521030146.2831663-1-iii@linux.ibm.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Message-ID: <e2eb83ba-6937-741c-ea67-1bbd2346f9d5@redhat.com>
+Date: Fri, 21 May 2021 09:42:44 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <20210521030146.2831663-1-iii@linux.ibm.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.39,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,199 +103,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, stefanha@redhat.com,
- qemu-devel@nongnu.org, qemu-block@nongnu.org, mst@redhat.com
+Cc: Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ qemu-devel@nongnu.org, Andreas Krebbel <krebbel@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I'm about to drop off for two weeks of much-needed vacation.  I meant to
-study your explanation and give design advice before I leave, but I'm
-out of time.  Regrettable.  I hope Stefan can help you.  Or perhaps
-Paolo.  If you still have questions when I'm back, feel free to contact
-me again.
+On 21.05.21 05:01, Ilya Leoshkevich wrote:
+> qemu-s390x puts a wrong value into SIGILL's siginfo_t's psw.addr: it
+> should be a pointer to the instruction following the illegal
+> instruction, but at the moment it is a pointer to the illegal
+> instruction itself. This breaks OpenJDK, which relies on this value.
+> 
+> Patch 1 fixes the issue, patch 2 adds a test.
 
-Klaus Jensen <its@irrelevant.dk> writes:
+I assume that should fix
 
-> On May 12 14:02, Markus Armbruster wrote:
->>Klaus Jensen <its@irrelevant.dk> writes:
->>
->>> Hi all,
->>>
->>> I need some help with grok'ing qdev busses. Stefan, Michael - David
->>> suggested on IRC that I CC'ed you guys since you might have solved a
->>> similar issue with virtio devices. I've tried to study how that works,
->>> but I'm not exactly sure how to apply it to the issue I'm having.
->>>
->>> Currently, to support multiple namespaces on the emulated nvme device,
->>> one can do something like this:
->>>
->>>   -device nvme,id=nvme-ctrl-0,serial=foo,...
->>>   -device nvme-ns,id=nvme-ns-0,bus=nvme-ctrl-0,...
->>>   -device nvme-ns,id-nvme-ns-1,bus=nvme-ctrl-0,...
->>>
->>> The nvme device creates an 'nvme-bus' and the nvme-ns devices has
->>> dc->bus_type = TYPE_NVME_BUS. This all works very well and provides a
->>> nice overview in `info qtree`:
->>>
->>>   bus: main-system-bus
->>>   type System
->>>     ...
->>>     dev: q35-pcihost, id ""
->>>       ..
->>>       bus: pcie.0
->>> 	type PCIE
->>> 	..
->>> 	dev: nvme, id "nvme-ctrl-0"
->>> 	  ..
->>> 	  bus: nvme-ctrl-0
->>> 	    type nvme-bus
->>> 	    dev: nvme-ns, id "nvme-ns-0"
->>> 	      ..
->>> 	    dev: nvme-ns, id "nvme-ns-1"
->>> 	      ..
->>>
->>>
->>> Nice and qdevy.
->>>
->>> We have since introduced support for NVM Subsystems through an
->>> nvme-subsys device. The nvme-subsys device is just a TYPE_DEVICE and
->>> does not show in `info qtree`
->>
->>Yes.
->>
->>Most devices plug into a bus.  DeviceClass member @bus_type specifies
->>the type of bus they plug into, and DeviceState member @parent_bus
->>points to the actual BusState.  Example: PCI devices plug into a PCI
->>bus, and have ->bus_type = TYPE_PCI_BUS.
->>
->>Some devices don't.  @bus_type and @parent_bus are NULL then.
->>
->>Most buses are provided by a device.  BusState member @parent points to
->>the device.
->>
->>The main-system-bus isn't.  Its @parent is null.
->>
->>"info qtree" only shows the qtree rooted at main-system-bus.  It doesn't
->>show qtrees rooted at bus-less devices or device-less buses other than
->>main-system-bus.  I doubt such buses exist.
->>
->
-> Makes sense.
->
->>>                               (I wonder if this should actually just
->>> have been an -object?).
->>
->>Does nvme-subsys expose virtual hardware to the guest?  Memory, IRQs,
->>...
->>
->>If yes, it needs to be a device.
->>
->>If no, object may be more appropriate.  Tell us more about what it does.
->>
->
-> It does not expose any virtual hardware. See below.
->
->>
->>>                         Anyway. The nvme device has a 'subsys' link
->>> parameter and we use this to manage the namespaces across the
->>> subsystem that may contain several nvme devices (controllers). The
->>> problem is that this doesnt work too well with unplugging since if the
->>> nvme device is `device_del`'ed, the nvme-ns devices on the nvme-bus
->>> are unrealized which is not what we want. We really want the
->>> namespaces to linger, preferably on an nvme-bus of the nvme-subsys
->>> device so they can be attached to other nvme devices that may show up
->>> (or already exist) in the subsystem.
->>>
->>> The core problem I'm having is that I can't seem to create an nvme-bus
->>> from the nvme-subsys device and make it available to the nvme-ns
->>> device on the command line:
->>>
->>>   -device nvme-subsys,id=nvme-subsys-0,...
->>>   -device nvme-ns,bus=nvme-subsys-0
->>>
->>> The above results in 'No 'nvme-bus' bus found for device 'nvme-ns',
->>> even though I do `qbus_create_inplace()` just like the nvme
->>> device. However, I *can* reparent the nvme-ns device in its realize()
->>> method, so if I instead define it like so:
->>>
->>>   -device nvme-subsys,id=nvme-subsys-0,...
->>>   -device nvme,id=nvme-ctrl-0,subsys=nvme-subsys-0
->>>   -device nvme-ns,bus=nvme-ctrl-0
->>>
->>> I can then call `qdev_set_parent_bus()` and set the parent bus to the
->>> bus creates in the nvme-subsys device. This solves the problem since
->>> the namespaces are not "garbage collected" when the nvme device is
->>> removed, but it just feels wrong you know? Also, if possible, I'd of
->>> course really like to retain the nice entries in `info qtree`.
->>
->>I'm afraid I'm too ignorant on NVME to give useful advice.
->>
->>Can you give us a brief primer on the aspects of physical NVME devices
->>you'd like to model in QEMU?  What are "controllers", "namespaces", and
->>"subsystems", and how do they work together?
->>
->>Once we understand the relevant aspects of physical devices, we can
->>discuss how to best model them in QEMU.
->>
->
-> An "NVM Subsystem" is basically just a term to talk about a collection
-> of controllers and namespaces. A namespace is just a quantity of 
-> non-volatile memory that the controller can use to store stuff on.
->
-> Only the controller is a piece of virtual hardware. An example
-> subsystem looks like this:
->
->
->           +------------------+     +-----------------+
->           |   controller A   |     |   controller B  |
->           +------------------+     +-----------------+
->           +--------++--------+     +--------++-------+
->           | NSID 1 || NSID 2 |     | NSID 3 | NSID 2 |
->           +--------++--------+     +--------++-------+
->           +--------+    |          +--------+    |
->           |  NS A  |    |          |  NS C  |    |
->           +--------+    |          +--------+    |
->                         |                        |
->                         +------------------------+
->                                      |
->                                  +--------+
->                                  |  NS B  |
->                                  +--------+
->
->
-> This is the example in Figure 5 in the NVMe v1.4 specification. Here,
-> we have two controllers (that we model with the 'nvme' pci-based
-> device). Each controller has one "private" namespace (NS A and NS C)
-> and shares one namespace (NS B). The namespace IDs are unique across
-> the subsystem and are assigned by the controller when attached to a
-> namespace.
->
-> We use the 'nvme-ns' device (TYPE_DEVICE) to model the namespaces, and
-> I guess this should could also just have been an -object, not sure if
-> we can change that now. The 'nvme-ns' device mostly exist to hold the
-> block backend configuration and related namespace only
-> parameters. Prior to the introduction of subsystem, while we could
-> have multiple controllers on the PCI bus, they could not share
-> namespaces. To support this we introduced the 'nvme-subsys' device to
-> allow the namespaces to be shared. This support is considered
-> experimental, so I think we can get away with changing this to be an
-> object.
->
-> As I explained in my first mail, we attach namespaces to controllers
-> through a bus. This means that even in the absence of an explicit 
-> "bus=..." parameter on the nvme-ns device, it will "connect" on the
-> most recently defined "nvme-bus" (of the most recently defined
-> controller). With subsystems we would also like to model "unattached"
-> namespaces that exists solely in the subsystem (i.e. NOT attached to
-> any controllers). That is why I was trying to get the nvme-ns devices
-> to attach to a bus created by the "non-bus-attached" subsystem
-> device. And that is what I can't do. We could add a link property to
-> the nvme-ns device instead, but then the bus magic in qemu would still
-> happen and the namespace would end up "attached" (in qemu terms) to a
-> controller anyway - and it would complain if we defined the namespace
-> device prior to defining any controller devices since no usable bus
-> exist.
->
-> Thanks for helping out with this!
+https://bugs.launchpad.net/qemu/+bug/1920913
+
+right?
+
+
+-- 
+Thanks,
+
+David / dhildenb
 
 
