@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAE4838CF07
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 May 2021 22:25:30 +0200 (CEST)
-Received: from localhost ([::1]:53396 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0978638CF03
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 May 2021 22:22:54 +0200 (CEST)
+Received: from localhost ([::1]:47424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lkBi5-0005kh-Dr
-	for lists+qemu-devel@lfdr.de; Fri, 21 May 2021 16:25:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50020)
+	id 1lkBfY-0001ei-L6
+	for lists+qemu-devel@lfdr.de; Fri, 21 May 2021 16:22:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50048)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bruno.larsen@eldorado.org.br>)
- id 1lkBbR-00065W-Rv; Fri, 21 May 2021 16:18:37 -0400
+ id 1lkBbU-0006Cu-UX; Fri, 21 May 2021 16:18:40 -0400
 Received: from [201.28.113.2] (port=1319 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <bruno.larsen@eldorado.org.br>)
- id 1lkBbP-0001Nf-UZ; Fri, 21 May 2021 16:18:37 -0400
+ id 1lkBbS-0001Nf-VP; Fri, 21 May 2021 16:18:40 -0400
 Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
  Microsoft SMTPSVC(8.5.9600.16384); Fri, 21 May 2021 17:18:19 -0300
 Received: from eldorado.org.br (unknown [10.10.71.235])
- by power9a (Postfix) with ESMTP id 5663F8013E6;
+ by power9a (Postfix) with ESMTP id 6B3B88013E3;
  Fri, 21 May 2021 17:18:19 -0300 (-03)
 From: "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 3/9] target/ppc: reduce usage of fpscr_set_rounding_mode
-Date: Fri, 21 May 2021 17:17:53 -0300
-Message-Id: <20210521201759.85475-4-bruno.larsen@eldorado.org.br>
+Subject: [PATCH v3 4/9] target/ppc: overhauled and moved logic of storing fpscr
+Date: Fri, 21 May 2021 17:17:54 -0300
+Message-Id: <20210521201759.85475-5-bruno.larsen@eldorado.org.br>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210521201759.85475-1-bruno.larsen@eldorado.org.br>
 References: <20210521201759.85475-1-bruno.larsen@eldorado.org.br>
-X-OriginalArrivalTime: 21 May 2021 20:18:19.0479 (UTC)
- FILETIME=[70B9CE70:01D74E7E]
+X-OriginalArrivalTime: 21 May 2021 20:18:19.0557 (UTC)
+ FILETIME=[70C5B550:01D74E7E]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
 Received-SPF: pass client-ip=201.28.113.2;
  envelope-from=bruno.larsen@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -59,59 +59,411 @@ Cc: farosas@linux.ibm.com, richard.henderson@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It is preferable to store the current rounding mode and retore from that
-than recalculating from fpscr, so we changed the behavior of do_fri and
-VSX_ROUND to do it like that.
+Followed the suggested overhaul to store_fpscr logic, and moved it to
+cpu.c where it can be accessed in !TCG builds.
+
+The overhaul was suggesting because storing a value to fpscr should
+never raise an exception, so we could remove all the mess that happened
+with POWERPC_EXCP_FP.
+
+We also moved fpscr_set_rounding_mode into cpu.c as it could now be moved
+there, and it is needed when a value for the fpscr is being stored
+directly.
 
 Suggested-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Bruno Larsen (billionai) <bruno.larsen@eldorado.org.br>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/ppc/fpu_helper.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ target/ppc/cpu.c        |  43 ++++++++
+ target/ppc/cpu.h        |  12 +-
+ target/ppc/fpu_helper.c | 238 +++-------------------------------------
+ target/ppc/gdbstub.c    |   6 +-
+ 4 files changed, 65 insertions(+), 234 deletions(-)
 
+diff --git a/target/ppc/cpu.c b/target/ppc/cpu.c
+index c8e87e30f1..19d67b5b07 100644
+--- a/target/ppc/cpu.c
++++ b/target/ppc/cpu.c
+@@ -25,6 +25,7 @@
+ #include "fpu/softfloat-helpers.h"
+ #include "mmu-hash64.h"
+ #include "helper_regs.h"
++#include "sysemu/tcg.h"
+ 
+ target_ulong cpu_read_xer(CPUPPCState *env)
+ {
+@@ -109,3 +110,45 @@ void ppc_store_lpcr(PowerPCCPU *cpu, target_ulong val)
+     /* The gtse bit affects hflags */
+     hreg_compute_hflags(env);
+ }
++
++static inline void fpscr_set_rounding_mode(CPUPPCState *env)
++{
++    int rnd_type;
++
++    /* Set rounding mode */
++    switch (fpscr_rn) {
++    case 0:
++        /* Best approximation (round to nearest) */
++        rnd_type = float_round_nearest_even;
++        break;
++    case 1:
++        /* Smaller magnitude (round toward zero) */
++        rnd_type = float_round_to_zero;
++        break;
++    case 2:
++        /* Round toward +infinite */
++        rnd_type = float_round_up;
++        break;
++    default:
++    case 3:
++        /* Round toward -infinite */
++        rnd_type = float_round_down;
++        break;
++    }
++    set_float_rounding_mode(rnd_type, &env->fp_status);
++}
++
++void ppc_store_fpscr(CPUPPCState *env, target_ulong val)
++{
++    val &= ~(FP_VX | FP_FEX);
++    if (val & FPSCR_IX) {
++        val |= FP_VX;
++    }
++    if ((val >> FPSCR_XX) & (val >> FPSCR_XE) & 0x1f) {
++        val |= FP_FEX;
++    }
++    env->fpscr = val;
++    if (tcg_enabled()) {
++        fpscr_set_rounding_mode(env);
++    }
++}
+diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+index cab33a3680..203f07e48e 100644
+--- a/target/ppc/cpu.h
++++ b/target/ppc/cpu.h
+@@ -675,11 +675,11 @@ enum {
+ #define fpscr_ni     (((env->fpscr) >> FPSCR_NI)     & 0x1)
+ #define fpscr_rn     (((env->fpscr) >> FPSCR_RN0)    & 0x3)
+ /* Invalid operation exception summary */
+-#define fpscr_ix ((env->fpscr) & ((1 << FPSCR_VXSNAN) | (1 << FPSCR_VXISI)  | \
+-                                  (1 << FPSCR_VXIDI)  | (1 << FPSCR_VXZDZ)  | \
+-                                  (1 << FPSCR_VXIMZ)  | (1 << FPSCR_VXVC)   | \
+-                                  (1 << FPSCR_VXSOFT) | (1 << FPSCR_VXSQRT) | \
+-                                  (1 << FPSCR_VXCVI)))
++#define FPSCR_IX     ((1 << FPSCR_VXSNAN) | (1 << FPSCR_VXISI)  | \
++                      (1 << FPSCR_VXIDI)  | (1 << FPSCR_VXZDZ)  | \
++                      (1 << FPSCR_VXIMZ)  | (1 << FPSCR_VXVC)   | \
++                      (1 << FPSCR_VXSOFT) | (1 << FPSCR_VXSQRT) | \
++                      (1 << FPSCR_VXCVI))
+ /* exception summary */
+ #define fpscr_ex  (((env->fpscr) >> FPSCR_XX) & 0x1F)
+ /* enabled exception summary */
+@@ -1334,7 +1334,7 @@ void cpu_ppc_set_vhyp(PowerPCCPU *cpu, PPCVirtualHypervisor *vhyp);
+ #endif
+ #endif
+ 
+-void store_fpscr(CPUPPCState *env, uint64_t arg, uint32_t mask);
++void ppc_store_fpscr(CPUPPCState *env, target_ulong val);
+ void helper_hfscr_facility_check(CPUPPCState *env, uint32_t bit,
+                                  const char *caller, uint32_t cause);
+ 
 diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
-index 44315fca0b..a4a283df2b 100644
+index a4a283df2b..0f4074fc7e 100644
 --- a/target/ppc/fpu_helper.c
 +++ b/target/ppc/fpu_helper.c
-@@ -822,6 +822,7 @@ static inline uint64_t do_fri(CPUPPCState *env, uint64_t arg,
-                               int rounding_mode)
+@@ -383,247 +383,35 @@ static inline void float_inexact_excp(CPUPPCState *env)
+     }
+ }
+ 
+-static inline void fpscr_set_rounding_mode(CPUPPCState *env)
+-{
+-    int rnd_type;
+-
+-    /* Set rounding mode */
+-    switch (fpscr_rn) {
+-    case 0:
+-        /* Best approximation (round to nearest) */
+-        rnd_type = float_round_nearest_even;
+-        break;
+-    case 1:
+-        /* Smaller magnitude (round toward zero) */
+-        rnd_type = float_round_to_zero;
+-        break;
+-    case 2:
+-        /* Round toward +infinite */
+-        rnd_type = float_round_up;
+-        break;
+-    default:
+-    case 3:
+-        /* Round toward -infinite */
+-        rnd_type = float_round_down;
+-        break;
+-    }
+-    set_float_rounding_mode(rnd_type, &env->fp_status);
+-}
+-
+ void helper_fpscr_clrbit(CPUPPCState *env, uint32_t bit)
  {
-     CPU_DoubleU farg;
-+    FloatRoundMode old_rounding_mode = get_float_rounding_mode(&env->fp_status);
+-    int prev;
+-
+-    prev = (env->fpscr >> bit) & 1;
+-    env->fpscr &= ~(1 << bit);
+-    if (prev == 1) {
+-        switch (bit) {
+-        case FPSCR_RN1:
+-        case FPSCR_RN0:
+-            fpscr_set_rounding_mode(env);
+-            break;
+-        case FPSCR_VXSNAN:
+-        case FPSCR_VXISI:
+-        case FPSCR_VXIDI:
+-        case FPSCR_VXZDZ:
+-        case FPSCR_VXIMZ:
+-        case FPSCR_VXVC:
+-        case FPSCR_VXSOFT:
+-        case FPSCR_VXSQRT:
+-        case FPSCR_VXCVI:
+-            if (!fpscr_ix) {
+-                /* Set VX bit to zero */
+-                env->fpscr &= ~FP_VX;
+-            }
+-            break;
+-        case FPSCR_OX:
+-        case FPSCR_UX:
+-        case FPSCR_ZX:
+-        case FPSCR_XX:
+-        case FPSCR_VE:
+-        case FPSCR_OE:
+-        case FPSCR_UE:
+-        case FPSCR_ZE:
+-        case FPSCR_XE:
+-            if (!fpscr_eex) {
+-                /* Set the FEX bit */
+-                env->fpscr &= ~FP_FEX;
+-            }
+-            break;
+-        default:
+-            break;
+-        }
++    uint32_t mask = 1u << bit;
++    if (env->fpscr & mask) {
++        ppc_store_fpscr(env, env->fpscr & ~mask);
+     }
+ }
  
-     farg.ll = arg;
+ void helper_fpscr_setbit(CPUPPCState *env, uint32_t bit)
+ {
+-    CPUState *cs = env_cpu(env);
+-    int prev;
+-
+-    prev = (env->fpscr >> bit) & 1;
+-    env->fpscr |= 1 << bit;
+-    if (prev == 0) {
+-        switch (bit) {
+-        case FPSCR_VX:
+-            env->fpscr |= FP_FX;
+-            if (fpscr_ve) {
+-                goto raise_ve;
+-            }
+-            break;
+-        case FPSCR_OX:
+-            env->fpscr |= FP_FX;
+-            if (fpscr_oe) {
+-                goto raise_oe;
+-            }
+-            break;
+-        case FPSCR_UX:
+-            env->fpscr |= FP_FX;
+-            if (fpscr_ue) {
+-                goto raise_ue;
+-            }
+-            break;
+-        case FPSCR_ZX:
+-            env->fpscr |= FP_FX;
+-            if (fpscr_ze) {
+-                goto raise_ze;
+-            }
+-            break;
+-        case FPSCR_XX:
+-            env->fpscr |= FP_FX;
+-            if (fpscr_xe) {
+-                goto raise_xe;
+-            }
+-            break;
+-        case FPSCR_VXSNAN:
+-        case FPSCR_VXISI:
+-        case FPSCR_VXIDI:
+-        case FPSCR_VXZDZ:
+-        case FPSCR_VXIMZ:
+-        case FPSCR_VXVC:
+-        case FPSCR_VXSOFT:
+-        case FPSCR_VXSQRT:
+-        case FPSCR_VXCVI:
+-            env->fpscr |= FP_VX;
+-            env->fpscr |= FP_FX;
+-            if (fpscr_ve != 0) {
+-                goto raise_ve;
+-            }
+-            break;
+-        case FPSCR_VE:
+-            if (fpscr_vx != 0) {
+-            raise_ve:
+-                env->error_code = POWERPC_EXCP_FP;
+-                if (fpscr_vxsnan) {
+-                    env->error_code |= POWERPC_EXCP_FP_VXSNAN;
+-                }
+-                if (fpscr_vxisi) {
+-                    env->error_code |= POWERPC_EXCP_FP_VXISI;
+-                }
+-                if (fpscr_vxidi) {
+-                    env->error_code |= POWERPC_EXCP_FP_VXIDI;
+-                }
+-                if (fpscr_vxzdz) {
+-                    env->error_code |= POWERPC_EXCP_FP_VXZDZ;
+-                }
+-                if (fpscr_vximz) {
+-                    env->error_code |= POWERPC_EXCP_FP_VXIMZ;
+-                }
+-                if (fpscr_vxvc) {
+-                    env->error_code |= POWERPC_EXCP_FP_VXVC;
+-                }
+-                if (fpscr_vxsoft) {
+-                    env->error_code |= POWERPC_EXCP_FP_VXSOFT;
+-                }
+-                if (fpscr_vxsqrt) {
+-                    env->error_code |= POWERPC_EXCP_FP_VXSQRT;
+-                }
+-                if (fpscr_vxcvi) {
+-                    env->error_code |= POWERPC_EXCP_FP_VXCVI;
+-                }
+-                goto raise_excp;
+-            }
+-            break;
+-        case FPSCR_OE:
+-            if (fpscr_ox != 0) {
+-            raise_oe:
+-                env->error_code = POWERPC_EXCP_FP | POWERPC_EXCP_FP_OX;
+-                goto raise_excp;
+-            }
+-            break;
+-        case FPSCR_UE:
+-            if (fpscr_ux != 0) {
+-            raise_ue:
+-                env->error_code = POWERPC_EXCP_FP | POWERPC_EXCP_FP_UX;
+-                goto raise_excp;
+-            }
+-            break;
+-        case FPSCR_ZE:
+-            if (fpscr_zx != 0) {
+-            raise_ze:
+-                env->error_code = POWERPC_EXCP_FP | POWERPC_EXCP_FP_ZX;
+-                goto raise_excp;
+-            }
+-            break;
+-        case FPSCR_XE:
+-            if (fpscr_xx != 0) {
+-            raise_xe:
+-                env->error_code = POWERPC_EXCP_FP | POWERPC_EXCP_FP_XX;
+-                goto raise_excp;
+-            }
+-            break;
+-        case FPSCR_RN1:
+-        case FPSCR_RN0:
+-            fpscr_set_rounding_mode(env);
+-            break;
+-        default:
+-            break;
+-        raise_excp:
+-            /* Update the floating-point enabled exception summary */
+-            env->fpscr |= FP_FEX;
+-            /* We have to update Rc1 before raising the exception */
+-            cs->exception_index = POWERPC_EXCP_PROGRAM;
+-            break;
+-        }
++    uint32_t mask = 1u << bit;
++    if (!(env->fpscr & mask)) {
++        ppc_store_fpscr(env, env->fpscr | mask);
+     }
+ }
  
-@@ -834,8 +835,7 @@ static inline uint64_t do_fri(CPUPPCState *env, uint64_t arg,
-                       float_flag_inexact;
-         set_float_rounding_mode(rounding_mode, &env->fp_status);
-         farg.ll = float64_round_to_int(farg.d, &env->fp_status);
--        /* Restore rounding mode from FPSCR */
--        fpscr_set_rounding_mode(env);
-+        set_float_rounding_mode(old_rounding_mode, &env->fp_status);
+-void helper_store_fpscr(CPUPPCState *env, uint64_t arg, uint32_t mask)
++void helper_store_fpscr(CPUPPCState *env, uint64_t val, uint32_t nibbles)
+ {
+-    CPUState *cs = env_cpu(env);
+-    target_ulong prev, new;
++    target_ulong mask = 0;
+     int i;
  
-         /* fri* does not set FPSCR[XX] */
-         if (!inexact) {
-@@ -3136,8 +3136,10 @@ void helper_##op(CPUPPCState *env, ppc_vsr_t *xt, ppc_vsr_t *xb)       \
- {                                                                      \
-     ppc_vsr_t t = *xt;                                                 \
-     int i;                                                             \
-+    FloatRoundMode curr_rounding_mode;                                 \
-                                                                        \
-     if (rmode != FLOAT_ROUND_CURRENT) {                                \
-+        curr_rounding_mode = get_float_rounding_mode(&env->fp_status); \
-         set_float_rounding_mode(rmode, &env->fp_status);               \
-     }                                                                  \
-                                                                        \
-@@ -3160,7 +3162,7 @@ void helper_##op(CPUPPCState *env, ppc_vsr_t *xt, ppc_vsr_t *xb)       \
-      * mode from FPSCR                                                 \
-      */                                                                \
-     if (rmode != FLOAT_ROUND_CURRENT) {                                \
--        fpscr_set_rounding_mode(env);                                  \
-+        set_float_rounding_mode(curr_rounding_mode, &env->fp_status);  \
-         env->fp_status.float_exception_flags &= ~float_flag_inexact;   \
-     }                                                                  \
-                                                                        \
+-    prev = env->fpscr;
+-    new = (target_ulong)arg;
+-    new &= ~(FP_FEX | FP_VX);
+-    new |= prev & (FP_FEX | FP_VX);
++    /* TODO: push this extension back to translation time */
+     for (i = 0; i < sizeof(target_ulong) * 2; i++) {
+-        if (mask & (1 << i)) {
+-            env->fpscr &= ~(0xFLL << (4 * i));
+-            env->fpscr |= new & (0xFLL << (4 * i));
++        if (nibbles & (1 << i)) {
++            mask |= (target_ulong) 0xf << (4 * i);
+         }
+     }
+-    /* Update VX and FEX */
+-    if (fpscr_ix != 0) {
+-        env->fpscr |= FP_VX;
+-    } else {
+-        env->fpscr &= ~FP_VX;
+-    }
+-    if ((fpscr_ex & fpscr_eex) != 0) {
+-        env->fpscr |= FP_FEX;
+-        cs->exception_index = POWERPC_EXCP_PROGRAM;
+-        /* XXX: we should compute it properly */
+-        env->error_code = POWERPC_EXCP_FP;
+-    } else {
+-        env->fpscr &= ~FP_FEX;
+-    }
+-    fpscr_set_rounding_mode(env);
+-}
+-
+-void store_fpscr(CPUPPCState *env, uint64_t arg, uint32_t mask)
+-{
+-    helper_store_fpscr(env, arg, mask);
++    val = (val & mask) | (env->fpscr & ~mask);
++    ppc_store_fpscr(env, val);
+ }
+ 
+ static void do_float_check_status(CPUPPCState *env, uintptr_t raddr)
+diff --git a/target/ppc/gdbstub.c b/target/ppc/gdbstub.c
+index 9339e7eafe..c7d866cfcc 100644
+--- a/target/ppc/gdbstub.c
++++ b/target/ppc/gdbstub.c
+@@ -272,7 +272,7 @@ int ppc_cpu_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n)
+             break;
+         case 70:
+             /* fpscr */
+-            store_fpscr(env, ldtul_p(mem_buf), 0xffffffff);
++            ppc_store_fpscr(env, ldtul_p(mem_buf));
+             break;
+         }
+     }
+@@ -322,7 +322,7 @@ int ppc_cpu_gdb_write_register_apple(CPUState *cs, uint8_t *mem_buf, int n)
+             break;
+         case 70 + 32:
+             /* fpscr */
+-            store_fpscr(env, ldq_p(mem_buf), 0xffffffff);
++            ppc_store_fpscr(env, ldq_p(mem_buf));
+             break;
+         }
+     }
+@@ -475,7 +475,7 @@ static int gdb_set_float_reg(CPUPPCState *env, uint8_t *mem_buf, int n)
+     }
+     if (n == 32) {
+         ppc_maybe_bswap_register(env, mem_buf, 4);
+-        store_fpscr(env, ldl_p(mem_buf), 0xffffffff);
++        ppc_store_fpscr(env, ldl_p(mem_buf));
+         return 4;
+     }
+     return 0;
 -- 
 2.17.1
 
