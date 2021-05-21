@@ -2,77 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1380438CADE
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 May 2021 18:20:44 +0200 (CEST)
-Received: from localhost ([::1]:50436 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA2A438CB21
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 May 2021 18:35:27 +0200 (CEST)
+Received: from localhost ([::1]:34212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lk7tD-00028B-5q
-	for lists+qemu-devel@lfdr.de; Fri, 21 May 2021 12:20:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48628)
+	id 1lk87M-0002Y4-Nu
+	for lists+qemu-devel@lfdr.de; Fri, 21 May 2021 12:35:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54006)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lk7rN-00006z-IL
- for qemu-devel@nongnu.org; Fri, 21 May 2021 12:18:49 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:40464)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lk7rJ-00082a-Oa
- for qemu-devel@nongnu.org; Fri, 21 May 2021 12:18:49 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id
- f6-20020a1c1f060000b0290175ca89f698so7708247wmf.5
- for <qemu-devel@nongnu.org>; Fri, 21 May 2021 09:18:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=//WP5NyEkM2KZxOSONWiz5eSL4w73b2EWWIfjaJEJ4I=;
- b=uc1EnOMELAIwyuEV4ScqjI29sBLUDkCjBuZrUCM0OBYNqNObiVVphuLZ9s0SVhCyam
- xdZDtuEJ7ZQ9Q7HtJW+FFGfvSMZTY0VY1vsCT62Lwc1+CPJbRHehT98VO4mpJC0VxXFt
- 2Tl2neU4cf9wSm8zLkKf7IXcxPyLxBU2XdJ6CMFT1/4BMWdXEdZWG487sDGCp/skk0jR
- UFKGVbt/Y+8l7tBLspNZ2+jKFfNeO6SRbX4VQ7yAdN3eJXxO/aT0pdM4hpNabR7hSh39
- OrkY3PDuzLRS5UwWDGbTrJq19ntO7Nba2wnRuoBzATasU9ECa25VqB/24D7nAMsaiQaE
- 9oRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=//WP5NyEkM2KZxOSONWiz5eSL4w73b2EWWIfjaJEJ4I=;
- b=AzJXoxkXcVgl1/9NKbP6syoZUGQVmoFRJAm+1x0UUFOpVA1/UOqbIxyslGVpCFdeWD
- fShfFoDGN0K4JOs8Csvnn2DM/OO8S9dRATpszhEI8NmrUG4/1wJrANLbDqqWTxpgc1qd
- j+OgFvK0sIv5xkw/pWYOFm+z/euWdSYy6jO97g+Jjoq5FnrMZiA7nYJM3gd1sgEvg6eu
- dqeq/y3ErJ1NkTlPQjlIQGuNcT55ZnFVsLe2juXufaDFcMa7Wllohvf3XxxqJUnTeqYB
- P/qNRENK5e2/2pOW/2DNvfKot5XCJZmncW7adn9rFKChjbBxi2h5oG80zqbJ/OobJpU/
- 7aSg==
-X-Gm-Message-State: AOAM532YAIdFRERSnsG9pzHTKl3N5B/xnGtRCYZ7AoiaGZcl+hdxkGj/
- wLlHoDvnbZijFHaeC45/dktH7w==
-X-Google-Smtp-Source: ABdhPJxrRteSsFuG2y7iLCih3B6FhuTgguNRBs7d+zABcPBU/TJYQibuK18RGLkDlWYtQLVKT5n9rQ==
-X-Received: by 2002:a1c:f303:: with SMTP id q3mr10011623wmq.9.1621613923313;
- Fri, 21 May 2021 09:18:43 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id v12sm2369552wrv.76.2021.05.21.09.18.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 May 2021 09:18:42 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 705FD1FF7E;
- Fri, 21 May 2021 17:18:41 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [RFC PATCH] tests/tcg/configure.sh: tweak quoting of target_compiler
-Date: Fri, 21 May 2021 17:18:30 +0100
-Message-Id: <20210521161830.30050-1-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lk867-0001qo-Jr
+ for qemu-devel@nongnu.org; Fri, 21 May 2021 12:34:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46426)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lk863-0002Dr-QU
+ for qemu-devel@nongnu.org; Fri, 21 May 2021 12:34:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1621614838;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=8ycxINMQnM/7dUcgti9QAQ/4/BqW/3mZBoXPn1WT4vk=;
+ b=IwsO2F4zVQ/PtjQe9wdHyjcpbnnrrZaB3Ub3IzSCe2nRbwNkLBn7Nb+MobT9aWFlzF7+IT
+ 5D4ZzS6g8885wDlA+MKYGixC/mjbodKb0rycyqB3bKY5yFQxARcp8PWJZZ1frDu4q+fy7o
+ Q1j2XGrie/EEP4kfAZUcAklhZr4i3A4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-523-92d8LbO9NKSppEQ5K_hVlA-1; Fri, 21 May 2021 12:33:56 -0400
+X-MC-Unique: 92d8LbO9NKSppEQ5K_hVlA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 51BA58015F8;
+ Fri, 21 May 2021 16:33:55 +0000 (UTC)
+Received: from redhat.com (ovpn-114-5.ams2.redhat.com [10.36.114.5])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D7ADB5D9CA;
+ Fri, 21 May 2021 16:33:49 +0000 (UTC)
+Date: Fri, 21 May 2021 17:33:46 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Peter Xu <peterx@redhat.com>
+Subject: Re: A bug of Monitor Chardev ?
+Message-ID: <YKfg6j4mPjvjSrcF@redhat.com>
+References: <cd197959-7da0-ee50-1e65-e6b2e7107a86@huawei.com>
+ <CAJ+F1C+4URqrZvAiBk+o-Ei4etL_oBtdPr0cugGmnMaYaZqGyA@mail.gmail.com>
+ <YKU/k/DIJd6gMLvw@redhat.com> <87lf88pmyn.fsf@dusky.pond.sub.org>
+ <YKfHGC79w0uv41Zd@t490s>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <YKfHGC79w0uv41Zd@t490s>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.374,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,47 +84,188 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, thuth@redhat.com,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: chenjiashang@huawei.com, Markus Armbruster <armbru@redhat.com>,
+ QEMU <qemu-devel@nongnu.org>, "Gonglei \(Arei\)" <arei.gonglei@huawei.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, "Longpeng \(Mike,
+ Cloud Infrastructure Service Product Dept.\)" <longpeng2@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If you configure the host compiler with a multi-command stanza like:
+On Fri, May 21, 2021 at 10:43:36AM -0400, Peter Xu wrote:
+> On Fri, May 21, 2021 at 09:25:52AM +0200, Markus Armbruster wrote:
+> > Daniel P. Berrangé <berrange@redhat.com> writes:
+> > 
+> > > On Wed, May 19, 2021 at 08:17:51PM +0400, Marc-André Lureau wrote:
+> > >> Hi
+> > >> 
+> > >> On Mon, May 17, 2021 at 11:11 AM Longpeng (Mike, Cloud Infrastructure
+> > >> Service Product Dept.) <longpeng2@huawei.com> wrote:
+> > >> 
+> > >> > We find a race during QEMU starting, which would case the QEMU process
+> > >> > coredump.
+> > >> >
+> > >> > <main loop>                             |    <MON iothread>
+> > >> >                                         |
+> > >> > [1] create MON chardev                  |
+> > >> > qemu_create_early_backends              |
+> > >> >   chardev_init_func                     |
+> > >> >                                         |
+> > >> > [2] create MON iothread                 |
+> > >> > qemu_create_late_backends               |
+> > >> >   mon_init_func                         |
+> > >> >         aio_bh_schedule----------------------->
+> > >> > monitor_qmp_setup_handlers_bh
+> > >> > [3] enter main loog                     |    tcp_chr_update_read_handler
+> > >> > (* A client come in, e.g. Libvirt *)    |      update_ioc_handlers
+> > >> >
+> > >> tcp_chr_new_client                      |
+> > >> >   update_ioc_handlers                   |
+> > >> >                                         |
+> > >> >     [4] create new hup_source           |
+> > >> >         s->hup_source = *PTR1*          |
+> > >> >           g_source_attach(s->hup_source)|
+> > >> >                                         |        [5]
+> > >> > remove_hup_source(*PTR1*)
+> > >> >                                         |            (create new
+> > >> > hup_source)
+> > >> >                                         |             s->hup_source =
+> > >> > *PTR2*
+> > >> >         [6] g_source_attach_unlocked    |
+> > >> >               *PTR1* is freed by [5]    |
+> > >> >
+> > >> > Do you have any suggestion to fix this bug ? Thanks!
+> > >> >
+> > >> >
+> > >> I see.. I think the simplest would be for the chardev to not be dispatched
+> > >> in the original thread after monitor_init_qmp(). It looks like this should
+> > >> translate at least to calling qio_net_listener_set_client_func_full() with
+> > >> NULL handlers. I can't see where we could fit that in the chardev API.
+> > >> Perhaps add a new qemu_chr_be_disable_handlers() (until
+> > >> update_read_handlers is called again to enable them)?
+> > >> 
+> > >> Daniel? Paolo?
+> > >
+> > > IIUC, the problem is:
+> > >
+> > >   - when we first create the chardev, its IO watches are setup with
+> > >     the default (NULL) GMainContext which is processed by the main
+> > >     thread
+> > >
+> > >   - when we create the monitor, we re-initialize the chardev to
+> > >     attach its IO watches to a custom GMainCOntext associated with
+> > >     the monitor thread.
+> > >
+> > >   - The re-initialization is happening in a bottom half that runs
+> > >     in the monitor thread, thus the main thread can already start
+> > >     processing an IO event in parallel
+> > >
+> > > Looking at the code in qmp.c monitor_init_qmp method it has a
+> > > comment:
+> > >
+> > >         /*
+> > >          * We can't call qemu_chr_fe_set_handlers() directly here
+> > >          * since chardev might be running in the monitor I/O
+> > >          * thread.  Schedule a bottom half.
+> > >          */
+> > >
+> > > AFAICT, that comment is wrong. monitor_init_qmp is called from
+> > > monitor_init, which is called from monitor_init_opts, which is
+> > > called from qemu_create_late_backends, which runs in the main
+> > > thread.
+> > 
+> > Goes back to commit a5ed352596a8b7eb2f9acce34371b944ac3056c4
+> > Author: Peter Xu <peterx@redhat.com>
+> > Date:   Fri Mar 9 16:59:52 2018 +0800
+> > 
+> >     monitor: allow using IO thread for parsing
+> >     
+> >     For each Monitor, add one field "use_io_thr" to show whether it will be
+> >     using the dedicated monitor IO thread to handle input/output.  When set,
+> >     monitor IO parsing work will be offloaded to the dedicated monitor IO
+> >     thread, rather than the original main loop thread.
+> >     
+> >     This only works for QMP.  HMP will always be run on the main loop
+> >     thread.
+> >     
+> >     Currently we're still keeping use_io_thr off always.  Will turn it on
+> >     later at some point.
+> >     
+> >     One thing to mention is that we cannot set use_io_thr for every QMP
+> >     monitor.  The problem is that MUXed typed chardevs may not work well
+> >     with it now. When MUX is used, frontend of chardev can be the monitor
+> >     plus something else.  The only thing we know would be safe to be run
+> >     outside main thread so far is the monitor frontend. All the rest of the
+> >     frontends should still be run in main thread only.
+> >     
+> >     Signed-off-by: Peter Xu <peterx@redhat.com>
+> >     Message-Id: <20180309090006.10018-10-peterx@redhat.com>
+> >     Reviewed-by: Eric Blake <eblake@redhat.com>
+> >     [eblake: squash in Peter's followup patch to avoid test failures]
+> >     Signed-off-by: Eric Blake <eblake@redhat.com>
+> > 
+> > Peter, do you remember why you went for a bottom half?
+> > 
+> > Hmm, back then it was in monitor_init(), which was called from several
+> > places.  Did we manage to lose the need for a bottom half along the way?
+> > 
+> > Note that the initial comment was a bit different:
+> > 
+> >         if (mon->use_io_thr) {
+> >             /*
+> >              * Make sure the old iowatch is gone.  It's possible when
+> >              * e.g. the chardev is in client mode, with wait=on.
+> >              */
+> >             remove_fd_in_watch(chr);
+> >             /*
+> >              * We can't call qemu_chr_fe_set_handlers() directly here
+> >              * since during the procedure the chardev will be active
+> >              * and running in monitor iothread, while we'll still do
+> >              * something before returning from it, which is a possible
+> >              * race too.  To avoid that, we just create a BH to setup
+> >              * the handlers.
+> >              */
+> >             aio_bh_schedule_oneshot(monitor_get_aio_context(),
+> >                                     monitor_qmp_setup_handlers_bh, mon);
+> >             /* We'll add this to mon_list in the BH when setup done */
+> >             return;
+> >         } else {
+> >             qemu_chr_fe_set_handlers(&mon->chr, monitor_can_read,
+> >                                      monitor_qmp_read, monitor_qmp_event,
+> >                                      NULL, mon, NULL, true);
+> >         }
+> > 
+> > I changed it in commit 774a6b67a40.
+> 
+> I think the original problem was that if qemu_chr_fe_set_handlers() is called
+> in main thread, it can start to race somehow within execution of the function
+> qemu_chr_fe_set_handlers() right after we switch context at:
+> 
+>     qemu_chr_be_update_read_handlers(s, context);
+> 
+> Then the rest code in qemu_chr_fe_set_handlers() will continue to run in main
+> thread for sure, but the should be running with the new iothread context, which
+> introduce a race condition.
+> 
+> Running qemu_chr_be_update_read_handlers() in BH resolves that because then all
+> things run in the monitor iothread only and natually serialized.
 
-  --cc="ccache gcc"
+The first message in this thread, however, claims that it is *not*
+in fact serialized, when using the BH. 
 
-then the configure.sh machinery falls over with confusion. Work around
-this by ensuring we correctly quote so where we need a complete
-evaluation we get it. Of course the has() check needs single variable
-so we need to unquote that. This does mean it essentially checks that
-just the ccache command exits but if we got past that step we still
-check the compiler actually does something.
+> So the new comment looks indeed not fully right, as the chr device should be
+> indeed within main thread context before qemu_chr_fe_set_handlers(), it's just
+> that the race may start right away if without BH when context switch happens
+> for the chr.
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Cc: Thomas Huth <thuth@redhat.com>
----
- tests/tcg/configure.sh | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+It sounds like both the comment and the code are potentially wrong.
 
-diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
-index ed6492ce59..aa7c24328a 100755
---- a/tests/tcg/configure.sh
-+++ b/tests/tcg/configure.sh
-@@ -222,10 +222,10 @@ for target in $target_list; do
- 
-   got_cross_cc=no
- 
--  if eval test "x\${cross_cc_$arch}" != xyes; then
--      eval "target_compiler=\${cross_cc_$arch}"
-+  if eval test "x\"\${cross_cc_$arch}\"" != xyes; then
-+      eval "target_compiler=\"\${cross_cc_$arch}\""
- 
--      if has "$target_compiler"; then
-+      if has $target_compiler; then
-           if test "$supress_clang" = yes &&
-                   $target_compiler --version | grep -qi "clang"; then
-               got_cross_cc=no
+Regards,
+Daniel
 -- 
-2.20.1
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
