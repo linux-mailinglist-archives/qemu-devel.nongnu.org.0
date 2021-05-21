@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3295B38C751
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 May 2021 14:59:31 +0200 (CEST)
-Received: from localhost ([::1]:54888 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6427338C744
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 May 2021 14:57:41 +0200 (CEST)
+Received: from localhost ([::1]:51090 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lk4kU-0000hg-7T
-	for lists+qemu-devel@lfdr.de; Fri, 21 May 2021 08:59:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52626)
+	id 1lk4ii-0006Xe-E7
+	for lists+qemu-devel@lfdr.de; Fri, 21 May 2021 08:57:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52666)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lk4eI-0005sc-MS
- for qemu-devel@nongnu.org; Fri, 21 May 2021 08:53:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29887)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lk4eK-0005vM-SZ
+ for qemu-devel@nongnu.org; Fri, 21 May 2021 08:53:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45419)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lk4eH-0007tV-7U
- for qemu-devel@nongnu.org; Fri, 21 May 2021 08:53:06 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lk4eI-0007tb-BH
+ for qemu-devel@nongnu.org; Fri, 21 May 2021 08:53:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621601584;
+ s=mimecast20190719; t=1621601585;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ov1Os6JUMA/qSEiClpfphRJ1Q5lU0+6PNvwPHjclB2A=;
- b=icniUeEzU2WYxY1nV8vulPXyfSl7Mx2ZqSIPhpcsrEymNHuW3QUKxdxQyX3uWRfUs695DH
- K9G2kTdxvf5Xa/EXuifv89AuYZk9DtYoWXn2mSHsHeiPD6k/JkTet58RBxX1OlwLggVmOC
- PC3ftSQhNPhHC8pcl5jIJc8LV3tXC4o=
+ bh=bRU+uGCTs+4KNsAW5Vo/HZG4V1u3wULdCWXqgWvdMkw=;
+ b=YGFtSNTQ9PHeP9v7+/qJeulbN0Pwj8VkzXk5pAxyzIlIoNwV6WGLSpZcZCGewKkIFIpIjO
+ gMNZnwxIRwKa9H1Gf/4AfPEm2R6duDPVbnJT/xu4UBMjEPXfj9ic0tq3sqMXrT/ixJ3JZy
+ 6tpF9A/GFQkt9xkAGVOX0io7yVe5jTM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-212-S4aBkGTfNsuWyW8SLn4w_w-1; Fri, 21 May 2021 08:53:02 -0400
-X-MC-Unique: S4aBkGTfNsuWyW8SLn4w_w-1
+ us-mta-233-bYxxyKTMPBmH-QsgIaVCKQ-1; Fri, 21 May 2021 08:53:02 -0400
+X-MC-Unique: bYxxyKTMPBmH-QsgIaVCKQ-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D7B641926DA3;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D42C71926DA2;
  Fri, 21 May 2021 12:53:01 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-84.ams2.redhat.com
  [10.36.112.84])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8555059468;
- Fri, 21 May 2021 12:52:46 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A13C759472;
+ Fri, 21 May 2021 12:52:49 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 46B0818003A4; Fri, 21 May 2021 14:51:19 +0200 (CEST)
+ id 51E59180079A; Fri, 21 May 2021 14:51:19 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/11] vnc: spelling fix (enable->enabled)
-Date: Fri, 21 May 2021 14:51:09 +0200
-Message-Id: <20210521125119.3173309-2-kraxel@redhat.com>
+Subject: [PULL 02/11] ui/spice-display: check NULL pointer in
+ interface_release_resource()
+Date: Fri, 21 May 2021 14:51:10 +0200
+Message-Id: <20210521125119.3173309-3-kraxel@redhat.com>
 In-Reply-To: <20210521125119.3173309-1-kraxel@redhat.com>
 References: <20210521125119.3173309-1-kraxel@redhat.com>
 MIME-Version: 1.0
@@ -56,9 +57,9 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -79,37 +80,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Michael Tokarev <mjt@tls.msk.ru>, Markus Armbruster <armbru@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
+Cc: Mauro Matteo Cascella <mcascell@redhat.com>,
+ Prasad J Pandit <pjp@fedoraproject.org>, Yu Lu <ini.universe@gmail.com>,
+ Markus Armbruster <armbru@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Michael Tokarev <mjt@tls.msk.ru>
+From: Mauro Matteo Cascella <mcascell@redhat.com>
 
-Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20210508092558.351102-1-mjt@msgid.tls.msk.ru>
+Check rext.info to avoid potential NULL pointer dereference. A similar check
+exists in interface_release_resource() in hw/display/qxl.c.
+
+Reported-by: Yu Lu <ini.universe@gmail.com>
+Signed-off-by: Mauro Matteo Cascella <mcascell@redhat.com>
+Reviewed-by: Prasad J Pandit <pjp@fedoraproject.org>
+Message-Id: <20210520105833.183160-1-mcascell@redhat.com>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- ui/vnc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ ui/spice-display.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/ui/vnc.c b/ui/vnc.c
-index 456db47d713d..2bea46b2b3f8 100644
---- a/ui/vnc.c
-+++ b/ui/vnc.c
-@@ -596,7 +596,7 @@ bool vnc_display_reload_certs(const char *id, Error **errp)
-     }
+diff --git a/ui/spice-display.c b/ui/spice-display.c
+index d22781a23d06..f59c69882d91 100644
+--- a/ui/spice-display.c
++++ b/ui/spice-display.c
+@@ -561,6 +561,10 @@ static void interface_release_resource(QXLInstance *sin,
+     SimpleSpiceCursor *cursor;
+     QXLCommandExt *ext;
  
-     if (!vd->tlscreds) {
--        error_setg(errp, "vnc tls is not enable");
-+        error_setg(errp, "vnc tls is not enabled");
-         return false;
-     }
- 
++    if (!rext.info) {
++        return;
++    }
++
+     ext = (void *)(intptr_t)(rext.info->id);
+     switch (ext->cmd.type) {
+     case QXL_CMD_DRAW:
 -- 
 2.31.1
 
