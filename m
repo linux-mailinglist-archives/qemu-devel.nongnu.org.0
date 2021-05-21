@@ -2,49 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F351C38CE72
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 May 2021 21:59:18 +0200 (CEST)
-Received: from localhost ([::1]:58516 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90B2B38CEFB
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 May 2021 22:21:30 +0200 (CEST)
+Received: from localhost ([::1]:44596 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lkBIj-0005sA-6C
-	for lists+qemu-devel@lfdr.de; Fri, 21 May 2021 15:59:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45580)
+	id 1lkBeD-0008Co-6j
+	for lists+qemu-devel@lfdr.de; Fri, 21 May 2021 16:21:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49914)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1lkBHZ-0004Y1-Nh; Fri, 21 May 2021 15:58:05 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:37084)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1lkBHV-0006ze-Gb; Fri, 21 May 2021 15:58:05 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 3CABC74570D;
- Fri, 21 May 2021 21:57:56 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id AC53A745708; Fri, 21 May 2021 21:57:55 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id AA9027456B4;
- Fri, 21 May 2021 21:57:55 +0200 (CEST)
-Date: Fri, 21 May 2021 21:57:55 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Alexey Kardashevskiy <aik@ozlabs.ru>
-Subject: Re: [PATCH qemu v20] spapr: Implement Open Firmware client interface
-In-Reply-To: <ec1742e3-c47-bbee-3a6-ec64442922ab@eik.bme.hu>
-Message-ID: <3bfbab31-7c7e-c9c6-f27c-29922f1e3d92@eik.bme.hu>
-References: <20210520090557.435689-1-aik@ozlabs.ru>
- <eb49cd30-a4f4-d063-d728-521446a671a6@eik.bme.hu>
- <5825cde5-a408-a438-116d-5a9d9113a52a@ozlabs.ru>
- <ec1742e3-c47-bbee-3a6-ec64442922ab@eik.bme.hu>
-MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="3866299591-690139156-1621627075=:8971"
-X-Spam-Probability: 11%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+ (Exim 4.90_1) (envelope-from <bruno.larsen@eldorado.org.br>)
+ id 1lkBbK-0005sW-5R; Fri, 21 May 2021 16:18:30 -0400
+Received: from [201.28.113.2] (port=1319 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <bruno.larsen@eldorado.org.br>)
+ id 1lkBbE-0001Nf-Ee; Fri, 21 May 2021 16:18:26 -0400
+Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
+ Microsoft SMTPSVC(8.5.9600.16384); Fri, 21 May 2021 17:18:19 -0300
+Received: from eldorado.org.br (unknown [10.10.71.235])
+ by power9a (Postfix) with ESMTP id 0EB208013E3;
+ Fri, 21 May 2021 17:18:19 -0300 (-03)
+From: "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 0/9] target/ppc: add support to disable-tcg
+Date: Fri, 21 May 2021 17:17:50 -0300
+Message-Id: <20210521201759.85475-1-bruno.larsen@eldorado.org.br>
+X-Mailer: git-send-email 2.17.1
+X-OriginalArrivalTime: 21 May 2021 20:18:19.0198 (UTC)
+ FILETIME=[708EEDE0:01D74E7E]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
+Received-SPF: pass client-ip=201.28.113.2;
+ envelope-from=bruno.larsen@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -10
+X-Spam_score: -1.1
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -57,242 +50,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: farosas@linux.ibm.com, richard.henderson@linaro.org,
+ luis.pires@eldorado.org.br, lucas.araujo@eldorado.org.br,
+ fernando.valle@eldorado.org.br, qemu-ppc@nongnu.org,
+ matheus.ferst@eldorado.org.br, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+This patch series finishes the the changes required to support disabling
+TCG for ppc targets.
 
---3866299591-690139156-1621627075=:8971
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8BIT
+With the current version of the patch, the project compiles and runs ok,
+but we need some more testing to ensure that no regressions happened,
+especially with relation to gdb.
 
-On Fri, 21 May 2021, BALATON Zoltan wrote:
-> On Fri, 21 May 2021, Alexey Kardashevskiy wrote:
->> On 21/05/2021 07:59, BALATON Zoltan wrote:
->>> On Thu, 20 May 2021, Alexey Kardashevskiy wrote:
->>>> The PAPR platform describes an OS environment that's presented by
->>>> a combination of a hypervisor and firmware. The features it specifies
->>>> require collaboration between the firmware and the hypervisor.
->>>> 
->>>> Since the beginning, the runtime component of the firmware (RTAS) has
->>>> been implemented as a 20 byte shim which simply forwards it to
->>>> a hypercall implemented in qemu. The boot time firmware component is
->>>> SLOF - but a build that's specific to qemu, and has always needed to be
->>>> updated in sync with it. Even though we've managed to limit the amount
->>>> of runtime communication we need between qemu and SLOF, there's some,
->>>> and it has become increasingly awkward to handle as we've implemented
->>>> new features.
->>>> 
->>>> This implements a boot time OF client interface (CI) which is
->>>> enabled by a new "x-vof" pseries machine option (stands for "Virtual Open
->>>> Firmware). When enabled, QEMU implements the custom H_OF_CLIENT hcall
->>>> which implements Open Firmware Client Interface (OF CI). This allows
->>>> using a smaller stateless firmware which does not have to manage
->>>> the device tree.
->>>> 
->>>> The new "vof.bin" firmware image is included with source code under
->>>> pc-bios/. It also includes RTAS blob.
->>>> 
->>>> This implements a handful of CI methods just to get -kernel/-initrd
->>>> working. In particular, this implements the device tree fetching and
->>>> simple memory allocator - "claim" (an OF CI memory allocator) and updates
->>>> "/memory@0/available" to report the client about available memory.
->>>> 
->>>> This implements changing some device tree properties which we know how
->>>> to deal with, the rest is ignored. To allow changes, this skips
->>>> fdt_pack() when x-vof=on as not packing the blob leaves some room for
->>>> appending.
->>>> 
->>>> In absence of SLOF, this assigns phandles to device tree nodes to make
->>>> device tree traversing work.
->>>> 
->>>> When x-vof=on, this adds "/chosen" every time QEMU (re)builds a tree.
->>>> 
->>>> This adds basic instances support which are managed by a hash map
->>>> ihandle -> [phandle].
->>>> 
->>>> Before the guest started, the used memory is:
->>>> 0..e60 - the initial firmware
->>>> 8000..10000 - stack
->>>> 400000.. - kernel
->>>> 3ea0000.. - initramdisk
->>>> 
->>>> This OF CI does not implement "interpret".
->>>> 
->>>> Unlike SLOF, this does not format uninitialized nvram. Instead, this
->>>> includes a disk image with pre-formatted nvram.
->>>> 
->>>> With this basic support, this can only boot into kernel directly.
->>>> However this is just enough for the petitboot kernel and initradmdisk to
->>>> boot from any possible source. Note this requires reasonably recent guest
->>>> kernel with:
->>>> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=df5be5be8735 
->>>> The immediate benefit is much faster booting time which especially
->>>> crucial with fully emulated early CPU bring up environments. Also this
->>>> may come handy when/if GRUB-in-the-userspace sees light of the day.
->>>> 
->>>> This separates VOF and sPAPR in a hope that VOF bits may be reused by
->>>> other POWERPC boards which do not support pSeries.
->>>> 
->>>> This is coded in assumption that later on we might be adding support for
->>>> booting from QEMU backends (blockdev is the first candidate) without
->>>> devices/drivers in between as OF1275 does not require that and
->>>> it is quite easy to so.
->>>> 
->>>> Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
->>>> ---
->>>> 
->>>> The example command line is:
->>>> 
->>>> /home/aik/pbuild/qemu-killslof-localhost-ppc64/qemu-system-ppc64 \
->>>> -nodefaults \
->>>> -chardev stdio,id=STDIO0,signal=off,mux=on \
->>>> -device spapr-vty,id=svty0,reg=0x71000110,chardev=STDIO0 \
->>>> -mon id=MON0,chardev=STDIO0,mode=readline \
->>>> -nographic \
->>>> -vga none \
->>>> -enable-kvm \
->>>> -m 8G \
->>>> -machine 
->>>> pseries,x-vof=on,cap-cfpc=broken,cap-sbbc=broken,cap-ibs=broken,cap-ccf-assist=off 
->>>> \
->>>> -kernel pbuild/kernel-le-guest/vmlinux \
->>>> -initrd pb/rootfs.cpio.xz \
->>>> -drive 
->>>> id=DRIVE0,if=none,file=./p/qemu-killslof/pc-bios/vof-nvram.bin,format=raw 
->>>> \
->>>> -global spapr-nvram.drive=DRIVE0 \
->>>> -snapshot \
->>>> -smp 8,threads=8 \
->>>> -L /home/aik/t/qemu-ppc64-bios/ \
->>>> -trace events=qemu_trace_events \
->>>> -d guest_errors \
->>>> -chardev socket,id=SOCKET0,server,nowait,path=qemu.mon.tmux26 \
->>>> -mon chardev=SOCKET0,mode=control
->>>> 
->>>> ---
->>>> Changes:
->>>> v20:
->>>> * compile vof.bin with -mcpu=power4 for better compatibility
->>>> * s/std/stw/ in entry.S to make it work on ppc32
->>>> * fixed dt_available property to support both 32 and 64bit
->>>> * shuffled prom_args handling code
->>>> * do not enforce 32bit in MSR (again, to support 32bit platforms)
->>>> 
->>> 
->>> [...]
->>> 
->>>> diff --git a/default-configs/devices/ppc64-softmmu.mak 
->>>> b/default-configs/devices/ppc64-softmmu.mak
->>>> index ae0841fa3a18..9fb201dfacfa 100644
->>>> --- a/default-configs/devices/ppc64-softmmu.mak
->>>> +++ b/default-configs/devices/ppc64-softmmu.mak
->>>> @@ -9,3 +9,4 @@ CONFIG_POWERNV=y
->>>>  # For pSeries
->>>>  CONFIG_PSERIES=y
->>>>  CONFIG_NVDIMM=y
->>>> +CONFIG_VOF=y
->>>> diff --git a/hw/ppc/Kconfig b/hw/ppc/Kconfig
->>>> index e51e0e5e5ac6..964510dfc73d 100644
->>>> --- a/hw/ppc/Kconfig
->>>> +++ b/hw/ppc/Kconfig
->>>> @@ -143,3 +143,6 @@ config FW_CFG_PPC
->>>> 
->>>>  config FDT_PPC
->>>>      bool
->>>> +
->>>> +config VOF
->>>> +    bool
->>> 
->>> I think you should just add "select VOF" to config PSERIES section in 
->>> Kconfig instead of adding it to default-configs/devices/ppc64-softmmu.mak. 
->> 
->> oh well, can do that too.
->
-> I think most config options should be selected by KConfig and the default 
-> config should only include machines, otherwise VOF would be added also when 
-> you don't compile PSERIES or PEGASOS2. With select in Kconfig it will be 
-> added when needed. That's why it's better to use select in this case.
->
->>>  That should do it, it works in my updated pegasos2 patch:
->>> 
->>> https://osdn.net/projects/qmiga/scm/git/qemu/commits/3c1fad08469b4d3c04def22044e52b2d27774a61 
->>> [...]
->>>> diff --git a/pc-bios/vof/entry.S b/pc-bios/vof/entry.S
->>>> new file mode 100644
->>>> index 000000000000..569688714c91
->>>> --- /dev/null
->>>> +++ b/pc-bios/vof/entry.S
->>>> @@ -0,0 +1,51 @@
->>>> +#define LOAD32(rn, name)    \
->>>> +    lis     rn,name##@h;    \
->>>> +    ori     rn,rn,name##@l
->>>> +
->>>> +#define ENTRY(func_name)    \
->>>> +    .text;                  \
->>>> +    .align  2;              \
->>>> +    .globl  .func_name;     \
->>>> +    .func_name:             \
->>>> +    .globl  func_name;      \
->>>> +    func_name:
->>>> +
->>>> +#define KVMPPC_HCALL_BASE       0xf000
->>>> +#define KVMPPC_H_RTAS           (KVMPPC_HCALL_BASE + 0x0)
->>>> +#define KVMPPC_H_VOF_CLIENT     (KVMPPC_HCALL_BASE + 0x5)
->>>> +
->>>> +    . = 0x100 /* Do exactly as SLOF does */
->>>> +
->>>> +ENTRY(_start)
->>>> +#    LOAD32(%r31, 0) /* Go 32bit mode */
->>>> +#    mtmsrd %r31,0
->>>> +    LOAD32(2, __toc_start)
->>>> +    b entry_c
->>>> +
->>>> +ENTRY(_prom_entry)
->>>> +    LOAD32(2, __toc_start)
->>>> +    stwu    %r1,-112(%r1)
->>>> +    stw     %r31,104(%r1)
->>>> +    mflr    %r31
->>>> +    bl prom_entry
->>>> +    nop
->>>> +    mtlr    %r31
->>>> +    ld      %r31,104(%r1)
->>> 
->>> It's getting there, now I see the first client call from the guest boot 
->>> code but then it crashes on this ld opcode which apparently is 64 bit 
->>> only:
->> 
->> Oh right.
->> 
->> 
->>> Hopefully this is the last such opcode left before I can really test this.
->> 
->> Make it lwz, and test it?
->
-> Yes, figured that out too after sending this message. Replacing with lwz 
-> works but I wonder that now you have stwu lwz do the stack offsets need 
-> adjusting too or you just waste 4 bytes now? With lwz here I found no further 
-> 64 bit opcodes and the guest boot code could walk the device tree. It failed 
-> later but I think that's because I'll need to fill more info about the 
-> machine in the device tree. I'll experiment with that but it looks like it 
-> could work at least for MorphOS. I'll have to try Linux too.
+For patch 7, if we were to avoid ifdef'ing the header files, we'd need
+to change the configure script, and we wanted to restrict the amount of
+subsystems touched. We can add it to the list of future cleanup if
+everything is merged.
 
-I was trying to get a linux kernel from a debian powerpc iso to do 
-something (debian before 10.0 has Pegasos support) but I've run into the 
-problem that the kernel is loaded at 0x400000 but the start address is at 
-some offset from that. How do I set qemu,boot-kernel in this case? Because 
-when I set it to the address/size where the kernel is loaded it jumps to 
-the beginnig not the correct start address. If I set the address to the 
-start address then size will be wrong so I don't know how to set 
-qemu,boot-kernel in this case or is there another property to tell the 
-start address? (Vof does not seem to check any other property and seems to 
-assume the entry point is the same as the load address but for this linux 
-kernel it's not.)
+Based-on: <20210518201146.794854-1-richard.henderson@linaro.org>
 
-Regards,
-BALATON Zoltan
---3866299591-690139156-1621627075=:8971--
+Changelog for v3:
+ * undone split, since rth's patch fixes what we needed
+ * changed commit message for patch 1
+ * added some fixes suggested by dgibson for patch 7
+
+Changelog for v2:
+ * split the patch series
+ * added a fix for 5d145639e, which no longer compiles with linux-user
+ * removed patches ther were already accepted
+ * applied rth's cleanup to ppc_store_sdr1
+ * changed destination of ppc_store_msr
+ * undone change to helper-proto, now fewer files include it
+
+Bruno Larsen (billionai) (9):
+  target/ppc: cleaned error_report from ppc_store_sdr1
+  target/ppc: moved ppc_store_lpcr and ppc_store_msr to cpu.c
+  target/ppc: reduce usage of fpscr_set_rounding_mode
+  target/ppc: overhauled and moved logic of storing fpscr
+  target/ppc: removed unnecessary inclusion of helper-proto.h
+  target/ppc: moved ppc_cpu_do_interrupt to cpu.c
+  target/ppc: Added options to disable many TCG-only functions
+  target/ppc: created tcg-stub.c file
+  target/ppc: updated meson.build to support disable-tcg
+
+ target/ppc/cpu.c         |  88 +++++++++++++-
+ target/ppc/cpu.h         |  13 ++-
+ target/ppc/cpu_init.c    |  12 +-
+ target/ppc/excp_helper.c | 104 ++++++++---------
+ target/ppc/fpu_helper.c  | 246 +++------------------------------------
+ target/ppc/gdbstub.c     |   7 +-
+ target/ppc/meson.build   |  11 +-
+ target/ppc/misc_helper.c |  16 ---
+ target/ppc/mmu-hash32.c  |   1 -
+ target/ppc/mmu-hash64.c  |  11 +-
+ target/ppc/mmu-radix64.c |   1 -
+ target/ppc/mmu_helper.c  |  16 ++-
+ target/ppc/tcg-stub.c    |  25 ++++
+ 13 files changed, 225 insertions(+), 326 deletions(-)
+ create mode 100644 target/ppc/tcg-stub.c
+
+-- 
+2.17.1
+
 
