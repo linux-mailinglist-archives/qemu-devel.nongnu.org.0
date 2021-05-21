@@ -2,93 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74FB838C5A3
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 May 2021 13:25:23 +0200 (CEST)
-Received: from localhost ([::1]:43636 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71B9F38C5C0
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 May 2021 13:32:03 +0200 (CEST)
+Received: from localhost ([::1]:46116 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lk3HO-0007hx-9H
-	for lists+qemu-devel@lfdr.de; Fri, 21 May 2021 07:25:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33382)
+	id 1lk3Nq-0001OQ-I9
+	for lists+qemu-devel@lfdr.de; Fri, 21 May 2021 07:32:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34692)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lk3FB-0006U4-Q4
- for qemu-devel@nongnu.org; Fri, 21 May 2021 07:23:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22626)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1lk3N5-0000az-Pf; Fri, 21 May 2021 07:31:15 -0400
+Resent-Date: Fri, 21 May 2021 07:31:15 -0400
+Resent-Message-Id: <E1lk3N5-0000az-Pf@lists.gnu.org>
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21326)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lk3F9-0005IH-FF
- for qemu-devel@nongnu.org; Fri, 21 May 2021 07:23:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621596181;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Tti0zh7CLnwoaYHEVQ232tBnWQEnnWC4oPiGYx4sxiE=;
- b=P7qD4NurJh6wpfVPcxm6aBnWmrUBgr+PE6Un7uYxmwSq4PdCfwldOJvgtxdq3Kk0pYA4hH
- s4V/aS2qtTtpOUK7AEQk8Q3w7cpMp0SeoEZcRI7B4MgRqnVgFMU+Snxrm/ceJnh6lLg8LR
- lXIZvKVT4dL2/YNaDh9XCN95udavEbA=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-529-W33OGuksOjyYh8nJvJG8Ew-1; Fri, 21 May 2021 07:22:58 -0400
-X-MC-Unique: W33OGuksOjyYh8nJvJG8Ew-1
-Received: by mail-wr1-f69.google.com with SMTP id
- x10-20020adfc18a0000b029010d83c83f2aso9317311wre.8
- for <qemu-devel@nongnu.org>; Fri, 21 May 2021 04:22:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:organization
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=Tti0zh7CLnwoaYHEVQ232tBnWQEnnWC4oPiGYx4sxiE=;
- b=aXG1HcjZd4q9lFzqcoVEyHCkKMOLp6zcNaGWE6YzIxvbCoz/lMTkBPqrut3J5DLUke
- pbWe3/SS5Wohykg8863ACf6NO3b0Jcw/GRH2SN9HCuON32tus3lWzqsVH03bC8CWsJFN
- jHfKB4nRNT5HNlUtYlxpW3D+fy0/56Lx8dr+qHrbMplpywc6PvLrzCaHqFIILGooOA9s
- 7t7gJP1AzrMrUDMCTCiSdd2Nu3v264DPvdBRwVZNBuHErToRWngJpbq2pM5ZGLorjaLL
- cVJalowGoQAnT0bKo+oJ+oz5CnUO7a4Z8AOfdVLJ1rFBrNKv/T7TM3n55EWB+SK0DgH3
- JwEA==
-X-Gm-Message-State: AOAM532NjVXElNV+NwjIDkIHdHiO+mVmxR+omHHrZthjCCrPVzBCg9Pu
- mOeVldTCAkCR6dk4fWFBhG5wNfRBOEumojtVpG8rNKAOhosg0JMDqDHr0UvQbSqonzWj/9XiEAf
- 5/p8T0ijcbzrXCAY=
-X-Received: by 2002:a1c:3954:: with SMTP id g81mr8440972wma.61.1621596177091; 
- Fri, 21 May 2021 04:22:57 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxCbIFn3ajYIAYBTzQTqEknPdca+lBxNorkI+xNB3LdKf620qSvXnnamD+JuuP6kbIM/oM0iQ==
-X-Received: by 2002:a1c:3954:: with SMTP id g81mr8440934wma.61.1621596176703; 
- Fri, 21 May 2021 04:22:56 -0700 (PDT)
-Received: from [192.168.3.132] (p5b0c6502.dip0.t-ipconnect.de. [91.12.101.2])
- by smtp.gmail.com with ESMTPSA id
- x2sm5619542wmj.3.2021.05.21.04.22.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 21 May 2021 04:22:56 -0700 (PDT)
-Subject: Re: [PATCH v2 2/2] tests/tcg/s390x: Test SIGILL handling
-To: Ilya Leoshkevich <iii@linux.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>, Cornelia Huck <cohuck@redhat.com>
-References: <20210521111908.2843735-1-iii@linux.ibm.com>
- <20210521111908.2843735-3-iii@linux.ibm.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Message-ID: <a8e6cf34-fbc3-3a58-c78d-802395f0ad3d@redhat.com>
-Date: Fri, 21 May 2021 13:22:55 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1lk3N3-0001lq-8V; Fri, 21 May 2021 07:31:15 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1621596650; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=MDiR1vjbRyQCvxvBPb79Ylg2k+IA9gvyTrdFJ4d9kZOFVNW8WkFBF5xhIkcFXcdQMGszLpup31rkM25fvkp08CeAi1tfBIqayXFeOHn1DlsYPUUer8gkD1K9TiLsLgHr3MZkR8iOo1pVSlTUs5TaifpL68pQYSo05JGTgDUVRIE=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1621596650;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=yS/dxVJ57Auy9JUlqlOJId5/MaMby0OJ/arCQbd2g/8=; 
+ b=NZ2M5yu18ns34uZAajxamRmN+7hzweHN2IVwEawI2nOtLOH7xH6rQ3VUPPU6SrBloYvyuzHLKbgTjoOy06JH0Y7WWpM7+A1FtrJGIEPU1YAPwvxQkYgvd6HCMqVgwaaxKx8fl1uNkS80VLgnjG6Z8rIGLZdTyXhERwDClv0L624=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1621596647418477.3412831702029;
+ Fri, 21 May 2021 04:30:47 -0700 (PDT)
+In-Reply-To: <20210521111908.2843735-1-iii@linux.ibm.com>
+Subject: Re: [PATCH v2 0/2] target/s390x: Fix SIGILL psw.addr reporting
+Message-ID: <162159664568.20339.14323427012740523410@0addf061776e>
 MIME-Version: 1.0
-In-Reply-To: <20210521111908.2843735-3-iii@linux.ibm.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.374,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: iii@linux.ibm.com
+Date: Fri, 21 May 2021 04:30:47 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o53.zoho.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -102,97 +64,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- qemu-devel@nongnu.org, Andreas Krebbel <krebbel@linux.ibm.com>
+Reply-To: qemu-devel@nongnu.org
+Cc: iii@linux.ibm.com, david@redhat.com, cohuck@redhat.com,
+ richard.henderson@linaro.org, laurent@vivier.eu, qemu-devel@nongnu.org,
+ borntraeger@de.ibm.com, qemu-s390x@nongnu.org, krebbel@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 21.05.21 13:19, Ilya Leoshkevich wrote:
-> Verify that s390x-specific uc_mcontext.psw.addr is reported correctly.
-> 
-> Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
-> ---
->   tests/tcg/s390x/Makefile.target |  1 +
->   tests/tcg/s390x/sigill.c        | 52 +++++++++++++++++++++++++++++++++
->   2 files changed, 53 insertions(+)
->   create mode 100644 tests/tcg/s390x/sigill.c
-> 
-> diff --git a/tests/tcg/s390x/Makefile.target b/tests/tcg/s390x/Makefile.target
-> index 241ef28f61..8699d829a5 100644
-> --- a/tests/tcg/s390x/Makefile.target
-> +++ b/tests/tcg/s390x/Makefile.target
-> @@ -8,3 +8,4 @@ TESTS+=exrl-trtr
->   TESTS+=pack
->   TESTS+=mvo
->   TESTS+=mvc
-> +TESTS+=sigill
-> diff --git a/tests/tcg/s390x/sigill.c b/tests/tcg/s390x/sigill.c
-> new file mode 100644
-> index 0000000000..aab560b30f
-> --- /dev/null
-> +++ b/tests/tcg/s390x/sigill.c
-> @@ -0,0 +1,52 @@
-> +#include <assert.h>
-> +#include <signal.h>
-> +#include <string.h>
-> +#include <ucontext.h>
-> +#include <unistd.h>
-> +
-> +/*
-> + * The labels for the instruction that generates a SIGILL and for the one that
-> + * follows it. They could have been defined in a separate .s file, but this
-> + * would complicate the build, so use the inline asm instead.
-> + */
-> +
-> +void expected_si_addr(void);
-> +void expected_psw_addr(void);
-> +
-> +asm(".globl\texpected_si_addr\n"
-> +    "expected_si_addr:\t.byte\t0x00,0x00\n"
-> +    "\t.globl\texpected_psw_addr\n"
-> +    "expected_psw_addr:\tbr\t%r14");
-> +
-> +static void handle_signal(int sig, siginfo_t *info, void *ucontext)
-> +{
-> +    if (sig != SIGILL) {
-> +        _exit(1);
-> +    }
-> +
-> +    if (info->si_addr != expected_si_addr) {
-> +        _exit(2);
-> +    }
-> +
-> +    if (((ucontext_t *)ucontext)->uc_mcontext.psw.addr !=
-> +            (unsigned long)expected_psw_addr) {
-> +        _exit(3);
-> +    }
-> +}
-> +
-> +int main(void)
-> +{
-> +    struct sigaction act;
-> +    int ret;
-> +
-> +    memset(&act, 0, sizeof(act));
-> +    act.sa_sigaction = handle_signal;
-> +    act.sa_flags = SA_SIGINFO;
-> +
-> +    ret = sigaction(SIGILL, &act, NULL);
-> +    assert(ret == 0);
-> +
-> +    expected_si_addr();
-> +
-> +    return 0;
-> +}
-> 
-
-That makes it much clearer, thanks.
-
-Reviewed-by: David Hildenbrand <david@redhat.com>
-
--- 
-Thanks,
-
-David / dhildenb
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDUyMTExMTkwOC4yODQz
+NzM1LTEtaWlpQGxpbnV4LmlibS5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMgdG8gaGF2
+ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IKbW9yZSBp
+bmZvcm1hdGlvbjoKClR5cGU6IHNlcmllcwpNZXNzYWdlLWlkOiAyMDIxMDUyMTExMTkwOC4yODQz
+NzM1LTEtaWlpQGxpbnV4LmlibS5jb20KU3ViamVjdDogW1BBVENIIHYyIDAvMl0gdGFyZ2V0L3Mz
+OTB4OiBGaXggU0lHSUxMIHBzdy5hZGRyIHJlcG9ydGluZwoKPT09IFRFU1QgU0NSSVBUIEJFR0lO
+ID09PQojIS9iaW4vYmFzaApnaXQgcmV2LXBhcnNlIGJhc2UgPiAvZGV2L251bGwgfHwgZXhpdCAw
+CmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAKZ2l0IGNvbmZpZyAtLWxvY2Fs
+IGRpZmYucmVuYW1lcyBUcnVlCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLmFsZ29yaXRobSBoaXN0
+b2dyYW0KLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFjayBiYXNlLi4KPT09IFRFU1Qg
+U0NSSVBUIEVORCA9PT0KClVwZGF0aW5nIDNjOGNmNWE5YzIxZmY4NzgyMTY0ZDFkZWY3ZjQ0YmQ4
+ODg3MTMzODQKRnJvbSBodHRwczovL2dpdGh1Yi5jb20vcGF0Y2hldy1wcm9qZWN0L3FlbXUKICAg
+MGI1YWNmOC4uZGE5MDc2ZiAgbWFzdGVyICAgICAtPiBtYXN0ZXIKICogW25ldyB0YWddICAgICAg
+ICAgcGF0Y2hldy8yMDIxMDUyMTExMTkwOC4yODQzNzM1LTEtaWlpQGxpbnV4LmlibS5jb20gLT4g
+cGF0Y2hldy8yMDIxMDUyMTExMTkwOC4yODQzNzM1LTEtaWlpQGxpbnV4LmlibS5jb20KU3dpdGNo
+ZWQgdG8gYSBuZXcgYnJhbmNoICd0ZXN0JwoxOTVmMzAzIHRlc3RzL3RjZy9zMzkweDogVGVzdCBT
+SUdJTEwgaGFuZGxpbmcKMzdmNzM4OSB0YXJnZXQvczM5MHg6IEZpeCBTSUdJTEwgcHN3LmFkZHIg
+cmVwb3J0aW5nCgo9PT0gT1VUUFVUIEJFR0lOID09PQoxLzIgQ2hlY2tpbmcgY29tbWl0IDM3Zjcz
+ODkxY2IyMiAodGFyZ2V0L3MzOTB4OiBGaXggU0lHSUxMIHBzdy5hZGRyIHJlcG9ydGluZykKMi8y
+IENoZWNraW5nIGNvbW1pdCAxOTVmMzAzZjM2NmUgKHRlc3RzL3RjZy9zMzkweDogVGVzdCBTSUdJ
+TEwgaGFuZGxpbmcpCldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRv
+ZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8KIzI2OiAKbmV3IGZpbGUgbW9kZSAxMDA2NDQK
+CkVSUk9SOiBleHRlcm5zIHNob3VsZCBiZSBhdm9pZGVkIGluIC5jIGZpbGVzCiM0MzogRklMRTog
+dGVzdHMvdGNnL3MzOTB4L3NpZ2lsbC5jOjEzOgordm9pZCBleHBlY3RlZF9zaV9hZGRyKHZvaWQp
+OwoKRVJST1I6IGV4dGVybnMgc2hvdWxkIGJlIGF2b2lkZWQgaW4gLmMgZmlsZXMKIzQ0OiBGSUxF
+OiB0ZXN0cy90Y2cvczM5MHgvc2lnaWxsLmM6MTQ6Cit2b2lkIGV4cGVjdGVkX3Bzd19hZGRyKHZv
+aWQpOwoKdG90YWw6IDIgZXJyb3JzLCAxIHdhcm5pbmdzLCA1NiBsaW5lcyBjaGVja2VkCgpQYXRj
+aCAyLzIgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNl
+IGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVy
+LCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KCj09PSBPVVRQVVQgRU5EID09PQoKVGVz
+dCBjb21tYW5kIGV4aXRlZCB3aXRoIGNvZGU6IDEKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxl
+IGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMjEwNTIxMTExOTA4LjI4NDM3MzUtMS1paWlA
+bGludXguaWJtLmNvbS90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWls
+IGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcv
+XS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
 
