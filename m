@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8105038C08D
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 May 2021 09:18:28 +0200 (CEST)
-Received: from localhost ([::1]:43346 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB82F38C0B8
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 May 2021 09:27:27 +0200 (CEST)
+Received: from localhost ([::1]:46472 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljzQR-0007M9-AS
-	for lists+qemu-devel@lfdr.de; Fri, 21 May 2021 03:18:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42026)
+	id 1ljzZ9-0001ep-0k
+	for lists+qemu-devel@lfdr.de; Fri, 21 May 2021 03:27:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43512)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ljzOy-0006Dd-Lq
- for qemu-devel@nongnu.org; Fri, 21 May 2021 03:16:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42419)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ljzXn-0000yy-Pa
+ for qemu-devel@nongnu.org; Fri, 21 May 2021 03:26:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34840)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ljzOv-0006EU-Kn
- for qemu-devel@nongnu.org; Fri, 21 May 2021 03:16:55 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ljzXl-0004Tr-Tg
+ for qemu-devel@nongnu.org; Fri, 21 May 2021 03:26:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621581412;
+ s=mimecast20190719; t=1621581960;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=P+hLjuQ64vmuAnUmwowLfI+1Ab2JGLvYlh/ae84x6bU=;
- b=SUWoOefT2cSu5M1dt/GsmY6Qs5q/XhM7L/THezgHEoXCVBsiITvGoVk4q4glZG2+oPrVmF
- G9S6NFPIOD0gFs8jTpriVJdF4CvUtbIn1wbrHb8yBmLNWTJQ4An5i4QViZBhmRToqshWoq
- Jyst8Z88WTgYvjZ0gSI3BR3Kj8HClto=
+ bh=OvJE0bM2mdfXDxGhyH1a7L50Li0DSX68TwzN+9kOeEM=;
+ b=K6V4Omipzqrh3PHxBDsaQdXyAgBTjiBmOxu00IjsJDjl7wmD21Y1h7J8IU3BAwwOOCCAfN
+ 8CuYatpuSU9rhxx8YCvLcPmFfsOqKHL1V6bWstHk5VT933h+0Ufd/zMcNuO0ReDLlF1Cs3
+ t/ToX8G0d2ql6Cy0NSOSW5s++m2g6nE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-215-u-7WYjLyMUGFNkav-jlzQw-1; Fri, 21 May 2021 03:16:49 -0400
-X-MC-Unique: u-7WYjLyMUGFNkav-jlzQw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-204-YcsClMZ8Ph-CSVnzRVUp2A-1; Fri, 21 May 2021 03:25:59 -0400
+X-MC-Unique: YcsClMZ8Ph-CSVnzRVUp2A-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 34555107ACCA;
- Fri, 21 May 2021 07:16:48 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-113.ams2.redhat.com [10.36.112.113])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 360095D74B;
- Fri, 21 May 2021 07:16:37 +0000 (UTC)
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Willian Rampazzo <willianr@redhat.com>, qemu-devel@nongnu.org
-References: <20210520195322.205691-1-willianr@redhat.com>
- <20210520195322.205691-2-willianr@redhat.com>
- <0f4a1c6c-ddba-ae57-2d55-f59c478dc9c5@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Subject: Re: [RFC 1/1] acceptance tests: rename acceptance to system
-Message-ID: <943fcdae-168a-adf8-c82b-b1a88369441c@redhat.com>
-Date: Fri, 21 May 2021 09:16:36 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 28779501E1;
+ Fri, 21 May 2021 07:25:58 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-41.ams2.redhat.com
+ [10.36.112.41])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0B6C5E17B;
+ Fri, 21 May 2021 07:25:54 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 9A829113865F; Fri, 21 May 2021 09:25:52 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
+Subject: Re: A bug of Monitor Chardev ?
+References: <cd197959-7da0-ee50-1e65-e6b2e7107a86@huawei.com>
+ <CAJ+F1C+4URqrZvAiBk+o-Ei4etL_oBtdPr0cugGmnMaYaZqGyA@mail.gmail.com>
+ <YKU/k/DIJd6gMLvw@redhat.com>
+Date: Fri, 21 May 2021 09:25:52 +0200
+In-Reply-To: <YKU/k/DIJd6gMLvw@redhat.com> ("Daniel P. =?utf-8?Q?Berrang?=
+ =?utf-8?Q?=C3=A9=22's?= message of
+ "Wed, 19 May 2021 17:40:51 +0100")
+Message-ID: <87lf88pmyn.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <0f4a1c6c-ddba-ae57-2d55-f59c478dc9c5@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.39,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,95 +84,176 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Niek Linnenbank <nieklinnenbank@gmail.com>, qemu-arm@nongnu.org,
- Michael Rolnik <mrolnik@gmail.com>, Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: chenjiashang@huawei.com, QEMU <qemu-devel@nongnu.org>,
+ Peter Xu <peterx@redhat.com>, "Gonglei \(Arei\)" <arei.gonglei@huawei.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, "Longpeng \(Mike,
+ Cloud Infrastructure Service Product Dept.\)" <longpeng2@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 20/05/2021 22.28, Philippe Mathieu-Daudé wrote:
-> On 5/20/21 9:53 PM, Willian Rampazzo wrote:
->> Conceptually speaking, acceptance tests "are a series of specific tests
->> conducted by the customer in an attempt to uncover product errors before
->> accepting the software from the developer. Conducted by the end-user rather
->> than software engineers, acceptance testing can range from an informal
->> “test drive” to a planned and systematically executed series of scripted
->> tests" [1]. Every time Pressman refers to the term "acceptance testing," he
->> also refers to user's agreement in the final state of an implemented feature.
->> Today, QEMU is not implementing user acceptance tests as described by Pressman.
->>
->> There are other three possible terms we could use to describe what is currently
->> QEMU "acceptance" tests:
->>
->>    1 - Integration tests:
->>        - "Integration testing is a systematic technique for constructing the
->>           software architecture while at the same time conducting tests to
->>           uncover errors associated with interfacing. The objective is to take
->>           unit-tested components and build a program structure that has been
->>           dictated by design." [2]
->>        * Note: Sommerville does not have a clear definition of integration
->>          testing. He refers to incremental integration of components inside
->>          the system testing (see [3]).
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
 
-After thinking about this for a while, I agree with you that renaming the 
-"acceptance" tests to "integration" tests is also not a good idea. When I 
-hear "integration" test in the context of the virt stack, I'd rather expect 
-a test suite that picks KVM (i.e. a kernel), QEMU, libvirt and maybe 
-virt-manager on top and tests them all together. So we should look for a 
-different name indeed.
+> On Wed, May 19, 2021 at 08:17:51PM +0400, Marc-Andr=C3=A9 Lureau wrote:
+>> Hi
+>>=20
+>> On Mon, May 17, 2021 at 11:11 AM Longpeng (Mike, Cloud Infrastructure
+>> Service Product Dept.) <longpeng2@huawei.com> wrote:
+>>=20
+>> > We find a race during QEMU starting, which would case the QEMU process
+>> > coredump.
+>> >
+>> > <main loop>                             |    <MON iothread>
+>> >                                         |
+>> > [1] create MON chardev                  |
+>> > qemu_create_early_backends              |
+>> >   chardev_init_func                     |
+>> >                                         |
+>> > [2] create MON iothread                 |
+>> > qemu_create_late_backends               |
+>> >   mon_init_func                         |
+>> >         aio_bh_schedule----------------------->
+>> > monitor_qmp_setup_handlers_bh
+>> > [3] enter main loog                     |    tcp_chr_update_read_handl=
+er
+>> > (* A client come in, e.g. Libvirt *)    |      update_ioc_handlers
+>> >
+>> tcp_chr_new_client                      |
+>> >   update_ioc_handlers                   |
+>> >                                         |
+>> >     [4] create new hup_source           |
+>> >         s->hup_source =3D *PTR1*          |
+>> >           g_source_attach(s->hup_source)|
+>> >                                         |        [5]
+>> > remove_hup_source(*PTR1*)
+>> >                                         |            (create new
+>> > hup_source)
+>> >                                         |             s->hup_source =
+=3D
+>> > *PTR2*
+>> >         [6] g_source_attach_unlocked    |
+>> >               *PTR1* is freed by [5]    |
+>> >
+>> > Do you have any suggestion to fix this bug ? Thanks!
+>> >
+>> >
+>> I see.. I think the simplest would be for the chardev to not be dispatch=
+ed
+>> in the original thread after monitor_init_qmp(). It looks like this shou=
+ld
+>> translate at least to calling qio_net_listener_set_client_func_full() wi=
+th
+>> NULL handlers. I can't see where we could fit that in the chardev API.
+>> Perhaps add a new qemu_chr_be_disable_handlers() (until
+>> update_read_handlers is called again to enable them)?
+>>=20
+>> Daniel? Paolo?
+>
+> IIUC, the problem is:
+>
+>   - when we first create the chardev, its IO watches are setup with
+>     the default (NULL) GMainContext which is processed by the main
+>     thread
+>
+>   - when we create the monitor, we re-initialize the chardev to
+>     attach its IO watches to a custom GMainCOntext associated with
+>     the monitor thread.
+>
+>   - The re-initialization is happening in a bottom half that runs
+>     in the monitor thread, thus the main thread can already start
+>     processing an IO event in parallel
+>
+> Looking at the code in qmp.c monitor_init_qmp method it has a
+> comment:
+>
+>         /*
+>          * We can't call qemu_chr_fe_set_handlers() directly here
+>          * since chardev might be running in the monitor I/O
+>          * thread.  Schedule a bottom half.
+>          */
+>
+> AFAICT, that comment is wrong. monitor_init_qmp is called from
+> monitor_init, which is called from monitor_init_opts, which is
+> called from qemu_create_late_backends, which runs in the main
+> thread.
 
->>    2 - Validation tests:
->>        - "Validation testing begins at the culmination of integration testing,
->>           when individual components have been exercised, the software is
->>           completely assembled as a package, and interfacing errors have been
->>           uncovered and corrected. At the validation or system level, the
->>           distinction between different software categories disappears. Testing
->>           focuses on user-visible actions and user-recognizable output from the
->>           system." [4]
->>        - "where you expect the system to perform correctly using a set of test
->>           cases that reflect the system’s expected use." [5]
->>        * Note: the definition of "validation testing" from Sommerville reflects
->>          the same definition found around the Internet, as one of the processes
->>          inside the "Verification & Validation (V&V)." In this concept,
->>          validation testing is a high-level definition that covers unit testing,
->>          functional testing, integration testing, system testing, and acceptance
->>          testing.
->>
->>    3 - System tests:
->>        - "verifies that all elements mesh properly and that overall system
->>           function and performance is achieved." [6]
->>        - "involves integrating components to create a version of the system and
->>           then testing the integrated system. System testing checks that
->>           components are compatible, interact correctly, and transfer the right
->>           data at the right time across their interfaces." [7]
->>
->> The tests implemented inside the QEMU "acceptance" directory depend on the
->> software completely assembled and, sometimes, on other elements, like operating
->> system images. In this case, the proposal here is to rename the current
->> "acceptance" directory to "system."
-> 
-> Are user-mode tests using Avocado also system tests?
-> https://www.mail-archive.com/qemu-devel@nongnu.org/msg782505.html
+Goes back to commit a5ed352596a8b7eb2f9acce34371b944ac3056c4
+Author: Peter Xu <peterx@redhat.com>
+Date:   Fri Mar 9 16:59:52 2018 +0800
 
-We've indeed got the problem that the word "system" is a little bit 
-overloaded in the context of QEMU. We often talk about "system" when 
-referring to the qemu-softmmu-xxx emulators (in contrast to the linux-user 
-emulator binaries). For example, the "--disable-system" switch of the 
-configure script, or the "build-system" and "check-system" jobs in the 
-.gitlab-ci.yml file ... thus this could get quite confusing in the 
-.gitlab-ci.yml file afterwards.
+    monitor: allow using IO thread for parsing
+   =20
+    For each Monitor, add one field "use_io_thr" to show whether it will be
+    using the dedicated monitor IO thread to handle input/output.  When set=
+,
+    monitor IO parsing work will be offloaded to the dedicated monitor IO
+    thread, rather than the original main loop thread.
+   =20
+    This only works for QMP.  HMP will always be run on the main loop
+    thread.
+   =20
+    Currently we're still keeping use_io_thr off always.  Will turn it on
+    later at some point.
+   =20
+    One thing to mention is that we cannot set use_io_thr for every QMP
+    monitor.  The problem is that MUXed typed chardevs may not work well
+    with it now. When MUX is used, frontend of chardev can be the monitor
+    plus something else.  The only thing we know would be safe to be run
+    outside main thread so far is the monitor frontend. All the rest of the
+    frontends should still be run in main thread only.
+   =20
+    Signed-off-by: Peter Xu <peterx@redhat.com>
+    Message-Id: <20180309090006.10018-10-peterx@redhat.com>
+    Reviewed-by: Eric Blake <eblake@redhat.com>
+    [eblake: squash in Peter's followup patch to avoid test failures]
+    Signed-off-by: Eric Blake <eblake@redhat.com>
 
-So I think renaming "acceptance" to "system" is especially ok if we only 
-keep the "softmmu"-related tests in that folder... would it maybe make sense 
-to add the linux-user related tests in a separate folder called tests/user/ 
-instead, Philippe? And we should likely rename the current build-system and 
-check-system jobs in our gitlab-CI to build-softmmu and check-softmmu or so?
+Peter, do you remember why you went for a bottom half?
 
-Alternatively, what about renaming the "acceptance" tests to "validation" 
-instead? That word does not have a duplicated definition in the context of 
-QEMU yet, so I think it would be less confusing.
+Hmm, back then it was in monitor_init(), which was called from several
+places.  Did we manage to lose the need for a bottom half along the way?
 
-  Thomas
+Note that the initial comment was a bit different:
+
+        if (mon->use_io_thr) {
+            /*
+             * Make sure the old iowatch is gone.  It's possible when
+             * e.g. the chardev is in client mode, with wait=3Don.
+             */
+            remove_fd_in_watch(chr);
+            /*
+             * We can't call qemu_chr_fe_set_handlers() directly here
+             * since during the procedure the chardev will be active
+             * and running in monitor iothread, while we'll still do
+             * something before returning from it, which is a possible
+             * race too.  To avoid that, we just create a BH to setup
+             * the handlers.
+             */
+            aio_bh_schedule_oneshot(monitor_get_aio_context(),
+                                    monitor_qmp_setup_handlers_bh, mon);
+            /* We'll add this to mon_list in the BH when setup done */
+            return;
+        } else {
+            qemu_chr_fe_set_handlers(&mon->chr, monitor_can_read,
+                                     monitor_qmp_read, monitor_qmp_event,
+                                     NULL, mon, NULL, true);
+        }
+
+I changed it in commit 774a6b67a40.
+
+> I think we should explicitly document that monitor_init_qmp
+> is *required* to be invoked from the main thread and then
+> remove the bottom half usage.
+
+Assert "running in main thread", so screwups crash reliably instead of
+creating a race.
+
+>                                If we ever find a need to
+> create a new monitor from a non-main thread, that thread
+> could use an idle callback attached to the default GMainContext
+> to invoke monitor_init_qmp.
+>
+> Regards,
+> Daniel
 
 
