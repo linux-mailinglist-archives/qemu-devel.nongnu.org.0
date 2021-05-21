@@ -2,73 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EE3A38C8D8
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 May 2021 16:00:52 +0200 (CEST)
-Received: from localhost ([::1]:55872 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4EDE38C8E7
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 May 2021 16:04:54 +0200 (CEST)
+Received: from localhost ([::1]:58760 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lk5hr-0001mY-Nb
-	for lists+qemu-devel@lfdr.de; Fri, 21 May 2021 10:00:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37858)
+	id 1lk5ll-0003wb-Vz
+	for lists+qemu-devel@lfdr.de; Fri, 21 May 2021 10:04:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39328)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lk5fK-0008Ao-7M
- for qemu-devel@nongnu.org; Fri, 21 May 2021 09:58:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56960)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lk5fG-0000bz-3w
- for qemu-devel@nongnu.org; Fri, 21 May 2021 09:58:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621605489;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=bN/CDHcyPjv3TnlXhgYW2KVMrgH0SDnYfmIl7L1pCDw=;
- b=NDA/eIivTxGcWH3L4qkuE4qvbvFMwdQo4m58Vb3ru4KGJ9IEXckoZ7/6rNbZVzeDqxxtt0
- YbHe/xnWL9xtXB5CGMkQ8Drf8mtT31ISpYrwihjgkllWEiJiTbWe2zeukvE7C+D7Z3xJ6M
- hWGxkrYjmz12Vqb4alVRaVBmGVNhN/Y=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-198-pNqO2FFrOTKL7lYXAuCfuw-1; Fri, 21 May 2021 09:58:04 -0400
-X-MC-Unique: pNqO2FFrOTKL7lYXAuCfuw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 07E4310CE78D;
- Fri, 21 May 2021 13:58:03 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-113.ams2.redhat.com [10.36.112.113])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E28805D9CA;
- Fri, 21 May 2021 13:58:01 +0000 (UTC)
-Subject: Re: [RFC PATCH] meson.build: fix cosmetics of compiler display
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20210521134411.31658-1-alex.bennee@linaro.org>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <84b82cde-6bdf-0870-6671-7714460155b3@redhat.com>
-Date: Fri, 21 May 2021 15:58:00 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
+ (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
+ id 1lk5kr-0003IN-GI
+ for qemu-devel@nongnu.org; Fri, 21 May 2021 10:03:57 -0400
+Received: from mail-lf1-x12e.google.com ([2a00:1450:4864:20::12e]:35528)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
+ id 1lk5kq-0001Im-0J
+ for qemu-devel@nongnu.org; Fri, 21 May 2021 10:03:57 -0400
+Received: by mail-lf1-x12e.google.com with SMTP id x19so29904384lfa.2
+ for <qemu-devel@nongnu.org>; Fri, 21 May 2021 07:03:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=lHwv9rrrj94Qi3gfeNI/KoVoNtRL6kWDTevIu+XGiro=;
+ b=WxHzOZ9CmJfoaF3ewuzKg7JHDm+Km1okQa24NQUGfT27sn/pfk6Rqkx/DeusnxDzzS
+ 7+eIrjpnoHCm7AyDRIcanyhMwcPF+5wKmLw5+YWHjGqaJY1Of7PzzEkgSxxhS+tqx2R6
+ a6lxbNEHnH30gPENXpzqxhnqjUM6C5sV7CsqulJep59PvMOpRP0/zPeASxNvhdlDwh+y
+ 6Bmuc0j1jyJSRVPIRbEyhf1Kb09IiAlqWl1fAtBXvg99zyUpCAvRlD2kkgB9ipAuabbH
+ TtTLuOz+F3QeOgp4qpKLJEikor1eJUbtjJaPelQXBlS/aceqX0huq3ie+fachqZ6urri
+ F3tA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=lHwv9rrrj94Qi3gfeNI/KoVoNtRL6kWDTevIu+XGiro=;
+ b=OlxF54DEM1qoLdTgR426s0zD9ffGyNlem4Q7kCDLG1L7giLE9TQySMba4CKxjfr6bc
+ smHhiUaCHinEJsaSYZkW+NLZ0arftlMUEoHNB8M/+9tmIt86Zsho+OH5PvaMjs7DZySV
+ jlUqRQ/JefBxKovES5jXgpoYhSjeH6IZ4EnLPsgV/YdF5HhR45TIVP/g9LnX5/rMQ0Eg
+ qhnlXVGVNRX4aLN/YLxtquxSK13+LXJa4VmdJVmQ54/jmVMtYTns6RNUAAdE0B+FF01B
+ WwQbSn834/ZfFwxh9wXDBL9g10tGCUV+Gnoj9w05xrwwuppanNFByYbdUulG870MUJDf
+ DAqQ==
+X-Gm-Message-State: AOAM530eB8eVuruUcQWTY6tFMYWzmBpNH/HedckEgqCkLVCC7Ghmhmsf
+ 2BNrJduorG0sPgAkQhYLpLimsDFXpvA=
+X-Google-Smtp-Source: ABdhPJwPl4jf0HgoY+37TVPQok2G1WB9U0OEhCLaqZhpuYz+rlN/dCc8xsCKChYE9DJECX9IWg+O6A==
+X-Received: by 2002:a05:6512:2215:: with SMTP id
+ h21mr2293051lfu.375.1621605833303; 
+ Fri, 21 May 2021 07:03:53 -0700 (PDT)
+Received: from octofox.metropolis ([5.18.202.173])
+ by smtp.gmail.com with ESMTPSA id b125sm632703lfd.196.2021.05.21.07.03.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 21 May 2021 07:03:52 -0700 (PDT)
+From: Max Filippov <jcmvbkbc@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/3] target/xtensa updates
+Date: Fri, 21 May 2021 07:03:34 -0700
+Message-Id: <20210521140334.16786-1-jcmvbkbc@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20210521134411.31658-1-alex.bennee@linaro.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.374,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::12e;
+ envelope-from=jcmvbkbc@gmail.com; helo=mail-lf1-x12e.google.com
+X-Spam_score_int: 4
+X-Spam_score: 0.4
+X-Spam_bar: /
+X-Spam_report: (0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ FROM_LOCAL_NOVOWEL=0.5, HK_RANDOM_ENVFROM=0.999, HK_RANDOM_FROM=0.999,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,47 +83,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, Max Filippov <jcmvbkbc@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 21/05/2021 15.44, Alex Bennée wrote:
-> If you specify something like --cc="ccache gcc" on your configure line
-> the summary output misses the rest of the cmd_array. Do some string
-> joining to make it complete.
-> 
-> Signed-off-by: Alex Bennée<alex.bennee@linaro.org>
-> ---
->   meson.build | 8 ++++----
->   1 file changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/meson.build b/meson.build
-> index 1559e8d873..ca65552f31 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -2510,15 +2510,15 @@ summary(summary_info, bool_yn: true, section: 'Configurable features')
->   summary_info = {}
->   summary_info += {'host CPU':          cpu}
->   summary_info += {'host endianness':   build_machine.endian()}
-> -summary_info += {'C compiler':        meson.get_compiler('c').cmd_array()[0]}
-> -summary_info += {'Host C compiler':   meson.get_compiler('c', native: true).cmd_array()[0]}
-> +summary_info += {'C compiler':        ' '.join(meson.get_compiler('c').cmd_array())}
-> +summary_info += {'Host C compiler':   ' '.join(meson.get_compiler('c', native: true).cmd_array())}
->   if link_language == 'cpp'
-> -  summary_info += {'C++ compiler':      meson.get_compiler('cpp').cmd_array()[0]}
-> +  summary_info += {'C++ compiler':    ' '.join(meson.get_compiler('cpp').cmd_array())}
->   else
->     summary_info += {'C++ compiler':      false}
->   endif
->   if targetos == 'darwin'
-> -  summary_info += {'Objective-C compiler': meson.get_compiler('objc').cmd_array()[0]}
-> +  summary_info += {'Objective-C compiler': ' '.join(meson.get_compiler('objc').cmd_array())}
->   endif
->   if targetos == 'windows'
->     if 'WIN_SDK' in config_host
-> -- 2.20.1
-> 
+Hi Peter,
 
-Tested-by: Thomas Huth <thuth@redhat.com>
+please pull the following updates for the target/xtensa.
 
+The following changes since commit 972e848b53970d12cb2ca64687ef8ff797fb6236:
+
+  Merge remote-tracking branch 'remotes/cohuck-gitlab/tags/s390x-20210520-v2' into staging (2021-05-20 18:42:00 +0100)
+
+are available in the Git repository at:
+
+  git://github.com/OSLL/qemu-xtensa.git tags/20210521-xtensa
+
+for you to fetch changes up to 583e6a5f55d4b02f04eda0cd70bf7b7701a08450:
+
+  target/xtensa: clean up unaligned access (2021-05-20 13:02:58 -0700)
+
+----------------------------------------------------------------
+target/xtensa updates for v6.1:
+
+- don't generate extra EXCP_DEBUG on exception
+- fix l32ex access ring
+- clean up unaligned access
+
+----------------------------------------------------------------
+Max Filippov (3):
+      target/xtensa: don't generate extra EXCP_DEBUG on exception
+      target/xtensa: fix access ring in l32ex
+      target/xtensa: clean up unaligned access
+
+ default-configs/targets/xtensa-linux-user.mak   |   1 -
+ default-configs/targets/xtensa-softmmu.mak      |   1 -
+ default-configs/targets/xtensaeb-linux-user.mak |   1 -
+ default-configs/targets/xtensaeb-softmmu.mak    |   1 -
+ target/xtensa/cpu.c                             |   1 -
+ target/xtensa/cpu.h                             |   7 -
+ target/xtensa/exc_helper.c                      |   5 -
+ target/xtensa/helper.c                          |  13 +-
+ target/xtensa/translate.c                       | 126 +++++++-------
+ tests/tcg/xtensa/test_load_store.S              | 221 ++++++++++++++++++++++++
+ 10 files changed, 288 insertions(+), 89 deletions(-)
+ create mode 100644 tests/tcg/xtensa/test_load_store.S
+
+-- 
+Thanks.
+-- Max
 
