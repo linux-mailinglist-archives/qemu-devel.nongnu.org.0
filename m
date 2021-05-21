@@ -2,94 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A503A38C11E
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 May 2021 09:56:02 +0200 (CEST)
-Received: from localhost ([::1]:36666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6306338C122
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 May 2021 09:56:57 +0200 (CEST)
+Received: from localhost ([::1]:38878 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lk00n-0006oI-Of
-	for lists+qemu-devel@lfdr.de; Fri, 21 May 2021 03:56:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49070)
+	id 1lk01g-0008MQ-HL
+	for lists+qemu-devel@lfdr.de; Fri, 21 May 2021 03:56:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49278)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1ljzz7-00063J-F1
- for qemu-devel@nongnu.org; Fri, 21 May 2021 03:54:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27054)
+ (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
+ id 1ljzzo-0006rE-Vu
+ for qemu-devel@nongnu.org; Fri, 21 May 2021 03:55:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46998)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1ljzz5-0000JE-Rh
- for qemu-devel@nongnu.org; Fri, 21 May 2021 03:54:17 -0400
+ (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
+ id 1ljzzm-0000hs-Hi
+ for qemu-devel@nongnu.org; Fri, 21 May 2021 03:55:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621583654;
+ s=mimecast20190719; t=1621583694;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=f6N5OQrJ7Neg2DiA5QnOLbjAGBDEd6MFb40BoEoK+QY=;
- b=YoV07g+rDO3Lj7fhG9ATguL165geyMR1UuCih8kftaTi93hY51QX1L/QECImcdXOQkrKfb
- 1ni8s3QF8iYZ3umpc4vB8ClyW946YgQWHY4x58lw1dnVqZ2GqbX3oG9iR8X9h4Lyi0jRhD
- 4OR/JxShHDMiqFsCtPEVw5ucOpPeDAI=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-521-DnzFuqA1O3OsGCOL0dAuCg-1; Fri, 21 May 2021 03:54:13 -0400
-X-MC-Unique: DnzFuqA1O3OsGCOL0dAuCg-1
-Received: by mail-wr1-f72.google.com with SMTP id
- q15-20020adfc50f0000b0290111f48b865cso5632082wrf.4
- for <qemu-devel@nongnu.org>; Fri, 21 May 2021 00:54:12 -0700 (PDT)
+ bh=YL7TM9HBCTGbBvuflNItEJsPFIt1cI57hrqk/ukO/DA=;
+ b=b9sPikGv98igDK6+/s+6ZfUhCtUIHJeybQiG6c42VtmGv53HjFabQMXT7r9+UVz9FLZFYw
+ QJp+Ml0PjdtzPA3hZoABmxMfaB4CXGV4gIcGPHn4YkHqcDYd5RUnqwGw1QE1d/5YClMtSN
+ pWou79t0ivH1XfpTPECKaE1CVLzUUAs=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-388-jXyj9Rb4OOumguSAbdsZHQ-1; Fri, 21 May 2021 03:54:51 -0400
+X-MC-Unique: jXyj9Rb4OOumguSAbdsZHQ-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ i15-20020a5d558f0000b029011215b1cf5cso2738945wrv.22
+ for <qemu-devel@nongnu.org>; Fri, 21 May 2021 00:54:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:organization
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=f6N5OQrJ7Neg2DiA5QnOLbjAGBDEd6MFb40BoEoK+QY=;
- b=Nm0if5MHxJYmMIKnjvVeLt3nCMbAVl5HabqpXc0UqkqsOHxTUkq01JPGranm/J8XgZ
- vMv+LhMbeHfJXQUneyMpnBd0pt/hNYHr56vDuTVZzM6TVsT9+Q+63KUw7o5+Y5+/X76/
- TtrOpnBbFO4QBTiTQ7ES4d/M51g68VK3MHAzO8IVoO30wgPxhEB9sSyINdmUYGKVOxYp
- N6LP4BvZQB9lKktCMCbWNP+ZqJ9vWKJ8XpTfmFpdeNZ0ZICstd5xiBew/WKOzW7/JBYA
- tucpZsxaMZC3VfYbUrDTUhFTT8ZDYfSBIOdi37fMmOfOVRixsv+h+4+S5obPEeBGJKni
- kJTg==
-X-Gm-Message-State: AOAM533eIm19Wx/vWbFY0lZTmirz3R8z1xySX6mw1crSEY1OAL8DVli2
- IQmf7GBpRSEq/tRuraMvRi3Q0jifFgR0+eHXIUDA4cmR6e6EXaAZ0Tsz5aAk2j5rwkCKhySZ636
- ZIaIq86+gaUW1fdg=
-X-Received: by 2002:adf:f3cc:: with SMTP id g12mr8251079wrp.300.1621583651893; 
- Fri, 21 May 2021 00:54:11 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwPpfI9vCHY0rdukT0BhTi0GrdLFVAKC3ChhZ+4aBsy/MkKtY8i6rn4twWDVDzukeKKN1JraQ==
-X-Received: by 2002:adf:f3cc:: with SMTP id g12mr8251062wrp.300.1621583651665; 
- Fri, 21 May 2021 00:54:11 -0700 (PDT)
-Received: from [192.168.3.132] (p5b0c6502.dip0.t-ipconnect.de. [91.12.101.2])
- by smtp.gmail.com with ESMTPSA id
- n6sm4786337wmq.34.2021.05.21.00.54.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 21 May 2021 00:54:11 -0700 (PDT)
-Subject: Re: [PATCH 2/2] tests/tcg/s390x: Test SIGILL handling
-To: Ilya Leoshkevich <iii@linux.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>
-References: <20210521030146.2831663-1-iii@linux.ibm.com>
- <20210521030146.2831663-3-iii@linux.ibm.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Message-ID: <6470e715-60d5-992c-e5db-1b54d61ef92e@redhat.com>
-Date: Fri, 21 May 2021 09:54:10 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
+ :message-id:mime-version;
+ bh=YL7TM9HBCTGbBvuflNItEJsPFIt1cI57hrqk/ukO/DA=;
+ b=Kp6YkuAcevtLlxxCkJ9VYuTEPZcNPuV5r34VUJtSmPnHeC167UxKKK5qBAzSbuLy2h
+ UIFq4D4di1USNm/UGsKuQPMHXZmT7fxV/W/DZMBMu4coGr29pH2GfY3/GTSrO2ULhstB
+ KWvbop8FSkYfO58I09mFUBBUoNN9ikEL7BAjx8kQFUxt46i1vjIOiMko0sK7P+scwqwE
+ JzBZlIwRQ9CasEqil4TSFscRJ1Z4zGvab1aWy3XKWXcLec2wsLsUgPqJ8cIUD40aopkh
+ D+C7YlFrv78rj06EYjwoKL3/bfV1wDtmGyCXjeUWqShTlVnmPcF+kPyylAodaWwyTNoP
+ 4u1g==
+X-Gm-Message-State: AOAM531fnIABkqhilhNXMNlR3ldPz1geWFgTCqeS6/lCC2OaS/n+h0e/
+ b1CPhLtfbDAOMmOOxdFNKoh5bFDaMtRT7BM+TAsQLo2HlRFQDJMBVPUzc/08M2xy9dXx3ZcIth3
+ L4gXZzvDyXXERtKM=
+X-Received: by 2002:a5d:6e0d:: with SMTP id h13mr8329894wrz.118.1621583690683; 
+ Fri, 21 May 2021 00:54:50 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzeoy/ue1fIn/Ikx0smE022E5eDcMyPCqhejp5y+bZegqmXQHxDNuLeVJ9VcUkT31+A/mLiiw==
+X-Received: by 2002:a5d:6e0d:: with SMTP id h13mr8329872wrz.118.1621583690322; 
+ Fri, 21 May 2021 00:54:50 -0700 (PDT)
+Received: from vitty.brq.redhat.com (g-server-2.ign.cz. [91.219.240.2])
+ by smtp.gmail.com with ESMTPSA id r1sm1100326wrt.67.2021.05.21.00.54.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 21 May 2021 00:54:49 -0700 (PDT)
+From: Vitaly Kuznetsov <vkuznets@redhat.com>
+To: Eduardo Habkost <ehabkost@redhat.com>
+Subject: Re: [PATCH v6 04/19] i386: stop using env->features[] for filling
+ Hyper-V CPUIDs
+In-Reply-To: <20210520194905.lomw2obshfy3anad@habkost.net>
+References: <20210422161130.652779-1-vkuznets@redhat.com>
+ <20210422161130.652779-5-vkuznets@redhat.com>
+ <20210501003440.xoqjfmvwxu7ykwva@habkost.net>
+ <20210520194905.lomw2obshfy3anad@habkost.net>
+Date: Fri, 21 May 2021 09:54:48 +0200
+Message-ID: <877djsjzcn.fsf@vitty.brq.redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210521030146.2831663-3-iii@linux.ibm.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vkuznets@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=vkuznets@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.39,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,89 +96,432 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- qemu-devel@nongnu.org, Andreas Krebbel <krebbel@linux.ibm.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ qemu-devel@nongnu.org, Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 21.05.21 05:01, Ilya Leoshkevich wrote:
-> Verify that s390x-specific uc_mcontext.psw.addr is reported correctly.
-> 
-> Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
-> ---
->   tests/tcg/s390x/Makefile.target |  1 +
->   tests/tcg/s390x/sigill.c        | 41 +++++++++++++++++++++++++++++++++
->   2 files changed, 42 insertions(+)
->   create mode 100644 tests/tcg/s390x/sigill.c
-> 
-> diff --git a/tests/tcg/s390x/Makefile.target b/tests/tcg/s390x/Makefile.target
-> index 241ef28f61..8699d829a5 100644
-> --- a/tests/tcg/s390x/Makefile.target
-> +++ b/tests/tcg/s390x/Makefile.target
-> @@ -8,3 +8,4 @@ TESTS+=exrl-trtr
->   TESTS+=pack
->   TESTS+=mvo
->   TESTS+=mvc
-> +TESTS+=sigill
-> diff --git a/tests/tcg/s390x/sigill.c b/tests/tcg/s390x/sigill.c
-> new file mode 100644
-> index 0000000000..f8021dc6af
-> --- /dev/null
-> +++ b/tests/tcg/s390x/sigill.c
-> @@ -0,0 +1,41 @@
-> +#include <assert.h>
-> +#include <signal.h>
-> +#include <string.h>
-> +#include <ucontext.h>
-> +#include <unistd.h>
-> +
-> +extern char expected_si_addr[];
-> +extern char expected_psw_addr[];
+Eduardo Habkost <ehabkost@redhat.com> writes:
 
-Why "extern" ? For the magic inline asm below to work?
+> On Fri, Apr 30, 2021 at 08:34:40PM -0400, Eduardo Habkost wrote:
+>> On Thu, Apr 22, 2021 at 06:11:15PM +0200, Vitaly Kuznetsov wrote:
+>> > As a preparatory patch to dropping Hyper-V CPUID leaves from
+>> > feature_word_info[] stop using env->features[] as a temporary
+>> > storage of Hyper-V CPUIDs, just build Hyper-V CPUID leaves directly
+>> > from kvm_hyperv_properties[] data.
+>> > 
+>> > Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
+>> > ---
+>> >  target/i386/cpu.h     |  1 +
+>> >  target/i386/kvm/kvm.c | 80 +++++++++++++++++++++++--------------------
+>> >  2 files changed, 43 insertions(+), 38 deletions(-)
+>> > 
+>> > diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+>> > index 570f916878f9..c8295aa2a1e7 100644
+>> > --- a/target/i386/cpu.h
+>> > +++ b/target/i386/cpu.h
+>> > @@ -1684,6 +1684,7 @@ struct X86CPU {
+>> >      uint32_t hyperv_interface_id[4];
+>> >      uint32_t hyperv_version_id[4];
+>> >      uint32_t hyperv_limits[3];
+>> > +    uint32_t hyperv_nested[4];
+>> >  
+>> >      bool check_cpuid;
+>> >      bool enforce_cpuid;
+>> > diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
+>> > index 7c751185491f..f791baa29acf 100644
+>> > --- a/target/i386/kvm/kvm.c
+>> > +++ b/target/i386/kvm/kvm.c
+>> > @@ -1111,7 +1111,6 @@ static int hv_cpuid_check_and_set(CPUState *cs, struct kvm_cpuid2 *cpuid,
+>> >                                    int feature)
+>> >  {
+>> >      X86CPU *cpu = X86_CPU(cs);
+>> > -    CPUX86State *env = &cpu->env;
+>> >      uint32_t r, fw, bits;
+>> >      uint64_t deps;
+>> >      int i, dep_feat;
+>> > @@ -1151,8 +1150,6 @@ static int hv_cpuid_check_and_set(CPUState *cs, struct kvm_cpuid2 *cpuid,
+>> >                  return 0;
+>> >              }
+>> >          }
+>> > -
+>> > -        env->features[fw] |= bits;
+>> >      }
+>> >  
+>> >      if (cpu->hyperv_passthrough) {
+>> > @@ -1162,6 +1159,29 @@ static int hv_cpuid_check_and_set(CPUState *cs, struct kvm_cpuid2 *cpuid,
+>> >      return 0;
+>> >  }
+>> >  
+>> > +static uint32_t hv_build_cpuid_leaf(CPUState *cs, uint32_t fw)
+>> > +{
+>> > +    X86CPU *cpu = X86_CPU(cs);
+>> > +    uint32_t r = 0;
+>> > +    int i, j;
+>> > +
+>> > +    for (i = 0; i < ARRAY_SIZE(kvm_hyperv_properties); i++) {
+>> > +        if (!hyperv_feat_enabled(cpu, i)) {
+>> > +            continue;
+>> > +        }
+>> > +
+>> > +        for (j = 0; j < ARRAY_SIZE(kvm_hyperv_properties[i].flags); j++) {
+>> > +            if (kvm_hyperv_properties[i].flags[j].fw != fw) {
+>> > +                continue;
+>> > +            }
+>> > +
+>> > +            r |= kvm_hyperv_properties[i].flags[j].bits;
+>> > +        }
+>> > +    }
+>> > +
+>> > +    return r;
+>> > +}
+>> > +
+>> >  /*
+>> >   * Fill in Hyper-V CPUIDs. Returns the number of entries filled in cpuid_ent in
+>> >   * case of success, errno < 0 in case of failure and 0 when no Hyper-V
+>> > @@ -1171,9 +1191,8 @@ static int hyperv_handle_properties(CPUState *cs,
+>> >                                      struct kvm_cpuid_entry2 *cpuid_ent)
+>> >  {
+>> >      X86CPU *cpu = X86_CPU(cs);
+>> > -    CPUX86State *env = &cpu->env;
+>> >      struct kvm_cpuid2 *cpuid;
+>> > -    struct kvm_cpuid_entry2 *c;
+>> > +    struct kvm_cpuid_entry2 *c, *c2;
+>> >      uint32_t cpuid_i = 0;
+>> >      int r;
+>> >  
+>> > @@ -1194,9 +1213,7 @@ static int hyperv_handle_properties(CPUState *cs,
+>> >          }
+>> >  
+>> >          if (!r) {
+>> 
+>> I think I now I understand why removing FEAT_HYPERV_* makes sense:
+>> 
+>> The rules mapping hyperv features to CPUID bits were encoded
+>> twice in the code: in both hyperv_handle_properties() and
+>> kvm_hyperv_properties[].  More work to maintain the rules, and
+>> too easy to accidentally make them inconsistent.
+>> 
+>> 
+>> Now, let me see if I can prove to myself that the new code works:
+>> 
+>> > -            env->features[FEAT_HV_RECOMM_EAX] |=
+>> > -                HV_ENLIGHTENED_VMCS_RECOMMENDED;
+>> 
+>> [Line1]
+>> 
+>> The only code reading env->features[FEAT_HV_RECOMM_EAX] seems to
+>> be [Line2] below:
+>> 
+>>   eax = env->features[FEAT_HV_RECOMM_EAX];
+>> 
+>> which is replaced with [Line3]:
+>> 
+>>   c->eax = hv_build_cpuid_leaf(cs, FEAT_HV_RECOMM_EAX);
+>> 
+>> so if hv_build_cpuid_leaf() do its job and set return
+>> HV_ENLIGHTENED_VMCS_RECOMMENDED set at [Line2], we can safely
+>> delete [Line1].
+>> 
+>> Will hv_build_cpuid_leaf() set HV_ENLIGHTENED_VMCS_RECOMMENDED in
+>> [Line2] for all cases where [Line1] was being executed?
+>> 
+>> Let's check what's necessary to make hv_build_cpuid_leaf()
+>> set HV_ENLIGHTENED_VMCS_RECOMMENDED:
+>> 
+>> There's only one entry with
+>> FEAT_HV_RECOMM_EAX/HV_ENLIGHTENED_VMCS_RECOMMENDED at
+>> kvm_hyperv_properties:
+>> 
+>>     [HYPERV_FEAT_EVMCS] = {
+>>         .desc = "enlightened VMCS (hv-evmcs)",
+>>         .flags = {
+>>             {.fw = FEAT_HV_RECOMM_EAX,
+>>              .bits = HV_ENLIGHTENED_VMCS_RECOMMENDED}
+>>         },
+>>         .dependencies = BIT(HYPERV_FEAT_VAPIC)
+>>     },
+>> 
+>> The logic at hv_build_cpuid_leaf() will make
+>> HV_ENLIGHTENED_VMCS_RECOMMENDED be set only if
+>> hyperv_feat_enabled(HYPERV_FEAT_EVMCS) is true.  Which is what I
+>> expected, because the line of code you are removing is inside a
+>> hyperv_feat_enabled(cpu, HYPERV_FEAT_EVMCS) conditional.
+>> 
+>> For reference, hyperv_feat_enabled(cpu, feat) returns:
+>>   !!(cpu->hyperv_features & BIT(feat))
+>> 
+>> I don't see any code _clearing_ hyperv_features, except for
+>> properties that could change hyperv_features.  I don't expect the
+>> "hv-evmcs" QOM property to be touched by this function, so we
+>> should be safe: if hyperv_feat_enabled(cpu, HYPERV_FEAT_EVMCS)
+>> returned before executing [Line1], it will return true when
+>> executing [Line2].
+>> 
+>> This means hv_build_cpuid_leaf() will set
+>> HV_ENLIGHTENED_VMCS_RECOMMENDED if
+>> hyperv_feat_enabled(HYPERV_FEAT_EVMCS) is true, and
+>> hyperv_feat_enabled(HYPERV_FEAT_EVMCS) will be true at [Line2] on
+>> all cases when [Line1] was being executed.
+>> 
+>> We also need to be sure the HV_ENLIGHTENED_VMCS_RECOMMENDED will
+>> be _unset_ at hv_build_cpuid_leaf() when expected, but the rules
+>> are trickier (due to hyperv_passthrough). I'll try to prove that
+>> later.
+>> 
+>> 
+>> > -            env->features[FEAT_HV_NESTED_EAX] = evmcs_version;
+>> 
+>> [Line4]
+>> 
+>> 
+>> Can we delete [Line4]?
+>> 
+>> The only code reading env->features[FEAT_HV_NESTED_EAX]
+>> is [Line5]:
+>>     c->eax = env->features[FEAT_HV_NESTED_EAX];
+>> which is replaced with [Line6]:
+>>     c->eax = cpu->hyperv_nested[0];
+>> 
+>> We are also replacing env->features[FEAT_HV_NESTED_EAX] with
+>> cpu->hyperv_nested[0], here:
+>> 
+>> > +            cpu->hyperv_nested[0] = evmcs_version;
+>> 
+>> This will make [Line6] set c->eax to evmcs_version, unless other
+>> code writes to cpu->hyperv_nested[0].
+>> 
+>> I don't see any other code writing to hyperv_nested in this
+>> patch, so we are good.
+>> 
+>> >          }
+>> >      }
+>> >  
+>> > @@ -1235,13 +1252,6 @@ static int hyperv_handle_properties(CPUState *cs,
+>> >              cpu->hyperv_version_id[3] = c->edx;
+>> >          }
+>> >  
+>> > -        c = cpuid_find_entry(cpuid, HV_CPUID_FEATURES, 0);
+>> > -        if (c) {
+>> > -            env->features[FEAT_HYPERV_EAX] = c->eax;
+>> 
+>> [Line7A]
+>> 
+>> > -            env->features[FEAT_HYPERV_EBX] = c->ebx;
+>> 
+>> [Line7B]
+>> 
+>> > -            env->features[FEAT_HYPERV_EDX] = c->edx;
+>> 
+>> [Line7D]
+>> 
+>> 
+>> Can we delete [Line7*]?
+>> 
+>> The only code reading env->features[FEAT_HYPERV_*] seems to be
+>> [Line8*]:
+>>     c->eax = env->features[FEAT_HYPERV_EAX];
+>>     c->ebx = env->features[FEAT_HYPERV_EBX];
+>>     c->edx = env->features[FEAT_HYPERV_EDX];
+>> which is replaced by [Line9*]:
+>>     c->eax = hv_build_cpuid_leaf(cs, FEAT_HYPERV_EAX);
+>>     c->ebx = hv_build_cpuid_leaf(cs, FEAT_HYPERV_EBX);
+>>     c->edx = hv_build_cpuid_leaf(cs, FEAT_HYPERV_EDX);
+>> 
+>> So we need to make sure hv_build_cpuid_leaf() will return the
+>> right values at [Line9*].
+>> 
+>> This one will be trickier to evaluate: there are lots of entries in
+>> kvm_hyperv_properties[] that affect FEAT_HYPERV_EAX.
+>> 
+>> I will pause here and continue next week.   :)
+>> 
+>
+> Continuing:
+>
+> So, [Line7*] above was for hyperv_passthrough mode only.  This
+> means now hv-passthrough will enable only known features (the
+> ones at kvm_hyperv_properties).
+>
+> The same comment I sent to the previous patch applies here:
+>
+> """
+> This makes hv-passthrough less useful for debugging and
+> development, but safer for using in production.  I assume we want
+> to eventually make hv-passthrough supported in production when
+> live migration support isn't required.
+>
+> I'll trust your judgement here and assume this is really a good
+> change, but maybe this should be documented more explicitly in
+> the hv-passthrough section at docs/hyperv.txt?
+> """
+>
 
-> +
-> +static void handle_signal(int sig, siginfo_t *info, void *ucontext)
-> +{
-> +    if (sig != SIGILL) {
-> +        _exit(1);
-> +    }
-> +
-> +    if (info->si_addr != expected_si_addr) {
-> +        _exit(2);
-> +    }
-> +
-> +    if (((ucontext_t *)ucontext)->uc_mcontext.psw.addr !=
-> +            (unsigned long)expected_psw_addr) {
-> +        _exit(3);
-> +    }
-> +}
-> +
-> +int main(void)
-> +{
-> +    struct sigaction act;
-> +
-> +    memset(&act, 0, sizeof(act));
-> +    act.sa_sigaction = handle_signal;
-> +    act.sa_flags = SA_SIGINFO;
-> +
-> +    int ret = sigaction(SIGILL, &act, NULL);
+Makes sense, will do.
 
-Mixing code and declaration.
+>
+>
+>> This smells like it could have been split into smaller patches,
+>> but I'm not sure if it would be possible.  Maybe the existing
+>> code was too tangled for splitting this refactor into smaller
+>> patches.
+>> 
+>> 
+>> > -        }
+>> > -
+>> >          c = cpuid_find_entry(cpuid, HV_CPUID_IMPLEMENT_LIMITS, 0);
+>> >          if (c) {
+>> >              cpu->hv_max_vps = c->eax;
+>> > @@ -1252,23 +1262,8 @@ static int hyperv_handle_properties(CPUState *cs,
+>> >  
+>> >          c = cpuid_find_entry(cpuid, HV_CPUID_ENLIGHTMENT_INFO, 0);
+>> >          if (c) {
+>> > -            env->features[FEAT_HV_RECOMM_EAX] = c->eax;
+>
+> Same as above: this is hv-passthrough code, and the comment above
+> applies.
+>
+>> >              cpu->hyperv_spinlock_attempts = c->ebx;
+>> >          }
+>> > -        c = cpuid_find_entry(cpuid, HV_CPUID_NESTED_FEATURES, 0);
+>> > -        if (c) {
+>> > -            env->features[FEAT_HV_NESTED_EAX] = c->eax;
+>> > -        }
+>
+> Same as above: this is hv-passthrough code, and the comment above
+> applies.
+>
+>> > -    }
+>> > -
+>
+> Now we're outside the hv-passthrough code:
+>
+>> > -    if (cpu->hyperv_no_nonarch_cs == ON_OFF_AUTO_ON) {
+>> > -        env->features[FEAT_HV_RECOMM_EAX] |= HV_NO_NONARCH_CORESHARING;
+>> > -    } else if (cpu->hyperv_no_nonarch_cs == ON_OFF_AUTO_AUTO) {
+>> > -        c = cpuid_find_entry(cpuid, HV_CPUID_ENLIGHTMENT_INFO, 0);
+>> > -        if (c) {
+>> > -            env->features[FEAT_HV_RECOMM_EAX] |=
+>> > -                c->eax & HV_NO_NONARCH_CORESHARING;
+>> > -        }
+>> >      }
+>
+> The hack above is copied to [Line10] below.  Looks OK.
+>
+>> >  
+>> >      /* Features */
+>> > @@ -1298,9 +1293,6 @@ static int hyperv_handle_properties(CPUState *cs,
+>> >          r |= 1;
+>> >      }
+>> >  
+>> > -    /* Not exposed by KVM but needed to make CPU hotplug in Windows work */
+>> > -    env->features[FEAT_HYPERV_EDX] |= HV_CPU_DYNAMIC_PARTITIONING_AVAILABLE;
+>
+> The hack above is copied to [Line10] below.  Looks OK.
+>
+>> > -
+>> >      if (r) {
+>> >          r = -ENOSYS;
+>> >          goto free;
+>> > @@ -1330,15 +1322,27 @@ static int hyperv_handle_properties(CPUState *cs,
+>> >  
+>> >      c = &cpuid_ent[cpuid_i++];
+>> >      c->function = HV_CPUID_FEATURES;
+>> > -    c->eax = env->features[FEAT_HYPERV_EAX];
+>> 
+>> [Line8A]
+>> 
+>> > -    c->ebx = env->features[FEAT_HYPERV_EBX];
+>> 
+>> [Line8B]
+>> 
+>> > -    c->edx = env->features[FEAT_HYPERV_EDX];
+>> 
+>> [Line8D]
+>> 
+>> > +    c->eax = hv_build_cpuid_leaf(cs, FEAT_HYPERV_EAX);
+>> 
+>> [Line9A]
+>> 
+>> > +    c->ebx = hv_build_cpuid_leaf(cs, FEAT_HYPERV_EBX);
+>> 
+>> [Line9B]
+>> 
+>> > +    c->edx = hv_build_cpuid_leaf(cs, FEAT_HYPERV_EDX);
+>> 
+>> [Line9D]
+>
+> Already reviewed at [Line7*] above.
+>
+>> 
+>> > +
+>> > +    /* Not exposed by KVM but needed to make CPU hotplug in Windows work */
+>> > +    c->edx |= HV_CPU_DYNAMIC_PARTITIONING_AVAILABLE;
+>
+> [Line11]
+>
+> Looks OK, but I wonder if this could be encoded in
+> kvm_hyperv_properties somehow.
+>
 
-> +    assert(ret == 0);
-> +
-> +    asm volatile("expected_si_addr:\t.byte\t0x00,0x00\n"
-> +                 "expected_psw_addr:");
+(The patch series changes nothing in this regard) this is not a separate
+feature as we enable it unconditionally. It is similar to e.g
+HV_HYPERCALL_AVAILABLE which we add unconditionally. The only reason why
+we can't just move it to kvm_hyperv_properties[] is because it is not
+exposed by KVM (and I'm not sure why to be honest but it is already
+'legacy').
 
-At least I am confused how the right values actually end up in 
-expected_si_addr and expected_psw_addr.
+>
+>> >  
+>> >      c = &cpuid_ent[cpuid_i++];
+>> >      c->function = HV_CPUID_ENLIGHTMENT_INFO;
+>> > -    c->eax = env->features[FEAT_HV_RECOMM_EAX];
+>> 
+>> [Line2]
+>> 
+>> > +    c->eax = hv_build_cpuid_leaf(cs, FEAT_HV_RECOMM_EAX);
+>> 
+>> [Line3]
+>> 
+>> >      c->ebx = cpu->hyperv_spinlock_attempts;
+>> >  
+>> > +    if (cpu->hyperv_no_nonarch_cs == ON_OFF_AUTO_ON) {
+>> > +        c->eax |= HV_NO_NONARCH_CORESHARING;
+>> > +    } else if (cpu->hyperv_no_nonarch_cs == ON_OFF_AUTO_AUTO) {
+>> > +        c2 = cpuid_find_entry(cpuid, HV_CPUID_ENLIGHTMENT_INFO, 0);
+>> > +        if (c2) {
+>> > +            c->eax |= c2->eax & HV_NO_NONARCH_CORESHARING;
+>> > +        }
+>> > +    }
+>
+> [Line10]
+>
+> Matches the code above.
+>
+>> > +
+>> >      c = &cpuid_ent[cpuid_i++];
+>> >      c->function = HV_CPUID_IMPLEMENT_LIMITS;
+>> >      c->eax = cpu->hv_max_vps;
+>> > @@ -1358,7 +1362,7 @@ static int hyperv_handle_properties(CPUState *cs,
+>> >  
+>> >          c = &cpuid_ent[cpuid_i++];
+>> >          c->function = HV_CPUID_NESTED_FEATURES;
+>> > -        c->eax = env->features[FEAT_HV_NESTED_EAX];
+>> > +        c->eax = cpu->hyperv_nested[0];
+>> >      }
+>> >      r = cpuid_i;
+>> >  
+>> > -- 
+>> > 2.30.2
+>> > 
+>> 
+>
+> Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
+>
 
-Can we maybe add a comment? This looks quite hacky ;)
+Thanks!
 
 -- 
-Thanks,
-
-David / dhildenb
+Vitaly
 
 
