@@ -2,77 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CF1138C93F
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 May 2021 16:30:31 +0200 (CEST)
-Received: from localhost ([::1]:48526 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA41338C94C
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 May 2021 16:37:27 +0200 (CEST)
+Received: from localhost ([::1]:53618 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lk6AX-00009l-Mq
-	for lists+qemu-devel@lfdr.de; Fri, 21 May 2021 10:30:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44342)
+	id 1lk6HG-0003rd-JR
+	for lists+qemu-devel@lfdr.de; Fri, 21 May 2021 10:37:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45938)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lk69l-0007ud-K2
- for qemu-devel@nongnu.org; Fri, 21 May 2021 10:29:41 -0400
-Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:33384)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lk69j-0004sl-Su
- for qemu-devel@nongnu.org; Fri, 21 May 2021 10:29:41 -0400
-Received: by mail-ej1-x630.google.com with SMTP id z12so29334521ejw.0
- for <qemu-devel@nongnu.org>; Fri, 21 May 2021 07:29:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=pdub6D7sV0imYGC0/OXY7yxI4FQou6c+CXhhLwE5v04=;
- b=gZ9hvzjem22ibr5vd+g+dcccO7ZWuTp6E53wc7mKH5dicLzG8N01yPZf0GLt20zLWK
- hEzdeJNJddEYmwYUPno0lXW+tPoqPz5IuXKfLudi/BHVIupMAwatmdkmy2BkavQ2pTy+
- Q/ZGfK62KGvauijDEEVBfARtcENoZdlVkdxxWmfr8Qjv09v4UlRYupDFzhOcxuhfavcD
- jQvl/hu5tsQWZRCHD+pUGTW2wRehircjBu1EBKEkZN1tSmcAz9+nNjH9c529Jo65EGlv
- gFfVcLm406CJ1OtiHsm62pUMFfE5YAstfX+m4sOJ52BIvuDt3Q5fEa2/+mOoOjOmBadp
- wNqQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=pdub6D7sV0imYGC0/OXY7yxI4FQou6c+CXhhLwE5v04=;
- b=UAJ7xBAzhtmF+3fTrU7qqHA9bBXjHhXVQxxkXt87FB96PqiSWbcwDqoIQKPwY7Y7zS
- SobJ0vPIJXcnktY/UAGbuxwIbdRcgh5IzDm1O/xiV9+z17DPanPDq2+5ugkDz0HPFOmL
- poZmw4Ks5FJPpP9r7LStmcExMiY9BjlBUMcQ+IrNq8RmHt7GQ72nicPwwMpp9hxxH75T
- qYQcXzZx65yiTsojoYrEESGy0gmlvyF519i4mn0QtMk89ghytdVHQwtH+GVom7uJBlzb
- wn/m3Jr3AfomHQclfmTUDTnWDy1FgtlfakUpwY9nfEKPyk9rqo3vP2EXQrXhrIz4vwUb
- uLkw==
-X-Gm-Message-State: AOAM531mdyVzrv7CzcyRN0IPwHV9iG3BzCBXwTFetWHtrra0Vnkbjnmc
- zRNo5Kt0o/+mz4TnJl0DlL8LJukOb7gsBnJEfdj4MQ==
-X-Google-Smtp-Source: ABdhPJwC2VlJwooTq2HYo1FkPwhtCoxflv/1lCAq/Bgmcx8IMs/RrfqkoiqfPsOIe3HyWoKbnIqmdc69E5GfKxwrco0=
-X-Received: by 2002:a17:906:bcd6:: with SMTP id
- lw22mr10835261ejb.250.1621607377791; 
- Fri, 21 May 2021 07:29:37 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lk6FT-0003BB-NA
+ for qemu-devel@nongnu.org; Fri, 21 May 2021 10:35:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51884)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lk6FQ-00065N-NW
+ for qemu-devel@nongnu.org; Fri, 21 May 2021 10:35:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1621607730;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=jtEM2zbqRAa+GRvLHDr+CMSVXpk51BipBFanhiC5CSM=;
+ b=atcf/ltg3QC/H1P2kxXFyV4e8hGjCJsopDD8Wv3kAUh41ZWMrcJ5gu4cZx9kWilupp0zrA
+ mDn+OE5pNhWQGhCVrttOjxQzycf9zPzAYSQzTs8wYh3Q2P9SPJR5+k5wpHt8FxPFtTtPnk
+ AZdkcVkJhN0jZDT4xkreYzYn2+9NMNw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-435-Cc-nu56kM6-RxAwQ36sQQw-1; Fri, 21 May 2021 10:35:26 -0400
+X-MC-Unique: Cc-nu56kM6-RxAwQ36sQQw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5067610082E2
+ for <qemu-devel@nongnu.org>; Fri, 21 May 2021 14:35:25 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-41.ams2.redhat.com
+ [10.36.112.41])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1F46110013C1;
+ Fri, 21 May 2021 14:35:25 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 99B78113865F; Fri, 21 May 2021 16:35:23 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH v3 2/9] qapi: move gen_if/gen_endif to QAPISchemaIfCond
+References: <20210429134032.1125111-1-marcandre.lureau@redhat.com>
+ <20210429134032.1125111-3-marcandre.lureau@redhat.com>
+ <9ebdf3c4-d991-3ad9-1919-6b1f3f95efa6@redhat.com>
+Date: Fri, 21 May 2021 16:35:23 +0200
+In-Reply-To: <9ebdf3c4-d991-3ad9-1919-6b1f3f95efa6@redhat.com> (John Snow's
+ message of "Wed, 12 May 2021 17:01:04 -0400")
+Message-ID: <87k0ns2lzo.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-References: <20210520195322.205691-1-willianr@redhat.com>
- <20210520195322.205691-2-willianr@redhat.com>
- <0f4a1c6c-ddba-ae57-2d55-f59c478dc9c5@redhat.com>
- <943fcdae-168a-adf8-c82b-b1a88369441c@redhat.com>
- <CAKJDGDZgnsFe9S967jjm1OMHPa25rb-tFmycpdC53WDK6DK1xA@mail.gmail.com>
- <a95cfa21-dde1-cf7c-a4e4-a5cf43c1de1d@redhat.com> <87sg2gb5lf.fsf@linaro.org>
- <b53b690c-f542-cc35-35a6-e577529ac303@amsat.org>
-In-Reply-To: <b53b690c-f542-cc35-35a6-e577529ac303@amsat.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 21 May 2021 15:29:18 +0100
-Message-ID: <CAFEAcA98XBN2x=FvJod8U4+NM3fpmJigQsWoi-v4L5HXQpT+Rw@mail.gmail.com>
-Subject: Re: [RFC 1/1] acceptance tests: rename acceptance to system
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::630;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x630.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.374,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,31 +83,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Niek Linnenbank <nieklinnenbank@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
- Michael Rolnik <mrolnik@gmail.com>, Willian Rampazzo <wrampazz@redhat.com>,
- Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 21 May 2021 at 15:19, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
- wrote:
-> If you think these tests belong to tests/tcg/, I am OK to put
-> them they, but I don't think adding the Avocado buildsys
-> machinery to the already-complex tests/tcg/ Makefiles is going
-> to help us...
+John Snow <jsnow@redhat.com> writes:
 
-This does raise the question of what we're actually trying
-to distinguish. It seems to me somewhat that what tests/acceptance/
-actually contains that makes it interestingly different from other
-tests/ stuff is that it's specifically "tests using the Avocado
-framework". On that theory we might name it tests/avocado/.
+> On 4/29/21 9:40 AM, marcandre.lureau@redhat.com wrote:
+>> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+>> Move the generating function to the QAPISchemaIfCond class.
+>> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
-Or we could just leave it as it is -- is the current naming
-actually confusing anybody? :-)
+[...]
 
-thanks
--- PMM
+> Tested-by: John Snow <jsnow@redhat.com>
+>
+> Seems fine, though I'm a lot less sure of baking the C-specific stuff
+> right into the class -- I want a bit more distance to the C output=20
+> instead of less.
+>
+> (Though I do admit that I'm quite fond of centralizing things into
+> classes like this myself. I think if we want to add Rust, Go, Python
+> and other generators that it won't scale the way we want it to.)
+
+I share this concern.
+
+In a compiler, we commonly have one or more intermediate
+representations, and several separate tasks that work on an IR.
+
+The classical organisation is to define a "thin" IR data type, and have
+the tasks work on that.
+
+If you are (or your implementation language is) religious about OO, keep
+a task separate gets a bit more complicated.  The visitor pattern is a
+common solution.  The temptation to just put it in the IR class and call
+it a day is always there, of course.
+
+schema.py is my attempt at writing compiler in an OO way.  It's not 100%
+pure.  For instance, there is QAPISchemaEntity.c_name().  Note that most
+of the actual work is done *outside* schema.py, in function c_name().
+The separation could certainly be cleaner.  But this is simple, and it
+feels tolerably clean to me.
+
+However, such things do add up.  At some point, we need to stop, think,
+and maybe refactor.  I haven't looked at the patch, so I can't say
+whether this patch gets us to this point already.
+
 
