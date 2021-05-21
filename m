@@ -2,82 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6174C38C721
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 May 2021 14:52:44 +0200 (CEST)
-Received: from localhost ([::1]:35948 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B631A38C715
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 May 2021 14:51:24 +0200 (CEST)
+Received: from localhost ([::1]:59848 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lk4dv-0004ZZ-Gg
-	for lists+qemu-devel@lfdr.de; Fri, 21 May 2021 08:52:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52170)
+	id 1lk4cd-0001W2-QS
+	for lists+qemu-devel@lfdr.de; Fri, 21 May 2021 08:51:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51714)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lk4cN-0002Q0-8S
- for qemu-devel@nongnu.org; Fri, 21 May 2021 08:51:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27995)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lk4aq-0008Hs-Of
+ for qemu-devel@nongnu.org; Fri, 21 May 2021 08:49:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24018)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lk4cK-0007eg-FS
- for qemu-devel@nongnu.org; Fri, 21 May 2021 08:51:07 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lk4ao-0007Fa-Vc
+ for qemu-devel@nongnu.org; Fri, 21 May 2021 08:49:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621601463;
+ s=mimecast20190719; t=1621601370;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tfIcv7gxDQkKKKRwXODMP7BNXv0hlXL78G/4NFg6nbI=;
- b=OGlknxTg3O5cCJxsGyJ4u2rTeq5TBX5ysSzxYv2h/Umch+pXorDW5wpfLz8hPWzg10wXTu
- B5Fi6vgJd9mf3oQ20IyQASeLc2ryv9NwGTZw/6PDqEu6tiWK1+z7w+rJrmRAiPqD22FFvq
- 8Qf9+xrcSk3ZaY4o+hci/Mg7DY+GxIU=
+ bh=FEpsemIRGu5oOuQUZUwUiVUxbSGPmrzNuO7HnUiioZE=;
+ b=G19A7poLKEXqbchH2ZLlQuL3VQE+UbgPhU+vmBLqKkUCUM7YVhLie9iLyHIrFQA5BJlLZp
+ 3iEyRm+Yxwgt6oWQpCIX1YIX32Y62yuluwGrj3K19g5KA1jCZ+HGKu1bb70PX+NmR6WOaT
+ 004VkO+o0MuYMwDBcG5HVjmO6hYA6Iw=
 Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
  [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-403-dSz1yvLBNOGNn9spAREFDg-1; Fri, 21 May 2021 08:48:32 -0400
-X-MC-Unique: dSz1yvLBNOGNn9spAREFDg-1
+ us-mta-13--RcaCAovNxGxe0xGQ_tkoQ-1; Fri, 21 May 2021 08:49:26 -0400
+X-MC-Unique: -RcaCAovNxGxe0xGQ_tkoQ-1
 Received: by mail-wm1-f71.google.com with SMTP id
- u203-20020a1cddd40000b029016dbb86d796so3783557wmg.0
- for <qemu-devel@nongnu.org>; Fri, 21 May 2021 05:48:32 -0700 (PDT)
+ l185-20020a1c25c20000b029014b0624775eso3776252wml.6
+ for <qemu-devel@nongnu.org>; Fri, 21 May 2021 05:49:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=tfIcv7gxDQkKKKRwXODMP7BNXv0hlXL78G/4NFg6nbI=;
- b=clMZ3Dy8yNbNWcetfvwClqn8X/hOdPq7rKMsdF50vVGH9pPB4cWVnLRZEzj9BExCR7
- ybbuDDFayyyo4PghK4M89OYTMLaA0pAVUr+hNj69BPkzjrl9MSLIbdn37CIthQcKG+1X
- jbklHXhRrV7xFBfEJyoWnZhOlrPPoTbSaCE/DX/ohKKOa4HCl3aoXFXBklWBxs4Skh3A
- o+wX9cVx/+fBox1fJ7AOoN/dKruNgC0O5wffKRpmYBid7pRKIBr3nPXnl+vK5tRkyWwa
- vS/s+zU5ltexGqJrP4NSRdfbzvegP9LU5YEGeM1Ww+oGMU0X7n3Himrpuj9B1zl1WWhJ
- ENLQ==
-X-Gm-Message-State: AOAM530Pn2lQWvKvf0RrY2l/uopkIOa9iAIlkAEYl9qn19nlhb+8fEvx
- cyvBUtM0QzpkjMupSt/ebxWFZG4OwkJClbyI59ykb9CxH9LDIkRTJxow9Q0H0t2CC08HU0r4eDb
- VkSZ/waukfihYR9I=
-X-Received: by 2002:a5d:6d04:: with SMTP id e4mr8558164wrq.344.1621601311469; 
- Fri, 21 May 2021 05:48:31 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy7JOoBLjXc4jiVahRKXpSCDQqV0Azt6tkJLof7xQz2g13PQrcsyOppwlEd7Hg17wr8Thcw6A==
-X-Received: by 2002:a5d:6d04:: with SMTP id e4mr8558155wrq.344.1621601311349; 
- Fri, 21 May 2021 05:48:31 -0700 (PDT)
+ bh=FEpsemIRGu5oOuQUZUwUiVUxbSGPmrzNuO7HnUiioZE=;
+ b=f6ZEAE0s49ddyNVFz/th4Wv4KNyl4xN7b7Oxputnrb8IEfSz655P/2pNmjcVvTTMXU
+ eQwPo/SAY/9knvgOAn3fDyhJDsvEusf0DJqJenvxS8sIxPUQ/c9dYMX0ZocvskzFpe/B
+ fb6bxJe1ScAB7+SdE06uhncsPIAgHQ7L1X/t425uMboMJC5d2qNvSKMlEqGs3YjqZ9fn
+ wlEP1JK2sjT1pc4SifUSzz690YYlxtnEzNAuyzofG7VOYqdY7Ftk+1lwLzJrkWJkqzKz
+ HOIw2GINElphPMNkTdIEFcciY+odSqWuCcLTWQjosQ4eup70C9OwbAqhiK0uYh04U/s3
+ /Xkg==
+X-Gm-Message-State: AOAM533OBC30N72I30AtKobYoQw05lFwJpT0YWRdvXWdJXzTSJ/fRuog
+ dgSxK8CuEKPZIN/FMm3RDuQLE7+jpwe9zpaitGc15+aLO0q7hIpL260ZBjSSqT8a3i2zqcccL+Q
+ DAzWwm80ttvap5ZU=
+X-Received: by 2002:adf:eb82:: with SMTP id t2mr9464096wrn.337.1621601365875; 
+ Fri, 21 May 2021 05:49:25 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw73pAFTOSndpcd8E3sbpG2oAHoeGXpWLGEU356+4L0WWV9IP9DroFeowKVGzzVsIKhTUprBA==
+X-Received: by 2002:adf:eb82:: with SMTP id t2mr9464082wrn.337.1621601365750; 
+ Fri, 21 May 2021 05:49:25 -0700 (PDT)
 Received: from [192.168.1.36] (31.red-83-51-215.dynamicip.rima-tde.net.
  [83.51.215.31])
- by smtp.gmail.com with ESMTPSA id k11sm12058248wmj.1.2021.05.21.05.48.30
+ by smtp.gmail.com with ESMTPSA id m6sm10672246wml.3.2021.05.21.05.49.24
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 21 May 2021 05:48:31 -0700 (PDT)
-Subject: Re: [PATCH 1/2] hw/usb: hcd-xhci-pci: Raise MSI/MSI-X interrupts only
- when told to
-To: Bin Meng <bmeng.cn@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
- qemu-devel@nongnu.org
-References: <20210521024224.2277634-1-bmeng.cn@gmail.com>
+ Fri, 21 May 2021 05:49:25 -0700 (PDT)
+Subject: Re: [RFC 1/1] acceptance tests: rename acceptance to system
+To: Thomas Huth <thuth@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>
+References: <20210520195322.205691-1-willianr@redhat.com>
+ <20210520195322.205691-2-willianr@redhat.com>
+ <0f4a1c6c-ddba-ae57-2d55-f59c478dc9c5@redhat.com>
+ <943fcdae-168a-adf8-c82b-b1a88369441c@redhat.com>
+ <CAKJDGDZgnsFe9S967jjm1OMHPa25rb-tFmycpdC53WDK6DK1xA@mail.gmail.com>
+ <82f5ed3f-3047-bfa3-c7b2-d91300f393f8@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <295bd1ad-3177-8bd9-37db-7cde60dac3e2@redhat.com>
-Date: Fri, 21 May 2021 14:48:30 +0200
+Message-ID: <0b970add-1804-f841-819d-e77a64d616e8@redhat.com>
+Date: Fri, 21 May 2021 14:49:24 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210521024224.2277634-1-bmeng.cn@gmail.com>
+In-Reply-To: <82f5ed3f-3047-bfa3-c7b2-d91300f393f8@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
@@ -87,7 +90,7 @@ X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.374,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,61 +103,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>, Ruimei Yan <ruimei.yan@windriver.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Niek Linnenbank <nieklinnenbank@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Michael Rolnik <mrolnik@gmail.com>, Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/21/21 4:42 AM, Bin Meng wrote:
-> From: Ruimei Yan <ruimei.yan@windriver.com>
+On 5/21/21 2:42 PM, Thomas Huth wrote:
+> On 21/05/2021 14.28, Willian Rampazzo wrote:
+>> On Fri, May 21, 2021 at 4:16 AM Thomas Huth <thuth@redhat.com> wrote:
+> [...]
+>>> Alternatively, what about renaming the "acceptance" tests to
+>>> "validation"
+>>> instead? That word does not have a duplicated definition in the
+>>> context of
+>>> QEMU yet, so I think it would be less confusing.
+>>
+>> While at the beginning of your reply, I started thinking if
+>> "validation" would cause less confusion for the QEMU project. Although
+>> validation testing is a broader concept inside the Verification &
+>> Validation process, encompassing unit testing, functional testing,
+>> integration testing, system testing, and acceptance testing, it may be
+>> an option for the QEMU project.
+>>
+>> While system testing would be the correct terminology to use, if it
+>> causes more confusion, using a less strict terminology, like
+>> validation testing, is valid, in my opinion.
 > 
-> At present MSI / MSI-X interrupts are triggered regardless of the
-> irq level. We should have checked the level to determine whether
-> the interrupt needs to be delivered.
+> <semi-homorous-friday-bikeshedding>
+> Or we could come up with a new, artificial name instead (like "qtests").
+> It certainly need a "q" in the name. For example what about:
 > 
-> The level check logic was present in early versions of the xhci
-> model, but got dropped later by a rework of interrupt handling
-> under commit 4c4abe7cc903 ("xhci: rework interrupt handling").
-> 
-> Fixes: 4c4abe7cc903 ("xhci: rework interrupt handling")
-> Signed-off-by: Ruimei Yan <ruimei.yan@windriver.com>
-> Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> ---
-> 
->  hw/usb/hcd-xhci-pci.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/hw/usb/hcd-xhci-pci.c b/hw/usb/hcd-xhci-pci.c
-> index 9421734d0f..b6acd1790c 100644
-> --- a/hw/usb/hcd-xhci-pci.c
-> +++ b/hw/usb/hcd-xhci-pci.c
-> @@ -67,12 +67,13 @@ static void xhci_pci_intr_raise(XHCIState *xhci, int n, bool level)
->           msi_enabled(pci_dev))) {
->          pci_set_irq(pci_dev, level);
->      }
+> - avoqado
 
-I read the next patch before this one :)
-
-So please consider:
-
-if (!level) {
-  return;
-}
-
-Otherwise:
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-
-> -    if (msix_enabled(pci_dev)) {
-> +
-> +    if (msix_enabled(pci_dev) && level) {
->          msix_notify(pci_dev, n);
->          return;
->      }
->  
-> -    if (msi_enabled(pci_dev)) {
-> +    if (msi_enabled(pci_dev) && level) {
->          msi_notify(pci_dev, n);
->          return;
->      }
-> 
++1 for 'make check-avoqado' :)
 
 
