@@ -2,96 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB13938CB82
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 May 2021 19:04:13 +0200 (CEST)
-Received: from localhost ([::1]:56210 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3FB038CB94
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 May 2021 19:09:38 +0200 (CEST)
+Received: from localhost ([::1]:59244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lk8ZJ-0002QI-0N
-	for lists+qemu-devel@lfdr.de; Fri, 21 May 2021 13:04:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37216)
+	id 1lk8eX-0004pw-Ji
+	for lists+qemu-devel@lfdr.de; Fri, 21 May 2021 13:09:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38434)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lk8Xi-0001hh-Eb
- for qemu-devel@nongnu.org; Fri, 21 May 2021 13:02:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45335)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lk8d9-00048M-ND
+ for qemu-devel@nongnu.org; Fri, 21 May 2021 13:08:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58826)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lk8Xg-0007Xr-FO
- for qemu-devel@nongnu.org; Fri, 21 May 2021 13:02:34 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lk8d7-0000BG-Lh
+ for qemu-devel@nongnu.org; Fri, 21 May 2021 13:08:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621616551;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1621616888;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=43/aLIhxPUFfO2s7iXW0KpFnZGDBvQ10NCHTIaf18ew=;
- b=htI3l5GDkcfk8LhceST9DSXA+yyxYajZ62eEFFl6KgRr/lfeS86Rkgscjz4mTr8ShDOBpw
- Nhh+nZ20tIdMrsBAVAkCOTIuPS6zzCmCsdFviuk5fIf6xMcoZZ6QkySnYVozD4XHhroCij
- OEByq2CRtEaWgJhXKqcshwrScYmC5vk=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-259-FYzjVBQwOiGp2iwMIO4Ydw-1; Fri, 21 May 2021 13:02:29 -0400
-X-MC-Unique: FYzjVBQwOiGp2iwMIO4Ydw-1
-Received: by mail-ed1-f69.google.com with SMTP id
- q18-20020a50cc920000b029038cf491864cso11615801edi.14
- for <qemu-devel@nongnu.org>; Fri, 21 May 2021 10:02:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=43/aLIhxPUFfO2s7iXW0KpFnZGDBvQ10NCHTIaf18ew=;
- b=eINZtj/amG4hhJg3dMZtbzMdD4sNourFCQwVqajHOCySO5gZQkbQdefnYTwMtN592T
- wIB2ugb/XiDR/iUekaRIajVXDaawm3wgTFB1Aur24B/FFwkaebLaxGUlaqdlyPkOL15l
- 7dRHLeSgzg8mTjKlWGLaLSW15jUU120iKGoUPT9j0g8t8FG2zM3j44efNONiCy0POzBZ
- +izc3WzgVcTvUUcu2WfGRzFbsLCu/ONM8MZtjXkZslEn1kkk7h2GB/At3m/HkuKG3KGR
- GGxCe/OsE0l49OgljDsiJKkA1XxxnrBnFebAc8pyDssxm5G5+QmvJgQuCdQfPQq91CZ6
- lAaw==
-X-Gm-Message-State: AOAM533ccgijuP5oOH4CKBEnTbC6btKA0rKGQlxcyXuHvCjmq4YesaHI
- KwsXQ/a96vO8YNVyXjOGKk/Sky1FLjlnbvlycFd5EycmmtzJijJKM2XJxwjFZAh6UWaQ+3t5Q1r
- 2ZNkyYif8XXxP66ht4ZcEszBn7yhWEEACQmijonEQ5Bn2M1QPQYz8RVKuqcuPw2DRr9g=
-X-Received: by 2002:a17:906:2da1:: with SMTP id
- g1mr11293856eji.47.1621616547680; 
- Fri, 21 May 2021 10:02:27 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyK56k3YspyMnwLetRh7LswXKOJvGUxeDTThw7j7PB9ckLNUx6VZkkTrI5ksvpuDSCUrv154g==
-X-Received: by 2002:a17:906:2da1:: with SMTP id
- g1mr11293833eji.47.1621616547442; 
- Fri, 21 May 2021 10:02:27 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id g4sm4374474edm.83.2021.05.21.10.02.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 21 May 2021 10:02:26 -0700 (PDT)
-Subject: Re: [RFC PATCH 0/9] Initial support for machine creation via QMP
-To: Markus Armbruster <armbru@redhat.com>
-References: <20210513082549.114275-1-mirela.grujic@greensocs.com>
- <93ae82d3-f9a7-f347-a013-54ae5cdc95f7@redhat.com>
- <87zgwo5nl2.fsf@dusky.pond.sub.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <8c23c25a-cf5d-c79f-9a88-0c8ea17f872b@redhat.com>
-Date: Fri, 21 May 2021 19:02:25 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ bh=SotC8rRWBnbnXQfwPCkaoFO7CTkTOztXsn39H4ZCGaQ=;
+ b=OEjxBR0iZYGhHG+jtZ8j2M7+YJV+RfVfDjyluTdEGTej/rKKZwXh1lSOFbCZiRBrsJTIQM
+ s74+7MeAm4T6rO3wU3ZVtrA4SAley3S3lty4wt8vKWyoxmwHUmnTXJudfS+MQjbod1IZ27
+ dj3a+mggtq9T2JqM0pxKm08x7/vCi30=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-66-UrnQ7MCjNB2DNS2CfuaMnA-1; Fri, 21 May 2021 13:08:05 -0400
+X-MC-Unique: UrnQ7MCjNB2DNS2CfuaMnA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B18FC8042A3;
+ Fri, 21 May 2021 17:08:04 +0000 (UTC)
+Received: from redhat.com (ovpn-114-5.ams2.redhat.com [10.36.114.5])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E093B5D6DC;
+ Fri, 21 May 2021 17:07:58 +0000 (UTC)
+Date: Fri, 21 May 2021 18:07:56 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>
+Subject: Re: A bug of Monitor Chardev ?
+Message-ID: <YKfo7Kuazs8ayiwb@redhat.com>
+References: <cd197959-7da0-ee50-1e65-e6b2e7107a86@huawei.com>
+ <CAJ+F1C+4URqrZvAiBk+o-Ei4etL_oBtdPr0cugGmnMaYaZqGyA@mail.gmail.com>
+ <YKU/k/DIJd6gMLvw@redhat.com> <87lf88pmyn.fsf@dusky.pond.sub.org>
+ <YKfHGC79w0uv41Zd@t490s> <YKfg6j4mPjvjSrcF@redhat.com>
+ <YKfmLgz59nv5Ef5u@redhat.com>
+ <CAJ+F1CL_fTN8W2McRA-XXmY6HTy47GZdHz8aB4wxee_7hnyL2g@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <87zgwo5nl2.fsf@dusky.pond.sub.org>
+In-Reply-To: <CAJ+F1CL_fTN8W2McRA-XXmY6HTy47GZdHz8aB4wxee_7hnyL2g@mail.gmail.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.374,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -104,46 +86,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: damien.hedde@greensocs.com, edgar.iglesias@xilinx.com,
- Mirela Grujic <mirela.grujic@greensocs.com>, mark.burton@greensocs.com,
- qemu-devel@nongnu.org
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: chenjiashang@huawei.com, Markus Armbruster <armbru@redhat.com>,
+ Peter Xu <peterx@redhat.com>, QEMU <qemu-devel@nongnu.org>,
+ "Gonglei \(Arei\)" <arei.gonglei@huawei.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, "Longpeng \(Mike,
+ Cloud Infrastructure Service Product Dept.\)" <longpeng2@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 21/05/21 13:32, Markus Armbruster wrote:
-> PHASE_NO_MACHINE
->    -> machine-set -> PHASE_MACHINE_CREATED ->
->    -> accel-set -> PHASE_ACCEL_CREATED -> PHASE_MACHINE_INITIALIZED ->
->    -> finish-machine-init -> PHASE_MACHINE_READY
->    -> cont
->
-> Is machine-set one big command, or a sequence of commands, where each
-> command configures just one thing?
+On Fri, May 21, 2021 at 08:59:17PM +0400, Marc-André Lureau wrote:
+> Hi
 > 
-> Same for accel-set.
+> On Fri, May 21, 2021 at 8:56 PM Daniel P. Berrangé <berrange@redhat.com>
+> wrote:
+> 
+> > On Fri, May 21, 2021 at 05:33:46PM +0100, Daniel P. Berrangé wrote:
+> > > On Fri, May 21, 2021 at 10:43:36AM -0400, Peter Xu wrote:
+> > > >
+> > > > I think the original problem was that if qemu_chr_fe_set_handlers() is
+> > called
+> > > > in main thread, it can start to race somehow within execution of the
+> > function
+> > > > qemu_chr_fe_set_handlers() right after we switch context at:
+> > > >
+> > > >     qemu_chr_be_update_read_handlers(s, context);
+> > > >
+> > > > Then the rest code in qemu_chr_fe_set_handlers() will continue to run
+> > in main
+> > > > thread for sure, but the should be running with the new iothread
+> > context, which
+> > > > introduce a race condition.
+> > > >
+> > > > Running qemu_chr_be_update_read_handlers() in BH resolves that because
+> > then all
+> > > > things run in the monitor iothread only and natually serialized.
+> > >
+> > > The first message in this thread, however, claims that it is *not*
+> > > in fact serialized, when using the BH.
+> > >
+> > > > So the new comment looks indeed not fully right, as the chr device
+> > should be
+> > > > indeed within main thread context before qemu_chr_fe_set_handlers(),
+> > it's just
+> > > > that the race may start right away if without BH when context switch
+> > happens
+> > > > for the chr.
+> > >
+> > > It sounds like both the comment and the code are potentially wrong.
+> >
+> >
+> > I feel like our root cause problem that the original code was trying to
+> > workaround, is that the chardev is "active" from the very moment it is
+> > created, regardless of whether the frontend is ready to use it.
+> >
+> > IIUC, in this case the socket chardev is already listen()ing and
+> > accept()ing incoming clients off the network, before the monitor
+> > has finished configuring its hooks into the chardev. This means
+> > that the initial listen()/accept() I/O watches are using the
+> > default GMainContext, and the monitor *has* to remove them and
+> > put in new watches on the thread private GMainContext.
+> >
+> > To eliminate any risk of races, we need to make it possible for the
+> > monitor to configure the GMainContext on the chardevs *before* any
+> > I/O watches are configured.
+> >
+> > This in turn suggests that we need to split the chardev initialization
+> > into two phases. First we have the basic chardev creation, with object
+> > creation, option parsing/sanity checking, socket creation, and then
+> > second we have the actual activation where the I/O watches are added.
+> >
+> > IOW,  qemu_chr_new() is the former and gets run from generic code in
+> > the main() method, or in QMP chardev_add.  A new 'qemu_chr_activate'
+> > method would be called by whatever frontend is using the chardev,
+> > after registering a custom GMainContext.
+> >
+> > This would involve updating every single existing user of chardevs
+> > to add a call to qemu_chr_activate, but that's worth it to eliminate
+> > the race by design, rather than workaround it.
+> >
+> 
+> 
+> What about my earlier suggestion to add a new
+> "qemu_chr_be_disable_handlers()" (until update_read_handlers is called
+> again to enable them and the set a different context)?
 
-They would be almost 1:1 mappings with -M and -accel.  If we add a third 
-command for the CPU model, machine-set and accel-set would be basically 
-as big as device_add or object-add.
+It could probably work, but it still feels like a bit of a hack to me,
+because there's still a window between the chardev create and the
+qemu_chr_be_disable_handlers call where new clients arrive.
 
-So the full flow would be
+This may not be a problem in the scenario we're in with the monitor
+here, because the mainloop isn't running yet IIUC, but for long term
+think we're better off fixing the general problem rather than
+introducing more special workarounds.
 
-  PHASE_NO_MACHINE
-     -> machine-set -> PHASE_MACHINE_CREATED ->
-     -> accel-set -> PHASE_ACCEL_CREATED ->
-     -> cpu-model-set -> PHASE_MACHINE_INITIALIZED ->
-     -> device_add...
-     -> finish-machine-init -> PHASE_MACHINE_READY
-     -> cont
+For example, I think your suggestion will still be racey if we ever
+add support for hotplugging additional monitor instances, which
+has been talked around recently.
 
-> Permit me to go off on a tangent: how much and what kind of magic do we
-> want in the initialization sequence?
-
-No magic at all, because the QMP configuration would be entirely 
--nodefaults.  Default devices, for boards that need them, can be created 
-by setting properties such as serial0, netdev0 in machine-set (and in no 
-other way).
-
-Paolo
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
