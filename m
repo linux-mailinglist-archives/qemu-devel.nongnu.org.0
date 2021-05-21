@@ -2,75 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2CF738C073
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 May 2021 09:10:50 +0200 (CEST)
-Received: from localhost ([::1]:36868 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E32E238C08E
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 May 2021 09:18:35 +0200 (CEST)
+Received: from localhost ([::1]:41448 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljzJ3-0002gX-Fk
-	for lists+qemu-devel@lfdr.de; Fri, 21 May 2021 03:10:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40958)
+	id 1ljzQY-00064s-SQ
+	for lists+qemu-devel@lfdr.de; Fri, 21 May 2021 03:18:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41628)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ljzID-0001ac-04
- for qemu-devel@nongnu.org; Fri, 21 May 2021 03:09:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33669)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1ljzMD-0004zr-5y; Fri, 21 May 2021 03:14:05 -0400
+Received: from wout1-smtp.messagingengine.com ([64.147.123.24]:40945)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ljzIA-0000cm-E0
- for qemu-devel@nongnu.org; Fri, 21 May 2021 03:09:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621580993;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=nu37QqqnLXalc1kkYPPqb8gHK7SvIhK8mhl8w8NQ52s=;
- b=F5vh7Ten7NMN93m4nMVqmLz8QE+wUwZagJWqdKYEZDY2sY3DUF9CJ0y/nJaAn7Rk2YCyEt
- RbtoKh+gg6Q0ueCQvyiSYKsY1JF88Am/tUgx0nS5a9FoRAVz0kOhb3DTjPWIXLKHQXYgyV
- Yy7dq3LR2ZK0TSKFuxjYqaPe4v9vIyk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-592-79_rwFLpNmGfAy-jfHx5KQ-1; Fri, 21 May 2021 03:09:52 -0400
-X-MC-Unique: 79_rwFLpNmGfAy-jfHx5KQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4F072107ACC7;
- Fri, 21 May 2021 07:09:51 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-41.ams2.redhat.com
- [10.36.112.41])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BD99C62466;
- Fri, 21 May 2021 07:09:47 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 54C67113865F; Fri, 21 May 2021 09:09:46 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [RFC PATCH 01/11] hw/isa: Explode pci_create_simple() calls
-References: <20210518215545.1793947-1-philmd@redhat.com>
- <20210518215545.1793947-2-philmd@redhat.com>
-Date: Fri, 21 May 2021 09:09:46 +0200
-In-Reply-To: <20210518215545.1793947-2-philmd@redhat.com> ("Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Tue, 18 May 2021 23:55:35
- +0200")
-Message-ID: <87tumwpnph.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1ljzM9-0003xG-PM; Fri, 21 May 2021 03:14:04 -0400
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailout.west.internal (Postfix) with ESMTP id BD8DE1286;
+ Fri, 21 May 2021 03:13:56 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute6.internal (MEProxy); Fri, 21 May 2021 03:13:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm3; bh=k7m3kGJytjps9nD/I7PcW0Rut/7
+ 4nAcDWqD0A46NrWI=; b=KrdzD05wP21vSA0MHSXwLhstueIhBnjHBP00LR/hMz2
+ Ei4XzBwtKLEoRC6sxEd44oqg6W12OuK3HG02w+EdUhcIgH3qtd7ONp0SWeUXeh3u
+ rs4UmEYLxe4UMNGMtfKFQ5VExTqwOh3fLGSlVwqt5w4dKZnGRHmvncIDvshkNxCH
+ nC3Q0cV9qZH0xRUtRlLyFkaWtTlLhCP4qs1Udd2Be3r7SUknmyBt6fh3qRvI+fN6
+ IAEQHM/1IN5cywTe1AlgxADjPcZttSq7uw/9gJhYXSHFjtF3IZs6c/QDaNMBCyN2
+ uy6vNXRg2I5NanVQhC6eAxogEyFf99tvpB3EKyhmgig==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=k7m3kG
+ Jytjps9nD/I7PcW0Rut/74nAcDWqD0A46NrWI=; b=kHqBvvKBx2FfcM9IeKjEC1
+ RzHETsNnGHI+idni5nA8NIWv14SqisW/9+n2kWl2b6NosfwHIoZy6kwvK0LfTd0y
+ WtXlObIyVVLYHB+b+mZm+8h9l0kuRiF0yE/5YP7ZHuKvYqS3MzketWURpA03/znD
+ 9UwwmQ5NiRgP8Zmd5FVjS/Mac+Dc3aEXBrrrdvtiIErC0l1YFmzrZplqA+VAdwv+
+ eoFjckD3QTRynJ7/HXlLFCP/TWCf5dcpbB8IKacjlz9QrNXOeKf7DMUdRWGVpS9w
+ RR4Y8gV8t2TegZVmc6sjp6axWRrm4qQ6P3wQ0eJNRSLm2FrUBDlSuy2HG/JP3o6g
+ ==
+X-ME-Sender: <xms:s12nYFexdCSwq8PlgDZDmwmnIpdNC9NKOPRi9nPkasY2uSYCLa3GFQ>
+ <xme:s12nYDPILZPx8pUBaH1hNFqB7GtYnpO3Dm2w2hNZFgGNWsSWjypxneY7Ib2SPmyGw
+ -_vASbVTKQCUi5KYRo>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdejvddguddugecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecunecujfgurhepfffhvffukfhfgggtuggjsehgtd
+ erredttdejnecuhfhrohhmpefmlhgruhhsucflvghnshgvnhcuoehithhssehirhhrvghl
+ vghvrghnthdrughkqeenucggtffrrghtthgvrhhnpeejgeduffeuieetkeeileekvdeule
+ etveejudeileduffefjeegfffhuddvudffkeenucfkphepkedtrdduieejrdelkedrudel
+ tdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehith
+ hssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:s12nYOhnwIz3dyi0AJKrRQo4apqHBn4xUeQcYHrAyxbMlKrudwbQzQ>
+ <xmx:s12nYO8ZCgrkSQxpzHtG1DEyqvCs4fgqhm5AVH70lUlivchNqd5iVQ>
+ <xmx:s12nYBuJMcAhU4Umzh-wXL74JO6DsgFvzrDVEK5F0WrfU2lHiAK6YA>
+ <xmx:tF2nYFga3dGjWaQJfNpkfXafHfgPSj0lQbwbLkQKLFCOJinN_4oR1g>
+Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190]) by mail.messagingengine.com (Postfix) with ESMTPA;
+ Fri, 21 May 2021 03:13:53 -0400 (EDT)
+Date: Fri, 21 May 2021 09:13:51 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: Gollu Appalanaidu <anaidu.gollu@samsung.com>
+Subject: Re: [PATCH] hw/nvme/ctrl: fix functions style
+Message-ID: <YKddr8UDZhPzK0Yr@apples.localdomain>
+References: <CGME20210521061352epcas5p145b3a19453f7ff9d625bb9ae447b649c@epcas5p1.samsung.com>
+ <20210521060842.25516-1-anaidu.gollu@samsung.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.39,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="ubPlQgpMiHzfipxy"
+Content-Disposition: inline
+In-Reply-To: <20210521060842.25516-1-anaidu.gollu@samsung.com>
+Received-SPF: pass client-ip=64.147.123.24; envelope-from=its@irrelevant.dk;
+ helo=wout1-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,52 +93,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- John G Johnson <john.g.johnson@oracle.com>, Thomas Huth <thuth@redhat.com>,
- Jagannathan Raman <jag.raman@oracle.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>, John Snow <jsnow@redhat.com>
+Cc: fam@euphon.net, kwolf@redhat.com, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, mreitz@redhat.com, stefanha@redhat.com,
+ kbusch@kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
 
-> To be able to set a property on the ISA-IDE bridges objects
-> before they are realized, explode the pci_create_simple()
-> calls as pci_new() + pci_realize_and_unref().
+--ubPlQgpMiHzfipxy
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On May 21 11:38, Gollu Appalanaidu wrote:
+>Identify command related functions style fix.
 >
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> ---
->  hw/i386/pc_piix.c   | 5 +++--
->  hw/isa/piix4.c      | 3 ++-
->  hw/mips/fuloong2e.c | 3 ++-
->  hw/ppc/pegasos2.c   | 3 ++-
->  4 files changed, 9 insertions(+), 5 deletions(-)
+>Signed-off-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
+>---
+> hw/nvme/ctrl.c | 6 +++---
+> 1 file changed, 3 insertions(+), 3 deletions(-)
 >
-> diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-> index 30b8bd6ea92..fb606c14768 100644
-> --- a/hw/i386/pc_piix.c
-> +++ b/hw/i386/pc_piix.c
-> @@ -244,8 +244,9 @@ static void pc_init1(MachineState *machine,
->      if (pcmc->pci_enabled) {
->          PCIDevice *dev;
-> =20
-> -        dev =3D pci_create_simple(pci_bus, piix3_devfn + 1,
-> -                                xen_enabled() ? "piix3-ide-xen" : "piix3=
--ide");
-> +        dev =3D pci_new(piix3_devfn + 1,
-> +                      xen_enabled() ? "piix3-ide-xen" : "piix3-ide");
-> +        pci_realize_and_unref(dev, pci_bus, &error_abort);
->          pci_ide_create_devs(dev);
->          idebus[0] =3D qdev_get_child_bus(&dev->qdev, "ide.0");
->          idebus[1] =3D qdev_get_child_bus(&dev->qdev, "ide.1");
+>diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+>index 0bcaf7192f..40a7efcea9 100644
+>--- a/hw/nvme/ctrl.c
+>+++ b/hw/nvme/ctrl.c
+>@@ -4291,7 +4291,7 @@ static uint16_t nvme_identify_ns_attached_list(NvmeC=
+trl *n, NvmeRequest *req)
+> }
+>
+> static uint16_t nvme_identify_ns_csi(NvmeCtrl *n, NvmeRequest *req,
+>-        bool active)
+>+                                     bool active)
+> {
+>     NvmeNamespace *ns;
+>     NvmeIdentify *c =3D (NvmeIdentify *)&req->cmd;
+>@@ -4326,7 +4326,7 @@ static uint16_t nvme_identify_ns_csi(NvmeCtrl *n, Nv=
+meRequest *req,
+> }
+>
+> static uint16_t nvme_identify_nslist(NvmeCtrl *n, NvmeRequest *req,
+>-        bool active)
+>+                                     bool active)
+> {
+>     NvmeNamespace *ns;
+>     NvmeIdentify *c =3D (NvmeIdentify *)&req->cmd;
+>@@ -4373,7 +4373,7 @@ static uint16_t nvme_identify_nslist(NvmeCtrl *n, Nv=
+meRequest *req,
+> }
+>
+> static uint16_t nvme_identify_nslist_csi(NvmeCtrl *n, NvmeRequest *req,
+>-        bool active)
+>+                                         bool active)
+> {
+>     NvmeNamespace *ns;
+>     NvmeIdentify *c =3D (NvmeIdentify *)&req->cmd;
+>--=20
+>2.17.1
+>
+>
 
-This replaces pci_create_simple()'s &error_fatal by &error_abort.
-Intentional?  If yes, the commit message should briefly explain why
-errors are not expected to happen.
+Thanks, applied to nvme-next.
 
-Same for the other hunks.
+Please just use 'hw/nvme:' in the commit title, we don't need to specify=20
+the sub-subsystem ;)
 
-[...]
+--ubPlQgpMiHzfipxy
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmCnXaoACgkQTeGvMW1P
+DenFrQf+PiEHsLIWcl3VVIZSwNfxzAYlKIbFELzbr2cLPFQJecrGq7a1h/v4teIn
+wXdZO2Hi+4NWUxN0q1PIhHyxR6pFQz25wFuaFVCDfAn70dB09T9cVxXDfuv7wTgY
+ap/GvPuAqjAiQ73s95MZHaoQsUrz/3tA7V2g7r5pT3RiS+mHxkzYKUKzhuR9QQTt
+61nmasK5GACuFWuInnVgoMrb4ULqRnVt/vRVS86ttnCL5kyUZBCuiNhZ7Kkafc7K
+ajTKKc313Gve56K3yfSKjZGFB2vwgFftY7OqnmEBbFgq85cHrlmUPDFnVkuqEXBN
+xxm4f6foNza+DyfkJrHkPzXOuR1UEA==
+=ucDY
+-----END PGP SIGNATURE-----
+
+--ubPlQgpMiHzfipxy--
 
