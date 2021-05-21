@@ -2,63 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4C8A38D08D
-	for <lists+qemu-devel@lfdr.de>; Sat, 22 May 2021 00:08:30 +0200 (CEST)
-Received: from localhost ([::1]:57784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45FD838D175
+	for <lists+qemu-devel@lfdr.de>; Sat, 22 May 2021 00:26:14 +0200 (CEST)
+Received: from localhost ([::1]:37314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lkDJl-0004ej-Mw
-	for lists+qemu-devel@lfdr.de; Fri, 21 May 2021 18:08:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46768)
+	id 1lkDav-0002iq-BT
+	for lists+qemu-devel@lfdr.de; Fri, 21 May 2021 18:26:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51022)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1lkDI6-0003BO-Fw
- for qemu-devel@nongnu.org; Fri, 21 May 2021 18:06:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56271)
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1lkDZg-0001Gm-Fs
+ for qemu-devel@nongnu.org; Fri, 21 May 2021 18:24:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26391)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1lkDI2-00010o-CJ
- for qemu-devel@nongnu.org; Fri, 21 May 2021 18:06:45 -0400
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1lkDZc-0003cD-0B
+ for qemu-devel@nongnu.org; Fri, 21 May 2021 18:24:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621634801;
+ s=mimecast20190719; t=1621635890;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=d4/jvxtiWC6+1wQOxpqUkMe+JIzh3cY5tCr+EmYTbe8=;
- b=irD6ul4rbMR7qzperTCqMUVbqjI7NNLw9SA+bsQGgD2pmkLtW4ukU4jhKQwYJiVbB2vihY
- uhC2s/2gOzK+Jfg0tB126B/A58efuek/fhc4BuvgsswoyFxzUEfKL8qjmiNSQXNYn9Pprn
- /La+XUgyBM7eeU9o8cmmj+T/df6KNm4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-254-w-H5FA8rOh-nD9RHhjugWA-1; Fri, 21 May 2021 18:06:39 -0400
-X-MC-Unique: w-H5FA8rOh-nD9RHhjugWA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9F4AB801B12
- for <qemu-devel@nongnu.org>; Fri, 21 May 2021 22:06:38 +0000 (UTC)
-Received: from localhost (ovpn-115-27.rdu2.redhat.com [10.10.115.27])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7009160FC2;
- Fri, 21 May 2021 22:06:38 +0000 (UTC)
-Date: Fri, 21 May 2021 18:06:37 -0400
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Vitaly Kuznetsov <vkuznets@redhat.com>
-Subject: Re: [PATCH v6 17/19] i386: HV_HYPERCALL_AVAILABLE privilege bit is
- always needed
-Message-ID: <20210521220637.kg6g7lfvpwasnzez@habkost.net>
-References: <20210422161130.652779-1-vkuznets@redhat.com>
- <20210422161130.652779-18-vkuznets@redhat.com>
+ bh=LGEUNofUPNiV3dPqZ9Rg7ZF9dkQ3r5ttgxlwBf/9KNg=;
+ b=jCGV2qKUi8++//C//maa2NtwNfbH8cPgkNM/vjrwYTIQkCxEUH3hHMB7CNhdv4/YXA8gss
+ wVE7juNmINqr8To2K/c0MU9EvVdwNOkAf3w5adywOp4O9xXZMrDKup1Hhilne0IbxxSeIz
+ gfKXSdcSZb/fzVtaJ5dlmRI/9gk5NWM=
+Received: from mail-ot1-f72.google.com (mail-ot1-f72.google.com
+ [209.85.210.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-381-9Hlwc1ngOZO1J0sfyvqWXA-1; Fri, 21 May 2021 18:24:48 -0400
+X-MC-Unique: 9Hlwc1ngOZO1J0sfyvqWXA-1
+Received: by mail-ot1-f72.google.com with SMTP id
+ m6-20020a0568301e66b0290319b27baf50so10100764otr.11
+ for <qemu-devel@nongnu.org>; Fri, 21 May 2021 15:24:48 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=LGEUNofUPNiV3dPqZ9Rg7ZF9dkQ3r5ttgxlwBf/9KNg=;
+ b=gsaFefbXGfSFRuYTU25Fh2K6+jAhjgI7BCdOWWYfs+suCRTc1Ac0OCVukRsSaIarZe
+ 26KzPNxCTMZ4uG7OY+HLFo6ctUp0eQC7/kbQ+NM/ao+Fy03owhUFIuD053GI7UPrTT+J
+ V2SKvdnMFyvVCNbu1UL//GwHkWL2XIbQ6Q8f2YXaMM6kjI2p6c1eckKaMHKItwylHoQr
+ DY1TAW/nWukyHe7qEXvMAQV+/mSaKax8JlQ4Ukl+PO+Gzjlw7T6l+qyRtl3vGAfqr2rq
+ wfsxznUIAdz27q7POENfc66tm5s5H7eeKIoTMu7v0NYw3oQgDRKZdF6T5VuueSmQXyTe
+ IJxA==
+X-Gm-Message-State: AOAM533Do2fUmIhBSU/UMElX05PnCq0pp4ipEZ7NU2o43ZS5PFkW4A3P
+ IUHv+19qkWASCq6p4KlgX4dkYfSgB7/HmOmGYCHPDeBmAfl4TSjZvdGUCadddx9+NUU1V/cFq4A
+ wa0n7gSp0xSSgQPA=
+X-Received: by 2002:aca:ead4:: with SMTP id i203mr3784131oih.74.1621635887118; 
+ Fri, 21 May 2021 15:24:47 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyJc1BqKtLlNQCscU560/48WmQzho/4mzWFEryROjB/DG8ndU5ETItA9X+be/hdwjf6trCaFg==
+X-Received: by 2002:aca:ead4:: with SMTP id i203mr3784108oih.74.1621635886671; 
+ Fri, 21 May 2021 15:24:46 -0700 (PDT)
+Received: from redhat.com ([198.99.80.109])
+ by smtp.gmail.com with ESMTPSA id w10sm1422181oou.35.2021.05.21.15.24.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 21 May 2021 15:24:46 -0700 (PDT)
+Date: Fri, 21 May 2021 16:24:44 -0600
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Steve Sistare <steven.sistare@oracle.com>
+Subject: Re: [PATCH V3 12/22] vfio-pci: cpr part 1
+Message-ID: <20210521162444.2ef31f42.alex.williamson@redhat.com>
+In-Reply-To: <1620390320-301716-13-git-send-email-steven.sistare@oracle.com>
+References: <1620390320-301716-1-git-send-email-steven.sistare@oracle.com>
+ <1620390320-301716-13-git-send-email-steven.sistare@oracle.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20210422161130.652779-18-vkuznets@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=ehabkost@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124;
+ envelope-from=alex.williamson@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -79,113 +97,783 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- qemu-devel@nongnu.org, Igor Mammedov <imammedo@redhat.com>
+Cc: "Daniel P. Berrange" <berrange@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Zeng <jason.zeng@linux.intel.com>,
+ Alex =?UTF-8?B?QmVubsOpZQ==?= <alex.bennee@linaro.org>,
+ Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6k=?= Lureau <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Apr 22, 2021 at 06:11:28PM +0200, Vitaly Kuznetsov wrote:
-> According to TLFS, Hyper-V guest is supposed to check
-> HV_HYPERCALL_AVAILABLE privilege bit before accessing
-> HV_X64_MSR_GUEST_OS_ID/HV_X64_MSR_HYPERCALL MSRs but at least some
-> Windows versions ignore that. As KVM is very permissive and allows
-> accessing these MSRs unconditionally, no issue is observed. We may,
-> however, want to tighten the checks eventually. Conforming to the
-> spec is probably also a good idea.
+On Fri,  7 May 2021 05:25:10 -0700
+Steve Sistare <steven.sistare@oracle.com> wrote:
+
+> Enable vfio-pci devices to be saved and restored across an exec restart
+> of qemu.
 > 
-> Add HV_HYPERCALL_AVAILABLE to all 'leaf' features with no dependencies.
+> At vfio creation time, save the value of vfio container, group, and device
+> descriptors in the environment.
 > 
-> Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
-
-Are all VMs being created with HV_HYPERCALL_AVAILABLE unset,
-today?
-
-Wouldn't it be simpler to simply add a new
-HYPERV_FEAT_HYPERCALL_AVAILABLE bit to hyperv_features, and
-enabling it by default?
-
-We don't necessarily need to make it configurable by the user,
-but probably it would be a good idea to keep the bit unset by
-default on older machine types.  Even if guests don't mind seeing
-the bit changing under their feet, it would make it easier for
-automated test cases that check for unexpected changes in raw
-CPUID data.
-
-
+> In cprsave, suspend the use of virtual addresses in DMA mappings with
+> VFIO_DMA_UNMAP_FLAG_VADDR, because guest ram will be remapped at a
+> different VA after exec.  DMA to already-mapped pages continues.  Save
+> the msi message area as part of vfio-pci vmstate, save the interrupt and
+> notifier eventfd's in the environment, and clear the close-on-exec flag
+> for the vfio descriptors.  The flag is not cleared earlier because the
+> descriptors should not persist across miscellaneous fork and exec calls
+> that may be performed during normal operation.
+> 
+> On qemu restart, vfio_realize() finds the descriptor env vars, uses
+> the descriptors, and notes that the device is being reused.  Device and
+> iommu state is already configured, so operations in vfio_realize that
+> would modify the configuration are skipped for a reused device, including
+> vfio ioctl's and writes to PCI configuration space.  The result is that
+> vfio_realize constructs qemu data structures that reflect the current
+> state of the device.  However, the reconstruction is not complete until
+> cprload is called. cprload loads the msi data and finds eventfds in the
+> environment.  It rebuilds vector data structures and attaches the
+> interrupts to the new KVM instance.  cprload then walks the flattened
+> ranges of the vfio_address_spaces and calls VFIO_DMA_MAP_FLAG_VADDR to
+> inform the kernel of the new VA's.  Lastly, it starts the VM and suppresses
+> vfio device reset.
+> 
+> This functionality is delivered by 2 patches for clarity.  Part 2 adds
+> eventfd and vector support.
+> 
+> Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
 > ---
->  target/i386/kvm/kvm.c | 15 +++++++++------
->  1 file changed, 9 insertions(+), 6 deletions(-)
+>  hw/pci/msi.c                  |   4 ++
+>  hw/pci/pci.c                  |   4 ++
+>  hw/vfio/common.c              |  59 ++++++++++++++++++-
+>  hw/vfio/cpr.c                 | 131 ++++++++++++++++++++++++++++++++++++++++++
+>  hw/vfio/meson.build           |   1 +
+>  hw/vfio/pci.c                 |  65 +++++++++++++++++++--
+>  hw/vfio/trace-events          |   1 +
+>  include/hw/pci/pci.h          |   1 +
+>  include/hw/vfio/vfio-common.h |   5 ++
+>  linux-headers/linux/vfio.h    |  27 +++++++++
+>  migration/cpr.c               |   7 +++
+>  11 files changed, 298 insertions(+), 7 deletions(-)
+>  create mode 100644 hw/vfio/cpr.c
 > 
-> diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-> index 2c1a77f9b00f..d81451276cd8 100644
-> --- a/target/i386/kvm/kvm.c
-> +++ b/target/i386/kvm/kvm.c
-> @@ -835,6 +835,8 @@ static struct {
->      [HYPERV_FEAT_CRASH] = {
->          .desc = "crash MSRs (hv-crash)",
->          .flags = {
-> +            {.func = HV_CPUID_FEATURES, .reg = R_EAX,
-> +             .bits = HV_HYPERCALL_AVAILABLE},
->              {.func = HV_CPUID_FEATURES, .reg = R_EDX,
->               .bits = HV_GUEST_CRASH_MSR_AVAILABLE}
->          }
-> @@ -843,28 +845,28 @@ static struct {
->          .desc = "reset MSR (hv-reset)",
->          .flags = {
->              {.func = HV_CPUID_FEATURES, .reg = R_EAX,
-> -             .bits = HV_RESET_AVAILABLE}
-> +             .bits = HV_HYPERCALL_AVAILABLE | HV_RESET_AVAILABLE}
->          }
->      },
->      [HYPERV_FEAT_VPINDEX] = {
->          .desc = "VP_INDEX MSR (hv-vpindex)",
->          .flags = {
->              {.func = HV_CPUID_FEATURES, .reg = R_EAX,
-> -             .bits = HV_VP_INDEX_AVAILABLE}
-> +             .bits = HV_HYPERCALL_AVAILABLE | HV_VP_INDEX_AVAILABLE}
->          }
->      },
->      [HYPERV_FEAT_RUNTIME] = {
->          .desc = "VP_RUNTIME MSR (hv-runtime)",
->          .flags = {
->              {.func = HV_CPUID_FEATURES, .reg = R_EAX,
-> -             .bits = HV_VP_RUNTIME_AVAILABLE}
-> +             .bits = HV_HYPERCALL_AVAILABLE | HV_VP_RUNTIME_AVAILABLE}
->          }
->      },
->      [HYPERV_FEAT_SYNIC] = {
->          .desc = "synthetic interrupt controller (hv-synic)",
->          .flags = {
->              {.func = HV_CPUID_FEATURES, .reg = R_EAX,
-> -             .bits = HV_SYNIC_AVAILABLE}
-> +             .bits = HV_HYPERCALL_AVAILABLE | HV_SYNIC_AVAILABLE}
->          }
->      },
->      [HYPERV_FEAT_STIMER] = {
-> @@ -879,7 +881,7 @@ static struct {
->          .desc = "frequency MSRs (hv-frequencies)",
->          .flags = {
->              {.func = HV_CPUID_FEATURES, .reg = R_EAX,
-> -             .bits = HV_ACCESS_FREQUENCY_MSRS},
-> +             .bits = HV_HYPERCALL_AVAILABLE | HV_ACCESS_FREQUENCY_MSRS},
->              {.func = HV_CPUID_FEATURES, .reg = R_EDX,
->               .bits = HV_FREQUENCY_MSRS_AVAILABLE}
->          }
-> @@ -888,7 +890,8 @@ static struct {
->          .desc = "reenlightenment MSRs (hv-reenlightenment)",
->          .flags = {
->              {.func = HV_CPUID_FEATURES, .reg = R_EAX,
-> -             .bits = HV_ACCESS_REENLIGHTENMENTS_CONTROL}
-> +             .bits = HV_HYPERCALL_AVAILABLE |
-> +             HV_ACCESS_REENLIGHTENMENTS_CONTROL}
->          }
->      },
->      [HYPERV_FEAT_TLBFLUSH] = {
-> -- 
-> 2.30.2
-> 
+> diff --git a/hw/pci/msi.c b/hw/pci/msi.c
+> index 47d2b0f..39de6a7 100644
+> --- a/hw/pci/msi.c
+> +++ b/hw/pci/msi.c
+> @@ -225,6 +225,10 @@ int msi_init(struct PCIDevice *dev, uint8_t offset,
+>      dev->msi_cap = config_offset;
+>      dev->cap_present |= QEMU_PCI_CAP_MSI;
+>  
+> +    if (dev->reused) {
+> +        return 0;
+> +    }
+> +
+>      pci_set_word(dev->config + msi_flags_off(dev), flags);
+>      pci_set_word(dev->wmask + msi_flags_off(dev),
+>                   PCI_MSI_FLAGS_QSIZE | PCI_MSI_FLAGS_ENABLE);
+> diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+> index e08d981..27019ca 100644
+> --- a/hw/pci/pci.c
+> +++ b/hw/pci/pci.c
+> @@ -308,6 +308,10 @@ static void pci_do_device_reset(PCIDevice *dev)
+>  {
+>      int r;
+>  
+> +    if (dev->reused) {
+> +        return;
+> +    }
+> +
+>      pci_device_deassert_intx(dev);
+>      assert(dev->irq_state == 0);
+>  
+> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+> index 9220e64..00d07b2 100644
+> --- a/hw/vfio/common.c
+> +++ b/hw/vfio/common.c
+> @@ -31,6 +31,7 @@
+>  #include "exec/memory.h"
+>  #include "exec/ram_addr.h"
+>  #include "hw/hw.h"
+> +#include "qemu/env.h"
+>  #include "qemu/error-report.h"
+>  #include "qemu/main-loop.h"
+>  #include "qemu/range.h"
+> @@ -440,6 +441,10 @@ static int vfio_dma_unmap(VFIOContainer *container,
+>          return vfio_dma_unmap_bitmap(container, iova, size, iotlb);
+>      }
+>  
+> +    if (container->reused) {
+> +        return 0;
+> +    }
+> +
+>      while (ioctl(container->fd, VFIO_IOMMU_UNMAP_DMA, &unmap)) {
+>          /*
+>           * The type1 backend has an off-by-one bug in the kernel (71a7d3d78e3c
+> @@ -463,6 +468,11 @@ static int vfio_dma_unmap(VFIOContainer *container,
+>          return -errno;
+>      }
+>  
+> +    if (unmap.size != size) {
+> +        warn_report("VFIO_UNMAP_DMA(0x%lx, 0x%lx) only unmaps 0x%llx",
+> +                     iova, size, unmap.size);
+> +    }
+> +
+>      return 0;
+>  }
+>  
+> @@ -477,6 +487,10 @@ static int vfio_dma_map(VFIOContainer *container, hwaddr iova,
+>          .size = size,
+>      };
+>  
+> +    if (container->reused) {
+> +        return 0;
+> +    }
+> +
+>      if (!readonly) {
+>          map.flags |= VFIO_DMA_MAP_FLAG_WRITE;
+>      }
+> @@ -1603,6 +1617,10 @@ static int vfio_init_container(VFIOContainer *container, int group_fd,
+>      if (iommu_type < 0) {
+>          return iommu_type;
+>      }
+> +    if (container->reused) {
+> +        container->iommu_type = iommu_type;
+> +        return 0;
+> +    }
+>  
+>      ret = ioctl(group_fd, VFIO_GROUP_SET_CONTAINER, &container->fd);
+>      if (ret) {
+> @@ -1703,6 +1721,8 @@ static int vfio_connect_container(VFIOGroup *group, AddressSpace *as,
+>  {
+>      VFIOContainer *container;
+>      int ret, fd;
+> +    bool reused;
+> +    char name[40];
+>      VFIOAddressSpace *space;
+>  
+>      space = vfio_get_address_space(as);
+> @@ -1739,16 +1759,29 @@ static int vfio_connect_container(VFIOGroup *group, AddressSpace *as,
+>          return ret;
+>      }
+>  
+> +    snprintf(name, sizeof(name), "vfio_container_%d", group->groupid);
 
--- 
-Eduardo
+For more clarity, maybe "vfio_container_for_group_%d"?
+
+> +    fd = getenv_fd(name);
+> +    reused = (fd >= 0);
+> +
+>      QLIST_FOREACH(container, &space->containers, next) {
+> +        if (fd >= 0 && container->fd == fd) {
+
+Test @reused rather than @fd?  I'm not sure the first half of this test
+is even needed though, <0 should never match container->fd, right?
+
+> +            group->container = container;
+> +            QLIST_INSERT_HEAD(&container->group_list, group, container_next);
+> +            return 0;
+> +        }
+
+This looks unnecessarily sensitive to the order of containers in the
+list, if the fd doesn't match above we try to set a new container below?
+It seems like you only want to create a new container object if none of
+the existing ones match.
+
+There's also a lot of duplication that seems like it could be combined
+
+if (container->fd == fd || (!reused && !ioctl(...)) {
+
+>          if (!ioctl(group->fd, VFIO_GROUP_SET_CONTAINER, &container->fd)) {
+>              group->container = container;
+>              QLIST_INSERT_HEAD(&container->group_list, group, container_next);
+>              vfio_kvm_device_add_group(group);
+
+Why is this kvm device setup missing in the reuse case?
+
+
+if (!reused) {
+> +            setenv_fd(name, container->fd);
+}
+
+>              return 0;
+>          }
+>      }
+>  
+> -    fd = qemu_open_old("/dev/vfio/vfio", O_RDWR);
+> +    if (fd < 0) {
+
+if (!reused)?
+
+> +        fd = qemu_open_old("/dev/vfio/vfio", O_RDWR);
+> +    }
+> +
+>      if (fd < 0) {
+>          error_setg_errno(errp, errno, "failed to open /dev/vfio/vfio");
+>          ret = -errno;
+> @@ -1766,6 +1799,7 @@ static int vfio_connect_container(VFIOGroup *group, AddressSpace *as,
+>      container = g_malloc0(sizeof(*container));
+>      container->space = space;
+>      container->fd = fd;
+> +    container->reused = reused;
+>      container->error = NULL;
+>      container->dirty_pages_supported = false;
+>      QLIST_INIT(&container->giommu_list);
+> @@ -1893,6 +1927,7 @@ static int vfio_connect_container(VFIOGroup *group, AddressSpace *as,
+>      }
+>  
+>      container->initialized = true;
+> +    setenv_fd(name, fd);
+
+Maybe we don't need the test around the previous setenv_fd if we can
+overwrite existing env values, which would seem to be the case for a
+restart here.
+
+>  
+>      return 0;
+>  listener_release_exit:
+> @@ -1920,6 +1955,7 @@ static void vfio_disconnect_container(VFIOGroup *group)
+>  
+>      QLIST_REMOVE(group, container_next);
+>      group->container = NULL;
+> +    unsetenv_fdv("vfio_container_%d", group->groupid);
+>  
+>      /*
+>       * Explicitly release the listener first before unset container,
+> @@ -1978,7 +2014,12 @@ VFIOGroup *vfio_get_group(int groupid, AddressSpace *as, Error **errp)
+>      group = g_malloc0(sizeof(*group));
+>  
+>      snprintf(path, sizeof(path), "/dev/vfio/%d", groupid);
+> -    group->fd = qemu_open_old(path, O_RDWR);
+> +
+> +    group->fd = getenv_fd(path);
+> +    if (group->fd < 0) {
+> +        group->fd = qemu_open_old(path, O_RDWR);
+> +    }
+> +
+>      if (group->fd < 0) {
+>          error_setg_errno(errp, errno, "failed to open %s", path);
+>          goto free_group_exit;
+> @@ -2012,6 +2053,8 @@ VFIOGroup *vfio_get_group(int groupid, AddressSpace *as, Error **errp)
+>  
+>      QLIST_INSERT_HEAD(&vfio_group_list, group, next);
+>  
+> +    setenv_fd(path, group->fd);
+> +
+>      return group;
+>  
+>  close_fd_exit:
+> @@ -2036,6 +2079,7 @@ void vfio_put_group(VFIOGroup *group)
+>      vfio_disconnect_container(group);
+>      QLIST_REMOVE(group, next);
+>      trace_vfio_put_group(group->fd);
+> +    unsetenv_fdv("/dev/vfio/%d", group->groupid);
+>      close(group->fd);
+>      g_free(group);
+>  
+> @@ -2049,8 +2093,14 @@ int vfio_get_device(VFIOGroup *group, const char *name,
+>  {
+>      struct vfio_device_info dev_info = { .argsz = sizeof(dev_info) };
+>      int ret, fd;
+> +    bool reused;
+> +
+> +    fd = getenv_fd(name);
+> +    reused = (fd >= 0);
+> +    if (fd < 0) {
+
+if (!reused) ?
+
+> +        fd = ioctl(group->fd, VFIO_GROUP_GET_DEVICE_FD, name);
+> +    }
+>  
+> -    fd = ioctl(group->fd, VFIO_GROUP_GET_DEVICE_FD, name);
+>      if (fd < 0) {
+>          error_setg_errno(errp, errno, "error getting device from group %d",
+>                           group->groupid);
+> @@ -2095,6 +2145,8 @@ int vfio_get_device(VFIOGroup *group, const char *name,
+>      vbasedev->num_irqs = dev_info.num_irqs;
+>      vbasedev->num_regions = dev_info.num_regions;
+>      vbasedev->flags = dev_info.flags;
+> +    vbasedev->reused = reused;
+> +    setenv_fd(name, fd);
+>  
+>      trace_vfio_get_device(name, dev_info.flags, dev_info.num_regions,
+>                            dev_info.num_irqs);
+> @@ -2111,6 +2163,7 @@ void vfio_put_base_device(VFIODevice *vbasedev)
+>      QLIST_REMOVE(vbasedev, next);
+>      vbasedev->group = NULL;
+>      trace_vfio_put_base_device(vbasedev->fd);
+> +    unsetenv_fd(vbasedev->name);
+>      close(vbasedev->fd);
+>  }
+>  
+> diff --git a/hw/vfio/cpr.c b/hw/vfio/cpr.c
+> new file mode 100644
+> index 0000000..c5ad9f2
+> --- /dev/null
+> +++ b/hw/vfio/cpr.c
+> @@ -0,0 +1,131 @@
+> +/*
+> + * Copyright (c) 2021 Oracle and/or its affiliates.
+> + *
+> + * This work is licensed under the terms of the GNU GPL, version 2.
+> + * See the COPYING file in the top-level directory.
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include <sys/ioctl.h>
+> +#include <linux/vfio.h>
+> +#include "hw/vfio/vfio-common.h"
+> +#include "sysemu/kvm.h"
+> +#include "qapi/error.h"
+> +#include "trace.h"
+> +
+> +static int
+> +vfio_dma_unmap_vaddr_all(VFIOContainer *container, Error **errp)
+> +{
+> +    struct vfio_iommu_type1_dma_unmap unmap = {
+> +        .argsz = sizeof(unmap),
+> +        .flags = VFIO_DMA_UNMAP_FLAG_VADDR | VFIO_DMA_UNMAP_FLAG_ALL,
+> +        .iova = 0,
+> +        .size = 0,
+> +    };
+> +    if (ioctl(container->fd, VFIO_IOMMU_UNMAP_DMA, &unmap)) {
+> +        error_setg_errno(errp, errno, "vfio_dma_unmap_vaddr_all");
+> +        return -errno;
+> +    }
+> +    return 0;
+> +}
+> +
+> +static int vfio_dma_map_vaddr(VFIOContainer *container, hwaddr iova,
+> +                              ram_addr_t size, void *vaddr,
+> +                              Error **errp)
+> +{
+> +    struct vfio_iommu_type1_dma_map map = {
+> +        .argsz = sizeof(map),
+> +        .flags = VFIO_DMA_MAP_FLAG_VADDR,
+> +        .vaddr = (__u64)(uintptr_t)vaddr,
+> +        .iova = iova,
+> +        .size = size,
+> +    };
+> +    if (ioctl(container->fd, VFIO_IOMMU_MAP_DMA, &map)) {
+> +        error_setg_errno(errp, errno,
+> +                         "vfio_dma_map_vaddr(iova %lu, size %ld, va %p)",
+> +                         iova, size, vaddr);
+> +        return -errno;
+> +    }
+> +    return 0;
+> +}
+> +
+> +static int
+> +vfio_region_remap(MemoryRegionSection *section, void *handle, Error **errp)
+> +{
+> +    MemoryRegion *mr = section->mr;
+> +    VFIOContainer *container = handle;
+> +    const char *name = memory_region_name(mr);
+> +    ram_addr_t size = int128_get64(section->size);
+> +    hwaddr offset, iova, roundup;
+> +    void *vaddr;
+> +
+> +    if (vfio_listener_skipped_section(section) || memory_region_is_iommu(mr)) {
+> +        return 0;
+> +    }
+> +
+> +    offset = section->offset_within_address_space;
+> +    iova = TARGET_PAGE_ALIGN(offset);
+> +    roundup = iova - offset;
+> +    size = (size - roundup) & TARGET_PAGE_MASK;
+> +    vaddr = memory_region_get_ram_ptr(mr) +
+> +            section->offset_within_region + roundup;
+> +
+> +    trace_vfio_region_remap(name, container->fd, iova, iova + size - 1, vaddr);
+> +    return vfio_dma_map_vaddr(container, iova, size, vaddr, errp);
+> +}
+> +
+> +bool vfio_cpr_capable(VFIOContainer *container, Error **errp)
+> +{
+> +    if (!ioctl(container->fd, VFIO_CHECK_EXTENSION, VFIO_UPDATE_VADDR) ||
+> +        !ioctl(container->fd, VFIO_CHECK_EXTENSION, VFIO_UNMAP_ALL)) {
+> +        error_setg(errp, "VFIO container does not support VFIO_UPDATE_VADDR "
+> +                         "or VFIO_UNMAP_ALL");
+> +        return false;
+> +    } else {
+> +        return true;
+> +    }
+> +}
+> +
+> +int vfio_cprsave(Error **errp)
+> +{
+> +    VFIOAddressSpace *space;
+> +    VFIOContainer *container;
+> +
+> +    QLIST_FOREACH(space, &vfio_address_spaces, list) {
+> +        QLIST_FOREACH(container, &space->containers, next) {
+> +            if (!vfio_cpr_capable(container, errp)) {
+> +                return 1;
+> +            }
+> +            if (vfio_dma_unmap_vaddr_all(container, errp)) {
+> +                return 1;
+> +            }
+> +        }
+> +    }
+
+
+Seems like you'd want to test that all containers are capable before
+unmapping any vaddrs.  I also hope we'll find an unwind somewhere that
+remaps vaddrs should any fail.
+
+> +    return 0;
+> +}
+> +
+> +int vfio_cprload(Error **errp)
+> +{
+> +    VFIOAddressSpace *space;
+> +    VFIOContainer *container;
+> +    VFIOGroup *group;
+> +    VFIODevice *vbasedev;
+> +
+> +    QLIST_FOREACH(space, &vfio_address_spaces, list) {
+> +        QLIST_FOREACH(container, &space->containers, next) {
+> +            if (!vfio_cpr_capable(container, errp)) {
+> +                return 1;
+> +            }
+> +            container->reused = false;
+> +            if (as_flat_walk(space->as, vfio_region_remap, container, errp)) {
+> +                return 1;
+> +            }
+> +        }
+> +    }
+
+What state are we in if any of these fail?
+
+> +    QLIST_FOREACH(group, &vfio_group_list, next) {
+> +        QLIST_FOREACH(vbasedev, &group->device_list, next) {
+> +            vbasedev->reused = false;
+> +        }
+> +    }
+> +    return 0;
+> +}
+> diff --git a/hw/vfio/meson.build b/hw/vfio/meson.build
+> index da9af29..e247b2b 100644
+> --- a/hw/vfio/meson.build
+> +++ b/hw/vfio/meson.build
+> @@ -5,6 +5,7 @@ vfio_ss.add(files(
+>    'migration.c',
+>  ))
+>  vfio_ss.add(when: 'CONFIG_VFIO_PCI', if_true: files(
+> +  'cpr.c',
+>    'display.c',
+>    'pci-quirks.c',
+>    'pci.c',
+> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
+> index 7a4fb6c..f7ac9f03 100644
+> --- a/hw/vfio/pci.c
+> +++ b/hw/vfio/pci.c
+> @@ -29,6 +29,8 @@
+>  #include "hw/qdev-properties.h"
+>  #include "hw/qdev-properties-system.h"
+>  #include "migration/vmstate.h"
+> +#include "migration/cpr.h"
+> +#include "qemu/env.h"
+>  #include "qemu/error-report.h"
+>  #include "qemu/main-loop.h"
+>  #include "qemu/module.h"
+> @@ -1612,6 +1614,14 @@ static void vfio_mmap_set_enabled(VFIOPCIDevice *vdev, bool enabled)
+>      }
+>  }
+>  
+> +static void vfio_config_sync(VFIOPCIDevice *vdev, uint32_t offset, size_t len)
+> +{
+> +    if (pread(vdev->vbasedev.fd, vdev->pdev.config + offset, len,
+> +          vdev->config_offset + offset) != len) {
+> +        error_report("vfio_config_sync pread failed");
+> +    }
+> +}
+> +
+>  static void vfio_bar_prepare(VFIOPCIDevice *vdev, int nr)
+>  {
+>      VFIOBAR *bar = &vdev->bars[nr];
+> @@ -1652,6 +1662,7 @@ static void vfio_bars_prepare(VFIOPCIDevice *vdev)
+>  static void vfio_bar_register(VFIOPCIDevice *vdev, int nr)
+>  {
+>      VFIOBAR *bar = &vdev->bars[nr];
+> +    PCIDevice *pdev = &vdev->pdev;
+>      char *name;
+>  
+>      if (!bar->size) {
+> @@ -1672,7 +1683,10 @@ static void vfio_bar_register(VFIOPCIDevice *vdev, int nr)
+>          }
+>      }
+>  
+> -    pci_register_bar(&vdev->pdev, nr, bar->type, bar->mr);
+> +    pci_register_bar(pdev, nr, bar->type, bar->mr);
+> +    if (pdev->reused) {
+> +        vfio_config_sync(vdev, pci_bar(pdev, nr), 8);
+
+Assuming 64-bit BARs?  This might be the first case where we actually
+rely on the kernel BAR values, IIRC we usually use QEMU's emulation.
+
+> +    }
+>  }
+>  
+>  static void vfio_bars_register(VFIOPCIDevice *vdev)
+> @@ -2884,6 +2898,7 @@ static void vfio_realize(PCIDevice *pdev, Error **errp)
+>          vfio_put_group(group);
+>          goto error;
+>      }
+> +    pdev->reused = vdev->vbasedev.reused;
+>  
+>      vfio_populate_device(vdev, &err);
+>      if (err) {
+> @@ -3046,9 +3061,11 @@ static void vfio_realize(PCIDevice *pdev, Error **errp)
+>                                               vfio_intx_routing_notifier);
+>          vdev->irqchip_change_notifier.notify = vfio_irqchip_change;
+>          kvm_irqchip_add_change_notifier(&vdev->irqchip_change_notifier);
+> -        ret = vfio_intx_enable(vdev, errp);
+> -        if (ret) {
+> -            goto out_deregister;
+> +        if (!pdev->reused) {
+> +            ret = vfio_intx_enable(vdev, errp);
+> +            if (ret) {
+> +                goto out_deregister;
+> +            }
+>          }
+>      }
+>  
+> @@ -3098,6 +3115,11 @@ static void vfio_realize(PCIDevice *pdev, Error **errp)
+>      vfio_register_req_notifier(vdev);
+>      vfio_setup_resetfn_quirk(vdev);
+>  
+> +    vfio_config_sync(vdev, pdev->msix_cap + PCI_MSIX_FLAGS, 2);
+> +    if (pdev->reused) {
+> +        pci_update_mappings(pdev);
+> +    }
+> +
+
+Are the msix flag sync and mapping update related?  They seem
+independent to me.  A blank line and comment would be helpful.  I
+expect we'd need to call msix_enabled() somewhere for the msix flag
+sync to be effective.
+
+Is there an assumption here of msi-x only support or is it not needed
+for msi or intx?
+
+>      return;
+>  
+>  out_deregister:
+> @@ -3153,6 +3175,10 @@ static void vfio_pci_reset(DeviceState *dev)
+>  {
+>      VFIOPCIDevice *vdev = VFIO_PCI(dev);
+>  
+> +    if (vdev->pdev.reused) {
+> +        return;
+> +    }
+> +
+>      trace_vfio_pci_reset(vdev->vbasedev.name);
+>  
+>      vfio_pci_pre_reset(vdev);
+> @@ -3260,6 +3286,36 @@ static Property vfio_pci_dev_properties[] = {
+>      DEFINE_PROP_END_OF_LIST(),
+>  };
+>  
+> +static int vfio_pci_post_load(void *opaque, int version_id)
+> +{
+> +    VFIOPCIDevice *vdev = opaque;
+> +    PCIDevice *pdev = &vdev->pdev;
+> +    bool enabled;
+> +
+> +    pdev->reused = false;
+> +    enabled = pci_get_word(pdev->config + PCI_COMMAND) & PCI_COMMAND_MASTER;
+> +    memory_region_set_enabled(&pdev->bus_master_enable_region, enabled);
+> +
+> +    return 0;
+> +}
+> +
+> +static bool vfio_pci_needed(void *opaque)
+> +{
+> +    return cpr_active();
+> +}
+> +
+> +static const VMStateDescription vfio_pci_vmstate = {
+> +    .name = "vfio-pci",
+> +    .unmigratable = 1,
+> +    .version_id = 0,
+> +    .minimum_version_id = 0,
+> +    .post_load = vfio_pci_post_load,
+> +    .needed = vfio_pci_needed,
+> +    .fields = (VMStateField[]) {
+> +        VMSTATE_END_OF_LIST()
+> +    }
+> +};
+> +
+>  static void vfio_pci_dev_class_init(ObjectClass *klass, void *data)
+>  {
+>      DeviceClass *dc = DEVICE_CLASS(klass);
+> @@ -3267,6 +3323,7 @@ static void vfio_pci_dev_class_init(ObjectClass *klass, void *data)
+>  
+>      dc->reset = vfio_pci_reset;
+>      device_class_set_props(dc, vfio_pci_dev_properties);
+> +    dc->vmsd = &vfio_pci_vmstate;
+>      dc->desc = "VFIO-based PCI device assignment";
+>      set_bit(DEVICE_CATEGORY_MISC, dc->categories);
+>      pdc->realize = vfio_realize;
+> diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
+> index 079f53a..0f8b166 100644
+> --- a/hw/vfio/trace-events
+> +++ b/hw/vfio/trace-events
+> @@ -118,6 +118,7 @@ vfio_region_sparse_mmap_header(const char *name, int index, int nr_areas) "Devic
+>  vfio_region_sparse_mmap_entry(int i, unsigned long start, unsigned long end) "sparse entry %d [0x%lx - 0x%lx]"
+>  vfio_get_dev_region(const char *name, int index, uint32_t type, uint32_t subtype) "%s index %d, %08x/%0x8"
+>  vfio_dma_unmap_overflow_workaround(void) ""
+> +vfio_region_remap(const char *name, int fd, uint64_t iova_start, uint64_t iova_end, void *vaddr) "%s fd %d 0x%"PRIx64" - 0x%"PRIx64" [%p]"
+>  
+>  # platform.c
+>  vfio_platform_base_device_init(char *name, int groupid) "%s belongs to group #%d"
+> diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
+> index bef3e49..add7f46 100644
+> --- a/include/hw/pci/pci.h
+> +++ b/include/hw/pci/pci.h
+> @@ -360,6 +360,7 @@ struct PCIDevice {
+>      /* ID of standby device in net_failover pair */
+>      char *failover_pair_id;
+>      uint32_t acpi_index;
+> +    bool reused;
+>  };
+>  
+>  void pci_register_bar(PCIDevice *pci_dev, int region_num,
+> diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
+> index 00acb85..b46d850 100644
+> --- a/include/hw/vfio/vfio-common.h
+> +++ b/include/hw/vfio/vfio-common.h
+> @@ -85,6 +85,7 @@ typedef struct VFIOContainer {
+>      Error *error;
+>      bool initialized;
+>      bool dirty_pages_supported;
+> +    bool reused;
+>      uint64_t dirty_pgsizes;
+>      uint64_t max_dirty_bitmap_size;
+>      unsigned long pgsizes;
+> @@ -124,6 +125,7 @@ typedef struct VFIODevice {
+>      bool no_mmap;
+>      bool ram_block_discard_allowed;
+>      bool enable_migration;
+> +    bool reused;
+>      VFIODeviceOps *ops;
+>      unsigned int num_irqs;
+>      unsigned int num_regions;
+> @@ -200,6 +202,9 @@ VFIOGroup *vfio_get_group(int groupid, AddressSpace *as, Error **errp);
+>  void vfio_put_group(VFIOGroup *group);
+>  int vfio_get_device(VFIOGroup *group, const char *name,
+>                      VFIODevice *vbasedev, Error **errp);
+> +int vfio_cprsave(Error **errp);
+> +int vfio_cprload(Error **errp);
+> +bool vfio_cpr_capable(VFIOContainer *container, Error **errp);
+>  
+>  extern const MemoryRegionOps vfio_region_ops;
+>  typedef QLIST_HEAD(VFIOGroupList, VFIOGroup) VFIOGroupList;
+> diff --git a/linux-headers/linux/vfio.h b/linux-headers/linux/vfio.h
+> index 609099e..bc3a66e 100644
+> --- a/linux-headers/linux/vfio.h
+> +++ b/linux-headers/linux/vfio.h
+> @@ -46,6 +46,12 @@
+>   */
+>  #define VFIO_NOIOMMU_IOMMU		8
+>  
+> +/* Supports VFIO_DMA_UNMAP_FLAG_ALL */
+> +#define VFIO_UNMAP_ALL                        9
+> +
+> +/* Supports VFIO DMA map and unmap with the VADDR flag */
+> +#define VFIO_UPDATE_VADDR              10
+> +
+>  /*
+>   * The IOCTL interface is designed for extensibility by embedding the
+>   * structure length (argsz) and flags into structures passed between
+> @@ -1074,12 +1080,22 @@ struct vfio_iommu_type1_info_dma_avail {
+>   *
+>   * Map process virtual addresses to IO virtual addresses using the
+>   * provided struct vfio_dma_map. Caller sets argsz. READ &/ WRITE required.
+> + *
+> + * If flags & VFIO_DMA_MAP_FLAG_VADDR, record the new base vaddr for iova, and
+> + * unblock translation of host virtual addresses in the iova range.  The vaddr
+> + * must have previously been invalidated with VFIO_DMA_UNMAP_FLAG_VADDR.  To
+> + * maintain memory consistency within the user application, the updated vaddr
+> + * must address the same memory object as originally mapped.  Failure to do so
+> + * will result in user memory corruption and/or device misbehavior.  iova and
+> + * size must match those in the original MAP_DMA call.  Protection is not
+> + * changed, and the READ & WRITE flags must be 0.
+>   */
+>  struct vfio_iommu_type1_dma_map {
+>  	__u32	argsz;
+>  	__u32	flags;
+>  #define VFIO_DMA_MAP_FLAG_READ (1 << 0)		/* readable from device */
+>  #define VFIO_DMA_MAP_FLAG_WRITE (1 << 1)	/* writable from device */
+> +#define VFIO_DMA_MAP_FLAG_VADDR (1 << 2)
+>  	__u64	vaddr;				/* Process virtual address */
+>  	__u64	iova;				/* IO virtual address */
+>  	__u64	size;				/* Size of mapping (bytes) */
+> @@ -1102,6 +1118,7 @@ struct vfio_bitmap {
+>   * field.  No guarantee is made to the user that arbitrary unmaps of iova
+>   * or size different from those used in the original mapping call will
+>   * succeed.
+> + *
+>   * VFIO_DMA_UNMAP_FLAG_GET_DIRTY_BITMAP should be set to get the dirty bitmap
+>   * before unmapping IO virtual addresses. When this flag is set, the user must
+>   * provide a struct vfio_bitmap in data[]. User must provide zero-allocated
+> @@ -1111,11 +1128,21 @@ struct vfio_bitmap {
+>   * indicates that the page at that offset from iova is dirty. A Bitmap of the
+>   * pages in the range of unmapped size is returned in the user-provided
+>   * vfio_bitmap.data.
+> + *
+> + * If flags & VFIO_DMA_UNMAP_FLAG_ALL, unmap all addresses.  iova and size
+> + * must be 0.  This cannot be combined with the get-dirty-bitmap flag.
+> + *
+> + * If flags & VFIO_DMA_UNMAP_FLAG_VADDR, do not unmap, but invalidate host
+> + * virtual addresses in the iova range.  Tasks that attempt to translate an
+> + * iova's vaddr will block.  DMA to already-mapped pages continues.  This
+> + * cannot be combined with the get-dirty-bitmap flag.
+>   */
+>  struct vfio_iommu_type1_dma_unmap {
+>  	__u32	argsz;
+>  	__u32	flags;
+>  #define VFIO_DMA_UNMAP_FLAG_GET_DIRTY_BITMAP (1 << 0)
+> +#define VFIO_DMA_UNMAP_FLAG_ALL              (1 << 1)
+> +#define VFIO_DMA_UNMAP_FLAG_VADDR            (1 << 2)
+>  	__u64	iova;				/* IO virtual address */
+>  	__u64	size;				/* Size of mapping (bytes) */
+>  	__u8    data[];
+> diff --git a/migration/cpr.c b/migration/cpr.c
+> index e0da1cf..e9a189b 100644
+> --- a/migration/cpr.c
+> +++ b/migration/cpr.c
+> @@ -132,6 +132,9 @@ void cprsave(const char *file, CprMode mode, Error **errp)
+>          shutdown_action = SHUTDOWN_ACTION_POWEROFF;
+>          qemu_system_shutdown_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);
+>      } else if (restart) {
+> +        if (vfio_cprsave(errp)) {
+> +            goto err;
+> +        }
+>          walkenv(FD_PREFIX, preserve_fd, 0);
+>          setenv("QEMU_START_FREEZE", "", 1);
+>          qemu_system_exec_request();
+> @@ -176,6 +179,10 @@ void cprload(const char *file, Error **errp)
+>          return;
+>      }
+>  
+> +    if (vfio_cprload(errp)) {
+> +        return;
+> +    }
+> +
+>      state = global_state_get_runstate();
+>      if (state == RUN_STATE_RUNNING) {
+>          vm_start();
+
+I didn't find that unwind I was hoping for or anywhere that the msix
+flags come into play.  Thanks,
+
+Alex
 
 
