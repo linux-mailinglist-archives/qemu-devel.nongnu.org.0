@@ -2,73 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6688338C7D9
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 May 2021 15:24:27 +0200 (CEST)
-Received: from localhost ([::1]:38092 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA11838C76E
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 May 2021 15:03:48 +0200 (CEST)
+Received: from localhost ([::1]:35964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lk58c-00035z-HV
-	for lists+qemu-devel@lfdr.de; Fri, 21 May 2021 09:24:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36536)
+	id 1lk4oe-000773-1y
+	for lists+qemu-devel@lfdr.de; Fri, 21 May 2021 09:03:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52820)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <prvs=768ad4fdb=sidcha@amazon.de>)
- id 1lk1Hp-0004SN-N2
- for qemu-devel@nongnu.org; Fri, 21 May 2021 05:17:41 -0400
-Received: from smtp-fw-2101.amazon.com ([72.21.196.25]:43176)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lk4ey-0007Ii-MP
+ for qemu-devel@nongnu.org; Fri, 21 May 2021 08:53:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50122)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <prvs=768ad4fdb=sidcha@amazon.de>)
- id 1lk1Hn-00025n-71
- for qemu-devel@nongnu.org; Fri, 21 May 2021 05:17:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amazon.de; i=@amazon.de; q=dns/txt; s=amazon201209;
- t=1621588659; x=1653124659;
- h=date:from:to:cc:subject:message-id:mime-version;
- bh=qP5rIrggqubBpYoJjMi9a5/TgC6a6gG6fXhPrFiU3mM=;
- b=ifwSAk5OqGsfu/QjNzJgxv/nm5GmfewifDxTjfGzJhFHmaNTdRHonEXX
- 7P0NTTqaiUvs4RQvYqkbOPlTGcUr6exXKueXjI8PSLccHeF72CQL9MHoc
- 38QQj3hjC3BBs5fpxswOGtcw0Kpg2xhqStHVn1b/mqgzgdQ7jcSsCpR1F w=;
-X-IronPort-AV: E=Sophos;i="5.82,313,1613433600"; d="scan'208";a="110834211"
-Received: from iad12-co-svc-p1-lb1-vlan2.amazon.com (HELO
- email-inbound-relay-2a-69849ee2.us-west-2.amazon.com) ([10.43.8.2])
- by smtp-border-fw-2101.iad2.amazon.com with ESMTP; 21 May 2021 09:17:29 +0000
-Received: from EX13D28EUC003.ant.amazon.com
- (pdx1-ws-svc-p6-lb9-vlan2.pdx.amazon.com [10.236.137.194])
- by email-inbound-relay-2a-69849ee2.us-west-2.amazon.com (Postfix) with ESMTPS
- id 31662A1C8C; Fri, 21 May 2021 09:17:28 +0000 (UTC)
-Received: from u366d62d47e3651.ant.amazon.com (10.43.161.63) by
- EX13D28EUC003.ant.amazon.com (10.43.164.43) with Microsoft SMTP Server (TLS)
- id 15.0.1497.18; Fri, 21 May 2021 09:17:23 +0000
-Date: Fri, 21 May 2021 11:17:19 +0200
-From: Siddharth Chandrasekaran <sidcha@amazon.de>
-To: "Michael S. Tsirkin" <mst@redhat.com>, Marcel Apfelbaum
- <marcel.apfelbaum@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>, Richard
- Henderson <richard.henderson@linaro.org>, Eduardo Habkost
- <ehabkost@redhat.com>, Cameron Esfahani <dirty@apple.com>, Roman Bolshakov
- <r.bolshakov@yadro.com>, Marcelo Tosatti <mtosatti@redhat.com>
-CC: <qemu-devel@nongnu.org>, <kvm@vger.kernel.org>
-Subject: Windows fails to boot after rebase to QEMU master
-Message-ID: <20210521091451.GA6016@u366d62d47e3651.ant.amazon.com>
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lk4ew-0007z9-Kf
+ for qemu-devel@nongnu.org; Fri, 21 May 2021 08:53:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1621601626;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=BeDMvSwr47sUdHUuw5UsUFTELxGdO4wzJwtdhMN83Z4=;
+ b=PQHeXfA1mT0jSvFuVF6K06xdwfYj23NhSt0HxT/dbdfx/33sT2M5FPVVpfpeMgmGl57OUE
+ A9XMO+c293yM/LXxnR0ll3p7Mx78kQHird9yRTJJMSWurR+yOJV4iJRogMlDkzvx9YrvoR
+ E+lF+zAicQlTiqNQ9r2Y7VVd8oTrYOA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-485-FPfnipXzNReUMUoXSS09fw-1; Fri, 21 May 2021 08:53:44 -0400
+X-MC-Unique: FPfnipXzNReUMUoXSS09fw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BFC131926DA2
+ for <qemu-devel@nongnu.org>; Fri, 21 May 2021 12:53:43 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-84.ams2.redhat.com
+ [10.36.112.84])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 892966267F;
+ Fri, 21 May 2021 12:53:32 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id A128D180087E; Fri, 21 May 2021 14:51:19 +0200 (CEST)
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 07/11] ui/vdagent: add mouse support
+Date: Fri, 21 May 2021 14:51:15 +0200
+Message-Id: <20210521125119.3173309-8-kraxel@redhat.com>
+In-Reply-To: <20210521125119.3173309-1-kraxel@redhat.com>
+References: <20210521125119.3173309-1-kraxel@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Originating-IP: [10.43.161.63]
-X-ClientProxiedBy: EX13D19UWA004.ant.amazon.com (10.43.160.102) To
- EX13D28EUC003.ant.amazon.com (10.43.164.43)
-Precedence: Bulk
-Received-SPF: pass client-ip=72.21.196.25;
- envelope-from=prvs=768ad4fdb=sidcha@amazon.de; helo=smtp-fw-2101.amazon.com
-X-Spam_score_int: -47
-X-Spam_score: -4.8
-X-Spam_bar: ----
-X-Spam_report: (-4.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.39,
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.374,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Fri, 21 May 2021 09:20:03 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -77,54 +79,294 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-After a rebase to QEMU master, I am having trouble booting windows VMs.
-Git bisect indicates commit f5cc5a5c1686 ("i386: split cpu accelerators
-from cpu.c, using AccelCPUClass") to have introduced the issue. I spent
-some time looking at into it yesterday without much luck.
+This patch adds support for mouse messages to the vdagent
+implementation.  This can be enabled/disabled using the new
+'mouse' parameter for the vdagent chardev.  Default is on.
 
-Steps to reproduce:
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Acked-by: Markus Armbruster <armbru@redhat.com>
+Message-id: 20210519053940.1888907-1-kraxel@redhat.com
+Message-Id: <20210519053940.1888907-6-kraxel@redhat.com>
+---
+ chardev/char.c |   3 +
+ ui/vdagent.c   | 149 +++++++++++++++++++++++++++++++++++++++++++++++++
+ qapi/char.json |   4 +-
+ 3 files changed, 155 insertions(+), 1 deletion(-)
 
-    $ ./configure --enable-kvm --disable-xen --target-list=x86_64-softmmu --enable-debug
-    $ make -j `nproc`
-    $ ./build/x86_64-softmmu/qemu-system-x86_64 \
-        -cpu host,hv_synic,hv_vpindex,hv_time,hv_runtime,hv_stimer,hv_crash \
-        -enable-kvm \
-        -name test,debug-threads=on \
-        -smp 1,threads=1,cores=1,sockets=1 \
-        -m 4G \
-        -net nic -net user \
-        -boot d,menu=on \
-        -usbdevice tablet \
-        -vnc :3 \
-        -machine q35,smm=on \
-        -drive if=pflash,format=raw,readonly=on,unit=0,file="../OVMF_CODE.secboot.fd" \
-        -drive if=pflash,format=raw,unit=1,file="../OVMF_VARS.secboot.fd" \
-        -global ICH9-LPC.disable_s3=1 \
-        -global driver=cfi.pflash01,property=secure,value=on \
-        -cdrom "../Windows_Server_2016_14393.ISO" \
-        -drive file="../win_server_2016.qcow2",format=qcow2,if=none,id=rootfs_drive \
-        -device ahci,id=ahci \
-        -device ide-hd,drive=rootfs_drive,bus=ahci.0
-
-If the issue is not obvious, I'd like some pointers on how to go about
-fixing this issue.
-
-~ Sid.
-
-
-
-
-Amazon Development Center Germany GmbH
-Krausenstr. 38
-10117 Berlin
-Geschaeftsfuehrung: Christian Schlaeger, Jonathan Weiss
-Eingetragen am Amtsgericht Charlottenburg unter HRB 149173 B
-Sitz: Berlin
-Ust-ID: DE 289 237 879
-
-
+diff --git a/chardev/char.c b/chardev/char.c
+index a4ebfcc5ac20..52c567e8ff00 100644
+--- a/chardev/char.c
++++ b/chardev/char.c
+@@ -931,6 +931,9 @@ QemuOptsList qemu_chardev_opts = {
+         },{
+             .name = "logappend",
+             .type = QEMU_OPT_BOOL,
++        },{
++            .name = "mouse",
++            .type = QEMU_OPT_BOOL,
+ #ifdef CONFIG_LINUX
+         },{
+             .name = "tight",
+diff --git a/ui/vdagent.c b/ui/vdagent.c
+index 21e55a41eaba..cf81ab6beb68 100644
+--- a/ui/vdagent.c
++++ b/ui/vdagent.c
+@@ -3,18 +3,27 @@
+ #include "include/qemu-common.h"
+ #include "chardev/char.h"
+ #include "qemu/buffer.h"
++#include "qemu/option.h"
+ #include "qemu/units.h"
++#include "hw/qdev-core.h"
++#include "ui/console.h"
++#include "ui/input.h"
+ #include "trace.h"
+ 
+ #include "qapi/qapi-types-char.h"
++#include "qapi/qapi-types-ui.h"
+ 
+ #include "spice/vd_agent.h"
+ 
+ #define VDAGENT_BUFFER_LIMIT (1 * MiB)
++#define VDAGENT_MOUSE_DEFAULT true
+ 
+ struct VDAgentChardev {
+     Chardev parent;
+ 
++    /* config */
++    bool mouse;
++
+     /* guest vdagent */
+     uint32_t caps;
+     VDIChunkHeader chunk;
+@@ -24,6 +33,14 @@ struct VDAgentChardev {
+     uint8_t *xbuf;
+     uint32_t xoff, xsize;
+     Buffer outbuf;
++
++    /* mouse */
++    DeviceState mouse_dev;
++    uint32_t mouse_x;
++    uint32_t mouse_y;
++    uint32_t mouse_btn;
++    uint32_t mouse_display;
++    QemuInputHandlerState *mouse_hs;
+ };
+ typedef struct VDAgentChardev VDAgentChardev;
+ 
+@@ -137,13 +154,113 @@ static void vdagent_send_caps(VDAgentChardev *vd)
+     g_autofree VDAgentMessage *msg = g_malloc0(sizeof(VDAgentMessage) +
+                                                sizeof(VDAgentAnnounceCapabilities) +
+                                                sizeof(uint32_t));
++    VDAgentAnnounceCapabilities *caps = (void *)msg->data;
+ 
+     msg->type = VD_AGENT_ANNOUNCE_CAPABILITIES;
+     msg->size = sizeof(VDAgentAnnounceCapabilities) + sizeof(uint32_t);
++    if (vd->mouse) {
++        caps->caps[0] |= (1 << VD_AGENT_CAP_MOUSE_STATE);
++    }
+ 
+     vdagent_send_msg(vd, msg);
+ }
+ 
++/* ------------------------------------------------------------------ */
++/* mouse events                                                       */
++
++static bool have_mouse(VDAgentChardev *vd)
++{
++    return vd->mouse &&
++        (vd->caps & (1 << VD_AGENT_CAP_MOUSE_STATE));
++}
++
++static void vdagent_send_mouse(VDAgentChardev *vd)
++{
++    g_autofree VDAgentMessage *msg = g_malloc0(sizeof(VDAgentMessage) +
++                                               sizeof(VDAgentMouseState));
++    VDAgentMouseState *mouse = (void *)msg->data;
++
++    msg->type = VD_AGENT_MOUSE_STATE;
++    msg->size = sizeof(VDAgentMouseState);
++
++    mouse->x          = vd->mouse_x;
++    mouse->y          = vd->mouse_y;
++    mouse->buttons    = vd->mouse_btn;
++    mouse->display_id = vd->mouse_display;
++
++    vdagent_send_msg(vd, msg);
++}
++
++static void vdagent_pointer_event(DeviceState *dev, QemuConsole *src,
++                                  InputEvent *evt)
++{
++    static const int bmap[INPUT_BUTTON__MAX] = {
++        [INPUT_BUTTON_LEFT]        = VD_AGENT_LBUTTON_MASK,
++        [INPUT_BUTTON_RIGHT]       = VD_AGENT_RBUTTON_MASK,
++        [INPUT_BUTTON_MIDDLE]      = VD_AGENT_MBUTTON_MASK,
++        [INPUT_BUTTON_WHEEL_UP]    = VD_AGENT_UBUTTON_MASK,
++        [INPUT_BUTTON_WHEEL_DOWN]  = VD_AGENT_DBUTTON_MASK,
++#ifdef VD_AGENT_EBUTTON_MASK
++        [INPUT_BUTTON_SIDE]        = VD_AGENT_SBUTTON_MASK,
++        [INPUT_BUTTON_EXTRA]       = VD_AGENT_EBUTTON_MASK,
++#endif
++    };
++
++    VDAgentChardev *vd = container_of(dev, struct VDAgentChardev, mouse_dev);
++    InputMoveEvent *move;
++    InputBtnEvent *btn;
++    uint32_t xres, yres;
++
++    switch (evt->type) {
++    case INPUT_EVENT_KIND_ABS:
++        move = evt->u.abs.data;
++        xres = qemu_console_get_width(src, 1024);
++        yres = qemu_console_get_height(src, 768);
++        if (move->axis == INPUT_AXIS_X) {
++            vd->mouse_x = qemu_input_scale_axis(move->value,
++                                                INPUT_EVENT_ABS_MIN,
++                                                INPUT_EVENT_ABS_MAX,
++                                                0, xres);
++        } else if (move->axis == INPUT_AXIS_Y) {
++            vd->mouse_y = qemu_input_scale_axis(move->value,
++                                                INPUT_EVENT_ABS_MIN,
++                                                INPUT_EVENT_ABS_MAX,
++                                                0, yres);
++        }
++        vd->mouse_display = qemu_console_get_index(src);
++        break;
++
++    case INPUT_EVENT_KIND_BTN:
++        btn = evt->u.btn.data;
++        if (btn->down) {
++            vd->mouse_btn |= bmap[btn->button];
++        } else {
++            vd->mouse_btn &= ~bmap[btn->button];
++        }
++        break;
++
++    default:
++        /* keep gcc happy */
++        break;
++    }
++}
++
++static void vdagent_pointer_sync(DeviceState *dev)
++{
++    VDAgentChardev *vd = container_of(dev, struct VDAgentChardev, mouse_dev);
++
++    if (vd->caps & (1 << VD_AGENT_CAP_MOUSE_STATE)) {
++        vdagent_send_mouse(vd);
++    }
++}
++
++static QemuInputHandler vdagent_mouse_handler = {
++    .name  = "vdagent mouse",
++    .mask  = INPUT_EVENT_MASK_BTN | INPUT_EVENT_MASK_ABS,
++    .event = vdagent_pointer_event,
++    .sync  = vdagent_pointer_sync,
++};
++
+ /* ------------------------------------------------------------------ */
+ /* chardev backend                                                    */
+ 
+@@ -152,6 +269,9 @@ static void vdagent_chr_open(Chardev *chr,
+                              bool *be_opened,
+                              Error **errp)
+ {
++    VDAgentChardev *vd = QEMU_VDAGENT_CHARDEV(chr);
++    ChardevQemuVDAgent *cfg = backend->u.qemu_vdagent.data;
++
+ #if defined(HOST_WORDS_BIGENDIAN)
+     /*
+      * TODO: vdagent protocol is defined to be LE,
+@@ -161,6 +281,16 @@ static void vdagent_chr_open(Chardev *chr,
+     return;
+ #endif
+ 
++    vd->mouse = VDAGENT_MOUSE_DEFAULT;
++    if (cfg->has_mouse) {
++        vd->mouse = cfg->mouse;
++    }
++
++    if (vd->mouse) {
++        vd->mouse_hs = qemu_input_handler_register(&vd->mouse_dev,
++                                                   &vdagent_mouse_handler);
++    }
++
+     *be_opened = true;
+ }
+ 
+@@ -184,6 +314,9 @@ static void vdagent_chr_recv_caps(VDAgentChardev *vd, VDAgentMessage *msg)
+     if (caps->request) {
+         vdagent_send_caps(vd);
+     }
++    if (have_mouse(vd) && vd->mouse_hs) {
++        qemu_input_handler_activate(vd->mouse_hs);
++    }
+ }
+ 
+ static void vdagent_chr_recv_msg(VDAgentChardev *vd, VDAgentMessage *msg)
+@@ -312,18 +445,34 @@ static void vdagent_chr_set_fe_open(struct Chardev *chr, int fe_open)
+         /* reset state */
+         vdagent_reset_bufs(vd);
+         vd->caps = 0;
++        if (vd->mouse_hs) {
++            qemu_input_handler_deactivate(vd->mouse_hs);
++        }
+         return;
+     }
+ 
+     trace_vdagent_open();
+ }
+ 
++static void vdagent_chr_parse(QemuOpts *opts, ChardevBackend *backend,
++                              Error **errp)
++{
++    ChardevQemuVDAgent *cfg;
++
++    backend->type = CHARDEV_BACKEND_KIND_QEMU_VDAGENT;
++    cfg = backend->u.qemu_vdagent.data = g_new0(ChardevQemuVDAgent, 1);
++    qemu_chr_parse_common(opts, qapi_ChardevQemuVDAgent_base(cfg));
++    cfg->has_mouse = true;
++    cfg->mouse = qemu_opt_get_bool(opts, "mouse", VDAGENT_MOUSE_DEFAULT);
++}
++
+ /* ------------------------------------------------------------------ */
+ 
+ static void vdagent_chr_class_init(ObjectClass *oc, void *data)
+ {
+     ChardevClass *cc = CHARDEV_CLASS(oc);
+ 
++    cc->parse            = vdagent_chr_parse;
+     cc->open             = vdagent_chr_open;
+     cc->chr_write        = vdagent_chr_write;
+     cc->chr_set_fe_open  = vdagent_chr_set_fe_open;
+diff --git a/qapi/char.json b/qapi/char.json
+index 990801e642bb..5711e8c60aeb 100644
+--- a/qapi/char.json
++++ b/qapi/char.json
+@@ -395,11 +395,13 @@
+ #
+ # Configuration info for qemu vdagent implementation.
+ #
++# @mouse: enable/disable mouse, default is enabled.
++#
+ # Since: 6.1
+ #
+ ##
+ { 'struct': 'ChardevQemuVDAgent',
+-  'data': { },
++  'data': { '*mouse': 'bool' },
+   'base': 'ChardevCommon',
+   'if': 'defined(CONFIG_SPICE_PROTOCOL)' }
+ 
+-- 
+2.31.1
 
 
