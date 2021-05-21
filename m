@@ -2,89 +2,136 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30CCD38D174
-	for <lists+qemu-devel@lfdr.de>; Sat, 22 May 2021 00:26:06 +0200 (CEST)
-Received: from localhost ([::1]:37094 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4B2838D180
+	for <lists+qemu-devel@lfdr.de>; Sat, 22 May 2021 00:32:32 +0200 (CEST)
+Received: from localhost ([::1]:42142 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lkDam-0002Yx-MT
-	for lists+qemu-devel@lfdr.de; Fri, 21 May 2021 18:26:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51016)
+	id 1lkDh1-0006HI-GE
+	for lists+qemu-devel@lfdr.de; Fri, 21 May 2021 18:32:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52352)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1lkDZf-0001Gd-Qm
- for qemu-devel@nongnu.org; Fri, 21 May 2021 18:24:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52588)
+ (Exim 4.90_1) (envelope-from <brijesh.singh@amd.com>)
+ id 1lkDfg-0005W7-2r
+ for qemu-devel@nongnu.org; Fri, 21 May 2021 18:31:08 -0400
+Received: from mail-mw2nam12on2054.outbound.protection.outlook.com
+ ([40.107.244.54]:58209 helo=NAM12-MW2-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1lkDZd-0003cH-Al
- for qemu-devel@nongnu.org; Fri, 21 May 2021 18:24:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621635892;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=lR4U4qIToDo/Fas28fzi/nKHeSZng51zlmNHDHMmAFo=;
- b=Jm/3Jsg7PUitmX0gEwCyTzRrGE7rP7Jyx7/IJ3zs5EeZaoR4uh8tmiUjnuU4hgshMDmn0P
- gM3z6cS+pSUB84GSUHkhL63qngjx38UAs5Vq0FexLNt1/3qrJLF2ksmXGRLGAexSgMsNtO
- K75pdjFOChfGwAwIi7Zfes0fux7XgCI=
-Received: from mail-ot1-f72.google.com (mail-ot1-f72.google.com
- [209.85.210.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-268-HPRPtb65Ny6ZYfHteFoqIg-1; Fri, 21 May 2021 18:24:50 -0400
-X-MC-Unique: HPRPtb65Ny6ZYfHteFoqIg-1
-Received: by mail-ot1-f72.google.com with SMTP id
- w8-20020a0568300788b029033d472f6029so4179250ots.12
- for <qemu-devel@nongnu.org>; Fri, 21 May 2021 15:24:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=lR4U4qIToDo/Fas28fzi/nKHeSZng51zlmNHDHMmAFo=;
- b=aURhD/BeKwC8jhymr/KY2kOZgt3urf9utZ2Qc9U158s1Xleutaz4wLaWGotCWe9gc9
- QAP05WN4a4MWvF1ww/YYQhehF5mzXMZIYjRcB7m2PXz4/o+gL/FLfIrFfN82lat56IRU
- 8SQs6sIkByMp/5srOIFJ9qECajgCIqXG7INp6yc9lEt+mt2fECUY5eKkzJaowaZmqYYy
- el/OaL3UoJya85wRt/aeeaL6qAuE2Q6j4WWHe8Sv6m3Ybsg+9vxGLYanL5IshniYKMHF
- yA/cogGoOdlAHKIVhxkTd0KN9Ju35/Z3hhpOY7744PSICso9JbshAsrhQVBjhDgcm/yW
- qGgw==
-X-Gm-Message-State: AOAM5306ZYXW8NY6OqHvETvEGpVE6+lM0AFEGB8wE+LnvalQd8WLXJD1
- P4BV85r28cunVi+0Ec7YJBn1LFIDgRObo5VtstGBMkHDSt4i9XY8YN6wv1vz9RinQUQ10tPqgpx
- NFePTg54mHhOoSyU=
-X-Received: by 2002:a9d:39e3:: with SMTP id y90mr10524995otb.257.1621635890178; 
- Fri, 21 May 2021 15:24:50 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyCN9xr/q5lbauY3TjSiJ5L0+kzWl8Nc+poU2T/8ewwzte96HFH8hURS8UevpMJMoIzulnxAA==
-X-Received: by 2002:a9d:39e3:: with SMTP id y90mr10524972otb.257.1621635889966; 
- Fri, 21 May 2021 15:24:49 -0700 (PDT)
-Received: from redhat.com ([198.99.80.109])
- by smtp.gmail.com with ESMTPSA id q73sm1053657ooq.11.2021.05.21.15.24.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 May 2021 15:24:49 -0700 (PDT)
-Date: Fri, 21 May 2021 16:24:48 -0600
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Steve Sistare <steven.sistare@oracle.com>
-Subject: Re: [PATCH V3 13/22] vfio-pci: cpr part 2
-Message-ID: <20210521162448.65ec5f58.alex.williamson@redhat.com>
-In-Reply-To: <1620390320-301716-14-git-send-email-steven.sistare@oracle.com>
-References: <1620390320-301716-1-git-send-email-steven.sistare@oracle.com>
- <1620390320-301716-14-git-send-email-steven.sistare@oracle.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
-MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+ (Exim 4.90_1) (envelope-from <brijesh.singh@amd.com>)
+ id 1lkDfb-0004dN-Px
+ for qemu-devel@nongnu.org; Fri, 21 May 2021 18:31:07 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Tad98yJMzz/HXirxVD4vJ/eBoq8pP1MexyQz4r3pfsu+rUsk8KGA7eT76IuwzCh6JJ4XVbYXx/ItGk41o2uHIqn7t1fOSPm88SsgcGFrxnrlYEYYrZ88rmi4CiXvJgspW/ssO1/dXup1gX7Er+NGVYopUMzLeUciJXnDuvGzUlkjp+vD3w8bz0ZnSkAAHf6OlvLtSY7JB7av/OzTEi4Jel7eG6WhQTrduD+KAlhWOiGzJowNp0yFxm4dB4kXjZD3cXnGIURfccTbq/d12uECdYzm6Qs1hhSTdVjYzDrCQ3wau4dzm9r2qxwmfDqg+yNybA3wJ6t87qXEHlT1TMoNRg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Un3Bp9iXgVG4S/cBMGsgHi6nxEXjkaT3n/ISvWDzjuU=;
+ b=QeDpNoY8Qmu2woGLqWMf9OPl+MVPYz24CDpSEBrpO0KeLCQO2BgCyC+2ui+zk6LoneZiR5ZQ/gyS1FO42dqb67l6Q9jboVDN9V5U0OT4M7g6e+ZiAE4hBEUHABquOjJeYadKrzaJ/lFUE5+dst8mT023mx+vBbGUJsTDIA8jV3bm0In+y3YbIcOijPWrlm+AQUqpudC+fM4kxBMx6PYsQCwYujAHaOTkHT9qfCoinN8xyjWBPG6i8+iMxlqN5spq7Ecfba6Drh+xSbF/uBKWAIyydGc4APdFB5bsrfeQ1DqFrGC8XEkb3tKXaRL/RKRBAxpwOVNKZwZeMbiWTGTvAg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Un3Bp9iXgVG4S/cBMGsgHi6nxEXjkaT3n/ISvWDzjuU=;
+ b=H7zWR0EiL9Wjt97WkRFcqkj4L2G+Ocw8PvzUp/6JCptpZCP+rvRd1Odqyk2njRXHsDUnd1egLs+X2zCjQmvFbMRP8LE8Nf3RGWd9uBwasDESIrWLtccLElOlUJxcH/GVTzKAmlh+WQGHXpVxzQIegxpeGsDgSr7pKvG70G1yCB4=
+Authentication-Results: vger.kernel.org; dkim=none (message not signed)
+ header.d=none;vger.kernel.org; dmarc=none action=none header.from=amd.com;
+Received: from SN6PR12MB2718.namprd12.prod.outlook.com (2603:10b6:805:6f::22)
+ by SN6PR12MB2686.namprd12.prod.outlook.com (2603:10b6:805:72::30)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4129.26; Fri, 21 May
+ 2021 22:15:56 +0000
+Received: from SN6PR12MB2718.namprd12.prod.outlook.com
+ ([fe80::9898:5b48:a062:db94]) by SN6PR12MB2718.namprd12.prod.outlook.com
+ ([fe80::9898:5b48:a062:db94%6]) with mapi id 15.20.4150.023; Fri, 21 May 2021
+ 22:15:56 +0000
+Subject: Re: [PATCH v3] target/i386/sev: add support to query the attestation
+ report
+To: qemu-devel@nongnu.org
+References: <20210429170728.24322-1-brijesh.singh@amd.com>
+From: Brijesh Singh <brijesh.singh@amd.com>
+Message-ID: <9da40603-14d0-73f1-7c81-1f059730101c@amd.com>
+Date: Fri, 21 May 2021 17:15:53 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.10.0
+In-Reply-To: <20210429170728.24322-1-brijesh.singh@amd.com>
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=alex.williamson@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.374,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Language: en-US
+X-Originating-IP: [70.112.153.56]
+X-ClientProxiedBy: SA0PR11CA0074.namprd11.prod.outlook.com
+ (2603:10b6:806:d2::19) To SN6PR12MB2718.namprd12.prod.outlook.com
+ (2603:10b6:805:6f::22)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from Brijeshs-MacBook-Pro.local (70.112.153.56) by
+ SA0PR11CA0074.namprd11.prod.outlook.com (2603:10b6:806:d2::19) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4150.23 via Frontend Transport; Fri, 21 May 2021 22:15:55 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: dee0b9d0-0e72-4a1f-532d-08d91ca60111
+X-MS-TrafficTypeDiagnostic: SN6PR12MB2686:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <SN6PR12MB26862FED0B9754B7A86EA6E1E5299@SN6PR12MB2686.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2582;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: UoQTnQyC6v2s+4zrMcW/kZVz/yOj5ycoQ84AlJNT2LAhkF2F7ZZ8M8WTY1aJKGwbHmyYMy5TvG3G4k50ehl4dvKi1YKCrtplcF2viYn/IdQxQQzZ2t1kQPQXYQ5aV5zXhTaDJ/GXknqoqy1r8ekdce144ltTWvAzWjyjN1+m2mQ568OTHA+AfN0A1SDuAoT1ZCFeCQRm+cBHMC0MRTXnEA/GhplMzKj/akYZJRWkB9jrOfOciJqBYWw6yE6FEkhNN3ZCz3ER4F7wfwnsY+3GwIjfSWKWlvLgz+EJMZq9L/Mflm2ZeKCKu5U8Yb+k4j6KASLtBkcK8FdZyfGvsbe0xeglcD0OfLqu552vFiUWkSVfch9+3N2LxUROzub6KPqznGnd/d1N0bxom8jRH3QUPYvIN5hh91lCluHWmRivvlmfLYKo8YQZxZOEU/JWAhefa7LSBS41yyFuLnbDutkTqZl8DorsLxKUUDwVNdAsFYK8gN2Q6rRMz6qUTovulxyh78PQB+99pCzh7nX9NiCzXVdoJ0MJ4iloELLukVZxeUL3IsL2e2LWOE27MA4wRHuXdJGv1LsuVLHMZTn/TW7Ox/PWSr+uNzt8B3cOXYS+aPNmiviJTjdBGo9PhamM2VOp4Uh6H7LNJOyDA5/ygSlnwyheweUYDP5HW/RRAXpqGawZjd70X2RC8BIjNXCNsck6yxZgRTEZJD2VCS+oesrQz3JbfjVXDuz124MUqXs9lHw=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN6PR12MB2718.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(136003)(346002)(396003)(366004)(39860400002)(376002)(2616005)(956004)(44832011)(6512007)(6506007)(6916009)(66946007)(66556008)(66476007)(83380400001)(31686004)(316002)(6486002)(36756003)(186003)(8936002)(16526019)(52116002)(53546011)(5660300002)(8676002)(38350700002)(54906003)(86362001)(31696002)(26005)(478600001)(4326008)(2906002)(38100700002)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?Ym82bUhETU1aR29Kbjg4UU53bVI4R0ZxUW5QNFArU1prSTlybCtxd1RFdGk3?=
+ =?utf-8?B?Q2Fqb1lLOXZ3bWROSWoyTnNIUXpBZUE4bTcwZ0tIRUxhMGdZRWswaTNiTUhq?=
+ =?utf-8?B?c0tSTzRUQis1c25VSnRyUWdleVpmc3B6Qys5NFJCcEpIb25PVG1uS0FRKzZx?=
+ =?utf-8?B?ZnU0b0c5bmVHV2xXRk5wWTZKbmhCMmJ2NkFvKzVoTGpVN0JPdmQ1Qy9hYmpT?=
+ =?utf-8?B?RXh0YzZqWWdBSll2UzROa1lib0wrRGFjczZzM3Q0SG5jSlFCTkVsOWNLN0Q2?=
+ =?utf-8?B?OHVLaGxzamw2bkR0MkZGaUkvYkRMQ0lVcEJaZ202dTEvd3RhZkpEenJKREkx?=
+ =?utf-8?B?bWlzQWMvOUFVdmNvL3VhM2hrN0wrR1lqMlQ3NUlSeUo0MFk1ZS95blZsdjF5?=
+ =?utf-8?B?cC9kdzdTMnFnMVFOdzJlZi9za0N1T0NTcnJlQVNSazYzck0zanhRNzd3d2lL?=
+ =?utf-8?B?ZG1OdkFBb3VHN25mdi9ndFlqUFhrVWQxL0FlYWc2djNma01YazRVeUo4dEhu?=
+ =?utf-8?B?elRGQW1RSzdXUjd2T0E1aVppREtJUmFrWVlBeFlhMFZ1WmpsTDhhQXcxcGt3?=
+ =?utf-8?B?dnY1d0F2bm1JWXNOL1dLSE01cVdUeDFWUlc1QUdZM1UwWGRsSVRacllnaFM5?=
+ =?utf-8?B?TmdvZHlvVDJISFFHMGZZV0N0Tyt1U2svVmRNakR0M1ZaVVBPbXRwQndpV1Jm?=
+ =?utf-8?B?N1o4TmhsaWxhZEZhSGRBYjY2V2JncEcvWXFWZE5WV1BuVE11QzJrOFd1RVlO?=
+ =?utf-8?B?QkMvRm1wSzUzeDNzZWk0NklPckdhZElGUTB2eElxR1Z5bG9YR203d2NxUUpK?=
+ =?utf-8?B?WCt0Wjh4ZUdNeGNGRkFtUFkwZWJ5Q3ZLeHByTkRKcG1QQzRPY3BWQnFTOVgv?=
+ =?utf-8?B?TDQvME8ySk9NQTNiWW9xb2VZVFpDR2gxS25wV3JsTlJ5bWJQOUw2YVcyTWVH?=
+ =?utf-8?B?NzhKbGZrRldtUW85ZUorclFmdWwzdk5LeUhmQUV3cmpFT3NEZW0yRnpiME03?=
+ =?utf-8?B?YXV4ajNNZEZDYWh1SWJsWUtnTitRYXRvNFlYMGxrZlVnK1pheE5yZlhmbUxM?=
+ =?utf-8?B?bnViVTcybWdOeEFDSW03MUxOWW0wcHdxN0k4WmZlV2JNZi9BT25ZYXJPS0Np?=
+ =?utf-8?B?N3BLMjI2MjBqbU5uVWQxKzFpOUloMVNIY3ZVa0R0SGZ3TVIrVHVNczA5R2FP?=
+ =?utf-8?B?WksyeFcyd292MktWREsrbHhsUUdOTHdXcHNDcW1IazdoT1IwZWhFR0lFV0kr?=
+ =?utf-8?B?WEFtSENiSTBiUGNKSFpoY0tObUNVbzB3Vm8xN0labmF6NzRseVNTOXNnMXds?=
+ =?utf-8?B?US9GMjBOM3VjcXo3L0l0YjVuN2toS3pnN3BVajlJTzZpUjlwdE13TWN1Y2FG?=
+ =?utf-8?B?eld3SEtydGY5a1pRSFp3NjFhQlZXWTBUeFFyakhKQjJzZGJrYlM3em8yL3hx?=
+ =?utf-8?B?NTFrNE0yK283cHpYMmMzT3U1SkM0dFE2N28xZ214cjVWdC9SY1hEZG1IQzRF?=
+ =?utf-8?B?Q1kxMXo3RmJGYkpzT1h6eld5bjF6bUlUckl2RWxkRDRSdjNKZEtXTWtIek96?=
+ =?utf-8?B?SUQzaDFOeTZwY2VpRWMvdElwYm00bmgwN09LM0dtWE1PMHJQYVNVK0tLMEdn?=
+ =?utf-8?B?KzdOS1RRWXlsamplVDljZUc5bjFTOUJoa1kwS2U0dkJpa0RrUFZxaWdwRXd2?=
+ =?utf-8?B?TVpmOWIweUJ0VVJjSERUNkFNUVFtaGV3MkdHMGdjUTYvVGV4V3FXQTFEK2NG?=
+ =?utf-8?Q?hOpDCBZtl7AObHqQQ3I0rScZavVt/XVrYwdKNwc?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: dee0b9d0-0e72-4a1f-532d-08d91ca60111
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR12MB2718.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 May 2021 22:15:56.0655 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: NRVAKwu+OZu6YLvmUFeEYka3huaKI184PRAONR8SEDxNM5PGxNVouQdryRmZnKRC192uOUZPwktQoZrTOizXwQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR12MB2686
+Received-SPF: softfail client-ip=40.107.244.54;
+ envelope-from=brijesh.singh@amd.com;
+ helo=NAM12-MW2-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,194 +144,257 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P. Berrange" <berrange@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Zeng <jason.zeng@linux.intel.com>,
- Alex =?UTF-8?B?QmVubsOpZQ==?= <alex.bennee@linaro.org>,
- Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6k=?= Lureau <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
+Cc: Tom Lendacky <Thomas.Lendacky@amd.com>, brijesh.singh@amd.com,
+ kvm@vger.kernel.org, James Bottomley <jejb@linux.ibm.com>, armbru@redhat.com,
+ dgilbert@redhat.com, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri,  7 May 2021 05:25:11 -0700
-Steve Sistare <steven.sistare@oracle.com> wrote:
+Hi,
 
-> Finish cpr for vfio-pci by preserving eventfd's and vector state.
-> 
-> Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
+Ping. Please let me know if you have any feedback on this patch.
+
+Thanks
+
+On 4/29/21 12:07 PM, Brijesh Singh wrote:
+> The SEV FW >= 0.23 added a new command that can be used to query the
+> attestation report containing the SHA-256 digest of the guest memory
+> and VMSA encrypted with the LAUNCH_UPDATE and sign it with the PEK.
+>
+> Note, we already have a command (LAUNCH_MEASURE) that can be used to
+> query the SHA-256 digest of the guest memory encrypted through the
+> LAUNCH_UPDATE. The main difference between previous and this command
+> is that the report is signed with the PEK and unlike the LAUNCH_MEASURE
+> command the ATTESATION_REPORT command can be called while the guest
+> is running.
+>
+> Add a QMP interface "query-sev-attestation-report" that can be used
+> to get the report encoded in base64.
+>
+> Cc: James Bottomley <jejb@linux.ibm.com>
+> Cc: Tom Lendacky <Thomas.Lendacky@amd.com>
+> Cc: Eric Blake <eblake@redhat.com>
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Cc: kvm@vger.kernel.org
+> Reviewed-by: James Bottomley <jejb@linux.ibm.com>
+> Tested-by: James Bottomley <jejb@linux.ibm.com>
+> Signed-off-by: Brijesh Singh <brijesh.singh@amd.com>
 > ---
->  hw/vfio/pci.c | 110 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++--
->  1 file changed, 108 insertions(+), 2 deletions(-)
-> 
-> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-> index f7ac9f03..e983db4 100644
-> --- a/hw/vfio/pci.c
-> +++ b/hw/vfio/pci.c
-> @@ -2661,6 +2661,27 @@ static void vfio_put_device(VFIOPCIDevice *vdev)
->      vfio_put_base_device(&vdev->vbasedev);
+> v3:
+>   * free the buffer in error path.
+>
+> v2:
+>   * add trace event.
+>   * fix the goto to return NULL on failure.
+>   * make the mnonce as a base64 encoded string
+>
+>  linux-headers/linux/kvm.h |  8 +++++
+>  qapi/misc-target.json     | 38 ++++++++++++++++++++++
+>  target/i386/monitor.c     |  6 ++++
+>  target/i386/sev-stub.c    |  7 ++++
+>  target/i386/sev.c         | 67 +++++++++++++++++++++++++++++++++++++++
+>  target/i386/sev_i386.h    |  2 ++
+>  target/i386/trace-events  |  1 +
+>  7 files changed, 129 insertions(+)
+>
+> diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
+> index 020b62a619..897f831374 100644
+> --- a/linux-headers/linux/kvm.h
+> +++ b/linux-headers/linux/kvm.h
+> @@ -1591,6 +1591,8 @@ enum sev_cmd_id {
+>  	KVM_SEV_DBG_ENCRYPT,
+>  	/* Guest certificates commands */
+>  	KVM_SEV_CERT_EXPORT,
+> +	/* Attestation report */
+> +	KVM_SEV_GET_ATTESTATION_REPORT,
+>  
+>  	KVM_SEV_NR_MAX,
+>  };
+> @@ -1643,6 +1645,12 @@ struct kvm_sev_dbg {
+>  	__u32 len;
+>  };
+>  
+> +struct kvm_sev_attestation_report {
+> +	__u8 mnonce[16];
+> +	__u64 uaddr;
+> +	__u32 len;
+> +};
+> +
+>  #define KVM_DEV_ASSIGN_ENABLE_IOMMU	(1 << 0)
+>  #define KVM_DEV_ASSIGN_PCI_2_3		(1 << 1)
+>  #define KVM_DEV_ASSIGN_MASK_INTX	(1 << 2)
+> diff --git a/qapi/misc-target.json b/qapi/misc-target.json
+> index 0c7491cd82..4b62f0ac05 100644
+> --- a/qapi/misc-target.json
+> +++ b/qapi/misc-target.json
+> @@ -285,3 +285,41 @@
+>  ##
+>  { 'command': 'query-gic-capabilities', 'returns': ['GICCapability'],
+>    'if': 'defined(TARGET_ARM)' }
+> +
+> +
+> +##
+> +# @SevAttestationReport:
+> +#
+> +# The struct describes attestation report for a Secure Encrypted Virtualization
+> +# feature.
+> +#
+> +# @data:  guest attestation report (base64 encoded)
+> +#
+> +#
+> +# Since: 6.1
+> +##
+> +{ 'struct': 'SevAttestationReport',
+> +  'data': { 'data': 'str'},
+> +  'if': 'defined(TARGET_I386)' }
+> +
+> +##
+> +# @query-sev-attestation-report:
+> +#
+> +# This command is used to get the SEV attestation report, and is supported on AMD
+> +# X86 platforms only.
+> +#
+> +# @mnonce: a random 16 bytes value encoded in base64 (it will be included in report)
+> +#
+> +# Returns: SevAttestationReport objects.
+> +#
+> +# Since: 6.1
+> +#
+> +# Example:
+> +#
+> +# -> { "execute" : "query-sev-attestation-report", "arguments": { "mnonce": "aaaaaaa" } }
+> +# <- { "return" : { "data": "aaaaaaaabbbddddd"} }
+> +#
+> +##
+> +{ 'command': 'query-sev-attestation-report', 'data': { 'mnonce': 'str' },
+> +  'returns': 'SevAttestationReport',
+> +  'if': 'defined(TARGET_I386)' }
+> diff --git a/target/i386/monitor.c b/target/i386/monitor.c
+> index 5994408bee..119211f0b0 100644
+> --- a/target/i386/monitor.c
+> +++ b/target/i386/monitor.c
+> @@ -757,3 +757,9 @@ void qmp_sev_inject_launch_secret(const char *packet_hdr,
+>  
+>      sev_inject_launch_secret(packet_hdr, secret, gpa, errp);
+>  }
+> +
+> +SevAttestationReport *
+> +qmp_query_sev_attestation_report(const char *mnonce, Error **errp)
+> +{
+> +    return sev_get_attestation_report(mnonce, errp);
+> +}
+> diff --git a/target/i386/sev-stub.c b/target/i386/sev-stub.c
+> index 0207f1c5aa..0227cb5177 100644
+> --- a/target/i386/sev-stub.c
+> +++ b/target/i386/sev-stub.c
+> @@ -74,3 +74,10 @@ int sev_es_save_reset_vector(void *flash_ptr, uint64_t flash_size)
+>  {
+>      abort();
+>  }
+> +
+> +SevAttestationReport *
+> +sev_get_attestation_report(const char *mnonce, Error **errp)
+> +{
+> +    error_setg(errp, "SEV is not available in this QEMU");
+> +    return NULL;
+> +}
+> diff --git a/target/i386/sev.c b/target/i386/sev.c
+> index 72b9e2ab40..4b9d7d3bb9 100644
+> --- a/target/i386/sev.c
+> +++ b/target/i386/sev.c
+> @@ -491,6 +491,73 @@ out:
+>      return cap;
 >  }
 >  
-> +static void setenv_event_fd(VFIOPCIDevice *vdev, int nr, const char *name,
-> +                            EventNotifier *ev)
+> +SevAttestationReport *
+> +sev_get_attestation_report(const char *mnonce, Error **errp)
 > +{
-> +    char envname[256];
-> +    int fd = event_notifier_get_fd(ev);
-> +    const char *vfname = vdev->vbasedev.name;
+> +    struct kvm_sev_attestation_report input = {};
+> +    SevAttestationReport *report = NULL;
+> +    SevGuestState *sev = sev_guest;
+> +    guchar *data;
+> +    guchar *buf;
+> +    gsize len;
+> +    int err = 0, ret;
 > +
-> +    if (fd >= 0) {
-> +        snprintf(envname, sizeof(envname), "%s_%s_%d", vfname, name, nr);
-> +        setenv_fd(envname, fd);
+> +    if (!sev_enabled()) {
+> +        error_setg(errp, "SEV is not enabled");
+> +        return NULL;
 > +    }
+> +
+> +    /* lets decode the mnonce string */
+> +    buf = g_base64_decode(mnonce, &len);
+> +    if (!buf) {
+> +        error_setg(errp, "SEV: failed to decode mnonce input");
+> +        return NULL;
+> +    }
+> +
+> +    /* verify the input mnonce length */
+> +    if (len != sizeof(input.mnonce)) {
+> +        error_setg(errp, "SEV: mnonce must be %ld bytes (got %ld)",
+> +                sizeof(input.mnonce), len);
+> +        g_free(buf);
+> +        return NULL;
+> +    }
+> +
+> +    /* Query the report length */
+> +    ret = sev_ioctl(sev->sev_fd, KVM_SEV_GET_ATTESTATION_REPORT,
+> +            &input, &err);
+> +    if (ret < 0) {
+> +        if (err != SEV_RET_INVALID_LEN) {
+> +            error_setg(errp, "failed to query the attestation report length "
+> +                    "ret=%d fw_err=%d (%s)", ret, err, fw_error_to_str(err));
+> +            g_free(buf);
+> +            return NULL;
+> +        }
+> +    }
+> +
+> +    data = g_malloc(input.len);
+> +    input.uaddr = (unsigned long)data;
+> +    memcpy(input.mnonce, buf, sizeof(input.mnonce));
+> +
+> +    /* Query the report */
+> +    ret = sev_ioctl(sev->sev_fd, KVM_SEV_GET_ATTESTATION_REPORT,
+> +            &input, &err);
+> +    if (ret) {
+> +        error_setg_errno(errp, errno, "Failed to get attestation report"
+> +                " ret=%d fw_err=%d (%s)", ret, err, fw_error_to_str(err));
+> +        goto e_free_data;
+> +    }
+> +
+> +    report = g_new0(SevAttestationReport, 1);
+> +    report->data = g_base64_encode(data, input.len);
+> +
+> +    trace_kvm_sev_attestation_report(mnonce, report->data);
+> +
+> +e_free_data:
+> +    g_free(data);
+> +    g_free(buf);
+> +    return report;
 > +}
 > +
-> +static int getenv_event_fd(VFIOPCIDevice *vdev, int nr, const char *name)
-> +{
-> +    char envname[256];
-> +    const char *vfname = vdev->vbasedev.name;
-> +    snprintf(envname, sizeof(envname), "%s_%s_%d", vfname, name, nr);
-> +    return getenv_fd(envname);
-> +}
-> +
->  static void vfio_err_notifier_handler(void *opaque)
+>  static int
+>  sev_read_file_base64(const char *filename, guchar **data, gsize *len)
 >  {
->      VFIOPCIDevice *vdev = opaque;
-> @@ -2692,7 +2713,13 @@ static void vfio_err_notifier_handler(void *opaque)
->  static void vfio_register_err_notifier(VFIOPCIDevice *vdev)
->  {
->      Error *err = NULL;
-> -    int32_t fd;
-> +    int32_t fd = getenv_event_fd(vdev, 0, "err");
-
-Arg order should match the actual env names, device name, interrupt
-name, interrupt number.
-
-> +
-> +    if (fd >= 0) {
-> +        event_notifier_init_fd(&vdev->err_notifier, fd);
-> +        qemu_set_fd_handler(fd, vfio_err_notifier_handler, NULL, vdev);
-> +        return;
-> +    }
+> diff --git a/target/i386/sev_i386.h b/target/i386/sev_i386.h
+> index ae221d4c72..ae6d840478 100644
+> --- a/target/i386/sev_i386.h
+> +++ b/target/i386/sev_i386.h
+> @@ -35,5 +35,7 @@ extern uint32_t sev_get_cbit_position(void);
+>  extern uint32_t sev_get_reduced_phys_bits(void);
+>  extern char *sev_get_launch_measurement(void);
+>  extern SevCapability *sev_get_capabilities(Error **errp);
+> +extern SevAttestationReport *
+> +sev_get_attestation_report(const char *mnonce, Error **errp);
 >  
->      if (!vdev->pci_aer) {
->          return;
-> @@ -2753,7 +2780,14 @@ static void vfio_register_req_notifier(VFIOPCIDevice *vdev)
->      struct vfio_irq_info irq_info = { .argsz = sizeof(irq_info),
->                                        .index = VFIO_PCI_REQ_IRQ_INDEX };
->      Error *err = NULL;
-> -    int32_t fd;
-> +    int32_t fd = getenv_event_fd(vdev, 0, "req");
-> +
-> +    if (fd >= 0) {
-> +        event_notifier_init_fd(&vdev->req_notifier, fd);
-> +        qemu_set_fd_handler(fd, vfio_req_notifier_handler, NULL, vdev);
-> +        vdev->req_enabled = true;
-> +        return;
-> +    }
->  
->      if (!(vdev->features & VFIO_FEATURE_ENABLE_REQ)) {
->          return;
-> @@ -3286,12 +3320,82 @@ static Property vfio_pci_dev_properties[] = {
->      DEFINE_PROP_END_OF_LIST(),
->  };
->  
-> +static int vfio_pci_pre_save(void *opaque)
-> +{
-> +    VFIOPCIDevice *vdev = opaque;
-> +    int i;
-> +
-> +    for (i = 0; i < vdev->nr_vectors; i++) {
-> +        VFIOMSIVector *vector = &vdev->msi_vectors[i];
-> +        if (vector->use) {
-> +            setenv_event_fd(vdev, i, "interrupt", &vector->interrupt);
-> +            if (vector->virq >= 0) {
-> +                setenv_event_fd(vdev, i, "kvm_interrupt",
-> +                                &vector->kvm_interrupt);
-> +            }
-> +        }
-> +    }
-> +    setenv_event_fd(vdev, 0, "err", &vdev->err_notifier);
-> +    setenv_event_fd(vdev, 0, "req", &vdev->req_notifier);
-> +    return 0;
-> +}
-> +
-> +static void vfio_claim_vectors(VFIOPCIDevice *vdev, int nr_vectors, bool msix)
-> +{
-> +    int i, fd;
-> +    bool pending = false;
-> +    PCIDevice *pdev = &vdev->pdev;
-> +
-> +    vdev->nr_vectors = nr_vectors;
-> +    vdev->msi_vectors = g_new0(VFIOMSIVector, nr_vectors);
-> +    vdev->interrupt = msix ? VFIO_INT_MSIX : VFIO_INT_MSI;
-> +
-> +    for (i = 0; i < nr_vectors; i++) {
-> +        VFIOMSIVector *vector = &vdev->msi_vectors[i];
-> +
-> +        fd = getenv_event_fd(vdev, i, "interrupt");
-> +        if (fd >= 0) {
-> +            vfio_vector_init(vdev, i, fd);
-> +            qemu_set_fd_handler(fd, vfio_msi_interrupt, NULL, vector);
-> +        }
-> +
-> +        fd = getenv_event_fd(vdev, i, "kvm_interrupt");
-> +        if (fd >= 0) {
-> +            vfio_add_kvm_msi_virq(vdev, vector, i, msix, fd);
-> +        }
-> +
-> +        if (msix && msix_is_pending(pdev, i) && msix_is_masked(pdev, i)) {
-> +            set_bit(i, vdev->msix->pending);
-> +            pending = true;
-> +        }
-> +    }
-> +
-> +    if (msix) {
-> +        memory_region_set_enabled(&pdev->msix_pba_mmio, pending);
-> +    }
-> +}
-> +
->  static int vfio_pci_post_load(void *opaque, int version_id)
->  {
->      VFIOPCIDevice *vdev = opaque;
->      PCIDevice *pdev = &vdev->pdev;
-> +    int nr_vectors;
->      bool enabled;
->  
-> +    if (msix_enabled(pdev)) {
-> +        nr_vectors = vdev->msix->entries;
-> +        vfio_claim_vectors(vdev, nr_vectors, true);
-> +        msix_init_vector_notifiers(pdev, vfio_msix_vector_use,
-> +                                   vfio_msix_vector_release, NULL);
-> +
-> +    } else if (msi_enabled(pdev)) {
-> +        nr_vectors = msi_nr_vectors_allocated(pdev);
-> +        vfio_claim_vectors(vdev, nr_vectors, false);
-> +
-> +    } else if (vfio_pci_read_config(pdev, PCI_INTERRUPT_PIN, 1)) {
-> +        error_report("vfio_pci_post_load does not support INTX");
-> +    }
-
-Why?  Is post-load where we really want to find this out?  Thanks,
-
-Alex
-
-> +
->      pdev->reused = false;
->      enabled = pci_get_word(pdev->config + PCI_COMMAND) & PCI_COMMAND_MASTER;
->      memory_region_set_enabled(&pdev->bus_master_enable_region, enabled);
-> @@ -3310,8 +3414,10 @@ static const VMStateDescription vfio_pci_vmstate = {
->      .version_id = 0,
->      .minimum_version_id = 0,
->      .post_load = vfio_pci_post_load,
-> +    .pre_save = vfio_pci_pre_save,
->      .needed = vfio_pci_needed,
->      .fields = (VMStateField[]) {
-> +        VMSTATE_MSIX(pdev, VFIOPCIDevice),
->          VMSTATE_END_OF_LIST()
->      }
->  };
-
+>  #endif
+> diff --git a/target/i386/trace-events b/target/i386/trace-events
+> index a22ab24e21..8d6437404d 100644
+> --- a/target/i386/trace-events
+> +++ b/target/i386/trace-events
+> @@ -10,3 +10,4 @@ kvm_sev_launch_update_data(void *addr, uint64_t len) "addr %p len 0x%" PRIx64
+>  kvm_sev_launch_measurement(const char *value) "data %s"
+>  kvm_sev_launch_finish(void) ""
+>  kvm_sev_launch_secret(uint64_t hpa, uint64_t hva, uint64_t secret, int len) "hpa 0x%" PRIx64 " hva 0x%" PRIx64 " data 0x%" PRIx64 " len %d"
+> +kvm_sev_attestation_report(const char *mnonce, const char *data) "mnonce %s data %s"
 
