@@ -2,91 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E472438C389
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 May 2021 11:41:44 +0200 (CEST)
-Received: from localhost ([::1]:46004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 828DD38C396
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 May 2021 11:43:02 +0200 (CEST)
+Received: from localhost ([::1]:48210 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lk1f5-0006Yh-RH
-	for lists+qemu-devel@lfdr.de; Fri, 21 May 2021 05:41:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41030)
+	id 1lk1gL-00088f-IQ
+	for lists+qemu-devel@lfdr.de; Fri, 21 May 2021 05:43:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41572)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lk1da-0005Jt-H6
- for qemu-devel@nongnu.org; Fri, 21 May 2021 05:40:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42865)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lk1dX-0007ng-FB
- for qemu-devel@nongnu.org; Fri, 21 May 2021 05:40:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621590005;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=GtTjoCbt0Q+wjbo9sZ1I95VKzqUM35tSuExMYQ2HZFU=;
- b=i/QoCdBYxQEwutrJyJz+yO0+4yAJnsj6WNibYDWCO3B34tEGgYzN2jYpwnM2FxqC89UJ1R
- 9NoxAsL4/ureSA6frMTY2siFcYkJ4+rOU0AGKEt9fULx7eDKAk8TeYe6plt5ft3C8O5pWY
- Fqp5qawpSm9awAELIbx/+WI30Vr/h00=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-381-BTpmU_KQMnqUHBEnLWkPKA-1; Fri, 21 May 2021 05:40:01 -0400
-X-MC-Unique: BTpmU_KQMnqUHBEnLWkPKA-1
-Received: by mail-wm1-f71.google.com with SMTP id
- b206-20020a1c1bd70000b02901713122405eso2616765wmb.1
- for <qemu-devel@nongnu.org>; Fri, 21 May 2021 02:40:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=GtTjoCbt0Q+wjbo9sZ1I95VKzqUM35tSuExMYQ2HZFU=;
- b=sAo3+D8/u2IgW27k5e/EwvrhOONb1alsclPUZO3qcVmLuJWn7Oeuvjqtfc3e3SGwoB
- 8kPrqpwHiYg8YKLWJPbmJAal+G+T1clw+aCQqea2xiQlv1v5Tler3gSRpXG1q+JPoS2t
- Nsa66wPfsIxHguhKY0QqIl8jxTDTDALM7oobzuJ6DF7c5SOBkgHJu0tlpbKVUy3UqObK
- QmDrJPetfIVlszdJRkEDYWF76WPkxs7WA85yVOstQUShaqG4Qp5lmHe5GMtGv5Je8TjH
- GF7P7GZP9i5Bsi+XsMcx3EAO0RFYtB8F7AeoJkT5Q2QN3QxDdleHJzE+UszHN6xVjYUh
- asGQ==
-X-Gm-Message-State: AOAM531eJDcBA0AxfIEdV4F+nIwYOzaPzYrNVxb2d0fOY10Ok01cRgZN
- /fhLNPhe+VTSP8qXE/0iZrak+Er0uiCm5ln2omqIgZbkqvUNKpYVVFplci8/MEW4LsAT6Iajka4
- eAL5UO2QNnit4j+g=
-X-Received: by 2002:a5d:4e91:: with SMTP id e17mr8945963wru.396.1621590000843; 
- Fri, 21 May 2021 02:40:00 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw4UKPWfoz3RzquMyJnQ+0jSkFSxj3kP69yVbc3AmYgpmAm9JodMD/TVzHHVnmq9eWci2PZow==
-X-Received: by 2002:a5d:4e91:: with SMTP id e17mr8945944wru.396.1621590000669; 
- Fri, 21 May 2021 02:40:00 -0700 (PDT)
-Received: from [192.168.1.36] (31.red-83-51-215.dynamicip.rima-tde.net.
- [83.51.215.31])
- by smtp.gmail.com with ESMTPSA id v11sm1794897wrs.9.2021.05.21.02.39.59
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 21 May 2021 02:40:00 -0700 (PDT)
-Subject: Re: [PATCH v7 02/12] accel: Introduce 'query-accels' QMP command
-To: Eduardo Habkost <ehabkost@redhat.com>
-References: <20210505125806.1263441-1-philmd@redhat.com>
- <20210505125806.1263441-3-philmd@redhat.com>
- <20210505194103.bwdjnbanrdwcvrxo@habkost.net>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <53bb31b6-9e1a-0972-e022-0ce732e82caa@redhat.com>
-Date: Fri, 21 May 2021 11:39:58 +0200
+ (Exim 4.90_1) (envelope-from <steven.price@arm.com>)
+ id 1lk1fe-0007Oe-6p
+ for qemu-devel@nongnu.org; Fri, 21 May 2021 05:42:18 -0400
+Received: from foss.arm.com ([217.140.110.172]:35670)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <steven.price@arm.com>) id 1lk1fb-0000li-Ae
+ for qemu-devel@nongnu.org; Fri, 21 May 2021 05:42:17 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8973C101E;
+ Fri, 21 May 2021 02:42:13 -0700 (PDT)
+Received: from [192.168.1.179] (unknown [172.31.20.19])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C139D3F73D;
+ Fri, 21 May 2021 02:42:10 -0700 (PDT)
+Subject: Re: [PATCH v12 7/8] KVM: arm64: ioctl to fetch/store tags in a guest
+To: Catalin Marinas <catalin.marinas@arm.com>
+References: <20210517123239.8025-1-steven.price@arm.com>
+ <20210517123239.8025-8-steven.price@arm.com> <20210520120556.GC12251@arm.com>
+ <dd5ab3a0-5a74-b145-2485-d6d871be945b@arm.com>
+ <20210520172713.GF12251@arm.com>
+From: Steven Price <steven.price@arm.com>
+Message-ID: <5eec330f-63c0-2af8-70f8-ba9b643e2558@arm.com>
+Date: Fri, 21 May 2021 10:42:09 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210505194103.bwdjnbanrdwcvrxo@habkost.net>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20210520172713.GF12251@arm.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.39,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=217.140.110.172;
+ envelope-from=steven.price@arm.com; helo=foss.arm.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,66 +60,170 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Andrew Jones <drjones@redhat.com>, Haibo Xu <Haibo.Xu@arm.com>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>, qemu-devel@nongnu.org,
+ Marc Zyngier <maz@kernel.org>, Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, linux-kernel@vger.kernel.org,
+ Dave Martin <Dave.Martin@arm.com>, James Morse <james.morse@arm.com>,
+ linux-arm-kernel@lists.infradead.org, Thomas Gleixner <tglx@linutronix.de>,
+ Will Deacon <will@kernel.org>, kvmarm@lists.cs.columbia.edu,
+ Julien Thierry <julien.thierry.kdev@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/5/21 9:41 PM, Eduardo Habkost wrote:
-> On Wed, May 05, 2021 at 02:57:56PM +0200, Philippe Mathieu-Daudé wrote:
->> Introduce the 'query-accels' QMP command which returns a list
->> of built-in accelerator names.
+On 20/05/2021 18:27, Catalin Marinas wrote:
+> On Thu, May 20, 2021 at 04:58:01PM +0100, Steven Price wrote:
+>> On 20/05/2021 13:05, Catalin Marinas wrote:
+>>> On Mon, May 17, 2021 at 01:32:38PM +0100, Steven Price wrote:
+>>>> diff --git a/arch/arm64/kvm/arm.c b/arch/arm64/kvm/arm.c
+>>>> index e89a5e275e25..4b6c83beb75d 100644
+>>>> --- a/arch/arm64/kvm/arm.c
+>>>> +++ b/arch/arm64/kvm/arm.c
+>>>> @@ -1309,6 +1309,65 @@ static int kvm_vm_ioctl_set_device_addr(struct kvm *kvm,
+>>>>  	}
+>>>>  }
+>>>>  
+>>>> +static int kvm_vm_ioctl_mte_copy_tags(struct kvm *kvm,
+>>>> +				      struct kvm_arm_copy_mte_tags *copy_tags)
+>>>> +{
+>>>> +	gpa_t guest_ipa = copy_tags->guest_ipa;
+>>>> +	size_t length = copy_tags->length;
+>>>> +	void __user *tags = copy_tags->addr;
+>>>> +	gpa_t gfn;
+>>>> +	bool write = !(copy_tags->flags & KVM_ARM_TAGS_FROM_GUEST);
+>>>> +	int ret = 0;
+>>>> +
+>>>> +	if (copy_tags->reserved[0] || copy_tags->reserved[1])
+>>>> +		return -EINVAL;
+>>>> +
+>>>> +	if (copy_tags->flags & ~KVM_ARM_TAGS_FROM_GUEST)
+>>>> +		return -EINVAL;
+>>>> +
+>>>> +	if (length & ~PAGE_MASK || guest_ipa & ~PAGE_MASK)
+>>>> +		return -EINVAL;
+>>>> +
+>>>> +	gfn = gpa_to_gfn(guest_ipa);
+>>>> +
+>>>> +	mutex_lock(&kvm->slots_lock);
+>>>> +
+>>>> +	while (length > 0) {
+>>>> +		kvm_pfn_t pfn = gfn_to_pfn_prot(kvm, gfn, write, NULL);
+>>>> +		void *maddr;
+>>>> +		unsigned long num_tags = PAGE_SIZE / MTE_GRANULE_SIZE;
+>>>> +
+>>>> +		if (is_error_noslot_pfn(pfn)) {
+>>>> +			ret = -EFAULT;
+>>>> +			goto out;
+>>>> +		}
+>>>> +
+>>>> +		maddr = page_address(pfn_to_page(pfn));
+>>>> +
+>>>> +		if (!write) {
+>>>> +			num_tags = mte_copy_tags_to_user(tags, maddr, num_tags);
+>>>> +			kvm_release_pfn_clean(pfn);
+>>>
+>>> Do we need to check if PG_mte_tagged is set? If the page was not faulted
+>>> into the guest address space but the VMM has the page, does the
+>>> gfn_to_pfn_prot() guarantee that a kvm_set_spte_gfn() was called? If
+>>> not, this may read stale tags.
 >>
->> - Accelerator is a QAPI enum of all existing accelerators,
->>
->> - AcceleratorInfo is a QAPI structure providing accelerator
->>   specific information. Currently the common structure base
->>   provides the name of the accelerator, while the specific
->>   part is empty, but each accelerator can expand it.
->>
->> - 'query-accels' QMP command returns a list of @AcceleratorInfo
->>
->> For example on a KVM-only build we get:
->>
->>     { "execute": "query-accels" }
->>     {
->>         "return": [
->>             {
->>                 "name": "qtest"
->>             },
->>             {
->>                 "name": "kvm"
->>             }
->>         ]
->>     }
->>
->> Note that we can't make the enum values or union branches conditional
->> because of target-specific poisoning of accelerator definitions.
+>> Ah, I hadn't thought about that... No I don't believe gfn_to_pfn_prot()
+>> will fault it into the guest.
 > 
-> I assume this will be clarified in v8, based on your reply to v5.
-> I don't understand what "target-specific poisoning of accelerator
-> definitions" means.
+> It doesn't indeed. What it does is a get_user_pages() but it's not of
+> much help since the VMM pte wouldn't be tagged (we would have solved
+> lots of problems if we required PROT_MTE in the VMM...)
 
-$ git grep poison
-...
-include/exec/poison.h:88:#pragma GCC poison CONFIG_HAX
-include/exec/poison.h:89:#pragma GCC poison CONFIG_HVF
-include/exec/poison.h:90:#pragma GCC poison CONFIG_LINUX_USER
-include/exec/poison.h:91:#pragma GCC poison CONFIG_KVM
-include/exec/poison.h:92:#pragma GCC poison CONFIG_SOFTMMU
-include/exec/poison.h:93:#pragma GCC poison CONFIG_WHPX
-include/exec/poison.h:94:#pragma GCC poison CONFIG_XEN
+Sadly it solves some problems and creates others :(
 
-I thought QAPI was target agnostic, but I just found:
+>>>> +		} else {
+>>>> +			num_tags = mte_copy_tags_from_user(maddr, tags,
+>>>> +							   num_tags);
+>>>> +			kvm_release_pfn_dirty(pfn);
+>>>> +		}
+>>>
+>>> Same question here, if the we can't guarantee the stage 2 pte being set,
+>>> we'd need to set PG_mte_tagged.
+>>
+>> This is arguably worse as we'll be writing tags into the guest but
+>> without setting PG_mte_tagged - so they'll be lost when the guest then
+>> faults the pages in. Which sounds like it should break migration.
+>>
+>> I think the below should be safe, and avoids the overhead of setting the
+>> flag just for reads.
+>>
+>> Thanks,
+>>
+>> Steve
+>>
+>> ----8<----
+>> 		page = pfn_to_page(pfn);
+>> 		maddr = page_address(page);
+>>
+>> 		if (!write) {
+>> 			if (test_bit(PG_mte_tagged, &page->flags))
+>> 				num_tags = mte_copy_tags_to_user(tags, maddr,
+>> 							MTE_GRANULES_PER_PAGE);
+>> 			else
+>> 				/* No tags in memory, so write zeros */
+>> 				num_tags = MTE_GRANULES_PER_PAGE -
+>> 					clear_user(tag, MTE_GRANULES_PER_PAGE);
+>> 			kvm_release_pfn_clean(pfn);
+> 
+> For ptrace we return a -EOPNOTSUPP if the address doesn't have VM_MTE
+> but I don't think it makes sense here, so I'm fine with clearing the
+> destination and assuming that the tags are zero (as they'd be on
+> faulting into the guest.
 
-  if module.endswith('-target')
-    qapi_specific_outputs += qapi_module_outputs
+Yeah - conceptually all pages in an MTE-enabled guest have tags. It's
+just we don't actually populate the physical memory until the guest
+tries to touch them. So it makes sense to just return zeros here.
+Alternatively we could populate the physical tags but that seems
+unnecessary.
 
-  specific_ss.add(when: 'CONFIG_SOFTMMU', if_true: qapi_files[i])
+> Another thing I forgot to ask, what's guaranteeing that the page
+> supports tags? Does this ioctl ensure that it would attempt the tag
+> copying from some device mapping? Do we need some kvm_is_device_pfn()
+> check? I guess ZONE_DEVICE memory we just refuse to map in an earlier
+> patch.
 
-So instead of adding this to qapi/machine.json I'll see
-if I can add it to qapi/machine-target.json and use
-conditionals.
+Hmm, nothing much. While reads are now fine (the memory won't have
+PG_mte_tagged), writes could potentially happen on ZONE_DEVICE memory.
 
+The fix is to just replace pfn_to_page() with pfn_to_online_page() and
+handle the error.
+
+>> 		} else {
+>> 			num_tags = mte_copy_tags_from_user(maddr, tags,
+>> 							MTE_GRANULES_PER_PAGE);
+>> 			kvm_release_pfn_dirty(pfn);
+>> 		}
+>>
+>> 		if (num_tags != MTE_GRANULES_PER_PAGE) {
+>> 			ret = -EFAULT;
+>> 			goto out;
+>> 		}
+>>
+>> 		if (write)
+>> 			test_and_set_bit(PG_mte_tagged, &page->flags);
+> 
+> I think a set_bit() would do, I doubt it's any more efficient. But why
+
+I'd seen test_and_set_bit() used elsewhere (I forget where now) as a
+slightly more efficient approach. It complies down to a READ_ONCE and a
+conditional atomic, vs a single non-conditional atomic. But I don't have
+any actual data on the performance and this isn't a hot path, so I'll
+switch to the more obvious set_bit().
+
+> not add it in the 'else' block above where we actually wrote the tags?
+> The copy function may have failed part-way through. Maybe your logic is
+> correct though, there are invalid tags in the page. Just add a comment.
+
+Yeah it's in case the write fails part way through - we don't want to
+expose the tags which were not written. I'll add a comment to explain that.
+
+Steve
 
