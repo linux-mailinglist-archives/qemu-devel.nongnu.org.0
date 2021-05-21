@@ -2,104 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 856BE38C538
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 May 2021 12:47:01 +0200 (CEST)
-Received: from localhost ([::1]:39696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CA9838C540
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 May 2021 12:49:48 +0200 (CEST)
+Received: from localhost ([::1]:41876 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lk2gG-0001Fy-LC
-	for lists+qemu-devel@lfdr.de; Fri, 21 May 2021 06:47:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54592)
+	id 1lk2ix-0002mF-0K
+	for lists+qemu-devel@lfdr.de; Fri, 21 May 2021 06:49:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55128)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1lk2ex-00008p-EX; Fri, 21 May 2021 06:45:39 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:45186
- helo=mx0a-001b2d01.pphosted.com)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lk2hu-00027N-3j
+ for qemu-devel@nongnu.org; Fri, 21 May 2021 06:48:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47067)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1lk2ev-00070b-MZ; Fri, 21 May 2021 06:45:39 -0400
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 14LAYW6Y140826; Fri, 21 May 2021 06:45:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=V3wBYVUKmDu0QFblaY3t0LcY3HqMSOtN0cL8D+MsUhQ=;
- b=UC1GxzcMLK06hFLl0uvLUHjj0/KwDoTU4Z37Y+nrUrmPWBYn8H3EkwvDd5UKQF11+B3Q
- 0wD1CsAjd0UbomB7u7BYSafAjM/GnojmhBY2uKLqXiMr7qJR5Yfp+FSetmzzKuAihiQz
- HSzq9Lsl48GKmORGYHmi7uhnNlNkKTP0ZqQ6TsGAzyLLvvIBQiM8smzqwlt1PFCZVRHn
- aUn+nOzEZqZfHO/p+faLoo0gDzysAchRjIcIG4/sv/AE+7i5BGt9KAZbRp9miWcHeM6y
- qXV2AnbS9nv8A3P8MzXZjnhubHdscEeEdwDH8Zz7UcXNfUDCmlleZosGkIY6o46Eghvz jg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 38pa2ka9ps-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 21 May 2021 06:45:36 -0400
-Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 14LAaVE6150267;
- Fri, 21 May 2021 06:45:35 -0400
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0b-001b2d01.pphosted.com with ESMTP id 38pa2ka9pb-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 21 May 2021 06:45:35 -0400
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 14LAhrjC027058;
- Fri, 21 May 2021 10:45:34 GMT
-Received: from b06avi18626390.portsmouth.uk.ibm.com
- (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
- by ppma06ams.nl.ibm.com with ESMTP id 38j5jgu327-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 21 May 2021 10:45:33 +0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
- [9.149.105.61])
- by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 14LAj23J30015798
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 21 May 2021 10:45:02 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0A47C11C054;
- Fri, 21 May 2021 10:45:31 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A739911C05B;
- Fri, 21 May 2021 10:45:30 +0000 (GMT)
-Received: from sig-9-145-39-144.uk.ibm.com (unknown [9.145.39.144])
- by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Fri, 21 May 2021 10:45:30 +0000 (GMT)
-Message-ID: <1e96b30913e36c289c9a8fd9a3d2564aea8e56da.camel@linux.ibm.com>
-Subject: Re: [PATCH 0/2] Fix SIGILL psw.addr reporting
-From: Ilya Leoshkevich <iii@linux.ibm.com>
-To: David Hildenbrand <david@redhat.com>, Richard Henderson
- <richard.henderson@linaro.org>, Laurent Vivier <laurent@vivier.eu>
-Date: Fri, 21 May 2021 12:45:30 +0200
-In-Reply-To: <e2eb83ba-6937-741c-ea67-1bbd2346f9d5@redhat.com>
-References: <20210521030146.2831663-1-iii@linux.ibm.com>
- <e2eb83ba-6937-741c-ea67-1bbd2346f9d5@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.4 (3.38.4-1.fc33) 
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: OZr3x-lLhamkcTzNCKRNOyg6ib3pW1Gr
-X-Proofpoint-ORIG-GUID: ClnlvI-vanMKuvfZmEP30ztvxzKLL6yk
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lk2hn-0000KJ-Jg
+ for qemu-devel@nongnu.org; Fri, 21 May 2021 06:48:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1621594112;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=/lW1TISdxwtKvmZNgmIYKJxUPo1FAMmrHlBYZeWmG0U=;
+ b=QngBES0GZxrIjzezcuSWDtCFASu2lE7XUqd4NCYLjY3Q81CIUd2pY1CVBP5PucumiBTcez
+ WZT/x2bg2q/m5rbMwQAaqox+Egq/iZhFDMItlgAYFMnjYHS/gFXMWsH2xO9LdMHptJLeqX
+ irTLEjNCJg0UNXgVi2C6Zgju83KC+Ac=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-479-4LwH_y_7O3yEuBlEfQYLjg-1; Fri, 21 May 2021 06:48:29 -0400
+X-MC-Unique: 4LwH_y_7O3yEuBlEfQYLjg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2DD11101F7D5;
+ Fri, 21 May 2021 10:48:25 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-113.ams2.redhat.com [10.36.112.113])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C8149608DB;
+ Fri, 21 May 2021 10:48:22 +0000 (UTC)
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org, =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20210519184549.2192728-1-f4bug@amsat.org>
+ <20210519184549.2192728-5-f4bug@amsat.org>
+ <5a77ade3-1a6c-2389-4a1c-2c7c2266f298@redhat.com>
+ <20c001a0-60ed-df08-b67d-884022e74d04@amsat.org>
+From: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH v3 4/6] gitlab-ci: Add ccache in $PATH and display
+ statistics
+Message-ID: <396e75d2-fe22-3054-fbee-d6de02339b2a@redhat.com>
+Date: Fri, 21 May 2021 12:48:21 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.0
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
- definitions=2021-05-21_04:2021-05-20,
- 2021-05-21 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- adultscore=0 clxscore=1015 mlxlogscore=850 lowpriorityscore=0
- impostorscore=0 spamscore=0 bulkscore=0 phishscore=0 malwarescore=0
- suspectscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104190000 definitions=main-2105210065
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=iii@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
-X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20c001a0-60ed-df08-b67d-884022e74d04@amsat.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.39,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -113,31 +85,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- qemu-devel@nongnu.org, Andreas Krebbel <krebbel@linux.ibm.com>
+Cc: "Daniel P . Berrange" <berrange@redhat.com>,
+ Kyle Evans <kevans@freebsd.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Willian Rampazzo <willianr@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Warner Losh <imp@bsdimp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 2021-05-21 at 09:42 +0200, David Hildenbrand wrote:
-> On 21.05.21 05:01, Ilya Leoshkevich wrote:
-> > qemu-s390x puts a wrong value into SIGILL's siginfo_t's psw.addr:
-> > it
-> > should be a pointer to the instruction following the illegal
-> > instruction, but at the moment it is a pointer to the illegal
-> > instruction itself. This breaks OpenJDK, which relies on this
-> > value.
-> > 
-> > Patch 1 fixes the issue, patch 2 adds a test.
+On 20/05/2021 13.27, Philippe Mathieu-Daudé wrote:
+> +Stefan/Daniel
 > 
-> I assume that should fix
+> On 5/20/21 10:02 AM, Thomas Huth wrote:
+>> On 19/05/2021 20.45, Philippe Mathieu-Daudé wrote:
+>>> If a runner has ccache installed, use it and display statistics
+>>> at the end of the build.
+>>>
+>>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>>> ---
+>>>    .gitlab-ci.d/buildtest-template.yml | 5 +++++
+>>>    1 file changed, 5 insertions(+)
+>>>
+>>> diff --git a/.gitlab-ci.d/buildtest-template.yml
+>>> b/.gitlab-ci.d/buildtest-template.yml
+>>> index f284d7a0eec..a625c697d3b 100644
+>>> --- a/.gitlab-ci.d/buildtest-template.yml
+>>> +++ b/.gitlab-ci.d/buildtest-template.yml
+>>> @@ -6,13 +6,18 @@
+>>>          then
+>>>            JOBS=$(sysctl -n hw.ncpu)
+>>>            MAKE=gmake
+>>> +        PATH=/usr/local/libexec/ccache:$PATH
+>>>            ;
+>>>          else
+>>>            JOBS=$(expr $(nproc) + 1)
+>>>            MAKE=make
+>>> +        PATH=/usr/lib/ccache:/usr/lib64/ccache:$PATH
+>>
+>> That does not make sense for the shared runners yet. We first need
+>> something to enable the caching there - see my series "Use ccache in the
+>> gitlab-CI" from April (which is currently stalled unfortunately).
 > 
-> https://bugs.launchpad.net/qemu/+bug/1920913
-> 
-> right?
+> TL;DR: I don't think we should restrict our templates to shared runners.
 
-Yes, I have this Buglink in the fix commit message.
-I have to admit I did not test Java more extensively - there might be
-more things going on - but at least with this the SIGILL on startup is
-gone, and very simple programs work.
+I'm certainly not voting for restricting ourselves to only use shared 
+runners here - but my concern is that this actually *slows* down the shared 
+runners even more! (sorry, I should have elaborated on that in my previous 
+mail already)
+
+When I was experimenting with ccache in the shared runners, I saw that the 
+jobs are running even slower with ccache enabled as long as the cache is not 
+populated yet. You only get a speedup afterwards. So if you add this now 
+without also adding the possibility to store the cache persistently, the 
+shared runners will try to populate the cache each time just to throw away 
+the results afterwards again. Thus all the shared runners only get slower 
+without any real benefit here.
+
+Thus we either need to get ccache working properly for the shared runners 
+first, or you have to think of a different way of enabling ccache for the 
+non-shared runners, so that it does not affect the shared runners negatively.
+
+  Thomas
 
 
