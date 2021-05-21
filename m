@@ -2,66 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AACD38C24B
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 May 2021 10:52:08 +0200 (CEST)
-Received: from localhost ([::1]:39268 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7779438C25F
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 May 2021 10:56:21 +0200 (CEST)
+Received: from localhost ([::1]:44318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lk0t5-0005VU-HI
-	for lists+qemu-devel@lfdr.de; Fri, 21 May 2021 04:52:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58470)
+	id 1lk0xA-0000pJ-HQ
+	for lists+qemu-devel@lfdr.de; Fri, 21 May 2021 04:56:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59302)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lk0rN-0003oB-66
- for qemu-devel@nongnu.org; Fri, 21 May 2021 04:50:21 -0400
-Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:34425)
+ id 1lk0vh-00085P-Dq
+ for qemu-devel@nongnu.org; Fri, 21 May 2021 04:54:49 -0400
+Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633]:41736)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lk0rJ-0001cH-5J
- for qemu-devel@nongnu.org; Fri, 21 May 2021 04:50:20 -0400
-Received: by mail-ej1-x634.google.com with SMTP id p24so28090766ejb.1
- for <qemu-devel@nongnu.org>; Fri, 21 May 2021 01:50:16 -0700 (PDT)
+ id 1lk0vf-0004X8-Oc
+ for qemu-devel@nongnu.org; Fri, 21 May 2021 04:54:49 -0400
+Received: by mail-ej1-x633.google.com with SMTP id gb17so11313404ejc.8
+ for <qemu-devel@nongnu.org>; Fri, 21 May 2021 01:54:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=nHQf9aqjvDiQAloLKZf4E0K0KTaekuoeyXryd7vtLTA=;
- b=kI7hIvPzqWmwhSt6CZRdUnShAImbYznG4JCkU1hTXao3CWhdOKTVo9SPX/hGXzcQdR
- 17x27lImPRFDwaHdjsuHkf9iCWE2xy9O1LzoDnhHIAtSPaCJ4Xpnf3Ys2Wg1qnUoc3s+
- HT37K3BAsLSssaJYtlkhdzi9kLb37qYQFMdBrV6llPVflq7vwLZ3CTVXt+cGHKM1/HI0
- xA3/LQ9GQaZAtlMXQcMR/c5lKTx0S7gq7fwR76Zce+qXbmcmXkMG3VsBUbsvbpldMWY/
- i9zU8NISyvSN8tZMqd68bC8Db0ECZqGcL8TiUsJnWTL/6Q8mVAFL4MkQuGvo4YtjXUy7
- H+vQ==
+ :cc; bh=a3denY6dD4U/HRRHmNsZQWCHhe/NRpgPJY1UnAY5rKM=;
+ b=w3mVXMikfd9ehMEU62Bry/giak1jnjPXfvsqClcnGc3iw8iyQzaqtypMyNn/7vw3yv
+ 6Gmd08ddJpsG+tkYkUYhvBvOlHCjDyzMa30cnRE+hKK3CzyzjWTu1ySwNN3C3DG5FvSj
+ YF0MrrjOdwFk9Lg5YsTMLj3kumzHxLeUJYcIVpMz5xpp0/FGCj9qhp7EY/Xy14K9CYYK
+ JuNoLCE497ijlmf8LErXXt7KQbOrwqLHm6Z23lKnsD7xutSNpU16ZHTiDMELX+GLnYy4
+ xu+S0Fg6wRrTU8638lF11biF91+GumojdhjE3M0G9GDwItAlJY0nY5pwmrwlxPzDC5Qo
+ Ys7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=nHQf9aqjvDiQAloLKZf4E0K0KTaekuoeyXryd7vtLTA=;
- b=UblvdNells6Puuiz7n9LZb+lAqA+5rY/gWO2oyYs/wSnModbaIoTB1c9kiK4GPcYDI
- a/M0wea/nykcsGB3dQbMy+c/fFrjUlKmVq3SmDWyX5dBBzFVReGppNy+BPvWXQhnrACK
- gPHskWmlBAnCtWjbobr0d3/5NGoHDJSwmV5D3nj8szxtu/KZx6AOGZfn41SlO6WFibbz
- gkf083jHif7sWnUf736atOLDBGkwqwhYfw0PYDWm3cvW9ZRIkbpsShNTbrftnSwdSv0a
- QMuXV6RRVgo4UnNid+LErI8CVdKrJLSt/WgddjjWvIPfp8j8GM9/WCUAachrMZ+w6NGn
- M0BQ==
-X-Gm-Message-State: AOAM5309DdNc2AOe+mRdf/gjjZwMB4K5QsJnZiGowABq80RhOGSQlgME
- UkTmHzBONI1EMp+7kcO5mimYkupsYWaIhQRQDzbygw==
-X-Google-Smtp-Source: ABdhPJxkTzy1RkyufQPf2MOsz2cv6Qus5J5xl3EonDH0eM0tlVmCIvng9+EcaTbrBP8oZdovuIa4aP6k2nZ8JWkJhLY=
+ :message-id:subject:to:cc;
+ bh=a3denY6dD4U/HRRHmNsZQWCHhe/NRpgPJY1UnAY5rKM=;
+ b=oMg/Arq9IEcaa7+HDi54QYF8YuJ8z2iFqrLOZrDH7FKBoXDoWGVDLxtD/CMhXzcYcZ
+ /GJwuuiiB2IHMgp2sU8FCItJHLGnaWExb/T8gnkDmkVwg1SayV8pPyvSwr0PO4fyMrO1
+ ZcPRpSvibsSh021ky1us9gzfPEA4z9II4M2x7piMx513/JFwrrx55wnXpTAVm+9XlZvf
+ gdCmF9a8zhhaeqe7QNncnsbID++UmzvbWAEmyCQFl9rKXt2Lp9VvZ73wGwRBLt5wojN3
+ 1IeeRoI9CR9YrOqH+WGma+I2I/eNiZwIHoGblyDEY9cqkxKNJ1Zufwvxc4BHixA/6FoA
+ EvHA==
+X-Gm-Message-State: AOAM530JLzs1zsnKFJ2A2LxBGToQhYb29WjpYp/cJ6B++wuFMYZg1q3l
+ 08/RsTEaJPuIjsEUV9Mt1qd10IkezyQVd6Fhvuv7rg==
+X-Google-Smtp-Source: ABdhPJyK3gQLJnD2TU0bTU9hB0e7SJhdXPuiATxtSK3IObFa917AywvdZtHywxx0aXHgCjG5QBA442daN+1CfDOkO+w=
 X-Received: by 2002:a17:906:b74f:: with SMTP id
- fx15mr9256970ejb.85.1621587015080; 
- Fri, 21 May 2021 01:50:15 -0700 (PDT)
+ fx15mr9271131ejb.85.1621587286176; 
+ Fri, 21 May 2021 01:54:46 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210208182331.58897-1-pbonzini@redhat.com>
- <20210208182331.58897-22-pbonzini@redhat.com>
-In-Reply-To: <20210208182331.58897-22-pbonzini@redhat.com>
+References: <20210520175256.1119684-1-armbru@redhat.com>
+In-Reply-To: <20210520175256.1119684-1-armbru@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 21 May 2021 09:49:55 +0100
-Message-ID: <CAFEAcA_jvVVN4n330LZ3+oPtEEBUvH01vvrXdm6r_=wa-AwHGg@mail.gmail.com>
-Subject: Re: [PULL 21/46] meson: Warn when TCI is selected but TCG backend is
- available
-To: Paolo Bonzini <pbonzini@redhat.com>
+Date: Fri, 21 May 2021 09:54:27 +0100
+Message-ID: <CAFEAcA_11CZeVuuEKPrM_PaYuxXKaqDZEo=KtbghOi_cvmYUqA@mail.gmail.com>
+Subject: Re: [PULL 00/15] QAPI patches patches for 2021-05-20
+To: Markus Armbruster <armbru@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::634;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x634.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::633;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x633.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -81,60 +77,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Daniel_Berrang=C3=A9?= <berrange@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 8 Feb 2021 at 23:09, Paolo Bonzini <pbonzini@redhat.com> wrote:
+On Thu, 20 May 2021 at 18:53, Markus Armbruster <armbru@redhat.com> wrote:
 >
-> From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> The following changes since commit d874bc081600528f0400977460b4f98f21e156a1:
 >
-> Some new users get confused with 'TCG' and 'TCI', and enable TCI
-> support expecting to enable TCG.
+>   Merge remote-tracking branch 'remotes/kevin/tags/for-upstream' into staging (2021-05-19 16:10:35 +0100)
 >
-> Emit a warning when native TCG backend is available on the
-> host architecture, mentioning this is a suboptimal configuration.
+> are available in the Git repository at:
 >
-> Reviewed-by: Thomas Huth <thuth@redhat.com>
-> Suggested-by: Daniel Berrang=C3=A9 <berrange@redhat.com>
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-> Message-Id: <20210125144530.2837481-5-philmd@redhat.com>
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->  meson.build | 7 +++++++
->  1 file changed, 7 insertions(+)
+>   git://repo.or.cz/qemu/armbru.git tags/pull-qapi-2021-05-20
 >
-> diff --git a/meson.build b/meson.build
-> index 3a13ba3307..4cc3ebb827 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -231,6 +231,13 @@ if not get_option('tcg').disabled()
->      else
->        error('Unsupported CPU @0@, try --enable-tcg-interpreter'.format(c=
-pu))
->      endif
-> +  elif get_option('tcg_interpreter')
-> +    warning('Use of the TCG interpretor is not recommended on this host'=
-)
-> +    warning('architecture. There is a native TCG execution backend avail=
-able')
-> +    warning('which provides substantially better performance and reliabi=
-lity.')
-> +    warning('It is strongly recommended to remove the --enable-tcg-inter=
-preter')
-> +    warning('configuration option on this architecture to use the native=
-')
-> +    warning('backend.')
->    endif
->    if get_option('tcg_interpreter')
+> for you to fetch changes up to d4092ffa2604e07b2e1bb5b1f7b2651bc1edda80:
+>
+>   qapi/parser: add docstrings (2021-05-20 17:10:09 +0200)
+>
+> ----------------------------------------------------------------
+> QAPI patches patches for 2021-05-20
+>
 
-Just noticed this one after it hit master, but there's a typo here:
-"TCG interpretor" should be "interpreter".
 
-thanks
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.1
+for any user-visible changes.
+
 -- PMM
 
