@@ -2,78 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78D6038C127
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 May 2021 09:58:51 +0200 (CEST)
-Received: from localhost ([::1]:42446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEE6138C128
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 May 2021 09:59:16 +0200 (CEST)
+Received: from localhost ([::1]:43254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lk03W-0002OF-J5
-	for lists+qemu-devel@lfdr.de; Fri, 21 May 2021 03:58:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49776)
+	id 1lk03v-0002xH-Qm
+	for lists+qemu-devel@lfdr.de; Fri, 21 May 2021 03:59:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49872)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1lk01s-0000r5-1B
- for qemu-devel@nongnu.org; Fri, 21 May 2021 03:57:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27796)
+ id 1lk02X-0001Yq-M9
+ for qemu-devel@nongnu.org; Fri, 21 May 2021 03:57:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60030)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1lk01q-00026l-BS
- for qemu-devel@nongnu.org; Fri, 21 May 2021 03:57:07 -0400
+ id 1lk02U-0002WS-Ch
+ for qemu-devel@nongnu.org; Fri, 21 May 2021 03:57:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621583825;
+ s=mimecast20190719; t=1621583865;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=zQX7fw9Ezs5m1UxeAE+QOyKtOID/1SDSEaQfBZOeJ40=;
- b=f03lD2vs6vvyTsg7uiL619vI7Wb274D4RFEtG7uxLesvZXs/eKr549N+J0GIw/nIF2pnBb
- 1yH9mzaKbdwmn0iUH4R+GHeF+xqrYjG/BJBRgXtoP3cOA9h2i3Z3PLI9/YKzR7/+KnESlP
- p7mhZ8lTEEXeWMQVV+NAFQPlNYck8y0=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-29-bNh96fHcOZec-FvUxDVCsA-1; Fri, 21 May 2021 03:57:03 -0400
-X-MC-Unique: bNh96fHcOZec-FvUxDVCsA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- z64-20020a1ce2430000b029016d56f15ac0so2904046wmg.1
- for <qemu-devel@nongnu.org>; Fri, 21 May 2021 00:57:03 -0700 (PDT)
+ bh=OCK3/Q/S96lPk/+7W3Hia9+IShiUjjfhOtWUuuc2GN8=;
+ b=AyGIFTK18gr3JJU2doeoN2aLBpJ/L/ncB5Awxtj+zM+5nflhV19tmFU8+wguboVn00Ree5
+ R92EA5u2H7XkrPczEw7+Pks2zGipViGPoteimt9dwq1XSVWOr6hpCWyfWyv+lC6uMhUh22
+ G73BwXBwOGr+RTz1CMLuLX7Q3w9TT7Y=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-362-sQnKrfl8M8uM7DWEsDNcmg-1; Fri, 21 May 2021 03:57:44 -0400
+X-MC-Unique: sQnKrfl8M8uM7DWEsDNcmg-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ 67-20020adf81490000b029010756d109e6so9037073wrm.13
+ for <qemu-devel@nongnu.org>; Fri, 21 May 2021 00:57:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
  :message-id:mime-version;
- bh=zQX7fw9Ezs5m1UxeAE+QOyKtOID/1SDSEaQfBZOeJ40=;
- b=BNljwIjmWka3vXTZPcOUT0DgxRh7RD+BFp6n0UDbJRP1Dno4zdplZCLtfDpUeAuDwz
- tL/V4+WxJGtWJdvC+UyIyDLsbQnpDjktmvHsj2Ok4WqVX2ngEBxzkJ9cZ7d2/G6vWwar
- rE5fiP0Wof18GJ1AiXPkks3kcNicJN86+4A2eIccEMe5kaHu7WzAGDeAvVD1AtBP/4Rx
- 2pzdcX+mvGcParAdoKHqbjp6IlsOT5jtt3nKp9u7d1kOgxQyxcAWJiS2XAl6toAr1UIp
- jIwAxGUpDYb3SinE2yD2VnhvuIkdq3fcq9AB4xBbrPI3VDhLia3ou9+ytptjp8poyYX+
- GtUA==
-X-Gm-Message-State: AOAM530TrucYnd3D2H+26jP1ifVPNKCz0tvzqT2D42t92Q76l3oENLSM
- C0P6qLwpoWkF9wu5KrHNBdHcrbk4ZOvGSSARFPkSnbvcqYTXoRmkvY2tJ692BPG3kO/OdQjacbA
- OG2r8gd+pydyqy9k=
-X-Received: by 2002:a1c:2048:: with SMTP id g69mr7626786wmg.6.1621583822754;
- Fri, 21 May 2021 00:57:02 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwXOh8Z4f81IaA1ssSyNcxMDJHroomUCrIM1667e6xBN/50Sc4aYBRSWeUw+UTeSkdECuCI4Q==
-X-Received: by 2002:a1c:2048:: with SMTP id g69mr7626773wmg.6.1621583822563;
- Fri, 21 May 2021 00:57:02 -0700 (PDT)
+ bh=OCK3/Q/S96lPk/+7W3Hia9+IShiUjjfhOtWUuuc2GN8=;
+ b=SzoTBKR/VuRFKaeZWDB0GztBG6LfTAZfYRQ8J7PgsbuALIDyadSyJArgC173TZChJP
+ IwCOGObbW/uZQogAALWN3CAz8VPTNOCu7Gi6TEYJaG1x6t4qxU1plYt5hoxvTFkdaj89
+ nugVw8is1YohDsieIUTK6S8rJd7eP9W/x5LTXmRdYw7ks30wL1jCdp1SSeuam+46VmKp
+ pqj+cBcpVJBqQE+mUkuYy3gnxYwKCh2nRFIjGp358njt6Ha4pyU0vtDKp37arQ62XZry
+ OhLNw+T8Xj5u0L4w1v/n9gziywzqdd7T8u/VPlX5pYfGg46iqswl6oWXgH0PRdTn4BOi
+ zFrQ==
+X-Gm-Message-State: AOAM532Je8F9iBU5673iBIIAWaIRBpajztLRH+e4bFF+f3EtAyQrw5kZ
+ w18mnL5z79+jtx2AKWG5aS2dhBf7yZKaqQzMRDi71I/ewkxooIGV/Ouit7p7Qmwwp/2Gnyb2N6O
+ TVihio2Y2RfLo0hM=
+X-Received: by 2002:a05:6000:110f:: with SMTP id
+ z15mr8140709wrw.199.1621583863297; 
+ Fri, 21 May 2021 00:57:43 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyb/eTNBuXDmS1N2lXulAOnIgcPvJoS+TVQgyvtZsYqXOR+NEAD4amuJNB7/dIWe9qVP2pjrQ==
+X-Received: by 2002:a05:6000:110f:: with SMTP id
+ z15mr8140697wrw.199.1621583863143; 
+ Fri, 21 May 2021 00:57:43 -0700 (PDT)
 Received: from vitty.brq.redhat.com (g-server-2.ign.cz. [91.219.240.2])
- by smtp.gmail.com with ESMTPSA id z3sm1187720wrq.42.2021.05.21.00.57.01
+ by smtp.gmail.com with ESMTPSA id t17sm1077518wrp.89.2021.05.21.00.57.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 May 2021 00:57:02 -0700 (PDT)
+ Fri, 21 May 2021 00:57:42 -0700 (PDT)
 From: Vitaly Kuznetsov <vkuznets@redhat.com>
 To: Eduardo Habkost <ehabkost@redhat.com>
-Subject: Re: [PATCH v6 05/19] i386: introduce hyperv_feature_supported()
-In-Reply-To: <20210520195320.dtamvdimo45jpwu7@habkost.net>
+Subject: Re: [PATCH v6 06/19] i386: introduce hv_cpuid_get_host()
+In-Reply-To: <20210520200141.w7zxt4e2dtephpdq@habkost.net>
 References: <20210422161130.652779-1-vkuznets@redhat.com>
- <20210422161130.652779-6-vkuznets@redhat.com>
- <20210520195320.dtamvdimo45jpwu7@habkost.net>
-Date: Fri, 21 May 2021 09:57:01 +0200
-Message-ID: <874kewjz8y.fsf@vitty.brq.redhat.com>
+ <20210422161130.652779-7-vkuznets@redhat.com>
+ <20210520200141.w7zxt4e2dtephpdq@habkost.net>
+Date: Fri, 21 May 2021 09:57:41 +0200
+Message-ID: <871ra0jz7u.fsf@vitty.brq.redhat.com>
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vkuznets@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=vkuznets@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=vkuznets@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -101,100 +103,168 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Eduardo Habkost <ehabkost@redhat.com> writes:
 
-> On Thu, Apr 22, 2021 at 06:11:16PM +0200, Vitaly Kuznetsov wrote:
->> Clean up hv_cpuid_check_and_set() by separating hyperv_feature_supported()
->> off it. No functional change intended.
+> On Thu, Apr 22, 2021 at 06:11:17PM +0200, Vitaly Kuznetsov wrote:
+>> As a preparation to implementing hv_cpuid_cache intro introduce
+>> hv_cpuid_get_host(). No functional change intended.
 >> 
 >> Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
 >> ---
->>  target/i386/kvm/kvm.c | 49 ++++++++++++++++++++++++++-----------------
->>  1 file changed, 30 insertions(+), 19 deletions(-)
+>>  target/i386/kvm/kvm.c | 102 +++++++++++++++++++++++-------------------
+>>  1 file changed, 57 insertions(+), 45 deletions(-)
 >> 
 >> diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
->> index f791baa29acf..ba093dba4d23 100644
+>> index ba093dba4d23..7aeb704b016e 100644
 >> --- a/target/i386/kvm/kvm.c
 >> +++ b/target/i386/kvm/kvm.c
->> @@ -1107,13 +1107,33 @@ static int hv_cpuid_get_fw(struct kvm_cpuid2 *cpuid, int fw, uint32_t *r)
+>> @@ -1107,6 +1107,19 @@ static int hv_cpuid_get_fw(struct kvm_cpuid2 *cpuid, int fw, uint32_t *r)
 >>      return 0;
 >>  }
 >>  
->> +static bool hyperv_feature_supported(struct kvm_cpuid2 *cpuid, int feature)
+>> +static uint32_t hv_cpuid_get_host(struct kvm_cpuid2 *cpuid, uint32_t func,
+>> +                                  int reg)
 >> +{
->> +    uint32_t r, fw, bits;
->> +    int i;
+>> +    struct kvm_cpuid_entry2 *entry;
 >> +
->> +    for (i = 0; i < ARRAY_SIZE(kvm_hyperv_properties[feature].flags); i++) {
->> +        fw = kvm_hyperv_properties[feature].flags[i].fw;
->> +        bits = kvm_hyperv_properties[feature].flags[i].bits;
->> +
->> +        if (!fw) {
->> +            continue;
->> +        }
->> +
->> +        if (hv_cpuid_get_fw(cpuid, fw, &r) || (r & bits) != bits) {
->> +            return false;
->> +        }
->> +    }
->> +
->> +    return true;
->> +}
->> +
->>  static int hv_cpuid_check_and_set(CPUState *cs, struct kvm_cpuid2 *cpuid,
->>                                    int feature)
->>  {
->>      X86CPU *cpu = X86_CPU(cs);
->> -    uint32_t r, fw, bits;
->>      uint64_t deps;
->> -    int i, dep_feat;
->> +    int dep_feat;
->>  
->>      if (!hyperv_feat_enabled(cpu, feature) && !cpu->hyperv_passthrough) {
->>          return 0;
->> @@ -1132,23 +1152,14 @@ static int hv_cpuid_check_and_set(CPUState *cs, struct kvm_cpuid2 *cpuid,
->>          deps &= ~(1ull << dep_feat);
->>      }
->>  
->> -    for (i = 0; i < ARRAY_SIZE(kvm_hyperv_properties[feature].flags); i++) {
->> -        fw = kvm_hyperv_properties[feature].flags[i].fw;
->> -        bits = kvm_hyperv_properties[feature].flags[i].bits;
->> -
->> -        if (!fw) {
->> -            continue;
->> -        }
->> -
->> -        if (hv_cpuid_get_fw(cpuid, fw, &r) || (r & bits) != bits) {
->> -            if (hyperv_feat_enabled(cpu, feature)) {
->> -                fprintf(stderr,
->> -                        "Hyper-V %s is not supported by kernel\n",
->> -                        kvm_hyperv_properties[feature].desc);
->> -                return 1;
->> -            } else {
->> -                return 0;
->> -            }
->> +    if (!hyperv_feature_supported(cpuid, feature)) {
->> +        if (hyperv_feat_enabled(cpu, feature)) {
->> +            fprintf(stderr,
->> +                    "Hyper-V %s is not supported by kernel\n",
->> +                    kvm_hyperv_properties[feature].desc);
->> +            return 1;
->> +        } else {
->> +            return 0;
+>> +    entry = cpuid_find_entry(cpuid, func, 0);
+>> +    if (!entry) {
+>> +        return 0;
 >
-> The reason for returning prematurely here when
-> !hyperv_feat_enabled() is not clear to me
+> One possible difference here is that leaves not supported by the
+> host will now be zeroed out.
+>
+> ...which I expected to be the correct behavior of hv-passthrough,
 
-This hopefully gets much better at the end of the series where
-hv_cpuid_check_and_set() is split into 'check' and 'set'. The reason to
-return immediately is: if the feature was not requested explicitly and
-we're not in 'hv-passthrough' mode, there's no need to check whether KVM
-supports it, if we have all the dependencies,... 
+Yes, at least that's the intention.
 
-> but you are keeping the existing behavior, so:
+> so:
 >
 > Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
 >
 
 Thanks!
+
+>
+>> +    }
+>> +
+>> +    return cpuid_entry_get_reg(entry, reg);
+>> +}
+>> +
+>>  static bool hyperv_feature_supported(struct kvm_cpuid2 *cpuid, int feature)
+>>  {
+>>      uint32_t r, fw, bits;
+>> @@ -1203,7 +1216,7 @@ static int hyperv_handle_properties(CPUState *cs,
+>>  {
+>>      X86CPU *cpu = X86_CPU(cs);
+>>      struct kvm_cpuid2 *cpuid;
+>> -    struct kvm_cpuid_entry2 *c, *c2;
+>> +    struct kvm_cpuid_entry2 *c;
+>>      uint32_t cpuid_i = 0;
+>>      int r;
+>>  
+>> @@ -1235,46 +1248,47 @@ static int hyperv_handle_properties(CPUState *cs,
+>>      }
+>>  
+>>      if (cpu->hyperv_passthrough) {
+>> -        c = cpuid_find_entry(cpuid, HV_CPUID_VENDOR_AND_MAX_FUNCTIONS, 0);
+>> -        if (c) {
+>> -            cpu->hyperv_vendor_id[0] = c->ebx;
+>> -            cpu->hyperv_vendor_id[1] = c->ecx;
+>> -            cpu->hyperv_vendor_id[2] = c->edx;
+>> -            cpu->hyperv_vendor = g_realloc(cpu->hyperv_vendor,
+>> -                                           sizeof(cpu->hyperv_vendor_id) + 1);
+>> -            memcpy(cpu->hyperv_vendor, cpu->hyperv_vendor_id,
+>> -                   sizeof(cpu->hyperv_vendor_id));
+>> -            cpu->hyperv_vendor[sizeof(cpu->hyperv_vendor_id)] = 0;
+>> -        }
+>> -
+>> -        c = cpuid_find_entry(cpuid, HV_CPUID_INTERFACE, 0);
+>> -        if (c) {
+>> -            cpu->hyperv_interface_id[0] = c->eax;
+>> -            cpu->hyperv_interface_id[1] = c->ebx;
+>> -            cpu->hyperv_interface_id[2] = c->ecx;
+>> -            cpu->hyperv_interface_id[3] = c->edx;
+>> -        }
+>> -
+>> -        c = cpuid_find_entry(cpuid, HV_CPUID_VERSION, 0);
+>> -        if (c) {
+>> -            cpu->hyperv_version_id[0] = c->eax;
+>> -            cpu->hyperv_version_id[1] = c->ebx;
+>> -            cpu->hyperv_version_id[2] = c->ecx;
+>> -            cpu->hyperv_version_id[3] = c->edx;
+>> -        }
+>> -
+>> -        c = cpuid_find_entry(cpuid, HV_CPUID_IMPLEMENT_LIMITS, 0);
+>> -        if (c) {
+>> -            cpu->hv_max_vps = c->eax;
+>> -            cpu->hyperv_limits[0] = c->ebx;
+>> -            cpu->hyperv_limits[1] = c->ecx;
+>> -            cpu->hyperv_limits[2] = c->edx;
+>> -        }
+>> -
+>> -        c = cpuid_find_entry(cpuid, HV_CPUID_ENLIGHTMENT_INFO, 0);
+>> -        if (c) {
+>> -            cpu->hyperv_spinlock_attempts = c->ebx;
+>> -        }
+>> +        cpu->hyperv_vendor_id[0] =
+>> +            hv_cpuid_get_host(cpuid, HV_CPUID_VENDOR_AND_MAX_FUNCTIONS, R_EBX);
+>> +        cpu->hyperv_vendor_id[1] =
+>> +            hv_cpuid_get_host(cpuid, HV_CPUID_VENDOR_AND_MAX_FUNCTIONS, R_ECX);
+>> +        cpu->hyperv_vendor_id[2] =
+>> +            hv_cpuid_get_host(cpuid, HV_CPUID_VENDOR_AND_MAX_FUNCTIONS, R_EDX);
+>> +        cpu->hyperv_vendor = g_realloc(cpu->hyperv_vendor,
+>> +                                       sizeof(cpu->hyperv_vendor_id) + 1);
+>> +        memcpy(cpu->hyperv_vendor, cpu->hyperv_vendor_id,
+>> +               sizeof(cpu->hyperv_vendor_id));
+>> +        cpu->hyperv_vendor[sizeof(cpu->hyperv_vendor_id)] = 0;
+>> +
+>> +        cpu->hyperv_interface_id[0] =
+>> +            hv_cpuid_get_host(cpuid, HV_CPUID_INTERFACE, R_EAX);
+>> +        cpu->hyperv_interface_id[1] =
+>> +            hv_cpuid_get_host(cpuid, HV_CPUID_INTERFACE, R_EBX);
+>> +        cpu->hyperv_interface_id[2] =
+>> +            hv_cpuid_get_host(cpuid, HV_CPUID_INTERFACE, R_ECX);
+>> +        cpu->hyperv_interface_id[3] =
+>> +            hv_cpuid_get_host(cpuid, HV_CPUID_INTERFACE, R_EDX);
+>> +
+>> +        cpu->hyperv_version_id[0] =
+>> +            hv_cpuid_get_host(cpuid, HV_CPUID_VERSION, R_EAX);
+>> +        cpu->hyperv_version_id[1] =
+>> +            hv_cpuid_get_host(cpuid, HV_CPUID_VERSION, R_EBX);
+>> +        cpu->hyperv_version_id[2] =
+>> +            hv_cpuid_get_host(cpuid, HV_CPUID_VERSION, R_ECX);
+>> +        cpu->hyperv_version_id[3] =
+>> +            hv_cpuid_get_host(cpuid, HV_CPUID_VERSION, R_EDX);
+>> +
+>> +        cpu->hv_max_vps = hv_cpuid_get_host(cpuid, HV_CPUID_IMPLEMENT_LIMITS,
+>> +                                            R_EAX);
+>> +        cpu->hyperv_limits[0] =
+>> +            hv_cpuid_get_host(cpuid, HV_CPUID_IMPLEMENT_LIMITS, R_EBX);
+>> +        cpu->hyperv_limits[1] =
+>> +            hv_cpuid_get_host(cpuid, HV_CPUID_IMPLEMENT_LIMITS, R_ECX);
+>> +        cpu->hyperv_limits[2] =
+>> +            hv_cpuid_get_host(cpuid, HV_CPUID_IMPLEMENT_LIMITS, R_EDX);
+>> +
+>> +        cpu->hyperv_spinlock_attempts =
+>> +            hv_cpuid_get_host(cpuid, HV_CPUID_ENLIGHTMENT_INFO, R_EBX);
+>>      }
+>>  
+>>      /* Features */
+>> @@ -1348,10 +1362,8 @@ static int hyperv_handle_properties(CPUState *cs,
+>>      if (cpu->hyperv_no_nonarch_cs == ON_OFF_AUTO_ON) {
+>>          c->eax |= HV_NO_NONARCH_CORESHARING;
+>>      } else if (cpu->hyperv_no_nonarch_cs == ON_OFF_AUTO_AUTO) {
+>> -        c2 = cpuid_find_entry(cpuid, HV_CPUID_ENLIGHTMENT_INFO, 0);
+>> -        if (c2) {
+>> -            c->eax |= c2->eax & HV_NO_NONARCH_CORESHARING;
+>> -        }
+>> +        c->eax |= hv_cpuid_get_host(cpuid, HV_CPUID_ENLIGHTMENT_INFO, R_EAX) &
+>> +            HV_NO_NONARCH_CORESHARING;
+>>      }
+>>  
+>>      c = &cpuid_ent[cpuid_i++];
+>> -- 
+>> 2.30.2
+>> 
 
 -- 
 Vitaly
