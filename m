@@ -2,71 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57E1338C687
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 May 2021 14:30:41 +0200 (CEST)
-Received: from localhost ([::1]:49118 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E43DA38C688
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 May 2021 14:30:46 +0200 (CEST)
+Received: from localhost ([::1]:49462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lk4Ia-0008Uf-39
-	for lists+qemu-devel@lfdr.de; Fri, 21 May 2021 08:30:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45818)
+	id 1lk4If-0000JD-Vz
+	for lists+qemu-devel@lfdr.de; Fri, 21 May 2021 08:30:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46066)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1lk4EX-0006Ir-1G
- for qemu-devel@nongnu.org; Fri, 21 May 2021 08:26:29 -0400
-Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:46040)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lk4Fb-0007IS-O9
+ for qemu-devel@nongnu.org; Fri, 21 May 2021 08:27:35 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:33311)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1lk4EU-0002M0-46
- for qemu-devel@nongnu.org; Fri, 21 May 2021 08:26:28 -0400
-Received: by mail-ed1-x533.google.com with SMTP id a25so23082880edr.12
- for <qemu-devel@nongnu.org>; Fri, 21 May 2021 05:26:25 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lk4FZ-000331-Qw
+ for qemu-devel@nongnu.org; Fri, 21 May 2021 08:27:35 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id n2so20981985wrm.0
+ for <qemu-devel@nongnu.org>; Fri, 21 May 2021 05:27:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=s49dOmfncrebn2im9WTHoiGZlREGiMcJCbdpwWsUM8M=;
- b=bjr0XDlSvTI1/HRhoEm3Zxq0rgOG7sbDtU4+wyq8jkkzU946JLUyaHS5qbGZeOC3dK
- V6unvaO2onMi4lCczGP49yQWiTti6Fm8THI/ox3YWoku39RQd/GZ4r4cNSwAAV8Aodi4
- L0yK8F9JjHnmc5PlO1vJbRF2OmrVF6crscD1yJ8zvpzbczeZb3RjTRZ4oiyPwLV6rwpr
- tGxUreDYnHtVcyiW4+WUR2QilWyp36+31AMEzrdNfeRRWYvSp1m200fu1oAKH240PyNO
- Qntmr/xnC7GdYIkEJRp6c2RlXXkYSKHkXH8Y1zamtgselBKX8a9ssg9j4Pg4JwPWFbXh
- XzuQ==
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=xqEnTrUlATUn+b5CpPqklH+e8IKQzrPT3fz15+sB8R0=;
+ b=bcGf6mR2kBSlIq9BNDIzdnQu60i7KNtRWQgRu6Z/apiyfI4WmGrgd7+dNlcU6Y9MeH
+ ClTF308aX7Jt0RMheuoCddL0GWQKtwpbb7sVU/Br/oGc5UTFb3JsWneNbtQR9LeNEPzU
+ Ojs+0PcqHRkFOYprlS4XKATWCxkQF2kxPfaYKcK5Mf42bdygARuWbSpLofkGIyke5Rpg
+ g2eHCfHHcaLu9RZJfwZUm9PhVjY2VRa3VC4EWnih66rvefc4f8+ODhrGG6uIEvWDjqpb
+ QEbyaz1VypjDwVGl8fzXZ+6ux47JQbLkvDyX5a0c5H+SmRwsz58PA+G8FpkBSXhmt2GX
+ IQDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=s49dOmfncrebn2im9WTHoiGZlREGiMcJCbdpwWsUM8M=;
- b=nyWTOFUEfiNVczW3MPiINhc4AImpwwZApyK267uKmE6aY/MtMSdJE+iFpJQpjw1gI1
- +tbSl6OR9ZbaFm30ZzZByJa4MU5dqPCgG2KTp4oQRWtZLrilw5lATyQIm5VmPgS+z7GO
- KrJIvHbtBRVku2HZHhh4IaidTFQXxhLTA9S0gFD0zTZs8RUOJd5nRbD14sk52ocGDhpT
- OuTrT1OhjmyKppyRofCuNrfXp08fFrVenqDw7SCs3Zv9mOqahdk5wxkBkC8bSPz9M/Fc
- t3sYmetEJv9phy3J4bZYHWw9Kz2Rho1+j+NSY+CNtl55lpTkjjnIIq98SvgxUjbcjNip
- 0F4g==
-X-Gm-Message-State: AOAM532ASyGS9fUzyiYChhCZcIOCw/uE3v8Ufj7IV0rFdP3a4mXgmT39
- Yatm8qHE+adm40uaXgerFbYb6busEmKjlyEFy30=
-X-Google-Smtp-Source: ABdhPJzwVS9ekb6YbDo0gS52JR7BTa5aoTdyAfxBJoTw9C4Yri87az+135xc/PEi2c2RF7Ze0+xozFmAU+5vCu2jP9s=
-X-Received: by 2002:aa7:cf03:: with SMTP id a3mr10800831edy.314.1621599984356; 
- Fri, 21 May 2021 05:26:24 -0700 (PDT)
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=xqEnTrUlATUn+b5CpPqklH+e8IKQzrPT3fz15+sB8R0=;
+ b=rZslJOrwxcfDyJMwCPoqkulqNhKuo/iP1UliCqjQgkqXFGFMBN+ERBOxctJrJXQHQY
+ oJEEQNBTrfYaXH/+PltBVf+dF5JXN1w5u0AVvY4se7A1T/rWLP4ZLrnwDIJwmt41qM1T
+ qJjpKcO0v+XpIbEks5k5BqE++d+gTDu6FVVQHj+xUFOGW5JL7aEydDQiGrVwtghXG8Pb
+ aYmKeyAsd7/9mwMeRd7mp2e4rh9PMmy3plc28NzDQlX6ieUudk8vSuupfGTe+wrDJEOn
+ U9QYQwkHjVePvkHEAO5COhoCKt2acz3bpUeimzBaIrxLVPaCMrpaPvZZUxDaeuHsCZ7F
+ S5ZA==
+X-Gm-Message-State: AOAM533pgAGwQ0XlwNVnX0bw61TKl4xX0Q9LoZrmBhFNLji3SSS2oKqc
+ +MkyP7SmPFlXDuealCu2afc=
+X-Google-Smtp-Source: ABdhPJwfMGalonVPiyuiJoodxn0puwyeRSk5YdLuUGklhS+nQIeEJP1cyMjiYJ0gQB2XMuyCUuWIpA==
+X-Received: by 2002:adf:d234:: with SMTP id k20mr7985105wrh.82.1621600048569; 
+ Fri, 21 May 2021 05:27:28 -0700 (PDT)
+Received: from [192.168.1.36] (31.red-83-51-215.dynamicip.rima-tde.net.
+ [83.51.215.31])
+ by smtp.gmail.com with ESMTPSA id r5sm6837733wmh.23.2021.05.21.05.27.27
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 21 May 2021 05:27:27 -0700 (PDT)
+Subject: Re: [PATCH v3 4/6] gitlab-ci: Add ccache in $PATH and display
+ statistics
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Thomas Huth <thuth@redhat.com>
+References: <20210519184549.2192728-1-f4bug@amsat.org>
+ <20210519184549.2192728-5-f4bug@amsat.org>
+ <5a77ade3-1a6c-2389-4a1c-2c7c2266f298@redhat.com>
+ <20c001a0-60ed-df08-b67d-884022e74d04@amsat.org>
+ <396e75d2-fe22-3054-fbee-d6de02339b2a@redhat.com>
+ <YKeQkqviHbxqcC6Y@redhat.com>
+ <afa421f3-337a-c488-c767-b73aaf3780b8@redhat.com>
+ <YKefRcVrr9Gtehlk@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <c7f01111-bada-49b1-ebce-03e6eff96aae@amsat.org>
+Date: Fri, 21 May 2021 14:27:26 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-References: <20210517163040.2308926-1-marcandre.lureau@redhat.com>
- <20210517163040.2308926-9-marcandre.lureau@redhat.com>
- <871ra05m6r.fsf@dusky.pond.sub.org>
-In-Reply-To: <871ra05m6r.fsf@dusky.pond.sub.org>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Fri, 21 May 2021 16:26:12 +0400
-Message-ID: <CAJ+F1C+st7399x7RYfW38DjQKWMFWhXq+C+x0QGkZnD23mDofw@mail.gmail.com>
-Subject: Re: [PATCH v4 8/9] qapi: make 'if' condition strings simple
- identifiers
-To: Markus Armbruster <armbru@redhat.com>
-Content-Type: multipart/alternative; boundary="00000000000009127a05c2d62b08"
-Received-SPF: pass client-ip=2a00:1450:4864:20::533;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-ed1-x533.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <YKefRcVrr9Gtehlk@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42b.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,192 +97,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: John Snow <jsnow@redhat.com>, QEMU <qemu-devel@nongnu.org>,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Kyle Evans <kevans@freebsd.org>, qemu-devel@nongnu.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Willian Rampazzo <willianr@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Warner Losh <imp@bsdimp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000009127a05c2d62b08
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 5/21/21 1:53 PM, Daniel P. Berrangé wrote:
+> On Fri, May 21, 2021 at 01:02:51PM +0200, Thomas Huth wrote:
+>> On 21/05/2021 12.50, Daniel P. Berrangé wrote:
+>>> On Fri, May 21, 2021 at 12:48:21PM +0200, Thomas Huth wrote:
+>>>> On 20/05/2021 13.27, Philippe Mathieu-Daudé wrote:
+>>>>> +Stefan/Daniel
+>>>>>
+>>>>> On 5/20/21 10:02 AM, Thomas Huth wrote:
+>>>>>> On 19/05/2021 20.45, Philippe Mathieu-Daudé wrote:
+>>>>>>> If a runner has ccache installed, use it and display statistics
+>>>>>>> at the end of the build.
+>>>>>>>
+>>>>>>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>>>>>>> ---
+>>>>>>>     .gitlab-ci.d/buildtest-template.yml | 5 +++++
+>>>>>>>     1 file changed, 5 insertions(+)
+>>>>>>>
+>>>>>>> diff --git a/.gitlab-ci.d/buildtest-template.yml
+>>>>>>> b/.gitlab-ci.d/buildtest-template.yml
+>>>>>>> index f284d7a0eec..a625c697d3b 100644
+>>>>>>> --- a/.gitlab-ci.d/buildtest-template.yml
+>>>>>>> +++ b/.gitlab-ci.d/buildtest-template.yml
+>>>>>>> @@ -6,13 +6,18 @@
+>>>>>>>           then
+>>>>>>>             JOBS=$(sysctl -n hw.ncpu)
+>>>>>>>             MAKE=gmake
+>>>>>>> +        PATH=/usr/local/libexec/ccache:$PATH
+>>>>>>>             ;
+>>>>>>>           else
+>>>>>>>             JOBS=$(expr $(nproc) + 1)
+>>>>>>>             MAKE=make
+>>>>>>> +        PATH=/usr/lib/ccache:/usr/lib64/ccache:$PATH
+>>>>>>
+>>>>>> That does not make sense for the shared runners yet. We first need
+>>>>>> something to enable the caching there - see my series "Use ccache in the
+>>>>>> gitlab-CI" from April (which is currently stalled unfortunately).
+>>>>>
+>>>>> TL;DR: I don't think we should restrict our templates to shared runners.
+>>>>
+>>>> I'm certainly not voting for restricting ourselves to only use shared
+>>>> runners here - but my concern is that this actually *slows* down the shared
+>>>> runners even more! (sorry, I should have elaborated on that in my previous
+>>>> mail already)
+>>>>
+>>>> When I was experimenting with ccache in the shared runners, I saw that the
+>>>> jobs are running even slower with ccache enabled as long as the cache is not
+>>>> populated yet. You only get a speedup afterwards. So if you add this now
+>>>> without also adding the possibility to store the cache persistently, the
+>>>> shared runners will try to populate the cache each time just to throw away
+>>>> the results afterwards again. Thus all the shared runners only get slower
+>>>> without any real benefit here.
+>>>>
+>>>> Thus we either need to get ccache working properly for the shared runners
+>>>> first, or you have to think of a different way of enabling ccache for the
+>>>> non-shared runners, so that it does not affect the shared runners
+>>>> negatively.
+>>>
+>>> Is there anything functional holding up your previous full cccache support
+>>> series from last month ? Or is it just lack of reviews ?
+>>
+>> It's basically the problems mentioned in the cover letter and Stefan's
+>> comment here:
+>>
+>>  https://lists.gnu.org/archive/html/qemu-devel/2021-04/msg02219.html
+> 
+> I'm not sure I understand why Stefan thinks gitlab's caching doesn't
+> benefit ccache. We add ccache for libvirt GitLab CI, and AFAIR it
+> sped up our builds significantly.
 
-On Fri, May 21, 2021 at 4:03 PM Markus Armbruster <armbru@redhat.com> wrote=
-:
+I think Stefan is referring to a comment I made, when using both
+shared runners and dedicated runners (what I'm currently testing)
+various jobs are stuck transferring artifacts/cache {FROM, TO}
+{shared, dedicated} runners at the same time, which is sub-optimal
+because it saturate the dedicated runner network link.
 
-> marcandre.lureau@redhat.com writes:
->
-> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> >
-> > Change the 'if' condition strings to be C-agnostic and be simple
-> > identifiers.
-> >
-> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> > Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-> > Tested-by: John Snow <jsnow@redhat.com>
-> > ---
->
-> [...]
->
-> > diff --git a/docs/devel/qapi-code-gen.txt b/docs/devel/qapi-code-gen.tx=
-t
-> > index c1cb6f987d..edaaf7ec40 100644
-> > --- a/docs/devel/qapi-code-gen.txt
-> > +++ b/docs/devel/qapi-code-gen.txt
-> > @@ -791,7 +791,7 @@ will then be guarded by #if STRING for each STRING
-> in the COND list.
-> >  Example: a conditional struct
-> >
-> >   { 'struct': 'IfStruct', 'data': { 'foo': 'int' },
-> > -   'if': ['defined(CONFIG_FOO)', 'defined(HAVE_BAR)'] }
-> > +   'if': ['CONFIG_FOO', 'HAVE_BAR'] }
-> >
-> >  gets its generated code guarded like this:
-> >
-> > @@ -810,7 +810,7 @@ member 'bar'
-> >
-> >  { 'struct': 'IfStruct', 'data':
-> >    { 'foo': 'int',
-> > -    'bar': { 'type': 'int', 'if': 'defined(IFCOND)'} } }
-> > +    'bar': { 'type': 'int', 'if': 'IFCOND'} } }
-> >
-> >  A union's discriminator may not be conditional.
-> >
-> > @@ -822,7 +822,7 @@ value 'bar'
-> >
-> >  { 'enum': 'IfEnum', 'data':
-> >    [ 'foo',
-> > -    { 'name' : 'bar', 'if': 'defined(IFCOND)' } ] }
-> > +    { 'name' : 'bar', 'if': 'IFCOND' } ] }
-> >
-> >  Likewise, features can be conditional.  This requires the longhand
-> >  form of FEATURE.
-> > @@ -832,7 +832,7 @@ Example: a struct with conditional feature
-> 'allow-negative-numbers'
-> >  { 'struct': 'TestType',
-> >    'data': { 'number': 'int' },
-> >    'features': [ { 'name': 'allow-negative-numbers',
-> > -                  'if': 'defined(IFCOND)' } ] }
-> > +                  'if': 'IFCOND' } ] }
-> >
-> >  Please note that you are responsible to ensure that the C code will
-> >  compile with an arbitrary combination of conditions, since the
->
-> At this point in your series, the documentation does not yet reflect the
-> code changes you've made.  You now add another change together with a
-> doc update.  Now the docs match *no* version of the code, past, present,
-> or future.  I find this confusing.  Swap the last two patches?
->
-> How do you feel about updating documentation before the code?
->
-
-I thought it would be simpler to update the doc in one go as the last patch
-of this series. But if you prefer intermediary doc update, I can do that.
-
---=20
-Marc-Andr=C3=A9 Lureau
-
---00000000000009127a05c2d62b08
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Fri, May 21, 2021 at 4:03 PM Marku=
-s Armbruster &lt;<a href=3D"mailto:armbru@redhat.com">armbru@redhat.com</a>=
-&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
-0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><a h=
-ref=3D"mailto:marcandre.lureau@redhat.com" target=3D"_blank">marcandre.lure=
-au@redhat.com</a> writes:<br>
-<br>
-&gt; From: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@re=
-dhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
-&gt;<br>
-&gt; Change the &#39;if&#39; condition strings to be C-agnostic and be simp=
-le<br>
-&gt; identifiers.<br>
-&gt;<br>
-&gt; Signed-off-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.=
-lureau@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br=
->
-&gt; Reviewed-by: Stefan Hajnoczi &lt;<a href=3D"mailto:stefanha@redhat.com=
-" target=3D"_blank">stefanha@redhat.com</a>&gt;<br>
-&gt; Tested-by: John Snow &lt;<a href=3D"mailto:jsnow@redhat.com" target=3D=
-"_blank">jsnow@redhat.com</a>&gt;<br>
-&gt; ---<br>
-<br>
-[...]<br>
-<br>
-&gt; diff --git a/docs/devel/qapi-code-gen.txt b/docs/devel/qapi-code-gen.t=
-xt<br>
-&gt; index c1cb6f987d..edaaf7ec40 100644<br>
-&gt; --- a/docs/devel/qapi-code-gen.txt<br>
-&gt; +++ b/docs/devel/qapi-code-gen.txt<br>
-&gt; @@ -791,7 +791,7 @@ will then be guarded by #if STRING for each STRING=
- in the COND list.<br>
-&gt;=C2=A0 Example: a conditional struct<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 =C2=A0{ &#39;struct&#39;: &#39;IfStruct&#39;, &#39;data&#39;: { =
-&#39;foo&#39;: &#39;int&#39; },<br>
-&gt; -=C2=A0 =C2=A0&#39;if&#39;: [&#39;defined(CONFIG_FOO)&#39;, &#39;defin=
-ed(HAVE_BAR)&#39;] }<br>
-&gt; +=C2=A0 =C2=A0&#39;if&#39;: [&#39;CONFIG_FOO&#39;, &#39;HAVE_BAR&#39;]=
- }<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 gets its generated code guarded like this:<br>
-&gt;=C2=A0 <br>
-&gt; @@ -810,7 +810,7 @@ member &#39;bar&#39;<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 { &#39;struct&#39;: &#39;IfStruct&#39;, &#39;data&#39;:<br>
-&gt;=C2=A0 =C2=A0 { &#39;foo&#39;: &#39;int&#39;,<br>
-&gt; -=C2=A0 =C2=A0 &#39;bar&#39;: { &#39;type&#39;: &#39;int&#39;, &#39;if=
-&#39;: &#39;defined(IFCOND)&#39;} } }<br>
-&gt; +=C2=A0 =C2=A0 &#39;bar&#39;: { &#39;type&#39;: &#39;int&#39;, &#39;if=
-&#39;: &#39;IFCOND&#39;} } }<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 A union&#39;s discriminator may not be conditional.<br>
-&gt;=C2=A0 <br>
-&gt; @@ -822,7 +822,7 @@ value &#39;bar&#39;<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 { &#39;enum&#39;: &#39;IfEnum&#39;, &#39;data&#39;:<br>
-&gt;=C2=A0 =C2=A0 [ &#39;foo&#39;,<br>
-&gt; -=C2=A0 =C2=A0 { &#39;name&#39; : &#39;bar&#39;, &#39;if&#39;: &#39;de=
-fined(IFCOND)&#39; } ] }<br>
-&gt; +=C2=A0 =C2=A0 { &#39;name&#39; : &#39;bar&#39;, &#39;if&#39;: &#39;IF=
-COND&#39; } ] }<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 Likewise, features can be conditional.=C2=A0 This requires the l=
-onghand<br>
-&gt;=C2=A0 form of FEATURE.<br>
-&gt; @@ -832,7 +832,7 @@ Example: a struct with conditional feature &#39;al=
-low-negative-numbers&#39;<br>
-&gt;=C2=A0 { &#39;struct&#39;: &#39;TestType&#39;,<br>
-&gt;=C2=A0 =C2=A0 &#39;data&#39;: { &#39;number&#39;: &#39;int&#39; },<br>
-&gt;=C2=A0 =C2=A0 &#39;features&#39;: [ { &#39;name&#39;: &#39;allow-negati=
-ve-numbers&#39;,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;i=
-f&#39;: &#39;defined(IFCOND)&#39; } ] }<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;i=
-f&#39;: &#39;IFCOND&#39; } ] }<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 Please note that you are responsible to ensure that the C code w=
-ill<br>
-&gt;=C2=A0 compile with an arbitrary combination of conditions, since the<b=
-r>
-<br>
-At this point in your series, the documentation does not yet reflect the<br=
->
-code changes you&#39;ve made.=C2=A0 You now add another change together wit=
-h a<br>
-doc update.=C2=A0 Now the docs match *no* version of the code, past, presen=
-t,<br>
-or future.=C2=A0 I find this confusing.=C2=A0 Swap the last two patches?<br=
->
-<br>
-How do you feel about updating documentation before the code?<br></blockquo=
-te><div><br></div><div>I thought it would be simpler to update the doc in o=
-ne go as the last patch of this series. But if you prefer intermediary doc =
-update, I can do that.</div></div><div class=3D"gmail_quote"><br></div><div=
- class=3D"gmail_quote">-- <br></div><div dir=3D"ltr" class=3D"gmail_signatu=
-re">Marc-Andr=C3=A9 Lureau<br></div></div>
-
---00000000000009127a05c2d62b08--
+If we want to use pool of runners to restrict transfer between
+runners from the same physical pool, then it because a maintenance
+headache.
 
