@@ -2,134 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D14D338C779
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 May 2021 15:08:20 +0200 (CEST)
-Received: from localhost ([::1]:49362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6032038C778
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 May 2021 15:07:48 +0200 (CEST)
+Received: from localhost ([::1]:46990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lk4t1-0007mu-V7
-	for lists+qemu-devel@lfdr.de; Fri, 21 May 2021 09:08:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55412)
+	id 1lk4sV-0006D1-Fk
+	for lists+qemu-devel@lfdr.de; Fri, 21 May 2021 09:07:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55998)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lk4pC-0001fO-S8; Fri, 21 May 2021 09:04:23 -0400
-Received: from mail-vi1eur05on2100.outbound.protection.outlook.com
- ([40.107.21.100]:41825 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lk4p9-00015w-LZ; Fri, 21 May 2021 09:04:22 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=M5pcP0HjeoQwQCkkpb16LIMl8r5rqlH0rwPYHjm57fEO7QLAIN8nKltXvKMvnEnNSpNfePmifPH8CDhqndhSYcW67zxNeb0A8NoDBF8eBZU9+vMx2WTdpwG18yFywbx+LFSwV48zvDlUgDNwDK3gEdYrfuSHQqNI5sVRNX/kAsRiMrD+OBPHIBLGj+HQhfz3vIJi7U0AwuteBnnGj2NIjjwXgp8R7KV5+KVCLkVWcXpwzj98vFGxIIHwLaqmTrU+xxrXYwiqvZmO0zQZ7gSnevUV0tj1NSAE03Vyc4bQbMBGhIn4aw7id3v+SK3/K2tXYh2n7vlXouG9SL1E1NMjtA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VAqImBHCN8IcuQ2TojvtVC1+qvN/P3YyHvSryXn5RzE=;
- b=G0zEg+4hcYXKJ+AWyXTo6+b58AamMAuYsY3TIQj3bSOQkpApwE4iovyJEVG1tdXgDFDe+AOCLb9O2/UX7Z+/kSJsmstaK9vcgiAXmzJASNoow4dG1d06cz7kj0UOpiHzTdCdlBtIs0kVAAgKAU9LLBNMc1H0yH4wu64z4jl80Uz1QlJkGKsR9q9agrHY/I5N/bHIFrSYb6+LMq7JS5XCPHhnDMtN7iFzCFZDJXclc1brixg8fi6OX1wQndMXDMVAur/LQX09VL4So/FmfpfXEgxcdpSXgYiSMjQfrKTOMZ4lkqU9Hwb422YDDfmiY/LgmXVEcteiJIa4YdgDtU1oaA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VAqImBHCN8IcuQ2TojvtVC1+qvN/P3YyHvSryXn5RzE=;
- b=cEmKXrDKFRJ5G7/rRnpbwVxOq37ap/Hk2iacKjHOTYFVzC9wNDViS1KOWfG7pW40tBNYrBux6XLZk4fJhQ2pcyWt/Qxf2tlXAGHMYB7lyMdTDih7leqWvRxXtPUw5U5t4xsb4wsGmT0jtA1Ugu+hgQO4tx+vwrmHUKiqWZZw+BY=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AS8PR08MB6839.eurprd08.prod.outlook.com (2603:10a6:20b:352::12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4129.25; Fri, 21 May
- 2021 13:04:16 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::b403:c1a9:6bb7:133]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::b403:c1a9:6bb7:133%8]) with mapi id 15.20.4150.025; Fri, 21 May 2021
- 13:04:16 +0000
-Subject: Re: [PULL 0/9] scripts/simplebench patches
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: Qemu-block <qemu-block@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
-References: <20210504090113.21311-1-vsementsov@virtuozzo.com>
- <CAFEAcA86heLwb5Z5fYDM=NO_LXqJg-WwF7+WLTaZAzA_jF+pjA@mail.gmail.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <e3700fdf-101e-c4e1-e118-1836fdd01b16@virtuozzo.com>
-Date: Fri, 21 May 2021 16:04:13 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.2
-In-Reply-To: <CAFEAcA86heLwb5Z5fYDM=NO_LXqJg-WwF7+WLTaZAzA_jF+pjA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [185.215.60.197]
-X-ClientProxiedBy: PR0P264CA0234.FRAP264.PROD.OUTLOOK.COM
- (2603:10a6:100:1e::30) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lk4r1-00049t-Go
+ for qemu-devel@nongnu.org; Fri, 21 May 2021 09:06:15 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:41833)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lk4qx-0001RT-E8
+ for qemu-devel@nongnu.org; Fri, 21 May 2021 09:06:15 -0400
+Received: by mail-wr1-x436.google.com with SMTP id d11so20993010wrw.8
+ for <qemu-devel@nongnu.org>; Fri, 21 May 2021 06:06:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=lSguVo/SiniPd/Dc3gbriaZ9Yhb83Bmle01IQxzetTM=;
+ b=UAdz3ovD3g3vFyNDB8O7mfcglQnWFG1pc153qqUCZi+aSvKBgtu0PmzxzOBzSL1K+S
+ JrzbB6oc/LEVjZOeoXjw4W2flOKkSHtjMRiwKEQbC6n2nlCpD4QjRErkylrlTs96SZpx
+ W7/4wZum7/bnSMJCSGIJHwyb7S55k9RDFBe6Zk2GGDhyVeQJ0t/jTRO/KaIFps5ZIn7y
+ zfp0bEqazEua73RCzJ9kiPf0VGLSKX0MEnm9nmEEDl5HdnN10NJMvfYRz2ZPAgDBJk4B
+ WmPdfCSFCkQxL5ckwp5lc3eRWB5TQ9hmJHeev2bWeZo9i0zB0RNq1HK8ivQEFYJlimsA
+ NzjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=lSguVo/SiniPd/Dc3gbriaZ9Yhb83Bmle01IQxzetTM=;
+ b=XWOXey6TXkMMd0+N+yn5eZs6SzzxLTeSQTJTS5wb8CFHXs6+IvZ2FRotqF5FC4xym6
+ ofdtrUuMe7rAj77qms4m4+vcqvpHd2+stRd9wau0YAXlYnY6QNQ0A0Ze6jllYxzuT8AO
+ H04bn4/hIONmNfofwyWjEPnrepAIHL79KIcrMfX0DRNOeVxSsz8Np60MkHd60LdFU+aM
+ qqK9LNwWBXARUtHI/lXwdWYdT25/zhCR9901q4q9BQTEtm5fHZsteiM6+7z6qVdcVNos
+ Y2SuBLZXhQ7ScildghlDO6LIj+nhIt4GIrilBN5DLULFzZRCb63h8hx4fKMDkTOsvXlZ
+ InCg==
+X-Gm-Message-State: AOAM532oROsK+q1zocQhEfioSCZHIuZXpuMfKNPJi7xtoz38T1LE6sJv
+ 5f95/xQy6TP0Tx6dN38/ZlhgaQ==
+X-Google-Smtp-Source: ABdhPJxggiGSk9MBl6fVD3QN7XAxgbKzHPFtsjqn09TOIueQDxYFAHk0FVIKO0V98aeu92Tk4du7lw==
+X-Received: by 2002:adf:fc44:: with SMTP id e4mr9542213wrs.23.1621602369954;
+ Fri, 21 May 2021 06:06:09 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id r5sm2084211wrw.96.2021.05.21.06.06.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 21 May 2021 06:06:09 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 5D1941FF7E;
+ Fri, 21 May 2021 14:06:08 +0100 (BST)
+References: <20210520195322.205691-1-willianr@redhat.com>
+ <20210520195322.205691-2-willianr@redhat.com>
+ <0f4a1c6c-ddba-ae57-2d55-f59c478dc9c5@redhat.com>
+ <943fcdae-168a-adf8-c82b-b1a88369441c@redhat.com>
+ <CAKJDGDZgnsFe9S967jjm1OMHPa25rb-tFmycpdC53WDK6DK1xA@mail.gmail.com>
+ <82f5ed3f-3047-bfa3-c7b2-d91300f393f8@redhat.com>
+User-agent: mu4e 1.5.13; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [RFC 1/1] acceptance tests: rename acceptance to system
+Date: Fri, 21 May 2021 14:05:35 +0100
+In-reply-to: <82f5ed3f-3047-bfa3-c7b2-d91300f393f8@redhat.com>
+Message-ID: <87pmxkb5j3.fsf@linaro.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.8] (185.215.60.197) by
- PR0P264CA0234.FRAP264.PROD.OUTLOOK.COM (2603:10a6:100:1e::30) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4150.23 via Frontend Transport; Fri, 21 May 2021 13:04:15 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: c94ac304-364c-48b7-c1e7-08d91c58efdd
-X-MS-TrafficTypeDiagnostic: AS8PR08MB6839:
-X-Microsoft-Antispam-PRVS: <AS8PR08MB6839FF4A564F77F038215E8AC1299@AS8PR08MB6839.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:327;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: RZVzvsuZeGR8zgDOMHWgSfFrlFcTZ0E5ZNvcvfA1SigRK20oclv+8p0DAdaJi906G1cildPELVvaazD/VQmMtByMmHya87ZyFhW96MRCx5E8uWuqbztZpfGHkQ+jtjrRHRB6VEHIV2C/PNG2/ZJzfn05XWJMfN+LO1A6JE5bbLL1IZKnHDSLr0fwyfrFBrW0kA4DagWLMU2OmKuvv9PTaYnLrsOaa2NqYnd57BhYTZe7lkdSBkDg8yzhJyTQXRXTblKMMjwBpYivh7n4CW2tySrLUBNFGua7MSVGPxRxiFxVQ/9yTXBWrr3QyipiXZR3xeqeN10PUc+ryy/zCCdfuOCToFwaV9IygOO9g2S/JAg57lD6xucVMhoJWJ10Mlss4sxupgobvoReYKWrcSge/f8rx/I9w9LXVhj6t1/OnuH+FACsE23WuPuhTunChnHNb5RBQGKPqtbp7GcOkhLdZYyOph67n1J9gecT2cO6c+AmTB2WiT6N+4DOlKAaVbqbSN68m3yasIB6hgPEEAmfNnqJlMe61KA2Kawr2xjhFT3/MTIvp8R+tdVpYCFTGHJC4WSJMMtsfLMh2Xwr72O5c7SBwBIade8SNGKTmxk41Ytfv8lqxiw/qqwz2HYZ7VznTPXKkxPfLhGlRcAUYzfo6IVD62LyKKdrmYkOQlztGg3RCVX9rNT89uY22xv07m2vxTLqfva4skNHncoSm7RmT3TUDF537cevb5/RBBUnVRqM66cQDDuiS6MkH2C5idmbdlrgs/cYk/0O8/vdcwi7tCsBXmo8KlH/e8MwFIdZHrqJHGq9LgQjUNcus8ZEZzYvHwKxj93zNajmH6JbMMAETw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(376002)(346002)(39840400004)(366004)(136003)(396003)(36756003)(66946007)(86362001)(966005)(66476007)(5660300002)(31696002)(52116002)(8936002)(478600001)(66556008)(26005)(8676002)(31686004)(4326008)(316002)(2906002)(16526019)(16576012)(956004)(6916009)(6486002)(186003)(38350700002)(2616005)(54906003)(38100700002)(83380400001)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?dGU1bVJMVkFUT3lKYlV0ekFBM0FwTFVFcTkwQ0Q4bDdISlgwejYwQWFFZUt4?=
- =?utf-8?B?cEdhSFdhZTRwSUlJeUVkcHZPTDBtVVpwUUsyZ2oyQWsrYlNqSHlqYU55Vyti?=
- =?utf-8?B?M1JOQlpxSEkydERNVVJCSzNKWk5vdjVVTmZRMkR1SmV0S3B1dUxuVFlycVhZ?=
- =?utf-8?B?MVJFaWdyZGtxYVVJY2hjRzJ6cis1bmJYZVhORU1IUFUxR1BMcmdqRWVyejdN?=
- =?utf-8?B?c1ZQY2tONmhpcXMxR0EwbHNEUGRSWG1nMFcyMUxVUVFQM0R0UktSOW5XL2Rx?=
- =?utf-8?B?bEMvWUdxUlVXL3dxTjBzOTJuNlZlTyt4Qy9OTEV3b01yeGx3ak91STZKQXVT?=
- =?utf-8?B?b0NSajA3TWpleVNobHIxTXpsM0xabm1oajM4dmZYNkVpZ1dYd2poZnh3T015?=
- =?utf-8?B?RXVoWXlELzRCcXkyVlhzVUNHSlVUdWcxb3RVQ1hLS2VhNUEya0dyUkxZMms4?=
- =?utf-8?B?d1V1U2VVNzBub0FhdjdMUmM0RjBRN1ljWGY3YzU4eGx2NlBBTXBOWnpCWm5x?=
- =?utf-8?B?T2tpd3dIYzJLTXVsVldSVkllZ2UzQ2xUUHU4aTEyVWhSaEtlSnl6Qmc0MUhx?=
- =?utf-8?B?S29kWlMvdWRHRWNxWTNRQ3BudkY0OFZWeVdiZmJsZVExaGJLaVlVVlBWeU5Y?=
- =?utf-8?B?Q0pBREVJZTY5U1VqMEpRaXZ6eC9oajVJeGxZTlZEVTJaREhXbC9aYVhiUXY0?=
- =?utf-8?B?K3doNG9CNGYvMnRkYmhjVVZia3EvMXVWcU5hRXJMWlBlRGhhNzIwT2I3aThp?=
- =?utf-8?B?TXNmZGx4S09aRDdrN3lCYVpPWVFjVys1WDVvS3ZwMExWV1dtOW5LQVQ4eDEw?=
- =?utf-8?B?Z0hxRzNQN2Jxb1lvK0tBa2tsRGMyTXFSRXI5THhMcllOa0FVV1gyZ3hhQ09M?=
- =?utf-8?B?b01iZ2hDZ3JhSHA5azNkRmFITEpRVVNPMTMxUTAvbFdnYWJKbGEvRXFsd3ls?=
- =?utf-8?B?RWxkNE9VN0ExWWRrTTZBSFV5NnpoZ0ltNGxIOE1SRC9MZDFqSUt5Q2FWeTRl?=
- =?utf-8?B?MWp0OG1qck9Uc3MzZFIyNVQ3TFJNR29zaXZKNXM0TzZ2SmlGUTdtdVdyNTI0?=
- =?utf-8?B?TENVSy9CbVYrbkh2U0JyQ2pjeE1QSU5nQ2trUVl6SlNHRkZqR0pTekRpSE9o?=
- =?utf-8?B?Z0NlZHBRWnR1ckg3VW1JazFmL25ScDk5bFRVa1BEc1ZZQ0Vlbmc3clhLZ24y?=
- =?utf-8?B?LzNKWHFMNTBFenhVM2ZxaGFQb20rblJRWG9leWd3dnFGSWlHSElUSG8zQ0ww?=
- =?utf-8?B?WWRYRWdIc0pCZXJDQUsvUFk3Q2p6L3RCakp3ODlMWC9NN1JydTBBbDBPcHZR?=
- =?utf-8?B?TFRWb1lmVS95VE9vREY4aytZZnIrMVN2dUdZQXhTSVk3RHk0Z0RqdmdORFhP?=
- =?utf-8?B?bk4ybTFzUXhxYnA0WHlxcnB3M2t4bGN4RURCRlpiMXN5K1RLZVU1S1BBcits?=
- =?utf-8?B?L3pLYWdFWllqaE5oY1h0WUVWcmZEd1o4bXVKT3lPR04rOU5Sc2F5VnI5MHBv?=
- =?utf-8?B?VkxrU1RkN1ZrejZ2OVpXZk13Y091ZmlVcG1zbCt0TGJvY0x4V3JRMmJtNHJl?=
- =?utf-8?B?WTUvaWl2cW45RDVsWHJxdzhtMG4wRGZOK1lETkJhMnFDSGU3N3BLWHE0MENV?=
- =?utf-8?B?L2xCLy9TaG5FZzlNRGU3ZjNLZXBhRGN1OWlLWDAzcHVwbVRLQVJJcmx2ai9Z?=
- =?utf-8?B?cmc0OHc5clN0cHhvc3RVZFBoVDZGdkRTc3Y4Vng3OWg0eDhsT0NMV0o4bHhG?=
- =?utf-8?Q?Lyyn1VfOBAPJScpPCIfn/07azkiVBtPdOwq4s60?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c94ac304-364c-48b7-c1e7-08d91c58efdd
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 May 2021 13:04:15.9460 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: V1ebZYVs5g8Ml7TNze/gEG2nLr0rHd4CQop//qror+UdB0HacaCNs+AiX4A/t1wVMgQ8JIc/LGtcqP4Etztxza1zsEriL+jpMa/P8kzGFfo=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6839
-Received-SPF: pass client-ip=40.107.21.100;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR05-VI1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x436.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -143,48 +91,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-devel <qemu-devel@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Niek Linnenbank <nieklinnenbank@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Michael Rolnik <mrolnik@gmail.com>, Willian Rampazzo <wrampazz@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Dau?= =?utf-8?Q?d=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-21.05.2021 15:45, Peter Maydell wrote:
-> On Tue, 4 May 2021 at 10:01, Vladimir Sementsov-Ogievskiy
-> <vsementsov@virtuozzo.com> wrote:
->>
->> The following changes since commit 53c5433e84e8935abed8e91d4a2eb813168a0ecf:
->>
->>    Merge remote-tracking branch 'remotes/rth-gitlab/tags/pull-tcg-20210501' into staging (2021-05-02 12:02:46 +0100)
->>
->> are available in the Git repository at:
->>
->>    https://src.openvz.org/scm/~vsementsov/qemu.git tags/pull-simplebench-2021-05-04
->>
->> for you to fetch changes up to e34bd02694026722410b80cee02ab7f33f893e9b:
->>
->>    MAINTAINERS: update Benchmark util: add git tree (2021-05-04 11:37:26 +0300)
->>
->> ----------------------------------------------------------------
->> scripts/simplebench improvements for 2021-05-04
->>
->> ----------------------------------------------------------------
->> Vladimir Sementsov-Ogievskiy (9):
->>        simplebench: bench_one(): add slow_limit argument
->>        simplebench: bench_one(): support count=1
->>        simplebench/bench-backup: add --compressed option
->>        simplebench/bench-backup: add target-cache argument
->>        simplebench/bench_block_job: handle error in BLOCK_JOB_COMPLETED
->>        simplebench/bench-backup: support qcow2 source files
->>        simplebench/bench-backup: add --count and --no-initial-run
->>        simplebench/bench-backup: add --drop-caches argument
->>        MAINTAINERS: update Benchmark util: add git tree
-> 
-> 
-> 
-> Applied, thanks.
-> 
 
-Thanks a lot for your time!
+Thomas Huth <thuth@redhat.com> writes:
 
--- 
-Best regards,
-Vladimir
+> On 21/05/2021 14.28, Willian Rampazzo wrote:
+>> On Fri, May 21, 2021 at 4:16 AM Thomas Huth <thuth@redhat.com> wrote:
+> [...]
+>>> Alternatively, what about renaming the "acceptance" tests to "validatio=
+n"
+>>> instead? That word does not have a duplicated definition in the context=
+ of
+>>> QEMU yet, so I think it would be less confusing.
+>> While at the beginning of your reply, I started thinking if
+>> "validation" would cause less confusion for the QEMU project. Although
+>> validation testing is a broader concept inside the Verification &
+>> Validation process, encompassing unit testing, functional testing,
+>> integration testing, system testing, and acceptance testing, it may be
+>> an option for the QEMU project.
+>> While system testing would be the correct terminology to use, if it
+>> causes more confusion, using a less strict terminology, like
+>> validation testing, is valid, in my opinion.
+>
+> <semi-homorous-friday-bikeshedding>
+> Or we could come up with a new, artificial name instead (like
+> "qtests"). It certainly need a "q" in the name. For example what
+> about:
+>
+> - avoqado
+> - valiqation
+> - aqueptance
+> - inteqration
+
+make check-quixotic?
+
+>
+> ?
+> </semi-homorous-friday-bikeshedding>
+>
+>  Thomas
+
+
+--=20
+Alex Benn=C3=A9e
 
