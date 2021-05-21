@@ -2,55 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3732138BCDF
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 May 2021 05:11:11 +0200 (CEST)
-Received: from localhost ([::1]:54420 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAA9D38BCFD
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 May 2021 05:32:03 +0200 (CEST)
+Received: from localhost ([::1]:59028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljvZ8-0004g3-Ai
-	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 23:11:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56772)
+	id 1ljvtK-0000MY-Bs
+	for lists+qemu-devel@lfdr.de; Thu, 20 May 2021 23:32:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60660)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1ljvYC-0003ro-Jn; Thu, 20 May 2021 23:10:12 -0400
-Resent-Date: Thu, 20 May 2021 23:10:12 -0400
-Resent-Message-Id: <E1ljvYC-0003ro-Jn@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21305)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1ljvY9-0003AK-JM; Thu, 20 May 2021 23:10:12 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1621566593; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=N3g+8YgNahR6NHpNySWPm6t8EHQbsgrmFx6wEEOr+hKZw4LkP2DUCBhsRqs6HaN6VwHYBdMwA7BG04VONpz9wS9yWLbNTgVNPnofQ12ntrpNYNCNV3FJ0jff33D9rq2O9tb9gP2WqAxDkjA5vOLd0a/KxmTkRSXVtKiKfHvpDwI=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1621566593;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=tFSwmScP3cTAEMu8IhWxn6LORL2yiIejJi7PLtX6dQ4=; 
- b=IcWQ3RTuXZsd6nuKfE4b31di+BVX1He+y4i+C0EGudqFuMsD9aYW9FsrAuw5G8un4K0ywbrb9bgOQtowskjoFBT1QKOsQDlmKV+nbuFU3nfQQglZvN/f11UXHsjYFWkD9Paxv1gm40X/scrdygynVqAYpL5GPkCn7mcg9jomxGw=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 162156659123063.374848144303314;
- Thu, 20 May 2021 20:09:51 -0700 (PDT)
-In-Reply-To: <20210521030146.2831663-1-iii@linux.ibm.com>
-Subject: Re: [PATCH 0/2] Fix SIGILL psw.addr reporting
-Message-ID: <162156658953.13945.10893118825055538744@0addf061776e>
+ (Exim 4.90_1) (envelope-from <maobibo@loongson.cn>)
+ id 1ljvsR-00087K-DW
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 23:31:07 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:42924 helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <maobibo@loongson.cn>) id 1ljvsO-0003Gc-QN
+ for qemu-devel@nongnu.org; Thu, 20 May 2021 23:31:07 -0400
+Received: from [10.20.42.25] (unknown [10.20.42.25])
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dx_0BtKadgYgkCAA--.799S3;
+ Fri, 21 May 2021 11:30:53 +0800 (CST)
+Subject: Re: [PATCH v2] hw/display/qxl: Set pci rom address aligned with page
+ size
+From: maobibo <maobibo@loongson.cn>
+To: Gerd Hoffmann <kraxel@redhat.com>
+References: <1621340448-31617-1-git-send-email-maobibo@loongson.cn>
+Message-ID: <f048ea2b-b46c-1f79-bf07-da4a1767e7a6@loongson.cn>
+Date: Fri, 21 May 2021 11:30:53 +0800
+User-Agent: Mozilla/5.0 (X11; Linux mips64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: iii@linux.ibm.com
-Date: Thu, 20 May 2021 20:09:51 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+In-Reply-To: <1621340448-31617-1-git-send-email-maobibo@loongson.cn>
+Content-Type: text/plain; charset=gbk
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf9Dx_0BtKadgYgkCAA--.799S3
+X-Coremail-Antispam: 1UD129KBjvdXoWrKr43ArWrXrWftF48KFWUCFg_yoWDtwb_Ga
+ 4j9wsxKw1UX3ZYvF4kAw1IgF4rt34kGa18XFy7X3W5tryjyan5AF10gwnxWr4qvrZFk3y5
+ ua1kC390yrZxZjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJTRUUUbxxYjsxI4VWkCwAYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I
+ 6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM2
+ 8CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0
+ cI8IcVCY1x0267AKxVWxJVW8Jr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4
+ A2jsIEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IE
+ w4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMc
+ vjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCYjI0SjxkI62AI1cAE67vIY487MxkI
+ ecxEwVCm-wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F4
+ 0E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jrv_JF1l
+ IxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxV
+ AFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6rW3Jr0E3s1lIxAIcVC2z280aVAFwI0_
+ Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjxUcD
+ DGUUUUU
+X-CM-SenderInfo: xpdruxter6z05rqj20fqof0/
+Received-SPF: pass client-ip=114.242.206.163; envelope-from=maobibo@loongson.cn;
+ helo=loongson.cn
+X-Spam_score_int: 5
+X-Spam_score: 0.5
+X-Spam_bar: /
+X-Spam_report: (0.5 / 5.0 requ) BAYES_00=-1.9, MIME_CHARSET_FARAWAY=2.45,
+ NICE_REPLY_A=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -64,46 +73,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: iii@linux.ibm.com, david@redhat.com, richard.henderson@linaro.org,
- qemu-devel@nongnu.org, laurent@vivier.eu, borntraeger@de.ibm.com,
- qemu-s390x@nongnu.org, krebbel@linux.ibm.com
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDUyMTAzMDE0Ni4yODMx
-NjYzLTEtaWlpQGxpbnV4LmlibS5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMgdG8gaGF2
-ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IKbW9yZSBp
-bmZvcm1hdGlvbjoKClR5cGU6IHNlcmllcwpNZXNzYWdlLWlkOiAyMDIxMDUyMTAzMDE0Ni4yODMx
-NjYzLTEtaWlpQGxpbnV4LmlibS5jb20KU3ViamVjdDogW1BBVENIIDAvMl0gRml4IFNJR0lMTCBw
-c3cuYWRkciByZXBvcnRpbmcKCj09PSBURVNUIFNDUklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gK
-Z2l0IHJldi1wYXJzZSBiYXNlID4gL2Rldi9udWxsIHx8IGV4aXQgMApnaXQgY29uZmlnIC0tbG9j
-YWwgZGlmZi5yZW5hbWVsaW1pdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZXMgVHJ1
-ZQpnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5hbGdvcml0aG0gaGlzdG9ncmFtCi4vc2NyaXB0cy9j
-aGVja3BhdGNoLnBsIC0tbWFpbGJhY2sgYmFzZS4uCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgpV
-cGRhdGluZyAzYzhjZjVhOWMyMWZmODc4MjE2NGQxZGVmN2Y0NGJkODg4NzEzMzg0CkZyb20gaHR0
-cHM6Ly9naXRodWIuY29tL3BhdGNoZXctcHJvamVjdC9xZW11CiAqIFtuZXcgdGFnXSAgICAgICAg
-IHBhdGNoZXcvMjAyMTA1MjEwMzAxNDYuMjgzMTY2My0xLWlpaUBsaW51eC5pYm0uY29tIC0+IHBh
-dGNoZXcvMjAyMTA1MjEwMzAxNDYuMjgzMTY2My0xLWlpaUBsaW51eC5pYm0uY29tClN3aXRjaGVk
-IHRvIGEgbmV3IGJyYW5jaCAndGVzdCcKMDY5ZDAyYiB0ZXN0cy90Y2cvczM5MHg6IFRlc3QgU0lH
-SUxMIGhhbmRsaW5nCmE4Njk2NDMgdGFyZ2V0L3MzOTB4OiBGaXggU0lHSUxMIHBzdy5hZGRyIHJl
-cG9ydGluZwoKPT09IE9VVFBVVCBCRUdJTiA9PT0KMS8yIENoZWNraW5nIGNvbW1pdCBhODY5NjQz
-NjRkNGQgKHRhcmdldC9zMzkweDogRml4IFNJR0lMTCBwc3cuYWRkciByZXBvcnRpbmcpCjIvMiBD
-aGVja2luZyBjb21taXQgMDY5ZDAyYjBlZGYyICh0ZXN0cy90Y2cvczM5MHg6IFRlc3QgU0lHSUxM
-IGhhbmRsaW5nKQpXQVJOSU5HOiBhZGRlZCwgbW92ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBkb2Vz
-IE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/CiMyNjogCm5ldyBmaWxlIG1vZGUgMTAwNjQ0CgpF
-UlJPUjogZXh0ZXJucyBzaG91bGQgYmUgYXZvaWRlZCBpbiAuYyBmaWxlcwojMzc6IEZJTEU6IHRl
-c3RzL3RjZy9zMzkweC9zaWdpbGwuYzo3OgorZXh0ZXJuIGNoYXIgZXhwZWN0ZWRfc2lfYWRkcltd
-OwoKRVJST1I6IGV4dGVybnMgc2hvdWxkIGJlIGF2b2lkZWQgaW4gLmMgZmlsZXMKIzM4OiBGSUxF
-OiB0ZXN0cy90Y2cvczM5MHgvc2lnaWxsLmM6ODoKK2V4dGVybiBjaGFyIGV4cGVjdGVkX3Bzd19h
-ZGRyW107Cgp0b3RhbDogMiBlcnJvcnMsIDEgd2FybmluZ3MsIDQ1IGxpbmVzIGNoZWNrZWQKClBh
-dGNoIDIvMiBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhl
-c2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWlu
-ZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoKPT09IE9VVFBVVCBFTkQgPT09CgpU
-ZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFi
-bGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAyMTA1MjEwMzAxNDYuMjgzMTY2My0xLWlp
-aUBsaW51eC5pYm0uY29tL3Rlc3RpbmcuY2hlY2twYXRjaC8/dHlwZT1tZXNzYWdlLgotLS0KRW1h
-aWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9y
-Zy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNv
-bQ==
+ping.
+
+or there is other suggestion so that qxl can be used on system
+with 16K pagesize.
+
+
+regards
+bibo, mao
+
+在 2021年05月18日 20:20, Bibo Mao 写道:
+> From: maobibo <maobibo@loongson.cn>
+> 
+> On some MIPS system, page size is 16K, and qxl vga device can
+> be used for VM in kvm mode. Qxl pci rom size is set 8K fixed,
+> smaller than 16K page size on host system, it fails to be
+> added into memslots in kvm mode where memory_size and GPA
+> are required to align with page size.
+> 
+> This patch fixes this issue.
+> 
+> Signed-off-by: Bibo Mao <maobibo@loongson.cn>
+> ---
+>  hw/display/qxl.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/hw/display/qxl.c b/hw/display/qxl.c
+> index 2ba7563..6e1f8ff 100644
+> --- a/hw/display/qxl.c
+> +++ b/hw/display/qxl.c
+> @@ -321,7 +321,7 @@ static ram_addr_t qxl_rom_size(void)
+>  #define QXL_ROM_SZ 8192
+>  
+>      QEMU_BUILD_BUG_ON(QXL_REQUIRED_SZ > QXL_ROM_SZ);
+> -    return QXL_ROM_SZ;
+> +    return QEMU_ALIGN_UP(QXL_REQUIRED_SZ, qemu_real_host_page_size);
+>  }
+>  
+>  static void init_qxl_rom(PCIQXLDevice *d)
+> 
+
 
