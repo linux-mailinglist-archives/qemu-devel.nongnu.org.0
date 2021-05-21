@@ -2,80 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56D9838C045
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 May 2021 09:03:07 +0200 (CEST)
-Received: from localhost ([::1]:56576 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D39B38C066
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 May 2021 09:08:09 +0200 (CEST)
+Received: from localhost ([::1]:58860 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljzBa-0005Bb-1a
-	for lists+qemu-devel@lfdr.de; Fri, 21 May 2021 03:03:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39272)
+	id 1ljzGR-0006uQ-TM
+	for lists+qemu-devel@lfdr.de; Fri, 21 May 2021 03:08:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40152)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1ljz9n-0004Cm-Lz
- for qemu-devel@nongnu.org; Fri, 21 May 2021 03:01:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27426)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ljzEf-00068t-JL
+ for qemu-devel@nongnu.org; Fri, 21 May 2021 03:06:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24688)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1ljz9f-0002i3-KZ
- for qemu-devel@nongnu.org; Fri, 21 May 2021 03:01:14 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ljzE0-0006MM-Cb
+ for qemu-devel@nongnu.org; Fri, 21 May 2021 03:06:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621580461;
+ s=mimecast20190719; t=1621580734;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=a6JphcM4pmYd1CYNQvcEVszU/hBFdDcYcq+GnyPlxFY=;
- b=PRcBlISCXYhsEONPIWf8g2nw263C3UmGUVyrJEt0nlf1OcrfcNDNS2ebxIwvkIr7ePLih+
- pX8f6cSLgEb0ib3heeSE3VUh/lKlpM7nW97kK3Gvev7Lx8WFkQBQHpqL7fu0HqiDeyo90t
- SJ79DZYlGFeNxe7PQOpfHB0CNp8NLX8=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-170-9MVYbwByPD6-LMhZTlYfdw-1; Fri, 21 May 2021 03:00:58 -0400
-X-MC-Unique: 9MVYbwByPD6-LMhZTlYfdw-1
-Received: by mail-ed1-f70.google.com with SMTP id
- b8-20020a05640202c8b029038f1782a77eso2378283edx.15
- for <qemu-devel@nongnu.org>; Fri, 21 May 2021 00:00:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=a6JphcM4pmYd1CYNQvcEVszU/hBFdDcYcq+GnyPlxFY=;
- b=lGyjkx6Cv7PZ1Ce7gEQlDzeLwmq+y2gxfsdm3XMWYfX3APLngukYxgxRfSFzpc3yko
- JlJUYDJjE0lINXQ/SkXYSw2YU0lGzONg+Vg9ELmR8MJ3AdcGbkBzZrx5DHu80jQci+kU
- XiDxwl9XbqibchCPCGtDRNxFLCC2p2IffpFNX2CTEfSTdbHtawsAgsj1nsYRYF0uCCFi
- j37cg34bqb/3gFXki5+KVdHIN0BHw/UjQmzqftgHfB18OfTUVCh1B4iah+cNfkK0r8YF
- AojDnQ2rIkqT91aAtrxC30yG8fT5akJALM8HS2K1WqF88hZ/OThN7vZdykZuynwOAOpz
- Y8Nw==
-X-Gm-Message-State: AOAM531y4hMAxSSRiIdm9M/WPtQ+qkSurb+FV0exLhReSn90cbyQJEwf
- ratKTFIrX2GrnqIWANhRTh+vguCRupsGDysyEhU+beXH7dOVmapx2hesXV1wNq2/l5IRBRVVOQ7
- Y8NUqFrAMSj0CgSE=
-X-Received: by 2002:a05:6402:1345:: with SMTP id
- y5mr9266938edw.107.1621580457807; 
- Fri, 21 May 2021 00:00:57 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyfcX+3k4/88gNC1QDi8wkOYCD4B1EiL/GthPczJ9gWuT9cqcjkJFAq1i6R7WXE8bUh32FkHA==
-X-Received: by 2002:a05:6402:1345:: with SMTP id
- y5mr9266924edw.107.1621580457663; 
- Fri, 21 May 2021 00:00:57 -0700 (PDT)
-Received: from steredhat (host-79-18-148-79.retail.telecomitalia.it.
- [79.18.148.79])
- by smtp.gmail.com with ESMTPSA id d11sm2828022ejr.58.2021.05.21.00.00.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 May 2021 00:00:57 -0700 (PDT)
-Date: Fri, 21 May 2021 09:00:55 +0200
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Ilya Dryomov <idryomov@gmail.com>
-Subject: Re: [PATCH] MAINTAINERS: update block/rbd.c maintainer
-Message-ID: <20210521070055.bntp5jvljq34rtmt@steredhat>
-References: <20210519112513.19694-1-idryomov@gmail.com>
+ bh=dPQxpukW2+dqaKmQ+Ow8IEDSk+DcGpUHsknip9l8bKM=;
+ b=hhdhskNQV7wM5nC8SjHFZykxGEXkmQ9HyyY2KSdeQdicHhPCQxbQlQSHWo5jGpVr3inVJj
+ m+DMKR6OAxDKDaJxGAaqVwi4LjlyR+8GBK0hB9HpBjFNEYl9LC6YEDjHfCaujt9I3kBRq1
+ 17RDA3gfA2cE4b1Rm5EpMyn5fjCfLKg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-497-tPPH6gNtO8adurmJFFJBbw-1; Fri, 21 May 2021 03:05:32 -0400
+X-MC-Unique: tPPH6gNtO8adurmJFFJBbw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5D77C801B14;
+ Fri, 21 May 2021 07:05:31 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-41.ams2.redhat.com
+ [10.36.112.41])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4BBCD5D76F;
+ Fri, 21 May 2021 07:05:17 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id D84CD113865F; Fri, 21 May 2021 09:05:15 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Eugenio =?utf-8?Q?P=C3=A9rez?= <eperezma@redhat.com>
+Subject: Re: [RFC v3 04/29] vhost: Add x-vhost-enable-shadow-vq qmp
+References: <20210519162903.1172366-1-eperezma@redhat.com>
+ <20210519162903.1172366-5-eperezma@redhat.com>
+Date: Fri, 21 May 2021 09:05:15 +0200
+In-Reply-To: <20210519162903.1172366-5-eperezma@redhat.com> ("Eugenio
+ =?utf-8?Q?P=C3=A9rez=22's?=
+ message of "Wed, 19 May 2021 18:28:38 +0200")
+Message-ID: <87y2c8pnx0.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20210519112513.19694-1-idryomov@gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=sgarzare@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -83,7 +70,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.39,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,41 +83,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, qemu-devel@nongnu.org, qemu-block@nongnu.org,
- mreitz@redhat.com
+Cc: Parav Pandit <parav@mellanox.com>, Juan Quintela <quintela@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, "Michael S.
+ Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ virtualization@lists.linux-foundation.org,
+ Harpreet Singh Anand <hanand@xilinx.com>, Xiao W Wang <xiao.w.wang@intel.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Eli Cohen <eli@mellanox.com>,
+ Michael Lilja <ml@napatech.com>, Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, May 19, 2021 at 01:25:13PM +0200, Ilya Dryomov wrote:
->Jason has moved on from working on RBD and Ceph.  I'm taking over
->his role upstream.
->
->Signed-off-by: Ilya Dryomov <idryomov@gmail.com>
->---
-> MAINTAINERS | 2 +-
-> 1 file changed, 1 insertion(+), 1 deletion(-)
->
->diff --git a/MAINTAINERS b/MAINTAINERS
->index eab178aeee5e..3e77ac9030fa 100644
->--- a/MAINTAINERS
->+++ b/MAINTAINERS
->@@ -3042,7 +3042,7 @@ S: Supported
-> F: block/vmdk.c
->
-> RBD
->-M: Jason Dillaman <dillaman@redhat.com>
->+M: Ilya Dryomov <idryomov@gmail.com>
-> L: qemu-block@nongnu.org
-> S: Supported
-> F: block/rbd.c
->-- 
->2.19.2
->
->
+Eugenio P=C3=A9rez <eperezma@redhat.com> writes:
 
-Acked-by: Stefano Garzarella <sgarzare@redhat.com>
+> Command to enable shadow virtqueue looks like:
+>
+> { "execute": "x-vhost-enable-shadow-vq",
+>   "arguments": { "name": "dev0", "enable": true } }
+>
+> Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> ---
+>  qapi/net.json     | 22 ++++++++++++++++++++++
+>  hw/virtio/vhost.c |  6 ++++++
+>  2 files changed, 28 insertions(+)
+>
+> diff --git a/qapi/net.json b/qapi/net.json
+> index c31748c87f..660feafdd2 100644
+> --- a/qapi/net.json
+> +++ b/qapi/net.json
+> @@ -77,6 +77,28 @@
+>  ##
+>  { 'command': 'netdev_del', 'data': {'id': 'str'} }
+> =20
+> +##
+> +# @x-vhost-enable-shadow-vq:
+> +#
+> +# Use vhost shadow virtqueue.
+> +#
+> +# @name: the device name of the VirtIO device
+> +#
+> +# @enable: true to use he alternate shadow VQ notification path
 
-Thanks for taking this!
-Stefano
+Typo "he".
+
+What's a "notification path", and why should I care?
+
+Maybe
+
+   # @enable: Enable alternate shadow VQ notification
+
+> +#
+> +# Returns: Error if failure, or 'no error' for success. Not found if vho=
+st is not enabled.
+
+This is confusing.  What do you mean by "Not found"?
+
+If you mean DeviceNotFound:
+
+1. Not actually true: qmp_x_vhost_enable_shadow_vq() always fails with
+GenericError.  Perhaps later patches will change that.
+
+2. Do you really need to distinguish "vhost is not enabled" from other
+errors?
+
+> +#
+> +# Since: 6.1
+> +#
+> +# Example:
+> +#
+> +# -> { "execute": "x-vhost-enable-shadow-vq", "arguments": { "name": "vi=
+rtio-net", "enable": false } }
+
+Please break the long line, e.g. like this:
+
+   # -> { "execute": "x-vhost-enable-shadow-vq",
+   #      "arguments": { "name": "virtio-net", "enable": false } }
+
+We normally show output in examples, too.
+
+> +#
+> +##
+> +{ 'command': 'x-vhost-enable-shadow-vq',
+> +  'data': {'name': 'str', 'enable': 'bool'},
+> +  'if': 'defined(CONFIG_VHOST_KERNEL)' }
+> +
+>  ##
+>  # @NetLegacyNicOptions:
+>  #
+> diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
+> index 40f9f64ebd..c4c1f80661 100644
+> --- a/hw/virtio/vhost.c
+> +++ b/hw/virtio/vhost.c
+> @@ -15,6 +15,7 @@
+> =20
+>  #include "qemu/osdep.h"
+>  #include "qapi/error.h"
+> +#include "qapi/qapi-commands-net.h"
+>  #include "hw/virtio/vhost.h"
+>  #include "qemu/atomic.h"
+>  #include "qemu/range.h"
+> @@ -1831,3 +1832,8 @@ int vhost_net_set_backend(struct vhost_dev *hdev,
+> =20
+>      return -1;
+>  }
+> +
+> +void qmp_x_vhost_enable_shadow_vq(const char *name, bool enable, Error *=
+*errp)
+> +{
+> +    error_setg(errp, "Shadow virtqueue still not implemented");
+> +}
 
 
