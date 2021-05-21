@@ -2,85 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E32E238C08E
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 May 2021 09:18:35 +0200 (CEST)
-Received: from localhost ([::1]:41448 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8105038C08D
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 May 2021 09:18:28 +0200 (CEST)
+Received: from localhost ([::1]:43346 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ljzQY-00064s-SQ
-	for lists+qemu-devel@lfdr.de; Fri, 21 May 2021 03:18:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41628)
+	id 1ljzQR-0007M9-AS
+	for lists+qemu-devel@lfdr.de; Fri, 21 May 2021 03:18:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42026)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1ljzMD-0004zr-5y; Fri, 21 May 2021 03:14:05 -0400
-Received: from wout1-smtp.messagingengine.com ([64.147.123.24]:40945)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ljzOy-0006Dd-Lq
+ for qemu-devel@nongnu.org; Fri, 21 May 2021 03:16:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42419)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1ljzM9-0003xG-PM; Fri, 21 May 2021 03:14:04 -0400
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailout.west.internal (Postfix) with ESMTP id BD8DE1286;
- Fri, 21 May 2021 03:13:56 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute6.internal (MEProxy); Fri, 21 May 2021 03:13:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm3; bh=k7m3kGJytjps9nD/I7PcW0Rut/7
- 4nAcDWqD0A46NrWI=; b=KrdzD05wP21vSA0MHSXwLhstueIhBnjHBP00LR/hMz2
- Ei4XzBwtKLEoRC6sxEd44oqg6W12OuK3HG02w+EdUhcIgH3qtd7ONp0SWeUXeh3u
- rs4UmEYLxe4UMNGMtfKFQ5VExTqwOh3fLGSlVwqt5w4dKZnGRHmvncIDvshkNxCH
- nC3Q0cV9qZH0xRUtRlLyFkaWtTlLhCP4qs1Udd2Be3r7SUknmyBt6fh3qRvI+fN6
- IAEQHM/1IN5cywTe1AlgxADjPcZttSq7uw/9gJhYXSHFjtF3IZs6c/QDaNMBCyN2
- uy6vNXRg2I5NanVQhC6eAxogEyFf99tvpB3EKyhmgig==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=k7m3kG
- Jytjps9nD/I7PcW0Rut/74nAcDWqD0A46NrWI=; b=kHqBvvKBx2FfcM9IeKjEC1
- RzHETsNnGHI+idni5nA8NIWv14SqisW/9+n2kWl2b6NosfwHIoZy6kwvK0LfTd0y
- WtXlObIyVVLYHB+b+mZm+8h9l0kuRiF0yE/5YP7ZHuKvYqS3MzketWURpA03/znD
- 9UwwmQ5NiRgP8Zmd5FVjS/Mac+Dc3aEXBrrrdvtiIErC0l1YFmzrZplqA+VAdwv+
- eoFjckD3QTRynJ7/HXlLFCP/TWCf5dcpbB8IKacjlz9QrNXOeKf7DMUdRWGVpS9w
- RR4Y8gV8t2TegZVmc6sjp6axWRrm4qQ6P3wQ0eJNRSLm2FrUBDlSuy2HG/JP3o6g
- ==
-X-ME-Sender: <xms:s12nYFexdCSwq8PlgDZDmwmnIpdNC9NKOPRi9nPkasY2uSYCLa3GFQ>
- <xme:s12nYDPILZPx8pUBaH1hNFqB7GtYnpO3Dm2w2hNZFgGNWsSWjypxneY7Ib2SPmyGw
- -_vASbVTKQCUi5KYRo>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdejvddguddugecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecunecujfgurhepfffhvffukfhfgggtuggjsehgtd
- erredttdejnecuhfhrohhmpefmlhgruhhsucflvghnshgvnhcuoehithhssehirhhrvghl
- vghvrghnthdrughkqeenucggtffrrghtthgvrhhnpeejgeduffeuieetkeeileekvdeule
- etveejudeileduffefjeegfffhuddvudffkeenucfkphepkedtrdduieejrdelkedrudel
- tdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehith
- hssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:s12nYOhnwIz3dyi0AJKrRQo4apqHBn4xUeQcYHrAyxbMlKrudwbQzQ>
- <xmx:s12nYO8ZCgrkSQxpzHtG1DEyqvCs4fgqhm5AVH70lUlivchNqd5iVQ>
- <xmx:s12nYBuJMcAhU4Umzh-wXL74JO6DsgFvzrDVEK5F0WrfU2lHiAK6YA>
- <xmx:tF2nYFga3dGjWaQJfNpkfXafHfgPSj0lQbwbLkQKLFCOJinN_4oR1g>
-Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190]) by mail.messagingengine.com (Postfix) with ESMTPA;
- Fri, 21 May 2021 03:13:53 -0400 (EDT)
-Date: Fri, 21 May 2021 09:13:51 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: Gollu Appalanaidu <anaidu.gollu@samsung.com>
-Subject: Re: [PATCH] hw/nvme/ctrl: fix functions style
-Message-ID: <YKddr8UDZhPzK0Yr@apples.localdomain>
-References: <CGME20210521061352epcas5p145b3a19453f7ff9d625bb9ae447b649c@epcas5p1.samsung.com>
- <20210521060842.25516-1-anaidu.gollu@samsung.com>
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ljzOv-0006EU-Kn
+ for qemu-devel@nongnu.org; Fri, 21 May 2021 03:16:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1621581412;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=P+hLjuQ64vmuAnUmwowLfI+1Ab2JGLvYlh/ae84x6bU=;
+ b=SUWoOefT2cSu5M1dt/GsmY6Qs5q/XhM7L/THezgHEoXCVBsiITvGoVk4q4glZG2+oPrVmF
+ G9S6NFPIOD0gFs8jTpriVJdF4CvUtbIn1wbrHb8yBmLNWTJQ4An5i4QViZBhmRToqshWoq
+ Jyst8Z88WTgYvjZ0gSI3BR3Kj8HClto=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-215-u-7WYjLyMUGFNkav-jlzQw-1; Fri, 21 May 2021 03:16:49 -0400
+X-MC-Unique: u-7WYjLyMUGFNkav-jlzQw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 34555107ACCA;
+ Fri, 21 May 2021 07:16:48 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-113.ams2.redhat.com [10.36.112.113])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 360095D74B;
+ Fri, 21 May 2021 07:16:37 +0000 (UTC)
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Willian Rampazzo <willianr@redhat.com>, qemu-devel@nongnu.org
+References: <20210520195322.205691-1-willianr@redhat.com>
+ <20210520195322.205691-2-willianr@redhat.com>
+ <0f4a1c6c-ddba-ae57-2d55-f59c478dc9c5@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Subject: Re: [RFC 1/1] acceptance tests: rename acceptance to system
+Message-ID: <943fcdae-168a-adf8-c82b-b1a88369441c@redhat.com>
+Date: Fri, 21 May 2021 09:16:36 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="ubPlQgpMiHzfipxy"
-Content-Disposition: inline
-In-Reply-To: <20210521060842.25516-1-anaidu.gollu@samsung.com>
-Received-SPF: pass client-ip=64.147.123.24; envelope-from=its@irrelevant.dk;
- helo=wout1-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <0f4a1c6c-ddba-ae57-2d55-f59c478dc9c5@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.39,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,84 +83,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, qemu-block@nongnu.org,
- qemu-devel@nongnu.org, mreitz@redhat.com, stefanha@redhat.com,
- kbusch@kernel.org
+Cc: Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Niek Linnenbank <nieklinnenbank@gmail.com>, qemu-arm@nongnu.org,
+ Michael Rolnik <mrolnik@gmail.com>, Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 20/05/2021 22.28, Philippe Mathieu-Daudé wrote:
+> On 5/20/21 9:53 PM, Willian Rampazzo wrote:
+>> Conceptually speaking, acceptance tests "are a series of specific tests
+>> conducted by the customer in an attempt to uncover product errors before
+>> accepting the software from the developer. Conducted by the end-user rather
+>> than software engineers, acceptance testing can range from an informal
+>> “test drive” to a planned and systematically executed series of scripted
+>> tests" [1]. Every time Pressman refers to the term "acceptance testing," he
+>> also refers to user's agreement in the final state of an implemented feature.
+>> Today, QEMU is not implementing user acceptance tests as described by Pressman.
+>>
+>> There are other three possible terms we could use to describe what is currently
+>> QEMU "acceptance" tests:
+>>
+>>    1 - Integration tests:
+>>        - "Integration testing is a systematic technique for constructing the
+>>           software architecture while at the same time conducting tests to
+>>           uncover errors associated with interfacing. The objective is to take
+>>           unit-tested components and build a program structure that has been
+>>           dictated by design." [2]
+>>        * Note: Sommerville does not have a clear definition of integration
+>>          testing. He refers to incremental integration of components inside
+>>          the system testing (see [3]).
 
---ubPlQgpMiHzfipxy
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+After thinking about this for a while, I agree with you that renaming the 
+"acceptance" tests to "integration" tests is also not a good idea. When I 
+hear "integration" test in the context of the virt stack, I'd rather expect 
+a test suite that picks KVM (i.e. a kernel), QEMU, libvirt and maybe 
+virt-manager on top and tests them all together. So we should look for a 
+different name indeed.
 
-On May 21 11:38, Gollu Appalanaidu wrote:
->Identify command related functions style fix.
->
->Signed-off-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
->---
-> hw/nvme/ctrl.c | 6 +++---
-> 1 file changed, 3 insertions(+), 3 deletions(-)
->
->diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
->index 0bcaf7192f..40a7efcea9 100644
->--- a/hw/nvme/ctrl.c
->+++ b/hw/nvme/ctrl.c
->@@ -4291,7 +4291,7 @@ static uint16_t nvme_identify_ns_attached_list(NvmeC=
-trl *n, NvmeRequest *req)
-> }
->
-> static uint16_t nvme_identify_ns_csi(NvmeCtrl *n, NvmeRequest *req,
->-        bool active)
->+                                     bool active)
-> {
->     NvmeNamespace *ns;
->     NvmeIdentify *c =3D (NvmeIdentify *)&req->cmd;
->@@ -4326,7 +4326,7 @@ static uint16_t nvme_identify_ns_csi(NvmeCtrl *n, Nv=
-meRequest *req,
-> }
->
-> static uint16_t nvme_identify_nslist(NvmeCtrl *n, NvmeRequest *req,
->-        bool active)
->+                                     bool active)
-> {
->     NvmeNamespace *ns;
->     NvmeIdentify *c =3D (NvmeIdentify *)&req->cmd;
->@@ -4373,7 +4373,7 @@ static uint16_t nvme_identify_nslist(NvmeCtrl *n, Nv=
-meRequest *req,
-> }
->
-> static uint16_t nvme_identify_nslist_csi(NvmeCtrl *n, NvmeRequest *req,
->-        bool active)
->+                                         bool active)
-> {
->     NvmeNamespace *ns;
->     NvmeIdentify *c =3D (NvmeIdentify *)&req->cmd;
->--=20
->2.17.1
->
->
+>>    2 - Validation tests:
+>>        - "Validation testing begins at the culmination of integration testing,
+>>           when individual components have been exercised, the software is
+>>           completely assembled as a package, and interfacing errors have been
+>>           uncovered and corrected. At the validation or system level, the
+>>           distinction between different software categories disappears. Testing
+>>           focuses on user-visible actions and user-recognizable output from the
+>>           system." [4]
+>>        - "where you expect the system to perform correctly using a set of test
+>>           cases that reflect the system’s expected use." [5]
+>>        * Note: the definition of "validation testing" from Sommerville reflects
+>>          the same definition found around the Internet, as one of the processes
+>>          inside the "Verification & Validation (V&V)." In this concept,
+>>          validation testing is a high-level definition that covers unit testing,
+>>          functional testing, integration testing, system testing, and acceptance
+>>          testing.
+>>
+>>    3 - System tests:
+>>        - "verifies that all elements mesh properly and that overall system
+>>           function and performance is achieved." [6]
+>>        - "involves integrating components to create a version of the system and
+>>           then testing the integrated system. System testing checks that
+>>           components are compatible, interact correctly, and transfer the right
+>>           data at the right time across their interfaces." [7]
+>>
+>> The tests implemented inside the QEMU "acceptance" directory depend on the
+>> software completely assembled and, sometimes, on other elements, like operating
+>> system images. In this case, the proposal here is to rename the current
+>> "acceptance" directory to "system."
+> 
+> Are user-mode tests using Avocado also system tests?
+> https://www.mail-archive.com/qemu-devel@nongnu.org/msg782505.html
 
-Thanks, applied to nvme-next.
+We've indeed got the problem that the word "system" is a little bit 
+overloaded in the context of QEMU. We often talk about "system" when 
+referring to the qemu-softmmu-xxx emulators (in contrast to the linux-user 
+emulator binaries). For example, the "--disable-system" switch of the 
+configure script, or the "build-system" and "check-system" jobs in the 
+.gitlab-ci.yml file ... thus this could get quite confusing in the 
+.gitlab-ci.yml file afterwards.
 
-Please just use 'hw/nvme:' in the commit title, we don't need to specify=20
-the sub-subsystem ;)
+So I think renaming "acceptance" to "system" is especially ok if we only 
+keep the "softmmu"-related tests in that folder... would it maybe make sense 
+to add the linux-user related tests in a separate folder called tests/user/ 
+instead, Philippe? And we should likely rename the current build-system and 
+check-system jobs in our gitlab-CI to build-softmmu and check-softmmu or so?
 
---ubPlQgpMiHzfipxy
-Content-Type: application/pgp-signature; name="signature.asc"
+Alternatively, what about renaming the "acceptance" tests to "validation" 
+instead? That word does not have a duplicated definition in the context of 
+QEMU yet, so I think it would be less confusing.
 
------BEGIN PGP SIGNATURE-----
+  Thomas
 
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmCnXaoACgkQTeGvMW1P
-DenFrQf+PiEHsLIWcl3VVIZSwNfxzAYlKIbFELzbr2cLPFQJecrGq7a1h/v4teIn
-wXdZO2Hi+4NWUxN0q1PIhHyxR6pFQz25wFuaFVCDfAn70dB09T9cVxXDfuv7wTgY
-ap/GvPuAqjAiQ73s95MZHaoQsUrz/3tA7V2g7r5pT3RiS+mHxkzYKUKzhuR9QQTt
-61nmasK5GACuFWuInnVgoMrb4ULqRnVt/vRVS86ttnCL5kyUZBCuiNhZ7Kkafc7K
-ajTKKc313Gve56K3yfSKjZGFB2vwgFftY7OqnmEBbFgq85cHrlmUPDFnVkuqEXBN
-xxm4f6foNza+DyfkJrHkPzXOuR1UEA==
-=ucDY
------END PGP SIGNATURE-----
-
---ubPlQgpMiHzfipxy--
 
