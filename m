@@ -2,62 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C92B338C973
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 May 2021 16:46:36 +0200 (CEST)
-Received: from localhost ([::1]:58820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D216938C984
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 May 2021 16:50:05 +0200 (CEST)
+Received: from localhost ([::1]:36628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lk6Q7-0007d2-LT
-	for lists+qemu-devel@lfdr.de; Fri, 21 May 2021 10:46:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47678)
+	id 1lk6TU-0003P8-Vb
+	for lists+qemu-devel@lfdr.de; Fri, 21 May 2021 10:50:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48696)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lk6Oe-0006q1-8j
- for qemu-devel@nongnu.org; Fri, 21 May 2021 10:45:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52479)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lk6SG-0002TV-No
+ for qemu-devel@nongnu.org; Fri, 21 May 2021 10:48:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22714)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lk6Oc-0007Gg-Ht
- for qemu-devel@nongnu.org; Fri, 21 May 2021 10:45:04 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lk6SE-0008Al-U5
+ for qemu-devel@nongnu.org; Fri, 21 May 2021 10:48:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621608301;
+ s=mimecast20190719; t=1621608526;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5/Rs14zZV/gzhpWdXcMKECCB85GM59KDgveL/0pGUbE=;
- b=EQSCMW5913wQwzxWKnqozX10Sq49m3HBnmTPqRLme9eS3jHSNKCKhqV3vl9PR1C8EkNdLI
- AvfgK0TjboqO3hDwHzcalHFPiLpC8RkJvMjJWg/je1+SxSzeiMAD+QJ6/hrn8cdgJPBdEy
- gBCMBc5IWBgM8km9VXWFvdXbalWQNDY=
+ bh=0EtWCDiHlfg5D529z/JGEPMspdwZmJ/BwhJIRo71/rs=;
+ b=Gs6/vYOf5DnG0pvOqB9EqS7BnSFN480Cw1eUL6r3TJkaBcblD7uhpim3jkMYZi02u3czwB
+ 0W5iDoRQAQCS3oH4icO7rZ69nhhz5mba6HQ9vPvASxOmVEbx/hyb3C8l4t3QAzRHJiCGBa
+ 0QQ5ai7qKcLQzYfOkCG1H5y7gf4ZDkI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-521-9ORSv884P3qMMikavBm_wA-1; Fri, 21 May 2021 10:44:58 -0400
-X-MC-Unique: 9ORSv884P3qMMikavBm_wA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-244-Me57qwfwPiCOdhqIH0yPeA-1; Fri, 21 May 2021 10:48:44 -0400
+X-MC-Unique: Me57qwfwPiCOdhqIH0yPeA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3BEBB343BA;
- Fri, 21 May 2021 14:44:57 +0000 (UTC)
-Received: from localhost (ovpn-112-193.ams2.redhat.com [10.36.112.193])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B60DA5D9D5;
- Fri, 21 May 2021 14:44:56 +0000 (UTC)
-Date: Fri, 21 May 2021 15:44:55 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH v2 0/6] coroutine: new sleep/wake API
-Message-ID: <YKfHZ8xFPN8Lm/rM@stefanha-x1.localdomain>
-References: <20210517100548.28806-1-pbonzini@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 92B20107ACF7
+ for <qemu-devel@nongnu.org>; Fri, 21 May 2021 14:48:43 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-41.ams2.redhat.com
+ [10.36.112.41])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9581B5D6DC;
+ Fri, 21 May 2021 14:48:39 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 3124B113865F; Fri, 21 May 2021 16:48:38 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH v3 3/9] qapi: start building an 'if' predicate tree
+References: <20210429134032.1125111-1-marcandre.lureau@redhat.com>
+ <20210429134032.1125111-4-marcandre.lureau@redhat.com>
+ <5d0a776e-e597-6996-c407-cd2d91883eac@redhat.com>
+Date: Fri, 21 May 2021 16:48:38 +0200
+In-Reply-To: <5d0a776e-e597-6996-c407-cd2d91883eac@redhat.com> (John Snow's
+ message of "Wed, 12 May 2021 17:39:16 -0400")
+Message-ID: <87eee02ldl.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20210517100548.28806-1-pbonzini@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="pg5Tex+mawjUv58n"
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -78,70 +83,125 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: eesposit@redhat.com, vsementsov@virtuozzo.com, qemu-devel@nongnu.org,
- qemu-block@nongnu.org
+Cc: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---pg5Tex+mawjUv58n
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Beware, I'm skimming, not really reviewing.
 
-On Mon, May 17, 2021 at 12:05:42PM +0200, Paolo Bonzini wrote:
-> This is a revamp of the qemu_co_sleep* API that makes it easier to
-> extend the API: the state that is needed to wake up a coroutine is now
-> part of the public API instead of hidden behind a pointer-to-pointer;
-> the API is made more extensible by pushing the rest of QemuCoSleepState
-> into local variables.
->=20
-> In the future, this will be extended to introduce a prepare/sleep/cancel
-> API similar to Linux's prepare_to_wait/schedule/finish_wait functions.
-> For now, this is just a nice refactoring.
->=20
-> Paolo
->=20
-> v1->v2: comment and commit message updates in patches 3, 5 and 6
->=20
-> Paolo Bonzini (6):
->   coroutine-sleep: use a stack-allocated timer
->   coroutine-sleep: disallow NULL QemuCoSleepState** argument
->   coroutine-sleep: allow qemu_co_sleep_wake that wakes nothing
->   coroutine-sleep: move timer out of QemuCoSleepState
->   coroutine-sleep: replace QemuCoSleepState pointer with struct in the
->     API
->   coroutine-sleep: introduce qemu_co_sleep
->=20
->  block/block-copy.c          | 10 ++---
->  block/nbd.c                 | 14 +++----
->  include/qemu/coroutine.h    | 27 ++++++++-----
->  util/qemu-coroutine-sleep.c | 75 +++++++++++++++++++------------------
->  4 files changed, 64 insertions(+), 62 deletions(-)
->=20
-> --=20
-> 2.31.1
->=20
+John Snow <jsnow@redhat.com> writes:
 
-Thanks, applied to my block tree:
-https://gitlab.com/stefanha/qemu/commits/block
+> On 4/29/21 9:40 AM, marcandre.lureau@redhat.com wrote:
+>> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+>> The following patches are going to express schema 'if' conditions in
+>> a
+>> target language agnostic way. For that, let's start building a predicate
+>> tree of the configuration options.
+>> This intermediary steps still uses C-preprocessor expressions as
+>> the predicates:
+>> "if: [STR, ..]" is translated to a "IfCond -> IfAll ->
+>> [IfOption, ..]" tree, which will generate "#if STR && .." C code.
+>> Once the boolean operation tree nodes are introduced, the 'if'
+>> expressions will be converted to replace the C syntax (no more
+>> !defined(), &&, ...) and based only on option identifiers.
+>> For now, the condition tree will be less expressive than a full C
+>> macro
+>> expression as it will only support these operations: 'all', 'any' and
+>> 'not', the only ones needed so far.
+>> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+>> ---
+>>   docs/sphinx/qapidoc.py                 |  6 +--
+>>   scripts/qapi/common.py                 | 54 +++++++++++++++++++++++-
+>>   scripts/qapi/schema.py                 | 42 ++++++++++++-------
+>>   tests/qapi-schema/doc-good.out         | 12 +++---
+>>   tests/qapi-schema/qapi-schema-test.out | 58 +++++++++++++-------------
+>>   5 files changed, 116 insertions(+), 56 deletions(-)
+>> diff --git a/docs/sphinx/qapidoc.py b/docs/sphinx/qapidoc.py
+>> index b737949007..a93f3f1c4d 100644
+>> --- a/docs/sphinx/qapidoc.py
+>> +++ b/docs/sphinx/qapidoc.py
+>> @@ -112,12 +112,10 @@ def _make_section(self, title):
+>>       def _nodes_for_ifcond(self, ifcond, with_if=3DTrue):
+>>           """Return list of Text, literal nodes for the ifcond
+>>   -        Return a list which gives text like ' (If: cond1, cond2,
+>> cond3)', where
+>> -        the conditions are in literal-text and the commas are not.
+>> +        Return a list which gives text like ' (If: condition)'.
+>>           If with_if is False, we don't return the "(If: " and ")".
+>>           """
+>> -        condlist =3D intersperse([nodes.literal('', c) for c in ifcond.=
+ifcond],
+>> -                               nodes.Text(', '))
+>
+> was this the last user of intersperse?
+>
+> mm, no, there's one more.
+>
+>> +        condlist =3D [nodes.literal('', ifcond.gen_doc())]
+>>           if not with_if:
+>>               return condlist
+>>   diff --git a/scripts/qapi/common.py b/scripts/qapi/common.py
+>> index b7f475a160..59a7ee2f32 100644
+>> --- a/scripts/qapi/common.py
+>> +++ b/scripts/qapi/common.py
+>> @@ -11,8 +11,9 @@
+>>   # This work is licensed under the terms of the GNU GPL, version 2.
+>>   # See the COPYING file in the top-level directory.
+>>   +from abc import ABC, abstractmethod
+>>   import re
+>> -from typing import Optional
+>> +from typing import Optional, Sequence
+>>    =20
+>>   #: Magic string that gets removed along with all space to its right.
+>> @@ -192,3 +193,54 @@ def guardend(name: str) -> str:
+>>   #endif /* %(name)s */
+>>   ''',
+>>                    name=3Dc_fname(name).upper())
+>> +
+>> +
+>> +class IfPredicate(ABC):
+>> +    @abstractmethod
+>> +    def cgen(self) -> str:
+>
+> Like the review to patch 2, I'm not sure we want to bake cgen stuff
+> directly into this class. Are you going to have cgen() and rustgen()=20
+> methods all here?
+>
+>> +        pass
+>> +
+>
+> I think you want raise NotImplementedError to specify a function that
+> the inheriting class MUST implement. Otherwise, there's little value
+> to allow a child class to call super() on a method that doesn't have a=20
+> default implementation.
+>
+> You *could* drop the (ABC) and the @abstractmethod decorators if you do s=
+o.
+>
+> Matters of taste and style.
 
-Stefan
+We're not coding a library for use by thousands of people.  If we did,
+then complicating the code to guard against misuse could be a win.  But
+we don't.
 
---pg5Tex+mawjUv58n
-Content-Type: application/pgp-signature; name="signature.asc"
+schema.py is full of methods that pass.  Maybe some of them need to be
+overriden by any conceivable subtype.  Who cares?  The subtypes either
+work or they don't.  I prefer
 
------BEGIN PGP SIGNATURE-----
+    def frobnicate:
+        pass
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmCnx2cACgkQnKSrs4Gr
-c8jeOAgAmPdQzWBIAWsZ5Dym84jjHZuIY5Hb1FLXOjqNL0MMXL2G+ydtF/bDmI3Z
-14SQ7vkFync7As6kbJXHNFX3mlL/iQ+kg08BSc4k6Fmh7XU9jzORJZpqBm3WoJdM
-Hvyho/5S1jJvsO7dIWXY1Rwwu7HevxBCQz6R5pfskDnV0odhRvB/CR2DgkA/KGuA
-HUvyQrsMMOJINTXSScJL98IBeL0remz354A3kgX/br0kvd8vlq3Af0OKoXdEFslL
-Xui+VRFnzpyhN4NjsP7nYPUhs0LMO3o82Csl2gc98k1kEkqShciHrXjiyozNBhBD
-vR0TTn90AhQPjXv3DStL7AxaHGv2HQ==
-=z8se
------END PGP SIGNATURE-----
+to
 
---pg5Tex+mawjUv58n--
+    def frobnicate:
+        raise NotImplementedError
+
+One, pass is easier on the eyes.  Two, a subtype's .frobnicate() can
+blindly call super().frobnicate().
+
+I don't see a need to fuzz around with module abc, either.  Let's stick
+to the stupidest solution that could possibly work.
+
+[...]
 
 
