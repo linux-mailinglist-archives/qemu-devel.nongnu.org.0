@@ -2,48 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9774C38C2A0
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 May 2021 11:06:53 +0200 (CEST)
-Received: from localhost ([::1]:53542 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F84038C2E1
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 May 2021 11:17:39 +0200 (CEST)
+Received: from localhost ([::1]:59674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lk17M-0007X7-6t
-	for lists+qemu-devel@lfdr.de; Fri, 21 May 2021 05:06:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33362)
+	id 1lk1Hm-0003oM-47
+	for lists+qemu-devel@lfdr.de; Fri, 21 May 2021 05:17:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36268)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1lk16H-0006fp-4Y; Fri, 21 May 2021 05:05:45 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:17836)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lk1G2-00036b-36
+ for qemu-devel@nongnu.org; Fri, 21 May 2021 05:15:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36687)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1lk16C-0002q2-Sh; Fri, 21 May 2021 05:05:44 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 1F4637457EE;
- Fri, 21 May 2021 11:05:34 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 189517457EF; Fri, 21 May 2021 11:05:33 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 16E007457E5;
- Fri, 21 May 2021 11:05:33 +0200 (CEST)
-Date: Fri, 21 May 2021 11:05:33 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Alexey Kardashevskiy <aik@ozlabs.ru>
-Subject: Re: [PATCH qemu v20] spapr: Implement Open Firmware client interface
-In-Reply-To: <5825cde5-a408-a438-116d-5a9d9113a52a@ozlabs.ru>
-Message-ID: <ec1742e3-c47-bbee-3a6-ec64442922ab@eik.bme.hu>
-References: <20210520090557.435689-1-aik@ozlabs.ru>
- <eb49cd30-a4f4-d063-d728-521446a671a6@eik.bme.hu>
- <5825cde5-a408-a438-116d-5a9d9113a52a@ozlabs.ru>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lk1Fx-0000xW-GF
+ for qemu-devel@nongnu.org; Fri, 21 May 2021 05:15:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1621588544;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=H1a/k/nmSqc4m1dDi+O755clasA2mtCQOonr+SZ3qPo=;
+ b=V7F2R2sWnnWTDvBBV4XTYmAI17BCu8u/I56JaZE8M/VBR9/4KjD5EwUIxsBQyuaaIWYScI
+ vFOqvxjl0nxnlgjcZ6h6wNYgLj47kBtLh24hFasy53ElDBpdKeTRFKghe5yrinVIKJzePY
+ aNpsOJ0T9jEggFEkl5fwB31zXYAFQ3U=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-560-yPkVIJIJMDGecmd4TNzLGQ-1; Fri, 21 May 2021 05:15:40 -0400
+X-MC-Unique: yPkVIJIJMDGecmd4TNzLGQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 06FCA8015F8;
+ Fri, 21 May 2021 09:15:39 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-41.ams2.redhat.com
+ [10.36.112.41])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 911945B687;
+ Fri, 21 May 2021 09:15:38 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 2DDC2113865F; Fri, 21 May 2021 11:15:37 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH v7 02/12] accel: Introduce 'query-accels' QMP command
+References: <20210505125806.1263441-1-philmd@redhat.com>
+ <20210505125806.1263441-3-philmd@redhat.com>
+Date: Fri, 21 May 2021 11:15:37 +0200
+In-Reply-To: <20210505125806.1263441-3-philmd@redhat.com> ("Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Wed, 5 May 2021 14:57:56
+ +0200")
+Message-ID: <875yzcjvly.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-1362375985-1621587933=:20193"
-X-Spam-Probability: 11%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.39,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -57,256 +83,189 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
 
---3866299591-1362375985-1621587933=:20193
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8BIT
+> Introduce the 'query-accels' QMP command which returns a list
+> of built-in accelerator names.
+>
+> - Accelerator is a QAPI enum of all existing accelerators,
+>
+> - AcceleratorInfo is a QAPI structure providing accelerator
+>   specific information. Currently the common structure base
+>   provides the name of the accelerator, while the specific
+>   part is empty, but each accelerator can expand it.
+>
+> - 'query-accels' QMP command returns a list of @AcceleratorInfo
+>
+> For example on a KVM-only build we get:
+>
+>     { "execute": "query-accels" }
+>     {
+>         "return": [
+>             {
+>                 "name": "qtest"
+>             },
+>             {
+>                 "name": "kvm"
+>             }
+>         ]
+>     }
+>
+> Note that we can't make the enum values or union branches conditional
+> because of target-specific poisoning of accelerator definitions.
 
-On Fri, 21 May 2021, Alexey Kardashevskiy wrote:
-> On 21/05/2021 07:59, BALATON Zoltan wrote:
->> On Thu, 20 May 2021, Alexey Kardashevskiy wrote:
->>> The PAPR platform describes an OS environment that's presented by
->>> a combination of a hypervisor and firmware. The features it specifies
->>> require collaboration between the firmware and the hypervisor.
->>> 
->>> Since the beginning, the runtime component of the firmware (RTAS) has
->>> been implemented as a 20 byte shim which simply forwards it to
->>> a hypercall implemented in qemu. The boot time firmware component is
->>> SLOF - but a build that's specific to qemu, and has always needed to be
->>> updated in sync with it. Even though we've managed to limit the amount
->>> of runtime communication we need between qemu and SLOF, there's some,
->>> and it has become increasingly awkward to handle as we've implemented
->>> new features.
->>> 
->>> This implements a boot time OF client interface (CI) which is
->>> enabled by a new "x-vof" pseries machine option (stands for "Virtual Open
->>> Firmware). When enabled, QEMU implements the custom H_OF_CLIENT hcall
->>> which implements Open Firmware Client Interface (OF CI). This allows
->>> using a smaller stateless firmware which does not have to manage
->>> the device tree.
->>> 
->>> The new "vof.bin" firmware image is included with source code under
->>> pc-bios/. It also includes RTAS blob.
->>> 
->>> This implements a handful of CI methods just to get -kernel/-initrd
->>> working. In particular, this implements the device tree fetching and
->>> simple memory allocator - "claim" (an OF CI memory allocator) and updates
->>> "/memory@0/available" to report the client about available memory.
->>> 
->>> This implements changing some device tree properties which we know how
->>> to deal with, the rest is ignored. To allow changes, this skips
->>> fdt_pack() when x-vof=on as not packing the blob leaves some room for
->>> appending.
->>> 
->>> In absence of SLOF, this assigns phandles to device tree nodes to make
->>> device tree traversing work.
->>> 
->>> When x-vof=on, this adds "/chosen" every time QEMU (re)builds a tree.
->>> 
->>> This adds basic instances support which are managed by a hash map
->>> ihandle -> [phandle].
->>> 
->>> Before the guest started, the used memory is:
->>> 0..e60 - the initial firmware
->>> 8000..10000 - stack
->>> 400000.. - kernel
->>> 3ea0000.. - initramdisk
->>> 
->>> This OF CI does not implement "interpret".
->>> 
->>> Unlike SLOF, this does not format uninitialized nvram. Instead, this
->>> includes a disk image with pre-formatted nvram.
->>> 
->>> With this basic support, this can only boot into kernel directly.
->>> However this is just enough for the petitboot kernel and initradmdisk to
->>> boot from any possible source. Note this requires reasonably recent guest
->>> kernel with:
->>> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=df5be5be8735 
->>> 
->>> The immediate benefit is much faster booting time which especially
->>> crucial with fully emulated early CPU bring up environments. Also this
->>> may come handy when/if GRUB-in-the-userspace sees light of the day.
->>> 
->>> This separates VOF and sPAPR in a hope that VOF bits may be reused by
->>> other POWERPC boards which do not support pSeries.
->>> 
->>> This is coded in assumption that later on we might be adding support for
->>> booting from QEMU backends (blockdev is the first candidate) without
->>> devices/drivers in between as OF1275 does not require that and
->>> it is quite easy to so.
->>> 
->>> Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
->>> ---
->>> 
->>> The example command line is:
->>> 
->>> /home/aik/pbuild/qemu-killslof-localhost-ppc64/qemu-system-ppc64 \
->>> -nodefaults \
->>> -chardev stdio,id=STDIO0,signal=off,mux=on \
->>> -device spapr-vty,id=svty0,reg=0x71000110,chardev=STDIO0 \
->>> -mon id=MON0,chardev=STDIO0,mode=readline \
->>> -nographic \
->>> -vga none \
->>> -enable-kvm \
->>> -m 8G \
->>> -machine 
->>> pseries,x-vof=on,cap-cfpc=broken,cap-sbbc=broken,cap-ibs=broken,cap-ccf-assist=off 
->>> \
->>> -kernel pbuild/kernel-le-guest/vmlinux \
->>> -initrd pb/rootfs.cpio.xz \
->>> -drive 
->>> id=DRIVE0,if=none,file=./p/qemu-killslof/pc-bios/vof-nvram.bin,format=raw 
->>> \
->>> -global spapr-nvram.drive=DRIVE0 \
->>> -snapshot \
->>> -smp 8,threads=8 \
->>> -L /home/aik/t/qemu-ppc64-bios/ \
->>> -trace events=qemu_trace_events \
->>> -d guest_errors \
->>> -chardev socket,id=SOCKET0,server,nowait,path=qemu.mon.tmux26 \
->>> -mon chardev=SOCKET0,mode=control
->>> 
->>> ---
->>> Changes:
->>> v20:
->>> * compile vof.bin with -mcpu=power4 for better compatibility
->>> * s/std/stw/ in entry.S to make it work on ppc32
->>> * fixed dt_available property to support both 32 and 64bit
->>> * shuffled prom_args handling code
->>> * do not enforce 32bit in MSR (again, to support 32bit platforms)
->>> 
->> 
->> [...]
->> 
->>> diff --git a/default-configs/devices/ppc64-softmmu.mak 
->>> b/default-configs/devices/ppc64-softmmu.mak
->>> index ae0841fa3a18..9fb201dfacfa 100644
->>> --- a/default-configs/devices/ppc64-softmmu.mak
->>> +++ b/default-configs/devices/ppc64-softmmu.mak
->>> @@ -9,3 +9,4 @@ CONFIG_POWERNV=y
->>>  # For pSeries
->>>  CONFIG_PSERIES=y
->>>  CONFIG_NVDIMM=y
->>> +CONFIG_VOF=y
->>> diff --git a/hw/ppc/Kconfig b/hw/ppc/Kconfig
->>> index e51e0e5e5ac6..964510dfc73d 100644
->>> --- a/hw/ppc/Kconfig
->>> +++ b/hw/ppc/Kconfig
->>> @@ -143,3 +143,6 @@ config FW_CFG_PPC
->>> 
->>>  config FDT_PPC
->>>      bool
->>> +
->>> +config VOF
->>> +    bool
->> 
->> I think you should just add "select VOF" to config PSERIES section in 
->> Kconfig instead of adding it to default-configs/devices/ppc64-softmmu.mak. 
->
-> oh well, can do that too.
+I second Eduardo's plea to explain this more clearly.  It's important,
+because if a properly conditionalized enum is feasible, then query-accel
+isn't needed.
 
-I think most config options should be selected by KConfig and the default 
-config should only include machines, otherwise VOF would be added also 
-when you don't compile PSERIES or PEGASOS2. With select in Kconfig it will 
-be added when needed. That's why it's better to use select in this case.
+> Reviewed-by: Eric Blake <eblake@redhat.com>
+> Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Tested-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> ---
+>  qapi/machine.json | 47 +++++++++++++++++++++++++++++++++++++++++++++
+>  accel/accel-qmp.c | 49 +++++++++++++++++++++++++++++++++++++++++++++++
+>  accel/meson.build |  2 +-
+>  3 files changed, 97 insertions(+), 1 deletion(-)
+>  create mode 100644 accel/accel-qmp.c
+>
+> diff --git a/qapi/machine.json b/qapi/machine.json
+> index 6e90d463fc9..6dd3b765248 100644
+> --- a/qapi/machine.json
+> +++ b/qapi/machine.json
+> @@ -1274,3 +1274,50 @@
+>  ##
+>  { 'event': 'MEM_UNPLUG_ERROR',
+>    'data': { 'device': 'str', 'msg': 'str' } }
+> +
+> +##
+> +# @Accelerator:
+> +#
+> +# An enumeration of accelerator names.
+> +#
+> +# Since: 6.1
+> +##
+> +{ 'enum': 'Accelerator',
+> +  'data': [ 'hax', 'hvf', 'kvm', 'qtest', 'tcg', 'whpx', 'xen' ] }
+> +
+> +##
+> +# @AcceleratorInfo:
+> +#
+> +# Accelerator information.
+> +#
+> +# @name: The accelerator name.
+> +#
+> +# Since: 6.1
+> +##
+> +{ 'struct': 'AcceleratorInfo',
+> +  'data': { 'name': 'Accelerator' } }
+> +
+> +##
+> +# @query-accels:
+> +#
+> +# Get a list of AcceleratorInfo for all built-in accelerators.
 
->>  That should do it, it works in my updated pegasos2 patch:
->> 
->> https://osdn.net/projects/qmiga/scm/git/qemu/commits/3c1fad08469b4d3c04def22044e52b2d27774a61 
->> 
->> [...]
->>> diff --git a/pc-bios/vof/entry.S b/pc-bios/vof/entry.S
->>> new file mode 100644
->>> index 000000000000..569688714c91
->>> --- /dev/null
->>> +++ b/pc-bios/vof/entry.S
->>> @@ -0,0 +1,51 @@
->>> +#define LOAD32(rn, name)    \
->>> +    lis     rn,name##@h;    \
->>> +    ori     rn,rn,name##@l
->>> +
->>> +#define ENTRY(func_name)    \
->>> +    .text;                  \
->>> +    .align  2;              \
->>> +    .globl  .func_name;     \
->>> +    .func_name:             \
->>> +    .globl  func_name;      \
->>> +    func_name:
->>> +
->>> +#define KVMPPC_HCALL_BASE       0xf000
->>> +#define KVMPPC_H_RTAS           (KVMPPC_HCALL_BASE + 0x0)
->>> +#define KVMPPC_H_VOF_CLIENT     (KVMPPC_HCALL_BASE + 0x5)
->>> +
->>> +    . = 0x100 /* Do exactly as SLOF does */
->>> +
->>> +ENTRY(_start)
->>> +#    LOAD32(%r31, 0) /* Go 32bit mode */
->>> +#    mtmsrd %r31,0
->>> +    LOAD32(2, __toc_start)
->>> +    b entry_c
->>> +
->>> +ENTRY(_prom_entry)
->>> +    LOAD32(2, __toc_start)
->>> +    stwu    %r1,-112(%r1)
->>> +    stw     %r31,104(%r1)
->>> +    mflr    %r31
->>> +    bl prom_entry
->>> +    nop
->>> +    mtlr    %r31
->>> +    ld      %r31,104(%r1)
->> 
->> It's getting there, now I see the first client call from the guest boot 
->> code but then it crashes on this ld opcode which apparently is 64 bit only:
->
-> Oh right.
->
->
->> Hopefully this is the last such opcode left before I can really test this.
->
-> Make it lwz, and test it?
+"built-in" means compiled in.  See accel_builtin_list[] below.
 
-Yes, figured that out too after sending this message. Replacing with lwz 
-works but I wonder that now you have stwu lwz do the stack offsets need 
-adjusting too or you just waste 4 bytes now? With lwz here I found no 
-further 64 bit opcodes and the guest boot code could walk the device tree. 
-It failed later but I think that's because I'll need to fill more info 
-about the machine in the device tree. I'll experiment with that but it 
-looks like it could work at least for MorphOS. I'll have to try Linux too.
+> +#
+> +# Returns: a list of @AcceleratorInfo describing each accelerator.
+> +#
+> +# Since: 6.1
+> +#
+> +# Example:
+> +#
+> +# -> { "execute": "query-accels" }
+> +# <- { "return": [
+> +#        {
+> +#            "name": "qtest"
+> +#        },
+> +#        {
+> +#            "name": "kvm"
+> +#        }
+> +#    ] }
+> +#
+> +##
+> +{ 'command': 'query-accels',
+> +  'returns': ['AcceleratorInfo'] }
+> diff --git a/accel/accel-qmp.c b/accel/accel-qmp.c
+> new file mode 100644
+> index 00000000000..426737b3f9a
+> --- /dev/null
+> +++ b/accel/accel-qmp.c
+> @@ -0,0 +1,49 @@
+> +/*
+> + * QEMU accelerators, QMP commands
+> + *
+> + * Copyright (c) 2021 Red Hat Inc.
+> + *
+> + * SPDX-License-Identifier: GPL-2.0-or-later
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "qapi/qapi-commands-machine.h"
+> +
+> +static const bool accel_builtin_list[ACCELERATOR__MAX] =3D {
+> +    [ACCELERATOR_QTEST] =3D true,
+> +#ifdef CONFIG_TCG
+> +    [ACCELERATOR_TCG] =3D true,
+> +#endif
+> +#ifdef CONFIG_KVM
+> +    [ACCELERATOR_KVM] =3D true,
+> +#endif
+> +#ifdef CONFIG_HAX
+> +    [ACCELERATOR_HAX] =3D true,
+> +#endif
+> +#ifdef CONFIG_HVF
+> +    [ACCELERATOR_HVF] =3D true,
+> +#endif
+> +#ifdef CONFIG_WHPX
+> +    [ACCELERATOR_WHPX] =3D true,
+> +#endif
+> +#ifdef CONFIG_XEN_BACKEND
+> +    [ACCELERATOR_XEN] =3D true,
+> +#endif
+> +};
+> +
+> +AcceleratorInfoList *qmp_query_accels(Error **errp)
+> +{
+> +    AcceleratorInfoList *list =3D NULL, **tail =3D &list;
+> +
+> +    for (Accelerator accel =3D 0; accel < ACCELERATOR__MAX; accel++) {
+> +        if (accel_builtin_list[accel]) {
+> +            AcceleratorInfo *info =3D g_new0(AcceleratorInfo, 1);
+> +
+> +            info->name =3D accel;
+> +
+> +            QAPI_LIST_APPEND(tail, info);
+> +        }
+> +    }
+> +
+> +    return list;
+> +}
 
->> Do you have some info on how the stdout works in VOF? I think I'll need 
->> that to test with Linux and get output but I'm not sure what's needed on 
->> the machine side.
->
-> VOF opens stsout and stores the ihandle (in fdt) which the client (==kernel) 
-> uses for writing. To make it work properly, you need to hook up that instance 
-> to a device backend similar to what I have for spapr-vty:
->
-> https://github.com/aik/qemu/commit/a381a5b50c23c74013e2bd39cc5dad5b6385965d
->
-> This is not a part of this patch as I'm trying to keep things simpler and 
-> accessing backends from VOF is still unsettled. But there is a workaround 
-> which  is trace_vof_write, I use this. Thanks,
+CLI -accel help also lists the available accelerators, but finds them
+differently.  Whereas query-accel relies on hard-coded
+accel_builtin_list[], that one instead finds the concrete subtypes of
+TYPE_ACCEL.
 
-The above patch is about stdin but stdout seems to be added by the current 
-vof patch. What is spapr-vty? I don't think I have something similar in 
-pegasos2 where I just have a normal serial port created by ISASuperIO in 
-the vt8231 model. Can I use that backend somehow or have to create some 
-other serial device to connect to stdout? Does trace_vof_write work for 
-stuff output by the guest? I guess that's only for things printed by VOF 
-itself but to see Linux output do I need a stdout in VOF or it will just 
-open the serial with its own driver and use that? So I'm not sure what's 
-the stdout parts in the current vof patch does and if I need that for 
-anything. I'll try to experiment with it some more but fixing the ld and 
-Kconfig seems to be enough to get it work for me.
+Any particular reason for the difference?
 
-Regards,
-BALATON Zoltan
---3866299591-1362375985-1621587933=:20193--
+> diff --git a/accel/meson.build b/accel/meson.build
+> index b44ba30c864..7a48f6d568d 100644
+> --- a/accel/meson.build
+> +++ b/accel/meson.build
+> @@ -1,4 +1,4 @@
+> -specific_ss.add(files('accel-common.c'))
+> +specific_ss.add(files('accel-common.c', 'accel-qmp.c'))
+>  softmmu_ss.add(files('accel-softmmu.c'))
+>  user_ss.add(files('accel-user.c'))
+
 
