@@ -2,83 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E039C38C50A
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 May 2021 12:36:39 +0200 (CEST)
-Received: from localhost ([::1]:58656 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9E2E38C52A
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 May 2021 12:44:22 +0200 (CEST)
+Received: from localhost ([::1]:35492 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lk2WE-0002yy-PA
-	for lists+qemu-devel@lfdr.de; Fri, 21 May 2021 06:36:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52696)
+	id 1lk2dh-0006kQ-Fr
+	for lists+qemu-devel@lfdr.de; Fri, 21 May 2021 06:44:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54194)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lk2UD-0001KK-5Z
- for qemu-devel@nongnu.org; Fri, 21 May 2021 06:34:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37216)
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1lk2cP-00061V-EV; Fri, 21 May 2021 06:43:01 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:16970)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lk2UB-00081p-0d
- for qemu-devel@nongnu.org; Fri, 21 May 2021 06:34:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621593270;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=y2zUMjfiqJQZLSQRM+1tfkQFEDkIuExBkp9si0rOSRA=;
- b=CYQtLgHV1amfpYdx/fiqRsnw6V8CdunuHHD6csSLRhA4m0W8zbAVjkSJ24Yc8SwsP63CCq
- 9ZSICtBxGW6c3qzLRr+HDGufVXtnxw9ChzsvoJ0cBrZKSrRKZVOaFqwNil14IONIs25Naw
- GU9TSGnGi7yZkOxFcvlLtu3jWk2ra34=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-330-vBJ1H22-N5Wp6FdHXd8c1w-1; Fri, 21 May 2021 06:34:27 -0400
-X-MC-Unique: vBJ1H22-N5Wp6FdHXd8c1w-1
-Received: by mail-wr1-f72.google.com with SMTP id
- 67-20020adf81490000b029010756d109e6so9191541wrm.13
- for <qemu-devel@nongnu.org>; Fri, 21 May 2021 03:34:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=y2zUMjfiqJQZLSQRM+1tfkQFEDkIuExBkp9si0rOSRA=;
- b=ThM1A8ekSvcKPKDD5EZ1QgvUEntbDNcVq9QgR4dXWfz91tcZt6sxt/gXqJAbmYg/yx
- iGE5cVfzSy31+N4n71Wx337YJIMQ0aFmbRRsQ32ej/tC9RojkxoKdbrWHijW+oPZUCGx
- GaPCLLRL70jCJTGw7EaUhuI7qjGSCJYG+4FyU2UR315+MzbFbeDR7SWZOndQdPsZwf/I
- HdHq86kUaDOjS+dKgxyXoJDEFp5WpsmoYmROt3Y+iSnV3bgDinXo53Ve7NKdcJ7uvgUM
- dd4tAX6GmQ3SFf+7lUjosabKjfDFb++tM2AhiPnN+U6FTVf4V03Jym+vJdex8okdLRWL
- SnFg==
-X-Gm-Message-State: AOAM530oGTiMbQdk5BY1IVMO03r/XUVSshu+3oryjYOMsCI2jMtF/96G
- ib9tIYejkdh38UP7fk21sb5/W5sd2uQSS7t1bXQFg0Jqov6JKrFpX7MzSqYOz5bbfz9MIsPG42Z
- rkauUFlHtb8E4wBWHR5VJbQEWZ8boH6ubfb/pDgQ7kt197A4YwicUVR9C09BS3Q//
-X-Received: by 2002:adf:d231:: with SMTP id k17mr8607278wrh.78.1621593265805; 
- Fri, 21 May 2021 03:34:25 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzACT4oQx/HMD5anNqL5Z5wMDFPKbgoePMCG57Qc1HWr3R0IRttxi6d/QCoJGm154sHsK6Vrg==
-X-Received: by 2002:adf:d231:: with SMTP id k17mr8607258wrh.78.1621593265586; 
- Fri, 21 May 2021 03:34:25 -0700 (PDT)
-Received: from localhost.localdomain (31.red-83-51-215.dynamicip.rima-tde.net.
- [83.51.215.31])
- by smtp.gmail.com with ESMTPSA id o8sm1624630wrs.60.2021.05.21.03.34.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 May 2021 03:34:25 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] meson: Fix 'interpretor' typo
-Date: Fri, 21 May 2021 12:34:23 +0200
-Message-Id: <20210521103423.2780345-1-philmd@redhat.com>
-X-Mailer: git-send-email 2.26.3
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1lk2cN-0005Ms-CN; Fri, 21 May 2021 06:43:01 -0400
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 14LAYNxu099982; Fri, 21 May 2021 06:42:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ mime-version : content-transfer-encoding; s=pp1;
+ bh=3UKamKsWZJnrpeweH/xV/JaOraiimYUsgmzrbBK5Fa8=;
+ b=tjZyZ1uTK7/qyf413V30F/NjgnObcRtXpqe2+WBg9xwuAzbqemEbxw1AlI1b6NpLzvJA
+ MPuzF7l620Xrw9MrQWx7xlcrL47a3d1v0u+LeoE1SS26Y0wHTkkVADn2PAC30iHNkabO
+ OTxbG0EKJkigR1XoMxFIsXdcc69Caxq/JdmAq/PB5F1gNfHVOAaINSV4Z9mGxKZaWCnK
+ 9rvG9whwXSePL3j9Ob5Pp5fAbx7GeavvfUNYKiKETN7MGi5FkSSoZ8ql+W7SY7DHl+37
+ MkM8zOnhQSV778L/h0pTtJrcgx4LgdziBPeBu+1lrtLRGyOAz7WEfYEgsHzR7DqZDQjs ug== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 38p9puauw7-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 21 May 2021 06:42:56 -0400
+Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 14LAYrW4101928;
+ Fri, 21 May 2021 06:42:56 -0400
+Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.108])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 38p9puauvb-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 21 May 2021 06:42:56 -0400
+Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
+ by ppma05fra.de.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 14LAgrRS010571;
+ Fri, 21 May 2021 10:42:53 GMT
+Received: from b06avi18626390.portsmouth.uk.ibm.com
+ (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
+ by ppma05fra.de.ibm.com with ESMTP id 38m19ss3tb-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 21 May 2021 10:42:53 +0000
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
+ [9.149.105.62])
+ by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 14LAgLcC34406680
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 21 May 2021 10:42:21 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 34C40AE059;
+ Fri, 21 May 2021 10:42:50 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id D029EAE053;
+ Fri, 21 May 2021 10:42:49 +0000 (GMT)
+Received: from sig-9-145-39-144.uk.ibm.com (unknown [9.145.39.144])
+ by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Fri, 21 May 2021 10:42:49 +0000 (GMT)
+Message-ID: <cc4379ffbf73eb10ee29d91e28384b0bd2dd088b.camel@linux.ibm.com>
+Subject: Re: [PATCH 2/2] tests/tcg/s390x: Test SIGILL handling
+From: Ilya Leoshkevich <iii@linux.ibm.com>
+To: David Hildenbrand <david@redhat.com>, Richard Henderson
+ <richard.henderson@linaro.org>, Laurent Vivier <laurent@vivier.eu>
+Date: Fri, 21 May 2021 12:42:49 +0200
+In-Reply-To: <6470e715-60d5-992c-e5db-1b54d61ef92e@redhat.com>
+References: <20210521030146.2831663-1-iii@linux.ibm.com>
+ <20210521030146.2831663-3-iii@linux.ibm.com>
+ <6470e715-60d5-992c-e5db-1b54d61ef92e@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.4 (3.38.4-1.fc33) 
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.39,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: umF9jOJVleWoNNhEpz-wSw56T05qXyc0
+X-Proofpoint-GUID: ZqebDukxkNEIfi4sIyzy9U1_6JGbxTUV
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
+ definitions=2021-05-21_04:2021-05-20,
+ 2021-05-21 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 bulkscore=0
+ priorityscore=1501 suspectscore=0 phishscore=0 mlxscore=0 impostorscore=0
+ adultscore=0 mlxlogscore=999 malwarescore=0 spamscore=0 lowpriorityscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104190000
+ definitions=main-2105210065
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=iii@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
+X-Spam_bar: --
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,34 +112,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ qemu-devel@nongnu.org, Andreas Krebbel <krebbel@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fix a typo from commit fa2f7b0b9b7 ("meson: Warn when TCI is
-selected but TCG backend is available").
+On Fri, 2021-05-21 at 09:54 +0200, David Hildenbrand wrote:
+> On 21.05.21 05:01, Ilya Leoshkevich wrote:
+> > Verify that s390x-specific uc_mcontext.psw.addr is reported
+> > correctly.
+> > 
+> > Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
+> > ---
+> >   tests/tcg/s390x/Makefile.target |  1 +
+> >   tests/tcg/s390x/sigill.c        | 41
+> > +++++++++++++++++++++++++++++++++
+> >   2 files changed, 42 insertions(+)
+> >   create mode 100644 tests/tcg/s390x/sigill.c
+> > 
+> > diff --git a/tests/tcg/s390x/Makefile.target
+> > b/tests/tcg/s390x/Makefile.target
+> > index 241ef28f61..8699d829a5 100644
+> > --- a/tests/tcg/s390x/Makefile.target
+> > +++ b/tests/tcg/s390x/Makefile.target
+> > @@ -8,3 +8,4 @@ TESTS+=exrl-trtr
+> >   TESTS+=pack
+> >   TESTS+=mvo
+> >   TESTS+=mvc
+> > +TESTS+=sigill
+> > diff --git a/tests/tcg/s390x/sigill.c b/tests/tcg/s390x/sigill.c
+> > new file mode 100644
+> > index 0000000000..f8021dc6af
+> > --- /dev/null
+> > +++ b/tests/tcg/s390x/sigill.c
+> > @@ -0,0 +1,41 @@
+> > +#include <assert.h>
+> > +#include <signal.h>
+> > +#include <string.h>
+> > +#include <ucontext.h>
+> > +#include <unistd.h>
+> > +
+> > +extern char expected_si_addr[];
+> > +extern char expected_psw_addr[];
+> 
+> Why "extern" ? For the magic inline asm below to work?
 
-Reported-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
- meson.build | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Yes - it cannot be static, because AFAIK there is no such thing as
+static variable declaration (one can only define static variables).
 
-diff --git a/meson.build b/meson.build
-index 1559e8d873a..230a0e4b558 100644
---- a/meson.build
-+++ b/meson.build
-@@ -247,7 +247,7 @@
-       error('Unsupported CPU @0@, try --enable-tcg-interpreter'.format(cpu))
-     endif
-   elif get_option('tcg_interpreter')
--    warning('Use of the TCG interpretor is not recommended on this host')
-+    warning('Use of the TCG interpreter is not recommended on this host')
-     warning('architecture. There is a native TCG execution backend available')
-     warning('which provides substantially better performance and reliability.')
-     warning('It is strongly recommended to remove the --enable-tcg-interpreter')
--- 
-2.26.3
+> > +
+> > +static void handle_signal(int sig, siginfo_t *info, void
+> > *ucontext)
+> > +{
+> > +    if (sig != SIGILL) {
+> > +        _exit(1);
+> > +    }
+> > +
+> > +    if (info->si_addr != expected_si_addr) {
+> > +        _exit(2);
+> > +    }
+> > +
+> > +    if (((ucontext_t *)ucontext)->uc_mcontext.psw.addr !=
+> > +            (unsigned long)expected_psw_addr) {
+> > +        _exit(3);
+> > +    }
+> > +}
+> > +
+> > +int main(void)
+> > +{
+> > +    struct sigaction act;
+> > +
+> > +    memset(&act, 0, sizeof(act));
+> > +    act.sa_sigaction = handle_signal;
+> > +    act.sa_flags = SA_SIGINFO;
+> > +
+> > +    int ret = sigaction(SIGILL, &act, NULL);
+> 
+> Mixing code and declaration.
+
+Ouch, will fix.
+
+> > +    assert(ret == 0);
+> > +
+> > +    asm volatile("expected_si_addr:\t.byte\t0x00,0x00\n"
+> > +                 "expected_psw_addr:");
+> 
+> At least I am confused how the right values actually end up in 
+> expected_si_addr and expected_psw_addr.
+> 
+> Can we maybe add a comment? This looks quite hacky ;)
+
+This whole construction is roughly the same as having sigill.s file
+with:
+
+.globl expected_si_addr
+expected_si_addr: .byte 0,0
+.globl expected_psw_addr
+expected_psw_addr: br 14
+
+and sigill.h file with:
+
+void expected_si_addr(void);
+extern char expected_psw_addr[];
+
+Doing it this way would complicate the build, so I thought it would be
+better to just put everything into a single file.
 
 
