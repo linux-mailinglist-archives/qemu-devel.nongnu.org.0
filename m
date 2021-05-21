@@ -2,75 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B6E838C549
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 May 2021 12:53:35 +0200 (CEST)
-Received: from localhost ([::1]:48044 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 439CC38C559
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 May 2021 13:00:58 +0200 (CEST)
+Received: from localhost ([::1]:53378 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lk2mc-0007Gh-Iu
-	for lists+qemu-devel@lfdr.de; Fri, 21 May 2021 06:53:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55578)
+	id 1lk2tk-0002eS-Oa
+	for lists+qemu-devel@lfdr.de; Fri, 21 May 2021 07:00:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56766)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lk2kT-0004z3-HB
- for qemu-devel@nongnu.org; Fri, 21 May 2021 06:51:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47770)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lk2sf-0001we-My
+ for qemu-devel@nongnu.org; Fri, 21 May 2021 06:59:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24802)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lk2kR-0001zW-Kk
- for qemu-devel@nongnu.org; Fri, 21 May 2021 06:51:21 -0400
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lk2sc-0007c9-TH
+ for qemu-devel@nongnu.org; Fri, 21 May 2021 06:59:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621594278;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1621594786;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+QgkDtYMKzdN9ujsO5G5A5BD8pmXKkGrzXgPsUzV3Ps=;
- b=g3dkORfD8oSgJCHhm8pbIlF4S1/ONkzqslNs2hLi9+EX9DoyOiOEsl0dhUIQoUiQ7/3tiI
- lMVtROq2HgOPT/aIJYqB6Webz3lHcUDOJGVPt1Rh5Ew+zAwQgbPn9m1S3Q8Kx/CSHdvT49
- Rg/pxyFygHAbMmKt75X1NrxQObzf/uw=
+ bh=I4K2zKeWIo1An5R61BzBvsDXf+06vN5RoZLO+v6fmZg=;
+ b=PjbG5DnNdI5RF9NQt1bZSIDX9urZ/6a/k8nFgaKMzd295q3XxgXIgrIwFnCkmQG4Qrf7xt
+ K/+4t8Lfq2mV80Q5UO+J8ocSDV3sjQ7F/mgvLL/VylTpElJXLkvAYoUh5DPGqcL4Hz+pTV
+ gvHkSl/wcp+YWaVqelX6S1ooam+G1Lk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-109-EY7K9eKJOBmbRTh_FY5Azw-1; Fri, 21 May 2021 06:51:17 -0400
-X-MC-Unique: EY7K9eKJOBmbRTh_FY5Azw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-344-bjNOZBRUMT-N7Az4XxBC6Q-1; Fri, 21 May 2021 06:59:42 -0400
+X-MC-Unique: bjNOZBRUMT-N7Az4XxBC6Q-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B3111E7B40;
- Fri, 21 May 2021 10:51:15 +0000 (UTC)
-Received: from redhat.com (ovpn-114-5.ams2.redhat.com [10.36.114.5])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 481185D9DE;
- Fri, 21 May 2021 10:51:02 +0000 (UTC)
-Date: Fri, 21 May 2021 11:50:58 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH v3 4/6] gitlab-ci: Add ccache in $PATH and display
- statistics
-Message-ID: <YKeQkqviHbxqcC6Y@redhat.com>
-References: <20210519184549.2192728-1-f4bug@amsat.org>
- <20210519184549.2192728-5-f4bug@amsat.org>
- <5a77ade3-1a6c-2389-4a1c-2c7c2266f298@redhat.com>
- <20c001a0-60ed-df08-b67d-884022e74d04@amsat.org>
- <396e75d2-fe22-3054-fbee-d6de02339b2a@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 42936107ACCD;
+ Fri, 21 May 2021 10:59:41 +0000 (UTC)
+Received: from gondolin.fritz.box (ovpn-113-50.ams2.redhat.com [10.36.113.50])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C4A30610B0;
+ Fri, 21 May 2021 10:59:34 +0000 (UTC)
+Date: Fri, 21 May 2021 12:59:32 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: Ilya Leoshkevich <iii@linux.ibm.com>
+Subject: Re: [PATCH 0/2] Fix SIGILL psw.addr reporting
+Message-ID: <20210521125932.3921857e.cohuck@redhat.com>
+In-Reply-To: <1e96b30913e36c289c9a8fd9a3d2564aea8e56da.camel@linux.ibm.com>
+References: <20210521030146.2831663-1-iii@linux.ibm.com>
+ <e2eb83ba-6937-741c-ea67-1bbd2346f9d5@redhat.com>
+ <1e96b30913e36c289c9a8fd9a3d2564aea8e56da.camel@linux.ibm.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-In-Reply-To: <396e75d2-fe22-3054-fbee-d6de02339b2a@redhat.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=cohuck@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.39,
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.374,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
@@ -86,78 +79,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Kyle Evans <kevans@freebsd.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-devel@nongnu.org,
- Willian Rampazzo <willianr@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Warner Losh <imp@bsdimp.com>
+Cc: David Hildenbrand <david@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Laurent Vivier <laurent@vivier.eu>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ Andreas Krebbel <krebbel@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, May 21, 2021 at 12:48:21PM +0200, Thomas Huth wrote:
-> On 20/05/2021 13.27, Philippe Mathieu-Daudé wrote:
-> > +Stefan/Daniel
-> > 
-> > On 5/20/21 10:02 AM, Thomas Huth wrote:
-> > > On 19/05/2021 20.45, Philippe Mathieu-Daudé wrote:
-> > > > If a runner has ccache installed, use it and display statistics
-> > > > at the end of the build.
-> > > > 
-> > > > Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> > > > ---
-> > > >    .gitlab-ci.d/buildtest-template.yml | 5 +++++
-> > > >    1 file changed, 5 insertions(+)
-> > > > 
-> > > > diff --git a/.gitlab-ci.d/buildtest-template.yml
-> > > > b/.gitlab-ci.d/buildtest-template.yml
-> > > > index f284d7a0eec..a625c697d3b 100644
-> > > > --- a/.gitlab-ci.d/buildtest-template.yml
-> > > > +++ b/.gitlab-ci.d/buildtest-template.yml
-> > > > @@ -6,13 +6,18 @@
-> > > >          then
-> > > >            JOBS=$(sysctl -n hw.ncpu)
-> > > >            MAKE=gmake
-> > > > +        PATH=/usr/local/libexec/ccache:$PATH
-> > > >            ;
-> > > >          else
-> > > >            JOBS=$(expr $(nproc) + 1)
-> > > >            MAKE=make
-> > > > +        PATH=/usr/lib/ccache:/usr/lib64/ccache:$PATH
+On Fri, 21 May 2021 12:45:30 +0200
+Ilya Leoshkevich <iii@linux.ibm.com> wrote:
+
+> On Fri, 2021-05-21 at 09:42 +0200, David Hildenbrand wrote:
+> > On 21.05.21 05:01, Ilya Leoshkevich wrote:  
+> > > qemu-s390x puts a wrong value into SIGILL's siginfo_t's psw.addr:
+> > > it
+> > > should be a pointer to the instruction following the illegal
+> > > instruction, but at the moment it is a pointer to the illegal
+> > > instruction itself. This breaks OpenJDK, which relies on this
+> > > value.
 > > > 
-> > > That does not make sense for the shared runners yet. We first need
-> > > something to enable the caching there - see my series "Use ccache in the
-> > > gitlab-CI" from April (which is currently stalled unfortunately).
+> > > Patch 1 fixes the issue, patch 2 adds a test.  
 > > 
-> > TL;DR: I don't think we should restrict our templates to shared runners.
+> > I assume that should fix
+> > 
+> > https://bugs.launchpad.net/qemu/+bug/1920913
+> > 
+> > right?  
 > 
-> I'm certainly not voting for restricting ourselves to only use shared
-> runners here - but my concern is that this actually *slows* down the shared
-> runners even more! (sorry, I should have elaborated on that in my previous
-> mail already)
-> 
-> When I was experimenting with ccache in the shared runners, I saw that the
-> jobs are running even slower with ccache enabled as long as the cache is not
-> populated yet. You only get a speedup afterwards. So if you add this now
-> without also adding the possibility to store the cache persistently, the
-> shared runners will try to populate the cache each time just to throw away
-> the results afterwards again. Thus all the shared runners only get slower
-> without any real benefit here.
-> 
-> Thus we either need to get ccache working properly for the shared runners
-> first, or you have to think of a different way of enabling ccache for the
-> non-shared runners, so that it does not affect the shared runners
-> negatively.
+> Yes, I have this Buglink in the fix commit message.
 
-Is there anything functional holding up your previous full cccache support
-series from last month ? Or is it just lack of reviews ?
+Better add https://gitlab.com/qemu-project/qemu/-/issues/319 as the
+Buglink :)
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+> I have to admit I did not test Java more extensively - there might be
+> more things going on - but at least with this the SIGILL on startup is
+> gone, and very simple programs work.
+> 
+> 
 
 
