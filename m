@@ -2,37 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D2BA38CF10
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 May 2021 22:28:44 +0200 (CEST)
-Received: from localhost ([::1]:34826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32C9438CF02
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 May 2021 22:22:47 +0200 (CEST)
+Received: from localhost ([::1]:47360 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lkBl8-0003uC-CV
-	for lists+qemu-devel@lfdr.de; Fri, 21 May 2021 16:28:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50448)
+	id 1lkBfS-0001cB-7p
+	for lists+qemu-devel@lfdr.de; Fri, 21 May 2021 16:22:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50468)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bruno.larsen@eldorado.org.br>)
- id 1lkBcX-0007DX-NE; Fri, 21 May 2021 16:19:45 -0400
+ id 1lkBca-0007KP-7H; Fri, 21 May 2021 16:19:48 -0400
 Received: from [201.28.113.2] (port=30260 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <bruno.larsen@eldorado.org.br>)
- id 1lkBcW-0001dV-7d; Fri, 21 May 2021 16:19:45 -0400
+ id 1lkBcY-0001dV-MZ; Fri, 21 May 2021 16:19:47 -0400
 Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
  Microsoft SMTPSVC(8.5.9600.16384); Fri, 21 May 2021 17:18:19 -0300
 Received: from eldorado.org.br (unknown [10.10.71.235])
- by power9a (Postfix) with ESMTP id 7F1D98013E6;
+ by power9a (Postfix) with ESMTP id 939968013E3;
  Fri, 21 May 2021 17:18:19 -0300 (-03)
 From: "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 5/9] target/ppc: removed unnecessary inclusion of
- helper-proto.h
-Date: Fri, 21 May 2021 17:17:55 -0300
-Message-Id: <20210521201759.85475-6-bruno.larsen@eldorado.org.br>
+Subject: [PATCH v3 6/9] target/ppc: moved ppc_cpu_do_interrupt to cpu.c
+Date: Fri, 21 May 2021 17:17:56 -0300
+Message-Id: <20210521201759.85475-7-bruno.larsen@eldorado.org.br>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210521201759.85475-1-bruno.larsen@eldorado.org.br>
 References: <20210521201759.85475-1-bruno.larsen@eldorado.org.br>
-X-OriginalArrivalTime: 21 May 2021 20:18:19.0635 (UTC)
- FILETIME=[70D19C30:01D74E7E]
+X-OriginalArrivalTime: 21 May 2021 20:18:19.0714 (UTC)
+ FILETIME=[70DDAA20:01D74E7E]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
 Received-SPF: pass client-ip=201.28.113.2;
  envelope-from=bruno.larsen@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -60,66 +59,101 @@ Cc: farosas@linux.ibm.com, richard.henderson@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These files included helper-proto.h, but didn't use or declare any
-helpers, so the #include has been removed
+Moved the ppc_cpu_do_interrupt function to cpu.c file, where it makes
+more sense, and turned powerpc_excp not static, as it now needs to be
+accessed from outside of excp_helper.c
 
 Signed-off-by: Bruno Larsen (billionai) <bruno.larsen@eldorado.org.br>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/ppc/cpu_init.c    | 1 -
- target/ppc/gdbstub.c     | 1 -
- target/ppc/mmu-hash32.c  | 1 -
- target/ppc/mmu-radix64.c | 1 -
- 4 files changed, 4 deletions(-)
+ target/ppc/cpu.c         | 20 ++++++++++++++++++++
+ target/ppc/cpu.h         |  1 +
+ target/ppc/excp_helper.c | 19 +------------------
+ 3 files changed, 22 insertions(+), 18 deletions(-)
 
-diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
-index 3365135896..b696469d1a 100644
---- a/target/ppc/cpu_init.c
-+++ b/target/ppc/cpu_init.c
-@@ -43,7 +43,6 @@
- #include "fpu/softfloat.h"
- #include "qapi/qapi-commands-machine-target.h"
+diff --git a/target/ppc/cpu.c b/target/ppc/cpu.c
+index 19d67b5b07..95898f348b 100644
+--- a/target/ppc/cpu.c
++++ b/target/ppc/cpu.c
+@@ -152,3 +152,23 @@ void ppc_store_fpscr(CPUPPCState *env, target_ulong val)
+         fpscr_set_rounding_mode(env);
+     }
+ }
++
++/* Exception processing */
++#if defined(CONFIG_USER_ONLY)
++void ppc_cpu_do_interrupt(CPUState *cs)
++{
++    PowerPCCPU *cpu = POWERPC_CPU(cs);
++    CPUPPCState *env = &cpu->env;
++
++    cs->exception_index = POWERPC_EXCP_NONE;
++    env->error_code = 0;
++}
++#else
++void ppc_cpu_do_interrupt(CPUState *cs)
++{
++    PowerPCCPU *cpu = POWERPC_CPU(cs);
++    CPUPPCState *env = &cpu->env;
++
++    powerpc_excp(cpu, env->excp_model, cs->exception_index);
++}
++#endif
+diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+index 203f07e48e..65a08cc424 100644
+--- a/target/ppc/cpu.h
++++ b/target/ppc/cpu.h
+@@ -1254,6 +1254,7 @@ DECLARE_OBJ_CHECKERS(PPCVirtualHypervisor, PPCVirtualHypervisorClass,
+ #endif /* CONFIG_USER_ONLY */
  
--#include "exec/helper-proto.h"
- #include "helper_regs.h"
- #include "internal.h"
- #include "spr_tcg.h"
-diff --git a/target/ppc/gdbstub.c b/target/ppc/gdbstub.c
-index c7d866cfcc..09ff1328d4 100644
---- a/target/ppc/gdbstub.c
-+++ b/target/ppc/gdbstub.c
-@@ -20,7 +20,6 @@
- #include "qemu/osdep.h"
- #include "cpu.h"
- #include "exec/gdbstub.h"
--#include "exec/helper-proto.h"
- #include "internal.h"
+ void ppc_cpu_do_interrupt(CPUState *cpu);
++void powerpc_excp(PowerPCCPU *cpu, int excp_model, int excp);
+ bool ppc_cpu_exec_interrupt(CPUState *cpu, int int_req);
+ void ppc_cpu_dump_state(CPUState *cpu, FILE *f, int flags);
+ void ppc_cpu_dump_statistics(CPUState *cpu, int flags);
+diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
+index f4f15279eb..80bb6e70e9 100644
+--- a/target/ppc/excp_helper.c
++++ b/target/ppc/excp_helper.c
+@@ -38,15 +38,6 @@
+ /*****************************************************************************/
+ /* Exception processing */
+ #if defined(CONFIG_USER_ONLY)
+-void ppc_cpu_do_interrupt(CPUState *cs)
+-{
+-    PowerPCCPU *cpu = POWERPC_CPU(cs);
+-    CPUPPCState *env = &cpu->env;
+-
+-    cs->exception_index = POWERPC_EXCP_NONE;
+-    env->error_code = 0;
+-}
+-
+ static void ppc_hw_interrupt(CPUPPCState *env)
+ {
+     CPUState *cs = env_cpu(env);
+@@ -324,7 +315,7 @@ static inline void powerpc_set_excp_state(PowerPCCPU *cpu,
+  * Note that this function should be greatly optimized when called
+  * with a constant excp, from ppc_hw_interrupt
+  */
+-static inline void powerpc_excp(PowerPCCPU *cpu, int excp_model, int excp)
++inline void powerpc_excp(PowerPCCPU *cpu, int excp_model, int excp)
+ {
+     CPUState *cs = CPU(cpu);
+     CPUPPCState *env = &cpu->env;
+@@ -968,14 +959,6 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int excp_model, int excp)
+     powerpc_set_excp_state(cpu, vector, new_msr);
+ }
  
- static int ppc_gdb_register_len_apple(int n)
-diff --git a/target/ppc/mmu-hash32.c b/target/ppc/mmu-hash32.c
-index 32d1f4a954..6a07c345e4 100644
---- a/target/ppc/mmu-hash32.c
-+++ b/target/ppc/mmu-hash32.c
-@@ -21,7 +21,6 @@
- #include "qemu/osdep.h"
- #include "cpu.h"
- #include "exec/exec-all.h"
--#include "exec/helper-proto.h"
- #include "sysemu/kvm.h"
- #include "kvm_ppc.h"
- #include "internal.h"
-diff --git a/target/ppc/mmu-radix64.c b/target/ppc/mmu-radix64.c
-index eabfe4e261..cbd404bfa4 100644
---- a/target/ppc/mmu-radix64.c
-+++ b/target/ppc/mmu-radix64.c
-@@ -20,7 +20,6 @@
- #include "qemu/osdep.h"
- #include "cpu.h"
- #include "exec/exec-all.h"
--#include "exec/helper-proto.h"
- #include "qemu/error-report.h"
- #include "sysemu/kvm.h"
- #include "kvm_ppc.h"
+-void ppc_cpu_do_interrupt(CPUState *cs)
+-{
+-    PowerPCCPU *cpu = POWERPC_CPU(cs);
+-    CPUPPCState *env = &cpu->env;
+-
+-    powerpc_excp(cpu, env->excp_model, cs->exception_index);
+-}
+-
+ static void ppc_hw_interrupt(CPUPPCState *env)
+ {
+     PowerPCCPU *cpu = env_archcpu(env);
 -- 
 2.17.1
 
