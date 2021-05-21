@@ -2,69 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA7D038C893
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 May 2021 15:45:58 +0200 (CEST)
-Received: from localhost ([::1]:35570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C385238C895
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 May 2021 15:46:14 +0200 (CEST)
+Received: from localhost ([::1]:36536 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lk5TR-0004Mo-HW
-	for lists+qemu-devel@lfdr.de; Fri, 21 May 2021 09:45:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35564)
+	id 1lk5Th-00051k-Qh
+	for lists+qemu-devel@lfdr.de; Fri, 21 May 2021 09:46:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35660)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lk5Rx-0003LT-5I
- for qemu-devel@nongnu.org; Fri, 21 May 2021 09:44:25 -0400
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:39515)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lk5SK-0003e2-Tm
+ for qemu-devel@nongnu.org; Fri, 21 May 2021 09:44:48 -0400
+Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:41630)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lk5Rv-00077Y-GC
- for qemu-devel@nongnu.org; Fri, 21 May 2021 09:44:24 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id v12so21132258wrq.6
- for <qemu-devel@nongnu.org>; Fri, 21 May 2021 06:44:22 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lk5SJ-00079w-Ad
+ for qemu-devel@nongnu.org; Fri, 21 May 2021 09:44:48 -0400
+Received: by mail-ej1-x630.google.com with SMTP id gb17so12525802ejc.8
+ for <qemu-devel@nongnu.org>; Fri, 21 May 2021 06:44:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=jJ9A8NSOMHlWWLTXVU0zVnALuS6z/ApiFuTPwQSqqso=;
- b=y0Fu++nEBK2wfWPVDdeDuuKVBl0SkVo6yYad13q4G1jMivkvwIISUwTLJUvmZw5GhQ
- FdAk7gVhcQRGfcBMCBW+R6EKOvsMTJwAn6/zbn39pcP1SOU97IeKSyuI9I+PCyzg4i+c
- dZdp72gl7NOrtp+rX4BXoqbnzknhVBp+lc25WFCmjQY7ZsLfclJrtIFyocASjW2EGq/f
- 94Ew94k43LcsddEsof8pqjgDZZX1gSiOYL6NU6D3iWuPLNf7MIl3qd/rqbP5n+vD6U2M
- 8pKCsGB6/YACkQF5UKTdoDaJXXB9K48/qf7Ec+gcpOEqL7uV047jZP/OGJm4wHvGCWfz
- ysWA==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Q7PNiwNoHCthhohK2nlZun7o9OOPlQ3srXDsQsOOV98=;
+ b=HhCwJi1f2deeyrVEdnty8yd3a5wdIfFVThem0VdRMM9s/peAhyemzP016bcg7xXjpN
+ cdky2AhCoGmqbXF0sM8z4RR9Mnt5Cz6ntdMaATQM35Bl1EKVPsYwYNYT+wkAggycxlWL
+ NAZywQuYzDnQldO3ZSxfChbaCPspAMyshRpAybwMb4a34igtyq6GBnAdAeQbLUNzwdYm
+ EcjF8JphPFzh8QS0o2o57FR573y1b3gWm6QCztwpHY2w//9TgTBZX+2hE6lsOkA4x7ww
+ xXHa0laBg6Pmn1rPAzI5KQKz+c2H3iJ2oa9bUStAgAYVi92liX1A7KQ4s8QvrBgh+YQ3
+ EWYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=jJ9A8NSOMHlWWLTXVU0zVnALuS6z/ApiFuTPwQSqqso=;
- b=qDxsmMD6qy5BLnxV7AXy/tX9Cb+iq0HUBbB3fevkJZuuwNH6Duxdq+kGrpwTLUX+v4
- nliQH51FlybKVakzWX5lCy1f0/lxxgN9vfn1hHZ4ngOz5nkkC6NGhqR9MHlyqs9H0tw/
- xfyyazfzhNw2bS5DfLg+k4OwtV1vMbkJP6Q/+xF6HWzdmFY9PDdRCfciFu9Z2wKNwymr
- 6+3l1qE1xFZtXxbTDx1pUPTZk83n3QLTbyzCkMWQcO+5Cj/uC2nMsv6TAIs9mSX4D64T
- VLRjhj0d/gw1ziBAbgoE0Xc32Zoheek8xGlrYucpNZfEltMnFKzpvUH/yBMggN/LCiPj
- gQvQ==
-X-Gm-Message-State: AOAM533WrFyareNmFVCzeqXFC60/bjPuEEChkjkv7nnsw53F05XS+Yam
- cjUsyOj3hpciuYvJzp8vH4E9lA==
-X-Google-Smtp-Source: ABdhPJwZWNbEegLNRpFfgry+Ukb5eGqKku5XKUJLNlVMUAlO4TNUDeyFPrH/hDcyWjD8InTNdzf/IQ==
-X-Received: by 2002:a5d:658f:: with SMTP id q15mr9540618wru.399.1621604661515; 
- Fri, 21 May 2021 06:44:21 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id v18sm2717927wro.18.2021.05.21.06.44.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 May 2021 06:44:20 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id D27FD1FF7E;
- Fri, 21 May 2021 14:44:19 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [RFC PATCH] meson.build: fix cosmetics of compiler display
-Date: Fri, 21 May 2021 14:44:11 +0100
-Message-Id: <20210521134411.31658-1-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Q7PNiwNoHCthhohK2nlZun7o9OOPlQ3srXDsQsOOV98=;
+ b=GDKTxpwO28Adt71PhCy3dnVcqLj8TsayoHxuPxmBz4h2M+o9OE29m9X7o5AnOjCiYB
+ ZMw2saCxlSdie13qq21/YfP6klRYbmzycvxcPY/iYLceEsnkjhPyN1rymbfAvkAEqQji
+ wVUY++A23w0tYC80WFIpQ3k+0U7DAuMTW3iuVI9JSC+tJq4SIIVHqGBlrHIAKPbioEmx
+ ChX9II9iO/RJ31WKr4YhUox1Eylh5QuRbwt4lQMBrjqbiyQRcPKY/VrjXZT0mvZddN1C
+ mx0kIsoDo7Xv5xMCbO6zF2eBzFSPp4C+8BeSoVl8e+N7MvoK7wLqxYooHfHY7qChrLKi
+ 9Ohw==
+X-Gm-Message-State: AOAM5312aa8pMdGk58DkHCWggwHEg49PFjPWZn6730M4tcT7lc3m2EGm
+ k6OJE1d9ZWGAiTRJLCfgMKZkZ5aVo3df+8V4XF36ng==
+X-Google-Smtp-Source: ABdhPJxnlgByxoLNNyeF6Vd2yTXogMymEDbUiCvtXtTofXLyiwk0rWsWVMaBawomIG57njxKB2bF5B919uGm3x3P3qc=
+X-Received: by 2002:a17:906:d8cb:: with SMTP id
+ re11mr10445249ejb.482.1621604685784; 
+ Fri, 21 May 2021 06:44:45 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
+References: <20210520082257.187061-1-pbonzini@redhat.com>
+ <CAFEAcA_MV=UiHW4Kp3Zb4iT_5BHgqVwj9Qem1xjmp1AJ++K=sQ@mail.gmail.com>
+ <7775729e-e217-f469-429b-a966996a1ef3@redhat.com>
+In-Reply-To: <7775729e-e217-f469-429b-a966996a1ef3@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 21 May 2021 14:44:25 +0100
+Message-ID: <CAFEAcA8CbJyJaooT9xS+Tg+omPCz+w_6rSJER49_MMhHt8h7rw@mail.gmail.com>
+Subject: Re: [PULL 00/26] Misc patches for 2021-05-20
+To: Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::630;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x630.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,45 +79,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, thuth@redhat.com,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If you specify something like --cc="ccache gcc" on your configure line
-the summary output misses the rest of the cmd_array. Do some string
-joining to make it complete.
+On Fri, 21 May 2021 at 14:27, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> On 20/05/21 15:26, Peter Maydell wrote:
+> > WARNING: Project specifies a minimum meson_version '>=0.55.0' but uses
+> > features which were added in newer versions:
+> >   * 0.57.0: {'test() timeout <= 0'}
+> >
+> > ERROR: Could not detect Ninja v1.8.2 or newer
+> >
+> > (This system has ninja-build 1.7.2.)
+>
+> What OS is it, and is there any chance of updating it?  ninja 1.7 was
+> released in 2017, and I checked that all the supported OSes for QEMU
+> have 1.8 before sending the pull request.
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- meson.build | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+It's the gcc compile farm's ppc64 box, whose /etc/redhat-release
+says it's running "CentOS Linux release 7.9.2009 (AltArch)".
+I don't have control over system upgrades for it.
 
-diff --git a/meson.build b/meson.build
-index 1559e8d873..ca65552f31 100644
---- a/meson.build
-+++ b/meson.build
-@@ -2510,15 +2510,15 @@ summary(summary_info, bool_yn: true, section: 'Configurable features')
- summary_info = {}
- summary_info += {'host CPU':          cpu}
- summary_info += {'host endianness':   build_machine.endian()}
--summary_info += {'C compiler':        meson.get_compiler('c').cmd_array()[0]}
--summary_info += {'Host C compiler':   meson.get_compiler('c', native: true).cmd_array()[0]}
-+summary_info += {'C compiler':        ' '.join(meson.get_compiler('c').cmd_array())}
-+summary_info += {'Host C compiler':   ' '.join(meson.get_compiler('c', native: true).cmd_array())}
- if link_language == 'cpp'
--  summary_info += {'C++ compiler':      meson.get_compiler('cpp').cmd_array()[0]}
-+  summary_info += {'C++ compiler':    ' '.join(meson.get_compiler('cpp').cmd_array())}
- else
-   summary_info += {'C++ compiler':      false}
- endif
- if targetos == 'darwin'
--  summary_info += {'Objective-C compiler': meson.get_compiler('objc').cmd_array()[0]}
-+  summary_info += {'Objective-C compiler': ' '.join(meson.get_compiler('objc').cmd_array())}
- endif
- if targetos == 'windows'
-   if 'WIN_SDK' in config_host
--- 
-2.20.1
+I do notice that there's a newer ppc64 box in the farm running
+Debian 11 (bullseye), so maybe we could just switch to using that.
 
+> > Also, my OSX build which I configure with
+> > ../..configure --extra-cflags='-fdiagnostics-color=never -Werror
+> > -Wno-error=deprecated-declarations'
+> >
+> > now triggers a meson.build warning:
+> >
+> > ../../meson.build:118: WARNING: Consider using the built-in werror
+> > option instead of using "-Werror".
+> > ../../meson.build:120: WARNING: Consider using the built-in werror
+> > option instead of using "-Werror".
+> > ../../meson.build:122: WARNING: Consider using the built-in werror
+> > option instead of using "-Werror".
+>
+> Which makes sense since we have --enable/--disable-werror.
+
+Mmm. I think I started using cflags for that back when configure
+never enabled Werror for anything except Linux. I'll check that
+there isn't some subtle issue with -Werror and -Wno-error=foo
+needing to be in a particular order in the command line, but otherwise
+I'll just update the configure rune for that build box.
+
+thanks
+-- PMM
 
