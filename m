@@ -2,100 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65F4238CB44
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 May 2021 18:49:03 +0200 (CEST)
-Received: from localhost ([::1]:45076 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B23F38CB6E
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 May 2021 18:58:34 +0200 (CEST)
+Received: from localhost ([::1]:49372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lk8Kc-0002Y5-Fq
-	for lists+qemu-devel@lfdr.de; Fri, 21 May 2021 12:49:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33138)
+	id 1lk8Tp-00062K-7k
+	for lists+qemu-devel@lfdr.de; Fri, 21 May 2021 12:58:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35260)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lk8J7-0001hI-Od
- for qemu-devel@nongnu.org; Fri, 21 May 2021 12:47:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42876)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lk8Rx-00056h-Mm
+ for qemu-devel@nongnu.org; Fri, 21 May 2021 12:56:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56744)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lk8J4-0004hG-Iz
- for qemu-devel@nongnu.org; Fri, 21 May 2021 12:47:29 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lk8Ru-0006Nn-Qg
+ for qemu-devel@nongnu.org; Fri, 21 May 2021 12:56:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621615645;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1621616192;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ahEpdhHHs73XCb2FGRdDZAWM07nEcizFI//VnC2x2Kk=;
- b=OWmdEW38LkcH50MYI9nhhaUMh5MJElLhzP8xepBUE6/BEZsmTrnKGx5JmjZx+a1f2xIeAX
- SML1YNyIFtfgVanSW4IhbINeG9Zs2/TLMSys5ndWD9CYiTJ4azx4eaops+5UniOs+DVRIz
- I6p4Wg1fcaXDoQLdiVZ5rKT8Zddz17g=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-389-rNnU9CsWNLi8zW-vL_jUYw-1; Fri, 21 May 2021 12:47:24 -0400
-X-MC-Unique: rNnU9CsWNLi8zW-vL_jUYw-1
-Received: by mail-ej1-f72.google.com with SMTP id
- h18-20020a1709063992b02903d59b32b039so6294307eje.12
- for <qemu-devel@nongnu.org>; Fri, 21 May 2021 09:47:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ahEpdhHHs73XCb2FGRdDZAWM07nEcizFI//VnC2x2Kk=;
- b=fmLsOaMn6qSlcGuBRFtvD6EwRt6H4+GQ5GW4bDG2tKntxXGfphvy2FLhmRGVlkuXGL
- clAYjQz+pZgB0hOUJbAUh7AOLfiF7nE58DE1vJ94LRWgbRfWQUNeeGmqe51WMkyvNLSv
- olPPfYjP9IuiPePALP/6QxVgzwtszRjmnjxfkMgjfwXBwxqI9aCVfTFlN5qQNhxW4H6c
- VexlNgverq08GYzejz2aKT70VjZKP1iyzaXYDqACjGQU0two3svouaXql2SfBXrlab01
- L2Uv3J7oKIPceQ/YPpb+vOVkEFcNprPjSDoa/FIMxlEYyu65+ErDINGgYVWBSx56q8ga
- Bcjw==
-X-Gm-Message-State: AOAM532ytHMJYmdbw0LNogTZhiLHFAkuQotcTDwj04NfsKrWsASSFxSc
- oUkyomDuJK/QGCGzXEFQXMxSM1LvWZXBNcldPNEVtopjJ7Gt1RMlHgVG7jvJEeSYq9G7BFv1Pu+
- EW5Ei0RHAIr9bX61BWWdsxmb/LhKkb0RwIOD7q7fZ5qokz0ePKp7cMJOmxUozre0zcwM=
-X-Received: by 2002:a17:906:680d:: with SMTP id
- k13mr11391727ejr.371.1621615642732; 
- Fri, 21 May 2021 09:47:22 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyh/IUaWEDFoOZQrPt/wHwzPfXW0gMmCSp1jdY6LhMGJq5UG/0VJjzRNrGxsSenfrI+yfYLNQ==
-X-Received: by 2002:a17:906:680d:: with SMTP id
- k13mr11391694ejr.371.1621615642443; 
- Fri, 21 May 2021 09:47:22 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id q25sm3883989ejd.9.2021.05.21.09.47.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 21 May 2021 09:47:21 -0700 (PDT)
-Subject: Re: [PATCH v2 6/7] block-copy: atomic .cancelled and .finished fields
- in BlockCopyCallState
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
-References: <20210518100757.31243-1-eesposit@redhat.com>
- <20210518100757.31243-7-eesposit@redhat.com>
- <068832dd-c577-0234-4a1d-dfdae6a5b4dd@virtuozzo.com>
- <05e94bee-8ee8-e23f-19c1-a7fcb540e080@redhat.com>
- <9dd72513-87f6-bb54-2364-35e767e903e4@virtuozzo.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <11060538-b2dc-cd00-a898-7ec6292b6ae9@redhat.com>
-Date: Fri, 21 May 2021 18:47:20 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ bh=+R5coJqNf0Y8CNLpPMdpWrfpiuxLzOPDiQQ68p6pYsE=;
+ b=RWQJlYkKlaVU6EWArMe4cWshpwSBGalvs9tpBykmA+r0IftY4o8ve8oE88m6bA1HgIhvCz
+ 4TPkOZAj23P8ThljP1IiJHTH1mmRvb8SqCIAB54d3KbNSXJdOj/QEOnZUNXxQKXpHIuely
+ J0TJuZB108MzVpsqN/WkFYotE+N9UpQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-366-YdOhsffDNUGbiUOR47htjw-1; Fri, 21 May 2021 12:56:25 -0400
+X-MC-Unique: YdOhsffDNUGbiUOR47htjw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DFCA48015F8;
+ Fri, 21 May 2021 16:56:23 +0000 (UTC)
+Received: from redhat.com (ovpn-114-5.ams2.redhat.com [10.36.114.5])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CCCA15C1BB;
+ Fri, 21 May 2021 16:56:16 +0000 (UTC)
+Date: Fri, 21 May 2021 17:56:14 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Peter Xu <peterx@redhat.com>, chenjiashang@huawei.com,
+ Markus Armbruster <armbru@redhat.com>, QEMU <qemu-devel@nongnu.org>,
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, "Longpeng (Mike,
+ Cloud Infrastructure Service Product Dept.)" <longpeng2@huawei.com>
+Subject: Re: A bug of Monitor Chardev ?
+Message-ID: <YKfmLgz59nv5Ef5u@redhat.com>
+References: <cd197959-7da0-ee50-1e65-e6b2e7107a86@huawei.com>
+ <CAJ+F1C+4URqrZvAiBk+o-Ei4etL_oBtdPr0cugGmnMaYaZqGyA@mail.gmail.com>
+ <YKU/k/DIJd6gMLvw@redhat.com> <87lf88pmyn.fsf@dusky.pond.sub.org>
+ <YKfHGC79w0uv41Zd@t490s> <YKfg6j4mPjvjSrcF@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <9dd72513-87f6-bb54-2364-35e767e903e4@virtuozzo.com>
+In-Reply-To: <YKfg6j4mPjvjSrcF@redhat.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.374,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -108,44 +89,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, John Snow <jsnow@redhat.com>,
- qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
- Max Reitz <mreitz@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 21/05/21 17:56, Vladimir Sementsov-Ogievskiy wrote:
-> 21.05.2021 18:02, Paolo Bonzini wrote:
->> On 20/05/21 17:34, Vladimir Sementsov-Ogievskiy wrote:
->>>
->>>> By adding acquire/release pairs, we ensure that .ret and .error_is_read
->>>> fields are written by block_copy_dirty_clusters before .finished is 
->>>> true.
->>>
->>> As I already said, please, can we live with one mutex for now? 
->>> finished, ret, error_is_read, all these variables are changing 
->>> rarely. I doubt that performance is improved by these atomic 
->>> operations. But complexity of the architecture increases exponentially.
->>
->> The problem is that these are used outside coroutines. 
->> load-acquire/store-release is the simplest way to handle a "finished" 
->> flag really.
->>
+On Fri, May 21, 2021 at 05:33:46PM +0100, Daniel P. Berrangé wrote:
+> On Fri, May 21, 2021 at 10:43:36AM -0400, Peter Xu wrote:
+> > 
+> > I think the original problem was that if qemu_chr_fe_set_handlers() is called
+> > in main thread, it can start to race somehow within execution of the function
+> > qemu_chr_fe_set_handlers() right after we switch context at:
+> > 
+> >     qemu_chr_be_update_read_handlers(s, context);
+> > 
+> > Then the rest code in qemu_chr_fe_set_handlers() will continue to run in main
+> > thread for sure, but the should be running with the new iothread context, which
+> > introduce a race condition.
+> > 
+> > Running qemu_chr_be_update_read_handlers() in BH resolves that because then all
+> > things run in the monitor iothread only and natually serialized.
 > 
-> Related, maybe we can support CoMutex outside of coroutine context?
+> The first message in this thread, however, claims that it is *not*
+> in fact serialized, when using the BH. 
 > 
-> Create a coroutine, which will lock the mutex and unlock it for us... Or 
-> something like this.. It will help the task of making everything 
-> thread-safe a lot
+> > So the new comment looks indeed not fully right, as the chr device should be
+> > indeed within main thread context before qemu_chr_fe_set_handlers(), it's just
+> > that the race may start right away if without BH when context switch happens
+> > for the chr.
+> 
+> It sounds like both the comment and the code are potentially wrong.
 
-No, it's not possible because the coroutine will yield to the caller if 
-the mutex is contended, but the caller will not be able to use the data 
-that is protected by the mutex.
 
-There is no reason to have stuff like block_copy_call_status be a 
-coroutine_fn.  Even if it's only called from a coroutine today I'd 
-rather have the code more future proof.
+I feel like our root cause problem that the original code was trying to
+workaround, is that the chardev is "active" from the very moment it is
+created, regardless of whether the frontend is ready to use it.
 
-Paolo
+IIUC, in this case the socket chardev is already listen()ing and
+accept()ing incoming clients off the network, before the monitor
+has finished configuring its hooks into the chardev. This means
+that the initial listen()/accept() I/O watches are using the
+default GMainContext, and the monitor *has* to remove them and
+put in new watches on the thread private GMainContext.
+
+To eliminate any risk of races, we need to make it possible for the
+monitor to configure the GMainContext on the chardevs *before* any
+I/O watches are configured.
+
+This in turn suggests that we need to split the chardev initialization
+into two phases. First we have the basic chardev creation, with object
+creation, option parsing/sanity checking, socket creation, and then
+second we have the actual activation where the I/O watches are added.
+
+IOW,  qemu_chr_new() is the former and gets run from generic code in
+the main() method, or in QMP chardev_add.  A new 'qemu_chr_activate'
+method would be called by whatever frontend is using the chardev,
+after registering a custom GMainContext.
+
+This would involve updating every single existing user of chardevs
+to add a call to qemu_chr_activate, but that's worth it to eliminate
+the race by design, rather than workaround it.
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
