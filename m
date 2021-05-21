@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04CDB38CCC4
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 May 2021 19:55:16 +0200 (CEST)
-Received: from localhost ([::1]:37958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCD9F38CCB8
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 May 2021 19:52:00 +0200 (CEST)
+Received: from localhost ([::1]:55936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lk9Mh-00081i-0R
-	for lists+qemu-devel@lfdr.de; Fri, 21 May 2021 13:55:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47586)
+	id 1lk9JX-0000yv-Q2
+	for lists+qemu-devel@lfdr.de; Fri, 21 May 2021 13:51:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47598)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lk9HW-0005iJ-8t; Fri, 21 May 2021 13:49:54 -0400
-Received: from mail-eopbgr80131.outbound.protection.outlook.com
- ([40.107.8.131]:27182 helo=EUR04-VI1-obe.outbound.protection.outlook.com)
+ id 1lk9HY-0005jU-I7; Fri, 21 May 2021 13:49:58 -0400
+Received: from mail-eopbgr30105.outbound.protection.outlook.com
+ ([40.107.3.105]:26486 helo=EUR03-AM5-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lk9HS-000645-Ri; Fri, 21 May 2021 13:49:53 -0400
+ id 1lk9HV-00065R-PA; Fri, 21 May 2021 13:49:56 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=RT91Y5xwe7ZHVxkA84vxvf3x0jker3hxQSNP3QZli4tJ+OaJIsXWMg6LzSfAyM7r/CVqd6qBO72rv88zPh0mNYJv9xxzjS16Sk4L4GuG9K9PGvIOI4i6XR2OZJ/fKs47OYXxlZz5iG0ZftfjL9s1ZBZq0nFeMpMHbkVVaIKjCKtsKgqDzYfx6wV/yONnNtmCIX0ntwbv08SucAi+uBnKX6hiqY8fWvnc1JT2n28oUxWknYGNXlel1J8IsPpIGSnSzzjAIgJUEfPk1aJrSa9/m+PgmHLdAFCfrmMsplNjhYLxQPpkADdV7xOZI3QknVOLgnFi/zUqa/IYDKd22pYtvg==
+ b=gDB/EG90xHdUamd8XkE90NvJs9pyhO6tALhVEaouUgU6xCXTN3J9TgoaWgcXPL5Fbpe1rBNDMpqPxPqa1a6NK2+HsRBRpnwa3RrS8yPBxVtURvwq+YmXT/FqmES4KhOx+6BsNkcm96doId+MHJ45R8CsrFbjyc8SbRMlX5xjuTmpKcKY6r4p4o8aK2Z/MTMkQXBL5hlp2jk6Jl/N30fNefL7FKluVAyb5AkpwBASzNdW+IhWoT2eXZZvhfe96lQAQhx0Wau4dByH0SDGwPBSf3c58HmOxY7sbAY0wFPU2Vd/6IUXjgpEzsoZkfUY1HoXLVnzG802Rdkme0c2ngGq6A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sxcCg79ZmiqHPfn0nCt2eDBVCitSrAUSW9e/jJ0L55w=;
- b=mrV26ASXWKES6L04HPrsrQLpbnqmtfMzDBk/wnR8W9SKSzlQ8+KjmgYZmO/wu8WuzNa7vDKPwxf26TXURtEnihmPbbBUXxQ7AomRnGGHXDUwtomD7IekyQIPB/T4sl37zoVK8E5LmfWL3CoqoJ6f9nY2Krs8uc+slNu3j5DNkufqsWmajSWLuc5dNzt+W/EQZDWgC190jhPgnCaKz5byGoMBBocP6+cIU7emt0WYj8sBMfpve0uAY3oLuF3mEgrM31wdakEcpHMt4sD8+6ASu573VEWC8vrly3aj6WUUitBiWqhF7I925qa9RwR8bPsvogujVLLYBiqpxG1nmohAlA==
+ bh=FsM8UA1xqmsIsKc3h+9eoRECzg0XMMTjb+xgRtuBDa8=;
+ b=c6aB/GqjSQBEw6EoT+cb5/ncsbtPijtYcD0YAm95EsNJCs28x6PGk9sdUsZUVCMAzLs/nJQN5/wtKzPuxgiAbTrowD5WwmU1N2skEFQp6uxQwoko24ataX8WSq0Mlfv+rs5e938FPzfGvo0GIBIGZRY9JljA4C5z8Y8b9BQ7DKrI+OJIaJyrRUiPWNTa2YftDztJUHHgt18PMItn1AcnmYfgZ2NCHdjXHvKO1pSn2R0ESFVtrrAC6QMR6DJMX39+EhuSfaCk/jgO79ko34u2OE4o/g295zNS06uJTBwhTcHnijlVbGvHXUO8Ty7nkjEiLH6Z4sTrsDWPDclGC/oFkw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sxcCg79ZmiqHPfn0nCt2eDBVCitSrAUSW9e/jJ0L55w=;
- b=Fi/yedrHgkGWunF2/79g2YyuLrM3PHAK8Avz+1A2JvGW46g5SY7G2XTkQSRd409aqh3GJmMyqekpDeakbrsyqkv2j6qYIpG5jWNvqhtnK1qlzPojejN01fTzZpDivby1+FtneWyGrLB2ICrXylfgnW5YAk44Wvp3xcZOUD6LxXM=
+ bh=FsM8UA1xqmsIsKc3h+9eoRECzg0XMMTjb+xgRtuBDa8=;
+ b=syb0DLcYqf3eH8TddErwel8vz5+vOWug6AY+TTvKLqfGnDDY8hsdDQUGW8MzJBjGeyRcqqrK0jpmdYt4ARyu/VvrL2C9RdYLJcXD5XwyG62uiEqW7CvJHTuDPc7R0bC9j9hDYTWutklSbLvjVxluaFuqW4biRpDp3nlNAUvEIOk=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AS8PR08MB5911.eurprd08.prod.outlook.com (2603:10a6:20b:292::17)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4150.26; Fri, 21 May
- 2021 17:49:42 +0000
+ 2021 17:49:43 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::b403:c1a9:6bb7:133]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::b403:c1a9:6bb7:133%8]) with mapi id 15.20.4150.025; Fri, 21 May 2021
- 17:49:42 +0000
+ 17:49:43 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, vsementsov@virtuozzo.com, jsnow@redhat.com,
  mreitz@redhat.com, kwolf@redhat.com
-Subject: [PATCH 3/6] block: share writes on backing child of fleecing node
-Date: Fri, 21 May 2021 20:49:22 +0300
-Message-Id: <20210521174925.62781-4-vsementsov@virtuozzo.com>
+Subject: [PATCH 4/6] block: blk_root(): return non-const pointer
+Date: Fri, 21 May 2021 20:49:23 +0300
+Message-Id: <20210521174925.62781-5-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210521174925.62781-1-vsementsov@virtuozzo.com>
 References: <20210521174925.62781-1-vsementsov@virtuozzo.com>
@@ -65,56 +65,56 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost.localdomain (185.215.60.197) by
  HE1PR09CA0083.eurprd09.prod.outlook.com (2603:10a6:7:3d::27) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4150.23 via Frontend Transport; Fri, 21 May 2021 17:49:41 +0000
+ 15.20.4150.23 via Frontend Transport; Fri, 21 May 2021 17:49:42 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 968fce33-3d97-4323-9ce8-08d91c80d02b
+X-MS-Office365-Filtering-Correlation-Id: c638a32e-2514-412a-c61a-08d91c80d0b6
 X-MS-TrafficTypeDiagnostic: AS8PR08MB5911:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AS8PR08MB591186FD840281B44667D6E2C1299@AS8PR08MB5911.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:159;
+X-Microsoft-Antispam-PRVS: <AS8PR08MB591125D2DB98D16D8C8A825AC1299@AS8PR08MB5911.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4125;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: HutEyuE7f8gko5UrWbgJBBI0dMJ5sH8ca6zzcmlWQVNMj9qiWJY7LXAiumKRcuM6J40nR185iUOjkc/adzAUbYIT/GZJ1SljG3HLjGubv8/p72eBXnZIurDCK9wwdUe5yvefEVxmaMyUCxetFTKDBAyyCiiwmBCrotD5WbyfBasi83ALT8Uble3UVOvW5peqAQTo6Q4JOvYQ3IABiNSaE8IF9zTHqdvqLn2XZz0wEZ7eFcAHYNe50IfuDZzFHuWOWYDfOtRDt4VYR2CtUZJCf+f/HSfyLHWEzf7trQsG69aik9/pu7wxbO2zMKC6RZSFGaElqANGELlb+xsDCp/HiFX1n0ZurSfky2S5CLO6SKuGfYMc/5Ds9vHRI35RTLypLy1/eReMAvseG4RXIfUmmi2xUsB3dO/OIlaRXPvwdyQkQwqAzkVbMXlf9XTV1ID+i6UIaHk9YKJXI4pi05yuFjx40GJ3R/qpOZiU4WgXOSWWzDnsPoxm486rNjCIoLGOGaztr1BvZUY3G58QV/Uymv/ZUz2iltTRJ2RbQc3w+n9neK10y4EMluZmT8uf5rpmccFhi5pVU2fAiEVqsMeDmPbg8FCEYG+L/nZ1GyHw/73WVWx5isK/loWr3iEHNAUR2HQrAltxuwONmE7UPMeObT3GGcURM+v7pkjIhJRxMb+CH6FM69Qo2+G43H2HnIy8
+X-Microsoft-Antispam-Message-Info: DeDEqWXr0pPgA+1/NXf+YL6dNzsjLPEgiKUeRaJXWxVDkg/BFrC0qjOq0ieVetws+M04Gc/S7YzEHkp8PT96tonO3xAQeDou9r+beufiw4reBTwe/lDmbj4eOeyLX2osvHhCu9WzJBtpRc1tMjfcti8kWCX1bucrR3NADBzRQpgNJvFgXMvUFcRYGsJ9MjRaTa6nTCbuZotfT/YklIlmEtYUy7ZlI32brg77xvgFeXdXI9/EdxLtoOSl1hPKUs/YdiiwB0x6Ff+7my1rDkZPT6TWLe7yTqXMrojTb+PmtNKsW47Kxw4X+jkL0KDdLTe2YEhxaIAlM2gtd+aJwapcHmfI5Dvgnla6I8YqbT4zHUf8uR8v4XCQLUYtUdmm2bsjjSwOXgx2oD9x2G/0jGuV1w+qAErsfHgYmovjiriLSFZkO7O8MslL4rFWaX8x7BB5nkxQyA69iF2GWXZnLA+YtC6V43Krbq8MooyVJvW2vi7SXKrZ0qF/CeCdTFp6PfcRNrYsaGsLWNJ8k0x+aMilOj3sk23rwCg2rdeoV/3GOikEFPlejAw2LSaDCTegydb2OzjUIrZSqjBMBSK7StPLiQp3YHHzob2LMzmb2Q+LD90lHvJ39N8Lbvqkk8jD9inYinsJzAj0njjsMLp3tpdR56L8HVRIjFPj8tkXtnmxi8VqdH/w+w0bixy/I+ymOJt/
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(4636009)(366004)(346002)(136003)(396003)(376002)(39840400004)(6506007)(38100700002)(38350700002)(6916009)(6666004)(86362001)(52116002)(478600001)(36756003)(316002)(2616005)(956004)(4326008)(8676002)(5660300002)(1076003)(26005)(83380400001)(6512007)(8936002)(66476007)(66946007)(66556008)(186003)(2906002)(16526019)(6486002)(69590400013);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?CENN+CfjgHNndNMgAR4LwsgjmDOHmCiGGo4nIkQx8wZ3bc2CqKlpugm599bm?=
- =?us-ascii?Q?UxATNVimrWYxVFmi10Xa50OPEaN2nV4mVkb2akI6J7mL5FZzhgnHnruhEET0?=
- =?us-ascii?Q?kzFF5XF/QB9nw1nirFWGEPeHtP+8pj/Tg772w/2zRKwUlwE+MPCjFi9Qqfjd?=
- =?us-ascii?Q?OZb3fMMkGGQDpd0GUJZvGHsKly/dB4dhIx5Vpr9IxEjkCkeiQ43dlpFlZdvc?=
- =?us-ascii?Q?/HhowQl+2H3Nyl79tp+eTwcQaZJi9o6RZS3FNchuo6C17HcXgAdV/dcyeo8f?=
- =?us-ascii?Q?+kCqG8OYxLsVD4JCzBWBNuF9pjGAV9C55DV0nDBBwvzPVfUjmTxzQuGzheWe?=
- =?us-ascii?Q?s6/8CVSenUdUskrzVpsYxpasR3RzXzDZdgriJugy6o0goQXm1L2TRriVqBfX?=
- =?us-ascii?Q?AsXICqPT14xjyJo7mI1tynD+CWVupJscu2eorKiKL3xeYM3r9hebzEfBhdCF?=
- =?us-ascii?Q?wrjj5anILcwKUyhfSSwp+Yzl9G9NCi/k7TGR/Z2KyeY9qXSh66vxk8oOTk7l?=
- =?us-ascii?Q?DRqB2gI4WB0482SdkbYIPcbn80NUc7GVRpqmP0o8kGGhjevOllF2++6LeC7R?=
- =?us-ascii?Q?EtP+HNCEIHS09fmyN6jUpJ+PN8/agOsftqrz7TVQpXmv+PtC6rMBuQv81AyR?=
- =?us-ascii?Q?PFmcddrwYq7FO0Vo9R1XIYLzfWcKQ5Tq5hKHFPK7mc/K0mfK4CCrBfP04hDr?=
- =?us-ascii?Q?sM76eeBEaXxIQbIiL/yiUHNZJMKHOd8H8ZsBZckBChEw50ztm9Cb4VWiT8k5?=
- =?us-ascii?Q?onqNELxHV+OBpw5KbTqYnIm0C/6JTXiipOdV6d5isi3ZCpu69lVgtj7bA9WJ?=
- =?us-ascii?Q?1MXGlp6Yk59kwBqpPzmcYP2PKkK31d1O5jCmwUlYzSimEaKFANFxRiuDi7cd?=
- =?us-ascii?Q?dNWxHFF4OU47FVWXnMa8A9fl/TFT2CCBM7OwculU3ktW6Ejw+tATiCq7yt39?=
- =?us-ascii?Q?et7lixqWbK4BRKqz/0NLlbQZjDR7oZVrTNK4V5L+RHwbLe13J8t6IlIaZ5OY?=
- =?us-ascii?Q?uAjpxHhsKO952ViZnPNl4w6jjkVuqziTcNgQIsOrmn6Yjmq2Ox2TU/8FfouI?=
- =?us-ascii?Q?gQ4mri8rNIdFrV+x0eV7BAhu9d4cDbXlXyATvghMkSG9mdQKUmVo/xgsfleo?=
- =?us-ascii?Q?uwgtzNSTHCMS0+xKFKytGjY5EYJ47CiyurSzmEaqHIib4qyiEHYkovivm+oS?=
- =?us-ascii?Q?RsxlCjrrZNOnOjAIfDZ3UF52xzKzYZI09oRxQQufxh0Aavplzji6HOjCdaBO?=
- =?us-ascii?Q?BnVPDuspN79xROGrUdGZkUUlH5NH+Oinx3IQQT4RdG2u2MIkG1L7fUnFvXON?=
- =?us-ascii?Q?VFBgZ+2iBTLAIh2RpscG/AAl?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?t8rSEkR4XyZ/ANpwjwonByebzLUW2tgb2yQJ1nTFPHXZGlrorjjX1mq4mApf?=
+ =?us-ascii?Q?9Ohaeh/FMxhrE+4w3xNjih302upNTYmcYU4oLZ9Z4I7HlqAolztKvon+JWUF?=
+ =?us-ascii?Q?bqmhPOiHu2C1T2PqBXBLKVt5d0Zv+1MWM3KDPLPI+ru8fBGgWn/vaF1E9ESa?=
+ =?us-ascii?Q?rykhFp7FNb8GIy+A/U/pWverj3kfFA2qCwHO2c41BIaCwPmHpAlivBwOxI7j?=
+ =?us-ascii?Q?GTqCy/5nDcHs4vAZQvvGsNMTwyUSxVLRBIgb5zw/boizka3yLu1kSFJtGHD9?=
+ =?us-ascii?Q?s1BYMik4pgUdHr+m+2ePjov1LkH7HZ1W16Bk2UILVbepHC0qOKxdDjav2NVM?=
+ =?us-ascii?Q?K5rYRqO7uYI78mHlulLDRnMVE8qVVqcmG1ni0Fi4g1wlIqVvUOEzTAAc9bB6?=
+ =?us-ascii?Q?kH2x5o2TLHj6PIi4XoBNsANTHqMclMSTAiG6w1NRfkvLIghYh19ZiwUq0SKg?=
+ =?us-ascii?Q?fAMFJJZn3e4ay31uZx0+5xDEmRuRvvs12a2OOquFm5VZ5eiX16j0IzgWreje?=
+ =?us-ascii?Q?vtvf8DD5X6/7M7c0aIM4oFzo13kgzHwfREXzrn/sCmLEKppS6NSj+//8rM5A?=
+ =?us-ascii?Q?70WmW5teSIQNvBfIBMTl413yxVpqOKKgH10XfpQsatNDVFKl7IFqKmwCaRyF?=
+ =?us-ascii?Q?+rca0suudcataKxGjGftd1M1NMnfO6sSWmIpM9RypDE0Z42YYQMVIEYn82t9?=
+ =?us-ascii?Q?YqjkgUj5oLFJwqik1DmtvYbk7dOUWuWVmcclu2Oy6geWVurdnVHG2iVa15OT?=
+ =?us-ascii?Q?NqF+T5TTXwZ5AFF4+55gVnLXKNoeAKa9awFq5EWkhuUOJtrcnzeePalU6raA?=
+ =?us-ascii?Q?+ZZw/m7N0/degRjq33Ikn7d9KG2BQa5WGKLwvE7QUuB1+9hY4N7rU9IweLQt?=
+ =?us-ascii?Q?NmdxLHMjmtsZqqBl7ehM73U6I+hFLULP7x1f6REujHSgVAMIi2eMfll6ZhS5?=
+ =?us-ascii?Q?JJCakcInbVgRO9TdgY6FV/rJG+OKfKMO+utW6RKoFqd16NA8XCmt2KxltvEA?=
+ =?us-ascii?Q?HGWaralwbgdORRx0H/WZ62VH8B8JEDiDtMW/yLsbK0Gj+JmI39n5o0uWwfN1?=
+ =?us-ascii?Q?oYTYSUIIFO+6iXKBIXyOe9Bjpa3avD/PNtDv/38fTrzAoWKDcYuYn6VXK8Gc?=
+ =?us-ascii?Q?Vpaexf6N/4sog75+V3gMlqGluHAy4udGxo4NWKHvIQBhVtgh1EB4n7gk3X0s?=
+ =?us-ascii?Q?ZMMH3Ja55gUUb1H2mJacqJtt0NXyYa85mikSihHJ2Ju6STDyHItH+6jnAS0O?=
+ =?us-ascii?Q?2Sm3cY+WBDl7PKWMnUvjTLscspx2KYCXuBIjqy66uJ61wroXi+MGOCnG391R?=
+ =?us-ascii?Q?Z7wdGWfMMl9YtLkGteKn6Wa+?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 968fce33-3d97-4323-9ce8-08d91c80d02b
+X-MS-Exchange-CrossTenant-Network-Message-Id: c638a32e-2514-412a-c61a-08d91c80d0b6
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 May 2021 17:49:42.4751 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 May 2021 17:49:43.4199 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 8ihx7IIDl4lV+I9wvZ3dCSjOxWDp/d1pqyxdSQ/WCVWzb93fkZzmLJK8LXrJARCAbHq2bjuOHHOqmZRwow5ctOYU/YK2Qt3/iQxpgapFtMA=
+X-MS-Exchange-CrossTenant-UserPrincipalName: /Ev0XEgCs0VsVuUf9RRbhX1JtB5EQTuDoQ9AZE8P+/94CBQ0S/i3/W2CQOkLx+q9LDssnmWtPQ7lNm1K6ybcId+9y3CkyksntLUzBnla92w=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB5911
-Received-SPF: pass client-ip=40.107.8.131;
+Received-SPF: pass client-ip=40.107.3.105;
  envelope-from=vsementsov@virtuozzo.com;
- helo=EUR04-VI1-obe.outbound.protection.outlook.com
+ helo=EUR03-AM5-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -138,106 +138,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-By default, we share writes on backing child only if our parents share
-write permission on us.
-
-Still, with fleecing scheme we want to be able to unshare writes on
-fleecing node, which is a kind of immutable snapshot
-(copy-before-write operations are write-unchanged). So, let's detect
-fleecing node and share writes on its backing child. (we should share
-them, otherwise copy-before-write filter can't write to its file
-child).
-
-With fleecing scheme we are sure, that writes to backing child goes
-through copy-before-write filter, so we are safe to share them.
+In the following patch we'll want to pass blk children to block-copy.
+Const pointers are not enough. So, return non const pointer from
+blk_root().
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- block/copy-before-write.h |  1 +
- block.c                   |  3 ++-
- block/copy-before-write.c | 37 +++++++++++++++++++++++++++++++++++++
- 3 files changed, 40 insertions(+), 1 deletion(-)
+ include/sysemu/block-backend.h | 2 +-
+ block/block-backend.c          | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/block/copy-before-write.h b/block/copy-before-write.h
-index b386fd8f01..ca47af732a 100644
---- a/block/copy-before-write.h
-+++ b/block/copy-before-write.h
-@@ -36,5 +36,6 @@ BlockDriverState *bdrv_cbw_append(BlockDriverState *source,
-                                   BlockCopyState **bcs,
-                                   Error **errp);
- void bdrv_cbw_drop(BlockDriverState *bs);
-+bool bdrv_is_fleecing_node(BlockDriverState *bs);
+diff --git a/include/sysemu/block-backend.h b/include/sysemu/block-backend.h
+index aec05ef0a0..9c755c38b1 100644
+--- a/include/sysemu/block-backend.h
++++ b/include/sysemu/block-backend.h
+@@ -266,7 +266,7 @@ int coroutine_fn blk_co_copy_range(BlockBackend *blk_in, int64_t off_in,
+                                    int bytes, BdrvRequestFlags read_flags,
+                                    BdrvRequestFlags write_flags);
  
- #endif /* COPY_BEFORE_WRITE_H */
-diff --git a/block.c b/block.c
-index 39a5d4be90..c03810e8fa 100644
---- a/block.c
-+++ b/block.c
-@@ -50,6 +50,7 @@
- #include "qemu/cutils.h"
- #include "qemu/id.h"
- #include "block/coroutines.h"
-+#include "block/copy-before-write.h"
+-const BdrvChild *blk_root(BlockBackend *blk);
++BdrvChild *blk_root(BlockBackend *blk);
  
- #ifdef CONFIG_BSD
- #include <sys/ioctl.h>
-@@ -2502,7 +2503,7 @@ static void bdrv_default_perms_for_cow(BlockDriverState *bs, BdrvChild *c,
-      * writable and resizable backing file.
-      * TODO Require !(perm & BLK_PERM_CONSISTENT_READ), too?
-      */
--    if (shared & BLK_PERM_WRITE) {
-+    if (shared & BLK_PERM_WRITE || bdrv_is_fleecing_node(bs)) {
-         shared = BLK_PERM_WRITE | BLK_PERM_RESIZE;
-     } else {
-         shared = 0;
-diff --git a/block/copy-before-write.c b/block/copy-before-write.c
-index 1b104545bd..88c9bb0a91 100644
---- a/block/copy-before-write.c
-+++ b/block/copy-before-write.c
-@@ -269,6 +269,43 @@ void bdrv_cbw_drop(BlockDriverState *bs)
-     bdrv_unref(bs);
+ int blk_make_empty(BlockBackend *blk, Error **errp);
+ 
+diff --git a/block/block-backend.c b/block/block-backend.c
+index b1abc6f3e6..758cd8507e 100644
+--- a/block/block-backend.c
++++ b/block/block-backend.c
+@@ -2452,7 +2452,7 @@ int coroutine_fn blk_co_copy_range(BlockBackend *blk_in, int64_t off_in,
+                               bytes, read_flags, write_flags);
  }
  
-+/*
-+ * Detect is bs a fleecing node in some fleecing sceheme like:
-+ *
-+ * copy-before-write -- target --> fleecing-node
-+ *   |                               |
-+ *   | file                          | backing
-+ * active-node  <---------------------
-+ *
-+ * In this case, fleecing-node can (and should) safely share writes on its
-+ * backing child.
-+ */
-+bool bdrv_is_fleecing_node(BlockDriverState *bs)
-+{
-+    BdrvChild *parent;
-+    BlockDriverState *parent_bs;
-+    BDRVCopyBeforeWriteState *s;
-+
-+    QLIST_FOREACH(parent, &bs->parents, next_parent) {
-+        if (parent->klass != &child_of_bds) {
-+            continue;
-+        }
-+
-+        parent_bs = parent->opaque;
-+        if (parent_bs->drv != &bdrv_cbw_filter) {
-+            continue;
-+        }
-+
-+        s = parent_bs->opaque;
-+
-+        if (s->target->bs == bs && cbw_is_fleecing(parent_bs)) {
-+            return true;
-+        }
-+    }
-+
-+    return false;
-+}
-+
- static void cbw_init(void)
+-const BdrvChild *blk_root(BlockBackend *blk)
++BdrvChild *blk_root(BlockBackend *blk)
  {
-     bdrv_register(&bdrv_cbw_filter);
+     return blk->root;
+ }
 -- 
 2.29.2
 
