@@ -2,97 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2947738C15E
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 May 2021 10:07:37 +0200 (CEST)
-Received: from localhost ([::1]:50130 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64B8C38C1B9
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 May 2021 10:24:20 +0200 (CEST)
+Received: from localhost ([::1]:53328 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lk0Bz-00086r-PF
-	for lists+qemu-devel@lfdr.de; Fri, 21 May 2021 04:07:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51586)
+	id 1lk0SB-0002ge-0t
+	for lists+qemu-devel@lfdr.de; Fri, 21 May 2021 04:24:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54244)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mahesh@linux.ibm.com>)
- id 1lk0Ae-0006dF-3z; Fri, 21 May 2021 04:06:12 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:35830
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mahesh@linux.ibm.com>)
- id 1lk0AY-0007tr-HA; Fri, 21 May 2021 04:06:11 -0400
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 14L82U3O140209; Fri, 21 May 2021 04:05:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : from : to : cc
- : date : message-id : mime-version : content-type :
- content-transfer-encoding; s=pp1;
- bh=4QUayfy+g1PmyIIvJh0VmargmWavpwQYKGdhD+LsBCo=;
- b=OJkV1shBv4wcI4vahLaPm87CHzEyk4+hupmmqSprQjtNTIAHT50fyByvgdlN1uyXYzfz
- ghRoVnSd8Za0YW9S1SGs+24/zt/q4lIkRoomwHFwRQuPkTf0ZW8oJhn0/IX1GPAYnEr1
- 7cmqWg3Q8C4lOO7H2rsOJuGxrXOtBDrMU7jdFThAxhTUSIDw+ryJqSNeof0AlEytcYYC
- Cc/LTTSoWpLeSEjSiAcZL/Yn9ay3vSPklauLBlNv7v0NJ7hK4E011cUn4WqbQq4GJNy1
- eBe5m970f4f7E9rATUF1FL5Nwy0tLeye35MQMmAP+YVozDE0gbkky5ItIpYOxHbIH/+m dA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 38p8579fuc-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 21 May 2021 04:05:58 -0400
-Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 14L83Utc146561;
- Fri, 21 May 2021 04:05:57 -0400
-Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.107])
- by mx0b-001b2d01.pphosted.com with ESMTP id 38p8579ftp-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 21 May 2021 04:05:57 -0400
-Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
- by ppma03fra.de.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 14L84A5K031541;
- Fri, 21 May 2021 08:05:55 GMT
-Received: from b06cxnps4074.portsmouth.uk.ibm.com
- (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
- by ppma03fra.de.ibm.com with ESMTP id 38j5x89p9n-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 21 May 2021 08:05:55 +0000
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
- [9.149.105.232])
- by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 14L85rRS43516256
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 21 May 2021 08:05:53 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 42A165204F;
- Fri, 21 May 2021 08:05:53 +0000 (GMT)
-Received: from [192.168.0.71] (unknown [9.85.68.237])
- by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id 2A85352051;
- Fri, 21 May 2021 08:05:52 +0000 (GMT)
-Subject: [PATCH v3] spapr: Fix EEH capability issue on KVM guest for PCI
- passthru
-From: Mahesh Salgaonkar <mahesh@linux.ibm.com>
-To: Qemu-devel <qemu-devel@nongnu.org>
-Date: Fri, 21 May 2021 13:35:51 +0530
-Message-ID: <162158429107.145117.5843504911924013125.stgit@jupiter>
-User-Agent: StGit/0.23
+ (Exim 4.90_1) (envelope-from <liliang324@gmail.com>)
+ id 1lk0R8-00020Y-L6
+ for qemu-devel@nongnu.org; Fri, 21 May 2021 04:23:14 -0400
+Received: from mail-lf1-x12a.google.com ([2a00:1450:4864:20::12a]:42982)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <liliang324@gmail.com>)
+ id 1lk0R6-0002N7-Tu
+ for qemu-devel@nongnu.org; Fri, 21 May 2021 04:23:14 -0400
+Received: by mail-lf1-x12a.google.com with SMTP id a2so28434961lfc.9
+ for <qemu-devel@nongnu.org>; Fri, 21 May 2021 01:23:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=E5BzorGsri5488PSjL1siEN5kekGXz/1aX5aJvAEN+U=;
+ b=IWXIQBLEb9e1Sj1s4dOXalSrJzpAasLAI9bAOkcpIwhDghJ15i/kr/gBcVltz4gu5J
+ 1ANJo35KfXx9ZMDE8ZsR6wAey3dTTxWABR5Pd0TUf+1BzP3wvWlfWO3eTqUm8HKoKZtX
+ p9AJQA9jjU882lGpte7NucfRmybEtPLgN3JA1yl/KdcEdweILCjKgwBIPRPykveDcahH
+ uCZhYQsfOuyXkbEW4ehMSybVjCWfVqNQyUs1CiYtlhOBijatgBrM6GPwAaFnZq4oclVS
+ EfLqfr32VgUxSZhTJ5oaj+Wzhf2CLDe2ZTZoRANj9611fRKMcGbG9rOq1rDBM8UXEmLF
+ 3mSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=E5BzorGsri5488PSjL1siEN5kekGXz/1aX5aJvAEN+U=;
+ b=U0AVedUYdX/vkj4kBjoYra/15zVlDtVywLxhievE4RM7KwD1iiOQlGFQu3eC3VMdDz
+ lI3EsPl3eiNu1SFblyidpv8vGQPHgbOo1y4y3LFiGOohBBe1glf/b3O4Fn12ZVY4j3gP
+ QRWqdhXX+zb9odAhmFJ4LQsHKtULn8pxbQWfGh19XyVSFtzLopJ9Rq7+WsFqythECPsT
+ Ja4YodGzLRJfUQbY6SYSyrigfJ4NOSUAlZ+dAPkolugkOW2GtL3svjPJILXE+Lix2dhw
+ LeF8Fbh7b4A27UsG4IroCZQM6BSMAPpjs2RHYrh+CqMR8k4s0J4orBNcyjWQ2G6pNlKo
+ jNCA==
+X-Gm-Message-State: AOAM530q55nwQqQhyva+5tz3NBVE8bpqry8O2nqI2mjBt9r05wJTLBLU
+ CvLLljqK/DSq3PDQtq0SKNBGJBRKrZ2gdbZpuuU=
+X-Google-Smtp-Source: ABdhPJyS44Ti1OVEFySlaupWDk5WVhczzgVIgAOAkvsOoTOPdg5CVNd5Td6i2iiVTizwX9DTqg19oDU0p4RawDY6qyI=
+X-Received: by 2002:a05:6512:2398:: with SMTP id
+ c24mr1420928lfv.638.1621585390193; 
+ Fri, 21 May 2021 01:23:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: uwJecVjkQadyrxtWPojX-qRTfy5xrM1Z
-X-Proofpoint-GUID: nS934QBa4OcrukijgaqJBuRQhFtqEbEQ
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
- definitions=2021-05-21_03:2021-05-20,
- 2021-05-21 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 spamscore=0
- bulkscore=0 clxscore=1015 lowpriorityscore=0 malwarescore=0 suspectscore=0
- phishscore=0 adultscore=0 mlxscore=0 mlxlogscore=999 priorityscore=1501
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104190000
- definitions=main-2105210053
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=mahesh@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
-X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+References: <CA+2MQi-_06J1cmLhKAmV1vkPEnvDx6+bOnK06OciYmdymaNruw@mail.gmail.com>
+ <87cztmkdlp.fsf@vitty.brq.redhat.com>
+In-Reply-To: <87cztmkdlp.fsf@vitty.brq.redhat.com>
+From: Liang Li <liliang324@gmail.com>
+Date: Fri, 21 May 2021 16:22:58 +0800
+Message-ID: <CA+2MQi_LG57KRRFjMR_zPvJBDaH4z16S5J=c+U+-Ss_Z71Ax7g@mail.gmail.com>
+Subject: Re: About the performance of hyper-v
+To: Vitaly Kuznetsov <vkuznets@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::12a;
+ envelope-from=liliang324@gmail.com; helo=mail-lf1-x12a.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -106,160 +79,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexey Kardashevskiy <aik@ozlabs.ru>, Oliver O'Halloran <oohall@gmail.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- Qemu-ppc <qemu-ppc@nongnu.org>, David Gibson <david@gibson.dropbear.id.au>
+Cc: Tianyu.Lan@microsoft.com, qemu-devel@nongnu.org, kvm@vger.kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-With upstream kernel, especially after commit 98ba956f6a389
-("powerpc/pseries/eeh: Rework device EEH PE determination") we see that KVM
-guest isn't able to enable EEH option for PCI pass-through devices anymore.
+> > Hi Vitaly,
+> >
+> > I found a case that the virtualization overhead was almost doubled
+> > when turning on Hper-v related features compared to that without any
+> > no hyper-v feature.  It happens when running a 3D game in windows
+> > guest in qemu kvm environment.
+> >
+> > By investigation, I found there are a lot of IPIs triggered by guest,
+> > when turning on the hyer-v related features including stimer, for the
+> > apicv is turned off, at least two vm exits are needed for processing a
+> > single IPI.
+> >
+> >
+> > perf stat will show something like below [recorded for 5 seconds]
+> >
+> > ---------
+> >
+> > Analyze events for all VMs, all VCPUs:
+> >              VM-EXIT    Samples  Samples%     Time%    Min Time    Max
+> > Time         Avg time
+> >   EXTERNAL_INTERRUPT     471831    59.89%    68.58%      0.64us
+> > 65.42us      2.34us ( +-   0.11% )
+> >            MSR_WRITE     238932    30.33%    23.07%      0.48us
+> > 41.05us      1.56us ( +-   0.14% )
+> >
+> > Total Samples:787803, Total events handled time:1611193.84us.
+> >
+> > I tried turning off hyper-v for the same workload and repeat the test,
+> > the overall virtualization overhead reduced by about of 50%:
+> >
+> > -------
+> >
+> > Analyze events for all VMs, all VCPUs:
+> >
+> >              VM-EXIT    Samples  Samples%     Time%    Min Time    Max
+> > Time         Avg time
+> >           APIC_WRITE     255152    74.43%    50.72%      0.49us
+> > 50.01us      1.42us ( +-   0.14% )
+> >        EPT_MISCONFIG      39967    11.66%    40.58%      1.55us
+> > 686.05us      7.27us ( +-   0.43% )
+> >            DR_ACCESS      35003    10.21%     4.64%      0.32us
+> > 40.03us      0.95us ( +-   0.32% )
+> >   EXTERNAL_INTERRUPT       6622     1.93%     2.08%      0.70us
+> > 57.38us      2.25us ( +-   1.42% )
+> >
+> > Total Samples:342788, Total events handled time:715695.62us.
+> >
+> > For this scenario,  hyper-v works really bad.  stimer works better
+> > than hpet, but on the other hand, it relies on SynIC which has
+> > negative effects for IPI intensive workloads.
+> > Do you have any plans for improvement?
+> >
+>
+> Hey,
+>
+> the above can be caused by the fact that when 'hv-synic' is enabled, KVM
+> automatically disables APICv and this can explain the overhead and the
+> fact that you're seeing more vmexits. KVM disables APICv because SynIC's
+> 'AutoEOI' feature is incompatible with it. We can, however, tell Windows
+> to not use AutoEOI ('Recommend deprecating AutoEOI' bit) and only
+> inhibit APICv if the recommendation was ignored. This is implemented in
+> the following KVM patch series:
+> https://lore.kernel.org/kvm/20210518144339.1987982-1-vkuznets@redhat.com/
+>
+> It will, however, require a new 'hv-something' flag to QEMU. For now, it
+> can be tested with 'hv-passthrough'.
+>
+> It would be great if you could give it a spin!
+>
+> --
+> Vitaly
 
-[root@atest-guest ~]# dmesg | grep EEH
-[    0.032337] EEH: pSeries platform initialized
-[    0.298207] EEH: No capable adapters found: recovery disabled.
-[root@atest-guest ~]#
+It's great to know that you already have a solution for this. :)
 
-So far the linux kernel was assuming pe_config_addr equal to device's
-config_addr and using it to enable EEH on the PE through ibm,set-eeh-option
-RTAS call. Which wasn't the correct way as per PAPR. The linux kernel
-commit 98ba956f6a389 fixed this flow. With that fixed, linux now uses PE
-config address returned by ibm,get-config-addr-info2 RTAS call to enable
-EEH option per-PE basis instead of per-device basis. However this has
-uncovered a bug in qemu where ibm,set-eeh-option is treating PE config
-address as per-device config address.
+By the way,  is there any requirement for the version of windows or
+windows updates for the new feature to work?
 
-Hence in qemu guest with recent kernel the ibm,set-eeh-option RTAS call
-fails with -3 return value indicating that there is no PCI device exist for
-the specified PE config address. The rtas_ibm_set_eeh_option call uses
-pci_find_device() to get the PC device that matches specific bus and devfn
-extracted from PE config address passed as argument. Thus it tries to map
-the PE config address to a single specific PCI device 'bus->devices[devfn]'
-which always results into checking device on slot 0 'bus->devices[0]'.
-This succeeds when there is a pass-through device (vfio-pci) present on
-slot 0. But in cases where there is no pass-through device present in slot
-0, but present in non-zero slots, ibm,set-eeh-option call fails to enable
-the EEH capability.
+Thanks!
 
-hw/ppc/spapr_pci_vfio.c: spapr_phb_vfio_eeh_set_option()
-   case RTAS_EEH_ENABLE: {
-        PCIHostState *phb;
-        PCIDevice *pdev;
-
-        /*
-         * The EEH functionality is enabled on basis of PCI device,
-         * instead of PE. We need check the validity of the PCI
-         * device address.
-         */
-        phb = PCI_HOST_BRIDGE(sphb);
-        pdev = pci_find_device(phb->bus,
-                               (addr >> 16) & 0xFF, (addr >> 8) & 0xFF);
-        if (!pdev || !object_dynamic_cast(OBJECT(pdev), "vfio-pci")) {
-            return RTAS_OUT_PARAM_ERROR;
-        }
-
-hw/pci/pci.c:pci_find_device()
-
-PCIDevice *pci_find_device(PCIBus *bus, int bus_num, uint8_t devfn)
-{
-    bus = pci_find_bus_nr(bus, bus_num);
-
-    if (!bus)
-        return NULL;
-
-    return bus->devices[devfn];
-}
-
-This patch fixes ibm,set-eeh-option to check for presence of any PCI device
-(vfio-pci) under specified bus and enable the EEH if found. The current
-code already makes sure that all the devices on that bus are from same
-iommu group (within same PE) and fail very early if it does not.
-
-After this fix guest is able to find EEH capable devices and enable EEH
-recovery on it.
-
-[root@atest-guest ~]# dmesg | grep EEH
-[    0.048139] EEH: pSeries platform initialized
-[    0.405115] EEH: Capable adapter found: recovery enabled.
-[root@atest-guest ~]#
-
-Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-Signed-off-by: Mahesh Salgaonkar <mahesh@linux.ibm.com>
----
-Change in v3:
-- Add a comment about reason for not checking for validity of supplied
-  config_addr as pointed by Oliver in spapr_phb_vfio_eeh_set_option()
-  function.
-Change in v2:
-- Fix ibm,set-eeh-option instead of returning per-device PE config address.
-- Changed patch subject line.
----
- hw/ppc/spapr_pci_vfio.c |   40 +++++++++++++++++++++++++++++++++-------
- 1 file changed, 33 insertions(+), 7 deletions(-)
-
-diff --git a/hw/ppc/spapr_pci_vfio.c b/hw/ppc/spapr_pci_vfio.c
-index e0547b1740..6587c8cb5b 100644
---- a/hw/ppc/spapr_pci_vfio.c
-+++ b/hw/ppc/spapr_pci_vfio.c
-@@ -47,6 +47,16 @@ void spapr_phb_vfio_reset(DeviceState *qdev)
-     spapr_phb_vfio_eeh_reenable(SPAPR_PCI_HOST_BRIDGE(qdev));
- }
- 
-+static void spapr_eeh_pci_find_device(PCIBus *bus, PCIDevice *pdev,
-+                                      void *opaque)
-+{
-+    bool *found = opaque;
-+
-+    if (object_dynamic_cast(OBJECT(pdev), "vfio-pci")) {
-+        *found = true;
-+    }
-+}
-+
- int spapr_phb_vfio_eeh_set_option(SpaprPhbState *sphb,
-                                   unsigned int addr, int option)
- {
-@@ -59,17 +69,33 @@ int spapr_phb_vfio_eeh_set_option(SpaprPhbState *sphb,
-         break;
-     case RTAS_EEH_ENABLE: {
-         PCIHostState *phb;
--        PCIDevice *pdev;
-+        bool found = false;
- 
-         /*
--         * The EEH functionality is enabled on basis of PCI device,
--         * instead of PE. We need check the validity of the PCI
--         * device address.
-+         * The EEH functionality is enabled per sphb level instead of
-+         * per PCI device. We have already identified this specific sphb
-+         * based on buid passed as argument to ibm,set-eeh-option rtas
-+         * call. Now we just need to check the validity of the PCI
-+         * pass-through devices (vfio-pci) under this sphb bus.
-+         * We have already validated that all the devices under this sphb
-+         * are from same iommu group (within same PE) before comming here.
-+         *
-+         * Prior to linux commit 98ba956f6a389 ("powerpc/pseries/eeh:
-+         * Rework device EEH PE determination") kernel would call
-+         * eeh-set-option for each device in the PE using the device's
-+         * config_address as the argument rather than the PE address.
-+         * Hence if we check validity of supplied config_addr whether
-+         * it matches to this PHB will cause issues with older kernel
-+         * versions v5.9 and older. If we return an error from
-+         * eeh-set-option when the argument isn't a valid PE address
-+         * then older kernels (v5.9 and older) will interpret that as
-+         * EEH not being supported.
-          */
-         phb = PCI_HOST_BRIDGE(sphb);
--        pdev = pci_find_device(phb->bus,
--                               (addr >> 16) & 0xFF, (addr >> 8) & 0xFF);
--        if (!pdev || !object_dynamic_cast(OBJECT(pdev), "vfio-pci")) {
-+        pci_for_each_device(phb->bus, (addr >> 16) & 0xFF,
-+                            spapr_eeh_pci_find_device, &found);
-+
-+        if (!found) {
-             return RTAS_OUT_PARAM_ERROR;
-         }
- 
-
-
+Liang
 
