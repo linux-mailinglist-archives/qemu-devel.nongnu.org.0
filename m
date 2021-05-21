@@ -2,56 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E439138CC6F
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 May 2021 19:42:53 +0200 (CEST)
-Received: from localhost ([::1]:33812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76E6038CC70
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 May 2021 19:42:56 +0200 (CEST)
+Received: from localhost ([::1]:34078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lk9Ai-0002RW-LQ
-	for lists+qemu-devel@lfdr.de; Fri, 21 May 2021 13:42:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45136)
+	id 1lk9Al-0002d5-HO
+	for lists+qemu-devel@lfdr.de; Fri, 21 May 2021 13:42:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45162)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lk96U-0008Sm-UX
- for qemu-devel@nongnu.org; Fri, 21 May 2021 13:38:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35106)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lk96W-0008Ux-L1
+ for qemu-devel@nongnu.org; Fri, 21 May 2021 13:38:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46702)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lk96T-0004bN-As
- for qemu-devel@nongnu.org; Fri, 21 May 2021 13:38:30 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lk96T-0004bU-As
+ for qemu-devel@nongnu.org; Fri, 21 May 2021 13:38:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621618706;
+ s=mimecast20190719; t=1621618708;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=P6R7sHvw7szUpowoTFYMm48QsCwyQicn9uUsGy0itus=;
- b=WdkKA/1szVIasQS63Hd+h26VVAtR0RyrAxX9BmR11C8KOSa0E28VQqeTdahZTu8sveJkLS
- Zzjj/bS+f5XYI7499OBh9IzvgydFhimzEMqPMKaqo85RuSa3bFyEgLAi/wIUw7O1Rm4CMx
- y3N4N+01sNL7DmGyhcPyVOrUpTftnOM=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=rK2JHi+c2Xcndehcw8u7RpDqk+/YosoeqCceMOlay5M=;
+ b=VmcoQj0MB5pAxS4C3YbBck8IwPWy/YPe6qlsjKsKBb0GzppE5UToeDPaof6LrBX2Lpwjz3
+ BV/u2ZjCHs/7wxq3hYpIkfsQRXl3nK6fdlv0R5+vUX2CzNrt9Jum1squCgZnj/I83VL7IM
+ Fu8xwG7+RJzA0sQhFbYBka4+yu5+uuI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-170-wIshDhorNgqFhD14d-RtUA-1; Fri, 21 May 2021 13:38:24 -0400
-X-MC-Unique: wIshDhorNgqFhD14d-RtUA-1
+ us-mta-514-BokVyu2gOUm0VcVyqaCMnQ-1; Fri, 21 May 2021 13:38:25 -0400
+X-MC-Unique: BokVyu2gOUm0VcVyqaCMnQ-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A8C426D581;
- Fri, 21 May 2021 17:38:23 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0382B1005D4E;
+ Fri, 21 May 2021 17:38:25 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-117-64.rdu2.redhat.com [10.10.117.64])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E95F010016F4;
- Fri, 21 May 2021 17:38:18 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D5E111007623;
+ Fri, 21 May 2021 17:38:23 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/2] Gitlab: Add issue templates
-Date: Fri, 21 May 2021 13:38:16 -0400
-Message-Id: <20210521173818.255817-1-jsnow@redhat.com>
+Subject: [PATCH v2 1/2] GitLab: Add "Bug" issue reporting template
+Date: Fri, 21 May 2021 13:38:17 -0400
+Message-Id: <20210521173818.255817-2-jsnow@redhat.com>
+In-Reply-To: <20210521173818.255817-1-jsnow@redhat.com>
+References: <20210521173818.255817-1-jsnow@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
@@ -82,47 +85,83 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add "Bug" and "Feature Request" templates to the Gitlab interface to=0D
-help improve the quality of newly reported issues.=0D
-=0D
-To see what this looks like, I've temporarily allowed my Gitlab fork to=0D
-diverge with these files merged.  See my fork's "new issue" page to see=0D
-it in action: https://gitlab.com/jsnow/qemu/-/issues/new?issue=0D
-=0D
-These patches do not add a "default" template, the user still has to=0D
-select one from the list. I recommend that someone with permissions=0D
-updates the default template:=0D
-=0D
-1. https://gitlab.com/qemu-project/qemu/edit=0D
-2. ctrl+f "Default description template for issues"=0D
-3. Update the default to the (suggested) below:=0D
-=0D
-```=0D
-<!-- Select "Type: Issue" and choose one of the Description templates above=
-. -->=0D
-```=0D
-=0D
-We can use this cover letter to discuss/review the wording on that=0D
-default template which exists outside of repository data.=0D
-=0D
---js=0D
-=0D
-V2:=0D
-- Updated both templates based on feedback from Peter, Daniel, and=0D
-  Thomas.=0D
-=0D
-John Snow (2):=0D
-  GitLab: Add "Bug" issue reporting template=0D
-  GitLab: Add "Feature Request" issue template.=0D
-=0D
- .gitlab/issue_templates/bug.md             | 61 ++++++++++++++++++++++=0D
- .gitlab/issue_templates/feature_request.md | 32 ++++++++++++=0D
- 2 files changed, 93 insertions(+)=0D
- create mode 100644 .gitlab/issue_templates/bug.md=0D
- create mode 100644 .gitlab/issue_templates/feature_request.md=0D
-=0D
---=20=0D
-2.30.2=0D
-=0D
+Based loosely on libvirt's template, written by Peter Krempa.
+
+CC: Peter Krempa <pkrempa@redhat.com>
+Signed-off-by: John Snow <jsnow@redhat.com>
+---
+ .gitlab/issue_templates/bug.md | 61 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 61 insertions(+)
+ create mode 100644 .gitlab/issue_templates/bug.md
+
+diff --git a/.gitlab/issue_templates/bug.md b/.gitlab/issue_templates/bug.md
+new file mode 100644
+index 00000000000..67a02a3ffcf
+--- /dev/null
++++ b/.gitlab/issue_templates/bug.md
+@@ -0,0 +1,61 @@
++<!--
++This is the upstream QEMU issue tracker.
++
++Before submitting a bug, please attempt to reproduce your problem using
++the latest development version of QEMU obtained from
++https://gitlab.com/qemu-project/qemu/.
++
++QEMU generally supports the last two releases advertised via
++https://www.qemu.org/. Problems with distro-packaged versions of QEMU
++older than this should be reported to the distribution instead.
++
++See https://www.qemu.org/contribute/report-a-bug/ for guidance.
++-->
++
++## Host environment
++ - Operating system: (Windows 10 21H1, Fedora 34, etc.)
++ - OS/kernel version: (For POSIX hosts, use `uname -a`)
++ - Architecture: (x86, ARM, s390x, etc.)
++ - QEMU flavor: (qemu-system-x86_64, qemu-aarch64, qemu-img, etc.)
++ - QEMU version: (e.g. `qemu-system-x86_64 --version`)
++ - QEMU command line:
++   <!--
++   Give the smallest, complete command line that exhibits the problem.
++
++   If you are using libvirt, virsh, or vmm, you can likely find the QEMU
++   command line arguments in /var/log/libvirt/qemu/$GUEST.log.
++   -->
++   ```
++   ./qemu-system-x86_64 -M q35 -m 4096 -enable-kvm -hda fedora32.qcow2
++   ```
++
++## Emulated/Virtualized environment
++ - Operating system: (Windows 10 21H1, Fedora 34, etc.)
++ - OS/kernel version: (For POSIX guests, use `uname -a`.)
++ - Architecture: (x86, ARM, s390x, etc.)
++
++
++## Description of problem
++<!-- Describe the problem, including any error/crash messages seen. -->
++
++## Steps to reproduce
++1.
++2.
++3.
++
++
++## Additional information
++
++<!--
++Attach logs, stack traces, screenshots, etc. Compress the files if necessary.
++If using libvirt, libvirt logs and XML domain information may be relevant.
++
++See https://qemu-project.gitlab.io/qemu/devel/tracing.html on how to
++configure additional QEMU logging.
++-->
++
++<!--
++The line below ensures that proper tags are added to the issue.
++Please do not remove it.
++-->
++/label ~"kind::Bug"
+-- 
+2.30.2
 
 
