@@ -2,72 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2953238C608
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 May 2021 13:55:01 +0200 (CEST)
-Received: from localhost ([::1]:57182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D625938C61E
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 May 2021 13:58:29 +0200 (CEST)
+Received: from localhost ([::1]:32954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lk3k3-0001j1-Kg
-	for lists+qemu-devel@lfdr.de; Fri, 21 May 2021 07:54:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38888)
+	id 1lk3nQ-0004Wf-NK
+	for lists+qemu-devel@lfdr.de; Fri, 21 May 2021 07:58:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39440)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lk3jK-00013R-2N
- for qemu-devel@nongnu.org; Fri, 21 May 2021 07:54:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20952)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lk3lv-0003AP-8u
+ for qemu-devel@nongnu.org; Fri, 21 May 2021 07:56:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39775)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lk3jG-00086z-51
- for qemu-devel@nongnu.org; Fri, 21 May 2021 07:54:12 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lk3lr-0001g0-Oh
+ for qemu-devel@nongnu.org; Fri, 21 May 2021 07:56:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621598048;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1621598210;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qc7qsc4odTFlLYE5qM8R8vmwFkdyFpMJVyld7atWzzU=;
- b=CVQf1lIfz3phXnDjAwmbEjgmAsLgFML0G3sb4r/I+8cbuvycxKjOsQOjujpzVeuNqpAxdJ
- NWiAYhA5N2CwkjVuqyguvmAGa3vep/J6VAlLCmfpBeryzvpdyl+SJJ06mzOQy5n+aath37
- TT/ZCtdNARZT4nN03iYdgzKboxZkF/w=
+ bh=WzXDjSGMsxk++/d7chW7/V5I6QbfgddssUNM9gc/hv0=;
+ b=bzfLw3qqJQr/TMye34NvekkuDvbpnxMrAS/iiJPgIapsW7JZmUYmQKN82mQNOcZBHlWMOg
+ wnzmmF6r69z8IizfgDN71mQecG4fI2ZuQgOVRtJvveOJhfNTq7smjiUAPUkXqGkAS5oa4o
+ Qgfaz0DevvMrbsQeBlQEWYCGyCptskI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-486-O8GTS0L-OqmHacTJ7ImSqg-1; Fri, 21 May 2021 07:53:57 -0400
-X-MC-Unique: O8GTS0L-OqmHacTJ7ImSqg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-505-mBLHN4nnP-CD_T84HyN-bQ-1; Fri, 21 May 2021 07:56:48 -0400
+X-MC-Unique: mBLHN4nnP-CD_T84HyN-bQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B7342180FD65;
- Fri, 21 May 2021 11:53:56 +0000 (UTC)
-Received: from redhat.com (ovpn-114-5.ams2.redhat.com [10.36.114.5])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1533010013C1;
- Fri, 21 May 2021 11:53:43 +0000 (UTC)
-Date: Fri, 21 May 2021 12:53:41 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH v3 4/6] gitlab-ci: Add ccache in $PATH and display
- statistics
-Message-ID: <YKefRcVrr9Gtehlk@redhat.com>
-References: <20210519184549.2192728-1-f4bug@amsat.org>
- <20210519184549.2192728-5-f4bug@amsat.org>
- <5a77ade3-1a6c-2389-4a1c-2c7c2266f298@redhat.com>
- <20c001a0-60ed-df08-b67d-884022e74d04@amsat.org>
- <396e75d2-fe22-3054-fbee-d6de02339b2a@redhat.com>
- <YKeQkqviHbxqcC6Y@redhat.com>
- <afa421f3-337a-c488-c767-b73aaf3780b8@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B5239180FD6D
+ for <qemu-devel@nongnu.org>; Fri, 21 May 2021 11:56:47 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-41.ams2.redhat.com
+ [10.36.112.41])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 109851346F;
+ Fri, 21 May 2021 11:56:40 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id A0FB7113865F; Fri, 21 May 2021 13:56:38 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: marcandre.lureau@redhat.com
+Subject: Re: [PATCH v4 9/9] docs: update the documentation about schema
+ configuration
+References: <20210517163040.2308926-1-marcandre.lureau@redhat.com>
+ <20210517163040.2308926-10-marcandre.lureau@redhat.com>
+Date: Fri, 21 May 2021 13:56:38 +0200
+In-Reply-To: <20210517163040.2308926-10-marcandre.lureau@redhat.com>
+ (marcandre lureau's message of "Mon, 17 May 2021 20:30:40 +0400")
+Message-ID: <878s485mh5.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <afa421f3-337a-c488-c767-b73aaf3780b8@redhat.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -88,89 +83,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Kyle Evans <kevans@freebsd.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-devel@nongnu.org,
- Willian Rampazzo <willianr@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Warner Losh <imp@bsdimp.com>
+Cc: jsnow@redhat.com, qemu-devel@nongnu.org, stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, May 21, 2021 at 01:02:51PM +0200, Thomas Huth wrote:
-> On 21/05/2021 12.50, Daniel P. Berrangé wrote:
-> > On Fri, May 21, 2021 at 12:48:21PM +0200, Thomas Huth wrote:
-> > > On 20/05/2021 13.27, Philippe Mathieu-Daudé wrote:
-> > > > +Stefan/Daniel
-> > > > 
-> > > > On 5/20/21 10:02 AM, Thomas Huth wrote:
-> > > > > On 19/05/2021 20.45, Philippe Mathieu-Daudé wrote:
-> > > > > > If a runner has ccache installed, use it and display statistics
-> > > > > > at the end of the build.
-> > > > > > 
-> > > > > > Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> > > > > > ---
-> > > > > >     .gitlab-ci.d/buildtest-template.yml | 5 +++++
-> > > > > >     1 file changed, 5 insertions(+)
-> > > > > > 
-> > > > > > diff --git a/.gitlab-ci.d/buildtest-template.yml
-> > > > > > b/.gitlab-ci.d/buildtest-template.yml
-> > > > > > index f284d7a0eec..a625c697d3b 100644
-> > > > > > --- a/.gitlab-ci.d/buildtest-template.yml
-> > > > > > +++ b/.gitlab-ci.d/buildtest-template.yml
-> > > > > > @@ -6,13 +6,18 @@
-> > > > > >           then
-> > > > > >             JOBS=$(sysctl -n hw.ncpu)
-> > > > > >             MAKE=gmake
-> > > > > > +        PATH=/usr/local/libexec/ccache:$PATH
-> > > > > >             ;
-> > > > > >           else
-> > > > > >             JOBS=$(expr $(nproc) + 1)
-> > > > > >             MAKE=make
-> > > > > > +        PATH=/usr/lib/ccache:/usr/lib64/ccache:$PATH
-> > > > > 
-> > > > > That does not make sense for the shared runners yet. We first need
-> > > > > something to enable the caching there - see my series "Use ccache in the
-> > > > > gitlab-CI" from April (which is currently stalled unfortunately).
-> > > > 
-> > > > TL;DR: I don't think we should restrict our templates to shared runners.
-> > > 
-> > > I'm certainly not voting for restricting ourselves to only use shared
-> > > runners here - but my concern is that this actually *slows* down the shared
-> > > runners even more! (sorry, I should have elaborated on that in my previous
-> > > mail already)
-> > > 
-> > > When I was experimenting with ccache in the shared runners, I saw that the
-> > > jobs are running even slower with ccache enabled as long as the cache is not
-> > > populated yet. You only get a speedup afterwards. So if you add this now
-> > > without also adding the possibility to store the cache persistently, the
-> > > shared runners will try to populate the cache each time just to throw away
-> > > the results afterwards again. Thus all the shared runners only get slower
-> > > without any real benefit here.
-> > > 
-> > > Thus we either need to get ccache working properly for the shared runners
-> > > first, or you have to think of a different way of enabling ccache for the
-> > > non-shared runners, so that it does not affect the shared runners
-> > > negatively.
-> > 
-> > Is there anything functional holding up your previous full cccache support
-> > series from last month ? Or is it just lack of reviews ?
-> 
-> It's basically the problems mentioned in the cover letter and Stefan's
-> comment here:
-> 
->  https://lists.gnu.org/archive/html/qemu-devel/2021-04/msg02219.html
+marcandre.lureau@redhat.com writes:
 
-I'm not sure I understand why Stefan thinks gitlab's caching doesn't
-benefit ccache. We add ccache for libvirt GitLab CI, and AFAIR it
-sped up our builds significantly.
+> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+>
+> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+> Tested-by: John Snow <jsnow@redhat.com>
+> ---
+>  docs/devel/qapi-code-gen.txt | 27 ++++++++++++++++-----------
+>  1 file changed, 16 insertions(+), 11 deletions(-)
+>
+> diff --git a/docs/devel/qapi-code-gen.txt b/docs/devel/qapi-code-gen.txt
+> index edaaf7ec40..4a3fd02723 100644
+> --- a/docs/devel/qapi-code-gen.txt
+> +++ b/docs/devel/qapi-code-gen.txt
+> @@ -780,26 +780,31 @@ downstream command __com.redhat_drive-mirror.
+>  =3D=3D=3D Configuring the schema =3D=3D=3D
+> =20
+>  Syntax:
+> -    COND =3D STRING
+> -         | [ STRING, ... ]
+> +    COND =3D CFG-ID
+> +         | [ COND, ... ]
+> +         | { 'all: [ COND, ... ] }
+> +         | { 'any: [ COND, ... ] }
+> +         | { 'not': COND }
+> =20
+> -All definitions take an optional 'if' member.  Its value must be a
+> -string or a list of strings.  A string is shorthand for a list
+> -containing just that string.  The code generated for the definition
+> -will then be guarded by #if STRING for each STRING in the COND list.
+> +    CFG-ID =3D STRING
+> +
+> +All definitions take an optional 'if' member. Its value must be a string=
+, a list
+> +of strings or an object with a single member 'all', 'any' or 'not'. A st=
+ring is
+> +shorthand for a list containing just that string. A list is a shorthand =
+for a
+> +'all'-member object. The C code generated for the definition will then b=
+e guarded
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Please try to make your changes blend into the existing text: limit line
+length to 70 characters, and put two spaces between sentences.
+
+I doubt the CFG-ID non-terminal is useful.  Elsewhere, we do without,
+e.g. ENUM-VALUE, ALTERNATIVE, FEATURE.
+
+Sure the [ COND, ... ] sugar is worth the bother?
+
+Perhaps
+
+       COND =3D STRING
+            | { 'all: [ COND, ... ] }
+            | { 'any: [ COND, ... ] }
+            | { 'not': COND }
+
+   All definitions take an optional 'if' member.  The form STRING is
+   shorthand for { 'any': [ STRING ] }.  The C code generated ...
+
+> +by an #if precessor expression generated from that condition: 'all': [CO=
+ND, ...]
+> +will generate '(COND && ...)', 'any': [COND, ...] '(COND || ...)', 'not'=
+: COND '!COND'.
+
+The technical term is "#if preprocessing directive".  Let's use it.
+
+I find the last part unnecessarily hard to read.  What about:
+
+   ... generated from that condition:
+
+   * { 'all': [COND, ...] } will generate #if (COND && ...)
+   * { 'any': [COND, ...] } will generate #if (COND || ...)
+   * { 'not': COND } will generate #if !COND
+
+> =20
+>  Example: a conditional struct
+> =20
+>   { 'struct': 'IfStruct', 'data': { 'foo': 'int' },
+> -   'if': ['CONFIG_FOO', 'HAVE_BAR'] }
+> +   'if': { 'all': [ 'CONFIG_FOO', 'HAVE_BAR' ] } }
+> =20
+>  gets its generated code guarded like this:
+> =20
+> - #if defined(CONFIG_FOO)
+> - #if defined(HAVE_BAR)
+> + #if defined(CONFIG_FOO) && defined(HAVE_BAR)
+>   ... generated code ...
+> - #endif /* defined(HAVE_BAR) */
+> - #endif /* defined(CONFIG_FOO) */
+> + #endif /* defined(HAVE_BAR) && defined(CONFIG_FOO) */
+> =20
+>  Individual members of complex types, commands arguments, and
+>  event-specific data can also be made conditional.  This requires the
 
 
