@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75DE238D5EB
-	for <lists+qemu-devel@lfdr.de>; Sat, 22 May 2021 15:10:12 +0200 (CEST)
-Received: from localhost ([::1]:43722 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5935438D63C
+	for <lists+qemu-devel@lfdr.de>; Sat, 22 May 2021 17:03:44 +0200 (CEST)
+Received: from localhost ([::1]:49404 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lkRON-0000Pn-2i
-	for lists+qemu-devel@lfdr.de; Sat, 22 May 2021 09:10:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55136)
+	id 1lkTAE-0004ha-7u
+	for lists+qemu-devel@lfdr.de; Sat, 22 May 2021 11:03:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43460)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1lkRNE-0007ym-8Y; Sat, 22 May 2021 09:09:00 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:14054)
+ id 1lkT9O-0003o7-9P; Sat, 22 May 2021 11:02:50 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:20787)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1lkRN8-0003b6-Go; Sat, 22 May 2021 09:08:59 -0400
+ id 1lkT9L-0001be-CG; Sat, 22 May 2021 11:02:49 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id D323474570D;
- Sat, 22 May 2021 15:08:50 +0200 (CEST)
+ by localhost (Postfix) with SMTP id 2C1467457F0;
+ Sat, 22 May 2021 17:02:43 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 75981745708; Sat, 22 May 2021 15:08:50 +0200 (CEST)
+ id 04DAA74570E; Sat, 22 May 2021 17:02:43 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 7198A7456B4;
- Sat, 22 May 2021 15:08:50 +0200 (CEST)
-Date: Sat, 22 May 2021 15:08:50 +0200 (CEST)
+ by zero.eik.bme.hu (Postfix) with ESMTP id 0372874570D;
+ Sat, 22 May 2021 17:02:43 +0200 (CEST)
+Date: Sat, 22 May 2021 17:02:42 +0200 (CEST)
 From: BALATON Zoltan <balaton@eik.bme.hu>
 To: Alexey Kardashevskiy <aik@ozlabs.ru>
 Subject: Re: [PATCH qemu v20] spapr: Implement Open Firmware client interface
-In-Reply-To: <f6810d77-6748-03f3-7aa2-b54f171a5963@ozlabs.ru>
-Message-ID: <b7ae1-77f-c65b-2581-195f30169338@eik.bme.hu>
+In-Reply-To: <babe39af-fd34-8c5-de99-a0f485bfbce@eik.bme.hu>
+Message-ID: <77716be-4cf7-d222-d465-13685bf0783a@eik.bme.hu>
 References: <20210520090557.435689-1-aik@ozlabs.ru>
  <eb49cd30-a4f4-d063-d728-521446a671a6@eik.bme.hu>
  <5825cde5-a408-a438-116d-5a9d9113a52a@ozlabs.ru>
  <ec1742e3-c47-bbee-3a6-ec64442922ab@eik.bme.hu>
- <3bfbab31-7c7e-c9c6-f27c-29922f1e3d92@eik.bme.hu>
- <f6810d77-6748-03f3-7aa2-b54f171a5963@ozlabs.ru>
+ <8527c8d2-c1e7-b3f8-0bda-529ba3864701@ozlabs.ru>
+ <babe39af-fd34-8c5-de99-a0f485bfbce@eik.bme.hu>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="3866299591-684716668-1621688930=:6858"
-X-Spam-Probability: 11%
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 8%
 Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
  helo=zero.eik.bme.hu
 X-Spam_score_int: -41
@@ -64,343 +64,80 @@ Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
-
---3866299591-684716668-1621688930=:6858
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8BIT
-
-On Sat, 22 May 2021, Alexey Kardashevskiy wrote:
-> On 22/05/2021 05:57, BALATON Zoltan wrote:
->> On Fri, 21 May 2021, BALATON Zoltan wrote:
->>> On Fri, 21 May 2021, Alexey Kardashevskiy wrote:
->>>> On 21/05/2021 07:59, BALATON Zoltan wrote:
->>>>> On Thu, 20 May 2021, Alexey Kardashevskiy wrote:
->>>>>> The PAPR platform describes an OS environment that's presented by
->>>>>> a combination of a hypervisor and firmware. The features it specifies
->>>>>> require collaboration between the firmware and the hypervisor.
->>>>>> 
->>>>>> Since the beginning, the runtime component of the firmware (RTAS) has
->>>>>> been implemented as a 20 byte shim which simply forwards it to
->>>>>> a hypercall implemented in qemu. The boot time firmware component is
->>>>>> SLOF - but a build that's specific to qemu, and has always needed to be
->>>>>> updated in sync with it. Even though we've managed to limit the amount
->>>>>> of runtime communication we need between qemu and SLOF, there's some,
->>>>>> and it has become increasingly awkward to handle as we've implemented
->>>>>> new features.
->>>>>> 
->>>>>> This implements a boot time OF client interface (CI) which is
->>>>>> enabled by a new "x-vof" pseries machine option (stands for "Virtual 
->>>>>> Open
->>>>>> Firmware). When enabled, QEMU implements the custom H_OF_CLIENT hcall
->>>>>> which implements Open Firmware Client Interface (OF CI). This allows
->>>>>> using a smaller stateless firmware which does not have to manage
->>>>>> the device tree.
->>>>>> 
->>>>>> The new "vof.bin" firmware image is included with source code under
->>>>>> pc-bios/. It also includes RTAS blob.
->>>>>> 
->>>>>> This implements a handful of CI methods just to get -kernel/-initrd
->>>>>> working. In particular, this implements the device tree fetching and
->>>>>> simple memory allocator - "claim" (an OF CI memory allocator) and 
->>>>>> updates
->>>>>> "/memory@0/available" to report the client about available memory.
->>>>>> 
->>>>>> This implements changing some device tree properties which we know how
->>>>>> to deal with, the rest is ignored. To allow changes, this skips
->>>>>> fdt_pack() when x-vof=on as not packing the blob leaves some room for
->>>>>> appending.
->>>>>> 
->>>>>> In absence of SLOF, this assigns phandles to device tree nodes to make
->>>>>> device tree traversing work.
->>>>>> 
->>>>>> When x-vof=on, this adds "/chosen" every time QEMU (re)builds a tree.
->>>>>> 
->>>>>> This adds basic instances support which are managed by a hash map
->>>>>> ihandle -> [phandle].
->>>>>> 
->>>>>> Before the guest started, the used memory is:
->>>>>> 0..e60 - the initial firmware
->>>>>> 8000..10000 - stack
->>>>>> 400000.. - kernel
->>>>>> 3ea0000.. - initramdisk
->>>>>> 
->>>>>> This OF CI does not implement "interpret".
->>>>>> 
->>>>>> Unlike SLOF, this does not format uninitialized nvram. Instead, this
->>>>>> includes a disk image with pre-formatted nvram.
->>>>>> 
->>>>>> With this basic support, this can only boot into kernel directly.
->>>>>> However this is just enough for the petitboot kernel and initradmdisk 
->>>>>> to
->>>>>> boot from any possible source. Note this requires reasonably recent 
->>>>>> guest
->>>>>> kernel with:
->>>>>> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=df5be5be8735 
->>>>>> The immediate benefit is much faster booting time which especially
->>>>>> crucial with fully emulated early CPU bring up environments. Also this
->>>>>> may come handy when/if GRUB-in-the-userspace sees light of the day.
->>>>>> 
->>>>>> This separates VOF and sPAPR in a hope that VOF bits may be reused by
->>>>>> other POWERPC boards which do not support pSeries.
->>>>>> 
->>>>>> This is coded in assumption that later on we might be adding support 
->>>>>> for
->>>>>> booting from QEMU backends (blockdev is the first candidate) without
->>>>>> devices/drivers in between as OF1275 does not require that and
->>>>>> it is quite easy to so.
->>>>>> 
->>>>>> Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
->>>>>> ---
->>>>>> 
->>>>>> The example command line is:
->>>>>> 
->>>>>> /home/aik/pbuild/qemu-killslof-localhost-ppc64/qemu-system-ppc64 \
->>>>>> -nodefaults \
->>>>>> -chardev stdio,id=STDIO0,signal=off,mux=on \
->>>>>> -device spapr-vty,id=svty0,reg=0x71000110,chardev=STDIO0 \
->>>>>> -mon id=MON0,chardev=STDIO0,mode=readline \
->>>>>> -nographic \
->>>>>> -vga none \
->>>>>> -enable-kvm \
->>>>>> -m 8G \
->>>>>> -machine 
->>>>>> pseries,x-vof=on,cap-cfpc=broken,cap-sbbc=broken,cap-ibs=broken,cap-ccf-assist=off 
->>>>>> \
->>>>>> -kernel pbuild/kernel-le-guest/vmlinux \
->>>>>> -initrd pb/rootfs.cpio.xz \
->>>>>> -drive 
->>>>>> id=DRIVE0,if=none,file=./p/qemu-killslof/pc-bios/vof-nvram.bin,format=raw 
->>>>>> \
->>>>>> -global spapr-nvram.drive=DRIVE0 \
->>>>>> -snapshot \
->>>>>> -smp 8,threads=8 \
->>>>>> -L /home/aik/t/qemu-ppc64-bios/ \
->>>>>> -trace events=qemu_trace_events \
->>>>>> -d guest_errors \
->>>>>> -chardev socket,id=SOCKET0,server,nowait,path=qemu.mon.tmux26 \
->>>>>> -mon chardev=SOCKET0,mode=control
->>>>>> 
->>>>>> ---
->>>>>> Changes:
->>>>>> v20:
->>>>>> * compile vof.bin with -mcpu=power4 for better compatibility
->>>>>> * s/std/stw/ in entry.S to make it work on ppc32
->>>>>> * fixed dt_available property to support both 32 and 64bit
->>>>>> * shuffled prom_args handling code
->>>>>> * do not enforce 32bit in MSR (again, to support 32bit platforms)
->>>>>> 
->>>>> 
->>>>> [...]
->>>>> 
->>>>>> diff --git a/default-configs/devices/ppc64-softmmu.mak 
->>>>>> b/default-configs/devices/ppc64-softmmu.mak
->>>>>> index ae0841fa3a18..9fb201dfacfa 100644
->>>>>> --- a/default-configs/devices/ppc64-softmmu.mak
->>>>>> +++ b/default-configs/devices/ppc64-softmmu.mak
->>>>>> @@ -9,3 +9,4 @@ CONFIG_POWERNV=y
->>>>>>  # For pSeries
->>>>>>  CONFIG_PSERIES=y
->>>>>>  CONFIG_NVDIMM=y
->>>>>> +CONFIG_VOF=y
->>>>>> diff --git a/hw/ppc/Kconfig b/hw/ppc/Kconfig
->>>>>> index e51e0e5e5ac6..964510dfc73d 100644
->>>>>> --- a/hw/ppc/Kconfig
->>>>>> +++ b/hw/ppc/Kconfig
->>>>>> @@ -143,3 +143,6 @@ config FW_CFG_PPC
->>>>>> 
->>>>>>  config FDT_PPC
->>>>>>      bool
->>>>>> +
->>>>>> +config VOF
->>>>>> +    bool
->>>>> 
->>>>> I think you should just add "select VOF" to config PSERIES section in 
->>>>> Kconfig instead of adding it to 
->>>>> default-configs/devices/ppc64-softmmu.mak. 
->>>> 
->>>> oh well, can do that too.
->>> 
->>> I think most config options should be selected by KConfig and the default 
->>> config should only include machines, otherwise VOF would be added also 
->>> when you don't compile PSERIES or PEGASOS2. With select in Kconfig it will 
->>> be added when needed. That's why it's better to use select in this case.
->>> 
->>>>>  That should do it, it works in my updated pegasos2 patch:
->>>>> 
->>>>> https://osdn.net/projects/qmiga/scm/git/qemu/commits/3c1fad08469b4d3c04def22044e52b2d27774a61 
->>>>> [...]
->>>>>> diff --git a/pc-bios/vof/entry.S b/pc-bios/vof/entry.S
->>>>>> new file mode 100644
->>>>>> index 000000000000..569688714c91
->>>>>> --- /dev/null
->>>>>> +++ b/pc-bios/vof/entry.S
->>>>>> @@ -0,0 +1,51 @@
->>>>>> +#define LOAD32(rn, name)    \
->>>>>> +    lis     rn,name##@h;    \
->>>>>> +    ori     rn,rn,name##@l
->>>>>> +
->>>>>> +#define ENTRY(func_name)    \
->>>>>> +    .text;                  \
->>>>>> +    .align  2;              \
->>>>>> +    .globl  .func_name;     \
->>>>>> +    .func_name:             \
->>>>>> +    .globl  func_name;      \
->>>>>> +    func_name:
->>>>>> +
->>>>>> +#define KVMPPC_HCALL_BASE       0xf000
->>>>>> +#define KVMPPC_H_RTAS           (KVMPPC_HCALL_BASE + 0x0)
->>>>>> +#define KVMPPC_H_VOF_CLIENT     (KVMPPC_HCALL_BASE + 0x5)
->>>>>> +
->>>>>> +    . = 0x100 /* Do exactly as SLOF does */
->>>>>> +
->>>>>> +ENTRY(_start)
->>>>>> +#    LOAD32(%r31, 0) /* Go 32bit mode */
->>>>>> +#    mtmsrd %r31,0
->>>>>> +    LOAD32(2, __toc_start)
->>>>>> +    b entry_c
->>>>>> +
->>>>>> +ENTRY(_prom_entry)
->>>>>> +    LOAD32(2, __toc_start)
->>>>>> +    stwu    %r1,-112(%r1)
->>>>>> +    stw     %r31,104(%r1)
->>>>>> +    mflr    %r31
->>>>>> +    bl prom_entry
->>>>>> +    nop
->>>>>> +    mtlr    %r31
->>>>>> +    ld      %r31,104(%r1)
->>>>> 
->>>>> It's getting there, now I see the first client call from the guest boot 
->>>>> code but then it crashes on this ld opcode which apparently is 64 bit 
->>>>> only:
->>>> 
->>>> Oh right.
->>>> 
->>>> 
->>>>> Hopefully this is the last such opcode left before I can really test 
->>>>> this.
->>>> 
->>>> Make it lwz, and test it?
->>> 
->>> Yes, figured that out too after sending this message. Replacing with lwz 
->>> works but I wonder that now you have stwu lwz do the stack offsets need 
->>> adjusting too or you just waste 4 bytes now? With lwz here I found no 
->>> further 64 bit opcodes and the guest boot code could walk the device tree. 
->>> It failed later but I think that's because I'll need to fill more info 
->>> about the machine in the device tree. I'll experiment with that but it 
->>> looks like it could work at least for MorphOS. I'll have to try Linux too.
+On Sat, 22 May 2021, BALATON Zoltan wrote:
+> On Sat, 22 May 2021, Alexey Kardashevskiy wrote:
+>> VOF itself does not prints anything in this patch.
+>
+> However it seems to be needed for linux as the first thing it does seems to 
+> be getting /chosen/stdout and calls exit if it returns nothing. So I'll need 
+> this at least for linux. (I think MorphOS may also query it to print a banner 
+> or some messages but not sure it needs it, at least it does not abort right 
+> away if not found.)
+>
+>>> but to see Linux output do I need a stdout in VOF or it will just open the 
+>>> serial with its own driver and use that?
+>>> So I'm not sure what's the stdout parts in the current vof patch does and 
+>>> if I need that for anything. I'll try to experiment with it some more but 
+>>> fixing the ld and Kconfig seems to be enough to get it work for me.
 >> 
->> I was trying to get a linux kernel from a debian powerpc iso to do 
->> something (debian before 10.0 has Pegasos support) but I've run into the 
->> problem that the kernel is loaded at 0x400000 but the start address is at 
->> some offset from that. How do I set qemu,boot-kernel in this case?
->
->
-> The pseries kernel can work from any location (and it relocates itself to 0 
-> at some point) even though it is linked at c000.0000.0000.0000, and there is 
-> no start address offset:
->
-> ===
->> objdump -D ~/pbuild/kernel-le/vmlinux
-> /home/aik/pbuild/kernel-le/vmlinux:     file format elf64-powerpcle
->
->
-> Disassembly of section .head.text:
->
-> c000000000000000 <__start>:
-> c000000000000000:       48 00 00 08     tdi     0,r0,72
-> c000000000000004:       2c 00 00 48     b       c000000000000030 
-> <__start+0x30>
-> ...
-> ===
->
-> Not sure about pegasos2 kernels (or any ppc32 really), sorry.
+>> So for the client to print something, /chosen/stdout needs to have a valid 
+>> ihandle.
+>> The only way to get a valid ihandle is having a valid phandle which 
+>> vof_client_open() can open.
+>> A valid phandle is a phandle of any node in the device tree. On spapr we 
+>> pick some spapr-vty, open it and store in /chosen/stdout.
+>> 
+>> From this point output from the client can be seen via a tracepoint.
 
-The kernel from Debian 10.0 powerpc used on pegasos looks like this:
+I've got it now. Looking at the original firmware device tree dump:
 
-vmlinuz-chrp.initrd:     file format elf32-powerpc
-vmlinuz-chrp.initrd
-architecture: powerpc:common, flags 0x00000112:
-EXEC_P, HAS_SYMS, D_PAGED
-start address 0x004002fc
+https://osdn.net/projects/qmiga/wiki/SubprojectPegasos2/attach/PegasosII_OFW-Dump.txt
 
-Program Header:
-     LOAD off    0x00010000 vaddr 0x00400000 paddr 0x00400000 align 2**16
-          filesz 0x0127b72a memsz 0x0127d5d8 flags rwx
-    STACK off    0x00000000 vaddr 0x00000000 paddr 0x00000000 align 2**4
-          filesz 0x00000000 memsz 0x00000000 flags rwx
-     NOTE off    0x000000b4 vaddr 0x00000000 paddr 0x00000000 align 2**0
-          filesz 0x0000002c memsz 0x00000000 flags ---
-     NOTE off    0x000000e0 vaddr 0x00000000 paddr 0x00000000 align 2**0
-          filesz 0x0000002c memsz 0x00000000 flags ---
+I see that /chosen/stdout points to "screen" which is an alias to 
+/bootconsole. Just adding an empty /bootconsole node in the device tree 
+and vof_client_open_store() that as /chosen/stdout works and I get output 
+via vof_write traces so this is enough for now to test Linux. Properly 
+connecting a serial backend can thus be postponed.
 
-Sections:
-Idx Name          Size      VMA       LMA       File off  Algn
-   0 .text         00008588  00400000  00400000  00010000  2**2
-                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-   1 .text.unlikely 00000078  00408588  00408588  00018588  2**2
-                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-   2 .data         00001bec  00409000  00409000  00019000  2**2
-                   CONTENTS, ALLOC, LOAD, DATA
-   3 .got          0000000c  0040abec  0040abec  0001abec  2**2
-                   CONTENTS, ALLOC, LOAD, DATA
-   4 __builtin_cmdline 00000800  0040abf8  0040abf8  0001abf8  2**2
-                   CONTENTS, ALLOC, LOAD, DATA
-   5 .kernel:vmlinux.strip 0047658e  0040c000  0040c000  0001c000  2**0
-                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-   6 .kernel:initrd 00df872a  00883000  00883000  00493000  2**0
-                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-   7 .bss          000015d8  0167c000  0167c000  0128b72a  2**2
-                   ALLOC
-   8 .debug_info   0000e7fd  00000000  00000000  0128b72a  2**0
-                   CONTENTS, READONLY, DEBUGGING
-   9 .debug_abbrev 00002a4f  00000000  00000000  01299f27  2**0
-                   CONTENTS, READONLY, DEBUGGING
-  10 .debug_loc    00009df1  00000000  00000000  0129c976  2**0
-                   CONTENTS, READONLY, DEBUGGING
-  11 .debug_aranges 00000250  00000000  00000000  012a6767  2**0
-                   CONTENTS, READONLY, DEBUGGING
-  12 .debug_line   000026b8  00000000  00000000  012a69b7  2**0
-                   CONTENTS, READONLY, DEBUGGING
-  13 .debug_str    00001d9c  00000000  00000000  012a906f  2**0
-                   CONTENTS, READONLY, DEBUGGING
-  14 .comment      0000001d  00000000  00000000  012aae0b  2**0
-                   CONTENTS, READONLY
-  15 .gnu.attributes 00000010  00000000  00000000  012aae28  2**0
-                   CONTENTS, READONLY
-  16 .debug_frame  00001c88  00000000  00000000  012aae38  2**2
-                   CONTENTS, READONLY, DEBUGGING
-  17 .debug_ranges 00000740  00000000  00000000  012acac0  2**0
-                   CONTENTS, READONLY, DEBUGGING
+So with this the Linux kernel does not abort on the first device tree 
+access but starts to decompress itself then the embedded initrd and 
+crashes at calling setprop:
 
-It even seems to have the initrd embedded in it. If I just use 0x400000 as 
-start address it does not work, has to jump to the start address for it 
-to start correctly.
+[...]
+vof_client_handle: setprop
 
->> Because when I set it to the address/size where the kernel is loaded it 
->> jumps to the beginnig not the correct start address. If I set the address 
->> to the start address then size will be wrong so I don't know how to set 
->> qemu,boot-kernel in this case or is there another property to tell the 
->> start address?
->> (Vof does not seem to check any other property and seems to assume the 
->> entry point is the same as the load address but for this linux kernel it's 
->> not.)
->
-> I guess if you really need an offset, you'll have to add a new property 
-> ("qemu,boot-kernel-start"?) and look for it in the firmware. Or, say, put in 
-> gpr5 in your version of spapr_cpu_set_entry_state() and make 
-> boot_from_memory() use it.
+Thread 4 "qemu-system-ppc" received signal SIGSEGV, Segmentation fault.
+(gdb) bt
+#0  0x0000000000000000 in  ()
+#1  0x0000555555a5c2bf in vof_setprop
+     (vof=0x7ffff48e9420, vallen=4, valaddr=<optimized out>, pname=<optimized out>, nodeph=8, fdt=0x7fff8aaff010, ms=0x5555564f8800)
+     at ../hw/ppc/vof.c:308
+#2  0x0000555555a5c2bf in vof_client_handle
+     (nrets=1, rets=0x7ffff48e93f0, nargs=4, args=0x7ffff48e93c0, service=0x7ffff48e9460 "setprop",
+      vof=0x7ffff48e9420, fdt=0x7fff8aaff010, ms=0x5555564f8800) at ../hw/ppc/vof.c:842
+#3  0x0000555555a5c2bf in vof_client_call
+     (ms=0x5555564f8800, vof=vof@entry=0x55555662a3d0, fdt=fdt@entry=0x7fff8aaff010, args_real=args_real@entry=23580472)
+     at ../hw/ppc/vof.c:935
 
-Either way would work but I don't want to recompile vof.bin so if you 
-implement any of these in the next version I can use that. For now I've 
-just set kernel address to the start address and decreased size a bit, the 
-memory for the kernel is still claimed correctly when it's loaded so 
-unless something relies on the size in qemu,boot-kernel it does not matter 
-and this way the kernel starts but only gets to finding no /chosen/stdout 
-and exit there so I can't try it until I resolve that.
+loooks like it's trying to set /chosen/linux,initrd-start:
 
-Regards,
+(gdb) up
+#1  0x0000555555a5c2bf in vof_setprop (vof=0x7ffff48e9420, vallen=4, valaddr=<optimized out>, pname=<optimized out>, nodeph=8,
+     fdt=0x7fff8aaff010, ms=0x5555564f8800) at ../hw/ppc/vof.c:308
+308	        if (!vmc->setprop(ms, nodepath, propname, val, vallen)) {
+(gdb) p nodepath
+$1 = "/chosen\000\060/rPC,750CXE/", '\000' <repeats 234 times>
+(gdb) p propname
+$2 = "linux,initrd-start\000linux,initrd-end\000linux,cmdline-timeout\000bootarg"
+(gdb) p val
+$3 = <optimized out>
+
+I think I need the callback for setprop in TYPE_VOF_MACHINE_IF. I can copy 
+spapr_vof_setprop() but some explanation on why that's needed might help. 
+Ciould I just do fdt_setprop in my callback as vof_setprop() would do 
+without a machine callback or is there some special handling needed for 
+these properties?
+
+Regards.
 BALATON Zoltan
---3866299591-684716668-1621688930=:6858--
 
