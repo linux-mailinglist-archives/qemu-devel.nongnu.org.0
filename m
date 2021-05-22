@@ -2,51 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5935438D63C
-	for <lists+qemu-devel@lfdr.de>; Sat, 22 May 2021 17:03:44 +0200 (CEST)
-Received: from localhost ([::1]:49404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA0B638D663
+	for <lists+qemu-devel@lfdr.de>; Sat, 22 May 2021 17:47:09 +0200 (CEST)
+Received: from localhost ([::1]:36596 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lkTAE-0004ha-7u
-	for lists+qemu-devel@lfdr.de; Sat, 22 May 2021 11:03:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43460)
+	id 1lkTqG-00027W-9B
+	for lists+qemu-devel@lfdr.de; Sat, 22 May 2021 11:47:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50046)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1lkT9O-0003o7-9P; Sat, 22 May 2021 11:02:50 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:20787)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1lkT9L-0001be-CG; Sat, 22 May 2021 11:02:49 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 2C1467457F0;
- Sat, 22 May 2021 17:02:43 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 04DAA74570E; Sat, 22 May 2021 17:02:43 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 0372874570D;
- Sat, 22 May 2021 17:02:43 +0200 (CEST)
-Date: Sat, 22 May 2021 17:02:42 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Alexey Kardashevskiy <aik@ozlabs.ru>
-Subject: Re: [PATCH qemu v20] spapr: Implement Open Firmware client interface
-In-Reply-To: <babe39af-fd34-8c5-de99-a0f485bfbce@eik.bme.hu>
-Message-ID: <77716be-4cf7-d222-d465-13685bf0783a@eik.bme.hu>
-References: <20210520090557.435689-1-aik@ozlabs.ru>
- <eb49cd30-a4f4-d063-d728-521446a671a6@eik.bme.hu>
- <5825cde5-a408-a438-116d-5a9d9113a52a@ozlabs.ru>
- <ec1742e3-c47-bbee-3a6-ec64442922ab@eik.bme.hu>
- <8527c8d2-c1e7-b3f8-0bda-529ba3864701@ozlabs.ru>
- <babe39af-fd34-8c5-de99-a0f485bfbce@eik.bme.hu>
+ (Exim 4.90_1) (envelope-from <josemartins90@gmail.com>)
+ id 1lkTnq-0008UI-E3; Sat, 22 May 2021 11:44:38 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:36353)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <josemartins90@gmail.com>)
+ id 1lkTno-0000uK-GA; Sat, 22 May 2021 11:44:38 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id c14so22133296wrx.3;
+ Sat, 22 May 2021 08:44:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=c93e1BVHtHaQNdpY243irciE9xkNejaub2aSt2FJjdw=;
+ b=so4FSIls5dWf1ang6K3XpgQbO4nTEflTeZj+ewOJnyDzCpl/YVrIH4Pl/9JIHB71nm
+ Dh8gH06trdWtbBAg0W6Ez8TIJu7zTOm0U/2kEcTu+SjIVKthn11bPY7qW183OvxUaB/0
+ 1NCCiBnUMX1DPbvC+gY7uqJe+zKq4X6sR+WZA7l6u3YYPvzM2s7PdrSJKAq2zDUFBSFD
+ aKExrZg/zgcQHsV/cxnzSI94X9Q6BeaTk7g+OFH9Xp4FWxa8NJ5bH+8FYP2fAQ5I4ex6
+ K/NAgakx2Gy7JbfxGmGNJNgYdhhxS1awcngemik66L3chX8eaeZM+1cUIYzTB79EapyS
+ 6tkg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=c93e1BVHtHaQNdpY243irciE9xkNejaub2aSt2FJjdw=;
+ b=HXh76r6LeRF3Yo8Bq1Wm1kD8rvgaliGWC0GwkODdDHvfNlBbXf1xR/bvvX6EXXrnCu
+ XYhcgxbWg6XMfuAll1rHmzC9YqFvQeRGg3abM0t87yvCn+L3+Au8Vw35icvYiRqGqfiO
+ nfsu7Dw3HAm4kcNw24mG33q6M5GfGRlUD9DRioQAxG2DJYC2v13DkqlzA6tWc0wkK76V
+ lW8oPXtrkBf3SOIbhQF+8ht9Q/lA2a7mTMctr22+7/EFB7sdWUG7fGvsnoEtX8OKwwCe
+ 59F377JeX7rzY4vHbPB7OAg4U4ZNNeiOlOfXlKJFiCRgU1jaP32gX5QXu/reM/YkIfLV
+ RKrQ==
+X-Gm-Message-State: AOAM530R0tGqgw1h9JkxNE+r37X6LhwH0XqwaOHGf99OSudnhMkyZ2t0
+ khWTmEg00iBTEMs3/sI8S48O7car3NaQJxFx
+X-Google-Smtp-Source: ABdhPJxYPYWzeLmOyS3NVKH56hH0kCdJNNb4XPELjfd1QPPTRx1oDNghEH+cZXM8/cdblQd4vxPO4w==
+X-Received: by 2002:a5d:6e11:: with SMTP id h17mr14368327wrz.331.1621698273674; 
+ Sat, 22 May 2021 08:44:33 -0700 (PDT)
+Received: from asus.. ([83.144.169.104])
+ by smtp.gmail.com with ESMTPSA id g10sm5942050wrq.12.2021.05.22.08.44.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 22 May 2021 08:44:33 -0700 (PDT)
+From: Jose Martins <josemartins90@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3] target/riscv: fix VS interrupts forwarding to HS
+Date: Sat, 22 May 2021 16:44:29 +0100
+Message-Id: <20210522154429.361235-1-josemartins90@gmail.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 8%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=josemartins90@gmail.com; helo=mail-wr1-x42b.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,85 +79,192 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Jose Martins <josemartins90@gmail.com>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 22 May 2021, BALATON Zoltan wrote:
-> On Sat, 22 May 2021, Alexey Kardashevskiy wrote:
->> VOF itself does not prints anything in this patch.
->
-> However it seems to be needed for linux as the first thing it does seems to 
-> be getting /chosen/stdout and calls exit if it returns nothing. So I'll need 
-> this at least for linux. (I think MorphOS may also query it to print a banner 
-> or some messages but not sure it needs it, at least it does not abort right 
-> away if not found.)
->
->>> but to see Linux output do I need a stdout in VOF or it will just open the 
->>> serial with its own driver and use that?
->>> So I'm not sure what's the stdout parts in the current vof patch does and 
->>> if I need that for anything. I'll try to experiment with it some more but 
->>> fixing the ld and Kconfig seems to be enough to get it work for me.
->> 
->> So for the client to print something, /chosen/stdout needs to have a valid 
->> ihandle.
->> The only way to get a valid ihandle is having a valid phandle which 
->> vof_client_open() can open.
->> A valid phandle is a phandle of any node in the device tree. On spapr we 
->> pick some spapr-vty, open it and store in /chosen/stdout.
->> 
->> From this point output from the client can be seen via a tracepoint.
+VS interrupts (2, 6, 10) were not correctly forwarded to hs-mode when
+not delegated in hideleg (which was not being taken into account). This
+was mainly because hs level sie was not always considered enabled when
+it should. The spec states that "Interrupts for higher-privilege modes,
+y>x, are always globally enabled regardless of the setting of the global
+yIE bit for the higher-privilege mode." and also "For purposes of
+interrupt global enables, HS-mode is considered more privileged than
+VS-mode, and VS-mode is considered more privileged than VU-mode".
 
-I've got it now. Looking at the original firmware device tree dump:
+These interrupts should be treated the same as any other kind of
+exception. Therefore, there is no need to "force an hs exception" as the
+current privilege level, the state of the global ie and of the
+delegation registers should be enough to route the interrupt to the
+appropriate privilege level in riscv_cpu_do_interrupt. Also, these
+interrupts never target m-mode, which is  guaranteed by the hardwiring
+of the corresponding bits in mideleg. The same is true for synchronous
+exceptions, specifically, guest page faults which must be hardwired in
+to zero hedeleg. As such the hs_force_except mechanism can be removed.
 
-https://osdn.net/projects/qmiga/wiki/SubprojectPegasos2/attach/PegasosII_OFW-Dump.txt
+Signed-off-by: Jose Martins <josemartins90@gmail.com>
+---
+This version of the patch also removes the uneeded hs_force_except
+functions, variables and macro.
 
-I see that /chosen/stdout points to "screen" which is an alias to 
-/bootconsole. Just adding an empty /bootconsole node in the device tree 
-and vof_client_open_store() that as /chosen/stdout works and I get output 
-via vof_write traces so this is enough for now to test Linux. Properly 
-connecting a serial backend can thus be postponed.
+ target/riscv/cpu.h        |  2 --
+ target/riscv/cpu_bits.h   |  6 -----
+ target/riscv/cpu_helper.c | 54 +++++++--------------------------------
+ 3 files changed, 9 insertions(+), 53 deletions(-)
 
-So with this the Linux kernel does not abort on the first device tree 
-access but starts to decompress itself then the embedded initrd and 
-crashes at calling setprop:
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index 0a33d387ba..a30a64241a 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -337,8 +337,6 @@ bool riscv_cpu_exec_interrupt(CPUState *cs, int interrupt_request);
+ bool riscv_cpu_fp_enabled(CPURISCVState *env);
+ bool riscv_cpu_virt_enabled(CPURISCVState *env);
+ void riscv_cpu_set_virt_enabled(CPURISCVState *env, bool enable);
+-bool riscv_cpu_force_hs_excep_enabled(CPURISCVState *env);
+-void riscv_cpu_set_force_hs_excep(CPURISCVState *env, bool enable);
+ bool riscv_cpu_two_stage_lookup(int mmu_idx);
+ int riscv_cpu_mmu_index(CPURISCVState *env, bool ifetch);
+ hwaddr riscv_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
+diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+index caf4599207..7322f54157 100644
+--- a/target/riscv/cpu_bits.h
++++ b/target/riscv/cpu_bits.h
+@@ -462,12 +462,6 @@
+ 
+ /* Virtulisation Register Fields */
+ #define VIRT_ONOFF          1
+-/* This is used to save state for when we take an exception. If this is set
+- * that means that we want to force a HS level exception (no matter what the
+- * delegation is set to). This will occur for things such as a second level
+- * page table fault.
+- */
+-#define FORCE_HS_EXCEP      2
+ 
+ /* RV32 satp CSR field masks */
+ #define SATP32_MODE         0x80000000
+diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+index 21c54ef561..babe3d844b 100644
+--- a/target/riscv/cpu_helper.c
++++ b/target/riscv/cpu_helper.c
+@@ -38,36 +38,24 @@ int riscv_cpu_mmu_index(CPURISCVState *env, bool ifetch)
+ #ifndef CONFIG_USER_ONLY
+ static int riscv_cpu_local_irq_pending(CPURISCVState *env)
+ {
+-    target_ulong irqs;
++    target_ulong virt_enabled = riscv_cpu_virt_enabled(env);
+ 
+     target_ulong mstatus_mie = get_field(env->mstatus, MSTATUS_MIE);
+     target_ulong mstatus_sie = get_field(env->mstatus, MSTATUS_SIE);
+-    target_ulong hs_mstatus_sie = get_field(env->mstatus_hs, MSTATUS_SIE);
+ 
+-    target_ulong pending = env->mip & env->mie &
+-                               ~(MIP_VSSIP | MIP_VSTIP | MIP_VSEIP);
+-    target_ulong vspending = (env->mip & env->mie &
+-                              (MIP_VSSIP | MIP_VSTIP | MIP_VSEIP));
++    target_ulong pending = env->mip & env->mie;
+ 
+     target_ulong mie    = env->priv < PRV_M ||
+                           (env->priv == PRV_M && mstatus_mie);
+     target_ulong sie    = env->priv < PRV_S ||
+                           (env->priv == PRV_S && mstatus_sie);
+-    target_ulong hs_sie = env->priv < PRV_S ||
+-                          (env->priv == PRV_S && hs_mstatus_sie);
++    target_ulong hsie   = virt_enabled || sie;
++    target_ulong vsie   = virt_enabled && sie;
+ 
+-    if (riscv_cpu_virt_enabled(env)) {
+-        target_ulong pending_hs_irq = pending & -hs_sie;
+-
+-        if (pending_hs_irq) {
+-            riscv_cpu_set_force_hs_excep(env, FORCE_HS_EXCEP);
+-            return ctz64(pending_hs_irq);
+-        }
+-
+-        pending = vspending;
+-    }
+-
+-    irqs = (pending & ~env->mideleg & -mie) | (pending &  env->mideleg & -sie);
++    target_ulong irqs =
++            (pending & ~env->mideleg & -mie) |
++            (pending &  env->mideleg & ~env->hideleg & -hsie) |
++            (pending &  env->mideleg &  env->hideleg & -vsie);
+ 
+     if (irqs) {
+         return ctz64(irqs); /* since non-zero */
+@@ -190,24 +178,6 @@ void riscv_cpu_set_virt_enabled(CPURISCVState *env, bool enable)
+     env->virt = set_field(env->virt, VIRT_ONOFF, enable);
+ }
+ 
+-bool riscv_cpu_force_hs_excep_enabled(CPURISCVState *env)
+-{
+-    if (!riscv_has_ext(env, RVH)) {
+-        return false;
+-    }
+-
+-    return get_field(env->virt, FORCE_HS_EXCEP);
+-}
+-
+-void riscv_cpu_set_force_hs_excep(CPURISCVState *env, bool enable)
+-{
+-    if (!riscv_has_ext(env, RVH)) {
+-        return;
+-    }
+-
+-    env->virt = set_field(env->virt, FORCE_HS_EXCEP, enable);
+-}
+-
+ bool riscv_cpu_two_stage_lookup(int mmu_idx)
+ {
+     return mmu_idx & TB_FLAGS_PRIV_HYP_ACCESS_MASK;
+@@ -896,7 +866,6 @@ void riscv_cpu_do_interrupt(CPUState *cs)
+ 
+     RISCVCPU *cpu = RISCV_CPU(cs);
+     CPURISCVState *env = &cpu->env;
+-    bool force_hs_execp = riscv_cpu_force_hs_excep_enabled(env);
+     uint64_t s;
+ 
+     /* cs->exception is 32-bits wide unlike mcause which is XLEN-bits wide
+@@ -925,8 +894,6 @@ void riscv_cpu_do_interrupt(CPUState *cs)
+         case RISCV_EXCP_INST_GUEST_PAGE_FAULT:
+         case RISCV_EXCP_LOAD_GUEST_ACCESS_FAULT:
+         case RISCV_EXCP_STORE_GUEST_AMO_ACCESS_FAULT:
+-            force_hs_execp = true;
+-            /* fallthrough */
+         case RISCV_EXCP_INST_ADDR_MIS:
+         case RISCV_EXCP_INST_ACCESS_FAULT:
+         case RISCV_EXCP_LOAD_ADDR_MIS:
+@@ -985,8 +952,7 @@ void riscv_cpu_do_interrupt(CPUState *cs)
+                 env->hstatus = set_field(env->hstatus, HSTATUS_GVA, 0);
+             }
+ 
+-            if (riscv_cpu_virt_enabled(env) && ((hdeleg >> cause) & 1) &&
+-                !force_hs_execp) {
++            if (riscv_cpu_virt_enabled(env) && ((hdeleg >> cause) & 1)) {
+                 /* Trap to VS mode */
+                 /*
+                  * See if we need to adjust cause. Yes if its VS mode interrupt
+@@ -1008,7 +974,6 @@ void riscv_cpu_do_interrupt(CPUState *cs)
+                 htval = env->guest_phys_fault_addr;
+ 
+                 riscv_cpu_set_virt_enabled(env, 0);
+-                riscv_cpu_set_force_hs_excep(env, 0);
+             } else {
+                 /* Trap into HS mode */
+                 env->hstatus = set_field(env->hstatus, HSTATUS_SPV, false);
+@@ -1044,7 +1009,6 @@ void riscv_cpu_do_interrupt(CPUState *cs)
+ 
+             /* Trapping to M mode, virt is disabled */
+             riscv_cpu_set_virt_enabled(env, 0);
+-            riscv_cpu_set_force_hs_excep(env, 0);
+         }
+ 
+         s = env->mstatus;
+-- 
+2.30.2
 
-[...]
-vof_client_handle: setprop
-
-Thread 4 "qemu-system-ppc" received signal SIGSEGV, Segmentation fault.
-(gdb) bt
-#0  0x0000000000000000 in  ()
-#1  0x0000555555a5c2bf in vof_setprop
-     (vof=0x7ffff48e9420, vallen=4, valaddr=<optimized out>, pname=<optimized out>, nodeph=8, fdt=0x7fff8aaff010, ms=0x5555564f8800)
-     at ../hw/ppc/vof.c:308
-#2  0x0000555555a5c2bf in vof_client_handle
-     (nrets=1, rets=0x7ffff48e93f0, nargs=4, args=0x7ffff48e93c0, service=0x7ffff48e9460 "setprop",
-      vof=0x7ffff48e9420, fdt=0x7fff8aaff010, ms=0x5555564f8800) at ../hw/ppc/vof.c:842
-#3  0x0000555555a5c2bf in vof_client_call
-     (ms=0x5555564f8800, vof=vof@entry=0x55555662a3d0, fdt=fdt@entry=0x7fff8aaff010, args_real=args_real@entry=23580472)
-     at ../hw/ppc/vof.c:935
-
-loooks like it's trying to set /chosen/linux,initrd-start:
-
-(gdb) up
-#1  0x0000555555a5c2bf in vof_setprop (vof=0x7ffff48e9420, vallen=4, valaddr=<optimized out>, pname=<optimized out>, nodeph=8,
-     fdt=0x7fff8aaff010, ms=0x5555564f8800) at ../hw/ppc/vof.c:308
-308	        if (!vmc->setprop(ms, nodepath, propname, val, vallen)) {
-(gdb) p nodepath
-$1 = "/chosen\000\060/rPC,750CXE/", '\000' <repeats 234 times>
-(gdb) p propname
-$2 = "linux,initrd-start\000linux,initrd-end\000linux,cmdline-timeout\000bootarg"
-(gdb) p val
-$3 = <optimized out>
-
-I think I need the callback for setprop in TYPE_VOF_MACHINE_IF. I can copy 
-spapr_vof_setprop() but some explanation on why that's needed might help. 
-Ciould I just do fdt_setprop in my callback as vof_setprop() would do 
-without a machine callback or is there some special handling needed for 
-these properties?
-
-Regards.
-BALATON Zoltan
 
