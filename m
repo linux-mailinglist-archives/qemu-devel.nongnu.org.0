@@ -2,66 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C3B438DABC
-	for <lists+qemu-devel@lfdr.de>; Sun, 23 May 2021 11:46:59 +0200 (CEST)
-Received: from localhost ([::1]:40800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16A6438DABA
+	for <lists+qemu-devel@lfdr.de>; Sun, 23 May 2021 11:41:57 +0200 (CEST)
+Received: from localhost ([::1]:36600 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lkkhG-0007Y2-6N
-	for lists+qemu-devel@lfdr.de; Sun, 23 May 2021 05:46:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38446)
+	id 1lkkcM-0004UD-RE
+	for lists+qemu-devel@lfdr.de; Sun, 23 May 2021 05:41:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37924)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lkkg3-0006tN-6L
- for qemu-devel@nongnu.org; Sun, 23 May 2021 05:45:43 -0400
-Received: from indium.canonical.com ([91.189.90.7]:42598)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lkkg1-0006EK-A9
- for qemu-devel@nongnu.org; Sun, 23 May 2021 05:45:42 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lkkfy-0008OR-A2
- for <qemu-devel@nongnu.org>; Sun, 23 May 2021 09:45:38 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 408D42E813A
- for <qemu-devel@nongnu.org>; Sun, 23 May 2021 09:45:38 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Sun, 23 May 2021 09:39:06 -0000
-From: Alexey Izbyshev <1887306@bugs.launchpad.net>
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lkkbK-0003ee-1f
+ for qemu-devel@nongnu.org; Sun, 23 May 2021 05:40:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46109)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lkkbG-00047C-VQ
+ for qemu-devel@nongnu.org; Sun, 23 May 2021 05:40:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1621762844;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=l/srWcdbIelU+Cf/uD7ox1LabteZtPhwyCo62ZgjXfs=;
+ b=X+/J6ZQr5dpUwBYMbk3Myb9cGNids5YrOhZwuxX5azioOOX9bvtKzEBsHRudLZF8AoMtW4
+ 09umP8l5d04RiPpby8wnZLTKes6iKxmf6/DiPRP/VMMBQf2PgFYTxUNLK+gPxgJTuMsw6V
+ 3veulGMldlrEOl2C3CCei+vTvsziBZM=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-33-tRU4NU1rMcyVUKD1qWHQkQ-1; Sun, 23 May 2021 05:40:43 -0400
+X-MC-Unique: tRU4NU1rMcyVUKD1qWHQkQ-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ h16-20020a0564020950b029038cbdae8cbaso13846921edz.6
+ for <qemu-devel@nongnu.org>; Sun, 23 May 2021 02:40:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=l/srWcdbIelU+Cf/uD7ox1LabteZtPhwyCo62ZgjXfs=;
+ b=MRdx27rmyZW7/FSUOGXnFtqblQchabaDHnf6jeiWLVyoL3RuKeu2ZJPFBErN+NuqsI
+ UvJCwsmIwoNFr6b3NqWCaxnqZ+SN7qRatvfLU3168cL+Syyn/riK4qE+io/DeKiW9Swz
+ ZHw/citYEcbZPivdTpZThFS06sghpdYrVZfJsuN4U7M1V/lE19/S05HXcIPH/KCcyoFr
+ zw7lb1y790AEnBj4i/4fVaCBYLNnS44K3lXF6bTalnDnHwr2XaMdNWRTGtwzsYGxJd/G
+ DmiDJpZ6FRiHSsJ2BKA39kZ4PUaGxLq+y/Zvyj2FzecoaZipcIO80CbTRHiKPyw5M91N
+ paJQ==
+X-Gm-Message-State: AOAM533xeyQXqoiDkVSyMrCTlKWrmSTCAhm4p1cWnnzf/WqgpaNHsdog
+ WCOXcKmHtCuix3D+L9Tg9c/CYAlf1QfJsuRpZ6lcoAawOPFC7bQdgUS/avBYrobeDUlG9wDijIN
+ HaE8IwbZrlJGNCPMB7rJAbPRJA+Ld7Z7cton9SOKq5z2fK5aZJFzw2MmVT7lqYIYM
+X-Received: by 2002:a05:6402:487:: with SMTP id
+ k7mr19764513edv.315.1621762842100; 
+ Sun, 23 May 2021 02:40:42 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw3uMxU61e0PG8/u8JR/p8mSE7qqj/8U5YovHt2hc93HAAlsNtHgxYEiugKVwsFIkuFw6zNeQ==
+X-Received: by 2002:a05:6402:487:: with SMTP id
+ k7mr19764494edv.315.1621762841782; 
+ Sun, 23 May 2021 02:40:41 -0700 (PDT)
+Received: from x1w.redhat.com (31.red-83-51-215.dynamicip.rima-tde.net.
+ [83.51.215.31])
+ by smtp.gmail.com with ESMTPSA id qo14sm6479143ejb.47.2021.05.23.02.40.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 23 May 2021 02:40:41 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: izbyshev th-huth
-X-Launchpad-Bug-Reporter: Alexey Izbyshev (izbyshev)
-X-Launchpad-Bug-Modifier: Alexey Izbyshev (izbyshev)
-References: <159458406053.7310.1285869489559583574.malonedeb@wampee.canonical.com>
-Message-Id: <162176274711.31619.12119080761983602615.malone@soybean.canonical.com>
-Subject: [Bug 1887306] Re: qemu-user deadlocks when forked in a multithreaded
- process
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="ba75dbf44f1013379e594c259682f14c0528180a"; Instance="production"
-X-Launchpad-Hash: 5d2735dc89464542debf08e980713a9ba4781ef0
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Subject: [PATCH v2] hw/virtio: Document *_should_notify() are called within
+ rcu_read_lock()
+Date: Sun, 23 May 2021 11:40:40 +0200
+Message-Id: <20210523094040.3516968-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.26.3
+MIME-Version: 1.0
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.374,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,91 +94,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1887306 <1887306@bugs.launchpad.net>
+Cc: qemu-trivial@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Still reproduces with QEMU 6.0.0.
+Such comments make reviewing this file somehow easier.
 
-** Changed in: qemu
-       Status: Incomplete =3D> New
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+v2: only one space before end of comment (mst)
+---
+ hw/virtio/virtio.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
--- =
+diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+index e02544b2df7..130e3568409 100644
+--- a/hw/virtio/virtio.c
++++ b/hw/virtio/virtio.c
+@@ -2449,6 +2449,7 @@ static void virtio_set_isr(VirtIODevice *vdev, int value)
+     }
+ }
+ 
++/* Called within rcu_read_lock(). */
+ static bool virtio_split_should_notify(VirtIODevice *vdev, VirtQueue *vq)
+ {
+     uint16_t old, new;
+@@ -2485,6 +2486,7 @@ static bool vring_packed_need_event(VirtQueue *vq, bool wrap,
+     return vring_need_event(off, new, old);
+ }
+ 
++/* Called within rcu_read_lock(). */
+ static bool virtio_packed_should_notify(VirtIODevice *vdev, VirtQueue *vq)
+ {
+     VRingPackedDescEvent e;
+-- 
+2.26.3
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1887306
-
-Title:
-  qemu-user deadlocks when forked in a multithreaded process
-
-Status in QEMU:
-  New
-
-Bug description:
-  The following program (also attached) deadlocks when run under QEMU
-  user on Linux.
-
-  #include <pthread.h>
-  #include <stdio.h>
-  #include <stdlib.h>
-  #include <sys/types.h>
-  #include <sys/wait.h>
-  #include <unistd.h>
-
-  #define NUM_THREADS 100
-  #define NUM_FORKS 10
-
-  pthread_barrier_t barrier;
-
-  void *t(void *arg) {
-      for (int i =3D 0; i < NUM_FORKS; i++) {
-          pid_t pid =3D fork();
-          if (pid < 0)
-              abort();
-          if (!pid)
-              _exit(0);
-          if (waitpid(pid, NULL, 0) < 0)
-              abort();
-      }
-      //pthread_barrier_wait(&barrier);
-      return NULL;
-  }
-
-  int main(void) {
-      pthread_barrier_init(&barrier, NULL, NUM_THREADS);
-      pthread_t ts[NUM_THREADS];
-      for (size_t i =3D 0; i < NUM_THREADS; i++) {
-          if (pthread_create(&ts[i], NULL, t, NULL))
-              abort();
-      }
-      for (size_t i =3D 0; i < NUM_THREADS; i++) {
-          pthread_join(ts[i], NULL);
-      }
-      printf("Done: %d\n", getpid());
-      return 0;
-  }
-
-  To reproduce:
-  $ gcc test.c -pthread
-  $ while qemu-x86_64 ./a.out; do :; done
-
-  (Be careful, Ctrl-C/SIGINT doesn't kill the deadlocked child).
-
-  Larger values of NUM_THREADS/NUM_FORKS lead to more often deadlocks.
-  With the values above it often deadlocks on the first try on my
-  machine. When it deadlocks, there is a child qemu process with two
-  threads which is waited upon by one of the worker threads of the
-  parent.
-
-  I tried to avoid the deadlock by serializing fork() with a mutex, but
-  it didn't help. However, ensuring that no thread exits until all forks
-  are done (by adding a barrier to t()) does seem to help, at least, the
-  program above could run for a half an hour until I terminated it.
-
-  Tested on QEMU 5.0.0, 4.2.0 and 2.11.1, with x86_64 and AArch64 linux-
-  user targets.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1887306/+subscriptions
 
