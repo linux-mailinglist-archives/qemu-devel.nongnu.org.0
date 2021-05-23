@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE05038D88A
-	for <lists+qemu-devel@lfdr.de>; Sun, 23 May 2021 05:32:12 +0200 (CEST)
-Received: from localhost ([::1]:59568 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB4A538D892
+	for <lists+qemu-devel@lfdr.de>; Sun, 23 May 2021 05:42:48 +0200 (CEST)
+Received: from localhost ([::1]:35748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lkeqZ-0005Gu-Jr
-	for lists+qemu-devel@lfdr.de; Sat, 22 May 2021 23:32:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33028)
+	id 1lkf0p-0000LB-6d
+	for lists+qemu-devel@lfdr.de; Sat, 22 May 2021 23:42:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34104)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <aik@ozlabs.ru>) id 1lkepa-0004Q1-FF
- for qemu-devel@nongnu.org; Sat, 22 May 2021 23:31:10 -0400
-Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e]:42944)
+ (Exim 4.90_1) (envelope-from <aik@ozlabs.ru>) id 1lkf03-0007wM-FD
+ for qemu-devel@nongnu.org; Sat, 22 May 2021 23:41:59 -0400
+Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:53114)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <aik@ozlabs.ru>) id 1lkepX-0004y4-3A
- for qemu-devel@nongnu.org; Sat, 22 May 2021 23:31:10 -0400
-Received: by mail-pg1-x52e.google.com with SMTP id f22so16578445pgb.9
- for <qemu-devel@nongnu.org>; Sat, 22 May 2021 20:31:06 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <aik@ozlabs.ru>) id 1lkf01-0001wD-7g
+ for qemu-devel@nongnu.org; Sat, 22 May 2021 23:41:59 -0400
+Received: by mail-pj1-x1033.google.com with SMTP id q6so12967129pjj.2
+ for <qemu-devel@nongnu.org>; Sat, 22 May 2021 20:41:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=ozlabs-ru.20150623.gappssmtp.com; s=20150623;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=pouKaQJKnouPdhDb2jmGwJJ4Z+aYKxUlYbT+nos65Mg=;
- b=2R4K8CAfiGxY+jhuVOiz+l0zOIjHkSWeEVEWDtiqFTm2DmXZsWRr4fX5Kpu1tgBZSl
- AbFYEBAn17W4cPRqSnqubWN2ePm8Ds+qm28hEEMbhZ/aO7kVTVYzbpsQoA5C9h3/dbC+
- 94zGTPw1DzLJLQrWNARV2Z2O45YVKNNV8oW3n4hPw0+eqDohIGI/mlOyK0sZSal9ipFY
- dbsl9A5HOUZ+/cBap7b5kwIITG6EdMYZgGbzVReO5I+ZwwBENzj+EJ0w/tZ+S8ECL8OW
- NB1ioLGTuf48PgWOtzEq8mtw5QPHJjRELkcxHumf4uKHl6oDl49Uv9tUtyRlyyB5hkso
- cgTQ==
+ bh=yskZ4qnLobpXmD2qmeuo4nNrHF5izuHuRFcohLP7Llo=;
+ b=U+OBl9dcu01cC3jHwG2ra0QkMP7CM8ZPgaLd/k9awCEqF4/8cdZg9KLB1uQ5ET4sHr
+ wXrla3eJhqlS5uUl2Z0JmWKTZ0uzrCtCrByIVzUGzYEdAMa7yrpf3jJhgtpBKyHEuVSf
+ 7VOQSQnN0JYShSpRRCYSWh4hBiMX4750DW8j3sJKcxdRDLlxuNF9iz/FTN460vj26KSI
+ 3uQTsyTx+XJXdij4c3oZKuKgVbADs8mMcJHZ1i6UCJ4mzTMa9ZE7JpArwpUVLNaPdtui
+ 3T9ze3r2JoKaWuQBNcgkysevr4NtzT8/zQ/RZ/vWrVuL37cSJ3xktjIvoBnCMaA7njqJ
+ YpHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=pouKaQJKnouPdhDb2jmGwJJ4Z+aYKxUlYbT+nos65Mg=;
- b=C08XJ3ag6zKlh7m8Qrws6yn61wlCdq5FHWkV0uSzIkUq2ASCgbQHv4sVZFJRydEZTN
- YHLQOtgnFxLXaBfBrRKdOa3OtKMSvlnCjY+1Fzy6XdKzt2GPHyXvnMhmBL8IWmaOVxtX
- 5jb1IKYBFAot5yVsmVAaJAM5gkVoGxEGjg+YinBexYkEs2Z/RiCRbF757dBDtylUMppA
- BmvwQaV9W2/JjwB4GP0FJ14PfV5jrnlRvfqFbLlmftOQ+anJi+r4AolGMcsDlMCA7klr
- AAsLrgYEQxlBSG0XjW0XgOs3PD05ZTNhnyULJP4cr3XWd6kcGu8Dd6CgwygUtLMGd4lf
- LldQ==
-X-Gm-Message-State: AOAM530VBJ4rguUSP9CUP2zb1xbhAU7LzuXEg66oO9sBn/juEhfR4Zfl
- uBgGnGbNvReF6nENtc+ZEF5nVw==
-X-Google-Smtp-Source: ABdhPJyWiDRCpSSkl2hYbbYHdn/RM2XBmCExg/to/UcO8WfQh+cxZaCLNhOYwJpOPtWWraRYQ/ylJQ==
-X-Received: by 2002:a62:90:0:b029:2db:90a5:74dc with SMTP id
- 138-20020a6200900000b02902db90a574dcmr17790426pfa.27.1621740665468; 
- Sat, 22 May 2021 20:31:05 -0700 (PDT)
+ bh=yskZ4qnLobpXmD2qmeuo4nNrHF5izuHuRFcohLP7Llo=;
+ b=i5es9V1GSh/x8+VPsZmXGvJhiknaXJvhs/ieP9G1BBUPcP5VJ4ALdRqvU6uEs+AIzl
+ OrHi1KI9Tj2xsAMYqgjeqr0et7JVX9UjZeX/dbwLMZHqpYDEH4Va+WRgr+CxztZ86d1/
+ yuiD8AlgV09tTXyt4AqUBMNYPrqNf5KtCztzjeRjCp309WOzW2kibqY66ev7d9856IN6
+ T6Jg2JUaHQL5bxBjk07Qjy5jqVmiLx4SzFAmnakpSeMe02mAiVm6NzI8T6RfSzX++pW4
+ p20PS51TDugCfLnTpIfAzsq/g/6STGsNtKrXvKQybQoy3tXk6/iLcEIfLHqjJMLB0OyR
+ 62UQ==
+X-Gm-Message-State: AOAM533kh6G1VusjTm5JJTpX8bg4hbuaJ68zVQSzheqG3A6+6fU3o2Mn
+ pfROBHLxJYlZzzoAL5NBorw4MQ==
+X-Google-Smtp-Source: ABdhPJwqcoJ0rRtIxS3PGpC3exXZOZOZhDxaZHEAY3Cj+nNAAAiemQLJpfPLIDTFRIEF9pCnoahkMw==
+X-Received: by 2002:a17:90a:67c6:: with SMTP id
+ g6mr18481069pjm.198.1621741314369; 
+ Sat, 22 May 2021 20:41:54 -0700 (PDT)
 Received: from [192.168.10.23]
  (ppp121-45-194-51.cbr-trn-nor-bras38.tpg.internode.on.net. [121.45.194.51])
- by smtp.gmail.com with UTF8SMTPSA id x29sm7974840pgl.49.2021.05.22.20.31.02
+ by smtp.gmail.com with UTF8SMTPSA id s48sm7412370pfw.205.2021.05.22.20.41.51
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 22 May 2021 20:31:04 -0700 (PDT)
-Message-ID: <8e2d201d-a6a3-72bc-5d0f-5226930f1cbc@ozlabs.ru>
-Date: Sun, 23 May 2021 13:31:00 +1000
+ Sat, 22 May 2021 20:41:53 -0700 (PDT)
+Message-ID: <e7e713d1-2183-ee80-b8e2-e1ba6da9e0f0@ozlabs.ru>
+Date: Sun, 23 May 2021 13:41:50 +1000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:89.0) Gecko/20100101
  Thunderbird/89.0
@@ -68,12 +68,13 @@ References: <20210520090557.435689-1-aik@ozlabs.ru>
  <8527c8d2-c1e7-b3f8-0bda-529ba3864701@ozlabs.ru>
  <babe39af-fd34-8c5-de99-a0f485bfbce@eik.bme.hu>
  <77716be-4cf7-d222-d465-13685bf0783a@eik.bme.hu>
+ <50b35f3-a92c-ea97-7096-3c854f636ed@eik.bme.hu>
 From: Alexey Kardashevskiy <aik@ozlabs.ru>
-In-Reply-To: <77716be-4cf7-d222-d465-13685bf0783a@eik.bme.hu>
+In-Reply-To: <50b35f3-a92c-ea97-7096-3c854f636ed@eik.bme.hu>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
- envelope-from=aik@ozlabs.ru; helo=mail-pg1-x52e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=aik@ozlabs.ru; helo=mail-pj1-x1033.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -100,105 +101,140 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-On 23/05/2021 01:02, BALATON Zoltan wrote:
+On 23/05/2021 02:46, BALATON Zoltan wrote:
 > On Sat, 22 May 2021, BALATON Zoltan wrote:
->> On Sat, 22 May 2021, Alexey Kardashevskiy wrote:
->>> VOF itself does not prints anything in this patch.
->>
->> However it seems to be needed for linux as the first thing it does 
->> seems to be getting /chosen/stdout and calls exit if it returns 
->> nothing. So I'll need this at least for linux. (I think MorphOS may 
->> also query it to print a banner or some messages but not sure it needs 
->> it, at least it does not abort right away if not found.)
->>
->>>> but to see Linux output do I need a stdout in VOF or it will just 
->>>> open the serial with its own driver and use that?
->>>> So I'm not sure what's the stdout parts in the current vof patch 
->>>> does and if I need that for anything. I'll try to experiment with it 
->>>> some more but fixing the ld and Kconfig seems to be enough to get it 
->>>> work for me.
+>> On Sat, 22 May 2021, BALATON Zoltan wrote:
+>>> On Sat, 22 May 2021, Alexey Kardashevskiy wrote:
+>>>> VOF itself does not prints anything in this patch.
 >>>
->>> So for the client to print something, /chosen/stdout needs to have a 
->>> valid ihandle.
->>> The only way to get a valid ihandle is having a valid phandle which 
->>> vof_client_open() can open.
->>> A valid phandle is a phandle of any node in the device tree. On spapr 
->>> we pick some spapr-vty, open it and store in /chosen/stdout.
+>>> However it seems to be needed for linux as the first thing it does 
+>>> seems to be getting /chosen/stdout and calls exit if it returns 
+>>> nothing. So I'll need this at least for linux. (I think MorphOS may 
+>>> also query it to print a banner or some messages but not sure it 
+>>> needs it, at least it does not abort right away if not found.)
 >>>
->>> From this point output from the client can be seen via a tracepoint.
+>>>>> but to see Linux output do I need a stdout in VOF or it will just 
+>>>>> open the serial with its own driver and use that?
+>>>>> So I'm not sure what's the stdout parts in the current vof patch 
+>>>>> does and if I need that for anything. I'll try to experiment with 
+>>>>> it some more but fixing the ld and Kconfig seems to be enough to 
+>>>>> get it work for me.
+>>>>
+>>>> So for the client to print something, /chosen/stdout needs to have a 
+>>>> valid ihandle.
+>>>> The only way to get a valid ihandle is having a valid phandle which 
+>>>> vof_client_open() can open.
+>>>> A valid phandle is a phandle of any node in the device tree. On 
+>>>> spapr we pick some spapr-vty, open it and store in /chosen/stdout.
+>>>>
+>>>> From this point output from the client can be seen via a tracepoint.
+>>
+>> I've got it now. Looking at the original firmware device tree dump:
+>>
+>> https://osdn.net/projects/qmiga/wiki/SubprojectPegasos2/attach/PegasosII_OFW-Dump.txt 
+>>
+>>
+>> I see that /chosen/stdout points to "screen" which is an alias to 
+>> /bootconsole. Just adding an empty /bootconsole node in the device 
+>> tree and vof_client_open_store() that as /chosen/stdout works and I 
+>> get output via vof_write traces so this is enough for now to test 
+>> Linux. Properly connecting a serial backend can thus be postponed.
 > 
-> I've got it now. Looking at the original firmware device tree dump:
-> 
-> https://osdn.net/projects/qmiga/wiki/SubprojectPegasos2/attach/PegasosII_OFW-Dump.txt 
-> 
-> 
-> I see that /chosen/stdout points to "screen" which is an alias to 
-> /bootconsole. Just adding an empty /bootconsole node in the device tree 
-> and vof_client_open_store() that as /chosen/stdout works and I get 
-> output via vof_write traces so this is enough for now to test Linux. 
-> Properly connecting a serial backend can thus be postponed.
-> 
-> So with this the Linux kernel does not abort on the first device tree 
-> access but starts to decompress itself then the embedded initrd and 
-> crashes at calling setprop:
-> 
-> [...]
-> vof_client_handle: setprop
-> 
-> Thread 4 "qemu-system-ppc" received signal SIGSEGV, Segmentation fault.
-> (gdb) bt
-> #0  0x0000000000000000 in  ()
-> #1  0x0000555555a5c2bf in vof_setprop
->      (vof=0x7ffff48e9420, vallen=4, valaddr=<optimized out>, 
-> pname=<optimized out>, nodeph=8, fdt=0x7fff8aaff010, ms=0x5555564f8800)
->      at ../hw/ppc/vof.c:308
-> #2  0x0000555555a5c2bf in vof_client_handle
->      (nrets=1, rets=0x7ffff48e93f0, nargs=4, args=0x7ffff48e93c0, 
-> service=0x7ffff48e9460 "setprop",
->       vof=0x7ffff48e9420, fdt=0x7fff8aaff010, ms=0x5555564f8800) at 
-> ../hw/ppc/vof.c:842
-> #3  0x0000555555a5c2bf in vof_client_call
->      (ms=0x5555564f8800, vof=vof@entry=0x55555662a3d0, 
-> fdt=fdt@entry=0x7fff8aaff010, args_real=args_real@entry=23580472)
->      at ../hw/ppc/vof.c:935
-> 
-> loooks like it's trying to set /chosen/linux,initrd-start:
+> Using /failsafe instead of /bootconsole is even better because Linux 
+> then adds console=ttyS0 to the bootargs by default as it knows that's a 
+> serial port.
 
-It is not horribly clear why it crashed though.
+When linux boots so far that it can use whatever is passed in "console=" 
+- the client interface is done pretty much and the output happens 
+without it.
+
 
 > 
-> (gdb) up
-> #1  0x0000555555a5c2bf in vof_setprop (vof=0x7ffff48e9420, vallen=4, 
-> valaddr=<optimized out>, pname=<optimized out>, nodeph=8,
->      fdt=0x7fff8aaff010, ms=0x5555564f8800) at ../hw/ppc/vof.c:308
-> 308            if (!vmc->setprop(ms, nodepath, propname, val, vallen)) {
-> (gdb) p nodepath
-> $1 = "/chosen\000\060/rPC,750CXE/", '\000' <repeats 234 times>
-> (gdb) p propname
-> $2 = 
-> "linux,initrd-start\000linux,initrd-end\000linux,cmdline-timeout\000bootarg" 
+>> So with this the Linux kernel does not abort on the first device tree 
+>> access but starts to decompress itself then the embedded initrd and 
+>> crashes at calling setprop:
+>>
+>> [...]
+>> vof_client_handle: setprop
+>>
+>> Thread 4 "qemu-system-ppc" received signal SIGSEGV, Segmentation fault.
+>> (gdb) bt
+>> #0  0x0000000000000000 in  ()
+>> #1  0x0000555555a5c2bf in vof_setprop
+>>    (vof=0x7ffff48e9420, vallen=4, valaddr=<optimized out>, 
+>> pname=<optimized out>, nodeph=8, fdt=0x7fff8aaff010, ms=0x5555564f8800)
+>>    at ../hw/ppc/vof.c:308
+>> #2  0x0000555555a5c2bf in vof_client_handle
+>>    (nrets=1, rets=0x7ffff48e93f0, nargs=4, args=0x7ffff48e93c0, 
+>> service=0x7ffff48e9460 "setprop",
+>>     vof=0x7ffff48e9420, fdt=0x7fff8aaff010, ms=0x5555564f8800) at 
+>> ../hw/ppc/vof.c:842
+>> #3  0x0000555555a5c2bf in vof_client_call
+>>    (ms=0x5555564f8800, vof=vof@entry=0x55555662a3d0, 
+>> fdt=fdt@entry=0x7fff8aaff010, args_real=args_real@entry=23580472)
+>>    at ../hw/ppc/vof.c:935
+>>
+>> loooks like it's trying to set /chosen/linux,initrd-start:
+>>
+>> (gdb) up
+>> #1  0x0000555555a5c2bf in vof_setprop (vof=0x7ffff48e9420, vallen=4, 
+>> valaddr=<optimized out>, pname=<optimized out>, nodeph=8,
+>>    fdt=0x7fff8aaff010, ms=0x5555564f8800) at ../hw/ppc/vof.c:308
+>> 308            if (!vmc->setprop(ms, nodepath, propname, val, vallen)) {
+>> (gdb) p nodepath
+>> $1 = "/chosen\000\060/rPC,750CXE/", '\000' <repeats 234 times>
+>> (gdb) p propname
+>> $2 = 
+>> "linux,initrd-start\000linux,initrd-end\000linux,cmdline-timeout\000bootarg" 
+>>
+>> (gdb) p val
+>> $3 = <optimized out>
+>>
+>> I think I need the callback for setprop in TYPE_VOF_MACHINE_IF. I can 
+>> copy spapr_vof_setprop() but some explanation on why that's needed 
+>> might help. Ciould I just do fdt_setprop in my callback as 
+>> vof_setprop() would do without a machine callback or is there some 
+>> special handling needed for these properties?
 > 
-> (gdb) p val
-> $3 = <optimized out>
+> Just returning true from the setprop callback of the VofMachineIfClass 
+> for now to see what it would do and then it gets to all the way of 
+> calling quiesce. Unfortunately it then tries to call prom_printf on 
+> Pegasos2 as seen here:
 > 
-> I think I need the callback for setprop in TYPE_VOF_MACHINE_IF. I can 
-> copy spapr_vof_setprop() but some explanation on why that's needed might 
-> help. Ciould I just do fdt_setprop in my callback as vof_setprop() would 
-> do without a machine callback or is there some special handling needed 
-> for these properties?
+> https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/tree/arch/powerpc/kernel/prom_init.c?h=v4.14.233#n3261 
+> 
+> 
+> which does not work because I have to shut down vhyp at quiesce 
 
-The short answer is yes, you do not need TYPE_VOF_MACHINE_IF.
+What is vhyp and why do you have to shut it down?
 
-The long answer is that we build the FDT on spapr twice:
-1. at the reset time and
-2. after "ibm,client-arhitecture-support" (early in the boot the spapr 
-paravirtual client says what it supports - ISA level, MMU features, etc)
 
-Between 1 and 2 the kernel moves initrd and we do not update the QEMU's 
-version of its location, the tree at 2) will have the old values.
+> otherwise it trips an assert on writing sdr1 (and may also interfere 
+> with the guest's usage of syscalls).
 
-So for that reason I have TYPE_VOF_MACHINE_IF. You most definitely do 
-not need it.
+Where is that assert?
+
+I am a bit lost here. Nothing in the current VOF should touch any actual 
+device, it prints via tracepoints or (with that additional patch) to a 
+chardev backend.
+
+
+> So I need a way to not generate an 
+> exception if the guest calls back into OF after quiesce. A hacky 
+> solution is to patch out the sc 1 or _prom_entry point to just return 
+> after quiesce but maybe a better way is needed such as a switch in 
+> vof.bin that it checks before doing a syscall. Other than this problem 
+> it seems to work for the most part so maybe making the _prom_entry check 
+> some global value that I can set from quiesce to stop it doing syscalls 
+> and just return would be the simplest way to avoid this crash in Linux 
+> and not need a special version of vof for pegasos2. (MorphOS does not 
+> seem to call OF after quiesce which seems safer to do anyway, don't know 
+> why Linux does that. It could just print that one line before quiesce 
+> and then it would work, unfortunately that's not what they did.)
+
+quiesce is supposed to wait until ongoing DMA is finished (or something 
+like that), it was (people say) a request from Apple back then and was 
+never really architected.
 
 
 -- 
