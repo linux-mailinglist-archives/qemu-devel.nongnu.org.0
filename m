@@ -2,54 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 497C738DB20
-	for <lists+qemu-devel@lfdr.de>; Sun, 23 May 2021 14:14:44 +0200 (CEST)
-Received: from localhost ([::1]:57208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB8FD38DB2A
+	for <lists+qemu-devel@lfdr.de>; Sun, 23 May 2021 14:25:09 +0200 (CEST)
+Received: from localhost ([::1]:60944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lkn0F-0004RC-1c
-	for lists+qemu-devel@lfdr.de; Sun, 23 May 2021 08:14:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59762)
+	id 1lknAK-0007pZ-CZ
+	for lists+qemu-devel@lfdr.de; Sun, 23 May 2021 08:25:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33320)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1lkmxs-0003XM-T1; Sun, 23 May 2021 08:12:17 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:44217)
+ (Exim 4.90_1) (envelope-from <ghammer@redhat.com>)
+ id 1lkn96-00078W-Ma
+ for qemu-devel@nongnu.org; Sun, 23 May 2021 08:23:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46230)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1lkmxo-0005ky-S1; Sun, 23 May 2021 08:12:16 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 4FBA174570D;
- Sun, 23 May 2021 14:12:09 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id F36A4745709; Sun, 23 May 2021 14:12:08 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id F18847456B4;
- Sun, 23 May 2021 14:12:08 +0200 (CEST)
-Date: Sun, 23 May 2021 14:12:08 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Alexey Kardashevskiy <aik@ozlabs.ru>
-Subject: Re: [PATCH qemu v20] spapr: Implement Open Firmware client interface
-In-Reply-To: <1be4a6c5-3177-ef98-bee8-946938d76060@ozlabs.ru>
-Message-ID: <a44c2ff8-3ebc-517-1e9-2de5de2c8a5@eik.bme.hu>
-References: <20210520090557.435689-1-aik@ozlabs.ru>
- <eb49cd30-a4f4-d063-d728-521446a671a6@eik.bme.hu>
- <5825cde5-a408-a438-116d-5a9d9113a52a@ozlabs.ru>
- <ec1742e3-c47-bbee-3a6-ec64442922ab@eik.bme.hu>
- <3bfbab31-7c7e-c9c6-f27c-29922f1e3d92@eik.bme.hu>
- <f6810d77-6748-03f3-7aa2-b54f171a5963@ozlabs.ru>
- <b7ae1-77f-c65b-2581-195f30169338@eik.bme.hu>
- <1be4a6c5-3177-ef98-bee8-946938d76060@ozlabs.ru>
+ (Exim 4.90_1) (envelope-from <ghammer@redhat.com>)
+ id 1lkn92-00028Q-Pg
+ for qemu-devel@nongnu.org; Sun, 23 May 2021 08:23:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1621772625;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=cO5/AcHi93cRobJvM+S0QZjVNSXUo8BjKi/Yjvbxcyw=;
+ b=WRK12syvU0YwFxWIdu73iacIwiw2nEPVtCBbiNk+1hoIUfSa6Kk5xXXReeAkj32x4sR/q4
+ tUAFYWua89RXus1krnx/hGxZFeN7dIgwKknfHk2u6DttUMND3c9xDvAgspt9qN67ll4chs
+ b6OTCdAklxkDwr2egcmSJ9cfKGclD3U=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-327-ZysF1m6xOmCoIVFUG4JHwg-1; Sun, 23 May 2021 08:23:43 -0400
+X-MC-Unique: ZysF1m6xOmCoIVFUG4JHwg-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ q18-20020a0564025192b02903888712212fso14013279edd.19
+ for <qemu-devel@nongnu.org>; Sun, 23 May 2021 05:23:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=cO5/AcHi93cRobJvM+S0QZjVNSXUo8BjKi/Yjvbxcyw=;
+ b=Qs8dkaehCTo9NKF0sKioOEs0GgzJEdBJqqXFhcoi7M4TXSc6qzzPSMgmpa727tbCdV
+ XqyoOpVBptwAYOR27KuyE6ZHSga9kny8wmoBPpMhAMZm1sYYEz3RM7M36N5CYbj6jhIk
+ B8mSrFWTtBcts3dXaTbn8waCmEBVTgaTuerbmfsoZYjuYnKUQFxgePCyFHjl0kvfi4XZ
+ bkhZJv1faFTXbRWwxijqT1QXQa8pycFUFEVRc6ra+BD45GOvZMgsFAfFomS/RaLZ1GXU
+ RibO8zm0GS+zyBg7UAkKBNvATqvHFmjlADUTBoqzmNPxZZgxLtE/oBZY+kVNKhOxwbwX
+ VSMw==
+X-Gm-Message-State: AOAM5307zlIBn206f9/ZFSpLv43GlDwSWpCJnYJgukFEx6NQFu9i06CW
+ pCd3r20kQEXtXKUx6MtzsdpKm4hkYF/hgclwbYcSmZrDiragfHS9BhF24tC+753/AKteYCP4rWr
+ Ro77QoAbn6GbTh5Z9BNScAIKNeskd0z4=
+X-Received: by 2002:aa7:d455:: with SMTP id q21mr20361783edr.2.1621772621846; 
+ Sun, 23 May 2021 05:23:41 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxaWdOv2bnU+aZCHitc9jdlbLGchMr8uWtUxwGZY5lw/5ry+R66+p3GMfo2vfeyCTmVlKMiAisnPS+AFAWatzA=
+X-Received: by 2002:aa7:d455:: with SMTP id q21mr20361770edr.2.1621772621672; 
+ Sun, 23 May 2021 05:23:41 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-1223288471-1621771928=:72420"
-X-Spam-Probability: 11%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210520080652.GA16421@yangzhon-Virtual>
+In-Reply-To: <20210520080652.GA16421@yangzhon-Virtual>
+From: Gal Hammer <ghammer@redhat.com>
+Date: Sun, 23 May 2021 15:23:30 +0300
+Message-ID: <CAA2ifQy_R3q70D6-E1MmnLLMPsJY5_DwJxopePQJQuMSv6xRxQ@mail.gmail.com>
+Subject: Re: The latest Qemu release can't bootup VM with latest guest kernel.
+To: Yang Zhong <yang.zhong@intel.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ghammer@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/alternative; boundary="0000000000000582f805c2fe5df2"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ghammer@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.373,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01,
+ RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,377 +89,222 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, richard.henderson@linaro.org,
+ qemu-devel@nongnu.org, cfontana@suse.de
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+--0000000000000582f805c2fe5df2
+Content-Type: text/plain; charset="UTF-8"
 
---3866299591-1223288471-1621771928=:72420
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8BIT
+Hi Yang,
 
-On Sun, 23 May 2021, Alexey Kardashevskiy wrote:
-> On 22/05/2021 23:08, BALATON Zoltan wrote:
->> On Sat, 22 May 2021, Alexey Kardashevskiy wrote:
->>> On 22/05/2021 05:57, BALATON Zoltan wrote:
->>>> On Fri, 21 May 2021, BALATON Zoltan wrote:
->>>>> On Fri, 21 May 2021, Alexey Kardashevskiy wrote:
->>>>>> On 21/05/2021 07:59, BALATON Zoltan wrote:
->>>>>>> On Thu, 20 May 2021, Alexey Kardashevskiy wrote:
->>>>>>>> The PAPR platform describes an OS environment that's presented by
->>>>>>>> a combination of a hypervisor and firmware. The features it specifies
->>>>>>>> require collaboration between the firmware and the hypervisor.
->>>>>>>> 
->>>>>>>> Since the beginning, the runtime component of the firmware (RTAS) has
->>>>>>>> been implemented as a 20 byte shim which simply forwards it to
->>>>>>>> a hypercall implemented in qemu. The boot time firmware component is
->>>>>>>> SLOF - but a build that's specific to qemu, and has always needed to 
->>>>>>>> be
->>>>>>>> updated in sync with it. Even though we've managed to limit the 
->>>>>>>> amount
->>>>>>>> of runtime communication we need between qemu and SLOF, there's some,
->>>>>>>> and it has become increasingly awkward to handle as we've implemented
->>>>>>>> new features.
->>>>>>>> 
->>>>>>>> This implements a boot time OF client interface (CI) which is
->>>>>>>> enabled by a new "x-vof" pseries machine option (stands for "Virtual 
->>>>>>>> Open
->>>>>>>> Firmware). When enabled, QEMU implements the custom H_OF_CLIENT hcall
->>>>>>>> which implements Open Firmware Client Interface (OF CI). This allows
->>>>>>>> using a smaller stateless firmware which does not have to manage
->>>>>>>> the device tree.
->>>>>>>> 
->>>>>>>> The new "vof.bin" firmware image is included with source code under
->>>>>>>> pc-bios/. It also includes RTAS blob.
->>>>>>>> 
->>>>>>>> This implements a handful of CI methods just to get -kernel/-initrd
->>>>>>>> working. In particular, this implements the device tree fetching and
->>>>>>>> simple memory allocator - "claim" (an OF CI memory allocator) and 
->>>>>>>> updates
->>>>>>>> "/memory@0/available" to report the client about available memory.
->>>>>>>> 
->>>>>>>> This implements changing some device tree properties which we know 
->>>>>>>> how
->>>>>>>> to deal with, the rest is ignored. To allow changes, this skips
->>>>>>>> fdt_pack() when x-vof=on as not packing the blob leaves some room for
->>>>>>>> appending.
->>>>>>>> 
->>>>>>>> In absence of SLOF, this assigns phandles to device tree nodes to 
->>>>>>>> make
->>>>>>>> device tree traversing work.
->>>>>>>> 
->>>>>>>> When x-vof=on, this adds "/chosen" every time QEMU (re)builds a tree.
->>>>>>>> 
->>>>>>>> This adds basic instances support which are managed by a hash map
->>>>>>>> ihandle -> [phandle].
->>>>>>>> 
->>>>>>>> Before the guest started, the used memory is:
->>>>>>>> 0..e60 - the initial firmware
->>>>>>>> 8000..10000 - stack
->>>>>>>> 400000.. - kernel
->>>>>>>> 3ea0000.. - initramdisk
->>>>>>>> 
->>>>>>>> This OF CI does not implement "interpret".
->>>>>>>> 
->>>>>>>> Unlike SLOF, this does not format uninitialized nvram. Instead, this
->>>>>>>> includes a disk image with pre-formatted nvram.
->>>>>>>> 
->>>>>>>> With this basic support, this can only boot into kernel directly.
->>>>>>>> However this is just enough for the petitboot kernel and initradmdisk 
->>>>>>>> to
->>>>>>>> boot from any possible source. Note this requires reasonably recent 
->>>>>>>> guest
->>>>>>>> kernel with:
->>>>>>>> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=df5be5be8735 
->>>>>>>> The immediate benefit is much faster booting time which especially
->>>>>>>> crucial with fully emulated early CPU bring up environments. Also 
->>>>>>>> this
->>>>>>>> may come handy when/if GRUB-in-the-userspace sees light of the day.
->>>>>>>> 
->>>>>>>> This separates VOF and sPAPR in a hope that VOF bits may be reused by
->>>>>>>> other POWERPC boards which do not support pSeries.
->>>>>>>> 
->>>>>>>> This is coded in assumption that later on we might be adding support 
->>>>>>>> for
->>>>>>>> booting from QEMU backends (blockdev is the first candidate) without
->>>>>>>> devices/drivers in between as OF1275 does not require that and
->>>>>>>> it is quite easy to so.
->>>>>>>> 
->>>>>>>> Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
->>>>>>>> ---
->>>>>>>> 
->>>>>>>> The example command line is:
->>>>>>>> 
->>>>>>>> /home/aik/pbuild/qemu-killslof-localhost-ppc64/qemu-system-ppc64 \
->>>>>>>> -nodefaults \
->>>>>>>> -chardev stdio,id=STDIO0,signal=off,mux=on \
->>>>>>>> -device spapr-vty,id=svty0,reg=0x71000110,chardev=STDIO0 \
->>>>>>>> -mon id=MON0,chardev=STDIO0,mode=readline \
->>>>>>>> -nographic \
->>>>>>>> -vga none \
->>>>>>>> -enable-kvm \
->>>>>>>> -m 8G \
->>>>>>>> -machine 
->>>>>>>> pseries,x-vof=on,cap-cfpc=broken,cap-sbbc=broken,cap-ibs=broken,cap-ccf-assist=off 
->>>>>>>> \
->>>>>>>> -kernel pbuild/kernel-le-guest/vmlinux \
->>>>>>>> -initrd pb/rootfs.cpio.xz \
->>>>>>>> -drive 
->>>>>>>> id=DRIVE0,if=none,file=./p/qemu-killslof/pc-bios/vof-nvram.bin,format=raw 
->>>>>>>> \
->>>>>>>> -global spapr-nvram.drive=DRIVE0 \
->>>>>>>> -snapshot \
->>>>>>>> -smp 8,threads=8 \
->>>>>>>> -L /home/aik/t/qemu-ppc64-bios/ \
->>>>>>>> -trace events=qemu_trace_events \
->>>>>>>> -d guest_errors \
->>>>>>>> -chardev socket,id=SOCKET0,server,nowait,path=qemu.mon.tmux26 \
->>>>>>>> -mon chardev=SOCKET0,mode=control
->>>>>>>> 
->>>>>>>> ---
->>>>>>>> Changes:
->>>>>>>> v20:
->>>>>>>> * compile vof.bin with -mcpu=power4 for better compatibility
->>>>>>>> * s/std/stw/ in entry.S to make it work on ppc32
->>>>>>>> * fixed dt_available property to support both 32 and 64bit
->>>>>>>> * shuffled prom_args handling code
->>>>>>>> * do not enforce 32bit in MSR (again, to support 32bit platforms)
->>>>>>>> 
->>>>>>> 
->>>>>>> [...]
->>>>>>> 
->>>>>>>> diff --git a/default-configs/devices/ppc64-softmmu.mak 
->>>>>>>> b/default-configs/devices/ppc64-softmmu.mak
->>>>>>>> index ae0841fa3a18..9fb201dfacfa 100644
->>>>>>>> --- a/default-configs/devices/ppc64-softmmu.mak
->>>>>>>> +++ b/default-configs/devices/ppc64-softmmu.mak
->>>>>>>> @@ -9,3 +9,4 @@ CONFIG_POWERNV=y
->>>>>>>>  # For pSeries
->>>>>>>>  CONFIG_PSERIES=y
->>>>>>>>  CONFIG_NVDIMM=y
->>>>>>>> +CONFIG_VOF=y
->>>>>>>> diff --git a/hw/ppc/Kconfig b/hw/ppc/Kconfig
->>>>>>>> index e51e0e5e5ac6..964510dfc73d 100644
->>>>>>>> --- a/hw/ppc/Kconfig
->>>>>>>> +++ b/hw/ppc/Kconfig
->>>>>>>> @@ -143,3 +143,6 @@ config FW_CFG_PPC
->>>>>>>> 
->>>>>>>>  config FDT_PPC
->>>>>>>>      bool
->>>>>>>> +
->>>>>>>> +config VOF
->>>>>>>> +    bool
->>>>>>> 
->>>>>>> I think you should just add "select VOF" to config PSERIES section in 
->>>>>>> Kconfig instead of adding it to 
->>>>>>> default-configs/devices/ppc64-softmmu.mak. 
->>>>>> 
->>>>>> oh well, can do that too.
->>>>> 
->>>>> I think most config options should be selected by KConfig and the 
->>>>> default config should only include machines, otherwise VOF would be 
->>>>> added also when you don't compile PSERIES or PEGASOS2. With select in 
->>>>> Kconfig it will be added when needed. That's why it's better to use 
->>>>> select in this case.
->>>>> 
->>>>>>>  That should do it, it works in my updated pegasos2 patch:
->>>>>>> 
->>>>>>> https://osdn.net/projects/qmiga/scm/git/qemu/commits/3c1fad08469b4d3c04def22044e52b2d27774a61 
->>>>>>> [...]
->>>>>>>> diff --git a/pc-bios/vof/entry.S b/pc-bios/vof/entry.S
->>>>>>>> new file mode 100644
->>>>>>>> index 000000000000..569688714c91
->>>>>>>> --- /dev/null
->>>>>>>> +++ b/pc-bios/vof/entry.S
->>>>>>>> @@ -0,0 +1,51 @@
->>>>>>>> +#define LOAD32(rn, name)    \
->>>>>>>> +    lis     rn,name##@h;    \
->>>>>>>> +    ori     rn,rn,name##@l
->>>>>>>> +
->>>>>>>> +#define ENTRY(func_name)    \
->>>>>>>> +    .text;                  \
->>>>>>>> +    .align  2;              \
->>>>>>>> +    .globl  .func_name;     \
->>>>>>>> +    .func_name:             \
->>>>>>>> +    .globl  func_name;      \
->>>>>>>> +    func_name:
->>>>>>>> +
->>>>>>>> +#define KVMPPC_HCALL_BASE       0xf000
->>>>>>>> +#define KVMPPC_H_RTAS           (KVMPPC_HCALL_BASE + 0x0)
->>>>>>>> +#define KVMPPC_H_VOF_CLIENT     (KVMPPC_HCALL_BASE + 0x5)
->>>>>>>> +
->>>>>>>> +    . = 0x100 /* Do exactly as SLOF does */
->>>>>>>> +
->>>>>>>> +ENTRY(_start)
->>>>>>>> +#    LOAD32(%r31, 0) /* Go 32bit mode */
->>>>>>>> +#    mtmsrd %r31,0
->>>>>>>> +    LOAD32(2, __toc_start)
->>>>>>>> +    b entry_c
->>>>>>>> +
->>>>>>>> +ENTRY(_prom_entry)
->>>>>>>> +    LOAD32(2, __toc_start)
->>>>>>>> +    stwu    %r1,-112(%r1)
->>>>>>>> +    stw     %r31,104(%r1)
->>>>>>>> +    mflr    %r31
->>>>>>>> +    bl prom_entry
->>>>>>>> +    nop
->>>>>>>> +    mtlr    %r31
->>>>>>>> +    ld      %r31,104(%r1)
->>>>>>> 
->>>>>>> It's getting there, now I see the first client call from the guest 
->>>>>>> boot code but then it crashes on this ld opcode which apparently is 64 
->>>>>>> bit only:
->>>>>> 
->>>>>> Oh right.
->>>>>> 
->>>>>> 
->>>>>>> Hopefully this is the last such opcode left before I can really test 
->>>>>>> this.
->>>>>> 
->>>>>> Make it lwz, and test it?
->>>>> 
->>>>> Yes, figured that out too after sending this message. Replacing with lwz 
->>>>> works but I wonder that now you have stwu lwz do the stack offsets need 
->>>>> adjusting too or you just waste 4 bytes now? With lwz here I found no 
->>>>> further 64 bit opcodes and the guest boot code could walk the device 
->>>>> tree. It failed later but I think that's because I'll need to fill more 
->>>>> info about the machine in the device tree. I'll experiment with that but 
->>>>> it looks like it could work at least for MorphOS. I'll have to try Linux 
->>>>> too.
->>>> 
->>>> I was trying to get a linux kernel from a debian powerpc iso to do 
->>>> something (debian before 10.0 has Pegasos support) but I've run into the 
->>>> problem that the kernel is loaded at 0x400000 but the start address is at 
->>>> some offset from that. How do I set qemu,boot-kernel in this case?
->>> 
->>> 
->>> The pseries kernel can work from any location (and it relocates itself to 
->>> 0 at some point) even though it is linked at c000.0000.0000.0000, and 
->>> there is no start address offset:
->>> 
->>> ===
->>>> objdump -D ~/pbuild/kernel-le/vmlinux
->>> /home/aik/pbuild/kernel-le/vmlinux:     file format elf64-powerpcle
->>> 
->>> 
->>> Disassembly of section .head.text:
->>> 
->>> c000000000000000 <__start>:
->>> c000000000000000:       48 00 00 08     tdi     0,r0,72
->>> c000000000000004:       2c 00 00 48     b       c000000000000030 
->>> <__start+0x30>
->>> ...
->>> ===
->>> 
->>> Not sure about pegasos2 kernels (or any ppc32 really), sorry.
->> 
->> The kernel from Debian 10.0 powerpc used on pegasos looks like this:
->> 
->> vmlinuz-chrp.initrd:     file format elf32-powerpc
->> vmlinuz-chrp.initrd
->> architecture: powerpc:common, flags 0x00000112:
->> EXEC_P, HAS_SYMS, D_PAGED
->> start address 0x004002fc
->> 
->> Program Header:
->>      LOAD off    0x00010000 vaddr 0x00400000 paddr 0x00400000 align 2**16
->>           filesz 0x0127b72a memsz 0x0127d5d8 flags rwx
->>     STACK off    0x00000000 vaddr 0x00000000 paddr 0x00000000 align 2**4
->>           filesz 0x00000000 memsz 0x00000000 flags rwx
->>      NOTE off    0x000000b4 vaddr 0x00000000 paddr 0x00000000 align 2**0
->>           filesz 0x0000002c memsz 0x00000000 flags ---
->>      NOTE off    0x000000e0 vaddr 0x00000000 paddr 0x00000000 align 2**0
->>           filesz 0x0000002c memsz 0x00000000 flags ---
->> 
->> Sections:
->> Idx Name          Size      VMA       LMA       File off  Algn
->>    0 .text         00008588  00400000  00400000  00010000  2**2
->>                    CONTENTS, ALLOC, LOAD, READONLY, CODE
->>    1 .text.unlikely 00000078  00408588  00408588  00018588  2**2
->>                    CONTENTS, ALLOC, LOAD, READONLY, CODE
->>    2 .data         00001bec  00409000  00409000  00019000  2**2
->>                    CONTENTS, ALLOC, LOAD, DATA
->>    3 .got          0000000c  0040abec  0040abec  0001abec  2**2
->>                    CONTENTS, ALLOC, LOAD, DATA
->>    4 __builtin_cmdline 00000800  0040abf8  0040abf8  0001abf8  2**2
->>                    CONTENTS, ALLOC, LOAD, DATA
->>    5 .kernel:vmlinux.strip 0047658e  0040c000  0040c000  0001c000  2**0
->>                    CONTENTS, ALLOC, LOAD, READONLY, DATA
->>    6 .kernel:initrd 00df872a  00883000  00883000  00493000  2**0
->>                    CONTENTS, ALLOC, LOAD, READONLY, DATA
->>    7 .bss          000015d8  0167c000  0167c000  0128b72a  2**2
->>                    ALLOC
->>    8 .debug_info   0000e7fd  00000000  00000000  0128b72a  2**0
->>                    CONTENTS, READONLY, DEBUGGING
->>    9 .debug_abbrev 00002a4f  00000000  00000000  01299f27  2**0
->>                    CONTENTS, READONLY, DEBUGGING
->>   10 .debug_loc    00009df1  00000000  00000000  0129c976  2**0
->>                    CONTENTS, READONLY, DEBUGGING
->>   11 .debug_aranges 00000250  00000000  00000000  012a6767  2**0
->>                    CONTENTS, READONLY, DEBUGGING
->>   12 .debug_line   000026b8  00000000  00000000  012a69b7  2**0
->>                    CONTENTS, READONLY, DEBUGGING
->>   13 .debug_str    00001d9c  00000000  00000000  012a906f  2**0
->>                    CONTENTS, READONLY, DEBUGGING
->>   14 .comment      0000001d  00000000  00000000  012aae0b  2**0
->>                    CONTENTS, READONLY
->>   15 .gnu.attributes 00000010  00000000  00000000  012aae28  2**0
->>                    CONTENTS, READONLY
->>   16 .debug_frame  00001c88  00000000  00000000  012aae38  2**2
->>                    CONTENTS, READONLY, DEBUGGING
->>   17 .debug_ranges 00000740  00000000  00000000  012acac0  2**0
->>                    CONTENTS, READONLY, DEBUGGING
->> 
->> It even seems to have the initrd embedded in it. If I just use 0x400000 as 
->> start address it does not work, has to jump to the start address for it to 
->> start correctly.
->> 
->>>> Because when I set it to the address/size where the kernel is loaded it 
->>>> jumps to the beginnig not the correct start address. If I set the address 
->>>> to the start address then size will be wrong so I don't know how to set 
->>>> qemu,boot-kernel in this case or is there another property to tell the 
->>>> start address?
->>>> (Vof does not seem to check any other property and seems to assume the 
->>>> entry point is the same as the load address but for this linux kernel 
->>>> it's not.)
->>> 
->>> I guess if you really need an offset, you'll have to add a new property 
->>> ("qemu,boot-kernel-start"?) and look for it in the firmware. Or, say, put 
->>> in gpr5 in your version of spapr_cpu_set_entry_state() and make 
->>> boot_from_memory() use it.
->> 
->> Either way would work but I don't want to recompile vof.bin so if you 
+On Thu, 20 May 2021 at 11:27, Yang Zhong <yang.zhong@intel.com> wrote:
+
+> Hello all,
 >
-> I really do not want to add features with no user for it; and having this 
-> added with pegasos2 support make it clear why it is there. Also recompile is 
-> really simple :)
+> I found the latest Qemu release can't bootup the VM with latest guest
+> kernel(>5.13).
+>
+> The normal v6.0.0 release is good to bootup the latest guest kernel.
+>
+> There are two issues were found
+> 1. Guest kernel panic.
+> 2. kvm disabled by bios
+>
+> The panic log as below:
+> [    2.250024] BUG: unable to handle page fault for address:
+> ffffffffac06c55f
+> [    2.252226] #PF: supervisor write access in kernel mode
+> [    2.253892] #PF: error_code(0x0003) - permissions violation
+> [    2.255671] PGD 5940e067 P4D 5940f067 PUD 59410063 PMD 580001e1
+> [    2.257567] Oops: 0003 [#1] SMP NOPTI
+> [    2.258738] CPU: 2 PID: 313 Comm: systemd-udevd Not tainted 5.13.0-rc1+
+> #1
+> [    2.260899] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS
+> 0.0.0 02/06/2015
+> [    2.263375] RIP: 0010:__send_ipi_mask+0x1bf/0x240
+> [    2.264855] Code: c0 48 c7 44 24 18 00 00 00 00 e9 48 ff ff ff 48 89 d0
+> 4c 09 c8 74 1b 49 63 d7 48 63 74 24 0c b8 0a 00 00 00 4c 89 cb 4c 89 d1
+> <0f> 01 d9 48 85 c0 78 4a 48 f7 04 24 00 02 00 00 0f 84 80 fe ff ff
+> [    2.270643] RSP: 0018:ff591a62c0193ab0 EFLAGS: 00010006
+> [    2.272277] RAX: 000000000000000a RBX: 0000000000000009 RCX:
+> 0000000000000000
+> [    2.274482] RDX: 0000000000000000 RSI: 00000000000000fc RDI:
+> ff13a83dc003c830
+> [    2.276663] RBP: ff591a62c0193b08 R08: 0000000000000004 R09:
+> 0000000000000009
+> [    2.278866] R10: 0000000000000000 R11: 0000000000000000 R12:
+> 0000000000000000
+> [    2.281065] R13: ff13a83dc003c830 R14: 0000000000011580 R15:
+> 0000000000000000
+> [    2.283272] FS:  00007f23ebd07940(0000) GS:ff13a83e3bd00000(0000)
+> knlGS:0000000000000000
+> [    2.285794] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> [    2.287574] CR2: ffffffffac06c55f CR3: 0000000106ce2003 CR4:
+> 0000000000771ee0
+> [    2.289757] DR0: 0000000000000000 DR1: 0000000000000000 DR2:
+> 0000000000000000
+> [    2.291972] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7:
+> 0000000000000400
+> [    2.294177] PKRU: 55555554
+> [    2.295043] Call Trace:
+> [    2.295820]  kvm_smp_send_call_func_ipi+0xe/0x60
+> [    2.297220]  smp_call_function_many_cond+0x25d/0x2a0
+> [    2.298772]  ? flush_tlb_one_kernel+0x20/0x20
+> [    2.300145]  on_each_cpu_cond_mask+0x1e/0x20
+> [    2.301514]  flush_tlb_kernel_range+0x8d/0x90
+> [    2.302799]  __purge_vmap_area_lazy+0xc1/0x6a0
+> [    2.304097]  ? cpumask_next+0x1f/0x20
+> [    2.305160]  ? purge_fragmented_blocks_allcpus+0x3d/0x210
+> [    2.306686]  _vm_unmap_aliases+0xf1/0x120
+> [    2.307861]  change_page_attr_set_clr+0x95/0x280
+> [    2.309203]  set_memory_ro+0x26/0x30
+> [    2.310259]  ? 0xffffffffc00f7000
+> [    2.311214]  module_enable_ro.part.58+0x62/0xc0
+> [    2.312417]  do_init_module+0x17a/0x230
+> [    2.313460]  load_module+0x1a30/0x1b00
+> [    2.314463]  ? __do_sys_finit_module+0xad/0x110
+> [    2.315702]  __do_sys_finit_module+0xad/0x110
+> [    2.316890]  do_syscall_64+0x39/0x80
+> [    2.317868]  entry_SYSCALL_64_after_hwframe+0x44/0xae
+> [    2.319226] RIP: 0033:0x7f23ea8f32bd
+>
+>
+> I also used the bisect to get the bad commit id:
+> f5cc5a5c168674f84bf061cdb307c2d25fba5448
+>
+> This issue is known issue? or some fixs are ready to fix those issues?
+> thanks!
+>
 
-Provided you have a cross compiler set up and do not run into problems 
-you've mentioned before. So I'd prefer to not increase the source of bugs 
-by also modifying VOF. This is not only for pegasos2. An ELF file does not 
-necessarily have the entry point equal to its load address so while you 
-happen to have a kernel that does that now you could have another later 
-that won't so supporting it in some way would be the right thing to do 
-anyway. Also I can't decide what is better, using a gpr or a device tree 
-property so whatever you prefer. You probably need a respin anyway so 
-adding it to that seems to be simpler than for me to try starting 
-compiling and testing VOF too (also I can't test with spapr so can't make 
-sure the changes I make won't break something). So you seem to be a better 
-position for VOF changes. I think I only need these:
+What's your qemu command line?
 
-1. Get rid of the ld 64 bit opcode in _prom_entry
-2. Support ELF with entry point != load address
-3. Have a way to disable ci_entry after quiesce so it won't do sc 1 that 
-would generate exception in my case otherwise or ignore that exception 
-within VOF.
+I'm also having a kernel crash (although I think mine is with a different
+call stack) when using "-cpu host". The crash doesn't occur when I use
+"kvm64" cpu type.
 
-I think other issues have been already resolved with your latest patch 
-version unless I forgot something.
+    Gal.
 
-Regards,
-BALATON Zoltan
---3866299591-1223288471-1621771928=:72420--
+
+>
+> Regards,
+>
+> Yang
+>
+>
+>
+>
+
+--0000000000000582f805c2fe5df2
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
+t-family:verdana,sans-serif">Hi Yang,<br></div></div><br><div class=3D"gmai=
+l_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, 20 May 2021 at 11:27=
+, Yang Zhong &lt;<a href=3D"mailto:yang.zhong@intel.com">yang.zhong@intel.c=
+om</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margi=
+n:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex=
+">Hello all,<br>
+<br>
+I found the latest Qemu release can&#39;t bootup the VM with latest guest k=
+ernel(&gt;5.13).<br>
+<br>
+The normal v6.0.0 release is good to bootup the latest guest kernel.<br>
+<br>
+There are two issues were found<br>
+1. Guest kernel panic.<br>
+2. kvm disabled by bios<br>
+<br>
+The panic log as below:<br>
+[=C2=A0 =C2=A0 2.250024] BUG: unable to handle page fault for address: ffff=
+ffffac06c55f<br>
+[=C2=A0 =C2=A0 2.252226] #PF: supervisor write access in kernel mode<br>
+[=C2=A0 =C2=A0 2.253892] #PF: error_code(0x0003) - permissions violation<br=
+>
+[=C2=A0 =C2=A0 2.255671] PGD 5940e067 P4D 5940f067 PUD 59410063 PMD 580001e=
+1<br>
+[=C2=A0 =C2=A0 2.257567] Oops: 0003 [#1] SMP NOPTI<br>
+[=C2=A0 =C2=A0 2.258738] CPU: 2 PID: 313 Comm: systemd-udevd Not tainted 5.=
+13.0-rc1+ #1<br>
+[=C2=A0 =C2=A0 2.260899] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009)=
+, BIOS 0.0.0 02/06/2015<br>
+[=C2=A0 =C2=A0 2.263375] RIP: 0010:__send_ipi_mask+0x1bf/0x240<br>
+[=C2=A0 =C2=A0 2.264855] Code: c0 48 c7 44 24 18 00 00 00 00 e9 48 ff ff ff=
+ 48 89 d0 4c 09 c8 74 1b 49 63 d7 48 63 74 24 0c b8 0a 00 00 00 4c 89 cb 4c=
+ 89 d1 &lt;0f&gt; 01 d9 48 85 c0 78 4a 48 f7 04 24 00 02 00 00 0f 84 80 fe =
+ff ff<br>
+[=C2=A0 =C2=A0 2.270643] RSP: 0018:ff591a62c0193ab0 EFLAGS: 00010006<br>
+[=C2=A0 =C2=A0 2.272277] RAX: 000000000000000a RBX: 0000000000000009 RCX: 0=
+000000000000000<br>
+[=C2=A0 =C2=A0 2.274482] RDX: 0000000000000000 RSI: 00000000000000fc RDI: f=
+f13a83dc003c830<br>
+[=C2=A0 =C2=A0 2.276663] RBP: ff591a62c0193b08 R08: 0000000000000004 R09: 0=
+000000000000009<br>
+[=C2=A0 =C2=A0 2.278866] R10: 0000000000000000 R11: 0000000000000000 R12: 0=
+000000000000000<br>
+[=C2=A0 =C2=A0 2.281065] R13: ff13a83dc003c830 R14: 0000000000011580 R15: 0=
+000000000000000<br>
+[=C2=A0 =C2=A0 2.283272] FS:=C2=A0 00007f23ebd07940(0000) GS:ff13a83e3bd000=
+00(0000) knlGS:0000000000000000<br>
+[=C2=A0 =C2=A0 2.285794] CS:=C2=A0 0010 DS: 0000 ES: 0000 CR0: 000000008005=
+0033<br>
+[=C2=A0 =C2=A0 2.287574] CR2: ffffffffac06c55f CR3: 0000000106ce2003 CR4: 0=
+000000000771ee0<br>
+[=C2=A0 =C2=A0 2.289757] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0=
+000000000000000<br>
+[=C2=A0 =C2=A0 2.291972] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0=
+000000000000400<br>
+[=C2=A0 =C2=A0 2.294177] PKRU: 55555554<br>
+[=C2=A0 =C2=A0 2.295043] Call Trace:<br>
+[=C2=A0 =C2=A0 2.295820]=C2=A0 kvm_smp_send_call_func_ipi+0xe/0x60<br>
+[=C2=A0 =C2=A0 2.297220]=C2=A0 smp_call_function_many_cond+0x25d/0x2a0<br>
+[=C2=A0 =C2=A0 2.298772]=C2=A0 ? flush_tlb_one_kernel+0x20/0x20<br>
+[=C2=A0 =C2=A0 2.300145]=C2=A0 on_each_cpu_cond_mask+0x1e/0x20<br>
+[=C2=A0 =C2=A0 2.301514]=C2=A0 flush_tlb_kernel_range+0x8d/0x90<br>
+[=C2=A0 =C2=A0 2.302799]=C2=A0 __purge_vmap_area_lazy+0xc1/0x6a0<br>
+[=C2=A0 =C2=A0 2.304097]=C2=A0 ? cpumask_next+0x1f/0x20<br>
+[=C2=A0 =C2=A0 2.305160]=C2=A0 ? purge_fragmented_blocks_allcpus+0x3d/0x210=
+<br>
+[=C2=A0 =C2=A0 2.306686]=C2=A0 _vm_unmap_aliases+0xf1/0x120<br>
+[=C2=A0 =C2=A0 2.307861]=C2=A0 change_page_attr_set_clr+0x95/0x280<br>
+[=C2=A0 =C2=A0 2.309203]=C2=A0 set_memory_ro+0x26/0x30<br>
+[=C2=A0 =C2=A0 2.310259]=C2=A0 ? 0xffffffffc00f7000<br>
+[=C2=A0 =C2=A0 2.311214]=C2=A0 module_enable_ro.part.58+0x62/0xc0<br>
+[=C2=A0 =C2=A0 2.312417]=C2=A0 do_init_module+0x17a/0x230<br>
+[=C2=A0 =C2=A0 2.313460]=C2=A0 load_module+0x1a30/0x1b00<br>
+[=C2=A0 =C2=A0 2.314463]=C2=A0 ? __do_sys_finit_module+0xad/0x110<br>
+[=C2=A0 =C2=A0 2.315702]=C2=A0 __do_sys_finit_module+0xad/0x110<br>
+[=C2=A0 =C2=A0 2.316890]=C2=A0 do_syscall_64+0x39/0x80<br>
+[=C2=A0 =C2=A0 2.317868]=C2=A0 entry_SYSCALL_64_after_hwframe+0x44/0xae<br>
+[=C2=A0 =C2=A0 2.319226] RIP: 0033:0x7f23ea8f32bd<br>
+<br>
+<br>
+I also used the bisect to get the bad commit id: f5cc5a5c168674f84bf061cdb3=
+07c2d25fba5448<br>
+<br>
+This issue is known issue? or some fixs are ready to fix those issues? than=
+ks!<br></blockquote><div><br></div><div><div style=3D"font-family:verdana,s=
+ans-serif" class=3D"gmail_default">What&#39;s your qemu command line?</div>=
+<div style=3D"font-family:verdana,sans-serif" class=3D"gmail_default"><br><=
+/div><div style=3D"font-family:verdana,sans-serif" class=3D"gmail_default">=
+I&#39;m also having a kernel crash (although I think mine is with a differe=
+nt call stack) when using &quot;-cpu host&quot;. The crash doesn&#39;t occu=
+r when I use &quot;kvm64&quot; cpu type.<br></div></div><div><br></div><div=
+><div style=3D"font-family:verdana,sans-serif" class=3D"gmail_default">=C2=
+=A0=C2=A0=C2=A0 Gal.<br></div>=C2=A0</div><blockquote class=3D"gmail_quote"=
+ style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);p=
+adding-left:1ex">
+<br>
+Regards,<br>
+<br>
+Yang<br>
+<br>
+<br>
+<br>
+</blockquote></div></div>
+
+--0000000000000582f805c2fe5df2--
+
 
