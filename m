@@ -2,83 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E37B38DA83
-	for <lists+qemu-devel@lfdr.de>; Sun, 23 May 2021 10:27:18 +0200 (CEST)
-Received: from localhost ([::1]:59872 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D78338DA86
+	for <lists+qemu-devel@lfdr.de>; Sun, 23 May 2021 10:33:15 +0200 (CEST)
+Received: from localhost ([::1]:36056 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lkjS8-0003GF-8t
-	for lists+qemu-devel@lfdr.de; Sun, 23 May 2021 04:27:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49714)
+	id 1lkjXt-0006Uy-6s
+	for lists+qemu-devel@lfdr.de; Sun, 23 May 2021 04:33:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50574)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lkjR5-0002Zg-2e
- for qemu-devel@nongnu.org; Sun, 23 May 2021 04:26:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46741)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lkjR2-0002e6-1k
- for qemu-devel@nongnu.org; Sun, 23 May 2021 04:26:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621758366;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=9LljMfQ//VMtrSI95ymNAtqZo6NvkKxvq8+f8vo/Z+k=;
- b=bDqjy/NVaUDduP0P294rwG5okEyEjaqlG0quQ8n/Wl6BA9f+B9WEV0PkhQWMUykDiixsB3
- J8qj+Mp+ugvpv4DQq2g1BviKtLrE5mSpL+qn6QoV9JqGzO59tbmEAGaulQCba2G1hyHZ6b
- rf5ajxMA67J9Pl0UkO585y6FU06aPc0=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-275-cwYfjwNHOYWC0mefuIpjoA-1; Sun, 23 May 2021 04:26:04 -0400
-X-MC-Unique: cwYfjwNHOYWC0mefuIpjoA-1
-Received: by mail-wr1-f69.google.com with SMTP id
- u20-20020a0560001614b02901115c8f2d89so11167428wrb.3
- for <qemu-devel@nongnu.org>; Sun, 23 May 2021 01:26:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=9LljMfQ//VMtrSI95ymNAtqZo6NvkKxvq8+f8vo/Z+k=;
- b=jNMoLH3qPDYeskm47O8JW8jp9WJU2BQtcW38IIeREIocZvM+V6B0A1Zk6uCrghzVX2
- GQlRdEKyeQxS4BenooN/9RbGmt9TAcR2OqhYaTZ+mXyPFZPQgTNoZhysxTMAacKrV0SH
- tcYTxA83j2Ulwl8E0g9GZxerbGmpENr9m7eNL+YQu4Pbj8a0QDK9XtviYz8q8JSI2z46
- ae4gsXEfo9AffoyDZncIux35pRBnEPnY+PtGhOqWGHbhIV9LAJ67OLDR7mVBKTYmVjQD
- iH3oizoga0CygGSZcH511hhc4P+bbAyUJEu7p0iXo4nnWw8uLEvLASM7ABaY8NmmG6El
- TpRg==
-X-Gm-Message-State: AOAM532HweiycsjKhXfLr50Qy+bxeFsgTcdT4dpbjbM8S7fVUatKD7/7
- WDyvzqShkDe2pgsbrXCmlK3iYnLiDhop8JWv6bTwpea1c8rprgm+HkvNhXpQ0mxAR0NndtpJEZK
- 8g3m/BKRE8A7bGYM=
-X-Received: by 2002:a5d:6c61:: with SMTP id r1mr17237387wrz.309.1621758363304; 
- Sun, 23 May 2021 01:26:03 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyFEe5zXur9nL/1zhyI5iFU72TQxnH5D25GO8BFTbf+fMWsXh11DIgMRuunGngrjDKLb/AxdQ==
-X-Received: by 2002:a5d:6c61:: with SMTP id r1mr17237365wrz.309.1621758363035; 
- Sun, 23 May 2021 01:26:03 -0700 (PDT)
-Received: from redhat.com ([2a10:8006:fcda:0:90d:c7e7:9e26:b297])
- by smtp.gmail.com with ESMTPSA id m11sm4324431wmq.33.2021.05.23.01.26.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 23 May 2021 01:26:02 -0700 (PDT)
-Date: Sun, 23 May 2021 04:25:59 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Julia Suvorova <jusual@redhat.com>
-Subject: Re: [RFC PATCH v4 0/7] Use ACPI PCI hot-plug for Q35
-Message-ID: <20210523042415-mutt-send-email-mst@kernel.org>
-References: <20210513062642.3027987-1-jusual@redhat.com>
+ (Exim 4.90_1) (envelope-from <fxm16899@163.com>) id 1lkjWq-00058X-PV
+ for qemu-devel@nongnu.org; Sun, 23 May 2021 04:32:09 -0400
+Received: from m13116.mail.163.com ([220.181.13.116]:43597)
+ by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <fxm16899@163.com>) id 1lkjWj-0005N7-M2
+ for qemu-devel@nongnu.org; Sun, 23 May 2021 04:32:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=Date:From:Subject:MIME-Version:Message-ID; bh=cZa6Q
+ 4dcdAVHXHYP0iyjSCC3h4Lkl8vJtxvi7xdyXuU=; b=oM0gdqSO110bX18SjIgcc
+ GaZBQ9p3CSh0fq8hyHNgNwniX2EeJXUYe9d7/MpwnthztyIL414fDTsPPvG00/Gg
+ meazOExJ6Y4irI3SleasFfeUKJl2rrYro/w37pfLb1M5hbOpYHh2I3qgPbRovmq3
+ ztkHtEUdG6PEEsMYU1cDdc=
+Received: from fxm16899$163.com ( [218.85.80.138] ) by ajax-webmail-wmsvr116
+ (Coremail) ; Sun, 23 May 2021 16:30:58 +0800 (CST)
+X-Originating-IP: [218.85.80.138]
+Date: Sun, 23 May 2021 16:30:58 +0800 (CST)
+From: =?GBK?B?uLbQocP3?= <fxm16899@163.com>
+To: "Peter Maydell" <peter.maydell@linaro.org>
+Subject: Re:Re:Re: set qemu support serial crtscts
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.13 build 20210104(ab8c30b6)
+ Copyright (c) 2002-2021 www.mailtech.cn 163com
+In-Reply-To: <769bea6c.30df.178d40964ed.Coremail.fxm16899@163.com>
+References: <554c28f.2f15.178cec36fd2.Coremail.fxm16899@163.com>
+ <CAFEAcA9Ar9AWnUAnDmPJXCPtZHGNujdOoCFZufMctRkX01o+3A@mail.gmail.com>
+ <769bea6c.30df.178d40964ed.Coremail.fxm16899@163.com>
+X-CM-CTRLDATA: xHsrzGZvb3Rlcl9odG09MzU2Mzo1Ng==
+Content-Type: multipart/alternative; 
+ boundary="----=_Part_15436_454729366.1621758658548"
 MIME-Version: 1.0
-In-Reply-To: <20210513062642.3027987-1-jusual@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.374,
+Message-ID: <50b2fb4d.10b0.179985947f4.Coremail.fxm16899@163.com>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: dMGowADX3__CEqpgRHT2AA--.34366W
+X-CM-SenderInfo: pi0pilqyzzqiywtou0bp/xtbBZBOZm1QHNPTvoQACsq
+X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+Received-SPF: pass client-ip=220.181.13.116; envelope-from=fxm16899@163.com;
+ helo=m13116.mail.163.com
+X-Spam_score_int: 38
+X-Spam_score: 3.8
+X-Spam_bar: +++
+X-Spam_report: (3.8 / 5.0 requ) BAYES_00=-1.9, CHARSET_FARAWAY_HEADER=3.2,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
+ MIME_CHARSET_FARAWAY=2.45, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,110 +68,128 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>, qemu-discuss@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, May 13, 2021 at 08:26:35AM +0200, Julia Suvorova wrote:
-> The patch set consists of two parts:
-> patches 1-4: introduce new feature
->              'acpi-pci-hotplug-with-bridge-support' on Q35
-> patches 5-7: make the feature default along with changes in ACPI tables
-> 
-> This way maintainers can decide which way to choose without breaking
-> the patch set.
-> 
-> With the feature disabled Q35 falls back to the native hot-plug.
+------=_Part_15436_454729366.1621758658548
+Content-Type: text/plain; charset=GBK
+Content-Transfer-Encoding: base64
 
-Overall I think this version has addressed my concerns, good job!
-I see Igor has some suggestions on how to structure the code,
-they seem easy to address.
-Question: what makes this an RFC? Any known bugs/missing functionality?
-I don't see anything obvious - what did I miss?
+SGksICBQZXRlciBhbmQgYWxsIGRldmVsb3BlcnMKICAgIERvIHlvdSBzb2x2ZSB0aGlzIHF1ZXN0
+aW9uPyBJIGFtIGxvb2tpbmcgZm9yd2FyZCB0byB5b3VyIHJlcGx5LiBUaGFuayB5b3UgdmVyeSBt
+dWNoCgoKCkF0IDIwMjEtMDQtMTUgMTM6Mzg6MDgsICK4ttChw/ciIDxmeG0xNjg5OUAxNjMuY29t
+PiB3cm90ZToKCkhpo6wgUGV0ZXIgYW5kIGFsbCBkZXZlbG9wZXJzCiAgICAgWWVzo6wgSSBuZWVk
+IHRvIGRlc2NyaWJlIGl0IGNsZWFybHkuIAoxoaJJIHdhbnQgbWFrZSB0aGUgcWVtdSBzZXJpYWwg
+c3VwcG9ydCBjcnRzY3RzCjKholByb2JsZW06IHRoZSBtYWNoaW5lJ3MgZ3Vlc3QgaXMgd2luZG93
+cywgdGhlIG1hY2hpbmUncyBob3N0IGlzIGNlbnRvcy4gIFRoZSBxZW11IGVtdWxhdGlvbiBwY2kt
+c2VyaWFsLgpBIHByaW50ZXIgo6htb2RlbCBpcyBCVFAtMjAwMWNwo6l1c2UgdGhlIHNlcmlhbCB0
+byBwcmludC4gVGhlIG1hY2hpbmUgY29ubmVjdCB0aGUgcHJpbnRlciBieSBzZXJpYWwgcG9ydC4K
+VGhlIGRhdGEgcHJpbnRlZCBieSB0aGUgcHJpbnRlciBpcyBtaXNzaW5nIHNvbWUgZGF0YS5Zb3Ug
+Y2FuIHNlZSBwaWN0dXJlIDEgaXMgbG9zdCBzb21lIGRhdGEsIHBpY3R1cmUgMiAgaXMgbm9ybWFs
+LkJlY2F1c2UgdGhlIHByaW50ZXIgbmVlZCBoYXJkd2FyZSBmbG93IGNvbnRyb2wuCkkgbW9kaWZ5
+IC9jaGFyZGV2L2NoYXItc2VyaWFsLmMgdG8gc3VwcG9ydCBoYXJkd2FyZSBmbG93IGNvbnRyb2wu
+IFRoZW4gdGhlIGRhdGEgcHJpbnRlZCBieSB0aGUgcHJpbnRlciBpcyBub3JtYWwuClRoZSBDUlRT
+Q1RTIGlzIChub3QgaW4gUE9TSVgpIEVuYWJsZSBSVFMvQ1RTIChoYXJkd2FyZSkgZmxvdyBjb250
+cm9sLiAgCldlIGNhbiBhY3F1aXJlIHNvbWUgaW5mb3JtYXRpb24gYnkgICJzdHR5IC1GIC9kZXYv
+dHR5UzAgLWEgIi4gV2UgY2FuIHNldCB0aGUgQ1JUU0NUUyBieSAic3R0eSAtRiAvZGV2L3R0eVMw
+IGNydHNjdHMiCjOhokkgaGF2ZSBzb21lIHF1ZXN0aW9uCjEpIERvZXMgdGhlIHFlbXUgaW5pdCBh
+bGwgcGNpLXNlcmlhbCBwb3J0IGNydHNjdHMgb3IgcmF3PyBGb3IgZXhhbXBsZSwgSSBtYWtlIHRo
+ZSBxZW11IGNvbmZpZ3VyZSB3aXRoIDQgcGNpLXNlcmlhbCBwb3J0LgogLWNoYXJkZXYgdHR5LGlk
+PWNoYXJzZXJpYWwwLHBhdGg9L2Rldi90dHlTMCxsb2dmaWxlPS9kZXYvZmRzZXQvNCxsb2dhcHBl
+bmQ9b24gLWRldmljZSBwY2ktc2VyaWFsLGNoYXJkZXY9Y2hhcnNlcmlhbDAsaWQ9c2VyaWFsMCxi
+dXM9cGNpLjAsYWRkcj0weDE3IC1hZGQtZmQgc2V0PTUsZmQ9MjggLWNoYXJkZXYgdHR5LGlkPWNo
+YXJzZXJpYWwxLHBhdGg9L2Rldi90dHlTMSxsb2dmaWxlPS9kZXYvZmRzZXQvNSxsb2dhcHBlbmQ9
+b24gLWRldmljZSBwY2ktc2VyaWFsLGNoYXJkZXY9Y2hhcnNlcmlhbDEsaWQ9c2VyaWFsMSxidXM9
+cGNpLjAsYWRkcj0weDE4IC1hZGQtZmQgc2V0PTYsZmQ9MjkgLWNoYXJkZXYgdHR5LGlkPWNoYXJz
+ZXJpYWwyLHBhdGg9L2Rldi90dHlTMixsb2dmaWxlPS9kZXYvZmRzZXQvNixsb2dhcHBlbmQ9b24g
+LWRldmljZSBwY2ktc2VyaWFsLGNoYXJkZXY9Y2hhcnNlcmlhbDIsaWQ9c2VyaWFsMixidXM9cGNp
+LjAsYWRkcj0weDE5IC1hZGQtZmQgc2V0PTcsZmQ9MzAgLWNoYXJkZXYgdHR5LGlkPWNoYXJzZXJp
+YWwzLHBhdGg9L2Rldi90dHlTMyxsb2dmaWxlPS9kZXYvZmRzZXQvNyxsb2dhcHBlbmQ9b24gLWRl
+dmljZSBwY2ktc2VyaWFsLGNoYXJkZXY9Y2hhcnNlcmlhbDMsaWQ9c2VyaWFsMyxidXM9cGNpLjAs
+YWRkcj0weDFhCjIpIGlmIHNvbWUgcHJpbnRlciBub3Qgc3VwcG9ydCAoaGFyZHdhcmUpIGZsb3cg
+Y29udHJvbCwgd2UgbWFrZSB0aGUgcWVtdSBzdXBwb3J0IChoYXJkd2FyZSkgZmxvdyBjb250cm9s
+LCBoYXZlIHNvbWUgYmFkIGluZmx1ZW5jZT8KCgouCgoKCgoKCgoKCgoKCgoKCgoKCgpBdCAyMDIx
+LTA0LTE0IDIxOjI0OjIwLCAiUGV0ZXIgTWF5ZGVsbCIgPHBldGVyLm1heWRlbGxAbGluYXJvLm9y
+Zz4gd3JvdGU6Cj5PbiBXZWQsIDE0IEFwciAyMDIxIGF0IDE0OjE4LCC4ttChw/cgPGZ4bTE2ODk5
+QDE2My5jb20+IHdyb3RlOgo+Pgo+PiBISSwgSSBoYXZlIGZpbmQgcWVtdSBzZXJpYWwgbm90IHN1
+cHBvcnQgY3J0c2N0cy4gVGhpcyByZXN1bHQgc29tZQo+PiBtYWNoaW5lIG5vdCBjb21tdW5pY2F0
+aW9uLCBiZWNhdXNlIHRoaXMgbWFjaGluZSBuZWVkIGNydHNjdHMKPgo+Q291bGQgeW91IHByb3Zp
+ZGUgbW9yZSBkZXRhaWwsIHBsZWFzZT8gRm9yIGEgYnVnIHJlcG9ydCBpdAo+aXMgdXNlZnVsIHRv
+IGtub3c6Cj4gKiB3aGF0IHlvdSB3ZXJlIHRyeWluZyB0byBkbwo+ICogd2hhdCBoYXBwZW5lZAo+
+ICogd2hhdCB5b3UgZXhwZWN0ZWQgdG8gaGFwcGVuCj4gKiBmdWxsIGRldGFpbHMgbGlrZSB0aGUg
+UUVNVSBjb21tYW5kIGxpbmUKPiAqIHdoYXQgZ3Vlc3Qgc29mdHdhcmUgeW91IHdlcmUgcnVubmlu
+Zwo+Cj5JZGVhbGx5LCB0aGUgcmVwb3J0IHNob3VsZCBoYXZlIGV2ZXJ5dGhpbmcgd2UgbmVlZCB0
+byBiZQo+YWJsZSB0byByZXByb2R1Y2UgdGhlIHByb2JsZW0gb3Vyc2VsdmVzLgo+Cj50aGFua3MK
+Pi0tIFBNTQoKCgoKCiA=
+------=_Part_15436_454729366.1621758658548
+Content-Type: text/html; charset=GBK
+Content-Transfer-Encoding: base64
 
-
-> Pros
->     * no racy behavior during boot (see 110c477c2ed)
->     * eject is possible - according to PCIe spec, attention button
->       press should lead to power off, and then the adapter should be
->       removed manually. As there is no power down state exists in QEMU,
->       we cannot distinguish between an eject and a power down
->       request.
->     * no delay during deleting - after the actual power off software
->       must wait at least 1 second before indicating about it. This case
->       is quite important for users, it even has its own bug:
->           https://bugzilla.redhat.com/show_bug.cgi?id=1594168
->     * no timer-based behavior - in addition to the previous example,
->       the attention button has a 5-second waiting period, during which
->       the operation can be canceled with a second press. While this
->       looks fine for manual button control, automation will result in
->       the need to queue or drop events, and the software receiving
->       events in all sort of unspecified combinations of attention/power
->       indicator states, which is racy and uppredictable.
->     * fixes or reduces the likelihood of the bugs:
->         * https://bugzilla.redhat.com/show_bug.cgi?id=1833187
->         * https://bugzilla.redhat.com/show_bug.cgi?id=1657077
->         * https://bugzilla.redhat.com/show_bug.cgi?id=1669931
->         * https://bugzilla.redhat.com/show_bug.cgi?id=1678290
-> 
-> Cons:
->     * no access to possible features presented in slot capabilities
->       (this is only surprise removal AFAIK)
-> 
-> v4:
->     * regain per-port control over hot-plug
->     * rebased over acpi-index changes
->     * set property on machine type to
->       make pci code more generic [Igor, Michael]
-> 
-> v3:
->     * drop change of _OSC to allow SHPC on hotplugged bridges
->     * use 'acpi-root-pci-hotplug'
->     * add migration states [Igor]
->     * minor style changes
-> 
-> v2:
->     * new ioport range for acpiphp [Gerd]
->     * drop find_pci_host() [Igor]
->     * explain magic numbers in _OSC [Igor]
->     * drop build_q35_pci_hotplug() wrapper [Igor]
-> 
-> Julia Suvorova (7):
->   hw/acpi/pcihp: Enhance acpi_pcihp_disable_root_bus() to support Q35
->   hw/i386/acpi-build: Add ACPI PCI hot-plug methods to Q35
->   hw/acpi/ich9: Enable ACPI PCI hot-plug
->   hw/pci/pcie: Do not set HPC flag if acpihp is used
->   bios-tables-test: Allow changes in DSDT ACPI tables
->   hw/acpi/ich9: Set ACPI PCI hot-plug as default on Q35
->   bios-tables-test: Update golden binaries
-> 
->  hw/i386/acpi-build.h              |   5 +++
->  include/hw/acpi/ich9.h            |   5 +++
->  include/hw/acpi/pcihp.h           |   3 +-
->  include/hw/boards.h               |   1 +
->  hw/acpi/ich9.c                    |  68 ++++++++++++++++++++++++++++++
->  hw/acpi/pcihp.c                   |  22 +++++++---
->  hw/acpi/piix4.c                   |   4 +-
->  hw/core/machine.c                 |  19 +++++++++
->  hw/i386/acpi-build.c              |  32 ++++++++------
->  hw/i386/pc.c                      |   4 +-
->  hw/i386/pc_q35.c                  |   8 ++++
->  hw/pci/pcie.c                     |  11 ++++-
->  tests/data/acpi/q35/DSDT          | Bin 7859 -> 8289 bytes
->  tests/data/acpi/q35/DSDT.acpihmat | Bin 9184 -> 9614 bytes
->  tests/data/acpi/q35/DSDT.bridge   | Bin 7877 -> 11003 bytes
->  tests/data/acpi/q35/DSDT.cphp     | Bin 8323 -> 8753 bytes
->  tests/data/acpi/q35/DSDT.dimmpxm  | Bin 9513 -> 9943 bytes
->  tests/data/acpi/q35/DSDT.ipmibt   | Bin 7934 -> 8364 bytes
->  tests/data/acpi/q35/DSDT.memhp    | Bin 9218 -> 9648 bytes
->  tests/data/acpi/q35/DSDT.mmio64   | Bin 8990 -> 9419 bytes
->  tests/data/acpi/q35/DSDT.nohpet   | Bin 7717 -> 8147 bytes
->  tests/data/acpi/q35/DSDT.numamem  | Bin 7865 -> 8295 bytes
->  tests/data/acpi/q35/DSDT.tis      | Bin 8465 -> 8894 bytes
->  23 files changed, 161 insertions(+), 21 deletions(-)
-> 
-> -- 
-> 2.30.2
+PGRpdiBzdHlsZT0ibGluZS1oZWlnaHQ6MS43O2NvbG9yOiMwMDAwMDA7Zm9udC1zaXplOjE0cHg7
+Zm9udC1mYW1pbHk6QXJpYWwiPjxkaXYgc3R5bGU9Im1hcmdpbjogMDsiPkhpLCZuYnNwOyBQZXRl
+ciBhbmQgYWxsIGRldmVsb3BlcnM8L2Rpdj48ZGl2IHN0eWxlPSJtYXJnaW46IDA7Ij4mbmJzcDsg
+Jm5ic3A7IERvIHlvdSBzb2x2ZSB0aGlzIHF1ZXN0aW9uPyBJIGFtIGxvb2tpbmcgZm9yd2FyZCB0
+byB5b3VyIHJlcGx5LiBUaGFuayB5b3UgdmVyeSBtdWNoPC9kaXY+PGRpdiBzdHlsZT0ibWFyZ2lu
+OiAwOyI+PGJyPjwvZGl2PjxwPkF0IDIwMjEtMDQtMTUgMTM6Mzg6MDgsICK4ttChw/ciICZsdDtm
+eG0xNjg5OUAxNjMuY29tJmd0OyB3cm90ZTo8L3A+PGJsb2NrcXVvdGUgaWQ9ImlzUmVwbHlDb250
+ZW50IiBzdHlsZT0iUEFERElORy1MRUZUOiAxZXg7IE1BUkdJTjogMHB4IDBweCAwcHggMC44ZXg7
+IEJPUkRFUi1MRUZUOiAjY2NjIDFweCBzb2xpZCI+PGRpdiBzdHlsZT0ibGluZS1oZWlnaHQ6MS43
+O2NvbG9yOiMwMDAwMDA7Zm9udC1zaXplOjE0cHg7Zm9udC1mYW1pbHk6QXJpYWwiPjxkaXYgc3R5
+bGU9Im1hcmdpbjogMHB4OyI+SGmjrCBQZXRlciBhbmQgYWxsIGRldmVsb3BlcnM8L2Rpdj48ZGl2
+PiZuYnNwOyAmbmJzcDsgJm5ic3A7WWVzo6wgSSBuZWVkIHRvIGRlc2NyaWJlIGl0IGNsZWFybHku
+Jm5ic3A7PC9kaXY+PGRpdj4xoaJJIHdhbnQgbWFrZSB0aGUgcWVtdSBzZXJpYWwgc3VwcG9ydCBj
+cnRzY3RzPC9kaXY+PGRpdj4yoaJQcm9ibGVtOiB0aGUgbWFjaGluZSdzIGd1ZXN0IGlzIHdpbmRv
+d3MsIHRoZSBtYWNoaW5lJ3MgaG9zdCBpcyBjZW50b3MuJm5ic3A7IFRoZSBxZW11IGVtdWxhdGlv
+biBwY2ktc2VyaWFsLjwvZGl2PjxkaXY+QSBwcmludGVyIKOobW9kZWwgaXMgQlRQLTIwMDFjcKOp
+dXNlIHRoZSBzZXJpYWwgdG8mbmJzcDtwcmludC4gVGhlIG1hY2hpbmUgY29ubmVjdCB0aGUgcHJp
+bnRlciBieSBzZXJpYWwgcG9ydC48L2Rpdj48ZGl2PlRoZSBkYXRhIHByaW50ZWQgYnkgdGhlIHBy
+aW50ZXIgaXMgbWlzc2luZyBzb21lIGRhdGEuWW91IGNhbiBzZWUgcGljdHVyZSAxIGlzIGxvc3Qg
+c29tZSBkYXRhLCBwaWN0dXJlIDImbmJzcDsgaXMgbm9ybWFsLkJlY2F1c2UgdGhlIHByaW50ZXIg
+bmVlZCBoYXJkd2FyZSBmbG93IGNvbnRyb2wuPC9kaXY+PGRpdj5JIG1vZGlmeSZuYnNwOy9jaGFy
+ZGV2L2NoYXItc2VyaWFsLmMgdG8gc3VwcG9ydCBoYXJkd2FyZSBmbG93IGNvbnRyb2wuIFRoZW4g
+dGhlIGRhdGEgcHJpbnRlZCBieSB0aGUgcHJpbnRlciBpcyBub3JtYWwuPC9kaXY+PGRpdj48ZGl2
+PlRoZSBDUlRTQ1RTIGlzIChub3QgaW4gUE9TSVgpIEVuYWJsZSBSVFMvQ1RTIChoYXJkd2FyZSkg
+ZmxvdyBjb250cm9sLiZuYnNwOyZuYnNwOzwvZGl2PjwvZGl2PjxkaXY+V2UgY2FuIGFjcXVpcmUg
+c29tZSBpbmZvcm1hdGlvbiBieSZuYnNwOyAic3R0eSAtRiAvZGV2L3R0eVMwIC1hICIuIFdlIGNh
+biBzZXQgdGhlIENSVFNDVFMgYnkgInN0dHkgLUYgL2Rldi90dHlTMCBjcnRzY3RzIjwvZGl2Pjxk
+aXY+M6GiSSBoYXZlIHNvbWUgcXVlc3Rpb248L2Rpdj48ZGl2PjEpIERvZXMgdGhlIHFlbXUgaW5p
+dCBhbGwgcGNpLXNlcmlhbCBwb3J0IGNydHNjdHMgb3IgcmF3PyBGb3IgZXhhbXBsZSwgSSBtYWtl
+IHRoZSBxZW11Jm5ic3A7Y29uZmlndXJlIHdpdGggNCBwY2ktc2VyaWFsIHBvcnQuPC9kaXY+PGRp
+dj4mbmJzcDstY2hhcmRldiB0dHksaWQ9Y2hhcnNlcmlhbDAscGF0aD0vZGV2L3R0eVMwLGxvZ2Zp
+bGU9L2Rldi9mZHNldC80LGxvZ2FwcGVuZD1vbiAtZGV2aWNlIHBjaS1zZXJpYWwsY2hhcmRldj1j
+aGFyc2VyaWFsMCxpZD1zZXJpYWwwLGJ1cz1wY2kuMCxhZGRyPTB4MTcgLWFkZC1mZCBzZXQ9NSxm
+ZD0yOCAtY2hhcmRldiB0dHksaWQ9Y2hhcnNlcmlhbDEscGF0aD0vZGV2L3R0eVMxLGxvZ2ZpbGU9
+L2Rldi9mZHNldC81LGxvZ2FwcGVuZD1vbiAtZGV2aWNlIHBjaS1zZXJpYWwsY2hhcmRldj1jaGFy
+c2VyaWFsMSxpZD1zZXJpYWwxLGJ1cz1wY2kuMCxhZGRyPTB4MTggLWFkZC1mZCBzZXQ9NixmZD0y
+OSAtY2hhcmRldiB0dHksaWQ9Y2hhcnNlcmlhbDIscGF0aD0vZGV2L3R0eVMyLGxvZ2ZpbGU9L2Rl
+di9mZHNldC82LGxvZ2FwcGVuZD1vbiAtZGV2aWNlIHBjaS1zZXJpYWwsY2hhcmRldj1jaGFyc2Vy
+aWFsMixpZD1zZXJpYWwyLGJ1cz1wY2kuMCxhZGRyPTB4MTkgLWFkZC1mZCBzZXQ9NyxmZD0zMCAt
+Y2hhcmRldiB0dHksaWQ9Y2hhcnNlcmlhbDMscGF0aD0vZGV2L3R0eVMzLGxvZ2ZpbGU9L2Rldi9m
+ZHNldC83LGxvZ2FwcGVuZD1vbiAtZGV2aWNlIHBjaS1zZXJpYWwsY2hhcmRldj1jaGFyc2VyaWFs
+MyxpZD1zZXJpYWwzLGJ1cz1wY2kuMCxhZGRyPTB4MWE8L2Rpdj48ZGl2PjIpIGlmIHNvbWUgcHJp
+bnRlciBub3Qgc3VwcG9ydCAoaGFyZHdhcmUpIGZsb3cgY29udHJvbCwgd2UgbWFrZSB0aGUgcWVt
+dSBzdXBwb3J0IChoYXJkd2FyZSkgZmxvdyBjb250cm9sLCBoYXZlIHNvbWUgYmFkIGluZmx1ZW5j
+ZT88L2Rpdj48ZGl2Pjxicj48L2Rpdj48ZGl2Pi48L2Rpdj48ZGl2Pjxicj48L2Rpdj48cCBzdHls
+ZT0ibWFyZ2luOiAwOyI+PGJyPjwvcD48cCBzdHlsZT0ibWFyZ2luOiAwOyI+PGJyPjwvcD48cCBz
+dHlsZT0ibWFyZ2luOiAwOyI+PGJyPjwvcD48cCBzdHlsZT0ibWFyZ2luOiAwOyI+PGJyPjwvcD48
+ZGl2IHN0eWxlPSJwb3NpdGlvbjpyZWxhdGl2ZTt6b29tOjEiPjwvZGl2PjxkaXY+PC9kaXY+PHAg
+c3R5bGU9Im1hcmdpbjogMDsiPjxicj48L3A+PHByZT48YnI+QXQgMjAyMS0wNC0xNCAyMToyNDoy
+MCwgIlBldGVyIE1heWRlbGwiICZsdDtwZXRlci5tYXlkZWxsQGxpbmFyby5vcmcmZ3Q7IHdyb3Rl
+OgomZ3Q7T24gV2VkLCAxNCBBcHIgMjAyMSBhdCAxNDoxOCwguLbQocP3ICZsdDtmeG0xNjg5OUAx
+NjMuY29tJmd0OyB3cm90ZToKJmd0OyZndDsKJmd0OyZndDsgSEksIEkgaGF2ZSBmaW5kIHFlbXUg
+c2VyaWFsIG5vdCBzdXBwb3J0IGNydHNjdHMuIFRoaXMgcmVzdWx0IHNvbWUKJmd0OyZndDsgbWFj
+aGluZSBub3QgY29tbXVuaWNhdGlvbiwgYmVjYXVzZSB0aGlzIG1hY2hpbmUgbmVlZCBjcnRzY3Rz
+CiZndDsKJmd0O0NvdWxkIHlvdSBwcm92aWRlIG1vcmUgZGV0YWlsLCBwbGVhc2U/IEZvciBhIGJ1
+ZyByZXBvcnQgaXQKJmd0O2lzIHVzZWZ1bCB0byBrbm93OgomZ3Q7ICogd2hhdCB5b3Ugd2VyZSB0
+cnlpbmcgdG8gZG8KJmd0OyAqIHdoYXQgaGFwcGVuZWQKJmd0OyAqIHdoYXQgeW91IGV4cGVjdGVk
+IHRvIGhhcHBlbgomZ3Q7ICogZnVsbCBkZXRhaWxzIGxpa2UgdGhlIFFFTVUgY29tbWFuZCBsaW5l
+CiZndDsgKiB3aGF0IGd1ZXN0IHNvZnR3YXJlIHlvdSB3ZXJlIHJ1bm5pbmcKJmd0OwomZ3Q7SWRl
+YWxseSwgdGhlIHJlcG9ydCBzaG91bGQgaGF2ZSBldmVyeXRoaW5nIHdlIG5lZWQgdG8gYmUKJmd0
+O2FibGUgdG8gcmVwcm9kdWNlIHRoZSBwcm9ibGVtIG91cnNlbHZlcy4KJmd0OwomZ3Q7dGhhbmtz
+CiZndDstLSBQTU0KPC9wcmU+PC9kaXY+PGJyPjxicj48c3BhbiB0aXRsZT0ibmV0ZWFzZWZvb3Rl
+ciI+PHA+Jm5ic3A7PC9wPjwvc3Bhbj48L2Jsb2NrcXVvdGU+PC9kaXY+PGJyPjxicj48c3BhbiB0
+aXRsZT0ibmV0ZWFzZWZvb3RlciI+PHA+Jm5ic3A7PC9wPjwvc3Bhbj4=
+------=_Part_15436_454729366.1621758658548--
 
 
