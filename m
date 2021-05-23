@@ -2,64 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D78338DA86
-	for <lists+qemu-devel@lfdr.de>; Sun, 23 May 2021 10:33:15 +0200 (CEST)
-Received: from localhost ([::1]:36056 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C3B438DABC
+	for <lists+qemu-devel@lfdr.de>; Sun, 23 May 2021 11:46:59 +0200 (CEST)
+Received: from localhost ([::1]:40800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lkjXt-0006Uy-6s
-	for lists+qemu-devel@lfdr.de; Sun, 23 May 2021 04:33:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50574)
+	id 1lkkhG-0007Y2-6N
+	for lists+qemu-devel@lfdr.de; Sun, 23 May 2021 05:46:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38446)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fxm16899@163.com>) id 1lkjWq-00058X-PV
- for qemu-devel@nongnu.org; Sun, 23 May 2021 04:32:09 -0400
-Received: from m13116.mail.163.com ([220.181.13.116]:43597)
- by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <fxm16899@163.com>) id 1lkjWj-0005N7-M2
- for qemu-devel@nongnu.org; Sun, 23 May 2021 04:32:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=Date:From:Subject:MIME-Version:Message-ID; bh=cZa6Q
- 4dcdAVHXHYP0iyjSCC3h4Lkl8vJtxvi7xdyXuU=; b=oM0gdqSO110bX18SjIgcc
- GaZBQ9p3CSh0fq8hyHNgNwniX2EeJXUYe9d7/MpwnthztyIL414fDTsPPvG00/Gg
- meazOExJ6Y4irI3SleasFfeUKJl2rrYro/w37pfLb1M5hbOpYHh2I3qgPbRovmq3
- ztkHtEUdG6PEEsMYU1cDdc=
-Received: from fxm16899$163.com ( [218.85.80.138] ) by ajax-webmail-wmsvr116
- (Coremail) ; Sun, 23 May 2021 16:30:58 +0800 (CST)
-X-Originating-IP: [218.85.80.138]
-Date: Sun, 23 May 2021 16:30:58 +0800 (CST)
-From: =?GBK?B?uLbQocP3?= <fxm16899@163.com>
-To: "Peter Maydell" <peter.maydell@linaro.org>
-Subject: Re:Re:Re: set qemu support serial crtscts
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.13 build 20210104(ab8c30b6)
- Copyright (c) 2002-2021 www.mailtech.cn 163com
-In-Reply-To: <769bea6c.30df.178d40964ed.Coremail.fxm16899@163.com>
-References: <554c28f.2f15.178cec36fd2.Coremail.fxm16899@163.com>
- <CAFEAcA9Ar9AWnUAnDmPJXCPtZHGNujdOoCFZufMctRkX01o+3A@mail.gmail.com>
- <769bea6c.30df.178d40964ed.Coremail.fxm16899@163.com>
-X-CM-CTRLDATA: xHsrzGZvb3Rlcl9odG09MzU2Mzo1Ng==
-Content-Type: multipart/alternative; 
- boundary="----=_Part_15436_454729366.1621758658548"
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lkkg3-0006tN-6L
+ for qemu-devel@nongnu.org; Sun, 23 May 2021 05:45:43 -0400
+Received: from indium.canonical.com ([91.189.90.7]:42598)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lkkg1-0006EK-A9
+ for qemu-devel@nongnu.org; Sun, 23 May 2021 05:45:42 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
+ id 1lkkfy-0008OR-A2
+ for <qemu-devel@nongnu.org>; Sun, 23 May 2021 09:45:38 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 408D42E813A
+ for <qemu-devel@nongnu.org>; Sun, 23 May 2021 09:45:38 +0000 (UTC)
 MIME-Version: 1.0
-Message-ID: <50b2fb4d.10b0.179985947f4.Coremail.fxm16899@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: dMGowADX3__CEqpgRHT2AA--.34366W
-X-CM-SenderInfo: pi0pilqyzzqiywtou0bp/xtbBZBOZm1QHNPTvoQACsq
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
-Received-SPF: pass client-ip=220.181.13.116; envelope-from=fxm16899@163.com;
- helo=m13116.mail.163.com
-X-Spam_score_int: 38
-X-Spam_score: 3.8
-X-Spam_bar: +++
-X-Spam_report: (3.8 / 5.0 requ) BAYES_00=-1.9, CHARSET_FARAWAY_HEADER=3.2,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
- MIME_CHARSET_FARAWAY=2.45, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Sun, 23 May 2021 09:39:06 -0000
+From: Alexey Izbyshev <1887306@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: izbyshev th-huth
+X-Launchpad-Bug-Reporter: Alexey Izbyshev (izbyshev)
+X-Launchpad-Bug-Modifier: Alexey Izbyshev (izbyshev)
+References: <159458406053.7310.1285869489559583574.malonedeb@wampee.canonical.com>
+Message-Id: <162176274711.31619.12119080761983602615.malone@soybean.canonical.com>
+Subject: [Bug 1887306] Re: qemu-user deadlocks when forked in a multithreaded
+ process
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="ba75dbf44f1013379e594c259682f14c0528180a"; Instance="production"
+X-Launchpad-Hash: 5d2735dc89464542debf08e980713a9ba4781ef0
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -68,128 +70,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, qemu-discuss@nongnu.org
+Reply-To: Bug 1887306 <1887306@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-------=_Part_15436_454729366.1621758658548
-Content-Type: text/plain; charset=GBK
-Content-Transfer-Encoding: base64
+Still reproduces with QEMU 6.0.0.
 
-SGksICBQZXRlciBhbmQgYWxsIGRldmVsb3BlcnMKICAgIERvIHlvdSBzb2x2ZSB0aGlzIHF1ZXN0
-aW9uPyBJIGFtIGxvb2tpbmcgZm9yd2FyZCB0byB5b3VyIHJlcGx5LiBUaGFuayB5b3UgdmVyeSBt
-dWNoCgoKCkF0IDIwMjEtMDQtMTUgMTM6Mzg6MDgsICK4ttChw/ciIDxmeG0xNjg5OUAxNjMuY29t
-PiB3cm90ZToKCkhpo6wgUGV0ZXIgYW5kIGFsbCBkZXZlbG9wZXJzCiAgICAgWWVzo6wgSSBuZWVk
-IHRvIGRlc2NyaWJlIGl0IGNsZWFybHkuIAoxoaJJIHdhbnQgbWFrZSB0aGUgcWVtdSBzZXJpYWwg
-c3VwcG9ydCBjcnRzY3RzCjKholByb2JsZW06IHRoZSBtYWNoaW5lJ3MgZ3Vlc3QgaXMgd2luZG93
-cywgdGhlIG1hY2hpbmUncyBob3N0IGlzIGNlbnRvcy4gIFRoZSBxZW11IGVtdWxhdGlvbiBwY2kt
-c2VyaWFsLgpBIHByaW50ZXIgo6htb2RlbCBpcyBCVFAtMjAwMWNwo6l1c2UgdGhlIHNlcmlhbCB0
-byBwcmludC4gVGhlIG1hY2hpbmUgY29ubmVjdCB0aGUgcHJpbnRlciBieSBzZXJpYWwgcG9ydC4K
-VGhlIGRhdGEgcHJpbnRlZCBieSB0aGUgcHJpbnRlciBpcyBtaXNzaW5nIHNvbWUgZGF0YS5Zb3Ug
-Y2FuIHNlZSBwaWN0dXJlIDEgaXMgbG9zdCBzb21lIGRhdGEsIHBpY3R1cmUgMiAgaXMgbm9ybWFs
-LkJlY2F1c2UgdGhlIHByaW50ZXIgbmVlZCBoYXJkd2FyZSBmbG93IGNvbnRyb2wuCkkgbW9kaWZ5
-IC9jaGFyZGV2L2NoYXItc2VyaWFsLmMgdG8gc3VwcG9ydCBoYXJkd2FyZSBmbG93IGNvbnRyb2wu
-IFRoZW4gdGhlIGRhdGEgcHJpbnRlZCBieSB0aGUgcHJpbnRlciBpcyBub3JtYWwuClRoZSBDUlRT
-Q1RTIGlzIChub3QgaW4gUE9TSVgpIEVuYWJsZSBSVFMvQ1RTIChoYXJkd2FyZSkgZmxvdyBjb250
-cm9sLiAgCldlIGNhbiBhY3F1aXJlIHNvbWUgaW5mb3JtYXRpb24gYnkgICJzdHR5IC1GIC9kZXYv
-dHR5UzAgLWEgIi4gV2UgY2FuIHNldCB0aGUgQ1JUU0NUUyBieSAic3R0eSAtRiAvZGV2L3R0eVMw
-IGNydHNjdHMiCjOhokkgaGF2ZSBzb21lIHF1ZXN0aW9uCjEpIERvZXMgdGhlIHFlbXUgaW5pdCBh
-bGwgcGNpLXNlcmlhbCBwb3J0IGNydHNjdHMgb3IgcmF3PyBGb3IgZXhhbXBsZSwgSSBtYWtlIHRo
-ZSBxZW11IGNvbmZpZ3VyZSB3aXRoIDQgcGNpLXNlcmlhbCBwb3J0LgogLWNoYXJkZXYgdHR5LGlk
-PWNoYXJzZXJpYWwwLHBhdGg9L2Rldi90dHlTMCxsb2dmaWxlPS9kZXYvZmRzZXQvNCxsb2dhcHBl
-bmQ9b24gLWRldmljZSBwY2ktc2VyaWFsLGNoYXJkZXY9Y2hhcnNlcmlhbDAsaWQ9c2VyaWFsMCxi
-dXM9cGNpLjAsYWRkcj0weDE3IC1hZGQtZmQgc2V0PTUsZmQ9MjggLWNoYXJkZXYgdHR5LGlkPWNo
-YXJzZXJpYWwxLHBhdGg9L2Rldi90dHlTMSxsb2dmaWxlPS9kZXYvZmRzZXQvNSxsb2dhcHBlbmQ9
-b24gLWRldmljZSBwY2ktc2VyaWFsLGNoYXJkZXY9Y2hhcnNlcmlhbDEsaWQ9c2VyaWFsMSxidXM9
-cGNpLjAsYWRkcj0weDE4IC1hZGQtZmQgc2V0PTYsZmQ9MjkgLWNoYXJkZXYgdHR5LGlkPWNoYXJz
-ZXJpYWwyLHBhdGg9L2Rldi90dHlTMixsb2dmaWxlPS9kZXYvZmRzZXQvNixsb2dhcHBlbmQ9b24g
-LWRldmljZSBwY2ktc2VyaWFsLGNoYXJkZXY9Y2hhcnNlcmlhbDIsaWQ9c2VyaWFsMixidXM9cGNp
-LjAsYWRkcj0weDE5IC1hZGQtZmQgc2V0PTcsZmQ9MzAgLWNoYXJkZXYgdHR5LGlkPWNoYXJzZXJp
-YWwzLHBhdGg9L2Rldi90dHlTMyxsb2dmaWxlPS9kZXYvZmRzZXQvNyxsb2dhcHBlbmQ9b24gLWRl
-dmljZSBwY2ktc2VyaWFsLGNoYXJkZXY9Y2hhcnNlcmlhbDMsaWQ9c2VyaWFsMyxidXM9cGNpLjAs
-YWRkcj0weDFhCjIpIGlmIHNvbWUgcHJpbnRlciBub3Qgc3VwcG9ydCAoaGFyZHdhcmUpIGZsb3cg
-Y29udHJvbCwgd2UgbWFrZSB0aGUgcWVtdSBzdXBwb3J0IChoYXJkd2FyZSkgZmxvdyBjb250cm9s
-LCBoYXZlIHNvbWUgYmFkIGluZmx1ZW5jZT8KCgouCgoKCgoKCgoKCgoKCgoKCgoKCgpBdCAyMDIx
-LTA0LTE0IDIxOjI0OjIwLCAiUGV0ZXIgTWF5ZGVsbCIgPHBldGVyLm1heWRlbGxAbGluYXJvLm9y
-Zz4gd3JvdGU6Cj5PbiBXZWQsIDE0IEFwciAyMDIxIGF0IDE0OjE4LCC4ttChw/cgPGZ4bTE2ODk5
-QDE2My5jb20+IHdyb3RlOgo+Pgo+PiBISSwgSSBoYXZlIGZpbmQgcWVtdSBzZXJpYWwgbm90IHN1
-cHBvcnQgY3J0c2N0cy4gVGhpcyByZXN1bHQgc29tZQo+PiBtYWNoaW5lIG5vdCBjb21tdW5pY2F0
-aW9uLCBiZWNhdXNlIHRoaXMgbWFjaGluZSBuZWVkIGNydHNjdHMKPgo+Q291bGQgeW91IHByb3Zp
-ZGUgbW9yZSBkZXRhaWwsIHBsZWFzZT8gRm9yIGEgYnVnIHJlcG9ydCBpdAo+aXMgdXNlZnVsIHRv
-IGtub3c6Cj4gKiB3aGF0IHlvdSB3ZXJlIHRyeWluZyB0byBkbwo+ICogd2hhdCBoYXBwZW5lZAo+
-ICogd2hhdCB5b3UgZXhwZWN0ZWQgdG8gaGFwcGVuCj4gKiBmdWxsIGRldGFpbHMgbGlrZSB0aGUg
-UUVNVSBjb21tYW5kIGxpbmUKPiAqIHdoYXQgZ3Vlc3Qgc29mdHdhcmUgeW91IHdlcmUgcnVubmlu
-Zwo+Cj5JZGVhbGx5LCB0aGUgcmVwb3J0IHNob3VsZCBoYXZlIGV2ZXJ5dGhpbmcgd2UgbmVlZCB0
-byBiZQo+YWJsZSB0byByZXByb2R1Y2UgdGhlIHByb2JsZW0gb3Vyc2VsdmVzLgo+Cj50aGFua3MK
-Pi0tIFBNTQoKCgoKCiA=
-------=_Part_15436_454729366.1621758658548
-Content-Type: text/html; charset=GBK
-Content-Transfer-Encoding: base64
+** Changed in: qemu
+       Status: Incomplete =3D> New
 
-PGRpdiBzdHlsZT0ibGluZS1oZWlnaHQ6MS43O2NvbG9yOiMwMDAwMDA7Zm9udC1zaXplOjE0cHg7
-Zm9udC1mYW1pbHk6QXJpYWwiPjxkaXYgc3R5bGU9Im1hcmdpbjogMDsiPkhpLCZuYnNwOyBQZXRl
-ciBhbmQgYWxsIGRldmVsb3BlcnM8L2Rpdj48ZGl2IHN0eWxlPSJtYXJnaW46IDA7Ij4mbmJzcDsg
-Jm5ic3A7IERvIHlvdSBzb2x2ZSB0aGlzIHF1ZXN0aW9uPyBJIGFtIGxvb2tpbmcgZm9yd2FyZCB0
-byB5b3VyIHJlcGx5LiBUaGFuayB5b3UgdmVyeSBtdWNoPC9kaXY+PGRpdiBzdHlsZT0ibWFyZ2lu
-OiAwOyI+PGJyPjwvZGl2PjxwPkF0IDIwMjEtMDQtMTUgMTM6Mzg6MDgsICK4ttChw/ciICZsdDtm
-eG0xNjg5OUAxNjMuY29tJmd0OyB3cm90ZTo8L3A+PGJsb2NrcXVvdGUgaWQ9ImlzUmVwbHlDb250
-ZW50IiBzdHlsZT0iUEFERElORy1MRUZUOiAxZXg7IE1BUkdJTjogMHB4IDBweCAwcHggMC44ZXg7
-IEJPUkRFUi1MRUZUOiAjY2NjIDFweCBzb2xpZCI+PGRpdiBzdHlsZT0ibGluZS1oZWlnaHQ6MS43
-O2NvbG9yOiMwMDAwMDA7Zm9udC1zaXplOjE0cHg7Zm9udC1mYW1pbHk6QXJpYWwiPjxkaXYgc3R5
-bGU9Im1hcmdpbjogMHB4OyI+SGmjrCBQZXRlciBhbmQgYWxsIGRldmVsb3BlcnM8L2Rpdj48ZGl2
-PiZuYnNwOyAmbmJzcDsgJm5ic3A7WWVzo6wgSSBuZWVkIHRvIGRlc2NyaWJlIGl0IGNsZWFybHku
-Jm5ic3A7PC9kaXY+PGRpdj4xoaJJIHdhbnQgbWFrZSB0aGUgcWVtdSBzZXJpYWwgc3VwcG9ydCBj
-cnRzY3RzPC9kaXY+PGRpdj4yoaJQcm9ibGVtOiB0aGUgbWFjaGluZSdzIGd1ZXN0IGlzIHdpbmRv
-d3MsIHRoZSBtYWNoaW5lJ3MgaG9zdCBpcyBjZW50b3MuJm5ic3A7IFRoZSBxZW11IGVtdWxhdGlv
-biBwY2ktc2VyaWFsLjwvZGl2PjxkaXY+QSBwcmludGVyIKOobW9kZWwgaXMgQlRQLTIwMDFjcKOp
-dXNlIHRoZSBzZXJpYWwgdG8mbmJzcDtwcmludC4gVGhlIG1hY2hpbmUgY29ubmVjdCB0aGUgcHJp
-bnRlciBieSBzZXJpYWwgcG9ydC48L2Rpdj48ZGl2PlRoZSBkYXRhIHByaW50ZWQgYnkgdGhlIHBy
-aW50ZXIgaXMgbWlzc2luZyBzb21lIGRhdGEuWW91IGNhbiBzZWUgcGljdHVyZSAxIGlzIGxvc3Qg
-c29tZSBkYXRhLCBwaWN0dXJlIDImbmJzcDsgaXMgbm9ybWFsLkJlY2F1c2UgdGhlIHByaW50ZXIg
-bmVlZCBoYXJkd2FyZSBmbG93IGNvbnRyb2wuPC9kaXY+PGRpdj5JIG1vZGlmeSZuYnNwOy9jaGFy
-ZGV2L2NoYXItc2VyaWFsLmMgdG8gc3VwcG9ydCBoYXJkd2FyZSBmbG93IGNvbnRyb2wuIFRoZW4g
-dGhlIGRhdGEgcHJpbnRlZCBieSB0aGUgcHJpbnRlciBpcyBub3JtYWwuPC9kaXY+PGRpdj48ZGl2
-PlRoZSBDUlRTQ1RTIGlzIChub3QgaW4gUE9TSVgpIEVuYWJsZSBSVFMvQ1RTIChoYXJkd2FyZSkg
-ZmxvdyBjb250cm9sLiZuYnNwOyZuYnNwOzwvZGl2PjwvZGl2PjxkaXY+V2UgY2FuIGFjcXVpcmUg
-c29tZSBpbmZvcm1hdGlvbiBieSZuYnNwOyAic3R0eSAtRiAvZGV2L3R0eVMwIC1hICIuIFdlIGNh
-biBzZXQgdGhlIENSVFNDVFMgYnkgInN0dHkgLUYgL2Rldi90dHlTMCBjcnRzY3RzIjwvZGl2Pjxk
-aXY+M6GiSSBoYXZlIHNvbWUgcXVlc3Rpb248L2Rpdj48ZGl2PjEpIERvZXMgdGhlIHFlbXUgaW5p
-dCBhbGwgcGNpLXNlcmlhbCBwb3J0IGNydHNjdHMgb3IgcmF3PyBGb3IgZXhhbXBsZSwgSSBtYWtl
-IHRoZSBxZW11Jm5ic3A7Y29uZmlndXJlIHdpdGggNCBwY2ktc2VyaWFsIHBvcnQuPC9kaXY+PGRp
-dj4mbmJzcDstY2hhcmRldiB0dHksaWQ9Y2hhcnNlcmlhbDAscGF0aD0vZGV2L3R0eVMwLGxvZ2Zp
-bGU9L2Rldi9mZHNldC80LGxvZ2FwcGVuZD1vbiAtZGV2aWNlIHBjaS1zZXJpYWwsY2hhcmRldj1j
-aGFyc2VyaWFsMCxpZD1zZXJpYWwwLGJ1cz1wY2kuMCxhZGRyPTB4MTcgLWFkZC1mZCBzZXQ9NSxm
-ZD0yOCAtY2hhcmRldiB0dHksaWQ9Y2hhcnNlcmlhbDEscGF0aD0vZGV2L3R0eVMxLGxvZ2ZpbGU9
-L2Rldi9mZHNldC81LGxvZ2FwcGVuZD1vbiAtZGV2aWNlIHBjaS1zZXJpYWwsY2hhcmRldj1jaGFy
-c2VyaWFsMSxpZD1zZXJpYWwxLGJ1cz1wY2kuMCxhZGRyPTB4MTggLWFkZC1mZCBzZXQ9NixmZD0y
-OSAtY2hhcmRldiB0dHksaWQ9Y2hhcnNlcmlhbDIscGF0aD0vZGV2L3R0eVMyLGxvZ2ZpbGU9L2Rl
-di9mZHNldC82LGxvZ2FwcGVuZD1vbiAtZGV2aWNlIHBjaS1zZXJpYWwsY2hhcmRldj1jaGFyc2Vy
-aWFsMixpZD1zZXJpYWwyLGJ1cz1wY2kuMCxhZGRyPTB4MTkgLWFkZC1mZCBzZXQ9NyxmZD0zMCAt
-Y2hhcmRldiB0dHksaWQ9Y2hhcnNlcmlhbDMscGF0aD0vZGV2L3R0eVMzLGxvZ2ZpbGU9L2Rldi9m
-ZHNldC83LGxvZ2FwcGVuZD1vbiAtZGV2aWNlIHBjaS1zZXJpYWwsY2hhcmRldj1jaGFyc2VyaWFs
-MyxpZD1zZXJpYWwzLGJ1cz1wY2kuMCxhZGRyPTB4MWE8L2Rpdj48ZGl2PjIpIGlmIHNvbWUgcHJp
-bnRlciBub3Qgc3VwcG9ydCAoaGFyZHdhcmUpIGZsb3cgY29udHJvbCwgd2UgbWFrZSB0aGUgcWVt
-dSBzdXBwb3J0IChoYXJkd2FyZSkgZmxvdyBjb250cm9sLCBoYXZlIHNvbWUgYmFkIGluZmx1ZW5j
-ZT88L2Rpdj48ZGl2Pjxicj48L2Rpdj48ZGl2Pi48L2Rpdj48ZGl2Pjxicj48L2Rpdj48cCBzdHls
-ZT0ibWFyZ2luOiAwOyI+PGJyPjwvcD48cCBzdHlsZT0ibWFyZ2luOiAwOyI+PGJyPjwvcD48cCBz
-dHlsZT0ibWFyZ2luOiAwOyI+PGJyPjwvcD48cCBzdHlsZT0ibWFyZ2luOiAwOyI+PGJyPjwvcD48
-ZGl2IHN0eWxlPSJwb3NpdGlvbjpyZWxhdGl2ZTt6b29tOjEiPjwvZGl2PjxkaXY+PC9kaXY+PHAg
-c3R5bGU9Im1hcmdpbjogMDsiPjxicj48L3A+PHByZT48YnI+QXQgMjAyMS0wNC0xNCAyMToyNDoy
-MCwgIlBldGVyIE1heWRlbGwiICZsdDtwZXRlci5tYXlkZWxsQGxpbmFyby5vcmcmZ3Q7IHdyb3Rl
-OgomZ3Q7T24gV2VkLCAxNCBBcHIgMjAyMSBhdCAxNDoxOCwguLbQocP3ICZsdDtmeG0xNjg5OUAx
-NjMuY29tJmd0OyB3cm90ZToKJmd0OyZndDsKJmd0OyZndDsgSEksIEkgaGF2ZSBmaW5kIHFlbXUg
-c2VyaWFsIG5vdCBzdXBwb3J0IGNydHNjdHMuIFRoaXMgcmVzdWx0IHNvbWUKJmd0OyZndDsgbWFj
-aGluZSBub3QgY29tbXVuaWNhdGlvbiwgYmVjYXVzZSB0aGlzIG1hY2hpbmUgbmVlZCBjcnRzY3Rz
-CiZndDsKJmd0O0NvdWxkIHlvdSBwcm92aWRlIG1vcmUgZGV0YWlsLCBwbGVhc2U/IEZvciBhIGJ1
-ZyByZXBvcnQgaXQKJmd0O2lzIHVzZWZ1bCB0byBrbm93OgomZ3Q7ICogd2hhdCB5b3Ugd2VyZSB0
-cnlpbmcgdG8gZG8KJmd0OyAqIHdoYXQgaGFwcGVuZWQKJmd0OyAqIHdoYXQgeW91IGV4cGVjdGVk
-IHRvIGhhcHBlbgomZ3Q7ICogZnVsbCBkZXRhaWxzIGxpa2UgdGhlIFFFTVUgY29tbWFuZCBsaW5l
-CiZndDsgKiB3aGF0IGd1ZXN0IHNvZnR3YXJlIHlvdSB3ZXJlIHJ1bm5pbmcKJmd0OwomZ3Q7SWRl
-YWxseSwgdGhlIHJlcG9ydCBzaG91bGQgaGF2ZSBldmVyeXRoaW5nIHdlIG5lZWQgdG8gYmUKJmd0
-O2FibGUgdG8gcmVwcm9kdWNlIHRoZSBwcm9ibGVtIG91cnNlbHZlcy4KJmd0OwomZ3Q7dGhhbmtz
-CiZndDstLSBQTU0KPC9wcmU+PC9kaXY+PGJyPjxicj48c3BhbiB0aXRsZT0ibmV0ZWFzZWZvb3Rl
-ciI+PHA+Jm5ic3A7PC9wPjwvc3Bhbj48L2Jsb2NrcXVvdGU+PC9kaXY+PGJyPjxicj48c3BhbiB0
-aXRsZT0ibmV0ZWFzZWZvb3RlciI+PHA+Jm5ic3A7PC9wPjwvc3Bhbj4=
-------=_Part_15436_454729366.1621758658548--
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1887306
+
+Title:
+  qemu-user deadlocks when forked in a multithreaded process
+
+Status in QEMU:
+  New
+
+Bug description:
+  The following program (also attached) deadlocks when run under QEMU
+  user on Linux.
+
+  #include <pthread.h>
+  #include <stdio.h>
+  #include <stdlib.h>
+  #include <sys/types.h>
+  #include <sys/wait.h>
+  #include <unistd.h>
+
+  #define NUM_THREADS 100
+  #define NUM_FORKS 10
+
+  pthread_barrier_t barrier;
+
+  void *t(void *arg) {
+      for (int i =3D 0; i < NUM_FORKS; i++) {
+          pid_t pid =3D fork();
+          if (pid < 0)
+              abort();
+          if (!pid)
+              _exit(0);
+          if (waitpid(pid, NULL, 0) < 0)
+              abort();
+      }
+      //pthread_barrier_wait(&barrier);
+      return NULL;
+  }
+
+  int main(void) {
+      pthread_barrier_init(&barrier, NULL, NUM_THREADS);
+      pthread_t ts[NUM_THREADS];
+      for (size_t i =3D 0; i < NUM_THREADS; i++) {
+          if (pthread_create(&ts[i], NULL, t, NULL))
+              abort();
+      }
+      for (size_t i =3D 0; i < NUM_THREADS; i++) {
+          pthread_join(ts[i], NULL);
+      }
+      printf("Done: %d\n", getpid());
+      return 0;
+  }
+
+  To reproduce:
+  $ gcc test.c -pthread
+  $ while qemu-x86_64 ./a.out; do :; done
+
+  (Be careful, Ctrl-C/SIGINT doesn't kill the deadlocked child).
+
+  Larger values of NUM_THREADS/NUM_FORKS lead to more often deadlocks.
+  With the values above it often deadlocks on the first try on my
+  machine. When it deadlocks, there is a child qemu process with two
+  threads which is waited upon by one of the worker threads of the
+  parent.
+
+  I tried to avoid the deadlock by serializing fork() with a mutex, but
+  it didn't help. However, ensuring that no thread exits until all forks
+  are done (by adding a barrier to t()) does seem to help, at least, the
+  program above could run for a half an hour until I terminated it.
+
+  Tested on QEMU 5.0.0, 4.2.0 and 2.11.1, with x86_64 and AArch64 linux-
+  user targets.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1887306/+subscriptions
 
