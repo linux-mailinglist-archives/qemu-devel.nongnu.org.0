@@ -2,85 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D08D838D893
-	for <lists+qemu-devel@lfdr.de>; Sun, 23 May 2021 05:48:55 +0200 (CEST)
-Received: from localhost ([::1]:40488 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3544938D9E8
+	for <lists+qemu-devel@lfdr.de>; Sun, 23 May 2021 10:04:11 +0200 (CEST)
+Received: from localhost ([::1]:54426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lkf6k-00043M-OH
-	for lists+qemu-devel@lfdr.de; Sat, 22 May 2021 23:48:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34634)
+	id 1lkj5l-0006XL-RG
+	for lists+qemu-devel@lfdr.de; Sun, 23 May 2021 04:04:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46948)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <aik@ozlabs.ru>) id 1lkf5x-0003Bn-R1
- for qemu-devel@nongnu.org; Sat, 22 May 2021 23:48:05 -0400
-Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c]:43558)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <aik@ozlabs.ru>) id 1lkf5v-0004j8-5r
- for qemu-devel@nongnu.org; Sat, 22 May 2021 23:48:05 -0400
-Received: by mail-pl1-x62c.google.com with SMTP id v12so12927611plo.10
- for <qemu-devel@nongnu.org>; Sat, 22 May 2021 20:48:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ozlabs-ru.20150623.gappssmtp.com; s=20150623;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=tf4yLm4/13VaS4auCjiDn2e1uKvT9jTw/dl2N1WvX9Q=;
- b=gXms3A3JyAAMlIHutgVmuoe5WBsulYeIKThdculdrEANBEHOHc9/SqasLTILYHh0cQ
- WLP7VQRdyXXMjCIghHAiU5wIi0rTBK/R85zrs1ebryGRbt+H7Osfs+p0ixmQqfC5Aiib
- euV/CdnUihlSbTIQ/Gq5+6q3s67k4ZxjTrP4h7+x+zqegzCZ9nh557rLIh2/64gRSt3B
- auDLBsPur/usX+SDtcteEEP6m/VHiPyqXXQQpPnaOBWQ8ZdZda/V2hGxtv9vtthW/yWc
- R2xGsHuUdO6tYwV24DK1kHTMtVHm//0faTnGKkMY4CN541SUySMucmeHSOYjzqnP+y+N
- gqcQ==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lkj4g-0005gj-VY
+ for qemu-devel@nongnu.org; Sun, 23 May 2021 04:03:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24064)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lkj4e-0000n0-F8
+ for qemu-devel@nongnu.org; Sun, 23 May 2021 04:03:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1621756978;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=GEUjU14OJxOMpMwYbGCpZd0GXP6hP6CTz55rfv47wT4=;
+ b=PbqQugg7OTVpJqbCettYo8ZMqPKbZM3HHEHwtgGAQvf6DPC1OaPur2s4b+VW2Hr9XEt0AD
+ 6YEz0k1gyBlsS6MYv/SnrJqBSkuGHd60YIqy/f4V59+l7KUa+DQnauyi9SBYj7f6Pod0j0
+ BjEdkwtoMjxoj+jHolffBuSKFTB9LSw=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-299-QE2cEjf8NC6PNvL_-m-2rQ-1; Sun, 23 May 2021 04:02:55 -0400
+X-MC-Unique: QE2cEjf8NC6PNvL_-m-2rQ-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ 22-20020adf82960000b02901115ae2f734so11263638wrc.5
+ for <qemu-devel@nongnu.org>; Sun, 23 May 2021 01:02:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=tf4yLm4/13VaS4auCjiDn2e1uKvT9jTw/dl2N1WvX9Q=;
- b=J3PeBRwkJJJG3VgwKyPPZHGNr5ekz3shqvgbG3wUaDR4FwnrB9reDBac0okiZekD99
- xgj0it0kKtLkkryUVgT6NCbj7EnYv4PMM9RoftDHQ/4ORal93ryedoi8nCCOH34lkE+e
- CtabZrGosUsTTa5nPfUhJW9uvpPZsDayown3nvSrEBC5sFvUb7q8iHlavQNvc14sWURy
- +PazIXZhfMOtbrN8wy+uzQZY0UP/PqmJWVA1UHB0egpHyoectNxKWfq7M/sUmBDlaSBu
- RO0pBSevYa5QFnjfP6xqjUc3c8LufEZSi460td64MvvQM33I+NaSwHUr3mOnCciLL2du
- Mc6Q==
-X-Gm-Message-State: AOAM532U+QUh2iT80fm7DbK7uvoCAArnBxhBUZZ+pXGse9sOtXjfBWrb
- EHTqlZpE+DUGSbRn/GgnuIFMSQ==
-X-Google-Smtp-Source: ABdhPJzzVITQ1hxP+fKw1IP9SVE/Eej0tfJnFLbz7z/c05MSFMbc1yLgmWZBNvOOwr/oQmgAHQ8+Dg==
-X-Received: by 2002:a17:90a:f18e:: with SMTP id
- bv14mr18117877pjb.234.1621741680850; 
- Sat, 22 May 2021 20:48:00 -0700 (PDT)
-Received: from [192.168.10.23]
- (ppp121-45-194-51.cbr-trn-nor-bras38.tpg.internode.on.net. [121.45.194.51])
- by smtp.gmail.com with UTF8SMTPSA id c7sm8139030pga.4.2021.05.22.20.47.57
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 22 May 2021 20:48:00 -0700 (PDT)
-Message-ID: <1be4a6c5-3177-ef98-bee8-946938d76060@ozlabs.ru>
-Date: Sun, 23 May 2021 13:47:56 +1000
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=GEUjU14OJxOMpMwYbGCpZd0GXP6hP6CTz55rfv47wT4=;
+ b=saMMwRo/dMT38beH3/ZvNKUk4VZ+3ZxB/909xmasqid1T44rSTdgSEykJz12+ovxBA
+ z/RuHxriuDtLU+Nv+0WHjy1bb8ucEDOUmn4g9B9uQZX3LBBpy9v9P0AtnKguMna5jXNt
+ RvqING+hdp3V8TkvBUls0o6AAa/+nQxQ3JCTWXur+sq+tEWofiKN0zmlNtv1QoT4qu3/
+ 6qBElqMhGkEV2j/cyZMmYL6aNPQvz8MToVDFcATdyJCueNGSB7Z2J4OXnYA9zcEqFgXz
+ e7b2ztBO8GSVn74x5be5BEvX2uI3L/Kd4Hl1BPVLjX0nliRFZGN2GFTMIXeOXwD+ab5y
+ 7uUA==
+X-Gm-Message-State: AOAM530PegqPj58zWZefvC0jfbXDxzPkS8nxGuC6eVVsOQEqIpyefhPV
+ 2mCUeH3gk7e8fX5XAwhYQsuHyfv5h6pP8/2ih9ZPewvfFJIVbMhv2UKqQBefclDK58XLqVBbLqC
+ ftAjAtYzk3dMkEpQ=
+X-Received: by 2002:a5d:638e:: with SMTP id p14mr16517630wru.299.1621756974422; 
+ Sun, 23 May 2021 01:02:54 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwFsgeHhs1g0HxaVfY+0WdBQZ4JD4TO7cyXc2t+vYO0kEaDNDv6V4AgMk2ARTVcOmKzj+am4A==
+X-Received: by 2002:a5d:638e:: with SMTP id p14mr16517616wru.299.1621756974218; 
+ Sun, 23 May 2021 01:02:54 -0700 (PDT)
+Received: from redhat.com ([2a10:8006:fcda:0:90d:c7e7:9e26:b297])
+ by smtp.gmail.com with ESMTPSA id u8sm4295848wmq.29.2021.05.23.01.02.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 23 May 2021 01:02:53 -0700 (PDT)
+Date: Sun, 23 May 2021 04:02:50 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Subject: Re: [PATCH] hw/virtio: Document *_should_notify() are called within
+ rcu_read_lock()
+Message-ID: <20210523040228-mutt-send-email-mst@kernel.org>
+References: <20210520064900.2413612-1-philmd@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:89.0) Gecko/20100101
- Thunderbird/89.0
-Subject: Re: [PATCH qemu v20] spapr: Implement Open Firmware client interface
-Content-Language: en-US
-To: BALATON Zoltan <balaton@eik.bme.hu>
-References: <20210520090557.435689-1-aik@ozlabs.ru>
- <eb49cd30-a4f4-d063-d728-521446a671a6@eik.bme.hu>
- <5825cde5-a408-a438-116d-5a9d9113a52a@ozlabs.ru>
- <ec1742e3-c47-bbee-3a6-ec64442922ab@eik.bme.hu>
- <3bfbab31-7c7e-c9c6-f27c-29922f1e3d92@eik.bme.hu>
- <f6810d77-6748-03f3-7aa2-b54f171a5963@ozlabs.ru>
- <b7ae1-77f-c65b-2581-195f30169338@eik.bme.hu>
-From: Alexey Kardashevskiy <aik@ozlabs.ru>
-In-Reply-To: <b7ae1-77f-c65b-2581-195f30169338@eik.bme.hu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
- envelope-from=aik@ozlabs.ru; helo=mail-pl1-x62c.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, CTE_8BIT_MISMATCH=0.837,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <20210520064900.2413612-1-philmd@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.374,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,368 +95,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 22/05/2021 23:08, BALATON Zoltan wrote:
-> On Sat, 22 May 2021, Alexey Kardashevskiy wrote:
->> On 22/05/2021 05:57, BALATON Zoltan wrote:
->>> On Fri, 21 May 2021, BALATON Zoltan wrote:
->>>> On Fri, 21 May 2021, Alexey Kardashevskiy wrote:
->>>>> On 21/05/2021 07:59, BALATON Zoltan wrote:
->>>>>> On Thu, 20 May 2021, Alexey Kardashevskiy wrote:
->>>>>>> The PAPR platform describes an OS environment that's presented by
->>>>>>> a combination of a hypervisor and firmware. The features it 
->>>>>>> specifies
->>>>>>> require collaboration between the firmware and the hypervisor.
->>>>>>>
->>>>>>> Since the beginning, the runtime component of the firmware (RTAS) 
->>>>>>> has
->>>>>>> been implemented as a 20 byte shim which simply forwards it to
->>>>>>> a hypercall implemented in qemu. The boot time firmware component is
->>>>>>> SLOF - but a build that's specific to qemu, and has always needed 
->>>>>>> to be
->>>>>>> updated in sync with it. Even though we've managed to limit the 
->>>>>>> amount
->>>>>>> of runtime communication we need between qemu and SLOF, there's 
->>>>>>> some,
->>>>>>> and it has become increasingly awkward to handle as we've 
->>>>>>> implemented
->>>>>>> new features.
->>>>>>>
->>>>>>> This implements a boot time OF client interface (CI) which is
->>>>>>> enabled by a new "x-vof" pseries machine option (stands for 
->>>>>>> "Virtual Open
->>>>>>> Firmware). When enabled, QEMU implements the custom H_OF_CLIENT 
->>>>>>> hcall
->>>>>>> which implements Open Firmware Client Interface (OF CI). This allows
->>>>>>> using a smaller stateless firmware which does not have to manage
->>>>>>> the device tree.
->>>>>>>
->>>>>>> The new "vof.bin" firmware image is included with source code under
->>>>>>> pc-bios/. It also includes RTAS blob.
->>>>>>>
->>>>>>> This implements a handful of CI methods just to get -kernel/-initrd
->>>>>>> working. In particular, this implements the device tree fetching and
->>>>>>> simple memory allocator - "claim" (an OF CI memory allocator) and 
->>>>>>> updates
->>>>>>> "/memory@0/available" to report the client about available memory.
->>>>>>>
->>>>>>> This implements changing some device tree properties which we 
->>>>>>> know how
->>>>>>> to deal with, the rest is ignored. To allow changes, this skips
->>>>>>> fdt_pack() when x-vof=on as not packing the blob leaves some room 
->>>>>>> for
->>>>>>> appending.
->>>>>>>
->>>>>>> In absence of SLOF, this assigns phandles to device tree nodes to 
->>>>>>> make
->>>>>>> device tree traversing work.
->>>>>>>
->>>>>>> When x-vof=on, this adds "/chosen" every time QEMU (re)builds a 
->>>>>>> tree.
->>>>>>>
->>>>>>> This adds basic instances support which are managed by a hash map
->>>>>>> ihandle -> [phandle].
->>>>>>>
->>>>>>> Before the guest started, the used memory is:
->>>>>>> 0..e60 - the initial firmware
->>>>>>> 8000..10000 - stack
->>>>>>> 400000.. - kernel
->>>>>>> 3ea0000.. - initramdisk
->>>>>>>
->>>>>>> This OF CI does not implement "interpret".
->>>>>>>
->>>>>>> Unlike SLOF, this does not format uninitialized nvram. Instead, this
->>>>>>> includes a disk image with pre-formatted nvram.
->>>>>>>
->>>>>>> With this basic support, this can only boot into kernel directly.
->>>>>>> However this is just enough for the petitboot kernel and 
->>>>>>> initradmdisk to
->>>>>>> boot from any possible source. Note this requires reasonably 
->>>>>>> recent guest
->>>>>>> kernel with:
->>>>>>> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=df5be5be8735 
->>>>>>> The immediate benefit is much faster booting time which especially
->>>>>>> crucial with fully emulated early CPU bring up environments. Also 
->>>>>>> this
->>>>>>> may come handy when/if GRUB-in-the-userspace sees light of the day.
->>>>>>>
->>>>>>> This separates VOF and sPAPR in a hope that VOF bits may be 
->>>>>>> reused by
->>>>>>> other POWERPC boards which do not support pSeries.
->>>>>>>
->>>>>>> This is coded in assumption that later on we might be adding 
->>>>>>> support for
->>>>>>> booting from QEMU backends (blockdev is the first candidate) without
->>>>>>> devices/drivers in between as OF1275 does not require that and
->>>>>>> it is quite easy to so.
->>>>>>>
->>>>>>> Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
->>>>>>> ---
->>>>>>>
->>>>>>> The example command line is:
->>>>>>>
->>>>>>> /home/aik/pbuild/qemu-killslof-localhost-ppc64/qemu-system-ppc64 \
->>>>>>> -nodefaults \
->>>>>>> -chardev stdio,id=STDIO0,signal=off,mux=on \
->>>>>>> -device spapr-vty,id=svty0,reg=0x71000110,chardev=STDIO0 \
->>>>>>> -mon id=MON0,chardev=STDIO0,mode=readline \
->>>>>>> -nographic \
->>>>>>> -vga none \
->>>>>>> -enable-kvm \
->>>>>>> -m 8G \
->>>>>>> -machine 
->>>>>>> pseries,x-vof=on,cap-cfpc=broken,cap-sbbc=broken,cap-ibs=broken,cap-ccf-assist=off 
->>>>>>> \
->>>>>>> -kernel pbuild/kernel-le-guest/vmlinux \
->>>>>>> -initrd pb/rootfs.cpio.xz \
->>>>>>> -drive 
->>>>>>> id=DRIVE0,if=none,file=./p/qemu-killslof/pc-bios/vof-nvram.bin,format=raw 
->>>>>>> \
->>>>>>> -global spapr-nvram.drive=DRIVE0 \
->>>>>>> -snapshot \
->>>>>>> -smp 8,threads=8 \
->>>>>>> -L /home/aik/t/qemu-ppc64-bios/ \
->>>>>>> -trace events=qemu_trace_events \
->>>>>>> -d guest_errors \
->>>>>>> -chardev socket,id=SOCKET0,server,nowait,path=qemu.mon.tmux26 \
->>>>>>> -mon chardev=SOCKET0,mode=control
->>>>>>>
->>>>>>> ---
->>>>>>> Changes:
->>>>>>> v20:
->>>>>>> * compile vof.bin with -mcpu=power4 for better compatibility
->>>>>>> * s/std/stw/ in entry.S to make it work on ppc32
->>>>>>> * fixed dt_available property to support both 32 and 64bit
->>>>>>> * shuffled prom_args handling code
->>>>>>> * do not enforce 32bit in MSR (again, to support 32bit platforms)
->>>>>>>
->>>>>>
->>>>>> [...]
->>>>>>
->>>>>>> diff --git a/default-configs/devices/ppc64-softmmu.mak 
->>>>>>> b/default-configs/devices/ppc64-softmmu.mak
->>>>>>> index ae0841fa3a18..9fb201dfacfa 100644
->>>>>>> --- a/default-configs/devices/ppc64-softmmu.mak
->>>>>>> +++ b/default-configs/devices/ppc64-softmmu.mak
->>>>>>> @@ -9,3 +9,4 @@ CONFIG_POWERNV=y
->>>>>>>  # For pSeries
->>>>>>>  CONFIG_PSERIES=y
->>>>>>>  CONFIG_NVDIMM=y
->>>>>>> +CONFIG_VOF=y
->>>>>>> diff --git a/hw/ppc/Kconfig b/hw/ppc/Kconfig
->>>>>>> index e51e0e5e5ac6..964510dfc73d 100644
->>>>>>> --- a/hw/ppc/Kconfig
->>>>>>> +++ b/hw/ppc/Kconfig
->>>>>>> @@ -143,3 +143,6 @@ config FW_CFG_PPC
->>>>>>>
->>>>>>>  config FDT_PPC
->>>>>>>      bool
->>>>>>> +
->>>>>>> +config VOF
->>>>>>> +    bool
->>>>>>
->>>>>> I think you should just add "select VOF" to config PSERIES section 
->>>>>> in Kconfig instead of adding it to 
->>>>>> default-configs/devices/ppc64-softmmu.mak. 
->>>>>
->>>>> oh well, can do that too.
->>>>
->>>> I think most config options should be selected by KConfig and the 
->>>> default config should only include machines, otherwise VOF would be 
->>>> added also when you don't compile PSERIES or PEGASOS2. With select 
->>>> in Kconfig it will be added when needed. That's why it's better to 
->>>> use select in this case.
->>>>
->>>>>>  That should do it, it works in my updated pegasos2 patch:
->>>>>>
->>>>>> https://osdn.net/projects/qmiga/scm/git/qemu/commits/3c1fad08469b4d3c04def22044e52b2d27774a61 
->>>>>> [...]
->>>>>>> diff --git a/pc-bios/vof/entry.S b/pc-bios/vof/entry.S
->>>>>>> new file mode 100644
->>>>>>> index 000000000000..569688714c91
->>>>>>> --- /dev/null
->>>>>>> +++ b/pc-bios/vof/entry.S
->>>>>>> @@ -0,0 +1,51 @@
->>>>>>> +#define LOAD32(rn, name)    \
->>>>>>> +    lis     rn,name##@h;    \
->>>>>>> +    ori     rn,rn,name##@l
->>>>>>> +
->>>>>>> +#define ENTRY(func_name)    \
->>>>>>> +    .text;                  \
->>>>>>> +    .align  2;              \
->>>>>>> +    .globl  .func_name;     \
->>>>>>> +    .func_name:             \
->>>>>>> +    .globl  func_name;      \
->>>>>>> +    func_name:
->>>>>>> +
->>>>>>> +#define KVMPPC_HCALL_BASE       0xf000
->>>>>>> +#define KVMPPC_H_RTAS           (KVMPPC_HCALL_BASE + 0x0)
->>>>>>> +#define KVMPPC_H_VOF_CLIENT     (KVMPPC_HCALL_BASE + 0x5)
->>>>>>> +
->>>>>>> +    . = 0x100 /* Do exactly as SLOF does */
->>>>>>> +
->>>>>>> +ENTRY(_start)
->>>>>>> +#    LOAD32(%r31, 0) /* Go 32bit mode */
->>>>>>> +#    mtmsrd %r31,0
->>>>>>> +    LOAD32(2, __toc_start)
->>>>>>> +    b entry_c
->>>>>>> +
->>>>>>> +ENTRY(_prom_entry)
->>>>>>> +    LOAD32(2, __toc_start)
->>>>>>> +    stwu    %r1,-112(%r1)
->>>>>>> +    stw     %r31,104(%r1)
->>>>>>> +    mflr    %r31
->>>>>>> +    bl prom_entry
->>>>>>> +    nop
->>>>>>> +    mtlr    %r31
->>>>>>> +    ld      %r31,104(%r1)
->>>>>>
->>>>>> It's getting there, now I see the first client call from the guest 
->>>>>> boot code but then it crashes on this ld opcode which apparently 
->>>>>> is 64 bit only:
->>>>>
->>>>> Oh right.
->>>>>
->>>>>
->>>>>> Hopefully this is the last such opcode left before I can really 
->>>>>> test this.
->>>>>
->>>>> Make it lwz, and test it?
->>>>
->>>> Yes, figured that out too after sending this message. Replacing with 
->>>> lwz works but I wonder that now you have stwu lwz do the stack 
->>>> offsets need adjusting too or you just waste 4 bytes now? With lwz 
->>>> here I found no further 64 bit opcodes and the guest boot code could 
->>>> walk the device tree. It failed later but I think that's because 
->>>> I'll need to fill more info about the machine in the device tree. 
->>>> I'll experiment with that but it looks like it could work at least 
->>>> for MorphOS. I'll have to try Linux too.
->>>
->>> I was trying to get a linux kernel from a debian powerpc iso to do 
->>> something (debian before 10.0 has Pegasos support) but I've run into 
->>> the problem that the kernel is loaded at 0x400000 but the start 
->>> address is at some offset from that. How do I set qemu,boot-kernel in 
->>> this case?
->>
->>
->> The pseries kernel can work from any location (and it relocates itself 
->> to 0 at some point) even though it is linked at c000.0000.0000.0000, 
->> and there is no start address offset:
->>
->> ===
->>> objdump -D ~/pbuild/kernel-le/vmlinux
->> /home/aik/pbuild/kernel-le/vmlinux:     file format elf64-powerpcle
->>
->>
->> Disassembly of section .head.text:
->>
->> c000000000000000 <__start>:
->> c000000000000000:       48 00 00 08     tdi     0,r0,72
->> c000000000000004:       2c 00 00 48     b       c000000000000030 
->> <__start+0x30>
->> ...
->> ===
->>
->> Not sure about pegasos2 kernels (or any ppc32 really), sorry.
+On Thu, May 20, 2021 at 08:49:00AM +0200, Philippe Mathieu-Daud� wrote:
+> Such comments make reviewing this file somehow easier.
 > 
-> The kernel from Debian 10.0 powerpc used on pegasos looks like this:
+> Signed-off-by: Philippe Mathieu-Daud� <philmd@redhat.com>
+
+ok but
+
+> ---
+>  hw/virtio/virtio.c | 2 ++
+>  1 file changed, 2 insertions(+)
 > 
-> vmlinuz-chrp.initrd:     file format elf32-powerpc
-> vmlinuz-chrp.initrd
-> architecture: powerpc:common, flags 0x00000112:
-> EXEC_P, HAS_SYMS, D_PAGED
-> start address 0x004002fc
-> 
-> Program Header:
->      LOAD off    0x00010000 vaddr 0x00400000 paddr 0x00400000 align 2**16
->           filesz 0x0127b72a memsz 0x0127d5d8 flags rwx
->     STACK off    0x00000000 vaddr 0x00000000 paddr 0x00000000 align 2**4
->           filesz 0x00000000 memsz 0x00000000 flags rwx
->      NOTE off    0x000000b4 vaddr 0x00000000 paddr 0x00000000 align 2**0
->           filesz 0x0000002c memsz 0x00000000 flags ---
->      NOTE off    0x000000e0 vaddr 0x00000000 paddr 0x00000000 align 2**0
->           filesz 0x0000002c memsz 0x00000000 flags ---
-> 
-> Sections:
-> Idx Name          Size      VMA       LMA       File off  Algn
->    0 .text         00008588  00400000  00400000  00010000  2**2
->                    CONTENTS, ALLOC, LOAD, READONLY, CODE
->    1 .text.unlikely 00000078  00408588  00408588  00018588  2**2
->                    CONTENTS, ALLOC, LOAD, READONLY, CODE
->    2 .data         00001bec  00409000  00409000  00019000  2**2
->                    CONTENTS, ALLOC, LOAD, DATA
->    3 .got          0000000c  0040abec  0040abec  0001abec  2**2
->                    CONTENTS, ALLOC, LOAD, DATA
->    4 __builtin_cmdline 00000800  0040abf8  0040abf8  0001abf8  2**2
->                    CONTENTS, ALLOC, LOAD, DATA
->    5 .kernel:vmlinux.strip 0047658e  0040c000  0040c000  0001c000  2**0
->                    CONTENTS, ALLOC, LOAD, READONLY, DATA
->    6 .kernel:initrd 00df872a  00883000  00883000  00493000  2**0
->                    CONTENTS, ALLOC, LOAD, READONLY, DATA
->    7 .bss          000015d8  0167c000  0167c000  0128b72a  2**2
->                    ALLOC
->    8 .debug_info   0000e7fd  00000000  00000000  0128b72a  2**0
->                    CONTENTS, READONLY, DEBUGGING
->    9 .debug_abbrev 00002a4f  00000000  00000000  01299f27  2**0
->                    CONTENTS, READONLY, DEBUGGING
->   10 .debug_loc    00009df1  00000000  00000000  0129c976  2**0
->                    CONTENTS, READONLY, DEBUGGING
->   11 .debug_aranges 00000250  00000000  00000000  012a6767  2**0
->                    CONTENTS, READONLY, DEBUGGING
->   12 .debug_line   000026b8  00000000  00000000  012a69b7  2**0
->                    CONTENTS, READONLY, DEBUGGING
->   13 .debug_str    00001d9c  00000000  00000000  012a906f  2**0
->                    CONTENTS, READONLY, DEBUGGING
->   14 .comment      0000001d  00000000  00000000  012aae0b  2**0
->                    CONTENTS, READONLY
->   15 .gnu.attributes 00000010  00000000  00000000  012aae28  2**0
->                    CONTENTS, READONLY
->   16 .debug_frame  00001c88  00000000  00000000  012aae38  2**2
->                    CONTENTS, READONLY, DEBUGGING
->   17 .debug_ranges 00000740  00000000  00000000  012acac0  2**0
->                    CONTENTS, READONLY, DEBUGGING
-> 
-> It even seems to have the initrd embedded in it. If I just use 0x400000 
-> as start address it does not work, has to jump to the start address for 
-> it to start correctly.
-> 
->>> Because when I set it to the address/size where the kernel is loaded 
->>> it jumps to the beginnig not the correct start address. If I set the 
->>> address to the start address then size will be wrong so I don't know 
->>> how to set qemu,boot-kernel in this case or is there another property 
->>> to tell the start address?
->>> (Vof does not seem to check any other property and seems to assume 
->>> the entry point is the same as the load address but for this linux 
->>> kernel it's not.)
->>
->> I guess if you really need an offset, you'll have to add a new 
->> property ("qemu,boot-kernel-start"?) and look for it in the firmware. 
->> Or, say, put in gpr5 in your version of spapr_cpu_set_entry_state() 
->> and make boot_from_memory() use it.
-> 
-> Either way would work but I don't want to recompile vof.bin so if you 
-
-I really do not want to add features with no user for it; and having 
-this added with pegasos2 support make it clear why it is there. Also 
-recompile is really simple :)
+> diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+> index e02544b2df7..2b4c6c4b875 100644
+> --- a/hw/virtio/virtio.c
+> +++ b/hw/virtio/virtio.c
+> @@ -2449,6 +2449,7 @@ static void virtio_set_isr(VirtIODevice *vdev, int value)
+>      }
+>  }
+>  
+> +/* Called within rcu_read_lock().  */
+>  static bool virtio_split_should_notify(VirtIODevice *vdev, VirtQueue *vq)
+>  {
+>      uint16_t old, new;
+> @@ -2485,6 +2486,7 @@ static bool vring_packed_need_event(VirtQueue *vq, bool wrap,
+>      return vring_need_event(off, new, old);
+>  }
+>  
+> +/* Called within rcu_read_lock().  */
+>  static bool virtio_packed_should_notify(VirtIODevice *vdev, VirtQueue *vq)
+>  {
+>      VRingPackedDescEvent e;
 
 
-> implement any of these in the next version I can use that. For now I've 
-> just set kernel address to the start address and decreased size a bit, 
-> the memory for the kernel is still claimed correctly when it's loaded so 
-> unless something relies on the size in qemu,boot-kernel it does not 
-> matter and this way the kernel starts but only gets to finding no 
-> /chosen/stdout and exit there so I can't try it until I resolve that.
+one space before */ please, not two.
 
+> -- 
+> 2.26.3
 
-
-
--- 
-Alexey
 
