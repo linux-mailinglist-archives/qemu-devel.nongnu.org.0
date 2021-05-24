@@ -2,50 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F6EE38E07D
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 06:52:37 +0200 (CEST)
-Received: from localhost ([::1]:48096 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 030B038E082
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 06:56:50 +0200 (CEST)
+Received: from localhost ([::1]:52100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ll2Zw-0001ov-Ba
-	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 00:52:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34946)
+	id 1ll2e0-0004ge-PH
+	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 00:56:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35710)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1ll2Wy-00067r-2l; Mon, 24 May 2021 00:49:32 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:51355 helo=ozlabs.org)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1ll2Wv-0008IY-N2; Mon, 24 May 2021 00:49:31 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4FpPrP46Ypz9sW1; Mon, 24 May 2021 14:49:25 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1621831765;
- bh=RUT6WxFjiLp23SRdcHAinkEy/mGtWxSEuaI7jcEV15o=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Dbc+9OGHtok1p7NEu3hA89lQOcqq8VOIz7Z4F73VOvUkKkWGoTwfyKnPPXWC/2LSB
- FseiDyg2MNY0+cBtZQCBNYPSnrJMTTeHwLWpTgT7hS/8fD/OESEM//i1X+1yryrfG0
- UozhKW3rhc2cCt6W7nJUpIcdFoZE5JJZwRaDmRsg=
-Date: Mon, 24 May 2021 14:49:16 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Nicholas Piggin <npiggin@gmail.com>
-Subject: Re: [PATCH] target/ppc: Implement ISA v3.1 wait variants
-Message-ID: <YKswTHP6Yrop3joJ@yekko>
-References: <20210517024651.2200837-1-npiggin@gmail.com>
- <YKIBlzRg3oicnKIO@yekko> <1621234864.zkbj7ifbxd.astroid@bobo.none>
+ (Exim 4.90_1) (envelope-from <yamamoto@midokura.com>)
+ id 1ll2cS-0002iM-3r
+ for qemu-devel@nongnu.org; Mon, 24 May 2021 00:55:12 -0400
+Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b]:43582)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <yamamoto@midokura.com>)
+ id 1ll2cP-0003YA-4b
+ for qemu-devel@nongnu.org; Mon, 24 May 2021 00:55:11 -0400
+Received: by mail-pg1-x52b.google.com with SMTP id e22so3472750pgv.10
+ for <qemu-devel@nongnu.org>; Sun, 23 May 2021 21:55:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=midokura.com; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=5ggcSBjM8B863IRCW7w9HFTOBojw96EaZyuQ49pMmGw=;
+ b=F5deTNDY+gmmNuFo9s2I/DG+/xTIlsokTVVAh+KSBDvcyTSew+oV4xxS8bDvgMSXV5
+ qzPKGOj29LFO7EcCHlEptKCPPZVb0j2hrXjj8wxsP06ueuRE/NoCp21iZlBhDpLUcl3y
+ NZy2a9DEUiqlXZyUZnxqVwWYDaCzFAYgVqDBM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=5ggcSBjM8B863IRCW7w9HFTOBojw96EaZyuQ49pMmGw=;
+ b=OSzC4X3V9X3IFUScgICQhuL7z1AY784nS5QNtC3AqM7F5jd0/NA8iGAyTyayXspRTa
+ 5pvRkGusDeyLDX1jLDryx6Bk6ByHcZ8IlD03D5OePbQIS3PLAVtqgYdGgF8wk1uxHoWT
+ Q7yN+psjlqpJAPWEJ0BWd56b24ogjtkdixlKy0V4nZcH5XcixMzyOlW0DkDfOahYGTIz
+ R88EwAv6jkYGUaj8BXoxinNamYDP93fhWALn1iODEo316wwzGRixpHn0PvIpbfw8TNIr
+ JUd31UahzzD0RzCDu0KEnEYVAiGDOz3dsMQkicQGp2utD/D38OlMEjatPz4iX280X3Tm
+ zWqg==
+X-Gm-Message-State: AOAM533z62figF/OXHKxeYLtCVKvblauRIS9M3gEV2yGiTV1ZnhdYGv3
+ 2qanswtv2y/PCvRcnmh71z5XdxSJT+alJQ==
+X-Google-Smtp-Source: ABdhPJzdWhEF1qx0inMeVXfaPZRl/wvEsT8X19RyRxVbnF7iNTGoxpo4i2iv1/MSykaS1vHrXC1+dA==
+X-Received: by 2002:a63:fd17:: with SMTP id d23mr11830121pgh.68.1621832106885; 
+ Sun, 23 May 2021 21:55:06 -0700 (PDT)
+Received: from spacetanuki.lan ([202.12.244.32])
+ by smtp.gmail.com with ESMTPSA id 24sm10040142pgz.77.2021.05.23.21.55.05
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Sun, 23 May 2021 21:55:06 -0700 (PDT)
+From: YAMAMOTO Takashi <yamamoto@midokura.com>
+To: qemu-devel@nongnu.org
+Cc: YAMAMOTO Takashi <yamamoto@midokura.com>
+Subject: [PATCH 0/5] linux-user changes to run docker
+Date: Mon, 24 May 2021 13:54:06 +0900
+Message-Id: <20210524045412.15152-1-yamamoto@midokura.com>
+X-Mailer: git-send-email 2.21.1 (Apple Git-122.3)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="EgdHp8Prkj6t+B4N"
-Content-Disposition: inline
-In-Reply-To: <1621234864.zkbj7ifbxd.astroid@bobo.none>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
+ envelope-from=yamamoto@midokura.com; helo=mail-pg1-x52b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,89 +78,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: richard.henderson@linaro.org, qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+These patches, along with a few more hacks [1] I didn't include
+in this patchset, allowed me to run arm64 and armv7 version of
+dind image on amd64.
 
---EgdHp8Prkj6t+B4N
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+[1] https://github.com/yamt/qemu/tree/linux-user-for-docker
 
-On Mon, May 17, 2021 at 05:19:06PM +1000, Nicholas Piggin wrote:
-> Excerpts from David Gibson's message of May 17, 2021 3:39 pm:
-> > On Mon, May 17, 2021 at 12:46:51PM +1000, Nicholas Piggin wrote:
-> >> ISA v3.1 adds new variations of wait, specified by the WC field. These
-> >> are not compatible with the wait 0 implementation, because they add
-> >> additional conditions that cause the processor to resume, which can
-> >> cause software to hang or run very slowly.
-> >>=20
-> >> Add the new wait variants with a trivial no-op implementation, which is
-> >> allowed, as explained in comments: software must not depend on any
-> >> particular architected WC condition having caused resumption of
-> >> execution, therefore a no-op implementation is architecturally correct.
-> >>=20
-> >> Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
-> >=20
-> > Logic looks fine.  There is no test on the CPU's features or model
-> > here, though, so this will change behaviour for pre-3.1 CPUs as well.
->=20
-> Huh. 2.06-2.07 has very similar WC bits as 3.1, but 3.0 removed them
-> and made them reserved. I should have looked back but I'd assumed
-> they weren't there either.
->=20
-> Existing code treats WC !=3D 0 as invalid on pre-3.0 processors AFAIKS,
-> so that's not quite right for 2.06-7 (they should look more like 3.1).
->=20
-> But before that it looks like it was just wait with no WC field.
->=20
-> > What would invoking these wait variants (presumably reserved) on
-> > earlier CPUs do?
->=20
-> Prior to 2.06, it looks like there is no WC field, and so they should=20
-> generate a program check. So that just leaves the incorrect program
-> checks for 2.06-7, something like this should do it:
->=20
-> -GEN_HANDLER_E(wait, 0x1F, 0x1E, 0x00, 0x039FF801, PPC_NONE, PPC2_ISA300),
-> +GEN_HANDLER_E(wait, 0x1F, 0x1E, 0x00, 0x039FF801, PPC_NONE, PPC2_ISA206),
+You can find my test setup here:
+https://github.com/yamt/garbage/tree/master/binfmt-aarch64-install
 
-Ok, can you update with such a change, and put some of this
-explanation of the history in a comment.
+YAMAMOTO Takashi (5):
+  linux-user: handle /proc/self/exe for execve
+  linux-uesr: make exec_path realpath
+  linux-user: Fix the execfd case of /proc/self/exe open
+  linux-user: dup the execfd on start up
+  linux-user: Implement pivot_root
 
-> 2.06-3.1 should all be fine with this patch, AFAIKS they all have words=
-=20
-> to the effect that WC !=3D 0 is subject to implementation defined=20
-> behaviour and may be treated as a no-op or not implemented.
+ linux-user/main.c    | 14 +++++++++++++-
+ linux-user/qemu.h    |  2 ++
+ linux-user/syscall.c | 43 ++++++++++++++++++++++++++++++++++++++++---
+ 3 files changed, 55 insertions(+), 4 deletions(-)
 
-Ok.  Note that we do try to match specific CPU behaviour, not just the
-architecture, although the architecture is obviously more important.
+-- 
+2.21.1 (Apple Git-122.3)
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---EgdHp8Prkj6t+B4N
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmCrMEwACgkQbDjKyiDZ
-s5IUKw/6ApNqNRRfFxndRNMuaXbZtsqpe52wcgr+AfLvmUHpdZ4NdLI1121GFuHM
-RiVAUl6hJx/tQCDainfdsSTQYl0Vtwng2kFZKN2s9IKLs9gkLPGE3s7dZjEB5+zu
-KMtiN3cgHw9hTEpOI6ITaBPDOO9v6IhF2+CRUc6sx83JaZdT3QCat7Me1c51ePUK
-YWoHlv02zpdvmsKgWk+1hLF4nPSLepLkInvqpuZrITEC7mAS8fjEA0XSD7f5fke8
-zc0UhkUEMrzHBMs8zMn+Selg8ilRqXW+9HNTxVUZrOIl9c3NgLgxs7bF6Bq22Lzw
-QN2A9nTPNNv0JgpWnLUg8nnFNGZEKFDij3VLBflmRueRaPPoOcMKg6J9q4ft4ILg
-RmE7lyX1gE7+3vD/sstSWTfXnCciwc02rVyEzag9CN/+YRtoPc8Kzjl6NBhhvwpI
-C7v0QjKExHDK6TntAFsZXf0UXJDnw381stA+3YMGpGzZ5j5j1dPn4+Tfmm7bR3Nl
-Bf5lU1ssw1lbLKgSmZ52MjtTxf92h/hEpW9o13gQKdKpv7e/+JhUAXsZhXAK1bLU
-VSlP1czJHA8CuJYL4nJfcz0EMQS14qflznNhsvlywZI3TRLuKSSDfuB7LqOmGiuB
-FGNG7JmfitMFTSwrLB/ZW7yNFQIWtq1rYFxYXG18xw6U7frBRvo=
-=tUJf
------END PGP SIGNATURE-----
-
---EgdHp8Prkj6t+B4N--
 
