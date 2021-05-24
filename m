@@ -2,75 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48DE638F25D
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 19:38:16 +0200 (CEST)
-Received: from localhost ([::1]:46336 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B4F638F269
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 19:41:46 +0200 (CEST)
+Received: from localhost ([::1]:55874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llEWt-0003O3-Ba
-	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 13:38:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56234)
+	id 1llEaH-0001he-A5
+	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 13:41:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57108)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1llETP-0000Rk-7b
- for qemu-devel@nongnu.org; Mon, 24 May 2021 13:34:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31476)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1llEYg-0007lH-ET
+ for qemu-devel@nongnu.org; Mon, 24 May 2021 13:40:06 -0400
+Resent-Date: Mon, 24 May 2021 13:40:06 -0400
+Resent-Message-Id: <E1llEYg-0007lH-ET@lists.gnu.org>
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21314)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1llETL-0001av-Lu
- for qemu-devel@nongnu.org; Mon, 24 May 2021 13:34:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621877674;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=OjMtKphQqxOlAX2DjGukeGS3KXAgPgF9NWGTnsz4rDc=;
- b=jF8oCGeDwBVV8pPxWt4j68BFrW96vbS7gxSzAy6jVlNdNt/jnKins7c7gOD4KLpzWxdMN/
- IzbH35avaVvBXMBpsUDA/bR/9iY/769qirfPLDEggivuJE5bpYVdo//ETUYgr+KUOO1mWq
- tm0hGGSv6Z5Y7zIbAigpAgTKZ8ITm/w=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-546-1Ps98gsENzC6tsU8GNdmKQ-1; Mon, 24 May 2021 13:34:29 -0400
-X-MC-Unique: 1Ps98gsENzC6tsU8GNdmKQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 245901B2C988;
- Mon, 24 May 2021 17:34:29 +0000 (UTC)
-Received: from [10.10.117.64] (ovpn-117-64.rdu2.redhat.com [10.10.117.64])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 15FCD5C701;
- Mon, 24 May 2021 17:34:20 +0000 (UTC)
-Subject: Re: GSoC Intro - TUI interface for QMP
-To: Stefan Hajnoczi <stefanha@redhat.com>,
- "Niteesh G. S." <niteesh.gs@gmail.com>
-References: <CAN6ztm-J2GoQKkLb=Az0H2Q8UKK4oE3PgXg7g14=T53sQAUyDg@mail.gmail.com>
- <CAN6ztm9JKPo05_qJo1cFGq2P6f1DzB9vu+VZ054e9MdHVkRLog@mail.gmail.com>
- <YKuq242kdKxhvHAr@stefanha-x1.localdomain>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <351d1344-a243-ca77-396b-0c1d071b9066@redhat.com>
-Date: Mon, 24 May 2021 13:34:19 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1llEYd-0004HN-FA
+ for qemu-devel@nongnu.org; Mon, 24 May 2021 13:40:06 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1621877993; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=Om5SCrk6jr/ncfgmur5ZkIkv3UoOF5VBhDDqiEVQ9gg0/PLmsG8/H3tf8I3tGkDf6q4eSKNQJ4HT24J/eoGTFRIOJ0XvVDy+Um1Bz9NbLvOuHnubfOeCnQma1WY9cVF/tpuXGonW4JO/IjLjtvBHqh57HENVVTc7jI1ctKAgeK0=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1621877993;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=758QsFqETvMXdqAUslUQCrr0UkJ0e5nHF+0j7nG+yi4=; 
+ b=RFabyQLGbm4aG9pYStTdrPbyXr+d1gqHOB/XKFhHxJpEye/U8QMUU43Q/CDVmHajqrXTsUwar8IwZUo9Z2ccN2mSuMxx10U0t2rMlv6JOoO8QlBHsL+Ae8OwVnALJTdM4GgcccCf0xOjM5Hvdn4XBQg9OAzQgP604CoJWe6zACA=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1621877992667981.1234289625708;
+ Mon, 24 May 2021 10:39:52 -0700 (PDT)
+In-Reply-To: <20210524164131.383778-1-pbonzini@redhat.com>
+Subject: Re: [PULL 00/28] Misc patches for 2021-05-24
+Message-ID: <162187799166.14350.8047592167982133236@0addf061776e>
 MIME-Version: 1.0
-In-Reply-To: <YKuq242kdKxhvHAr@stefanha-x1.localdomain>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- TVD_PH_BODY_ACCOUNTS_PRE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: pbonzini@redhat.com
+Date: Mon, 24 May 2021 10:39:52 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o53.zoho.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,218 +66,154 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, wainersm@redhat.com, qemu-devel@nongnu.org,
- ehabkost@redhat.com, armbru@redhat.com
+Reply-To: qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/24/21 9:32 AM, Stefan Hajnoczi wrote:
-> On Sat, May 22, 2021 at 12:32:00AM +0530, Niteesh G. S. wrote:
-
-Welcome Niteesh :) I look forward to working with you this summer.
-
->> By end of this summer, I would like to get a basic TUI with some desirable
->> features working. Some of the features I would like to get working are
-
-As a reminder to anyone reading this thread, the goal is to create a 
-qmp-shell that functions more as a TUI, akin to mutt, irssi, or (my 
-favorite example) mitmproxy. The idea is that there will be, at minimum, 
-a history panel showing QMP messages that have occurred so far and a 
-text entry panel for entering new commands.
-
-This shell can then be augmented with various other features to 
-facilitate testing, debugging, etc. One of the core upgrades over the 
-existing qmp-shell will be the featuring of truly asynchronous events 
-which will appear in the history panel without requiring the human user 
-to press <enter> to allow them to display. This will use a new 
-Asynchronous QMP library to facilitate this feature, bringing with it 
-fixes over our current use of undocumented Python features abusing 
-non-blocking sockets in the old QMP library.
-
-My plan is to worry about implementing the very basics of the shell 
-first, and then to add more features on as we feel comfortable with the 
-basics. We can discuss what we consider to be the bare minimum for this 
-project and lay out the feature requirements that define a successful 
-minimum.
-
->> 1) Syntax checking
-
-To a limited extent. I don't want to disallow the user from sending 
-commands that are invalid in the event that we want to test the server's 
-ability to cope with and reply to invalid commands.
-
-However, if the syntax is malformed enough that we can't understand it 
-to send it to the server, good error messages that point out what 
-exactly went wrong are helpful.
-
->> 2) Syntax highlighting
->> 3) Code completion
->> 4) Logging
->>
->> I would like to hear some of the features you would like to have and also
->> your
->> advice's on implementation.
-> 
-> Welcome Niteesh!
-> 
-> It would be great to have an QMP API documentation viewer built into the
-> TUI. When you enter a command like 'migrate' it would automatically
-> display the associated QMP command documentation from qapi/*.json.
-> 
-
-Stefan's suggestion is an important one to me. The current qmp-shell 
-does have an auto-complete list of available commands (press <tab> after 
-connecting to see the list), but it offers no explanation of what the 
-commands do, what their arguments are, etc.
-
-Being able to get interactive help explaining the commands, their 
-arguments, etc would be a massive usability improvement over the old shell.
-
-> Stefan
->
-Additionally, there's a few threads we've had before with people's 
-stretch goals, dreams, nice-to-haves and so on. I owe you a bit of a 
-compilation of those ideas. Here are some that I happen to remember.
-
-(Keep in mind that not all of these have been discussed or vetted 
-thoroughly on list, some may be vastly harder than others, and not all 
-of them may be mutually compatible. There may even be objections to some 
-of these. We will definitely not do every last thing on this list, and 
-it is important we stay focused on the core task and get code merged 
-this summer. However, some of these stretch goals might be fun and 
-provide you with extreme leeway to investigate features that interest 
-you personally, so I am listing them now.)
-
-
-1. Utilize or otherwise re-implement readline's history feature, such 
-that when opening qmp-shell, you can press up/down to recall previously 
-issued commands. (The usage of 'readline' library itself may be 
-complicated if we wish to use a TUI library like urwid. Some re-creation 
-of features may be necessary.)
-
-2. Implement tab-complete for command names, command arguments, etc.
-
-3. Implement a FiSH-like suggestion mode where, without tab complete, 
-the text entry window shows (in e.g. a gray font) the most likely 
-auto-complete. You can press <tab> to accept this auto-completion.
-
-4. Add the ability to save a log file for a given session, recording 
-timestamps, incoming messages and outgoing messages. Sessions could 
-possibly be automatically saved and cycled such that the last 10 or so 
-are kept, or maybe up 10MB, or some other kind of limit.
-
-5. Add the ability to load an old log file and "replay" it to a server. 
-Optionally, the "replay" might be able to use the log timestamps to 
-replay the commands with an identical timing. After a replay, it might 
-be nice to be able to use a diff viewer of some kind to show differences 
-between the original script and the replay.
-
-6. Add the ability to "attach" qmp-shell to an existing instance of a 
-libvirt-managed QEMU and have qmp-shell behave in a "watch" mode, 
-showing commands sent back and forth between QEMU and libvirt, to help 
-facilitate live debugging of libvirt.
-
-7. Add the ability to "hide" certain events from the history view. By 
-pressing a certain hotkey, we can enter a command mode and start 
-filtering certain events. For example, we may wish to hide from view all 
-JOB_STATUS_CHANGE events from view. Certain filtering modes may warrant 
-their own explicit mode available directly in the shell, but we may wish 
-to provide a more powerful filtering/scripting mechanism.
-
-8. Similar to above, add the ability to change the "verbosity" of events 
-in the history panel live at runtime. For example:
-
-   - Show the full QMP message, pretty-printed
-   - Show the full QMP message, condensed with no spaces.
-   - Show the raw byte sequence of each QMP message.
-   - Show an abbreviated summary; just the command name or event name.
-   - Show or hide timestamps
-   - Show outgoing commands in terms of what the user typed in qmp-shell.
-     (e.g., if we offer a simple syntax, show the simple-syntax version.)
-
-   Being able to toggle between these at-will may be nice to help see
-   more or less information dynamically as the situation calls for it.
-
-
-9. The ability to generate an iotest stub from the current session 
-history or a subsection thereof. It's OK if the test isn't fully 
-functional on its own, leaving some sections as stubs. Generating the 
-commands, waiting for the commands to complete, and generating an '.out' 
-could be a nice feature that helps qmp-shell users quickly write tests.
-
-Some thoughts on this:
-
-- iotests usually launch a VM to connect to. qmp-shell will not know the 
-arguments QEMU was launched with. The generated test might attempt to 
-launch QEMU with a minimum viable configuration, leaving other arguments 
-as a stub marked #FIXME.
-
-- The generated iotest may be able to automatically generate event 
-waits. For instance, if a JOB_STATUS_CHANGE event occurs prior to the 
-user entering the next command, the generated iotest could automatically 
-insert a delay that waits for the same event.
-
-- Generated tests should always end with a VM shutdown sequence, either 
-explicitly (user sends a 'quit' command) or implicitly (The python 
-iotest library calls vm.shutdown())
-
-
-10. The ability to detect a disconnection and attempt to reconnect 
-automatically, similar to how an IRC client would.
-
-11. The ability to define macros to perform multi-step, complex routines 
-with a single command. Something like a ~/.config/qemu/qmp-shell.conf 
-file could possibly define these macros. The ability to create/save/edit 
-these macros directly from the shell could be nice.
-
-12. Integrating tools like Vladimir's block graph visualization tool. 
-There are complex memory structures in QEMU that can be hard to 
-understand quickly by reading large volumes of text. qmp-shell could be 
-augmented to help render and visualize them quickly, facilitating 
-debugging greatly.
-
-
-I'll update this thread with more ideas as I remember them when going 
-back through previous upstream discussions we've had on the topic. We 
-may want to create a wiki page https://wiki.qemu.org/Documentation and 
-start updating it with various ideas, stretch goals, and so on, to keep 
-our planning organized. If you do not have an account on this wiki yet, 
-I believe you'll need to ask the list for an account, letting us know 
-what email and username you want to use for it.
-
-
-...I also need to warn you about one big problem that looms over this 
-project: QMP is a syntax designed for machines, but it's difficult to 
-write by hand. The old qmp-shell has a simplistic syntax that was 
-designed to make entering commands easier, but it isn't a suitable 
-syntax for entering more complex, hierarchical data.
-
-One of the decisions we'll need to make is if we simply REMOVE the 
-convenient syntax (allowing only the raw input of QMP), or if we attempt 
-to design a new shorthand syntax, simply use the old shorthand syntax, etc.
-
-This is a complex area (and one I haven't fully solved for myself), so 
-if this project involves only the input of *raw QMP commands* into the 
-shell, I would still consider that a success if we got some of the other 
-features worked into it. We will have to discuss the pros/cons of adding 
-an imperfect shorthand syntax to this shell; there has been some 
-reluctance to that idea in the past.
-
-
-So, your first homework assignment from me is:
-
-- Create a QEMU wiki account
-- Port your GSoC proposal to the wiki
-- Begin recording stretch goals to that wiki page
-- Set up an (at least) weekly meeting time with me to discuss progress, 
-problems, etc. We can chat on IRC, via google meet/zoom, etc at your 
-preference.
-- Make sure you have a gitlab account. I will add you as a contributor 
-to my fork of QEMU and we can use the issue and milestone tracker to 
-help set expectations and stay focused.
-
-
-Thanks! (And welcome!)
---js
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDUyNDE2NDEzMS4zODM3
+NzgtMS1wYm9uemluaUByZWRoYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRvIGhh
+dmUgc29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1vcmUg
+aW5mb3JtYXRpb246CgpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMjAyMTA1MjQxNjQxMzEuMzgz
+Nzc4LTEtcGJvbnppbmlAcmVkaGF0LmNvbQpTdWJqZWN0OiBbUFVMTCAwMC8yOF0gTWlzYyBwYXRj
+aGVzIGZvciAyMDIxLTA1LTI0Cgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNo
+CmdpdCByZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0IDAKZ2l0IGNvbmZpZyAtLWxv
+Y2FsIGRpZmYucmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVzIFRy
+dWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhpc3RvZ3JhbQouL3NjcmlwdHMv
+Y2hlY2twYXRjaC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoK
+VXBkYXRpbmcgM2M4Y2Y1YTljMjFmZjg3ODIxNjRkMWRlZjdmNDRiZDg4ODcxMzM4NApGcm9tIGh0
+dHBzOi8vZ2l0aHViLmNvbS9wYXRjaGV3LXByb2plY3QvcWVtdQogLSBbdGFnIHVwZGF0ZV0gICAg
+ICBwYXRjaGV3LzIwMjEwNTIwMTUyODQwLjI0NDUzLTEtcGV0ZXIubWF5ZGVsbEBsaW5hcm8ub3Jn
+IC0+IHBhdGNoZXcvMjAyMTA1MjAxNTI4NDAuMjQ0NTMtMS1wZXRlci5tYXlkZWxsQGxpbmFyby5v
+cmcKICogW25ldyB0YWddICAgICAgICAgcGF0Y2hldy8yMDIxMDUyNDE2NDEzMS4zODM3NzgtMS1w
+Ym9uemluaUByZWRoYXQuY29tIC0+IHBhdGNoZXcvMjAyMTA1MjQxNjQxMzEuMzgzNzc4LTEtcGJv
+bnppbmlAcmVkaGF0LmNvbQpTd2l0Y2hlZCB0byBhIG5ldyBicmFuY2ggJ3Rlc3QnCjBmYTA4MGYg
+Z2l0bGFiLWNpOiB1c2UgLS1tZXNvbj1naXQgZm9yIENGSSBqb2JzCmJiZGRkMzMgaHcvc2NzaTog
+Rml4IHNlY3RvciB0cmFuc2xhdGlvbiBidWcgaW4gc2NzaV91bm1hcF9jb21wbGV0ZV9ub2lvCjM5
+MDUzMzkgY29uZmlndXJlOiBBdm9pZCBlcnJvciBtZXNzYWdlcyBhYm91dCBtaXNzaW5nICotY29u
+ZmlnLSouaCBmaWxlcwpkZTkyYTk5IGRvYzogQWRkIG5vdGVzIGFib3V0IC1tb24gb3B0aW9uIG1v
+ZGU9Y29udHJvbCBhcmd1bWVudC4KNDJiOGQ2YiBxZW11LWNvbmZpZzogbG9hZCBtb2R1bGVzIHdo
+ZW4gaW5zdGFudGlhdGluZyBvcHRpb24gZ3JvdXBzCjUyMTliNzYgdmw6IGFsbG93IG5vdCBzcGVj
+aWZ5aW5nIHNpemUgaW4gLW0gd2hlbiB1c2luZyAtTSBtZW1vcnktYmFja2VuZAo3MmU5YmFmIHJl
+cGxpY2F0aW9uOiBtb3ZlIGluY2x1ZGUgb3V0IG9mIHJvb3QgZGlyZWN0b3J5CmNlNDFjZjYgcmVt
+b3ZlIHFlbXUtb3B0aW9ucyogZnJvbSByb290IGRpcmVjdG9yeQpjZTg3ZmMyIG1lc29uOiBTZXQg
+aW1wbGljaXRfaW5jbHVkZV9kaXJlY3RvcmllcyB0byBmYWxzZQo5ODMyYjUwIHRlc3RzL3F0ZXN0
+L2Z1eno6IEZpeCBidWlsZCBmYWlsdXJlCmMwOTAxYmEgS1ZNOiBEaXJ0eSByaW5nIHN1cHBvcnQK
+MTEwODJkYiBLVk06IERpc2FibGUgbWFudWFsIGRpcnR5IGxvZyB3aGVuIGRpcnR5IHJpbmcgZW5h
+YmxlZApiMDFhNjYyIEtWTTogQWRkIGRpcnR5LXJpbmctc2l6ZSBwcm9wZXJ0eQo5NWE1MTY4IEtW
+TTogQ2FjaGUga3ZtIHNsb3QgZGlydHkgYml0bWFwIHNpemUKZTYyY2ZiNiBLVk06IFNpbXBsaWZ5
+IGRpcnR5IGxvZyBzeW5jIGluIGt2bV9zZXRfcGh5c19tZW0KYzkzMzRkNCBLVk06IFByb3ZpZGUg
+aGVscGVyIHRvIHN5bmMgZGlydHkgYml0bWFwIGZyb20gc2xvdCB0byByYW1ibG9jawo1N2JiYjhk
+IEtWTTogUHJvdmlkZSBoZWxwZXIgdG8gZ2V0IGt2bSBkaXJ0eSBsb2cKYjRiYWQ0YSBLVk06IENy
+ZWF0ZSB0aGUgS1ZNU2xvdCBkaXJ0eSBiaXRtYXAgb24gZmxhZyBjaGFuZ2VzCmYzMjY0Y2UgS1ZN
+OiBVc2UgYSBiaWcgbG9jayB0byByZXBsYWNlIHBlci1rbWwgc2xvdHNfbG9jawoyZDFlNmQ0IG1l
+bW9yeTogSW50cm9kdWNlIGxvZ19zeW5jX2dsb2JhbCgpIHRvIG1lbW9yeSBsaXN0ZW5lcgo0MjUy
+ZWUzIEtWTTogZG8gbm90IGFsbG93IHNldHRpbmcgcHJvcGVydGllcyBhdCBydW50aW1lCjM3M2Jm
+NmYgcXRlc3Q6IGFkZCBhIFFPTSBvYmplY3QgZm9yIHF0ZXN0CjVkNDYyYzUgb2JqZWN0OiBhZGQg
+bW9yZSBjb21tYW5kcyB0byBwcmVjb25maWcgbW9kZQpkODUwNjgxIGkzODYvY3B1OiBFeHBvc2Ug
+QVZYX1ZOTkkgaW5zdHJ1Y3Rpb24gdG8gZ3Vlc3QKMzgyN2ZhNyBody9tZW0vbnZkaW1tOiBVc2Ug
+S2NvbmZpZyAnaW1wbHknIGluc3RlYWQgb2YgJ2RlcGVuZHMgb24nCjBkNjAyZTAgY29uZmlndXJl
+OiBzaW1wbGlmeSBhc3NpZ25tZW50IHRvIEdJVF9TVUJNT0RVTEVTCjhlNTUxZjUgY29uZmlndXJl
+OiBjaGVjayBmb3Igc3VibW9kdWxlcyBpZiAtLXdpdGgtZ2l0LXN1Ym1vZHVsZXM9aWdub3JlCjE3
+M2U2Y2EgY29uZmlndXJlOiBPbmx5IGNsb25lIHNvZnRmbG9hdC0zIHJlcG9zaXRvcmllcyBpZiBU
+Q0cgaXMgZW5hYmxlZAoKPT09IE9VVFBVVCBCRUdJTiA9PT0KMS8yOCBDaGVja2luZyBjb21taXQg
+MTczZTZjYWU2NzEzIChjb25maWd1cmU6IE9ubHkgY2xvbmUgc29mdGZsb2F0LTMgcmVwb3NpdG9y
+aWVzIGlmIFRDRyBpcyBlbmFibGVkKQoyLzI4IENoZWNraW5nIGNvbW1pdCA4ZTU1MWY1MTg5NDQg
+KGNvbmZpZ3VyZTogY2hlY2sgZm9yIHN1Ym1vZHVsZXMgaWYgLS13aXRoLWdpdC1zdWJtb2R1bGVz
+PWlnbm9yZSkKMy8yOCBDaGVja2luZyBjb21taXQgMGQ2MDJlMDE2MmQ2IChjb25maWd1cmU6IHNp
+bXBsaWZ5IGFzc2lnbm1lbnQgdG8gR0lUX1NVQk1PRFVMRVMpCjQvMjggQ2hlY2tpbmcgY29tbWl0
+IDM4MjdmYTc0Zjg0MCAoaHcvbWVtL252ZGltbTogVXNlIEtjb25maWcgJ2ltcGx5JyBpbnN0ZWFk
+IG9mICdkZXBlbmRzIG9uJykKNS8yOCBDaGVja2luZyBjb21taXQgZDg1MDY4MWM0Y2FmIChpMzg2
+L2NwdTogRXhwb3NlIEFWWF9WTk5JIGluc3RydWN0aW9uIHRvIGd1ZXN0KQo2LzI4IENoZWNraW5n
+IGNvbW1pdCA1ZDQ2MmM1MWY3MTUgKG9iamVjdDogYWRkIG1vcmUgY29tbWFuZHMgdG8gcHJlY29u
+ZmlnIG1vZGUpCjcvMjggQ2hlY2tpbmcgY29tbWl0IDM3M2JmNmYzZDRlZSAocXRlc3Q6IGFkZCBh
+IFFPTSBvYmplY3QgZm9yIHF0ZXN0KQo4LzI4IENoZWNraW5nIGNvbW1pdCA0MjUyZWUzNjUyNmMg
+KEtWTTogZG8gbm90IGFsbG93IHNldHRpbmcgcHJvcGVydGllcyBhdCBydW50aW1lKQpFUlJPUjog
+bGluZSBvdmVyIDkwIGNoYXJhY3RlcnMKIzMzOiBGSUxFOiBhY2NlbC9rdm0va3ZtLWFsbC5jOjMx
+MTU6CisgICAgICAgIGVycm9yX3NldGcoZXJycCwgIkNhbm5vdCBzZXQgcHJvcGVydGllcyBhZnRl
+ciB0aGUgYWNjZWxlcmF0b3IgaGFzIGJlZW4gaW5pdGlhbGl6ZWQiKTsKCkVSUk9SOiBsaW5lIG92
+ZXIgOTAgY2hhcmFjdGVycwojNDU6IEZJTEU6IGFjY2VsL2t2bS9rdm0tYWxsLmM6MzEzNDoKKyAg
+ICAgICAgZXJyb3Jfc2V0ZyhlcnJwLCAiQ2Fubm90IHNldCBwcm9wZXJ0aWVzIGFmdGVyIHRoZSBh
+Y2NlbGVyYXRvciBoYXMgYmVlbiBpbml0aWFsaXplZCIpOwoKdG90YWw6IDIgZXJyb3JzLCAwIHdh
+cm5pbmdzLCAzNyBsaW5lcyBjaGVja2VkCgpQYXRjaCA4LzI4IGhhcyBzdHlsZSBwcm9ibGVtcywg
+cGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZl
+cyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRB
+SU5FUlMuCgo5LzI4IENoZWNraW5nIGNvbW1pdCAyZDFlNmQ0MzY0ZDAgKG1lbW9yeTogSW50cm9k
+dWNlIGxvZ19zeW5jX2dsb2JhbCgpIHRvIG1lbW9yeSBsaXN0ZW5lcikKMTAvMjggQ2hlY2tpbmcg
+Y29tbWl0IGYzMjY0Y2UzZTdkMSAoS1ZNOiBVc2UgYSBiaWcgbG9jayB0byByZXBsYWNlIHBlci1r
+bWwgc2xvdHNfbG9jaykKMTEvMjggQ2hlY2tpbmcgY29tbWl0IGI0YmFkNGE5OTBiMCAoS1ZNOiBD
+cmVhdGUgdGhlIEtWTVNsb3QgZGlydHkgYml0bWFwIG9uIGZsYWcgY2hhbmdlcykKMTIvMjggQ2hl
+Y2tpbmcgY29tbWl0IDU3YmJiOGQ3YWZhMCAoS1ZNOiBQcm92aWRlIGhlbHBlciB0byBnZXQga3Zt
+IGRpcnR5IGxvZykKMTMvMjggQ2hlY2tpbmcgY29tbWl0IGM5MzM0ZDQwZGVjYSAoS1ZNOiBQcm92
+aWRlIGhlbHBlciB0byBzeW5jIGRpcnR5IGJpdG1hcCBmcm9tIHNsb3QgdG8gcmFtYmxvY2spCjE0
+LzI4IENoZWNraW5nIGNvbW1pdCBlNjJjZmI2NzNkNmEgKEtWTTogU2ltcGxpZnkgZGlydHkgbG9n
+IHN5bmMgaW4ga3ZtX3NldF9waHlzX21lbSkKMTUvMjggQ2hlY2tpbmcgY29tbWl0IDk1YTUxNjhh
+OTdkYyAoS1ZNOiBDYWNoZSBrdm0gc2xvdCBkaXJ0eSBiaXRtYXAgc2l6ZSkKMTYvMjggQ2hlY2tp
+bmcgY29tbWl0IGIwMWE2NjIyOWEyYiAoS1ZNOiBBZGQgZGlydHktcmluZy1zaXplIHByb3BlcnR5
+KQpFUlJPUjogbGluZSBvdmVyIDkwIGNoYXJhY3RlcnMKIzU5OiBGSUxFOiBhY2NlbC9rdm0va3Zt
+LWFsbC5jOjMyMDY6CisgICAgICAgIGVycm9yX3NldGcoZXJycCwgIkNhbm5vdCBzZXQgcHJvcGVy
+dGllcyBhZnRlciB0aGUgYWNjZWxlcmF0b3IgaGFzIGJlZW4gaW5pdGlhbGl6ZWQiKTsKCnRvdGFs
+OiAxIGVycm9ycywgMCB3YXJuaW5ncywgOTQgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMTYvMjggaGFz
+IHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwph
+cmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hF
+Q0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KCjE3LzI4IENoZWNraW5nIGNvbW1pdCAxMTA4MmRiMTI4
+ZjkgKEtWTTogRGlzYWJsZSBtYW51YWwgZGlydHkgbG9nIHdoZW4gZGlydHkgcmluZyBlbmFibGVk
+KQoxOC8yOCBDaGVja2luZyBjb21taXQgYzA5MDFiYWMwZWY4IChLVk06IERpcnR5IHJpbmcgc3Vw
+cG9ydCkKV0FSTklORzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzQ1MTogRklMRTogYWNjZWwv
+a3ZtL2t2bS1hbGwuYzoyNDY2OgorICAgICAgICAgICAgICAgICAgICAgICAgICAgICAiU3VnZ2Vz
+dGVkIG1pbmludW0gdmFsdWUgaXMgMTAyNC4iLCBzdHJlcnJvcigtcmV0KSk7Cgp0b3RhbDogMCBl
+cnJvcnMsIDEgd2FybmluZ3MsIDQ5OCBsaW5lcyBjaGVja2VkCgpQYXRjaCAxOC8yOCBoYXMgc3R5
+bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBm
+YWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BB
+VENIIGluIE1BSU5UQUlORVJTLgoxOS8yOCBDaGVja2luZyBjb21taXQgOTgzMmI1MGNjZDY4ICh0
+ZXN0cy9xdGVzdC9mdXp6OiBGaXggYnVpbGQgZmFpbHVyZSkKMjAvMjggQ2hlY2tpbmcgY29tbWl0
+IGNlODdmYzI0OTExNCAobWVzb246IFNldCBpbXBsaWNpdF9pbmNsdWRlX2RpcmVjdG9yaWVzIHRv
+IGZhbHNlKQoyMS8yOCBDaGVja2luZyBjb21taXQgY2U0MWNmNjc3NjIzIChyZW1vdmUgcWVtdS1v
+cHRpb25zKiBmcm9tIHJvb3QgZGlyZWN0b3J5KQpXQVJOSU5HOiBhZGRlZCwgbW92ZWQgb3IgZGVs
+ZXRlZCBmaWxlKHMpLCBkb2VzIE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/CiMyNjogCnJlbmFt
+ZSBmcm9tIHFlbXUtb3B0aW9ucy5oCgpFUlJPUjogTWFjcm9zIHdpdGggY29tcGxleCB2YWx1ZXMg
+c2hvdWxkIGJlIGVuY2xvc2VkIGluIHBhcmVudGhlc2lzCiMzODogRklMRTogaW5jbHVkZS9xZW11
+L3FlbXUtb3B0aW9ucy5oOjMzOgorI2RlZmluZSBERUYob3B0aW9uLCBvcHRfYXJnLCBvcHRfZW51
+bSwgb3B0X2hlbHAsIGFyY2hfbWFzaykgICAgIFwKKyAgICBvcHRfZW51bSwKCnRvdGFsOiAxIGVy
+cm9ycywgMSB3YXJuaW5ncywgNzkgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMjEvMjggaGFzIHN0eWxl
+IHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFs
+c2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRD
+SCBpbiBNQUlOVEFJTkVSUy4KCjIyLzI4IENoZWNraW5nIGNvbW1pdCA3MmU5YmFmZjIwYjAgKHJl
+cGxpY2F0aW9uOiBtb3ZlIGluY2x1ZGUgb3V0IG9mIHJvb3QgZGlyZWN0b3J5KQpXQVJOSU5HOiBh
+ZGRlZCwgbW92ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBkb2VzIE1BSU5UQUlORVJTIG5lZWQgdXBk
+YXRpbmc/CiMzNTogCnJlbmFtZSBmcm9tIHJlcGxpY2F0aW9uLmgKCnRvdGFsOiAwIGVycm9ycywg
+MSB3YXJuaW5ncywgNDggbGluZXMgY2hlY2tlZAoKUGF0Y2ggMjIvMjggaGFzIHN0eWxlIHByb2Js
+ZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9z
+aXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBN
+QUlOVEFJTkVSUy4KMjMvMjggQ2hlY2tpbmcgY29tbWl0IDUyMTliNzZmNzg3NSAodmw6IGFsbG93
+IG5vdCBzcGVjaWZ5aW5nIHNpemUgaW4gLW0gd2hlbiB1c2luZyAtTSBtZW1vcnktYmFja2VuZCkK
+MjQvMjggQ2hlY2tpbmcgY29tbWl0IDQyYjhkNmI0Mjg1OSAocWVtdS1jb25maWc6IGxvYWQgbW9k
+dWxlcyB3aGVuIGluc3RhbnRpYXRpbmcgb3B0aW9uIGdyb3VwcykKV0FSTklORzogYWRkZWQsIG1v
+dmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5nPwoj
+OTM6IApuZXcgZmlsZSBtb2RlIDEwMDY0NAoKdG90YWw6IDAgZXJyb3JzLCAxIHdhcm5pbmdzLCA2
+MSBsaW5lcyBjaGVja2VkCgpQYXRjaCAyNC8yOCBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSBy
+ZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0
+IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoy
+NS8yOCBDaGVja2luZyBjb21taXQgZGU5MmE5OTcyMjJhIChkb2M6IEFkZCBub3RlcyBhYm91dCAt
+bW9uIG9wdGlvbiBtb2RlPWNvbnRyb2wgYXJndW1lbnQuKQpFUlJPUjogQXV0aG9yIGVtYWlsIGFk
+ZHJlc3MgaXMgbWFuZ2xlZCBieSB0aGUgbWFpbGluZyBsaXN0CiMyOiAKQXV0aG9yOiBBbGkgU2hp
+cnZhbmkgdmlhIDxxZW11LWRldmVsQG5vbmdudS5vcmc+CgpFUlJPUjogdHJhaWxpbmcgd2hpdGVz
+cGFjZQojMjg6IEZJTEU6IHFlbXUtb3B0aW9ucy5oeDozODAyOgorICAgIFNldHVwIG1vbml0b3Ig
+b24gY2hhcmRldiBuYW1lLiBgYG1vZGU9Y29udHJvbGBgIGNvbmZpZ3VyZXMgJAoKRVJST1I6IHRy
+YWlsaW5nIHdoaXRlc3BhY2UKIzMxOiBGSUxFOiBxZW11LW9wdGlvbnMuaHg6MzgwNToKKyAgICBg
+YHByZXR0eWBgIGlzIG9ubHkgdmFsaWQgd2hlbiBgYG1vZGU9Y29udHJvbGBgLCAkCgp0b3RhbDog
+MyBlcnJvcnMsIDAgd2FybmluZ3MsIDEzIGxpbmVzIGNoZWNrZWQKClBhdGNoIDI1LzI4IGhhcyBz
+dHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJl
+IGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNL
+UEFUQ0ggaW4gTUFJTlRBSU5FUlMuCgoyNi8yOCBDaGVja2luZyBjb21taXQgMzkwNTMzOTFiYzky
+IChjb25maWd1cmU6IEF2b2lkIGVycm9yIG1lc3NhZ2VzIGFib3V0IG1pc3NpbmcgKi1jb25maWct
+Ki5oIGZpbGVzKQoyNy8yOCBDaGVja2luZyBjb21taXQgYmJkZGQzM2M0MTRjIChody9zY3NpOiBG
+aXggc2VjdG9yIHRyYW5zbGF0aW9uIGJ1ZyBpbiBzY3NpX3VubWFwX2NvbXBsZXRlX25vaW8pCjI4
+LzI4IENoZWNraW5nIGNvbW1pdCAwZmEwODBmMTg4M2IgKGdpdGxhYi1jaTogdXNlIC0tbWVzb249
+Z2l0IGZvciBDRkkgam9icykKPT09IE9VVFBVVCBFTkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVk
+IHdpdGggY29kZTogMQoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNo
+ZXcub3JnL2xvZ3MvMjAyMTA1MjQxNjQxMzEuMzgzNzc4LTEtcGJvbnppbmlAcmVkaGF0LmNvbS90
+ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRv
+bWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQg
+eW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
 
