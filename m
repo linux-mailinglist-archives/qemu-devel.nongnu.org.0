@@ -2,82 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8DDA38F2EC
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 20:23:41 +0200 (CEST)
-Received: from localhost ([::1]:49090 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA2EB38F2EE
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 20:26:38 +0200 (CEST)
+Received: from localhost ([::1]:53204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llFEq-0005Ta-LK
-	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 14:23:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38724)
+	id 1llFHi-0008LJ-0I
+	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 14:26:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38806)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1llFCy-0003ya-CM
- for qemu-devel@nongnu.org; Mon, 24 May 2021 14:21:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34017)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1llFDD-0004Sx-QH
+ for qemu-devel@nongnu.org; Mon, 24 May 2021 14:22:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55378)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1llFCs-0004OC-41
- for qemu-devel@nongnu.org; Mon, 24 May 2021 14:21:43 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1llFD7-0004Vs-6w
+ for qemu-devel@nongnu.org; Mon, 24 May 2021 14:21:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621880496;
+ s=mimecast20190719; t=1621880512;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=yopBknAXX+SPAOw4noe+YXkmMb8DqDn6xymND3JZ7co=;
- b=Va9snoS6q/iEpxGyirMGv2rJb9LXlUxQ8AP+W5L51VtAhLlWdqzL9oZwCuYybmc72n3sRw
- 7WemYZwisJPbBby8lMQNvmROBWngZPea0wknpSMXms2vtwDAx+RRt6aSiBwVk3wqBLbgk4
- ixS1Elnn+k1aq1/eBEiC4LDrKXsMSWI=
-Received: from mail-vs1-f70.google.com (mail-vs1-f70.google.com
- [209.85.217.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-596-UA9eUNWkNLyOCHLKvdgv0Q-1; Mon, 24 May 2021 14:21:33 -0400
-X-MC-Unique: UA9eUNWkNLyOCHLKvdgv0Q-1
-Received: by mail-vs1-f70.google.com with SMTP id
- x2-20020a67c0820000b0290231d255cecdso12015124vsi.4
- for <qemu-devel@nongnu.org>; Mon, 24 May 2021 11:21:33 -0700 (PDT)
+ bh=6ii24BMP6tWejj+P9otVvphHlufBSu/IdvSc5cseUuA=;
+ b=Yw2+BOfI/2dChOZ7lXoRsxGBxgxdciXrOyQ7AtBWdRwOxKq3haAomXIEzYZyrbO4ib77Hj
+ Y4Cf49MhVwBsmEvKT5LwYeqImzikmQ07O8FYMX7VYIPiZ8KsJnWEFNKomqcsXo0LjgpYyj
+ xVkmUXRUqQ0rQv7FvPlezE9LXaA1qbo=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-575-fCqSoV6XMuuOtWa3WWb8UQ-1; Mon, 24 May 2021 14:21:50 -0400
+X-MC-Unique: fCqSoV6XMuuOtWa3WWb8UQ-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ c13-20020a5d6ccd0000b029010ec741b84bso13444001wrc.23
+ for <qemu-devel@nongnu.org>; Mon, 24 May 2021 11:21:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=yopBknAXX+SPAOw4noe+YXkmMb8DqDn6xymND3JZ7co=;
- b=UsZKJDC/lgfbuH/E2+Ir82seR+ZlWkL1lDvaA3gakTKkLKL50/UMH0umsrNNiq1Cg/
- yPMpBDl78InV4GCTnb0PbGgjEFrv6nFWV/mvQsdHDbo4/vlgRIusgCaZdTYNxg6rTP+4
- hfH7zLTZ14g2d73IzZKEzaQ1XJCL0zslw+Tc49YesmSC5F7Y0uVpTy7NTegM36kkiaBI
- m3lK4hhSlLajbm8kK2jDlkIO9vJbcaWPgYj2JP3VkjlU7+8tHKTJ2DiGFsn5z0V2pmWq
- pgaYSh75Ty7nyTfcN7QCtLGU2HzMWi6FzukC6HeUbsIKl3AZ6f+5CUA6mUtIEWip50YQ
- NdIw==
-X-Gm-Message-State: AOAM530V/GojXMlUDAPGAS03dpxkNm8iyDsCp8jXnG8WJAxD3We2eOSe
- duXp52AYjx13YTU62OXw3y3GLvdkzPjeZg2UmCBibph9+qA4vDjvQxE8jacqffRvfZODIB18iT4
- Oet38NQgdoiqMxieLV522vZjnPMXGafM=
-X-Received: by 2002:a1f:308a:: with SMTP id w132mr22676273vkw.7.1621880492478; 
- Mon, 24 May 2021 11:21:32 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwab/bSR54Eq0z2CM9JP2w+2zzOs8qBI3Eonnc79eXC+LibHP2ngQanpT9IbayRkO4/z8sC4SHN4RPoiNU21SA=
-X-Received: by 2002:a1f:308a:: with SMTP id w132mr22676225vkw.7.1621880491728; 
- Mon, 24 May 2021 11:21:31 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=6ii24BMP6tWejj+P9otVvphHlufBSu/IdvSc5cseUuA=;
+ b=L5SHussjTVPhW8p+8KaVIhsYVxykv0YMXpLuYds+A+aVqLgml3U0HSPb6btalZQ80c
+ DzvF799SqaRrCpOfqHgjdawEgyF+DZjEcJn33kGjPSLHve8wdn4mRZAyadZwkUcIQ7Ay
+ ChzF+0Ta29SYp7sRyUV6uIARZaDmV6aj6PcjaFAxJueuEIuN7nAJH7rrpP59wKXBrpL5
+ fQYW7FYEP7364iBOX6t2CmjsoaapQvhw26q89U4KloDbUlvLdzNek0u0qun/BeBAURQZ
+ 4iMi1Xi4+Qd3V5+0bDIGUg7ioWKu7uguwgaWikpMhGTzb7mJ+Bxg197tRkX6DJ9fmVyK
+ xG2w==
+X-Gm-Message-State: AOAM530Uv61/OeOtxJh/YG/oiM5WcYD+Ikua8ERM94/AjL8KwALQiIor
+ AKWxnWzofIlATJ1ZAEo7K2DQss7RwM4vN+jHuBd44q9qVlVIMcw522pibvGjg9XERamGuAWVARt
+ F8BnJqvu5/l6RvHE=
+X-Received: by 2002:a5d:64cf:: with SMTP id f15mr22601703wri.327.1621880509661; 
+ Mon, 24 May 2021 11:21:49 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwtJG1xX9fOaJ6VfhP26hsjeyrJk7Rgd7bCgIGPeJ5LLsMw0hkRK0ina8CN/wzrmCJO5kEgzw==
+X-Received: by 2002:a5d:64cf:: with SMTP id f15mr22601686wri.327.1621880509465; 
+ Mon, 24 May 2021 11:21:49 -0700 (PDT)
+Received: from [192.168.1.36] (31.red-83-51-215.dynamicip.rima-tde.net.
+ [83.51.215.31])
+ by smtp.gmail.com with ESMTPSA id z6sm8768869wml.29.2021.05.24.11.21.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 24 May 2021 11:21:49 -0700 (PDT)
+Subject: Re: [PATCH] hw/virtio: Have virtio_bus_get_vdev_bad_features() return
+ 64-bit value
+To: "Michael S. Tsirkin" <mst@redhat.com>
+References: <20210520102822.2471710-1-philmd@redhat.com>
+ <20210523040632-mutt-send-email-mst@kernel.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <71329505-7dd7-506f-be64-c366ab6931b6@redhat.com>
+Date: Mon, 24 May 2021 20:21:48 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-References: <20210503224326.206208-1-wainersm@redhat.com>
- <20210503224326.206208-4-wainersm@redhat.com>
-In-Reply-To: <20210503224326.206208-4-wainersm@redhat.com>
-From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Mon, 24 May 2021 15:21:05 -0300
-Message-ID: <CAKJDGDb-MqD48NZLLvLPBV03Q2pF4WHrcE9gr365c9TfOv_d0Q@mail.gmail.com>
-Subject: Re: [PATCH 3/7] tests/acceptance: Move
- exec_command_and_wait_for_pattern to ConsoleMixIn
-To: Wainer dos Santos Moschetta <wainersm@redhat.com>
+In-Reply-To: <20210523040632-mutt-send-email-mst@kernel.org>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=wrampazz@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,581 +100,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Philippe Mathieu Daude <philmd@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, Cleber Rosa Junior <crosa@redhat.com>
+Cc: Jason Wang <jasowang@redhat.com>, Frederic Konrad <konrad@adacore.com>,
+ qemu-devel@nongnu.org, qemu-stable@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, May 3, 2021 at 7:43 PM Wainer dos Santos Moschetta
-<wainersm@redhat.com> wrote:
->
-> It was the time of exec_command_and_wait_for_pattern() to find a new
-> home at ConsoleMixIn. This time various tests needed to be adapted.
->
-> Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-> ---
->  tests/acceptance/avocado_qemu/__init__.py   |  29 +++---
->  tests/acceptance/boot_linux_console.py      | 107 ++++++++++----------
->  tests/acceptance/machine_rx_gdbsim.py       |   8 +-
->  tests/acceptance/machine_s390_ccw_virtio.py |  72 ++++++-------
->  tests/acceptance/multiprocess.py            |   3 +-
->  tests/acceptance/virtio-gpu.py              |  12 +--
->  6 files changed, 111 insertions(+), 120 deletions(-)
->
-> diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptance/avocado_qemu/__init__.py
-> index 4d3b869765..4a0129c0eb 100644
-> --- a/tests/acceptance/avocado_qemu/__init__.py
-> +++ b/tests/acceptance/avocado_qemu/__init__.py
-> @@ -114,22 +114,6 @@ def wait_for_console_pattern(test, success_message, failure_message=None,
->      """
->      _console_interaction(test, success_message, failure_message, None, vm=vm)
->
-> -def exec_command_and_wait_for_pattern(test, command,
-> -                                      success_message, failure_message=None):
-> -    """
-> -    Send a command to a console (appending CRLF characters), then wait
-> -    for success_message to appear on the console, while logging the.
-> -    content. Mark the test as failed if failure_message is found instead.
-> -
-> -    :param test: an Avocado test containing a VM that will have its console
-> -                 read and probed for a success or failure message
-> -    :type test: :class:`avocado_qemu.Test`
-> -    :param command: the command to send
-> -    :param success_message: if this message appears, test succeeds
-> -    :param failure_message: if this message appears, test fails
-> -    """
-> -    _console_interaction(test, success_message, failure_message, command + '\r')
-> -
->  class ConsoleMixIn():
->      """Contains utilities for interacting with a guest via Console."""
->
-> @@ -143,6 +127,19 @@ def exec_command(self, command):
->          """
->          _console_interaction(self, None, None, command + '\r')
->
-> +    def exec_command_and_wait_for_pattern(self, command,
-> +                                          success_message, failure_message=None):
-> +        """
-> +        Send a command to a console (appending CRLF characters), then wait
-> +        for success_message to appear on the console, while logging the.
-> +        content. Mark the test as failed if failure_message is found instead.
-> +
-> +        :param command: the command to send
-> +        :param success_message: if this message appears, test succeeds
-> +        :param failure_message: if this message appears, test fails
-> +        """
-> +        _console_interaction(self, success_message, failure_message, command + '\r')
-> +
->      def interrupt_interactive_console_until_pattern(self, success_message,
->                                                      failure_message=None,
->                                                      interrupt_string='\r'):
-> diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
-> index 10317b232b..50e0a3fe79 100644
-> --- a/tests/acceptance/boot_linux_console.py
-> +++ b/tests/acceptance/boot_linux_console.py
-> @@ -16,7 +16,6 @@
->  from avocado import skip
->  from avocado import skipUnless
->  from avocado_qemu import Test
-> -from avocado_qemu import exec_command_and_wait_for_pattern
->  from avocado_qemu import ConsoleMixIn
->  from avocado_qemu import wait_for_console_pattern
->  from avocado.utils import process
-> @@ -223,12 +222,12 @@ def test_mips_malta_cpio(self):
->          self.vm.launch()
->          self.wait_for_console_pattern('Boot successful.')
->
-> -        exec_command_and_wait_for_pattern(self, 'cat /proc/cpuinfo',
-> -                                                'BogoMIPS')
-> -        exec_command_and_wait_for_pattern(self, 'uname -a',
-> -                                                'Debian')
-> -        exec_command_and_wait_for_pattern(self, 'reboot',
-> -                                                'reboot: Restarting system')
-> +        self.exec_command_and_wait_for_pattern('cat /proc/cpuinfo',
-> +                                               'BogoMIPS')
-> +        self.exec_command_and_wait_for_pattern('uname -a',
-> +                                               'Debian')
-> +        self.exec_command_and_wait_for_pattern('reboot',
-> +                                               'reboot: Restarting system')
->          # Wait for VM to shut down gracefully
->          self.vm.wait()
->
-> @@ -265,12 +264,12 @@ def test_mips64el_malta_5KEc_cpio(self):
->          self.vm.launch()
->          wait_for_console_pattern(self, 'Boot successful.')
->
-> -        exec_command_and_wait_for_pattern(self, 'cat /proc/cpuinfo',
-> -                                                'MIPS 5KE')
-> -        exec_command_and_wait_for_pattern(self, 'uname -a',
-> -                                                '3.19.3.mtoman.20150408')
-> -        exec_command_and_wait_for_pattern(self, 'reboot',
-> -                                                'reboot: Restarting system')
-> +        self.exec_command_and_wait_for_pattern('cat /proc/cpuinfo',
-> +                                               'MIPS 5KE')
-> +        self.exec_command_and_wait_for_pattern('uname -a',
-> +                                               '3.19.3.mtoman.20150408')
-> +        self.exec_command_and_wait_for_pattern('reboot',
-> +                                               'reboot: Restarting system')
->          # Wait for VM to shut down gracefully
->          self.vm.wait()
->
-> @@ -422,9 +421,9 @@ def test_arm_emcraft_sf2(self):
->          self.vm.launch()
->          self.wait_for_console_pattern('Enter \'help\' for a list')
->
-> -        exec_command_and_wait_for_pattern(self, 'ifconfig eth0 10.0.2.15',
-> -                                                 'eth0: link becomes ready')
-> -        exec_command_and_wait_for_pattern(self, 'ping -c 3 10.0.2.2',
-> +        self.exec_command_and_wait_for_pattern('ifconfig eth0 10.0.2.15',
-> +                                               'eth0: link becomes ready')
-> +        self.exec_command_and_wait_for_pattern('ping -c 3 10.0.2.2',
->              '3 packets transmitted, 3 packets received, 0% packet loss')
->
->      def do_test_arm_raspi2(self, uart_id):
-> @@ -541,10 +540,10 @@ def test_arm_cubieboard_initrd(self):
->          self.vm.launch()
->          self.wait_for_console_pattern('Boot successful.')
->
-> -        exec_command_and_wait_for_pattern(self, 'cat /proc/cpuinfo',
-> -                                                'Allwinner sun4i/sun5i')
-> -        exec_command_and_wait_for_pattern(self, 'cat /proc/iomem',
-> -                                                'system-control@1c00000')
-> +        self.exec_command_and_wait_for_pattern('cat /proc/cpuinfo',
-> +                                               'Allwinner sun4i/sun5i')
-> +        self.exec_command_and_wait_for_pattern('cat /proc/iomem',
-> +                                               'system-control@1c00000')
->          # cubieboard's reboot is not functioning; omit reboot test.
->
->      def test_arm_cubieboard_sata(self):
-> @@ -584,10 +583,10 @@ def test_arm_cubieboard_sata(self):
->          self.vm.launch()
->          self.wait_for_console_pattern('Boot successful.')
->
-> -        exec_command_and_wait_for_pattern(self, 'cat /proc/cpuinfo',
-> -                                                'Allwinner sun4i/sun5i')
-> -        exec_command_and_wait_for_pattern(self, 'cat /proc/partitions',
-> -                                                'sda')
-> +        self.exec_command_and_wait_for_pattern('cat /proc/cpuinfo',
-> +                                               'Allwinner sun4i/sun5i')
-> +        self.exec_command_and_wait_for_pattern('cat /proc/partitions',
-> +                                               'sda')
->          # cubieboard's reboot is not functioning; omit reboot test.
->
->      @skipUnless(os.getenv('AVOCADO_TIMEOUT_EXPECTED'), 'Test might timeout')
-> @@ -628,11 +627,11 @@ def test_arm_quanta_gsj(self):
->          self.wait_for_console_pattern('U-Boot ')
->          self.interrupt_interactive_console_until_pattern(
->                  'Hit any key to stop autoboot:', 'U-Boot>')
-> -        exec_command_and_wait_for_pattern(
-> -                self, "setenv bootargs ${bootargs} " + kernel_command_line,
-> +        self.exec_command_and_wait_for_pattern(
-> +                "setenv bootargs ${bootargs} " + kernel_command_line,
->                  'U-Boot>')
-> -        exec_command_and_wait_for_pattern(
-> -                self, 'run romboot', 'Booting Kernel from flash')
-> +        self.exec_command_and_wait_for_pattern(
-> +                'run romboot', 'Booting Kernel from flash')
->          self.wait_for_console_pattern('Booting Linux on physical CPU 0x0')
->          self.wait_for_console_pattern('CPU1: thread -1, cpu 1, socket 0')
->          self.wait_for_console_pattern('OpenBMC Project Reference Distro')
-> @@ -732,12 +731,12 @@ def test_arm_orangepi_initrd(self):
->          self.vm.launch()
->          self.wait_for_console_pattern('Boot successful.')
->
-> -        exec_command_and_wait_for_pattern(self, 'cat /proc/cpuinfo',
-> -                                                'Allwinner sun8i Family')
-> -        exec_command_and_wait_for_pattern(self, 'cat /proc/iomem',
-> -                                                'system-control@1c00000')
-> -        exec_command_and_wait_for_pattern(self, 'reboot',
-> -                                                'reboot: Restarting system')
-> +        self.exec_command_and_wait_for_pattern('cat /proc/cpuinfo',
-> +                                               'Allwinner sun8i Family')
-> +        self.exec_command_and_wait_for_pattern('cat /proc/iomem',
-> +                                               'system-control@1c00000')
-> +        self.exec_command_and_wait_for_pattern('reboot',
-> +                                               'reboot: Restarting system')
->          # Wait for VM to shut down gracefully
->          self.vm.wait()
->
-> @@ -777,18 +776,18 @@ def test_arm_orangepi_sd(self):
->          shell_ready = "/bin/sh: can't access tty; job control turned off"
->          self.wait_for_console_pattern(shell_ready)
->
-> -        exec_command_and_wait_for_pattern(self, 'cat /proc/cpuinfo',
-> -                                                'Allwinner sun8i Family')
-> -        exec_command_and_wait_for_pattern(self, 'cat /proc/partitions',
-> -                                                'mmcblk0')
-> -        exec_command_and_wait_for_pattern(self, 'ifconfig eth0 up',
-> -                                                 'eth0: Link is Up')
-> -        exec_command_and_wait_for_pattern(self, 'udhcpc eth0',
-> +        self.exec_command_and_wait_for_pattern('cat /proc/cpuinfo',
-> +                                               'Allwinner sun8i Family')
-> +        self.exec_command_and_wait_for_pattern('cat /proc/partitions',
-> +                                               'mmcblk0')
-> +        self.exec_command_and_wait_for_pattern('ifconfig eth0 up',
-> +                                               'eth0: Link is Up')
-> +        self.exec_command_and_wait_for_pattern('udhcpc eth0',
->              'udhcpc: lease of 10.0.2.15 obtained')
-> -        exec_command_and_wait_for_pattern(self, 'ping -c 3 10.0.2.2',
-> +        self.exec_command_and_wait_for_pattern('ping -c 3 10.0.2.2',
->              '3 packets transmitted, 3 packets received, 0% packet loss')
-> -        exec_command_and_wait_for_pattern(self, 'reboot',
-> -                                                'reboot: Restarting system')
-> +        self.exec_command_and_wait_for_pattern('reboot',
-> +                                               'reboot: Restarting system')
->          # Wait for VM to shut down gracefully
->          self.vm.wait()
->
-> @@ -829,10 +828,10 @@ def test_arm_orangepi_bionic_20_08(self):
->
->          self.wait_for_console_pattern('U-Boot SPL')
->          self.wait_for_console_pattern('Autoboot in ')
-> -        exec_command_and_wait_for_pattern(self, ' ', '=>')
-> -        exec_command_and_wait_for_pattern(self, "setenv extraargs '" +
-> -                                                kernel_command_line + "'", '=>')
-> -        exec_command_and_wait_for_pattern(self, 'boot', 'Starting kernel ...');
-> +        self.exec_command_and_wait_for_pattern(' ', '=>')
-> +        self.exec_command_and_wait_for_pattern("setenv extraargs '" +
-> +                                               kernel_command_line + "'", '=>')
-> +        self.exec_command_and_wait_for_pattern('boot', 'Starting kernel ...');
->
->          self.wait_for_console_pattern('systemd[1]: Set hostname ' +
->                                        'to <orangepipc>')
-> @@ -883,20 +882,20 @@ def test_arm_orangepi_uboot_netbsd9(self):
->                                         'Hit any key to stop autoboot:',
->                                         'switch to partitions #0, OK')
->
-> -        exec_command_and_wait_for_pattern(self, '', '=>')
-> +        self.exec_command_and_wait_for_pattern('', '=>')
->          cmd = 'setenv bootargs root=ld0a'
-> -        exec_command_and_wait_for_pattern(self, cmd, '=>')
-> +        self.exec_command_and_wait_for_pattern(cmd, '=>')
->          cmd = 'setenv kernel netbsd-GENERIC.ub'
-> -        exec_command_and_wait_for_pattern(self, cmd, '=>')
-> +        self.exec_command_and_wait_for_pattern(cmd, '=>')
->          cmd = 'setenv fdtfile dtb/sun8i-h3-orangepi-pc.dtb'
-> -        exec_command_and_wait_for_pattern(self, cmd, '=>')
-> +        self.exec_command_and_wait_for_pattern(cmd, '=>')
->          cmd = ("setenv bootcmd 'fatload mmc 0:1 ${kernel_addr_r} ${kernel}; "
->                 "fatload mmc 0:1 ${fdt_addr_r} ${fdtfile}; "
->                 "fdt addr ${fdt_addr_r}; "
->                 "bootm ${kernel_addr_r} - ${fdt_addr_r}'")
-> -        exec_command_and_wait_for_pattern(self, cmd, '=>')
-> +        self.exec_command_and_wait_for_pattern(cmd, '=>')
->
-> -        exec_command_and_wait_for_pattern(self, 'boot',
-> +        self.exec_command_and_wait_for_pattern('boot',
->                                            'Booting kernel from Legacy Image')
->          wait_for_console_pattern(self, 'Starting kernel ...')
->          wait_for_console_pattern(self, 'NetBSD 9.0 (GENERIC)')
-> diff --git a/tests/acceptance/machine_rx_gdbsim.py b/tests/acceptance/machine_rx_gdbsim.py
-> index 32b737b6d8..a893273bad 100644
-> --- a/tests/acceptance/machine_rx_gdbsim.py
-> +++ b/tests/acceptance/machine_rx_gdbsim.py
-> @@ -12,12 +12,12 @@
->
->  from avocado import skipIf
->  from avocado_qemu import Test
-> -from avocado_qemu import exec_command_and_wait_for_pattern
-> +from avocado_qemu import ConsoleMixIn
->  from avocado_qemu import wait_for_console_pattern
->  from avocado.utils import archive
->
->
-> -class RxGdbSimMachine(Test):
-> +class RxGdbSimMachine(Test, ConsoleMixIn):
+On 5/23/21 10:07 AM, Michael S. Tsirkin wrote:
+> On Thu, May 20, 2021 at 12:28:22PM +0200, Philippe Mathieu-Daudé wrote:
+>> In commit 019a3edbb25 ("virtio: make features 64bit wide") we
+>> increased the 'features' field to 64-bit, but forgot to update
+>> the virtio_bus_get_vdev_bad_features() helper. The 'bad features'
+>> are truncated to 32-bit. The virtio_net_bad_features() handler
+>> from the virtio-net devices is potentially affected.
+> 
+> I'm fine with increasing it for consistency, but bad features
+> are all legacy things aren't they? So there isn't a functional
+> issue ... or did I miss anything?
 
-Same comment here regarding the class order from the previous two patches.
+Are you saying all bad legacy features are < 32-bit and there is no
+potential problem?
 
->
->      timeout = 30
->      KERNEL_COMMON_COMMAND_LINE = 'printk.time=0 '
-> @@ -44,7 +44,7 @@ def test_uboot(self):
->          wait_for_console_pattern(self, uboot_version)
->          gcc_version = 'rx-unknown-linux-gcc (GCC) 9.0.0 20181105 (experimental)'
->          # FIXME limit baudrate on chardev, else we type too fast
-> -        #exec_command_and_wait_for_pattern(self, 'version', gcc_version)
-> +        #self.exec_command_and_wait_for_pattern('version', gcc_version)
->
->      @skipIf(os.getenv('GITLAB_CI'), 'Running on GitLab')
->      def test_linux_sash(self):
-> @@ -70,4 +70,4 @@ def test_linux_sash(self):
->          self.vm.launch()
->          wait_for_console_pattern(self, 'Sash command shell (version 1.1.1)',
->                                   failure_message='Kernel panic - not syncing')
-> -        exec_command_and_wait_for_pattern(self, 'printenv', 'TERM=linux')
-> +        self.exec_command_and_wait_for_pattern('printenv', 'TERM=linux')
-> diff --git a/tests/acceptance/machine_s390_ccw_virtio.py b/tests/acceptance/machine_s390_ccw_virtio.py
-> index 4028c99afc..537393c42f 100644
-> --- a/tests/acceptance/machine_s390_ccw_virtio.py
-> +++ b/tests/acceptance/machine_s390_ccw_virtio.py
-> @@ -14,11 +14,11 @@
->
->  from avocado import skipIf
->  from avocado_qemu import Test
-> -from avocado_qemu import exec_command_and_wait_for_pattern
-> +from avocado_qemu import ConsoleMixIn
->  from avocado_qemu import wait_for_console_pattern
->  from avocado.utils import archive
->
-> -class S390CCWVirtioMachine(Test):
-> +class S390CCWVirtioMachine(Test, ConsoleMixIn):
-
-Same here!
-
->      KERNEL_COMMON_COMMAND_LINE = 'printk.time=0 '
->
->      timeout = 120
-> @@ -29,13 +29,13 @@ def wait_for_console_pattern(self, success_message, vm=None):
->                                   vm=vm)
->
->      def wait_for_crw_reports(self):
-> -        exec_command_and_wait_for_pattern(self,
-> +        self.exec_command_and_wait_for_pattern(
->                          'while ! (dmesg -c | grep CRW) ; do sleep 1 ; done',
->                          'CRW reports')
->
->      dmesg_clear_count = 1
->      def clear_guest_dmesg(self):
-> -        exec_command_and_wait_for_pattern(self, 'dmesg -c > /dev/null; '
-> +        self.exec_command_and_wait_for_pattern('dmesg -c > /dev/null; '
->                      'echo dm_clear\ ' + str(self.dmesg_clear_count),
->                      'dm_clear ' + str(self.dmesg_clear_count))
->          self.dmesg_clear_count += 1
-> @@ -81,13 +81,13 @@ def test_s390x_devices(self):
->          shell_ready = "sh: can't access tty; job control turned off"
->          self.wait_for_console_pattern(shell_ready)
->          # first debug shell is too early, we need to wait for device detection
-> -        exec_command_and_wait_for_pattern(self, 'exit', shell_ready)
-> +        self.exec_command_and_wait_for_pattern('exit', shell_ready)
->
->          ccw_bus_ids="0.1.1111  0.2.0000  0.3.1234"
->          pci_bus_ids="0005:00:00.0  000a:00:00.0"
-> -        exec_command_and_wait_for_pattern(self, 'ls /sys/bus/ccw/devices/',
-> +        self.exec_command_and_wait_for_pattern('ls /sys/bus/ccw/devices/',
->                                            ccw_bus_ids)
-> -        exec_command_and_wait_for_pattern(self, 'ls /sys/bus/pci/devices/',
-> +        self.exec_command_and_wait_for_pattern('ls /sys/bus/pci/devices/',
->                                            pci_bus_ids)
->          # check that the device at 0.2.0000 is in legacy mode, while the
->          # device at 0.3.1234 has the virtio-1 feature bit set
-> @@ -95,14 +95,14 @@ def test_s390x_devices(self):
->                              "10000000000000000000000000000000"
->          virtio_rng_features_legacy="00000000000000000000000000001100" + \
->                                     "00000000000000000000000000000000"
-> -        exec_command_and_wait_for_pattern(self,
-> +        self.exec_command_and_wait_for_pattern(
->                          'cat /sys/bus/ccw/devices/0.2.0000/virtio?/features',
->                          virtio_rng_features_legacy)
-> -        exec_command_and_wait_for_pattern(self,
-> +        self.exec_command_and_wait_for_pattern(
->                          'cat /sys/bus/ccw/devices/0.3.1234/virtio?/features',
->                          virtio_rng_features)
->          # check that /dev/hwrng works - and that it's gone after ejecting
-> -        exec_command_and_wait_for_pattern(self,
-> +        self.exec_command_and_wait_for_pattern(
->                          'dd if=/dev/hwrng of=/dev/null bs=1k count=10',
->                          '10+0 records out')
->          self.clear_guest_dmesg()
-> @@ -111,22 +111,22 @@ def test_s390x_devices(self):
->          self.clear_guest_dmesg()
->          self.vm.command('device_del', id='rn2')
->          self.wait_for_crw_reports()
-> -        exec_command_and_wait_for_pattern(self,
-> +        self.exec_command_and_wait_for_pattern(
->                          'dd if=/dev/hwrng of=/dev/null bs=1k count=10',
->                          'dd: /dev/hwrng: No such device')
->          # verify that we indeed have virtio-net devices (without having the
->          # virtio-net driver handy)
-> -        exec_command_and_wait_for_pattern(self,
-> +        self.exec_command_and_wait_for_pattern(
->                                      'cat /sys/bus/ccw/devices/0.1.1111/cutype',
->                                      '3832/01')
-> -        exec_command_and_wait_for_pattern(self,
-> +        self.exec_command_and_wait_for_pattern(
->                      'cat /sys/bus/pci/devices/0005\:00\:00.0/subsystem_vendor',
->                      '0x1af4')
-> -        exec_command_and_wait_for_pattern(self,
-> +        self.exec_command_and_wait_for_pattern(
->                      'cat /sys/bus/pci/devices/0005\:00\:00.0/subsystem_device',
->                      '0x0001')
->          # check fid propagation
-> -        exec_command_and_wait_for_pattern(self,
-> +        self.exec_command_and_wait_for_pattern(
->                          'cat /sys/bus/pci/devices/000a\:00\:00.0/function_id',
->                          '0x0000000c')
->          # add another device
-> @@ -134,7 +134,7 @@ def test_s390x_devices(self):
->          self.vm.command('device_add', driver='virtio-net-ccw',
->                          devno='fe.0.4711', id='net_4711')
->          self.wait_for_crw_reports()
-> -        exec_command_and_wait_for_pattern(self, 'for i in 1 2 3 4 5 6 7 ; do '
-> +        self.exec_command_and_wait_for_pattern('for i in 1 2 3 4 5 6 7 ; do '
->                      'if [ -e /sys/bus/ccw/devices/*4711 ]; then break; fi ;'
->                      'sleep 1 ; done ; ls /sys/bus/ccw/devices/',
->                      '0.0.4711')
-> @@ -144,17 +144,17 @@ def test_s390x_devices(self):
->          self.vm.event_wait(name='DEVICE_DELETED',
->                             match={'data': {'device': 'net_4711'}})
->          self.wait_for_crw_reports()
-> -        exec_command_and_wait_for_pattern(self,
-> +        self.exec_command_and_wait_for_pattern(
->                                            'ls /sys/bus/ccw/devices/0.0.4711',
->                                            'No such file or directory')
->          # test the virtio-balloon device
-> -        exec_command_and_wait_for_pattern(self, 'head -n 1 /proc/meminfo',
-> +        self.exec_command_and_wait_for_pattern('head -n 1 /proc/meminfo',
->                                            'MemTotal:         115640 kB')
->          self.vm.command('human-monitor-command', command_line='balloon 96')
-> -        exec_command_and_wait_for_pattern(self, 'head -n 1 /proc/meminfo',
-> +        self.exec_command_and_wait_for_pattern('head -n 1 /proc/meminfo',
->                                            'MemTotal:          82872 kB')
->          self.vm.command('human-monitor-command', command_line='balloon 128')
-> -        exec_command_and_wait_for_pattern(self, 'head -n 1 /proc/meminfo',
-> +        self.exec_command_and_wait_for_pattern('head -n 1 /proc/meminfo',
->                                            'MemTotal:         115640 kB')
->
->
-> @@ -203,23 +203,23 @@ def test_s390x_fedora(self):
->
->          # Some tests to see whether the CLI options have been considered:
->          self.log.info("Test whether QEMU CLI options have been considered")
-> -        exec_command_and_wait_for_pattern(self,
-> +        self.exec_command_and_wait_for_pattern(
->                          'while ! (dmesg | grep enP7p0s0) ; do sleep 1 ; done',
->                          'virtio_net virtio0 enP7p0s0: renamed')
-> -        exec_command_and_wait_for_pattern(self, 'lspci',
-> +        self.exec_command_and_wait_for_pattern('lspci',
->                               '0007:00:00.0 Class 0200: Device 1af4:1000')
-> -        exec_command_and_wait_for_pattern(self,
-> +        self.exec_command_and_wait_for_pattern(
->                               'cat /sys/class/net/enP7p0s0/address',
->                               '02:ca:fe:fa:ce:12')
-> -        exec_command_and_wait_for_pattern(self, 'lscss', '0.1.9876')
-> -        exec_command_and_wait_for_pattern(self, 'lscss', '0.2.5432')
-> -        exec_command_and_wait_for_pattern(self, 'cat /proc/cpuinfo',
-> +        self.exec_command_and_wait_for_pattern('lscss', '0.1.9876')
-> +        self.exec_command_and_wait_for_pattern('lscss', '0.2.5432')
-> +        self.exec_command_and_wait_for_pattern('cat /proc/cpuinfo',
->                               'processors    : 4')
-> -        exec_command_and_wait_for_pattern(self, 'grep MemTotal /proc/meminfo',
-> +        self.exec_command_and_wait_for_pattern('grep MemTotal /proc/meminfo',
->                               'MemTotal:         499848 kB')
-> -        exec_command_and_wait_for_pattern(self, 'grep Name /proc/sysinfo',
-> +        self.exec_command_and_wait_for_pattern('grep Name /proc/sysinfo',
->                               'Extended Name:   Some Guest Name')
-> -        exec_command_and_wait_for_pattern(self, 'grep UUID /proc/sysinfo',
-> +        self.exec_command_and_wait_for_pattern('grep UUID /proc/sysinfo',
->                               '30de4fd9-b4d5-409e-86a5-09b387f70bfa')
->
->          # Disable blinking cursor, then write some stuff into the framebuffer.
-> @@ -229,16 +229,16 @@ def test_s390x_fedora(self):
->          # can simply read the written "magic bytes" back from the PPM file to
->          # check whether the framebuffer is working as expected.
->          self.log.info("Test screendump of virtio-gpu device")
-> -        exec_command_and_wait_for_pattern(self,
-> +        self.exec_command_and_wait_for_pattern(
->                          'while ! (dmesg | grep gpudrmfb) ; do sleep 1 ; done',
->                          'virtio_gpudrmfb frame buffer device')
-> -        exec_command_and_wait_for_pattern(self,
-> +        self.exec_command_and_wait_for_pattern(
->              'echo -e "\e[?25l" > /dev/tty0', ':/#')
-> -        exec_command_and_wait_for_pattern(self, 'for ((i=0;i<250;i++)); do '
-> +        self.exec_command_and_wait_for_pattern('for ((i=0;i<250;i++)); do '
->              'echo " The  qu ick  fo x j ump s o ver  a  laz y d og" >> fox.txt;'
->              'done',
->              ':/#')
-> -        exec_command_and_wait_for_pattern(self,
-> +        self.exec_command_and_wait_for_pattern(
->              'dd if=fox.txt of=/dev/fb0 bs=1000 oflag=sync,nocache ; rm fox.txt',
->              '12+0 records out')
->          with tempfile.NamedTemporaryFile(suffix='.ppm',
-> @@ -261,12 +261,12 @@ def test_s390x_fedora(self):
->                          id='cbe0')
->          self.vm.command('device_add', driver='virtio-crypto-ccw', id='crypdev0',
->                          cryptodev='cbe0', devno='fe.0.2342')
-> -        exec_command_and_wait_for_pattern(self,
-> +        self.exec_command_and_wait_for_pattern(
->                          'while ! (dmesg -c | grep Accelerator.device) ; do'
->                          ' sleep 1 ; done', 'Accelerator device is ready')
-> -        exec_command_and_wait_for_pattern(self, 'lscss', '0.0.2342')
-> +        self.exec_command_and_wait_for_pattern('lscss', '0.0.2342')
->          self.vm.command('device_del', id='crypdev0')
->          self.vm.command('object-del', id='cbe0')
-> -        exec_command_and_wait_for_pattern(self,
-> +        self.exec_command_and_wait_for_pattern(
->                          'while ! (dmesg -c | grep Start.virtcrypto_remove) ; do'
->                          ' sleep 1 ; done', 'Start virtcrypto_remove.')
-> diff --git a/tests/acceptance/multiprocess.py b/tests/acceptance/multiprocess.py
-> index 41d3e51164..b4a6d20770 100644
-> --- a/tests/acceptance/multiprocess.py
-> +++ b/tests/acceptance/multiprocess.py
-> @@ -10,7 +10,6 @@
->  from avocado_qemu import Test
->  from avocado_qemu import wait_for_console_pattern
->  from avocado_qemu import ConsoleMixIn
-> -from avocado_qemu import exec_command_and_wait_for_pattern
->
->  class Multiprocess(Test, ConsoleMixIn):
->      """
-> @@ -60,7 +59,7 @@ def do_test(self, kernel_url, initrd_url, kernel_command_line,
->          wait_for_console_pattern(self, 'as init process',
->                                   'Kernel panic - not syncing')
->          self.exec_command('mount -t sysfs sysfs /sys')
-> -        exec_command_and_wait_for_pattern(self,
-> +        self.exec_command_and_wait_for_pattern(
->                                            'cat /sys/bus/pci/devices/*/uevent',
->                                            'PCI_ID=1000:0012')
->
-> diff --git a/tests/acceptance/virtio-gpu.py b/tests/acceptance/virtio-gpu.py
-> index ab18cddbb7..4d65431ef1 100644
-> --- a/tests/acceptance/virtio-gpu.py
-> +++ b/tests/acceptance/virtio-gpu.py
-> @@ -7,7 +7,7 @@
->  from avocado_qemu import Test
->  from avocado_qemu import BUILD_DIR
->  from avocado_qemu import wait_for_console_pattern
-> -from avocado_qemu import exec_command_and_wait_for_pattern
-> +from avocado_qemu import ConsoleMixIn
->  from avocado_qemu import is_readable_executable_file
->
->  from qemu.accel import kvm_available
-> @@ -31,7 +31,7 @@ def pick_default_vug_bin():
->          return bld_dir_path
->
->
-> -class VirtioGPUx86(Test):
-> +class VirtioGPUx86(Test, ConsoleMixIn):
-
-And here!
-
->      """
->      :avocado: tags=virtio-gpu
->      """
-> @@ -92,9 +92,7 @@ def test_virtio_vga_virgl(self):
->              self.cancel("VirGL not enabled?")
->
->          self.wait_for_console_pattern("as init process")
-> -        exec_command_and_wait_for_pattern(
-> -            self, "/usr/sbin/modprobe virtio_gpu", ""
-> -        )
-> +        self.exec_command_and_wait_for_pattern("/usr/sbin/modprobe virtio_gpu", "")
->          self.wait_for_console_pattern("features: +virgl +edid")
->
->      def test_vhost_user_vga_virgl(self):
-> @@ -157,9 +155,7 @@ def test_vhost_user_vga_virgl(self):
->          )
->          self.vm.launch()
->          self.wait_for_console_pattern("as init process")
-> -        exec_command_and_wait_for_pattern(
-> -            self, "/usr/sbin/modprobe virtio_gpu", ""
-> -        )
-> +        self.exec_command_and_wait_for_pattern("/usr/sbin/modprobe virtio_gpu", "")
->          self.wait_for_console_pattern("features: +virgl -edid")
->          self.vm.shutdown()
->          qemu_sock.close()
-> --
-> 2.29.2
->
+> 
+>>
+>> Have the virtio_bus_get_vdev_bad_features() helper return the
+>> full 64-bit value.
+>>
+>> Cc: qemu-stable@nongnu.org
+>> Fixes: 019a3edbb25 ("virtio: make features 64bit wide")
+>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>> ---
+>>  include/hw/virtio/virtio-bus.h | 2 +-
+>>  hw/virtio/virtio-bus.c         | 2 +-
+>>  2 files changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/include/hw/virtio/virtio-bus.h b/include/hw/virtio/virtio-bus.h
+>> index ef8abe49c5a..f9955ff577a 100644
+>> --- a/include/hw/virtio/virtio-bus.h
+>> +++ b/include/hw/virtio/virtio-bus.h
+>> @@ -122,7 +122,7 @@ uint16_t virtio_bus_get_vdev_id(VirtioBusState *bus);
+>>  /* Get the config_len field of the plugged device. */
+>>  size_t virtio_bus_get_vdev_config_len(VirtioBusState *bus);
+>>  /* Get bad features of the plugged device. */
+>> -uint32_t virtio_bus_get_vdev_bad_features(VirtioBusState *bus);
+>> +uint64_t virtio_bus_get_vdev_bad_features(VirtioBusState *bus);
+>>  /* Get config of the plugged device. */
+>>  void virtio_bus_get_vdev_config(VirtioBusState *bus, uint8_t *config);
+>>  /* Set config of the plugged device. */
+>> diff --git a/hw/virtio/virtio-bus.c b/hw/virtio/virtio-bus.c
+>> index 859978d2487..25a2b68a234 100644
+>> --- a/hw/virtio/virtio-bus.c
+>> +++ b/hw/virtio/virtio-bus.c
+>> @@ -134,7 +134,7 @@ size_t virtio_bus_get_vdev_config_len(VirtioBusState *bus)
+>>  }
+>>  
+>>  /* Get bad features of the plugged device. */
+>> -uint32_t virtio_bus_get_vdev_bad_features(VirtioBusState *bus)
+>> +uint64_t virtio_bus_get_vdev_bad_features(VirtioBusState *bus)
+>>  {
+>>      VirtIODevice *vdev = virtio_bus_get_device(bus);
+>>      VirtioDeviceClass *k;
+>> -- 
+>> 2.26.3
+> 
 
 
