@@ -2,44 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C48A438DF8B
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 05:07:36 +0200 (CEST)
-Received: from localhost ([::1]:44142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 516D238DFB6
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 05:10:12 +0200 (CEST)
+Received: from localhost ([::1]:51922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ll0wJ-0006bh-QE
-	for lists+qemu-devel@lfdr.de; Sun, 23 May 2021 23:07:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47966)
+	id 1ll0yp-0003MB-1H
+	for lists+qemu-devel@lfdr.de; Sun, 23 May 2021 23:10:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47964)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1ll0sV-0008BW-RH; Sun, 23 May 2021 23:03:40 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:49441)
+ id 1ll0sV-0008BV-RO; Sun, 23 May 2021 23:03:40 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:60143 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1ll0sS-0000ZZ-1p; Sun, 23 May 2021 23:03:38 -0400
+ id 1ll0sS-0000ZX-Dn; Sun, 23 May 2021 23:03:38 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4FpMV44bLdz9sW4; Mon, 24 May 2021 13:03:24 +1000 (AEST)
+ id 4FpMV43ftDz9sRf; Mon, 24 May 2021 13:03:24 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1621825404;
- bh=xMK/wnrj8edsD8vw26yHrlmK+YequV2Gr8IyE5IDAis=;
+ bh=3rZk/KADpaYCA0BY3oJyDy1gbi+ySeAM74V5G5s/IYE=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=R0MsinKdAlsCeRkFYCBnDBUnALUprI71j5tzHc0NvVXUEaYdDJl+385wlK44md7Mp
- xZLlD61OCNN45ZsDoXv7Whidf22w2SXxekFFVyOJYvEJ0Vge1752LyJ0oLk0gkfLIe
- oqPqQ6AX1oI5bvaT94mooL0rA8ZdPuKyyXuYBESs=
-Date: Mon, 24 May 2021 12:37:17 +1000
+ b=npQDZ7bgwCTAiGlbklHuIerV4xsdR9VXIO/Rw1KdscwuPIg7YY27z73eymOEK9Ovc
+ qPTH9x33uuNiRBMqKBbvHMOHo/twdPWlvZ6+x8YkXU9Qr3NQ/4K9Wz6SA8wQwoRiG9
+ yJPbaoqDqg/MP8PnVC1OcKjbSCZpEuU3qOG/4Ewk=
+Date: Mon, 24 May 2021 12:38:33 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
 To: "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br>
-Subject: Re: [PATCH v3 2/9] target/ppc: moved ppc_store_lpcr and
- ppc_store_msr to cpu.c
-Message-ID: <YKsRXVuvDcF40qoB@yekko>
+Subject: Re: [PATCH v3 3/9] target/ppc: reduce usage of fpscr_set_rounding_mode
+Message-ID: <YKsRqZQiTQCmTbsy@yekko>
 References: <20210521201759.85475-1-bruno.larsen@eldorado.org.br>
- <20210521201759.85475-3-bruno.larsen@eldorado.org.br>
+ <20210521201759.85475-4-bruno.larsen@eldorado.org.br>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="t9X/Xunlv2aOd0qC"
+ protocol="application/pgp-signature"; boundary="eydM/fiQeDRpiiK2"
 Content-Disposition: inline
-In-Reply-To: <20210521201759.85475-3-bruno.larsen@eldorado.org.br>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+In-Reply-To: <20210521201759.85475-4-bruno.larsen@eldorado.org.br>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -66,89 +65,78 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---t9X/Xunlv2aOd0qC
+--eydM/fiQeDRpiiK2
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, May 21, 2021 at 05:17:52PM -0300, Bruno Larsen (billionai) wrote:
-> These functions are used in hw/ppc logic, during machine startup, which
-> means it must be compiled when --disable-tcg is selected, and so it has
-> been moved into a common code file
+On Fri, May 21, 2021 at 05:17:53PM -0300, Bruno Larsen (billionai) wrote:
+> It is preferable to store the current rounding mode and retore from that
+> than recalculating from fpscr, so we changed the behavior of do_fri and
+> VSX_ROUND to do it like that.
 >=20
+> Suggested-by: Richard Henderson <richard.henderson@linaro.org>
 > Signed-off-by: Bruno Larsen (billionai) <bruno.larsen@eldorado.org.br>
 > Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
 
 Applied to ppc-for-6.1, thanks.
 
 > ---
->  target/ppc/cpu.c         | 17 +++++++++++++++++
->  target/ppc/misc_helper.c | 16 ----------------
->  2 files changed, 17 insertions(+), 16 deletions(-)
+>  target/ppc/fpu_helper.c | 8 +++++---
+>  1 file changed, 5 insertions(+), 3 deletions(-)
 >=20
-> diff --git a/target/ppc/cpu.c b/target/ppc/cpu.c
-> index 9cf3288b7a..c8e87e30f1 100644
-> --- a/target/ppc/cpu.c
-> +++ b/target/ppc/cpu.c
-> @@ -24,6 +24,7 @@
->  #include "exec/log.h"
->  #include "fpu/softfloat-helpers.h"
->  #include "mmu-hash64.h"
-> +#include "helper_regs.h"
-> =20
->  target_ulong cpu_read_xer(CPUPPCState *env)
+> diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
+> index 44315fca0b..a4a283df2b 100644
+> --- a/target/ppc/fpu_helper.c
+> +++ b/target/ppc/fpu_helper.c
+> @@ -822,6 +822,7 @@ static inline uint64_t do_fri(CPUPPCState *env, uint6=
+4_t arg,
+>                                int rounding_mode)
 >  {
-> @@ -92,3 +93,19 @@ void ppc_store_sdr1(CPUPPCState *env, target_ulong val=
-ue)
->      env->spr[SPR_SDR1] =3D value;
->  }
->  #endif /* CONFIG_SOFTMMU */
-> +
-> +/* GDBstub can read and write MSR... */
-> +void ppc_store_msr(CPUPPCState *env, target_ulong value)
-> +{
-> +    hreg_store_msr(env, value, 0);
-> +}
-> +
-> +void ppc_store_lpcr(PowerPCCPU *cpu, target_ulong val)
-> +{
-> +    PowerPCCPUClass *pcc =3D POWERPC_CPU_GET_CLASS(cpu);
-> +    CPUPPCState *env =3D &cpu->env;
-> +
-> +    env->spr[SPR_LPCR] =3D val & pcc->lpcr_mask;
-> +    /* The gtse bit affects hflags */
-> +    hreg_compute_hflags(env);
-> +}
-> diff --git a/target/ppc/misc_helper.c b/target/ppc/misc_helper.c
-> index 08a31da289..442b12652c 100644
-> --- a/target/ppc/misc_helper.c
-> +++ b/target/ppc/misc_helper.c
-> @@ -255,22 +255,6 @@ target_ulong helper_clcs(CPUPPCState *env, uint32_t =
-arg)
->  /***********************************************************************=
-******/
->  /* Special registers manipulation */
+>      CPU_DoubleU farg;
+> +    FloatRoundMode old_rounding_mode =3D get_float_rounding_mode(&env->f=
+p_status);
 > =20
-> -/* GDBstub can read and write MSR... */
-> -void ppc_store_msr(CPUPPCState *env, target_ulong value)
-> -{
-> -    hreg_store_msr(env, value, 0);
-> -}
-> -
-> -void ppc_store_lpcr(PowerPCCPU *cpu, target_ulong val)
-> -{
-> -    PowerPCCPUClass *pcc =3D POWERPC_CPU_GET_CLASS(cpu);
-> -    CPUPPCState *env =3D &cpu->env;
-> -
-> -    env->spr[SPR_LPCR] =3D val & pcc->lpcr_mask;
-> -    /* The gtse bit affects hflags */
-> -    hreg_compute_hflags(env);
-> -}
-> -
->  /*
->   * This code is lifted from MacOnLinux. It is called whenever THRM1,2
->   * or 3 is read an fixes up the values in such a way that will make
+>      farg.ll =3D arg;
+> =20
+> @@ -834,8 +835,7 @@ static inline uint64_t do_fri(CPUPPCState *env, uint6=
+4_t arg,
+>                        float_flag_inexact;
+>          set_float_rounding_mode(rounding_mode, &env->fp_status);
+>          farg.ll =3D float64_round_to_int(farg.d, &env->fp_status);
+> -        /* Restore rounding mode from FPSCR */
+> -        fpscr_set_rounding_mode(env);
+> +        set_float_rounding_mode(old_rounding_mode, &env->fp_status);
+> =20
+>          /* fri* does not set FPSCR[XX] */
+>          if (!inexact) {
+> @@ -3136,8 +3136,10 @@ void helper_##op(CPUPPCState *env, ppc_vsr_t *xt, =
+ppc_vsr_t *xb)       \
+>  {                                                                      \
+>      ppc_vsr_t t =3D *xt;                                                =
+ \
+>      int i;                                                             \
+> +    FloatRoundMode curr_rounding_mode;                                 \
+>                                                                         \
+>      if (rmode !=3D FLOAT_ROUND_CURRENT) {                               =
+ \
+> +        curr_rounding_mode =3D get_float_rounding_mode(&env->fp_status);=
+ \
+>          set_float_rounding_mode(rmode, &env->fp_status);               \
+>      }                                                                  \
+>                                                                         \
+> @@ -3160,7 +3162,7 @@ void helper_##op(CPUPPCState *env, ppc_vsr_t *xt, p=
+pc_vsr_t *xb)       \
+>       * mode from FPSCR                                                 \
+>       */                                                                \
+>      if (rmode !=3D FLOAT_ROUND_CURRENT) {                               =
+ \
+> -        fpscr_set_rounding_mode(env);                                  \
+> +        set_float_rounding_mode(curr_rounding_mode, &env->fp_status);  \
+>          env->fp_status.float_exception_flags &=3D ~float_flag_inexact;  =
+ \
+>      }                                                                  \
+>                                                                         \
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -156,25 +144,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---t9X/Xunlv2aOd0qC
+--eydM/fiQeDRpiiK2
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmCrEV0ACgkQbDjKyiDZ
-s5KCfhAAlD9HVSODT3kbrGgmw3ZoIfnTGdkexuHXUxkAkKPaTbKVipxveF72jOtm
-Y7G1/q1w9u43d5fgJpExe44Pd5fpTyEDfuN7d4w5kI193cgpHsLFYD0/Euv44biB
-RY3NfOdCr/F17K8xHoekP5lDuko61ms9S2rT4D0xiCS1nF/y5TO/byf7dlWnJfA5
-oVHEkbcOi7C2Pg+hFu1TgGmNkCRrLcLgoSxjeu+pWnhhNFRCHRkn/d1Z79XWL4qI
-C382efrhPilEhXyidmQcOwaY4wD5KB4TfMEqLRTf9WsByv9PuF9QvUsRJb7Lvm3U
-d/YrBlsBOhIKn0b047gJUknwkBbgDCqgLfzGOBJ5ylhEHs16xzFfzrlygVEl7EHn
-0RW/ZcD0UX/wAehd067b6kj211gnrw3xjrssZbbRWG7JVD8gNGxpNJk6MkRTBK4i
-/48w5yCs99STRpDdPtl71Ukcom4u6L0fEBRCyyMCVFJ3cnq5iMkvrcty4KK3RY9i
-BCOCGo4EVqWgs323NBcUYxJFlLGjH/Rwn7hWIdRSWgDfPZE6d766ke1YcO9bMOwt
-e7BoUbgm7eVSoJVDrciyNNGObpgVS6gmwl1rC3lb4+ewHyjE59wrANLEWNBxgYTT
-l/2w/Qaagrx458FrN8hgAx+b7rvDMKRORnG90QGyNq8BnJY5uXU=
-=FKNG
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmCrEagACgkQbDjKyiDZ
+s5JOwQ/9G9rwP1ehI83UUGIiQj0DQPQ1ZksQ4Xw5btTTnmit06UtZwYy+FK4yTah
+tnZn3pieaMdKXUqqPNUK5kLY4MaEOSOq2eC2g3NicBcaPP6THi5axuV+sMlztmN6
+2touH3YUeiQ8xT74L0nqDaMcxv/jKGrCWqvLkmVMMZqqeKgYvA98Vv+MAMarWACj
+bJfDuvH+pIyPUN4PKl9ZUPiVDQJ/8uh0nFb/hPh1CYwhnm0c2Y+KhBAruCNLa9ae
+wFGxdWYU1n/gCJUFLnI2/Rrp7iXY1gG1nQuq8QzQIcekFTZ2xzTd5fersDxW2ki7
+3qUM93KPotRyOMxqe2+pt3QOOteOqGF4j2fbmHLANxMReF3sV+cZbMeVRlM0pOtV
+xOMgmSXz4BcwIyIAIjMlpIhWmwYjxERjKB1dE9YI10yB5iFgkG7L1uKf/e0QahPg
+sC7dbMNiGll8ZSrshXYSQfcCCIYe2Y0HSoqZiF8C65BaYrCvqVYq99E0SjYjY6jn
+h/apSD34tXXjfJ87TP2POLEWXNqLJkXFipr6cvKxMpPtYJ7tKYelTuxwlSR800oX
+Fct/mRoscI5WWq3iQEKBBkQE8vOUsxvp0Jr9uzF4cKYcN4iZXDf7OsFFSu6/amjn
+9/Wq2xRfx1KXIOMd6UbZkgFPelQ/klhn4uFslYunht1B8fIB3pM=
+=DPDO
 -----END PGP SIGNATURE-----
 
---t9X/Xunlv2aOd0qC--
+--eydM/fiQeDRpiiK2--
 
