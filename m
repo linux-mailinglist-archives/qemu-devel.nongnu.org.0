@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FE7C38F315
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 20:37:00 +0200 (CEST)
-Received: from localhost ([::1]:45000 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AD9A38F31C
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 20:39:03 +0200 (CEST)
+Received: from localhost ([::1]:48512 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llFRi-0005HI-W3
-	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 14:36:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41276)
+	id 1llFTg-0007fp-Jv
+	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 14:39:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42522)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1llFNf-000138-77
- for qemu-devel@nongnu.org; Mon, 24 May 2021 14:32:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37383)
+ id 1llFSQ-0006AY-36
+ for qemu-devel@nongnu.org; Mon, 24 May 2021 14:37:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23629)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1llFNZ-0002Ca-Ve
- for qemu-devel@nongnu.org; Mon, 24 May 2021 14:32:46 -0400
+ id 1llFSO-00051I-Ca
+ for qemu-devel@nongnu.org; Mon, 24 May 2021 14:37:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621881161;
+ s=mimecast20190719; t=1621881458;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=Ouq12HPpC77lggC0AZl7YB0vMlpuhUXZWDYV65773J4=;
- b=awzoLB2RP+iu7EIqPiKzrcdve8yHodWqM8cf1Uz8cpWy2HUJAwwdyZCSIbJgu1G54i1g8p
- wZH/nbtoZj5LGcsOGf6TH/LFpl3wFmsXWnRADtjXilUYIcDPA4n4vv6Dn/OcA/lpSCNwAt
- PNSxqM0tQv1FlV1+m4fC5Sb5LRU8wmA=
-Received: from mail-ua1-f70.google.com (mail-ua1-f70.google.com
- [209.85.222.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-339-Rl27H6uXNO-pyFt_Ny_U7Q-1; Mon, 24 May 2021 14:32:39 -0400
-X-MC-Unique: Rl27H6uXNO-pyFt_Ny_U7Q-1
-Received: by mail-ua1-f70.google.com with SMTP id
- b34-20020ab014250000b02901eb696c5fbaso12118000uae.22
- for <qemu-devel@nongnu.org>; Mon, 24 May 2021 11:32:39 -0700 (PDT)
+ bh=E0zax4mVhcjFEiyoDanuHWG2NCu2zF5Ifu+2jTMCRnk=;
+ b=KhxxsNEj8fDCJfx7Dd3J5/uroErFLWeGCsMdnHfZwTaBkGi8NhrfCZ3Well3VjRUQ8jU70
+ VgNmY/mg3SOMxAMaXog8BqsMgq6Enzo/1HXJLn5cIwuz58jOmG5+RTDYqoEL1gjywb+aa/
+ hEnn6fcbpW0rivmEZBvIMTqnISLmQNc=
+Received: from mail-ua1-f71.google.com (mail-ua1-f71.google.com
+ [209.85.222.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-415-yW4feO_1PT6gBLwE23euhQ-1; Mon, 24 May 2021 14:37:37 -0400
+X-MC-Unique: yW4feO_1PT6gBLwE23euhQ-1
+Received: by mail-ua1-f71.google.com with SMTP id
+ o4-20020ab037640000b0290218107a4549so5819709uat.14
+ for <qemu-devel@nongnu.org>; Mon, 24 May 2021 11:37:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=Ouq12HPpC77lggC0AZl7YB0vMlpuhUXZWDYV65773J4=;
- b=NWDlHAjPF+0JN8B8YHVjY+gP9yhsUS/BZY+DchaC3tJseBmisWdzLm7AmY0Uu38Woe
- AmXceOHNLA2RGoq4kkdesFD7zk23EBloEkHFc4l2iaKrHX6K4NmLDNlB0RC9ovsALVbl
- Fb9XTy748M5G/JSBbRm5nsdSb7/cd2xb0tKSM1xFHWn5YmrKx/9JhQU8b2TObT2WoMkn
- UV1bIADp6LqL73vpG2H3pXQyr2oBz3hjjaeyHCuoPrCBupwQLmCUKqLVni+m/vPBfuzK
- vB3Xd9SQFuceqqHNw/05GFEaWed5BD+HEIV9JziFC4K3fHeEA5caa5phTyHYtXOI6rHA
- JpZA==
-X-Gm-Message-State: AOAM532X8puRQzRbohP35xiE2np1RMeCLPmfUJYI6qKQ+pnXst1lsItU
- 5ii7cbSqC2ioTVq0kjBCP1TjedmhcMxgKeHYt49DSToAO0BhJl3DO78j52IAY7fXiK9pQmE56Ck
- d49VSpoTPlIRtg5zJaV7WMB/DPz0AuIQ=
-X-Received: by 2002:a67:c31c:: with SMTP id r28mr21830949vsj.50.1621881159120; 
- Mon, 24 May 2021 11:32:39 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxJEvesq8bRZzVzm8zXPTzLATiyzcreNUnNjP0VU458T8r6/J/L9GbTZOBYmeSd5+7M8rbxcWvUpZTNat22vQg=
-X-Received: by 2002:a67:c31c:: with SMTP id r28mr21830940vsj.50.1621881158955; 
- Mon, 24 May 2021 11:32:38 -0700 (PDT)
+ bh=E0zax4mVhcjFEiyoDanuHWG2NCu2zF5Ifu+2jTMCRnk=;
+ b=shqd/N4u/5OWTxh8BEAQSYT7dSuitk4PfhNQZnGOArdSo667rBXrO/fZIooDt9coEH
+ QSBXwK3bs354/OzbUZKIpuYHhqkTobpG5VLKqL2sW/cASpaH0QBgeWfgpRYuVfKecXs2
+ OIDZ3f9LXLjYiCiFLkQYxRZeZDjRn3aZMXEdQVkGam/bsmvzfowV1a/mGvK4HqjoFdC4
+ S2k9HIlGCyBlHgrfVm9dAIr0UzaSKrcR/nVM76YNV606Ns406a8IaTN/VHrQc6k7NleQ
+ L/Hjp09k7JkAb2dJzEWD0ERSWaver73z80BKOuLoLjsX8XB3XT7P6kel1TIbpkSiVON6
+ SACw==
+X-Gm-Message-State: AOAM533cl6aSG4JhAHkA3+UtyR4skVfC1VrxGUmSi6eO4A+aIU/47//6
+ 5CwBNG0Wia3wSMXDdmoJdUZ/O8h6eoICT3DFqMEVSLc716gljjk0GM60lxm+vZvIgu40OAeIspE
+ W67KAqdgVLqhgOvaULcsHIL5SekXTHCs=
+X-Received: by 2002:a1f:308a:: with SMTP id w132mr22721410vkw.7.1621881455784; 
+ Mon, 24 May 2021 11:37:35 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyQWbmknAyBay8b0OUjzgpmJJ1skT02HX9b+FKGq0fgahYMZ40c2O3+K+PRK1cV9J5EfP7m0fv67rMsrmtDm0s=
+X-Received: by 2002:a1f:308a:: with SMTP id w132mr22721399vkw.7.1621881455651; 
+ Mon, 24 May 2021 11:37:35 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210503224326.206208-1-wainersm@redhat.com>
- <20210503224326.206208-6-wainersm@redhat.com>
-In-Reply-To: <20210503224326.206208-6-wainersm@redhat.com>
+ <20210503224326.206208-8-wainersm@redhat.com>
+In-Reply-To: <20210503224326.206208-8-wainersm@redhat.com>
 From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Mon, 24 May 2021 15:32:12 -0300
-Message-ID: <CAKJDGDbyoJOdhb9ii1zqq_UfDvLOiAR+_CAPwy4-SKDJAEWwEw@mail.gmail.com>
-Subject: Re: [PATCH 5/7] tests/acceptance: replay_kernel: Remove unused
- wait_for_console_pattern
+Date: Mon, 24 May 2021 15:37:09 -0300
+Message-ID: <CAKJDGDaY1gwN5-rt6W8RHgN1c0XxWcyLg=Cx78S1aooQMwRnrA@mail.gmail.com>
+Subject: Re: [PATCH 7/7] tests/acceptance: Move _console_interaction to
+ ConsoleMixIn
 To: Wainer dos Santos Moschetta <wainersm@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
@@ -98,14 +98,15 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Mon, May 3, 2021 at 7:44 PM Wainer dos Santos Moschetta
 <wainersm@redhat.com> wrote:
 >
-> The ReplayKernelBase class uses the wait_for_console_pattern from its
-> parent LinuxKernelTest class, thus it doesn't need to import that method
-> from avocado_qemu.
+> This moved the last remaining _console_interaction() to ConsoleMixIn.
+>
+> None tests call it directly, so only the other methods in ConsoleMixIn
+> needed to be adapted.
 >
 > Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
 > ---
->  tests/acceptance/replay_kernel.py | 1 -
->  1 file changed, 1 deletion(-)
+>  tests/acceptance/avocado_qemu/__init__.py | 57 +++++++++++------------
+>  1 file changed, 28 insertions(+), 29 deletions(-)
 >
 
 Reviewed-by: Willian Rampazzo <willianr@redhat.com>
