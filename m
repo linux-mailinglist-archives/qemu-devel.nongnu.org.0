@@ -2,42 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD02638DF6F
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 04:55:54 +0200 (CEST)
-Received: from localhost ([::1]:38016 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B39B38DF70
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 04:55:56 +0200 (CEST)
+Received: from localhost ([::1]:38290 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ll0kz-00009U-LB
-	for lists+qemu-devel@lfdr.de; Sun, 23 May 2021 22:55:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46260)
+	id 1ll0l0-0000Wi-D4
+	for lists+qemu-devel@lfdr.de; Sun, 23 May 2021 22:55:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46278)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <acho@suse.com>) id 1ll0ib-0005wB-Bl
- for qemu-devel@nongnu.org; Sun, 23 May 2021 22:53:25 -0400
-Received: from de-smtp-delivery-102.mimecast.com ([194.104.111.102]:29237)
+ (Exim 4.90_1) (envelope-from <acho@suse.com>) id 1ll0ic-0005wK-MN
+ for qemu-devel@nongnu.org; Sun, 23 May 2021 22:53:26 -0400
+Received: from de-smtp-delivery-102.mimecast.com ([194.104.111.102]:41052)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <acho@suse.com>) id 1ll0iZ-00038N-Eh
- for qemu-devel@nongnu.org; Sun, 23 May 2021 22:53:25 -0400
+ (Exim 4.90_1) (envelope-from <acho@suse.com>) id 1ll0ia-00039v-3u
+ for qemu-devel@nongnu.org; Sun, 23 May 2021 22:53:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com;
- s=mimecast20200619; t=1621824800;
+ s=mimecast20200619; t=1621824802;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=/QwLLB0Kaia/J/WEMKs9C6Wy5Xa42UKhstHQDFA3rtg=;
- b=mhIzhjJsk+7DItVtH3uL2XD94ba+Lt5CtV+pQkJAcKaZo6z0hoTTGLmeFgBM3HXEzvaekt
- dBVKE9XfDxwpM/ZJG6FwNvx5UPAzkMkE3SapaI9+8BkzllFL2ZClSTQJoF2jOhby3HQM7n
- R4TAc2SG/qcox8OD+VjE/GtyK1Msqbc=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=YmOZSUwIhnMobNX5EDeqaLlop1MmvM2ok1mFmyd4h7s=;
+ b=kUDoXPTt+bv90v1qbCiAjwYD5tGafvePazk0IbvlMzTYXZ0EfoPKGNEKzcJfp98nzMiD0n
+ UUcXapCpE7Y5LHf3o6nRs19b/gCRlHdIrFaEDov70gIAKK6hiOuDClG62oEIGMCRFxWfy4
+ 25nEoKCyiXBpB9u0OH+YrAkh9eTirlg=
 Received: from EUR05-AM6-obe.outbound.protection.outlook.com
- (mail-am6eur05lp2108.outbound.protection.outlook.com [104.47.18.108])
+ (mail-am6eur05lp2104.outbound.protection.outlook.com [104.47.18.104])
  (Using TLS) by relay.mimecast.com with ESMTP id
- de-mta-8-285q12pzM5mDz3c9sANwgg-1; Mon, 24 May 2021 04:53:18 +0200
-X-MC-Unique: 285q12pzM5mDz3c9sANwgg-1
+ de-mta-10-xyNX8xa9Mpifk1QgI7ddkA-1; Mon, 24 May 2021 04:53:21 +0200
+X-MC-Unique: xyNX8xa9Mpifk1QgI7ddkA-1
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=a6RxgWhs0VK+oQ7I8YDJs9kXlgbE2w3OBJKV7UFjbiXBddcxRuXb3T6YpqARyS9lLVZHG3P/rFpzto1+abZgGNl6FQcj6J/9O13ZwyxKQFI7tzbD702AfiAqbSv27ivVZsg8ULD/SOoSFMRlKpre5fp030pPy+1HU+xzKzpgSLVDeqkR1S74KYsBZUe/W/vu6m/iej0CYP9Pz7VA+iuDdSIRzndrrGtPC8QAkfpV/20KmjV9iP0f/tCFaR2qfSx8UDq1z5EnksHycJa4tfZ9/6FY2s7P9psgId9N8R/nawkpoHGLwDIVcuP1CJUQvuQsz3gRANSRYuCdKJETSp71kA==
+ b=B7/GUhC9W1OD6Q7QstaiWHQUhYvUZXhMrtilG26RJopEdm1Mp6ISNDdlTgVOAtS4liiA8ygAxIVfEbjgZ+EYeCtfqrDRK8PTGj0eb5hbpbSEPNYgeZ+p+grpboMh0fEqrKHTDIjiDJlhXVf6M+Rh3IxaU90RZSQRvlxFxlABXcD7TbA38EqMjZNGSP8/5tg/TWOYjBoNEzwfMBFXVC89c2tlmYv2L+r055rb9gelt2y0hndL81fjU/P/2MlVEVeo2bkEoBQbaOWv5Um0yk5Fhou8jzPVBWrbCaeBe+NCXXwEVzsFTq2Jo4UEcEyQTzSid1zmx5O2EtFhqJIAfH1r2Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hL2jRf10zhBriL7cWAHxs8XLHju9Dym76wLzcOAoOxc=;
- b=GDlRbFoVFEcsyzKWRToQCjOV+MTp86o3LTz7Xi62RqQ2l0uCHTT29P8ewYBZE2cjx/bddt/1Liolkw8PLJYtoCnP+88eY7dsP9MLrgC+aHddbA6FliKJjU7zkFYO7sBISQGCkKueq+JVHEOdb6HgFrBisA0TznRJ6fEvDcKOHt6rQD/d1QxztR+wSBssN15f+H8W8GhRCFkxgiawazPoDAEf5BqwbqIzlI4c9yjzn+M8LzEjDsgv5dEtg8xjApRW/bKmxFgp9I435E5gSU4Hxc4vPNWFnim+3J2EDVxgRPy0YN7y9yO59p3DS9EHrNj9nfLgsrWWfjJYoExVfgIHsQ==
+ bh=S73584gVxynOWszGy/7OP6jpAOlecCEzjDI7NA0VWoU=;
+ b=lBspNepwdx2Xr9FheEbTSJdzj9orelAQx61lSRbYCD7NSyZ5DxB9mdC5WpT42QGdPIbcNq37HBF8QxncrwQzK5QGQCzssl939Pz1UF60RDcaSZfJfSwnpUs/+aLwuYpJekYoB+G0JiwnZyDTkZMQvhpEiUojIfRojknUnsUrVE3sjfy8g10O/+OzwzYk1nEY/GvV4eCocFWdJ5DXYwq98YbJTqPN3C31Urv7/znySpWNBua/FUupHjz7ZMMyrRgZA4VXGfYcDVHk+mn1INKUBLNLI9kw6EaSHZF2yFeZ86UO92hPs6exnw0qt5kFV21GMurj5ljve59xvh6uhu3sJw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=suse.com; dmarc=pass action=none header.from=suse.com;
  dkim=pass header.d=suse.com; arc=none
@@ -47,21 +48,23 @@ Received: from VI1PR0402MB3744.eurprd04.prod.outlook.com
  (2603:10a6:803:16::25) by VI1PR04MB4126.eurprd04.prod.outlook.com
  (2603:10a6:803:47::12) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4150.23; Mon, 24 May
- 2021 02:53:15 +0000
+ 2021 02:53:20 +0000
 Received: from VI1PR0402MB3744.eurprd04.prod.outlook.com
  ([fe80::b446:f4ea:d07c:ef5f]) by VI1PR0402MB3744.eurprd04.prod.outlook.com
  ([fe80::b446:f4ea:d07c:ef5f%7]) with mapi id 15.20.4150.027; Mon, 24 May 2021
- 02:53:15 +0000
+ 02:53:20 +0000
 From: "Cho, Yu-Chen" <acho@suse.com>
 To: qemu-devel@nongnu.org,
 	qemu-s390x@nongnu.org
 CC: cohuck@redhat.com, thuth@redhat.com, richard.henderson@linaro.org,
  cfontana@suse.de, david@redhat.com, pasic@linux.ibm.com,
  borntraeger@de.ibm.com, pbonzini@redhat.com, acho@suse.com
-Subject: [RFC v4 01/14] target/s390x: meson: add target_user_arch
-Date: Mon, 24 May 2021 10:52:43 +0800
-Message-ID: <20210524025256.22252-1-acho@suse.com>
+Subject: [RFC v4 02/14] hw/s390x: rename tod-qemu.c to tod-tcg.c
+Date: Mon, 24 May 2021 10:52:44 +0800
+Message-ID: <20210524025256.22252-2-acho@suse.com>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210524025256.22252-1-acho@suse.com>
+References: <20210524025256.22252-1-acho@suse.com>
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
 X-Originating-IP: [114.24.18.39]
@@ -73,59 +76,59 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost.localdomain (114.24.18.39) by
  HK2PR04CA0057.apcprd04.prod.outlook.com (2603:1096:202:14::25) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4150.23 via Frontend Transport; Mon, 24 May 2021 02:53:11 +0000
+ 15.20.4150.23 via Frontend Transport; Mon, 24 May 2021 02:53:16 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: a6938243-2760-4fe8-826e-08d91e5f13d5
+X-MS-Office365-Filtering-Correlation-Id: 7ed32746-0ab0-4a7d-f787-08d91e5f1674
 X-MS-TrafficTypeDiagnostic: VI1PR04MB4126:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <VI1PR04MB4126C2A54B28DE800D1C6483A0269@VI1PR04MB4126.eurprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
+X-Microsoft-Antispam-PRVS: <VI1PR04MB4126A4FBED6B316A9896B129A0269@VI1PR04MB4126.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1227;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: mtEmCrvBrlYBjtboFqaYE6U2949dqWgilCvBJ+xkL0/AwSGxMbytDyULk8JCLV1eyCium8cEgMCkT/BLdZ4yLiLEfHLMVCrOtSmsTyzn7DpEviNQMZSUPW+dXG32gBlxUFQkZRPisEqKyk9NSTtMWXdga1qUp1O59q7npFqJSlc/9BstElHtyXsDTiudtNdp/6Wl1Bi6t0BoKXd6TlmePXXPuk5aqtq1yDP/nbLtVL6oA25LvQ77KlNZLfifRYTPlQnd7mRBaspZLWiY+IULJnNsnFKj1yRiA4cBheHIR7EcvR1TXu76K4VdbcW2q1qzmrqfzlfvEii3jHYYRbE8doU7gr5ZcbTX3zlzTdVEpogM8NUI0nO5M+rOD8UkFTMApDEXR0urj+vzXuC88ikx7VT11RRJgr2Putclmsp+8eq76SUIFw0dqKZeztigwmvjkPvxe1XyHX69oNg3kp5Co5AzJh7pzF5zsxtdcAArGot2SzF7PwG479P3UPebeqevHgi7AKSxyTcy0qYRNjxJdXGIdK6GqKNpLZY1yCsA2NQojGC6sja5mEq0U+zYBAbCk2tJp1LeRI0btYeR94ZGRoDCTRXba52ZU+Fgosusfn01QSShmzthXgsiFXXSx1GYrV7GXvIsqNhL0/CXHPbd/J0w8CDpWFHkR0ck9fj0i2w6aDXje5pWrNTpPenPLIlO
+X-Microsoft-Antispam-Message-Info: eDfxHcoE2LOYsu44hZYaxvvDhY6IfTgbevbCJW+g1oAUSSYYXmw2K+Pw6xbSGZI7VQs6TsAyErGDQE2C7scVATonRF3Njw7h80cGVqhDhfwBctWSe9qZbWyv9XpY3zvuV+QkHAx8cqeelnvqeXCbD0exvCt0e0HWXWnQ0dsei2nf6zipInUGZpZCSjCpI00DpQ3ld5o263ixg0b+Jmbs2bFl4FTDew9PreX7mKJjT84BmRLReOjDqRGbqAsljf5ONsAfFmHB1VtOh9nO3rhMjR5qpanfSsV+6gHJpyGi4gBihzvA0DnCpHQHNXsKw5+Q3zc1s3R1o+QPhsRAGJ6gABgxzm9ZcWGCmXLlOe5FEmAtPI03Ee6Cfi5u6qRNhZSqB74x1RkW90+KuHKzodaawGYyFk/ExvlEN0D9u4WXRSUxyvLw49rdSVzQPUFoy6LIm/rq8FXxBnPQRkXmRd8H1/BWy3T5eUNVB1tg2QbnZROn/XqLG1voXycyVxK9FOZtN8je4pbT5QXk/9KBVustCNgecdt9vi22w7N1ljNk91ThM8XHQHTJP/RcUN8BgRxb6cGbaEzDpkEa5tnlL6ZiSBmXPI3+5ZDtxLWVan3CdInnEuTJjXcCSf9e4483VJvCUBVVSMnK7+C9+Ih0LfR4VwEjN4Ittr4+Mjlk2ylvQdgLif9tiKGfzISlB+LV2cK/
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:VI1PR0402MB3744.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(396003)(376002)(39860400002)(136003)(366004)(346002)(16526019)(4744005)(6506007)(1076003)(2906002)(956004)(26005)(6512007)(7416002)(6666004)(4326008)(107886003)(66556008)(5660300002)(6486002)(2616005)(83380400001)(186003)(38100700002)(316002)(36756003)(66476007)(478600001)(52116002)(8936002)(66946007)(8676002)(38350700002)(86362001)(69590400013);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?nLass7CREryGdCSLulqqeqMYLOmi1k2pbZVQYu5TGrGlcle2C0OXu8vq0Imb?=
- =?us-ascii?Q?cA/G078AyyQ+5AW5BD1sM4OBvyDZoM9Y1VwfroWGVpCHXDEhcDj8Rxe9N92+?=
- =?us-ascii?Q?KGYVI+fvWaWtLY2zkvgZFmjpmF392ItBFJLfqOyeVuWZ82x5/WEhRRD6HsZE?=
- =?us-ascii?Q?b61Ko87pBdZ/VGWhP5ABvIFZR6Kt/hLgeBqb07+TxmvfIyNe0XhWwwJKIW3a?=
- =?us-ascii?Q?7GxEWqdFtKN9Ccizqf1gfb2FV3byRwnsO1maS4m75VYoQukLQPAvnprqeuCv?=
- =?us-ascii?Q?IzGvI3GBu4FudTXW8slP07RktdB4/25JNT2+1NWWw47mLLtH5cPc9wbvHMq5?=
- =?us-ascii?Q?a/TvFvYepjgnk3jqVL3P/2Yv9JuJOgxn7C8fm4PhouLLudUb2mPEvis5+vr9?=
- =?us-ascii?Q?Bz1osHKNmH0AEv8PM58MkC1//hKOF3C+G8roMTyxHnd7nGZu6Q3CmNuml+AK?=
- =?us-ascii?Q?zbQYLwE8dqbd1/OnQurel+LyTjNaUIWcwz8rKq4h9CPaCS25ML7hM85+XBTU?=
- =?us-ascii?Q?Kjmfqo3aemvtxXcNcMRisQpvy8oGVS7MdWDiu+pD/Ct3ewEkQ9YOle02tDgN?=
- =?us-ascii?Q?BXbt8M5gts6RsYM5y0hmthq9h2nqOlLYI41CsreKbZBSssoRHXE0ZY0ifROH?=
- =?us-ascii?Q?QG4rUJX1qSb6BJzvY7Ccq5JdZxPKAKvwv4ix7SgsQi9dbddWCrsZ9bq4U+X5?=
- =?us-ascii?Q?f3sQEbpUtzw0l0Oii4pAWVbVZMScaMSfiwxoDnFhuWLnl8MGSdAregReZOdF?=
- =?us-ascii?Q?5kOgEdboE8+OL1BdOdP40AKp5U+u3te5qbrobyugbYUpis7yAB/29kcVWY+Q?=
- =?us-ascii?Q?RUddEYWWv6YYQ8ugwtv5yhNlAlH7nmJKmItnVUMKnIyyZQRRAS/Slc7Zn3BL?=
- =?us-ascii?Q?q73nRssyWrasY34KViUwWWsV+b1jJpcn+b1D1Va+w8qW96WgIU8LV6sDnVph?=
- =?us-ascii?Q?VLyA9tEflH7/ekfUVRNg4GutsJr8SdorFYam9E0Lt0mOqtuht0LO96La7TAH?=
- =?us-ascii?Q?QOzEkoVIKk6M2h2t0tA0G0Cwsr+w5uzA/+aQqf8iczFfG+/ljwu2/6EPPbEl?=
- =?us-ascii?Q?KVTMO1kGClcSwoZSxmMLyX3BkruSRiRZiob4/98lonxuXm00xvtDuVpPtRoC?=
- =?us-ascii?Q?RDqLiMq92Ql8xft7LvHIlfgkgB5XaM+mESw3/Zp//FblBZ0pLfjsH8u85OSh?=
- =?us-ascii?Q?QlqU0IY2HtDp9rWQVMgQqgkAd9pOnVNVVHzexffmPO1q3fDLarfYWntuoRCn?=
- =?us-ascii?Q?ShecC1d1Uuw6qjz9sSmLN1jMj5eSDbFTRDWtjEU08imoCR5YOo6BpxNxaUbO?=
- =?us-ascii?Q?/rtH61qB/XVVkoRK0b0GzoBw?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?AdXjME8Ap01t6moWPRsTjOSkYObOOdx5POkYWnqxIBus/N6OWC2EgaN4f/wT?=
+ =?us-ascii?Q?diiLx3A0fFOtF29RCOVmhDM3zgI7w5S/3XyqleI1xzaYczWkxDYQ/Qi7NAUF?=
+ =?us-ascii?Q?WugikodTImI2RR/HYdiSHNxt8xKz1IRj8m87JgQvgD/ZBLuZ2cZfYicWRmP/?=
+ =?us-ascii?Q?u4sH4HtWDapOORG08VI2+u1sxT0TAdFNMH5o698VBNoWDkcQ1WlP8GaekRAb?=
+ =?us-ascii?Q?YM57EqQHoWDVZf5yQU9erXI4zZ+Dj1Yzct7h5Z2EVwnNeIQxAHMPGymx4A9M?=
+ =?us-ascii?Q?J43osfirzDhCfVfXkb3N+H17m9fL2gohzK/AuoSxEdDCL670AP9wiJrTdnDp?=
+ =?us-ascii?Q?ap3FYzmQBFwFa+B3aqeva/fdulMYbTgbGckkXXI/KKlQRTxVtROO8ptBjnQY?=
+ =?us-ascii?Q?dQxC+zNSSSuy/tpSiaOd2EtbHIrzrZThgh4OW0q7w6n1xXNJkFMycXd2Zzx8?=
+ =?us-ascii?Q?qpR8NJ/6uv8NbfYYfDRfpoI75v+WZMzw59EaIbMKXHrZITP1GHnAhZ4uXDyA?=
+ =?us-ascii?Q?YeElMYGem8LDRSuAKH8XGl/xXzjbhT3Plo/1qdPr8m9YTdkxFYQB6Xf9XjYq?=
+ =?us-ascii?Q?yqE11PRX7DeEJrxRLoNiGx35mf1BGmIi/4bYWQ7jFspDuAvNbx3hsYRdqWDq?=
+ =?us-ascii?Q?TkiCXHkTfm+LkfUfBePYDA6Yxl1i1vblT0F1lEVGmz3P/swGClmSb22cq4bp?=
+ =?us-ascii?Q?mFCPaWnLK63x43aOOldDVI8+rpeyMtfDfzrTniQNnO2e9/yq5xlFruUpDSeK?=
+ =?us-ascii?Q?TQvC/om9y+QVscPxnNWAWXoFy7zkN31tE09vyAoHMkZ8yCpCdEE9TpnDa/1G?=
+ =?us-ascii?Q?Cs5F73Ylvk3+MiaLSytvTWopyVWk7uMC2TfOm/D27ZXBzbNIkzeNukX0dPai?=
+ =?us-ascii?Q?5tWG4ldYy0Ybz/BhHFTK2dyqihCRWXLQK3Z7Q1HXvgcWzkyWqUDbnyE9uFNH?=
+ =?us-ascii?Q?DnKXkE1HVQA28628neMvHVKR4+m0QvBfuiOrQ4K0ABDuH7vrrFmWZoVV+5Os?=
+ =?us-ascii?Q?KTObR80Y/fxIxt1Vx7M51UZHVDQ/LpCHr4jz1AOj3mFaQeIEsogo0dvbIwLI?=
+ =?us-ascii?Q?4EM0lQZg2vXIy6CNLAybDd5DUkNX9+P3AiSYK9J7Q/1fB1N5ja6Net/u5/Of?=
+ =?us-ascii?Q?oJNBz7kvSd59S9VYORyvZWp7YIC+cI3hTqlT91kT5b2abVuhoK7Cq6S4EXsC?=
+ =?us-ascii?Q?J4WxtmzNv5IkaGdeLKSHCkDz5dRuiZLGv9n96ePpTA96AlybCCVwx0QRc7sb?=
+ =?us-ascii?Q?PckiddLGu5slOErC5K1OYcaW+SlNGw0PWNmd2R6ZU/PX3IN7vOLisSr6XCFl?=
+ =?us-ascii?Q?UPBPU2SGHEGd2Mtc6wysMB67?=
 X-OriginatorOrg: suse.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a6938243-2760-4fe8-826e-08d91e5f13d5
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7ed32746-0ab0-4a7d-f787-08d91e5f1674
 X-MS-Exchange-CrossTenant-AuthSource: VI1PR0402MB3744.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 May 2021 02:53:15.6629 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 May 2021 02:53:20.0874 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: f7a17af6-1c5c-4a36-aa8b-f5be247aa4ba
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 7bWK33hBGPxlRth4tAXtPxGVBj+aM1U5RFLxE4pcM4HcODsmdYvpqkc1yLgRJ+7/
+X-MS-Exchange-CrossTenant-UserPrincipalName: BSCVHvm93fe48HMOpxcQoczzwsaGwCymCM4mBQWADZq0ArYj7qePMTGkcVB0uBvO
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB4126
 Received-SPF: pass client-ip=194.104.111.102; envelope-from=acho@suse.com;
  helo=de-smtp-delivery-102.mimecast.com
-X-Spam_score_int: -1
-X-Spam_score: -0.2
-X-Spam_bar: /
-X-Spam_report: (-0.2 / 5.0 requ) BAYES_40=-0.001, DKIM_SIGNED=0.1,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
  RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
@@ -145,33 +148,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-the lack of target_user_arch makes it hard to fully leverage the
-build system in order to separate user code from sysemu code.
-
-Provide it, so that we can avoid the proliferation of #ifdef
-in target code.
+we stop short of renaming the actual qom object though,
+so type remains TYPE_QEMU_S390_TOD, ie "s390-tod-qemu".
 
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
+Reviewed-by: David Hildenbrand <david@redhat.com>
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 Signed-off-by: Cho, Yu-Chen <acho@suse.com>
 ---
- target/s390x/meson.build | 3 +++
- 1 file changed, 3 insertions(+)
+ hw/s390x/meson.build               | 2 +-
+ hw/s390x/{tod-qemu.c =3D> tod-tcg.c} | 0
+ 2 files changed, 1 insertion(+), 1 deletion(-)
+ rename hw/s390x/{tod-qemu.c =3D> tod-tcg.c} (100%)
 
-diff --git a/target/s390x/meson.build b/target/s390x/meson.build
-index c42eadb7d2..1219f64112 100644
---- a/target/s390x/meson.build
-+++ b/target/s390x/meson.build
-@@ -58,5 +58,8 @@ if host_machine.cpu_family() =3D=3D 's390x' and cc.has_li=
-nk_argument('-Wl,--s390-pgs
-                        if_true: declare_dependency(link_args: ['-Wl,--s390=
--pgste']))
- endif
-=20
-+s390x_user_ss =3D ss.source_set()
-+
- target_arch +=3D {'s390x': s390x_ss}
- target_softmmu_arch +=3D {'s390x': s390x_softmmu_ss}
-+target_user_arch +=3D {'s390x': s390x_user_ss}
+diff --git a/hw/s390x/meson.build b/hw/s390x/meson.build
+index 327e9c93af..02e81a9467 100644
+--- a/hw/s390x/meson.build
++++ b/hw/s390x/meson.build
+@@ -16,7 +16,7 @@ s390x_ss.add(files(
+   'sclp.c',
+   'sclpcpu.c',
+   'sclpquiesce.c',
+-  'tod-qemu.c',
++  'tod-tcg.c',
+   'tod.c',
+ ))
+ s390x_ss.add(when: 'CONFIG_KVM', if_true: files(
+diff --git a/hw/s390x/tod-qemu.c b/hw/s390x/tod-tcg.c
+similarity index 100%
+rename from hw/s390x/tod-qemu.c
+rename to hw/s390x/tod-tcg.c
 --=20
 2.31.1
 
