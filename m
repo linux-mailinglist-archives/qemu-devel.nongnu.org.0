@@ -2,74 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B17F338E7AA
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 15:30:43 +0200 (CEST)
-Received: from localhost ([::1]:43464 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B8AF38E378
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 11:39:20 +0200 (CEST)
+Received: from localhost ([::1]:53382 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llAfK-0005iT-Pc
-	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 09:30:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51802)
+	id 1ll73O-0005b1-Ld
+	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 05:39:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33824)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jamie@nuviainc.com>)
- id 1ll6B7-0001iW-5a
- for qemu-devel@nongnu.org; Mon, 24 May 2021 04:43:13 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:43935)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jamie@nuviainc.com>)
- id 1ll6B5-0003u1-K3
- for qemu-devel@nongnu.org; Mon, 24 May 2021 04:43:12 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id p7so23924359wru.10
- for <qemu-devel@nongnu.org>; Mon, 24 May 2021 01:43:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=nuviainc-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=B5vCchJTb7GEbpfbedteaBDjGdQPYwb2tJtpla8Bjo4=;
- b=GHe0wSQnIRdGH1QJmN15ywx4rSQhTHGol2S9l8b/BfcpvUfhZ9LRTRtxquKveayIZ8
- 9nnkGYzNcSgunz0LY8Mj8LhaV9cN1BYCMvr5e4O88M1W39MqCocTKuc8xcAuDl+WAiAY
- poamHUv+B13uGmRFl/4OvJ9sV/qQr9sDVV3GZcknZHZK0N+bj+QeYksYReopj3YuFnsI
- AU9oQYcZ4d/khWRgXQEvXk41IeCwCX/HG1Ar7Z//X+0fU6FjkGxnXPyedIfZtq+6IXPm
- 421ZV32yTFeamULJu7TlMdewI+4ZfyrRE66xTtUnVJevep2MZkkHt60035dwvZuLWWVL
- H4Tg==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ll72P-0004vA-DJ
+ for qemu-devel@nongnu.org; Mon, 24 May 2021 05:38:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32413)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ll72M-0004nH-Ip
+ for qemu-devel@nongnu.org; Mon, 24 May 2021 05:38:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1621849092;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=UhcG+ZYBd4bRB5Q9zZ5/t8jdmTbmo6W9bwBV1bTr2uI=;
+ b=Q8bg5J1n3YHew9O1qTU1h1v+vXElIyfM2sw3Lh9RNNThsV0zExotBRqXPVObBi37ystBdq
+ ixaoPOpKPtie4zClLCHa1fB+sbMmrouBJDExMX/UXXJlFZmsbukoCpv9s9a+ErqS9wqdF+
+ BSqHiDMiaUK6Iu0wL9w7VnoZpXm+5q0=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-558-PsLXx-TSOe6vhlT_btJcyg-1; Mon, 24 May 2021 05:38:11 -0400
+X-MC-Unique: PsLXx-TSOe6vhlT_btJcyg-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ 2-20020adf94020000b0290110481f75ddso12830992wrq.21
+ for <qemu-devel@nongnu.org>; Mon, 24 May 2021 02:38:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=B5vCchJTb7GEbpfbedteaBDjGdQPYwb2tJtpla8Bjo4=;
- b=hTnfhn3Q+PYcIMNowEPfkYIKrvDM+qkuJFAQo9beMt9KfoplqVXfCglLvOIU5pENu8
- 0CHECUz7KnJosadTZeiEwALCPN3j/pTrLyZEiq7opE0rHTGRpBkQhaa5atFtU74Jf8rt
- FAwlexup7Ptl2jinKTyEqLz+9EAMj8xLPijMZHGGkA/trn4rUdJGZZsPWRX4Dem0b/Je
- kZlkJRvE5QRWywbLukx14l4qt6FawBfAlGR0+wIVR0moP68NyRq7UkMdE0WV10AMy2tq
- +4AWpJQ1Aj98w8Tj8xzUjU3bE+hg1NS4zfvMWY939iEjzOMKbCf79DOuLax9jrbAAAiP
- 8b3w==
-X-Gm-Message-State: AOAM532kIBn55a6ovEB4sI2wuVXzgUg8EF0e6XTDzp2IcPqrJbMgc78K
- wUM5xivdGhR9g0BRkdfkONJxMQ==
-X-Google-Smtp-Source: ABdhPJyZNwpeKIM2H2ijlHi/WzSswmXnpWo07RRp+kfiIE90kDNYZEV9ZOjza4FQskKIlB2DbEIaPg==
-X-Received: by 2002:a5d:654f:: with SMTP id z15mr20791984wrv.64.1621845790357; 
- Mon, 24 May 2021 01:43:10 -0700 (PDT)
-Received: from localhost ([82.44.17.50])
- by smtp.gmail.com with ESMTPSA id i11sm11505262wrq.26.2021.05.24.01.43.09
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=UhcG+ZYBd4bRB5Q9zZ5/t8jdmTbmo6W9bwBV1bTr2uI=;
+ b=Hr2Fri4NTrB3DXjEyImNCFqNvMvJY5lTQynHMYPMK65PaaH7NvQluBy2gv/O4L4F9J
+ 1HsKrh6MYcgBT0Uuz7q5OE3ozB7dyN73DMF5CnO13v72zsVuXB1PkjV0T0i9Ke5OVARy
+ gh++7lnVEphO94uDk6Zq+m0A8RfQS+YTBNwZZyOtnCwYxuErd1rcRSJkt08garVwpUD2
+ +uX12ZknrF0me/o0v3u/5JN+shrGqm+RN0tpkyLZIFqg2q/RGuCpPZMDD5Z/FEDJrM4U
+ JMVm3HfnPiuD8ylbcTK9VpRkqy78jNEzmlHopIwlMG6fXG/sw3SKSY/BbP0bdkEUYUdJ
+ bW1w==
+X-Gm-Message-State: AOAM532wxp+C+pYD3TTdtPCfhuTEGJQqR1IA8DqOB5Pnv6Owkq0mbHep
+ pcOo2G9L2beKg9h5EgAfghv6+tSHMNDv+wsTgAYS++AegpT3Lx5wrKXZhaq89swXn0mpO7JCA+H
+ 6YeMBkCQRltBNk4U=
+X-Received: by 2002:a5d:4c46:: with SMTP id n6mr20882580wrt.95.1621849089970; 
+ Mon, 24 May 2021 02:38:09 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxkE8l/aehoZWuKmQObYHxaOPyTbgiq/nPsGARq/5vNSJKSJ1RNdTK4INsbnLsVugDByKpq7Q==
+X-Received: by 2002:a5d:4c46:: with SMTP id n6mr20882558wrt.95.1621849089807; 
+ Mon, 24 May 2021 02:38:09 -0700 (PDT)
+Received: from redhat.com (bzq-79-176-159-122.red.bezeqint.net.
+ [79.176.159.122])
+ by smtp.gmail.com with ESMTPSA id u11sm11262234wrw.14.2021.05.24.02.38.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 May 2021 01:43:09 -0700 (PDT)
-From: Jamie Iles <jamie@nuviainc.com>
-To: qemu-arm@nongnu.org
-Subject: [PATCH] target/arm: don't clobber ID_AA64ISAR1 pointer auth
-Date: Mon, 24 May 2021 09:43:06 +0100
-Message-Id: <20210524084306.1666265-1-jamie@nuviainc.com>
-X-Mailer: git-send-email 2.30.2
+ Mon, 24 May 2021 02:38:09 -0700 (PDT)
+Date: Mon, 24 May 2021 05:38:05 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>
+Subject: Re: [RFC v3 00/29] vDPA software assisted live migration
+Message-ID: <20210524053144-mutt-send-email-mst@kernel.org>
+References: <20210519162903.1172366-1-eperezma@redhat.com>
 MIME-Version: 1.0
+In-Reply-To: <20210519162903.1172366-1-eperezma@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=jamie@nuviainc.com; helo=mail-wr1-x42c.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.373,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Mon, 24 May 2021 09:27:40 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,86 +95,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Jamie Iles <jamie@nuviainc.com>,
- leif@nuviainc.com, Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel@nongnu.org
+Cc: Parav Pandit <parav@mellanox.com>, Juan Quintela <quintela@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ qemu-devel@nongnu.org, Harpreet Singh Anand <hanand@xilinx.com>,
+ Xiao W Wang <xiao.w.wang@intel.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Eli Cohen <eli@mellanox.com>, virtualization@lists.linux-foundation.org,
+ Michael Lilja <ml@napatech.com>, Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The pointer auth properties are added to the max CPU type but the
-finalization happens for all CPUs.  It makes sense to be able to disable
-pointer authentication for the max CPU type, but for future CPUs that
-implement pointer authentication and have bits set in ID_AA64ISAR1,
-don't clobber them unless there is a property registered that can
-disable them.
+On Wed, May 19, 2021 at 06:28:34PM +0200, Eugenio Pérez wrote:
+> Commit 17 introduces the buffer forwarding. Previous one are for
+> preparations again, and laters are for enabling some obvious
+> optimizations. However, it needs the vdpa device to be able to map
+> every IOVA space, and some vDPA devices are not able to do so. Checking
+> of this is added in previous commits.
 
-Cc: Richard Henderson <richard.henderson@linaro.org>
-Cc: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Jamie Iles <jamie@nuviainc.com>
----
- target/arm/cpu64.c | 33 +++++++++++++++++++++------------
- 1 file changed, 21 insertions(+), 12 deletions(-)
+That might become a significant limitation. And it worries me that
+this is such a big patchset which might yet take a while to get
+finalized.
 
-diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index f0a9e968c9c1..81c9e494acb6 100644
---- a/target/arm/cpu64.c
-+++ b/target/arm/cpu64.c
-@@ -575,26 +575,31 @@ void aarch64_add_sve_properties(Object *obj)
- 
- void arm_cpu_pauth_finalize(ARMCPU *cpu, Error **errp)
- {
--    int arch_val = 0, impdef_val = 0;
-+    int apa = FIELD_EX64(cpu->isar.id_aa64isar1, ID_AA64ISAR1, APA);
-+    int gpa = FIELD_EX64(cpu->isar.id_aa64isar1, ID_AA64ISAR1, GPA);
-+    int api = FIELD_EX64(cpu->isar.id_aa64isar1, ID_AA64ISAR1, API);
-+    int gpi = FIELD_EX64(cpu->isar.id_aa64isar1, ID_AA64ISAR1, GPI);
-     uint64_t t;
- 
-+    if (object_property_find(OBJECT(cpu), "pauth-impdef")) {
-+        api = gpi = cpu->prop_pauth_impdef;
-+    }
-+
-+    if (object_property_find(OBJECT(cpu), "pauth")) {
-+        apa = gpa = cpu->prop_pauth;
-+    }
-+
-     /* TODO: Handle HaveEnhancedPAC, HaveEnhancedPAC2, HaveFPAC. */
--    if (cpu->prop_pauth) {
--        if (cpu->prop_pauth_impdef) {
--            impdef_val = 1;
--        } else {
--            arch_val = 1;
--        }
--    } else if (cpu->prop_pauth_impdef) {
-+    if (cpu->prop_pauth_impdef && !cpu->prop_pauth) {
-         error_setg(errp, "cannot enable pauth-impdef without pauth");
-         error_append_hint(errp, "Add pauth=on to the CPU property list.\n");
-     }
- 
-     t = cpu->isar.id_aa64isar1;
--    t = FIELD_DP64(t, ID_AA64ISAR1, APA, arch_val);
--    t = FIELD_DP64(t, ID_AA64ISAR1, GPA, arch_val);
--    t = FIELD_DP64(t, ID_AA64ISAR1, API, impdef_val);
--    t = FIELD_DP64(t, ID_AA64ISAR1, GPI, impdef_val);
-+    t = FIELD_DP64(t, ID_AA64ISAR1, APA, apa);
-+    t = FIELD_DP64(t, ID_AA64ISAR1, GPA, gpa);
-+    t = FIELD_DP64(t, ID_AA64ISAR1, API, api);
-+    t = FIELD_DP64(t, ID_AA64ISAR1, GPI, gpi);
-     cpu->isar.id_aa64isar1 = t;
- }
- 
-@@ -662,6 +667,10 @@ static void aarch64_max_initfn(Object *obj)
-         t = FIELD_DP64(t, ID_AA64ISAR1, SPECRES, 1);
-         t = FIELD_DP64(t, ID_AA64ISAR1, FRINTTS, 1);
-         t = FIELD_DP64(t, ID_AA64ISAR1, LRCPC, 2); /* ARMv8.4-RCPC */
-+        t = FIELD_DP64(t, ID_AA64ISAR1, APA, 1);
-+        t = FIELD_DP64(t, ID_AA64ISAR1, GPA, 1);
-+        t = FIELD_DP64(t, ID_AA64ISAR1, API, 0);
-+        t = FIELD_DP64(t, ID_AA64ISAR1, GPI, 0);
-         cpu->isar.id_aa64isar1 = t;
- 
-         t = cpu->isar.id_aa64pfr0;
+I have an idea: how about as a first step we implement a transparent
+switch from vdpa to a software virtio in QEMU or a software vhost in
+kernel?
+
+This will give us live migration quickly with performance comparable
+to failover but without dependance on guest cooperation.
+
+Next step could be driving vdpa from userspace while still copying
+packets to a pre-registered buffer.
+
+Finally your approach will be a performance optimization for devices
+that support arbitrary IOVA.
+
+Thoughts?
+
 -- 
-2.30.2
+MST
 
 
