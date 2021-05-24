@@ -2,82 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E162D38E077
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 06:48:33 +0200 (CEST)
-Received: from localhost ([::1]:40944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F6EE38E07D
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 06:52:37 +0200 (CEST)
+Received: from localhost ([::1]:48096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ll2W1-0005Kb-1C
-	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 00:48:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34650)
+	id 1ll2Zw-0001ov-Ba
+	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 00:52:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34946)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ll2V0-00044r-8x
- for qemu-devel@nongnu.org; Mon, 24 May 2021 00:47:30 -0400
-Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e]:34783)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ll2Uy-00074s-K8
- for qemu-devel@nongnu.org; Mon, 24 May 2021 00:47:29 -0400
-Received: by mail-pl1-x62e.google.com with SMTP id e15so7380506plh.1
- for <qemu-devel@nongnu.org>; Sun, 23 May 2021 21:47:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=NI58QujOyCS/R+NEz4lqityKfRLdAWtPJJj/pvVYCqU=;
- b=DBZ0NbQmIgph+LZ6MOo8SjRzRAaLfRekauGMXHF00FKgSxlwVNXqNQjTyW6G6iSGgZ
- H9iLOutj3sqBS/iKIR1/eBbNtI7CqJL/SLDB+8IRTblK2aaZPrVoBpFBf2GJrTdiBDrk
- L1xyITtVLC75evr0UMPprnfNB4gp6iHB42+Tv8qDjD2oEWEtCV2DV02BlyVL7OH0nmL3
- ZNe8T8/iQntY8oRiSayE0vlRkDy1poiYDK5L43TZ4QvyLsgIdqdqmcvwZvls1UoRC2vR
- 1pa9D/vTWiCn4wpIhxW9Qry1zQkD3gdrewt7l+xtWN/IzBptbNxsL9BCLiALIlmkSGvX
- UXYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=NI58QujOyCS/R+NEz4lqityKfRLdAWtPJJj/pvVYCqU=;
- b=X6nzSOk7NnwI2V/eDPXfcB76OsO5P7YaWMqW81H/S2BYkGoxUDxx5FVsVghv1mOaOt
- kL5NW+CyO1GeusNakR3N3eZqgc8KgdrKAmp8iYHB7i9dTS7bPRuk2dbTjjmR+XaARt3f
- aIw0i93ASZmj+jZ9yPZGM4UgBX+2hDPTI5HgaWyJxsuowRdPLMayOMoGbuBwJug70HfJ
- oztUfjFnfLkQQo8mm+bn+p2IyuakkpusosV0+G1R5HNu0YGj2uxPsDToqVmCyu5vt+0D
- S8BUX1gJUP78gK3kzC4sIi1/GF8CHDLtN/G45Cs+1H0okIST8VakfKvngiB3iLw2Z0CM
- P4Pw==
-X-Gm-Message-State: AOAM531kiw68WipPS+1+7hsL52zD5BcBEE4GkzvlAkPFSJtLvjO6kp7Q
- SXoWrWrDfyXz9gHcVZXXBMqOzQ==
-X-Google-Smtp-Source: ABdhPJxn7jPti/w7JX1gwbASLCskfzbtmOZoUP4Bc4P7VDfMpR5HAaEJvOC1QCHr4DMYvqhN6WxYSg==
-X-Received: by 2002:a17:90a:4bc3:: with SMTP id
- u3mr23454119pjl.158.1621831647392; 
- Sun, 23 May 2021 21:47:27 -0700 (PDT)
-Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
- by smtp.gmail.com with ESMTPSA id
- u28sm1199340pfl.140.2021.05.23.21.47.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 23 May 2021 21:47:27 -0700 (PDT)
-Subject: Re: [PATCH 00/24] target/ppc: Clean up mmu translation
-To: David Gibson <david@gibson.dropbear.id.au>
-References: <20210518201146.794854-1-richard.henderson@linaro.org>
- <YKR9bZmPxOHKlnnP@yekko> <7a4c91d4-c813-2803-e5e7-4f8fe6d6f05d@linaro.org>
- <6bc68cda-a6aa-68c9-2c6f-f7c6ff95b7db@linaro.org> <YKsczpMuwDn006S4@yekko>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <133f0451-9083-b57e-20d5-019a8aec89ba@linaro.org>
-Date: Sun, 23 May 2021 23:47:25 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1ll2Wy-00067r-2l; Mon, 24 May 2021 00:49:32 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:51355 helo=ozlabs.org)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1ll2Wv-0008IY-N2; Mon, 24 May 2021 00:49:31 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4FpPrP46Ypz9sW1; Mon, 24 May 2021 14:49:25 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1621831765;
+ bh=RUT6WxFjiLp23SRdcHAinkEy/mGtWxSEuaI7jcEV15o=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Dbc+9OGHtok1p7NEu3hA89lQOcqq8VOIz7Z4F73VOvUkKkWGoTwfyKnPPXWC/2LSB
+ FseiDyg2MNY0+cBtZQCBNYPSnrJMTTeHwLWpTgT7hS/8fD/OESEM//i1X+1yryrfG0
+ UozhKW3rhc2cCt6W7nJUpIcdFoZE5JJZwRaDmRsg=
+Date: Mon, 24 May 2021 14:49:16 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Nicholas Piggin <npiggin@gmail.com>
+Subject: Re: [PATCH] target/ppc: Implement ISA v3.1 wait variants
+Message-ID: <YKswTHP6Yrop3joJ@yekko>
+References: <20210517024651.2200837-1-npiggin@gmail.com>
+ <YKIBlzRg3oicnKIO@yekko> <1621234864.zkbj7ifbxd.astroid@bobo.none>
 MIME-Version: 1.0
-In-Reply-To: <YKsczpMuwDn006S4@yekko>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="EgdHp8Prkj6t+B4N"
+Content-Disposition: inline
+In-Reply-To: <1621234864.zkbj7ifbxd.astroid@bobo.none>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,73 +58,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: richard.henderson@linaro.org, qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/23/21 10:26 PM, David Gibson wrote:
-> On Wed, May 19, 2021 at 05:47:05PM -0500, Richard Henderson wrote:
->> On 5/19/21 3:37 PM, Richard Henderson wrote:
->>> On 5/18/21 9:52 PM, David Gibson wrote:
->>>> I've applied 1..15, still looking at the rest.
->>>
->>> Please dequeue.  I want to create a new mmu-internal.h, which affects
->>> all the patches from #1.
->>
->> Alternately, don't.  I can move the function later, and it may be a while
->> before I can get back to this.
-> 
-> Ok, I'll leave them in, since they're good cleanups even without the
-> rest of the series.
-> 
->>
->> Two outstanding bugs:
->>
->> (1) mmu-radix64.c vs hypervisors.  You'll not see these unless you run kvm
->> inside of tcg.
->>
->> Basically, all usage of msr_{hv,pr,ir,dr} within ppc_*_xlate is incorrect.
->> We should be pulling these from the 3 bits of mmu_idx, as outlined in the
->> table in hreg_compute_hflags_value.
-> 
-> Ah, that's probably my fault.  I reworked those substantially from the
-> original code (closer to mmu_helper.c).  I guess I didn't (and I
-> suspect I still don't) really understand how the softmmu works.
-> 
->> When you start propagating that around, you see that the second-level
->> translation for loading the pte (2 of the 3 calls to
->> ppc_radix64_partition_scoped_xlate) should not be using the mmu_idx related
->> to the user-mode guest access, but should be using the mmu_idx of the
->> kernel/hypervisor that owns the page table.
->>
->> I can't see that mmu-radix64.c has the same problem.  I'm not really sure
->> how the second-level translation for hypervisors works there.  Is it by the
->> hypervisor altering the hash table as it is loaded?
-> 
-> Uh.. you started by saying mmu-radix64.c then talked about the hash
-> table, so I'm not sure which model you're talking about.
 
-radix64 definitely has a problem.
-Then I wondered if hash64 had the same problem.
+--EgdHp8Prkj6t+B4N
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> 
-> For hash + hypervisor, then yes, there is no hardware 2-level
-> translation, it all works by paravirtualizing updates to the hash
-> table (this is the H_ENTER etc. code in hw/ppc/spapr_softmmu.c).
+On Mon, May 17, 2021 at 05:19:06PM +1000, Nicholas Piggin wrote:
+> Excerpts from David Gibson's message of May 17, 2021 3:39 pm:
+> > On Mon, May 17, 2021 at 12:46:51PM +1000, Nicholas Piggin wrote:
+> >> ISA v3.1 adds new variations of wait, specified by the WC field. These
+> >> are not compatible with the wait 0 implementation, because they add
+> >> additional conditions that cause the processor to resume, which can
+> >> cause software to hang or run very slowly.
+> >>=20
+> >> Add the new wait variants with a trivial no-op implementation, which is
+> >> allowed, as explained in comments: software must not depend on any
+> >> particular architected WC condition having caused resumption of
+> >> execution, therefore a no-op implementation is architecturally correct.
+> >>=20
+> >> Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
+> >=20
+> > Logic looks fine.  There is no test on the CPU's features or model
+> > here, though, so this will change behaviour for pre-3.1 CPUs as well.
+>=20
+> Huh. 2.06-2.07 has very similar WC bits as 3.1, but 3.0 removed them
+> and made them reserved. I should have looked back but I'd assumed
+> they weren't there either.
+>=20
+> Existing code treats WC !=3D 0 as invalid on pre-3.0 processors AFAIKS,
+> so that's not quite right for 2.06-7 (they should look more like 3.1).
+>=20
+> But before that it looks like it was just wait with no WC field.
+>=20
+> > What would invoking these wait variants (presumably reserved) on
+> > earlier CPUs do?
+>=20
+> Prior to 2.06, it looks like there is no WC field, and so they should=20
+> generate a program check. So that just leaves the incorrect program
+> checks for 2.06-7, something like this should do it:
+>=20
+> -GEN_HANDLER_E(wait, 0x1F, 0x1E, 0x00, 0x039FF801, PPC_NONE, PPC2_ISA300),
+> +GEN_HANDLER_E(wait, 0x1F, 0x1E, 0x00, 0x039FF801, PPC_NONE, PPC2_ISA206),
 
-Ah, gotcha.  So, no, hash64 is unaffected.
+Ok, can you update with such a change, and put some of this
+explanation of the history in a comment.
 
-> Indeed.  Direct store segments are basically ancient history of the
-> POWER architecture which Linux never used, and I don't think much else
-> did either.  So I'm inclined to go with
-> 
->    (D) Just rip out all the direct store segment code and replace with
->        some LOG_UNIMPs.  Re-adding it working can be the job of the
->        probably non-existent person who has an actual use case using
->        them.
+> 2.06-3.1 should all be fine with this patch, AFAIKS they all have words=
+=20
+> to the effect that WC !=3D 0 is subject to implementation defined=20
+> behaviour and may be treated as a no-op or not implemented.
 
-Fair enough.
+Ok.  Note that we do try to match specific CPU behaviour, not just the
+architecture, although the architecture is obviously more important.
 
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
-r~
+--EgdHp8Prkj6t+B4N
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmCrMEwACgkQbDjKyiDZ
+s5IUKw/6ApNqNRRfFxndRNMuaXbZtsqpe52wcgr+AfLvmUHpdZ4NdLI1121GFuHM
+RiVAUl6hJx/tQCDainfdsSTQYl0Vtwng2kFZKN2s9IKLs9gkLPGE3s7dZjEB5+zu
+KMtiN3cgHw9hTEpOI6ITaBPDOO9v6IhF2+CRUc6sx83JaZdT3QCat7Me1c51ePUK
+YWoHlv02zpdvmsKgWk+1hLF4nPSLepLkInvqpuZrITEC7mAS8fjEA0XSD7f5fke8
+zc0UhkUEMrzHBMs8zMn+Selg8ilRqXW+9HNTxVUZrOIl9c3NgLgxs7bF6Bq22Lzw
+QN2A9nTPNNv0JgpWnLUg8nnFNGZEKFDij3VLBflmRueRaPPoOcMKg6J9q4ft4ILg
+RmE7lyX1gE7+3vD/sstSWTfXnCciwc02rVyEzag9CN/+YRtoPc8Kzjl6NBhhvwpI
+C7v0QjKExHDK6TntAFsZXf0UXJDnw381stA+3YMGpGzZ5j5j1dPn4+Tfmm7bR3Nl
+Bf5lU1ssw1lbLKgSmZ52MjtTxf92h/hEpW9o13gQKdKpv7e/+JhUAXsZhXAK1bLU
+VSlP1czJHA8CuJYL4nJfcz0EMQS14qflznNhsvlywZI3TRLuKSSDfuB7LqOmGiuB
+FGNG7JmfitMFTSwrLB/ZW7yNFQIWtq1rYFxYXG18xw6U7frBRvo=
+=tUJf
+-----END PGP SIGNATURE-----
+
+--EgdHp8Prkj6t+B4N--
 
