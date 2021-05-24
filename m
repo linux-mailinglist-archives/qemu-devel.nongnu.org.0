@@ -2,77 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D5E238E43C
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 12:39:59 +0200 (CEST)
-Received: from localhost ([::1]:33608 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98FB238E441
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 12:42:44 +0200 (CEST)
+Received: from localhost ([::1]:38046 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ll805-00007D-Mj
-	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 06:39:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46766)
+	id 1ll82k-0003Dm-Um
+	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 06:42:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47274)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1ll7yk-0006bL-90
- for qemu-devel@nongnu.org; Mon, 24 May 2021 06:38:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30532)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1ll80G-0001Sj-CB
+ for qemu-devel@nongnu.org; Mon, 24 May 2021 06:40:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41128)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1ll7yg-0000tX-BM
- for qemu-devel@nongnu.org; Mon, 24 May 2021 06:38:32 -0400
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1ll80E-0001s8-C0
+ for qemu-devel@nongnu.org; Mon, 24 May 2021 06:40:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621852708;
+ s=mimecast20190719; t=1621852804;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ByN/rdQOKQphaNc8xuDJIdSfxX4VuaeRy8mSq9WT13Q=;
- b=eg3vvAgxZTEi0PkOM6KfV3iKA2XQWYiTmFmE7DwvWO5B2KcxAn+h+HQQ56hhkHpdIdxA7Z
- QBGlFPavAv2zqqDCkbsL/ebtpYw2ueHE1Isy4kiKlBal30DhuHX3OWmrF1zJXGTVi5JslN
- 1Mpew/MkSD8rpt81rgROmmrY2gvqI/M=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-169-5y4wh77BNWKFEwkxgEJBQw-1; Mon, 24 May 2021 06:38:25 -0400
-X-MC-Unique: 5y4wh77BNWKFEwkxgEJBQw-1
-Received: by mail-qk1-f198.google.com with SMTP id
- z12-20020a05620a08ccb02902ea1e4a963dso26285605qkz.13
- for <qemu-devel@nongnu.org>; Mon, 24 May 2021 03:38:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=ByN/rdQOKQphaNc8xuDJIdSfxX4VuaeRy8mSq9WT13Q=;
- b=jPf2DGRehq5MF3yWN6SO8lstavBVSN6clphHT0wwYmT9xfbqmBS0AL646kCxY2H3ah
- 87UQr/bmJTSsR1V9zfeBejOnsX3d8AOUPvbpCY8UtLTQrTI5WLAgQYPEKVmdbZYs2TNH
- OHHT73OtCS0FD7telMg2E/Fqu0Ymv5oWj9q+gs2aSNUzr4Lt9lxnFGx56nTN2BQcVAd8
- K41Asl/usXvOb2abqAdYEPPNWmAJ1lPGTSFrzZJIYs9Txva1ZWAzWQTMxmUcqjmWtFqf
- /FKjHwkEHC2Pa5nKB1PiKMRabzwbkP07Ttdc1upWphnguydPjMSrto5PXDAftdz0ZNkI
- v4ww==
-X-Gm-Message-State: AOAM530ZofuS71efWmnUkylx+yOURSR/lFENa4KzgyAvhFZ1iFaMuggI
- VXOaoSSK6NSSoAEZc0ysU8HFkxezf27j4qZYan7BQO4ZkTs5J7TD+mSAsSLu9dWOujr6oAWkHpD
- ih83rywB3RKTxX1vvbPZuMUWlrUprjHI=
-X-Received: by 2002:a05:620a:20d7:: with SMTP id
- f23mr27260491qka.484.1621852704375; 
- Mon, 24 May 2021 03:38:24 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy5ekd7WycU37wamdSfDOiEHZbpcbrZN1ucE2UWDrCTyqCg1VcD8b8YYf8k5avcLxlt4KIVj6BnzN+6Jp9fZiQ=
-X-Received: by 2002:a05:620a:20d7:: with SMTP id
- f23mr27260468qka.484.1621852704178; 
- Mon, 24 May 2021 03:38:24 -0700 (PDT)
+ bh=Wn82d26DhelkE6IMyvPwOfGogMIFiSaWEZTrdl8INBs=;
+ b=NEP8BJEWUgFxPOLbkNxBBvfrPzUnAgDr+5BRE587BiO4lxWmbTOnLac4hcLtaqIC1VK7Rt
+ /VwaCJ69meQUtqbbppWIliNo3HLSOD3Hf06AslmBKwL0cyUBzKbBQnagzLfUvrMVLq4ADy
+ vIimrvWWBv7p8LOGGDyM5GwRBVU6gYM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-381-K9zJsBxjMc-2YjMqILnd6A-1; Mon, 24 May 2021 06:40:03 -0400
+X-MC-Unique: K9zJsBxjMc-2YjMqILnd6A-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0C2DA107ACC7;
+ Mon, 24 May 2021 10:40:02 +0000 (UTC)
+Received: from work-vm (ovpn-112-207.ams2.redhat.com [10.36.112.207])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 426D770581;
+ Mon, 24 May 2021 10:39:45 +0000 (UTC)
+Date: Mon, 24 May 2021 11:39:42 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Steven Sistare <steven.sistare@oracle.com>
+Subject: Re: [PATCH V3 00/22] Live Update [restart]
+Message-ID: <YKuCbujlfOCEYUP3@work-vm>
+References: <YJwFkhlYISA9INwO@stefanha-x1.localdomain>
+ <4d3dd5ff-5180-16df-ab48-11de610dd396@oracle.com>
+ <YJ5kokhzyA5tCom3@stefanha-x1.localdomain>
+ <29356c3a-0b3f-2773-4f9f-18ff4ed4d5bb@oracle.com>
+ <YKOPnkefxgRZ8PoQ@work-vm>
+ <a1d3dfea-d15e-35a3-a216-3ce65600f2d6@oracle.com>
+ <YKQULUn5F+x1wrYI@work-vm>
+ <38dc91ab-b96b-1cc3-bf8b-84ff77b334fd@oracle.com>
+ <YKZgZELudL9HobEe@work-vm>
+ <37713c98-5f2a-6cff-d3c4-9e1c60cc4107@oracle.com>
 MIME-Version: 1.0
-References: <20210519162903.1172366-1-eperezma@redhat.com>
- <20210524053144-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20210524053144-mutt-send-email-mst@kernel.org>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Mon, 24 May 2021 12:37:48 +0200
-Message-ID: <CAJaqyWcVm55qjaDpQsuLzaY0FCzjW2ARyvOWCdfS9RJNoOM7Aw@mail.gmail.com>
-Subject: Re: [RFC v3 00/29] vDPA software assisted live migration
-To: "Michael S. Tsirkin" <mst@redhat.com>
+In-Reply-To: <37713c98-5f2a-6cff-d3c4-9e1c60cc4107@oracle.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eperezma@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -93,69 +87,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Parav Pandit <parav@mellanox.com>, Juan Quintela <quintela@redhat.com>,
- Jason Wang <jasowang@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- qemu-level <qemu-devel@nongnu.org>, Harpreet Singh Anand <hanand@xilinx.com>,
- Xiao W Wang <xiao.w.wang@intel.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Eli Cohen <eli@mellanox.com>, virtualization@lists.linux-foundation.org,
- Michael Lilja <ml@napatech.com>, Stefano Garzarella <sgarzare@redhat.com>
+Cc: "Daniel P. Berrange" <berrange@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Zeng <jason.zeng@linux.intel.com>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
+ Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, May 24, 2021 at 11:38 AM Michael S. Tsirkin <mst@redhat.com> wrote:
->
-> On Wed, May 19, 2021 at 06:28:34PM +0200, Eugenio P=C3=A9rez wrote:
-> > Commit 17 introduces the buffer forwarding. Previous one are for
-> > preparations again, and laters are for enabling some obvious
-> > optimizations. However, it needs the vdpa device to be able to map
-> > every IOVA space, and some vDPA devices are not able to do so. Checking
-> > of this is added in previous commits.
->
-> That might become a significant limitation. And it worries me that
-> this is such a big patchset which might yet take a while to get
-> finalized.
->
+* Steven Sistare (steven.sistare@oracle.com) wrote:
+> On 5/20/2021 9:13 AM, Dr. David Alan Gilbert wrote:
+> > On the 'restart' branch of questions; can you explain,
+> > other than the passing of the fd's, why the outgoing side of
+> > qemu's 'migrate exec:' doesn't work for you?
+> 
+> I'm not sure what I should describe.  Can you be more specific?
+> Do you mean: can we add the cpr specific bits to the migrate exec code?
 
-Sorry, maybe I've been unclear here: Latter commits in this series
-address this limitation. Still not perfect: for example, it does not
-support adding or removing guest's memory at the moment, but this
-should be easy to implement on top.
+Yes; if possible I'd prefer to just keep the one exec mechanism.
+It has an advantage of letting you specify the new command line; that
+avoids the problems I'd pointed out with needing to change the command
+line if a hotplug had happened.  It also means we only need one chunk of
+exec code.
 
-The main issue I'm observing is from the kernel if I'm not wrong: If I
-unmap every address, I cannot re-map them again. But code in this
-patchset is mostly final, except for the comments it may arise in the
-mail list of course.
+Dave
 
-> I have an idea: how about as a first step we implement a transparent
-> switch from vdpa to a software virtio in QEMU or a software vhost in
-> kernel?
->
-> This will give us live migration quickly with performance comparable
-> to failover but without dependance on guest cooperation.
->
-
-I think it should be doable. I'm not sure about the effort that needs
-to be done in qemu to hide these "hypervisor-failover devices" from
-guest's view but it should be comparable to failover, as you say.
-
-Networking should be ok by its nature, although it could require care
-on the host hardware setup. But I'm not sure how other types of
-vhost/vdpa devices may work that way. How would a disk/scsi device
-switch modes? Can the kernel take control of the vdpa device through
-vhost, and just start reporting with a dirty bitmap?
-
-Thanks!
-
-> Next step could be driving vdpa from userspace while still copying
-> packets to a pre-registered buffer.
->
-> Finally your approach will be a performance optimization for devices
-> that support arbitrary IOVA.
->
-> Thoughts?
->
-> --
-> MST
->
+> - Steve
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
