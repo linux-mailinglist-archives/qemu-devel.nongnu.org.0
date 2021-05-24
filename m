@@ -2,42 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72DF038F5C3
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 00:45:18 +0200 (CEST)
-Received: from localhost ([::1]:58634 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 396BA38F5CA
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 00:47:53 +0200 (CEST)
+Received: from localhost ([::1]:37032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llJK1-0000Mt-Aj
-	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 18:45:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33384)
+	id 1llJMW-0004zN-8Y
+	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 18:47:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33408)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vivek.kasireddy@intel.com>)
- id 1llJIF-0006lZ-I7
- for qemu-devel@nongnu.org; Mon, 24 May 2021 18:43:27 -0400
+ id 1llJII-0006n0-Cy
+ for qemu-devel@nongnu.org; Mon, 24 May 2021 18:43:30 -0400
 Received: from mga05.intel.com ([192.55.52.43]:11755)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vivek.kasireddy@intel.com>)
- id 1llJIC-0006he-JE
- for qemu-devel@nongnu.org; Mon, 24 May 2021 18:43:27 -0400
-IronPort-SDR: Kc/e1fX1KN4PChr8kZ7kX+H4yyYVO+Fl7Sm/vm8PUeuAXuMLRR7WEKZ/lVdG2LWR5b4s1086SE
- HvhUm3Glm/Ig==
-X-IronPort-AV: E=McAfee;i="6200,9189,9994"; a="287620897"
-X-IronPort-AV: E=Sophos;i="5.82,327,1613462400"; d="scan'208";a="287620897"
+ id 1llJIF-0006he-Lo
+ for qemu-devel@nongnu.org; Mon, 24 May 2021 18:43:30 -0400
+IronPort-SDR: r0TtxfnT6d/v1qQqDvQX5x/rQvjdJOsz129+K34UDJ/eqRhh9ywOpD7zMwTrqjR8zy9PJJcaao
+ WDvZBkbWFWsw==
+X-IronPort-AV: E=McAfee;i="6200,9189,9994"; a="287620898"
+X-IronPort-AV: E=Sophos;i="5.82,327,1613462400"; d="scan'208";a="287620898"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  24 May 2021 15:43:17 -0700
-IronPort-SDR: E6dww9YpF6QjCm8BczLFpf0rcIK7AxLv4pUyRyNdGRV8bNeYEbCguWxQdm1F7Uy/f+SBaunGsz
- Ezg8EbRms8ug==
-X-IronPort-AV: E=Sophos;i="5.82,327,1613462400"; d="scan'208";a="546246738"
+IronPort-SDR: 3293xso1Hw5pRsqS4Ctji5A91C7qF6QMx7ALShJLRkn+RBNDcC2JCJH9elZp8yh5ufHAB8BlwN
+ jYK4rZ7LzedQ==
+X-IronPort-AV: E=Sophos;i="5.82,327,1613462400"; d="scan'208";a="546246741"
 Received: from vkasired-desk2.fm.intel.com ([10.105.128.127])
  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  24 May 2021 15:43:17 -0700
 From: Vivek Kasireddy <vivek.kasireddy@intel.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 00/13] virtio-gpu: Add support for Blob resources feature
-Date: Mon, 24 May 2021 15:30:50 -0700
-Message-Id: <20210524223103.922910-1-vivek.kasireddy@intel.com>
+Subject: [PATCH v6 01/13] ui: Get the fd associated with udmabuf driver
+Date: Mon, 24 May 2021 15:30:51 -0700
+Message-Id: <20210524223103.922910-2-vivek.kasireddy@intel.com>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210524223103.922910-1-vivek.kasireddy@intel.com>
+References: <20210524223103.922910-1-vivek.kasireddy@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=192.55.52.43;
@@ -64,77 +66,89 @@ Cc: Vivek Kasireddy <vivek.kasireddy@intel.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Enabling this feature would eliminate data copies from the resource
-object in the Guest to the shadow resource in Qemu. This patch series
-however adds support only for Blobs of type
-VIRTIO_GPU_BLOB_MEM_GUEST with property VIRTIO_GPU_BLOB_FLAG_USE_SHAREABLE.
+Try to open the udmabuf dev node for the first time or return the
+fd if the device was previously opened.
 
-Most of the patches in this series are a rebased, refactored and bugfixed 
-versions of Gerd Hoffmann's patches located here:
-https://gitlab.freedesktop.org/virgl/qemu/-/commits/virtio-gpu-next
-
-v2:
-- Moved dpy_gl_update from set_scanout to resource_flush
-- Dropped the modifier
-- Rebase and other minor refactoring
-
-v3:
-- Rebased on top of Gerd's virgl device split series
-- Split the udmabuf helpers patch from the previous 
-  version into two (Gerd)
-- Added explicit flush feature (last 7 patches)
-
-v4 (Gerd):
-- Dropped explicit flush feature patches from the series
-- Slightly refactored udmabuf helpers patch (#3) to introduce
-  and use blob and blob_size fields
-- Fixed indentation issues and made other small changes in
-  set_scanout_blob patch (#12)
-
-v5:
-- Rebase (only #6 - Refactor virtio_gpu_create_mapping_iov)
-
-v6:
-- Fixed compilation error seen in patch #5 with !linux config
-- Fixed uninitialized variable usage warning in patch #10
-
+Based-on-patch-by: Gerd Hoffmann <kraxel@redhat.com>
 Cc: Gerd Hoffmann <kraxel@redhat.com>
-
-Vivek Kasireddy (13):
-  ui: Get the fd associated with udmabuf driver
-  headers: Add udmabuf.h
-  virtio-gpu: Add udmabuf helpers
-  virtio-gpu: Add virtio_gpu_find_check_resource
-  virtio-gpu: Refactor virtio_gpu_set_scanout
-  virtio-gpu: Refactor virtio_gpu_create_mapping_iov
-  virtio-gpu: Add initial definitions for blob resources
-  virtio-gpu: Add virtio_gpu_resource_create_blob
-  ui/pixman: Add qemu_pixman_to_drm_format()
-  virtio-gpu: Add helpers to create and destroy dmabuf objects
-  virtio-gpu: Factor out update scanout
-  virtio-gpu: Add virtio_gpu_set_scanout_blob
-  virtio-gpu: Update cursor data using blob
-
- hw/display/meson.build                   |   2 +-
- hw/display/trace-events                  |   2 +
- hw/display/virtio-gpu-base.c             |   3 +
- hw/display/virtio-gpu-udmabuf.c          | 254 +++++++++++++
- hw/display/virtio-gpu-virgl.c            |   3 +-
- hw/display/virtio-gpu.c                  | 431 ++++++++++++++++++-----
- include/hw/virtio/virtio-gpu-bswap.h     |  16 +
- include/hw/virtio/virtio-gpu.h           |  39 +-
- include/standard-headers/linux/udmabuf.h |  32 ++
- include/ui/console.h                     |   3 +
- include/ui/qemu-pixman.h                 |   1 +
- scripts/update-linux-headers.sh          |   3 +
- ui/meson.build                           |   1 +
- ui/qemu-pixman.c                         |  35 +-
- ui/udmabuf.c                             |  40 +++
- 15 files changed, 755 insertions(+), 110 deletions(-)
- create mode 100644 hw/display/virtio-gpu-udmabuf.c
- create mode 100644 include/standard-headers/linux/udmabuf.h
+Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
+---
+ include/ui/console.h |  3 +++
+ ui/meson.build       |  1 +
+ ui/udmabuf.c         | 40 ++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 44 insertions(+)
  create mode 100644 ui/udmabuf.c
 
+diff --git a/include/ui/console.h b/include/ui/console.h
+index ca3c7af6a6..b30b63976a 100644
+--- a/include/ui/console.h
++++ b/include/ui/console.h
+@@ -471,4 +471,7 @@ bool vnc_display_reload_certs(const char *id,  Error **errp);
+ /* input.c */
+ int index_from_key(const char *key, size_t key_length);
+ 
++/* udmabuf.c */
++int udmabuf_fd(void);
++
+ #endif
+diff --git a/ui/meson.build b/ui/meson.build
+index b5aed14886..a3a187d633 100644
+--- a/ui/meson.build
++++ b/ui/meson.build
+@@ -12,6 +12,7 @@ softmmu_ss.add(files(
+   'kbd-state.c',
+   'keymaps.c',
+   'qemu-pixman.c',
++  'udmabuf.c',
+ ))
+ softmmu_ss.add([spice_headers, files('spice-module.c')])
+ softmmu_ss.add(when: spice_protocol, if_true: files('vdagent.c'))
+diff --git a/ui/udmabuf.c b/ui/udmabuf.c
+new file mode 100644
+index 0000000000..e6234fd86f
+--- /dev/null
++++ b/ui/udmabuf.c
+@@ -0,0 +1,40 @@
++/*
++ * udmabuf helper functions.
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ */
++#include "qemu/osdep.h"
++#include "qapi/error.h"
++#include "ui/console.h"
++
++#ifdef CONFIG_LINUX
++
++#include <sys/fcntl.h>
++#include <sys/ioctl.h>
++
++int udmabuf_fd(void)
++{
++    static bool first = true;
++    static int udmabuf;
++
++    if (!first) {
++        return udmabuf;
++    }
++    first = false;
++
++    udmabuf = open("/dev/udmabuf", O_RDWR);
++    if (udmabuf < 0) {
++        warn_report("open /dev/udmabuf: %s", strerror(errno));
++    }
++    return udmabuf;
++}
++
++#else
++
++int udmabuf_fd(void)
++{
++    return -1;
++}
++
++#endif
 -- 
 2.30.2
 
