@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16EE238F241
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 19:27:51 +0200 (CEST)
-Received: from localhost ([::1]:51728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C9DB38F244
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 19:29:55 +0200 (CEST)
+Received: from localhost ([::1]:58396 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llEMn-0004Ye-T3
-	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 13:27:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45330)
+	id 1llEOn-0000gN-VV
+	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 13:29:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45380)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1llDeU-00054C-EI
- for qemu-devel@nongnu.org; Mon, 24 May 2021 12:42:02 -0400
-Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:40767)
+ id 1llDeW-00056y-IH
+ for qemu-devel@nongnu.org; Mon, 24 May 2021 12:42:11 -0400
+Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530]:36584)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1llDeJ-0004Om-6M
- for qemu-devel@nongnu.org; Mon, 24 May 2021 12:42:02 -0400
-Received: by mail-ej1-x635.google.com with SMTP id n2so42775523ejy.7
- for <qemu-devel@nongnu.org>; Mon, 24 May 2021 09:41:50 -0700 (PDT)
+ id 1llDeJ-0004PZ-Oj
+ for qemu-devel@nongnu.org; Mon, 24 May 2021 12:42:03 -0400
+Received: by mail-ed1-x530.google.com with SMTP id df21so32753567edb.3
+ for <qemu-devel@nongnu.org>; Mon, 24 May 2021 09:41:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=zJ+4ctxl9rJ2GoSUbpS/PEa40oPl9E9xb9BjzoxwX+g=;
- b=ebyYMXrKX69XMR00nud9wvIup/Hwvgb4wNNDEt5I+5l6g7LCevW7bt0dzRZnFKd6tK
- CxVs99nyQ/3tVlmf74u/aKGe5GeLTQm/CIn3TDyTTTW40wZ+E668z3FdbI7sXp6yLmg5
- oY5dojpNzzZ/x2xsaAC/rndrZngnXc2fOHMykRMUqAk2yJ93GOGOejkLTwmyAxAo7zbY
- gcgP7Ls+o4+0ANnuiXPDWJ3Ed77YMANtZJMDZaIsvJ4501ROkuBG7393D75uycgsECQ9
- K6xDAXGg8cLfauBMA3EPXizrRpyQxqgwznHYwXjkFrOFCqDN5THWNADC2MgcOlgs2EAA
- 5LYQ==
+ bh=PRKAqQVQk6atOGbruXu4fzvA7uFctSe6m5tKH4EPE8E=;
+ b=Nj39wwUBKfMBIanByECbgcdw187Y+VRABHLd9fIp9tPBXARJaKUGhROSlUTZOntP2B
+ FGD3g0n0dZKC2I9NUty4WfnAHyGzL+alECUfL7CLJ5/YaHlGK9xfQtDyVjwwd39Xxex6
+ oJRPZyKUQC1ZNX/jLGQtoiLkXWxxuwu97vg4/MD4qfsnq/6O221eVgUDK38rUGGBgkaT
+ MYyBIvisV4KkoaGEZ/YlSUrRko7jHS4nw7poytr9ecaOqmMisQimjsIz/PCtGvJVAn2x
+ jENP7Q0ovCrzfblcvVXzTouoGsyKrGTYY8ekwiI7yyBM1UKvpiHq8464cMXYVCjkLTbz
+ TSAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=zJ+4ctxl9rJ2GoSUbpS/PEa40oPl9E9xb9BjzoxwX+g=;
- b=CY8ngKovf6H5QIcNUjXrbOJwua9JK3DFSg7GT8mxGhmDDLQvFhcJ2k0FQjGZOFP+0k
- 9BYW0x5BdjNtMrbS2O2nh6brxqqAtrb3Dsw7K/T6YA9TmDZUFZFORJIEw/GX+UIxhyzr
- nyMZujhyjaDBFPRKOhd59fJotWqpcaf9SRQRU0TxHeynBau//tm1RLXIMaO8BdNuNENo
- ghKBFbzO4R29UDjpznwQdlrXHw6Ciyg9wZ6S1/8HxNqg+x6ICJiNTi/3Sm05zBeNomWb
- ME54M/Ha6rIRDLSloc0ThY49uhtNgmW8g1ucBg0/kOmFopeIb2NPDIm395OaXlZayzxe
- MtRA==
-X-Gm-Message-State: AOAM532IzSO/+U6U+N0tbXWqmrrD4yYpdT7vNrlr8Usc2xscfpeyz5n7
- I+gtwjwj/2+rK1WZylH6j2yajZCNBTPR/w==
-X-Google-Smtp-Source: ABdhPJzVn6AoFaQw7HZA6wPhN/wT49np5N9kdGSBfweicVHexuvai8RZS4KzmAl0FkiuUJGk9AMikg==
-X-Received: by 2002:a17:907:7747:: with SMTP id
- kx7mr24449753ejc.400.1621874509754; 
- Mon, 24 May 2021 09:41:49 -0700 (PDT)
+ bh=PRKAqQVQk6atOGbruXu4fzvA7uFctSe6m5tKH4EPE8E=;
+ b=sbhW1m53174lljQ2wactINlCEmBWxYsLtH493fWp1TeRytPK2rQQPlKzF91CZi1Z45
+ 6m42ruWyKBge9ByrqHTlH+8Zs8yvKBdzwtrMYc6Pkfn7HeE/zaEn/+JA61SJ62jPpRWB
+ zsWsSnWpl+Qr3NBQNXO81RcJuWtyFyNcOmtIyHXOo6SIj65x2xZT/aPeWFTXGVY6BBq5
+ iT7AgcN2nOwDUPMfbvtFl66VfRi2czcpMCu8ZTTb9t1rx/J2UDQY40/GfnNLy2Z2KqcX
+ iZVH76CYT+1Pp+1SRsnl5yu/ttp/cU8mOnQ3mYBVrKVfhSqFsUQKH4VBCBn0d1+SKxz6
+ GhbA==
+X-Gm-Message-State: AOAM533SeqZXcH487xjN8B9+YNoMm3eWoAR6dg7Vcag2LyPBwxRjTAKw
+ L+ii/a5ZwCzaqdTQ0ykLtwQa+KP9MMHsWw==
+X-Google-Smtp-Source: ABdhPJwlSB7JR8b/mCXF6zkLIUvx/nYcd+n+cC7Orqvx36SPlrHhPL2fpXP2rEFN9nn6SWtQ1AWf5Q==
+X-Received: by 2002:a05:6402:951:: with SMTP id
+ h17mr26957486edz.212.1621874510439; 
+ Mon, 24 May 2021 09:41:50 -0700 (PDT)
 Received: from avogadro.redhat.com ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
  g4sm9581922edm.83.2021.05.24.09.41.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 May 2021 09:41:49 -0700 (PDT)
+ Mon, 24 May 2021 09:41:50 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 25/28] doc: Add notes about -mon option mode=control argument.
-Date: Mon, 24 May 2021 18:41:28 +0200
-Message-Id: <20210524164131.383778-26-pbonzini@redhat.com>
+Subject: [PULL 26/28] configure: Avoid error messages about missing
+ *-config-*.h files
+Date: Mon, 24 May 2021 18:41:29 +0200
+Message-Id: <20210524164131.383778-27-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210524164131.383778-1-pbonzini@redhat.com>
 References: <20210524164131.383778-1-pbonzini@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::635;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x635.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::530;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x530.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -85,41 +87,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ali Shirvani <alishir@routerhosting.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Ali Shirvani via <qemu-devel@nongnu.org>
+From: Thomas Huth <thuth@redhat.com>
 
-The mode=control argument configures a QMP monitor.
+When compiling with --disable-system there is a harmless yet still
+annoying error message at the end of the "configure" step:
 
-Signed-off-by: Ali Shirvani <alishir@routerhosting.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-Message-Id: <0799f0de89ad2482672b5d61d0de61e6eba782da.1621407918.git.alishir@routerhosting.com>
+ sed: can't read *-config-devices.h: No such file or directory
+
+When only building the tools or docs, without any emulator at all,
+there is even an additional message about missing *-config-target.h
+files.
+
+Fix it by checking whether any of these files are available before
+using them.
+
+Fixes: e0447a834d ("configure: Poison all current target-specific #defines")
+Reported-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20210519113840.298174-1-thuth@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- qemu-options.hx | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ configure | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 8116f79818..14258784b3 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -3799,8 +3799,11 @@ DEF("mon", HAS_ARG, QEMU_OPTION_mon, \
-     "-mon [chardev=]name[,mode=readline|control][,pretty[=on|off]]\n", QEMU_ARCH_ALL)
- SRST
- ``-mon [chardev=]name[,mode=readline|control][,pretty[=on|off]]``
--    Setup monitor on chardev name. ``pretty`` is only valid when
--    ``mode=control``, turning on JSON pretty printing to ease
-+    Setup monitor on chardev name. ``mode=control`` configures 
-+    a QMP monitor (a JSON RPC-style protocol) and it is not the
-+    same as HMP, the human monitor that has a "(qemu)" prompt.
-+    ``pretty`` is only valid when ``mode=control``, 
-+    turning on JSON pretty printing to ease
-     human reading and debugging.
- ERST
+diff --git a/configure b/configure
+index cca532bb0c..90c0807347 100755
+--- a/configure
++++ b/configure
+@@ -6503,10 +6503,14 @@ fi
  
+ # Create list of config switches that should be poisoned in common code...
+ # but filter out CONFIG_TCG and CONFIG_USER_ONLY which are special.
+-sed -n -e '/CONFIG_TCG/d' -e '/CONFIG_USER_ONLY/d' \
+-    -e '/^#define / { s///; s/ .*//; s/^/#pragma GCC poison /p; }' \
+-    *-config-devices.h *-config-target.h | \
+-    sort -u > config-poison.h
++target_configs_h=$(ls *-config-devices.h *-config-target.h 2>/dev/null)
++if test -n "$target_configs_h" ; then
++    sed -n -e '/CONFIG_TCG/d' -e '/CONFIG_USER_ONLY/d' \
++        -e '/^#define / { s///; s/ .*//; s/^/#pragma GCC poison /p; }' \
++        $target_configs_h | sort -u > config-poison.h
++else
++    :> config-poison.h
++fi
+ 
+ # Save the configure command line for later reuse.
+ cat <<EOD >config.status
 -- 
 2.31.1
 
