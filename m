@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B61838F1DF
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 18:58:01 +0200 (CEST)
-Received: from localhost ([::1]:35108 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA69538F1EE
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 19:03:27 +0200 (CEST)
+Received: from localhost ([::1]:48846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llDtw-0003sF-Ip
-	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 12:58:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45214)
+	id 1llDzC-0004xh-AG
+	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 13:03:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45236)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1llDeQ-0004oE-At
- for qemu-devel@nongnu.org; Mon, 24 May 2021 12:41:58 -0400
-Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:39675)
+ id 1llDeR-0004r1-3N
+ for qemu-devel@nongnu.org; Mon, 24 May 2021 12:41:59 -0400
+Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:43911)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1llDeI-0004NI-Hq
- for qemu-devel@nongnu.org; Mon, 24 May 2021 12:41:57 -0400
-Received: by mail-ej1-x635.google.com with SMTP id l1so42789094ejb.6
+ id 1llDeI-0004Np-Jl
+ for qemu-devel@nongnu.org; Mon, 24 May 2021 12:41:58 -0400
+Received: by mail-ej1-x62a.google.com with SMTP id f18so12624571ejq.10
  for <qemu-devel@nongnu.org>; Mon, 24 May 2021 09:41:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=9/dX3PC3FCiO5p7uuZf1RyQ9MDHL5qIlrYK5aAJJIeY=;
- b=vZms4vtQnZxGR2ZaJsIxRZubUfjjDUrsYdFFd9rvVWunjQUacu8KNC+6N3cmjelOTt
- ySJK+pBei1VWMeOzuf5iOYxx/YXVLWCF1AmxF+Vwc2vObP3wf9J7ZzVMQDefoaNuDW5D
- aKBIVMnYX2AfDjxCbgnTGEDx1RCXyO4wgoyiPsdA3/ScGVCHLknWW1CyrLDsX9GmlcYH
- 5cym9JDdtifDGjWS2VSG+QKLd4HUgKST0oZiALnwX/MmNrAEYAAiGCE3quvAFY3mIp2y
- pZTW5vvjfL9rxNISNISe6UQuQzj9CsfJKmZP2DBiA4YTljkqA05FRucnrLEJXO8c86Gl
- lYGQ==
+ bh=XwYPwSfA8Cvd3/TBJlc2cW5Z9lV4MqaeOY7vnJJhpgo=;
+ b=kx41ThiT0Sp7DPEHEhXUgWUGConJajD3+F3eb2rghcQ7OryOhXAJlHW8zH2ggxdzoc
+ IPGxDbjthdAydZb/IWbnIytCm8AXvWAuUIm1e8Yv03p2oVqSOL/n2f6S8R5jEuGliTeV
+ JPpCETHRWned+Ft1jvzZTfdWuYg8AJ90YDrYjx3sUN9yrd26/mPlll+hyBp2VIbdqIGn
+ 3w/CsUvUtJg06C3h7t9Eyuyy0svQdb9VR6Nrs8HfEcZOud7Wax0H55c2QP2QLxrpSBG8
+ OdskPtIFpuC6fIbfXlymhYAYXu3vy4N9N5MFAtQt/3aDRxkk1uUv4fsiCv83oCQ6/n+s
+ eR3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=9/dX3PC3FCiO5p7uuZf1RyQ9MDHL5qIlrYK5aAJJIeY=;
- b=dtgnIRs7D4gA/N9vfQVtxfHTSmsv0KV/+c6aJg+6na7muWr9mTuSNoBweNkMg7bu65
- LzBjJ0kLoGjjd2mCpm340v/HyK10Q+11YouYWWPvODbz+U9OMIE5MeetLI8EPEhRJXp7
- 7ZBDaVKlXVyw8r+vqxWRw3SaIiyganuvSPyKDRHpcp2BmsTbWPn+NuDspHfkbb4OA9Lj
- WUquvHO8Qd+buHEb0pyMPA5+oMBIAi+bzg3e1WoIrreivOwKUn2N7LqjGujOFfJPCz3o
- jMYlYd40dODWVOaCBwlTSeUuYZ5G0GFOaS/diuUoU60CYKncpJ75OxZ3h2p41fXlvoer
- YJBg==
-X-Gm-Message-State: AOAM533d8c2/xoSU08K/HL293GNubraZ0ZYdiqvnbXMrrYXEz/+hMTKG
- /EAyGOpGwQRUddkzbxl6WcRCCJvuWKM3Tg==
-X-Google-Smtp-Source: ABdhPJyhH6qFhwA4UFg1f1Rw9qnozSNOZPMKNfd/G6zUcBtKxClRm+B5XL+Z27llJv8H4Nw27jibMg==
-X-Received: by 2002:a17:906:7842:: with SMTP id
- p2mr23814366ejm.487.1621874502188; 
+ bh=XwYPwSfA8Cvd3/TBJlc2cW5Z9lV4MqaeOY7vnJJhpgo=;
+ b=aJwtuDThPycUTAQyPI+nXMIdiCKeLFOx4kxDmfezh/ShEeJAMTzAs3xVsa5yLxd2vA
+ wBBLV3ot5kdidhap1iZYyX6zd8npkCU1tJNqvnJb9ID2TCam9OZoWPRnfE1lBLgcV9XK
+ X/rabZRQMj1o8LqhN8+93wdDJofX0d4NT8AkkrZfq1pQXtzvUtLHH32k7WgGHDp5mdJV
+ BcSls6l/mBSX5ir7mS86xiNuYDDRB9UiRXKpIhM2qIAg+0xQ2nemOztWEpl7KBsY/rLA
+ GoVmv26usApw4LtOqcP0vzmItRDzik3juotkK+O3jOg47i6Mwp4IbxVpAxo9N9V+IKmv
+ iimA==
+X-Gm-Message-State: AOAM531uFTGwxBRX71+Bm1BTleJZJvGUYZw5wtz7i9ovWKEaupRnPCHl
+ i+e2MvOb74YAU4UQzNlcx/SMEp416jbU7Q==
+X-Google-Smtp-Source: ABdhPJxEE9vEGaACf5ddOvdcRdrJALDUbJHzt1nTHJXQS17fMjWxOeahwH3I77pwAcU46IHXSYillA==
+X-Received: by 2002:a17:906:c212:: with SMTP id
+ d18mr4945967ejz.291.1621874502889; 
  Mon, 24 May 2021 09:41:42 -0700 (PDT)
 Received: from avogadro.redhat.com ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- g4sm9581922edm.83.2021.05.24.09.41.41
+ g4sm9581922edm.83.2021.05.24.09.41.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 May 2021 09:41:41 -0700 (PDT)
+ Mon, 24 May 2021 09:41:42 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 14/28] KVM: Simplify dirty log sync in kvm_set_phys_mem
-Date: Mon, 24 May 2021 18:41:17 +0200
-Message-Id: <20210524164131.383778-15-pbonzini@redhat.com>
+Subject: [PULL 15/28] KVM: Cache kvm slot dirty bitmap size
+Date: Mon, 24 May 2021 18:41:18 +0200
+Message-Id: <20210524164131.383778-16-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210524164131.383778-1-pbonzini@redhat.com>
 References: <20210524164131.383778-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::635;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x635.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62a.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -85,41 +85,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Xu <peterx@redhat.com>
+Cc: "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Peter Xu <peterx@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Peter Xu <peterx@redhat.com>
 
-kvm_physical_sync_dirty_bitmap() on the whole section is inaccurate, because
-the section can be a superset of the memslot that we're working on.  The result
-is that if the section covers multiple kvm memslots, we could be doing the
-synchronization for multiple times for each kvmslot in the section.
+Cache it too because we'll reference it more frequently in the future.
 
-With the two helpers that we just introduced, it's very easy to do it right now
-by calling the helpers.
-
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: Peter Xu <peterx@redhat.com>
-Message-Id: <20210506160549.130416-7-peterx@redhat.com>
+Message-Id: <20210506160549.130416-8-peterx@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- accel/kvm/kvm-all.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ accel/kvm/kvm-all.c      | 1 +
+ include/sysemu/kvm_int.h | 1 +
+ 2 files changed, 2 insertions(+)
 
 diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-index 7031dd4250..0ba6d48120 100644
+index 0ba6d48120..df9fbf59a6 100644
 --- a/accel/kvm/kvm-all.c
 +++ b/accel/kvm/kvm-all.c
-@@ -1161,7 +1161,8 @@ static void kvm_set_phys_mem(KVMMemoryListener *kml,
-                 goto out;
-             }
-             if (mem->flags & KVM_MEM_LOG_DIRTY_PAGES) {
--                kvm_physical_sync_dirty_bitmap(kml, section);
-+                kvm_slot_get_dirty_log(kvm_state, mem);
-+                kvm_slot_sync_dirty_pages(mem);
-             }
+@@ -610,6 +610,7 @@ static void kvm_slot_init_dirty_bitmap(KVMSlot *mem)
+     hwaddr bitmap_size = ALIGN(mem->memory_size / qemu_real_host_page_size,
+                                         /*HOST_LONG_BITS*/ 64) / 8;
+     mem->dirty_bmap = g_malloc0(bitmap_size);
++    mem->dirty_bmap_size = bitmap_size;
+ }
  
-             /* unregister the slot */
+ /*
+diff --git a/include/sysemu/kvm_int.h b/include/sysemu/kvm_int.h
+index ab09a150e1..c788452cd9 100644
+--- a/include/sysemu/kvm_int.h
++++ b/include/sysemu/kvm_int.h
+@@ -23,6 +23,7 @@ typedef struct KVMSlot
+     int old_flags;
+     /* Dirty bitmap cache for the slot */
+     unsigned long *dirty_bmap;
++    unsigned long dirty_bmap_size;
+     /* Cache of the address space ID */
+     int as_id;
+     /* Cache of the offset in ram address space */
 -- 
 2.31.1
 
