@@ -2,74 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34D4338F1D9
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 18:57:17 +0200 (CEST)
-Received: from localhost ([::1]:59966 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BA6138F1E0
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 18:59:16 +0200 (CEST)
+Received: from localhost ([::1]:40314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llDtE-0001Ul-9H
-	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 12:57:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44036)
+	id 1llDv9-0007Ow-Ib
+	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 12:59:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44072)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1llDZW-0007El-ME; Mon, 24 May 2021 12:36:55 -0400
-Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536]:33409)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1llDZd-0007LS-J8
+ for qemu-devel@nongnu.org; Mon, 24 May 2021 12:37:01 -0400
+Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e]:42875)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1llDZV-0002o0-1q; Mon, 24 May 2021 12:36:54 -0400
-Received: by mail-ed1-x536.google.com with SMTP id b17so32752592ede.0;
- Mon, 24 May 2021 09:36:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=J4uFbK1t87t3yE0My/WwkVODQQO6taRX0FVG5vrflTQ=;
- b=eP65eK+uSkEvfyUl9Ny+71ANhXbWPpNMGho2aQ6VfrFRZimqG6dLZdC5ZF9ertN3Ci
- vqedzIX4azAFLU9VfGpF/weC530GhO9faVY4e2gFHKcfT634W9RSdADimnwBOCHzwKhu
- cZI9c1bwP38vacSgZlaYABkSE3ic6DMF6v0bDA5zF0/jb1/1Bgs1CFfEbyTCtTvGQIoT
- axK49XzmUVCfaxM9SBVd31b1VbOKLH9iTf4cJ1TmNe5m3apJpUaP6FcgRqbyp01Dw9Bx
- YHokBvo9v8ZGkWNKdW1j7QQ2y1tIfALmjYT7yOD+WBIe6KCGDzab01OPB5Rd1uK4fp8M
- D7sA==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1llDZZ-0002ql-UD
+ for qemu-devel@nongnu.org; Mon, 24 May 2021 12:37:01 -0400
+Received: by mail-pf1-x42e.google.com with SMTP id x18so16955191pfi.9
+ for <qemu-devel@nongnu.org>; Mon, 24 May 2021 09:36:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=uNuQXjOZ34Ga21JSHpx/ovGuTkcgjItUCRLZQ7OO4Cs=;
+ b=mumWcpVavGzYztpEEAidsbw3DJ8T1wi978t942bnkTyeIWbokvgxW0QLYK9/WiztE5
+ DxiXfjJLyTXS5oqF+NunnzQAJ2j54aM48e78VFK0k+9kU8A1FxjjoiBTol13rgEi/POn
+ h9vd5xLl2Ri/xLlM97aYceNQxYkxZeENmrt8huH1nwFDkKATcIa+J4EHwczVggVHzIJW
+ EDJ8hfM9BHlDMhgZeUb37aeNTTGSZPugMYZlD4TQ8t43vFs3WIOerevH6av2pH4PUqhu
+ y+ShTpWMDGHZgnHwBBzUWBNJkTlYdc1c0IqehvJvRFSmHCLka6ds7TGn+ry2rusea+Fr
+ pNQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=J4uFbK1t87t3yE0My/WwkVODQQO6taRX0FVG5vrflTQ=;
- b=TmQo89MzeNF8KXPuPwiKyi+yVbMR4o3nfDlsSKVdIo9ipURRzfsRnDI2G/T/n0Sw14
- T6Y++rhDotNVz3PLG0Cx3wF93P8cDj2kJWIpKNfqs63vOsWgH4Fg5CJES8pB2Ja2cItq
- RXAAKRyXlz/E0Witc34SDz1ZkLP+nq77gJ5LQ3enczER01NCtwgB4lZvJ+aq6P51s5W1
- 3MGE+wobhwdz7EWxw1TGCmOw36FG9uhwqFZOii1jHOO/IJQM6w3LgKnUH0iK0Urh44vD
- tucjtOmDixMAylMWM4QfIKURY4JzjS1fYvw9pUsUoGFOse6qUYkjIPNbQvLVMsmEoiUg
- ObUA==
-X-Gm-Message-State: AOAM533k+S4Ne0hDcGWYkHklRX3n/QEvJOH6F4KphxxqzIxX4Dszrg3B
- uZQBfZ5SLJPulstT4du6bLSaeShA8k9pCg==
-X-Google-Smtp-Source: ABdhPJy+JRfjkiP4KQxWcbX09dlRXvlUmDcmcmRZ8T72OAqsSeziHyD5VBLsRV7tGuiplx0KxF5KSg==
-X-Received: by 2002:aa7:c4c2:: with SMTP id p2mr25774073edr.144.1621874211294; 
- Mon, 24 May 2021 09:36:51 -0700 (PDT)
-Received: from avogadro.redhat.com ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=uNuQXjOZ34Ga21JSHpx/ovGuTkcgjItUCRLZQ7OO4Cs=;
+ b=WegJtKsjeKAWh37CZieurfcMZ02tC2VVIpshmER39qqUQtjuldUhKZ1ww6IcWR7CkZ
+ Li5W+t6ccdXF9eu5ojuolk8JIgA1hfcmPxdZ6PdveXvsJu//4E03Z5MrXnxVR+F6NrXF
+ eeHBW3vindriZwP5VaBd8q+ZcDaiZBw+dgCaxH9IwlUM3p/0S2LeV1hErHs1EOfBa4Kk
+ Pnu/LxXfoo2RIunfSAq55ENuaU30/hTc6o6XXNavccUEehoCzkWMvCIokGn3BYm+azc5
+ jV8ENjIbWf9wNGZ2wDYqlQtnx0B5DM9DI480wjGSjRDF0BQHYI7h3vMOXNgAqwzQsKKe
+ GtIw==
+X-Gm-Message-State: AOAM531e0XMQQFIHsbQLQ8wtF2zq6gjcWYBMW11TMVqiS8iqVnkD3Y4I
+ 41JuyTYTKGwJPa12D1UnfpCXuaqpgAoUbA==
+X-Google-Smtp-Source: ABdhPJywp9I28bn+QsHEn/jXLzz5wYjqGqrRzVbrmamqLkUfBuD430jMBTD3DpDEJqCzs/cWJBPTWA==
+X-Received: by 2002:a65:5a08:: with SMTP id y8mr9973555pgs.199.1621874216502; 
+ Mon, 24 May 2021 09:36:56 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
  by smtp.gmail.com with ESMTPSA id
- n8sm7967684ejl.0.2021.05.24.09.36.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 May 2021 09:36:50 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 6/6] block: detect DKIOCGETBLOCKCOUNT/SIZE before use
-Date: Mon, 24 May 2021 18:36:45 +0200
-Message-Id: <20210524163645.382940-7-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210524163645.382940-1-pbonzini@redhat.com>
-References: <20210524163645.382940-1-pbonzini@redhat.com>
+ p16sm5969759pgl.60.2021.05.24.09.36.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 24 May 2021 09:36:55 -0700 (PDT)
+Subject: Re: [PATCH 5/9] target/arm: Fix return values in fp_sysreg_checks()
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20210520152840.24453-1-peter.maydell@linaro.org>
+ <20210520152840.24453-6-peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <92a685d6-2ec7-d7a7-b722-8a0c5b8f177c@linaro.org>
+Date: Mon, 24 May 2021 09:36:54 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::536;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x536.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+In-Reply-To: <20210520152840.24453-6-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,78 +89,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Warner Losh <imp@bsdimp.com>, Joelle van Dyne <j@getutm.app>,
- qemu-block@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Joelle van Dyne <j@getutm.app>
+On 5/20/21 8:28 AM, Peter Maydell wrote:
+> The fp_sysreg_checks() function is supposed to be returning an
+> FPSysRegCheckResult, which is an enum with three possible values.
+> However, three places in the function "return false" (a hangover from
+> a previous iteration of the design where the function just returned a
+> bool).  Make these return FPSysRegCheckFailed instead (for no
+> functional change, since both false and FPSysRegCheckFailed are
+> zero).
+> 
+> Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
+> ---
+>   target/arm/translate-vfp.c | 6 +++---
+>   1 file changed, 3 insertions(+), 3 deletions(-)
 
-iOS hosts do not have these defined so we fallback to the
-default behaviour.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-Co-authored-by: Warner Losh <imp@bsdimp.com>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Joelle van Dyne <j@getutm.app>
-Message-Id: <20210315180341.31638-4-j@getutm.app>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- block/file-posix.c | 21 +++++++++------------
- 1 file changed, 9 insertions(+), 12 deletions(-)
-
-diff --git a/block/file-posix.c b/block/file-posix.c
-index e83f34a960..34bd413553 100644
---- a/block/file-posix.c
-+++ b/block/file-posix.c
-@@ -2311,8 +2311,11 @@ static int64_t raw_getlength(BlockDriverState *bs)
- again:
- #endif
-     if (!fstat(fd, &sb) && (S_IFCHR & sb.st_mode)) {
-+        size = 0;
- #ifdef DIOCGMEDIASIZE
--        if (ioctl(fd, DIOCGMEDIASIZE, (off_t *)&size))
-+        if (ioctl(fd, DIOCGMEDIASIZE, (off_t *)&size)) {
-+            size = 0;
-+        }
- #elif defined(DIOCGPART)
-         {
-                 struct partinfo pi;
-@@ -2321,9 +2324,7 @@ again:
-                 else
-                         size = 0;
-         }
--        if (size == 0)
--#endif
--#if defined(__APPLE__) && defined(__MACH__)
-+#elif defined(DKIOCGETBLOCKCOUNT) && defined(DKIOCGETBLOCKSIZE)
-         {
-             uint64_t sectors = 0;
-             uint32_t sector_size = 0;
-@@ -2331,19 +2332,15 @@ again:
-             if (ioctl(fd, DKIOCGETBLOCKCOUNT, &sectors) == 0
-                && ioctl(fd, DKIOCGETBLOCKSIZE, &sector_size) == 0) {
-                 size = sectors * sector_size;
--            } else {
--                size = lseek(fd, 0LL, SEEK_END);
--                if (size < 0) {
--                    return -errno;
--                }
-             }
-         }
--#else
--        size = lseek(fd, 0LL, SEEK_END);
-+#endif
-+        if (size == 0) {
-+            size = lseek(fd, 0LL, SEEK_END);
-+        }
-         if (size < 0) {
-             return -errno;
-         }
--#endif
- #if defined(__FreeBSD__) || defined(__FreeBSD_kernel__)
-         switch(s->type) {
-         case FTYPE_CD:
--- 
-2.31.1
-
+r~
 
