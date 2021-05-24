@@ -2,71 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 225C038F5ED
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 00:56:26 +0200 (CEST)
-Received: from localhost ([::1]:33898 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59EE838F711
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 02:45:24 +0200 (CEST)
+Received: from localhost ([::1]:58742 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llJUn-0005SQ-72
-	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 18:56:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35206)
+	id 1llLCE-0004GU-Vt
+	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 20:45:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35516)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yamamoto@midokura.com>)
- id 1llJT3-0003Io-4Y
- for qemu-devel@nongnu.org; Mon, 24 May 2021 18:54:37 -0400
-Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434]:41761)
+ (Exim 4.90_1) (envelope-from <swethajoshi139@gmail.com>)
+ id 1llJUf-0006SE-BY; Mon, 24 May 2021 18:56:17 -0400
+Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b]:47074)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <yamamoto@midokura.com>)
- id 1llJT1-0004rT-C9
- for qemu-devel@nongnu.org; Mon, 24 May 2021 18:54:36 -0400
-Received: by mail-pf1-x434.google.com with SMTP id p39so5717388pfw.8
- for <qemu-devel@nongnu.org>; Mon, 24 May 2021 15:54:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=midokura.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=OaaYbGKKmW5oMvMzFS51JQy6D2UAW2K7nEBUwvBhUuQ=;
- b=mZyOMD1QRqzVSY/65iXKNzpBLQcNt0dX/jGVNpc1QpnvxnmId6DHKBbWFIIaCMW5m2
- 6Ge2IVZ/LdNMZrPVcAJUA18SIJ6v/SfJoywIPoU7YnXcfgx5h/jIWWi+rDkq8IMVvCQ3
- lP+CQJIakW+/oy8QL+JoF3PatAXXc8LyLdLMM=
+ (Exim 4.90_1) (envelope-from <swethajoshi139@gmail.com>)
+ id 1llJUd-00063t-4F; Mon, 24 May 2021 18:56:17 -0400
+Received: by mail-pl1-x62b.google.com with SMTP id d20so1095261pls.13;
+ Mon, 24 May 2021 15:56:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=7UOaen0v9fpi+6ELlwd0Bu+zOepIwS7irPoRt0OH48U=;
+ b=lAeNBatWX33Fto1TTq9DsXVUzaR8km8NItXFQioqIqd+iKaxdwzN+zRc0p/Vo31uM2
+ r4taaGkd3PJzbKnD4OQmOxZUrxsFFCSjQQs5P6pZbgW9vqY7T37I0lQxC1WAYg79lYA0
+ xUklZUj+YhQaiBfNxltaIIFNPW8UN++JxPi3fxUL56otb/+pSyHPoud3DC+/EB7daQpc
+ GmGJNRbO2K1lXc9xY7PsEUco5GhxVcLgDnAKB+NbZsik/bV4hsQcce6mExXk4aXbGdPN
+ 2o/YXwCEIbs+ryr3zfhpnRbC1DLsIdHFHTwUjfLACCIMNkkNdKdCmfG80V6wHrB0voyw
+ QbAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=OaaYbGKKmW5oMvMzFS51JQy6D2UAW2K7nEBUwvBhUuQ=;
- b=XRxi8ovAI5QJzdjb/sEmNY8nJL8/DpRu6/moHVNCTMfuAtdbDnd3qpskn2KznFFCjm
- CFJkxBCAZhUSbw1vkZ3gme3VpYcHu8HCfjLPTbVGTiod1A9yQl/PofgRq8cjVXG0z1CP
- sJ+Xucys/ja9xww7GtqK++BlLxuXgQtH9S628W08t/ZQ1WfYY4eQ1wxD3zER0KgDcD1H
- xTpu3XO1iNWyeD3CVcqKMAK9PIs0cAlUV3q3KtmWeMNd1AA/Fthnegl+FODjzlK5j3iJ
- VN1NCbi1dZycDUX3YDWV7x7cEHpLP239biPrMVOV96legP4qNWK1e6OYk5L94gyLQT0c
- PfiQ==
-X-Gm-Message-State: AOAM533GmMboMasSysQaQJ0cdzwscyWhiNElW342WjShIXuZziaHxTJ6
- zKGo88X5kgUHg7qHNt1JudTEXSv3oPB9V8F6ogGJSg==
-X-Google-Smtp-Source: ABdhPJw+tywWkCw1NyPWjZdXFg6iRTUiRbHkg2NLV4KPbDvUvpPhOTtPx4ND7iC1sJtWyvO36+o+/M56UOTLN4cYn/A=
-X-Received: by 2002:a65:68d7:: with SMTP id k23mr16001733pgt.410.1621896873587; 
- Mon, 24 May 2021 15:54:33 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=7UOaen0v9fpi+6ELlwd0Bu+zOepIwS7irPoRt0OH48U=;
+ b=dw6Pp4O9Uo7gW0h/ElJYPiRJkWfYg1PDlpn/4lPzseGVotyXM8BvcM/fjKTF4rAB2G
+ ljN+D08RgdTVWESjoxwCv0F9iNn5xeVbk5/LF6QCORJ+xt6VoEUIUvpuKwesfbhmikfJ
+ tWUe0PBJD6mEZm7RQqjfhB7pA2z2VTsOpqfCQUtGZcSAatRN1+eOE0msHyxZ3UJYufQi
+ QK92AKO8qK3XQRzojm+skaOMFAN2i3WXIqBUXV+4Xk7cri5JqXtPDcfcPwBVWJCcfMbY
+ tdG0QCYkWAnNa22KqY1p5WBUE0ufamoRH5C5jaOlpAfwXCCLA5CNnc0+bJzJvBBJNH7X
+ yNvg==
+X-Gm-Message-State: AOAM533IDch48WdUvp+rlGg/CbjQI1BUiEDbIqS8vsVBsZTtBw9krsbY
+ YBOcrDFs8ZoVGKDIPCFWHA4l1sbBbjqgew==
+X-Google-Smtp-Source: ABdhPJyf3m1S7lGVWPve/6ZzRU8ey5BNABWE3t2Q31Q4hKeKuZWNN9GECza6hc7p05Eu0lEA9duBYA==
+X-Received: by 2002:a17:902:ea84:b029:f0:a36a:489c with SMTP id
+ x4-20020a170902ea84b02900f0a36a489cmr27947257plb.38.1621896972664; 
+ Mon, 24 May 2021 15:56:12 -0700 (PDT)
+Received: from swjoshi-Precision-7920-Tower.hsd1.wa.comcast.net
+ ([2601:600:8680:7470:ca3d:eee7:b3e3:ee1c])
+ by smtp.gmail.com with ESMTPSA id t1sm12286075pgq.47.2021.05.24.15.56.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 24 May 2021 15:56:12 -0700 (PDT)
+From: Swetha Joshi <swethajoshi139@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] Adding ifdefs to call the respective routines only when their
+ configs are enabled
+Date: Mon, 24 May 2021 15:56:08 -0700
+Message-Id: <20210524225608.3191809-1-swethajoshi139@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20210524045412.15152-1-yamamoto@midokura.com>
- <20210524045412.15152-2-yamamoto@midokura.com>
- <87tums4d4a.fsf@linaro.org>
-In-Reply-To: <87tums4d4a.fsf@linaro.org>
-From: Takashi Yamamoto <yamamoto@midokura.com>
-Date: Tue, 25 May 2021 07:54:22 +0900
-Message-ID: <CAH=wFzS79_H8VwT_PvHxqhc9U1QfOijHfMEXw7yEHcUXYqbSYQ@mail.gmail.com>
-Subject: Re: [PATCH 1/5] linux-user: handle /proc/self/exe for execve
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Cc: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
- envelope-from=yamamoto@midokura.com; helo=mail-pf1-x434.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
+ envelope-from=swethajoshi139@gmail.com; helo=mail-pl1-x62b.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Mon, 24 May 2021 20:44:05 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,60 +83,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-trivial@nongnu.org, Swetha <swjoshi@microsoft.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, May 24, 2021 at 7:53 PM Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
-rote:
->
->
-> YAMAMOTO Takashi <yamamoto@midokura.com> writes:
->
-> > It seems somehow common to execve /proc/self/exe in docker
-> > or golang community these days.
-> > At least, moby "reexec" and runc "libcontainer" do that.
-> >
-> > Signed-off-by: YAMAMOTO Takashi <yamamoto@midokura.com>
-> > ---
-> >  linux-user/syscall.c | 7 ++++++-
-> >  1 file changed, 6 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-> > index c9f812091c..a2b03ecb8b 100644
-> > --- a/linux-user/syscall.c
-> > +++ b/linux-user/syscall.c
-> > @@ -8470,6 +8470,7 @@ static abi_long do_syscall1(void *cpu_env, int nu=
-m, abi_long arg1,
-> >  #endif
-> >      case TARGET_NR_execve:
-> >          {
-> > +            const char *path;
-> >              char **argp, **envp;
-> >              int argc, envc;
-> >              abi_ulong gp;
-> > @@ -8537,7 +8538,11 @@ static abi_long do_syscall1(void *cpu_env, int n=
-um, abi_long arg1,
-> >               * before the execve completes and makes it the other
-> >               * program's problem.
-> >               */
-> > -            ret =3D get_errno(safe_execve(p, argp, envp));
-> > +            path =3D p;
-> > +            if (is_proc_myself(path, "exe")) {
-> > +                path =3D exec_path;
-> > +            }
->
-> This still relies on binfmt_misc kicking in to ensure the binary is
-> re-executed with qemu right?
+From: Swetha <swjoshi@microsoft.com>
 
-right.
+Signed-off-by: Swetha <swjoshi@microsoft.com>
+---
+ target/arm/kvm64.c | 14 +++++++++-----
+ 1 file changed, 9 insertions(+), 5 deletions(-)
 
->
-> > +            ret =3D get_errno(safe_execve(path, argp, envp));
-> >              unlock_user(p, arg1, 0);
-> >
-> >              goto execve_end;
->
->
-> --
-> Alex Benn=C3=A9e
+diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
+index dff85f6db9..724ce78265 100644
+--- a/target/arm/kvm64.c
++++ b/target/arm/kvm64.c
+@@ -1403,7 +1403,10 @@ void kvm_arch_on_sigbus_vcpu(CPUState *c, int code, void *addr)
+     hwaddr paddr;
+     Object *obj = qdev_get_machine();
+     VirtMachineState *vms = VIRT_MACHINE(obj);
++    bool acpi_enabled = false;
++#ifdef CONFIG_ARM_VIRT
+     bool acpi_enabled = virt_is_acpi_enabled(vms);
++    #endif /* CONFIG_ARM_VIRT */
+ 
+     assert(code == BUS_MCEERR_AR || code == BUS_MCEERR_AO);
+ 
+@@ -1426,12 +1429,13 @@ void kvm_arch_on_sigbus_vcpu(CPUState *c, int code, void *addr)
+              */
+             if (code == BUS_MCEERR_AR) {
+                 kvm_cpu_synchronize_state(c);
+-                if (!acpi_ghes_record_errors(ACPI_HEST_SRC_ID_SEA, paddr)) {
+-                    kvm_inject_arm_sea(c);
+-                } else {
+-                    error_report("failed to record the error");
+-                    abort();
++#ifdef CONFIG_ACPI_APEI
++                if (acpi_ghes_record_errors(ACPI_HEST_SRC_ID_SEA, paddr)) {
++                  error_report("failed to record the error");
++                  abort();
+                 }
++#endif /* CONFIG_ACPI_APEI */
++                kvm_inject_arm_sea(c);
+             }
+             return;
+         }
+-- 
+2.25.1
+
 
