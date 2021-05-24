@@ -2,80 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 326F038F4AE
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 23:01:12 +0200 (CEST)
-Received: from localhost ([::1]:56352 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90A2838F4B6
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 23:07:05 +0200 (CEST)
+Received: from localhost ([::1]:33704 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llHhG-0005Mn-HX
-	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 17:01:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42630)
+	id 1llHmx-00012W-A7
+	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 17:07:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44140)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1llHf9-00049j-Ow
- for qemu-devel@nongnu.org; Mon, 24 May 2021 16:59:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47100)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1llHf7-0007SQ-Pm
- for qemu-devel@nongnu.org; Mon, 24 May 2021 16:58:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621889936;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=uZkbveEoNYdJ9M+hcBepOw7qX5g6jub9n8V4dexWoJk=;
- b=QwAy0RNrLlQhaXR4zI4JlSdo07vfNkY4xK1WQ1RS/UdVt7iQu0PTa7nJMHrHWHOaS+xdiW
- nX0eq2xf99dfAvofr4CWizpF3s+4AhssZX39miGFFFIducZqCZIrmGWtOi1MtHUOGfMtG8
- D3xg95XLZV9vVb3xxnktv3QON/u1N3Q=
-Received: from mail-vk1-f199.google.com (mail-vk1-f199.google.com
- [209.85.221.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-570-SS_9okyVOlynnHSnHBH1TQ-1; Mon, 24 May 2021 16:58:52 -0400
-X-MC-Unique: SS_9okyVOlynnHSnHBH1TQ-1
-Received: by mail-vk1-f199.google.com with SMTP id
- j188-20020a1febc50000b02901fadc53568dso4942928vkh.9
- for <qemu-devel@nongnu.org>; Mon, 24 May 2021 13:58:52 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1llHlA-0000Eh-8k
+ for qemu-devel@nongnu.org; Mon, 24 May 2021 17:05:12 -0400
+Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:40537)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1llHl8-0002dr-Ln
+ for qemu-devel@nongnu.org; Mon, 24 May 2021 17:05:12 -0400
+Received: by mail-pj1-x1034.google.com with SMTP id
+ ml1-20020a17090b3601b029015f9b1ebce0so2662224pjb.5
+ for <qemu-devel@nongnu.org>; Mon, 24 May 2021 14:05:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=O7XSdiAwO8bPsGZV5pAAdwaHuCzqFznnKZPsTSQTrLU=;
+ b=IFXsNZkQFnKkc1FrEC/bSibAESNjpDve1sXbqz+CH/AX1aaMXd1PGveD0xomtfU2vz
+ v6Xn/+OqJzmtU8qjPptpKtDVVOeaPvrUEcznncuIaNywMKdCnb4VhPYTv8mrjrYEG8Bu
+ MWkKnTpxA0EVXNA4nHX3QVCjttLQu6+t0KwKCu+qMXZCqEBUh8+xnQKmkPvLwGVWsusk
+ cHDSZ7uAiHBrQfrQtYNcVA+MtsPbY0mAzV/8HpUglgspi//CoiItBbXeRujUa9pb0eXX
+ VD0CA9bX/YSEOjnrN6oKJL7X2K7yaRyW+jgtDo9sISzzAO2P3BK4r3nvV3O0iLSVF5H+
+ aDBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=uZkbveEoNYdJ9M+hcBepOw7qX5g6jub9n8V4dexWoJk=;
- b=nO19Gl00ZAY9ikdLEkfxwwwrpAjIYD0XVFVVgur4qOOwjhRzrxJAY3b/1yT9M147+y
- mDeF50kSqc0pGfs/Xs/k88eS8Reo55nu1GvhDvQ0u4GA+Vsbvla4gVdfzrHp3AH2D9MP
- aMRMqoh0ekX7DOwqzfrlVk16oTyaE7/FOiifunzBkj43Y2A0t6beIuYpEAXmr9VBOiWq
- u1bKfhJDcITltq4kY9jABCUmFy5fSEIqB6N2nW+JnRDL7xMSOppOoly9GPLrXzm9cW1B
- Z/tPe24HV0M+sgPTIC1/sSIeBt5U5Q4/swfuDBj8r7Vur2dYFFfZFnrJotkt+lGfWNSF
- 6PeQ==
-X-Gm-Message-State: AOAM531PnrT7a+t4WyeD9tP6Hlvs+3hYsy8q7umB3IC7kcZ5c+ZQDr+r
- B9e7eGuYTDGUHQZ0O7iH4Io88BArXykPkIdLLv/tbRn4gIVr3YeT5Ke507uezdgPawrMOda3vsl
- 7ic+xbkRPfDWWS3sr+yPq8PsvBkkiZNs=
-X-Received: by 2002:ab0:3403:: with SMTP id z3mr25046051uap.113.1621889932036; 
- Mon, 24 May 2021 13:58:52 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwGMzNVXrAcOE5jab/DSsylMKteIB8G0UKrHtaBP7VavN0hewLy4dHdCDC2ljeLK1XPCrttC69RWtpSeCRNyUU=
-X-Received: by 2002:ab0:3403:: with SMTP id z3mr25046043uap.113.1621889931832; 
- Mon, 24 May 2021 13:58:51 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=O7XSdiAwO8bPsGZV5pAAdwaHuCzqFznnKZPsTSQTrLU=;
+ b=mTb0OdzPe3iOIcluSWjQoMEtNmgJ1ubT8kO7wvPjkKc7/pNCIJC2wuv82hZwlgud4I
+ ZCCEM7h4TD70LghU+rn89vaq8ytQGboKej/ykBUo9srhqKJAAdx6HnP/1WdEJdN7ye/g
+ Sf4FFH6+YjxXmrzy8Gveq+L+/lcOCE4iVBR28fG1FCh4gct0QaC3yov4Cqb4tdiI3IA7
+ 4uWR9bLJQUEQZtuUbY/hNb6BRXZFrFIfwDMaGFb9jPyzDms/XNBrozmFHKw3dkXmKzb1
+ A70Xhc3oMWaIq+MMcbsZc54yNKXiirdksVFwp9Wd7NZSWa1kMrf8Tbpm5d3xV1sGQ60s
+ XanQ==
+X-Gm-Message-State: AOAM532/6oK9pq3rc/h9pmsGOjrj5D1iLg78i4tNO+RZWVg63M4+BcLr
+ NdI70MRi4uonSpaFA4SaDmQOIA==
+X-Google-Smtp-Source: ABdhPJx2kDkDGh8AyEVgJghQIfcgzA2vl+L26hS0VBSdNHk9GnjEIhA4XI/PHYeJncRDI+JR5eKY3A==
+X-Received: by 2002:a17:90a:f2d1:: with SMTP id
+ gt17mr26641947pjb.95.1621890308973; 
+ Mon, 24 May 2021 14:05:08 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
+ by smtp.gmail.com with ESMTPSA id
+ h76sm12593098pfe.161.2021.05.24.14.05.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 24 May 2021 14:05:08 -0700 (PDT)
+Subject: Re: [PATCH v1 1/8] tests/tcg: add a multiarch signals test to stress
+ test signal delivery
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20210520174303.12310-1-alex.bennee@linaro.org>
+ <20210520174303.12310-2-alex.bennee@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <1da1030a-f9c2-bc9b-88de-9bf3b80fc53e@linaro.org>
+Date: Mon, 24 May 2021 14:05:06 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-References: <20210503224326.206208-1-wainersm@redhat.com>
-In-Reply-To: <20210503224326.206208-1-wainersm@redhat.com>
-From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Mon, 24 May 2021 17:58:25 -0300
-Message-ID: <CAKJDGDbJ6nC67bhv6JjqJHA-s_h1zYbGkAPNgKQqHcGyv1rCZQ@mail.gmail.com>
-Subject: Re: [PATCH 0/7] tests/acceptance: Introducing the ConsoleMixIn
-To: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=wrampazz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210520174303.12310-2-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,46 +92,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Philippe Mathieu Daude <philmd@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, Cleber Rosa Junior <crosa@redhat.com>
+Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, stefanha@redhat.com,
+ crosa@redhat.com, pbonzini@redhat.com, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Wainer,
+On 5/20/21 10:42 AM, Alex Bennée wrote:
+> This adds a simple signal test that combines the POSIX timer_create
+> with signal delivery across multiple threads. The aim is to provide a
+> bit more of a stress test to flush out signal handling issues for
+> easily than the occasional random crash we sometimes see in linux-test
+> or threadcount.
+> 
+> Signed-off-by: Alex Bennée<alex.bennee@linaro.org>
+> 
+> Message-Id:<20210504100223.25427-29-alex.bennee@linaro.org>
+> ---
+>   tests/tcg/multiarch/signals.c       | 149 ++++++++++++++++++++++++++++
+>   tests/tcg/alpha/Makefile.target     |   7 ++
+>   tests/tcg/multiarch/Makefile.target |   2 +
+>   tests/tcg/sparc64/Makefile.target   |   7 ++
 
-On Mon, May 3, 2021 at 7:43 PM Wainer dos Santos Moschetta
-<wainersm@redhat.com> wrote:
->
-> The avocado_qemu package provides the following methods to interact with the
-> guest via console, which are mainly used on the acceptance boot tests:
->
->  exec_command(), exec_command_and_wait_for_pattern(), wait_for_console_pattern(),
->  interrupt_interactive_console_until_pattern()
->
-> Those methods are loosely defined in avocado_qemu/__init__.py. Because that file is expected to
-> grow, I thought that for the sake of keeping it organized it would be better to logically group
-> them. So in this series I create the ConsoleMixIn class to be the new home for the console
-> methods. An alternative approach could be to create a separated package, however because
-> they are just a few methods at the moment, I prefered not to break avocado_qemu into smaller pieces.
->
-> As the "MixIn" in the name implies, the class is meant to be used as a mixin on the test class. Here
-> I am following an idea introduced by Cleber in [1].
->
-> This series was tested on CI (https://gitlab.com/wainersm/qemu/-/pipelines/296412039)
->
-> [1] http://next.patchew.org/QEMU/20210412044644.55083-1-crosa@redhat.com/
->
+Alpha and sparc64 should be fixed now
+(since c313e52e6459de2e9064767083a0c949c476e32b).
 
-So, personally, I found this an interesting change, it keeps the code
-more organized IMO.
 
-I have mixed feelings about using mixin for something that should be
-straightforward, like develop tests on a project where python is not
-the primary programming language. I would imagine that the mixin
-pattern is nice inside core code and functions or methods are more
-suitable for test writers.
-
-Anyway, I'm not against it and will not block the series if others are
-okay with the changes.
-
+r~
 
