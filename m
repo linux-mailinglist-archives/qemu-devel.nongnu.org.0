@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97D7538F211
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 19:12:49 +0200 (CEST)
-Received: from localhost ([::1]:45364 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A139538F207
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 19:08:06 +0200 (CEST)
+Received: from localhost ([::1]:60354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llE8G-00060F-CY
-	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 13:12:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45384)
+	id 1llE3h-0005EK-Lt
+	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 13:08:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45390)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1llDeW-000571-JW
+ id 1llDeW-00057C-RN
  for qemu-devel@nongnu.org; Mon, 24 May 2021 12:42:11 -0400
-Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:43912)
+Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:44966)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1llDeK-0004Q8-Ga
- for qemu-devel@nongnu.org; Mon, 24 May 2021 12:42:03 -0400
-Received: by mail-ej1-x629.google.com with SMTP id f18so12625143ejq.10
+ id 1llDeP-0004QI-GH
+ for qemu-devel@nongnu.org; Mon, 24 May 2021 12:42:04 -0400
+Received: by mail-ej1-x635.google.com with SMTP id lz27so42791586ejb.11
  for <qemu-devel@nongnu.org>; Mon, 24 May 2021 09:41:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=zDuY3FOPTKsIVSVkuFvz8ny58BlbRg0sWUb7PMImOzk=;
- b=Z2OreiscSluR+xn/NPAsxr1bmgKboU5qicwZToOSGL01nXblzUBrHVLyoGUCjyxQ0M
- JJSE8ySq63NK8AZqHDqszqI5CT/va4PfVbiBogRsuuoilxdQ3asmbXS0X6EjyEWcDuna
- +jaHhzgCSxQys+Nn4NqMz7mJ+m5sSCVdoB63F5HD7GMmjSZgmizTbzdLdWvRxUr5sJV7
- jnLu6gXSuwFXVhIiqioS3fkEPM0KE3FugYFxPm4VPT2kjWwTY361CWyvpfHqIH0Ev+DB
- aLf6M8n9n5x2o3TpvGqkHyz7SnS6Bv/zwQ20/GYGBgTBUysPW7zUd+s+eO1itJeV7lcl
- T0MQ==
+ bh=CUnKL2VXbLNe+f5e2NHSjlxFTJniYAMGMbepsJUE2wI=;
+ b=ocN06fzb9xAghfKLNL1YL4HhV3rZ3/kkDUUD5rNVMCnqvIgZlZeFF4EcA8jQuTaT98
+ tK6GrgNgiLmKQfc+yKgIv8JSu4/+K5hErKUStdea5LQlqJVp1G+VRjuxt3woSDwDhhuz
+ QhdrHJNgGu72jhxMY2mWPkqyLNSLEXbi3j2km/jOFh7lwk/9qWRWPdBTnsTV+NvC+vt9
+ x/EIDyDMnOn2aSNH/K1CUSoH/V4syyUIsDHK4CS5hDYN3mPGNtngtGoXyu9sjUWrorzE
+ QGnPDuXC8bzdXJztzXLihsrNzz16gdcgh6MchrrK3KmH6J8BNLnKei2fRiU0aLbYSiVW
+ BFOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=zDuY3FOPTKsIVSVkuFvz8ny58BlbRg0sWUb7PMImOzk=;
- b=Fk6IBwGlV36tTq762dSEaz1cA7rRMQ4GXiA8zeGwG+58P2UDjXVql6FUnar1ve8Gxe
- jY0KjHdDuxxafIxBViBd7V1wUq8zSmX+gcXtpexXAjDig1u07UsBp9sIvtgbqabO2/v5
- OhANczULbddhDE8z7ms+o2J4jkLf7k/IZN2+VnUuCpsYjxbBG7o99E0Y+jCjW7kPjPJN
- y3s/EuS1N5e1rI4R8iS2PV6yvmhaqdHAoiKGCS7WLuI+tSUnaVqe4YybBRmPgoVNKKcV
- 9PKf1MHuZs7CgztUumCg47JE865z9rMx+0WIFlkJd/G1KoM5craHE02aC42AYVbFpQMY
- Ag1g==
-X-Gm-Message-State: AOAM530rXbAZH5ABR5fBiROosaFoWrU3Jfav9AJjvDlqi1xguzQqj8oD
- DJwiw7lwRInWWTjEDTAO1qs2O/D/Pp5Jcg==
-X-Google-Smtp-Source: ABdhPJySBfbbuM7/tWQEP1Er52iCRde4r1n3pHRqvJ73VecQscymRIyEpqfHMs3HOxfIT4G91lXsaw==
-X-Received: by 2002:a17:906:11cc:: with SMTP id
- o12mr23785885eja.547.1621874511189; 
+ bh=CUnKL2VXbLNe+f5e2NHSjlxFTJniYAMGMbepsJUE2wI=;
+ b=PxPWupmCPnWZW/J51iQk4QRuiiUxCYj/hA/RhNTGqPcJ4L3V0pUEYDThs5KgVNVxZW
+ cNcetF0yKFYSrqsPKALsXHVWB8T+nl08VlNm9h+CNNP+WCR4x3UWFKuwCXv2vMzzF7ev
+ faTGnvYlpPHLeb04lU9NodbXSj/6dAR4YWvMpzRsEtKF+NISXw19t7oV5MulqqdTRYn6
+ lyojbLoVSVkWGpzXYsoWFqvk3935PNJdHYFB9wWpcUfxqRUKkTXgPtkOLH1NACiYqygI
+ KprvaETxbJqBj2IsCBnRfhVFx/9wQHStTVV2Ld8gbfT1mSecZgCvHsMAgtjoXnngRA/p
+ Yu+Q==
+X-Gm-Message-State: AOAM530h7BSgmlijDW/tIbKavKUtzkfAv+DVTdeGu5dgiIWvYIyDPZWD
+ f5js6U78arfmE3UWRwv7XGaxj/ljux/P0w==
+X-Google-Smtp-Source: ABdhPJzii5HErbifEbIp/TFXHyn11LtQyholr4tQzUrmtATXbt4L/0yw6gHHINMXzzc98pTcL3dO5A==
+X-Received: by 2002:a17:906:bc43:: with SMTP id
+ s3mr24579847ejv.76.1621874511798; 
  Mon, 24 May 2021 09:41:51 -0700 (PDT)
 Received: from avogadro.redhat.com ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- g4sm9581922edm.83.2021.05.24.09.41.50
+ g4sm9581922edm.83.2021.05.24.09.41.51 for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 May 2021 09:41:50 -0700 (PDT)
+ Mon, 24 May 2021 09:41:51 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 27/28] hw/scsi: Fix sector translation bug in
- scsi_unmap_complete_noio
-Date: Mon, 24 May 2021 18:41:30 +0200
-Message-Id: <20210524164131.383778-28-pbonzini@redhat.com>
+Subject: [PULL 28/28] gitlab-ci: use --meson=git for CFI jobs
+Date: Mon, 24 May 2021 18:41:31 +0200
+Message-Id: <20210524164131.383778-29-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210524164131.383778-1-pbonzini@redhat.com>
 References: <20210524164131.383778-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::629;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x629.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::635;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x635.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -86,56 +85,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kit Westneat <kit.westneat@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Kit Westneat <kit.westneat@gmail.com>
+Ensure that the meson submodule is checked out by the check targets,
+as they will need it to run "meson test".
 
-check_lba_range expects sectors to be expressed in original qdev blocksize, but
-scsi_unmap_complete_noio was translating them to 512 block sizes, which was
-causing sense errors in the larger LBAs in devices using a 4k block size.
-
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/345
-Signed-off-by: Kit Westneat <kit.westneat@gmail.com>
-Message-Id: <20210521142829.326217-1-kit.westneat@gmail.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/scsi/scsi-disk.c | 12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
+ .gitlab-ci.yml | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
-index 3580e7ee61..e8a547dbb7 100644
---- a/hw/scsi/scsi-disk.c
-+++ b/hw/scsi/scsi-disk.c
-@@ -1582,6 +1582,7 @@ invalid_field:
-     scsi_check_condition(r, SENSE_CODE(INVALID_FIELD));
- }
- 
-+/* sector_num and nb_sectors expected to be in qdev blocksize */
- static inline bool check_lba_range(SCSIDiskState *s,
-                                    uint64_t sector_num, uint32_t nb_sectors)
- {
-@@ -1614,11 +1615,12 @@ static void scsi_unmap_complete_noio(UnmapCBData *data, int ret)
-     assert(r->req.aiocb == NULL);
- 
-     if (data->count > 0) {
--        r->sector = ldq_be_p(&data->inbuf[0])
--            * (s->qdev.blocksize / BDRV_SECTOR_SIZE);
--        r->sector_count = (ldl_be_p(&data->inbuf[8]) & 0xffffffffULL)
--            * (s->qdev.blocksize / BDRV_SECTOR_SIZE);
--        if (!check_lba_range(s, r->sector, r->sector_count)) {
-+        uint64_t sector_num = ldq_be_p(&data->inbuf[0]);
-+        uint32_t nb_sectors = ldl_be_p(&data->inbuf[8]) & 0xffffffffULL;
-+        r->sector = sector_num * (s->qdev.blocksize / BDRV_SECTOR_SIZE);
-+        r->sector_count = nb_sectors * (s->qdev.blocksize / BDRV_SECTOR_SIZE);
-+
-+        if (!check_lba_range(s, sector_num, nb_sectors)) {
-             block_acct_invalid(blk_get_stats(s->qdev.conf.blk),
-                                BLOCK_ACCT_UNMAP);
-             scsi_check_condition(r, SENSE_CODE(LBA_OUT_OF_RANGE));
+diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+index f718b61fa7..a6290d43bc 100644
+--- a/.gitlab-ci.yml
++++ b/.gitlab-ci.yml
+@@ -27,9 +27,9 @@ include:
+     - cd build
+     - if test -n "$TARGETS";
+       then
+-        ../configure --enable-werror --disable-docs ${LD_JOBS:+--meson=internal} $CONFIGURE_ARGS --target-list="$TARGETS" ;
++        ../configure --enable-werror --disable-docs ${LD_JOBS:+--meson=git} $CONFIGURE_ARGS --target-list="$TARGETS" ;
+       else
+-        ../configure --enable-werror --disable-docs ${LD_JOBS:+--meson=internal} $CONFIGURE_ARGS ;
++        ../configure --enable-werror --disable-docs ${LD_JOBS:+--meson=git} $CONFIGURE_ARGS ;
+       fi || { cat config.log meson-logs/meson-log.txt && exit 1; }
+     - if test -n "$LD_JOBS";
+       then
 -- 
 2.31.1
-
 
 
