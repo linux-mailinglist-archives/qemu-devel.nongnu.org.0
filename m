@@ -2,77 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A139538F207
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 19:08:06 +0200 (CEST)
-Received: from localhost ([::1]:60354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7C8C38F234
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 19:24:13 +0200 (CEST)
+Received: from localhost ([::1]:40938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llE3h-0005EK-Lt
-	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 13:08:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45390)
+	id 1llEJI-0005X7-U4
+	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 13:24:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47244)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1llDeW-00057C-RN
- for qemu-devel@nongnu.org; Mon, 24 May 2021 12:42:11 -0400
-Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:44966)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1llDnR-00016j-IY
+ for qemu-devel@nongnu.org; Mon, 24 May 2021 12:51:17 -0400
+Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:42804)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1llDeP-0004QI-GH
- for qemu-devel@nongnu.org; Mon, 24 May 2021 12:42:04 -0400
-Received: by mail-ej1-x635.google.com with SMTP id lz27so42791586ejb.11
- for <qemu-devel@nongnu.org>; Mon, 24 May 2021 09:41:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=CUnKL2VXbLNe+f5e2NHSjlxFTJniYAMGMbepsJUE2wI=;
- b=ocN06fzb9xAghfKLNL1YL4HhV3rZ3/kkDUUD5rNVMCnqvIgZlZeFF4EcA8jQuTaT98
- tK6GrgNgiLmKQfc+yKgIv8JSu4/+K5hErKUStdea5LQlqJVp1G+VRjuxt3woSDwDhhuz
- QhdrHJNgGu72jhxMY2mWPkqyLNSLEXbi3j2km/jOFh7lwk/9qWRWPdBTnsTV+NvC+vt9
- x/EIDyDMnOn2aSNH/K1CUSoH/V4syyUIsDHK4CS5hDYN3mPGNtngtGoXyu9sjUWrorzE
- QGnPDuXC8bzdXJztzXLihsrNzz16gdcgh6MchrrK3KmH6J8BNLnKei2fRiU0aLbYSiVW
- BFOw==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1llDnN-0007wv-8V
+ for qemu-devel@nongnu.org; Mon, 24 May 2021 12:51:17 -0400
+Received: by mail-pj1-x1033.google.com with SMTP id
+ j6-20020a17090adc86b02900cbfe6f2c96so11477506pjv.1
+ for <qemu-devel@nongnu.org>; Mon, 24 May 2021 09:51:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=yLBGaOG6ccgL5RPnD1PZUTRq8gOxQGuPFlWTblMQsJs=;
+ b=q4Qb0tTDcvSd4BhqTqUdw82539D8Qc5h37KbHJQgmw0i7KKHenNtHrDW4YEMwkSiQJ
+ xwK92efwoJGUZrnPeUv6sMAdc7z/ZVCY1yRHzA0ML0G8M/aUTlJY5jgtLfjD1luNvJAS
+ lYv2WWpa0pQVxBI6sAoaFd2NO36hR2K3s2vbiO6NYBpJ4yQecj/QivLqRc2AYg5xxA6d
+ Xo+UoCNm6+XCmp/wRCOK5u/7Dogok2dPFJvA0RF6wQ79vTFTc6NRmcfxePT33mxa9tJO
+ FwLU/EdKKhH1rs7DM42tiV8I7TWmQ4M17loQ5nOLtruRBgIss4l+H/Wc5V6+W/PCnoSm
+ D3Qw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=CUnKL2VXbLNe+f5e2NHSjlxFTJniYAMGMbepsJUE2wI=;
- b=PxPWupmCPnWZW/J51iQk4QRuiiUxCYj/hA/RhNTGqPcJ4L3V0pUEYDThs5KgVNVxZW
- cNcetF0yKFYSrqsPKALsXHVWB8T+nl08VlNm9h+CNNP+WCR4x3UWFKuwCXv2vMzzF7ev
- faTGnvYlpPHLeb04lU9NodbXSj/6dAR4YWvMpzRsEtKF+NISXw19t7oV5MulqqdTRYn6
- lyojbLoVSVkWGpzXYsoWFqvk3935PNJdHYFB9wWpcUfxqRUKkTXgPtkOLH1NACiYqygI
- KprvaETxbJqBj2IsCBnRfhVFx/9wQHStTVV2Ld8gbfT1mSecZgCvHsMAgtjoXnngRA/p
- Yu+Q==
-X-Gm-Message-State: AOAM530h7BSgmlijDW/tIbKavKUtzkfAv+DVTdeGu5dgiIWvYIyDPZWD
- f5js6U78arfmE3UWRwv7XGaxj/ljux/P0w==
-X-Google-Smtp-Source: ABdhPJzii5HErbifEbIp/TFXHyn11LtQyholr4tQzUrmtATXbt4L/0yw6gHHINMXzzc98pTcL3dO5A==
-X-Received: by 2002:a17:906:bc43:: with SMTP id
- s3mr24579847ejv.76.1621874511798; 
- Mon, 24 May 2021 09:41:51 -0700 (PDT)
-Received: from avogadro.redhat.com ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=yLBGaOG6ccgL5RPnD1PZUTRq8gOxQGuPFlWTblMQsJs=;
+ b=M+lyNzQMvcfiZ0lXs7TKgxI2DN3yP3aKOF8mhYCai6stNgr7cH5J8d9dTcNxheMoBG
+ A+4rUxXxPdCicOT/IzL8jLh+xp9QVfb7CPf78Ut9H/tDlatmT4bUQsDmyR7Xp0WBzv/m
+ zjNGDWVXenZPMUXxE/DseFz7ZmIMWlYwaqa56Ky9jlVW05OH/ykxEDf8VM28izOm0Co1
+ +jjQMQ0Dqn0SrsCT3C8maqihHIl20M/hpoKqgBNbybdKbCXev0dFtXveYA0e074u71iP
+ 4RMHMTwKg6/dtMLveNT5vybanHfRKsRfojahLskjocj6nXZ13ULnhyIppfUrWal0Ztse
+ prTA==
+X-Gm-Message-State: AOAM530Yc//V6Rb4EHjHU3E+Lvx3S7wtbnZGzukPMOchQFfmbs8RuygH
+ nhDt8lst/UyIF/oKUk3zmZ12j7SoJ7LAvA==
+X-Google-Smtp-Source: ABdhPJzaZK9z1wToIaofo0/w1WC8uuJHaS4FeNZXHBgH4Z8ZMQvMC6p6vV2GyB+Qb5z+3jWXMijecQ==
+X-Received: by 2002:a17:902:a5c9:b029:f7:9f7e:aa2f with SMTP id
+ t9-20020a170902a5c9b02900f79f7eaa2fmr15726784plq.54.1621875071675; 
+ Mon, 24 May 2021 09:51:11 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
  by smtp.gmail.com with ESMTPSA id
- g4sm9581922edm.83.2021.05.24.09.41.51 for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 May 2021 09:41:51 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 28/28] gitlab-ci: use --meson=git for CFI jobs
-Date: Mon, 24 May 2021 18:41:31 +0200
-Message-Id: <20210524164131.383778-29-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210524164131.383778-1-pbonzini@redhat.com>
-References: <20210524164131.383778-1-pbonzini@redhat.com>
+ c3sm11199698pfi.213.2021.05.24.09.51.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 24 May 2021 09:51:11 -0700 (PDT)
+Subject: Re: [PATCH 6/9] target/arm: Implement M-profile VPR register
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20210520152840.24453-1-peter.maydell@linaro.org>
+ <20210520152840.24453-7-peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <e3b04611-5704-90d9-6dbb-9e0105b01d30@linaro.org>
+Date: Mon, 24 May 2021 09:51:09 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::635;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x635.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+In-Reply-To: <20210520152840.24453-7-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,31 +94,21 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ensure that the meson submodule is checked out by the check targets,
-as they will need it to run "meson test".
+On 5/20/21 8:28 AM, Peter Maydell wrote:
+> If MVE is implemented for an M-profile CPU then it has a VPR
+> register, which tracks predication information.
+> 
+> Implement the read and write handling of this register, and
+> the migration of its state.
+> 
+> Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
+> ---
+>   target/arm/cpu.h           |  6 ++++++
+>   target/arm/machine.c       | 19 +++++++++++++++++++
+>   target/arm/translate-vfp.c | 38 ++++++++++++++++++++++++++++++++++++++
+>   3 files changed, 63 insertions(+)
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- .gitlab-ci.yml | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-index f718b61fa7..a6290d43bc 100644
---- a/.gitlab-ci.yml
-+++ b/.gitlab-ci.yml
-@@ -27,9 +27,9 @@ include:
-     - cd build
-     - if test -n "$TARGETS";
-       then
--        ../configure --enable-werror --disable-docs ${LD_JOBS:+--meson=internal} $CONFIGURE_ARGS --target-list="$TARGETS" ;
-+        ../configure --enable-werror --disable-docs ${LD_JOBS:+--meson=git} $CONFIGURE_ARGS --target-list="$TARGETS" ;
-       else
--        ../configure --enable-werror --disable-docs ${LD_JOBS:+--meson=internal} $CONFIGURE_ARGS ;
-+        ../configure --enable-werror --disable-docs ${LD_JOBS:+--meson=git} $CONFIGURE_ARGS ;
-       fi || { cat config.log meson-logs/meson-log.txt && exit 1; }
-     - if test -n "$LD_JOBS";
-       then
--- 
-2.31.1
-
+r~
 
