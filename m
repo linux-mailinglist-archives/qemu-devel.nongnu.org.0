@@ -2,81 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF8B238F389
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 21:13:44 +0200 (CEST)
-Received: from localhost ([::1]:53088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07B7D38F38C
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 21:18:02 +0200 (CEST)
+Received: from localhost ([::1]:57946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llG1I-0006Tx-0V
-	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 15:13:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49586)
+	id 1llG5Q-0001eM-TP
+	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 15:18:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50172)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1llG0T-0005ji-Lo
- for qemu-devel@nongnu.org; Mon, 24 May 2021 15:12:53 -0400
-Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431]:43695)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1llG0Q-0000wf-N5
- for qemu-devel@nongnu.org; Mon, 24 May 2021 15:12:53 -0400
-Received: by mail-pf1-x431.google.com with SMTP id d78so20767355pfd.10
- for <qemu-devel@nongnu.org>; Mon, 24 May 2021 12:12:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=2VNuMHAjlFBNVczoGZhWv/Oncln75SFg6j/XUT6B9yE=;
- b=WkGaX+g51FXVVcpl6u9dDkS2o+0AMvgrkvEMXQhqUJ+xk3PiDtHJQ65CiXMM1gFBnZ
- hSekFM2W3BjWhxcu0oWlu8b428CwNVvDz4nhjeuZAZjZXGNfS2O39YNl1jUPYw5of0rF
- o4jGh87HFnGL0pZuwyWY4c+d0shUlVimgBjKj8PKR2XVJK2EVDZGUAuI5GdJ2bpTXKaY
- ftqbuDZ3TNEJlxiWAv1Qp5GL/pySuQkCHgOLkMC5mniPYVbI6sStDCsX2Hk6kdht32wA
- D5xPAl0opD58yy4AxkAdCwcaD55pyiDYHZtjdCLF8XjcW9ogzuANDbVY7OdXIB7rz696
- PsBw==
+ (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
+ id 1llG3k-0000ic-7R
+ for qemu-devel@nongnu.org; Mon, 24 May 2021 15:16:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51561)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
+ id 1llG3h-0002wC-IF
+ for qemu-devel@nongnu.org; Mon, 24 May 2021 15:16:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1621883772;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=TscgI868Dn2sdBEUD+oMyXoDWaIIqBNaiusrxhWWojQ=;
+ b=BGHge/mLSdcYwsMQny3UAZlGvVJahHFVS9dCA4dUhVwDlsq7IQybxGmsC0ilSCcwm+Ki+9
+ 6oLVR9b6MEZK20pmrPbL2oqeDIJsYDevsUyf8AwpdJc0++BKERK7Pw36thqGpVHUCu6y2S
+ 4IbKKaSIJKc+Y6vuOkXtukpfTIel+As=
+Received: from mail-ua1-f70.google.com (mail-ua1-f70.google.com
+ [209.85.222.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-286-NsWDxHhEOBa7W-BRc6rATQ-1; Mon, 24 May 2021 15:16:10 -0400
+X-MC-Unique: NsWDxHhEOBa7W-BRc6rATQ-1
+Received: by mail-ua1-f70.google.com with SMTP id
+ b8-20020ab026c80000b029020f97f38cfcso11214172uap.3
+ for <qemu-devel@nongnu.org>; Mon, 24 May 2021 12:16:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=2VNuMHAjlFBNVczoGZhWv/Oncln75SFg6j/XUT6B9yE=;
- b=RR8vl5DyUOpBcw1Rr3214lur8cOy+w7ww2pdsrlYa8wO7zgkK0thGmRQOaAYhRzWrf
- odaNMO9deyeOm+0IK+D96jNZv4NJaSzT/BVdhXYOpVnwSAGTV3YtMzs8IwHYz1KIYmh4
- UUn+VbG8l6ecAN9AivWkPMHY14srl+Hemmm8GazmfcMsCKKzo9/f0OsxaPmkQYtZPA6h
- /kryZYSFxnOSVgsABFg+LVTLcgEovIJ2ea9JLjGNKmADhnZwkiwbFFHgyX+rJWydQzJh
- pXdqCX8fn50le8Crx7gkBFap+F6v7bOXohv5bulOc5Apl0XqreXEyg2SG9VH96D/gigB
- dHgg==
-X-Gm-Message-State: AOAM531v4/3zdLRb4sMR0XPcNdxsZc07A+Se/dR21GOGgU3KYLk8P3Vs
- trfkWX4+TEKels6FsOPP3V7iKQ==
-X-Google-Smtp-Source: ABdhPJyuwEsLXKeiqMOFKbBh6nojkmPL79zA4M1XGDKKb8NT+o4xuPYzvUKYXwjeo+hgvFMhNc2JYA==
-X-Received: by 2002:aa7:982e:0:b029:2e4:eef5:e0c9 with SMTP id
- q14-20020aa7982e0000b02902e4eef5e0c9mr17686296pfl.3.1621883569118; 
- Mon, 24 May 2021 12:12:49 -0700 (PDT)
-Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
- by smtp.gmail.com with ESMTPSA id
- e23sm11915571pfl.84.2021.05.24.12.12.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 24 May 2021 12:12:48 -0700 (PDT)
-Subject: Re: [RFC PATCH] linux-user: glib-ify is_proc_myself
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20210524112323.2310-1-alex.bennee@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <f3337919-c96f-bc13-bb89-584ec1295714@linaro.org>
-Date: Mon, 24 May 2021 12:12:47 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=TscgI868Dn2sdBEUD+oMyXoDWaIIqBNaiusrxhWWojQ=;
+ b=MtS5K9kTz5vRuo17MdTVSVnh3uOIvCcI9tDku2sovy2ETJa8JbFMJ7FAO+P3x9gHpz
+ g/Ks6ZPAVTEeUKgJo3/UIT5T+Qijf2PI6aHeZunJZsccPe/x9C1uOuH7gqoO7sTaQRlT
+ aUF/GHn5gqQBmRg7ORoXFftPdnmmX3i2ur2JsSbOfbOrjYnYrRNc8UZaZJMq2KzIUC0E
+ Mije25MU2N8BUqSUULwPzuhYHOMyYUgYZiklrA7nDMBt76U7M3uzEBBUrAGBugGFX3TP
+ xzLkDepPsv3Sl31LP5Ng9+YCiEttdTS7NgJv8+i7sAnI8xLWji4EQd9rOVli0lz6R5Ii
+ N6Lg==
+X-Gm-Message-State: AOAM530yUdwdPQR9oLzpmyxMt5RFoCYxBh+flfB5vqmvVDyVtIFlguEm
+ QPPFEW97oupR67YhPcU0f1CJP9HLnltuOB9DTQhqL3T0bSMnTmXsv2tesWuwiTtnv83sccXuohx
+ hXcx0AXObsnZ6kzGJ8qP+5UWnii3IxHM=
+X-Received: by 2002:a1f:308a:: with SMTP id w132mr22848265vkw.7.1621883769483; 
+ Mon, 24 May 2021 12:16:09 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwmppr1XvgCQ6OkHXTOcZ1fvIUyKhWWrpomhxbLPqslRoK5ii39XMbKcAxNsL2GBkwb/utS25sabUH+iWY1+5U=
+X-Received: by 2002:a1f:308a:: with SMTP id w132mr22848253vkw.7.1621883769257; 
+ Mon, 24 May 2021 12:16:09 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210524112323.2310-1-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x431.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210520174303.12310-1-alex.bennee@linaro.org>
+ <20210520174303.12310-3-alex.bennee@linaro.org>
+In-Reply-To: <20210520174303.12310-3-alex.bennee@linaro.org>
+From: Willian Rampazzo <wrampazz@redhat.com>
+Date: Mon, 24 May 2021 16:15:43 -0300
+Message-ID: <CAKJDGDb+SknAs2FAAkiNryYEcMBc-47i6X3Eqz9-x0HnDpzq0g@mail.gmail.com>
+Subject: Re: [PATCH v1 2/8] gitlab: explicitly reference the upstream registry
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=wrampazz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,18 +91,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <laurent@vivier.eu>, yamamoto@midokura.com
+Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
+ Daniel Berrange <berrange@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Cleber Rosa Junior <crosa@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/24/21 4:23 AM, Alex Bennée wrote:
-> +        } else if (g_ascii_isdigit(*filename)) {
-> +            g_autofree char * myself = g_strdup_printf("%d/", getpid());
-> +            if (!g_str_has_prefix(filename, myself)) {
+On Thu, May 20, 2021 at 2:43 PM Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
+rote:
+>
+> Since c8e6793903 ("containers.yml: build with docker.py tooling") we
+> don't need to manually pull stuff from the upstream repository. Just
+> set the -r field to explicitly use that rather than the current
+> registry.
+>
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> ---
+>  .gitlab-ci.d/containers.yml | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+>
 
-This seems roundabout.  Wouldn't it be better to qemu_strtoul and compare the 
-integers?
+Reviewed-by: Willian Rampazzo <willianr@redhat.com>
 
-
-r~
 
