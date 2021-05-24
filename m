@@ -2,81 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5350F38F2D8
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 20:19:55 +0200 (CEST)
-Received: from localhost ([::1]:42414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A93838F2E3
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 20:20:15 +0200 (CEST)
+Received: from localhost ([::1]:43526 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llFBC-0000km-Cl
-	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 14:19:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37492)
+	id 1llFBW-0001WH-Ae
+	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 14:20:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37618)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1llF8V-0006tY-RU
- for qemu-devel@nongnu.org; Mon, 24 May 2021 14:17:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40014)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1llF90-0007hV-V2
+ for qemu-devel@nongnu.org; Mon, 24 May 2021 14:17:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53054)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1llF8U-0001oD-1q
- for qemu-devel@nongnu.org; Mon, 24 May 2021 14:17:07 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1llF8y-00026E-8E
+ for qemu-devel@nongnu.org; Mon, 24 May 2021 14:17:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621880224;
+ s=mimecast20190719; t=1621880255;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hwnmAE+4Usi8hyIek5zIc17WTkpfQ2YGrZsq9LzRzLo=;
- b=Vhfnf2IF3aIdaxsOttvnTbcpby7F+oMtaBBlA3J1tbfkMzaV/gjmaYA2osV24/8D0J3xuy
- /r6ct5M7G23EiW1XRF2++23+q94QZ2kBbMs/k4QmovEsvkjBhOKkkz7paLSNRsplcaqM40
- pVgcXYk1fE2DGkyOKQhLOIclHEQC0h8=
-Received: from mail-ua1-f70.google.com (mail-ua1-f70.google.com
- [209.85.222.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-103-5WSwH2mzO1uRJuDq7zdLdw-1; Mon, 24 May 2021 14:17:02 -0400
-X-MC-Unique: 5WSwH2mzO1uRJuDq7zdLdw-1
-Received: by mail-ua1-f70.google.com with SMTP id
- o4-20020ab037640000b0290218107a4549so5802195uat.14
- for <qemu-devel@nongnu.org>; Mon, 24 May 2021 11:17:02 -0700 (PDT)
+ bh=qP+TkTR0gVpUdzLoddwaXxej4qE0FJMvm2ejJHsLYwI=;
+ b=Uob/DatM6rIcjFLd7oS+cxdQucbZPVCfFabkAdVPR0WHUYgf6sKJAMotCF+S2IHsKxhXKg
+ dYila3CLf1LO34IZQhKkBvIqANNnqxmgdJMOi8GIjuP7ML72As9ba3HwcIsJG8GQp3hKFi
+ Qm6bZgKXewWyPPgMiWGrgiPcecLC4ms=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-250-EOmjrzYjPDmwtv9APi0xcw-1; Mon, 24 May 2021 14:17:28 -0400
+X-MC-Unique: EOmjrzYjPDmwtv9APi0xcw-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ 22-20020adf82960000b02901115ae2f734so13467808wrc.5
+ for <qemu-devel@nongnu.org>; Mon, 24 May 2021 11:17:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=hwnmAE+4Usi8hyIek5zIc17WTkpfQ2YGrZsq9LzRzLo=;
- b=MrAQ5t3K2YvUvX3HBG0SPoJ3ExXwPuLoiXupA2SlaxFar1EnModtecqYMt1/0rSb4X
- ayx7fqfvL5kTHXMQSWraWMNloAFXlMB1k6kfqKWQFSyOjyjw6d0Oz1WWesGO9XrI/yAW
- n1vY586IdxIDgiD5N97yEIOck5onTGkMMifYquG88Ua3v2Bl+hqRdpxY2+RR0sOQbXMe
- itou4qPmw4knqbPxp/JMeuuJnWgjGLQN01dk9WBsZuwvRK7bvng0oiwei8tnaibJP+VL
- l6ED50OXQX2RKOCB7/k6LQKcir8zv6LmGl3AcviPGsUg5LnQcecvUhFqLD6auz3BSIRQ
- FsAw==
-X-Gm-Message-State: AOAM531PdDryeBhQSATeoXrdrc99W8wlabgX25OxRkZ29LmtqbJtdmUz
- FbvoR4L1IT3cr1YBUkXfPxSx5EyNy5ds8oZ+swnpmqcIwL6EaDa7MogvcrPNlNMlWZgVMeTWkAH
- jFZL6ui+uWnwDZEGicvrvHG9jjBX8rHQ=
-X-Received: by 2002:a67:c31c:: with SMTP id r28mr21781666vsj.50.1621880222000; 
- Mon, 24 May 2021 11:17:02 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxEegKHwgUh9dIi2l556cwLXi9dqJHestBbNMgUqYFOfLj6TVPnW4Zeg25HgPM3LGOBsReO1ghG+oUjEvPZ62s=
-X-Received: by 2002:a67:c31c:: with SMTP id r28mr21781645vsj.50.1621880221798; 
- Mon, 24 May 2021 11:17:01 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=qP+TkTR0gVpUdzLoddwaXxej4qE0FJMvm2ejJHsLYwI=;
+ b=gjJtk9HDSKyN0dMROJIMhH9/XgQJhZo4zAKba93mTXx4vduoLzQnShtd8zOa6k9Aer
+ TIp09Sq6HMDWYDZNnH0hZFeOjMeyjqb4AJ2yCJlKL5tnYP851oRcIyCBvI7K96a3sKul
+ ZnJx1Fi6d/9JNF5XglOHT7riiAjs8FuC2OnDh/GbYWBb5HiMNoZbyLP3AQQG97vJUJw8
+ UKR4MuHbQkVEzjAec5Doadn4DZ7SnqaG636X3w306LSiwEJZvYGudL6UE4rdOCW+3p/3
+ +1MvsnRYQlviUSg5WMsp7BZEetq5SN8Lm+Ez8vpz4rIg9sOIn/+WhkfEPIWmJURYV7AS
+ /0wA==
+X-Gm-Message-State: AOAM530/WIOwSZqu7XcgTL2nOQFv/1iLKbe8EY3TAS0zd8W0SE233rK9
+ WiGkw3i6pGDsDiX5Eg2MUCSK9t2ACFHHpm7CIhEmVaeqZDg6cn4p19BiW2FYzIw9083cutSfeTB
+ um52y1NIeMTmRQt0=
+X-Received: by 2002:a1c:6644:: with SMTP id a65mr19681643wmc.103.1621880246452; 
+ Mon, 24 May 2021 11:17:26 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzh1wNiB4LspDSljtw1JiMtln5nVwc1vax/A5ad22Uq4gYFSNg9uUGhK9Ug/cw4lT4CYnd01A==
+X-Received: by 2002:a1c:6644:: with SMTP id a65mr19681620wmc.103.1621880246209; 
+ Mon, 24 May 2021 11:17:26 -0700 (PDT)
+Received: from [192.168.1.36] (31.red-83-51-215.dynamicip.rima-tde.net.
+ [83.51.215.31])
+ by smtp.gmail.com with ESMTPSA id r7sm8226691wmq.18.2021.05.24.11.17.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 24 May 2021 11:17:25 -0700 (PDT)
+Subject: Re: [RFC 0/1] acceptance tests: bump Avocado version to 88.1
+To: Cleber Rosa <crosa@redhat.com>, Willian Rampazzo <willianr@redhat.com>
+References: <20210520204747.210764-1-willianr@redhat.com>
+ <20210524175057.GA1567491@amachine.somewhere>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <ae31ce8b-8a59-ff82-3912-2d8ea2dfc51c@redhat.com>
+Date: Mon, 24 May 2021 20:17:24 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-References: <20210503224326.206208-1-wainersm@redhat.com>
- <20210503224326.206208-3-wainersm@redhat.com>
-In-Reply-To: <20210503224326.206208-3-wainersm@redhat.com>
-From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Mon, 24 May 2021 15:16:35 -0300
-Message-ID: <CAKJDGDY3mrL89phNku7eukrV97CGvd2TwBpQzxegjv1t74iHWA@mail.gmail.com>
-Subject: Re: [PATCH 2/7] tests/acceptance: Move exec_command to ConsoleMixIn
-To: Wainer dos Santos Moschetta <wainersm@redhat.com>
+In-Reply-To: <20210524175057.GA1567491@amachine.somewhere>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=wrampazz@redhat.com;
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,96 +99,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Philippe Mathieu Daude <philmd@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, Cleber Rosa Junior <crosa@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, May 3, 2021 at 7:43 PM Wainer dos Santos Moschetta
-<wainersm@redhat.com> wrote:
->
-> This moved exec_command() to ConsoleMixIn class.
->
-> Only the multiprocess.py file were touched by that change, so its tests
-> were adapted.
->
-> Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-> ---
->  tests/acceptance/avocado_qemu/__init__.py | 22 ++++++++++------------
->  tests/acceptance/multiprocess.py          |  6 +++---
->  2 files changed, 13 insertions(+), 15 deletions(-)
->
-> diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptance/avocado_qemu/__init__.py
-> index 6f4e0edfa3..4d3b869765 100644
-> --- a/tests/acceptance/avocado_qemu/__init__.py
-> +++ b/tests/acceptance/avocado_qemu/__init__.py
-> @@ -114,18 +114,6 @@ def wait_for_console_pattern(test, success_message, failure_message=None,
->      """
->      _console_interaction(test, success_message, failure_message, None, vm=vm)
->
-> -def exec_command(test, command):
-> -    """
-> -    Send a command to a console (appending CRLF characters), while logging
-> -    the content.
-> -
-> -    :param test: an Avocado test containing a VM.
-> -    :type test: :class:`avocado_qemu.Test`
-> -    :param command: the command to send
-> -    :type command: str
-> -    """
-> -    _console_interaction(test, None, None, command + '\r')
-> -
->  def exec_command_and_wait_for_pattern(test, command,
->                                        success_message, failure_message=None):
->      """
-> @@ -145,6 +133,16 @@ def exec_command_and_wait_for_pattern(test, command,
->  class ConsoleMixIn():
->      """Contains utilities for interacting with a guest via Console."""
->
-> +    def exec_command(self, command):
-> +        """
-> +        Send a command to a console (appending CRLF characters), while logging
-> +        the content.
-> +
-> +        :param command: the command to send
-> +        :type command: str
-> +        """
-> +        _console_interaction(self, None, None, command + '\r')
-> +
->      def interrupt_interactive_console_until_pattern(self, success_message,
->                                                      failure_message=None,
->                                                      interrupt_string='\r'):
-> diff --git a/tests/acceptance/multiprocess.py b/tests/acceptance/multiprocess.py
-> index 96627f022a..41d3e51164 100644
-> --- a/tests/acceptance/multiprocess.py
-> +++ b/tests/acceptance/multiprocess.py
-> @@ -9,10 +9,10 @@
->
->  from avocado_qemu import Test
->  from avocado_qemu import wait_for_console_pattern
-> -from avocado_qemu import exec_command
-> +from avocado_qemu import ConsoleMixIn
->  from avocado_qemu import exec_command_and_wait_for_pattern
->
-> -class Multiprocess(Test):
-> +class Multiprocess(Test, ConsoleMixIn):
+On 5/24/21 7:50 PM, Cleber Rosa wrote:
+> On Thu, May 20, 2021 at 05:47:46PM -0300, Willian Rampazzo wrote:
+>> CI pipeline: https://gitlab.com/willianrampazzo/qemu/-/pipelines/306904401
+>>
+> 
+> While not related to change in Avocado version (I've verified the same
+> behavior with 85.0), we need to investigate (further) one of the jobs
+> getting stuck here:
+> 
+>    https://gitlab.com/willianrampazzo/qemu/-/jobs/1281481564#L79
 
-Same comment here from the previous patch regarding the order of classes.
+Problem between QEMU/Avocado.
 
->      """
->      :avocado: tags=multiprocess
->      """
-> @@ -59,7 +59,7 @@ def do_test(self, kernel_url, initrd_url, kernel_command_line,
->          self.vm.launch()
->          wait_for_console_pattern(self, 'as init process',
->                                   'Kernel panic - not syncing')
-> -        exec_command(self, 'mount -t sysfs sysfs /sys')
-> +        self.exec_command('mount -t sysfs sysfs /sys')
->          exec_command_and_wait_for_pattern(self,
->                                            'cat /sys/bus/pci/devices/*/uevent',
->                                            'PCI_ID=1000:0012')
-> --
-> 2.29.2
->
+QEMU sets Avocado tags to restrict the set of jobs ran and uses
+the @skip decorators to ignore jobs under some conditions, i.e.:
+
+tests/acceptance/boot_linux.py:141:    @skipIf(os.getenv('GITLAB_CI'),
+'Running on GitLab')
+tests/acceptance/boot_linux_console.py:235:
+@skipUnless(os.getenv('AVOCADO_ALLOW_UNTRUSTED_CODE'), 'untrusted code')
+tests/acceptance/boot_linux_console.py:593:
+@skipUnless(os.getenv('AVOCADO_TIMEOUT_EXPECTED'), 'Test might timeout')
+tests/acceptance/boot_linux_console.py:795:
+@skipUnless(os.getenv('AVOCADO_ALLOW_LARGE_STORAGE'), 'storage limited')
+
+Avocado fetches artifacts *before* evaluating decorators / tags, so
+we are currently trying to fetch artifacts known to break CI due to
+their size.
+
+Willian has been looking at it and it is not clear which project
+should be modified. He might explain better ;)
 
 
