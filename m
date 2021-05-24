@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73B6338E083
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 06:56:51 +0200 (CEST)
-Received: from localhost ([::1]:52266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38ABC38E089
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 06:58:05 +0200 (CEST)
+Received: from localhost ([::1]:57938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ll2e2-0004oG-Ih
-	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 00:56:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35718)
+	id 1ll2fD-0000Gj-3G
+	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 00:58:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35740)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yamamoto@midokura.com>)
- id 1ll2cS-0002iP-9b
- for qemu-devel@nongnu.org; Mon, 24 May 2021 00:55:12 -0400
-Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430]:41974)
+ id 1ll2cT-0002ix-F0
+ for qemu-devel@nongnu.org; Mon, 24 May 2021 00:55:13 -0400
+Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c]:46022)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <yamamoto@midokura.com>)
- id 1ll2cQ-0003Zk-3Y
- for qemu-devel@nongnu.org; Mon, 24 May 2021 00:55:12 -0400
-Received: by mail-pf1-x430.google.com with SMTP id p39so3503503pfw.8
- for <qemu-devel@nongnu.org>; Sun, 23 May 2021 21:55:09 -0700 (PDT)
+ id 1ll2cR-0003bF-Qz
+ for qemu-devel@nongnu.org; Mon, 24 May 2021 00:55:13 -0400
+Received: by mail-pf1-x42c.google.com with SMTP id d16so19831534pfn.12
+ for <qemu-devel@nongnu.org>; Sun, 23 May 2021 21:55:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=midokura.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=OeAn/cQqWx3M6p6wyRkeBhZn1UMAlrViv39KO/QNygU=;
- b=dYQOvLaFs4ra50N8xknUtPMsdJq6p4/AH1KSVKlJFzYJDwFMsDfrOK7GUpv2X2lrnf
- FDmUYCJkMBFUlxjkMY8FnhsLNAqQCaRBUdtmV+p/criLKxqFjoiX3k1Prg7ITfiXtOWs
- ftlLA8zboj1QsRtlV4YOs0f8qj7hy7VvJEg+Q=
+ bh=OjEvdBCaEtLFXNObt2sjDlAUMq69u4KYkjfRSX5e7ww=;
+ b=bw77HFJEdVpxj5YK5BwJ9cO8b1B+215dFODgfuwmqMqRqNt6O1TMp2KMKVmV3Og5IQ
+ 1nyqGtKAH0dahrIrY/gKZKyoyhBvycYZpmb34YDB3n2U0bluCQgk3w6MJVf56vDUNaMX
+ GWk1PCYFtuAvTLCZuYuB8IIaK00feAgapobbI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=OeAn/cQqWx3M6p6wyRkeBhZn1UMAlrViv39KO/QNygU=;
- b=SwKEMaZyVjzfo4CgP830n2zGVJu3s66I3Fz8R7P6uAozdQa+zmf0WmK7hF6KtYVZIJ
- ELyHqamL//qEHVmRfxU/AWKbjlW1HSAJ5LjcvuPC+rGGHix3+0wTvPMHvlX8Fo7rHD2f
- PMHIBgg6NE7QVVHwAflD9xvaYrTSznD7/V8QLlaC2Xp9GI2Jtq9U+O5l3Onk3Ke3MWJ1
- 7yMrKczZtiZFZ9MT/zje1I0YLtAUZAZ4ZIsSUc5SyR6jWmDhQ5UBfXFkiJhpLm6T2+oM
- VBfusJLRLuoZ9ReLOl4xkhHWdWL9eukJjfewVD2o/3SzE2sUCn50Y7Sjt1Y+kQTD3MA5
- 47KQ==
-X-Gm-Message-State: AOAM530NI2Vvuf5wlNLK+koj2C1cG+IfrcHLJUqpaLeAx3VAExPBxQgr
- aD9qjjY4JUgsmLCRwVEiym1uPhqNjTGuMg==
-X-Google-Smtp-Source: ABdhPJxckaOYC02JcZo46MIgafsS8Lao7RgcHh7zLQEUW6ncoRImWWiQDN4q4vJkDpDeLaJLQq1tmg==
-X-Received: by 2002:a62:c541:0:b029:2e8:c7c7:d96e with SMTP id
- j62-20020a62c5410000b02902e8c7c7d96emr4775272pfg.26.1621832108727; 
- Sun, 23 May 2021 21:55:08 -0700 (PDT)
+ bh=OjEvdBCaEtLFXNObt2sjDlAUMq69u4KYkjfRSX5e7ww=;
+ b=PNIeCZcTVkSo7Oi6QvSrr5VrjvNMqcODM/dpqd9TFYgznkfBL1WfCge26bXNB5Dsuh
+ EFN29xwHigY7XDiGplBeUNdbpok0Om1U7aLOVKXgAIKHAXMuwhv2+J4Ker99MDcARYYu
+ H4GxS+9v81ImHgg16r/bH1EyXuZ5ckbtL4s5Ux773q0S0jUucxW8bxqDw3f+e8aXb1FL
+ H6UNrw2n0pk4ffyHIjZuFH8WRzECadHE37mSN/reVrAt9Ml4YKsEIwgjH7UiWzhW2Aut
+ YBSHMNTr3i5YEPGpq9eXnaygBGMbHImPrHNHSjfSJFLiEgPrgRx1HbBVEkLQngo1Rq2L
+ JLHA==
+X-Gm-Message-State: AOAM533hIEVNlyD5xfkc1SzffLrrgJoSPKY8Ls8PLjx0Z2ONdS6S+/Is
+ U73+xM67f+lnr+p8YHaooS10rdGKkYIoyg==
+X-Google-Smtp-Source: ABdhPJx1dCaEMY75gNn39FuUOhZ/OttWumVmj//cNq2s3MYMSuGLof5LcT8UOyma5UjtSQeCjtof8Q==
+X-Received: by 2002:a65:53c8:: with SMTP id z8mr11700527pgr.192.1621832110444; 
+ Sun, 23 May 2021 21:55:10 -0700 (PDT)
 Received: from spacetanuki.lan ([202.12.244.32])
- by smtp.gmail.com with ESMTPSA id 24sm10040142pgz.77.2021.05.23.21.55.07
+ by smtp.gmail.com with ESMTPSA id 24sm10040142pgz.77.2021.05.23.21.55.09
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Sun, 23 May 2021 21:55:08 -0700 (PDT)
+ Sun, 23 May 2021 21:55:10 -0700 (PDT)
 From: YAMAMOTO Takashi <yamamoto@midokura.com>
 To: qemu-devel@nongnu.org
 Cc: YAMAMOTO Takashi <yamamoto@midokura.com>,
  Laurent Vivier <laurent@vivier.eu>
-Subject: [PATCH 1/5] linux-user: handle /proc/self/exe for execve
-Date: Mon, 24 May 2021 13:54:07 +0900
-Message-Id: <20210524045412.15152-2-yamamoto@midokura.com>
+Subject: [PATCH 2/5] linux-uesr: make exec_path realpath
+Date: Mon, 24 May 2021 13:54:08 +0900
+Message-Id: <20210524045412.15152-3-yamamoto@midokura.com>
 X-Mailer: git-send-email 2.21.1 (Apple Git-122.3)
 In-Reply-To: <20210524045412.15152-1-yamamoto@midokura.com>
 References: <20210524045412.15152-1-yamamoto@midokura.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
- envelope-from=yamamoto@midokura.com; helo=mail-pf1-x430.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
+ envelope-from=yamamoto@midokura.com; helo=mail-pf1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,40 +84,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It seems somehow common to execve /proc/self/exe in docker
-or golang community these days.
-At least, moby "reexec" and runc "libcontainer" do that.
+Otherwise, it can be easily fooled by the user app using chdir().
 
 Signed-off-by: YAMAMOTO Takashi <yamamoto@midokura.com>
 ---
- linux-user/syscall.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ linux-user/main.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index c9f812091c..a2b03ecb8b 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -8470,6 +8470,7 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+diff --git a/linux-user/main.c b/linux-user/main.c
+index 4dfc47ad3b..1f9f4e3820 100644
+--- a/linux-user/main.c
++++ b/linux-user/main.c
+@@ -55,6 +55,7 @@
  #endif
-     case TARGET_NR_execve:
-         {
-+            const char *path;
-             char **argp, **envp;
-             int argc, envc;
-             abi_ulong gp;
-@@ -8537,7 +8538,11 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
-              * before the execve completes and makes it the other
-              * program's problem.
-              */
--            ret = get_errno(safe_execve(p, argp, envp));
-+            path = p;
-+            if (is_proc_myself(path, "exe")) {
-+                path = exec_path;
-+            }
-+            ret = get_errno(safe_execve(path, argp, envp));
-             unlock_user(p, arg1, 0);
  
-             goto execve_end;
+ char *exec_path;
++char exec_path_store[PATH_MAX];
+ 
+ int singlestep;
+ static const char *argv0;
+@@ -610,7 +611,10 @@ static int parse_args(int argc, char **argv)
+         exit(EXIT_FAILURE);
+     }
+ 
+-    exec_path = argv[optind];
++    exec_path = realpath(argv[optind], exec_path_store);
++    if (exec_path == NULL) {
++        exec_path = argv[optind];
++    }
+ 
+     return optind;
+ }
 -- 
 2.21.1 (Apple Git-122.3)
 
