@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA4CD38ECC2
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 17:22:15 +0200 (CEST)
-Received: from localhost ([::1]:55238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AFC738ED42
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 17:34:11 +0200 (CEST)
+Received: from localhost ([::1]:34886 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llCPG-0006q5-J2
-	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 11:22:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55080)
+	id 1llCan-0004PV-Ky
+	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 11:34:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57488)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1llCOV-00068Q-If
- for qemu-devel@nongnu.org; Mon, 24 May 2021 11:21:27 -0400
-Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:44021)
+ id 1llCYy-0002II-Kl
+ for qemu-devel@nongnu.org; Mon, 24 May 2021 11:32:16 -0400
+Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533]:34732)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1llCOR-00083Q-R9
- for qemu-devel@nongnu.org; Mon, 24 May 2021 11:21:27 -0400
-Received: by mail-pj1-x1033.google.com with SMTP id
- ep16-20020a17090ae650b029015d00f578a8so11327386pjb.2
- for <qemu-devel@nongnu.org>; Mon, 24 May 2021 08:21:23 -0700 (PDT)
+ id 1llCYw-0003Td-UC
+ for qemu-devel@nongnu.org; Mon, 24 May 2021 11:32:16 -0400
+Received: by mail-pg1-x533.google.com with SMTP id l70so20367870pga.1
+ for <qemu-devel@nongnu.org>; Mon, 24 May 2021 08:32:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:references:from:message-id:date:user-agent:mime-version
  :in-reply-to:content-language:content-transfer-encoding;
- bh=YiyFi5tqzZjVk+SKvZrMqCuPBH1GjFpR+NdP3Hbg9Oo=;
- b=Oy//n7oQP0viSyeOGqKvSsL7nBASzqwXnQI2Een3XShH7pey2yiW6kva/NMyO+JE9G
- R4IvNDpn18nKsc+ozx5zRlCLjas2wVOS7oaoHW5ufx2e91jM4ENvawYjooW+1MkiyxaV
- 1aNkW2uwvbTpW7oPp9/i5rSdj4c+n8SfkoswM5n56j1ab45q+BThzwx4T8uaUPNmhjvg
- jRBcAt9o8EoPjiypoR33dAXTyzbBlK1bkdomo8SYc4Wccb0pf+of1snZqGtLhObPpfOp
- /EadnQdwc7Ca9ABvPgkL8sBKLM2HSgO/uZwKB28PZ9gsbQ2dexIMLeEU+I3MgpX1iox1
- Jt1w==
+ bh=E+1rF+gQ5BXZJh3iM48/7iy3zG5eQbhpWyUrAtHjcxk=;
+ b=sFJOHbSDIplVt+wiWeuD1iqlNUg4LDtG5j46/ypDBxysfzt5y85j3ehCWRIJOgR4gX
+ ZgmxZyGLDChx/JhqA2zVXVUl3fnwOe5uBCRFBFAwDmg4ohHMomemv5h+9rUIPQsqHq7B
+ sd7SU3BE4oMdmIF7IGhMqDqP+TsXKNu9ZSuh8/MLHsIuTQ6th2JdNxMyBzVCXD4csWP2
+ w4j+KgSNDCDuNZFkfEqr8CFck0VTl8EByI2DuHXHT8H367Rg/2xyagLUSNUg+ddIS4Mn
+ B5bipshgOPP/F9OHiNNca8tTsI6WsPLieeKVBtPsuFdJ/WBtffpPY21fSarW2xk4mJ/u
+ 0oFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=YiyFi5tqzZjVk+SKvZrMqCuPBH1GjFpR+NdP3Hbg9Oo=;
- b=b7yfeGzy+uVi5rjRMqTCgBn+R9k+DM7nhuRWEWX2lokM19xs2hwTEFYNujEMACwWLT
- oH5O3c/z72HAPoaxWVXpMRBVXuST7H7RSejvTJi1as0FDDDhXtTd02yUPqTh2QOnBCiR
- TO8TXfIWYgprmzHrgLXtG42syuLMpqPnHg2lpsUt39arl+4BGav+g2xeLR+3sXMABB0Z
- GG2sNOKV0z608JrF2YcRdWQN1nldPIxPEti7mzkqoWiy1MYp9PTfO7aRe0q1EciaoDha
- zHSSTSvASKBzx4I6ArbDDGKugCkUqAFJxnEVKIvLm1rbtVeMXKj8JlWva9fNTAlxfyfR
- +egA==
-X-Gm-Message-State: AOAM530UcisalblHjg3VgVqlk21L8bo/0NZglFwyj7U5FmMbCxSsCOu4
- yiqqZrKLg5DMpM2EDdnCROpoHMSLucU9Cw==
-X-Google-Smtp-Source: ABdhPJzXpTO/2gDNATYEG8NHVI2CxQgafP2NP0TqLPVuAGoX/NcKOthnN9yRYljlwpPhO3whdKbRtA==
-X-Received: by 2002:a17:90a:8911:: with SMTP id
- u17mr25394423pjn.165.1621869682269; 
- Mon, 24 May 2021 08:21:22 -0700 (PDT)
+ bh=E+1rF+gQ5BXZJh3iM48/7iy3zG5eQbhpWyUrAtHjcxk=;
+ b=J0R7buIvzKXPJMdSYMmL9ENxbR356kuCv6m4qy6SldaHG5s0+IXDBPrltVGY/VYPq2
+ nUkmR7TCnOuuBmapd/lPup1AU7W+aZ73YlAFK7+NUbpNY+boa8y78KhoJ+qfQ7NbwAiS
+ zYxL4FqFGfTEusNyIdmDCeEbv3DNvI84+hz4Zp8WoEkvzqX4a5oTsdhgI9/mKYVtxVPy
+ saJ7Bp5P6F8F2VwsJ+fCc5BN8ov+7bS5qdtEZIdeRmoO7LjTbVdbIASivr+2pml82drp
+ xKYYXYsMgZRZZ2Pup+N6rZrAUiTonOCXLLY+GAREviUC1xCOWwReH13pYiJGWrzXhzyU
+ f0Wg==
+X-Gm-Message-State: AOAM533q0rCKLH7QljI0ON6IQOxaFEZUaG7El+hG05Oq4KBgef+1K3bK
+ 5vT0wPV6gqdCumPiBofIr45y+mvTj1qrwA==
+X-Google-Smtp-Source: ABdhPJwUSCyvdZFw1vJ2u2O1DFm+k/zqQZrngu2tWRGNNqhVeRZdSteXx1m/wvIFcuux641H6qFtvw==
+X-Received: by 2002:a05:6a00:248e:b029:28e:bca9:5985 with SMTP id
+ c14-20020a056a00248eb029028ebca95985mr25613198pfv.10.1621870333258; 
+ Mon, 24 May 2021 08:32:13 -0700 (PDT)
 Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
  by smtp.gmail.com with ESMTPSA id
- j20sm9368506pfj.40.2021.05.24.08.21.21
+ m24sm1076538pfa.125.2021.05.24.08.32.12
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 24 May 2021 08:21:22 -0700 (PDT)
-Subject: Re: [PATCH 1/9] target/arm: Add isar feature check functions for MVE
+ Mon, 24 May 2021 08:32:13 -0700 (PDT)
+Subject: Re: [PATCH 2/9] target/arm: Update feature checks for insns which are
+ "MVE or FP"
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20210520152840.24453-1-peter.maydell@linaro.org>
- <20210520152840.24453-2-peter.maydell@linaro.org>
+ <20210520152840.24453-3-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <bca110b4-220e-88b2-7d34-05d0475077ee@linaro.org>
-Date: Mon, 24 May 2021 08:21:20 -0700
+Message-ID: <45b047d6-a287-0cc1-8b81-cbaa727347c6@linaro.org>
+Date: Mon, 24 May 2021 08:32:10 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210520152840.24453-2-peter.maydell@linaro.org>
+In-Reply-To: <20210520152840.24453-3-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x533.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,14 +95,21 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 5/20/21 8:28 AM, Peter Maydell wrote:
-> Add the isar feature check functions we will need for v8.1M MVE:
->   * a check for MVE present: this corresponds to the pseudocode's
->     CheckDecodeFaults(ExtType_Mve)
->   * a check for the optional floating-point part of MVE: this
->     corresponds to CheckDecodeFaults(ExtType_MveFp)
+> Some v8M instructions are present if either the floating point
+> extension or MVE is implemented.  Update our implementation of them
+> to check for MVE as well as for FP.
+> 
+> This is all the insns which use CheckDecodeFaults(ExtType_MveOrFp) or
+> CheckDecodeFaults(ExtType_MveOrDpFp) in their pseudocode, which are
+> essentially the loads and stores, moves and sysreg accesses, except
+> for VMOV_reg_sp and VMOV_reg_dp, which we handle in subsequent
+> patches because they need a refactor to provide a place to put the
+> new MVE check.
 > 
 > Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
 > ---
+>   target/arm/translate-vfp.c | 48 +++++++++++++++++++++++---------------
+>   1 file changed, 29 insertions(+), 19 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
