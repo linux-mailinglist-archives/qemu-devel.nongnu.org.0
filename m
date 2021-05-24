@@ -2,35 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85C9A38E481
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 12:47:30 +0200 (CEST)
-Received: from localhost ([::1]:44046 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF33538E482
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 12:47:32 +0200 (CEST)
+Received: from localhost ([::1]:44180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ll87N-0007Ux-7a
-	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 06:47:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48394)
+	id 1ll87P-0007aC-9Y
+	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 06:47:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48404)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.price@arm.com>)
- id 1ll85Q-0004y5-7t
+ id 1ll85Q-0004yI-HW
  for qemu-devel@nongnu.org; Mon, 24 May 2021 06:45:28 -0400
-Received: from foss.arm.com ([217.140.110.172]:33400)
+Received: from foss.arm.com ([217.140.110.172]:33420)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <steven.price@arm.com>) id 1ll85N-0005A2-1c
- for qemu-devel@nongnu.org; Mon, 24 May 2021 06:45:27 -0400
+ (envelope-from <steven.price@arm.com>) id 1ll85O-0005C1-K5
+ for qemu-devel@nongnu.org; Mon, 24 May 2021 06:45:28 -0400
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6F16031B;
- Mon, 24 May 2021 03:45:22 -0700 (PDT)
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 64F9E113E;
+ Mon, 24 May 2021 03:45:25 -0700 (PDT)
 Received: from e112269-lin.arm.com (unknown [172.31.20.19])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9C4403F719;
- Mon, 24 May 2021 03:45:19 -0700 (PDT)
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A7FA23F719;
+ Mon, 24 May 2021 03:45:22 -0700 (PDT)
 From: Steven Price <steven.price@arm.com>
 To: Catalin Marinas <catalin.marinas@arm.com>, Marc Zyngier <maz@kernel.org>,
  Will Deacon <will@kernel.org>
-Subject: [PATCH v13 0/8] MTE support for KVM guest
-Date: Mon, 24 May 2021 11:45:05 +0100
-Message-Id: <20210524104513.13258-1-steven.price@arm.com>
+Subject: [PATCH v13 1/8] arm64: mte: Handle race when synchronising tags
+Date: Mon, 24 May 2021 11:45:06 +0100
+Message-Id: <20210524104513.13258-2-steven.price@arm.com>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20210524104513.13258-1-steven.price@arm.com>
+References: <20210524104513.13258-1-steven.price@arm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=217.140.110.172;
@@ -66,86 +68,88 @@ Cc: Mark Rutland <mark.rutland@arm.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This series adds support for using the Arm Memory Tagging Extensions
-(MTE) in a KVM guest.
+mte_sync_tags() used test_and_set_bit() to set the PG_mte_tagged flag
+before restoring/zeroing the MTE tags. However if another thread were to
+race and attempt to sync the tags on the same page before the first
+thread had completed restoring/zeroing then it would see the flag is
+already set and continue without waiting. This would potentially expose
+the previous contents of the tags to user space, and cause any updates
+that user space makes before the restoring/zeroing has completed to
+potentially be lost.
 
-Changes since v12[1]:
+Since this code is run from atomic contexts we can't just lock the page
+during the process. Instead implement a new (global) spinlock to protect
+the mte_sync_page_tags() function.
 
- * Use DEFINE_SPINLOCK() to define tag_sync_lock.
+Fixes: 34bfeea4a9e9 ("arm64: mte: Clear the tags when a page is mapped in user-space with PROT_MTE")
+Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
+Signed-off-by: Steven Price <steven.price@arm.com>
+---
+---
+ arch/arm64/kernel/mte.c | 21 ++++++++++++++++++---
+ 1 file changed, 18 insertions(+), 3 deletions(-)
 
- * Refactor mte_sync_tags() to take the old PTE value rather than a
-   pointer to the PTE. The checks in set_pte_at() are also strengthed to
-   avoid the function call when possible.
-
- * Fix prefix on a couple of patches ("arm64: kvm" -> "KVM: arm64").
-
- * Reorder arguments to sanitise_mte_tags() ("size, pfn" -> "pfn,
-   size").
-
- * Add/improve comments in several places.
-
- * Report the host's sanitised version of ID_AA64PFR1_EL1:MTE rather
-   than making up one for the guest.
-
- * Insert ISB at the end of mte_switch_to_hyp macro.
-
- * Drop the definition of CPU_TFSRE0_EL1 in asm-offsets.c as it isn't
-   used anymore.
-
- * Prevent creation of 32 bit vCPUs when MTE is enabled for the guest
-   (and document it).
-
- * Move kvm_vm_ioctl_mte_copy_tags() to guest.c.
-
- * Reject ZONE_DEVICE memory in kvm_vm_ioctl_mte_copy_tags() and
-   correctly handle pages where PG_mte_tagged hasn't been set yet.
-
- * Define MTE_GRANULES_PER_PAGE rather than open coding the divison
-   PAGE_SIZE / MTE_GRANULE_SIZE.
-
- * Correct the definition of struct kvm_arm_copy_mte_tags in the docs.
-   Also avoid mentioning MTE_GRANULE_SIZE as it isn't exported to
-   userspace.
-
-[1] https://lore.kernel.org/r/20210517123239.8025-1-steven.price@arm.com/
-
-Catalin Marinas (1):
-  arm64: Handle MTE tags zeroing in __alloc_zeroed_user_highpage()
-
-Steven Price (7):
-  arm64: mte: Handle race when synchronising tags
-  arm64: mte: Sync tags for pages where PTE is untagged
-  KVM: arm64: Introduce MTE VM feature
-  KVM: arm64: Save/restore MTE registers
-  KVM: arm64: Expose KVM_ARM_CAP_MTE
-  KVM: arm64: ioctl to fetch/store tags in a guest
-  KVM: arm64: Document MTE capability and ioctl
-
- Documentation/virt/kvm/api.rst             | 52 ++++++++++++++
- arch/arm64/include/asm/kvm_emulate.h       |  3 +
- arch/arm64/include/asm/kvm_host.h          | 12 ++++
- arch/arm64/include/asm/kvm_mte.h           | 68 +++++++++++++++++++
- arch/arm64/include/asm/mte-def.h           |  1 +
- arch/arm64/include/asm/mte.h               |  4 +-
- arch/arm64/include/asm/page.h              |  6 +-
- arch/arm64/include/asm/pgtable.h           | 22 +++++-
- arch/arm64/include/asm/sysreg.h            |  3 +-
- arch/arm64/include/uapi/asm/kvm.h          | 11 +++
- arch/arm64/kernel/asm-offsets.c            |  2 +
- arch/arm64/kernel/mte.c                    | 37 ++++++++--
- arch/arm64/kvm/arm.c                       | 16 +++++
- arch/arm64/kvm/guest.c                     | 79 ++++++++++++++++++++++
- arch/arm64/kvm/hyp/entry.S                 |  7 ++
- arch/arm64/kvm/hyp/exception.c             |  3 +-
- arch/arm64/kvm/hyp/include/hyp/sysreg-sr.h | 21 ++++++
- arch/arm64/kvm/mmu.c                       | 48 ++++++++++++-
- arch/arm64/kvm/reset.c                     |  3 +-
- arch/arm64/kvm/sys_regs.c                  | 32 +++++++--
- arch/arm64/mm/fault.c                      | 21 ++++++
- include/uapi/linux/kvm.h                   |  2 +
- 22 files changed, 431 insertions(+), 22 deletions(-)
- create mode 100644 arch/arm64/include/asm/kvm_mte.h
-
+diff --git a/arch/arm64/kernel/mte.c b/arch/arm64/kernel/mte.c
+index 125a10e413e9..45fac0e9c323 100644
+--- a/arch/arm64/kernel/mte.c
++++ b/arch/arm64/kernel/mte.c
+@@ -25,6 +25,7 @@
+ u64 gcr_kernel_excl __ro_after_init;
+ 
+ static bool report_fault_once = true;
++static DEFINE_SPINLOCK(tag_sync_lock);
+ 
+ #ifdef CONFIG_KASAN_HW_TAGS
+ /* Whether the MTE asynchronous mode is enabled. */
+@@ -34,13 +35,22 @@ EXPORT_SYMBOL_GPL(mte_async_mode);
+ 
+ static void mte_sync_page_tags(struct page *page, pte_t *ptep, bool check_swap)
+ {
++	unsigned long flags;
+ 	pte_t old_pte = READ_ONCE(*ptep);
+ 
++	spin_lock_irqsave(&tag_sync_lock, flags);
++
++	/* Recheck with the lock held */
++	if (test_bit(PG_mte_tagged, &page->flags))
++		goto out;
++
+ 	if (check_swap && is_swap_pte(old_pte)) {
+ 		swp_entry_t entry = pte_to_swp_entry(old_pte);
+ 
+-		if (!non_swap_entry(entry) && mte_restore_tags(entry, page))
+-			return;
++		if (!non_swap_entry(entry) && mte_restore_tags(entry, page)) {
++			set_bit(PG_mte_tagged, &page->flags);
++			goto out;
++		}
+ 	}
+ 
+ 	page_kasan_tag_reset(page);
+@@ -53,6 +63,10 @@ static void mte_sync_page_tags(struct page *page, pte_t *ptep, bool check_swap)
+ 	 */
+ 	smp_wmb();
+ 	mte_clear_page_tags(page_address(page));
++	set_bit(PG_mte_tagged, &page->flags);
++
++out:
++	spin_unlock_irqrestore(&tag_sync_lock, flags);
+ }
+ 
+ void mte_sync_tags(pte_t *ptep, pte_t pte)
+@@ -60,10 +74,11 @@ void mte_sync_tags(pte_t *ptep, pte_t pte)
+ 	struct page *page = pte_page(pte);
+ 	long i, nr_pages = compound_nr(page);
+ 	bool check_swap = nr_pages == 1;
++	bool pte_is_tagged = pte_tagged(pte);
+ 
+ 	/* if PG_mte_tagged is set, tags have already been initialised */
+ 	for (i = 0; i < nr_pages; i++, page++) {
+-		if (!test_and_set_bit(PG_mte_tagged, &page->flags))
++		if (!test_bit(PG_mte_tagged, &page->flags))
+ 			mte_sync_page_tags(page, ptep, check_swap);
+ 	}
+ }
 -- 
 2.20.1
 
