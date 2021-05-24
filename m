@@ -2,43 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE76938DFC7
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 05:12:16 +0200 (CEST)
-Received: from localhost ([::1]:57028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AC4438DFF4
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 05:49:48 +0200 (CEST)
+Received: from localhost ([::1]:43468 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ll10p-0006oS-Pm
-	for lists+qemu-devel@lfdr.de; Sun, 23 May 2021 23:12:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48036)
+	id 1ll1b8-0001jc-JC
+	for lists+qemu-devel@lfdr.de; Sun, 23 May 2021 23:49:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53476)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1ll0sc-0008He-D3; Sun, 23 May 2021 23:03:46 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:43655 helo=ozlabs.org)
+ id 1ll1Yu-0006Gy-DU; Sun, 23 May 2021 23:47:28 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:41357 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1ll0sY-0000hr-I3; Sun, 23 May 2021 23:03:46 -0400
+ id 1ll1Yq-00039N-KI; Sun, 23 May 2021 23:47:28 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4FpMV50SZtz9sW7; Mon, 24 May 2021 13:03:24 +1000 (AEST)
+ id 4FpNSl1rs2z9sVb; Mon, 24 May 2021 13:47:19 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1621825405;
- bh=6rtQ9n1zDf3NXnTlqzQgJ5NC2BjJwMc65iqp67osmh8=;
+ d=gibson.dropbear.id.au; s=201602; t=1621828039;
+ bh=JstdtvxgnPNNqSMXTfQwihriNttwFR4vRq8kzHzipcU=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=fd6QY4+VqFPxg5OoCvoxf8N+IB9C1/4/N8vuVzrMjNn6+QSiUG/HxRQUP2q0plWvk
- Zv8N0H0RGKUPYqNpajUzFnbX1+T9yAhWh2x46mYbMqLkcQDSrsQwCf10EJqXRtuioD
- 2ofCCCb/hjuWH2w/V6J77uCIuTr7t8o0vNU1dweQ=
-Date: Mon, 24 May 2021 13:02:50 +1000
+ b=JE0XO2/IANnNAD/4IlqbaGuHJDSrIUHOq7Quhy67Ruc35WR1GDdZ6Gy3CcOs+vl4e
+ 6fqokuXhsBbWT2S06yEOWYT5M4yBzPRKtStpNsBZmADPkf9nv2Ju2THry+Hh9ALgpk
+ AWBg2UB1MeiCTLu2jLPwBtg8c9WzTN6BnK2XPQHU=
+Date: Mon, 24 May 2021 13:12:16 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
-To: "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br>
-Subject: Re: [PATCH v3 8/9] target/ppc: created tcg-stub.c file
-Message-ID: <YKsXWvxV8aLRauoe@yekko>
-References: <20210521201759.85475-1-bruno.larsen@eldorado.org.br>
- <20210521201759.85475-9-bruno.larsen@eldorado.org.br>
+To: Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH] spapr: Don't hijack current_machine->boot_order
+Message-ID: <YKsZkGKAOWZfT2s4@yekko>
+References: <20210521160735.1901914-1-groug@kaod.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="ipOxSrFcvyZCf6kJ"
+ protocol="application/pgp-signature"; boundary="vWHaxbTwK1h+zRln"
 Content-Disposition: inline
-In-Reply-To: <20210521201759.85475-9-bruno.larsen@eldorado.org.br>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+In-Reply-To: <20210521160735.1901914-1-groug@kaod.org>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -58,90 +57,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: farosas@linux.ibm.com, richard.henderson@linaro.org, qemu-devel@nongnu.org,
- lucas.araujo@eldorado.org.br, fernando.valle@eldorado.org.br,
- qemu-ppc@nongnu.org, matheus.ferst@eldorado.org.br, luis.pires@eldorado.org.br
+Cc: pbonzini@redhat.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---ipOxSrFcvyZCf6kJ
+--vWHaxbTwK1h+zRln
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, May 21, 2021 at 05:17:58PM -0300, Bruno Larsen (billionai) wrote:
-> Created a file with stubs needed to compile disabling TCG. *_ppc_opcodes
-> were created to make cpu_init.c have a few less ifdefs, since they are
-> not needed. coftmmu_resize_hpt_* have to be created because the compiler
-> can't automatically know they aren't used, but they should never be
-> reached.
+On Fri, May 21, 2021 at 06:07:35PM +0200, Greg Kurz wrote:
+> QEMU 6.0 moved all the -boot variables to the machine. Especially, the
+> removal of the boot_order static changed the handling of '-boot once'
+> from:
 >=20
-> Signed-off-by: Bruno Larsen (billionai) <bruno.larsen@eldorado.org.br>
+>     if (boot_once) {
+>         qemu_boot_set(boot_once, &error_fatal);
+>         qemu_register_reset(restore_boot_order, g_strdup(boot_order));
+>     }
+>=20
+> to
+>=20
+>     if (current_machine->boot_once) {
+>         qemu_boot_set(current_machine->boot_once, &error_fatal);
+>         qemu_register_reset(restore_boot_order,
+>                             g_strdup(current_machine->boot_order));
+>     }
+>=20
+> This means that we now register as subsequent boot order a copy
+> of current_machine->boot_once that was just set with the previous
+> call to qemu_boot_set(), i.e. we never transition away from the
+> once boot order.
+>=20
+> It is certainly fragile^Wwrong for the spapr code to hijack a
+> field of the base machine type object like that. The boot order
+> rework simply turned this software boundary violation into an
+> actual bug.
+>=20
+> Have the spapr code to handle that with its own field in
+> SpaprMachineState. Also kfree() the initial boot device
+> string when "once" was used.
+>=20
+> Fixes: 4b7acd2ac821 ("vl: clean up -boot variables")
+> Resolves: https://bugzilla.redhat.com/show_bug.cgi?id=3D1960119
+> Cc: pbonzini@redhat.com
+> Signed-off-by: Greg Kurz <groug@kaod.org>
+
+
+Applied to ppc-for-6.1, thanks.
+
 > ---
->  target/ppc/meson.build |  4 ++++
->  target/ppc/tcg-stub.c  | 25 +++++++++++++++++++++++++
->  2 files changed, 29 insertions(+)
->  create mode 100644 target/ppc/tcg-stub.c
+>  include/hw/ppc/spapr.h | 3 +++
+>  hw/ppc/spapr.c         | 8 +++++---
+>  2 files changed, 8 insertions(+), 3 deletions(-)
 >=20
-> diff --git a/target/ppc/meson.build b/target/ppc/meson.build
-> index d1aa7d5d39..848e625302 100644
-> --- a/target/ppc/meson.build
-> +++ b/target/ppc/meson.build
-> @@ -28,6 +28,10 @@ ppc_softmmu_ss.add(files(
->    'mmu_helper.c',
->    'monitor.c',
->  ))
-> +ppc_softmmu_ss.add(when: 'CONFIG_TCG', if_false: files(
-> +  'tcg-stub.c'
-> +))
+> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+> index bbf817af4647..f05219f75ef6 100644
+> --- a/include/hw/ppc/spapr.h
+> +++ b/include/hw/ppc/spapr.h
+> @@ -223,6 +223,9 @@ struct SpaprMachineState {
+>      int fwnmi_machine_check_interlock;
+>      QemuCond fwnmi_machine_check_interlock_cond;
+> =20
+> +    /* Set by -boot */
+> +    char *boot_device;
 > +
->  ppc_softmmu_ss.add(when: 'TARGET_PPC64', if_true: files(
->    'compat.c',
->    'mmu-book3s-v3.c',
-> diff --git a/target/ppc/tcg-stub.c b/target/ppc/tcg-stub.c
-> new file mode 100644
-> index 0000000000..6d99834274
-> --- /dev/null
-> +++ b/target/ppc/tcg-stub.c
-
-New file needs a copyright banner.
-
-> @@ -0,0 +1,25 @@
-> +#include "qemu/osdep.h"
-> +#include "cpu.h"
-> +#include "internal.h"
-> +#include "hw/ppc/spapr.h"
+>      /*< public >*/
+>      char *kvm_type;
+>      char *host_model;
+> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> index c23bcc449071..4dd90b75cc52 100644
+> --- a/hw/ppc/spapr.c
+> +++ b/hw/ppc/spapr.c
+> @@ -1005,7 +1005,7 @@ static void spapr_dt_chosen(SpaprMachineState *spap=
+r, void *fdt, bool reset)
+>      _FDT(chosen =3D fdt_add_subnode(fdt, 0, "chosen"));
+> =20
+>      if (reset) {
+> -        const char *boot_device =3D machine->boot_order;
+> +        const char *boot_device =3D spapr->boot_device;
+>          char *stdout_path =3D spapr_vio_stdout_path(spapr->vio_bus);
+>          size_t cb =3D 0;
+>          char *bootlist =3D get_boot_devices_list(&cb);
+> @@ -2376,8 +2376,10 @@ static SaveVMHandlers savevm_htab_handlers =3D {
+>  static void spapr_boot_set(void *opaque, const char *boot_device,
+>                             Error **errp)
+>  {
+> -    MachineState *machine =3D MACHINE(opaque);
+> -    machine->boot_order =3D g_strdup(boot_device);
+> +    SpaprMachineState *spapr =3D SPAPR_MACHINE(opaque);
 > +
-> +void create_ppc_opcodes(PowerPCCPU *cpu, Error **errp)
-> +{}
-
-I believe style dictates this be
-{
-}
-
-rather than
-{}
-
-
-> +
-> +void destroy_ppc_opcodes(PowerPCCPU *cpu)
-> +{}
-> +
-> +target_ulong softmmu_resize_hpt_prepare(PowerPCCPU *cpu,
-> +                                        SpaprMachineState *spapr,
-> +                                        target_ulong shift)
-> +{
-> +    g_assert_not_reached();
-> +}
-> +
-> +target_ulong softmmu_resize_hpt_commit(PowerPCCPU *cpu,
-> +                                       SpaprMachineState *spapr,
-> +                                       target_ulong flags,
-> +                                       target_ulong shift)
-> +{
-> +    g_assert_not_reached();
-> +}
+> +    g_free(spapr->boot_device);
+> +    spapr->boot_device =3D g_strdup(boot_device);
+>  }
+> =20
+>  static void spapr_create_lmb_dr_connectors(SpaprMachineState *spapr)
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -149,25 +160,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---ipOxSrFcvyZCf6kJ
+--vWHaxbTwK1h+zRln
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmCrF1oACgkQbDjKyiDZ
-s5JLLRAAioUXfrZT8ZFREYUsf8UgeDkD9nQE2aMm9idax3rR7eciULKm6HxgCtOF
-8SwNzQ3vlcotChyimcHy0+T3DC3p2xPUiaiga14d6Wqp0fd3PJUwXMlGiNsX1edM
-fQQNonYsW6+GbUByjbDa27eJ1JGnn1u9lnoHrLjgYgt/bSOU6GzXg6JFgW4UJKs+
-zLtdC/bzdTUCi+HPaq3ZCMNStTzDBNEaMDI+kevnqiMkefIMc0M3VyCgpHnLDIkJ
-3MM0gvZhXpaF0pyCqio+bCkgIOXYB3e0lV5l8wihbCxO5s3TUAdLHu8h1F0PLWz6
-C1a9MmJCIpsCJKTtLx/9V/NzAFsip8z3NZAAm/diBF9n/2PSJk+d61EJUnUkri5l
-OFg9s5RdYKa5BhQl27igbUWKKeNU0/Sh6EZH/j8ZJQuFwLYd5wyNYcG6VAxRzxpx
-lNYCp1kKJsC5YqriIumu1opcDPC44d2l2AcNcaEjwZRnvd5gV+EDILOgkXTBuC7Q
-u3+u4wGOUWFEMrFDH2QLHRgx7SeRkFEXLV8P3r/69EKfK/lS8xQ7b8QS2Lz40QlN
-vAVA3VeSGf+3HpcxScX0zn3jNw+VBmYWVtE9uayZZXFD5NBAc414yQB02iPswknq
-g2pNlDLv+PdSoYln0yRjLogllbxzv75gWOkLgLgZAInIZ9lNpIE=
-=gnKA
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmCrGY8ACgkQbDjKyiDZ
+s5JZHBAAq9VHNaHtl3EH+6sXZS6xn5dL5P1Tk1RntWS5fwVrCdwER+NAmKXXnJfx
+czW2OX2UTNl9StSU/jdTb273K97YMDqNLC9tCwdOsday4Dy5xpVpWtD1/ktR26PM
+akGF8ubRVNrgOkv9kcvqygQ9dx61BVWl///MAvDA9iNjbLZ0E4/HfAwYBGoHv0t6
+N7x8dQinc4r79BOzNarkYRWPFGGS+m760ueKrQDLZZOfOHuILOi3SmBccz058nXx
+N7QpKjSFo+9AuH3kqsI0bt+j3VPEV/yEm7jbtnFeozPLwzyP1nYFbEB/DhJ80Z6k
+7E14/d05eqs8IrPJ8gfRcpN0o6p2WSZnwgTuCCMdvMyALbM1xaFSojgmPouXP2Uu
+Lu5Lz04S5Lr/bvMQZGacreEJT0hTuLSN87ts5OgFIOJ2l1hDUOnncMSMmI8AfjUd
+6tthVnENnanewdMPiTr83+aigUG47iMbnWO72lq1RHR2DzFqK6gWpd2mAR4hTGyY
+YgBHJwy2BPNsJOu+H4GGeY1ubgvi9gTi8fcGnfIpGr2t8OiV6bl9A6oiiy6u8KNr
+dBcA1giIU39ImlEQVB0Pn40WibCMe5jmSmCcwbH6oHTUbHL5PCjBG+RtpjCed6cr
+LVOONmWPpl7QbK1j1I2Uagiz+AZuDLuoU6NPJMCpwKbHkJ15qnc=
+=B6uh
 -----END PGP SIGNATURE-----
 
---ipOxSrFcvyZCf6kJ--
+--vWHaxbTwK1h+zRln--
 
