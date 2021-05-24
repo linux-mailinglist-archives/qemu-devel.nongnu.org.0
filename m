@@ -2,87 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B8AF38E378
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 11:39:20 +0200 (CEST)
-Received: from localhost ([::1]:53382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACB7A38E381
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 11:45:10 +0200 (CEST)
+Received: from localhost ([::1]:58008 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ll73O-0005b1-Ld
-	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 05:39:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33824)
+	id 1ll793-0000WK-P3
+	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 05:45:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35050)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ll72P-0004vA-DJ
- for qemu-devel@nongnu.org; Mon, 24 May 2021 05:38:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32413)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ll72M-0004nH-Ip
- for qemu-devel@nongnu.org; Mon, 24 May 2021 05:38:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621849092;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=UhcG+ZYBd4bRB5Q9zZ5/t8jdmTbmo6W9bwBV1bTr2uI=;
- b=Q8bg5J1n3YHew9O1qTU1h1v+vXElIyfM2sw3Lh9RNNThsV0zExotBRqXPVObBi37ystBdq
- ixaoPOpKPtie4zClLCHa1fB+sbMmrouBJDExMX/UXXJlFZmsbukoCpv9s9a+ErqS9wqdF+
- BSqHiDMiaUK6Iu0wL9w7VnoZpXm+5q0=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-558-PsLXx-TSOe6vhlT_btJcyg-1; Mon, 24 May 2021 05:38:11 -0400
-X-MC-Unique: PsLXx-TSOe6vhlT_btJcyg-1
-Received: by mail-wr1-f70.google.com with SMTP id
- 2-20020adf94020000b0290110481f75ddso12830992wrq.21
- for <qemu-devel@nongnu.org>; Mon, 24 May 2021 02:38:10 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ll76Q-0007NE-EW
+ for qemu-devel@nongnu.org; Mon, 24 May 2021 05:42:26 -0400
+Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:34649)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ll76N-0007SE-Kk
+ for qemu-devel@nongnu.org; Mon, 24 May 2021 05:42:26 -0400
+Received: by mail-ej1-x630.google.com with SMTP id p24so39551245ejb.1
+ for <qemu-devel@nongnu.org>; Mon, 24 May 2021 02:42:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=5ONGaH/4OPzry/prSZ2UCPG8A0rU3qiC2X3xVrEjzzI=;
+ b=k7/Q2vEWQxWOCwWnS5qnhA61/mLJKVWyJVWLdjnL7sh92QKO+NExf4kMBCN0ysyzap
+ DmvI6am5JpdFTI+Tm4I3mHK/vc+sKb1TdwvVd9OjQbbLxmVOBj928rEf+Vlj3aRHdp7U
+ F0sgJsy0Zo+5nMghb5BKCbyJBxgfTppAvI4zYVEsW9pXUQ9Z15evYFzpMogtglBFPZHU
+ BCSbhGuK8oSDZrdDk6xyKSrYibRrzbjWzRmys0GnmAr0GTREerHy8drQtxGD+Qu45/ok
+ ffAT1irnrr5PhpbewhvVfs8kpGytB/C8Ir0G9AOHkoi9tFY3EJ3eUAXtl/Jr/9snZf6T
+ fJBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=UhcG+ZYBd4bRB5Q9zZ5/t8jdmTbmo6W9bwBV1bTr2uI=;
- b=Hr2Fri4NTrB3DXjEyImNCFqNvMvJY5lTQynHMYPMK65PaaH7NvQluBy2gv/O4L4F9J
- 1HsKrh6MYcgBT0Uuz7q5OE3ozB7dyN73DMF5CnO13v72zsVuXB1PkjV0T0i9Ke5OVARy
- gh++7lnVEphO94uDk6Zq+m0A8RfQS+YTBNwZZyOtnCwYxuErd1rcRSJkt08garVwpUD2
- +uX12ZknrF0me/o0v3u/5JN+shrGqm+RN0tpkyLZIFqg2q/RGuCpPZMDD5Z/FEDJrM4U
- JMVm3HfnPiuD8ylbcTK9VpRkqy78jNEzmlHopIwlMG6fXG/sw3SKSY/BbP0bdkEUYUdJ
- bW1w==
-X-Gm-Message-State: AOAM532wxp+C+pYD3TTdtPCfhuTEGJQqR1IA8DqOB5Pnv6Owkq0mbHep
- pcOo2G9L2beKg9h5EgAfghv6+tSHMNDv+wsTgAYS++AegpT3Lx5wrKXZhaq89swXn0mpO7JCA+H
- 6YeMBkCQRltBNk4U=
-X-Received: by 2002:a5d:4c46:: with SMTP id n6mr20882580wrt.95.1621849089970; 
- Mon, 24 May 2021 02:38:09 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxkE8l/aehoZWuKmQObYHxaOPyTbgiq/nPsGARq/5vNSJKSJ1RNdTK4INsbnLsVugDByKpq7Q==
-X-Received: by 2002:a5d:4c46:: with SMTP id n6mr20882558wrt.95.1621849089807; 
- Mon, 24 May 2021 02:38:09 -0700 (PDT)
-Received: from redhat.com (bzq-79-176-159-122.red.bezeqint.net.
- [79.176.159.122])
- by smtp.gmail.com with ESMTPSA id u11sm11262234wrw.14.2021.05.24.02.38.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 May 2021 02:38:09 -0700 (PDT)
-Date: Mon, 24 May 2021 05:38:05 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>
-Subject: Re: [RFC v3 00/29] vDPA software assisted live migration
-Message-ID: <20210524053144-mutt-send-email-mst@kernel.org>
-References: <20210519162903.1172366-1-eperezma@redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=5ONGaH/4OPzry/prSZ2UCPG8A0rU3qiC2X3xVrEjzzI=;
+ b=ei2uuXe8x9NkboqVYjNocdP8aMKqAvlnAyC4h1Gflzfc0WedePikFXX0SQhWtYQ9N6
+ E6SnfYObm4ywSQ6/OcJclPDS0arP2MM0U5NOfO/BDRsaAH8zCclKU8Rgj87M30WjWNuy
+ wdeBWXGIpwoRDZJF1hLs2YMAjsM4ghtwCoP5GJLQYSUqRDl0zlmBtspqvAo2bsME3fVC
+ nrSXGsPuVg4cn6dQvQBdm4YGnk970Tz8LzSNDmmJR0J5zKIm/JVCUuXDONHBG5BgGP0Z
+ rXk7EUESiGfaCT04RelGx9fMv5H1TZ7oQ1iP37V18AOCcyqPs5aYUgQrPeEcak2+nNOW
+ rfBg==
+X-Gm-Message-State: AOAM530qWUm/rXjezb87dU2c1TT49MSisye6t4ONEmdkY+/9JuLviY87
+ gS+Gs1vj/u52pqKUGRqj8FR2bpU7wOZq1or0N98lPw==
+X-Google-Smtp-Source: ABdhPJzQAcpNIAjAZs6dTK4tIQzUnnVMpcaHbyhssYFEQe23vk2mltCdB8+DBBDjaZKb3haUuqCSSvyhPdABVYsjOcM=
+X-Received: by 2002:a17:906:b74f:: with SMTP id
+ fx15mr22606123ejb.85.1621849341571; 
+ Mon, 24 May 2021 02:42:21 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210519162903.1172366-1-eperezma@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.373,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210524084201.1665973-1-jamie@nuviainc.com>
+In-Reply-To: <20210524084201.1665973-1-jamie@nuviainc.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 24 May 2021 10:41:58 +0100
+Message-ID: <CAFEAcA_AZGK6yKy6FN=YfVC=OMdpQnDBz=nndKaibDLRXk2aDw@mail.gmail.com>
+Subject: Re: [PATCH] target/arm: fix missing exception class
+To: Jamie Iles <jamie@nuviainc.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::630;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x630.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,42 +79,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Parav Pandit <parav@mellanox.com>, Juan Quintela <quintela@redhat.com>,
- Jason Wang <jasowang@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- qemu-devel@nongnu.org, Harpreet Singh Anand <hanand@xilinx.com>,
- Xiao W Wang <xiao.w.wang@intel.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Eli Cohen <eli@mellanox.com>, virtualization@lists.linux-foundation.org,
- Michael Lilja <ml@napatech.com>, Stefano Garzarella <sgarzare@redhat.com>
+Cc: qemu-arm <qemu-arm@nongnu.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, May 19, 2021 at 06:28:34PM +0200, Eugenio Pérez wrote:
-> Commit 17 introduces the buffer forwarding. Previous one are for
-> preparations again, and laters are for enabling some obvious
-> optimizations. However, it needs the vdpa device to be able to map
-> every IOVA space, and some vDPA devices are not able to do so. Checking
-> of this is added in previous commits.
+On Mon, 24 May 2021 at 09:42, Jamie Iles <jamie@nuviainc.com> wrote:
+>
+> The DAIF and PAC checks used raise_exception_ra to raise an exception
+> and unwind CPU state but raise_exception_ra is currently designed for
+> handling data aborts as the syndrome is partially precomputed and
+> encoded in the TB and then merged in merge_syn_data_abort when handling
+> the data abort.  Using raise_exception_ra for DAIF and PAC checks
+> results in an empty syndrome being retrieved from data[2] in
+> restore_state_to_opc and setting ESR to 0.  This manifested as:
+>
+>   kvm [571]: Unknown exception class: esr: 0x000000 =E2=80=93
+>   Unknown/Uncategorized
+>
+> when launching a KVM guest when the host qemu used a CPU supporting
+> EL2+pointer authentication and enabling pointer authentication in the
+> guest.
 
-That might become a significant limitation. And it worries me that
-this is such a big patchset which might yet take a while to get
-finalized.
+raise_exception() and raise_exception_ra() are supposed to have
+the same semantics apart from one of them being passed a return
+address. So perhaps we should look at trying to fix this by
+making raise_exception_ra() not first carefully set and then
+very opaquely unconditionally trash env->exception.syndrome...
 
-I have an idea: how about as a first step we implement a transparent
-switch from vdpa to a software virtio in QEMU or a software vhost in
-kernel?
-
-This will give us live migration quickly with performance comparable
-to failover but without dependance on guest cooperation.
-
-Next step could be driving vdpa from userspace while still copying
-packets to a pre-registered buffer.
-
-Finally your approach will be a performance optimization for devices
-that support arbitrary IOVA.
-
-Thoughts?
-
--- 
-MST
-
+thanks
+-- PMM
 
