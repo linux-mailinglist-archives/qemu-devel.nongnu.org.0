@@ -2,71 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07C6A38F1D3
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 18:54:25 +0200 (CEST)
-Received: from localhost ([::1]:53810 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2DB838F1DE
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 18:57:51 +0200 (CEST)
+Received: from localhost ([::1]:34008 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llDqS-0005fH-19
-	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 12:54:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45202)
+	id 1llDtm-00035u-EC
+	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 12:57:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45216)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1llDeQ-0004o5-9U
+ id 1llDeQ-0004oK-D2
  for qemu-devel@nongnu.org; Mon, 24 May 2021 12:41:58 -0400
-Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:41945)
+Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:34701)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1llDeI-0004LE-IN
+ id 1llDeI-0004LO-JO
  for qemu-devel@nongnu.org; Mon, 24 May 2021 12:41:57 -0400
-Received: by mail-ej1-x629.google.com with SMTP id gb17so24764531ejc.8
- for <qemu-devel@nongnu.org>; Mon, 24 May 2021 09:41:35 -0700 (PDT)
+Received: by mail-ej1-x62c.google.com with SMTP id p24so41549120ejb.1
+ for <qemu-devel@nongnu.org>; Mon, 24 May 2021 09:41:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=LJ7zb0d3J9pbQsFoNs7yYsC3rg5PuI/z4b6K7acxh+A=;
- b=V6CfDxkYYmU9OvyXNHsBWh6TRNHdFnRNGxSBpnnPFj1yrp/bExY9leENV5U3FZeO/D
- laDavgzRD42khTRkNCaYyECh+X+PZ7/f5iCy3z57tUUQh+C6zRt0lf1zHKZWSkJ1VPSr
- dsHbSC4gCiZBisEeVJnGjbMSn0zUTMto2KZrDqmSwebKKHhIwo9y2ZiaiHrPoB2YdPK/
- PrqyPEQ4B7LhGiaR0xPAsClRUaOvyvXMx0xuAW6POftv5OdPDYJbQfn7otMH8DtDIIHp
- nzp4SF8t1vpYcgNyiO25TRC34ZLQcA/ehQjy3BFPTyVDSuO4sv4VB6eIyxThA9szuBCT
- wl/g==
+ bh=ITpiHeu1IxA8t2wdEdec6BcjzxnU/v/+ssiPkXMtCSE=;
+ b=D+eyxZ9GkHmfbweXrBZ0DHXqcDBq3vomgVr1ZM1eAu3u/STB4jGbPwzPx16pWie70/
+ obdi1PDXIx/a4HEeqBb+G75REWChdBRXXfZa3eATYxuwOw7p9iSREyQQN7xQKF4+K4uU
+ u53dfQ62GVttuSd22OImggpfVX4ipNG10CJlLcVHIin8g/H+qho6aVkOKagu2ZYgtWCy
+ iODCBw0PV3BiYr8EJLJ321CbmS9hPd4Uup6gDnlFQV/bsgLhtAm1kr4vMGrbqB49bDri
+ LwGn2bYfSwP/iaMv0p5GzeY+n292HNshtDrExGIA9YXg9T2T3h1L3Wt0/LrPBCKWWvTa
+ lgTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=LJ7zb0d3J9pbQsFoNs7yYsC3rg5PuI/z4b6K7acxh+A=;
- b=IzosBIm9XIz0fsc212U6u9rmQ3hv8SqGalEZyRcn5D4B8GIvcGj1uJZ5/av6ZM45hI
- dzbV2cbkiKclmASAYTSept5u9iNxm8zY4jUkhwtK2I1u4DEbAJPmTULdyvGqCgYYsLCH
- 26aPIZIXiygXnQtUtSUed9oZxDYnCYIVpmyJayA+N6rAIrnN6Qb+y6KZ2KMKbcA04ra/
- RJckyYxDTpHBF4+JXZpK5mtrFj5EBpk/ux0jV5ccgyDBn3SFihL089MGPpKd6Bg3NF3C
- GTXWwomz5vrUCGuM0/ya9Yzn5RNBQXs2iUa+vyejYLRkMWGNgZUlbFXU9HUTVDLTgo2l
- H4hQ==
-X-Gm-Message-State: AOAM533fnMzAf4Mmv7zPC1fLCdpA90rzrFZkB0Y1clmNKscPZJjXMONT
- voNmzYBtwPYS6QD2VJeI6YPtHs3wn4cZfQ==
-X-Google-Smtp-Source: ABdhPJxznLT8GLajZsvRx/NW1WR46XmbjfdrlLzNN8BoBlACdR4yXFLMesMmFgusqco9AFNXVQxuPg==
-X-Received: by 2002:a17:906:11cc:: with SMTP id
- o12mr23784789eja.547.1621874494971; 
- Mon, 24 May 2021 09:41:34 -0700 (PDT)
+ bh=ITpiHeu1IxA8t2wdEdec6BcjzxnU/v/+ssiPkXMtCSE=;
+ b=t38P4cMKgvEAoBlGBSQhQh6IHMwloQ3SU+7XwL7GwKaWiXbLFXwUYYXpveaSMScXiM
+ 6tGRKXpOFOtVX0w1KR7p3RHRhhsax9nmpfCAgPxguuLe+h7jNwpe1YlUTNCZYkV1rafl
+ 67FORGgid6bfl5jdqsooDT1/47jO1a+zYNDVNSG4xus4FRp1kiHHWg3YSZsd5gWe4GSF
+ pDLEBfIzy1UpJd0t9qA2NzKqpdcdMfOTSUXbLtk1SiCBQTGC6U05fRjLjS7rncyx4tDU
+ RqxAmyLwCU/02PkBKTPBf1XROmM2Gp5/q8rU2dSnZo1z0uohe+coDrUSluZ463yZ6/Ae
+ DwOQ==
+X-Gm-Message-State: AOAM532QhQCAdTn0u5ESYEcZCUF8yLTdVImcbWZjzHkZAmZ2HBgzEUOY
+ FJDHZ22RYRQfmM8L+/x51oyjSQWKZLkpLA==
+X-Google-Smtp-Source: ABdhPJxJdAfqziQsaGLO7uOo3x62MmG43/kCu42+Ty9chI0JQbUhRDlGhkmk7z77w8TZytLQ+bHfcg==
+X-Received: by 2002:a17:906:bc43:: with SMTP id
+ s3mr24578675ejv.76.1621874495709; 
+ Mon, 24 May 2021 09:41:35 -0700 (PDT)
 Received: from avogadro.redhat.com ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- g4sm9581922edm.83.2021.05.24.09.41.34
+ g4sm9581922edm.83.2021.05.24.09.41.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 May 2021 09:41:34 -0700 (PDT)
+ Mon, 24 May 2021 09:41:35 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 04/28] hw/mem/nvdimm: Use Kconfig 'imply' instead of 'depends
- on'
-Date: Mon, 24 May 2021 18:41:07 +0200
-Message-Id: <20210524164131.383778-5-pbonzini@redhat.com>
+Subject: [PULL 05/28] i386/cpu: Expose AVX_VNNI instruction to guest
+Date: Mon, 24 May 2021 18:41:08 +0200
+Message-Id: <20210524164131.383778-6-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210524164131.383778-1-pbonzini@redhat.com>
 References: <20210524164131.383778-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::629;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x629.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62c.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -87,88 +85,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Yang Zhong <yang.zhong@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+From: Yang Zhong <yang.zhong@intel.com>
 
-Per the kconfig.rst:
+Expose AVX (VEX-encoded) versions of the Vector Neural Network
+Instructions to guest.
 
-  A device should be listed [...] ``imply`` if (depending on
-  the QEMU command line) the board may or  may not be started
-  without it.
+The bit definition:
+CPUID.(EAX=7,ECX=1):EAX[bit 4] AVX_VNNI
 
-This is the case with the NVDIMM device, so use the 'imply'
-weak reverse dependency to select the symbol.
+The following instructions are available when this feature is
+present in the guest.
+  1. VPDPBUS: Multiply and Add Unsigned and Signed Bytes
+  2. VPDPBUSDS: Multiply and Add Unsigned and Signed Bytes with Saturation
+  3. VPDPWSSD: Multiply and Add Signed Word Integers
+  4. VPDPWSSDS: Multiply and Add Signed Integers with Saturation
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20210511155354.3069141-2-philmd@redhat.com>
+As for the kvm related code, please reference Linux commit id 1085a6b585d7.
+
+The release document ref below link:
+https://software.intel.com/content/www/us/en/develop/download/\
+intel-architecture-instruction-set-extensions-programming-reference.html
+
+Signed-off-by: Yang Zhong <yang.zhong@intel.com>
+Message-Id: <20210407015609.22936-1-yang.zhong@intel.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- default-configs/devices/ppc64-softmmu.mak | 1 -
- hw/arm/Kconfig                            | 1 +
- hw/i386/Kconfig                           | 1 +
- hw/mem/Kconfig                            | 2 --
- hw/ppc/Kconfig                            | 1 +
- 5 files changed, 3 insertions(+), 3 deletions(-)
+ target/i386/cpu.c | 4 ++--
+ target/i386/cpu.h | 2 ++
+ 2 files changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/default-configs/devices/ppc64-softmmu.mak b/default-configs/devices/ppc64-softmmu.mak
-index ae0841fa3a..cca52665d9 100644
---- a/default-configs/devices/ppc64-softmmu.mak
-+++ b/default-configs/devices/ppc64-softmmu.mak
-@@ -8,4 +8,3 @@ CONFIG_POWERNV=y
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index c496bfa1c2..9e211ac2ce 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -940,7 +940,7 @@ FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
+         .type = CPUID_FEATURE_WORD,
+         .feat_names = {
+             NULL, NULL, NULL, NULL,
+-            NULL, "avx512-bf16", NULL, NULL,
++            "avx-vnni", "avx512-bf16", NULL, NULL,
+             NULL, NULL, NULL, NULL,
+             NULL, NULL, NULL, NULL,
+             NULL, NULL, NULL, NULL,
+@@ -3194,7 +3194,7 @@ static X86CPUDefinition builtin_x86_defs[] = {
+             MSR_ARCH_CAP_SKIP_L1DFL_VMENTRY | MSR_ARCH_CAP_MDS_NO |
+             MSR_ARCH_CAP_PSCHANGE_MC_NO | MSR_ARCH_CAP_TAA_NO,
+         .features[FEAT_7_1_EAX] =
+-            CPUID_7_1_EAX_AVX512_BF16,
++            CPUID_7_1_EAX_AVX_VNNI | CPUID_7_1_EAX_AVX512_BF16,
+         /*
+          * Missing: XSAVES (not supported by some Linux versions,
+          * including v4.1 to v4.12).
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index e6836393f7..da72aa5228 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -817,6 +817,8 @@ typedef uint64_t FeatureWordArray[FEATURE_WORDS];
+ /* Speculative Store Bypass Disable */
+ #define CPUID_7_0_EDX_SPEC_CTRL_SSBD    (1U << 31)
  
- # For pSeries
- CONFIG_PSERIES=y
--CONFIG_NVDIMM=y
-diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-index b887f6a5b1..67723d9ea6 100644
---- a/hw/arm/Kconfig
-+++ b/hw/arm/Kconfig
-@@ -6,6 +6,7 @@ config ARM_VIRT
-     imply VFIO_PLATFORM
-     imply VFIO_XGMAC
-     imply TPM_TIS_SYSBUS
-+    imply NVDIMM
-     select ARM_GIC
-     select ACPI
-     select ARM_SMMUV3
-diff --git a/hw/i386/Kconfig b/hw/i386/Kconfig
-index 7f91f30877..66838fa397 100644
---- a/hw/i386/Kconfig
-+++ b/hw/i386/Kconfig
-@@ -23,6 +23,7 @@ config PC
-     imply TPM_TIS_ISA
-     imply VGA_PCI
-     imply VIRTIO_VGA
-+    imply NVDIMM
-     select FDC
-     select I8259
-     select I8254
-diff --git a/hw/mem/Kconfig b/hw/mem/Kconfig
-index a0ef2cf648..8b19fdc49f 100644
---- a/hw/mem/Kconfig
-+++ b/hw/mem/Kconfig
-@@ -7,6 +7,4 @@ config MEM_DEVICE
++/* AVX VNNI Instruction */
++#define CPUID_7_1_EAX_AVX_VNNI          (1U << 4)
+ /* AVX512 BFloat16 Instruction */
+ #define CPUID_7_1_EAX_AVX512_BF16       (1U << 5)
  
- config NVDIMM
-     bool
--    default y
--    depends on (PC || PSERIES || ARM_VIRT)
-     select MEM_DEVICE
-diff --git a/hw/ppc/Kconfig b/hw/ppc/Kconfig
-index e51e0e5e5a..66e0b15d9e 100644
---- a/hw/ppc/Kconfig
-+++ b/hw/ppc/Kconfig
-@@ -3,6 +3,7 @@ config PSERIES
-     imply PCI_DEVICES
-     imply TEST_DEVICES
-     imply VIRTIO_VGA
-+    imply NVDIMM
-     select DIMM
-     select PCI
-     select SPAPR_VSCSI
 -- 
 2.31.1
 
