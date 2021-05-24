@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BB7138F275
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 19:45:21 +0200 (CEST)
-Received: from localhost ([::1]:39502 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4A6D38F24C
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 19:32:53 +0200 (CEST)
+Received: from localhost ([::1]:36254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llEdk-0001f0-6p
-	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 13:45:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49854)
+	id 1llERg-00052o-MI
+	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 13:32:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49922)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1llE0m-0001Xc-Q4
- for qemu-devel@nongnu.org; Mon, 24 May 2021 13:05:05 -0400
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:41534)
+ id 1llE0w-00027u-9W
+ for qemu-devel@nongnu.org; Mon, 24 May 2021 13:05:14 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:36600)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1llE0l-0003zG-6p
- for qemu-devel@nongnu.org; Mon, 24 May 2021 13:05:04 -0400
-Received: by mail-wm1-x32c.google.com with SMTP id
- l11-20020a05600c4f0bb029017a7cd488f5so8692314wmq.0
- for <qemu-devel@nongnu.org>; Mon, 24 May 2021 10:05:02 -0700 (PDT)
+ id 1llE0u-00045v-NI
+ for qemu-devel@nongnu.org; Mon, 24 May 2021 13:05:14 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id n4so3355728wrw.3
+ for <qemu-devel@nongnu.org>; Mon, 24 May 2021 10:05:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=X/RDNvQdX2KPe06yg5b1HSL5e8FsBd5LujHEk/jRQR4=;
- b=f+uNH7id7X9/OPX6zQskYyZ/UCNgEmqULDsah3XkCK0h/W3JRTGGJlVVaMZCMuEk0i
- XdJmsZa7+jlMsQxleSaOCM8dQdVJcqfji6vqRTnwrrW4DK6mg+D5GwlJd/qmaydkka5U
- aE9Drbg2D/8TDt/ppEKc1L6nAmDJmrEPzO2gb8N1iAHTTLxiFywETyYzyRKsbnVAJgr4
- HJeis0E1nnIT0VI50DE34DJkW60OmptaI/nvRwHpF4OysaTPR9CBnNoNJsxr0Yn61xWl
- cieYkiB4pJ6FKvpecoij9wlBTKm43WIDeO3ay7yfohkxU2ufUXluuoXySZhaV7pas82d
- pdyw==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=JGCm35wR+sSDjvNwlH4jC86gmJH/U5RiSisP7sgjn/8=;
+ b=jMkPpgyd/aAWIGzQHDpc+JEjgsX9bgWg32ynCI5ISYj8ShMuxVSCaXQ0MWnnu36aPX
+ gdQjI8gvflmA2CWLDZUJIArgO6JpFnpn0g6noKbK828qBdWW0tVonJeNVxuCrGz6pl/3
+ dfP1nMgdLY4ZkcEwVlE3NvHzc3t3uIOIP+2avuuMilF6SgHtTye0YBXrwA0smvywAb92
+ f+vyllIwD39Gg4R/6FvHSHU2QT273WrVh9LHjYvF7pn9t6vi2zNCpjvmmWdCaAPOgQRF
+ wMPWpYhOzapCyKpxMRpHXfo3gR59jmzhk7iXO/X1bg0HCkq2EhvwINEYlNjr1RREynci
+ cqfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=X/RDNvQdX2KPe06yg5b1HSL5e8FsBd5LujHEk/jRQR4=;
- b=F2/h/UMYFj6k3WotSnAbJzRTP9XYLJewYgPvS/OoO3TTnyTR6rTE7dkw1InqcyhXX2
- WK+O4Ee8XGnCXLJiDBWACUOFjkTvgioUvTGU1H4pvXjcV6+cXycGIC6Dx89WZkB8FUI6
- fW2oRO+lbFuafkkGC9g0eoOUjp6PE0ZI9TKJ5uiv939Xd6fqvun3JMnWc7hNfw6d6jKd
- I4FUExhoaVh8hfBzAItObf8UintFNauBQwKPvpFznMi9NHkErk2FOsHU/09sNoExr5Gg
- F9+BC25/7gosNFu47ksbs1RqDXAFkmigcneqzo6BWX3t1ml5VMsdPIvPcPPcngEAVZVg
- 5N4w==
-X-Gm-Message-State: AOAM530ZRRpp6ezvSAcKcAhLQmNpgwUT34icIlRcPp6bfQA7nL7KBada
- mWmNXm2wU6lpWKAoHvz7ojHpyZD6ehQZzg==
-X-Google-Smtp-Source: ABdhPJzhBpDGrUbPX8OJB2o9SPWlPmNwUmtukJd6hdp6IQqfXX5KoaP+zQj3qJii3V95rqMBp3br0g==
-X-Received: by 2002:a7b:c304:: with SMTP id k4mr106972wmj.68.1621875900994;
- Mon, 24 May 2021 10:05:00 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=JGCm35wR+sSDjvNwlH4jC86gmJH/U5RiSisP7sgjn/8=;
+ b=mg1hfEP2gJM05mwfS7n41afAjuFO0OmX7JQwc8aBwjleL3m95L5uUHuze5kIx1JprW
+ pElPncGJYuef/4o2w1OFcZsO2FGDSDZofQs1C+b8/JlLcOfJWBePzW601FxjU/IL5sQc
+ XusY2BHQnrYwV/4KqWHZLcjMyfL11/Y5nj1/6oNJE7iSoAu+cIJlqasCvxS5sh2kCbyl
+ rAYmwLpiOn1S2pDqHwg8rA4OLrQwXlzypKQedtfYE2ASM3rdhAo+jJqq15mEWxz4+HuO
+ tVfDAOrAqzBxIu6aOtaTdpyEP1EwER0Kl87/vb1bBxH8k0SZZff8omww/sfP5nHOzWsx
+ vdIw==
+X-Gm-Message-State: AOAM533V3EbC/ll9mgYzI0baMtYVABcLeyGnXo4//Phzl5H4xNKPKIgc
+ I3xOpKR4ufdND8A+f1g0/uj8XXtAfJEirQ==
+X-Google-Smtp-Source: ABdhPJzeI5nvyYWDvECII21DQr/RvS8ydfKGH9ApgQhKA5S2WlYtTy6qTW67vNnbqShJh9pTA+mt5A==
+X-Received: by 2002:a5d:62cb:: with SMTP id o11mr24164918wrv.28.1621875910563; 
+ Mon, 24 May 2021 10:05:10 -0700 (PDT)
 Received: from localhost.localdomain (31.red-83-51-215.dynamicip.rima-tde.net.
  [83.51.215.31])
- by smtp.gmail.com with ESMTPSA id r2sm13355367wrv.39.2021.05.24.10.04.59
+ by smtp.gmail.com with ESMTPSA id c7sm12810058wrs.23.2021.05.24.10.05.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 May 2021 10:05:00 -0700 (PDT)
+ Mon, 24 May 2021 10:05:10 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/2] accel/tcg: Reduce headers inclusion
-Date: Mon, 24 May 2021 19:04:51 +0200
-Message-Id: <20210524170453.3791436-1-f4bug@amsat.org>
+Subject: [PATCH 1/2] accel/tcg: Reduce 'exec/tb-context.h' inclusion
+Date: Mon, 24 May 2021 19:04:52 +0200
+Message-Id: <20210524170453.3791436-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.3
+In-Reply-To: <20210524170453.3791436-1-f4bug@amsat.org>
+References: <20210524170453.3791436-1-f4bug@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32c.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -90,28 +91,69 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Trivial series, restricting accel/tcg/ specific headers to TCG.=0D
-=0D
-Philippe Mathieu-Daud=C3=A9 (2):=0D
-  accel/tcg: Reduce 'exec/tb-context.h' inclusion=0D
-  accel/tcg: Keep TranslationBlock headers local to TCG=0D
-=0D
- {include/exec =3D> accel/tcg}/tb-context.h | 0=0D
- {include/exec =3D> accel/tcg}/tb-hash.h    | 0=0D
- {include/exec =3D> accel/tcg}/tb-lookup.h  | 2 +-=0D
- include/exec/exec-all.h                  | 1 -=0D
- include/tcg/tcg.h                        | 1 -=0D
- accel/tcg/cpu-exec.c                     | 5 +++--=0D
- accel/tcg/cputlb.c                       | 2 +-=0D
- accel/tcg/tcg-runtime.c                  | 2 +-=0D
- accel/tcg/translate-all.c                | 3 ++-=0D
- MAINTAINERS                              | 1 -=0D
- 10 files changed, 8 insertions(+), 9 deletions(-)=0D
- rename {include/exec =3D> accel/tcg}/tb-context.h (100%)=0D
- rename {include/exec =3D> accel/tcg}/tb-hash.h (100%)=0D
- rename {include/exec =3D> accel/tcg}/tb-lookup.h (98%)=0D
-=0D
--- =0D
-2.26.3=0D
-=0D
+Only 2 headers require "exec/tb-context.h". Instead of having
+all files including "exec/exec-all.h" also including it, directly
+include it where it is required:
+- accel/tcg/cpu-exec.c
+- accel/tcg/translate-all.c
+
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ include/exec/exec-all.h   | 1 -
+ include/tcg/tcg.h         | 1 -
+ accel/tcg/cpu-exec.c      | 1 +
+ accel/tcg/translate-all.c | 1 +
+ 4 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
+index 6b036cae8f6..657e756ba44 100644
+--- a/include/exec/exec-all.h
++++ b/include/exec/exec-all.h
+@@ -21,7 +21,6 @@
+ #define EXEC_ALL_H
+ 
+ #include "cpu.h"
+-#include "exec/tb-context.h"
+ #ifdef CONFIG_TCG
+ #include "exec/cpu_ldst.h"
+ #endif
+diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
+index 0f0695e90da..74cb3453083 100644
+--- a/include/tcg/tcg.h
++++ b/include/tcg/tcg.h
+@@ -27,7 +27,6 @@
+ 
+ #include "cpu.h"
+ #include "exec/memop.h"
+-#include "exec/tb-context.h"
+ #include "qemu/bitops.h"
+ #include "qemu/plugin.h"
+ #include "qemu/queue.h"
+diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
+index 0dc5271715e..10e11f27bbe 100644
+--- a/accel/tcg/cpu-exec.c
++++ b/accel/tcg/cpu-exec.c
+@@ -31,6 +31,7 @@
+ #include "qemu/rcu.h"
+ #include "exec/tb-hash.h"
+ #include "exec/tb-lookup.h"
++#include "exec/tb-context.h"
+ #include "exec/log.h"
+ #include "qemu/main-loop.h"
+ #if defined(TARGET_I386) && !defined(CONFIG_USER_ONLY)
+diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+index 640ff6e3e70..e9f4de5190d 100644
+--- a/accel/tcg/translate-all.c
++++ b/accel/tcg/translate-all.c
+@@ -48,6 +48,7 @@
+ 
+ #include "exec/cputlb.h"
+ #include "exec/tb-hash.h"
++#include "exec/tb-context.h"
+ #include "exec/translate-all.h"
+ #include "qemu/bitmap.h"
+ #include "qemu/error-report.h"
+-- 
+2.26.3
+
 
