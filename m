@@ -2,75 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A27A38E566
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 13:25:16 +0200 (CEST)
-Received: from localhost ([::1]:59630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00DEA38E577
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 13:28:51 +0200 (CEST)
+Received: from localhost ([::1]:35692 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ll8hu-0006G5-Sy
-	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 07:25:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58440)
+	id 1ll8lN-0000xd-R3
+	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 07:28:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59602)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ll8gM-0005YT-34
- for qemu-devel@nongnu.org; Mon, 24 May 2021 07:23:38 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:50915)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ll8gK-0004lK-1W
- for qemu-devel@nongnu.org; Mon, 24 May 2021 07:23:37 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id t206so14732636wmf.0
- for <qemu-devel@nongnu.org>; Mon, 24 May 2021 04:23:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=N8cOTqyCKuHxxXbbqblShpEqwML2XUs9Ugh7l6qxcUA=;
- b=V1Yo2kiAD7iuoFPVUfNv7eXDzsXcSK2N2tohXehhlH321CV0IAdlV731oeKO/7tuVt
- pGpVev7MTRRXoKvtwbRrz5KuW9Eelacq8XwxTeUZXS3hrPRu750QlR2c7c169Wo0ex3k
- LGGMVKvhqWNVT2Te1oAAKmsD9LYXEJun3QqYZrO1chJZLoKwEuVIXZBOSREBAYBiQKLy
- jyc34MZl5/lkBBBRu1odHqPmRwJ5Rfr9wqpcouoxjSxWHGiDM6hKfh7LvegjHzQLzVCD
- VKmqHRN9DAIiaOCB6g4bkBkKOCK0FYxt6fuDuJyQ0o6KJoGMWpBYBT9iD3DnQSrTaiDv
- PtQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=N8cOTqyCKuHxxXbbqblShpEqwML2XUs9Ugh7l6qxcUA=;
- b=KizmcoGZ2ntXAskPCq6NYuS0CF24xx39EHqSd+GtZ31s/nWiU6D8c6WAqsWMlzX/0H
- jb0OZayzQQvRWtsgGyxmoaBHkk724YrWPLmhL3Nalq3Ps2AgUZNnmZxGKiduRU/KOGsy
- Ko9jKyy9q4Ks+CLO9yfTlqABUknKFiqjXv1NNJ1ub3YPWHmoCID1+PjJGqKLkQEnm+N0
- VDBRyZook/BwjXhha6T3vJC0jpvltgRqGhZ1Ldbml1fz2jwMIe/mAsgEm33eK5ljLdKX
- pvsfcmXjC+Wi2cqPEuqvkMNVyDe2dh/RcMw6nCC3RlX3gCOv3x2VzSgFFl9Eoh7kfNsp
- jrYw==
-X-Gm-Message-State: AOAM533wUKXfXra2eeJWE1gLXe4/FZBIUriNUX05gKPL6yhMGb7Nel/u
- oBcsWBYQkHyVMPKDKIEwl01lCw==
-X-Google-Smtp-Source: ABdhPJw8qHLme01Bx7hJOm67b7GRQ4xOAp32MaKyEQ1/gDLQVra5ZV4YeeBz2nEQl9W83RIz80TnYw==
-X-Received: by 2002:a7b:c778:: with SMTP id x24mr19304208wmk.23.1621855413981; 
- Mon, 24 May 2021 04:23:33 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id d14sm5370598wra.5.2021.05.24.04.23.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 May 2021 04:23:33 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 4CFD31FF7E;
- Mon, 24 May 2021 12:23:32 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [RFC PATCH] linux-user: glib-ify is_proc_myself
-Date: Mon, 24 May 2021 12:23:23 +0100
-Message-Id: <20210524112323.2310-1-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1ll8kY-0000FS-BX
+ for qemu-devel@nongnu.org; Mon, 24 May 2021 07:27:58 -0400
+Resent-Date: Mon, 24 May 2021 07:27:58 -0400
+Resent-Message-Id: <E1ll8kY-0000FS-BX@lists.gnu.org>
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21372)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1ll8kW-00079d-0Q
+ for qemu-devel@nongnu.org; Mon, 24 May 2021 07:27:58 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1621855670; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=DClWPq5u/AQghthZO0FT6FAgfVQj3kvYFuZNU5Ur2i0XWyLQO5AhWirTdQthZKPtU3ztF0PmkCdyXcdAjP1YkC1ZdSOwVaYSa3pU3a7Mc1k8Ciu/nhWxmalc9T72ptAIxt0dKBtvm45sO/S18g50E4K3movPTKruQFsO+nyKudU=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1621855670;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=tggB6WF/yhm+Cp/X/FfaG8cgzS0fkcDMoMVAfZi8/PY=; 
+ b=OFbNTq8O/PnzhwK7m4T8cmYD00wvZtXmWPjZAeqzQwOLp2HUDzdOPJI00JEFXWvbAHxsMCcwFZsvfamXKspaEU/yrDxSc+j/uh7kHXB7Bcal5sVdlXWR0h+f1eUur/H+GZq0dCTSoDRO5Es5HA71HwoeiDXLoza44l/cLdimAQU=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1621855668030314.88357344451947;
+ Mon, 24 May 2021 04:27:48 -0700 (PDT)
+In-Reply-To: <20210524112323.2310-1-alex.bennee@linaro.org>
+Subject: Re: [RFC PATCH] linux-user: glib-ify is_proc_myself
+Message-ID: <162185566691.1840.2916700102735860729@0addf061776e>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: alex.bennee@linaro.org
+Date: Mon, 24 May 2021 04:27:48 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o53.zoho.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,80 +66,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>, yamamoto@midokura.com
+Reply-To: qemu-devel@nongnu.org
+Cc: yamamoto@midokura.com, alex.bennee@linaro.org, qemu-devel@nongnu.org,
+ laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I'm not sure if this is neater than the original code but it does
-remove a bunch of the !strcmp's in favour of glib's more natural bool
-results. While we are at it make the function a bool return and fixup
-the fake_open function prototypes.
-
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- linux-user/syscall.c | 30 ++++++++++++------------------
- 1 file changed, 12 insertions(+), 18 deletions(-)
-
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index e739921e86..18e953de9d 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -7987,33 +7987,27 @@ static int open_self_auxv(void *cpu_env, int fd)
-     return 0;
- }
- 
--static int is_proc_myself(const char *filename, const char *entry)
-+static bool is_proc_myself(const char *filename, const char *entry)
- {
--    if (!strncmp(filename, "/proc/", strlen("/proc/"))) {
-+    if (g_str_has_prefix(filename, "/proc/")) {
-         filename += strlen("/proc/");
--        if (!strncmp(filename, "self/", strlen("self/"))) {
-+        if (g_str_has_prefix(filename, "self/")) {
-             filename += strlen("self/");
--        } else if (*filename >= '1' && *filename <= '9') {
--            char myself[80];
--            snprintf(myself, sizeof(myself), "%d/", getpid());
--            if (!strncmp(filename, myself, strlen(myself))) {
--                filename += strlen(myself);
--            } else {
--                return 0;
-+        } else if (g_ascii_isdigit(*filename)) {
-+            g_autofree char * myself = g_strdup_printf("%d/", getpid());
-+            if (!g_str_has_prefix(filename, myself)) {
-+                return false;
-             }
--        } else {
--            return 0;
--        }
--        if (!strcmp(filename, entry)) {
--            return 1;
-+            filename += strlen(myself);
-         }
-+        return g_str_has_prefix(filename, entry);
-     }
--    return 0;
-+    return false;
- }
- 
- #if defined(HOST_WORDS_BIGENDIAN) != defined(TARGET_WORDS_BIGENDIAN) || \
-     defined(TARGET_SPARC) || defined(TARGET_M68K) || defined(TARGET_HPPA)
--static int is_proc(const char *filename, const char *entry)
-+static bool is_proc(const char *filename, const char *entry)
- {
-     return strcmp(filename, entry) == 0;
- }
-@@ -8097,7 +8091,7 @@ static int do_openat(void *cpu_env, int dirfd, const char *pathname, int flags,
-     struct fake_open {
-         const char *filename;
-         int (*fill)(void *cpu_env, int fd);
--        int (*cmp)(const char *s1, const char *s2);
-+        bool (*cmp)(const char *s1, const char *s2);
-     };
-     const struct fake_open *fake_open;
-     static const struct fake_open fakes[] = {
--- 
-2.20.1
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDUyNDExMjMyMy4yMzEw
+LTEtYWxleC5iZW5uZWVAbGluYXJvLm9yZy8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVtcyB0byBo
+YXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvcgptb3Jl
+IGluZm9ybWF0aW9uOgoKVHlwZTogc2VyaWVzCk1lc3NhZ2UtaWQ6IDIwMjEwNTI0MTEyMzIzLjIz
+MTAtMS1hbGV4LmJlbm5lZUBsaW5hcm8ub3JnClN1YmplY3Q6IFtSRkMgUEFUQ0hdIGxpbnV4LXVz
+ZXI6IGdsaWItaWZ5IGlzX3Byb2NfbXlzZWxmCgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMh
+L2Jpbi9iYXNoCmdpdCByZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0IDAKZ2l0IGNv
+bmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5y
+ZW5hbWVzIFRydWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhpc3RvZ3JhbQou
+L3NjcmlwdHMvY2hlY2twYXRjaC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVTVCBTQ1JJUFQg
+RU5EID09PQoKVXBkYXRpbmcgM2M4Y2Y1YTljMjFmZjg3ODIxNjRkMWRlZjdmNDRiZDg4ODcxMzM4
+NApGcm9tIGh0dHBzOi8vZ2l0aHViLmNvbS9wYXRjaGV3LXByb2plY3QvcWVtdQogKiBbbmV3IHRh
+Z10gICAgICAgICBwYXRjaGV3LzIwMjEwNTI0MTEyMzIzLjIzMTAtMS1hbGV4LmJlbm5lZUBsaW5h
+cm8ub3JnIC0+IHBhdGNoZXcvMjAyMTA1MjQxMTIzMjMuMjMxMC0xLWFsZXguYmVubmVlQGxpbmFy
+by5vcmcKU3dpdGNoZWQgdG8gYSBuZXcgYnJhbmNoICd0ZXN0Jwo0ZTAwNzZmIGxpbnV4LXVzZXI6
+IGdsaWItaWZ5IGlzX3Byb2NfbXlzZWxmCgo9PT0gT1VUUFVUIEJFR0lOID09PQpFUlJPUjogImZv
+byAqIGJhciIgc2hvdWxkIGJlICJmb28gKmJhciIKIzQzOiBGSUxFOiBsaW51eC11c2VyL3N5c2Nh
+bGwuYzo3OTk2OgorICAgICAgICAgICAgZ19hdXRvZnJlZSBjaGFyICogbXlzZWxmID0gZ19zdHJk
+dXBfcHJpbnRmKCIlZC8iLCBnZXRwaWQoKSk7Cgp0b3RhbDogMSBlcnJvcnMsIDAgd2FybmluZ3Ms
+IDUyIGxpbmVzIGNoZWNrZWQKCkNvbW1pdCA0ZTAwNzZmYWQyN2UgKGxpbnV4LXVzZXI6IGdsaWIt
+aWZ5IGlzX3Byb2NfbXlzZWxmKSBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJ
+ZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8g
+dGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgo9PT0gT1VUUFVU
+IEVORCA9PT0KClRlc3QgY29tbWFuZCBleGl0ZWQgd2l0aCBjb2RlOiAxCgoKVGhlIGZ1bGwgbG9n
+IGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDIxMDUyNDExMjMyMy4y
+MzEwLTEtYWxleC5iZW5uZWVAbGluYXJvLm9yZy90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVz
+c2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBz
+Oi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRl
+dmVsQHJlZGhhdC5jb20=
 
