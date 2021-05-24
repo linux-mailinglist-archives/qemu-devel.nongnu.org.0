@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E51BD38F5FF
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 01:01:18 +0200 (CEST)
-Received: from localhost ([::1]:38764 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 066F738F638
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 01:24:01 +0200 (CEST)
+Received: from localhost ([::1]:48622 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llJZW-0000Ro-1p
-	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 19:01:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36466)
+	id 1llJvT-0008HZ-J3
+	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 19:23:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39756)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yamamoto@midokura.com>)
- id 1llJXe-0008A5-SN
- for qemu-devel@nongnu.org; Mon, 24 May 2021 18:59:22 -0400
-Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533]:42677)
+ id 1llJuW-0007YX-PZ
+ for qemu-devel@nongnu.org; Mon, 24 May 2021 19:23:00 -0400
+Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:44770)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <yamamoto@midokura.com>)
- id 1llJXc-00086T-TI
- for qemu-devel@nongnu.org; Mon, 24 May 2021 18:59:22 -0400
-Received: by mail-pg1-x533.google.com with SMTP id f22so20268956pgb.9
- for <qemu-devel@nongnu.org>; Mon, 24 May 2021 15:59:20 -0700 (PDT)
+ id 1llJuU-0005qj-OG
+ for qemu-devel@nongnu.org; Mon, 24 May 2021 19:23:00 -0400
+Received: by mail-pj1-x1029.google.com with SMTP id
+ h20-20020a17090aa894b029015db8f3969eso11450331pjq.3
+ for <qemu-devel@nongnu.org>; Mon, 24 May 2021 16:22:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=midokura.com; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=SGu7skfaNhob59rhV8LQ4LaD7JpaQiMDgdIwsTJF4xM=;
- b=Dd05Ec7nxvFu7CUJeetKOg3sadwylQUSuo+aODANf9cPPr5YHvynQskOozgSWCDduF
- NNMFrhQSUOee/wjNFas/CSY/sxTsPibfiqKTvGwlyPMP9ZTUP8MeTn3ArRKTmQIJ6+En
- M3b6KcHC3+b2a5soXKLBWwYKJ2On1HOR0vMg0=
+ bh=mgPc+rTBeS6VWxr9ea9xmcvPBqDeyfyi1BlT6krx3zM=;
+ b=uBFLIhpPTKHXdD3kLIK8af9dLuCOpVDkMokeStvuu+VUo+Pe0TQGb4Q95cDBPlLHhK
+ lWVGS74CE3UaFq0KOoIAHy44WLRu0lQoMafGYc7pR9TvC2rgPn/TxVZrcuD1wKDxKc/r
+ f8fHxj/eUd0zKjxcEhP/Bsrqdnk2Gj7uWEM7s=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=SGu7skfaNhob59rhV8LQ4LaD7JpaQiMDgdIwsTJF4xM=;
- b=J01iFFNmXvnPnXoL5NeN+ks2VYHAIpyHjSBmuoON1OMsGbRofMAhWrRmt+V4Bbzxt4
- TvSMpYEddwOfaLPa+NJdqwqOSJKmE6+qom+cKg/6Tp72yLDDTHNFkV2gbQTaUq5+WuNt
- 0uO15EYc0Ohv2TPCIrg4h5gwwwD2fBfIBLMY7yKQbEWyJNUGG9MwZKWxi+Tjxpf9O834
- ZUDgez6tk/bNctXZ76ir4fDfKgmlNafwqyqYSoHD/9hxQWYXbCXsEAniqyiE6ZIOayvY
- 1b/2GOIjeCGuoElYiL+JcjMQTPC3FozS5y455ZhLC10dTUID68PUyhvjQQU9AH5M/SJB
- VgHA==
-X-Gm-Message-State: AOAM531Bp3okuEhCVD4F2ILra+OQYAGRTwWuwrrOtslOSAafzQzhlZAh
- mkPuDKd15GmxY65toU+jHzOjxV7Ona5sON8BXQajHw==
-X-Google-Smtp-Source: ABdhPJypTmhomaC3doCSe228MXMW0YiFQofFze4MQWRol56zBrSOK/bvdnDRB6LLgFWr/DsmC0jEEYbjoBzQJxPmXQI=
-X-Received: by 2002:a63:4e12:: with SMTP id c18mr15790070pgb.451.1621897159481; 
- Mon, 24 May 2021 15:59:19 -0700 (PDT)
+ bh=mgPc+rTBeS6VWxr9ea9xmcvPBqDeyfyi1BlT6krx3zM=;
+ b=W9x5NwdsJgzu+4h8obuxCdfcgSBr3B78+faYXNpxY1vKqJ2UJEf+vty5j1e0wW7Lyv
+ 72kTwNM6WfdBDyrDzueUlB6qi1aL9lSGwLQUwYMDCOd+aaDDRTyxFONIl20C0NLgifyG
+ KbDgkf6/6c6pLBUSOp45nbqQTh30iX+ufJizkNjtxxFsC51jQ/ObZHoX1HklczpU0TMr
+ s8i4AfW2ZUlLhcQjEusJZ9maKuC/8LLsLteWKxmVZg5cenifkGbzKtuvF6AYRXf6DoBF
+ mJ3FAG8si8gduMVSL4aOENh3xCLPT4+rh9ghv4QxEmEXpJ0Nu3hJ08xiTjbVUBsdijt9
+ R+NQ==
+X-Gm-Message-State: AOAM533TXjD1418+wmrMAvPkTThbU2GwrRkwEXvs2c20mxWh2WiAeWsh
+ eR2iEz7OOne8trUicsoUFbTNEb/qUe7GS0Y1KcJjyw==
+X-Google-Smtp-Source: ABdhPJzUdSjWeOrx24rmlbCAmIw1q6XwphWlyb6o567T7lflmKLqTW0srYtcFuzs1tH6dq5DIFy2mnFRqs8fj3bCglA=
+X-Received: by 2002:a17:90a:3ec3:: with SMTP id
+ k61mr1636436pjc.48.1621898577077; 
+ Mon, 24 May 2021 16:22:57 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210524045412.15152-1-yamamoto@midokura.com>
- <20210524045412.15152-3-yamamoto@midokura.com>
- <87r1hw4cuk.fsf@linaro.org>
-In-Reply-To: <87r1hw4cuk.fsf@linaro.org>
+ <87cztg3tv0.fsf@linaro.org>
+In-Reply-To: <87cztg3tv0.fsf@linaro.org>
 From: Takashi Yamamoto <yamamoto@midokura.com>
-Date: Tue, 25 May 2021 07:59:08 +0900
-Message-ID: <CAH=wFzSF_UjyeCLm911unR9xU2hdXNYpCUs7=T+ZN4SG710UmQ@mail.gmail.com>
-Subject: Re: [PATCH 2/5] linux-uesr: make exec_path realpath
+Date: Tue, 25 May 2021 08:22:46 +0900
+Message-ID: <CAH=wFzQjYJHN3xH1QhyxzZNDXGjQDw5UxhwH2NEiQoYjWcqh-g@mail.gmail.com>
+Subject: Re: [PATCH 0/5] linux-user changes to run docker
 To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Cc: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
- envelope-from=yamamoto@midokura.com; helo=mail-pg1-x533.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=yamamoto@midokura.com; helo=mail-pj1-x1029.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -81,63 +82,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, May 24, 2021 at 7:59 PM Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
+On Tue, May 25, 2021 at 2:49 AM Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
 rote:
 >
 >
 > YAMAMOTO Takashi <yamamoto@midokura.com> writes:
 >
-> > Otherwise, it can be easily fooled by the user app using chdir().
+> > These patches, along with a few more hacks [1] I didn't include
+> > in this patchset, allowed me to run arm64 and armv7 version of
+> > dind image on amd64.
 > >
-> > Signed-off-by: YAMAMOTO Takashi <yamamoto@midokura.com>
-> > ---
-> >  linux-user/main.c | 6 +++++-
-> >  1 file changed, 5 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/linux-user/main.c b/linux-user/main.c
-> > index 4dfc47ad3b..1f9f4e3820 100644
-> > --- a/linux-user/main.c
-> > +++ b/linux-user/main.c
-> > @@ -55,6 +55,7 @@
-> >  #endif
-> >
-> >  char *exec_path;
-> > +char exec_path_store[PATH_MAX];
+> > [1] https://github.com/yamt/qemu/tree/linux-user-for-docker
 >
-> Is there any point in keeping this as a static path rather than just
-> allocating it off the heap?
+> Might be worth posting those patches next time (even if they have a RFC
+> or !MERGE in the title for now).
 
-it's just the simplest given the api of realpath().
-do you mean it's better to use malloc? why?
+ok.
+
+> I had a little noodle around with
+> testing and quickly found a few holes. It would be nice if we could have
+> a unit test to cover these various bits as I fear it will easily break
+> again. Feel free to use the following as a basis if you want:
+
+frankly, i feel it's enough to cover the cases which are actually used
+by real apps.
+is "/proc/./self/exe" etc used in the field?
 
 >
-> >
-> >  int singlestep;
-> >  static const char *argv0;
-> > @@ -610,7 +611,10 @@ static int parse_args(int argc, char **argv)
-> >          exit(EXIT_FAILURE);
-> >      }
-> >
-> > -    exec_path =3D argv[optind];
-> > +    exec_path =3D realpath(argv[optind], exec_path_store);
-> > +    if (exec_path =3D=3D NULL) {
-> > +        exec_path =3D argv[optind];
-> > +    }
 >
->   exec_path =3D realpath(argv[optind], NULL)
->   exec_path =3D exec_path ? exec_path : argv[optind];
 >
-> what situations would we expect realpath to fail and in those cases is
-> sticking to argv[optind] safe?
+> > You can find my test setup here:
+> > https://github.com/yamt/garbage/tree/master/binfmt-aarch64-install
+> >
+> > YAMAMOTO Takashi (5):
+> >   linux-user: handle /proc/self/exe for execve
+> >   linux-uesr: make exec_path realpath
+> >   linux-user: Fix the execfd case of /proc/self/exe open
+> >   linux-user: dup the execfd on start up
+> >   linux-user: Implement pivot_root
+> >
+> >  linux-user/main.c    | 14 +++++++++++++-
+> >  linux-user/qemu.h    |  2 ++
+> >  linux-user/syscall.c | 43 ++++++++++++++++++++++++++++++++++++++++---
+> >  3 files changed, 55 insertions(+), 4 deletions(-)
+>
+> I also had a go at cleaning up is_proc_self and Daniel greatly
+> simplified it.
 
-i don't have any particular case in my mind.
-i guess it rarely fails and it might be simpler to just bail out on the fai=
-lure.
+thank you for the info.
+unfortunately the approach seems incompatible with what i want to do
+eventually. (handle non-self cases as well)
 
 >
-> >
-> >      return optind;
-> >  }
 >
 >
 > --
