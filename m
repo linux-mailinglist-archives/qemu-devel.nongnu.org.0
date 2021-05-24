@@ -2,73 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A62A38DF56
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 04:43:00 +0200 (CEST)
-Received: from localhost ([::1]:58494 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BC6038DF88
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 05:06:15 +0200 (CEST)
+Received: from localhost ([::1]:38836 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ll0YU-0002ga-D7
-	for lists+qemu-devel@lfdr.de; Sun, 23 May 2021 22:42:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45308)
+	id 1ll0uz-00032p-27
+	for lists+qemu-devel@lfdr.de; Sun, 23 May 2021 23:06:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47970)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liliang324@gmail.com>)
- id 1ll0X4-00020L-I7
- for qemu-devel@nongnu.org; Sun, 23 May 2021 22:41:30 -0400
-Received: from mail-lj1-x22f.google.com ([2a00:1450:4864:20::22f]:41897)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <liliang324@gmail.com>)
- id 1ll0X2-0004D1-KB
- for qemu-devel@nongnu.org; Sun, 23 May 2021 22:41:30 -0400
-Received: by mail-lj1-x22f.google.com with SMTP id p20so31578319ljj.8
- for <qemu-devel@nongnu.org>; Sun, 23 May 2021 19:41:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=SAGlgSwI8WoAGaFB9ifJOZ0SKmW5nQmqDXowAqZIXLI=;
- b=hMgmL9jKWQjehh2xcg4RipQ2nzjr0cukwUmetmmS0FC8RUnyi3BxusAzQfw2Cv3Hp1
- xPDaR3sQfaA3AMTbFUv0rM6GJfYJ2bgGOZKIhgS8vcxsR7jJFOxcMsC3PVoOE4qum2e6
- l1I/l41W5TzPqM/IcM5WWw7QcuuImP2TZ7wnjC07OszrKjIfoLaJErwr9rNJYzQlm0yt
- zFyEt7i/3msuiMv+D5AQySuvLHLbOKny/h+z0mmprWrv3CABNf6/KfwV2Rf6W7/swqKu
- 8XaPg3+zWctOM8dEsp9yzEOTiZmgi5WpDO7wxuOQHvuKdrM6I+CKT8t0M3dvmwVn7geX
- 3h+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=SAGlgSwI8WoAGaFB9ifJOZ0SKmW5nQmqDXowAqZIXLI=;
- b=sNiF5NsuW4y5+odKDQ4Yl1htZKrwElkLRsFcw01xzgsM5hfyHZpFusjwQQP1hMNij0
- 0PyypWMtUwIEJD+gdAC8rmfEtKLXYNrosCAk2i421Dv2Ng0aFOeGJXF/KDDsmEHeJbs/
- f1JocV+aLTnsKqn5Ye4HvvF9KRxqfm0T/lDxRs32fGs8EhPCyIzhHqNTDbWyf7WwW9HO
- I6eVAeNzC7zxhXPvizy5/9MihQjF3oKGPhV5Q/1cLsY3wQ2dX2I7qPohF0tDKZMBJe4E
- IXrCiuOLc3+Yjq00XFt0F1rUsEINg9JHLha3r9sK/Gb2i/idt5ravc7qVGKxu05aXkUG
- mOlA==
-X-Gm-Message-State: AOAM532Lvg+qq4XQx9yeJm62emhzi6f1oSs1Smb6kaYQfAIK2atJIDR1
- HtfKVbawt5ObBiIl39EUXeeZ5OqjQIvy54Pe0Vc=
-X-Google-Smtp-Source: ABdhPJxRlaX6quvwawv5wktJiGVDfx5hDZdsc4PmiplDL857LCkzBcc1XhHQq33uu6hokn8Ep3+cmCZPmt08V6390KU=
-X-Received: by 2002:a05:651c:329:: with SMTP id
- b9mr15404724ljp.128.1621824086130; 
- Sun, 23 May 2021 19:41:26 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1ll0sV-0008BY-Rm; Sun, 23 May 2021 23:03:40 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:37581 helo=ozlabs.org)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1ll0sS-0000ZT-1o; Sun, 23 May 2021 23:03:39 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4FpMV44y1Mz9sW1; Mon, 24 May 2021 13:03:24 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1621825404;
+ bh=I1uxiPkjh0HOasOhjCA6uo+5YLFY7tJQNcnkQ8FiKAs=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=YDaWvZtYF/j56oQyr0Xu/skp9+l/0sQzsZjDS6e4xhGN9TZe2Mq7tCSrjc+dsbIgW
+ FGyGyL/12gzWpGVAq/a+7VkQGhFwZa0jYVvsJTAdVLHS6S7YBWreXNqsbXn6vFvtxy
+ lFec+k2i7IRxIWrIWyH/04ngXHP7ZRZuTZv08YZY=
+Date: Mon, 24 May 2021 12:41:37 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br>
+Subject: Re: [PATCH v3 5/9] target/ppc: removed unnecessary inclusion of
+ helper-proto.h
+Message-ID: <YKsSYfjATZUpCQdt@yekko>
+References: <20210521201759.85475-1-bruno.larsen@eldorado.org.br>
+ <20210521201759.85475-6-bruno.larsen@eldorado.org.br>
 MIME-Version: 1.0
-References: <CA+2MQi-_06J1cmLhKAmV1vkPEnvDx6+bOnK06OciYmdymaNruw@mail.gmail.com>
- <87cztmkdlp.fsf@vitty.brq.redhat.com>
- <CA+2MQi_LG57KRRFjMR_zPvJBDaH4z16S5J=c+U+-Ss_Z71Ax7g@mail.gmail.com>
- <87y2c8iia0.fsf@vitty.brq.redhat.com>
-In-Reply-To: <87y2c8iia0.fsf@vitty.brq.redhat.com>
-From: Liang Li <liliang324@gmail.com>
-Date: Mon, 24 May 2021 10:41:14 +0800
-Message-ID: <CA+2MQi-OK5zK_sBtm8k-nnqVPQTSzE1UVTEfQ4KBChMHc=Npzg@mail.gmail.com>
-Subject: Re: About the performance of hyper-v
-To: Vitaly Kuznetsov <vkuznets@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::22f;
- envelope-from=liliang324@gmail.com; helo=mail-lj1-x22f.google.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="A0FTXalap14hTmkb"
+Content-Disposition: inline
+In-Reply-To: <20210521201759.85475-6-bruno.larsen@eldorado.org.br>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
 X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,105 +59,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Tianyu.Lan@microsoft.com, qemu-devel@nongnu.org, kvm@vger.kernel.org
+Cc: farosas@linux.ibm.com, richard.henderson@linaro.org, qemu-devel@nongnu.org,
+ lucas.araujo@eldorado.org.br, fernando.valle@eldorado.org.br,
+ qemu-ppc@nongnu.org, matheus.ferst@eldorado.org.br, luis.pires@eldorado.org.br
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> >> > Analyze events for all VMs, all VCPUs:
-> >> >              VM-EXIT    Samples  Samples%     Time%    Min Time    Max
-> >> > Time         Avg time
-> >> >   EXTERNAL_INTERRUPT     471831    59.89%    68.58%      0.64us
-> >> > 65.42us      2.34us ( +-   0.11% )
-> >> >            MSR_WRITE     238932    30.33%    23.07%      0.48us
-> >> > 41.05us      1.56us ( +-   0.14% )
-> >> >
-> >> > Total Samples:787803, Total events handled time:1611193.84us.
-> >> >
-> >> > I tried turning off hyper-v for the same workload and repeat the test,
-> >> > the overall virtualization overhead reduced by about of 50%:
-> >> >
-> >> > -------
-> >> >
-> >> > Analyze events for all VMs, all VCPUs:
-> >> >
-> >> >              VM-EXIT    Samples  Samples%     Time%    Min Time    Max
-> >> > Time         Avg time
-> >> >           APIC_WRITE     255152    74.43%    50.72%      0.49us
-> >> > 50.01us      1.42us ( +-   0.14% )
-> >> >        EPT_MISCONFIG      39967    11.66%    40.58%      1.55us
-> >> > 686.05us      7.27us ( +-   0.43% )
-> >> >            DR_ACCESS      35003    10.21%     4.64%      0.32us
-> >> > 40.03us      0.95us ( +-   0.32% )
-> >> >   EXTERNAL_INTERRUPT       6622     1.93%     2.08%      0.70us
-> >> > 57.38us      2.25us ( +-   1.42% )
-> >> >
-> >> > Total Samples:342788, Total events handled time:715695.62us.
-> >> >
-> >> > For this scenario,  hyper-v works really bad.  stimer works better
-> >> > than hpet, but on the other hand, it relies on SynIC which has
-> >> > negative effects for IPI intensive workloads.
-> >> > Do you have any plans for improvement?
-> >> >
-> >>
-> >> Hey,
-> >>
-> >> the above can be caused by the fact that when 'hv-synic' is enabled, KVM
-> >> automatically disables APICv and this can explain the overhead and the
-> >> fact that you're seeing more vmexits. KVM disables APICv because SynIC's
-> >> 'AutoEOI' feature is incompatible with it. We can, however, tell Windows
-> >> to not use AutoEOI ('Recommend deprecating AutoEOI' bit) and only
-> >> inhibit APICv if the recommendation was ignored. This is implemented in
-> >> the following KVM patch series:
-> >> https://lore.kernel.org/kvm/20210518144339.1987982-1-vkuznets@redhat.com/
-> >>
-> >> It will, however, require a new 'hv-something' flag to QEMU. For now, it
-> >> can be tested with 'hv-passthrough'.
-> >>
-> >> It would be great if you could give it a spin!
-> >>
-> >> --
-> >> Vitaly
-> >
-> > It's great to know that you already have a solution for this. :)
-> >
-> > By the way,  is there any requirement for the version of windows or
-> > windows updates for the new feature to work?
->
-> AFAIR, 'Recommend deprecating AutoEOI' bit appeared in WS2012 so I'd
-> expect WS2008 to ignore it completely (and thus SynIC will always be
-> disabling APICv for it).
->
 
-Hi Vitaly,
-      I tried your patchset and found it's not helpful to reduce the
-virtualization overhead.
-here are some perfdata with the same workload
+--A0FTXalap14hTmkb
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-===============================
-Analyze events for all VMs, all VCPUs:
-             VM-EXIT    Samples  Samples%     Time%    Min Time    Max
-Time         Avg time
-           MSR_WRITE     924045    89.96%    81.10%      0.42us
-68.42us      1.26us ( +-   0.07% )
-           DR_ACCESS      44669     4.35%     2.36%      0.32us
-50.74us      0.76us ( +-   0.32% )
-  EXTERNAL_INTERRUPT      29809     2.90%     6.42%      0.66us
-70.75us      3.10us ( +-   0.54% )
-              VMCALL      17819     1.73%     5.21%      0.75us
-15.64us      4.20us ( +-   0.33%
+On Fri, May 21, 2021 at 05:17:55PM -0300, Bruno Larsen (billionai) wrote:
+> These files included helper-proto.h, but didn't use or declare any
+> helpers, so the #include has been removed
+>=20
+> Signed-off-by: Bruno Larsen (billionai) <bruno.larsen@eldorado.org.br>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-Total Samples:1027227, Total events handled time:1436343.94us.
-===============================
+Applied to ppc-for-6.1, thanks.
 
-The result shows the overhead increased.  enable the apicv can help to
-reduce the vm-exit
-caused by interrupt injection, but on the other side, there are a lot
-of vm-exit caused by APIC_EOI.
+> ---
+>  target/ppc/cpu_init.c    | 1 -
+>  target/ppc/gdbstub.c     | 1 -
+>  target/ppc/mmu-hash32.c  | 1 -
+>  target/ppc/mmu-radix64.c | 1 -
+>  4 files changed, 4 deletions(-)
+>=20
+> diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
+> index 3365135896..b696469d1a 100644
+> --- a/target/ppc/cpu_init.c
+> +++ b/target/ppc/cpu_init.c
+> @@ -43,7 +43,6 @@
+>  #include "fpu/softfloat.h"
+>  #include "qapi/qapi-commands-machine-target.h"
+> =20
+> -#include "exec/helper-proto.h"
+>  #include "helper_regs.h"
+>  #include "internal.h"
+>  #include "spr_tcg.h"
+> diff --git a/target/ppc/gdbstub.c b/target/ppc/gdbstub.c
+> index c7d866cfcc..09ff1328d4 100644
+> --- a/target/ppc/gdbstub.c
+> +++ b/target/ppc/gdbstub.c
+> @@ -20,7 +20,6 @@
+>  #include "qemu/osdep.h"
+>  #include "cpu.h"
+>  #include "exec/gdbstub.h"
+> -#include "exec/helper-proto.h"
+>  #include "internal.h"
+> =20
+>  static int ppc_gdb_register_len_apple(int n)
+> diff --git a/target/ppc/mmu-hash32.c b/target/ppc/mmu-hash32.c
+> index 32d1f4a954..6a07c345e4 100644
+> --- a/target/ppc/mmu-hash32.c
+> +++ b/target/ppc/mmu-hash32.c
+> @@ -21,7 +21,6 @@
+>  #include "qemu/osdep.h"
+>  #include "cpu.h"
+>  #include "exec/exec-all.h"
+> -#include "exec/helper-proto.h"
+>  #include "sysemu/kvm.h"
+>  #include "kvm_ppc.h"
+>  #include "internal.h"
+> diff --git a/target/ppc/mmu-radix64.c b/target/ppc/mmu-radix64.c
+> index eabfe4e261..cbd404bfa4 100644
+> --- a/target/ppc/mmu-radix64.c
+> +++ b/target/ppc/mmu-radix64.c
+> @@ -20,7 +20,6 @@
+>  #include "qemu/osdep.h"
+>  #include "cpu.h"
+>  #include "exec/exec-all.h"
+> -#include "exec/helper-proto.h"
+>  #include "qemu/error-report.h"
+>  #include "sysemu/kvm.h"
+>  #include "kvm_ppc.h"
 
-When turning off the hyper-v and using the kvm apicv, there is no such
-overhead. It seems turning
-on hyper V related features is not always the best choice for a windows guest.
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
-Thanks!
-Liang
+--A0FTXalap14hTmkb
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmCrEmEACgkQbDjKyiDZ
+s5L2cxAA30MbODa+JF+FymkWqbZZNfvzI7Mc+E/KPpKpTtTejokZ7ckqZnZ8SvDl
+QbCWXy8yVxf5r/pMjZ5RmGl1XHbwHZW/dp8LXGPfHDeTwrL+9vmN+NZ7AGifi4gH
+nOA7JCBzWocee4wn2aOg+dKQcd7MYVDdUQ2Fesi2PH3lCkPEQwKqBKd5VPVKaO9V
+jvMYm/yaYfXuQs+wVLnbm8vQmjeMm/GH+zLuVr/X28NW39qNXzF3sBUgVbj6Mw2n
+FD83sl3ayODbqJKWbEO5Da3kR9d1UjzmLoHC+snfiqW1BILpgAsPv/1mto7FMPJG
+OLmWbHxhNVRCv7dW9qwdAnvNWY9I+X3Pdei3Dlg053PR0XByGofSq9Tz+MfWqBjJ
+Y9zK61tRG5pwUSbqPJA2S4TYNeqmrCXwUJiHe6l2k4tprbZVvIsianEdDmTPqzoQ
+X79BQq7XaQWRTbIuzCrYeqUtMw+g8Op8ZJ1hk/B9Z/UPzqazwE7l19++AUJ8yLSy
+KIlu4o1JdwsAxjKhzVBIFcf2JEALkl6B3p/LGyhCl5Hbhzt/yEhQ1TlDBHKgKhK4
+pwnvtw4uux52+Ly3fOwWlANDnfcT/MjetL3MeW75t+CDMf/vNR3nh8OxBShOXrpV
+pNYBJS9eXQOJPibo4KrhdU5LbT6dVZiqJWqOCHUa14+uOG+as0E=
+=O5sD
+-----END PGP SIGNATURE-----
+
+--A0FTXalap14hTmkb--
 
