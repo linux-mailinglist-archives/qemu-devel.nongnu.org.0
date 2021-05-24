@@ -2,57 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B4F638F269
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 19:41:46 +0200 (CEST)
-Received: from localhost ([::1]:55874 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FAEB38F288
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 19:50:49 +0200 (CEST)
+Received: from localhost ([::1]:50118 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llEaH-0001he-A5
-	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 13:41:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57108)
+	id 1llEj2-0000cF-4E
+	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 13:50:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59194)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1llEYg-0007lH-ET
- for qemu-devel@nongnu.org; Mon, 24 May 2021 13:40:06 -0400
-Resent-Date: Mon, 24 May 2021 13:40:06 -0400
-Resent-Message-Id: <E1llEYg-0007lH-ET@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21314)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1llEYd-0004HN-FA
- for qemu-devel@nongnu.org; Mon, 24 May 2021 13:40:06 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1621877993; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=Om5SCrk6jr/ncfgmur5ZkIkv3UoOF5VBhDDqiEVQ9gg0/PLmsG8/H3tf8I3tGkDf6q4eSKNQJ4HT24J/eoGTFRIOJ0XvVDy+Um1Bz9NbLvOuHnubfOeCnQma1WY9cVF/tpuXGonW4JO/IjLjtvBHqh57HENVVTc7jI1ctKAgeK0=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1621877993;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=758QsFqETvMXdqAUslUQCrr0UkJ0e5nHF+0j7nG+yi4=; 
- b=RFabyQLGbm4aG9pYStTdrPbyXr+d1gqHOB/XKFhHxJpEye/U8QMUU43Q/CDVmHajqrXTsUwar8IwZUo9Z2ccN2mSuMxx10U0t2rMlv6JOoO8QlBHsL+Ae8OwVnALJTdM4GgcccCf0xOjM5Hvdn4XBQg9OAzQgP604CoJWe6zACA=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1621877992667981.1234289625708;
- Mon, 24 May 2021 10:39:52 -0700 (PDT)
-In-Reply-To: <20210524164131.383778-1-pbonzini@redhat.com>
-Subject: Re: [PULL 00/28] Misc patches for 2021-05-24
-Message-ID: <162187799166.14350.8047592167982133236@0addf061776e>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1llEhW-0007aN-5D
+ for qemu-devel@nongnu.org; Mon, 24 May 2021 13:49:14 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:43887)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1llEhT-0001ef-Qa
+ for qemu-devel@nongnu.org; Mon, 24 May 2021 13:49:13 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id p7so25687820wru.10
+ for <qemu-devel@nongnu.org>; Mon, 24 May 2021 10:49:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version;
+ bh=UU071JWugG/wj1MQEk1vAjkpgG43EtESxvs6DTZX5iE=;
+ b=lkgZFydK0Rm+3GTasJmIIofV6VzHbYTnaZorG9OZ+JYGrn8LHCayj0yKagGDpZg4LB
+ xhtO6G1ktZUIPd8ZwDVEX5WOuBUoQOtZrL6FBRyhQ4slgThF4UfcdDr1O2oOHvh12TGy
+ FsZFa5WK9F+LDk0zVsjl2jss5V4Y2wvwe5JhvjwhAOYlOQlE06UFOOrnqTdqM+cfrxci
+ hvDCNrH+jIL46lmOKgZ8WcYKzwMUi1lkZXA0t0cHYqBiscV42qVkDDDPY+1VW4aPuRrg
+ ezRw7fRgWmci2gbdv1EcRvsgor9xEHs03B4Bk80QHSqLW7fxzuUAI56Z0uySWRyi1WTY
+ hrhw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version;
+ bh=UU071JWugG/wj1MQEk1vAjkpgG43EtESxvs6DTZX5iE=;
+ b=eGKarxubFLtuJUI7VdzHvYIkauYBzCRVfugKhWP7ZwcbB+VdBSF7xqGvtuOQ7fmyDO
+ iQ/+rC6hV/hq1bcOtNZSTzwHo0A8Ze68NrmzMqG4bOyd8ooA3w4L5oJIR//I+OtOQd5t
+ 5WH0FGS95BQMWrewQlimm0lVy4STnFrdwyPesCOxvs3M81HTfarBPBizK39laaM6SrWI
+ 25kfZw0YZ6LYeiC8vnFSddTFrJyGvvUThOqAigEZTY1J+tFaS9JkbD3Zi6jyewNBNZ0j
+ NYWi5Jyiknvun3I7wGB3Kz47oPmGbfCths0zmRCPAKmhYtvXjq6plrHMBuRnqZ7ur0ti
+ DSSw==
+X-Gm-Message-State: AOAM530zW85YeZS3qMR1w/fYsiMe66RA74+FuY6ItkJkL2INTm4lp1DJ
+ 2jsW8g9zUHDf/cue8hISnmUtcw==
+X-Google-Smtp-Source: ABdhPJyt0AXX0anknc5el03gOJhus8Svvj5MHzjPJVJZ0x5xtLRCIf2mwIxRrbshiKa2IF2gFt74lg==
+X-Received: by 2002:adf:fc44:: with SMTP id e4mr23296428wrs.23.1621878549974; 
+ Mon, 24 May 2021 10:49:09 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id i1sm13023978wrp.51.2021.05.24.10.49.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 24 May 2021 10:49:08 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 761331FF7E;
+ Mon, 24 May 2021 18:49:07 +0100 (BST)
+References: <20210524045412.15152-1-yamamoto@midokura.com>
+User-agent: mu4e 1.5.13; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: YAMAMOTO Takashi <yamamoto@midokura.com>
+Subject: Re: [PATCH 0/5] linux-user changes to run docker
+Date: Mon, 24 May 2021 18:45:18 +0100
+In-reply-to: <20210524045412.15152-1-yamamoto@midokura.com>
+Message-ID: <87cztg3tv0.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: pbonzini@redhat.com
-Date: Mon, 24 May 2021 10:39:52 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Type: multipart/mixed; boundary="=-=-="
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -66,154 +85,296 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
 Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDUyNDE2NDEzMS4zODM3
-NzgtMS1wYm9uemluaUByZWRoYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRvIGhh
-dmUgc29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1vcmUg
-aW5mb3JtYXRpb246CgpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMjAyMTA1MjQxNjQxMzEuMzgz
-Nzc4LTEtcGJvbnppbmlAcmVkaGF0LmNvbQpTdWJqZWN0OiBbUFVMTCAwMC8yOF0gTWlzYyBwYXRj
-aGVzIGZvciAyMDIxLTA1LTI0Cgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNo
-CmdpdCByZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0IDAKZ2l0IGNvbmZpZyAtLWxv
-Y2FsIGRpZmYucmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVzIFRy
-dWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhpc3RvZ3JhbQouL3NjcmlwdHMv
-Y2hlY2twYXRjaC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoK
-VXBkYXRpbmcgM2M4Y2Y1YTljMjFmZjg3ODIxNjRkMWRlZjdmNDRiZDg4ODcxMzM4NApGcm9tIGh0
-dHBzOi8vZ2l0aHViLmNvbS9wYXRjaGV3LXByb2plY3QvcWVtdQogLSBbdGFnIHVwZGF0ZV0gICAg
-ICBwYXRjaGV3LzIwMjEwNTIwMTUyODQwLjI0NDUzLTEtcGV0ZXIubWF5ZGVsbEBsaW5hcm8ub3Jn
-IC0+IHBhdGNoZXcvMjAyMTA1MjAxNTI4NDAuMjQ0NTMtMS1wZXRlci5tYXlkZWxsQGxpbmFyby5v
-cmcKICogW25ldyB0YWddICAgICAgICAgcGF0Y2hldy8yMDIxMDUyNDE2NDEzMS4zODM3NzgtMS1w
-Ym9uemluaUByZWRoYXQuY29tIC0+IHBhdGNoZXcvMjAyMTA1MjQxNjQxMzEuMzgzNzc4LTEtcGJv
-bnppbmlAcmVkaGF0LmNvbQpTd2l0Y2hlZCB0byBhIG5ldyBicmFuY2ggJ3Rlc3QnCjBmYTA4MGYg
-Z2l0bGFiLWNpOiB1c2UgLS1tZXNvbj1naXQgZm9yIENGSSBqb2JzCmJiZGRkMzMgaHcvc2NzaTog
-Rml4IHNlY3RvciB0cmFuc2xhdGlvbiBidWcgaW4gc2NzaV91bm1hcF9jb21wbGV0ZV9ub2lvCjM5
-MDUzMzkgY29uZmlndXJlOiBBdm9pZCBlcnJvciBtZXNzYWdlcyBhYm91dCBtaXNzaW5nICotY29u
-ZmlnLSouaCBmaWxlcwpkZTkyYTk5IGRvYzogQWRkIG5vdGVzIGFib3V0IC1tb24gb3B0aW9uIG1v
-ZGU9Y29udHJvbCBhcmd1bWVudC4KNDJiOGQ2YiBxZW11LWNvbmZpZzogbG9hZCBtb2R1bGVzIHdo
-ZW4gaW5zdGFudGlhdGluZyBvcHRpb24gZ3JvdXBzCjUyMTliNzYgdmw6IGFsbG93IG5vdCBzcGVj
-aWZ5aW5nIHNpemUgaW4gLW0gd2hlbiB1c2luZyAtTSBtZW1vcnktYmFja2VuZAo3MmU5YmFmIHJl
-cGxpY2F0aW9uOiBtb3ZlIGluY2x1ZGUgb3V0IG9mIHJvb3QgZGlyZWN0b3J5CmNlNDFjZjYgcmVt
-b3ZlIHFlbXUtb3B0aW9ucyogZnJvbSByb290IGRpcmVjdG9yeQpjZTg3ZmMyIG1lc29uOiBTZXQg
-aW1wbGljaXRfaW5jbHVkZV9kaXJlY3RvcmllcyB0byBmYWxzZQo5ODMyYjUwIHRlc3RzL3F0ZXN0
-L2Z1eno6IEZpeCBidWlsZCBmYWlsdXJlCmMwOTAxYmEgS1ZNOiBEaXJ0eSByaW5nIHN1cHBvcnQK
-MTEwODJkYiBLVk06IERpc2FibGUgbWFudWFsIGRpcnR5IGxvZyB3aGVuIGRpcnR5IHJpbmcgZW5h
-YmxlZApiMDFhNjYyIEtWTTogQWRkIGRpcnR5LXJpbmctc2l6ZSBwcm9wZXJ0eQo5NWE1MTY4IEtW
-TTogQ2FjaGUga3ZtIHNsb3QgZGlydHkgYml0bWFwIHNpemUKZTYyY2ZiNiBLVk06IFNpbXBsaWZ5
-IGRpcnR5IGxvZyBzeW5jIGluIGt2bV9zZXRfcGh5c19tZW0KYzkzMzRkNCBLVk06IFByb3ZpZGUg
-aGVscGVyIHRvIHN5bmMgZGlydHkgYml0bWFwIGZyb20gc2xvdCB0byByYW1ibG9jawo1N2JiYjhk
-IEtWTTogUHJvdmlkZSBoZWxwZXIgdG8gZ2V0IGt2bSBkaXJ0eSBsb2cKYjRiYWQ0YSBLVk06IENy
-ZWF0ZSB0aGUgS1ZNU2xvdCBkaXJ0eSBiaXRtYXAgb24gZmxhZyBjaGFuZ2VzCmYzMjY0Y2UgS1ZN
-OiBVc2UgYSBiaWcgbG9jayB0byByZXBsYWNlIHBlci1rbWwgc2xvdHNfbG9jawoyZDFlNmQ0IG1l
-bW9yeTogSW50cm9kdWNlIGxvZ19zeW5jX2dsb2JhbCgpIHRvIG1lbW9yeSBsaXN0ZW5lcgo0MjUy
-ZWUzIEtWTTogZG8gbm90IGFsbG93IHNldHRpbmcgcHJvcGVydGllcyBhdCBydW50aW1lCjM3M2Jm
-NmYgcXRlc3Q6IGFkZCBhIFFPTSBvYmplY3QgZm9yIHF0ZXN0CjVkNDYyYzUgb2JqZWN0OiBhZGQg
-bW9yZSBjb21tYW5kcyB0byBwcmVjb25maWcgbW9kZQpkODUwNjgxIGkzODYvY3B1OiBFeHBvc2Ug
-QVZYX1ZOTkkgaW5zdHJ1Y3Rpb24gdG8gZ3Vlc3QKMzgyN2ZhNyBody9tZW0vbnZkaW1tOiBVc2Ug
-S2NvbmZpZyAnaW1wbHknIGluc3RlYWQgb2YgJ2RlcGVuZHMgb24nCjBkNjAyZTAgY29uZmlndXJl
-OiBzaW1wbGlmeSBhc3NpZ25tZW50IHRvIEdJVF9TVUJNT0RVTEVTCjhlNTUxZjUgY29uZmlndXJl
-OiBjaGVjayBmb3Igc3VibW9kdWxlcyBpZiAtLXdpdGgtZ2l0LXN1Ym1vZHVsZXM9aWdub3JlCjE3
-M2U2Y2EgY29uZmlndXJlOiBPbmx5IGNsb25lIHNvZnRmbG9hdC0zIHJlcG9zaXRvcmllcyBpZiBU
-Q0cgaXMgZW5hYmxlZAoKPT09IE9VVFBVVCBCRUdJTiA9PT0KMS8yOCBDaGVja2luZyBjb21taXQg
-MTczZTZjYWU2NzEzIChjb25maWd1cmU6IE9ubHkgY2xvbmUgc29mdGZsb2F0LTMgcmVwb3NpdG9y
-aWVzIGlmIFRDRyBpcyBlbmFibGVkKQoyLzI4IENoZWNraW5nIGNvbW1pdCA4ZTU1MWY1MTg5NDQg
-KGNvbmZpZ3VyZTogY2hlY2sgZm9yIHN1Ym1vZHVsZXMgaWYgLS13aXRoLWdpdC1zdWJtb2R1bGVz
-PWlnbm9yZSkKMy8yOCBDaGVja2luZyBjb21taXQgMGQ2MDJlMDE2MmQ2IChjb25maWd1cmU6IHNp
-bXBsaWZ5IGFzc2lnbm1lbnQgdG8gR0lUX1NVQk1PRFVMRVMpCjQvMjggQ2hlY2tpbmcgY29tbWl0
-IDM4MjdmYTc0Zjg0MCAoaHcvbWVtL252ZGltbTogVXNlIEtjb25maWcgJ2ltcGx5JyBpbnN0ZWFk
-IG9mICdkZXBlbmRzIG9uJykKNS8yOCBDaGVja2luZyBjb21taXQgZDg1MDY4MWM0Y2FmIChpMzg2
-L2NwdTogRXhwb3NlIEFWWF9WTk5JIGluc3RydWN0aW9uIHRvIGd1ZXN0KQo2LzI4IENoZWNraW5n
-IGNvbW1pdCA1ZDQ2MmM1MWY3MTUgKG9iamVjdDogYWRkIG1vcmUgY29tbWFuZHMgdG8gcHJlY29u
-ZmlnIG1vZGUpCjcvMjggQ2hlY2tpbmcgY29tbWl0IDM3M2JmNmYzZDRlZSAocXRlc3Q6IGFkZCBh
-IFFPTSBvYmplY3QgZm9yIHF0ZXN0KQo4LzI4IENoZWNraW5nIGNvbW1pdCA0MjUyZWUzNjUyNmMg
-KEtWTTogZG8gbm90IGFsbG93IHNldHRpbmcgcHJvcGVydGllcyBhdCBydW50aW1lKQpFUlJPUjog
-bGluZSBvdmVyIDkwIGNoYXJhY3RlcnMKIzMzOiBGSUxFOiBhY2NlbC9rdm0va3ZtLWFsbC5jOjMx
-MTU6CisgICAgICAgIGVycm9yX3NldGcoZXJycCwgIkNhbm5vdCBzZXQgcHJvcGVydGllcyBhZnRl
-ciB0aGUgYWNjZWxlcmF0b3IgaGFzIGJlZW4gaW5pdGlhbGl6ZWQiKTsKCkVSUk9SOiBsaW5lIG92
-ZXIgOTAgY2hhcmFjdGVycwojNDU6IEZJTEU6IGFjY2VsL2t2bS9rdm0tYWxsLmM6MzEzNDoKKyAg
-ICAgICAgZXJyb3Jfc2V0ZyhlcnJwLCAiQ2Fubm90IHNldCBwcm9wZXJ0aWVzIGFmdGVyIHRoZSBh
-Y2NlbGVyYXRvciBoYXMgYmVlbiBpbml0aWFsaXplZCIpOwoKdG90YWw6IDIgZXJyb3JzLCAwIHdh
-cm5pbmdzLCAzNyBsaW5lcyBjaGVja2VkCgpQYXRjaCA4LzI4IGhhcyBzdHlsZSBwcm9ibGVtcywg
-cGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZl
-cyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRB
-SU5FUlMuCgo5LzI4IENoZWNraW5nIGNvbW1pdCAyZDFlNmQ0MzY0ZDAgKG1lbW9yeTogSW50cm9k
-dWNlIGxvZ19zeW5jX2dsb2JhbCgpIHRvIG1lbW9yeSBsaXN0ZW5lcikKMTAvMjggQ2hlY2tpbmcg
-Y29tbWl0IGYzMjY0Y2UzZTdkMSAoS1ZNOiBVc2UgYSBiaWcgbG9jayB0byByZXBsYWNlIHBlci1r
-bWwgc2xvdHNfbG9jaykKMTEvMjggQ2hlY2tpbmcgY29tbWl0IGI0YmFkNGE5OTBiMCAoS1ZNOiBD
-cmVhdGUgdGhlIEtWTVNsb3QgZGlydHkgYml0bWFwIG9uIGZsYWcgY2hhbmdlcykKMTIvMjggQ2hl
-Y2tpbmcgY29tbWl0IDU3YmJiOGQ3YWZhMCAoS1ZNOiBQcm92aWRlIGhlbHBlciB0byBnZXQga3Zt
-IGRpcnR5IGxvZykKMTMvMjggQ2hlY2tpbmcgY29tbWl0IGM5MzM0ZDQwZGVjYSAoS1ZNOiBQcm92
-aWRlIGhlbHBlciB0byBzeW5jIGRpcnR5IGJpdG1hcCBmcm9tIHNsb3QgdG8gcmFtYmxvY2spCjE0
-LzI4IENoZWNraW5nIGNvbW1pdCBlNjJjZmI2NzNkNmEgKEtWTTogU2ltcGxpZnkgZGlydHkgbG9n
-IHN5bmMgaW4ga3ZtX3NldF9waHlzX21lbSkKMTUvMjggQ2hlY2tpbmcgY29tbWl0IDk1YTUxNjhh
-OTdkYyAoS1ZNOiBDYWNoZSBrdm0gc2xvdCBkaXJ0eSBiaXRtYXAgc2l6ZSkKMTYvMjggQ2hlY2tp
-bmcgY29tbWl0IGIwMWE2NjIyOWEyYiAoS1ZNOiBBZGQgZGlydHktcmluZy1zaXplIHByb3BlcnR5
-KQpFUlJPUjogbGluZSBvdmVyIDkwIGNoYXJhY3RlcnMKIzU5OiBGSUxFOiBhY2NlbC9rdm0va3Zt
-LWFsbC5jOjMyMDY6CisgICAgICAgIGVycm9yX3NldGcoZXJycCwgIkNhbm5vdCBzZXQgcHJvcGVy
-dGllcyBhZnRlciB0aGUgYWNjZWxlcmF0b3IgaGFzIGJlZW4gaW5pdGlhbGl6ZWQiKTsKCnRvdGFs
-OiAxIGVycm9ycywgMCB3YXJuaW5ncywgOTQgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMTYvMjggaGFz
-IHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwph
-cmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hF
-Q0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KCjE3LzI4IENoZWNraW5nIGNvbW1pdCAxMTA4MmRiMTI4
-ZjkgKEtWTTogRGlzYWJsZSBtYW51YWwgZGlydHkgbG9nIHdoZW4gZGlydHkgcmluZyBlbmFibGVk
-KQoxOC8yOCBDaGVja2luZyBjb21taXQgYzA5MDFiYWMwZWY4IChLVk06IERpcnR5IHJpbmcgc3Vw
-cG9ydCkKV0FSTklORzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzQ1MTogRklMRTogYWNjZWwv
-a3ZtL2t2bS1hbGwuYzoyNDY2OgorICAgICAgICAgICAgICAgICAgICAgICAgICAgICAiU3VnZ2Vz
-dGVkIG1pbmludW0gdmFsdWUgaXMgMTAyNC4iLCBzdHJlcnJvcigtcmV0KSk7Cgp0b3RhbDogMCBl
-cnJvcnMsIDEgd2FybmluZ3MsIDQ5OCBsaW5lcyBjaGVja2VkCgpQYXRjaCAxOC8yOCBoYXMgc3R5
-bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBm
-YWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BB
-VENIIGluIE1BSU5UQUlORVJTLgoxOS8yOCBDaGVja2luZyBjb21taXQgOTgzMmI1MGNjZDY4ICh0
-ZXN0cy9xdGVzdC9mdXp6OiBGaXggYnVpbGQgZmFpbHVyZSkKMjAvMjggQ2hlY2tpbmcgY29tbWl0
-IGNlODdmYzI0OTExNCAobWVzb246IFNldCBpbXBsaWNpdF9pbmNsdWRlX2RpcmVjdG9yaWVzIHRv
-IGZhbHNlKQoyMS8yOCBDaGVja2luZyBjb21taXQgY2U0MWNmNjc3NjIzIChyZW1vdmUgcWVtdS1v
-cHRpb25zKiBmcm9tIHJvb3QgZGlyZWN0b3J5KQpXQVJOSU5HOiBhZGRlZCwgbW92ZWQgb3IgZGVs
-ZXRlZCBmaWxlKHMpLCBkb2VzIE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/CiMyNjogCnJlbmFt
-ZSBmcm9tIHFlbXUtb3B0aW9ucy5oCgpFUlJPUjogTWFjcm9zIHdpdGggY29tcGxleCB2YWx1ZXMg
-c2hvdWxkIGJlIGVuY2xvc2VkIGluIHBhcmVudGhlc2lzCiMzODogRklMRTogaW5jbHVkZS9xZW11
-L3FlbXUtb3B0aW9ucy5oOjMzOgorI2RlZmluZSBERUYob3B0aW9uLCBvcHRfYXJnLCBvcHRfZW51
-bSwgb3B0X2hlbHAsIGFyY2hfbWFzaykgICAgIFwKKyAgICBvcHRfZW51bSwKCnRvdGFsOiAxIGVy
-cm9ycywgMSB3YXJuaW5ncywgNzkgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMjEvMjggaGFzIHN0eWxl
-IHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFs
-c2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRD
-SCBpbiBNQUlOVEFJTkVSUy4KCjIyLzI4IENoZWNraW5nIGNvbW1pdCA3MmU5YmFmZjIwYjAgKHJl
-cGxpY2F0aW9uOiBtb3ZlIGluY2x1ZGUgb3V0IG9mIHJvb3QgZGlyZWN0b3J5KQpXQVJOSU5HOiBh
-ZGRlZCwgbW92ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBkb2VzIE1BSU5UQUlORVJTIG5lZWQgdXBk
-YXRpbmc/CiMzNTogCnJlbmFtZSBmcm9tIHJlcGxpY2F0aW9uLmgKCnRvdGFsOiAwIGVycm9ycywg
-MSB3YXJuaW5ncywgNDggbGluZXMgY2hlY2tlZAoKUGF0Y2ggMjIvMjggaGFzIHN0eWxlIHByb2Js
-ZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9z
-aXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBN
-QUlOVEFJTkVSUy4KMjMvMjggQ2hlY2tpbmcgY29tbWl0IDUyMTliNzZmNzg3NSAodmw6IGFsbG93
-IG5vdCBzcGVjaWZ5aW5nIHNpemUgaW4gLW0gd2hlbiB1c2luZyAtTSBtZW1vcnktYmFja2VuZCkK
-MjQvMjggQ2hlY2tpbmcgY29tbWl0IDQyYjhkNmI0Mjg1OSAocWVtdS1jb25maWc6IGxvYWQgbW9k
-dWxlcyB3aGVuIGluc3RhbnRpYXRpbmcgb3B0aW9uIGdyb3VwcykKV0FSTklORzogYWRkZWQsIG1v
-dmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5nPwoj
-OTM6IApuZXcgZmlsZSBtb2RlIDEwMDY0NAoKdG90YWw6IDAgZXJyb3JzLCAxIHdhcm5pbmdzLCA2
-MSBsaW5lcyBjaGVja2VkCgpQYXRjaCAyNC8yOCBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSBy
-ZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0
-IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoy
-NS8yOCBDaGVja2luZyBjb21taXQgZGU5MmE5OTcyMjJhIChkb2M6IEFkZCBub3RlcyBhYm91dCAt
-bW9uIG9wdGlvbiBtb2RlPWNvbnRyb2wgYXJndW1lbnQuKQpFUlJPUjogQXV0aG9yIGVtYWlsIGFk
-ZHJlc3MgaXMgbWFuZ2xlZCBieSB0aGUgbWFpbGluZyBsaXN0CiMyOiAKQXV0aG9yOiBBbGkgU2hp
-cnZhbmkgdmlhIDxxZW11LWRldmVsQG5vbmdudS5vcmc+CgpFUlJPUjogdHJhaWxpbmcgd2hpdGVz
-cGFjZQojMjg6IEZJTEU6IHFlbXUtb3B0aW9ucy5oeDozODAyOgorICAgIFNldHVwIG1vbml0b3Ig
-b24gY2hhcmRldiBuYW1lLiBgYG1vZGU9Y29udHJvbGBgIGNvbmZpZ3VyZXMgJAoKRVJST1I6IHRy
-YWlsaW5nIHdoaXRlc3BhY2UKIzMxOiBGSUxFOiBxZW11LW9wdGlvbnMuaHg6MzgwNToKKyAgICBg
-YHByZXR0eWBgIGlzIG9ubHkgdmFsaWQgd2hlbiBgYG1vZGU9Y29udHJvbGBgLCAkCgp0b3RhbDog
-MyBlcnJvcnMsIDAgd2FybmluZ3MsIDEzIGxpbmVzIGNoZWNrZWQKClBhdGNoIDI1LzI4IGhhcyBz
-dHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJl
-IGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNL
-UEFUQ0ggaW4gTUFJTlRBSU5FUlMuCgoyNi8yOCBDaGVja2luZyBjb21taXQgMzkwNTMzOTFiYzky
-IChjb25maWd1cmU6IEF2b2lkIGVycm9yIG1lc3NhZ2VzIGFib3V0IG1pc3NpbmcgKi1jb25maWct
-Ki5oIGZpbGVzKQoyNy8yOCBDaGVja2luZyBjb21taXQgYmJkZGQzM2M0MTRjIChody9zY3NpOiBG
-aXggc2VjdG9yIHRyYW5zbGF0aW9uIGJ1ZyBpbiBzY3NpX3VubWFwX2NvbXBsZXRlX25vaW8pCjI4
-LzI4IENoZWNraW5nIGNvbW1pdCAwZmEwODBmMTg4M2IgKGdpdGxhYi1jaTogdXNlIC0tbWVzb249
-Z2l0IGZvciBDRkkgam9icykKPT09IE9VVFBVVCBFTkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVk
-IHdpdGggY29kZTogMQoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNo
-ZXcub3JnL2xvZ3MvMjAyMTA1MjQxNjQxMzEuMzgzNzc4LTEtcGJvbnppbmlAcmVkaGF0LmNvbS90
-ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRv
-bWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQg
-eW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
+--=-=-=
+Content-Type: text/plain
+
+
+YAMAMOTO Takashi <yamamoto@midokura.com> writes:
+
+> These patches, along with a few more hacks [1] I didn't include
+> in this patchset, allowed me to run arm64 and armv7 version of
+> dind image on amd64.
+>
+> [1] https://github.com/yamt/qemu/tree/linux-user-for-docker
+
+Might be worth posting those patches next time (even if they have a RFC
+or !MERGE in the title for now). I had a little noodle around with
+testing and quickly found a few holes. It would be nice if we could have
+a unit test to cover these various bits as I fear it will easily break
+again. Feel free to use the following as a basis if you want:
+
+
+--=-=-=
+Content-Type: text/x-diff; charset=utf-8
+Content-Disposition: inline;
+ filename=0001-tests-tcg-simple-test-for-proc-self-behaviour.patch
+Content-Transfer-Encoding: quoted-printable
+Content-Description: /proc/self test
+
+From 5d331e84f3e8763921a619647a46bc8b4c9f3207 Mon Sep 17 00:00:00 2001
+From: =3D?UTF-8?q?Alex=3D20Benn=3DC3=3DA9e?=3D <alex.bennee@linaro.org>
+Date: Mon, 24 May 2021 10:49:55 +0100
+Subject: [PATCH 1/2] tests/tcg: simple test for /proc/self behaviour
+MIME-Version: 1.0
+Content-Type: text/plain; charset=3DUTF-8
+Content-Transfer-Encoding: 8bit
+
+Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+---
+ tests/tcg/multiarch/self.c | 114 +++++++++++++++++++++++++++++++++++++
+ 1 file changed, 114 insertions(+)
+ create mode 100644 tests/tcg/multiarch/self.c
+
+diff --git a/tests/tcg/multiarch/self.c b/tests/tcg/multiarch/self.c
+new file mode 100644
+index 0000000000..f6ea145d16
+--- /dev/null
++++ b/tests/tcg/multiarch/self.c
+@@ -0,0 +1,114 @@
++/*
++ * /proc/self checks
++ *
++ * Copyright (c) 2021 Linaro Ltd
++ *
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ */
++
++#define _GNU_SOURCE
++#include <stdarg.h>
++#include <stdint.h>
++#include <stdio.h>
++#include <stdlib.h>
++#include <unistd.h>
++#include <errno.h>
++#include <string.h>
++#include <sys/types.h>
++#include <sys/stat.h>
++#include <unistd.h>
++#include <assert.h>
++#include <fcntl.h>
++
++static void error1(const char *filename, int line, const char *fmt, ...)
++{
++    va_list ap;
++    va_start(ap, fmt);
++    fprintf(stderr, "%s:%d: ", filename, line);
++    vfprintf(stderr, fmt, ap);
++    fprintf(stderr, "\n");
++    va_end(ap);
++    exit(1);
++}
++
++static int __chk_error(const char *filename, int line, int ret)
++{
++    if (ret < 0) {
++        error1(filename, line, "%m (ret=3D%d, errno=3D%d/%s)",
++               ret, errno, strerror(errno));
++    }
++    return ret;
++}
++
++#define error(fmt, ...) error1(__FILE__, __LINE__, fmt, ## __VA_ARGS__)
++
++#define chk_error(ret) __chk_error(__FILE__, __LINE__, (ret))
++
++#define PATH_MAX 1024
++
++static void check_self_exe(struct stat *self)
++{
++    struct stat statbuf;
++    struct stat linkbuf;
++    chk_error(stat("/proc/self/exe", &statbuf));
++    chk_error(lstat("/proc/self/exe", &linkbuf));
++    assert(statbuf.st_ino !=3D linkbuf.st_ino);
++    assert(statbuf.st_ino =3D=3D self->st_ino);
++}
++
++static void check_mypid(struct stat *self)
++{
++    pid_t me =3D getpid();
++    char path[PATH_MAX];
++    struct stat statbuf;
++    struct stat linkbuf;
++
++    snprintf(&path[0], PATH_MAX, "/proc/%d/exe", me);
++
++    chk_error(stat(path, &statbuf));
++    chk_error(lstat(path, &linkbuf));
++    assert(statbuf.st_ino !=3D linkbuf.st_ino);
++    assert(statbuf.st_ino =3D=3D self->st_ino);
++}
++
++static void check_noncanon(struct stat *self)
++{
++    struct stat statbuf;
++    int fd_slash, fd_dot;
++
++    fd_slash =3D openat(AT_FDCWD, "/proc///self/exe", O_PATH);
++    chk_error(fstat(fd_slash, &statbuf));
++    assert(statbuf.st_ino =3D=3D self->st_ino);
++    close(fd_slash);
++
++    fd_dot =3D openat(AT_FDCWD, "/proc/./self/exe", O_PATH);
++    chk_error(fstat(fd_dot, &statbuf));
++    assert(statbuf.st_ino =3D=3D self->st_ino);
++    close(fd_dot);
++}
++
++int main(int argc, char **argv)
++{
++    struct stat self;
++
++    chk_error(stat(argv[0], &self));
++    printf("I am %s (%d/%lu)\n", argv[0], argc,
++           (long unsigned int) self.st_ino);
++
++    check_self_exe(&self);
++    check_mypid(&self);
++    check_noncanon(&self);
++
++#if 0
++    if (argc =3D=3D 2) {
++        printf("I think I execve'd myself\n");
++    } else {
++        char *new_argv[3] =3D { argv[0], "again", NULL };
++        chk_error(execve("/proc/self/exe", new_argv, NULL));
++        /* should never return */
++        return -1;
++    }
++#endif
++
++    return 0;
++}
+
+base-commit: d36f3ecdc70af8941053cca8347daca757be2865
+--=20
+2.20.1
+
+
+--=-=-=
+Content-Type: text/plain
+
+
+
+> You can find my test setup here:
+> https://github.com/yamt/garbage/tree/master/binfmt-aarch64-install
+>
+> YAMAMOTO Takashi (5):
+>   linux-user: handle /proc/self/exe for execve
+>   linux-uesr: make exec_path realpath
+>   linux-user: Fix the execfd case of /proc/self/exe open
+>   linux-user: dup the execfd on start up
+>   linux-user: Implement pivot_root
+>
+>  linux-user/main.c    | 14 +++++++++++++-
+>  linux-user/qemu.h    |  2 ++
+>  linux-user/syscall.c | 43 ++++++++++++++++++++++++++++++++++++++++---
+>  3 files changed, 55 insertions(+), 4 deletions(-)
+
+I also had a go at cleaning up is_proc_self and Daniel greatly
+simplified it.
+
+
+--=-=-=
+Content-Type: text/x-diff; charset=utf-8
+Content-Disposition: inline;
+ filename=0002-linux-user-glib-ify-is_proc_myself.patch
+Content-Transfer-Encoding: quoted-printable
+Content-Description: glib-ify is_proc_self
+
+From fe342309661e3fe8b9e192e6df6ef84267207dac Mon Sep 17 00:00:00 2001
+From: =3D?UTF-8?q?Alex=3D20Benn=3DC3=3DA9e?=3D <alex.bennee@linaro.org>
+Date: Mon, 24 May 2021 12:19:18 +0100
+Subject: [PATCH 2/2] linux-user: glib-ify is_proc_myself
+MIME-Version: 1.0
+Content-Type: text/plain; charset=3DUTF-8
+Content-Transfer-Encoding: 8bit
+
+For the cost of a couple of heap allocations we can reduce the code
+complexity to a couple of string compares. While we are at it make the
+function a bool return and fixup the fake_open function prototypes.
+
+Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+---
+v2
+  - use danpb's suggestion
+---
+ linux-user/syscall.c | 31 +++++++------------------------
+ 1 file changed, 7 insertions(+), 24 deletions(-)
+
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index e739921e86..8af48b5f1f 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -7987,33 +7987,16 @@ static int open_self_auxv(void *cpu_env, int fd)
+     return 0;
+ }
+=20
+-static int is_proc_myself(const char *filename, const char *entry)
+-{
+-    if (!strncmp(filename, "/proc/", strlen("/proc/"))) {
+-        filename +=3D strlen("/proc/");
+-        if (!strncmp(filename, "self/", strlen("self/"))) {
+-            filename +=3D strlen("self/");
+-        } else if (*filename >=3D '1' && *filename <=3D '9') {
+-            char myself[80];
+-            snprintf(myself, sizeof(myself), "%d/", getpid());
+-            if (!strncmp(filename, myself, strlen(myself))) {
+-                filename +=3D strlen(myself);
+-            } else {
+-                return 0;
+-            }
+-        } else {
+-            return 0;
+-        }
+-        if (!strcmp(filename, entry)) {
+-            return 1;
+-        }
+-    }
+-    return 0;
++static bool is_proc_myself(const char *filename, const char *entry)
++{
++    g_autofree char *procself =3D g_strdup_printf("/proc/self/%s", entry);
++    g_autofree char *procpid =3D g_strdup_printf("/proc/%d/%s", getpid(), =
+entry);
++    return g_str_equal(filename, procself) || g_str_equal(filename, procpi=
+d);
+ }
+=20
+ #if defined(HOST_WORDS_BIGENDIAN) !=3D defined(TARGET_WORDS_BIGENDIAN) || \
+     defined(TARGET_SPARC) || defined(TARGET_M68K) || defined(TARGET_HPPA)
+-static int is_proc(const char *filename, const char *entry)
++static bool is_proc(const char *filename, const char *entry)
+ {
+     return strcmp(filename, entry) =3D=3D 0;
+ }
+@@ -8097,7 +8080,7 @@ static int do_openat(void *cpu_env, int dirfd, const =
+char *pathname, int flags,
+     struct fake_open {
+         const char *filename;
+         int (*fill)(void *cpu_env, int fd);
+-        int (*cmp)(const char *s1, const char *s2);
++        bool (*cmp)(const char *s1, const char *s2);
+     };
+     const struct fake_open *fake_open;
+     static const struct fake_open fakes[] =3D {
+--=20
+2.20.1
+
+
+--=-=-=
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+
+
+--=20
+Alex Benn=C3=A9e
+
+--=-=-=--
 
