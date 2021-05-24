@@ -2,86 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D77F238E66C
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 14:16:37 +0200 (CEST)
-Received: from localhost ([::1]:42950 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 523F338E677
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 14:19:40 +0200 (CEST)
+Received: from localhost ([::1]:47490 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ll9Vc-0002xT-A0
-	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 08:16:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39700)
+	id 1ll9YY-0006Ae-GB
+	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 08:19:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40322)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1ll9Sw-0000yR-Oo
- for qemu-devel@nongnu.org; Mon, 24 May 2021 08:13:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41288)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1ll9St-0002mq-WB
- for qemu-devel@nongnu.org; Mon, 24 May 2021 08:13:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621858427;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=YPqPaKJJ8hDt+/sJXDx0gqMqLJvqw2dHD/c/Com+998=;
- b=KyLoY04toeUGC7AI9pP32rfGuBXexuQsGNNT3D9JlvVMcA0sV1sH/35OBlXciXI2XF1kAT
- zM718u2SzIT7MVwtlTi/9Y8+L8xifiYVXg8zaam7a2ZsL7WKB7X5GmEDmQn767S7+GhnQy
- 3KhFj71kSiB5x4u6ps7ZbfzoJF50+3A=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-602-Zw7tLs8lO2O4zjrD_C_gWQ-1; Mon, 24 May 2021 08:13:45 -0400
-X-MC-Unique: Zw7tLs8lO2O4zjrD_C_gWQ-1
-Received: by mail-wr1-f70.google.com with SMTP id
- h104-20020adf90710000b029010de8455a3aso13017151wrh.12
- for <qemu-devel@nongnu.org>; Mon, 24 May 2021 05:13:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
- :message-id:mime-version;
- bh=YPqPaKJJ8hDt+/sJXDx0gqMqLJvqw2dHD/c/Com+998=;
- b=BalUqK1Iovq0ovnQa8ljSrOlQIYeh93X7zKIG3Ktg72bNifkf2/IifoYxA2exgmr8e
- tSNTyDx84gi+VpkGwS/NhbrcJHbM2K/7MHYyQsMh8uTr/GJWoxdJZnOkDukgXEwvMJvt
- G2GAN7dyf8tIsmwWkTm4S82iNgufTYou7+w/1n/5RBp7i7g6BLzlxSYE8Q/vQSLj+ZP8
- Q4W8S+1yI+GXPuDHW03jFD6/aW9QA6B2MBTTNQgQcIxhRm7QZZNI6sfowTr8yTQ8TRPJ
- twzVTxNerYVlcGPMvIlB4fV5YOQfNePLRTBH04Ii5L5ptI8KCEoqIkM6KcT3vpcLO8BC
- FUYg==
-X-Gm-Message-State: AOAM530xUgXo0EXIjDWTMWYukeOBVlbR4MHJ0QyTnl7qsh1wDbZGKv2X
- BpbGt1nMR/lLa+N1bqaHGZ95i57h6FLSPipTVk3Pqbwn4okDccK5YIXppUjO1qpjRaKR1NhfkwF
- Y6gFFD3SJrRlFIvw=
-X-Received: by 2002:a5d:64a6:: with SMTP id m6mr22004543wrp.425.1621858423321; 
- Mon, 24 May 2021 05:13:43 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxAsdcmaDzNIOudpdlWNFCfdeDFeQxDbY1k5qoORAaKe10j0JpDx+wTralEWNdWRCuXhQBJig==
-X-Received: by 2002:a5d:64a6:: with SMTP id m6mr22004531wrp.425.1621858423100; 
- Mon, 24 May 2021 05:13:43 -0700 (PDT)
-Received: from vitty.brq.redhat.com (g-server-2.ign.cz. [91.219.240.2])
- by smtp.gmail.com with ESMTPSA id s15sm14570810wrt.54.2021.05.24.05.13.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 May 2021 05:13:42 -0700 (PDT)
-From: Vitaly Kuznetsov <vkuznets@redhat.com>
-To: Eduardo Habkost <ehabkost@redhat.com>
-Subject: Re: [PATCH v6 16/19] i386: kill off hv_cpuid_check_and_set()
-In-Reply-To: <20210521215630.stikpaxjenl5oyut@habkost.net>
-References: <20210422161130.652779-1-vkuznets@redhat.com>
- <20210422161130.652779-17-vkuznets@redhat.com>
- <20210521215630.stikpaxjenl5oyut@habkost.net>
-Date: Mon, 24 May 2021 14:13:41 +0200
-Message-ID: <87bl9072iy.fsf@vitty.brq.redhat.com>
+ (Exim 4.90_1) (envelope-from <bruno.larsen@eldorado.org.br>)
+ id 1ll9Vl-0004Rz-Di; Mon, 24 May 2021 08:16:45 -0400
+Received: from [201.28.113.2] (port=62770 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <bruno.larsen@eldorado.org.br>)
+ id 1ll9Vi-0004sP-Np; Mon, 24 May 2021 08:16:45 -0400
+Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
+ Microsoft SMTPSVC(8.5.9600.16384); Mon, 24 May 2021 09:16:35 -0300
+Received: from [127.0.0.1] (unknown [10.10.71.235])
+ by power9a (Postfix) with ESMTPS id 60968801360;
+ Mon, 24 May 2021 09:16:35 -0300 (-03)
+Subject: Re: [PATCH 00/24] target/ppc: Clean up mmu translation
+To: David Gibson <david@gibson.dropbear.id.au>,
+ Richard Henderson <richard.henderson@linaro.org>
+References: <20210518201146.794854-1-richard.henderson@linaro.org>
+ <YKR9bZmPxOHKlnnP@yekko> <7a4c91d4-c813-2803-e5e7-4f8fe6d6f05d@linaro.org>
+ <6bc68cda-a6aa-68c9-2c6f-f7c6ff95b7db@linaro.org> <YKsczpMuwDn006S4@yekko>
+From: Bruno Piazera Larsen <bruno.larsen@eldorado.org.br>
+Message-ID: <44c341e8-eb2b-23c9-f120-78a22f1e95a7@eldorado.org.br>
+Date: Mon, 24 May 2021 09:16:34 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vkuznets@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=vkuznets@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <YKsczpMuwDn006S4@yekko>
+Content-Type: multipart/alternative;
+ boundary="------------AA57B89092283E886440A98B"
+Content-Language: en-US
+X-OriginalArrivalTime: 24 May 2021 12:16:35.0656 (UTC)
+ FILETIME=[A3F1AC80:01D75096]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
+Received-SPF: pass client-ip=201.28.113.2;
+ envelope-from=bruno.larsen@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
+ NICE_REPLY_A=-0.001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,200 +61,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- qemu-devel@nongnu.org, Igor Mammedov <imammedo@redhat.com>
+Cc: "Lucas Mateus Castro \(alqotel\)" <lucas.araujo@eldorado.org.br>,
+ qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ Fabiano Rosas <farosas@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Eduardo Habkost <ehabkost@redhat.com> writes:
+This is a multi-part message in MIME format.
+--------------AA57B89092283E886440A98B
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 8bit
 
-> On Thu, Apr 22, 2021 at 06:11:27PM +0200, Vitaly Kuznetsov wrote:
->> hv_cpuid_check_and_set() does too much:
->> - Checks if the feature is supported by KVM;
->> - Checks if all dependencies are enabled;
->> - Sets the feature bit in cpu->hyperv_features for 'passthrough' mode.
->> 
->> To reduce the complexity, move all the logic except for dependencies
->> check out of it. Also, in 'passthrough' mode we don't really need to
->> check dependencies because KVM is supposed to provide a consistent
->> set anyway.
->> 
->> Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
->> ---
->>  target/i386/kvm/kvm.c | 105 +++++++++++++++---------------------------
->>  1 file changed, 36 insertions(+), 69 deletions(-)
->> 
->> diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
->> index d5551c4ab5cf..2c1a77f9b00f 100644
->> --- a/target/i386/kvm/kvm.c
->> +++ b/target/i386/kvm/kvm.c
->> @@ -1144,16 +1144,12 @@ static bool hyperv_feature_supported(CPUState *cs, int feature)
->>      return true;
->>  }
->>  
->> -static int hv_cpuid_check_and_set(CPUState *cs, int feature, Error **errp)
->> +/* Checks that all feature dependencies are enabled */
->> +static void hv_feature_check_deps(X86CPU *cpu, int feature, Error **errp)
->
-> Same suggestion as in patch 11/19: also returning a value to
-> indicate error is preferred.  I would return a boolean.
->
 
-Sure, can do.
+On 24/05/2021 00:26, David Gibson wrote:
+> On Wed, May 19, 2021 at 05:47:05PM -0500, Richard Henderson wrote:
+>> On 5/19/21 3:37 PM, Richard Henderson wrote:
+>>> On 5/18/21 9:52 PM, David Gibson wrote:
+>>>> I've applied 1..15, still looking at the rest.
+>>> Please dequeue.  I want to create a new mmu-internal.h, which affects
+>>> all the patches from #1.
+>> Alternately, don't.  I can move the function later, and it may be a while
+>> before I can get back to this.
+> Ok, I'll leave them in, since they're good cleanups even without the
+> rest of the series.
 
-> (I don't think this alone should block the series, though)
->
->
->>  {
->> -    X86CPU *cpu = X86_CPU(cs);
->>      uint64_t deps;
->>      int dep_feat;
->>  
->> -    if (!hyperv_feat_enabled(cpu, feature) && !cpu->hyperv_passthrough) {
->> -        return 0;
->> -    }
->> -
->>      deps = kvm_hyperv_properties[feature].dependencies;
->>      while (deps) {
->>          dep_feat = ctz64(deps);
->> @@ -1161,26 +1157,10 @@ static int hv_cpuid_check_and_set(CPUState *cs, int feature, Error **errp)
->>              error_setg(errp, "Hyper-V %s requires Hyper-V %s",
->>                         kvm_hyperv_properties[feature].desc,
->>                         kvm_hyperv_properties[dep_feat].desc);
->> -            return 1;
->> +            return;
->>          }
->>          deps &= ~(1ull << dep_feat);
->>      }
->> -
->> -    if (!hyperv_feature_supported(cs, feature)) {
->> -        if (hyperv_feat_enabled(cpu, feature)) {
->> -            error_setg(errp, "Hyper-V %s is not supported by kernel",
->> -                       kvm_hyperv_properties[feature].desc);
->> -            return 1;
->> -        } else {
->> -            return 0;
->> -        }
->> -    }
->> -
->> -    if (cpu->hyperv_passthrough) {
->> -        cpu->hyperv_features |= BIT(feature);
->> -    }
->> -
->> -    return 0;
->>  }
->>  
->>  static uint32_t hv_build_cpuid_leaf(CPUState *cs, uint32_t func, int reg)
->> @@ -1219,6 +1199,8 @@ static uint32_t hv_build_cpuid_leaf(CPUState *cs, uint32_t func, int reg)
->>  void kvm_hyperv_expand_features(X86CPU *cpu, Error **errp)
->>  {
->>      CPUState *cs = CPU(cpu);
->> +    Error *local_err = NULL;
->> +    int feat;
->>  
->>      if (!hyperv_enabled(cpu))
->>          return;
->> @@ -1274,53 +1256,38 @@ void kvm_hyperv_expand_features(X86CPU *cpu, Error **errp)
->>  
->>          cpu->hyperv_spinlock_attempts =
->>              hv_cpuid_get_host(cs, HV_CPUID_ENLIGHTMENT_INFO, R_EBX);
->> -    }
->>  
->> -    /* Features */
->> -    if (hv_cpuid_check_and_set(cs, HYPERV_FEAT_RELAXED, errp)) {
->> -        return;
->> -    }
->> -    if (hv_cpuid_check_and_set(cs, HYPERV_FEAT_VAPIC, errp)) {
->> -        return;
->> -    }
->> -    if (hv_cpuid_check_and_set(cs, HYPERV_FEAT_TIME, errp)) {
->> -        return;
->> -    }
->> -    if (hv_cpuid_check_and_set(cs, HYPERV_FEAT_CRASH, errp)) {
->> -        return;
->> -    }
->> -    if (hv_cpuid_check_and_set(cs, HYPERV_FEAT_RESET, errp)) {
->> -        return;
->> -    }
->> -    if (hv_cpuid_check_and_set(cs, HYPERV_FEAT_VPINDEX, errp)) {
->> -        return;
->> -    }
->> -    if (hv_cpuid_check_and_set(cs, HYPERV_FEAT_RUNTIME, errp)) {
->> -        return;
->> -    }
->> -    if (hv_cpuid_check_and_set(cs, HYPERV_FEAT_SYNIC, errp)) {
->> -        return;
->> -    }
->> -    if (hv_cpuid_check_and_set(cs, HYPERV_FEAT_STIMER, errp)) {
->> -        return;
->> -    }
->> -    if (hv_cpuid_check_and_set(cs, HYPERV_FEAT_FREQUENCIES, errp)) {
->> -        return;
->> -    }
->> -    if (hv_cpuid_check_and_set(cs, HYPERV_FEAT_REENLIGHTENMENT, errp)) {
->> -        return;
->> -    }
->> -    if (hv_cpuid_check_and_set(cs, HYPERV_FEAT_TLBFLUSH, errp)) {
->> -        return;
->> -    }
->> -    if (hv_cpuid_check_and_set(cs, HYPERV_FEAT_EVMCS, errp)) {
->> -        return;
->> -    }
->> -    if (hv_cpuid_check_and_set(cs, HYPERV_FEAT_IPI, errp)) {
->> -        return;
->> -    }
->> -    if (hv_cpuid_check_and_set(cs, HYPERV_FEAT_STIMER_DIRECT, errp)) {
->> -        return;
->> +        /*
->> +         * Mark feature as enabled in 'cpu->hyperv_features' as
->> +         * hv_build_cpuid_leaf() uses this info to build guest CPUIDs.
->> +         */
->> +        for (feat = 0; feat < ARRAY_SIZE(kvm_hyperv_properties); feat++) {
->> +            if (hyperv_feature_supported(cs, feat)) {
->> +                cpu->hyperv_features |= BIT(feat);
->> +            }
->> +        }
->> +    } else {
->> +        /* Check features availability and dependencies */
->> +        for (feat = 0; feat < ARRAY_SIZE(kvm_hyperv_properties); feat++) {
->> +            /* If the feature was not requested skip it. */
->> +            if (!hyperv_feat_enabled(cpu, feat)) {
->> +                continue;
->> +            }
->
-> That's the loop I suggested in patch 11/19.  Nice.  :)
->
+Just as a heads up, for the disable-tcg to work, we need the rest of the 
+patches, so we sort of need the rest as soon as possible.
 
-:-)
+ From a quick conversation with farosas (cc'ed here), I think these 
+might be old bugs (or at least one of them were, and I'm missing 
+something), which either me or lucas (also cc'ed) were planning on 
+tackling next.
 
-> Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
-
-Thanks!
-
->
->> +
->> +            /* Check if the feature is supported by KVM */
->> +            if (!hyperv_feature_supported(cs, feat)) {
->> +                error_setg(errp, "Hyper-V %s is not supported by kernel",
->> +                           kvm_hyperv_properties[feat].desc);
->> +                return;
->> +            }
->> +
->> +            /* Check dependencies */
->> +            hv_feature_check_deps(cpu, feat, &local_err);
->> +            if (local_err != NULL) {
->> +                error_propagate(errp, local_err);
->> +                return;
->> +            }
->> +        }
->>      }
->>  
->>      /* Additional dependencies not covered by kvm_hyperv_properties[] */
->> -- 
->> 2.30.2
->> 
+If my understanding is correct, I don't think we lose anything by 
+applying those and we finally support the disable flag.
 
 -- 
-Vitaly
+Bruno Piazera Larsen
+Instituto de Pesquisas ELDORADO 
+<https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&utm_medium=email&utm_source=RD+Station>
+Departamento Computação Embarcada
+Analista de Software Trainee
+Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
 
+--------------AA57B89092283E886440A98B
+Content-Type: text/html; charset=windows-1252
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;
+      charset=windows-1252">
+  </head>
+  <body>
+    <p><br>
+    </p>
+    <div class="moz-cite-prefix">On 24/05/2021 00:26, David Gibson
+      wrote:<br>
+    </div>
+    <blockquote type="cite" cite="mid:YKsczpMuwDn006S4@yekko">
+      <pre class="moz-quote-pre" wrap="">On Wed, May 19, 2021 at 05:47:05PM -0500, Richard Henderson wrote:
+</pre>
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">On 5/19/21 3:37 PM, Richard Henderson wrote:
+</pre>
+        <blockquote type="cite">
+          <pre class="moz-quote-pre" wrap="">On 5/18/21 9:52 PM, David Gibson wrote:
+</pre>
+          <blockquote type="cite">
+            <pre class="moz-quote-pre" wrap="">I've applied 1..15, still looking at the rest.
+</pre>
+          </blockquote>
+          <pre class="moz-quote-pre" wrap="">
+Please dequeue.  I want to create a new mmu-internal.h, which affects
+all the patches from #1.
+</pre>
+        </blockquote>
+        <pre class="moz-quote-pre" wrap="">
+Alternately, don't.  I can move the function later, and it may be a while
+before I can get back to this.
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+Ok, I'll leave them in, since they're good cleanups even without the
+rest of the series.</pre>
+    </blockquote>
+    <p>Just as a heads up, for the disable-tcg to work, we need the rest
+      of the patches, so we sort of need the rest as soon as possible.</p>
+    <p>From a quick conversation with farosas (cc'ed here), I think
+      these might be old bugs (or at least one of them were, and I'm
+      missing something), which either me or lucas (also cc'ed) were
+      planning on tackling next. <br>
+    </p>
+    <p>If my understanding is correct, I don't think we lose anything by
+      applying those and we finally support the disable flag.<br>
+    </p>
+    <div class="moz-signature">-- <br>
+      Bruno Piazera Larsen<br>
+      <a
+href="https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&amp;utm_medium=email&amp;utm_source=RD+Station">Instituto
+        de Pesquisas ELDORADO</a><br>
+      Departamento Computação Embarcada<br>
+      Analista de Software Trainee<br>
+      <a href="https://www.eldorado.org.br/disclaimer.html">Aviso Legal
+        - Disclaimer</a></div>
+  </body>
+</html>
+
+--------------AA57B89092283E886440A98B--
 
