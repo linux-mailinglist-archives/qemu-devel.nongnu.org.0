@@ -2,83 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D390838F412
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 22:05:10 +0200 (CEST)
-Received: from localhost ([::1]:44584 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC06438F456
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 22:26:18 +0200 (CEST)
+Received: from localhost ([::1]:32782 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llGp3-00085R-Vi
-	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 16:05:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59880)
+	id 1llH9V-0004fZ-BQ
+	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 16:26:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36104)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1llGnI-0006Nc-GD
- for qemu-devel@nongnu.org; Mon, 24 May 2021 16:03:20 -0400
-Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f]:33572)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1llGnG-00069R-PW
- for qemu-devel@nongnu.org; Mon, 24 May 2021 16:03:20 -0400
-Received: by mail-pg1-x52f.google.com with SMTP id i5so20941984pgm.0
- for <qemu-devel@nongnu.org>; Mon, 24 May 2021 13:03:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=fN7x5gE/uVA03+Sf9tHKJBZNqFKtXZqVfvSfmZS9KDo=;
- b=Oltmw6Qi+m8vVhxfERGzQRxHkJ1gu+H6/rJNYc4WQOj/tVQTeTlYSa8Zy+Rsg8LRm5
- lnPHjAbYyUy7PO47HUfcmhMrwmmF23lTlor1fToeAxC/wJlfCocIIdpj9ESgTNXfM8u0
- Ky4VCeouqTDCLgPMzwPLiVvt279EyhYjZ44G2+4k3QbbdwwIJY+B0Ov514/Kzu5YXYKg
- 6JCT45g/MfDXG44KtUQ7epK4BqVLlqbh4BR/afR0hcqQZJV1boc0mEXeSX6twzB2m5Eq
- wPZSchsD/O6xK0Yy/vGbLpQMbaNjeE6XkxMh2QgqQiGjS/oQ6t6gn2wjLKgnozYQzigH
- xuYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=fN7x5gE/uVA03+Sf9tHKJBZNqFKtXZqVfvSfmZS9KDo=;
- b=QUojTjtzJwVH6fMr1BzoQMnkGqyLOuju84LBAFk9n2BqFsznXGAtpzRaRJMNKAtVrX
- Yd+X/RlIpdK3xyte35++AwB9WjJz8qqGTjsLjOa+xw2gh69muNMnlgc1u2VQDjRM1nJ3
- QcM/b4umK57A9Sbyum6fB4TqAJr6xkjyRIBp/E70nOfrWVF3CadVpCId0w5L1f9iGdAm
- 1VG4ztbGdqlLcj4ygiDpnE2GMSouvQbL+dgErglqaK+XLdDjM/3RxauZvvci1bafvzfF
- auMbJe/2dz1CqQ66nSXxtZOrD22+k73EOj3Qlx7jWyLAnhSwKJWXdeHhDOx/8Xow2xN+
- gO6g==
-X-Gm-Message-State: AOAM531PhFK7O4zLqs4Xq0GfTWoBC+1GvN0gjaRzBAvD9VkE00BcwTch
- SOu2kcy9nd36gTciga+ryJ3/dA==
-X-Google-Smtp-Source: ABdhPJxb0U8gRlljRf2dwpeaMQ+YAiKRZOXS6AcEgNcp0SJ09pdnURQ/pFpg05oZbNS5l7GydEIkyQ==
-X-Received: by 2002:a05:6a00:b46:b029:2d3:3504:88d9 with SMTP id
- p6-20020a056a000b46b02902d3350488d9mr26288886pfo.39.1621886597051; 
- Mon, 24 May 2021 13:03:17 -0700 (PDT)
-Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
- by smtp.gmail.com with ESMTPSA id
- u11sm11314732pfk.198.2021.05.24.13.03.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 24 May 2021 13:03:16 -0700 (PDT)
-Subject: Re: [RFC PATCH 08/11] target/ppc: wrapped some TCG only logic with
- ifdefs
-To: Bruno Piazera Larsen <bruno.larsen@eldorado.org.br>, qemu-devel@nongnu.org
-References: <20210512140813.112884-1-bruno.larsen@eldorado.org.br>
- <20210512140813.112884-9-bruno.larsen@eldorado.org.br>
- <40d53a3b-ca4b-0656-0b64-15ded89b3315@linaro.org>
- <240414de-a246-9878-397e-402a86f70698@eldorado.org.br>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <cc121590-0ff3-fcf4-7356-2ba7259224ac@linaro.org>
-Date: Mon, 24 May 2021 13:03:14 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>)
+ id 1llH7n-0003mP-Vx; Mon, 24 May 2021 16:24:32 -0400
+Received: from mout.gmx.net ([212.227.17.21]:58523)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>)
+ id 1llH7m-0002gW-5x; Mon, 24 May 2021 16:24:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1621887855;
+ bh=ybB/jK3BAitA9YZKDHQ3eipIY7xVQZrgcRLdG2b4tAg=;
+ h=X-UI-Sender-Class:Date:From:To:Cc:Subject;
+ b=EEPO702qltdm4QRVK8rhfZlqj6eHMvNn9DwX6PAXE4JUX0tiQ5GM2PDJYj+Qqqqe/
+ wRqu6/QC/3AAk08Fb4WmlJU5VngsFs5InUhCYi8QseS+AuUaFtrT7dRhG/o59At9WB
+ 4pplCda3EhkEU8BS3a7kYn7O94m/aiWjrfbOhmcw=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from ls3530 ([92.116.143.138]) by mail.gmx.net (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1M1HZi-1ljc9t0hkw-002rXD; Mon, 24
+ May 2021 22:24:15 +0200
+Date: Mon, 24 May 2021 22:23:20 +0200
+From: Helge Deller <deller@gmx.de>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] hw/display/artist: Fix bug in coordinate extraction in
+ artist_vram_read()
+Message-ID: <YKwLOP/IAGG1u7em@ls3530>
 MIME-Version: 1.0
-In-Reply-To: <240414de-a246-9878-397e-402a86f70698@eldorado.org.br>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=iso-8859-15
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:i8UdfH+aOC1sacxOY/buPS4wY5YwB94pcyCuDmG1DP2b7VKMOBS
+ lULrHjQBtzf8DeXSQjaX+QojJdm1R3Izf2iTUM6CQrbi45t0CkO+RWZYRZj5/pucsVtAsho
+ 45hGkt4nvFNZq1iRuCHq3x3sKKLMs8beERbaIEvNcrgyIira9N3f5QpqtRANC0rxxY6Wkgk
+ 3FmKCJbWpxP4xmDzMuwug==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:apXmfdWBS7s=:tEu/EzJiSolGj9lmv5wsTq
+ F6M7jDav6qjhWCdsNfqDdbXhC8UE2ndUc0mq5fMUEsREhA5/Pyy01S3E1wtgvatxc8bkEpRS7
+ MtfwGUpQJ8yz7akmimTAWgxBgnK1ps+1F/WLakua7KICwCEHPvQ+C0jEwO/NPEMioA5u8phtE
+ uskcWKpvTxTrcc/mHfh4jp1hm4S+/g2Akov9PAMkpOwwvQlOzdhuObXw9uVxPXLgNy/tQpNog
+ GutkklGrhnYPCjCnzg6W/ghxfXpcLxtC/LyHgKTi2MDw9o7aC36zvI0iNslB1Kc7czNmOXkaY
+ mEBbyHqaoe5VkPN73yazFBQjH+veB0plk15PNnF1oL13pHNUPQzuDDR6MKouWVE+YbeK4OYgz
+ 85BVPTuQHtZ7k4MtE9vQsvvqe98aoBdgROqgqe+QV52+yU8IjTeJBLYCxEjTRB5gYq8nWlCsb
+ CvehKF9uaO15rpvvI3p6DlRexlhIDH/VOpBuz+9ChP/fR38mXTOq5rDgg+2kwiDoAX7CZn097
+ EvokSVFC2MdnC7npXbYqrNplb/zXVkNhe7Msup8mRMuhHpidzEFDx9ch7cbWKDyzeW5buo+z3
+ TGfBXKeBIZAQFoD0WR9CMmHA0nMGC5tLppAJ3L6rc9/my6omiqHn6K3rcZZbaFxhfA+0KFt3h
+ AyLtwxnvx6T7AoiWzvhdG6IniMRqT2Ig7VPc5qGj8UDx492jquZdRIWPHWuBXDUFlXztccmGM
+ vsM6QwrKfneIgwgROz9XdloRqMSbGopt3nqIf4spST/exyryp8AWqlig4jBzZ37wSNtHNykpq
+ gxM1VwMvVh+IllQcEB56CX29owTY9PTmPvTBzle6Mc/kH68zJybgRysuTw0NpePW+e3vWW2Nd
+ rbc90nzYSJ5VWomM2BBsMdXoPdISQpnmSwf8J+1BYA5MTWtLkVUb2KLpIOHGo0UeiAbj+bjUi
+ yrxNsK0LPIT/4Sf+BZ5J4QDoOnquUutSjsX52KMHkkVd9n+IKj1tp/iszucwcIR8Rq26kdDZQ
+ DxfAMgA2OunIr009+J0DCwlDwFjkERSiss+2Malg191NedkfDe/6Li+FHXHrr3IpefLKIGL5c
+ 4LVIUYBTKYQ95icemcdZoDnskJs1G8K9Li7zZQUOy4Nr54x3rwYMFxEMSdTG4WMk0l5lVmvW/
+ qHVQYemNcWlo6zvtoqkQhPA1pS7nZRshPN6lBaeqirb14IGGznOKbJfOvqOgn2Roxikn4=
+Received-SPF: pass client-ip=212.227.17.21; envelope-from=deller@gmx.de;
+ helo=mout.gmx.net
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,38 +81,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: farosas@linux.ibm.com, luis.pires@eldorado.org.br,
- lucas.araujo@eldorado.org.br, fernando.valle@eldorado.org.br,
- qemu-ppc@nongnu.org, matheus.ferst@eldorado.org.br,
- david@gibson.dropbear.id.au
+Cc: Sven Schnelle <svens@stackframe.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Philippe =?iso-8859-15?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/24/21 11:01 AM, Bruno Piazera Larsen wrote:
->>> +#ifdef CONFIG_TCG
->>>       cc->dump_statistics = ppc_cpu_dump_statistics;
->>> +#endif
->>
->> We should just drop this entirely.  It's supposedly a generic thing, but only 
->> used by ppc.  But even then only with source modification to enable 
->> DO_PPC_STATISTICS.  And even then as we convert to decodetree, said 
->> statistics will not be collected.
->>
->> We should delete everything from cpu_dump_statistics on down.
-> 
-> So, now that we have a version of disable-tcg that is functional, I'm inclined 
-> to look at this cleanup. Just to make sure I got it right: everything related 
-> to ppc_cpu_dump_statistics and the stuff related to ifdef DO_PPC_STATISTICS can 
-> be removed, yeah?
+The CDE desktop on HP-UX 10 shows wrongly rendered pixels when the local s=
+creen
+menu is closed. This bug was introduced by commit c7050f3f167b
+("hw/display/artist: Refactor x/y coordination extraction") which converte=
+d the
+coordinate extraction in artist_vram_read() to use the ADDR_TO_X and ADDR_=
+TO_Y
+macros, but forgot to right-shift the address by 2 as it was done before.
 
-I would imagine a set of patches:
+Signed-off-by: Helge Deller <deller@gmx.de>
+Fixes: c7050f3f167b ("hw/display/artist: Refactor x/y coordination extract=
+ion")
+Cc: Philippe Mathieu-Daud=E9 <f4bug@amsat.org>
+Cc: Richard Henderson <richard.henderson@linaro.org>
+Cc: Sven Schnelle <svens@stackframe.org>
+Cc: qemu-stable@nongnu.org
 
-(1) DO_PPC_STATISTICS
-(2) ppc_cpu_dump_statistics (which will be empty now).
-(3) CPUClass.dump_statistics (which now has no setters),
-     and cpu_dump_statistics (which is closely related).
-(4) hmp_info_cpustats (which now does nothing).
+diff --git a/hw/display/artist.c b/hw/display/artist.c
+index ed0e637f25..34efd3a565 100644
+=2D-- a/hw/display/artist.c
++++ b/hw/display/artist.c
+@@ -1233,8 +1233,8 @@ static uint64_t artist_vram_read(void *opaque, hwadd=
+r addr, unsigned size)
+         return 0;
+     }
 
+-    posy =3D ADDR_TO_Y(addr);
+-    posx =3D ADDR_TO_X(addr);
++    posy =3D ADDR_TO_Y(addr >> 2);
++    posx =3D ADDR_TO_X(addr >> 2);
 
-r~
+     if (posy > buf->height || posx > buf->width) {
+         return 0;
 
