@@ -2,34 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 084C638E83A
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 16:02:12 +0200 (CEST)
-Received: from localhost ([::1]:49452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4F6038E83E
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 16:02:43 +0200 (CEST)
+Received: from localhost ([::1]:49938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llB9n-0004wh-1N
-	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 10:02:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34872)
+	id 1llBAI-0005Kb-PT
+	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 10:02:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34888)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bruno.larsen@eldorado.org.br>)
- id 1llB75-0003Ae-I0; Mon, 24 May 2021 09:59:23 -0400
+ id 1llB78-0003Bg-6B; Mon, 24 May 2021 09:59:26 -0400
 Received: from [201.28.113.2] (port=6892 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <bruno.larsen@eldorado.org.br>)
- id 1llB73-000159-Uj; Mon, 24 May 2021 09:59:23 -0400
+ id 1llB76-000159-NI; Mon, 24 May 2021 09:59:25 -0400
 Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Mon, 24 May 2021 10:59:17 -0300
+ Microsoft SMTPSVC(8.5.9600.16384); Mon, 24 May 2021 10:59:18 -0300
 Received: from eldorado.org.br (unknown [10.10.71.235])
- by power9a (Postfix) with ESMTP id D4D66801360;
+ by power9a (Postfix) with ESMTP id EEF0D80144E;
  Mon, 24 May 2021 10:59:17 -0300 (-03)
 From: "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 0/5] target/ppc: add support to disable-tcg
-Date: Mon, 24 May 2021 10:59:03 -0300
-Message-Id: <20210524135908.47505-1-bruno.larsen@eldorado.org.br>
+Subject: [PATCH v4 1/5] target/ppc: moved ppc_cpu_do_interrupt to cpu.c
+Date: Mon, 24 May 2021 10:59:04 -0300
+Message-Id: <20210524135908.47505-2-bruno.larsen@eldorado.org.br>
 X-Mailer: git-send-email 2.17.1
-X-OriginalArrivalTime: 24 May 2021 13:59:18.0043 (UTC)
- FILETIME=[FD034EB0:01D750A4]
+In-Reply-To: <20210524135908.47505-1-bruno.larsen@eldorado.org.br>
+References: <20210524135908.47505-1-bruno.larsen@eldorado.org.br>
+X-OriginalArrivalTime: 24 May 2021 13:59:18.0106 (UTC)
+ FILETIME=[FD0CEBA0:01D750A4]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
 Received-SPF: pass client-ip=201.28.113.2;
  envelope-from=bruno.larsen@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -57,52 +59,101 @@ Cc: farosas@linux.ibm.com, richard.henderson@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch series finishes the the changes required to support disabling
-TCG for ppc targets.
+Moved the ppc_cpu_do_interrupt function to cpu.c file, where it makes
+more sense, and turned powerpc_excp not static, as it now needs to be
+accessed from outside of excp_helper.c
 
-With the current version of the patch, the project compiles and runs ok,
-but we need some more testing to ensure that no regressions happened,
-especially with relation to gdb.
-
-Based-on: <20210521201759.85475-6-bruno.larsen@eldorado.org.br>
-
-Changelog for v4:
- * split former patch 7 into patches 2 and 3
- * undid cde motion on patch 7. future cleanup?
- * added copyright blurb to tcg-stubs.c
- * fixed style problem in tcg-stubs.c
-
-Changelog for v3:
- * undone split, since rth's patch fixes what we needed
- * changed commit message for patch 1
- * added some fixes suggested by dgibson for patch 7
-
-Changelog for v2:
- * split the patch series
- * added a fix for 5d145639e, which no longer compiles with linux-user
- * removed patches ther were already accepted
- * applied rth's cleanup to ppc_store_sdr1
- * changed destination of ppc_store_msr
- * undone change to helper-proto, now fewer files include it
-
-Bruno Larsen (billionai) (5):
-  target/ppc: moved ppc_cpu_do_interrupt to cpu.c
-  target/ppc: used ternary operator when registering MAS
-  target/ppc: added ifdefs around TCG-only code
-  target/ppc: created tcg-stub.c file
-  target/ppc: updated meson.build to support disable-tcg
-
- target/ppc/cpu.c         | 20 ++++++++++++++++++
+Signed-off-by: Bruno Larsen (billionai) <bruno.larsen@eldorado.org.br>
+---
+ target/ppc/cpu.c         | 20 ++++++++++++++++++++
  target/ppc/cpu.h         |  1 +
- target/ppc/cpu_init.c    | 11 +++++-----
- target/ppc/excp_helper.c | 40 +++++++++++++++++------------------
- target/ppc/meson.build   | 11 ++++++++--
- target/ppc/mmu-hash64.c  | 11 +++++++++-
- target/ppc/mmu_helper.c  | 16 ++++++++++++--
- target/ppc/tcg-stub.c    | 45 ++++++++++++++++++++++++++++++++++++++++
- 8 files changed, 123 insertions(+), 32 deletions(-)
- create mode 100644 target/ppc/tcg-stub.c
+ target/ppc/excp_helper.c | 19 +------------------
+ 3 files changed, 22 insertions(+), 18 deletions(-)
 
+diff --git a/target/ppc/cpu.c b/target/ppc/cpu.c
+index 19d67b5b07..95898f348b 100644
+--- a/target/ppc/cpu.c
++++ b/target/ppc/cpu.c
+@@ -152,3 +152,23 @@ void ppc_store_fpscr(CPUPPCState *env, target_ulong val)
+         fpscr_set_rounding_mode(env);
+     }
+ }
++
++/* Exception processing */
++#if defined(CONFIG_USER_ONLY)
++void ppc_cpu_do_interrupt(CPUState *cs)
++{
++    PowerPCCPU *cpu = POWERPC_CPU(cs);
++    CPUPPCState *env = &cpu->env;
++
++    cs->exception_index = POWERPC_EXCP_NONE;
++    env->error_code = 0;
++}
++#else
++void ppc_cpu_do_interrupt(CPUState *cs)
++{
++    PowerPCCPU *cpu = POWERPC_CPU(cs);
++    CPUPPCState *env = &cpu->env;
++
++    powerpc_excp(cpu, env->excp_model, cs->exception_index);
++}
++#endif
+diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+index 203f07e48e..65a08cc424 100644
+--- a/target/ppc/cpu.h
++++ b/target/ppc/cpu.h
+@@ -1254,6 +1254,7 @@ DECLARE_OBJ_CHECKERS(PPCVirtualHypervisor, PPCVirtualHypervisorClass,
+ #endif /* CONFIG_USER_ONLY */
+ 
+ void ppc_cpu_do_interrupt(CPUState *cpu);
++void powerpc_excp(PowerPCCPU *cpu, int excp_model, int excp);
+ bool ppc_cpu_exec_interrupt(CPUState *cpu, int int_req);
+ void ppc_cpu_dump_state(CPUState *cpu, FILE *f, int flags);
+ void ppc_cpu_dump_statistics(CPUState *cpu, int flags);
+diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
+index f4f15279eb..80bb6e70e9 100644
+--- a/target/ppc/excp_helper.c
++++ b/target/ppc/excp_helper.c
+@@ -38,15 +38,6 @@
+ /*****************************************************************************/
+ /* Exception processing */
+ #if defined(CONFIG_USER_ONLY)
+-void ppc_cpu_do_interrupt(CPUState *cs)
+-{
+-    PowerPCCPU *cpu = POWERPC_CPU(cs);
+-    CPUPPCState *env = &cpu->env;
+-
+-    cs->exception_index = POWERPC_EXCP_NONE;
+-    env->error_code = 0;
+-}
+-
+ static void ppc_hw_interrupt(CPUPPCState *env)
+ {
+     CPUState *cs = env_cpu(env);
+@@ -324,7 +315,7 @@ static inline void powerpc_set_excp_state(PowerPCCPU *cpu,
+  * Note that this function should be greatly optimized when called
+  * with a constant excp, from ppc_hw_interrupt
+  */
+-static inline void powerpc_excp(PowerPCCPU *cpu, int excp_model, int excp)
++inline void powerpc_excp(PowerPCCPU *cpu, int excp_model, int excp)
+ {
+     CPUState *cs = CPU(cpu);
+     CPUPPCState *env = &cpu->env;
+@@ -968,14 +959,6 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int excp_model, int excp)
+     powerpc_set_excp_state(cpu, vector, new_msr);
+ }
+ 
+-void ppc_cpu_do_interrupt(CPUState *cs)
+-{
+-    PowerPCCPU *cpu = POWERPC_CPU(cs);
+-    CPUPPCState *env = &cpu->env;
+-
+-    powerpc_excp(cpu, env->excp_model, cs->exception_index);
+-}
+-
+ static void ppc_hw_interrupt(CPUPPCState *env)
+ {
+     PowerPCCPU *cpu = env_archcpu(env);
 -- 
 2.17.1
 
