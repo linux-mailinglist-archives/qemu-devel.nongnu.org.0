@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5533038F1D2
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 18:53:52 +0200 (CEST)
-Received: from localhost ([::1]:51826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 764C738F201
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 19:07:09 +0200 (CEST)
+Received: from localhost ([::1]:57262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llDpv-0004N9-CP
-	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 12:53:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45020)
+	id 1llE2m-0002Sf-5o
+	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 13:07:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45298)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1llDeI-0004gi-PU
- for qemu-devel@nongnu.org; Mon, 24 May 2021 12:41:50 -0400
-Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534]:37686)
+ id 1llDeT-0004z8-4r
+ for qemu-devel@nongnu.org; Mon, 24 May 2021 12:42:01 -0400
+Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d]:40901)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1llDe2-0004Kt-7M
- for qemu-devel@nongnu.org; Mon, 24 May 2021 12:41:40 -0400
-Received: by mail-ed1-x534.google.com with SMTP id g7so20567797edm.4
- for <qemu-devel@nongnu.org>; Mon, 24 May 2021 09:41:33 -0700 (PDT)
+ id 1llDeJ-0004Kx-4L
+ for qemu-devel@nongnu.org; Mon, 24 May 2021 12:42:00 -0400
+Received: by mail-ed1-x52d.google.com with SMTP id t3so32710118edc.7
+ for <qemu-devel@nongnu.org>; Mon, 24 May 2021 09:41:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=yGoIzXYIX9m4RsP0fZOD66ClwKN/HxFed9M81Yci264=;
- b=l/I6TwqRh6FJnHlX+BSUGiyBjUmZhfGZW246xLD+GGbwZYuXkqwVo1kZVJFzWy0ELo
- DJwKYh2jCc3P47gMLvG4dwD3BpFLeYMVQF3j8YqUQLtnQvP6NKTlaOwwQ9ep5PnkEd4I
- QLsE3phUGLkwtkKdR3z2eO6tmiw5q/QbV1JkGMu3FRO2vvrbqchRexIbMfqN3ALulg6k
- TwxrzTMzgnFhhsilpfd10S9KQkEjA7AmPSKydntBI9+rlkCLclBoPfyBo7PgY7MpjFhY
- wT8jEPJExf/6JSg/6lEaXXgal8oPzkGzCyG7KW9BCAZfGKcYdmtx3aTPGB+aElrDFaOz
- wT7w==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=5tP9XZkZCa+TFNyC9cMy34jaLrb1FV2M8KBhC9kwnjY=;
+ b=EkoVZ3tjFPFnNTqH4xU4OQN9ufpMRE8+BYch5YkQwvvcKiNE9GO6CTwE895iU8Nc3j
+ Z3LlHAxTzfCF94BngzubjrJqelfneSYqs1trzU+yTYSw88diRt2a4ObWcz15+0X5kREm
+ OIOdpR7Qpm+DjPBAmPknV24J/KhC9nQEWDz08D0KAwCzfjCmcPNS6XCJBm9N5PkYNo0P
+ 0xtLD0U1uxACqYahyK/gRvDiAwUAMcV27Ie81xGIDvNAf9fwe3kpJAJMeQJ/L27zv6+l
+ DhZE1rPb8wsJ2bEwFIkui5uQmTYKItz61AZgozb6QgEW1hX7d/JFwRqy5ADLPYyY1DKo
+ /YdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=yGoIzXYIX9m4RsP0fZOD66ClwKN/HxFed9M81Yci264=;
- b=NKSFKV4AhhaBX9YecSSlrFqhhdadAaUaFWgn3FYLa+IdXYpLLm6D+QaSpuwXJ+OFwc
- qC54uh3GOc0uZqNSwGNxPCHt9GXuBSZ1RlKnsKHvzgsw0NR592hHuElspwXUGfKLcr60
- TQlrL6PUYBEQH7sN71Uj39Cg7OAmF8apKJaD7I0JTNoN3Vduf9DkyXbqsZODW7+2yRBz
- Pz2zmnEM+j7OiFOn0I/jIni8WrycChas5rVrjMPfbDRC8uH+faEm6nOsaS7ZV+NHApxI
- 0fAYGUC8oEMwEMs+w55g4AE1KC0NXjVDewVthFD+ZJx43kRfp2CKmzRvfUTyV+a6bFAT
- XmZQ==
-X-Gm-Message-State: AOAM530LWUUy/MrxCGG+sptBeXGYeNj36rOOX7qZuZ5s4kolycg20IZH
- 53kJTeFsvQ6qpyoUYUlaPC/Zm3188BIG5w==
-X-Google-Smtp-Source: ABdhPJw2dG8dzZYjvXXDEzgoSFIGrd70GFzZ5N+FHwBfS6X9OCakO9CB6Ax0JrCI/0OHqkVwT72ulQ==
-X-Received: by 2002:a05:6402:c8:: with SMTP id
- i8mr8125875edu.380.1621874492243; 
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=5tP9XZkZCa+TFNyC9cMy34jaLrb1FV2M8KBhC9kwnjY=;
+ b=QgSBA/2wG/wbh+67Vx+zhJZzruVpNlu58mbRJqilhjqG1g1rVBNrjAksH1NBno9Efc
+ ZvuDFFljv5H5JFgirche9BU+nbjtY1bB+Uxq8uvzUeQGMbDriDaowHv1zrMivHfi22VD
+ tPCCX8RfOmrJZQS2RJEd9ln6RRzorFKeIHlUS3WzViZBnIsmxWWEvcVR/WIsjTMNPMgA
+ QOG4aFQ7nJMUV0Tk2Rlm4yelUIkr5AgGHpqou7nnFYysQpxuO70dWlIdPBOd9qpHd+Ew
+ iLT08zgs1ueXOK4QWqSfgOgU4H8Vi9MVW4fzmVZ727G+Ca5HmVuE/TL6GZAYnxY3mT53
+ 9p1g==
+X-Gm-Message-State: AOAM531bBggdqtCMsP6bXketjQ9nBPtCDQtoQjYKSmk9S2DfGFcb0hVD
+ bKn6CA/8VNAX5iv6SUuNOS+iDr261JA43A==
+X-Google-Smtp-Source: ABdhPJz70RnlDXEdcqkZ+3HOUcrovFbJJnbCb1FL8I6gdqanP8tFtQyKk3jk7KpKJeTZrZPhHruo7A==
+X-Received: by 2002:aa7:df11:: with SMTP id c17mr26908650edy.317.1621874492859; 
  Mon, 24 May 2021 09:41:32 -0700 (PDT)
 Received: from avogadro.redhat.com ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- g4sm9581922edm.83.2021.05.24.09.41.31 for <qemu-devel@nongnu.org>
+ g4sm9581922edm.83.2021.05.24.09.41.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 May 2021 09:41:31 -0700 (PDT)
+ Mon, 24 May 2021 09:41:32 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/28] Misc patches for 2021-05-24
-Date: Mon, 24 May 2021 18:41:03 +0200
-Message-Id: <20210524164131.383778-1-pbonzini@redhat.com>
+Subject: [PULL 01/28] configure: Only clone softfloat-3 repositories if TCG is
+ enabled
+Date: Mon, 24 May 2021 18:41:04 +0200
+Message-Id: <20210524164131.383778-2-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210524164131.383778-1-pbonzini@redhat.com>
+References: <20210524164131.383778-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::534;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x534.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52d.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -84,119 +86,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 371ebfe28600fc5a435504b841cd401208a68f07:
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-  Merge remote-tracking branch 'remotes/xtensa/tags/20210521-xtensa' into staging (2021-05-24 12:00:33 +0100)
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20210512045821.3257963-1-philmd@redhat.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ configure | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-are available in the Git repository at:
-
-  https://gitlab.com/bonzini/qemu.git tags/for-upstream
-
-for you to fetch changes up to b304cc9bc94950a4b9100634db6dc3c885f99216:
-
-  gitlab-ci: use --meson=git for CFI jobs (2021-05-24 18:39:02 +0200)
-
-----------------------------------------------------------------
-* submodule cleanups (Philippe, myself)
-* tiny step towards a usable preconfig mode (myself)
-* Kconfig and LOCK_GUARD cleanups (philippe)
-* new x86 CPUID feature (Yang Zhong)
-* "-object qtest" support (myself)
-* Dirty ring support for KVM (Peter)
-* Fixes for 6.0 command line parsing breakage (myself)
-* Fix for macOS 11.3 SDK (Katsuhiro)
-
-----------------------------------------------------------------
-Ali Shirvani via (1):
-      doc: Add notes about -mon option mode=control argument.
-
-Katsuhiro Ueno (1):
-      meson: Set implicit_include_directories to false
-
-Kit Westneat (1):
-      hw/scsi: Fix sector translation bug in scsi_unmap_complete_noio
-
-Paolo Bonzini (10):
-      configure: check for submodules if --with-git-submodules=ignore
-      configure: simplify assignment to GIT_SUBMODULES
-      object: add more commands to preconfig mode
-      qtest: add a QOM object for qtest
-      KVM: do not allow setting properties at runtime
-      remove qemu-options* from root directory
-      replication: move include out of root directory
-      vl: allow not specifying size in -m when using -M memory-backend
-      qemu-config: load modules when instantiating option groups
-      gitlab-ci: use --meson=git for CFI jobs
-
-Peter Xu (10):
-      memory: Introduce log_sync_global() to memory listener
-      KVM: Use a big lock to replace per-kml slots_lock
-      KVM: Create the KVMSlot dirty bitmap on flag changes
-      KVM: Provide helper to get kvm dirty log
-      KVM: Provide helper to sync dirty bitmap from slot to ramblock
-      KVM: Simplify dirty log sync in kvm_set_phys_mem
-      KVM: Cache kvm slot dirty bitmap size
-      KVM: Add dirty-ring-size property
-      KVM: Disable manual dirty log when dirty ring enabled
-      KVM: Dirty ring support
-
-Philippe Mathieu-Daudé (3):
-      configure: Only clone softfloat-3 repositories if TCG is enabled
-      hw/mem/nvdimm: Use Kconfig 'imply' instead of 'depends on'
-      tests/qtest/fuzz: Fix build failure
-
-Thomas Huth (1):
-      configure: Avoid error messages about missing *-config-*.h files
-
-Yang Zhong (1):
-      i386/cpu: Expose AVX_VNNI instruction to guest
-
- .gitlab-ci.yml                                |   4 +-
- Makefile                                      |   2 +
- accel/kvm/kvm-all.c                           | 615 ++++++++++++++++++++++----
- accel/kvm/trace-events                        |   7 +
- block/replication.c                           |   2 +-
- configure                                     |  79 ++--
- default-configs/devices/ppc64-softmmu.mak     |   1 -
- hmp-commands.hx                               |   2 +
- hw/arm/Kconfig                                |   1 +
- hw/i386/Kconfig                               |   1 +
- hw/mem/Kconfig                                |   2 -
- hw/ppc/Kconfig                                |   1 +
- hw/scsi/scsi-disk.c                           |  12 +-
- replication.h => include/block/replication.h  |   4 +-
- include/exec/memory.h                         |  12 +
- include/hw/core/cpu.h                         |   7 +
- include/qemu/config-file.h                    |   2 +-
- qemu-options.h => include/qemu/qemu-options.h |   9 +-
- include/sysemu/kvm_int.h                      |   7 +-
- meson.build                                   |   1 +
- migration/colo.c                              |   2 +-
- os-posix.c                                    |   2 +-
- os-win32.c                                    |   1 -
- qapi/qom.json                                 |  23 +-
- qemu-options-wrapper.h                        |  40 --
- qemu-options.hx                               |  23 +-
- replication.c                                 |   2 +-
- softmmu/memory.c                              |  33 +-
- softmmu/qtest.c                               | 185 +++++++-
- softmmu/vl.c                                  |  52 ++-
- stubs/meson.build                             |   1 +
- stubs/module-opts.c                           |   6 +
- target/i386/cpu.c                             |   4 +-
- target/i386/cpu.h                             |   2 +
- tests/qtest/fuzz/fuzz.c                       |   1 +
- tests/unit/test-replication.c                 |   2 +-
- util/qemu-config.c                            |   1 +
- 37 files changed, 924 insertions(+), 227 deletions(-)
- rename replication.h => include/block/replication.h (98%)
- rename qemu-options.h => include/qemu/qemu-options.h (88%)
- delete mode 100644 qemu-options-wrapper.h
- create mode 100644 stubs/module-opts.c
+diff --git a/configure b/configure
+index 676239c697..808874cb31 100755
+--- a/configure
++++ b/configure
+@@ -257,8 +257,6 @@ if test -e "$source_path/.git"
+ then
+     git_submodules_action="update"
+     git_submodules="ui/keycodemapdb"
+-    git_submodules="$git_submodules tests/fp/berkeley-testfloat-3"
+-    git_submodules="$git_submodules tests/fp/berkeley-softfloat-3"
+ else
+     git_submodules_action="ignore"
+     git_submodules=""
+@@ -2281,6 +2279,11 @@ if test "$solaris" = "yes" ; then
+   fi
+ fi
+ 
++if test "$tcg" = "enabled"; then
++    git_submodules="$git_submodules tests/fp/berkeley-testfloat-3"
++    git_submodules="$git_submodules tests/fp/berkeley-softfloat-3"
++fi
++
+ if test -z "${target_list+xxx}" ; then
+     default_targets=yes
+     for target in $default_target_list; do
 -- 
 2.31.1
+
 
 
