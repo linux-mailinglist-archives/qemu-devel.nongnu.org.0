@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC26138DF86
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 05:05:07 +0200 (CEST)
-Received: from localhost ([::1]:35240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8497B38DF87
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 05:05:14 +0200 (CEST)
+Received: from localhost ([::1]:35538 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ll0tu-0000gM-U8
-	for lists+qemu-devel@lfdr.de; Sun, 23 May 2021 23:05:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46626)
+	id 1ll0tv-0000rm-LL
+	for lists+qemu-devel@lfdr.de; Sun, 23 May 2021 23:05:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46620)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <acho@suse.com>) id 1ll0jR-0007og-1w
- for qemu-devel@nongnu.org; Sun, 23 May 2021 22:54:17 -0400
-Received: from de-smtp-delivery-102.mimecast.com ([194.104.109.102]:40538)
+ (Exim 4.90_1) (envelope-from <acho@suse.com>) id 1ll0jP-0007jd-KW
+ for qemu-devel@nongnu.org; Sun, 23 May 2021 22:54:15 -0400
+Received: from de-smtp-delivery-102.mimecast.com ([194.104.109.102]:30888)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <acho@suse.com>) id 1ll0jK-0003cD-Sq
- for qemu-devel@nongnu.org; Sun, 23 May 2021 22:54:16 -0400
+ (Exim 4.90_1) (envelope-from <acho@suse.com>) id 1ll0jN-0003dO-KU
+ for qemu-devel@nongnu.org; Sun, 23 May 2021 22:54:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com;
- s=mimecast20200619; t=1621824849;
+ s=mimecast20200619; t=1621824852;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=q1bD8lbroU7w0T6aZeqbMpc+mUEYl6AsIsKGoTnKAbU=;
- b=jFxEvbd5F2o5KO3RMIRk2Exj1EbYPVvE/jJnSf3oiuvPT3rjiKKyLtj53XcUNW7qrV5zu6
- /t/sqvfB+FMrDLnFYoJvI/0NP+vNhXFFTJYvlArPe5pzj6TbYjwZ6C9S62rqz5xU5QLu3o
- x+Segvz0Wxe7LCGYZ0L0eY+o8gQt5pQ=
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com
- (mail-am6eur05lp2108.outbound.protection.outlook.com [104.47.18.108])
- (Using TLS) by relay.mimecast.com with ESMTP id
- de-mta-9-QQIClprDMPWUQRMXEecM-Q-1; Mon, 24 May 2021 04:54:08 +0200
-X-MC-Unique: QQIClprDMPWUQRMXEecM-Q-1
+ bh=FYCafF/WC3LB94/4DMxgi/kgo3C0r5bwiuB1ZQ93ueY=;
+ b=bWMxsV430wOISJYamBm4zqMaqXISNf1iwSVnfUsqToa3KtHm9igEz6JZ8Q9smEwLCrMIEH
+ z7pAKvvzn6hMO9tcsrMThISoAWjvJbfhFF4ltSJbpShiRMOAPToJ0jFaD8DYo17N/KJ6T1
+ 7WUO+XEUqYZeUFzrKCS+uu8TgpnguOw=
+Received: from EUR04-VI1-obe.outbound.protection.outlook.com
+ (mail-vi1eur04lp2052.outbound.protection.outlook.com [104.47.14.52]) (Using
+ TLS) by relay.mimecast.com with ESMTP id de-mta-9-aMR1s0AWM1GRU23p2ZxRMw-1;
+ Mon, 24 May 2021 04:54:11 +0200
+X-MC-Unique: aMR1s0AWM1GRU23p2ZxRMw-1
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gqQrqav8cpUfZ9Pf8cFRsHbMwbJBlkFFzdG9T7C/WOnk1EFZ9bRi2ZC3EQaj5YoM1Hz3Tz9zpPewvj7eCGt4Q5ycEbMRawJgtYxHFOEdJC2C8xwUr1w+TjSwW173m0bngdqSyPTTrJ4ovK0ooNIyasL7yKW0wNEP0NGGfeeq6GSOebI3nir7HZYfzM+nZhFustDDZQ8q3NoWM42xZ0ZsPd+x33so3nwzoUzNBrLqdILumSvJnp353ZpdWrHwIzFPLQbX3TiiE0nG5B1VfPJzlurElvn3naTAygIIRqLNjuZsDh805hEfeeRTwssFJcenjJ+KqRu15n0IIkzRQ6Tk2Q==
+ b=A/xPxyb0Hzf/bM5Zf3y9cBDlkSTQtI3Q+cZmVNx2XW0dF0VVQvQTPA8uPPDuqiqZWNcAODfo69L7mj/MTTLc5apnx7Sd8gRLr+XQUl+K44ehETP7aCtWNJoGhGzFFP2Uj1FFtdD2BEU3tn9UKn+YB3m1jsT/rHVKd1DBTH/BOsUR1NbcteMMWLKCD4Z8P2J47A2sD+JkbSuB410codsPu65blo3Buf6Syz+RrKfIJXybi+SvTN5JuOgavQ17nU7TCLjbA5QBBDdUza+4v+EhBRCE0c2HCyYsdrxo2WBuh/MXsAFq4SwSNe4izFyRg3C5vmybgaSq0U/HhmrMVTJ0nQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=38RfK1UhrPpqfBfWGuwnrNO07s5HZTRpLK41BNjEM9o=;
- b=ShxuUl7LVkGMS1vNjuzyUVDAGwIb5ZAs1xp83TIlGvtdgPANH9tdnwXUcnLVescceiXgdW0N7mdmW/xxeA8nEhII6f9I3LqvUPkxPnRUmzZJkO25NtySd2Pjmm9w/Gvn/5RrH+5gQ/DJLXMoqzptkWJwBwhrkIQ+5CB1n5OShQeFSXYpUq8FXk06c3hGXFdg1heAezrHK1dinBmqmpS8k1h5PkQTFCwA7IZQQme/d33go3DXCdmD9Ie+oZIe8uJwvl7Nd+RFkmMIKwrW7BsU/iafbO80Ubmhss4XG6U9TsbxyyMh99aIqMAT3YErYFOmOiCqxh2ZqIP+j6oh438Y+w==
+ bh=2taWfiWgplpiXsSv/r8sccgq7Sz8Kw3XrmIFTPrj9ig=;
+ b=IVYuxt54Lhmg8ochuna34Hb+fH793Q0Tk9fQjh7omwThSxkQkLzLPhYEJ8gwnX71Y64Amt6l4g4Qx/9xv6nuInAjZv6kBjZVmPQyDfVB32W03Rk/7QiIsmS/4BX4NB6KDvaKtHleKoBk3qBE4NuxVEabAzWuUYyeKwp/cfBV9mqEQPqfTiqlirV4dZd85w3huO20aNefW3uWqkPFzBw8ePwKdwRGxeBKXVn0YFCc26N8puCT2pWLuHG0SmCXRu/U14icBmkJB6EY82f+v1UnfDuU7IbPZSYM6i/MCZBu9Wdj8yKitgPiJqxOlZe6uWiV0iwM4CgagfBajyQOzuNyFg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=suse.com; dmarc=pass action=none header.from=suse.com;
  dkim=pass header.d=suse.com; arc=none
@@ -48,20 +48,20 @@ Received: from VI1PR0402MB3744.eurprd04.prod.outlook.com
  (2603:10a6:803:16::25) by VI1PR04MB4126.eurprd04.prod.outlook.com
  (2603:10a6:803:47::12) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4150.23; Mon, 24 May
- 2021 02:54:05 +0000
+ 2021 02:54:09 +0000
 Received: from VI1PR0402MB3744.eurprd04.prod.outlook.com
  ([fe80::b446:f4ea:d07c:ef5f]) by VI1PR0402MB3744.eurprd04.prod.outlook.com
  ([fe80::b446:f4ea:d07c:ef5f%7]) with mapi id 15.20.4150.027; Mon, 24 May 2021
- 02:54:05 +0000
+ 02:54:09 +0000
 From: "Cho, Yu-Chen" <acho@suse.com>
 To: qemu-devel@nongnu.org,
 	qemu-s390x@nongnu.org
 CC: cohuck@redhat.com, thuth@redhat.com, richard.henderson@linaro.org,
  cfontana@suse.de, david@redhat.com, pasic@linux.ibm.com,
  borntraeger@de.ibm.com, pbonzini@redhat.com, acho@suse.com
-Subject: [RFC v4 13/14] target/s390x: split sysemu part of cpu models
-Date: Mon, 24 May 2021 10:52:55 +0800
-Message-ID: <20210524025256.22252-13-acho@suse.com>
+Subject: [RFC v4 14/14] MAINTAINERS: update s390x directories
+Date: Mon, 24 May 2021 10:52:56 +0800
+Message-ID: <20210524025256.22252-14-acho@suse.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210524025256.22252-1-acho@suse.com>
 References: <20210524025256.22252-1-acho@suse.com>
@@ -76,52 +76,52 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost.localdomain (114.24.18.39) by
  HK2PR04CA0057.apcprd04.prod.outlook.com (2603:1096:202:14::25) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4150.23 via Frontend Transport; Mon, 24 May 2021 02:54:01 +0000
+ 15.20.4150.23 via Frontend Transport; Mon, 24 May 2021 02:54:05 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 8b80dcff-d0dc-4f86-2992-08d91e5f3177
+X-MS-Office365-Filtering-Correlation-Id: 7440f438-ff78-4dfb-1e02-08d91e5f3401
 X-MS-TrafficTypeDiagnostic: VI1PR04MB4126:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <VI1PR04MB4126435B951D1823F6FFC5EAA0269@VI1PR04MB4126.eurprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4303;
+X-Microsoft-Antispam-PRVS: <VI1PR04MB41265B2B724B75669DE6992DA0269@VI1PR04MB4126.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:949;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: tJffCREKytIbaPBnBr5+HjykD/mlfy3Wh8MqP1HRLC4PiY5zgyWHc29J7KjrPxQl726szjrScqDep390TErMsn79JVNBQLa3j2QA3EKuzTtVEJ4wmYuB1uDiAobmuSatpBHoEI3SYMmBDU+VmXiD1JAYC2qisaw562wTr9IqnZHwCFk2R58vAg5PEUs+2vt3xK/Umsu2UkHGAZvgZSTYHhb3qo8i/Cmmq5OazCWFj5Mb05o4+8Z/GgtiNygOhj/f1LkALixZB+7KrQcVkz4z+5t3vaCG28lKkhiZCIpWn+kj9t/6Hk3c4gYlpCvUe6tGYsbrECxv0J56BM9KEqOJWNCTw5uPGxfg0fx/j9/AX6FttL+/F3uuwbGtS0wZxIYUdAeGr9wdi/0ohtTlruxZy34e7ZDrp+L9gEB8qJ3N+lPKUwnIbxRLsKy160biKm/mwEA65FH0zJ2CbuTrbDmZk3I+HmjHzE2NdRD+Q30q1xF/IWfUeQILpRgb8oCIUgIeIDdL2bjoE4L02/LpaG7tO5h272btkjNF15CfQgirQb71xFz4/lLg1zSZGNgvyNT63UcNIiPkjCVJ1hoTKZMzIXUis0xPsetxzDKaVF0j4E3pnyKxjWM7JFVyfFS+SYksehRAWAEbOrgkf6TbF6vXZC//mPsMrGtqlaM9ixQjcutHXebc2bRt6UQFBMPcb04pG6LSCVZ+aZvDxyCw5Cf8bw==
+X-Microsoft-Antispam-Message-Info: 7HfzmhR+f4zIj79ifUVHyimYrsP+5QFGlYouAvU7a6rhA+FhTgawwsWKJEF32MPE62qTyQ4NVq8gIU3nK8Jqnr9aSabHuhLsTlJRj3k47Isg+gmOK/kymiJRqRFkYSlCWelPlZ7lL+4yqV/jo8CaobFoIfDaDu/z7fJtRfgQL1b8UkjRi/VtpK0ZSctDrZCvBotRU7Y2l+ZrJo3UahYDoKm5blgWsN5C7KbxDd1wcB6pSitdLab6+Rcp4l0hUSwptRTKBuh9ZsbcV6+MEdy+aFRJxojmI0MGyHp6bGyFA6DoQdPMv39inkRtzyUJgyFVzbuuY6VjcWh7fV8hB3I7It4yqTtUKGJzyYGV6YdLSKxI/kPoZUKGEbJues0loqxIqlGizNNB39rNogQuo+QsIUSQAVeI0ylql/wCfOXnPRG3ARPGfzzEaL2H2TM/ezL/kLDu3755erR3qLirDy/Qcs51mipsYO312STvjcn6rZbnYclp5GUcEqMwZOfQefdZNZtND6FzR724OOpdoxi8F0sz6dFjiKGGe84NGA7kV/NbUYTJyVnEvW2Ujem+0E8Y006fK/JWJZlZEXasrLWT0yMO3BssHBPcT6K/7QThCVet8scguoGb45N567okAcp7wG+XQXkKiJR/oCSp3JqSVr1GASYMwRGsM11fWUxdJWGRUksvSNeEIrzLq4pQQnjg
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:VI1PR0402MB3744.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(366004)(346002)(136003)(376002)(396003)(39860400002)(36756003)(316002)(66476007)(38100700002)(8676002)(38350700002)(86362001)(52116002)(478600001)(66946007)(8936002)(1076003)(2906002)(956004)(26005)(6512007)(30864003)(16526019)(6506007)(186003)(83380400001)(2616005)(6666004)(4326008)(7416002)(5660300002)(6486002)(107886003)(66556008)(69590400013)(170073001);
+ SFS:(366004)(346002)(136003)(376002)(396003)(39860400002)(36756003)(316002)(66476007)(38100700002)(8676002)(38350700002)(86362001)(52116002)(478600001)(66946007)(8936002)(1076003)(2906002)(956004)(26005)(6512007)(16526019)(6506007)(15650500001)(186003)(83380400001)(2616005)(6666004)(4326008)(7416002)(5660300002)(6486002)(107886003)(66556008)(69590400013);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?Uxu3ewycjKWZMTCIeCX1IIXZCV/stS+/LbGc7mOybUh+qnITrqACutnWLMGH?=
- =?us-ascii?Q?ARk+d67tgGqV6NAESFNb8Up9brbZTNbUX0HwofTLTIjisWDvTno7mBD8GCMA?=
- =?us-ascii?Q?x0t9FXJC8Df1onyGivwSAYQFPOJBSVRxTDdg6I9APQq05rDm4MGUcJYA18Sv?=
- =?us-ascii?Q?8FyeYc2dr3YHYqblvhqsL5XyA4jrFqi9DJ+zgkK5TNXUNKkE+FdGXbSS3vtw?=
- =?us-ascii?Q?eVND4cehZ+rJY6YV9iKZ9srRK5D/1i5VTIEqgD30hqKRW6Yw620Ta1GrheiA?=
- =?us-ascii?Q?zldCTazf6pwbeiRpi3WqFlI4g9A3RmwyW9Vr/ofCNhj7DDst8p9m0wL+5INq?=
- =?us-ascii?Q?cLTNMLNsu8mXPKxqrR6FrsHxwQAbHn6UxPePM6uWiL7QFgn04Cdu9OmuCOEc?=
- =?us-ascii?Q?uQUp3V6skJwN5bWv6aoy7yxC/M9fOfckFCxHlffwEmvP2pwmaAZ6E/+jbowO?=
- =?us-ascii?Q?kBfmo/L7hoNyj64REb61xp94h+WeGltWWI60vs8qBTFq0e1ek5s+mckg5UTz?=
- =?us-ascii?Q?JKH/mIpiOs7jivadVQT8VE1iLY9jFdVBxM0IyjRtg4cHC5kPSgD6OT3CJA43?=
- =?us-ascii?Q?u3Bd8YuWC112fj2skBLXgNk0xoT14aRyti4XCKH8ms4OoEXxlE4kuvpmh8Xo?=
- =?us-ascii?Q?AZ5QnobitxF4GTQpNuiZwXDD0POunK+BiFYdFJ7ZGdLRWOtwPnxERjF4Zk4/?=
- =?us-ascii?Q?/067YllSkt2dvOy4seksNV8ScKeXHSI+VUPzMST3jUqB+TutJAYGLK63HgnZ?=
- =?us-ascii?Q?rC9lRWSEIh5FDmuDLpyVphFxDLFPykB3JYpmjG2UsK/E+UpVmeGDP/Xb4hZM?=
- =?us-ascii?Q?kaut+y6BAwmQmyy4GQP0kIv9g51XHMlWwIzcK97RBonXML4IZg8L9R32faff?=
- =?us-ascii?Q?9iNYbqiF1i+MG4HC8Qb2oDJQI3dkjtgTrUhcS8vx7eB9FsgKZoNWPcgPxyx3?=
- =?us-ascii?Q?Mx1X7nUzIKTyNg3mTFJ5B+MzE1Nh2guMQnvFtcQxN0ERCbAWlPMCcnKOwhZF?=
- =?us-ascii?Q?0DjCPG8iM+3RArF57pH7cPg6ssCo3gS8eCKjrD2rYWttatFeWX9WSW9pFyXH?=
- =?us-ascii?Q?vern+DQ//vzxE16isUuW9MIzgJABDo+qD71/Zluy1HNyRyLpMd+s0FdSO2IQ?=
- =?us-ascii?Q?eqCp+XlRd4etjpx4vUWhWdiqk2kAW+Y+MuU5G2gYLOAYV62/mOjmc2hj/DeD?=
- =?us-ascii?Q?79/mpXP6O0Lo39XgVda5atyU8XMQx8+dFvLr2RX25PxslpCz+Tyc1URMdyze?=
- =?us-ascii?Q?XzFvxyOvBOdryD0KVImoGbUzxoZikPm+G7tcJdGJE9i4rsPyEk5CJKT5bySN?=
- =?us-ascii?Q?+JthKxDBHEcafASIkH4lfUTg?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?M9UMBUfXdjoUr70AqxCWhpnzuxiIB1DYRpjGcIMtWBr1hAf7m2qsDe37qqRy?=
+ =?us-ascii?Q?WU3/yB8VtqczQodShpvoXyAEtl2J0nIBPtaqHgXvxhceZam2bwu78/hvx70s?=
+ =?us-ascii?Q?FMisb8UVZ6bAdv5txdr169FON+rXH5QlLQkMolzTWXT8skOFG07YQGQzdZer?=
+ =?us-ascii?Q?Wu3b9wao2wkDLjoTr16n89X2aHg9m3jf9hK5cCaOY5gTZMwUUNw3I/pGDJUW?=
+ =?us-ascii?Q?R5MSnMTYx2uDDFguBzFTnD8ceAkN7KlTaZIcCqhIliITZCygxU2DHVwFkTPS?=
+ =?us-ascii?Q?7mKbfCAI3z0cy/G3eQ6T0N4Vi2jjWlMX0PdjXMDCsMAiVo6f5/N4Tf4YDLFZ?=
+ =?us-ascii?Q?jsPToKAb2J849HJEBVSG/2bn3XAX2Dr/+ii/gr6pcG04R84pvHTzufM5nnDE?=
+ =?us-ascii?Q?9mWj4DxKB2qax+80QD18SaamCM93sTD1cayG4eYhq14Qcq7nipyKcwn/ytY/?=
+ =?us-ascii?Q?VQkcnnluLX1+Mosr+quduvJsoAtbwww0Ni4tVIBm30Hw+Vnq6X0dj6V/D0LM?=
+ =?us-ascii?Q?w44wwxbJ2k+0X4h1ESDfEiBdNjTpAGXDxEZtB5KqgtVql67itbCphOqhuOMg?=
+ =?us-ascii?Q?YxQjLqMXeYugFYM7DGczolumtJuHR2t30MPN/q5rOUHVmuVaykxUlQ1WyCUP?=
+ =?us-ascii?Q?qI/h/qkyDsl0g8wcblwOE9PRCyjUKo8DhhSdvzcPCu0sNyJoOKMMRScLvBZo?=
+ =?us-ascii?Q?0xQd2jFnG2eaYe8LOFcop6Su7QaOloknviLoIMIDKZ18rS2rLGHqVH/vSu77?=
+ =?us-ascii?Q?BRwZDeNgnEUZlSWdrCygZJsMt4oZDGQjdJrAlDT6HY5zh3ZhV8BShGQd4P0x?=
+ =?us-ascii?Q?hHezGypoKlgGbqcQ4LnPCD1QgQAbyWrGpMng/8AyI5pYI+XkzcWiSTHt/MHG?=
+ =?us-ascii?Q?mFCLJgXOawBFzjuhCjx1Ofkh7NxfmUVN9eIwBO8MOJoKOJsBzrNthPa12SdL?=
+ =?us-ascii?Q?CBBg2IIyCMeLA5K1lwvnCFz+mIXS0dNxLe5evpAJRLRdVfc4QWmQf5ta6Gff?=
+ =?us-ascii?Q?sVimBVDPoZOH3I9f3jmqJm2WIL+dRvGPDADaKv8utXQIYgWHxel5UPZ6p25Q?=
+ =?us-ascii?Q?uzFL0rO0ttncazG/YkDvFwkoJtoGkF4Gh5t4mh8jUJ7NVwntOGTpWT6hC62d?=
+ =?us-ascii?Q?N3lbATkOQ7AQ0SOwCehJ1ut0w5ybHSKcDbLPScTGh3T8LjWjNCoW3lHG9UWX?=
+ =?us-ascii?Q?BqCZBBgLsORIcC3rHjVT4gJrNhlFz3xCS1dVR3PRbW2w6mxHbEPZ0c3PSPBX?=
+ =?us-ascii?Q?DIdgwCHtqVxcCvFiK2zsCALy7G0JcNFcOUerHhWkUfqudA+bKzluPJaKfATg?=
+ =?us-ascii?Q?wgnXMClB481ArhDdV8JQ92Fo?=
 X-OriginatorOrg: suse.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8b80dcff-d0dc-4f86-2992-08d91e5f3177
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7440f438-ff78-4dfb-1e02-08d91e5f3401
 X-MS-Exchange-CrossTenant-AuthSource: VI1PR0402MB3744.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 May 2021 02:54:05.3393 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 May 2021 02:54:09.6238 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: f7a17af6-1c5c-4a36-aa8b-f5be247aa4ba
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: e2SbpsBEnol1PAkPYXHSIMVVM+1ZLZGtM7pk0Xcv9yz00I7wlwy+e0Vtn98Fgaqd
+X-MS-Exchange-CrossTenant-UserPrincipalName: M80v9r25q/fg3g2F5mn49o6G5VQDk9g0qq4ulsJuQXbKJW5/GhLZUhpZKmcZwcD7
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB4126
 Received-SPF: pass client-ip=194.104.109.102; envelope-from=acho@suse.com;
  helo=de-smtp-delivery-102.mimecast.com
@@ -131,7 +131,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -147,1004 +147,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-also create a tiny _user.c with just the (at least for now),
-empty implementation of apply_cpu_model.
+After the reshuffling, update MAINTAINERS accordingly.
+Make use of the new directories:
+
+target/s390x/kvm/
+target/s390x/tcg/
 
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
 Signed-off-by: Cho, Yu-Chen <acho@suse.com>
 ---
- target/s390x/cpu_models.c        | 417 +-----------------------------
- target/s390x/cpu_models_sysemu.c | 426 +++++++++++++++++++++++++++++++
- target/s390x/cpu_models_user.c   |  20 ++
- target/s390x/meson.build         |   4 +
- target/s390x/s390x-internal.h    |   2 +
- 5 files changed, 453 insertions(+), 416 deletions(-)
- create mode 100644 target/s390x/cpu_models_sysemu.c
- create mode 100644 target/s390x/cpu_models_user.c
+ MAINTAINERS | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
-diff --git a/target/s390x/cpu_models.c b/target/s390x/cpu_models.c
-index 0ed1c23774..30a192590d 100644
---- a/target/s390x/cpu_models.c
-+++ b/target/s390x/cpu_models.c
-@@ -18,18 +18,11 @@
- #include "sysemu/tcg.h"
- #include "qapi/error.h"
- #include "qapi/visitor.h"
--#include "qemu/error-report.h"
- #include "qemu/module.h"
- #include "qemu/qemu-print.h"
--#include "qapi/qmp/qerror.h"
--#include "qapi/qobject-input-visitor.h"
--#include "qapi/qmp/qdict.h"
- #ifndef CONFIG_USER_ONLY
--#include "sysemu/arch_init.h"
- #include "sysemu/sysemu.h"
--#include "hw/pci/pci.h"
- #endif
--#include "qapi/qapi-commands-machine-target.h"
- #include "hw/s390x/pv.h"
-=20
- #define CPUDEF_INIT(_type, _gen, _ec_ga, _mha_pow, _hmfai, _name, _desc) \
-@@ -414,381 +407,6 @@ void s390_cpu_list(void)
-     }
- }
-=20
--static S390CPUModel *get_max_cpu_model(Error **errp);
--
--#ifndef CONFIG_USER_ONLY
--static void list_add_feat(const char *name, void *opaque);
--
--static void check_unavailable_features(const S390CPUModel *max_model,
--                                       const S390CPUModel *model,
--                                       strList **unavailable)
--{
--    S390FeatBitmap missing;
--
--    /* check general model compatibility */
--    if (max_model->def->gen < model->def->gen ||
--        (max_model->def->gen =3D=3D model->def->gen &&
--         max_model->def->ec_ga < model->def->ec_ga)) {
--        list_add_feat("type", unavailable);
--    }
--
--    /* detect missing features if any to properly report them */
--    bitmap_andnot(missing, model->features, max_model->features,
--                  S390_FEAT_MAX);
--    if (!bitmap_empty(missing, S390_FEAT_MAX)) {
--        s390_feat_bitmap_to_ascii(missing, unavailable, list_add_feat);
--    }
--}
--
--struct CpuDefinitionInfoListData {
--    CpuDefinitionInfoList *list;
--    S390CPUModel *model;
--};
--
--static void create_cpu_model_list(ObjectClass *klass, void *opaque)
--{
--    struct CpuDefinitionInfoListData *cpu_list_data =3D opaque;
--    CpuDefinitionInfoList **cpu_list =3D &cpu_list_data->list;
--    CpuDefinitionInfo *info;
--    char *name =3D g_strdup(object_class_get_name(klass));
--    S390CPUClass *scc =3D S390_CPU_CLASS(klass);
--
--    /* strip off the -s390x-cpu */
--    g_strrstr(name, "-" TYPE_S390_CPU)[0] =3D 0;
--    info =3D g_new0(CpuDefinitionInfo, 1);
--    info->name =3D name;
--    info->has_migration_safe =3D true;
--    info->migration_safe =3D scc->is_migration_safe;
--    info->q_static =3D scc->is_static;
--    info->q_typename =3D g_strdup(object_class_get_name(klass));
--    /* check for unavailable features */
--    if (cpu_list_data->model) {
--        Object *obj;
--        S390CPU *sc;
--        obj =3D object_new_with_class(klass);
--        sc =3D S390_CPU(obj);
--        if (sc->model) {
--            info->has_unavailable_features =3D true;
--            check_unavailable_features(cpu_list_data->model, sc->model,
--                                       &info->unavailable_features);
--        }
--        object_unref(obj);
--    }
--
--    QAPI_LIST_PREPEND(*cpu_list, info);
--}
--
--CpuDefinitionInfoList *qmp_query_cpu_definitions(Error **errp)
--{
--    struct CpuDefinitionInfoListData list_data =3D {
--        .list =3D NULL,
--    };
--
--    list_data.model =3D get_max_cpu_model(NULL);
--
--    object_class_foreach(create_cpu_model_list, TYPE_S390_CPU, false,
--                         &list_data);
--
--    return list_data.list;
--}
--
--static void cpu_model_from_info(S390CPUModel *model, const CpuModelInfo *i=
-nfo,
--                                Error **errp)
--{
--    Error *err =3D NULL;
--    const QDict *qdict =3D NULL;
--    const QDictEntry *e;
--    Visitor *visitor;
--    ObjectClass *oc;
--    S390CPU *cpu;
--    Object *obj;
--
--    if (info->props) {
--        qdict =3D qobject_to(QDict, info->props);
--        if (!qdict) {
--            error_setg(errp, QERR_INVALID_PARAMETER_TYPE, "props", "dict")=
-;
--            return;
--        }
--    }
--
--    oc =3D cpu_class_by_name(TYPE_S390_CPU, info->name);
--    if (!oc) {
--        error_setg(errp, "The CPU definition \'%s\' is unknown.", info->na=
-me);
--        return;
--    }
--    if (S390_CPU_CLASS(oc)->kvm_required && !kvm_enabled()) {
--        error_setg(errp, "The CPU definition '%s' requires KVM", info->nam=
-e);
--        return;
--    }
--    obj =3D object_new_with_class(oc);
--    cpu =3D S390_CPU(obj);
--
--    if (!cpu->model) {
--        error_setg(errp, "Details about the host CPU model are not availab=
-le, "
--                         "it cannot be used.");
--        object_unref(obj);
--        return;
--    }
--
--    if (qdict) {
--        visitor =3D qobject_input_visitor_new(info->props);
--        if (!visit_start_struct(visitor, NULL, NULL, 0, errp)) {
--            visit_free(visitor);
--            object_unref(obj);
--            return;
--        }
--        for (e =3D qdict_first(qdict); e; e =3D qdict_next(qdict, e)) {
--            if (!object_property_set(obj, e->key, visitor, &err)) {
--                break;
--            }
--        }
--        if (!err) {
--            visit_check_struct(visitor, &err);
--        }
--        visit_end_struct(visitor, NULL);
--        visit_free(visitor);
--        if (err) {
--            error_propagate(errp, err);
--            object_unref(obj);
--            return;
--        }
--    }
--
--    /* copy the model and throw the cpu away */
--    memcpy(model, cpu->model, sizeof(*model));
--    object_unref(obj);
--}
--
--static void qdict_add_disabled_feat(const char *name, void *opaque)
--{
--    qdict_put_bool(opaque, name, false);
--}
--
--static void qdict_add_enabled_feat(const char *name, void *opaque)
--{
--    qdict_put_bool(opaque, name, true);
--}
--
--/* convert S390CPUDef into a static CpuModelInfo */
--static void cpu_info_from_model(CpuModelInfo *info, const S390CPUModel *mo=
-del,
--                                bool delta_changes)
--{
--    QDict *qdict =3D qdict_new();
--    S390FeatBitmap bitmap;
--
--    /* always fallback to the static base model */
--    info->name =3D g_strdup_printf("%s-base", model->def->name);
--
--    if (delta_changes) {
--        /* features deleted from the base feature set */
--        bitmap_andnot(bitmap, model->def->base_feat, model->features,
--                      S390_FEAT_MAX);
--        if (!bitmap_empty(bitmap, S390_FEAT_MAX)) {
--            s390_feat_bitmap_to_ascii(bitmap, qdict, qdict_add_disabled_fe=
-at);
--        }
--
--        /* features added to the base feature set */
--        bitmap_andnot(bitmap, model->features, model->def->base_feat,
--                      S390_FEAT_MAX);
--        if (!bitmap_empty(bitmap, S390_FEAT_MAX)) {
--            s390_feat_bitmap_to_ascii(bitmap, qdict, qdict_add_enabled_fea=
-t);
--        }
--    } else {
--        /* expand all features */
--        s390_feat_bitmap_to_ascii(model->features, qdict,
--                                  qdict_add_enabled_feat);
--        bitmap_complement(bitmap, model->features, S390_FEAT_MAX);
--        s390_feat_bitmap_to_ascii(bitmap, qdict, qdict_add_disabled_feat);
--    }
--
--    if (!qdict_size(qdict)) {
--        qobject_unref(qdict);
--    } else {
--        info->props =3D QOBJECT(qdict);
--        info->has_props =3D true;
--    }
--}
--
--CpuModelExpansionInfo *qmp_query_cpu_model_expansion(CpuModelExpansionType=
- type,
--                                                      CpuModelInfo *model,
--                                                      Error **errp)
--{
--    Error *err =3D NULL;
--    CpuModelExpansionInfo *expansion_info =3D NULL;
--    S390CPUModel s390_model;
--    bool delta_changes =3D false;
--
--    /* convert it to our internal representation */
--    cpu_model_from_info(&s390_model, model, &err);
--    if (err) {
--        error_propagate(errp, err);
--        return NULL;
--    }
--
--    if (type =3D=3D CPU_MODEL_EXPANSION_TYPE_STATIC) {
--        delta_changes =3D true;
--    } else if (type !=3D CPU_MODEL_EXPANSION_TYPE_FULL) {
--        error_setg(errp, "The requested expansion type is not supported.")=
-;
--        return NULL;
--    }
--
--    /* convert it back to a static representation */
--    expansion_info =3D g_new0(CpuModelExpansionInfo, 1);
--    expansion_info->model =3D g_malloc0(sizeof(*expansion_info->model));
--    cpu_info_from_model(expansion_info->model, &s390_model, delta_changes)=
-;
--    return expansion_info;
--}
--
--static void list_add_feat(const char *name, void *opaque)
--{
--    strList **last =3D (strList **) opaque;
--
--    QAPI_LIST_PREPEND(*last, g_strdup(name));
--}
--
--CpuModelCompareInfo *qmp_query_cpu_model_comparison(CpuModelInfo *infoa,
--                                                     CpuModelInfo *infob,
--                                                     Error **errp)
--{
--    Error *err =3D NULL;
--    CpuModelCompareResult feat_result, gen_result;
--    CpuModelCompareInfo *compare_info;
--    S390FeatBitmap missing, added;
--    S390CPUModel modela, modelb;
--
--    /* convert both models to our internal representation */
--    cpu_model_from_info(&modela, infoa, &err);
--    if (err) {
--        error_propagate(errp, err);
--        return NULL;
--    }
--    cpu_model_from_info(&modelb, infob, &err);
--    if (err) {
--        error_propagate(errp, err);
--        return NULL;
--    }
--    compare_info =3D g_new0(CpuModelCompareInfo, 1);
--
--    /* check the cpu generation and ga level */
--    if (modela.def->gen =3D=3D modelb.def->gen) {
--        if (modela.def->ec_ga =3D=3D modelb.def->ec_ga) {
--            /* ec and corresponding bc are identical */
--            gen_result =3D CPU_MODEL_COMPARE_RESULT_IDENTICAL;
--        } else if (modela.def->ec_ga < modelb.def->ec_ga) {
--            gen_result =3D CPU_MODEL_COMPARE_RESULT_SUBSET;
--        } else {
--            gen_result =3D CPU_MODEL_COMPARE_RESULT_SUPERSET;
--        }
--    } else if (modela.def->gen < modelb.def->gen) {
--        gen_result =3D CPU_MODEL_COMPARE_RESULT_SUBSET;
--    } else {
--        gen_result =3D CPU_MODEL_COMPARE_RESULT_SUPERSET;
--    }
--    if (gen_result !=3D CPU_MODEL_COMPARE_RESULT_IDENTICAL) {
--        /* both models cannot be made identical */
--        list_add_feat("type", &compare_info->responsible_properties);
--    }
--
--    /* check the feature set */
--    if (bitmap_equal(modela.features, modelb.features, S390_FEAT_MAX)) {
--        feat_result =3D CPU_MODEL_COMPARE_RESULT_IDENTICAL;
--    } else {
--        bitmap_andnot(missing, modela.features, modelb.features, S390_FEAT=
-_MAX);
--        s390_feat_bitmap_to_ascii(missing,
--                                  &compare_info->responsible_properties,
--                                  list_add_feat);
--        bitmap_andnot(added, modelb.features, modela.features, S390_FEAT_M=
-AX);
--        s390_feat_bitmap_to_ascii(added, &compare_info->responsible_proper=
-ties,
--                                  list_add_feat);
--        if (bitmap_empty(missing, S390_FEAT_MAX)) {
--            feat_result =3D CPU_MODEL_COMPARE_RESULT_SUBSET;
--        } else if (bitmap_empty(added, S390_FEAT_MAX)) {
--            feat_result =3D CPU_MODEL_COMPARE_RESULT_SUPERSET;
--        } else {
--            feat_result =3D CPU_MODEL_COMPARE_RESULT_INCOMPATIBLE;
--        }
--    }
--
--    /* combine the results */
--    if (gen_result =3D=3D feat_result) {
--        compare_info->result =3D gen_result;
--    } else if (feat_result =3D=3D CPU_MODEL_COMPARE_RESULT_IDENTICAL) {
--        compare_info->result =3D gen_result;
--    } else if (gen_result =3D=3D CPU_MODEL_COMPARE_RESULT_IDENTICAL) {
--        compare_info->result =3D feat_result;
--    } else {
--        compare_info->result =3D CPU_MODEL_COMPARE_RESULT_INCOMPATIBLE;
--    }
--    return compare_info;
--}
--
--CpuModelBaselineInfo *qmp_query_cpu_model_baseline(CpuModelInfo *infoa,
--                                                    CpuModelInfo *infob,
--                                                    Error **errp)
--{
--    Error *err =3D NULL;
--    CpuModelBaselineInfo *baseline_info;
--    S390CPUModel modela, modelb, model;
--    uint16_t cpu_type;
--    uint8_t max_gen_ga;
--    uint8_t max_gen;
--
--    /* convert both models to our internal representation */
--    cpu_model_from_info(&modela, infoa, &err);
--    if (err) {
--        error_propagate(errp, err);
--        return NULL;
--    }
--
--    cpu_model_from_info(&modelb, infob, &err);
--    if (err) {
--        error_propagate(errp, err);
--        return NULL;
--    }
--
--    /* features both models support */
--    bitmap_and(model.features, modela.features, modelb.features, S390_FEAT=
-_MAX);
--
--    /* detect the maximum model not regarding features */
--    if (modela.def->gen =3D=3D modelb.def->gen) {
--        if (modela.def->type =3D=3D modelb.def->type) {
--            cpu_type =3D modela.def->type;
--        } else {
--            cpu_type =3D 0;
--        }
--        max_gen =3D modela.def->gen;
--        max_gen_ga =3D MIN(modela.def->ec_ga, modelb.def->ec_ga);
--    } else if (modela.def->gen > modelb.def->gen) {
--        cpu_type =3D modelb.def->type;
--        max_gen =3D modelb.def->gen;
--        max_gen_ga =3D modelb.def->ec_ga;
--    } else {
--        cpu_type =3D modela.def->type;
--        max_gen =3D modela.def->gen;
--        max_gen_ga =3D modela.def->ec_ga;
--    }
--
--    model.def =3D s390_find_cpu_def(cpu_type, max_gen, max_gen_ga,
--                                  model.features);
--
--    /* models without early base features (esan3) are bad */
--    if (!model.def) {
--        error_setg(errp, "No compatible CPU model could be created as"
--                   " important base features are disabled");
--        return NULL;
--    }
--
--    /* strip off features not part of the max model */
--    bitmap_and(model.features, model.features, model.def->full_feat,
--               S390_FEAT_MAX);
--
--    baseline_info =3D g_new0(CpuModelBaselineInfo, 1);
--    baseline_info->model =3D g_malloc0(sizeof(*baseline_info->model));
--    cpu_info_from_model(baseline_info->model, &model, true);
--    return baseline_info;
--}
--#endif
--
- static void check_consistency(const S390CPUModel *model)
- {
-     static int dep[][2] =3D {
-@@ -900,7 +518,7 @@ static void check_compatibility(const S390CPUModel *max=
-_model,
-                   "available in the configuration: ");
- }
-=20
--static S390CPUModel *get_max_cpu_model(Error **errp)
-+S390CPUModel *get_max_cpu_model(Error **errp)
- {
-     Error *err =3D NULL;
-     static S390CPUModel max_model;
-@@ -925,39 +543,6 @@ static S390CPUModel *get_max_cpu_model(Error **errp)
-     return &max_model;
- }
-=20
--static inline void apply_cpu_model(const S390CPUModel *model, Error **errp=
-)
--{
--#ifndef CONFIG_USER_ONLY
--    Error *err =3D NULL;
--    static S390CPUModel applied_model;
--    static bool applied;
--
--    /*
--     * We have the same model for all VCPUs. KVM can only be configured be=
-fore
--     * any VCPUs are defined in KVM.
--     */
--    if (applied) {
--        if (model && memcmp(&applied_model, model, sizeof(S390CPUModel))) =
-{
--            error_setg(errp, "Mixed CPU models are not supported on s390x.=
-");
--        }
--        return;
--    }
--
--    if (kvm_enabled()) {
--        kvm_s390_apply_cpu_model(model, &err);
--        if (err) {
--            error_propagate(errp, err);
--            return;
--        }
--    }
--
--    applied =3D true;
--    if (model) {
--        applied_model =3D *model;
--    }
--#endif
--}
--
- void s390_realize_cpu_model(CPUState *cs, Error **errp)
- {
-     Error *err =3D NULL;
-diff --git a/target/s390x/cpu_models_sysemu.c b/target/s390x/cpu_models_sys=
-emu.c
-new file mode 100644
-index 0000000000..05c3ccaaff
---- /dev/null
-+++ b/target/s390x/cpu_models_sysemu.c
-@@ -0,0 +1,426 @@
-+/*
-+ * CPU models for s390x - System Emulation-only
-+ *
-+ * Copyright 2016 IBM Corp.
-+ *
-+ * Author(s): David Hildenbrand <dahi@linux.vnet.ibm.com>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or (at
-+ * your option) any later version. See the COPYING file in the top-level
-+ * directory.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "cpu.h"
-+#include "s390x-internal.h"
-+#include "kvm/kvm_s390x.h"
-+#include "sysemu/kvm.h"
-+#include "sysemu/tcg.h"
-+#include "qapi/error.h"
-+#include "qapi/visitor.h"
-+#include "qapi/qmp/qerror.h"
-+#include "qapi/qobject-input-visitor.h"
-+#include "qapi/qmp/qdict.h"
-+#include "qapi/qapi-commands-machine-target.h"
-+
-+static void list_add_feat(const char *name, void *opaque);
-+
-+static void check_unavailable_features(const S390CPUModel *max_model,
-+                                       const S390CPUModel *model,
-+                                       strList **unavailable)
-+{
-+    S390FeatBitmap missing;
-+
-+    /* check general model compatibility */
-+    if (max_model->def->gen < model->def->gen ||
-+        (max_model->def->gen =3D=3D model->def->gen &&
-+         max_model->def->ec_ga < model->def->ec_ga)) {
-+        list_add_feat("type", unavailable);
-+    }
-+
-+    /* detect missing features if any to properly report them */
-+    bitmap_andnot(missing, model->features, max_model->features,
-+                  S390_FEAT_MAX);
-+    if (!bitmap_empty(missing, S390_FEAT_MAX)) {
-+        s390_feat_bitmap_to_ascii(missing, unavailable, list_add_feat);
-+    }
-+}
-+
-+struct CpuDefinitionInfoListData {
-+    CpuDefinitionInfoList *list;
-+    S390CPUModel *model;
-+};
-+
-+static void create_cpu_model_list(ObjectClass *klass, void *opaque)
-+{
-+    struct CpuDefinitionInfoListData *cpu_list_data =3D opaque;
-+    CpuDefinitionInfoList **cpu_list =3D &cpu_list_data->list;
-+    CpuDefinitionInfo *info;
-+    char *name =3D g_strdup(object_class_get_name(klass));
-+    S390CPUClass *scc =3D S390_CPU_CLASS(klass);
-+
-+    /* strip off the -s390x-cpu */
-+    g_strrstr(name, "-" TYPE_S390_CPU)[0] =3D 0;
-+    info =3D g_new0(CpuDefinitionInfo, 1);
-+    info->name =3D name;
-+    info->has_migration_safe =3D true;
-+    info->migration_safe =3D scc->is_migration_safe;
-+    info->q_static =3D scc->is_static;
-+    info->q_typename =3D g_strdup(object_class_get_name(klass));
-+    /* check for unavailable features */
-+    if (cpu_list_data->model) {
-+        Object *obj;
-+        S390CPU *sc;
-+        obj =3D object_new_with_class(klass);
-+        sc =3D S390_CPU(obj);
-+        if (sc->model) {
-+            info->has_unavailable_features =3D true;
-+            check_unavailable_features(cpu_list_data->model, sc->model,
-+                                       &info->unavailable_features);
-+        }
-+        object_unref(obj);
-+    }
-+
-+    QAPI_LIST_PREPEND(*cpu_list, info);
-+}
-+
-+CpuDefinitionInfoList *qmp_query_cpu_definitions(Error **errp)
-+{
-+    struct CpuDefinitionInfoListData list_data =3D {
-+        .list =3D NULL,
-+    };
-+
-+    list_data.model =3D get_max_cpu_model(NULL);
-+
-+    object_class_foreach(create_cpu_model_list, TYPE_S390_CPU, false,
-+                         &list_data);
-+
-+    return list_data.list;
-+}
-+
-+static void cpu_model_from_info(S390CPUModel *model, const CpuModelInfo *i=
-nfo,
-+                                Error **errp)
-+{
-+    Error *err =3D NULL;
-+    const QDict *qdict =3D NULL;
-+    const QDictEntry *e;
-+    Visitor *visitor;
-+    ObjectClass *oc;
-+    S390CPU *cpu;
-+    Object *obj;
-+
-+    if (info->props) {
-+        qdict =3D qobject_to(QDict, info->props);
-+        if (!qdict) {
-+            error_setg(errp, QERR_INVALID_PARAMETER_TYPE, "props", "dict")=
-;
-+            return;
-+        }
-+    }
-+
-+    oc =3D cpu_class_by_name(TYPE_S390_CPU, info->name);
-+    if (!oc) {
-+        error_setg(errp, "The CPU definition \'%s\' is unknown.", info->na=
-me);
-+        return;
-+    }
-+    if (S390_CPU_CLASS(oc)->kvm_required && !kvm_enabled()) {
-+        error_setg(errp, "The CPU definition '%s' requires KVM", info->nam=
-e);
-+        return;
-+    }
-+    obj =3D object_new_with_class(oc);
-+    cpu =3D S390_CPU(obj);
-+
-+    if (!cpu->model) {
-+        error_setg(errp, "Details about the host CPU model are not availab=
-le, "
-+                         "it cannot be used.");
-+        object_unref(obj);
-+        return;
-+    }
-+
-+    if (qdict) {
-+        visitor =3D qobject_input_visitor_new(info->props);
-+        if (!visit_start_struct(visitor, NULL, NULL, 0, errp)) {
-+            visit_free(visitor);
-+            object_unref(obj);
-+            return;
-+        }
-+        for (e =3D qdict_first(qdict); e; e =3D qdict_next(qdict, e)) {
-+            if (!object_property_set(obj, e->key, visitor, &err)) {
-+                break;
-+            }
-+        }
-+        if (!err) {
-+            visit_check_struct(visitor, &err);
-+        }
-+        visit_end_struct(visitor, NULL);
-+        visit_free(visitor);
-+        if (err) {
-+            error_propagate(errp, err);
-+            object_unref(obj);
-+            return;
-+        }
-+    }
-+
-+    /* copy the model and throw the cpu away */
-+    memcpy(model, cpu->model, sizeof(*model));
-+    object_unref(obj);
-+}
-+
-+static void qdict_add_disabled_feat(const char *name, void *opaque)
-+{
-+    qdict_put_bool(opaque, name, false);
-+}
-+
-+static void qdict_add_enabled_feat(const char *name, void *opaque)
-+{
-+    qdict_put_bool(opaque, name, true);
-+}
-+
-+/* convert S390CPUDef into a static CpuModelInfo */
-+static void cpu_info_from_model(CpuModelInfo *info, const S390CPUModel *mo=
-del,
-+                                bool delta_changes)
-+{
-+    QDict *qdict =3D qdict_new();
-+    S390FeatBitmap bitmap;
-+
-+    /* always fallback to the static base model */
-+    info->name =3D g_strdup_printf("%s-base", model->def->name);
-+
-+    if (delta_changes) {
-+        /* features deleted from the base feature set */
-+        bitmap_andnot(bitmap, model->def->base_feat, model->features,
-+                      S390_FEAT_MAX);
-+        if (!bitmap_empty(bitmap, S390_FEAT_MAX)) {
-+            s390_feat_bitmap_to_ascii(bitmap, qdict, qdict_add_disabled_fe=
-at);
-+        }
-+
-+        /* features added to the base feature set */
-+        bitmap_andnot(bitmap, model->features, model->def->base_feat,
-+                      S390_FEAT_MAX);
-+        if (!bitmap_empty(bitmap, S390_FEAT_MAX)) {
-+            s390_feat_bitmap_to_ascii(bitmap, qdict, qdict_add_enabled_fea=
-t);
-+        }
-+    } else {
-+        /* expand all features */
-+        s390_feat_bitmap_to_ascii(model->features, qdict,
-+                                  qdict_add_enabled_feat);
-+        bitmap_complement(bitmap, model->features, S390_FEAT_MAX);
-+        s390_feat_bitmap_to_ascii(bitmap, qdict, qdict_add_disabled_feat);
-+    }
-+
-+    if (!qdict_size(qdict)) {
-+        qobject_unref(qdict);
-+    } else {
-+        info->props =3D QOBJECT(qdict);
-+        info->has_props =3D true;
-+    }
-+}
-+
-+CpuModelExpansionInfo *qmp_query_cpu_model_expansion(CpuModelExpansionType=
- type,
-+                                                      CpuModelInfo *model,
-+                                                      Error **errp)
-+{
-+    Error *err =3D NULL;
-+    CpuModelExpansionInfo *expansion_info =3D NULL;
-+    S390CPUModel s390_model;
-+    bool delta_changes =3D false;
-+
-+    /* convert it to our internal representation */
-+    cpu_model_from_info(&s390_model, model, &err);
-+    if (err) {
-+        error_propagate(errp, err);
-+        return NULL;
-+    }
-+
-+    if (type =3D=3D CPU_MODEL_EXPANSION_TYPE_STATIC) {
-+        delta_changes =3D true;
-+    } else if (type !=3D CPU_MODEL_EXPANSION_TYPE_FULL) {
-+        error_setg(errp, "The requested expansion type is not supported.")=
-;
-+        return NULL;
-+    }
-+
-+    /* convert it back to a static representation */
-+    expansion_info =3D g_new0(CpuModelExpansionInfo, 1);
-+    expansion_info->model =3D g_malloc0(sizeof(*expansion_info->model));
-+    cpu_info_from_model(expansion_info->model, &s390_model, delta_changes)=
-;
-+    return expansion_info;
-+}
-+
-+static void list_add_feat(const char *name, void *opaque)
-+{
-+    strList **last =3D (strList **) opaque;
-+
-+    QAPI_LIST_PREPEND(*last, g_strdup(name));
-+}
-+
-+CpuModelCompareInfo *qmp_query_cpu_model_comparison(CpuModelInfo *infoa,
-+                                                     CpuModelInfo *infob,
-+                                                     Error **errp)
-+{
-+    Error *err =3D NULL;
-+    CpuModelCompareResult feat_result, gen_result;
-+    CpuModelCompareInfo *compare_info;
-+    S390FeatBitmap missing, added;
-+    S390CPUModel modela, modelb;
-+
-+    /* convert both models to our internal representation */
-+    cpu_model_from_info(&modela, infoa, &err);
-+    if (err) {
-+        error_propagate(errp, err);
-+        return NULL;
-+    }
-+    cpu_model_from_info(&modelb, infob, &err);
-+    if (err) {
-+        error_propagate(errp, err);
-+        return NULL;
-+    }
-+    compare_info =3D g_new0(CpuModelCompareInfo, 1);
-+
-+    /* check the cpu generation and ga level */
-+    if (modela.def->gen =3D=3D modelb.def->gen) {
-+        if (modela.def->ec_ga =3D=3D modelb.def->ec_ga) {
-+            /* ec and corresponding bc are identical */
-+            gen_result =3D CPU_MODEL_COMPARE_RESULT_IDENTICAL;
-+        } else if (modela.def->ec_ga < modelb.def->ec_ga) {
-+            gen_result =3D CPU_MODEL_COMPARE_RESULT_SUBSET;
-+        } else {
-+            gen_result =3D CPU_MODEL_COMPARE_RESULT_SUPERSET;
-+        }
-+    } else if (modela.def->gen < modelb.def->gen) {
-+        gen_result =3D CPU_MODEL_COMPARE_RESULT_SUBSET;
-+    } else {
-+        gen_result =3D CPU_MODEL_COMPARE_RESULT_SUPERSET;
-+    }
-+    if (gen_result !=3D CPU_MODEL_COMPARE_RESULT_IDENTICAL) {
-+        /* both models cannot be made identical */
-+        list_add_feat("type", &compare_info->responsible_properties);
-+    }
-+
-+    /* check the feature set */
-+    if (bitmap_equal(modela.features, modelb.features, S390_FEAT_MAX)) {
-+        feat_result =3D CPU_MODEL_COMPARE_RESULT_IDENTICAL;
-+    } else {
-+        bitmap_andnot(missing, modela.features, modelb.features, S390_FEAT=
-_MAX);
-+        s390_feat_bitmap_to_ascii(missing,
-+                                  &compare_info->responsible_properties,
-+                                  list_add_feat);
-+        bitmap_andnot(added, modelb.features, modela.features, S390_FEAT_M=
-AX);
-+        s390_feat_bitmap_to_ascii(added, &compare_info->responsible_proper=
-ties,
-+                                  list_add_feat);
-+        if (bitmap_empty(missing, S390_FEAT_MAX)) {
-+            feat_result =3D CPU_MODEL_COMPARE_RESULT_SUBSET;
-+        } else if (bitmap_empty(added, S390_FEAT_MAX)) {
-+            feat_result =3D CPU_MODEL_COMPARE_RESULT_SUPERSET;
-+        } else {
-+            feat_result =3D CPU_MODEL_COMPARE_RESULT_INCOMPATIBLE;
-+        }
-+    }
-+
-+    /* combine the results */
-+    if (gen_result =3D=3D feat_result) {
-+        compare_info->result =3D gen_result;
-+    } else if (feat_result =3D=3D CPU_MODEL_COMPARE_RESULT_IDENTICAL) {
-+        compare_info->result =3D gen_result;
-+    } else if (gen_result =3D=3D CPU_MODEL_COMPARE_RESULT_IDENTICAL) {
-+        compare_info->result =3D feat_result;
-+    } else {
-+        compare_info->result =3D CPU_MODEL_COMPARE_RESULT_INCOMPATIBLE;
-+    }
-+    return compare_info;
-+}
-+
-+CpuModelBaselineInfo *qmp_query_cpu_model_baseline(CpuModelInfo *infoa,
-+                                                    CpuModelInfo *infob,
-+                                                    Error **errp)
-+{
-+    Error *err =3D NULL;
-+    CpuModelBaselineInfo *baseline_info;
-+    S390CPUModel modela, modelb, model;
-+    uint16_t cpu_type;
-+    uint8_t max_gen_ga;
-+    uint8_t max_gen;
-+
-+    /* convert both models to our internal representation */
-+    cpu_model_from_info(&modela, infoa, &err);
-+    if (err) {
-+        error_propagate(errp, err);
-+        return NULL;
-+    }
-+
-+    cpu_model_from_info(&modelb, infob, &err);
-+    if (err) {
-+        error_propagate(errp, err);
-+        return NULL;
-+    }
-+
-+    /* features both models support */
-+    bitmap_and(model.features, modela.features, modelb.features, S390_FEAT=
-_MAX);
-+
-+    /* detect the maximum model not regarding features */
-+    if (modela.def->gen =3D=3D modelb.def->gen) {
-+        if (modela.def->type =3D=3D modelb.def->type) {
-+            cpu_type =3D modela.def->type;
-+        } else {
-+            cpu_type =3D 0;
-+        }
-+        max_gen =3D modela.def->gen;
-+        max_gen_ga =3D MIN(modela.def->ec_ga, modelb.def->ec_ga);
-+    } else if (modela.def->gen > modelb.def->gen) {
-+        cpu_type =3D modelb.def->type;
-+        max_gen =3D modelb.def->gen;
-+        max_gen_ga =3D modelb.def->ec_ga;
-+    } else {
-+        cpu_type =3D modela.def->type;
-+        max_gen =3D modela.def->gen;
-+        max_gen_ga =3D modela.def->ec_ga;
-+    }
-+
-+    model.def =3D s390_find_cpu_def(cpu_type, max_gen, max_gen_ga,
-+                                  model.features);
-+
-+    /* models without early base features (esan3) are bad */
-+    if (!model.def) {
-+        error_setg(errp, "No compatible CPU model could be created as"
-+                   " important base features are disabled");
-+        return NULL;
-+    }
-+
-+    /* strip off features not part of the max model */
-+    bitmap_and(model.features, model.features, model.def->full_feat,
-+               S390_FEAT_MAX);
-+
-+    baseline_info =3D g_new0(CpuModelBaselineInfo, 1);
-+    baseline_info->model =3D g_malloc0(sizeof(*baseline_info->model));
-+    cpu_info_from_model(baseline_info->model, &model, true);
-+    return baseline_info;
-+}
-+
-+void apply_cpu_model(const S390CPUModel *model, Error **errp)
-+{
-+    Error *err =3D NULL;
-+    static S390CPUModel applied_model;
-+    static bool applied;
-+
-+    /*
-+     * We have the same model for all VCPUs. KVM can only be configured be=
-fore
-+     * any VCPUs are defined in KVM.
-+     */
-+    if (applied) {
-+        if (model && memcmp(&applied_model, model, sizeof(S390CPUModel))) =
-{
-+            error_setg(errp, "Mixed CPU models are not supported on s390x.=
-");
-+        }
-+        return;
-+    }
-+
-+    if (kvm_enabled()) {
-+        kvm_s390_apply_cpu_model(model, &err);
-+        if (err) {
-+            error_propagate(errp, err);
-+            return;
-+        }
-+    }
-+
-+    applied =3D true;
-+    if (model) {
-+        applied_model =3D *model;
-+    }
-+}
-diff --git a/target/s390x/cpu_models_user.c b/target/s390x/cpu_models_user.=
-c
-new file mode 100644
-index 0000000000..df24d12d9e
---- /dev/null
-+++ b/target/s390x/cpu_models_user.c
-@@ -0,0 +1,20 @@
-+/*
-+ * CPU models for s390x - User-mode
-+ *
-+ * Copyright 2016 IBM Corp.
-+ *
-+ * Author(s): David Hildenbrand <dahi@linux.vnet.ibm.com>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or (at
-+ * your option) any later version. See the COPYING file in the top-level
-+ * directory.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "cpu.h"
-+#include "s390x-internal.h"
-+#include "qapi/error.h"
-+
-+void apply_cpu_model(const S390CPUModel *model, Error **errp)
-+{
-+}
-diff --git a/target/s390x/meson.build b/target/s390x/meson.build
-index ec73bed524..84c1402a6a 100644
---- a/target/s390x/meson.build
-+++ b/target/s390x/meson.build
-@@ -28,9 +28,13 @@ s390x_softmmu_ss.add(files(
-   'mmu_helper.c',
-   'sigp.c',
-   'cpu-sysemu.c',
-+  'cpu_models_sysemu.c',
- ))
-=20
- s390x_user_ss =3D ss.source_set()
-+s390x_user_ss.add(files(
-+  'cpu_models_user.c',
-+))
-=20
- subdir('tcg')
- subdir('kvm')
-diff --git a/target/s390x/s390x-internal.h b/target/s390x/s390x-internal.h
-index 171ecd59fb..e4ec5e55bb 100644
---- a/target/s390x/s390x-internal.h
-+++ b/target/s390x/s390x-internal.h
-@@ -265,6 +265,8 @@ static inline void s390_cpu_unhalt(S390CPU *cpu)
- /* cpu_models.c */
- void s390_cpu_model_class_register_props(ObjectClass *oc);
- void s390_realize_cpu_model(CPUState *cs, Error **errp);
-+S390CPUModel *get_max_cpu_model(Error **errp);
-+void apply_cpu_model(const S390CPUModel *model, Error **errp);
- ObjectClass *s390_cpu_class_by_name(const char *name);
-=20
-=20
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 89741cfc19..8578927961 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -293,7 +293,7 @@ S390 TCG CPUs
+ M: Richard Henderson <richard.henderson@linaro.org>
+ M: David Hildenbrand <david@redhat.com>
+ S: Maintained
+-F: target/s390x/
++F: target/s390x/tcg
+ F: hw/s390x/
+ F: disas/s390.c
+ F: tests/tcg/s390x/
+@@ -389,14 +389,12 @@ M: Halil Pasic <pasic@linux.ibm.com>
+ M: Cornelia Huck <cohuck@redhat.com>
+ M: Christian Borntraeger <borntraeger@de.ibm.com>
+ S: Supported
+-F: target/s390x/kvm.c
+-F: target/s390x/kvm_s390x.h
+-F: target/s390x/kvm-stub.c
++F: target/s390x/kvm/
+ F: target/s390x/ioinst.[ch]
+ F: target/s390x/machine.c
+ F: target/s390x/sigp.c
+ F: target/s390x/cpu_features*.[ch]
+-F: target/s390x/cpu_models.[ch]
++F: target/s390x/cpu_models*.[ch]
+ F: hw/s390x/pv.c
+ F: include/hw/s390x/pv.h
+ F: hw/intc/s390_flic.c
 --=20
 2.31.1
 
