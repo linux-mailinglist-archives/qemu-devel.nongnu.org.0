@@ -2,41 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 396BA38F5CA
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 00:47:53 +0200 (CEST)
-Received: from localhost ([::1]:37032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 480C638F5D8
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 00:49:31 +0200 (CEST)
+Received: from localhost ([::1]:43248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llJMW-0004zN-8Y
-	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 18:47:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33408)
+	id 1llJO6-0000oB-AZ
+	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 18:49:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33418)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vivek.kasireddy@intel.com>)
- id 1llJII-0006n0-Cy
- for qemu-devel@nongnu.org; Mon, 24 May 2021 18:43:30 -0400
-Received: from mga05.intel.com ([192.55.52.43]:11755)
+ id 1llJIJ-0006ow-Ge
+ for qemu-devel@nongnu.org; Mon, 24 May 2021 18:43:31 -0400
+Received: from mga05.intel.com ([192.55.52.43]:11770)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vivek.kasireddy@intel.com>)
- id 1llJIF-0006he-Lo
- for qemu-devel@nongnu.org; Mon, 24 May 2021 18:43:30 -0400
-IronPort-SDR: r0TtxfnT6d/v1qQqDvQX5x/rQvjdJOsz129+K34UDJ/eqRhh9ywOpD7zMwTrqjR8zy9PJJcaao
- WDvZBkbWFWsw==
-X-IronPort-AV: E=McAfee;i="6200,9189,9994"; a="287620898"
-X-IronPort-AV: E=Sophos;i="5.82,327,1613462400"; d="scan'208";a="287620898"
+ id 1llJIH-0006mt-Ow
+ for qemu-devel@nongnu.org; Mon, 24 May 2021 18:43:31 -0400
+IronPort-SDR: uA9Ycnpj2I2SMoxn7/wWH7twK5qWHf7KOzmKhpQx5gKtpyDr3tBL0XKTzBwL5Epn3i9ZGajEta
+ 1WG66zXCJxpQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,9994"; a="287620899"
+X-IronPort-AV: E=Sophos;i="5.82,327,1613462400"; d="scan'208";a="287620899"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  24 May 2021 15:43:17 -0700
-IronPort-SDR: 3293xso1Hw5pRsqS4Ctji5A91C7qF6QMx7ALShJLRkn+RBNDcC2JCJH9elZp8yh5ufHAB8BlwN
- jYK4rZ7LzedQ==
-X-IronPort-AV: E=Sophos;i="5.82,327,1613462400"; d="scan'208";a="546246741"
+IronPort-SDR: AmDJVwP1xEKce4cUgn9yqJxWDZE7TXAMa7s60F4VOVgxbb9WnDk5ckk92mS9b9LSSnEAX8jnK4
+ mCVjcgPhwwYw==
+X-IronPort-AV: E=Sophos;i="5.82,327,1613462400"; d="scan'208";a="546246744"
 Received: from vkasired-desk2.fm.intel.com ([10.105.128.127])
  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  24 May 2021 15:43:17 -0700
 From: Vivek Kasireddy <vivek.kasireddy@intel.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 01/13] ui: Get the fd associated with udmabuf driver
-Date: Mon, 24 May 2021 15:30:51 -0700
-Message-Id: <20210524223103.922910-2-vivek.kasireddy@intel.com>
+Subject: [PATCH v6 02/13] headers: Add udmabuf.h
+Date: Mon, 24 May 2021 15:30:52 -0700
+Message-Id: <20210524223103.922910-3-vivek.kasireddy@intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210524223103.922910-1-vivek.kasireddy@intel.com>
 References: <20210524223103.922910-1-vivek.kasireddy@intel.com>
@@ -66,89 +66,85 @@ Cc: Vivek Kasireddy <vivek.kasireddy@intel.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Try to open the udmabuf dev node for the first time or return the
-fd if the device was previously opened.
+This adds udmabuf header to standard headers so that the
+relevant udmabuf objects can be accessed in subsequent
+patches.
 
 Based-on-patch-by: Gerd Hoffmann <kraxel@redhat.com>
 Cc: Gerd Hoffmann <kraxel@redhat.com>
 Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
 ---
- include/ui/console.h |  3 +++
- ui/meson.build       |  1 +
- ui/udmabuf.c         | 40 ++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 44 insertions(+)
- create mode 100644 ui/udmabuf.c
+ include/standard-headers/linux/udmabuf.h | 32 ++++++++++++++++++++++++
+ scripts/update-linux-headers.sh          |  3 +++
+ 2 files changed, 35 insertions(+)
+ create mode 100644 include/standard-headers/linux/udmabuf.h
 
-diff --git a/include/ui/console.h b/include/ui/console.h
-index ca3c7af6a6..b30b63976a 100644
---- a/include/ui/console.h
-+++ b/include/ui/console.h
-@@ -471,4 +471,7 @@ bool vnc_display_reload_certs(const char *id,  Error **errp);
- /* input.c */
- int index_from_key(const char *key, size_t key_length);
- 
-+/* udmabuf.c */
-+int udmabuf_fd(void);
-+
- #endif
-diff --git a/ui/meson.build b/ui/meson.build
-index b5aed14886..a3a187d633 100644
---- a/ui/meson.build
-+++ b/ui/meson.build
-@@ -12,6 +12,7 @@ softmmu_ss.add(files(
-   'kbd-state.c',
-   'keymaps.c',
-   'qemu-pixman.c',
-+  'udmabuf.c',
- ))
- softmmu_ss.add([spice_headers, files('spice-module.c')])
- softmmu_ss.add(when: spice_protocol, if_true: files('vdagent.c'))
-diff --git a/ui/udmabuf.c b/ui/udmabuf.c
+diff --git a/include/standard-headers/linux/udmabuf.h b/include/standard-headers/linux/udmabuf.h
 new file mode 100644
-index 0000000000..e6234fd86f
+index 0000000000..e19eb5b5ce
 --- /dev/null
-+++ b/ui/udmabuf.c
-@@ -0,0 +1,40 @@
-+/*
-+ * udmabuf helper functions.
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
-+#include "qemu/osdep.h"
-+#include "qapi/error.h"
-+#include "ui/console.h"
++++ b/include/standard-headers/linux/udmabuf.h
+@@ -0,0 +1,32 @@
++/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
++#ifndef _LINUX_UDMABUF_H
++#define _LINUX_UDMABUF_H
 +
-+#ifdef CONFIG_LINUX
++#include "standard-headers/linux/types.h"
 +
-+#include <sys/fcntl.h>
-+#include <sys/ioctl.h>
++#define UDMABUF_FLAGS_CLOEXEC	0x01
 +
-+int udmabuf_fd(void)
-+{
-+    static bool first = true;
-+    static int udmabuf;
++struct udmabuf_create {
++	uint32_t memfd;
++	uint32_t flags;
++	uint64_t offset;
++	uint64_t size;
++};
 +
-+    if (!first) {
-+        return udmabuf;
-+    }
-+    first = false;
++struct udmabuf_create_item {
++	uint32_t memfd;
++	uint32_t __pad;
++	uint64_t offset;
++	uint64_t size;
++};
 +
-+    udmabuf = open("/dev/udmabuf", O_RDWR);
-+    if (udmabuf < 0) {
-+        warn_report("open /dev/udmabuf: %s", strerror(errno));
-+    }
-+    return udmabuf;
-+}
++struct udmabuf_create_list {
++	uint32_t flags;
++	uint32_t count;
++	struct udmabuf_create_item list[];
++};
 +
-+#else
++#define UDMABUF_CREATE       _IOW('u', 0x42, struct udmabuf_create)
++#define UDMABUF_CREATE_LIST  _IOW('u', 0x43, struct udmabuf_create_list)
 +
-+int udmabuf_fd(void)
-+{
-+    return -1;
-+}
-+
-+#endif
++#endif /* _LINUX_UDMABUF_H */
+diff --git a/scripts/update-linux-headers.sh b/scripts/update-linux-headers.sh
+index 1050e36169..fea4d6eb65 100755
+--- a/scripts/update-linux-headers.sh
++++ b/scripts/update-linux-headers.sh
+@@ -34,6 +34,7 @@ cp_portable() {
+     if
+         grep '#include' "$f" | grep -v -e 'linux/virtio' \
+                                      -e 'linux/types' \
++                                     -e 'linux/ioctl' \
+                                      -e 'stdint' \
+                                      -e 'linux/if_ether' \
+                                      -e 'input-event-codes' \
+@@ -66,6 +67,7 @@ cp_portable() {
+         -e 's/__BITS_PER_LONG/HOST_LONG_BITS/' \
+         -e '/\"drm.h\"/d' \
+         -e '/sys\/ioctl.h/d' \
++        -e '/linux\/ioctl.h/d' \
+         -e 's/SW_MAX/SW_MAX_/' \
+         -e 's/atomic_t/int/' \
+         -e 's/__kernel_long_t/long/' \
+@@ -190,6 +192,7 @@ for i in "$tmpdir"/include/linux/*virtio*.h \
+          "$tmpdir/include/linux/fuse.h" \
+          "$tmpdir/include/linux/input.h" \
+          "$tmpdir/include/linux/input-event-codes.h" \
++         "$tmpdir/include/linux/udmabuf.h" \
+          "$tmpdir/include/linux/pci_regs.h" \
+          "$tmpdir/include/linux/ethtool.h" \
+          "$tmpdir/include/linux/const.h" \
 -- 
 2.30.2
 
