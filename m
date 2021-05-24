@@ -2,63 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 030B038E082
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 06:56:50 +0200 (CEST)
-Received: from localhost ([::1]:52100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73B6338E083
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 06:56:51 +0200 (CEST)
+Received: from localhost ([::1]:52266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ll2e0-0004ge-PH
-	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 00:56:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35710)
+	id 1ll2e2-0004oG-Ih
+	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 00:56:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35718)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yamamoto@midokura.com>)
- id 1ll2cS-0002iM-3r
+ id 1ll2cS-0002iP-9b
  for qemu-devel@nongnu.org; Mon, 24 May 2021 00:55:12 -0400
-Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b]:43582)
+Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430]:41974)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <yamamoto@midokura.com>)
- id 1ll2cP-0003YA-4b
- for qemu-devel@nongnu.org; Mon, 24 May 2021 00:55:11 -0400
-Received: by mail-pg1-x52b.google.com with SMTP id e22so3472750pgv.10
- for <qemu-devel@nongnu.org>; Sun, 23 May 2021 21:55:08 -0700 (PDT)
+ id 1ll2cQ-0003Zk-3Y
+ for qemu-devel@nongnu.org; Mon, 24 May 2021 00:55:12 -0400
+Received: by mail-pf1-x430.google.com with SMTP id p39so3503503pfw.8
+ for <qemu-devel@nongnu.org>; Sun, 23 May 2021 21:55:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=midokura.com; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=5ggcSBjM8B863IRCW7w9HFTOBojw96EaZyuQ49pMmGw=;
- b=F5deTNDY+gmmNuFo9s2I/DG+/xTIlsokTVVAh+KSBDvcyTSew+oV4xxS8bDvgMSXV5
- qzPKGOj29LFO7EcCHlEptKCPPZVb0j2hrXjj8wxsP06ueuRE/NoCp21iZlBhDpLUcl3y
- NZy2a9DEUiqlXZyUZnxqVwWYDaCzFAYgVqDBM=
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=OeAn/cQqWx3M6p6wyRkeBhZn1UMAlrViv39KO/QNygU=;
+ b=dYQOvLaFs4ra50N8xknUtPMsdJq6p4/AH1KSVKlJFzYJDwFMsDfrOK7GUpv2X2lrnf
+ FDmUYCJkMBFUlxjkMY8FnhsLNAqQCaRBUdtmV+p/criLKxqFjoiX3k1Prg7ITfiXtOWs
+ ftlLA8zboj1QsRtlV4YOs0f8qj7hy7VvJEg+Q=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=5ggcSBjM8B863IRCW7w9HFTOBojw96EaZyuQ49pMmGw=;
- b=OSzC4X3V9X3IFUScgICQhuL7z1AY784nS5QNtC3AqM7F5jd0/NA8iGAyTyayXspRTa
- 5pvRkGusDeyLDX1jLDryx6Bk6ByHcZ8IlD03D5OePbQIS3PLAVtqgYdGgF8wk1uxHoWT
- Q7yN+psjlqpJAPWEJ0BWd56b24ogjtkdixlKy0V4nZcH5XcixMzyOlW0DkDfOahYGTIz
- R88EwAv6jkYGUaj8BXoxinNamYDP93fhWALn1iODEo316wwzGRixpHn0PvIpbfw8TNIr
- JUd31UahzzD0RzCDu0KEnEYVAiGDOz3dsMQkicQGp2utD/D38OlMEjatPz4iX280X3Tm
- zWqg==
-X-Gm-Message-State: AOAM533z62figF/OXHKxeYLtCVKvblauRIS9M3gEV2yGiTV1ZnhdYGv3
- 2qanswtv2y/PCvRcnmh71z5XdxSJT+alJQ==
-X-Google-Smtp-Source: ABdhPJzdWhEF1qx0inMeVXfaPZRl/wvEsT8X19RyRxVbnF7iNTGoxpo4i2iv1/MSykaS1vHrXC1+dA==
-X-Received: by 2002:a63:fd17:: with SMTP id d23mr11830121pgh.68.1621832106885; 
- Sun, 23 May 2021 21:55:06 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=OeAn/cQqWx3M6p6wyRkeBhZn1UMAlrViv39KO/QNygU=;
+ b=SwKEMaZyVjzfo4CgP830n2zGVJu3s66I3Fz8R7P6uAozdQa+zmf0WmK7hF6KtYVZIJ
+ ELyHqamL//qEHVmRfxU/AWKbjlW1HSAJ5LjcvuPC+rGGHix3+0wTvPMHvlX8Fo7rHD2f
+ PMHIBgg6NE7QVVHwAflD9xvaYrTSznD7/V8QLlaC2Xp9GI2Jtq9U+O5l3Onk3Ke3MWJ1
+ 7yMrKczZtiZFZ9MT/zje1I0YLtAUZAZ4ZIsSUc5SyR6jWmDhQ5UBfXFkiJhpLm6T2+oM
+ VBfusJLRLuoZ9ReLOl4xkhHWdWL9eukJjfewVD2o/3SzE2sUCn50Y7Sjt1Y+kQTD3MA5
+ 47KQ==
+X-Gm-Message-State: AOAM530NI2Vvuf5wlNLK+koj2C1cG+IfrcHLJUqpaLeAx3VAExPBxQgr
+ aD9qjjY4JUgsmLCRwVEiym1uPhqNjTGuMg==
+X-Google-Smtp-Source: ABdhPJxckaOYC02JcZo46MIgafsS8Lao7RgcHh7zLQEUW6ncoRImWWiQDN4q4vJkDpDeLaJLQq1tmg==
+X-Received: by 2002:a62:c541:0:b029:2e8:c7c7:d96e with SMTP id
+ j62-20020a62c5410000b02902e8c7c7d96emr4775272pfg.26.1621832108727; 
+ Sun, 23 May 2021 21:55:08 -0700 (PDT)
 Received: from spacetanuki.lan ([202.12.244.32])
- by smtp.gmail.com with ESMTPSA id 24sm10040142pgz.77.2021.05.23.21.55.05
+ by smtp.gmail.com with ESMTPSA id 24sm10040142pgz.77.2021.05.23.21.55.07
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Sun, 23 May 2021 21:55:06 -0700 (PDT)
+ Sun, 23 May 2021 21:55:08 -0700 (PDT)
 From: YAMAMOTO Takashi <yamamoto@midokura.com>
 To: qemu-devel@nongnu.org
-Cc: YAMAMOTO Takashi <yamamoto@midokura.com>
-Subject: [PATCH 0/5] linux-user changes to run docker
-Date: Mon, 24 May 2021 13:54:06 +0900
-Message-Id: <20210524045412.15152-1-yamamoto@midokura.com>
+Cc: YAMAMOTO Takashi <yamamoto@midokura.com>,
+ Laurent Vivier <laurent@vivier.eu>
+Subject: [PATCH 1/5] linux-user: handle /proc/self/exe for execve
+Date: Mon, 24 May 2021 13:54:07 +0900
+Message-Id: <20210524045412.15152-2-yamamoto@midokura.com>
 X-Mailer: git-send-email 2.21.1 (Apple Git-122.3)
+In-Reply-To: <20210524045412.15152-1-yamamoto@midokura.com>
+References: <20210524045412.15152-1-yamamoto@midokura.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
- envelope-from=yamamoto@midokura.com; helo=mail-pg1-x52b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
+ envelope-from=yamamoto@midokura.com; helo=mail-pf1-x430.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -81,27 +85,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These patches, along with a few more hacks [1] I didn't include
-in this patchset, allowed me to run arm64 and armv7 version of
-dind image on amd64.
+It seems somehow common to execve /proc/self/exe in docker
+or golang community these days.
+At least, moby "reexec" and runc "libcontainer" do that.
 
-[1] https://github.com/yamt/qemu/tree/linux-user-for-docker
+Signed-off-by: YAMAMOTO Takashi <yamamoto@midokura.com>
+---
+ linux-user/syscall.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-You can find my test setup here:
-https://github.com/yamt/garbage/tree/master/binfmt-aarch64-install
-
-YAMAMOTO Takashi (5):
-  linux-user: handle /proc/self/exe for execve
-  linux-uesr: make exec_path realpath
-  linux-user: Fix the execfd case of /proc/self/exe open
-  linux-user: dup the execfd on start up
-  linux-user: Implement pivot_root
-
- linux-user/main.c    | 14 +++++++++++++-
- linux-user/qemu.h    |  2 ++
- linux-user/syscall.c | 43 ++++++++++++++++++++++++++++++++++++++++---
- 3 files changed, 55 insertions(+), 4 deletions(-)
-
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index c9f812091c..a2b03ecb8b 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -8470,6 +8470,7 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+ #endif
+     case TARGET_NR_execve:
+         {
++            const char *path;
+             char **argp, **envp;
+             int argc, envc;
+             abi_ulong gp;
+@@ -8537,7 +8538,11 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+              * before the execve completes and makes it the other
+              * program's problem.
+              */
+-            ret = get_errno(safe_execve(p, argp, envp));
++            path = p;
++            if (is_proc_myself(path, "exe")) {
++                path = exec_path;
++            }
++            ret = get_errno(safe_execve(path, argp, envp));
+             unlock_user(p, arg1, 0);
+ 
+             goto execve_end;
 -- 
 2.21.1 (Apple Git-122.3)
 
