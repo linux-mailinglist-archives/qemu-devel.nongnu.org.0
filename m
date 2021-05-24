@@ -2,42 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B912338DFB0
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 05:10:02 +0200 (CEST)
-Received: from localhost ([::1]:51546 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37E5038DF8C
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 05:08:23 +0200 (CEST)
+Received: from localhost ([::1]:45190 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ll0yf-00036z-Q5
-	for lists+qemu-devel@lfdr.de; Sun, 23 May 2021 23:10:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48034)
+	id 1ll0x4-0007KH-1W
+	for lists+qemu-devel@lfdr.de; Sun, 23 May 2021 23:08:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48012)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1ll0sc-0008H9-94; Sun, 23 May 2021 23:03:46 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:49417 helo=ozlabs.org)
+ id 1ll0sa-0008Fy-SM; Sun, 23 May 2021 23:03:45 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:32943 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1ll0sY-0000hb-73; Sun, 23 May 2021 23:03:46 -0400
+ id 1ll0sY-0000hf-6U; Sun, 23 May 2021 23:03:44 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4FpMV46kfzz9sWB; Mon, 24 May 2021 13:03:24 +1000 (AEST)
+ id 4FpMV45rqkz9sW5; Mon, 24 May 2021 13:03:24 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1621825404;
- bh=EWG6VnHKMmw6lbifefaIPWq6Ia15mrJba3PAw4XGWeU=;
+ bh=Oo+QP1LnRJDzjc+uVmnSf04EPBK5l0qf+KxSdSo8omg=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Yni0U5ybxEw7oNic5rgdLc1YnZrGbyvMKS/7jMbWaewARmSYJ1c7EeGPLdCBaCpAV
- C9/RsKYFXiHZ/6VHlP60WEhVvKiBj+cwzNxfuASDbMFPUsltbv+0BKa7abIfP+SPIf
- GytOvkMQGzA8PM/rXiCdXN0Uqoxd7F9PeeE5XnN4=
-Date: Mon, 24 May 2021 12:57:53 +1000
+ b=OgVYe4xk68aod7SHPl+8JI8iraQHB/OKg2dxnB9Q/Femt+cd8ccmkJXf/1jsXTy2p
+ z+Kh98NsvNPZqgR510eW5Zu4DRD2zd3kTLKXiXiWUgSMZmpSxZgQ5+tHa6jZT36bHS
+ 2fvY+bHoQGQDtAMXZHiSZG2RfKeBn4CvpeeoLTKs=
+Date: Mon, 24 May 2021 13:01:35 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
 To: "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br>
-Subject: Re: [PATCH v3 6/9] target/ppc: moved ppc_cpu_do_interrupt to cpu.c
-Message-ID: <YKsWMUM5+LY68Am6@yekko>
+Subject: Re: [PATCH v3 7/9] target/ppc: Added options to disable many
+ TCG-only functions
+Message-ID: <YKsXD2FH2tsSKoYS@yekko>
 References: <20210521201759.85475-1-bruno.larsen@eldorado.org.br>
- <20210521201759.85475-7-bruno.larsen@eldorado.org.br>
+ <20210521201759.85475-8-bruno.larsen@eldorado.org.br>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="VDU3wYoGd3ycM3x1"
+ protocol="application/pgp-signature"; boundary="dgKShoGWdU1tCuXF"
 Content-Disposition: inline
-In-Reply-To: <20210521201759.85475-7-bruno.larsen@eldorado.org.br>
+In-Reply-To: <20210521201759.85475-8-bruno.larsen@eldorado.org.br>
 Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
@@ -65,117 +66,445 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---VDU3wYoGd3ycM3x1
+--dgKShoGWdU1tCuXF
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, May 21, 2021 at 05:17:56PM -0300, Bruno Larsen (billionai) wrote:
-> Moved the ppc_cpu_do_interrupt function to cpu.c file, where it makes
-> more sense, and turned powerpc_excp not static, as it now needs to be
-> accessed from outside of excp_helper.c
+On Fri, May 21, 2021 at 05:17:57PM -0300, Bruno Larsen (billionai) wrote:
+> Wrapped some function calls in cpu_init.c, gdbstub.c, mmu-hash64.c,
+> mmu_helper.c and excp_helper.c that were TCG only with ifdef
+> CONFIG_TCG,
+> to support building without TCG.
 >=20
-> Signed-off-by: Bruno Larsen (billionai)
-> <bruno.larsen@eldorado.org.br>
-
-Looks ok to me, but I'd like to get a review from Richard before applying.
-
+> for excp_helper we also moved the function do_rfi higher in the file to
+> reduce the ifdef count.
+>=20
+> For cpu_init.c, we will also create stubs for ppc_*_opcodes, to make the
+> ifdef hell a little smaller, and have hid part of the spr_registration
+> logic into the macro that can make the TCG part disappear.
+>=20
+> Signed-off-by: Bruno Larsen (billionai) <bruno.larsen@eldorado.org.br>
 > ---
->  target/ppc/cpu.c         | 20 ++++++++++++++++++++
->  target/ppc/cpu.h         |  1 +
->  target/ppc/excp_helper.c | 19 +------------------
->  3 files changed, 22 insertions(+), 18 deletions(-)
+>  target/ppc/cpu_init.c    | 11 +++---
+>  target/ppc/excp_helper.c | 85 +++++++++++++++++++++++-----------------
+>  target/ppc/mmu-hash64.c  | 11 +++++-
+>  target/ppc/mmu_helper.c  | 16 +++++++-
+>  4 files changed, 78 insertions(+), 45 deletions(-)
 >=20
-> diff --git a/target/ppc/cpu.c b/target/ppc/cpu.c
-> index 19d67b5b07..95898f348b 100644
-> --- a/target/ppc/cpu.c
-> +++ b/target/ppc/cpu.c
-> @@ -152,3 +152,23 @@ void ppc_store_fpscr(CPUPPCState *env, target_ulong =
-val)
->          fpscr_set_rounding_mode(env);
+> diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
+> index b696469d1a..f5ae2f150d 100644
+> --- a/target/ppc/cpu_init.c
+> +++ b/target/ppc/cpu_init.c
+> @@ -1205,15 +1205,12 @@ static void register_BookE206_sprs(CPUPPCState *e=
+nv, uint32_t mas_mask,
+>      /* TLB assist registers */
+>      /* XXX : not implemented */
+>      for (i =3D 0; i < 8; i++) {
+> -        void (*uea_write)(DisasContext *ctx, int sprn, int gprn) =3D
+> -            &spr_write_generic32;
+> -        if (i =3D=3D 2 && (mas_mask & (1 << i)) && (env->insns_flags & P=
+PC_64B)) {
+> -            uea_write =3D &spr_write_generic;
+> -        }
+>          if (mas_mask & (1 << i)) {
+>              spr_register(env, mas_sprn[i], mas_names[i],
+>                           SPR_NOACCESS, SPR_NOACCESS,
+> -                         &spr_read_generic, uea_write,
+> +                         &spr_read_generic,
+> +                         (i =3D=3D 2 && (env->insns_flags & PPC_64B))
+> +                         ? &spr_write_generic : &spr_write_generic32,
+
+
+I'd prefer to see this change as a separate patch, since it's not just
+adding an ifdef.
+
+>                           0x00000000);
+>          }
 >      }
->  }
-> +
-> +/* Exception processing */
-> +#if defined(CONFIG_USER_ONLY)
-> +void ppc_cpu_do_interrupt(CPUState *cs)
-> +{
-> +    PowerPCCPU *cpu =3D POWERPC_CPU(cs);
-> +    CPUPPCState *env =3D &cpu->env;
-> +
-> +    cs->exception_index =3D POWERPC_EXCP_NONE;
-> +    env->error_code =3D 0;
-> +}
-> +#else
-> +void ppc_cpu_do_interrupt(CPUState *cs)
-> +{
-> +    PowerPCCPU *cpu =3D POWERPC_CPU(cs);
-> +    CPUPPCState *env =3D &cpu->env;
-> +
-> +    powerpc_excp(cpu, env->excp_model, cs->exception_index);
-> +}
+> @@ -9253,7 +9250,9 @@ static void ppc_cpu_class_init(ObjectClass *oc, voi=
+d *data)
+>      cc->class_by_name =3D ppc_cpu_class_by_name;
+>      cc->has_work =3D ppc_cpu_has_work;
+>      cc->dump_state =3D ppc_cpu_dump_state;
+> +#ifdef CONFIG_TCG
+>      cc->dump_statistics =3D ppc_cpu_dump_statistics;
 > +#endif
-> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-> index 203f07e48e..65a08cc424 100644
-> --- a/target/ppc/cpu.h
-> +++ b/target/ppc/cpu.h
-> @@ -1254,6 +1254,7 @@ DECLARE_OBJ_CHECKERS(PPCVirtualHypervisor, PPCVirtu=
-alHypervisorClass,
->  #endif /* CONFIG_USER_ONLY */
-> =20
->  void ppc_cpu_do_interrupt(CPUState *cpu);
-> +void powerpc_excp(PowerPCCPU *cpu, int excp_model, int excp);
->  bool ppc_cpu_exec_interrupt(CPUState *cpu, int int_req);
->  void ppc_cpu_dump_state(CPUState *cpu, FILE *f, int flags);
->  void ppc_cpu_dump_statistics(CPUState *cpu, int flags);
+>      cc->set_pc =3D ppc_cpu_set_pc;
+>      cc->gdb_read_register =3D ppc_cpu_gdb_read_register;
+>      cc->gdb_write_register =3D ppc_cpu_gdb_write_register;
 > diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-> index f4f15279eb..80bb6e70e9 100644
+> index 80bb6e70e9..e20f38ebe2 100644
 > --- a/target/ppc/excp_helper.c
 > +++ b/target/ppc/excp_helper.c
-> @@ -38,15 +38,6 @@
->  /***********************************************************************=
-******/
->  /* Exception processing */
->  #if defined(CONFIG_USER_ONLY)
-> -void ppc_cpu_do_interrupt(CPUState *cs)
-> -{
-> -    PowerPCCPU *cpu =3D POWERPC_CPU(cs);
-> -    CPUPPCState *env =3D &cpu->env;
-> -
-> -    cs->exception_index =3D POWERPC_EXCP_NONE;
-> -    env->error_code =3D 0;
-> -}
-> -
->  static void ppc_hw_interrupt(CPUPPCState *env)
->  {
->      CPUState *cs =3D env_cpu(env);
-> @@ -324,7 +315,7 @@ static inline void powerpc_set_excp_state(PowerPCCPU =
-*cpu,
->   * Note that this function should be greatly optimized when called
->   * with a constant excp, from ppc_hw_interrupt
->   */
-> -static inline void powerpc_excp(PowerPCCPU *cpu, int excp_model, int exc=
-p)
-> +inline void powerpc_excp(PowerPCCPU *cpu, int excp_model, int excp)
->  {
->      CPUState *cs =3D CPU(cpu);
->      CPUPPCState *env =3D &cpu->env;
-> @@ -968,14 +959,6 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int=
- excp_model, int excp)
->      powerpc_set_excp_state(cpu, vector, new_msr);
+> @@ -19,12 +19,15 @@
+>  #include "qemu/osdep.h"
+>  #include "qemu/main-loop.h"
+>  #include "cpu.h"
+> -#include "exec/helper-proto.h"
+>  #include "exec/exec-all.h"
+> -#include "exec/cpu_ldst.h"
+>  #include "internal.h"
+>  #include "helper_regs.h"
+> =20
+> +#ifdef CONFIG_TCG
+> +#include "exec/helper-proto.h"
+> +#include "exec/cpu_ldst.h"
+> +#endif
+> +
+>  /* #define DEBUG_OP */
+>  /* #define DEBUG_SOFTWARE_TLB */
+>  /* #define DEBUG_EXCEPTIONS */
+> @@ -1191,6 +1194,7 @@ void raise_exception_ra(CPUPPCState *env, uint32_t =
+exception,
+>      raise_exception_err_ra(env, exception, 0, raddr);
 >  }
 > =20
-> -void ppc_cpu_do_interrupt(CPUState *cs)
+> +#ifdef CONFIG_TCG
+>  void helper_raise_exception_err(CPUPPCState *env, uint32_t exception,
+>                                  uint32_t error_code)
+>  {
+> @@ -1201,8 +1205,43 @@ void helper_raise_exception(CPUPPCState *env, uint=
+32_t exception)
+>  {
+>      raise_exception_err_ra(env, exception, 0, 0);
+>  }
+> +#endif
+> =20
+>  #if !defined(CONFIG_USER_ONLY)
+> +static inline void do_rfi(CPUPPCState *env, target_ulong nip, target_ulo=
+ng msr)
+> +{
+> +    CPUState *cs =3D env_cpu(env);
+> +
+
+IIUC this code motion is to reduce the number of ifdef blocks you
+need.  I'm actually inclined to leave this chunk in place, even though
+it means an extra ifdef block, just to make it clearer what's going on
+in the diff.
+
+We could do the code motion to clean up as an additional patch (either
+before or after would be fine, as would just not bothering for now).
+
+> +    /* MSR:POW cannot be set by any form of rfi */
+> +    msr &=3D ~(1ULL << MSR_POW);
+> +
+> +#if defined(TARGET_PPC64)
+> +    /* Switching to 32-bit ? Crop the nip */
+> +    if (!msr_is_64bit(env, msr)) {
+> +        nip =3D (uint32_t)nip;
+> +    }
+> +#else
+> +    nip =3D (uint32_t)nip;
+> +#endif
+> +    /* XXX: beware: this is false if VLE is supported */
+> +    env->nip =3D nip & ~((target_ulong)0x00000003);
+> +    hreg_store_msr(env, msr, 1);
+> +#if defined(DEBUG_OP)
+> +    cpu_dump_rfi(env->nip, env->msr);
+> +#endif
+> +    /*
+> +     * No need to raise an exception here, as rfi is always the last
+> +     * insn of a TB
+> +     */
+> +    cpu_interrupt_exittb(cs);
+> +    /* Reset the reservation */
+> +    env->reserve_addr =3D -1;
+> +
+> +    /* Context synchronizing: check if TCG TLB needs flush */
+> +    check_tlb_flush(env, false);
+> +}
+> +
+> +#ifdef CONFIG_TCG
+>  void helper_store_msr(CPUPPCState *env, target_ulong val)
+>  {
+>      uint32_t excp =3D hreg_store_msr(env, val, 0);
+> @@ -1243,39 +1282,6 @@ void helper_pminsn(CPUPPCState *env, powerpc_pm_in=
+sn_t insn)
+>  }
+>  #endif /* defined(TARGET_PPC64) */
+> =20
+> -static inline void do_rfi(CPUPPCState *env, target_ulong nip, target_ulo=
+ng msr)
 > -{
-> -    PowerPCCPU *cpu =3D POWERPC_CPU(cs);
-> -    CPUPPCState *env =3D &cpu->env;
+> -    CPUState *cs =3D env_cpu(env);
 > -
-> -    powerpc_excp(cpu, env->excp_model, cs->exception_index);
+> -    /* MSR:POW cannot be set by any form of rfi */
+> -    msr &=3D ~(1ULL << MSR_POW);
+> -
+> -#if defined(TARGET_PPC64)
+> -    /* Switching to 32-bit ? Crop the nip */
+> -    if (!msr_is_64bit(env, msr)) {
+> -        nip =3D (uint32_t)nip;
+> -    }
+> -#else
+> -    nip =3D (uint32_t)nip;
+> -#endif
+> -    /* XXX: beware: this is false if VLE is supported */
+> -    env->nip =3D nip & ~((target_ulong)0x00000003);
+> -    hreg_store_msr(env, msr, 1);
+> -#if defined(DEBUG_OP)
+> -    cpu_dump_rfi(env->nip, env->msr);
+> -#endif
+> -    /*
+> -     * No need to raise an exception here, as rfi is always the last
+> -     * insn of a TB
+> -     */
+> -    cpu_interrupt_exittb(cs);
+> -    /* Reset the reservation */
+> -    env->reserve_addr =3D -1;
+> -
+> -    /* Context synchronizing: check if TCG TLB needs flush */
+> -    check_tlb_flush(env, false);
 > -}
 > -
->  static void ppc_hw_interrupt(CPUPPCState *env)
+>  void helper_rfi(CPUPPCState *env)
+>  {
+>      do_rfi(env, env->spr[SPR_SRR0], env->spr[SPR_SRR1] & 0xfffffffful);
+> @@ -1328,8 +1334,10 @@ void helper_rfmci(CPUPPCState *env)
+>      /* FIXME: choose CSRR1 or MCSRR1 based on cpu type */
+>      do_rfi(env, env->spr[SPR_BOOKE_MCSRR0], env->spr[SPR_BOOKE_MCSRR1]);
+>  }
+> -#endif
+> +#endif /* CONFIG_TCG */
+> +#endif /* !defined(CONFIG_USER_ONLY) */
+> =20
+> +#ifdef CONFIG_TCG
+>  void helper_tw(CPUPPCState *env, target_ulong arg1, target_ulong arg2,
+>                 uint32_t flags)
+>  {
+> @@ -1357,11 +1365,13 @@ void helper_td(CPUPPCState *env, target_ulong arg=
+1, target_ulong arg2,
+>      }
+>  }
+>  #endif
+> +#endif
+> =20
+>  #if !defined(CONFIG_USER_ONLY)
+>  /***********************************************************************=
+******/
+>  /* PowerPC 601 specific instructions (POWER bridge) */
+> =20
+> +#ifdef CONFIG_TCG
+>  void helper_rfsvc(CPUPPCState *env)
+>  {
+>      do_rfi(env, env->lr, env->ctr & 0x0000FFFF);
+> @@ -1506,8 +1516,10 @@ void helper_book3s_msgsndp(CPUPPCState *env, targe=
+t_ulong rb)
+>      book3s_msgsnd_common(pir, PPC_INTERRUPT_DOORBELL);
+>  }
+>  #endif
+> +#endif /* CONFIG_TCG */
+>  #endif
+> =20
+> +#ifdef CONFIG_TCG
+>  void ppc_cpu_do_unaligned_access(CPUState *cs, vaddr vaddr,
+>                                   MMUAccessType access_type,
+>                                   int mmu_idx, uintptr_t retaddr)
+> @@ -1523,3 +1535,4 @@ void ppc_cpu_do_unaligned_access(CPUState *cs, vadd=
+r vaddr,
+>      env->error_code =3D insn & 0x03FF0000;
+>      cpu_loop_exit(cs);
+>  }
+> +#endif
+> diff --git a/target/ppc/mmu-hash64.c b/target/ppc/mmu-hash64.c
+> index ce0068590f..c1b98a97e9 100644
+> --- a/target/ppc/mmu-hash64.c
+> +++ b/target/ppc/mmu-hash64.c
+> @@ -21,7 +21,6 @@
+>  #include "qemu/units.h"
+>  #include "cpu.h"
+>  #include "exec/exec-all.h"
+> -#include "exec/helper-proto.h"
+>  #include "qemu/error-report.h"
+>  #include "qemu/qemu-print.h"
+>  #include "sysemu/hw_accel.h"
+> @@ -33,6 +32,10 @@
+>  #include "mmu-book3s-v3.h"
+>  #include "helper_regs.h"
+> =20
+> +#ifdef CONFIG_TCG
+> +#include "exec/helper-proto.h"
+> +#endif
+> +
+>  /* #define DEBUG_SLB */
+> =20
+>  #ifdef DEBUG_SLB
+> @@ -97,6 +100,7 @@ void dump_slb(PowerPCCPU *cpu)
+>      }
+>  }
+> =20
+> +#ifdef CONFIG_TCG
+>  void helper_slbia(CPUPPCState *env, uint32_t ih)
 >  {
 >      PowerPCCPU *cpu =3D env_archcpu(env);
+> @@ -202,6 +206,7 @@ void helper_slbieg(CPUPPCState *env, target_ulong add=
+r)
+>  {
+>      __helper_slbie(env, addr, true);
+>  }
+> +#endif
+> =20
+>  int ppc_store_slb(PowerPCCPU *cpu, target_ulong slot,
+>                    target_ulong esid, target_ulong vsid)
+> @@ -255,6 +260,7 @@ int ppc_store_slb(PowerPCCPU *cpu, target_ulong slot,
+>      return 0;
+>  }
+> =20
+> +#ifdef CONFIG_TCG
+>  static int ppc_load_slb_esid(PowerPCCPU *cpu, target_ulong rb,
+>                               target_ulong *rt)
+>  {
+> @@ -348,6 +354,7 @@ target_ulong helper_load_slb_vsid(CPUPPCState *env, t=
+arget_ulong rb)
+>      }
+>      return rt;
+>  }
+> +#endif
+> =20
+>  /* Check No-Execute or Guarded Storage */
+>  static inline int ppc_hash64_pte_noexec_guard(PowerPCCPU *cpu,
+> @@ -1097,12 +1104,14 @@ void ppc_hash64_tlb_flush_hpte(PowerPCCPU *cpu, t=
+arget_ulong ptex,
+>      cpu->env.tlb_need_flush =3D TLB_NEED_GLOBAL_FLUSH | TLB_NEED_LOCAL_F=
+LUSH;
+>  }
+> =20
+> +#ifdef CONFIG_TCG
+>  void helper_store_lpcr(CPUPPCState *env, target_ulong val)
+>  {
+>      PowerPCCPU *cpu =3D env_archcpu(env);
+> =20
+>      ppc_store_lpcr(cpu, val);
+>  }
+> +#endif
+> =20
+>  void ppc_hash64_init(PowerPCCPU *cpu)
+>  {
+> diff --git a/target/ppc/mmu_helper.c b/target/ppc/mmu_helper.c
+> index 5395e5ee5a..9339b3aa59 100644
+> --- a/target/ppc/mmu_helper.c
+> +++ b/target/ppc/mmu_helper.c
+> @@ -20,13 +20,11 @@
+>  #include "qemu/osdep.h"
+>  #include "qemu/units.h"
+>  #include "cpu.h"
+> -#include "exec/helper-proto.h"
+>  #include "sysemu/kvm.h"
+>  #include "kvm_ppc.h"
+>  #include "mmu-hash64.h"
+>  #include "mmu-hash32.h"
+>  #include "exec/exec-all.h"
+> -#include "exec/cpu_ldst.h"
+>  #include "exec/log.h"
+>  #include "helper_regs.h"
+>  #include "qemu/error-report.h"
+> @@ -36,6 +34,10 @@
+>  #include "mmu-book3s-v3.h"
+>  #include "mmu-radix64.h"
+> =20
+> +#ifdef CONFIG_TCG
+> +#include "exec/helper-proto.h"
+> +#include "exec/cpu_ldst.h"
+> +#endif
+>  /* #define DEBUG_MMU */
+>  /* #define DEBUG_BATS */
+>  /* #define DEBUG_SOFTWARE_TLB */
+> @@ -268,6 +270,7 @@ static inline void ppc6xx_tlb_invalidate_virt(CPUPPCS=
+tate *env,
+>      ppc6xx_tlb_invalidate_virt2(env, eaddr, is_code, 0);
+>  }
+> =20
+> +#ifdef CONFIG_TCG
+>  static void ppc6xx_tlb_store(CPUPPCState *env, target_ulong EPN, int way,
+>                               int is_code, target_ulong pte0, target_ulon=
+g pte1)
+>  {
+> @@ -286,6 +289,7 @@ static void ppc6xx_tlb_store(CPUPPCState *env, target=
+_ulong EPN, int way,
+>      /* Store last way for LRU mechanism */
+>      env->last_way =3D way;
+>  }
+> +#endif
+> =20
+>  static int ppc6xx_tlb_check(CPUPPCState *env, mmu_ctx_t *ctx,
+>                              target_ulong eaddr, MMUAccessType access_typ=
+e)
+> @@ -626,6 +630,7 @@ static int ppcemb_tlb_check(CPUPPCState *env, ppcemb_=
+tlb_t *tlb,
+>      return 0;
+>  }
+> =20
+> +#ifdef CONFIG_TCG
+>  /* Generic TLB search function for PowerPC embedded implementations */
+>  static int ppcemb_tlb_search(CPUPPCState *env, target_ulong address,
+>                               uint32_t pid)
+> @@ -646,6 +651,7 @@ static int ppcemb_tlb_search(CPUPPCState *env, target=
+_ulong address,
+> =20
+>      return ret;
+>  }
+> +#endif
+> =20
+>  /* Helpers specific to PowerPC 40x implementations */
+>  static inline void ppc4xx_tlb_invalidate_all(CPUPPCState *env)
+> @@ -1420,12 +1426,14 @@ static int get_physical_address_wtlb(CPUPPCState =
+*env, mmu_ctx_t *ctx,
+>      return ret;
+>  }
+> =20
+> +#ifdef CONFIG_TCG
+>  static int get_physical_address(CPUPPCState *env, mmu_ctx_t *ctx,
+>                                  target_ulong eaddr, MMUAccessType access=
+_type,
+>                                  int type)
+>  {
+>      return get_physical_address_wtlb(env, ctx, eaddr, access_type, type,=
+ 0);
+>  }
+> +#endif
+> =20
+>  static void booke206_update_mas_tlb_miss(CPUPPCState *env, target_ulong =
+address,
+>                                           MMUAccessType access_type, int =
+mmu_idx)
+> @@ -1709,6 +1717,7 @@ static bool ppc_jumbo_xlate(PowerPCCPU *cpu, vaddr =
+eaddr,
+>      return false;
+>  }
+> =20
+> +#ifdef CONFIG_TCG
+>  /***********************************************************************=
+******/
+>  /* BATs management */
+>  #if !defined(FLUSH_ALL_TLBS)
+> @@ -1898,6 +1907,7 @@ void helper_store_601_batl(CPUPPCState *env, uint32=
+_t nr, target_ulong value)
+>  #endif
+>      }
+>  }
+> +#endif
+> =20
+>  /***********************************************************************=
+******/
+>  /* TLB management */
+> @@ -1943,6 +1953,7 @@ void ppc_tlb_invalidate_all(CPUPPCState *env)
+>      }
+>  }
+> =20
+> +#ifdef CONFIG_TCG
+>  void ppc_tlb_invalidate_one(CPUPPCState *env, target_ulong addr)
+>  {
+>  #if !defined(FLUSH_ALL_TLBS)
+> @@ -2912,6 +2923,7 @@ void helper_check_tlb_flush_global(CPUPPCState *env)
+>  {
+>      check_tlb_flush(env, true);
+>  }
+> +#endif /* CONFIG_TCG */
+> =20
+>  /***********************************************************************=
+******/
+> =20
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -183,25 +512,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---VDU3wYoGd3ycM3x1
+--dgKShoGWdU1tCuXF
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmCrFi8ACgkQbDjKyiDZ
-s5JIZA/+JX48ZuyAI/LlzBbs1icT7oDpxcVLONCUOR4B+aXxEe8QxG7UawxGNSbo
-J9rla+RbbKi8tSUh/BQeehtstpscf3CCBFwP6I6Mb9yn7BYo1uHzz1Yi/grGMSo9
-V/nHigQFmEIkN14DMSFAzjUhXb7Ac7xL8z74Zhq1WXt/Iy3RP1kTCMVsAwlGqaeY
-cwYh2Ay3BQXZRNc0o5ftgwR4IEuu2DSrPQVRCXIhQxro+Zm45bkBVHo2rvutqqrd
-3bvALNP/b55cyHQ3YVWzH1gVGP4N9eC0lNYc8UrZ9sdlLZ2dVKaXF9NUMN+pibQd
-UZEvML+GzVkc/Tb6oWMGkGDag0FwU1wqzwAtBPq8Ay/Lm59TQS/mmm8hsaF2vUCw
-O5SJ4DXAvPyCDFg9xSeZIQ15O/sZ6vZlHDAY7HesmIG6OMDnxDWTT0sroODWxYBu
-mnAGZ+v3D5YYQSWeRVxyAZPbtpOfB+GWYrBT06RNYbAPX70YmWpkHw9l+vg8RFhd
-OmcHrC8L4PgSNpyXzOgrF6/OE5FF1pT3kWCdjn2qfb2Uh8dRQ2Dqy95YOAWjSiwh
-IsnuRAJ2TvSjKlYtfUDYwIRLsbu3DRlo51krou8dTp+luZ/Y8e+43olTo1ztf88T
-dRblRO8ECP5CHHqro7HyT6rA4F2UNgUMfW69/lr7WIAYEO4gcto=
-=aEi6
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmCrFw8ACgkQbDjKyiDZ
+s5JEzg/9E7cXTck9PNKW8lETkxuZqMin+SrNPNn2WF5wtTX+uyTv1yM9svnaqBjy
+eUCGs5cqa0+1d+ea/tyMdcE2kextk5y5ywRoaPUboXjhA1s+UTNrFsL/OCmORQW6
+LIz7K+xtnBZ3Bfhn5uxRaBaDrLRIerKz/dBMdmOzzLjfxO5QQeEPTb/lQ9FYvf6F
+bUrmyZdzMBNkGAmOAiibUVFukjE1LIZUXEttkSjxEHTKRd5Vjf0spln+OEAbW+IN
+wFC+LUEfmjklMT487AG0B6Z7F00fwB3iq4PlCwJxpHQX6fozFyRsaPbyHtYuKEBu
+7HjlHxf+4jwJVbHiP9adktgDQuatvkXCaDbepzhJGIg8633jUXdr8126kk5zOJa6
+IPebSS0gyB4cO1mbj+WpiT75//lyo8W6a7jaqBS1SbnANLBjd3OEEL3oLWL1MRvk
+RsRi6t2r0rGoqrLZJodaRzX/xelU4QdwYmtBt7gt1MY7vLGxWOIUnVF9zSN8PClO
+0tQ9OaIeTPjc/j2f5uDW83L+AL2xiJHb78pZFDqzxH37Cq+OkWhOahFTkM7u/Kis
+d0qY84MlfV1NhJQzUk8IDCaM7gltGELpFu5iBvjqzoCloGW9AnPKXA6z0b8JzVUm
+2UHQVZjK8VNyz4HPaFwgiJNI+i/dvum1z/Ybolq6RA8URf/P7Bo=
+=1Tuj
 -----END PGP SIGNATURE-----
 
---VDU3wYoGd3ycM3x1--
+--dgKShoGWdU1tCuXF--
 
