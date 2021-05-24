@@ -2,65 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DE1038E1E9
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 09:45:57 +0200 (CEST)
-Received: from localhost ([::1]:35932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9161838E236
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 10:22:57 +0200 (CEST)
+Received: from localhost ([::1]:47580 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ll5Hg-0001dh-46
-	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 03:45:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40388)
+	id 1ll5rU-0003G9-7L
+	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 04:22:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47622)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sendtozouxu@gmail.com>)
- id 1ll5Gs-0000tJ-2L
- for qemu-devel@nongnu.org; Mon, 24 May 2021 03:45:06 -0400
-Received: from mail-lj1-x244.google.com ([2a00:1450:4864:20::244]:44571)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <sendtozouxu@gmail.com>)
- id 1ll5Gp-0001Cm-RG
- for qemu-devel@nongnu.org; Mon, 24 May 2021 03:45:05 -0400
-Received: by mail-lj1-x244.google.com with SMTP id s25so32329495ljo.11
- for <qemu-devel@nongnu.org>; Mon, 24 May 2021 00:45:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=9St9gDR6dhSzX/GMKzChsblB8hRjAFJkdD2SKYDJakM=;
- b=O3WrMIWBLqa3VT15Z/+Tp6kQm+1Krs7CCEx8WhYN0+R6vHIwgVFWjY8Uya1ekeYzWi
- 4+Llx9MsTh4++UTF12fDRoPA0y6HNaypumMmayX0ZhWP51acvQPb5h+fwBK4qGFCXPa9
- LiOWEFuWD8O3ZhraHa5AXa0msWhUVIAsZXX31reRwCDyz0rERrKG5Okzm4gamvhoMXCv
- tBKXmA+T3Nt9pXXLvfNC5Zj/VV+1cyrBa7ztydqCab1q7NvKdB7bGs0iNkpawre/mgvw
- UGBWA+VavbAwzUI7YLyv/PL2CPKEkUoB/FtY5Wyi4kKLamYs/vbNjo5bm65di6mBetri
- muQA==
+ (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
+ id 1ll5qR-0002a6-Dz
+ for qemu-devel@nongnu.org; Mon, 24 May 2021 04:21:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27747)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
+ id 1ll5qN-00071l-J5
+ for qemu-devel@nongnu.org; Mon, 24 May 2021 04:21:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1621844506;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=uxHLbW472ZdWlqCcIodXanbrmmQ0DbKZfun6OXT73oc=;
+ b=NevwByp/87BBPIUFvG35uAo1jWmCwdvxSlpkjoFW9yyACoHSdfbW3p4VNiTpk6LnHYffBU
+ POA/ABJTqdepHkjdZfDYay47LSZe0L805oIcCG9IaYnYKYSaE/w3kRTdAJwHQPZnz6LSCT
+ AKI91oGc0hY2XkMhPLwPBiffJIqpYYY=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-568-UTMd03NXNVSWFEkd19dvqA-1; Mon, 24 May 2021 04:21:44 -0400
+X-MC-Unique: UTMd03NXNVSWFEkd19dvqA-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ c13-20020a5d6ccd0000b029010ec741b84bso12700206wrc.23
+ for <qemu-devel@nongnu.org>; Mon, 24 May 2021 01:21:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=9St9gDR6dhSzX/GMKzChsblB8hRjAFJkdD2SKYDJakM=;
- b=p7XzqrnKneOW539AxUAB3k/jXas9Y1jqmcc0xDztFT9QF8+jUmJHI0niV1rnBLHN02
- xYDmt3Uw7BPY75yoSPq/4CY+5jv5IOrQdDXYaprf5ntarJjGDQIJbesi1zRwdjtOv+Tj
- RacunA1/46ydK+aS/DLIcMvaDTDnc4E6AQdohmKfprIeQ2ciTtYy5ndetHkQbFlJAVlr
- AsU60XHCgfaWhr09sp+2yZ4qBIrV086+KCv2b7iUTIWn7VE49lWZAobw/BWAOlQ69lAx
- r0d1ndj2oXIEUGWOdEg1SzRIxL+m3HdzvZvFfo5M59IV9YjhXZMr22SwNdR+fXV8C9Jz
- QVxg==
-X-Gm-Message-State: AOAM530C/SmQSHAZUPGKY7TWNsp5yWE18SryyzOChUb9vEjl73ZtbG4q
- VdtLexoTL6MqHqq0fNFKZyJiO5ih/uU+xR/wZEFJkNbrtLdRgw==
-X-Google-Smtp-Source: ABdhPJzhk3mQ75IupAwZ1JXNt9yID8jM33TxgsWc7rgT5IScMsjCq9BDv7s7+MlSWU0qJK85PAJ/NiIcv5Ivu8GBPss=
-X-Received: by 2002:a2e:b8d5:: with SMTP id s21mr15594012ljp.163.1621842300969; 
- Mon, 24 May 2021 00:45:00 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
+ :message-id:mime-version;
+ bh=uxHLbW472ZdWlqCcIodXanbrmmQ0DbKZfun6OXT73oc=;
+ b=L4ccnyuHIzf5Ww6a7DvubHVzBY5GnRRaYLKlB1QflP3JS48PzgK4/P/oEVaOuA0ZAi
+ 5uGLClGPHhPNvDSfvfJ8PTAmCrHQ+G+MgSKGLMGZpKh9eE07ilt6fZF7MVg/8PAybSlP
+ 0o3YCnkT5LV/DKLyv0r1QNf6KqAXzsn2a3JgBxVw3w6ZHq6Jporlamj3jIXTdrpdKpOj
+ L6Rv4hI/PrGyRHOs5NqCCUZ0cNNDQ7tTtlfzxonSIQOwtYBovTYRRaz6HjKmJg/bAQVH
+ 4W4PbZzbWNPv1AjCdiDDKhOSxDBZWx8pyBlG0WxLMttuMLdE0OhYz25gVFP54GQZjwCY
+ yQwg==
+X-Gm-Message-State: AOAM530sJesw996uQOwyQbSweTYHoEWGy4g1bQcjUJiJtODfYlSKvgUY
+ SYmhNQ3mt4ccG1YEG1q4YRUeid/L3ZrAfaZLtMIL9S7EpkG60G+ahv6Mb94hWG0dkK7aip91iFl
+ fg3lceK/gmy6sgvU=
+X-Received: by 2002:adf:d221:: with SMTP id k1mr21133932wrh.298.1621844503139; 
+ Mon, 24 May 2021 01:21:43 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz49DvDObSGAsM3eDwpLLTm7kZPVR87IHL1HQ8f2JI4p1CiWYoflcq0xZBX0D1ObC66rEUYrw==
+X-Received: by 2002:adf:d221:: with SMTP id k1mr21133917wrh.298.1621844502923; 
+ Mon, 24 May 2021 01:21:42 -0700 (PDT)
+Received: from vitty.brq.redhat.com (g-server-2.ign.cz. [91.219.240.2])
+ by smtp.gmail.com with ESMTPSA id b10sm13420910wrr.27.2021.05.24.01.21.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 24 May 2021 01:21:42 -0700 (PDT)
+From: Vitaly Kuznetsov <vkuznets@redhat.com>
+To: Liang Li <liliang324@gmail.com>
+Subject: Re: About the performance of hyper-v
+In-Reply-To: <CA+2MQi-OK5zK_sBtm8k-nnqVPQTSzE1UVTEfQ4KBChMHc=Npzg@mail.gmail.com>
+References: <CA+2MQi-_06J1cmLhKAmV1vkPEnvDx6+bOnK06OciYmdymaNruw@mail.gmail.com>
+ <87cztmkdlp.fsf@vitty.brq.redhat.com>
+ <CA+2MQi_LG57KRRFjMR_zPvJBDaH4z16S5J=c+U+-Ss_Z71Ax7g@mail.gmail.com>
+ <87y2c8iia0.fsf@vitty.brq.redhat.com>
+ <CA+2MQi-OK5zK_sBtm8k-nnqVPQTSzE1UVTEfQ4KBChMHc=Npzg@mail.gmail.com>
+Date: Mon, 24 May 2021 10:21:41 +0200
+Message-ID: <87k0no4k4q.fsf@vitty.brq.redhat.com>
 MIME-Version: 1.0
-From: Xu Zou <sendtozouxu@gmail.com>
-Date: Mon, 24 May 2021 15:44:49 +0800
-Message-ID: <CAK8YQrX9uRp904ddUZYu2t=i9HwAkt3cCCMxrMf4gJW1agD=ig@mail.gmail.com>
-Subject: [PATCH] linux-user: Handle EXCP10_COPR properly for i386
-To: qemu-devel@nongnu.org
-Content-Type: multipart/alternative; boundary="0000000000003b256305c30e969d"
-Received-SPF: pass client-ip=2a00:1450:4864:20::244;
- envelope-from=sendtozouxu@gmail.com; helo=mail-lj1-x244.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vkuznets@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=vkuznets@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.373,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -73,147 +96,137 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: laurent@vivier.eu, Xu Zou <sendtozouxu@gmail.com>
+Cc: Tianyu.Lan@microsoft.com, qemu-devel@nongnu.org, kvm@vger.kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000003b256305c30e969d
-Content-Type: text/plain; charset="UTF-8"
+Liang Li <liliang324@gmail.com> writes:
 
-From e55f890c11aea6e28e4b3cd5ef7f2496775f2a43 Mon Sep 17 00:00:00 2001
-From: Xu Zou <sendtozouxu@gmail.com>
-Date: Mon, 24 May 2021 09:43:54 +0800
-Subject: [PATCH] linux-user: Handle EXCP10_COPR properly for i386
+>> >> > Analyze events for all VMs, all VCPUs:
+>> >> >              VM-EXIT    Samples  Samples%     Time%    Min Time    Max
+>> >> > Time         Avg time
+>> >> >   EXTERNAL_INTERRUPT     471831    59.89%    68.58%      0.64us
+>> >> > 65.42us      2.34us ( +-   0.11% )
+>> >> >            MSR_WRITE     238932    30.33%    23.07%      0.48us
+>> >> > 41.05us      1.56us ( +-   0.14% )
+>> >> >
+>> >> > Total Samples:787803, Total events handled time:1611193.84us.
+>> >> >
+>> >> > I tried turning off hyper-v for the same workload and repeat the test,
+>> >> > the overall virtualization overhead reduced by about of 50%:
+>> >> >
+>> >> > -------
+>> >> >
+>> >> > Analyze events for all VMs, all VCPUs:
+>> >> >
+>> >> >              VM-EXIT    Samples  Samples%     Time%    Min Time    Max
+>> >> > Time         Avg time
+>> >> >           APIC_WRITE     255152    74.43%    50.72%      0.49us
+>> >> > 50.01us      1.42us ( +-   0.14% )
+>> >> >        EPT_MISCONFIG      39967    11.66%    40.58%      1.55us
+>> >> > 686.05us      7.27us ( +-   0.43% )
+>> >> >            DR_ACCESS      35003    10.21%     4.64%      0.32us
+>> >> > 40.03us      0.95us ( +-   0.32% )
+>> >> >   EXTERNAL_INTERRUPT       6622     1.93%     2.08%      0.70us
+>> >> > 57.38us      2.25us ( +-   1.42% )
+>> >> >
+>> >> > Total Samples:342788, Total events handled time:715695.62us.
+>> >> >
+>> >> > For this scenario,  hyper-v works really bad.  stimer works better
+>> >> > than hpet, but on the other hand, it relies on SynIC which has
+>> >> > negative effects for IPI intensive workloads.
+>> >> > Do you have any plans for improvement?
+>> >> >
+>> >>
+>> >> Hey,
+>> >>
+>> >> the above can be caused by the fact that when 'hv-synic' is enabled, KVM
+>> >> automatically disables APICv and this can explain the overhead and the
+>> >> fact that you're seeing more vmexits. KVM disables APICv because SynIC's
+>> >> 'AutoEOI' feature is incompatible with it. We can, however, tell Windows
+>> >> to not use AutoEOI ('Recommend deprecating AutoEOI' bit) and only
+>> >> inhibit APICv if the recommendation was ignored. This is implemented in
+>> >> the following KVM patch series:
+>> >> https://lore.kernel.org/kvm/20210518144339.1987982-1-vkuznets@redhat.com/
+>> >>
+>> >> It will, however, require a new 'hv-something' flag to QEMU. For now, it
+>> >> can be tested with 'hv-passthrough'.
+>> >>
+>> >> It would be great if you could give it a spin!
+>> >>
+>> >> --
+>> >> Vitaly
+>> >
+>> > It's great to know that you already have a solution for this. :)
+>> >
+>> > By the way,  is there any requirement for the version of windows or
+>> > windows updates for the new feature to work?
+>>
+>> AFAIR, 'Recommend deprecating AutoEOI' bit appeared in WS2012 so I'd
+>> expect WS2008 to ignore it completely (and thus SynIC will always be
+>> disabling APICv for it).
+>>
+>
+> Hi Vitaly,
+>       I tried your patchset and found it's not helpful to reduce the
+> virtualization overhead.
+> here are some perfdata with the same workload
+>
+> ===============================
+> Analyze events for all VMs, all VCPUs:
+>              VM-EXIT    Samples  Samples%     Time%    Min Time    Max
+> Time         Avg time
+>            MSR_WRITE     924045    89.96%    81.10%      0.42us
+> 68.42us      1.26us ( +-   0.07% )
+>            DR_ACCESS      44669     4.35%     2.36%      0.32us
+> 50.74us      0.76us ( +-   0.32% )
+>   EXTERNAL_INTERRUPT      29809     2.90%     6.42%      0.66us
+> 70.75us      3.10us ( +-   0.54% )
+>               VMCALL      17819     1.73%     5.21%      0.75us
+> 15.64us      4.20us ( +-   0.33%
+>
+> Total Samples:1027227, Total events handled time:1436343.94us.
+> ===============================
+>
+> The result shows the overhead increased.  enable the apicv can help to
+> reduce the vm-exit
+> caused by interrupt injection, but on the other side, there are a lot
+> of vm-exit caused by APIC_EOI.
+>
+> When turning off the hyper-v and using the kvm apicv, there is no such
+> overhead. 
 
-Handle EXCP10_COPR properly for i386 in cpu loop.
+I think I know what's happening. We've asked Windows to use synthetic
+MSRs to access APIC (HV_APIC_ACCESS_RECOMMENDED) and this can't be
+accelerated in hardware.
 
-NE flag is set to select the native mode for handling floating-point
-exceptions. FWAIT instruction can raise EXCP10_COPR exception by using
-fpu_raise_exception() function.
+Could you please try the following hack (KVM):
 
-The code is based on kernel's function fpu__exception_code() in
-arch/x86/kernel/fpu/core.c.
+diff --git a/arch/x86/kvm/cpuid.c b/arch/x86/kvm/cpuid.c
+index c8f2592ccc99..66ee85a83e9a 100644
+--- a/arch/x86/kvm/cpuid.c
++++ b/arch/x86/kvm/cpuid.c
+@@ -145,6 +145,13 @@ void kvm_update_cpuid_runtime(struct kvm_vcpu *vcpu)
+                                           vcpu->arch.ia32_misc_enable_msr &
+                                           MSR_IA32_MISC_ENABLE_MWAIT);
+        }
++
++       /* Dirty hack: force HV_DEPRECATING_AEOI_RECOMMENDED. Not to be merged! */
++       best = kvm_find_cpuid_entry(vcpu, HYPERV_CPUID_ENLIGHTMENT_INFO, 0);
++       if (best) {
++               best->eax &= ~HV_X64_APIC_ACCESS_RECOMMENDED;
++               best->eax |= HV_DEPRECATING_AEOI_RECOMMENDED;
++       }
+ }
+ EXPORT_SYMBOL_GPL(kvm_update_cpuid_runtime);
+ 
+> It seems turning on hyper V related features is not always the best
+> choice for a windows guest.
 
-Signed-off-by: Xu Zou <sendtozouxu@gmail.com>
----
- linux-user/i386/cpu_loop.c | 26 +++++++++++++++++++++++++-
- 1 file changed, 25 insertions(+), 1 deletion(-)
+Generally it is, we'll just need to make QEMU smarter when setting
+'recommendation' bits.
 
-diff --git a/linux-user/i386/cpu_loop.c b/linux-user/i386/cpu_loop.c
-index f813e87294..e1f2911554 100644
---- a/linux-user/i386/cpu_loop.c
-+++ b/linux-user/i386/cpu_loop.c
-@@ -199,6 +199,8 @@ void cpu_loop(CPUX86State *env)
- {
-     CPUState *cs = env_cpu(env);
-     int trapnr;
-+    int si_code;
-+    uint8_t status;
-     abi_ulong pc;
-     abi_ulong ret;
-
-@@ -315,6 +317,28 @@ void cpu_loop(CPUX86State *env)
-         case EXCP_ATOMIC:
-             cpu_exec_step_atomic(cs);
-             break;
-+        case EXCP10_COPR:
-+            si_code = 0;
-+            status = env->fp_status.float_exception_flags;
-+            if (status & float_flag_invalid) {
-+                si_code = TARGET_FPE_FLTINV;
-+            }
-+            if (status & float_flag_divbyzero) {
-+                si_code = TARGET_FPE_FLTDIV;
-+            }
-+            if (status & float_flag_overflow) {
-+                si_code = TARGET_FPE_FLTOVF;
-+            }
-+            if ((status & float_flag_underflow) ||
-+                (status & float_flag_input_denormal) ||
-+                (status & float_flag_output_denormal)) {
-+                si_code = TARGET_FPE_FLTUND;
-+            }
-+            if (status & float_flag_inexact) {
-+                si_code = TARGET_FPE_FLTRES;
-+            }
-+            gen_signal(env, TARGET_SIGFPE, si_code, env->eip);
-+            break;
-         default:
-             pc = env->segs[R_CS].base + env->eip;
-             EXCP_DUMP(env, "qemu: 0x%08lx: unhandled CPU exception 0x%x -
-aborting\n",
-@@ -327,7 +351,7 @@ void cpu_loop(CPUX86State *env)
-
- void target_cpu_copy_regs(CPUArchState *env, struct target_pt_regs *regs)
- {
--    env->cr[0] = CR0_PG_MASK | CR0_WP_MASK | CR0_PE_MASK;
-+    env->cr[0] = CR0_PG_MASK | CR0_WP_MASK | CR0_PE_MASK | CR0_NE_MASK;
-     env->hflags |= HF_PE_MASK | HF_CPL_MASK;
-     if (env->features[FEAT_1_EDX] & CPUID_SSE) {
-         env->cr[4] |= CR4_OSFXSR_MASK;
 -- 
-2.25.1
+Vitaly
 
---0000000000003b256305c30e969d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">From e55f890c11aea6e28e4b3cd5ef7f2496775f2a43 Mon Sep 17 0=
-0:00:00 2001<br>From: Xu Zou &lt;<a href=3D"mailto:sendtozouxu@gmail.com">s=
-endtozouxu@gmail.com</a>&gt;<br>Date: Mon, 24 May 2021 09:43:54 +0800<br>Su=
-bject: [PATCH] linux-user: Handle EXCP10_COPR properly for i386<br><br>Hand=
-le EXCP10_COPR properly for i386 in cpu loop.<br><br>NE flag is set to sele=
-ct the native mode for handling floating-point<br>exceptions. FWAIT instruc=
-tion can raise EXCP10_COPR exception by using<br>fpu_raise_exception() func=
-tion.<br><br>The code is based on kernel&#39;s function fpu__exception_code=
-() in<br>arch/x86/kernel/fpu/core.c.<br><br>Signed-off-by: Xu Zou &lt;<a hr=
-ef=3D"mailto:sendtozouxu@gmail.com">sendtozouxu@gmail.com</a>&gt;<br>---<br=
->=C2=A0linux-user/i386/cpu_loop.c | 26 +++++++++++++++++++++++++-<br>=C2=A0=
-1 file changed, 25 insertions(+), 1 deletion(-)<br><br>diff --git a/linux-u=
-ser/i386/cpu_loop.c b/linux-user/i386/cpu_loop.c<br>index f813e87294..e1f29=
-11554 100644<br>--- a/linux-user/i386/cpu_loop.c<br>+++ b/linux-user/i386/c=
-pu_loop.c<br>@@ -199,6 +199,8 @@ void cpu_loop(CPUX86State *env)<br>=C2=A0{=
-<br>=C2=A0 =C2=A0 =C2=A0CPUState *cs =3D env_cpu(env);<br>=C2=A0 =C2=A0 =C2=
-=A0int trapnr;<br>+ =C2=A0 =C2=A0int si_code;<br>+ =C2=A0 =C2=A0uint8_t sta=
-tus;<br>=C2=A0 =C2=A0 =C2=A0abi_ulong pc;<br>=C2=A0 =C2=A0 =C2=A0abi_ulong =
-ret;<br>=C2=A0<br>@@ -315,6 +317,28 @@ void cpu_loop(CPUX86State *env)<br>=
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0case EXCP_ATOMIC:<br>=C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0cpu_exec_step_atomic(cs);<br>=C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>+ =C2=A0 =C2=A0 =C2=A0 =C2=A0case =
-EXCP10_COPR:<br>+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0si_code =3D 0;<b=
-r>+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0status =3D env-&gt;fp_status.f=
-loat_exception_flags;<br>+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (sta=
-tus &amp; float_flag_invalid) {<br>+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0si_code =3D TARGET_FPE_FLTINV;<br>+ =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0}<br>+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (sta=
-tus &amp; float_flag_divbyzero) {<br>+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0si_code =3D TARGET_FPE_FLTDIV;<br>+ =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0}<br>+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if =
-(status &amp; float_flag_overflow) {<br>+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0si_code =3D TARGET_FPE_FLTOVF;<br>+ =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
-if ((status &amp; float_flag_underflow) ||<br>+ =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0(status &amp; float_flag_input_denormal) ||<br>=
-+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(status &amp; floa=
-t_flag_output_denormal)) {<br>+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0si_code =3D TARGET_FPE_FLTUND;<br>+ =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0}<br>+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (status=
- &amp; float_flag_inexact) {<br>+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0si_code =3D TARGET_FPE_FLTRES;<br>+ =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0}<br>+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gen_signal=
-(env, TARGET_SIGFPE, si_code, env-&gt;eip);<br>+ =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0break;<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0default:<br>=
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0pc =3D env-&gt;segs[R_CS].b=
-ase + env-&gt;eip;<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0EXCP_=
-DUMP(env, &quot;qemu: 0x%08lx: unhandled CPU exception 0x%x - aborting\n&qu=
-ot;,<br>@@ -327,7 +351,7 @@ void cpu_loop(CPUX86State *env)<br>=C2=A0<br>=
-=C2=A0void target_cpu_copy_regs(CPUArchState *env, struct target_pt_regs *r=
-egs)<br>=C2=A0{<br>- =C2=A0 =C2=A0env-&gt;cr[0] =3D CR0_PG_MASK | CR0_WP_MA=
-SK | CR0_PE_MASK;<br>+ =C2=A0 =C2=A0env-&gt;cr[0] =3D CR0_PG_MASK | CR0_WP_=
-MASK | CR0_PE_MASK | CR0_NE_MASK;<br>=C2=A0 =C2=A0 =C2=A0env-&gt;hflags |=
-=3D HF_PE_MASK | HF_CPL_MASK;<br>=C2=A0 =C2=A0 =C2=A0if (env-&gt;features[F=
-EAT_1_EDX] &amp; CPUID_SSE) {<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0env-&gt;=
-cr[4] |=3D CR4_OSFXSR_MASK;<br>-- <br>2.25.1<br><br></div>
-
---0000000000003b256305c30e969d--
 
