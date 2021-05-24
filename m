@@ -2,70 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7130C38F2A8
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 19:59:04 +0200 (CEST)
-Received: from localhost ([::1]:40614 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 630D038F2B9
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 20:05:28 +0200 (CEST)
+Received: from localhost ([::1]:47830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llEr1-00051m-Ic
-	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 13:59:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32868)
+	id 1llExB-0001dA-Pa
+	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 14:05:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34026)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1llEpF-0002ls-3a
- for qemu-devel@nongnu.org; Mon, 24 May 2021 13:57:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49040)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1llEpD-0006xt-9q
- for qemu-devel@nongnu.org; Mon, 24 May 2021 13:57:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621879030;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=NmF6lhR9PeNjL1T/ol5eDiiMu0J1DgBAp5Io0f2uUTk=;
- b=e2y7HTHwMicrZ/sCjL2vZJksjpsyapcamEAlyzjkrOov7sC6ay9bO/HOZqT8HkU4CG1Qo8
- IRBx8Dmq5yJeGW6qIVfDDc0Ss7azdgydUhNYJbplcZP3LZly8Mm1XTMRsmhMUWDtWFwDIi
- uwafjfgSepwFt3O3XO5hjv9c3wfPMnI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-279-zfs7rSRzOUyXtyl3potT3g-1; Mon, 24 May 2021 13:57:07 -0400
-X-MC-Unique: zfs7rSRzOUyXtyl3potT3g-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 349E9187656C;
- Mon, 24 May 2021 17:57:06 +0000 (UTC)
-Received: from localhost (unknown [10.40.208.47])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A19356A8EF;
- Mon, 24 May 2021 17:57:00 +0000 (UTC)
-Date: Mon, 24 May 2021 19:56:58 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>
-Subject: Re: [PATCH] hw/mem/pc-dimm: Hint it is not usable on non-NUMA machines
-Message-ID: <20210524195658.033b19e6@redhat.com>
-In-Reply-To: <20210524171352.3796151-1-f4bug@amsat.org>
-References: <20210524171352.3796151-1-f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <bruno.larsen@eldorado.org.br>)
+ id 1llEtf-0007fO-Pf; Mon, 24 May 2021 14:01:47 -0400
+Received: from [201.28.113.2] (port=29367 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <bruno.larsen@eldorado.org.br>)
+ id 1llEtd-0001VF-U8; Mon, 24 May 2021 14:01:47 -0400
+Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
+ Microsoft SMTPSVC(8.5.9600.16384); Mon, 24 May 2021 15:01:41 -0300
+Received: from [127.0.0.1] (unknown [10.10.71.235])
+ by power9a (Postfix) with ESMTPS id 1FF0F801360;
+ Mon, 24 May 2021 15:01:41 -0300 (-03)
+Subject: Re: [RFC PATCH 08/11] target/ppc: wrapped some TCG only logic with
+ ifdefs
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20210512140813.112884-1-bruno.larsen@eldorado.org.br>
+ <20210512140813.112884-9-bruno.larsen@eldorado.org.br>
+ <40d53a3b-ca4b-0656-0b64-15ded89b3315@linaro.org>
+From: Bruno Piazera Larsen <bruno.larsen@eldorado.org.br>
+Message-ID: <240414de-a246-9878-397e-402a86f70698@eldorado.org.br>
+Date: Mon, 24 May 2021 15:01:40 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <40d53a3b-ca4b-0656-0b64-15ded89b3315@linaro.org>
+Content-Type: multipart/alternative;
+ boundary="------------FB52165EE23342B03160F80A"
+Content-Language: en-US
+X-OriginalArrivalTime: 24 May 2021 18:01:41.0431 (UTC)
+ FILETIME=[D98C3470:01D750C6]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
+Received-SPF: pass client-ip=201.28.113.2;
+ envelope-from=bruno.larsen@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
+ NICE_REPLY_A=-0.001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,83 +61,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: farosas@linux.ibm.com, luis.pires@eldorado.org.br,
+ lucas.araujo@eldorado.org.br, fernando.valle@eldorado.org.br,
+ qemu-ppc@nongnu.org, matheus.ferst@eldorado.org.br,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 24 May 2021 19:13:52 +0200
-Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> wrote:
+This is a multi-part message in MIME format.
+--------------FB52165EE23342B03160F80A
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-> When trying to use the pc-dimm device on a non-NUMA machine, we get:
->=20
->   $ qemu-system-arm -M none -cpu max -S -device pc-dimm
->   Segmentation fault (core dumped)
->=20
->   (gdb) bt
->   #0  pc_dimm_realize (dev=3D0x555556da3e90, errp=3D0x7fffffffcd10) at hw=
-/mem/pc-dimm.c:184
->   #1  0x0000555555fe1f8f in device_set_realized (obj=3D0x555556da3e90, va=
-lue=3Dtrue, errp=3D0x7fffffffce18) at hw/core/qdev.c:761
->   #2  0x0000555555feb4a9 in property_set_bool (obj=3D0x555556da3e90, v=3D=
-0x555556e54420, name=3D0x5555563c3c41 "realized", opaque=3D0x555556a704f0, =
-errp=3D0x7fffffffce18) at qom/object.c:2257
->=20
-> Use a friendler error message instead:
->=20
->   $ qemu-system-arm -M none -cpu max -S -device pc-dimm
->   qemu-system-arm: -device pc-dimm: NUMA is not supported by this machine=
--type
 
-it's not that pc-dimm inherently depends on numa, so maybe something like t=
-his would be better:
+>> @@ -8799,7 +8803,9 @@ static void ppc_cpu_unrealize(DeviceState *dev)
+>>         cpu_remove_sync(CPU(cpu));
+>>   +#ifdef CONFIG_TCG
+>>       destroy_ppc_opcodes(cpu);
+>> +#endif
+>>   }
+>>     static gint ppc_cpu_compare_class_pvr(gconstpointer a, 
+>> gconstpointer b)
+>> @@ -9297,7 +9303,9 @@ static void ppc_cpu_class_init(ObjectClass *oc, 
+>> void *data)
+>>       cc->class_by_name = ppc_cpu_class_by_name;
+>>       cc->has_work = ppc_cpu_has_work;
+>>       cc->dump_state = ppc_cpu_dump_state;
+>> +#ifdef CONFIG_TCG
+>>       cc->dump_statistics = ppc_cpu_dump_statistics;
+>> +#endif
+>
+> We should just drop this entirely.  It's supposedly a generic thing, 
+> but only used by ppc.  But even then only with source modification to 
+> enable DO_PPC_STATISTICS.  And even then as we convert to decodetree, 
+> said statistics will not be collected.
+>
+> We should delete everything from cpu_dump_statistics on down.
 
-@@ -183,12 +182,17 @@ static void pc_dimm_realize(DeviceState *dev, Error *=
-*errp)
-...
-+    if (ms->numa_state) {
-+        int nb_numa_nodes =3D ms->numa_state->num_nodes;
-+
-+        if ((nb_numa_nodes > 0) &&
-+            (dimm->node >=3D nb_numa_nodes)) ||
-+           (!nb_numa_nodes && dimm->node)) {
-+               error_setg(errp, "'DIMM property " PC_DIMM_NODE_PROP " has =
-value %"
-+                          PRIu32 "' which exceeds the number of numa nodes=
-: %d",
-+                          dimm->node, nb_numa_nodes ? nb_numa_nodes : 1);
-+            return;
-+        }
-+     } else if (dimm->node > 0)
-+         error_setg(errp, "machine doesn't support numa");
-=20
+So, now that we have a version of disable-tcg that is functional, I'm 
+inclined to look at this cleanup. Just to make sure I got it right: 
+everything related to ppc_cpu_dump_statistics and the stuff related to 
+ifdef DO_PPC_STATISTICS can be removed, yeah?
 
->=20
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> ---
->  hw/mem/pc-dimm.c | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
->=20
-> diff --git a/hw/mem/pc-dimm.c b/hw/mem/pc-dimm.c
-> index a3a2560301c..e8851a0c3b1 100644
-> --- a/hw/mem/pc-dimm.c
-> +++ b/hw/mem/pc-dimm.c
-> @@ -181,8 +181,13 @@ static void pc_dimm_realize(DeviceState *dev, Error =
-**errp)
->      PCDIMMDevice *dimm =3D PC_DIMM(dev);
->      PCDIMMDeviceClass *ddc =3D PC_DIMM_GET_CLASS(dimm);
->      MachineState *ms =3D MACHINE(qdev_get_machine());
-> -    int nb_numa_nodes =3D ms->numa_state->num_nodes;
-> +    int nb_numa_nodes;
-> =20
-> +    if (!ms->numa_state) {
-> +        error_setg(errp, "NUMA is not supported by this machine-type");
-> +        return;
-> +    }
-> +    nb_numa_nodes =3D ms->numa_state->num_nodes;
->      if (!dimm->hostmem) {
->          error_setg(errp, "'" PC_DIMM_MEMDEV_PROP "' property is not set"=
-);
->          return;
+-- 
+Bruno Piazera Larsen
+Instituto de Pesquisas ELDORADO 
+<https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&utm_medium=email&utm_source=RD+Station>
+Departamento Computação Embarcada
+Analista de Software Trainee
+Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
 
+--------------FB52165EE23342B03160F80A
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <br>
+    <blockquote type="cite"
+      cite="mid:40d53a3b-ca4b-0656-0b64-15ded89b3315@linaro.org">
+      <blockquote type="cite">@@ -8799,7 +8803,9 @@ static void
+        ppc_cpu_unrealize(DeviceState *dev)
+        <br>
+                cpu_remove_sync(CPU(cpu));
+        <br>
+          +#ifdef CONFIG_TCG
+        <br>
+              destroy_ppc_opcodes(cpu);
+        <br>
+        +#endif
+        <br>
+          }
+        <br>
+            static gint ppc_cpu_compare_class_pvr(gconstpointer a,
+        gconstpointer b)
+        <br>
+        @@ -9297,7 +9303,9 @@ static void ppc_cpu_class_init(ObjectClass
+        *oc, void *data)
+        <br>
+              cc-&gt;class_by_name = ppc_cpu_class_by_name;
+        <br>
+              cc-&gt;has_work = ppc_cpu_has_work;
+        <br>
+              cc-&gt;dump_state = ppc_cpu_dump_state;
+        <br>
+        +#ifdef CONFIG_TCG
+        <br>
+              cc-&gt;dump_statistics = ppc_cpu_dump_statistics;
+        <br>
+        +#endif
+        <br>
+      </blockquote>
+      <br>
+      We should just drop this entirely.  It's supposedly a generic
+      thing, but only used by ppc.  But even then only with source
+      modification to enable DO_PPC_STATISTICS.  And even then as we
+      convert to decodetree, said statistics will not be collected.
+      <br>
+      <br>
+      We should delete everything from cpu_dump_statistics on down.
+      <br>
+    </blockquote>
+    <p>So, now that we have a version of disable-tcg that is functional,
+      I'm inclined to look at this cleanup. Just to make sure I got it
+      right: everything related to ppc_cpu_dump_statistics and the stuff
+      related to ifdef DO_PPC_STATISTICS can be removed, yeah? <br>
+    </p>
+    <div class="moz-signature">-- <br>
+      Bruno Piazera Larsen<br>
+      <a
+href="https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&amp;utm_medium=email&amp;utm_source=RD+Station">Instituto
+        de Pesquisas ELDORADO</a><br>
+      Departamento Computação Embarcada<br>
+      Analista de Software Trainee<br>
+      <a href="https://www.eldorado.org.br/disclaimer.html">Aviso Legal
+        - Disclaimer</a></div>
+  </body>
+</html>
+
+--------------FB52165EE23342B03160F80A--
 
