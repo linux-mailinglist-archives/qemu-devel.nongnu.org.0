@@ -2,73 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E248138E090
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 06:59:52 +0200 (CEST)
-Received: from localhost ([::1]:32930 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EC6838E09C
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 07:14:39 +0200 (CEST)
+Received: from localhost ([::1]:40478 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ll2gy-0002Rz-0V
-	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 00:59:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35808)
+	id 1ll2vF-0008LY-Vx
+	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 01:14:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38682)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yamamoto@midokura.com>)
- id 1ll2cc-0002uK-3L
- for qemu-devel@nongnu.org; Mon, 24 May 2021 00:55:22 -0400
-Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c]:46024)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <yamamoto@midokura.com>)
- id 1ll2cW-0003en-JB
- for qemu-devel@nongnu.org; Mon, 24 May 2021 00:55:21 -0400
-Received: by mail-pf1-x42c.google.com with SMTP id d16so19831667pfn.12
- for <qemu-devel@nongnu.org>; Sun, 23 May 2021 21:55:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=midokura.com; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=D+ig9QEHBa0VtdnZHEiwQpPJhF1VPhhLA5g2SBOkaAQ=;
- b=ZE2K9/2knnKnL+VF5neAFzcylin1qcdvgDsSOavAmYFSPH+P0IhwIgoCj9oHjJhYqP
- mQ7JKhc0/JHo2V7Te5c3GrxzolJjxyJMYaOyHg73RCX33d732WaNmu5PGTNaCfOVEan8
- KVwCVaRz3BDpeOuJAUS+mEa8WOjDLvqyoatrg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=D+ig9QEHBa0VtdnZHEiwQpPJhF1VPhhLA5g2SBOkaAQ=;
- b=E4vl7Jjh8lXelAgp0HNe/BTNlqFcJbOGchX6cIZu65cBC7GpBbp0w4mVQLEzjutLqZ
- VzheX3QvbqVc/57FOySB/IFKj2RUipvBdRlMPQ4MsiKWyUK7L3bPeUonCZ+oeZBB3Qlh
- RQMYKhXlGwKN66HsqUX5THZdUUDvdJbe6rAfA1/73evPeffwPdquISxCh0jyp2kjqCBY
- 10vnZYM7ScXuemiPYZZ8+b5jsusC7z1xk5vIFa3uAVU71kV4d1fNly6+d0cJzPZc7I7s
- 7ChDZ9hZ6nAD65ufFNNmaGu/g5J2HLF10+DZyY6X2Ny9mwbtNCMWHlpESeNTeExLBc8a
- tCuA==
-X-Gm-Message-State: AOAM5321SsaF+Snjm50LAMgyoDawLXbEpLDC+ooSQXaElq89ZkhhCMw0
- sm3KCom+DwIG2YKtAAs0wJNYC3hWszWLYA==
-X-Google-Smtp-Source: ABdhPJwqm4+nZk2gKjcOTOodx86q1Rs6ZAcI8j9A/FeRXsw6T7lmWS8b4fj/rQEw2Xn4IDh8W9/QUA==
-X-Received: by 2002:a65:625a:: with SMTP id q26mr4648298pgv.311.1621832115226; 
- Sun, 23 May 2021 21:55:15 -0700 (PDT)
-Received: from spacetanuki.lan ([202.12.244.32])
- by smtp.gmail.com with ESMTPSA id 24sm10040142pgz.77.2021.05.23.21.55.14
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Sun, 23 May 2021 21:55:15 -0700 (PDT)
-From: YAMAMOTO Takashi <yamamoto@midokura.com>
-To: qemu-devel@nongnu.org
-Cc: YAMAMOTO Takashi <yamamoto@midokura.com>,
- Laurent Vivier <laurent@vivier.eu>
-Subject: [PATCH 5/5] linux-user: Implement pivot_root
-Date: Mon, 24 May 2021 13:54:11 +0900
-Message-Id: <20210524045412.15152-6-yamamoto@midokura.com>
-X-Mailer: git-send-email 2.21.1 (Apple Git-122.3)
-In-Reply-To: <20210524045412.15152-1-yamamoto@midokura.com>
-References: <20210524045412.15152-1-yamamoto@midokura.com>
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1ll2td-0007Vx-Le; Mon, 24 May 2021 01:12:57 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:37137)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1ll2tb-0005z5-DD; Mon, 24 May 2021 01:12:57 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4FpQMP0L42z9sRf; Mon, 24 May 2021 15:12:48 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1621833169;
+ bh=dQJjwb87hFskMlJenLEGV3FHCNxROKnW9ki+ZIUZJLo=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=c9vUww7MPzxZx/p6eKDq+ly0NhncjqWkj7kisovg+A0v3tS4mTEZI13X0K2Hp+dBe
+ Sn99/AROMGJLM2jtsTBgKAcK+ZF1GB3cxqS2XOqKrruiMDKNafoxYcFlGWZHZT2XjP
+ KZCXzoiWmNMANqFuWf3pwnJY3GoODoI44zrcYxos=
+Date: Mon, 24 May 2021 15:11:05 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH 16/24] target/ppc: Remove PowerPCCPUClass.handle_mmu_fault
+Message-ID: <YKs1aTFIaqW9BGmP@yekko>
+References: <20210518201146.794854-1-richard.henderson@linaro.org>
+ <20210518201146.794854-17-richard.henderson@linaro.org>
+ <YKsdQ4IKyLJpGi4Y@yekko>
+ <52a1be8e-da96-3146-5ab5-e46735f683fc@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
- envelope-from=yamamoto@midokura.com; helo=mail-pf1-x42c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="rR72Gq4PnR5le0K+"
+Content-Disposition: inline
+In-Reply-To: <52a1be8e-da96-3146-5ab5-e46735f683fc@linaro.org>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ TVD_SUBJ_WIPE_DEBT=1.004 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,65 +61,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Used by runc.
 
-Signed-off-by: YAMAMOTO Takashi <yamamoto@midokura.com>
----
- linux-user/syscall.c | 23 +++++++++++++++++++++++
- 1 file changed, 23 insertions(+)
+--rR72Gq4PnR5le0K+
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 2947e79dc0..e739921e86 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -35,6 +35,7 @@
- #include <sys/prctl.h>
- #include <sys/resource.h>
- #include <sys/swap.h>
-+#include <sys/syscall.h>
- #include <linux/capability.h>
- #include <sched.h>
- #include <sys/timex.h>
-@@ -8254,6 +8255,11 @@ static int host_to_target_cpu_mask(const unsigned long *host_mask,
-     return 0;
- }
- 
-+static int pivot_root(const char *new_root, const char *put_old)
-+{
-+    return syscall(SYS_pivot_root, new_root, put_old);
-+}
-+
- /* This is an internal helper for do_syscall so that it is easier
-  * to have a single return point, so that actions, such as logging
-  * of syscall results, can be performed.
-@@ -13222,6 +13228,23 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
-         return ret;
- #endif
- 
-+#if defined(TARGET_NR_pivot_root)
-+    case TARGET_NR_pivot_root:
-+        {
-+            void *p2;
-+            p = lock_user_string(arg1); /* new_root */
-+            p2 = lock_user_string(arg2); /* put_old */
-+            if (!p || !p2) {
-+                ret = -TARGET_EFAULT;
-+            } else {
-+                ret = get_errno(pivot_root(p, p2));
-+            }
-+            unlock_user(p2, arg2, 0);
-+            unlock_user(p, arg1, 0);
-+        }
-+        return ret;
-+#endif
-+
-     default:
-         qemu_log_mask(LOG_UNIMP, "Unsupported syscall: %d\n", num);
-         return -TARGET_ENOSYS;
--- 
-2.21.1 (Apple Git-122.3)
+On Sun, May 23, 2021 at 11:36:44PM -0500, Richard Henderson wrote:
+65;6401;1c> On 5/23/21 10:28 PM, David Gibson wrote:
+> > On Tue, May 18, 2021 at 03:11:38PM -0500, Richard Henderson wrote:
+> > > Instead, use a switch on env->mmu_model.  This avoids some
+> > > replicated information in cpu setup.
+> >=20
+> > I have mixed feelings about this, since I introduced
+> > pcc->handle_mmu_fault specifically to get rid of the nasty
+> > mega-switch, with the hope of eventually getting rid of env->mmu_model
+> > entirely.
+> >=20
+> > But.. it does simplify your patch series, which makes a good change
+> > overall.
+>=20
+> Having browsed the mmu code for a while, I would imagine a good change wo=
+uld
+> be to have several hooks, and the mmu_model enum, all in the same const
+> struct. But the current situation is untennable.
 
+Yeah, fair.
+
+>=20
+>=20
+> r~
+>=20
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--rR72Gq4PnR5le0K+
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmCrNWkACgkQbDjKyiDZ
+s5JHWA/+NyM+rdfXNWzCqaqBKGnutLQeWy2WzRWWKZUWPLhPREEiHue6dO+dytQe
+zF3f5odPqs7VyCDBnSa/1Rbe+D8+mN9SFqH9Coyuzcsvyf5MDyVzm/rKis1/AYT1
+s061/e5kn/Wv8HiZD8yyJtVdzjkNB217cFktog/0wB4BeQO7WKG5/kpHUJGgyIRP
+fPgb+n2r2vhDcIViY3PJdqOIQy3h1M80cd979osLcdP3r/KBsfr8X4dZenpC9ZzB
+dX67pl6UYopzwZ1+B4OihbzBnuPKgOX6hILOevS3sKBq1SYzmb+v+NqbLje6T2T1
+PQCkLQbLWDWCIMXhz6fhDawEjHo78mEYlFxHYFIg7pnrOdls55wet2R6wMYv1Pmt
+KycKAxlC2526Coefz/waJX27X7wI747I998Mr4duoLtEke7QovdXI3DPTSm6Dgix
+RaQAAXOTzfAa6ZBKudOO8Kv0oI0fY0QIFA5cZaSIEDLhfaPWiKQ/7Zosxz9s0xFA
+CZyEIMs0wKAjCrSTnFPRGFGGFvEtcV7xTrutsfHSxdkbRA9uVfhx4fmioHaUgRLv
+BsbWJeAnp5v3RXN6Cwxz+Qtr97YFi6pTSHPm08U55fyfWRESJY7DEAb+rtGl7jfn
++fEsHs7yLaQYn3YZNTSQ0++W51Qt6bNCSv7/5zTyN9vnhMQGuKU=
+=1wLd
+-----END PGP SIGNATURE-----
+
+--rR72Gq4PnR5le0K+--
 
