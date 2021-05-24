@@ -2,69 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F62038DD59
-	for <lists+qemu-devel@lfdr.de>; Sun, 23 May 2021 23:45:58 +0200 (CEST)
-Received: from localhost ([::1]:56000 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D60038DEC2
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 03:03:09 +0200 (CEST)
+Received: from localhost ([::1]:39990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lkvv2-0000m1-Fk
-	for lists+qemu-devel@lfdr.de; Sun, 23 May 2021 17:45:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34184)
+	id 1lkyzr-0001Ip-OZ
+	for lists+qemu-devel@lfdr.de; Sun, 23 May 2021 21:03:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60434)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kenta@lithdew.net>) id 1lkvtS-0008UV-Ff
- for qemu-devel@nongnu.org; Sun, 23 May 2021 17:44:18 -0400
-Received: from mail-ua1-x92d.google.com ([2607:f8b0:4864:20::92d]:38702)
+ (Exim 4.90_1) (envelope-from <palmer@dabbelt.com>)
+ id 1lkyxe-00008Q-DP
+ for qemu-devel@nongnu.org; Sun, 23 May 2021 21:00:53 -0400
+Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036]:46913)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <kenta@lithdew.net>) id 1lkvtP-0005bu-Qn
- for qemu-devel@nongnu.org; Sun, 23 May 2021 17:44:18 -0400
-Received: by mail-ua1-x92d.google.com with SMTP id q8so4174644uap.5
- for <qemu-devel@nongnu.org>; Sun, 23 May 2021 14:44:14 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <palmer@dabbelt.com>)
+ id 1lkyxU-0006OD-2b
+ for qemu-devel@nongnu.org; Sun, 23 May 2021 21:00:50 -0400
+Received: by mail-pj1-x1036.google.com with SMTP id
+ pi6-20020a17090b1e46b029015cec51d7cdso10158625pjb.5
+ for <qemu-devel@nongnu.org>; Sun, 23 May 2021 18:00:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=lithdew-net.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=RXSF8Bb1repBj35GHaDQmVWJBT39DV1x/Dyz1cI++GA=;
- b=nA9rQr5xxqWIkYWjogAz/H8FRw/i0jP5x9Ok9ZCiqNbRjDGr4XczlTBctib+GmIoxG
- vOEtkcBQpYIn6ZtVTAaQAv0pfhnzGuQtbTthueNQcRTkGgErshQGIAVGgQUXz8rfim3F
- xvbmW3mzA2xuTkCxI0lX05Nn1foooY2Nm94vaSO6ty2t1xTUR9xaECfh66K30/vJkIW8
- 6sbSrzUjXx5LFEeL6ltDsDkbWI5T2+7A5X7SWrR4TQDvU+SJgZicOfspw9AFSdDafDbT
- Ti/B0R20ywvWC33JgP1m3D71VbwHjgvWVmgQw6m9oaaZI7Q9OH15GkN3fxOdm9OwGkeK
- UIGg==
+ d=dabbelt-com.20150623.gappssmtp.com; s=20150623;
+ h=date:subject:in-reply-to:cc:from:to:message-id:mime-version
+ :content-transfer-encoding;
+ bh=H9jqymzxHvqrh9s5eUBTbrB5UCiTChDWMtf+0BbMchU=;
+ b=mrh6rYiqs9dWQAAEyBq+KW/JqQ8C7NDJnyIpbSt1iSlQfnasrs92R1xHxamlcyDegP
+ VbRpIZr1NojSJzNym2pN8ffrPBgEsODL72P1UsSumfWy4jz7z/1PYakytqQP9NtMdKvK
+ Yxr0QcWjQXFY4nnHtcUz9/hHRxi8SM0qaBgdSEHh4J5fENyTp9a/IGEnMXwKxNH1UiCx
+ PtDXNVXsjcyu2Eet9heyV0Unk2yW/yonCVZcNCsxhpZMsI3vAY92QUFYmDTfsyATShzY
+ qiHf4Xvk0NDkVCG5v5dkN+n5nWfO8gLQCKS9g94GeJlLhDei4FU0X9z5m/fAzM9OOMMz
+ DLEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=RXSF8Bb1repBj35GHaDQmVWJBT39DV1x/Dyz1cI++GA=;
- b=FBhhv4cYKjJ/PsZCoRdg2j6OCgXgh/MNhOHgmxFHotkZtuT3uBXCIwjz16Uz2eQa8L
- dkw/9QvHYmoNavHFGY0XbXH/wI5EJsQp8E7X2nz/1kYmA0A5LZ1GUvHArmFcbvMg9VMx
- BMqIR2PgbMpG3vzFMUe5iL4HRF4kx6p3+kMHOX7LHf9nb1a1AE9BLRK7ige1hn+20w+j
- xYoKcUz1MpBxVgax8hd5AJx57T9siHYmihDqd89FRndd/lqZlSeerAIZR3PIg8IZc8iG
- jYMCRFA8VD9dHmro7fitasTi301hK6NY+daqIjugrd5Pbcf2h8+uo/k46LODV0PcHgNF
- ui/g==
-X-Gm-Message-State: AOAM530lgh2t7Qtp8jsEWFkxAZKMIEDUX9LHrAD7KHSLZqAN+j8+rebD
- MLLzwCramwk3w0rIVtrYYiTZsUZBGIHuMtXTfaRZBgyWL7KFN2bDjnw=
-X-Google-Smtp-Source: ABdhPJw8PXtiH3pDg0+vLNgFi3wRvCgEQNHnFT8WIC1J87wS/VjSLCi0n1ppKbo/AqoNCXM1gCQuzcUcVsfZXnoVoB0=
-X-Received: by 2002:ab0:3256:: with SMTP id r22mr19512562uan.47.1621806254158; 
- Sun, 23 May 2021 14:44:14 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210516091536.1042693-1-kenta@lithdew.net>
- <aee50099-14a8-1c6b-6142-a4363f75812d@vivier.eu>
- <CAO4V76-aCeNq8OpTptSxywj+pV22EHNF-osWtR3onWMvGSSX+Q@mail.gmail.com>
-In-Reply-To: <CAO4V76-aCeNq8OpTptSxywj+pV22EHNF-osWtR3onWMvGSSX+Q@mail.gmail.com>
-From: Kenta Iwasaki <kenta@lithdew.net>
-Date: Mon, 24 May 2021 06:44:03 +0900
-Message-ID: <CAO4V76_bSBAqaiT7nRX1kRPUa62T55TjS68Y4n-a-Uur7tmXOg@mail.gmail.com>
-Subject: Re: [PATCH] linux-user/syscall: zero-init msghdr in
- do_sendrecvmsg_locked
-To: Laurent Vivier <laurent@vivier.eu>
-Content-Type: multipart/alternative; boundary="000000000000ac865f05c306313a"
-Received-SPF: none client-ip=2607:f8b0:4864:20::92d;
- envelope-from=kenta@lithdew.net; helo=mail-ua1-x92d.google.com
+ h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
+ :mime-version:content-transfer-encoding;
+ bh=H9jqymzxHvqrh9s5eUBTbrB5UCiTChDWMtf+0BbMchU=;
+ b=NC40Md5tMozzKWgEyJACDfwwFXewHEf8CBPLErs9vpD86tS1f/u5XBAUqc/lJrwxhb
+ BqIlKoyE9XsCbdthxO5ThdCl67fZjvCGndZSfcZhZApPf5Jod13OXNmfx+AZhgGODJ7U
+ 5Fv7bO/JquQEWQvnpnWseEiQYBhFHb5MT7S6LZC/NEfL3qKLhXhdcNwHK5pGSOmBhHZ5
+ Y5EGjzJXxUgCh0IpZQSr2bTNymtDIqdAh4lgLc9KOch/K9iVssWmhwjYitM16eeh+rSz
+ OcmWP1yQ574nvJSrwznhLUZzDJuwafPBSuaw/ReRrDvSVNpT5gIOIPgGwF43N9OUXwEw
+ DU/g==
+X-Gm-Message-State: AOAM5306aKsJQPpXoj4GRpdfSfNSBt0aQkYIfj9Omz5GO8rx55esyK7v
+ KqD7oBHWDZ3ra50QYHQrhGeKFA==
+X-Google-Smtp-Source: ABdhPJwuLkzAbtIiVaB/5b8WrckjYE++uVhhAYETlhLK3yE9c5+j/SCOholtOLFfsKbqlDX1U30ncQ==
+X-Received: by 2002:a17:90a:c096:: with SMTP id
+ o22mr22974948pjs.231.1621818036577; 
+ Sun, 23 May 2021 18:00:36 -0700 (PDT)
+Received: from localhost (76-210-143-223.lightspeed.sntcca.sbcglobal.net.
+ [76.210.143.223])
+ by smtp.gmail.com with ESMTPSA id t22sm9233782pfl.50.2021.05.23.18.00.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 23 May 2021 18:00:35 -0700 (PDT)
+Date: Sun, 23 May 2021 18:00:35 -0700 (PDT)
+X-Google-Original-Date: Sun, 23 May 2021 18:00:28 PDT (-0700)
+Subject: Re: [PATCH 05/38] target/riscv: 8-bit Addition & Subtraction
+ Instruction
+In-Reply-To: <CAKmqyKO9UHGkfRdb8dEVHFaxCjGox3x+-g066nRc_vqc7wtVWQ@mail.gmail.com>
+From: Palmer Dabbelt <palmer@dabbelt.com>
+To: alistair23@gmail.com
+Message-ID: <mhng-167a21fd-72ef-432a-896e-ac21b587c560@palmerdabbelt-glaptop>
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
+ envelope-from=palmer@dabbelt.com; helo=mail-pj1-x1036.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,250 +86,262 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: richard.henderson@linaro.org, qemu-riscv@nongnu.org, zhiwei_liu@c-sky.com,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000ac865f05c306313a
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Doing a ping for this patch.
-https://patchew.org/QEMU/20210516091536.1042693-1-kenta@lithdew.net/
-
-Best regards,
-Kenta Iwasaki
-
-On Sun, 16 May 2021 at 21:57, Kenta Iwasaki <kenta@lithdew.net> wrote:
-
-> Sure,
->
-> The bytes of `msghdr` need to be cleared because the `msghdr` struct
-> layout specified in QEMU appears to generalize between the definitions of
-> `msghdr` across different libc's and kernels. To appropriately generalize
-> `msghdr` across libc's and kernels would either:
->
-> 1. require specializing code in do_sendrecvmsg_locked() for each
-> individual libc and kernel version, or
-> 2. zeroing out all bytes of `msghdr`, b/c certain libc or kernel versions
-> may misinterpret the undefined padding bytes that come from misalignment =
-in
-> the struct as actual syscall params.
->
-> The patch I provided would be going for route #2, given that it's a
-> simpler fix for the underlying problem for the short term.
->
-> What I believe is the background behind why the struct layout has been a
-> problem is because, since the beginning, the Linux kernel has always
-> specified the layout of `msghdr` differently from POSIX. Given that this
-> implies incompatibility between kernels on how `msghdr` is specified,
-> different libc projects such as musl and glibc provide different
-> workarounds by laying out `msghdr` differently amongst one another.
->
-> A few projects running tests/applications through QEMU have been bitten b=
-y
-> this, and a solution that one of the projects discovered was that patchin=
-g
-> QEMU to zero-initialize the bytes msghdr the same way my patch does allow
-> for compatibility between different `msghdr` layouts across glibc, musl,
-> and the Linux kernel:
-> https://github.com/void-linux/void-packages/issues/23557#issuecomment-718=
-392360
->
-> For some additional useful context, here's a link pointing changes musl
-> libc made to laying out `msghdr` b/c of Linux incorrectly laying out
-> `msghdr` against the POSIX standard:
-> http://git.musl-libc.org/cgit/musl/commit/?id=3D7168790763cdeb794df52be6e=
-3b39fbb021c5a64
->
-> Also, here is a link to the `msghdr` struct layout in musl libc's bleedin=
-g
-> edge branch as of now:
-> https://git.musl-libc.org/cgit/musl/tree/include/sys/socket.h#n22
->
-> As for my rationale for sending in this patch, it is because I'm currentl=
-y
-> implementing cross-platform networking in the standard library for the Zi=
-g
-> programming language, and have run into this exact same problem with
-> EMSGSIZE being returned by sendmsg() when tests are run through QEMU on
-> x86_64-linux-musl.
->
-> My discussions with the Zig community about it alongside debug logs
-> regarding the exact parameters being fed to the sendmsg() syscall can be
-> found here:
-> https://github.com/ziglang/zig/pull/8750#issuecomment-841641576
->
-> Hope this gives enough context about the problem and patch, but please do
-> let me know if there is any more information that I could provide which
-> would help.
->
-> Best regards,
-> Kenta Iwasaki
->
->
-> On Sun, 16 May 2021 at 19:53, Laurent Vivier <laurent@vivier.eu> wrote:
->
->> Le 16/05/2021 =C3=A0 11:15, Kenta Iwasaki a =C3=A9crit :
->> > The mixing of libc and kernel versions of the layout of the `msghdr`
->> > struct causes EMSGSIZE to be returned by sendmsg if the `msghdr` struc=
-t
->> > is not zero-initialized (such that padding bytes comprise of
->> > uninitialized memory).
->> >
->> > Other parts of the QEMU codebase appear to zero-initialize the `msghdr=
-`
->> > struct to workaround these struct layout issues, except for
->> > do_sendrecvmsg_locked in linux-user/syscall.c.
->> >
->> > This patch zero-initializes the `msghdr` struct in
->> > do_sendrecvmsg_locked.
->> >
->> > Signed-off-by: Kenta Iwasaki <kenta@lithdew.net>
->> > ---
->> >  linux-user/syscall.c | 2 +-
->> >  1 file changed, 1 insertion(+), 1 deletion(-)
->> >
->> > diff --git a/linux-user/syscall.c b/linux-user/syscall.c
->> > index 95d79ddc43..f60b7e04d5 100644
->> > --- a/linux-user/syscall.c
->> > +++ b/linux-user/syscall.c
->> > @@ -3337,7 +3337,7 @@ static abi_long do_sendrecvmsg_locked(int fd,
->> struct target_msghdr *msgp,
->> >                                        int flags, int send)
->> >  {
->> >      abi_long ret, len;
->> > -    struct msghdr msg;
->> > +    struct msghdr msg =3D { 0 };
->> >      abi_ulong count;
->> >      struct iovec *vec;
->> >      abi_ulong target_vec;
->> >
+On Mon, 15 Mar 2021 14:22:58 PDT (-0700), alistair23@gmail.com wrote:
+> On Fri, Feb 12, 2021 at 10:14 AM LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
 >>
->> It seems do_sendrecvmsg_locked() initializes all the fields of the
->> structure, I don't see why we
->> need to clear it before use.
->>
->> Could you explain more?
->>
->> Thanks,
->> Laurent
->>
+>> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
 >
+> Acked-by: Alistair Francis <alistair.francis@wdc.com>
 
---000000000000ac865f05c306313a
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+I saw some reviews on the other ones, but since others (like this) just 
+have acks and haven't had any other traffic I'm going to start here.
 
-<div dir=3D"ltr">Doing a ping for this patch.=C2=A0<a href=3D"https://patch=
-ew.org/QEMU/20210516091536.1042693-1-kenta@lithdew.net/">https://patchew.or=
-g/QEMU/20210516091536.1042693-1-kenta@lithdew.net/</a><div><br></div><div>B=
-est regards,</div><div>Kenta Iwasaki</div></div><br><div class=3D"gmail_quo=
-te"><div dir=3D"ltr" class=3D"gmail_attr">On Sun, 16 May 2021 at 21:57, Ken=
-ta Iwasaki &lt;<a href=3D"mailto:kenta@lithdew.net">kenta@lithdew.net</a>&g=
-t; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
-x 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div d=
-ir=3D"ltr">Sure,<div><br></div><div>The bytes of `msghdr` need to be cleare=
-d because the `msghdr` struct layout specified in QEMU appears to generaliz=
-e between the definitions of `msghdr` across different libc&#39;s and kerne=
-ls. To appropriately=C2=A0generalize `msghdr` across libc&#39;s and kernels=
- would either:</div><div><br></div><div>1. require specializing code in do_=
-sendrecvmsg_locked() for each individual libc and kernel version, or</div><=
-div>2. zeroing out all bytes of `msghdr`, b/c certain libc or kernel versio=
-ns may misinterpret the undefined padding bytes that come from misalignment=
- in the struct as actual syscall params.</div><div><br></div><div>The patch=
- I provided would be going for route #2, given that it&#39;s a simpler fix =
-for the underlying problem for the short term.</div><div><br></div><div>Wha=
-t I believe is the background behind why the struct layout has been a probl=
-em is because, since the beginning, the Linux kernel has always specified t=
-he layout of `msghdr` differently from POSIX. Given that this implies incom=
-patibility between kernels on how `msghdr` is specified, different libc pro=
-jects such as musl and glibc provide different workarounds by laying out `m=
-sghdr` differently amongst one another.</div><div><br></div><div><div>A few=
- projects running tests/applications through QEMU have been bitten by this,=
- and a solution that one of the projects discovered was that patching QEMU =
-to zero-initialize the bytes msghdr the same way my patch does allow for co=
-mpatibility between different `msghdr` layouts across glibc, musl, and the =
-Linux kernel: <a href=3D"https://github.com/void-linux/void-packages/issues=
-/23557#issuecomment-718392360" target=3D"_blank">https://github.com/void-li=
-nux/void-packages/issues/23557#issuecomment-718392360</a></div><div></div><=
-/div><div><br></div><div>For some additional useful context, here&#39;s a l=
-ink pointing changes musl libc made to laying out `msghdr` b/c of Linux inc=
-orrectly laying out `msghdr` against the POSIX standard: <a href=3D"http://=
-git.musl-libc.org/cgit/musl/commit/?id=3D7168790763cdeb794df52be6e3b39fbb02=
-1c5a64" target=3D"_blank">http://git.musl-libc.org/cgit/musl/commit/?id=3D7=
-168790763cdeb794df52be6e3b39fbb021c5a64</a></div><div><br></div><div>Also, =
-here is a link to the `msghdr` struct layout in musl libc&#39;s bleeding ed=
-ge branch as of now:=C2=A0<a href=3D"https://git.musl-libc.org/cgit/musl/tr=
-ee/include/sys/socket.h#n22" target=3D"_blank">https://git.musl-libc.org/cg=
-it/musl/tree/include/sys/socket.h#n22</a></div><div><br></div><div>As for m=
-y rationale for sending in this patch, it is because I&#39;m currently impl=
-ementing cross-platform networking in the standard library for the Zig prog=
-ramming language, and have run into this exact same problem with EMSGSIZE b=
-eing returned by sendmsg() when tests are run through QEMU on x86_64-linux-=
-musl.</div><div><br></div><div>My discussions with the Zig community about =
-it alongside debug logs regarding the exact parameters being fed to the sen=
-dmsg() syscall can be found here:=C2=A0<a href=3D"https://github.com/ziglan=
-g/zig/pull/8750#issuecomment-841641576" target=3D"_blank">https://github.co=
-m/ziglang/zig/pull/8750#issuecomment-841641576</a></div><div><br></div><div=
->Hope this gives enough context about the problem and patch, but please do =
-let me know if there is any more information that I could provide which wou=
-ld help.</div><div><br></div><div>Best regards,</div><div>Kenta Iwasaki</di=
-v><div><br></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" clas=
-s=3D"gmail_attr">On Sun, 16 May 2021 at 19:53, Laurent Vivier &lt;<a href=
-=3D"mailto:laurent@vivier.eu" target=3D"_blank">laurent@vivier.eu</a>&gt; w=
-rote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0p=
-x 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Le 16/05/2=
-021 =C3=A0 11:15, Kenta Iwasaki a =C3=A9crit=C2=A0:<br>
-&gt; The mixing of libc and kernel versions of the layout of the `msghdr`<b=
-r>
-&gt; struct causes EMSGSIZE to be returned by sendmsg if the `msghdr` struc=
-t<br>
-&gt; is not zero-initialized (such that padding bytes comprise of<br>
-&gt; uninitialized memory).<br>
-&gt; <br>
-&gt; Other parts of the QEMU codebase appear to zero-initialize the `msghdr=
-`<br>
-&gt; struct to workaround these struct layout issues, except for<br>
-&gt; do_sendrecvmsg_locked in linux-user/syscall.c.<br>
-&gt; <br>
-&gt; This patch zero-initializes the `msghdr` struct in<br>
-&gt; do_sendrecvmsg_locked.<br>
-&gt; <br>
-&gt; Signed-off-by: Kenta Iwasaki &lt;<a href=3D"mailto:kenta@lithdew.net" =
-target=3D"_blank">kenta@lithdew.net</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 linux-user/syscall.c | 2 +-<br>
-&gt;=C2=A0 1 file changed, 1 insertion(+), 1 deletion(-)<br>
-&gt; <br>
-&gt; diff --git a/linux-user/syscall.c b/linux-user/syscall.c<br>
-&gt; index 95d79ddc43..f60b7e04d5 100644<br>
-&gt; --- a/linux-user/syscall.c<br>
-&gt; +++ b/linux-user/syscall.c<br>
-&gt; @@ -3337,7 +3337,7 @@ static abi_long do_sendrecvmsg_locked(int fd, st=
-ruct target_msghdr *msgp,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 int f=
-lags, int send)<br>
-&gt;=C2=A0 {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 abi_long ret, len;<br>
-&gt; -=C2=A0 =C2=A0 struct msghdr msg;<br>
-&gt; +=C2=A0 =C2=A0 struct msghdr msg =3D { 0 };<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 abi_ulong count;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 struct iovec *vec;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 abi_ulong target_vec;<br>
-&gt; <br>
-<br>
-It seems do_sendrecvmsg_locked() initializes all the fields of the structur=
-e, I don&#39;t see why we<br>
-need to clear it before use.<br>
-<br>
-Could you explain more?<br>
-<br>
-Thanks,<br>
-Laurent<br>
-</blockquote></div>
-</blockquote></div>
+It looks like the latest spec is 0.9.4, but the changelog is pretty 
+minimal between 0.9.5 and 0.9.2:
 
---000000000000ac865f05c306313a--
+[0.9.2 -> 0.9.3]
+
+* Changed Zp64 name to Zpsfoperand.
+* Added Zprvsfextra for RV64 only instructions.
+* Removed SWAP16 encoding. It is an alias of PKBT16.
+* Fixed few typos and enhanced precision descriptions on imtermediate results.
+
+[0.9.3 -> 0.9.4]
+
+* Fixed few typos and enhanced precision descriptions on imtermediate results.
+* Fixed/Changed data types for some intrinsic functions.
+* Removed "RV32 Only" for Zpsfoperand.
+
+So I'm just going to stick with reviewing based on the latest spec 
+<https://github.com/riscv/riscv-p-spec/blob/d33a761f805d3b7c84214e5654a511267985a0a0/P-ext-proposal.pdf> 
+and try to keep those differences in mind, assuming we're just tracking 
+the latest draft here.
+
+> Alistair
+>
+>> ---
+>>  target/riscv/helper.h                   |  9 +++
+>>  target/riscv/insn32.decode              | 11 ++++
+>>  target/riscv/insn_trans/trans_rvp.c.inc | 79 +++++++++++++++++++++++++
+>>  target/riscv/packed_helper.c            | 73 +++++++++++++++++++++++
+>>  4 files changed, 172 insertions(+)
+>>
+>> diff --git a/target/riscv/helper.h b/target/riscv/helper.h
+>> index 6d622c732a..a69a6b4e84 100644
+>> --- a/target/riscv/helper.h
+>> +++ b/target/riscv/helper.h
+>> @@ -1175,3 +1175,12 @@ DEF_HELPER_3(rstsa16, tl, env, tl, tl)
+>>  DEF_HELPER_3(urstsa16, tl, env, tl, tl)
+>>  DEF_HELPER_3(kstsa16, tl, env, tl, tl)
+>>  DEF_HELPER_3(ukstsa16, tl, env, tl, tl)
+>> +
+>> +DEF_HELPER_3(radd8, tl, env, tl, tl)
+>> +DEF_HELPER_3(uradd8, tl, env, tl, tl)
+>> +DEF_HELPER_3(kadd8, tl, env, tl, tl)
+>> +DEF_HELPER_3(ukadd8, tl, env, tl, tl)
+>> +DEF_HELPER_3(rsub8, tl, env, tl, tl)
+>> +DEF_HELPER_3(ursub8, tl, env, tl, tl)
+>> +DEF_HELPER_3(ksub8, tl, env, tl, tl)
+>> +DEF_HELPER_3(uksub8, tl, env, tl, tl)
+>> diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
+>> index 8815e90476..358dd1fa10 100644
+>> --- a/target/riscv/insn32.decode
+>> +++ b/target/riscv/insn32.decode
+>> @@ -624,3 +624,14 @@ rstsa16    1011011  ..... ..... 010 ..... 1111111 @r
+>>  urstsa16   1101011  ..... ..... 010 ..... 1111111 @r
+>>  kstsa16    1100011  ..... ..... 010 ..... 1111111 @r
+>>  ukstsa16   1110011  ..... ..... 010 ..... 1111111 @r
+>> +
+>> +add8       0100100  ..... ..... 000 ..... 1111111 @r
+>> +radd8      0000100  ..... ..... 000 ..... 1111111 @r
+>> +uradd8     0010100  ..... ..... 000 ..... 1111111 @r
+>> +kadd8      0001100  ..... ..... 000 ..... 1111111 @r
+>> +ukadd8     0011100  ..... ..... 000 ..... 1111111 @r
+>> +sub8       0100101  ..... ..... 000 ..... 1111111 @r
+>> +rsub8      0000101  ..... ..... 000 ..... 1111111 @r
+>> +ursub8     0010101  ..... ..... 000 ..... 1111111 @r
+>> +ksub8      0001101  ..... ..... 000 ..... 1111111 @r
+>> +uksub8     0011101  ..... ..... 000 ..... 1111111 @r
+>> diff --git a/target/riscv/insn_trans/trans_rvp.c.inc b/target/riscv/insn_trans/trans_rvp.c.inc
+>> index 0885a4fd45..109f560ec9 100644
+>> --- a/target/riscv/insn_trans/trans_rvp.c.inc
+>> +++ b/target/riscv/insn_trans/trans_rvp.c.inc
+>> @@ -159,3 +159,82 @@ GEN_RVP_R_OOL(rstsa16);
+>>  GEN_RVP_R_OOL(urstsa16);
+>>  GEN_RVP_R_OOL(kstsa16);
+>>  GEN_RVP_R_OOL(ukstsa16);
+>> +
+>> +/* 8-bit Addition & Subtraction Instructions */
+>> +/*
+>> + *  Copied from tcg-op-gvec.c.
+>> + *
+>> + *  Perform a vector addition using normal addition and a mask.  The mask
+>> + *  should be the sign bit of each lane.  This 6-operation form is more
+>> + *  efficient than separate additions when there are 4 or more lanes in
+>> + *  the 64-bit operation.
+>> + */
+>> +
+>> +static void gen_simd_add_mask(TCGv d, TCGv a, TCGv b, TCGv m)
+>> +{
+>> +    TCGv t1 = tcg_temp_new();
+>> +    TCGv t2 = tcg_temp_new();
+>> +    TCGv t3 = tcg_temp_new();
+>> +
+>> +    tcg_gen_andc_tl(t1, a, m);
+>> +    tcg_gen_andc_tl(t2, b, m);
+>> +    tcg_gen_xor_tl(t3, a, b);
+>> +    tcg_gen_add_tl(d, t1, t2);
+>> +    tcg_gen_and_tl(t3, t3, m);
+>> +    tcg_gen_xor_tl(d, d, t3);
+>> +
+>> +    tcg_temp_free(t1);
+>> +    tcg_temp_free(t2);
+>> +    tcg_temp_free(t3);
+>> +}
+>> +
+>> +static void tcg_gen_simd_add8(TCGv d, TCGv a, TCGv b)
+>> +{
+>> +    TCGv m = tcg_const_tl((target_ulong)dup_const(MO_8, 0x80));
+>> +    gen_simd_add_mask(d, a, b, m);
+>> +    tcg_temp_free(m);
+>> +}
+>> +
+>> +GEN_RVP_R_INLINE(add8, add, 0, trans_add);
+>> +
+>> +/*
+>> + *  Copied from tcg-op-gvec.c.
+>> + *
+>> + *  Perform a vector subtraction using normal subtraction and a mask.
+>> + *  Compare gen_addv_mask above.
+>> + */
+>> +static void gen_simd_sub_mask(TCGv d, TCGv a, TCGv b, TCGv m)
+>> +{
+>> +    TCGv t1 = tcg_temp_new();
+>> +    TCGv t2 = tcg_temp_new();
+>> +    TCGv t3 = tcg_temp_new();
+>> +
+>> +    tcg_gen_or_tl(t1, a, m);
+>> +    tcg_gen_andc_tl(t2, b, m);
+>> +    tcg_gen_eqv_tl(t3, a, b);
+>> +    tcg_gen_sub_tl(d, t1, t2);
+>> +    tcg_gen_and_tl(t3, t3, m);
+>> +    tcg_gen_xor_tl(d, d, t3);
+>> +
+>> +    tcg_temp_free(t1);
+>> +    tcg_temp_free(t2);
+>> +    tcg_temp_free(t3);
+>> +}
+>> +
+>> +static void tcg_gen_simd_sub8(TCGv d, TCGv a, TCGv b)
+>> +{
+>> +    TCGv m = tcg_const_tl((target_ulong)dup_const(MO_8, 0x80));
+>> +    gen_simd_sub_mask(d, a, b, m);
+>> +    tcg_temp_free(m);
+>> +}
+>> +
+>> +GEN_RVP_R_INLINE(sub8, sub, 0, trans_sub);
+>> +
+>> +GEN_RVP_R_OOL(radd8);
+>> +GEN_RVP_R_OOL(uradd8);
+>> +GEN_RVP_R_OOL(kadd8);
+>> +GEN_RVP_R_OOL(ukadd8);
+>> +GEN_RVP_R_OOL(rsub8);
+>> +GEN_RVP_R_OOL(ursub8);
+>> +GEN_RVP_R_OOL(ksub8);
+>> +GEN_RVP_R_OOL(uksub8);
+>> diff --git a/target/riscv/packed_helper.c b/target/riscv/packed_helper.c
+>> index b84abaaf25..62db072204 100644
+>> --- a/target/riscv/packed_helper.c
+>> +++ b/target/riscv/packed_helper.c
+>> @@ -352,3 +352,76 @@ static inline void do_ukstsa16(CPURISCVState *env, void *vd, void *va,
+>>  }
+>>
+>>  RVPR(ukstsa16, 2, 2);
+>> +
+>> +/* 8-bit Addition & Subtraction Instructions */
+>> +static inline void do_radd8(CPURISCVState *env, void *vd, void *va,
+>> +                            void *vb, uint8_t i)
+>> +{
+>> +    int8_t *d = vd, *a = va, *b = vb;
+>> +    d[i] = hadd32(a[i], b[i]);
+>> +}
+>> +
+>> +RVPR(radd8, 1, 1);
+>> +
+>> +static inline void do_uradd8(CPURISCVState *env, void *vd, void *va,
+>> +                                  void *vb, uint8_t i)
+>> +{
+>> +    uint8_t *d = vd, *a = va, *b = vb;
+>> +    d[i] = haddu32(a[i], b[i]);
+>> +}
+>> +
+>> +RVPR(uradd8, 1, 1);
+>> +
+>> +static inline void do_kadd8(CPURISCVState *env, void *vd, void *va,
+>> +                            void *vb, uint8_t i)
+>> +{
+>> +    int8_t *d = vd, *a = va, *b = vb;
+>> +    d[i] = sadd8(env, 0, a[i], b[i]);
+>> +}
+>> +
+>> +RVPR(kadd8, 1, 1);
+>> +
+>> +static inline void do_ukadd8(CPURISCVState *env, void *vd, void *va,
+>> +                             void *vb, uint8_t i)
+>> +{
+>> +    uint8_t *d = vd, *a = va, *b = vb;
+>> +    d[i] = saddu8(env, 0, a[i], b[i]);
+>> +}
+>> +
+>> +RVPR(ukadd8, 1, 1);
+>> +
+>> +static inline void do_rsub8(CPURISCVState *env, void *vd, void *va,
+>> +                            void *vb, uint8_t i)
+>> +{
+>> +    int8_t *d = vd, *a = va, *b = vb;
+>> +    d[i] = hsub32(a[i], b[i]);
+>> +}
+>> +
+>> +RVPR(rsub8, 1, 1);
+>> +
+>> +static inline void do_ursub8(CPURISCVState *env, void *vd, void *va,
+>> +                             void *vb, uint8_t i)
+>> +{
+>> +    uint8_t *d = vd, *a = va, *b = vb;
+>> +    d[i] = hsubu64(a[i], b[i]);
+>> +}
+>> +
+>> +RVPR(ursub8, 1, 1);
+>> +
+>> +static inline void do_ksub8(CPURISCVState *env, void *vd, void *va,
+>> +                            void *vb, uint8_t i)
+>> +{
+>> +    int8_t *d = vd, *a = va, *b = vb;
+>> +    d[i] = ssub8(env, 0, a[i], b[i]);
+>> +}
+>> +
+>> +RVPR(ksub8, 1, 1);
+>> +
+>> +static inline void do_uksub8(CPURISCVState *env, void *vd, void *va,
+>> +                             void *vb, uint8_t i)
+>> +{
+>> +    uint8_t *d = vd, *a = va, *b = vb;
+>> +    d[i] = ssubu8(env, 0, a[i], b[i]);
+>> +}
+>> +
+>> +RVPR(uksub8, 1, 1);
+>> --
+>> 2.17.1
+>>
+
+The naming on some of these helpers is a bit odd, but given that they're 
+a mix of the V and P extensions it's probably fine to just leave them 
+as-is.  
+
+Reviewed-by: Palmer Dabbelt <palmerdabbelt@google.com>
 
