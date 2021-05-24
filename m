@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4F6038E83E
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 16:02:43 +0200 (CEST)
-Received: from localhost ([::1]:49938 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7008B38E843
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 16:05:04 +0200 (CEST)
+Received: from localhost ([::1]:53968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llBAI-0005Kb-PT
-	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 10:02:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34888)
+	id 1llBCZ-00089y-Fv
+	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 10:05:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34918)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bruno.larsen@eldorado.org.br>)
- id 1llB78-0003Bg-6B; Mon, 24 May 2021 09:59:26 -0400
+ id 1llB7A-0003FY-PX; Mon, 24 May 2021 09:59:28 -0400
 Received: from [201.28.113.2] (port=6892 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <bruno.larsen@eldorado.org.br>)
- id 1llB76-000159-NI; Mon, 24 May 2021 09:59:25 -0400
+ id 1llB79-000159-9C; Mon, 24 May 2021 09:59:28 -0400
 Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
  Microsoft SMTPSVC(8.5.9600.16384); Mon, 24 May 2021 10:59:18 -0300
 Received: from eldorado.org.br (unknown [10.10.71.235])
- by power9a (Postfix) with ESMTP id EEF0D80144E;
- Mon, 24 May 2021 10:59:17 -0300 (-03)
+ by power9a (Postfix) with ESMTP id 0E4A1801360;
+ Mon, 24 May 2021 10:59:18 -0300 (-03)
 From: "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 1/5] target/ppc: moved ppc_cpu_do_interrupt to cpu.c
-Date: Mon, 24 May 2021 10:59:04 -0300
-Message-Id: <20210524135908.47505-2-bruno.larsen@eldorado.org.br>
+Subject: [PATCH v4 2/5] target/ppc: used ternary operator when registering MAS
+Date: Mon, 24 May 2021 10:59:05 -0300
+Message-Id: <20210524135908.47505-3-bruno.larsen@eldorado.org.br>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210524135908.47505-1-bruno.larsen@eldorado.org.br>
 References: <20210524135908.47505-1-bruno.larsen@eldorado.org.br>
-X-OriginalArrivalTime: 24 May 2021 13:59:18.0106 (UTC)
- FILETIME=[FD0CEBA0:01D750A4]
+X-OriginalArrivalTime: 24 May 2021 13:59:18.0200 (UTC)
+ FILETIME=[FD1B4380:01D750A4]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
 Received-SPF: pass client-ip=201.28.113.2;
  envelope-from=bruno.larsen@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -59,101 +59,38 @@ Cc: farosas@linux.ibm.com, richard.henderson@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Moved the ppc_cpu_do_interrupt function to cpu.c file, where it makes
-more sense, and turned powerpc_excp not static, as it now needs to be
-accessed from outside of excp_helper.c
+The write calback decision when registering the MAS SPR has been turned
+into a ternary operation, rather than an if-then-else block.
 
 Signed-off-by: Bruno Larsen (billionai) <bruno.larsen@eldorado.org.br>
+Suggested-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/ppc/cpu.c         | 20 ++++++++++++++++++++
- target/ppc/cpu.h         |  1 +
- target/ppc/excp_helper.c | 19 +------------------
- 3 files changed, 22 insertions(+), 18 deletions(-)
+ target/ppc/cpu_init.c | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
 
-diff --git a/target/ppc/cpu.c b/target/ppc/cpu.c
-index 19d67b5b07..95898f348b 100644
---- a/target/ppc/cpu.c
-+++ b/target/ppc/cpu.c
-@@ -152,3 +152,23 @@ void ppc_store_fpscr(CPUPPCState *env, target_ulong val)
-         fpscr_set_rounding_mode(env);
+diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
+index b696469d1a..40719f6480 100644
+--- a/target/ppc/cpu_init.c
++++ b/target/ppc/cpu_init.c
+@@ -1205,15 +1205,12 @@ static void register_BookE206_sprs(CPUPPCState *env, uint32_t mas_mask,
+     /* TLB assist registers */
+     /* XXX : not implemented */
+     for (i = 0; i < 8; i++) {
+-        void (*uea_write)(DisasContext *ctx, int sprn, int gprn) =
+-            &spr_write_generic32;
+-        if (i == 2 && (mas_mask & (1 << i)) && (env->insns_flags & PPC_64B)) {
+-            uea_write = &spr_write_generic;
+-        }
+         if (mas_mask & (1 << i)) {
+             spr_register(env, mas_sprn[i], mas_names[i],
+                          SPR_NOACCESS, SPR_NOACCESS,
+-                         &spr_read_generic, uea_write,
++                         &spr_read_generic,
++                         (i == 2 && (env->insns_flags & PPC_64B))
++                         ? &spr_write_generic : &spr_write_generic32,
+                          0x00000000);
+         }
      }
- }
-+
-+/* Exception processing */
-+#if defined(CONFIG_USER_ONLY)
-+void ppc_cpu_do_interrupt(CPUState *cs)
-+{
-+    PowerPCCPU *cpu = POWERPC_CPU(cs);
-+    CPUPPCState *env = &cpu->env;
-+
-+    cs->exception_index = POWERPC_EXCP_NONE;
-+    env->error_code = 0;
-+}
-+#else
-+void ppc_cpu_do_interrupt(CPUState *cs)
-+{
-+    PowerPCCPU *cpu = POWERPC_CPU(cs);
-+    CPUPPCState *env = &cpu->env;
-+
-+    powerpc_excp(cpu, env->excp_model, cs->exception_index);
-+}
-+#endif
-diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index 203f07e48e..65a08cc424 100644
---- a/target/ppc/cpu.h
-+++ b/target/ppc/cpu.h
-@@ -1254,6 +1254,7 @@ DECLARE_OBJ_CHECKERS(PPCVirtualHypervisor, PPCVirtualHypervisorClass,
- #endif /* CONFIG_USER_ONLY */
- 
- void ppc_cpu_do_interrupt(CPUState *cpu);
-+void powerpc_excp(PowerPCCPU *cpu, int excp_model, int excp);
- bool ppc_cpu_exec_interrupt(CPUState *cpu, int int_req);
- void ppc_cpu_dump_state(CPUState *cpu, FILE *f, int flags);
- void ppc_cpu_dump_statistics(CPUState *cpu, int flags);
-diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-index f4f15279eb..80bb6e70e9 100644
---- a/target/ppc/excp_helper.c
-+++ b/target/ppc/excp_helper.c
-@@ -38,15 +38,6 @@
- /*****************************************************************************/
- /* Exception processing */
- #if defined(CONFIG_USER_ONLY)
--void ppc_cpu_do_interrupt(CPUState *cs)
--{
--    PowerPCCPU *cpu = POWERPC_CPU(cs);
--    CPUPPCState *env = &cpu->env;
--
--    cs->exception_index = POWERPC_EXCP_NONE;
--    env->error_code = 0;
--}
--
- static void ppc_hw_interrupt(CPUPPCState *env)
- {
-     CPUState *cs = env_cpu(env);
-@@ -324,7 +315,7 @@ static inline void powerpc_set_excp_state(PowerPCCPU *cpu,
-  * Note that this function should be greatly optimized when called
-  * with a constant excp, from ppc_hw_interrupt
-  */
--static inline void powerpc_excp(PowerPCCPU *cpu, int excp_model, int excp)
-+inline void powerpc_excp(PowerPCCPU *cpu, int excp_model, int excp)
- {
-     CPUState *cs = CPU(cpu);
-     CPUPPCState *env = &cpu->env;
-@@ -968,14 +959,6 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int excp_model, int excp)
-     powerpc_set_excp_state(cpu, vector, new_msr);
- }
- 
--void ppc_cpu_do_interrupt(CPUState *cs)
--{
--    PowerPCCPU *cpu = POWERPC_CPU(cs);
--    CPUPPCState *env = &cpu->env;
--
--    powerpc_excp(cpu, env->excp_model, cs->exception_index);
--}
--
- static void ppc_hw_interrupt(CPUPPCState *env)
- {
-     PowerPCCPU *cpu = env_archcpu(env);
 -- 
 2.17.1
 
