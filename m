@@ -2,57 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFC9F38E8B5
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 16:27:06 +0200 (CEST)
-Received: from localhost ([::1]:36290 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5401F38E8B6
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 16:27:29 +0200 (CEST)
+Received: from localhost ([::1]:38164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llBXt-0002BI-Sz
-	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 10:27:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40560)
+	id 1llBYG-0003Ox-AQ
+	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 10:27:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40570)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1llBS5-0006ur-Fa; Mon, 24 May 2021 10:21:05 -0400
-Received: from mail-eopbgr50103.outbound.protection.outlook.com
- ([40.107.5.103]:9605 helo=EUR03-VE1-obe.outbound.protection.outlook.com)
+ id 1llBS6-000716-IT; Mon, 24 May 2021 10:21:06 -0400
+Received: from mail-eopbgr70122.outbound.protection.outlook.com
+ ([40.107.7.122]:51129 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1llBS3-0006u5-IX; Mon, 24 May 2021 10:21:05 -0400
+ id 1llBS4-0006l3-J7; Mon, 24 May 2021 10:21:06 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ZzlsOiRzYNFDtqeKMcvnmGbaDXIbV3aLZU2TIFudiu8pOUaftGpz11t7j3lt/SvK0bJqAjuZK5VzLN1QdvBOmcgHc0FbF1jLMwvH7HuvsPVzfZ0msSxfexEcHDdYcn8sC5mX3dnyqVVm38cEekRsJ/0rqJUjOE0C0qyD8qnum9MLhYE467lGswiBWMM16FtJH8mXOgkJjgfZZboa4Rltwulzw0k/9NCohz0YdXUWd9pZRExwVU3BKYu1HIt+N1gBGtx+qwipzko25EALxrDwCWGLVGD5xvMR9diDnYcCWlSH15PrUzOQNZnDW7acL37B8zi7dyXquq4UMjM9XrYxmw==
+ b=lyxPk77bfDRy8DZXtTn4E06NdhtrF4Nkk2qWDIq0KAqvsr/nk+zYZWS9ZPB+sGMq2saZ/6UMnySA/+XJ1tAVrK80VRzuw/DjbL3QhuNS2seSUjMUxoof5n24qkZ2fWJJZxhTJKFJUVrjgeDQQKdX2GY5e77KWYbAJLGifct20HiAB4PXkQMUdyvs69mP9j7f2S3NJQ1yVdpP8bmBw/FipkjzdKmbFgcq7ypUdoc3ADdhE7smZTrRwfe6UBb/Fap/l0TN/90cs8DMlwkVmVNBoOplbIF5X2kmfRpMuFE4if/q3VzIylqmW223NaajKgeKdWJLjTagTb/FjiyVzUs+nw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tJSAqSMQChtTeR2gMDl2jR+cz13jXFGwW7pDat7i1tE=;
- b=eCHcnP/8N8ymMwIrxd+GwtBb7+DSzl5oEl+m3VTGIgG9RGF78ZnCtwkbGFGbK6wKINkhSrB+LzY4BasJ/UYKVgv4ts9zzkvd+7b7BNFCDHxXxfYGV2nbcd96izuSDNbcYZWzHr+C/pjlZQ0wzjQcrokB0SnZx8il43YETrSASxyTKPjsu6dh5VDpT5+L0I3WJIzrVKkgwf9mcJ5J30opdqwAA8ouPdPSPC61ryfP4jNA44XY69YA+9whS+HHsLMR6ktuoDKLoBCmB5fi/Ce6rKMEmQNJUczcfVNZsKUmMfMF0uQGefaQr7LEoLjD8gA+ZS6Mu282s7N8zeg8sgLr0A==
+ bh=8uIOxITwxhggvesR9LxaQVjj5hrQdYiD4V7SN/sbqXA=;
+ b=N6rrYH3lr+M+L5GIHXkDgWgxU+bkYxXQPKVG7TV1Z1eTenKsCg2omuH+yafua3wJHbJRDx/JouybUQuJWWQlVHc/gKifSEGuXWvwmGRTcskSME94vj8AJ5NI8A8T2hw0rgYzxfzSy8YBTAapuXusyCnbBzjVK1d+g8ML6OZctEVTmH1nXEylFEnv4mrW1Uee0eTTzlYC93EjDxHwrRlF6LDn4vqNvm4cXMy87J57bo0UmtnFRCdOZaicZbAXtywfcRYpnklUo0RO6Uwws8K0fpqHz82P21jlrGELQhd6mFADQLzT7DfofPshh0V601Jknv2E+IJvvdALIdrsNDhHng==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tJSAqSMQChtTeR2gMDl2jR+cz13jXFGwW7pDat7i1tE=;
- b=hnDGE+1pqqVIfPOUBGLUacjl+tvTow7L7f8sBKRw/c7GOVLB7sRWjcoVg3ktKeG1EJ8myKVzgIjTsfwlrUiZoenzKb7GLwjmcI/nXnURuiGZlmmWUDsqaogFRqmRrEI5JbhQL8ZD9P3IZMAjd/p3iSuMxg4mj2BZnMeTv8as9mw=
+ bh=8uIOxITwxhggvesR9LxaQVjj5hrQdYiD4V7SN/sbqXA=;
+ b=YA0mh6xdAKU3Ip2AUipsOlbvESPSiw1poJR6/KI2QqdroZ7UIFnCdtHZ4enAUlEbEY5g0flgUaOp0Dgr5sR3hha2NxyD69kTF9TC0MZo8y2SzPFyWCu5ZYMt5sfXqW3iW5It7wYJeKjD3SuwnWGNKXV7DmIa0nvwVGs3nmq+/Qs=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AM6PR08MB4165.eurprd08.prod.outlook.com (2603:10a6:20b:a2::10)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4150.27; Mon, 24 May
- 2021 14:20:51 +0000
+ 2021 14:20:52 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::b403:c1a9:6bb7:133]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::b403:c1a9:6bb7:133%8]) with mapi id 15.20.4150.027; Mon, 24 May 2021
- 14:20:51 +0000
+ 14:20:52 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, mreitz@redhat.com, kwolf@redhat.com, den@openvz.org,
  vsementsov@virtuozzo.com, ktkhai@virtuozzo.com, eblake@redhat.com,
  berto@igalia.com
-Subject: [PATCH v3 05/10] qcow2-refcount: fix_l2_entry_by_zero(): also zero L2
- entry bitmap
-Date: Mon, 24 May 2021 17:20:26 +0300
-Message-Id: <20210524142031.142109-6-vsementsov@virtuozzo.com>
+Subject: [PATCH v3 06/10] qcow2-refcount: check_refcounts_l2(): check l2_bitmap
+Date: Mon, 24 May 2021 17:20:27 +0300
+Message-Id: <20210524142031.142109-7-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210524142031.142109-1-vsementsov@virtuozzo.com>
 References: <20210524142031.142109-1-vsementsov@virtuozzo.com>
@@ -67,56 +66,56 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost.localdomain (185.215.60.195) by
  HE1PR09CA0063.eurprd09.prod.outlook.com (2603:10a6:7:3c::31) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4150.23 via Frontend Transport; Mon, 24 May 2021 14:20:50 +0000
+ 15.20.4150.23 via Frontend Transport; Mon, 24 May 2021 14:20:51 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 4c1419b7-6adf-4d78-4fef-08d91ebf2224
+X-MS-Office365-Filtering-Correlation-Id: d1d544c2-560d-44d3-a76c-08d91ebf22d1
 X-MS-TrafficTypeDiagnostic: AM6PR08MB4165:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB4165DBD09C3E8493D49F6CA0C1269@AM6PR08MB4165.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:136;
+X-Microsoft-Antispam-PRVS: <AM6PR08MB4165308AE89668FC9EE9A2F4C1269@AM6PR08MB4165.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:389;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: LgKOLtNdS+vIklbQErQid2shG87fytFurz4wsawchap/LdrqW3xAAkkwJRkinfO1/4ODygPdya344nr6SJtu1VeBFZJrxgso8XM/YPkmXUU2TGFBxggBiI4UTv/3qFzIqQwrTYR4DY6CdSmszRyOYqCfE/GMrTfzlo+wsK0wEDfHpqZH40scCUCcENL+87/AfK7jxVv/Gz6EgX7ysz9fiEBTerk01vppAJoxx0H9Pr71kH33+e74scCuOww5gyb9liQ7DQvgKzVRiYDvG8AsSn3iVmy9mKR1X+B6cFe+75ZA4l5ZBhJ37zUontBrXnRaPCAOomworXej4MbI1+1mgoUKpAvOTvisUUhk9D7juHzr3A+NIv4O1/evjOTYNPaq/F80/jbUY41++88J9GYTZdMngQPM7eYoHFenTjRH3og+flsblbqoOsYnOU36/bH3pZEQQIVPU6ahAigxXxpqOUubdFzTu8nDsRH22JzlmAklpal6rVxP5S2wGq8Ry5IOqRrpgNJvSpFbth3jSwuMQMrXDl46IgbPsuXarwcPEaQ1VIKGHIEXs+Mbud+iyr8TnAFGC4xlY1G7IJrkQnEx2K1W6XSg16PFGLJG9EvC0GT0vXCOHNTxyPiTvjB4lKGEBsNh0HhcWPN71bjAO6LS7vnF4KR9gDDRcG1JEfeqwAMto08RK6ULnHsS04/Tu1YS
+X-Microsoft-Antispam-Message-Info: +IyoQBUlPPx4mjRF7gesO3+ICH7FiDo6ywgUmfcCYgO1jCRcpRS+qRcpOsFbyXXmQbpizwePsjHK51s1VcACNGG5Lqyf8C/PwpgJ6+TBZQFN9/8dPdR31ZOaujv2IWwGUeggWoZqgcmykFk3rpMeYAPSa92QhOcUL7v1sozBv6GadLxnPHWiUcbuh6uH71snae0+7fRSnvLKb3o7mN8MxLMPNJ+6+PwmH5SYwISqgjMCqdvKdKV9/Tr6ISg7DYTAhf1CTcCpBOebrjmq2OjdBLmOas10ScXrci9783uaiDzxeud9AV4MQb04Y5KNb2hLelL6PNe8eRuk5Bro695ubFEIDR38lg7Wa1MvHk4GW0JaLi9auBxULZcTH3oyXGrm8686KnPDgr/SD+8Xla69ZZinM/kR2odGN0jrRQwRcuAb0iaX2d01vf28Ff2vE5gf8o2lAMzRxRK0vaekvC/tDD6cVASGg4XsaWvFfvtyniaY1nCnqOhCJHVopWI+Jwmgtcbn0oQg5Trk5j5njfqMpOh/cQftuK2KszPLzhW0qJGM2dK49jI2hGDduwe6ayvlqU/jl2r9mNuGFurkyFUpLpofYdE4RqMaXusHk4aW32t2gvoZSr0GyXObLhby6AOK0md173WQsiMVrrD/QDG3vDXn7vhfeCS5WeUViz/bSbY2pPsQWPpE97I5UJoGbAo2
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(4636009)(376002)(136003)(346002)(39840400004)(366004)(396003)(6486002)(52116002)(186003)(36756003)(478600001)(2616005)(956004)(26005)(8936002)(316002)(83380400001)(2906002)(6512007)(16526019)(8676002)(6916009)(66556008)(66476007)(4326008)(66946007)(38100700002)(38350700002)(5660300002)(86362001)(1076003)(6666004)(6506007)(69590400013);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?4nurqiv+WZCm9RH6osSjDZMGbdLn9gZABeURWpq9HUg17yh1VBu/tzPRhF9Z?=
- =?us-ascii?Q?fzUJs4Um04JvelNPmlnfefRFebL3SmMhJ6MoeX/QZPagB54MXmhOkSKaZZBL?=
- =?us-ascii?Q?usoONCVMwpPozgXvIy3hd32IAdZQ2IFcbddW9ZyrqohkAobNHoZaMu5u2wQW?=
- =?us-ascii?Q?2wBvUIEItFPLHh0ssg0NxQUNmpbZHD+mRivUqD8+zV9+H8eG8cLcUc39KDJd?=
- =?us-ascii?Q?2CmiZoO9xqu2WDMiGx+b7IZ4IOlGYx1bPj99AM1pgRruPCAo1+0VSwVCcayL?=
- =?us-ascii?Q?SIx0YOFmEhEeB+5Kk2XFcTO6vLMxV5wAfBZmNdZ+8F9x/IaKKV8fDAX8xLF8?=
- =?us-ascii?Q?aI59WwC350YagblAjGBQbHJCJ35DU6s0wMqUxMqTKkJ7vj1wPDIdEjWg/+QO?=
- =?us-ascii?Q?2CJUgwAHVRiiZfRIJYMOUXrQvh7VH5GPLCeT5klhshDimKwocP/nAKZ7c0X2?=
- =?us-ascii?Q?OaBOTrL44fI6WHfDG88V4mqV7mSwpMotLTMl0adrB2Ua2XKL0kiub61EKyjl?=
- =?us-ascii?Q?h7MLbhPhPywpYk0ZqfqSYwQnYlXkx5cQ23XZJxksUcQQjUHE3/SXGn/PQEPZ?=
- =?us-ascii?Q?F1o9Ms9QpRmRdVn82/vjO9+DlpZPmeHsk0Ss7/mMANZPZMxdr4iV3YDYCI7J?=
- =?us-ascii?Q?NgCK+47HQyYh8sm+EPrEI1PGgzSU+/nQg5AikqgSKlyE4JDoMnWwQlxHDRtr?=
- =?us-ascii?Q?wVwQzSuwg3evoXcLgLMTga1ilcE/H5bg0G9ywF2MTMD0ZBWJIn9QG7eQjI/U?=
- =?us-ascii?Q?RS4WNN9e+9r3IKvViHz5t8STaTWFst4Krmixk9X5M7/mP4tUmTBJ9yMYe4LU?=
- =?us-ascii?Q?F4jTDxSZekM1IKRhQoTZyFoCtUkmcXUN+h3MgVPHAvKlVbHsGlGjGuUGJ9lH?=
- =?us-ascii?Q?anPQQnVoK6KQxkgk69AisZhKObiPsiyvFDGb3ezkPCdZMtay1FGmaa62g64I?=
- =?us-ascii?Q?jYkkOOF6hIh7YOUpapSVxQc8npDB6R2Q+n53csqvXHXfwW6csx2k8wrbUaQ7?=
- =?us-ascii?Q?gLmNtnBZUT9DBmveJrN7OYgIir4zV+2At/Wod1UKL2uGvy3Chu2hlDCPJh2b?=
- =?us-ascii?Q?T7YbwCzZbe9sBe8kVYiPw4M/McECsArYpU9yQG+TdO6yyhzz0t4pN4lYNkCp?=
- =?us-ascii?Q?Nch/LIp+g3cfKvi8Wdux86h0R6fR8nj3AwddKyZdePzvT6GI2bi8azRHhDqy?=
- =?us-ascii?Q?rYsuhPS+GWeVkc1mNYiIi8OWZn9Wuy/NpfRRALq2mlaWzlSb0AXRrcCkgYK2?=
- =?us-ascii?Q?wuBCFiNnw3iaC0hpLxK2TsfLxGCuSgHZ8pkl9F8eA2bfJSOCWjLAmSyvrV1/?=
- =?us-ascii?Q?8mw+vSD9d3TKyd828o87esur?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?1lMT4iQxsgbF4yKqKS8BRJ1z8BqcsuGr9yIXKYfGK4PSSm83VjtXeooTAbf5?=
+ =?us-ascii?Q?MlDfWujtzWs5Evu2EHMQvq421nx22Sjd38juyxtLZvyLZJCBJ3vgGkShptl8?=
+ =?us-ascii?Q?EpQPrpcJjbhgfZufEML1oupt+c6Ynk3kcl65rT/quh4/G4JXywf8xvY4e+Md?=
+ =?us-ascii?Q?TO+Ja47SeHxgRfEVKi2YYml52iLR+pNjxRwz9HzYI7ZiMrHVUOxQZfrbPwgI?=
+ =?us-ascii?Q?VOrOh2qASmmPVM9BQzi33L1oiYmDXOvWlIfTXrQI9KIO8FBc8pRa8txG5ase?=
+ =?us-ascii?Q?yyRGUO4LOav2tAOp+qz63qPXKiodpZABgF92rdTIj5QF6AzrcAAIxIdJ1u41?=
+ =?us-ascii?Q?fMADr5tSltxhQpxnwK3tvztSamd8xIh0oTkQ1Nl4IarIgLChKCUTX5kLvygf?=
+ =?us-ascii?Q?IWnSx2+z1Dgd1jr/n+D9gOEr8yQDYmaPTa2outIrBM4FlH3sUCsZEbEgfhbB?=
+ =?us-ascii?Q?qIrAluDw/M/UOONQashbX78SsG3X7EvBMM0GXWhYhKpy8Hm+2zOOn1fgahTF?=
+ =?us-ascii?Q?gdXRYAneDABNlyhpq1rJ0pCmD5QPoO91/iqC1NBmFOD6vnjujxHLPHvj7Tuq?=
+ =?us-ascii?Q?EUZ6nQy3dxFmjjRp21iF0vjz+pS8hJcFjOt/c7aW6VCsI8yeKPRwDne/urGh?=
+ =?us-ascii?Q?+TY17APFKv8Q5TXudrES/vpabFcZouV3v45cZtGAzKSmNEcdCJUKPBTQBWNq?=
+ =?us-ascii?Q?+T5/vC7gnULUTTrN5++8cn4BipVBnNdHHRQQRe7u8ywEYVY+pwppMW5kFPTP?=
+ =?us-ascii?Q?wDqW4gyDEUBa7aQt3ytVB9FU6avluRAy80XqqLRDJlBkpIXxtBcLg/LIDVu6?=
+ =?us-ascii?Q?Pg0tREpOzyfvcMtXXzYWb+cdzO0Uu4Joa7MrC9/Cn8WiYM8p+pT9NwjdMS3d?=
+ =?us-ascii?Q?GBAMhbnYOKreayVWQwhsTw/YhvQywsJb610u5oLkRo3BiTHpYddOk1g2A7qf?=
+ =?us-ascii?Q?6xKl+Y07zK9lTbVC642PEn/U4CyOYZiUJQL+LXL9nO3qgNF6oYGTFjKhyofD?=
+ =?us-ascii?Q?8xW5QGTaPrbS/TtGX3rZetyN8xWvMzQNuYAoNTnBSTBb769Giyvh/jdbnp6D?=
+ =?us-ascii?Q?7vtrZioTF6g2BDfqoBH0F8aarxrR+HvoW0rm94sYqAskf3WRbhK8SZ1CMIUL?=
+ =?us-ascii?Q?kY9OyGPKDsOyOA13Bo9Q3kIbn79ppsHLStOYGmSZKtBPr3jjYUS9Htc8HX/Y?=
+ =?us-ascii?Q?+PlpShNLeilkKTcEEi7N1JxWKlu9h4BZZLkTKaYcPDbXGvWEbpulH46HUBzz?=
+ =?us-ascii?Q?COlTEXV8f23r0PE0F6U4Dz6dGd/nkGsrOHMfY294GQsN7rexCHe4zt9Wl0Zk?=
+ =?us-ascii?Q?Exas3fHpMSUTPq2QQxXaCw2G?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4c1419b7-6adf-4d78-4fef-08d91ebf2224
+X-MS-Exchange-CrossTenant-Network-Message-Id: d1d544c2-560d-44d3-a76c-08d91ebf22d1
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 May 2021 14:20:51.1262 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 May 2021 14:20:52.2562 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 5OviRoblf6S+ys2uMjIfaZaB/ixChuCPp4R4Z/RRk83LIfi+E64Nn6PgWKiaeseqG2x44zYmw3S7pevZhIicbxoTijRWixBN3xx/jsbZLE8=
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7Em56agp5msWd4tmMyVrzIbSj/AvYjwE+GgijjYpnlHsfnW9CXRY5IelO9/7A1631nMFlDd/Ehu5J7yLFuRHKwkTiL+i2fJtvzBdneLuWHw=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4165
-Received-SPF: pass client-ip=40.107.5.103;
+Received-SPF: pass client-ip=40.107.7.122;
  envelope-from=vsementsov@virtuozzo.com;
- helo=EUR03-VE1-obe.outbound.protection.outlook.com
+ helo=EUR04-HE1-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -140,51 +139,92 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We'll reuse the function to fix wrong L2 entry bitmap. Support it now.
+Check subcluster bitmap of the l2 entry for different types of
+clusters:
+
+ - for compressed it must be zero
+ - for allocated check consistency of two parts of the bitmap
+ - for unallocated all subclusters should be unallocated
+   (or zero-plain)
+
+For unallocated clusters we can safely fix the entry by making it
+zero-plain.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
+Tested-by: Kirill Tkhai <ktkhai@virtuozzo.com>
 ---
- block/qcow2-refcount.c | 18 +++++++++++++++---
- 1 file changed, 15 insertions(+), 3 deletions(-)
+ block/qcow2-refcount.c | 30 +++++++++++++++++++++++++++++-
+ 1 file changed, 29 insertions(+), 1 deletion(-)
 
 diff --git a/block/qcow2-refcount.c b/block/qcow2-refcount.c
-index 184b96ad63..f48c5e1b5d 100644
+index f48c5e1b5d..062ec48a15 100644
 --- a/block/qcow2-refcount.c
 +++ b/block/qcow2-refcount.c
-@@ -1588,7 +1588,8 @@ enum {
- };
+@@ -1681,6 +1681,7 @@ static int check_refcounts_l2(BlockDriverState *bs, BdrvCheckResult *res,
+         uint64_t coffset;
+         int csize;
+         l2_entry = get_l2_entry(s, l2_table, i);
++        uint64_t l2_bitmap = get_l2_bitmap(s, l2_table, i);
  
- /*
-- * Fix L2 entry by making it QCOW2_CLUSTER_ZERO_PLAIN.
-+ * Fix L2 entry by making it QCOW2_CLUSTER_ZERO_PLAIN (or making all its present
-+ * subclusters QCOW2_SUBCLUSTER_ZERO_PLAIN).
-  *
-  * This function decrements res->corruptions on success, so the caller is
-  * responsible to increment res->corruptions prior to the call.
-@@ -1605,9 +1606,20 @@ static int fix_l2_entry_by_zero(BlockDriverState *bs, BdrvCheckResult *res,
-     int idx = l2_index * (l2_entry_size(s) / sizeof(uint64_t));
-     uint64_t l2e_offset = l2_offset + (uint64_t)l2_index * l2_entry_size(s);
-     int ign = active ? QCOW2_OL_ACTIVE_L2 : QCOW2_OL_INACTIVE_L2;
--    uint64_t l2_entry = has_subclusters(s) ? 0 : QCOW_OFLAG_ZERO;
+         switch (qcow2_get_cluster_type(bs, l2_entry)) {
+         case QCOW2_CLUSTER_COMPRESSED:
+@@ -1700,6 +1701,14 @@ static int check_refcounts_l2(BlockDriverState *bs, BdrvCheckResult *res,
+                 break;
+             }
  
--    set_l2_entry(s, l2_table, l2_index, l2_entry);
-+    if (has_subclusters(s)) {
-+        uint64_t l2_bitmap = get_l2_bitmap(s, l2_table, l2_index);
++            if (l2_bitmap) {
++                fprintf(stderr, "ERROR compressed cluster %d with non-zero "
++                        "subcluster allocation bitmap, entry=0x%" PRIx64 "\n",
++                        i, l2_entry);
++                res->corruptions++;
++                break;
++            }
 +
-+        /* Allocated subclusters become zero */
-+        l2_bitmap |= l2_bitmap << 32;
-+        l2_bitmap &= QCOW_L2_BITMAP_ALL_ZEROES;
+             /* Mark cluster as used */
+             qcow2_parse_compressed_l2_entry(bs, l2_entry, &coffset, &csize);
+             ret = qcow2_inc_refcounts_imrt(
+@@ -1727,13 +1736,19 @@ static int check_refcounts_l2(BlockDriverState *bs, BdrvCheckResult *res,
+         {
+             uint64_t offset = l2_entry & L2E_OFFSET_MASK;
+ 
++            if ((l2_bitmap >> 32) & l2_bitmap) {
++                res->corruptions++;
++                fprintf(stderr, "ERROR offset=%" PRIx64 ": Allocated "
++                        "cluster has corrupted subcluster allocation bitmap\n",
++                        offset);
++            }
 +
-+        set_l2_bitmap(s, l2_table, l2_index, l2_bitmap);
-+        set_l2_entry(s, l2_table, l2_index, 0);
-+    } else {
-+        set_l2_entry(s, l2_table, l2_index, QCOW_OFLAG_ZERO);
-+    }
-+
-     ret = qcow2_pre_write_overlap_check(bs, ign, l2e_offset, l2_entry_size(s),
-                                         false);
-     if (metadata_overlap) {
+             /* Correct offsets are cluster aligned */
+             if (offset_into_cluster(s, offset)) {
+                 bool contains_data;
+                 res->corruptions++;
+ 
+                 if (has_subclusters(s)) {
+-                    uint64_t l2_bitmap = get_l2_bitmap(s, l2_table, i);
+                     contains_data = (l2_bitmap & QCOW_L2_BITMAP_ALL_ALLOC);
+                 } else {
+                     contains_data = !(l2_entry & QCOW_OFLAG_ZERO);
+@@ -1800,6 +1815,19 @@ static int check_refcounts_l2(BlockDriverState *bs, BdrvCheckResult *res,
+ 
+         case QCOW2_CLUSTER_ZERO_PLAIN:
+         case QCOW2_CLUSTER_UNALLOCATED:
++            if (l2_bitmap & QCOW_L2_BITMAP_ALL_ALLOC) {
++                res->corruptions++;
++                fprintf(stderr, "%s: Unallocated "
++                        "cluster has non-zero subcluster allocation map\n",
++                        fix & BDRV_FIX_ERRORS ? "Repairing" : "ERROR");
++                if (fix & BDRV_FIX_ERRORS) {
++                    ret = fix_l2_entry_by_zero(bs, res, l2_offset, l2_table, i,
++                                               active, &metadata_overlap);
++                    if (metadata_overlap) {
++                        return ret;
++                    }
++                }
++            }
+             break;
+ 
+         default:
 -- 
 2.29.2
 
