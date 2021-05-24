@@ -2,79 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3081038E4B7
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 13:02:22 +0200 (CEST)
-Received: from localhost ([::1]:51432 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B857C38E4AE
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 13:00:19 +0200 (CEST)
+Received: from localhost ([::1]:44268 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ll8Lk-00073G-GM
-	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 07:02:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51282)
+	id 1ll8Jm-00028c-N4
+	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 07:00:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50992)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ll8Ia-00013d-7u
- for qemu-devel@nongnu.org; Mon, 24 May 2021 06:59:07 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:56128)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ll8IY-0005QG-Eo
- for qemu-devel@nongnu.org; Mon, 24 May 2021 06:59:03 -0400
-Received: by mail-wm1-x330.google.com with SMTP id b7so14079508wmh.5
- for <qemu-devel@nongnu.org>; Mon, 24 May 2021 03:59:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=cDEIfkafjx4IZTot/ktVccJL84I6JOZoa78xuqljIF8=;
- b=SQUSvAAY6wiWMyvhOLGIuBRqEH+nfVVUrDr/C8fy7ahX5/T1v2lE0qFWEr7nH8FHpP
- vi/jCgszl9wj55LguytFm2/xJ5eSNnscaLbmWd9emcVFa7jAC5j9Fa5fO93xnVnB6AnJ
- E0oEzP3XOoOgFGysby9tiEuZuI0GmbBhWdbUpAvCZVO6Oi0LUmwCORKXsJbmX+wuEIFK
- zVFP+4471D8VaHT8CRRCIdY810oEauStdFnMEbae1dOPCFtsJnL4mJ9tViwhiu94n/MM
- 2iUPbPTmgVvtnWrol9jajG6+Hvvm8xNRiTcrfyzauvsJZs4OlXFvGfpTzEcUa5kJaMBB
- U1qA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=cDEIfkafjx4IZTot/ktVccJL84I6JOZoa78xuqljIF8=;
- b=SilC0eIPQJqMjqsut9BYXB6ARJy9kY6FSmYRCT10VhtMX3Jy5m0iY/UT4ScWeUEjkg
- MAIPzdZqPfbI3B8wcRtkxlc8lTJsheAxJVi1oq1j3ktXrkFO0mtcrLXfTrZ3sL1sWbzO
- 7Fkpx/sW/vpalvKvwnV6NdvsyodNhjTgiwjc/lzPRyDHhrfCcbnuZixUoVstcPVFkJeA
- jyiR4e7flct9E1tMceHZpQqsQXZ6v2yIepROffRGTrWbR4KE1Bfxbch7FHkIBqKbEQxG
- f23qp5eWHsu84Ml6f4HX0p9bL66nhiEh7iIJmUJ7zvR17Ew2Cd8WOKMfGb96V3sXfUff
- 6yrQ==
-X-Gm-Message-State: AOAM533wLJlh1H6VGkUEn0Ts1mp+Zv8eM22diY+bcbB5l/2TUTt6Phca
- ZpNL9envWF4Bh1iNtz6y+Ba2XA==
-X-Google-Smtp-Source: ABdhPJzZ1hw7CJLPPZts4skYWhladVSWL+lFnnxlMNwhZqUEAfqrWm/SIUrmGWIjSW5QRL1qGDmmlQ==
-X-Received: by 2002:a7b:c7ca:: with SMTP id z10mr19692528wmk.185.1621853940789; 
- Mon, 24 May 2021 03:59:00 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id k132sm7809344wma.34.2021.05.24.03.58.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 May 2021 03:59:00 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 4A44C1FF7E;
- Mon, 24 May 2021 11:58:59 +0100 (BST)
-References: <20210524045412.15152-1-yamamoto@midokura.com>
- <20210524045412.15152-3-yamamoto@midokura.com>
-User-agent: mu4e 1.5.13; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: YAMAMOTO Takashi <yamamoto@midokura.com>
-Subject: Re: [PATCH 2/5] linux-uesr: make exec_path realpath
-Date: Mon, 24 May 2021 11:55:41 +0100
-In-reply-to: <20210524045412.15152-3-yamamoto@midokura.com>
-Message-ID: <87r1hw4cuk.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1ll8Ha-0007hw-94
+ for qemu-devel@nongnu.org; Mon, 24 May 2021 06:58:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30022)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1ll8HW-0004pc-F3
+ for qemu-devel@nongnu.org; Mon, 24 May 2021 06:58:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1621853877;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=qqCgV1Hb8/rvGDYJPEDunY57u+xWkHFJ+EyrW/tbKRw=;
+ b=KEvLT8B4drCkCnaD3c7auzxSlibK6LbhcDpnCG+EMBIBzFDR3OkKgL7cVHp8Kdy8L/EZiP
+ Fdh+vsVMDGRMhaIZkco/loAPimq1wDMGSk7O/z9tCJvY0LgDG7BVJxPGreACdeV7+Oj0Wq
+ izXdpAbwYFupmU+GzkuGf8pVRpC2lEY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-412-mpF8BmzbN4-8zu8o8nYoMA-1; Mon, 24 May 2021 06:57:54 -0400
+X-MC-Unique: mpF8BmzbN4-8zu8o8nYoMA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2ECE88049D0;
+ Mon, 24 May 2021 10:57:53 +0000 (UTC)
+Received: from virtlab701.virt.lab.eng.bos.redhat.com
+ (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C016E19C79;
+ Mon, 24 May 2021 10:57:52 +0000 (UTC)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v4 0/3] vl: add -object support back into -readconfig
+Date: Mon, 24 May 2021 06:57:49 -0400
+Message-Id: <20210524105752.3318299-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x330.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,57 +76,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, armbru@redhat.com, qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+LXD developers have reported that [object] stanzas have stopped
+working in configuration files.
 
-YAMAMOTO Takashi <yamamoto@midokura.com> writes:
+The problem is that QEMU 6.0 switched the creation of objects from
+qemu_opts_foreach to a bespoke QTAILQ, in preparation for supporting
+JSON syntax in -object.  Entries from the configuration file however
+do not go through object_option_parse, and are thus lost.  Of the many
+fixes that are possible, I chose one that is slightly more invasive but
+more consistent with the plans for keyval-ification of options such as
+-M and -accel.
 
-> Otherwise, it can be easily fooled by the user app using chdir().
->
-> Signed-off-by: YAMAMOTO Takashi <yamamoto@midokura.com>
-> ---
->  linux-user/main.c | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
->
-> diff --git a/linux-user/main.c b/linux-user/main.c
-> index 4dfc47ad3b..1f9f4e3820 100644
-> --- a/linux-user/main.c
-> +++ b/linux-user/main.c
-> @@ -55,6 +55,7 @@
->  #endif
->=20=20
->  char *exec_path;
-> +char exec_path_store[PATH_MAX];
+-set was also broken by the same change.  For simplicity I chose
+not to add it back yet, however this series will report the
+breakage instead of failing silently.
 
-Is there any point in keeping this as a static path rather than just
-allocating it off the heap?
+The first two patches of this series are thus a reduced version of
+https://patchew.org/QEMU/20210513162901.1310239-1-pbonzini@redhat.com/
+([PATCH 00/14] vl: compound properties for machines and accelerators),
+with the -set infrastructure removed.  The third is very simple and
+uses the newly-provided hooks to parse objects from configuration files.
 
->=20=20
->  int singlestep;
->  static const char *argv0;
-> @@ -610,7 +611,10 @@ static int parse_args(int argc, char **argv)
->          exit(EXIT_FAILURE);
->      }
->=20=20
-> -    exec_path =3D argv[optind];
-> +    exec_path =3D realpath(argv[optind], exec_path_store);
-> +    if (exec_path =3D=3D NULL) {
-> +        exec_path =3D argv[optind];
-> +    }
+Paolo
 
-  exec_path =3D realpath(argv[optind], NULL)
-  exec_path =3D exec_path ? exec_path : argv[optind];
+Based-on: <20210518131542.2941207-1-pbonzini@redhat.com>
 
-what situations would we expect realpath to fail and in those cases is
-sticking to argv[optind] safe?
+Paolo Bonzini (3):
+  qemu-config: parse configuration files to a QDict
+  vl: plumb keyval-based options into -readconfig
+  vl: plug -object back into -readconfig
 
->=20=20
->      return optind;
->  }
+ include/block/qdict.h      |   2 -
+ include/qapi/qmp/qdict.h   |   3 ++
+ include/qemu/config-file.h |   7 ++-
+ softmmu/vl.c               | 105 +++++++++++++++++++++++++++----------
+ util/qemu-config.c         |  98 +++++++++++++++++++++++-----------
+ 5 files changed, 153 insertions(+), 62 deletions(-)
 
+-- 
+2.27.0
 
---=20
-Alex Benn=C3=A9e
 
