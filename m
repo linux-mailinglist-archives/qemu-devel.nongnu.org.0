@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA69538F1EE
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 19:03:27 +0200 (CEST)
-Received: from localhost ([::1]:48846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 701DF38F209
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 19:09:33 +0200 (CEST)
+Received: from localhost ([::1]:35424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llDzC-0004xh-AG
-	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 13:03:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45236)
+	id 1llE56-0007a4-6G
+	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 13:09:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45292)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1llDeR-0004r1-3N
- for qemu-devel@nongnu.org; Mon, 24 May 2021 12:41:59 -0400
-Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:43911)
+ id 1llDeT-0004yd-08
+ for qemu-devel@nongnu.org; Mon, 24 May 2021 12:42:01 -0400
+Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534]:35624)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1llDeI-0004Np-Jl
- for qemu-devel@nongnu.org; Mon, 24 May 2021 12:41:58 -0400
-Received: by mail-ej1-x62a.google.com with SMTP id f18so12624571ejq.10
- for <qemu-devel@nongnu.org>; Mon, 24 May 2021 09:41:43 -0700 (PDT)
+ id 1llDeJ-0004Nz-3v
+ for qemu-devel@nongnu.org; Mon, 24 May 2021 12:42:00 -0400
+Received: by mail-ed1-x534.google.com with SMTP id y7so15207838eda.2
+ for <qemu-devel@nongnu.org>; Mon, 24 May 2021 09:41:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=XwYPwSfA8Cvd3/TBJlc2cW5Z9lV4MqaeOY7vnJJhpgo=;
- b=kx41ThiT0Sp7DPEHEhXUgWUGConJajD3+F3eb2rghcQ7OryOhXAJlHW8zH2ggxdzoc
- IPGxDbjthdAydZb/IWbnIytCm8AXvWAuUIm1e8Yv03p2oVqSOL/n2f6S8R5jEuGliTeV
- JPpCETHRWned+Ft1jvzZTfdWuYg8AJ90YDrYjx3sUN9yrd26/mPlll+hyBp2VIbdqIGn
- 3w/CsUvUtJg06C3h7t9Eyuyy0svQdb9VR6Nrs8HfEcZOud7Wax0H55c2QP2QLxrpSBG8
- OdskPtIFpuC6fIbfXlymhYAYXu3vy4N9N5MFAtQt/3aDRxkk1uUv4fsiCv83oCQ6/n+s
- eR3A==
+ bh=+6To3R747Gt8KrZIdybi9XgGpLzBn8XFWqjsTJBScXc=;
+ b=YBXFKqqlNuV3ZOKRzvT7PDADNDlwnFDaU76/9ZlBFVc17HwYdCikposbI5Jsibqpte
+ asXWgVjRjaC4l7YCj5d5FRaJBF06m8K94SssEdgg3h1sP88xy+DNlyfQ2KVpfHliapF1
+ 6vm0PRHKr3cmn2aebbtmmhlvfkBkV9sEgG9i/8VW/CNqcNwX5yKNGyVfq8YsmAkcGV3Z
+ MwZgM9P6oBlhyHfC5ThhAXOB65q8Helmq/LHsxXQyIeYeEYUBKjztpZG1TN+Kuq63fqR
+ K109XJt2LIQHBSklf4EQCine3Q7SeVdzU3PbQzlCtLz5XwpKmL2RbaF4UiSQPqvRgDyN
+ EktQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=XwYPwSfA8Cvd3/TBJlc2cW5Z9lV4MqaeOY7vnJJhpgo=;
- b=aJwtuDThPycUTAQyPI+nXMIdiCKeLFOx4kxDmfezh/ShEeJAMTzAs3xVsa5yLxd2vA
- wBBLV3ot5kdidhap1iZYyX6zd8npkCU1tJNqvnJb9ID2TCam9OZoWPRnfE1lBLgcV9XK
- X/rabZRQMj1o8LqhN8+93wdDJofX0d4NT8AkkrZfq1pQXtzvUtLHH32k7WgGHDp5mdJV
- BcSls6l/mBSX5ir7mS86xiNuYDDRB9UiRXKpIhM2qIAg+0xQ2nemOztWEpl7KBsY/rLA
- GoVmv26usApw4LtOqcP0vzmItRDzik3juotkK+O3jOg47i6Mwp4IbxVpAxo9N9V+IKmv
- iimA==
-X-Gm-Message-State: AOAM531uFTGwxBRX71+Bm1BTleJZJvGUYZw5wtz7i9ovWKEaupRnPCHl
- i+e2MvOb74YAU4UQzNlcx/SMEp416jbU7Q==
-X-Google-Smtp-Source: ABdhPJxEE9vEGaACf5ddOvdcRdrJALDUbJHzt1nTHJXQS17fMjWxOeahwH3I77pwAcU46IHXSYillA==
-X-Received: by 2002:a17:906:c212:: with SMTP id
- d18mr4945967ejz.291.1621874502889; 
- Mon, 24 May 2021 09:41:42 -0700 (PDT)
+ bh=+6To3R747Gt8KrZIdybi9XgGpLzBn8XFWqjsTJBScXc=;
+ b=N2Xhee5qui0IipnexcVxSfhfmPr/omvAoaSZQmcgUMyhjpKWeiUJXABrnDuyg29Ijk
+ d8zLOlQ9NRxeJdUSfXDoqmnFI8EareVjeXo8MZtVOxj6btC7T72jiwXQLRRNJdYxz/8H
+ CegqDmWbgseeGuch5mfOAF6YotFGKzPiLVip3hX6nY28Hf2HubJAwPa7wW6c1xoXYhIy
+ 2VoUSPAMW6EzDPKRFcYNIoTlXTize6d2cG8JqVVsew0gQRyTSBaBgPqB4nnje1imSZGK
+ oPDz1IKQx3m8TVwuhgIHsJmI0t77txG8UiE13XU83OdzK6osfGLchaenkkDQdPpVrVbW
+ JwpA==
+X-Gm-Message-State: AOAM530pMG9cot+uMu10QrCx4t+Dpo7M04lG+fxobNsMhWYe8k/DGoYa
+ L4dY6I4Qe6pPyvF+Kjh7anby+Ig9IL71Mw==
+X-Google-Smtp-Source: ABdhPJzFkQViG/Onk1fWeMxNnea4Sc3qh83kNVVvB4FrNMI/5bgPVeSgUmgIczDkv7MhoKyAlLNw6A==
+X-Received: by 2002:aa7:cb92:: with SMTP id r18mr26988829edt.246.1621874503634; 
+ Mon, 24 May 2021 09:41:43 -0700 (PDT)
 Received: from avogadro.redhat.com ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
  g4sm9581922edm.83.2021.05.24.09.41.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 May 2021 09:41:42 -0700 (PDT)
+ Mon, 24 May 2021 09:41:43 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 15/28] KVM: Cache kvm slot dirty bitmap size
-Date: Mon, 24 May 2021 18:41:18 +0200
-Message-Id: <20210524164131.383778-16-pbonzini@redhat.com>
+Subject: [PULL 16/28] KVM: Add dirty-ring-size property
+Date: Mon, 24 May 2021 18:41:19 +0200
+Message-Id: <20210524164131.383778-17-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210524164131.383778-1-pbonzini@redhat.com>
 References: <20210524164131.383778-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::534;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x534.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -85,48 +84,135 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Peter Xu <peterx@redhat.com>
+Cc: Peter Xu <peterx@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Peter Xu <peterx@redhat.com>
 
-Cache it too because we'll reference it more frequently in the future.
+Add a parameter for dirty gfn count for dirty rings.  If zero, dirty ring is
+disabled.  Otherwise dirty ring will be enabled with the per-vcpu gfn count as
+specified.  If dirty ring cannot be enabled due to unsupported kernel or
+illegal parameter, it'll fallback to dirty logging.
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+By default, dirty ring is not enabled (dirty-gfn-count default to 0).
+
 Signed-off-by: Peter Xu <peterx@redhat.com>
-Message-Id: <20210506160549.130416-8-peterx@redhat.com>
+Message-Id: <20210506160549.130416-9-peterx@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- accel/kvm/kvm-all.c      | 1 +
- include/sysemu/kvm_int.h | 1 +
- 2 files changed, 2 insertions(+)
+ accel/kvm/kvm-all.c | 46 +++++++++++++++++++++++++++++++++++++++++++++
+ qemu-options.hx     | 12 ++++++++++++
+ 2 files changed, 58 insertions(+)
 
 diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-index 0ba6d48120..df9fbf59a6 100644
+index df9fbf59a6..5afe15ae66 100644
 --- a/accel/kvm/kvm-all.c
 +++ b/accel/kvm/kvm-all.c
-@@ -610,6 +610,7 @@ static void kvm_slot_init_dirty_bitmap(KVMSlot *mem)
-     hwaddr bitmap_size = ALIGN(mem->memory_size / qemu_real_host_page_size,
-                                         /*HOST_LONG_BITS*/ 64) / 8;
-     mem->dirty_bmap = g_malloc0(bitmap_size);
-+    mem->dirty_bmap_size = bitmap_size;
+@@ -126,6 +126,8 @@ struct KVMState
+         KVMMemoryListener *ml;
+         AddressSpace *as;
+     } *as;
++    uint64_t kvm_dirty_ring_bytes;  /* Size of the per-vcpu dirty ring */
++    uint32_t kvm_dirty_ring_size;   /* Number of dirty GFNs per ring */
+ };
+ 
+ KVMState *kvm_state;
+@@ -3182,6 +3184,42 @@ bool kvm_kernel_irqchip_split(void)
+     return kvm_state->kernel_irqchip_split == ON_OFF_AUTO_ON;
  }
  
- /*
-diff --git a/include/sysemu/kvm_int.h b/include/sysemu/kvm_int.h
-index ab09a150e1..c788452cd9 100644
---- a/include/sysemu/kvm_int.h
-+++ b/include/sysemu/kvm_int.h
-@@ -23,6 +23,7 @@ typedef struct KVMSlot
-     int old_flags;
-     /* Dirty bitmap cache for the slot */
-     unsigned long *dirty_bmap;
-+    unsigned long dirty_bmap_size;
-     /* Cache of the address space ID */
-     int as_id;
-     /* Cache of the offset in ram address space */
++static void kvm_get_dirty_ring_size(Object *obj, Visitor *v,
++                                    const char *name, void *opaque,
++                                    Error **errp)
++{
++    KVMState *s = KVM_STATE(obj);
++    uint32_t value = s->kvm_dirty_ring_size;
++
++    visit_type_uint32(v, name, &value, errp);
++}
++
++static void kvm_set_dirty_ring_size(Object *obj, Visitor *v,
++                                    const char *name, void *opaque,
++                                    Error **errp)
++{
++    KVMState *s = KVM_STATE(obj);
++    Error *error = NULL;
++    uint32_t value;
++
++    if (s->fd != -1) {
++        error_setg(errp, "Cannot set properties after the accelerator has been initialized");
++        return;
++    }
++
++    visit_type_uint32(v, name, &value, &error);
++    if (error) {
++        error_propagate(errp, error);
++        return;
++    }
++    if (value & (value - 1)) {
++        error_setg(errp, "dirty-ring-size must be a power of two.");
++        return;
++    }
++
++    s->kvm_dirty_ring_size = value;
++}
++
+ static void kvm_accel_instance_init(Object *obj)
+ {
+     KVMState *s = KVM_STATE(obj);
+@@ -3191,6 +3229,8 @@ static void kvm_accel_instance_init(Object *obj)
+     s->kvm_shadow_mem = -1;
+     s->kernel_irqchip_allowed = true;
+     s->kernel_irqchip_split = ON_OFF_AUTO_AUTO;
++    /* KVM dirty ring is by default off */
++    s->kvm_dirty_ring_size = 0;
+ }
+ 
+ static void kvm_accel_class_init(ObjectClass *oc, void *data)
+@@ -3212,6 +3252,12 @@ static void kvm_accel_class_init(ObjectClass *oc, void *data)
+         NULL, NULL);
+     object_class_property_set_description(oc, "kvm-shadow-mem",
+         "KVM shadow MMU size");
++
++    object_class_property_add(oc, "dirty-ring-size", "uint32",
++        kvm_get_dirty_ring_size, kvm_set_dirty_ring_size,
++        NULL, NULL);
++    object_class_property_set_description(oc, "dirty-ring-size",
++        "Size of KVM dirty page ring buffer (default: 0, i.e. use bitmap)");
+ }
+ 
+ static const TypeInfo kvm_accel_type = {
+diff --git a/qemu-options.hx b/qemu-options.hx
+index e22fb94d99..ecdb064409 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -141,6 +141,7 @@ DEF("accel", HAS_ARG, QEMU_OPTION_accel,
+     "                kvm-shadow-mem=size of KVM shadow MMU in bytes\n"
+     "                split-wx=on|off (enable TCG split w^x mapping)\n"
+     "                tb-size=n (TCG translation block cache size)\n"
++    "                dirty-ring-size=n (KVM dirty ring GFN count, default 0)\n"
+     "                thread=single|multi (enable multi-threaded TCG)\n", QEMU_ARCH_ALL)
+ SRST
+ ``-accel name[,prop=value[,...]]``
+@@ -181,6 +182,17 @@ SRST
+         where both the back-end and front-ends support it and no
+         incompatible TCG features have been enabled (e.g.
+         icount/replay).
++
++    ``dirty-ring-size=n``
++        When the KVM accelerator is used, it controls the size of the per-vCPU
++        dirty page ring buffer (number of entries for each vCPU). It should
++        be a value that is power of two, and it should be 1024 or bigger (but
++        still less than the maximum value that the kernel supports).  4096
++        could be a good initial value if you have no idea which is the best.
++        Set this value to 0 to disable the feature.  By default, this feature
++        is disabled (dirty-ring-size=0).  When enabled, KVM will instead
++        record dirty pages in a bitmap.
++
+ ERST
+ 
+ DEF("smp", HAS_ARG, QEMU_OPTION_smp,
 -- 
 2.31.1
 
