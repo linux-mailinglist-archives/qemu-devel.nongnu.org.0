@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9482838E088
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 06:58:01 +0200 (CEST)
-Received: from localhost ([::1]:57814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1592C38E084
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 06:56:55 +0200 (CEST)
+Received: from localhost ([::1]:52576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ll2fA-0000Bl-N6
-	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 00:58:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35766)
+	id 1ll2e5-00051v-OR
+	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 00:56:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35786)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yamamoto@midokura.com>)
- id 1ll2cV-0002mG-3g
- for qemu-devel@nongnu.org; Mon, 24 May 2021 00:55:15 -0400
-Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a]:42988)
+ id 1ll2cW-0002r9-Sp
+ for qemu-devel@nongnu.org; Mon, 24 May 2021 00:55:16 -0400
+Received: from mail-pf1-x435.google.com ([2607:f8b0:4864:20::435]:37504)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <yamamoto@midokura.com>)
- id 1ll2cT-0003cH-EA
- for qemu-devel@nongnu.org; Mon, 24 May 2021 00:55:14 -0400
-Received: by mail-pg1-x52a.google.com with SMTP id f22so18267974pgb.9
- for <qemu-devel@nongnu.org>; Sun, 23 May 2021 21:55:13 -0700 (PDT)
+ id 1ll2cV-0003dr-7B
+ for qemu-devel@nongnu.org; Mon, 24 May 2021 00:55:16 -0400
+Received: by mail-pf1-x435.google.com with SMTP id q67so2798942pfb.4
+ for <qemu-devel@nongnu.org>; Sun, 23 May 2021 21:55:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=midokura.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=PESTXN59EwLMWjjV5A2aXDktqX9ai+DunPJniUgY9VA=;
- b=YAdC5XJSbjP3uhZ+k+kdd3Y6JLo0X/lX5Y8iF88i2V34zpPn48vyah2BSR1qSyNnNE
- lvncEFX4piLaHu5LAOlMeEueDn6BTLN+WJbnlSrf5IIxxv58fcmiigmwHBVYVqAKDkyH
- MRJRh7ty6h0HznsY/Bi0ZEKQsdaFigjRCYBEA=
+ bh=m89buCPgpozLCxeMx0IXmxkOBtSNDh85t/lIV1xW87I=;
+ b=C7Z9xryBcnYbATE6fvhIKU5L1SoRVtpiMwIMxdd78xO0c49bomE7JzVOL3qaCuOsYT
+ CGEOFpVZW31KLJBhV4d9iBVoLuM0PLHVBwO+uMgRnArxZbTxxKi5kYWSRSO2oYjWzUFq
+ GOkjvAW+ebX/MJfGsVTVJkffcKbiTOba4jH/o=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=PESTXN59EwLMWjjV5A2aXDktqX9ai+DunPJniUgY9VA=;
- b=Sns5qTqoZRv5Im+XeFxwjCzcb3IZg5/u/MC7tXZ7DZllbkXy5I7ntWDU0IsJbmu8IN
- hJp5WeunSiUuImXsaUGIb1hoJL++p6rI9XANrdufdJsFRKzsQRLiO418NyLTgu6WcL4Y
- ol+xgCDVa/ES2Ka1iD/lcAompgeh+qRtKwurZElT+l+Gvkbw9mWa3xU+FA9ixDSIKLDa
- +P63zWDVwisImy476aLJw9jqJXLJn1IG3MHL/C7wSXzf/Zze0CX0p8xF18BcJb/ziGD5
- AMJJSjpjNJr1XJtbiQ4/x1EHzIjHpeAvX7pHBfJSztk2Vb0h9JwvnkBnEGOhD+kiRKWS
- CUSQ==
-X-Gm-Message-State: AOAM531vef4FG8DUSMFcUChPgzanUR5L8dY/k1oLtFex8lRedi49WK02
- jyWdyH0XThYPf8UHAvkLr2Z7137yW0u4EA==
-X-Google-Smtp-Source: ABdhPJx4nk9h4hHKYmp/zHWK9adDZvY5ZFpDEx7MxxjjHaC5jvJ/MH/Neaz1J413PdpO+s+Vic0LYQ==
-X-Received: by 2002:a05:6a00:23c6:b029:28f:d463:17ba with SMTP id
- g6-20020a056a0023c6b029028fd46317bamr22992343pfc.65.1621832112054; 
- Sun, 23 May 2021 21:55:12 -0700 (PDT)
+ bh=m89buCPgpozLCxeMx0IXmxkOBtSNDh85t/lIV1xW87I=;
+ b=e9UNw0sDE2/rBUTaFCGCDOhEV03FSvR9e3cKawtF46FPJDdlzNtpv92rJ/EtqQ2A/X
+ S6hWEoRwrWgCdyMhOoVMy7kneR+X1+nwdETVk0fvGtnw6XUh+wPICJ6AfD0XNSuq7Jgx
+ yKELqiuXWWix2sK6x0x8toE49OrswzKhIEVfwFY5RK3FPNzultAdCSRqa9yqlK/fwZ1P
+ DSR7hrIMthJtBo1yuLcraY2YPgE3o/xbsbVQNczxih20mAr3GGdwMd0KI+LA/86Hseke
+ PVQDmE1cges9dJaTn7ffi0LiBbh8EtoOkrld/4x8GR1gejX3uYIcr2c0J3OK7SoacBJB
+ EKqg==
+X-Gm-Message-State: AOAM531HEqCxLNrtPaFpELYkZWlNA7rk+gbtcG4D/rld9Cg4vOzGT1yH
+ dgwCZLGOmat4qyX2n97tC9dUAXV2XWAxTg==
+X-Google-Smtp-Source: ABdhPJxVI07QWih+uncYTBFIt7HPbCWU3PUVKKui0PTHkX3qMr2rJbNHLDVzF9MPPfdO3xqHUG1yDA==
+X-Received: by 2002:a63:fc20:: with SMTP id j32mr11718223pgi.8.1621832113586; 
+ Sun, 23 May 2021 21:55:13 -0700 (PDT)
 Received: from spacetanuki.lan ([202.12.244.32])
- by smtp.gmail.com with ESMTPSA id 24sm10040142pgz.77.2021.05.23.21.55.10
+ by smtp.gmail.com with ESMTPSA id 24sm10040142pgz.77.2021.05.23.21.55.12
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Sun, 23 May 2021 21:55:11 -0700 (PDT)
+ Sun, 23 May 2021 21:55:13 -0700 (PDT)
 From: YAMAMOTO Takashi <yamamoto@midokura.com>
 To: qemu-devel@nongnu.org
 Cc: YAMAMOTO Takashi <yamamoto@midokura.com>,
  Laurent Vivier <laurent@vivier.eu>
-Subject: [PATCH 3/5] linux-user: Fix the execfd case of /proc/self/exe open
-Date: Mon, 24 May 2021 13:54:09 +0900
-Message-Id: <20210524045412.15152-4-yamamoto@midokura.com>
+Subject: [PATCH 4/5] linux-user: dup the execfd on start up
+Date: Mon, 24 May 2021 13:54:10 +0900
+Message-Id: <20210524045412.15152-5-yamamoto@midokura.com>
 X-Mailer: git-send-email 2.21.1 (Apple Git-122.3)
 In-Reply-To: <20210524045412.15152-1-yamamoto@midokura.com>
 References: <20210524045412.15152-1-yamamoto@midokura.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
- envelope-from=yamamoto@midokura.com; helo=mail-pg1-x52a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
+ envelope-from=yamamoto@midokura.com; helo=mail-pf1-x435.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,38 +84,74 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It's problematic to return AT_EXECFD as it is because the user app
-would close it.
-This patch opens it via /proc/self/fd instead.
+So that it can be used for other purposes (e.g. syscall.c)
+after the elf loader closed it.
 
 Signed-off-by: YAMAMOTO Takashi <yamamoto@midokura.com>
 ---
- linux-user/syscall.c | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+ linux-user/main.c    | 8 ++++++++
+ linux-user/qemu.h    | 2 ++
+ linux-user/syscall.c | 5 ++---
+ 3 files changed, 12 insertions(+), 3 deletions(-)
 
+diff --git a/linux-user/main.c b/linux-user/main.c
+index 1f9f4e3820..86ddba8b62 100644
+--- a/linux-user/main.c
++++ b/linux-user/main.c
+@@ -56,6 +56,7 @@
+ 
+ char *exec_path;
+ char exec_path_store[PATH_MAX];
++int exec_fd = -1;
+ 
+ int singlestep;
+ static const char *argv0;
+@@ -833,6 +834,13 @@ int main(int argc, char **argv, char **envp)
+     cpu->opaque = ts;
+     task_settid(ts);
+ 
++    /*
++     * dup execfd to a global so that it can be used after loader_exec
++     * closes it.
++     */
++
++    exec_fd = dup(execfd);
++
+     ret = loader_exec(execfd, exec_path, target_argv, target_environ, regs,
+         info, &bprm);
+     if (ret != 0) {
+diff --git a/linux-user/qemu.h b/linux-user/qemu.h
+index 3b0b6b75fe..ee4e9a1779 100644
+--- a/linux-user/qemu.h
++++ b/linux-user/qemu.h
+@@ -160,6 +160,8 @@ typedef struct TaskState {
+ } __attribute__((aligned(16))) TaskState;
+ 
+ extern char *exec_path;
++extern int exec_fd;
++
+ void init_task_state(TaskState *ts);
+ void task_settid(TaskState *);
+ void stop_all_tasks(void);
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index a2b03ecb8b..14a63518e2 100644
+index 14a63518e2..2947e79dc0 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -8118,7 +8118,17 @@ static int do_openat(void *cpu_env, int dirfd, const char *pathname, int flags,
+@@ -8117,12 +8117,11 @@ static int do_openat(void *cpu_env, int dirfd, const char *pathname, int flags,
+     };
  
      if (is_proc_myself(pathname, "exe")) {
-         int execfd = qemu_getauxval(AT_EXECFD);
--        return execfd ? execfd : safe_openat(dirfd, exec_path, flags, mode);
-+        if (execfd) {
-+            char filename[PATH_MAX];
-+            int ret;
-+
-+            snprintf(filename, sizeof(filename), "/proc/self/fd/%d", execfd);
-+            ret = safe_openat(dirfd, filename, flags, mode);
-+            if (ret != -1) {
-+                return ret;
-+            }
-+        }
-+        return safe_openat(dirfd, exec_path, flags, mode);
-     }
+-        int execfd = qemu_getauxval(AT_EXECFD);
+-        if (execfd) {
++        if (exec_fd != -1) {
+             char filename[PATH_MAX];
+             int ret;
  
-     for (fake_open = fakes; fake_open->filename; fake_open++) {
+-            snprintf(filename, sizeof(filename), "/proc/self/fd/%d", execfd);
++            snprintf(filename, sizeof(filename), "/proc/self/fd/%d", exec_fd);
+             ret = safe_openat(dirfd, filename, flags, mode);
+             if (ret != -1) {
+                 return ret;
 -- 
 2.21.1 (Apple Git-122.3)
 
