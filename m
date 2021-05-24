@@ -2,83 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8DA238F22D
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 19:19:39 +0200 (CEST)
-Received: from localhost ([::1]:59390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BB7138F275
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 19:45:21 +0200 (CEST)
+Received: from localhost ([::1]:39502 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llEEr-0007CC-DS
-	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 13:19:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48744)
+	id 1llEdk-0001f0-6p
+	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 13:45:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49854)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1llDvi-0003Ol-0L
- for qemu-devel@nongnu.org; Mon, 24 May 2021 12:59:56 -0400
-Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:34513)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1llE0m-0001Xc-Q4
+ for qemu-devel@nongnu.org; Mon, 24 May 2021 13:05:05 -0400
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:41534)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1llDvg-0002Ig-DK
- for qemu-devel@nongnu.org; Mon, 24 May 2021 12:59:49 -0400
-Received: by mail-pj1-x102f.google.com with SMTP id
- g6-20020a17090adac6b029015d1a9a6f1aso261775pjx.1
- for <qemu-devel@nongnu.org>; Mon, 24 May 2021 09:59:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=tPP3xMm+3hjvzZlNztKKZE+v1+/RwXMmRVn8PePSn+Q=;
- b=cVKbKge6edGSPh7eRIQNi6QSWb53MiCMwYKnSfwxqtNbqJOfttwHrpMyQR9eyApV+M
- Gmx4D1HRapDDNSu+pTgnU1TZgmx1U+sgnsrdiH5fGDRlRVJFYDV7lcpNfLk9BpEtojQr
- 6J8JZgwbafUjQ2TGlIrYaBSMhQx+caBVYxBE2rZS+MGtmijtgOmMhr5yywP3DamgrZmP
- aUXoFIGo17ycuya+Ii561FXrLQ/UngQOEc8fq95VGV7GL2yoAxXZpLUrx/GE41M49KsS
- 3U8B9i/idzjbSOpvgRNvUQqy65qm3nf9CfsV7fc5CwDgvIqkDv75IwKD7c80S5IojhNw
- RegA==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1llE0l-0003zG-6p
+ for qemu-devel@nongnu.org; Mon, 24 May 2021 13:05:04 -0400
+Received: by mail-wm1-x32c.google.com with SMTP id
+ l11-20020a05600c4f0bb029017a7cd488f5so8692314wmq.0
+ for <qemu-devel@nongnu.org>; Mon, 24 May 2021 10:05:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=X/RDNvQdX2KPe06yg5b1HSL5e8FsBd5LujHEk/jRQR4=;
+ b=f+uNH7id7X9/OPX6zQskYyZ/UCNgEmqULDsah3XkCK0h/W3JRTGGJlVVaMZCMuEk0i
+ XdJmsZa7+jlMsQxleSaOCM8dQdVJcqfji6vqRTnwrrW4DK6mg+D5GwlJd/qmaydkka5U
+ aE9Drbg2D/8TDt/ppEKc1L6nAmDJmrEPzO2gb8N1iAHTTLxiFywETyYzyRKsbnVAJgr4
+ HJeis0E1nnIT0VI50DE34DJkW60OmptaI/nvRwHpF4OysaTPR9CBnNoNJsxr0Yn61xWl
+ cieYkiB4pJ6FKvpecoij9wlBTKm43WIDeO3ay7yfohkxU2ufUXluuoXySZhaV7pas82d
+ pdyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=tPP3xMm+3hjvzZlNztKKZE+v1+/RwXMmRVn8PePSn+Q=;
- b=HByfyyit7ByPebcLEnta/3RYwzdNb4LrmqnuBGenTT5J4bHLiPQXoG0V7CUPccuzFZ
- r/df/UNx0ekFyKbAsUF4q20SJFtnxi0iesnw442Gihb9s0aVkgPa4ZPkMcKxMRvwk6YR
- TfYuVvkZlEdrWfPYJXAoPomq6Z63MygCl1rpHRr3NUGBaG2Adm4eafd//EkXMCP1iap9
- ktMrDsjNddnWgDdeioEK4Nc4Ok1nFO/zMDwmUOJwxNLczL9lYU+Fr4nMKu3Z4IoQQo9O
- glPRI37ImOBKETl5i+c191xWOtcNNovLDqdxPYjS8O5CsjE5XGGB4MhsV4yK7fmG1f5A
- 1wGA==
-X-Gm-Message-State: AOAM532WxacniUuIbk0wwozlD5PWrPNkJtLO/M6K3VKsNK2oVabMhRb/
- H3CVvU0V5PnVy1zg0BXsxxS8cXILhSkdhg==
-X-Google-Smtp-Source: ABdhPJygk+jd+tE7dmwFikHjjg56g1qjtfLbgECBgsGiabJh8DLVRP3hlwv54emdO1W9HpVgK9oRDw==
-X-Received: by 2002:a17:90b:1b4f:: with SMTP id
- nv15mr128183pjb.56.1621875586961; 
- Mon, 24 May 2021 09:59:46 -0700 (PDT)
-Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
- by smtp.gmail.com with ESMTPSA id
- y26sm11976471pge.94.2021.05.24.09.59.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 24 May 2021 09:59:46 -0700 (PDT)
-Subject: Re: [PATCH 8/9] target/arm: Enable FPSCR.QC bit for MVE
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-References: <20210520152840.24453-1-peter.maydell@linaro.org>
- <20210520152840.24453-9-peter.maydell@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <02b5ed61-fbb7-0086-a615-8ef375b23e9f@linaro.org>
-Date: Mon, 24 May 2021 09:59:45 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=X/RDNvQdX2KPe06yg5b1HSL5e8FsBd5LujHEk/jRQR4=;
+ b=F2/h/UMYFj6k3WotSnAbJzRTP9XYLJewYgPvS/OoO3TTnyTR6rTE7dkw1InqcyhXX2
+ WK+O4Ee8XGnCXLJiDBWACUOFjkTvgioUvTGU1H4pvXjcV6+cXycGIC6Dx89WZkB8FUI6
+ fW2oRO+lbFuafkkGC9g0eoOUjp6PE0ZI9TKJ5uiv939Xd6fqvun3JMnWc7hNfw6d6jKd
+ I4FUExhoaVh8hfBzAItObf8UintFNauBQwKPvpFznMi9NHkErk2FOsHU/09sNoExr5Gg
+ F9+BC25/7gosNFu47ksbs1RqDXAFkmigcneqzo6BWX3t1ml5VMsdPIvPcPPcngEAVZVg
+ 5N4w==
+X-Gm-Message-State: AOAM530ZRRpp6ezvSAcKcAhLQmNpgwUT34icIlRcPp6bfQA7nL7KBada
+ mWmNXm2wU6lpWKAoHvz7ojHpyZD6ehQZzg==
+X-Google-Smtp-Source: ABdhPJzhBpDGrUbPX8OJB2o9SPWlPmNwUmtukJd6hdp6IQqfXX5KoaP+zQj3qJii3V95rqMBp3br0g==
+X-Received: by 2002:a7b:c304:: with SMTP id k4mr106972wmj.68.1621875900994;
+ Mon, 24 May 2021 10:05:00 -0700 (PDT)
+Received: from localhost.localdomain (31.red-83-51-215.dynamicip.rima-tde.net.
+ [83.51.215.31])
+ by smtp.gmail.com with ESMTPSA id r2sm13355367wrv.39.2021.05.24.10.04.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 24 May 2021 10:05:00 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/2] accel/tcg: Reduce headers inclusion
+Date: Mon, 24 May 2021 19:04:51 +0200
+Message-Id: <20210524170453.3791436-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.26.3
 MIME-Version: 1.0
-In-Reply-To: <20210520152840.24453-9-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32c.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,19 +84,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/20/21 8:28 AM, Peter Maydell wrote:
-> MVE has an FPSCR.QC bit similar to the A-profile Neon one;
-> when MVE is implemented make the bit writeable.
-> 
-> Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
-> ---
->   target/arm/vfp_helper.c | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
-
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
-r~
+Trivial series, restricting accel/tcg/ specific headers to TCG.=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (2):=0D
+  accel/tcg: Reduce 'exec/tb-context.h' inclusion=0D
+  accel/tcg: Keep TranslationBlock headers local to TCG=0D
+=0D
+ {include/exec =3D> accel/tcg}/tb-context.h | 0=0D
+ {include/exec =3D> accel/tcg}/tb-hash.h    | 0=0D
+ {include/exec =3D> accel/tcg}/tb-lookup.h  | 2 +-=0D
+ include/exec/exec-all.h                  | 1 -=0D
+ include/tcg/tcg.h                        | 1 -=0D
+ accel/tcg/cpu-exec.c                     | 5 +++--=0D
+ accel/tcg/cputlb.c                       | 2 +-=0D
+ accel/tcg/tcg-runtime.c                  | 2 +-=0D
+ accel/tcg/translate-all.c                | 3 ++-=0D
+ MAINTAINERS                              | 1 -=0D
+ 10 files changed, 8 insertions(+), 9 deletions(-)=0D
+ rename {include/exec =3D> accel/tcg}/tb-context.h (100%)=0D
+ rename {include/exec =3D> accel/tcg}/tb-hash.h (100%)=0D
+ rename {include/exec =3D> accel/tcg}/tb-lookup.h (98%)=0D
+=0D
+-- =0D
+2.26.3=0D
+=0D
 
