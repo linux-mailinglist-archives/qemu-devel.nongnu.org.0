@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA8CC38F1FD
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 19:05:32 +0200 (CEST)
-Received: from localhost ([::1]:55114 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16EE238F241
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 19:27:51 +0200 (CEST)
+Received: from localhost ([::1]:51728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llE1D-0000xR-Pi
-	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 13:05:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45286)
+	id 1llEMn-0004Ye-T3
+	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 13:27:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45330)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1llDeS-0004yC-Rv; Mon, 24 May 2021 12:42:00 -0400
-Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:39677)
+ id 1llDeU-00054C-EI
+ for qemu-devel@nongnu.org; Mon, 24 May 2021 12:42:02 -0400
+Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:40767)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1llDeJ-0004OY-4K; Mon, 24 May 2021 12:42:00 -0400
-Received: by mail-ej1-x635.google.com with SMTP id l1so42789619ejb.6;
- Mon, 24 May 2021 09:41:49 -0700 (PDT)
+ id 1llDeJ-0004Om-6M
+ for qemu-devel@nongnu.org; Mon, 24 May 2021 12:42:02 -0400
+Received: by mail-ej1-x635.google.com with SMTP id n2so42775523ejy.7
+ for <qemu-devel@nongnu.org>; Mon, 24 May 2021 09:41:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=TzYzur0aoGcQcPzxTRLpL0L9tdlIkO4njHPHcUkBeIQ=;
- b=fF9MQQEH/u2jop2j8HBHUka6Vpd6AoxtdU9D+oA4n3aoYUXKjJOW3yHaVfohLWPgL/
- nSLxWw02J94gsbL00TD4J53taEO6KwG/fLkc0sN+egDK/TNKopZ5x3RhLtqwqg1mh42o
- L1gu+gN5WoWFLOtGeGGv1vooapul5drBJa3bfdnAuzrXqzTI+i2+n9x0Xgj6cfw7ZL9Z
- yUtZz2YgYbBaTW+mYPdxX5B86TnYL9zKgfrzmnw9wBfvEbmy3Y055klhW8MWTAxN+k28
- YWjzjDxQa0ESm4adhk9vflr0/m41+3nz+BpCDoXss9JOt9TbNmErbfyMwPX4x79kCDF8
- vkWg==
+ bh=zJ+4ctxl9rJ2GoSUbpS/PEa40oPl9E9xb9BjzoxwX+g=;
+ b=ebyYMXrKX69XMR00nud9wvIup/Hwvgb4wNNDEt5I+5l6g7LCevW7bt0dzRZnFKd6tK
+ CxVs99nyQ/3tVlmf74u/aKGe5GeLTQm/CIn3TDyTTTW40wZ+E668z3FdbI7sXp6yLmg5
+ oY5dojpNzzZ/x2xsaAC/rndrZngnXc2fOHMykRMUqAk2yJ93GOGOejkLTwmyAxAo7zbY
+ gcgP7Ls+o4+0ANnuiXPDWJ3Ed77YMANtZJMDZaIsvJ4501ROkuBG7393D75uycgsECQ9
+ K6xDAXGg8cLfauBMA3EPXizrRpyQxqgwznHYwXjkFrOFCqDN5THWNADC2MgcOlgs2EAA
+ 5LYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=TzYzur0aoGcQcPzxTRLpL0L9tdlIkO4njHPHcUkBeIQ=;
- b=hrg6/7V0MOKlFY60bg8w2JZ6b+kufoKMdfoohb9sUdtrNlIzMtbqKzwHF9oYy29rJt
- hb4VdDDqFCjjwS6w9tnR/B34pzDqosJDvcUrGDbobyQgjFkjxhGZKVW+1gBpi1MN4J0o
- Jloef75EM2KPefVAm4Xot8Dnm3O2/hYlr8jGwqyxPVidbiGX9d7uXryMIsNaQRwa63F7
- DpAp/F9fDRL60Tu4PRDYa8SesjTZgw891jkeec/56OHyg7sN8OnT2McMSLyAN/Pk4fNK
- xnvfmlSGAF93ZS/WqKe3cAaYjxB8gxNr/VxoYals93nN8o4oq0ZeaDpt3gDGNnvHEYhT
- yVSA==
-X-Gm-Message-State: AOAM53246GkMxPlaDk9lhxf9Hnv93QXDrSZmadnb30MgXuDUoYZOfkwf
- DIJCnp9OOO24bs0meq/rwwEi5msKEMb1Jw==
-X-Google-Smtp-Source: ABdhPJwZ7h5UKZz//VJPfPgt/Ib4firFw7zs2fc6MOuXxYpeGnBLrPMMb5mb94eWIZL4lVK2sv+b8Q==
-X-Received: by 2002:a17:906:914d:: with SMTP id
- y13mr24144351ejw.489.1621874509087; 
+ bh=zJ+4ctxl9rJ2GoSUbpS/PEa40oPl9E9xb9BjzoxwX+g=;
+ b=CY8ngKovf6H5QIcNUjXrbOJwua9JK3DFSg7GT8mxGhmDDLQvFhcJ2k0FQjGZOFP+0k
+ 9BYW0x5BdjNtMrbS2O2nh6brxqqAtrb3Dsw7K/T6YA9TmDZUFZFORJIEw/GX+UIxhyzr
+ nyMZujhyjaDBFPRKOhd59fJotWqpcaf9SRQRU0TxHeynBau//tm1RLXIMaO8BdNuNENo
+ ghKBFbzO4R29UDjpznwQdlrXHw6Ciyg9wZ6S1/8HxNqg+x6ICJiNTi/3Sm05zBeNomWb
+ ME54M/Ha6rIRDLSloc0ThY49uhtNgmW8g1ucBg0/kOmFopeIb2NPDIm395OaXlZayzxe
+ MtRA==
+X-Gm-Message-State: AOAM532IzSO/+U6U+N0tbXWqmrrD4yYpdT7vNrlr8Usc2xscfpeyz5n7
+ I+gtwjwj/2+rK1WZylH6j2yajZCNBTPR/w==
+X-Google-Smtp-Source: ABdhPJzVn6AoFaQw7HZA6wPhN/wT49np5N9kdGSBfweicVHexuvai8RZS4KzmAl0FkiuUJGk9AMikg==
+X-Received: by 2002:a17:907:7747:: with SMTP id
+ kx7mr24449753ejc.400.1621874509754; 
  Mon, 24 May 2021 09:41:49 -0700 (PDT)
 Received: from avogadro.redhat.com ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- g4sm9581922edm.83.2021.05.24.09.41.48
+ g4sm9581922edm.83.2021.05.24.09.41.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 May 2021 09:41:48 -0700 (PDT)
+ Mon, 24 May 2021 09:41:49 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 24/28] qemu-config: load modules when instantiating option
- groups
-Date: Mon, 24 May 2021 18:41:27 +0200
-Message-Id: <20210524164131.383778-25-pbonzini@redhat.com>
+Subject: [PULL 25/28] doc: Add notes about -mon option mode=control argument.
+Date: Mon, 24 May 2021 18:41:28 +0200
+Message-Id: <20210524164131.383778-26-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210524164131.383778-1-pbonzini@redhat.com>
 References: <20210524164131.383778-1-pbonzini@redhat.com>
@@ -84,119 +85,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-stable@nongnu.org
+Cc: Ali Shirvani <alishir@routerhosting.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Right now the SPICE module is special cased to be loaded when processing
-of the -spice command line option.  However, the spice option group
-can also be brought in via -readconfig, in which case the module is
-not loaded.
+From: Ali Shirvani via <qemu-devel@nongnu.org>
 
-Add a generic hook to load modules that provide a QemuOpts group,
-and use it for the "spice" and "iscsi" groups.
+The mode=control argument configures a QMP monitor.
 
-Fixes: #194
-Fixes: https://bugs.launchpad.net/qemu/+bug/1910696
-Cc: qemu-stable@nongnu.org
+Signed-off-by: Ali Shirvani <alishir@routerhosting.com>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Message-Id: <0799f0de89ad2482672b5d61d0de61e6eba782da.1621407918.git.alishir@routerhosting.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- include/qemu/config-file.h |  2 +-
- softmmu/vl.c               | 21 +++++++++++++++++----
- stubs/meson.build          |  1 +
- stubs/module-opts.c        |  6 ++++++
- util/qemu-config.c         |  1 +
- 5 files changed, 26 insertions(+), 5 deletions(-)
- create mode 100644 stubs/module-opts.c
+ qemu-options.hx | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/include/qemu/config-file.h b/include/qemu/config-file.h
-index 8d3e53ae4d..0500b3668d 100644
---- a/include/qemu/config-file.h
-+++ b/include/qemu/config-file.h
-@@ -1,7 +1,7 @@
- #ifndef QEMU_CONFIG_FILE_H
- #define QEMU_CONFIG_FILE_H
+diff --git a/qemu-options.hx b/qemu-options.hx
+index 8116f79818..14258784b3 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -3799,8 +3799,11 @@ DEF("mon", HAS_ARG, QEMU_OPTION_mon, \
+     "-mon [chardev=]name[,mode=readline|control][,pretty[=on|off]]\n", QEMU_ARCH_ALL)
+ SRST
+ ``-mon [chardev=]name[,mode=readline|control][,pretty[=on|off]]``
+-    Setup monitor on chardev name. ``pretty`` is only valid when
+-    ``mode=control``, turning on JSON pretty printing to ease
++    Setup monitor on chardev name. ``mode=control`` configures 
++    a QMP monitor (a JSON RPC-style protocol) and it is not the
++    same as HMP, the human monitor that has a "(qemu)" prompt.
++    ``pretty`` is only valid when ``mode=control``, 
++    turning on JSON pretty printing to ease
+     human reading and debugging.
+ ERST
  
--
-+void qemu_load_module_for_opts(const char *group);
- QemuOptsList *qemu_find_opts(const char *group);
- QemuOptsList *qemu_find_opts_err(const char *group, Error **errp);
- QemuOpts *qemu_find_opts_singleton(const char *group);
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 21e55718a6..6054f6f0b9 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -2627,6 +2627,23 @@ void qmp_x_exit_preconfig(Error **errp)
-     }
- }
- 
-+#ifdef CONFIG_MODULES
-+void qemu_load_module_for_opts(const char *group)
-+{
-+    static bool spice_tried;
-+    if (g_str_equal(group, "spice") && !spice_tried) {
-+        ui_module_load_one("spice-core");
-+        spice_tried = true;
-+    }
-+
-+    static bool iscsi_tried;
-+    if (g_str_equal(group, "iscsi") && !iscsi_tried) {
-+        block_module_load_one("iscsi");
-+        iscsi_tried = true;
-+    }
-+}
-+#endif
-+
- void qemu_init(int argc, char **argv, char **envp)
- {
-     QemuOpts *opts;
-@@ -3386,10 +3403,6 @@ void qemu_init(int argc, char **argv, char **envp)
-                 break;
-             case QEMU_OPTION_spice:
-                 olist = qemu_find_opts_err("spice", NULL);
--                if (!olist) {
--                    ui_module_load_one("spice-core");
--                    olist = qemu_find_opts("spice");
--                }
-                 if (!olist) {
-                     error_report("spice support is disabled");
-                     exit(1);
-diff --git a/stubs/meson.build b/stubs/meson.build
-index 3faef16892..f3f979c3fe 100644
---- a/stubs/meson.build
-+++ b/stubs/meson.build
-@@ -22,6 +22,7 @@ stub_ss.add(files('isa-bus.c'))
- stub_ss.add(files('is-daemonized.c'))
- stub_ss.add(when: 'CONFIG_LINUX_AIO', if_true: files('linux-aio.c'))
- stub_ss.add(files('migr-blocker.c'))
-+stub_ss.add(files('module-opts.c'))
- stub_ss.add(files('monitor.c'))
- stub_ss.add(files('monitor-core.c'))
- stub_ss.add(files('pci-bus.c'))
-diff --git a/stubs/module-opts.c b/stubs/module-opts.c
-new file mode 100644
-index 0000000000..a7d0e4ad6e
---- /dev/null
-+++ b/stubs/module-opts.c
-@@ -0,0 +1,6 @@
-+#include "qemu/osdep.h"
-+#include "qemu/config-file.h"
-+
-+void qemu_load_module_for_opts(const char *group)
-+{
-+}
-diff --git a/util/qemu-config.c b/util/qemu-config.c
-index 670bd6ebca..34974c4b47 100644
---- a/util/qemu-config.c
-+++ b/util/qemu-config.c
-@@ -16,6 +16,7 @@ static QemuOptsList *find_list(QemuOptsList **lists, const char *group,
- {
-     int i;
- 
-+    qemu_load_module_for_opts(group);
-     for (i = 0; lists[i] != NULL; i++) {
-         if (strcmp(lists[i]->name, group) == 0)
-             break;
 -- 
 2.31.1
 
