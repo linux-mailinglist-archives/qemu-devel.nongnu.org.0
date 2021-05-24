@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C120B38F2A7
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 19:57:28 +0200 (CEST)
-Received: from localhost ([::1]:35974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7130C38F2A8
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 19:59:04 +0200 (CEST)
+Received: from localhost ([::1]:40614 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llEpT-0001v0-Bt
-	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 13:57:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60646)
+	id 1llEr1-00051m-Ic
+	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 13:59:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1llEnb-0008Ra-OD
- for qemu-devel@nongnu.org; Mon, 24 May 2021 13:55:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30617)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1llEpF-0002ls-3a
+ for qemu-devel@nongnu.org; Mon, 24 May 2021 13:57:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49040)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1llEnZ-0005mu-Nw
- for qemu-devel@nongnu.org; Mon, 24 May 2021 13:55:31 -0400
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1llEpD-0006xt-9q
+ for qemu-devel@nongnu.org; Mon, 24 May 2021 13:57:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621878927;
+ s=mimecast20190719; t=1621879030;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mYo3ecuQAKA8YAomepdwyyUz/M1OygfZNAkqt/9779w=;
- b=GvK8WJbnYk8fNplvoUomikUAkm7XCl6WLcvwEzl9nNV+VqiWZYa8yAAE0Ly5MGpZ601ogu
- gZBuxB5XGZ2tLsrQtk9Irdk+jHYjHweMNEkVIYfclHR7ebOklyq8gJwt/5MQF0prRLRXqT
- d2PWYYu0Bw8pW365ENj0Dfae614K474=
+ bh=NmF6lhR9PeNjL1T/ol5eDiiMu0J1DgBAp5Io0f2uUTk=;
+ b=e2y7HTHwMicrZ/sCjL2vZJksjpsyapcamEAlyzjkrOov7sC6ay9bO/HOZqT8HkU4CG1Qo8
+ IRBx8Dmq5yJeGW6qIVfDDc0Ss7azdgydUhNYJbplcZP3LZly8Mm1XTMRsmhMUWDtWFwDIi
+ uwafjfgSepwFt3O3XO5hjv9c3wfPMnI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-99-p7FXsr5KPtyY6Ovty7lo1Q-1; Mon, 24 May 2021 13:55:24 -0400
-X-MC-Unique: p7FXsr5KPtyY6Ovty7lo1Q-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-279-zfs7rSRzOUyXtyl3potT3g-1; Mon, 24 May 2021 13:57:07 -0400
+X-MC-Unique: zfs7rSRzOUyXtyl3potT3g-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 843A7A0CBA;
- Mon, 24 May 2021 17:55:23 +0000 (UTC)
-Received: from localhost (ovpn-114-16.phx2.redhat.com [10.3.114.16])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E1F555C230;
- Mon, 24 May 2021 17:55:16 +0000 (UTC)
-Date: Mon, 24 May 2021 13:51:58 -0400
-From: Cleber Rosa <crosa@redhat.com>
-To: Willian Rampazzo <willianr@redhat.com>
-Subject: Re: [RFC 1/1] acceptance tests: bump Avocado version to 88.1
-Message-ID: <20210524175158.GB1567491@amachine.somewhere>
-References: <20210520204747.210764-1-willianr@redhat.com>
- <20210520204747.210764-2-willianr@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 349E9187656C;
+ Mon, 24 May 2021 17:57:06 +0000 (UTC)
+Received: from localhost (unknown [10.40.208.47])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A19356A8EF;
+ Mon, 24 May 2021 17:57:00 +0000 (UTC)
+Date: Mon, 24 May 2021 19:56:58 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>
+Subject: Re: [PATCH] hw/mem/pc-dimm: Hint it is not usable on non-NUMA machines
+Message-ID: <20210524195658.033b19e6@redhat.com>
+In-Reply-To: <20210524171352.3796151-1-f4bug@amsat.org>
+References: <20210524171352.3796151-1-f4bug@amsat.org>
 MIME-Version: 1.0
-In-Reply-To: <20210520204747.210764-2-willianr@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="IrhDeMKUP4DT/M7F"
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=crosa@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -77,73 +78,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
+Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---IrhDeMKUP4DT/M7F
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Mon, 24 May 2021 19:13:52 +0200
+Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> wrote:
 
-On Thu, May 20, 2021 at 05:47:47PM -0300, Willian Rampazzo wrote:
-> Besides some internal changes, new features, and bug fixes, on the QEMU s=
-ide,
-> this version fixes the following message seen when running the acceptance
-> tests: "Error running method "pre_tests" of plugin "fetchasset": 'bytes'
-> object has no attribute 'encode'".
+> When trying to use the pc-dimm device on a non-NUMA machine, we get:
 >=20
-> The release notes are available at
-> https://avocado-framework.readthedocs.io/en/latest/releases/88_0.html.
+>   $ qemu-system-arm -M none -cpu max -S -device pc-dimm
+>   Segmentation fault (core dumped)
 >=20
-> Signed-off-by: Willian Rampazzo <willianr@redhat.com>
+>   (gdb) bt
+>   #0  pc_dimm_realize (dev=3D0x555556da3e90, errp=3D0x7fffffffcd10) at hw=
+/mem/pc-dimm.c:184
+>   #1  0x0000555555fe1f8f in device_set_realized (obj=3D0x555556da3e90, va=
+lue=3Dtrue, errp=3D0x7fffffffce18) at hw/core/qdev.c:761
+>   #2  0x0000555555feb4a9 in property_set_bool (obj=3D0x555556da3e90, v=3D=
+0x555556e54420, name=3D0x5555563c3c41 "realized", opaque=3D0x555556a704f0, =
+errp=3D0x7fffffffce18) at qom/object.c:2257
+>=20
+> Use a friendler error message instead:
+>=20
+>   $ qemu-system-arm -M none -cpu max -S -device pc-dimm
+>   qemu-system-arm: -device pc-dimm: NUMA is not supported by this machine=
+-type
+
+it's not that pc-dimm inherently depends on numa, so maybe something like t=
+his would be better:
+
+@@ -183,12 +182,17 @@ static void pc_dimm_realize(DeviceState *dev, Error *=
+*errp)
+...
++    if (ms->numa_state) {
++        int nb_numa_nodes =3D ms->numa_state->num_nodes;
++
++        if ((nb_numa_nodes > 0) &&
++            (dimm->node >=3D nb_numa_nodes)) ||
++           (!nb_numa_nodes && dimm->node)) {
++               error_setg(errp, "'DIMM property " PC_DIMM_NODE_PROP " has =
+value %"
++                          PRIu32 "' which exceeds the number of numa nodes=
+: %d",
++                          dimm->node, nb_numa_nodes ? nb_numa_nodes : 1);
++            return;
++        }
++     } else if (dimm->node > 0)
++         error_setg(errp, "machine doesn't support numa");
+=20
+
+>=20
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 > ---
->  tests/requirements.txt | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  hw/mem/pc-dimm.c | 7 ++++++-
+>  1 file changed, 6 insertions(+), 1 deletion(-)
 >=20
-> diff --git a/tests/requirements.txt b/tests/requirements.txt
-> index 91f3a343b9..a21b59b443 100644
-> --- a/tests/requirements.txt
-> +++ b/tests/requirements.txt
-> @@ -1,5 +1,5 @@
->  # Add Python module requirements, one per line, to be installed
->  # in the tests/venv Python virtual environment. For more info,
->  # refer to: https://pip.pypa.io/en/stable/user_guide/#id1
-> -avocado-framework=3D=3D85.0
-> +avocado-framework=3D=3D88.1
->  pycdlib=3D=3D1.11.0
-> --=20
-> 2.31.1
->=20
-
-I'll be including that bump (and discarding the previous one) on my
-upcoming PR.
-
-Acked-by: Cleber Rosa <crosa@redhat.com>
-
---IrhDeMKUP4DT/M7F
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAmCr574ACgkQZX6NM6Xy
-CfOTshAArFTYMQXcHPdFOWFLNRjmAIgH44bQt5CkEKI6BZafPtHacbYeK5SAEgSg
-BQexnXWspfaExIxDNGVvB79b0LNqeFeV3g8RV/9VXhlOmzh+J5e+AUyg1upnvaGy
-NqukNbteexJPoY5MbYk01u628IPdB7ISWcZ77Qm1eakNGWYavQn1d+CgMNy+dse2
-hLm4mdyVm5o4I8tDh19RL+NoGJ9E7933pHmJfWTsXHIaznbCXiqzqy8CjtioPiym
-pFiCmakPMb3cwx3LKzAB0IBhxb0CXi5BECld9dfFrox/MAJJcFWSwaHmde97Su29
-xQz3Do0YEHumOjLJosO19xinPjLXVXHaj4AybfTFUgthWkQzWTL9zPsabZMQjQjy
-M2SZYt8dzbabLNgUkSDtMma1ajhxuWibI/hjExZuIEvM3hzoLglFznkbSWDzLykx
-S+vGb7dzwoDCsQE490p1Ou6DlMEl7eoGoVllz483CwWMH5MWEiPjSxn3T2XaC9jl
-UQXdJDqT9X1aHcS8xsWuYkr0sBgqVX9GLCk8MY8XzTUUXDiCPRd+L2Bhhdh+3Tsz
-gGEha6ZAT995FvJUEjIASG1y0QRHJwvMZAis7vko2W+pUyKG9I+qjZDzp2RW/AcK
-wUAqoE4bRziorCvDmhrMvKlrVJKmKOHYCI6QTqm79QDvosQsWn8=
-=0F0P
------END PGP SIGNATURE-----
-
---IrhDeMKUP4DT/M7F--
+> diff --git a/hw/mem/pc-dimm.c b/hw/mem/pc-dimm.c
+> index a3a2560301c..e8851a0c3b1 100644
+> --- a/hw/mem/pc-dimm.c
+> +++ b/hw/mem/pc-dimm.c
+> @@ -181,8 +181,13 @@ static void pc_dimm_realize(DeviceState *dev, Error =
+**errp)
+>      PCDIMMDevice *dimm =3D PC_DIMM(dev);
+>      PCDIMMDeviceClass *ddc =3D PC_DIMM_GET_CLASS(dimm);
+>      MachineState *ms =3D MACHINE(qdev_get_machine());
+> -    int nb_numa_nodes =3D ms->numa_state->num_nodes;
+> +    int nb_numa_nodes;
+> =20
+> +    if (!ms->numa_state) {
+> +        error_setg(errp, "NUMA is not supported by this machine-type");
+> +        return;
+> +    }
+> +    nb_numa_nodes =3D ms->numa_state->num_nodes;
+>      if (!dimm->hostmem) {
+>          error_setg(errp, "'" PC_DIMM_MEMDEV_PROP "' property is not set"=
+);
+>          return;
 
 
