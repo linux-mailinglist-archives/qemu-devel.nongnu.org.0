@@ -2,73 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CC2438F236
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 19:25:39 +0200 (CEST)
-Received: from localhost ([::1]:45146 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E90B238F28F
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 19:51:25 +0200 (CEST)
+Received: from localhost ([::1]:51384 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llEKg-0008Ot-8I
-	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 13:25:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51972)
+	id 1llEjc-0001Sm-Uo
+	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 13:51:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53336)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1llE9d-000277-Vl; Mon, 24 May 2021 13:14:15 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:37842)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1llE9S-0007q0-Gq; Mon, 24 May 2021 13:14:05 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id q5so29293044wrs.4;
- Mon, 24 May 2021 10:14:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=DCP7Rkl74fvr8YdkDRqRx/SGO4Zze6JHMull36L2FNY=;
- b=VmhVnwnBzqp0QGrpi2n9G4oibNZ51KVe2gpKBO7Ut0dBYYN/l8wdqkl56c0FfKz6nU
- 4sBeYLOMYm9n37JOHmzvW/a6IUea/xf13+LbRrMkpBijMOdgQ2nzw+68rFhRWTbfWZyH
- NJtLSfxHC/HehX9dADCeuAU1/3PVEjy29bBJmve8wrKIXXSqkV8sYxx/eFptu5Yg33Bc
- 35znJ26G9cddSFHcmJtr34Dergenb+GzVCPT6HIHnnFz0qJ8j8m074Qlb1WohmVomYVL
- lB/ko009D5uA7BdHMrVNOEuU/ekO0J8r6laYpw77rP3vx8evJCz0RtbYG3qbtEnAUDBw
- qmBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=DCP7Rkl74fvr8YdkDRqRx/SGO4Zze6JHMull36L2FNY=;
- b=JItMOr1Q+YF5AGgcA+17cpdaRm3igE06sJX40Z/NYMTE8Z6rKo5tcvmkUw6MwEt99K
- sAnW3w/sN8atdxS5ZKwxhnIqO4a8Ju5Slt6w866bwjXSMswZOJt9dbC23v+cjL7T1M3b
- 2lYow7z/k7yNSrnTvuMQJi2FhSVcZF69cS4iBEIldCoP3UnPafJYzgZuDa8Z6akekKuW
- gYVAKP9ofNPUIUKqVB3nGH0uIyh8QJMoZqmZJ39MJ9vA5U6yKqvsxwUl9w4x2CnUVoCf
- FweC+QX8shD8055MHq3KU7vdQ2FbMT7EM/sWgir63+y9R7ht7J7xpChrjROpx7BNPjMh
- ZCYQ==
-X-Gm-Message-State: AOAM533AqTbdXfj3xfyfM/x5EAP6IqUL2y5qnorQcCNeE76kf46zVNQq
- Gsmh6IyFZ4nnWDs0SAmG0Apaynz4MFVv6w==
-X-Google-Smtp-Source: ABdhPJxo9Drs2hxlsd8KUGVeWxqZrhLde+o/qN7Yj7CzSrc3Hs7GjjjgJUyWYe/bHQr/lTf2+pMUBw==
-X-Received: by 2002:a5d:4e91:: with SMTP id e17mr24006465wru.396.1621876439531; 
- Mon, 24 May 2021 10:13:59 -0700 (PDT)
-Received: from localhost.localdomain (31.red-83-51-215.dynamicip.rima-tde.net.
- [83.51.215.31])
- by smtp.gmail.com with ESMTPSA id p6sm8408159wma.4.2021.05.24.10.13.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 May 2021 10:13:59 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] hw/mem/pc-dimm: Hint it is not usable on non-NUMA machines
-Date: Mon, 24 May 2021 19:13:52 +0200
-Message-Id: <20210524171352.3796151-1-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.3
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1llEGE-0003Pi-LM
+ for qemu-devel@nongnu.org; Mon, 24 May 2021 13:21:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50511)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1llEG6-0002WD-MC
+ for qemu-devel@nongnu.org; Mon, 24 May 2021 13:21:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1621876852;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=cW3iplRO+PZ812be6NY6ikF31wHCMMLm3oXuGdhstOM=;
+ b=JTHMPnOoxHyg/2pYwS/T5Cp7OqUchXQr4rBt8oKY/ShAVQcjlIBiyDGiAF41AezptSITlN
+ 3tiovgGjUqnXTJmOrzggZ4yBxve24OArSW/yPh3VAsUee+FC2kzObLZ0gIG/H6lFI5wQ9A
+ fBsPN+VDSzCwy/PpFzkYgJTYbV4OPGY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-80-G7HzX08oOwaNu7PYjoCB2g-1; Mon, 24 May 2021 13:20:44 -0400
+X-MC-Unique: G7HzX08oOwaNu7PYjoCB2g-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EC00C8030A1;
+ Mon, 24 May 2021 17:20:42 +0000 (UTC)
+Received: from localhost (unknown [10.40.208.47])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E56335D9FC;
+ Mon, 24 May 2021 17:20:39 +0000 (UTC)
+Date: Mon, 24 May 2021 19:20:37 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [RFC PATCH 0/9] Initial support for machine creation via QMP
+Message-ID: <20210524192037.765d0239@redhat.com>
+In-Reply-To: <CABgObfZxq1RDP12d3aCmV8drU3qFbhcUbxe4+9K_gNhXcFT-ug@mail.gmail.com>
+References: <20210513082549.114275-1-mirela.grujic@greensocs.com>
+ <93ae82d3-f9a7-f347-a013-54ae5cdc95f7@redhat.com>
+ <5210646b-c661-882d-6c8d-0fd1772342d2@greensocs.com>
+ <61071d36-b700-8546-c19b-09c4e582bdfe@redhat.com>
+ <YJ6jSeu3Uz4g6cCK@redhat.com>
+ <CABgObfZxq1RDP12d3aCmV8drU3qFbhcUbxe4+9K_gNhXcFT-ug@mail.gmail.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42b.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,52 +83,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Igor Mammedov <imammedo@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Damien Hedde <damien.hedde@greensocs.com>,
+ "Edgar E . Iglesias" <edgar.iglesias@xilinx.com>,
+ "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>,
+ Mark Burton <mark.burton@greensocs.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Mirela Grujic <mirela.grujic@greensocs.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When trying to use the pc-dimm device on a non-NUMA machine, we get:
+On Fri, 14 May 2021 20:32:22 +0200
+Paolo Bonzini <pbonzini@redhat.com> wrote:
 
-  $ qemu-system-arm -M none -cpu max -S -device pc-dimm
-  Segmentation fault (core dumped)
+> Il ven 14 mag 2021, 18:20 Daniel P. Berrang=C3=A9 <berrange@redhat.com> h=
+a
+> scritto:
+>=20
+> > My gut feeling though is accel-set would be more logical being done
+> > first, as that also influences the set of features available in other
+> > areas of QEMU configuration. Was there a reason you listed it after
+> > machine-set ?
+> > =20
+>=20
+> That was also my initial gut feeling, but actually right now the machine
+> influences the accelerator more than the other way round. For example the
+> initialization of the accelerator takes a machine so that for example on
+> x86 the per-architecture KVM knows whether to set up SMM. Also different
+> machines could use different modes for KVM (HV vs PR for ppc), and some
+> machines may not be virtualizable at all so they require TCG.
+>=20
+> The host CPU these days is really a virtualization-only synonym for -cpu
+> max, which works for TCG as well. But you're right that x86 CPU flags are
+> dictated by the accelerator rather than the machine, so specifying it in
+> machine-set would be clumsy. On the other hand on ARM it's a bit of both:
+> for KVM it's basically always -cpu host so the accelerator is important;
+> but some machines may have an M profile CPU and some may have an A.
+and some do not support -cpu/-smp/or rather ignore it and go ahead with har=
+dcoded one/
 
-  (gdb) bt
-  #0  pc_dimm_realize (dev=0x555556da3e90, errp=0x7fffffffcd10) at hw/mem/pc-dimm.c:184
-  #1  0x0000555555fe1f8f in device_set_realized (obj=0x555556da3e90, value=true, errp=0x7fffffffce18) at hw/core/qdev.c:761
-  #2  0x0000555555feb4a9 in property_set_bool (obj=0x555556da3e90, v=0x555556e54420, name=0x5555563c3c41 "realized", opaque=0x555556a704f0, errp=0x7fffffffce18) at qom/object.c:2257
 
-Use a friendler error message instead:
+> I don't have the sources at hand to check in which phase CPUs are created=
+,
+> but it's definitely after ACCEL_CREATED. Adding a third command
+> cpu-model-set is probably the easiest way to proceed.
 
-  $ qemu-system-arm -M none -cpu max -S -device pc-dimm
-  qemu-system-arm: -device pc-dimm: NUMA is not supported by this machine-type
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- hw/mem/pc-dimm.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+a naive question,
+why not ditch -cpu completely and instantiate CPUs with
 
-diff --git a/hw/mem/pc-dimm.c b/hw/mem/pc-dimm.c
-index a3a2560301c..e8851a0c3b1 100644
---- a/hw/mem/pc-dimm.c
-+++ b/hw/mem/pc-dimm.c
-@@ -181,8 +181,13 @@ static void pc_dimm_realize(DeviceState *dev, Error **errp)
-     PCDIMMDevice *dimm = PC_DIMM(dev);
-     PCDIMMDeviceClass *ddc = PC_DIMM_GET_CLASS(dimm);
-     MachineState *ms = MACHINE(qdev_get_machine());
--    int nb_numa_nodes = ms->numa_state->num_nodes;
-+    int nb_numa_nodes;
- 
-+    if (!ms->numa_state) {
-+        error_setg(errp, "NUMA is not supported by this machine-type");
-+        return;
-+    }
-+    nb_numa_nodes = ms->numa_state->num_nodes;
-     if (!dimm->hostmem) {
-         error_setg(errp, "'" PC_DIMM_MEMDEV_PROP "' property is not set");
-         return;
--- 
-2.26.3
+device_add cpu-foo,flagX=3Don/off
+
+the former is just a kluge for making CLI based -smp initial_nr_cpu/-cpu fo=
+o, work.
+I'd move that logic to CLI compat wrapper translating that to a series of d=
+evice_add calls
+for QMP based QEMU.
+
+Also I maybe wrong, but I thought that -cpu nowadays does nothing except of=
+ translating
+legacy cpu model name to cpu-type and flags to a bunch of '-global', which =
+are applied
+automatically when CPUa are created at board_init() time or later on when d=
+evice_add is used.
+
+> Paolo
+>=20
+>=20
+> > Regards,
+> > Daniel
+> > --
+> > |: https://berrange.com      -o-
+> > https://www.flickr.com/photos/dberrange :|
+> > |: https://libvirt.org         -o-
+> > https://fstop138.berrange.com :|
+> > |: https://entangle-photo.org    -o-
+> > https://www.instagram.com/dberrange :|
+> >
+> > =20
 
 
