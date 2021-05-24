@@ -2,70 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB8EA38F30A
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 20:33:26 +0200 (CEST)
-Received: from localhost ([::1]:37024 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A164938F30B
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 20:33:39 +0200 (CEST)
+Received: from localhost ([::1]:38058 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llFOH-0008H1-6A
-	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 14:33:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40812)
+	id 1llFOU-0000WX-Ap
+	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 14:33:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40960)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kit.westneat@gmail.com>)
- id 1llFLx-0005rd-38
- for qemu-devel@nongnu.org; Mon, 24 May 2021 14:31:01 -0400
-Received: from mail-qv1-xf2f.google.com ([2607:f8b0:4864:20::f2f]:40728)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <kit.westneat@gmail.com>)
- id 1llFLu-0001Jg-Jc
- for qemu-devel@nongnu.org; Mon, 24 May 2021 14:31:00 -0400
-Received: by mail-qv1-xf2f.google.com with SMTP id e8so11418433qvp.7
- for <qemu-devel@nongnu.org>; Mon, 24 May 2021 11:30:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=VkUHZouAjxO7+PbfQpHrLl/qWDm2fsDo25zz63I007g=;
- b=vgC/lhKPLm7NkvhCWYkgs1teBnScLwnoYa+R+Vo9RCGPbWPwLbGUwZKP6Jgi0FzMj+
- JYChp5K9+eE53V/XicsoUel7w5aTzdjX3PjFxe+jsM1CkBoO5cbFuq009rHlG4KWGdUK
- 4rQoYbnJoh77+SoOrf/OyLjIqT49WSrsVPZBjODl5JbXzoCBwA2XXn+z582KEkgtsqIG
- vVFS+/XCX9XcZZFdETuH/v1blYTFNgiJ5fM8tLjH7j0a95e3Cr8rUbYPZReGV4AtylAQ
- EX5YUqIxxLpuL40jUF1lDqnF0I0m8IOuvEv9yHeTmDjKXIT6p8AToQ/DTdZFvm6lTcSN
- WD/A==
+ (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
+ id 1llFMQ-0006Jl-Cl
+ for qemu-devel@nongnu.org; Mon, 24 May 2021 14:31:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59916)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
+ id 1llFMO-0001Xc-H3
+ for qemu-devel@nongnu.org; Mon, 24 May 2021 14:31:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1621881087;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=AhrFRMOzvqh/LUBrulTZi8NioO+Cxmzrv57UYBVHb1U=;
+ b=OvBfHV/afwNgUihMHkPW0RbkMu7xK0NpWaE13uk9oEqORDyFSdFYOrB7VemCe3BhbidcHu
+ tcKQXnOQlBslXtKzR8HffcGSU8AZj495G6gtCakR6kGXZVq2FYGVIIUapir26mqxQEcnfP
+ 7IS5EuKwJRznpLxn46os7EKBgdF5sWs=
+Received: from mail-ua1-f72.google.com (mail-ua1-f72.google.com
+ [209.85.222.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-215-YOfIOV6HNy-4O-XwsbIhsw-1; Mon, 24 May 2021 14:31:26 -0400
+X-MC-Unique: YOfIOV6HNy-4O-XwsbIhsw-1
+Received: by mail-ua1-f72.google.com with SMTP id
+ r4-20020ab070c40000b02902064b454facso12049415ual.6
+ for <qemu-devel@nongnu.org>; Mon, 24 May 2021 11:31:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=VkUHZouAjxO7+PbfQpHrLl/qWDm2fsDo25zz63I007g=;
- b=TATJ5+l2CDxX3YTQTUuZHxDepbplyquA14XuHG3TXiuTN4E5hQqJkOrLqvKICA0GW4
- 0aqk9w5EW3lXyhSgNSrh3NxBDchDwBV5Kaou5hB0fZhQrmrS0Qb6/Qps0K12eLyx12ps
- WR4oDWD1ID772dPlD/hZOez6RKUC0lsKC+IBuCY/K+dfYFfCq/EvLFqBPQB1sCngHtfV
- GISkg+sVkuxVliwQVR0B035nza1J5MzF307gR3gi6hcy7Mwg2uoJF+z7tSzsPNO3q9u5
- A/8puq/sMsKafNLqimPD1TR/MXCOSIh5/yh3asoTUtomSB23GVvltneYx6R6xvYhDsda
- NC2Q==
-X-Gm-Message-State: AOAM531W4liKANaa+w+im3cg+mzZAJlSYvJxiHDYQqy223JF/Urda29q
- fnb3wNO+t/YUYgKN2x0Ft/V2ZcQ6GookMAZLmG0=
-X-Google-Smtp-Source: ABdhPJzc1VMVdd1OkXU0LjNYcrOHeZ5f90No8INcybMVNz9Mb4xxeDEHUa3m9A59ZUJiYXOjdHccuwnUfQy1eLvOgDs=
-X-Received: by 2002:a0c:f005:: with SMTP id z5mr32392041qvk.33.1621881056882; 
- Mon, 24 May 2021 11:30:56 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=AhrFRMOzvqh/LUBrulTZi8NioO+Cxmzrv57UYBVHb1U=;
+ b=G+FN3rWJJRsu9Q5ZRA3y2DN2tcOKcdX8NJAOMjGAUJ/KxjQLYfBgpm/yk+TtZ8kRaG
+ BNxLK08ahXOtDnOpEy6I32Jezit2vEOh7tRInG9hCilznfnen5MWUA6kudFP3ll/4njf
+ y+9s2wj1nVX2pzQjQ7T84N5Nb0emRGps1liCB05oqvJINTJPXpcj/1bJB6awC5YL22c3
+ 2HJlHYqnqG+2yH33U1d5pB8ZThO0AKa2GlOV4CGtWv/NPZqDfQcUBolmjVtAcv4D9ypx
+ IMRlrQKWg+ONc4oQVqGZYuMFsR3G504jJkz2ZLaai1kL3noKBiaJpxhKg/vJEo7da1Ga
+ bf7w==
+X-Gm-Message-State: AOAM531dPyAYL7cJ99DGqW/5JdOG7yaTWEeq2Ufc9JPPL/2NCLLeD4Tg
+ zKNW4c0PnwIOCdJe/qODRJFRi2dBUF/6rmCHkJqsQQ/4lgmyxUnIn4UkeYKQBpeg142wNL0Ll6x
+ 81xKMrzH0jhZrwh2j2no/qJRL681mI1Q=
+X-Received: by 2002:ab0:6033:: with SMTP id n19mr23979550ual.124.1621881085595; 
+ Mon, 24 May 2021 11:31:25 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxAqBxNUjUsGtfqtTBw+U7PAvvy29H86m9BKEcF/dByA9eWBoOshcsB3MX2pacUPwpB6erBy7bbHMka/S5M/bI=
+X-Received: by 2002:ab0:6033:: with SMTP id n19mr23979536ual.124.1621881085455; 
+ Mon, 24 May 2021 11:31:25 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210521142829.326217-1-kit.westneat@gmail.com>
- <56fc3bb8-d6fd-c038-2bcf-8288a5bbacab@redhat.com>
-In-Reply-To: <56fc3bb8-d6fd-c038-2bcf-8288a5bbacab@redhat.com>
-From: Kit Westneat <kit.westneat@gmail.com>
-Date: Mon, 24 May 2021 14:30:44 -0400
-Message-ID: <CA+F2jReT5pObS+X2Pvr41ikTtffDpiyMXE8Z0Z3PxYRD1PdK3g@mail.gmail.com>
-Subject: Re: [PATCH] hw/scsi: Fix sector translation bug in
- scsi_unmap_complete_noio
-To: Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000437ef205c3179c5c"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f2f;
- envelope-from=kit.westneat@gmail.com; helo=mail-qv1-xf2f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210503224326.206208-1-wainersm@redhat.com>
+ <20210503224326.206208-5-wainersm@redhat.com>
+ <0aaa0e83-ea50-8836-20a8-75ef32617731@amsat.org>
+In-Reply-To: <0aaa0e83-ea50-8836-20a8-75ef32617731@amsat.org>
+From: Willian Rampazzo <wrampazz@redhat.com>
+Date: Mon, 24 May 2021 15:30:59 -0300
+Message-ID: <CAKJDGDYmABQJ1ykFJkyO-6jJRmDOETPzWvCAip8b3mYXRpVa1g@mail.gmail.com>
+Subject: Re: [PATCH 4/7] tests/acceptance: Sun4uMachine: Remove dependency to
+ LinuxKernelTest
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=wrampazz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,177 +93,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Cleber Rosa Junior <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000437ef205c3179c5c
-Content-Type: text/plain; charset="UTF-8"
+On Tue, May 4, 2021 at 1:01 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org=
+> wrote:
+>
+> Hi Wainer,
+>
+> On 5/4/21 12:43 AM, Wainer dos Santos Moschetta wrote:
+> > The Sun4uMachine class inherit from LinuxKernelTest to effectively only=
+ use
+> > the KERNEL_COMMON_COMMAND_LINE attribute. This change remove that unnee=
+ded
+> > dependency, making Sun4uMachine self-content.
+>
+> It is odd because the test boots a Linux kernel...
+>
+> Once you added ConsoleMixIn, LinuxKernelTest is left with
+> 2 methods related to archive extraction. Not particularly
+> specific to Linux kernel. Beside, shouldn't these methods
+> be provided by Avocado directly, by avocado.utils.archive
+> and avocado.utils.software_manager.backends?
 
-I started looking into adding tests, but it doesn't look like blkdebug
-supports changing the blocksize. I saw that it supports changing the memory
-alignment to 4k via the align parameter, but it doesn't implement
-bdrv_probe_blocksizes so the blocksize stays at 512.
+Indeed, it makes a lot of sense to have those two methods inside the
+Avocado utilities. I opened an issue on the Avocado side to track
+that: https://github.com/avocado-framework/avocado/issues/4610.
 
-Would it be worth adding a blocksize parameter to blkdebug? (or maybe
-log-blksize & phys-blksize?) Or is there another way to set the blocksize
-of a qdev?
-
-Thanks,
-Kit
-
-
-
-On Fri, May 21, 2021 at 11:20 AM Paolo Bonzini <pbonzini@redhat.com> wrote:
-
-> On 21/05/21 16:28, Kit Westneat wrote:
-> > check_lba_range expects sectors to be expressed in original qdev
-> blocksize, but
-> > scsi_unmap_complete_noio was translating them to 512 block sizes, which
-> was
-> > causing sense errors in the larger LBAs in devices using a 4k block size.
+>
+> > I took the occasion to delint the code: the unused os import was
+> > removed, imports were reordered, and the module has a docstring now.
 > >
-> > Resolves: https://gitlab.com/qemu-project/qemu/-/issues/345
-> > Signed-off-by: Kit Westneat <kit.westneat@gmail.com>
+> > Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
 > > ---
-> >   hw/scsi/scsi-disk.c | 12 +++++++-----
-> >   1 file changed, 7 insertions(+), 5 deletions(-)
-> >
-> > diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
-> > index 3580e7ee61..e8a547dbb7 100644
-> > --- a/hw/scsi/scsi-disk.c
-> > +++ b/hw/scsi/scsi-disk.c
-> > @@ -1582,6 +1582,7 @@ invalid_field:
-> >       scsi_check_condition(r, SENSE_CODE(INVALID_FIELD));
-> >   }
-> >
-> > +/* sector_num and nb_sectors expected to be in qdev blocksize */
-> >   static inline bool check_lba_range(SCSIDiskState *s,
-> >                                      uint64_t sector_num, uint32_t
-> nb_sectors)
-> >   {
-> > @@ -1614,11 +1615,12 @@ static void scsi_unmap_complete_noio(UnmapCBData
-> *data, int ret)
-> >       assert(r->req.aiocb == NULL);
-> >
-> >       if (data->count > 0) {
-> > -        r->sector = ldq_be_p(&data->inbuf[0])
-> > -            * (s->qdev.blocksize / BDRV_SECTOR_SIZE);
-> > -        r->sector_count = (ldl_be_p(&data->inbuf[8]) & 0xffffffffULL)
-> > -            * (s->qdev.blocksize / BDRV_SECTOR_SIZE);
-> > -        if (!check_lba_range(s, r->sector, r->sector_count)) {
-> > +        uint64_t sector_num = ldq_be_p(&data->inbuf[0]);
-> > +        uint32_t nb_sectors = ldl_be_p(&data->inbuf[8]) & 0xffffffffULL;
-> > +        r->sector = sector_num * (s->qdev.blocksize / BDRV_SECTOR_SIZE);
-> > +        r->sector_count = nb_sectors * (s->qdev.blocksize /
-> BDRV_SECTOR_SIZE);
-> > +
-> > +        if (!check_lba_range(s, sector_num, nb_sectors)) {
-> >               block_acct_invalid(blk_get_stats(s->qdev.conf.blk),
-> >                                  BLOCK_ACCT_UNMAP);
-> >               scsi_check_condition(r, SENSE_CODE(LBA_OUT_OF_RANGE));
-> >
->
-> Queued, thanks!
->
-> If you want to produce a testcase for tests/qtest/virtio-scsi-test.c, I
-> won't complain.
->
-> Paolo
->
+> >  tests/acceptance/machine_sparc64_sun4u.py | 11 +++++------
+> >  1 file changed, 5 insertions(+), 6 deletions(-)
 >
 
---000000000000437ef205c3179c5c
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>I started looking into adding tests, but it doesn&#39=
-;t look like blkdebug supports changing the blocksize. I saw that it suppor=
-ts changing the memory alignment to 4k via the align parameter, but it does=
-n&#39;t implement bdrv_probe_blocksizes so the blocksize stays at 512.<br><=
-/div><div><br></div><div>Would it be worth adding a blocksize parameter to =
-blkdebug? (or maybe log-blksize &amp; phys-blksize?) Or is there another wa=
-y to set the blocksize of a qdev?</div><div><br></div><div>Thanks,</div><di=
-v>Kit<br></div><div><br></div><div><br></div></div><br><div class=3D"gmail_=
-quote"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, May 21, 2021 at 11:20 =
-AM Paolo Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com">pbonzini@redhat=
-.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"mar=
-gin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1=
-ex">On 21/05/21 16:28, Kit Westneat wrote:<br>
-&gt; check_lba_range expects sectors to be expressed in original qdev block=
-size, but<br>
-&gt; scsi_unmap_complete_noio was translating them to 512 block sizes, whic=
-h was<br>
-&gt; causing sense errors in the larger LBAs in devices using a 4k block si=
-ze.<br>
-&gt; <br>
-&gt; Resolves: <a href=3D"https://gitlab.com/qemu-project/qemu/-/issues/345=
-" rel=3D"noreferrer" target=3D"_blank">https://gitlab.com/qemu-project/qemu=
-/-/issues/345</a><br>
-&gt; Signed-off-by: Kit Westneat &lt;<a href=3D"mailto:kit.westneat@gmail.c=
-om" target=3D"_blank">kit.westneat@gmail.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 =C2=A0hw/scsi/scsi-disk.c | 12 +++++++-----<br>
-&gt;=C2=A0 =C2=A01 file changed, 7 insertions(+), 5 deletions(-)<br>
-&gt; <br>
-&gt; diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c<br>
-&gt; index 3580e7ee61..e8a547dbb7 100644<br>
-&gt; --- a/hw/scsi/scsi-disk.c<br>
-&gt; +++ b/hw/scsi/scsi-disk.c<br>
-&gt; @@ -1582,6 +1582,7 @@ invalid_field:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0scsi_check_condition(r, SENSE_CODE(INVALID_F=
-IELD));<br>
-&gt;=C2=A0 =C2=A0}<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt; +/* sector_num and nb_sectors expected to be in qdev blocksize */<br>
-&gt;=C2=A0 =C2=A0static inline bool check_lba_range(SCSIDiskState *s,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 uint64_t sec=
-tor_num, uint32_t nb_sectors)<br>
-&gt;=C2=A0 =C2=A0{<br>
-&gt; @@ -1614,11 +1615,12 @@ static void scsi_unmap_complete_noio(UnmapCBDa=
-ta *data, int ret)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0assert(r-&gt;req.aiocb =3D=3D NULL);<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0if (data-&gt;count &gt; 0) {<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 r-&gt;sector =3D ldq_be_p(&amp;data-&gt;i=
-nbuf[0])<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * (s-&gt;qdev.blocksize / B=
-DRV_SECTOR_SIZE);<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 r-&gt;sector_count =3D (ldl_be_p(&amp;dat=
-a-&gt;inbuf[8]) &amp; 0xffffffffULL)<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * (s-&gt;qdev.blocksize / B=
-DRV_SECTOR_SIZE);<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!check_lba_range(s, r-&gt;sector, r-&=
-gt;sector_count)) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 uint64_t sector_num =3D ldq_be_p(&amp;dat=
-a-&gt;inbuf[0]);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 uint32_t nb_sectors =3D ldl_be_p(&amp;dat=
-a-&gt;inbuf[8]) &amp; 0xffffffffULL;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 r-&gt;sector =3D sector_num * (s-&gt;qdev=
-.blocksize / BDRV_SECTOR_SIZE);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 r-&gt;sector_count =3D nb_sectors * (s-&g=
-t;qdev.blocksize / BDRV_SECTOR_SIZE);<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!check_lba_range(s, sector_num, nb_se=
-ctors)) {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0block_acct_inval=
-id(blk_get_stats(s-&gt;qdev.conf.blk),<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 BLOCK_ACCT_UNMAP);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0scsi_check_condi=
-tion(r, SENSE_CODE(LBA_OUT_OF_RANGE));<br>
-&gt; <br>
-<br>
-Queued, thanks!<br>
-<br>
-If you want to produce a testcase for tests/qtest/virtio-scsi-test.c, I <br=
->
-won&#39;t complain.<br>
-<br>
-Paolo<br>
-<br>
-</blockquote></div>
-
---000000000000437ef205c3179c5c--
 
