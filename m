@@ -2,69 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 501AF38E990
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 16:48:56 +0200 (CEST)
-Received: from localhost ([::1]:52124 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7352D38EA10
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 16:51:11 +0200 (CEST)
+Received: from localhost ([::1]:57346 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llBt1-0008PR-2r
-	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 10:48:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47280)
+	id 1llBvC-0003de-H6
+	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 10:51:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47726)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1llBrt-00070T-Ni
- for qemu-devel@nongnu.org; Mon, 24 May 2021 10:47:45 -0400
-Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:38741)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1llBrq-0006mI-CU
- for qemu-devel@nongnu.org; Mon, 24 May 2021 10:47:45 -0400
-Received: by mail-ej1-x62f.google.com with SMTP id i7so24373642ejc.5
- for <qemu-devel@nongnu.org>; Mon, 24 May 2021 07:47:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=NnEZV7wWGWlABxHYT8ZhZPJKSOBpRftOMTziBnOfUo0=;
- b=u2eE6b4Q27MOlXEypIbeYb4jN1j+SF+7o4ztoC8zU63Kv8k8LWL9ggl/hUaS6RGjdV
- osbP6SM6lvYrLZOPpthDv7HL/NTQnyt9mB8YVppWUQiKEWppF4a4niAhns2LYUXM33Fb
- dkXvdaEtJNRCWo/ygRACfat6jCpcrL7Sgc39imCgLPZtRGIxbyS7m9kWrF4kaP4e4m0U
- OU2Tgih7LrMnvEELAUGFm40QFGmR9BHuIB4qxa1bxaCs0Lw62J5wpV5f5QJKBLLnD5y5
- 5vz7XRNtU6nifWzjjamIscG69i3iBhdahHrWkK14BPigULut2VcO1cwUaxCXTfx7SjQ1
- isMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=NnEZV7wWGWlABxHYT8ZhZPJKSOBpRftOMTziBnOfUo0=;
- b=An5TwZXpf0DEfmUt22+Z0p3R8BIGaICYAinVgyrB52xGtGKPtHyrvMqOGyd18+8oMv
- VEW39HYw0Mt+M7jRMHMGWpIk8dgDkp+exm5OvDO9KnORZY+Qyl0JyfzwWs5PCggfm4dx
- ToQd9mhsh/WyUpmLNi434rQJfUlukFYW+bliBtwaLRxNLQmpGiuVaTo1MLLkav5EqRW/
- /u52gxHKjeZ8o+pusARToHhE3WSGAA1spjNyFMgt3bfw4ysUjq8PZGmaCa1+2y47KL7G
- mnMQ4SdwYaXUWbuF7e5jTi+3ZZ+VC9CN0exA1M+fJzOO6xVhExu04E5MrS/YYCR2jeaJ
- Da/w==
-X-Gm-Message-State: AOAM5337WqlihBr6dEJXNfWXU/YS3OHA5Vsw89d2yUA/iRVVfpe27V2C
- eaTdsYjlMY59Ge0JTQ9SDVRgQRPxrgFFpEBfzFXFpw==
-X-Google-Smtp-Source: ABdhPJzOY4YFpXSLaSqCQI+mY4iqRfBe3Tp+vEpLsZcHKu6NtSsOE60Zs6PeTCY7Zm3R+nP752/0L4ZuY690ipYDWJE=
-X-Received: by 2002:a17:906:b74f:: with SMTP id
- fx15mr23869874ejb.85.1621867659946; 
- Mon, 24 May 2021 07:47:39 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1llBtk-0002FK-DW
+ for qemu-devel@nongnu.org; Mon, 24 May 2021 10:49:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22057)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1llBtg-00081R-Kh
+ for qemu-devel@nongnu.org; Mon, 24 May 2021 10:49:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1621867774;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Uge+S4VxvmMWKF4sPxuMBtdOVx3LgrvHwhCvxQIY2Tw=;
+ b=cfjVHhQ57fCK94eS+kVBrBTh8LkzHtrNPbvB/fkKNyQLRZcEiKajcg9VGIdxTTvDBEijWc
+ 9FIY2DlJIleU8/3Nqbg8uv4uyJSVnShb+YGPdiC8ALFGn+yzlbhRWwg61ZjTyt1dckPwqD
+ bVYpmGhOIr29Uw+yTDrRDwoGrdNhhq8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-540-uj5KG-RnPfSVKOTimGzG9A-1; Mon, 24 May 2021 10:49:27 -0400
+X-MC-Unique: uj5KG-RnPfSVKOTimGzG9A-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6CCEE107ACE8;
+ Mon, 24 May 2021 14:49:26 +0000 (UTC)
+Received: from redhat.com (ovpn-113-248.ams2.redhat.com [10.36.113.248])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6848EE14D;
+ Mon, 24 May 2021 14:49:17 +0000 (UTC)
+Date: Mon, 24 May 2021 15:49:14 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [RFC PATCH] gitlab: add special rule for the hexagon container
+Message-ID: <YKu86ptxc4FomsuI@redhat.com>
+References: <20210520151924.5063-1-alex.bennee@linaro.org>
+ <eb50c468-83d2-516f-adaa-ec7941ab0f8a@linaro.org>
 MIME-Version: 1.0
-References: <20210521140334.16786-1-jcmvbkbc@gmail.com>
-In-Reply-To: <20210521140334.16786-1-jcmvbkbc@gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 24 May 2021 15:47:17 +0100
-Message-ID: <CAFEAcA9BckaUvaYC0658HbNdJ-k29=2UYB=FW1-L4Om7qMUHVg@mail.gmail.com>
-Subject: Re: [PULL 0/3] target/xtensa updates
-To: Max Filippov <jcmvbkbc@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <eb50c468-83d2-516f-adaa-ec7941ab0f8a@linaro.org>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,43 +82,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ f4bug@amsat.org, Willian Rampazzo <willianr@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 21 May 2021 at 15:03, Max Filippov <jcmvbkbc@gmail.com> wrote:
->
-> Hi Peter,
->
-> please pull the following updates for the target/xtensa.
->
-> The following changes since commit 972e848b53970d12cb2ca64687ef8ff797fb6236:
->
->   Merge remote-tracking branch 'remotes/cohuck-gitlab/tags/s390x-20210520-v2' into staging (2021-05-20 18:42:00 +0100)
->
-> are available in the Git repository at:
->
->   git://github.com/OSLL/qemu-xtensa.git tags/20210521-xtensa
->
-> for you to fetch changes up to 583e6a5f55d4b02f04eda0cd70bf7b7701a08450:
->
->   target/xtensa: clean up unaligned access (2021-05-20 13:02:58 -0700)
->
-> ----------------------------------------------------------------
-> target/xtensa updates for v6.1:
->
-> - don't generate extra EXCP_DEBUG on exception
-> - fix l32ex access ring
-> - clean up unaligned access
->
-> ----------------------------------------------------------------
+On Mon, May 24, 2021 at 07:35:59AM -0700, Richard Henderson wrote:
+> On 5/20/21 8:19 AM, Alex Bennée wrote:
+> > The hexagon container is always manually built but of course not
+> > everyone will be building it themselves and pushing to their
+> > registries. We still need to create a "local" registry copy for the
+> > actual gitlab tests to run. We don't build it in this case, just pull
+> > it across from the upstream registry. We disable this rule from
+> > running on the qemu-project itself so it doesn't accidentally wipe out
+> > our master copy.
+> > 
+> > Fixes: 910c40ee94 ("gitlab: add build-user-hexagon test")
+> > Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> > Cc: Cornelia Huck <cohuck@redhat.com>
+> > ---
+> 
+> I get
+> 
+> Found errors in your .gitlab-ci.yml:
+> jobs:build-user-hexagon:needs config uses invalid types: bridge
+
+Bizarre message, but the problem looks like this:
 
 
+> > diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+> > index f718b61fa7..a04cca9db0 100644
+> > --- a/.gitlab-ci.yml
+> > +++ b/.gitlab-ci.yml
+> > @@ -421,6 +421,8 @@ build-user-static:
+> >   # declared. The image is manually uploaded.
+> >   build-user-hexagon:
+> >     extends: .native_build_job_template
+> > +  needs:
+> > +    hob: hexagon-cross-container
 
-Applied, thanks.
+Indent and syntax is wrong - should be
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/6.1
-for any user-visible changes.
+   needs:
+     - job: hexagon-cross-container
 
--- PMM
+with indent at same level as 'extends'
+
+> >     variables:
+> >       IMAGE: debian-hexagon-cross
+> >       TARGETS: hexagon-linux-user
+> > 
+> 
+> 
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
