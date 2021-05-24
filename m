@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD46738E820
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 15:54:47 +0200 (CEST)
-Received: from localhost ([::1]:41340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8643038E827
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 15:57:02 +0200 (CEST)
+Received: from localhost ([::1]:45580 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llB2c-0007es-Te
-	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 09:54:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33648)
+	id 1llB4n-0002AS-Li
+	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 09:57:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34194)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1llB13-0006G6-F5
- for qemu-devel@nongnu.org; Mon, 24 May 2021 09:53:09 -0400
-Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533]:36628)
+ id 1llB3L-0000lv-Ij
+ for qemu-devel@nongnu.org; Mon, 24 May 2021 09:55:31 -0400
+Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434]:34694)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1llB11-0005cQ-SD
- for qemu-devel@nongnu.org; Mon, 24 May 2021 09:53:09 -0400
-Received: by mail-pg1-x533.google.com with SMTP id 27so18843866pgy.3
- for <qemu-devel@nongnu.org>; Mon, 24 May 2021 06:53:07 -0700 (PDT)
+ id 1llB3J-00078J-Jv
+ for qemu-devel@nongnu.org; Mon, 24 May 2021 09:55:31 -0400
+Received: by mail-pf1-x434.google.com with SMTP id q25so2849338pfn.1
+ for <qemu-devel@nongnu.org>; Mon, 24 May 2021 06:55:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=HM4wTCL7q00TXjaJBC0MsbmXZBrhb1v/7tAxFT35qYw=;
- b=wVvFViydtQjLXH5a9tp5VtUm4b0BLOWkHho9UTAD+HXdAODi6EsfrLb9hgqwDB1+Cp
- 9t5KHDyLfvVuy6MiRJzycARnZRDAbt6PVkoj38LriDKfF1cDlhoqvZ0NGEvdxHV8n8IU
- /RrVD82QNsZDGEVDhHfSM7yi2jGR70cfcAW0yEMmj7fZsSH+Ud90te6PDFMFD3zt50Bo
- N2kmsaUaJ21prqQhnH0wAeh3k2F+ego8U2885IAfZx9gMoC5b21eHKED0pTlUiK5Ei8H
- ZjoDPThUUnKX6Au/NnZ6sZcoYzRLBtc6DAy9wqq9vp4mzzyYz5p227rxFY4MFba0rYr8
- LHkg==
+ bh=m4x/folklImijuhs/eH16sRjsuad38nJbmaXMH5O3/Y=;
+ b=d6VCHS4lHyC8k+wrJmI6ewVDhDxJOZZjGbao7tjf7lwrA5bFmky+2jmQ50jwISRu30
+ NSwqxQdVTr0dgggZDGPQe9pyoLEnZuXTwrgweaecU5SxSv6MBJIWd+rAuGlc7tMGO/Ki
+ e6jBDPYucfyE0y2RaWYpkLHR3FB5Odioa9dD2Em0jVaT+S17vP0C77jnKhVWFetEx5Lp
+ +DkY5Xj61Eh1FGQgmDjJrsvt+In6aCwvZh4V+Y+01RNS30dqpkSgXhkrrcQ8UkEMH+E5
+ P8ExCO6IUlt6HbDmANf1JzQ8S3ASBkjl5c016xFcGkFEXgZxJ7eqVSC22aXHzUN4nqGe
+ ILkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=HM4wTCL7q00TXjaJBC0MsbmXZBrhb1v/7tAxFT35qYw=;
- b=iwxEWZpNhjUc4JT5hCIL0zfNtYm2cHYnCKoO5zIwIdh24da4TwlKg/XieNd6nnNZx+
- VxjvNhNURj4lNWtZYTrQj+PNH4mdCfTvDogmtfVs8PQQzMGs7lmN1atlAhrA9Gh16oNm
- Zb8N8aNTzYeZ1B2zeFbV5VvM5794gLXjbVpHtnRvLQ7hgxdoSIUn9R97iSdm090hz7Gb
- EsetRWqcS09YfGqXTDEvM2ydu37ugeO2mwUmamNXSx7iE008jA9og2Rgi4RY+MXOn/IX
- yPTDHsDObDTcnq6Ita1AtwlT/ny6frRdYaFMczIofFvXoKfnpvMMPiOomvOw+6vDkmav
- 8Dpw==
-X-Gm-Message-State: AOAM5320ohyZ6jV9kzZcKxOVl3JNq64qs9dPy029Yux9pTJLNPK2AY2t
- FVOgPEJ6VcCCzgpTYP1fQypkYA==
-X-Google-Smtp-Source: ABdhPJyBfgXjLX3khv7Vk/gho7+Iu4olaApils2hIBBwSKV/IsPtv5cDiuC0k2phSq9JvH7jBHPfig==
-X-Received: by 2002:a05:6a00:170c:b029:2dc:dd8f:e083 with SMTP id
- h12-20020a056a00170cb02902dcdd8fe083mr24437720pfc.77.1621864386536; 
- Mon, 24 May 2021 06:53:06 -0700 (PDT)
+ bh=m4x/folklImijuhs/eH16sRjsuad38nJbmaXMH5O3/Y=;
+ b=T40UkD59KFWoJ12pdU5wHqQP2Q3o0a+IMNsE5U2FdNojUAxUEMMPnD2qqa8QYEJ+yu
+ T5URPz5dQ8QKFSriMgTyDGjQol3MMAu+C8jBBaNML3slg1MjTjJDnNUdNYcTh9IHzfhX
+ ghb3pMcqjUHHwgJAQVWqeYKBOk6ZKP6QRLrox48POCMP2RdvHKup12nolNwvZQ7tpXvt
+ 2VQnjDO0SoD87+qjNCjV0AHCXtzMP0mt2ZmSiscgc/AZTZOHWna+tbpq3C4H3zodBpWK
+ nT0EH7u0s2qwXS2cbW1DCgJSqNV3C5OsTCrjlZ1LHco8uIqnXyeHLbwCbGPA6cAQhUKr
+ 5w3A==
+X-Gm-Message-State: AOAM532yyhmpUJhrdIobqlvgRAhwRvLh9GsKOT4uGkX8QDi33OB3wezX
+ GJo9Zmr9pvsCXqvmfMMwLkDlJA==
+X-Google-Smtp-Source: ABdhPJyLWTTAuOi8/h8Kq5fBB4QOiJQQhe7CqerR0g6a3SvKJKRaEsAmTzTZrXEaGUjBKOT2gwMj2A==
+X-Received: by 2002:a63:1608:: with SMTP id w8mr13487127pgl.259.1621864528076; 
+ Mon, 24 May 2021 06:55:28 -0700 (PDT)
 Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
  by smtp.gmail.com with ESMTPSA id
- k15sm11493563pfi.0.2021.05.24.06.53.06
+ q12sm8986975pfg.48.2021.05.24.06.55.27
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 24 May 2021 06:53:06 -0700 (PDT)
-Subject: Re: [PATCH 3/6] hw/arm/armsse.c: Correct modelling of SSE-300
- internal SRAMs
+ Mon, 24 May 2021 06:55:27 -0700 (PDT)
+Subject: Re: [PATCH 4/6] hw/arm/armsse: Convert armsse_realize() to use
+ ERRP_GUARD
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20210510190844.17799-1-peter.maydell@linaro.org>
- <20210510190844.17799-4-peter.maydell@linaro.org>
+ <20210510190844.17799-5-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <2ae2e092-24ea-9c93-82ba-cc8eec196224@linaro.org>
-Date: Mon, 24 May 2021 06:53:04 -0700
+Message-ID: <8e5b3e07-b85d-5c87-8f67-5a62a924527b@linaro.org>
+Date: Mon, 24 May 2021 06:55:26 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210510190844.17799-4-peter.maydell@linaro.org>
+In-Reply-To: <20210510190844.17799-5-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x533.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x434.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,21 +97,17 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 5/10/21 12:08 PM, Peter Maydell wrote:
-> The SSE-300 was not correctly modelling its internal SRAMs:
->   * the SRAM address width default is 18
->   * the SRAM is mapped at 0x2100_0000, not 0x2000_0000 like
->     the SSE-200 and IoTKit
+> Convert armsse_realize() to use ERRP_GUARD(), following
+> the rules in include/qapi/error.h.
 > 
-> The default address width is no longer guest-visible since
-> our only SSE-300 board sets it explicitly to a non-default
-> value, but following the hardware's default will help for
-> any future boards we need to model.
-> 
-> Reported-by: Devaraj Ranganna<devaraj.ranganna@linaro.org>
 > Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
 > ---
->   hw/arm/armsse.c | 8 ++++++--
->   1 file changed, 6 insertions(+), 2 deletions(-)
+> We'll be adding a new error check in the next patch, so
+> do this first to avoid adding more uses of legacy
+> error_propagate().
+> ---
+>   hw/arm/armsse.c | 8 ++++----
+>   1 file changed, 4 insertions(+), 4 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
