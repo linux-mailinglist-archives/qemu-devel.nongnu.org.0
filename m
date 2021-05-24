@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 828A538E7A7
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 15:30:34 +0200 (CEST)
-Received: from localhost ([::1]:42770 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B17F338E7AA
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 15:30:43 +0200 (CEST)
+Received: from localhost ([::1]:43464 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llAfA-0005Fz-TO
-	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 09:30:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51654)
+	id 1llAfK-0005iT-Pc
+	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 09:30:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51802)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jamie@nuviainc.com>)
- id 1ll6A8-0001OF-4n
- for qemu-devel@nongnu.org; Mon, 24 May 2021 04:42:12 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:44897)
+ id 1ll6B7-0001iW-5a
+ for qemu-devel@nongnu.org; Mon, 24 May 2021 04:43:13 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:43935)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <jamie@nuviainc.com>)
- id 1ll6A5-0003Ic-EC
- for qemu-devel@nongnu.org; Mon, 24 May 2021 04:42:11 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id i17so27625942wrq.11
- for <qemu-devel@nongnu.org>; Mon, 24 May 2021 01:42:05 -0700 (PDT)
+ id 1ll6B5-0003u1-K3
+ for qemu-devel@nongnu.org; Mon, 24 May 2021 04:43:12 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id p7so23924359wru.10
+ for <qemu-devel@nongnu.org>; Mon, 24 May 2021 01:43:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=nuviainc-com.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=J9DK0Dbta1o4so8aXK5OOwR7RIp1mZfpNmlASzwGyvw=;
- b=rucD0xV0Y3209kjBK4gIa3Hgg4CSa7F2DyY4QOUMtZrniYnBx575w4lj/eLQOmZuh1
- Vet3m/sgi8ZI9Pl+1QuzYsBqSzbz+pqZqoIc5DVPg7Qb/rRPLDGrsKd54PTnXQXRmdQ0
- s5Jj4qAnU6D7+zOs8YqG9A2AfZ4tb9kq84P1U2Vk7KLiVrcxMiypTaaTQTrMXYEyZ9O+
- XlbKka3NuUz85mgeLc9VEEqKJyKqUkiaPUe0Ku59vc1Qwvr8qak+Vkk1zU4SN6DkCcxe
- 26BVBNAZON81c/i6av+fZP71EHGRfUYH/OkucDJDxIQbhkvsfLr8wM9ZLO6rDSG/C7EZ
- lvUw==
+ bh=B5vCchJTb7GEbpfbedteaBDjGdQPYwb2tJtpla8Bjo4=;
+ b=GHe0wSQnIRdGH1QJmN15ywx4rSQhTHGol2S9l8b/BfcpvUfhZ9LRTRtxquKveayIZ8
+ 9nnkGYzNcSgunz0LY8Mj8LhaV9cN1BYCMvr5e4O88M1W39MqCocTKuc8xcAuDl+WAiAY
+ poamHUv+B13uGmRFl/4OvJ9sV/qQr9sDVV3GZcknZHZK0N+bj+QeYksYReopj3YuFnsI
+ AU9oQYcZ4d/khWRgXQEvXk41IeCwCX/HG1Ar7Z//X+0fU6FjkGxnXPyedIfZtq+6IXPm
+ 421ZV32yTFeamULJu7TlMdewI+4ZfyrRE66xTtUnVJevep2MZkkHt60035dwvZuLWWVL
+ H4Tg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=J9DK0Dbta1o4so8aXK5OOwR7RIp1mZfpNmlASzwGyvw=;
- b=Cht10rfRpnYq5y1T8DI3Ls0zVBa++UluUonJiTK16ziV/iXIeNBz8v5g+QQJMdSKHn
- KhKJ8eD0p4cLmZ8etDdIf/ph2TkQwoNfBx/HSTS6tNYMhwvkCLiLYyEdLtj0UbgpyQDC
- s9YWWXby+IeO4HUn0u9YPrDLsXq2+lu7imc3dGpVShLSDrYg8eVcjHZsO+PzsBm4yqIz
- dFilWS3Et57ftaL2oIrNHONbm3L7b70ANHyQEASzD+CZ5Sxdy/AhchFfgTGn42QnoMlD
- irxlWVNsbrptKZCwkngwYhZIqWLAw3z2Ch/ZjAa/+PbAKBngWYXm06Q7HMsyfYvhanu2
- w88Q==
-X-Gm-Message-State: AOAM531OOgzk2MlsmZ8zo19ctIvGJctxAlyBchV5CagkVu7R+1b5OCkD
- xnTBXjGoLABFLjrlwOUQoITOPA==
-X-Google-Smtp-Source: ABdhPJzFapF6IDYh64b7xhRyxJu8tjsNzvcfyuEOtXc5WoXYZr0h/HjW8Cb2eaH3PZJQ6AjZAxfn2A==
-X-Received: by 2002:adf:fe49:: with SMTP id m9mr21290175wrs.125.1621845724468; 
- Mon, 24 May 2021 01:42:04 -0700 (PDT)
+ bh=B5vCchJTb7GEbpfbedteaBDjGdQPYwb2tJtpla8Bjo4=;
+ b=hTnfhn3Q+PYcIMNowEPfkYIKrvDM+qkuJFAQo9beMt9KfoplqVXfCglLvOIU5pENu8
+ 0CHECUz7KnJosadTZeiEwALCPN3j/pTrLyZEiq7opE0rHTGRpBkQhaa5atFtU74Jf8rt
+ FAwlexup7Ptl2jinKTyEqLz+9EAMj8xLPijMZHGGkA/trn4rUdJGZZsPWRX4Dem0b/Je
+ kZlkJRvE5QRWywbLukx14l4qt6FawBfAlGR0+wIVR0moP68NyRq7UkMdE0WV10AMy2tq
+ +4AWpJQ1Aj98w8Tj8xzUjU3bE+hg1NS4zfvMWY939iEjzOMKbCf79DOuLax9jrbAAAiP
+ 8b3w==
+X-Gm-Message-State: AOAM532kIBn55a6ovEB4sI2wuVXzgUg8EF0e6XTDzp2IcPqrJbMgc78K
+ wUM5xivdGhR9g0BRkdfkONJxMQ==
+X-Google-Smtp-Source: ABdhPJyZNwpeKIM2H2ijlHi/WzSswmXnpWo07RRp+kfiIE90kDNYZEV9ZOjza4FQskKIlB2DbEIaPg==
+X-Received: by 2002:a5d:654f:: with SMTP id z15mr20791984wrv.64.1621845790357; 
+ Mon, 24 May 2021 01:43:10 -0700 (PDT)
 Received: from localhost ([82.44.17.50])
- by smtp.gmail.com with ESMTPSA id m9sm13749052wrs.36.2021.05.24.01.42.03
+ by smtp.gmail.com with ESMTPSA id i11sm11505262wrq.26.2021.05.24.01.43.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 May 2021 01:42:03 -0700 (PDT)
+ Mon, 24 May 2021 01:43:09 -0700 (PDT)
 From: Jamie Iles <jamie@nuviainc.com>
 To: qemu-arm@nongnu.org
-Subject: [PATCH] target/arm: fix missing exception class
-Date: Mon, 24 May 2021 09:42:01 +0100
-Message-Id: <20210524084201.1665973-1-jamie@nuviainc.com>
+Subject: [PATCH] target/arm: don't clobber ID_AA64ISAR1 pointer auth
+Date: Mon, 24 May 2021 09:43:06 +0100
+Message-Id: <20210524084306.1666265-1-jamie@nuviainc.com>
 X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=jamie@nuviainc.com; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=jamie@nuviainc.com; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -83,76 +82,84 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>, Jamie Iles <jamie@nuviainc.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+ leif@nuviainc.com, Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The DAIF and PAC checks used raise_exception_ra to raise an exception
-and unwind CPU state but raise_exception_ra is currently designed for
-handling data aborts as the syndrome is partially precomputed and
-encoded in the TB and then merged in merge_syn_data_abort when handling
-the data abort.  Using raise_exception_ra for DAIF and PAC checks
-results in an empty syndrome being retrieved from data[2] in
-restore_state_to_opc and setting ESR to 0.  This manifested as:
+The pointer auth properties are added to the max CPU type but the
+finalization happens for all CPUs.  It makes sense to be able to disable
+pointer authentication for the max CPU type, but for future CPUs that
+implement pointer authentication and have bits set in ID_AA64ISAR1,
+don't clobber them unless there is a property registered that can
+disable them.
 
-  kvm [571]: Unknown exception class: esr: 0x000000 –
-  Unknown/Uncategorized
-
-when launching a KVM guest when the host qemu used a CPU supporting
-EL2+pointer authentication and enabling pointer authentication in the
-guest.
-
-As the syndrome and exception class is not encoded in the TB, use
-cpu_restore_state and raise_exception to restore the CPU state and raise
-the exception with the correct syndrome.
-
-Fixes: 0d43e1a2d29a ("target/arm: Add PAuth helpers")
 Cc: Richard Henderson <richard.henderson@linaro.org>
 Cc: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Jamie Iles <jamie@nuviainc.com>
 ---
- target/arm/helper-a64.c   | 12 +++++++-----
- target/arm/pauth_helper.c |  4 +++-
- 2 files changed, 10 insertions(+), 6 deletions(-)
+ target/arm/cpu64.c | 33 +++++++++++++++++++++------------
+ 1 file changed, 21 insertions(+), 12 deletions(-)
 
-diff --git a/target/arm/helper-a64.c b/target/arm/helper-a64.c
-index 9cc3b066e28b..83991d783fc1 100644
---- a/target/arm/helper-a64.c
-+++ b/target/arm/helper-a64.c
-@@ -72,11 +72,13 @@ static void daif_check(CPUARMState *env, uint32_t op,
+diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
+index f0a9e968c9c1..81c9e494acb6 100644
+--- a/target/arm/cpu64.c
++++ b/target/arm/cpu64.c
+@@ -575,26 +575,31 @@ void aarch64_add_sve_properties(Object *obj)
+ 
+ void arm_cpu_pauth_finalize(ARMCPU *cpu, Error **errp)
  {
-     /* DAIF update to PSTATE. This is OK from EL0 only if UMA is set.  */
-     if (arm_current_el(env) == 0 && !(arm_sctlr(env, 0) & SCTLR_UMA)) {
--        raise_exception_ra(env, EXCP_UDEF,
--                           syn_aa64_sysregtrap(0, extract32(op, 0, 3),
--                                               extract32(op, 3, 3), 4,
--                                               imm, 0x1f, 0),
--                           exception_target_el(env), ra);
-+        CPUState *cs = env_cpu(env);
-+        cpu_restore_state(cs, ra, true);
-+        raise_exception(env, EXCP_UDEF,
-+                        syn_aa64_sysregtrap(0, extract32(op, 0, 3),
-+                                            extract32(op, 3, 3), 4,
-+                                            imm, 0x1f, 0),
-+                        exception_target_el(env));
+-    int arch_val = 0, impdef_val = 0;
++    int apa = FIELD_EX64(cpu->isar.id_aa64isar1, ID_AA64ISAR1, APA);
++    int gpa = FIELD_EX64(cpu->isar.id_aa64isar1, ID_AA64ISAR1, GPA);
++    int api = FIELD_EX64(cpu->isar.id_aa64isar1, ID_AA64ISAR1, API);
++    int gpi = FIELD_EX64(cpu->isar.id_aa64isar1, ID_AA64ISAR1, GPI);
+     uint64_t t;
+ 
++    if (object_property_find(OBJECT(cpu), "pauth-impdef")) {
++        api = gpi = cpu->prop_pauth_impdef;
++    }
++
++    if (object_property_find(OBJECT(cpu), "pauth")) {
++        apa = gpa = cpu->prop_pauth;
++    }
++
+     /* TODO: Handle HaveEnhancedPAC, HaveEnhancedPAC2, HaveFPAC. */
+-    if (cpu->prop_pauth) {
+-        if (cpu->prop_pauth_impdef) {
+-            impdef_val = 1;
+-        } else {
+-            arch_val = 1;
+-        }
+-    } else if (cpu->prop_pauth_impdef) {
++    if (cpu->prop_pauth_impdef && !cpu->prop_pauth) {
+         error_setg(errp, "cannot enable pauth-impdef without pauth");
+         error_append_hint(errp, "Add pauth=on to the CPU property list.\n");
      }
+ 
+     t = cpu->isar.id_aa64isar1;
+-    t = FIELD_DP64(t, ID_AA64ISAR1, APA, arch_val);
+-    t = FIELD_DP64(t, ID_AA64ISAR1, GPA, arch_val);
+-    t = FIELD_DP64(t, ID_AA64ISAR1, API, impdef_val);
+-    t = FIELD_DP64(t, ID_AA64ISAR1, GPI, impdef_val);
++    t = FIELD_DP64(t, ID_AA64ISAR1, APA, apa);
++    t = FIELD_DP64(t, ID_AA64ISAR1, GPA, gpa);
++    t = FIELD_DP64(t, ID_AA64ISAR1, API, api);
++    t = FIELD_DP64(t, ID_AA64ISAR1, GPI, gpi);
+     cpu->isar.id_aa64isar1 = t;
  }
  
-diff --git a/target/arm/pauth_helper.c b/target/arm/pauth_helper.c
-index cd6df18150bf..c90a3f765b9c 100644
---- a/target/arm/pauth_helper.c
-+++ b/target/arm/pauth_helper.c
-@@ -385,7 +385,9 @@ static uint64_t pauth_strip(CPUARMState *env, uint64_t ptr, bool data)
- static void QEMU_NORETURN pauth_trap(CPUARMState *env, int target_el,
-                                      uintptr_t ra)
- {
--    raise_exception_ra(env, EXCP_UDEF, syn_pactrap(), target_el, ra);
-+    CPUState *cs = env_cpu(env);
-+    cpu_restore_state(cs, ra, true);
-+    raise_exception(env, EXCP_UDEF, syn_pactrap(), target_el);
- }
+@@ -662,6 +667,10 @@ static void aarch64_max_initfn(Object *obj)
+         t = FIELD_DP64(t, ID_AA64ISAR1, SPECRES, 1);
+         t = FIELD_DP64(t, ID_AA64ISAR1, FRINTTS, 1);
+         t = FIELD_DP64(t, ID_AA64ISAR1, LRCPC, 2); /* ARMv8.4-RCPC */
++        t = FIELD_DP64(t, ID_AA64ISAR1, APA, 1);
++        t = FIELD_DP64(t, ID_AA64ISAR1, GPA, 1);
++        t = FIELD_DP64(t, ID_AA64ISAR1, API, 0);
++        t = FIELD_DP64(t, ID_AA64ISAR1, GPI, 0);
+         cpu->isar.id_aa64isar1 = t;
  
- static void pauth_check_trap(CPUARMState *env, int el, uintptr_t ra)
+         t = cpu->isar.id_aa64pfr0;
 -- 
 2.30.2
 
