@@ -2,75 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A045338F2CD
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 20:17:22 +0200 (CEST)
-Received: from localhost ([::1]:37720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5350F38F2D8
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 20:19:55 +0200 (CEST)
+Received: from localhost ([::1]:42414 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llF8j-0005uL-M0
-	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 14:17:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37064)
+	id 1llFBC-0000km-Cl
+	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 14:19:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37492)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1llF6b-0004Md-2j
- for qemu-devel@nongnu.org; Mon, 24 May 2021 14:15:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32894)
+ id 1llF8V-0006tY-RU
+ for qemu-devel@nongnu.org; Mon, 24 May 2021 14:17:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40014)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1llF6X-0000eA-76
- for qemu-devel@nongnu.org; Mon, 24 May 2021 14:15:08 -0400
+ id 1llF8U-0001oD-1q
+ for qemu-devel@nongnu.org; Mon, 24 May 2021 14:17:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621880103;
+ s=mimecast20190719; t=1621880224;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=8nwiVj36rgHM9Q8fo7ERT6bwlOpGGZnqqgXG8wnM1ic=;
- b=SX7OW1KKY0NH1dBlKYDGRGEaXOPXyUp6qqlcHZFgY2pkb0gsq7rjvIU3Pl9nAtnBTzm5E3
- oc8GPzmD7/PHA2H0CVelp77gRR6jtj+Kk0gEE0vh7ad0KC6luCLbBjdUwpM5/WnDc0elsm
- ZKIIfXfW94oOvvLPtM8SvLFeG+vxvSo=
-Received: from mail-ua1-f71.google.com (mail-ua1-f71.google.com
- [209.85.222.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-404-psfuUpQIMLeX0SzAErIA7w-1; Mon, 24 May 2021 14:15:01 -0400
-X-MC-Unique: psfuUpQIMLeX0SzAErIA7w-1
-Received: by mail-ua1-f71.google.com with SMTP id
- r26-20020ab058da0000b02901e9245a03f1so12075147uac.9
- for <qemu-devel@nongnu.org>; Mon, 24 May 2021 11:15:01 -0700 (PDT)
+ bh=hwnmAE+4Usi8hyIek5zIc17WTkpfQ2YGrZsq9LzRzLo=;
+ b=Vhfnf2IF3aIdaxsOttvnTbcpby7F+oMtaBBlA3J1tbfkMzaV/gjmaYA2osV24/8D0J3xuy
+ /r6ct5M7G23EiW1XRF2++23+q94QZ2kBbMs/k4QmovEsvkjBhOKkkz7paLSNRsplcaqM40
+ pVgcXYk1fE2DGkyOKQhLOIclHEQC0h8=
+Received: from mail-ua1-f70.google.com (mail-ua1-f70.google.com
+ [209.85.222.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-103-5WSwH2mzO1uRJuDq7zdLdw-1; Mon, 24 May 2021 14:17:02 -0400
+X-MC-Unique: 5WSwH2mzO1uRJuDq7zdLdw-1
+Received: by mail-ua1-f70.google.com with SMTP id
+ o4-20020ab037640000b0290218107a4549so5802195uat.14
+ for <qemu-devel@nongnu.org>; Mon, 24 May 2021 11:17:02 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=8nwiVj36rgHM9Q8fo7ERT6bwlOpGGZnqqgXG8wnM1ic=;
- b=pN05E/OfBbFgFIxwp/UPNNjsE33W7OTJLH44B6XcSbZGEyxUJquo4rZ9A2L2OC+KgJ
- 6S3E0w3P/kib403NmsAuu1GBi303CZ8zqgvEFtb9XdUtU2ZJYf8fo8Q1LioZAJfh+I7A
- qMqQtU5gLwRPc4hcoHAH5Y7Ee7fmOFBV9YsV/25mM287Y8GhQOhK7LOQ+/q2y677A3Xh
- TmvQkQnvSZxHMqO0+8CFWPJ1B887fhkTrPDaW/uiZ5iZfhVezVoNGq8LOZ8Q9DpPCdLN
- vYREZpwbzvym5qWbIXVAH46qilxmc8K5o/Rpa70NF1uHumhhzhE70QxOohzL9Das9KlY
- bAHA==
-X-Gm-Message-State: AOAM531o1XuXu462yEJEmXL59vO6YLBuxX9eFYZGiKYQSPXqcY97SzMu
- 2Ue9UCNV0Ee4Q3YP4Y3E+fcl/9nt1otP7aEyAOAAJBrJWQiZrQkNnpyWasKcsw5llYCeigH+z8O
- nxVkDviNDYgQQNe7lOewwrwrnBDIpGdI=
-X-Received: by 2002:a05:6102:14c:: with SMTP id
- a12mr3088543vsr.39.1621880100853; 
- Mon, 24 May 2021 11:15:00 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwiqOOKlkuAS5ss5D/brlCkIyh6HunrEdn0EFDtwA+FBgentB0IXGH4MoteXWf8aB4qcnhvyBHjrnpCt7Ox7p4=
-X-Received: by 2002:a05:6102:14c:: with SMTP id
- a12mr3088517vsr.39.1621880100580; 
- Mon, 24 May 2021 11:15:00 -0700 (PDT)
+ bh=hwnmAE+4Usi8hyIek5zIc17WTkpfQ2YGrZsq9LzRzLo=;
+ b=MrAQ5t3K2YvUvX3HBG0SPoJ3ExXwPuLoiXupA2SlaxFar1EnModtecqYMt1/0rSb4X
+ ayx7fqfvL5kTHXMQSWraWMNloAFXlMB1k6kfqKWQFSyOjyjw6d0Oz1WWesGO9XrI/yAW
+ n1vY586IdxIDgiD5N97yEIOck5onTGkMMifYquG88Ua3v2Bl+hqRdpxY2+RR0sOQbXMe
+ itou4qPmw4knqbPxp/JMeuuJnWgjGLQN01dk9WBsZuwvRK7bvng0oiwei8tnaibJP+VL
+ l6ED50OXQX2RKOCB7/k6LQKcir8zv6LmGl3AcviPGsUg5LnQcecvUhFqLD6auz3BSIRQ
+ FsAw==
+X-Gm-Message-State: AOAM531PdDryeBhQSATeoXrdrc99W8wlabgX25OxRkZ29LmtqbJtdmUz
+ FbvoR4L1IT3cr1YBUkXfPxSx5EyNy5ds8oZ+swnpmqcIwL6EaDa7MogvcrPNlNMlWZgVMeTWkAH
+ jFZL6ui+uWnwDZEGicvrvHG9jjBX8rHQ=
+X-Received: by 2002:a67:c31c:: with SMTP id r28mr21781666vsj.50.1621880222000; 
+ Mon, 24 May 2021 11:17:02 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxEegKHwgUh9dIi2l556cwLXi9dqJHestBbNMgUqYFOfLj6TVPnW4Zeg25HgPM3LGOBsReO1ghG+oUjEvPZ62s=
+X-Received: by 2002:a67:c31c:: with SMTP id r28mr21781645vsj.50.1621880221798; 
+ Mon, 24 May 2021 11:17:01 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210503224326.206208-1-wainersm@redhat.com>
- <20210503224326.206208-2-wainersm@redhat.com>
-In-Reply-To: <20210503224326.206208-2-wainersm@redhat.com>
+ <20210503224326.206208-3-wainersm@redhat.com>
+In-Reply-To: <20210503224326.206208-3-wainersm@redhat.com>
 From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Mon, 24 May 2021 15:14:34 -0300
-Message-ID: <CAKJDGDYgSd90b-9VnMeN9cwCZ68-kdoA=2DBoVjgCTmdpXSX_Q@mail.gmail.com>
-Subject: Re: [PATCH 1/7] tests/acceptance: Introduce the ConsoleMixIn class
+Date: Mon, 24 May 2021 15:16:35 -0300
+Message-ID: <CAKJDGDY3mrL89phNku7eukrV97CGvd2TwBpQzxegjv1t74iHWA@mail.gmail.com>
+Subject: Re: [PATCH 2/7] tests/acceptance: Move exec_command to ConsoleMixIn
 To: Wainer dos Santos Moschetta <wainersm@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=wrampazz@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=wrampazz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -96,143 +94,89 @@ Cc: Philippe Mathieu Daude <philmd@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Wainer,
-
 On Mon, May 3, 2021 at 7:43 PM Wainer dos Santos Moschetta
 <wainersm@redhat.com> wrote:
 >
-> This created the ConsoleMixIn class to wrap the methods related with console
-> interaction with the guest that currently are loose in the avocado_qemu
-> package. It should be used as a mixin on the test classes.
+> This moved exec_command() to ConsoleMixIn class.
 >
-> At this point only the interrupt_interactive_console_until_pattern() was moved
-> to ConsoleMixIn. This method is only used in boot_linux_console.py tests, so
-> there was needed to adapt them.
+> Only the multiprocess.py file were touched by that change, so its tests
+> were adapted.
 >
 > Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
 > ---
->  tests/acceptance/avocado_qemu/__init__.py | 52 +++++++++++------------
->  tests/acceptance/boot_linux_console.py    | 10 ++---
->  2 files changed, 31 insertions(+), 31 deletions(-)
+>  tests/acceptance/avocado_qemu/__init__.py | 22 ++++++++++------------
+>  tests/acceptance/multiprocess.py          |  6 +++---
+>  2 files changed, 13 insertions(+), 15 deletions(-)
 >
 > diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptance/avocado_qemu/__init__.py
-> index 83b1741ec8..6f4e0edfa3 100644
+> index 6f4e0edfa3..4d3b869765 100644
 > --- a/tests/acceptance/avocado_qemu/__init__.py
 > +++ b/tests/acceptance/avocado_qemu/__init__.py
-> @@ -101,32 +101,6 @@ def _console_interaction(test, success_message, failure_message,
->                      (failure_message, success_message)
->              test.fail(fail)
+> @@ -114,18 +114,6 @@ def wait_for_console_pattern(test, success_message, failure_message=None,
+>      """
+>      _console_interaction(test, success_message, failure_message, None, vm=vm)
 >
-> -def interrupt_interactive_console_until_pattern(test, success_message,
-> -                                                failure_message=None,
-> -                                                interrupt_string='\r'):
+> -def exec_command(test, command):
 > -    """
-> -    Keep sending a string to interrupt a console prompt, while logging the
-> -    console output. Typical use case is to break a boot loader prompt, such:
+> -    Send a command to a console (appending CRLF characters), while logging
+> -    the content.
 > -
-> -        Press a key within 5 seconds to interrupt boot process.
-> -        5
-> -        4
-> -        3
-> -        2
-> -        1
-> -        Booting default image...
-> -
-> -    :param test: an Avocado test containing a VM that will have its console
-> -                 read and probed for a success or failure message
+> -    :param test: an Avocado test containing a VM.
 > -    :type test: :class:`avocado_qemu.Test`
-> -    :param success_message: if this message appears, test succeeds
-> -    :param failure_message: if this message appears, test fails
-> -    :param interrupt_string: a string to send to the console before trying
-> -                             to read a new line
+> -    :param command: the command to send
+> -    :type command: str
 > -    """
-> -    _console_interaction(test, success_message, failure_message,
-> -                         interrupt_string, True)
+> -    _console_interaction(test, None, None, command + '\r')
 > -
->  def wait_for_console_pattern(test, success_message, failure_message=None,
->                               vm=None):
+>  def exec_command_and_wait_for_pattern(test, command,
+>                                        success_message, failure_message=None):
 >      """
-> @@ -168,6 +142,32 @@ def exec_command_and_wait_for_pattern(test, command,
->      """
->      _console_interaction(test, success_message, failure_message, command + '\r')
+> @@ -145,6 +133,16 @@ def exec_command_and_wait_for_pattern(test, command,
+>  class ConsoleMixIn():
+>      """Contains utilities for interacting with a guest via Console."""
 >
-> +class ConsoleMixIn():
-> +    """Contains utilities for interacting with a guest via Console."""
-> +
-> +    def interrupt_interactive_console_until_pattern(self, success_message,
-> +                                                    failure_message=None,
-> +                                                    interrupt_string='\r'):
+> +    def exec_command(self, command):
 > +        """
-> +        Keep sending a string to interrupt a console prompt, while logging the
-> +        console output. Typical use case is to break a boot loader prompt, such:
+> +        Send a command to a console (appending CRLF characters), while logging
+> +        the content.
 > +
-> +            Press a key within 5 seconds to interrupt boot process.
-> +            5
-> +            4
-> +            3
-> +            2
-> +            1
-> +            Booting default image...
-> +
-> +        :param success_message: if this message appears, test succeeds
-> +        :param failure_message: if this message appears, test fails
-> +        :param interrupt_string: a string to send to the console before trying
-> +                                to read a new line
+> +        :param command: the command to send
+> +        :type command: str
 > +        """
-> +        _console_interaction(self, success_message, failure_message,
-> +                         interrupt_string, True)
+> +        _console_interaction(self, None, None, command + '\r')
 > +
->  class Test(avocado.Test):
->      def _get_unique_tag_val(self, tag_name):
->          """
-> diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
-> index 1ca32ecf25..10317b232b 100644
-> --- a/tests/acceptance/boot_linux_console.py
-> +++ b/tests/acceptance/boot_linux_console.py
-> @@ -17,7 +17,7 @@
->  from avocado import skipUnless
+>      def interrupt_interactive_console_until_pattern(self, success_message,
+>                                                      failure_message=None,
+>                                                      interrupt_string='\r'):
+> diff --git a/tests/acceptance/multiprocess.py b/tests/acceptance/multiprocess.py
+> index 96627f022a..41d3e51164 100644
+> --- a/tests/acceptance/multiprocess.py
+> +++ b/tests/acceptance/multiprocess.py
+> @@ -9,10 +9,10 @@
+>
 >  from avocado_qemu import Test
->  from avocado_qemu import exec_command_and_wait_for_pattern
-> -from avocado_qemu import interrupt_interactive_console_until_pattern
-> +from avocado_qemu import ConsoleMixIn
 >  from avocado_qemu import wait_for_console_pattern
->  from avocado.utils import process
->  from avocado.utils import archive
-> @@ -45,7 +45,7 @@ def image_pow2ceil_expand(path):
->              with open(path, 'ab+') as fd:
->                  fd.truncate(size_aligned)
+> -from avocado_qemu import exec_command
+> +from avocado_qemu import ConsoleMixIn
+>  from avocado_qemu import exec_command_and_wait_for_pattern
 >
-> -class LinuxKernelTest(Test):
-> +class LinuxKernelTest(Test, ConsoleMixIn):
+> -class Multiprocess(Test):
+> +class Multiprocess(Test, ConsoleMixIn):
 
-The Python class hierarchy is defined from right to left. This would
-not cause a problem now but can result in unexpected behavior in the
-future. In this case, my suggestion is to switch the order here and
-make the Test class the last.
+Same comment here from the previous patch regarding the order of classes.
 
->      KERNEL_COMMON_COMMAND_LINE = 'printk.time=0 '
->
->      def wait_for_console_pattern(self, success_message, vm=None):
-> @@ -626,8 +626,8 @@ def test_arm_quanta_gsj(self):
->          self.wait_for_console_pattern('>Device: Poleg BMC NPCM730')
->          self.wait_for_console_pattern('>Skip DDR init.')
->          self.wait_for_console_pattern('U-Boot ')
-> -        interrupt_interactive_console_until_pattern(
-> -                self, 'Hit any key to stop autoboot:', 'U-Boot>')
-> +        self.interrupt_interactive_console_until_pattern(
-> +                'Hit any key to stop autoboot:', 'U-Boot>')
->          exec_command_and_wait_for_pattern(
->                  self, "setenv bootargs ${bootargs} " + kernel_command_line,
->                  'U-Boot>')
-> @@ -879,7 +879,7 @@ def test_arm_orangepi_uboot_netbsd9(self):
->                           '-no-reboot')
+>      """
+>      :avocado: tags=multiprocess
+>      """
+> @@ -59,7 +59,7 @@ def do_test(self, kernel_url, initrd_url, kernel_command_line,
 >          self.vm.launch()
->          wait_for_console_pattern(self, 'U-Boot 2020.01+dfsg-1')
-> -        interrupt_interactive_console_until_pattern(self,
-> +        self.interrupt_interactive_console_until_pattern(
->                                         'Hit any key to stop autoboot:',
->                                         'switch to partitions #0, OK')
->
+>          wait_for_console_pattern(self, 'as init process',
+>                                   'Kernel panic - not syncing')
+> -        exec_command(self, 'mount -t sysfs sysfs /sys')
+> +        self.exec_command('mount -t sysfs sysfs /sys')
+>          exec_command_and_wait_for_pattern(self,
+>                                            'cat /sys/bus/pci/devices/*/uevent',
+>                                            'PCI_ID=1000:0012')
 > --
 > 2.29.2
 >
