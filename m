@@ -2,50 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E98F838E16F
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 09:20:55 +0200 (CEST)
-Received: from localhost ([::1]:44026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D79B238E0B3
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 07:44:31 +0200 (CEST)
+Received: from localhost ([::1]:44532 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ll4tS-0003GZ-MF
-	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 03:20:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33666)
+	id 1ll3OA-0004Vt-IK
+	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 01:44:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43224)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1ll4rq-00016H-0l; Mon, 24 May 2021 03:19:14 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:42697)
+ (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
+ id 1ll3MV-0003oL-FD
+ for qemu-devel@nongnu.org; Mon, 24 May 2021 01:42:49 -0400
+Received: from mga07.intel.com ([134.134.136.100]:46583)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1ll4rn-00018y-4q; Mon, 24 May 2021 03:19:13 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4FpT961Nx3z9sVb; Mon, 24 May 2021 17:19:06 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1621840746;
- bh=SXuin8OCDmwjX/aejT4KPWM6FlOZPTteM083TR9yk+E=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=KJvZd5dvLUj5yZJuPJCopxDllIUGim8Rl/H1ZCZ5lH+Wa/Oxw6gB+J5z+l5hCIFwu
- cH9UvJ48hXS1JoyxupKySWf6qizHwvir4+ZPxj1PbYCus2Zt1qzPcDAEBov7FCHGan
- pbcrkU/zHeJUI199xP/qp2BP1cA4dGw2yIKg4zgM=
-Date: Mon, 24 May 2021 15:23:01 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: Re: [PATCH qemu v20] spapr: Implement Open Firmware client interface
-Message-ID: <YKs4NbB4lF/YTAqo@yekko>
-References: <20210520090557.435689-1-aik@ozlabs.ru>
- <eb49cd30-a4f4-d063-d728-521446a671a6@eik.bme.hu>
+ (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
+ id 1ll3MO-0007tv-0B
+ for qemu-devel@nongnu.org; Mon, 24 May 2021 01:42:47 -0400
+IronPort-SDR: /Nl6dodQkbPFhC/dT8Ud2if6ed5dt9kPJvSsTowuuaf+hE8Grb/4h/geOYhP7GKm2o8ZK4NZIQ
+ 5yKWsbn5iB/Q==
+X-IronPort-AV: E=McAfee;i="6200,9189,9993"; a="265757516"
+X-IronPort-AV: E=Sophos;i="5.82,319,1613462400"; d="scan'208";a="265757516"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 May 2021 22:42:30 -0700
+IronPort-SDR: K5oNQwpB5Ri/W6JpCAF0fIJs+QzuWHr5V1sfZGxRpQexk79LPP7yqPsxZ3QcewMGv4sJP/AtoW
+ TZcQEDHwe9RA==
+X-IronPort-AV: E=Sophos;i="5.82,319,1613462400"; d="scan'208";a="442671395"
+Received: from yangzhon-virtual.bj.intel.com (HELO yangzhon-Virtual)
+ ([10.238.144.101])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-SHA256;
+ 23 May 2021 22:42:28 -0700
+Date: Mon, 24 May 2021 13:29:47 +0800
+From: Yang Zhong <yang.zhong@intel.com>
+To: Gal Hammer <ghammer@redhat.com>
+Subject: Re: The latest Qemu release can't bootup VM with latest guest kernel.
+Message-ID: <20210524052947.GA7519@yangzhon-Virtual>
+References: <20210520080652.GA16421@yangzhon-Virtual>
+ <CAA2ifQy_R3q70D6-E1MmnLLMPsJY5_DwJxopePQJQuMSv6xRxQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="qijBsoUgyrVRzuwV"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <eb49cd30-a4f4-d063-d728-521446a671a6@eik.bme.hu>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <CAA2ifQy_R3q70D6-E1MmnLLMPsJY5_DwJxopePQJQuMSv6xRxQ@mail.gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Received-SPF: pass client-ip=134.134.136.100;
+ envelope-from=yang.zhong@intel.com; helo=mga07.intel.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,189 +64,136 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexey Kardashevskiy <aik@ozlabs.ru>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org
+Cc: yang.zhong@intel.com, Paolo Bonzini <pbonzini@redhat.com>,
+ richard.henderson@linaro.org, qemu-devel@nongnu.org, cfontana@suse.de
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Sun, May 23, 2021 at 03:23:30PM +0300, Gal Hammer wrote:
+> Hi Yang,
+> 
+> On Thu, 20 May 2021 at 11:27, Yang Zhong <yang.zhong@intel.com> wrote:
+> 
+> > Hello all,
+> >
+> > I found the latest Qemu release can't bootup the VM with latest guest
+> > kernel(>5.13).
+> >
+> > The normal v6.0.0 release is good to bootup the latest guest kernel.
+> >
+> > There are two issues were found
+> > 1. Guest kernel panic.
+> > 2. kvm disabled by bios
+> >
+> > The panic log as below:
+> > [    2.250024] BUG: unable to handle page fault for address:
+> > ffffffffac06c55f
+> > [    2.252226] #PF: supervisor write access in kernel mode
+> > [    2.253892] #PF: error_code(0x0003) - permissions violation
+> > [    2.255671] PGD 5940e067 P4D 5940f067 PUD 59410063 PMD 580001e1
+> > [    2.257567] Oops: 0003 [#1] SMP NOPTI
+> > [    2.258738] CPU: 2 PID: 313 Comm: systemd-udevd Not tainted 5.13.0-rc1+
+> > #1
+> > [    2.260899] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS
+> > 0.0.0 02/06/2015
+> > [    2.263375] RIP: 0010:__send_ipi_mask+0x1bf/0x240
+> > [    2.264855] Code: c0 48 c7 44 24 18 00 00 00 00 e9 48 ff ff ff 48 89 d0
+> > 4c 09 c8 74 1b 49 63 d7 48 63 74 24 0c b8 0a 00 00 00 4c 89 cb 4c 89 d1
+> > <0f> 01 d9 48 85 c0 78 4a 48 f7 04 24 00 02 00 00 0f 84 80 fe ff ff
+> > [    2.270643] RSP: 0018:ff591a62c0193ab0 EFLAGS: 00010006
+> > [    2.272277] RAX: 000000000000000a RBX: 0000000000000009 RCX:
+> > 0000000000000000
+> > [    2.274482] RDX: 0000000000000000 RSI: 00000000000000fc RDI:
+> > ff13a83dc003c830
+> > [    2.276663] RBP: ff591a62c0193b08 R08: 0000000000000004 R09:
+> > 0000000000000009
+> > [    2.278866] R10: 0000000000000000 R11: 0000000000000000 R12:
+> > 0000000000000000
+> > [    2.281065] R13: ff13a83dc003c830 R14: 0000000000011580 R15:
+> > 0000000000000000
+> > [    2.283272] FS:  00007f23ebd07940(0000) GS:ff13a83e3bd00000(0000)
+> > knlGS:0000000000000000
+> > [    2.285794] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> > [    2.287574] CR2: ffffffffac06c55f CR3: 0000000106ce2003 CR4:
+> > 0000000000771ee0
+> > [    2.289757] DR0: 0000000000000000 DR1: 0000000000000000 DR2:
+> > 0000000000000000
+> > [    2.291972] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7:
+> > 0000000000000400
+> > [    2.294177] PKRU: 55555554
+> > [    2.295043] Call Trace:
+> > [    2.295820]  kvm_smp_send_call_func_ipi+0xe/0x60
+> > [    2.297220]  smp_call_function_many_cond+0x25d/0x2a0
+> > [    2.298772]  ? flush_tlb_one_kernel+0x20/0x20
+> > [    2.300145]  on_each_cpu_cond_mask+0x1e/0x20
+> > [    2.301514]  flush_tlb_kernel_range+0x8d/0x90
+> > [    2.302799]  __purge_vmap_area_lazy+0xc1/0x6a0
+> > [    2.304097]  ? cpumask_next+0x1f/0x20
+> > [    2.305160]  ? purge_fragmented_blocks_allcpus+0x3d/0x210
+> > [    2.306686]  _vm_unmap_aliases+0xf1/0x120
+> > [    2.307861]  change_page_attr_set_clr+0x95/0x280
+> > [    2.309203]  set_memory_ro+0x26/0x30
+> > [    2.310259]  ? 0xffffffffc00f7000
+> > [    2.311214]  module_enable_ro.part.58+0x62/0xc0
+> > [    2.312417]  do_init_module+0x17a/0x230
+> > [    2.313460]  load_module+0x1a30/0x1b00
+> > [    2.314463]  ? __do_sys_finit_module+0xad/0x110
+> > [    2.315702]  __do_sys_finit_module+0xad/0x110
+> > [    2.316890]  do_syscall_64+0x39/0x80
+> > [    2.317868]  entry_SYSCALL_64_after_hwframe+0x44/0xae
+> > [    2.319226] RIP: 0033:0x7f23ea8f32bd
+> >
+> >
+> > I also used the bisect to get the bad commit id:
+> > f5cc5a5c168674f84bf061cdb307c2d25fba5448
+> >
+> > This issue is known issue? or some fixs are ready to fix those issues?
+> > thanks!
+> >
+> 
+> What's your qemu command line?
+> 
+> I'm also having a kernel crash (although I think mine is with a different
+> call stack) when using "-cpu host". The crash doesn't occur when I use
+> "kvm64" cpu type.
+>
 
---qijBsoUgyrVRzuwV
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+  Hello Gal,
 
-On Thu, May 20, 2021 at 11:59:07PM +0200, BALATON Zoltan wrote:
-> On Thu, 20 May 2021, Alexey Kardashevskiy wrote:
-> > The PAPR platform describes an OS environment that's presented by
-> > a combination of a hypervisor and firmware. The features it specifies
-> > require collaboration between the firmware and the hypervisor.
-> >=20
-> > Since the beginning, the runtime component of the firmware (RTAS) has
-> > been implemented as a 20 byte shim which simply forwards it to
-> > a hypercall implemented in qemu. The boot time firmware component is
-> > SLOF - but a build that's specific to qemu, and has always needed to be
-> > updated in sync with it. Even though we've managed to limit the amount
-> > of runtime communication we need between qemu and SLOF, there's some,
-> > and it has become increasingly awkward to handle as we've implemented
-> > new features.
-> >=20
-> > This implements a boot time OF client interface (CI) which is
-> > enabled by a new "x-vof" pseries machine option (stands for "Virtual Op=
-en
-> > Firmware). When enabled, QEMU implements the custom H_OF_CLIENT hcall
-> > which implements Open Firmware Client Interface (OF CI). This allows
-> > using a smaller stateless firmware which does not have to manage
-> > the device tree.
-> >=20
-> > The new "vof.bin" firmware image is included with source code under
-> > pc-bios/. It also includes RTAS blob.
-> >=20
-> > This implements a handful of CI methods just to get -kernel/-initrd
-> > working. In particular, this implements the device tree fetching and
-> > simple memory allocator - "claim" (an OF CI memory allocator) and updat=
-es
-> > "/memory@0/available" to report the client about available memory.
-> >=20
-> > This implements changing some device tree properties which we know how
-> > to deal with, the rest is ignored. To allow changes, this skips
-> > fdt_pack() when x-vof=3Don as not packing the blob leaves some room for
-> > appending.
-> >=20
-> > In absence of SLOF, this assigns phandles to device tree nodes to make
-> > device tree traversing work.
-> >=20
-> > When x-vof=3Don, this adds "/chosen" every time QEMU (re)builds a tree.
-> >=20
-> > This adds basic instances support which are managed by a hash map
-> > ihandle -> [phandle].
-> >=20
-> > Before the guest started, the used memory is:
-> > 0..e60 - the initial firmware
-> > 8000..10000 - stack
-> > 400000.. - kernel
-> > 3ea0000.. - initramdisk
-> >=20
-> > This OF CI does not implement "interpret".
-> >=20
-> > Unlike SLOF, this does not format uninitialized nvram. Instead, this
-> > includes a disk image with pre-formatted nvram.
-> >=20
-> > With this basic support, this can only boot into kernel directly.
-> > However this is just enough for the petitboot kernel and initradmdisk to
-> > boot from any possible source. Note this requires reasonably recent gue=
-st
-> > kernel with:
-> > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/comm=
-it/?id=3Ddf5be5be8735
-> >=20
-> > The immediate benefit is much faster booting time which especially
-> > crucial with fully emulated early CPU bring up environments. Also this
-> > may come handy when/if GRUB-in-the-userspace sees light of the day.
-> >=20
-> > This separates VOF and sPAPR in a hope that VOF bits may be reused by
-> > other POWERPC boards which do not support pSeries.
-> >=20
-> > This is coded in assumption that later on we might be adding support for
-> > booting from QEMU backends (blockdev is the first candidate) without
-> > devices/drivers in between as OF1275 does not require that and
-> > it is quite easy to so.
-> >=20
-> > Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
-> > ---
-> >=20
-> > The example command line is:
-> >=20
-> > /home/aik/pbuild/qemu-killslof-localhost-ppc64/qemu-system-ppc64 \
-> > -nodefaults \
-> > -chardev stdio,id=3DSTDIO0,signal=3Doff,mux=3Don \
-> > -device spapr-vty,id=3Dsvty0,reg=3D0x71000110,chardev=3DSTDIO0 \
-> > -mon id=3DMON0,chardev=3DSTDIO0,mode=3Dreadline \
-> > -nographic \
-> > -vga none \
-> > -enable-kvm \
-> > -m 8G \
-> > -machine pseries,x-vof=3Don,cap-cfpc=3Dbroken,cap-sbbc=3Dbroken,cap-ibs=
-=3Dbroken,cap-ccf-assist=3Doff \
-> > -kernel pbuild/kernel-le-guest/vmlinux \
-> > -initrd pb/rootfs.cpio.xz \
-> > -drive id=3DDRIVE0,if=3Dnone,file=3D./p/qemu-killslof/pc-bios/vof-nvram=
-=2Ebin,format=3Draw \
-> > -global spapr-nvram.drive=3DDRIVE0 \
-> > -snapshot \
-> > -smp 8,threads=3D8 \
-> > -L /home/aik/t/qemu-ppc64-bios/ \
-> > -trace events=3Dqemu_trace_events \
-> > -d guest_errors \
-> > -chardev socket,id=3DSOCKET0,server,nowait,path=3Dqemu.mon.tmux26 \
-> > -mon chardev=3DSOCKET0,mode=3Dcontrol
-> >=20
-> > ---
-> > Changes:
-> > v20:
-> > * compile vof.bin with -mcpu=3Dpower4 for better compatibility
-> > * s/std/stw/ in entry.S to make it work on ppc32
-> > * fixed dt_available property to support both 32 and 64bit
-> > * shuffled prom_args handling code
-> > * do not enforce 32bit in MSR (again, to support 32bit platforms)
-> >=20
->=20
-> [...]
->=20
-> > diff --git a/default-configs/devices/ppc64-softmmu.mak b/default-config=
-s/devices/ppc64-softmmu.mak
-> > index ae0841fa3a18..9fb201dfacfa 100644
-> > --- a/default-configs/devices/ppc64-softmmu.mak
-> > +++ b/default-configs/devices/ppc64-softmmu.mak
-> > @@ -9,3 +9,4 @@ CONFIG_POWERNV=3Dy
-> >  # For pSeries
-> >  CONFIG_PSERIES=3Dy
-> >  CONFIG_NVDIMM=3Dy
-> > +CONFIG_VOF=3Dy
-> > diff --git a/hw/ppc/Kconfig b/hw/ppc/Kconfig
-> > index e51e0e5e5ac6..964510dfc73d 100644
-> > --- a/hw/ppc/Kconfig
-> > +++ b/hw/ppc/Kconfig
-> > @@ -143,3 +143,6 @@ config FW_CFG_PPC
-> >=20
-> >  config FDT_PPC
-> >      bool
-> > +
-> > +config VOF
-> > +    bool
->=20
-> I think you should just add "select VOF" to config PSERIES section in
-> Kconfig instead of adding it to default-configs/devices/ppc64-softmmu.mak.
-> That should do it, it works in my updated pegasos2 patch:
+  Let me list my host and guest environment
+  Host: Icelake, Linux5.13.0-rc1+
+  Guest: Linux5.13.0-rc1+
 
-No, we don't want a "select": PSERIES doesn't require VOF while we
-still support SLOF, and indeed we're quite a ways from being ready to
-even make VOF the default pseries firmware.
+  The Qemu command line:
+  ./qemu-system-x86_64 \
+     -machine q35 \
+     -accel kvm \
+     -m 4096 \
+     -smp 4 \
+     -cpu host \
+     -bios /home/vmm/project/images/OVMF-upstream.fd \
+     -drive format=raw,file=/root/project/images/SGX_rhel8_efi.img,index=0,media=disk \
+     -netdev user,id=guest0,hostfwd=tcp::10022-:22 \
+     -device virtio-net-pci,netdev=guest0 \
+     -qmp tcp:127.0.0.1:12345,server,nowait \
+     -monitor telnet:127.0.0.1:55555,server,nowait \
+     -nographic -nodefaults -serial stdio
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+  I also tried the 'cpu kvm64' in my side, and there is not any issue.
 
---qijBsoUgyrVRzuwV
-Content-Type: application/pgp-signature; name="signature.asc"
+  Regards,
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmCrODMACgkQbDjKyiDZ
-s5J59Q/+PznfDKRcyuFzV1/roei7n0shYfHoLh9d7jVz3VjWGmVV/EBcZKcB+Nj/
-imPlcTwhlM42Kw/I+E7LCbEbVpgZiPFbN+ACt1CTfvoYdZ6Z9xi478cKMYZoL16y
-xQ2ASzgGOFWW3dKDogY1FnEoy0qTIOYuUIJIFzht9HQvrKxO3aTVRvwQUU2+C/A3
-H0wQZzQ9btgr8XRzJiaw9B4qQOxMFo0AvehG311EXoicsn0W6IHQkRHXUzUBMNaA
-JUEeVeKpvZaNcKV3i6GvvwUKikEs+7uxbOtHg03fpnERBLO15zZKG0rlfwSwL+Ld
-K6oZUluFIxvbKSEui7vYAcKtJS/PAX8NauP32VPJT/Aht4u0AGvsaTvGdNquCOC8
-pXbm+5pN7plpDmGeIcKtADR0qUG2lHYu3jcovvQPBsHgbUKFgv4lMPqzCf80iJzs
-viiRA2U0yVBZ9AFnQXwSbMWtLht7WQT4l90lxCV7fhymXaIBqDUkUI3wy/FDgn2w
-opuTFkjG/u+otzgQRFKApPrxkh8wB4BAsIjuqGJV2ax+VQdmalq6lrxKJoM8EnI/
-H1k2TyFCRzTQ9wk/33GdHYySxB5oLrMVJP1WOvr+E4d9Nwvr020AILEOsF/afRgV
-sEpELL16+Nqr7B8A8wh+ghGrv9nP+j8sQP8mrvAjS+ggYD/bsRs=
-=mwnc
------END PGP SIGNATURE-----
-
---qijBsoUgyrVRzuwV--
+  Yang
+ 
+>     Gal.
+> 
+> 
+> >
+> > Regards,
+> >
+> > Yang
+> >
+> >
+> >
+> >
 
