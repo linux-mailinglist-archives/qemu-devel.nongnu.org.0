@@ -2,76 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28F9338F483
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 22:39:01 +0200 (CEST)
-Received: from localhost ([::1]:42376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4767138F496
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 22:52:46 +0200 (CEST)
+Received: from localhost ([::1]:48356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llHLo-0003IC-9r
-	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 16:39:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38616)
+	id 1llHZ1-0008CP-WC
+	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 16:52:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40894)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vivek.kasireddy@intel.com>)
- id 1llHKD-0001hU-O2
- for qemu-devel@nongnu.org; Mon, 24 May 2021 16:37:21 -0400
-Received: from mga03.intel.com ([134.134.136.65]:16522)
+ (Exim 4.90_1) (envelope-from <marian@mutex.one>)
+ id 1llHXO-000713-Gx; Mon, 24 May 2021 16:50:58 -0400
+Received: from mail.mutex.one ([62.77.152.124]:59820)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vivek.kasireddy@intel.com>)
- id 1llHKA-0002DR-T0
- for qemu-devel@nongnu.org; Mon, 24 May 2021 16:37:21 -0400
-IronPort-SDR: QsJ6x+jX/5n7fNWPtTpNi43tIpsmgQr58BYyVUF9J1Ld1QnIrKvtLWxVYIzsg8Fg5Amuyzved5
- i8MjGvGh5s5w==
-X-IronPort-AV: E=McAfee;i="6200,9189,9994"; a="202067824"
-X-IronPort-AV: E=Sophos;i="5.82,325,1613462400"; d="scan'208";a="202067824"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 May 2021 13:37:06 -0700
-IronPort-SDR: H1jVGbNX36dC2TFXLo+3OBnC/GBQx55Rqp/N4K+TQkFhGbbAJq+0N/bcQJJTnfkA+VGanqvMX5
- Wrt3+BPyYfiw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,325,1613462400"; d="scan'208";a="632768875"
-Received: from orsmsx605.amr.corp.intel.com ([10.22.229.18])
- by fmsmga005.fm.intel.com with ESMTP; 24 May 2021 13:37:05 -0700
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX605.amr.corp.intel.com (10.22.229.18) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.4; Mon, 24 May 2021 13:37:05 -0700
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.4; Mon, 24 May 2021 13:37:04 -0700
-Received: from orsmsx611.amr.corp.intel.com ([10.22.229.24]) by
- ORSMSX611.amr.corp.intel.com ([10.22.229.24]) with mapi id 15.01.2242.008;
- Mon, 24 May 2021 13:37:04 -0700
-From: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: RE: [PATCH v5 03/13] virtio-gpu: Add udmabuf helpers
-Thread-Topic: [PATCH v5 03/13] virtio-gpu: Add udmabuf helpers
-Thread-Index: AQHXTEWkoA54FN3boUiBxzpmEs7P9KrqyQWAgAhS4+A=
-Date: Mon, 24 May 2021 20:37:04 +0000
-Message-ID: <3c23985ffb484236a3e29682585cc366@intel.com>
-References: <20210519001414.786439-1-vivek.kasireddy@intel.com>
- <20210519001414.786439-4-vivek.kasireddy@intel.com>
- <20210519061339.dq4yfrc7j42jdj5g@sirius.home.kraxel.org>
-In-Reply-To: <20210519061339.dq4yfrc7j42jdj5g@sirius.home.kraxel.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.5.1.3
-dlp-reaction: no-action
-x-originating-ip: [10.1.200.100]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <marian@mutex.one>)
+ id 1llHXM-00025e-NI; Mon, 24 May 2021 16:50:58 -0400
+Received: from localhost (localhost.localdomain [127.0.0.1])
+ by mail.mutex.one (Postfix) with ESMTP id 9CC4BBF4022C;
+ Mon, 24 May 2021 23:50:52 +0300 (EEST)
+X-Virus-Scanned: Debian amavisd-new at mail.mutex.one
+Received: from mail.mutex.one ([127.0.0.1])
+ by localhost (mail.mutex.one [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 3C6wQQsqX2PM; Mon, 24 May 2021 23:50:51 +0300 (EEST)
+Received: [127.0.0.1] (localhost [127.0.0.1])nknown [79.112.92.211])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.mutex.one (Postfix) with ESMTPSA id 0FA48BF400A9;
+ Mon, 24 May 2021 23:50:51 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mutex.one; s=default;
+ t=1621889451; bh=kFr+64OLqfHe4NUhLsDBszjOdYFHs0ztMgBTSg+k6aw=;
+ h=From:To:Cc:Subject:Date:From;
+ b=Pl4pZeLTL1Nf/7CLzjmK8rziAuMHaZfGiv4l2Mncn5m64mwwDwyMkBekc0u9WGTAW
+ PR0b0H1k0ls7exl9dtxBdjubY0wWZvEzX6Lr8gwoKATeiZoxUoPyKYFCS6SX6xEjCF
+ 3aOn66zkBycwvjbNmExs/Q+bTN8VtPwgXRTP1id8=
+From: Marian Postevca <posteuca@mutex.one>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v5 0/1] Rework ACPI OEM fields handling to simplify code (was:
+ acpi: Remove duplicated code handling OEM ID and OEM table ID fields)
+Date: Mon, 24 May 2021 23:50:28 +0300
+Message-Id: <20210524205029.16195-1-posteuca@mutex.one>
 MIME-Version: 1.0
-Received-SPF: pass client-ip=134.134.136.65;
- envelope-from=vivek.kasireddy@intel.com; helo=mga03.intel.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=62.77.152.124; envelope-from=marian@mutex.one;
+ helo=mail.mutex.one
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,59 +63,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Xiao Guangrong <xiaoguangrong.eric@gmail.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Dongjiu Geng <gengdongjiu@huawei.com>, Shannon Zhao <shannon.zhaosl@gmail.com>,
+ Xiang Zheng <zhengxiang9@huawei.com>, qemu-arm@nongnu.org,
+ Marian Postevca <posteuca@mutex.one>, Paolo Bonzini <pbonzini@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Gerd,
+This patch consolidates ACPI OEM fields handling
+by:
+- Moving common code in PC and MICROVM to X86.
+- Changes unnecessary dynamic memory allocation to static allocation
+- Uses dedicated structure to keep values of fields instead of two
+  separate strings
+- Adds helper functions to initialize the structure
 
->=20
-> > +#ifdef CONFIG_LINUX
->=20
-> > +void virtio_gpu_init_udmabuf(struct virtio_gpu_simple_resource *res)
->=20
-> > +#else
->=20
-> > +void *virtio_gpu_init_udmabuf(struct virtio_gpu_simple_resource *res)
-> > +{
-> > +    /* nothing (stub) */
-> > +    return NULL
-> > +}
->=20
-> Fails to build for !linux ...
->=20
-> You can place the stubs in a file in the stubs/ directory instead.
-> They'll be used via weak symbol references instead of #ifdefs then.
->=20
-> Advantage: the stubs are compiled unconditionally so errors like this
-> don't go unnoticed that easily.
-[Kasireddy, Vivek] Gave it a try but because of res->image, we'd need to co=
-nsider the
-Pixman dependency. I think we have the following options to address this:
-1) Add pixman dependency to stubs. This may not be acceptable given that th=
-e other
-dependencies are glib, socket, etc which are pretty basic.
-2) Cast the objects (such as virtio_gpu_simple_resource) as void * to the f=
-unctions that
-we have stubs for. This also may not be acceptable as I don't see other stu=
-bs doing this.
-3) Move some core objects (such as VirtIOGPUBase and its dependencies that =
-do not
-deal with pixman) into a new header and include that in virtio-gpu.h and th=
-e new stubs
-file. This seems like the way to go but needs some work as virtio-gpu.h has=
- a lot of stuff
-and is included in a lot of places. If it is not a problem, I can do this i=
-n a small separate
-series but keep the ifdef for this series?
+v2:
+- Move the setters/getters of OEM fields to X86MachineState to
+  remove duplication
+- Change commit message to make it clear the second commit is
+  a re-factor
 
-Will send out a v6 for this series soon.
+v3:
+- Rebase "acpi: Consolidate the handling of OEM ID and OEM
+	  Table ID fields to latest" to latest HEAD
+- Dropped "acpi: Move setters/getters of oem fields to
+	   X86MachineState" since it was accepted already
 
-Thanks,
-Vivek
+v4:
+- Drop helper macros and use static inline functions instead
+- Removed variables starting with __
+- Used consistent naming for helper functions that start with ACPI_BUILD_OEM_*
+- Didn't drop the defines ACPI_BUILD_APPNAME6 and ACPI_BUILD_APPNAME8 since
+  ACPI_BUILD_APPNAME8 is still used in build_header() in aml-build.c and it
+  feels better to keep them defined together. But if others prefer to drop the
+  ACPI_BUILD_APPNAME6 define, will resend the patch.
 
->=20
-> take care,
->   Gerd
+v5:
+- Rebase on mst tree latest HEAD
+
+Marian Postevca (1):
+  acpi: Consolidate the handling of OEM ID and OEM Table ID fields
+
+ hw/acpi/hmat.h                   |  2 +-
+ hw/i386/acpi-common.h            |  2 +-
+ include/hw/acpi/acpi-build-oem.h | 61 +++++++++++++++++++++++++
+ include/hw/acpi/aml-build.h      | 15 +++---
+ include/hw/acpi/ghes.h           |  2 +-
+ include/hw/acpi/pci.h            |  2 +-
+ include/hw/acpi/vmgenid.h        |  2 +-
+ include/hw/arm/virt.h            |  4 +-
+ include/hw/i386/x86.h            |  4 +-
+ include/hw/mem/nvdimm.h          |  4 +-
+ hw/acpi/aml-build.c              | 26 +++++------
+ hw/acpi/ghes.c                   |  5 +-
+ hw/acpi/hmat.c                   |  4 +-
+ hw/acpi/nvdimm.c                 | 22 +++++----
+ hw/acpi/pci.c                    |  4 +-
+ hw/acpi/vmgenid.c                |  6 ++-
+ hw/arm/virt-acpi-build.c         | 40 ++++++----------
+ hw/arm/virt.c                    | 16 +++----
+ hw/i386/acpi-build.c             | 78 +++++++++++++++-----------------
+ hw/i386/acpi-common.c            |  4 +-
+ hw/i386/acpi-microvm.c           | 13 ++----
+ hw/i386/x86.c                    | 19 ++++----
+ 22 files changed, 188 insertions(+), 147 deletions(-)
+ create mode 100644 include/hw/acpi/acpi-build-oem.h
+
+-- 
+2.26.3
 
 
