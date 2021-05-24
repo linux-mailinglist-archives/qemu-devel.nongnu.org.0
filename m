@@ -2,53 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 630D038F2B9
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 20:05:28 +0200 (CEST)
-Received: from localhost ([::1]:47830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F93C38F2B6
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 May 2021 20:04:06 +0200 (CEST)
+Received: from localhost ([::1]:47762 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llExB-0001dA-Pa
-	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 14:05:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34026)
+	id 1llEvs-0001ab-Ol
+	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 14:04:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34212)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bruno.larsen@eldorado.org.br>)
- id 1llEtf-0007fO-Pf; Mon, 24 May 2021 14:01:47 -0400
-Received: from [201.28.113.2] (port=29367 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bruno.larsen@eldorado.org.br>)
- id 1llEtd-0001VF-U8; Mon, 24 May 2021 14:01:47 -0400
-Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Mon, 24 May 2021 15:01:41 -0300
-Received: from [127.0.0.1] (unknown [10.10.71.235])
- by power9a (Postfix) with ESMTPS id 1FF0F801360;
- Mon, 24 May 2021 15:01:41 -0300 (-03)
-Subject: Re: [RFC PATCH 08/11] target/ppc: wrapped some TCG only logic with
- ifdefs
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20210512140813.112884-1-bruno.larsen@eldorado.org.br>
- <20210512140813.112884-9-bruno.larsen@eldorado.org.br>
- <40d53a3b-ca4b-0656-0b64-15ded89b3315@linaro.org>
-From: Bruno Piazera Larsen <bruno.larsen@eldorado.org.br>
-Message-ID: <240414de-a246-9878-397e-402a86f70698@eldorado.org.br>
-Date: Mon, 24 May 2021 15:01:40 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1llEuI-0008UQ-5g
+ for qemu-devel@nongnu.org; Mon, 24 May 2021 14:02:27 -0400
+Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:35779)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1llEuF-0001qf-SC
+ for qemu-devel@nongnu.org; Mon, 24 May 2021 14:02:25 -0400
+Received: by mail-ej1-x62c.google.com with SMTP id k14so39702498eji.2
+ for <qemu-devel@nongnu.org>; Mon, 24 May 2021 11:02:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=wk/YzzYQ7QcM+BcSYIQU2OGoN0AV+RdW516myBdN1Fg=;
+ b=OdH+Mi5ZEM+WgGXuHwwOAP1AUgoBSKgADUINpXmN9esRLCRaH3xE1vUDSmJzO4oTAz
+ gzgg32+1d4rhFKBtLtsl3XpCGObRXn85QqRS6kKbJJMiX2hRlDiEqrD8Kix69HdMIquv
+ RYADJJVZjkkbaJhZq7L6V46US7m0eyHsu30tk+sdnDuN5+gsopxW7tmbunmd17gMd+ZF
+ TPwjmizAHWHKsOPzMob7D97tdyRZj9SDSFDPmhGNwyg8/IroW+lc3uoyBYh4Yxu7NI12
+ rXJ/2HKon+3NWHY3nupI49pH5ewv0YdgK8usVSL188K5pbfk8p3EyHShH5RnWPa5ayrz
+ ekwA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=wk/YzzYQ7QcM+BcSYIQU2OGoN0AV+RdW516myBdN1Fg=;
+ b=A6R+yXaEQoM+wtOoV9iPw2BfyKr4G4fFnJPOcvkOcuQ/PqYCotnQltTvEjDPXRCclP
+ zpcXGogmogGTVjf1E10ZejEoJlNCbICoL50pyo1rVNXcbyKpRO99dkYG8RL/nYeolKvg
+ 8ZqvVB4TvWaxZZRe2FQEOYJUcNWRJFLqXEyMrT0D8LG0LyCJy+WSANFeHEoHZ4A3D/lO
+ Slv7NjACHtKCLQHRVSoeCxe/e8kz5Rk1CtCtG3vA9IQuP6YMkKBHpIN10hZw97Y7cYwj
+ MvBwa0KgTsWkWn+9xaxfDMXmMkL5rbjp8o+bqYNXQ9m0Xcna5m7jVoVIuYPPlV0dIfQ+
+ U73A==
+X-Gm-Message-State: AOAM533q8E1MnnrdOyE3B1bRkyj0viZ2+ZEuIYjmVSwN1ej1Wa4fTviu
+ hkEDugyagU6Vper45GRudjFgECPZS/pPo92t5xNJ0A==
+X-Google-Smtp-Source: ABdhPJy1WTJO5aiztR5jhZavbvXw6XpbYGqNVw/a1rS1hCgdK0ElFtfzFuOZXh+HlbiLbFq1OhYU9Nv8lGXnIqvEgN0=
+X-Received: by 2002:a17:906:4812:: with SMTP id
+ w18mr12752668ejq.4.1621879340914; 
+ Mon, 24 May 2021 11:02:20 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <40d53a3b-ca4b-0656-0b64-15ded89b3315@linaro.org>
-Content-Type: multipart/alternative;
- boundary="------------FB52165EE23342B03160F80A"
-Content-Language: en-US
-X-OriginalArrivalTime: 24 May 2021 18:01:41.0431 (UTC)
- FILETIME=[D98C3470:01D750C6]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
-Received-SPF: pass client-ip=201.28.113.2;
- envelope-from=bruno.larsen@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
- NICE_REPLY_A=-0.001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+References: <20210524130150.50998-1-stefanha@redhat.com>
+In-Reply-To: <20210524130150.50998-1-stefanha@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 24 May 2021 19:01:58 +0100
+Message-ID: <CAFEAcA_Yhy5fpMrODR3pv7AFkvshWSBG8OKPQYbn8mt49JFwLg@mail.gmail.com>
+Subject: Re: [PULL 0/8] Block patches
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -61,126 +77,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: farosas@linux.ibm.com, luis.pires@eldorado.org.br,
- lucas.araujo@eldorado.org.br, fernando.valle@eldorado.org.br,
- qemu-ppc@nongnu.org, matheus.ferst@eldorado.org.br,
- david@gibson.dropbear.id.au
+Cc: Kevin Wolf <kwolf@redhat.com>, Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Jagannathan Raman <jag.raman@oracle.com>, Qemu-block <qemu-block@nongnu.org>,
+ John G Johnson <john.g.johnson@oracle.com>, John Snow <jsnow@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a multi-part message in MIME format.
---------------FB52165EE23342B03160F80A
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-
-
->> @@ -8799,7 +8803,9 @@ static void ppc_cpu_unrealize(DeviceState *dev)
->>         cpu_remove_sync(CPU(cpu));
->>   +#ifdef CONFIG_TCG
->>       destroy_ppc_opcodes(cpu);
->> +#endif
->>   }
->>     static gint ppc_cpu_compare_class_pvr(gconstpointer a, 
->> gconstpointer b)
->> @@ -9297,7 +9303,9 @@ static void ppc_cpu_class_init(ObjectClass *oc, 
->> void *data)
->>       cc->class_by_name = ppc_cpu_class_by_name;
->>       cc->has_work = ppc_cpu_has_work;
->>       cc->dump_state = ppc_cpu_dump_state;
->> +#ifdef CONFIG_TCG
->>       cc->dump_statistics = ppc_cpu_dump_statistics;
->> +#endif
+On Mon, 24 May 2021 at 14:02, Stefan Hajnoczi <stefanha@redhat.com> wrote:
 >
-> We should just drop this entirely.  It's supposedly a generic thing, 
-> but only used by ppc.  But even then only with source modification to 
-> enable DO_PPC_STATISTICS.  And even then as we convert to decodetree, 
-> said statistics will not be collected.
+> The following changes since commit 6c769690ac845fa62642a5f93b4e4bd906adab95:
 >
-> We should delete everything from cpu_dump_statistics on down.
+>   Merge remote-tracking branch 'remotes/vsementsov/tags/pull-simplebench-2021-05-04' into staging (2021-05-21 12:02:34 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/stefanha/qemu.git tags/block-pull-request
+>
+> for you to fetch changes up to 0a6f0c76a030710780ce10d6347a70f098024d21:
+>
+>   coroutine-sleep: introduce qemu_co_sleep (2021-05-21 18:22:33 +0100)
+>
+> ----------------------------------------------------------------
+> Pull request
+>
+> (Resent due to an email preparation mistake.)
 
-So, now that we have a version of disable-tcg that is functional, I'm 
-inclined to look at this cleanup. Just to make sure I got it right: 
-everything related to ppc_cpu_dump_statistics and the stuff related to 
-ifdef DO_PPC_STATISTICS can be removed, yeah?
 
--- 
-Bruno Piazera Larsen
-Instituto de Pesquisas ELDORADO 
-<https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&utm_medium=email&utm_source=RD+Station>
-Departamento Computação Embarcada
-Analista de Software Trainee
-Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
+Applied, thanks.
 
---------------FB52165EE23342B03160F80A
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 8bit
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.1
+for any user-visible changes.
 
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <br>
-    <blockquote type="cite"
-      cite="mid:40d53a3b-ca4b-0656-0b64-15ded89b3315@linaro.org">
-      <blockquote type="cite">@@ -8799,7 +8803,9 @@ static void
-        ppc_cpu_unrealize(DeviceState *dev)
-        <br>
-                cpu_remove_sync(CPU(cpu));
-        <br>
-          +#ifdef CONFIG_TCG
-        <br>
-              destroy_ppc_opcodes(cpu);
-        <br>
-        +#endif
-        <br>
-          }
-        <br>
-            static gint ppc_cpu_compare_class_pvr(gconstpointer a,
-        gconstpointer b)
-        <br>
-        @@ -9297,7 +9303,9 @@ static void ppc_cpu_class_init(ObjectClass
-        *oc, void *data)
-        <br>
-              cc-&gt;class_by_name = ppc_cpu_class_by_name;
-        <br>
-              cc-&gt;has_work = ppc_cpu_has_work;
-        <br>
-              cc-&gt;dump_state = ppc_cpu_dump_state;
-        <br>
-        +#ifdef CONFIG_TCG
-        <br>
-              cc-&gt;dump_statistics = ppc_cpu_dump_statistics;
-        <br>
-        +#endif
-        <br>
-      </blockquote>
-      <br>
-      We should just drop this entirely.  It's supposedly a generic
-      thing, but only used by ppc.  But even then only with source
-      modification to enable DO_PPC_STATISTICS.  And even then as we
-      convert to decodetree, said statistics will not be collected.
-      <br>
-      <br>
-      We should delete everything from cpu_dump_statistics on down.
-      <br>
-    </blockquote>
-    <p>So, now that we have a version of disable-tcg that is functional,
-      I'm inclined to look at this cleanup. Just to make sure I got it
-      right: everything related to ppc_cpu_dump_statistics and the stuff
-      related to ifdef DO_PPC_STATISTICS can be removed, yeah? <br>
-    </p>
-    <div class="moz-signature">-- <br>
-      Bruno Piazera Larsen<br>
-      <a
-href="https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&amp;utm_medium=email&amp;utm_source=RD+Station">Instituto
-        de Pesquisas ELDORADO</a><br>
-      Departamento Computação Embarcada<br>
-      Analista de Software Trainee<br>
-      <a href="https://www.eldorado.org.br/disclaimer.html">Aviso Legal
-        - Disclaimer</a></div>
-  </body>
-</html>
-
---------------FB52165EE23342B03160F80A--
+-- PMM
 
