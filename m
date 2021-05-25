@@ -2,92 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D784238FC05
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 09:54:53 +0200 (CEST)
-Received: from localhost ([::1]:33602 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A06E038FC0C
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 09:56:53 +0200 (CEST)
+Received: from localhost ([::1]:35852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llRtt-0006tt-0q
-	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 03:54:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44028)
+	id 1llRvo-00006V-B8
+	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 03:56:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44450)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1llRsi-0005Qb-0F
- for qemu-devel@nongnu.org; Tue, 25 May 2021 03:53:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54103)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1llRse-0003Lk-My
- for qemu-devel@nongnu.org; Tue, 25 May 2021 03:53:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621929215;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=LxPstLsb3dt2KoYpSap2npVnKW1k0hOhIrvJhz8JJxQ=;
- b=jJIzV/VBu58aYfLsqE+j60aSdO7jWGjv9n7v7Hb54vrK/jJd9bZXKfrjo3kY/25F55PUun
- XwQnb4sUX4jh5MymTngyryR91dnOFs3pE21Qqy9j/EQW5Qw8DGIOR+wYUtB3SdlJeu4WO4
- 4qjhXLus2ANryigg8K/U5M7WlF0jkT0=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-584-Z8Cg4VgBPL6yiGuPmosn1g-1; Tue, 25 May 2021 03:53:33 -0400
-X-MC-Unique: Z8Cg4VgBPL6yiGuPmosn1g-1
-Received: by mail-wr1-f72.google.com with SMTP id
- v5-20020adf9e450000b029010e708f05b3so14225207wre.6
- for <qemu-devel@nongnu.org>; Tue, 25 May 2021 00:53:33 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1llRul-0007pa-Mi
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 03:55:47 -0400
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:51122)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1llRuk-0004je-6G
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 03:55:47 -0400
+Received: by mail-wm1-x333.google.com with SMTP id t206so16190159wmf.0
+ for <qemu-devel@nongnu.org>; Tue, 25 May 2021 00:55:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:from:to:cc:references:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=CT1CWmJcZq9ZzubQTn1IYXn+8+QqLFfLfZD6bp3yYSc=;
+ b=NAIKklojXVnnc8WMDUtpi8Qty9hUAtZmNdYqSDdjYrIcbIH7u12fZnYd/kMgLvg2gE
+ WKM0aTprs9vJNToc2nNcwKFWkMPlj8awJj1jrzVNMzwxhxP0EC3WgOYrsORnVqSwVgsX
+ FavbLb2HLrWG8VwQ8x6c0Fj1aQRCtO9jQkVAtXN6YcLwpuBu8IGLYJu514wS+ktgmGOT
+ W9CMAgfsXym2rgGGdi5+5sBWDjoyNmVmA/NtC0Ah1RsNT4jgvrkTVNK7nmavTCfgM88x
+ T4O0xFsEZxw0UbuJOlzM5iErCEYXGuWrCUTMBb/Gst6sx7YI/QUtKwxeYNdGjUpk5RwZ
+ NvWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:sender:subject:from:to:cc:references:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=LxPstLsb3dt2KoYpSap2npVnKW1k0hOhIrvJhz8JJxQ=;
- b=TbxXBrHwXXmOsgaN1lhl68V/38x0DnV1D0wCyr5D2CkS3jj4ZsxQ2qu7tj5ElHMbvR
- qXK8tpS3sYosqnSgTY0TitW8KYTD33M0I0a4q0jwN8pW3hdTLToXlUp5B1mi784ha9L+
- BJWaJ6zPfBL5MGtxpXYJa60R0ryx2HscX+PqBUv5/95UufNTWvoB49Utga5/jAiIv/lI
- x0Yw7IPw7CBm5r7Zq7YbUoIEvX0WBvnyKvz8Wk71XhXz9Smbfy7i65ErkscSjXX+dwEu
- OKxhp4tqEP7gprmTlpC7kqzrivcsNdL/iBDOI0CKWXZfcdH6+l1rmWeQlnSiaqMY5IcY
- Epgw==
-X-Gm-Message-State: AOAM5332FUfwULZTZxnD4XINt9AkN8bvB7AQLergA7QlnjKXiY8E2/GH
- LKQ30YUXaxOr5dyTyqJKPtRKeC3V6kCHwidY0kNqe+xnoWFY39yBVz2/YzIBW+DeI9MhiTXeh7P
- XHhNZBrMceJlwOgQ=
-X-Received: by 2002:a05:600c:3043:: with SMTP id
- n3mr21411534wmh.98.1621929212674; 
- Tue, 25 May 2021 00:53:32 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzm302cVM38B8FVGASRCVePhu4yOpDR97Ff1irN+2fXWp9S87nhg41Tw9RrVOttoHZuGOsGsA==
-X-Received: by 2002:a05:600c:3043:: with SMTP id
- n3mr21411527wmh.98.1621929212528; 
- Tue, 25 May 2021 00:53:32 -0700 (PDT)
+ bh=CT1CWmJcZq9ZzubQTn1IYXn+8+QqLFfLfZD6bp3yYSc=;
+ b=FYmytluA4gmKxoEQ/e5j9cjuDR2ErzrNqeukDBRqvBXgqvXrZesoMyb+mMPykM3jQR
+ Sji9FrTMubqTp1AppVPQlxs9ryKnpckLD1b3AWia+yEjv3wBXk03CPGGOTp8ZxdKEkwI
+ MrSzM7onD7ct/jhbGhhN1ypV4/Rh2JoeaxqaQbFH1D/ppT0GijIP54FAb+sMDd/8X1OI
+ JyjzWeprc0EDVS9abCnGv+KDQww+s0xxYfv+kyJM2B1sx6ay3RWMwv3oj9Bdy/2AjcfJ
+ 7lns3Srlpihubs8anEXtvG62I7nsnlgbpOeU2C3dGihAMBEJpgVR2R5s2hZXnLfIIG1a
+ o5qA==
+X-Gm-Message-State: AOAM530eIR+ushEaII0XyTcBhpXyv0tUOadpwxd796vN30cyTLJkuvQD
+ DoIGYyRTEZXJsFMNqqrO+Zo=
+X-Google-Smtp-Source: ABdhPJxBnI86+mRBTUQs1BsCvlJlETYfwdLXqlos0ys1jw5TplV4VQuGAIEXK3zBTMyhgUL5anwNEw==
+X-Received: by 2002:a1c:2985:: with SMTP id
+ p127mr23044135wmp.165.1621929344708; 
+ Tue, 25 May 2021 00:55:44 -0700 (PDT)
 Received: from [192.168.1.36] (31.red-83-51-215.dynamicip.rima-tde.net.
  [83.51.215.31])
- by smtp.gmail.com with ESMTPSA id u126sm2180932wmb.9.2021.05.25.00.53.31
+ by smtp.gmail.com with ESMTPSA id n6sm9743823wmq.34.2021.05.25.00.55.43
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 25 May 2021 00:53:31 -0700 (PDT)
-Subject: Re: [PATCH] tests/qtest/fuzz: Fix build failure
-To: qemu-devel@nongnu.org
-References: <20210513162008.3922223-1-philmd@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <b564c68b-4d9f-f243-f4f0-75f81ffeada6@redhat.com>
-Date: Tue, 25 May 2021 09:53:31 +0200
+ Tue, 25 May 2021 00:55:43 -0700 (PDT)
+Subject: Re: [PATCH v2 0/9] accel/tcg: Add tlb_flush interface for a range of
+ pages
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+To: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+References: <20210509151618.2331764-1-f4bug@amsat.org>
+ <CAAdtpL6u_5AF=H7XaRwfWThTVxM3YvUjUktbmmEenbUL=r2nBQ@mail.gmail.com>
+Message-ID: <820e64bb-8ba1-d56f-d42a-458940600ac7@amsat.org>
+Date: Tue, 25 May 2021 09:55:42 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <20210513162008.3922223-1-philmd@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <CAAdtpL6u_5AF=H7XaRwfWThTVxM3YvUjUktbmmEenbUL=r2nBQ@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x333.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,42 +91,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- qemu-trivial@nongnu.org, Alexander Bulekov <alxndr@bu.edu>,
- Bandan Das <bsd@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-ping? (patch reviewed).
+ping?
 
-On 5/13/21 6:20 PM, Philippe Mathieu-Daudé wrote:
-> On Fedora 32, using clang (version 10.0.1-3.fc32) we get:
+On 5/9/21 5:18 PM, Philippe Mathieu-Daudé wrote:
+> Oops, I forgot to add 'v2' in subject line :/
 > 
->   tests/qtest/fuzz/fuzz.c:237:5: error: implicit declaration of function 'qemu_init' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
->       qemu_init(result.we_wordc, result.we_wordv, NULL);
->       ^
+> On Sun, May 9, 2021 at 5:16 PM Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
+>>
+>> Hi Richard,
+>>
+>> I tried to make sense of the multiple changes in your patch
+>> https://www.mail-archive.com/qemu-devel@nongnu.org/msg805595.html
+>> by splitting it in multiple trivial changes. At least this way
+>> it is easier to me to follow / review what you did.
+>>
+>> The original patch description was:
+>>
+>>   Add tlb_flush interface for a range of pages.
+>>   Call these tlb_flush_range_by_mmuidx*.
+>>   Rewrite the_flush_page_bits_by_mmuidx* to use the new
+>>   functions, passing in TARGET_PAGE_SIZE for length.
+>>
+>> If you find it useful, fill free to take / respin / reorder this
+>> series, improving descriptions.  Last patch certainly deserves a
+>> better description ;)
 > 
-> qemu_init() is declared in "sysemu/sysemu.h", include this
-> header to fix.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> ---
->  tests/qtest/fuzz/fuzz.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/tests/qtest/fuzz/fuzz.c b/tests/qtest/fuzz/fuzz.c
-> index 04b70e114bf..5f77c849837 100644
-> --- a/tests/qtest/fuzz/fuzz.c
-> +++ b/tests/qtest/fuzz/fuzz.c
-> @@ -16,6 +16,7 @@
->  #include <wordexp.h>
->  
->  #include "qemu/datadir.h"
-> +#include "sysemu/sysemu.h"
->  #include "sysemu/qtest.h"
->  #include "sysemu/runstate.h"
->  #include "qemu/main-loop.h"
-> 
-
 
