@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1EE83902BE
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 15:48:51 +0200 (CEST)
-Received: from localhost ([::1]:60426 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08FA83902C4
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 15:51:05 +0200 (CEST)
+Received: from localhost ([::1]:39866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llXQQ-0004Nd-Tx
-	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 09:48:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37104)
+	id 1llXSa-00012f-2O
+	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 09:51:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37264)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1llXNC-0000lB-Sd
- for qemu-devel@nongnu.org; Tue, 25 May 2021 09:45:31 -0400
-Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:56285)
+ id 1llXO8-00027a-QJ
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 09:46:32 -0400
+Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e]:37854)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1llXNB-0006AW-7S
- for qemu-devel@nongnu.org; Tue, 25 May 2021 09:45:30 -0400
-Received: by mail-pj1-x1032.google.com with SMTP id kr9so8794512pjb.5
- for <qemu-devel@nongnu.org>; Tue, 25 May 2021 06:45:28 -0700 (PDT)
+ id 1llXO6-0006m5-Oe
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 09:46:28 -0400
+Received: by mail-pf1-x42e.google.com with SMTP id q67so6599252pfb.4
+ for <qemu-devel@nongnu.org>; Tue, 25 May 2021 06:46:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=2n+5IqYls0lS97cpa4blde3aawx3WRsneRqPWR+6F8s=;
- b=fe1q4rnlDUKGt9oCKGbCROYL58VmSEAwzQKsVEXD0CyYrTxTqFCRPaRQ6DWagTXqVF
- MSB3IDiVHTRS4gWu1KQP0xmKIFUhp4zo6seap6WbYg+gY32U2hWH5dJLmHOCcF85+mPv
- 803WyYH0O+/ICqh1Yv31HaEQ2CyMtNkMstmIKkXgESXlLnRpptz4TX6+MBq4t0eUqQrH
- UHGgk2ZWQGo330ij8NWq2Dqszth2c/vnzaYZi8HB0/dq/snOdjZTD9UkxZjigZyLVa1b
- L5gRXYKfZ+DaN+RC5W/OCvlAkcit37N7XPO7z+SIdlEBawPc9PdyszlfeRAb0OLyj832
- 9Cnw==
+ bh=T89o+EEhE3YmTlXuFOCypxlk4VBnSrEH5veYgeXqxmg=;
+ b=CHxctTMyT1ksNutf4vJahIRuecQanie4uvbleAjlHaNPObun/rTnAPhd2WSUduXwIO
+ PjcWl4cNHrFwhoo4EV+FSbPZRQd33EdDsViB83a7VfPGEY9zgT610UhninmotpaPRNE0
+ lLdEgjnVLXjj/kPxoJn+p6w4eVsNpBeZTfXyzCjKVyKUcz2+xdDsdH8HxZ0spqhvniYT
+ 5FakRD7HTE9nCuSY1mUAHK/GRf7WjYgXjcwaAftkQumWJE1D43GHX5x3Y4VSxlfw2tqG
+ S3nNLCxy+Dyk9nygY/pQwUfiKznOuy1F4nxP0Tfdp6vhZx1YDdJsDAfdnwVOmoGvBFBV
+ A8YQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=2n+5IqYls0lS97cpa4blde3aawx3WRsneRqPWR+6F8s=;
- b=pRh8yKuA7QPiGxI63vflVkKUOcYQfF0w3FM0zg0QiXdWCCDo16hn3hRmpMw332uDT2
- cU8Odtv4UGR8omfPik2OBzeUjlAGFvelYbKpUXq2OdGOFgjq3yH7uT/sEfVR42iofMKu
- F3LM54NNCC32Go69RDLMl+TZdpAIU9yHNgU2dFyA1COFqe3N3dqUsSzuu47/wAA4LGRw
- ouBxCPlXVFP3WVuaWSgghA/hnsfOixpJN0qyCkIWBetMzkEoIe9jt/5Z4KUPoGT9qIgR
- CI6gywgfRLRRxf+4ZE2D5std8jgmLvbc7L0HEhABfkYehicUzrPYX3fTAaabbOTX9m2m
- OPBw==
-X-Gm-Message-State: AOAM5310sDHLPGgLgTAwiy9DvCXp3FDiP13YDAvAQckdWfNLl7MWenOk
- BhMmQBVOy5pkfFGd27u2+ZMOdg==
-X-Google-Smtp-Source: ABdhPJz4fNL/pNNHO1hpQQPrAOCrbHuMNFC2kkBb0V11YRCc1rBgbZ5RH0UWia73h1Q4P4NdMnneqQ==
-X-Received: by 2002:a17:90a:2aca:: with SMTP id
- i10mr30888937pjg.110.1621950327329; 
- Tue, 25 May 2021 06:45:27 -0700 (PDT)
+ bh=T89o+EEhE3YmTlXuFOCypxlk4VBnSrEH5veYgeXqxmg=;
+ b=XD84t5KTwqbeWVh446Ocvi1ic0ddA/mI9mULxyXTyLGz/LinDGY67sDtnW+8MAIIz3
+ WUSuHzHdP3hhLJMACZpqVGX1Iz1gzIMJX9neuSSMZqw2omJeIwz/KBor5wPPz21NRZG5
+ XgLradnCw4FMQDd6IbrzmSc+3ZTTcNBizJ3NYmcvPGfjohRZRSJ3BfGRRei7Hl+mobWq
+ T+bmds8LUFD3JQOLY2rf8TI1mawmCWJGq14BxwvE1LXOmarloUuWAMZ1hIvcu+Y2NuNO
+ qa6b+ufHONN1eG3rhRrQZwzKlZjTF7C5BxG8/A8OczrRM6+y0icFwOg5dIg5RNxhBL/+
+ IXKQ==
+X-Gm-Message-State: AOAM530E+5HGYzm1KUrKMHsZJ6bbGFvCSvxKU3Afy49OkYsNkjMImIk7
+ XuKlWUYLadtn5wAA27b3WquP2ypxnvNgEA==
+X-Google-Smtp-Source: ABdhPJxN+o6NcQpvqbi2/jtrbQUU4BacKH3Ouf2x8Hs9m2eyGfrv1lf8g9qtEXZIhQ/gMMQMcZxdPQ==
+X-Received: by 2002:a65:6819:: with SMTP id l25mr18712559pgt.280.1621950385450; 
+ Tue, 25 May 2021 06:46:25 -0700 (PDT)
 Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
  by smtp.gmail.com with ESMTPSA id
- e6sm2369734pjt.1.2021.05.25.06.45.26
+ v3sm6133787pfb.203.2021.05.25.06.46.24
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 25 May 2021 06:45:27 -0700 (PDT)
-Subject: Re: [PATCH 5/9] accel/tcg: Add
- tlb_flush_page_bits_by_mmuidx_all_cpus()
+ Tue, 25 May 2021 06:46:25 -0700 (PDT)
+Subject: Re: [PATCH 6/9] accel/tlb: Add
+ tlb_flush_range_by_mmuidx_all_cpus_synced()
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
 References: <20210509151618.2331764-1-f4bug@amsat.org>
- <20210509151618.2331764-6-f4bug@amsat.org>
+ <20210509151618.2331764-7-f4bug@amsat.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <bdb4d598-3fa7-fb0a-9df9-059e384b917f@linaro.org>
-Date: Tue, 25 May 2021 06:45:25 -0700
+Message-ID: <c78522bd-ac66-6b29-36e2-732cb70371e2@linaro.org>
+Date: Tue, 25 May 2021 06:46:23 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210509151618.2331764-6-f4bug@amsat.org>
+In-Reply-To: <20210509151618.2331764-7-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -103,12 +102,12 @@ On 5/9/21 8:16 AM, Philippe Mathieu-Daudé wrote:
 > [PMD: Split from bigger patch]
 > Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
->   include/exec/exec-all.h | 13 +++++++++++++
->   accel/tcg/cputlb.c      | 24 +++++++++++++++++-------
->   2 files changed, 30 insertions(+), 7 deletions(-)
+>   include/exec/exec-all.h | 12 ++++++++++++
+>   accel/tcg/cputlb.c      | 27 ++++++++++++++++++++-------
+>   2 files changed, 32 insertions(+), 7 deletions(-)
 
-Forward tlb_flush_page_bits_by_mmuidx_all_cpus to
-tlb_flush_range_by_mmuidx_all_cpus passing TARGET_PAGE_SIZE.
+Forward tlb_flush_page_bits_by_mmuidx_all_cpus_synced to
+tlb_flush_range_by_mmuidx_all_cpus_synced passing TARGET_PAGE_SIZE.
 
 
 r~
