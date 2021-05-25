@@ -2,68 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8936538FC5F
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 10:13:03 +0200 (CEST)
-Received: from localhost ([::1]:50318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1326138FC4C
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 10:10:41 +0200 (CEST)
+Received: from localhost ([::1]:45778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llSBS-00021K-Ba
-	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 04:13:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46748)
+	id 1llS99-0007Jo-C3
+	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 04:10:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46814)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lizhijian@fujitsu.com>)
- id 1llS5d-000381-LI
- for qemu-devel@nongnu.org; Tue, 25 May 2021 04:07:01 -0400
-Received: from mail.cn.fujitsu.com ([183.91.158.132]:26035
- helo=heian.cn.fujitsu.com) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lizhijian@fujitsu.com>) id 1llS5W-0003NV-Mo
- for qemu-devel@nongnu.org; Tue, 25 May 2021 04:07:01 -0400
-IronPort-Data: =?us-ascii?q?A9a23=3AV+L836J8F0ZFe4DJFE+R65clxSXFcZb7ZxGrkP8?=
- =?us-ascii?q?bfHDv0GsngzMGzWAZCG3TbKnbZmv1KNgjYIrlpxhX7MCEyoNqS1BcGVNFFSwT8?=
- =?us-ascii?q?ZWfbTi6wuYcBwvLd4ubChsPA/w2MrEsF+hpCC+GzvuRGuK59yAkiPvUHuGU5NP?=
- =?us-ascii?q?sYUideyc1EU/Ntjozw4bVsqYw6TSIK1vlVeHa+qUzC3f5s9JACV/43orYwP9ZU?=
- =?us-ascii?q?FsejxtD1rA2TagjUFYzDBD5BrpHTU26ByOQroW5goeHq+j/ILGRpgs1/j8mDJW?=
- =?us-ascii?q?rj7T6blYXBLXVOGBiiFIPA+773EcE/Xd0j87XN9JFAatTozGIjdBwytREs7S+V?=
- =?us-ascii?q?AUoIrbR3u8aVnG0FgknZf0ZqOKdeiDXXcu7iheun2HX6+xjCVxzMYAG9+JfB2Z?=
- =?us-ascii?q?I+voFbjcXYXiri+23xLi2UPVEnMkvLMD3eogYvxlI1CzYC+orRZnrWajG5dZEm?=
- =?us-ascii?q?jw3g6hz8Vz2DyYCQWM3Kk2ePFsUYRFKYK/SVdyA3hHXGwC0YnrPzUbv31Xu8Q?=
- =?us-ascii?q?=3D=3D?=
-IronPort-HdrOrdr: =?us-ascii?q?A9a23=3AY+HixqkO72UPr6sjbuDPnuCPswLpDfI53DAb?=
- =?us-ascii?q?v31ZSRFFG/FwWfrCoB1p726QtN9xYhEdcL+7V5VoLUm2yXcX2+gs1NWZMjUO0V?=
- =?us-ascii?q?HARL2KhrGP/9SUIVydygcy781dmtBFeb7NMWQ=3D?=
-X-IronPort-AV: E=Sophos;i="5.82,327,1613404800"; d="scan'208";a="108785230"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
- by heian.cn.fujitsu.com with ESMTP; 25 May 2021 16:06:52 +0800
-Received: from G08CNEXMBPEKD04.g08.fujitsu.local (unknown [10.167.33.201])
- by cn.fujitsu.com (Postfix) with ESMTP id 7C5C54C369FD;
- Tue, 25 May 2021 16:06:50 +0800 (CST)
-Received: from G08CNEXCHPEKD08.g08.fujitsu.local (10.167.33.83) by
- G08CNEXMBPEKD04.g08.fujitsu.local (10.167.33.201) with Microsoft SMTP Server
- (TLS) id 15.0.1497.2; Tue, 25 May 2021 16:06:39 +0800
-Received: from FNSTPC.g08.fujitsu.local (10.167.226.45) by
- G08CNEXCHPEKD08.g08.fujitsu.local (10.167.33.209) with Microsoft SMTP Server
- id 15.0.1497.2 via Frontend Transport; Tue, 25 May 2021 16:06:39 +0800
-From: Li Zhijian <lizhijian@cn.fujitsu.com>
-To: <quintela@redhat.com>, <dgilbert@redhat.com>
-Subject: [PATCH v2 4/4] migration/rdma: source: poll cm_event from return path
-Date: Tue, 25 May 2021 16:05:52 +0800
-Message-ID: <20210525080552.28259-4-lizhijian@cn.fujitsu.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210525080552.28259-1-lizhijian@cn.fujitsu.com>
-References: <20210525080552.28259-1-lizhijian@cn.fujitsu.com>
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1llS5p-0003Di-8K
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 04:07:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33202)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1llS5k-0003TP-KC
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 04:07:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1621930025;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=iWd/Tpnq4ZbbDHPBRZAYyFTlVp9IR0rPvfsUGivHDIs=;
+ b=JyjxMQq0ZHFJXrwpTmxM19j/yknm3Dk/voVEdILNOu7+wbXLEhdYYHZZA2DTQQuevkEA97
+ VvW5CdFoRmhxRHJ0RxGmiWDxBApWwfYki/yDNRSidxkKLPttAcysh8ZXSaznB+BQ3zDk8x
+ YcaZlB8KjxRkx/l1Xk9U/uF49Fw72pI=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-289-S7y9sqamMqWhdr8Ffu9kYA-1; Tue, 25 May 2021 04:07:01 -0400
+X-MC-Unique: S7y9sqamMqWhdr8Ffu9kYA-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ u20-20020a0560001614b02901115c8f2d89so14078692wrb.3
+ for <qemu-devel@nongnu.org>; Tue, 25 May 2021 01:07:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:organization
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=iWd/Tpnq4ZbbDHPBRZAYyFTlVp9IR0rPvfsUGivHDIs=;
+ b=r//vvwdHc2vDC6PBH/WXjgRXUBxJsZ+mLe46Kh59IZkmiaeRmOrtbfNfsmHGjHB4zZ
+ +4gg6PSeQZNr8Xyrk2K7uLG7d4439Q/4EbwGDk5kbLLERw/KByAAYgDU2r894mYs2X0g
+ kQP4pKsrYZ5JrGqNIjVcb8Ze3h131SamEL2tuBXoxBR9+EwqYm0rEddcL/qd4oyLmacL
+ vog1xn6NDOMfhUdkqhm08PiCeB423RS94zI2qhc35YmKG/gknm6EefGpt6WdjTlEr4eN
+ ChqgU48UvINf4rEUTpyOrwdkbI/YAqUNr4/l4dU6zQmaUrTG4cBpD6W+l9cJglXwpuMT
+ 3urg==
+X-Gm-Message-State: AOAM533xotkjnWw1h6qgw0j+4Vd+dbG/fGYpvRaOWnnidb91TGMR4mk/
+ V4Xfx0c/eiHQM7LfQjZ+N2K+45yZqs7tzQ3wDNOQDTZw2CJn0OgC/p1vbUa4X8yxxBb4Q2QKPBi
+ IeXMF7faczJy2SvM=
+X-Received: by 2002:a1c:98c6:: with SMTP id a189mr2629994wme.178.1621930020383; 
+ Tue, 25 May 2021 01:07:00 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJym9HNrFOkJ0Zlk+Hy+MpzbRvuyQ4N1Ei5q9EaKMiDEqG5m1HXvhiNzpF5PRCotF5EyYa5fBg==
+X-Received: by 2002:a1c:98c6:: with SMTP id a189mr2629973wme.178.1621930020191; 
+ Tue, 25 May 2021 01:07:00 -0700 (PDT)
+Received: from ?IPv6:2003:d8:2f38:2400:62f4:c5fa:ba13:ac32?
+ (p200300d82f38240062f4c5faba13ac32.dip0.t-ipconnect.de.
+ [2003:d8:2f38:2400:62f4:c5fa:ba13:ac32])
+ by smtp.gmail.com with ESMTPSA id m9sm14966826wrq.78.2021.05.25.01.06.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 25 May 2021 01:06:59 -0700 (PDT)
+Subject: Re: [PATCH for-6.0 v1 0/3] softmmu/physmem: shared anonymous memory
+ fixes
+To: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin"
+ <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+References: <20210406080126.24010-1-david@redhat.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Message-ID: <9f1ece73-2a1d-8454-c1f5-cbbb108604fd@redhat.com>
+Date: Tue, 25 May 2021 10:06:59 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-yoursite-MailScanner-ID: 7C5C54C369FD.ABB6D
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: lizhijian@fujitsu.com
-Received-SPF: neutral client-ip=183.91.158.132;
- envelope-from=lizhijian@fujitsu.com; helo=heian.cn.fujitsu.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
+In-Reply-To: <20210406080126.24010-1-david@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
 X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_NEUTRAL=0.779 autolearn=ham autolearn_force=no
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,106 +104,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Li Zhijian <lizhijian@cn.fujitsu.com>
+Cc: Igor Kotrasinski <i.kotrasinsk@partner.samsung.com>,
+ Richard Henderson <richard.henderson@linaro.org>, Peter Xu <peterx@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-source side always blocks if postcopy is only enabled at source side.
-users are not able to cancel this migration in this case.
+On 06.04.21 10:01, David Hildenbrand wrote:
+> Fixes related to shared anonymous memory, previously sent as part of
+>      https://lore.kernel.org/r/20210319101230.21531-1-david@redhat.com
+> 
 
-Let source side have chance to cancel this migration
+Peter, Eduardo, Michael, David, Paolo,
 
-Signed-off-by: Li Zhijian <lizhijian@cn.fujitsu.com>
----
-V2: utilize poll to check cm event
----
- migration/rdma.c | 42 ++++++++++++++++++++++++++++++++++++++----
- 1 file changed, 38 insertions(+), 4 deletions(-)
+can someone please pick this up?
 
-diff --git a/migration/rdma.c b/migration/rdma.c
-index d829d08d076..f67e21b4f54 100644
---- a/migration/rdma.c
-+++ b/migration/rdma.c
-@@ -36,6 +36,7 @@
- #include <rdma/rdma_cma.h>
- #include "trace.h"
- #include "qom/object.h"
-+#include <poll.h>
- 
- /*
-  * Print and error on both the Monitor and the Log file.
-@@ -2460,7 +2461,36 @@ err_rdma_source_init:
-     return -1;
- }
- 
--static int qemu_rdma_connect(RDMAContext *rdma, Error **errp)
-+static int qemu_get_cm_event_timeout(RDMAContext *rdma,
-+                                     struct rdma_cm_event **cm_event,
-+                                     long msec, Error **errp)
-+{
-+    int ret;
-+    struct pollfd poll_fd = {
-+                                .fd = rdma->channel->fd,
-+                                .events = POLLIN,
-+                                .revents = 0
-+                            };
-+
-+    do {
-+        ret = poll(&poll_fd, 1, msec);
-+    } while (ret < 0 && errno == EINTR);
-+
-+    if (ret == 0) {
-+        ERROR(errp, "poll cm event timeout");
-+        return -1;
-+    } else if (ret < 0) {
-+        ERROR(errp, "failed to pull cm event, errno=%i", errno);
-+        return -1;
-+    } else if (poll_fd.revents & POLLIN) {
-+        return rdma_get_cm_event(rdma->channel, cm_event);
-+    } else {
-+        ERROR(errp, "no POLLIN event, revent=%x", poll_fd.revents);
-+        return -1;
-+    }
-+}
-+
-+static int qemu_rdma_connect(RDMAContext *rdma, Error **errp, bool return_path)
- {
-     RDMACapabilities cap = {
-                                 .version = RDMA_CONTROL_VERSION_CURRENT,
-@@ -2498,7 +2528,11 @@ static int qemu_rdma_connect(RDMAContext *rdma, Error **errp)
-         goto err_rdma_source_connect;
-     }
- 
--    ret = rdma_get_cm_event(rdma->channel, &cm_event);
-+    if (return_path) {
-+        ret = qemu_get_cm_event_timeout(rdma, &cm_event, 5000, errp);
-+    } else {
-+        ret = rdma_get_cm_event(rdma->channel, &cm_event);
-+    }
-     if (ret) {
-         perror("rdma_get_cm_event after rdma_connect");
-         ERROR(errp, "connecting to destination!");
-@@ -4111,7 +4145,7 @@ void rdma_start_outgoing_migration(void *opaque,
-     }
- 
-     trace_rdma_start_outgoing_migration_after_rdma_source_init();
--    ret = qemu_rdma_connect(rdma, errp);
-+    ret = qemu_rdma_connect(rdma, errp, false);
- 
-     if (ret) {
-         goto err;
-@@ -4132,7 +4166,7 @@ void rdma_start_outgoing_migration(void *opaque,
-             goto return_path_err;
-         }
- 
--        ret = qemu_rdma_connect(rdma_return_path, errp);
-+        ret = qemu_rdma_connect(rdma_return_path, errp, true);
- 
-         if (ret) {
-             goto return_path_err;
+Thanks
+
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Cc: Peter Xu <peterx@redhat.com>
+> Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> Cc: Igor Kotrasinski <i.kotrasinsk@partner.samsung.com>
+> Cc: Richard Henderson <richard.henderson@linaro.org>
+> 
+> David Hildenbrand (3):
+>    softmmu/physmem: Mark shared anonymous memory RAM_SHARED
+>    softmmu/physmem: Fix ram_block_discard_range() to handle shared
+>      anonymous memory
+>    softmmu/physmem: Fix qemu_ram_remap() to handle shared anonymous
+>      memory
+> 
+>   softmmu/physmem.c | 23 ++++++++++++++++-------
+>   1 file changed, 16 insertions(+), 7 deletions(-)
+> 
+> 
+> base-commit: ee82c086baaa534d1af26cb8b86e86fb047af918
+> 
+
+
 -- 
-2.30.2
+Thanks,
 
-
+David / dhildenb
 
 
