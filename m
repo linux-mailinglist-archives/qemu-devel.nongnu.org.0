@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF9AE38F7BC
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 03:52:50 +0200 (CEST)
-Received: from localhost ([::1]:33758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 251CF38F7C2
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 03:55:00 +0200 (CEST)
+Received: from localhost ([::1]:42898 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llMFV-0002q4-VJ
-	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 21:52:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55560)
+	id 1llMHb-0000RJ-1q
+	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 21:54:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55324)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1llLYR-0000i6-Ky
- for qemu-devel@nongnu.org; Mon, 24 May 2021 21:08:19 -0400
-Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429]:44637)
+ id 1llLYF-0008Q7-Hu
+ for qemu-devel@nongnu.org; Mon, 24 May 2021 21:08:07 -0400
+Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c]:35618)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1llLXs-00043N-8F
- for qemu-devel@nongnu.org; Mon, 24 May 2021 21:08:19 -0400
-Received: by mail-pf1-x429.google.com with SMTP id 22so21881705pfv.11
- for <qemu-devel@nongnu.org>; Mon, 24 May 2021 18:07:31 -0700 (PDT)
+ id 1llLXr-00043Y-JI
+ for qemu-devel@nongnu.org; Mon, 24 May 2021 21:08:06 -0400
+Received: by mail-pg1-x52c.google.com with SMTP id m190so21413146pga.2
+ for <qemu-devel@nongnu.org>; Mon, 24 May 2021 18:07:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=P+Vp7PCJgIRKIEMBm3mLYg2gfZhdkwYbxMZPEhx6JvM=;
- b=Tcaxt00Zw7wS53mtbRQ3eKOB+GGnnwlxy9QohWinQ0I+u39nqEwxSH83jBKmc/VftX
- ioEntWdp8lPKl3+K4t7bBqs24cycqR6yJjHyAi0TU5y2QfBJTBlEBHaPvKhWsUIEMiyZ
- OxTVPlAVDUOgJZ+EIXdHP44dBLUh/1jOa3bMVx4DxzgQXd0zs+YFtAl432tg3jUXOcPC
- j6j8QLzWd8oVI/t18ja7ngJQWFmKMZnjo6/NKr6L6xGVmBIWzqm82eYp1JW6saObUnv7
- 7HhfUvGJcvsm0Sm3kzy3zhYGhFSOiJUHXVOIoPcSfbwbD2s/tHCl39cnutkPkAdkCJyf
- UG5w==
+ bh=J0U7o9nxMC5lTXFPuzpsH42oZtV01Y61hMVi7cku2iM=;
+ b=NM/c2nD/9H9lClDfTd3VxN949tjLzbs23VKEJbEheD9Nary0ovqdvqMXwru5HkDhzd
+ NtroxpNPyjUZjcdmTdLRf5KRC4Je5JlJz4E9jHsAvl+Vj2y3qGNhufb/JB3igcuNdv1w
+ mqsF1WT0IyRLA6Rt6YZPK2HsxgmKkhugUXjJzimA7eIHOUgrM7SRzqZJYvwqPhlwxBnA
+ ZDAOiXT+iJ8WkA9uoAU7dcTiizmRwO/ksk5IESW1fE82WT/FVHeY/hDcgn+lo/KSmT7w
+ A0jfW1tMViXt1phgBIomVzmlZQ8ANU6vkiTgtia3EokytYPPqRxSt9XOttVTnZQwBhqg
+ qC6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=P+Vp7PCJgIRKIEMBm3mLYg2gfZhdkwYbxMZPEhx6JvM=;
- b=Do16/4tsvw8z7Yw5zaFfOJTEtFwFVCRV0rTZ+sHgW1fz2VpLy8ewnBQD1fvJmNzzj9
- +s1RT6ZpdqWjuyNhUke8cDA/+PUVa+LqOQDFyDQoWIi1aGTJZf7jGd2oK2peTAGPYvg8
- Q7xG8ziiniHGmIRaP14AxBQPTCRsJdXt2QHJBgCAUJt47IpGXjRgeCMnkbwACSPxkoS8
- 4o3sr5nZH9tT3DBmFZg939MbNcp76mh9GvRimNVYV3MaQODxT1RITNEoubDO1kOlP8KJ
- WgR5s+/t87oXOIUqfqtzdR3QIBXC4pbSPYzOSBOPSPnZ259i+M61dhn0U+a5jW3Jd9fo
- 0qtA==
-X-Gm-Message-State: AOAM531Cuz5vzjVVdmpiB50QpU0+so0+W+yNylyjLkzx4I7+zNZFajOe
- AGD8F7L+1vRDp6tCHJ02HWwysqhJETFsAA==
-X-Google-Smtp-Source: ABdhPJxz119bKox5wOLULD1OR8Ha/aVigbi6JNasfeoeif4zbKwBfV472Mz9Ra2ML+bYC/OsKpSEhQ==
-X-Received: by 2002:a63:d14b:: with SMTP id c11mr15938821pgj.162.1621904851062; 
+ bh=J0U7o9nxMC5lTXFPuzpsH42oZtV01Y61hMVi7cku2iM=;
+ b=m9TYXjH5a8+5rmBEkoR8OttPedq4cfeLZO+NY7NWNkyjoZ3vr2B7nteJkQL5Llh5JC
+ eujZv2Qzhg0FDS91DuGRjRzb2hije7R430/8ZwpUUFeBkiW0NmHixhN64BLcN6f4UOFQ
+ pkxLxPrDN7I7rTXKhGBuvGcaYu017TBkO6MeiUREWqLF1JHPcCdvWaaYLil7+UUSNQ5O
+ BAnoPBDZ1/xFOplljGkZ3B9CL00REsDUMf5GAWupA/O+BY09z5Ff2flvUr47k5+/Vdv2
+ slT85newzE8TJRS9CSvgJ1MkNJ9yfaYokcxJ97w7OlKG0bxvCOkVWctldvAf5NDZbZgx
+ jsBw==
+X-Gm-Message-State: AOAM533qawApQrgXHg3uSvKhlLiLuZHNH23vv+VMbYsKMAY0nQG/VwWe
+ SLZ8X0bdhkd58HsIeJZ4/p9qFbodxuwW4w==
+X-Google-Smtp-Source: ABdhPJxFbfyOVM4E9D/SQbmpHiFaBnzrCdh9iJfvdiXs+/SsnlhQVR9/4Vx2D+J1yJETdBBHyVkutA==
+X-Received: by 2002:a62:ea03:0:b029:2e7:8445:243c with SMTP id
+ t3-20020a62ea030000b02902e78445243cmr13102091pfh.54.1621904851700; 
  Mon, 24 May 2021 18:07:31 -0700 (PDT)
 Received: from localhost.localdomain (174-21-70-228.tukw.qwest.net.
  [174.21.70.228])
- by smtp.gmail.com with ESMTPSA id b16sm11748176pju.35.2021.05.24.18.07.30
+ by smtp.gmail.com with ESMTPSA id b16sm11748176pju.35.2021.05.24.18.07.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 May 2021 18:07:30 -0700 (PDT)
+ Mon, 24 May 2021 18:07:31 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 51/92] target/arm: Split out formats for 2 vectors + 1 index
-Date: Mon, 24 May 2021 18:03:17 -0700
-Message-Id: <20210525010358.152808-52-richard.henderson@linaro.org>
+Subject: [PATCH v7 52/92] target/arm: Split out formats for 3 vectors + 1 index
+Date: Mon, 24 May 2021 18:03:18 -0700
+Message-Id: <20210525010358.152808-53-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210525010358.152808-1-richard.henderson@linaro.org>
 References: <20210525010358.152808-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x429.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,53 +88,151 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently only used by FMUL, but will shortly be used more.
+Used by FMLA and DOT, but will shortly be used more.
+Split FMLA from FMLS to avoid an extra sub field;
+similarly for SDOT from UDOT.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/sve.decode | 14 ++++++++++----
- 1 file changed, 10 insertions(+), 4 deletions(-)
+ target/arm/sve.decode      | 29 +++++++++++++++++++----------
+ target/arm/translate-sve.c | 38 ++++++++++++++++++++++++++++----------
+ 2 files changed, 47 insertions(+), 20 deletions(-)
 
 diff --git a/target/arm/sve.decode b/target/arm/sve.decode
-index 04ef38f148..a504b55dad 100644
+index a504b55dad..74ac72bdbd 100644
 --- a/target/arm/sve.decode
 +++ b/target/arm/sve.decode
-@@ -67,6 +67,7 @@
- &rri_esz        rd rn imm esz
- &rrri_esz       rd rn rm imm esz
- &rrr_esz        rd rn rm esz
-+&rrx_esz        rd rn rm index esz
- &rpr_esz        rd pg rn esz
- &rpr_s          rd pg rn s
+@@ -73,6 +73,7 @@
  &rprr_s         rd pg rn rm s
-@@ -245,6 +246,12 @@
- @rpri_scatter_store ....... msz:2 ..    imm:5 ... pg:3 rn:5 rd:5 \
-                     &rpri_scatter_store
+ &rprr_esz       rd pg rn rm esz
+ &rrrr_esz       rd ra rn rm esz
++&rrxr_esz       rd rn rm ra index esz
+ &rprrr_esz      rd pg rn rm ra esz
+ &rpri_esz       rd pg rn imm esz
+ &ptrue          rd esz pat s
+@@ -252,6 +253,14 @@
+ @rrx_2          ........ .. . index:2 rm:3 ...... rn:5 rd:5  &rrx_esz
+ @rrx_1          ........ .. . index:1 rm:4 ...... rn:5 rd:5  &rrx_esz
  
-+# Two registers and a scalar by N-bit index
-+@rrx_3          ........ .. . ..      rm:3 ...... rn:5 rd:5 \
-+                &rrx_esz index=%index3_22_19
-+@rrx_2          ........ .. . index:2 rm:3 ...... rn:5 rd:5  &rrx_esz
-+@rrx_1          ........ .. . index:1 rm:4 ...... rn:5 rd:5  &rrx_esz
++# Three registers and a scalar by N-bit index
++@rrxr_3         ........ .. . ..      rm:3 ...... rn:5 rd:5 \
++                &rrxr_esz ra=%reg_movprfx index=%index3_22_19
++@rrxr_2         ........ .. . index:2 rm:3 ...... rn:5 rd:5 \
++                &rrxr_esz ra=%reg_movprfx
++@rrxr_1         ........ .. . index:1 rm:4 ...... rn:5 rd:5 \
++                &rrxr_esz ra=%reg_movprfx
 +
  ###########################################################################
  # Instruction patterns.  Grouped according to the SVE encodingindex.xhtml.
  
-@@ -792,10 +799,9 @@ FMLA_zzxz       01100100 111 index:1 rm:4 00000 sub:1 rn:5 rd:5 \
+@@ -767,10 +776,10 @@ DOT_zzzz        01000100 1 sz:1 0 rm:5 00000 u:1 rn:5 rd:5 \
+                 ra=%reg_movprfx
+ 
+ # SVE integer dot product (indexed)
+-DOT_zzxw        01000100 101 index:2 rm:3 00000 u:1 rn:5 rd:5 \
+-                sz=0 ra=%reg_movprfx
+-DOT_zzxw        01000100 111 index:1 rm:4 00000 u:1 rn:5 rd:5 \
+-                sz=1 ra=%reg_movprfx
++SDOT_zzxw_s     01000100 10 1 ..... 000000 ..... .....   @rrxr_2 esz=2
++SDOT_zzxw_d     01000100 11 1 ..... 000000 ..... .....   @rrxr_1 esz=3
++UDOT_zzxw_s     01000100 10 1 ..... 000001 ..... .....   @rrxr_2 esz=2
++UDOT_zzxw_d     01000100 11 1 ..... 000001 ..... .....   @rrxr_1 esz=3
+ 
+ # SVE floating-point complex add (predicated)
+ FCADD           01100100 esz:2 00000 rot:1 100 pg:3 rm:5 rd:5 \
+@@ -789,12 +798,12 @@ FCMLA_zzxz      01100100 11 1 index:1 rm:4 0001 rot:2 rn:5 rd:5 \
+ ### SVE FP Multiply-Add Indexed Group
+ 
+ # SVE floating-point multiply-add (indexed)
+-FMLA_zzxz       01100100 0.1 .. rm:3 00000 sub:1 rn:5 rd:5 \
+-                ra=%reg_movprfx index=%index3_22_19 esz=1
+-FMLA_zzxz       01100100 101 index:2 rm:3 00000 sub:1 rn:5 rd:5 \
+-                ra=%reg_movprfx esz=2
+-FMLA_zzxz       01100100 111 index:1 rm:4 00000 sub:1 rn:5 rd:5 \
+-                ra=%reg_movprfx esz=3
++FMLA_zzxz       01100100 0. 1 ..... 000000 ..... .....  @rrxr_3 esz=1
++FMLA_zzxz       01100100 10 1 ..... 000000 ..... .....  @rrxr_2 esz=2
++FMLA_zzxz       01100100 11 1 ..... 000000 ..... .....  @rrxr_1 esz=3
++FMLS_zzxz       01100100 0. 1 ..... 000001 ..... .....  @rrxr_3 esz=1
++FMLS_zzxz       01100100 10 1 ..... 000001 ..... .....  @rrxr_2 esz=2
++FMLS_zzxz       01100100 11 1 ..... 000001 ..... .....  @rrxr_1 esz=3
+ 
  ### SVE FP Multiply Indexed Group
  
- # SVE floating-point multiply (indexed)
--FMUL_zzx        01100100 0.1 .. rm:3 001000 rn:5 rd:5 \
--                index=%index3_22_19 esz=1
--FMUL_zzx        01100100 101 index:2 rm:3 001000 rn:5 rd:5      esz=2
--FMUL_zzx        01100100 111 index:1 rm:4 001000 rn:5 rd:5      esz=3
-+FMUL_zzx        01100100 0. 1 ..... 001000 ..... .....   @rrx_3 esz=1
-+FMUL_zzx        01100100 10 1 ..... 001000 ..... .....   @rrx_2 esz=2
-+FMUL_zzx        01100100 11 1 ..... 001000 ..... .....   @rrx_1 esz=3
+diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
+index 4f4b383e52..ae443f3b20 100644
+--- a/target/arm/translate-sve.c
++++ b/target/arm/translate-sve.c
+@@ -3813,26 +3813,34 @@ static bool trans_DOT_zzzz(DisasContext *s, arg_DOT_zzzz *a)
+     return true;
+ }
  
- ### SVE FP Fast Reduction Group
+-static bool trans_DOT_zzxw(DisasContext *s, arg_DOT_zzxw *a)
++static bool do_zzxz_ool(DisasContext *s, arg_rrxr_esz *a,
++                        gen_helper_gvec_4 *fn)
+ {
+-    static gen_helper_gvec_4 * const fns[2][2] = {
+-        { gen_helper_gvec_sdot_idx_b, gen_helper_gvec_sdot_idx_h },
+-        { gen_helper_gvec_udot_idx_b, gen_helper_gvec_udot_idx_h }
+-    };
+-
++    if (fn == NULL) {
++        return false;
++    }
+     if (sve_access_check(s)) {
+-        gen_gvec_ool_zzzz(s, fns[a->u][a->sz], a->rd, a->rn, a->rm,
+-                          a->ra, a->index);
++        gen_gvec_ool_zzzz(s, fn, a->rd, a->rn, a->rm, a->ra, a->index);
+     }
+     return true;
+ }
  
++#define DO_RRXR(NAME, FUNC) \
++    static bool NAME(DisasContext *s, arg_rrxr_esz *a)  \
++    { return do_zzxz_ool(s, a, FUNC); }
++
++DO_RRXR(trans_SDOT_zzxw_s, gen_helper_gvec_sdot_idx_b)
++DO_RRXR(trans_SDOT_zzxw_d, gen_helper_gvec_sdot_idx_h)
++DO_RRXR(trans_UDOT_zzxw_s, gen_helper_gvec_udot_idx_b)
++DO_RRXR(trans_UDOT_zzxw_d, gen_helper_gvec_udot_idx_h)
++
++#undef DO_RRXR
+ 
+ /*
+  *** SVE Floating Point Multiply-Add Indexed Group
+  */
+ 
+-static bool trans_FMLA_zzxz(DisasContext *s, arg_FMLA_zzxz *a)
++static bool do_FMLA_zzxz(DisasContext *s, arg_rrxr_esz *a, bool sub)
+ {
+     static gen_helper_gvec_4_ptr * const fns[3] = {
+         gen_helper_gvec_fmla_idx_h,
+@@ -3847,13 +3855,23 @@ static bool trans_FMLA_zzxz(DisasContext *s, arg_FMLA_zzxz *a)
+                            vec_full_reg_offset(s, a->rn),
+                            vec_full_reg_offset(s, a->rm),
+                            vec_full_reg_offset(s, a->ra),
+-                           status, vsz, vsz, (a->index << 1) | a->sub,
++                           status, vsz, vsz, (a->index << 1) | sub,
+                            fns[a->esz - 1]);
+         tcg_temp_free_ptr(status);
+     }
+     return true;
+ }
+ 
++static bool trans_FMLA_zzxz(DisasContext *s, arg_FMLA_zzxz *a)
++{
++    return do_FMLA_zzxz(s, a, false);
++}
++
++static bool trans_FMLS_zzxz(DisasContext *s, arg_FMLA_zzxz *a)
++{
++    return do_FMLA_zzxz(s, a, true);
++}
++
+ /*
+  *** SVE Floating Point Multiply Indexed Group
+  */
 -- 
 2.25.1
 
