@@ -2,41 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8096C38F912
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 05:55:56 +0200 (CEST)
-Received: from localhost ([::1]:58836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C634238F904
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 05:52:13 +0200 (CEST)
+Received: from localhost ([::1]:45128 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llOAc-0002xZ-Th
-	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 23:55:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57670)
+	id 1llO72-0002Kx-SR
+	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 23:52:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57642)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wangxingang5@huawei.com>)
- id 1llO5N-0006Ry-CF; Mon, 24 May 2021 23:50:29 -0400
-Received: from szxga07-in.huawei.com ([45.249.212.35]:3635)
+ id 1llO5L-0006Of-O0; Mon, 24 May 2021 23:50:27 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:3433)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wangxingang5@huawei.com>)
- id 1llO5H-0001kk-QM; Mon, 24 May 2021 23:50:29 -0400
-Received: from dggems703-chm.china.huawei.com (unknown [172.30.72.58])
- by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4Fq0QL73dLzBwKr;
- Tue, 25 May 2021 11:47:22 +0800 (CST)
+ id 1llO5H-0001lO-Ht; Mon, 24 May 2021 23:50:27 -0400
+Received: from dggems705-chm.china.huawei.com (unknown [172.30.72.60])
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4Fq0PV6RKqzP0HX;
+ Tue, 25 May 2021 11:46:38 +0800 (CST)
 Received: from dggpemm500009.china.huawei.com (7.185.36.225) by
- dggems703-chm.china.huawei.com (10.3.19.180) with Microsoft SMTP Server
+ dggems705-chm.china.huawei.com (10.3.19.182) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
  15.1.2176.2; Tue, 25 May 2021 11:50:14 +0800
 Received: from huawei.com (10.174.185.226) by dggpemm500009.china.huawei.com
  (7.185.36.225) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.2; Tue, 25 May
- 2021 11:50:13 +0800
+ 2021 11:50:14 +0800
 From: Wang Xingang <wangxingang5@huawei.com>
 To: <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>, <eric.auger@redhat.com>,
  <shannon.zhaosl@gmail.com>, <imammedo@redhat.com>, <mst@redhat.com>,
  <marcel.apfelbaum@gmail.com>, <peter.maydell@linaro.org>,
  <ehabkost@redhat.com>, <richard.henderson@linaro.org>, <pbonzini@redhat.com>
-Subject: [PATCH v4 4/8] hw/i386: Add a pc machine option to bypass iommu for
- primary bus
-Date: Tue, 25 May 2021 03:50:01 +0000
-Message-ID: <1621914605-14724-5-git-send-email-wangxingang5@huawei.com>
+Subject: [PATCH v4 5/8] hw/pci: Add pci_bus_range to get bus number range
+Date: Tue, 25 May 2021 03:50:02 +0000
+Message-ID: <1621914605-14724-6-git-send-email-wangxingang5@huawei.com>
 X-Mailer: git-send-email 2.6.4.windows.1
 In-Reply-To: <1621914605-14724-1-git-send-email-wangxingang5@huawei.com>
 References: <1621914605-14724-1-git-send-email-wangxingang5@huawei.com>
@@ -46,13 +45,13 @@ X-Originating-IP: [10.174.185.226]
 X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
  dggpemm500009.china.huawei.com (7.185.36.225)
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.35;
- envelope-from=wangxingang5@huawei.com; helo=szxga07-in.huawei.com
+Received-SPF: pass client-ip=45.249.212.191;
+ envelope-from=wangxingang5@huawei.com; helo=szxga05-in.huawei.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
 X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -72,85 +71,52 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Xingang Wang <wangxingang5@huawei.com>
 
-Add a bypass_iommu pc machine option to bypass iommu translation
-for the primary root bus.
-The option can be used as manner:
-qemu-system-x86_64 -machine q35,bypass_iommu=true
+This helps to get the bus number range of a pci bridge hierarchy.
 
 Signed-off-by: Xingang Wang <wangxingang5@huawei.com>
 ---
- hw/i386/pc.c         | 18 ++++++++++++++++++
- hw/pci-host/q35.c    |  1 +
- include/hw/i386/pc.h |  1 +
- 3 files changed, 20 insertions(+)
+ hw/pci/pci.c         | 15 +++++++++++++++
+ include/hw/pci/pci.h |  1 +
+ 2 files changed, 16 insertions(+)
 
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 8cfaf216e7..865a6e4c7a 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -1530,6 +1530,20 @@ static void pc_machine_set_hpet(Object *obj, bool value, Error **errp)
-     pcms->hpet_enabled = value;
+diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+index 27d588e268..7f18ea5ef5 100644
+--- a/hw/pci/pci.c
++++ b/hw/pci/pci.c
+@@ -537,6 +537,21 @@ int pci_bus_num(PCIBus *s)
+     return PCI_BUS_GET_CLASS(s)->bus_num(s);
  }
  
-+static bool pc_machine_get_bypass_iommu(Object *obj, Error **errp)
++void pci_bus_range(PCIBus *bus, int *min_bus, int *max_bus)
 +{
-+    PCMachineState *pcms = PC_MACHINE(obj);
++    int i;
++    *min_bus = *max_bus = pci_bus_num(bus);
 +
-+    return pcms->bypass_iommu;
++    for (i = 0; i < ARRAY_SIZE(bus->devices); ++i) {
++        PCIDevice *dev = bus->devices[i];
++
++        if (dev && PCI_DEVICE_GET_CLASS(dev)->is_bridge) {
++            *min_bus = MIN(*min_bus, dev->config[PCI_SECONDARY_BUS]);
++            *max_bus = MAX(*max_bus, dev->config[PCI_SUBORDINATE_BUS]);
++        }
++    }
 +}
 +
-+static void pc_machine_set_bypass_iommu(Object *obj, bool value, Error **errp)
-+{
-+    PCMachineState *pcms = PC_MACHINE(obj);
-+
-+    pcms->bypass_iommu = value;
-+}
-+
- static void pc_machine_get_max_ram_below_4g(Object *obj, Visitor *v,
-                                             const char *name, void *opaque,
-                                             Error **errp)
-@@ -1629,6 +1643,7 @@ static void pc_machine_initfn(Object *obj)
- #ifdef CONFIG_HPET
-     pcms->hpet_enabled = true;
- #endif
-+    pcms->bypass_iommu = false;
- 
-     pc_system_flash_create(pcms);
-     pcms->pcspk = isa_new(TYPE_PC_SPEAKER);
-@@ -1753,6 +1768,9 @@ static void pc_machine_class_init(ObjectClass *oc, void *data)
-     object_class_property_add_bool(oc, "hpet",
-         pc_machine_get_hpet, pc_machine_set_hpet);
- 
-+    object_class_property_add_bool(oc, "bypass_iommu",
-+        pc_machine_get_bypass_iommu, pc_machine_set_bypass_iommu);
-+
-     object_class_property_add(oc, PC_MACHINE_MAX_FW_SIZE, "size",
-         pc_machine_get_max_fw_size, pc_machine_set_max_fw_size,
-         NULL, NULL);
-diff --git a/hw/pci-host/q35.c b/hw/pci-host/q35.c
-index 2eb729dff5..ade05a5539 100644
---- a/hw/pci-host/q35.c
-+++ b/hw/pci-host/q35.c
-@@ -64,6 +64,7 @@ static void q35_host_realize(DeviceState *dev, Error **errp)
-                                 s->mch.address_space_io,
-                                 0, TYPE_PCIE_BUS);
-     PC_MACHINE(qdev_get_machine())->bus = pci->bus;
-+    pci->bypass_iommu = PC_MACHINE(qdev_get_machine())->bypass_iommu;
-     qdev_realize(DEVICE(&s->mch), BUS(pci->bus), &error_fatal);
+ int pci_bus_numa_node(PCIBus *bus)
+ {
+     return PCI_BUS_GET_CLASS(bus)->numa_node(bus);
+diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
+index f4d51b672b..d0f4266e37 100644
+--- a/include/hw/pci/pci.h
++++ b/include/hw/pci/pci.h
+@@ -450,6 +450,7 @@ static inline PCIBus *pci_get_bus(const PCIDevice *dev)
+     return PCI_BUS(qdev_get_parent_bus(DEVICE(dev)));
  }
- 
-diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-index 1522a3359a..10a464744a 100644
---- a/include/hw/i386/pc.h
-+++ b/include/hw/i386/pc.h
-@@ -45,6 +45,7 @@ typedef struct PCMachineState {
-     bool sata_enabled;
-     bool pit_enabled;
-     bool hpet_enabled;
-+    bool bypass_iommu;
-     uint64_t max_fw_size;
- 
-     /* NUMA information: */
+ int pci_bus_num(PCIBus *s);
++void pci_bus_range(PCIBus *bus, int *min_bus, int *max_bus);
+ static inline int pci_dev_bus_num(const PCIDevice *dev)
+ {
+     return pci_bus_num(pci_get_bus(dev));
 -- 
 2.19.1
 
