@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D32F390AB2
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 22:48:46 +0200 (CEST)
-Received: from localhost ([::1]:49222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6F2F390AA2
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 22:45:15 +0200 (CEST)
+Received: from localhost ([::1]:45310 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lldyn-00046m-AW
-	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 16:48:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51722)
+	id 1lldvO-00018X-Ne
+	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 16:45:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52714)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lldqU-0004oC-Cr
- for qemu-devel@nongnu.org; Tue, 25 May 2021 16:40:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40540)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lldtR-0008R8-Ki
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 16:43:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22870)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lldqO-0005Zm-CX
- for qemu-devel@nongnu.org; Tue, 25 May 2021 16:40:10 -0400
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lldtM-0007SH-Vw
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 16:43:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621975203;
+ s=mimecast20190719; t=1621975386;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=MAiyX1by7BcQwW/+wcQWTbsFMK5SohQKEwgJ6J2Wibc=;
- b=DxMRPuCsIJ00Ehx+beZ7K2DM8kKcxiC8UFP3MJbU8a2ZQa43p6HGRAfOB22J9a5uLwEicG
- yh+xjgam6CggcxSC1LH39BFLUHPavw58R8hRASEwG/bQBQ7aVAPLRzNey6O48LoHI5c2b6
- RzTSsairtSXsLC6f8cOZWPO/yfNLTtc=
+ bh=1nEw7/tclR5oSbZ3HEr09puE0oGsz6+Ych0UuhY+aJ0=;
+ b=TwhhkRWiCP21I1aRDYyGdnE/sYweDY9ryPxg4J1gsNrfBJCRtX/YOYJK1hyXiUjAsnvwpZ
+ alCrm/xy00b4OIIIa1zRC0EtI1OB1akSLnuQDdNOvNKJzSQG7Q5fVTE/j2RWW2b4mou5B/
+ H3uaFnYNVrVPF4DBV/615hZ/JHUtkRs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-454-qCqsbADvNjS8xsWX-o5yXw-1; Tue, 25 May 2021 16:39:59 -0400
-X-MC-Unique: qCqsbADvNjS8xsWX-o5yXw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-252-ap23LxZRNai2HDZzKeI9yw-1; Tue, 25 May 2021 16:43:02 -0400
+X-MC-Unique: ap23LxZRNai2HDZzKeI9yw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0E031C7440;
- Tue, 25 May 2021 20:39:58 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1EC871922960;
+ Tue, 25 May 2021 20:43:01 +0000 (UTC)
 Received: from localhost (ovpn-114-2.phx2.redhat.com [10.3.114.2])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B2AA560CEC;
- Tue, 25 May 2021 20:39:50 +0000 (UTC)
-Date: Tue, 25 May 2021 16:39:46 -0400
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 174F51007606;
+ Tue, 25 May 2021 20:42:54 +0000 (UTC)
+Date: Tue, 25 May 2021 16:42:37 -0400
 From: Cleber Rosa <crosa@redhat.com>
 To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH v6 22/25] python: add Makefile for some common tasks
-Message-ID: <20210525203946.GF1567491@amachine.somewhere>
+Subject: Re: [PATCH v6 23/25] python: add .gitignore
+Message-ID: <20210525204237.GG1567491@amachine.somewhere>
 References: <20210512231241.2816122-1-jsnow@redhat.com>
- <20210512231241.2816122-23-jsnow@redhat.com>
- <YK1O0JcbsnN/MD6F@localhost.localdomain>
- <d7c34ee2-17d4-af0d-e8cd-851bf8e1e297@redhat.com>
+ <20210512231241.2816122-24-jsnow@redhat.com>
+ <YK1RqhFrWt6yHuRt@localhost.localdomain>
+ <0d0053ab-4410-e905-7261-332f21fd8852@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <d7c34ee2-17d4-af0d-e8cd-851bf8e1e297@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <0d0053ab-4410-e905-7261-332f21fd8852@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="SxgehGEc6vB0cZwN"
+ protocol="application/pgp-signature"; boundary="yZnyZsPjQYjG7xG7"
 Content-Disposition: inline
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=crosa@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -92,163 +92,87 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---SxgehGEc6vB0cZwN
+--yZnyZsPjQYjG7xG7
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, May 25, 2021 at 03:45:26PM -0400, John Snow wrote:
-> On 5/25/21 3:24 PM, Cleber Rosa wrote:
-> > On Wed, May 12, 2021 at 07:12:38PM -0400, John Snow wrote:
-> > > Add "make venv" to create the pipenv-managed virtual environment that
-> > > contains our explicitly pinned dependencies.
+On Tue, May 25, 2021 at 04:10:55PM -0400, John Snow wrote:
+> On 5/25/21 3:36 PM, Cleber Rosa wrote:
+> > On Wed, May 12, 2021 at 07:12:39PM -0400, John Snow wrote:
+> > > Ignore *Python* build and package output (build, dist, qemu.egg-info)=
+;
+> > > these files are not created as part of a QEMU build.
 > > >=20
-> > > Add "make check" to run the python linters [in the host execution
-> > > environment].
+> > > Ignore miscellaneous cached python confetti (__pycache__, *.pyc,
+> > > .mypy_cache).
 > > >=20
-> > > Add "make venv-check" which combines the above two: create/update the
-> > > venv, then run the linters in that explicitly managed environment.
-> > >=20
-> > > Add "make develop" which canonizes the runes needed to get both the
-> > > linting pre-requisites (the "[devel]" part), and the editable
-> > > live-install (the "-e" part) of these python libraries.
-> > >=20
-> > > make clean: delete miscellaneous python packaging output possibly
-> > > created by pipenv, pip, or other python packaging utilities
-> > >=20
-> > > make distclean: delete the above, the .venv, and the editable "qemu"
-> > > package forwarder (qemu.egg-info) if there is one.
+> > > Ignore .idea (pycharm) .vscode, and .venv (pipenv et al).
 > > >=20
 > > > Signed-off-by: John Snow <jsnow@redhat.com>
 > > > ---
-> > >   python/README.rst |  3 +++
-> > >   python/Makefile   | 42 ++++++++++++++++++++++++++++++++++++++++++
-> > >   2 files changed, 45 insertions(+)
-> > >   create mode 100644 python/Makefile
+> > >   python/.gitignore | 19 +++++++++++++++++++
+> > >   1 file changed, 19 insertions(+)
+> > >   create mode 100644 python/.gitignore
 > > >=20
-> > > diff --git a/python/README.rst b/python/README.rst
-> > > index e107bd12a69..3e09d20c23c 100644
-> > > --- a/python/README.rst
-> > > +++ b/python/README.rst
-> > > @@ -35,6 +35,9 @@ Files in this directory
-> > >   - ``qemu/`` Python package source directory.
-> > >   - ``tests/`` Python package tests directory.
-> > >   - ``avocado.cfg`` Configuration for the Avocado test-runner.
-> > > +  Used by ``make check`` et al.
-> > > +- ``Makefile`` provides some common testing/installation invocations=
-.
-> > > +  Try ``make help`` to see available targets.
-> > >   - ``MANIFEST.in`` is read by python setuptools, it specifies additi=
-onal files
-> > >     that should be included by a source distribution.
-> > >   - ``PACKAGE.rst`` is used as the README file that is visible on PyP=
-I.org.
-> > > diff --git a/python/Makefile b/python/Makefile
+> > > diff --git a/python/.gitignore b/python/.gitignore
 > > > new file mode 100644
-> > > index 00000000000..184f59e5634
+> > > index 00000000000..e27c99e009c
 > > > --- /dev/null
-> > > +++ b/python/Makefile
-> > > @@ -0,0 +1,42 @@
-> > > +.PHONY: help venv venv-check check clean distclean develop
-> > > +
-> > > +help:
-> > > +=09@echo "python packaging help:"
-> > > +=09@echo ""
-> > > +=09@echo "make venv:       Create pipenv's virtual environment."
-> > > +=09@echo "    NOTE: Requires Python 3.6 and pipenv."
-> > > +=09@echo "          Will download packages from PyPI."
-> > > +=09@echo "    Hint: (On Fedora): 'sudo dnf install python36 pipenv'"
-> > > +=09@echo ""
-> > > +=09@echo "make venv-check: run linters using pipenv's virtual enviro=
-nment."
-> > > +=09@echo "    Hint: If you don't know which test to run, run this on=
-e!"
-> > > +=09@echo ""
-> > > +=09@echo "make develop:    Install deps for 'make check', and"
-> > > +=09@echo "                 the qemu libs in editable/development mod=
-e."
-> > > +=09@echo ""
-> > > +=09@echo "make check:      run linters using the current environment=
-."
-> > > +=09@echo ""
+> > > +++ b/python/.gitignore
+> > > @@ -0,0 +1,19 @@
+> > > +# python bytecode cache
+> > > +*.pyc
 > >=20
-> > Let's observe how this will be used (or misused).  I fear most people
-> > will jump into `make check`, even though you have described `make
-> > venv-check` as the primary choice.
+> > This is a duplicate from the parent .gitignore, so I would avoid it.
 > >=20
-> > We have a precedent with `make check-acceptance` that will create a
-> > venv and use it by default, so we can consider that as a fallback
-> > strategy based on user feedback.
+> > > +__pycache__/
+> >=20
+> > And this one is interesting because, the only thing that *should* be
+> > in __pycache__ dirs is .pyc files (covered by the parent .gitignore
+> > file).
+> >=20
+> > So, I get the same behavior without these two entries here, so I would
+> > skip them.  Let me know if you have any reason for explicitly
+> > including them.
+> >=20
+> > - Cleber.
 > >=20
 >=20
-> Right, I see. Though, I did intentionally want to make it clear which of
-> these invocations created an environment and which did not.
+> Hm, not really ... Just completeness, I suppose, since this directory is
+> becoming increasingly separate from the rest of the tree.
 >=20
-> Unlike the acceptance tests, it might make sense to run these tests both
-> inside and outside of that venv, so I opted to make the default "make"
-> target "make help".
+> It isn't crucial, it just seemed like a weird omission if they weren't
+> listed here. *shrug*
 >=20
-> The Gitlab CI will run the right one, after all -- and I do still expect =
-the
-> regular 'make check' to pass, so I am not as sure that it's a crucial
-> failure if someone runs the "wrong one".
->=20
-> > > +=09@echo "make clean:      remove build output."
-> > > +=09@echo ""
-> > > +=09@echo "make distclean:  remove venv files, qemu package forwarder=
-, and"
-> > > +=09@echo "                 everything from 'make clean'."
-> > > +
-> > > +venv: .venv
-> > > +.venv: Pipfile.lock
-> > > +=09@PIPENV_VENV_IN_PROJECT=3D1 pipenv sync --dev --keep-outdated
-> > > +=09@touch .venv
-> > > +
-> > > +venv-check: venv
-> > > +=09@pipenv run make check
-> > > +
-> > > +develop:
-> > > +=09pip3 install -e .[devel]
-> > > +
-> > > +check:
-> > > +=09@avocado --config avocado.cfg run tests/
-> > > +
-> > > +clean:
-> > > +=09rm -rf build/ dist/
-> > > +
-> >=20
-> > Usually `python3 setup.py clean --all` would be the better choice here,
-> > but, it doesn't clean `dist/`, so I'm OK with this.
-> >=20
->=20
-> Hm, I should probably move the 'dist' down into 'distclean' anyway, and I
-> will replace the clean invocation with the one you suggest.
->
+> --js
 
-OK then, makes sense to me.
+And still, this dir is part of the overall tree.  Honestly, without
+any change in behavior, I'd *not* add those two ignore rules.
 
+Cheers,
 - Cleber.
 
---SxgehGEc6vB0cZwN
+--yZnyZsPjQYjG7xG7
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAmCtYJIACgkQZX6NM6Xy
-CfO/BxAAp6oMKYLqEd6nPecnxEqSCleN2q7Jf0gvJseT54IIatKxJ0KFXwFAecOs
-tj3WHBOt6TbsUM1j0KjX64W7g/12iuaawB9brtSFJzLSHR+aOl/gp67ENSQIkS9/
-3n09H0pvUpHtnjdrOR8clMsZJaHLfMHFqrfrIlYFiphP1pxPrdBTwTS2QcQkWR7N
-IxF4cc+obZoZ8QYCw3v68Min1FvEJK/VfakU7MqvujI4uKsRe9l7qt2srsgvD+nw
-RLHQ3ptDs+hGS3c/YwbTIq/L+QwePdYVRGEp+E+cHVkGT/weU2i/st21B1kUOvde
-MyL4Dtge+xs3cfTwMogM+fEe9aZvCEsFtU03vo3ggFulJlPMHJvCH9oF8eWYzvJU
-S5E5gfBs/NpUR6v8prtf6YlR4wHQaJZ/E+UpAX0Dew8R6Em2NnOe24KHFUAxZn01
-mzqPOLmKNLTQ8ed9wNct5fGhpifgZxLFiX3Ar179j6xIgz//OoQC5I8z4KPTJ034
-qZUVlgKFosRfEdcq4AvfMq2vXLeh1A7XjgQQ9HKAVWOQkkG2K4K3cya56U4YWfJ2
-OGdCFFjvsR55Kg7i7wifOv3hqhn6B5ct3iEyr8SBPMJEbOndTOatyZEZx1RYwYnN
-d3gkK9gY6KEcBeOZ4EeTUkoU2KfXADFJpahdUz0NEnoS6ZdlV9w=
-=GWW3
+iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAmCtYT0ACgkQZX6NM6Xy
+CfMq/Q/9GHTK1s0cvNVGSFBqh2qOugHry+18JXNnEiyvigq7ta0/b/7orxWGhalZ
+1bBYw+NIZmJ6pB/wG14kunvOiHbNrFnu8YrZ3NTcSTlgIRCLXfz22x1+mRPh0Ogr
+hziRnz4tuEzGpG2SOdHo/JRaHH6fFiKl8FLHye2STy1oJ64uhcBSUHF6PmRABPx6
+oQ7yBhu8QfyRa4nfvw4o+8FtSYSZ8I+qY3WGlSnVdWnkr8UKTI4Oqvwzz53dKzVI
+o9AdsV+paGJpQ11yQQhoeu6vcckDvoL2qPIeW5vw3wrrJ4AA14YxyqN6PnU1qgNR
+CbqCzRe+sV0M8VsBFor83ACWveN7mDFHIV/hmvOJv9R/tMir5m4HAv/F0fUJUYoW
+gKrtLjnPcqMFz+RLsaOOYWmqeSKsTQOJNPbz+8NRo+tDDR1CLgFTsCsfXQvUX/pX
+s3A72DwKXde6LxXRMozkFU1w1vkjiZ6whg/xSNjzUyniUWOqs0Xsu1bbbwpZ/lvO
+zcPJDBjwqt9XU75rsD9N7/dIiv3MeQBR4kAP1QHcMcAK6Nm5gK0HUUUB3AeOfrX7
+AWzxYt1LOmiuiNcev/6u970w3pIM9TSp7Cz72T6cqpl/AJ4SJ92pJsvlQNPCIn36
+UJem/KepuBQMXSh/FIzVmKr5A60T7R02wigi5vGPRtkfx97Bnkw=
+=1zdp
 -----END PGP SIGNATURE-----
 
---SxgehGEc6vB0cZwN--
+--yZnyZsPjQYjG7xG7--
 
 
