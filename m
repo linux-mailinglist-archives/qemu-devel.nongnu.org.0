@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 983D639049F
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 17:08:39 +0200 (CEST)
-Received: from localhost ([::1]:36396 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77BFD39056C
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 17:28:14 +0200 (CEST)
+Received: from localhost ([::1]:42054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llYfe-0003ao-7J
-	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 11:08:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58424)
+	id 1llYyb-0003NQ-GN
+	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 11:28:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58450)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1llYb1-0002Ny-Vr
- for qemu-devel@nongnu.org; Tue, 25 May 2021 11:03:52 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:39786)
+ id 1llYb3-0002Rl-2R
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 11:03:53 -0400
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:45629)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1llYaz-0004FH-8S
- for qemu-devel@nongnu.org; Tue, 25 May 2021 11:03:51 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id
- l18-20020a1ced120000b029014c1adff1edso13669231wmh.4
- for <qemu-devel@nongnu.org>; Tue, 25 May 2021 08:03:48 -0700 (PDT)
+ id 1llYb0-0004FT-2X
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 11:03:52 -0400
+Received: by mail-wm1-x332.google.com with SMTP id
+ s5-20020a7bc0c50000b0290147d0c21c51so13021175wmh.4
+ for <qemu-devel@nongnu.org>; Tue, 25 May 2021 08:03:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=VrZok/6FlN2UGMh8wm7S4ptBdsiijy8kZCQ/uCJXQ/0=;
- b=qAdkzdX7SuTmNuKzEDOI4fbXv7XXWfWEwaRDIqLsuYiBiETgep1ujjlbktgZnjYUSx
- iX1q8nV6kwN9RFTzC2YAmp/VxrGaFWXioJN9bupm2r+E0o1wHoh7I5RaPDItWmlXI0wX
- mvD0yofLpkrsJ2tZ9oBV9XIWoJobLGKHjjOWXAh4vnKb4j33Nwn20Ypt7Q2rvYcdZE/j
- lA9OKtTpRa3hKCvaBTa42SEjBRPn1ZigXtXkfdsIPBdG9i7nLa76XF7c4G2Fcn2G24ZH
- ZfTzw0JDvL7TFGJf5nNrgzy/NFCNziMn53NwlAf/7r9KCov9OeDiEiRGtNcnfyJFUgmb
- itPg==
+ bh=GaZQeOIzuyLo3zicYK1Ozk0rRMl1jpH+sIBVMVCEWdk=;
+ b=Eb/sEa/bDHqI7Tl/dmqRd8xdOpoUQNCR08eYzfFc7lwt+mNm2rJ0hG06DR6+f1oMiw
+ bP2iezsaUJcXQ21lgXrE0hkus47fyf4Xzi6szptgoWjY2PepaJhCkm6JFrQtZk90tdFI
+ L88MRNewsRfeRJ3W4BTYKz3yVl/AQYmlYKQWECfxq93kVCYhWfHjiK9tnOAFdjsL6EN7
+ PZR3M/trFu146GtXsUFGarglp7e5plnVPsjPdUCzL5Jo4/c88/rVbqZkBI+rZXTfbqqY
+ dB2dWJzRJSqEw/+Prri/pO1hIqpkPbNRKsqlmnXjt4HtdY5Yspi3J+nG+OwOPfqFsteP
+ 668g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=VrZok/6FlN2UGMh8wm7S4ptBdsiijy8kZCQ/uCJXQ/0=;
- b=rKWIsYNAGVG8INh70K8hKM9t8lGBKn6ddiJrozv7/VD5fn1lFi2PtNai1EFSKdDML3
- jyiqq7R5xkEk8RGEL1cS4KznlEomhjXpy3LgEjAJopZe7FYex9uNzfknyn9pvquIzZIb
- R75XtAttsU0FE9FiV1XueqQOVx11ogP5ow3XFV++CwCzXSxGPy6vBQ1bjXFN4E9Q6CRi
- 2AaNNdhe2yHcTAWpEmpLySFhUEd0qV5ljfjKb/xkmc0arQUG1BEpK3hSCKiO0wh5yw/V
- 7SoEXxx1NFXCtOnViV7jtykBKp1XAvZ7fwz064LwivvewVAPqZZxq2cZtNoX3QNR2NLs
- oLSQ==
-X-Gm-Message-State: AOAM532fTXHuHBCjQ6QYWER7YiD7w07n3Qsla/cYZkqPPL6lgN+EK8E7
- u1cbXq54I2c1PhyktNtvCzdcqw2uWIMAI5pE
-X-Google-Smtp-Source: ABdhPJze8xtuL5moieQ1Z1J9cO0cJEKP/gbBKpzXp3AzISia6wVwUa9VWEIUFaVVGFmyTZWzF73adg==
-X-Received: by 2002:a7b:cd0e:: with SMTP id f14mr4355631wmj.22.1621955027891; 
- Tue, 25 May 2021 08:03:47 -0700 (PDT)
+ bh=GaZQeOIzuyLo3zicYK1Ozk0rRMl1jpH+sIBVMVCEWdk=;
+ b=XUDhVa24Mfn/xdNhsGeCPc/qBqtAgqVxNeC0+myMpBX5HuWK5pfGWQsm9qszj8xgv3
+ R2fA+pVlM+x+s3CddjM/7+ysdfT6V/MyQrn0/f0vOGEumRghLtuIOXeHrlPb6dp9g/zp
+ o/TA5mrS8O30yEI7U6ricPSxnejOUPxMQwwQJV0UNgzyu4Dlxh+khaKfW9PaRmpTFzJP
+ Jm0fyVuXQ+PnjlIkZxcHK+obBDD0CHkoxUQMsJgkRD8ViG73hWX4T1CDMer/TaQB0iev
+ bgYr+TbBC8YLfRpBhAxcjXDuRTl7DmDwqX40dNfFJjn1hpUoVZYGGRkFC6B9ZcbX2GWb
+ RPbw==
+X-Gm-Message-State: AOAM532CLfMLRMdYHN8oj3fRy0gI8UjSLJNn/SCRYIifx1fxlC4gdT/R
+ tOeSuiRYj5BfTzw9CAY79pkirnCuUXDEJjBv
+X-Google-Smtp-Source: ABdhPJwd+V0XUz3wkj0tTIeUyffmZm/Wze4Tl0ngY7GZPjZs6ZGapKTu6h62UbUHpzTmnin9TN400g==
+X-Received: by 2002:a7b:cb49:: with SMTP id v9mr4495061wmj.115.1621955028654; 
+ Tue, 25 May 2021 08:03:48 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
  by smtp.gmail.com with ESMTPSA id q62sm11710284wma.42.2021.05.25.08.03.47
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 May 2021 08:03:47 -0700 (PDT)
+ Tue, 25 May 2021 08:03:48 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 022/114] disas/libvixl: Protect C system header for C++ compiler
-Date: Tue, 25 May 2021 16:01:52 +0100
-Message-Id: <20210525150324.32370-23-peter.maydell@linaro.org>
+Subject: [PULL 023/114] target/arm: Add ID_AA64ZFR0 fields and
+ isar_feature_aa64_sve2
+Date: Tue, 25 May 2021 16:01:53 +0100
+Message-Id: <20210525150324.32370-24-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210525150324.32370-1-peter.maydell@linaro.org>
 References: <20210525150324.32370-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x332.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,164 +89,113 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+From: Richard Henderson <richard.henderson@linaro.org>
 
-When selecting an ARM target on Debian unstable, we get:
+Will be used for SVE2 isa subset enablement.
 
-  Compiling C++ object libcommon.fa.p/disas_libvixl_vixl_utils.cc.o
-  FAILED: libcommon.fa.p/disas_libvixl_vixl_utils.cc.o
-  c++ -Ilibcommon.fa.p -I. -I.. [...] -o libcommon.fa.p/disas_libvixl_vixl_utils.cc.o -c ../disas/libvixl/vixl/utils.cc
-  In file included from /home/philmd/qemu/disas/libvixl/vixl/utils.h:30,
-                   from ../disas/libvixl/vixl/utils.cc:27:
-  /usr/include/string.h:36:43: error: missing binary operator before token "("
-     36 | #if defined __cplusplus && (__GNUC_PREREQ (4, 4) \
-        |                                           ^
-  /usr/include/string.h:53:62: error: missing binary operator before token "("
-     53 | #if defined __USE_MISC || defined __USE_XOPEN || __GLIBC_USE (ISOC2X)
-        |                                                              ^
-  /usr/include/string.h:165:21: error: missing binary operator before token "("
-    165 |      || __GLIBC_USE (LIB_EXT2) || __GLIBC_USE (ISOC2X))
-        |                     ^
-  /usr/include/string.h:174:43: error: missing binary operator before token "("
-    174 | #if defined __USE_XOPEN2K8 || __GLIBC_USE (LIB_EXT2) || __GLIBC_USE (ISOC2X)
-        |                                           ^
-  /usr/include/string.h:492:19: error: missing binary operator before token "("
-    492 | #if __GNUC_PREREQ (3,4)
-        |                   ^
-
-Relevant information from the host:
-
-  $ lsb_release -d
-  Description:    Debian GNU/Linux 11 (bullseye)
-  $ gcc --version
-  gcc (Debian 10.2.1-6) 10.2.1 20210110
-  $ dpkg -S /usr/include/string.h
-  libc6-dev: /usr/include/string.h
-  $ apt-cache show libc6-dev
-  Package: libc6-dev
-  Version: 2.31-11
-
-Partially cherry-pick vixl commit 78973f258039f6e96 [*]:
-
-  Refactor VIXL to use `extern` block when including C header
-  that do not have a C++ counterpart.
-
-which is similar to commit 875df03b221 ('osdep: protect qemu/osdep.h
-with extern "C"').
-
-[*] https://git.linaro.org/arm/vixl.git/commit/?id=78973f258039f6e96
-
-Buglink: https://bugs.launchpad.net/qemu/+bug/1914870
-Suggested-by: Thomas Huth <thuth@redhat.com>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-id: 20210516171023.510778-1-f4bug@amsat.org
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20210525010358.152808-2-richard.henderson@linaro.org
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- disas/libvixl/vixl/code-buffer.h |  2 +-
- disas/libvixl/vixl/globals.h     | 16 +++++++++-------
- disas/libvixl/vixl/invalset.h    |  2 +-
- disas/libvixl/vixl/platform.h    |  2 ++
- disas/libvixl/vixl/utils.h       |  2 +-
- disas/libvixl/vixl/utils.cc      |  2 +-
- 6 files changed, 15 insertions(+), 11 deletions(-)
+ target/arm/cpu.h    | 16 ++++++++++++++++
+ target/arm/helper.c |  3 +--
+ target/arm/kvm64.c  | 21 +++++++++++++++------
+ 3 files changed, 32 insertions(+), 8 deletions(-)
 
-diff --git a/disas/libvixl/vixl/code-buffer.h b/disas/libvixl/vixl/code-buffer.h
-index f93ebb6b822..b95babbdee2 100644
---- a/disas/libvixl/vixl/code-buffer.h
-+++ b/disas/libvixl/vixl/code-buffer.h
-@@ -27,7 +27,7 @@
- #ifndef VIXL_CODE_BUFFER_H
- #define VIXL_CODE_BUFFER_H
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index 7986a217acd..b7ce3b1e89b 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -947,6 +947,7 @@ struct ARMCPU {
+         uint64_t id_aa64mmfr2;
+         uint64_t id_aa64dfr0;
+         uint64_t id_aa64dfr1;
++        uint64_t id_aa64zfr0;
+     } isar;
+     uint64_t midr;
+     uint32_t revidr;
+@@ -2034,6 +2035,16 @@ FIELD(ID_AA64DFR0, DOUBLELOCK, 36, 4)
+ FIELD(ID_AA64DFR0, TRACEFILT, 40, 4)
+ FIELD(ID_AA64DFR0, MTPMU, 48, 4)
  
--#include <string.h>
-+#include <cstring>
- #include "vixl/globals.h"
++FIELD(ID_AA64ZFR0, SVEVER, 0, 4)
++FIELD(ID_AA64ZFR0, AES, 4, 4)
++FIELD(ID_AA64ZFR0, BITPERM, 16, 4)
++FIELD(ID_AA64ZFR0, BFLOAT16, 20, 4)
++FIELD(ID_AA64ZFR0, SHA3, 32, 4)
++FIELD(ID_AA64ZFR0, SM4, 40, 4)
++FIELD(ID_AA64ZFR0, I8MM, 44, 4)
++FIELD(ID_AA64ZFR0, F32MM, 52, 4)
++FIELD(ID_AA64ZFR0, F64MM, 56, 4)
++
+ FIELD(ID_DFR0, COPDBG, 0, 4)
+ FIELD(ID_DFR0, COPSDBG, 4, 4)
+ FIELD(ID_DFR0, MMAPDBG, 8, 4)
+@@ -4225,6 +4236,11 @@ static inline bool isar_feature_aa64_ssbs(const ARMISARegisters *id)
+     return FIELD_EX64(id->id_aa64pfr1, ID_AA64PFR1, SSBS) != 0;
+ }
  
- namespace vixl {
-diff --git a/disas/libvixl/vixl/globals.h b/disas/libvixl/vixl/globals.h
-index 7099aa599fb..3a71942f1e5 100644
---- a/disas/libvixl/vixl/globals.h
-+++ b/disas/libvixl/vixl/globals.h
-@@ -40,15 +40,17 @@
- #define __STDC_FORMAT_MACROS
- #endif
++static inline bool isar_feature_aa64_sve2(const ARMISARegisters *id)
++{
++    return FIELD_EX64(id->id_aa64zfr0, ID_AA64ZFR0, SVEVER) != 0;
++}
++
+ /*
+  * Feature tests for "does this exist in either 32-bit or 64-bit?"
+  */
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 59e9847133a..a66c1f0b9eb 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -7879,8 +7879,7 @@ void register_cp_regs_for_features(ARMCPU *cpu)
+               .opc0 = 3, .opc1 = 0, .crn = 0, .crm = 4, .opc2 = 4,
+               .access = PL1_R, .type = ARM_CP_CONST,
+               .accessfn = access_aa64_tid3,
+-              /* At present, only SVEver == 0 is defined anyway.  */
+-              .resetvalue = 0 },
++              .resetvalue = cpu->isar.id_aa64zfr0 },
+             { .name = "ID_AA64PFR5_EL1_RESERVED", .state = ARM_CP_STATE_AA64,
+               .opc0 = 3, .opc1 = 0, .crn = 0, .crm = 4, .opc2 = 5,
+               .access = PL1_R, .type = ARM_CP_CONST,
+diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
+index dff85f6db94..37ceadd9a9d 100644
+--- a/target/arm/kvm64.c
++++ b/target/arm/kvm64.c
+@@ -647,17 +647,26 @@ bool kvm_arm_get_host_cpu_features(ARMHostCPUFeatures *ahcf)
  
--#include <stdint.h>
-+extern "C" {
- #include <inttypes.h>
+     sve_supported = ioctl(fdarray[0], KVM_CHECK_EXTENSION, KVM_CAP_ARM_SVE) > 0;
+ 
+-    kvm_arm_destroy_scratch_host_vcpu(fdarray);
 -
--#include <assert.h>
--#include <stdarg.h>
--#include <stdio.h>
- #include <stdint.h>
--#include <stdlib.h>
--#include <stddef.h>
-+}
+-    if (err < 0) {
+-        return false;
+-    }
+-
+     /* Add feature bits that can't appear until after VCPU init. */
+     if (sve_supported) {
+         t = ahcf->isar.id_aa64pfr0;
+         t = FIELD_DP64(t, ID_AA64PFR0, SVE, 1);
+         ahcf->isar.id_aa64pfr0 = t;
 +
-+#include <cassert>
-+#include <cstdarg>
-+#include <cstddef>
-+#include <cstdio>
-+#include <cstdlib>
++        /*
++         * Before v5.1, KVM did not support SVE and did not expose
++         * ID_AA64ZFR0_EL1 even as RAZ.  After v5.1, KVM still does
++         * not expose the register to "user" requests like this
++         * unless the host supports SVE.
++         */
++        err |= read_sys_reg64(fdarray[2], &ahcf->isar.id_aa64zfr0,
++                              ARM64_SYS_REG(3, 0, 0, 4, 4));
++    }
 +
- #include "vixl/platform.h"
++    kvm_arm_destroy_scratch_host_vcpu(fdarray);
++
++    if (err < 0) {
++        return false;
+     }
  
- 
-diff --git a/disas/libvixl/vixl/invalset.h b/disas/libvixl/vixl/invalset.h
-index ffdc0237b47..2e0871f8c3f 100644
---- a/disas/libvixl/vixl/invalset.h
-+++ b/disas/libvixl/vixl/invalset.h
-@@ -27,7 +27,7 @@
- #ifndef VIXL_INVALSET_H_
- #define VIXL_INVALSET_H_
- 
--#include <string.h>
-+#include <cstring>
- 
- #include <algorithm>
- #include <vector>
-diff --git a/disas/libvixl/vixl/platform.h b/disas/libvixl/vixl/platform.h
-index ab588f07f54..26a74de81bb 100644
---- a/disas/libvixl/vixl/platform.h
-+++ b/disas/libvixl/vixl/platform.h
-@@ -28,7 +28,9 @@
- #define PLATFORM_H
- 
- // Define platform specific functionalities.
-+extern "C" {
- #include <signal.h>
-+}
- 
- namespace vixl {
- inline void HostBreakpoint() { raise(SIGINT); }
-diff --git a/disas/libvixl/vixl/utils.h b/disas/libvixl/vixl/utils.h
-index 5ab134e240a..ecb0f1014ab 100644
---- a/disas/libvixl/vixl/utils.h
-+++ b/disas/libvixl/vixl/utils.h
-@@ -27,8 +27,8 @@
- #ifndef VIXL_UTILS_H
- #define VIXL_UTILS_H
- 
--#include <string.h>
- #include <cmath>
-+#include <cstring>
- #include "vixl/globals.h"
- #include "vixl/compiler-intrinsics.h"
- 
-diff --git a/disas/libvixl/vixl/utils.cc b/disas/libvixl/vixl/utils.cc
-index 3b8bd75fba1..69304d266d7 100644
---- a/disas/libvixl/vixl/utils.cc
-+++ b/disas/libvixl/vixl/utils.cc
-@@ -25,7 +25,7 @@
- // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- 
- #include "vixl/utils.h"
--#include <stdio.h>
-+#include <cstdio>
- 
- namespace vixl {
- 
+     /*
 -- 
 2.20.1
 
