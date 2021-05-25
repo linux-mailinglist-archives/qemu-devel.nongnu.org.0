@@ -2,54 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12C9638FE73
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 12:09:49 +0200 (CEST)
-Received: from localhost ([::1]:42780 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7804138FEEB
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 12:19:21 +0200 (CEST)
+Received: from localhost ([::1]:47104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llU0R-0001zX-PL
-	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 06:09:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43662)
+	id 1llU9g-0005Wx-Bc
+	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 06:19:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46160)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1llTzY-0000UH-FN; Tue, 25 May 2021 06:08:52 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:37252)
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1llU8c-0004iD-F1
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 06:18:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29641)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1llTzV-0006CA-CV; Tue, 25 May 2021 06:08:52 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id E206F74570D;
- Tue, 25 May 2021 12:08:45 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id A489C74570B; Tue, 25 May 2021 12:08:45 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id A2F01745709;
- Tue, 25 May 2021 12:08:45 +0200 (CEST)
-Date: Tue, 25 May 2021 12:08:45 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: David Gibson <david@gibson.dropbear.id.au>
-Subject: Re: [PATCH qemu v20] spapr: Implement Open Firmware client interface
-In-Reply-To: <YKyJ3I5QIDLwR99t@yekko>
-Message-ID: <894b8b19-576d-8b25-922f-58613bad8545@eik.bme.hu>
-References: <eb49cd30-a4f4-d063-d728-521446a671a6@eik.bme.hu>
- <5825cde5-a408-a438-116d-5a9d9113a52a@ozlabs.ru>
- <ec1742e3-c47-bbee-3a6-ec64442922ab@eik.bme.hu>
- <8527c8d2-c1e7-b3f8-0bda-529ba3864701@ozlabs.ru>
- <babe39af-fd34-8c5-de99-a0f485bfbce@eik.bme.hu>
- <4f6ceca3-5f18-fe70-18f9-4efde8feb1ed@ozlabs.ru>
- <7a4e47e5-59b-9132-eafd-d84d8b73f5c@eik.bme.hu>
- <17fbb016-2e7-d57e-bedd-1ae7814fb860@eik.bme.hu> <YKtBJoQXSrSVENFw@yekko>
- <939a489f-40de-da33-dd7-9fd1f5eb190@eik.bme.hu> <YKyJ3I5QIDLwR99t@yekko>
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1llU8Z-0003wM-Og
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 06:18:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1621937890;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=OdoUBHFzJb0UAcFI839y36Z7gjdC1iP6jhh6wlblYOk=;
+ b=Pd4EcRVl8gzTEit7QJAIURmW6ztI6fGHpXq/IitKz87LOPFQnfaFJdvt2sv67jz/h4zKGp
+ kkxP8dMBMMhY901k87el8kKijyxezH8gHoGS4GLA3U5hiygHBDnxM+t1VphXoANInqgxaQ
+ H9pVgGfQIhf51puFaNULDyfvCF2BauI=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-102-afiMgmMwN5-wPCxStKolOQ-1; Tue, 25 May 2021 06:18:08 -0400
+X-MC-Unique: afiMgmMwN5-wPCxStKolOQ-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ y17-20020a0564023591b02903886c26ada4so17072474edc.5
+ for <qemu-devel@nongnu.org>; Tue, 25 May 2021 03:18:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=OdoUBHFzJb0UAcFI839y36Z7gjdC1iP6jhh6wlblYOk=;
+ b=MJOaccr4i3A93/O19hgkhjH5Ko/ahWHILrFubb44ex27JWuc/MuARx5+LTwBmb+T7w
+ zty2tRzVXuXf1Q0OKJEI7PCYsK6jcK5IfN66zJpyvVuGFh+n53UHEjDXvYB0o0vqLt9B
+ 1LGFCyO8kZmt8PkDYAMyc1m2UAJwbsggcxWWhvIZ7KNn40cl5fvaqSShiYA42Kq/by/q
+ 2/JbjEdahrjJUkgXclS2VUXwUIpmqDfiCVDp1sZNDsotjCbsWbjZ5OLr8BPW6ld3ZBOU
+ 8QzMhBKwah1XE73GgzUn/hd6ze8zIq6PyVqoUSOmN1wmEhg2LftgXVVIr+Q8/iYnod3V
+ Oqsw==
+X-Gm-Message-State: AOAM530rjohfbisWS8VTBoscZNgDFiNK1XmyaSkEvMvw71wxsPRpvZPf
+ JX5gM+R0va+lZAlD+KzkF0WHplBGzuQVSgkSfaTBml421S/LUhWjGo90OPzKHSOM30CvNUS8UJ1
+ E/LnNS6fXgp8DI50T3Ql0B+Kp8NTH+5owyTSDOZwrhxVHekD0qiEkmKMVyClXEoxrPqE=
+X-Received: by 2002:a50:aa95:: with SMTP id q21mr30549820edc.329.1621937887474; 
+ Tue, 25 May 2021 03:18:07 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy14e+WJTxcPKJEECCsM4KHKVE2ULZAu4Wgiq+GsNZl1Btr3+1D6ojD5TlwL9G70vnj8XKQKw==
+X-Received: by 2002:a50:aa95:: with SMTP id q21mr30549790edc.329.1621937887179; 
+ Tue, 25 May 2021 03:18:07 -0700 (PDT)
+Received: from localhost.localdomain ([2a04:ee41:4:31cb:e591:1e1e:abde:a8f1])
+ by smtp.gmail.com with ESMTPSA id
+ t14sm1990498edv.27.2021.05.25.03.18.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 25 May 2021 03:18:06 -0700 (PDT)
+Subject: Re: [PATCH v2 7/7] block-copy: protect BlockCopyState .method fields
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20210518100757.31243-1-eesposit@redhat.com>
+ <20210518100757.31243-8-eesposit@redhat.com>
+ <404e2891-9c03-bc7d-2c69-a572422d7804@virtuozzo.com>
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Message-ID: <4403ee17-0c12-c545-7f64-683bb9057b91@redhat.com>
+Date: Tue, 25 May 2021 12:18:06 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 8%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <404e2891-9c03-bc7d-2c69-a572422d7804@virtuozzo.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,162 +103,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexey Kardashevskiy <aik@ozlabs.ru>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 25 May 2021, David Gibson wrote:
-> On Mon, May 24, 2021 at 12:55:07PM +0200, BALATON Zoltan wrote:
->> On Mon, 24 May 2021, David Gibson wrote:
->>> On Sun, May 23, 2021 at 07:09:26PM +0200, BALATON Zoltan wrote:
->>>> On Sun, 23 May 2021, BALATON Zoltan wrote:
->>>>> On Sun, 23 May 2021, Alexey Kardashevskiy wrote:
->>>>>> One thing to note about PCI is that normally I think the client
->>>>>> expects the firmware to do PCI probing and SLOF does it. But VOF
->>>>>> does not and Linux scans PCI bus(es) itself. Might be a problem for
->>>>>> you kernel.
->>>>>
->>>>> I'm not sure what info does MorphOS get from the device tree and what it
->>>>> probes itself but I think it may at least need device ids and info about
->>>>> the PCI bus to be able to access the config regs, after that it should
->>>>> set the devices up hopefully. I could add these from the board code to
->>>>> device tree so VOF does not need to do anything about it. However I'm
->>>>> not getting to that point yet because it crashes on something that it's
->>>>> missing and couldn't yet find out what is that.
->>>>>
->>>>> I'd like to get Linux working now as that would be enough to test this
->>>>> and then if for MorphOS we still need a ROM it's not a problem if at
->>>>> least we can boot Linux without the original firmware. But I can't make
->>>>> Linux open a serial console and I don't know what it needs for that. Do
->>>>> you happen to know? I've looked at the sources in Linux/arch/powerpc but
->>>>> not sure how it would find and open a serial port on pegasos2. It seems
->>>>> to work with the board firmware and now I can get it to boot with VOF
->>>>> but then it does not open serial so it probably needs something in the
->>>>> device tree or expects the firmware to set something up that we should
->>>>> add in pegasos2.c when using VOF.
->>>>
->>>> I've now found that Linux uses rtas methods read-pci-config and
->>>> write-pci-config for PCI access on pegasos2 so this means that we'll
->>>> probably need rtas too (I hoped we could get away without it if it were only
->>>> used for shutdown/reboot or so but seems Linux needs it for PCI as well and
->>>> does not scan the bus and won't find some devices without it).
->>>
->>> Yes, definitely sounds like you'll need an RTAS implementation.
+
+
+On 21/05/2021 19:10, Vladimir Sementsov-Ogievskiy wrote:
+> 18.05.2021 13:07, Emanuele Giuseppe Esposito wrote:
+>> With tasks and calls lock protecting all State fields,
+>> .method is the last BlockCopyState field left unprotected.
+>> Set it as atomic.
 >>
->> I plan to fix that after managed to get serial working as that seems to not
->> need it. If I delete the rtas-size property from /rtas on the original
->> firmware that makes Linux skip instantiating rtas, but I still get serial
->> output just not accessing PCI devices. So I think it should work and keeps
->> things simpler at first. Then I'll try rtas later.
->>
->>>> While VOF can do rtas, this causes a problem with the hypercall method using
->>>> sc 1 that goes through vhyp but trips the assert in ppc_store_sdr1() so
->>>> cannot work after guest is past quiesce.
->>>
->>>> So the question is why is that
->>>> assert there
->>>
->>> Ah.. right.  So, vhyp was designed for the PAPR use case, where we
->>> want to model the CPU when it's in supervisor and user mode, but not
->>> when it's in hypervisor mode.  We want qemu to mimic the behaviour of
->>> the hypervisor, rather than attempting to actually execute hypervisor
->>> code in the virtual CPU.
->>>
->>> On systems that have a hypervisor mode, SDR1 is hypervisor privileged,
->>> so it makes no sense for the guest to attempt to set it.  That should
->>> be caught by the general SPR code and turned into a 0x700, hence the
->>> assert() if we somehow reach ppc_store_sdr1().
->>>
->>> So, we are seeing a problem here because you want the 'sc 1'
->>> interception of vhyp, but not the rest of the stuff that goes with it.
->>>
->>>> and would using sc 1 for hypercalls on pegasos2 cause other
->>>> problems later even if the assert could be removed?
->>>
->>> At least in the short term, I think you probably can remove the
->>> assert.  In your case the 'sc 1' calls aren't truly to a hypervisor,
->>> but a special case escape to qemu for the firmware emulation.  I think
->>> it's unlikely to cause problems later, because nothing on a 32-bit
->>> system should be attempting an 'sc 1'.  The only thing I can think of
->>> that would fail is some test case which explicitly verified that 'sc
->>> 1' triggered a 0x700 (SIGILL from userspace).
->>
->> OK so the assert should check if the CPU has an HV bit. I think there was a
->> #detine for that somewhere that I can add to the assert then I can try that.
->> What I wasn't sure about is that sc 1 would conflict with the guest's usage
->> of normal sc calls or are these going through different paths and only sc 1
->> will trigger vhyp callback not affecting notmal sc calls?
->
-> The vhyp shouldn't affect normal system calls, 'sc 1' is specifically
-> for hypercalls, as opposed to normal 'sc' (a.k.a. 'sc 0'), and the
-> vhyp only intercepts the hypercall version (after all Linux on PAPR
-> certainly uses its own system calls, and hypercalls are active for the
-> lifetime of the guest there).
->
->> (Or if this causes
->> an otherwise unnecessary VM exit on KVM even when it works then maybe
->> looking for a different way in the future might be needed.
->
-> What you're doing here won't work with KVM as it stands.  There are
-> basically two paths into the vhyp hypercall path: 1) from TCG, if we
-> interpret an 'sc 1' instruction we enter vhyp, 2) from KVM, if we get
-> a KVM_EXIT_PAPR_HCALL KVM exit then we also go to the vhyp path.
->
-> The second path is specific to the PAPR (ppc64) implementation of KVM,
-> and will not work for a non-PAPR platform without substantial
-> modification of the KVM code.
+>> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+> 
+> OK, in 06 some things are out of coroutine. Here could we just reuse mutex?
+> 
+> I believe, that we don't need any kind of protection for .method inside 
+> block_copy_state_new(), as it's just a creation and initialization of 
+> new structure.
 
-OK so then at that point when we try KVM we'll need to look at alternative 
-ways, I think MOL OSI worked with KVM at least in MOL but will probably 
-make all syscalls exit KVM but since we'll probably need to use KVM PR it 
-will exit anyway. For now I keep this vhyp as it does not run with KVM for 
-other reasons yet so that's another area to clean up so as a proof of 
-concept first version of using VOF vhyp will do.
+I agree here, will remove the atomic_set in block_copy_state_new.
+> 
+> And other things are called from coroutines. So, seems no reasons for 
+> additional atomic access logic?
 
-[...]
->>>> I've tested that the missing rtas is not the reason for getting no output
->>>> via serial though, as even when disabling rtas on pegasos2.rom it boots and
->>>> I still get serial output just some PCI devices are not detected (such as
->>>> USB, the video card and the not emulated ethernet port but these are not
->>>> fatal so it might even work as a first try without rtas, just to boot a
->>>> Linux kernel for testing it would be enough if I can fix the serial output).
->>>> I still don't know why it's not finding serial but I think it may be some
->>>> missing or wrong info in the device tree I generat. I'll try to focus on
->>>> this for now and leave the above rtas question for later.
->>>
->>> Oh.. another thought on that.  You have an ISA serial port on Pegasos,
->>> I believe.  I wonder if the PCI->ISA bridge needs some configuration /
->>> initialization that the firmware is expected to do.  If so you'll need
->>> to mimic that setup in qemu for the VOF case.
->>
->> That's what I begin to think because I've added everything to the device
->> tree that I thought could be needed and I still don't get it working so it
->> may need some config from the firmware. But how do I access device registers
->> from board code? I've tried adding a machine reset method and write to
->> memory mapped device registers but all my attempts failed. I've tried
->> cpu_stl_le_data and even memory_region_dispatch_write but these did not get
->> to the device. What's the way to access guest mmio regs from QEMU?
->
-> That's odd, cpu_stl() and memory_region_dispatch_write() should work
-> from board code (after the relevant memory regions are configured, of
-> course).  As an ISA serial port, it's probably accessed through IO
-> space, not memory space though, so you'd need &address_space_io.  And
-> if there is some bridge configuration then it's the bridge control
-> registers you need to look at not the serial registers - you'd have to
-> look at the bridge documentation for that.  Or, I guess the bridge
-> implementation in qemu, which you wrote part of.
+But... why should I use a mutex? I think the .method usage is pretty
+straightforward, adding a lock (which one, tasks_lock? does not seem 
+appropriate) would just cover also functions that do not need it, since 
+the field is modified in if-else statements (see block_copy_do_copy).
+It looks to me that an atomic here won't hurt, and it's pretty 
+straightforward to understand.
 
-I've found at last that stl_le_phys() works. There are so many of these 
-that I never know when to use which.
+Thank you,
+Emanuele
 
-I think the address_space_rw calls in vof_client_call() in vof.c could 
-also use these for somewhat shorter code. I've ended up with 
-stl_le_phys(CPU(cpu)->as, addr, val) in my machine reset methodbut I don't 
-even need that now as it works without additional setup. Also VOF's memory 
-access is basically the same as the already existing rtas_st() and co. so 
-maybe that could be reused to make code smaller?
-
-Regards,
-BALATON Zoltan
 
