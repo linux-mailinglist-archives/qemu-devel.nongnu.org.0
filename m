@@ -2,77 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 633D9390734
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 19:12:42 +0200 (CEST)
-Received: from localhost ([::1]:48562 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5D1E39074C
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 19:17:35 +0200 (CEST)
+Received: from localhost ([::1]:60984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llabg-00037Y-VQ
-	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 13:12:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45190)
+	id 1llagQ-0003Ne-0T
+	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 13:17:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46138)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1llZYZ-0007lB-Sw
- for qemu-devel@nongnu.org; Tue, 25 May 2021 12:05:23 -0400
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:37593)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1llZYX-0006wl-Ug
- for qemu-devel@nongnu.org; Tue, 25 May 2021 12:05:23 -0400
-Received: by mail-wm1-x333.google.com with SMTP id
- f20-20020a05600c4e94b0290181f6edda88so6892587wmq.2
- for <qemu-devel@nongnu.org>; Tue, 25 May 2021 09:05:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=UbgaWJ3t1U6HB4JiiWg9Kncy9nhohZ2qlPWKyV6gFgE=;
- b=ZC3GwMMl+gNf7bfXtvZBd6KpZ8ADkSEWiYZFPA1TW77kbI2yWIBJWZITRTgErRPBOT
- ZZdffY1W3PSWBQjYKfp/l/bgJq5QtzQm44G9/pBzWoJ02Ass2U1uPyDXHdr5yvuYYX9c
- cPIc0cx3tunZipB4HHo0AfNQOU4e9sTi7FY0f7eEr6PHjAbnBXLdA9OHhmvYwUKHiquM
- Tqx4zuw5pKdyqEGwrgGdwPVWd14cgFKROupW/MrOdHd9GD75EyrYAAaq/4M7UpFwOAa3
- drE4cB/o38uwygJROzlcc212/q6/+9GWlO2flwCOYNW+Sfpy5R74oM06s6Rc7QMtni5X
- wDYg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=UbgaWJ3t1U6HB4JiiWg9Kncy9nhohZ2qlPWKyV6gFgE=;
- b=tXQW5HXIYAUYVTtdsdMG4U6dd3SNgC1AeNdR4fQCJhQJJsmMOt6Q2fex7FYdTM5ipG
- otFAA6HEmLBj35iuQds+rzyXBvjsluC54T1H36R5TkT8vRClG5VTIUc3EnIZHbi4nz9G
- gEOXFQ1pEMQL5PTYMgBr6vNUxTZ6qcmJetnsKWFce1xhq0wmb5Jexyn4YHmHUcmwVRdw
- R47VMJG0bpSKhyXHXNKucHDPfQxhAoVWRHGv/rOMVBM0tSq+Iy66NCHQEu5QYSks7qjO
- k8ZTAafAktd1eFltoKm8cW9tfKqgMnaNziFh3cn7xPxu6oBvLhZyjVYtbsbZ3uPtrQ+U
- HLJQ==
-X-Gm-Message-State: AOAM532JIdOTSLLOJgLLZbfH/iHO6W0rQR1T3RfmFN1j4JChpgesfiGI
- +eCYLftLoq29PqiaOaHNK/WYFg==
-X-Google-Smtp-Source: ABdhPJxGO3ITrZI+Ztc/d4NXbi1ZqUqICRpByd4FXIemiYqfqG4sY3LoOZmSmRGjfW4z/urpRE7Knw==
-X-Received: by 2002:a1c:6503:: with SMTP id z3mr24531576wmb.72.1621958719504; 
- Tue, 25 May 2021 09:05:19 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id d14sm10396870wra.5.2021.05.25.09.05.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 May 2021 09:05:18 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id E16E01FF7E;
- Tue, 25 May 2021 17:05:17 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: peter.maydell@linaro.org
-Subject: [PULL v2 0/7] testing, gdbstub and plugin updates
-Date: Tue, 25 May 2021 17:05:17 +0100
-Message-Id: <20210525160517.1367-1-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1llZcW-0000Qf-6c
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 12:09:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31787)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1llZcR-0000tB-C7
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 12:09:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1621958961;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=jNsQFrCZgvhqYIV6dVVQp5FKaKY9lAcmQysydm8kPd4=;
+ b=bikp/X5wDhtixjlwZqD/4bN1JVoAx9i0Ye9b7J9x8/TSlxLPoZolVCX5hO2udBsu6SlD+H
+ tDPZY6tIviw7U6wJeFm2iYSD7xzdUKUL4cw8Rm58dP9PvcbozpGFY9BYtb3XduHuMl7a4c
+ l3mytjdUBrG90ONhWS/iwMdQ+d9tU1A=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-553-1eNfzTAUOOGPikijigP_BQ-1; Tue, 25 May 2021 12:09:15 -0400
+X-MC-Unique: 1eNfzTAUOOGPikijigP_BQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 74DD2107ACC7;
+ Tue, 25 May 2021 16:09:14 +0000 (UTC)
+Received: from redhat.com (ovpn-114-171.ams2.redhat.com [10.36.114.171])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8FE2D5D9C0;
+ Tue, 25 May 2021 16:08:58 +0000 (UTC)
+Date: Tue, 25 May 2021 17:08:55 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH] gitlab-ci: Be ready for new default 'main' branch name
+Message-ID: <YK0hFyf17lNKHqek@redhat.com>
+References: <20210525153826.4174157-1-philmd@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <20210525153826.4174157-1-philmd@redhat.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x333.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,57 +81,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Savitoj Singh <savsingh@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Willian Rampazzo <willianr@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Tweaked the rules so the needs: line is optional
+On Tue, May 25, 2021 at 05:38:25PM +0200, Philippe Mathieu-Daudé wrote:
+> In order to be ready for the GitLab changes in using inclusive
+> terminology (replacing the 'master' branch name by the 'main'
+> branch name), rename our use of 'master' by the $CI_DEFAULT_BRANCH
+> environment variable, so new forks won't be facing any issue.
 
-The following changes since commit 0dab1d36f55c3ed649bb8e4c74b9269ef3a63049:
+I've no objection to the actual config change, but the description is
+little inaccurate IMHO. GitLab is not forcing a branch name change
+into any existing repositories. It is entirely upto QEMU to decide
+when to change our branch names. Forks of QEMU also won't get a new
+branch name, because any branches in forks are inherited from what
+exists in repository being forked and not arbitrarily renamed.
 
-  Merge remote-tracking branch 'remotes/stefanha-gitlab/tags/block-pull-request' into staging (2021-05-24 15:48:08 +0100)
+So, AFAICT, only brand new (ie empty) repositories will get 'main'
+as the new default branch name.
 
-are available in the Git repository at:
+IOW, I'd describe this as
 
-  https://github.com/stsquad/qemu.git tags/pull-testing-and-misc-updates-250521-2
+  "We want to skip the checkpatch and DCO signoff jobs when
+   pushing to the default branch. Currently this branch is
+   called 'master', but we don't need to hardcode this in
+   the CI configuration, because the $CI_DEFAULT_BRANCH
+   env variable exposes it."
 
-for you to fetch changes up to a6851b49e3b0509168d74050d0e59fe0121b2898:
+> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+> index f718b61fa78..db4e8490483 100644
+> --- a/.gitlab-ci.yml
+> +++ b/.gitlab-ci.yml
+> @@ -784,7 +784,7 @@ check-patch:
+>    script: .gitlab-ci.d/check-patch.py
+>    except:
+>      variables:
+> -      - $CI_PROJECT_NAMESPACE == 'qemu-project' && $CI_COMMIT_BRANCH == 'master'
+> +      - $CI_PROJECT_NAMESPACE == 'qemu-project' && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+>    variables:
+>      GIT_DEPTH: 1000
+>    allow_failure: true
+> @@ -797,7 +797,7 @@ check-dco:
+>    script: .gitlab-ci.d/check-dco.py
+>    except:
+>      variables:
+> -      - $CI_PROJECT_NAMESPACE == 'qemu-project' && $CI_COMMIT_BRANCH == 'master'
+> +      - $CI_PROJECT_NAMESPACE == 'qemu-project' && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+>    variables:
+>      GIT_DEPTH: 1000
 
-  plugins/syscall: Added a table-like summary output (2021-05-25 16:52:50 +0100)
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
-----------------------------------------------------------------
-Testing, gdbstub and plugin updates
 
-  - ensure gitlab references master registry
-  - add special rule for hexagon image
-  - clean-up gdbstub's argument handling
-  - fix replay HMP commands to accept long icount
-  - minor re-factor of gdbstub replay handling
-  - update syscall plugin to be more useful
-
-----------------------------------------------------------------
-Alex Bennée (5):
-      gitlab: explicitly reference the upstream registry
-      gitlab: add special rule for the hexagon container
-      gdbstub: Replace GdbCmdContext with plain g_array()
-      hmp-commands: expand type of icount to "l" in replay commands
-      gdbstub: tidy away reverse debugging check into function
-
-Mahmoud Mandour (1):
-      plugins/syscall: Added a table-like summary output
-
-Philippe Mathieu-Daudé (1):
-      gdbstub: Constify GdbCmdParseEntry
-
- gdbstub.c                   | 343 ++++++++++++++++++++++----------------------
- tests/plugin/syscall.c      |  98 ++++++++++++-
- .gitlab-ci.d/containers.yml |  31 +++-
- .gitlab-ci.yml              |   5 +-
- hmp-commands.hx             |   4 +-
- 5 files changed, 297 insertions(+), 184 deletions(-)
-
+Regards,
+Daniel
 -- 
-2.20.1
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
