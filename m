@@ -2,71 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3FF438F90E
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 05:55:33 +0200 (CEST)
-Received: from localhost ([::1]:57174 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E73938F916
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 05:58:17 +0200 (CEST)
+Received: from localhost ([::1]:39060 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llOAC-0001tB-K1
-	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 23:55:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58108)
+	id 1llOCu-0000EV-BT
+	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 23:58:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58370)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1llO81-0007NF-8k; Mon, 24 May 2021 23:53:13 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:46668)
+ id 1llO9Z-0002ai-Io
+ for qemu-devel@nongnu.org; Mon, 24 May 2021 23:54:49 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:38442)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1llO7z-000407-Ng; Mon, 24 May 2021 23:53:13 -0400
-Received: by mail-wr1-x434.google.com with SMTP id y14so28488305wrm.13;
- Mon, 24 May 2021 20:53:10 -0700 (PDT)
+ id 1llO9X-00055b-Sq
+ for qemu-devel@nongnu.org; Mon, 24 May 2021 23:54:49 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id j14so28811015wrq.5
+ for <qemu-devel@nongnu.org>; Mon, 24 May 2021 20:54:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=My0Ok4CHYKluMLrKDuupWwg0jM1EFPdsVxoVAqy0M8Q=;
- b=f8vORZn1uwUblBoooiY+cuNOI7i3IbmvS39nhNWXMP/mHuErdjj1ky4GDnMzfA1ABN
- TLevPE7gtpKFGYfeBcsKopA/GKn1Fy8d6Tbqdl+SXFFyBM99ZrpRX8GhYsJRrGWJEbF+
- /pZ5BfKWHET7EJWaAW2OVMCEqKNT7utWD8CwIWfxe82QFHfAbpUD1eDav30F6SCxdhFB
- SaRTia1TnkIUW1iDT+UHg3eijKILWImtnfu4Qtzoc6n4scLi9/SmDpeLWgJXSG2mk0dP
- q1AVJN3Cr110WhBXEWYTgrw9yql/BT8rNoA8xgEJDc/nacAzDmFF0NqaitaFt4nO7ZyI
- dqGQ==
+ bh=+0n2M5JslzNIlXzE65EEVPxjxwjxwtrc2Xs95K2fDOI=;
+ b=viBFcobPnCfrcbbLTeYPZAWBqAXdsRBUSfFhSRkSnKL67nudC9QJDE13Q/fMuUIA5K
+ toxq7LrZ4Qeombb98M3Mhde15u4HyLAIQcUX0B62ef4sdEOGu0hPdyChbBcqTZRiY0Dm
+ esiGDTm/8+8H4CcEEhMqmroCo5LOoWTiSFJOtRodUXv8iLPN/oz0VJzvV3n1SZRAiByw
+ 93GsZ13qxIMXGk336ugMCT5mDE0lUT6jUlAmTau9Yt3VcvxVanSEDegxvUTA5pe6coUj
+ 2orf3CKVaDYkvg4IIXTaju5RnTibkFHYJlhmNCvijBFCCUt71w6Zw7eveNLXPGOa4Hkr
+ ++SA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=My0Ok4CHYKluMLrKDuupWwg0jM1EFPdsVxoVAqy0M8Q=;
- b=J5vSuPxipeJsdt6+6RrKgPV4u3WM2FPT9ucB9wYWnKlHWD+Z+l2C/RQfwd00DOL19K
- o5rVLYXBWfAitBGj+Oxgq9sQpPSi8i7438WHahAL24/N4HWiH/s7Q2xflppCPuBG3Mn4
- TiuA+P+FXePDjdIDt91Ky/Z2+UpTovXPcFsb7X6Ng//Q4Tf8iM4sWfB19vW6H9Mmjn5c
- DI3/F6Pnx8jPSn37MVqKH0jLOs6MhxPSl4TW6s1IMJMv4jM1AV5R5BY8N+4RnssrRGoq
- /DU1LJrLPSOzuyJs4P9uYM/LcYdYHPehQb8UYQQga7f+PkgvyzR609R/K3UERRutDyw5
- ADug==
-X-Gm-Message-State: AOAM530ts8fF94Zo0WQRzxZlBqnXJcGIffb6hWJmiImVn7lPLkqsD20I
- +ojIn0+esPLIoUjaemn+uokeS3+phTNCnw==
-X-Google-Smtp-Source: ABdhPJyBt8AUJMmZVAH098D3KBz3MbRUFMlFZcEkaXE859OJHXTHig+d/oSG6VVikN5DmqrL2XD7YA==
-X-Received: by 2002:a5d:408f:: with SMTP id o15mr24010803wrp.89.1621914789279; 
- Mon, 24 May 2021 20:53:09 -0700 (PDT)
+ bh=+0n2M5JslzNIlXzE65EEVPxjxwjxwtrc2Xs95K2fDOI=;
+ b=YfWWF5CXKs7QWE7D8I/GHu/hckTL0lTJjb+3XaTUH8kxfSU0KsbAI/0bKYcehILdbf
+ SLKK4iFJ1Pf0vsqmgcCsD8bzKci6n+yvNrfWfSI1nUw84+8HemXqrYsdHpwygQfuif07
+ 8ajX5ibzKhQzrPeRO0FsSL+hMlOZW8ObLLfkcMWgg9iZxcTArPgxcAzUfzAiL3wMkawu
+ JamYPe5EGncL++URsA+VNm8dvFjPxmpXtWrSQNuhsb3NX36MHRKB1iyY/0nzAcXxnGj+
+ 4LVFSY+UmlU4lbsH3av4a17UTLu4JZOJ5Dlb857gqvChQB90Kzwerver+tP+98R3eVbs
+ CIxQ==
+X-Gm-Message-State: AOAM533Pyz6cWKJtRaL/YHn4pQD5cA0P47YF7HVckOyZwOxG686tVrcQ
+ +pT7JoOdviq3d0AKVqSUQnLAFN6GYF+40g==
+X-Google-Smtp-Source: ABdhPJydNJcINeJgXZQOgmOepN3fUxtvTDJlhqil2TSYzcYlgpp8CR3Z9pubRpltGwRofjhir1YVHw==
+X-Received: by 2002:a5d:438c:: with SMTP id i12mr23993709wrq.44.1621914886439; 
+ Mon, 24 May 2021 20:54:46 -0700 (PDT)
 Received: from [192.168.1.36] (31.red-83-51-215.dynamicip.rima-tde.net.
  [83.51.215.31])
- by smtp.gmail.com with ESMTPSA id p14sm14183958wrm.70.2021.05.24.20.53.08
+ by smtp.gmail.com with ESMTPSA id c15sm14117077wro.21.2021.05.24.20.54.45
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 24 May 2021 20:53:08 -0700 (PDT)
-Subject: Re: [PATCH] hw/display/artist: Fix bug in coordinate extraction in
- artist_vram_read()
-To: Helge Deller <deller@gmx.de>, qemu-devel@nongnu.org
-References: <YKwLOP/IAGG1u7em@ls3530>
+ Mon, 24 May 2021 20:54:45 -0700 (PDT)
+Subject: Re: [PATCH v1 3/8] gitlab: add special rule for the hexagon container
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20210520174303.12310-1-alex.bennee@linaro.org>
+ <20210520174303.12310-4-alex.bennee@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <ecce5f13-f7e8-03d9-0604-6643af60acf3@amsat.org>
-Date: Tue, 25 May 2021 05:53:07 +0200
+Message-ID: <952f9144-beb6-3999-b54d-bc41970b6aa5@amsat.org>
+Date: Tue, 25 May 2021 05:54:44 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <YKwLOP/IAGG1u7em@ls3530>
-Content-Type: text/plain; charset=iso-8859-15
+In-Reply-To: <20210520174303.12310-4-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -87,44 +90,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Sven Schnelle <svens@stackframe.org>, qemu-stable@nongnu.org
+Cc: fam@euphon.net, Thomas Huth <thuth@redhat.com>, berrange@redhat.com,
+ Cornelia Huck <cohuck@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Willian Rampazzo <willianr@redhat.com>, stefanha@redhat.com, crosa@redhat.com,
+ pbonzini@redhat.com, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Helge,
+On 5/20/21 7:42 PM, Alex Bennée wrote:
+> The hexagon container is always manually built but of course not
+> everyone will be building it themselves and pushing to their
+> registries. We still need to create a "local" registry copy for the
+> actual gitlab tests to run. We don't build it in this case, just pull
+> it across from the upstream registry. We disable this rule from
+> running on the qemu-project itself so it doesn't accidentally wipe out
+> our master copy.
+> 
+> Fixes: 910c40ee94 ("gitlab: add build-user-hexagon test")
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> Tested-by: Cornelia Huck <cohuck@redhat.com>
+> Reviewed-by: Willian Rampazzo <willianr@redhat.com>
+> Cc: Cornelia Huck <cohuck@redhat.com>
+> 
+> ---
+> v2
+>   - fix silly typo
+> ---
+>  .gitlab-ci.d/containers.yml | 27 +++++++++++++++++++++++++++
+>  .gitlab-ci.yml              |  2 ++
+>  2 files changed, 29 insertions(+)
 
-On 5/24/21 10:23 PM, Helge Deller wrote:
-> The CDE desktop on HP-UX 10 shows wrongly rendered pixels when the local screen
-> menu is closed. This bug was introduced by commit c7050f3f167b
-> ("hw/display/artist: Refactor x/y coordination extraction") which converted the
-> coordinate extraction in artist_vram_read() to use the ADDR_TO_X and ADDR_TO_Y
-> macros, but forgot to right-shift the address by 2 as it was done before.
-
-OK, but there is a similar issue in artist_vram_write(), right?
-
-> 
-> Signed-off-by: Helge Deller <deller@gmx.de>
-> Fixes: c7050f3f167b ("hw/display/artist: Refactor x/y coordination extraction")
-> Cc: Philippe Mathieu-Daud� <f4bug@amsat.org>
-> Cc: Richard Henderson <richard.henderson@linaro.org>
-> Cc: Sven Schnelle <svens@stackframe.org>
-> Cc: qemu-stable@nongnu.org
-> 
-> diff --git a/hw/display/artist.c b/hw/display/artist.c
-> index ed0e637f25..34efd3a565 100644
-> --- a/hw/display/artist.c
-> +++ b/hw/display/artist.c
-> @@ -1233,8 +1233,8 @@ static uint64_t artist_vram_read(void *opaque, hwaddr addr, unsigned size)
->          return 0;
->      }
-> 
-> -    posy = ADDR_TO_Y(addr);
-> -    posx = ADDR_TO_X(addr);
-> +    posy = ADDR_TO_Y(addr >> 2);
-> +    posx = ADDR_TO_X(addr >> 2);
-> 
->      if (posy > buf->height || posx > buf->width) {
->          return 0;
-> 
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
