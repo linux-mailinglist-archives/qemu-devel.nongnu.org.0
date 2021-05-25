@@ -2,65 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5A2838FB4B
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 08:55:42 +0200 (CEST)
-Received: from localhost ([::1]:56666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3A0038FB5A
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 09:02:30 +0200 (CEST)
+Received: from localhost ([::1]:59874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llQyb-0006hp-6h
-	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 02:55:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60940)
+	id 1llR5A-0000oa-NU
+	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 03:02:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33650)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
- id 1llQwi-0004iC-9n
- for qemu-devel@nongnu.org; Tue, 25 May 2021 02:53:44 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:3435)
+ (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
+ id 1llR2h-0008R6-0X
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 02:59:55 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:44588
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
- id 1llQwf-0004U2-6e
- for qemu-devel@nongnu.org; Tue, 25 May 2021 02:53:44 -0400
-Received: from dggems702-chm.china.huawei.com (unknown [172.30.72.60])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4Fq4Sx2KP7zQrM0;
- Tue, 25 May 2021 14:49:53 +0800 (CST)
-Received: from dggpeml500016.china.huawei.com (7.185.36.70) by
- dggems702-chm.china.huawei.com (10.3.19.179) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Tue, 25 May 2021 14:53:29 +0800
-Received: from [10.174.148.223] (10.174.148.223) by
- dggpeml500016.china.huawei.com (7.185.36.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Tue, 25 May 2021 14:53:28 +0800
-Subject: Re: A bug of Monitor Chardev ?
-To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <cd197959-7da0-ee50-1e65-e6b2e7107a86@huawei.com>
- <CAJ+F1C+4URqrZvAiBk+o-Ei4etL_oBtdPr0cugGmnMaYaZqGyA@mail.gmail.com>
- <YKU/k/DIJd6gMLvw@redhat.com> <87lf88pmyn.fsf@dusky.pond.sub.org>
- <YKfHGC79w0uv41Zd@t490s> <YKfg6j4mPjvjSrcF@redhat.com>
- <YKfmLgz59nv5Ef5u@redhat.com>
- <CAJ+F1CL_fTN8W2McRA-XXmY6HTy47GZdHz8aB4wxee_7hnyL2g@mail.gmail.com>
-From: "Longpeng (Mike, Cloud Infrastructure Service Product Dept.)"
- <longpeng2@huawei.com>
-Message-ID: <6b0a3f5a-f289-6eed-9a11-a378eeb45e32@huawei.com>
-Date: Tue, 25 May 2021 14:53:28 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
+ id 1llR2e-0005DG-F8
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 02:59:54 -0400
+Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 14P6c0D4130080; Tue, 25 May 2021 02:59:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=HyYJcuAbk2BRKrqcpAW+kOAIJUZpDGxvl4l/KS/gq7U=;
+ b=E4xJUzGMXOKUgSoQvzKa2uUhHnKm3UCJjWZUnWM9mvKUQ2lV058l1r19Azf6E3XRqQsi
+ f9igm4CkEBWWbrW41rIZl503LNV7alZ9Ac83U6XdchAeLpLgRflNAJrkwT7VoLFOef0+
+ 6uDdn9JLyYFuBeN3sEDYuZssMK+lQmZEesU+Wk3YZsxzkqBilMf1gue6HTUUTexraFNp
+ DcxhMove5Xd7XMDgG4bYNl2QCk3a+IYbBw5NbANhQJIgLYUeJ73o9E1RGoF2jnRDoJFs
+ 3mTi0mFaMtN9Kx5H9unNtfhi/FYhvSN6oEUa2IKxlZ6Kdp5IgLjvf2l653wSngjEhito 1A== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 38rueyhe0x-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 25 May 2021 02:59:48 -0400
+Received: from m0098414.ppops.net (m0098414.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 14P6cCZI132367;
+ Tue, 25 May 2021 02:59:48 -0400
+Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com
+ [169.63.121.186])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 38rueyhe0q-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 25 May 2021 02:59:48 -0400
+Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
+ by ppma03wdc.us.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 14P6r0h9022883;
+ Tue, 25 May 2021 06:59:47 GMT
+Received: from b01cxnp22036.gho.pok.ibm.com (b01cxnp22036.gho.pok.ibm.com
+ [9.57.198.26]) by ppma03wdc.us.ibm.com with ESMTP id 38psk94wuc-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 25 May 2021 06:59:47 +0000
+Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com
+ [9.57.199.108])
+ by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 14P6xl6A9241364
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 25 May 2021 06:59:47 GMT
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 03A4FB2068;
+ Tue, 25 May 2021 06:59:47 +0000 (GMT)
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id B0B29B205F;
+ Tue, 25 May 2021 06:59:46 +0000 (GMT)
+Received: from localhost.localdomain (unknown [9.2.130.16])
+ by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
+ Tue, 25 May 2021 06:59:46 +0000 (GMT)
+From: Dov Murik <dovmurik@linux.ibm.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] x86: add SEV hashing to fw_cfg for kernel/initrd/cmdline
+Date: Tue, 25 May 2021 06:59:31 +0000
+Message-Id: <20210525065931.1628554-1-dovmurik@linux.ibm.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <CAJ+F1CL_fTN8W2McRA-XXmY6HTy47GZdHz8aB4wxee_7hnyL2g@mail.gmail.com>
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.174.148.223]
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
- dggpeml500016.china.huawei.com (7.185.36.70)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.191; envelope-from=longpeng2@huawei.com;
- helo=szxga05-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: FZ7PLIsT2A28MXx65ZVIpQiqiJMdwAet
+X-Proofpoint-ORIG-GUID: qZcGYn5Z3NINiEvDNyHGbJ7U4hoiUMiY
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
+ definitions=2021-05-25_03:2021-05-24,
+ 2021-05-25 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 impostorscore=0
+ spamscore=0 clxscore=1011 adultscore=0 lowpriorityscore=0 suspectscore=0
+ mlxscore=0 mlxlogscore=999 phishscore=0 priorityscore=1501 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104190000
+ definitions=main-2105250045
+Received-SPF: pass client-ip=148.163.158.5;
+ envelope-from=dovmurik@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -73,104 +107,233 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: chenjiashang@huawei.com, Markus Armbruster <armbru@redhat.com>,
- Peter Xu <peterx@redhat.com>, QEMU <qemu-devel@nongnu.org>,
- "Gonglei \(Arei\)" <arei.gonglei@huawei.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Tom Lendacky <thomas.lendacky@amd.com>, Ashish Kalra <ashish.kalra@amd.com>,
+ Brijesh Singh <brijesh.singh@amd.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>, Tobin Feldman-Fitzthum <tobin@ibm.com>,
+ James Bottomley <jejb@linux.ibm.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Hubertus Franke <frankeh@us.ibm.com>, Dov Murik <dovmurik@linux.ibm.com>,
+ Tobin Feldman-Fitzthum <tobin@linux.ibm.com>, Jim Cadden <jcadden@ibm.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Laszlo Ersek <lersek@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Marc,
+From: James Bottomley <jejb@linux.ibm.com>
 
-在 2021/5/22 0:59, Marc-André Lureau 写道:
-> Hi
-> 
-> On Fri, May 21, 2021 at 8:56 PM Daniel P. Berrangé <berrange@redhat.com
-> <mailto:berrange@redhat.com>> wrote:
-> 
->     On Fri, May 21, 2021 at 05:33:46PM +0100, Daniel P. Berrangé wrote:
->     > On Fri, May 21, 2021 at 10:43:36AM -0400, Peter Xu wrote:
->     > >
->     > > I think the original problem was that if qemu_chr_fe_set_handlers() is
->     called
->     > > in main thread, it can start to race somehow within execution of the
->     function
->     > > qemu_chr_fe_set_handlers() right after we switch context at:
->     > >
->     > >     qemu_chr_be_update_read_handlers(s, context);
->     > >
->     > > Then the rest code in qemu_chr_fe_set_handlers() will continue to run in
->     main
->     > > thread for sure, but the should be running with the new iothread
->     context, which
->     > > introduce a race condition.
->     > >
->     > > Running qemu_chr_be_update_read_handlers() in BH resolves that because
->     then all
->     > > things run in the monitor iothread only and natually serialized.
->     >
->     > The first message in this thread, however, claims that it is *not*
->     > in fact serialized, when using the BH.
->     >
->     > > So the new comment looks indeed not fully right, as the chr device should be
->     > > indeed within main thread context before qemu_chr_fe_set_handlers(),
->     it's just
->     > > that the race may start right away if without BH when context switch happens
->     > > for the chr.
->     >
->     > It sounds like both the comment and the code are potentially wrong.
-> 
-> 
->     I feel like our root cause problem that the original code was trying to
->     workaround, is that the chardev is "active" from the very moment it is
->     created, regardless of whether the frontend is ready to use it.
-> 
->     IIUC, in this case the socket chardev is already listen()ing and
->     accept()ing incoming clients off the network, before the monitor
->     has finished configuring its hooks into the chardev. This means
->     that the initial listen()/accept() I/O watches are using the
->     default GMainContext, and the monitor *has* to remove them and
->     put in new watches on the thread private GMainContext.
-> 
->     To eliminate any risk of races, we need to make it possible for the
->     monitor to configure the GMainContext on the chardevs *before* any
->     I/O watches are configured.
-> 
->     This in turn suggests that we need to split the chardev initialization
->     into two phases. First we have the basic chardev creation, with object
->     creation, option parsing/sanity checking, socket creation, and then
->     second we have the actual activation where the I/O watches are added.
-> 
->     IOW,  qemu_chr_new() is the former and gets run from generic code in
->     the main() method, or in QMP chardev_add.  A new 'qemu_chr_activate'
->     method would be called by whatever frontend is using the chardev,
->     after registering a custom GMainContext.
-> 
->     This would involve updating every single existing user of chardevs
->     to add a call to qemu_chr_activate, but that's worth it to eliminate
->     the race by design, rather than workaround it.
-> 
-> 
-> 
-> What about my earlier suggestion to add a new "qemu_chr_be_disable_handlers()"
-> (until update_read_handlers is called again to enable them and the set a
-> different context)?
-> 
+If the VM is using memory encryption and also specifies a kernel/initrd
+or appended command line, calculate the hashes and add them to the
+encrypted data.  For this to work, OVMF must support an encrypted area
+to place the data which is advertised via a special GUID in the OVMF
+reset table (if the GUID doesn't exist, the user isn't allowed to pass
+in the kernel/initrd/cmdline via the fw_cfg interface).
 
-In this case, the BH calls the update_read_handlers, so the new added
-"qemu_chr_be_disable_handlers" will be called in the monitor iothread BH ? If
-so, I'm not sure whether it is safe enough, because the Chardev may still be
-accessed in parallel by main loop and iothread for a while.
+The hashes of each of the files is calculated (or the string in the case
+of the cmdline with trailing '\0' included).  Each entry in the hashes
+table is GUID identified and since they're passed through the memcrypt
+interface, the hash of the encrypted data will be accumulated by the
+PSP.
 
-How about call "qemu_chr_be_disable_handlers" before set the
-monitor_qmp_setup_handlers_bh ?
+Signed-off-by: James Bottomley <jejb@linux.ibm.com>
+Signed-off-by: Dov Murik <dovmurik@linux.ibm.com>
+[dovmurik@linux.ibm.com: use machine->cgs, remove parsing of GUID
+strings, remove GCC pragma, fix checkpatch errors]
+---
 
-I think Daniel's soluation is perfect, but it's beyond my ability, I'm not
-expert in Chardev/QMP, it's difficult to guarantee no other bugs will be
-introduced, so we prefer to take the simplest and safest way to fix the bug in
-our production.
+OVMF support for handling the table of hashes (verifying that the
+kernel/initrd/cmdline passed via the fw_cfg interface indeed correspond
+to the measured hashes in the table) will be posted soon to edk2-devel.
 
-> 
-> -- 
-> Marc-André Lureau
+---
+ hw/i386/x86.c | 120 +++++++++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 119 insertions(+), 1 deletion(-)
+
+diff --git a/hw/i386/x86.c b/hw/i386/x86.c
+index ed796fe6ba..d8e77b99b4 100644
+--- a/hw/i386/x86.c
++++ b/hw/i386/x86.c
+@@ -37,12 +37,16 @@
+ #include "sysemu/replay.h"
+ #include "sysemu/sysemu.h"
+ #include "sysemu/cpu-timers.h"
++#include "sysemu/sev.h"
++#include "exec/confidential-guest-support.h"
+ #include "trace.h"
++#include "crypto/hash.h"
+ 
+ #include "hw/i386/x86.h"
+ #include "target/i386/cpu.h"
+ #include "hw/i386/topology.h"
+ #include "hw/i386/fw_cfg.h"
++#include "hw/i386/pc.h"
+ #include "hw/intc/i8259.h"
+ #include "hw/rtc/mc146818rtc.h"
+ 
+@@ -758,6 +762,42 @@ static bool load_elfboot(const char *kernel_filename,
+     return true;
+ }
+ 
++struct sev_hash_table_descriptor {
++    uint32_t base;
++    uint32_t size;
++};
++
++/* hard code sha256 digest size */
++#define HASH_SIZE 32
++
++struct sev_hash_table_entry {
++    uint8_t guid[16];
++    uint16_t len;
++    uint8_t hash[HASH_SIZE];
++} __attribute__ ((packed));
++
++struct sev_hash_table {
++    uint8_t guid[16];
++    uint16_t len;
++    struct sev_hash_table_entry entries[];
++} __attribute__((packed));
++
++#define SEV_HASH_TABLE_RV_GUID "7255371f-3a3b-4b04-927b-1da6efa8d454"
++
++static const uint8_t sev_hash_table_header_guid[] =
++        UUID_LE(0x9438d606, 0x4f22, 0x4cc9, 0xb4, 0x79, 0xa7, 0x93,
++                0xd4, 0x11, 0xfd, 0x21);
++
++static const uint8_t sev_kernel_entry_guid[] =
++        UUID_LE(0x4de79437, 0xabd2, 0x427f, 0xb8, 0x35, 0xd5, 0xb1,
++                0x72, 0xd2, 0x04, 0x5b);
++static const uint8_t sev_initrd_entry_guid[] =
++        UUID_LE(0x44baf731, 0x3a2f, 0x4bd7, 0x9a, 0xf1, 0x41, 0xe2,
++                0x91, 0x69, 0x78, 0x1d);
++static const uint8_t sev_cmdline_entry_guid[] =
++        UUID_LE(0x97d02dd8, 0xbd20, 0x4c94, 0xaa, 0x78, 0xe7, 0x71,
++                0x4d, 0x36, 0xab, 0x2a);
++
+ void x86_load_linux(X86MachineState *x86ms,
+                     FWCfgState *fw_cfg,
+                     int acpi_data_size,
+@@ -778,6 +818,11 @@ void x86_load_linux(X86MachineState *x86ms,
+     const char *initrd_filename = machine->initrd_filename;
+     const char *dtb_filename = machine->dtb;
+     const char *kernel_cmdline = machine->kernel_cmdline;
++    uint8_t buf[HASH_SIZE];
++    uint8_t *hash = buf;
++    size_t hash_len = sizeof(buf);
++    struct sev_hash_table *sev_ht = NULL;
++    int sev_ht_index = 0;
+ 
+     /* Align to 16 bytes as a paranoia measure */
+     cmdline_size = (strlen(kernel_cmdline) + 16) & ~15;
+@@ -799,6 +844,22 @@ void x86_load_linux(X86MachineState *x86ms,
+         exit(1);
+     }
+ 
++    if (machine->cgs && machine->cgs->ready) {
++        uint8_t *data;
++        struct sev_hash_table_descriptor *area;
++
++        if (!pc_system_ovmf_table_find(SEV_HASH_TABLE_RV_GUID, &data, NULL)) {
++            fprintf(stderr, "qemu: kernel command line specified but OVMF has "
++                    "no hash table guid\n");
++            exit(1);
++        }
++        area = (struct sev_hash_table_descriptor *)data;
++
++        sev_ht = qemu_map_ram_ptr(NULL, area->base);
++        memcpy(sev_ht->guid, sev_hash_table_header_guid, sizeof(sev_ht->guid));
++        sev_ht->len = sizeof(*sev_ht);
++    }
++
+     /* kernel protocol version */
+     if (ldl_p(header + 0x202) == 0x53726448) {
+         protocol = lduw_p(header + 0x206);
+@@ -925,6 +986,17 @@ void x86_load_linux(X86MachineState *x86ms,
+     fw_cfg_add_i32(fw_cfg, FW_CFG_CMDLINE_SIZE, strlen(kernel_cmdline) + 1);
+     fw_cfg_add_string(fw_cfg, FW_CFG_CMDLINE_DATA, kernel_cmdline);
+ 
++    if (sev_ht) {
++        struct sev_hash_table_entry *e = &sev_ht->entries[sev_ht_index++];
++
++        qcrypto_hash_bytes(QCRYPTO_HASH_ALG_SHA256, (char *)kernel_cmdline,
++                           strlen(kernel_cmdline) + 1,
++                           &hash, &hash_len, &error_fatal);
++        memcpy(e->hash, hash, hash_len);
++        e->len = sizeof(*e);
++        memcpy(e->guid, sev_cmdline_entry_guid, sizeof(e->guid));
++    }
++
+     if (protocol >= 0x202) {
+         stl_p(header + 0x228, cmdline_addr);
+     } else {
+@@ -1008,6 +1080,17 @@ void x86_load_linux(X86MachineState *x86ms,
+ 
+         stl_p(header + 0x218, initrd_addr);
+         stl_p(header + 0x21c, initrd_size);
++
++        if (sev_ht) {
++            struct sev_hash_table_entry *e = &sev_ht->entries[sev_ht_index++];
++
++            qcrypto_hash_bytes(QCRYPTO_HASH_ALG_SHA256, (char *)initrd_data,
++                               initrd_size, &hash, &hash_len, &error_fatal);
++            memcpy(e->hash, hash, hash_len);
++            e->len = sizeof(*e);
++            memcpy(e->guid, sev_initrd_entry_guid, sizeof(e->guid));
++        }
++
+     }
+ 
+     /* load kernel and setup */
+@@ -1063,7 +1146,17 @@ void x86_load_linux(X86MachineState *x86ms,
+         load_image_size(dtb_filename, setup_data->data, dtb_size);
+     }
+ 
+-    memcpy(setup, header, MIN(sizeof(header), setup_size));
++    /*
++     * If we're doing an encrypted VM (sev_ht will be set), it will be
++     * OVMF based, which uses the efi stub for booting and doesn't
++     * require any values to be placed in the kernel header.  We
++     * therefore don't update the header so the hash of the kernel on
++     * the other side of the fw_cfg interface matches the hash of the
++     * file the user passed in.
++     */
++    if (!sev_ht) {
++        memcpy(setup, header, MIN(sizeof(header), setup_size));
++    }
+ 
+     fw_cfg_add_i32(fw_cfg, FW_CFG_KERNEL_ADDR, prot_addr);
+     fw_cfg_add_i32(fw_cfg, FW_CFG_KERNEL_SIZE, kernel_size);
+@@ -1073,6 +1166,31 @@ void x86_load_linux(X86MachineState *x86ms,
+     fw_cfg_add_i32(fw_cfg, FW_CFG_SETUP_SIZE, setup_size);
+     fw_cfg_add_bytes(fw_cfg, FW_CFG_SETUP_DATA, setup, setup_size);
+ 
++    if (sev_ht) {
++        struct iovec iov[2] = {
++            {.iov_base = (char *)setup, .iov_len = setup_size },
++            {.iov_base = (char *)kernel, .iov_len = kernel_size }
++        };
++        struct sev_hash_table_entry *e = &sev_ht->entries[sev_ht_index++];
++        int len;
++
++        qcrypto_hash_bytesv(QCRYPTO_HASH_ALG_SHA256, iov, 2,
++                            &hash, &hash_len, &error_fatal);
++        memcpy(e->hash, hash, hash_len);
++        e->len = sizeof(*e);
++        memcpy(e->guid, sev_kernel_entry_guid, sizeof(e->guid));
++
++        /* now we have all the possible entries, finalize the hash table */
++        sev_ht->len += sev_ht_index * sizeof(*e);
++        /* SEV len has to be 16 byte aligned */
++        len = ROUND_UP(sev_ht->len, 16);
++        if (len != sev_ht->len) {
++            /* zero the excess data so hash can be reliably calculated */
++            memset(&sev_ht->entries[sev_ht_index], 0, len - sev_ht->len);
++        }
++
++        sev_encrypt_flash((uint8_t *)sev_ht, len, &error_fatal);
++    }
+     option_rom[nb_option_roms].bootindex = 0;
+     option_rom[nb_option_roms].name = "linuxboot.bin";
+     if (linuxboot_dma_enabled && fw_cfg_dma_enabled(fw_cfg)) {
+-- 
+2.25.1
+
 
