@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B09E038FF8B
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 12:51:09 +0200 (CEST)
-Received: from localhost ([::1]:40980 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B933238FF86
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 12:49:53 +0200 (CEST)
+Received: from localhost ([::1]:36578 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llUeS-0005Fi-H1
-	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 06:51:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51942)
+	id 1llUdE-0002Bm-QA
+	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 06:49:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51972)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1llUae-0008Ud-Rb
- for qemu-devel@nongnu.org; Tue, 25 May 2021 06:47:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38465)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1llUao-00004y-G2
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 06:47:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36132)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1llUaa-00058u-4B
- for qemu-devel@nongnu.org; Tue, 25 May 2021 06:47:12 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1llUae-0005B2-KL
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 06:47:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621939627;
+ s=mimecast20190719; t=1621939631;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=sGUjgQc86yka3JivfX33XNE9207swmMQeXgTKAFQ6Bo=;
- b=MLs+C6rFpXigiXChzXGwsTEcmTGPPq8tqBXRrpV9FqXEMwa8Wqyn29ZNFufrNx2WAlWJeA
- jSMp9gBphK2qvtvntJcsexO1K09f9Ci3eH9fBAOzulEE9SQYIBVzVX9AOVRHZUgCrtVKL4
- LLKLl/FoNsVUqyZ0PG0khRN9DkziK5w=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-385-UEt6lvxlNIyzwTsn9Z4cfQ-1; Tue, 25 May 2021 06:47:05 -0400
-X-MC-Unique: UEt6lvxlNIyzwTsn9Z4cfQ-1
-Received: by mail-wr1-f70.google.com with SMTP id
- x10-20020adfc18a0000b029010d83c83f2aso14392340wre.8
- for <qemu-devel@nongnu.org>; Tue, 25 May 2021 03:47:05 -0700 (PDT)
+ bh=Io/gtPiUsGrqL3zsjei2ki4eFXmSzRnaKxipOW1dItU=;
+ b=BkPZ1s4VY4IRkj4+u7IZ2VCsO3XNt+e8mjjC+5PjYJLpFWog+Y8LfLU4VyyHWJleTVlgnT
+ s/lifVL0TVk/7NtHX7LW9B0mMn7bzD7xGz+sg9wIKAvIKEjxpqQgR/KkDTjHrOnt3IjB4a
+ IrFVo/LcH33n44W63w/ZMDap5qC2nP4=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-411-2Ch_jZOtOlCvl70EGvdsjA-1; Tue, 25 May 2021 06:47:10 -0400
+X-MC-Unique: 2Ch_jZOtOlCvl70EGvdsjA-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ n2-20020adfb7420000b029010e47b59f31so14280100wre.9
+ for <qemu-devel@nongnu.org>; Tue, 25 May 2021 03:47:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=sGUjgQc86yka3JivfX33XNE9207swmMQeXgTKAFQ6Bo=;
- b=IF2mLgKwGGF8jtwrFb5J+LCaOKlRWo5OeCum2gvEftMRZMoPiDLMhliPxPUzv4UbgS
- 6PsIopgfu6YlMAlmzA2ukk3LGqHL3yKjIRghYWimtfcLs2z7TNRSRohsZXJ0SFZyqze5
- RSvlXi80em00uNWNcUsbRjMaL0xAaLXHABRFGnWO7DXGN4syAeUs8SstqikY+KfGV5SE
- sHHJLlAjc+ziirDJjCShCCfcS+cVdlGlZlPZ/i03Qm7GqlrVdMJ7LxbSYly0LbWMtO9i
- rpyCnFcMyiuo2FrK+vf7bDf1yjrviWp1jhcZ/5iGwiZmfStakD3xWFzC++ND3JTd4/OY
- 7iZA==
-X-Gm-Message-State: AOAM53016aOEagoAKP0nD3uG920VeKWNymlL2SJUBbXr/1CgT3WBEgKJ
- ba/ZJCFAoRHCp/KiW1BUBn+7dz1LRCvOqcfc1GNGIQmNVZ3nZatSxRbSxtGtVvDAV3LtLMVC0BX
- /bhRMyEB+FVD3RxGtzseo1GYLomUH8z0xELkaEqIXWqIik9tthuQLcNReJe26BGrC
-X-Received: by 2002:a5d:690b:: with SMTP id t11mr24238294wru.250.1621939624285; 
- Tue, 25 May 2021 03:47:04 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxdB4QDtRRJiAhusc05G2MPjPPsvzE3w7/V7Vv8+MiIXa4ZHMf6K1006ZSnWX+9FgwsYmpEzg==
-X-Received: by 2002:a5d:690b:: with SMTP id t11mr24238276wru.250.1621939624151; 
- Tue, 25 May 2021 03:47:04 -0700 (PDT)
+ bh=Io/gtPiUsGrqL3zsjei2ki4eFXmSzRnaKxipOW1dItU=;
+ b=Nlh7cjl6YWTUP1Dy1iWSDi2ZrE0ZMlxzHqBeKdAbUou/lfd3k8TAJyMpBxebZQd2lb
+ 9v0Sn3ILWbVTupAYSul83RYPY0IUB1WkELcOKbSYvxJy8n5qiamv+YhgaGWnEHOTDIhw
+ /NjXGwrn1eWbOwzvKJpyG/ScbfET5ajvgBxGt+zjXWqczXQuoIiIjo78RSAtFb0XcLJm
+ lCjvJFIVy6mltMCWBjwn5SnGEV89j3/wJ2DS7wWZA7n6QUc3DViqYrMzpEoQ9dmnmCKo
+ rXcjryO+FoBrehIhDoNlBKvLav0Gxy8FySNPorin8Edrrbgg0RkomYQkxX74gDDLwKZy
+ /bIg==
+X-Gm-Message-State: AOAM533fQGEK8xdVUX+kUVFQm7LvjPjBkwhI1mmyUXhCH+bmGuOeRYPz
+ ExzbRCTPzvhCW7v2NCQAk7WBudI1YABaaF41KXRbJEZwb39o7fCgeHnY/IoQbghSCyoaD5Kmx8P
+ 4kZ7PlxgnbxAiiAUUiCAKwsf0tOj7WVLllqDOHl0l4IRNRR4JmUQIl2A04nwKUxR4
+X-Received: by 2002:a5d:688d:: with SMTP id h13mr26410667wru.362.1621939628585; 
+ Tue, 25 May 2021 03:47:08 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyzDG5gRhnEWvV1N/4oQtoUHKUcSEwlEZZ7VTHATIAKGMuoUNzY2fisqai9PS71ENHRZwuVvA==
+X-Received: by 2002:a5d:688d:: with SMTP id h13mr26410644wru.362.1621939628432; 
+ Tue, 25 May 2021 03:47:08 -0700 (PDT)
 Received: from localhost.localdomain (31.red-83-51-215.dynamicip.rima-tde.net.
  [83.51.215.31])
- by smtp.gmail.com with ESMTPSA id r5sm12521600wmh.23.2021.05.25.03.47.03
+ by smtp.gmail.com with ESMTPSA id b15sm15206992wru.64.2021.05.25.03.47.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 May 2021 03:47:03 -0700 (PDT)
+ Tue, 25 May 2021 03:47:08 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/3] meson: List if X11 dependency is detected
-Date: Tue, 25 May 2021 12:46:47 +0200
-Message-Id: <20210525104648.4060904-3-philmd@redhat.com>
+Subject: [PATCH 3/3] meson: List modules built in summary
+Date: Tue, 25 May 2021 12:46:48 +0200
+Message-Id: <20210525104648.4060904-4-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210525104648.4060904-1-philmd@redhat.com>
 References: <20210525104648.4060904-1-philmd@redhat.com>
@@ -100,25 +100,44 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It is sometimes useful to know if X11 is detected.
+Instead of guessing the modules built, list them. Example:
+
+  Modules
+    audio                        : spice
+    block                        : curl dmg-bz2 gluster iscsi rbd ssh
+    chardev                      : spice
+    hw-display                   :
+    hw-s390x                     : virtio-gpu-ccw
+    hw-usb                       : redirect smartcard
+    ui                           : egl-headless gtk opengl spice-app spice-core
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- meson.build | 1 +
- 1 file changed, 1 insertion(+)
+ meson.build | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
 diff --git a/meson.build b/meson.build
-index 2a7d69cf428..5ca1bd36292 100644
+index 5ca1bd36292..54b97ace207 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -2671,6 +2671,7 @@
- summary_info += {'SDL support':       sdl.found()}
- summary_info += {'SDL image support': sdl_image.found()}
- # TODO: add back version
-+summary_info += {'X11 support':       x11.found()}
- summary_info += {'GTK support':       gtk.found()}
- summary_info += {'pixman':            pixman.found()}
- # TODO: add back version
+@@ -2738,6 +2738,17 @@
+ summary_info += {'FUSE lseek':        fuse_lseek.found()}
+ summary(summary_info, bool_yn: true, section: 'Dependencies')
+ 
++# Modules
++summary_info = {}
++foreach d, list : modules
++  k = []
++    foreach m, _ : list
++      k += [m]
++    endforeach
++  summary_info += {d: ' '.join(k)}
++endforeach
++summary(summary_info, bool_yn: true, section: 'Modules')
++
+ if not supported_cpus.contains(cpu)
+   message()
+   warning('SUPPORT FOR THIS HOST CPU WILL GO AWAY IN FUTURE RELEASES!')
 -- 
 2.26.3
 
