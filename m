@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8201390698
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 18:25:55 +0200 (CEST)
-Received: from localhost ([::1]:50390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DE6C3906A4
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 18:28:37 +0200 (CEST)
+Received: from localhost ([::1]:56426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llZsQ-0000EO-TK
-	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 12:25:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60322)
+	id 1llZv2-0004Ro-HB
+	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 12:28:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60368)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1llYeQ-0001ZR-0a
- for qemu-devel@nongnu.org; Tue, 25 May 2021 11:07:22 -0400
-Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:33475)
+ id 1llYeR-0001eP-4Y
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 11:07:23 -0400
+Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:51054)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1llYeG-0006dd-Dt
- for qemu-devel@nongnu.org; Tue, 25 May 2021 11:07:21 -0400
-Received: by mail-pg1-x52d.google.com with SMTP id i5so23003718pgm.0
- for <qemu-devel@nongnu.org>; Tue, 25 May 2021 08:07:11 -0700 (PDT)
+ id 1llYeH-0006dy-Fh
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 11:07:22 -0400
+Received: by mail-pj1-x1034.google.com with SMTP id t11so17029864pjm.0
+ for <qemu-devel@nongnu.org>; Tue, 25 May 2021 08:07:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=xT+gSFFP0Pvgx6/sc6D9cAa4M58V2yFxoT6V+q8WC7g=;
- b=v2ywlVESGuw0X0HiWixI4/bkksvmXtCANsoC43fR6EhTJmog+ey8HK7WH+VW8eKkwE
- hjfeupTmNkMiUH+QwCV2l2BIAGJG21sUm6CItqLTvgC7LNnU0nbLt9dDMFPZzXAmgu3x
- hOZ3gkO+Xnq8+cOPvOmfCPtXTrj3QZanQ8RPfdOxyExYAdleQMXhUsixfmdys0TxydHZ
- eCw7n6SJ3kIwCc2tSgrxYFlkDWzUGpKXRymNgNovIjrO6ee6CYQ8Omo4gPzC11DUvLiV
- 0brfd+h18knJanlOzYGMzSIvdp4phVNzsVee9HygWFRtFjUnyhDOuGuUtbZSE5LNfUdo
- Kv/A==
+ bh=UZW48CzleAWs3EEYVj0CQeurJ7gxS/XtjXLc9QsEbJM=;
+ b=hHvEcnXEF89YB+M/st1LxzueXdcmbdKouEWdTTBU/yTuI+fNECFsNM8rSmane6HNVy
+ NADDYe7eNC41RY2ZA/Wwnaw4SK5rHPA9/Nm7HGmEPHVeZpD8kPE/edsYBqImOLsRRSgM
+ Jz+DSMDnTZXBqmpulREDABArK3wu4xPqnDPwizv+4uN9Kw82HWYNwdOukozAQTtH09qS
+ ROhmXXk6PURv7th90fyF9K4wcXz5lHsi5EejmCtskY/0ddtsVfU04Oxf4HKHuOReT1iT
+ tHaWctONIRgnijp63J/SGI8RgXFRfs/0JOxeAhFYgDTFbdv+jsu17M0YAUJ+VKWyKkzg
+ kUfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=xT+gSFFP0Pvgx6/sc6D9cAa4M58V2yFxoT6V+q8WC7g=;
- b=W95HrnM4hiSx18emZ7Wif7vGr53j83XniW38KTvN9zJzeAFelsAS33+SPZlT8lJnUU
- IixUy7/8N7sFgaXczDmjzx2k+9uiANapRkRK83sbGkPMaFCRKyy068dlCsurTuIh8ajN
- qMbUqsJJinmkN083TqZ5n1v4Tn1JJKEFkJWyyDUWj1k2X5UYO92tzWXzdnJD+80Z0Gaz
- AoOB3O/EAgR7iSLuLn8SHCm/CmO9IkNvXv1ElTihdZ/z7ePSy3bs83MG5FfPOLgPgmfB
- lhOSwDbhkfqf1t2AO3fJls8163KC5V51VGq5uoMbzO/JRKxwGEsgILYb04sYKm0YLN90
- 8+9A==
-X-Gm-Message-State: AOAM533PW+3vy7uHZoLIVA7pjxtuQjoyzq4ZKk+VS+rs6+C2GxHWHFaQ
- AMzwttA60qpZ7c1Hq1wtM2sCBznS7OLT9A==
-X-Google-Smtp-Source: ABdhPJy1zOve/edND+nsLTEZjVIQeBBJZcFwmXKmLZXad3BkcOj2RI766TvgRlywGet8Serg0VElFQ==
-X-Received: by 2002:aa7:9216:0:b029:2e5:6989:4f1a with SMTP id
- 22-20020aa792160000b02902e569894f1amr21153138pfo.50.1621955230734; 
- Tue, 25 May 2021 08:07:10 -0700 (PDT)
+ bh=UZW48CzleAWs3EEYVj0CQeurJ7gxS/XtjXLc9QsEbJM=;
+ b=eAbJw2dW4vgjKmcgZWm+jCdgb5aAUlS2idGpKErBLAIu7gWRdH4jvphBYAZ3wnG+of
+ 94u+gf6lS5jH/CDVjQTxCNZ+e917poNPufgeRCKmTsPwq4OzTy1rUvQKZqx/hTzDDPYI
+ 1hMOcdcM2Atuw9V7c17rVaj3TtvrksDW0wjs2miGGeYmGzCOjPzYO20dE71PFyUxNUDg
+ c8dyZiWEA8fWPTNqNDN59X78mWaP6/hnJmda3JYO+poFMlI32zeqKWOw4i8CwC2S2IVG
+ n9Txx2x8/1AlbhOLZ7/wy6L0aPVif5PrL3g5iPCw4dLFmeoWsNWWUqccq2VmeQgun9h5
+ tsRg==
+X-Gm-Message-State: AOAM532dDXvv6rkEsXOqieOHMhB9Ph9rTOVzAxAJDYK2YxKtUfMFyQAZ
+ oIGT6FXL8FdZA5XpSBFL4plelVRwcP28DQ==
+X-Google-Smtp-Source: ABdhPJzCa0rR8ei/LZqI1kgh3a+95Uy/a8VnJUE+gJjBnHD1EUb4jJHT6+Nnz01g5c6rYeq97ajEbw==
+X-Received: by 2002:a17:903:3106:b029:ee:fa93:9546 with SMTP id
+ w6-20020a1709033106b02900eefa939546mr31070909plc.23.1621955231425; 
+ Tue, 25 May 2021 08:07:11 -0700 (PDT)
 Received: from localhost.localdomain (174-21-70-228.tukw.qwest.net.
  [174.21.70.228])
  by smtp.gmail.com with ESMTPSA id z19sm2231943pjq.11.2021.05.25.08.07.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 May 2021 08:07:10 -0700 (PDT)
+ Tue, 25 May 2021 08:07:11 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 05/28] softfloat: Move compare_floats to
+Subject: [PATCH v2 06/28] softfloat: Move scalbn_decomposed to
  softfloat-parts.c.inc
-Date: Tue, 25 May 2021 08:06:43 -0700
-Message-Id: <20210525150706.294968-6-richard.henderson@linaro.org>
+Date: Tue, 25 May 2021 08:06:44 -0700
+Message-Id: <20210525150706.294968-7-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210525150706.294968-1-richard.henderson@linaro.org>
 References: <20210525150706.294968-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,381 +89,190 @@ Cc: alex.bennee@linaro.org, david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Rename to parts$N_compare.  Rename all of the intermediate
-functions to ftype_do_compare.  Rename the hard-float functions
-to ftype_hs_compare.  Convert float128 to FloatParts128.
+Rename to parts$N_scalbn.
+Reimplement float128_scalbn with FloatParts128.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- fpu/softfloat.c           | 208 ++++++++++++++------------------------
- fpu/softfloat-parts.c.inc |  57 +++++++++++
- 2 files changed, 133 insertions(+), 132 deletions(-)
+ fpu/softfloat.c           | 103 +++++++++++++-------------------------
+ fpu/softfloat-parts.c.inc |  21 ++++++++
+ 2 files changed, 55 insertions(+), 69 deletions(-)
 
 diff --git a/fpu/softfloat.c b/fpu/softfloat.c
-index 2dadded0b5..3c2c3ec8f8 100644
+index 3c2c3ec8f8..45194f5d14 100644
 --- a/fpu/softfloat.c
 +++ b/fpu/softfloat.c
-@@ -882,6 +882,14 @@ static int parts128_minmax(FloatParts128 *a, FloatParts128 *b,
- #define parts_minmax(A, B, S, Z, F) \
-     PARTS_GENERIC_64_128(minmax, A)(A, B, S, Z, F)
+@@ -890,6 +890,12 @@ static int parts128_compare(FloatParts128 *a, FloatParts128 *b,
+ #define parts_compare(A, B, S, Q) \
+     PARTS_GENERIC_64_128(compare, A)(A, B, S, Q)
  
-+static int parts64_compare(FloatParts64 *a, FloatParts64 *b,
-+                           float_status *s, bool q);
-+static int parts128_compare(FloatParts128 *a, FloatParts128 *b,
-+                            float_status *s, bool q);
++static void parts64_scalbn(FloatParts64 *a, int n, float_status *s);
++static void parts128_scalbn(FloatParts128 *a, int n, float_status *s);
 +
-+#define parts_compare(A, B, S, Q) \
-+    PARTS_GENERIC_64_128(compare, A)(A, B, S, Q)
++#define parts_scalbn(A, N, S) \
++    PARTS_GENERIC_64_128(scalbn, A)(A, N, S)
 +
  /*
   * Helper functions for softfloat-parts.c.inc, per-size operations.
   */
-@@ -3360,92 +3368,42 @@ MINMAX_2(float64)
- #undef MINMAX_1
- #undef MINMAX_2
+@@ -3532,58 +3538,53 @@ FloatRelation float128_compare_quiet(float128 a, float128 b, float_status *s)
+     return float128_do_compare(a, b, s, true);
+ }
  
--/* Floating point compare */
--static FloatRelation compare_floats(FloatParts64 a, FloatParts64 b, bool is_quiet,
--                                    float_status *s)
+-/* Multiply A by 2 raised to the power N.  */
+-static FloatParts64 scalbn_decomposed(FloatParts64 a, int n, float_status *s)
+-{
+-    if (unlikely(is_nan(a.cls))) {
+-        parts_return_nan(&a, s);
+-    }
+-    if (a.cls == float_class_normal) {
+-        /* The largest float type (even though not supported by FloatParts64)
+-         * is float128, which has a 15 bit exponent.  Bounding N to 16 bits
+-         * still allows rounding to infinity, without allowing overflow
+-         * within the int32_t that backs FloatParts64.exp.
+-         */
+-        n = MIN(MAX(n, -0x10000), 0x10000);
+-        a.exp += n;
+-    }
+-    return a;
+-}
 +/*
-+ * Floating point compare
++ * Scale by 2**N
 + */
-+
-+static FloatRelation QEMU_FLATTEN
-+float16_do_compare(float16 a, float16 b, float_status *s, bool is_quiet)
- {
--    if (is_nan(a.cls) || is_nan(b.cls)) {
--        if (!is_quiet ||
--            a.cls == float_class_snan ||
--            b.cls == float_class_snan) {
--            float_raise(float_flag_invalid, s);
--        }
--        return float_relation_unordered;
--    }
-+    FloatParts64 pa, pb;
  
--    if (a.cls == float_class_zero) {
--        if (b.cls == float_class_zero) {
--            return float_relation_equal;
--        }
--        return b.sign ? float_relation_greater : float_relation_less;
--    } else if (b.cls == float_class_zero) {
--        return a.sign ? float_relation_less : float_relation_greater;
--    }
--
--    /* The only really important thing about infinity is its sign. If
--     * both are infinities the sign marks the smallest of the two.
--     */
--    if (a.cls == float_class_inf) {
--        if ((b.cls == float_class_inf) && (a.sign == b.sign)) {
--            return float_relation_equal;
--        }
--        return a.sign ? float_relation_less : float_relation_greater;
--    } else if (b.cls == float_class_inf) {
--        return b.sign ? float_relation_greater : float_relation_less;
--    }
--
--    if (a.sign != b.sign) {
--        return a.sign ? float_relation_less : float_relation_greater;
--    }
--
--    if (a.exp == b.exp) {
--        if (a.frac == b.frac) {
--            return float_relation_equal;
--        }
--        if (a.sign) {
--            return a.frac > b.frac ?
--                float_relation_less : float_relation_greater;
--        } else {
--            return a.frac > b.frac ?
--                float_relation_greater : float_relation_less;
--        }
--    } else {
--        if (a.sign) {
--            return a.exp > b.exp ? float_relation_less : float_relation_greater;
--        } else {
--            return a.exp > b.exp ? float_relation_greater : float_relation_less;
--        }
--    }
-+    float16_unpack_canonical(&pa, a, s);
-+    float16_unpack_canonical(&pb, b, s);
-+    return parts_compare(&pa, &pb, s, is_quiet);
+ float16 float16_scalbn(float16 a, int n, float_status *status)
+ {
+-    FloatParts64 pa, pr;
++    FloatParts64 p;
+ 
+-    float16_unpack_canonical(&pa, a, status);
+-    pr = scalbn_decomposed(pa, n, status);
+-    return float16_round_pack_canonical(&pr, status);
++    float16_unpack_canonical(&p, a, status);
++    parts_scalbn(&p, n, status);
++    return float16_round_pack_canonical(&p, status);
  }
  
--#define COMPARE(name, attr, sz)                                         \
--static int attr                                                         \
--name(float ## sz a, float ## sz b, bool is_quiet, float_status *s)      \
--{                                                                       \
--    FloatParts64 pa, pb;                                                \
--    float ## sz ## _unpack_canonical(&pa, a, s);                        \
--    float ## sz ## _unpack_canonical(&pb, b, s);                        \
--    return compare_floats(pa, pb, is_quiet, s);                         \
--}
--
--COMPARE(soft_f16_compare, QEMU_FLATTEN, 16)
--COMPARE(soft_f32_compare, QEMU_SOFTFLOAT_ATTR, 32)
--COMPARE(soft_f64_compare, QEMU_SOFTFLOAT_ATTR, 64)
--
--#undef COMPARE
--
- FloatRelation float16_compare(float16 a, float16 b, float_status *s)
+ float32 float32_scalbn(float32 a, int n, float_status *status)
  {
--    return soft_f16_compare(a, b, false, s);
-+    return float16_do_compare(a, b, s, false);
+-    FloatParts64 pa, pr;
++    FloatParts64 p;
+ 
+-    float32_unpack_canonical(&pa, a, status);
+-    pr = scalbn_decomposed(pa, n, status);
+-    return float32_round_pack_canonical(&pr, status);
++    float32_unpack_canonical(&p, a, status);
++    parts_scalbn(&p, n, status);
++    return float32_round_pack_canonical(&p, status);
  }
  
- FloatRelation float16_compare_quiet(float16 a, float16 b, float_status *s)
+ float64 float64_scalbn(float64 a, int n, float_status *status)
  {
--    return soft_f16_compare(a, b, true, s);
-+    return float16_do_compare(a, b, s, true);
+-    FloatParts64 pa, pr;
++    FloatParts64 p;
+ 
+-    float64_unpack_canonical(&pa, a, status);
+-    pr = scalbn_decomposed(pa, n, status);
+-    return float64_round_pack_canonical(&pr, status);
++    float64_unpack_canonical(&p, a, status);
++    parts_scalbn(&p, n, status);
++    return float64_round_pack_canonical(&p, status);
+ }
+ 
+ bfloat16 bfloat16_scalbn(bfloat16 a, int n, float_status *status)
+ {
+-    FloatParts64 pa, pr;
++    FloatParts64 p;
+ 
+-    bfloat16_unpack_canonical(&pa, a, status);
+-    pr = scalbn_decomposed(pa, n, status);
+-    return bfloat16_round_pack_canonical(&pr, status);
++    bfloat16_unpack_canonical(&p, a, status);
++    parts_scalbn(&p, n, status);
++    return bfloat16_round_pack_canonical(&p, status);
 +}
 +
-+static FloatRelation QEMU_SOFTFLOAT_ATTR
-+float32_do_compare(float32 a, float32 b, float_status *s, bool is_quiet)
++float128 float128_scalbn(float128 a, int n, float_status *status)
 +{
-+    FloatParts64 pa, pb;
++    FloatParts128 p;
 +
-+    float32_unpack_canonical(&pa, a, s);
-+    float32_unpack_canonical(&pb, b, s);
-+    return parts_compare(&pa, &pb, s, is_quiet);
++    float128_unpack_canonical(&p, a, status);
++    parts_scalbn(&p, n, status);
++    return float128_round_pack_canonical(&p, status);
  }
  
- static FloatRelation QEMU_FLATTEN
--f32_compare(float32 xa, float32 xb, bool is_quiet, float_status *s)
-+float32_hs_compare(float32 xa, float32 xb, float_status *s, bool is_quiet)
- {
-     union_float32 ua, ub;
- 
-@@ -3466,25 +3424,36 @@ f32_compare(float32 xa, float32 xb, bool is_quiet, float_status *s)
-     if (likely(isless(ua.h, ub.h))) {
-         return float_relation_less;
-     }
--    /* The only condition remaining is unordered.
-+    /*
-+     * The only condition remaining is unordered.
-      * Fall through to set flags.
-      */
-  soft:
--    return soft_f32_compare(ua.s, ub.s, is_quiet, s);
-+    return float32_do_compare(ua.s, ub.s, s, is_quiet);
+ /*
+@@ -6641,42 +6642,6 @@ floatx80 floatx80_scalbn(floatx80 a, int n, float_status *status)
+                                          aSign, aExp, aSig, 0, status);
  }
  
- FloatRelation float32_compare(float32 a, float32 b, float_status *s)
- {
--    return f32_compare(a, b, false, s);
-+    return float32_hs_compare(a, b, s, false);
- }
- 
- FloatRelation float32_compare_quiet(float32 a, float32 b, float_status *s)
- {
--    return f32_compare(a, b, true, s);
-+    return float32_hs_compare(a, b, s, true);
-+}
-+
-+static FloatRelation QEMU_SOFTFLOAT_ATTR
-+float64_do_compare(float64 a, float64 b, float_status *s, bool is_quiet)
-+{
-+    FloatParts64 pa, pb;
-+
-+    float64_unpack_canonical(&pa, a, s);
-+    float64_unpack_canonical(&pb, b, s);
-+    return parts_compare(&pa, &pb, s, is_quiet);
- }
- 
- static FloatRelation QEMU_FLATTEN
--f64_compare(float64 xa, float64 xb, bool is_quiet, float_status *s)
-+float64_hs_compare(float64 xa, float64 xb, float_status *s, bool is_quiet)
- {
-     union_float64 ua, ub;
- 
-@@ -3505,41 +3474,62 @@ f64_compare(float64 xa, float64 xb, bool is_quiet, float_status *s)
-     if (likely(isless(ua.h, ub.h))) {
-         return float_relation_less;
-     }
--    /* The only condition remaining is unordered.
-+    /*
-+     * The only condition remaining is unordered.
-      * Fall through to set flags.
-      */
-  soft:
--    return soft_f64_compare(ua.s, ub.s, is_quiet, s);
-+    return float64_do_compare(ua.s, ub.s, s, is_quiet);
- }
- 
- FloatRelation float64_compare(float64 a, float64 b, float_status *s)
- {
--    return f64_compare(a, b, false, s);
-+    return float64_hs_compare(a, b, s, false);
- }
- 
- FloatRelation float64_compare_quiet(float64 a, float64 b, float_status *s)
- {
--    return f64_compare(a, b, true, s);
-+    return float64_hs_compare(a, b, s, true);
- }
- 
- static FloatRelation QEMU_FLATTEN
--soft_bf16_compare(bfloat16 a, bfloat16 b, bool is_quiet, float_status *s)
-+bfloat16_do_compare(bfloat16 a, bfloat16 b, float_status *s, bool is_quiet)
- {
-     FloatParts64 pa, pb;
- 
-     bfloat16_unpack_canonical(&pa, a, s);
-     bfloat16_unpack_canonical(&pb, b, s);
--    return compare_floats(pa, pb, is_quiet, s);
-+    return parts_compare(&pa, &pb, s, is_quiet);
- }
- 
- FloatRelation bfloat16_compare(bfloat16 a, bfloat16 b, float_status *s)
- {
--    return soft_bf16_compare(a, b, false, s);
-+    return bfloat16_do_compare(a, b, s, false);
- }
- 
- FloatRelation bfloat16_compare_quiet(bfloat16 a, bfloat16 b, float_status *s)
- {
--    return soft_bf16_compare(a, b, true, s);
-+    return bfloat16_do_compare(a, b, s, true);
-+}
-+
-+static FloatRelation QEMU_FLATTEN
-+float128_do_compare(float128 a, float128 b, float_status *s, bool is_quiet)
-+{
-+    FloatParts128 pa, pb;
-+
-+    float128_unpack_canonical(&pa, a, s);
-+    float128_unpack_canonical(&pb, b, s);
-+    return parts_compare(&pa, &pb, s, is_quiet);
-+}
-+
-+FloatRelation float128_compare(float128 a, float128 b, float_status *s)
-+{
-+    return float128_do_compare(a, b, s, false);
-+}
-+
-+FloatRelation float128_compare_quiet(float128 a, float128 b, float_status *s)
-+{
-+    return float128_do_compare(a, b, s, true);
- }
- 
- /* Multiply A by 2 raised to the power N.  */
-@@ -6612,52 +6602,6 @@ FloatRelation floatx80_compare_quiet(floatx80 a, floatx80 b,
-     return floatx80_compare_internal(a, b, 1, status);
- }
- 
--static inline FloatRelation
--float128_compare_internal(float128 a, float128 b, bool is_quiet,
--                          float_status *status)
+-float128 float128_scalbn(float128 a, int n, float_status *status)
 -{
--    bool aSign, bSign;
+-    bool aSign;
+-    int32_t aExp;
+-    uint64_t aSig0, aSig1;
 -
--    if (( ( extractFloat128Exp( a ) == 0x7fff ) &&
--          ( extractFloat128Frac0( a ) | extractFloat128Frac1( a ) ) ) ||
--        ( ( extractFloat128Exp( b ) == 0x7fff ) &&
--          ( extractFloat128Frac0( b ) | extractFloat128Frac1( b ) ) )) {
--        if (!is_quiet ||
--            float128_is_signaling_nan(a, status) ||
--            float128_is_signaling_nan(b, status)) {
--            float_raise(float_flag_invalid, status);
--        }
--        return float_relation_unordered;
--    }
+-    aSig1 = extractFloat128Frac1( a );
+-    aSig0 = extractFloat128Frac0( a );
+-    aExp = extractFloat128Exp( a );
 -    aSign = extractFloat128Sign( a );
--    bSign = extractFloat128Sign( b );
--    if ( aSign != bSign ) {
--        if ( ( ( ( a.high | b.high )<<1 ) | a.low | b.low ) == 0 ) {
--            /* zero case */
--            return float_relation_equal;
--        } else {
--            return 1 - (2 * aSign);
+-    if ( aExp == 0x7FFF ) {
+-        if ( aSig0 | aSig1 ) {
+-            return propagateFloat128NaN(a, a, status);
 -        }
--    } else {
--        if (a.low == b.low && a.high == b.high) {
--            return float_relation_equal;
--        } else {
--            return 1 - 2 * (aSign ^ ( lt128( a.high, a.low, b.high, b.low ) ));
--        }
+-        return a;
 -    }
+-    if (aExp != 0) {
+-        aSig0 |= UINT64_C(0x0001000000000000);
+-    } else if (aSig0 == 0 && aSig1 == 0) {
+-        return a;
+-    } else {
+-        aExp++;
+-    }
+-
+-    if (n > 0x10000) {
+-        n = 0x10000;
+-    } else if (n < -0x10000) {
+-        n = -0x10000;
+-    }
+-
+-    aExp += n - 1;
+-    return normalizeRoundAndPackFloat128( aSign, aExp, aSig0, aSig1
+-                                         , status);
+-
 -}
 -
--FloatRelation float128_compare(float128 a, float128 b, float_status *status)
--{
--    return float128_compare_internal(a, b, 0, status);
--}
--
--FloatRelation float128_compare_quiet(float128 a, float128 b,
--                                     float_status *status)
--{
--    return float128_compare_internal(a, b, 1, status);
--}
--
- floatx80 floatx80_scalbn(floatx80 a, int n, float_status *status)
+ static void __attribute__((constructor)) softfloat_init(void)
  {
-     bool aSign;
+     union_float64 ua, ub, uc, ur;
 diff --git a/fpu/softfloat-parts.c.inc b/fpu/softfloat-parts.c.inc
-index d68ab8fee0..6f9ae7f887 100644
+index 6f9ae7f887..6b553c70a5 100644
 --- a/fpu/softfloat-parts.c.inc
 +++ b/fpu/softfloat-parts.c.inc
-@@ -1017,3 +1017,60 @@ static int partsN(minmax)(FloatPartsN *a, FloatPartsN *b,
- 
-     return (cmp < 0) ^ !!(flags & minmax_ismin);
+@@ -1074,3 +1074,24 @@ static FloatRelation partsN(compare)(FloatPartsN *a, FloatPartsN *b,
+  b_sign:
+     return b->sign ? float_relation_greater : float_relation_less;
  }
 +
 +/*
-+ * Floating point compare
++ * Multiply A by 2 raised to the power N.
 + */
-+static FloatRelation partsN(compare)(FloatPartsN *a, FloatPartsN *b,
-+                                     float_status *s, bool is_quiet)
++static void partsN(scalbn)(FloatPartsN *a, int n, float_status *s)
 +{
-+    int ab_mask = float_cmask(a->cls) | float_cmask(b->cls);
-+    int cmp;
-+
-+    if (likely(ab_mask == float_cmask_normal)) {
-+        if (a->sign != b->sign) {
-+            goto a_sign;
-+        }
-+        if (a->exp != b->exp) {
-+            cmp = a->exp < b->exp ? -1 : 1;
-+        } else {
-+            cmp = frac_cmp(a, b);
-+        }
-+        if (a->sign) {
-+            cmp = -cmp;
-+        }
-+        return cmp;
++    switch (a->cls) {
++    case float_class_snan:
++    case float_class_qnan:
++        parts_return_nan(a, s);
++        break;
++    case float_class_zero:
++    case float_class_inf:
++        break;
++    case float_class_normal:
++        a->exp += MIN(MAX(n, -0x10000), 0x10000);
++        break;
++    default:
++        g_assert_not_reached();
 +    }
-+
-+    if (unlikely(ab_mask & float_cmask_anynan)) {
-+        if (!is_quiet || (ab_mask & float_cmask_snan)) {
-+            float_raise(float_flag_invalid, s);
-+        }
-+        return float_relation_unordered;
-+    }
-+
-+    if (ab_mask & float_cmask_zero) {
-+        if (ab_mask == float_cmask_zero) {
-+            return float_relation_equal;
-+        } else if (a->cls == float_class_zero) {
-+            goto b_sign;
-+        } else {
-+            goto a_sign;
-+        }
-+    }
-+
-+    if (ab_mask == float_cmask_inf) {
-+        if (a->sign == b->sign) {
-+            return float_relation_equal;
-+        }
-+    } else if (b->cls == float_class_inf) {
-+        goto b_sign;
-+    } else {
-+        g_assert(a->cls == float_class_inf);
-+    }
-+
-+ a_sign:
-+    return a->sign ? float_relation_less : float_relation_greater;
-+ b_sign:
-+    return b->sign ? float_relation_greater : float_relation_less;
 +}
 -- 
 2.25.1
