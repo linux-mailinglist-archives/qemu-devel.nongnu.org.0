@@ -2,82 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26BF439034B
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 16:03:00 +0200 (CEST)
-Received: from localhost ([::1]:58996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6810D39034C
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 16:03:07 +0200 (CEST)
+Received: from localhost ([::1]:59712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llXe7-0005xo-6w
-	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 10:02:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41084)
+	id 1llXeE-0006Ui-FG
+	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 10:03:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41166)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1llXbN-0003FG-5O
- for qemu-devel@nongnu.org; Tue, 25 May 2021 10:00:09 -0400
-Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b]:38796)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1llXbJ-0006sJ-OD
- for qemu-devel@nongnu.org; Tue, 25 May 2021 10:00:08 -0400
-Received: by mail-pl1-x62b.google.com with SMTP id 69so16400093plc.5
- for <qemu-devel@nongnu.org>; Tue, 25 May 2021 07:00:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=TWsNg69rUukRyfkqN39uEAP6MKbe1FMrRh8RsqXQgKk=;
- b=tXlKOF578TB+5SnptZhhg5ObgpvkndVY27loDDmOiZXjBdDqXsmGQPSyorHBYoJ9Dq
- q3am6Br7A5rZikqiI661HFadm/jKdby8enn+aqNTV4naMrKtiDlBh+OqE2k1Fs+zAJpj
- D5XNpZvOqeoVEPH9gm++050qWPqAuA29p/Ql5p2lVcTckO/aZyEZ/G62pfmdBX3YtPBb
- kh7VIwUaPWoTK/Pwl9w8jB3uCzywL//iJcR3x3nF66DI4Sjc1fcJBPot94jUZTOjS7lb
- ccWXMh+IaAEaE8F7NuwGe7nLVX4imeUp1QVHxIVMVa54pu4H6l8X7Lg6jstiDz0g3kIm
- PeZw==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1llXbj-0003gu-LC
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 10:00:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58879)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1llXbf-00075s-V5
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 10:00:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1621951227;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Lg3P1vCR4S9cfateo9OWgkTvkaZBx7u17Kaqpto4r+o=;
+ b=a8szyz3ral+vbQL61wBwril7QHixcLafUou9fnZjfWbnbeZBDCqdRgXhFbZlIV2g+LbS23
+ H/e6c7MQXlX0FzkEoih5U3J0aVGHXKmfmX+hAwZ2rI12DsA43rzoII8WgbQ0K4zZ/F/qpG
+ Y42cu8YKWsgoO4PvolNMA8uIwdam/4c=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-572-d7cgyy_zPcG7ook7jEoT-Q-1; Tue, 25 May 2021 10:00:24 -0400
+X-MC-Unique: d7cgyy_zPcG7ook7jEoT-Q-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ u20-20020a0560001614b02901115c8f2d89so14487660wrb.3
+ for <qemu-devel@nongnu.org>; Tue, 25 May 2021 07:00:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=TWsNg69rUukRyfkqN39uEAP6MKbe1FMrRh8RsqXQgKk=;
- b=VO/zfjHu0uh2HeUwDUJpI4g8dfN2QOU0CCfAWv991lGsYBzoflvTuG6UVseh0ARFVc
- GFCkpoPMLQU92wzn0hoOlRIM4eL/+VF10jAzj0rXfJaaQjuuoXZD5gp5P2ZKeVJDbVWB
- imiP2R64BZvooWPuH665Gs5Qj1f8PZ5J8nexe3Wp59jki/q3L4YPVQtJidXNlNtbe4Hj
- xP3guaNuJXpIL8knyyqloV5vszmLf0Ldpe5K/n7boiS4yosLd6pczZfuvS+6pcFFyT0s
- bOyOci9UAzGcPzDw7G9m2vb5vcr0FKBaoLw00AA9uG1TkCrJOE1sml4v6Oacm3PGcX1Q
- ki8g==
-X-Gm-Message-State: AOAM533kMLkz1PKbwrskWO3f0n/+Pis02FF7hbmOlW2DC7udepO7eel5
- 2V5e6oRulLU80plE98rK4x2GyA==
-X-Google-Smtp-Source: ABdhPJyB1Rdx9PqB7avuzPQ7I/Xbwt5RBpcpM/aMoeI8X9ZBa6I11gYoisf4HyJa4321URQwft7KoA==
-X-Received: by 2002:a17:90a:a2b:: with SMTP id
- o40mr5000656pjo.214.1621951203071; 
- Tue, 25 May 2021 07:00:03 -0700 (PDT)
-Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
- by smtp.gmail.com with ESMTPSA id
- a15sm13027500pff.128.2021.05.25.07.00.02
+ bh=Lg3P1vCR4S9cfateo9OWgkTvkaZBx7u17Kaqpto4r+o=;
+ b=UsUHi17tp1LOXxrFCTuQ+cDyKUMBCQspRiOzDyfXiLHhfesbl53CHjQvxJgBb9hu1A
+ z1DOkBjPi5BO9tyJXVfAwfKEB5gSDgpKDgqZtSkh1KrQlhKjlWqLde+wkD/cUkYu4Xx3
+ f4hBt28y7hYHc2GoVCEhDeki5v+3zg4SFpktnrA8ON08TdllvfWlvr1hmpaL9r1fXWdl
+ 6Au5lQxUrs6kjyzb0SNHZenGoaeX8s1DQwIZdTFB/BlNaxKEy3Nx6HEqYhzXlYd340nA
+ IJU7uyb3kOwrpdpUeZ1Wzpa5JzJ19tlHL5fIMncMj0VjHlkmdZReiSHGE4dnsGEFzS1k
+ b/Vg==
+X-Gm-Message-State: AOAM533L5IxHqItpAaCftQjICcQu+TfQnX5LQFrWWDiJGesjCANfGCaR
+ 88/3KzZ7hScRNM3WTiuTtabod9N0qSQTW1SxLv/ya+WOAq+DjdscpXGpwW3JcYiJrfOp8PY4icx
+ T7bdBGSxkJsrJPe8=
+X-Received: by 2002:adf:d20a:: with SMTP id j10mr26700661wrh.188.1621951223151; 
+ Tue, 25 May 2021 07:00:23 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy5Cyn4Z4Fqr/nVyxPxI5yCOg5VBEl/SxsqAiAY1zJTPIb9gix8CzUuYOvLbDdNvngM2XUILQ==
+X-Received: by 2002:adf:d20a:: with SMTP id j10mr26700641wrh.188.1621951222990; 
+ Tue, 25 May 2021 07:00:22 -0700 (PDT)
+Received: from [192.168.1.36] (31.red-83-51-215.dynamicip.rima-tde.net.
+ [83.51.215.31])
+ by smtp.gmail.com with ESMTPSA id y14sm16673575wrr.82.2021.05.25.07.00.22
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 25 May 2021 07:00:02 -0700 (PDT)
-Subject: Re: [PATCH 9/9] accel/tcg: Remove
- tlb_flush_page_bits_by_mmuidx_async_1() ???
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20210509151618.2331764-1-f4bug@amsat.org>
- <20210509151618.2331764-10-f4bug@amsat.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <e6b61b9e-335c-025b-4a86-a616a9833dd3@linaro.org>
-Date: Tue, 25 May 2021 07:00:00 -0700
+ Tue, 25 May 2021 07:00:22 -0700 (PDT)
+Subject: Re: [PATCH 4/6] tests/qtest/pflash-cfi02-test: Avoid potential
+ integer overflow
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+References: <20210525134458.6675-1-peter.maydell@linaro.org>
+ <20210525134458.6675-5-peter.maydell@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <3016ae08-7a61-8c6d-5a25-b9914ab5866c@redhat.com>
+Date: Tue, 25 May 2021 16:00:21 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <20210509151618.2331764-10-f4bug@amsat.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <20210525134458.6675-5-peter.maydell@linaro.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,34 +100,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Stefan Berger <stefanb@linux.vnet.ibm.com>,
+ Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/9/21 8:16 AM, Philippe Mathieu-Daudé wrote:
-> From: Richard Henderson<richard.henderson@linaro.org>
+On 5/25/21 3:44 PM, Peter Maydell wrote:
+> Coverity points out that we calculate a 64-bit value using 32-bit
+> arithmetic; add the cast to force the multiply to be done as 64-bits.
+> (The overflow will never happen with the current test data.)
 > 
-> Now than ... /* we use range? FILL ME... */ ... we can remove the
-> encode_pbm_to_runon() and flush_all_helper() calls.
-> 
-> Signed-off-by: Richard Henderson<richard.henderson@linaro.org>
-> Message-Id:<20210508201640.1045808-1-richard.henderson@linaro.org>
-> [PMD: Split from bigger patch]
-> Signed-off-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
+> Fixes: Coverity CID 1432320
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
-> XXX proper description, commit might be placed earlier in series.
-> ---
->   accel/tcg/cputlb.c | 86 +++++++++++-----------------------------------
->   1 file changed, 20 insertions(+), 66 deletions(-)
+>  tests/qtest/pflash-cfi02-test.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-I think this needs to be sorted before patch 4 (which introduces 
-tlb_flush_range_by_mmuidx).  With commit message:
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-accel/tcg: Remove {encode,decode}_pbm_to_runon
-
-We will not be able to fit address + length into a 64-bit packet.
-Drop this optimization before re-organizing this code.
-
-
-r~
 
