@@ -2,72 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FA0E38FE03
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 11:41:53 +0200 (CEST)
-Received: from localhost ([::1]:50288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5874338FE08
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 11:42:28 +0200 (CEST)
+Received: from localhost ([::1]:52598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llTZO-0003ls-UU
-	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 05:41:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37788)
+	id 1llTZz-0005Pn-El
+	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 05:42:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37900)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1llTXy-0002KC-Ql
- for qemu-devel@nongnu.org; Tue, 25 May 2021 05:40:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25233)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1llTXv-0004Y1-F3
- for qemu-devel@nongnu.org; Tue, 25 May 2021 05:40:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621935617;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=re+5W/JPhjSorZgv2NHr2/TOmzMcS+na1OazaNrsbcM=;
- b=fQjwjMM1fA373cRa6nmjoz7sNrR8sRUG1PLRpwls5eRSBvqqqRoMQJHoZuXu2Xn4qN+3GM
- i760NLy0G4n3k3O6iI53dTgVm48XjRmJ3XfJPb8KJrBUhBI59v/NbZSj54PEgoe8ua4Gpc
- FqgSb81n2ApILMDG/igKmwAeP6n7Uzo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-226-f3AIoBgUOzOohiuFQzL5yA-1; Tue, 25 May 2021 05:40:15 -0400
-X-MC-Unique: f3AIoBgUOzOohiuFQzL5yA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 08C8E107ACCA;
- Tue, 25 May 2021 09:40:15 +0000 (UTC)
-Received: from work-vm (ovpn-115-40.ams2.redhat.com [10.36.115.40])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1F0752ED64;
- Tue, 25 May 2021 09:40:13 +0000 (UTC)
-Date: Tue, 25 May 2021 10:40:11 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Li Zhijian <lizhijian@cn.fujitsu.com>
-Subject: Re: [PATCH v2 3/4] migration/rdma: destination: create the return
- patch after the first accept
-Message-ID: <YKzF+7DXMtVwiJJg@work-vm>
-References: <20210525080552.28259-1-lizhijian@cn.fujitsu.com>
- <20210525080552.28259-3-lizhijian@cn.fujitsu.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1llTYU-0003EG-07
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 05:40:55 -0400
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:37665)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1llTYS-0004xc-7o
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 05:40:53 -0400
+Received: by mail-wm1-x32b.google.com with SMTP id
+ f20-20020a05600c4e94b0290181f6edda88so6110090wmq.2
+ for <qemu-devel@nongnu.org>; Tue, 25 May 2021 02:40:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=XvLjqnBVuyjGDhnW1jskQWQOr8FKHBewRRa8thmMlLU=;
+ b=jSQ9KaRTzd2KPmdnv+s/gJM1ZMqfYl1Uq8VmLqmnho1N7pHUbLWBAgL9+wX8GvAwqv
+ hzqv5QpJKZAlh9MTlhdcO9NJdhI8FVnO+5stqa6+kdc4FqRfcuHdZDYsR14ucbh5DZlY
+ DrNhqKVd3IdDAf4ul4+NhMs+wZFHfa4S3aIojFu5L0an7l7RtLvtKgkYfX+1CHYIzlUF
+ rMopi4qp9pqPgaGy+yKm9NGU3J0U14rl5kVGxvkCdyRNKPaF6Ecq3FoKUAFWzpeCTOrF
+ CKH1h7QFQnIqlVitVtn1jEiBXHTPMPIqddne9E1uevuXQf8c14xVTTFSNgIkG0Kgp+/5
+ 5kyQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=XvLjqnBVuyjGDhnW1jskQWQOr8FKHBewRRa8thmMlLU=;
+ b=hxIpkGJiaTFwY7sPEkSFIcW981nxIwGGy8W9cb8prKl6YMyajNHIfBPDVRZn9pjdMH
+ iK86Joy8p3MZRFpcuXq/iKXqvD2fSum5M74P8MZYpnlFfOjAhRrTUqHiHEas4h5FXXHh
+ myrAFaPwSn7EqeclCkTxe8uy9g4Ppokia+CfMLrqWCtJ3jRxM1eveKPuKv5mzRhndIp5
+ 5T6R3TfnFJq4jBuyaKFzRXvTlHazGuzinrx6Q8CdhwRfFbjFte1pKnPwJx7L8jtp2LuO
+ 8QjK635ua9NeAqsaijjnpmPtbUE6nkK6vHcfNLbRpgaCP+yYz/1xUp5IdE4AzqvLDnga
+ Y9zg==
+X-Gm-Message-State: AOAM533Akel3kADxgC/sP0n1GHfXXbrIIsQownQzUybjzHTO95n1HC7T
+ GAzFRLt84GGKNJdPsyxg298=
+X-Google-Smtp-Source: ABdhPJzYfuhetH7N+esew4UCZREub5tYBhB/bbSQMdRdCR2CNQqCAAhRvx0irglq6FMclNea0k1WRQ==
+X-Received: by 2002:a1c:b6d5:: with SMTP id g204mr3055359wmf.106.1621935650515; 
+ Tue, 25 May 2021 02:40:50 -0700 (PDT)
+Received: from [192.168.1.36] (31.red-83-51-215.dynamicip.rima-tde.net.
+ [83.51.215.31])
+ by smtp.gmail.com with ESMTPSA id a123sm2219071wmd.2.2021.05.25.02.40.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 25 May 2021 02:40:49 -0700 (PDT)
+Subject: Re: [PATCH v1 3/8] gitlab: add special rule for the hexagon container
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20210520174303.12310-1-alex.bennee@linaro.org>
+ <20210520174303.12310-4-alex.bennee@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <3f5c486a-2f67-8f65-ef7d-5877c69e2399@amsat.org>
+Date: Tue, 25 May 2021 11:40:48 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <20210525080552.28259-3-lizhijian@cn.fujitsu.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210520174303.12310-4-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32b.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,146 +91,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, quintela@redhat.com
+Cc: fam@euphon.net, Thomas Huth <thuth@redhat.com>, berrange@redhat.com,
+ Cornelia Huck <cohuck@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Willian Rampazzo <willianr@redhat.com>, stefanha@redhat.com, crosa@redhat.com,
+ pbonzini@redhat.com, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Li Zhijian (lizhijian@cn.fujitsu.com) wrote:
-> destination side:
-> $ build/qemu-system-x86_64 -enable-kvm -netdev tap,id=hn0,script=/etc/qemu-ifup,downscript=/etc/qemu-ifdown -device e1000,netdev=hn0,mac=50:52:54:00:11:22 -boot c -drive if=none,file=./Fedora-rdma-server-migration.qcow2,id=drive-virtio-disk0 -device virtio-blk-pci,bus=pci.0,addr=0x4,drive=drive-virtio-disk0,id=virtio-disk0 -m 2048 -smp 2 -device piix3-usb-uhci -device usb-tablet -monitor stdio -vga qxl -spice streaming-video=filter,port=5902,disable-ticketing -incoming rdma:192.168.1.10:8888
-> (qemu) migrate_set_capability postcopy-ram on
-> (qemu)
-> dest_init RDMA Device opened: kernel name rocep1s0f0 uverbs device name uverbs0, infiniband_verbs class device path /sys/class/infiniband_verbs/uverbs0, infiniband class device path /sys/class/infiniband/rocep1s0f0, transport: (2) Ethernet
-> Segmentation fault (core dumped)
+On 5/20/21 7:42 PM, Alex Bennée wrote:
+> The hexagon container is always manually built but of course not
+> everyone will be building it themselves and pushing to their
+> registries. We still need to create a "local" registry copy for the
+> actual gitlab tests to run. We don't build it in this case, just pull
+> it across from the upstream registry. We disable this rule from
+> running on the qemu-project itself so it doesn't accidentally wipe out
+> our master copy.
 > 
->  (gdb) bt
->  #0  qemu_rdma_accept (rdma=0x0) at ../migration/rdma.c:3272
->  #1  rdma_accept_incoming_migration (opaque=0x0) at     ../migration/rdma.c:3986
->  #2  0x0000563c9e51f02a in aio_dispatch_handler
->      (ctx=ctx@entry=0x563ca0606010, node=0x563ca12b2150) at ../util/aio-posix.c:329
->  #3  0x0000563c9e51f752 in aio_dispatch_handlers (ctx=0x563ca0606010) at      ../util/aio-posix.c:372
->  #4  aio_dispatch (ctx=0x563ca0606010) at ../util/aio-posix.c:382
->  #5  0x0000563c9e4f4d9e in aio_ctx_dispatch (source=<optimized out>,      callback=<optimized out>, user_data=<optimized out>)    at ../util/async.c:306
->  #6  0x00007fe96ef3fa9f in g_main_context_dispatch () at      /lib64/libglib-2.0.so.0
->  #7  0x0000563c9e4ffeb8 in glib_pollfds_poll () at     ../util/main-loop.c:231
->  #8  os_host_main_loop_wait (timeout=12188789) at     ../util/main-loop.c:254
->  #9  main_loop_wait (nonblocking=nonblocking@entry=0) at     ../util/main-loop.c:530
->  #10 0x0000563c9e3c7211 in qemu_main_loop () at     ../softmmu/runstate.c:725
->  #11 0x0000563c9dfd46fe in main (argc=<optimized out>, argv=<optimized     out>, envp=<optimized out>) at ../softmmu/main.c:50
+> Fixes: 910c40ee94 ("gitlab: add build-user-hexagon test")
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> Tested-by: Cornelia Huck <cohuck@redhat.com>
+> Reviewed-by: Willian Rampazzo <willianr@redhat.com>
+> Cc: Cornelia Huck <cohuck@redhat.com>
 > 
-> The rdma return path will not be created when qemu incoming is starting
-> since migrate_copy() is false at that moment, then a  NULL return path
-> rdma was referenced if the user enabled postcopy later.
-> 
-> Signed-off-by: Li Zhijian <lizhijian@cn.fujitsu.com>
-
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-
 > ---
-> V2: alloc memory for host_port
+> v2
+>   - fix silly typo
 > ---
->  migration/rdma.c | 32 +++++++++++++++++++++-----------
->  1 file changed, 21 insertions(+), 11 deletions(-)
+>  .gitlab-ci.d/containers.yml | 27 +++++++++++++++++++++++++++
+>  .gitlab-ci.yml              |  2 ++
+>  2 files changed, 29 insertions(+)
 > 
-> diff --git a/migration/rdma.c b/migration/rdma.c
-> index 651534e8255..d829d08d076 100644
-> --- a/migration/rdma.c
-> +++ b/migration/rdma.c
-> @@ -316,6 +316,7 @@ typedef struct RDMALocalBlocks {
->  typedef struct RDMAContext {
->      char *host;
->      int port;
-> +    char *host_port;
+> diff --git a/.gitlab-ci.d/containers.yml b/.gitlab-ci.d/containers.yml
+> index 3fb3c14f06..088c7e68c3 100644
+> --- a/.gitlab-ci.d/containers.yml
+> +++ b/.gitlab-ci.d/containers.yml
+> @@ -101,6 +101,33 @@ armhf-debian-cross-container:
+>    variables:
+>      NAME: debian-armhf-cross
 >  
->      RDMAWorkRequestData wr_data[RDMA_WRID_MAX];
->  
-> @@ -2392,7 +2393,9 @@ static void qemu_rdma_cleanup(RDMAContext *rdma)
->          rdma->channel = NULL;
->      }
->      g_free(rdma->host);
-> +    g_free(rdma->host_port);
->      rdma->host = NULL;
-> +    rdma->host_port = NULL;
->  }
->  
->  
-> @@ -2648,6 +2651,7 @@ static void *qemu_rdma_data_init(const char *host_port, Error **errp)
->          if (!inet_parse(addr, host_port, NULL)) {
->              rdma->port = atoi(addr->port);
->              rdma->host = g_strdup(addr->host);
-> +            rdma->host_port = g_strdup(host_port);
->          } else {
->              ERROR(errp, "bad RDMA migration address '%s'", host_port);
->              g_free(rdma);
-> @@ -3276,6 +3280,7 @@ static int qemu_rdma_accept(RDMAContext *rdma)
->                                              .private_data = &cap,
->                                              .private_data_len = sizeof(cap),
->                                           };
-> +    RDMAContext *rdma_return_path = NULL;
->      struct rdma_cm_event *cm_event;
->      struct ibv_context *verbs;
->      int ret = -EINVAL;
-> @@ -3291,6 +3296,20 @@ static int qemu_rdma_accept(RDMAContext *rdma)
->          goto err_rdma_dest_wait;
->      }
->  
-> +    /*
-> +     * initialize the RDMAContext for return path for postcopy after first
-> +     * connection request reached.
-> +     */
-> +    if (migrate_postcopy() && !rdma->is_return_path) {
-> +        rdma_return_path = qemu_rdma_data_init(rdma->host_port, NULL);
-> +        if (rdma_return_path == NULL) {
-> +            rdma_ack_cm_event(cm_event);
-> +            goto err_rdma_dest_wait;
-> +        }
-> +
-> +        qemu_rdma_return_path_dest_init(rdma_return_path, rdma);
-> +    }
-> +
->      memcpy(&cap, cm_event->param.conn.private_data, sizeof(cap));
->  
->      network_to_caps(&cap);
-> @@ -3406,6 +3425,7 @@ static int qemu_rdma_accept(RDMAContext *rdma)
->  err_rdma_dest_wait:
->      rdma->error_state = ret;
->      qemu_rdma_cleanup(rdma);
-> +    g_free(rdma_return_path);
->      return ret;
->  }
->  
-> @@ -4048,17 +4068,6 @@ void rdma_start_incoming_migration(const char *host_port, Error **errp)
->  
->      trace_rdma_start_incoming_migration_after_rdma_listen();
->  
-> -    /* initialize the RDMAContext for return path */
-> -    if (migrate_postcopy()) {
-> -        rdma_return_path = qemu_rdma_data_init(host_port, &local_err);
-> -
-> -        if (rdma_return_path == NULL) {
-> -            goto cleanup_rdma;
-> -        }
-> -
-> -        qemu_rdma_return_path_dest_init(rdma_return_path, rdma);
-> -    }
-> -
->      qemu_set_fd_handler(rdma->channel->fd, rdma_accept_incoming_migration,
->                          NULL, (void *)(intptr_t)rdma);
->      return;
-> @@ -4069,6 +4078,7 @@ err:
->      error_propagate(errp, local_err);
->      if (rdma) {
->          g_free(rdma->host);
-> +        g_free(rdma->host_port);
->      }
->      g_free(rdma);
->      g_free(rdma_return_path);
-> -- 
-> 2.30.2
-> 
-> 
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> +# We never want to build hexagon in the CI system and by default we
+> +# always want to refer to the master registry where it lives.
+> +hexagon-cross-container:
+> +  image: docker:stable
+> +  stage: containers
+> +  except:
+> +    variables:
+> +      - $CI_PROJECT_NAMESPACE == 'qemu-project'
 
+FYI Daniel said we should be consistent and use the 'rules:' syntax:
+https://lists.gnu.org/archive/html/qemu-devel/2021-05/msg07308.html
+
+> +  variables:
+> +    NAME: debian-hexagon-cross
+> +    GIT_DEPTH: 1
+> +  services:
+> +    - docker:dind
+> +  before_script:
+> +    - export TAG="$CI_REGISTRY_IMAGE/qemu/$NAME:latest"
+> +    - export COMMON_TAG="$CI_REGISTRY/qemu-project/qemu/qemu/$NAME:latest"
+> +    - docker info
+> +    - docker login $CI_REGISTRY -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD"
+> +  script:
+> +    - echo "TAG:$TAG"
+> +    - echo "COMMON_TAG:$COMMON_TAG"
+> +    - docker pull $COMMON_TAG
+> +    - docker tag $COMMON_TAG $TAG
+> +    - docker push "$TAG"
+> +  after_script:
+> +    - docker logout
+> +
+>  hppa-debian-cross-container:
+>    extends: .container_job_template
+>    stage: containers-layer2
+> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+> index f718b61fa7..b2f929c758 100644
+> --- a/.gitlab-ci.yml
+> +++ b/.gitlab-ci.yml
+> @@ -421,6 +421,8 @@ build-user-static:
+>  # declared. The image is manually uploaded.
+>  build-user-hexagon:
+>    extends: .native_build_job_template
+> +  needs:
+> +    job: hexagon-cross-container
+>    variables:
+>      IMAGE: debian-hexagon-cross
+>      TARGETS: hexagon-linux-user
+> 
 
