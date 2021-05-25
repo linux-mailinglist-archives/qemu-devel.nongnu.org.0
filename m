@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC8B338F7B9
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 03:51:44 +0200 (CEST)
-Received: from localhost ([::1]:57404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C599538F7A9
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 03:45:13 +0200 (CEST)
+Received: from localhost ([::1]:33706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llMER-0008FU-Rh
-	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 21:51:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55554)
+	id 1llM88-0000xo-JP
+	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 21:45:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55186)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1llLYR-0000hC-D2
- for qemu-devel@nongnu.org; Mon, 24 May 2021 21:08:19 -0400
-Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b]:44639)
+ id 1llLXz-00084T-Ic
+ for qemu-devel@nongnu.org; Mon, 24 May 2021 21:07:51 -0400
+Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f]:35621)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1llLXs-00043p-47
- for qemu-devel@nongnu.org; Mon, 24 May 2021 21:08:19 -0400
-Received: by mail-pf1-x42b.google.com with SMTP id 22so21881753pfv.11
- for <qemu-devel@nongnu.org>; Mon, 24 May 2021 18:07:33 -0700 (PDT)
+ id 1llLXl-000440-Gs
+ for qemu-devel@nongnu.org; Mon, 24 May 2021 21:07:51 -0400
+Received: by mail-pg1-x52f.google.com with SMTP id m190so21413187pga.2
+ for <qemu-devel@nongnu.org>; Mon, 24 May 2021 18:07:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=znRmUtPpPzNdkgxhCUoIISqXwMWpCGz1tEvasknwhl0=;
- b=j5YHUEF77esK3OhPf0DtpTYt1FX9GDFvdcZc7maAJDS4GFZXr0eAmaCmAvgE47qJ7D
- QteP1209u6dym2+wu/HoFeq4i7DIwOjG9GuzNw+SfF1cqMQDxO0iE+bRtlUyL0pmLyx6
- RNpSYkj6NI6ASGsx11QylxiVbfvC21W95LYHRcYspEw9lbTEdBiaIErZtaJn+jUXPMNF
- XMiRZscE9L9z0WtN+S3kXRLH14eD92bXyzHNHDbLQmNTQMiMOwMZcamOA9ioXLunmhdh
- Ecu+b2wPbnB2oshTy6hcRTt7+p2j3jPLhX/Vo3hkjt3dxBJjE8vNeBJUQbJLS65vzj/K
- 4tug==
+ bh=GQHvgtMZf/PjykaQJIid8lZwo0SRrWyxRSDDb4lrulY=;
+ b=g3xGsFy5opLIo5unDrg1KRXqo5k60tNFHYAN8WuyrL7OF529G3sfg2DrB680A8JfbF
+ EGGAWlBq1lPcikm6gJXtBGLmGQEaB83FuTjgRRQzWA6RFERT4Aziggm7/Iae/y9kq/QD
+ 8QVKqYN18yjo6gEYBUdGDKnoPuDg+vXLndhp2HxDPMEav3+Zh/6Q23zJITJFh1h9jsw+
+ VL68zXmfs3OHgFfAZ+gQvbJ9laU6kYUeZakZ4pDikrcPsxpG/9+8mKuFqr3XUhFK/HFG
+ 5UDypovlMjj/3kHNDoikka5FtJjNVl+3Sb/pZ4o2s7N+DLaFAnC+1TeFxa9MRoD5Z35V
+ ru3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=znRmUtPpPzNdkgxhCUoIISqXwMWpCGz1tEvasknwhl0=;
- b=KJSe1I6KdEYWwQrb/5h5Mx3pCwB8e2sOypyKemiQaHfHpy9lfGGb2C/M4bwMdWfyyL
- Mvez9FOGjbv8laFKOXcZRPM2Hwpt6kgfzfM06RhA7xYgv7cIK48i6p8Wg9ZEKP/8jDzd
- WX5WGrvyWFWHVRdcLBHlnhB+/V8YbAjaMXX8F1prQ6JN/65/jP/foBqtz+xBsOU3Bqrv
- sVkCyEMNxcphqxIZ+2U3ZHVB6NPu1DIaPK5K28CnrV1hB5J/qkODiFm2ULEOy9W7wrd8
- fw8z1wEZuzH2SUe9hWVA40z8ZPWToYW7xBUdvfB8o2F8ezJyF5vZ1pmG0Fy4UbUsb+9M
- cv5Q==
-X-Gm-Message-State: AOAM530AVJD5kzNBnDK70VXM6u14hO941wWrzgCp9tv56WwTwL82aPlA
- G9WdBfB4BJe9hLgdi042QV9/UgbAP4ivyg==
-X-Google-Smtp-Source: ABdhPJzr1jAeRfDJk1A7VsqZMT5OLnaGSXyVPvocWYRomHNDH/WAPOFvOEMwusJwHorJk0GPvz9ioQ==
-X-Received: by 2002:a63:6f8e:: with SMTP id
- k136mr16602341pgc.326.1621904852971; 
- Mon, 24 May 2021 18:07:32 -0700 (PDT)
+ bh=GQHvgtMZf/PjykaQJIid8lZwo0SRrWyxRSDDb4lrulY=;
+ b=SyqoQ95H21a83TSVO1EML3/byiMXBeGTJlpuem/VfANRgDAwtp79jSwlw8+rmCW9RW
+ YBfvEC/eab/7x6IK/0JzHZcStdGnn08RZ24UNA5iZrb9GLWKrQ1Ihwsa9RDQyb5DQniy
+ xELlNS6XcsHX9a4KTV19CLrRb4JgqCOTDVfc/VatuyzqNlv+2e/Nc1f1cvKnQgspYHmI
+ YdaIzM5sXVA3/ey05VdR8ERIfLeN8g6Qb5CtOcCfaN3Wdneq/Di23egtaa77w1rYjoFm
+ rA0mL92CEWsp0rX1B/BURPJwmFBzJ7IQkiGuz4PZJBztk7qSvoVPhluP8V+ccopaoQ0K
+ Lm6A==
+X-Gm-Message-State: AOAM530giq2f+NPEQeQU23EbLX41XCUrP20XGvj3raGxsKcF/0DEystn
+ 8094xOj1RsTCxKNqwPlFBKZvG7j2xET26w==
+X-Google-Smtp-Source: ABdhPJzVvXpmn0YbxWpbRdluT0L9ELExIPF+AMlX59lhWo4+p66q5idOl9gGbbzuQfcbpB9PgwF5EA==
+X-Received: by 2002:aa7:8b44:0:b029:2dd:4cfc:7666 with SMTP id
+ i4-20020aa78b440000b02902dd4cfc7666mr27830968pfd.73.1621904853518; 
+ Mon, 24 May 2021 18:07:33 -0700 (PDT)
 Received: from localhost.localdomain (174-21-70-228.tukw.qwest.net.
  [174.21.70.228])
- by smtp.gmail.com with ESMTPSA id b16sm11748176pju.35.2021.05.24.18.07.32
+ by smtp.gmail.com with ESMTPSA id b16sm11748176pju.35.2021.05.24.18.07.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 May 2021 18:07:32 -0700 (PDT)
+ Mon, 24 May 2021 18:07:33 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 54/92] target/arm: Implement SVE2 integer multiply-add
- (indexed)
-Date: Mon, 24 May 2021 18:03:20 -0700
-Message-Id: <20210525010358.152808-55-richard.henderson@linaro.org>
+Subject: [PATCH v7 55/92] target/arm: Implement SVE2 saturating multiply-add
+ high (indexed)
+Date: Mon, 24 May 2021 18:03:21 -0700
+Message-Id: <20210525010358.152808-56-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210525010358.152808-1-richard.henderson@linaro.org>
 References: <20210525010358.152808-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,73 +92,119 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
-v7: Split arguments to do_sve2_zzzz_data.
----
+ target/arm/helper-sve.h    | 14 ++++++++++++++
  target/arm/sve.decode      |  8 ++++++++
- target/arm/translate-sve.c | 31 +++++++++++++++++++++++++++++++
- 2 files changed, 39 insertions(+)
+ target/arm/sve_helper.c    | 36 ++++++++++++++++++++++++++++++++++++
+ target/arm/translate-sve.c |  8 ++++++++
+ 4 files changed, 66 insertions(+)
 
+diff --git a/target/arm/helper-sve.h b/target/arm/helper-sve.h
+index 7e99dcd119..fe67574741 100644
+--- a/target/arm/helper-sve.h
++++ b/target/arm/helper-sve.h
+@@ -2665,3 +2665,17 @@ DEF_HELPER_FLAGS_5(sve2_sqrdcmlah_zzzz_d, TCG_CALL_NO_RWG,
+ 
+ DEF_HELPER_FLAGS_6(fmmla_s, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, ptr, ptr, i32)
+ DEF_HELPER_FLAGS_6(fmmla_d, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, ptr, ptr, i32)
++
++DEF_HELPER_FLAGS_5(sve2_sqrdmlah_idx_h, TCG_CALL_NO_RWG,
++                   void, ptr, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_5(sve2_sqrdmlah_idx_s, TCG_CALL_NO_RWG,
++                   void, ptr, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_5(sve2_sqrdmlah_idx_d, TCG_CALL_NO_RWG,
++                   void, ptr, ptr, ptr, ptr, i32)
++
++DEF_HELPER_FLAGS_5(sve2_sqrdmlsh_idx_h, TCG_CALL_NO_RWG,
++                   void, ptr, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_5(sve2_sqrdmlsh_idx_s, TCG_CALL_NO_RWG,
++                   void, ptr, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_5(sve2_sqrdmlsh_idx_d, TCG_CALL_NO_RWG,
++                   void, ptr, ptr, ptr, ptr, i32)
 diff --git a/target/arm/sve.decode b/target/arm/sve.decode
-index 65cb0a2206..9bfaf737b7 100644
+index 9bfaf737b7..1956d96ad5 100644
 --- a/target/arm/sve.decode
 +++ b/target/arm/sve.decode
-@@ -783,6 +783,14 @@ SDOT_zzxw_d     01000100 11 1 ..... 000000 ..... .....   @rrxr_1 esz=3
- UDOT_zzxw_s     01000100 10 1 ..... 000001 ..... .....   @rrxr_2 esz=2
- UDOT_zzxw_d     01000100 11 1 ..... 000001 ..... .....   @rrxr_1 esz=3
+@@ -791,6 +791,14 @@ MLS_zzxz_h      01000100 0. 1 ..... 000011 ..... .....   @rrxr_3 esz=1
+ MLS_zzxz_s      01000100 10 1 ..... 000011 ..... .....   @rrxr_2 esz=2
+ MLS_zzxz_d      01000100 11 1 ..... 000011 ..... .....   @rrxr_1 esz=3
  
-+# SVE2 integer multiply-add (indexed)
-+MLA_zzxz_h      01000100 0. 1 ..... 000010 ..... .....   @rrxr_3 esz=1
-+MLA_zzxz_s      01000100 10 1 ..... 000010 ..... .....   @rrxr_2 esz=2
-+MLA_zzxz_d      01000100 11 1 ..... 000010 ..... .....   @rrxr_1 esz=3
-+MLS_zzxz_h      01000100 0. 1 ..... 000011 ..... .....   @rrxr_3 esz=1
-+MLS_zzxz_s      01000100 10 1 ..... 000011 ..... .....   @rrxr_2 esz=2
-+MLS_zzxz_d      01000100 11 1 ..... 000011 ..... .....   @rrxr_1 esz=3
++# SVE2 saturating multiply-add high (indexed)
++SQRDMLAH_zzxz_h 01000100 0. 1 ..... 000100 ..... .....   @rrxr_3 esz=1
++SQRDMLAH_zzxz_s 01000100 10 1 ..... 000100 ..... .....   @rrxr_2 esz=2
++SQRDMLAH_zzxz_d 01000100 11 1 ..... 000100 ..... .....   @rrxr_1 esz=3
++SQRDMLSH_zzxz_h 01000100 0. 1 ..... 000101 ..... .....   @rrxr_3 esz=1
++SQRDMLSH_zzxz_s 01000100 10 1 ..... 000101 ..... .....   @rrxr_2 esz=2
++SQRDMLSH_zzxz_d 01000100 11 1 ..... 000101 ..... .....   @rrxr_1 esz=3
 +
  # SVE2 integer multiply (indexed)
  MUL_zzx_h       01000100 0. 1 ..... 111110 ..... .....   @rrx_3 esz=1
  MUL_zzx_s       01000100 10 1 ..... 111110 ..... .....   @rrx_2 esz=2
-diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
-index dbab067a53..39a6839de4 100644
---- a/target/arm/translate-sve.c
-+++ b/target/arm/translate-sve.c
-@@ -3866,6 +3866,37 @@ DO_SVE2_RRX(trans_MUL_zzx_d, gen_helper_gvec_mul_idx_d)
+diff --git a/target/arm/sve_helper.c b/target/arm/sve_helper.c
+index fa96e28639..11d4a2a722 100644
+--- a/target/arm/sve_helper.c
++++ b/target/arm/sve_helper.c
+@@ -1499,6 +1499,42 @@ DO_CMLA_FUNC(sve2_sqrdcmlah_zzzz_d, int64_t,   , DO_SQRDMLAH_D)
+ #undef DO_SQRDMLAH_S
+ #undef DO_SQRDMLAH_D
  
- #undef DO_SVE2_RRX
- 
-+static bool do_sve2_zzzz_data(DisasContext *s, int rd, int rn, int rm, int ra,
-+                              int data, gen_helper_gvec_4 *fn)
-+{
-+    if (fn == NULL || !dc_isar_feature(aa64_sve2, s)) {
-+        return false;
-+    }
-+    if (sve_access_check(s)) {
-+        unsigned vsz = vec_full_reg_size(s);
-+        tcg_gen_gvec_4_ool(vec_full_reg_offset(s, rd),
-+                           vec_full_reg_offset(s, rn),
-+                           vec_full_reg_offset(s, rm),
-+                           vec_full_reg_offset(s, ra),
-+                           vsz, vsz, data, fn);
-+    }
-+    return true;
++#define DO_ZZXZ(NAME, TYPE, H, OP) \
++void HELPER(NAME)(void *vd, void *vn, void *vm, void *va, uint32_t desc) \
++{                                                                       \
++    intptr_t oprsz = simd_oprsz(desc), segment = 16 / sizeof(TYPE);     \
++    intptr_t i, j, idx = simd_data(desc);                               \
++    TYPE *d = vd, *a = va, *n = vn, *m = (TYPE *)vm + H(idx);           \
++    for (i = 0; i < oprsz / sizeof(TYPE); i += segment) {               \
++        TYPE mm = m[i];                                                 \
++        for (j = 0; j < segment; j++) {                                 \
++            d[i + j] = OP(n[i + j], mm, a[i + j]);                      \
++        }                                                               \
++    }                                                                   \
 +}
 +
-+#define DO_SVE2_RRXR(NAME, FUNC) \
-+    static bool NAME(DisasContext *s, arg_rrxr_esz *a)  \
-+    { return do_sve2_zzzz_data(s, a->rd, a->rn, a->rm, a->ra, a->index, FUNC); }
++#define DO_SQRDMLAH_H(N, M, A) \
++    ({ uint32_t discard; do_sqrdmlah_h(N, M, A, false, true, &discard); })
++#define DO_SQRDMLAH_S(N, M, A) \
++    ({ uint32_t discard; do_sqrdmlah_s(N, M, A, false, true, &discard); })
++#define DO_SQRDMLAH_D(N, M, A) do_sqrdmlah_d(N, M, A, false, true)
 +
-+DO_SVE2_RRXR(trans_MLA_zzxz_h, gen_helper_gvec_mla_idx_h)
-+DO_SVE2_RRXR(trans_MLA_zzxz_s, gen_helper_gvec_mla_idx_s)
-+DO_SVE2_RRXR(trans_MLA_zzxz_d, gen_helper_gvec_mla_idx_d)
++DO_ZZXZ(sve2_sqrdmlah_idx_h, int16_t, H2, DO_SQRDMLAH_H)
++DO_ZZXZ(sve2_sqrdmlah_idx_s, int32_t, H4, DO_SQRDMLAH_S)
++DO_ZZXZ(sve2_sqrdmlah_idx_d, int64_t,   , DO_SQRDMLAH_D)
 +
-+DO_SVE2_RRXR(trans_MLS_zzxz_h, gen_helper_gvec_mls_idx_h)
-+DO_SVE2_RRXR(trans_MLS_zzxz_s, gen_helper_gvec_mls_idx_s)
-+DO_SVE2_RRXR(trans_MLS_zzxz_d, gen_helper_gvec_mls_idx_d)
++#define DO_SQRDMLSH_H(N, M, A) \
++    ({ uint32_t discard; do_sqrdmlah_h(N, M, A, true, true, &discard); })
++#define DO_SQRDMLSH_S(N, M, A) \
++    ({ uint32_t discard; do_sqrdmlah_s(N, M, A, true, true, &discard); })
++#define DO_SQRDMLSH_D(N, M, A) do_sqrdmlah_d(N, M, A, true, true)
 +
-+#undef DO_SVE2_RRXR
++DO_ZZXZ(sve2_sqrdmlsh_idx_h, int16_t, H2, DO_SQRDMLSH_H)
++DO_ZZXZ(sve2_sqrdmlsh_idx_s, int32_t, H4, DO_SQRDMLSH_S)
++DO_ZZXZ(sve2_sqrdmlsh_idx_d, int64_t,   , DO_SQRDMLSH_D)
 +
++#undef DO_ZZXZ
++
+ #define DO_BITPERM(NAME, TYPE, OP) \
+ void HELPER(NAME)(void *vd, void *vn, void *vm, uint32_t desc) \
+ {                                                              \
+diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
+index 39a6839de4..b31a4d1fb2 100644
+--- a/target/arm/translate-sve.c
++++ b/target/arm/translate-sve.c
+@@ -3895,6 +3895,14 @@ DO_SVE2_RRXR(trans_MLS_zzxz_h, gen_helper_gvec_mls_idx_h)
+ DO_SVE2_RRXR(trans_MLS_zzxz_s, gen_helper_gvec_mls_idx_s)
+ DO_SVE2_RRXR(trans_MLS_zzxz_d, gen_helper_gvec_mls_idx_d)
+ 
++DO_SVE2_RRXR(trans_SQRDMLAH_zzxz_h, gen_helper_sve2_sqrdmlah_idx_h)
++DO_SVE2_RRXR(trans_SQRDMLAH_zzxz_s, gen_helper_sve2_sqrdmlah_idx_s)
++DO_SVE2_RRXR(trans_SQRDMLAH_zzxz_d, gen_helper_sve2_sqrdmlah_idx_d)
++
++DO_SVE2_RRXR(trans_SQRDMLSH_zzxz_h, gen_helper_sve2_sqrdmlsh_idx_h)
++DO_SVE2_RRXR(trans_SQRDMLSH_zzxz_s, gen_helper_sve2_sqrdmlsh_idx_s)
++DO_SVE2_RRXR(trans_SQRDMLSH_zzxz_d, gen_helper_sve2_sqrdmlsh_idx_d)
++
+ #undef DO_SVE2_RRXR
+ 
  /*
-  *** SVE Floating Point Multiply-Add Indexed Group
-  */
 -- 
 2.25.1
 
