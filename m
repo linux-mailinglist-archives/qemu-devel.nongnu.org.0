@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D84D3909C8
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 21:40:06 +0200 (CEST)
-Received: from localhost ([::1]:45308 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0104F3909E3
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 21:48:43 +0200 (CEST)
+Received: from localhost ([::1]:57104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llcuL-0008DR-3R
-	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 15:40:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36362)
+	id 1lld2g-0008Ew-0b
+	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 15:48:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dje@google.com>) id 1llcsN-0006C4-RX
- for qemu-devel@nongnu.org; Tue, 25 May 2021 15:38:03 -0400
-Received: from mail-ua1-x92a.google.com ([2607:f8b0:4864:20::92a]:46969)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dje@google.com>) id 1llcsK-0002Uo-Vq
- for qemu-devel@nongnu.org; Tue, 25 May 2021 15:38:03 -0400
-Received: by mail-ua1-x92a.google.com with SMTP id h26so4036277uab.13
- for <qemu-devel@nongnu.org>; Tue, 25 May 2021 12:37:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=/nJv8TJAWGzZnzrHOk+s+xIQfq1jhFrLMwjmKGUG6Ng=;
- b=vOAr6IpfYBU7uO3RKGsVOjuPgYycvGzEhuzUH1qLMkFW3C4+dQVq6180eYdSIgGL8e
- 6EpRCgf5Tt3XAKUE73MP1glOzmuJ2E3JnYy6Moz+3qJI9HuT4IuLCYATFZFCwZHfriXd
- uz4imtj4+vnfpywj8GhXQXroqs1bVvzuj/XOBUtSnY5fBu75+oMU7gpJvHhEblIEtyMr
- PsF8bZU9SmRt07lgi9uAqWdXQgiVqlZ6lxyAo+m0I8iHaKXjsu24NXGP38N7dM3eLQFk
- rj2mG/VFOiwJywfJE4+vRjQg07/zuqF/2QcNxMZYkX3QPlPosn2hXYMZDeMPaCiugU6Q
- w0kQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=/nJv8TJAWGzZnzrHOk+s+xIQfq1jhFrLMwjmKGUG6Ng=;
- b=e42LwCenMBITq77K3IrErGXuBEsMCFcJX3yhs2uCoTTDJUIKhy5j8afzPOiX9Ik/Tv
- PeLx8TGaVgnNgc105W2xhKOFEfzYT5X805TAXjgHXhfDb7Gs++LY+lwuEU7QMBgTkKCF
- OprNQKPi1ZSgd87gLAvvQm3f2QYVxrhNdICpLqpSc8B4PQu6O759QmJ8RsTHyKm1Nwqp
- gbR3SWmTfHPNFfB4/tawYU+yX4tJ5zcdNtCvE5qy1OJiafbzbIEEYspKJg2KV823Lb/9
- U9FVCSBNI0omv6tdlG0Xn4cbzfFLmJPwuciABz6O4D0z4srcNpsdCAwf7HJdNUgVZBAl
- /YBQ==
-X-Gm-Message-State: AOAM5315BNbxgnPZRWKHO7uUratI9DPJgsxDU+/Girfn/u92t4ieqHcr
- SlfycGqDgzbkIhjQ4BQI1pffzEwKjqEKuVu7nKtPYQ==
-X-Google-Smtp-Source: ABdhPJxaPWsDSxdWbInffxPc+9ALHusKRtXd46uZAZidgoWBikptheDw449TXGf3zT4CMcQgsgQtiyJN4aQFI6KtpE0=
-X-Received: by 2002:ab0:232:: with SMTP id 47mr28580758uas.91.1621971478838;
- Tue, 25 May 2021 12:37:58 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lld0Y-0006Y2-8Z
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 15:46:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33566)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lld0T-000751-3d
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 15:46:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1621971984;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Sr0ZN201ipjzo0qZd8wHlVXK3yducxXCDeD9Ti4t7mo=;
+ b=aNSyxFIN1ST//y1MCSAbMB41xPFGoq2C4Mbjb+RWri1z8RxoXJSAqIhPVFkYnzlfNLZJko
+ qflWuopZVJvT/HJmmTqWFa7lxcU/6eYQIn6aTA/LtLZ801DYfIxrkws28yBj66/6YdezK7
+ GYgb/PB/KQ+h6R6hoPXVmnigr4eho3s=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-511-GmgL84-0P2Woa4un1EO9Vg-1; Tue, 25 May 2021 15:46:21 -0400
+X-MC-Unique: GmgL84-0P2Woa4un1EO9Vg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B0D3C526CA;
+ Tue, 25 May 2021 19:45:29 +0000 (UTC)
+Received: from [10.10.116.137] (ovpn-116-137.rdu2.redhat.com [10.10.116.137])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 52BA99D53;
+ Tue, 25 May 2021 19:45:27 +0000 (UTC)
+Subject: Re: [PATCH v6 22/25] python: add Makefile for some common tasks
+To: Cleber Rosa <crosa@redhat.com>
+References: <20210512231241.2816122-1-jsnow@redhat.com>
+ <20210512231241.2816122-23-jsnow@redhat.com>
+ <YK1O0JcbsnN/MD6F@localhost.localdomain>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <d7c34ee2-17d4-af0d-e8cd-851bf8e1e297@redhat.com>
+Date: Tue, 25 May 2021 15:45:26 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-References: <20210415033925.1290401-1-dje@google.com>
- <20210415033925.1290401-3-dje@google.com>
- <CAJ+F1CJUzAbZmfY59x6YYLWba-TMyZYwW7Pqu75zs93qbscr3Q@mail.gmail.com>
-In-Reply-To: <CAJ+F1CJUzAbZmfY59x6YYLWba-TMyZYwW7Pqu75zs93qbscr3Q@mail.gmail.com>
-From: Doug Evans <dje@google.com>
-Date: Tue, 25 May 2021 12:37:21 -0700
-Message-ID: <CADPb22TW5GkwcF_08R1KBr+NKBGLOHBwFqHPOJKVgiDa6w2VKA@mail.gmail.com>
-Subject: RFC: IPv6 hostfwd command line syntax [was Re: [PATCH v6 2/4]
- util/qemu-sockets.c: Split host:port parsing out of inet_parse]
-To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>, 
- Samuel Thibault <samuel.thibault@ens-lyon.org>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Cc: QEMU <qemu-devel@nongnu.org>
-Content-Type: multipart/alternative; boundary="000000000000d58a7205c32ca93e"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::92a;
- envelope-from=dje@google.com; helo=mail-ua1-x92a.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+In-Reply-To: <YK1O0JcbsnN/MD6F@localhost.localdomain>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,424 +82,145 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-block@nongnu.org,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Willian Rampazzo <willianr@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
+ Max Reitz <mreitz@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Beraldo Leal <bleal@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000d58a7205c32ca93e
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Hi.
-
-I want to confirm the command line syntax y'all want for ipv6 host
-forwarding.
-
-IIUC, the command line syntax is required to be consistent with the use of
-"ipv6=3Don|off" elsewhere.
-Can you confirm that's correct?
-
-If so, how does one apply "ipv6=3Don" to the "::60022-:22" hostfwd spec in
-the following example:
-
-$ qemu-system-x86_64 [...] --nic user,id=3Dn1,model=3De1000,hostfwd=3D::600=
-22-:22
-
-?
-
-Square brackets are for parsing purposes only and are not allowed to be the
-deciding factor in determining whether an address is ipv4 or ipv6. Thus
-while one might think to write that as ":[]:60022-[]:22" to mean "this is
-for ipv6" one cannot do so.
-
-
-On Fri, May 7, 2021 at 8:23 AM Marc-Andr=C3=A9 Lureau <marcandre.lureau@gma=
-il.com>
-wrote:
-
->
->
-> On Thu, Apr 15, 2021 at 7:40 AM Doug Evans <dje@google.com> wrote:
->
->> The parsing is moved into new function inet_parse_host_port.
->> Also split out is ipv4=3Dflag, ipv6=3Dflag processing into inet_parse_ip=
-v46.
->> This is done in preparation for using these functions in net/slirp.c.
+On 5/25/21 3:24 PM, Cleber Rosa wrote:
+> On Wed, May 12, 2021 at 07:12:38PM -0400, John Snow wrote:
+>> Add "make venv" to create the pipenv-managed virtual environment that
+>> contains our explicitly pinned dependencies.
 >>
->> Signed-off-by: Doug Evans <dje@google.com>
+>> Add "make check" to run the python linters [in the host execution
+>> environment].
 >>
->
-> Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->
-> ---
+>> Add "make venv-check" which combines the above two: create/update the
+>> venv, then run the linters in that explicitly managed environment.
 >>
->> Changes from v5:
+>> Add "make develop" which canonizes the runes needed to get both the
+>> linting pre-requisites (the "[devel]" part), and the editable
+>> live-install (the "-e" part) of these python libraries.
 >>
->> Also split out parsing of ipv4=3Don|off, ipv6=3Don|off
+>> make clean: delete miscellaneous python packaging output possibly
+>> created by pipenv, pip, or other python packaging utilities
 >>
->>  include/qemu/sockets.h |  3 ++
->>  util/qemu-sockets.c    | 65 +++++++++++++++++++++++++++++-------------
->>  2 files changed, 48 insertions(+), 20 deletions(-)
+>> make distclean: delete the above, the .venv, and the editable "qemu"
+>> package forwarder (qemu.egg-info) if there is one.
 >>
->> diff --git a/include/qemu/sockets.h b/include/qemu/sockets.h
->> index 7d1f813576..94f4e8de83 100644
->> --- a/include/qemu/sockets.h
->> +++ b/include/qemu/sockets.h
->> @@ -31,6 +31,9 @@ int socket_set_fast_reuse(int fd);
+>> Signed-off-by: John Snow <jsnow@redhat.com>
+>> ---
+>>   python/README.rst |  3 +++
+>>   python/Makefile   | 42 ++++++++++++++++++++++++++++++++++++++++++
+>>   2 files changed, 45 insertions(+)
+>>   create mode 100644 python/Makefile
 >>
->>  int inet_ai_family_from_address(InetSocketAddress *addr,
->>                                  Error **errp);
->> +const char *inet_parse_host_port(InetSocketAddress *addr,
->> +                                 const char *str, Error **errp);
->> +int inet_parse_ipv46(InetSocketAddress *addr, const char *optstr, Error
->> **errp);
->>  int inet_parse(InetSocketAddress *addr, const char *str, Error **errp);
->>  int inet_connect(const char *str, Error **errp);
->>  int inet_connect_saddr(InetSocketAddress *saddr, Error **errp);
->> diff --git a/util/qemu-sockets.c b/util/qemu-sockets.c
->> index 8af0278f15..c0069f2565 100644
->> --- a/util/qemu-sockets.c
->> +++ b/util/qemu-sockets.c
->> @@ -615,14 +615,12 @@ static int inet_parse_flag(const char *flagname,
->> const char *optstr, bool *val,
->>      return 0;
->>  }
->>
->> -int inet_parse(InetSocketAddress *addr, const char *str, Error **errp)
->> +const char *inet_parse_host_port(InetSocketAddress *addr, const char
->> *str,
->> +                                 Error **errp)
->>  {
->> -    const char *optstr, *h;
->>      char host[65];
->>      char port[33];
->> -    int to;
->>      int pos;
->> -    char *begin;
->>
->>      memset(addr, 0, sizeof(*addr));
->>
->> @@ -632,38 +630,32 @@ int inet_parse(InetSocketAddress *addr, const char
->> *str, Error **errp)
->>          host[0] =3D '\0';
->>          if (sscanf(str, ":%32[^,]%n", port, &pos) !=3D 1) {
->>              error_setg(errp, "error parsing port in address '%s'", str)=
-;
->> -            return -1;
->> +            return NULL;
->>          }
->>      } else if (str[0] =3D=3D '[') {
->>          /* IPv6 addr */
->>          if (sscanf(str, "[%64[^]]]:%32[^,]%n", host, port, &pos) !=3D 2=
-) {
->>              error_setg(errp, "error parsing IPv6 address '%s'", str);
->> -            return -1;
->> +            return NULL;
->>          }
->>      } else {
->>          /* hostname or IPv4 addr */
->>          if (sscanf(str, "%64[^:]:%32[^,]%n", host, port, &pos) !=3D 2) =
-{
->>              error_setg(errp, "error parsing address '%s'", str);
->> -            return -1;
->> +            return NULL;
->>          }
->>      }
->>
->>      addr->host =3D g_strdup(host);
->>      addr->port =3D g_strdup(port);
->>
->> -    /* parse options */
->> -    optstr =3D str + pos;
->> -    h =3D strstr(optstr, ",to=3D");
->> -    if (h) {
->> -        h +=3D 4;
->> -        if (sscanf(h, "%d%n", &to, &pos) !=3D 1 ||
->> -            (h[pos] !=3D '\0' && h[pos] !=3D ',')) {
->> -            error_setg(errp, "error parsing to=3D argument");
->> -            return -1;
->> -        }
->> -        addr->has_to =3D true;
->> -        addr->to =3D to;
->> -    }
->> +    return str + pos;
->> +}
+>> diff --git a/python/README.rst b/python/README.rst
+>> index e107bd12a69..3e09d20c23c 100644
+>> --- a/python/README.rst
+>> +++ b/python/README.rst
+>> @@ -35,6 +35,9 @@ Files in this directory
+>>   - ``qemu/`` Python package source directory.
+>>   - ``tests/`` Python package tests directory.
+>>   - ``avocado.cfg`` Configuration for the Avocado test-runner.
+>> +  Used by ``make check`` et al.
+>> +- ``Makefile`` provides some common testing/installation invocations.
+>> +  Try ``make help`` to see available targets.
+>>   - ``MANIFEST.in`` is read by python setuptools, it specifies additional files
+>>     that should be included by a source distribution.
+>>   - ``PACKAGE.rst`` is used as the README file that is visible on PyPI.org.
+>> diff --git a/python/Makefile b/python/Makefile
+>> new file mode 100644
+>> index 00000000000..184f59e5634
+>> --- /dev/null
+>> +++ b/python/Makefile
+>> @@ -0,0 +1,42 @@
+>> +.PHONY: help venv venv-check check clean distclean develop
 >> +
->> +int inet_parse_ipv46(InetSocketAddress *addr, const char *optstr, Error
->> **errp)
->> +{
->> +    char *begin;
+>> +help:
+>> +	@echo "python packaging help:"
+>> +	@echo ""
+>> +	@echo "make venv:       Create pipenv's virtual environment."
+>> +	@echo "    NOTE: Requires Python 3.6 and pipenv."
+>> +	@echo "          Will download packages from PyPI."
+>> +	@echo "    Hint: (On Fedora): 'sudo dnf install python36 pipenv'"
+>> +	@echo ""
+>> +	@echo "make venv-check: run linters using pipenv's virtual environment."
+>> +	@echo "    Hint: If you don't know which test to run, run this one!"
+>> +	@echo ""
+>> +	@echo "make develop:    Install deps for 'make check', and"
+>> +	@echo "                 the qemu libs in editable/development mode."
+>> +	@echo ""
+>> +	@echo "make check:      run linters using the current environment."
+>> +	@echo ""
+> 
+> Let's observe how this will be used (or misused).  I fear most people
+> will jump into `make check`, even though you have described `make
+> venv-check` as the primary choice.
+> 
+> We have a precedent with `make check-acceptance` that will create a
+> venv and use it by default, so we can consider that as a fallback
+> strategy based on user feedback.
+> 
+
+Right, I see. Though, I did intentionally want to make it clear which of 
+these invocations created an environment and which did not.
+
+Unlike the acceptance tests, it might make sense to run these tests both 
+inside and outside of that venv, so I opted to make the default "make" 
+target "make help".
+
+The Gitlab CI will run the right one, after all -- and I do still expect 
+the regular 'make check' to pass, so I am not as sure that it's a 
+crucial failure if someone runs the "wrong one".
+
+>> +	@echo "make clean:      remove build output."
+>> +	@echo ""
+>> +	@echo "make distclean:  remove venv files, qemu package forwarder, and"
+>> +	@echo "                 everything from 'make clean'."
 >> +
->>      begin =3D strstr(optstr, ",ipv4");
->>      if (begin) {
->>          if (inet_parse_flag("ipv4", begin + 5, &addr->ipv4, errp) < 0) =
-{
->> @@ -678,6 +670,39 @@ int inet_parse(InetSocketAddress *addr, const char
->> *str, Error **errp)
->>          }
->>          addr->has_ipv6 =3D true;
->>      }
+>> +venv: .venv
+>> +.venv: Pipfile.lock
+>> +	@PIPENV_VENV_IN_PROJECT=1 pipenv sync --dev --keep-outdated
+>> +	@touch .venv
 >> +
->> +    return 0;
->> +}
+>> +venv-check: venv
+>> +	@pipenv run make check
 >> +
->> +int inet_parse(InetSocketAddress *addr, const char *str, Error **errp)
->> +{
->> +    const char *optstr, *h;
->> +    int to;
->> +    int pos;
->> +    char *begin;
+>> +develop:
+>> +	pip3 install -e .[devel]
 >> +
->> +    optstr =3D inet_parse_host_port(addr, str, errp);
->> +    if (optstr =3D=3D NULL) {
->> +        return -1;
->> +    }
+>> +check:
+>> +	@avocado --config avocado.cfg run tests/
 >> +
->> +    /* parse options */
+>> +clean:
+>> +	rm -rf build/ dist/
 >> +
->> +    if (inet_parse_ipv46(addr, optstr, errp) < 0) {
->> +        return -1;
->> +    }
->> +
->> +    h =3D strstr(optstr, ",to=3D");
->> +    if (h) {
->> +        h +=3D 4;
->> +        if (sscanf(h, "%d%n", &to, &pos) !=3D 1 ||
->> +            (h[pos] !=3D '\0' && h[pos] !=3D ',')) {
->> +            error_setg(errp, "error parsing to=3D argument");
->> +            return -1;
->> +        }
->> +        addr->has_to =3D true;
->> +        addr->to =3D to;
->> +    }
->>      begin =3D strstr(optstr, ",keep-alive");
->>      if (begin) {
->>          if (inet_parse_flag("keep-alive", begin + strlen(",keep-alive")=
-,
->> --
->> 2.31.1.295.g9ea45b61b8-goog
+> 
+> Usually `python3 setup.py clean --all` would be the better choice here,
+> but, it doesn't clean `dist/`, so I'm OK with this.
+> 
+
+Hm, I should probably move the 'dist' down into 'distclean' anyway, and 
+I will replace the clean invocation with the one you suggest.
+
+>> +distclean: clean
+>> +	rm -rf qemu.egg-info/ .venv/
+>> -- 
+>> 2.30.2
 >>
 >>
->>
->
-> --
-> Marc-Andr=C3=A9 Lureau
->
+> 
+> Reviewed-by: Cleber Rosa <crosa@redhat.com>
+> Tested-by: Cleber Rosa <crosa@redhat.com>
+> 
 
---000000000000d58a7205c32ca93e
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
-t-size:small">Hi.</div><div class=3D"gmail_default" style=3D"font-size:smal=
-l"><br></div><div class=3D"gmail_default" style=3D"font-size:small">I want =
-to confirm the command line syntax y&#39;all want for ipv6 host forwarding.=
-</div><div class=3D"gmail_default" style=3D"font-size:small"><br></div><div=
- class=3D"gmail_default" style=3D"font-size:small">IIUC, the command line s=
-yntax is required to be consistent with the use of &quot;ipv6=3Don|off&quot=
-; elsewhere.</div><div class=3D"gmail_default" style=3D"font-size:small">Ca=
-n you confirm that&#39;s correct?</div><div class=3D"gmail_default" style=
-=3D"font-size:small"><br></div><div class=3D"gmail_default" style=3D"font-s=
-ize:small">If so, how does one apply &quot;ipv6=3Don&quot; to the &quot;::6=
-0022-:22&quot; hostfwd spec in the following example:<br></div><div class=
-=3D"gmail_default" style=3D"font-size:small"><br></div><div class=3D"gmail_=
-default" style=3D"font-size:small">$ qemu-system-x86_64 [...] --nic user,id=
-=3Dn1,model=3De1000,hostfwd=3D::60022-:22</div><div class=3D"gmail_default"=
- style=3D"font-size:small"><br></div><div class=3D"gmail_default" style=3D"=
-font-size:small">?</div><div class=3D"gmail_default" style=3D"font-size:sma=
-ll"><br></div><div class=3D"gmail_default" style=3D"font-size:small">Square=
- brackets are for parsing purposes only and are not allowed to be the decid=
-ing factor in determining whether an address is ipv4 or ipv6. Thus while on=
-e might think to write that as &quot;:[]:60022-[]:22&quot; to mean &quot;th=
-is is for ipv6&quot; one cannot do so.</div><div class=3D"gmail_default" st=
-yle=3D"font-size:small"><br></div><div class=3D"gmail_default" style=3D"fon=
-t-size:small"><br></div></div><div class=3D"gmail_quote"><div dir=3D"ltr" c=
-lass=3D"gmail_attr">On Fri, May 7, 2021 at 8:23 AM Marc-Andr=C3=A9 Lureau &=
-lt;<a href=3D"mailto:marcandre.lureau@gmail.com">marcandre.lureau@gmail.com=
-</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:=
-0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">=
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Apr 15, 2021 at 7:40 AM Doug =
-Evans &lt;<a href=3D"mailto:dje@google.com" target=3D"_blank">dje@google.co=
-m</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin=
-:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"=
->The parsing is moved into new function inet_parse_host_port.<br>
-Also split out is ipv4=3Dflag, ipv6=3Dflag processing into inet_parse_ipv46=
-.<br>
-This is done in preparation for using these functions in net/slirp.c.<br>
-<br>
-Signed-off-by: Doug Evans &lt;<a href=3D"mailto:dje@google.com" target=3D"_=
-blank">dje@google.com</a>&gt;<br></blockquote><div><br></div><div>Reviewed-=
-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@redhat.co=
-m" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;</div><div> <br></d=
-iv><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bord=
-er-left:1px solid rgb(204,204,204);padding-left:1ex">
----<br>
-<br>
-Changes from v5:<br>
-<br>
-Also split out parsing of ipv4=3Don|off, ipv6=3Don|off<br>
-<br>
-=C2=A0include/qemu/sockets.h |=C2=A0 3 ++<br>
-=C2=A0util/qemu-sockets.c=C2=A0 =C2=A0 | 65 +++++++++++++++++++++++++++++--=
------------<br>
-=C2=A02 files changed, 48 insertions(+), 20 deletions(-)<br>
-<br>
-diff --git a/include/qemu/sockets.h b/include/qemu/sockets.h<br>
-index 7d1f813576..94f4e8de83 100644<br>
---- a/include/qemu/sockets.h<br>
-+++ b/include/qemu/sockets.h<br>
-@@ -31,6 +31,9 @@ int socket_set_fast_reuse(int fd);<br>
-<br>
-=C2=A0int inet_ai_family_from_address(InetSocketAddress *addr,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Error **errp);<br>
-+const char *inet_parse_host_port(InetSocketAddress *addr,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0const char *str, Error **errp)=
-;<br>
-+int inet_parse_ipv46(InetSocketAddress *addr, const char *optstr, Error **=
-errp);<br>
-=C2=A0int inet_parse(InetSocketAddress *addr, const char *str, Error **errp=
-);<br>
-=C2=A0int inet_connect(const char *str, Error **errp);<br>
-=C2=A0int inet_connect_saddr(InetSocketAddress *saddr, Error **errp);<br>
-diff --git a/util/qemu-sockets.c b/util/qemu-sockets.c<br>
-index 8af0278f15..c0069f2565 100644<br>
---- a/util/qemu-sockets.c<br>
-+++ b/util/qemu-sockets.c<br>
-@@ -615,14 +615,12 @@ static int inet_parse_flag(const char *flagname, cons=
-t char *optstr, bool *val,<br>
-=C2=A0 =C2=A0 =C2=A0return 0;<br>
-=C2=A0}<br>
-<br>
--int inet_parse(InetSocketAddress *addr, const char *str, Error **errp)<br>
-+const char *inet_parse_host_port(InetSocketAddress *addr, const char *str,=
-<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Error **errp)<br>
-=C2=A0{<br>
--=C2=A0 =C2=A0 const char *optstr, *h;<br>
-=C2=A0 =C2=A0 =C2=A0char host[65];<br>
-=C2=A0 =C2=A0 =C2=A0char port[33];<br>
--=C2=A0 =C2=A0 int to;<br>
-=C2=A0 =C2=A0 =C2=A0int pos;<br>
--=C2=A0 =C2=A0 char *begin;<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0memset(addr, 0, sizeof(*addr));<br>
-<br>
-@@ -632,38 +630,32 @@ int inet_parse(InetSocketAddress *addr, const char *s=
-tr, Error **errp)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0host[0] =3D &#39;\0&#39;;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (sscanf(str, &quot;:%32[^,]%n&quot;, p=
-ort, &amp;pos) !=3D 1) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0error_setg(errp, &quot;erro=
-r parsing port in address &#39;%s&#39;&quot;, str);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return -1;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return NULL;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0 =C2=A0 =C2=A0} else if (str[0] =3D=3D &#39;[&#39;) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* IPv6 addr */<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (sscanf(str, &quot;[%64[^]]]:%32[^,]%n=
-&quot;, host, port, &amp;pos) !=3D 2) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0error_setg(errp, &quot;erro=
-r parsing IPv6 address &#39;%s&#39;&quot;, str);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return -1;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return NULL;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0 =C2=A0 =C2=A0} else {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* hostname or IPv4 addr */<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (sscanf(str, &quot;%64[^:]:%32[^,]%n&q=
-uot;, host, port, &amp;pos) !=3D 2) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0error_setg(errp, &quot;erro=
-r parsing address &#39;%s&#39;&quot;, str);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return -1;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return NULL;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0addr-&gt;host =3D g_strdup(host);<br>
-=C2=A0 =C2=A0 =C2=A0addr-&gt;port =3D g_strdup(port);<br>
-<br>
--=C2=A0 =C2=A0 /* parse options */<br>
--=C2=A0 =C2=A0 optstr =3D str + pos;<br>
--=C2=A0 =C2=A0 h =3D strstr(optstr, &quot;,to=3D&quot;);<br>
--=C2=A0 =C2=A0 if (h) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 h +=3D 4;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (sscanf(h, &quot;%d%n&quot;, &amp;to, &amp;=
-pos) !=3D 1 ||<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (h[pos] !=3D &#39;\0&#39; &amp;&=
-amp; h[pos] !=3D &#39;,&#39;)) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg(errp, &quot;error par=
-sing to=3D argument&quot;);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return -1;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 addr-&gt;has_to =3D true;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 addr-&gt;to =3D to;<br>
--=C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 return str + pos;<br>
-+}<br>
-+<br>
-+int inet_parse_ipv46(InetSocketAddress *addr, const char *optstr, Error **=
-errp)<br>
-+{<br>
-+=C2=A0 =C2=A0 char *begin;<br>
-+<br>
-=C2=A0 =C2=A0 =C2=A0begin =3D strstr(optstr, &quot;,ipv4&quot;);<br>
-=C2=A0 =C2=A0 =C2=A0if (begin) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (inet_parse_flag(&quot;ipv4&quot;, beg=
-in + 5, &amp;addr-&gt;ipv4, errp) &lt; 0) {<br>
-@@ -678,6 +670,39 @@ int inet_parse(InetSocketAddress *addr, const char *st=
-r, Error **errp)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0addr-&gt;has_ipv6 =3D true;<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-+<br>
-+=C2=A0 =C2=A0 return 0;<br>
-+}<br>
-+<br>
-+int inet_parse(InetSocketAddress *addr, const char *str, Error **errp)<br>
-+{<br>
-+=C2=A0 =C2=A0 const char *optstr, *h;<br>
-+=C2=A0 =C2=A0 int to;<br>
-+=C2=A0 =C2=A0 int pos;<br>
-+=C2=A0 =C2=A0 char *begin;<br>
-+<br>
-+=C2=A0 =C2=A0 optstr =3D inet_parse_host_port(addr, str, errp);<br>
-+=C2=A0 =C2=A0 if (optstr =3D=3D NULL) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return -1;<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 /* parse options */<br>
-+<br>
-+=C2=A0 =C2=A0 if (inet_parse_ipv46(addr, optstr, errp) &lt; 0) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return -1;<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 h =3D strstr(optstr, &quot;,to=3D&quot;);<br>
-+=C2=A0 =C2=A0 if (h) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 h +=3D 4;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (sscanf(h, &quot;%d%n&quot;, &amp;to, &amp;=
-pos) !=3D 1 ||<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (h[pos] !=3D &#39;\0&#39; &amp;&=
-amp; h[pos] !=3D &#39;,&#39;)) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg(errp, &quot;error par=
-sing to=3D argument&quot;);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return -1;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 addr-&gt;has_to =3D true;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 addr-&gt;to =3D to;<br>
-+=C2=A0 =C2=A0 }<br>
-=C2=A0 =C2=A0 =C2=A0begin =3D strstr(optstr, &quot;,keep-alive&quot;);<br>
-=C2=A0 =C2=A0 =C2=A0if (begin) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (inet_parse_flag(&quot;keep-alive&quot=
-;, begin + strlen(&quot;,keep-alive&quot;),<br>
--- <br>
-2.31.1.295.g9ea45b61b8-goog<br>
-<br>
-<br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr">Marc-Andr=
-=C3=A9 Lureau<br></div></div>
-</blockquote></div></div>
-
---000000000000d58a7205c32ca93e--
 
