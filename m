@@ -2,99 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2DDA39074B
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 19:17:35 +0200 (CEST)
-Received: from localhost ([::1]:60894 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18E453906F2
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 18:52:39 +0200 (CEST)
+Received: from localhost ([::1]:40504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llagQ-0003KC-1L
-	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 13:17:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47066)
+	id 1llaII-0001fk-3I
+	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 12:52:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47146)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1llZh9-0003Ea-6E
- for qemu-devel@nongnu.org; Tue, 25 May 2021 12:14:15 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:15304
- helo=mx0a-001b2d01.pphosted.com)
+ id 1llZhW-0003dv-42
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 12:14:38 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:19806)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1llZh6-0003u2-Lx
- for qemu-devel@nongnu.org; Tue, 25 May 2021 12:14:14 -0400
-Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 14PG3LiK141562; Tue, 25 May 2021 12:14:10 -0400
+ id 1llZhR-000457-3A
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 12:14:37 -0400
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 14PG3JQW002570; Tue, 25 May 2021 12:14:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=subject : to : cc :
  references : from : message-id : date : mime-version : in-reply-to :
  content-type : content-transfer-encoding; s=pp1;
- bh=4XU48JOBh0xD3STeCSN9erwIy13s9a6ChIaAKAsY0E8=;
- b=jvnGrNUSN/FKeqn7ug7r8f46uJFZoRYOFKkzDp7u9f3BBPO7MQ4Stsb6ldHRoT6z63+u
- frI0tE4EvcmSo5ND5u+bVD3q6Ryxtbg2KdEYVcCNh7vlIKDoBnjmNdbE/VjsPckrJeSf
- 01nRZmmKWGYe36xQ483uZ9mSt0hHQfjFZtlCrM8lpegTKIjF5nmfiMXos7Z9l5M9aPir
- Z4bDv8kjGjecfejHWbySYP44Lg+M8eM7jX/BSSipVHZdvMUEr9uNYPNmgYSowP5zdfee
- zPpZUCxwSVoZ6JmrkkKZ1eIsx9OVxH3g9WjKPcX3MvWPuPtSn0ukiBjxBupt7frPLVgb hA== 
+ bh=SW3z3W1LzqxdWaZSGotRA4FvPmT5XhIG4fsnk/mtsSM=;
+ b=jQnb97Z6kCEQLcAtSuqv1NNmz5hZRmwViSIdLA1ECHeGYh0zvI2uWYrQcJ2B2/pIjnEE
+ PZyz4rvg4hX/d3iJLfqqntII78ZMVgTdIVXRCakEDXyU8UgfRckZmfvTm8IxPDUxrLvx
+ LIzuJ6js2rPbvyqvGPLNedKd6qNiAZcGGlHsry1K8oslrnoTnZt0NGaM3WkW87ctr2M1
+ K9fk3vOFIHKB+33V7FCnGOENy8f/SslPrpJvSxj3fKMYSNcqC2Hpc8Pq2BaTt733mCWc
+ Jx4JinxTXgfrGlVEnIMg+pkmMI+CEJXBO6FjeKRIMo4IXpCW6DZdRvbX4PLixnc+cVmI Tw== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 38s44wsaby-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 38s4bmrhpa-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 25 May 2021 12:14:10 -0400
-Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 14PG3fZX143880;
- Tue, 25 May 2021 12:14:10 -0400
-Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.11])
- by mx0b-001b2d01.pphosted.com with ESMTP id 38s44wsabt-1
+ Tue, 25 May 2021 12:14:29 -0400
+Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 14PG3rFN004793;
+ Tue, 25 May 2021 12:14:28 -0400
+Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com
+ [169.63.121.186])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 38s4bmrhnv-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 25 May 2021 12:14:10 -0400
-Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
- by ppma03dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 14PG7Wrr000337;
- Tue, 25 May 2021 16:14:09 GMT
-Received: from b01cxnp22034.gho.pok.ibm.com (b01cxnp22034.gho.pok.ibm.com
- [9.57.198.24]) by ppma03dal.us.ibm.com with ESMTP id 38s1v9ssxy-1
+ Tue, 25 May 2021 12:14:28 -0400
+Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
+ by ppma03wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 14PG7xcr003789;
+ Tue, 25 May 2021 16:14:28 GMT
+Received: from b01cxnp23034.gho.pok.ibm.com (b01cxnp23034.gho.pok.ibm.com
+ [9.57.198.29]) by ppma03wdc.us.ibm.com with ESMTP id 38s1qd1j41-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 25 May 2021 16:14:09 +0000
+ Tue, 25 May 2021 16:14:28 +0000
 Received: from b01ledav004.gho.pok.ibm.com (b01ledav004.gho.pok.ibm.com
  [9.57.199.109])
- by b01cxnp22034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 14PGE8w637290342
+ by b01cxnp23034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 14PGERw614745918
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 25 May 2021 16:14:08 GMT
+ Tue, 25 May 2021 16:14:27 GMT
 Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id AF38511206B;
- Tue, 25 May 2021 16:14:08 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id D0BB311206F;
+ Tue, 25 May 2021 16:14:27 +0000 (GMT)
 Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 9D3C7112065;
- Tue, 25 May 2021 16:14:08 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id BDCD3112069;
+ Tue, 25 May 2021 16:14:27 +0000 (GMT)
 Received: from [9.47.158.152] (unknown [9.47.158.152])
  by b01ledav004.gho.pok.ibm.com (Postfix) with ESMTP;
- Tue, 25 May 2021 16:14:08 +0000 (GMT)
-Subject: Re: [PATCH 5/6] tests/qtest/tpm-tests: Remove unnecessary NULL checks
+ Tue, 25 May 2021 16:14:27 +0000 (GMT)
+Subject: Re: [PATCH 4/6] tests/qtest/pflash-cfi02-test: Avoid potential
+ integer overflow
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
 References: <20210525134458.6675-1-peter.maydell@linaro.org>
- <20210525134458.6675-6-peter.maydell@linaro.org>
+ <20210525134458.6675-5-peter.maydell@linaro.org>
 From: Stefan Berger <stefanb@linux.ibm.com>
-Message-ID: <306e148f-79c3-4f95-3cf3-c6b0437c88f6@linux.ibm.com>
-Date: Tue, 25 May 2021 12:14:08 -0400
+Message-ID: <fdc27797-d191-9449-b3b3-eb2d74b806a1@linux.ibm.com>
+Date: Tue, 25 May 2021 12:14:27 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <20210525134458.6675-6-peter.maydell@linaro.org>
+In-Reply-To: <20210525134458.6675-5-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Content-Language: en-US
 X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: ZjAujAMNEWOyoGZ9rdDKuvtHOUhBRDoE
-X-Proofpoint-GUID: SynYV3UKF30bW6WeJPi9FrsKl_YMW3Ix
+X-Proofpoint-GUID: E8BMzWSHtLQKIdrFVfffArEoj3tfyzDs
+X-Proofpoint-ORIG-GUID: GHgSQJABvfXtMuJOPOBdkIDsZpWwQhY6
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
  definitions=2021-05-25_07:2021-05-25,
  2021-05-25 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 phishscore=0
- suspectscore=0 mlxscore=0 spamscore=0 clxscore=1015 impostorscore=0
- priorityscore=1501 adultscore=0 mlxlogscore=999 lowpriorityscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ bulkscore=0 mlxscore=0
+ phishscore=0 suspectscore=0 mlxlogscore=999 clxscore=1015 malwarescore=0
+ lowpriorityscore=0 impostorscore=0 adultscore=0 priorityscore=1501
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2104190000 definitions=main-2105250098
 Received-SPF: pass client-ip=148.163.158.5; envelope-from=stefanb@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
+ helo=mx0b-001b2d01.pphosted.com
 X-Spam_score_int: -19
 X-Spam_score: -2.0
 X-Spam_bar: --
@@ -115,52 +115,39 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
  Stefan Berger <stefanb@linux.vnet.ibm.com>,
- Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+ "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 On 5/25/21 9:44 AM, Peter Maydell wrote:
-> Coverity points out that in tpm_test_swtpm_migration_test() we
-> assume that src_tpm_addr and dst_tpm_addr are non-NULL (we
-> pass them to tpm_util_migration_start_qemu() which will
-> unconditionally dereference them) but then later explicitly
-> check them for NULL. Remove the pointless checks.
+> Coverity points out that we calculate a 64-bit value using 32-bit
+> arithmetic; add the cast to force the multiply to be done as 64-bits.
+> (The overflow will never happen with the current test data.)
 >
-> Fixes: Coverity CID 1432367, 1432359
->
+> Fixes: Coverity CID 1432320
 > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 
 Reviewed-by: Stefan Berger <stefanb@linux.ibm.com>
 
 
 > ---
->   tests/qtest/tpm-tests.c | 12 ++++--------
->   1 file changed, 4 insertions(+), 8 deletions(-)
+>   tests/qtest/pflash-cfi02-test.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/tests/qtest/tpm-tests.c b/tests/qtest/tpm-tests.c
-> index 0da3a8a4df5..25073d1f9e9 100644
-> --- a/tests/qtest/tpm-tests.c
-> +++ b/tests/qtest/tpm-tests.c
-> @@ -123,14 +123,10 @@ void tpm_test_swtpm_migration_test(const char *src_tpm_path,
->       qtest_quit(src_qemu);
+> diff --git a/tests/qtest/pflash-cfi02-test.c b/tests/qtest/pflash-cfi02-test.c
+> index 60db81a3a2b..6168edc821a 100644
+> --- a/tests/qtest/pflash-cfi02-test.c
+> +++ b/tests/qtest/pflash-cfi02-test.c
+> @@ -406,7 +406,7 @@ static void test_geometry(const void *opaque)
 >
->       tpm_util_swtpm_kill(dst_tpm_pid);
-> -    if (dst_tpm_addr) {
-> -        g_unlink(dst_tpm_addr->u.q_unix.path);
-> -        qapi_free_SocketAddress(dst_tpm_addr);
-> -    }
-> +    g_unlink(dst_tpm_addr->u.q_unix.path);
-> +    qapi_free_SocketAddress(dst_tpm_addr);
->
->       tpm_util_swtpm_kill(src_tpm_pid);
-> -    if (src_tpm_addr) {
-> -        g_unlink(src_tpm_addr->u.q_unix.path);
-> -        qapi_free_SocketAddress(src_tpm_addr);
-> -    }
-> +    g_unlink(src_tpm_addr->u.q_unix.path);
-> +    qapi_free_SocketAddress(src_tpm_addr);
->   }
+>       for (int region = 0; region < nb_erase_regions; ++region) {
+>           for (uint32_t i = 0; i < c->nb_blocs[region]; ++i) {
+> -            uint64_t byte_addr = i * c->sector_len[region];
+> +            uint64_t byte_addr = (uint64_t)i * c->sector_len[region];
+>               g_assert_cmphex(flash_read(c, byte_addr), ==, bank_mask(c));
+>           }
+>       }
 
