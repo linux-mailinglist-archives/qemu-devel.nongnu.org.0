@@ -2,76 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF80C390A08
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 21:54:16 +0200 (CEST)
-Received: from localhost ([::1]:39340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2461390A1F
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 21:57:26 +0200 (CEST)
+Received: from localhost ([::1]:44850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lld83-0007CM-P5
-	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 15:54:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38182)
+	id 1lldB7-0002bw-FM
+	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 15:57:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40360)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kit.westneat@gmail.com>)
- id 1lld0X-0006Yg-Ig
- for qemu-devel@nongnu.org; Tue, 25 May 2021 15:46:30 -0400
-Received: from mail-qt1-x829.google.com ([2607:f8b0:4864:20::829]:41591)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <kit.westneat@gmail.com>)
- id 1lld0S-000745-DK
- for qemu-devel@nongnu.org; Tue, 25 May 2021 15:46:29 -0400
-Received: by mail-qt1-x829.google.com with SMTP id t20so23978884qtx.8
- for <qemu-devel@nongnu.org>; Tue, 25 May 2021 12:46:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=utywv+fX2W3LjdvJtR62FVzS/O+FDyOews8kabNhQkQ=;
- b=e6Ww9NC1Ftujk3l3trXjLn50Q5ClSbgG6E92+weA6FQsa0l6temJGxyXqKYmyKrjqg
- pfyvidoJitCG0usckzV3TemrK+FP7p+5FoBQ1Bu20xdSacBFAL/Uxn0U1kADFUKcxyYs
- Y+q/04HGqX7VydXKpAQp6o/zpGYH186iV8vEqR//9a8yrP1L1GZnX/jUN9+/njjnPsUz
- nyfx6Goc939G9kNmMZNfdXD8+lx93RWq+uGCgxm7re3lsIrnY73HBrmhcx/DtICgGdVB
- vEFOT31I6JbAifJxRNVLRt/NJQrdhenOOPkNKmOwXIbgIc+dn43u2fRcHlzyO14BMfnt
- m7uQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=utywv+fX2W3LjdvJtR62FVzS/O+FDyOews8kabNhQkQ=;
- b=iRCd1HkSRssJOw7aRxvwViDaqrhAhB9tyxCuJdd2KZc9leljP8qG0eyGoiNfjD/UmP
- gHIE8F+R9HCw4tW2tjbt9FVEK8zaQBqPgX4S6+RCqheRpPAjvBEaPLX4CKJu+C9aJSbs
- iZtFDh+wJUCChGH1OrW08pPkm5hh3thIs8mKqxhKDyejmds63EjwkFds3PqyEnr5Omwk
- OIFGBZS8YE6JrzVJz2RCVtwIEudhFU09TV/Q6RZDBIGb/Q3SUMiSJIV9sWOvymYCKbon
- x3r5Tz4ReYaWVjMOlgi00UbENnFNL8OUwszh0yYUGU9URptElrCkEUPCoiiV3p5ObaUT
- HSuw==
-X-Gm-Message-State: AOAM530eTksJyGG4pEAeaRfUyZTRVi9Dfh0Jr5wFUifpMOHxVFcsRIOp
- Wau+qWXsLOBHVmwhMLlD1fMSXnel3N4=
-X-Google-Smtp-Source: ABdhPJw9jb4zjf1Va3NDVCEPHzZS/D2rn5IMmlg4RQp4rwfG51O/I3CcOaP3Ha3HGoyUy7wV+AGDSQ==
-X-Received: by 2002:a05:622a:15cb:: with SMTP id
- d11mr16283071qty.11.1621971982286; 
- Tue, 25 May 2021 12:46:22 -0700 (PDT)
-Received: from nishikirei.com.com ([104.131.0.80])
- by smtp.gmail.com with ESMTPSA id o5sm87206qtl.85.2021.05.25.12.46.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 May 2021 12:46:21 -0700 (PDT)
-From: Kit Westneat <kit.westneat@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 3/3] block/blkdebug: add log-blocksize and phys-blocksize
- parameters
-Date: Tue, 25 May 2021 19:46:07 +0000
-Message-Id: <20210525194607.553291-4-kit.westneat@gmail.com>
-X-Mailer: git-send-email 2.26.3
-In-Reply-To: <20210525194607.553291-1-kit.westneat@gmail.com>
-References: <20210525194607.553291-1-kit.westneat@gmail.com>
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lldAA-0001VV-5n
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 15:56:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53657)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lldA2-0004bS-8Z
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 15:56:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1621972576;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=BviKVpgmKZtSl0ZjWPTAGHHPAWXetB3zqfpwaYJbOEY=;
+ b=MpiF+Dug+6ButixSXorF4RacxWwVCu8io+qfSTp42m48hxMfdu0HEnjzpBB+fy3CpF4BWE
+ 1y6Odqr48vqa61jRKqSjsVs47EE9JZ4CsqFEbgpKSPPiVrdQ8oZBzk8hYyJDucfDnkyTpg
+ m7e3eonbjilO/QmVrn9efEn/s57BuSE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-281-vkPYTBCWND-Ou3tMGSbSCA-1; Tue, 25 May 2021 15:56:14 -0400
+X-MC-Unique: vkPYTBCWND-Ou3tMGSbSCA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D1F4219251A0;
+ Tue, 25 May 2021 19:56:12 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-112-219.ams2.redhat.com
+ [10.36.112.219])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 904006060F;
+ Tue, 25 May 2021 19:56:02 +0000 (UTC)
+Date: Tue, 25 May 2021 15:55:59 -0400
+From: Cleber Rosa <crosa@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH v6 24/25] gitlab: add python linters to CI
+Message-ID: <YK1WT2b69BZVN1Kw@localhost.localdomain>
+References: <20210512231241.2816122-1-jsnow@redhat.com>
+ <20210512231241.2816122-25-jsnow@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::829;
- envelope-from=kit.westneat@gmail.com; helo=mail-qt1-x829.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210512231241.2816122-25-jsnow@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="eFYy3d9iWE3fwrwH"
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=crosa@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,124 +78,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, Kit Westneat <kit.westneat@gmail.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-block@nongnu.org,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ Willian Rampazzo <willianr@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
+ Max Reitz <mreitz@redhat.com>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
+ Beraldo Leal <bleal@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Allow users to specify the logical and physical block sizes of the
-qdev for testing purposes.
+--eFYy3d9iWE3fwrwH
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Kit Westneat <kit.westneat@gmail.com>
----
- block/blkdebug.c     | 39 +++++++++++++++++++++++++++++++++------
- qapi/block-core.json |  7 +++++++
- 2 files changed, 40 insertions(+), 6 deletions(-)
+On Wed, May 12, 2021 at 07:12:40PM -0400, John Snow wrote:
+> Add python3.6 to the fedora container image: we need it to run the
+> linters against that explicit version to make sure we don't break our
+> minimum version promise.
+>=20
+> Add pipenv so that we can fetch precise versions of pip packages we need
+> to guarantee test reproducability.
+>=20
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> ---
+>  .gitlab-ci.yml                         | 12 ++++++++++++
+>  tests/docker/dockerfiles/fedora.docker |  2 ++
+>  2 files changed, 14 insertions(+)
+>=20
+> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+> index dcb6317aace..a371c0c7163 100644
+> --- a/.gitlab-ci.yml
+> +++ b/.gitlab-ci.yml
+> @@ -779,6 +779,18 @@ check-patch:
+>      GIT_DEPTH: 1000
+>    allow_failure: true
+> =20
+> +
+> +check-python:
+> +  stage: test
+> +  image: $CI_REGISTRY_IMAGE/qemu/fedora:latest
+> +  script:
+> +    - cd python
+> +    - make venv-check
+> +  variables:
+> +    GIT_DEPTH: 1000
+> +  needs:
+> +    job: amd64-fedora-container
+> +
+>  check-dco:
+>    stage: build
+>    image: $CI_REGISTRY_IMAGE/qemu/centos8:latest
+> diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/docker=
+files/fedora.docker
+> index 915fdc1845e..6908d69ac37 100644
+> --- a/tests/docker/dockerfiles/fedora.docker
+> +++ b/tests/docker/dockerfiles/fedora.docker
+> @@ -84,6 +84,7 @@ ENV PACKAGES \
+>      numactl-devel \
+>      perl \
+>      perl-Test-Harness \
+> +    pipenv \
+>      pixman-devel \
+>      python3 \
+>      python3-PyYAML \
+> @@ -93,6 +94,7 @@ ENV PACKAGES \
+>      python3-pip \
+>      python3-sphinx \
+>      python3-virtualenv \
+> +    python3.6 \
 
-diff --git a/block/blkdebug.c b/block/blkdebug.c
-index d5f589920c..85b3973427 100644
---- a/block/blkdebug.c
-+++ b/block/blkdebug.c
-@@ -48,6 +48,8 @@ typedef struct BDRVBlkdebugState {
-     uint64_t opt_discard;
-     uint64_t max_discard;
-     uint64_t blocksize;
-+    uint64_t phys_blocksize;
-+    uint64_t log_blocksize;
- 
-     uint64_t take_child_perms;
-     uint64_t unshare_child_perms;
-@@ -459,7 +461,17 @@ static QemuOptsList runtime_opts = {
-         {
-             .name = "blocksize",
-             .type = QEMU_OPT_SIZE,
--            .help = "Blocksize of device",
-+            .help = "Blocksize of device (512 default)",
-+        },
-+        {
-+            .name = "phys-blocksize",
-+            .type = QEMU_OPT_SIZE,
-+            .help = "Physical blocksize of device (Defaults to 'blocksize')",
-+        },
-+        {
-+            .name = "log-blocksize",
-+            .type = QEMU_OPT_SIZE,
-+            .help = "Logical blocksize of device (Defaults to 'blocksize')",
-         },
-         { /* end of list */ }
-     },
-@@ -576,6 +588,22 @@ static int blkdebug_open(BlockDriverState *bs, QDict *options, int flags,
-         goto out;
-     }
- 
-+    s->phys_blocksize = qemu_opt_get_size(opts, "phys-blocksize", 0);
-+    if (s->phys_blocksize && (s->phys_blocksize >= INT_MAX ||
-+        !is_power_of_2(s->phys_blocksize))) {
-+        error_setg(errp, "Cannot meet constraints with phys-blocksize %" PRIu64,
-+                   s->phys_blocksize);
-+        goto out;
-+    }
-+
-+    s->log_blocksize = qemu_opt_get_size(opts, "log-blocksize", 0);
-+    if (s->log_blocksize && (s->log_blocksize >= INT_MAX ||
-+        !is_power_of_2(s->log_blocksize))) {
-+        error_setg(errp, "Cannot meet constraints with log-blocksize %" PRIu64,
-+                   s->log_blocksize);
-+        goto out;
-+    }
-+
-     bdrv_debug_event(bs, BLKDBG_NONE);
- 
-     ret = 0;
-@@ -1002,12 +1030,9 @@ static int blkdebug_probe_blocksizes(BlockDriverState *bs, BlockSizes *bsz)
- {
-     BDRVBlkdebugState *s = bs->opaque;
- 
--    if (!s->blocksize) {
--        return 0;
--    }
-+    bsz->phys = s->phys_blocksize ? s->phys_blocksize : s->blocksize;
-+    bsz->log = s->log_blocksize ? s->log_blocksize : s->blocksize;
- 
--    bsz->phys = s->blocksize;
--    bsz->log = s->blocksize;
-     return 0;
- }
- 
-@@ -1038,6 +1063,8 @@ static const char *const blkdebug_strong_runtime_opts[] = {
-     "set-state.",
-     "align",
-     "blocksize",
-+    "phys-blocksize",
-+    "log-blocksize",
-     "max-transfer",
-     "opt-write-zero",
-     "max-write-zero",
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index 1b1f2692ef..4638026dbf 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -3407,6 +3407,12 @@
- # @blocksize: blocksize of device in bytes, must be
- #             positive power of 2 (since 6.1)
- #
-+# @log-blocksize: logical blocksize of device in bytes, must be positive power
-+#                 of 2, or 0 for default (@blocksize) (since 6.1)
-+#
-+# @phys-blocksize: physical blocksize of device in bytes, must be positive
-+#                  power of 2, or 0 for default (@blocksize) (since 6.1)
-+#
- # Since: 2.9
- ##
- { 'struct': 'BlockdevOptionsBlkdebug',
-@@ -3416,6 +3422,7 @@
-             '*opt-write-zero': 'int32', '*max-write-zero': 'int32',
-             '*opt-discard': 'int32', '*max-discard': 'int32',
-             '*blocksize': 'int',
-+            '*log-blocksize': 'int', '*phys-blocksize': 'int',
-             '*inject-error': ['BlkdebugInjectErrorOptions'],
-             '*set-state': ['BlkdebugSetStateOptions'],
-             '*take-child-perms': ['BlockPermission'],
--- 
-2.26.3
+I personally would prefer having a different container image for this
+job.  Because it would:
+
+1. Be super simple (FROM fedora:33 / dnf -y install python3.6 pipenv)
+2. Not carry all this unnecessary baggage
+3. Not risk building QEMU with Python 3.6 (suppose the ./configure
+   probe changes unintentionally)
+
+But, AFAICT there is no precedent in requiring new images for
+different types of checks.  So, unless someone else complains loudly,
+I'm OK with this.
+
+Reviewed-by: Cleber Rosa <crosa@redhat.com>
+
+--eFYy3d9iWE3fwrwH
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAmCtVikACgkQZX6NM6Xy
+CfMy4A//QfQs0JEsCOMW40vmdXH4znrnmXZcShGvS7Vh06CFenDh5ZV+pe4qHc4c
+3lgKN7Hpwo4W8Yzj0leLBaGRXNOAv0kKWaBHn++S+OvvZKaz6yQkGt85dw741uB6
+lAb4PpWuSA7e9oncjPiglON5PjW2qsnVUWWvcWr1YbrdPeJW5ke736xoaBHutgQB
+tgVkEgd3mIw6fkcDOuqxms7D1oKrNmHNnW7WOWpUm+UVyN9Bv6SF4Azmjz/ks6dl
+u129MnXyArVDQt2jzkmrYR2oMWKZfNYc0m79/ZeKW68oVXfb008AYLxL8CwY1RIh
+XBWLDFDFzwnTeBttOJQaFyuim0WTsR459LdVF8pd+vod+mKtAinvtDqA1nDVeder
+NauZJhcueT/gGYqqqERHNW3XOaASKhb1SMy00+2IyM43oAjlqw+E9PqJHAxXdOSB
+CrB2AiuLSgsUsoLSq7o7rj1AwBcbCSQ1b93jE1NX3D1bQRQREe0hLgcJSJkDjVud
+Lgcs7vDjOfRfzrvAMVytlUzPbCWyYb/uLSNpdreXLdSuNYCjqTsE+SbSktEVtyrW
+LcIExnTJAVu2UpFnodODhl0pLowGnk+LAyQaCVXJQcrVN5vX4PggT3opKFDwrmx0
+AG9GLyLFrNQEQ7P/mkEG1gw0KyIfn+YUhVDRWaPONDG4gJF4OPM=
+=irpk
+-----END PGP SIGNATURE-----
+
+--eFYy3d9iWE3fwrwH--
 
 
