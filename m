@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D05D3904D1
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 17:13:31 +0200 (CEST)
-Received: from localhost ([::1]:55306 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E19E1390511
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 17:17:59 +0200 (CEST)
+Received: from localhost ([::1]:41332 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llYkM-0007pN-5P
-	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 11:13:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58342)
+	id 1llYog-0000aY-TY
+	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 11:17:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58320)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1llYay-0002B3-KC
- for qemu-devel@nongnu.org; Tue, 25 May 2021 11:03:48 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:42616)
+ id 1llYax-000269-9f
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 11:03:47 -0400
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:43910)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1llYau-0004Bh-PT
- for qemu-devel@nongnu.org; Tue, 25 May 2021 11:03:48 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id x8so32601248wrq.9
+ id 1llYav-0004CR-Dm
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 11:03:47 -0400
+Received: by mail-wr1-x42e.google.com with SMTP id p7so28888660wru.10
  for <qemu-devel@nongnu.org>; Tue, 25 May 2021 08:03:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=Wp1Tfw/cNQ1FJuNdktBt5w18+3l6z2igOWDQmJdVNNA=;
- b=fTRwj307kltm12XTck1BoDVv63kLjW39k86luyYiOM2soNOgRCoOkErjXXsjjATRbA
- KBvbFHi+TfOfzO0w3dkmijIFkNilR043UCgwGcTb/xD+JOvOILeTiGCWA6WB47ABSvwt
- ZMq/mHr7qc8P9bjylApv6xMQbTynHmplHpU2cw56VDDwLUefNjT07faNx/9V5WmR0eBh
- DcMcKKi6cOqO37qAJjqzrDbuoNN1WP1XPD0f21Z9uwvJMoHdGc3oVl6YS1XUH9Tlatn6
- /qcMFJLSKvogHPmpB9e4sE0We7csWNZsDINPh7R3rlp6jBAxT/vFimjoR8X7YLsx5gQt
- AwPw==
+ bh=xJQGPPKuv/kA1nVYDPZJoGnXK3R8JXxcOwmAJZi+OLw=;
+ b=ZxR9cSWUV5A7oVJqx8sMU5zNGyHI73IR6NiZPCpt7XR4/3WZALjZZP29ym0bX5HAba
+ tyAqalMOakJTUrsZKJYAf62BBtfnYNH+8KvAajxafo769/TSA+GlAcV8BtiSD9UkhabN
+ LItuSXLYrMnCAwpOLvnO+Y/Hm9N2D+Qc1XQUZJdIEi5iaQhf1Dmq17sk0LQHT1VvmOzD
+ PxPgK8zs2kSICUg7ir3c50dx2OrdeU6V6sgiQrtwaIvAj90BqFy+igP+X7+R2b4/jLyI
+ ZTDgQG1ZRV2q5hG2jJOJ10pEr+s9pERLDWfS/8Kk54E5ZU+Ul/h8xH6+0mLEPW8czJF8
+ Gp2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Wp1Tfw/cNQ1FJuNdktBt5w18+3l6z2igOWDQmJdVNNA=;
- b=Chu+Kv78EH2HyG3LRYcLpY/6kz74CDSv5rCmgROYskiItJZ2I5N0I4Qb81W20Hkydq
- c5prqGauSDdQo2jUcK7YLU4Eq0ilwgekZOwrs9YK8Sw86VGQkFY2Abja+NWCIiEEHQwB
- 74bWN2wdZPu/Eo+ZXmjlYdWwG/bciCh4ckgXm87MIkjzt5SK1R5ytvEAa3wauze6F80E
- oj/UCGAJqxhKDhYoWcLgDDnbmg1myLT2AnRUzfpiJ7e8q8vacFsTn8fX/9yESj06uWW4
- 6wyXGGrM0MWkoDgJUTTCrWBram6YkFNXA1bwtWUdp96toQskcSOCCFT0iB+jZnLiwGWJ
- xFSw==
-X-Gm-Message-State: AOAM531H0fuGQBbapuErH/1HP9EM9kBUJHLyhvSJKGrMOhKWrzHBPjBY
- EfGzH/SmlqgMCuVAW1uWy5r60gGfUWrnKfdl
-X-Google-Smtp-Source: ABdhPJyM9Kph2WjXfB5SaFTRjQEikSbAqfVpu5fnsgSluXG6EI7vn7oxEzfddqdGiRmYBiUtFH3sNw==
-X-Received: by 2002:adf:d231:: with SMTP id k17mr27023654wrh.78.1621955023404; 
- Tue, 25 May 2021 08:03:43 -0700 (PDT)
+ bh=xJQGPPKuv/kA1nVYDPZJoGnXK3R8JXxcOwmAJZi+OLw=;
+ b=Ci3AQxWQUJkPABICD/73ozWgcqBz90ca7WupQZnA/k6aTTMIrMFzvRIHB39NYtJRhl
+ vsqYv70iIRrThU5ruMV/tGscrfMENLCre6o8ayEvW3hg/ueOdDgW9g2SzAfPwfMGLdok
+ W+X08br9z5HNnZSERMPPO/Oo4KnXBwSj2EJi09InRyHUQDuljcd3a9xKJZ0K1qH3k2VN
+ lzpP55ilW8h8ir8a2jo6zxhmUNRkd1fnoWAWBKHid0Fd9QiL+4BmYl91bq/0OFIVF0wi
+ +NE1Fgi2eP2f5hWbKzWzCbCWF95YOlYrhW5NLL+0LziuWslBFH2XT3cHiW/qvNDGhGky
+ XWMA==
+X-Gm-Message-State: AOAM5313Euon2BTL5mlwmbwTZbQOtxiCgVDqtnnBV8L4xXqakJ1kA7sd
+ H54CZihIAMEYQQ9IzJze6M7bKqySvVD/OU7T
+X-Google-Smtp-Source: ABdhPJxOy81ih7y7hVr8L6V0M9B9sRXrIJ9+O4yBpZZVgOBULnJQmfOi1BcOcl0wkwRteNGhOx8vpQ==
+X-Received: by 2002:a5d:6381:: with SMTP id p1mr28109523wru.19.1621955024185; 
+ Tue, 25 May 2021 08:03:44 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id q62sm11710284wma.42.2021.05.25.08.03.42
+ by smtp.gmail.com with ESMTPSA id q62sm11710284wma.42.2021.05.25.08.03.43
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 25 May 2021 08:03:43 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 016/114] accel/tlb: Add
- tlb_flush_range_by_mmuidx_all_cpus_synced()
-Date: Tue, 25 May 2021 16:01:46 +0100
-Message-Id: <20210525150324.32370-17-peter.maydell@linaro.org>
+Subject: [PULL 017/114] accel/tcg: Rename tlb_flush_page_bits ->
+ range]_by_mmuidx_async_0
+Date: Tue, 25 May 2021 16:01:47 +0100
+Message-Id: <20210525150324.32370-18-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210525150324.32370-1-peter.maydell@linaro.org>
 References: <20210525150324.32370-1-peter.maydell@linaro.org>
@@ -90,108 +90,63 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Forward tlb_flush_page_bits_by_mmuidx_all_cpus_synced to
-tlb_flush_range_by_mmuidx_all_cpus_synced passing TARGET_PAGE_SIZE.
+Rename to match tlb_flush_range_locked.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-id: 20210509151618.2331764-7-f4bug@amsat.org
+Message-id: 20210509151618.2331764-8-f4bug@amsat.org
 Message-Id: <20210508201640.1045808-1-richard.henderson@linaro.org>
 [PMD: Split from bigger patch]
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/exec/exec-all.h | 12 ++++++++++++
- accel/tcg/cputlb.c      | 27 ++++++++++++++++++++-------
- 2 files changed, 32 insertions(+), 7 deletions(-)
+ accel/tcg/cputlb.c | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
 
-diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
-index 9a3dbb7ec08..8021adf38f4 100644
---- a/include/exec/exec-all.h
-+++ b/include/exec/exec-all.h
-@@ -281,6 +281,11 @@ void tlb_flush_range_by_mmuidx(CPUState *cpu, target_ulong addr,
- void tlb_flush_range_by_mmuidx_all_cpus(CPUState *cpu, target_ulong addr,
-                                         target_ulong len, uint16_t idxmap,
-                                         unsigned bits);
-+void tlb_flush_range_by_mmuidx_all_cpus_synced(CPUState *cpu,
-+                                               target_ulong addr,
-+                                               target_ulong len,
-+                                               uint16_t idxmap,
-+                                               unsigned bits);
- 
- /**
-  * tlb_set_page_with_attrs:
-@@ -397,6 +402,13 @@ static inline void tlb_flush_range_by_mmuidx_all_cpus(CPUState *cpu,
-                                                       unsigned bits)
- {
- }
-+static inline void tlb_flush_range_by_mmuidx_all_cpus_synced(CPUState *cpu,
-+                                                             target_ulong addr,
-+                                                             target_long len,
-+                                                             uint16_t idxmap,
-+                                                             unsigned bits)
-+{
-+}
- #endif
- /**
-  * probe_access:
 diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
-index a63cf187a4f..4b3ac7093cb 100644
+index 4b3ac7093cb..596b87c876b 100644
 --- a/accel/tcg/cputlb.c
 +++ b/accel/tcg/cputlb.c
-@@ -887,16 +887,20 @@ void tlb_flush_page_bits_by_mmuidx_all_cpus(CPUState *src_cpu,
-                                        idxmap, bits);
+@@ -764,9 +764,8 @@ typedef struct {
+     uint16_t bits;
+ } TLBFlushRangeData;
+ 
+-static void
+-tlb_flush_page_bits_by_mmuidx_async_0(CPUState *cpu,
+-                                      TLBFlushRangeData d)
++static void tlb_flush_range_by_mmuidx_async_0(CPUState *cpu,
++                                              TLBFlushRangeData d)
+ {
+     CPUArchState *env = cpu->env_ptr;
+     int mmu_idx;
+@@ -793,7 +792,7 @@ static void tlb_flush_page_bits_by_mmuidx_async_2(CPUState *cpu,
+                                                   run_on_cpu_data data)
+ {
+     TLBFlushRangeData *d = data.host_ptr;
+-    tlb_flush_page_bits_by_mmuidx_async_0(cpu, *d);
++    tlb_flush_range_by_mmuidx_async_0(cpu, *d);
+     g_free(d);
  }
  
--void tlb_flush_page_bits_by_mmuidx_all_cpus_synced(CPUState *src_cpu,
--                                                   target_ulong addr,
--                                                   uint16_t idxmap,
--                                                   unsigned bits)
-+void tlb_flush_range_by_mmuidx_all_cpus_synced(CPUState *src_cpu,
-+                                               target_ulong addr,
-+                                               target_ulong len,
-+                                               uint16_t idxmap,
-+                                               unsigned bits)
- {
-     TLBFlushRangeData d, *p;
-     CPUState *dst_cpu;
- 
--    /* If all bits are significant, this devolves to tlb_flush_page. */
--    if (bits >= TARGET_LONG_BITS) {
-+    /*
-+     * If all bits are significant, and len is small,
-+     * this devolves to tlb_flush_page.
-+     */
-+    if (bits >= TARGET_LONG_BITS && len <= TARGET_PAGE_SIZE) {
-         tlb_flush_page_by_mmuidx_all_cpus_synced(src_cpu, addr, idxmap);
-         return;
-     }
-@@ -908,7 +912,7 @@ void tlb_flush_page_bits_by_mmuidx_all_cpus_synced(CPUState *src_cpu,
- 
-     /* This should already be page aligned */
-     d.addr = addr & TARGET_PAGE_MASK;
--    d.len = TARGET_PAGE_SIZE;
-+    d.len = len;
-     d.idxmap = idxmap;
+@@ -824,7 +823,7 @@ void tlb_flush_range_by_mmuidx(CPUState *cpu, target_ulong addr,
      d.bits = bits;
  
-@@ -926,6 +930,15 @@ void tlb_flush_page_bits_by_mmuidx_all_cpus_synced(CPUState *src_cpu,
-                           RUN_ON_CPU_HOST_PTR(p));
+     if (qemu_cpu_is_self(cpu)) {
+-        tlb_flush_page_bits_by_mmuidx_async_0(cpu, d);
++        tlb_flush_range_by_mmuidx_async_0(cpu, d);
+     } else {
+         /* Otherwise allocate a structure, freed by the worker.  */
+         TLBFlushRangeData *p = g_memdup(&d, sizeof(d));
+@@ -876,7 +875,7 @@ void tlb_flush_range_by_mmuidx_all_cpus(CPUState *src_cpu,
+         }
+     }
+ 
+-    tlb_flush_page_bits_by_mmuidx_async_0(src_cpu, d);
++    tlb_flush_range_by_mmuidx_async_0(src_cpu, d);
  }
  
-+void tlb_flush_page_bits_by_mmuidx_all_cpus_synced(CPUState *src_cpu,
-+                                                   target_ulong addr,
-+                                                   uint16_t idxmap,
-+                                                   unsigned bits)
-+{
-+    tlb_flush_range_by_mmuidx_all_cpus_synced(src_cpu, addr, TARGET_PAGE_SIZE,
-+                                              idxmap, bits);
-+}
-+
- /* update the TLBs so that writes to code in the virtual page 'addr'
-    can be detected */
- void tlb_protect_code(ram_addr_t ram_addr)
+ void tlb_flush_page_bits_by_mmuidx_all_cpus(CPUState *src_cpu,
 -- 
 2.20.1
 
