@@ -2,53 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAF4C38FE4C
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 11:57:55 +0200 (CEST)
-Received: from localhost ([::1]:60122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A230938FE6F
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 12:08:54 +0200 (CEST)
+Received: from localhost ([::1]:39682 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llTox-0002kB-32
-	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 05:57:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41118)
+	id 1llTzZ-0008MK-Ho
+	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 06:08:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43420)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1llTn1-0000hW-UZ; Tue, 25 May 2021 05:55:57 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:40348)
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1llTyI-0007YP-MG
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 06:07:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23076)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1llTmv-0006XP-DP; Tue, 25 May 2021 05:55:54 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 40B4574570B;
- Tue, 25 May 2021 11:55:44 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id BC361745709; Tue, 25 May 2021 11:55:43 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id BAFA27457F0;
- Tue, 25 May 2021 11:55:43 +0200 (CEST)
-Date: Tue, 25 May 2021 11:55:43 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: David Gibson <david@gibson.dropbear.id.au>
-Subject: Re: [PATCH qemu v20] spapr: Implement Open Firmware client interface
-In-Reply-To: <YKyLNgZrG4IQw0E3@yekko>
-Message-ID: <a433cec-5524-93f-880-b74d5a8753fd@eik.bme.hu>
-References: <eb49cd30-a4f4-d063-d728-521446a671a6@eik.bme.hu>
- <5825cde5-a408-a438-116d-5a9d9113a52a@ozlabs.ru>
- <ec1742e3-c47-bbee-3a6-ec64442922ab@eik.bme.hu>
- <8527c8d2-c1e7-b3f8-0bda-529ba3864701@ozlabs.ru>
- <babe39af-fd34-8c5-de99-a0f485bfbce@eik.bme.hu>
- <4f6ceca3-5f18-fe70-18f9-4efde8feb1ed@ozlabs.ru>
- <7a4e47e5-59b-9132-eafd-d84d8b73f5c@eik.bme.hu>
- <17fbb016-2e7-d57e-bedd-1ae7814fb860@eik.bme.hu> <YKtBJoQXSrSVENFw@yekko>
- <fe6791b0-6162-8331-cc-e6e29fc7d07b@eik.bme.hu> <YKyLNgZrG4IQw0E3@yekko>
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1llTyF-0005Sn-S6
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 06:07:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1621937250;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Mmr/T26Yck8rFQmPN+fFGuZkBab8DFzIy2nEH5DRdGY=;
+ b=dAHRUKGsqI0hWFCD1rJsULoI1tkc078WPUocSgQO6/naoG8vzDmM6sqShbWraENc3mnTzc
+ Md/p1CBmSTLfaluBW/q108LiyGur4ozU2YwCyZZXvnCpiqXCMwi4XlkyMVTvzBMI4XQmmC
+ NNZEBZ9aWI4mssnuFV2XaumStoWwX7A=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-230-j2UeKN4aPDG50u2wrDKbPA-1; Tue, 25 May 2021 06:07:29 -0400
+X-MC-Unique: j2UeKN4aPDG50u2wrDKbPA-1
+Received: by mail-ej1-f71.google.com with SMTP id
+ eb10-20020a170907280ab02903d65bd14481so8288581ejc.21
+ for <qemu-devel@nongnu.org>; Tue, 25 May 2021 03:07:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Mmr/T26Yck8rFQmPN+fFGuZkBab8DFzIy2nEH5DRdGY=;
+ b=HkzEocxrJ2GX0FPRjgNqiUqDIaX/EPmG1KayRZqUgtL/sNO6X855ZrtDZGIDE+jaFg
+ UH7n+xaKCWQHK6Ac5aY7vnkciKuMME3mlVLs0plDTZlVc5TmQ92gt4RtzHsJfwLZs+Ue
+ T9c2nJ+2jBzm6J7CLu9Qr3ZrN1uAL7//MgrFT52LaNI6YvSFysabVHArqcFgvhM08gty
+ jcRQxf/MaE0iLKVm+MjxUg6zl/Yo4bB8k4BzP8Xz7xtHNb0jNKoBsfL6t441+FNu2yT/
+ pguy0rQEFWBtR+HURwDCZaolikOXJRrud68bdMdgTsH09DJmjAE+N9Ti6o7tQIMfAbxL
+ fsHg==
+X-Gm-Message-State: AOAM5304O4M1G+jkA54cgWAB+x19FYJ3Kq8Taj+9j+db2mAdbS7SQxI3
+ 5dMzKhuR4uwZq2Gs/rCOiA60TY3/j6rADNAVmG9wC/n5DHjKShEcR0zubLVh7srvTG8oYhTuVJC
+ iInKPutI9ujFbo0oTuJxqM44Q+cOCxSCBDFMOVESACXXg75Vzn4rq9/j5OBAziMuFPKo=
+X-Received: by 2002:a17:906:148f:: with SMTP id
+ x15mr11384450ejc.535.1621937247522; 
+ Tue, 25 May 2021 03:07:27 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyQUB3FntAICuaOu06evrDcmlDUV9603RsfJW2DNRsPPo6jyYbkoDQfyYTkXwViUa2BV/MxLQ==
+X-Received: by 2002:a17:906:148f:: with SMTP id
+ x15mr11384422ejc.535.1621937247291; 
+ Tue, 25 May 2021 03:07:27 -0700 (PDT)
+Received: from localhost.localdomain ([2a04:ee41:4:31cb:e591:1e1e:abde:a8f1])
+ by smtp.gmail.com with ESMTPSA id
+ l25sm8960024ejk.100.2021.05.25.03.07.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 25 May 2021 03:07:26 -0700 (PDT)
+Subject: Re: [PATCH v2 4/7] block-copy: add a CoMutex to the BlockCopyTask list
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20210518100757.31243-1-eesposit@redhat.com>
+ <20210518100757.31243-5-eesposit@redhat.com>
+ <a3626fa3-359f-c746-74ac-b1b942ae56b0@virtuozzo.com>
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Message-ID: <26cc90a9-756d-902e-3559-81cc01439e24@redhat.com>
+Date: Tue, 25 May 2021 12:07:25 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 8%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+In-Reply-To: <a3626fa3-359f-c746-74ac-b1b942ae56b0@virtuozzo.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -62,101 +105,132 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexey Kardashevskiy <aik@ozlabs.ru>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 25 May 2021, David Gibson wrote:
-> On Mon, May 24, 2021 at 02:42:30PM +0200, BALATON Zoltan wrote:
->> On Mon, 24 May 2021, David Gibson wrote:
->>> On Sun, May 23, 2021 at 07:09:26PM +0200, BALATON Zoltan wrote:
->>>> On Sun, 23 May 2021, BALATON Zoltan wrote:
->>>>> On Sun, 23 May 2021, Alexey Kardashevskiy wrote:
->>>>>> One thing to note about PCI is that normally I think the client
->>>>>> expects the firmware to do PCI probing and SLOF does it. But VOF
->>>>>> does not and Linux scans PCI bus(es) itself. Might be a problem for
->>>>>> you kernel.
->>>>>
->>>>> I'm not sure what info does MorphOS get from the device tree and what it
->>>>> probes itself but I think it may at least need device ids and info about
->>>>> the PCI bus to be able to access the config regs, after that it should
->>>>> set the devices up hopefully. I could add these from the board code to
->>>>> device tree so VOF does not need to do anything about it. However I'm
->>>>> not getting to that point yet because it crashes on something that it's
->>>>> missing and couldn't yet find out what is that.
->>>>>
->>>>> I'd like to get Linux working now as that would be enough to test this
->>>>> and then if for MorphOS we still need a ROM it's not a problem if at
->>>>> least we can boot Linux without the original firmware. But I can't make
->>>>> Linux open a serial console and I don't know what it needs for that. Do
->>>>> you happen to know? I've looked at the sources in Linux/arch/powerpc but
->>>>> not sure how it would find and open a serial port on pegasos2. It seems
->>>>> to work with the board firmware and now I can get it to boot with VOF
->>>>> but then it does not open serial so it probably needs something in the
->>>>> device tree or expects the firmware to set something up that we should
->>>>> add in pegasos2.c when using VOF.
->>>>
->>>> I've now found that Linux uses rtas methods read-pci-config and
->>>> write-pci-config for PCI access on pegasos2 so this means that we'll
->>>> probably need rtas too (I hoped we could get away without it if it were only
->>>> used for shutdown/reboot or so but seems Linux needs it for PCI as well and
->>>> does not scan the bus and won't find some devices without it).
->>>
->>> Yes, definitely sounds like you'll need an RTAS implementation.
->>>
->>>> While VOF can do rtas, this causes a problem with the hypercall method using
->>>> sc 1 that goes through vhyp but trips the assert in ppc_store_sdr1() so
->>>> cannot work after guest is past quiesce.
->>>
->>>> So the question is why is that
->>>> assert there
->>>
->>> Ah.. right.  So, vhyp was designed for the PAPR use case, where we
->>> want to model the CPU when it's in supervisor and user mode, but not
->>> when it's in hypervisor mode.  We want qemu to mimic the behaviour of
->>> the hypervisor, rather than attempting to actually execute hypervisor
->>> code in the virtual CPU.
->>>
->>> On systems that have a hypervisor mode, SDR1 is hypervisor privileged,
->>> so it makes no sense for the guest to attempt to set it.  That should
->>> be caught by the general SPR code and turned into a 0x700, hence the
->>> assert() if we somehow reach ppc_store_sdr1().
->>
->> This seems to work to avoid my problem so I can leave vhyp enabled after
->> qiuesce for now:
->>
->> diff --git a/target/ppc/cpu.c b/target/ppc/cpu.c
->> index d957d1a687..13b87b9b36 100644
->> --- a/target/ppc/cpu.c
->> +++ b/target/ppc/cpu.c
->> @@ -70,7 +70,7 @@ void ppc_store_sdr1(CPUPPCState *env, target_ulong value)
->>  {
->>      PowerPCCPU *cpu = env_archcpu(env);
->>      qemu_log_mask(CPU_LOG_MMU, "%s: " TARGET_FMT_lx "\n", __func__, value);
->> -    assert(!cpu->vhyp);
->> +    assert(!cpu->env.has_hv_mode || !cpu->vhyp);
->>  #if defined(TARGET_PPC64)
->>      if (mmu_is_64bit(env->mmu_model)) {
->>          target_ulong sdr_mask = SDR_64_HTABORG | SDR_64_HTABSIZE;
->>
->> But I wonder if the assert should also be moved within the TARGET_PPC64
->> block and if we may need to generate some exception here instead. Not sure
->> what a real CPU would do in this case but if accessing sdr1 is privileged in
->> HV mode then there should be an exception or if that's catched
->> elsewhere
->
-> It should be caught elsehwere.  Specifically, when the SDR1 SPR is
-> registered, on CPUs with a hypervisor mode it should be registered as
-> hypervisor privileged, so the general mtspr dispatch logic should
-> generate the exception if it's called from !HV code.  The assert here
-> is just to sanity check that it has done so before we enter the actual
-> softmmu code.
 
-So what's the decision then? Remove this assert or modify it like above 
-and move it to the TARGET_PPC64 block (as no 32 bit CPU should have an HV 
-bit anyway).
 
-Regards,
-BALATON Zoltan
+On 20/05/2021 17:19, Vladimir Sementsov-Ogievskiy wrote:
+> 18.05.2021 13:07, Emanuele Giuseppe Esposito wrote:
+>> Because the list of tasks is only modified by coroutine
+>> functions, add a CoMutex in order to protect them.
+>>
+>> Use the same mutex to protect also BlockCopyState in_flight_bytes
+>> field to avoid adding additional syncronization primitives.
+>>
+>> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+>> ---
+>>   block/block-copy.c | 55 +++++++++++++++++++++++++++++-----------------
+>>   1 file changed, 35 insertions(+), 20 deletions(-)
+>>
+>> diff --git a/block/block-copy.c b/block/block-copy.c
+>> index 2e610b4142..3a949fab64 100644
+>> --- a/block/block-copy.c
+>> +++ b/block/block-copy.c
+>> @@ -83,7 +83,7 @@ typedef struct BlockCopyTask {
+>>        */
+>>       bool zeroes;
+>> -    /* State */
+>> +    /* State. Protected by tasks_lock */
+>>       CoQueue wait_queue; /* coroutines blocked on this task */
+>>       /* To reference all call states from BlockCopyState */
+>> @@ -106,8 +106,9 @@ typedef struct BlockCopyState {
+>>       BdrvChild *target;
+>>       /* State */
+>> -    int64_t in_flight_bytes;
+>> +    int64_t in_flight_bytes; /* protected by tasks_lock */
+> 
+> only this field is protected? or the whole State section?
+
+I guess you figured it already, here there is only in_flight_bytes 
+because in next patches I take care of the others.
+
+[...]
+
+>>   }
+>> @@ -213,11 +219,7 @@ static coroutine_fn BlockCopyTask 
+>> *block_copy_task_create(BlockCopyState *s,
+>>       assert(QEMU_IS_ALIGNED(offset, s->cluster_size));
+>>       bytes = QEMU_ALIGN_UP(bytes, s->cluster_size);
+> 
+> Looking at block_copy_task_create():
+> 
+> First, !bdrv_dirty_bitmap_next_dirty_area() doesn't take bitmaps lock, 
+> so it's not protected at all.
+> 
+> Next, even if we take bitmaps lock in 
+> bdrv_dirty_bitmap_next_dirty_area() or around it, it doesn't bring 
+> thread-safety to block_copy_task_create():
+
+The simplest solution here seems to protect 
+bdrv_dirty_bitmap_next_dirty_area and also bdrv_reset_dirty_bitmap with 
+the tasks lock, so that once it is released the bitmap is updated 
+accordingly and from my understanding no other task can get that region.
+
+Btw, out of curiosity, why is bdrv_dirty_bitmap_next_dirty_area not 
+protected by a lock? Can't we have a case where two threads (like you 
+just mention below) check the bitmap? Or am I missing something?
+
+> 
+> Imagine block_copy_task_create() is called from two threads 
+> simultaneously. Both calls will get same dirty area and create equal 
+> tasks. Then, "assert(!find_conflicting_task_locked(s, offset, bytes));" 
+> will crash.
+> 
+
+
+> 
+>> -    /* region is dirty, so no existent tasks possible in it */
+>> -    assert(!find_conflicting_task(s, offset, bytes));
+>> -
+>>       bdrv_reset_dirty_bitmap(s->copy_bitmap, offset, bytes);
+>> -    s->in_flight_bytes += bytes;
+>>       task = g_new(BlockCopyTask, 1);
+>>       *task = (BlockCopyTask) {
+>> @@ -228,7 +230,13 @@ static coroutine_fn BlockCopyTask 
+>> *block_copy_task_create(BlockCopyState *s,
+>>           .bytes = bytes,
+>>       };
+>>       qemu_co_queue_init(&task->wait_queue);
+>> -    QLIST_INSERT_HEAD(&s->tasks, task, list);
+>> +
+>> +    WITH_QEMU_LOCK_GUARD(&s->tasks_lock) {
+>> +        s->in_flight_bytes += bytes;
+>> +        /* region is dirty, so no existent tasks possible in it */
+>> +        assert(!find_conflicting_task_locked(s, offset, bytes));
+>> +        QLIST_INSERT_HEAD(&s->tasks, task, list);
+>> +    }
+>>       return task;
+>>   }
+>> @@ -249,25 +257,29 @@ static void coroutine_fn 
+>> block_copy_task_shrink(BlockCopyTask *task,
+>>       assert(new_bytes > 0 && new_bytes < task->bytes);
+>> -    task->s->in_flight_bytes -= task->bytes - new_bytes;
+>>       bdrv_set_dirty_bitmap(task->s->copy_bitmap,
+>>                             task->offset + new_bytes, task->bytes - 
+>> new_bytes);
+> 
+> Then look here. Imagine, immediately after bdrv_set_dirty_bitmap() in 
+> parallel thread the new task is created, which consumes these new dirty 
+> bits. Again, it will find conflicting task (this one, as task->bytes is 
+> not modified yet) and crash.
+
+Also here, the lock guard should be enlarged to cover also the dirty 
+bitmap. Thank you for pointing these cases!
+
+Emanuele
+
+> 
+>> -    task->bytes = new_bytes;
+>> -    qemu_co_queue_restart_all(&task->wait_queue);
+>> +    WITH_QEMU_LOCK_GUARD(&task->s->tasks_lock) {
+>> +        task->s->in_flight_bytes -= task->bytes - new_bytes;
+>> +        task->bytes = new_bytes;
+>> +        qemu_co_queue_restart_all(&task->wait_queue);
+>> +    }
+>>   }
+
 
