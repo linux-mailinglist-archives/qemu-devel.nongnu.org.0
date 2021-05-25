@@ -2,97 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D546F390770
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 19:22:37 +0200 (CEST)
-Received: from localhost ([::1]:49854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75460390750
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 19:17:51 +0200 (CEST)
+Received: from localhost ([::1]:33628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llalI-0006qp-S8
-	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 13:22:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47220)
+	id 1llagg-00040M-DO
+	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 13:17:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47232)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1llZhk-00040l-F9
- for qemu-devel@nongnu.org; Tue, 25 May 2021 12:14:52 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:8596
+ id 1llZhx-0004O4-Se
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 12:15:05 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:3558
  helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1llZhh-0004Gk-Lj
- for qemu-devel@nongnu.org; Tue, 25 May 2021 12:14:52 -0400
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ id 1llZhv-0004Rz-Py
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 12:15:05 -0400
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
  by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 14PGC7YU055404; Tue, 25 May 2021 12:14:47 -0400
+ 14PG2sNV153563; Tue, 25 May 2021 12:15:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=subject : to : cc :
  references : from : message-id : date : mime-version : in-reply-to :
  content-type : content-transfer-encoding; s=pp1;
- bh=l51DtlhC1FwGvLkyr8biRsZNP+7+/ARfHk9f2eO8bS4=;
- b=LBcYy7TwqkAj6dQ3vYjctIYC0Dgzq+Cbu3ztN/+PkQ7s0UCgy41L8ERxMVdaEU6V1amK
- qX89z74Eq9Y2oe4iyHeTFKFN+Oqo6y4v2V6lTNIloIUzGL3HbGf3pAUaFAYMTrGrggpu
- ogvv5Twaumflx2oV2lhdZ3KVDiwvtHGnTWjF4RgsRhvKB3nYuoTzH664ExxXyq4dX6dO
- a7qFopfthoh0ekuGWhTLYTmawlKA30Ty0SCWSWsl+1TaU3QluM+NM7SaDYTV1zTUyQUT
- 6UA0M2aD997Nch41bSCaNUCAPotX926HzyEcJg38CVoF8WmoFkZKcxiRPdyWykWwPIOH JA== 
+ bh=hm6mkwNXJDW2NLAkpmDLMaksq41/sbdVHlWEKeIE0BQ=;
+ b=hysShD5HwLA5mZ3EC+ySCz2r4z7OAgRHNeOic/WaxF9Yphq46xVzBiSXVlbJCXr/M2qq
+ rWI/GCfyvPmq6otCAv1PhOwXbHdH//vHBT8kzCq204LOQ3jSM0FkRoTsBlpU86KC1IO3
+ +RoF3bFyD60aH1QW39HsxCFhqnEJCo2H7a530wRm7Ky4D5hHke+vy9NtcyYI7nEa4NMk
+ eeuhNbAL+I/6KxH5+n1Izzta3NRE93xcI8/QfiyjX4YMgOSrGGQc95PEs1bnZ8RwQerb
+ iQyONaaPqieUxIVoIsd/Wh7k15EAF2Rn319BRZtyF532PkruxEUE1yxatBgrSFFuLRMA tA== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 38s44v10ub-1
+ by mx0b-001b2d01.pphosted.com with ESMTP id 38s4c8rmdq-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 25 May 2021 12:14:47 -0400
-Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 14PGD0EB061214;
- Tue, 25 May 2021 12:14:47 -0400
-Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.26])
- by mx0b-001b2d01.pphosted.com with ESMTP id 38s44v10u2-1
+ Tue, 25 May 2021 12:15:02 -0400
+Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 14PG3I9F156448;
+ Tue, 25 May 2021 12:15:02 -0400
+Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com
+ [169.55.85.253])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 38s4c8rmd5-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 25 May 2021 12:14:47 -0400
-Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
- by ppma04wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 14PG8a4h022559;
- Tue, 25 May 2021 16:14:46 GMT
-Received: from b01cxnp23032.gho.pok.ibm.com (b01cxnp23032.gho.pok.ibm.com
- [9.57.198.27]) by ppma04wdc.us.ibm.com with ESMTP id 38s1gw1qjt-1
+ Tue, 25 May 2021 12:15:02 -0400
+Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
+ by ppma01wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 14PG7beR012127;
+ Tue, 25 May 2021 16:15:01 GMT
+Received: from b01cxnp23033.gho.pok.ibm.com (b01cxnp23033.gho.pok.ibm.com
+ [9.57.198.28]) by ppma01wdc.us.ibm.com with ESMTP id 38s1q6hjs2-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 25 May 2021 16:14:46 +0000
+ Tue, 25 May 2021 16:15:01 +0000
 Received: from b01ledav004.gho.pok.ibm.com (b01ledav004.gho.pok.ibm.com
  [9.57.199.109])
- by b01cxnp23032.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 14PGEkRk27197742
+ by b01cxnp23033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 14PGF17Z39977464
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 25 May 2021 16:14:46 GMT
+ Tue, 25 May 2021 16:15:01 GMT
 Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 4DE8B112064;
- Tue, 25 May 2021 16:14:46 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 02A6F112063;
+ Tue, 25 May 2021 16:15:01 +0000 (GMT)
 Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D6B1E112062;
- Tue, 25 May 2021 16:14:45 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id E267A112064;
+ Tue, 25 May 2021 16:15:00 +0000 (GMT)
 Received: from [9.47.158.152] (unknown [9.47.158.152])
  by b01ledav004.gho.pok.ibm.com (Postfix) with ESMTP;
- Tue, 25 May 2021 16:14:45 +0000 (GMT)
-Subject: Re: [PATCH 3/6] tests/qtest/hd-geo-test: Fix checks on mkstemp()
- return value
+ Tue, 25 May 2021 16:15:00 +0000 (GMT)
+Subject: Re: [PATCH 2/6] tests/qtest/e1000e-test: Check qemu_recv() succeeded
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
 References: <20210525134458.6675-1-peter.maydell@linaro.org>
- <20210525134458.6675-4-peter.maydell@linaro.org>
+ <20210525134458.6675-3-peter.maydell@linaro.org>
 From: Stefan Berger <stefanb@linux.ibm.com>
-Message-ID: <828c3092-392b-40d0-0473-54dbe1946d48@linux.ibm.com>
-Date: Tue, 25 May 2021 12:14:45 -0400
+Message-ID: <42ba52e6-21c8-fcca-2beb-e8dfd7b93f86@linux.ibm.com>
+Date: Tue, 25 May 2021 12:15:00 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <20210525134458.6675-4-peter.maydell@linaro.org>
+In-Reply-To: <20210525134458.6675-3-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Content-Language: en-US
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: hGnxzSE471WqUfOaiKgpN9rKNs01LLG7
-X-Proofpoint-ORIG-GUID: Hyc9MF0PRccJiK5PlQHTOr_u2KGQzVGT
+X-Proofpoint-GUID: FR5UNYaQAOjBRdP350Ax66cmFhaPbtAb
+X-Proofpoint-ORIG-GUID: bjGJ3T_SJdmTLibsuzoZWzmoFJ9OL4vc
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
  definitions=2021-05-25_07:2021-05-25,
  2021-05-25 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 spamscore=0
- phishscore=0 suspectscore=0 adultscore=0 malwarescore=0 impostorscore=0
- clxscore=1015 lowpriorityscore=0 priorityscore=1501 mlxlogscore=999
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ lowpriorityscore=0
+ mlxlogscore=999 malwarescore=0 bulkscore=0 phishscore=0 suspectscore=0
+ adultscore=0 priorityscore=1501 clxscore=1015 mlxscore=0 spamscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2104190000 definitions=main-2105250098
 Received-SPF: pass client-ip=148.163.158.5; envelope-from=stefanb@linux.ibm.com;
  helo=mx0a-001b2d01.pphosted.com
@@ -124,41 +123,35 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 On 5/25/21 9:44 AM, Peter Maydell wrote:
-> Coverity notices that the checks against mkstemp() failing in
-> create_qcow2_with_mbr() are wrong: mkstemp returns -1 on failure but
-> the check is just "g_assert(fd)".  Fix to use "g_assert(fd >= 0)",
-> matching the correct check in create_test_img().
+> The e1000e_send_verify() test calls qemu_recv() but doesn't
+> check that the call succeeded, which annoys Coverity. Add
+> an explicit test check for the length of the data.
 >
-> Fixes: Coverity CID 1432274
+> (This is a test check, not a "we assume this syscall always
+> succeeds", so we use g_assert_cmpint() rather than g_assert().)
+>
+> Fixes: Coverity CID 1432324
 > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 
 Reviewed-by: Stefan Berger <stefanb@linux.ibm.com>
 
 
 > ---
->   tests/qtest/hd-geo-test.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+>   tests/qtest/e1000e-test.c | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
 >
-> diff --git a/tests/qtest/hd-geo-test.c b/tests/qtest/hd-geo-test.c
-> index f7b7cfbc2d1..113126ae06c 100644
-> --- a/tests/qtest/hd-geo-test.c
-> +++ b/tests/qtest/hd-geo-test.c
-> @@ -464,7 +464,7 @@ static char *create_qcow2_with_mbr(MBRpartitions mbr, uint64_t sectors)
->       }
+> diff --git a/tests/qtest/e1000e-test.c b/tests/qtest/e1000e-test.c
+> index fc226fdfeb5..0273fe4c156 100644
+> --- a/tests/qtest/e1000e-test.c
+> +++ b/tests/qtest/e1000e-test.c
+> @@ -93,7 +93,8 @@ static void e1000e_send_verify(QE1000E *d, int *test_sockets, QGuestAllocator *a
+>       /* Check data sent to the backend */
+>       ret = qemu_recv(test_sockets[0], &recv_len, sizeof(recv_len), 0);
+>       g_assert_cmpint(ret, == , sizeof(recv_len));
+> -    qemu_recv(test_sockets[0], buffer, 64, 0);
+> +    ret = qemu_recv(test_sockets[0], buffer, 64, 0);
+> +    g_assert_cmpint(ret, >=, 5);
+>       g_assert_cmpstr(buffer, == , "TEST");
 >
->       fd = mkstemp(raw_path);
-> -    g_assert(fd);
-> +    g_assert(fd >= 0);
->       close(fd);
->
->       fd = open(raw_path, O_WRONLY);
-> @@ -474,7 +474,7 @@ static char *create_qcow2_with_mbr(MBRpartitions mbr, uint64_t sectors)
->       close(fd);
->
->       fd = mkstemp(qcow2_path);
-> -    g_assert(fd);
-> +    g_assert(fd >= 0);
->       close(fd);
->
->       qemu_img_path = getenv("QTEST_QEMU_IMG");
+>       /* Free test data buffer */
 
