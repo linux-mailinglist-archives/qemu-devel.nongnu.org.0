@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77BFD39056C
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 17:28:14 +0200 (CEST)
-Received: from localhost ([::1]:42054 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D5203904AA
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 17:10:30 +0200 (CEST)
+Received: from localhost ([::1]:45040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llYyb-0003NQ-GN
-	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 11:28:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58450)
+	id 1llYhR-0000uN-5d
+	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 11:10:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58458)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1llYb3-0002Rl-2R
+ id 1llYb3-0002Tq-Kr
  for qemu-devel@nongnu.org; Tue, 25 May 2021 11:03:53 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:45629)
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:35835)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1llYb0-0004FT-2X
- for qemu-devel@nongnu.org; Tue, 25 May 2021 11:03:52 -0400
-Received: by mail-wm1-x332.google.com with SMTP id
- s5-20020a7bc0c50000b0290147d0c21c51so13021175wmh.4
- for <qemu-devel@nongnu.org>; Tue, 25 May 2021 08:03:49 -0700 (PDT)
+ id 1llYb0-0004Fj-PV
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 11:03:53 -0400
+Received: by mail-wr1-x432.google.com with SMTP id m18so2920449wrv.2
+ for <qemu-devel@nongnu.org>; Tue, 25 May 2021 08:03:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=GaZQeOIzuyLo3zicYK1Ozk0rRMl1jpH+sIBVMVCEWdk=;
- b=Eb/sEa/bDHqI7Tl/dmqRd8xdOpoUQNCR08eYzfFc7lwt+mNm2rJ0hG06DR6+f1oMiw
- bP2iezsaUJcXQ21lgXrE0hkus47fyf4Xzi6szptgoWjY2PepaJhCkm6JFrQtZk90tdFI
- L88MRNewsRfeRJ3W4BTYKz3yVl/AQYmlYKQWECfxq93kVCYhWfHjiK9tnOAFdjsL6EN7
- PZR3M/trFu146GtXsUFGarglp7e5plnVPsjPdUCzL5Jo4/c88/rVbqZkBI+rZXTfbqqY
- dB2dWJzRJSqEw/+Prri/pO1hIqpkPbNRKsqlmnXjt4HtdY5Yspi3J+nG+OwOPfqFsteP
- 668g==
+ bh=Vi2fiZVEW/Fmat3jcEpCDap4f3j/AUVxtECjxpPi4vU=;
+ b=Vj5pTh4m3DO9RTrNQwzov7Z6uGoZPkebni/dMlZkHMA3V4N8NODXQxDIXB0hIw9LJn
+ A0SIa5qIiHdhHPCqI+4iRHdLUt9s9JewmwFWlwHwH0aQ6tZCchz1nEF+FimB4RhkNqn2
+ ytXJnlX/LZLzgGLrQcxu6kIt5sDBZcbEjyw9YpY0nbrIDJrPIren9wuL8vNOfOSklLh1
+ EYDMyJRkt9uvkn7bcdDzLJkbv6+PmEcZ8m4+jvMTV53NrS9ZsTp0NoSAkzQM8UrZ9j5F
+ 8UGU+gYpawnilsVBG9mrdNdS9NblpxJjrXUukNKQRiLMxYdQHQRyUT69RFRqkT7fK9hE
+ Q5vw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=GaZQeOIzuyLo3zicYK1Ozk0rRMl1jpH+sIBVMVCEWdk=;
- b=XUDhVa24Mfn/xdNhsGeCPc/qBqtAgqVxNeC0+myMpBX5HuWK5pfGWQsm9qszj8xgv3
- R2fA+pVlM+x+s3CddjM/7+ysdfT6V/MyQrn0/f0vOGEumRghLtuIOXeHrlPb6dp9g/zp
- o/TA5mrS8O30yEI7U6ricPSxnejOUPxMQwwQJV0UNgzyu4Dlxh+khaKfW9PaRmpTFzJP
- Jm0fyVuXQ+PnjlIkZxcHK+obBDD0CHkoxUQMsJgkRD8ViG73hWX4T1CDMer/TaQB0iev
- bgYr+TbBC8YLfRpBhAxcjXDuRTl7DmDwqX40dNfFJjn1hpUoVZYGGRkFC6B9ZcbX2GWb
- RPbw==
-X-Gm-Message-State: AOAM532CLfMLRMdYHN8oj3fRy0gI8UjSLJNn/SCRYIifx1fxlC4gdT/R
- tOeSuiRYj5BfTzw9CAY79pkirnCuUXDEJjBv
-X-Google-Smtp-Source: ABdhPJwd+V0XUz3wkj0tTIeUyffmZm/Wze4Tl0ngY7GZPjZs6ZGapKTu6h62UbUHpzTmnin9TN400g==
-X-Received: by 2002:a7b:cb49:: with SMTP id v9mr4495061wmj.115.1621955028654; 
- Tue, 25 May 2021 08:03:48 -0700 (PDT)
+ bh=Vi2fiZVEW/Fmat3jcEpCDap4f3j/AUVxtECjxpPi4vU=;
+ b=lSECTMXeZF+y1V9D27Q+jOHHBkTRWQoOKARUoY7bgOyc8FO40WXE+1xutWgH0bSfNZ
+ WFmNF6mziE2YLcSzbfMOZjeu6wHJHrNR1VkaUa0F8+qCz4StIKbj2+ybliFrQh9ubpgE
+ JV3OIaTLs4ikSlQTBrIf6stvQfXDtUph0k6G75mFquDGvO5gPSSk129xHTR0MpfAZ0xS
+ 0FIhhHVPDnZfWWN1JdJ3aWR0oqavMTyxQ5feDbMtZnnwrgDgTIC7yiMgiBb2ivcYL9e7
+ ouZ4QHYgOZYa3VKLIljvc4tymrOT8rkspAvWaeFCn/HmJ6hMVIWfF9vld7TLCOnGrGRT
+ CVgw==
+X-Gm-Message-State: AOAM533CfWJZhRAU/SyIPY7X3Jpk/omtP/Mm/tAnmVOk1Nyzg5YzSj9B
+ KhAWnxtCztH4UXvda/Pcz8aZK2/Gs5KiHoyP
+X-Google-Smtp-Source: ABdhPJwjzTWD4djQg11CwR/NmFYM29FMKmo97j7IHEM2VRncrlqdBZ0ufvppb1B7xM/3/UZK1RPUEg==
+X-Received: by 2002:a05:6000:1849:: with SMTP id
+ c9mr27281665wri.282.1621955029441; 
+ Tue, 25 May 2021 08:03:49 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id q62sm11710284wma.42.2021.05.25.08.03.47
+ by smtp.gmail.com with ESMTPSA id q62sm11710284wma.42.2021.05.25.08.03.48
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 May 2021 08:03:48 -0700 (PDT)
+ Tue, 25 May 2021 08:03:49 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 023/114] target/arm: Add ID_AA64ZFR0 fields and
- isar_feature_aa64_sve2
-Date: Tue, 25 May 2021 16:01:53 +0100
-Message-Id: <20210525150324.32370-24-peter.maydell@linaro.org>
+Subject: [PULL 024/114] target/arm: Implement SVE2 Integer Multiply -
+ Unpredicated
+Date: Tue, 25 May 2021 16:01:54 +0100
+Message-Id: <20210525150324.32370-25-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210525150324.32370-1-peter.maydell@linaro.org>
 References: <20210525150324.32370-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x332.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,111 +90,222 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Will be used for SVE2 isa subset enablement.
+For MUL, we can rely on generic support.  For SMULH and UMULH,
+create some trivial helpers.  For PMUL, back in a21bb78e5817,
+we organized helper_gvec_pmul_b in preparation for this use.
 
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20210525010358.152808-2-richard.henderson@linaro.org
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20210525010358.152808-3-richard.henderson@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/cpu.h    | 16 ++++++++++++++++
- target/arm/helper.c |  3 +--
- target/arm/kvm64.c  | 21 +++++++++++++++------
- 3 files changed, 32 insertions(+), 8 deletions(-)
+ target/arm/helper.h        | 10 ++++
+ target/arm/sve.decode      | 10 ++++
+ target/arm/translate-sve.c | 50 ++++++++++++++++++++
+ target/arm/vec_helper.c    | 96 ++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 166 insertions(+)
 
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index 7986a217acd..b7ce3b1e89b 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -947,6 +947,7 @@ struct ARMCPU {
-         uint64_t id_aa64mmfr2;
-         uint64_t id_aa64dfr0;
-         uint64_t id_aa64dfr1;
-+        uint64_t id_aa64zfr0;
-     } isar;
-     uint64_t midr;
-     uint32_t revidr;
-@@ -2034,6 +2035,16 @@ FIELD(ID_AA64DFR0, DOUBLELOCK, 36, 4)
- FIELD(ID_AA64DFR0, TRACEFILT, 40, 4)
- FIELD(ID_AA64DFR0, MTPMU, 48, 4)
+diff --git a/target/arm/helper.h b/target/arm/helper.h
+index ff8148ddc6b..2c412ffd3ba 100644
+--- a/target/arm/helper.h
++++ b/target/arm/helper.h
+@@ -828,6 +828,16 @@ DEF_HELPER_FLAGS_3(gvec_cgt0_h, TCG_CALL_NO_RWG, void, ptr, ptr, i32)
+ DEF_HELPER_FLAGS_3(gvec_cge0_b, TCG_CALL_NO_RWG, void, ptr, ptr, i32)
+ DEF_HELPER_FLAGS_3(gvec_cge0_h, TCG_CALL_NO_RWG, void, ptr, ptr, i32)
  
-+FIELD(ID_AA64ZFR0, SVEVER, 0, 4)
-+FIELD(ID_AA64ZFR0, AES, 4, 4)
-+FIELD(ID_AA64ZFR0, BITPERM, 16, 4)
-+FIELD(ID_AA64ZFR0, BFLOAT16, 20, 4)
-+FIELD(ID_AA64ZFR0, SHA3, 32, 4)
-+FIELD(ID_AA64ZFR0, SM4, 40, 4)
-+FIELD(ID_AA64ZFR0, I8MM, 44, 4)
-+FIELD(ID_AA64ZFR0, F32MM, 52, 4)
-+FIELD(ID_AA64ZFR0, F64MM, 56, 4)
++DEF_HELPER_FLAGS_4(gvec_smulh_b, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_4(gvec_smulh_h, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_4(gvec_smulh_s, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_4(gvec_smulh_d, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
 +
- FIELD(ID_DFR0, COPDBG, 0, 4)
- FIELD(ID_DFR0, COPSDBG, 4, 4)
- FIELD(ID_DFR0, MMAPDBG, 8, 4)
-@@ -4225,6 +4236,11 @@ static inline bool isar_feature_aa64_ssbs(const ARMISARegisters *id)
-     return FIELD_EX64(id->id_aa64pfr1, ID_AA64PFR1, SSBS) != 0;
++DEF_HELPER_FLAGS_4(gvec_umulh_b, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_4(gvec_umulh_h, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_4(gvec_umulh_s, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_4(gvec_umulh_d, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
++
+ DEF_HELPER_FLAGS_4(gvec_sshl_b, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
+ DEF_HELPER_FLAGS_4(gvec_sshl_h, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
+ DEF_HELPER_FLAGS_4(gvec_ushl_b, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
+diff --git a/target/arm/sve.decode b/target/arm/sve.decode
+index 5c906033588..557706cacbb 100644
+--- a/target/arm/sve.decode
++++ b/target/arm/sve.decode
+@@ -1090,3 +1090,13 @@ ST1_zprz        1110010 .. 00 ..... 100 ... ..... ..... \
+                 @rprr_scatter_store xs=0 esz=3 scale=0
+ ST1_zprz        1110010 .. 00 ..... 110 ... ..... ..... \
+                 @rprr_scatter_store xs=1 esz=3 scale=0
++
++#### SVE2 Support
++
++### SVE2 Integer Multiply - Unpredicated
++
++# SVE2 integer multiply vectors (unpredicated)
++MUL_zzz         00000100 .. 1 ..... 0110 00 ..... .....  @rd_rn_rm
++SMULH_zzz       00000100 .. 1 ..... 0110 10 ..... .....  @rd_rn_rm
++UMULH_zzz       00000100 .. 1 ..... 0110 11 ..... .....  @rd_rn_rm
++PMUL_zzz        00000100 00 1 ..... 0110 01 ..... .....  @rd_rn_rm_e0
+diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
+index 864ed669c44..f82d7d96f62 100644
+--- a/target/arm/translate-sve.c
++++ b/target/arm/translate-sve.c
+@@ -5795,3 +5795,53 @@ static bool trans_MOVPRFX_z(DisasContext *s, arg_rpr_esz *a)
+ {
+     return do_movz_zpz(s, a->rd, a->rn, a->pg, a->esz, false);
  }
- 
-+static inline bool isar_feature_aa64_sve2(const ARMISARegisters *id)
++
++/*
++ * SVE2 Integer Multiply - Unpredicated
++ */
++
++static bool trans_MUL_zzz(DisasContext *s, arg_rrr_esz *a)
 +{
-+    return FIELD_EX64(id->id_aa64zfr0, ID_AA64ZFR0, SVEVER) != 0;
++    if (!dc_isar_feature(aa64_sve2, s)) {
++        return false;
++    }
++    if (sve_access_check(s)) {
++        gen_gvec_fn_zzz(s, tcg_gen_gvec_mul, a->esz, a->rd, a->rn, a->rm);
++    }
++    return true;
 +}
 +
- /*
-  * Feature tests for "does this exist in either 32-bit or 64-bit?"
-  */
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 59e9847133a..a66c1f0b9eb 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -7879,8 +7879,7 @@ void register_cp_regs_for_features(ARMCPU *cpu)
-               .opc0 = 3, .opc1 = 0, .crn = 0, .crm = 4, .opc2 = 4,
-               .access = PL1_R, .type = ARM_CP_CONST,
-               .accessfn = access_aa64_tid3,
--              /* At present, only SVEver == 0 is defined anyway.  */
--              .resetvalue = 0 },
-+              .resetvalue = cpu->isar.id_aa64zfr0 },
-             { .name = "ID_AA64PFR5_EL1_RESERVED", .state = ARM_CP_STATE_AA64,
-               .opc0 = 3, .opc1 = 0, .crn = 0, .crm = 4, .opc2 = 5,
-               .access = PL1_R, .type = ARM_CP_CONST,
-diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
-index dff85f6db94..37ceadd9a9d 100644
---- a/target/arm/kvm64.c
-+++ b/target/arm/kvm64.c
-@@ -647,17 +647,26 @@ bool kvm_arm_get_host_cpu_features(ARMHostCPUFeatures *ahcf)
- 
-     sve_supported = ioctl(fdarray[0], KVM_CHECK_EXTENSION, KVM_CAP_ARM_SVE) > 0;
- 
--    kvm_arm_destroy_scratch_host_vcpu(fdarray);
--
--    if (err < 0) {
--        return false;
--    }
--
-     /* Add feature bits that can't appear until after VCPU init. */
-     if (sve_supported) {
-         t = ahcf->isar.id_aa64pfr0;
-         t = FIELD_DP64(t, ID_AA64PFR0, SVE, 1);
-         ahcf->isar.id_aa64pfr0 = t;
-+
-+        /*
-+         * Before v5.1, KVM did not support SVE and did not expose
-+         * ID_AA64ZFR0_EL1 even as RAZ.  After v5.1, KVM still does
-+         * not expose the register to "user" requests like this
-+         * unless the host supports SVE.
-+         */
-+        err |= read_sys_reg64(fdarray[2], &ahcf->isar.id_aa64zfr0,
-+                              ARM64_SYS_REG(3, 0, 0, 4, 4));
-+    }
-+
-+    kvm_arm_destroy_scratch_host_vcpu(fdarray);
-+
-+    if (err < 0) {
++static bool do_sve2_zzz_ool(DisasContext *s, arg_rrr_esz *a,
++                            gen_helper_gvec_3 *fn)
++{
++    if (fn == NULL || !dc_isar_feature(aa64_sve2, s)) {
 +        return false;
-     }
- 
-     /*
++    }
++    if (sve_access_check(s)) {
++        gen_gvec_ool_zzz(s, fn, a->rd, a->rn, a->rm, 0);
++    }
++    return true;
++}
++
++static bool trans_SMULH_zzz(DisasContext *s, arg_rrr_esz *a)
++{
++    static gen_helper_gvec_3 * const fns[4] = {
++        gen_helper_gvec_smulh_b, gen_helper_gvec_smulh_h,
++        gen_helper_gvec_smulh_s, gen_helper_gvec_smulh_d,
++    };
++    return do_sve2_zzz_ool(s, a, fns[a->esz]);
++}
++
++static bool trans_UMULH_zzz(DisasContext *s, arg_rrr_esz *a)
++{
++    static gen_helper_gvec_3 * const fns[4] = {
++        gen_helper_gvec_umulh_b, gen_helper_gvec_umulh_h,
++        gen_helper_gvec_umulh_s, gen_helper_gvec_umulh_d,
++    };
++    return do_sve2_zzz_ool(s, a, fns[a->esz]);
++}
++
++static bool trans_PMUL_zzz(DisasContext *s, arg_rrr_esz *a)
++{
++    return do_sve2_zzz_ool(s, a, gen_helper_gvec_pmul_b);
++}
+diff --git a/target/arm/vec_helper.c b/target/arm/vec_helper.c
+index 3fbeae87cb3..40b92100bf3 100644
+--- a/target/arm/vec_helper.c
++++ b/target/arm/vec_helper.c
+@@ -1985,3 +1985,99 @@ void HELPER(simd_tblx)(void *vd, void *vm, void *venv, uint32_t desc)
+     clear_tail(vd, oprsz, simd_maxsz(desc));
+ }
+ #endif
++
++/*
++ * NxN -> N highpart multiply
++ *
++ * TODO: expose this as a generic vector operation.
++ */
++
++void HELPER(gvec_smulh_b)(void *vd, void *vn, void *vm, uint32_t desc)
++{
++    intptr_t i, opr_sz = simd_oprsz(desc);
++    int8_t *d = vd, *n = vn, *m = vm;
++
++    for (i = 0; i < opr_sz; ++i) {
++        d[i] = ((int32_t)n[i] * m[i]) >> 8;
++    }
++    clear_tail(d, opr_sz, simd_maxsz(desc));
++}
++
++void HELPER(gvec_smulh_h)(void *vd, void *vn, void *vm, uint32_t desc)
++{
++    intptr_t i, opr_sz = simd_oprsz(desc);
++    int16_t *d = vd, *n = vn, *m = vm;
++
++    for (i = 0; i < opr_sz / 2; ++i) {
++        d[i] = ((int32_t)n[i] * m[i]) >> 16;
++    }
++    clear_tail(d, opr_sz, simd_maxsz(desc));
++}
++
++void HELPER(gvec_smulh_s)(void *vd, void *vn, void *vm, uint32_t desc)
++{
++    intptr_t i, opr_sz = simd_oprsz(desc);
++    int32_t *d = vd, *n = vn, *m = vm;
++
++    for (i = 0; i < opr_sz / 4; ++i) {
++        d[i] = ((int64_t)n[i] * m[i]) >> 32;
++    }
++    clear_tail(d, opr_sz, simd_maxsz(desc));
++}
++
++void HELPER(gvec_smulh_d)(void *vd, void *vn, void *vm, uint32_t desc)
++{
++    intptr_t i, opr_sz = simd_oprsz(desc);
++    uint64_t *d = vd, *n = vn, *m = vm;
++    uint64_t discard;
++
++    for (i = 0; i < opr_sz / 8; ++i) {
++        muls64(&discard, &d[i], n[i], m[i]);
++    }
++    clear_tail(d, opr_sz, simd_maxsz(desc));
++}
++
++void HELPER(gvec_umulh_b)(void *vd, void *vn, void *vm, uint32_t desc)
++{
++    intptr_t i, opr_sz = simd_oprsz(desc);
++    uint8_t *d = vd, *n = vn, *m = vm;
++
++    for (i = 0; i < opr_sz; ++i) {
++        d[i] = ((uint32_t)n[i] * m[i]) >> 8;
++    }
++    clear_tail(d, opr_sz, simd_maxsz(desc));
++}
++
++void HELPER(gvec_umulh_h)(void *vd, void *vn, void *vm, uint32_t desc)
++{
++    intptr_t i, opr_sz = simd_oprsz(desc);
++    uint16_t *d = vd, *n = vn, *m = vm;
++
++    for (i = 0; i < opr_sz / 2; ++i) {
++        d[i] = ((uint32_t)n[i] * m[i]) >> 16;
++    }
++    clear_tail(d, opr_sz, simd_maxsz(desc));
++}
++
++void HELPER(gvec_umulh_s)(void *vd, void *vn, void *vm, uint32_t desc)
++{
++    intptr_t i, opr_sz = simd_oprsz(desc);
++    uint32_t *d = vd, *n = vn, *m = vm;
++
++    for (i = 0; i < opr_sz / 4; ++i) {
++        d[i] = ((uint64_t)n[i] * m[i]) >> 32;
++    }
++    clear_tail(d, opr_sz, simd_maxsz(desc));
++}
++
++void HELPER(gvec_umulh_d)(void *vd, void *vn, void *vm, uint32_t desc)
++{
++    intptr_t i, opr_sz = simd_oprsz(desc);
++    uint64_t *d = vd, *n = vn, *m = vm;
++    uint64_t discard;
++
++    for (i = 0; i < opr_sz / 8; ++i) {
++        mulu64(&discard, &d[i], n[i], m[i]);
++    }
++    clear_tail(d, opr_sz, simd_maxsz(desc));
++}
 -- 
 2.20.1
 
