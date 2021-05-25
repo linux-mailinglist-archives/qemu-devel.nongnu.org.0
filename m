@@ -2,81 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D32B390103
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 14:29:49 +0200 (CEST)
-Received: from localhost ([::1]:55584 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B954039010D
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 14:35:08 +0200 (CEST)
+Received: from localhost ([::1]:33548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llWBv-00004s-LF
-	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 08:29:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45682)
+	id 1llWH5-0004Qa-Jn
+	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 08:35:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46756)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1llWAn-0007nC-8J
- for qemu-devel@nongnu.org; Tue, 25 May 2021 08:28:37 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:33506)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1llWFo-0003jv-6R
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 08:33:48 -0400
+Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:39673)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1llWAl-0008Ht-Cv
- for qemu-devel@nongnu.org; Tue, 25 May 2021 08:28:37 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id n2so32135874wrm.0
- for <qemu-devel@nongnu.org>; Tue, 25 May 2021 05:28:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=qmlQzc9ScoHU7+Y2ZpTb+ACvGZ2PEYawK4xAMVOF5zQ=;
- b=sQGPv545vQV34Jt3aHH4iLT2E71qYqco/stLEZf/chOpx1cC94dxcZcTgN44Ytc4BI
- WqiY6UMr6HGL6ciYQCe4nQq8uYUJlm50wkaAGqt/+QjSBipx+7kxdy+u3uZtKccuP3k0
- Tus/PBmB/9vKHmsDCmnFnYbpCUYXszX9uO+X88AhREBYpkyC1kT9yId32guhVDA4inRB
- b2btB5colGWF7d3JdEvZHZpPKSlN7QC+7GeYi1P60VZaeKNvPIFiME7yVX0OSI1N5PAL
- xLfRvTO112oJZEsoWFXbuqnZoR5sgLZxyLkfcG9lpvyG6FmSem9INzCbgf13LbjGCk1P
- +0wQ==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1llWFm-00037Q-Hw
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 08:33:47 -0400
+Received: by mail-ed1-x533.google.com with SMTP id h16so35950914edr.6
+ for <qemu-devel@nongnu.org>; Tue, 25 May 2021 05:33:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=mmmwMRaz9Wf79lG7wsU2BHRoMM0Aqs887we5fHHQH0s=;
+ b=FpWvb6gDbGGU+tF0zuV/hN6y89SY0P8r9tmwFa7g75vQNTqkKTCQjuD7FtKXzZoEFn
+ yaRQG0q2ANwLnHGEu6pF5G+Kv+ktctZ8gnmglX/wevb+uYC3dwYl9l++zfrFDrZmhUex
+ vbi2f4MIGyH1/seZViyPsWfbGVbX1oGKgik9rFSoMxIIUBVokI/dtrLkGpzr3U+bJWfK
+ 3tNAU4fRxschLrOUUnEPtOQY0ABsmMcoPs9uUdZZZ0evv0LuhBtoXwsopQgfLUu16MKw
+ afmn9VVoZ21Q1R3G+S8u5YdhMY2x8/Ue5XPYuYBJ3+i4Tacwe20okw3RTHQbs4TtqbWQ
+ PlZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=qmlQzc9ScoHU7+Y2ZpTb+ACvGZ2PEYawK4xAMVOF5zQ=;
- b=t43oYBOKQAGDzgcKRfPywz4a3OSUdK5wVWhZ+3tohPRY60mM6ecck+gRUTnd2W+Xi2
- 7GMyAJnq9dQbx7Hml06OAt7bDyhyfGQlmXvNZkQ5AwtlwFoaHV1KOzbrH60PrHbp11BH
- LwgiFiBUR5bvScwXieSMI+m1lfUEFh87gf1KzVlM3vKRu4v/mzgVKwPEKC2s2EiSz06d
- EKwsA1u36gTVzbbyJLOvYHvR0f2bvGK/mVyU2KZFF1X9wjXH0UGvOWRxBdP3vhZtL5yk
- 7LHKdMQ2TXprTPWlpHluiW+TfGDHqnaVRH0rEQ0nSGqTQHckmnvE9UxMDcbJl26BwYpX
- Vbyw==
-X-Gm-Message-State: AOAM53395dnsk4XuFe8LVvv3ey7meYUqBU7xZFIsD1PZS45R/JPvd6PC
- ic0959zf/vlcBq9V55s8R8kiB3TfNkP5cg==
-X-Google-Smtp-Source: ABdhPJxHrfLHknE1X0mhX1m2CiSSilQrrftsFsUhBxusXC1bbuByY+tUiocOE+ImkQe7WAPVO8a4bw==
-X-Received: by 2002:adf:ebc4:: with SMTP id v4mr26628727wrn.217.1621945713313; 
- Tue, 25 May 2021 05:28:33 -0700 (PDT)
-Received: from [192.168.1.36] (31.red-83-51-215.dynamicip.rima-tde.net.
- [83.51.215.31])
- by smtp.gmail.com with ESMTPSA id b7sm15521679wri.83.2021.05.25.05.28.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 25 May 2021 05:28:32 -0700 (PDT)
-Subject: Re: [PULL 0/7] testing, gdbstub and plugin updates
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- peter.maydell@linaro.org
-References: <20210525112431.22005-1-alex.bennee@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <7ef6ac9e-27a6-451c-a511-38cd67a2bcd0@amsat.org>
-Date: Tue, 25 May 2021 14:28:31 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=mmmwMRaz9Wf79lG7wsU2BHRoMM0Aqs887we5fHHQH0s=;
+ b=aZEChadBSH6bOb8eBqFrkSfpGwDT+UeNe40nUFNlEGRyfJGOF/AGLHBT3qCFx1X+tw
+ qa4ai8KeztAzPoWO+kxVsOKCYsgIRa2CZDzDFKdPFTCW6r0ur07zY0bxvJVWA/sliGWj
+ LToc4XpvTP8HJ1MyjGc9Ju2Kxnqid99OaQr27yRnB+RnoMpMUlhifmKs+lyZJR7y4qN+
+ jYTsPT90TA3ZbE+8bsQgAcaYDORo66yP9RdgCOwZyDFccZd3XncuwazAR2zHwbccSVJy
+ Bo8VYCGMXKkaGl4J4C+i1WodSUveBC+YsOi84ZKgjCmjQLcACEoXXNLV0o7Et1TltDxH
+ es0w==
+X-Gm-Message-State: AOAM532DWOyDSALwMoM0dY3WTwrQ3hADw0+gi97IL+0xmljYcNNzQOfx
+ Luo00yDWtc/6dmiIXaw+sSwcuHtuttAvWavJG6Mphg==
+X-Google-Smtp-Source: ABdhPJz7KxWHcbDAxN6azNXss4GOvpkWj5MsE1NOdTFpKXkKc/JtZrLhIlsexlQRMPG0LIPVe+d1REJVG29OqGXRglM=
+X-Received: by 2002:a05:6402:3548:: with SMTP id
+ f8mr30778409edd.251.1621946024976; 
+ Tue, 25 May 2021 05:33:44 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210525112431.22005-1-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42e.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+References: <20210525010358.152808-1-richard.henderson@linaro.org>
+In-Reply-To: <20210525010358.152808-1-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 25 May 2021 13:33:21 +0100
+Message-ID: <CAFEAcA-t3bCVnzDnUZzvYTf3Wi+GHO6Q3SHDDHybtJ8s6eW4vw@mail.gmail.com>
+Subject: Re: [PATCH v7 00/92] target/arm: Implement SVE2
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::533;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x533.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,43 +77,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/25/21 1:24 PM, Alex Bennée wrote:
-> The gprof/gcov passed on retry. I'll continue to look at it but didn't want
-> to hold up the PR because of it. - Alex
-> 
-> The following changes since commit 0dab1d36f55c3ed649bb8e4c74b9269ef3a63049:
-> 
->   Merge remote-tracking branch 'remotes/stefanha-gitlab/tags/block-pull-request' into staging (2021-05-24 15:48:08 +0100)
-> 
-> are available in the Git repository at:
-> 
->   https://github.com/stsquad/qemu.git tags/pull-testing-and-misc-updates-250521-1
-> 
-> for you to fetch changes up to bb84bcf61495e9c2907b0659a60beacd2e92e34e:
-> 
->   plugins/syscall: Added a table-like summary output (2021-05-25 09:24:21 +0100)
-> 
-> ----------------------------------------------------------------
-> Testing, gdbstub and plugin updates
-> 
->   - ensure gitlab references master registry
->   - add special rule for hexagon image
->   - clean-up gdbstub's argument handling
->   - fix replay HMP commands to accept long icount
->   - minor re-factor of gdbstub replay handling
->   - update syscall plugin to be more useful
-> 
-> ----------------------------------------------------------------
-> Alex Bennée (5):
->       gitlab: explicitly reference the upstream registry
->       gitlab: add special rule for the hexagon container
+On Tue, 25 May 2021 at 02:07, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Changes for v7:
+>   * Incorporate patch review, some of which broke out new patches.
+>   * Recover 4 patches which somehow got dropped during the v6 rebase.
+>     This should have been caught by risu testing, but I must have
+>     thought the rebase trivial enough to skip that step.  Oops.
+>
+> The patches lacking r-b are:
+>
+>  06-target-arm-Implement-SVE2-saturating-rounding-bit.patch
+>  48-target-arm-Use-correct-output-type-for-gvec_sdot_.patch
+>  60-target-arm-Implement-SVE2-multiply-add-long-index.patch
+>  61-target-arm-Implement-SVE2-integer-multiply-long-i.patch
+>  62-target-arm-Implement-SVE2-complex-integer-multipl.patch
+>  63-target-arm-Implement-SVE2-complex-integer-dot-pro.patch
+>  64-target-arm-Macroize-helper_gvec_-s-u-dot_-b-h.patch
+>  65-target-arm-Macroize-helper_gvec_-s-u-dot_idx_-b-h.patch
+>  75-target-arm-Implement-SVE2-FLOGB.patch
+>  76-target-arm-Share-table-of-sve-load-functions.patch
+>  77-target-arm-Tidy-do_ldrq.patch
+>  81-target-arm-Move-endian-adjustment-macros-to-vec_i.patch
+>  86-target-arm-Fix-decode-for-VDOT-indexed.patch
+>  87-target-arm-Split-out-do_neon_ddda.patch
+>  92-target-arm-Enable-SVE2-and-related-extensions.patch
+>
 
-FYI there is still an issue with this patch:
+I've reviewed the patches that were missing review and applied
+the whole thing to target-arm.next; thanks.
 
-  'build-user-hexagon' job needs 'hexagon-cross-container' job,
-  but it was not added to the pipeline
+-- PMM
 
