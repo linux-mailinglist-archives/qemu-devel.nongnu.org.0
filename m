@@ -2,64 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46C5038FF0D
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 12:28:15 +0200 (CEST)
-Received: from localhost ([::1]:56528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3062638FF85
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 12:49:52 +0200 (CEST)
+Received: from localhost ([::1]:36384 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llUII-0003lP-9m
-	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 06:28:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48254)
+	id 1llUdD-00024C-78
+	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 06:49:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51920)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1llUH1-000336-Oo
- for qemu-devel@nongnu.org; Tue, 25 May 2021 06:26:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36139)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1llUac-0008UN-Cg
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 06:47:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43059)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1llUGz-0001I3-CK
- for qemu-devel@nongnu.org; Tue, 25 May 2021 06:26:55 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1llUaX-00056M-Rb
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 06:47:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621938412;
+ s=mimecast20190719; t=1621939620;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=NicHkbJh2Rpk9ykgxlb6aXtPWUrgZKyOmqk+QQNx7AE=;
- b=i0S+O8LYWuOftnhoRpm3JE4tCOAVY3zeyI40ERXPYzfBMAVEEcaUIONZhw82S3JjLzvU6r
- 6BzXqtFRsQ3FcXC5OJVmOYbIxMflk5ARq/HAp5TK+E52cWVPTKqhN3IFhAV0tKPyhmnsS3
- EFw1URt8ieTB/NRrq2306f/1IbtqPcY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-464-TteOZlVGOiCpbDQtZXde4A-1; Tue, 25 May 2021 06:26:50 -0400
-X-MC-Unique: TteOZlVGOiCpbDQtZXde4A-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B93F810082E1;
- Tue, 25 May 2021 10:26:49 +0000 (UTC)
-Received: from work-vm (ovpn-115-40.ams2.redhat.com [10.36.115.40])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E7D8370581;
- Tue, 25 May 2021 10:26:48 +0000 (UTC)
-Date: Tue, 25 May 2021 11:26:46 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Li Zhijian <lizhijian@cn.fujitsu.com>
-Subject: Re: [PATCH v2 4/4] migration/rdma: source: poll cm_event from return
- path
-Message-ID: <YKzQ5nzBxYXKeUh/@work-vm>
-References: <20210525080552.28259-1-lizhijian@cn.fujitsu.com>
- <20210525080552.28259-4-lizhijian@cn.fujitsu.com>
+ content-transfer-encoding:content-transfer-encoding;
+ bh=mMo7mrr/SVdiWhOjdyz2ZnKUzl/Y9nrhI6+P8HXEHVA=;
+ b=OrZ0smGX76DQJHkocRnSbajWkcJ7HrAUF9O0863sicSKGF75JCZIib8hg+JzV5Agm9u9BN
+ vFmJXEDldjuV4jzms+YZk19Qc4vobj1vjrnRurx57aXRhPDkDwq2XL0r4d9iLylZUccZMa
+ nCBYGpyxclWTli6ukaMAm1vCIrhVBeA=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-536-1Ov8zNgJOw6043A5SeZ_Ow-1; Tue, 25 May 2021 06:46:57 -0400
+X-MC-Unique: 1Ov8zNgJOw6043A5SeZ_Ow-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ j33-20020adf91240000b029010e4009d2ffso14413206wrj.0
+ for <qemu-devel@nongnu.org>; Tue, 25 May 2021 03:46:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=aTmmMT/It3egObdsFk0Lmt02XtMHOWKQLW3d5ca8+70=;
+ b=lQzsN28ZuJPT1cr7/ZE7M3Xi2CT+vIcU6UwgXkI0j8Bf+sMBp4RODnzuI5URyD1JDA
+ tuY4Rg6nxyk7tXTd1tvE3FsDfJkTRVlwmuAYH/Ulhf6xTa301DGc2Bl3u4ivv0H+5AZP
+ SvuZCWTDlMfKogEO/QxH2yD3WThTNJgA++kHuopoX3R4T7ApOiPVHRmvNSKmfMG+5nyu
+ YZ2g5UNPJp8HhjA8GRVVfNL8w3vgdQ42IS+5ZnzUcfQd0tQL+N9w5ZOUumaD9iDii9Sq
+ IcgpxLWFcr0sqsERJy81RWP1/bKAlOubDSyjE/YTwU971cCLCAL/6IELT8q39xoavlDd
+ IiFA==
+X-Gm-Message-State: AOAM532kOsgZ69woYIPpmLrLorN5SRayV0NCW1K0S3p+cbdKqphuTYNP
+ 9wpvN/5kZro5k8n+uzXAOXACQ31rrFh649/N7S2/7Ts9giCNHBT8hiDoPzGGLaLp40G9cuDmO8W
+ BDPvwYhlu2L/H7JNBfdwHdwKkjilHBJIR4/wJg3My9xDfuhxfmJZJ9NuBEn2sggOR
+X-Received: by 2002:a5d:4b04:: with SMTP id v4mr26936368wrq.92.1621939615820; 
+ Tue, 25 May 2021 03:46:55 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzk+4RwGGjp5g5ms038ZrN1ByNCJAq0imaevUQ/VRHFqCzyaH2CDUzJpICPa+7lwEXr5inS5A==
+X-Received: by 2002:a5d:4b04:: with SMTP id v4mr26936350wrq.92.1621939615532; 
+ Tue, 25 May 2021 03:46:55 -0700 (PDT)
+Received: from localhost.localdomain (31.red-83-51-215.dynamicip.rima-tde.net.
+ [83.51.215.31])
+ by smtp.gmail.com with ESMTPSA id j10sm15583793wrt.32.2021.05.25.03.46.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 25 May 2021 03:46:55 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/3] meson: Minor improvements
+Date: Tue, 25 May 2021 12:46:45 +0200
+Message-Id: <20210525104648.4060904-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.26.3
 MIME-Version: 1.0
-In-Reply-To: <20210525080552.28259-4-lizhijian@cn.fujitsu.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -80,122 +91,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, quintela@redhat.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Li Zhijian (lizhijian@cn.fujitsu.com) wrote:
-> source side always blocks if postcopy is only enabled at source side.
-> users are not able to cancel this migration in this case.
-> 
-> Let source side have chance to cancel this migration
-> 
-> Signed-off-by: Li Zhijian <lizhijian@cn.fujitsu.com>
-> ---
-> V2: utilize poll to check cm event
-> ---
->  migration/rdma.c | 42 ++++++++++++++++++++++++++++++++++++++----
->  1 file changed, 38 insertions(+), 4 deletions(-)
-> 
-> diff --git a/migration/rdma.c b/migration/rdma.c
-> index d829d08d076..f67e21b4f54 100644
-> --- a/migration/rdma.c
-> +++ b/migration/rdma.c
-> @@ -36,6 +36,7 @@
->  #include <rdma/rdma_cma.h>
->  #include "trace.h"
->  #include "qom/object.h"
-> +#include <poll.h>
->  
->  /*
->   * Print and error on both the Monitor and the Log file.
-> @@ -2460,7 +2461,36 @@ err_rdma_source_init:
->      return -1;
->  }
->  
-> -static int qemu_rdma_connect(RDMAContext *rdma, Error **errp)
-> +static int qemu_get_cm_event_timeout(RDMAContext *rdma,
-> +                                     struct rdma_cm_event **cm_event,
-> +                                     long msec, Error **errp)
-> +{
-> +    int ret;
-> +    struct pollfd poll_fd = {
-> +                                .fd = rdma->channel->fd,
-> +                                .events = POLLIN,
-> +                                .revents = 0
-> +                            };
-> +
-> +    do {
-> +        ret = poll(&poll_fd, 1, msec);
-> +    } while (ret < 0 && errno == EINTR);
-> +
-> +    if (ret == 0) {
-> +        ERROR(errp, "poll cm event timeout");
-> +        return -1;
-> +    } else if (ret < 0) {
-> +        ERROR(errp, "failed to pull cm event, errno=%i", errno);
-
-Typo: 'poll' - I can fix that.
-
-> +        return -1;
-> +    } else if (poll_fd.revents & POLLIN) {
-> +        return rdma_get_cm_event(rdma->channel, cm_event);
-> +    } else {
-> +        ERROR(errp, "no POLLIN event, revent=%x", poll_fd.revents);
-> +        return -1;
-> +    }
-> +}
-> +
-> +static int qemu_rdma_connect(RDMAContext *rdma, Error **errp, bool return_path)
->  {
->      RDMACapabilities cap = {
->                                  .version = RDMA_CONTROL_VERSION_CURRENT,
-> @@ -2498,7 +2528,11 @@ static int qemu_rdma_connect(RDMAContext *rdma, Error **errp)
->          goto err_rdma_source_connect;
->      }
->  
-> -    ret = rdma_get_cm_event(rdma->channel, &cm_event);
-> +    if (return_path) {
-> +        ret = qemu_get_cm_event_timeout(rdma, &cm_event, 5000, errp);
-
-Fixed timeouts are not a great fix; but I can't think of anything
-better; the only alternative would be to register the fd on the main
-thread's poll and get it to be called back when the event happened.
-
-But for now;
-
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-
-> +    } else {
-> +        ret = rdma_get_cm_event(rdma->channel, &cm_event);
-> +    }
->      if (ret) {
->          perror("rdma_get_cm_event after rdma_connect");
->          ERROR(errp, "connecting to destination!");
-> @@ -4111,7 +4145,7 @@ void rdma_start_outgoing_migration(void *opaque,
->      }
->  
->      trace_rdma_start_outgoing_migration_after_rdma_source_init();
-> -    ret = qemu_rdma_connect(rdma, errp);
-> +    ret = qemu_rdma_connect(rdma, errp, false);
->  
->      if (ret) {
->          goto err;
-> @@ -4132,7 +4166,7 @@ void rdma_start_outgoing_migration(void *opaque,
->              goto return_path_err;
->          }
->  
-> -        ret = qemu_rdma_connect(rdma_return_path, errp);
-> +        ret = qemu_rdma_connect(rdma_return_path, errp, true);
->  
->          if (ret) {
->              goto return_path_err;
-> -- 
-> 2.30.2
-> 
-> 
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Trivial meson improvements, mostly no logical changes,=0D
+improving summary display.=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (3):=0D
+  meson: Only build virtfs-proxy-helper if all requisites are found=0D
+  meson: List if X11 dependency is detected=0D
+  meson: List modules built in summary=0D
+=0D
+ meson.build | 16 ++++++++++++++--=0D
+ 1 file changed, 14 insertions(+), 2 deletions(-)=0D
+=0D
+--=20=0D
+2.26.3=0D
+=0D
 
 
