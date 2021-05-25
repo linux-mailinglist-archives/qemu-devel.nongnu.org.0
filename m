@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CFE0390516
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 17:18:41 +0200 (CEST)
-Received: from localhost ([::1]:41804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B014390522
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 17:20:56 +0200 (CEST)
+Received: from localhost ([::1]:49798 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llYpM-0000tz-5Y
-	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 11:18:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58304)
+	id 1llYrX-0006PI-CT
+	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 11:20:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58370)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1llYaw-000234-DU
- for qemu-devel@nongnu.org; Tue, 25 May 2021 11:03:46 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:45745)
+ id 1llYaz-0002Di-8g
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 11:03:49 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:37757)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1llYat-0004AD-0W
- for qemu-devel@nongnu.org; Tue, 25 May 2021 11:03:46 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id x7so13001136wrt.12
- for <qemu-devel@nongnu.org>; Tue, 25 May 2021 08:03:42 -0700 (PDT)
+ id 1llYat-0004Al-Mr
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 11:03:48 -0400
+Received: by mail-wr1-x432.google.com with SMTP id q5so32587396wrs.4
+ for <qemu-devel@nongnu.org>; Tue, 25 May 2021 08:03:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=uLIRf5J3Ym7Scxq5Iymo7fq/sx2o/GHaq6MdcPsXT24=;
- b=MGjx077f3Srf6+HCm5ZeU/MWKG1cMGfA4pNWsFr1x0YosR4ufDIqGdiEqqzrBjVc8I
- wt6Gb93scMfCcj09g9oFiOQuxX7ZP+641miDlJsxk4UVoiJl0M9f5N79y5ttzBslwBIv
- EQ3b8pQbXAlts2wwoNRFKjV9RaNyUv0Ybbv6/6ML91mRKWF+ZwxKZzTTG3/D7JSGRiNq
- MT9YuTWm+dwW6FTHLfZQdIgo+2Hk3n6BJKQd4Ml2oLu/6BznEeVyWpzkGUKYqD6T/we1
- d85FBFkUOkbELRxVJ8hydVp4SFbgK24vDo0Qm1N9bYDEsQyBfklRhoWfhDFqiGRbHMEX
- eYpA==
+ bh=BKNNRroOLH6etU4+XRZlB+DGD40CljSq3//Lcw05B7c=;
+ b=xs13r2B6LeKgDEO0cZWBmbxkwICYH1IHmDbmEKgBqL3wr2fI9p+O5/snI10cHvkuFI
+ tyGSkeE/PoZJo9ZaoCgccPu2LS4cYKtjJrvjuSlIq0t+XYn2HMMSh0JgptJaMmUM9mmC
+ Y8PLqih5leDTA5d684fn25hWpHjksQYgfLMO6ttlyJmLxY/VSTs9rwuziKOO8hjpcoXc
+ Qiu8w6odZkIzVNY5ldnd+m2tJ+Lo83L0tGVQ6hNf4R2cnn1ux9Brpm4wd87/tk9fsnxH
+ NYVmU/ywNIUtMg8vNeqFfEWzMEtyvKDfRgdAcieyMBZavZK0DyjJaARhDDn9NBGhkItZ
+ KKKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=uLIRf5J3Ym7Scxq5Iymo7fq/sx2o/GHaq6MdcPsXT24=;
- b=U3EaYDTae57x5ttJvUOOBDu6CkCj6wzhMR0MtBVvvKU9wy0c05kzQonQ6p8T51MuXn
- aq9d5qnWMA/Va+NYQrAgxE8LiV6gSaZcIRnhtYMYQaNMIvOtFPSWpe5ZcGED4QPz6/O1
- 2tOCmulTKyXX0vtay4VoORahK32hWeXejbYyV00Cfw0gKYnbqoq4UbMApl43f2IIEsmW
- DFio4BJtLhSXAV8y10pG2zKjS5+mSY4IuKMtpqTJBoBbaXEDhTb4TjR5uZTe/nGi2LOO
- cxsU8Y29imiAvKUV1PBfA3TYDtXm9ZxHkN9SwnlgX0ysJPVlW0Py3fFv3lhUsThF9I0B
- Xc4w==
-X-Gm-Message-State: AOAM531W5KBFEJ77mFpYPBwmKs9KuUixa/ucsiC/EBOZ2buJD+9VXJGo
- 119AtcnPp4B5MJH+r9k9ZdUy6ONpGYnQEFlS
-X-Google-Smtp-Source: ABdhPJxWXjpAMfSLhpHuUxH0rROoQ+Qkw9A7HLyLNsUtoXtuDftM8l9Jqd3mOcd98LxSavJYoZVUbQ==
-X-Received: by 2002:adf:e109:: with SMTP id t9mr2946642wrz.372.1621955021551; 
- Tue, 25 May 2021 08:03:41 -0700 (PDT)
+ bh=BKNNRroOLH6etU4+XRZlB+DGD40CljSq3//Lcw05B7c=;
+ b=CbH2PPKGbr2EzxDNDK/jNeJdjVc6MBy3geOh2rq6hWIx7HKw65WJ7UNLw2L8QpsUn0
+ VVEFAuYLjAMbjknELaxO/1IUhn7Kk0v/mq2XUbLDPOnXGmJQ+1zChqJBPKfaO3wJJ6pY
+ cBn1BgI+tT8cDE9vtsgdMRUPjP+XmiBurRwqCLPMZX/cT1p+wMigwkddVJrKhTDbArDn
+ aah/HBNM5oxOaBIQnSnsQOGsVs2ud4jxiOBeJ+W5/eAM+3fE7KmeZiwFiOOTTagHS07s
+ cPiXcjNpQEO+9y2pSyKvoHeEdnu8uwdvEln6hXGt9bMIQMIAVa9Eu6fawjO2MHmJ163t
+ SbnQ==
+X-Gm-Message-State: AOAM532SpjNGfGjB/8GEzNR/4ztB6i+mvEIAJmPs0jepW70bNr84UazI
+ 7/iV8/K25GMaSGh4jMC4NwlELRNJZWHZbjQF
+X-Google-Smtp-Source: ABdhPJz7HjoOoyq//SGvf0xaXXV7S/+UzSgUn9YlqDsYP+9RqQG/pLH+1xNde47bzGtDn6ac48cliA==
+X-Received: by 2002:a5d:64a6:: with SMTP id m6mr28134746wrp.425.1621955022304; 
+ Tue, 25 May 2021 08:03:42 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id q62sm11710284wma.42.2021.05.25.08.03.40
+ by smtp.gmail.com with ESMTPSA id q62sm11710284wma.42.2021.05.25.08.03.41
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 May 2021 08:03:41 -0700 (PDT)
+ Tue, 25 May 2021 08:03:42 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 014/114] accel/tcg: Add tlb_flush_range_by_mmuidx()
-Date: Tue, 25 May 2021 16:01:44 +0100
-Message-Id: <20210525150324.32370-15-peter.maydell@linaro.org>
+Subject: [PULL 015/114] accel/tcg: Add tlb_flush_range_by_mmuidx_all_cpus()
+Date: Tue, 25 May 2021 16:01:45 +0100
+Message-Id: <20210525150324.32370-16-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210525150324.32370-1-peter.maydell@linaro.org>
 References: <20210525150324.32370-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,74 +89,71 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Forward tlb_flush_page_bits_by_mmuidx to tlb_flush_range_by_mmuidx
-passing TARGET_PAGE_SIZE.
+Forward tlb_flush_page_bits_by_mmuidx_all_cpus to
+tlb_flush_range_by_mmuidx_all_cpus passing TARGET_PAGE_SIZE.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-id: 20210509151618.2331764-5-f4bug@amsat.org
+Message-id: 20210509151618.2331764-6-f4bug@amsat.org
 Message-Id: <20210508201640.1045808-1-richard.henderson@linaro.org>
 [PMD: Split from bigger patch]
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/exec/exec-all.h | 19 +++++++++++++++++++
- accel/tcg/cputlb.c      | 20 +++++++++++++++-----
- 2 files changed, 34 insertions(+), 5 deletions(-)
+ include/exec/exec-all.h | 13 +++++++++++++
+ accel/tcg/cputlb.c      | 24 +++++++++++++++++-------
+ 2 files changed, 30 insertions(+), 7 deletions(-)
 
 diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
-index 6b036cae8f6..5a5f6d4c1a8 100644
+index 5a5f6d4c1a8..9a3dbb7ec08 100644
 --- a/include/exec/exec-all.h
 +++ b/include/exec/exec-all.h
-@@ -262,6 +262,20 @@ void tlb_flush_page_bits_by_mmuidx_all_cpus(CPUState *cpu, target_ulong addr,
- void tlb_flush_page_bits_by_mmuidx_all_cpus_synced
-     (CPUState *cpu, target_ulong addr, uint16_t idxmap, unsigned bits);
- 
-+/**
-+ * tlb_flush_range_by_mmuidx
-+ * @cpu: CPU whose TLB should be flushed
-+ * @addr: virtual address of the start of the range to be flushed
-+ * @len: length of range to be flushed
-+ * @idxmap: bitmap of mmu indexes to flush
-+ * @bits: number of significant bits in address
-+ *
-+ * For each mmuidx in @idxmap, flush all pages within [@addr,@addr+@len),
-+ * comparing only the low @bits worth of each virtual page.
-+ */
-+void tlb_flush_range_by_mmuidx(CPUState *cpu, target_ulong addr,
-+                               target_ulong len, uint16_t idxmap,
-+                               unsigned bits);
+@@ -276,6 +276,12 @@ void tlb_flush_page_bits_by_mmuidx_all_cpus_synced
+ void tlb_flush_range_by_mmuidx(CPUState *cpu, target_ulong addr,
+                                target_ulong len, uint16_t idxmap,
+                                unsigned bits);
++
++/* Similarly, with broadcast and syncing. */
++void tlb_flush_range_by_mmuidx_all_cpus(CPUState *cpu, target_ulong addr,
++                                        target_ulong len, uint16_t idxmap,
++                                        unsigned bits);
++
  /**
   * tlb_set_page_with_attrs:
   * @cpu: CPU to add this TLB entry for
-@@ -365,6 +379,11 @@ tlb_flush_page_bits_by_mmuidx_all_cpus_synced(CPUState *cpu, target_ulong addr,
-                                               uint16_t idxmap, unsigned bits)
+@@ -384,6 +390,13 @@ static inline void tlb_flush_range_by_mmuidx(CPUState *cpu, target_ulong addr,
+                                              unsigned bits)
  {
  }
-+static inline void tlb_flush_range_by_mmuidx(CPUState *cpu, target_ulong addr,
-+                                             target_ulong len, uint16_t idxmap,
-+                                             unsigned bits)
++static inline void tlb_flush_range_by_mmuidx_all_cpus(CPUState *cpu,
++                                                      target_ulong addr,
++                                                      target_ulong len,
++                                                      uint16_t idxmap,
++                                                      unsigned bits)
 +{
 +}
  #endif
  /**
   * probe_access:
 diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
-index a49a72b035e..464e7445916 100644
+index 464e7445916..a63cf187a4f 100644
 --- a/accel/tcg/cputlb.c
 +++ b/accel/tcg/cputlb.c
-@@ -797,13 +797,17 @@ static void tlb_flush_page_bits_by_mmuidx_async_2(CPUState *cpu,
-     g_free(d);
+@@ -839,16 +839,18 @@ void tlb_flush_page_bits_by_mmuidx(CPUState *cpu, target_ulong addr,
+     tlb_flush_range_by_mmuidx(cpu, addr, TARGET_PAGE_SIZE, idxmap, bits);
  }
  
--void tlb_flush_page_bits_by_mmuidx(CPUState *cpu, target_ulong addr,
--                                   uint16_t idxmap, unsigned bits)
-+void tlb_flush_range_by_mmuidx(CPUState *cpu, target_ulong addr,
-+                               target_ulong len, uint16_t idxmap,
-+                               unsigned bits)
+-void tlb_flush_page_bits_by_mmuidx_all_cpus(CPUState *src_cpu,
+-                                            target_ulong addr,
+-                                            uint16_t idxmap,
+-                                            unsigned bits)
++void tlb_flush_range_by_mmuidx_all_cpus(CPUState *src_cpu,
++                                        target_ulong addr, target_ulong len,
++                                        uint16_t idxmap, unsigned bits)
  {
      TLBFlushRangeData d;
+     CPUState *dst_cpu;
  
 -    /* If all bits are significant, this devolves to tlb_flush_page. */
 -    if (bits >= TARGET_LONG_BITS) {
@@ -165,10 +162,10 @@ index a49a72b035e..464e7445916 100644
 +     * this devolves to tlb_flush_page.
 +     */
 +    if (bits >= TARGET_LONG_BITS && len <= TARGET_PAGE_SIZE) {
-         tlb_flush_page_by_mmuidx(cpu, addr, idxmap);
+         tlb_flush_page_by_mmuidx_all_cpus(src_cpu, addr, idxmap);
          return;
      }
-@@ -815,7 +819,7 @@ void tlb_flush_page_bits_by_mmuidx(CPUState *cpu, target_ulong addr,
+@@ -860,7 +862,7 @@ void tlb_flush_page_bits_by_mmuidx_all_cpus(CPUState *src_cpu,
  
      /* This should already be page aligned */
      d.addr = addr & TARGET_PAGE_MASK;
@@ -177,19 +174,21 @@ index a49a72b035e..464e7445916 100644
      d.idxmap = idxmap;
      d.bits = bits;
  
-@@ -829,6 +833,12 @@ void tlb_flush_page_bits_by_mmuidx(CPUState *cpu, target_ulong addr,
-     }
+@@ -877,6 +879,14 @@ void tlb_flush_page_bits_by_mmuidx_all_cpus(CPUState *src_cpu,
+     tlb_flush_page_bits_by_mmuidx_async_0(src_cpu, d);
  }
  
-+void tlb_flush_page_bits_by_mmuidx(CPUState *cpu, target_ulong addr,
-+                                   uint16_t idxmap, unsigned bits)
++void tlb_flush_page_bits_by_mmuidx_all_cpus(CPUState *src_cpu,
++                                            target_ulong addr,
++                                            uint16_t idxmap, unsigned bits)
 +{
-+    tlb_flush_range_by_mmuidx(cpu, addr, TARGET_PAGE_SIZE, idxmap, bits);
++    tlb_flush_range_by_mmuidx_all_cpus(src_cpu, addr, TARGET_PAGE_SIZE,
++                                       idxmap, bits);
 +}
 +
- void tlb_flush_page_bits_by_mmuidx_all_cpus(CPUState *src_cpu,
-                                             target_ulong addr,
-                                             uint16_t idxmap,
+ void tlb_flush_page_bits_by_mmuidx_all_cpus_synced(CPUState *src_cpu,
+                                                    target_ulong addr,
+                                                    uint16_t idxmap,
 -- 
 2.20.1
 
