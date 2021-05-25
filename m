@@ -2,34 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28B6439006C
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 13:57:49 +0200 (CEST)
-Received: from localhost ([::1]:53912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E204939006F
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 13:58:14 +0200 (CEST)
+Received: from localhost ([::1]:55056 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llVgx-0003v2-Nx
-	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 07:57:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37384)
+	id 1llVhN-0004jC-Uc
+	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 07:58:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37412)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bruno.larsen@eldorado.org.br>)
- id 1llVdO-0001cJ-KQ; Tue, 25 May 2021 07:54:10 -0400
+ id 1llVdU-0001dC-LV; Tue, 25 May 2021 07:54:12 -0400
 Received: from [201.28.113.2] (port=5820 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <bruno.larsen@eldorado.org.br>)
- id 1llVdM-0004P8-Nl; Tue, 25 May 2021 07:54:06 -0400
+ id 1llVdT-0004P8-68; Tue, 25 May 2021 07:54:12 -0400
 Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
  Microsoft SMTPSVC(8.5.9600.16384); Tue, 25 May 2021 08:54:00 -0300
 Received: from eldorado.org.br (unknown [10.10.71.235])
- by power9a (Postfix) with ESMTP id 85B7980144E;
+ by power9a (Postfix) with ESMTP id 9FE4A80144F;
  Tue, 25 May 2021 08:54:00 -0300 (-03)
 From: "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 0/4] target/ppc: add support to disable-tcg
-Date: Tue, 25 May 2021 08:53:51 -0300
-Message-Id: <20210525115355.8254-1-bruno.larsen@eldorado.org.br>
+Subject: [PATCH v5 1/4] target/ppc: used ternary operator when registering MAS
+Date: Tue, 25 May 2021 08:53:52 -0300
+Message-Id: <20210525115355.8254-2-bruno.larsen@eldorado.org.br>
 X-Mailer: git-send-email 2.17.1
-X-OriginalArrivalTime: 25 May 2021 11:54:00.0718 (UTC)
- FILETIME=[A6C04AE0:01D7515C]
+In-Reply-To: <20210525115355.8254-1-bruno.larsen@eldorado.org.br>
+References: <20210525115355.8254-1-bruno.larsen@eldorado.org.br>
+X-OriginalArrivalTime: 25 May 2021 11:54:00.0812 (UTC)
+ FILETIME=[A6CEA2C0:01D7515C]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
 Received-SPF: pass client-ip=201.28.113.2;
  envelope-from=bruno.larsen@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -57,53 +59,44 @@ Cc: farosas@linux.ibm.com, richard.henderson@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch series finishes the the changes required to support disabling
-TCG for ppc targets.
+The write calback decision when registering the MAS SPR has been turned
+into a ternary operation, rather than an if-then-else block.
 
-With the current version of the patch, the project compiles and runs ok,
-but we need some more testing to ensure that no regressions happened,
-especially with relation to gdb.
+This was done because when building without TCG, even though the
+compiler will optimize away the pointers to spr_write_generic*, it
+doesn't optimize away the decision and assignment to the local pointer,
+creating compiler errors. This cleanup looked better than using ifdefs,
+so  we decided to with it.
 
-Based-on: <20210521201759.85475-6-bruno.larsen@eldorado.org.br>
+Signed-off-by: Bruno Larsen (billionai) <bruno.larsen@eldorado.org.br>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ target/ppc/cpu_init.c | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
 
-Changelog for v5:
- * removed motion of ppc_cpu_do_interrupt
- * changed commit message of the first patch
-
-Changelog for v4:
- * split former patch 7 into patches 2 and 3
- * undid code motion on patch 7. future cleanup?
- * added copyright blurb to tcg-stubs.c
- * fixed style problem in tcg-stubs.c
-
-Changelog for v3:
- * undone split, since rth's patch fixes what we needed
- * changed commit message for patch 1
- * added some fixes suggested by dgibson for patch 7
-
-Changelog for v2:
- * split the patch series
- * added a fix for 5d145639e, which no longer compiles with linux-user
- * removed patches ther were already accepted
- * applied rth's cleanup to ppc_store_sdr1
- * changed destination of ppc_store_msr
- * undone change to helper-proto, now fewer files include it
-
-Bruno Larsen (billionai) (4):
-  target/ppc: used ternary operator when registering MAS
-  target/ppc: added ifdefs around TCG-only code
-  target/ppc: created tcg-stub.c file
-  target/ppc: updated meson.build to support disable-tcg
-
- target/ppc/cpu_init.c    | 11 +++++-----
- target/ppc/excp_helper.c | 21 ++++++++++++++++---
- target/ppc/meson.build   | 11 ++++++++--
- target/ppc/mmu-hash64.c  | 11 +++++++++-
- target/ppc/mmu_helper.c  | 16 ++++++++++++--
- target/ppc/tcg-stub.c    | 45 ++++++++++++++++++++++++++++++++++++++++
- 6 files changed, 101 insertions(+), 14 deletions(-)
- create mode 100644 target/ppc/tcg-stub.c
-
+diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
+index b696469d1a..40719f6480 100644
+--- a/target/ppc/cpu_init.c
++++ b/target/ppc/cpu_init.c
+@@ -1205,15 +1205,12 @@ static void register_BookE206_sprs(CPUPPCState *env, uint32_t mas_mask,
+     /* TLB assist registers */
+     /* XXX : not implemented */
+     for (i = 0; i < 8; i++) {
+-        void (*uea_write)(DisasContext *ctx, int sprn, int gprn) =
+-            &spr_write_generic32;
+-        if (i == 2 && (mas_mask & (1 << i)) && (env->insns_flags & PPC_64B)) {
+-            uea_write = &spr_write_generic;
+-        }
+         if (mas_mask & (1 << i)) {
+             spr_register(env, mas_sprn[i], mas_names[i],
+                          SPR_NOACCESS, SPR_NOACCESS,
+-                         &spr_read_generic, uea_write,
++                         &spr_read_generic,
++                         (i == 2 && (env->insns_flags & PPC_64B))
++                         ? &spr_write_generic : &spr_write_generic32,
+                          0x00000000);
+         }
+     }
 -- 
 2.17.1
 
