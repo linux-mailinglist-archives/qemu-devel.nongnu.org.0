@@ -2,106 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D74D63906E2
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 18:48:56 +0200 (CEST)
-Received: from localhost ([::1]:56066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA082390765
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 19:20:22 +0200 (CEST)
+Received: from localhost ([::1]:41580 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llaEh-0001Zk-GV
-	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 12:48:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46978)
+	id 1llaj7-00018y-Sn
+	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 13:20:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47142)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1llZgq-0002Nv-Fn
- for qemu-devel@nongnu.org; Tue, 25 May 2021 12:13:56 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:10874)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1llZhV-0003dK-V3
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 12:14:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21014)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1llZgn-0003iS-R7
- for qemu-devel@nongnu.org; Tue, 25 May 2021 12:13:56 -0400
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 14PG3IJ4022537; Tue, 25 May 2021 12:13:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=mIbHTeYLZZEoYK51ATdCljcCsBc884gzdxA0uwd5k9I=;
- b=I+LqDJjfCWJw7HDH+T9eOGecioxuXTqSJxgvpX+oO8yrozpTyYEFhiq/7S7MAzF9GK8V
- ZEofACHetliTNPUJ1C+tt7uDhiQ5e5bstTirSkg8U2D80D+EXVXW3zBsTbTdK0GKllNM
- H6KtnPC0vtT/UXxlAl4O2oyNknFkI0rxA0EG7fhKrctALPKuhFwCGfQ1Uht6hRKeV43q
- 83mpTqVeGF7Wyw9wQ1Pshpz80qC8Hdz6oi/zNifMCm2+oh60g2CJdOFHDoGvH1+JmC02
- Lpjc0b1ABnDkFLDM7sZ3jW0Qv2qteOwzgkrH1Of/+lPUe43+Df5EliS53sk60OCPJnVt 2Q== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 38s2credyv-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 25 May 2021 12:13:50 -0400
-Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 14PG3eLm024364;
- Tue, 25 May 2021 12:13:49 -0400
-Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
- [169.63.214.131])
- by mx0a-001b2d01.pphosted.com with ESMTP id 38s2credyf-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 25 May 2021 12:13:49 -0400
-Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
- by ppma01dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 14PG91eB016208;
- Tue, 25 May 2021 16:13:49 GMT
-Received: from b01cxnp22034.gho.pok.ibm.com (b01cxnp22034.gho.pok.ibm.com
- [9.57.198.24]) by ppma01dal.us.ibm.com with ESMTP id 38s1m220m2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 25 May 2021 16:13:48 +0000
-Received: from b01ledav004.gho.pok.ibm.com (b01ledav004.gho.pok.ibm.com
- [9.57.199.109])
- by b01cxnp22034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 14PGDlrI31195498
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 25 May 2021 16:13:47 GMT
-Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id DE6F8112066;
- Tue, 25 May 2021 16:13:47 +0000 (GMT)
-Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id CE0CB112065;
- Tue, 25 May 2021 16:13:47 +0000 (GMT)
-Received: from [9.47.158.152] (unknown [9.47.158.152])
- by b01ledav004.gho.pok.ibm.com (Postfix) with ESMTP;
- Tue, 25 May 2021 16:13:47 +0000 (GMT)
-Subject: Re: [PATCH 6/6] tests/unit/test-vmstate: Assert that dup() and
- mkstemp() succeed
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-References: <20210525134458.6675-1-peter.maydell@linaro.org>
- <20210525134458.6675-7-peter.maydell@linaro.org>
-From: Stefan Berger <stefanb@linux.ibm.com>
-Message-ID: <5cabc8b9-f3ac-1179-a099-e7cebbe9f86f@linux.ibm.com>
-Date: Tue, 25 May 2021 12:13:47 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1llZhN-00043t-PI
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 12:14:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1621959267;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=hx+MMlf/y5UN1J1lbKAxYnAXtR9f+6wZjEu87z44zXA=;
+ b=UObfNgvQZvyt+Zln8fmZYLaIm5NKm8XC3Yl5fCZjD5nmrCIC+/IFF//lHNPVByMJMjo/as
+ 7iolvBGR9Md2FBZP9dJf8spnLtbYQxVo32OhTEhAIa3VfoAOXG2zWjcb04apgDx1YqdVem
+ LgLBRqMhsxMxu8fU4ElS4Im0LCGeLgo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-202-smLNGS2SP8uMkMKHE8s9pw-1; Tue, 25 May 2021 12:14:23 -0400
+X-MC-Unique: smLNGS2SP8uMkMKHE8s9pw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 68D4FBBEE5;
+ Tue, 25 May 2021 16:14:22 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-112-219.ams2.redhat.com
+ [10.36.112.219])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 218835C1B4;
+ Tue, 25 May 2021 16:14:01 +0000 (UTC)
+Date: Tue, 25 May 2021 12:13:58 -0400
+From: Cleber Rosa <crosa@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH v6 20/25] python: add devel package requirements to
+ setuptools
+Message-ID: <YK0iRgCDgKfVogKD@localhost.localdomain>
+References: <20210512231241.2816122-1-jsnow@redhat.com>
+ <20210512231241.2816122-21-jsnow@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210525134458.6675-7-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: LBIveh4ti-8WDKlwZUigykCKOc6Q6ZuC
-X-Proofpoint-ORIG-GUID: HUoRm0q-GfixV83rNMyyRu6ZCnJgVruB
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
- definitions=2021-05-25_07:2021-05-25,
- 2021-05-25 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0
- lowpriorityscore=0 clxscore=1015 priorityscore=1501 bulkscore=0
- adultscore=0 spamscore=0 mlxscore=0 phishscore=0 suspectscore=0
- malwarescore=0 mlxlogscore=999 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2104190000 definitions=main-2105250098
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=stefanb@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210512231241.2816122-21-jsnow@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="gJxed1gFG90j5Rm3"
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=crosa@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -114,46 +79,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Stefan Berger <stefanb@linux.vnet.ibm.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-block@nongnu.org,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ Willian Rampazzo <willianr@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
+ Max Reitz <mreitz@redhat.com>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
+ Beraldo Leal <bleal@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+--gJxed1gFG90j5Rm3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 5/25/21 9:44 AM, Peter Maydell wrote:
-> Coverity complains that we don't check for failures from dup()
-> and mkstemp(); add asserts that these syscalls succeeded.
+On Wed, May 12, 2021 at 07:12:36PM -0400, John Snow wrote:
+> setuptools doesn't have a formal understanding of development requires,
+> but it has an optional feataures section. Fine; add a "devel" feature
+> and add the requirements to it.
+>=20
+> To avoid duplication, we can modify pipenv to install qemu[devel]
+> instead. This enables us to run invocations like "pip install -e
+> .[devel]" and test the package on bleeding-edge packages beyond those
+> specified in Pipfile.lock.
+>=20
+> Importantly, this also allows us to install the qemu development
+> packages in a non-networked mode: `pip3 install --no-index -e .[devel]`
+> will now fail if the proper development dependencies are not already
+> met. This can be useful for automated build scripts where fetching
+> network packages may be undesirable.
 >
-> Fixes: Coverity CID 1432516, 1432574
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 
-Reviewed-by: Stefan Berger <stefanb@linux.ibm.com>
+This is a fairly exotic feature of setuptools, with very very few
+packages that I know about using it.  With most users (I believe)
+relying on pipenv to get the exact packages, the setuptools/pip use
+case may fall into obscurity IMO.
 
+So my suggestion is: consider better exposing the fact that this is
+available (a documentation section perhaps).
 
+> Signed-off-by: John Snow <jsnow@redhat.com>
 > ---
->   tests/unit/test-vmstate.c | 2 ++
->   1 file changed, 2 insertions(+)
+>  python/Pipfile      |  5 +----
+>  python/Pipfile.lock | 14 +++++++++-----
+>  python/setup.cfg    |  9 +++++++++
+>  3 files changed, 19 insertions(+), 9 deletions(-)
 >
-> diff --git a/tests/unit/test-vmstate.c b/tests/unit/test-vmstate.c
-> index a001879585e..8d46af61511 100644
-> --- a/tests/unit/test-vmstate.c
-> +++ b/tests/unit/test-vmstate.c
-> @@ -44,6 +44,7 @@ static QEMUFile *open_test_file(bool write)
->       QIOChannel *ioc;
->       QEMUFile *f;
->
-> +    g_assert(fd >= 0);
->       lseek(fd, 0, SEEK_SET);
->       if (write) {
->           g_assert_cmpint(ftruncate(fd, 0), ==, 0);
-> @@ -1486,6 +1487,7 @@ int main(int argc, char **argv)
->       g_autofree char *temp_file = g_strdup_printf("%s/vmst.test.XXXXXX",
->                                                    g_get_tmp_dir());
->       temp_fd = mkstemp(temp_file);
-> +    g_assert(temp_fd >= 0);
->
->       module_call_init(MODULE_INIT_QOM);
->
+
+Either way,
+
+Reviewed-by: Cleber Rosa <crosa@redhat.com>
+
+--gJxed1gFG90j5Rm3
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAmCtIj8ACgkQZX6NM6Xy
+CfNhmQ/9HKartwwN2oB2yhcR7z51wdLcgoaMx3tQ5Bge0bndMSd2A5IB8woe60lX
+a646obZJzBkWdOjDp8BaVmaBWmLqZL6RLY3z8ZET00j1pOyutLL6e0xkCzozrcrk
+Xap7S2/P34stp+ukWo8G/UNpTptW1zEZxlxi+tNU3kZibdSfKGN8zvjoVhDkC3Nb
+N0e7M/91SKaYqixFE6CJsQ/qW8qtMcI7puGpQG0ldIUAuWnL2L+O2yJiW8sA/z25
+ditstoaDCrKS3TSenUANz+x3Rqc7sHiOlyz1FJFXdTG71l4Ggpo8lGwbuE5meYPA
+9sqkm7YgUxnbQfVD8BaK/2dHpUq/4C70iV6vuvccZ6+U6y85FdQ9bW6cAaIuZi3w
+ToNXKbR/JY/wy8tptKK0rd2etfR4cOGeXdUd4sxdNBbi2Zz91zKwWHG49JaTkWCt
+zmrwnFM58yKBjBO7c2Wh0WucvRmOfF8CxRTacmrD7yUGLnvIJ7eIUpXVI0AJfVKG
+yvJN/nvhkcf5s0eUx68+FxpwUAhHm/Pa64BtXau986G0cMj58n7D8qHfO/BXl8L1
+sXJvqtOyPl9iRoRACuQwe7I8b/HGUdNOK4Hg78p24n+b+idXcGpSVr/bLdtQvn9D
+lSYvD2xMZMvrhPWuFYpBBIuFEU/Exxg+lT3j/siRnozeVSu5d9o=
+=mL3g
+-----END PGP SIGNATURE-----
+
+--gJxed1gFG90j5Rm3--
+
 
