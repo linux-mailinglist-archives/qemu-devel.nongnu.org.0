@@ -2,105 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5DE73901CC
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 15:12:11 +0200 (CEST)
-Received: from localhost ([::1]:38778 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D867F3901FE
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 15:19:19 +0200 (CEST)
+Received: from localhost ([::1]:44186 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llWqw-0003LN-JP
-	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 09:12:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56016)
+	id 1llWxq-0007Jb-K7
+	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 09:19:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57146)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
- id 1llWpg-0002JD-3z
- for qemu-devel@nongnu.org; Tue, 25 May 2021 09:10:52 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:14532)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
- id 1llWpd-0000zT-8k
- for qemu-devel@nongnu.org; Tue, 25 May 2021 09:10:51 -0400
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 14PD42ju042060; Tue, 25 May 2021 09:10:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to : cc :
- references : from : message-id : date : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=ZSS4nCGar/loq1G7jtVM4S8x/XuTggcmFtAMm1EuhPU=;
- b=e7Oo55tqwy4M8zHPSTRRTqMNEneTkGFB2xZ4z2iVCsxRpnojBcZKxWxm8DPtvmYpVRXF
- wUNUOjGYs7JqOl+ZBVno8My0HkTYLc5qvKeC6eyn9u6YvwRTJIbxGCx8hwSzHMCMwQke
- ol6rpD6zzesmyONJQcn4HdRvQhj/CNOvKdmeKt5gmyGoH8HQ6U03LvuD2hO7fRM+Rz4/
- SDSqwJPrNReAZ+keKnXYZ3OQPbWefHaHpzjvH245S18aygR8/oeo4jZngi6rIcHl+quz
- kYRyIExirj9fbxTyTIEkgVCwtB2Cw762bf/ATYVmiM/7K6BlJmE0liyQvaTSVTqXqIMR sg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 38s1gth0qr-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 25 May 2021 09:10:45 -0400
-Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 14PD4i2i045807;
- Tue, 25 May 2021 09:10:44 -0400
-Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.108])
- by mx0a-001b2d01.pphosted.com with ESMTP id 38s1gth0nh-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 25 May 2021 09:10:44 -0400
-Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
- by ppma05fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 14PD8pnb009073;
- Tue, 25 May 2021 13:10:41 GMT
-Received: from b06cxnps4076.portsmouth.uk.ibm.com
- (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
- by ppma05fra.de.ibm.com with ESMTP id 38s1r5003m-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 25 May 2021 13:10:41 +0000
-Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
- by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 14PDAcMh26804654
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 25 May 2021 13:10:38 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 66EFB42045;
- Tue, 25 May 2021 13:10:38 +0000 (GMT)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 3D6344203F;
- Tue, 25 May 2021 13:10:34 +0000 (GMT)
-Received: from [9.65.213.35] (unknown [9.65.213.35])
- by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Tue, 25 May 2021 13:10:33 +0000 (GMT)
-Subject: Re: [PATCH] x86: add SEV hashing to fw_cfg for kernel/initrd/cmdline
+ (Exim 4.90_1) (envelope-from <kit.westneat@gmail.com>)
+ id 1llWv4-0004wk-RZ
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 09:16:26 -0400
+Received: from mail-qk1-x72c.google.com ([2607:f8b0:4864:20::72c]:39830)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <kit.westneat@gmail.com>)
+ id 1llWv3-0004eQ-8E
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 09:16:26 -0400
+Received: by mail-qk1-x72c.google.com with SMTP id j184so8241994qkd.6
+ for <qemu-devel@nongnu.org>; Tue, 25 May 2021 06:16:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=fusJN9yX/5p/1BzxMk+j1QtkuY6pQEtDelyTJilmUlE=;
+ b=eHaHvZLfnIMgNNp8VNoyo7QjydI/m8bIwmG4pbeRU1PKPmEahcZ2YOwHCW8jAvgr9G
+ +BUra8mDJqXOkP7LgnrDqGnUiaz6TBVH6fUfAnVnto18EE/GjAY566jWR5ASfyYDzuzz
+ lDJV9na4DfmZuD/EZfsRonpmLvt39KHBwTWP8VtGHOs0ux7CKqs4CLB4O0Vlv+q47QCK
+ saeAjGzNg2FFDAN7tKunn2/On1xfkcSIPmVfyAh1OMa1xiwbLhKo4vX01FQD7nN1CDL6
+ gGQGMToZS39C7KElphg4ordylpDqY+91MOpaTmlRbcX4FPs/a0pnWY7sxJL94vCkoOWm
+ 6+YA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=fusJN9yX/5p/1BzxMk+j1QtkuY6pQEtDelyTJilmUlE=;
+ b=g8lr+9tnDTfaixQ12CzWYuYxH1cHh7mgPNK4RXTQK1LPPbXMVtt3H32gT1cC88ze9n
+ Dgfjs7+nzO1wvT9IGCNKayKvwxLjxkNJaDmTC4wGO1YKBYMdbxtNmWbtMiuMrYKG6IYs
+ 0ztV0LamzkNDffcAIbJJ/11XSybf79dTQlia7jBT404DgDLX+bREwi/xbGZ8EsIxEWfp
+ t87mUhVzJ2D4GOvIjMw7WgTyoRz13GfRTwXaTyzP3kG8zdfPob6axzPAI6FhhRhPy1Kw
+ sEJ0+O/vC+eVGHOzviLAtDrHYHtfkCwiUbDccZV949VlZTF4PbP7bbau/lgrE/BeMpQQ
+ 17LQ==
+X-Gm-Message-State: AOAM530oULikQINR8kbt2zW0cw3kpxtTOYy4vn+zjyKkOrGvNLgGK39k
+ wImc5tQ6f26YWvpejnCYjDccpK7Fj3s=
+X-Google-Smtp-Source: ABdhPJyr7XSt1FfL0xx1sRXclaJwqax7knSnhEScceluEoBPJbT9e9m5PeFty7xqv0+I0ciEsiRfLw==
+X-Received: by 2002:a05:620a:2486:: with SMTP id
+ i6mr36026894qkn.207.1621948583902; 
+ Tue, 25 May 2021 06:16:23 -0700 (PDT)
+Received: from nishikirei.com.com ([104.131.0.80])
+ by smtp.gmail.com with ESMTPSA id p14sm13213596qki.27.2021.05.25.06.16.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 25 May 2021 06:16:23 -0700 (PDT)
+From: Kit Westneat <kit.westneat@gmail.com>
 To: qemu-devel@nongnu.org
-References: <20210525065931.1628554-1-dovmurik@linux.ibm.com>
-From: Dov Murik <dovmurik@linux.ibm.com>
-Message-ID: <47bcf1ab-37a6-f329-0017-673b6aa21979@linux.ibm.com>
-Date: Tue, 25 May 2021 16:10:32 +0300
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.2
-In-Reply-To: <20210525065931.1628554-1-dovmurik@linux.ibm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: a1gnM1yEqRvWv_4_911QkhQonEBhq4rt
-X-Proofpoint-ORIG-GUID: 8J5wf7UEmBIP71KGBSJ-v39xgESQ7fBe
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+Subject: [PATCH v2 0/3] testing block device blocksizes
+Date: Tue, 25 May 2021 13:15:42 +0000
+Message-Id: <20210525131545.529451-1-kit.westneat@gmail.com>
+X-Mailer: git-send-email 2.26.3
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
- definitions=2021-05-25_06:2021-05-25,
- 2021-05-25 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 mlxscore=0
- bulkscore=0 phishscore=0 priorityscore=1501 suspectscore=0
- lowpriorityscore=0 mlxlogscore=999 spamscore=0 clxscore=1015
- impostorscore=0 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2104190000 definitions=main-2105250081
-Received-SPF: pass client-ip=148.163.156.1;
- envelope-from=dovmurik@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::72c;
+ envelope-from=kit.westneat@gmail.com; helo=mail-qk1-x72c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -113,51 +81,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Tom Lendacky <thomas.lendacky@amd.com>, Ashish Kalra <ashish.kalra@amd.com>,
- Brijesh Singh <brijesh.singh@amd.com>, Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>, Tobin Feldman-Fitzthum <tobin@ibm.com>,
- James Bottomley <jejb@linux.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Hubertus Franke <frankeh@us.ibm.com>,
- Tobin Feldman-Fitzthum <tobin@linux.ibm.com>, Jim Cadden <jcadden@ibm.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Laszlo Ersek <lersek@redhat.com>
+Cc: pbonzini@redhat.com, Kit Westneat <kit.westneat@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+These patches add a few parameters to blkdebug to allow modification of
+the block device block sizes, both logical and physical. It also adds a
+test that uses the parameter to verify correct UNMAP behavior in devices
+with 4k blocks.
 
+v2: fixes style issues
 
-On 25/05/2021 9:59, Dov Murik wrote:
-> From: James Bottomley <jejb@linux.ibm.com>
-> 
-> If the VM is using memory encryption and also specifies a kernel/initrd
-> or appended command line, calculate the hashes and add them to the
-> encrypted data.  For this to work, OVMF must support an encrypted area
-> to place the data which is advertised via a special GUID in the OVMF
-> reset table (if the GUID doesn't exist, the user isn't allowed to pass
-> in the kernel/initrd/cmdline via the fw_cfg interface).
-> 
-> The hashes of each of the files is calculated (or the string in the case
-> of the cmdline with trailing '\0' included).  Each entry in the hashes
-> table is GUID identified and since they're passed through the memcrypt
-> interface, the hash of the encrypted data will be accumulated by the
-> PSP.
-> 
-> Signed-off-by: James Bottomley <jejb@linux.ibm.com>
-> Signed-off-by: Dov Murik <dovmurik@linux.ibm.com>
-> [dovmurik@linux.ibm.com: use machine->cgs, remove parsing of GUID
-> strings, remove GCC pragma, fix checkpatch errors]
-> ---
-> 
-> OVMF support for handling the table of hashes (verifying that the
-> kernel/initrd/cmdline passed via the fw_cfg interface indeed correspond
-> to the measured hashes in the table) will be posted soon to edk2-devel.
-> 
+Kit Westneat (3):
+  block/blkdebug: add blocksize parameter
+  tests/qtest/virtio-scsi-test: add unmap large LBA with 4k blocks test
+  block/blkdebug: add log-blocksize and phys-blocksize parameters
 
+ block/blkdebug.c               | 56 ++++++++++++++++++++++++++++++++++
+ tests/qtest/virtio-scsi-test.c | 50 ++++++++++++++++++++++++++++++
+ 2 files changed, 106 insertions(+)
 
-OVMF support was submitted to edk2-devel (patch series "Measured SEV
-boot with kernel/initrd/cmdline"), which starts here:
+-- 
+2.26.3
 
-https://edk2.groups.io/g/devel/topic/patch_v1_0_8_measured_sev/83074450
-
--Dov
 
