@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E9C1390C97
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 01:00:39 +0200 (CEST)
-Received: from localhost ([::1]:60120 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E183B390C99
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 01:00:44 +0200 (CEST)
+Received: from localhost ([::1]:60364 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llg2P-00066M-Mn
-	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 19:00:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52694)
+	id 1llg2V-0006FT-Sv
+	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 19:00:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52732)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1llg0Q-0002Y2-RA
- for qemu-devel@nongnu.org; Tue, 25 May 2021 18:58:34 -0400
-Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c]:47087)
+ id 1llg0S-0002d9-Jr
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 18:58:36 -0400
+Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c]:39870)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1llg0D-0004nY-PU
- for qemu-devel@nongnu.org; Tue, 25 May 2021 18:58:34 -0400
-Received: by mail-pf1-x42c.google.com with SMTP id y15so13376876pfn.13
- for <qemu-devel@nongnu.org>; Tue, 25 May 2021 15:58:21 -0700 (PDT)
+ id 1llg0F-0004nl-3x
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 18:58:36 -0400
+Received: by mail-pf1-x42c.google.com with SMTP id y202so1426387pfc.6
+ for <qemu-devel@nongnu.org>; Tue, 25 May 2021 15:58:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=0La4bELq+QRQvGpWtveOOb2coHQOmlKGzXDvXUy3i7s=;
- b=W4PIKBxrD+per+6GVtdQnBXuRfHCgnIuWI6kHj7YFnIe0tD18zKt4IvjDU+SvfZLVP
- bhWkYzTDJL6bxVPBgwswCURElfyxWRF4u3ErNHgd4lnf9n8xKdDhyIP7nCzwVsUTYkx/
- T5IIdckW5gu2OO6ohiTMjorcVmwrzzqZaE1/Xgr6wb+5jQz++umw5iNRq9mC1pRRMYAs
- kvEThWs0Vu4Vu8r2CqNd8PzCwZffiWXZj6PWaJ7G2Ybao44BPQ4wddgQ3sx1WQtRv5tE
- E1P3N73QNMJYcc4bOVfcDF4dIMHdIrQtWb3hE+0byekk35mn8u5PvdSSTM4Q+FBVtSzL
- 6Y3w==
+ bh=gyJ317Rrl3ir/rnX415PevDk/VoO/H8S6IDuXBd4THk=;
+ b=SShEv6loYwwyJE+gEKsZhx1wyoySfHdxC38zLB7w0qaaO63QHS6BfXVgrIz7cT24Xl
+ 2+WPcc06oUOEyoSNEdqs44GdliExf6k8IAnSRL2P6YDyF1MLAOIUJzBnJVXfXtswStLN
+ +QqKHykP83I8QWTPxA2xXyw0q/cCJqhXt2LhM2++8ddyuuoXsTvFGFT9HEUarPcV3Tyd
+ WPOg7YO/mEYdZgp8GDez5m4gIWcdkn4B91uv/ZzhkCsn2Ts4tJ8KOH/yZ7+HUIyuOyC8
+ tBlv6zaPlcAMoc4v+lrl46t2b7Bvsvc3B4etgSJHnqggiy7ufHn0HhzpLC5kmMArASan
+ EcYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=0La4bELq+QRQvGpWtveOOb2coHQOmlKGzXDvXUy3i7s=;
- b=CqBKFNFO8z2gP60lKKby/p5DfvJh9LouiXTHcPxBowBNVfOytTg5BabzT7CO1jnxxg
- xDIwlxN6rmn6nZhNZd3NbhbYTfsdARWxf0uy9U7Ojsz9DtUYWt8kFoHjteT3/Nx/67B/
- 1J3OqShRxFPN64ZIQllTC46OOlBtrXKJluPMbnxSCPxs3ki0e0D/EqHF5Mr/N7MIfMA3
- 8Gd2aLtQk3bts4LWrqSHUERPvSvqE4rQZVlCqV4r1x6k+KjU6d67m6r56ZOXhQcqKedg
- IvH7EOfK6ahX3zExscOG7zefv48xJ1MmH0wgrO+ckL/kHQgWg51G38vim5y3lvprl4OB
- ANfQ==
-X-Gm-Message-State: AOAM530PRXwNpUUPLOepdSTmbO6uHQ1y3DC0PNuLgySrMAU8zDLKO6MG
- MRjUhM5Y1GzdgqVQpMN3jdzKggk7XHFTLQ==
-X-Google-Smtp-Source: ABdhPJzin7ccYFpFtLqDVyAwmueNbKQoit/6UR1UuAQBQwJ19qmo74GY1I586OfEaxJZa3mf/SC+Ug==
-X-Received: by 2002:a05:6a00:1630:b029:2c0:a1eb:d77 with SMTP id
- e16-20020a056a001630b02902c0a1eb0d77mr32345282pfc.81.1621983500454; 
- Tue, 25 May 2021 15:58:20 -0700 (PDT)
+ bh=gyJ317Rrl3ir/rnX415PevDk/VoO/H8S6IDuXBd4THk=;
+ b=PsPLkLtzg9awBqm4SHcDRTX4wNAfP45wCiv9+dQewO2z4rzQqPGEGXQ/IFpu46hCca
+ oQxJRbUew/1c8ML+y1/5EWuDUovZLsuamVKXN56ioDJrMTl5kxT1K0x6aBM1Xfqbf5AS
+ hu1O+irZcAP3scecMZTmrQxRyaXOmt4mvhu9mPOTq4Pr8FXHqxzFl5plgYTXyhscpa4t
+ HHlDeNiY3nrLWiB2xSqcedGZ3+oUD7Onvm+c9snRLTW1ABXJF0wEEN266mPLZvOK23/x
+ Ndjjqu/g0Sk8QIxNCuWnYiunqq45uv0e8QRl9/STQx/hqz3Lt5xpk5rzgeTNSqggxdOC
+ eMig==
+X-Gm-Message-State: AOAM532GxIBK+2e6eLNpmshITrwnWreMX4K9054pGzN4Xat/ugLOBlMw
+ WqurU1cCBDHZJu7iAr99wMDVC6NPkY/3+g==
+X-Google-Smtp-Source: ABdhPJwNLxXUOR49oYrWnGtCUodPa46mvmPeOtGnApqZE8C+pcnL1QnlUFH4G284XwbNzKO/Q5KArA==
+X-Received: by 2002:a62:7c46:0:b029:2dc:cb24:b5b1 with SMTP id
+ x67-20020a627c460000b02902dccb24b5b1mr32215624pfc.77.1621983501094; 
+ Tue, 25 May 2021 15:58:21 -0700 (PDT)
 Received: from localhost.localdomain (174-21-70-228.tukw.qwest.net.
  [174.21.70.228])
  by smtp.gmail.com with ESMTPSA id l6sm1669928pjf.28.2021.05.25.15.58.20
@@ -55,10 +55,10 @@ Received: from localhost.localdomain (174-21-70-228.tukw.qwest.net.
  Tue, 25 May 2021 15:58:20 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 03/12] target/arm: Implement scalar float32 to bfloat16
+Subject: [PATCH v2 04/12] target/arm: Implement vector float32 to bfloat16
  conversion
-Date: Tue, 25 May 2021 15:58:08 -0700
-Message-Id: <20210525225817.400336-4-richard.henderson@linaro.org>
+Date: Tue, 25 May 2021 15:58:09 -0700
+Message-Id: <20210525225817.400336-5-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210525225817.400336-1-richard.henderson@linaro.org>
 References: <20210525225817.400336-1-richard.henderson@linaro.org>
@@ -89,94 +89,169 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is the 64-bit BFCVT and the 32-bit VCVT{B,T}.BF16.F32.
+This is BFCVT{N,T} for both AArch64 AdvSIMD and SVE,
+and VCVT.BF16.F32 for AArch32 NEON.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/helper.h        |  1 +
- target/arm/vfp.decode      |  2 ++
- target/arm/translate-a64.c | 19 +++++++++++++++++++
- target/arm/translate-vfp.c | 24 ++++++++++++++++++++++++
- target/arm/vfp_helper.c    |  5 +++++
- 5 files changed, 51 insertions(+)
+ target/arm/helper-sve.h     |  4 ++++
+ target/arm/helper.h         |  1 +
+ target/arm/neon-dp.decode   |  1 +
+ target/arm/sve.decode       |  2 ++
+ target/arm/sve_helper.c     |  2 ++
+ target/arm/translate-a64.c  | 17 ++++++++++++++
+ target/arm/translate-neon.c | 45 +++++++++++++++++++++++++++++++++++++
+ target/arm/translate-sve.c  | 16 +++++++++++++
+ target/arm/vfp_helper.c     |  7 ++++++
+ 9 files changed, 95 insertions(+)
 
+diff --git a/target/arm/helper-sve.h b/target/arm/helper-sve.h
+index 29a14a21f5..dc629f851a 100644
+--- a/target/arm/helper-sve.h
++++ b/target/arm/helper-sve.h
+@@ -1197,6 +1197,8 @@ DEF_HELPER_FLAGS_5(sve_fcvt_hd, TCG_CALL_NO_RWG,
+                    void, ptr, ptr, ptr, ptr, i32)
+ DEF_HELPER_FLAGS_5(sve_fcvt_sd, TCG_CALL_NO_RWG,
+                    void, ptr, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_5(sve_bfcvt, TCG_CALL_NO_RWG,
++                   void, ptr, ptr, ptr, ptr, i32)
+ 
+ DEF_HELPER_FLAGS_5(sve_fcvtzs_hh, TCG_CALL_NO_RWG,
+                    void, ptr, ptr, ptr, ptr, i32)
+@@ -2752,6 +2754,8 @@ DEF_HELPER_FLAGS_5(sve2_fcvtnt_sh, TCG_CALL_NO_RWG,
+                    void, ptr, ptr, ptr, ptr, i32)
+ DEF_HELPER_FLAGS_5(sve2_fcvtnt_ds, TCG_CALL_NO_RWG,
+                    void, ptr, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_5(sve_bfcvtnt, TCG_CALL_NO_RWG,
++                   void, ptr, ptr, ptr, ptr, i32)
+ 
+ DEF_HELPER_FLAGS_5(sve2_fcvtlt_hs, TCG_CALL_NO_RWG,
+                    void, ptr, ptr, ptr, ptr, i32)
 diff --git a/target/arm/helper.h b/target/arm/helper.h
-index 23ccb0f72f..9977a827e9 100644
+index 9977a827e9..8b4b7d92f3 100644
 --- a/target/arm/helper.h
 +++ b/target/arm/helper.h
-@@ -143,6 +143,7 @@ DEF_HELPER_3(vfp_cmped, void, f64, f64, env)
- 
+@@ -144,6 +144,7 @@ DEF_HELPER_3(vfp_cmped, void, f64, f64, env)
  DEF_HELPER_2(vfp_fcvtds, f64, f32, env)
  DEF_HELPER_2(vfp_fcvtsd, f32, f64, env)
-+DEF_HELPER_FLAGS_2(bfcvt, TCG_CALL_NO_RWG, i32, f32, ptr)
+ DEF_HELPER_FLAGS_2(bfcvt, TCG_CALL_NO_RWG, i32, f32, ptr)
++DEF_HELPER_FLAGS_2(bfcvt_pair, TCG_CALL_NO_RWG, i32, i64, ptr)
  
  DEF_HELPER_2(vfp_uitoh, f16, i32, ptr)
  DEF_HELPER_2(vfp_uitos, f32, i32, ptr)
-diff --git a/target/arm/vfp.decode b/target/arm/vfp.decode
-index 6f7f28f9a4..52535d9b0b 100644
---- a/target/arm/vfp.decode
-+++ b/target/arm/vfp.decode
-@@ -205,6 +205,8 @@ VCVT_f64_f16 ---- 1110 1.11 0010 .... 1011 t:1 1.0 .... \
+diff --git a/target/arm/neon-dp.decode b/target/arm/neon-dp.decode
+index ec83f10ab3..fd3a01bfa0 100644
+--- a/target/arm/neon-dp.decode
++++ b/target/arm/neon-dp.decode
+@@ -521,6 +521,7 @@ Vimm_1r          1111 001 . 1 . 000 ... .... cmode:4 0 . op:1 1 .... @1reg_imm
+     VRINTZ       1111 001 11 . 11 .. 10 .... 0 1011 . . 0 .... @2misc
  
- # VCVTB and VCVTT to f16: Vd format is always vd_sp;
- # Vm format depends on size bit
-+VCVT_b16_f32 ---- 1110 1.11 0011 .... 1001 t:1 1.0 .... \
-+             vd=%vd_sp vm=%vm_sp
- VCVT_f16_f32 ---- 1110 1.11 0011 .... 1010 t:1 1.0 .... \
-              vd=%vd_sp vm=%vm_sp
- VCVT_f16_f64 ---- 1110 1.11 0011 .... 1011 t:1 1.0 .... \
+     VCVT_F16_F32 1111 001 11 . 11 .. 10 .... 0 1100 0 . 0 .... @2misc_q0
++    VCVT_B16_F32 1111 001 11 . 11 .. 10 .... 0 1100 1 . 0 .... @2misc_q0
+ 
+     VRINTM       1111 001 11 . 11 .. 10 .... 0 1101 . . 0 .... @2misc
+ 
+diff --git a/target/arm/sve.decode b/target/arm/sve.decode
+index cb077bfde9..18d1a0eecc 100644
+--- a/target/arm/sve.decode
++++ b/target/arm/sve.decode
+@@ -1036,6 +1036,7 @@ FNMLS_zpzzz     01100101 .. 1 ..... 111 ... ..... .....         @rdn_pg_rm_ra
+ # SVE floating-point convert precision
+ FCVT_sh         01100101 10 0010 00 101 ... ..... .....         @rd_pg_rn_e0
+ FCVT_hs         01100101 10 0010 01 101 ... ..... .....         @rd_pg_rn_e0
++BFCVT           01100101 10 0010 10 101 ... ..... .....         @rd_pg_rn_e0
+ FCVT_dh         01100101 11 0010 00 101 ... ..... .....         @rd_pg_rn_e0
+ FCVT_hd         01100101 11 0010 01 101 ... ..... .....         @rd_pg_rn_e0
+ FCVT_ds         01100101 11 0010 10 101 ... ..... .....         @rd_pg_rn_e0
+@@ -1610,6 +1611,7 @@ RAX1            01000101 00 1 ..... 11110 1 ..... .....  @rd_rn_rm_e0
+ FCVTXNT_ds      01100100 00 0010 10 101 ... ..... .....  @rd_pg_rn_e0
+ FCVTX_ds        01100101 00 0010 10 101 ... ..... .....  @rd_pg_rn_e0
+ FCVTNT_sh       01100100 10 0010 00 101 ... ..... .....  @rd_pg_rn_e0
++BFCVTNT         01100100 10 0010 10 101 ... ..... .....  @rd_pg_rn_e0
+ FCVTLT_hs       01100100 10 0010 01 101 ... ..... .....  @rd_pg_rn_e0
+ FCVTNT_ds       01100100 11 0010 10 101 ... ..... .....  @rd_pg_rn_e0
+ FCVTLT_sd       01100100 11 0010 11 101 ... ..... .....  @rd_pg_rn_e0
+diff --git a/target/arm/sve_helper.c b/target/arm/sve_helper.c
+index 40af3024df..46a957b6fb 100644
+--- a/target/arm/sve_helper.c
++++ b/target/arm/sve_helper.c
+@@ -4708,6 +4708,7 @@ static inline uint64_t vfp_float64_to_uint64_rtz(float64 f, float_status *s)
+ 
+ DO_ZPZ_FP(sve_fcvt_sh, uint32_t, H1_4, sve_f32_to_f16)
+ DO_ZPZ_FP(sve_fcvt_hs, uint32_t, H1_4, sve_f16_to_f32)
++DO_ZPZ_FP(sve_bfcvt,   uint32_t, H1_4, float32_to_bfloat16)
+ DO_ZPZ_FP(sve_fcvt_dh, uint64_t,     , sve_f64_to_f16)
+ DO_ZPZ_FP(sve_fcvt_hd, uint64_t,     , sve_f16_to_f64)
+ DO_ZPZ_FP(sve_fcvt_ds, uint64_t,     , float64_to_float32)
+@@ -7740,6 +7741,7 @@ void HELPER(NAME)(void *vd, void *vn, void *vg, void *status, uint32_t desc)  \
+     } while (i != 0);                                                         \
+ }
+ 
++DO_FCVTNT(sve_bfcvtnt,    uint32_t, uint16_t, H1_4, H1_2, float32_to_bfloat16)
+ DO_FCVTNT(sve2_fcvtnt_sh, uint32_t, uint16_t, H1_4, H1_2, sve_f32_to_f16)
+ DO_FCVTNT(sve2_fcvtnt_ds, uint64_t, uint32_t,     , H1_4, float64_to_float32)
+ 
 diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-index 510cb6ca5e..90605d7dce 100644
+index 90605d7dce..5a96523b9f 100644
 --- a/target/arm/translate-a64.c
 +++ b/target/arm/translate-a64.c
-@@ -6273,6 +6273,9 @@ static void handle_fp_1src_single(DisasContext *s, int opcode, int rd, int rn)
-     case 0x3: /* FSQRT */
-         gen_helper_vfp_sqrts(tcg_res, tcg_op, cpu_env);
-         goto done;
-+    case 0x6: /* BFCVT */
-+        gen_fpst = gen_helper_bfcvt;
-+        break;
-     case 0x8: /* FRINTN */
-     case 0x9: /* FRINTP */
-     case 0xa: /* FRINTM */
-@@ -6550,6 +6553,22 @@ static void disas_fp_1src(DisasContext *s, uint32_t insn)
-         }
-         break;
- 
-+    case 0x6:
-+        switch (type) {
-+        case 1: /* BFCVT */
-+            if (!dc_isar_feature(aa64_bf16, s)) {
-+                goto do_unallocated;
+@@ -10346,6 +10346,13 @@ static void handle_2misc_narrow(DisasContext *s, bool scalar,
+                 tcg_temp_free_i32(ahp);
+             }
+             break;
++        case 0x36: /* BFCVTN, BFCVTN2 */
++            {
++                TCGv_ptr fpst = fpstatus_ptr(FPST_FPCR);
++                gen_helper_bfcvt_pair(tcg_res[pass], tcg_op, fpst);
++                tcg_temp_free_ptr(fpst);
++            }
++            break;
+         case 0x56:  /* FCVTXN, FCVTXN2 */
+             /* 64 bit to 32 bit float conversion
+              * with von Neumann rounding (round to odd)
+@@ -12746,6 +12753,16 @@ static void disas_simd_two_reg_misc(DisasContext *s, uint32_t insn)
+             }
+             handle_2misc_narrow(s, false, opcode, 0, is_q, size - 1, rn, rd);
+             return;
++        case 0x36: /* BFCVTN, BFCVTN2 */
++            if (!dc_isar_feature(aa64_bf16, s) || size != 2) {
++                unallocated_encoding(s);
++                return;
 +            }
 +            if (!fp_access_check(s)) {
 +                return;
 +            }
-+            handle_fp_1src_single(s, opcode, rd, rn);
-+            break;
-+        default:
-+            goto do_unallocated;
-+        }
-+        break;
-+
-     default:
-     do_unallocated:
-         unallocated_encoding(s);
-diff --git a/target/arm/translate-vfp.c b/target/arm/translate-vfp.c
-index 3da84f30a0..d8271dbaac 100644
---- a/target/arm/translate-vfp.c
-+++ b/target/arm/translate-vfp.c
-@@ -3025,6 +3025,30 @@ static bool trans_VCVT_f64_f16(DisasContext *s, arg_VCVT_f64_f16 *a)
++            handle_2misc_narrow(s, false, opcode, 0, is_q, size - 1, rn, rd);
++            return;
+         case 0x17: /* FCVTL, FCVTL2 */
+             if (!fp_access_check(s)) {
+                 return;
+diff --git a/target/arm/translate-neon.c b/target/arm/translate-neon.c
+index 9e990b41ed..6d94229c69 100644
+--- a/target/arm/translate-neon.c
++++ b/target/arm/translate-neon.c
+@@ -3422,6 +3422,51 @@ static bool trans_VSHLL(DisasContext *s, arg_2misc *a)
      return true;
  }
  
-+static bool trans_VCVT_b16_f32(DisasContext *s, arg_VCVT_b16_f32 *a)
++static bool trans_VCVT_B16_F32(DisasContext *s, arg_2misc *a)
 +{
 +    TCGv_ptr fpst;
-+    TCGv_i32 tmp;
++    TCGv_i64 tmp;
++    TCGv_i32 dst0, dst1;
 +
 +    if (!dc_isar_feature(aa32_bf16, s)) {
++        return false;
++    }
++
++    /* UNDEF accesses to D16-D31 if they don't exist. */
++    if (!dc_isar_feature(aa32_simd_r32, s) &&
++        ((a->vd | a->vm) & 0x10)) {
++        return false;
++    }
++
++    if ((a->vm & 1) || (a->size != 1)) {
 +        return false;
 +    }
 +
@@ -184,31 +259,77 @@ index 3da84f30a0..d8271dbaac 100644
 +        return true;
 +    }
 +
-+    fpst = fpstatus_ptr(FPST_FPCR);
-+    tmp = tcg_temp_new_i32();
++    fpst = fpstatus_ptr(FPST_STD);
++    tmp = tcg_temp_new_i64();
++    dst0 = tcg_temp_new_i32();
++    dst1 = tcg_temp_new_i32();
 +
-+    vfp_load_reg32(tmp, a->vm);
-+    gen_helper_bfcvt(tmp, tmp, fpst);
-+    tcg_gen_st16_i32(tmp, cpu_env, vfp_f16_offset(a->vd, a->t));
++    read_neon_element64(tmp, a->vm, 0, MO_64);
++    gen_helper_bfcvt_pair(dst0, tmp, fpst);
++
++    read_neon_element64(tmp, a->vm, 1, MO_64);
++    gen_helper_bfcvt_pair(dst1, tmp, fpst);
++
++    write_neon_element32(dst0, a->vd, 0, MO_32);
++    write_neon_element32(dst1, a->vd, 1, MO_32);
++
++    tcg_temp_free_i64(tmp);
++    tcg_temp_free_i32(dst0);
++    tcg_temp_free_i32(dst1);
 +    tcg_temp_free_ptr(fpst);
-+    tcg_temp_free_i32(tmp);
 +    return true;
 +}
 +
- static bool trans_VCVT_f16_f32(DisasContext *s, arg_VCVT_f16_f32 *a)
+ static bool trans_VCVT_F16_F32(DisasContext *s, arg_2misc *a)
  {
      TCGv_ptr fpst;
-diff --git a/target/arm/vfp_helper.c b/target/arm/vfp_helper.c
-index 01b9d8557f..fe7a2a5daa 100644
---- a/target/arm/vfp_helper.c
-+++ b/target/arm/vfp_helper.c
-@@ -408,6 +408,11 @@ float32 VFP_HELPER(fcvts, d)(float64 x, CPUARMState *env)
-     return float64_to_float32(x, &env->vfp.fp_status);
+diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
+index 9574efe957..fb692a1835 100644
+--- a/target/arm/translate-sve.c
++++ b/target/arm/translate-sve.c
+@@ -4777,6 +4777,14 @@ static bool trans_FCVT_hs(DisasContext *s, arg_rpr_esz *a)
+     return do_zpz_ptr(s, a->rd, a->rn, a->pg, false, gen_helper_sve_fcvt_hs);
  }
  
-+uint32_t HELPER(bfcvt)(float32 x, void *status)
++static bool trans_BFCVT(DisasContext *s, arg_rpr_esz *a)
 +{
-+    return float32_to_bfloat16(x, status);
++    if (!dc_isar_feature(aa64_sve_bf16, s)) {
++        return false;
++    }
++    return do_zpz_ptr(s, a->rd, a->rn, a->pg, false, gen_helper_sve_bfcvt);
++}
++
+ static bool trans_FCVT_dh(DisasContext *s, arg_rpr_esz *a)
+ {
+     return do_zpz_ptr(s, a->rd, a->rn, a->pg, false, gen_helper_sve_fcvt_dh);
+@@ -8472,6 +8480,14 @@ static bool trans_FCVTNT_sh(DisasContext *s, arg_rpr_esz *a)
+     return do_zpz_ptr(s, a->rd, a->rn, a->pg, false, gen_helper_sve2_fcvtnt_sh);
+ }
+ 
++static bool trans_BFCVTNT(DisasContext *s, arg_rpr_esz *a)
++{
++    if (!dc_isar_feature(aa64_sve_bf16, s)) {
++        return false;
++    }
++    return do_zpz_ptr(s, a->rd, a->rn, a->pg, false, gen_helper_sve_bfcvtnt);
++}
++
+ static bool trans_FCVTNT_ds(DisasContext *s, arg_rpr_esz *a)
+ {
+     if (!dc_isar_feature(aa64_sve2, s)) {
+diff --git a/target/arm/vfp_helper.c b/target/arm/vfp_helper.c
+index fe7a2a5daa..3328423cec 100644
+--- a/target/arm/vfp_helper.c
++++ b/target/arm/vfp_helper.c
+@@ -413,6 +413,13 @@ uint32_t HELPER(bfcvt)(float32 x, void *status)
+     return float32_to_bfloat16(x, status);
+ }
+ 
++uint32_t HELPER(bfcvt_pair)(uint64_t pair, void *status)
++{
++    bfloat16 lo = float32_to_bfloat16(extract64(pair, 0, 32), status);
++    bfloat16 hi = float32_to_bfloat16(extract64(pair, 32, 32), status);
++    return deposit32(lo, 16, 16, hi);
 +}
 +
  /*
