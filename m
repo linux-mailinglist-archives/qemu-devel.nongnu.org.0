@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E73938F916
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 05:58:17 +0200 (CEST)
-Received: from localhost ([::1]:39060 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE14038F915
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 05:57:52 +0200 (CEST)
+Received: from localhost ([::1]:37218 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llOCu-0000EV-BT
-	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 23:58:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58370)
+	id 1llOCV-0007Qv-RL
+	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 23:57:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58496)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1llO9Z-0002ai-Io
- for qemu-devel@nongnu.org; Mon, 24 May 2021 23:54:49 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:38442)
+ id 1llOAc-00051O-78
+ for qemu-devel@nongnu.org; Mon, 24 May 2021 23:55:54 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:46683)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1llO9X-00055b-Sq
- for qemu-devel@nongnu.org; Mon, 24 May 2021 23:54:49 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id j14so28811015wrq.5
- for <qemu-devel@nongnu.org>; Mon, 24 May 2021 20:54:47 -0700 (PDT)
+ id 1llOAa-0005vF-JG
+ for qemu-devel@nongnu.org; Mon, 24 May 2021 23:55:53 -0400
+Received: by mail-wr1-x431.google.com with SMTP id y14so28491813wrm.13
+ for <qemu-devel@nongnu.org>; Mon, 24 May 2021 20:55:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=+0n2M5JslzNIlXzE65EEVPxjxwjxwtrc2Xs95K2fDOI=;
- b=viBFcobPnCfrcbbLTeYPZAWBqAXdsRBUSfFhSRkSnKL67nudC9QJDE13Q/fMuUIA5K
- toxq7LrZ4Qeombb98M3Mhde15u4HyLAIQcUX0B62ef4sdEOGu0hPdyChbBcqTZRiY0Dm
- esiGDTm/8+8H4CcEEhMqmroCo5LOoWTiSFJOtRodUXv8iLPN/oz0VJzvV3n1SZRAiByw
- 93GsZ13qxIMXGk336ugMCT5mDE0lUT6jUlAmTau9Yt3VcvxVanSEDegxvUTA5pe6coUj
- 2orf3CKVaDYkvg4IIXTaju5RnTibkFHYJlhmNCvijBFCCUt71w6Zw7eveNLXPGOa4Hkr
- ++SA==
+ bh=T88GRO/WnkutLqqcTaq8IeG8muDfzTb2k9rTChgVbXQ=;
+ b=R/AmcbdzRdNTgYl+QsqEVo+stuJJsDz7pJ+/67Q44iiZ57VdWAoBwIDfV2JSKAdp/5
+ fT6Crz0GsOH4vHfJ+X25j76zQda2xJRDl3tTu+JzTyxBIKlrXJeg3Z9Ejso5Ys1Us1Bq
+ /CIi/iKPrd1lprxAgtrg5dICMV0tf3+vrl3nkdHJtbnq4nCZ1oca39Jz/5der0ffipzB
+ dGxoi8B+/W5CEekSeX5S5aSkrv1GwpQ83Ah2lW9qEwmB4z0NGWj+CyZqn6q6VhqA9DW9
+ Er4mExeuIvCqrhmO12IWHl6zSZTZr+B8U975l3dfKeEbeyCTEhcdr8QbsZLRzA4uWhO5
+ dm/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=+0n2M5JslzNIlXzE65EEVPxjxwjxwtrc2Xs95K2fDOI=;
- b=YfWWF5CXKs7QWE7D8I/GHu/hckTL0lTJjb+3XaTUH8kxfSU0KsbAI/0bKYcehILdbf
- SLKK4iFJ1Pf0vsqmgcCsD8bzKci6n+yvNrfWfSI1nUw84+8HemXqrYsdHpwygQfuif07
- 8ajX5ibzKhQzrPeRO0FsSL+hMlOZW8ObLLfkcMWgg9iZxcTArPgxcAzUfzAiL3wMkawu
- JamYPe5EGncL++URsA+VNm8dvFjPxmpXtWrSQNuhsb3NX36MHRKB1iyY/0nzAcXxnGj+
- 4LVFSY+UmlU4lbsH3av4a17UTLu4JZOJ5Dlb857gqvChQB90Kzwerver+tP+98R3eVbs
- CIxQ==
-X-Gm-Message-State: AOAM533Pyz6cWKJtRaL/YHn4pQD5cA0P47YF7HVckOyZwOxG686tVrcQ
- +pT7JoOdviq3d0AKVqSUQnLAFN6GYF+40g==
-X-Google-Smtp-Source: ABdhPJydNJcINeJgXZQOgmOepN3fUxtvTDJlhqil2TSYzcYlgpp8CR3Z9pubRpltGwRofjhir1YVHw==
-X-Received: by 2002:a5d:438c:: with SMTP id i12mr23993709wrq.44.1621914886439; 
- Mon, 24 May 2021 20:54:46 -0700 (PDT)
+ bh=T88GRO/WnkutLqqcTaq8IeG8muDfzTb2k9rTChgVbXQ=;
+ b=YK73wmDoW9N75SEIsmHNBjmo/SDuaO94mMCNaociZYLrbmkgXptq551DQSglr5AH/i
+ rB0B03+J1t8OiYENasW2PFBX0ZPNrKFEdh2IHiALfWIxxOEPUVQwVERucTn12sgxSkg2
+ m5sFrQRxuWrZGNfU8sOCp8QMDuiIELxEwp5+2lAmOeX1SbENbfHR5h3Je18hUwcIQ9d0
+ K7il43hF/RlQ+9YUlO2dzqWKNAA+wUNq/qZXBmBqq4iJ6G/usXbKpxz5V9diJ5RDof68
+ Njxb4LhXH5tg3T+eOs7PZXeiI6LIl/uhen/DESaf0fqGmRO1T2VnuaS3pNLno1NC76c6
+ Kwig==
+X-Gm-Message-State: AOAM533iLr8wgjsvs3musAf1uZU8muEDe2ozK5BMSTKmU+O3CnmiSC29
+ 9I/pcjPlaaYQoAIbLI6cVDE=
+X-Google-Smtp-Source: ABdhPJzk4s50dJw43Jr7MOZfPeZpAta2ya53VBB1TAAB7ljVHD0kOrop2n6WhVYjMEIGbqe0GFt1fA==
+X-Received: by 2002:a5d:53c4:: with SMTP id a4mr25029012wrw.195.1621914951188; 
+ Mon, 24 May 2021 20:55:51 -0700 (PDT)
 Received: from [192.168.1.36] (31.red-83-51-215.dynamicip.rima-tde.net.
  [83.51.215.31])
- by smtp.gmail.com with ESMTPSA id c15sm14117077wro.21.2021.05.24.20.54.45
+ by smtp.gmail.com with ESMTPSA id a11sm14333230wrx.38.2021.05.24.20.55.49
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 24 May 2021 20:54:45 -0700 (PDT)
-Subject: Re: [PATCH v1 3/8] gitlab: add special rule for the hexagon container
+ Mon, 24 May 2021 20:55:50 -0700 (PDT)
+Subject: Re: [PATCH v1 6/8] hmp-commands: expand type of icount to "l" in
+ replay commands
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
 References: <20210520174303.12310-1-alex.bennee@linaro.org>
- <20210520174303.12310-4-alex.bennee@linaro.org>
+ <20210520174303.12310-7-alex.bennee@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <952f9144-beb6-3999-b54d-bc41970b6aa5@amsat.org>
-Date: Tue, 25 May 2021 05:54:44 +0200
+Message-ID: <4524111e-ef5e-8e52-51fe-2b78df397c3e@amsat.org>
+Date: Tue, 25 May 2021 05:55:49 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <20210520174303.12310-4-alex.bennee@linaro.org>
+In-Reply-To: <20210520174303.12310-7-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x431.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -90,36 +91,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, Thomas Huth <thuth@redhat.com>, berrange@redhat.com,
- Cornelia Huck <cohuck@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Willian Rampazzo <willianr@redhat.com>, stefanha@redhat.com, crosa@redhat.com,
- pbonzini@redhat.com, aurelien@aurel32.net
+Cc: fam@euphon.net, berrange@redhat.com,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, stefanha@redhat.com,
+ crosa@redhat.com, pbonzini@redhat.com,
+ Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/20/21 7:42 PM, Alex Bennée wrote:
-> The hexagon container is always manually built but of course not
-> everyone will be building it themselves and pushing to their
-> registries. We still need to create a "local" registry copy for the
-> actual gitlab tests to run. We don't build it in this case, just pull
-> it across from the upstream registry. We disable this rule from
-> running on the qemu-project itself so it doesn't accidentally wipe out
-> our master copy.
+On 5/20/21 7:43 PM, Alex Bennée wrote:
+> This is not a 32 bit number, it can (and most likely will) be quite a
+> big one.
 > 
-> Fixes: 910c40ee94 ("gitlab: add build-user-hexagon test")
 > Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> Tested-by: Cornelia Huck <cohuck@redhat.com>
-> Reviewed-by: Willian Rampazzo <willianr@redhat.com>
-> Cc: Cornelia Huck <cohuck@redhat.com>
-> 
+> Reviewed-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
 > ---
-> v2
->   - fix silly typo
-> ---
->  .gitlab-ci.d/containers.yml | 27 +++++++++++++++++++++++++++
->  .gitlab-ci.yml              |  2 ++
->  2 files changed, 29 insertions(+)
+>  hmp-commands.hx | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
