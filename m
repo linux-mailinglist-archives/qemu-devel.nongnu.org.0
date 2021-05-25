@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92A0B3906E7
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 18:50:09 +0200 (CEST)
-Received: from localhost ([::1]:60064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1962D3906B4
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 18:31:31 +0200 (CEST)
+Received: from localhost ([::1]:35902 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llaFs-0004Ep-KA
-	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 12:50:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60778)
+	id 1llZxq-0001K9-4h
+	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 12:31:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60776)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1llYeu-0002kZ-G6
+ id 1llYeu-0002jN-99
  for qemu-devel@nongnu.org; Tue, 25 May 2021 11:07:52 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:36620)
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:43895)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1llYep-00074N-C1
- for qemu-devel@nongnu.org; Tue, 25 May 2021 11:07:52 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id
- n17-20020a7bc5d10000b0290169edfadac9so3852280wmk.1
- for <qemu-devel@nongnu.org>; Tue, 25 May 2021 08:07:46 -0700 (PDT)
+ id 1llYeq-00074v-70
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 11:07:51 -0400
+Received: by mail-wm1-x331.google.com with SMTP id
+ z85-20020a1c7e580000b029017a76f3afbaso10487396wmc.2
+ for <qemu-devel@nongnu.org>; Tue, 25 May 2021 08:07:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=EChc4RgLyu6XilxDIWmwGI+315i48dT4subAZ5wCLqE=;
- b=jyBuY5htvI+NGD+WroUjAQy8XWK7bIS2K/nP6RC4ojpQDypyymcWXKKq+z1zJNta2b
- XNpeo8gV0StXSVni5wil+PR80vUshHyAXTJ1Pfkas7W8Ffu8HruqcJaFXK7I3B80ZYTu
- I+HUuU330SlH4dPLVOGGaSh99rnYrzK25IK03pLBysA2IRk1NQ4opkK8rLVDESEKOgCc
- 4q03RLBkeKUfCwgNK4jVSxvjwXmsYZnmfXprI7zWhOr7qun38wdYyzpvfAZsGmlZDd9t
- wbORK4kN+AAdxNh0R8YZW3BdsKoB3e0U3hWRvtpV/u5gzxoJUcQsJO/Xk30tRR+CBX+i
- W/PQ==
+ bh=m1Z2euE9ySY9yP/ctOaB7Nsf07wGpoIEhrwtAI4K6WQ=;
+ b=otKqgPM5+UxCfMBCVWFlka0k2OaRHvxDsGj3LgcuAB/s2eOnpVJSSXpNl4QL8d6Xw5
+ N6XBkJB6gshJKlLJ/eYPxa7zbxkPlUl+eTacM1bs5i9gEq41wF0JGumoH46Jq8RJPwaV
+ nRCS8XWhXZyVVj1h2wVeyqL2FnS5gAHqqTSwOgK2XgI3PuxP8snFgsaI9UwFdSwGNv7e
+ xC8b9i5J2Pxj8y4WEbTSdClTF89h7m6U6pZNX2F7OE/MjTWOU8Y19AsidV9w4CdXd+4B
+ RaDIfbNho7YJEKt0ObSl10hE/nNotyfRa0g2kMNZaX4vFN+GgfZJkHRZAjmHBKoj/VKN
+ P5Gw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=EChc4RgLyu6XilxDIWmwGI+315i48dT4subAZ5wCLqE=;
- b=FaS+/nmKSYqAAU6tRqcjLz6dgzH0DYEGEvTpbQccudcMNwDfW2Wt3TOgQpduNMAr8/
- lKwk/ePJpgCwHR7EZsGIjEMrGXMWrE1uqX6wAccuNYibQEd7WyWuJdnwUbjxyPCXji5T
- SaO6XHauzeMFrZEGmSdSKyaWIyXsFPo5UN6zSEZDPsCyX1Es4riZHuJG/JPcP+nUg8nb
- /bztyOPaCfNqGl7yZSr0rcOGYqnnwYgcFvNfp2HBEx2VjjuNN2PzCPS5m+4cVF2U+bLo
- EXp5ItnhTnhYq8PQE2HIw4Tw1De4Cg/8H+7HIW7MoGvr83oCecjC035+EVoyJR1oT0a+
- oSUQ==
-X-Gm-Message-State: AOAM531miNU0ie7xIL+fPlnmqbvTAXRTxPAGelqTMqRoAo11LgUVN5Mw
- rDdxKOD2Y9se2ySEpgb1jdlb2jubV1U8trd1
-X-Google-Smtp-Source: ABdhPJzZ0kSiSmeOmIaJHKF3y3ZR0QS90RxBr/HWSc1xpvQxZ3tNiCDwUC+uP/8ryGw6iHLRMSX9xQ==
-X-Received: by 2002:a05:600c:22cf:: with SMTP id
- 15mr4192350wmg.81.1621955265985; 
- Tue, 25 May 2021 08:07:45 -0700 (PDT)
+ bh=m1Z2euE9ySY9yP/ctOaB7Nsf07wGpoIEhrwtAI4K6WQ=;
+ b=cFug29zGBf8LeZm3fJXAiB8OtWhtBopQKorT47xXYcZQVXJgsbYbbd0HkcWS+8C3v9
+ Uh/Ojy4gUKsNndGnK/sWbzeS4Y9qMyeutCuUbmudj1LvJ7WoUf7TKrEzPIKDF6SRelm9
+ HYaDnJQemxKy9/gsAWGwjyJ0diQp9wbTEZjVHFaJDF+UeCe02vYE6xKISOzVOHKeA7y8
+ g1WvEpH8wWVOXAJB633kBfDhQUE4izS21vKULNwgej/j+qmcwYIffpDkyAmUiXA2gGXa
+ yBFLfrC66kx1opSG0jzl/qbOMqAPe8LLdzxvpmrEVVRxEiT8U1x2qq33t0SC2c53VuLp
+ rcHA==
+X-Gm-Message-State: AOAM532UlOgXEmd8HbtWNLfYVtrr9Gd1IxufysqKrbDmWCgP+EKM9MGR
+ GA8fGZZgSgKgwNfcwUJZxjdrBOLtTAZgcAeo
+X-Google-Smtp-Source: ABdhPJyMmooDbBv61Dq1ykr66gEXMKxVhMnsYOnaSLpQVic9urnoszheeS20B9XrgRbjPwjNegDiaw==
+X-Received: by 2002:a05:600c:410a:: with SMTP id
+ j10mr25258303wmi.5.1621955266650; 
+ Tue, 25 May 2021 08:07:46 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id a11sm16643357wrr.48.2021.05.25.08.07.45
+ by smtp.gmail.com with ESMTPSA id a11sm16643357wrr.48.2021.05.25.08.07.46
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 May 2021 08:07:45 -0700 (PDT)
+ Tue, 25 May 2021 08:07:46 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 102/114] target/arm: Implement SVE2 bitwise shift immediate
-Date: Tue, 25 May 2021 16:07:24 +0100
-Message-Id: <20210525150736.32695-8-peter.maydell@linaro.org>
+Subject: [PULL 103/114] target/arm: Move endian adjustment macros to
+ vec_internal.h
+Date: Tue, 25 May 2021 16:07:25 +0100
+Message-Id: <20210525150736.32695-9-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210525150736.32695-1-peter.maydell@linaro.org>
 References: <20210525150736.32695-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,198 +89,107 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stephen Long <steplong@quicinc.com>
+From: Richard Henderson <richard.henderson@linaro.org>
 
-Implements SQSHL/UQSHL, SRSHR/URSHR, and SQSHLU
+We have two copies of these, one set of which is not complete.
+Move them to a common header.
 
+Suggested-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20210525010358.152808-82-richard.henderson@linaro.org
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Stephen Long <steplong@quicinc.com>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20210525010358.152808-81-richard.henderson@linaro.org
-Message-Id: <20200430194159.24064-1-steplong@quicinc.com>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/helper-sve.h    | 33 +++++++++++++++++++++
- target/arm/sve.decode      |  5 ++++
- target/arm/sve_helper.c    | 35 ++++++++++++++++++++++
- target/arm/translate-sve.c | 60 ++++++++++++++++++++++++++++++++++++++
- 4 files changed, 133 insertions(+)
+ target/arm/vec_internal.h | 24 ++++++++++++++++++++++++
+ target/arm/sve_helper.c   | 16 ----------------
+ target/arm/vec_helper.c   | 12 ------------
+ 3 files changed, 24 insertions(+), 28 deletions(-)
 
-diff --git a/target/arm/helper-sve.h b/target/arm/helper-sve.h
-index b43ffce23ac..29a14a21f50 100644
---- a/target/arm/helper-sve.h
-+++ b/target/arm/helper-sve.h
-@@ -2761,3 +2761,36 @@ DEF_HELPER_FLAGS_5(sve2_fcvtlt_sd, TCG_CALL_NO_RWG,
- DEF_HELPER_FLAGS_5(flogb_h, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, ptr, i32)
- DEF_HELPER_FLAGS_5(flogb_s, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, ptr, i32)
- DEF_HELPER_FLAGS_5(flogb_d, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, ptr, i32)
-+
-+DEF_HELPER_FLAGS_4(sve2_sqshl_zpzi_b, TCG_CALL_NO_RWG,
-+                   void, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_4(sve2_sqshl_zpzi_h, TCG_CALL_NO_RWG,
-+                   void, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_4(sve2_sqshl_zpzi_s, TCG_CALL_NO_RWG,
-+                   void, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_4(sve2_sqshl_zpzi_d, TCG_CALL_NO_RWG,
-+                   void, ptr, ptr, ptr, i32)
-+
-+DEF_HELPER_FLAGS_4(sve2_uqshl_zpzi_b, TCG_CALL_NO_RWG,
-+                   void, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_4(sve2_uqshl_zpzi_h, TCG_CALL_NO_RWG,
-+                   void, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_4(sve2_uqshl_zpzi_s, TCG_CALL_NO_RWG,
-+                   void, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_4(sve2_uqshl_zpzi_d, TCG_CALL_NO_RWG,
-+                   void, ptr, ptr, ptr, i32)
-+
-+DEF_HELPER_FLAGS_4(sve2_srshr_b, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_4(sve2_srshr_h, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_4(sve2_srshr_s, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_4(sve2_srshr_d, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
-+
-+DEF_HELPER_FLAGS_4(sve2_urshr_b, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_4(sve2_urshr_h, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_4(sve2_urshr_s, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_4(sve2_urshr_d, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
-+
-+DEF_HELPER_FLAGS_4(sve2_sqshlu_b, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_4(sve2_sqshlu_h, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_4(sve2_sqshlu_s, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_4(sve2_sqshlu_d, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
-diff --git a/target/arm/sve.decode b/target/arm/sve.decode
-index 5469ce04143..ea98508cddc 100644
---- a/target/arm/sve.decode
-+++ b/target/arm/sve.decode
-@@ -340,6 +340,11 @@ ASR_zpzi        00000100 .. 000 000 100 ... .. ... .....  @rdn_pg_tszimm_shr
- LSR_zpzi        00000100 .. 000 001 100 ... .. ... .....  @rdn_pg_tszimm_shr
- LSL_zpzi        00000100 .. 000 011 100 ... .. ... .....  @rdn_pg_tszimm_shl
- ASRD            00000100 .. 000 100 100 ... .. ... .....  @rdn_pg_tszimm_shr
-+SQSHL_zpzi      00000100 .. 000 110 100 ... .. ... .....  @rdn_pg_tszimm_shl
-+UQSHL_zpzi      00000100 .. 000 111 100 ... .. ... .....  @rdn_pg_tszimm_shl
-+SRSHR           00000100 .. 001 100 100 ... .. ... .....  @rdn_pg_tszimm_shr
-+URSHR           00000100 .. 001 101 100 ... .. ... .....  @rdn_pg_tszimm_shr
-+SQSHLU          00000100 .. 001 111 100 ... .. ... .....  @rdn_pg_tszimm_shl
+diff --git a/target/arm/vec_internal.h b/target/arm/vec_internal.h
+index ff694d870ac..dba481e0012 100644
+--- a/target/arm/vec_internal.h
++++ b/target/arm/vec_internal.h
+@@ -20,6 +20,30 @@
+ #ifndef TARGET_ARM_VEC_INTERNALS_H
+ #define TARGET_ARM_VEC_INTERNALS_H
  
- # SVE bitwise shift by vector (predicated)
- ASR_zpzz        00000100 .. 010 000 100 ... ..... .....   @rdn_pg_rm
++/*
++ * Note that vector data is stored in host-endian 64-bit chunks,
++ * so addressing units smaller than that needs a host-endian fixup.
++ *
++ * The H<N> macros are used when indexing an array of elements of size N.
++ *
++ * The H1_<N> macros are used when performing byte arithmetic and then
++ * casting the final pointer to a type of size N.
++ */
++#ifdef HOST_WORDS_BIGENDIAN
++#define H1(x)   ((x) ^ 7)
++#define H1_2(x) ((x) ^ 6)
++#define H1_4(x) ((x) ^ 4)
++#define H2(x)   ((x) ^ 3)
++#define H4(x)   ((x) ^ 1)
++#else
++#define H1(x)   (x)
++#define H1_2(x) (x)
++#define H1_4(x) (x)
++#define H2(x)   (x)
++#define H4(x)   (x)
++#endif
++
++
+ static inline void clear_tail(void *vd, uintptr_t opr_sz, uintptr_t max_sz)
+ {
+     uint64_t *d = vd + opr_sz;
 diff --git a/target/arm/sve_helper.c b/target/arm/sve_helper.c
-index d088b1f74ce..4afb06fb2a1 100644
+index 4afb06fb2a1..40af3024dfb 100644
 --- a/target/arm/sve_helper.c
 +++ b/target/arm/sve_helper.c
-@@ -2238,6 +2238,41 @@ DO_ZPZI(sve_asrd_h, int16_t, H1_2, DO_ASRD)
- DO_ZPZI(sve_asrd_s, int32_t, H1_4, DO_ASRD)
- DO_ZPZI_D(sve_asrd_d, int64_t, DO_ASRD)
+@@ -29,22 +29,6 @@
+ #include "vec_internal.h"
  
-+/* SVE2 bitwise shift by immediate */
-+DO_ZPZI(sve2_sqshl_zpzi_b, int8_t, H1, do_sqshl_b)
-+DO_ZPZI(sve2_sqshl_zpzi_h, int16_t, H1_2, do_sqshl_h)
-+DO_ZPZI(sve2_sqshl_zpzi_s, int32_t, H1_4, do_sqshl_s)
-+DO_ZPZI_D(sve2_sqshl_zpzi_d, int64_t, do_sqshl_d)
-+
-+DO_ZPZI(sve2_uqshl_zpzi_b, uint8_t, H1, do_uqshl_b)
-+DO_ZPZI(sve2_uqshl_zpzi_h, uint16_t, H1_2, do_uqshl_h)
-+DO_ZPZI(sve2_uqshl_zpzi_s, uint32_t, H1_4, do_uqshl_s)
-+DO_ZPZI_D(sve2_uqshl_zpzi_d, uint64_t, do_uqshl_d)
-+
-+DO_ZPZI(sve2_srshr_b, int8_t, H1, do_srshr)
-+DO_ZPZI(sve2_srshr_h, int16_t, H1_2, do_srshr)
-+DO_ZPZI(sve2_srshr_s, int32_t, H1_4, do_srshr)
-+DO_ZPZI_D(sve2_srshr_d, int64_t, do_srshr)
-+
-+DO_ZPZI(sve2_urshr_b, uint8_t, H1, do_urshr)
-+DO_ZPZI(sve2_urshr_h, uint16_t, H1_2, do_urshr)
-+DO_ZPZI(sve2_urshr_s, uint32_t, H1_4, do_urshr)
-+DO_ZPZI_D(sve2_urshr_d, uint64_t, do_urshr)
-+
-+#define do_suqrshl_b(n, m) \
-+   ({ uint32_t discard; do_suqrshl_bhs(n, (int8_t)m, 8, false, &discard); })
-+#define do_suqrshl_h(n, m) \
-+   ({ uint32_t discard; do_suqrshl_bhs(n, (int16_t)m, 16, false, &discard); })
-+#define do_suqrshl_s(n, m) \
-+   ({ uint32_t discard; do_suqrshl_bhs(n, m, 32, false, &discard); })
-+#define do_suqrshl_d(n, m) \
-+   ({ uint32_t discard; do_suqrshl_d(n, m, false, &discard); })
-+
-+DO_ZPZI(sve2_sqshlu_b, int8_t, H1, do_suqrshl_b)
-+DO_ZPZI(sve2_sqshlu_h, int16_t, H1_2, do_suqrshl_h)
-+DO_ZPZI(sve2_sqshlu_s, int32_t, H1_4, do_suqrshl_s)
-+DO_ZPZI_D(sve2_sqshlu_d, int64_t, do_suqrshl_d)
-+
- #undef DO_ASRD
- #undef DO_ZPZI
- #undef DO_ZPZI_D
-diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
-index b2aa9130b64..92c0620bc8e 100644
---- a/target/arm/translate-sve.c
-+++ b/target/arm/translate-sve.c
-@@ -1044,6 +1044,66 @@ static bool trans_ASRD(DisasContext *s, arg_rpri_esz *a)
-     }
- }
  
-+static bool trans_SQSHL_zpzi(DisasContext *s, arg_rpri_esz *a)
-+{
-+    static gen_helper_gvec_3 * const fns[4] = {
-+        gen_helper_sve2_sqshl_zpzi_b, gen_helper_sve2_sqshl_zpzi_h,
-+        gen_helper_sve2_sqshl_zpzi_s, gen_helper_sve2_sqshl_zpzi_d,
-+    };
-+    if (a->esz < 0 || !dc_isar_feature(aa64_sve2, s)) {
-+        return false;
-+    }
-+    return do_zpzi_ool(s, a, fns[a->esz]);
-+}
-+
-+static bool trans_UQSHL_zpzi(DisasContext *s, arg_rpri_esz *a)
-+{
-+    static gen_helper_gvec_3 * const fns[4] = {
-+        gen_helper_sve2_uqshl_zpzi_b, gen_helper_sve2_uqshl_zpzi_h,
-+        gen_helper_sve2_uqshl_zpzi_s, gen_helper_sve2_uqshl_zpzi_d,
-+    };
-+    if (a->esz < 0 || !dc_isar_feature(aa64_sve2, s)) {
-+        return false;
-+    }
-+    return do_zpzi_ool(s, a, fns[a->esz]);
-+}
-+
-+static bool trans_SRSHR(DisasContext *s, arg_rpri_esz *a)
-+{
-+    static gen_helper_gvec_3 * const fns[4] = {
-+        gen_helper_sve2_srshr_b, gen_helper_sve2_srshr_h,
-+        gen_helper_sve2_srshr_s, gen_helper_sve2_srshr_d,
-+    };
-+    if (a->esz < 0 || !dc_isar_feature(aa64_sve2, s)) {
-+        return false;
-+    }
-+    return do_zpzi_ool(s, a, fns[a->esz]);
-+}
-+
-+static bool trans_URSHR(DisasContext *s, arg_rpri_esz *a)
-+{
-+    static gen_helper_gvec_3 * const fns[4] = {
-+        gen_helper_sve2_urshr_b, gen_helper_sve2_urshr_h,
-+        gen_helper_sve2_urshr_s, gen_helper_sve2_urshr_d,
-+    };
-+    if (a->esz < 0 || !dc_isar_feature(aa64_sve2, s)) {
-+        return false;
-+    }
-+    return do_zpzi_ool(s, a, fns[a->esz]);
-+}
-+
-+static bool trans_SQSHLU(DisasContext *s, arg_rpri_esz *a)
-+{
-+    static gen_helper_gvec_3 * const fns[4] = {
-+        gen_helper_sve2_sqshlu_b, gen_helper_sve2_sqshlu_h,
-+        gen_helper_sve2_sqshlu_s, gen_helper_sve2_sqshlu_d,
-+    };
-+    if (a->esz < 0 || !dc_isar_feature(aa64_sve2, s)) {
-+        return false;
-+    }
-+    return do_zpzi_ool(s, a, fns[a->esz]);
-+}
-+
- /*
-  *** SVE Bitwise Shift - Predicated Group
-  */
+-/* Note that vector data is stored in host-endian 64-bit chunks,
+-   so addressing units smaller than that needs a host-endian fixup.  */
+-#ifdef HOST_WORDS_BIGENDIAN
+-#define H1(x)   ((x) ^ 7)
+-#define H1_2(x) ((x) ^ 6)
+-#define H1_4(x) ((x) ^ 4)
+-#define H2(x)   ((x) ^ 3)
+-#define H4(x)   ((x) ^ 1)
+-#else
+-#define H1(x)   (x)
+-#define H1_2(x) (x)
+-#define H1_4(x) (x)
+-#define H2(x)   (x)
+-#define H4(x)   (x)
+-#endif
+-
+ /* Return a value for NZCV as per the ARM PredTest pseudofunction.
+  *
+  * The return value has bit 31 set if N is set, bit 1 set if Z is clear,
+diff --git a/target/arm/vec_helper.c b/target/arm/vec_helper.c
+index 21ae1258f2e..f5af45375df 100644
+--- a/target/arm/vec_helper.c
++++ b/target/arm/vec_helper.c
+@@ -25,18 +25,6 @@
+ #include "qemu/int128.h"
+ #include "vec_internal.h"
+ 
+-/* Note that vector data is stored in host-endian 64-bit chunks,
+-   so addressing units smaller than that needs a host-endian fixup.  */
+-#ifdef HOST_WORDS_BIGENDIAN
+-#define H1(x)  ((x) ^ 7)
+-#define H2(x)  ((x) ^ 3)
+-#define H4(x)  ((x) ^ 1)
+-#else
+-#define H1(x)  (x)
+-#define H2(x)  (x)
+-#define H4(x)  (x)
+-#endif
+-
+ /* Signed saturating rounding doubling multiply-accumulate high half, 8-bit */
+ int8_t do_sqrdmlah_b(int8_t src1, int8_t src2, int8_t src3,
+                      bool neg, bool round)
 -- 
 2.20.1
 
