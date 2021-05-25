@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FC6B390495
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 17:05:39 +0200 (CEST)
-Received: from localhost ([::1]:54374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E683390497
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 17:05:56 +0200 (CEST)
+Received: from localhost ([::1]:54722 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llYcj-0004ET-H3
-	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 11:05:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58036)
+	id 1llYd1-0004TS-Mk
+	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 11:05:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58046)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1llYah-0001Px-7U
- for qemu-devel@nongnu.org; Tue, 25 May 2021 11:03:31 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:38754)
+ id 1llYai-0001QZ-SH
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 11:03:32 -0400
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:45619)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1llYae-0003xQ-Ot
- for qemu-devel@nongnu.org; Tue, 25 May 2021 11:03:30 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id
- u4-20020a05600c00c4b02901774b80945cso13673103wmm.3
+ id 1llYae-0003xV-RA
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 11:03:32 -0400
+Received: by mail-wm1-x329.google.com with SMTP id
+ s5-20020a7bc0c50000b0290147d0c21c51so13020514wmh.4
  for <qemu-devel@nongnu.org>; Tue, 25 May 2021 08:03:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:mime-version
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=rf7g6SJO45NPT1cTsOJ5hopJ0l8UmF8t++lihBx79kA=;
- b=TVGDki5kHQREy0dEaqxcUJb2UbAHU5SroxUXBdoTH2Gka/lPH9RkWATBRmCMaI2963
- ri8miPb0BSnznT3ZpfXBielhfkvyQmg+6FxYtNLXciexDToloY0GfpVpcLGBTFZD0TGE
- YwCPL/r5sFtSzJJsr8Lr/tMu0OeRQdjLgaBJevNgQaS+vIsHfIWPin+8PtnjXGpiQDBM
- QQGQofanei70KwJm0EpLAi9TUyVLUkPCDRUvX6tD673a/wEZk88vTpqrs46Z7wtxFs6f
- 3zJilAZfE0yQsBz31B8HwOoV2itylCtYQo+9MDDb2yBRqWrSzkHb2PfNr9PW+RHk5RDf
- RTXQ==
+ bh=pAXwq22CIxkWMtmf3I0tFYcZ+8ZNm00388IJ83MqmIk=;
+ b=afvaS6waviqGccS5IkWp7N62Pc+SoGn2xaMu2STiVHKGAM+ZrJ6BWn19j7o4pSbjM5
+ rqBTj0mmi7XdQoDg8ZbHD7Y0ABvrQFi1YgasG/cl+cq5bvO5N0Xd6pWjJuzs5eQnBK8Y
+ jcQjGpYESnFLFjGK8BYEbJ3oAOMabtH0czA0DSxMQUZmGO81+Zp6nwMKMA+rZNkrsvIo
+ 8uZkyfeCXlZA1T2AYdvAzc296WWGpGl+uDyuGW/SHz7iDGpUx0s6HMhiFNDaYNGrGma2
+ xbM79bPk7EH4Eb6obe4v+DLog/fDWpjpKfOGSoy3ZRw0mbUU/AggR65AdGHEoHzzWtEk
+ iGtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=rf7g6SJO45NPT1cTsOJ5hopJ0l8UmF8t++lihBx79kA=;
- b=kI0ee5Xq3CuGsrfy//qpFXx7xObDutVQLe7hxoRVAcesgKUGo3jKYoXKoiAiRchcn6
- UC/FmMPn2CIJjnUzXS4OGubZukO4fAe5G9IzDZQYq9zZnjwMfPapKXpkToTZ5q1lqUkq
- PgS6NpIaziTvZmKTRWUBM8DKNT3l98gAhAUZdqvCy9xjjyENJgzF5T6gnqTg1V9/knbn
- yoP1JBzD70OAa0UDdYbLxUlgToVc11SV+fn20NBPRrHup2/HmNxleFSiabIRZ5L0HQO0
- SPQWi+AyBUwR0wA7DYpjgkKDhoZ0yvlDUqOoFBG7/H/RhX+8liGKFu1ARTYeHGZ4jdZx
- t/rA==
-X-Gm-Message-State: AOAM533ObF1y8b0P7oFQLhz01txdDiv9JOBe35FEwYUtegB/KSpyb8OY
- VMi6Hz7feLXhbvcO9EmznBMXUsJUTs6jFYhC
-X-Google-Smtp-Source: ABdhPJzOU+tgKvUhxbyNKcOuLqSFDRP2bt031Oyq2ZyLVs13k7W1GxZIZY78rfeybWPTzmzTxAQg7A==
-X-Received: by 2002:a05:600c:2056:: with SMTP id
- p22mr4379448wmg.146.1621955006461; 
- Tue, 25 May 2021 08:03:26 -0700 (PDT)
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=pAXwq22CIxkWMtmf3I0tFYcZ+8ZNm00388IJ83MqmIk=;
+ b=TpNv6r4bz39a4I4O2w8GdAt60Qmva9iG08x3X1AQpONK3C1f5tm2jz/7+isDe5jfm0
+ w3GCJIckatjjWgyD3G4uCepoYx6/Y40zyNt5eASKVcOlOMDDy/EI5IJlcihLbMeBMqK0
+ z8i3hkHjyse4BwYBQEdN4XgnB2zg4YSd3Ib7egk7GdZU4uPB4ig6GG7je9itY3T5R3xs
+ b/oGu3nB9y7FINmwahXLUtAoeiL6qVZRnFOTrKLrQU5XEUL54i8RBUjS+YX6plVgQxle
+ Ej+pjuCZ1G3bdOgID79iz0hkvwfsdtE4TutXzQp0f91QBcGl4+lePfsadX08Lo7L/NBJ
+ YHOw==
+X-Gm-Message-State: AOAM531Gfkm6fL1dueh92W8K6d44g87G3nwuoJPFcGAu5yH4qvgM7JBT
+ ZgF3oFwwb4AfpH3F3DsKJkWToNSdLQySARIs
+X-Google-Smtp-Source: ABdhPJy0RbhgbnSVmycrvP3CewI2FjRnaosL5GK6pVNcP/mgWgcLlJ7J5g8zCvXVdOgPE1BFagbtkw==
+X-Received: by 2002:a7b:c1cf:: with SMTP id a15mr4292313wmj.44.1621955007167; 
+ Tue, 25 May 2021 08:03:27 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id q62sm11710284wma.42.2021.05.25.08.03.25
+ by smtp.gmail.com with ESMTPSA id q62sm11710284wma.42.2021.05.25.08.03.26
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 May 2021 08:03:25 -0700 (PDT)
+ Tue, 25 May 2021 08:03:26 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 000/114] target-arm queue
-Date: Tue, 25 May 2021 16:01:30 +0100
-Message-Id: <20210525150324.32370-1-peter.maydell@linaro.org>
+Subject: [PULL 001/114] hw/arm/smmuv3: Another range invalidation fix
+Date: Tue, 25 May 2021 16:01:31 +0100
+Message-Id: <20210525150324.32370-2-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20210525150324.32370-1-peter.maydell@linaro.org>
+References: <20210525150324.32370-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x329.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,194 +87,100 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Big fat pullreq this time around, because it has all of RTH's
-SVE2 emulation patchset in it.
+From: Eric Auger <eric.auger@redhat.com>
 
--- PMM
+6d9cd115b9 ("hw/arm/smmuv3: Enforce invalidation on a power of two range")
+failed to completely fix misalignment issues with range
+invalidation. For instance invalidations patterns like "invalidate 32
+4kB pages starting from 0xff395000 are not correctly handled" due
+to the fact the previous fix only made sure the number of invalidated
+pages were a power of 2 but did not properly handle the start
+address was not aligned with the range. This can be noticed when
+boothing a fedora 33 with protected virtio-blk-pci.
 
-The following changes since commit 0dab1d36f55c3ed649bb8e4c74b9269ef3a63049:
+Signed-off-by: Eric Auger <eric.auger@redhat.com>
+Fixes: 6d9cd115b9 ("hw/arm/smmuv3: Enforce invalidation on a power of two range")
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ hw/arm/smmuv3.c | 50 +++++++++++++++++++++++++------------------------
+ 1 file changed, 26 insertions(+), 24 deletions(-)
 
-  Merge remote-tracking branch 'remotes/stefanha-gitlab/tags/block-pull-request' into staging (2021-05-24 15:48:08 +0100)
+diff --git a/hw/arm/smmuv3.c b/hw/arm/smmuv3.c
+index 7bed2ac520b..01b60bee495 100644
+--- a/hw/arm/smmuv3.c
++++ b/hw/arm/smmuv3.c
+@@ -857,43 +857,45 @@ static void smmuv3_inv_notifiers_iova(SMMUState *s, int asid, dma_addr_t iova,
+ 
+ static void smmuv3_s1_range_inval(SMMUState *s, Cmd *cmd)
+ {
+-    uint8_t scale = 0, num = 0, ttl = 0;
+-    dma_addr_t addr = CMD_ADDR(cmd);
++    dma_addr_t end, addr = CMD_ADDR(cmd);
+     uint8_t type = CMD_TYPE(cmd);
+     uint16_t vmid = CMD_VMID(cmd);
++    uint8_t scale = CMD_SCALE(cmd);
++    uint8_t num = CMD_NUM(cmd);
++    uint8_t ttl = CMD_TTL(cmd);
+     bool leaf = CMD_LEAF(cmd);
+     uint8_t tg = CMD_TG(cmd);
+-    uint64_t first_page = 0, last_page;
+-    uint64_t num_pages = 1;
++    uint64_t num_pages;
++    uint8_t granule;
+     int asid = -1;
+ 
+-    if (tg) {
+-        scale = CMD_SCALE(cmd);
+-        num = CMD_NUM(cmd);
+-        ttl = CMD_TTL(cmd);
+-        num_pages = (num + 1) * BIT_ULL(scale);
+-    }
+-
+     if (type == SMMU_CMD_TLBI_NH_VA) {
+         asid = CMD_ASID(cmd);
+     }
+ 
++    if (!tg) {
++        trace_smmuv3_s1_range_inval(vmid, asid, addr, tg, 1, ttl, leaf);
++        smmuv3_inv_notifiers_iova(s, asid, addr, tg, 1);
++        smmu_iotlb_inv_iova(s, asid, addr, tg, 1, ttl);
++        return;
++    }
++
++    /* RIL in use */
++
++    num_pages = (num + 1) * BIT_ULL(scale);
++    granule = tg * 2 + 10;
++
+     /* Split invalidations into ^2 range invalidations */
+-    last_page = num_pages - 1;
+-    while (num_pages) {
+-        uint8_t granule = tg * 2 + 10;
+-        uint64_t mask, count;
++    end = addr + (num_pages << granule) - 1;
+ 
+-        mask = dma_aligned_pow2_mask(first_page, last_page, 64 - granule);
+-        count = mask + 1;
++    while (addr != end + 1) {
++        uint64_t mask = dma_aligned_pow2_mask(addr, end, 64);
+ 
+-        trace_smmuv3_s1_range_inval(vmid, asid, addr, tg, count, ttl, leaf);
+-        smmuv3_inv_notifiers_iova(s, asid, addr, tg, count);
+-        smmu_iotlb_inv_iova(s, asid, addr, tg, count, ttl);
+-
+-        num_pages -= count;
+-        first_page += count;
+-        addr += count * BIT_ULL(granule);
++        num_pages = (mask + 1) >> granule;
++        trace_smmuv3_s1_range_inval(vmid, asid, addr, tg, num_pages, ttl, leaf);
++        smmuv3_inv_notifiers_iova(s, asid, addr, tg, num_pages);
++        smmu_iotlb_inv_iova(s, asid, addr, tg, num_pages, ttl);
++        addr += mask + 1;
+     }
+ }
+ 
+-- 
+2.20.1
 
-are available in the Git repository at:
-
-  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20210525
-
-for you to fetch changes up to f8680aaa6e5bfc6022b75157c23db7d2ea98ab11:
-
-  target/arm: Enable SVE2 and related extensions (2021-05-25 16:01:44 +0100)
-
-----------------------------------------------------------------
-target-arm queue:
- * Implement SVE2 emulation
- * Implement integer matrix multiply accumulate
- * Implement FEAT_TLBIOS
- * Implement FEAT_TLBRANGE
- * disas/libvixl: Protect C system header for C++ compiler
- * Use correct SP in M-profile exception return
- * AN524, AN547: Correct modelling of internal SRAMs
- * hw/intc/arm_gicv3_cpuif: Fix EOIR write access check logic
- * hw/arm/smmuv3: Another range invalidation fix
-
-----------------------------------------------------------------
-Eric Auger (1):
-      hw/arm/smmuv3: Another range invalidation fix
-
-Peter Maydell (8):
-      hw/intc/arm_gicv3_cpuif: Fix EOIR write access check logic
-      hw/arm/mps2-tz: Don't duplicate modelling of SRAM in AN524
-      hw/arm/mps2-tz: Make SRAM_ADDR_WIDTH board-specific
-      hw/arm/armsse.c: Correct modelling of SSE-300 internal SRAMs
-      hw/arm/armsse: Convert armsse_realize() to use ERRP_GUARD
-      hw/arm/mps2-tz: Allow board to specify a boot RAM size
-      hw/arm: Model TCMs in the SSE-300, not the AN547
-      target/arm: Use correct SP in M-profile exception return
-
-Philippe Mathieu-Daudé (1):
-      disas/libvixl: Protect C system header for C++ compiler
-
-Rebecca Cran (3):
-      target/arm: Add support for FEAT_TLBIRANGE
-      target/arm: Add support for FEAT_TLBIOS
-      target/arm: set ID_AA64ISAR0.TLB to 2 for max AARCH64 CPU type
-
-Richard Henderson (84):
-      accel/tcg: Replace g_new() + memcpy() by g_memdup()
-      accel/tcg: Pass length argument to tlb_flush_range_locked()
-      accel/tlb: Rename TLBFlushPageBitsByMMUIdxData -> TLBFlushRangeData
-      accel/tcg: Remove {encode,decode}_pbm_to_runon
-      accel/tcg: Add tlb_flush_range_by_mmuidx()
-      accel/tcg: Add tlb_flush_range_by_mmuidx_all_cpus()
-      accel/tlb: Add tlb_flush_range_by_mmuidx_all_cpus_synced()
-      accel/tcg: Rename tlb_flush_page_bits -> range]_by_mmuidx_async_0
-      accel/tlb: Rename tlb_flush_[page_bits > range]_by_mmuidx_async_[2 > 1]
-      target/arm: Add ID_AA64ZFR0 fields and isar_feature_aa64_sve2
-      target/arm: Implement SVE2 Integer Multiply - Unpredicated
-      target/arm: Implement SVE2 integer pairwise add and accumulate long
-      target/arm: Implement SVE2 integer unary operations (predicated)
-      target/arm: Split out saturating/rounding shifts from neon
-      target/arm: Implement SVE2 saturating/rounding bitwise shift left (predicated)
-      target/arm: Implement SVE2 integer halving add/subtract (predicated)
-      target/arm: Implement SVE2 integer pairwise arithmetic
-      target/arm: Implement SVE2 saturating add/subtract (predicated)
-      target/arm: Implement SVE2 integer add/subtract long
-      target/arm: Implement SVE2 integer add/subtract interleaved long
-      target/arm: Implement SVE2 integer add/subtract wide
-      target/arm: Implement SVE2 integer multiply long
-      target/arm: Implement SVE2 PMULLB, PMULLT
-      target/arm: Implement SVE2 bitwise shift left long
-      target/arm: Implement SVE2 bitwise exclusive-or interleaved
-      target/arm: Implement SVE2 bitwise permute
-      target/arm: Implement SVE2 complex integer add
-      target/arm: Implement SVE2 integer absolute difference and accumulate long
-      target/arm: Implement SVE2 integer add/subtract long with carry
-      target/arm: Implement SVE2 bitwise shift right and accumulate
-      target/arm: Implement SVE2 bitwise shift and insert
-      target/arm: Implement SVE2 integer absolute difference and accumulate
-      target/arm: Implement SVE2 saturating extract narrow
-      target/arm: Implement SVE2 SHRN, RSHRN
-      target/arm: Implement SVE2 SQSHRUN, SQRSHRUN
-      target/arm: Implement SVE2 UQSHRN, UQRSHRN
-      target/arm: Implement SVE2 SQSHRN, SQRSHRN
-      target/arm: Implement SVE2 WHILEGT, WHILEGE, WHILEHI, WHILEHS
-      target/arm: Implement SVE2 WHILERW, WHILEWR
-      target/arm: Implement SVE2 bitwise ternary operations
-      target/arm: Implement SVE2 saturating multiply-add long
-      target/arm: Implement SVE2 saturating multiply-add high
-      target/arm: Implement SVE2 integer multiply-add long
-      target/arm: Implement SVE2 complex integer multiply-add
-      target/arm: Implement SVE2 XAR
-      target/arm: Use correct output type for gvec_sdot_*_b
-      target/arm: Pass separate addend to {U, S}DOT helpers
-      target/arm: Pass separate addend to FCMLA helpers
-      target/arm: Split out formats for 2 vectors + 1 index
-      target/arm: Split out formats for 3 vectors + 1 index
-      target/arm: Implement SVE2 integer multiply (indexed)
-      target/arm: Implement SVE2 integer multiply-add (indexed)
-      target/arm: Implement SVE2 saturating multiply-add high (indexed)
-      target/arm: Implement SVE2 saturating multiply-add (indexed)
-      target/arm: Implement SVE2 saturating multiply (indexed)
-      target/arm: Implement SVE2 signed saturating doubling multiply high
-      target/arm: Implement SVE2 saturating multiply high (indexed)
-      target/arm: Implement SVE2 multiply-add long (indexed)
-      target/arm: Implement SVE2 integer multiply long (indexed)
-      target/arm: Implement SVE2 complex integer multiply-add (indexed)
-      target/arm: Implement SVE2 complex integer dot product
-      target/arm: Macroize helper_gvec_{s,u}dot_{b,h}
-      target/arm: Macroize helper_gvec_{s,u}dot_idx_{b,h}
-      target/arm: Implement SVE mixed sign dot product (indexed)
-      target/arm: Implement SVE mixed sign dot product
-      target/arm: Implement SVE2 crypto unary operations
-      target/arm: Implement SVE2 crypto destructive binary operations
-      target/arm: Implement SVE2 crypto constructive binary operations
-      target/arm: Implement SVE2 FCVTNT
-      target/arm: Share table of sve load functions
-      target/arm: Tidy do_ldrq
-      target/arm: Implement SVE2 LD1RO
-      target/arm: Implement 128-bit ZIP, UZP, TRN
-      target/arm: Move endian adjustment macros to vec_internal.h
-      target/arm: Implement aarch64 SUDOT, USDOT
-      target/arm: Split out do_neon_ddda_fpst
-      target/arm: Remove unused fpst from VDOT_scalar
-      target/arm: Fix decode for VDOT (indexed)
-      target/arm: Split out do_neon_ddda
-      target/arm: Split decode of VSDOT and VUDOT
-      target/arm: Implement aarch32 VSUDOT, VUSDOT
-      target/arm: Implement integer matrix multiply accumulate
-      linux-user/aarch64: Enable hwcap bits for sve2 and related extensions
-      target/arm: Enable SVE2 and related extensions
-
-Stephen Long (17):
-      target/arm: Implement SVE2 floating-point pairwise
-      target/arm: Implement SVE2 MATCH, NMATCH
-      target/arm: Implement SVE2 ADDHNB, ADDHNT
-      target/arm: Implement SVE2 RADDHNB, RADDHNT
-      target/arm: Implement SVE2 SUBHNB, SUBHNT
-      target/arm: Implement SVE2 RSUBHNB, RSUBHNT
-      target/arm: Implement SVE2 HISTCNT, HISTSEG
-      target/arm: Implement SVE2 scatter store insns
-      target/arm: Implement SVE2 gather load insns
-      target/arm: Implement SVE2 FMMLA
-      target/arm: Implement SVE2 SPLICE, EXT
-      target/arm: Implement SVE2 TBL, TBX
-      target/arm: Implement SVE2 FCVTLT
-      target/arm: Implement SVE2 FCVTXNT, FCVTX
-      target/arm: Implement SVE2 FLOGB
-      target/arm: Implement SVE2 bitwise shift immediate
-      target/arm: Implement SVE2 fp multiply-add long
-
- disas/libvixl/vixl/code-buffer.h |    2 +-
- disas/libvixl/vixl/globals.h     |   16 +-
- disas/libvixl/vixl/invalset.h    |    2 +-
- disas/libvixl/vixl/platform.h    |    2 +
- disas/libvixl/vixl/utils.h       |    2 +-
- include/exec/exec-all.h          |   44 +
- include/hw/arm/armsse.h          |    2 +
- target/arm/cpu.h                 |   76 +
- target/arm/helper-sve.h          |  722 ++++++++-
- target/arm/helper.h              |  110 +-
- target/arm/translate-a64.h       |    3 +
- target/arm/vec_internal.h        |  167 ++
- target/arm/neon-shared.decode    |   24 +-
- target/arm/sve.decode            |  574 ++++++-
- accel/tcg/cputlb.c               |  231 ++-
- hw/arm/armsse.c                  |   35 +-
- hw/arm/mps2-tz.c                 |   39 +-
- hw/arm/smmuv3.c                  |   50 +-
- hw/intc/arm_gicv3_cpuif.c        |   48 +-
- linux-user/elfload.c             |   10 +
- target/arm/cpu.c                 |    2 +
- target/arm/cpu64.c               |   14 +
- target/arm/cpu_tcg.c             |    1 +
- target/arm/helper.c              |  327 +++-
- target/arm/kvm64.c               |   21 +-
- target/arm/m_helper.c            |    3 +-
- target/arm/neon_helper.c         |  507 +-----
- target/arm/sve_helper.c          | 2110 +++++++++++++++++++++++--
- target/arm/translate-a64.c       |  111 +-
- target/arm/translate-neon.c      |  231 +--
- target/arm/translate-sve.c       | 3200 +++++++++++++++++++++++++++++++++++---
- target/arm/vec_helper.c          |  887 ++++++++---
- disas/libvixl/vixl/utils.cc      |    2 +-
- 33 files changed, 8275 insertions(+), 1300 deletions(-)
 
