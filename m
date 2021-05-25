@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 387973904C9
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 17:13:02 +0200 (CEST)
-Received: from localhost ([::1]:52808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEB403904D8
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 17:14:54 +0200 (CEST)
+Received: from localhost ([::1]:33122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llYjs-0006A0-Oy
-	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 11:13:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58180)
+	id 1llYlh-0003Rp-Pd
+	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 11:14:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58208)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1llYar-0001lS-BF
- for qemu-devel@nongnu.org; Tue, 25 May 2021 11:03:41 -0400
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:42614)
+ id 1llYas-0001pH-Cb
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 11:03:42 -0400
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:46693)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1llYap-00045u-9u
- for qemu-devel@nongnu.org; Tue, 25 May 2021 11:03:40 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id x8so32600899wrq.9
- for <qemu-devel@nongnu.org>; Tue, 25 May 2021 08:03:38 -0700 (PDT)
+ id 1llYap-00046S-VX
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 11:03:42 -0400
+Received: by mail-wm1-x331.google.com with SMTP id
+ l18-20020a1c79120000b0290181c444b2d0so6458499wme.5
+ for <qemu-devel@nongnu.org>; Tue, 25 May 2021 08:03:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=N54AOgtuynAe4o4KVPvsfs8DcF31nKce6XRNZJjbLbs=;
- b=eFoXtRXMwg33ccw7+8GFfb14zApGHG1l13ZTGbgXl1bMDB9A9GoBjiQJ3bpWIhB5bT
- AwsagP9lW0Gq/vcFi9Ew+DTH7xSlE3+8QOTKFebrhDloOglfutDbsNr7Rqcx85GgfsSt
- UifVQEFSJZqXY9MxLyo0JeIbNY2WDgMz6xORwNovp+Nfm+UasjNYffMc7NtbVUJYdfiZ
- AUVMC3ySUsnmpZ2P+30QMNGq9tPUUhFEaFBlZgOMhJs2q2OMNDRCvf71Xbl9wYGipgAT
- Tfgd1BQ/ezAdNnHK9kqRsVwcVWf/RSjLonRTYKPkT3PmG3tPmCz9udRhMRWbW5iie9Da
- lLcg==
+ bh=sG9cygL9esXNKbBpTg0uyfUWXncRBKXkgJRBiDrFpkQ=;
+ b=HlWtX5rjgzzi6PHh7/VG6rN8JyGWpc8U9XtyLUG0/B+77YGn7noM2Kges3AvVck8UX
+ UZa9SMjRuMrRXZp7aOylPRh79N6pQgZbwebX4ISnE74tpVptB/M6ruIPPq6agM14Juzd
+ TLjOgDuJgRs3nQrxaq22ufLU1rtk+6hCRvDCqP+zXk6oRwFr3oq5+kGJn9N0sguE1iEF
+ kJMwwfH/ckoRhhCWE6tduxw2KB9MGH7FBow5SOOVxlw4tZpyiqPrmCALJ/BwohjXtqVF
+ FsMCp05rGbevP4ELUmXCYImtXn05n9odsGd9Ta2vFvVJw5hFOhWp9R5ZEKPLdsZAGpj+
+ PBDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=N54AOgtuynAe4o4KVPvsfs8DcF31nKce6XRNZJjbLbs=;
- b=rmTZqbqTwbQ39fhblpPeczds3vT3u27E9Ufqce8eYsL2Ctgr7keMmr8xuH2jIx99c1
- or+f9WIp9429t1pXPjG6RkLvAahQ9bC/k/jyZTlKElS8JbBFLqixfz+PkLGPQW8pAY8p
- pXnkavsIYGrCPUD+4nQVEA+eDFElO3m5lPtvLaKJrjqR5crlHtwtvpNnrCvSJ4yYOX5m
- T8J3VEogTFnFmO/p6iVuHUEAXf+sBKeriVoIgQV30Efe1i6kqxWEZu2U4idNmsU2tj+F
- 5nrLd6Bt527O78MkRx0rX03jZgbRfWi7nEWzL8n/OZ+pWkEODaTwXUu6scA8t/CL+0aB
- l9KA==
-X-Gm-Message-State: AOAM532LyMmNLZ2hWM81LWAPPl1kVdLZEf9uvute9VqS6pbyct+zBOdx
- xDfEtqHvHj5dkzvDXiVuHyMDB9uqtq9fLpXT
-X-Google-Smtp-Source: ABdhPJy300vkCndd7QCgD46/1IEW5NgyS57+s22WlZ29HGMI/ZEDvclJbaRYaA+AycYexhsg0C+0zA==
-X-Received: by 2002:a5d:414d:: with SMTP id c13mr27657452wrq.240.1621955017724; 
- Tue, 25 May 2021 08:03:37 -0700 (PDT)
+ bh=sG9cygL9esXNKbBpTg0uyfUWXncRBKXkgJRBiDrFpkQ=;
+ b=Ukxm3uY2oOFx86q+aAGXSPIAat7xRlci7+U00h/icxwx4U5ymLDNhCCKE1Lx/Nm06c
+ Ess2FLCmQh3ZB+9MrVTj49LsFRhYLluZDV/3zorAsQEz9C6WyjJ1zqh/H4CnnVC52LqU
+ BkE/jGekm0StsApVOPkf9BEiPpLxf9MW/PtTWofiwvi9vFIlYL+OuinGzCBtHQkSaRwG
+ ZKXHuK2RNH6fkmMC0sT+RUB3OekNKb4h6RQBGdStbm2V3gBUrc7zYx5BFSnIZe0QEi8C
+ SzUrmO6oJQ/Tv+d1Ofv/HYqr7l4mpejbV/WmPJizDZTHuM6aI7ofEvou6cny8JXdRWSj
+ D6Tw==
+X-Gm-Message-State: AOAM530DVd4D2NmxIzc3K4qhQ9QTVH1ps0TU69PhjJ47Vsx3efgHkUbN
+ EGs0XaBP3PNKc1etWrBn7tcqMYgOdZPKckWN
+X-Google-Smtp-Source: ABdhPJwP2lizVK3a1qEbmYerguLKznIBWf9j7djTHC6ffmTzIcCsMe2kUwjvve3hBohg2J4S9oVhsg==
+X-Received: by 2002:a05:600c:4f48:: with SMTP id
+ m8mr4266495wmq.169.1621955018474; 
+ Tue, 25 May 2021 08:03:38 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
  by smtp.gmail.com with ESMTPSA id q62sm11710284wma.42.2021.05.25.08.03.37
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 May 2021 08:03:37 -0700 (PDT)
+ Tue, 25 May 2021 08:03:38 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 009/114] target/arm: Use correct SP in M-profile exception
- return
-Date: Tue, 25 May 2021 16:01:39 +0100
-Message-Id: <20210525150324.32370-10-peter.maydell@linaro.org>
+Subject: [PULL 010/114] accel/tcg: Replace g_new() + memcpy() by g_memdup()
+Date: Tue, 25 May 2021 16:01:40 +0100
+Message-Id: <20210525150324.32370-11-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210525150324.32370-1-peter.maydell@linaro.org>
 References: <20210525150324.32370-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,52 +89,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When an M-profile CPU is restoring registers from the stack on
-exception return, the stack pointer to use is determined based on
-bits in the magic exception return type value.  We were not getting
-this logic entirely correct.
+From: Richard Henderson <richard.henderson@linaro.org>
 
-Whether we use one of the Secure stack pointers or one of the
-Non-Secure stack pointers depends on the EXCRET.S bit.  However,
-whether we use the MSP or the PSP then depends on the SPSEL bit in
-either the CONTROL_S or CONTROL_NS register.  We were incorrectly
-selecting MSP vs PSP based on the EXCRET.SPSEL bit.
+Using g_memdup is a bit more compact than g_new + memcpy.
 
-(In the pseudocode this is in the PopStack() function, which calls
-LookUpSp_with_security_mode() which in turn looks at the relevant
-CONTROL.SPSEL bit.)
-
-The buggy behaviour wasn't noticeable in most cases, because we write
-EXCRET.SPSEL to the CONTROL.SPSEL bit for the S/NS register selected
-by EXCRET.ES, so we only do the wrong thing when EXCRET.S and
-EXCRET.ES are different.  This will happen when secure code takes a
-secure exception, which then tail-chains to a non-secure exception
-which finally returns to the original secure code.
-
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-id: 20210509151618.2331764-2-f4bug@amsat.org
+Message-Id: <20210508201640.1045808-1-richard.henderson@linaro.org>
+[PMD: Split from bigger patch]
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20210520130905.2049-1-peter.maydell@linaro.org
 ---
- target/arm/m_helper.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ accel/tcg/cputlb.c | 15 ++++-----------
+ 1 file changed, 4 insertions(+), 11 deletions(-)
 
-diff --git a/target/arm/m_helper.c b/target/arm/m_helper.c
-index d63ae465e1e..eda74e55450 100644
---- a/target/arm/m_helper.c
-+++ b/target/arm/m_helper.c
-@@ -1597,10 +1597,11 @@ static void do_v7m_exception_exit(ARMCPU *cpu)
-          * We use this limited C variable scope so we don't accidentally
-          * use 'frame_sp_p' after we do something that makes it invalid.
-          */
-+        bool spsel = env->v7m.control[return_to_secure] & R_V7M_CONTROL_SPSEL_MASK;
-         uint32_t *frame_sp_p = get_v7m_sp_ptr(env,
-                                               return_to_secure,
-                                               !return_to_handler,
--                                              return_to_sp_process);
-+                                              spsel);
-         uint32_t frameptr = *frame_sp_p;
-         bool pop_ok = true;
-         ARMMMUIdx mmu_idx;
+diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+index 84e7d91a5ca..f616b58a898 100644
+--- a/accel/tcg/cputlb.c
++++ b/accel/tcg/cputlb.c
+@@ -837,11 +837,8 @@ void tlb_flush_page_bits_by_mmuidx(CPUState *cpu, target_ulong addr,
+     } else if (encode_pbm_to_runon(&runon, d)) {
+         async_run_on_cpu(cpu, tlb_flush_page_bits_by_mmuidx_async_1, runon);
+     } else {
+-        TLBFlushPageBitsByMMUIdxData *p
+-            = g_new(TLBFlushPageBitsByMMUIdxData, 1);
+-
+         /* Otherwise allocate a structure, freed by the worker.  */
+-        *p = d;
++        TLBFlushPageBitsByMMUIdxData *p = g_memdup(&d, sizeof(d));
+         async_run_on_cpu(cpu, tlb_flush_page_bits_by_mmuidx_async_2,
+                          RUN_ON_CPU_HOST_PTR(p));
+     }
+@@ -875,13 +872,11 @@ void tlb_flush_page_bits_by_mmuidx_all_cpus(CPUState *src_cpu,
+         flush_all_helper(src_cpu, tlb_flush_page_bits_by_mmuidx_async_1, runon);
+     } else {
+         CPUState *dst_cpu;
+-        TLBFlushPageBitsByMMUIdxData *p;
+ 
+         /* Allocate a separate data block for each destination cpu.  */
+         CPU_FOREACH(dst_cpu) {
+             if (dst_cpu != src_cpu) {
+-                p = g_new(TLBFlushPageBitsByMMUIdxData, 1);
+-                *p = d;
++                TLBFlushPageBitsByMMUIdxData *p = g_memdup(&d, sizeof(d));
+                 async_run_on_cpu(dst_cpu,
+                                  tlb_flush_page_bits_by_mmuidx_async_2,
+                                  RUN_ON_CPU_HOST_PTR(p));
+@@ -927,15 +922,13 @@ void tlb_flush_page_bits_by_mmuidx_all_cpus_synced(CPUState *src_cpu,
+         /* Allocate a separate data block for each destination cpu.  */
+         CPU_FOREACH(dst_cpu) {
+             if (dst_cpu != src_cpu) {
+-                p = g_new(TLBFlushPageBitsByMMUIdxData, 1);
+-                *p = d;
++                p = g_memdup(&d, sizeof(d));
+                 async_run_on_cpu(dst_cpu, tlb_flush_page_bits_by_mmuidx_async_2,
+                                  RUN_ON_CPU_HOST_PTR(p));
+             }
+         }
+ 
+-        p = g_new(TLBFlushPageBitsByMMUIdxData, 1);
+-        *p = d;
++        p = g_memdup(&d, sizeof(d));
+         async_safe_run_on_cpu(src_cpu, tlb_flush_page_bits_by_mmuidx_async_2,
+                               RUN_ON_CPU_HOST_PTR(p));
+     }
 -- 
 2.20.1
 
