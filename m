@@ -2,58 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18E5E390166
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 14:56:06 +0200 (CEST)
-Received: from localhost ([::1]:50094 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13CD039019E
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 15:04:50 +0200 (CEST)
+Received: from localhost ([::1]:60054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llWbN-00083A-7N
-	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 08:56:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51540)
+	id 1llWjo-0006gw-Mp
+	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 09:04:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54056)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1llWaR-0007OW-Ih
- for qemu-devel@nongnu.org; Tue, 25 May 2021 08:55:07 -0400
-Resent-Date: Tue, 25 May 2021 08:55:07 -0400
-Resent-Message-Id: <E1llWaR-0007OW-Ih@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21398)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1llWaP-0007lw-53
- for qemu-devel@nongnu.org; Tue, 25 May 2021 08:55:07 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1621947291; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=OwpNuvrhJkrHhlkRfzgTgmFPl7pH2lywz9jKKw383RI4W1yaWbkBqRenyPQO185uWdivX+DgeRvf1azQQmZ8+26JO54fZkg49jV/5U1gUB1Bt1F1uQFH7TMSJZa3ASf15AyIKl6SaN8u3Dut/lMUm1Yscdhehcrxy9eC9O8oEwA=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1621947291;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=CObX8h2Ffw9WzBiTLGbw4DQWvu5leXSrL1rS9Ovj88c=; 
- b=iESSBuGHVvyN/xGtEmdNFRF7fRY7wRdMzH+2rF4V7WmwFZEXFZUaj9hAUD8BiVk5RVxJ0hOU3q/IRCSH5DpJVDCmv9VhVlQeHHVmiql11VWBt/KZG052XA9VIBmMTXqIqDN+V6dQ+09uqVmCTgcbbU5lrO9K/cCwltPSi+b6Its=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 16219472883251003.6151340019553;
- Tue, 25 May 2021 05:54:48 -0700 (PDT)
-In-Reply-To: <20210525124753.528516-1-kit.westneat@gmail.com>
-Subject: Re: [PATCH 0/3] testing block device blocksizes
-Message-ID: <162194728692.982.1034894739906746746@0addf061776e>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1llWho-0004ky-Dn; Tue, 25 May 2021 09:02:44 -0400
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:56120)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1llWhm-0004SA-Od; Tue, 25 May 2021 09:02:44 -0400
+Received: by mail-wm1-x32c.google.com with SMTP id b7so16107527wmh.5;
+ Tue, 25 May 2021 06:02:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=mcCYKpWWken7cp6c4R+QcrTIE9mvUTMs5dRk1Jjg0LU=;
+ b=ZMsan0UcgSYTQb+X6LxH5slDYbwbq9bGGVcbS3uuauQH5eDjtwYm2tqw6zcA1i/4Fp
+ 248NygPtRzJIlrlCJcZGzo2e13YY3r2f5DVIgIsGHdCJ32pt2yrrFZ0S0Hy+ay7lJGBA
+ cxmcknCIsUu5//9quhGQZrfWs3u+0NfgSK0ZLqggqFF0XmSij9R3xXQInr3l+f/iHg3b
+ LmnjZjndpmcffPLLihnd9HvkYQ8PYdZz1SBw0jYjN187ZEetF9VuyFt76TE3iPHRt9iS
+ FBodrMZtCnyrWK8QmBSWAuJ19o2A/vC7Wiw0090vuM3ryTsDxBlPcsTXB6wev/RStuZL
+ 76sA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=mcCYKpWWken7cp6c4R+QcrTIE9mvUTMs5dRk1Jjg0LU=;
+ b=n+E61NpgU4SuzLR+UtoRMemCMW1khzVHksVje5ugZ1ouc1g3SfVjOqXvQq+P/2kcpi
+ +f+6yTpPVnFkIu0ak3sq+3lElygXoXSAIm6r6TaJfdPlLRET7nCrdawPzHhMsYEJim4J
+ fX6lBT3U8XqMyT5aYh+spu4Fw02pQTejO1TcBllEU0MczvRc+463kwiPYwW1keFhVXO8
+ vGpvJg378v6akeKNzCavacwm3L0vWIl886Eyu7Vhy7SSzP7JEobmr2naIxy1lyxuDnLH
+ chfLI23weRUjB/PSYJkwT8uhxIAjsO0ktaZzleecRjpXcTUO4CCEyDHRD5Kf2bKjSBzQ
+ sqYg==
+X-Gm-Message-State: AOAM530hqZ7j+9rvSVbyNIOIf2wJPUsI8OA4u+Dhl13nij2NpzHk5Mgo
+ pSUeuXKOWLY6FJEeMk71jD8=
+X-Google-Smtp-Source: ABdhPJw9T+0FXKNTGHcwD1mcMahiT7dqB9/GDx/qdtr0KdnVW0L3457Nzrjh4cXDnu/nrUnAPkF7lA==
+X-Received: by 2002:a1c:49c6:: with SMTP id
+ w189mr23684533wma.108.1621947760952; 
+ Tue, 25 May 2021 06:02:40 -0700 (PDT)
+Received: from [192.168.1.36] (31.red-83-51-215.dynamicip.rima-tde.net.
+ [83.51.215.31])
+ by smtp.gmail.com with ESMTPSA id l13sm1838499wrv.57.2021.05.25.06.02.39
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 25 May 2021 06:02:40 -0700 (PDT)
+Subject: Re: [PATCH v5 2/4] target/ppc: added ifdefs around TCG-only code
+To: "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br>,
+ qemu-devel@nongnu.org
+References: <20210525115355.8254-1-bruno.larsen@eldorado.org.br>
+ <20210525115355.8254-3-bruno.larsen@eldorado.org.br>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <8e66bba4-96d1-db9e-5f21-156c41ff38ea@amsat.org>
+Date: Tue, 25 May 2021 15:02:39 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: kit.westneat@gmail.com
-Date: Tue, 25 May 2021 05:54:48 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+In-Reply-To: <20210525115355.8254-3-bruno.larsen@eldorado.org.br>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32c.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -66,81 +89,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: pbonzini@redhat.com, kit.westneat@gmail.com, qemu-devel@nongnu.org
+Cc: farosas@linux.ibm.com, richard.henderson@linaro.org,
+ lucas.araujo@eldorado.org.br, luis.pires@eldorado.org.br,
+ fernando.valle@eldorado.org.br, qemu-ppc@nongnu.org,
+ matheus.ferst@eldorado.org.br, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDUyNTEyNDc1My41Mjg1
-MTYtMS1raXQud2VzdG5lYXRAZ21haWwuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRv
-IGhhdmUgc29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1v
-cmUgaW5mb3JtYXRpb246CgpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMjAyMTA1MjUxMjQ3NTMu
-NTI4NTE2LTEta2l0Lndlc3RuZWF0QGdtYWlsLmNvbQpTdWJqZWN0OiBbUEFUQ0ggMC8zXSB0ZXN0
-aW5nIGJsb2NrIGRldmljZSBibG9ja3NpemVzCgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMh
-L2Jpbi9iYXNoCmdpdCByZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0IDAKZ2l0IGNv
-bmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5y
-ZW5hbWVzIFRydWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhpc3RvZ3JhbQou
-L3NjcmlwdHMvY2hlY2twYXRjaC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVTVCBTQ1JJUFQg
-RU5EID09PQoKVXBkYXRpbmcgM2M4Y2Y1YTljMjFmZjg3ODIxNjRkMWRlZjdmNDRiZDg4ODcxMzM4
-NApGcm9tIGh0dHBzOi8vZ2l0aHViLmNvbS9wYXRjaGV3LXByb2plY3QvcWVtdQogKiBbbmV3IHRh
-Z10gICAgICAgICBwYXRjaGV3LzIwMjEwNTI1MTI0NzUzLjUyODUxNi0xLWtpdC53ZXN0bmVhdEBn
-bWFpbC5jb20gLT4gcGF0Y2hldy8yMDIxMDUyNTEyNDc1My41Mjg1MTYtMS1raXQud2VzdG5lYXRA
-Z21haWwuY29tClN3aXRjaGVkIHRvIGEgbmV3IGJyYW5jaCAndGVzdCcKODMxOTQ0MCBibG9jay9i
-bGtkZWJ1ZzogYWRkIGxvZy1ibG9ja3NpemUgYW5kIHBoeXMtYmxvY2tzaXplIHBhcmFtZXRlcnMK
-ZTA5ZWFjNiB0ZXN0cy9xdGVzdC92aXJ0aW8tc2NzaS10ZXN0OiBhZGQgdW5tYXAgbGFyZ2UgTEJB
-IHdpdGggNGsgYmxvY2tzIHRlc3QKMDQ0MjA3MCBibG9jay9ibGtkZWJ1ZzogYWRkIGJsb2Nrc2l6
-ZSBwYXJhbWV0ZXIKCj09PSBPVVRQVVQgQkVHSU4gPT09CjEvMyBDaGVja2luZyBjb21taXQgMDQ0
-MjA3MDU3MWU1IChibG9jay9ibGtkZWJ1ZzogYWRkIGJsb2Nrc2l6ZSBwYXJhbWV0ZXIpCldBUk5J
-Tkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiM0NDogRklMRTogYmxvY2svYmxrZGVidWcuYzo1
-NzI6CisgICAgaWYgKHMtPmJsb2Nrc2l6ZSAmJiAocy0+YmxvY2tzaXplID49IElOVF9NQVggfHwg
-IWlzX3Bvd2VyX29mXzIocy0+YmxvY2tzaXplKSkpIHsKCkVSUk9SOiBicmFjZXMge30gYXJlIG5l
-Y2Vzc2FyeSBmb3IgYWxsIGFybXMgb2YgdGhpcyBzdGF0ZW1lbnQKIzYxOiBGSUxFOiBibG9jay9i
-bGtkZWJ1Zy5jOjEwMDQ6CisgICAgaWYgKCFzLT5ibG9ja3NpemUpClsuLi5dCgp0b3RhbDogMSBl
-cnJvcnMsIDEgd2FybmluZ3MsIDYzIGxpbmVzIGNoZWNrZWQKClBhdGNoIDEvMyBoYXMgc3R5bGUg
-cHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxz
-ZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENI
-IGluIE1BSU5UQUlORVJTLgoKMi8zIENoZWNraW5nIGNvbW1pdCBlMDllYWM2YjQxOTcgKHRlc3Rz
-L3F0ZXN0L3ZpcnRpby1zY3NpLXRlc3Q6IGFkZCB1bm1hcCBsYXJnZSBMQkEgd2l0aCA0ayBibG9j
-a3MgdGVzdCkKRVJST1I6IGRvIG5vdCB1c2UgQzk5IC8vIGNvbW1lbnRzCiMzMzogRklMRTogdGVz
-dHMvcXRlc3QvdmlydGlvLXNjc2ktdGVzdC5jOjIxMzoKKyAgICAvLyBkZWZhdWx0IG51bGwtY28g
-ZGV2aWNlIHNpemUgaXMgMioqMzAKCkVSUk9SOiBkbyBub3QgdXNlIEM5OSAvLyBjb21tZW50cwoj
-MzQ6IEZJTEU6IHRlc3RzL3F0ZXN0L3ZpcnRpby1zY3NpLXRlc3QuYzoyMTQ6CisgICAgLy8gTEJB
-IDB4N2ZmZiBpcyB+IDEvOCBpbnRvIGRldmljZSwgd2l0aCA0ayBibG9ja3MKCkVSUk9SOiBkbyBu
-b3QgdXNlIEM5OSAvLyBjb21tZW50cwojMzU6IEZJTEU6IHRlc3RzL3F0ZXN0L3ZpcnRpby1zY3Np
-LXRlc3QuYzoyMTU6CisgICAgLy8gaWYgY2hlY2tfbGJhX3JhbmdlIGluY29ycmVjdGx5IHVzaW5n
-IDUxMiBieXRlcywgd2lsbCB0cmlnZ2VyIHNlbnNlIGVycm9yCgpFUlJPUjogZG8gbm90IHVzZSBD
-OTkgLy8gY29tbWVudHMKIzM3OiBGSUxFOiB0ZXN0cy9xdGVzdC92aXJ0aW8tc2NzaS10ZXN0LmM6
-MjE3OgorICAgICAgICAweDAwLCAweDE2LCAvLyB1bm1hcCBkYXRhIGxlbmd0aAoKRVJST1I6IGRv
-IG5vdCB1c2UgQzk5IC8vIGNvbW1lbnRzCiMzODogRklMRTogdGVzdHMvcXRlc3QvdmlydGlvLXNj
-c2ktdGVzdC5jOjIxODoKKyAgICAgICAgMHgwMCwgMHgxMCwgLy8gdW5tYXAgYmxvY2sgZGVzY3Jp
-cHRvciBkYXRhIGxlbmd0aAoKRVJST1I6IGRvIG5vdCB1c2UgQzk5IC8vIGNvbW1lbnRzCiMzOTog
-RklMRTogdGVzdHMvcXRlc3QvdmlydGlvLXNjc2ktdGVzdC5jOjIxOToKKyAgICAgICAgMHgwMCwg
-MHgwMCwgMHgwMCwgMHgwMCwgLy8gcmVzZXJ2ZWQKCkVSUk9SOiBkbyBub3QgdXNlIEM5OSAvLyBj
-b21tZW50cwojNDA6IEZJTEU6IHRlc3RzL3F0ZXN0L3ZpcnRpby1zY3NpLXRlc3QuYzoyMjA6Cisg
-ICAgICAgIDB4MDAsIDB4MDAsIDB4MDAsIDB4MDAsIDB4MDAsIDB4MDAsIDB4N2YsIDB4ZmYsIC8v
-IExCQQoKRVJST1I6IGRvIG5vdCB1c2UgQzk5IC8vIGNvbW1lbnRzCiM0MTogRklMRTogdGVzdHMv
-cXRlc3QvdmlydGlvLXNjc2ktdGVzdC5jOjIyMToKKyAgICAgICAgMHgwMCwgMHgwMCwgMHgwMywg
-MHhmZiwgLy8gc2VjdG9yIGNvdW50CgpFUlJPUjogZG8gbm90IHVzZSBDOTkgLy8gY29tbWVudHMK
-IzQyOiBGSUxFOiB0ZXN0cy9xdGVzdC92aXJ0aW8tc2NzaS10ZXN0LmM6MjIyOgorICAgICAgICAw
-eDAwLCAweDAwLCAweDAwLCAweDAwLCAvL3Jlc2VydmVkCgp0b3RhbDogOSBlcnJvcnMsIDAgd2Fy
-bmluZ3MsIDY2IGxpbmVzIGNoZWNrZWQKClBhdGNoIDIvMyBoYXMgc3R5bGUgcHJvYmxlbXMsIHBs
-ZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMg
-cmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlO
-RVJTLgoKMy8zIENoZWNraW5nIGNvbW1pdCA4MzE5NDQwYTI4YjIgKGJsb2NrL2Jsa2RlYnVnOiBh
-ZGQgbG9nLWJsb2Nrc2l6ZSBhbmQgcGh5cy1ibG9ja3NpemUgcGFyYW1ldGVycykKRVJST1I6IGxp
-bmUgb3ZlciA5MCBjaGFyYWN0ZXJzCiM1MzogRklMRTogYmxvY2svYmxrZGVidWcuYzo1OTE6Cisg
-ICAgaWYgKHMtPnBoeXNfYmxvY2tzaXplICYmIChzLT5waHlzX2Jsb2Nrc2l6ZSA+PSBJTlRfTUFY
-IHx8ICFpc19wb3dlcl9vZl8yKHMtPnBoeXNfYmxvY2tzaXplKSkpIHsKCkVSUk9SOiBsaW5lIG92
-ZXIgOTAgY2hhcmFjdGVycwojNjA6IEZJTEU6IGJsb2NrL2Jsa2RlYnVnLmM6NTk4OgorICAgIGlm
-IChzLT5sb2dfYmxvY2tzaXplICYmIChzLT5sb2dfYmxvY2tzaXplID49IElOVF9NQVggfHwgIWlz
-X3Bvd2VyX29mXzIocy0+bG9nX2Jsb2Nrc2l6ZSkpKSB7Cgp0b3RhbDogMiBlcnJvcnMsIDAgd2Fy
-bmluZ3MsIDY3IGxpbmVzIGNoZWNrZWQKClBhdGNoIDMvMyBoYXMgc3R5bGUgcHJvYmxlbXMsIHBs
-ZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMg
-cmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlO
-RVJTLgoKPT09IE9VVFBVVCBFTkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTog
-MQoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3Mv
-MjAyMTA1MjUxMjQ3NTMuNTI4NTE2LTEta2l0Lndlc3RuZWF0QGdtYWlsLmNvbS90ZXN0aW5nLmNo
-ZWNrcGF0Y2gvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5
-IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVk
-YmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
+On 5/25/21 1:53 PM, Bruno Larsen (billionai) wrote:
+> excp_helper.c, mmu-hash64.c and mmu_helper.c have some function
+> declarations that are TCG-only, and couldn't be easily moved to a
+> TCG only file, so ifdefs were added around them.
+> 
+> We also needed ifdefs around some header files because helper-proto.h
+> includes trace/generated-helpers.h, which is never created when building
+> without TCG, and cpu_ldst.h includes tcg/tcg.h, whose containing folder
+> is not included as a -iquote. As future cleanup, we could change the
+> part of the configuration script to add those.
+> 
+> cpu_init.c also had a callback definition that is TCG only and could be
+> removed as part of a future cleanup (all the dump_statistics part is
+> almost never used and will become obsolete as we transition to using
+> decodetree).
+> 
+> Signed-off-by: Bruno Larsen (billionai) <bruno.larsen@eldorado.org.br>
+> ---
+>  target/ppc/cpu_init.c    |  2 ++
+>  target/ppc/excp_helper.c | 21 ++++++++++++++++++---
+>  target/ppc/mmu-hash64.c  | 11 ++++++++++-
+>  target/ppc/mmu_helper.c  | 16 ++++++++++++++--
+>  4 files changed, 44 insertions(+), 6 deletions(-)
+Please have a look at commit range 0a31c16c9ce..a2b0a27d33e
+for the MIPS convertion.
+
+>  #if !defined(CONFIG_USER_ONLY)
+> +#ifdef CONFIG_TCG
+>  void helper_store_msr(CPUPPCState *env, target_ulong val)
+>  {
+
+For example this one is similar to commit d60146a9389, you
+could simply move this function to tcg/sysemu/msr_helpers.c
+and modify the meson file, then when TCG is not available,
+the file isn't built, without having to use #ifdef'ry.
 
