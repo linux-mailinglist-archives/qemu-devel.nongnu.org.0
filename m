@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 637D8390A9B
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 22:41:19 +0200 (CEST)
-Received: from localhost ([::1]:38596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D32F390AB2
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 22:48:46 +0200 (CEST)
+Received: from localhost ([::1]:49222 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lldrZ-0004ok-JG
-	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 16:41:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51114)
+	id 1lldyn-00046m-AW
+	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 16:48:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51722)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lldpF-0002hz-0s
- for qemu-devel@nongnu.org; Tue, 25 May 2021 16:38:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30510)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lldqU-0004oC-Cr
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 16:40:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40540)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lldp7-0004mT-Qp
- for qemu-devel@nongnu.org; Tue, 25 May 2021 16:38:52 -0400
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lldqO-0005Zm-CX
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 16:40:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621975125;
+ s=mimecast20190719; t=1621975203;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=Ak6gdxRItHQ76G9r431hVaTNDr7lnEpaTCl18GTI50w=;
- b=Qo/lgFB1Q0taxxeu3Y4f2ftvQYXWAHVxYoxO4Zj+hv1CqSQeFGn78r5kzQPSbYAmjJg3qD
- Fsv6l+HYLr5CU5CgfBvMraQBIiBvDnL6kxTthD+i9x3xrEDkLhAqKpfGeCxO9dxkSOTh5g
- WF8UssXQ5w8q3RUHTVb408sDbSUDYM8=
+ bh=MAiyX1by7BcQwW/+wcQWTbsFMK5SohQKEwgJ6J2Wibc=;
+ b=DxMRPuCsIJ00Ehx+beZ7K2DM8kKcxiC8UFP3MJbU8a2ZQa43p6HGRAfOB22J9a5uLwEicG
+ yh+xjgam6CggcxSC1LH39BFLUHPavw58R8hRASEwG/bQBQ7aVAPLRzNey6O48LoHI5c2b6
+ RzTSsairtSXsLC6f8cOZWPO/yfNLTtc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-175-BWGJQu7LPyahfizL1QZ8-g-1; Tue, 25 May 2021 16:38:41 -0400
-X-MC-Unique: BWGJQu7LPyahfizL1QZ8-g-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-454-qCqsbADvNjS8xsWX-o5yXw-1; Tue, 25 May 2021 16:39:59 -0400
+X-MC-Unique: qCqsbADvNjS8xsWX-o5yXw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EC620100A253;
- Tue, 25 May 2021 20:38:38 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0E031C7440;
+ Tue, 25 May 2021 20:39:58 +0000 (UTC)
 Received: from localhost (ovpn-114-2.phx2.redhat.com [10.3.114.2])
- by smtp.corp.redhat.com (Postfix) with ESMTP id ECC0F5D6AC;
- Tue, 25 May 2021 20:38:31 +0000 (UTC)
-Date: Tue, 25 May 2021 16:38:08 -0400
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B2AA560CEC;
+ Tue, 25 May 2021 20:39:50 +0000 (UTC)
+Date: Tue, 25 May 2021 16:39:46 -0400
 From: Cleber Rosa <crosa@redhat.com>
 To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH v6 20/25] python: add devel package requirements to
- setuptools
-Message-ID: <20210525203808.GE1567491@amachine.somewhere>
+Subject: Re: [PATCH v6 22/25] python: add Makefile for some common tasks
+Message-ID: <20210525203946.GF1567491@amachine.somewhere>
 References: <20210512231241.2816122-1-jsnow@redhat.com>
- <20210512231241.2816122-21-jsnow@redhat.com>
- <YK0iRgCDgKfVogKD@localhost.localdomain>
- <840fc0a4-45f9-7ce8-3f1c-a10303c44fbc@redhat.com>
+ <20210512231241.2816122-23-jsnow@redhat.com>
+ <YK1O0JcbsnN/MD6F@localhost.localdomain>
+ <d7c34ee2-17d4-af0d-e8cd-851bf8e1e297@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <840fc0a4-45f9-7ce8-3f1c-a10303c44fbc@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <d7c34ee2-17d4-af0d-e8cd-851bf8e1e297@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="u5E4XgoOPWr4PD9E"
+ protocol="application/pgp-signature"; boundary="SxgehGEc6vB0cZwN"
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=crosa@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=crosa@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -93,161 +92,163 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---u5E4XgoOPWr4PD9E
+--SxgehGEc6vB0cZwN
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, May 25, 2021 at 01:43:42PM -0400, John Snow wrote:
-> On 5/25/21 12:13 PM, Cleber Rosa wrote:
-> > On Wed, May 12, 2021 at 07:12:36PM -0400, John Snow wrote:
-> > > setuptools doesn't have a formal understanding of development require=
-s,
-> > > but it has an optional feataures section. Fine; add a "devel" feature
-> > > and add the requirements to it.
+On Tue, May 25, 2021 at 03:45:26PM -0400, John Snow wrote:
+> On 5/25/21 3:24 PM, Cleber Rosa wrote:
+> > On Wed, May 12, 2021 at 07:12:38PM -0400, John Snow wrote:
+> > > Add "make venv" to create the pipenv-managed virtual environment that
+> > > contains our explicitly pinned dependencies.
 > > >=20
-> > > To avoid duplication, we can modify pipenv to install qemu[devel]
-> > > instead. This enables us to run invocations like "pip install -e
-> > > .[devel]" and test the package on bleeding-edge packages beyond those
-> > > specified in Pipfile.lock.
+> > > Add "make check" to run the python linters [in the host execution
+> > > environment].
 > > >=20
-> > > Importantly, this also allows us to install the qemu development
-> > > packages in a non-networked mode: `pip3 install --no-index -e .[devel=
-]`
-> > > will now fail if the proper development dependencies are not already
-> > > met. This can be useful for automated build scripts where fetching
-> > > network packages may be undesirable.
+> > > Add "make venv-check" which combines the above two: create/update the
+> > > venv, then run the linters in that explicitly managed environment.
 > > >=20
-> >=20
-> > This is a fairly exotic feature of setuptools, with very very few
-> > packages that I know about using it.  With most users (I believe)
-> > relying on pipenv to get the exact packages, the setuptools/pip use
-> > case may fall into obscurity IMO.
-> >=20
->=20
-> Fair enough.
->=20
-> The intent is:
->=20
-> - Pipenv is more for CI, to deploy a consistent set of frozen packages th=
-at
-> are known to behave in an extremely stable manner. My hope is to avoid
-> breaking changes introduced unknowingly by pylint et al.
->=20
-> - pip install qemu[devel] is intended more for external/normal use by
-> developers. It grabs the latest and greatest and it may indeed break as
-> dependencies change beyond my awareness.
->=20
->=20
-> Some packages like aiohttp use that optional dependency feature to instal=
-l
-> optional modules -- `pip install aiohttp[speedups]` installs optional
-> dependencies that allow that module to work much faster, but aren't
-> required.
->=20
-> Since these linting tools aren't *required* just to *use* the package, I =
-am
-> doing users a courtesy by listing them as optional. That way, they aren't
-> pulled in when using "pip install qemu", and if I have to pin on specific
-> sub-versions etc, it won't include conflict dependencies for people using
-> other projects that DO declare a hard requirement on those packages.
->=20
-> I can amend the PACKAGE.rst file to mention this usage, though it's only
-> useful for folks developing the package.
->=20
-> (Still, part of the ploy here is to attract outside help on developing th=
-e
-> QEMU SDK, pull requests welcome etc, so it's worth a documentation blurb =
-for
-> now.)
->
-
-Yep, I agree with your reasoning here.  I just felt like an extra bit
-of documentation would do the trick.
-
-> > So my suggestion is: consider better exposing the fact that this is
-> > available (a documentation section perhaps).
-> >=20
+> > > Add "make develop" which canonizes the runes needed to get both the
+> > > linting pre-requisites (the "[devel]" part), and the editable
+> > > live-install (the "-e" part) of these python libraries.
+> > >=20
+> > > make clean: delete miscellaneous python packaging output possibly
+> > > created by pipenv, pip, or other python packaging utilities
+> > >=20
+> > > make distclean: delete the above, the .venv, and the editable "qemu"
+> > > package forwarder (qemu.egg-info) if there is one.
+> > >=20
 > > > Signed-off-by: John Snow <jsnow@redhat.com>
 > > > ---
-> > >   python/Pipfile      |  5 +----
-> > >   python/Pipfile.lock | 14 +++++++++-----
-> > >   python/setup.cfg    |  9 +++++++++
-> > >   3 files changed, 19 insertions(+), 9 deletions(-)
+> > >   python/README.rst |  3 +++
+> > >   python/Makefile   | 42 ++++++++++++++++++++++++++++++++++++++++++
+> > >   2 files changed, 45 insertions(+)
+> > >   create mode 100644 python/Makefile
 > > >=20
+> > > diff --git a/python/README.rst b/python/README.rst
+> > > index e107bd12a69..3e09d20c23c 100644
+> > > --- a/python/README.rst
+> > > +++ b/python/README.rst
+> > > @@ -35,6 +35,9 @@ Files in this directory
+> > >   - ``qemu/`` Python package source directory.
+> > >   - ``tests/`` Python package tests directory.
+> > >   - ``avocado.cfg`` Configuration for the Avocado test-runner.
+> > > +  Used by ``make check`` et al.
+> > > +- ``Makefile`` provides some common testing/installation invocations=
+.
+> > > +  Try ``make help`` to see available targets.
+> > >   - ``MANIFEST.in`` is read by python setuptools, it specifies additi=
+onal files
+> > >     that should be included by a source distribution.
+> > >   - ``PACKAGE.rst`` is used as the README file that is visible on PyP=
+I.org.
+> > > diff --git a/python/Makefile b/python/Makefile
+> > > new file mode 100644
+> > > index 00000000000..184f59e5634
+> > > --- /dev/null
+> > > +++ b/python/Makefile
+> > > @@ -0,0 +1,42 @@
+> > > +.PHONY: help venv venv-check check clean distclean develop
+> > > +
+> > > +help:
+> > > +=09@echo "python packaging help:"
+> > > +=09@echo ""
+> > > +=09@echo "make venv:       Create pipenv's virtual environment."
+> > > +=09@echo "    NOTE: Requires Python 3.6 and pipenv."
+> > > +=09@echo "          Will download packages from PyPI."
+> > > +=09@echo "    Hint: (On Fedora): 'sudo dnf install python36 pipenv'"
+> > > +=09@echo ""
+> > > +=09@echo "make venv-check: run linters using pipenv's virtual enviro=
+nment."
+> > > +=09@echo "    Hint: If you don't know which test to run, run this on=
+e!"
+> > > +=09@echo ""
+> > > +=09@echo "make develop:    Install deps for 'make check', and"
+> > > +=09@echo "                 the qemu libs in editable/development mod=
+e."
+> > > +=09@echo ""
+> > > +=09@echo "make check:      run linters using the current environment=
+."
+> > > +=09@echo ""
 > >=20
-> > Either way,
+> > Let's observe how this will be used (or misused).  I fear most people
+> > will jump into `make check`, even though you have described `make
+> > venv-check` as the primary choice.
 > >=20
-> > Reviewed-by: Cleber Rosa <crosa@redhat.com>
+> > We have a precedent with `make check-acceptance` that will create a
+> > venv and use it by default, so we can consider that as a fallback
+> > strategy based on user feedback.
 > >=20
 >=20
-> Thanks! I am taking your R-B and I have applied the following diff.
+> Right, I see. Though, I did intentionally want to make it clear which of
+> these invocations created an environment and which did not.
 >=20
-> Note that the PACKAGE.rst blurb references qemu[devel] instead because th=
-e
-> PACKAGE.rst file is what is displayed theoretically on PyPI. That exact
-> invocation will fail currently, because it's not on PyPI yet.
+> Unlike the acceptance tests, it might make sense to run these tests both
+> inside and outside of that venv, so I opted to make the default "make"
+> target "make help".
 >=20
-> A little weird, but I *think* it's correct.
+> The Gitlab CI will run the right one, after all -- and I do still expect =
+the
+> regular 'make check' to pass, so I am not as sure that it's a crucial
+> failure if someone runs the "wrong one".
 >=20
+> > > +=09@echo "make clean:      remove build output."
+> > > +=09@echo ""
+> > > +=09@echo "make distclean:  remove venv files, qemu package forwarder=
+, and"
+> > > +=09@echo "                 everything from 'make clean'."
+> > > +
+> > > +venv: .venv
+> > > +.venv: Pipfile.lock
+> > > +=09@PIPENV_VENV_IN_PROJECT=3D1 pipenv sync --dev --keep-outdated
+> > > +=09@touch .venv
+> > > +
+> > > +venv-check: venv
+> > > +=09@pipenv run make check
+> > > +
+> > > +develop:
+> > > +=09pip3 install -e .[devel]
+> > > +
+> > > +check:
+> > > +=09@avocado --config avocado.cfg run tests/
+> > > +
+> > > +clean:
+> > > +=09rm -rf build/ dist/
+> > > +
+> >=20
+> > Usually `python3 setup.py clean --all` would be the better choice here,
+> > but, it doesn't clean `dist/`, so I'm OK with this.
+> >=20
 >=20
-> diff --git a/python/PACKAGE.rst b/python/PACKAGE.rst
-> index 1bbfe1b58e2..05ea7789fc1 100644
-> --- a/python/PACKAGE.rst
-> +++ b/python/PACKAGE.rst
-> @@ -31,3 +31,7 @@ official `GitLab mirror
-> <https://gitlab.com/qemu-project/qemu>`_.
->  Please report bugs on the `QEMU issue tracker
->  <https://gitlab.com/qemu-project/qemu/-/issues>`_ and tag ``@jsnow`` in
->  the report.
-> +
-> +Optional packages necessary for running code quality analysis for this
-> +package can be installed with the optional dependency group "devel":
-> +``pip install qemu[devel]``.
-> diff --git a/python/README.rst b/python/README.rst
-> index bf9bbca979a..954870973d0 100644
-> --- a/python/README.rst
-> +++ b/python/README.rst
-> @@ -24,6 +24,10 @@ which installs a version of the package that installs =
-a
-> forwarder
->  pointing to these files, such that the package always reflects the
->  latest version in your git tree.
->=20
-> +Installing ".[devel]" instead of "." will additionally pull in required
-> +packages for testing this package. They are not runtime requirements,
-> +and are not needed to simply use these libraries.
-> +
->  See `Installing packages using pip and virtual environments
->=20
-> <https://packaging.python.org/guides/installing-using-pip-and-virtual-env=
-ironments/>`_
->  for more information.
+> Hm, I should probably move the 'dist' down into 'distclean' anyway, and I
+> will replace the clean invocation with the one you suggest.
+>
 
-Looks great to me.  And, let me be clear about it:
+OK then, makes sense to me.
 
-Reviewed-by: Cleber Rosa <crosa@redhat.com>
+- Cleber.
 
---u5E4XgoOPWr4PD9E
+--SxgehGEc6vB0cZwN
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAmCtYDAACgkQZX6NM6Xy
-CfNyDQ/+J+N7kp7PaPgH+G5NcIIE6defKWwGC4KKeEhKX6CWpw1nXtPGa3WzYgOG
-8kO0xCUB3IivVbHY9PO1cvrgvMBWe6KxzbmD4RaWCZqRGEPQmXpgjYPIkKKp3m+v
-BWGnuRr1DWmX5mZg+/T8NxBChzkmJJCF4Vku0ve7mi5olbBywgy+dHEeJlH7fnXL
-SYvZk1PeXzzzOpdCeSVCZcBiRAr+uwNCcoEtF2BvoY8YMqGfPgztCSDCU1CgnU+8
-Bg6INR+zs7hbt3RV/mRs36zKgpSM9SLJnVbc6yd+lgssSKY75U04IqRc5cRzcqgG
-8byWujcPOKAt2KWIExBBF14MP13X5TQ5gkKj6U552fIQbSpCJawSJx4NKbNyzVxa
-gkUJs+I36No2R/B345rgTbB2IQZ9NQw/MzmbY8pjgHg5kMJcK4Q3x1/hf8VRp26G
-e8jXOIsnkJ9nYyLL7nymP+9s4gGtl8LYd8R8S95iUOxFX0VsXqOpV8dm2NW3IwJs
-FxcFiJTEI56anC+qlJQn6hXVuxBIKXi7sml4gmwMGl3Bx5Pq9r6WEojqP6nURfHJ
-ERuw3Hoba6dmLL6F+9ZrgAcXt/e2bKJOwGgpfLln8rzCl98jinZNoGpOdn9KGhUU
-hHSKE7K1Hr6pOBVNfTF/sQIPW3cSMpdKcQ5SRQdt0Kmi8iFCZRI=
-=zi2U
+iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAmCtYJIACgkQZX6NM6Xy
+CfO/BxAAp6oMKYLqEd6nPecnxEqSCleN2q7Jf0gvJseT54IIatKxJ0KFXwFAecOs
+tj3WHBOt6TbsUM1j0KjX64W7g/12iuaawB9brtSFJzLSHR+aOl/gp67ENSQIkS9/
+3n09H0pvUpHtnjdrOR8clMsZJaHLfMHFqrfrIlYFiphP1pxPrdBTwTS2QcQkWR7N
+IxF4cc+obZoZ8QYCw3v68Min1FvEJK/VfakU7MqvujI4uKsRe9l7qt2srsgvD+nw
+RLHQ3ptDs+hGS3c/YwbTIq/L+QwePdYVRGEp+E+cHVkGT/weU2i/st21B1kUOvde
+MyL4Dtge+xs3cfTwMogM+fEe9aZvCEsFtU03vo3ggFulJlPMHJvCH9oF8eWYzvJU
+S5E5gfBs/NpUR6v8prtf6YlR4wHQaJZ/E+UpAX0Dew8R6Em2NnOe24KHFUAxZn01
+mzqPOLmKNLTQ8ed9wNct5fGhpifgZxLFiX3Ar179j6xIgz//OoQC5I8z4KPTJ034
+qZUVlgKFosRfEdcq4AvfMq2vXLeh1A7XjgQQ9HKAVWOQkkG2K4K3cya56U4YWfJ2
+OGdCFFjvsR55Kg7i7wifOv3hqhn6B5ct3iEyr8SBPMJEbOndTOatyZEZx1RYwYnN
+d3gkK9gY6KEcBeOZ4EeTUkoU2KfXADFJpahdUz0NEnoS6ZdlV9w=
+=GWW3
 -----END PGP SIGNATURE-----
 
---u5E4XgoOPWr4PD9E--
+--SxgehGEc6vB0cZwN--
 
 
