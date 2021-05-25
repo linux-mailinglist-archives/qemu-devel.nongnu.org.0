@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A840538FFBF
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 13:07:46 +0200 (CEST)
-Received: from localhost ([::1]:56908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 886D638FFB7
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 13:07:27 +0200 (CEST)
+Received: from localhost ([::1]:55502 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llUuX-0008F7-Ob
-	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 07:07:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55990)
+	id 1llUuE-0007Jw-77
+	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 07:07:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56206)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1llUsa-00057H-JY
- for qemu-devel@nongnu.org; Tue, 25 May 2021 07:05:44 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:37456)
+ id 1llUtK-0005vn-Cj
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 07:06:30 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:43637)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1llUsY-0007UH-W3
- for qemu-devel@nongnu.org; Tue, 25 May 2021 07:05:44 -0400
-Received: by mail-wr1-x431.google.com with SMTP id q5so31728406wrs.4
- for <qemu-devel@nongnu.org>; Tue, 25 May 2021 04:05:42 -0700 (PDT)
+ id 1llUtH-0007yO-S9
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 07:06:30 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id p7so28031155wru.10
+ for <qemu-devel@nongnu.org>; Tue, 25 May 2021 04:06:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=references:user-agent:from:to:cc:subject:date:in-reply-to
  :message-id:mime-version:content-transfer-encoding;
- bh=qmKaq+uGHaFwqSo1/hENw9DuFjsvc6MqR9b2nBIV60c=;
- b=bkWp9bTAxF+0pIZJo0enPWYhAkoIyek/H6Qp34bwwPCVEd9QuHDbTeSIUJ65/FDFyH
- U8HZ4DQ9EC0mZM8yemkyQhM2frtz4D9zcCKaOyK4NmhdNn4nw4mFrjrBZw/w1ETX98Qr
- YF7r2K7wcxdG0BlULiQgUC9bJrJO81uNXK6uiZ1aWqpPVsp5V8jTgUllGNySzSuqS8rE
- vbSwXXLT34X/p3Mri3FlxGTmwlhbY8zsH/YrlZ26F+u+SSFYt8uZeyTHTCobVjjPvE8R
- pZc6Is4Tq7vs98DOYMI2y3NbRIgxPrpbJIjzQb/KQELyIModXsoD+RVwkLXWo3raFs1i
- 0j6w==
+ bh=1t5/I8QqkWpZCaw/dTSagNscKSRnvXoU16TET7enf3Q=;
+ b=qne5cFKbNFoHrE4+Ip7tJhcFUxtiLHN2pN4d3wEUITxxJnorZKTVtICmu7kOGkJ0Nx
+ TkyrHCe/aANf+UH+FcLAdzcD5dph1wUQsUuGC7Ge8AH2W8C0cJikWrIFdDaCCBECOZis
+ PhuVBJ1biNt5HKSls2oS4O2mLatQYQJdNWsUTpnfhDdvX+y9mL4UV9WrTdr5/g1b1rf0
+ dYUCq41opCwK2OxzlvQC2drikE6hBIiZZEtEkAuSZSArDKQIkVtHCjC03ARFysmQQVTm
+ G3ayMllwTosKLqiuUI6R3HmalyE3JVfEjIfzBaGPXh2SkOq+L/44AzfADMfx1uogK/Mb
+ YfaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
  :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=qmKaq+uGHaFwqSo1/hENw9DuFjsvc6MqR9b2nBIV60c=;
- b=ZlyGB9DycQeRC4EHqNkSdUg/1xydO0/ZszcnIydTy8Tw26gjQlhSyWFrnMhpvJ/Nw0
- z/2HSZ2v/12hAS9wDTaWOoipFw+pB8e3puq7GjvHFEIs6UyNnH/+YRRnXuqKP9Yufoqc
- 5GvNUcPvj2EX619vbTTw3988ZWkMkzGVFSeYP5Dzg00BuPsOwo0akEMxUNloU3v4V4ZR
- PpD3uYvLAqTcT13I6qD88aAxo4qoYtLlAlrTX5Xqp8dbzcz6p29ktxv6vEV2XH11iGoF
- pQXfaFRAzztaZngajjCjti7VOznBP1PwH40fPjo69dGuvqRC0XGiNrVXNeLmnhBMRPQW
- tmQA==
-X-Gm-Message-State: AOAM5331LocG1CE02ytnyh2G+hGU5JzmdpNodvhI/RcwU3OhmvHUhann
- 3QVhWJmvgzAIbW2hhN7MY9VdpQ==
-X-Google-Smtp-Source: ABdhPJx+WagCy/bu43sw7dnJFJrxL609yJOoNXjhwE7vo3guZnzdZ0W2drJ1KVN73loO9/RvqJWksg==
-X-Received: by 2002:a5d:4b08:: with SMTP id v8mr27124542wrq.122.1621940741645; 
- Tue, 25 May 2021 04:05:41 -0700 (PDT)
+ bh=1t5/I8QqkWpZCaw/dTSagNscKSRnvXoU16TET7enf3Q=;
+ b=kzXQftf+U8TNbJ/3Iw/QhmRbcB2WF0ByaNplhTsSM60+MTLD4s2WLzrKFXbDdI6bRL
+ DOJRq8Gtqc6JLasv9fFkaw85sskAyopRDXPZ/2WjhuHj71PzU4+VPsoGl1DIel7jpOFt
+ EC5ZQAYVjbNRDrZiU2lpQiJHeWUiagWdFB1IgrPub6uOrxJcR/8amhScwSvpanXq53xC
+ tV249AWz0U0dcQAUj14/ZDukhmyDPXQBsn+TMhWgqjoEKue9Hh/QPaRIdoDKhzAllAYs
+ S2imMFvTALVVQD9RZKVmLBe3WUUDQmgjdXiW5Bb2DcEQbcJWnOeLwfsRx0xrhpApAHDa
+ Dq9A==
+X-Gm-Message-State: AOAM531XRfMIt9Ae+Iil2jgkmWYWENHT8qOB4wAjO8ogfmU8MiMmdF+4
+ lpHlTfCzONGeig5TWNZMwVaAHQ==
+X-Google-Smtp-Source: ABdhPJyeG7wOUd1ThMZr2b1JfpeI8SUXw3mupwer9Xnp9E1rhkSUqKAikT9rIggGsvJ+aiaUy0fuBw==
+X-Received: by 2002:adf:d20a:: with SMTP id j10mr25914615wrh.188.1621940785501; 
+ Tue, 25 May 2021 04:06:25 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id f188sm2226659wmf.24.2021.05.25.04.05.40
+ by smtp.gmail.com with ESMTPSA id g6sm2119426wmg.10.2021.05.25.04.06.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 May 2021 04:05:40 -0700 (PDT)
+ Tue, 25 May 2021 04:06:24 -0700 (PDT)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id CF1C41FF7E;
- Tue, 25 May 2021 12:05:39 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 2DD021FF7E;
+ Tue, 25 May 2021 12:06:24 +0100 (BST)
 References: <20210525082556.4011380-1-f4bug@amsat.org>
- <20210525082556.4011380-3-f4bug@amsat.org>
+ <20210525082556.4011380-4-f4bug@amsat.org>
 User-agent: mu4e 1.5.13; emacs 28.0.50
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [PATCH 2/9] gitlab-ci: Move current job set to qemu-project.yml
-Date: Tue, 25 May 2021 12:05:35 +0100
-In-reply-to: <20210525082556.4011380-3-f4bug@amsat.org>
-Message-ID: <874ker3wfw.fsf@linaro.org>
+Subject: Re: [PATCH 3/9] gitlab-ci: Document how forks can use different set
+ of jobs
+Date: Tue, 25 May 2021 12:06:19 +0100
+In-reply-to: <20210525082556.4011380-4-f4bug@amsat.org>
+Message-ID: <871r9v3wen.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,13 +97,11 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
 
-> To allow forks to easily decide which jobs they want to run,
-> but without disrupting the current default, move the current
-> set of jobs to a new file corresponding to the jobs run by
-> the mainstream project CI:
-> https://gitlab.com/qemu-project/qemu/-/pipelines
+> Document how forks can use different set of jobs and add
+> a big warning so no new configuration is added to this
+> file.
 >
-> Reviewed-by: Willian Rampazzo <willianr@redhat.com>
+> Suggested-by: Daniel Berrang=C3=A9 <berrange@redhat.com>
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
 Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
