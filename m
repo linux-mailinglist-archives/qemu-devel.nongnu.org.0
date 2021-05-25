@@ -2,51 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20D87390498
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 17:06:00 +0200 (CEST)
-Received: from localhost ([::1]:55116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F1E139049C
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 17:08:32 +0200 (CEST)
+Received: from localhost ([::1]:35616 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llYd5-0004lt-28
-	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 11:05:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58080)
+	id 1llYfW-0002sX-UR
+	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 11:08:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58132)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1llYan-0001YP-0D
- for qemu-devel@nongnu.org; Tue, 25 May 2021 11:03:37 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:44892)
+ id 1llYap-0001ew-D6
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 11:03:39 -0400
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:38757)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1llYal-00041c-5e
- for qemu-devel@nongnu.org; Tue, 25 May 2021 11:03:36 -0400
-Received: by mail-wr1-x429.google.com with SMTP id i17so32596975wrq.11
- for <qemu-devel@nongnu.org>; Tue, 25 May 2021 08:03:34 -0700 (PDT)
+ id 1llYal-000424-M1
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 11:03:39 -0400
+Received: by mail-wm1-x330.google.com with SMTP id
+ u4-20020a05600c00c4b02901774b80945cso13673386wmm.3
+ for <qemu-devel@nongnu.org>; Tue, 25 May 2021 08:03:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=YD9gvKP5eBMz5gSAgFIXdWeF4IeCcqagvgPRXfCAocM=;
- b=Hf361ilAzwXLYtS7dGiH5fr8fu9x2jPm1RQ/KDgZ/gWztdf+RMe2PjI07Zi16Jt2G2
- 3KM8NIPbG1kaSxFpy7TmShvUZ4O0TP23OUcGQU4Yki7E8sqVIvHiXpg4c++8nfJsfA0Q
- L7/g2EmmDyuYLzgVBkYIGEnE/ECAOZlp/58JS1zPkepDY+yj8eGAT7A7wARg0VEKRuST
- gB/LVueTKQYAdwzRr+yxn0+1uqpcVm6siXuMreL7hWFWc5l/L/jXL0pkaXskaOU1Qvx4
- viUtM2JLwgzt5Q9/Vw38ne5NG1TEhICZcNW5/U+rT6lYSPD/Fw0VdHAtcyzuWrGhmRd4
- xUzw==
+ bh=rpnTEDIo4iU06An2eSXnRBQX8UaDcyoG2Icf284+cKM=;
+ b=hYFeRq5vuLOnHD9wHb6aHlSY/yqiIvSouaUg8XimyMO5T11bg5otNy04hp+pw5u2u5
+ +jUhjG5LEbtJglFGSAc9LqaSXw4qEcRzT0YA9d/FXmiEWk3GlQi/hcxFYXvZVBH8Wgg3
+ LFxiz9O1FqRALboiQwB0uUL8Wt40bik1xJNkoWd7eXksBety5/bsb2LpmIUs7jvPHZEj
+ dZH9YwheAA4L2XzJ5nVh6+3OpPKWHXbGhpFhX/4CcyFb0FkDnLPlapx5ERwiJ7uqi2dD
+ 1JSfWupwahnExuouvFeLutmor8lcILK8sXKto6iMz6Zbm3Ui2/tu+6dRwWraymD1Vv+Z
+ i/ag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=YD9gvKP5eBMz5gSAgFIXdWeF4IeCcqagvgPRXfCAocM=;
- b=BQkN7oXSUgQK8vWKNGnHj8OHE/ue6vC6f+W4VZHY0+7gNlYysKz9QT2tsKfRnPusy4
- xiuJUv0kXG2yItaOH9PyHTqBwAsNb5H3m7PohDJXBw7OKO2xhpXT3zi4BhIyrj7+IRAW
- Gs55KVuSFnyYQaKEJasw+DxpZ5rCuuMJZSIu0FngPbJ8CDi6dOOH7S0vBTiRWP+vyO7p
- yYPO5vN/7Ktjw4yJewzsGGWVglrpxReRE77v/5jHyuvTFhvPHJxJTL/k8RwNk0eUkKsa
- ehzrMYpngMIV9oeu9KkclkHfSrRBvHg/298nKxoFUXMenAEHcarNSwTQXSuFTpbfdIcK
- EWUw==
-X-Gm-Message-State: AOAM533dx92PI9Sk0/6vdOQqBa/qIDvhX+S7lbWy4YDQs7u8a6HMeEwz
- BTXAXCONwfsGnTWM+bAZSEGG4PkI/GEEaIpO
-X-Google-Smtp-Source: ABdhPJzXU3HaVg0SBkqIthERoXmzPFIKgRp2lH6qFxe5TLhoqIhclUChQVN5rXQltEirGLzjR8H23g==
-X-Received: by 2002:a5d:50cf:: with SMTP id f15mr12846055wrt.287.1621955013625; 
- Tue, 25 May 2021 08:03:33 -0700 (PDT)
+ bh=rpnTEDIo4iU06An2eSXnRBQX8UaDcyoG2Icf284+cKM=;
+ b=RXosv/eQ2GJ1AMNtWICZego0MZZe0vVolzAeCenLyXDKlskt9Lf+RHs2P9Y5z9w7K2
+ B6KtvglHYE0z29A23KC655S+zbnyHcORzBHepANBkZxgCRlKMJYWBtZsqafSGHKlE7pD
+ r4zmQA73sDlQ0vGw95UCXB41hiQJKvBtmqZdYVrpqJvFVrFqnIMYRHYarHdFuaXVanTJ
+ 8n5Mzn+118h7jEeNfGkDWwKbcYRUv/tdFoidwXisytdxRRRiGe+ElPZiELepoTMpj83f
+ 3NLLPfZBBFzEGvsp0P3koHQOj6zrtIpTM7x9ETCZTBuTpOsEWFPC3Az0G/mulLulCKcZ
+ ewsQ==
+X-Gm-Message-State: AOAM530+uH2MaS6LQN3AGy8DqE2NCk5wyeVwD89dW/Lkw7guh+RAElaS
+ ouTHgyGO8tXOF6xp2JdkZ7RALMhzmVSMsaT2
+X-Google-Smtp-Source: ABdhPJwB5LY+jtmKjnKvnjBMxrEiZomz9oc3F2mqW9Xl4/n3Rwyfmk+5O1xToW/xn8Jhs1A38IYZkg==
+X-Received: by 2002:a7b:c93a:: with SMTP id h26mr4273443wml.141.1621955014271; 
+ Tue, 25 May 2021 08:03:34 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
  by smtp.gmail.com with ESMTPSA id q62sm11710284wma.42.2021.05.25.08.03.33
  for <qemu-devel@nongnu.org>
@@ -54,17 +55,16 @@ Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
  Tue, 25 May 2021 08:03:33 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 003/114] hw/arm/mps2-tz: Don't duplicate modelling of SRAM in
- AN524
-Date: Tue, 25 May 2021 16:01:33 +0100
-Message-Id: <20210525150324.32370-4-peter.maydell@linaro.org>
+Subject: [PULL 004/114] hw/arm/mps2-tz: Make SRAM_ADDR_WIDTH board-specific
+Date: Tue, 25 May 2021 16:01:34 +0100
+Message-Id: <20210525150324.32370-5-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210525150324.32370-1-peter.maydell@linaro.org>
 References: <20210525150324.32370-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x330.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,48 +87,70 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The SRAM at 0x2000_0000 is part of the SSE-200 itself, and we model
-it that way in hw/arm/armsse.c (along with the associated MPCs).  We
-incorrectly also added an entry to the RAMInfo array for the AN524 in
-hw/arm/mps2-tz.c, which was pointless because the CPU would never see
-it.  Delete it.
+The AN547 sets the SRAM_ADDR_WIDTH for the SSE-300 to 21;
+since this is not the default value for the SSE-300, model this
+in mps2-tz.c as a per-board value.
 
-The bug had no guest-visible effect because devices in the SSE-200
-take priority over those in the board model (armsse.c maps
-s->board_memory at priority -2).
-
+Reported-by: Devaraj Ranganna <devaraj.ranganna@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20210510190844.17799-2-peter.maydell@linaro.org
+Message-id: 20210510190844.17799-3-peter.maydell@linaro.org
 ---
- hw/arm/mps2-tz.c | 8 +-------
- 1 file changed, 1 insertion(+), 7 deletions(-)
+ hw/arm/mps2-tz.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
 diff --git a/hw/arm/mps2-tz.c b/hw/arm/mps2-tz.c
-index 70aa31a7f6c..77ff83acb06 100644
+index 77ff83acb06..f2595b1c7f7 100644
 --- a/hw/arm/mps2-tz.c
 +++ b/hw/arm/mps2-tz.c
-@@ -243,19 +243,13 @@ static const RAMInfo an524_raminfo[] = { {
-         .size = 512 * KiB,
-         .mpc = 0,
-         .mrindex = 0,
--    }, {
--        .name = "sram",
--        .base = 0x20000000,
--        .size = 32 * 4 * KiB,
--        .mpc = -1,
--        .mrindex = 1,
-     }, {
-         /* We don't model QSPI flash yet; for now expose it as simple ROM */
-         .name = "QSPI",
-         .base = 0x28000000,
-         .size = 8 * MiB,
-         .mpc = 1,
--        .mrindex = 2,
-+        .mrindex = 1,
-         .flags = IS_ROM,
-     }, {
-         .name = "DDR",
+@@ -123,6 +123,7 @@ struct MPS2TZMachineClass {
+     int numirq; /* Number of external interrupts */
+     int uart_overflow_irq; /* number of the combined UART overflow IRQ */
+     uint32_t init_svtor; /* init-svtor setting for SSE */
++    uint32_t sram_addr_width; /* SRAM_ADDR_WIDTH setting for SSE */
+     const RAMInfo *raminfo;
+     const char *armsse_type;
+ };
+@@ -806,6 +807,7 @@ static void mps2tz_common_init(MachineState *machine)
+                              OBJECT(system_memory), &error_abort);
+     qdev_prop_set_uint32(iotkitdev, "EXP_NUMIRQ", mmc->numirq);
+     qdev_prop_set_uint32(iotkitdev, "init-svtor", mmc->init_svtor);
++    qdev_prop_set_uint32(iotkitdev, "SRAM_ADDR_WIDTH", mmc->sram_addr_width);
+     qdev_connect_clock_in(iotkitdev, "MAINCLK", mms->sysclk);
+     qdev_connect_clock_in(iotkitdev, "S32KCLK", mms->s32kclk);
+     sysbus_realize(SYS_BUS_DEVICE(&mms->iotkit), &error_fatal);
+@@ -1263,6 +1265,7 @@ static void mps2tz_an505_class_init(ObjectClass *oc, void *data)
+     mmc->numirq = 92;
+     mmc->uart_overflow_irq = 47;
+     mmc->init_svtor = 0x10000000;
++    mmc->sram_addr_width = 15;
+     mmc->raminfo = an505_raminfo;
+     mmc->armsse_type = TYPE_IOTKIT;
+     mps2tz_set_default_ram_info(mmc);
+@@ -1290,6 +1293,7 @@ static void mps2tz_an521_class_init(ObjectClass *oc, void *data)
+     mmc->numirq = 92;
+     mmc->uart_overflow_irq = 47;
+     mmc->init_svtor = 0x10000000;
++    mmc->sram_addr_width = 15;
+     mmc->raminfo = an505_raminfo; /* AN521 is the same as AN505 here */
+     mmc->armsse_type = TYPE_SSE200;
+     mps2tz_set_default_ram_info(mmc);
+@@ -1317,6 +1321,7 @@ static void mps3tz_an524_class_init(ObjectClass *oc, void *data)
+     mmc->numirq = 95;
+     mmc->uart_overflow_irq = 47;
+     mmc->init_svtor = 0x10000000;
++    mmc->sram_addr_width = 15;
+     mmc->raminfo = an524_raminfo;
+     mmc->armsse_type = TYPE_SSE200;
+     mps2tz_set_default_ram_info(mmc);
+@@ -1349,6 +1354,7 @@ static void mps3tz_an547_class_init(ObjectClass *oc, void *data)
+     mmc->numirq = 96;
+     mmc->uart_overflow_irq = 48;
+     mmc->init_svtor = 0x00000000;
++    mmc->sram_addr_width = 21;
+     mmc->raminfo = an547_raminfo;
+     mmc->armsse_type = TYPE_SSE300;
+     mps2tz_set_default_ram_info(mmc);
 -- 
 2.20.1
 
