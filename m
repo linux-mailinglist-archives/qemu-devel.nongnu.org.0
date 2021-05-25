@@ -2,63 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D8643903FD
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 16:34:01 +0200 (CEST)
-Received: from localhost ([::1]:47174 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A4BF390418
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 16:36:36 +0200 (CEST)
+Received: from localhost ([::1]:55730 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llY88-0003sL-1X
-	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 10:34:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50042)
+	id 1llYAd-0001FO-HV
+	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 10:36:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50278)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1llY5u-000170-Ew
- for qemu-devel@nongnu.org; Tue, 25 May 2021 10:31:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35815)
+ (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
+ id 1llY74-0003TT-J0
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 10:32:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57662)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1llY5s-0001fo-Hk
- for qemu-devel@nongnu.org; Tue, 25 May 2021 10:31:42 -0400
+ (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
+ id 1llY72-0002J9-VY
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 10:32:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621953099;
+ s=mimecast20190719; t=1621953172;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2eQEBpeiG6HidaDf3HPuey/eQ1VXBPr9Vif7xRMu1Q4=;
- b=iwAwLpcFFsUxEsE76eq4IirX8hWWY8ferHgk8TvvY/fzZKIzX5obHxoMMQkF92BhDVgomg
- O9I84AEu3BPa1q5Jf9z1i9hE20s7H1Hi80kmznXNeXAxHJaaIleUSzMb1oPiRMi/GpnCXf
- bgOfGgTNf7By0ovVzlREixLfCytB8DM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-388-v5TZ24ADPbaBlqpYst_97w-1; Tue, 25 May 2021 10:31:36 -0400
-X-MC-Unique: v5TZ24ADPbaBlqpYst_97w-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 34EFD1020C36;
- Tue, 25 May 2021 14:31:35 +0000 (UTC)
-Received: from gondolin.fritz.box (ovpn-112-197.ams2.redhat.com
- [10.36.112.197])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 22D8A5C1A1;
- Tue, 25 May 2021 14:31:33 +0000 (UTC)
-Date: Tue, 25 May 2021 16:31:21 +0200
-From: Cornelia Huck <cohuck@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH] configure: Check whether we can compile the s390-ccw
- bios with -msoft-float
-Message-ID: <20210525163121.6901dca2.cohuck@redhat.com>
-In-Reply-To: <20210525142032.156989-1-thuth@redhat.com>
-References: <20210525142032.156989-1-thuth@redhat.com>
-Organization: Red Hat GmbH
+ bh=PV/AbS+g2d1r06Cgx39487d1CyeQX8KnJxoozKGpULY=;
+ b=awCQ2SoVR0+k44/M7olAQGVnh8E7h4Ibhb+tVB52QRnCAwc04ath/ShrsdImVjwK2decnF
+ fgJYowFOgDK5dNLpq7yDgTuOUh64sJz9ffvKmKnGpmKPqvC65hbacnG+OBOic3H7zhsByZ
+ hRzm2VAfWd8XcSPOI2OjMrma/LNOSMA=
+Received: from mail-ua1-f72.google.com (mail-ua1-f72.google.com
+ [209.85.222.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-88-xMdjq_TpOoSpK8-emWLbJg-1; Tue, 25 May 2021 10:32:50 -0400
+X-MC-Unique: xMdjq_TpOoSpK8-emWLbJg-1
+Received: by mail-ua1-f72.google.com with SMTP id
+ o4-20020ab037640000b0290218107a4549so6917409uat.14
+ for <qemu-devel@nongnu.org>; Tue, 25 May 2021 07:32:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=PV/AbS+g2d1r06Cgx39487d1CyeQX8KnJxoozKGpULY=;
+ b=LW+2A8gzwsasUSyP578ajtJ7mhnYFFEuGHbkxho7QuJBZHcD+SI1T/HbUlRXOpzGZz
+ CrIBT1mK5etMLAh/MLwMeh+Ht1YuxOCBRZfU3XVbUO1Vj1pNASE+Dfz7wkoaBB5fYikw
+ IYBhHTd0czzc9OdjvssNrNC0m3MhHutTW7CBbW7A6cKJ+4Kt5hqDrUsl14hSTMHLbCgh
+ xbUl7TzSSWmgnyCqRDyfYngxqpCkVCDd2ALRDLqQTAlagN51WBs8E1pe5Fd5cEmEEtYG
+ fWzBbcwEl5OM6dEkBSczzVQRAgUVjvh6EClgNsh4NqjCPyLfdHDMIZ8FYyshuihJs4R3
+ EK9w==
+X-Gm-Message-State: AOAM530veUWc2B21c7htRxfE4GfiGimkxJ8wb/u9yuUTgRR86PZ4kst0
+ 6clMwdWdZP/weXgKLpw0Pqz06QdPgbacpNU8BvwCifouCCRdBb501Xu3qcGMu66ibPUzaGrfYIe
+ FTjoJmMwbjM79T2xhuHEfsCQNoULxImE=
+X-Received: by 2002:a05:6102:2f3:: with SMTP id
+ j19mr25405242vsj.1.1621953170390; 
+ Tue, 25 May 2021 07:32:50 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy3fPGOKjjRZ2myFllE2boZge30tfZzR2rg7B5WLEr0kJdf/RyY8KQHUimRJnvpmu4T+5sl/NPoF7CmJLF4ZB4=
+X-Received: by 2002:a05:6102:2f3:: with SMTP id
+ j19mr25405224vsj.1.1621953170252; 
+ Tue, 25 May 2021 07:32:50 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+References: <20210525082556.4011380-1-f4bug@amsat.org>
+ <20210525082556.4011380-5-f4bug@amsat.org>
+In-Reply-To: <20210525082556.4011380-5-f4bug@amsat.org>
+From: Willian Rampazzo <wrampazz@redhat.com>
+Date: Tue, 25 May 2021 11:32:24 -0300
+Message-ID: <CAKJDGDYw9MquE9yM3q92dXvCvL-y889F40LL7qoJcPVW11JaDA@mail.gmail.com>
+Subject: Re: [PATCH 4/9] gitlab-ci: Extract cross-container jobs to
+ container-cross.yml
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=cohuck@redhat.com;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=wrampazz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -79,46 +94,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- qemu-devel@nongnu.org
+Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, "Daniel P . Berrange" <berrange@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 25 May 2021 16:20:32 +0200
-Thomas Huth <thuth@redhat.com> wrote:
-
-> The -msoft-float switch is not available in older versions of Clang.
-> Since we rely on the compiler to not generate floating point instructions
-> unexpectedly, we block those old compilers now via a test in the configure
-> script. Note that for some weird reasons, the Clang compiler only complains
-> about the missing soft-float support if no other flags are passed via
-> "-Wl,..." to the linker. So we have to use "compile_object" instead of
-> "compile_prog" for this check.
-
-Ugh.
-
-> 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
+On Tue, May 25, 2021 at 5:26 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
+g> wrote:
+>
+> Extract the jobs preparing the cross containers into a new file
+> (container-cross.yml).
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 > ---
->  configure | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/configure b/configure
-> index 676239c697..673419ff31 100755
-> --- a/configure
-> +++ b/configure
-> @@ -5462,7 +5462,7 @@ if test "$cpu" = "s390x" ; then
->    write_c_skeleton
->    compile_prog "-march=z900" ""
->    has_z900=$?
-> -  if [ $has_z900 = 0 ] || compile_prog "-march=z10" ""; then
-> +  if [ $has_z900 = 0 ] || compile_object "-march=z10 -msoft-float -Werror"; then
+>  .gitlab-ci.d/container-cross.yml | 164 ++++++++++++++++++++++++++++++
+>  .gitlab-ci.d/containers.yml      | 166 +------------------------------
+>  2 files changed, 165 insertions(+), 165 deletions(-)
+>  create mode 100644 .gitlab-ci.d/container-cross.yml
+>
 
-Do you believe that we should have caught the various clang
-specialties now?
-
->      if [ $has_z900 != 0 ]; then
->        echo "WARNING: Your compiler does not support the z900!"
->        echo "         The s390-ccw bios will only work with guest CPUs >= z10."
+Reviewed-by: Willian Rampazzo <willianr@redhat.com>
 
 
