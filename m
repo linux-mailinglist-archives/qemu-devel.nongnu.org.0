@@ -2,82 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FF10390700
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 18:58:39 +0200 (CEST)
-Received: from localhost ([::1]:59738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D088A3907A6
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 19:28:46 +0200 (CEST)
+Received: from localhost ([::1]:40378 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llaO6-0006FN-FX
-	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 12:58:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53384)
+	id 1llarF-0003Zm-Tz
+	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 13:28:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53682)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1llaAI-0004Ie-2L
- for qemu-devel@nongnu.org; Tue, 25 May 2021 12:44:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57597)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1llaAF-0001P9-1z
- for qemu-devel@nongnu.org; Tue, 25 May 2021 12:44:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621961057;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=t3SFUfW8+hD/moUNPOmNjzT4F4NLnCXjq2/wI/cCsnU=;
- b=jWOmRUgI3xGccrVWXLreglZk8wsTOlMT09UKLEPBXxsBxeQRXZMbI6gMqmWxwP0UoJyNbZ
- 8MD4wFWQ0FjraUbWFbqPkSILDB1JpzratZ5UucWC1IYCQ2EbXBTinyUwA6F8yRnwsd7Cq4
- jv2hLTCFE0/2j40HU3akaFSbEl1Qrlc=
-Received: from mail-vs1-f72.google.com (mail-vs1-f72.google.com
- [209.85.217.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-456-tf8sDPtmOtOrrLWhBYPJiA-1; Tue, 25 May 2021 12:44:14 -0400
-X-MC-Unique: tf8sDPtmOtOrrLWhBYPJiA-1
-Received: by mail-vs1-f72.google.com with SMTP id
- a25-20020a0561020159b029024067c780c1so3094705vsr.20
- for <qemu-devel@nongnu.org>; Tue, 25 May 2021 09:44:14 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1llaBr-0007mM-4W
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 12:45:59 -0400
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:35441)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1llaBo-0002Ac-7C
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 12:45:58 -0400
+Received: by mail-wm1-x32d.google.com with SMTP id
+ z19-20020a7bc7d30000b029017521c1fb75so3884464wmk.0
+ for <qemu-devel@nongnu.org>; Tue, 25 May 2021 09:45:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ZCZkSawTq/K1ESwNlFiwj94hkyAoVe2OoqNjqGGhrSA=;
+ b=SV5wPCzKYfHZKJGnW/fTtNc+lUw8WRXKBcAOGtYCvIDnX7bB9z4pAPs1oVMyYzJ8eO
+ 6qQ2bF1Hqmb2gzfv/w6668c4WweomosDl5DeSXa+vw6Bn0lY37NXOYcdwcYRBEDbdIhg
+ 0JEBsDU+uWjQm6o0/xjucL6XgJL7fA+g4QW1htiHVRWNWtEaLZ70TPj+AA9pF8WKZuos
+ pgqxPmR/cIM96pv2+GVP5xdVMsTB80dFNL/kKcLgdqfpCiuf7m08PauOxDZOlon1SiB8
+ rGmc3plPk0CVY4LtvqWoQv/cQ383AQWbKO91rSS82m88kTM3gZTyNaQkH/ROCIHw213W
+ 1IBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=t3SFUfW8+hD/moUNPOmNjzT4F4NLnCXjq2/wI/cCsnU=;
- b=JSFBx9cIVqxbBf2OVU57IO4qXmFNlatRHS/eikdqTcu4x1oKcP6O4jZeZxuagZq5nb
- TPbV2Cu5ZDBw0qC2IHMpZjmHPmQMX6Udk1hauS1grOhYck6LjM5j2WBTsqJ7UU3hfmCH
- Q80HScQiapexY/Y4yjxmbjec4PRCmZVUvTj9WbS2sRAxoyeQBA9XIwMwkPw7jPY6RqrS
- dCE8OE9oZgCOCP0u1IZS6M8nv6QV7c5UlQOstuwgjNh0jpuSVkbrtf6qfYVqNZlYRvlb
- 4uX2WkyYFVY8//6QUacXW55T3zi+oH6uDO8pqx7IfOx+y4LDhPS3YuCaWfE6uk99Sa6d
- 1ojQ==
-X-Gm-Message-State: AOAM532/xml3rwzqjnG6b4FkRS3d0553kmBx04Ni++sNP9YmKa+swKWf
- K8QVBGvXDdRl09GPoHoNjLq7tyX06h17qtZ6fgurNnVBInIeDebpKNKlb5YIm+UZNE13h2vO5Fe
- WjWY6maBU1rMtEI6FqqWpBXvS4gfQP/w=
-X-Received: by 2002:a67:f357:: with SMTP id p23mr26723583vsm.50.1621961054355; 
- Tue, 25 May 2021 09:44:14 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwSFLHeRuSpEHRz0wNjQb+aW7z78MGyIIYEwBl99MegHUNRSiRbXwEW879u08erefLHVoozmEWXVABaRzXaJ5A=
-X-Received: by 2002:a67:f357:: with SMTP id p23mr26723545vsm.50.1621961054131; 
- Tue, 25 May 2021 09:44:14 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ZCZkSawTq/K1ESwNlFiwj94hkyAoVe2OoqNjqGGhrSA=;
+ b=Ob3ee/m+fovZPv/1rNIFaQ+Ufbf7nTpXnqaADFL2+mLGrpHSWRHu0XrC2QILWkThVW
+ 3RvghGPQFp0nDT6h6gs3XOllnGKeuGBZ1ccWBaI74Hnx9TeDW/Suguc7jtqW1QTrXkQj
+ xTHF8GpFzkUnp9V9eba1t84K7/OzCc3Fz6S+6TlPq9QZ3QwdWV0LZGWZNRxc0vEfFZZu
+ oCvyXTRh8lFrdW7DCRmUPIAb3Vz1tmr7AdoTAf3q7G1eWbCaxjlGKLHXYYz1QLZtPU+e
+ yK9+QBfTzmcUoAHMXKLqVu7anELouYkw+NEGmOF/wivwT/JWs4WHYaGy7EpSbFp+mWsX
+ 92PA==
+X-Gm-Message-State: AOAM531hnYPMl93B7U8hOqqBR6NH5tAokGmSveR9TLdnfYnKhhuFV4vp
+ F05zOvhhdexSu0G8uiWYtw2VHw==
+X-Google-Smtp-Source: ABdhPJwLBYPOTTATl/2YGNi+sKle5LSkD8mMxbiFdOhioCstCtQihmF748dKNDePOmjVH3PHmB1/8g==
+X-Received: by 2002:a1c:7c03:: with SMTP id x3mr24838782wmc.122.1621961154424; 
+ Tue, 25 May 2021 09:45:54 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id h9sm11621706wmb.35.2021.05.25.09.45.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 25 May 2021 09:45:53 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id AC4101FF7E;
+ Tue, 25 May 2021 17:45:52 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [RFC PATCH] accel/tcg: change default codegen buffer size for
+ i386-softmmu
+Date: Tue, 25 May 2021 17:45:41 +0100
+Message-Id: <20210525164541.17985-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20210525153826.4174157-1-philmd@redhat.com>
-In-Reply-To: <20210525153826.4174157-1-philmd@redhat.com>
-From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Tue, 25 May 2021 13:43:48 -0300
-Message-ID: <CAKJDGDaY7cQKVS_yjK2=6VVmPoREAWdnTomeA3wQj_vpRcnR7Q@mail.gmail.com>
-Subject: Re: [PATCH] gitlab-ci: Be ready for new default 'main' branch name
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=wrampazz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,68 +86,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Savitoj Singh <savsingh@redhat.com>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, 1896298@bugs.launchpad.net,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, May 25, 2021 at 12:39 PM Philippe Mathieu-Daud=C3=A9
-<philmd@redhat.com> wrote:
->
-> In order to be ready for the GitLab changes in using inclusive
-> terminology (replacing the 'master' branch name by the 'main'
-> branch name), rename our use of 'master' by the $CI_DEFAULT_BRANCH
-> environment variable, so new forks won't be facing any issue.
->
-> References:
->
-> - https://sfconservancy.org/news/2020/jun/23/gitbranchname/
-> - https://about.gitlab.com/blog/2021/03/10/new-git-default-branch-name/
->
-> Suggested-by: Savitoj Singh <savsingh@redhat.com>
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> ---
->  .gitlab-ci.yml | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
+There are two justifications for making this change. The first is that
+i386 emulation is typically for smaller machines where having a 1gb of
+generated code is overkill for basic emulation. The second is the
+propensity of self-modifying code (c.f. Doom/edit) utilised on i386
+systems can trigger a rapid growth in invalidated and re-translated
+buffers. This is seen in bug #283. Execution is still inefficient but
+at least the host memory isn't so aggressively used up.
 
-With changes to the description proposed by Daniel:
+That said it's still really just a sticking plaster for user
+convenience.
 
-Reviewed-by: Willian Rampazzo <willianr@redhat.com>
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Cc: Thomas Huth <thuth@redhat.com>
+Cc: 1896298@bugs.launchpad.net
+---
+ accel/tcg/translate-all.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-> index f718b61fa78..db4e8490483 100644
-> --- a/.gitlab-ci.yml
-> +++ b/.gitlab-ci.yml
-> @@ -784,7 +784,7 @@ check-patch:
->    script: .gitlab-ci.d/check-patch.py
->    except:
->      variables:
-> -      - $CI_PROJECT_NAMESPACE =3D=3D 'qemu-project' && $CI_COMMIT_BRANCH=
- =3D=3D 'master'
-> +      - $CI_PROJECT_NAMESPACE =3D=3D 'qemu-project' && $CI_COMMIT_BRANCH=
- =3D=3D $CI_DEFAULT_BRANCH
->    variables:
->      GIT_DEPTH: 1000
->    allow_failure: true
-> @@ -797,7 +797,7 @@ check-dco:
->    script: .gitlab-ci.d/check-dco.py
->    except:
->      variables:
-> -      - $CI_PROJECT_NAMESPACE =3D=3D 'qemu-project' && $CI_COMMIT_BRANCH=
- =3D=3D 'master'
-> +      - $CI_PROJECT_NAMESPACE =3D=3D 'qemu-project' && $CI_COMMIT_BRANCH=
- =3D=3D $CI_DEFAULT_BRANCH
->    variables:
->      GIT_DEPTH: 1000
->
-> --
-> 2.26.3
->
+diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+index 640ff6e3e7..f442165674 100644
+--- a/accel/tcg/translate-all.c
++++ b/accel/tcg/translate-all.c
+@@ -951,9 +951,13 @@ static void page_lock_pair(PageDesc **ret_p1, tb_page_addr_t phys1,
+  * Users running large scale system emulation may want to tweak their
+  * runtime setup via the tb-size control on the command line.
+  */
++#ifdef TARGET_I386
++#define DEFAULT_CODE_GEN_BUFFER_SIZE_1 (32 * MiB)
++#else
+ #define DEFAULT_CODE_GEN_BUFFER_SIZE_1 (1 * GiB)
+ #endif
+ #endif
++#endif
+ 
+ #define DEFAULT_CODE_GEN_BUFFER_SIZE \
+   (DEFAULT_CODE_GEN_BUFFER_SIZE_1 < MAX_CODE_GEN_BUFFER_SIZE \
+-- 
+2.20.1
 
 
