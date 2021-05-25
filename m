@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87FA939066D
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 18:17:50 +0200 (CEST)
-Received: from localhost ([::1]:53488 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73DEC3906D1
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 18:43:17 +0200 (CEST)
+Received: from localhost ([::1]:42694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llZkb-0008Oe-HF
-	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 12:17:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60614)
+	id 1lla9E-0000oV-37
+	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 12:43:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60664)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1llYen-0002Fc-DI
- for qemu-devel@nongnu.org; Tue, 25 May 2021 11:07:45 -0400
-Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e]:40498)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1llYep-0002O7-IH
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 11:07:47 -0400
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:34777)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1llYeW-0006nR-Gh
- for qemu-devel@nongnu.org; Tue, 25 May 2021 11:07:45 -0400
-Received: by mail-pf1-x42e.google.com with SMTP id x188so23833956pfd.7
- for <qemu-devel@nongnu.org>; Tue, 25 May 2021 08:07:26 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1llYeh-0006r9-MJ
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 11:07:47 -0400
+Received: by mail-wm1-x332.google.com with SMTP id
+ u5-20020a7bc0450000b02901480e40338bso1817963wmc.1
+ for <qemu-devel@nongnu.org>; Tue, 25 May 2021 08:07:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=jPESxkdne1pl9qKkpnJVzbPwFkDrkEve1zwqkORGLuk=;
- b=NrGyYqhvhZuyBq9Zo6J0tCtHCQFS5Dic6ht7OBRcJpUL99xtoCLqUw+nf6qYU3/EiA
- AFP4Yr8iNVTAoEn5J4jEeEArpqakV69lObkYY6tE/hWD+6Vl0Qc+hfA2KEghP4R64r3L
- uoCze7IGdYVFmpShAO6IAUzCElRAQvJl6V/6xJ+f9fQLRb5fPDj43oHjriUYrkqDnrdS
- qgAWzLYrAZW/16yd9BWmwVKz95LNiBIU8Bjm4fqMgtBczjk64OGgbMECOSo8q3IjDJqJ
- ovImFwKwg7Cn4RxzIQ85RTwIkaWRRjOSd+qHPKRnffAt0WPg7AygbbbLCIS0ORe6//HT
- a88A==
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=kVNZz+2QuIZQS7BFD2Hhss6WfXf34Ab8RAlK/vt4cBw=;
+ b=SdD6rx0++n8Oe95+tx441lbHP7LrIK30S+nZF602YbC2s9JoKCU56FkDXNwuAdp8xk
+ BW+qQyxk9bUXxotVAwHwTVEMJf2vGFVmPH3PxRBr4nW5azpp2d3J0LsJvXx522lKdtre
+ wcGTvaYF0PJsuzXrt6VJX3cF/1k8KT+EAU1V1UVkwBwBw/M95PdjJL2s/4lGrWItp1D6
+ zNrvL+OFd6xN6VZYndn5IRMoRljQaiW4cWH8QZ2uq+ZyfyvPMHNGIoEY3Mbbua6Ik9rg
+ et4YLFAci9wkei5rV2lbzSsXVtufaK+H6w+DHuTs8OiI3VZkga/XTeHtlG4nMg3DQu/+
+ TZ8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=jPESxkdne1pl9qKkpnJVzbPwFkDrkEve1zwqkORGLuk=;
- b=m4HXz0Fg35VCMLIqD8/mfmwe0uXlXZidt+nkCbCnXEEcKlM+xIldIjEje+7WjuJTlm
- Uq9fF2t7nMvsjGCMZ8kFFZ3rWpRCxNul3sv1kO4+1UluI95fzXza5Jf8ijuUqygvOBk2
- yY8nLHjz61IuPGAxUHwJr40E7fWxldGAxCfIk79IT/WZIf1ubyK6CLcZxOe//YXa4Kxc
- C9Qee6CrFXIq7VkJquRGU12JGDNLKYj0OLxW8SOrvKf33djS1dH4sXbccet45VnVyiXc
- XLaziyKsSq5/f6DXJ3UaEpCdKpq01RuWP5mmM/fsk16UhcPQjRlJs4nPmczZwHStj6Yu
- 7s0Q==
-X-Gm-Message-State: AOAM531ILG13iAa7mMKldsSbav75jBuzoPQGTECYJ0Gi9JZ5rWo2dQfg
- 0P0Q9pzij0Et1IlBMnDBUwhIVURUYAnnJw==
-X-Google-Smtp-Source: ABdhPJweyp9UkGj20z6Z7ile+Zoy0L+9BRFNy465G+TwlfgiQAvKKjzXCI8M/98KpbVaEH7pQXw58g==
-X-Received: by 2002:a63:5c1:: with SMTP id 184mr19617387pgf.75.1621955246013; 
- Tue, 25 May 2021 08:07:26 -0700 (PDT)
-Received: from localhost.localdomain (174-21-70-228.tukw.qwest.net.
- [174.21.70.228])
- by smtp.gmail.com with ESMTPSA id z19sm2231943pjq.11.2021.05.25.08.07.25
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=kVNZz+2QuIZQS7BFD2Hhss6WfXf34Ab8RAlK/vt4cBw=;
+ b=mkALtLXSZfAAPxI2AsUyPe2k68y8c/aiQZMjsaq6ntNuDxz7yDjSXlnUpHU8JpYmxf
+ rw0OcM1WMQbQ3dPB/B/uIjFUpnalvsTt9N6xAbPLUELGV79aiXj/XzeQ3wSRPCUkq5T8
+ q2NBFeSUXXDdjrwv7KDNgXbqapGLjLODAuTcIFYfXRZWuyWW8QUJ+VGPEG7E93ufLjn0
+ 5Zg8pzJQuVuOfakaEsqBSGAAn9qxgH/f/sTKxOV30xgE68zoRm0yPQxqnua6JLRNpQDK
+ N94mco/yUPzTqCW9JouTcFYUx9nAs48ETL9RFJbIxTGk7vx4f3QO9/Y50NE9ONWu6Nl0
+ ZDEg==
+X-Gm-Message-State: AOAM532PXOyXffnoLb3Kc3PXyxN6X2n5P9rFITdk56hFvxIrUiCVFnyR
+ feoLp+CP2XFeTmjZIYwnAsFctMNf7nwelwBX
+X-Google-Smtp-Source: ABdhPJxP9glpBIKzOTy5M9AksCPyatPGIdFn96eU40AExgpusVqUuprca0neCdrAHmMu3yYDZmGkTA==
+X-Received: by 2002:a1c:4444:: with SMTP id r65mr4207532wma.127.1621955258234; 
+ Tue, 25 May 2021 08:07:38 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id a11sm16643357wrr.48.2021.05.25.08.07.37
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 May 2021 08:07:25 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
+ Tue, 25 May 2021 08:07:37 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 28/28] softfloat: Use hard-float for {u}int64_to_float{32,
- 64}
-Date: Tue, 25 May 2021 08:07:06 -0700
-Message-Id: <20210525150706.294968-29-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210525150706.294968-1-richard.henderson@linaro.org>
-References: <20210525150706.294968-1-richard.henderson@linaro.org>
+Subject: [PULL 095/114] target/arm: Implement SVE2 FCVTLT
+Date: Tue, 25 May 2021 16:07:17 +0100
+Message-Id: <20210525150736.32695-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x332.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,81 +82,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org, david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For the normal case of no additional scaling, this reduces the
-profile contribution of int64_to_float64 to the testcase in the
-linked issue from 0.81% to 0.04%.
+From: Stephen Long <steplong@quicinc.com>
 
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/134
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Stephen Long <steplong@quicinc.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20210525010358.152808-74-richard.henderson@linaro.org
+Message-Id: <20200428174332.17162-3-steplong@quicinc.com>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- fpu/softfloat.c | 28 ++++++++++++++++++++++++++++
- 1 file changed, 28 insertions(+)
+ target/arm/helper-sve.h    |  5 +++++
+ target/arm/sve.decode      |  2 ++
+ target/arm/sve_helper.c    | 23 +++++++++++++++++++++++
+ target/arm/translate-sve.c | 16 ++++++++++++++++
+ 4 files changed, 46 insertions(+)
 
-diff --git a/fpu/softfloat.c b/fpu/softfloat.c
-index b0df5b6dc5..79b2205070 100644
---- a/fpu/softfloat.c
-+++ b/fpu/softfloat.c
-@@ -3559,6 +3559,13 @@ float32 int64_to_float32_scalbn(int64_t a, int scale, float_status *status)
- {
-     FloatParts64 p;
- 
-+    /* Without scaling, there are no overflow concerns. */
-+    if (likely(scale == 0) && can_use_fpu(status)) {
-+        union_float32 ur;
-+        ur.h = a;
-+        return ur.s;
-+    }
+diff --git a/target/arm/helper-sve.h b/target/arm/helper-sve.h
+index 7aa365d5659..be4b17f1c2e 100644
+--- a/target/arm/helper-sve.h
++++ b/target/arm/helper-sve.h
+@@ -2749,3 +2749,8 @@ DEF_HELPER_FLAGS_5(sve2_fcvtnt_sh, TCG_CALL_NO_RWG,
+                    void, ptr, ptr, ptr, ptr, i32)
+ DEF_HELPER_FLAGS_5(sve2_fcvtnt_ds, TCG_CALL_NO_RWG,
+                    void, ptr, ptr, ptr, ptr, i32)
 +
-     parts64_sint_to_float(&p, a, scale, status);
-     return float32_round_pack_canonical(&p, status);
- }
-@@ -3592,6 +3599,13 @@ float64 int64_to_float64_scalbn(int64_t a, int scale, float_status *status)
- {
-     FloatParts64 p;
++DEF_HELPER_FLAGS_5(sve2_fcvtlt_hs, TCG_CALL_NO_RWG,
++                   void, ptr, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_5(sve2_fcvtlt_sd, TCG_CALL_NO_RWG,
++                   void, ptr, ptr, ptr, ptr, i32)
+diff --git a/target/arm/sve.decode b/target/arm/sve.decode
+index 94cdc6ff15a..1be35154708 100644
+--- a/target/arm/sve.decode
++++ b/target/arm/sve.decode
+@@ -1583,4 +1583,6 @@ RAX1            01000101 00 1 ..... 11110 1 ..... .....  @rd_rn_rm_e0
  
-+    /* Without scaling, there are no overflow concerns. */
-+    if (likely(scale == 0) && can_use_fpu(status)) {
-+        union_float64 ur;
-+        ur.h = a;
-+        return ur.s;
-+    }
-+
-     parts_sint_to_float(&p, a, scale, status);
-     return float64_round_pack_canonical(&p, status);
- }
-@@ -3726,6 +3740,13 @@ float32 uint64_to_float32_scalbn(uint64_t a, int scale, float_status *status)
- {
-     FloatParts64 p;
+ ### SVE2 floating-point convert precision odd elements
+ FCVTNT_sh       01100100 10 0010 00 101 ... ..... .....  @rd_pg_rn_e0
++FCVTLT_hs       01100100 10 0010 01 101 ... ..... .....  @rd_pg_rn_e0
+ FCVTNT_ds       01100100 11 0010 10 101 ... ..... .....  @rd_pg_rn_e0
++FCVTLT_sd       01100100 11 0010 11 101 ... ..... .....  @rd_pg_rn_e0
+diff --git a/target/arm/sve_helper.c b/target/arm/sve_helper.c
+index d44bcfa44aa..88823935156 100644
+--- a/target/arm/sve_helper.c
++++ b/target/arm/sve_helper.c
+@@ -7622,3 +7622,26 @@ void HELPER(NAME)(void *vd, void *vn, void *vg, void *status, uint32_t desc)  \
  
-+    /* Without scaling, there are no overflow concerns. */
-+    if (likely(scale == 0) && can_use_fpu(status)) {
-+        union_float32 ur;
-+        ur.h = a;
-+        return ur.s;
-+    }
+ DO_FCVTNT(sve2_fcvtnt_sh, uint32_t, uint16_t, H1_4, H1_2, sve_f32_to_f16)
+ DO_FCVTNT(sve2_fcvtnt_ds, uint64_t, uint32_t,     , H1_4, float64_to_float32)
 +
-     parts_uint_to_float(&p, a, scale, status);
-     return float32_round_pack_canonical(&p, status);
- }
-@@ -3759,6 +3780,13 @@ float64 uint64_to_float64_scalbn(uint64_t a, int scale, float_status *status)
- {
-     FloatParts64 p;
- 
-+    /* Without scaling, there are no overflow concerns. */
-+    if (likely(scale == 0) && can_use_fpu(status)) {
-+        union_float64 ur;
-+        ur.h = a;
-+        return ur.s;
-+    }
++#define DO_FCVTLT(NAME, TYPEW, TYPEN, HW, HN, OP)                             \
++void HELPER(NAME)(void *vd, void *vn, void *vg, void *status, uint32_t desc)  \
++{                                                                             \
++    intptr_t i = simd_oprsz(desc);                                            \
++    uint64_t *g = vg;                                                         \
++    do {                                                                      \
++        uint64_t pg = g[(i - 1) >> 6];                                        \
++        do {                                                                  \
++            i -= sizeof(TYPEW);                                               \
++            if (likely((pg >> (i & 63)) & 1)) {                               \
++                TYPEN nn = *(TYPEN *)(vn + HN(i + sizeof(TYPEN)));            \
++                *(TYPEW *)(vd + HW(i)) = OP(nn, status);                      \
++            }                                                                 \
++        } while (i & 63);                                                     \
++    } while (i != 0);                                                         \
++}
 +
-     parts_uint_to_float(&p, a, scale, status);
-     return float64_round_pack_canonical(&p, status);
++DO_FCVTLT(sve2_fcvtlt_hs, uint32_t, uint16_t, H1_4, H1_2, sve_f16_to_f32)
++DO_FCVTLT(sve2_fcvtlt_sd, uint64_t, uint32_t,     , H1_4, float32_to_float64)
++
++#undef DO_FCVTLT
++#undef DO_FCVTNT
+diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
+index 700b02814c4..7490094d172 100644
+--- a/target/arm/translate-sve.c
++++ b/target/arm/translate-sve.c
+@@ -8262,3 +8262,19 @@ static bool trans_FCVTNT_ds(DisasContext *s, arg_rpr_esz *a)
+     }
+     return do_zpz_ptr(s, a->rd, a->rn, a->pg, false, gen_helper_sve2_fcvtnt_ds);
  }
++
++static bool trans_FCVTLT_hs(DisasContext *s, arg_rpr_esz *a)
++{
++    if (!dc_isar_feature(aa64_sve2, s)) {
++        return false;
++    }
++    return do_zpz_ptr(s, a->rd, a->rn, a->pg, false, gen_helper_sve2_fcvtlt_hs);
++}
++
++static bool trans_FCVTLT_sd(DisasContext *s, arg_rpr_esz *a)
++{
++    if (!dc_isar_feature(aa64_sve2, s)) {
++        return false;
++    }
++    return do_zpz_ptr(s, a->rd, a->rn, a->pg, false, gen_helper_sve2_fcvtlt_sd);
++}
 -- 
-2.25.1
+2.20.1
 
 
