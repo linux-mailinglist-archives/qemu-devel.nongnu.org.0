@@ -2,66 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27F99390BCC
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 23:49:15 +0200 (CEST)
-Received: from localhost ([::1]:33268 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B55E8390BD1
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 23:55:13 +0200 (CEST)
+Received: from localhost ([::1]:36874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llevK-0001FI-0H
-	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 17:49:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39460)
+	id 1llf16-0003xm-BB
+	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 17:55:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40894)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lletu-0000Y3-BW
- for qemu-devel@nongnu.org; Tue, 25 May 2021 17:47:46 -0400
-Received: from mail-il1-x12f.google.com ([2607:f8b0:4864:20::12f]:39833)
+ id 1llezn-0003CW-BT; Tue, 25 May 2021 17:53:51 -0400
+Received: from mail-io1-xd2f.google.com ([2607:f8b0:4864:20::d2f]:42938)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lletn-0003Vv-2V
- for qemu-devel@nongnu.org; Tue, 25 May 2021 17:47:46 -0400
-Received: by mail-il1-x12f.google.com with SMTP id o9so29567448ilh.6
- for <qemu-devel@nongnu.org>; Tue, 25 May 2021 14:47:37 -0700 (PDT)
+ id 1llezl-0007Ge-NU; Tue, 25 May 2021 17:53:51 -0400
+Received: by mail-io1-xd2f.google.com with SMTP id k22so8746491ioa.9;
+ Tue, 25 May 2021 14:53:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=NAE+Osa6qF9lrh/7zfYue5s1szqW0ywWFSG7n+8N3NU=;
- b=sydibvOtT+HTB4IZQ4W2xfMCYO07WXDPNrM1R28hy8uEAxdrfDVHKlI3tAUDKXWdU+
- F1XoBSshpp47DLF7i4lk2LbWhG18lTLmmEKNYne9wZLTxK5v32kxdW0JuoMKYf1Mb3sp
- NvTIdUWcwKPABjwdqwsp9X3bNFkDy7omj5m3b1I7zBPpRpwDsgdP2GbflyVmvsIXrzqc
- AWuZsmEbZDYB4zSHHltY8VNHKH+O2AFJOfCfAj6SowbRAhvCROrhFNfSBVsvDgDzqrIS
- 4k3Mcyial/t5ZY6oUQLYfzD4uzflBTNt8HlvB9p3zc29q3WqfRGxmN0NJigu7lpXubid
- lvtg==
+ :cc; bh=oq3bYuIEb8HHq4uUjPz9CrgHORFAIsfvTxvFsKxgcBU=;
+ b=cV0lOLIluchnYcF/kxP8oMLbYtssEN6ghmDppcti3P3d6CJffLcyKfZtDgzDa5EAZ+
+ UKsH/M+0ox+V4IF4D3cKet0hN5rT3JRUUj7m3zeXcsEt057qid5HrbLsrdNt6QspfWqG
+ 3AsHQBcB1uqt5CCWD14nH/tNCHQt6eWuIe4SwSQLNxTMZtut0Q/HshK6tT0sO9fRFn2I
+ qf/AkBJocYiGYQDZjX00K7ViZWrdYmpdLjco+BQCGljkseBoYN2GQp3hAMd/EpdKwvRf
+ go7Y2cH2Gsuvd0i0agVIyWpjm3XE/62ztHpODVnQeUI4uizynzvgZ3lGF+RC5ydLAmVI
+ 485A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=NAE+Osa6qF9lrh/7zfYue5s1szqW0ywWFSG7n+8N3NU=;
- b=WQ6ZpCjgtNdl7N8bg8PgL4Sj6jarWLvAx4VpGCCMeBso97LWQclJ1HCswYP4OuUL9+
- Y5v2HB8xovHVW6jNm18KZi0795kQdSkRycpjY9te4/uYbPZbC8OIPsGm4/Zj6aQHhPEr
- kUzwPi5mtqa3YcgPoocN7sPViPbcqbWfb2o2T+ej1f9jPhdGLUS/RQsJuCWew/qkICgO
- fTfn7Ytutq6JCJDQ4L52CGtFOiYphKv6XU0nxZTNpsMkbm92ykavwuBtWjCxr3gonRP8
- ptg01XjH1WA77rLM/YBKls25jDOWMm1HgoZgB7RgueS4Kzr9PWy9qIaqahjwNbBR35JM
- pGwg==
-X-Gm-Message-State: AOAM530TBmQPpjv1FhNyDhoaOA/XNOLwwfw8p7ckHlXN2dCDf2CFSxUd
- qSSYepcLAfcVvqUUUqA20jm1+/QCFp1gTAVtj9o=
-X-Google-Smtp-Source: ABdhPJwOhGBs1RDQmR+6xSZjQjtJ5SKWPzmpE4VRi7WIsiNFSC+Zl28XG4wYO688Qk+Me6BbhCA750c19YRq/9LRcto=
-X-Received: by 2002:a92:6b05:: with SMTP id g5mr22998172ilc.40.1621979256750; 
- Tue, 25 May 2021 14:47:36 -0700 (PDT)
+ bh=oq3bYuIEb8HHq4uUjPz9CrgHORFAIsfvTxvFsKxgcBU=;
+ b=Ifr0jh2CIc09xwX8++kf4ePFcHGc1XtFPyH6FzdIMzfIEwoYwOTV//V27jv0KwheXG
+ VYTtXPrtgn5U3EhMECV7+GB6TLyOvjU3y2ijgY3oMeIvx5kC9s+3mcFZ/HHHcZ7atcKm
+ Ez/dXIaC2jJ8cVqfS6VFXE0K9iAYe5Epv7i61p63CW97e9PpLh7H/n7cy6jBIqXfxegA
+ 6OxDmS88Ans3k8tVPWETEmH23oHIixOqIfIxS9SWkTzyfCBm7Wb4k4wfcO/LLn4L75tz
+ nV8Hp8q0qv4Qvr7/iWuDRKB1RbyAUvVooQXmylMrQp7H2v3kFv8LKYAQCz+ikz7UdAQV
+ zYtQ==
+X-Gm-Message-State: AOAM530O2jYBWmm9YCQm9VOJEpGyjKO3T8nSeIcK/Son8C6BpB+tLz/9
+ xdri6i5cWGSQ2xA5HH2ZZMW7vBdc476CzLRfOw4=
+X-Google-Smtp-Source: ABdhPJxDGFBS2TlWw3wLAnMBSMCgSwiR+zILen9S3dyzEvHyJ2xM+rGeOdiDASnIJ/bwfopEzrdwApwqlVB+IcziJt0=
+X-Received: by 2002:a6b:c913:: with SMTP id z19mr23520289iof.42.1621979628356; 
+ Tue, 25 May 2021 14:53:48 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210511101951.165287-1-alistair.francis@wdc.com>
- <20210511101951.165287-37-alistair.francis@wdc.com>
- <CAFEAcA-ZPxvdTE13cjxy7o7mcD7DT7p8nRPbueF_S9QO0F3_FA@mail.gmail.com>
- <CAKmqyKNfZy4SryA91u65mxvsumTKb+dyX2whaCEpkAxr7rq9gQ@mail.gmail.com>
- <573b18ae-baa5-1d38-9d5c-b484d8a49748@c-sky.com>
-In-Reply-To: <573b18ae-baa5-1d38-9d5c-b484d8a49748@c-sky.com>
+References: <ec5f225928eec448278c82fcb1f6805ee61dde82.1621550996.git.alistair.francis@wdc.com>
+In-Reply-To: <ec5f225928eec448278c82fcb1f6805ee61dde82.1621550996.git.alistair.francis@wdc.com>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Wed, 26 May 2021 07:47:10 +1000
-Message-ID: <CAKmqyKOOsD3v0wB6c7neVbGxEdHWXyGKsUL9MAM4gMvzE=RKSQ@mail.gmail.com>
-Subject: Re: [PULL v3 36/42] target/riscv: Remove the hardcoded MSTATUS_SD
- macro
-To: LIU Zhiwei <zhiwei_liu@c-sky.com>
+Date: Wed, 26 May 2021 07:53:22 +1000
+Message-ID: <CAKmqyKPes0r49Fm-fR8kbhB-PvDuC_skForij2i2E4_kK3ZBBA@mail.gmail.com>
+Subject: Re: [PATCH v1 1/1] target/riscv/pmp: Add assert for ePMP operations
+To: Alistair Francis <alistair.francis@wdc.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::12f;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x12f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d2f;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd2f.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -82,75 +75,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Alistair Francis <alistair.francis@wdc.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bmeng.cn@gmail.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, May 21, 2021 at 12:09 PM LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
+On Fri, May 21, 2021 at 8:56 AM Alistair Francis
+<alistair.francis@wdc.com> wrote:
 >
+> Although we construct epmp_operation in such a way that it can only be
+> between 0 and 15 Coverity complains that we don't handle the other
+> possible cases. To fix Coverity and make it easier for humans to read
+> add a default case to the switch statement that calls
+> g_assert_not_reached().
 >
-> On 5/21/21 6:55 AM, Alistair Francis wrote:
-> > On Thu, May 20, 2021 at 11:55 PM Peter Maydell <peter.maydell@linaro.org> wrote:
-> >> On Tue, 11 May 2021 at 11:22, Alistair Francis <alistair.francis@wdc.com> wrote:
-> >>> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> >>> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> >>> Message-id: fcc125d96da941b56c817c9dd6068dc36478fc53.1619234854.git.alistair.francis@wdc.com
-> >>> ---
-> >>>   target/riscv/cpu_bits.h  | 10 ----------
-> >>>   target/riscv/csr.c       | 12 ++++++++++--
-> >>>   target/riscv/translate.c | 19 +++++++++++++++++--
-> >>>   3 files changed, 27 insertions(+), 14 deletions(-)
-> >>> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-> >>> index 26eccc5eb1..a596f80f20 100644
-> >>> --- a/target/riscv/translate.c
-> >>> +++ b/target/riscv/translate.c
-> >>> @@ -78,6 +78,17 @@ static inline bool has_ext(DisasContext *ctx, uint32_t ext)
-> >>>       return ctx->misa & ext;
-> >>>   }
-> >>>
-> >>> +#ifdef TARGET_RISCV32
-> >>> +# define is_32bit(ctx)  true
-> >>> +#elif defined(CONFIG_USER_ONLY)
-> >>> +# define is_32bit(ctx)  false
-> >>> +#else
-> >>> +static inline bool is_32bit(DisasContext *ctx)
-> >>> +{
-> >>> +    return (ctx->misa & RV32) == RV32;
-> >>> +}
-> >>> +#endif
-> >> Hi; Coverity points out (CID 1453107) that this is_32bit() function
-> >> can never return true for at least some build configs, because RV32
-> >> is defined as ((target_ulong)1 << (TARGET_LONG_BITS - 2))
-> >> but ctx->misa is a uint32_t field, which (if TARGET_LONG_BITS is
-> >> 64) is not big enough for the RV32 bit.
-> > This seems like a false positive as RV32 is defined as:
-> >
-> > ((target_ulong)1 << (TARGET_LONG_BITS - 2))
-> >
-> > while ctx->misa is a target_ulong.
->
-> Although the misa in RISCVCPUState is target_ulong, the misa in
-> DisasContext is uint32_t.
->
-> I think we should  fix up the misa in DisasContext.
+> Fixes: CID 1453108
+> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 
-Good catch, I'll send a patch.
+Thanks!
+
+Applied to riscv-to-apply.next
 
 Alistair
 
+> ---
+>  target/riscv/pmp.c | 4 ++++
+>  1 file changed, 4 insertions(+)
 >
-> Zhiwei
+> diff --git a/target/riscv/pmp.c b/target/riscv/pmp.c
+> index 78203291de..82ed020b10 100644
+> --- a/target/riscv/pmp.c
+> +++ b/target/riscv/pmp.c
+> @@ -402,6 +402,8 @@ bool pmp_hart_has_privs(CPURISCVState *env, target_ulong addr,
+>                      case 15:
+>                          *allowed_privs = PMP_READ;
+>                          break;
+> +                    default:
+> +                        g_assert_not_reached();
+>                      }
+>                  } else {
+>                      switch (epmp_operation) {
+> @@ -433,6 +435,8 @@ bool pmp_hart_has_privs(CPURISCVState *env, target_ulong addr,
+>                      case 7:
+>                          *allowed_privs = PMP_READ | PMP_WRITE | PMP_EXEC;
+>                          break;
+> +                    default:
+> +                        g_assert_not_reached();
+>                      }
+>                  }
+>              }
+> --
+> 2.31.1
 >
-> >
-> > So it should always be able to return true.
-> >
-> > Alistair
-> >
-> >> Bug, or false positive ?
-> >>
-> >> thanks
-> >> -- PMM
 
