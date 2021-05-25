@@ -2,83 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93852390426
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 16:39:31 +0200 (CEST)
-Received: from localhost ([::1]:38704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1B9D39042F
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 16:42:22 +0200 (CEST)
+Received: from localhost ([::1]:41478 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llYDR-0000KT-M4
-	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 10:39:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50900)
+	id 1llYGE-0002OQ-2P
+	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 10:42:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52294)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1llYAF-0002cW-0h
- for qemu-devel@nongnu.org; Tue, 25 May 2021 10:36:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56976)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1llYEg-0001cz-NY
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 10:40:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40649)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1llYAC-000485-H5
- for qemu-devel@nongnu.org; Tue, 25 May 2021 10:36:10 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1llYEd-00078z-2a
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 10:40:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621953367;
+ s=mimecast20190719; t=1621953641;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XhiBNS7jpfIcsUg+mQKTO0ZrCuyUHqxYqIc7hiYmq78=;
- b=jRjtxAndz9ZL66aJVv7sJRDO+OWIKaYn6GLrUrZvFxriqoOmszANpCzt3l4agPqw01p6b0
- 8SWVO+NutcIdFKrY7pbrzWf5b6NMSiNT3zcqULrhTSJVPWSU3Hu4eQPf1OpXs1zOTEcmfC
- rZbJj9BVENE2iBRBx7v/3kEeRh7zdq0=
-Received: from mail-ua1-f69.google.com (mail-ua1-f69.google.com
- [209.85.222.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-43-4H1ULzHjP1ir1kztzNbKsg-1; Tue, 25 May 2021 10:36:03 -0400
-X-MC-Unique: 4H1ULzHjP1ir1kztzNbKsg-1
-Received: by mail-ua1-f69.google.com with SMTP id
- b8-20020ab026c80000b029020f97f38cfcso12291855uap.3
- for <qemu-devel@nongnu.org>; Tue, 25 May 2021 07:36:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=XhiBNS7jpfIcsUg+mQKTO0ZrCuyUHqxYqIc7hiYmq78=;
- b=CibEMzMPpWK8c+aZ4WZ6UxfnZj0SQhCr78jSytAWmSyspg+Yl+Sjztyj9iSFm2OWr4
- e9HCPFP51/lzfLSrrt4AQpFZisJYZf7EgCY8RgAZdWfnj4aljXn1Y8haojrvyqi6uiVz
- y5ZVkxxn2hfLLzrkY0nssH/l45AzVsuuB+j+vm4FSgaslF85PoPvl6jLUkepodgo58wY
- 5UBylq9Cp6aA9OHuHJpTpgqdyzkAZFYEns8Khf1UYTZN93lDrK56Tx5NHp6C8bR+5Ig7
- 2RtMKrZeeIUHcNPKjEycDfxDqBj4rCBtR6MxZG0RZ7CDg7z29h31NQlYba1nQ4MxCxuY
- 5pNg==
-X-Gm-Message-State: AOAM530rf/ujOEOdcXAiwHBZ9K0D0vuiInI3HBDOvJhKz+cKtABvtksI
- GMHNMD7cE6odznhvpUDeClSfvgfcmAoVVX6Ln6eY+mDepoAc5dFFIcQNBKE3p0K6SGHg+XOlmAc
- mw1vd2vv3wSFmQf5Id8Vyuq7naknhg4M=
-X-Received: by 2002:ab0:3403:: with SMTP id z3mr28003282uap.113.1621953363320; 
- Tue, 25 May 2021 07:36:03 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyuooBVESBg+57NTIwfdjaUk4bPHy9nULb8WUTgNYccJbeDIQ7G8pN+BK7e8IubtF0D1HSzXEV7JdLPRUBSZ28=
-X-Received: by 2002:ab0:3403:: with SMTP id z3mr28003253uap.113.1621953363180; 
- Tue, 25 May 2021 07:36:03 -0700 (PDT)
+ bh=yl783Zp0k6d6id0SaM8eidSM/15/cfa6CdCoBBsNn2U=;
+ b=daoCgMNO6R+dsIjntYoEpSrdWBSnk/TzFIICzeS84MesYsuZiOqybs8fjFfYCW205gaMre
+ Co7NFs5rvuglFV+bDwTuCjsZf0GtiNo9Qoj5Xk+pfHw1/Mg6GScLB47I/orIhKJNfAStNr
+ xkwDHo2a94N8g95bStfDKIrFJzTHy80=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-343-IWy1svq6O5WhTAfdaDj_KA-1; Tue, 25 May 2021 10:40:37 -0400
+X-MC-Unique: IWy1svq6O5WhTAfdaDj_KA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3313F1926DA2;
+ Tue, 25 May 2021 14:40:36 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-114-230.ams2.redhat.com [10.36.114.230])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2F1E860C13;
+ Tue, 25 May 2021 14:40:34 +0000 (UTC)
+To: Cornelia Huck <cohuck@redhat.com>
+References: <20210525142032.156989-1-thuth@redhat.com>
+ <20210525163121.6901dca2.cohuck@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH] configure: Check whether we can compile the s390-ccw bios
+ with -msoft-float
+Message-ID: <3a4f413f-7ce5-0d78-180c-e08b351b30df@redhat.com>
+Date: Tue, 25 May 2021 16:40:34 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.0
 MIME-Version: 1.0
-References: <20210525082556.4011380-1-f4bug@amsat.org>
- <20210525082556.4011380-8-f4bug@amsat.org>
-In-Reply-To: <20210525082556.4011380-8-f4bug@amsat.org>
-From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Tue, 25 May 2021 11:35:37 -0300
-Message-ID: <CAKJDGDZZqvLUq1hu_-S6VQepyvR_WKtFUqbMMZGN9zJhL3EkQQ@mail.gmail.com>
-Subject: Re: [PATCH 7/9] gitlab-ci: Keep Avocado reports during 1 week
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+In-Reply-To: <20210525163121.6901dca2.cohuck@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=wrampazz@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,32 +82,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- Thomas Huth <thuth@redhat.com>, "Daniel P . Berrange" <berrange@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
+Cc: Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, May 25, 2021 at 5:26 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
-g> wrote:
->
-> Sometimes pull requests are merged during the week-end, triggering
-> a CI pipeline. Currently if such pipeline fails, the Avocado reports
-> are available for 2 days. For the reviewers working on the project
-> during office hours, the reports are already discarded when they
-> want to look at them. Increase this time to 1 week, which should
-> give reviewers enough time.
->
-> Only keep the reports on failure, which is the only case we'll
-> look at them.
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> ---
->  .gitlab-ci.d/buildtest-template.yml | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
+On 25/05/2021 16.31, Cornelia Huck wrote:
+> On Tue, 25 May 2021 16:20:32 +0200
+> Thomas Huth <thuth@redhat.com> wrote:
+> 
+>> The -msoft-float switch is not available in older versions of Clang.
+>> Since we rely on the compiler to not generate floating point instructions
+>> unexpectedly, we block those old compilers now via a test in the configure
+>> script. Note that for some weird reasons, the Clang compiler only complains
+>> about the missing soft-float support if no other flags are passed via
+>> "-Wl,..." to the linker. So we have to use "compile_object" instead of
+>> "compile_prog" for this check.
+> 
+> Ugh.
 
-Reviewed-by: Willian Rampazzo <willianr@redhat.com>
+It's maybe better to use compile_object for testing -msoft-float anyway 
+since it could influence the way of linking against libraries (if I get 
+https://reviews.llvm.org/D72189 right).
+
+>>
+>> Signed-off-by: Thomas Huth <thuth@redhat.com>
+>> ---
+>>   configure | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/configure b/configure
+>> index 676239c697..673419ff31 100755
+>> --- a/configure
+>> +++ b/configure
+>> @@ -5462,7 +5462,7 @@ if test "$cpu" = "s390x" ; then
+>>     write_c_skeleton
+>>     compile_prog "-march=z900" ""
+>>     has_z900=$?
+>> -  if [ $has_z900 = 0 ] || compile_prog "-march=z10" ""; then
+>> +  if [ $has_z900 = 0 ] || compile_object "-march=z10 -msoft-float -Werror"; then
+> 
+> Do you believe that we should have caught the various clang
+> specialties now?
+
+Apart from one compiler warning that just popped up today, yes. I'm seeing 
+this compiler warning with Clang 12.0 now:
+
+roms/SLOF/lib/libnet/ipv6.c:447:18: warning: variable length array folded to 
+constant array as an extension [-Wgnu-folding-constant]
+                 unsigned short raw[ip6size];
+                                ^
+
+... not sure what to do with that one yet.
+
+  Thomas
 
 
