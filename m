@@ -2,61 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC9AE38FA42
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 07:51:15 +0200 (CEST)
-Received: from localhost ([::1]:56110 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3EC838FA48
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 07:53:18 +0200 (CEST)
+Received: from localhost ([::1]:58230 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llPy8-0000ps-CE
-	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 01:51:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49950)
+	id 1llQ0C-0002OZ-U9
+	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 01:53:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50192)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1llPwS-00007I-Lc
- for qemu-devel@nongnu.org; Tue, 25 May 2021 01:49:24 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:46939)
+ id 1llPxu-0001KJ-PU
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 01:50:54 -0400
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:37820)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1llPwQ-000406-Jo
- for qemu-devel@nongnu.org; Tue, 25 May 2021 01:49:24 -0400
-Received: by mail-wr1-x429.google.com with SMTP id y14so28679382wrm.13
- for <qemu-devel@nongnu.org>; Mon, 24 May 2021 22:49:22 -0700 (PDT)
+ id 1llPxs-0004YK-VB
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 01:50:54 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id
+ f20-20020a05600c4e94b0290181f6edda88so5706545wmq.2
+ for <qemu-devel@nongnu.org>; Mon, 24 May 2021 22:50:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:from:to:cc:references:message-id:date:user-agent
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=hyesqlj7FV1ukrVSmQzkAb8CIMCmEqrO/3N39hYlsxE=;
- b=nfJk4pVwIwGYTo8gDYj9HYnHsCWU1F+S80XZiVQQLkWlW14JDP4AFp4aa5pwn3FA1Q
- xnLSmtNe18z+D/qmBdxroP5SLQAQzyVfUIvxhoJI1DpjhX8qkJYqus6NtHFbB3RkrEjo
- LPap/J4E08MJ7Lc5uw7zlQHD5H9DQ7CE9gaOYSkBC1qV8IDNNyu/mnK9OoG2NhFdaJ6q
- s7VuJKeFr5LaG4A3uR0g4ZpWA+PPVrwqjc/Vr0HqKH34C7lPCY+dOZX57EieS/95bh3s
- NmK2lx7LHhodH7fUKADFcKvdw+uqEdJqSgFjf9onLlUZA5l6uyvkhNqEXA+hpAz2JIN2
- /Ggg==
+ bh=gLqDCMgubgDlV3oPHgTch+U5ghSMMJjZrTKZ0wruITU=;
+ b=cy8wBuky8lSowL2p3cA5vuZbxTeRESZCeCGzwZlXC/Qsjf9HoxVxhXThCPlF7xEkwj
+ qt7dpw98rYdFCvEoFCieRNls5ZXKG3SB65DTCVrbm0zRmGD/QgeMcBr9Xd3uOo4o75gH
+ hFpLgUNbriInpQPQuqtwQy6eFM9llz9moGo/Valtn2lfr1s2cDnf11uAHKts6ecNjrZ4
+ jonR3G3oX3KmcuYdT9QXiiX/2X+SF6rrfbW1yglTdKIGKlg82BX3Y8PsNeGvIJ75E1mm
+ mHSmT0NkfpVDIbCCJjBNXwBJksEDoTcqZYJTW4dIUPqpOYuXgDRonBfDniWI1PtNVXi9
+ XHIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:from:to:cc:references:message-id
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=hyesqlj7FV1ukrVSmQzkAb8CIMCmEqrO/3N39hYlsxE=;
- b=VP2c2+T/orzzS6+UOK/T73jjTwgUBxJ2PaB1L7hDqD75QP92vip4B7tyRxrqcQ4Was
- LDQnyiuPuDnxFj9VB8ftnG5QGMwDnSFGllZMDjEaOjvQXUHzHC4ODTmLyDSfjbUBfkjm
- iZnJfFdXj3fH2nn91/8uZMGR8yhkpjh+e6sYYYhzdAxwIwVBfO/ZOMRV0hZyoXPVrYIb
- esFCaELGoI0PqKwRJIoELEowEQt7oPhm/PChiPyJTOe46lz4at9rLH+b/vN5cLqaFYHl
- pDVPasX6lInOTYa23U9hjQ26udofb1G2PLhnPuDLAexZDeeWWCi8rLbN+0thcXp67cG9
- A2xQ==
-X-Gm-Message-State: AOAM530L+INzD/VwyeoZ5Y8oSTPjomTa9I8bShxevHHeCx8cpNhkVTtf
- kr142xkpBO3KW6tLJBDJbZE=
-X-Google-Smtp-Source: ABdhPJzqIdc5h8wYUj4OYlm1MXfuRxAoL+qIj3Xtx0RW0T4ZyrajdHcTmUw733XQedanlAhYft4XRQ==
-X-Received: by 2002:adf:f4ce:: with SMTP id h14mr25673627wrp.269.1621921761036; 
- Mon, 24 May 2021 22:49:21 -0700 (PDT)
+ bh=gLqDCMgubgDlV3oPHgTch+U5ghSMMJjZrTKZ0wruITU=;
+ b=Jp9xSuy5BddlVFrv/pTWVcA3ru9wLjn266adcLiTblJ8mpdnpNPY8nd0JpGPASCGMU
+ aqU7tL3Ih5Fb0+9Ar1r6gzOvwW11JhPqMEIlmpcJgUWLPUse0Uc+wLpSfWi1ILSUG2oQ
+ QZPCmnr/5IkFhIQN37KbUFyF67c11ARavB4y/YBHB9Fnb9Qkz9avNIWeFh6D/pstjwGn
+ mSbVZNVJZs2eCfjweOsl2TiLkbdLk/pJBlF7t0Ck/t9OSf5puDIRCHQQgz0+volLhJ5B
+ N30Y+WJcFkWayJOmgUm3GBGtAW6seOfWsTHSLUkHUTzRnXRrR6qx3lipCdD4G+Tduw6C
+ MHCA==
+X-Gm-Message-State: AOAM531GM/MYnX9fMn5ZyKAMaBe1SHT/9Ofsfep/bleRwFQhJDoq4nlx
+ 95neIatLuj1djdzsE8L5Zdw=
+X-Google-Smtp-Source: ABdhPJyFqQX09zWKyqZywbhqDH4KJFYWpYDhTUELzXnfdbeWfyPjJ7DJ1+SAUcF80+nOyVkAMxZKMg==
+X-Received: by 2002:a05:600c:ad3:: with SMTP id
+ c19mr2121753wmr.66.1621921851027; 
+ Mon, 24 May 2021 22:50:51 -0700 (PDT)
 Received: from [192.168.1.36] (31.red-83-51-215.dynamicip.rima-tde.net.
  [83.51.215.31])
- by smtp.gmail.com with ESMTPSA id r5sm14432618wrw.96.2021.05.24.22.49.19
+ by smtp.gmail.com with ESMTPSA id y20sm1809726wmi.0.2021.05.24.22.50.49
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 24 May 2021 22:49:20 -0700 (PDT)
+ Mon, 24 May 2021 22:50:50 -0700 (PDT)
 Subject: Re: [PATCH v3 4/6] gitlab-ci: Add ccache in $PATH and display
  statistics
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
 References: <20210519184549.2192728-1-f4bug@amsat.org>
  <20210519184549.2192728-5-f4bug@amsat.org>
  <5a77ade3-1a6c-2389-4a1c-2c7c2266f298@redhat.com>
@@ -66,19 +68,19 @@ References: <20210519184549.2192728-1-f4bug@amsat.org>
  <afa421f3-337a-c488-c767-b73aaf3780b8@redhat.com>
  <YKefRcVrr9Gtehlk@redhat.com>
  <c7f01111-bada-49b1-ebce-03e6eff96aae@amsat.org>
- <YKes/fqDNT4G9jx/@redhat.com>
- <c4910e92-359f-3517-fb7e-65cbbe8deb1a@amsat.org>
-Message-ID: <421d4a8b-7146-d550-275e-1739a936eb6f@amsat.org>
-Date: Tue, 25 May 2021 07:49:19 +0200
+ <YKes/fqDNT4G9jx/@redhat.com> <YKuvWyg50fMGeVkF@stefanha-x1.localdomain>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <051d6abc-9b1a-c768-de9b-fdfbc3689976@amsat.org>
+Date: Tue, 25 May 2021 07:50:49 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <c4910e92-359f-3517-fb7e-65cbbe8deb1a@amsat.org>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <YKuvWyg50fMGeVkF@stefanha-x1.localdomain>
+Content-Type: text/plain; charset=windows-1252
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -101,31 +103,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Thomas Huth <thuth@redhat.com>, Kyle Evans <kevans@freebsd.org>,
  qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Willian Rampazzo <willianr@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Willian Rampazzo <willianr@redhat.com>,
  =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  Warner Losh <imp@bsdimp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/21/21 4:21 PM, Philippe Mathieu-DaudÃ© wrote:
-> On 5/21/21 2:52 PM, Daniel P. BerrangÃ© wrote:
->> On Fri, May 21, 2021 at 02:27:26PM +0200, Philippe Mathieu-DaudÃ© wrote:
->>> On 5/21/21 1:53 PM, Daniel P. BerrangÃ© wrote:
+On 5/24/21 3:51 PM, Stefan Hajnoczi wrote:
+> On Fri, May 21, 2021 at 01:52:13PM +0100, Daniel P. Berrangé wrote:
+>> On Fri, May 21, 2021 at 02:27:26PM +0200, Philippe Mathieu-Daudé wrote:
+>>> On 5/21/21 1:53 PM, Daniel P. Berrangé wrote:
 >>>> On Fri, May 21, 2021 at 01:02:51PM +0200, Thomas Huth wrote:
->>>>> On 21/05/2021 12.50, Daniel P. BerrangÃ© wrote:
+>>>>> On 21/05/2021 12.50, Daniel P. Berrangé wrote:
 >>>>>> On Fri, May 21, 2021 at 12:48:21PM +0200, Thomas Huth wrote:
->>>>>>> On 20/05/2021 13.27, Philippe Mathieu-DaudÃ© wrote:
+>>>>>>> On 20/05/2021 13.27, Philippe Mathieu-Daudé wrote:
 >>>>>>>> +Stefan/Daniel
 >>>>>>>>
 >>>>>>>> On 5/20/21 10:02 AM, Thomas Huth wrote:
->>>>>>>>> On 19/05/2021 20.45, Philippe Mathieu-DaudÃ© wrote:
+>>>>>>>>> On 19/05/2021 20.45, Philippe Mathieu-Daudé wrote:
 >>>>>>>>>> If a runner has ccache installed, use it and display statistics
 >>>>>>>>>> at the end of the build.
 >>>>>>>>>>
->>>>>>>>>> Signed-off-by: Philippe Mathieu-DaudÃ© <f4bug@amsat.org>
+>>>>>>>>>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 >>>>>>>>>> ---
->>>>>>>>>>   Â  .gitlab-ci.d/buildtest-template.yml | 5 +++++
->>>>>>>>>>   Â  1 file changed, 5 insertions(+)
+>>>>>>>>>>     .gitlab-ci.d/buildtest-template.yml | 5 +++++
+>>>>>>>>>>     1 file changed, 5 insertions(+)
 >>>>>>>>>>
 >>>>>>>>>> diff --git a/.gitlab-ci.d/buildtest-template.yml
 >>>>>>>>>> b/.gitlab-ci.d/buildtest-template.yml
@@ -133,15 +135,15 @@ On 5/21/21 4:21 PM, Philippe Mathieu-DaudÃ© wrote:
 >>>>>>>>>> --- a/.gitlab-ci.d/buildtest-template.yml
 >>>>>>>>>> +++ b/.gitlab-ci.d/buildtest-template.yml
 >>>>>>>>>> @@ -6,13 +6,18 @@
->>>>>>>>>>   Â Â Â Â Â Â Â  then
->>>>>>>>>>   Â Â Â Â Â Â Â Â Â  JOBS=$(sysctl -n hw.ncpu)
->>>>>>>>>>   Â Â Â Â Â Â Â Â Â  MAKE=gmake
->>>>>>>>>> +Â Â Â Â Â Â Â  PATH=/usr/local/libexec/ccache:$PATH
->>>>>>>>>>   Â Â Â Â Â Â Â Â Â  ;
->>>>>>>>>>   Â Â Â Â Â Â Â  else
->>>>>>>>>>   Â Â Â Â Â Â Â Â Â  JOBS=$(expr $(nproc) + 1)
->>>>>>>>>>   Â Â Â Â Â Â Â Â Â  MAKE=make
->>>>>>>>>> +Â Â Â Â Â Â Â  PATH=/usr/lib/ccache:/usr/lib64/ccache:$PATH
+>>>>>>>>>>           then
+>>>>>>>>>>             JOBS=$(sysctl -n hw.ncpu)
+>>>>>>>>>>             MAKE=gmake
+>>>>>>>>>> +        PATH=/usr/local/libexec/ccache:$PATH
+>>>>>>>>>>             ;
+>>>>>>>>>>           else
+>>>>>>>>>>             JOBS=$(expr $(nproc) + 1)
+>>>>>>>>>>             MAKE=make
+>>>>>>>>>> +        PATH=/usr/lib/ccache:/usr/lib64/ccache:$PATH
 >>>>>>>>>
 >>>>>>>>> That does not make sense for the shared runners yet. We first need
 >>>>>>>>> something to enable the caching there - see my series "Use ccache in the
@@ -184,35 +186,25 @@ On 5/21/21 4:21 PM, Philippe Mathieu-DaudÃ© wrote:
 >>> various jobs are stuck transferring artifacts/cache {FROM, TO}
 >>> {shared, dedicated} runners at the same time, which is sub-optimal
 >>> because it saturate the dedicated runner network link.
-
-FYI In case we need to sort this out later, the 'resource_group' might
-help us with this:
-https://docs.gitlab.com/ee/ci/yaml/#resource_group
-
+>>
 >> I think we're over thinking things a bit too much and worrying about
 >> scenarios that we're not actually hitting that frequently today, and
 >> delaying the benefit for everyone.
->>
->> Our common case is that most contributors are simply using shared
->> runners exclusively, as is the main qemu repo staging branch. AFAIK
->> these should benefit from a simple ccache enablement today.
->>
->> Since there are questions about other setups though, we can just
->> provide an easy way to turn it off. eg:
->>
->>   if test -z "$QEMU_CI_SKIP_CCACHE"
->>   then
->>      PATH=/usr/local/libexec/ccache:$PATH
->>   fi
->>
->> anyone who wishes to disable it, can just set that variable in their
->> git repo fork. If there are specific jobs we want to disable cccache
->> for, those jobs can set that too.
 > 
-> OK, understood. I'll see with Willian how to have ccache working.
+> Thomas' original email indicated using ccache with QEMU isn't
+> necessarily a win:
 > 
-> Thanks for the feedback,
+>   Additionally, the jobs are sometimes running even slower, e.g. if the
+>   cache has not been populated yet or if there are a lot of cache
+>   misses,
 > 
-> Phil.
-> 
+> Let's measure the time taken both on first run and on a subsequent run.
+> This information can be included in the patch series cover letter so we
+> know ccache performance has been measured and it works well.
+
+To whoever is interested in looking at this problem, GitLab provides
+the TRANSFER_METER_FREQUENCY variable to debug this problem; and the
+compression ratio can be adjusted using ARTIFACT_COMPRESSION_LEVEL
+and CACHE_COMPRESSION_LEVEL:
+https://docs.gitlab.com/ee/ci/runners/README.html#artifact-and-cache-settings
 
