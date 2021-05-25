@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49CDC3905C1
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 17:43:41 +0200 (CEST)
-Received: from localhost ([::1]:33554 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47F2A3905CB
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 17:46:02 +0200 (CEST)
+Received: from localhost ([::1]:41928 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llZDY-0002q1-AR
-	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 11:43:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59272)
+	id 1llZFp-0000RO-9y
+	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 11:46:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59302)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1llYbt-0003z4-6y
- for qemu-devel@nongnu.org; Tue, 25 May 2021 11:04:45 -0400
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:44643)
+ id 1llYbu-00043T-8W
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 11:04:46 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:43916)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1llYbk-0004hp-Mi
- for qemu-devel@nongnu.org; Tue, 25 May 2021 11:04:44 -0400
-Received: by mail-wm1-x32c.google.com with SMTP id
- y184-20020a1ce1c10000b02901769b409001so13033072wmg.3
+ id 1llYbk-0004i6-PT
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 11:04:45 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id p7so28891920wru.10
  for <qemu-devel@nongnu.org>; Tue, 25 May 2021 08:04:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=wQhAbxgRJ2/CsUQ9DRICGmYU9xoHruMQrk7OfGj+bKg=;
- b=SNEtNvYKhC+sSAFofJVY1FJ+xI27Rnsyux7JJUvCl7tMoYd3BQ71rB9T0O57en4Of6
- ZpdDwlOK4QT88h5lQ1yKRQA3XluLDcz0L7ho9RnVIzZ6XfZcz2X88q3E4c2du4cxqwsf
- skm3qedpqK69Ux/vGo5l+k8anlr5M+cSXtBEZg59HxBbkXomX7gldW674Zza3pmKVyL8
- /lqDbaFQw1QQYJzT1kEO8RS/08Ham3ZrybFH3KhClRIU91Nrc6TSKMVtypTR20KmvL9J
- rxAed7O/klYsvzHIPsfsOLuyo3y3XOwMaJdOnyTzJROgW+LkyN538ntep9SApMssLg5b
- 2vsQ==
+ bh=NubKq8M0KvXlnOC04LMkbA9LQLcN3/1FylxUyolKBho=;
+ b=EWIOE+vpN3pmTA/hlsu2iR/8l2fKXxGExNyNKR5tcbngcSdUOXi+KhxUyv7sp7uMZb
+ CdLfLt9SVJTdhkRPeBEnvV8eMTZ37OpK+GiIUbet73IAk7fmrOs6lKg2CsLgyYcRKr4M
+ p/iZWcJcPLIg9CelWnEocusoF/ys/9d6pS984rfmZVxM1VLRwfE2P0so/QzPsApi0+1z
+ IQYL2T+ZuShOVhF/d6FBFGTjTErOXyaGImRd2os6uKdlTz3z6bbkeQjIeVs/uFqNQAm8
+ TACE/tLceBnDezssQdqRuorEzRiZT6egi1oWQHrZ2KhxHWib4mlTsXQ0flXvsvTUlPAG
+ DnPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=wQhAbxgRJ2/CsUQ9DRICGmYU9xoHruMQrk7OfGj+bKg=;
- b=Im+X7987lD75n8nJkd/M9gVKlDTtb5AqGri9xcOV6qSEabw92ebcUmtgryGWf7/7IT
- DXvpm9mOSsJK/myLfMvegfiKaAXVeuFgw9eGbcLAlxKKQ+1zxDqSzQX7OjmVkFsoAos+
- NxlOW/SDxzgbUWuqUyaXfVNiQweI80jDMT5IvPoHme408NVyeukxOPrZSKDnGWn1XwxL
- Z5mCgjxHqM1Cso56dH7X6fPHBqDP4H1iaRiqRal8+KxGOBHT/qbVd7AhuHHZnLaEuC+p
- MFjjth9eAs2YYBzDRtD4eZL2wz6O5TgMG6qIWMoc3RG568DINMp2NudWbWzFp8w3eG7/
- SlVA==
-X-Gm-Message-State: AOAM530qDcsn+1a5UXLr/4y2sy/TAp+9//0a/cKBDaSodvlS5sSmuwul
- SrLIOI22/ohaKGnomF92Qivs8pm7RM09x3Of
-X-Google-Smtp-Source: ABdhPJzgI7H0We9xAKb76PjwPLjOZna9HbOTwLs7E3cs4VjspBzsxZQEdfVOx9+Fti0EfqFuJACVug==
-X-Received: by 2002:a1c:1f4f:: with SMTP id f76mr24421974wmf.62.1621955072468; 
- Tue, 25 May 2021 08:04:32 -0700 (PDT)
+ bh=NubKq8M0KvXlnOC04LMkbA9LQLcN3/1FylxUyolKBho=;
+ b=sOcF9C6NIDeZdNhIJnyzKZ3ymhKX4Nn1E7HH8UKzkFFzYXKmqkYpCDCx+uPrOucHFf
+ QspRe8SFOwS0pdmZCefm4E+2FAIo6GVY5B7AWUHp8UO/8pJqz6oR1lCoHB7xFTyl9MbW
+ E5Te6MupFVu0XTFKOu0GfnhgwxbfEK5zOYx3bDv2QfZSyEjDy5VEHa+yJD6qTqsefKVq
+ U6UhA9UEXJaBeNDbMfEhiC5h1RU6X0OPbCSXfVlsbj1v6H58h4wKxwHEgGBcs2yWad0N
+ iufj8mfgEGgLG7ppPckVzNXEvSFvdKyQQlMIEwfin/27Pc6/jpUzSDyGGy/3ULFDF50i
+ decw==
+X-Gm-Message-State: AOAM532sP/JKnKR9lvwr61I7aWwg29NIRVv4eD96NFV+3YX5FcMP2XCb
+ B1OKcQ4c/I12ZwypVUxzh+FnRMNZgrNSVfgx
+X-Google-Smtp-Source: ABdhPJxIUo697aAzr2H8lI7QXicGtu29SrImWfFYuqja3JfslQmhMeNsfaeTBHHfPRtOv9gyJ1wOfw==
+X-Received: by 2002:a5d:64a6:: with SMTP id m6mr28140428wrp.425.1621955075519; 
+ Tue, 25 May 2021 08:04:35 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id q62sm11710284wma.42.2021.05.25.08.04.31
+ by smtp.gmail.com with ESMTPSA id q62sm11710284wma.42.2021.05.25.08.04.34
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 May 2021 08:04:31 -0700 (PDT)
+ Tue, 25 May 2021 08:04:35 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 069/114] target/arm: Implement SVE2 SPLICE, EXT
-Date: Tue, 25 May 2021 16:02:39 +0100
-Message-Id: <20210525150324.32370-70-peter.maydell@linaro.org>
+Subject: [PULL 070/114] target/arm: Use correct output type for gvec_sdot_*_b
+Date: Tue, 25 May 2021 16:02:40 +0100
+Message-Id: <20210525150324.32370-71-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210525150324.32370-1-peter.maydell@linaro.org>
 References: <20210525150324.32370-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,122 +86,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stephen Long <steplong@quicinc.com>
+From: Richard Henderson <richard.henderson@linaro.org>
 
+The signed dot product routines produce a signed result.
+Since we use -fwrapv, there is no functional change.
+
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20210525010358.152808-49-richard.henderson@linaro.org
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Stephen Long <steplong@quicinc.com>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20210525010358.152808-48-richard.henderson@linaro.org
-Message-Id: <20200423180347.9403-1-steplong@quicinc.com>
-[rth: Rename the trans_* functions to *_sve2.]
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/sve.decode      | 11 +++++++++--
- target/arm/translate-sve.c | 35 ++++++++++++++++++++++++++++++-----
- 2 files changed, 39 insertions(+), 7 deletions(-)
+ target/arm/vec_helper.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/target/arm/sve.decode b/target/arm/sve.decode
-index cb2ee862289..67b6466a1e9 100644
---- a/target/arm/sve.decode
-+++ b/target/arm/sve.decode
-@@ -494,10 +494,14 @@ CPY_z_i         00000101 .. 01 .... 00 . ........ .....   @rdn_pg4 imm=%sh8_i8s
- 
- ### SVE Permute - Extract Group
- 
--# SVE extract vector (immediate offset)
-+# SVE extract vector (destructive)
- EXT             00000101 001 ..... 000 ... rm:5 rd:5 \
-                 &rrri rn=%reg_movprfx imm=%imm8_16_10
- 
-+# SVE2 extract vector (constructive)
-+EXT_sve2        00000101 011 ..... 000 ... rn:5 rd:5 \
-+                &rri imm=%imm8_16_10
-+
- ### SVE Permute - Unpredicated Group
- 
- # SVE broadcast general register
-@@ -588,9 +592,12 @@ REVH            00000101 .. 1001 01 100 ... ..... .....         @rd_pg_rn
- REVW            00000101 .. 1001 10 100 ... ..... .....         @rd_pg_rn
- RBIT            00000101 .. 1001 11 100 ... ..... .....         @rd_pg_rn
- 
--# SVE vector splice (predicated)
-+# SVE vector splice (predicated, destructive)
- SPLICE          00000101 .. 101 100 100 ... ..... .....         @rdn_pg_rm
- 
-+# SVE2 vector splice (predicated, constructive)
-+SPLICE_sve2     00000101 .. 101 101 100 ... ..... .....         @rd_pg_rn
-+
- ### SVE Select Vectors Group
- 
- # SVE select vector elements (predicated)
-diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
-index a94b399f67c..46f87ee259e 100644
---- a/target/arm/translate-sve.c
-+++ b/target/arm/translate-sve.c
-@@ -2266,18 +2266,18 @@ static bool trans_CPY_z_i(DisasContext *s, arg_CPY_z_i *a)
-  *** SVE Permute Extract Group
-  */
- 
--static bool trans_EXT(DisasContext *s, arg_EXT *a)
-+static bool do_EXT(DisasContext *s, int rd, int rn, int rm, int imm)
+diff --git a/target/arm/vec_helper.c b/target/arm/vec_helper.c
+index a3d80ecad05..48e3addd814 100644
+--- a/target/arm/vec_helper.c
++++ b/target/arm/vec_helper.c
+@@ -378,7 +378,7 @@ void HELPER(sve2_sqrdmlsh_d)(void *vd, void *vn, void *vm,
+ void HELPER(gvec_sdot_b)(void *vd, void *vn, void *vm, uint32_t desc)
  {
-     if (!sve_access_check(s)) {
-         return true;
-     }
+     intptr_t i, opr_sz = simd_oprsz(desc);
+-    uint32_t *d = vd;
++    int32_t *d = vd;
+     int8_t *n = vn, *m = vm;
  
-     unsigned vsz = vec_full_reg_size(s);
--    unsigned n_ofs = a->imm >= vsz ? 0 : a->imm;
-+    unsigned n_ofs = imm >= vsz ? 0 : imm;
-     unsigned n_siz = vsz - n_ofs;
--    unsigned d = vec_full_reg_offset(s, a->rd);
--    unsigned n = vec_full_reg_offset(s, a->rn);
--    unsigned m = vec_full_reg_offset(s, a->rm);
-+    unsigned d = vec_full_reg_offset(s, rd);
-+    unsigned n = vec_full_reg_offset(s, rn);
-+    unsigned m = vec_full_reg_offset(s, rm);
+     for (i = 0; i < opr_sz / 4; ++i) {
+@@ -408,7 +408,7 @@ void HELPER(gvec_udot_b)(void *vd, void *vn, void *vm, uint32_t desc)
+ void HELPER(gvec_sdot_h)(void *vd, void *vn, void *vm, uint32_t desc)
+ {
+     intptr_t i, opr_sz = simd_oprsz(desc);
+-    uint64_t *d = vd;
++    int64_t *d = vd;
+     int16_t *n = vn, *m = vm;
  
-     /* Use host vector move insns if we have appropriate sizes
-      * and no unfortunate overlap.
-@@ -2296,6 +2296,19 @@ static bool trans_EXT(DisasContext *s, arg_EXT *a)
-     return true;
- }
+     for (i = 0; i < opr_sz / 8; ++i) {
+@@ -439,7 +439,7 @@ void HELPER(gvec_sdot_idx_b)(void *vd, void *vn, void *vm, uint32_t desc)
+ {
+     intptr_t i, segend, opr_sz = simd_oprsz(desc), opr_sz_4 = opr_sz / 4;
+     intptr_t index = simd_data(desc);
+-    uint32_t *d = vd;
++    int32_t *d = vd;
+     int8_t *n = vn;
+     int8_t *m_indexed = (int8_t *)vm + H4(index) * 4;
  
-+static bool trans_EXT(DisasContext *s, arg_EXT *a)
-+{
-+    return do_EXT(s, a->rd, a->rn, a->rm, a->imm);
-+}
-+
-+static bool trans_EXT_sve2(DisasContext *s, arg_rri *a)
-+{
-+    if (!dc_isar_feature(aa64_sve2, s)) {
-+        return false;
-+    }
-+    return do_EXT(s, a->rd, a->rn, (a->rn + 1) % 32, a->imm);
-+}
-+
- /*
-  *** SVE Permute - Unpredicated Group
-  */
-@@ -3013,6 +3026,18 @@ static bool trans_SPLICE(DisasContext *s, arg_rprr_esz *a)
-     return true;
- }
+@@ -501,7 +501,7 @@ void HELPER(gvec_sdot_idx_h)(void *vd, void *vn, void *vm, uint32_t desc)
+ {
+     intptr_t i, opr_sz = simd_oprsz(desc), opr_sz_8 = opr_sz / 8;
+     intptr_t index = simd_data(desc);
+-    uint64_t *d = vd;
++    int64_t *d = vd;
+     int16_t *n = vn;
+     int16_t *m_indexed = (int16_t *)vm + index * 4;
  
-+static bool trans_SPLICE_sve2(DisasContext *s, arg_rpr_esz *a)
-+{
-+    if (!dc_isar_feature(aa64_sve2, s)) {
-+        return false;
-+    }
-+    if (sve_access_check(s)) {
-+        gen_gvec_ool_zzzp(s, gen_helper_sve_splice,
-+                          a->rd, a->rn, (a->rn + 1) % 32, a->pg, a->esz);
-+    }
-+    return true;
-+}
-+
- /*
-  *** SVE Integer Compare - Vectors Group
-  */
 -- 
 2.20.1
 
