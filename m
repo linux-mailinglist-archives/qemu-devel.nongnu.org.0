@@ -2,56 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D1F638FB9D
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 09:24:02 +0200 (CEST)
-Received: from localhost ([::1]:36054 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AAAD38FC00
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 09:52:38 +0200 (CEST)
+Received: from localhost ([::1]:55304 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llRQ0-0004x6-Id
-	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 03:24:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37760)
+	id 1llRrX-0002YG-8l
+	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 03:52:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43606)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1llROV-0003zZ-Pr; Tue, 25 May 2021 03:22:27 -0400
-Received: from out28-170.mail.aliyun.com ([115.124.28.170]:40214)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1llROR-0000Ll-Pi; Tue, 25 May 2021 03:22:27 -0400
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07176567|-1; CH=green;
- DM=|CONTINUE|false|;
- DS=CONTINUE|ham_regular_dialog|0.0126492-8.3722e-05-0.987267;
- FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047188; MF=zhiwei_liu@c-sky.com; NM=1;
- PH=DS; RN=7; RT=7; SR=0; TI=SMTPD_---.KIP.QLB_1621927328; 
-Received: from 172.27.117.59(mailfrom:zhiwei_liu@c-sky.com
- fp:SMTPD_---.KIP.QLB_1621927328)
- by smtp.aliyun-inc.com(10.147.42.253);
- Tue, 25 May 2021 15:22:09 +0800
-Subject: Re: [PATCH] target/riscv: hardwire bits in hideleg and hedeleg
-To: Jose Martins <josemartins90@gmail.com>, qemu-devel@nongnu.org
-References: <20210522155902.374439-1-josemartins90@gmail.com>
-From: LIU Zhiwei <zhiwei_liu@c-sky.com>
-Message-ID: <434d8825-8bd6-5344-aea2-e176fad6183e@c-sky.com>
-Date: Tue, 25 May 2021 15:22:07 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1llRqc-00017o-Ne
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 03:51:30 -0400
+Received: from indium.canonical.com ([91.189.90.7]:56484)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1llRqX-00022l-Aj
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 03:51:30 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
+ id 1llRqT-0000Ik-3Y
+ for <qemu-devel@nongnu.org>; Tue, 25 May 2021 07:51:21 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 33E982E826C
+ for <qemu-devel@nongnu.org>; Tue, 25 May 2021 07:51:10 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20210522155902.374439-1-josemartins90@gmail.com>
-Content-Type: multipart/alternative;
- boundary="------------3A719C23A2C0B1D4B11E73BA"
-Content-Language: en-US
-Received-SPF: none client-ip=115.124.28.170; envelope-from=zhiwei_liu@c-sky.com;
- helo=out28-170.mail.aliyun.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 25 May 2021 07:42:27 -0000
+From: Thomas Huth <1926995@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=High;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: dcb314 th-huth
+X-Launchpad-Bug-Reporter: dcb (dcb314)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <162006770303.13621.18026521974059309297.malonedeb@wampee.canonical.com>
+Message-Id: <162192854742.32409.18168712414132065534.malone@soybean.canonical.com>
+Subject: [Bug 1926995] Re: hw/remote/mpqemu-link.c:221: bad error checking ?
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="ba75dbf44f1013379e594c259682f14c0528180a"; Instance="production"
+X-Launchpad-Hash: 1047eb6f5199b74f8c12f1836ba6312832b2a945
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -60,199 +70,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>
+Reply-To: Bug 1926995 <1926995@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a multi-part message in MIME format.
---------------3A719C23A2C0B1D4B11E73BA
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Fix has been merged now:
+https://gitlab.com/qemu-project/qemu/-/commit/dcf20655ffca2b0219d2914d
 
+** Changed in: qemu
+       Status: In Progress =3D> Fix Committed
 
-On 5/22/21 11:59 PM, Jose Martins wrote:
-> The specification mandates for certain bits to be hardwired in the
-> hypervisor delegation registers. This was not being enforced.
->
-> Signed-off-by: Jose Martins <josemartins90@gmail.com>
-> ---
->   target/riscv/csr.c | 13 +++++++++++--
->   1 file changed, 11 insertions(+), 2 deletions(-)
->
-> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> index d2585395bf..9b74a00cc9 100644
-> --- a/target/riscv/csr.c
-> +++ b/target/riscv/csr.c
-> @@ -394,6 +394,7 @@ static int read_timeh(CPURISCVState *env, int csrno, target_ulong *val)
->   
->   static const target_ulong delegable_ints = S_MODE_INTERRUPTS |
->                                              VS_MODE_INTERRUPTS;
-> +static const target_ulong vs_delegable_ints = VS_MODE_INTERRUPTS;
-We can use it directly if only one macro VS_MODE_INTERRUPTS.
->   static const target_ulong all_ints = M_MODE_INTERRUPTS | S_MODE_INTERRUPTS |
->                                        VS_MODE_INTERRUPTS;
->   static const target_ulong delegable_excps =
-> @@ -416,6 +417,14 @@ static const target_ulong delegable_excps =
->       (1ULL << (RISCV_EXCP_LOAD_GUEST_ACCESS_FAULT)) |
->       (1ULL << (RISCV_EXCP_VIRT_INSTRUCTION_FAULT)) |
->       (1ULL << (RISCV_EXCP_STORE_GUEST_AMO_ACCESS_FAULT));
-> +static const target_ulong vs_delegable_excps = delegable_excps &
-> +    ~((1ULL << (RISCV_EXCP_S_ECALL)) |
-> +    (1ULL << (RISCV_EXCP_VS_ECALL)) |
-I didn't find that the RISCV_EXCP_VS_ECALL should be read-only 0 from 
-the specification.
-> +    (1ULL << (RISCV_EXCP_M_ECALL)) |
-> +    (1ULL << (RISCV_EXCP_INST_GUEST_PAGE_FAULT)) |
-> +    (1ULL << (RISCV_EXCP_LOAD_GUEST_ACCESS_FAULT)) |
-> +    (1ULL << (RISCV_EXCP_VIRT_INSTRUCTION_FAULT)) |
-> +    (1ULL << (RISCV_EXCP_STORE_GUEST_AMO_ACCESS_FAULT)));
->   static const target_ulong sstatus_v1_10_mask = SSTATUS_SIE | SSTATUS_SPIE |
->       SSTATUS_UIE | SSTATUS_UPIE | SSTATUS_SPP | SSTATUS_FS | SSTATUS_XS |
->       SSTATUS_SUM | SSTATUS_MXR | SSTATUS_SD;
-> @@ -963,7 +972,7 @@ static int read_hedeleg(CPURISCVState *env, int csrno, target_ulong *val)
->   
->   static int write_hedeleg(CPURISCVState *env, int csrno, target_ulong val)
->   {
-> -    env->hedeleg = val;
-> +    env->hedeleg = val & vs_delegable_excps;
+-- =
 
-I think it's OK here.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1926995
 
-However, as hedeleg is WARL, you had better reserve the other fields 
-like medeleg:
+Title:
+  hw/remote/mpqemu-link.c:221: bad error checking ?
 
-	env->medeleg = (env->medeleg & ~delegable_excps) | (val & delegable_excps);
+Status in QEMU:
+  Fix Committed
 
-I really don't understand why medeleg codes this way. Is there anyone 
-can give a better explanation?
+Bug description:
+  hw/remote/mpqemu-link.c:221:36: warning: logical =E2=80=98and=E2=80=99 of=
+ mutually
+  exclusive tests is always false [-Wlogical-op]
 
->       return 0;
->   }
->   
-> @@ -975,7 +984,7 @@ static int read_hideleg(CPURISCVState *env, int csrno, target_ulong *val)
->   
->   static int write_hideleg(CPURISCVState *env, int csrno, target_ulong val)
->   {
-> -    env->hideleg = val;
-> +    env->hideleg = val & vs_delegable_ints;
->       return 0;
->   }
->   
+  Source code is
 
-The similar comments for hedeleg.
+     if (msg->cmd >=3D MPQEMU_CMD_MAX && msg->cmd < 0) {
+          return false;
+      }
 
-Zhiwei
+  Maybe better code:
 
+     if (msg->cmd >=3D MPQEMU_CMD_MAX || msg->cmd < 0) {
+          return false;
+      }
 
---------------3A719C23A2C0B1D4B11E73BA
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 7bit
+  It might be useful to switch on gcc compiler flag -Wlogical-op
+  to see these warnings.
 
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">On 5/22/21 11:59 PM, Jose Martins
-      wrote:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:20210522155902.374439-1-josemartins90@gmail.com">
-      <pre class="moz-quote-pre" wrap="">The specification mandates for certain bits to be hardwired in the
-hypervisor delegation registers. This was not being enforced.
-
-Signed-off-by: Jose Martins <a class="moz-txt-link-rfc2396E" href="mailto:josemartins90@gmail.com">&lt;josemartins90@gmail.com&gt;</a>
----
- target/riscv/csr.c | 13 +++++++++++--
- 1 file changed, 11 insertions(+), 2 deletions(-)
-
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index d2585395bf..9b74a00cc9 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -394,6 +394,7 @@ static int read_timeh(CPURISCVState *env, int csrno, target_ulong *val)
- 
- static const target_ulong delegable_ints = S_MODE_INTERRUPTS |
-                                            VS_MODE_INTERRUPTS;
-+static const target_ulong vs_delegable_ints = VS_MODE_INTERRUPTS;</pre>
-    </blockquote>
-    We can use it directly if only one macro VS_MODE_INTERRUPTS.<br>
-    <blockquote type="cite"
-      cite="mid:20210522155902.374439-1-josemartins90@gmail.com">
-      <pre class="moz-quote-pre" wrap="">
- static const target_ulong all_ints = M_MODE_INTERRUPTS | S_MODE_INTERRUPTS |
-                                      VS_MODE_INTERRUPTS;
- static const target_ulong delegable_excps =
-@@ -416,6 +417,14 @@ static const target_ulong delegable_excps =
-     (1ULL &lt;&lt; (RISCV_EXCP_LOAD_GUEST_ACCESS_FAULT)) |
-     (1ULL &lt;&lt; (RISCV_EXCP_VIRT_INSTRUCTION_FAULT)) |
-     (1ULL &lt;&lt; (RISCV_EXCP_STORE_GUEST_AMO_ACCESS_FAULT));
-+static const target_ulong vs_delegable_excps = delegable_excps &amp;
-+    ~((1ULL &lt;&lt; (RISCV_EXCP_S_ECALL)) |
-+    (1ULL &lt;&lt; (RISCV_EXCP_VS_ECALL)) |</pre>
-    </blockquote>
-    I didn't find that the RISCV_EXCP_VS_ECALL should be read-only 0
-    from the specification.<br>
-    <blockquote type="cite"
-      cite="mid:20210522155902.374439-1-josemartins90@gmail.com">
-      <pre class="moz-quote-pre" wrap="">
-+    (1ULL &lt;&lt; (RISCV_EXCP_M_ECALL)) |
-+    (1ULL &lt;&lt; (RISCV_EXCP_INST_GUEST_PAGE_FAULT)) |
-+    (1ULL &lt;&lt; (RISCV_EXCP_LOAD_GUEST_ACCESS_FAULT)) |
-+    (1ULL &lt;&lt; (RISCV_EXCP_VIRT_INSTRUCTION_FAULT)) |
-+    (1ULL &lt;&lt; (RISCV_EXCP_STORE_GUEST_AMO_ACCESS_FAULT)));
- static const target_ulong sstatus_v1_10_mask = SSTATUS_SIE | SSTATUS_SPIE |
-     SSTATUS_UIE | SSTATUS_UPIE | SSTATUS_SPP | SSTATUS_FS | SSTATUS_XS |
-     SSTATUS_SUM | SSTATUS_MXR | SSTATUS_SD;
-@@ -963,7 +972,7 @@ static int read_hedeleg(CPURISCVState *env, int csrno, target_ulong *val)
- 
- static int write_hedeleg(CPURISCVState *env, int csrno, target_ulong val)
- {
--    env-&gt;hedeleg = val;
-+    env-&gt;hedeleg = val &amp; vs_delegable_excps;</pre>
-    </blockquote>
-    <p>I think it's OK here.<br>
-    </p>
-    <p>However, as hedeleg is WARL, you had better reserve the other
-      fields like medeleg:</p>
-    <pre>	env-&gt;medeleg = (env-&gt;medeleg &amp; ~delegable_excps) | (val &amp; delegable_excps);
-
-</pre>
-    <p>I really don't understand why medeleg codes this way. Is there
-      anyone can give a better explanation?<br>
-    </p>
-    <blockquote type="cite"
-      cite="mid:20210522155902.374439-1-josemartins90@gmail.com">
-      <pre class="moz-quote-pre" wrap="">
-     return 0;
- }
- 
-@@ -975,7 +984,7 @@ static int read_hideleg(CPURISCVState *env, int csrno, target_ulong *val)
- 
- static int write_hideleg(CPURISCVState *env, int csrno, target_ulong val)
- {
--    env-&gt;hideleg = val;
-+    env-&gt;hideleg = val &amp; vs_delegable_ints;
-     return 0;
- }
- </pre>
-    </blockquote>
-    <p>The similar comments for hedeleg.</p>
-    <p>Zhiwei<br>
-    </p>
-    <blockquote type="cite"
-      cite="mid:20210522155902.374439-1-josemartins90@gmail.com">
-      <pre class="moz-quote-pre" wrap="">
-</pre>
-    </blockquote>
-  </body>
-</html>
-
---------------3A719C23A2C0B1D4B11E73BA--
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1926995/+subscriptions
 
