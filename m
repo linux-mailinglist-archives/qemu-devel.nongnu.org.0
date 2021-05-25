@@ -2,51 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 488E93906B7
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 18:32:37 +0200 (CEST)
-Received: from localhost ([::1]:39276 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D82CD390682
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 18:21:13 +0200 (CEST)
+Received: from localhost ([::1]:35122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llZyu-0003rw-BI
-	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 12:32:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60424)
+	id 1llZns-0006y3-Ty
+	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 12:21:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60574)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1llYeT-0001n6-I0
- for qemu-devel@nongnu.org; Tue, 25 May 2021 11:07:25 -0400
-Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:51050)
+ id 1llYei-00023t-8z
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 11:07:40 -0400
+Received: from mail-pf1-x435.google.com ([2607:f8b0:4864:20::435]:46819)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1llYeM-0006iN-SB
- for qemu-devel@nongnu.org; Tue, 25 May 2021 11:07:25 -0400
-Received: by mail-pj1-x102f.google.com with SMTP id t11so17030105pjm.0
- for <qemu-devel@nongnu.org>; Tue, 25 May 2021 08:07:18 -0700 (PDT)
+ id 1llYeP-0006iX-Vp
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 11:07:40 -0400
+Received: by mail-pf1-x435.google.com with SMTP id y15so12439736pfn.13
+ for <qemu-devel@nongnu.org>; Tue, 25 May 2021 08:07:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=17lWOhgcl+ZVqAbMQv1xvpusA/TYAXuediZfiyj2D18=;
- b=EVauJhgg+KIZPk17DqgyB874sQrsACp2mMAxtsnfz5bLU++Qg26t+GfSdue4aGaSnH
- RL5D0gZITXCrHzgOdFljXnxE356OTXqXL/UFtEQpyQtL+656P7zVh+/J9bMlY4rGXiou
- UyFGiN1Sn6CyPFpgVrl2oBpuIFfxk+WazG/aowMpcqQNHKF3KzlkXL659QAUUSMRZ/nM
- UynMX7J1/K4JkGfSHGGRECIVsBepjd5rSrvLOMQQbxFeI1Iv+kLBB5Of8P0Ji6q3vYmc
- y+WoUkCuvYKSzSux1LZlfI8MjWmSYJ+mdDL0ypmgsaXVS9rOsAsRXxh6T1KISGnyRA/8
- JXIQ==
+ bh=ADKnkvRZV41OR8FpRzBFVdThnPU71bizMrztN5c22yI=;
+ b=fh0nR8T6S04JkovZwdwvwnxn9n/ZTpNHD1LAfhfHxT2YVdKMeC1AFEFUlm0MNxVBtb
+ X/qSuv2Cq9u5sFgJwJmV+dqTYyuPN5Wbfg6pN3+vh5uoG+p8vRLpWdFGTTZcGv6kA8VL
+ V8HkgOv63mNZU1EfJSJV6lpMCrJQHvIAkxgRoB/xz9aA5mJeRCcdls8s38llmH98d/Cu
+ zh1/r3nNSUsSsGekC6Ki23PUTST/M81oZWLercPgtBgA69KlMf8dKQ7gDVZJg7mrGzkl
+ e+q4pVcmEHCdXuhFoFSsQUjPOfAFDkkfH3ECokPJEGlX6KsQATn9npdCkA+mck1w8QYY
+ TA9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=17lWOhgcl+ZVqAbMQv1xvpusA/TYAXuediZfiyj2D18=;
- b=nseNqc5MxH8tocLPmKv7FzEoNL0GY/IFCuzMGcgdMifkhEoqDbxvLPcJ4xYdyOdkmH
- tMh9pXj0JXFrgDnd9Vx2tP7W8aVA5t2IVbThHOEh2Pd6yCYlC1DWYn5JteXeR9TTStMf
- 5gHPgaK29NC9tccJaaMi9VSVoYZF9Ue6VftsL0kJv1UrAW4G+SBNr/SSPRoAo3N8gPKZ
- PpyP094Yfk/1r+4CNNgb5ftq9u351Jzw1ApdO737mE4YQJJoBk8SHEPamRmjeJxh3K2V
- 1XBAIfxHLGOtUc+/JQVjq1UFuwWRyEGLczqjt+hplLC5ppVWT4fKVU3B/SN5vkzpFFfI
- wRpw==
-X-Gm-Message-State: AOAM533+fplAfM1si9k1wbWEGS2Q8zbXvobl6+8F+JMCiC3K/ZAj7p9c
- DpBeQpnchnyI3YfibBcK6QxpsQaROPW+jw==
-X-Google-Smtp-Source: ABdhPJxBiC/XyDhmPLZwYvEnMpCY0JxthaaB70oW/1LvRznezMpUm778RjmjDxXNwAmbOZuhvmB9bw==
-X-Received: by 2002:a17:90b:100f:: with SMTP id
- gm15mr31364738pjb.197.1621955237454; 
+ bh=ADKnkvRZV41OR8FpRzBFVdThnPU71bizMrztN5c22yI=;
+ b=h72tgeO7yYN72aeHSq+XA7fhWUEQ0jnJLG3D0YbwwjJLyW6pdzrqdEMKR2kJqIwrlV
+ W59r42BatFpXuGIC4q0AOnnTuwXhICIi2c7HtztcJW9kax/9dRJQlouXsrN5TDpm51Zm
+ zKCK0V5UO5CJglm83phv0/3CkeLy40JUsDvOL30fOMmGDPimlBZkjsQy568aIh+NkVot
+ tnC6l5PQUADEn0ocJ/juJOo9K4TdcXJX4+lwxxRrQ9TkrotMbcxYskvbdVpXZrT5NQCr
+ pvSuUtgvoKfobuAiNr1whSyNyOhNsxMV7j/dSgKRZWjPMQvL/0cJ9r1EpTDThSuCCSLf
+ sRkQ==
+X-Gm-Message-State: AOAM533jlX580VA9/0HUu94hpJkIvvtnEsnMlr/xUQSYFP5b81y7nsJU
+ dUcME/W+IGXAlBwpp/avNHJunAKeOa5oJg==
+X-Google-Smtp-Source: ABdhPJzRx0x8UsxwEC6+yMgLcnrJM1mSpTaDpoJOP4dFQ9LLNb+LtGGpkcHNooDQK9hGFOKQXwABKw==
+X-Received: by 2002:a63:9316:: with SMTP id b22mr19865846pge.70.1621955237991; 
  Tue, 25 May 2021 08:07:17 -0700 (PDT)
 Received: from localhost.localdomain (174-21-70-228.tukw.qwest.net.
  [174.21.70.228])
@@ -55,16 +54,16 @@ Received: from localhost.localdomain (174-21-70-228.tukw.qwest.net.
  Tue, 25 May 2021 08:07:17 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 15/28] softfloat: Convert floatx80_div to FloatParts
-Date: Tue, 25 May 2021 08:06:53 -0700
-Message-Id: <20210525150706.294968-16-richard.henderson@linaro.org>
+Subject: [PATCH v2 16/28] softfloat: Convert floatx80_sqrt to FloatParts
+Date: Tue, 25 May 2021 08:06:54 -0700
+Message-Id: <20210525150706.294968-17-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210525150706.294968-1-richard.henderson@linaro.org>
 References: <20210525150706.294968-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x435.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,127 +89,109 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- fpu/softfloat.c | 100 +++++++-----------------------------------------
- 1 file changed, 13 insertions(+), 87 deletions(-)
+ fpu/softfloat.c | 82 +++++++------------------------------------------
+ 1 file changed, 11 insertions(+), 71 deletions(-)
 
 diff --git a/fpu/softfloat.c b/fpu/softfloat.c
-index 2f2d1e50f7..7b9ae29285 100644
+index 7b9ae29285..d7beb27982 100644
 --- a/fpu/softfloat.c
 +++ b/fpu/softfloat.c
-@@ -2294,6 +2294,19 @@ float128_div(float128 a, float128 b, float_status *status)
-     return float128_round_pack_canonical(pr, status);
+@@ -3884,6 +3884,17 @@ float128 QEMU_FLATTEN float128_sqrt(float128 a, float_status *status)
+     return float128_round_pack_canonical(&p, status);
  }
  
-+floatx80 floatx80_div(floatx80 a, floatx80 b, float_status *status)
++floatx80 floatx80_sqrt(floatx80 a, float_status *s)
 +{
-+    FloatParts128 pa, pb, *pr;
++    FloatParts128 p;
 +
-+    if (!floatx80_unpack_canonical(&pa, a, status) ||
-+        !floatx80_unpack_canonical(&pb, b, status)) {
-+        return floatx80_default_nan(status);
++    if (!floatx80_unpack_canonical(&p, a, s)) {
++        return floatx80_default_nan(s);
 +    }
-+
-+    pr = parts_div(&pa, &pb, status);
-+    return floatx80_round_pack_canonical(pr, status);
++    parts_sqrt(&p, s, &floatx80_params[s->floatx80_rounding_precision]);
++    return floatx80_round_pack_canonical(&p, s);
 +}
 +
- /*
-  * Float to Float conversions
-  *
-@@ -5880,93 +5893,6 @@ floatx80 floatx80_round_to_int(floatx80 a, float_status *status)
- 
+ /*----------------------------------------------------------------------------
+ | The pattern for a default generated NaN.
+ *----------------------------------------------------------------------------*/
+@@ -6047,77 +6058,6 @@ floatx80 floatx80_mod(floatx80 a, floatx80 b, float_status *status)
+     return floatx80_modrem(a, b, true, &quotient, status);
  }
  
 -/*----------------------------------------------------------------------------
--| Returns the result of dividing the extended double-precision floating-point
--| value `a' by the corresponding value `b'.  The operation is performed
--| according to the IEC/IEEE Standard for Binary Floating-Point Arithmetic.
+-| Returns the square root of the extended double-precision floating-point
+-| value `a'.  The operation is performed according to the IEC/IEEE Standard
+-| for Binary Floating-Point Arithmetic.
 -*----------------------------------------------------------------------------*/
 -
--floatx80 floatx80_div(floatx80 a, floatx80 b, float_status *status)
+-floatx80 floatx80_sqrt(floatx80 a, float_status *status)
 -{
--    bool aSign, bSign, zSign;
--    int32_t aExp, bExp, zExp;
--    uint64_t aSig, bSig, zSig0, zSig1;
--    uint64_t rem0, rem1, rem2, term0, term1, term2;
+-    bool aSign;
+-    int32_t aExp, zExp;
+-    uint64_t aSig0, aSig1, zSig0, zSig1, doubleZSig0;
+-    uint64_t rem0, rem1, rem2, rem3, term0, term1, term2, term3;
 -
--    if (floatx80_invalid_encoding(a) || floatx80_invalid_encoding(b)) {
+-    if (floatx80_invalid_encoding(a)) {
 -        float_raise(float_flag_invalid, status);
 -        return floatx80_default_nan(status);
 -    }
--    aSig = extractFloatx80Frac( a );
+-    aSig0 = extractFloatx80Frac( a );
 -    aExp = extractFloatx80Exp( a );
 -    aSign = extractFloatx80Sign( a );
--    bSig = extractFloatx80Frac( b );
--    bExp = extractFloatx80Exp( b );
--    bSign = extractFloatx80Sign( b );
--    zSign = aSign ^ bSign;
 -    if ( aExp == 0x7FFF ) {
--        if ((uint64_t)(aSig << 1)) {
--            return propagateFloatx80NaN(a, b, status);
+-        if ((uint64_t)(aSig0 << 1)) {
+-            return propagateFloatx80NaN(a, a, status);
 -        }
--        if ( bExp == 0x7FFF ) {
--            if ((uint64_t)(bSig << 1)) {
--                return propagateFloatx80NaN(a, b, status);
--            }
--            goto invalid;
--        }
--        return packFloatx80(zSign, floatx80_infinity_high,
--                                   floatx80_infinity_low);
+-        if ( ! aSign ) return a;
+-        goto invalid;
 -    }
--    if ( bExp == 0x7FFF ) {
--        if ((uint64_t)(bSig << 1)) {
--            return propagateFloatx80NaN(a, b, status);
--        }
--        return packFloatx80( zSign, 0, 0 );
--    }
--    if ( bExp == 0 ) {
--        if ( bSig == 0 ) {
--            if ( ( aExp | aSig ) == 0 ) {
+-    if ( aSign ) {
+-        if ( ( aExp | aSig0 ) == 0 ) return a;
 - invalid:
--                float_raise(float_flag_invalid, status);
--                return floatx80_default_nan(status);
--            }
--            float_raise(float_flag_divbyzero, status);
--            return packFloatx80(zSign, floatx80_infinity_high,
--                                       floatx80_infinity_low);
--        }
--        normalizeFloatx80Subnormal( bSig, &bExp, &bSig );
+-        float_raise(float_flag_invalid, status);
+-        return floatx80_default_nan(status);
 -    }
 -    if ( aExp == 0 ) {
--        if ( aSig == 0 ) return packFloatx80( zSign, 0, 0 );
--        normalizeFloatx80Subnormal( aSig, &aExp, &aSig );
+-        if ( aSig0 == 0 ) return packFloatx80( 0, 0, 0 );
+-        normalizeFloatx80Subnormal( aSig0, &aExp, &aSig0 );
 -    }
--    zExp = aExp - bExp + 0x3FFE;
--    rem1 = 0;
--    if ( bSig <= aSig ) {
--        shift128Right( aSig, 0, 1, &aSig, &rem1 );
--        ++zExp;
--    }
--    zSig0 = estimateDiv128To64( aSig, rem1, bSig );
--    mul64To128( bSig, zSig0, &term0, &term1 );
--    sub128( aSig, rem1, term0, term1, &rem0, &rem1 );
+-    zExp = ( ( aExp - 0x3FFF )>>1 ) + 0x3FFF;
+-    zSig0 = estimateSqrt32( aExp, aSig0>>32 );
+-    shift128Right( aSig0, 0, 2 + ( aExp & 1 ), &aSig0, &aSig1 );
+-    zSig0 = estimateDiv128To64( aSig0, aSig1, zSig0<<32 ) + ( zSig0<<30 );
+-    doubleZSig0 = zSig0<<1;
+-    mul64To128( zSig0, zSig0, &term0, &term1 );
+-    sub128( aSig0, aSig1, term0, term1, &rem0, &rem1 );
 -    while ( (int64_t) rem0 < 0 ) {
 -        --zSig0;
--        add128( rem0, rem1, 0, bSig, &rem0, &rem1 );
+-        doubleZSig0 -= 2;
+-        add128( rem0, rem1, zSig0>>63, doubleZSig0 | 1, &rem0, &rem1 );
 -    }
--    zSig1 = estimateDiv128To64( rem1, 0, bSig );
--    if ( (uint64_t) ( zSig1<<1 ) <= 8 ) {
--        mul64To128( bSig, zSig1, &term1, &term2 );
+-    zSig1 = estimateDiv128To64( rem1, 0, doubleZSig0 );
+-    if ( ( zSig1 & UINT64_C(0x3FFFFFFFFFFFFFFF) ) <= 5 ) {
+-        if ( zSig1 == 0 ) zSig1 = 1;
+-        mul64To128( doubleZSig0, zSig1, &term1, &term2 );
 -        sub128( rem1, 0, term1, term2, &rem1, &rem2 );
+-        mul64To128( zSig1, zSig1, &term2, &term3 );
+-        sub192( rem1, rem2, 0, 0, term2, term3, &rem1, &rem2, &rem3 );
 -        while ( (int64_t) rem1 < 0 ) {
 -            --zSig1;
--            add128( rem1, rem2, 0, bSig, &rem1, &rem2 );
+-            shortShift128Left( 0, zSig1, 1, &term2, &term3 );
+-            term3 |= 1;
+-            term2 |= doubleZSig0;
+-            add192( rem1, rem2, rem3, 0, term2, term3, &rem1, &rem2, &rem3 );
 -        }
--        zSig1 |= ( ( rem1 | rem2 ) != 0 );
+-        zSig1 |= ( ( rem1 | rem2 | rem3 ) != 0 );
 -    }
+-    shortShift128Left( 0, zSig1, 1, &zSig0, &zSig1 );
+-    zSig0 |= doubleZSig0;
 -    return roundAndPackFloatx80(status->floatx80_rounding_precision,
--                                zSign, zExp, zSig0, zSig1, status);
+-                                0, zExp, zSig0, zSig1, status);
 -}
 -
  /*----------------------------------------------------------------------------
- | Returns the remainder of the extended double-precision floating-point value
- | `a' with respect to the corresponding value `b'.  The operation is performed
+ | Returns the result of converting the quadruple-precision floating-point
+ | value `a' to the extended double-precision floating-point format.  The
 -- 
 2.25.1
 
