@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF32639049B
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 17:08:28 +0200 (CEST)
-Received: from localhost ([::1]:35344 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20D87390498
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 17:06:00 +0200 (CEST)
+Received: from localhost ([::1]:55116 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llYfT-0002f8-OK
-	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 11:08:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58086)
+	id 1llYd5-0004lt-28
+	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 11:05:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58080)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1llYan-0001Z7-AC
+ id 1llYan-0001YP-0D
  for qemu-devel@nongnu.org; Tue, 25 May 2021 11:03:37 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:50986)
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:44892)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1llYal-00041d-5S
+ id 1llYal-00041c-5e
  for qemu-devel@nongnu.org; Tue, 25 May 2021 11:03:36 -0400
-Received: by mail-wm1-x329.google.com with SMTP id t206so16957573wmf.0
+Received: by mail-wr1-x429.google.com with SMTP id i17so32596975wrq.11
  for <qemu-devel@nongnu.org>; Tue, 25 May 2021 08:03:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=Yo1MfDnp94wK0ymgIb3UiHs+gEMuLI/bBaHKJqCU1io=;
- b=Cye3kIVViPVCkNd6MekmJWWrA3y07BI+RcFdWmimxaJlQvpZWZikzHP1e7L7Kg2hXi
- 9sXheB3ws6khaN7Ck1Za3ZNmZPzk6pYvq91V7zrlbqjZoaW8+7xBOM0diCsybuTXOmix
- iQ5GGNaZk6VXS+P6kri8JfAG/NhNA6ug67aWCD58Q3lGtKw1CJST8BcByXb6Pp1NuUx/
- mpEWmufJ3XgQWr6HZI5p70B1VRwifzfmg5v1N6CR83dhIBSFtDWOY4jJga9ixHf8eYFJ
- LzvnXptDAcP/4yFHS5Y2uZibuW7oeP27yXdrDZVQ3DcUWxcJIOXFGcuWXP8034pAOuvb
- woIg==
+ bh=YD9gvKP5eBMz5gSAgFIXdWeF4IeCcqagvgPRXfCAocM=;
+ b=Hf361ilAzwXLYtS7dGiH5fr8fu9x2jPm1RQ/KDgZ/gWztdf+RMe2PjI07Zi16Jt2G2
+ 3KM8NIPbG1kaSxFpy7TmShvUZ4O0TP23OUcGQU4Yki7E8sqVIvHiXpg4c++8nfJsfA0Q
+ L7/g2EmmDyuYLzgVBkYIGEnE/ECAOZlp/58JS1zPkepDY+yj8eGAT7A7wARg0VEKRuST
+ gB/LVueTKQYAdwzRr+yxn0+1uqpcVm6siXuMreL7hWFWc5l/L/jXL0pkaXskaOU1Qvx4
+ viUtM2JLwgzt5Q9/Vw38ne5NG1TEhICZcNW5/U+rT6lYSPD/Fw0VdHAtcyzuWrGhmRd4
+ xUzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Yo1MfDnp94wK0ymgIb3UiHs+gEMuLI/bBaHKJqCU1io=;
- b=hY6qu5C8r559wIttTtMa0bBFYzo3kp2L0X/7hLLAGgCBjjYSR0Ay6pIBfb7RVkEAMW
- LNDY2LF9fERgjQ3cozh3qTP/6jH2EoNv/pNLIkKlvGgjR5+7LIctkotpUIRqn7dGn6No
- leWg5sDDE8xcDAyBKvsCzrx1MD1DssdJXYaOsPbVpEDEVETH6E6i2Gb757SigwPAnuAZ
- oDNDLLj8c+9Q6hRiTT4txXy3NWZSk1JGXNpVMdD6EyEJV4hB7DCJ/WxBTLop67VnftF7
- sDq/47FBjFHrlbFo1UvrtJ9lQGKDTLmAxd69tRLDLTZC0OSjiJKdJ959aDe9VELVg5gR
- QkzA==
-X-Gm-Message-State: AOAM531aPr0Ua2VkXMM+w2youf1aQRTgSGmjL0qe6CvueQah/ZZHn6Os
- BO8PBzPq1NHbnjOAC7G8CIi6epP/0Dwe4QLT
-X-Google-Smtp-Source: ABdhPJy9l7+nnC+8qYU2HCMWTKHd+jvLQqG0peY5A/BISbw8XI9l7l5QURXGc5LNZcnaI1QI6qGUTg==
-X-Received: by 2002:a1c:1f4f:: with SMTP id f76mr24417490wmf.62.1621955007895; 
- Tue, 25 May 2021 08:03:27 -0700 (PDT)
+ bh=YD9gvKP5eBMz5gSAgFIXdWeF4IeCcqagvgPRXfCAocM=;
+ b=BQkN7oXSUgQK8vWKNGnHj8OHE/ue6vC6f+W4VZHY0+7gNlYysKz9QT2tsKfRnPusy4
+ xiuJUv0kXG2yItaOH9PyHTqBwAsNb5H3m7PohDJXBw7OKO2xhpXT3zi4BhIyrj7+IRAW
+ Gs55KVuSFnyYQaKEJasw+DxpZ5rCuuMJZSIu0FngPbJ8CDi6dOOH7S0vBTiRWP+vyO7p
+ yYPO5vN/7Ktjw4yJewzsGGWVglrpxReRE77v/5jHyuvTFhvPHJxJTL/k8RwNk0eUkKsa
+ ehzrMYpngMIV9oeu9KkclkHfSrRBvHg/298nKxoFUXMenAEHcarNSwTQXSuFTpbfdIcK
+ EWUw==
+X-Gm-Message-State: AOAM533dx92PI9Sk0/6vdOQqBa/qIDvhX+S7lbWy4YDQs7u8a6HMeEwz
+ BTXAXCONwfsGnTWM+bAZSEGG4PkI/GEEaIpO
+X-Google-Smtp-Source: ABdhPJzXU3HaVg0SBkqIthERoXmzPFIKgRp2lH6qFxe5TLhoqIhclUChQVN5rXQltEirGLzjR8H23g==
+X-Received: by 2002:a5d:50cf:: with SMTP id f15mr12846055wrt.287.1621955013625; 
+ Tue, 25 May 2021 08:03:33 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id q62sm11710284wma.42.2021.05.25.08.03.27
+ by smtp.gmail.com with ESMTPSA id q62sm11710284wma.42.2021.05.25.08.03.33
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 May 2021 08:03:27 -0700 (PDT)
+ Tue, 25 May 2021 08:03:33 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 002/114] hw/intc/arm_gicv3_cpuif: Fix EOIR write access check
- logic
-Date: Tue, 25 May 2021 16:01:32 +0100
-Message-Id: <20210525150324.32370-3-peter.maydell@linaro.org>
+Subject: [PULL 003/114] hw/arm/mps2-tz: Don't duplicate modelling of SRAM in
+ AN524
+Date: Tue, 25 May 2021 16:01:33 +0100
+Message-Id: <20210525150324.32370-4-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210525150324.32370-1-peter.maydell@linaro.org>
 References: <20210525150324.32370-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x329.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,108 +87,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In icc_eoir_write() we assume that we can identify the group of the
-IRQ being completed based purely on which register is being written
-to and the current CPU state, and that "CPU state matches group
-indicated by register" is the only necessary access check.
+The SRAM at 0x2000_0000 is part of the SSE-200 itself, and we model
+it that way in hw/arm/armsse.c (along with the associated MPCs).  We
+incorrectly also added an entry to the RAMInfo array for the AN524 in
+hw/arm/mps2-tz.c, which was pointless because the CPU would never see
+it.  Delete it.
 
-This isn't correct: if the CPU is not in Secure state then EOIR1 will
-only complete Group 1 NS IRQs, but if the CPU is in EL3 it can
-complete both Group 1 S and Group 1 NS IRQs.  (The pseudocode
-ICC_EOIR1_EL1 makes this clear.) We were also missing the logic to
-prevent EOIR0 writes completing G0 IRQs when they should not.
+The bug had no guest-visible effect because devices in the SSE-200
+take priority over those in the board model (armsse.c maps
+s->board_memory at priority -2).
 
-Rearrange the logic to first identify the group of the current
-highest priority interrupt and then look at whether we should
-complete it or ignore the access based on which register was accessed
-and the state of the CPU.  The resulting behavioural change is:
- * EL3 can now complete G1NS interrupts
- * G0 interrupt completion is now ignored if the GIC
-   and the CPU have the security extension enabled and
-   the CPU is not secure
-
-Reported-by: Chan Kim <ckim@etri.re.kr>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20210510150016.24910-1-peter.maydell@linaro.org
+Message-id: 20210510190844.17799-2-peter.maydell@linaro.org
 ---
- hw/intc/arm_gicv3_cpuif.c | 48 ++++++++++++++++++++++++++-------------
- 1 file changed, 32 insertions(+), 16 deletions(-)
+ hw/arm/mps2-tz.c | 8 +-------
+ 1 file changed, 1 insertion(+), 7 deletions(-)
 
-diff --git a/hw/intc/arm_gicv3_cpuif.c b/hw/intc/arm_gicv3_cpuif.c
-index 43ef1d7a840..81f94c7f4ad 100644
---- a/hw/intc/arm_gicv3_cpuif.c
-+++ b/hw/intc/arm_gicv3_cpuif.c
-@@ -1307,27 +1307,16 @@ static void icc_eoir_write(CPUARMState *env, const ARMCPRegInfo *ri,
-     GICv3CPUState *cs = icc_cs_from_env(env);
-     int irq = value & 0xffffff;
-     int grp;
-+    bool is_eoir0 = ri->crm == 8;
- 
--    if (icv_access(env, ri->crm == 8 ? HCR_FMO : HCR_IMO)) {
-+    if (icv_access(env, is_eoir0 ? HCR_FMO : HCR_IMO)) {
-         icv_eoir_write(env, ri, value);
-         return;
-     }
- 
--    trace_gicv3_icc_eoir_write(ri->crm == 8 ? 0 : 1,
-+    trace_gicv3_icc_eoir_write(is_eoir0 ? 0 : 1,
-                                gicv3_redist_affid(cs), value);
- 
--    if (ri->crm == 8) {
--        /* EOIR0 */
--        grp = GICV3_G0;
--    } else {
--        /* EOIR1 */
--        if (arm_is_secure(env)) {
--            grp = GICV3_G1;
--        } else {
--            grp = GICV3_G1NS;
--        }
--    }
--
-     if (irq >= cs->gic->num_irq) {
-         /* This handles two cases:
-          * 1. If software writes the ID of a spurious interrupt [ie 1020-1023]
-@@ -1340,8 +1329,35 @@ static void icc_eoir_write(CPUARMState *env, const ARMCPRegInfo *ri,
-         return;
-     }
- 
--    if (icc_highest_active_group(cs) != grp) {
--        return;
-+    grp = icc_highest_active_group(cs);
-+    switch (grp) {
-+    case GICV3_G0:
-+        if (!is_eoir0) {
-+            return;
-+        }
-+        if (!(cs->gic->gicd_ctlr & GICD_CTLR_DS)
-+            && arm_feature(env, ARM_FEATURE_EL3) && !arm_is_secure(env)) {
-+            return;
-+        }
-+        break;
-+    case GICV3_G1:
-+        if (is_eoir0) {
-+            return;
-+        }
-+        if (!arm_is_secure(env)) {
-+            return;
-+        }
-+        break;
-+    case GICV3_G1NS:
-+        if (is_eoir0) {
-+            return;
-+        }
-+        if (!arm_is_el3_or_mon(env) && arm_is_secure(env)) {
-+            return;
-+        }
-+        break;
-+    default:
-+        g_assert_not_reached();
-     }
- 
-     icc_drop_prio(cs, grp);
+diff --git a/hw/arm/mps2-tz.c b/hw/arm/mps2-tz.c
+index 70aa31a7f6c..77ff83acb06 100644
+--- a/hw/arm/mps2-tz.c
++++ b/hw/arm/mps2-tz.c
+@@ -243,19 +243,13 @@ static const RAMInfo an524_raminfo[] = { {
+         .size = 512 * KiB,
+         .mpc = 0,
+         .mrindex = 0,
+-    }, {
+-        .name = "sram",
+-        .base = 0x20000000,
+-        .size = 32 * 4 * KiB,
+-        .mpc = -1,
+-        .mrindex = 1,
+     }, {
+         /* We don't model QSPI flash yet; for now expose it as simple ROM */
+         .name = "QSPI",
+         .base = 0x28000000,
+         .size = 8 * MiB,
+         .mpc = 1,
+-        .mrindex = 2,
++        .mrindex = 1,
+         .flags = IS_ROM,
+     }, {
+         .name = "DDR",
 -- 
 2.20.1
 
