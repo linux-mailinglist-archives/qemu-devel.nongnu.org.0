@@ -2,62 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D867F3901FE
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 15:19:19 +0200 (CEST)
-Received: from localhost ([::1]:44186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E579390200
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 15:19:21 +0200 (CEST)
+Received: from localhost ([::1]:44400 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llWxq-0007Jb-K7
-	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 09:19:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57146)
+	id 1llWxs-0007SE-Et
+	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 09:19:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57184)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kit.westneat@gmail.com>)
- id 1llWv4-0004wk-RZ
- for qemu-devel@nongnu.org; Tue, 25 May 2021 09:16:26 -0400
-Received: from mail-qk1-x72c.google.com ([2607:f8b0:4864:20::72c]:39830)
+ id 1llWv6-0004ws-AJ
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 09:16:28 -0400
+Received: from mail-qk1-x72c.google.com ([2607:f8b0:4864:20::72c]:42664)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <kit.westneat@gmail.com>)
- id 1llWv3-0004eQ-8E
- for qemu-devel@nongnu.org; Tue, 25 May 2021 09:16:26 -0400
-Received: by mail-qk1-x72c.google.com with SMTP id j184so8241994qkd.6
- for <qemu-devel@nongnu.org>; Tue, 25 May 2021 06:16:24 -0700 (PDT)
+ id 1llWv3-0004ec-P9
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 09:16:28 -0400
+Received: by mail-qk1-x72c.google.com with SMTP id o27so30281517qkj.9
+ for <qemu-devel@nongnu.org>; Tue, 25 May 2021 06:16:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=fusJN9yX/5p/1BzxMk+j1QtkuY6pQEtDelyTJilmUlE=;
- b=eHaHvZLfnIMgNNp8VNoyo7QjydI/m8bIwmG4pbeRU1PKPmEahcZ2YOwHCW8jAvgr9G
- +BUra8mDJqXOkP7LgnrDqGnUiaz6TBVH6fUfAnVnto18EE/GjAY566jWR5ASfyYDzuzz
- lDJV9na4DfmZuD/EZfsRonpmLvt39KHBwTWP8VtGHOs0ux7CKqs4CLB4O0Vlv+q47QCK
- saeAjGzNg2FFDAN7tKunn2/On1xfkcSIPmVfyAh1OMa1xiwbLhKo4vX01FQD7nN1CDL6
- gGQGMToZS39C7KElphg4ordylpDqY+91MOpaTmlRbcX4FPs/a0pnWY7sxJL94vCkoOWm
- 6+YA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=Sdr5QeVVXUzVRxHybwL8+Vtn8VAM6fR6pGxyRGaL+0Q=;
+ b=LmQUSJLCcP87mBUcK0GgDJiDSfr6K/rhnMt4GoNsnzdy72ox9quTzN/LK3uqAj1YH0
+ M7vGaq6mRFnaEdyTW8OK1DlH2ECjR56jhZSYvEp0lk2KC42lv40Bc/rQ/9wFx+jqakdU
+ 1H9IZw3l640XJ+UHIqqqfS3aTQjGNVDCldT/1GFJkdrsPqbejtzqreBJxAhDEvHCKzpH
+ +kVGZI+91Bd/wfmHAPbZw9V+15dQ6lFyAWsf74lTILwsJB/u7ATqhZBwNJsFTpun51Bd
+ +SASMG4soq2Q4lhCMxsruFFXaExS/FDcjWo1JXOCsrQr/ydTobDxXFcxO1JP5LQtZaRM
+ jm0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=fusJN9yX/5p/1BzxMk+j1QtkuY6pQEtDelyTJilmUlE=;
- b=g8lr+9tnDTfaixQ12CzWYuYxH1cHh7mgPNK4RXTQK1LPPbXMVtt3H32gT1cC88ze9n
- Dgfjs7+nzO1wvT9IGCNKayKvwxLjxkNJaDmTC4wGO1YKBYMdbxtNmWbtMiuMrYKG6IYs
- 0ztV0LamzkNDffcAIbJJ/11XSybf79dTQlia7jBT404DgDLX+bREwi/xbGZ8EsIxEWfp
- t87mUhVzJ2D4GOvIjMw7WgTyoRz13GfRTwXaTyzP3kG8zdfPob6axzPAI6FhhRhPy1Kw
- sEJ0+O/vC+eVGHOzviLAtDrHYHtfkCwiUbDccZV949VlZTF4PbP7bbau/lgrE/BeMpQQ
- 17LQ==
-X-Gm-Message-State: AOAM530oULikQINR8kbt2zW0cw3kpxtTOYy4vn+zjyKkOrGvNLgGK39k
- wImc5tQ6f26YWvpejnCYjDccpK7Fj3s=
-X-Google-Smtp-Source: ABdhPJyr7XSt1FfL0xx1sRXclaJwqax7knSnhEScceluEoBPJbT9e9m5PeFty7xqv0+I0ciEsiRfLw==
-X-Received: by 2002:a05:620a:2486:: with SMTP id
- i6mr36026894qkn.207.1621948583902; 
- Tue, 25 May 2021 06:16:23 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=Sdr5QeVVXUzVRxHybwL8+Vtn8VAM6fR6pGxyRGaL+0Q=;
+ b=NmcEsm01+Z7dXb/9yNLk+tJZgs6SwwM9G6ocgN2OaNMRv18KAS8klKFXpLOiUuPHIF
+ XYKT5r0DdKCxnk2HTYaLI+2EoQ2SwQk6VkgOGTHhH2ZZQU4Q/hsM3RhqkVqQ5AmYjyQc
+ KPJ+ZJKjgro8YVTdDDab6OfIZJhVqDscAjuEY7dvrHOJ5dYMQDPEE1cTW6TuLXIrsbBp
+ h80XpaHi4CVyAAfIB5tTPD1EsmrF8ovsWoe1VcV5QJMsvCHZhBtQ0TZgmsFeqXXBohf2
+ 3pRjPg+9D7aI/Z9g3RWGHNjRtP21GVRlYnaMf0Ozjulub/UKjlvGEr7OFnNLOB+D5vur
+ 1o9g==
+X-Gm-Message-State: AOAM533mgrkK0xpWyKSZ82RBE4w1QD+omKxmDthoSUHM9IMQJDbxVA37
+ /6fseOz7eXNoBxiVgyxNefjOT5SrnxM=
+X-Google-Smtp-Source: ABdhPJzH/VFpbKN/wETKhLlsQSeY/AGnfmZzjaKMNDv20KSIxjhPf7ep7Bni6FsgTQEMu6NYDrYZlA==
+X-Received: by 2002:a05:620a:30d:: with SMTP id
+ s13mr34891455qkm.58.1621948584721; 
+ Tue, 25 May 2021 06:16:24 -0700 (PDT)
 Received: from nishikirei.com.com ([104.131.0.80])
- by smtp.gmail.com with ESMTPSA id p14sm13213596qki.27.2021.05.25.06.16.22
+ by smtp.gmail.com with ESMTPSA id p14sm13213596qki.27.2021.05.25.06.16.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 May 2021 06:16:23 -0700 (PDT)
+ Tue, 25 May 2021 06:16:24 -0700 (PDT)
 From: Kit Westneat <kit.westneat@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/3] testing block device blocksizes
-Date: Tue, 25 May 2021 13:15:42 +0000
-Message-Id: <20210525131545.529451-1-kit.westneat@gmail.com>
+Subject: [PATCH v2 1/3] block/blkdebug: add blocksize parameter
+Date: Tue, 25 May 2021 13:15:43 +0000
+Message-Id: <20210525131545.529451-2-kit.westneat@gmail.com>
 X-Mailer: git-send-email 2.26.3
+In-Reply-To: <20210525131545.529451-1-kit.westneat@gmail.com>
+References: <20210525131545.529451-1-kit.westneat@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=2607:f8b0:4864:20::72c;
@@ -85,22 +87,88 @@ Cc: pbonzini@redhat.com, Kit Westneat <kit.westneat@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These patches add a few parameters to blkdebug to allow modification of
-the block device block sizes, both logical and physical. It also adds a
-test that uses the parameter to verify correct UNMAP behavior in devices
-with 4k blocks.
+Allow users to specify the block size of the qdev for testing purposes.
 
-v2: fixes style issues
+Signed-off-by: Kit Westneat <kit.westneat@gmail.com>
+---
+ block/blkdebug.c | 29 +++++++++++++++++++++++++++++
+ 1 file changed, 29 insertions(+)
 
-Kit Westneat (3):
-  block/blkdebug: add blocksize parameter
-  tests/qtest/virtio-scsi-test: add unmap large LBA with 4k blocks test
-  block/blkdebug: add log-blocksize and phys-blocksize parameters
-
- block/blkdebug.c               | 56 ++++++++++++++++++++++++++++++++++
- tests/qtest/virtio-scsi-test.c | 50 ++++++++++++++++++++++++++++++
- 2 files changed, 106 insertions(+)
-
+diff --git a/block/blkdebug.c b/block/blkdebug.c
+index 2c0b9b0ee8..d5f589920c 100644
+--- a/block/blkdebug.c
++++ b/block/blkdebug.c
+@@ -47,6 +47,7 @@ typedef struct BDRVBlkdebugState {
+     uint64_t max_write_zero;
+     uint64_t opt_discard;
+     uint64_t max_discard;
++    uint64_t blocksize;
+ 
+     uint64_t take_child_perms;
+     uint64_t unshare_child_perms;
+@@ -455,6 +456,11 @@ static QemuOptsList runtime_opts = {
+             .type = QEMU_OPT_SIZE,
+             .help = "Maximum discard size in bytes",
+         },
++        {
++            .name = "blocksize",
++            .type = QEMU_OPT_SIZE,
++            .help = "Blocksize of device",
++        },
+         { /* end of list */ }
+     },
+ };
+@@ -562,6 +568,14 @@ static int blkdebug_open(BlockDriverState *bs, QDict *options, int flags,
+         goto out;
+     }
+ 
++    s->blocksize = qemu_opt_get_size(opts, "blocksize", 512);
++    if (s->blocksize && (s->blocksize >= INT_MAX ||
++        !is_power_of_2(s->blocksize))) {
++        error_setg(errp, "Cannot meet constraints with blocksize %" PRIu64,
++                   s->blocksize);
++        goto out;
++    }
++
+     bdrv_debug_event(bs, BLKDBG_NONE);
+ 
+     ret = 0;
+@@ -984,6 +998,19 @@ static void blkdebug_refresh_limits(BlockDriverState *bs, Error **errp)
+     }
+ }
+ 
++static int blkdebug_probe_blocksizes(BlockDriverState *bs, BlockSizes *bsz)
++{
++    BDRVBlkdebugState *s = bs->opaque;
++
++    if (!s->blocksize) {
++        return 0;
++    }
++
++    bsz->phys = s->blocksize;
++    bsz->log = s->blocksize;
++    return 0;
++}
++
+ static int blkdebug_reopen_prepare(BDRVReopenState *reopen_state,
+                                    BlockReopenQueue *queue, Error **errp)
+ {
+@@ -1010,6 +1037,7 @@ static const char *const blkdebug_strong_runtime_opts[] = {
+     "inject-error.",
+     "set-state.",
+     "align",
++    "blocksize",
+     "max-transfer",
+     "opt-write-zero",
+     "max-write-zero",
+@@ -1034,6 +1062,7 @@ static BlockDriver bdrv_blkdebug = {
+     .bdrv_getlength         = blkdebug_getlength,
+     .bdrv_refresh_filename  = blkdebug_refresh_filename,
+     .bdrv_refresh_limits    = blkdebug_refresh_limits,
++    .bdrv_probe_blocksizes  = blkdebug_probe_blocksizes,
+ 
+     .bdrv_co_preadv         = blkdebug_co_preadv,
+     .bdrv_co_pwritev        = blkdebug_co_pwritev,
 -- 
 2.26.3
 
