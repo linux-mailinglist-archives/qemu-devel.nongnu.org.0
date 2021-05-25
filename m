@@ -2,51 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DABC38F7A6
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 03:43:32 +0200 (CEST)
-Received: from localhost ([::1]:56686 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7E9238F7AF
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 03:47:08 +0200 (CEST)
+Received: from localhost ([::1]:40632 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llM6V-0005tJ-Li
-	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 21:43:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54230)
+	id 1llM9z-0005Yh-UM
+	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 21:47:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54296)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1llLVA-0002P4-M5
- for qemu-devel@nongnu.org; Mon, 24 May 2021 21:04:56 -0400
-Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c]:39733)
+ id 1llLVD-0002ZU-06
+ for qemu-devel@nongnu.org; Mon, 24 May 2021 21:04:59 -0400
+Received: from mail-pf1-x435.google.com ([2607:f8b0:4864:20::435]:36688)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1llLUb-0001sd-V8
- for qemu-devel@nongnu.org; Mon, 24 May 2021 21:04:56 -0400
-Received: by mail-pg1-x52c.google.com with SMTP id v14so18677987pgi.6
- for <qemu-devel@nongnu.org>; Mon, 24 May 2021 18:04:21 -0700 (PDT)
+ id 1llLUf-0001ss-Jg
+ for qemu-devel@nongnu.org; Mon, 24 May 2021 21:04:58 -0400
+Received: by mail-pf1-x435.google.com with SMTP id c12so10680914pfl.3
+ for <qemu-devel@nongnu.org>; Mon, 24 May 2021 18:04:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=NEJph6bPv2fQDS20YrndVl2KdexL9NoqSHsy7DSwOvU=;
- b=b+JR2hPEtjy72FzsrUkgOFumx2VPy9X1k+SMv8mIuie/5UgLIjq9w/JDJasxBjF75l
- UMw28bkVcyMtRdZiurSmecblvSIOS1O24eyA1Mlrkm6ry2+LpMPNWHUqKLqN7EuOjv5/
- oc/QAEraE1syfZ+39K6CZJt59BqxW2G6dYti34WEi1xleJ3+/60mU8gentRfLt1P0Lr2
- N3DSrVaK0U7f3QrCYENBfQm7WkgED1MOWOHZ6+Dqj31pDZT2OTDwZdBqaxlUFaopisrE
- J2w2hP00x/aaP+aZZ8xKo57c2lCLSo8gMEAcQcDIgZLAYGo31z1XRpfA3aO3KK3vrk+b
- bKJA==
+ bh=hMJfd4FOTAIzDHyQYXykKd3nDXG5kXZfYldRWp5RaJ0=;
+ b=lsWnoK8FHDNwE77ndduq9LvoRhreyjKdwFR+6YKtGHCg1hhyAeiq1X0QEpf9+v3xBq
+ B+VkC8/R1j2UEmnkQp2MAC4CqRx7IQgKrK0T0oo1yBQjYNUJ065nkXB4s2AqEl5S2f57
+ FHyXlVtj/FwGcLAEn2XfGFX1P1hhOdeBULtpQVYp9b4jYhytWfpJXQTuKi7H6a1aLFqS
+ r4+WtHprYDCbJ2bDRFQTXGtUaB8BS5g1Yvbzm/7g6NGoKrM02Pb8NEU3h8Rdp12RBWK+
+ T3fWrgfLBhha9vIQUYuqGmESm+2s4Ve585smmqoH+2it+HVemDtzP/5niPVFlGr7JD25
+ 4GIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=NEJph6bPv2fQDS20YrndVl2KdexL9NoqSHsy7DSwOvU=;
- b=WSC1oFeKwDNDiGHvsYOwRX23LrszakNTDrja8LeZrJxt+8SkLx8dyH3thUvWop0Gz/
- BK/Bju8UH8tfLr0Jc4maK0EDBK0zIUf+9O2IOHC/xpg23ONCK9VaIpW5ufhrbYb1JJbF
- nTf8/DFg7SHLugIO3Qan3dnilGyf7AlThG0B9FZOVGSQndtuxgBq5Q44rHpvomPUv1Im
- LlyCwnDCwof00vXIIBTRPUOd0icd7p67Q4b8nmw2vbbUcCRvtbLBHYFkOJ8HeFREeMH2
- bDwZvdPmqVyfnhKXI2z7p8EPW9cdrmS5We7+3w5qeTEytK6BhqJweFRhUcZnIGQa73Nc
- 6MEA==
-X-Gm-Message-State: AOAM5322tr9IderS+NB/R9fJ6+14Sd+yACXewzpi5IArs0g/3j/571by
- FaFqA2LgbpZdPdkK7IH4g/jGVkj7UCcUEw==
-X-Google-Smtp-Source: ABdhPJwhadzhcZERW6MNA+/mDZDR+nJP6RuXX8nNWjG9o6XRrAHlOZXhALaSwvsNemZtxIrzr7HKdw==
-X-Received: by 2002:a63:5c17:: with SMTP id q23mr16459424pgb.168.1621904660573; 
- Mon, 24 May 2021 18:04:20 -0700 (PDT)
+ bh=hMJfd4FOTAIzDHyQYXykKd3nDXG5kXZfYldRWp5RaJ0=;
+ b=ZaPRJEvXCWp3LNu2J5wouziot0jm3QASnQkCl/D1BfcWtFRiSfNyeAyRfaqEAZX0e1
+ y1BnMseA2HBJoFdNZCzR2wMB9HP5LgxTq5yHz1OEiP9nPzX+VFr+tOmSiDSMEusPNNed
+ OsFUqAIbZWOPhKSD+mJSQUvS4CnujI32+N/4ZgD0LoeMHXLt0/0mZ6LJ1kK7OOCYl1C0
+ sV0Xzsbg7n0jmahfv34rfbZMX9rbBzhRSm2T6hsPkZWAT6f/ksfPbm+STyz4xY/pRiEV
+ 6Px2sWIUy8BsnhowuVUWYkKVNv5HBTLY8AuHYWZJODyTSC3OXxJKFdl/4oCiY4jgXtkX
+ 5hng==
+X-Gm-Message-State: AOAM531z9PWvV8z9tawfMlLuQk5Trh1zxO+iUH7yyvJPXor27jNj55au
+ 6tyypmv7fGMagGONO5G3DLr8CKWyxLkObg==
+X-Google-Smtp-Source: ABdhPJweAp/IMrCrMD34DLX5n6dqpatqcZUI5DuTX/AWB5UCFr2P34Npu2IMznYssxqKVwDl5u9VRQ==
+X-Received: by 2002:aa7:8f37:0:b029:2db:551f:ed8e with SMTP id
+ y23-20020aa78f370000b02902db551fed8emr27141654pfr.43.1621904661197; 
+ Mon, 24 May 2021 18:04:21 -0700 (PDT)
 Received: from localhost.localdomain (174-21-70-228.tukw.qwest.net.
  [174.21.70.228])
  by smtp.gmail.com with ESMTPSA id b1sm13742645pgf.84.2021.05.24.18.04.20
@@ -54,17 +55,17 @@ Received: from localhost.localdomain (174-21-70-228.tukw.qwest.net.
  Mon, 24 May 2021 18:04:20 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 34/92] target/arm: Implement SVE2 saturating multiply-add
- long
-Date: Mon, 24 May 2021 18:03:00 -0700
-Message-Id: <20210525010358.152808-35-richard.henderson@linaro.org>
+Subject: [PATCH v7 35/92] target/arm: Implement SVE2 saturating multiply-add
+ high
+Date: Mon, 24 May 2021 18:03:01 -0700
+Message-Id: <20210525010358.152808-36-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210525010358.152808-1-richard.henderson@linaro.org>
 References: <20210525010358.152808-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x435.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,162 +89,287 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+SVE2 has two additional sizes of the operation and unlike NEON,
+there is no saturation flag.  Create new entry points for SVE2
+that do not set QC.
+
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/helper-sve.h    | 14 ++++++++++
- target/arm/sve.decode      | 14 ++++++++++
- target/arm/sve_helper.c    | 30 +++++++++++++++++++++
- target/arm/translate-sve.c | 54 ++++++++++++++++++++++++++++++++++++++
- 4 files changed, 112 insertions(+)
+ target/arm/helper.h        |  17 ++++
+ target/arm/sve.decode      |   5 ++
+ target/arm/translate-sve.c |  18 +++++
+ target/arm/vec_helper.c    | 161 +++++++++++++++++++++++++++++++++++--
+ 4 files changed, 195 insertions(+), 6 deletions(-)
 
-diff --git a/target/arm/helper-sve.h b/target/arm/helper-sve.h
-index 11dc6870de..d8f390617c 100644
---- a/target/arm/helper-sve.h
-+++ b/target/arm/helper-sve.h
-@@ -2559,3 +2559,17 @@ DEF_HELPER_FLAGS_5(sve2_bcax, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, ptr, i32)
- DEF_HELPER_FLAGS_5(sve2_bsl1n, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, ptr, i32)
- DEF_HELPER_FLAGS_5(sve2_bsl2n, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, ptr, i32)
- DEF_HELPER_FLAGS_5(sve2_nbsl, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, ptr, i32)
+diff --git a/target/arm/helper.h b/target/arm/helper.h
+index 2c412ffd3b..6bb0b0ddc0 100644
+--- a/target/arm/helper.h
++++ b/target/arm/helper.h
+@@ -591,6 +591,23 @@ DEF_HELPER_FLAGS_5(gvec_qrdmlah_s32, TCG_CALL_NO_RWG,
+ DEF_HELPER_FLAGS_5(gvec_qrdmlsh_s32, TCG_CALL_NO_RWG,
+                    void, ptr, ptr, ptr, ptr, i32)
+ 
++DEF_HELPER_FLAGS_5(sve2_sqrdmlah_b, TCG_CALL_NO_RWG,
++                   void, ptr, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_5(sve2_sqrdmlsh_b, TCG_CALL_NO_RWG,
++                   void, ptr, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_5(sve2_sqrdmlah_h, TCG_CALL_NO_RWG,
++                   void, ptr, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_5(sve2_sqrdmlsh_h, TCG_CALL_NO_RWG,
++                   void, ptr, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_5(sve2_sqrdmlah_s, TCG_CALL_NO_RWG,
++                   void, ptr, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_5(sve2_sqrdmlsh_s, TCG_CALL_NO_RWG,
++                   void, ptr, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_5(sve2_sqrdmlah_d, TCG_CALL_NO_RWG,
++                   void, ptr, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_5(sve2_sqrdmlsh_d, TCG_CALL_NO_RWG,
++                   void, ptr, ptr, ptr, ptr, i32)
 +
-+DEF_HELPER_FLAGS_5(sve2_sqdmlal_zzzw_h, TCG_CALL_NO_RWG,
-+                   void, ptr, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_5(sve2_sqdmlal_zzzw_s, TCG_CALL_NO_RWG,
-+                   void, ptr, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_5(sve2_sqdmlal_zzzw_d, TCG_CALL_NO_RWG,
-+                   void, ptr, ptr, ptr, ptr, i32)
-+
-+DEF_HELPER_FLAGS_5(sve2_sqdmlsl_zzzw_h, TCG_CALL_NO_RWG,
-+                   void, ptr, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_5(sve2_sqdmlsl_zzzw_s, TCG_CALL_NO_RWG,
-+                   void, ptr, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_5(sve2_sqdmlsl_zzzw_d, TCG_CALL_NO_RWG,
-+                   void, ptr, ptr, ptr, ptr, i32)
+ DEF_HELPER_FLAGS_4(gvec_sdot_b, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
+ DEF_HELPER_FLAGS_4(gvec_udot_b, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
+ DEF_HELPER_FLAGS_4(gvec_sdot_h, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
 diff --git a/target/arm/sve.decode b/target/arm/sve.decode
-index 47fca5e12d..52f615b39e 100644
+index 52f615b39e..8308c9238a 100644
 --- a/target/arm/sve.decode
 +++ b/target/arm/sve.decode
-@@ -1332,3 +1332,17 @@ FMAXNMP         01100100 .. 010 10 0 100 ... ..... ..... @rdn_pg_rm
- FMINNMP         01100100 .. 010 10 1 100 ... ..... ..... @rdn_pg_rm
- FMAXP           01100100 .. 010 11 0 100 ... ..... ..... @rdn_pg_rm
- FMINP           01100100 .. 010 11 1 100 ... ..... ..... @rdn_pg_rm
-+
-+#### SVE Integer Multiply-Add (unpredicated)
-+
-+## SVE2 saturating multiply-add long
-+
-+SQDMLALB_zzzw   01000100 .. 0 ..... 0110 00 ..... .....  @rda_rn_rm
-+SQDMLALT_zzzw   01000100 .. 0 ..... 0110 01 ..... .....  @rda_rn_rm
-+SQDMLSLB_zzzw   01000100 .. 0 ..... 0110 10 ..... .....  @rda_rn_rm
-+SQDMLSLT_zzzw   01000100 .. 0 ..... 0110 11 ..... .....  @rda_rn_rm
-+
-+## SVE2 saturating multiply-add interleaved long
-+
-+SQDMLALBT       01000100 .. 0 ..... 00001 0 ..... .....  @rda_rn_rm
-+SQDMLSLBT       01000100 .. 0 ..... 00001 1 ..... .....  @rda_rn_rm
-diff --git a/target/arm/sve_helper.c b/target/arm/sve_helper.c
-index f3250165da..ad211249ca 100644
---- a/target/arm/sve_helper.c
-+++ b/target/arm/sve_helper.c
-@@ -1405,6 +1405,36 @@ void HELPER(sve2_adcl_d)(void *vd, void *vn, void *vm, void *va, uint32_t desc)
-     }
- }
+@@ -1346,3 +1346,8 @@ SQDMLSLT_zzzw   01000100 .. 0 ..... 0110 11 ..... .....  @rda_rn_rm
  
-+#define DO_SQDMLAL(NAME, TYPEW, TYPEN, HW, HN, DMUL_OP, SUM_OP) \
-+void HELPER(NAME)(void *vd, void *vn, void *vm, void *va, uint32_t desc) \
-+{                                                                       \
-+    intptr_t i, opr_sz = simd_oprsz(desc);                              \
-+    int sel1 = extract32(desc, SIMD_DATA_SHIFT, 1) * sizeof(TYPEN);     \
-+    int sel2 = extract32(desc, SIMD_DATA_SHIFT + 1, 1) * sizeof(TYPEN); \
-+    for (i = 0; i < opr_sz; i += sizeof(TYPEW)) {                       \
-+        TYPEW nn = *(TYPEN *)(vn + HN(i + sel1));                       \
-+        TYPEW mm = *(TYPEN *)(vm + HN(i + sel2));                       \
-+        TYPEW aa = *(TYPEW *)(va + HW(i));                              \
-+        *(TYPEW *)(vd + HW(i)) = SUM_OP(aa, DMUL_OP(nn, mm));           \
-+    }                                                                   \
-+}
+ SQDMLALBT       01000100 .. 0 ..... 00001 0 ..... .....  @rda_rn_rm
+ SQDMLSLBT       01000100 .. 0 ..... 00001 1 ..... .....  @rda_rn_rm
 +
-+DO_SQDMLAL(sve2_sqdmlal_zzzw_h, int16_t, int8_t, H1_2, H1,
-+           do_sqdmull_h, DO_SQADD_H)
-+DO_SQDMLAL(sve2_sqdmlal_zzzw_s, int32_t, int16_t, H1_4, H1_2,
-+           do_sqdmull_s, DO_SQADD_S)
-+DO_SQDMLAL(sve2_sqdmlal_zzzw_d, int64_t, int32_t,     , H1_4,
-+           do_sqdmull_d, do_sqadd_d)
++## SVE2 saturating multiply-add high
 +
-+DO_SQDMLAL(sve2_sqdmlsl_zzzw_h, int16_t, int8_t, H1_2, H1,
-+           do_sqdmull_h, DO_SQSUB_H)
-+DO_SQDMLAL(sve2_sqdmlsl_zzzw_s, int32_t, int16_t, H1_4, H1_2,
-+           do_sqdmull_s, DO_SQSUB_S)
-+DO_SQDMLAL(sve2_sqdmlsl_zzzw_d, int64_t, int32_t,     , H1_4,
-+           do_sqdmull_d, do_sqsub_d)
-+
-+#undef DO_SQDMLAL
-+
- #define DO_BITPERM(NAME, TYPE, OP) \
- void HELPER(NAME)(void *vd, void *vn, void *vm, uint32_t desc) \
- {                                                              \
++SQRDMLAH_zzzz   01000100 .. 0 ..... 01110 0 ..... .....  @rda_rn_rm
++SQRDMLSH_zzzz   01000100 .. 0 ..... 01110 1 ..... .....  @rda_rn_rm
 diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
-index 0ac2aeef09..7e23d1cad3 100644
+index 7e23d1cad3..a3597a4c38 100644
 --- a/target/arm/translate-sve.c
 +++ b/target/arm/translate-sve.c
-@@ -7508,3 +7508,57 @@ DO_SVE2_ZPZZ_FP(FMAXNMP, fmaxnmp)
- DO_SVE2_ZPZZ_FP(FMINNMP, fminnmp)
- DO_SVE2_ZPZZ_FP(FMAXP, fmaxp)
- DO_SVE2_ZPZZ_FP(FMINP, fminp)
+@@ -7562,3 +7562,21 @@ static bool trans_SQDMLSLBT(DisasContext *s, arg_rrrr_esz *a)
+ {
+     return do_sqdmlsl_zzzw(s, a, false, true);
+ }
 +
-+/*
-+ * SVE Integer Multiply-Add (unpredicated)
-+ */
-+
-+static bool do_sqdmlal_zzzw(DisasContext *s, arg_rrrr_esz *a,
-+                            bool sel1, bool sel2)
++static bool trans_SQRDMLAH_zzzz(DisasContext *s, arg_rrrr_esz *a)
 +{
 +    static gen_helper_gvec_4 * const fns[] = {
-+        NULL,                           gen_helper_sve2_sqdmlal_zzzw_h,
-+        gen_helper_sve2_sqdmlal_zzzw_s, gen_helper_sve2_sqdmlal_zzzw_d,
++        gen_helper_sve2_sqrdmlah_b, gen_helper_sve2_sqrdmlah_h,
++        gen_helper_sve2_sqrdmlah_s, gen_helper_sve2_sqrdmlah_d,
 +    };
-+    return do_sve2_zzzz_ool(s, a, fns[a->esz], (sel2 << 1) | sel1);
++    return do_sve2_zzzz_ool(s, a, fns[a->esz], 0);
 +}
 +
-+static bool do_sqdmlsl_zzzw(DisasContext *s, arg_rrrr_esz *a,
-+                            bool sel1, bool sel2)
++static bool trans_SQRDMLSH_zzzz(DisasContext *s, arg_rrrr_esz *a)
 +{
 +    static gen_helper_gvec_4 * const fns[] = {
-+        NULL,                           gen_helper_sve2_sqdmlsl_zzzw_h,
-+        gen_helper_sve2_sqdmlsl_zzzw_s, gen_helper_sve2_sqdmlsl_zzzw_d,
++        gen_helper_sve2_sqrdmlsh_b, gen_helper_sve2_sqrdmlsh_h,
++        gen_helper_sve2_sqrdmlsh_s, gen_helper_sve2_sqrdmlsh_d,
 +    };
-+    return do_sve2_zzzz_ool(s, a, fns[a->esz], (sel2 << 1) | sel1);
++    return do_sve2_zzzz_ool(s, a, fns[a->esz], 0);
++}
+diff --git a/target/arm/vec_helper.c b/target/arm/vec_helper.c
+index b0ce597060..c56337e724 100644
+--- a/target/arm/vec_helper.c
++++ b/target/arm/vec_helper.c
+@@ -22,6 +22,7 @@
+ #include "exec/helper-proto.h"
+ #include "tcg/tcg-gvec-desc.h"
+ #include "fpu/softfloat.h"
++#include "qemu/int128.h"
+ #include "vec_internal.h"
+ 
+ /* Note that vector data is stored in host-endian 64-bit chunks,
+@@ -36,15 +37,55 @@
+ #define H4(x)  (x)
+ #endif
+ 
++/* Signed saturating rounding doubling multiply-accumulate high half, 8-bit */
++static int8_t do_sqrdmlah_b(int8_t src1, int8_t src2, int8_t src3,
++                            bool neg, bool round)
++{
++    /*
++     * Simplify:
++     * = ((a3 << 8) + ((e1 * e2) << 1) + (round << 7)) >> 8
++     * = ((a3 << 7) + (e1 * e2) + (round << 6)) >> 7
++     */
++    int32_t ret = (int32_t)src1 * src2;
++    if (neg) {
++        ret = -ret;
++    }
++    ret += ((int32_t)src3 << 7) + (round << 6);
++    ret >>= 7;
++
++    if (ret != (int8_t)ret) {
++        ret = (ret < 0 ? INT8_MIN : INT8_MAX);
++    }
++    return ret;
 +}
 +
-+static bool trans_SQDMLALB_zzzw(DisasContext *s, arg_rrrr_esz *a)
++void HELPER(sve2_sqrdmlah_b)(void *vd, void *vn, void *vm,
++                             void *va, uint32_t desc)
 +{
-+    return do_sqdmlal_zzzw(s, a, false, false);
++    intptr_t i, opr_sz = simd_oprsz(desc);
++    int8_t *d = vd, *n = vn, *m = vm, *a = va;
++
++    for (i = 0; i < opr_sz; ++i) {
++        d[i] = do_sqrdmlah_b(n[i], m[i], a[i], false, true);
++    }
 +}
 +
-+static bool trans_SQDMLALT_zzzw(DisasContext *s, arg_rrrr_esz *a)
++void HELPER(sve2_sqrdmlsh_b)(void *vd, void *vn, void *vm,
++                             void *va, uint32_t desc)
 +{
-+    return do_sqdmlal_zzzw(s, a, true, true);
++    intptr_t i, opr_sz = simd_oprsz(desc);
++    int8_t *d = vd, *n = vn, *m = vm, *a = va;
++
++    for (i = 0; i < opr_sz; ++i) {
++        d[i] = do_sqrdmlah_b(n[i], m[i], a[i], true, true);
++    }
 +}
 +
-+static bool trans_SQDMLALBT(DisasContext *s, arg_rrrr_esz *a)
+ /* Signed saturating rounding doubling multiply-accumulate high half, 16-bit */
+ static int16_t do_sqrdmlah_h(int16_t src1, int16_t src2, int16_t src3,
+                              bool neg, bool round, uint32_t *sat)
+ {
+-    /*
+-     * Simplify:
+-     * = ((a3 << 16) + ((e1 * e2) << 1) + (1 << 15)) >> 16
+-     * = ((a3 << 15) + (e1 * e2) + (1 << 14)) >> 15
+-     */
++    /* Simplify similarly to do_sqrdmlah_b above.  */
+     int32_t ret = (int32_t)src1 * src2;
+     if (neg) {
+         ret = -ret;
+@@ -133,11 +174,35 @@ void HELPER(neon_sqrdmulh_h)(void *vd, void *vn, void *vm,
+     clear_tail(d, opr_sz, simd_maxsz(desc));
+ }
+ 
++void HELPER(sve2_sqrdmlah_h)(void *vd, void *vn, void *vm,
++                             void *va, uint32_t desc)
 +{
-+    return do_sqdmlal_zzzw(s, a, false, true);
++    intptr_t i, opr_sz = simd_oprsz(desc);
++    int16_t *d = vd, *n = vn, *m = vm, *a = va;
++    uint32_t discard;
++
++    for (i = 0; i < opr_sz / 2; ++i) {
++        d[i] = do_sqrdmlah_h(n[i], m[i], a[i], false, true, &discard);
++    }
 +}
 +
-+static bool trans_SQDMLSLB_zzzw(DisasContext *s, arg_rrrr_esz *a)
++void HELPER(sve2_sqrdmlsh_h)(void *vd, void *vn, void *vm,
++                             void *va, uint32_t desc)
 +{
-+    return do_sqdmlsl_zzzw(s, a, false, false);
++    intptr_t i, opr_sz = simd_oprsz(desc);
++    int16_t *d = vd, *n = vn, *m = vm, *a = va;
++    uint32_t discard;
++
++    for (i = 0; i < opr_sz / 2; ++i) {
++        d[i] = do_sqrdmlah_h(n[i], m[i], a[i], true, true, &discard);
++    }
 +}
 +
-+static bool trans_SQDMLSLT_zzzw(DisasContext *s, arg_rrrr_esz *a)
+ /* Signed saturating rounding doubling multiply-accumulate high half, 32-bit */
+ static int32_t do_sqrdmlah_s(int32_t src1, int32_t src2, int32_t src3,
+                              bool neg, bool round, uint32_t *sat)
+ {
+-    /* Simplify similarly to int_qrdmlah_s16 above.  */
++    /* Simplify similarly to do_sqrdmlah_b above.  */
+     int64_t ret = (int64_t)src1 * src2;
+     if (neg) {
+         ret = -ret;
+@@ -220,6 +285,90 @@ void HELPER(neon_sqrdmulh_s)(void *vd, void *vn, void *vm,
+     clear_tail(d, opr_sz, simd_maxsz(desc));
+ }
+ 
++void HELPER(sve2_sqrdmlah_s)(void *vd, void *vn, void *vm,
++                             void *va, uint32_t desc)
 +{
-+    return do_sqdmlsl_zzzw(s, a, true, true);
++    intptr_t i, opr_sz = simd_oprsz(desc);
++    int32_t *d = vd, *n = vn, *m = vm, *a = va;
++    uint32_t discard;
++
++    for (i = 0; i < opr_sz / 4; ++i) {
++        d[i] = do_sqrdmlah_s(n[i], m[i], a[i], false, true, &discard);
++    }
 +}
 +
-+static bool trans_SQDMLSLBT(DisasContext *s, arg_rrrr_esz *a)
++void HELPER(sve2_sqrdmlsh_s)(void *vd, void *vn, void *vm,
++                             void *va, uint32_t desc)
 +{
-+    return do_sqdmlsl_zzzw(s, a, false, true);
++    intptr_t i, opr_sz = simd_oprsz(desc);
++    int32_t *d = vd, *n = vn, *m = vm, *a = va;
++    uint32_t discard;
++
++    for (i = 0; i < opr_sz / 4; ++i) {
++        d[i] = do_sqrdmlah_s(n[i], m[i], a[i], true, true, &discard);
++    }
 +}
++
++/* Signed saturating rounding doubling multiply-accumulate high half, 64-bit */
++static int64_t do_sat128_d(Int128 r)
++{
++    int64_t ls = int128_getlo(r);
++    int64_t hs = int128_gethi(r);
++
++    if (unlikely(hs != (ls >> 63))) {
++        return hs < 0 ? INT64_MIN : INT64_MAX;
++    }
++    return ls;
++}
++
++static int64_t do_sqrdmlah_d(int64_t n, int64_t m, int64_t a,
++                             bool neg, bool round)
++{
++    uint64_t l, h;
++    Int128 r, t;
++
++    /* As in do_sqrdmlah_b, but with 128-bit arithmetic. */
++    muls64(&l, &h, m, n);
++    r = int128_make128(l, h);
++    if (neg) {
++        r = int128_neg(r);
++    }
++    if (a) {
++        t = int128_exts64(a);
++        t = int128_lshift(t, 63);
++        r = int128_add(r, t);
++    }
++    if (round) {
++        t = int128_exts64(1ll << 62);
++        r = int128_add(r, t);
++    }
++    r = int128_rshift(r, 63);
++
++    return do_sat128_d(r);
++}
++
++void HELPER(sve2_sqrdmlah_d)(void *vd, void *vn, void *vm,
++                             void *va, uint32_t desc)
++{
++    intptr_t i, opr_sz = simd_oprsz(desc);
++    int64_t *d = vd, *n = vn, *m = vm, *a = va;
++
++    for (i = 0; i < opr_sz / 8; ++i) {
++        d[i] = do_sqrdmlah_d(n[i], m[i], a[i], false, true);
++    }
++}
++
++void HELPER(sve2_sqrdmlsh_d)(void *vd, void *vn, void *vm,
++                             void *va, uint32_t desc)
++{
++    intptr_t i, opr_sz = simd_oprsz(desc);
++    int64_t *d = vd, *n = vn, *m = vm, *a = va;
++
++    for (i = 0; i < opr_sz / 8; ++i) {
++        d[i] = do_sqrdmlah_d(n[i], m[i], a[i], true, true);
++    }
++}
++
+ /* Integer 8 and 16-bit dot-product.
+  *
+  * Note that for the loops herein, host endianness does not matter
 -- 
 2.25.1
 
