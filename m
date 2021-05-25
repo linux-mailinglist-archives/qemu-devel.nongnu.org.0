@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6F2F390AA2
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 22:45:15 +0200 (CEST)
-Received: from localhost ([::1]:45310 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5631C390AB3
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 22:48:59 +0200 (CEST)
+Received: from localhost ([::1]:49958 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lldvO-00018X-Ne
-	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 16:45:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52714)
+	id 1lldz0-0004bs-Dc
+	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 16:48:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53644)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lldtR-0008R8-Ki
- for qemu-devel@nongnu.org; Tue, 25 May 2021 16:43:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22870)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lldxG-0002tx-OR
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 16:47:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59527)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lldtM-0007SH-Vw
- for qemu-devel@nongnu.org; Tue, 25 May 2021 16:43:11 -0400
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lldxD-0001Bm-Lw
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 16:47:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621975386;
+ s=mimecast20190719; t=1621975626;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=1nEw7/tclR5oSbZ3HEr09puE0oGsz6+Ych0UuhY+aJ0=;
- b=TwhhkRWiCP21I1aRDYyGdnE/sYweDY9ryPxg4J1gsNrfBJCRtX/YOYJK1hyXiUjAsnvwpZ
- alCrm/xy00b4OIIIa1zRC0EtI1OB1akSLnuQDdNOvNKJzSQG7Q5fVTE/j2RWW2b4mou5B/
- H3uaFnYNVrVPF4DBV/615hZ/JHUtkRs=
+ bh=vqXug8r+WGhWftGh7jmaY6f6lFf9pHOxrmkZssJw6QM=;
+ b=HAzi/OkVYURFgVNvCuSqCQlqW2y03knua1gAylmOdQSRVaTNB4XkDVzNKf3wXA84HfM5FI
+ P70jecoIa1yH5E4qNb/PNs/CRTZcJgLJaEGJfaNgsFTLhZFPB7tlrEuT4tvVIsv40nottv
+ 33uMQWt1nwOsFa1qZgcQtHdhcUSpbdM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-252-ap23LxZRNai2HDZzKeI9yw-1; Tue, 25 May 2021 16:43:02 -0400
-X-MC-Unique: ap23LxZRNai2HDZzKeI9yw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-110-xM-KumIVNpCahuktBNAV5A-1; Tue, 25 May 2021 16:47:04 -0400
+X-MC-Unique: xM-KumIVNpCahuktBNAV5A-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1EC871922960;
- Tue, 25 May 2021 20:43:01 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 60AB08042AA;
+ Tue, 25 May 2021 20:47:03 +0000 (UTC)
 Received: from localhost (ovpn-114-2.phx2.redhat.com [10.3.114.2])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 174F51007606;
- Tue, 25 May 2021 20:42:54 +0000 (UTC)
-Date: Tue, 25 May 2021 16:42:37 -0400
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 473B25D723;
+ Tue, 25 May 2021 20:46:54 +0000 (UTC)
+Date: Tue, 25 May 2021 16:46:49 -0400
 From: Cleber Rosa <crosa@redhat.com>
 To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH v6 23/25] python: add .gitignore
-Message-ID: <20210525204237.GG1567491@amachine.somewhere>
+Subject: Re: [PATCH v6 25/25] python: add tox support
+Message-ID: <20210525204649.GH1567491@amachine.somewhere>
 References: <20210512231241.2816122-1-jsnow@redhat.com>
- <20210512231241.2816122-24-jsnow@redhat.com>
- <YK1RqhFrWt6yHuRt@localhost.localdomain>
- <0d0053ab-4410-e905-7261-332f21fd8852@redhat.com>
+ <20210512231241.2816122-26-jsnow@redhat.com>
+ <YK1ayNF0VTSJKa6O@localhost.localdomain>
+ <9a50d093-9eea-850c-3d5d-bd44b0f45551@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <0d0053ab-4410-e905-7261-332f21fd8852@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <9a50d093-9eea-850c-3d5d-bd44b0f45551@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="yZnyZsPjQYjG7xG7"
+ protocol="application/pgp-signature"; boundary="U3BNvdZEnlJXqmh+"
 Content-Disposition: inline
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=crosa@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -92,87 +92,107 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---yZnyZsPjQYjG7xG7
-Content-Type: text/plain; charset=us-ascii
+--U3BNvdZEnlJXqmh+
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, May 25, 2021 at 04:10:55PM -0400, John Snow wrote:
-> On 5/25/21 3:36 PM, Cleber Rosa wrote:
-> > On Wed, May 12, 2021 at 07:12:39PM -0400, John Snow wrote:
-> > > Ignore *Python* build and package output (build, dist, qemu.egg-info)=
-;
-> > > these files are not created as part of a QEMU build.
+On Tue, May 25, 2021 at 04:25:37PM -0400, John Snow wrote:
+> On 5/25/21 4:15 PM, Cleber Rosa wrote:
+> > On Wed, May 12, 2021 at 07:12:41PM -0400, John Snow wrote:
+> > > This is intended to be a manually run, non-CI script.
 > > >=20
-> > > Ignore miscellaneous cached python confetti (__pycache__, *.pyc,
-> > > .mypy_cache).
+> > > Use tox to test the linters against all python versions from 3.6 to
+> > > 3.9. This will only work if you actually have those versions installe=
+d
+> > > locally, but Fedora makes this easy:
 > > >=20
-> > > Ignore .idea (pycharm) .vscode, and .venv (pipenv et al).
+> > > > sudo dnf install python36 python37 python38 python39
+> > >=20
+> > > Unlike the pipenv tests (make venv-check), this pulls "whichever"
+> > > versions of the python packages, so they are unpinned and may break a=
+s
+> > > time goes on. In the case that breakages are found, setup.cfg should =
+be
+> > > amended accordingly to avoid the bad dependant versions, or the code
+> > > should be amended to work around the issue.
 > > >=20
 > > > Signed-off-by: John Snow <jsnow@redhat.com>
 > > > ---
-> > >   python/.gitignore | 19 +++++++++++++++++++
-> > >   1 file changed, 19 insertions(+)
-> > >   create mode 100644 python/.gitignore
+> > >   python/README.rst |  2 ++
+> > >   python/.gitignore |  1 +
+> > >   python/Makefile   |  7 ++++++-
+> > >   python/setup.cfg  |  1 +
+> > >   python/tox.ini    | 13 +++++++++++++
+> > >   5 files changed, 23 insertions(+), 1 deletion(-)
+> > >   create mode 100644 python/tox.ini
 > > >=20
-> > > diff --git a/python/.gitignore b/python/.gitignore
-> > > new file mode 100644
-> > > index 00000000000..e27c99e009c
-> > > --- /dev/null
-> > > +++ b/python/.gitignore
-> > > @@ -0,0 +1,19 @@
-> > > +# python bytecode cache
-> > > +*.pyc
 > >=20
-> > This is a duplicate from the parent .gitignore, so I would avoid it.
+> > This works as intended for me.  A couple of notes / suggestions
+> > for future improvements:
 > >=20
-> > > +__pycache__/
+> >   * `dnf install tox` pulled all the Python versions available (I
+> >     assume as suggestions) automatically
 > >=20
-> > And this one is interesting because, the only thing that *should* be
-> > in __pycache__ dirs is .pyc files (covered by the parent .gitignore
-> > file).
-> >=20
-> > So, I get the same behavior without these two entries here, so I would
-> > skip them.  Let me know if you have any reason for explicitly
-> > including them.
-> >=20
-> > - Cleber.
+> >   * tox.ini can be folded into setup.cfg
 > >=20
 >=20
-> Hm, not really ... Just completeness, I suppose, since this directory is
-> becoming increasingly separate from the rest of the tree.
+> Done!
+>
+
+Nice!
+
+> >   * a custom container image with all those Python versions may be
+> >     handy for running both the pipenv based job (along with the
+> >     suggestions on the previous patch) and an on-demand,
+> >     "allow_failure" tox based CI job.
+> >=20
 >=20
-> It isn't crucial, it just seemed like a weird omission if they weren't
-> listed here. *shrug*
+> Yeah, I was thinking this would be good, too!
 >=20
-> --js
+> I think at this point, it's going to be a follow-up, though. Because
+> ideally, yes, this SHOULD pass -- it's just that it needs a fairly
+> particular environment to run in, which is annoying, so it's here as an
+> optional-ish thing for now.
+>=20
+> Maybe I'll make a new fedora:latest container that's meant solely for
+> testing python stuff, because it's just such a convenient distro for it.
+>=20
+> Later, though.
+>
 
-And still, this dir is part of the overall tree.  Honestly, without
-any change in behavior, I'd *not* add those two ignore rules.
+Sure.
 
-Cheers,
-- Cleber.
+> > Other than those suggestions, this LGTM!
+> >=20
+> > Reviewed-by: Cleber Rosa <crosa@redhat.com>
+> > Tested-by: Cleber Rosa <crosa@redhat.com>
+> >=20
+>=20
+> =F0=9F=8E=89
 
---yZnyZsPjQYjG7xG7
+\o/ (with 3 characters, because I'm unable to find the right codepoint)
+
+--U3BNvdZEnlJXqmh+
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAmCtYT0ACgkQZX6NM6Xy
-CfMq/Q/9GHTK1s0cvNVGSFBqh2qOugHry+18JXNnEiyvigq7ta0/b/7orxWGhalZ
-1bBYw+NIZmJ6pB/wG14kunvOiHbNrFnu8YrZ3NTcSTlgIRCLXfz22x1+mRPh0Ogr
-hziRnz4tuEzGpG2SOdHo/JRaHH6fFiKl8FLHye2STy1oJ64uhcBSUHF6PmRABPx6
-oQ7yBhu8QfyRa4nfvw4o+8FtSYSZ8I+qY3WGlSnVdWnkr8UKTI4Oqvwzz53dKzVI
-o9AdsV+paGJpQ11yQQhoeu6vcckDvoL2qPIeW5vw3wrrJ4AA14YxyqN6PnU1qgNR
-CbqCzRe+sV0M8VsBFor83ACWveN7mDFHIV/hmvOJv9R/tMir5m4HAv/F0fUJUYoW
-gKrtLjnPcqMFz+RLsaOOYWmqeSKsTQOJNPbz+8NRo+tDDR1CLgFTsCsfXQvUX/pX
-s3A72DwKXde6LxXRMozkFU1w1vkjiZ6whg/xSNjzUyniUWOqs0Xsu1bbbwpZ/lvO
-zcPJDBjwqt9XU75rsD9N7/dIiv3MeQBR4kAP1QHcMcAK6Nm5gK0HUUUB3AeOfrX7
-AWzxYt1LOmiuiNcev/6u970w3pIM9TSp7Cz72T6cqpl/AJ4SJ92pJsvlQNPCIn36
-UJem/KepuBQMXSh/FIzVmKr5A60T7R02wigi5vGPRtkfx97Bnkw=
-=1zdp
+iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAmCtYjgACgkQZX6NM6Xy
+CfNcFA/7BHkbVFL+0Ka754ykOyTwsRTDMfbbmPMgv2UKErZKdifuuu7Xepc8DGBH
+VachItQujKxyR5v7LUTlsZo2lILLJ7pBUwAxbZlEJkFK6iiIDCX7tS/OeP+E/A4q
+vnxnZsLW19n5l/Ia+kYwV9CeNQxyB6r1v8j4ismsnP/QOxEof1EJH7zhefjjxGIG
+nMJPF5w9WBjMvKKUg0e4j/cAuMhKiS31A1odLOxEeRppyn1QI3r4KELomImU293B
+KRNeKtZY8r1K0EQu0CDBbfwwW9p3Q1TZhK53FSDquL7+bBv7dgMmomEaglH95Rq9
+xzOvRp0toMXFFRjXYfyrUGCZq1xlIj/zoQIMBRQcdGB1+o0CntgQd8bqeeHYaWHC
+8MSncCJWMjEhEK9f8K5UzPz1Q8Juil4kt6rKQ67qToPeXFXmjks/EllIMcHeKgeM
+3DEP/CobhD0nI4LQPpN/HDYNXQbhZACqal+XPN8zgsbyzDxL75bMuu5rYg+iWtaG
+lKDjfd16uEZBMOIOy7QSSTYGCtJ51pNPlG9P9w8+dKnPif3qBe0qvxNOCfTsurqx
+PdApE4p4oiRBIC8fXHl5ZZ5VrhtT04+DvD9bY+fBgq0W7j7h60HFL3ibweHboecg
+wylILDYbGydlmqYkAYKDuoMb9TYGVWJC7y53exUVY+lkQWig884=
+=0+0Y
 -----END PGP SIGNATURE-----
 
---yZnyZsPjQYjG7xG7--
+--U3BNvdZEnlJXqmh+--
 
 
