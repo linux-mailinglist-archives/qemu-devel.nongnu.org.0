@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89662390717
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 19:03:41 +0200 (CEST)
-Received: from localhost ([::1]:48490 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48FE839076F
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 19:22:36 +0200 (CEST)
+Received: from localhost ([::1]:49834 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llaSy-0000nz-Js
-	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 13:03:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56008)
+	id 1llalH-0006pi-7n
+	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 13:22:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56012)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1llaLS-0003CO-2I
- for qemu-devel@nongnu.org; Tue, 25 May 2021 12:55:54 -0400
-Received: from indium.canonical.com ([91.189.90.7]:38828)
+ id 1llaLT-0003Eh-Rw
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 12:55:57 -0400
+Received: from indium.canonical.com ([91.189.90.7]:38834)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1llaLL-00077h-Su
- for qemu-devel@nongnu.org; Tue, 25 May 2021 12:55:53 -0400
+ id 1llaLL-00078I-SS
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 12:55:55 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1llaLJ-0004v7-OA
- for <qemu-devel@nongnu.org>; Tue, 25 May 2021 16:55:45 +0000
+ id 1llaLK-00059q-Dr
+ for <qemu-devel@nongnu.org>; Tue, 25 May 2021 16:55:46 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id B56022E805B
- for <qemu-devel@nongnu.org>; Tue, 25 May 2021 16:55:45 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 664982E805B
+ for <qemu-devel@nongnu.org>; Tue, 25 May 2021 16:55:46 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 25 May 2021 16:45:41 -0000
-From: =?utf-8?q?Alex_Benn=C3=A9e?= <1896298@bugs.launchpad.net>
+Date: Tue, 25 May 2021 16:45:58 -0000
+From: Alexander Bulekov <1878034@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: tcg
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ajbennee mslade th-huth
-X-Launchpad-Bug-Reporter: Michael Slade (mslade)
-X-Launchpad-Bug-Modifier: =?utf-8?q?Alex_Benn=C3=A9e_=28ajbennee=29?=
-References: <160046874518.13612.4861858859499751315.malonedeb@gac.canonical.com>
-Message-Id: <20210525164541.17985-1-alex.bennee@linaro.org>
-Subject: [Bug 1896298] [RFC PATCH] accel/tcg: change default codegen buffer
- size for i386-softmmu
+X-Launchpad-Bug-Commenters: a1xndr th-huth
+X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
+X-Launchpad-Bug-Modifier: Alexander Bulekov (a1xndr)
+References: <158921238974.12092.6203453160058985938.malonedeb@wampee.canonical.com>
+ <162193082612.32743.13130558416947123524.malone@soybean.canonical.com>
+Message-Id: <20210525164558.al6lgxlzh26x3inu@mozz.bu.edu>
+Subject: Re: [Bug 1878034] Re: memcpy param-overlap through
+ e1000e_write_to_rx_buffers
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="30919b71da718d7d3f6b69e715e9fe95f7c3c5de"; Instance="production"
-X-Launchpad-Hash: b9b06d0fafe597db301232e569565f4d7374b3c4
+X-Launchpad-Hash: a0feb7045a475a96aa802464c0a2426a80b7b39d
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -72,85 +72,297 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1896298 <1896298@bugs.launchpad.net>
+Reply-To: Bug 1878034 <1878034@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There are two justifications for making this change. The first is that
-i386 emulation is typically for smaller machines where having a 1gb of
-generated code is overkill for basic emulation. The second is the
-propensity of self-modifying code (c.f. Doom/edit) utilised on i386
-systems can trigger a rapid growth in invalidated and re-translated
-buffers. This is seen in bug #283. Execution is still inefficient but
-at least the host memory isn't so aggressively used up.
+Seems to still be a problem. Here's the reproducer found by OSS-Fuzz:
+https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=3D29586
 
-That said it's still really just a sticking plaster for user
-convenience.
+cat << EOF | ./qemu-system-i386 -display none -machine accel=3Dqtest, -m \
+512M -M q35 -nodefaults -device e1000e,netdev=3Dnet0 -netdev user,id=3Dnet0=
+ \
+-qtest /dev/null -qtest stdio
+outl 0xcf8 0x80000811
+outl 0xcfc 0x5ac600
+outl 0xcf8 0x80000801
+outl 0xcfc 0x06000000
+write 0x5ac60100 0x4 0x56000302
+write 0x5ac6011a 0x2 0x0106
+write 0x5ac60120 0x1 0x25
+write 0x5ac6042a 0x2 0x0248
+write 0x5ac60431 0x1 0x04
+write 0x4240 0x1 0xff
+write 0x4241 0x1 0x01
+write 0x4249 0x1 0xf5
+write 0x1ff 0x1 0x01
+write 0x5ac60403 0x1 0x02
+write 0x5ac6043a 0x2 0x2800
+write 0x5ac60112 0x2 0xf090
+write 0x5ac60430 0x1 0x00
+write 0x239 0x1 0xff
+write 0x23b 0x1 0x01
+write 0x9531 0x1 0xff
+write 0x9532 0x1 0xff
+write 0x9533 0x1 0xff
+write 0x9534 0x1 0xff
+write 0x9535 0x1 0xff
+write 0x9536 0x1 0xff
+write 0x9537 0x1 0xff
+write 0x5ac60403 0x1 0x02
+EOF
 
-Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-Cc: Thomas Huth <thuth@redhat.com>
-Cc: 1896298@bugs.launchpad.net
----
- accel/tcg/translate-all.c | 4 ++++
- 1 file changed, 4 insertions(+)
 
-diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-index 640ff6e3e7..f442165674 100644
---- a/accel/tcg/translate-all.c
-+++ b/accel/tcg/translate-all.c
-@@ -951,9 +951,13 @@ static void page_lock_pair(PageDesc **ret_p1, tb_page_=
-addr_t phys1,
-  * Users running large scale system emulation may want to tweak their
-  * runtime setup via the tb-size control on the command line.
-  */
-+#ifdef TARGET_I386
-+#define DEFAULT_CODE_GEN_BUFFER_SIZE_1 (32 * MiB)
-+#else
- #define DEFAULT_CODE_GEN_BUFFER_SIZE_1 (1 * GiB)
- #endif
- #endif
-+#endif
- =
+On 210525 0820, Thomas Huth wrote:
+> Can you still reproduce the crash with the current version of QEMU? At
+> least I cannot reproduce the crash anymore, so it seems like this got
+> fixed at one point in time?
+> =
 
- #define DEFAULT_CODE_GEN_BUFFER_SIZE \
-   (DEFAULT_CODE_GEN_BUFFER_SIZE_1 < MAX_CODE_GEN_BUFFER_SIZE \
--- =
+> ** Changed in: qemu
+>        Status: New =3D> Incomplete
+> =
 
-2.20.1
+> -- =
+
+> You received this bug notification because you are subscribed to the bug
+> report.
+> https://bugs.launchpad.net/bugs/1878034
+> =
+
+> Title:
+>   memcpy param-overlap through e1000e_write_to_rx_buffers
+> =
+
+> Status in QEMU:
+>   Incomplete
+> =
+
+> Bug description:
+>   Hello,
+>   While fuzzing, I found an input that triggers an overlapping memcpy (ca=
+ught by AddressSanitizer).
+>   Overlapping memcpys are undefined behavior according to the POSIX and C=
+ standards, and can lead to bugs.
+> =
+
+>   =3D=3D22287=3D=3DERROR: AddressSanitizer: memcpy-param-overlap: memory =
+ranges
+>   #0 0x563c9f4823d4 in __asan_memcpy (/home/alxndr/Development/qemu/build=
+/i386-softmmu/qemu-system-i386+0x97a3d4)
+>   #1 0x563c9f4cb2b1 in flatview_write_continue /home/alxndr/Development/q=
+emu/exec.c:3142:13
+>   #2 0x563c9f4c3b97 in flatview_write /home/alxndr/Development/qemu/exec.=
+c:3177:14
+>   #3 0x563c9f4c3b97 in address_space_write /home/alxndr/Development/qemu/=
+exec.c:3268:18
+>   #4 0x563c9fbc457b in dma_memory_rw_relaxed /home/alxndr/Development/qem=
+u/include/sysemu/dma.h:87:18
+>   #5 0x563c9fbc457b in dma_memory_rw /home/alxndr/Development/qemu/includ=
+e/sysemu/dma.h:110:12
+>   #6 0x563c9fbc457b in pci_dma_rw /home/alxndr/Development/qemu/include/h=
+w/pci/pci.h:787:5
+>   #7 0x563c9fbc457b in pci_dma_write /home/alxndr/Development/qemu/includ=
+e/hw/pci/pci.h:800:12
+>   #8 0x563c9fbc457b in e1000e_write_to_rx_buffers /home/alxndr/Developmen=
+t/qemu/hw/net/e1000e_core.c:1412:9
+>   #9 0x563c9fbb9c98 in e1000e_write_packet_to_guest /home/alxndr/Developm=
+ent/qemu/hw/net/e1000e_core.c:1582:21
+>   #10 0x563c9fbb9c98 in e1000e_receive_iov /home/alxndr/Development/qemu/=
+hw/net/e1000e_core.c:1709:9
+>   #11 0x563c9fba8080 in net_tx_pkt_sendv /home/alxndr/Development/qemu/hw=
+/net/net_tx_pkt.c:544:9
+>   #12 0x563c9fba8080 in net_tx_pkt_send /home/alxndr/Development/qemu/hw/=
+net/net_tx_pkt.c:620:9
+>   #13 0x563c9fba8827 in net_tx_pkt_send_loopback /home/alxndr/Development=
+/qemu/hw/net/net_tx_pkt.c:633:11
+>   #14 0x563c9fbd2052 in e1000e_tx_pkt_send /home/alxndr/Development/qemu/=
+hw/net/e1000e_core.c:664:16
+>   #15 0x563c9fbd2052 in e1000e_process_tx_desc /home/alxndr/Development/q=
+emu/hw/net/e1000e_core.c:743:17
+>   #16 0x563c9fbd2052 in e1000e_start_xmit /home/alxndr/Development/qemu/h=
+w/net/e1000e_core.c:934:9
+>   #17 0x563c9fbcecf0 in e1000e_set_tdt /home/alxndr/Development/qemu/hw/n=
+et/e1000e_core.c:2451:9
+>   #18 0x563c9fbbf20c in e1000e_core_write /home/alxndr/Development/qemu/h=
+w/net/e1000e_core.c:3261:9
+>   #19 0x563c9f5b68d6 in memory_region_write_accessor /home/alxndr/Develop=
+ment/qemu/memory.c:483:5
+>   #20 0x563c9f5b627f in access_with_adjusted_size /home/alxndr/Developmen=
+t/qemu/memory.c:544:18
+>   #21 0x563c9f5b627f in memory_region_dispatch_write /home/alxndr/Develop=
+ment/qemu/memory.c:1476:16
+> =
+
+>   I can reproduce it in qemu 5.0 built with --enable-sanitizers using:
+>   cat << EOF | ~/Development/qemu/build/i386-softmmu/qemu-system-i386 -M =
+pc-q35-5.0 -accel qtest -qtest stdio -nographic -monitor none -serial none
+>   outl 0xcf8 0x80001010
+>   outl 0xcfc 0xe1020000
+>   outl 0xcf8 0x80001014
+>   outl 0xcf8 0x80001004
+>   outw 0xcfc 0x7
+>   outl 0xcf8 0x800010a2
+>   write 0xe102003a 0x3ff 0xd1055e2d3b0002e10000000001ffd3055e2d3b0002e100=
+00000001ffd5055e2d3b0002e10000000001ffd7055e2d3b0002e10000000001ffd9055e2d3=
+b0002e10000000001ffdb055e2d3b0002e10000000001ffdd055e2d3b0002e10000000001ff=
+df055e2d3b0002e10000000001ffe1055e2d3b0002e10000000001ffe3055e2d3b0002e1000=
+0000001ffe5055e2d3b0002e10000000001ffe7055e2d3b0002e10000000001ffe9055e2d3b=
+0002e10000000001ffeb055e2d3b0002e10000000001ffed055e2d3b0002e10000000001ffe=
+f055e2d3b0002e10000000001fff1055e2d3b0002e10000000001fff3055e2d3b0002e10000=
+000001fff5055e2d3b0002e10000000001fff7055e2d3b0002e10000000001fff9055e2d3b0=
+002e10000000001fffb055e2d3b0002e10000000001fffd055e2d3b0002e10000000001ffff=
+055e2d3b0002e10000000001ff01055e2d3b0002e10000000001ff03055e2d3b0002e100000=
+00001ff05055e2d3b0002e10000000001ff07055e2d3b0002e10000000001ff09055e2d3b00=
+02e10000000001ff0b055e2d3b0002e10000000001ff0d055e2d3b0002e10000000001ff0f0=
+55e2d3b0002e10000000001ff11055e2d3b0002e10000000001ff13055e2d3b0002e1000000=
+0001ff15055e2d3b0002e10000000001ff17055e2d3b0002e10000000001ff19055e2d3b000=
+2e10000000001ff1b055e2d3b0002e10000000001ff1d055e2d3b0002e10000000001ff1f05=
+5e2d3b0002e10000000001ff21055e2d3b0002e10000000001ff23055e2d3b0002e10000000=
+001ff25055e2d3b0002e10000000001ff27055e2d3b0002e10000000001ff29055e2d3b0002=
+e10000000001ff2b055e2d3b0002e10000000001ff2d055e2d3b0002e10000000001ff2f055=
+e2d3b0002e10000000001ff31055e2d3b0002e10000000001ff33055e2d3b0002e100000000=
+01ff35055e2d3b0002e10000000001ff37055e2d3b0002e10000000001ff39055e2d3b0002e=
+10000000001ff3b055e2d3b0002e10000000001ff3d055e2d3b0002e10000000001ff3f055e=
+2d3b0002e10000000001ff41055e2d3b0002e10000000001ff43055e2d3b0002e1000000000=
+1ff45055e2d3b0002e10000000001ff47055e2d3b0002e10000000001ff49055e2d3b0002e1=
+0000000001ff4b055e2d3b0002e10000000001ff4d055e2d3b0002e10000000001ff4f055e2=
+d3b0002e10000000001ff51055e2d3b0002e10000000001ff53055e2d3b0002e10000000001=
+ff55055e2d3b0002e10000000001ff57055e2d3b0002e10000000001ff59055e2d3b0002e10=
+000000001ff5b055e2d3b0002e10000000001ff5d055e2d3b0002e10000000001ff5f055e2d=
+3b0002e10000000001ff61055e2d3b0002e10000000001ff63
+>   EOF
+> =
+
+>   I also attached the trace to this launchpad report, in case the
+>   formatting is broken:
+> =
+
+>   qemu-system-i386 -M pc-q35-5.0 -accel qtest -qtest stdio -nographic
+>   -monitor none -serial none < attachment
+> =
+
+>   Please let me know if I can provide any further info.
+>   -Alex
+> =
+
+> To manage notifications about this bug go to:
+> https://bugs.launchpad.net/qemu/+bug/1878034/+subscriptions
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1896298
+https://bugs.launchpad.net/bugs/1878034
 
 Title:
-  TCG memory leak with FreeDOS 'edit'
+  memcpy param-overlap through e1000e_write_to_rx_buffers
 
 Status in QEMU:
-  Expired
+  Incomplete
 
 Bug description:
-  qemu trunk as of today leaks memory FAST when freedos' edit is
-  running.
+  Hello,
+  While fuzzing, I found an input that triggers an overlapping memcpy (caug=
+ht by AddressSanitizer).
+  Overlapping memcpys are undefined behavior according to the POSIX and C s=
+tandards, and can lead to bugs.
 
-  To reproduce, download:
+  =3D=3D22287=3D=3DERROR: AddressSanitizer: memcpy-param-overlap: memory ra=
+nges
+  #0 0x563c9f4823d4 in __asan_memcpy (/home/alxndr/Development/qemu/build/i=
+386-softmmu/qemu-system-i386+0x97a3d4)
+  #1 0x563c9f4cb2b1 in flatview_write_continue /home/alxndr/Development/qem=
+u/exec.c:3142:13
+  #2 0x563c9f4c3b97 in flatview_write /home/alxndr/Development/qemu/exec.c:=
+3177:14
+  #3 0x563c9f4c3b97 in address_space_write /home/alxndr/Development/qemu/ex=
+ec.c:3268:18
+  #4 0x563c9fbc457b in dma_memory_rw_relaxed /home/alxndr/Development/qemu/=
+include/sysemu/dma.h:87:18
+  #5 0x563c9fbc457b in dma_memory_rw /home/alxndr/Development/qemu/include/=
+sysemu/dma.h:110:12
+  #6 0x563c9fbc457b in pci_dma_rw /home/alxndr/Development/qemu/include/hw/=
+pci/pci.h:787:5
+  #7 0x563c9fbc457b in pci_dma_write /home/alxndr/Development/qemu/include/=
+hw/pci/pci.h:800:12
+  #8 0x563c9fbc457b in e1000e_write_to_rx_buffers /home/alxndr/Development/=
+qemu/hw/net/e1000e_core.c:1412:9
+  #9 0x563c9fbb9c98 in e1000e_write_packet_to_guest /home/alxndr/Developmen=
+t/qemu/hw/net/e1000e_core.c:1582:21
+  #10 0x563c9fbb9c98 in e1000e_receive_iov /home/alxndr/Development/qemu/hw=
+/net/e1000e_core.c:1709:9
+  #11 0x563c9fba8080 in net_tx_pkt_sendv /home/alxndr/Development/qemu/hw/n=
+et/net_tx_pkt.c:544:9
+  #12 0x563c9fba8080 in net_tx_pkt_send /home/alxndr/Development/qemu/hw/ne=
+t/net_tx_pkt.c:620:9
+  #13 0x563c9fba8827 in net_tx_pkt_send_loopback /home/alxndr/Development/q=
+emu/hw/net/net_tx_pkt.c:633:11
+  #14 0x563c9fbd2052 in e1000e_tx_pkt_send /home/alxndr/Development/qemu/hw=
+/net/e1000e_core.c:664:16
+  #15 0x563c9fbd2052 in e1000e_process_tx_desc /home/alxndr/Development/qem=
+u/hw/net/e1000e_core.c:743:17
+  #16 0x563c9fbd2052 in e1000e_start_xmit /home/alxndr/Development/qemu/hw/=
+net/e1000e_core.c:934:9
+  #17 0x563c9fbcecf0 in e1000e_set_tdt /home/alxndr/Development/qemu/hw/net=
+/e1000e_core.c:2451:9
+  #18 0x563c9fbbf20c in e1000e_core_write /home/alxndr/Development/qemu/hw/=
+net/e1000e_core.c:3261:9
+  #19 0x563c9f5b68d6 in memory_region_write_accessor /home/alxndr/Developme=
+nt/qemu/memory.c:483:5
+  #20 0x563c9f5b627f in access_with_adjusted_size /home/alxndr/Development/=
+qemu/memory.c:544:18
+  #21 0x563c9f5b627f in memory_region_dispatch_write /home/alxndr/Developme=
+nt/qemu/memory.c:1476:16
 
-  https://www.ibiblio.org/pub/micro/pc-
-  stuff/freedos/files/repositories/1.3/cdrom.iso
+  I can reproduce it in qemu 5.0 built with --enable-sanitizers using:
+  cat << EOF | ~/Development/qemu/build/i386-softmmu/qemu-system-i386 -M pc=
+-q35-5.0 -accel qtest -qtest stdio -nographic -monitor none -serial none
+  outl 0xcf8 0x80001010
+  outl 0xcfc 0xe1020000
+  outl 0xcf8 0x80001014
+  outl 0xcf8 0x80001004
+  outw 0xcfc 0x7
+  outl 0xcf8 0x800010a2
+  write 0xe102003a 0x3ff 0xd1055e2d3b0002e10000000001ffd3055e2d3b0002e10000=
+000001ffd5055e2d3b0002e10000000001ffd7055e2d3b0002e10000000001ffd9055e2d3b0=
+002e10000000001ffdb055e2d3b0002e10000000001ffdd055e2d3b0002e10000000001ffdf=
+055e2d3b0002e10000000001ffe1055e2d3b0002e10000000001ffe3055e2d3b0002e100000=
+00001ffe5055e2d3b0002e10000000001ffe7055e2d3b0002e10000000001ffe9055e2d3b00=
+02e10000000001ffeb055e2d3b0002e10000000001ffed055e2d3b0002e10000000001ffef0=
+55e2d3b0002e10000000001fff1055e2d3b0002e10000000001fff3055e2d3b0002e1000000=
+0001fff5055e2d3b0002e10000000001fff7055e2d3b0002e10000000001fff9055e2d3b000=
+2e10000000001fffb055e2d3b0002e10000000001fffd055e2d3b0002e10000000001ffff05=
+5e2d3b0002e10000000001ff01055e2d3b0002e10000000001ff03055e2d3b0002e10000000=
+001ff05055e2d3b0002e10000000001ff07055e2d3b0002e10000000001ff09055e2d3b0002=
+e10000000001ff0b055e2d3b0002e10000000001ff0d055e2d3b0002e10000000001ff0f055=
+e2d3b0002e10000000001ff11055e2d3b0002e10000000001ff13055e2d3b0002e100000000=
+01ff15055e2d3b0002e10000000001ff17055e2d3b0002e10000000001ff19055e2d3b0002e=
+10000000001ff1b055e2d3b0002e10000000001ff1d055e2d3b0002e10000000001ff1f055e=
+2d3b0002e10000000001ff21055e2d3b0002e10000000001ff23055e2d3b0002e1000000000=
+1ff25055e2d3b0002e10000000001ff27055e2d3b0002e10000000001ff29055e2d3b0002e1=
+0000000001ff2b055e2d3b0002e10000000001ff2d055e2d3b0002e10000000001ff2f055e2=
+d3b0002e10000000001ff31055e2d3b0002e10000000001ff33055e2d3b0002e10000000001=
+ff35055e2d3b0002e10000000001ff37055e2d3b0002e10000000001ff39055e2d3b0002e10=
+000000001ff3b055e2d3b0002e10000000001ff3d055e2d3b0002e10000000001ff3f055e2d=
+3b0002e10000000001ff41055e2d3b0002e10000000001ff43055e2d3b0002e10000000001f=
+f45055e2d3b0002e10000000001ff47055e2d3b0002e10000000001ff49055e2d3b0002e100=
+00000001ff4b055e2d3b0002e10000000001ff4d055e2d3b0002e10000000001ff4f055e2d3=
+b0002e10000000001ff51055e2d3b0002e10000000001ff53055e2d3b0002e10000000001ff=
+55055e2d3b0002e10000000001ff57055e2d3b0002e10000000001ff59055e2d3b0002e1000=
+0000001ff5b055e2d3b0002e10000000001ff5d055e2d3b0002e10000000001ff5f055e2d3b=
+0002e10000000001ff61055e2d3b0002e10000000001ff63
+  EOF
 
-  Then run:
+  I also attached the trace to this launchpad report, in case the
+  formatting is broken:
 
-  $ qemu-system-i386 -cdrom cdrom.iso
+  qemu-system-i386 -M pc-q35-5.0 -accel qtest -qtest stdio -nographic
+  -monitor none -serial none < attachment
 
-  select your language then select "return to DOS", then type
-
-  > edit
-
-  it will consume memory at ~10MB/s
-
-  This does NOT happen when adding -enable-kvm
+  Please let me know if I can provide any further info.
+  -Alex
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1896298/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1878034/+subscriptions
 
