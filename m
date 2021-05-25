@@ -2,69 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DBED38FD29
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 10:49:47 +0200 (CEST)
-Received: from localhost ([::1]:39144 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D54338FD30
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 10:52:02 +0200 (CEST)
+Received: from localhost ([::1]:41578 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llSl0-0000Eh-EF
-	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 04:49:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55252)
+	id 1llSn9-0001zd-KF
+	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 04:52:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56022)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1llSjU-0007ak-J5
- for qemu-devel@nongnu.org; Tue, 25 May 2021 04:48:16 -0400
-Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e]:33552)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1llSjQ-00048D-Dr
- for qemu-devel@nongnu.org; Tue, 25 May 2021 04:48:12 -0400
-Received: by mail-ed1-x52e.google.com with SMTP id b17so35222861ede.0
- for <qemu-devel@nongnu.org>; Tue, 25 May 2021 01:48:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=vofBthghFCTcVro4Nfb47W557uQUlbvXOBkr1OTQzFk=;
- b=pIffcDKSlyAZMmy9B8UkTpPE/0Uq2thlNFCbfULGw+5gOp62eSrAKc0V1eR98eeqp4
- AVy6h9G4L9l2IVBsN/pOH8rlF3hY/StqUAHBi/A7fAlBmBoiLW7FmYiw2sQVjwk/CVz1
- xg1MrB/GINux9fiyyTImzDjzSLi7+PTOSJLpynPuHqQbbVb1FWKqR0TIa3T1eZycbYVg
- QS4Vg8m4HPMqMIUOXL/8LB2JBLj7f9qhqKe5koGFq6XoH1qQCpOgZn4ryW+buFDwHHAJ
- wTjaY+43Ow08A3edWiO0PWYz+iJc5ChmEHFfp3AL7I6Q5QDZPPuiXWkuGqv02I0P7NDT
- NIWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=vofBthghFCTcVro4Nfb47W557uQUlbvXOBkr1OTQzFk=;
- b=CWYaGl11oDZRzKtVzjhuJR5g9xWH8zF36dgFlCo8WX88IyH9S0DldX5x4BYxotwuNs
- YCvarI0ovKfed1ni/0ikuEzKknp6+Gd2cyE7tbkQ0SsSiIGwuKbsE7Wc7kK51G1gUpGW
- Qj3R4ue4ecd53cd29dxDlvYM4n+9xkWpTRvav30brb2Jt6LuVKMIflWX+GvfwXH3fM+4
- EmPZgWchV5FimLhW6TrC7uVRO3HhMIAIVjNanG3YfoIHObb9UdBcLVhZ2000CzVDFmCX
- t/r/R74Hq2egiqOzJPW5+xyWRdayMQpE0Anb/Q30PYvDGipA5lbrCh3I9ZNy2ITXyaS/
- X0Ig==
-X-Gm-Message-State: AOAM5306f5nREd7f61SEeqiYOp5wCfwPUL1Bo4ir/eF3xzCgeQYWsSlN
- EI9mxBiA/5m/XiorKwCrdNOzcH8IhQHVQC9GYe+q1A==
-X-Google-Smtp-Source: ABdhPJy+hUbw6LCq4zLD4TsltSDdEeGjLzUHRtuE4Yg3lzREoIdYh5Y4EXSqBrA6WcTMcYWjWnIF/bpYDTRre22ubBY=
-X-Received: by 2002:a05:6402:203c:: with SMTP id
- ay28mr30223830edb.100.1621932486647; 
- Tue, 25 May 2021 01:48:06 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1llSlf-00015K-Cz
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 04:50:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39718)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1llSlc-0005es-B7
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 04:50:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1621932622;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=yGDKfuuXfFKPNHGELd077fu46mrnA7wOBrv2kC00ngk=;
+ b=hkR8vbTLY6o+3HypeLUHAP+fe8/tHPeHOaAbfXPIyZo2ImcGgwNgLVDRgmt0Tl+OoZGkoI
+ 6mnyiAKB0Aje1GE0up5WmOHj2v04N7XFn6Xtr9x31kZY8G9tEyj1U106qZ+IT5liwCNgHV
+ Ijf+sKOJc1ZyOuN1wbYRT+f73lUORIw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-299-H43CHYjmOeKqKqhwk84xIg-1; Tue, 25 May 2021 04:50:21 -0400
+X-MC-Unique: H43CHYjmOeKqKqhwk84xIg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 752BE100747A;
+ Tue, 25 May 2021 08:50:19 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-115-27.ams2.redhat.com
+ [10.36.115.27])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8623D5D9F0;
+ Tue, 25 May 2021 08:50:12 +0000 (UTC)
+Subject: Re: RFC: Qemu backup interface plans
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <ad71ced7-d0f6-5d99-4678-7d0e2d3e2561@virtuozzo.com>
+ <eba2f2c5-a867-91bc-64ab-08dcd67a295d@redhat.com>
+ <e3853894-ec71-bdd4-adea-b61fceee4ba5@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
+Message-ID: <60dd7a7a-3838-8d11-66f4-2cbd08fbf575@redhat.com>
+Date: Tue, 25 May 2021 10:50:11 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-References: <20210511192950.2061326-1-jsnow@redhat.com>
-In-Reply-To: <20210511192950.2061326-1-jsnow@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 25 May 2021 09:47:43 +0100
-Message-ID: <CAFEAcA-Tt-bacKbipQkMF9s0OPgbYd4dSygfdDRAe+itpmzr4w@mail.gmail.com>
-Subject: Re: [PATCH] docs: fix broken reference
-To: John Snow <jsnow@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <e3853894-ec71-bdd4-adea-b61fceee4ba5@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,56 +84,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Krempa <pkrempa@redhat.com>,
+ "libvir-list@redhat.com" <libvir-list@redhat.com>,
+ Dmitry Mishin <dim@virtuozzo.com>, Igor Sukhih <igor@virtuozzo.com>,
+ qemu-devel <qemu-devel@nongnu.org>, yur@virtuozzo.com,
+ Nikolay Shirokovskiy <nshirokovskiy@virtuozzo.com>,
+ "Denis V. Lunev" <den@openvz.org>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 11 May 2021 at 20:29, John Snow <jsnow@redhat.com> wrote:
->
-> Long story short, we need a space here for the reference to work
-> correctly.
->
->
-> Longer story:
->
-> Without the space, kerneldoc generates a line like this:
->
-> one of :c:type:`MemoryListener.region_add\(\) <MemoryListener>`,:c:type:`MemoryListener.region_del\(\)
->
-> Sphinx does not process the role information correctly, so we get this
-> (my pseudo-notation) construct:
->
-> <text>,:c:type:</text>
-> <reference target="MemoryListener">MemoryListener.region_del()</reference>
->
-> which does not reference the desired entity, and leaves some extra junk
-> in the rendered output. See
-> https://qemu-project.gitlab.io/qemu/devel/memory.html#c.MemoryListener
-> member log_start for an example of the broken output as it looks today.
->
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> ---
->  include/exec/memory.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/include/exec/memory.h b/include/exec/memory.h
-> index 5728a681b27..3b9ca696061 100644
-> --- a/include/exec/memory.h
-> +++ b/include/exec/memory.h
-> @@ -571,7 +571,7 @@ struct MemoryListener {
->       * @log_start:
->       *
->       * Called during an address space update transaction, after
-> -     * one of #MemoryListener.region_add(),#MemoryListener.region_del() or
-> +     * one of #MemoryListener.region_add(), #MemoryListener.region_del() or
->       * #MemoryListener.region_nop(), if dirty memory logging clients have
->       * become active since the last transaction.
->       *
-> --
+On 19.05.21 08:11, Vladimir Sementsov-Ogievskiy wrote:
+> 18.05.2021 19:39, Max Reitz wrote:
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+[...]
 
-thanks
--- PMM
+>> On 17.05.21 14:07, Vladimir Sementsov-Ogievskiy wrote:
+
+[...]
+
+>>> Not also, that there is another benefit of such thing: we'll 
+>>> implement this callback in qcow2 driver, so that backup will read 
+>>> clusters not in guest cluster order, but in host cluster order, to 
+>>> read more sequentially, which should bring better performance on 
+>>> rotating disks.
+>>
+>> I’m not exactly sure how you envision this to work, but block_status 
+>> also already gives you the host offset in *map.
+>>
+> 
+> But block-status doesn't give a possibility to read sequentially. For 
+> this, user should call block-status several times until the whole disk 
+> covered, then sort the segments by host offset. I wonder, could it be 
+> implemented as some iterator, like
+> 
+> read_iter = bdrv_get_sequential_read_iter(source)
+> 
+> while (extents = bdrv_read_next(read_iter)):
+>    for ext in extents:
+>      start_writing_task(target, ext.offset, ext.bytes, ext.qiov)
+> 
+> where bdrv_read_next will read guest data in host-cluster-sequence..
+
+How would you implement this, though?  qcow2 doesn’t have a reverse 
+mapping either, so it too would need to read all L2 table entries and 
+sort them, wouldn’t it?
+
+Max
+
 
