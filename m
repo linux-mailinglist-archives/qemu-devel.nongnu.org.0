@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3F38390769
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 19:20:48 +0200 (CEST)
-Received: from localhost ([::1]:43542 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F307839077C
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 19:24:51 +0200 (CEST)
+Received: from localhost ([::1]:54626 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llajX-0002SG-Sv
-	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 13:20:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33254)
+	id 1llanT-0002UQ-1A
+	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 13:24:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33840)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1llahM-0007fD-Ii
- for qemu-devel@nongnu.org; Tue, 25 May 2021 13:18:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56920)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1llakS-0006sm-2R
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 13:21:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27382)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1llahG-0000pI-GU
- for qemu-devel@nongnu.org; Tue, 25 May 2021 13:18:32 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1llakO-0002JY-Pe
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 13:21:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621963105;
+ s=mimecast20190719; t=1621963299;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fa0SNHLPfxriW7XpANZSJ4mGYxIsz7GAEsgFjO/dce8=;
- b=Xv4bdWKzgu+1NTF4fMmPzf/fvcEwaQaJBByDYnuhkzbmrSXatJA9hN2AYewuapM9NTOEmL
- jSF8kpTrCyDZmhjYdIRO8BZ+AQKc36mKZR3tE5EF+1nxvr6YE/5eT+8RPRNe0kTWrpqMh8
- uCFKm+maeRj9IsTVBP8Cw7E3IUTLQDE=
+ bh=YlQy93pBIcJWyyYaal+ZHm82FzcXxMHLPPs5ov3TNQw=;
+ b=i4Xkj/PBdpRHz1tL2lyRxcX5B4ViE+LS3wnsYbqPfkqQeZN6JSs0Pe4BNtpqnSjfRtmDc+
+ f0byB/jLQLDwLGxzz01gZvBeOsPexGk6RTDkIOH8bObt2T1qSgPiEVifWujIKNd1rINuPf
+ 2Q1lRBB2LcTe/goXqZ8o4kJWoF0Dtdc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-172-_Wf14Y7BOOCZKYJfAXHUqA-1; Tue, 25 May 2021 13:18:22 -0400
-X-MC-Unique: _Wf14Y7BOOCZKYJfAXHUqA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-446-kIAw0aY3N1CZELR3x3U4tg-1; Tue, 25 May 2021 13:21:37 -0400
+X-MC-Unique: kIAw0aY3N1CZELR3x3U4tg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 24B38180FD67;
- Tue, 25 May 2021 17:18:21 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7F1911007481;
+ Tue, 25 May 2021 17:21:36 +0000 (UTC)
 Received: from [10.10.116.137] (ovpn-116-137.rdu2.redhat.com [10.10.116.137])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 44CA85C1C2;
- Tue, 25 May 2021 17:18:11 +0000 (UTC)
-Subject: Re: [PATCH v6 13/25] python: add excluded dirs to flake8 config
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5805060CCF;
+ Tue, 25 May 2021 17:21:26 +0000 (UTC)
+Subject: Re: [PATCH v6 18/25] python/qemu: add isort to pipenv
 To: Cleber Rosa <crosa@redhat.com>
 References: <20210512231241.2816122-1-jsnow@redhat.com>
- <20210512231241.2816122-14-jsnow@redhat.com>
- <YK0cw6y26fA5bnf3@localhost.localdomain>
+ <20210512231241.2816122-19-jsnow@redhat.com>
+ <YK0eIsUzQho7zEcA@localhost.localdomain>
 From: John Snow <jsnow@redhat.com>
-Message-ID: <bcb89aac-157e-5305-4ce8-54ef3da77bad@redhat.com>
-Date: Tue, 25 May 2021 13:18:10 -0400
+Message-ID: <b2ac6611-30d0-0a4b-26e8-8bf0fd7bbe7c@redhat.com>
+Date: Tue, 25 May 2021 13:21:25 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <YK0cw6y26fA5bnf3@localhost.localdomain>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <YK0eIsUzQho7zEcA@localhost.localdomain>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -69,7 +69,7 @@ X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,53 +95,32 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/25/21 11:50 AM, Cleber Rosa wrote:
-> On Wed, May 12, 2021 at 07:12:29PM -0400, John Snow wrote:
->> Instruct flake8 to avoid certain well-known directories created by
->> python tooling that it ought not check.
+On 5/25/21 11:56 AM, Cleber Rosa wrote:
+> On Wed, May 12, 2021 at 07:12:34PM -0400, John Snow wrote:
+>> isort 5.0.0 through 5.0.4 has a bug that causes it to misinterpret
+>> certain "from ..." clauses that are not related to imports.
 >>
->> Note that at-present, nothing actually creates a ".venv" directory; but
->> it is in such widespread usage as a de-facto location for a developer's
->> virtual environment that it should be excluded anyway. A forthcoming
->> commit canonizes this with a "make venv" command.
+>> isort < 5.1.1 has a bug where it does not handle comments near import
+>> statements correctly.
+>>
+>> Require 5.1.2 or greater.
+>>
+>> isort can be run with 'isort -c qemu' from the python root.
 >>
 >> Signed-off-by: John Snow <jsnow@redhat.com>
 >> ---
->>   python/setup.cfg | 2 ++
->>   1 file changed, 2 insertions(+)
->>
->> diff --git a/python/setup.cfg b/python/setup.cfg
->> index 9ecb2902006..f21a1c42fc0 100644
->> --- a/python/setup.cfg
->> +++ b/python/setup.cfg
->> @@ -21,6 +21,8 @@ packages = find_namespace:
->>   
->>   [flake8]
->>   extend-ignore = E722  # Prefer pylint's bare-except checks to flake8's
->> +exclude = __pycache__,
->> +          .venv,
->>
-> 
-> Given that the default set of exclusions (version control system
-> files) are not expected here, it LGTM to reset it with these.
+>>   python/Pipfile      | 1 +
+>>   python/Pipfile.lock | 4 ++--
+>>   2 files changed, 3 insertions(+), 2 deletions(-)
 > 
 > Reviewed-by: Cleber Rosa <crosa@redhat.com>
 > 
 
-Yep. Admittedly, I just excluded things that caused me trouble in 
-practice. I could narrow the flake8 invocation to specify *only* the 
-qemu/ folder, but in the event we added Python tests or other scripts I 
-actually felt like leaving it "open" would be fine.
+Thanks. I have also updated the commit message a little bit:
 
-(This way, flake8 runs like how I expect it to by just running "flake8" 
-with no arguments, which I saw as nice.)
-
-The goal was something like: the less specific I make the flake8 
-invocation, the better, even though I expect the linter to be run only 
-by "make check" eventually, as a courtesy to mid-advanced users, keeping 
-those canonical invocations simple felt good.
-
-Thanks!
+isort can be run (in "check" mode) with 'isort -c qemu' from the python
+root. isort can also be used to fix/rewrite import order automatically
+by using 'isort qemu'.
 
 --js
 
