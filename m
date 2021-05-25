@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D5ED38F91A
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 05:59:13 +0200 (CEST)
-Received: from localhost ([::1]:41558 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8636D38F931
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 06:05:26 +0200 (CEST)
+Received: from localhost ([::1]:44692 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llODo-0001uu-GB
-	for lists+qemu-devel@lfdr.de; Mon, 24 May 2021 23:59:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58764)
+	id 1llOJp-0004FC-Km
+	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 00:05:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60148)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1llOCO-0008Oj-V7
- for qemu-devel@nongnu.org; Mon, 24 May 2021 23:57:45 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:34797)
+ id 1llOIl-0003Za-UC
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 00:04:20 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:38509)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1llOCN-0007KZ-Ka
- for qemu-devel@nongnu.org; Mon, 24 May 2021 23:57:44 -0400
-Received: by mail-wr1-x436.google.com with SMTP id r12so30573675wrp.1
- for <qemu-devel@nongnu.org>; Mon, 24 May 2021 20:57:43 -0700 (PDT)
+ id 1llOIk-0003rf-Ez
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 00:04:19 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id j14so28826820wrq.5
+ for <qemu-devel@nongnu.org>; Mon, 24 May 2021 21:04:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=DX0g5DzMg2LebyWGJI3aBdtXoMrZb/CVrlCVMLea+60=;
- b=t/KXSa0sR9DLDHH0En7nUiSpc0l/p5Slj77lPSZ+vh4eq/QlkUKH19uOUiy7Ic8g72
- SjXAGAqHzEoj4bS+dT/PB+/HjLyZ8ZLAeoXdK9zBvDhVnqcO8w7K8843vCwNGkpVXl5O
- 74lfPm3WNVR0EIVY+9cdYb709Kep4KRb/P6TTohKpT0OCyMkMZmOzoqZydbduQG6VSKy
- 97Hs6cE10cFJYtHTjFuwnkLN+A9pK3Nq6QGb2Cc98E7WgYbJZZQGhcimwdsIvRRsUx3Q
- Q1kypImAKu7XoaEDoNP0sR+NAppw1h8F63T13tP/bc1g75G+HN3TStRymczv3B/ip4k/
- 6+SA==
+ bh=TLuGh3JH5Rm9XM8EK+J0ZquAMh/NAL8EyIQPW2DxdmI=;
+ b=kq3QxWnl3dKHQzMBVQhqXBhmechnr9JZKbMLKBWBzC/ogCrQkuEgOPVR7WbmjJBkoS
+ V+F/06VVYTR/cQKnx9Qf1b7d79KoH6KjSJ2oiOfo1PLqH+7Rt2jqWyBU8el9SduNKink
+ xqXEkpcpX3ooo1IUGokTw3eUTlRDOtyPb+uM2eGDBK2GP8qfucS/VY8sZOTQ0exIbLMI
+ 9ehFCmWg4ba8Gn4nqq/rM0W7BpIFUBUGVgZpPYQwDxff1zwMDueBzSyN0cw3ucu+9LYE
+ c37spzW0ZvU0F6wSuAUdT/90HnqSIhGPvbYLzuyG0nLOPffDg6rF4c+W4Y91vLnzC28L
+ Cqdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=DX0g5DzMg2LebyWGJI3aBdtXoMrZb/CVrlCVMLea+60=;
- b=mR3U0DdXNw1jEWTUjBshUdjq5M9fI4UAHOusvP0PQo/wc8tWlJ/rvO05T/zYMu7jcj
- gAvqJY29CP/+w4Dow5mgwZv6y4YJKbbitE4KfuALXi3fzFSAbpc++pmFav2xNmCu72rR
- FMCBKNf7pB9aT/uteD3dWniXM6S8nhyzGFslrnOXO695Bx2ISn3oqc7BDNdXgk5CE3XD
- gahSAK8s5yLriLMceC8KNY6dA7QcsjtfTroi9WIDI+36z0N07PsdKeRS+0frFUusVYUJ
- xg16x7j7Dq1tFKeRacc0GCCuJXW+u5d1TjDqze+pdd4l8Y5ZgXSDZtY1kjUT3SLvc4sr
- TJrg==
-X-Gm-Message-State: AOAM5336aauIjXqu9Sa82IBagCjlKUIx6QDX/E142lN7xOoWtwlM8P/9
- fijJbMvCY/cKcBd127q9tlI=
-X-Google-Smtp-Source: ABdhPJwXUjXr92Agcn5kGTTp22ipMTLrEs1yQ4OJHuoWDkAZ4hcXizUlKH4VsEsiQGgZz9vHae71YA==
-X-Received: by 2002:a5d:4f03:: with SMTP id c3mr24611569wru.158.1621915062315; 
- Mon, 24 May 2021 20:57:42 -0700 (PDT)
+ bh=TLuGh3JH5Rm9XM8EK+J0ZquAMh/NAL8EyIQPW2DxdmI=;
+ b=ryAVNnAvedT9uH+/h+toq+cVAellJ6irS8GHIN4Um2POD/kRCPljq4AD4Wjm9aHtb4
+ b6whIWkMs1EpIusPAoCzym2NBKiyTtFRJ/j3YXj/7c/JGFxzAnNfRUaSBOjZ2M4FM9/P
+ H0tGVW6/leGEtDNBclYS6uGK6NmjgG8nBiQomjTAOndkbzjblBAcgUs87qXbk3Hmc2pV
+ RwFH4f3PLOWZOFBd7oL/sLJl2SETyGSLDlF9mRcSnRVw/Gz+6NaStsw1eyK65ySN9jbL
+ OAhPA0lN9qrSQJtsvSy+LXlytkwY7yEqrlgfLuoLek25w8LwZgjjD5hWdiC0lSdRZTC5
+ GAuA==
+X-Gm-Message-State: AOAM5305p9PIOid1NE1Of9YH7npxB0XZGUgkZIpd96z07zOFUIDkRwjB
+ 6pdUhbIJJVDfxfTkq3OgfC8=
+X-Google-Smtp-Source: ABdhPJxFMpmHSeYLJmbrgkyIyGvKR/Isr8sad6cKCJlR20EB1P2Ci7Z0k/glSJkYF8B6wkJ5fcduZA==
+X-Received: by 2002:adf:f142:: with SMTP id y2mr24492992wro.426.1621915456851; 
+ Mon, 24 May 2021 21:04:16 -0700 (PDT)
 Received: from [192.168.1.36] (31.red-83-51-215.dynamicip.rima-tde.net.
  [83.51.215.31])
- by smtp.gmail.com with ESMTPSA id b15sm13988266wru.64.2021.05.24.20.57.41
+ by smtp.gmail.com with ESMTPSA id i1sm14286876wrp.51.2021.05.24.21.04.15
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 24 May 2021 20:57:41 -0700 (PDT)
-Subject: Re: [PATCH v1 7/8] gdbstub: tidy away reverse debugging check into
- function
+ Mon, 24 May 2021 21:04:16 -0700 (PDT)
+Subject: Re: [PATCH v1 2/8] gitlab: explicitly reference the upstream registry
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
 References: <20210520174303.12310-1-alex.bennee@linaro.org>
- <20210520174303.12310-8-alex.bennee@linaro.org>
+ <20210520174303.12310-3-alex.bennee@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <2d303743-f0c4-39ff-04c8-227cf0b67886@amsat.org>
-Date: Tue, 25 May 2021 05:57:40 +0200
+Message-ID: <3e1dc275-c320-5777-27aa-9bdd1baf4e78@amsat.org>
+Date: Tue, 25 May 2021 06:04:15 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <20210520174303.12310-8-alex.bennee@linaro.org>
+In-Reply-To: <20210520174303.12310-3-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -91,39 +90,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com, stefanha@redhat.com, crosa@redhat.com,
- pbonzini@redhat.com,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- aurelien@aurel32.net
+Cc: fam@euphon.net, Thomas Huth <thuth@redhat.com>, berrange@redhat.com,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Willian Rampazzo <willianr@redhat.com>, stefanha@redhat.com, crosa@redhat.com,
+ pbonzini@redhat.com, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Alex,
+On 5/20/21 7:42 PM, Alex Bennée wrote:
+> Since c8e6793903 ("containers.yml: build with docker.py tooling") we
+> don't need to manually pull stuff from the upstream repository. Just
+> set the -r field to explicitly use that rather than the current
+> registry.
 
-On 5/20/21 7:43 PM, Alex Bennée wrote:
-> In theory we don't need an actual record/replay to enact reverse
-> debugging on a purely deterministic system (i.e one with no external
-> inputs running under icount). Tidy away the logic into a little
-> function.
+Yay!
+
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
 > 
 > Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 > ---
->  gdbstub.c | 13 +++++++++++--
->  1 file changed, 11 insertions(+), 2 deletions(-)
-> 
-> diff --git a/gdbstub.c b/gdbstub.c
-> index 84ce770a04..52bde5bdc9 100644
-> --- a/gdbstub.c
-> +++ b/gdbstub.c
-> @@ -465,6 +465,15 @@ int use_gdb_syscalls(void)
->      return gdb_syscall_mode == GDB_SYS_ENABLED;
->  }
->  
-> +static bool stub_can_reverse(void)
-
-Do you mind renaming it gdbstub_can_reverse()?
-
-Otherwise:
-
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>  .gitlab-ci.d/containers.yml | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
 
