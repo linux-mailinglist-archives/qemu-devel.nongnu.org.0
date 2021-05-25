@@ -2,73 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C76638FE4A
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 11:56:53 +0200 (CEST)
-Received: from localhost ([::1]:57954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAF4C38FE4C
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 11:57:55 +0200 (CEST)
+Received: from localhost ([::1]:60122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llTnv-0001IX-KS
-	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 05:56:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41022)
+	id 1llTox-0002kB-32
+	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 05:57:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41118)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1llTmj-0000IJ-Pq
- for qemu-devel@nongnu.org; Tue, 25 May 2021 05:55:37 -0400
-Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:35448)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1llTmd-0006O4-Mj
- for qemu-devel@nongnu.org; Tue, 25 May 2021 05:55:37 -0400
-Received: by mail-ej1-x62c.google.com with SMTP id k14so42916839eji.2
- for <qemu-devel@nongnu.org>; Tue, 25 May 2021 02:55:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=zBIvJelCxc1zqHgTlz8reE62AZLhuvB/hLq0T4rOa3g=;
- b=Chw3u3z0XW6/CpLAUw09pRKLw9onI/lWxV5KxqY6kTf1T90MapUue4CUismvQeMKGd
- zyxZmQCHw7DYmSAUUuDYnwtvKknxRfbz4Z+oNKdA0iT76nEZGqHHxiLtBRVvnfcdDpRV
- FTZ2Ijviv9gVBlUgs4WNaTfeaaTeaJTr0w4YqippkFPnLdrFph4EPeBnOtwILPW5wzfw
- 2ptZk97CchS+KOq5kQjM8xDsearzss7O6l5/5yG1t1sASHUKSlec33O90j7o9m/oIFw8
- 3OucFVX+oOmtjRg13amF1LQzeZeK0huVR/c5ticzL3QFt4KjUS2kAwe5jHyiLcVwa5KA
- qjwg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=zBIvJelCxc1zqHgTlz8reE62AZLhuvB/hLq0T4rOa3g=;
- b=OlAhPDU4IvJjTr3uVfHyqDtm5dIU3wQ/iXCekwOHjaUyetvgxhvsUhPjv/u4GFnbQj
- +9UZSyIm01rCFgbA+Yd9DgRj2du6/OJ7wXjF0gc1Ct3IDwENWk0Z/OmPGJhaYPch0+Iy
- nq+3Jp78uHCWcr1K99yY6HZ06S8t56c/3L++2/33cl8qZl9MfPUpZLpazeOp26exz39a
- rn+QQg0bSK0sVCgZmsEiZfz4vxpBpITOhzV5VYSlFA1iYzjr9Si1JpxSkT+A+IOpc0vx
- a5ZsTM3Z0gftEEn0wZ7ts70r3RqW3MpWs78VAfjuevIuMmPlgzHLdGBWVbh+sMqk7ypN
- WF3Q==
-X-Gm-Message-State: AOAM532MRl9Bp1/1DEubqoIeg6Udszpn9r5G67h4SQa+krmnlvHCnL9w
- ACfU5YkuUbPxaTNYooLFGElj93BLyBBVf7EP6iuKBg==
-X-Google-Smtp-Source: ABdhPJxf8hplw5CPyzJM1yZfM1AhMViOPFtwGNTplk6MAyh6PoVgh1KuFMw0P4JoFFb97/THWRmQj84eeoaxkHgJmgM=
-X-Received: by 2002:a17:906:d1d2:: with SMTP id
- bs18mr28022374ejb.56.1621936528740; 
- Tue, 25 May 2021 02:55:28 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1llTn1-0000hW-UZ; Tue, 25 May 2021 05:55:57 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:40348)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1llTmv-0006XP-DP; Tue, 25 May 2021 05:55:54 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 40B4574570B;
+ Tue, 25 May 2021 11:55:44 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id BC361745709; Tue, 25 May 2021 11:55:43 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id BAFA27457F0;
+ Tue, 25 May 2021 11:55:43 +0200 (CEST)
+Date: Tue, 25 May 2021 11:55:43 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: Re: [PATCH qemu v20] spapr: Implement Open Firmware client interface
+In-Reply-To: <YKyLNgZrG4IQw0E3@yekko>
+Message-ID: <a433cec-5524-93f-880-b74d5a8753fd@eik.bme.hu>
+References: <eb49cd30-a4f4-d063-d728-521446a671a6@eik.bme.hu>
+ <5825cde5-a408-a438-116d-5a9d9113a52a@ozlabs.ru>
+ <ec1742e3-c47-bbee-3a6-ec64442922ab@eik.bme.hu>
+ <8527c8d2-c1e7-b3f8-0bda-529ba3864701@ozlabs.ru>
+ <babe39af-fd34-8c5-de99-a0f485bfbce@eik.bme.hu>
+ <4f6ceca3-5f18-fe70-18f9-4efde8feb1ed@ozlabs.ru>
+ <7a4e47e5-59b-9132-eafd-d84d8b73f5c@eik.bme.hu>
+ <17fbb016-2e7-d57e-bedd-1ae7814fb860@eik.bme.hu> <YKtBJoQXSrSVENFw@yekko>
+ <fe6791b0-6162-8331-cc-e6e29fc7d07b@eik.bme.hu> <YKyLNgZrG4IQw0E3@yekko>
 MIME-Version: 1.0
-References: <20210509151618.2331764-1-f4bug@amsat.org>
- <CAAdtpL6u_5AF=H7XaRwfWThTVxM3YvUjUktbmmEenbUL=r2nBQ@mail.gmail.com>
- <820e64bb-8ba1-d56f-d42a-458940600ac7@amsat.org>
-In-Reply-To: <820e64bb-8ba1-d56f-d42a-458940600ac7@amsat.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 25 May 2021 10:55:05 +0100
-Message-ID: <CAFEAcA9m1fYkLYg-bLK7Vg_35ahwH-zLup=wThGo8biuRF12jQ@mail.gmail.com>
-Subject: Re: [PATCH v2 0/9] accel/tcg: Add tlb_flush interface for a range of
- pages
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 8%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,22 +62,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: Alexey Kardashevskiy <aik@ozlabs.ru>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 25 May 2021 at 08:56, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
- wrote:
+On Tue, 25 May 2021, David Gibson wrote:
+> On Mon, May 24, 2021 at 02:42:30PM +0200, BALATON Zoltan wrote:
+>> On Mon, 24 May 2021, David Gibson wrote:
+>>> On Sun, May 23, 2021 at 07:09:26PM +0200, BALATON Zoltan wrote:
+>>>> On Sun, 23 May 2021, BALATON Zoltan wrote:
+>>>>> On Sun, 23 May 2021, Alexey Kardashevskiy wrote:
+>>>>>> One thing to note about PCI is that normally I think the client
+>>>>>> expects the firmware to do PCI probing and SLOF does it. But VOF
+>>>>>> does not and Linux scans PCI bus(es) itself. Might be a problem for
+>>>>>> you kernel.
+>>>>>
+>>>>> I'm not sure what info does MorphOS get from the device tree and what it
+>>>>> probes itself but I think it may at least need device ids and info about
+>>>>> the PCI bus to be able to access the config regs, after that it should
+>>>>> set the devices up hopefully. I could add these from the board code to
+>>>>> device tree so VOF does not need to do anything about it. However I'm
+>>>>> not getting to that point yet because it crashes on something that it's
+>>>>> missing and couldn't yet find out what is that.
+>>>>>
+>>>>> I'd like to get Linux working now as that would be enough to test this
+>>>>> and then if for MorphOS we still need a ROM it's not a problem if at
+>>>>> least we can boot Linux without the original firmware. But I can't make
+>>>>> Linux open a serial console and I don't know what it needs for that. Do
+>>>>> you happen to know? I've looked at the sources in Linux/arch/powerpc but
+>>>>> not sure how it would find and open a serial port on pegasos2. It seems
+>>>>> to work with the board firmware and now I can get it to boot with VOF
+>>>>> but then it does not open serial so it probably needs something in the
+>>>>> device tree or expects the firmware to set something up that we should
+>>>>> add in pegasos2.c when using VOF.
+>>>>
+>>>> I've now found that Linux uses rtas methods read-pci-config and
+>>>> write-pci-config for PCI access on pegasos2 so this means that we'll
+>>>> probably need rtas too (I hoped we could get away without it if it were only
+>>>> used for shutdown/reboot or so but seems Linux needs it for PCI as well and
+>>>> does not scan the bus and won't find some devices without it).
+>>>
+>>> Yes, definitely sounds like you'll need an RTAS implementation.
+>>>
+>>>> While VOF can do rtas, this causes a problem with the hypercall method using
+>>>> sc 1 that goes through vhyp but trips the assert in ppc_store_sdr1() so
+>>>> cannot work after guest is past quiesce.
+>>>
+>>>> So the question is why is that
+>>>> assert there
+>>>
+>>> Ah.. right.  So, vhyp was designed for the PAPR use case, where we
+>>> want to model the CPU when it's in supervisor and user mode, but not
+>>> when it's in hypervisor mode.  We want qemu to mimic the behaviour of
+>>> the hypervisor, rather than attempting to actually execute hypervisor
+>>> code in the virtual CPU.
+>>>
+>>> On systems that have a hypervisor mode, SDR1 is hypervisor privileged,
+>>> so it makes no sense for the guest to attempt to set it.  That should
+>>> be caught by the general SPR code and turned into a 0x700, hence the
+>>> assert() if we somehow reach ppc_store_sdr1().
+>>
+>> This seems to work to avoid my problem so I can leave vhyp enabled after
+>> qiuesce for now:
+>>
+>> diff --git a/target/ppc/cpu.c b/target/ppc/cpu.c
+>> index d957d1a687..13b87b9b36 100644
+>> --- a/target/ppc/cpu.c
+>> +++ b/target/ppc/cpu.c
+>> @@ -70,7 +70,7 @@ void ppc_store_sdr1(CPUPPCState *env, target_ulong value)
+>>  {
+>>      PowerPCCPU *cpu = env_archcpu(env);
+>>      qemu_log_mask(CPU_LOG_MMU, "%s: " TARGET_FMT_lx "\n", __func__, value);
+>> -    assert(!cpu->vhyp);
+>> +    assert(!cpu->env.has_hv_mode || !cpu->vhyp);
+>>  #if defined(TARGET_PPC64)
+>>      if (mmu_is_64bit(env->mmu_model)) {
+>>          target_ulong sdr_mask = SDR_64_HTABORG | SDR_64_HTABSIZE;
+>>
+>> But I wonder if the assert should also be moved within the TARGET_PPC64
+>> block and if we may need to generate some exception here instead. Not sure
+>> what a real CPU would do in this case but if accessing sdr1 is privileged in
+>> HV mode then there should be an exception or if that's catched
+>> elsewhere
 >
-> ping?
+> It should be caught elsehwere.  Specifically, when the SDR1 SPR is
+> registered, on CPUs with a hypervisor mode it should be registered as
+> hypervisor privileged, so the general mtspr dispatch logic should
+> generate the exception if it's called from !HV code.  The assert here
+> is just to sanity check that it has done so before we enter the actual
+> softmmu code.
 
-I talked to RTH about this yesterday; I actually have it in
-my target-arm queue and reviewed. I'm just waiting for Richard
-to supply some commit messages to fill in the bits you left
-as placeholders/blank...
+So what's the decision then? Remove this assert or modify it like above 
+and move it to the TARGET_PPC64 block (as no 32 bit CPU should have an HV 
+bit anyway).
 
-thanks
--- PMM
+Regards,
+BALATON Zoltan
 
