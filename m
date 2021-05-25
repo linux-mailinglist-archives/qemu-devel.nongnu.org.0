@@ -2,79 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02D353903A4
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 16:14:12 +0200 (CEST)
-Received: from localhost ([::1]:44430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21B7E3903A8
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 16:15:41 +0200 (CEST)
+Received: from localhost ([::1]:48694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llXow-0007as-G3
-	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 10:14:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44678)
+	id 1llXqO-000222-8O
+	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 10:15:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44888)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1llXnd-0005b9-89; Tue, 25 May 2021 10:12:49 -0400
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:33443)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1llXna-0006Ss-Kz; Tue, 25 May 2021 10:12:48 -0400
-Received: by mail-wm1-x336.google.com with SMTP id
- z137-20020a1c7e8f0000b02901774f2a7dc4so1745842wmc.0; 
- Tue, 25 May 2021 07:12:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=iwB49LVCIjXSnzvqMm0GWsschCGQ4n6LHKQlhxMMr6M=;
- b=c3p4m7+vkuKfwCkMHcCrx/dQ4evMS36z6tWU/TnNKEjDgSX2G8hAxfK3y5E0wo9NH/
- 7Ctjn0zkKMe+UKrMT/WF+hgg1/f9yfAD1nSoDUf6vOqlQhchFiIsb8FnFpBomlBuoNyg
- olZSbngeEIIxmToVRfJ3pb5qwdKqJBYX6KN1JuLIhad3NTwtannQRTx+GJOmFsGTwAwq
- ANknc0srYv8e8ehei3jG0ETGrysDwrrJlImvELi2wKtu5Gh9QVU0wBpMqpEsC1IQPwL7
- ZDJd8at1mS4qj+0VXWtCnG/LZd0eCLX7CUBDJSrVwmmg58zI6IcyqrLhimbrdMNfRSbm
- 5LqQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=iwB49LVCIjXSnzvqMm0GWsschCGQ4n6LHKQlhxMMr6M=;
- b=bQ4hu4xwB093kxocODvxAnOTGk+8GtR4i7Fj/bd31kr4h82RX9lastiNqHCR/j6bmZ
- KWcz9cvgGL83jKX8LIHZ1ES/MBqPE4jvj0euDac3jsUtbszM8F8ixBDRMFlTW8d9Nyj0
- g0wOM8JF118zKgjxmpSVt2dIQOj/EgeQLhBUt/p8tUP1YCMCVRJyodRlnx8aC1OyxguJ
- XzOy0j6Nx6BkvDr2+WrS8Yl+aQcS7HW+rtKpsNyWyKxGkICEdXBeyIBJY7knGpP5rTiW
- SrQc5yd4YAEWAqex6BcR1ZT+Fh6Vb7IZKRrB4eegkxZxL+ljwCpubCVsypu8w3MJFABw
- ybxw==
-X-Gm-Message-State: AOAM530T1lMGQ7IdBMZ85CY7quYpM+sGD1yb5vzX6IsTP0G42hGYXjZC
- 9uhSiZ+VSZ2sKsUDP6A07PA=
-X-Google-Smtp-Source: ABdhPJw9r8CP3XwHEY7CU72JdMsBVUKlUD99KLUgGGUQkveG0uQ5xJt5EAM/KE1YZKX7uesNtKxRhg==
-X-Received: by 2002:a1c:b306:: with SMTP id c6mr4062347wmf.37.1621951963940;
- Tue, 25 May 2021 07:12:43 -0700 (PDT)
-Received: from [192.168.1.36] (31.red-83-51-215.dynamicip.rima-tde.net.
- [83.51.215.31])
- by smtp.gmail.com with ESMTPSA id g10sm16542900wrq.12.2021.05.25.07.12.42
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 25 May 2021 07:12:42 -0700 (PDT)
-Subject: Re: [PATCH v7 00/23] cpu: Introduce SysemuCPUOps structure
-To: qemu-devel@nongnu.org
-References: <20210517105140.1062037-1-f4bug@amsat.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <4810c3c9-57c5-3355-9de7-5f45a0944ed6@amsat.org>
-Date: Tue, 25 May 2021 16:12:41 +0200
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1llXo4-0006TN-9Y
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 10:13:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31084)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1llXny-0006ka-1S
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 10:13:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1621951988;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=mIf9pXW/Badas7btEcGID8f5DGsEFNkgWydkRepZ4UA=;
+ b=VfPXdreCXdSMHy6lig63WeAmZ2hwER91F086lEMOSR/LSp1nDqHVwugqUEjRr/cfDOvaYt
+ LAjTbYmrzgriHh6FyK2r24hWVEw2PpX8JKZjhQ2CW2IRdus+3cCZ1oFCXqim12YMzO7reX
+ zihWgwdZ3ihRlxEct3xrOJ9SviU5i/I=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-84-5pwt4iozNCmEQdZ3L-FD7Q-1; Tue, 25 May 2021 10:13:04 -0400
+X-MC-Unique: 5pwt4iozNCmEQdZ3L-FD7Q-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5AAB4802ED8;
+ Tue, 25 May 2021 14:13:03 +0000 (UTC)
+Received: from [10.10.116.137] (ovpn-116-137.rdu2.redhat.com [10.10.116.137])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1E2A660C13;
+ Tue, 25 May 2021 14:12:49 +0000 (UTC)
+Subject: Re: [PATCH v6 07/25] python: add MANIFEST.in
+To: Cleber Rosa <crosa@redhat.com>
+References: <20210512231241.2816122-1-jsnow@redhat.com>
+ <20210512231241.2816122-8-jsnow@redhat.com>
+ <YKxkMiUtNX2rYsPw@localhost.localdomain>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <09618adf-ab48-342c-6aad-fc297c41154d@redhat.com>
+Date: Tue, 25 May 2021 10:12:49 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <20210517105140.1062037-1-f4bug@amsat.org>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <YKxkMiUtNX2rYsPw@localhost.localdomain>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x336.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,183 +82,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-riscv@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>, qemu-s390x@nongnu.org, qemu-arm@nongnu.org,
- qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-block@nongnu.org,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Willian Rampazzo <willianr@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
+ Max Reitz <mreitz@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Beraldo Leal <bleal@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/17/21 12:51 PM, Philippe Mathieu-Daudé wrote:
-> Missing review: 2-5 (new) and 13
+On 5/24/21 10:42 PM, Cleber Rosa wrote:
+> On Wed, May 12, 2021 at 07:12:23PM -0400, John Snow wrote:
+>> When creating a source distribution via 'python3 setup.py sdist', the
+>> VERSION and PACKAGE.rst files aren't bundled by default. Create a
+>> MANIFEST.in file that instructs the build tools to include these so that
+>> installation from source dists won't fail.
+>>
+>> (This invocation is required by 'tox', as well as by the tooling needed
+>> to upload packages to PyPI.)
+>>
+>> Signed-off-by: John Snow <jsnow@redhat.com>
+>> ---
+>>   python/README.rst  | 2 ++
+>>   python/MANIFEST.in | 2 ++
+>>   2 files changed, 4 insertions(+)
+>>   create mode 100644 python/MANIFEST.in
+>>
+> 
+> I was about to propose mypy.ini to be included here, but given
+> that it's merged into setup.cfg later in this series:
+> 
+> Reviewed-by: Cleber Rosa <crosa@redhat.com>
+> 
+> ---
+> 
+> Note to self (and to you) when generating the sdist, I get:
+> 
+>     ...
+>     package init file 'qemu/__init__.py' not found (or not a regular file)
 
-Ping for review? :)
+I think this one is fine, it's just a consequence of PEP420.
 
-> This series is inspired on Claudio TCG work.
+>     package init file 'dist/__init__.py' not found (or not a regular file)
+
+This is kinda weird, but it only happens if you run sdist a *second* 
+time, and it has created a dist/ folder. It shouldn't be trying to 
+package its own dist folder ... !
+
+After a 60 second look I don't know how to rectify this behavior, I will 
+look into it.
+
+>     ...
 > 
-> Instead of separate TCG from other accelerators, here we
-> separate sysemu operations (system VS user).
+> Which may not be too harmful, but deserves investigation.
 > 
-> Since v6:
-> - Rebased (3 targets removed, Claudio's target/i386 series merged)
-> - Addressed Richard & David comments
-> 
-> Since v5:
-> - Rework patch 10 after Peter Maydell explanation on v3:
->   https://www.mail-archive.com/qemu-devel@nongnu.org/msg800849.html
-> 
-> Since v4:
-> - Removed watchpoint patches (need more work) (Richard)
-> - Merged patch 1 & 7 "Move CPUClass::vmsd to SysemuCPUOps" (Eduardo)
-> - Reworded cpu_virtio_is_big_endian description (Greg)
-> - Move write_elf() in target/riscv/cpu.c (rebased on top of 43a965888)
-> - Added R-b tags
-> 
-> Since v3:
-> - SysemuCPUOps const (Richard)
-> - added missing xtensa #ifdef'ry
-> - added missing aa64/sve #ifdef'ry
-> - added Laurent R-b
-> 
-> Since v2:
-> - fixed lm32/unicore32
-> - remove USER_ONLY ifdef'ry from "cpu.h" (Claudio)
-> 
-> Since v1:
-> - Name 'sysemu' (Claudio)
-> - change each field progressively (Richard)
-> 
-> $ git backport-diff
-> Key:
-> [----] : patches are identical
-> [####] : number of functional differences between upstream/downstream patch
-> [down] : patch is downstream-only
-> The flags [FC] indicate (F)unctional and (C)ontextual differences, respective=
-> ly
-> 
-> 001/23:[down] 'NOTFORMERGE target/arm: Restrict MTE code to softmmu'
-> 002/23:[down] 'cpu: Restrict target cpu_do_transaction_failed() handlers to s=
-> ysemu'
-> 003/23:[down] 'cpu: Restrict target cpu_do_unaligned_access() handlers to sys=
-> emu'
-> 004/23:[down] 'cpu: Remove duplicated 'sysemu/hw_accel.h' header'
-> 005/23:[down] 'cpu: Split as cpu-common / cpu-sysemu'
-> 006/23:[0002] [FC] 'cpu: Un-inline cpu_get_phys_page_debug and cpu_asidx_from=
-> _attrs'
-> 007/23:[0010] [FC] 'cpu: Introduce cpu_virtio_is_big_endian()'
-> 008/23:[0088] [FC] 'cpu: Directly use cpu_write_elf*() fallback handlers in p=
-> lace'
-> 009/23:[0022] [FC] 'cpu: Directly use get_paging_enabled() fallback handlers =
-> in place'
-> 010/23:[0026] [FC] 'cpu: Directly use get_memory_mapping() fallback handlers =
-> in place'
-> 011/23:[0007] [FC] 'cpu: Assert DeviceClass::vmsd is NULL on user emulation'
-> 012/23:[0004] [FC] 'cpu: Rename CPUClass vmsd -> legacy_vmsd'
-> 013/23:[down] 'cpu: Move AVR target vmsd field from CPUClass to DeviceClass'
-> 014/23:[0014] [FC] 'cpu: Introduce SysemuCPUOps structure'
-> 015/23:[0003] [FC] 'cpu: Move CPUClass::vmsd to SysemuCPUOps'
-> 016/23:[0002] [FC] 'cpu: Move CPUClass::virtio_is_big_endian to SysemuCPUOps'
-> 017/23:[----] [--] 'cpu: Move CPUClass::get_crash_info to SysemuCPUOps'
-> 018/23:[----] [-C] 'cpu: Move CPUClass::write_elf* to SysemuCPUOps'
-> 019/23:[----] [--] 'cpu: Move CPUClass::asidx_from_attrs to SysemuCPUOps'
-> 020/23:[0055] [FC] 'cpu: Move CPUClass::get_phys_page_debug to SysemuCPUOps'
-> 021/23:[----] [--] 'cpu: Move CPUClass::get_memory_mapping to SysemuCPUOps'
-> 022/23:[----] [--] 'cpu: Move CPUClass::get_paging_enabled to SysemuCPUOps'
-> 023/23:[0012] [FC] 'cpu: Restrict "hw/core/sysemu-cpu-ops.h" to target/cpu.c'
-> 
-> Regards,
-> 
-> Phil.
-> 
-> Philippe Mathieu-Daud=C3=A9 (23):
->   NOTFORMERGE target/arm: Restrict MTE code to softmmu
->   cpu: Restrict target cpu_do_transaction_failed() handlers to sysemu
->   cpu: Restrict target cpu_do_unaligned_access() handlers to sysemu
->   cpu: Remove duplicated 'sysemu/hw_accel.h' header
->   cpu: Split as cpu-common / cpu-sysemu
->   cpu: Un-inline cpu_get_phys_page_debug and cpu_asidx_from_attrs
->   cpu: Introduce cpu_virtio_is_big_endian()
->   cpu: Directly use cpu_write_elf*() fallback handlers in place
->   cpu: Directly use get_paging_enabled() fallback handlers in place
->   cpu: Directly use get_memory_mapping() fallback handlers in place
->   cpu: Assert DeviceClass::vmsd is NULL on user emulation
->   cpu: Rename CPUClass vmsd -> legacy_vmsd
->   cpu: Move AVR target vmsd field from CPUClass to DeviceClass
->   cpu: Introduce SysemuCPUOps structure
->   cpu: Move CPUClass::vmsd to SysemuCPUOps
->   cpu: Move CPUClass::virtio_is_big_endian to SysemuCPUOps
->   cpu: Move CPUClass::get_crash_info to SysemuCPUOps
->   cpu: Move CPUClass::write_elf* to SysemuCPUOps
->   cpu: Move CPUClass::asidx_from_attrs to SysemuCPUOps
->   cpu: Move CPUClass::get_phys_page_debug to SysemuCPUOps
->   cpu: Move CPUClass::get_memory_mapping to SysemuCPUOps
->   cpu: Move CPUClass::get_paging_enabled to SysemuCPUOps
->   cpu: Restrict "hw/core/sysemu-cpu-ops.h" to target/cpu.c
-> 
->  include/hw/core/cpu.h            |  92 +++++---------------
->  include/hw/core/sysemu-cpu-ops.h |  92 ++++++++++++++++++++
->  include/migration/vmstate.h      |   2 -
->  target/alpha/cpu.h               |  12 ++-
->  target/arm/cpu.h                 |   9 +-
->  target/arm/internals.h           |   2 +
->  target/avr/cpu.h                 |   1 +
->  target/cris/cpu.h                |   7 +-
->  target/hexagon/cpu.h             |   3 +
->  target/hppa/cpu.h                |   5 +-
->  target/i386/cpu.h                |   9 +-
->  target/m68k/cpu.h                |  10 ++-
->  target/microblaze/cpu.h          |  11 +--
->  target/mips/cpu.h                |   3 +
->  target/mips/tcg/tcg-internal.h   |   6 +-
->  target/nios2/cpu.h               |   4 +-
->  target/openrisc/cpu.h            |   6 +-
->  target/ppc/cpu.h                 |   5 +-
->  target/ppc/internal.h            |   2 +
->  target/riscv/cpu.h               |  21 +++--
->  target/rx/cpu.h                  |   5 ++
->  target/s390x/cpu.h               |   3 +
->  target/s390x/internal.h          |   2 +
->  target/sh4/cpu.h                 |  11 ++-
->  target/sparc/cpu.h               |  14 +--
->  target/tricore/cpu.h             |   5 ++
->  target/xtensa/cpu.h              |  19 ++--
->  cpu.c                            |  18 ++--
->  hw/core/{cpu.c =3D> cpu-common.c}  | 116 -------------------------
->  hw/core/cpu-sysemu.c             | 145 +++++++++++++++++++++++++++++++
->  hw/virtio/virtio.c               |   4 +-
->  stubs/vmstate.c                  |   2 -
->  target/alpha/cpu.c               |   8 +-
->  target/arm/cpu.c                 |  18 ++--
->  target/arm/tlb_helper.c          |   4 +-
->  target/avr/cpu.c                 |   8 +-
->  target/avr/machine.c             |   4 +-
->  target/cris/cpu.c                |   8 +-
->  target/hppa/cpu.c                |   8 +-
->  target/i386/cpu.c                |  28 +++---
->  target/m68k/cpu.c                |   8 +-
->  target/microblaze/cpu.c          |   8 +-
->  target/microblaze/helper.c       |  35 ++++----
->  target/mips/cpu.c                |  10 ++-
->  target/nios2/cpu.c               |   8 +-
->  target/openrisc/cpu.c            |   8 +-
->  target/ppc/excp_helper.c         |   3 +-
->  target/riscv/cpu.c               |  14 ++-
->  target/rx/cpu.c                  |  10 ++-
->  target/s390x/cpu.c               |  14 ++-
->  target/sh4/cpu.c                 |  11 ++-
->  target/sparc/cpu.c               |  10 ++-
->  target/sparc/ldst_helper.c       |   5 +-
->  target/tricore/cpu.c             |   6 +-
->  target/xtensa/cpu.c              |  10 ++-
->  target/ppc/translate_init.c.inc  |  20 +++--
->  hw/core/meson.build              |   3 +-
->  target/arm/meson.build           |   6 +-
->  58 files changed, 587 insertions(+), 334 deletions(-)
->  create mode 100644 include/hw/core/sysemu-cpu-ops.h
->  rename hw/core/{cpu.c =3D> cpu-common.c} (73%)
->  create mode 100644 hw/core/cpu-sysemu.c
-> 
-> --=20
-> 2.26.3
-> 
-> 
+
+fwiw clean run vs re-run:
+
+--- run1	2021-05-25 10:10:37.166975879 -0400
++++ run2	2021-05-25 10:10:48.527966676 -0400
+@@ -1,11 +1,10 @@
+  running sdist
+  running egg_info
+-creating qemu.egg-info
+  writing qemu.egg-info/PKG-INFO
+  writing dependency_links to qemu.egg-info/dependency_links.txt
+  writing top-level names to qemu.egg-info/top_level.txt
+-writing manifest file 'qemu.egg-info/SOURCES.txt'
+  package init file 'qemu/__init__.py' not found (or not a regular file)
++package init file 'dist/__init__.py' not found (or not a regular file)
+  reading manifest file 'qemu.egg-info/SOURCES.txt'
+  reading manifest template 'MANIFEST.in'
+  writing manifest file 'qemu.egg-info/SOURCES.txt'
+@@ -35,6 +34,5 @@
+  copying qemu/utils/__init__.py -> qemu-0.6.1.0a1/qemu/utils
+  copying qemu/utils/accel.py -> qemu-0.6.1.0a1/qemu/utils
+  Writing qemu-0.6.1.0a1/setup.cfg
+-creating dist
+  Creating tar archive
+  removing 'qemu-0.6.1.0a1' (and everything under it)
+
+
+
+at the very least, it doesn't look like it does anything actively 
+harmful, but it seems to want to find sources in the dist, so I should 
+steer it towards exclusively the qemu/ folder.
+
+Thanks for this, Cleber!
+
+--js
+
 
