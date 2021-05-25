@@ -2,58 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 399C738F9F0
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 07:32:10 +0200 (CEST)
-Received: from localhost ([::1]:45266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC9AE38FA42
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 07:51:15 +0200 (CEST)
+Received: from localhost ([::1]:56110 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llPfl-0001Bx-7w
-	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 01:32:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46200)
+	id 1llPy8-0000ps-CE
+	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 01:51:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49950)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1llPdm-0007lh-1H; Tue, 25 May 2021 01:30:06 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:48987 helo=ozlabs.org)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1llPdh-0001HQ-Fn; Tue, 25 May 2021 01:30:05 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4Fq2hh0QjMz9sVb; Tue, 25 May 2021 15:29:56 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1621920596;
- bh=yoHGqqZPBEkTBcfq7sfrwEdj0dArHU4AOEtMVdeI6fg=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Fl/U4nPHulgbyvFw1rGKO9lYNRr/knkCuSW6K0BsFdfur/JSAb571eRDQ+LgFXV+0
- 7eJ3yX8p+urm2mp63SB+MEojqimEyw9d+fuECZpO+j94EhXuS7RF9fc9+rQgsj24Vc
- QgAN6RYtg20q5/vSPl5iYv2/1XNGpMOTz6Cv0QR8=
-Date: Tue, 25 May 2021 15:29:26 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: Re: [PATCH qemu v20] spapr: Implement Open Firmware client interface
-Message-ID: <YKyLNgZrG4IQw0E3@yekko>
-References: <eb49cd30-a4f4-d063-d728-521446a671a6@eik.bme.hu>
- <5825cde5-a408-a438-116d-5a9d9113a52a@ozlabs.ru>
- <ec1742e3-c47-bbee-3a6-ec64442922ab@eik.bme.hu>
- <8527c8d2-c1e7-b3f8-0bda-529ba3864701@ozlabs.ru>
- <babe39af-fd34-8c5-de99-a0f485bfbce@eik.bme.hu>
- <4f6ceca3-5f18-fe70-18f9-4efde8feb1ed@ozlabs.ru>
- <7a4e47e5-59b-9132-eafd-d84d8b73f5c@eik.bme.hu>
- <17fbb016-2e7-d57e-bedd-1ae7814fb860@eik.bme.hu>
- <YKtBJoQXSrSVENFw@yekko>
- <fe6791b0-6162-8331-cc-e6e29fc7d07b@eik.bme.hu>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1llPwS-00007I-Lc
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 01:49:24 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:46939)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1llPwQ-000406-Jo
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 01:49:24 -0400
+Received: by mail-wr1-x429.google.com with SMTP id y14so28679382wrm.13
+ for <qemu-devel@nongnu.org>; Mon, 24 May 2021 22:49:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:from:to:cc:references:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=hyesqlj7FV1ukrVSmQzkAb8CIMCmEqrO/3N39hYlsxE=;
+ b=nfJk4pVwIwGYTo8gDYj9HYnHsCWU1F+S80XZiVQQLkWlW14JDP4AFp4aa5pwn3FA1Q
+ xnLSmtNe18z+D/qmBdxroP5SLQAQzyVfUIvxhoJI1DpjhX8qkJYqus6NtHFbB3RkrEjo
+ LPap/J4E08MJ7Lc5uw7zlQHD5H9DQ7CE9gaOYSkBC1qV8IDNNyu/mnK9OoG2NhFdaJ6q
+ s7VuJKeFr5LaG4A3uR0g4ZpWA+PPVrwqjc/Vr0HqKH34C7lPCY+dOZX57EieS/95bh3s
+ NmK2lx7LHhodH7fUKADFcKvdw+uqEdJqSgFjf9onLlUZA5l6uyvkhNqEXA+hpAz2JIN2
+ /Ggg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:from:to:cc:references:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=hyesqlj7FV1ukrVSmQzkAb8CIMCmEqrO/3N39hYlsxE=;
+ b=VP2c2+T/orzzS6+UOK/T73jjTwgUBxJ2PaB1L7hDqD75QP92vip4B7tyRxrqcQ4Was
+ LDQnyiuPuDnxFj9VB8ftnG5QGMwDnSFGllZMDjEaOjvQXUHzHC4ODTmLyDSfjbUBfkjm
+ iZnJfFdXj3fH2nn91/8uZMGR8yhkpjh+e6sYYYhzdAxwIwVBfO/ZOMRV0hZyoXPVrYIb
+ esFCaELGoI0PqKwRJIoELEowEQt7oPhm/PChiPyJTOe46lz4at9rLH+b/vN5cLqaFYHl
+ pDVPasX6lInOTYa23U9hjQ26udofb1G2PLhnPuDLAexZDeeWWCi8rLbN+0thcXp67cG9
+ A2xQ==
+X-Gm-Message-State: AOAM530L+INzD/VwyeoZ5Y8oSTPjomTa9I8bShxevHHeCx8cpNhkVTtf
+ kr142xkpBO3KW6tLJBDJbZE=
+X-Google-Smtp-Source: ABdhPJzqIdc5h8wYUj4OYlm1MXfuRxAoL+qIj3Xtx0RW0T4ZyrajdHcTmUw733XQedanlAhYft4XRQ==
+X-Received: by 2002:adf:f4ce:: with SMTP id h14mr25673627wrp.269.1621921761036; 
+ Mon, 24 May 2021 22:49:21 -0700 (PDT)
+Received: from [192.168.1.36] (31.red-83-51-215.dynamicip.rima-tde.net.
+ [83.51.215.31])
+ by smtp.gmail.com with ESMTPSA id r5sm14432618wrw.96.2021.05.24.22.49.19
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 24 May 2021 22:49:20 -0700 (PDT)
+Subject: Re: [PATCH v3 4/6] gitlab-ci: Add ccache in $PATH and display
+ statistics
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20210519184549.2192728-1-f4bug@amsat.org>
+ <20210519184549.2192728-5-f4bug@amsat.org>
+ <5a77ade3-1a6c-2389-4a1c-2c7c2266f298@redhat.com>
+ <20c001a0-60ed-df08-b67d-884022e74d04@amsat.org>
+ <396e75d2-fe22-3054-fbee-d6de02339b2a@redhat.com>
+ <YKeQkqviHbxqcC6Y@redhat.com>
+ <afa421f3-337a-c488-c767-b73aaf3780b8@redhat.com>
+ <YKefRcVrr9Gtehlk@redhat.com>
+ <c7f01111-bada-49b1-ebce-03e6eff96aae@amsat.org>
+ <YKes/fqDNT4G9jx/@redhat.com>
+ <c4910e92-359f-3517-fb7e-65cbbe8deb1a@amsat.org>
+Message-ID: <421d4a8b-7146-d550-275e-1739a936eb6f@amsat.org>
+Date: Tue, 25 May 2021 07:49:19 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="wXl24uXUkcXB6lt8"
-Content-Disposition: inline
-In-Reply-To: <fe6791b0-6162-8331-cc-e6e29fc7d07b@eik.bme.hu>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
+In-Reply-To: <c4910e92-359f-3517-fb7e-65cbbe8deb1a@amsat.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x429.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
 X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -66,157 +99,120 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexey Kardashevskiy <aik@ozlabs.ru>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>, Kyle Evans <kevans@freebsd.org>,
+ qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Willian Rampazzo <willianr@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Warner Losh <imp@bsdimp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 5/21/21 4:21 PM, Philippe Mathieu-Daudé wrote:
+> On 5/21/21 2:52 PM, Daniel P. Berrangé wrote:
+>> On Fri, May 21, 2021 at 02:27:26PM +0200, Philippe Mathieu-Daudé wrote:
+>>> On 5/21/21 1:53 PM, Daniel P. Berrangé wrote:
+>>>> On Fri, May 21, 2021 at 01:02:51PM +0200, Thomas Huth wrote:
+>>>>> On 21/05/2021 12.50, Daniel P. Berrangé wrote:
+>>>>>> On Fri, May 21, 2021 at 12:48:21PM +0200, Thomas Huth wrote:
+>>>>>>> On 20/05/2021 13.27, Philippe Mathieu-Daudé wrote:
+>>>>>>>> +Stefan/Daniel
+>>>>>>>>
+>>>>>>>> On 5/20/21 10:02 AM, Thomas Huth wrote:
+>>>>>>>>> On 19/05/2021 20.45, Philippe Mathieu-Daudé wrote:
+>>>>>>>>>> If a runner has ccache installed, use it and display statistics
+>>>>>>>>>> at the end of the build.
+>>>>>>>>>>
+>>>>>>>>>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>>>>>>>>>> ---
+>>>>>>>>>>     .gitlab-ci.d/buildtest-template.yml | 5 +++++
+>>>>>>>>>>     1 file changed, 5 insertions(+)
+>>>>>>>>>>
+>>>>>>>>>> diff --git a/.gitlab-ci.d/buildtest-template.yml
+>>>>>>>>>> b/.gitlab-ci.d/buildtest-template.yml
+>>>>>>>>>> index f284d7a0eec..a625c697d3b 100644
+>>>>>>>>>> --- a/.gitlab-ci.d/buildtest-template.yml
+>>>>>>>>>> +++ b/.gitlab-ci.d/buildtest-template.yml
+>>>>>>>>>> @@ -6,13 +6,18 @@
+>>>>>>>>>>           then
+>>>>>>>>>>             JOBS=$(sysctl -n hw.ncpu)
+>>>>>>>>>>             MAKE=gmake
+>>>>>>>>>> +        PATH=/usr/local/libexec/ccache:$PATH
+>>>>>>>>>>             ;
+>>>>>>>>>>           else
+>>>>>>>>>>             JOBS=$(expr $(nproc) + 1)
+>>>>>>>>>>             MAKE=make
+>>>>>>>>>> +        PATH=/usr/lib/ccache:/usr/lib64/ccache:$PATH
+>>>>>>>>>
+>>>>>>>>> That does not make sense for the shared runners yet. We first need
+>>>>>>>>> something to enable the caching there - see my series "Use ccache in the
+>>>>>>>>> gitlab-CI" from April (which is currently stalled unfortunately).
+>>>>>>>>
+>>>>>>>> TL;DR: I don't think we should restrict our templates to shared runners.
+>>>>>>>
+>>>>>>> I'm certainly not voting for restricting ourselves to only use shared
+>>>>>>> runners here - but my concern is that this actually *slows* down the shared
+>>>>>>> runners even more! (sorry, I should have elaborated on that in my previous
+>>>>>>> mail already)
+>>>>>>>
+>>>>>>> When I was experimenting with ccache in the shared runners, I saw that the
+>>>>>>> jobs are running even slower with ccache enabled as long as the cache is not
+>>>>>>> populated yet. You only get a speedup afterwards. So if you add this now
+>>>>>>> without also adding the possibility to store the cache persistently, the
+>>>>>>> shared runners will try to populate the cache each time just to throw away
+>>>>>>> the results afterwards again. Thus all the shared runners only get slower
+>>>>>>> without any real benefit here.
+>>>>>>>
+>>>>>>> Thus we either need to get ccache working properly for the shared runners
+>>>>>>> first, or you have to think of a different way of enabling ccache for the
+>>>>>>> non-shared runners, so that it does not affect the shared runners
+>>>>>>> negatively.
+>>>>>>
+>>>>>> Is there anything functional holding up your previous full cccache support
+>>>>>> series from last month ? Or is it just lack of reviews ?
+>>>>>
+>>>>> It's basically the problems mentioned in the cover letter and Stefan's
+>>>>> comment here:
+>>>>>
+>>>>>  https://lists.gnu.org/archive/html/qemu-devel/2021-04/msg02219.html
+>>>>
+>>>> I'm not sure I understand why Stefan thinks gitlab's caching doesn't
+>>>> benefit ccache. We add ccache for libvirt GitLab CI, and AFAIR it
+>>>> sped up our builds significantly.
+>>>
+>>> I think Stefan is referring to a comment I made, when using both
+>>> shared runners and dedicated runners (what I'm currently testing)
+>>> various jobs are stuck transferring artifacts/cache {FROM, TO}
+>>> {shared, dedicated} runners at the same time, which is sub-optimal
+>>> because it saturate the dedicated runner network link.
 
---wXl24uXUkcXB6lt8
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+FYI In case we need to sort this out later, the 'resource_group' might
+help us with this:
+https://docs.gitlab.com/ee/ci/yaml/#resource_group
 
-On Mon, May 24, 2021 at 02:42:30PM +0200, BALATON Zoltan wrote:
-> On Mon, 24 May 2021, David Gibson wrote:
-> > On Sun, May 23, 2021 at 07:09:26PM +0200, BALATON Zoltan wrote:
-> > > On Sun, 23 May 2021, BALATON Zoltan wrote:
-> > > > On Sun, 23 May 2021, Alexey Kardashevskiy wrote:
-> > > > > One thing to note about PCI is that normally I think the client
-> > > > > expects the firmware to do PCI probing and SLOF does it. But VOF
-> > > > > does not and Linux scans PCI bus(es) itself. Might be a problem f=
-or
-> > > > > you kernel.
-> > > >=20
-> > > > I'm not sure what info does MorphOS get from the device tree and wh=
-at it
-> > > > probes itself but I think it may at least need device ids and info =
-about
-> > > > the PCI bus to be able to access the config regs, after that it sho=
-uld
-> > > > set the devices up hopefully. I could add these from the board code=
- to
-> > > > device tree so VOF does not need to do anything about it. However I=
-'m
-> > > > not getting to that point yet because it crashes on something that =
-it's
-> > > > missing and couldn't yet find out what is that.
-> > > >=20
-> > > > I'd like to get Linux working now as that would be enough to test t=
-his
-> > > > and then if for MorphOS we still need a ROM it's not a problem if at
-> > > > least we can boot Linux without the original firmware. But I can't =
-make
-> > > > Linux open a serial console and I don't know what it needs for that=
-=2E Do
-> > > > you happen to know? I've looked at the sources in Linux/arch/powerp=
-c but
-> > > > not sure how it would find and open a serial port on pegasos2. It s=
-eems
-> > > > to work with the board firmware and now I can get it to boot with V=
-OF
-> > > > but then it does not open serial so it probably needs something in =
-the
-> > > > device tree or expects the firmware to set something up that we sho=
-uld
-> > > > add in pegasos2.c when using VOF.
-> > >=20
-> > > I've now found that Linux uses rtas methods read-pci-config and
-> > > write-pci-config for PCI access on pegasos2 so this means that we'll
-> > > probably need rtas too (I hoped we could get away without it if it we=
-re only
-> > > used for shutdown/reboot or so but seems Linux needs it for PCI as we=
-ll and
-> > > does not scan the bus and won't find some devices without it).
-> >=20
-> > Yes, definitely sounds like you'll need an RTAS implementation.
-> >=20
-> > > While VOF can do rtas, this causes a problem with the hypercall metho=
-d using
-> > > sc 1 that goes through vhyp but trips the assert in ppc_store_sdr1() =
-so
-> > > cannot work after guest is past quiesce.
-> >=20
-> > > So the question is why is that
-> > > assert there
-> >=20
-> > Ah.. right.  So, vhyp was designed for the PAPR use case, where we
-> > want to model the CPU when it's in supervisor and user mode, but not
-> > when it's in hypervisor mode.  We want qemu to mimic the behaviour of
-> > the hypervisor, rather than attempting to actually execute hypervisor
-> > code in the virtual CPU.
-> >=20
-> > On systems that have a hypervisor mode, SDR1 is hypervisor privileged,
-> > so it makes no sense for the guest to attempt to set it.  That should
-> > be caught by the general SPR code and turned into a 0x700, hence the
-> > assert() if we somehow reach ppc_store_sdr1().
->=20
-> This seems to work to avoid my problem so I can leave vhyp enabled after
-> qiuesce for now:
->=20
-> diff --git a/target/ppc/cpu.c b/target/ppc/cpu.c
-> index d957d1a687..13b87b9b36 100644
-> --- a/target/ppc/cpu.c
-> +++ b/target/ppc/cpu.c
-> @@ -70,7 +70,7 @@ void ppc_store_sdr1(CPUPPCState *env, target_ulong valu=
-e)
->  {
->      PowerPCCPU *cpu =3D env_archcpu(env);
->      qemu_log_mask(CPU_LOG_MMU, "%s: " TARGET_FMT_lx "\n", __func__, valu=
-e);
-> -    assert(!cpu->vhyp);
-> +    assert(!cpu->env.has_hv_mode || !cpu->vhyp);
->  #if defined(TARGET_PPC64)
->      if (mmu_is_64bit(env->mmu_model)) {
->          target_ulong sdr_mask =3D SDR_64_HTABORG | SDR_64_HTABSIZE;
->=20
-> But I wonder if the assert should also be moved within the TARGET_PPC64
-> block and if we may need to generate some exception here instead. Not sure
-> what a real CPU would do in this case but if accessing sdr1 is privileged=
- in
-> HV mode then there should be an exception or if that's catched
-> elsewhere
-
-It should be caught elsehwere.  Specifically, when the SDR1 SPR is
-registered, on CPUs with a hypervisor mode it should be registered as
-hypervisor privileged, so the general mtspr dispatch logic should
-generate the exception if it's called from !HV code.  The assert here
-is just to sanity check that it has done so before we enter the actual
-softmmu code.
-
-> then this assert may not be needed at all. I can make a patch if you tell=
- me
-> what should it do.
->=20
-> Regards,
-> BALATON Zoltan
->=20
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---wXl24uXUkcXB6lt8
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmCsizYACgkQbDjKyiDZ
-s5JQoRAAsJYq1cwRtEFjdjsZredDbMpGvGiHjQ9/wltww9zpqTzPFcS6J/1a4HhI
-HNwECIOfuGRF378vpX5rqjhaUZhveS+tWsuBlAFHWpEp3UKqbYmVxXPSF8VbUflU
-zOzpjuTib/QUDBG1kY7RdqxCXseys2xlIXZ3Now6JqtXlCmWB1xlK8L2CfbiQwBy
-rFMyIWeYhcIJyl+TR72TMrQJHXXzOamSniC57DGv5Yz2P1ZAhUN/sj3UT83D6G4v
-dDcI5luDu1LPxKOsrbLEkuJOfXDJFrGuAz7OEQC2YpC2quPMDuTYMuhF09SeDDN7
-DSRusbAGX6OyZLq7saVCNJsKFOvukDlA1vYqYzeYVq+h0MDmwHoTo/45RGmUEz4j
-nirNYCYFK+qWsJTQE9saQ/GjYRJQU4K89O+b6dZ6lwov1jhZubzzAILEDxFE1zlE
-b85jYYcoe3470cWIbGd/FgyEycW+C2vW0+X4UGCMag4VcER8kA6EFGNXeZKAL1Ny
-uiywMcZWpkmbC7Wd39OxU+oDgr23r3BUpTs0HYlIyvLxvPXO+2dgmptoj9XCK66s
-cZjHgfE+T3pEV/DKKnomI6j9IfwDBMO0iUy3xNWJMMi6eWiw70o6SOCQpCnl2PmN
-Y6GPPK8v+n4LNBQJYEEko+Jgd7qmHvEnUEQ7PsywoLCvIusgnOg=
-=SoIP
------END PGP SIGNATURE-----
-
---wXl24uXUkcXB6lt8--
+>> I think we're over thinking things a bit too much and worrying about
+>> scenarios that we're not actually hitting that frequently today, and
+>> delaying the benefit for everyone.
+>>
+>> Our common case is that most contributors are simply using shared
+>> runners exclusively, as is the main qemu repo staging branch. AFAIK
+>> these should benefit from a simple ccache enablement today.
+>>
+>> Since there are questions about other setups though, we can just
+>> provide an easy way to turn it off. eg:
+>>
+>>   if test -z "$QEMU_CI_SKIP_CCACHE"
+>>   then
+>>      PATH=/usr/local/libexec/ccache:$PATH
+>>   fi
+>>
+>> anyone who wishes to disable it, can just set that variable in their
+>> git repo fork. If there are specific jobs we want to disable cccache
+>> for, those jobs can set that too.
+> 
+> OK, understood. I'll see with Willian how to have ccache working.
+> 
+> Thanks for the feedback,
+> 
+> Phil.
+> 
 
