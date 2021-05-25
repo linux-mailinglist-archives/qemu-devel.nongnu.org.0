@@ -2,74 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BB18390159
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 14:50:39 +0200 (CEST)
-Received: from localhost ([::1]:43970 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18E5E390166
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 14:56:06 +0200 (CEST)
+Received: from localhost ([::1]:50094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llWW6-0003gs-9F
-	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 08:50:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49952)
+	id 1llWbN-00083A-7N
+	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 08:56:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51540)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kit.westneat@gmail.com>)
- id 1llWUC-0001aO-IZ
- for qemu-devel@nongnu.org; Tue, 25 May 2021 08:48:40 -0400
-Received: from mail-qt1-x834.google.com ([2607:f8b0:4864:20::834]:39571)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <kit.westneat@gmail.com>)
- id 1llWUA-0004Am-8G
- for qemu-devel@nongnu.org; Tue, 25 May 2021 08:48:40 -0400
-Received: by mail-qt1-x834.google.com with SMTP id c15so1128114qte.6
- for <qemu-devel@nongnu.org>; Tue, 25 May 2021 05:48:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=1HqbblJpGSscK6SzMXTtB/qUs5tLjwyqus/aCL6LCrw=;
- b=dNq30uZzqUaqCOc0fAkH0D7KK93R4YVl/XaxXA6vew+7LW7Y1dzwfVphuWw9ue9kHX
- kdq8xvzywZr7v5WdmUH8q1Z4fU9Sm8HTliu1wx0NMaklyg6KaF1kGmBxyOSUYsw2dPZt
- 6objEDUcyfMzEtdrPY/JBhXOLE5taQDFrsypgHRtsRYRBCnbU9YNshViWC4Y2Kq+0RON
- ZbocrkN8PugwerVqsn3Hq9ckB4/tRXSbp8Yd8r2TvGMJOkz6j5hUNTJim6mmv3SpaOh5
- fH243vpqUV8Hwg9gANZpxss74Lsw6Y+eMdBpYSL0rt4YnT+Z1cFz1/w5igPj9MR4ynQ9
- i3mw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=1HqbblJpGSscK6SzMXTtB/qUs5tLjwyqus/aCL6LCrw=;
- b=GlpW4wpSbG7FK46WuYdJWQqJJajjNxua0xHruWEVy6Wdc/4xpH+gMzNxrkt3o4CbWU
- Em68dpf+WKndZn/XH+DuBXOrEBR6PWNL0681LKWAEBW1HHiWyOKQKg5s7uPq2g4hNxKd
- d9e25iQYPEA/8pMWfnAvu5YW/gAniCgDLJffB0j1HrAYaFTnsHumroA5O7JzEtcoVYWF
- DkuswPw1UlXhzqGD8BoGYBqroXZX2K3rhQXEQE3A4JICVqmktILl16zHxCeafoc3/hYJ
- fpNGjKMJCneVyn7rKD5lq5h46SH9UPb7dKBjiSz+GL7N6eA8IAK82MmpOWsWRXti8ev9
- sLVg==
-X-Gm-Message-State: AOAM530UZcYjWSjo/gq/L/ZxkJMZRZk0YFvphvvCQWTxJTLACSThGf+q
- c0RIfu57nZw83OZHkrCzPMURKlqhGZE=
-X-Google-Smtp-Source: ABdhPJyE3I911PrYG72YKmJIRTox1TvWnQu5nxgiVVVWgx9xYRQ1rzDqGI4e6YUmeA7bfK8Gu61ChA==
-X-Received: by 2002:ac8:6911:: with SMTP id e17mr31784317qtr.135.1621946917008; 
- Tue, 25 May 2021 05:48:37 -0700 (PDT)
-Received: from nishikirei.com.com ([104.131.0.80])
- by smtp.gmail.com with ESMTPSA id a68sm13036749qkd.51.2021.05.25.05.48.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 May 2021 05:48:36 -0700 (PDT)
-From: Kit Westneat <kit.westneat@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 3/3] block/blkdebug: add log-blocksize and phys-blocksize
- parameters
-Date: Tue, 25 May 2021 12:47:53 +0000
-Message-Id: <20210525124753.528516-4-kit.westneat@gmail.com>
-X-Mailer: git-send-email 2.26.3
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1llWaR-0007OW-Ih
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 08:55:07 -0400
+Resent-Date: Tue, 25 May 2021 08:55:07 -0400
+Resent-Message-Id: <E1llWaR-0007OW-Ih@lists.gnu.org>
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21398)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1llWaP-0007lw-53
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 08:55:07 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1621947291; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=OwpNuvrhJkrHhlkRfzgTgmFPl7pH2lywz9jKKw383RI4W1yaWbkBqRenyPQO185uWdivX+DgeRvf1azQQmZ8+26JO54fZkg49jV/5U1gUB1Bt1F1uQFH7TMSJZa3ASf15AyIKl6SaN8u3Dut/lMUm1Yscdhehcrxy9eC9O8oEwA=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1621947291;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=CObX8h2Ffw9WzBiTLGbw4DQWvu5leXSrL1rS9Ovj88c=; 
+ b=iESSBuGHVvyN/xGtEmdNFRF7fRY7wRdMzH+2rF4V7WmwFZEXFZUaj9hAUD8BiVk5RVxJ0hOU3q/IRCSH5DpJVDCmv9VhVlQeHHVmiql11VWBt/KZG052XA9VIBmMTXqIqDN+V6dQ+09uqVmCTgcbbU5lrO9K/cCwltPSi+b6Its=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 16219472883251003.6151340019553;
+ Tue, 25 May 2021 05:54:48 -0700 (PDT)
 In-Reply-To: <20210525124753.528516-1-kit.westneat@gmail.com>
-References: <20210525124753.528516-1-kit.westneat@gmail.com>
+Subject: Re: [PATCH 0/3] testing block device blocksizes
+Message-ID: <162194728692.982.1034894739906746746@0addf061776e>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::834;
- envelope-from=kit.westneat@gmail.com; helo=mail-qt1-x834.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: kit.westneat@gmail.com
+Date: Tue, 25 May 2021 05:54:48 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o53.zoho.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,95 +66,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, Kit Westneat <kit.westneat@gmail.com>
+Reply-To: qemu-devel@nongnu.org
+Cc: pbonzini@redhat.com, kit.westneat@gmail.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Allow users to specify the logical and physical block sizes of the
-qdev for testing purposes.
-
-Signed-off-by: Kit Westneat <kit.westneat@gmail.com>
----
- block/blkdebug.c | 36 +++++++++++++++++++++++++++++++-----
- 1 file changed, 31 insertions(+), 5 deletions(-)
-
-diff --git a/block/blkdebug.c b/block/blkdebug.c
-index c7500746a8..e5cfdab32b 100644
---- a/block/blkdebug.c
-+++ b/block/blkdebug.c
-@@ -48,6 +48,8 @@ typedef struct BDRVBlkdebugState {
-     uint64_t opt_discard;
-     uint64_t max_discard;
-     uint64_t blocksize;
-+    uint64_t phys_blocksize;
-+    uint64_t log_blocksize;
- 
-     uint64_t take_child_perms;
-     uint64_t unshare_child_perms;
-@@ -459,7 +461,17 @@ static QemuOptsList runtime_opts = {
-         {
-             .name = "blocksize",
-             .type = QEMU_OPT_SIZE,
--            .help = "Blocksize of device",
-+            .help = "Blocksize of device (512 default)",
-+        },
-+        {
-+            .name = "phys-blocksize",
-+            .type = QEMU_OPT_SIZE,
-+            .help = "Physical blocksize of device (Defaults to 'blocksize')",
-+        },
-+        {
-+            .name = "log-blocksize",
-+            .type = QEMU_OPT_SIZE,
-+            .help = "Logical blocksize of device (Defaults to 'blocksize')",
-         },
-         { /* end of list */ }
-     },
-@@ -575,6 +587,20 @@ static int blkdebug_open(BlockDriverState *bs, QDict *options, int flags,
-         goto out;
-     }
- 
-+    s->phys_blocksize = qemu_opt_get_size(opts, "phys-blocksize", 0);
-+    if (s->phys_blocksize && (s->phys_blocksize >= INT_MAX || !is_power_of_2(s->phys_blocksize))) {
-+        error_setg(errp, "Cannot meet constraints with phys-blocksize %" PRIu64,
-+                   s->phys_blocksize);
-+        goto out;
-+    }
-+
-+    s->log_blocksize = qemu_opt_get_size(opts, "log-blocksize", 0);
-+    if (s->log_blocksize && (s->log_blocksize >= INT_MAX || !is_power_of_2(s->log_blocksize))) {
-+        error_setg(errp, "Cannot meet constraints with log-blocksize %" PRIu64,
-+                   s->log_blocksize);
-+        goto out;
-+    }
-+
-     bdrv_debug_event(bs, BLKDBG_NONE);
- 
-     ret = 0;
-@@ -1001,11 +1027,9 @@ static int blkdebug_probe_blocksizes(BlockDriverState *bs, BlockSizes *bsz)
- {
-     BDRVBlkdebugState *s = bs->opaque;
- 
--    if (!s->blocksize)
--        return 0;
-+    bsz->phys = s->phys_blocksize ? s->phys_blocksize : s->blocksize;
-+    bsz->log = s->log_blocksize ? s->log_blocksize : s->blocksize;
- 
--    bsz->phys = s->blocksize;
--    bsz->log = s->blocksize;
-     return 0;
- }
- 
-@@ -1036,6 +1060,8 @@ static const char *const blkdebug_strong_runtime_opts[] = {
-     "set-state.",
-     "align",
-     "blocksize",
-+    "phys-blocksize",
-+    "log-blocksize",
-     "max-transfer",
-     "opt-write-zero",
-     "max-write-zero",
--- 
-2.26.3
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDUyNTEyNDc1My41Mjg1
+MTYtMS1raXQud2VzdG5lYXRAZ21haWwuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRv
+IGhhdmUgc29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1v
+cmUgaW5mb3JtYXRpb246CgpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMjAyMTA1MjUxMjQ3NTMu
+NTI4NTE2LTEta2l0Lndlc3RuZWF0QGdtYWlsLmNvbQpTdWJqZWN0OiBbUEFUQ0ggMC8zXSB0ZXN0
+aW5nIGJsb2NrIGRldmljZSBibG9ja3NpemVzCgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMh
+L2Jpbi9iYXNoCmdpdCByZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0IDAKZ2l0IGNv
+bmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5y
+ZW5hbWVzIFRydWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhpc3RvZ3JhbQou
+L3NjcmlwdHMvY2hlY2twYXRjaC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVTVCBTQ1JJUFQg
+RU5EID09PQoKVXBkYXRpbmcgM2M4Y2Y1YTljMjFmZjg3ODIxNjRkMWRlZjdmNDRiZDg4ODcxMzM4
+NApGcm9tIGh0dHBzOi8vZ2l0aHViLmNvbS9wYXRjaGV3LXByb2plY3QvcWVtdQogKiBbbmV3IHRh
+Z10gICAgICAgICBwYXRjaGV3LzIwMjEwNTI1MTI0NzUzLjUyODUxNi0xLWtpdC53ZXN0bmVhdEBn
+bWFpbC5jb20gLT4gcGF0Y2hldy8yMDIxMDUyNTEyNDc1My41Mjg1MTYtMS1raXQud2VzdG5lYXRA
+Z21haWwuY29tClN3aXRjaGVkIHRvIGEgbmV3IGJyYW5jaCAndGVzdCcKODMxOTQ0MCBibG9jay9i
+bGtkZWJ1ZzogYWRkIGxvZy1ibG9ja3NpemUgYW5kIHBoeXMtYmxvY2tzaXplIHBhcmFtZXRlcnMK
+ZTA5ZWFjNiB0ZXN0cy9xdGVzdC92aXJ0aW8tc2NzaS10ZXN0OiBhZGQgdW5tYXAgbGFyZ2UgTEJB
+IHdpdGggNGsgYmxvY2tzIHRlc3QKMDQ0MjA3MCBibG9jay9ibGtkZWJ1ZzogYWRkIGJsb2Nrc2l6
+ZSBwYXJhbWV0ZXIKCj09PSBPVVRQVVQgQkVHSU4gPT09CjEvMyBDaGVja2luZyBjb21taXQgMDQ0
+MjA3MDU3MWU1IChibG9jay9ibGtkZWJ1ZzogYWRkIGJsb2Nrc2l6ZSBwYXJhbWV0ZXIpCldBUk5J
+Tkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiM0NDogRklMRTogYmxvY2svYmxrZGVidWcuYzo1
+NzI6CisgICAgaWYgKHMtPmJsb2Nrc2l6ZSAmJiAocy0+YmxvY2tzaXplID49IElOVF9NQVggfHwg
+IWlzX3Bvd2VyX29mXzIocy0+YmxvY2tzaXplKSkpIHsKCkVSUk9SOiBicmFjZXMge30gYXJlIG5l
+Y2Vzc2FyeSBmb3IgYWxsIGFybXMgb2YgdGhpcyBzdGF0ZW1lbnQKIzYxOiBGSUxFOiBibG9jay9i
+bGtkZWJ1Zy5jOjEwMDQ6CisgICAgaWYgKCFzLT5ibG9ja3NpemUpClsuLi5dCgp0b3RhbDogMSBl
+cnJvcnMsIDEgd2FybmluZ3MsIDYzIGxpbmVzIGNoZWNrZWQKClBhdGNoIDEvMyBoYXMgc3R5bGUg
+cHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxz
+ZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENI
+IGluIE1BSU5UQUlORVJTLgoKMi8zIENoZWNraW5nIGNvbW1pdCBlMDllYWM2YjQxOTcgKHRlc3Rz
+L3F0ZXN0L3ZpcnRpby1zY3NpLXRlc3Q6IGFkZCB1bm1hcCBsYXJnZSBMQkEgd2l0aCA0ayBibG9j
+a3MgdGVzdCkKRVJST1I6IGRvIG5vdCB1c2UgQzk5IC8vIGNvbW1lbnRzCiMzMzogRklMRTogdGVz
+dHMvcXRlc3QvdmlydGlvLXNjc2ktdGVzdC5jOjIxMzoKKyAgICAvLyBkZWZhdWx0IG51bGwtY28g
+ZGV2aWNlIHNpemUgaXMgMioqMzAKCkVSUk9SOiBkbyBub3QgdXNlIEM5OSAvLyBjb21tZW50cwoj
+MzQ6IEZJTEU6IHRlc3RzL3F0ZXN0L3ZpcnRpby1zY3NpLXRlc3QuYzoyMTQ6CisgICAgLy8gTEJB
+IDB4N2ZmZiBpcyB+IDEvOCBpbnRvIGRldmljZSwgd2l0aCA0ayBibG9ja3MKCkVSUk9SOiBkbyBu
+b3QgdXNlIEM5OSAvLyBjb21tZW50cwojMzU6IEZJTEU6IHRlc3RzL3F0ZXN0L3ZpcnRpby1zY3Np
+LXRlc3QuYzoyMTU6CisgICAgLy8gaWYgY2hlY2tfbGJhX3JhbmdlIGluY29ycmVjdGx5IHVzaW5n
+IDUxMiBieXRlcywgd2lsbCB0cmlnZ2VyIHNlbnNlIGVycm9yCgpFUlJPUjogZG8gbm90IHVzZSBD
+OTkgLy8gY29tbWVudHMKIzM3OiBGSUxFOiB0ZXN0cy9xdGVzdC92aXJ0aW8tc2NzaS10ZXN0LmM6
+MjE3OgorICAgICAgICAweDAwLCAweDE2LCAvLyB1bm1hcCBkYXRhIGxlbmd0aAoKRVJST1I6IGRv
+IG5vdCB1c2UgQzk5IC8vIGNvbW1lbnRzCiMzODogRklMRTogdGVzdHMvcXRlc3QvdmlydGlvLXNj
+c2ktdGVzdC5jOjIxODoKKyAgICAgICAgMHgwMCwgMHgxMCwgLy8gdW5tYXAgYmxvY2sgZGVzY3Jp
+cHRvciBkYXRhIGxlbmd0aAoKRVJST1I6IGRvIG5vdCB1c2UgQzk5IC8vIGNvbW1lbnRzCiMzOTog
+RklMRTogdGVzdHMvcXRlc3QvdmlydGlvLXNjc2ktdGVzdC5jOjIxOToKKyAgICAgICAgMHgwMCwg
+MHgwMCwgMHgwMCwgMHgwMCwgLy8gcmVzZXJ2ZWQKCkVSUk9SOiBkbyBub3QgdXNlIEM5OSAvLyBj
+b21tZW50cwojNDA6IEZJTEU6IHRlc3RzL3F0ZXN0L3ZpcnRpby1zY3NpLXRlc3QuYzoyMjA6Cisg
+ICAgICAgIDB4MDAsIDB4MDAsIDB4MDAsIDB4MDAsIDB4MDAsIDB4MDAsIDB4N2YsIDB4ZmYsIC8v
+IExCQQoKRVJST1I6IGRvIG5vdCB1c2UgQzk5IC8vIGNvbW1lbnRzCiM0MTogRklMRTogdGVzdHMv
+cXRlc3QvdmlydGlvLXNjc2ktdGVzdC5jOjIyMToKKyAgICAgICAgMHgwMCwgMHgwMCwgMHgwMywg
+MHhmZiwgLy8gc2VjdG9yIGNvdW50CgpFUlJPUjogZG8gbm90IHVzZSBDOTkgLy8gY29tbWVudHMK
+IzQyOiBGSUxFOiB0ZXN0cy9xdGVzdC92aXJ0aW8tc2NzaS10ZXN0LmM6MjIyOgorICAgICAgICAw
+eDAwLCAweDAwLCAweDAwLCAweDAwLCAvL3Jlc2VydmVkCgp0b3RhbDogOSBlcnJvcnMsIDAgd2Fy
+bmluZ3MsIDY2IGxpbmVzIGNoZWNrZWQKClBhdGNoIDIvMyBoYXMgc3R5bGUgcHJvYmxlbXMsIHBs
+ZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMg
+cmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlO
+RVJTLgoKMy8zIENoZWNraW5nIGNvbW1pdCA4MzE5NDQwYTI4YjIgKGJsb2NrL2Jsa2RlYnVnOiBh
+ZGQgbG9nLWJsb2Nrc2l6ZSBhbmQgcGh5cy1ibG9ja3NpemUgcGFyYW1ldGVycykKRVJST1I6IGxp
+bmUgb3ZlciA5MCBjaGFyYWN0ZXJzCiM1MzogRklMRTogYmxvY2svYmxrZGVidWcuYzo1OTE6Cisg
+ICAgaWYgKHMtPnBoeXNfYmxvY2tzaXplICYmIChzLT5waHlzX2Jsb2Nrc2l6ZSA+PSBJTlRfTUFY
+IHx8ICFpc19wb3dlcl9vZl8yKHMtPnBoeXNfYmxvY2tzaXplKSkpIHsKCkVSUk9SOiBsaW5lIG92
+ZXIgOTAgY2hhcmFjdGVycwojNjA6IEZJTEU6IGJsb2NrL2Jsa2RlYnVnLmM6NTk4OgorICAgIGlm
+IChzLT5sb2dfYmxvY2tzaXplICYmIChzLT5sb2dfYmxvY2tzaXplID49IElOVF9NQVggfHwgIWlz
+X3Bvd2VyX29mXzIocy0+bG9nX2Jsb2Nrc2l6ZSkpKSB7Cgp0b3RhbDogMiBlcnJvcnMsIDAgd2Fy
+bmluZ3MsIDY3IGxpbmVzIGNoZWNrZWQKClBhdGNoIDMvMyBoYXMgc3R5bGUgcHJvYmxlbXMsIHBs
+ZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMg
+cmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlO
+RVJTLgoKPT09IE9VVFBVVCBFTkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTog
+MQoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3Mv
+MjAyMTA1MjUxMjQ3NTMuNTI4NTE2LTEta2l0Lndlc3RuZWF0QGdtYWlsLmNvbS90ZXN0aW5nLmNo
+ZWNrcGF0Y2gvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5
+IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVk
+YmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
 
