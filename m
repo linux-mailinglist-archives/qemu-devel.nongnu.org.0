@@ -2,74 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F702390A62
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 22:15:40 +0200 (CEST)
-Received: from localhost ([::1]:59198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32F1D390A65
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 22:17:24 +0200 (CEST)
+Received: from localhost ([::1]:33606 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lldSl-0004my-9x
-	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 16:15:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44962)
+	id 1lldUR-0006ge-0S
+	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 16:17:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45208)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>)
- id 1lldQy-00045X-7P; Tue, 25 May 2021 16:13:48 -0400
-Received: from mout.gmx.net ([212.227.17.21]:53621)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lldSg-0005Ge-AE
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 16:15:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37337)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>)
- id 1lldQw-0006u1-9s; Tue, 25 May 2021 16:13:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1621973619;
- bh=X0olC0WIpdXqsDDFYUYxQTKfLLoGDFlIOCie2+d7qzY=;
- h=X-UI-Sender-Class:Date:From:To:Cc:Subject;
- b=ZTV90boq2FyBjRBwiF6v/Y6xp2n9fZDAjRZaXzEv1CyGPNebPHy2/ipaqE4h99lRU
- /gfQ6060aifmaC1IHCHjjYE73oxiDKP9tRVqymMxEpltCXKw8+JZ0YBvmywKAUBjCw
- 12srJBdivvRl6f7bnaifOSDkSFwpJv7TH342SkbQ=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from ls3530 ([92.116.159.17]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1Mq2nK-1l8jxp2LQY-00n7nW; Tue, 25
- May 2021 22:13:39 +0200
-Date: Tue, 25 May 2021 22:12:45 +0200
-From: Helge Deller <deller@gmx.de>
-To: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>,
- qemu-devel@nongnu.org
-Subject: [PATCH v2] hw/display/artist: Fix bug in coordinate extraction in
- artist_vram_read() and artist_vram_write()
-Message-ID: <YK1aPb8keur9W7h2@ls3530>
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lldSb-0007dm-Ug
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 16:15:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1621973724;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=1Xw5I5Jug7UXBB6vSoGn4ucm18YHx+wQ7RTeHx1Z97s=;
+ b=ai+sildr0sx4RryqqONbPqDff4ZLS9qIxWituIolh5bvXkv2/CZCSYg7/Gxq9a8u27fgHj
+ Qr05tjd/dkRns6SL8yqTrmtwEOwFshWNdHfE3T2kCdY2Qa9cvgC5ulch2i3Yia+qKODn1F
+ eR1YCFOVB76z21hVb4nF+XVUn7Myko8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-311-5ncxc_zJP8-s10rgSQWkyA-1; Tue, 25 May 2021 16:15:21 -0400
+X-MC-Unique: 5ncxc_zJP8-s10rgSQWkyA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8803B6D241;
+ Tue, 25 May 2021 20:15:20 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-112-219.ams2.redhat.com
+ [10.36.112.219])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7DC0A60CC6;
+ Tue, 25 May 2021 20:15:07 +0000 (UTC)
+Date: Tue, 25 May 2021 16:15:04 -0400
+From: Cleber Rosa <crosa@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH v6 25/25] python: add tox support
+Message-ID: <YK1ayNF0VTSJKa6O@localhost.localdomain>
+References: <20210512231241.2816122-1-jsnow@redhat.com>
+ <20210512231241.2816122-26-jsnow@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-15
+In-Reply-To: <20210512231241.2816122-26-jsnow@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="H4++Apy8qZO66Al0"
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:kacsbEpZQOtrpvEN38OhG3pgvuer9y6jNg2NYxlPRirx7RQ8XjA
- tN0Rlxphze1U2vZookTmzKbnhH9N5vFngfkk4+48CJbDGyKmCTAzpmK8UNE4Mk+L6BJ9AaM
- S59+olXV5Sq1Eua8AUX3A+dsZ5Z+gNZGsoZcsAB4T46bw19tj7rVViqPn3EPGXF6nEBLmNu
- /U1oe+/qc06Q1b6/Y934A==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:clu+oriFaD0=:XsS+fgK7PtxhaxHMyZF7SU
- ts3jKORWRHV4RzQdxxXSVBHM8cktX+mXd5nd8DvcjU7Me+Sm9wsTffT223tubdOkRvW4JTWN5
- hXXMDt/vyMWjgQuR1CoysN+cEUVeXagEpMusvYxtu8Y2BJIIPfTJChnoQAtfjoArOCALYzMao
- Rj9i6IL+ZlRnl4RYfNcXeEIW4dmfWzv8TFGPWq97MWGpTEGGKYHpEZSLvo3xcfL6EhL/7xFlL
- m7MF6alAtVYw61Aa6lFwVJ3pfkwTpAwPJ/5eNmGp2nyH2/eOXnAHKy4jLj7cckeSPDIA6LRlc
- 7qz57lOS7ArtbLQrNZXWZRc9LH2b2gBxAgGrXU3UuHTMy1Ew0RsvGuWbzG0uwn664x9QA6KCF
- e+SMnYvvUC2WIOCCbp/xuWlxQALSfAghupVnTMgk370J8z1jMweGTwfq1/cAKXbWBP1ONnPH+
- lbU+K2mbWVzO4dzcmQWlijjleea/4m+CezChvv8LZVkyNhSw+G71mVdlaUAhyaimbz3Wp/zE/
- 4x0S1dVI3OUecO+N8CVwBE7QdF3EnUoub7w2DDJQHEKcAOsnVAxt6EF/5ecirCkOX1qWUU5lR
- JpClThoIm0p/Ebm8T/wSO4RA/k/t4XGcL4QafZda39ppaRFcZQdlm7JRMaPB2/lDjCdosSB4D
- JO76cMlm1Kxtvo3mYgzaAg03xmGLNwlzBmOsq7R+px329ZPlHd+vveKHjF5JmsauUmOLwuQ1v
- D+1P7Al1pzvDPSk1xGD+eClshKUTWyYG19gI0i9quOZec2CEpOuJ1LHWAWiswL/SgqzonELri
- EDUUu2pyDi/cy8pjfzinvnPc88Bz8++a+OgFKNMhAOc4HjqiObBqQVNtXONBtPKTXRl1TAEW0
- xS3OCrLHq6WBi8pvqrA1mVbPWJo39dR9KsQA9nhNQpQEogqCQJO8mfj7jAwSKMq8a//MUK558
- vrg4Y+bygbW1+Du/0HNhHpIh95SVp3JFVTaTIaEKGhBQ336YFnh5hSBAWbPtfnaS66+46efYY
- GOHVCAqrWop7bKTec3oaYvDKkcc6u8Sl7TXVXG4BWjwuxd7a3I7gnxUb0PNjsbJY9VsN2U2Qe
- HLY0CW4O4IVFrt1RE7FBXh4hN+otUl+/I8tgHnITvZ78ZDKbjv6JQxKAbJvqivBT/1OQgCegI
- Yjm9cf1VHrh049r9kRhNOCLvuS8BxeDBkexRTabRrm+PdhjqP2gY/nLPIgzjdpyuAqWXI=
-Received-SPF: pass client-ip=212.227.17.21; envelope-from=deller@gmx.de;
- helo=mout.gmx.net
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=crosa@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,60 +78,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Sven Schnelle <svens@stackframe.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Philippe =?iso-8859-15?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- qemu-stable@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-block@nongnu.org,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ Willian Rampazzo <willianr@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
+ Max Reitz <mreitz@redhat.com>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
+ Beraldo Leal <bleal@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The CDE desktop on HP-UX 10 shows wrongly rendered pixels when the local s=
-creen
-menu is closed. This bug was introduced by commit c7050f3f167b
-("hw/display/artist: Refactor x/y coordination extraction") which converte=
-d the
-coordinate extraction in artist_vram_read() and artist_vram_write() to use=
- the
-ADDR_TO_X and ADDR_TO_Y macros, but forgot to right-shift the address by 2=
- as
-it was done before.
+--H4++Apy8qZO66Al0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Helge Deller <deller@gmx.de>
-Fixes: c7050f3f167b ("hw/display/artist: Refactor x/y coordination extract=
-ion")
-Cc: Philippe Mathieu-Daud=E9 <f4bug@amsat.org>
-Cc: Richard Henderson <richard.henderson@linaro.org>
-Cc: Sven Schnelle <svens@stackframe.org>
+On Wed, May 12, 2021 at 07:12:41PM -0400, John Snow wrote:
+> This is intended to be a manually run, non-CI script.
+>=20
+> Use tox to test the linters against all python versions from 3.6 to
+> 3.9. This will only work if you actually have those versions installed
+> locally, but Fedora makes this easy:
+>=20
+> > sudo dnf install python36 python37 python38 python39
+>=20
+> Unlike the pipenv tests (make venv-check), this pulls "whichever"
+> versions of the python packages, so they are unpinned and may break as
+> time goes on. In the case that breakages are found, setup.cfg should be
+> amended accordingly to avoid the bad dependant versions, or the code
+> should be amended to work around the issue.
+>=20
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> ---
+>  python/README.rst |  2 ++
+>  python/.gitignore |  1 +
+>  python/Makefile   |  7 ++++++-
+>  python/setup.cfg  |  1 +
+>  python/tox.ini    | 13 +++++++++++++
+>  5 files changed, 23 insertions(+), 1 deletion(-)
+>  create mode 100644 python/tox.ini
+>=20
 
-=2D--
-v2: Fix artist_vram_write() too, noticed by Philippe Mathieu-Daud=E9
+This works as intended for me.  A couple of notes / suggestions
+for future improvements:
 
-diff --git a/hw/display/artist.c b/hw/display/artist.c
-index ed0e637f25..8758c77bbf 100644
-=2D-- a/hw/display/artist.c
-+++ b/hw/display/artist.c
-@@ -1171,8 +1171,8 @@ static void artist_vram_write(void *opaque, hwaddr a=
-ddr, uint64_t val,
-     }
+ * `dnf install tox` pulled all the Python versions available (I
+   assume as suggestions) automatically
 
-     buf =3D vram_write_buffer(s);
--    posy =3D ADDR_TO_Y(addr);
--    posx =3D ADDR_TO_X(addr);
-+    posy =3D ADDR_TO_Y(addr >> 2);
-+    posx =3D ADDR_TO_X(addr >> 2);
+ * tox.ini can be folded into setup.cfg
 
-     if (!buf->size) {
-         return;
-@@ -1233,8 +1233,8 @@ static uint64_t artist_vram_read(void *opaque, hwadd=
-r addr, unsigned size)
-         return 0;
-     }
+ * a custom container image with all those Python versions may be
+   handy for running both the pipenv based job (along with the
+   suggestions on the previous patch) and an on-demand,
+   "allow_failure" tox based CI job.
 
--    posy =3D ADDR_TO_Y(addr);
--    posx =3D ADDR_TO_X(addr);
-+    posy =3D ADDR_TO_Y(addr >> 2);
-+    posx =3D ADDR_TO_X(addr >> 2);
+Other than those suggestions, this LGTM!
 
-     if (posy > buf->height || posx > buf->width) {
-         return 0;
+Reviewed-by: Cleber Rosa <crosa@redhat.com>
+Tested-by: Cleber Rosa <crosa@redhat.com>
+
+--H4++Apy8qZO66Al0
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAmCtWsMACgkQZX6NM6Xy
+CfOykA//Vj5QRsibVXoGRnJbcQB6ET4dhnsaW08psiVD3D49iqxOgOnoooDgWxiO
+klSNu50GgLPvCPwDB48XHnCbuSX86XbSWI8RaoMMP/ZSYS4NFCPdvmGIeNiowSFF
+39dGhP9Tm6rKm4Xo5DCfe7NVoYMAqMrmjNQFR3IDgsv+XdC5rElrsnP1ZR7FeFYp
+NZ1u4kQOiZuhFTjj9hdXDFSCo+Sl/KJIaJGo1Nc6jc0HLvQsXfBNGmJMrxgwMVmB
+5A6j36BcjBiwLKQcwkR/UmSgxhGi4Zft6PRJC3TgdwSooApy9KBB2qSeUsY+XGct
+0/J2o5XQpYhtqsin9CyhnEztiPVMb28CUC31d+mfJ5kadbxr1E0nVOMEBlZzrEgE
+ORdIpdkeQib+MlPBb5qhT53hj1WGcef92Zm0K7fH/Zq+rOcmORCyvXPYpVY3rHFS
+cpZvYHr0IDEqeoTNUU8tYXl9vGNTc2p5eUVfmTh6Djp5m+uzgeumHyw4N4W6yC6A
+5cyGmvQEP0XYBVCepRNRTDZrBhHxFF1CnixNvxV3nXnKG6aAmRhrqKkEWM1xKhNl
+Y898Yvm9DOn4mFHpPQYGN4xS59UTtvpgoDcAGhnOrmuFPfL0WRNg9UmDnWtAAhJw
+wM9RnfutVzhLLqtD/XRAhRlrPLuV9o9WuoeeR6/qoDgOLvrTSHI=
+=E3Og
+-----END PGP SIGNATURE-----
+
+--H4++Apy8qZO66Al0--
+
 
