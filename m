@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2C9B390294
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 15:33:13 +0200 (CEST)
-Received: from localhost ([::1]:40432 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 844FE3902A4
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 15:39:24 +0200 (CEST)
+Received: from localhost ([::1]:49036 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llXBI-0007DB-KA
-	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 09:33:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32968)
+	id 1llXHH-0004pG-CP
+	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 09:39:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35248)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1llX9Q-0006Lm-RO
- for qemu-devel@nongnu.org; Tue, 25 May 2021 09:31:17 -0400
-Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:46728)
+ id 1llXGI-00048g-Rl
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 09:38:22 -0400
+Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:44922)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1llX9O-0005Eu-0F
- for qemu-devel@nongnu.org; Tue, 25 May 2021 09:31:16 -0400
-Received: by mail-pj1-x102b.google.com with SMTP id
- pi6-20020a17090b1e46b029015cec51d7cdso13152833pjb.5
- for <qemu-devel@nongnu.org>; Tue, 25 May 2021 06:31:11 -0700 (PDT)
+ id 1llXGH-0001Ne-4N
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 09:38:22 -0400
+Received: by mail-pj1-x1033.google.com with SMTP id
+ h20-20020a17090aa894b029015db8f3969eso12560835pjq.3
+ for <qemu-devel@nongnu.org>; Tue, 25 May 2021 06:38:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=svSLcQ6Tu/UYoQl7ky2gJDxyk5wA3Ab3XdMbPWUREos=;
- b=yBo/wHhEpdnM7r2eVvUz3g4tL/GB1VHC7QE6bZjzovbbqe8VcO3EcbCDE7BVhqurRa
- JA3ursEb3kkUmHJklVEnFf8jkoFClJ/g/r+6NbzqvDcBc5E3AoOsEIRbu+O+7fPcxcQD
- Us4iEyt/mHJJgFN7S+UP8RqH9QT87gQO7+2fGOrgB7b4BHrdXdFZsN+qsvk7XhAdvnFv
- 0SAEDbFqiMQjMuDrGUEhq2oasE/akbNc4z9SxSlHuSXsIkcr/Ymk9GoT4O3Wzmyre9qB
- tA7tlK4nc4rXdqsYGZm7iAPbIEimU+nD3aIDOb+PWS5VUZc+cQZBR6QmRBOHCNPgWbmC
- nYLw==
+ bh=4aMFf9Sp7Ts3gJ6elOMKj2duk7ow+8J1Ud/tJThb2nM=;
+ b=sPWcEJlvbgngCzhHrJGHVmqGCi2ouNPNM2S/2lSjah8AbwATItRFayQ9H7CNwMAvsn
+ CAN7gA+ys3rbAUaXuEx0rwDrXLr4GCpmw9izsnUmb8PU5LFVVzhNRPK67IroeMXZJpJI
+ VaUIsTwPQj2orGcILSvrL38n/RHcqiYYKvYyhxoEro6cs14FtG2YW4p82Jy/ko25Hrpk
+ IOXpCw8undtL2z4Zoqquf0DCvDSIkPh+qffIgw/tnFlJkVLjnFJ2+r/1Z5+KIFI1cpdZ
+ 2NYCnUvGWVDMo5f83CtBp5LqGfjVXNP0aauCU+P7q4ElV3oFnG5nUiQzSJ4M/YrJuqr7
+ xn8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=svSLcQ6Tu/UYoQl7ky2gJDxyk5wA3Ab3XdMbPWUREos=;
- b=E69ByVismSyuGyKnY3kcfKeT85QeP4qi9+Nnr0ZCLcU2LTqmLaLRBjy99DQ/Yw753C
- OwWgJd07oU2SA9fSB/KtSeY8G+eH6ygSNPq852D0GzUXsZ8tR183oWK/ZEvzdZvOkyop
- xuSLdGDWpDpYe6jIarS7yCTCG5pHuNPpEni3Re+/FFJWGnYmgH8jWW+Z77D3YLF1O+cO
- q4DWKSAZdcbvo6uH7d1FRqA1LXN5p47kCSweJzitjtGZ9gaNQWsEcldmpxydVAuwkJiw
- gL1/nTBfI3eMvyAHWB0uk2G77tjRVRqpx7QP3CgYsxZGAUzmVb9bp1H47V0e+KwLJMMK
- Q62Q==
-X-Gm-Message-State: AOAM530ATjZn4bd5VxXWpzr/flyh7dk7uBvlTtbHhVSmSCVzNOOxBjWu
- lf/vsHdoTn0Hlx/+FFvLofSHKw==
-X-Google-Smtp-Source: ABdhPJzRAZDNVul5JnxG8E4ohovZolR+/I9czGCTfxaUSTj/aVwCaezzQYvFfIHEyKUFH2UInZmVlQ==
-X-Received: by 2002:a17:90a:6d43:: with SMTP id
- z61mr4781282pjj.147.1621949470406; 
- Tue, 25 May 2021 06:31:10 -0700 (PDT)
+ bh=4aMFf9Sp7Ts3gJ6elOMKj2duk7ow+8J1Ud/tJThb2nM=;
+ b=Vu0qgaxPL9cAdKTTsKqJf6g8IJjRzZLN5ckfDAqeX9bNXaJPMG9ZpVVn399QlUygky
+ nEVjOKBYGhXL67hDxChey8yDNSMLyPvL3DKaavjqwwjswvV1hXqZnLn8Bw+NbhGVCbXu
+ XYDyeLAOysPM+HoFXs8653A2y8eHAXlEp6HIrCGVFIvsRfLqmKJvoL06+hSb+NaIfIKV
+ 6twZeMp4BH6J0JujawHItFpAxbMOBQ77bnmMxB5UR/aiHtKvf8OEZkStpNAegwmF4Riy
+ 3EVcOM2JwZlP5+v7XLCnQHHukqhqQPi/64i1JxumFeTwFimeo/rQrPk8LQ6OVCAFWWPF
+ PuhQ==
+X-Gm-Message-State: AOAM532ZHFR2E60zuU54oz7LH2P18o/IErBjSAH4G3J5jGMScIV9J5k0
+ JEQy5N3v6R+D0JzVxQqE5etYTQ==
+X-Google-Smtp-Source: ABdhPJwCLH0SVH8wAqx7nktPw9+3ZAdGul6/Y9jHgTDOoKlNHxNc5cVqubsSuhAtcKnEMI1AYC/l4A==
+X-Received: by 2002:a17:90b:3615:: with SMTP id
+ ml21mr31352420pjb.194.1621949899628; 
+ Tue, 25 May 2021 06:38:19 -0700 (PDT)
 Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
  by smtp.gmail.com with ESMTPSA id
- a65sm12480990pfb.177.2021.05.25.06.31.09
+ q24sm14250684pgk.32.2021.05.25.06.38.19
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 25 May 2021 06:31:10 -0700 (PDT)
-Subject: Re: [PATCH 1/9] accel/tcg: Replace g_new() + memcpy() by g_memdup()
+ Tue, 25 May 2021 06:38:19 -0700 (PDT)
+Subject: Re: [PATCH 3/9] accel/tlb: Rename TLBFlushPageBitsByMMUIdxData ->
+ TLBFlushRangeData
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
 References: <20210509151618.2331764-1-f4bug@amsat.org>
- <20210509151618.2331764-2-f4bug@amsat.org>
+ <20210509151618.2331764-4-f4bug@amsat.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <318b400c-2c2c-e30d-5088-d2f758246888@linaro.org>
-Date: Tue, 25 May 2021 06:31:08 -0700
+Message-ID: <25e2dba9-a89d-6651-49e3-59d3c56969c4@linaro.org>
+Date: Tue, 25 May 2021 06:38:17 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210509151618.2331764-2-f4bug@amsat.org>
+In-Reply-To: <20210509151618.2331764-4-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -103,10 +104,10 @@ On 5/9/21 8:16 AM, Philippe Mathieu-Daudé wrote:
 > [PMD: Split from bigger patch]
 > Signed-off-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
 > ---
->   accel/tcg/cputlb.c | 15 ++++-----------
->   1 file changed, 4 insertions(+), 11 deletions(-)
+>   accel/tcg/cputlb.c | 24 ++++++++++++------------
+>   1 file changed, 12 insertions(+), 12 deletions(-)
 
-Using g_memdup is a bit more compact than g_new + memcpy.
+Rename the structure to match the rename of tlb_flush_range_locked.
 
 
 r~
