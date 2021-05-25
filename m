@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7330390A5A
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 22:12:49 +0200 (CEST)
-Received: from localhost ([::1]:57032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F702390A62
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 22:15:40 +0200 (CEST)
+Received: from localhost ([::1]:59198 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lldPz-0003G8-PZ
-	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 16:12:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44430)
+	id 1lldSl-0004my-9x
+	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 16:15:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44962)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lldOV-00029X-IN
- for qemu-devel@nongnu.org; Tue, 25 May 2021 16:11:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36097)
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>)
+ id 1lldQy-00045X-7P; Tue, 25 May 2021 16:13:48 -0400
+Received: from mout.gmx.net ([212.227.17.21]:53621)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lldOS-0005Yg-5V
- for qemu-devel@nongnu.org; Tue, 25 May 2021 16:11:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621973470;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ZqSvmDIZmECssVJpX0Q6Yp4UgcheCZ+p5Uxb9ejdyVE=;
- b=JjTr/g1WaJ9ANkwYrM0o3pgrH7QbsD5893OmHye0T/YQxkIlihG9bwaadKQ7KbrnI1shNk
- GX8mgCh9JaDxFbwmZjmpnAKIllzUoZ8V48UsBf0PsDf1/GXoaG8+ddETWaI6Ih7lSiV2Jm
- x2MAHNqlxE6kvsjZaIT9KAOp4HOb3Xs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-483-Vl9c8LwaPkyQ42qqB4kf4A-1; Tue, 25 May 2021 16:11:06 -0400
-X-MC-Unique: Vl9c8LwaPkyQ42qqB4kf4A-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5E4C264167;
- Tue, 25 May 2021 20:11:05 +0000 (UTC)
-Received: from [10.10.116.137] (ovpn-116-137.rdu2.redhat.com [10.10.116.137])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 811805D9C0;
- Tue, 25 May 2021 20:10:55 +0000 (UTC)
-Subject: Re: [PATCH v6 23/25] python: add .gitignore
-To: Cleber Rosa <crosa@redhat.com>
-References: <20210512231241.2816122-1-jsnow@redhat.com>
- <20210512231241.2816122-24-jsnow@redhat.com>
- <YK1RqhFrWt6yHuRt@localhost.localdomain>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <0d0053ab-4410-e905-7261-332f21fd8852@redhat.com>
-Date: Tue, 25 May 2021 16:10:55 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>)
+ id 1lldQw-0006u1-9s; Tue, 25 May 2021 16:13:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1621973619;
+ bh=X0olC0WIpdXqsDDFYUYxQTKfLLoGDFlIOCie2+d7qzY=;
+ h=X-UI-Sender-Class:Date:From:To:Cc:Subject;
+ b=ZTV90boq2FyBjRBwiF6v/Y6xp2n9fZDAjRZaXzEv1CyGPNebPHy2/ipaqE4h99lRU
+ /gfQ6060aifmaC1IHCHjjYE73oxiDKP9tRVqymMxEpltCXKw8+JZ0YBvmywKAUBjCw
+ 12srJBdivvRl6f7bnaifOSDkSFwpJv7TH342SkbQ=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from ls3530 ([92.116.159.17]) by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1Mq2nK-1l8jxp2LQY-00n7nW; Tue, 25
+ May 2021 22:13:39 +0200
+Date: Tue, 25 May 2021 22:12:45 +0200
+From: Helge Deller <deller@gmx.de>
+To: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>,
+ qemu-devel@nongnu.org
+Subject: [PATCH v2] hw/display/artist: Fix bug in coordinate extraction in
+ artist_vram_read() and artist_vram_write()
+Message-ID: <YK1aPb8keur9W7h2@ls3530>
 MIME-Version: 1.0
-In-Reply-To: <YK1RqhFrWt6yHuRt@localhost.localdomain>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=iso-8859-15
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:kacsbEpZQOtrpvEN38OhG3pgvuer9y6jNg2NYxlPRirx7RQ8XjA
+ tN0Rlxphze1U2vZookTmzKbnhH9N5vFngfkk4+48CJbDGyKmCTAzpmK8UNE4Mk+L6BJ9AaM
+ S59+olXV5Sq1Eua8AUX3A+dsZ5Z+gNZGsoZcsAB4T46bw19tj7rVViqPn3EPGXF6nEBLmNu
+ /U1oe+/qc06Q1b6/Y934A==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:clu+oriFaD0=:XsS+fgK7PtxhaxHMyZF7SU
+ ts3jKORWRHV4RzQdxxXSVBHM8cktX+mXd5nd8DvcjU7Me+Sm9wsTffT223tubdOkRvW4JTWN5
+ hXXMDt/vyMWjgQuR1CoysN+cEUVeXagEpMusvYxtu8Y2BJIIPfTJChnoQAtfjoArOCALYzMao
+ Rj9i6IL+ZlRnl4RYfNcXeEIW4dmfWzv8TFGPWq97MWGpTEGGKYHpEZSLvo3xcfL6EhL/7xFlL
+ m7MF6alAtVYw61Aa6lFwVJ3pfkwTpAwPJ/5eNmGp2nyH2/eOXnAHKy4jLj7cckeSPDIA6LRlc
+ 7qz57lOS7ArtbLQrNZXWZRc9LH2b2gBxAgGrXU3UuHTMy1Ew0RsvGuWbzG0uwn664x9QA6KCF
+ e+SMnYvvUC2WIOCCbp/xuWlxQALSfAghupVnTMgk370J8z1jMweGTwfq1/cAKXbWBP1ONnPH+
+ lbU+K2mbWVzO4dzcmQWlijjleea/4m+CezChvv8LZVkyNhSw+G71mVdlaUAhyaimbz3Wp/zE/
+ 4x0S1dVI3OUecO+N8CVwBE7QdF3EnUoub7w2DDJQHEKcAOsnVAxt6EF/5ecirCkOX1qWUU5lR
+ JpClThoIm0p/Ebm8T/wSO4RA/k/t4XGcL4QafZda39ppaRFcZQdlm7JRMaPB2/lDjCdosSB4D
+ JO76cMlm1Kxtvo3mYgzaAg03xmGLNwlzBmOsq7R+px329ZPlHd+vveKHjF5JmsauUmOLwuQ1v
+ D+1P7Al1pzvDPSk1xGD+eClshKUTWyYG19gI0i9quOZec2CEpOuJ1LHWAWiswL/SgqzonELri
+ EDUUu2pyDi/cy8pjfzinvnPc88Bz8++a+OgFKNMhAOc4HjqiObBqQVNtXONBtPKTXRl1TAEW0
+ xS3OCrLHq6WBi8pvqrA1mVbPWJo39dR9KsQA9nhNQpQEogqCQJO8mfj7jAwSKMq8a//MUK558
+ vrg4Y+bygbW1+Du/0HNhHpIh95SVp3JFVTaTIaEKGhBQ336YFnh5hSBAWbPtfnaS66+46efYY
+ GOHVCAqrWop7bKTec3oaYvDKkcc6u8Sl7TXVXG4BWjwuxd7a3I7gnxUb0PNjsbJY9VsN2U2Qe
+ HLY0CW4O4IVFrt1RE7FBXh4hN+otUl+/I8tgHnITvZ78ZDKbjv6JQxKAbJvqivBT/1OQgCegI
+ Yjm9cf1VHrh049r9kRhNOCLvuS8BxeDBkexRTabRrm+PdhjqP2gY/nLPIgzjdpyuAqWXI=
+Received-SPF: pass client-ip=212.227.17.21; envelope-from=deller@gmx.de;
+ helo=mout.gmx.net
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,65 +82,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- qemu-block@nongnu.org,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Willian Rampazzo <willianr@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
- Max Reitz <mreitz@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Beraldo Leal <bleal@redhat.com>
+Cc: Sven Schnelle <svens@stackframe.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Philippe =?iso-8859-15?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/25/21 3:36 PM, Cleber Rosa wrote:
-> On Wed, May 12, 2021 at 07:12:39PM -0400, John Snow wrote:
->> Ignore *Python* build and package output (build, dist, qemu.egg-info);
->> these files are not created as part of a QEMU build.
->>
->> Ignore miscellaneous cached python confetti (__pycache__, *.pyc,
->> .mypy_cache).
->>
->> Ignore .idea (pycharm) .vscode, and .venv (pipenv et al).
->>
->> Signed-off-by: John Snow <jsnow@redhat.com>
->> ---
->>   python/.gitignore | 19 +++++++++++++++++++
->>   1 file changed, 19 insertions(+)
->>   create mode 100644 python/.gitignore
->>
->> diff --git a/python/.gitignore b/python/.gitignore
->> new file mode 100644
->> index 00000000000..e27c99e009c
->> --- /dev/null
->> +++ b/python/.gitignore
->> @@ -0,0 +1,19 @@
->> +# python bytecode cache
->> +*.pyc
-> 
-> This is a duplicate from the parent .gitignore, so I would avoid it.
-> 
->> +__pycache__/
-> 
-> And this one is interesting because, the only thing that *should* be
-> in __pycache__ dirs is .pyc files (covered by the parent .gitignore
-> file).
-> 
-> So, I get the same behavior without these two entries here, so I would
-> skip them.  Let me know if you have any reason for explicitly
-> including them.
-> 
-> - Cleber.
-> 
+The CDE desktop on HP-UX 10 shows wrongly rendered pixels when the local s=
+creen
+menu is closed. This bug was introduced by commit c7050f3f167b
+("hw/display/artist: Refactor x/y coordination extraction") which converte=
+d the
+coordinate extraction in artist_vram_read() and artist_vram_write() to use=
+ the
+ADDR_TO_X and ADDR_TO_Y macros, but forgot to right-shift the address by 2=
+ as
+it was done before.
 
-Hm, not really ... Just completeness, I suppose, since this directory is 
-becoming increasingly separate from the rest of the tree.
+Signed-off-by: Helge Deller <deller@gmx.de>
+Fixes: c7050f3f167b ("hw/display/artist: Refactor x/y coordination extract=
+ion")
+Cc: Philippe Mathieu-Daud=E9 <f4bug@amsat.org>
+Cc: Richard Henderson <richard.henderson@linaro.org>
+Cc: Sven Schnelle <svens@stackframe.org>
 
-It isn't crucial, it just seemed like a weird omission if they weren't 
-listed here. *shrug*
+=2D--
+v2: Fix artist_vram_write() too, noticed by Philippe Mathieu-Daud=E9
 
---js
+diff --git a/hw/display/artist.c b/hw/display/artist.c
+index ed0e637f25..8758c77bbf 100644
+=2D-- a/hw/display/artist.c
++++ b/hw/display/artist.c
+@@ -1171,8 +1171,8 @@ static void artist_vram_write(void *opaque, hwaddr a=
+ddr, uint64_t val,
+     }
 
+     buf =3D vram_write_buffer(s);
+-    posy =3D ADDR_TO_Y(addr);
+-    posx =3D ADDR_TO_X(addr);
++    posy =3D ADDR_TO_Y(addr >> 2);
++    posx =3D ADDR_TO_X(addr >> 2);
+
+     if (!buf->size) {
+         return;
+@@ -1233,8 +1233,8 @@ static uint64_t artist_vram_read(void *opaque, hwadd=
+r addr, unsigned size)
+         return 0;
+     }
+
+-    posy =3D ADDR_TO_Y(addr);
+-    posx =3D ADDR_TO_X(addr);
++    posy =3D ADDR_TO_Y(addr >> 2);
++    posx =3D ADDR_TO_X(addr >> 2);
+
+     if (posy > buf->height || posx > buf->width) {
+         return 0;
 
