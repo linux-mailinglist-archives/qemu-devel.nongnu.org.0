@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67BFA39031C
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 15:52:49 +0200 (CEST)
-Received: from localhost ([::1]:44262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B83E5390322
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 15:54:22 +0200 (CEST)
+Received: from localhost ([::1]:48558 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llXUG-00044i-Gq
-	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 09:52:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36938)
+	id 1llXVl-0006yF-R5
+	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 09:54:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36962)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1llXMo-0008IJ-N4
- for qemu-devel@nongnu.org; Tue, 25 May 2021 09:45:06 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:53824)
+ id 1llXMp-0008LS-Mm
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 09:45:07 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:45806)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1llXMn-0005q5-2L
- for qemu-devel@nongnu.org; Tue, 25 May 2021 09:45:06 -0400
-Received: by mail-wm1-x335.google.com with SMTP id h3so4032799wmq.3
- for <qemu-devel@nongnu.org>; Tue, 25 May 2021 06:45:04 -0700 (PDT)
+ id 1llXMn-0005qL-Si
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 09:45:07 -0400
+Received: by mail-wr1-x430.google.com with SMTP id x7so12709643wrt.12
+ for <qemu-devel@nongnu.org>; Tue, 25 May 2021 06:45:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ALgUBkaFcxFN/pGGcl4oQPNKi5KOQsKMi8EGZzJAvOo=;
- b=mydUfOiHfzfeabkzVGws0/zZfx5LMeRFxdW0uj086PRiMQa3xVhQoGcnn4ePtKELzg
- 2G5PUAWUamtzDjgdSWgTaw6iEnDLsjk4nhxXu5UVt1HykuTKrce82ki3idKfpc5F36sd
- Sn6HneprBluUPClAf50zWz0kjWXtsOTmrzHPxJ2qVtSebhgcE3XKVJqt7u3odqNqPyUO
- jv4HZW0NKbx6blfgeLj/vgGauHFHTQL/qJj5SV2gSHdvdJc7TZVVcunxbDKuRTZSWqv4
- k1i3hm6fflHaj/sQnflb+OBP1hUTEfnsCVcXY1dnbPAQlhzGYlA1V9LkkcAUIOJNv503
- 0HXw==
+ bh=81BcStrDLjfG9r2+15kQcn3KAVBeJOQ+xGFWyk9GtLs=;
+ b=mNnXmVkl9xOIRNT09Y2jzBjTclNNGh83LJt9aR6ZVa92kckh/qQn1aEw8un5tCyvZx
+ LEH42RBqi7crjv2jLJnsZfAiAPUzXXp6zz6QWPBogzCq8v9Mu3TNGzV45KmHXyJ7IoAE
+ F65aBYc5UelvJGNdKfJyysw1b+jtCmKvetrk2BM+Mx6gT6sn5GRlqYyAc4k1dcIPtKiF
+ 4t7sDIGOUPJpSMR7HD2Xbi57HheuoWrvrZ8Rms3/gwpDR+cMvjMHpf17XQTgssFF9QXK
+ 3AOPkgh1o+fUb6cn//YEIM+AgKRO8HsxP5//vvzhjnePgz38LsPEqOdl0eE9vJaKCkal
+ Tp/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ALgUBkaFcxFN/pGGcl4oQPNKi5KOQsKMi8EGZzJAvOo=;
- b=tnIgmVvjegyF2sZyl5a+qjgyu/C2bx9M0K9du0Icn1Y9t8f/YmrLARnktqrYWRf1SP
- LQZgcA+pranSLLW50V49a8I3tavzrJSkqZ9GVJBmVduXwq+3fnXMe2inUsiy4cOnRFEL
- LSpLTXAiWV727bWoc8jyewrTfvEWASC4a7rNE6QkqH8m14xOMdd128EGUC1S0yYGNr4h
- hfJ3hbd+7UkZ0ATdC3R9/6Mzfmomtku1EeeMtzBGiFUTdRsgBpHg6A0Ny4xfOvI7UzTl
- 0Ef4U5Z1DSVyqudDc7kkqslq2PoiGWHL28+nCwAZ0LIXqKKQ6UXc20K28AmBeU6IcPb0
- Cxag==
-X-Gm-Message-State: AOAM53234zizY3QeavKTBcLVN9WchSjqGU82I2XuBHQ7/nOmgFUOW8pC
- diZ4jwHb9+T20DgO1+v7UrU/5FRnRM3XuyIN
-X-Google-Smtp-Source: ABdhPJxn2VhpudxAtv/VUJwXXFUnKt0rTeHvzy0aNSoYLKZ5+LoT6+OKA9hDVBaFnVuzg7fi5jnyNg==
-X-Received: by 2002:a7b:cb85:: with SMTP id m5mr4036075wmi.118.1621950303737; 
- Tue, 25 May 2021 06:45:03 -0700 (PDT)
+ bh=81BcStrDLjfG9r2+15kQcn3KAVBeJOQ+xGFWyk9GtLs=;
+ b=WZoDDw1Qi972zASvwP0hElmCiR3Wii1RTVYqQcVmS9w2dfAcJ2iPBa7YQtZkWOQNE2
+ Zq3vfqNRbXywQt2lC70A/ZgGWloHDzJr7Ztu6EOvijCg1K6USJKRaF6k9uJxU0KTk4S9
+ q13NaQyTM7r4izIuVJG049uKkHfH5Zp4whIiCgAiB2MMPx1tvNEbujgceRbkv8Lyd1Ln
+ VbZaiMxL2d8MvnXfGAD++i16lJysi0bt1gd6v0JaCH5RS74rEtZ614TqDcDQWzB2JDtV
+ RCaihku5NE1yWcNJJB08/9ku0jCkYzAW4X30XZKEztYAt+RBOSibL75iJ6HfftRO99I0
+ //tw==
+X-Gm-Message-State: AOAM530yimD9QvfIUGp5H4STzK6DeE2Wmz7huD50xsFtAmTmsBKwRJP/
+ 6kboobOSKNZ95JnXSQ0LTPudAjYUGkkywVN9
+X-Google-Smtp-Source: ABdhPJxaabybQtX6nm4vm6CDXpyqHySRzp6D4lu2mjoWRgBIWw9rpNGtfJePTLgWNcsdY2oiLcQ3lA==
+X-Received: by 2002:a05:6000:22f:: with SMTP id
+ l15mr27149320wrz.316.1621950304574; 
+ Tue, 25 May 2021 06:45:04 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id t7sm15794460wrs.87.2021.05.25.06.45.02
+ by smtp.gmail.com with ESMTPSA id t7sm15794460wrs.87.2021.05.25.06.45.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 May 2021 06:45:03 -0700 (PDT)
+ Tue, 25 May 2021 06:45:04 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 4/6] tests/qtest/pflash-cfi02-test: Avoid potential integer
- overflow
-Date: Tue, 25 May 2021 14:44:56 +0100
-Message-Id: <20210525134458.6675-5-peter.maydell@linaro.org>
+Subject: [PATCH 5/6] tests/qtest/tpm-tests: Remove unnecessary NULL checks
+Date: Tue, 25 May 2021 14:44:57 +0100
+Message-Id: <20210525134458.6675-6-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210525134458.6675-1-peter.maydell@linaro.org>
 References: <20210525134458.6675-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x335.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,29 +90,42 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Coverity points out that we calculate a 64-bit value using 32-bit
-arithmetic; add the cast to force the multiply to be done as 64-bits.
-(The overflow will never happen with the current test data.)
+Coverity points out that in tpm_test_swtpm_migration_test() we
+assume that src_tpm_addr and dst_tpm_addr are non-NULL (we
+pass them to tpm_util_migration_start_qemu() which will
+unconditionally dereference them) but then later explicitly
+check them for NULL. Remove the pointless checks.
 
-Fixes: Coverity CID 1432320
+Fixes: Coverity CID 1432367, 1432359
+
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- tests/qtest/pflash-cfi02-test.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tests/qtest/tpm-tests.c | 12 ++++--------
+ 1 file changed, 4 insertions(+), 8 deletions(-)
 
-diff --git a/tests/qtest/pflash-cfi02-test.c b/tests/qtest/pflash-cfi02-test.c
-index 60db81a3a2b..6168edc821a 100644
---- a/tests/qtest/pflash-cfi02-test.c
-+++ b/tests/qtest/pflash-cfi02-test.c
-@@ -406,7 +406,7 @@ static void test_geometry(const void *opaque)
+diff --git a/tests/qtest/tpm-tests.c b/tests/qtest/tpm-tests.c
+index 0da3a8a4df5..25073d1f9e9 100644
+--- a/tests/qtest/tpm-tests.c
++++ b/tests/qtest/tpm-tests.c
+@@ -123,14 +123,10 @@ void tpm_test_swtpm_migration_test(const char *src_tpm_path,
+     qtest_quit(src_qemu);
  
-     for (int region = 0; region < nb_erase_regions; ++region) {
-         for (uint32_t i = 0; i < c->nb_blocs[region]; ++i) {
--            uint64_t byte_addr = i * c->sector_len[region];
-+            uint64_t byte_addr = (uint64_t)i * c->sector_len[region];
-             g_assert_cmphex(flash_read(c, byte_addr), ==, bank_mask(c));
-         }
-     }
+     tpm_util_swtpm_kill(dst_tpm_pid);
+-    if (dst_tpm_addr) {
+-        g_unlink(dst_tpm_addr->u.q_unix.path);
+-        qapi_free_SocketAddress(dst_tpm_addr);
+-    }
++    g_unlink(dst_tpm_addr->u.q_unix.path);
++    qapi_free_SocketAddress(dst_tpm_addr);
+ 
+     tpm_util_swtpm_kill(src_tpm_pid);
+-    if (src_tpm_addr) {
+-        g_unlink(src_tpm_addr->u.q_unix.path);
+-        qapi_free_SocketAddress(src_tpm_addr);
+-    }
++    g_unlink(src_tpm_addr->u.q_unix.path);
++    qapi_free_SocketAddress(src_tpm_addr);
+ }
 -- 
 2.20.1
 
