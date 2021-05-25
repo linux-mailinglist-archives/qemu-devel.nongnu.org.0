@@ -2,52 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A91C39069A
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 18:26:17 +0200 (CEST)
-Received: from localhost ([::1]:51754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87FA939066D
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 18:17:50 +0200 (CEST)
+Received: from localhost ([::1]:53488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llZsm-0001Aa-2N
-	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 12:26:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60650)
+	id 1llZkb-0008Oe-HF
+	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 12:17:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60614)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1llYeo-0002Lk-TK
- for qemu-devel@nongnu.org; Tue, 25 May 2021 11:07:46 -0400
-Received: from mail-pf1-x435.google.com ([2607:f8b0:4864:20::435]:36707)
+ id 1llYen-0002Fc-DI
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 11:07:45 -0400
+Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e]:40498)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1llYeU-0006nD-Nf
- for qemu-devel@nongnu.org; Tue, 25 May 2021 11:07:46 -0400
-Received: by mail-pf1-x435.google.com with SMTP id c12so12247783pfl.3
+ id 1llYeW-0006nR-Gh
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 11:07:45 -0400
+Received: by mail-pf1-x42e.google.com with SMTP id x188so23833956pfd.7
  for <qemu-devel@nongnu.org>; Tue, 25 May 2021 08:07:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=0sbWGfdi+vZU0+T2mHM/iN4YQ8XRnXrlumJZuqrhiwA=;
- b=U8vlAa+CqUqKsS5kvTd4vH9kS4wTp9q+Jxb6pGIzpbSgvDSw6fd/MMWunDL+NLsG26
- TtVMeR7PxC9+iE0/15EdBl5MnU1lTNQ/MoTkrnL385fNBfNYWFCU1X+LwZxSueT28lAF
- zpXu18aZTFFuKLjlyUtcuMvLquygWFcP+dnIoOgnGwecLv3CQLDkxvZL6Qw+rj9Z8zS5
- JV3PNkLHD/vyz8RtmKCJLquLW4oCbIHJD0mwgmGjAu4ltG22W3tfQSpV8H5rJ/rDxvrE
- iwFudyL6pLWLbgIQ6NV83E5IeqObcWCJVSkWpWT4Ocm1jnH/ZBVLth0575woq9XTS15i
- Mdsg==
+ bh=jPESxkdne1pl9qKkpnJVzbPwFkDrkEve1zwqkORGLuk=;
+ b=NrGyYqhvhZuyBq9Zo6J0tCtHCQFS5Dic6ht7OBRcJpUL99xtoCLqUw+nf6qYU3/EiA
+ AFP4Yr8iNVTAoEn5J4jEeEArpqakV69lObkYY6tE/hWD+6Vl0Qc+hfA2KEghP4R64r3L
+ uoCze7IGdYVFmpShAO6IAUzCElRAQvJl6V/6xJ+f9fQLRb5fPDj43oHjriUYrkqDnrdS
+ qgAWzLYrAZW/16yd9BWmwVKz95LNiBIU8Bjm4fqMgtBczjk64OGgbMECOSo8q3IjDJqJ
+ ovImFwKwg7Cn4RxzIQ85RTwIkaWRRjOSd+qHPKRnffAt0WPg7AygbbbLCIS0ORe6//HT
+ a88A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=0sbWGfdi+vZU0+T2mHM/iN4YQ8XRnXrlumJZuqrhiwA=;
- b=tNl04iwYZXE8qSL7AmA4WW0pLrTjuejhQCMt7GxIrJEkY1G9zcUL+4EvlqgpuZgoXu
- 08f4VXe6+RPXqxLdLTQ/9+v6qrZ2QT2FpVtOGazmTKXymz1EbVlZLA91y2k1ED4G8Mzs
- l6o/b7lPqwg1lF9D6x8oRMlr26kaIXnaYfokiBklSnzCDh1GHzJwOkxi58g2wUVP7ICY
- auwPG7XKzBJcv769PQD4QNzdV3PrcYbmxd9vu6wPwOMIREu7Jj5Q9qWSRrc8WZRb0E8P
- 0PnquSvS6IlbulCQfcrhM1Q89Wbml+a4CdJPes/7IVIHDjBIuw2FWcRivQllBsfpk3Lg
- voVA==
-X-Gm-Message-State: AOAM5317XtAn6k39Zvf2FeRcN8sFeILmQ5xkXD9JM+vdx87vY97ZTgQD
- e6jOrxzM3kFlaB4N8m0v4Q1L0FZXqPkJrw==
-X-Google-Smtp-Source: ABdhPJwGcue5TJ+DsiKWedst7PvNld1ZVc4xnxsRM2I5bGo6pso0LwmKsqWRJ0ckfdDp0vEewrt7Nw==
-X-Received: by 2002:aa7:982e:0:b029:2e4:eef5:e0c9 with SMTP id
- q14-20020aa7982e0000b02902e4eef5e0c9mr22082764pfl.3.1621955245403; 
- Tue, 25 May 2021 08:07:25 -0700 (PDT)
+ bh=jPESxkdne1pl9qKkpnJVzbPwFkDrkEve1zwqkORGLuk=;
+ b=m4HXz0Fg35VCMLIqD8/mfmwe0uXlXZidt+nkCbCnXEEcKlM+xIldIjEje+7WjuJTlm
+ Uq9fF2t7nMvsjGCMZ8kFFZ3rWpRCxNul3sv1kO4+1UluI95fzXza5Jf8ijuUqygvOBk2
+ yY8nLHjz61IuPGAxUHwJr40E7fWxldGAxCfIk79IT/WZIf1ubyK6CLcZxOe//YXa4Kxc
+ C9Qee6CrFXIq7VkJquRGU12JGDNLKYj0OLxW8SOrvKf33djS1dH4sXbccet45VnVyiXc
+ XLaziyKsSq5/f6DXJ3UaEpCdKpq01RuWP5mmM/fsk16UhcPQjRlJs4nPmczZwHStj6Yu
+ 7s0Q==
+X-Gm-Message-State: AOAM531ILG13iAa7mMKldsSbav75jBuzoPQGTECYJ0Gi9JZ5rWo2dQfg
+ 0P0Q9pzij0Et1IlBMnDBUwhIVURUYAnnJw==
+X-Google-Smtp-Source: ABdhPJweyp9UkGj20z6Z7ile+Zoy0L+9BRFNy465G+TwlfgiQAvKKjzXCI8M/98KpbVaEH7pQXw58g==
+X-Received: by 2002:a63:5c1:: with SMTP id 184mr19617387pgf.75.1621955246013; 
+ Tue, 25 May 2021 08:07:26 -0700 (PDT)
 Received: from localhost.localdomain (174-21-70-228.tukw.qwest.net.
  [174.21.70.228])
  by smtp.gmail.com with ESMTPSA id z19sm2231943pjq.11.2021.05.25.08.07.25
@@ -55,17 +54,17 @@ Received: from localhost.localdomain (174-21-70-228.tukw.qwest.net.
  Tue, 25 May 2021 08:07:25 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 27/28] tests/fp: Enable more tests
-Date: Tue, 25 May 2021 08:07:05 -0700
-Message-Id: <20210525150706.294968-28-richard.henderson@linaro.org>
+Subject: [PATCH v2 28/28] softfloat: Use hard-float for {u}int64_to_float{32,
+ 64}
+Date: Tue, 25 May 2021 08:07:06 -0700
+Message-Id: <20210525150706.294968-29-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210525150706.294968-1-richard.henderson@linaro.org>
 References: <20210525150706.294968-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x435.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,85 +88,76 @@ Cc: alex.bennee@linaro.org, david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alex Bennée <alex.bennee@linaro.org>
+For the normal case of no additional scaling, this reduces the
+profile contribution of int64_to_float64 to the testcase in the
+linked issue from 0.81% to 0.04%.
 
-Fix the trivial typo in extF80_lt_quiet, and re-enable
-all of the floatx80 tests that are now fixed.
-
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-ID: <87bl9iyahr.fsf@linaro.org>
-[rth: Squash the fix for lt_quiet, and enable that too.]
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/134
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tests/fp/wrap.c.inc  |  2 +-
- tests/fp/meson.build | 16 +++++++---------
- 2 files changed, 8 insertions(+), 10 deletions(-)
+ fpu/softfloat.c | 28 ++++++++++++++++++++++++++++
+ 1 file changed, 28 insertions(+)
 
-diff --git a/tests/fp/wrap.c.inc b/tests/fp/wrap.c.inc
-index cb1bb77e4c..9ff884c140 100644
---- a/tests/fp/wrap.c.inc
-+++ b/tests/fp/wrap.c.inc
-@@ -643,7 +643,7 @@ WRAP_CMP80(qemu_extF80M_eq, floatx80_eq_quiet)
- WRAP_CMP80(qemu_extF80M_le, floatx80_le)
- WRAP_CMP80(qemu_extF80M_lt, floatx80_lt)
- WRAP_CMP80(qemu_extF80M_le_quiet, floatx80_le_quiet)
--WRAP_CMP80(qemu_extF80M_lt_quiet, floatx80_le_quiet)
-+WRAP_CMP80(qemu_extF80M_lt_quiet, floatx80_lt_quiet)
- #undef WRAP_CMP80
+diff --git a/fpu/softfloat.c b/fpu/softfloat.c
+index b0df5b6dc5..79b2205070 100644
+--- a/fpu/softfloat.c
++++ b/fpu/softfloat.c
+@@ -3559,6 +3559,13 @@ float32 int64_to_float32_scalbn(int64_t a, int scale, float_status *status)
+ {
+     FloatParts64 p;
  
- #define WRAP_CMP128(name, func)                                         \
-diff --git a/tests/fp/meson.build b/tests/fp/meson.build
-index 9218bfd3b0..07e2cdc8d2 100644
---- a/tests/fp/meson.build
-+++ b/tests/fp/meson.build
-@@ -556,7 +556,9 @@ softfloat_conv_tests = {
-                       'extF80_to_f64 extF80_to_f128 ' +
-                       'f128_to_f16',
-     'int-to-float': 'i32_to_f16 i64_to_f16 i32_to_f32 i64_to_f32 ' +
--                    'i32_to_f64 i64_to_f64 i32_to_f128 i64_to_f128',
-+                    'i32_to_f64 i64_to_f64 ' +
-+                    'i32_to_extF80 i64_to_extF80 ' +
-+                    'i32_to_f128 i64_to_f128',
-     'uint-to-float': 'ui32_to_f16 ui64_to_f16 ui32_to_f32 ui64_to_f32 ' +
-                      'ui32_to_f64 ui64_to_f64 ui64_to_f128 ' +
-                      'ui32_to_extF80 ui64_to_extF80',
-@@ -581,7 +583,7 @@ softfloat_conv_tests = {
-                      'extF80_to_ui64 extF80_to_ui64_r_minMag ' +
-                      'f128_to_ui64 f128_to_ui64_r_minMag',
-     'round-to-integer': 'f16_roundToInt f32_roundToInt ' +
--                        'f64_roundToInt f128_roundToInt'
-+                        'f64_roundToInt extF80_roundToInt f128_roundToInt'
- }
- softfloat_tests = {
-     'eq_signaling' : 'compare',
-@@ -602,24 +604,20 @@ fptest_args = ['-s', '-l', '1']
- fptest_rounding_args = ['-r', 'all']
- 
- # Conversion Routines:
--# FIXME: i32_to_extF80 (broken), i64_to_extF80 (broken)
--#        extF80_roundToInt (broken)
- foreach k, v : softfloat_conv_tests
-   test('fp-test-' + k, fptest,
-        args: fptest_args + fptest_rounding_args + v.split(),
-        suite: ['softfloat', 'softfloat-conv'])
- endforeach
- 
--# FIXME: extF80_{lt_quiet, rem} (broken),
--#        extF80_{mulAdd} (missing)
- foreach k, v : softfloat_tests
--  extF80_broken = ['lt_quiet', 'rem'].contains(k)
-   test('fp-test-' + k, fptest,
-        args: fptest_args + fptest_rounding_args +
--             ['f16_' + k, 'f32_' + k, 'f64_' + k, 'f128_' + k] +
--             (extF80_broken ? [] : ['extF80_' + k]),
-+             ['f16_' + k, 'f32_' + k, 'f64_' + k, 'f128_' + k, 'extF80_' + k],
-        suite: ['softfloat', 'softfloat-' + v])
- endforeach
++    /* Without scaling, there are no overflow concerns. */
++    if (likely(scale == 0) && can_use_fpu(status)) {
++        union_float32 ur;
++        ur.h = a;
++        return ur.s;
++    }
 +
-+# FIXME: extF80_{mulAdd} (missing)
- test('fp-test-mulAdd', fptest,
-      # no fptest_rounding_args
-      args: fptest_args +
+     parts64_sint_to_float(&p, a, scale, status);
+     return float32_round_pack_canonical(&p, status);
+ }
+@@ -3592,6 +3599,13 @@ float64 int64_to_float64_scalbn(int64_t a, int scale, float_status *status)
+ {
+     FloatParts64 p;
+ 
++    /* Without scaling, there are no overflow concerns. */
++    if (likely(scale == 0) && can_use_fpu(status)) {
++        union_float64 ur;
++        ur.h = a;
++        return ur.s;
++    }
++
+     parts_sint_to_float(&p, a, scale, status);
+     return float64_round_pack_canonical(&p, status);
+ }
+@@ -3726,6 +3740,13 @@ float32 uint64_to_float32_scalbn(uint64_t a, int scale, float_status *status)
+ {
+     FloatParts64 p;
+ 
++    /* Without scaling, there are no overflow concerns. */
++    if (likely(scale == 0) && can_use_fpu(status)) {
++        union_float32 ur;
++        ur.h = a;
++        return ur.s;
++    }
++
+     parts_uint_to_float(&p, a, scale, status);
+     return float32_round_pack_canonical(&p, status);
+ }
+@@ -3759,6 +3780,13 @@ float64 uint64_to_float64_scalbn(uint64_t a, int scale, float_status *status)
+ {
+     FloatParts64 p;
+ 
++    /* Without scaling, there are no overflow concerns. */
++    if (likely(scale == 0) && can_use_fpu(status)) {
++        union_float64 ur;
++        ur.h = a;
++        return ur.s;
++    }
++
+     parts_uint_to_float(&p, a, scale, status);
+     return float64_round_pack_canonical(&p, status);
+ }
 -- 
 2.25.1
 
