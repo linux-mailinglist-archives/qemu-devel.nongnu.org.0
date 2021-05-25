@@ -2,73 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAFF1390C8D
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 01:00:17 +0200 (CEST)
-Received: from localhost ([::1]:59082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 409AB390CA7
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 01:02:44 +0200 (CEST)
+Received: from localhost ([::1]:39548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llg24-0005Oc-9J
-	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 19:00:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52670)
+	id 1llg4R-0002mL-9X
+	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 19:02:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52692)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1llg0N-0002XM-TK
- for qemu-devel@nongnu.org; Tue, 25 May 2021 18:58:31 -0400
-Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e]:37612)
+ id 1llg0Q-0002Xy-QL
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 18:58:34 -0400
+Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431]:33734)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1llg0D-0004ma-Bg
- for qemu-devel@nongnu.org; Tue, 25 May 2021 18:58:31 -0400
-Received: by mail-pg1-x52e.google.com with SMTP id t193so23956182pgb.4
- for <qemu-devel@nongnu.org>; Tue, 25 May 2021 15:58:19 -0700 (PDT)
+ id 1llg0D-0004mi-AQ
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 18:58:34 -0400
+Received: by mail-pf1-x431.google.com with SMTP id f22so16404575pfn.0
+ for <qemu-devel@nongnu.org>; Tue, 25 May 2021 15:58:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=VduqsqOC/yk2t9Dar2PD6vtb7T2o9BkDw/NGRdbLG/c=;
- b=VTUbtYV0iXVS1OG8nL01Kaa4IVJnKkUyXG0vwc9pq66+LmoVvUpprC+gHirmqv5QWp
- jZ9Um6QvqrYYYw4Xev0I3GkgUwqr8ZVr0TLQ0d96M9abXnEvyfLMOrvDPwH/JHn+5J+8
- KnMzs9VQYasjdFZCOp+3JyXjyO8nNwGQtP+PmVpynu6xR07ipzHZXesnoM6m69tB5OG3
- yMmiFSs101djD+zfJKVVFiwZ14ByJgUeC9OFrAOrbyjlauZKOkVptOFeE/RwZ6FiysVY
- I85GPnji4klVM9tBzM/yOp1hA0qKeE9NKc+lxBC0aDIu4dEVmSKsPln2izvE6KAtgjRc
- MtGg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=8bLZEVg63JaCjb9TWm4+laNRS99dgK9U+MbZ27NccEw=;
+ b=TRb5zPZWkDydE5beewV/dSXXZDQXwFZ3e2LtR0n9k7trovaBOMyP8QaSywK/JPXU9j
+ T2uXJZOLu8XJKwheNXmL7+Aj/IN+H85BnLsA2Zl9S7hR9J6rxbzKJ3cOD43KED5opHpn
+ 8a+4UDrr18tPwySL79pAsePR4MAjg0INEFwR0SPen43MNjxxEHNluhcZTzLVPbEXgbx9
+ xKIinkP7px5aSMen3UyN+FnG2bQOHg3yOqdkG7akHsZGLKfH03XoNuRw6CRiVX0OE7BV
+ T/+wdKHo1PODD0vX/CQBT7m2/6xh5xBiTLKrIOopvoJ7KeDVnhvuo2Xzkw1wRe6Ya/NX
+ hcIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=VduqsqOC/yk2t9Dar2PD6vtb7T2o9BkDw/NGRdbLG/c=;
- b=OLGPcagMK/lIrM3T/D0U45Ll2h0Ete1eGeRqKMqNot9hzUXxarYsv9+/sc5UiffnWN
- IbIxqoPNQTbx1HubLrveqpsAYVmywl1kQwbdHK28AjMruj8ll8GTha2GKeY2K6nqLIRC
- iLg6vZRimrmELC4dE5xA2D+9yryZuhg3BCjYHw4QHhC7ThXwGsXKyHjOTJOuaf46OHes
- y3z5GADsVw0wN3qCfbTg2j747Y8t5xVFf+5Osg3JUPxjkiDe7HEE4fzvoySWnLZkKmTt
- dgfyL82ScjxnBSNkqkXyOa3ahaKWGlWKg/GAv3nbNj5J+nqOUrhzFgLIqbkY5rRgF/A2
- OGJw==
-X-Gm-Message-State: AOAM533b43jwb+J/10cVKHpasId/vRLRk9EwvwyI7h1hqlVXYbquX5js
- cN8pyTSCryKpT5TXcJKmAXM7Ueih/4GtdA==
-X-Google-Smtp-Source: ABdhPJzVRCmhLG1Yl+Zk0R7KP8DkzkyV1KwPwW8jv8qYuMymPlb91GNr/yor3jKy64kAarVi1gDsbw==
-X-Received: by 2002:a63:1d61:: with SMTP id d33mr21366640pgm.331.1621983498522; 
- Tue, 25 May 2021 15:58:18 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=8bLZEVg63JaCjb9TWm4+laNRS99dgK9U+MbZ27NccEw=;
+ b=jTF+UrL5YQVDXh7V3HHgB5W3Bi+GUL9MoCsLIPOAgxpfHlfC7B2XAk8eJdWXUXEoGv
+ IHQmtBgkUarysQs0G7p/0dvTC+4vTIrydJ3EdD9DM0+yP4iihHTQVSdIFjvAXJmDoJXL
+ zeDeQ0vq7GIC3uWnEeNzaPd1Co2KQj01X5m0CUw5SLee+ng4IwWLeBclWlAMoph4HOX+
+ 30E5WOFAkzUupDwsr93pOmke4LzbyS0QSKvsX9G1wGIVO1AxmHHgXuuX8i3/aM8jd2D5
+ sLIs+rbAxcmrpn+4uoO18Lm7rV6mXSa+lb+mOIzUCZusQVXvArosz7apWDK7ad13iBKf
+ LPVw==
+X-Gm-Message-State: AOAM531C0iF5OOjSePjRbKPH5gV/jssR6UdmUbzOhhhDVxmEW/ZkX5a1
+ CILOiNxGuUZIiOBmB0JYuTTriEOZTyhUFQ==
+X-Google-Smtp-Source: ABdhPJxfPFKVOXLPbVEBZiw5q3cTTI02TpZhuctSEdpU94QJbvGOn/Tvlbsf6GkhVh4zUKr6IFS1+A==
+X-Received: by 2002:a62:60c2:0:b029:2cb:70a7:a8ce with SMTP id
+ u185-20020a6260c20000b02902cb70a7a8cemr32545879pfb.77.1621983499252; 
+ Tue, 25 May 2021 15:58:19 -0700 (PDT)
 Received: from localhost.localdomain (174-21-70-228.tukw.qwest.net.
  [174.21.70.228])
- by smtp.gmail.com with ESMTPSA id l6sm1669928pjf.28.2021.05.25.15.58.17
+ by smtp.gmail.com with ESMTPSA id l6sm1669928pjf.28.2021.05.25.15.58.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 May 2021 15:58:18 -0700 (PDT)
+ Tue, 25 May 2021 15:58:19 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 00/12] target/arm: Implement BFloat16
-Date: Tue, 25 May 2021 15:58:05 -0700
-Message-Id: <20210525225817.400336-1-richard.henderson@linaro.org>
+Subject: [PATCH v2 01/12] target/arm: Add isar_feature_{aa32, aa64,
+ aa64_sve}_bf16
+Date: Tue, 25 May 2021 15:58:06 -0700
+Message-Id: <20210525225817.400336-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210525225817.400336-1-richard.henderson@linaro.org>
+References: <20210525225817.400336-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x431.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,64 +85,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Whee!  All prerequisites are now merged.
+Note that the SVE BFLOAT16 support does not require SVE2,
+it is an independent extension.
 
-Patches missing r-b:
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ target/arm/cpu.h | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-  05-softfpu-Add-float_round_to_odd_inf.patch
-  06-target-arm-Implement-bfloat16-dot-product-vector.patch
-  07-target-arm-Implement-bfloat16-dot-product-indexed.patch
-  11-linux-user-aarch64-Enable-hwcap-bits-for-bfloat16.patch
-  12-target-arm-Enable-BFloat16-extensions.patch
-
-Per the question of whether additional checks vs VFP or NEON
-are required, I have disabled BF16 when either VFP or NEON are
-also disabled.  Which seems like a similarly reasonable choice.
-
-
-r~
-
-
-Richard Henderson (12):
-  target/arm: Add isar_feature_{aa32,aa64,aa64_sve}_bf16
-  target/arm: Unify unallocated path in disas_fp_1src
-  target/arm: Implement scalar float32 to bfloat16 conversion
-  target/arm: Implement vector float32 to bfloat16 conversion
-  softfpu: Add float_round_to_odd_inf
-  target/arm: Implement bfloat16 dot product (vector)
-  target/arm: Implement bfloat16 dot product (indexed)
-  target/arm: Implement bfloat16 matrix multiply accumulate
-  target/arm: Implement bfloat widening fma (vector)
-  target/arm: Implement bfloat widening fma (indexed)
-  linux-user/aarch64: Enable hwcap bits for bfloat16
-  target/arm: Enable BFloat16 extensions
-
- include/fpu/softfloat-types.h |   4 +-
- target/arm/cpu.h              |  15 ++++
- target/arm/helper-sve.h       |   4 +
- target/arm/helper.h           |  15 ++++
- target/arm/neon-dp.decode     |   1 +
- target/arm/neon-shared.decode |  11 +++
- target/arm/sve.decode         |  19 ++++-
- target/arm/vfp.decode         |   2 +
- linux-user/elfload.c          |   2 +
- target/arm/cpu.c              |   3 +
- target/arm/cpu64.c            |   3 +
- target/arm/cpu_tcg.c          |   1 +
- target/arm/sve_helper.c       |   2 +
- target/arm/translate-a64.c    | 142 +++++++++++++++++++++++++++++-----
- target/arm/translate-neon.c   |  91 ++++++++++++++++++++++
- target/arm/translate-sve.c    | 112 +++++++++++++++++++++++++++
- target/arm/translate-vfp.c    |  24 ++++++
- target/arm/vec_helper.c       | 140 ++++++++++++++++++++++++++++++++-
- target/arm/vfp_helper.c       |  12 +++
- fpu/softfloat-parts.c.inc     |   6 +-
- 20 files changed, 584 insertions(+), 25 deletions(-)
-
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index 04f8be35bf..d68275b15e 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -3783,6 +3783,11 @@ static inline bool isar_feature_aa32_predinv(const ARMISARegisters *id)
+     return FIELD_EX32(id->id_isar6, ID_ISAR6, SPECRES) != 0;
+ }
+ 
++static inline bool isar_feature_aa32_bf16(const ARMISARegisters *id)
++{
++    return FIELD_EX32(id->id_isar6, ID_ISAR6, BF16) != 0;
++}
++
+ static inline bool isar_feature_aa32_i8mm(const ARMISARegisters *id)
+ {
+     return FIELD_EX32(id->id_isar6, ID_ISAR6, I8MM) != 0;
+@@ -4122,6 +4127,11 @@ static inline bool isar_feature_aa64_dcpodp(const ARMISARegisters *id)
+     return FIELD_EX64(id->id_aa64isar1, ID_AA64ISAR1, DPB) >= 2;
+ }
+ 
++static inline bool isar_feature_aa64_bf16(const ARMISARegisters *id)
++{
++    return FIELD_EX64(id->id_aa64isar1, ID_AA64ISAR1, BF16) != 0;
++}
++
+ static inline bool isar_feature_aa64_fp_simd(const ARMISARegisters *id)
+ {
+     /* We always set the AdvSIMD and FP fields identically.  */
+@@ -4266,6 +4276,11 @@ static inline bool isar_feature_aa64_sve2_bitperm(const ARMISARegisters *id)
+     return FIELD_EX64(id->id_aa64zfr0, ID_AA64ZFR0, BITPERM) != 0;
+ }
+ 
++static inline bool isar_feature_aa64_sve_bf16(const ARMISARegisters *id)
++{
++    return FIELD_EX64(id->id_aa64zfr0, ID_AA64ZFR0, BFLOAT16) != 0;
++}
++
+ static inline bool isar_feature_aa64_sve2_sha3(const ARMISARegisters *id)
+ {
+     return FIELD_EX64(id->id_aa64zfr0, ID_AA64ZFR0, SHA3) != 0;
 -- 
 2.25.1
 
