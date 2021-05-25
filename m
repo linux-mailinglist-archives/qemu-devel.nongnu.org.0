@@ -2,68 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48FE839076F
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 19:22:36 +0200 (CEST)
-Received: from localhost ([::1]:49834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB28639070C
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 May 2021 19:01:15 +0200 (CEST)
+Received: from localhost ([::1]:40028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llalH-0006pi-7n
-	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 13:22:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56012)
+	id 1llaQc-0003TH-NF
+	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 13:01:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55038)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1llaLT-0003Eh-Rw
- for qemu-devel@nongnu.org; Tue, 25 May 2021 12:55:57 -0400
-Received: from indium.canonical.com ([91.189.90.7]:38834)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1llaLL-00078I-SS
- for qemu-devel@nongnu.org; Tue, 25 May 2021 12:55:55 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1llaLK-00059q-Dr
- for <qemu-devel@nongnu.org>; Tue, 25 May 2021 16:55:46 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 664982E805B
- for <qemu-devel@nongnu.org>; Tue, 25 May 2021 16:55:46 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1llaHs-0002qw-TH
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 12:52:14 -0400
+Resent-Date: Tue, 25 May 2021 12:52:12 -0400
+Resent-Message-Id: <E1llaHs-0002qw-TH@lists.gnu.org>
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21308)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1llaHq-0005E3-K6
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 12:52:12 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1621961518; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=dn7FVYh836B9jTaPj28B6rMZbKXPDPM1Cor2MgTRQnVKCQFTRbaUdj0dzU/6JqslQAKqaMK7CRoq6ItxxdsoWus5kLe2Gpg3alPbx8BU7II2u+/Mqtii1M8/aEH73iuRc2V+V/BoJpC3LjDSMT+GhdNONv+eJCym0DLfgKnG5o8=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1621961518;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=VPrSydz7vqpoM1Em8SGWsY+HrP/hzZKAFGjadpv/RhM=; 
+ b=m3IBE2dQ+dXUVKPB2ZVvaVNhEaoCmQMptsBggtbN84y+TE+CbjUpltFumwTbM8cD/B9NRAwBl8fbiKHJ5SMhvxJcaTyziyLfqbArLdVp5MvuCpxreEPXZo/sVDlKvl7+wonXqvyJxSxtLwOaW0ELVObP/uQzPRBFQwzESb4GVio=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1621961515176578.7981133748273;
+ Tue, 25 May 2021 09:51:55 -0700 (PDT)
+In-Reply-To: <20210525150706.294968-1-richard.henderson@linaro.org>
+Subject: Re: [PATCH v2 00/28] Convert floatx80 and float128 to FloatParts
+Message-ID: <162196151385.982.10502050465240379346@0addf061776e>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 25 May 2021 16:45:58 -0000
-From: Alexander Bulekov <1878034@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: a1xndr th-huth
-X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
-X-Launchpad-Bug-Modifier: Alexander Bulekov (a1xndr)
-References: <158921238974.12092.6203453160058985938.malonedeb@wampee.canonical.com>
- <162193082612.32743.13130558416947123524.malone@soybean.canonical.com>
-Message-Id: <20210525164558.al6lgxlzh26x3inu@mozz.bu.edu>
-Subject: Re: [Bug 1878034] Re: memcpy param-overlap through
- e1000e_write_to_rx_buffers
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="30919b71da718d7d3f6b69e715e9fe95f7c3c5de"; Instance="production"
-X-Launchpad-Hash: a0feb7045a475a96aa802464c0a2426a80b7b39d
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: richard.henderson@linaro.org
+Date: Tue, 25 May 2021 09:51:55 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o53.zoho.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
  RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,297 +66,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1878034 <1878034@bugs.launchpad.net>
+Reply-To: qemu-devel@nongnu.org
+Cc: alex.bennee@linaro.org, qemu-devel@nongnu.org, david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Seems to still be a problem. Here's the reproducer found by OSS-Fuzz:
-https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=3D29586
-
-cat << EOF | ./qemu-system-i386 -display none -machine accel=3Dqtest, -m \
-512M -M q35 -nodefaults -device e1000e,netdev=3Dnet0 -netdev user,id=3Dnet0=
- \
--qtest /dev/null -qtest stdio
-outl 0xcf8 0x80000811
-outl 0xcfc 0x5ac600
-outl 0xcf8 0x80000801
-outl 0xcfc 0x06000000
-write 0x5ac60100 0x4 0x56000302
-write 0x5ac6011a 0x2 0x0106
-write 0x5ac60120 0x1 0x25
-write 0x5ac6042a 0x2 0x0248
-write 0x5ac60431 0x1 0x04
-write 0x4240 0x1 0xff
-write 0x4241 0x1 0x01
-write 0x4249 0x1 0xf5
-write 0x1ff 0x1 0x01
-write 0x5ac60403 0x1 0x02
-write 0x5ac6043a 0x2 0x2800
-write 0x5ac60112 0x2 0xf090
-write 0x5ac60430 0x1 0x00
-write 0x239 0x1 0xff
-write 0x23b 0x1 0x01
-write 0x9531 0x1 0xff
-write 0x9532 0x1 0xff
-write 0x9533 0x1 0xff
-write 0x9534 0x1 0xff
-write 0x9535 0x1 0xff
-write 0x9536 0x1 0xff
-write 0x9537 0x1 0xff
-write 0x5ac60403 0x1 0x02
-EOF
-
-
-On 210525 0820, Thomas Huth wrote:
-> Can you still reproduce the crash with the current version of QEMU? At
-> least I cannot reproduce the crash anymore, so it seems like this got
-> fixed at one point in time?
-> =
-
-> ** Changed in: qemu
->        Status: New =3D> Incomplete
-> =
-
-> -- =
-
-> You received this bug notification because you are subscribed to the bug
-> report.
-> https://bugs.launchpad.net/bugs/1878034
-> =
-
-> Title:
->   memcpy param-overlap through e1000e_write_to_rx_buffers
-> =
-
-> Status in QEMU:
->   Incomplete
-> =
-
-> Bug description:
->   Hello,
->   While fuzzing, I found an input that triggers an overlapping memcpy (ca=
-ught by AddressSanitizer).
->   Overlapping memcpys are undefined behavior according to the POSIX and C=
- standards, and can lead to bugs.
-> =
-
->   =3D=3D22287=3D=3DERROR: AddressSanitizer: memcpy-param-overlap: memory =
-ranges
->   #0 0x563c9f4823d4 in __asan_memcpy (/home/alxndr/Development/qemu/build=
-/i386-softmmu/qemu-system-i386+0x97a3d4)
->   #1 0x563c9f4cb2b1 in flatview_write_continue /home/alxndr/Development/q=
-emu/exec.c:3142:13
->   #2 0x563c9f4c3b97 in flatview_write /home/alxndr/Development/qemu/exec.=
-c:3177:14
->   #3 0x563c9f4c3b97 in address_space_write /home/alxndr/Development/qemu/=
-exec.c:3268:18
->   #4 0x563c9fbc457b in dma_memory_rw_relaxed /home/alxndr/Development/qem=
-u/include/sysemu/dma.h:87:18
->   #5 0x563c9fbc457b in dma_memory_rw /home/alxndr/Development/qemu/includ=
-e/sysemu/dma.h:110:12
->   #6 0x563c9fbc457b in pci_dma_rw /home/alxndr/Development/qemu/include/h=
-w/pci/pci.h:787:5
->   #7 0x563c9fbc457b in pci_dma_write /home/alxndr/Development/qemu/includ=
-e/hw/pci/pci.h:800:12
->   #8 0x563c9fbc457b in e1000e_write_to_rx_buffers /home/alxndr/Developmen=
-t/qemu/hw/net/e1000e_core.c:1412:9
->   #9 0x563c9fbb9c98 in e1000e_write_packet_to_guest /home/alxndr/Developm=
-ent/qemu/hw/net/e1000e_core.c:1582:21
->   #10 0x563c9fbb9c98 in e1000e_receive_iov /home/alxndr/Development/qemu/=
-hw/net/e1000e_core.c:1709:9
->   #11 0x563c9fba8080 in net_tx_pkt_sendv /home/alxndr/Development/qemu/hw=
-/net/net_tx_pkt.c:544:9
->   #12 0x563c9fba8080 in net_tx_pkt_send /home/alxndr/Development/qemu/hw/=
-net/net_tx_pkt.c:620:9
->   #13 0x563c9fba8827 in net_tx_pkt_send_loopback /home/alxndr/Development=
-/qemu/hw/net/net_tx_pkt.c:633:11
->   #14 0x563c9fbd2052 in e1000e_tx_pkt_send /home/alxndr/Development/qemu/=
-hw/net/e1000e_core.c:664:16
->   #15 0x563c9fbd2052 in e1000e_process_tx_desc /home/alxndr/Development/q=
-emu/hw/net/e1000e_core.c:743:17
->   #16 0x563c9fbd2052 in e1000e_start_xmit /home/alxndr/Development/qemu/h=
-w/net/e1000e_core.c:934:9
->   #17 0x563c9fbcecf0 in e1000e_set_tdt /home/alxndr/Development/qemu/hw/n=
-et/e1000e_core.c:2451:9
->   #18 0x563c9fbbf20c in e1000e_core_write /home/alxndr/Development/qemu/h=
-w/net/e1000e_core.c:3261:9
->   #19 0x563c9f5b68d6 in memory_region_write_accessor /home/alxndr/Develop=
-ment/qemu/memory.c:483:5
->   #20 0x563c9f5b627f in access_with_adjusted_size /home/alxndr/Developmen=
-t/qemu/memory.c:544:18
->   #21 0x563c9f5b627f in memory_region_dispatch_write /home/alxndr/Develop=
-ment/qemu/memory.c:1476:16
-> =
-
->   I can reproduce it in qemu 5.0 built with --enable-sanitizers using:
->   cat << EOF | ~/Development/qemu/build/i386-softmmu/qemu-system-i386 -M =
-pc-q35-5.0 -accel qtest -qtest stdio -nographic -monitor none -serial none
->   outl 0xcf8 0x80001010
->   outl 0xcfc 0xe1020000
->   outl 0xcf8 0x80001014
->   outl 0xcf8 0x80001004
->   outw 0xcfc 0x7
->   outl 0xcf8 0x800010a2
->   write 0xe102003a 0x3ff 0xd1055e2d3b0002e10000000001ffd3055e2d3b0002e100=
-00000001ffd5055e2d3b0002e10000000001ffd7055e2d3b0002e10000000001ffd9055e2d3=
-b0002e10000000001ffdb055e2d3b0002e10000000001ffdd055e2d3b0002e10000000001ff=
-df055e2d3b0002e10000000001ffe1055e2d3b0002e10000000001ffe3055e2d3b0002e1000=
-0000001ffe5055e2d3b0002e10000000001ffe7055e2d3b0002e10000000001ffe9055e2d3b=
-0002e10000000001ffeb055e2d3b0002e10000000001ffed055e2d3b0002e10000000001ffe=
-f055e2d3b0002e10000000001fff1055e2d3b0002e10000000001fff3055e2d3b0002e10000=
-000001fff5055e2d3b0002e10000000001fff7055e2d3b0002e10000000001fff9055e2d3b0=
-002e10000000001fffb055e2d3b0002e10000000001fffd055e2d3b0002e10000000001ffff=
-055e2d3b0002e10000000001ff01055e2d3b0002e10000000001ff03055e2d3b0002e100000=
-00001ff05055e2d3b0002e10000000001ff07055e2d3b0002e10000000001ff09055e2d3b00=
-02e10000000001ff0b055e2d3b0002e10000000001ff0d055e2d3b0002e10000000001ff0f0=
-55e2d3b0002e10000000001ff11055e2d3b0002e10000000001ff13055e2d3b0002e1000000=
-0001ff15055e2d3b0002e10000000001ff17055e2d3b0002e10000000001ff19055e2d3b000=
-2e10000000001ff1b055e2d3b0002e10000000001ff1d055e2d3b0002e10000000001ff1f05=
-5e2d3b0002e10000000001ff21055e2d3b0002e10000000001ff23055e2d3b0002e10000000=
-001ff25055e2d3b0002e10000000001ff27055e2d3b0002e10000000001ff29055e2d3b0002=
-e10000000001ff2b055e2d3b0002e10000000001ff2d055e2d3b0002e10000000001ff2f055=
-e2d3b0002e10000000001ff31055e2d3b0002e10000000001ff33055e2d3b0002e100000000=
-01ff35055e2d3b0002e10000000001ff37055e2d3b0002e10000000001ff39055e2d3b0002e=
-10000000001ff3b055e2d3b0002e10000000001ff3d055e2d3b0002e10000000001ff3f055e=
-2d3b0002e10000000001ff41055e2d3b0002e10000000001ff43055e2d3b0002e1000000000=
-1ff45055e2d3b0002e10000000001ff47055e2d3b0002e10000000001ff49055e2d3b0002e1=
-0000000001ff4b055e2d3b0002e10000000001ff4d055e2d3b0002e10000000001ff4f055e2=
-d3b0002e10000000001ff51055e2d3b0002e10000000001ff53055e2d3b0002e10000000001=
-ff55055e2d3b0002e10000000001ff57055e2d3b0002e10000000001ff59055e2d3b0002e10=
-000000001ff5b055e2d3b0002e10000000001ff5d055e2d3b0002e10000000001ff5f055e2d=
-3b0002e10000000001ff61055e2d3b0002e10000000001ff63
->   EOF
-> =
-
->   I also attached the trace to this launchpad report, in case the
->   formatting is broken:
-> =
-
->   qemu-system-i386 -M pc-q35-5.0 -accel qtest -qtest stdio -nographic
->   -monitor none -serial none < attachment
-> =
-
->   Please let me know if I can provide any further info.
->   -Alex
-> =
-
-> To manage notifications about this bug go to:
-> https://bugs.launchpad.net/qemu/+bug/1878034/+subscriptions
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1878034
-
-Title:
-  memcpy param-overlap through e1000e_write_to_rx_buffers
-
-Status in QEMU:
-  Incomplete
-
-Bug description:
-  Hello,
-  While fuzzing, I found an input that triggers an overlapping memcpy (caug=
-ht by AddressSanitizer).
-  Overlapping memcpys are undefined behavior according to the POSIX and C s=
-tandards, and can lead to bugs.
-
-  =3D=3D22287=3D=3DERROR: AddressSanitizer: memcpy-param-overlap: memory ra=
-nges
-  #0 0x563c9f4823d4 in __asan_memcpy (/home/alxndr/Development/qemu/build/i=
-386-softmmu/qemu-system-i386+0x97a3d4)
-  #1 0x563c9f4cb2b1 in flatview_write_continue /home/alxndr/Development/qem=
-u/exec.c:3142:13
-  #2 0x563c9f4c3b97 in flatview_write /home/alxndr/Development/qemu/exec.c:=
-3177:14
-  #3 0x563c9f4c3b97 in address_space_write /home/alxndr/Development/qemu/ex=
-ec.c:3268:18
-  #4 0x563c9fbc457b in dma_memory_rw_relaxed /home/alxndr/Development/qemu/=
-include/sysemu/dma.h:87:18
-  #5 0x563c9fbc457b in dma_memory_rw /home/alxndr/Development/qemu/include/=
-sysemu/dma.h:110:12
-  #6 0x563c9fbc457b in pci_dma_rw /home/alxndr/Development/qemu/include/hw/=
-pci/pci.h:787:5
-  #7 0x563c9fbc457b in pci_dma_write /home/alxndr/Development/qemu/include/=
-hw/pci/pci.h:800:12
-  #8 0x563c9fbc457b in e1000e_write_to_rx_buffers /home/alxndr/Development/=
-qemu/hw/net/e1000e_core.c:1412:9
-  #9 0x563c9fbb9c98 in e1000e_write_packet_to_guest /home/alxndr/Developmen=
-t/qemu/hw/net/e1000e_core.c:1582:21
-  #10 0x563c9fbb9c98 in e1000e_receive_iov /home/alxndr/Development/qemu/hw=
-/net/e1000e_core.c:1709:9
-  #11 0x563c9fba8080 in net_tx_pkt_sendv /home/alxndr/Development/qemu/hw/n=
-et/net_tx_pkt.c:544:9
-  #12 0x563c9fba8080 in net_tx_pkt_send /home/alxndr/Development/qemu/hw/ne=
-t/net_tx_pkt.c:620:9
-  #13 0x563c9fba8827 in net_tx_pkt_send_loopback /home/alxndr/Development/q=
-emu/hw/net/net_tx_pkt.c:633:11
-  #14 0x563c9fbd2052 in e1000e_tx_pkt_send /home/alxndr/Development/qemu/hw=
-/net/e1000e_core.c:664:16
-  #15 0x563c9fbd2052 in e1000e_process_tx_desc /home/alxndr/Development/qem=
-u/hw/net/e1000e_core.c:743:17
-  #16 0x563c9fbd2052 in e1000e_start_xmit /home/alxndr/Development/qemu/hw/=
-net/e1000e_core.c:934:9
-  #17 0x563c9fbcecf0 in e1000e_set_tdt /home/alxndr/Development/qemu/hw/net=
-/e1000e_core.c:2451:9
-  #18 0x563c9fbbf20c in e1000e_core_write /home/alxndr/Development/qemu/hw/=
-net/e1000e_core.c:3261:9
-  #19 0x563c9f5b68d6 in memory_region_write_accessor /home/alxndr/Developme=
-nt/qemu/memory.c:483:5
-  #20 0x563c9f5b627f in access_with_adjusted_size /home/alxndr/Development/=
-qemu/memory.c:544:18
-  #21 0x563c9f5b627f in memory_region_dispatch_write /home/alxndr/Developme=
-nt/qemu/memory.c:1476:16
-
-  I can reproduce it in qemu 5.0 built with --enable-sanitizers using:
-  cat << EOF | ~/Development/qemu/build/i386-softmmu/qemu-system-i386 -M pc=
--q35-5.0 -accel qtest -qtest stdio -nographic -monitor none -serial none
-  outl 0xcf8 0x80001010
-  outl 0xcfc 0xe1020000
-  outl 0xcf8 0x80001014
-  outl 0xcf8 0x80001004
-  outw 0xcfc 0x7
-  outl 0xcf8 0x800010a2
-  write 0xe102003a 0x3ff 0xd1055e2d3b0002e10000000001ffd3055e2d3b0002e10000=
-000001ffd5055e2d3b0002e10000000001ffd7055e2d3b0002e10000000001ffd9055e2d3b0=
-002e10000000001ffdb055e2d3b0002e10000000001ffdd055e2d3b0002e10000000001ffdf=
-055e2d3b0002e10000000001ffe1055e2d3b0002e10000000001ffe3055e2d3b0002e100000=
-00001ffe5055e2d3b0002e10000000001ffe7055e2d3b0002e10000000001ffe9055e2d3b00=
-02e10000000001ffeb055e2d3b0002e10000000001ffed055e2d3b0002e10000000001ffef0=
-55e2d3b0002e10000000001fff1055e2d3b0002e10000000001fff3055e2d3b0002e1000000=
-0001fff5055e2d3b0002e10000000001fff7055e2d3b0002e10000000001fff9055e2d3b000=
-2e10000000001fffb055e2d3b0002e10000000001fffd055e2d3b0002e10000000001ffff05=
-5e2d3b0002e10000000001ff01055e2d3b0002e10000000001ff03055e2d3b0002e10000000=
-001ff05055e2d3b0002e10000000001ff07055e2d3b0002e10000000001ff09055e2d3b0002=
-e10000000001ff0b055e2d3b0002e10000000001ff0d055e2d3b0002e10000000001ff0f055=
-e2d3b0002e10000000001ff11055e2d3b0002e10000000001ff13055e2d3b0002e100000000=
-01ff15055e2d3b0002e10000000001ff17055e2d3b0002e10000000001ff19055e2d3b0002e=
-10000000001ff1b055e2d3b0002e10000000001ff1d055e2d3b0002e10000000001ff1f055e=
-2d3b0002e10000000001ff21055e2d3b0002e10000000001ff23055e2d3b0002e1000000000=
-1ff25055e2d3b0002e10000000001ff27055e2d3b0002e10000000001ff29055e2d3b0002e1=
-0000000001ff2b055e2d3b0002e10000000001ff2d055e2d3b0002e10000000001ff2f055e2=
-d3b0002e10000000001ff31055e2d3b0002e10000000001ff33055e2d3b0002e10000000001=
-ff35055e2d3b0002e10000000001ff37055e2d3b0002e10000000001ff39055e2d3b0002e10=
-000000001ff3b055e2d3b0002e10000000001ff3d055e2d3b0002e10000000001ff3f055e2d=
-3b0002e10000000001ff41055e2d3b0002e10000000001ff43055e2d3b0002e10000000001f=
-f45055e2d3b0002e10000000001ff47055e2d3b0002e10000000001ff49055e2d3b0002e100=
-00000001ff4b055e2d3b0002e10000000001ff4d055e2d3b0002e10000000001ff4f055e2d3=
-b0002e10000000001ff51055e2d3b0002e10000000001ff53055e2d3b0002e10000000001ff=
-55055e2d3b0002e10000000001ff57055e2d3b0002e10000000001ff59055e2d3b0002e1000=
-0000001ff5b055e2d3b0002e10000000001ff5d055e2d3b0002e10000000001ff5f055e2d3b=
-0002e10000000001ff61055e2d3b0002e10000000001ff63
-  EOF
-
-  I also attached the trace to this launchpad report, in case the
-  formatting is broken:
-
-  qemu-system-i386 -M pc-q35-5.0 -accel qtest -qtest stdio -nographic
-  -monitor none -serial none < attachment
-
-  Please let me know if I can provide any further info.
-  -Alex
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1878034/+subscriptions
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDUyNTE1MDcwNi4yOTQ5
+NjgtMS1yaWNoYXJkLmhlbmRlcnNvbkBsaW5hcm8ub3JnLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNl
+ZW1zIHRvIGhhdmUgc29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cg
+Zm9yCm1vcmUgaW5mb3JtYXRpb246CgpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMjAyMTA1MjUx
+NTA3MDYuMjk0OTY4LTEtcmljaGFyZC5oZW5kZXJzb25AbGluYXJvLm9yZwpTdWJqZWN0OiBbUEFU
+Q0ggdjIgMDAvMjhdIENvbnZlcnQgZmxvYXR4ODAgYW5kIGZsb2F0MTI4IHRvIEZsb2F0UGFydHMK
+Cj09PSBURVNUIFNDUklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJzZSBiYXNl
+ID4gL2Rldi9udWxsIHx8IGV4aXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVsaW1p
+dCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmlnIC0tbG9j
+YWwgZGlmZi5hbGdvcml0aG0gaGlzdG9ncmFtCi4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIC0tbWFp
+bGJhY2sgYmFzZS4uCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgpVcGRhdGluZyAzYzhjZjVhOWMy
+MWZmODc4MjE2NGQxZGVmN2Y0NGJkODg4NzEzMzg0CkZyb20gaHR0cHM6Ly9naXRodWIuY29tL3Bh
+dGNoZXctcHJvamVjdC9xZW11CiAgIDBkYWIxZDMuLjkyZjhjNmYgIG1hc3RlciAgICAgLT4gbWFz
+dGVyCiAtIFt0YWcgdXBkYXRlXSAgICAgIHBhdGNoZXcvMjAyMTA1MjUxMzQ0NTguNjY3NS0xLXBl
+dGVyLm1heWRlbGxAbGluYXJvLm9yZyAtPiBwYXRjaGV3LzIwMjEwNTI1MTM0NDU4LjY2NzUtMS1w
+ZXRlci5tYXlkZWxsQGxpbmFyby5vcmcKICogW25ldyB0YWddICAgICAgICAgcGF0Y2hldy8yMDIx
+MDUyNTE1MDcwNi4yOTQ5NjgtMS1yaWNoYXJkLmhlbmRlcnNvbkBsaW5hcm8ub3JnIC0+IHBhdGNo
+ZXcvMjAyMTA1MjUxNTA3MDYuMjk0OTY4LTEtcmljaGFyZC5oZW5kZXJzb25AbGluYXJvLm9yZwpT
+d2l0Y2hlZCB0byBhIG5ldyBicmFuY2ggJ3Rlc3QnCjBmMDc3YTYgc29mdGZsb2F0OiBVc2UgaGFy
+ZC1mbG9hdCBmb3Ige3V9aW50NjRfdG9fZmxvYXR7MzIsIDY0fQphYmRjNTZhIHRlc3RzL2ZwOiBF
+bmFibGUgbW9yZSB0ZXN0cwo5MGViYzkxIHNvZnRmbG9hdDogQ29udmVydCBtb2RyZW0gb3BlcmF0
+aW9ucyB0byBGbG9hdFBhcnRzCjVlN2RhMDMgc29mdGZsb2F0OiBNb3ZlIGZsb2F0Tl9sb2cyIHRv
+IHNvZnRmbG9hdC1wYXJ0cy5jLmluYwo2MThhZGRjIHNvZnRmbG9hdDogQ29udmVydCBmbG9hdDMy
+X2V4cDIgdG8gRmxvYXRQYXJ0cwoxNGRkNjg3IHNvZnRmbG9hdDogQ29udmVydCBmbG9hdHg4MCBj
+b21wYXJlIHRvIEZsb2F0UGFydHMKNmJjZTVhNiBzb2Z0ZmxvYXQ6IENvbnZlcnQgZmxvYXR4ODBf
+c2NhbGJuIHRvIEZsb2F0UGFydHMKZDk3YWFkMCBzb2Z0ZmxvYXQ6IENvbnZlcnQgZmxvYXR4ODAg
+dG8gaW50ZWdlciB0byBGbG9hdFBhcnRzCjJjOThiZjcgc29mdGZsb2F0OiBDb252ZXJ0IGZsb2F0
+eDgwIGZsb2F0IGNvbnZlcnNpb25zIHRvIEZsb2F0UGFydHMKMGFhOWExOSBzb2Z0ZmxvYXQ6IENv
+bnZlcnQgaW50ZWdlciB0byBmbG9hdHg4MCB0byBGbG9hdFBhcnRzCjAwNGU3ZDUgc29mdGZsb2F0
+OiBDb252ZXJ0IGZsb2F0eDgwX3JvdW5kX3RvX2ludCB0byBGbG9hdFBhcnRzCjhlYjBmMGYgc29m
+dGZsb2F0OiBDb252ZXJ0IGZsb2F0eDgwX3JvdW5kIHRvIEZsb2F0UGFydHMKNGExMjk0NyBzb2Z0
+ZmxvYXQ6IENvbnZlcnQgZmxvYXR4ODBfc3FydCB0byBGbG9hdFBhcnRzCjA0Yjk3Mjggc29mdGZs
+b2F0OiBDb252ZXJ0IGZsb2F0eDgwX2RpdiB0byBGbG9hdFBhcnRzCjAwYTgxZjUgc29mdGZsb2F0
+OiBDb252ZXJ0IGZsb2F0eDgwX211bCB0byBGbG9hdFBhcnRzCjI5MDQ1OGEgc29mdGZsb2F0OiBD
+b252ZXJ0IGZsb2F0eDgwX2FkZC9zdWIgdG8gRmxvYXRQYXJ0cwpiMjliYjBkIHRlc3RzL2ZwL2Zw
+LXRlc3Q6IFJldmVyc2Ugb3JkZXIgb2YgZmxvYXR4ODAgcHJlY2lzaW9uIHRlc3RzCjY3OTk3OTEg
+c29mdGZsb2F0OiBBZGp1c3QgcGFydHNfdW5jYW5vbl9ub3JtYWwgZm9yIGZsb2F0eDgwCjc4OGQw
+ZmEgc29mdGZsb2F0OiBJbnRyb2R1Y2UgRmxvYXR4ODBSb3VuZFByZWMKZWE5ZjkwYSBzb2Z0Zmxv
+YXQ6IFJlZHVjZSBGbG9hdEZtdAo4YjdjNzQ5IHNvZnRmbG9hdDogU3BsaXQgb3V0IHBhcnRzX3Vu
+Y2Fub25fbm9ybWFsCjZlNDZmN2Egc29mdGZsb2F0OiBNb3ZlIHNxcnRfZmxvYXQgdG8gc29mdGZs
+b2F0LXBhcnRzLmMuaW5jCjUzNTYzZTQgc29mdGZsb2F0OiBNb3ZlIHNjYWxibl9kZWNvbXBvc2Vk
+IHRvIHNvZnRmbG9hdC1wYXJ0cy5jLmluYwplNWVhNjdjIHNvZnRmbG9hdDogTW92ZSBjb21wYXJl
+X2Zsb2F0cyB0byBzb2Z0ZmxvYXQtcGFydHMuYy5pbmMKZDAzZDUwMSBzb2Z0ZmxvYXQ6IE1vdmUg
+bWlubWF4X2ZsYWdzIHRvIHNvZnRmbG9hdC1wYXJ0cy5jLmluYwoxZGIyYmY0IHNvZnRmbG9hdDog
+TW92ZSB1aW50X3RvX2Zsb2F0IHRvIHNvZnRmbG9hdC1wYXJ0cy5jLmluYwpiMzc4ODliIHNvZnRm
+bG9hdDogTW92ZSBpbnRfdG9fZmxvYXQgdG8gc29mdGZsb2F0LXBhcnRzLmMuaW5jCjUyYjUxNzAg
+c29mdGZsb2F0OiBNb3ZlIHJvdW5kX3RvX3VpbnRfYW5kX3BhY2sgdG8gc29mdGZsb2F0LXBhcnRz
+LmMuaW5jCgo9PT0gT1VUUFVUIEJFR0lOID09PQoxLzI4IENoZWNraW5nIGNvbW1pdCA1MmI1MTcw
+ZjhjZTggKHNvZnRmbG9hdDogTW92ZSByb3VuZF90b191aW50X2FuZF9wYWNrIHRvIHNvZnRmbG9h
+dC1wYXJ0cy5jLmluYykKMi8yOCBDaGVja2luZyBjb21taXQgYjM3ODg5YmFkZDk3IChzb2Z0Zmxv
+YXQ6IE1vdmUgaW50X3RvX2Zsb2F0IHRvIHNvZnRmbG9hdC1wYXJ0cy5jLmluYykKMy8yOCBDaGVj
+a2luZyBjb21taXQgMWRiMmJmNDAxYTkyIChzb2Z0ZmxvYXQ6IE1vdmUgdWludF90b19mbG9hdCB0
+byBzb2Z0ZmxvYXQtcGFydHMuYy5pbmMpCjQvMjggQ2hlY2tpbmcgY29tbWl0IGQwM2Q1MDE3Mzdh
+MSAoc29mdGZsb2F0OiBNb3ZlIG1pbm1heF9mbGFncyB0byBzb2Z0ZmxvYXQtcGFydHMuYy5pbmMp
+CjUvMjggQ2hlY2tpbmcgY29tbWl0IGU1ZWE2N2NjNDdjNiAoc29mdGZsb2F0OiBNb3ZlIGNvbXBh
+cmVfZmxvYXRzIHRvIHNvZnRmbG9hdC1wYXJ0cy5jLmluYykKNi8yOCBDaGVja2luZyBjb21taXQg
+NTM1NjNlNDBlM2Q5IChzb2Z0ZmxvYXQ6IE1vdmUgc2NhbGJuX2RlY29tcG9zZWQgdG8gc29mdGZs
+b2F0LXBhcnRzLmMuaW5jKQo3LzI4IENoZWNraW5nIGNvbW1pdCA2ZTQ2ZjdhMzA3NjAgKHNvZnRm
+bG9hdDogTW92ZSBzcXJ0X2Zsb2F0IHRvIHNvZnRmbG9hdC1wYXJ0cy5jLmluYykKOC8yOCBDaGVj
+a2luZyBjb21taXQgOGI3Yzc0OTdkNTA3IChzb2Z0ZmxvYXQ6IFNwbGl0IG91dCBwYXJ0c191bmNh
+bm9uX25vcm1hbCkKOS8yOCBDaGVja2luZyBjb21taXQgZWE5ZjkwYTI3NzczIChzb2Z0ZmxvYXQ6
+IFJlZHVjZSBGbG9hdEZtdCkKMTAvMjggQ2hlY2tpbmcgY29tbWl0IDc4OGQwZmE4ZjQzOSAoc29m
+dGZsb2F0OiBJbnRyb2R1Y2UgRmxvYXR4ODBSb3VuZFByZWMpCjExLzI4IENoZWNraW5nIGNvbW1p
+dCA2Nzk5NzkxNTQ3YjkgKHNvZnRmbG9hdDogQWRqdXN0IHBhcnRzX3VuY2Fub25fbm9ybWFsIGZv
+ciBmbG9hdHg4MCkKMTIvMjggQ2hlY2tpbmcgY29tbWl0IGIyOWJiMGQ5NmQxNyAodGVzdHMvZnAv
+ZnAtdGVzdDogUmV2ZXJzZSBvcmRlciBvZiBmbG9hdHg4MCBwcmVjaXNpb24gdGVzdHMpCjEzLzI4
+IENoZWNraW5nIGNvbW1pdCAyOTA0NThhODI4ZDEgKHNvZnRmbG9hdDogQ29udmVydCBmbG9hdHg4
+MF9hZGQvc3ViIHRvIEZsb2F0UGFydHMpCjE0LzI4IENoZWNraW5nIGNvbW1pdCAwMGE4MWY1M2Zj
+YTggKHNvZnRmbG9hdDogQ29udmVydCBmbG9hdHg4MF9tdWwgdG8gRmxvYXRQYXJ0cykKMTUvMjgg
+Q2hlY2tpbmcgY29tbWl0IDA0Yjk3MjhiNTc3NyAoc29mdGZsb2F0OiBDb252ZXJ0IGZsb2F0eDgw
+X2RpdiB0byBGbG9hdFBhcnRzKQoxNi8yOCBDaGVja2luZyBjb21taXQgNGExMjk0NzIzNWM5IChz
+b2Z0ZmxvYXQ6IENvbnZlcnQgZmxvYXR4ODBfc3FydCB0byBGbG9hdFBhcnRzKQoxNy8yOCBDaGVj
+a2luZyBjb21taXQgOGViMGYwZmMzZTQxIChzb2Z0ZmxvYXQ6IENvbnZlcnQgZmxvYXR4ODBfcm91
+bmQgdG8gRmxvYXRQYXJ0cykKMTgvMjggQ2hlY2tpbmcgY29tbWl0IDAwNGU3ZDU0NTEwYyAoc29m
+dGZsb2F0OiBDb252ZXJ0IGZsb2F0eDgwX3JvdW5kX3RvX2ludCB0byBGbG9hdFBhcnRzKQoxOS8y
+OCBDaGVja2luZyBjb21taXQgMGFhOWExOTk1NDQzIChzb2Z0ZmxvYXQ6IENvbnZlcnQgaW50ZWdl
+ciB0byBmbG9hdHg4MCB0byBGbG9hdFBhcnRzKQoyMC8yOCBDaGVja2luZyBjb21taXQgMmM5OGJm
+NzU4MjFhIChzb2Z0ZmxvYXQ6IENvbnZlcnQgZmxvYXR4ODAgZmxvYXQgY29udmVyc2lvbnMgdG8g
+RmxvYXRQYXJ0cykKMjEvMjggQ2hlY2tpbmcgY29tbWl0IGQ5N2FhZDA2NTEzMiAoc29mdGZsb2F0
+OiBDb252ZXJ0IGZsb2F0eDgwIHRvIGludGVnZXIgdG8gRmxvYXRQYXJ0cykKMjIvMjggQ2hlY2tp
+bmcgY29tbWl0IDZiY2U1YTY1Y2YyZSAoc29mdGZsb2F0OiBDb252ZXJ0IGZsb2F0eDgwX3NjYWxi
+biB0byBGbG9hdFBhcnRzKQoyMy8yOCBDaGVja2luZyBjb21taXQgMTRkZDY4NzZjODYzIChzb2Z0
+ZmxvYXQ6IENvbnZlcnQgZmxvYXR4ODAgY29tcGFyZSB0byBGbG9hdFBhcnRzKQoyNC8yOCBDaGVj
+a2luZyBjb21taXQgNjE4YWRkYzRjMjJlIChzb2Z0ZmxvYXQ6IENvbnZlcnQgZmxvYXQzMl9leHAy
+IHRvIEZsb2F0UGFydHMpCjI1LzI4IENoZWNraW5nIGNvbW1pdCA1ZTdkYTAzN2YyMjEgKHNvZnRm
+bG9hdDogTW92ZSBmbG9hdE5fbG9nMiB0byBzb2Z0ZmxvYXQtcGFydHMuYy5pbmMpCldBUk5JTkc6
+IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1
+cGRhdGluZz8KIzMyNTogCm5ldyBmaWxlIG1vZGUgMTAwNjQ0CgpFUlJPUjogdHJhaWxpbmcgd2hp
+dGVzcGFjZQojMzc2OiBGSUxFOiB0ZXN0cy9mcC9mcC10ZXN0LWxvZzIuYzo0NzoKKyAgICQKCnRv
+dGFsOiAxIGVycm9ycywgMSB3YXJuaW5ncywgNDEwIGxpbmVzIGNoZWNrZWQKClBhdGNoIDI1LzI4
+IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJv
+cnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2Vl
+CkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCgoyNi8yOCBDaGVja2luZyBjb21taXQgOTBlYmM5
+MWJkOTlmIChzb2Z0ZmxvYXQ6IENvbnZlcnQgbW9kcmVtIG9wZXJhdGlvbnMgdG8gRmxvYXRQYXJ0
+cykKMjcvMjggQ2hlY2tpbmcgY29tbWl0IGFiZGM1NmEyMjY0MyAodGVzdHMvZnA6IEVuYWJsZSBt
+b3JlIHRlc3RzKQoyOC8yOCBDaGVja2luZyBjb21taXQgMGYwNzdhNjcyZTQ1IChzb2Z0ZmxvYXQ6
+IFVzZSBoYXJkLWZsb2F0IGZvciB7dX1pbnQ2NF90b19mbG9hdHszMiwgNjR9KQo9PT0gT1VUUFVU
+IEVORCA9PT0KClRlc3QgY29tbWFuZCBleGl0ZWQgd2l0aCBjb2RlOiAxCgoKVGhlIGZ1bGwgbG9n
+IGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDIxMDUyNTE1MDcwNi4y
+OTQ5NjgtMS1yaWNoYXJkLmhlbmRlcnNvbkBsaW5hcm8ub3JnL3Rlc3RpbmcuY2hlY2twYXRjaC8/
+dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hl
+dyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBh
+dGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
 
