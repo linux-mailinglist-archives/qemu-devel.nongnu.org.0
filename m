@@ -2,82 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19A82391F4D
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 20:40:00 +0200 (CEST)
-Received: from localhost ([::1]:48022 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93980391F58
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 20:43:31 +0200 (CEST)
+Received: from localhost ([::1]:56636 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llyRj-0002lM-1z
-	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 14:39:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34128)
+	id 1llyV8-0000AT-Kj
+	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 14:43:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34290)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1llyNx-0005vl-D6
- for qemu-devel@nongnu.org; Wed, 26 May 2021 14:36:06 -0400
-Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e]:38555)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1llyNs-0001gn-AM
- for qemu-devel@nongnu.org; Wed, 26 May 2021 14:36:04 -0400
-Received: by mail-pl1-x62e.google.com with SMTP id 69so1063434plc.5
- for <qemu-devel@nongnu.org>; Wed, 26 May 2021 11:35:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Klcj9DUqh9/iEk2wCEZftCqjoLWQMNPFCBy+WpsFmZE=;
- b=IzJsYRp7BOQP5fKEr4/uzLB/NEIH9mPzjQKzV3d3Io+wkoqs12O6ZBFlvOvCepZz1B
- KHEZDSVPTmo++MZnUGZ24+FD+JD/F0gqYMpxn7aA+Ke4FxP4BqGAP4CaXAQ8DSasOY02
- gF76lW0fk4JcrzaI6qtAA+wCe91k2LVQ2OVqcLDMaWPnVIG+jl9X++jBmvUDCA592i7J
- yEozV0oYEF7ApTYWkzbnhuVXzbeRoxjhWKL4ylxl21udYXTfKpUb/vVyNWOzPvnxDHJU
- fr0MTi5ueJ5PMAMLgiv9dh4fDcCd7n3EgjV7mw3kLtg4bprqmucL1K2QAYfXp6tDVtfo
- IAIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Klcj9DUqh9/iEk2wCEZftCqjoLWQMNPFCBy+WpsFmZE=;
- b=tsSga+1z+w4dBtjuGSMz5q2ASWu9Sq/oSOcRTDods0HQIxoaPq9mG0X0+GGgDHypOv
- Tynx11DQo0kN3/T8pDC9lk4R96vGBAd6f4b9khSyx6r4GYsRk1zvSvPp2U5YTR2PpTKd
- iJd41906l/us5qN46u5Naud0axGegsSdm6b8P+tqYJzeDp+EiuhPbfcYGVk9qDTDlobO
- gi177TWGLjAjlmxh7WHB4r7TIRSPFzyGQWB9fAssl8bHlV6q0Nu91qm/69KANCBpSx+H
- wnrKmWR2x0ui7iTOaJSblkB7R5tu5lAk5o8fnWGCAj0UpNZNd7pcZpeIZwAw6hi41DXL
- jvmQ==
-X-Gm-Message-State: AOAM531ry0lPDJU4MXt0/njeLhCGpJUXMlPfzehwKFTfcN9SCrlATOM3
- brH1liwB33v4IkR0yMJaOkanbg==
-X-Google-Smtp-Source: ABdhPJzV5mAMw0Chw74QuBbK7VjG5+fdRDrKsbZ9gJq3se1DqnV7NsxS3r2pRzlrdUGECT8AxFS0lA==
-X-Received: by 2002:a17:90a:f581:: with SMTP id
- ct1mr2948451pjb.116.1622054156098; 
- Wed, 26 May 2021 11:35:56 -0700 (PDT)
-Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
- by smtp.gmail.com with ESMTPSA id
- r11sm87021pgl.34.2021.05.26.11.35.55
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 26 May 2021 11:35:55 -0700 (PDT)
-Subject: Re: [RFC PATCH 01/15] accel/kvm: Add more stubs
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1llyOs-0006rg-BW
+ for qemu-devel@nongnu.org; Wed, 26 May 2021 14:37:03 -0400
+Received: from mout.kundenserver.de ([212.227.126.131]:35729)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1llyOf-00029V-Vr
+ for qemu-devel@nongnu.org; Wed, 26 May 2021 14:37:01 -0400
+Received: from [192.168.100.1] ([82.142.6.50]) by mrelayeu.kundenserver.de
+ (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MS3r9-1lsPWR3H9H-00TRnm; Wed, 26 May 2021 20:36:36 +0200
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20210517115525.1088693-1-f4bug@amsat.org>
- <20210517115525.1088693-2-f4bug@amsat.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <bea3644d-0b05-14d0-781a-5ed65ecb0484@linaro.org>
-Date: Wed, 26 May 2021 11:35:54 -0700
+ Michael Forney <mforney@mforney.org>
+References: <20210526043928.9586-1-mforney@mforney.org>
+ <502221eb-cc9f-ca58-2864-91aaa07006ba@amsat.org>
+From: Laurent Vivier <laurent@vivier.eu>
+Subject: Re: [PATCH] linux-user: Remove unnecessary static assert involving
+ __SIGRTMAX
+Message-ID: <cd5b4bc7-bc57-6299-5237-895ce2dd11ff@vivier.eu>
+Date: Wed, 26 May 2021 20:36:35 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <20210517115525.1088693-2-f4bug@amsat.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+In-Reply-To: <502221eb-cc9f-ca58-2864-91aaa07006ba@amsat.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+X-Provags-ID: V03:K1:nl4ncFai5FAz7QujyJQAFxHCJCoiKLrfX1HGHWIRHH5n6GQ4EVT
+ YbKXr+1wxakUh0EGPUz7DiAVKNy0K5R/iO/8dPQEOZJG8HINxRy532Zn6xZs+P/e/Z2l2KL
+ nym1FYHI/HWpaH6BFN5/x4UJq3qIyOO1dOT9m7YfDAf5Ve334ADJjr32SJ0zxkzBL0+8Ct8
+ ivN33XTQWsqB4ZRTyY6YA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:wr+bmCdtx9E=:Tdxcmg4gfopKEqsUv4CQAj
+ obkMS8U6zvDbJKIQUJcKYoB99iM6fVeEUSXcmZQ0yMKa3jhcHi3ipGTkoxnJMXaaBVlaFiZK/
+ X316Tz+7r2RkhaOZtnucDupagH/nmH2J+4fT4cM9SXL000NBQ0aHwcqO6sct4ilE6hCtQSGhR
+ eDOOc1Vqiy3mzjx8wUGWdTdOlEqZgJqCO3zo0rLoOkrcJ8O9LfORk1hUdt8nQ6Qa1IIXs07Zr
+ 1VmDfs+mtkEO+2KKuzHpUQ99I4gMeEvTPXZYlAtCAOegs3Y5kRTp1tgJ8FYoB2uHGClTzu1by
+ UB9u4QAe6+H2Yf0TVEUqUFvireLz3BsaXJmZvDHmgd+awvDdb9yaEQJYY5jEOfl1eK6kcPHOv
+ X6/zSaIiH1vJZMVCF5TA61ZbNBG1/7rA6enRjODz3kXHyrQYr5OSr8xHAciDVJWgIwxOlQPLA
+ L9HpL4VQW4+T+f4Vw3rs5vhlccuCX0TYX7wqQi+jsmDyU7oyNN57Dv7NAJ/Wd4xaW3KgFs2NC
+ 4BI2qhbrGbj8v3pBsiP+u4=
+Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,52 +69,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/17/21 4:55 AM, Philippe Mathieu-Daudé wrote:
-> To be able to make softmmu/cpus.c not target-specific, we need to
-> add two more KVM stubs, to avoid:
+Le 26/05/2021 à 19:16, Philippe Mathieu-Daudé a écrit :
+> On 5/26/21 6:39 AM, Michael Forney wrote:
+>> Since "linux-user: fix use of SIGRTMIN" (6bc024e7), qemu removed
+>> use of __SIGRTMAX except for in this QEMU_BUILD_BUG_ON assert.
+>> Presumably, this check is to ensure that the loop in signal_table_init
+>> from SIGRTMIN to SIGRTMAX falls within the bounds of
+>> host_to_target_signal_table (_NSIG).
+>>
+>> However, _NSIG is already defined to be the one larger than the
+>> largest signal supported by the system (as specified in the upcoming
+>> POSIX revision[0]), so the check is unnecessary.
+>>
+>> musl libc does not define __SIGRTMAX, so removing this check fixes
+>> one of the last remaining errors when building qemu.
+>>
+>> [0] https://www.austingroupbugs.net/view.php?id=741
+>>
+>> Signed-off-by: Michael Forney <mforney@mforney.org>
+>> ---
+>> If you prefer, I can send an alternate patch to leave the
+>> QEMU_BUILD_BUG_ON, but guard it by #ifdef __SIGRTMAX.
 > 
->    /usr/bin/ld: libcommon.fa.p/softmmu_cpus.c.o: in function `cpu_thread_is_idle':
->    softmmu/cpus.c:85: undefined reference to `kvm_halt_in_kernel_allowed'
->    /usr/bin/ld: libcommon.fa.p/softmmu_cpus.c.o: in function `cpu_check_are_resettable':
->    include/sysemu/hw_accel.h:28: undefined reference to `kvm_cpu_check_are_resettable'
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
->   accel/stubs/kvm-stub.c | 7 +++++++
->   1 file changed, 7 insertions(+)
-> 
-> diff --git a/accel/stubs/kvm-stub.c b/accel/stubs/kvm-stub.c
-> index 5b1d00a2224..6bda6c8c925 100644
-> --- a/accel/stubs/kvm-stub.c
-> +++ b/accel/stubs/kvm-stub.c
-> @@ -20,6 +20,7 @@
->   KVMState *kvm_state;
->   bool kvm_kernel_irqchip;
->   bool kvm_async_interrupts_allowed;
-> +bool kvm_halt_in_kernel_allowed;
->   bool kvm_eventfds_allowed;
->   bool kvm_irqfds_allowed;
->   bool kvm_resamplefds_allowed;
-> @@ -147,4 +148,10 @@ bool kvm_arm_supports_user_irq(void)
->   {
->       return false;
->   }
-> +
-> +bool kvm_cpu_check_are_resettable(void)
-> +{
-> +    g_assert_not_reached();
-> +}
-> +
+> This looks safer, personally I prefer, but let's see what the
+> maintainers prefer.
 
-It should be easy to turn cpus_are_resettable into an AccelOpsClass hook.
+I agree, the reason of the check is explained in the comment above.
 
-It's less obvious how to do that for cpu_thread_is_idle, but it's clear with 
-the kvm and whpx checks that something is required.
+I think it's safer to keep the QEMU_BUILD_BUG_ON().
 
+In the past we had a confusion between _NSIG, NSIG and TARGET_NSIG.
 
-r~
+See 9fcff3a67f2b ("linux-user: fix TARGET_NSIG and _NSIG uses")
+
+Thanks,
+Laurent
 
