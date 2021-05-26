@@ -2,57 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 815E23921E1
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 23:18:59 +0200 (CEST)
-Received: from localhost ([::1]:38654 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C871E3921E2
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 23:19:00 +0200 (CEST)
+Received: from localhost ([::1]:38764 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lm0va-0000lt-Ir
-	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 17:18:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37224)
+	id 1lm0vb-0000qZ-RM
+	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 17:18:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37236)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lm0sj-0007Km-SD; Wed, 26 May 2021 17:16:01 -0400
+ id 1lm0so-0007OU-BF; Wed, 26 May 2021 17:16:06 -0400
 Received: from mail-vi1eur05on2101.outbound.protection.outlook.com
  ([40.107.21.101]:2688 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lm0sd-0006kU-5S; Wed, 26 May 2021 17:16:01 -0400
+ id 1lm0sj-0006kU-UC; Wed, 26 May 2021 17:16:06 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KpqGlDwN7HTOtVgHoQiHI1/PvIRWcZ3knN40t+XiAHUeLU9BIaa7l0lBElo3SQ8OXaubnGE2vedlXf9CrMBjOlZ8YmJmkAx5vdWRG3arvHK4+4QXe4VOcPiRNsuFYszp746g3o84+ru6sek7edTHvYphHP+sfoeOZT4xTr+hDc5Z2acSTD9FXshpLZ9ppzbAiLp/UylsJLHD5Cqkd/gZXjuHmzn6KJLaPX+NtytlegBZrZVEwVaNCIeTAnGAQ9cdPYHSiQO0EvZfIGmhjoUFyhHwKPpyGS5FuX+PG87hGwYt1ddbLPsxUd3XYyJeVa/h9/usYGGGPPVIF6eGxWFqUQ==
+ b=OPuzulsVNVkUUmXYF57nI+YzO6oAEnNdEc5ZuA60jo9Fm8Uhxn2zyrqy5bpo+DJHOZtCp2Wgj/68PQ5R89QZxj3WcxwbSHJtN8QF9JghSyfS+7L7lwQbDpGHhJy/rxusn4TAWaJGTpT832UwMuHNP7Id0MllgaYikidWXrpWYTMNqlHwmCS2CX62zHebeP1Q0iRZjsUBP/NFZ8sxz69ZCIHSv/Muo1VgBPRfteexmhASIkAwfzw3/11f7KoCdNibBcp0zTjcam/ZTeql7fADR06/47LOXHRF/6zfZmpfS0AM99I+9w0XQBUkdsO8OkRMF+YiQyi3Hf/7VuSDlIACpw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KUeh1cFnoHk+n1sR9HrH39XFTOjA7eThy3D5ubUoIXg=;
- b=c38WRLU6388ksWwb+9RWGFZwrhUx4TY/2RpLzZIUSJZy25KXDNiGqvtjKBSfTRLVQMqWSLlcn06kXw/0A4odM0v0De/lqr0y8XN1cDqxq3ils9vPNhhZUrdb+VVntLKB6PsGFNeteWvyMx9P7yR9k+SZQGVx2dp62lr0nl5cW//V4vv2gsSjD+B2KH57zdE9Eyl0nHMoa+M/cnpkejbVlRuIKfEoXllQMSMvEL3gcfOpZBZa9o3J7HmWV6ctDo9j0y7zFVAC3WPHmJ+3TAfDYsTUFYhs7Uaeu7/1sUSluJaEA1QR/CDXYcJweR73fTrfJPL+CKduUK70nDgeOwwHiQ==
+ bh=1vUqLjDZn5LVggUnTdP6HAHubKURuEj6ekl38g3v1Vk=;
+ b=VLvtnKu24AMEtyE57IXpt8nvyJ82oaHyw+qXzEWLi12vN87IpsAdClBupOf2Tb1NmwkRpHLD6jTXYIl70+NXynYKYRAKsDcNdQA+NY74iAFwhus4C9KdW4GFVLT3BEBEtgxLOfKTpY+wtLqgG8vnnBrY157Kgt1geaeJxcbA9tR/JLrYhalftRnwMfPWfn1WnMNmQ2f9Gq+8b4M1Xb6lU1xef8QLD3Xtt0x35Iy1IH4rF0/iFRqXFRSbBlsSVz7kpB+U961FgiWt39+5lKVRI9/ZeTsASzoWsEOs2MYmb8B5pQQqddTu/oNPbWB80oPo0MYi1ymrUNu2M0HG4VzqcQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KUeh1cFnoHk+n1sR9HrH39XFTOjA7eThy3D5ubUoIXg=;
- b=U4qKelblWHFOaPvig3ewBu4pt48iVqR8eBi+PCyj1H+3ZK46CNdOrpicsNYXnSteov3KpNbdbY2X7aA+sk3WAFd1IfWWkFRvl0if8012JLSz1Tn+augNS+ehZguUHuCwa8AUxiO52iLJErFE/DV+DwAxeDhJrcQ51bEf9O4plxg=
+ bh=1vUqLjDZn5LVggUnTdP6HAHubKURuEj6ekl38g3v1Vk=;
+ b=IiQFKoJT7rSPZ5mLJal2CsyluaK2ARsgaGAvdnI0cq5g01osQjVoKJo5BTYO/nDroGVmXfYmVMEzCAb1OQiCTmhg58UA+gX4lXB9k3CNjD55VWU8SMnjLfQKjZ57zFJf4A8LsHPamNzsy9MK+OO1kYkcak9WfYLP4vBwmkKVaGk=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AM7PR08MB5382.eurprd08.prod.outlook.com (2603:10a6:20b:108::13)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4150.27; Wed, 26 May
- 2021 21:15:49 +0000
+ 2021 21:15:50 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::b403:c1a9:6bb7:133]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::b403:c1a9:6bb7:133%8]) with mapi id 15.20.4150.027; Wed, 26 May 2021
- 21:15:48 +0000
+ 21:15:50 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, codyprime@gmail.com, armbru@redhat.com,
  fam@euphon.net, stefanha@redhat.com, vsementsov@virtuozzo.com,
  jsnow@redhat.com, mreitz@redhat.com, kwolf@redhat.com
-Subject: [PATCH 0/3] block: drop BlockDriverState::read_only
-Date: Thu, 27 May 2021 00:15:31 +0300
-Message-Id: <20210526211534.524597-1-vsementsov@virtuozzo.com>
+Subject: [PATCH 1/3] block: consistently use bdrv_is_read_only()
+Date: Thu, 27 May 2021 00:15:32 +0300
+Message-Id: <20210526211534.524597-2-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20210526211534.524597-1-vsementsov@virtuozzo.com>
+References: <20210526211534.524597-1-vsementsov@virtuozzo.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-Originating-IP: [185.215.60.195]
@@ -64,52 +66,52 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost.localdomain (185.215.60.195) by
  HE1PR0502CA0021.eurprd05.prod.outlook.com (2603:10a6:3:e3::31) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4173.20 via Frontend Transport; Wed, 26 May 2021 21:15:47 +0000
+ 15.20.4173.20 via Frontend Transport; Wed, 26 May 2021 21:15:49 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 08d714c1-5182-41a9-9313-08d9208b6f0a
+X-MS-Office365-Filtering-Correlation-Id: 441c0003-3f67-4aec-efa0-08d9208b6fe0
 X-MS-TrafficTypeDiagnostic: AM7PR08MB5382:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM7PR08MB53826B7EE3BBD433D1083311C1249@AM7PR08MB5382.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:264;
+X-Microsoft-Antispam-PRVS: <AM7PR08MB538233F8E779CE9E69DD2FA5C1249@AM7PR08MB5382.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:60;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 2BzHaSs+PedSFS+T34TqsrmUsf6IYXZ5XTaLPj8FBJMgw8eOunRUeRoA2oN/KxINeu80Bh3muRJPwiDFjIGHAI11iBxivnQ554RlVZ3NNk1H/pn171g0IM1U9OUm1XsEmF+On1vXe6yPO0noWNLy45yMNZ/8DXAk4GTYhlY5S+yc+YOSfLru9PE4Cl9CTi3p3pHExx9zr09mvyZ5XGS3Jj2dYxHgRznuUajkCOZ62/702ZXGi5XN+vuULg7V/g0DGau/XdwiAFiNagP4MyCALu2DHPqr22qwxerMNnR7/aMs3f2X/TcGTsfdyQBCiZe3Y2fokYwltEkTyiwPQymh//cUFbwhIySMfc13zlfVWQBw/6laiYoQhYTauXT4ENu0DAJubXThN8xaHD7Jc0ZS+4gaCZ8Hl6mqvgDJqjKry7F8j4CSbkVQraAed5UZYffmUH7Buu731vMY0rCnszDLeY9LgtLGBJOrpmfzEQe1JySxnM1uCs0F7u+yzPBhlYOQN5T5xMw3JeZxTL52pSs+YOYE9EZ64cbXEPsNgkUiBEIjD7SyaveBwAy9IDr/4IhYvNSl1SqpRRfVff2t6mcYzXlV9rGrVqTdOZC75lCrmK+JA4J0HMbqBwlkIM4OoV85td4FvwwTmGpRs1r6PkUfD6MFc/6jjnTEel5Osdg+1/7hmI60+unU/u7TSPsgc5vf
+X-Microsoft-Antispam-Message-Info: 0dDeJXZgNqptmVZRhsCvbcZaWfCT3wjdPXPaHIuvCWQpt6fB4bsAc1XJ3LPftYmDX7Y80N6B5XwZre1zzGaRVKzQxDvPbIYwLeOj+HkYLaLEx6EEASBVlEreBA7HpmUZ+GLJJo+aEMEr5wwlA5rZNT+R9IRhcPiFot/p54WyfuNmU7jwWMpnABd19cqggiX8Qh+AGgj4XWpwCLJjE8dGIbhOPEOp9LkZhjhwj+jAOgH9XlatXK1L7Zm8P3IpjXfeFDRCXinlhUmvsx9eKV03doU0ZAAYkOFP+TXSdvmnw+9gCBDuPmnED3J5fbiqLyjnvPTKpHF2zuzatU4FXs/PtEsq/JkRHjQBEzn5mTeeDAS5/X/n4X3l5tVrlD50jnVdtSv+VVGLQlyCbTxNmgQLwegA5F0sIf4aTHAdj9cbDIaHR8n7DdhLvlwr7BzKO4yQEp3SSEYPXQSybCo77pXu6G9BH1ymKYnFFjyM4RsvzsH6/kdBJmjxZ5roiQZzzrEuS5ACQT+pbPNOrF1PbYTxmTJaqiXwPt4ITiODlu5Xl1knZ53Tw1965SrHaFHz8oC3uOy1LG2aDhE8GxXIwQyWkMAKBC08x73+9Aek+iz8lgdAtv6UvUlXBCoxnKTbW1iP+XaaGlYUpT/MCSui+Qg5S9nvu1NymK2LN/CcqifMjTj8Y3Ez4Pt57ZSIpU7tzXif
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39830400003)(136003)(366004)(376002)(346002)(396003)(86362001)(2906002)(478600001)(38350700002)(4744005)(38100700002)(956004)(36756003)(316002)(6666004)(4326008)(5660300002)(66946007)(83380400001)(8936002)(8676002)(6916009)(6512007)(6486002)(26005)(2616005)(52116002)(1076003)(6506007)(66476007)(16526019)(66556008)(186003)(69590400013);
+ SFS:(4636009)(39830400003)(136003)(366004)(376002)(346002)(396003)(86362001)(2906002)(478600001)(38350700002)(38100700002)(956004)(36756003)(316002)(6666004)(4326008)(5660300002)(66946007)(83380400001)(8936002)(8676002)(6916009)(6512007)(6486002)(26005)(2616005)(52116002)(1076003)(6506007)(66476007)(16526019)(66556008)(186003)(69590400013);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?r8gGoFZ161TtDXOAJ7k5zPNdx1LBa/JmZzsIMBJWMHHzlMbdCmFVs5MvHkpK?=
- =?us-ascii?Q?dqWU/G51Q2OQVe1otJFJRSLk3ugjIoIQWvZl9J5VAagj9Kz6yNitTScx/ks8?=
- =?us-ascii?Q?kxsJpBL2ffRaq+OP5uU0KsgjkgmK4ZUkunyBwptQJrhuB+ib1sPBkJ3BnS8Q?=
- =?us-ascii?Q?XWySs47a0K8qzOHrdEr9i9M35bz04AQJLWpiA2wtL22Wu8c09Mr7hOX6sS3C?=
- =?us-ascii?Q?rPQm0LZiH7bFJq+SRuN5gfQWNRmaE/vtKbVo7OCBXkpf/oDuw1WziP0QthjJ?=
- =?us-ascii?Q?6o8VAXHfSJAGSc6Gdh6rlSp/YCRNvCxljEWW9rXtJblMqkBwPfl7OTG+YF4Q?=
- =?us-ascii?Q?FV33/bYolN/mSovsUN11hV+r1ekEA2Te/oaomlO48DQz78qZGQU/Z3M9aHeL?=
- =?us-ascii?Q?UzzmYeRsaGgbRXXS8KGmEF4RJPmEpXXMYVbCKjFVaFCYnKUL8pd19kNg6w4I?=
- =?us-ascii?Q?lP/YkiYNePC2/9LGARkYzZlF3KSQI6r75dYizmnsAzdUMqyPvYmGvr2iBQdZ?=
- =?us-ascii?Q?f2mPPe5+s5TB6+LLSyEydBBUXpw8Rk+dSuYCXHeTGS/G4OCJv80nYyGxKFxH?=
- =?us-ascii?Q?vxFE5XoiZw00wGJ/afGeNn3GUJ8sfFjEf6mhkuvVI2dLRyJvJFs1A81gmKJ0?=
- =?us-ascii?Q?2/AH/xYs/vvsAM9MCVF2gyXkwgQb5id/gDFmj26qK0dt8ogpaiWMiQQVWmbb?=
- =?us-ascii?Q?Tpot2eqYEen+DFjQ1i16vO431FOza6QYUSZwx8ci7fhdcSjqB71xJLr3awdX?=
- =?us-ascii?Q?JMyZX584hLLFGVY+jDEFy3wIL9KJv+NqSe+nWQu7gSh3V/3x0iEvRjR7c2FZ?=
- =?us-ascii?Q?tg1QVhAva5o3TosrzjI14uxiVFOvnhnIGQnBhtFxdbrbwGgA9On/A1Exf2X0?=
- =?us-ascii?Q?kcy/lr0Y8WhujC8zs3dEl1MuXESR60zFh1SvhI+Bthfmbi/x1pLp1q+uStgh?=
- =?us-ascii?Q?czKl+LAysXQhjiIn/cwhT1IyE4xNHbaD8sO1vhQQoRWQoZBcpwCUMPZGVQQP?=
- =?us-ascii?Q?Sa9av6Y54dWatXrVL0MmLd+o8223dDyctnKlcWL2VFCyHe58T5/Ob7lpqcT6?=
- =?us-ascii?Q?0a6FTcaGE2k7twlkC9tK8LyzYdjDpR3o9AkwzJzbnqTUiFNpoVF5ub32rn0L?=
- =?us-ascii?Q?C2MNwU24fBu1MQpit/FQusLuUiME3QLuMTtbxhWKjJWNXo17w8C7wDoWCJYY?=
- =?us-ascii?Q?xgdmqL8RnBRlAnrk7x0q8RE3XpyIIU5q0JylLqL8QVrNdD4kIKVID1odP2VK?=
- =?us-ascii?Q?17CmloX0qdFUGQY6X53rKLedzpe6kLHvmO50EtR8RAzUpWSxJCXOxTw4YLBB?=
- =?us-ascii?Q?0g29OlFKCAlKRF3QiCR9wJuE?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?heGGlsI7oGmP0UiqX4yEgViHTDRmNeg2SzDoIixQDqI7hVlyQZaiXwV/9q26?=
+ =?us-ascii?Q?+HBqTQUFLSSWj0Wv1Oq8XHyknns0eb/61/lKCKh7uH5YvYvFTxQCMYgBAQk7?=
+ =?us-ascii?Q?j8XI7ZFxTIqv7oWCgcnpAPjn9Z3GMK9tzhw+yNCdu+DgN/vAVyzzz1dNndwC?=
+ =?us-ascii?Q?fnFapGiiKSHgE3oRnbQfr0/nImSixGhDJdWJVzpRFUNxKD/RBBBKwB5n0UWF?=
+ =?us-ascii?Q?KG9Bat7Yp1ly47PKyYB14SBo4CQD8Cf6mIR+tqq9uOCOMkfXeyN+5ocTRsSu?=
+ =?us-ascii?Q?TS31Xdy2LKJEdAeSYe9G/dJ+85FGwt9CJ/7ylcZpN+Ym17NWrZS1e27popmb?=
+ =?us-ascii?Q?LmwxjM0RUm1YKu+1fjSdJ7Ok6/Hfu4DjHa4s30K1nKB8wnkjNwLTETNuO0TE?=
+ =?us-ascii?Q?PO1LCwboi8nXxDv7CVbhITSvudWaI0D6SHsVg1qVTlmkijYuweZ9uPXgI2wG?=
+ =?us-ascii?Q?eHg7bCZcw2syEksCbS42b1iF19XdG0dQy1qxeNfP0kahe6oQoNNMrr0pp4QW?=
+ =?us-ascii?Q?F0xTe8wfvlgWT08PRm+8DETHJT3ZcbWUwjqiS6gkofJBllaJCGeH2L6KGBln?=
+ =?us-ascii?Q?ySia+evlSZlLqtssqk1MxaHY0eLKlCg5bWCCRj0FThERnNMErRXxVbyEk8PK?=
+ =?us-ascii?Q?EQcKti0TD448f1EVBUIfPfU/9yj6F7Dk064/noKeAY1Ky2PjE/923WhUmF53?=
+ =?us-ascii?Q?fEvvgMdzrYESU2Zl8CslplO+UZKSj9EuKDEktGVKzRrbVVMArv3pZVshmx67?=
+ =?us-ascii?Q?ipYnstUHk3V/EDBvmfilWC1cX0JMtBARi6f0IzKvm55k1mlrewLu2iU8Vcu9?=
+ =?us-ascii?Q?3+WiHmBc6cJBY2nYLiAPYS9hoqdQOa35g5QtayZF4/2vJQDJrNMYI1G7I4zS?=
+ =?us-ascii?Q?zFoBPYmSqc1NYq8wB8hwob/pj1cDeMICFd7SYGWTAw74KtEIxepXMXl4GORE?=
+ =?us-ascii?Q?04VFz+uzUp1Zna47dFWsmKIlmbZ/ycOl042HR1fNETmpL/hzYHPw5X0ih8wm?=
+ =?us-ascii?Q?0b2SneDuyw1d/kHbkeGWkPGs8ug8uZb3NY724U2epkBN4X61ep+LE2AisqnE?=
+ =?us-ascii?Q?NTQJsUj9ik2VsMLyPILEzDMeL2YHNJTzF7s3DJaHuA+0jmnTeGIpuoDRFYqS?=
+ =?us-ascii?Q?TMIMKURsuFfW4AdURc1EZCRQJGiawG/W2lPm8GhUC7OUNFG4ebehR+GoKt2r?=
+ =?us-ascii?Q?kzw0ZU/aYTtsypIYsvaGMfcBqEutS/PzLx5GNee8zd8SI0ngpnmBWheQzUi1?=
+ =?us-ascii?Q?FJr9CT5vVqDwOcep2BBR61kvE1QsrVk6wVG/bJBH3XzOs5HEgEVQflFOItJf?=
+ =?us-ascii?Q?++4jBcxXKq4FzXiXkCotyYT7?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 08d714c1-5182-41a9-9313-08d9208b6f0a
+X-MS-Exchange-CrossTenant-Network-Message-Id: 441c0003-3f67-4aec-efa0-08d9208b6fe0
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 May 2021 21:15:48.8209 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 May 2021 21:15:50.0545 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: eJzsWsEcZYcnoVfhlQca42VO7XAnzwwixjPGFpExCr+SNNbMSIfFgATLuiQLxos8Ji1fad/mgZS7rzqDfV5Z6zMusA6CtPRwfr6qG8M95+E=
+X-MS-Exchange-CrossTenant-UserPrincipalName: 08UIU/n6+rnV2JCp+kkAO7quF0qpb+YE2m7YvadTrY80nkfpLTkGvalLTkc1A9SU3iNZ31N7phgo9Dby+flnH1P0Z4Pa+jB1Leyk2rglHvI=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5382
 Received-SPF: pass client-ip=40.107.21.101;
  envelope-from=vsementsov@virtuozzo.com;
@@ -137,34 +139,191 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi all!
+It's better to use accessor function instead of bs->read_only directly.
+In some places use bdrv_is_writable() instead of
+checking both BDRV_O_RDWR set and BDRV_O_INACTIVE not set.
 
-The field duplicates information in .open_flags. We have to carefully
-sync these two fields everywhere. It's simple to introduce a bug by
-forgetting it.
+In bdrv_open_common() it's a bit strange to add one more variable, but
+we are going to drop bs->read_only in the next patch, so new ro local
+variable substitutes it here.
 
-Let's drop the field, and fix users to call bdrv_is_read_only() and
-bdrv_is_writable() instead.
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+---
+ block.c                | 11 +++++++----
+ block/block-backend.c  |  2 +-
+ block/commit.c         |  2 +-
+ block/io.c             |  4 ++--
+ block/qapi.c           |  2 +-
+ block/qcow2-snapshot.c |  2 +-
+ block/qcow2.c          |  4 ++--
+ block/snapshot.c       |  2 +-
+ block/vhdx-log.c       |  2 +-
+ 9 files changed, 17 insertions(+), 14 deletions(-)
 
-Vladimir Sementsov-Ogievskiy (3):
-  block: consistently use bdrv_is_read_only()
-  block: drop BlockDriverState::read_only
-  block: drop BlockBackendRootState::read_only
-
- include/block/block_int.h        |  2 --
- block.c                          | 16 +++++++---------
- block/block-backend.c            | 10 ++--------
- block/commit.c                   |  2 +-
- block/io.c                       |  4 ++--
- block/qapi.c                     |  2 +-
- block/qcow2-snapshot.c           |  2 +-
- block/qcow2.c                    |  4 ++--
- block/snapshot.c                 |  2 +-
- block/vhdx-log.c                 |  2 +-
- blockdev.c                       |  4 +++-
- tests/unit/test-block-iothread.c |  6 ------
- 12 files changed, 21 insertions(+), 35 deletions(-)
-
+diff --git a/block.c b/block.c
+index 0dc97281dc..0270b609c4 100644
+--- a/block.c
++++ b/block.c
+@@ -1720,6 +1720,7 @@ static int bdrv_open_common(BlockDriverState *bs, BlockBackend *file,
+     QemuOpts *opts;
+     BlockDriver *drv;
+     Error *local_err = NULL;
++    bool ro;
+ 
+     assert(bs->file == NULL);
+     assert(options != NULL && bs->options != options);
+@@ -1772,15 +1773,17 @@ static int bdrv_open_common(BlockDriverState *bs, BlockBackend *file,
+ 
+     bs->read_only = !(bs->open_flags & BDRV_O_RDWR);
+ 
+-    if (use_bdrv_whitelist && !bdrv_is_whitelisted(drv, bs->read_only)) {
+-        if (!bs->read_only && bdrv_is_whitelisted(drv, true)) {
++    ro = bdrv_is_read_only(bs);
++
++    if (use_bdrv_whitelist && !bdrv_is_whitelisted(drv, ro)) {
++        if (!ro && bdrv_is_whitelisted(drv, true)) {
+             ret = bdrv_apply_auto_read_only(bs, NULL, NULL);
+         } else {
+             ret = -ENOTSUP;
+         }
+         if (ret < 0) {
+             error_setg(errp,
+-                       !bs->read_only && bdrv_is_whitelisted(drv, true)
++                       !ro && bdrv_is_whitelisted(drv, true)
+                        ? "Driver '%s' can only be used for read-only devices"
+                        : "Driver '%s' is not whitelisted",
+                        drv->format_name);
+@@ -1792,7 +1795,7 @@ static int bdrv_open_common(BlockDriverState *bs, BlockBackend *file,
+     assert(qatomic_read(&bs->copy_on_read) == 0);
+ 
+     if (bs->open_flags & BDRV_O_COPY_ON_READ) {
+-        if (!bs->read_only) {
++        if (!ro) {
+             bdrv_enable_copy_on_read(bs);
+         } else {
+             error_setg(errp, "Can't use copy-on-read on read-only device");
+diff --git a/block/block-backend.c b/block/block-backend.c
+index de5496af66..21b834e9df 100644
+--- a/block/block-backend.c
++++ b/block/block-backend.c
+@@ -2269,7 +2269,7 @@ void blk_update_root_state(BlockBackend *blk)
+     assert(blk->root);
+ 
+     blk->root_state.open_flags    = blk->root->bs->open_flags;
+-    blk->root_state.read_only     = blk->root->bs->read_only;
++    blk->root_state.read_only     = bdrv_is_read_only(blk->root->bs);
+     blk->root_state.detect_zeroes = blk->root->bs->detect_zeroes;
+ }
+ 
+diff --git a/block/commit.c b/block/commit.c
+index b89bb20b75..b7f0c7c061 100644
+--- a/block/commit.c
++++ b/block/commit.c
+@@ -453,7 +453,7 @@ int bdrv_commit(BlockDriverState *bs)
+         return -EBUSY;
+     }
+ 
+-    ro = backing_file_bs->read_only;
++    ro = bdrv_is_read_only(backing_file_bs);
+ 
+     if (ro) {
+         if (bdrv_reopen_set_read_only(backing_file_bs, false, NULL)) {
+diff --git a/block/io.c b/block/io.c
+index 1e826ba9e8..323854d063 100644
+--- a/block/io.c
++++ b/block/io.c
+@@ -1973,7 +1973,7 @@ bdrv_co_write_req_prepare(BdrvChild *child, int64_t offset, int64_t bytes,
+ 
+     bdrv_check_request(offset, bytes, &error_abort);
+ 
+-    if (bs->read_only) {
++    if (bdrv_is_read_only(bs)) {
+         return -EPERM;
+     }
+ 
+@@ -3406,7 +3406,7 @@ int coroutine_fn bdrv_co_truncate(BdrvChild *child, int64_t offset, bool exact,
+     if (new_bytes) {
+         bdrv_make_request_serialising(&req, 1);
+     }
+-    if (bs->read_only) {
++    if (bdrv_is_read_only(bs)) {
+         error_setg(errp, "Image is read-only");
+         ret = -EACCES;
+         goto out;
+diff --git a/block/qapi.c b/block/qapi.c
+index 943e7b15ad..dc69341bfe 100644
+--- a/block/qapi.c
++++ b/block/qapi.c
+@@ -59,7 +59,7 @@ BlockDeviceInfo *bdrv_block_device_info(BlockBackend *blk,
+ 
+     info = g_malloc0(sizeof(*info));
+     info->file                   = g_strdup(bs->filename);
+-    info->ro                     = bs->read_only;
++    info->ro                     = bdrv_is_read_only(bs);
+     info->drv                    = g_strdup(bs->drv->format_name);
+     info->encrypted              = bs->encrypted;
+ 
+diff --git a/block/qcow2-snapshot.c b/block/qcow2-snapshot.c
+index 2e98c7f4b6..71ddb08c21 100644
+--- a/block/qcow2-snapshot.c
++++ b/block/qcow2-snapshot.c
+@@ -1026,7 +1026,7 @@ int qcow2_snapshot_load_tmp(BlockDriverState *bs,
+     int new_l1_bytes;
+     int ret;
+ 
+-    assert(bs->read_only);
++    assert(bdrv_is_read_only(bs));
+ 
+     /* Search the snapshot */
+     snapshot_index = find_snapshot_by_id_and_name(bs, snapshot_id, name);
+diff --git a/block/qcow2.c b/block/qcow2.c
+index 39b91ef940..d39d9f4e9b 100644
+--- a/block/qcow2.c
++++ b/block/qcow2.c
+@@ -1724,7 +1724,7 @@ static int coroutine_fn qcow2_do_open(BlockDriverState *bs, QDict *options,
+     /* Clear unknown autoclear feature bits */
+     update_header |= s->autoclear_features & ~QCOW2_AUTOCLEAR_MASK;
+     update_header =
+-        update_header && !bs->read_only && !(flags & BDRV_O_INACTIVE);
++        update_header && bdrv_is_writable(bs);
+     if (update_header) {
+         s->autoclear_features &= QCOW2_AUTOCLEAR_MASK;
+     }
+@@ -1811,7 +1811,7 @@ static int coroutine_fn qcow2_do_open(BlockDriverState *bs, QDict *options,
+     bs->supported_truncate_flags = BDRV_REQ_ZERO_WRITE;
+ 
+     /* Repair image if dirty */
+-    if (!(flags & (BDRV_O_CHECK | BDRV_O_INACTIVE)) && !bs->read_only &&
++    if (!(flags & BDRV_O_CHECK) && bdrv_is_writable(bs) &&
+         (s->incompatible_features & QCOW2_INCOMPAT_DIRTY)) {
+         BdrvCheckResult result = {0};
+ 
+diff --git a/block/snapshot.c b/block/snapshot.c
+index e8ae9a28c1..6702c75e42 100644
+--- a/block/snapshot.c
++++ b/block/snapshot.c
+@@ -415,7 +415,7 @@ int bdrv_snapshot_load_tmp(BlockDriverState *bs,
+         error_setg(errp, "snapshot_id and name are both NULL");
+         return -EINVAL;
+     }
+-    if (!bs->read_only) {
++    if (!bdrv_is_read_only(bs)) {
+         error_setg(errp, "Device is not readonly");
+         return -EINVAL;
+     }
+diff --git a/block/vhdx-log.c b/block/vhdx-log.c
+index 404fb5f3cb..7672161d95 100644
+--- a/block/vhdx-log.c
++++ b/block/vhdx-log.c
+@@ -801,7 +801,7 @@ int vhdx_parse_log(BlockDriverState *bs, BDRVVHDXState *s, bool *flushed,
+     }
+ 
+     if (logs.valid) {
+-        if (bs->read_only) {
++        if (bdrv_is_read_only(bs)) {
+             bdrv_refresh_filename(bs);
+             ret = -EPERM;
+             error_setg(errp,
 -- 
 2.29.2
 
