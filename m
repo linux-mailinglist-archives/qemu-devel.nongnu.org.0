@@ -2,75 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C68D4392244
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 23:45:17 +0200 (CEST)
-Received: from localhost ([::1]:47950 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D6A539224B
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 23:49:11 +0200 (CEST)
+Received: from localhost ([::1]:57402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lm1L2-0003Gr-T7
-	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 17:45:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38684)
+	id 1lm1Oo-0001HC-KR
+	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 17:49:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38788)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1lm10x-0001id-8z
- for qemu-devel@nongnu.org; Wed, 26 May 2021 17:24:32 -0400
-Received: from mout.web.de ([212.227.15.3]:42501)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1lm10r-0002Zl-Ib
- for qemu-devel@nongnu.org; Wed, 26 May 2021 17:24:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1622064259;
- bh=5aQpcAoWwa5f7z2vt2fD0SGP8JMWuTMh9vfW8HxqlX8=;
- h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
- b=LPswAiK/++5t45WAuq3xwhg8Wqya/hU+skvzD9/R8R7Z1n+DUou0SUGpSVAOClLLj
- BaRGg9VPzL72FUAleblrtqNcNmID5jSTX9hxDMjHM+rZRFpKzPEtnxe8VGdfm4xg7V
- jgi7W1mGOUyhLhPI3TGUKQSp0XyYYB16H8ZRyEr8=
-X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from gecko.fritz.box ([94.134.180.235]) by smtp.web.de (mrweb003
- [213.165.67.108]) with ESMTPSA (Nemesis) id 0MT8cQ-1ltCJ32Tna-00S3ab; Wed, 26
- May 2021 23:24:19 +0200
-Date: Wed, 26 May 2021 23:24:18 +0200
-From: Lukas Straub <lukasstraub2@web.de>
-To: Leonardo Bras <leobras.c@gmail.com>
-Subject: Re: [PATCH 1/1] yank: Unregister function when using TLS migration
-Message-ID: <20210526232418.2213cdc1@gecko.fritz.box>
-In-Reply-To: <20210526200540.1088333-1-leobras.c@gmail.com>
-References: <20210526200540.1088333-1-leobras.c@gmail.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lm11Q-0002jE-37
+ for qemu-devel@nongnu.org; Wed, 26 May 2021 17:25:00 -0400
+Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633]:37864)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lm11N-0002os-FU
+ for qemu-devel@nongnu.org; Wed, 26 May 2021 17:24:59 -0400
+Received: by mail-pl1-x633.google.com with SMTP id u7so1273004plq.4
+ for <qemu-devel@nongnu.org>; Wed, 26 May 2021 14:24:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=ywos83TcGS1G77QCPl2bv8mkVrA8wMMCoYf1GmuiodU=;
+ b=FGZB80ZPgW4bNdjrAO+jxk5TEPx1r/P1ysMOhkxL5G8IOxhsHM4XPXfRPqEYYS6Npo
+ f6rx3MMPWjssPi3e6lNgK0R8DlNa3ucuMxNvf1aZ3d4w3jB1JDvdZqRATzURy0A/mE89
+ NpoE3jy5XAHt1rwo8mw6zI+E34tDop3rJniWVbtJKNxvnJFKz+dzpXYay2qqdSJhgVo/
+ KLfHBIm/dr116uNTk/Pvep8vYEQbYLImJgB2y7aGom7koWnj/Xf+6XcaNQNjpn2JFX55
+ 9Qk2VphTzRV2JlSfte6urK3dttCTNRMYtposiB1O/08g43XDflco02nt7KD1qIQJFqPh
+ ak8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ywos83TcGS1G77QCPl2bv8mkVrA8wMMCoYf1GmuiodU=;
+ b=XvsJ1FlMzfYYPT1jhH9YxpNiIlyXgGuB2+dDpTQwb0XvC5NKzIhW91wJcQF/G4UDyV
+ AtxivmDl2V6hmSxImCDw0Zk5gNeschnbGeuxHF0fchWszDN78hY7vaBqudl8H8NuTeQD
+ rkylAdpYMrKBCMKz2DgkFe6sUzdNrXmrvT3ExZv2TxjNCfpf6mdj/uVP4wc2MtM4oTfw
+ EY4UGBiTsnN3rWeC7pmA/vbr87nJ1zB+2ryeJR+P9mjKxLGIqRUi1vc/vUc7Ac6PDgYp
+ +izt3ASf4Gz/QauK52Eep6h5vaN8ZTC5Y3absgmwDTlFntwUQKzVQ2X4OE1rnEJNBmCA
+ kvbQ==
+X-Gm-Message-State: AOAM533FsTakPX1KHku3HHU2LutEgbIXYrXm/C9TvCkyVKKN9kk2epyi
+ +Hq7kg6ngr417xybZYUCSJ2UjQ==
+X-Google-Smtp-Source: ABdhPJzq6nJK7dqNeQXZxWHfwJ06fsZdngBKtVf0upeQrGLnHUE5OTBz2e754JJdsGUxp9kJ4gL8DQ==
+X-Received: by 2002:a17:90a:62c1:: with SMTP id
+ k1mr5873155pjs.151.1622064294371; 
+ Wed, 26 May 2021 14:24:54 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
+ by smtp.gmail.com with ESMTPSA id
+ cu2sm132355pjb.43.2021.05.26.14.24.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 26 May 2021 14:24:54 -0700 (PDT)
+Subject: Re: [PATCH 1/5] target/ppc: fixed GEN_OPCODE behavior when
+ PPC_DUMP_CPU is set
+To: Luis Fernando Fujita Pires <luis.pires@eldorado.org.br>,
+ Bruno Piazera Larsen <bruno.larsen@eldorado.org.br>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+References: <20210526202104.127910-1-bruno.larsen@eldorado.org.br>
+ <20210526202104.127910-2-bruno.larsen@eldorado.org.br>
+ <CP2PR80MB36687B3DEA1BA59FB969DB5EDA249@CP2PR80MB3668.lamprd80.prod.outlook.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <cb8e582b-5997-4d6e-60d5-87b03decf88f@linaro.org>
+Date: Wed, 26 May 2021 14:24:51 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/pcQrpBbx4o7bD4P+xOhFGTf";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-X-Provags-ID: V03:K1:K0Dkn9do94aVW65+a202LfBkTJw497rW41wMjyIB645ey7/RtzK
- KkntFBjhmnoQlf4uI7/okWyfX78ssL5f9Ywk6yfb9H0fu8y2orGKl1RacSmiCsBtFKZFXVG
- Cd9Ginca19WlQzanGR/cFg7BDzX2k2cwDWBN97SJ1SAFftrPiFZsQZUIjJy1fOwwN65MMtU
- r0234Ww1ofdjo3sl8SyMA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:BltFfT/JiPc=:M64Ly3ytW+rIeTxSNHnJkP
- 8Ap9iRDFTkV3OtyIPE91tQ7BKv9l72uPDXzYCzi2PjWsjkFz9PhYDLvnZeboB8i/peOgp04+u
- ofz8xpYhIbaAOG87CYDbwB+APy42F6Kzfb0ijuNvXq1TStNnZ/rzlYs9nVarYoyeOdVokCgfV
- VzW0l2eXim7UWAtLzaHMoXsmJk5wfFfw0YG3BfNP+XpGDZyVACeFBD5Jj7N5/tczfbGvjL4u7
- PvHVtbt2PdDY44TBqoXP9eQP3Fq+gu4eNJawtd883VcY7ukG06G8RrBiQYLVnrWmoH6D4NJeP
- BDxKyr7eXFtW4PIxKwB9cBfKTMEONPyLUrYuhzD65ukUf53vqkyIL+NWrU2IMWJxwgNz1cdGR
- zdfkxTW33GxTgtHxwdaHYb9aZuyk3sz/nqerilXWNW+Ck18mTU8kUC06/dq7StrOYbE+8YwTJ
- GShNQAbp8PX3xiPUj9cvebruuFBaK7S1umaybqnCW43RTChsdvKe0rirmC1Xmw/jbiosQi4j0
- xp3SaG/iP3fzGC6Msvq9ADl1OJcC5mv1U4HDmXT8EpvtJWjmq6uy4wygpDtIjECuGKxk/Ok+P
- 6IPxgfV22ZBRjUpGXZ10Herku/f/Dv+mSQD6z5lZtKdftMKcZvDcbRBCJP52EC16hZ/efvCeY
- 7iEUidPvBIJIFSpvejyIvKtGvmtrGccqds7isrKeEEcpEVM63y8cHFB0DzTkVPESvrSkqhdpF
- m5tI4BFlMTTMcutYTSHwxg3RvkPwEKIMHZbhhWkX4DSh+t7e424CaNbVIsgZjq/Feeiy99mLh
- ih7lkaV1LAMF6d7mgMv/h5KPs1TLrIiTqjQC8N5vG7aqLf1GQbNWpVHmdF6KdRE7o5GALifPF
- 9XOREyjcPSnHztiTXiou0QCoikVTQ9CKHldFSZDm/E4RMTa4ZkS8pycjA2EpGPg2lK+4sNkfV
- kYDwFxEZw6WrSPcM6FXVs5dkn6v57sua3bqqWSTmqfyihjyjw0yVBtenUdmS/gEiD+nrkPai6
- z0jtChVXVkGVPOk+Nx+mceELSSM3wOCK12mEA+Uvxi9LGbzxda4x5uWwypMyGFcK+lbfHv5V+
- jL122ZglIz308dr3X91tQ0TTwqACQh2cbQX
-Received-SPF: pass client-ip=212.227.15.3; envelope-from=lukasstraub2@web.de;
- helo=mout.web.de
-X-Spam_score_int: -24
-X-Spam_score: -2.5
+In-Reply-To: <CP2PR80MB36687B3DEA1BA59FB969DB5EDA249@CP2PR80MB3668.lamprd80.prod.outlook.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x633.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,116 +93,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- peterx@redhat.com, Juan Quintela <quintela@redhat.com>
+Cc: "farosas@linux.ibm.com" <farosas@linux.ibm.com>, Greg Kurz <groug@kaod.org>,
+ Lucas Mateus Martins Araujo e Castro <lucas.araujo@eldorado.org.br>,
+ Fernando Eckhardt Valle <fernando.valle@eldorado.org.br>,
+ "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
+ Matheus Kowalczuk Ferst <matheus.ferst@eldorado.org.br>,
+ "david@gibson.dropbear.id.au" <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/pcQrpBbx4o7bD4P+xOhFGTf
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On 5/26/21 2:13 PM, Luis Fernando Fujita Pires wrote:
+> From: Bruno Larsen (billionai) <bruno.larsen@eldorado.org.br>
+>> Before this patch, when PPC_DUMP_CPU is set, oname is added to
+>> opc_handler_t, but GEN_OPCODE* wouldn't set it unless DO_PPC_STATISTICS
+>> was set as well.
+>>
+>> This patch changes it so those changes would happen when PPC_DUMP_CPU is
+>> set, but not statistics, because the latter is being removed.
+>>
+>> Signed-off-by: Bruno Larsen (billionai) <bruno.larsen@eldorado.org.br>
+>> ---
+>>   target/ppc/translate.c | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> I suggest removing dump_ppc_insns() altogether and 'oname' along with it.
+> 
+> Now that we're moving to decodetree, dump_ppc_insns() wouldn't show all the available opcodes anyway. And the only other locations where 'oname' is being used are when registering more than one handler for the same opcode by mistake, which won't happen anymore, as any new instructions should use decodetree.
 
-On Wed, 26 May 2021 17:05:40 -0300
-Leonardo Bras <leobras.c@gmail.com> wrote:
+Agreed.
 
-> After yank feature was introduced, whenever migration is started using TL=
-S,
-> the following error happens in both source and destination hosts:
->=20
-> (qemu) qemu-kvm: ../util/yank.c:107: yank_unregister_instance:
-> Assertion `QLIST_EMPTY(&entry->yankfns)' failed.
->=20
-> This happens because of a missing yank_unregister_function() when using
-> qio-channel-tls.
->=20
-> Fix this by also allowing TYPE_QIO_CHANNEL_TLS object type to perform
-> yank_unregister_function() in channel_close() and multifd_load_cleanup().
->=20
-> Fixes: 50186051f ("Introduce yank feature")
-> Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=3D1964326
-> Signed-off-by: Leonardo Bras <leobras.c@gmail.com>
-> ---
->  migration/multifd.c           | 5 +++--
->  migration/qemu-file-channel.c | 7 +++++++
->  2 files changed, 10 insertions(+), 2 deletions(-)
->=20
-> diff --git a/migration/multifd.c b/migration/multifd.c
-> index 0a4803cfcc..be8656f4c0 100644
-> --- a/migration/multifd.c
-> +++ b/migration/multifd.c
-> @@ -987,8 +987,9 @@ int multifd_load_cleanup(Error **errp)
->      for (i =3D 0; i < migrate_multifd_channels(); i++) {
->          MultiFDRecvParams *p =3D &multifd_recv_state->params[i];
-> =20
-> -        if (object_dynamic_cast(OBJECT(p->c), TYPE_QIO_CHANNEL_SOCKET)
-> -            && OBJECT(p->c)->ref =3D=3D 1) {
-> +        if ((object_dynamic_cast(OBJECT(p->c), TYPE_QIO_CHANNEL_SOCKET) =
-||
-> +            (object_dynamic_cast(OBJECT(p->c), TYPE_QIO_CHANNEL_TLS)))  =
-&&
-> +            OBJECT(p->c)->ref =3D=3D 1) {
->              yank_unregister_function(MIGRATION_YANK_INSTANCE,
->                                       migration_yank_iochannel,
->                                       QIO_CHANNEL(p->c));
-
-The code here should be the same as in channel_close. So for the
-tls-channel you have to unregister with QIO_CHANNEL(tioc->master) like
-below.
-
-Regards,
-Lukas Straub
-
-> diff --git a/migration/qemu-file-channel.c b/migration/qemu-file-channel.c
-> index 876d05a540..4f79090f3f 100644
-> --- a/migration/qemu-file-channel.c
-> +++ b/migration/qemu-file-channel.c
-> @@ -26,6 +26,7 @@
->  #include "qemu-file-channel.h"
->  #include "qemu-file.h"
->  #include "io/channel-socket.h"
-> +#include "io/channel-tls.h"
->  #include "qemu/iov.h"
->  #include "qemu/yank.h"
->  #include "yank_functions.h"
-> @@ -111,6 +112,12 @@ static int channel_close(void *opaque, Error **errp)
->          yank_unregister_function(MIGRATION_YANK_INSTANCE,
->                                   migration_yank_iochannel,
->                                   QIO_CHANNEL(ioc));
-> +    } else if (object_dynamic_cast(OBJECT(ioc), TYPE_QIO_CHANNEL_TLS)
-> +               && OBJECT(ioc)->ref =3D=3D 1) {
-> +        QIOChannelTLS *tioc =3D opaque;
-> +        yank_unregister_function(MIGRATION_YANK_INSTANCE,
-> +                                 migration_yank_iochannel,
-> +                                 QIO_CHANNEL(tioc->master));
->      }
->      object_unref(OBJECT(ioc));
->      return ret;
-
-
-
---=20
-
-
---Sig_/pcQrpBbx4o7bD4P+xOhFGTf
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAmCuvIIACgkQNasLKJxd
-slii7Q/8C8+7L3BSB4TSbDxA16kDlWG3GWOEsNTsnd5wc3VA4sWt6Dddu5kXsZ4K
-95SGbsde18gadSKrmAUq04de40GQupSjUsm0G0QBYFirA3kzNQ/iWthaX90H0jBc
-4yajPpDahv1xznXiMmpJy/GeFMubtwI58cnrtr2/eajMiRDQPKIvUIH+4JdUBgCK
-tFyMIqJRL57PF0qWUs+mz4pgJ7iDdzODRgUcfZisbz29DpvYrvmeDiOoshngMz25
-LRZBEhXAbUsDUt4ywLJMsHWB5HGJJj5bujKe70L9u2R95tpz4MMAlMJSAkFnkehP
-bmpWXMxczX2OKZK5s9sveiaogaiL8TrkWbjNSkVuRKaM4lmR6odEtlmfzhkBuXdR
-Hx7hbzp3HCPEwAz8C1yr4h5TqdiEvk5oB1CQz4JpPr1iszIfO5XtwYx67UPJ9CSN
-pSoZ/4s7wATjpW5Iw5mY6rDoeNU31IXI/nZ6Y/BWhx6JrKBnL4mK6d7R+b0QEoDG
-3PWiq1bQ4mAPB2HoGxmC41J2yqsZtkAg+5tjW1IIscczRIBAgIpV8KmqBkqhulsR
-2JNtjh5H86KxI9Sx3E4DSS3zte2Cc3SA8/RRFHn4fQC5R3e8dmDwtaJfuPP63JqL
-0GvhNF24fxB+lBrwiltPF8Em9Tam+lKWZr2BhPpw7Mqk2pjKzUU=
-=bxA8
------END PGP SIGNATURE-----
-
---Sig_/pcQrpBbx4o7bD4P+xOhFGTf--
+r~
 
