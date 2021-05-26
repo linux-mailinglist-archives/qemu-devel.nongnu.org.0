@@ -2,82 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B563391E40
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 19:39:08 +0200 (CEST)
-Received: from localhost ([::1]:52828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7702391E5B
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 19:48:30 +0200 (CEST)
+Received: from localhost ([::1]:36376 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llxUo-0003Ku-Lu
-	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 13:39:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46476)
+	id 1llxdt-0003GJ-Ut
+	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 13:48:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46786)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1llx96-0004JD-3F
- for qemu-devel@nongnu.org; Wed, 26 May 2021 13:16:40 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:37886)
+ (Exim 4.90_1) (envelope-from <borello.gabriele8@gmail.com>)
+ id 1llxAx-0006Gp-Qu
+ for qemu-devel@nongnu.org; Wed, 26 May 2021 13:18:35 -0400
+Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:34336)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1llx93-0001Fl-LB
- for qemu-devel@nongnu.org; Wed, 26 May 2021 13:16:39 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id q5so1931896wrs.4
- for <qemu-devel@nongnu.org>; Wed, 26 May 2021 10:16:36 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <borello.gabriele8@gmail.com>)
+ id 1llxAv-00026r-Tt
+ for qemu-devel@nongnu.org; Wed, 26 May 2021 13:18:35 -0400
+Received: by mail-ed1-x533.google.com with SMTP id w12so2483210edx.1
+ for <qemu-devel@nongnu.org>; Wed, 26 May 2021 10:18:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=ho3LJnmnOHM5/daeNt5QxujvlDMrZ3nfbyIVITlBS5o=;
- b=DUMwj5yc1fMKMkR4HsjJcBfr4M5hJKBIIZ3jvhZF0vqFoMqFNpi/A+kJDZnuuVM7t/
- FmYZNwigS7kAT1caXDv47CuekCJhp2ZCA6CSNXB/3ncctaaneU0u1vDxX6ezjXB8Rk05
- v5zVuD9qx4b4wwDLCFtTXRv9JRybYYOSkXZGqN2W+IMkEQuHW7wceIRPXwr+48x3IRWq
- fMjsUCVskda3VWsgBjJuvh8mfGQVMSrUSO5hvYyhbI8bqraYm6FxvBYJjvoL/cDSYUJT
- IoYnBxMBXZy61h2xEnwc00aYb5+UtxPVApuqdj9rbKlaxo811fks6zlr6xz9lpr1xYsL
- GcYg==
+ h=mime-version:from:date:message-id:subject:to;
+ bh=y/bk9X0Nel1BpyToP+hEeeeuxonHkXTGFm0/BUdm/PQ=;
+ b=pmGqYipdcJGSUS44crChT8TYQZFAlFoKa+8g+4/lAWxC+sa5GLZdvsZXWHVO75vmg7
+ XKyY5C0J8avxg7tOdOUSiCS0+Z2oN/FcCoz+vhF7ypsUQrfrslrgV4InNiUXNiZa270r
+ /NmnltCiSAE3HWZeswc2CNlQwI5vJCEXtO96kh77lp3Owznb2cJrHQkESmCMrlluEMKJ
+ M3cyFScE8zQBibf/1Dm9mvcQ4In5IzN7GN1mzdzmeCQLBPplEJdOkwUExvtAp0NSjwTM
+ NsIrPqKwBmAomVRtNOAW4WyDnKXRurnAlWDaz6vkHoOgC4rz5//tSE5+O3m4Ni+vRF7s
+ CBIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ho3LJnmnOHM5/daeNt5QxujvlDMrZ3nfbyIVITlBS5o=;
- b=OS7qeXX4+te02O3urdgRkyTB1IqVtOI4Se1lhUApW50afDk/f01w70iVbuGsNXvso2
- NY7di2iiyBpb0BPDTfVKdZ6zOc/tGpEMmxBbOlnyL9TdhrFFEomU5D3q/GaF+AMiVd6T
- GxYr9q+EjI10ds805YxK98pT9bg7VvASj9l06vyWQfKXKTcTY1pIQrezTD739KCRizph
- 2xkU1WPq3d/w0iI4WtZXrTo2BJ/etxVkvO/DVd+oPHKAIt66FpyFdJc/EJhje4vOD0Df
- sXDdnG0O6vbhM5lfj2Zv4Vo8FWvX6on49YPIYpI314k9kMc2V5x2YVaXVOi9pBIu14mr
- t88g==
-X-Gm-Message-State: AOAM530C4M7Fwc2DHTaCYzjjuamkgLb98frkHxjo87gP4uCu3w03ukjC
- AO/QpE+zlvsVGGJ1kRYuGpjKTi0Tvafgwg==
-X-Google-Smtp-Source: ABdhPJwzjHNm6H8LppQei5H5VcNuaL92ciPRNU2qWtIVsZ6MU45nd2hGYQR+fuP9ZrmcUSGVqQ6khw==
-X-Received: by 2002:adf:e58c:: with SMTP id l12mr33757780wrm.133.1622049395357; 
- Wed, 26 May 2021 10:16:35 -0700 (PDT)
-Received: from [192.168.1.36] (64.red-88-10-103.dynamicip.rima-tde.net.
- [88.10.103.64])
- by smtp.gmail.com with ESMTPSA id d9sm20532899wrx.11.2021.05.26.10.16.34
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 26 May 2021 10:16:34 -0700 (PDT)
-Subject: Re: [PATCH] linux-user: Remove unnecessary static assert involving
- __SIGRTMAX
-To: Michael Forney <mforney@mforney.org>, Laurent Vivier <laurent@vivier.eu>
-References: <20210526043928.9586-1-mforney@mforney.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <502221eb-cc9f-ca58-2864-91aaa07006ba@amsat.org>
-Date: Wed, 26 May 2021 19:16:28 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=y/bk9X0Nel1BpyToP+hEeeeuxonHkXTGFm0/BUdm/PQ=;
+ b=iwED/eU30NB2N2U8ib41YBr3deJ/kMsRi6PifJtachmG8c+jSkebZLStMNDUfSfo5q
+ YAqvxAwO+equa3KNk5CsHE1hCCtZJcXJCSV7TstyWQKkON6ad877OXqUz9U0rwHl2s3g
+ IQx+FkPziOj7eH62oMNMo2KN3ovlnuXRIW6idvlkC8q4Ry0pwuJImzGMxAoLcH8Oh9Cr
+ XlTggNJYrZ1Nb6IKHmTx8cH1l0vgAhtQt46WYWDFGRVJqw1yX3TbZ1C2qZtlFNZTvdUl
+ j1z2V1Z7Q4tj5IAQbtMU31QktfHIWar1j/iSvr1w5S8rUAxPgZl/EutUhrdwiVOf9h3u
+ hpmQ==
+X-Gm-Message-State: AOAM530HWHLpgDEidIyPYUH1bJqhH+pTbgP2qlc8kz3ZSD5hidgnjch1
+ g4k3V1atSx8X62yo+LdvKt5JezsgMsE224Odh/AoD+G19KxJd58j05U=
+X-Google-Smtp-Source: ABdhPJwTLNVZoqljpKcmd4UcDrE+uSEEbQf69FQ1LEI+CJuS7FfEjqOnZZm496VMQKQkGWU7eI2ZiFZDTHOquqSZHjk=
+X-Received: by 2002:a05:6402:8c7:: with SMTP id
+ d7mr22052807edz.298.1622049508812; 
+ Wed, 26 May 2021 10:18:28 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210526043928.9586-1-mforney@mforney.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
+From: Gabriele Borello <borello.gabriele8@gmail.com>
+Date: Wed, 26 May 2021 19:18:17 +0200
+Message-ID: <CAH1_c8og7hQXSEaaxg5tUoom+OuT+ZmE_12kVmk5ARW8ozfwQA@mail.gmail.com>
+Subject: P2P problem on QEMU
+To: qemu-devel@nongnu.org
+Content-Type: multipart/alternative; boundary="000000000000c7ea5405c33ed4c7"
+Received-SPF: pass client-ip=2a00:1450:4864:20::533;
+ envelope-from=borello.gabriele8@gmail.com; helo=mail-ed1-x533.google.com
+X-Spam_score_int: 1
+X-Spam_score: 0.1
+X-Spam_bar: /
+X-Spam_report: (0.1 / 5.0 requ) BAYES_00=-1.9, DEAR_SOMETHING=1.973,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Wed, 26 May 2021 13:35:26 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,49 +76,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/26/21 6:39 AM, Michael Forney wrote:
-> Since "linux-user: fix use of SIGRTMIN" (6bc024e7), qemu removed
-> use of __SIGRTMAX except for in this QEMU_BUILD_BUG_ON assert.
-> Presumably, this check is to ensure that the loop in signal_table_init
-> from SIGRTMIN to SIGRTMAX falls within the bounds of
-> host_to_target_signal_table (_NSIG).
-> 
-> However, _NSIG is already defined to be the one larger than the
-> largest signal supported by the system (as specified in the upcoming
-> POSIX revision[0]), so the check is unnecessary.
-> 
-> musl libc does not define __SIGRTMAX, so removing this check fixes
-> one of the last remaining errors when building qemu.
-> 
-> [0] https://www.austingroupbugs.net/view.php?id=741
-> 
-> Signed-off-by: Michael Forney <mforney@mforney.org>
-> ---
-> If you prefer, I can send an alternate patch to leave the
-> QEMU_BUILD_BUG_ON, but guard it by #ifdef __SIGRTMAX.
+--000000000000c7ea5405c33ed4c7
+Content-Type: text/plain; charset="UTF-8"
 
-This looks safer, personally I prefer, but let's see what the
-maintainers prefer.
+Dear Sir/Madame,
+I am Gabriele Borello, an engineering student at the Polytechnic of Turin.
+I am preparing my master's thesis at the Reds laboratories of HEIG-VD in
+Yverdon-les-bains, Switzerland.
+It is based on the creation of a simple computational storage that exploits
+the advantages deriving from the NVMe protocol.
 
->  linux-user/signal.c | 1 -
->  1 file changed, 1 deletion(-)
-> 
-> diff --git a/linux-user/signal.c b/linux-user/signal.c
-> index 9016896dcd..6f62f2b528 100644
-> --- a/linux-user/signal.c
-> +++ b/linux-user/signal.c
-> @@ -38,7 +38,6 @@ static void host_signal_handler(int host_signum, siginfo_t *info,
->   * Signal number 0 is reserved for use as kill(pid, 0), to test whether
->   * a process exists without sending it a signal.
->   */
-> -QEMU_BUILD_BUG_ON(__SIGRTMAX + 1 != _NSIG);
->  static uint8_t host_to_target_signal_table[_NSIG] = {
->      [SIGHUP] = TARGET_SIGHUP,
->      [SIGINT] = TARGET_SIGINT,
-> 
+ The QEMU environment has been widely used for the validation phase and I
+am writing to you about a problem encountered for the implementation of a
+peer-to-peer transfer using p2pmem-test (
+https://github.com/sbates130272/p2pmem-test ).
 
+The following kernel version was used: Linux 5.9.0-rc8 x86_64,
+with the following QEMU settings:
+sudo ./experimental_qemu/build/qemu-system-x86_64 -M pc -nographic
+-no-reboot -object
+memory-backend-file,id=pc.ram,size=3G,mem-path=/dev/shm/qemu-mem,share=on
+-machine memory-backend=pc.ram -cpu host -m 3G -smp cpus=2 --enable-kvm
+-kernel ./bzImage -drive file=./rootfs-target.img,if=ide,format=raw -drive
+file=nvme.img,if=none,id=nvme0 -device
+nvme,drive=nvme0,serial=d000000d,num_queues=8,cmb_size_mb=128 -drive
+file=nvme1.img,if=none,id=nvme1 -device
+nvme,drive=nvme1,serial=e000000e,num_queues=8,cmb_size_mb=128 -append
+"console=ttyS0 root=/dev/sda rw panic=1 earlyprintk=serial,ttyS0,115200"
+-trace events="${QEMU_TMP_DIR}"/events.
+
+ The kernel was compiled by configuring peer-to-peer as described in the
+p2pmem-test guide. Trying to run the command suggested in the p2pmem-test
+guide ( ./p2pmem-test /dev/nvme0n1 /dev/nvme1n1 /dev/p2pmem0 -c 1 -s 4k),
+we get a kernel panic.
+
+We don't know where we went wrong. If you could give us feedback we would
+be very grateful.
+
+Thank you,
+Best regards.
+
+Gabriele
+
+--000000000000c7ea5405c33ed4c7
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Dear Sir/Madame,</div>I am Gabriele Borello, an engin=
+eering student at the Polytechnic of Turin. I am preparing my master&#39;s =
+thesis at the Reds laboratories of HEIG-VD in Yverdon-les-bains, Switzerlan=
+d.=C2=A0<div>It is based on the creation of a simple computational storage =
+that exploits the advantages deriving from the NVMe protocol.<br></div><div=
+><div><br></div><div>=C2=A0The QEMU environment has been widely used for th=
+e validation phase and I am writing to you about a problem encountered for =
+the implementation of a peer-to-peer transfer using p2pmem-test ( <a href=
+=3D"https://github.com/sbates130272/p2pmem-test">https://github.com/sbates1=
+30272/p2pmem-test</a> ).</div><div>=C2=A0</div><div>The following kernel ve=
+rsion was used: Linux 5.9.0-rc8 x86_64,=C2=A0</div><div>with the following =
+QEMU settings:=C2=A0</div><div>sudo ./experimental_qemu/build/qemu-system-x=
+86_64 -M pc -nographic -no-reboot -object memory-backend-file,id=3Dpc.ram,s=
+ize=3D3G,mem-path=3D/dev/shm/qemu-mem,share=3Don -machine memory-backend=3D=
+pc.ram -cpu host -m 3G -smp cpus=3D2 --enable-kvm -kernel ./bzImage -drive =
+file=3D./rootfs-target.img,if=3Dide,format=3Draw -drive file=3Dnvme.img,if=
+=3Dnone,id=3Dnvme0 -device nvme,drive=3Dnvme0,serial=3Dd000000d,num_queues=
+=3D8,cmb_size_mb=3D128 -drive file=3Dnvme1.img,if=3Dnone,id=3Dnvme1 -device=
+ nvme,drive=3Dnvme1,serial=3De000000e,num_queues=3D8,cmb_size_mb=3D128 -app=
+end &quot;console=3DttyS0 root=3D/dev/sda rw panic=3D1 earlyprintk=3Dserial=
+,ttyS0,115200&quot; -trace events=3D&quot;${QEMU_TMP_DIR}&quot;/events.=C2=
+=A0</div><div><br></div><div>=C2=A0The kernel was compiled by configuring p=
+eer-to-peer as described in the p2pmem-test guide. Trying to run the comman=
+d suggested in the p2pmem-test guide (<span style=3D"color:rgb(36,41,46);fo=
+nt-family:-apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,Helvetica,A=
+rial,sans-serif,&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&quot;"><=
+span style=3D"font-size:16px">=C2=A0</span>./p2pmem-test /dev/nvme0n1 /dev/=
+nvme1n1 /dev/p2pmem0 -c 1 -s 4k</span>),=C2=A0 we get a kernel panic.=C2=A0=
+</div><div><br></div><div>We don&#39;t know where we went wrong. If you cou=
+ld give us feedback we would be very grateful.<br></div></div><div><br></di=
+v><div>Thank you,</div><div>Best regards.</div><div><br></div><div>Gabriele=
+</div></div>
+
+--000000000000c7ea5405c33ed4c7--
 
