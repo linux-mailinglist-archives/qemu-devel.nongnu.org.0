@@ -2,55 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8798239101A
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 07:45:56 +0200 (CEST)
-Received: from localhost ([::1]:44764 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A702D39103C
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 07:57:01 +0200 (CEST)
+Received: from localhost ([::1]:48060 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llmMd-0006pD-Bv
-	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 01:45:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44870)
+	id 1llmXM-0001Iw-Ap
+	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 01:57:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46116)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1llmKV-00062I-HU; Wed, 26 May 2021 01:43:43 -0400
-Received: from out28-50.mail.aliyun.com ([115.124.28.50]:44335)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1llmKP-0001IR-3k; Wed, 26 May 2021 01:43:43 -0400
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07436282|-1; CH=green;
- DM=|CONTINUE|false|; DS=CONTINUE|ham_system_inform|0.612949-0.0112475-0.375804;
- FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047206; MF=zhiwei_liu@c-sky.com; NM=1;
- PH=DS; RN=5; RT=5; SR=0; TI=SMTPD_---.KIuOjLT_1622007807; 
-Received: from 172.27.117.59(mailfrom:zhiwei_liu@c-sky.com
- fp:SMTPD_---.KIuOjLT_1622007807) by smtp.aliyun-inc.com(10.147.40.2);
- Wed, 26 May 2021 13:43:28 +0800
-Subject: Re: [PATCH 05/38] target/riscv: 8-bit Addition & Subtraction
- Instruction
-To: Palmer Dabbelt <palmer@dabbelt.com>, alistair23@gmail.com
-References: <mhng-167a21fd-72ef-432a-896e-ac21b587c560@palmerdabbelt-glaptop>
-From: LIU Zhiwei <zhiwei_liu@c-sky.com>
-Message-ID: <1f8c7632-6254-d418-4529-9f107b053145@c-sky.com>
-Date: Wed, 26 May 2021 13:43:27 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1llmWB-0008Os-9A
+ for qemu-devel@nongnu.org; Wed, 26 May 2021 01:55:47 -0400
+Received: from indium.canonical.com ([91.189.90.7]:59142)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1llmW9-0001oy-1i
+ for qemu-devel@nongnu.org; Wed, 26 May 2021 01:55:47 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
+ id 1llmW6-0002kD-Rg
+ for <qemu-devel@nongnu.org>; Wed, 26 May 2021 05:55:42 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id D02DC2E8136
+ for <qemu-devel@nongnu.org>; Wed, 26 May 2021 05:55:42 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <mhng-167a21fd-72ef-432a-896e-ac21b587c560@palmerdabbelt-glaptop>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: none client-ip=115.124.28.50; envelope-from=zhiwei_liu@c-sky.com;
- helo=out28-50.mail.aliyun.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 26 May 2021 05:48:22 -0000
+From: Thomas Huth <1878034@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: a1xndr th-huth
+X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <158921238974.12092.6203453160058985938.malonedeb@wampee.canonical.com>
+Message-Id: <162200810288.30100.11002013433585954415.malone@gac.canonical.com>
+Subject: [Bug 1878034] Re: memcpy param-overlap through
+ e1000e_write_to_rx_buffers
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="30919b71da718d7d3f6b69e715e9fe95f7c3c5de"; Instance="production"
+X-Launchpad-Hash: 3c9c062ebb7e260d34f6f8460a4496c41cccf6e8
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -59,282 +71,130 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: richard.henderson@linaro.org, qemu-riscv@nongnu.org, qemu-devel@nongnu.org
+Reply-To: Bug 1878034 <1878034@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Ok, confirmed, with that new reproducer it also detects the error here
+when I compile QEMU with Clang and ASAN enabled.
 
-On 5/24/21 9:00 AM, Palmer Dabbelt wrote:
-> On Mon, 15 Mar 2021 14:22:58 PDT (-0700), alistair23@gmail.com wrote:
->> On Fri, Feb 12, 2021 at 10:14 AM LIU Zhiwei <zhiwei_liu@c-sky.com> 
->> wrote:
->>>
->>> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
->>
->> Acked-by: Alistair Francis <alistair.francis@wdc.com>
->
-> I saw some reviews on the other ones, but since others (like this) 
-> just have acks and haven't had any other traffic I'm going to start here.
->
-> It looks like the latest spec is 0.9.4, but the changelog is pretty 
-> minimal between 0.9.5 and 0.9.2:
->
-> [0.9.2 -> 0.9.3]
->
-> * Changed Zp64 name to Zpsfoperand.
-> * Added Zprvsfextra for RV64 only instructions.
-> * Removed SWAP16 encoding. It is an alias of PKBT16.
-> * Fixed few typos and enhanced precision descriptions on imtermediate 
-> results.
->
-> [0.9.3 -> 0.9.4]
->
-> * Fixed few typos and enhanced precision descriptions on imtermediate 
-> results.
-> * Fixed/Changed data types for some intrinsic functions.
-> * Removed "RV32 Only" for Zpsfoperand.
->
-> So I'm just going to stick with reviewing based on the latest spec 
-> <https://github.com/riscv/riscv-p-spec/blob/d33a761f805d3b7c84214e5654a511267985a0a0/P-ext-proposal.pdf> 
-> and try to keep those differences in mind, assuming we're just 
-> tracking the latest draft here.
->
-Hi Palmer,
+** Changed in: qemu
+       Status: Incomplete =3D> Confirmed
 
-It's a good news.
+-- =
 
-I plan to rebase the patch set and update to the latest specification.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1878034
 
-Probably before next week, we can get a v2 patch set.
+Title:
+  memcpy param-overlap through e1000e_write_to_rx_buffers
 
-Zhiwei
+Status in QEMU:
+  Confirmed
 
->> Alistair
->>
->>> ---
->>>  target/riscv/helper.h                   |  9 +++
->>>  target/riscv/insn32.decode              | 11 ++++
->>>  target/riscv/insn_trans/trans_rvp.c.inc | 79 +++++++++++++++++++++++++
->>>  target/riscv/packed_helper.c            | 73 +++++++++++++++++++++++
->>>  4 files changed, 172 insertions(+)
->>>
->>> diff --git a/target/riscv/helper.h b/target/riscv/helper.h
->>> index 6d622c732a..a69a6b4e84 100644
->>> --- a/target/riscv/helper.h
->>> +++ b/target/riscv/helper.h
->>> @@ -1175,3 +1175,12 @@ DEF_HELPER_3(rstsa16, tl, env, tl, tl)
->>>  DEF_HELPER_3(urstsa16, tl, env, tl, tl)
->>>  DEF_HELPER_3(kstsa16, tl, env, tl, tl)
->>>  DEF_HELPER_3(ukstsa16, tl, env, tl, tl)
->>> +
->>> +DEF_HELPER_3(radd8, tl, env, tl, tl)
->>> +DEF_HELPER_3(uradd8, tl, env, tl, tl)
->>> +DEF_HELPER_3(kadd8, tl, env, tl, tl)
->>> +DEF_HELPER_3(ukadd8, tl, env, tl, tl)
->>> +DEF_HELPER_3(rsub8, tl, env, tl, tl)
->>> +DEF_HELPER_3(ursub8, tl, env, tl, tl)
->>> +DEF_HELPER_3(ksub8, tl, env, tl, tl)
->>> +DEF_HELPER_3(uksub8, tl, env, tl, tl)
->>> diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
->>> index 8815e90476..358dd1fa10 100644
->>> --- a/target/riscv/insn32.decode
->>> +++ b/target/riscv/insn32.decode
->>> @@ -624,3 +624,14 @@ rstsa16    1011011  ..... ..... 010 ..... 
->>> 1111111 @r
->>>  urstsa16   1101011  ..... ..... 010 ..... 1111111 @r
->>>  kstsa16    1100011  ..... ..... 010 ..... 1111111 @r
->>>  ukstsa16   1110011  ..... ..... 010 ..... 1111111 @r
->>> +
->>> +add8       0100100  ..... ..... 000 ..... 1111111 @r
->>> +radd8      0000100  ..... ..... 000 ..... 1111111 @r
->>> +uradd8     0010100  ..... ..... 000 ..... 1111111 @r
->>> +kadd8      0001100  ..... ..... 000 ..... 1111111 @r
->>> +ukadd8     0011100  ..... ..... 000 ..... 1111111 @r
->>> +sub8       0100101  ..... ..... 000 ..... 1111111 @r
->>> +rsub8      0000101  ..... ..... 000 ..... 1111111 @r
->>> +ursub8     0010101  ..... ..... 000 ..... 1111111 @r
->>> +ksub8      0001101  ..... ..... 000 ..... 1111111 @r
->>> +uksub8     0011101  ..... ..... 000 ..... 1111111 @r
->>> diff --git a/target/riscv/insn_trans/trans_rvp.c.inc 
->>> b/target/riscv/insn_trans/trans_rvp.c.inc
->>> index 0885a4fd45..109f560ec9 100644
->>> --- a/target/riscv/insn_trans/trans_rvp.c.inc
->>> +++ b/target/riscv/insn_trans/trans_rvp.c.inc
->>> @@ -159,3 +159,82 @@ GEN_RVP_R_OOL(rstsa16);
->>>  GEN_RVP_R_OOL(urstsa16);
->>>  GEN_RVP_R_OOL(kstsa16);
->>>  GEN_RVP_R_OOL(ukstsa16);
->>> +
->>> +/* 8-bit Addition & Subtraction Instructions */
->>> +/*
->>> + *  Copied from tcg-op-gvec.c.
->>> + *
->>> + *  Perform a vector addition using normal addition and a mask.  
->>> The mask
->>> + *  should be the sign bit of each lane.  This 6-operation form is 
->>> more
->>> + *  efficient than separate additions when there are 4 or more 
->>> lanes in
->>> + *  the 64-bit operation.
->>> + */
->>> +
->>> +static void gen_simd_add_mask(TCGv d, TCGv a, TCGv b, TCGv m)
->>> +{
->>> +    TCGv t1 = tcg_temp_new();
->>> +    TCGv t2 = tcg_temp_new();
->>> +    TCGv t3 = tcg_temp_new();
->>> +
->>> +    tcg_gen_andc_tl(t1, a, m);
->>> +    tcg_gen_andc_tl(t2, b, m);
->>> +    tcg_gen_xor_tl(t3, a, b);
->>> +    tcg_gen_add_tl(d, t1, t2);
->>> +    tcg_gen_and_tl(t3, t3, m);
->>> +    tcg_gen_xor_tl(d, d, t3);
->>> +
->>> +    tcg_temp_free(t1);
->>> +    tcg_temp_free(t2);
->>> +    tcg_temp_free(t3);
->>> +}
->>> +
->>> +static void tcg_gen_simd_add8(TCGv d, TCGv a, TCGv b)
->>> +{
->>> +    TCGv m = tcg_const_tl((target_ulong)dup_const(MO_8, 0x80));
->>> +    gen_simd_add_mask(d, a, b, m);
->>> +    tcg_temp_free(m);
->>> +}
->>> +
->>> +GEN_RVP_R_INLINE(add8, add, 0, trans_add);
->>> +
->>> +/*
->>> + *  Copied from tcg-op-gvec.c.
->>> + *
->>> + *  Perform a vector subtraction using normal subtraction and a mask.
->>> + *  Compare gen_addv_mask above.
->>> + */
->>> +static void gen_simd_sub_mask(TCGv d, TCGv a, TCGv b, TCGv m)
->>> +{
->>> +    TCGv t1 = tcg_temp_new();
->>> +    TCGv t2 = tcg_temp_new();
->>> +    TCGv t3 = tcg_temp_new();
->>> +
->>> +    tcg_gen_or_tl(t1, a, m);
->>> +    tcg_gen_andc_tl(t2, b, m);
->>> +    tcg_gen_eqv_tl(t3, a, b);
->>> +    tcg_gen_sub_tl(d, t1, t2);
->>> +    tcg_gen_and_tl(t3, t3, m);
->>> +    tcg_gen_xor_tl(d, d, t3);
->>> +
->>> +    tcg_temp_free(t1);
->>> +    tcg_temp_free(t2);
->>> +    tcg_temp_free(t3);
->>> +}
->>> +
->>> +static void tcg_gen_simd_sub8(TCGv d, TCGv a, TCGv b)
->>> +{
->>> +    TCGv m = tcg_const_tl((target_ulong)dup_const(MO_8, 0x80));
->>> +    gen_simd_sub_mask(d, a, b, m);
->>> +    tcg_temp_free(m);
->>> +}
->>> +
->>> +GEN_RVP_R_INLINE(sub8, sub, 0, trans_sub);
->>> +
->>> +GEN_RVP_R_OOL(radd8);
->>> +GEN_RVP_R_OOL(uradd8);
->>> +GEN_RVP_R_OOL(kadd8);
->>> +GEN_RVP_R_OOL(ukadd8);
->>> +GEN_RVP_R_OOL(rsub8);
->>> +GEN_RVP_R_OOL(ursub8);
->>> +GEN_RVP_R_OOL(ksub8);
->>> +GEN_RVP_R_OOL(uksub8);
->>> diff --git a/target/riscv/packed_helper.c 
->>> b/target/riscv/packed_helper.c
->>> index b84abaaf25..62db072204 100644
->>> --- a/target/riscv/packed_helper.c
->>> +++ b/target/riscv/packed_helper.c
->>> @@ -352,3 +352,76 @@ static inline void do_ukstsa16(CPURISCVState 
->>> *env, void *vd, void *va,
->>>  }
->>>
->>>  RVPR(ukstsa16, 2, 2);
->>> +
->>> +/* 8-bit Addition & Subtraction Instructions */
->>> +static inline void do_radd8(CPURISCVState *env, void *vd, void *va,
->>> +                            void *vb, uint8_t i)
->>> +{
->>> +    int8_t *d = vd, *a = va, *b = vb;
->>> +    d[i] = hadd32(a[i], b[i]);
->>> +}
->>> +
->>> +RVPR(radd8, 1, 1);
->>> +
->>> +static inline void do_uradd8(CPURISCVState *env, void *vd, void *va,
->>> +                                  void *vb, uint8_t i)
->>> +{
->>> +    uint8_t *d = vd, *a = va, *b = vb;
->>> +    d[i] = haddu32(a[i], b[i]);
->>> +}
->>> +
->>> +RVPR(uradd8, 1, 1);
->>> +
->>> +static inline void do_kadd8(CPURISCVState *env, void *vd, void *va,
->>> +                            void *vb, uint8_t i)
->>> +{
->>> +    int8_t *d = vd, *a = va, *b = vb;
->>> +    d[i] = sadd8(env, 0, a[i], b[i]);
->>> +}
->>> +
->>> +RVPR(kadd8, 1, 1);
->>> +
->>> +static inline void do_ukadd8(CPURISCVState *env, void *vd, void *va,
->>> +                             void *vb, uint8_t i)
->>> +{
->>> +    uint8_t *d = vd, *a = va, *b = vb;
->>> +    d[i] = saddu8(env, 0, a[i], b[i]);
->>> +}
->>> +
->>> +RVPR(ukadd8, 1, 1);
->>> +
->>> +static inline void do_rsub8(CPURISCVState *env, void *vd, void *va,
->>> +                            void *vb, uint8_t i)
->>> +{
->>> +    int8_t *d = vd, *a = va, *b = vb;
->>> +    d[i] = hsub32(a[i], b[i]);
->>> +}
->>> +
->>> +RVPR(rsub8, 1, 1);
->>> +
->>> +static inline void do_ursub8(CPURISCVState *env, void *vd, void *va,
->>> +                             void *vb, uint8_t i)
->>> +{
->>> +    uint8_t *d = vd, *a = va, *b = vb;
->>> +    d[i] = hsubu64(a[i], b[i]);
->>> +}
->>> +
->>> +RVPR(ursub8, 1, 1);
->>> +
->>> +static inline void do_ksub8(CPURISCVState *env, void *vd, void *va,
->>> +                            void *vb, uint8_t i)
->>> +{
->>> +    int8_t *d = vd, *a = va, *b = vb;
->>> +    d[i] = ssub8(env, 0, a[i], b[i]);
->>> +}
->>> +
->>> +RVPR(ksub8, 1, 1);
->>> +
->>> +static inline void do_uksub8(CPURISCVState *env, void *vd, void *va,
->>> +                             void *vb, uint8_t i)
->>> +{
->>> +    uint8_t *d = vd, *a = va, *b = vb;
->>> +    d[i] = ssubu8(env, 0, a[i], b[i]);
->>> +}
->>> +
->>> +RVPR(uksub8, 1, 1);
->>> -- 
->>> 2.17.1
->>>
->
-> The naming on some of these helpers is a bit odd, but given that 
-> they're a mix of the V and P extensions it's probably fine to just 
-> leave them as-is.
-> Reviewed-by: Palmer Dabbelt <palmerdabbelt@google.com>
+Bug description:
+  Hello,
+  While fuzzing, I found an input that triggers an overlapping memcpy (caug=
+ht by AddressSanitizer).
+  Overlapping memcpys are undefined behavior according to the POSIX and C s=
+tandards, and can lead to bugs.
+
+  =3D=3D22287=3D=3DERROR: AddressSanitizer: memcpy-param-overlap: memory ra=
+nges
+  #0 0x563c9f4823d4 in __asan_memcpy (/home/alxndr/Development/qemu/build/i=
+386-softmmu/qemu-system-i386+0x97a3d4)
+  #1 0x563c9f4cb2b1 in flatview_write_continue /home/alxndr/Development/qem=
+u/exec.c:3142:13
+  #2 0x563c9f4c3b97 in flatview_write /home/alxndr/Development/qemu/exec.c:=
+3177:14
+  #3 0x563c9f4c3b97 in address_space_write /home/alxndr/Development/qemu/ex=
+ec.c:3268:18
+  #4 0x563c9fbc457b in dma_memory_rw_relaxed /home/alxndr/Development/qemu/=
+include/sysemu/dma.h:87:18
+  #5 0x563c9fbc457b in dma_memory_rw /home/alxndr/Development/qemu/include/=
+sysemu/dma.h:110:12
+  #6 0x563c9fbc457b in pci_dma_rw /home/alxndr/Development/qemu/include/hw/=
+pci/pci.h:787:5
+  #7 0x563c9fbc457b in pci_dma_write /home/alxndr/Development/qemu/include/=
+hw/pci/pci.h:800:12
+  #8 0x563c9fbc457b in e1000e_write_to_rx_buffers /home/alxndr/Development/=
+qemu/hw/net/e1000e_core.c:1412:9
+  #9 0x563c9fbb9c98 in e1000e_write_packet_to_guest /home/alxndr/Developmen=
+t/qemu/hw/net/e1000e_core.c:1582:21
+  #10 0x563c9fbb9c98 in e1000e_receive_iov /home/alxndr/Development/qemu/hw=
+/net/e1000e_core.c:1709:9
+  #11 0x563c9fba8080 in net_tx_pkt_sendv /home/alxndr/Development/qemu/hw/n=
+et/net_tx_pkt.c:544:9
+  #12 0x563c9fba8080 in net_tx_pkt_send /home/alxndr/Development/qemu/hw/ne=
+t/net_tx_pkt.c:620:9
+  #13 0x563c9fba8827 in net_tx_pkt_send_loopback /home/alxndr/Development/q=
+emu/hw/net/net_tx_pkt.c:633:11
+  #14 0x563c9fbd2052 in e1000e_tx_pkt_send /home/alxndr/Development/qemu/hw=
+/net/e1000e_core.c:664:16
+  #15 0x563c9fbd2052 in e1000e_process_tx_desc /home/alxndr/Development/qem=
+u/hw/net/e1000e_core.c:743:17
+  #16 0x563c9fbd2052 in e1000e_start_xmit /home/alxndr/Development/qemu/hw/=
+net/e1000e_core.c:934:9
+  #17 0x563c9fbcecf0 in e1000e_set_tdt /home/alxndr/Development/qemu/hw/net=
+/e1000e_core.c:2451:9
+  #18 0x563c9fbbf20c in e1000e_core_write /home/alxndr/Development/qemu/hw/=
+net/e1000e_core.c:3261:9
+  #19 0x563c9f5b68d6 in memory_region_write_accessor /home/alxndr/Developme=
+nt/qemu/memory.c:483:5
+  #20 0x563c9f5b627f in access_with_adjusted_size /home/alxndr/Development/=
+qemu/memory.c:544:18
+  #21 0x563c9f5b627f in memory_region_dispatch_write /home/alxndr/Developme=
+nt/qemu/memory.c:1476:16
+
+  I can reproduce it in qemu 5.0 built with --enable-sanitizers using:
+  cat << EOF | ~/Development/qemu/build/i386-softmmu/qemu-system-i386 -M pc=
+-q35-5.0 -accel qtest -qtest stdio -nographic -monitor none -serial none
+  outl 0xcf8 0x80001010
+  outl 0xcfc 0xe1020000
+  outl 0xcf8 0x80001014
+  outl 0xcf8 0x80001004
+  outw 0xcfc 0x7
+  outl 0xcf8 0x800010a2
+  write 0xe102003a 0x3ff 0xd1055e2d3b0002e10000000001ffd3055e2d3b0002e10000=
+000001ffd5055e2d3b0002e10000000001ffd7055e2d3b0002e10000000001ffd9055e2d3b0=
+002e10000000001ffdb055e2d3b0002e10000000001ffdd055e2d3b0002e10000000001ffdf=
+055e2d3b0002e10000000001ffe1055e2d3b0002e10000000001ffe3055e2d3b0002e100000=
+00001ffe5055e2d3b0002e10000000001ffe7055e2d3b0002e10000000001ffe9055e2d3b00=
+02e10000000001ffeb055e2d3b0002e10000000001ffed055e2d3b0002e10000000001ffef0=
+55e2d3b0002e10000000001fff1055e2d3b0002e10000000001fff3055e2d3b0002e1000000=
+0001fff5055e2d3b0002e10000000001fff7055e2d3b0002e10000000001fff9055e2d3b000=
+2e10000000001fffb055e2d3b0002e10000000001fffd055e2d3b0002e10000000001ffff05=
+5e2d3b0002e10000000001ff01055e2d3b0002e10000000001ff03055e2d3b0002e10000000=
+001ff05055e2d3b0002e10000000001ff07055e2d3b0002e10000000001ff09055e2d3b0002=
+e10000000001ff0b055e2d3b0002e10000000001ff0d055e2d3b0002e10000000001ff0f055=
+e2d3b0002e10000000001ff11055e2d3b0002e10000000001ff13055e2d3b0002e100000000=
+01ff15055e2d3b0002e10000000001ff17055e2d3b0002e10000000001ff19055e2d3b0002e=
+10000000001ff1b055e2d3b0002e10000000001ff1d055e2d3b0002e10000000001ff1f055e=
+2d3b0002e10000000001ff21055e2d3b0002e10000000001ff23055e2d3b0002e1000000000=
+1ff25055e2d3b0002e10000000001ff27055e2d3b0002e10000000001ff29055e2d3b0002e1=
+0000000001ff2b055e2d3b0002e10000000001ff2d055e2d3b0002e10000000001ff2f055e2=
+d3b0002e10000000001ff31055e2d3b0002e10000000001ff33055e2d3b0002e10000000001=
+ff35055e2d3b0002e10000000001ff37055e2d3b0002e10000000001ff39055e2d3b0002e10=
+000000001ff3b055e2d3b0002e10000000001ff3d055e2d3b0002e10000000001ff3f055e2d=
+3b0002e10000000001ff41055e2d3b0002e10000000001ff43055e2d3b0002e10000000001f=
+f45055e2d3b0002e10000000001ff47055e2d3b0002e10000000001ff49055e2d3b0002e100=
+00000001ff4b055e2d3b0002e10000000001ff4d055e2d3b0002e10000000001ff4f055e2d3=
+b0002e10000000001ff51055e2d3b0002e10000000001ff53055e2d3b0002e10000000001ff=
+55055e2d3b0002e10000000001ff57055e2d3b0002e10000000001ff59055e2d3b0002e1000=
+0000001ff5b055e2d3b0002e10000000001ff5d055e2d3b0002e10000000001ff5f055e2d3b=
+0002e10000000001ff61055e2d3b0002e10000000001ff63
+  EOF
+
+  I also attached the trace to this launchpad report, in case the
+  formatting is broken:
+
+  qemu-system-i386 -M pc-q35-5.0 -accel qtest -qtest stdio -nographic
+  -monitor none -serial none < attachment
+
+  Please let me know if I can provide any further info.
+  -Alex
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1878034/+subscriptions
 
