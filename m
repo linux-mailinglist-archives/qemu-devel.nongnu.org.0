@@ -2,58 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C202A3914B2
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 12:17:15 +0200 (CEST)
-Received: from localhost ([::1]:52580 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D7F13914DC
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 12:26:42 +0200 (CEST)
+Received: from localhost ([::1]:55378 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llqbC-0008Pj-M1
-	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 06:17:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38938)
+	id 1llqkL-0002Qd-Da
+	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 06:26:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40512)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1llqa1-0007lB-Mg
- for qemu-devel@nongnu.org; Wed, 26 May 2021 06:16:01 -0400
-Received: from indium.canonical.com ([91.189.90.7]:37990)
+ id 1llqjT-0001hz-Aq
+ for qemu-devel@nongnu.org; Wed, 26 May 2021 06:25:47 -0400
+Received: from indium.canonical.com ([91.189.90.7]:38770)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1llqZz-0001ZS-L7
- for qemu-devel@nongnu.org; Wed, 26 May 2021 06:16:01 -0400
+ id 1llqjR-0007mA-A5
+ for qemu-devel@nongnu.org; Wed, 26 May 2021 06:25:47 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1llqZv-00039f-Iu
- for <qemu-devel@nongnu.org>; Wed, 26 May 2021 10:15:55 +0000
+ id 1llqjP-0004xt-0P
+ for <qemu-devel@nongnu.org>; Wed, 26 May 2021 10:25:43 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id F2B082E8197
- for <qemu-devel@nongnu.org>; Wed, 26 May 2021 10:15:51 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 004792E8188
+ for <qemu-devel@nongnu.org>; Wed, 26 May 2021 10:25:43 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 26 May 2021 10:07:22 -0000
-From: Laurent Vivier <1891748@bugs.launchpad.net>
+Date: Wed, 26 May 2021 10:16:27 -0000
+From: Laurent Vivier <1924912@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug: distribution=charms; sourcepackage=None; component=None;
- status=New; importance=Undecided; assignee=None; 
-X-Launchpad-Bug-Tags: arm linux-user tcg
+X-Launchpad-Bug-Tags: windows
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ajbennee dilfridge ech1965 laurent-vivier mdevaev
- mirabilos rth th-huth tsp84
-X-Launchpad-Bug-Reporter: Ech (ech1965)
+X-Launchpad-Bug-Commenters: kleinesfilmroellchen laurent-vivier mst-0 th-huth
+ ubuntu-weilnetz
+X-Launchpad-Bug-Reporter: =?utf-8?q?kleines_Filmr=C3=B6llchen_=28kleinesfil?=
+ =?utf-8?q?mroellchen=29?=
 X-Launchpad-Bug-Modifier: Laurent Vivier (laurent-vivier)
-References: <159749143652.14755.7473614939867617680.malonedeb@gac.canonical.com>
-Message-Id: <162202364218.30372.11535763165139488976.malone@gac.canonical.com>
-Subject: [Bug 1891748] Re: qemu-arm-static 5.1 can't run gcc
+References: <161875180735.23175.14682430598239905387.malonedeb@wampee.canonical.com>
+ <b48d2719-d334-2c16-be32-f3df52d415c7@vivier.eu>
+ <20210526054632-mutt-send-email-mst@kernel.org>
+Message-Id: <6c683323-8f6b-d851-68af-3d6e8f7db2a6@vivier.eu>
+Subject: Re: [Bug 1924912] VirtIO drivers don't work on Windows: "GLib: Too
+ many handles to wait for!" crash
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="30919b71da718d7d3f6b69e715e9fe95f7c3c5de"; Instance="production"
-X-Launchpad-Hash: 2d92c20c3c28bb79960fe93097912cde0217ae6a
+X-Launchpad-Hash: 249317d6b637e1a5f6a35f54bc75d6b0dd7b8a33
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -74,44 +76,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1891748 <1891748@bugs.launchpad.net>
+Reply-To: Bug 1924912 <1924912@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I think the output of "sysctl vm" could help to identify which parameter
-is involved in the problem. You can also compare the output of "sudo
-sysctl vm" and "sysctl vm"
+Le 26/05/2021 =C3=A0 11:47, mst a =C3=A9crit=C2=A0:
+> So it's a virtio console issue on a windows host.
+> =
+
+> [#0 init_stage2(2:2)]: VirtIOConsole: Found @ PCI [0000:00:04:00]
+> [#0 init_stage2(2:2)]: Trying to unregister unused handler (?)
+> [#0 init_stage2(2:2)]: VirtIOConsole: Multi port is not yet supported!
+> [#0 init_stage2(2:2)]: VirtIOConsole: cols: 0, rows: 0, max nr ports 0
+> qemu-system-i386.exe: warning: GLib: Too many handles to wait for!
+> =
+
+> Laurent?
+
+I will answer on gitlab issue:
+
+https://gitlab.com/qemu-project/qemu/-/issues/332
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1891748
+https://bugs.launchpad.net/bugs/1924912
 
 Title:
-  qemu-arm-static 5.1 can't run gcc
+  VirtIO drivers don't work on Windows: "GLib: Too many handles to wait
+  for!" crash
 
 Status in QEMU:
   Fix Released
-Status in Juju Charms Collection:
-  New
 
 Bug description:
-  Issue discovered while trying to build pikvm (1)
+  I ran SerenityOS <https://github.com/SerenityOS/serenity> out of WSL2
+  with native Windows QEMU. The system runs fine on the Linux QEMU (with
+  Windows X-Server). However, with Windows QEMU I get a hard crash after
+  the following output:
 
-  Long story short: when using qemu-arm-static 5.1, gcc exits whith
-  message:
+  ```
+  [#0 colonel(0:0)]: Scheduler[0]: idle loop running
+  [init_stage2(2:2)]: PCI [0000:00:00:00] PCI::ID [8086:1237]
+  [init_stage2(2:2)]: PCI [0000:00:01:00] PCI::ID [8086:7000]
+  [init_stage2(2:2)]: PCI [0000:00:01:01] PCI::ID [8086:7010]
+  [init_stage2(2:2)]: PCI [0000:00:01:02] PCI::ID [8086:7020]
+  [init_stage2(2:2)]: PCI [0000:00:01:03] PCI::ID [8086:7113]
+  [init_stage2(2:2)]: PCI [0000:00:02:00] PCI::ID [1234:1111]
+  [init_stage2(2:2)]: PCI [0000:00:03:00] PCI::ID [8086:2922]
+  [init_stage2(2:2)]: PCI [0000:00:04:00] PCI::ID [1af4:1003]
+  [init_stage2(2:2)]: PCI [0000:00:05:00] PCI::ID [1af4:1005]
+  [init_stage2(2:2)]: PCI [0000:00:06:00] PCI::ID [8086:100e]
+  [#0 init_stage2(2:2)]: BXVGA: framebuffer @ P0xf8000000
+  [#0 init_stage2(2:2)]: BXVGADevice resolution set to 1024x768 (pitch=3D40=
+96)
+  [init_stage2(2:2)]: UHCI: Controller found PCI::ID [8086:7020] @ PCI [000=
+0:00:01:02]
+  [init_stage2(2:2)]: UHCI: I/O base IO c080
+  [init_stage2(2:2)]: UHCI: Interrupt line: 11
+  [#0 init_stage2(2:2)]: UHCI: Allocated framelist at physical address P0x0=
+0e40000
+  [#0 init_stage2(2:2)]: UHCI: Framelist is at virtual address V0xc115d000
+  [#0 init_stage2(2:2)]: UHCI: QH(0xc115f000) @ 14946304: link_ptr=3D149463=
+38, element_link_ptr=3D1
+  [#0 init_stage2(2:2)]: UHCI: QH(0xc115f020) @ 14946336: link_ptr=3D149463=
+70, element_link_ptr=3D1
+  [#0 init_stage2(2:2)]: UHCI: QH(0xc115f040) @ 14946368: link_ptr=3D149464=
+02, element_link_ptr=3D1
+  [#0 init_stage2(2:2)]: UHCI: QH(0xc115f060) @ 14946400: link_ptr=3D149464=
+34, element_link_ptr=3D1
+  [#0 init_stage2(2:2)]: UHCI: QH(0xc115f080) @ 14946432: link_ptr=3D149585=
+93, element_link_ptr=3D1
+  [#0 init_stage2(2:2)]: UHCI: Reset completed
+  [#0 init_stage2(2:2)]: UHCI: Started
+  [#0 init_stage2(2:2)]: DMIExpose: SMBIOS 32bit Entry point @ P0x000f5870
+  [#0 init_stage2(2:2)]: DMIExpose: Data table @ P0x000f5890
+  [#0 init_stage2(2:2)]: VirtIOConsole: Found @ PCI [0000:00:04:00]
+  [#0 init_stage2(2:2)]: Trying to unregister unused handler (?)
+  [#0 init_stage2(2:2)]: VirtIOConsole: Multi port is not yet supported!
+  [#0 init_stage2(2:2)]: VirtIOConsole: cols: 0, rows: 0, max nr ports 0
+  qemu-system-i386.exe: warning: GLib: Too many handles to wait for!
+  ```
 
-  Allocating guest commpage: Operation not permitted
+  The lines starting with [ are SerenityOS output; QEMU warns "GLib: Too
+  many handles to wait for!" and crashes right after (can't even Ctrl-C
+  in the WSL command line, force-close in Windows necessary). A window
+  is still spawned but as the OS already switched out of text mode, just
+  a black screen is visible as QEMU crashes.
 
-  =
+  I first thought this to be an issue with SerenityOS and reported it
+  over there: <https://github.com/SerenityOS/serenity/issues/6422>. The
+  kernel devs pointed out that this seems to be a VirtIO driver/device
+  issue on the Windows build of QEMU, because the Serenity kernel tries
+  to initialize VirtIO devices which apparently crashes QEMU. There will
+  be mitigations from the SerenityOS side (by allowing to disable VirtIO
+  on boot) but it would of course be great if QEMU handled this
+  properly.
 
-  when using qemu-arm-static v5.0, gcc "works"
-
-  Steps to reproduce will follow
-
-  (1)  https://github.com/pikvm/pikvm/blob/master/pages/building_os.md
+  Version info: Both QEMU 6.0.0-rc3 and 5.2.0 exhibit this issue.
+  Windows release is 20H2, WSL2 is running Debian 10.9. SerenityOS has
+  no proper version but it was reproduced on the most current commits as
+  of 18/04/2021.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1891748/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1924912/+subscriptions
 
