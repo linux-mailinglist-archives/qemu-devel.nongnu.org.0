@@ -2,71 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6010C3923A2
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 02:13:21 +0200 (CEST)
-Received: from localhost ([::1]:55826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C03733923AC
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 02:17:05 +0200 (CEST)
+Received: from localhost ([::1]:59932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lm3eK-0002ZY-Cs
-	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 20:13:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34908)
+	id 1lm3hw-0005Sd-RD
+	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 20:17:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34912)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lm3FO-0005kL-HJ
+ id 1lm3FO-0005kq-KO
  for qemu-devel@nongnu.org; Wed, 26 May 2021 19:47:34 -0400
-Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:50962)
+Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b]:38899)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lm3FH-0004Vm-QN
+ id 1lm3FI-0004Vz-Kd
  for qemu-devel@nongnu.org; Wed, 26 May 2021 19:47:34 -0400
-Received: by mail-pj1-x1035.google.com with SMTP id t11so1714373pjm.0
- for <qemu-devel@nongnu.org>; Wed, 26 May 2021 16:47:27 -0700 (PDT)
+Received: by mail-pl1-x62b.google.com with SMTP id 69so1422329plc.5
+ for <qemu-devel@nongnu.org>; Wed, 26 May 2021 16:47:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=WlyMc+K2Pid/BoobYq2w/tlLCLpXHS9PvnSEDevx2XU=;
- b=hobtuQpRTJhPA00PpqsCUN3Id0E2so7iOrubDvxfKAmb62o3liZXLzdZ2C16L6GS8Y
- Ih0mm51e+CrYL9whnS0qTuEEm/3tO5C9ZFeszEGULqAKnWOATJlDdtCP3BiaOHKxJ5xv
- lJefco8cAdAcVopXy7aFXldH1RvtDY5fx/wNrspX7siY87xjnBYBNAeKanQxyebnbiCj
- qztGzzVC5eaKhcWUlP9fqmbyAgdFNm9q5cxMtVmTBcdBQ+HDENi7/sWXMQuF7zmDhiuP
- pXCj4jmncgqKF03eEbR629nVGQf+pwxTsA68qCgLfgBz9XXex1kZfvcC+T1W9kCUR71m
- hv9Q==
+ bh=e6BEiCbeKFz5loqZtzxI2JeaF9i9lMWYWU5RWY4z+jo=;
+ b=s0ePgidFtxmL/mVzo3BVldMMiwsrS76yEBmP2pYhvhZ5B6b1RbTeN3cx2Xyhu7c3Je
+ MGzid/cWrutbXFCDzXDfu0xhnp6vBioRA0t9CHVMkywaBEAPlujNKNUdMIGgydN2ZOxm
+ yRjdsMPCp+mEf5YFLdoJuev0bQvZDN7YrslHKATtCtJMoFIE2dFBN4lUT5LPkXl4WgwA
+ /vyfF8IEnroT2IXi4vjEqo3eLQibcq8cXINQNErmzTIdKEQeZn5RvSIPB9SNmCDI86Ei
+ 7b3mYh97+/UnPgFdvXHqWdb0CfQAvKpPw4BWPGF0s34sD+wigFxyG9CQB/OYeTfdwprs
+ TUHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=WlyMc+K2Pid/BoobYq2w/tlLCLpXHS9PvnSEDevx2XU=;
- b=ADZHsDiccRFB/FqHSNF2b6KOhJO9mhrTIcKSMku9z/hErlI08b2zJe57G1DNhQmC6s
- 4tsMnvIKYVTqRf/4VQJdXK+vclQ6Pd9oyjuNrjFbBJfvo5n6XM3KOL3rY7kKBj4di98E
- rOoaKZVfa57ejRPl5gArnJUInN/svVE605kbLaZhC2+U4x5KzzA06JTsUuOxyR2N0hlH
- AdiXxdiD//XH4zClppkBI2pOehPjhE79za0CfFpLxkIr+tCu8Om8ydoF9vz3/E23a8lC
- djhPfYrl4EHIATfNl5AMfPdgwVtwszY61InIJhJR0pnggK3SM/WvLeUGCD8QQA+fNLif
- sikQ==
-X-Gm-Message-State: AOAM532Rp7y7bxEv0mC7MBugiOvBZDu9pmKOUZ26DADzhEd4K4xEXjTx
- JdUtyYchthn2GmcnijwVpilmuTVLFrptqQ==
-X-Google-Smtp-Source: ABdhPJxspgIMRprSJvrJHkybjP9tl151iqtcbTsg0dkI1LAMFIFnDjyrqhcsVapF3JHj0zGqUhPSXg==
-X-Received: by 2002:a17:90a:7306:: with SMTP id
- m6mr6411532pjk.217.1622072846461; 
- Wed, 26 May 2021 16:47:26 -0700 (PDT)
+ bh=e6BEiCbeKFz5loqZtzxI2JeaF9i9lMWYWU5RWY4z+jo=;
+ b=giKPYGV61S/qcJWburHxYD0FsU0YjgyQk5LEFTTiADc6CDMLk4flw5jJOIYtXLBqUh
+ hxhMvcMu/YQqQzwhi2rT0kLNGaHewghAPfXN3KhVLdNm22CFsoiC69oD4BXGmaybvZr0
+ /AFHYje4L9h98+r9AACwo3Yjgfbe+5hord4rbwC5KiEHEYUkaRmH9SP20nomZlMFda/c
+ 8HcIPYRkubZqZqgHl3/ZdYUlzqEkTp1TuLxxaww+NrzdpNprCiEP0o+dKQ8ITj97lBCj
+ a82AeYDPyeTKXXX1DeEUZuK4sF6840/pEUuVfttZPrfwNs3qRXNRSWMk9aSOxtVcBHqD
+ e1VQ==
+X-Gm-Message-State: AOAM531xigTNOI08S7Eq6dsnR6fYSTThcS6rMXDH2jEeAL9Jj0/DCFkz
+ BYKtwjSUYBpklxfOFWFwPVIOaWBxOtks4A==
+X-Google-Smtp-Source: ABdhPJz1HCylq/hbxU+63TjDhzK+E54IWm+/QxmRPQXn6nrzPsVxgRZ8n9qF7HkeXIRuBPf6whIEFQ==
+X-Received: by 2002:a17:90a:fa6:: with SMTP id 35mr685681pjz.186.1622072847280; 
+ Wed, 26 May 2021 16:47:27 -0700 (PDT)
 Received: from localhost.localdomain (174-21-70-228.tukw.qwest.net.
  [174.21.70.228])
- by smtp.gmail.com with ESMTPSA id g13sm285355pfi.18.2021.05.26.16.47.25
+ by smtp.gmail.com with ESMTPSA id g13sm285355pfi.18.2021.05.26.16.47.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 May 2021 16:47:26 -0700 (PDT)
+ Wed, 26 May 2021 16:47:27 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 17/31] cpu: Directly use get_memory_mapping() fallback handlers
- in place
-Date: Wed, 26 May 2021 16:46:56 -0700
-Message-Id: <20210526234710.125396-18-richard.henderson@linaro.org>
+Subject: [PULL 18/31] cpu: Assert DeviceClass::vmsd is NULL on user emulation
+Date: Wed, 26 May 2021 16:46:57 -0700
+Message-Id: <20210526234710.125396-19-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210526234710.125396-1-richard.henderson@linaro.org>
 References: <20210526234710.125396-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,82 +91,94 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-No code uses CPUClass::get_memory_mapping() outside of hw/core/cpu.c:
+Migration is specific to system emulation.
 
-  $ git grep -F -- '->get_memory_mapping'
-  hw/core/cpu.c:87:    cc->get_memory_mapping(cpu, list, errp);
-  hw/core/cpu.c:439:    k->get_memory_mapping = cpu_common_get_memory_mapping;
-  target/i386/cpu.c:7422:    cc->get_memory_mapping = x86_cpu_get_memory_mapping;
-
-Check the handler presence in place and remove the common fallback code.
+Restrict current DeviceClass::vmsd to sysemu using #ifdef'ry,
+and assert in cpu_exec_realizefn() that dc->vmsd not set under
+user emulation.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20210517105140.1062037-11-f4bug@amsat.org>
+Message-Id: <20210517105140.1062037-12-f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- hw/core/cpu-common.c | 16 ----------------
- hw/core/cpu-sysemu.c | 13 +++++++++++++
- 2 files changed, 13 insertions(+), 16 deletions(-)
+ cpu.c               | 2 ++
+ target/sh4/cpu.c    | 5 +++--
+ target/xtensa/cpu.c | 4 +++-
+ 3 files changed, 8 insertions(+), 3 deletions(-)
 
-diff --git a/hw/core/cpu-common.c b/hw/core/cpu-common.c
-index 2aa6b8cffc..9530e266ec 100644
---- a/hw/core/cpu-common.c
-+++ b/hw/core/cpu-common.c
-@@ -66,21 +66,6 @@ CPUState *cpu_create(const char *typename)
-     return cpu;
+diff --git a/cpu.c b/cpu.c
+index 34a0484bf4..6fe4af2797 100644
+--- a/cpu.c
++++ b/cpu.c
+@@ -141,6 +141,8 @@ void cpu_exec_realizefn(CPUState *cpu, Error **errp)
+ #endif /* CONFIG_TCG */
+ 
+ #ifdef CONFIG_USER_ONLY
++    assert(qdev_get_vmsd(DEVICE(cpu)) == NULL ||
++           qdev_get_vmsd(DEVICE(cpu))->unmigratable);
+     assert(cc->vmsd == NULL);
+ #else
+     if (qdev_get_vmsd(DEVICE(cpu)) == NULL) {
+diff --git a/target/sh4/cpu.c b/target/sh4/cpu.c
+index ac65c88f1f..35d4251aaf 100644
+--- a/target/sh4/cpu.c
++++ b/target/sh4/cpu.c
+@@ -218,10 +218,12 @@ static void superh_cpu_initfn(Object *obj)
+     env->movcal_backup_tail = &(env->movcal_backup);
  }
  
--void cpu_get_memory_mapping(CPUState *cpu, MemoryMappingList *list,
--                            Error **errp)
--{
--    CPUClass *cc = CPU_GET_CLASS(cpu);
++#ifndef CONFIG_USER_ONLY
+ static const VMStateDescription vmstate_sh_cpu = {
+     .name = "cpu",
+     .unmigratable = 1,
+ };
++#endif
+ 
+ #include "hw/core/tcg-cpu-ops.h"
+ 
+@@ -257,12 +259,11 @@ static void superh_cpu_class_init(ObjectClass *oc, void *data)
+     cc->gdb_write_register = superh_cpu_gdb_write_register;
+ #ifndef CONFIG_USER_ONLY
+     cc->get_phys_page_debug = superh_cpu_get_phys_page_debug;
++    dc->vmsd = &vmstate_sh_cpu;
+ #endif
+     cc->disas_set_info = superh_cpu_disas_set_info;
+ 
+     cc->gdb_num_core_regs = 59;
 -
--    cc->get_memory_mapping(cpu, list, errp);
--}
--
--static void cpu_common_get_memory_mapping(CPUState *cpu,
--                                          MemoryMappingList *list,
--                                          Error **errp)
--{
--    error_setg(errp, "Obtaining memory mappings is unsupported on this CPU.");
--}
--
- /* Resetting the IRQ comes from across the code base so we take the
-  * BQL here if we need to.  cpu_interrupt assumes it is held.*/
- void cpu_reset_interrupt(CPUState *cpu, int mask)
-@@ -304,7 +289,6 @@ static void cpu_class_init(ObjectClass *klass, void *data)
-     k->parse_features = cpu_common_parse_features;
-     k->get_arch_id = cpu_common_get_arch_id;
-     k->has_work = cpu_common_has_work;
--    k->get_memory_mapping = cpu_common_get_memory_mapping;
-     k->gdb_read_register = cpu_common_gdb_read_register;
-     k->gdb_write_register = cpu_common_gdb_write_register;
-     set_bit(DEVICE_CATEGORY_CPU, dc->categories);
-diff --git a/hw/core/cpu-sysemu.c b/hw/core/cpu-sysemu.c
-index 931ba46354..aa68ca281e 100644
---- a/hw/core/cpu-sysemu.c
-+++ b/hw/core/cpu-sysemu.c
-@@ -33,6 +33,19 @@ bool cpu_paging_enabled(const CPUState *cpu)
-     return false;
+-    dc->vmsd = &vmstate_sh_cpu;
+     cc->tcg_ops = &superh_tcg_ops;
  }
  
-+void cpu_get_memory_mapping(CPUState *cpu, MemoryMappingList *list,
-+                            Error **errp)
-+{
-+    CPUClass *cc = CPU_GET_CLASS(cpu);
-+
-+    if (cc->get_memory_mapping) {
-+        cc->get_memory_mapping(cpu, list, errp);
-+        return;
-+    }
-+
-+    error_setg(errp, "Obtaining memory mappings is unsupported on this CPU.");
-+}
-+
- hwaddr cpu_get_phys_page_attrs_debug(CPUState *cpu, vaddr addr,
-                                      MemTxAttrs *attrs)
- {
+diff --git a/target/xtensa/cpu.c b/target/xtensa/cpu.c
+index 210ef80092..0267571fbd 100644
+--- a/target/xtensa/cpu.c
++++ b/target/xtensa/cpu.c
+@@ -175,10 +175,12 @@ static void xtensa_cpu_initfn(Object *obj)
+ #endif
+ }
+ 
++#ifndef CONFIG_USER_ONLY
+ static const VMStateDescription vmstate_xtensa_cpu = {
+     .name = "cpu",
+     .unmigratable = 1,
+ };
++#endif
+ 
+ #include "hw/core/tcg-cpu-ops.h"
+ 
+@@ -215,9 +217,9 @@ static void xtensa_cpu_class_init(ObjectClass *oc, void *data)
+     cc->gdb_stop_before_watchpoint = true;
+ #ifndef CONFIG_USER_ONLY
+     cc->get_phys_page_debug = xtensa_cpu_get_phys_page_debug;
++    dc->vmsd = &vmstate_xtensa_cpu;
+ #endif
+     cc->disas_set_info = xtensa_cpu_disas_set_info;
+-    dc->vmsd = &vmstate_xtensa_cpu;
+     cc->tcg_ops = &xtensa_tcg_ops;
+ }
+ 
 -- 
 2.25.1
 
