@@ -2,71 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CF5039220A
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 23:29:38 +0200 (CEST)
-Received: from localhost ([::1]:35224 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A51D7392212
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 23:30:05 +0200 (CEST)
+Received: from localhost ([::1]:36802 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lm15t-0000ov-Jl
-	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 17:29:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37692)
+	id 1lm16K-0001ru-LL
+	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 17:30:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37706)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lm0vW-000295-60
- for qemu-devel@nongnu.org; Wed, 26 May 2021 17:18:54 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:35619)
+ id 1lm0vb-0002EO-03
+ for qemu-devel@nongnu.org; Wed, 26 May 2021 17:18:59 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:45606)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lm0vU-0008Er-JH
- for qemu-devel@nongnu.org; Wed, 26 May 2021 17:18:53 -0400
-Received: by mail-wm1-x335.google.com with SMTP id
- z19-20020a7bc7d30000b029017521c1fb75so1382890wmk.0
- for <qemu-devel@nongnu.org>; Wed, 26 May 2021 14:18:52 -0700 (PDT)
+ id 1lm0vZ-0008Hg-D9
+ for qemu-devel@nongnu.org; Wed, 26 May 2021 17:18:58 -0400
+Received: by mail-wr1-x434.google.com with SMTP id x7so2505070wrt.12
+ for <qemu-devel@nongnu.org>; Wed, 26 May 2021 14:18:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Y7R9KU2v40J4HPku0X26Zmix7Qt6Ns1y6ik1H3mrzsY=;
- b=NDdkL0qirTCXNoqUBOIGHfeTEaR7oJk3JYbkRptjgFvzROBtE5GMwRIXloG13OG5sF
- q8va0AHWv5YuI8RgnlxfU9L4u+JWhyyuIW7Jb9/ASVaO1Fh5IXtvu52/c/3NVF9/juqy
- GvQyjFt3a7cmE5pxZsuTk+YGsuh1FjmyLHx6+hxIbUWHXCNApLiBEFm42joBik+bYROU
- nl13ume1Rj2NCnb8VU0mfPTZw/rTZXybVjZBWPGE9TFhZAGF6rTemrMzdyvRXDldvG96
- 0mvL3PazGVhqAmTTJHso4rupGrpTFgTklPYQBcWmwCFmSYLRR5sqEdqbVRPfICAOysGt
- CtsA==
+ bh=W1xtIIdcRklMtNBJaqxpAYm419XChwTUcQvEdXYlclE=;
+ b=CmMhp2VH6NkRW+iZ0ra6sXs2nT4/pqhNCAojcgi8JNKB9rIf/lKX4ejSACkGzGAmOw
+ Wdq46BmQVcKGte8er+ZnzQ046u2aqzc+ECNymz2v7K0zxV0DL6K6ZwHD8zOKpOF6666L
+ DKo0NU2vFjXkzRb4ceCZzci34QOtar6V4z/yXe4t9IVfAzyKLRGKEkHn1xmCP3sv8LQM
+ QLK84Uh/2wVKZp28yw3PByji/5kURdVCw0TiRFB/2/SMWYuCVeaeKzk2nIYtueBeFRP2
+ bcsdvF3vHihm19H6fU2fFXfdz7YEXKuj052OucbuQS8ZHgJqfzXFMr8TD2LZ4thFms1G
+ /hCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=Y7R9KU2v40J4HPku0X26Zmix7Qt6Ns1y6ik1H3mrzsY=;
- b=hPOcD6F8w/DHh/pqP8QnU/BUOW2NFyZ+AzZqkTInxUB6ecNtVdhW5Y3A4v07LkJX/u
- X/DXnhYNC7HbndiHshjiqqOKMVwyyFTISP/5h3J4ncHhXYH88cAQx/RJlh7wdT1zbqGs
- jc/RpIU2fxx2UNFaBVof82KS+ImL3I/ME1Tx5Ca0ZbMHuGHVlowgn6d90xO177BFSP83
- L2i0W4Un6TEpvxa1jX+BQ0+ZJLMmO+pEiubJdfFN6yYHAsArxbB4Oke2sM6ijnb7ZKXi
- 1QsgIuUrhJDllDYH+cBHfGwi6eFri2dCyUCHrg8ZEycsIjgUJ5Zn0fFFZ5P+Ysnxi8Xi
- 24GA==
-X-Gm-Message-State: AOAM531j42vZj93244M25NCMxpFHfN9FuwgzNK9KyFyGINtazTdDtKa5
- Ixl9lFdJBPo9qFJ/r1GLwQB3U4tRmVFnwA==
-X-Google-Smtp-Source: ABdhPJzigUGF7fOctFCngK5QZumFEICvPPQxrQbZhQOALWlFDB82l4JCfUoQApXtAOz0CPzkDmg+6A==
-X-Received: by 2002:a1c:f212:: with SMTP id s18mr5107047wmc.172.1622063931028; 
- Wed, 26 May 2021 14:18:51 -0700 (PDT)
+ bh=W1xtIIdcRklMtNBJaqxpAYm419XChwTUcQvEdXYlclE=;
+ b=TlRhpwPlfgHAcrX69IRg4QZBh+lYQx6vQkHzgDreP94JZMSPEiCuj6+Nm0Fw0B4/bH
+ COfUQseMG5RkkGTF2jmWv0cpy7mH8IwuloumjFJU8GRzQCo/IKt43fkH0oj8XANQ23c1
+ nIUs7CzOU2p+jct945Q9ymdDFdmwIIrXrCo8aI1yDjY/HSbXeylKlfGD1guQIAz67LSD
+ EkXHrncAcdoP0NiDNCDAV+ZafYRhM+wtlGDnZiBVGVu3hmq8W8sN5FHtaGbmE70F9i2g
+ AiHMNUHsXjkjcASsXi6TfVvyt7XYtIV0o4vIbYRNtJyJen5Mk+pmm2JGGWlRJhwGsr+x
+ y3uQ==
+X-Gm-Message-State: AOAM530A4gybIU2MZ5KyDDC0zunEJrmxJHRlxbhtrZNYW5GzmHSBdhVv
+ nBheVuI9V34wvbriZVEt6C6ffmPrctiVcg==
+X-Google-Smtp-Source: ABdhPJx/sR9ywq6DYazP/O5Oa9ZWqubwkOsxVmqD40poUq54roeE+QiBvw/qK5m5i6PEQgSM05qiZA==
+X-Received: by 2002:adf:d081:: with SMTP id y1mr34041077wrh.179.1622063935837; 
+ Wed, 26 May 2021 14:18:55 -0700 (PDT)
 Received: from localhost.localdomain
  (235.red-83-57-168.dynamicip.rima-tde.net. [83.57.168.235])
- by smtp.gmail.com with ESMTPSA id l7sm262994wmq.22.2021.05.26.14.18.50
+ by smtp.gmail.com with ESMTPSA id c15sm191442wro.21.2021.05.26.14.18.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 May 2021 14:18:50 -0700 (PDT)
+ Wed, 26 May 2021 14:18:55 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/19] gitlab: Rename ACCEL_CONFIGURE_OPTS to
- EXTRA_CONFIGURE_OPTS
-Date: Wed, 26 May 2021 23:18:21 +0200
-Message-Id: <20210526211838.421716-3-f4bug@amsat.org>
+Subject: [PULL 03/19] gitlab: Enable cross-i386 builds of TCI
+Date: Wed, 26 May 2021 23:18:22 +0200
+Message-Id: <20210526211838.421716-4-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210526211838.421716-1-f4bug@amsat.org>
 References: <20210526211838.421716-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x335.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -98,71 +96,49 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Suggested-by: Thomas Huth <thuth@redhat.com>
+We're currently only testing TCI with a 64-bit host -- also test
+with a 32-bit host.  Enable a selection of softmmu and user-only
+targets, 32-bit LE, 64-bit LE, 32-bit BE, as there are ifdefs for each.
+
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Willian Rampazzo <willianr@redhat.com>
-Message-Id: <20210502235727.1979457-26-richard.henderson@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Willian Rampazzo <willianr@redhat.com>
+Acked-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20210502235727.1979457-27-richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- .gitlab-ci.d/crossbuilds.yml | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ .gitlab-ci.d/crossbuilds.yml | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
 diff --git a/.gitlab-ci.d/crossbuilds.yml b/.gitlab-ci.d/crossbuilds.yml
-index e44e4b49a25..2198abb400e 100644
+index 2198abb400e..edf3a625633 100644
 --- a/.gitlab-ci.d/crossbuilds.yml
 +++ b/.gitlab-ci.d/crossbuilds.yml
-@@ -16,7 +16,7 @@
- #
- # Set the $ACCEL variable to select the specific accelerator (default to
- # KVM), and set extra options (such disabling other accelerators) via the
--# $ACCEL_CONFIGURE_OPTS variable.
-+# $EXTRA_CONFIGURE_OPTS variable.
- .cross_accel_build_job:
-   stage: build
-   image: $CI_REGISTRY_IMAGE/qemu/$IMAGE:latest
-@@ -26,7 +26,7 @@
-     - cd build
+@@ -27,7 +27,7 @@
      - PKG_CONFIG_PATH=$PKG_CONFIG_PATH
        ../configure --enable-werror --disable-docs $QEMU_CONFIGURE_OPTS
--        --disable-tools --enable-${ACCEL:-kvm} $ACCEL_CONFIGURE_OPTS
-+        --disable-tools --enable-${ACCEL:-kvm} $EXTRA_CONFIGURE_OPTS
-     - make -j$(expr $(nproc) + 1) all check-build
+         --disable-tools --enable-${ACCEL:-kvm} $EXTRA_CONFIGURE_OPTS
+-    - make -j$(expr $(nproc) + 1) all check-build
++    - make -j$(expr $(nproc) + 1) all check-build $MAKE_CHECK_ARGS
  
  .cross_user_build_job:
-@@ -174,7 +174,7 @@ cross-s390x-kvm-only:
-     job: s390x-debian-cross-container
-   variables:
-     IMAGE: debian-s390x-cross
--    ACCEL_CONFIGURE_OPTS: --disable-tcg
-+    EXTRA_CONFIGURE_OPTS: --disable-tcg
+   stage: build
+@@ -98,6 +98,15 @@ cross-i386-user:
+     IMAGE: fedora-i386-cross
+     MAKE_CHECK_ARGS: check
  
- cross-mips64el-kvm-only:
-   extends: .cross_accel_build_job
-@@ -182,7 +182,7 @@ cross-mips64el-kvm-only:
-     job: mips64el-debian-cross-container
-   variables:
-     IMAGE: debian-mips64el-cross
--    ACCEL_CONFIGURE_OPTS: --disable-tcg --target-list=mips64el-softmmu
-+    EXTRA_CONFIGURE_OPTS: --disable-tcg --target-list=mips64el-softmmu
- 
- cross-win32-system:
++cross-i386-tci:
++  extends: .cross_accel_build_job
++  timeout: 60m
++  variables:
++    IMAGE: fedora-i386-cross
++    ACCEL: tcg-interpreter
++    EXTRA_CONFIGURE_OPTS: --target-list=i386-softmmu,i386-linux-user,aarch64-softmmu,aarch64-linux-user,ppc-softmmu,ppc-linux-user
++    MAKE_CHECK_ARGS: check check-tcg
++
+ cross-mips-system:
    extends: .cross_system_build_job
-@@ -205,7 +205,7 @@ cross-amd64-xen-only:
-   variables:
-     IMAGE: debian-amd64-cross
-     ACCEL: xen
--    ACCEL_CONFIGURE_OPTS: --disable-tcg --disable-kvm
-+    EXTRA_CONFIGURE_OPTS: --disable-tcg --disable-kvm
- 
- cross-arm64-xen-only:
-   extends: .cross_accel_build_job
-@@ -214,4 +214,4 @@ cross-arm64-xen-only:
-   variables:
-     IMAGE: debian-arm64-cross
-     ACCEL: xen
--    ACCEL_CONFIGURE_OPTS: --disable-tcg --disable-kvm
-+    EXTRA_CONFIGURE_OPTS: --disable-tcg --disable-kvm
+   needs:
 -- 
 2.26.3
 
