@@ -2,63 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B6673921B7
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 22:59:39 +0200 (CEST)
-Received: from localhost ([::1]:51838 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C2663921C8
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 23:10:46 +0200 (CEST)
+Received: from localhost ([::1]:58964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lm0cs-0006eX-9m
-	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 16:59:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33478)
+	id 1lm0nb-0003Za-N5
+	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 17:10:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36250)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <willianr@redhat.com>)
- id 1lm0Zo-0004ZM-7I
- for qemu-devel@nongnu.org; Wed, 26 May 2021 16:56:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59193)
+ (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
+ id 1lm0mn-0002u9-Pt
+ for qemu-devel@nongnu.org; Wed, 26 May 2021 17:09:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59912)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <willianr@redhat.com>)
- id 1lm0Zk-0003Mm-6P
- for qemu-devel@nongnu.org; Wed, 26 May 2021 16:56:28 -0400
+ (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
+ id 1lm0mk-0002y5-VE
+ for qemu-devel@nongnu.org; Wed, 26 May 2021 17:09:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622062583;
+ s=mimecast20190719; t=1622063390;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vYPV4nXbxOKUTGTsgXcMDT9jI/5nTm51miBrcfIdLwE=;
- b=dhEEUnsLhIAjky3UUMyTS8v02MKJGfvjh4mKiDSmTxgmvSoTBxtsoFiYxPmUZO1g1FGEjE
- FQF0KLJbAmh3atOeJP+XzfghWfTGc2zTjNFjBOi6seVVpinrHQzApTmTfgdE7eseZUw3q8
- JZtjEz4j1vtBOCOPL3+rMkHn8vqMqwI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-272-LZtF7jZHOfKYLqnQFeHVxA-1; Wed, 26 May 2021 16:56:14 -0400
-X-MC-Unique: LZtF7jZHOfKYLqnQFeHVxA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DD35680ED8D
- for <qemu-devel@nongnu.org>; Wed, 26 May 2021 20:56:13 +0000 (UTC)
-Received: from wrampazz.redhat.com (ovpn-113-115.rdu2.redhat.com
- [10.10.113.115])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1C7C15C3E9;
- Wed, 26 May 2021 20:56:10 +0000 (UTC)
-From: Willian Rampazzo <willianr@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 1/1] tests/acceptance: change armbian archive to a faster host
-Date: Wed, 26 May 2021 17:56:01 -0300
-Message-Id: <20210526205601.263444-2-willianr@redhat.com>
-In-Reply-To: <20210526205601.263444-1-willianr@redhat.com>
-References: <20210526205601.263444-1-willianr@redhat.com>
+ bh=SA+jl90exoQ9wvJOqE36MU+K9pvEuk2dUxOA6caLNTw=;
+ b=Fqy+efxYFJ5wXM1GJet7uMqlK+6F+P0/J2lCs4TBWBqVxeVVifMvzKYqckMXeVTd6w2suR
+ jLEejLXJ2RGJPDlbhxdbeAYxpK6FIdS/iZ0mn5odEFdXLfeG2ImzN4qAva9aRtkBO33BuL
+ vHeY5nIRPgePNOqpJBo1QW6tPvOI+sU=
+Received: from mail-vs1-f72.google.com (mail-vs1-f72.google.com
+ [209.85.217.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-226-fBbrIAJmMY2H-C2rYdU-nA-1; Wed, 26 May 2021 17:09:46 -0400
+X-MC-Unique: fBbrIAJmMY2H-C2rYdU-nA-1
+Received: by mail-vs1-f72.google.com with SMTP id
+ b24-20020a67d3980000b029022a610fc6f2so722808vsj.22
+ for <qemu-devel@nongnu.org>; Wed, 26 May 2021 14:09:46 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=SA+jl90exoQ9wvJOqE36MU+K9pvEuk2dUxOA6caLNTw=;
+ b=g/185BLRKDy5wnpBHxQ6UEe2PcaZYpTuUlh+DSUX5HJNCjb0xAcMumTS53qhPQCpQH
+ 3sXuT+/YkjhJY1XRW06vcr+c6d4r4Qc9tfshzId5lxPmRrBMRVJBWQ5VOh4W/KX2oNN/
+ lDBTyoAElrA75ofJFz6lWLXUjpnCEVjzPjrt1pYUD2TP9MCo7a1zSv5egum2uHotTODK
+ QmzYkWMjyPRuslYPTIQXIVh5heQwXqKHXVgRb9xqZmnEANq48OV5ebk/UbkyoizJHMoG
+ Nyl8uswlh3TgdvXr87bB/FvUZKt0YKIiqmIlqViNgtqca/JjPS0vO5P6fOOKAuKZsXBl
+ PUyA==
+X-Gm-Message-State: AOAM533fjnxlHo0gwvmPjW4YMHnXAC5tE1HSyovTZcjt84NLpFRGmeYm
+ PxyKeruTVJLX2Tl4CpQIlAFkY//TzrYyvEqWKHeg3xh4w3rRNXanM1Is7UUxhTtIfiMJ7ib57qK
+ t/H0PQ4D+bFK+KjKHP4vnRLaaguI3FOw=
+X-Received: by 2002:a1f:a388:: with SMTP id m130mr69897vke.1.1622063386361;
+ Wed, 26 May 2021 14:09:46 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyPLF7HdjzYN2sc+rWiGPJLq9KYf4LwbHPTrIX2ibW+hutJXzKYVb7F7KJK5eMDwuhfqrsAdjOM8KdxxUXCYno=
+X-Received: by 2002:a1f:a388:: with SMTP id m130mr69882vke.1.1622063386178;
+ Wed, 26 May 2021 14:09:46 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+References: <20210520204747.210764-1-willianr@redhat.com>
+ <20210524175057.GA1567491@amachine.somewhere>
+In-Reply-To: <20210524175057.GA1567491@amachine.somewhere>
+From: Willian Rampazzo <wrampazz@redhat.com>
+Date: Wed, 26 May 2021 18:09:19 -0300
+Message-ID: <CAKJDGDY1=HO4Y1j2fpw9Bi9FKx4Uh94cjwnNzMmL05PgkT1G-w@mail.gmail.com>
+Subject: Re: [RFC 0/1] acceptance tests: bump Avocado version to 88.1
+To: Cleber Rosa <crosa@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=willianr@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=willianr@redhat.com;
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=wrampazz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -79,43 +89,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+Cc: Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The current host for the image
-Armbian_20.08.1_Orangepipc_bionic_current_5.8.5.img.xz
-(archive.armbian.com) is extremely slow in the last couple of weeks,
-making the job running the test
-tests/system/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi_bionic_20_08
-for the first time when the image is not yet on GitLab cache, time out
-while the image is being downloaded.
+On Mon, May 24, 2021 at 2:55 PM Cleber Rosa <crosa@redhat.com> wrote:
+>
+> On Thu, May 20, 2021 at 05:47:46PM -0300, Willian Rampazzo wrote:
+> > CI pipeline: https://gitlab.com/willianrampazzo/qemu/-/pipelines/306904401
+> >
+>
+> While not related to change in Avocado version (I've verified the same
+> behavior with 85.0), we need to investigate (further) one of the jobs
+> getting stuck here:
+>
+>    https://gitlab.com/willianrampazzo/qemu/-/jobs/1281481564#L79
+>
+> Would you care to take that task?
 
-This changes the host to one faster, so new users with an empty cache
-are not impacted.
+FYI: https://lists.gnu.org/archive/html/qemu-devel/2021-05/msg07958.html
 
-Signed-off-by: Willian Rampazzo <willianr@redhat.com>
----
- tests/acceptance/boot_linux_console.py | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
-index 276a53f146..51c23b822c 100644
---- a/tests/acceptance/boot_linux_console.py
-+++ b/tests/acceptance/boot_linux_console.py
-@@ -804,7 +804,8 @@ def test_arm_orangepi_bionic_20_08(self):
-         # to 1036 MiB, but the underlying filesystem is 1552 MiB...
-         # As we expand it to 2 GiB we are safe.
- 
--        image_url = ('https://archive.armbian.com/orangepipc/archive/'
-+        image_url = ('https://armbian.systemonachip.net/'
-+                     'archive/orangepipc/archive/'
-                      'Armbian_20.08.1_Orangepipc_bionic_current_5.8.5.img.xz')
-         image_hash = ('b4d6775f5673486329e45a0586bf06b6'
-                       'dbe792199fd182ac6b9c7bb6c7d3e6dd')
--- 
-2.31.1
+>
+> Thanks,
+> - Cleber.
 
 
