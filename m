@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD557391D4E
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 18:51:00 +0200 (CEST)
-Received: from localhost ([::1]:39590 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AA60391D5C
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 18:54:15 +0200 (CEST)
+Received: from localhost ([::1]:46152 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llwkF-00047L-BB
-	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 12:50:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39648)
+	id 1llwnO-0000Jg-21
+	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 12:54:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40154)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1llwdi-0001VM-D9
- for qemu-devel@nongnu.org; Wed, 26 May 2021 12:44:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60000)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1llwgO-0002Vt-Ld
+ for qemu-devel@nongnu.org; Wed, 26 May 2021 12:47:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59723)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1llwdY-0003BG-Eo
- for qemu-devel@nongnu.org; Wed, 26 May 2021 12:44:11 -0400
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1llwg3-00048L-4s
+ for qemu-devel@nongnu.org; Wed, 26 May 2021 12:46:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622047422;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+ s=mimecast20190719; t=1622047590;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=ssHEIadIqhw7GP3pafEiXxQbT8ZQnNwRKe8Vbn6QNAc=;
- b=Lum8/2/PJb4D+rw4StNKpnm/YMj96b6kVffwl45pbLbyvvtMKhGmmREIxcIfoYmBjbjvc3
- vUxkZWLPxxJ+kMaETeWC9VwKbD3D+Sldxdq+y25nNuaHs21MmFIXQpv/aO2tQ1GLSAgUkW
- TQcu88CS+MEHz7sfvmg8KLI2/AsEMR0=
+ bh=nMsru0vboXa1b9pEkWt8wQ8HDt4zDepFCQtqPEXOI50=;
+ b=BeVOI9fb3NJHbSVG3Bh/6vMV7fh79+ZFqI0jEtdaFwJ3qF7FCbYDciWo5p9WuncIlkpDAW
+ BRvD2MzOIcRg6GbfOUQF2QetZb5YZgxZg3WcaPs+7AONtPXypA6dTQ5BMQFkd1uW4MS7Yw
+ YPj/PkzXq3wovmDVsegRErVDldDZdA8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-32-Xn1PT7n8NEe9oiknbYIbug-1; Wed, 26 May 2021 12:43:37 -0400
-X-MC-Unique: Xn1PT7n8NEe9oiknbYIbug-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-562--nEHIzpKObSuWd0w3Ty1dg-1; Wed, 26 May 2021 12:46:27 -0400
+X-MC-Unique: -nEHIzpKObSuWd0w3Ty1dg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9ACB01020C52;
- Wed, 26 May 2021 16:43:36 +0000 (UTC)
-Received: from redhat.com (ovpn-115-19.ams2.redhat.com [10.36.115.19])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C448D19D9D;
- Wed, 26 May 2021 16:43:29 +0000 (UTC)
-Date: Wed, 26 May 2021 17:43:26 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: Re: [PATCH 0/2] i386: use better matching family/model/stepping for
- generic CPUs
-Message-ID: <YK56rnSly772QAxl@redhat.com>
-References: <20210507133650.645526-1-berrange@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A704A107ACE8
+ for <qemu-devel@nongnu.org>; Wed, 26 May 2021 16:46:26 +0000 (UTC)
+Received: from localhost (ovpn-114-21.rdu2.redhat.com [10.10.114.21])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 752A160875;
+ Wed, 26 May 2021 16:46:26 +0000 (UTC)
+Date: Wed, 26 May 2021 12:46:25 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Vitaly Kuznetsov <vkuznets@redhat.com>
+Subject: Re: [PATCH v6 13/19] i386: prefer system KVM_GET_SUPPORTED_HV_CPUID
+ ioctl over vCPU's one
+Message-ID: <20210526164625.ci5xou7ikuiqkrpz@habkost.net>
+References: <20210422161130.652779-1-vkuznets@redhat.com>
+ <20210422161130.652779-14-vkuznets@redhat.com>
+ <20210521214202.g222ullptiseaesq@habkost.net>
+ <87h7is72rp.fsf@vitty.brq.redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210507133650.645526-1-berrange@redhat.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <87h7is72rp.fsf@vitty.brq.redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -69,7 +68,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,69 +81,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ qemu-devel@nongnu.org, Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-ping
+On Mon, May 24, 2021 at 02:08:26PM +0200, Vitaly Kuznetsov wrote:
+[...]
+> >> @@ -980,7 +989,7 @@ static struct kvm_cpuid2 *get_supported_hv_cpuid(CPUState *cs)
+> >>       * information early, just check for the capability and set the bit
+> >>       * manually.
+> >>       */
+> >> -    if (kvm_check_extension(cs->kvm_state,
+> >> +    if (!do_sys_ioctl && kvm_check_extension(cs->kvm_state,
+> >>                              KVM_CAP_HYPERV_ENLIGHTENED_VMCS) > 0) {
+> >
+> > Oh, this conditional replaces the comment I suggested in patch
+> > 10/19.  It makes it obvious that the hack can be deleted if we
+> > remove support for the VCPU ioctl.
+> >
+> > So, when exactly will we be able to delete the VCPU ioctl code
+> > and support only the system ioctl?
+> 
+> When QEMU drops support for kernels < 5.11? Note, current RHEL8 already
+> supports system version so we're talking about upstream kernels/Ubuntu
+> LTS/... 
+> 
+> I remember there was a list of supported kernels for QEMU somewhere but
+> don't seem to be able to find it quickly, could you maybe point me in
+> the right direction?
 
-On Fri, May 07, 2021 at 02:36:48PM +0100, Daniel P. Berrangé wrote:
-> This is in response to this bug report:
-> 
->    https://gitlab.com/qemu-project/qemu/-/issues/191
-> 
-> The generic 'qemu64' and 'max' CPUs currently defined to report a
-> family/model/stepping that approximately corresponds to an AMD K7
-> vintage architecture. The K7 series predates the introduction of
-> 64-bit support by AMD in the K8 series. This has been reported to
-> lead to LLVM complaints about generating 64-bit code for a 32-bit
-> CPU target
-> 
->   LLVM ERROR: 64-bit code requested on a subtarget that doesn't support it!
-> 
-> The bug report is fairly limited, but it suggests LLVM looks at the
-> family/model/stepping and decides it to be 32-bit, despite qemu64
-> reporting it is 64-bit capable. I've not reproduced this myself,
-> however, so I'm largely trusting the original reporter's diagnosis
-> 
-> Of course interpreting the family/model/stepping only makes sense
-> with scoped to the reported vendor ID.  Under TCG, the vendor is
-> honoured, but AFAICT, under KVM the vendor defined by the QEMU
-> model model is ignored and the real host vendor passed through.
-> This will make the chosen family/model/stepping non-sensical when
-> run under KVM on an Intel host.
-> 
-> None the less these patches change to report a CPUID with the
-> family, model and stepping taken from a
-> 
->  AMD Athlon(tm) 64 X2 Dual Core Processor 4000+
-> 
-> which is one of the first 64-bit AMD CPUs. This is at least more
-> accurate in terms of the static CPU model definition, even if it
-> is still nonsense in the case where KVM overrides the vendor to
-> be non-AMD.
-> 
-> Daniel P. Berrangé (2):
->   i386: use better matching family/model/stepping for 'qemu64' CPU
->   i386: use better matching family/model/stepping for 'max' CPU
-> 
->  hw/i386/pc.c      |  6 +++++-
->  target/i386/cpu.c | 12 +++++++++---
->  2 files changed, 14 insertions(+), 4 deletions(-)
-> 
-> -- 
-> 2.31.1
-> 
-> 
+The KVM-specific kernel requirement is documented here:
+https://qemu-project.gitlab.io/qemu/system/target-i386.html?highlight=kvm#os-requirements
 
-Regards,
-Daniel
+I took a while to find it.  Maybe we should have a more visible
+"runtime requirements" section in the docs, or it should be
+moved to the supported build platforms section.
+
+We have a clear policy on supported build platforms
+[https://qemu-project.gitlab.io/qemu/system/build-platforms.html],
+but not a clear policy for KVM kernel dependencies.
+
+There's a table with Python and GCC versions at
+[https://wiki.qemu.org/Supported_Build_Platforms].
+Maybe it could include kernel version information as well.
+
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Eduardo
 
 
