@@ -2,82 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD570391E7D
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 19:57:13 +0200 (CEST)
-Received: from localhost ([::1]:53128 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF1F5391E33
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 19:34:49 +0200 (CEST)
+Received: from localhost ([::1]:47800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llxmJ-0006fZ-TQ
-	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 13:57:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47654)
+	id 1llxQe-00089d-9x
+	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 13:34:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47782)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1llxEo-0002Y4-Cx; Wed, 26 May 2021 13:22:34 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:45919)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1llxEg-0004Ne-7d; Wed, 26 May 2021 13:22:34 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id
- s5-20020a7bc0c50000b0290147d0c21c51so954893wmh.4; 
- Wed, 26 May 2021 10:22:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=g3072IN61z790QfiUDjHfQRP06QDH4SQGstDAQSUv/s=;
- b=HeQpsUaLJGlIUyg0eDufZJQXf67Y2rfsF/rVmu9Da9mAgzS0JcYXyacvJTKjP25hji
- Rd5UILbP+vmysmJ6q/VlNBF0r7P/ZAx8IFP+3TC8gPJS8GqcxHTxGO5W7uMpwn0JKTZQ
- 1kNIYxE+yac2bsN7kh/3bLSj7sESniyQtWMmwzASvF5R4t6eQ/ZfXtbCaaN7T8o6k3kR
- RCImbwOYp7/6tbM2Nz1F/qlXsLNxf3FntoLjy14x4tZQPawcq9kxSkHXP6qukewD1/du
- mMI3hI6dZtLgfLgq4IfdkzBMNq6KlNfooUEKYIJzVaKQWJBLftDHP7g/hjCJ/NvRQYVU
- kW2g==
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1llxG2-0004cs-6V
+ for qemu-devel@nongnu.org; Wed, 26 May 2021 13:23:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41451)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1llxFx-000540-FK
+ for qemu-devel@nongnu.org; Wed, 26 May 2021 13:23:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1622049823;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=gS7s63fCn5bQh5MEKTByMtNzmfI5vcXHgYn5aoKWtMc=;
+ b=Yn+WPCCnLqgKQQF3Lgfj3lJGQ8fZHQV0/UhlcAtaGd8KUiGcBJoczZHLZSFwBqM53D+C++
+ n6Hg2Ol2X2UVHE6CVw+3+RrkqRyQdc0Kw4jMCpIjhkFg+XaXo9XgLn4efoHKVNPGjCNqkv
+ en8InO4YKMAaDT+CZsZ3EUhel9N59q0=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-447-LNWJ7v7vPrCD1VmBSUt2qA-1; Wed, 26 May 2021 13:23:42 -0400
+X-MC-Unique: LNWJ7v7vPrCD1VmBSUt2qA-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ j33-20020adf91240000b029010e4009d2ffso647852wrj.0
+ for <qemu-devel@nongnu.org>; Wed, 26 May 2021 10:23:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=g3072IN61z790QfiUDjHfQRP06QDH4SQGstDAQSUv/s=;
- b=sTpUEgesYTIyKOpw1+dLXQr3wf+WgyCb4BzqzJlgaykHfUr2tFWYi4AB6Q7K/dB0QS
- evwabSm+7xWQuZUyYk2sXGAkxt5zxNvfjUUp2yVkozrR/vE70y5dIltTqYbsB4WHuf2X
- SbbXL0uqNtfTUNmMaQSSSq7thKc0ow4HryO4bfPjIEacbaKBxNhmP7mNEAfIHOe+1ZQZ
- jqJ4gOyuYVUB3MVGSXpzXzA9riIpJ0lIO+6aJq4ChdtkHNdl8bVAFq6KSPagAqW1mluz
- HYxjA4BHN4gf8U0xpTtAUHrRl6vUjCtqCyNrF70jjF+gzXBSnW3nsxmqlhT71jDed3+N
- YIeA==
-X-Gm-Message-State: AOAM5330ew4Pd+c0orJcXDd4GUEgE6GN0KP/ijET3QPEPuW94Jfb2sry
- RKaRtKECphr7XQQPXNKdDoY=
-X-Google-Smtp-Source: ABdhPJxotQfiG0+3GvxVfxNOsohcPyUpyk9DRH3pgTE3BJscucOiMqBqpL7uNSeFS14JJU1UZ201dw==
-X-Received: by 2002:a7b:cb93:: with SMTP id m19mr4462503wmi.162.1622049743313; 
- Wed, 26 May 2021 10:22:23 -0700 (PDT)
-Received: from [192.168.1.36] (64.red-88-10-103.dynamicip.rima-tde.net.
- [88.10.103.64])
- by smtp.gmail.com with ESMTPSA id x11sm20639512wrl.13.2021.05.26.10.22.22
+ bh=gS7s63fCn5bQh5MEKTByMtNzmfI5vcXHgYn5aoKWtMc=;
+ b=Tr2la2InwVui1jRR4cO5w5zCUrSSrq8mC7Xvb1CuM/tMcvLz5D0IbuqIE8eDel1M7i
+ tP1peAN+XherSeVqR712Ev6yqi3CUTxpYU4BqkNRcIjWkY0GsHp4wipXVrZDKs9rL4nw
+ kk91trKALz6HaEmGfJMWqtu0pn8t6+wpPmRrEdwhru2Dx70vKeFiHQGozw3MmynfHzad
+ RmNpZD/0MCSZH/Sjkg/jqOhv6jh6e62uLhglzdG6I7J3cTMad6t1OaM02DmySiVj0nzZ
+ 77at3y89Hg7rG8z46r2VTDQIFrGzghbzxrQNVSEnrirhvGiE0//ETDYjz+LKH2qyZ5Jf
+ co3w==
+X-Gm-Message-State: AOAM533yyhIwM2AgB2eGDKWdiL481Mvl8z55Mr//QB7DdNEzHm21bSot
+ woYbhtF9U+I+9vJi039mkoXeUS9Y7mWA/CMw9dgRIRd5mIXH9hvJUGgTuhrRX1ZxN0NGmzk1ia9
+ y1wNuLnTts9Ri7YM=
+X-Received: by 2002:adf:e3c6:: with SMTP id k6mr34097655wrm.236.1622049821139; 
+ Wed, 26 May 2021 10:23:41 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyym2pcuYrQQ0jsHfjzYEelnCQlG7eyGQekjeCpeSDxExOAzRNet/lyHRSTTFYiZVN5QT70rA==
+X-Received: by 2002:adf:e3c6:: with SMTP id k6mr34097633wrm.236.1622049820918; 
+ Wed, 26 May 2021 10:23:40 -0700 (PDT)
+Received: from localhost.localdomain ([2a04:ee41:4:31cb:e591:1e1e:abde:a8f1])
+ by smtp.gmail.com with ESMTPSA id
+ r7sm6972379wmq.3.2021.05.26.10.23.40
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 26 May 2021 10:22:22 -0700 (PDT)
-Subject: Re: [PATCH v7 02/23] cpu: Restrict target cpu_do_transaction_failed()
- handlers to sysemu
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20210517105140.1062037-1-f4bug@amsat.org>
- <20210517105140.1062037-3-f4bug@amsat.org>
- <ae262a9c-1ffa-b680-4aa6-d7256fa6947a@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <5a1389f6-ced6-3b09-ba9b-749e2db2de4b@amsat.org>
-Date: Wed, 26 May 2021 19:22:21 +0200
+ Wed, 26 May 2021 10:23:40 -0700 (PDT)
+Subject: Re: [PATCH v4 04/15] qemu-iotests: add option to attach gdbserver
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, qemu-block@nongnu.org
+References: <20210520075236.44723-1-eesposit@redhat.com>
+ <20210520075236.44723-5-eesposit@redhat.com>
+ <becc0bde-5de8-7cd3-0b5e-76bdb830af11@virtuozzo.com>
+ <e0162706-db5f-0f1e-2c65-5291fca26eab@redhat.com>
+ <4009d11e-c013-51ab-1fa9-62ed2157cb36@virtuozzo.com>
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Message-ID: <95056b8c-7414-3171-8b0f-31cdcf0f2bd1@redhat.com>
+Date: Wed, 26 May 2021 19:23:39 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <ae262a9c-1ffa-b680-4aa6-d7256fa6947a@linaro.org>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <4009d11e-c013-51ab-1fa9-62ed2157cb36@virtuozzo.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32e.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eesposit@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,42 +105,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-riscv@nongnu.org, Laurent Vivier <laurent@vivier.eu>,
- qemu-s390x@nongnu.org, qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/26/21 4:12 AM, Richard Henderson wrote:
-> On 5/17/21 3:51 AM, Philippe Mathieu-Daudé wrote:
->> In commit cbc183d2d9f ("cpu: move cc->transaction_failed to tcg_ops")
->> we restricted the do_transaction_failed() handler to the sysemu part
->> of TCGCPUOps, but forgot to restrict the target specific declarations.
+
+
+On 26/05/2021 15:25, Vladimir Sementsov-Ogievskiy wrote:
+> 26.05.2021 15:48, Paolo Bonzini wrote:
+>> On 26/05/21 13:24, Vladimir Sementsov-Ogievskiy wrote:
+>>>
+>>>> Define -gdb flag and GDB_OPTIONS environment variable
+>>>
+>>> Let's use --option notation for new long options
 >>
->> Signed-off-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
->> ---
->>   target/arm/internals.h |  2 ++
->>   target/m68k/cpu.h      |  2 ++
->>   target/riscv/cpu.h     | 10 +++++-----
->>   target/xtensa/cpu.h    |  8 ++++----
->>   4 files changed, 13 insertions(+), 9 deletions(-)
+>> Why make a mix of two styles? -- suggests that single-character 
+>> options like -d and -v can be combined, is that the case?
 > 
-> What do the extra ifdefs buy us? Surely the fact that the symbol is not
-> present in the user-only, and would produce link errors if used, is
-> sufficient?
+> Yes.. I think think that --options (with -o short options) is more usual 
+> and modern style.
+> 
+> We already have both --options and -options.. So, my idea when I was 
+> rewriting ./check was that better to move to --options. I can send patch 
+> to change all existing -options of check to be --options for full 
+> consistency. It would be some pain for developers..
 
-Last month on another series you told me we should declare prototypes
-that can't be used :) However I agree we want *less* #ifdef'ry, not
-more.
+I am following the current convention. I put gdb on the same 
+level/category of valgrind, and since the current option is -valgrind, I 
+would like to stick to that. If you want to send a patch changing all 
+-options in --options, feel free to do it in a separate series that 
+changes also -gdb :)
 
-The ARM declarations is fixed in Claudio's accel rework.
+Thank you,
+Emanuele
+> 
+>>
+>>>> if -gdb is not provided but $GDB_OPTIONS is set, ignore the
+>>>> environment variable.
+>>>>
+>>>> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+>>>> ---
+>>>>   tests/qemu-iotests/check      |  6 +++++-
+>>>>   tests/qemu-iotests/iotests.py |  5 +++++
+>>>>   tests/qemu-iotests/testenv.py | 19 ++++++++++++++++---
+>>>>   3 files changed, 26 insertions(+), 4 deletions(-)
+>>>>
+>>>> diff --git a/tests/qemu-iotests/check b/tests/qemu-iotests/check
+>>>> index d1c87ceaf1..b9820fdaaf 100755
+>>>> --- a/tests/qemu-iotests/check
+>>>> +++ b/tests/qemu-iotests/check
+>>>> @@ -33,6 +33,9 @@ def make_argparser() -> argparse.ArgumentParser:
+>>>>                      help='pretty print output for make check')
+>>>>       p.add_argument('-d', dest='debug', action='store_true', 
+>>>> help='debug')
+>>>> +    p.add_argument('-gdb', action='store_true',
+>>>> +                   help="start gdbserver with $GDB_OPTIONS options \
+>>>> +                        ('localhost:12345' if $GDB_OPTIONS is empty)")
+>>>
+>>> Hmm.. Why not just make --gdb a string option, that defaults to 
+>>> GDB_OPTIONS? This way it will more similar with other options.
+>>
+>> I think then something like "./check -gdb 030" would not work, right?
+>>
+> 
+> Hmm, yes, that's not very convenient. OK then, let's keep bool.
+> 
+> 
 
-For the m68k/riscv/xtensa targets I'll see if I can move it elsewhere
-in the same file (if there is already such #ifdef'ry), it is worthwhile
-to move the declaration in another (sysemu) header, or simply do
-nothing.
-
-Thanks,
-
-Phil.
 
