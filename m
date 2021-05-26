@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B972390D58
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 02:35:46 +0200 (CEST)
-Received: from localhost ([::1]:50928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18BC1390D76
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 02:41:55 +0200 (CEST)
+Received: from localhost ([::1]:37490 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llhWT-0002hk-A2
-	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 20:35:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41362)
+	id 1llhcQ-0004g0-4k
+	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 20:41:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41428)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1llhN8-0004Ga-MJ
- for qemu-devel@nongnu.org; Tue, 25 May 2021 20:26:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22028)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1llhNB-0004Sm-JY
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 20:26:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22926)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1llhN0-0006yp-Mi
- for qemu-devel@nongnu.org; Tue, 25 May 2021 20:26:06 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1llhN0-0006z1-NZ
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 20:26:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621988751;
+ s=mimecast20190719; t=1621988753;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=SrYVkz4Fxmvr6dN6MEOxdAqVQSL7NLPsWRBBhVc+uVI=;
- b=BihM9f/WyOXNv9Vj8YBeJ92PvEThYvoAh8MhUQL69xbQil1oZ9U2Vbkv4MGAU0p7kgO2h9
- Dcqv/1S2DOrejhp6TP7zx/SJE4tEoY61JIE0PQ5xABpI3C0WQ/A1nKu0Ja4TYaZdPpo2tG
- YHfgd53VGcdLayx1+x7xB6exNzzBrYw=
+ bh=K4XIM2wtcVvsQQGqMEdDX9UOO6o7RIR9O1X1rJsrqic=;
+ b=ixE6fSU9K+IstymuDExIewRU0V9YYQtsRBQMu76jpJrlq3GpQ2+EQ2G670NveYkN1rkgBF
+ kscenS3CG/mjb5+xmszU4Kfsv/T1hygZtxQjLRX+9kmf6jkhJxc44jS1QS6zI6xUtdYZoM
+ VUmW/1aLIdpmAP3+zBzTF24UwArTdeg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-315-bA-obflKOp-n9JCxV6knRw-1; Tue, 25 May 2021 20:25:49 -0400
-X-MC-Unique: bA-obflKOp-n9JCxV6knRw-1
+ us-mta-469-rL5YXh_sPpOXHKzbkHH36g-1; Tue, 25 May 2021 20:25:51 -0400
+X-MC-Unique: rL5YXh_sPpOXHKzbkHH36g-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4011F107ACCA;
- Wed, 26 May 2021 00:25:48 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 48E80801106;
+ Wed, 26 May 2021 00:25:50 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-116-137.rdu2.redhat.com [10.10.116.137])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E507260D54;
- Wed, 26 May 2021 00:25:45 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7498D6E51B;
+ Wed, 26 May 2021 00:25:48 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 12/31] python: add directory structure README.rst files
-Date: Tue, 25 May 2021 20:24:35 -0400
-Message-Id: <20210526002454.124728-13-jsnow@redhat.com>
+Subject: [PATCH v7 13/31] python: add MANIFEST.in
+Date: Tue, 25 May 2021 20:24:36 -0400
+Message-Id: <20210526002454.124728-14-jsnow@redhat.com>
 In-Reply-To: <20210526002454.124728-1-jsnow@redhat.com>
 References: <20210526002454.124728-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -63,7 +63,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,133 +88,46 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add short readmes to python/, python/qemu/, python/qemu/machine,
-python/qemu/qmp, and python/qemu/utils that explain the directory
-hierarchy. These readmes are visible when browsing the source on
-e.g. gitlab/github and are designed to help new developers/users quickly
-make sense of the source tree.
+When creating a source or binary distribution via 'python3 setup.py
+<sdist|bdist>', the VERSION and PACKAGE.rst files aren't bundled by
+default. Create a MANIFEST.in file that instructs the build tools to
+include these so that installation from these files won't fail.
 
-They are not designed for inclusion in a published manual.
+This is required by 'tox', as well as by the tooling needed to upload
+packages to PyPI.
+
+Exclude the 'README.rst' file -- that's intended as a guidebook to our
+source tree, not a file that needs to be distributed.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
-Reviewed-by: Cleber Rosa <crosa@redhat.com>
 ---
- python/README.rst              | 41 ++++++++++++++++++++++++++++++++++
- python/qemu/README.rst         |  8 +++++++
- python/qemu/machine/README.rst |  9 ++++++++
- python/qemu/qmp/README.rst     |  9 ++++++++
- python/qemu/utils/README.rst   |  7 ++++++
- 5 files changed, 74 insertions(+)
- create mode 100644 python/README.rst
- create mode 100644 python/qemu/README.rst
- create mode 100644 python/qemu/machine/README.rst
- create mode 100644 python/qemu/qmp/README.rst
- create mode 100644 python/qemu/utils/README.rst
+ python/README.rst  | 2 ++
+ python/MANIFEST.in | 3 +++
+ 2 files changed, 5 insertions(+)
+ create mode 100644 python/MANIFEST.in
 
 diff --git a/python/README.rst b/python/README.rst
-new file mode 100644
-index 00000000000..38b0c83f321
---- /dev/null
+index 38b0c83f321..0099646ae2f 100644
+--- a/python/README.rst
 +++ b/python/README.rst
-@@ -0,0 +1,41 @@
-+QEMU Python Tooling
-+===================
-+
-+This directory houses Python tooling used by the QEMU project to build,
-+configure, and test QEMU. It is organized by namespace (``qemu``), and
-+then by package (e.g. ``qemu/machine``, ``qemu/qmp``, etc).
-+
-+``setup.py`` is used by ``pip`` to install this tooling to the current
-+environment. ``setup.cfg`` provides the packaging configuration used by
-+``setup.py`` in a setuptools specific format. You will generally invoke
-+it by doing one of the following:
-+
-+1. ``pip3 install .`` will install these packages to your current
-+   environment. If you are inside a virtual environment, they will
-+   install there. If you are not, it will attempt to install to the
-+   global environment, which is **not recommended**.
-+
-+2. ``pip3 install --user .`` will install these packages to your user's
-+   local python packages. If you are inside of a virtual environment,
-+   this will fail; you likely want the first invocation above.
-+
-+If you append the ``-e`` argument, pip will install in "editable" mode;
-+which installs a version of the package that installs a forwarder
-+pointing to these files, such that the package always reflects the
-+latest version in your git tree.
-+
-+See `Installing packages using pip and virtual environments
-+<https://packaging.python.org/guides/installing-using-pip-and-virtual-environments/>`_
-+for more information.
-+
-+
-+Files in this directory
-+-----------------------
-+
-+- ``qemu/`` Python package source directory.
-+- ``PACKAGE.rst`` is used as the README file that is visible on PyPI.org.
-+- ``README.rst`` you are here!
-+- ``VERSION`` contains the PEP-440 compliant version used to describe
-+  this package; it is referenced by ``setup.cfg``.
-+- ``setup.cfg`` houses setuptools package configuration.
-+- ``setup.py`` is the setuptools installer used by pip; See above.
-diff --git a/python/qemu/README.rst b/python/qemu/README.rst
+@@ -33,6 +33,8 @@ Files in this directory
+ -----------------------
+ 
+ - ``qemu/`` Python package source directory.
++- ``MANIFEST.in`` is read by python setuptools, it specifies additional files
++  that should be included by a source distribution.
+ - ``PACKAGE.rst`` is used as the README file that is visible on PyPI.org.
+ - ``README.rst`` you are here!
+ - ``VERSION`` contains the PEP-440 compliant version used to describe
+diff --git a/python/MANIFEST.in b/python/MANIFEST.in
 new file mode 100644
-index 00000000000..d04943f526c
+index 00000000000..7059ad28221
 --- /dev/null
-+++ b/python/qemu/README.rst
-@@ -0,0 +1,8 @@
-+QEMU Python Namespace
-+=====================
-+
-+This directory serves as the root of a `Python PEP 420 implicit
-+namespace package <https://www.python.org/dev/peps/pep-0420/>`_.
-+
-+Each directory below is assumed to be an installable Python package that
-+is available under the ``qemu.<package>`` namespace.
-diff --git a/python/qemu/machine/README.rst b/python/qemu/machine/README.rst
-new file mode 100644
-index 00000000000..ac2b4fffb42
---- /dev/null
-+++ b/python/qemu/machine/README.rst
-@@ -0,0 +1,9 @@
-+qemu.machine package
-+====================
-+
-+This package provides core utilities used for testing and debugging
-+QEMU. It is used by the iotests, vm tests, acceptance tests, and several
-+other utilities in the ./scripts directory. It is not a fully-fledged
-+SDK and it is subject to change at any time.
-+
-+See the documentation in ``__init__.py`` for more information.
-diff --git a/python/qemu/qmp/README.rst b/python/qemu/qmp/README.rst
-new file mode 100644
-index 00000000000..c21951491cf
---- /dev/null
-+++ b/python/qemu/qmp/README.rst
-@@ -0,0 +1,9 @@
-+qemu.qmp package
-+================
-+
-+This package provides a library used for connecting to and communicating
-+with QMP servers. It is used extensively by iotests, vm tests,
-+acceptance tests, and other utilities in the ./scripts directory. It is
-+not a fully-fledged SDK and is subject to change at any time.
-+
-+See the documentation in ``__init__.py`` for more information.
-diff --git a/python/qemu/utils/README.rst b/python/qemu/utils/README.rst
-new file mode 100644
-index 00000000000..975fbf4d7de
---- /dev/null
-+++ b/python/qemu/utils/README.rst
-@@ -0,0 +1,7 @@
-+qemu.utils package
-+==================
-+
-+This package provides miscellaneous utilities used for testing and
-+debugging QEMU. It is used primarily by the vm and acceptance tests.
-+
-+See the documentation in ``__init__.py`` for more information.
++++ b/python/MANIFEST.in
+@@ -0,0 +1,3 @@
++include VERSION
++include PACKAGE.rst
++exclude README.rst
 -- 
 2.31.1
 
