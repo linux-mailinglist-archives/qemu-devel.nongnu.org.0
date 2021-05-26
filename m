@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 696B1392376
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 01:57:20 +0200 (CEST)
-Received: from localhost ([::1]:53136 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 470EA39236D
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 01:54:25 +0200 (CEST)
+Received: from localhost ([::1]:44612 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lm3Op-0006k8-19
-	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 19:57:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34834)
+	id 1lm3M0-0000x2-AC
+	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 19:54:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34768)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lm3FM-0005eP-7u
- for qemu-devel@nongnu.org; Wed, 26 May 2021 19:47:32 -0400
-Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f]:41485)
+ id 1lm3FJ-0005c4-Bu
+ for qemu-devel@nongnu.org; Wed, 26 May 2021 19:47:29 -0400
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:46992)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lm3FC-0004U6-Pg
- for qemu-devel@nongnu.org; Wed, 26 May 2021 19:47:31 -0400
-Received: by mail-pg1-x52f.google.com with SMTP id r1so2295985pgk.8
- for <qemu-devel@nongnu.org>; Wed, 26 May 2021 16:47:20 -0700 (PDT)
+ id 1lm3FC-0004V2-Q9
+ for qemu-devel@nongnu.org; Wed, 26 May 2021 19:47:29 -0400
+Received: by mail-pj1-x1031.google.com with SMTP id
+ pi6-20020a17090b1e46b029015cec51d7cdso1272777pjb.5
+ for <qemu-devel@nongnu.org>; Wed, 26 May 2021 16:47:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=+qXhpK9E+3ZMIr8DgyUCNEWWCWtWcLGiTUcEr5+3/Pc=;
- b=JELvpquGO2TsBjw4UD0TAUsdgW7P9SVA1gAgGZk1iUmuyev+MfNSXDgUY+oMOYBQqa
- Z0Di4a+9NNZwVddHMiX0JXpWXCTSMXvqeHTrb8lPSxV28UBk+KTO2LIGLwq8XaHVu97D
- tOdY/b3lWVDBDx6f4XWzRmvkIzowsuscuoIVLl8Y60jI0LzVnNZGiH3TojqGCXr0hIQY
- BRNS92tNeF+Ve+qrByy7aSkRNov5yz1jbeROyM9f1C1QRxIUbeBqahnpvhRmyYO06Kf7
- ZvDncu3/eZpRDrHhBbjqNS24yjad+7vZ7umeX7RjVyWhNk2iwkELGFN0ij3dvEmQtG5O
- bX6g==
+ bh=mpkeb86nCt4YUDAKzgfY/W/JicHyTofw1YZI7AZcguo=;
+ b=Yg4Hs4z/XzZXsrOsVa3KiNKOzgy/3jAsZ8Ujh8Z+su1RkMXvKXV5/pVQ7cQhX44tb2
+ ohq5tgetdDVfQ5xCDHjhmheix4fUryCyN340W8DQNmhUxLuNjHdXgeUBb5pZ91Y8v44E
+ JnmUsq+OFD3/3QH/IVMk5qpg3MXsPRWFqL/LUx4CSUBOnt/KnSz796E+PkPbw0meDoMp
+ RDnxZuD7i/ZmcWF/jprdz4GVnYt957ebZ5Esh8VLRMd+qLEeJLRPyxi2zZ/tCPo+lchX
+ ZCflVSLjxUD85pwVTaBt5rmeS19/Nkr9Lk8jk1THzk6nZGVvunnQ8Qvq23smVZilIWue
+ +9bg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=+qXhpK9E+3ZMIr8DgyUCNEWWCWtWcLGiTUcEr5+3/Pc=;
- b=YqweHJeozG7ey6MZxGq2BsQcRjMBFafdlKxdEDd0pgQteGdXHl/Ple/pTOLXdyflUD
- E5K5cIX+hxXtXvArrk8oR1JzYdlJn4WTvOehh454+3eY0qvklf3+X6xRuyGei0PoxKKa
- Nm2LQdWUMpzBg0BsFLZpR5Jj0l+gCPgS8jl/Svm+x3Z4TZ4oH74LDo48g8uT3zLtlRYI
- lrVwWOrcLBHEYRp0j85qOoNaB7yFkr1iSufsS8D9DboClJJipSLH47QgfUo7+bI1CMCX
- Mago5kJVxWj7V9h/9N287UhyjBkwW60FvP33Pv6t8/KbG8hIo4UP+aY5b+BQf+9NmHQK
- z+vw==
-X-Gm-Message-State: AOAM533f+tBVJI20XPyIfiMhSdD5XJTUtTSJVrBCJmbwUCMzYcu2HgD0
- zUov38Pnhp4ldgjcKS6CIBMBDgkGQ6kwcw==
-X-Google-Smtp-Source: ABdhPJxT6B5VQm9mSG9ShM/giRWeOrjXiHlUo8gtxcQrD1e9+/KeCb7BVYyVXkH/22Tc7/6h+rcwpA==
-X-Received: by 2002:aa7:8b4f:0:b029:2bd:ea13:c4b4 with SMTP id
- i15-20020aa78b4f0000b02902bdea13c4b4mr936498pfd.48.1622072839318; 
- Wed, 26 May 2021 16:47:19 -0700 (PDT)
+ bh=mpkeb86nCt4YUDAKzgfY/W/JicHyTofw1YZI7AZcguo=;
+ b=hGujgCa61953D1P9DW2m9A6PKN/pw/I1J1NlYaJHS6Sn7OZS6kAu87JURTWxsT9+cg
+ FsyRn41f6fnmZ3R039yW+0nDY/NR6PKm0N4MhWfvxLI15o3XXIEQ8v8TSB17uc6usecJ
+ KbnHo+WGcBAtCjGzyuhP2xejJj3M+zRi8UdjJTIjECSwPxu+0DvDS/Iz80zFFcZGwG6A
+ CX5v1CWbbo5fzWoSODbWprLAflGykThxqCpPLMRvuve9TmE2lUroNkFb8xSHRsSHJ+3j
+ MAnwj+xfdvw00hhHC5buqgsTpaeZOG3pq5GKSJxWVepIW3KcsKMSiXHfVOlPEuR2ecwa
+ S3XA==
+X-Gm-Message-State: AOAM530d1sbwgMQ8+JbzNdY2o0g72h9bqU9Ni9MJBq4AAfSuytsyTYi2
+ HbUqO1MlgsBz830WI2Rlazo2KVQ6jHs49A==
+X-Google-Smtp-Source: ABdhPJzEgTmX3eRZZaiPZuzShuQeeOBNE3bMcOp37LZDvz44OMnqgaQ70nO5oxpd5g/NzTN9rBNHmg==
+X-Received: by 2002:a17:90b:341:: with SMTP id
+ fh1mr707193pjb.136.1622072840374; 
+ Wed, 26 May 2021 16:47:20 -0700 (PDT)
 Received: from localhost.localdomain (174-21-70-228.tukw.qwest.net.
  [174.21.70.228])
- by smtp.gmail.com with ESMTPSA id g13sm285355pfi.18.2021.05.26.16.47.18
+ by smtp.gmail.com with ESMTPSA id g13sm285355pfi.18.2021.05.26.16.47.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 May 2021 16:47:19 -0700 (PDT)
+ Wed, 26 May 2021 16:47:20 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/31] accel/tcg: Keep TranslationBlock headers local to TCG
-Date: Wed, 26 May 2021 16:46:47 -0700
-Message-Id: <20210526234710.125396-9-richard.henderson@linaro.org>
+Subject: [PULL 09/31] replay: fix watchpoint processing for reverse debugging
+Date: Wed, 26 May 2021 16:46:48 -0700
+Message-Id: <20210526234710.125396-10-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210526234710.125396-1-richard.henderson@linaro.org>
 References: <20210526234710.125396-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,149 +85,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: peter.maydell@linaro.org, Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
 
-Only the TCG accelerator uses the TranslationBlock API.
-Move the tb-context.h / tb-hash.h / tb-lookup.h from the
-global namespace to the TCG one (in accel/tcg).
+This patch enables reverse debugging with watchpoints.
+Reverse continue scans the execution to find the breakpoints
+and watchpoints that should fire. It uses helper function
+replay_breakpoint() for that. But this function needs to access
+icount, which can't be correct in the middle of TB.
+Therefore, in case of watchpoint, we have to retranslate the block
+to allow this access.
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20210524170453.3791436-3-f4bug@amsat.org>
+Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
+Message-Id: <162072430303.827403.7379783546934958566.stgit@pasha-ThinkPad-X280>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- {include/exec => accel/tcg}/tb-context.h | 0
- {include/exec => accel/tcg}/tb-hash.h    | 0
- {include/exec => accel/tcg}/tb-lookup.h  | 2 +-
- accel/tcg/cpu-exec.c                     | 6 +++---
- accel/tcg/cputlb.c                       | 2 +-
- accel/tcg/tcg-runtime.c                  | 2 +-
- accel/tcg/translate-all.c                | 4 ++--
- MAINTAINERS                              | 1 -
- 8 files changed, 8 insertions(+), 9 deletions(-)
- rename {include/exec => accel/tcg}/tb-context.h (100%)
- rename {include/exec => accel/tcg}/tb-hash.h (100%)
- rename {include/exec => accel/tcg}/tb-lookup.h (98%)
+ softmmu/physmem.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/include/exec/tb-context.h b/accel/tcg/tb-context.h
-similarity index 100%
-rename from include/exec/tb-context.h
-rename to accel/tcg/tb-context.h
-diff --git a/include/exec/tb-hash.h b/accel/tcg/tb-hash.h
-similarity index 100%
-rename from include/exec/tb-hash.h
-rename to accel/tcg/tb-hash.h
-diff --git a/include/exec/tb-lookup.h b/accel/tcg/tb-lookup.h
-similarity index 98%
-rename from include/exec/tb-lookup.h
-rename to accel/tcg/tb-lookup.h
-index 29d61ceb34..9c9e0079da 100644
---- a/include/exec/tb-lookup.h
-+++ b/accel/tcg/tb-lookup.h
-@@ -14,7 +14,7 @@
- #endif
- 
- #include "exec/exec-all.h"
--#include "exec/tb-hash.h"
-+#include "tb-hash.h"
- 
- /* Might cause an exception, so have a longjmp destination ready */
- static inline TranslationBlock *tb_lookup(CPUState *cpu, target_ulong pc,
-diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-index 10e11f27bb..ad1279d2ed 100644
---- a/accel/tcg/cpu-exec.c
-+++ b/accel/tcg/cpu-exec.c
-@@ -29,9 +29,6 @@
- #include "qemu/compiler.h"
- #include "qemu/timer.h"
- #include "qemu/rcu.h"
--#include "exec/tb-hash.h"
--#include "exec/tb-lookup.h"
--#include "exec/tb-context.h"
- #include "exec/log.h"
- #include "qemu/main-loop.h"
- #if defined(TARGET_I386) && !defined(CONFIG_USER_ONLY)
-@@ -41,6 +38,9 @@
- #include "exec/cpu-all.h"
- #include "sysemu/cpu-timers.h"
- #include "sysemu/replay.h"
-+#include "tb-hash.h"
-+#include "tb-lookup.h"
-+#include "tb-context.h"
- #include "internal.h"
- 
- /* -icount align implementation. */
-diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
-index 2f7088614a..f24348e979 100644
---- a/accel/tcg/cputlb.c
-+++ b/accel/tcg/cputlb.c
-@@ -24,7 +24,6 @@
- #include "exec/memory.h"
- #include "exec/cpu_ldst.h"
- #include "exec/cputlb.h"
--#include "exec/tb-hash.h"
- #include "exec/memory-internal.h"
- #include "exec/ram_addr.h"
- #include "tcg/tcg.h"
-@@ -36,6 +35,7 @@
- #include "exec/translate-all.h"
- #include "trace/trace-root.h"
- #include "trace/mem.h"
-+#include "tb-hash.h"
- #include "internal.h"
- #ifdef CONFIG_PLUGIN
- #include "qemu/plugin-memory.h"
-diff --git a/accel/tcg/tcg-runtime.c b/accel/tcg/tcg-runtime.c
-index 49f5de37e8..66ac830e2f 100644
---- a/accel/tcg/tcg-runtime.c
-+++ b/accel/tcg/tcg-runtime.c
-@@ -30,7 +30,7 @@
- #include "disas/disas.h"
- #include "exec/log.h"
- #include "tcg/tcg.h"
--#include "exec/tb-lookup.h"
-+#include "tb-lookup.h"
- 
- /* 32-bit helpers */
- 
-diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-index e9f4de5190..1eefe6ea8d 100644
---- a/accel/tcg/translate-all.c
-+++ b/accel/tcg/translate-all.c
-@@ -47,8 +47,6 @@
- #endif
- 
- #include "exec/cputlb.h"
--#include "exec/tb-hash.h"
--#include "exec/tb-context.h"
- #include "exec/translate-all.h"
- #include "qemu/bitmap.h"
- #include "qemu/error-report.h"
-@@ -61,6 +59,8 @@
- #include "sysemu/tcg.h"
- #include "qapi/error.h"
- #include "hw/core/tcg-cpu-ops.h"
-+#include "tb-hash.h"
-+#include "tb-context.h"
- #include "internal.h"
- 
- /* #define DEBUG_TB_INVALIDATE */
-diff --git a/MAINTAINERS b/MAINTAINERS
-index a77f246569..5f55404f2f 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -128,7 +128,6 @@ F: docs/devel/decodetree.rst
- F: include/exec/cpu*.h
- F: include/exec/exec-all.h
- F: include/exec/helper*.h
--F: include/exec/tb-hash.h
- F: include/sysemu/cpus.h
- F: include/sysemu/tcg.h
- F: include/hw/core/tcg-cpu-ops.h
+diff --git a/softmmu/physmem.c b/softmmu/physmem.c
+index e1da81ed2f..1c8717684a 100644
+--- a/softmmu/physmem.c
++++ b/softmmu/physmem.c
+@@ -904,6 +904,16 @@ void cpu_check_watchpoint(CPUState *cpu, vaddr addr, vaddr len,
+         if (watchpoint_address_matches(wp, addr, len)
+             && (wp->flags & flags)) {
+             if (replay_running_debug()) {
++                /*
++                 * replay_breakpoint reads icount.
++                 * Force recompile to succeed, because icount may
++                 * be read only at the end of the block.
++                 */
++                if (!cpu->can_do_io) {
++                    /* Force execution of one insn next time.  */
++                    cpu->cflags_next_tb = 1 | CF_LAST_IO | curr_cflags(cpu);
++                    cpu_loop_exit_restore(cpu, ra);
++                }
+                 /*
+                  * Don't process the watchpoints when we are
+                  * in a reverse debugging operation.
 -- 
 2.25.1
 
