@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2622D3919C2
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 16:16:16 +0200 (CEST)
-Received: from localhost ([::1]:36518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D71333919B9
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 16:16:01 +0200 (CEST)
+Received: from localhost ([::1]:35850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lluKV-0005Hj-5q
-	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 10:16:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35382)
+	id 1lluKG-0004qO-Rq
+	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 10:16:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35450)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lluBu-00047B-5t
- for qemu-devel@nongnu.org; Wed, 26 May 2021 10:07:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29631)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lluC8-0004RT-0g
+ for qemu-devel@nongnu.org; Wed, 26 May 2021 10:07:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35083)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lluBs-0004HX-GR
- for qemu-devel@nongnu.org; Wed, 26 May 2021 10:07:21 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lluC3-0004MQ-KE
+ for qemu-devel@nongnu.org; Wed, 26 May 2021 10:07:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622038039;
+ s=mimecast20190719; t=1622038050;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=iQ0/lgssc1eafWvuKxJ1n/R+E4upeZXznjWu7OYJQHQ=;
- b=DfdInjdBFCdmUMBiIqQqmxIe66Z9NIhbMXFyIeAdyH5Ua6Aaumb+0/YQup1HjID3+aRIDV
- uTqZ4E/NKES54iVVrjBDs6rgB8Hk8OBi6ctyKVfBkpeuyArcUa61Mu/Qd5bdslcmYqSqvK
- jq99W5Vj9Wjd6PztY+f8odv/CqOybDw=
+ bh=PECO0g06hLDjOu3d7I9Nb0+6uo2MxEBlaUky8/Wav6k=;
+ b=EcRilCN5VHREqjmEzPHcPfBOTxbdu1wPOV+ghFhREyx0qMlUNd4fVD4SwVSiuPrnqwBFup
+ ZayaHEByPfpSHS+bs/3OwA4cn4rUytecmRIutGfiX2N1GVsRzny7PnLQGOiBW4fJ5BcecZ
+ sf692DIhjjc3YXhL5gl+2YEB22IHzwU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-99-emGLDmxeMm-r1Zqbpb4zcw-1; Wed, 26 May 2021 10:07:17 -0400
-X-MC-Unique: emGLDmxeMm-r1Zqbpb4zcw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-503-b75u_6B1PFG9_p7n2DO0yw-1; Wed, 26 May 2021 10:07:26 -0400
+X-MC-Unique: b75u_6B1PFG9_p7n2DO0yw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6A6E2107ACCD;
- Wed, 26 May 2021 14:07:16 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3082D90E647;
+ Wed, 26 May 2021 14:07:25 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-84.ams2.redhat.com
  [10.36.112.84])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 313DA60875;
- Wed, 26 May 2021 14:07:16 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CAAFD61094;
+ Wed, 26 May 2021 14:07:17 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 0BB5B1800939; Wed, 26 May 2021 16:06:28 +0200 (CEST)
+ id 161E6180093A; Wed, 26 May 2021 16:06:28 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 13/14] pckbd: clear outport_present in outer pre_load()
-Date: Wed, 26 May 2021 16:06:26 +0200
-Message-Id: <20210526140627.381857-14-kraxel@redhat.com>
+Subject: [PULL 14/14] hw/input/ps2: Use ps2_raise_irq() instead of open coding
+ it
+Date: Wed, 26 May 2021 16:06:27 +0200
+Message-Id: <20210526140627.381857-15-kraxel@redhat.com>
 In-Reply-To: <20210526140627.381857-1-kraxel@redhat.com>
 References: <20210526140627.381857-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -82,52 +83,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Eduardo Habkost <ehabkost@redhat.com>,
  "Michael S. Tsirkin" <mst@redhat.com>,
  =?UTF-8?q?Volker=20R=C3=BCmelin?= <vr_qemu@t-online.de>,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Bin Meng <bmeng.cn@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Volker Rümelin <vr_qemu@t-online.de>
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-The variable outport_present is a flag to show if the outport
-subsection was loaded. Clear the outport_present flag in the
-outer pre_load() function. This method is recommended in the QEMU
-manual for developers in the chapter "Migration, Subsections".
-
-Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
-Message-Id: <20210525181441.27768-12-vr_qemu@t-online.de>
+Inspired-by: Volker Rümelin <vr_qemu@t-online.de>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Volker Rümelin <vr_qemu@t-online.de>
+Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+Message-Id: <20210513171244.3940519-1-f4bug@amsat.org>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/input/pckbd.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ hw/input/ps2.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/hw/input/pckbd.c b/hw/input/pckbd.c
-index de867abc06b7..baba62f357a2 100644
---- a/hw/input/pckbd.c
-+++ b/hw/input/pckbd.c
-@@ -457,7 +457,6 @@ static void kbd_reset(void *opaque)
-     s->mode = KBD_MODE_KBD_INT | KBD_MODE_MOUSE_INT;
-     s->status = KBD_STAT_CMD | KBD_STAT_UNLOCKED;
-     s->outport = KBD_OUT_RESET | KBD_OUT_A20 | KBD_OUT_ONES;
--    s->outport_present = false;
-     s->pending = 0;
-     kbd_deassert_irq(s);
-     if (s->throttle_timer) {
-@@ -564,6 +563,7 @@ static int kbd_pre_load(void *opaque)
- {
-     KBDState *s = opaque;
- 
-+    s->outport_present = false;
-     s->extended_state_loaded = false;
-     return 0;
- }
-@@ -574,7 +574,6 @@ static int kbd_post_load(void *opaque, int version_id)
-     if (!s->outport_present) {
-         s->outport = kbd_outport_default(s);
+diff --git a/hw/input/ps2.c b/hw/input/ps2.c
+index 5cf95b4dd3eb..8dd482c1f65b 100644
+--- a/hw/input/ps2.c
++++ b/hw/input/ps2.c
+@@ -217,7 +217,7 @@ void ps2_queue(PS2State *s, int b)
      }
--    s->outport_present = false;
-     s->pending = s->pending_tmp;
-     if (!s->extended_state_loaded) {
-         s->obsrc = s->status & KBD_STAT_OBF ?
+ 
+     ps2_queue_noirq(s, b);
+-    s->update_irq(s->update_arg, 1);
++    ps2_raise_irq(s);
+ }
+ 
+ void ps2_queue_2(PS2State *s, int b1, int b2)
+@@ -228,7 +228,7 @@ void ps2_queue_2(PS2State *s, int b1, int b2)
+ 
+     ps2_queue_noirq(s, b1);
+     ps2_queue_noirq(s, b2);
+-    s->update_irq(s->update_arg, 1);
++    ps2_raise_irq(s);
+ }
+ 
+ void ps2_queue_3(PS2State *s, int b1, int b2, int b3)
+@@ -240,7 +240,7 @@ void ps2_queue_3(PS2State *s, int b1, int b2, int b3)
+     ps2_queue_noirq(s, b1);
+     ps2_queue_noirq(s, b2);
+     ps2_queue_noirq(s, b3);
+-    s->update_irq(s->update_arg, 1);
++    ps2_raise_irq(s);
+ }
+ 
+ void ps2_queue_4(PS2State *s, int b1, int b2, int b3, int b4)
+@@ -253,7 +253,7 @@ void ps2_queue_4(PS2State *s, int b1, int b2, int b3, int b4)
+     ps2_queue_noirq(s, b2);
+     ps2_queue_noirq(s, b3);
+     ps2_queue_noirq(s, b4);
+-    s->update_irq(s->update_arg, 1);
++    ps2_raise_irq(s);
+ }
+ 
+ /* keycode is the untranslated scancode in the current scancode set. */
 -- 
 2.31.1
 
