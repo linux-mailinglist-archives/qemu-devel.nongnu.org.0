@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 470EA39236D
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 01:54:25 +0200 (CEST)
-Received: from localhost ([::1]:44612 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38886392389
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 02:01:28 +0200 (CEST)
+Received: from localhost ([::1]:37116 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lm3M0-0000x2-AC
-	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 19:54:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34768)
+	id 1lm3Sp-0006SZ-7f
+	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 20:01:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34784)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lm3FJ-0005c4-Bu
+ id 1lm3FJ-0005d8-Vu
  for qemu-devel@nongnu.org; Wed, 26 May 2021 19:47:29 -0400
-Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:46992)
+Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532]:37769)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lm3FC-0004V2-Q9
+ id 1lm3FC-0004V7-QJ
  for qemu-devel@nongnu.org; Wed, 26 May 2021 19:47:29 -0400
-Received: by mail-pj1-x1031.google.com with SMTP id
- pi6-20020a17090b1e46b029015cec51d7cdso1272777pjb.5
- for <qemu-devel@nongnu.org>; Wed, 26 May 2021 16:47:21 -0700 (PDT)
+Received: by mail-pg1-x532.google.com with SMTP id t193so2301231pgb.4
+ for <qemu-devel@nongnu.org>; Wed, 26 May 2021 16:47:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=mpkeb86nCt4YUDAKzgfY/W/JicHyTofw1YZI7AZcguo=;
- b=Yg4Hs4z/XzZXsrOsVa3KiNKOzgy/3jAsZ8Ujh8Z+su1RkMXvKXV5/pVQ7cQhX44tb2
- ohq5tgetdDVfQ5xCDHjhmheix4fUryCyN340W8DQNmhUxLuNjHdXgeUBb5pZ91Y8v44E
- JnmUsq+OFD3/3QH/IVMk5qpg3MXsPRWFqL/LUx4CSUBOnt/KnSz796E+PkPbw0meDoMp
- RDnxZuD7i/ZmcWF/jprdz4GVnYt957ebZ5Esh8VLRMd+qLEeJLRPyxi2zZ/tCPo+lchX
- ZCflVSLjxUD85pwVTaBt5rmeS19/Nkr9Lk8jk1THzk6nZGVvunnQ8Qvq23smVZilIWue
- +9bg==
+ bh=+yWYtAyvKHCLBY3UydOHOFHk7QNzbfv/DnodNJ6hJsw=;
+ b=T9htAXoysDPLNgWWegWXonbElMenSa5Ov3ente2rThCG8D434TFOB+k+x4f6WbGahw
+ BOa/HLUe+uFExziWvFvm0hSWIQi55CDPZYXFfrV1ohfqxrmX4r6oJAL0irVTAYUXGCnk
+ UUqpStTjdzmui6EhPsTO9Mj7lDSBSyItHmGS6ijsAWq5XKG950pFtt3U08b5avI+BOaX
+ TgZxKUpHr+no76oZttO+6nBvDVcjGb9O3KRyyuJlmg0lEA9/q8i525ojQVGL5Kf2otY/
+ wlsqgqA/TF4s+SlIg9DsH8JiCLURwUg8QDANO9+sJhc4v4q3hmpT8A09co8P0kOGg4fW
+ sOUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=mpkeb86nCt4YUDAKzgfY/W/JicHyTofw1YZI7AZcguo=;
- b=hGujgCa61953D1P9DW2m9A6PKN/pw/I1J1NlYaJHS6Sn7OZS6kAu87JURTWxsT9+cg
- FsyRn41f6fnmZ3R039yW+0nDY/NR6PKm0N4MhWfvxLI15o3XXIEQ8v8TSB17uc6usecJ
- KbnHo+WGcBAtCjGzyuhP2xejJj3M+zRi8UdjJTIjECSwPxu+0DvDS/Iz80zFFcZGwG6A
- CX5v1CWbbo5fzWoSODbWprLAflGykThxqCpPLMRvuve9TmE2lUroNkFb8xSHRsSHJ+3j
- MAnwj+xfdvw00hhHC5buqgsTpaeZOG3pq5GKSJxWVepIW3KcsKMSiXHfVOlPEuR2ecwa
- S3XA==
-X-Gm-Message-State: AOAM530d1sbwgMQ8+JbzNdY2o0g72h9bqU9Ni9MJBq4AAfSuytsyTYi2
- HbUqO1MlgsBz830WI2Rlazo2KVQ6jHs49A==
-X-Google-Smtp-Source: ABdhPJzEgTmX3eRZZaiPZuzShuQeeOBNE3bMcOp37LZDvz44OMnqgaQ70nO5oxpd5g/NzTN9rBNHmg==
-X-Received: by 2002:a17:90b:341:: with SMTP id
- fh1mr707193pjb.136.1622072840374; 
- Wed, 26 May 2021 16:47:20 -0700 (PDT)
+ bh=+yWYtAyvKHCLBY3UydOHOFHk7QNzbfv/DnodNJ6hJsw=;
+ b=lRyre20fyq+s9qXneQJ/iYbFRp/l3lZvDEAGPmWaWLcgJ9j2+5klgQ3HB4kaHf7lRH
+ sbHEr2fs4J/OB2DapwbjkBljJLI3RJjMPT0RFFiWuKtq3wedsZ3TfN/CWzq/bGElNRrz
+ gQc2K8SuM1sNA56jeW8bJMFQ5CIC1yuXSgRXBBUiwzJ68+GaZLIf6w+hA4AeCtpbmnmU
+ Q1OPwfvnPh93Bn/e24e4a6gX67/TR0k0mRKtSUwmwO1DW74hTwIk3GwKyMvryA+fZOGn
+ jlcKBJUR+kHW5j1XsZee3QomSuWw2cUejfqJuzXcilERp7WNYgH/EjWNqUdKDcCVyp1D
+ 4LRA==
+X-Gm-Message-State: AOAM531/GY4pQVO5enXutwJp7fmAjmr/BVUVBBOAcYaO9/XlR8aidGGn
+ dmDwZ7h7+KuKuK9r1BSw7k49yzhCt/CpZA==
+X-Google-Smtp-Source: ABdhPJy4Dh9uqTNbHERJ2zfS2MqCWDx5nxNuNPDY6wmqJfbAR3w540JCoUa0ozgqNnmIpXiWoRV82A==
+X-Received: by 2002:a62:7b07:0:b029:2e3:b540:707f with SMTP id
+ w7-20020a627b070000b02902e3b540707fmr908958pfc.59.1622072841195; 
+ Wed, 26 May 2021 16:47:21 -0700 (PDT)
 Received: from localhost.localdomain (174-21-70-228.tukw.qwest.net.
  [174.21.70.228])
- by smtp.gmail.com with ESMTPSA id g13sm285355pfi.18.2021.05.26.16.47.19
+ by smtp.gmail.com with ESMTPSA id g13sm285355pfi.18.2021.05.26.16.47.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 26 May 2021 16:47:20 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 09/31] replay: fix watchpoint processing for reverse debugging
-Date: Wed, 26 May 2021 16:46:48 -0700
-Message-Id: <20210526234710.125396-10-richard.henderson@linaro.org>
+Subject: [PULL 10/31] tcg/aarch64: Fix tcg_out_rotl
+Date: Wed, 26 May 2021 16:46:49 -0700
+Message-Id: <20210526234710.125396-11-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210526234710.125396-1-richard.henderson@linaro.org>
 References: <20210526234710.125396-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x532.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,48 +84,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
+Cc: peter.maydell@linaro.org, Yasuo Kuwahara <kwhr00@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
+From: Yasuo Kuwahara <kwhr00@gmail.com>
 
-This patch enables reverse debugging with watchpoints.
-Reverse continue scans the execution to find the breakpoints
-and watchpoints that should fire. It uses helper function
-replay_breakpoint() for that. But this function needs to access
-icount, which can't be correct in the middle of TB.
-Therefore, in case of watchpoint, we have to retranslate the block
-to allow this access.
+The last argument of tcg_out_extr() must be in the range 0-31 if ext==0.
+Before the fix, when m==0 it becomes 32 and it crashes with an Illegal
+instruction on Apple Silicon.  After the fix, it will be 0.  If m is in
+the range 1-31, it is the same as before.
 
-Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
-Message-Id: <162072430303.827403.7379783546934958566.stgit@pasha-ThinkPad-X280>
+Signed-off-by: Yasuo Kuwahara <kwhr00@gmail.com>
+Message-Id: <CAHfJ0vSXnmnTLmT0kR=a8ACRdw_UsLYOhStzUzgVEHoH8U-7sA@mail.gmail.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- softmmu/physmem.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ tcg/aarch64/tcg-target.c.inc | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/softmmu/physmem.c b/softmmu/physmem.c
-index e1da81ed2f..1c8717684a 100644
---- a/softmmu/physmem.c
-+++ b/softmmu/physmem.c
-@@ -904,6 +904,16 @@ void cpu_check_watchpoint(CPUState *cpu, vaddr addr, vaddr len,
-         if (watchpoint_address_matches(wp, addr, len)
-             && (wp->flags & flags)) {
-             if (replay_running_debug()) {
-+                /*
-+                 * replay_breakpoint reads icount.
-+                 * Force recompile to succeed, because icount may
-+                 * be read only at the end of the block.
-+                 */
-+                if (!cpu->can_do_io) {
-+                    /* Force execution of one insn next time.  */
-+                    cpu->cflags_next_tb = 1 | CF_LAST_IO | curr_cflags(cpu);
-+                    cpu_loop_exit_restore(cpu, ra);
-+                }
-                 /*
-                  * Don't process the watchpoints when we are
-                  * in a reverse debugging operation.
+diff --git a/tcg/aarch64/tcg-target.c.inc b/tcg/aarch64/tcg-target.c.inc
+index f07ba98aa4..5bd366f2d4 100644
+--- a/tcg/aarch64/tcg-target.c.inc
++++ b/tcg/aarch64/tcg-target.c.inc
+@@ -1291,9 +1291,8 @@ static inline void tcg_out_rotr(TCGContext *s, TCGType ext,
+ static inline void tcg_out_rotl(TCGContext *s, TCGType ext,
+                                 TCGReg rd, TCGReg rn, unsigned int m)
+ {
+-    int bits = ext ? 64 : 32;
+-    int max = bits - 1;
+-    tcg_out_extr(s, ext, rd, rn, rn, bits - (m & max));
++    int max = ext ? 63 : 31;
++    tcg_out_extr(s, ext, rd, rn, rn, -m & max);
+ }
+ 
+ static inline void tcg_out_dep(TCGContext *s, TCGType ext, TCGReg rd,
 -- 
 2.25.1
 
