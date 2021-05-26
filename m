@@ -2,73 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B97A391E88
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 19:59:32 +0200 (CEST)
-Received: from localhost ([::1]:58674 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78DB339208C
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 21:06:54 +0200 (CEST)
+Received: from localhost ([::1]:50870 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llxoS-000251-3n
-	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 13:59:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49878)
+	id 1llyrl-0001BC-Hz
+	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 15:06:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50714)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <swethajoshi139@gmail.com>)
- id 1llxOs-00009z-RX; Wed, 26 May 2021 13:33:03 -0400
-Received: from mail-oi1-x235.google.com ([2607:f8b0:4864:20::235]:33618)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <swethajoshi139@gmail.com>)
- id 1llxOo-0001OB-FX; Wed, 26 May 2021 13:32:58 -0400
-Received: by mail-oi1-x235.google.com with SMTP id b25so2306647oic.0;
- Wed, 26 May 2021 10:32:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=MHDjWt30kfTo7P1kTFosF2FYBb6vy0T0nTwkFqadCB4=;
- b=Jp2dEGrSNiQittVBMJs8fuZcufSgLqhcq+/OfxcFjogovBvNwDNOB3V+XTrhc1vkmt
- jXwJot96YWXSmV+xlEvePk1M/0hxuHaaEBepVfFZxy//5vqKpktSzb7rKvT7qo2IxQ5H
- enYlIAuuNnkoOAyKhrIlrILUd7KSZKLZBJsDQ3DbOTqzpWbUbqxaekm34mIKec0yJert
- q1AiyW6aILrmWDctFM4ZSiCDSnPCf+xHRLn8KUb7qAw8Exrys/b5VtQoytKbFz/cU+0S
- eYGdwagH2CsQmIYnCQJn18FNG4EqAJwBjxM9H0d1+k2BqyvmegbsFdtcAA5QgTqNG+sn
- taRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=MHDjWt30kfTo7P1kTFosF2FYBb6vy0T0nTwkFqadCB4=;
- b=lVFIJyaL/cN1tASwr5sShsVUPfe38ODyz2e0EWx/EFFK/8kH7YH2Aq8mz10sRZ5iWg
- 2XIVolQwEEJ4YyRYnaAlGI4mBCgZNbJtmr2+XZ6bD46/hh1+5jQ6nCMuERbN8/1Zp4zh
- zLWrX82ILJSgeqXHkhLwFQPkgJ2tSAbg0foqAA7Op0Kr/WTTO8mr4RDN0d57LQZqidfU
- 9S8j8uGDUzSPWjEMiB6ITt+HniGUiVtdMkL8SyTyCtZgdWU/Rd5yDE4svyZg5R184JcC
- CBUuX6fMT4kYywRfzX5A+Gx/C0i14uh2g2GM9TaZfMpsOdR49l4jdzPZOXqdQGovUN3L
- owsg==
-X-Gm-Message-State: AOAM530IrMpWh/GU/dNScUX2YIpEmIcSL/e3ey+S3z4/FDJ3kmnpqD4b
- MwHYyas74dKugobbxx2vGSWnlvk26YId8vG9JpE=
-X-Google-Smtp-Source: ABdhPJzKRsJR/mbMGkiCtopfOQf9W/gqe95X0l7q2y4f1K8w4LpmcIi9jeONDTc2WEgyXi/2sprZ+mDG3bndMbm08cM=
-X-Received: by 2002:aca:2417:: with SMTP id n23mr2682344oic.111.1622050366786; 
- Wed, 26 May 2021 10:32:46 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <mmorrell@tachyum.com>)
+ id 1llxTU-0004f0-Hz
+ for qemu-devel@nongnu.org; Wed, 26 May 2021 13:37:44 -0400
+Received: from mx1.tachyum.com ([66.160.133.170]:5264)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mmorrell@tachyum.com>)
+ id 1llxTN-00041Q-RZ
+ for qemu-devel@nongnu.org; Wed, 26 May 2021 13:37:40 -0400
+Received: by mx1.tachyum.com (Postfix, from userid 1000)
+ id 02F141005691; Wed, 26 May 2021 10:37:34 -0700 (PDT)
+Received: from THQ-EX1.tachyum.com (unknown [10.7.1.6])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mx1.tachyum.com (Postfix) with ESMTPS id 762BF1005283
+ for <qemu-devel@nongnu.org>; Wed, 26 May 2021 10:37:34 -0700 (PDT)
+Received: from THQ-EX3.tachyum.com (10.7.1.26) by THQ-EX1.tachyum.com
+ (10.7.1.6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.14; Wed, 26 May
+ 2021 10:37:34 -0700
+Received: from THQ-EX1.tachyum.com (10.7.1.6) by THQ-EX3.tachyum.com
+ (10.7.1.26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.14; Wed, 26 May
+ 2021 10:37:33 -0700
+Received: from THQ-EX1.tachyum.com ([10.7.1.6]) by THQ-EX1.tachyum.com
+ ([10.7.1.6]) with mapi id 15.01.2176.014; Wed, 26 May 2021 10:37:33 -0700
+From: Michael Morrell <mmorrell@tachyum.com>
+To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Subject: Denormal input handling
+Thread-Topic: Denormal input handling
+Thread-Index: AddSVLVuQ70cTMk8SjeoZZpZvpdwcw==
+Date: Wed, 26 May 2021 17:37:33 +0000
+Message-ID: <30eafc8be31446f9aecbc40f487467e1@tachyum.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.7.252.4]
+Content-Type: multipart/alternative;
+ boundary="_000_30eafc8be31446f9aecbc40f487467e1tachyumcom_"
 MIME-Version: 1.0
-References: <20210525025823.3208218-1-swethajoshi139@gmail.com>
- <331a819e-1745-4d4b-cc4a-82521a58186a@linaro.org>
- <CAFEAcA8RbVafdjn2hkXifAPUF=wxZup20PqPcRpQ1ivtnWCxww@mail.gmail.com>
- <CALf2nm+LFqM2=vDs8=YfyxQSUT-0xxaCiVmcQzrKoOa+zaTtdg@mail.gmail.com>
- <CAFEAcA-oX0JR80UYzYKvczHsfxWG6oH3Pg4pbM6ByDe57XEHHw@mail.gmail.com>
-In-Reply-To: <CAFEAcA-oX0JR80UYzYKvczHsfxWG6oH3Pg4pbM6ByDe57XEHHw@mail.gmail.com>
-From: Swetha Joshi <swethajoshi139@gmail.com>
-Date: Wed, 26 May 2021 10:32:36 -0700
-Message-ID: <CALf2nmKhPaWJa944dR+kFAQ1hCLXF0XPwXaHTqJQ-C6EW7ACKg@mail.gmail.com>
-Subject: Re: [PATCH_V3] Adding ifdefs to call the respective routines only
- when their configs are enabled
-To: Peter Maydell <peter.maydell@linaro.org>
-Content-Type: multipart/alternative; boundary="000000000000eb8f7d05c33f07f7"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::235;
- envelope-from=swethajoshi139@gmail.com; helo=mail-oi1-x235.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
+Received-SPF: pass client-ip=66.160.133.170; envelope-from=mmorrell@tachyum.com;
+ helo=mx1.tachyum.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Wed, 26 May 2021 15:02:53 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,94 +71,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>,
- Dongjiu Geng <gengdongjiu1@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000eb8f7d05c33f07f7
-Content-Type: text/plain; charset="UTF-8"
-
-Hello,
-
-One of the qemu machines we use has KVM enabled, but we don't want the
-CONFIG_ARM_VIRT enabled as it pulls in emulation of a variety of physical
-hardware that we don't need. The compilation errors I mentioned are not in
-the qemu mainline per say but we see them in one of the qemu derived
-machines we use.
-
-Thanks,
-Swetha.
-
-On Tue, May 25, 2021 at 10:16 AM Peter Maydell <peter.maydell@linaro.org>
-wrote:
-
-> On Tue, 25 May 2021 at 17:28, Swetha Joshi <swethajoshi139@gmail.com>
-> wrote:
-> >
-> > Hey Peter, Phil,
-> >
-> > Yeah like Peter mentioned, when KVM is enabled and we don't want VIRT
-> enabled, there are a couple of routines that are being called from virt.h
-> and ghes.h, which is resulting in errors. I came up with this simple fix
-> but if you think there is a better solution to it I'll let you/ other
-> developers who own it decide and fix it because I don't have much
-> experience or visibility into what happens internally, my knowledge is
-> restricted to just using the configs.
->
-> Well, QEMU builds fine for me as-is, because the default config
-> always enables the virt board. Do you have repro instructions for
-> reproducing the build failure ?
->
-> thanks
-> -- PMM
->
-
-
--- 
-Regards
-
-Swetha Joshi.
-
---000000000000eb8f7d05c33f07f7
-Content-Type: text/html; charset="UTF-8"
+--_000_30eafc8be31446f9aecbc40f487467e1tachyumcom_
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">Hello,<div><br></div><div>One of the qemu machines we use =
-has KVM enabled, but we don&#39;t want the CONFIG_ARM_VIRT enabled as it pu=
-lls in emulation of a variety of physical hardware that we don&#39;t need. =
-The compilation errors I mentioned are not in the qemu mainline per say but=
- we see them in one of the qemu derived machines we use.=C2=A0<div><br></di=
-v><div>Thanks,</div><div>Swetha.</div></div></div><br><div class=3D"gmail_q=
-uote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, May 25, 2021 at 10:16 A=
-M Peter Maydell &lt;<a href=3D"mailto:peter.maydell@linaro.org">peter.mayde=
-ll@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" sty=
-le=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddi=
-ng-left:1ex">On Tue, 25 May 2021 at 17:28, Swetha Joshi &lt;<a href=3D"mail=
-to:swethajoshi139@gmail.com" target=3D"_blank">swethajoshi139@gmail.com</a>=
-&gt; wrote:<br>
-&gt;<br>
-&gt; Hey Peter, Phil,<br>
-&gt;<br>
-&gt; Yeah like Peter mentioned, when KVM is enabled and we don&#39;t want V=
-IRT enabled, there are a couple of routines that are being called from virt=
-.h and ghes.h, which is resulting in errors. I came up with this simple fix=
- but if you think there is a better solution to it I&#39;ll let you/ other =
-developers who own it decide and fix it because I don&#39;t have much exper=
-ience or visibility into what happens internally, my knowledge is restricte=
-d to just using the configs.<br>
-<br>
-Well, QEMU builds fine for me as-is, because the default config<br>
-always enables the virt board. Do you have repro instructions for<br>
-reproducing the build failure ?<br>
-<br>
-thanks<br>
--- PMM<br>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
- class=3D"gmail_signature"><div dir=3D"ltr">Regards<div><br></div><div>Swet=
-ha Joshi.</div></div></div>
+I see support in QEMU for architectures which have a denormal input flag bi=
+t and those that have a "flush inputs to zero" control bit, but the impleme=
+ntation is not specializable and seems wrong for x86 at least.
 
---000000000000eb8f7d05c33f07f7--
+For example, in sf_canonicalize, if the input is denormal and "flush_inputs=
+_to_zero" is true, the "input denormal" flag is set and then the value is s=
+et to a zero value, and if the input is denormal and "flush_inputs_to_zero"=
+ is false, then the input is simply normalized.
+
+I think the behavior should be for denormal inputs that if "flush_inputs_to=
+_zero" is true, then the value is set to zero; and if "flush_inputs_to_zero=
+" is false, set the "input denormal" flag and normalize the input.
+
+This matches what x86 does (I'm not sure about other architectures).
+
+Am I missing something?  If not, I can work on a patch (there are several p=
+laces which check "flush_inputs_to_zero" which will need to be changed).
+
+  Michael
+
+--_000_30eafc8be31446f9aecbc40f487467e1tachyumcom_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
+osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
+//www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
+<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
+<style><!--
+/* Font Definitions */
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+span.EmailStyle17
+	{mso-style-type:personal-compose;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-family:"Calibri",sans-serif;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]-->
+</head>
+<body lang=3D"EN-US" link=3D"#0563C1" vlink=3D"#954F72" style=3D"word-wrap:=
+break-word">
+<div class=3D"WordSection1">
+<p class=3D"MsoNormal">I see support in QEMU for architectures which have a=
+ denormal input flag bit and those that have a &quot;flush inputs to zero&q=
+uot; control bit, but the implementation is not specializable and seems wro=
+ng for x86 at least.<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">For example, in sf_canonicalize, if the input is den=
+ormal and &quot;flush_inputs_to_zero&quot; is true, the &quot;input denorma=
+l&quot; flag is set and then the value is set to a zero value, and if the i=
+nput is denormal and &quot;flush_inputs_to_zero&quot; is false,
+ then the input is simply normalized.<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">I think the behavior should be for denormal inputs t=
+hat if &quot;flush_inputs_to_zero&quot; is true, then the value is set to z=
+ero; and if &quot;flush_inputs_to_zero&quot; is false, set the &quot;input =
+denormal&quot; flag and normalize the input.<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">This matches what x86 does (I'm not sure about other=
+ architectures).<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Am I missing something?&nbsp; If not, I can work on =
+a patch (there are several places which check &quot;flush_inputs_to_zero&qu=
+ot; which will need to be changed).<br>
+<br>
+<o:p></o:p></p>
+<p class=3D"MsoNormal">&nbsp; Michael<o:p></o:p></p>
+</div>
+</body>
+</html>
+
+--_000_30eafc8be31446f9aecbc40f487467e1tachyumcom_--
 
