@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FE8C391DBC
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 19:20:22 +0200 (CEST)
-Received: from localhost ([::1]:49350 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFC93391D97
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 19:10:28 +0200 (CEST)
+Received: from localhost ([::1]:60964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llxCf-0006GV-Ij
-	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 13:20:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44366)
+	id 1llx35-0002fE-P2
+	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 13:10:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44428)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1llwyO-0007GG-3k
- for qemu-devel@nongnu.org; Wed, 26 May 2021 13:05:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49490)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1llwya-0007MZ-Sl
+ for qemu-devel@nongnu.org; Wed, 26 May 2021 13:05:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47720)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1llwyM-0004MA-DH
- for qemu-devel@nongnu.org; Wed, 26 May 2021 13:05:35 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1llwyU-0004O9-5O
+ for qemu-devel@nongnu.org; Wed, 26 May 2021 13:05:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622048733;
+ s=mimecast20190719; t=1622048737;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YUwsAY7j/ecV1UbnP3UC7xEIyUmH3VJq/XNOQQ4OyUg=;
- b=hU4kVtdhxemy5+AJKTl9VdpBwNI/+i5tMzOuAnjksa9SQ/kHKLZWZZHDtoZkCopxyfAkr9
- KblYdrjIur139aPKAXOYtZNU5IuYzGYe2mm7AYrq3n8lW1vH42w20pVp5uFjd18l1v6WYm
- iwgDOQjv4IjNq3ZViEzG9gvFBxsMHw4=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-288-_3a8yn91NYCk9mmvqKbKSA-1; Wed, 26 May 2021 13:05:31 -0400
-X-MC-Unique: _3a8yn91NYCk9mmvqKbKSA-1
-Received: by mail-wm1-f69.google.com with SMTP id
- l18-20020a05600c4f12b02901921c0f2098so763479wmq.0
- for <qemu-devel@nongnu.org>; Wed, 26 May 2021 10:05:31 -0700 (PDT)
+ bh=cVrcRnyBOkjPEo/icx3S79OKNawcTbdRmhevRRnT37M=;
+ b=IxB41d1Ub5xiHvRC4V77AgO6Ik3yCQFgLFh3qm2pd3cU340Pk0S7eZ1HlIMs9VHayQHLkN
+ +iedwAZXrVwmdQu//mn9uTkeHwjCEukSVdh2UsusRygyKFm784vw0pj/uQxijGVpvIZyWd
+ ouFufmywVfNs4QcTOhKZ9+1oCxYt0Ng=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-570-3kF9jo6kMkGqzPEErmeifA-1; Wed, 26 May 2021 13:05:36 -0400
+X-MC-Unique: 3kF9jo6kMkGqzPEErmeifA-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ h9-20020a1cb7090000b029016d3f0b6ce4so621188wmf.9
+ for <qemu-devel@nongnu.org>; Wed, 26 May 2021 10:05:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=YUwsAY7j/ecV1UbnP3UC7xEIyUmH3VJq/XNOQQ4OyUg=;
- b=lgcgbcx381RhPJSD1h1aHNZyDdDXhT+OTTLtWyLcHIO8lWiNU/y1BPVBthNiRffLp4
- QYJMBHN88lRisIF9M5VFTYx2IY4zWt/2JyWb86K9B35WKRbZefUE/IYxdZrrtBelnaN3
- M/qHzg2zfYfsC6Md/MTNtUFr9v+AbZKdZnl58kko+rJRRsUBeDePMFGVfCzEdLIOj6rZ
- 4CxyAbfwTMPyJss76Tb9+y2/XJJ7lI0hgCFab5ifOtv8pgWRWKoPUEYOlpKzZQT99cH5
- XQYbCXac/Kf74l0RdsPog5K9deDK6DG3nVmmMg2AftOqBnlRxtxEVKybOq57j46ItUfE
- xYbw==
-X-Gm-Message-State: AOAM533mcABzQGmMx46FaaJglA2+MtGZH2p7cGWeSxkKcCuKJSgDbU8g
- V7RXCdLETxepNaP/HH7mjg7SdTZBZdYBVe4RapYWp5giCiIEnAXPdRrnGIPXSa3E+ao/E5D8xyR
- poov/bUHQZFSo8a9om8W10wNarjgWptMvv9lCt19dTCScLAfCc2eLUWbYJpkxEzyD
-X-Received: by 2002:a5d:6c6f:: with SMTP id r15mr33128029wrz.79.1622048729836; 
- Wed, 26 May 2021 10:05:29 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwHIsIzHp16SXARV3XE2hkFnV3zVOvyLUW1bVnOiLVwgyKcmU849alrSDO7ZnsuXfLWBeZa4w==
-X-Received: by 2002:a5d:6c6f:: with SMTP id r15mr33127995wrz.79.1622048729660; 
- Wed, 26 May 2021 10:05:29 -0700 (PDT)
+ bh=cVrcRnyBOkjPEo/icx3S79OKNawcTbdRmhevRRnT37M=;
+ b=c/sSeM8jHkC8pryCRWcE+hTYfhAfiBzKKYVLtPoqFBTm+kBVmfiAh6bLpmB4DbL+0C
+ lFlHzdew+2nQcGDtd5IVYq0Qg12pa4oJ8PHA3mFaDy3jh8/M1juXZqI7W7k4j/pwDa4S
+ FmiESWUAAq0KHdeSgSIk/wuntpTTuqtiaP35qozgdegsjZkVs3UQWL8Gz2YiQ+7ADiGv
+ W1JkcH89Yj9aNRwU+RMFN/9N2QJKO2oCC0U2bRW/UwVXdf5veTv2q3Yr4fMlKdEuvvQl
+ s1zAgRH43WUwRCHQKqVg9BLQiKrlRmXThtjIEomdPP/02QfM/oHJ1hrjBN4Aqth0S/th
+ Y3qA==
+X-Gm-Message-State: AOAM530HFL8U431qkI566dXqjHAScT1/nZxREITsOBS9tuAe5AB7MfsO
+ ucE2UOmXGJ6vMV3y4TQbf/dajBMIHnoEmQXWexxlrTBiGQ7GGEQY5sEqM/y3QEZzpyJG/uMXqT0
+ 5nbyPuGnCBhwBgcbPniTM93tMWEEna/Cek7P266+WOnJFnC58NFOIjAiUGIJ5HNuN
+X-Received: by 2002:a05:6000:154c:: with SMTP id
+ 12mr35102858wry.14.1622048734864; 
+ Wed, 26 May 2021 10:05:34 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzP6aNvdBMSRqkm8AafJGVA5fY66I6sXZksfURgiqrMBrfwU6Lyarisy43Y271/g2VFNtc1vg==
+X-Received: by 2002:a05:6000:154c:: with SMTP id
+ 12mr35102817wry.14.1622048734589; 
+ Wed, 26 May 2021 10:05:34 -0700 (PDT)
 Received: from localhost.localdomain (64.red-88-10-103.dynamicip.rima-tde.net.
  [88.10.103.64])
- by smtp.gmail.com with ESMTPSA id t14sm6719869wmq.16.2021.05.26.10.05.28
+ by smtp.gmail.com with ESMTPSA id a16sm20462434wrw.62.2021.05.26.10.05.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 May 2021 10:05:29 -0700 (PDT)
+ Wed, 26 May 2021 10:05:34 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v8 05/12] qtest/arm-cpu-features: Restrict
- sve_tests_sve_off_kvm test to KVM
-Date: Wed, 26 May 2021 19:04:25 +0200
-Message-Id: <20210526170432.343588-6-philmd@redhat.com>
+Subject: [PATCH v8 06/12] qtest/arm-cpu-features: Remove TCG fallback to KVM
+ specific tests
+Date: Wed, 26 May 2021 19:04:26 +0200
+Message-Id: <20210526170432.343588-7-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210526170432.343588-1-philmd@redhat.com>
 References: <20210526170432.343588-1-philmd@redhat.com>
@@ -106,39 +108,31 @@ Cc: Laurent Vivier <lvivier@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The sve_tests_sve_off_kvm() test is KVM specific.
-Only run it if KVM is available.
+sve_tests_sve_off_kvm() and test_query_cpu_model_expansion_kvm()
+tests are now only being run if KVM is available. Drop the TCG
+fallback.
 
 Suggested-by: Andrew Jones <drjones@redhat.com>
 Reviewed-by: Andrew Jones <drjones@redhat.com>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- tests/qtest/arm-cpu-features.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ tests/qtest/arm-cpu-features.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/tests/qtest/arm-cpu-features.c b/tests/qtest/arm-cpu-features.c
-index 7f4b2521277..66300c3bc20 100644
+index 66300c3bc20..b1d406542f7 100644
 --- a/tests/qtest/arm-cpu-features.c
 +++ b/tests/qtest/arm-cpu-features.c
-@@ -604,6 +604,8 @@ int main(int argc, char **argv)
-     if (g_str_equal(qtest_get_arch(), "aarch64") && qtest_has_accel("kvm")) {
-         qtest_add_data_func("/arm/kvm/query-cpu-model-expansion",
-                             NULL, test_query_cpu_model_expansion_kvm);
-+        qtest_add_data_func("/arm/kvm/query-cpu-model-expansion/sve-off",
-+                            NULL, sve_tests_sve_off_kvm);
-     }
+@@ -21,7 +21,7 @@
+ #define SVE_MAX_VQ 16
  
-     if (g_str_equal(qtest_get_arch(), "aarch64")) {
-@@ -611,8 +613,6 @@ int main(int argc, char **argv)
-                             NULL, sve_tests_sve_max_vq_8);
-         qtest_add_data_func("/arm/max/query-cpu-model-expansion/sve-off",
-                             NULL, sve_tests_sve_off);
--        qtest_add_data_func("/arm/kvm/query-cpu-model-expansion/sve-off",
--                            NULL, sve_tests_sve_off_kvm);
-     }
- 
-     return g_test_run();
+ #define MACHINE     "-machine virt,gic-version=max -accel tcg "
+-#define MACHINE_KVM "-machine virt,gic-version=max -accel kvm -accel tcg "
++#define MACHINE_KVM "-machine virt,gic-version=max -accel kvm "
+ #define QUERY_HEAD  "{ 'execute': 'query-cpu-model-expansion', " \
+                     "  'arguments': { 'type': 'full', "
+ #define QUERY_TAIL  "}}"
 -- 
 2.26.3
 
