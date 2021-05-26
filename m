@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0531F391D4F
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 18:51:07 +0200 (CEST)
-Received: from localhost ([::1]:40006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C9C3391D33
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 18:37:56 +0200 (CEST)
+Received: from localhost ([::1]:60372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llwkL-0004PV-W5
-	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 12:51:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38282)
+	id 1llwXb-00070l-AP
+	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 12:37:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38296)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1llwVh-0005Dc-1s
- for qemu-devel@nongnu.org; Wed, 26 May 2021 12:35:57 -0400
-Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:37634)
+ id 1llwVi-0005FU-1I
+ for qemu-devel@nongnu.org; Wed, 26 May 2021 12:35:58 -0400
+Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:34770)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1llwVf-000063-8G
- for qemu-devel@nongnu.org; Wed, 26 May 2021 12:35:56 -0400
-Received: by mail-ed1-x52b.google.com with SMTP id g7so2307418edm.4
- for <qemu-devel@nongnu.org>; Wed, 26 May 2021 09:35:53 -0700 (PDT)
+ id 1llwVf-000068-Qt
+ for qemu-devel@nongnu.org; Wed, 26 May 2021 12:35:57 -0400
+Received: by mail-ej1-x62f.google.com with SMTP id h20so2033553ejg.1
+ for <qemu-devel@nongnu.org>; Wed, 26 May 2021 09:35:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=H2OMTfD9ZMC0aIJY9ue0nRxH/2tpQamsYEymkh9t1LM=;
- b=X/FwojVufJoAnMGFi3Obk0FpyN/FVU3hKn2fWAsmRljN4jJNVvkWvR3QzqmIM4HyLk
- KnA0YOxtp0KHdd6Yu3KHTPKvtCUP+8/2h1Xmj/5Y6DY/Q472u9n1+yVs0/z11SfkHiKs
- REwJ2HoikEIG2T8C4O2gLPEx31WDN2jIgTln4mnkoC2wI1Z0k4LJnuW7QfbcKHPl6bqL
- ei40fg2nvG56r6zOVJakq8tqYdVSH/oqGagcdaRnqy3BrJbiWpC0GTOuD42g501gOebm
- arXEGyuEjPBXRfJMbNoZ9oq/NBm6PHhIBErNzLF76rqBSCieA0cHM0O4yXqKv03G0kdT
- BbCg==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=xm8BamJ6E9yKrFba0HkTcb+RKZaPe26N8XSF4j7Ohvk=;
+ b=dI/GbsbTgjhF0Qq+z0waiE4jNYwdUYAyJiWi9UUGGFsSpAfb+fLsHCvVu06pB8kkgX
+ D2+zvStxKoYtUmTm2OeYjXuGDvo5Q8PfTCgXIKbxkO9S3KNiQ011IVOXP/YFoHZKKg1Y
+ jcBL7/DkJxz4pBM48WwduMat4lVRl2eea5XOtIsGSOMb241nPjCibw9pu+3Zdiri13R9
+ I3cKiSSWKR+ie/abS4qDs8Lt1YKdBJNVAxJ6unwXgmqCAQ9863w1WRZfeKtztj6dhr7v
+ /6aMY9B3zSJPaTBzfAVj+A8voiMrEnkDBjrR+jElD4OKrEkH5VOE6Se5MHPTCD9ISGHT
+ svLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=H2OMTfD9ZMC0aIJY9ue0nRxH/2tpQamsYEymkh9t1LM=;
- b=td5pViu4I5Ih5cZm+sEiEbhtLB6bpcDHsKpuBeqcmskHYsxJNH/AAR9Pg8/9g068qG
- qFzvW1G11P6ep/8oU4EhjSIzP84U32WS8m75uLL0082gwyUbhvGGx+bBsWQJ5iIgbE2S
- Q0ljb+3oznyHQGnhu9PuuYWM7gn7Wu3qIa/UzztJPAt/1Luis6U48Jzz/Qvg4eEoaUzk
- 7ydq6fSBAw3O+Rohwo1/y8AHYT3uXk1f2LcHIXmVZJwNgs8Q1/7COh5Azef9gqlrzeL3
- wYnvZ034Sa8fDJlaS0/hpa5IW7ZIWC9uo+lejODa5YjqHUBkFQyeOZl0DP1foW3O+U7N
- xnhw==
-X-Gm-Message-State: AOAM532LDA41XdfSpDn7x9nmiSvnv41Gmwv/hbvuHB5LA/XHq5nkkaBx
- QJoQiJhEEVrNrTHsBs7Px3Wl2yUTGW+0Eg==
-X-Google-Smtp-Source: ABdhPJyu5MLd1nA2KMsO19VPgHcXTZvk7Murnbr4Qr2Ff4yVMK9csmeA04u3m3Zh2XXrP735uUo/+w==
-X-Received: by 2002:aa7:da99:: with SMTP id q25mr39565059eds.198.1622046952838; 
- Wed, 26 May 2021 09:35:52 -0700 (PDT)
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=xm8BamJ6E9yKrFba0HkTcb+RKZaPe26N8XSF4j7Ohvk=;
+ b=pDg8D50+Z5fnUJt4RXxFyRDIs0Ibee0dilXsRf1G+nKlOYs+yE9gmNa5R8a4tzy3xV
+ 0GyuVGP0CzqctFvTA16kKwbqT29g2IQjHtZAkLSk9+NHuEA+FhqBQ1jnI5Wj9fr7c110
+ xI6AvEFiUMg0aazx+Te/blI6m/NKX9wpPqROzoOm/2dYNXSAHQ7TdmVJCjENpMqevFO9
+ +UxSzVK8z/iN6UbQnxsQJrdW/2Cm8Vm8QgEH6lqfNwAP2zDkm333DnDvM2Q0vZTeVaZ+
+ fo5MskUgVlbk7UhB4IgtRZ5OHaqjz0f2RTBzmFvzH5kSZ7ggIMUcUX0poZiA4JyAeAzH
+ cnTQ==
+X-Gm-Message-State: AOAM5335G0B40BdS6TntRn+OTYFm38qfr5JEe56o8gfD6DNpH6wNfNnS
+ sNHm6k+CWglRRk1dNtlQBI1TDGVzeOFXyw==
+X-Google-Smtp-Source: ABdhPJw1ikMG4Wt3PDjrW4huP+3uF47tcOYzjWFLryt+GwEbZMtlWyY2IVVd4ezBcO3VQQAJuwIXaA==
+X-Received: by 2002:a17:906:f207:: with SMTP id
+ gt7mr2825562ejb.120.1622046953663; 
+ Wed, 26 May 2021 09:35:53 -0700 (PDT)
 Received: from avogadro.redhat.com ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- a8sm1342001ejt.102.2021.05.26.09.35.51 for <qemu-devel@nongnu.org>
+ a8sm1342001ejt.102.2021.05.26.09.35.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 May 2021 09:35:51 -0700 (PDT)
+ Wed, 26 May 2021 09:35:53 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 00/28] Misc patches for 2021-05-24
-Date: Wed, 26 May 2021 18:35:49 +0200
-Message-Id: <20210526163550.501367-1-pbonzini@redhat.com>
+Subject: [PULL 25/28] doc: Add notes about -mon option mode=control argument.
+Date: Wed, 26 May 2021 18:35:50 +0200
+Message-Id: <20210526163550.501367-2-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210526163550.501367-1-pbonzini@redhat.com>
+References: <20210526163550.501367-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62f.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -83,119 +85,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Ali Shirvani <alishir@routerhosting.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 92f8c6fef13b31ba222c4d20ad8afd2b79c4c28e:
+From: Ali Shirvani <alishir@routerhosting.com>
 
-  Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20210525' into staging (2021-05-25 16:17:06 +0100)
+The mode=control argument configures a QMP monitor.
 
-are available in the Git repository at:
+Signed-off-by: Ali Shirvani <alishir@routerhosting.com>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Message-Id: <0799f0de89ad2482672b5d61d0de61e6eba782da.1621407918.git.alishir@routerhosting.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ qemu-options.hx | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-  https://gitlab.com/bonzini/qemu.git tags/for-upstream
-
-for you to fetch changes up to 7cf333a37260c4aafa465453adc8e073e408967e:
-
-  gitlab-ci: use --meson=git for CFI jobs (2021-05-26 14:50:05 +0200)
-
-----------------------------------------------------------------
-* submodule cleanups (Philippe, myself)
-* tiny step towards a usable preconfig mode (myself)
-* Kconfig and LOCK_GUARD cleanups (philippe)
-* new x86 CPUID feature (Yang Zhong)
-* "-object qtest" support (myself)
-* Dirty ring support for KVM (Peter)
-* Fixes for 6.0 command line parsing breakage (myself)
-* Fix for macOS 11.3 SDK (Katsuhiro)
-
-----------------------------------------------------------------
-Ali Shirvani (1):
-      doc: Add notes about -mon option mode=control argument.
-
-Katsuhiro Ueno (1):
-      meson: Set implicit_include_directories to false
-
-Kit Westneat (1):
-      hw/scsi: Fix sector translation bug in scsi_unmap_complete_noio
-
-Paolo Bonzini (10):
-      configure: check for submodules if --with-git-submodules=ignore
-      configure: simplify assignment to GIT_SUBMODULES
-      object: add more commands to preconfig mode
-      qtest: add a QOM object for qtest
-      KVM: do not allow setting properties at runtime
-      remove qemu-options* from root directory
-      replication: move include out of root directory
-      vl: allow not specifying size in -m when using -M memory-backend
-      qemu-config: load modules when instantiating option groups
-      gitlab-ci: use --meson=git for CFI jobs
-
-Peter Xu (10):
-      memory: Introduce log_sync_global() to memory listener
-      KVM: Use a big lock to replace per-kml slots_lock
-      KVM: Create the KVMSlot dirty bitmap on flag changes
-      KVM: Provide helper to get kvm dirty log
-      KVM: Provide helper to sync dirty bitmap from slot to ramblock
-      KVM: Simplify dirty log sync in kvm_set_phys_mem
-      KVM: Cache kvm slot dirty bitmap size
-      KVM: Add dirty-ring-size property
-      KVM: Disable manual dirty log when dirty ring enabled
-      KVM: Dirty ring support
-
-Philippe Mathieu-Daudé (3):
-      configure: Only clone softfloat-3 repositories if TCG is enabled
-      hw/mem/nvdimm: Use Kconfig 'imply' instead of 'depends on'
-      tests/qtest/fuzz: Fix build failure
-
-Thomas Huth (1):
-      configure: Avoid error messages about missing *-config-*.h files
-
-Yang Zhong (1):
-      i386/cpu: Expose AVX_VNNI instruction to guest
-
- .gitlab-ci.yml                                |   4 +-
- Makefile                                      |   2 +
- accel/kvm/kvm-all.c                           | 615 ++++++++++++++++++++++----
- accel/kvm/trace-events                        |   7 +
- block/replication.c                           |   2 +-
- configure                                     |  79 ++--
- default-configs/devices/ppc64-softmmu.mak     |   1 -
- hmp-commands.hx                               |   2 +
- hw/arm/Kconfig                                |   1 +
- hw/i386/Kconfig                               |   1 +
- hw/mem/Kconfig                                |   2 -
- hw/ppc/Kconfig                                |   1 +
- hw/scsi/scsi-disk.c                           |  12 +-
- replication.h => include/block/replication.h  |   4 +-
- include/exec/memory.h                         |  12 +
- include/hw/core/cpu.h                         |   7 +
- include/qemu/config-file.h                    |   2 +-
- qemu-options.h => include/qemu/qemu-options.h |   9 +-
- include/sysemu/kvm_int.h                      |   7 +-
- meson.build                                   |   1 +
- migration/colo.c                              |   2 +-
- os-posix.c                                    |   2 +-
- os-win32.c                                    |   1 -
- qapi/qom.json                                 |  23 +-
- qemu-options-wrapper.h                        |  40 --
- qemu-options.hx                               |  23 +-
- replication.c                                 |   2 +-
- softmmu/memory.c                              |  33 +-
- softmmu/qtest.c                               | 185 +++++++-
- softmmu/vl.c                                  |  52 ++-
- stubs/meson.build                             |   1 +
- stubs/module-opts.c                           |   6 +
- target/i386/cpu.c                             |   4 +-
- target/i386/cpu.h                             |   2 +
- tests/qtest/fuzz/fuzz.c                       |   1 +
- tests/unit/test-replication.c                 |   2 +-
- util/qemu-config.c                            |   1 +
- 37 files changed, 924 insertions(+), 227 deletions(-)
- rename replication.h => include/block/replication.h (98%)
- rename qemu-options.h => include/qemu/qemu-options.h (88%)
- delete mode 100644 qemu-options-wrapper.h
- create mode 100644 stubs/module-opts.c
+diff --git a/qemu-options.hx b/qemu-options.hx
+index 8116f79818..14258784b3 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -3799,8 +3799,11 @@ DEF("mon", HAS_ARG, QEMU_OPTION_mon, \
+     "-mon [chardev=]name[,mode=readline|control][,pretty[=on|off]]\n", QEMU_ARCH_ALL)
+ SRST
+ ``-mon [chardev=]name[,mode=readline|control][,pretty[=on|off]]``
+-    Setup monitor on chardev name. ``pretty`` is only valid when
+-    ``mode=control``, turning on JSON pretty printing to ease
++    Setup monitor on chardev name. ``mode=control`` configures 
++    a QMP monitor (a JSON RPC-style protocol) and it is not the
++    same as HMP, the human monitor that has a "(qemu)" prompt.
++    ``pretty`` is only valid when ``mode=control``, 
++    turning on JSON pretty printing to ease
+     human reading and debugging.
+ ERST
+ 
 -- 
 2.31.1
-
 
