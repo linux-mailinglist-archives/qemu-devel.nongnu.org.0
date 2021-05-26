@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B9B4391061
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 08:10:02 +0200 (CEST)
-Received: from localhost ([::1]:51980 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18EB4391081
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 08:17:08 +0200 (CEST)
+Received: from localhost ([::1]:55384 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llmjw-0004UU-HF
-	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 02:10:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48226)
+	id 1llmqp-00078E-3w
+	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 02:17:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49262)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <viresh.kumar@linaro.org>)
- id 1llmid-0003mz-Tf
- for qemu-devel@nongnu.org; Wed, 26 May 2021 02:08:40 -0400
-Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:52977)
+ (Exim 4.90_1) (envelope-from <palmer@dabbelt.com>)
+ id 1llmpT-0006F2-JP
+ for qemu-devel@nongnu.org; Wed, 26 May 2021 02:15:43 -0400
+Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431]:40622)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <viresh.kumar@linaro.org>)
- id 1llmiZ-0002nv-Qo
- for qemu-devel@nongnu.org; Wed, 26 May 2021 02:08:39 -0400
-Received: by mail-pj1-x102f.google.com with SMTP id q6so239872pjj.2
- for <qemu-devel@nongnu.org>; Tue, 25 May 2021 23:08:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=tNkh+2l3yCBa7Kg0nAaI9BGcmahyUgoAHMMovXxiY38=;
- b=azAb/8O5PPVofpwoXTaTok13gU3PITiOVx+EvlY3N/QjyC+Abo6EATc2acEIhVGJGA
- Aks9o639v2/a23XqJoLONTtGXpbCb1nPLfyCuOAQApzop+WrQTqzzq88o+r/7UFQrGp1
- xboauOEpY8SqWAHOpH4PAoOiKH+Yng/dGQ+zdFJpupygvrWEkItOl6gdqaDjBiGzgtvi
- +0ZIszHJY6ThS/UvFs/Iv4FEhLdh5lGMCKpT0lyBjlteoWF6/+LrpR0lqlzGE/0mDesH
- swfX8Ln0acIXJyU7McGSsInkCdkNfPBIm4F4CnHYd8tdOYsGxiqt36tZGZNFIsCYery1
- RIIA==
+ (Exim 4.90_1) (envelope-from <palmer@dabbelt.com>)
+ id 1llmpQ-0008QK-Pj
+ for qemu-devel@nongnu.org; Wed, 26 May 2021 02:15:43 -0400
+Received: by mail-pf1-x431.google.com with SMTP id x188so172418pfd.7
+ for <qemu-devel@nongnu.org>; Tue, 25 May 2021 23:15:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=dabbelt-com.20150623.gappssmtp.com; s=20150623;
+ h=date:subject:in-reply-to:cc:from:to:message-id:mime-version
+ :content-transfer-encoding;
+ bh=obZsK+aYsIf8lTfrPktQxo5WFJvgBFkVwVI1fhRRElc=;
+ b=CW8afbhulpFxA6meamQdOUTSRPyPs34oSSCngtQoQu9MV2cP3jOpC4kLMX8SKQDYUA
+ 9p9xcpOkM1VYhQk8HqODL6v6SWMPN/RS5ApJ+z/M9A3PstOzRgVUwY40wodMN5NQ5NwW
+ O1rHpVqEcv/KubcN1qB5+2AjzRcX991txCvQCY6qa0sqyT4oJ/jjsCzspAdEAZMiI+fq
+ dniZfD5v8I16Icfw+9ysMA0PU1PKp/z4CYJuCet7ETjxSWVyGi40Rr3goj0YW+1Qhsbp
+ SCqOlnxH8uy5qY399O4LKys6ShkUiS8GIU4caRZeUtV1AXv+qUYfRLJOLzPjsC2PkBgC
+ uGMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=tNkh+2l3yCBa7Kg0nAaI9BGcmahyUgoAHMMovXxiY38=;
- b=T+Ev55Cy1T/TqkNUndmcjG8OJ72rNwAlAYbMsWdtkYnDjsI2qP85QYPLCSHJuMA19g
- 9kbPuxGYKXAbLqNZAewOmGzAj2+pBMIk5fj/pggrTqi2+0FyE6L6+01Y76BUDZdZs9Pd
- KFii+6GjgQf5w88h8ug6zcdtuaL01XCNe71jsEpcyhCqOcCvZG4a1k3YOtEOSZWWbgZj
- 9s+o2VTzGG8Ww88Mw3lbLUCpwEs0MPf3Wxrtrh/2iBe3adtaYFS/LZNcxGzgpvpuvG9p
- ngiDIQAGXh745A9uRMBtw0zpQeAhd26sJM9MVCtjJAJ3LrYkbFhgd2nFTVKSWNMEeKPJ
- qbJw==
-X-Gm-Message-State: AOAM533uowkqOlrOiHTfLD/kPsYGqXJxpggbsM8+IK7vUMqdZHoda5YB
- DnWYB07MS3LoAIfW7rOG4mGTs7MkHrIzLA==
-X-Google-Smtp-Source: ABdhPJwCHdHh/7dC7ccCvlR9r5PuxMJ/M1/j8oc2cdGh4RVKXnD3HgQEjdc6eFzjaJT1GpvbPLAbWQ==
-X-Received: by 2002:a17:90a:b283:: with SMTP id
- c3mr34202589pjr.31.1622009313676; 
- Tue, 25 May 2021 23:08:33 -0700 (PDT)
-Received: from localhost ([136.185.154.93])
- by smtp.gmail.com with ESMTPSA id l3sm5448211pgb.77.2021.05.25.23.08.32
+ h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
+ :mime-version:content-transfer-encoding;
+ bh=obZsK+aYsIf8lTfrPktQxo5WFJvgBFkVwVI1fhRRElc=;
+ b=IoLGWlta1cLEawtSPF1qkivCGAkaC5oli5pDCq47e0JcgFAoIJ+5n5PGFEvfmQbuxV
+ gIJTDVyWRI1kx2uNorw5hujZ1PCHOUv4yXCKEGqfF3MEMdsIrUyTa0wRpGvbstZOibx6
+ 02+Kb30+kTKfE8SRgIOZbD0kzL6sofPM4AEjC/PrbdG4bNL8Ro9Jnyh4ZvMqvZNflM0Q
+ /ygEllo69vkA5tP/W3ujfZVIeygs/4Lm572Z601+TPuT/LHtyZ07Mkz/X6tq51lCjFOR
+ Rj196K3LoHt0q6WVHH/AtdmiYIj72RsKmAX9oUpq9RjFuIiKhLH+jc079kDO7tz/0pW6
+ WqwA==
+X-Gm-Message-State: AOAM5330HZLfKpRi4OoSklvTz8daq4t9AAz2f+qgXKTvxyKQcjdPo47/
+ nTmEHFY7HbezOn7yGivDBNqhLQ==
+X-Google-Smtp-Source: ABdhPJyJXqaXv2q0E0ZD/No6p2nuluEWWw9+JvxgKBj4k6XVjeFfaZ1gBAXMJ33PI9hL0r/eg5f6lw==
+X-Received: by 2002:a05:6a00:a1e:b029:2e2:89d8:5c87 with SMTP id
+ p30-20020a056a000a1eb02902e289d85c87mr32324857pfh.73.1622009738413; 
+ Tue, 25 May 2021 23:15:38 -0700 (PDT)
+Received: from localhost (76-210-143-223.lightspeed.sntcca.sbcglobal.net.
+ [76.210.143.223])
+ by smtp.gmail.com with ESMTPSA id b23sm15066043pft.162.2021.05.25.23.15.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 May 2021 23:08:32 -0700 (PDT)
-Date: Wed, 26 May 2021 11:38:30 +0530
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: Re: [PATCH] gitignore: Update with some filetypes
-Message-ID: <20210526060830.ww5uhvmtt5encajd@vireshk-i7>
-References: <79262dbe1f7888eb02e1911501eebafa6f2f6400.1616583806.git.viresh.kumar@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <79262dbe1f7888eb02e1911501eebafa6f2f6400.1616583806.git.viresh.kumar@linaro.org>
-User-Agent: NeoMutt/20180716-391-311a52
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
- envelope-from=viresh.kumar@linaro.org; helo=mail-pj1-x102f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ Tue, 25 May 2021 23:15:37 -0700 (PDT)
+Date: Tue, 25 May 2021 23:15:37 -0700 (PDT)
+X-Google-Original-Date: Tue, 25 May 2021 23:15:36 PDT (-0700)
+Subject: Re: [PATCH 05/38] target/riscv: 8-bit Addition & Subtraction
+ Instruction
+In-Reply-To: <1f8c7632-6254-d418-4529-9f107b053145@c-sky.com>
+From: Palmer Dabbelt <palmer@dabbelt.com>
+To: zhiwei_liu@c-sky.com
+Message-ID: <mhng-79de2915-d9b8-4cbb-8d78-bd4634de1984@palmerdabbelt-glaptop>
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
+ envelope-from=palmer@dabbelt.com; helo=mail-pf1-x431.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,32 +85,288 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Vincent Guittot <vincent.guittot@linaro.org>
+Cc: alistair23@gmail.com, richard.henderson@linaro.org, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 24-03-21, 16:33, Viresh Kumar wrote:
-> Update .gitignore to ignore .swp and .patch files.
-> 
-> Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
-> ---
->  .gitignore | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/.gitignore b/.gitignore
-> index 75a4be07240f..eb2553026c5e 100644
-> --- a/.gitignore
-> +++ b/.gitignore
-> @@ -13,3 +13,5 @@ GTAGS
->  *~
->  *.ast_raw
->  *.depend_raw
-> +*.swp
-> +*.patch
+On Tue, 25 May 2021 22:43:27 PDT (-0700), zhiwei_liu@c-sky.com wrote:
+>
+> On 5/24/21 9:00 AM, Palmer Dabbelt wrote:
+>> On Mon, 15 Mar 2021 14:22:58 PDT (-0700), alistair23@gmail.com wrote:
+>>> On Fri, Feb 12, 2021 at 10:14 AM LIU Zhiwei <zhiwei_liu@c-sky.com>
+>>> wrote:
+>>>>
+>>>> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
+>>>
+>>> Acked-by: Alistair Francis <alistair.francis@wdc.com>
+>>
+>> I saw some reviews on the other ones, but since others (like this)
+>> just have acks and haven't had any other traffic I'm going to start here.
+>>
+>> It looks like the latest spec is 0.9.4, but the changelog is pretty
+>> minimal between 0.9.5 and 0.9.2:
+>>
+>> [0.9.2 -> 0.9.3]
+>>
+>> * Changed Zp64 name to Zpsfoperand.
+>> * Added Zprvsfextra for RV64 only instructions.
+>> * Removed SWAP16 encoding. It is an alias of PKBT16.
+>> * Fixed few typos and enhanced precision descriptions on imtermediate
+>> results.
+>>
+>> [0.9.3 -> 0.9.4]
+>>
+>> * Fixed few typos and enhanced precision descriptions on imtermediate
+>> results.
+>> * Fixed/Changed data types for some intrinsic functions.
+>> * Removed "RV32 Only" for Zpsfoperand.
+>>
+>> So I'm just going to stick with reviewing based on the latest spec
+>> <https://github.com/riscv/riscv-p-spec/blob/d33a761f805d3b7c84214e5654a511267985a0a0/P-ext-proposal.pdf>
+>> and try to keep those differences in mind, assuming we're just
+>> tracking the latest draft here.
+>>
+> Hi Palmer,
+>
+> It's a good news.
+>
+> I plan to rebase the patch set and update to the latest specification.
+>
+> Probably before next week, we can get a v2 patch set.
 
-Ping.
+Sounds good.  I'll keep slowly going through these until the v2 shows up 
+and then jump over there.
 
--- 
-viresh
+>
+> Zhiwei
+>
+>>> Alistair
+>>>
+>>>> ---
+>>>>  target/riscv/helper.h                   |  9 +++
+>>>>  target/riscv/insn32.decode              | 11 ++++
+>>>>  target/riscv/insn_trans/trans_rvp.c.inc | 79 +++++++++++++++++++++++++
+>>>>  target/riscv/packed_helper.c            | 73 +++++++++++++++++++++++
+>>>>  4 files changed, 172 insertions(+)
+>>>>
+>>>> diff --git a/target/riscv/helper.h b/target/riscv/helper.h
+>>>> index 6d622c732a..a69a6b4e84 100644
+>>>> --- a/target/riscv/helper.h
+>>>> +++ b/target/riscv/helper.h
+>>>> @@ -1175,3 +1175,12 @@ DEF_HELPER_3(rstsa16, tl, env, tl, tl)
+>>>>  DEF_HELPER_3(urstsa16, tl, env, tl, tl)
+>>>>  DEF_HELPER_3(kstsa16, tl, env, tl, tl)
+>>>>  DEF_HELPER_3(ukstsa16, tl, env, tl, tl)
+>>>> +
+>>>> +DEF_HELPER_3(radd8, tl, env, tl, tl)
+>>>> +DEF_HELPER_3(uradd8, tl, env, tl, tl)
+>>>> +DEF_HELPER_3(kadd8, tl, env, tl, tl)
+>>>> +DEF_HELPER_3(ukadd8, tl, env, tl, tl)
+>>>> +DEF_HELPER_3(rsub8, tl, env, tl, tl)
+>>>> +DEF_HELPER_3(ursub8, tl, env, tl, tl)
+>>>> +DEF_HELPER_3(ksub8, tl, env, tl, tl)
+>>>> +DEF_HELPER_3(uksub8, tl, env, tl, tl)
+>>>> diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
+>>>> index 8815e90476..358dd1fa10 100644
+>>>> --- a/target/riscv/insn32.decode
+>>>> +++ b/target/riscv/insn32.decode
+>>>> @@ -624,3 +624,14 @@ rstsa16    1011011  ..... ..... 010 .....
+>>>> 1111111 @r
+>>>>  urstsa16   1101011  ..... ..... 010 ..... 1111111 @r
+>>>>  kstsa16    1100011  ..... ..... 010 ..... 1111111 @r
+>>>>  ukstsa16   1110011  ..... ..... 010 ..... 1111111 @r
+>>>> +
+>>>> +add8       0100100  ..... ..... 000 ..... 1111111 @r
+>>>> +radd8      0000100  ..... ..... 000 ..... 1111111 @r
+>>>> +uradd8     0010100  ..... ..... 000 ..... 1111111 @r
+>>>> +kadd8      0001100  ..... ..... 000 ..... 1111111 @r
+>>>> +ukadd8     0011100  ..... ..... 000 ..... 1111111 @r
+>>>> +sub8       0100101  ..... ..... 000 ..... 1111111 @r
+>>>> +rsub8      0000101  ..... ..... 000 ..... 1111111 @r
+>>>> +ursub8     0010101  ..... ..... 000 ..... 1111111 @r
+>>>> +ksub8      0001101  ..... ..... 000 ..... 1111111 @r
+>>>> +uksub8     0011101  ..... ..... 000 ..... 1111111 @r
+>>>> diff --git a/target/riscv/insn_trans/trans_rvp.c.inc
+>>>> b/target/riscv/insn_trans/trans_rvp.c.inc
+>>>> index 0885a4fd45..109f560ec9 100644
+>>>> --- a/target/riscv/insn_trans/trans_rvp.c.inc
+>>>> +++ b/target/riscv/insn_trans/trans_rvp.c.inc
+>>>> @@ -159,3 +159,82 @@ GEN_RVP_R_OOL(rstsa16);
+>>>>  GEN_RVP_R_OOL(urstsa16);
+>>>>  GEN_RVP_R_OOL(kstsa16);
+>>>>  GEN_RVP_R_OOL(ukstsa16);
+>>>> +
+>>>> +/* 8-bit Addition & Subtraction Instructions */
+>>>> +/*
+>>>> + *  Copied from tcg-op-gvec.c.
+>>>> + *
+>>>> + *  Perform a vector addition using normal addition and a mask. 
+>>>> The mask
+>>>> + *  should be the sign bit of each lane.  This 6-operation form is
+>>>> more
+>>>> + *  efficient than separate additions when there are 4 or more
+>>>> lanes in
+>>>> + *  the 64-bit operation.
+>>>> + */
+>>>> +
+>>>> +static void gen_simd_add_mask(TCGv d, TCGv a, TCGv b, TCGv m)
+>>>> +{
+>>>> +    TCGv t1 = tcg_temp_new();
+>>>> +    TCGv t2 = tcg_temp_new();
+>>>> +    TCGv t3 = tcg_temp_new();
+>>>> +
+>>>> +    tcg_gen_andc_tl(t1, a, m);
+>>>> +    tcg_gen_andc_tl(t2, b, m);
+>>>> +    tcg_gen_xor_tl(t3, a, b);
+>>>> +    tcg_gen_add_tl(d, t1, t2);
+>>>> +    tcg_gen_and_tl(t3, t3, m);
+>>>> +    tcg_gen_xor_tl(d, d, t3);
+>>>> +
+>>>> +    tcg_temp_free(t1);
+>>>> +    tcg_temp_free(t2);
+>>>> +    tcg_temp_free(t3);
+>>>> +}
+>>>> +
+>>>> +static void tcg_gen_simd_add8(TCGv d, TCGv a, TCGv b)
+>>>> +{
+>>>> +    TCGv m = tcg_const_tl((target_ulong)dup_const(MO_8, 0x80));
+>>>> +    gen_simd_add_mask(d, a, b, m);
+>>>> +    tcg_temp_free(m);
+>>>> +}
+>>>> +
+>>>> +GEN_RVP_R_INLINE(add8, add, 0, trans_add);
+>>>> +
+>>>> +/*
+>>>> + *  Copied from tcg-op-gvec.c.
+>>>> + *
+>>>> + *  Perform a vector subtraction using normal subtraction and a mask.
+>>>> + *  Compare gen_addv_mask above.
+>>>> + */
+>>>> +static void gen_simd_sub_mask(TCGv d, TCGv a, TCGv b, TCGv m)
+>>>> +{
+>>>> +    TCGv t1 = tcg_temp_new();
+>>>> +    TCGv t2 = tcg_temp_new();
+>>>> +    TCGv t3 = tcg_temp_new();
+>>>> +
+>>>> +    tcg_gen_or_tl(t1, a, m);
+>>>> +    tcg_gen_andc_tl(t2, b, m);
+>>>> +    tcg_gen_eqv_tl(t3, a, b);
+>>>> +    tcg_gen_sub_tl(d, t1, t2);
+>>>> +    tcg_gen_and_tl(t3, t3, m);
+>>>> +    tcg_gen_xor_tl(d, d, t3);
+>>>> +
+>>>> +    tcg_temp_free(t1);
+>>>> +    tcg_temp_free(t2);
+>>>> +    tcg_temp_free(t3);
+>>>> +}
+>>>> +
+>>>> +static void tcg_gen_simd_sub8(TCGv d, TCGv a, TCGv b)
+>>>> +{
+>>>> +    TCGv m = tcg_const_tl((target_ulong)dup_const(MO_8, 0x80));
+>>>> +    gen_simd_sub_mask(d, a, b, m);
+>>>> +    tcg_temp_free(m);
+>>>> +}
+>>>> +
+>>>> +GEN_RVP_R_INLINE(sub8, sub, 0, trans_sub);
+>>>> +
+>>>> +GEN_RVP_R_OOL(radd8);
+>>>> +GEN_RVP_R_OOL(uradd8);
+>>>> +GEN_RVP_R_OOL(kadd8);
+>>>> +GEN_RVP_R_OOL(ukadd8);
+>>>> +GEN_RVP_R_OOL(rsub8);
+>>>> +GEN_RVP_R_OOL(ursub8);
+>>>> +GEN_RVP_R_OOL(ksub8);
+>>>> +GEN_RVP_R_OOL(uksub8);
+>>>> diff --git a/target/riscv/packed_helper.c
+>>>> b/target/riscv/packed_helper.c
+>>>> index b84abaaf25..62db072204 100644
+>>>> --- a/target/riscv/packed_helper.c
+>>>> +++ b/target/riscv/packed_helper.c
+>>>> @@ -352,3 +352,76 @@ static inline void do_ukstsa16(CPURISCVState
+>>>> *env, void *vd, void *va,
+>>>>  }
+>>>>
+>>>>  RVPR(ukstsa16, 2, 2);
+>>>> +
+>>>> +/* 8-bit Addition & Subtraction Instructions */
+>>>> +static inline void do_radd8(CPURISCVState *env, void *vd, void *va,
+>>>> +                            void *vb, uint8_t i)
+>>>> +{
+>>>> +    int8_t *d = vd, *a = va, *b = vb;
+>>>> +    d[i] = hadd32(a[i], b[i]);
+>>>> +}
+>>>> +
+>>>> +RVPR(radd8, 1, 1);
+>>>> +
+>>>> +static inline void do_uradd8(CPURISCVState *env, void *vd, void *va,
+>>>> +                                  void *vb, uint8_t i)
+>>>> +{
+>>>> +    uint8_t *d = vd, *a = va, *b = vb;
+>>>> +    d[i] = haddu32(a[i], b[i]);
+>>>> +}
+>>>> +
+>>>> +RVPR(uradd8, 1, 1);
+>>>> +
+>>>> +static inline void do_kadd8(CPURISCVState *env, void *vd, void *va,
+>>>> +                            void *vb, uint8_t i)
+>>>> +{
+>>>> +    int8_t *d = vd, *a = va, *b = vb;
+>>>> +    d[i] = sadd8(env, 0, a[i], b[i]);
+>>>> +}
+>>>> +
+>>>> +RVPR(kadd8, 1, 1);
+>>>> +
+>>>> +static inline void do_ukadd8(CPURISCVState *env, void *vd, void *va,
+>>>> +                             void *vb, uint8_t i)
+>>>> +{
+>>>> +    uint8_t *d = vd, *a = va, *b = vb;
+>>>> +    d[i] = saddu8(env, 0, a[i], b[i]);
+>>>> +}
+>>>> +
+>>>> +RVPR(ukadd8, 1, 1);
+>>>> +
+>>>> +static inline void do_rsub8(CPURISCVState *env, void *vd, void *va,
+>>>> +                            void *vb, uint8_t i)
+>>>> +{
+>>>> +    int8_t *d = vd, *a = va, *b = vb;
+>>>> +    d[i] = hsub32(a[i], b[i]);
+>>>> +}
+>>>> +
+>>>> +RVPR(rsub8, 1, 1);
+>>>> +
+>>>> +static inline void do_ursub8(CPURISCVState *env, void *vd, void *va,
+>>>> +                             void *vb, uint8_t i)
+>>>> +{
+>>>> +    uint8_t *d = vd, *a = va, *b = vb;
+>>>> +    d[i] = hsubu64(a[i], b[i]);
+>>>> +}
+>>>> +
+>>>> +RVPR(ursub8, 1, 1);
+>>>> +
+>>>> +static inline void do_ksub8(CPURISCVState *env, void *vd, void *va,
+>>>> +                            void *vb, uint8_t i)
+>>>> +{
+>>>> +    int8_t *d = vd, *a = va, *b = vb;
+>>>> +    d[i] = ssub8(env, 0, a[i], b[i]);
+>>>> +}
+>>>> +
+>>>> +RVPR(ksub8, 1, 1);
+>>>> +
+>>>> +static inline void do_uksub8(CPURISCVState *env, void *vd, void *va,
+>>>> +                             void *vb, uint8_t i)
+>>>> +{
+>>>> +    uint8_t *d = vd, *a = va, *b = vb;
+>>>> +    d[i] = ssubu8(env, 0, a[i], b[i]);
+>>>> +}
+>>>> +
+>>>> +RVPR(uksub8, 1, 1);
+>>>> --
+>>>> 2.17.1
+>>>>
+>>
+>> The naming on some of these helpers is a bit odd, but given that
+>> they're a mix of the V and P extensions it's probably fine to just
+>> leave them as-is.
+>> Reviewed-by: Palmer Dabbelt <palmerdabbelt@google.com>
 
