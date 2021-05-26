@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 856D4391ECB
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 20:14:03 +0200 (CEST)
-Received: from localhost ([::1]:52832 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACA8D391F08
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 20:26:23 +0200 (CEST)
+Received: from localhost ([::1]:45864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lly2c-0000vy-Ff
-	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 14:14:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54992)
+	id 1llyEY-0007N3-NQ
+	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 14:26:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55008)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <baturo.alexey@gmail.com>)
- id 1llxnO-0002fp-7X; Wed, 26 May 2021 13:58:18 -0400
-Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:35363)
+ id 1llxnQ-0002hk-RB; Wed, 26 May 2021 13:58:21 -0400
+Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:42770)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <baturo.alexey@gmail.com>)
- id 1llxnM-0006yc-Ei; Wed, 26 May 2021 13:58:18 -0400
-Received: by mail-ej1-x635.google.com with SMTP id k14so3861680eji.2;
- Wed, 26 May 2021 10:58:15 -0700 (PDT)
+ id 1llxnM-0006zH-WA; Wed, 26 May 2021 13:58:20 -0400
+Received: by mail-ej1-x62a.google.com with SMTP id lg14so3814544ejb.9;
+ Wed, 26 May 2021 10:58:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=/2slS83H/aRsUNXYyk0GZQ476x3p1VMv3SQLoPSvmvQ=;
- b=e9cetxDT3L7X6m9fkLb2t2Zv2Ei5c+7COVLX6iTwVleu7oIhDlRGM7tuZT9mg03kbj
- vWCvXfY5i+gmeY0b5U+55EPWsZfsSLTiIKaEvbEphSY7wSHp5R2HjVGMbDNC9qeM7bBZ
- NAjc3UMK8sj7v1HwhziG80v/k8wWFTgrkDibg3LePgLOyS6Ctc9gfekxcL08OwBvEzTy
- MlKRcYddb4NEKyIAPHGIZJtxusoL63oewJFmjaTyAuuj1moPZPj8kLw/OGrVqv0zAsvP
- ACK3u9l9LOpEmNcH5Js2AdFMpO/IWe/ccBDovKm92syW+I79JJQNhQJKMBIkI8KFDol/
- B2uQ==
+ bh=/1EBiKW2umZFELd/QvlDNITpP1fUzdZ8FY3fiwv+fWc=;
+ b=vA3Q1ZnB+iu/hPTi8NPf7BFLq70zDIOn4zpLsEtdC/t+6CjwBJq422zpSAfEjh1hNt
+ s7h1b16gia6to4Lyzsfjr10oMxCf0K84LqXsJSh+W1mVTHHYSbwqxD+3BkoZvHrJL2Is
+ LxXsnxz37OjnB41E11TtgTewNye6PWmGmDnocbapKhnhu7bXEVv9vzacwMURip/2t+nK
+ b33aGfXYa78gbW8ML8dCCCmE7Bt8LvGENLM9EbZbRNVwWLIuv0vBxOqF51MFsWIqpJq8
+ vzLat20AaDqvYbPs7w+Q1Ixg70gYrqqw0KwSJgiWiMvARHi6vXRNeVZ2zO5m+2uyE32o
+ qk7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=/2slS83H/aRsUNXYyk0GZQ476x3p1VMv3SQLoPSvmvQ=;
- b=gUsCWTlsEnkUGJb/djF2KMvnvR9K5fb5dmIAhsDodHOg7WyR7m+TTstmGjlvpNSnI2
- y6igRi/r5F0+bYqr4AjJh/EyE5a97yAnbjcHBQ/UHADgXiFAsliDUQ/2YZpXJIdxKW27
- Yp3WubSuVEYocmjKmKcnf/9p04k41p3YzH3xFlG34chOlwcXHZk5xR85jr/KA8Id5pvZ
- iWElM0KY11pVyzf9TZls6P2gWkuNeBH2cdg2qicU1O033tuWqV+zJpCYqUvRdnTCfc9T
- 5GY2WxTyq00TV6PJ4a/B0ThFqfcOiWWcvQVMwePikLrl1cKP/EfazW/QWDyLz81/6YVM
- 4abg==
-X-Gm-Message-State: AOAM5304arM9bJGd2Kkqotc4stL4obKLGsq8b/ZfpfqhFZPtN8KiwuYv
- FotSGmWazJpUzOOaVpVhNZw=
-X-Google-Smtp-Source: ABdhPJywYWT97er0w0PgPK0PhMUSc9Q9DeWJ7k8rDERn6d40afZEQs5+T/WHt5OZp3kMB+rd3Sz1Fw==
-X-Received: by 2002:a17:906:80ce:: with SMTP id
- a14mr9696934ejx.311.1622051893961; 
- Wed, 26 May 2021 10:58:13 -0700 (PDT)
+ bh=/1EBiKW2umZFELd/QvlDNITpP1fUzdZ8FY3fiwv+fWc=;
+ b=K2QwJYp/wTnxjptemeUDm/nfKXQAxtxugWUq91Nrv340DU7D2z1IGRENwIEokq4VtX
+ pnIF7yFTo6sLjsUyOKjh4X9KpSjIkzcqkw31pFQx3Pmkvpdo2wP5z5WKjuQYoEEukaxv
+ Ia66xxe2pViUAd1D1RiCCsp4Rwuecr1FhlYoyxcfdXufKZ7Z+uuDl18rgNmDHpOjdSgy
+ eZPmMavAcPlDZz9yQ85sxuSezlMI4iO217A+bUuYF5IFKbTOjIz/Xq5lOgUcovp3gj77
+ keA/jA5tO+iUZleiv0+I3oxgTc/jqySg3pt9Y8jydcakTDqRZyXd6+nrwxZzFkJXNYni
+ db5Q==
+X-Gm-Message-State: AOAM531c7ugOwqA0KuVRDU2Amwjw30t3/1aNH/NcCRKezfLnMbu7z0AM
+ bvQtHEN8IFVfdEmCM0ku7yRlfxey90JoqpawC0o=
+X-Google-Smtp-Source: ABdhPJwOd81Dup/GFxwnhKJ1X+CXvQj+lCNwkVq1TIiQx6VC4RjFSJMoRgcCfvmP4Q5+bOzGQV9n2w==
+X-Received: by 2002:a17:906:b104:: with SMTP id
+ u4mr34495173ejy.211.1622051895207; 
+ Wed, 26 May 2021 10:58:15 -0700 (PDT)
 Received: from neptune.lab ([81.200.23.112])
- by smtp.googlemail.com with ESMTPSA id hp1sm10407449ejc.96.2021.05.26.10.58.12
+ by smtp.googlemail.com with ESMTPSA id hp1sm10407449ejc.96.2021.05.26.10.58.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 May 2021 10:58:13 -0700 (PDT)
+ Wed, 26 May 2021 10:58:14 -0700 (PDT)
 From: Alexey Baturo <baturo.alexey@gmail.com>
 X-Google-Original-From: Alexey Baturo <space.monkey.delivers@gmail.com>
 To: 
-Subject: [PATCH v9 1/6] [RISCV_PM] Add J-extension into RISC-V
-Date: Wed, 26 May 2021 20:57:43 +0300
-Message-Id: <20210526175749.25709-2-space.monkey.delivers@gmail.com>
+Subject: [PATCH v9 2/6] [RISCV_PM] Support CSRs required for RISC-V PM
+ extension except for the h-mode
+Date: Wed, 26 May 2021 20:57:44 +0300
+Message-Id: <20210526175749.25709-3-space.monkey.delivers@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210526175749.25709-1-space.monkey.delivers@gmail.com>
 References: <20210526175749.25709-1-space.monkey.delivers@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::635;
- envelope-from=baturo.alexey@gmail.com; helo=mail-ej1-x635.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
+ envelope-from=baturo.alexey@gmail.com; helo=mail-ej1-x62a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,32 +92,497 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Alexey Baturo <space.monkey.delivers@gmail.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/cpu.h | 2 ++
- 1 file changed, 2 insertions(+)
+ target/riscv/cpu.c      |   6 +
+ target/riscv/cpu.h      |  12 ++
+ target/riscv/cpu_bits.h |  97 +++++++++++++
+ target/riscv/csr.c      | 306 ++++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 421 insertions(+)
 
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index 3191fd0082..9841711e71 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -486,6 +486,12 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+         if (cpu->cfg.ext_h) {
+             target_misa |= RVH;
+         }
++        if (cpu->cfg.ext_j) {
++#ifndef CONFIG_USER_ONLY
++            /* mmte is supposed to have pm.current hardwired to 1 */
++            env->mmte |= (PM_EXT_INITIAL | MMTE_M_PM_CURRENT);
++#endif
++        }
+         if (cpu->cfg.ext_v) {
+             target_misa |= RVV;
+             if (!is_power_of_2(cpu->cfg.vlen)) {
 diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 7e879fb9ca..1673872223 100644
+index 1673872223..a68e523d87 100644
 --- a/target/riscv/cpu.h
 +++ b/target/riscv/cpu.h
-@@ -67,6 +67,7 @@
- #define RVS RV('S')
- #define RVU RV('U')
- #define RVH RV('H')
-+#define RVJ RV('J')
+@@ -233,6 +233,18 @@ struct CPURISCVState {
  
- /* S extension denotes that Supervisor mode exists, however it is possible
-    to have a core that support S mode but does not have an MMU and there
-@@ -286,6 +287,7 @@ struct RISCVCPU {
-         bool ext_s;
-         bool ext_u;
-         bool ext_h;
-+        bool ext_j;
-         bool ext_v;
-         bool ext_counters;
-         bool ext_ifencei;
+     /* True if in debugger mode.  */
+     bool debugger;
++
++    /*
++     * CSRs for PointerMasking extension
++     * TODO: move these csr to appropriate groups
++     */
++    target_ulong mmte;
++    target_ulong mpmmask;
++    target_ulong mpmbase;
++    target_ulong spmmask;
++    target_ulong spmbase;
++    target_ulong upmmask;
++    target_ulong upmbase;
+ #endif
+ 
+     float_status fp_status;
+diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+index 52640e6856..97e2aa8a97 100644
+--- a/target/riscv/cpu_bits.h
++++ b/target/riscv/cpu_bits.h
+@@ -334,6 +334,39 @@
+ #define CSR_MHPMCOUNTER30H  0xb9e
+ #define CSR_MHPMCOUNTER31H  0xb9f
+ 
++
++/*
++ * User PointerMasking registers
++ * NB: actual CSR numbers might be changed in future
++ */
++#define CSR_UMTE            0x4c0
++#define CSR_UPMMASK         0x4c1
++#define CSR_UPMBASE         0x4c2
++
++/*
++ * Machine PointerMasking registers
++ * NB: actual CSR numbers might be changed in future
++ */
++#define CSR_MMTE            0x3c0
++#define CSR_MPMMASK         0x3c1
++#define CSR_MPMBASE         0x3c2
++
++/*
++ * Supervisor PointerMaster registers
++ * NB: actual CSR numbers might be changed in future
++ */
++#define CSR_SMTE            0x1c0
++#define CSR_SPMMASK         0x1c1
++#define CSR_SPMBASE         0x1c2
++
++/*
++ * Hypervisor PointerMaster registers
++ * NB: actual CSR numbers might be changed in future
++ */
++#define CSR_VSMTE           0x2c0
++#define CSR_VSPMMASK        0x2c1
++#define CSR_VSPMBASE        0x2c2
++
+ /* mstatus CSR bits */
+ #define MSTATUS_UIE         0x00000001
+ #define MSTATUS_SIE         0x00000002
+@@ -530,4 +563,68 @@ typedef enum RISCVException {
+ #define MIE_UTIE                           (1 << IRQ_U_TIMER)
+ #define MIE_SSIE                           (1 << IRQ_S_SOFT)
+ #define MIE_USIE                           (1 << IRQ_U_SOFT)
++
++/* General PointerMasking CSR bits*/
++#define PM_ENABLE       0x00000001ULL
++#define PM_CURRENT      0x00000002ULL
++#define PM_INSN         0x00000004ULL
++#define PM_XS_MASK      0x00000003ULL
++
++/* PointerMasking XS bits values */
++#define PM_EXT_DISABLE  0x00000000ULL
++#define PM_EXT_INITIAL  0x00000001ULL
++#define PM_EXT_CLEAN    0x00000002ULL
++#define PM_EXT_DIRTY    0x00000003ULL
++
++/* Offsets for every pair of control bits per each priv level */
++#define XS_OFFSET    0ULL
++#define U_OFFSET     2ULL
++#define S_OFFSET     5ULL
++#define M_OFFSET     8ULL
++
++#define PM_XS_BITS   (PM_XS_MASK << XS_OFFSET)
++#define U_PM_ENABLE  (PM_ENABLE  << U_OFFSET)
++#define U_PM_CURRENT (PM_CURRENT << U_OFFSET)
++#define U_PM_INSN    (PM_INSN    << U_OFFSET)
++#define S_PM_ENABLE  (PM_ENABLE  << S_OFFSET)
++#define S_PM_CURRENT (PM_CURRENT << S_OFFSET)
++#define S_PM_INSN    (PM_INSN    << S_OFFSET)
++#define M_PM_ENABLE  (PM_ENABLE  << M_OFFSET)
++#define M_PM_CURRENT (PM_CURRENT << M_OFFSET)
++#define M_PM_INSN    (PM_INSN    << M_OFFSET)
++
++/* mmte CSR bits */
++#define MMTE_PM_XS_BITS     PM_XS_BITS
++#define MMTE_U_PM_ENABLE    U_PM_ENABLE
++#define MMTE_U_PM_CURRENT   U_PM_CURRENT
++#define MMTE_U_PM_INSN      U_PM_INSN
++#define MMTE_S_PM_ENABLE    S_PM_ENABLE
++#define MMTE_S_PM_CURRENT   S_PM_CURRENT
++#define MMTE_S_PM_INSN      S_PM_INSN
++#define MMTE_M_PM_ENABLE    M_PM_ENABLE
++#define MMTE_M_PM_CURRENT   M_PM_CURRENT
++#define MMTE_M_PM_INSN      M_PM_INSN
++#define MMTE_MASK    (MMTE_U_PM_ENABLE | MMTE_U_PM_CURRENT | MMTE_U_PM_INSN | \
++                      MMTE_S_PM_ENABLE | MMTE_S_PM_CURRENT | MMTE_S_PM_INSN | \
++                      MMTE_M_PM_ENABLE | MMTE_M_PM_CURRENT | MMTE_M_PM_INSN | \
++                      MMTE_PM_XS_BITS)
++
++/* (v)smte CSR bits */
++#define SMTE_PM_XS_BITS     PM_XS_BITS
++#define SMTE_U_PM_ENABLE    U_PM_ENABLE
++#define SMTE_U_PM_CURRENT   U_PM_CURRENT
++#define SMTE_U_PM_INSN      U_PM_INSN
++#define SMTE_S_PM_ENABLE    S_PM_ENABLE
++#define SMTE_S_PM_CURRENT   S_PM_CURRENT
++#define SMTE_S_PM_INSN      S_PM_INSN
++#define SMTE_MASK    (SMTE_U_PM_ENABLE | SMTE_U_PM_CURRENT | SMTE_U_PM_INSN | \
++                      SMTE_S_PM_ENABLE | SMTE_S_PM_CURRENT | SMTE_S_PM_INSN | \
++                      SMTE_PM_XS_BITS)
++
++/* umte CSR bits */
++#define UMTE_U_PM_ENABLE    U_PM_ENABLE
++#define UMTE_U_PM_CURRENT   U_PM_CURRENT
++#define UMTE_U_PM_INSN      U_PM_INSN
++#define UMTE_MASK     (UMTE_U_PM_ENABLE | MMTE_U_PM_CURRENT | UMTE_U_PM_INSN)
++
+ #endif
+diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+index fe5628fea6..e1c5bb9c35 100644
+--- a/target/riscv/csr.c
++++ b/target/riscv/csr.c
+@@ -192,6 +192,16 @@ static RISCVException hmode32(CPURISCVState *env, int csrno)
+ 
+ }
+ 
++/* Checks if PointerMasking registers could be accessed */
++static RISCVException pointer_masking(CPURISCVState *env, int csrno)
++{
++    /* Check if j-ext is present */
++    if (riscv_has_ext(env, RVJ)) {
++        return RISCV_EXCP_NONE;
++    }
++    return RISCV_EXCP_ILLEGAL_INST;
++}
++
+ static RISCVException pmp(CPURISCVState *env, int csrno)
+ {
+     if (riscv_feature(env, RISCV_FEATURE_PMP)) {
+@@ -1420,6 +1430,289 @@ static RISCVException write_pmpaddr(CPURISCVState *env, int csrno,
+     return RISCV_EXCP_NONE;
+ }
+ 
++/*
++ * Functions to access Pointer Masking feature registers
++ * We have to check if current priv lvl could modify
++ * csr in given mode
++ */
++static int check_pm_current_disabled(CPURISCVState *env, int csrno)
++{
++    int csr_priv = get_field(csrno, 0x300);
++    /*
++     * If priv lvls differ that means we're accessing csr from higher priv lvl,
++     * so allow the access
++     */
++    if (env->priv != csr_priv) {
++        return 0;
++    }
++    int cur_bit_pos;
++    switch (env->priv) {
++    case PRV_M:
++        cur_bit_pos = M_PM_CURRENT;
++        break;
++    case PRV_S:
++        cur_bit_pos = S_PM_CURRENT;
++        break;
++    case PRV_U:
++        cur_bit_pos = U_PM_CURRENT;
++        break;
++    default:
++        g_assert_not_reached();
++    }
++    int pm_current = get_field(env->mmte, cur_bit_pos);
++    /* It's same priv lvl, so we allow to modify csr only if pm.current==1 */
++    return !pm_current;
++}
++
++static RISCVException read_mmte(CPURISCVState *env, int csrno,
++                                target_ulong *val)
++{
++    *val = env->mmte & MMTE_MASK;
++    return RISCV_EXCP_NONE;
++}
++
++static RISCVException write_mmte(CPURISCVState *env, int csrno,
++                                 target_ulong val)
++{
++    uint64_t mstatus;
++    target_ulong wpri_val = val & MMTE_MASK;
++    if (val != wpri_val) {
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "MMTE: WPRI violation written 0x%lx vs expected 0x%lx\n",
++                      val, wpri_val);
++    }
++    /* for machine mode pm.current is hardwired to 1 */
++    wpri_val |= MMTE_M_PM_CURRENT;
++    /* hardwiring pm.instruction bit to 0, since it's not supported yet */
++    wpri_val &= ~(MMTE_M_PM_INSN | MMTE_S_PM_INSN | MMTE_U_PM_INSN);
++    env->mmte = wpri_val | PM_EXT_DIRTY;
++    /* Set XS and SD bits, since PM CSRs are dirty */
++    mstatus = env->mstatus;
++    if (riscv_cpu_is_32bit(env)) {
++        mstatus = set_field(mstatus, MSTATUS32_SD, 1);
++    } else {
++        mstatus = set_field(mstatus, MSTATUS64_SD, 1);
++    }
++    env->mstatus |= MSTATUS_XS;
++    env->mstatus = mstatus;
++    return RISCV_EXCP_NONE;
++}
++
++static RISCVException read_smte(CPURISCVState *env, int csrno,
++                                target_ulong *val)
++{
++    *val = env->mmte & SMTE_MASK;
++    return RISCV_EXCP_NONE;
++}
++
++static RISCVException write_smte(CPURISCVState *env, int csrno,
++                                 target_ulong val)
++{
++    target_ulong wpri_val = val & SMTE_MASK;
++    if (val != wpri_val) {
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "SMTE: WPRI violation written 0x%lx vs expected 0x%lx\n",
++                      val, wpri_val);
++    }
++    /* if pm.current==0 we can't modify current PM CSRs */
++    if (check_pm_current_disabled(env, csrno)) {
++        return RISCV_EXCP_NONE;
++    }
++    target_ulong new_val = wpri_val | (env->mmte & ~SMTE_MASK);
++    write_mmte(env, csrno, new_val);
++    return RISCV_EXCP_NONE;
++}
++
++static RISCVException read_umte(CPURISCVState *env, int csrno,
++                                target_ulong *val)
++{
++    *val = env->mmte & UMTE_MASK;
++    return RISCV_EXCP_NONE;
++}
++
++static RISCVException write_umte(CPURISCVState *env, int csrno,
++                                 target_ulong val)
++{
++    target_ulong wpri_val = val & UMTE_MASK;
++    if (val != wpri_val) {
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "UMTE: WPRI violation written 0x%lx vs expected 0x%lx\n",
++                      val, wpri_val);
++    }
++    if (check_pm_current_disabled(env, csrno)) {
++        return RISCV_EXCP_NONE;
++    }
++    target_ulong new_val = wpri_val | (env->mmte & ~UMTE_MASK);
++    write_mmte(env, csrno, new_val);
++    return RISCV_EXCP_NONE;
++}
++
++static RISCVException read_mpmmask(CPURISCVState *env, int csrno,
++                                   target_ulong *val)
++{
++    *val = env->mpmmask;
++    return RISCV_EXCP_NONE;
++}
++
++static RISCVException write_mpmmask(CPURISCVState *env, int csrno,
++                                    target_ulong val)
++{
++    uint64_t mstatus;
++    env->mpmmask = val;
++    env->mmte |= PM_EXT_DIRTY;
++    /* Set XS and SD bits, since PM CSRs are dirty */
++    mstatus = env->mstatus;
++    if (riscv_cpu_is_32bit(env)) {
++        mstatus = set_field(mstatus, MSTATUS32_SD, 1);
++    } else {
++        mstatus = set_field(mstatus, MSTATUS64_SD, 1);
++    }
++    env->mstatus |= MSTATUS_XS;
++    env->mstatus = mstatus;
++    return RISCV_EXCP_NONE;
++}
++
++static RISCVException read_spmmask(CPURISCVState *env, int csrno,
++                                   target_ulong *val)
++{
++    *val = env->spmmask;
++    return RISCV_EXCP_NONE;
++}
++
++static RISCVException write_spmmask(CPURISCVState *env, int csrno,
++                                    target_ulong val)
++{
++    uint64_t mstatus;
++    /* if pm.current==0 we can't modify current PM CSRs */
++    if (check_pm_current_disabled(env, csrno)) {
++        return RISCV_EXCP_NONE;
++    }
++    env->spmmask = val;
++    env->mmte |= PM_EXT_DIRTY;
++    /* Set XS and SD bits, since PM CSRs are dirty */
++    mstatus = env->mstatus;
++    if (riscv_cpu_is_32bit(env)) {
++        mstatus = set_field(mstatus, MSTATUS32_SD, 1);
++    } else {
++        mstatus = set_field(mstatus, MSTATUS64_SD, 1);
++    }
++    env->mstatus |= MSTATUS_XS;
++    env->mstatus = mstatus;
++    return RISCV_EXCP_NONE;
++}
++
++static RISCVException read_upmmask(CPURISCVState *env, int csrno,
++                                   target_ulong *val)
++{
++    *val = env->upmmask;
++    return RISCV_EXCP_NONE;
++}
++
++static RISCVException write_upmmask(CPURISCVState *env, int csrno,
++                                    target_ulong val)
++{
++    uint64_t mstatus;
++    /* if pm.current==0 we can't modify current PM CSRs */
++    if (check_pm_current_disabled(env, csrno)) {
++        return RISCV_EXCP_NONE;
++    }
++    env->upmmask = val;
++    env->mmte |= PM_EXT_DIRTY;
++    /* Set XS and SD bits, since PM CSRs are dirty */
++    mstatus = env->mstatus;
++    if (riscv_cpu_is_32bit(env)) {
++        mstatus = set_field(mstatus, MSTATUS32_SD, 1);
++    } else {
++        mstatus = set_field(mstatus, MSTATUS64_SD, 1);
++    }
++    env->mstatus |= MSTATUS_XS;
++    env->mstatus = mstatus;
++    return RISCV_EXCP_NONE;
++}
++
++static RISCVException read_mpmbase(CPURISCVState *env, int csrno,
++                                   target_ulong *val)
++{
++    *val = env->mpmbase;
++    return RISCV_EXCP_NONE;
++}
++
++static RISCVException write_mpmbase(CPURISCVState *env, int csrno,
++                                    target_ulong val)
++{
++    uint64_t mstatus;
++    env->mpmbase = val;
++    env->mmte |= PM_EXT_DIRTY;
++    /* Set XS and SD bits, since PM CSRs are dirty */
++    mstatus = env->mstatus;
++    if (riscv_cpu_is_32bit(env)) {
++        mstatus = set_field(mstatus, MSTATUS32_SD, 1);
++    } else {
++        mstatus = set_field(mstatus, MSTATUS64_SD, 1);
++    }
++    env->mstatus |= MSTATUS_XS;
++    env->mstatus = mstatus;
++    return RISCV_EXCP_NONE;
++}
++
++static RISCVException read_spmbase(CPURISCVState *env, int csrno,
++                                   target_ulong *val)
++{
++    *val = env->spmbase;
++    return RISCV_EXCP_NONE;
++}
++
++static RISCVException write_spmbase(CPURISCVState *env, int csrno,
++                                    target_ulong val)
++{
++    uint64_t mstatus;
++    /* if pm.current==0 we can't modify current PM CSRs */
++    if (check_pm_current_disabled(env, csrno)) {
++        return RISCV_EXCP_NONE;
++    }
++    env->spmbase = val;
++    env->mmte |= PM_EXT_DIRTY;
++    /* Set XS and SD bits, since PM CSRs are dirty */
++    mstatus = env->mstatus;
++    if (riscv_cpu_is_32bit(env)) {
++        mstatus = set_field(mstatus, MSTATUS32_SD, 1);
++    } else {
++        mstatus = set_field(mstatus, MSTATUS64_SD, 1);
++    }
++    env->mstatus |= MSTATUS_XS;
++    env->mstatus = mstatus;
++    return RISCV_EXCP_NONE;
++}
++
++static RISCVException read_upmbase(CPURISCVState *env, int csrno,
++                                   target_ulong *val)
++{
++    *val = env->upmbase;
++    return RISCV_EXCP_NONE;
++}
++
++static RISCVException write_upmbase(CPURISCVState *env, int csrno,
++                                    target_ulong val)
++{
++    uint64_t mstatus;
++    /* if pm.current==0 we can't modify current PM CSRs */
++    if (check_pm_current_disabled(env, csrno)) {
++        return RISCV_EXCP_NONE;
++    }
++    env->upmbase = val;
++    env->mmte |= PM_EXT_DIRTY;
++    /* Set XS and SD bits, since PM CSRs are dirty */
++    mstatus = env->mstatus;
++    if (riscv_cpu_is_32bit(env)) {
++        mstatus = set_field(mstatus, MSTATUS32_SD, 1);
++    } else {
++        mstatus = set_field(mstatus, MSTATUS64_SD, 1);
++    }
++    env->mstatus |= MSTATUS_XS;
++    env->mstatus = mstatus;
++    return RISCV_EXCP_NONE;
++}
++
+ #endif
+ 
+ /*
+@@ -1652,6 +1945,19 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
+     [CSR_PMPADDR14] =  { "pmpaddr14", pmp, read_pmpaddr, write_pmpaddr },
+     [CSR_PMPADDR15] =  { "pmpaddr15", pmp, read_pmpaddr, write_pmpaddr },
+ 
++    /* User Pointer Masking */
++    [CSR_UMTE]    =    { "umte",    pointer_masking, read_umte,    write_umte    },
++    [CSR_UPMMASK] =    { "upmmask", pointer_masking, read_upmmask, write_upmmask },
++    [CSR_UPMBASE] =    { "upmbase", pointer_masking, read_upmbase, write_upmbase },
++    /* Machine Pointer Masking */
++    [CSR_MMTE]    =    { "mmte",    pointer_masking, read_mmte,    write_mmte    },
++    [CSR_MPMMASK] =    { "mpmmask", pointer_masking, read_mpmmask, write_mpmmask },
++    [CSR_MPMBASE] =    { "mpmbase", pointer_masking, read_mpmbase, write_mpmbase },
++    /* Supervisor Pointer Masking */
++    [CSR_SMTE]    =    { "smte",    pointer_masking, read_smte,    write_smte    },
++    [CSR_SPMMASK] =    { "spmmask", pointer_masking, read_spmmask, write_spmmask },
++    [CSR_SPMBASE] =    { "spmbase", pointer_masking, read_spmbase, write_spmbase },
++
+     /* Performance Counters */
+     [CSR_HPMCOUNTER3]    = { "hpmcounter3",    ctr,    read_zero },
+     [CSR_HPMCOUNTER4]    = { "hpmcounter4",    ctr,    read_zero },
 -- 
 2.20.1
 
