@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04B1D391996
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 16:12:03 +0200 (CEST)
-Received: from localhost ([::1]:47988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 273633919A1
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 16:14:04 +0200 (CEST)
+Received: from localhost ([::1]:56596 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lluGP-0002bN-W0
-	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 10:12:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35158)
+	id 1lluIN-0008Id-1c
+	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 10:14:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35168)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lluBJ-0002zb-0h
- for qemu-devel@nongnu.org; Wed, 26 May 2021 10:06:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56800)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lluBL-00031o-T3
+ for qemu-devel@nongnu.org; Wed, 26 May 2021 10:06:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32416)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lluBF-0003oN-04
- for qemu-devel@nongnu.org; Wed, 26 May 2021 10:06:44 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lluBG-0003pk-Ms
+ for qemu-devel@nongnu.org; Wed, 26 May 2021 10:06:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622037999;
+ s=mimecast20190719; t=1622038002;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2pXx6GyMHS25jso5WEPUuISioE99hR5k3RFrVIBZbIU=;
- b=D0nS6miVq60aLgGZeFz6EMDGU+4uy2A1S4PBhGZQSLLFSiY+Wv8XBbb6vbczpYmuQbxIQw
- gZkzNKVrlKkJ5V/oNrQgs+3jcys1Z8XpZ29xd3xlDPUEJ8UUvonW16wOVkzNsRljnQ1hWE
- vbFnfS8tYbqNHmGJtUwIxYyT8W1SHVc=
+ bh=6j6uSV8f20gUUG+tUdrJ3NyF9kzmIJQN9ZIKjubWWU4=;
+ b=GZCQfxpjBqU5xrZO76XEVC/KwZz4tZIWzxQaXLwduP+Lt3m27sh4lUKcbF6+Zcqn7wHyrn
+ z59R3mmQer8N3BKk1nw3OypFNBAwpsf2PMXEAtb7LOOdumIirtGOV33llYg9nDZj0w/AvK
+ zRhDLAPcmP0RCppZKbpjkFiRI8P9Lrs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-287-P5KRL7COOmq3IVAs4eS6hw-1; Wed, 26 May 2021 10:06:37 -0400
-X-MC-Unique: P5KRL7COOmq3IVAs4eS6hw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-307-1G0RsTySPT-MDRpSwS4TNQ-1; Wed, 26 May 2021 10:06:40 -0400
+X-MC-Unique: 1G0RsTySPT-MDRpSwS4TNQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D016D107ACC7;
- Wed, 26 May 2021 14:06:36 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2FEF8801107;
+ Wed, 26 May 2021 14:06:39 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-84.ams2.redhat.com
  [10.36.112.84])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D808C61094;
- Wed, 26 May 2021 14:06:28 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BE6691001281;
+ Wed, 26 May 2021 14:06:38 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 73B7418000B9; Wed, 26 May 2021 16:06:27 +0200 (CEST)
+ id 7DF76180038E; Wed, 26 May 2021 16:06:27 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/14] hw/input: expand trace info reported for ps2 device
-Date: Wed, 26 May 2021 16:06:14 +0200
-Message-Id: <20210526140627.381857-2-kraxel@redhat.com>
+Subject: [PULL 02/14] ps2: fix mouse stream corruption
+Date: Wed, 26 May 2021 16:06:15 +0200
+Message-Id: <20210526140627.381857-3-kraxel@redhat.com>
 In-Reply-To: <20210526140627.381857-1-kraxel@redhat.com>
 References: <20210526140627.381857-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -79,54 +79,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ =?UTF-8?q?Volker=20R=C3=BCmelin?= <vr_qemu@t-online.de>,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Daniel P. Berrangé <berrange@redhat.com>
+From: Volker Rümelin <vr_qemu@t-online.de>
 
-It is interesting to know if the PS2 keyboard is in translated mode, and
-which of the three scancode sets are in use.
+Commit 7abe7eb294 "ps2: Fix mouse stream corruption due to lost data"
+added code to avoid mouse stream corruptions but the calculation of
+the needed free queue size was wrong. Fix this.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <20210309155804.306051-1-berrange@redhat.com>
+To reproduce, open a text file with the vim 7.3 32 bit for DOS exe-
+cutable in a FreeDOS client started with -display sdl and move the
+mouse around for a few seconds. You will quickly see erratic mouse
+movements and unexpected mouse clicks. CuteMouse (ctmouse.exe) in
+FreeDOS doesn't try to re-sync the mouse stream.
+
+Fixes: 7abe7eb294 ("ps2: Fix mouse stream corruption due to lost data")
+Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
+Message-Id: <20210525181441.27768-1-vr_qemu@t-online.de>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/input/ps2.c        | 3 ++-
- hw/input/trace-events | 2 +-
- 2 files changed, 3 insertions(+), 2 deletions(-)
+ hw/input/ps2.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/hw/input/ps2.c b/hw/input/ps2.c
-index 72cdb80ae1cd..5352e417a408 100644
+index 5352e417a408..7a3fb2b9f639 100644
 --- a/hw/input/ps2.c
 +++ b/hw/input/ps2.c
-@@ -293,7 +293,8 @@ static void ps2_keyboard_event(DeviceState *dev, QemuConsole *src,
-     qcode = qemu_input_key_value_to_qcode(key->key);
+@@ -646,7 +646,8 @@ void ps2_keyboard_set_translation(void *opaque, int mode)
  
-     mod = ps2_modifier_bit(qcode);
--    trace_ps2_keyboard_event(s, qcode, key->down, mod, s->modifiers);
-+    trace_ps2_keyboard_event(s, qcode, key->down, mod,
-+                             s->modifiers, s->scancode_set, s->translate);
-     if (key->down) {
-         s->modifiers |= mod;
-     } else {
-diff --git a/hw/input/trace-events b/hw/input/trace-events
-index 33741e74f5a2..109bdf7a184f 100644
---- a/hw/input/trace-events
-+++ b/hw/input/trace-events
-@@ -30,7 +30,7 @@ pckbd_kbd_write_data(uint64_t val) "0x%02"PRIx64
+ static int ps2_mouse_send_packet(PS2MouseState *s)
+ {
+-    const int needed = 3 + (s->mouse_type - 2);
++    /* IMPS/2 and IMEX send 4 bytes, PS2 sends 3 bytes */
++    const int needed = s->mouse_type ? 4 : 3;
+     unsigned int b;
+     int dx1, dy1, dz1;
  
- # ps2.c
- ps2_put_keycode(void *opaque, int keycode) "%p keycode 0x%02x"
--ps2_keyboard_event(void *opaque, int qcode, int down, unsigned int modifier, unsigned int modifiers) "%p qcode %d down %d modifier 0x%x modifiers 0x%x"
-+ps2_keyboard_event(void *opaque, int qcode, int down, unsigned int modifier, unsigned int modifiers, int set, int xlate) "%p qcode %d down %d modifier 0x%x modifiers 0x%x set %d xlate %d"
- ps2_read_data(void *opaque) "%p"
- ps2_set_ledstate(void *s, int ledstate) "%p ledstate %d"
- ps2_reset_keyboard(void *s) "%p"
 -- 
 2.31.1
 
