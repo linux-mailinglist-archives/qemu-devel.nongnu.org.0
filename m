@@ -2,65 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E7B43920A9
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 21:12:52 +0200 (CEST)
-Received: from localhost ([::1]:35236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DE373920B1
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 21:14:53 +0200 (CEST)
+Received: from localhost ([::1]:39512 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llyxW-0001RP-VN
-	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 15:12:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40352)
+	id 1llyzU-0004HD-JZ
+	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 15:14:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40396)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <niteesh.gs@gmail.com>)
- id 1llyrC-0001jQ-0w
- for qemu-devel@nongnu.org; Wed, 26 May 2021 15:06:18 -0400
-Received: from mail-il1-x135.google.com ([2607:f8b0:4864:20::135]:42979)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1llyrb-00029h-32
+ for qemu-devel@nongnu.org; Wed, 26 May 2021 15:06:47 -0400
+Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:55235)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <niteesh.gs@gmail.com>)
- id 1llyrA-0002WY-80
- for qemu-devel@nongnu.org; Wed, 26 May 2021 15:06:17 -0400
-Received: by mail-il1-x135.google.com with SMTP id h11so1866120ili.9
- for <qemu-devel@nongnu.org>; Wed, 26 May 2021 12:06:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=97uix2YaQ8qXPIqE/N3wiBQ9cfxzEr39W3DThYRafE4=;
- b=CAjOShlNOgUlq8OWuKSIj/cRCUIwL6Tw3OxIEfwHuPmQGtvODv27XwAceZ0YJrbtnK
- OhgK/mFKyyynGaBP0GudwrPhkg0jOyHI+2dfJPiCmrdxYxItR5r8hgcDLacaWN1zNbOG
- TrWilDsVv/trLSH0qROoCrPWlgTt1rrL/PP15tsd5Dc4IC1eXJXDzi/J9m76f2OlDs+v
- 8AGC9Ok7cII+sQpQc45KkV6nVytdDrLfy5SLWi+ehpGhlBggqJUGFALDaJF6XWKcj1/4
- S2Iccg7zZo84jIQBcv6BW5TdxRCveckZFeK7EuOdg9YoZqVDViOQuFCybprqRfEsnEJN
- htHA==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1llyrX-0002ls-2x
+ for qemu-devel@nongnu.org; Wed, 26 May 2021 15:06:41 -0400
+Received: by mail-pj1-x1032.google.com with SMTP id g24so1338256pji.4
+ for <qemu-devel@nongnu.org>; Wed, 26 May 2021 12:06:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=Td+CBDy/I42hwygE1EuJxWYP+5i2rOSCloQUKG0fQhE=;
+ b=JFfD8o37zt44nzS4IPsVfsAxvmiNkEduvI7YgU4bP9+kmLgEpVeYR4kE+hhO/cqQcc
+ nK+tU0H+lyP9t6lqm+Y7yCYXb4nRsiFRu/ab1m9Y+XaHn0K/UN/JRAs24FyouuzOFOpu
+ Gy8eyqUZ3jUjWgjnIzpiGamoCedUAkhelSipg6fWRS1M840eijTraKomhOCmV7C2vJxB
+ 5jvDUkfnUjvdcHxpOJ1Zlt+pkxv6r1dLsFlYmrRbiI8yTIYdE5/HbitB8xCrbsTX5I6F
+ 3KIe273EYZCCsRZyJLwuqxCU7rC7b9iUvLZ8+oyeXpKRTBTfRe6F9LpVjEnS06TPyR84
+ +bDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=97uix2YaQ8qXPIqE/N3wiBQ9cfxzEr39W3DThYRafE4=;
- b=XYv7aDDrhSlzCFdFkd2N+rDj5NpJURF3c9kiuY9F3IKKW+y5pMNmfvwtpZv8gPRFNJ
- CpFWzAlKpWtAmli5L4SHcDOHZGi0Nj+UeDjaf/goh8XB4jwnyPnOlSF7OitC2e4d+MiH
- kXDSEm/ACoqPGwz37JfZUWh3FEBySshipNefRgN3zho7JKCzM3ZDxDZswnQJA2ws45HO
- eP8vfyPYRu1HqSCFs1p+488vdolYnbnU+YDS99X2GH14kUYMmzscQoGRi8u0TiiNSDhE
- /GhCxuazXhLawie8RcY5ebVlRqc+HQinNG6z8zoruTAJxgRoe2GO2RF9tgM0Ee2KlFCT
- qdRQ==
-X-Gm-Message-State: AOAM531DYSU8IQLO4YW9mUumeSW4IpjBFN2ZNIegjjBQfptCdccehu2q
- h43ic3k25fZ6FDghfrOfjSyNHaBBzkOkOlkPLbyi5NdWrMs=
-X-Google-Smtp-Source: ABdhPJyGtYr3KrQNRsT0p7UX2QUsQtxQAFtbMMPAzJQCGRkqex19ovKMrdEPcz2Dx7oZdn94MKtlkK4PNvOdjfP0xhk=
-X-Received: by 2002:a05:6e02:1708:: with SMTP id
- u8mr31251070ill.188.1622055974777; 
- Wed, 26 May 2021 12:06:14 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Td+CBDy/I42hwygE1EuJxWYP+5i2rOSCloQUKG0fQhE=;
+ b=G1pzKyBxtzJVuT7VL7XMnjR148wLzvtrWoGOM17ya57xDN+JxJuEvacdGsYow5kM0A
+ vGP4+1XvLjWkI8miPPWSvyCv60sPRfQwIo2eNX9wqjw+RVdv8m6Q5tKo67vOjN7MiDq6
+ r03NILwCn+W3S0oJf9pL97Rk0yFJd5y1i1x4E7vdTI8Kdmbrw4oMwUSUAO9+t6jmY0Xr
+ TGayeOipBvv/909JDhvhGx1GpIkPeSioneo+VI8lrCzxqALaGr9PqNDkLmB0gzHPqU8s
+ BhR0KE58nW4PlYeyd3gQ57cwqOTx3PvciGI0/DiZpaWVcc7dm1+Heie45tKZfJ1lsYO1
+ bsEw==
+X-Gm-Message-State: AOAM532UdCHM0Yh4VjEGA1vEy14BxaMRBnni3LP2XcH3lI0xZGMl6uPJ
+ KqsIMA4EPs9P5bMgotdTTd545w==
+X-Google-Smtp-Source: ABdhPJwE7DZ0FDKEssOT3voosAqRMpuxGOyEDnVvdm8BZX/5KABhBMtLpcpnjZvuTGdSU/rNA4CQgQ==
+X-Received: by 2002:a17:90a:fc8f:: with SMTP id
+ ci15mr37465115pjb.147.1622055997756; 
+ Wed, 26 May 2021 12:06:37 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
+ by smtp.gmail.com with ESMTPSA id
+ 80sm16141664pfw.200.2021.05.26.12.06.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 26 May 2021 12:06:37 -0700 (PDT)
+Subject: Re: [RFC PATCH 13/15] sysemu/memory_mapping: Become target-agnostic
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20210517115525.1088693-1-f4bug@amsat.org>
+ <20210517115525.1088693-14-f4bug@amsat.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <910ba35c-3ebf-eacf-730b-c7f0b2646900@linaro.org>
+Date: Wed, 26 May 2021 12:06:35 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-From: "Niteesh G. S." <niteesh.gs@gmail.com>
-Date: Thu, 27 May 2021 00:35:48 +0530
-Message-ID: <CAN6ztm-8A5Dt4xnzO7RM1rSGgsKyy9yB0AwrqQzCK1HVr0Z0Yg@mail.gmail.com>
-Subject: GSoC 2021: Request for WIKI account to update project details
-To: qemu-devel@nongnu.org
-Content-Type: multipart/alternative; boundary="0000000000002eba8805c3405619"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::135;
- envelope-from=niteesh.gs@gmail.com; helo=mail-il1-x135.google.com
-X-Spam_score_int: -1
-X-Spam_score: -0.2
-X-Spam_bar: /
-X-Spam_report: (-0.2 / 5.0 requ) BAYES_20=-0.001, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210517115525.1088693-14-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -74,54 +90,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: John Snow <jsnow@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000002eba8805c3405619
-Content-Type: text/plain; charset="UTF-8"
+On 5/17/21 4:55 AM, Philippe Mathieu-Daudé wrote:
+> target_ulong is target-specific, while hwaddr isn't.
+> 
+> memory_mapping_list_add_merge_sorted() uses hwaddr arguments
+> anyway, so use the hwaddr type for MemoryMapping::virt_addr.
+> 
+> Remove the unnecessary "exec/cpu-defs.h" target-speficic header
+> from "memory_mapping.h" and use the target-agnostic "hw/core/cpu.h"
+> locally in memory_mapping.c.
+> 
+> Signed-off-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
+> ---
+>   include/sysemu/memory_mapping.h | 3 +--
+>   softmmu/memory_mapping.c        | 1 +
+>   2 files changed, 2 insertions(+), 2 deletions(-)
 
-Hello all,
+Certainly hwaddr is now unconditionally 64-bit, so I think this would work 
+fine.  I just wonder if uint64_t wouldn't be better, since virt_addr is not a 
+"hardware" aka physical address (as per hwaddr.h).
 
-I am Niteesh, one of the students selected in Google Summer Of Code.
-I will be working on the project
-**Interactive, Asynchronous QMP TUI**
+Either way,
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-One of the works assigned to me was to create a Wiki page to update the
-details and status of my project.
 
-I kindly request the admin to grant me access to the wiki through the below
-credentials
-Email id: niteesh.gs@gmail.com
-password: some_dummy_password
-
-Thanks,
-Niteesh.
-
---0000000000002eba8805c3405619
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-size:small">Hel=
-lo all,</div><div class=3D"gmail_default" style=3D"font-size:small"><br></d=
-iv><div class=3D"gmail_default" style=3D"font-size:small">I am Niteesh, one=
- of the students selected in Google Summer Of Code.</div><div class=3D"gmai=
-l_default" style=3D"font-size:small">I will be working on the project=C2=A0=
-</div><div class=3D"gmail_default" style=3D"font-size:small"><b>*Interactiv=
-e, Asynchronous QMP TUI*</b></div><div class=3D"gmail_default" style=3D"fon=
-t-size:small"><br></div><div class=3D"gmail_default" style=3D"font-size:sma=
-ll">One of the works assigned to me was to create a Wiki page to update the=
-</div><div class=3D"gmail_default" style=3D"font-size:small">details and st=
-atus of my project.</div><div class=3D"gmail_default" style=3D"font-size:sm=
-all"><br></div><div class=3D"gmail_default" style=3D"font-size:small">I kin=
-dly request the admin to grant me access to the wiki through the below</div=
-><div class=3D"gmail_default" style=3D"font-size:small">credentials</div><d=
-iv class=3D"gmail_default" style=3D"font-size:small">Email id: <a href=3D"m=
-ailto:niteesh.gs@gmail.com">niteesh.gs@gmail.com</a></div><div class=3D"gma=
-il_default" style=3D"font-size:small">password: some_dummy_password</div><d=
-iv class=3D"gmail_default" style=3D"font-size:small"><br></div><div class=
-=3D"gmail_default" style=3D"font-size:small">Thanks,<br>Niteesh.</div></div=
->
-
---0000000000002eba8805c3405619--
+r~
 
