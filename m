@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60773390D4C
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 02:30:22 +0200 (CEST)
-Received: from localhost ([::1]:36210 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C536390D53
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 02:34:22 +0200 (CEST)
+Received: from localhost ([::1]:44594 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llhRF-0000s0-Bt
-	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 20:30:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41040)
+	id 1llhV7-0006fQ-5q
+	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 20:34:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41130)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1llhMO-0003dF-EU
- for qemu-devel@nongnu.org; Tue, 25 May 2021 20:25:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22320)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1llhMi-0003p2-SO
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 20:25:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30554)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1llhML-0006cK-W1
- for qemu-devel@nongnu.org; Tue, 25 May 2021 20:25:20 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1llhMX-0006lx-W3
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 20:25:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621988717;
+ s=mimecast20190719; t=1621988728;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=AeqWqqe4byyu5sN2IyiJ1hoR9egPsJjOm1lcyJLaQbI=;
- b=OrnMDcZykJXwCI7jarHXTHrazal7+hg0TuMuh2Gr4FDPv1SNSjwY8kCSb2O2xp/SRLRWWc
- 1CSHA6GgEs9bhwoOkPYzOFhW+Epeudej0uDGOqDZVP+nYfu1cDnj3iod/1PsqIwn9WGOXq
- U/IVwMnUC+/ts0EKgaywe+iZTgmSa98=
+ bh=uEB8ttZqtDFWX9gWuSnDQ9aVec3brBFL5KZhZggHdig=;
+ b=PtriQw12SiFjxN9BsZEs9+vopMKIhLH7li2G8pAKIe1wAdLA+IHeBjtfCRrCZFJalV/pT1
+ DIvGo5r+C7rSXeAiTXYuuXbi2Q4n6e4LgHdgCd55jNvAb7SWcdfOxKpMbPmq5PQfeGlBrd
+ DdCSSd4K+OktxhurmFoFu13jV7Twlbw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-505-ajgi7xwkOp6d9NuO_Gewcw-1; Tue, 25 May 2021 20:25:15 -0400
-X-MC-Unique: ajgi7xwkOp6d9NuO_Gewcw-1
+ us-mta-203-55OtA1KkP5aGdvJsuoC91Q-1; Tue, 25 May 2021 20:25:24 -0400
+X-MC-Unique: 55OtA1KkP5aGdvJsuoC91Q-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3EED0800FF0;
- Wed, 26 May 2021 00:25:14 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C98F2107ACCA;
+ Wed, 26 May 2021 00:25:23 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-116-137.rdu2.redhat.com [10.10.116.137])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5748B6EF40;
- Wed, 26 May 2021 00:25:12 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 73B366EF40;
+ Wed, 26 May 2021 00:25:14 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 03/31] python/machine: use subprocess.run instead of
- subprocess.Popen
-Date: Tue, 25 May 2021 20:24:26 -0400
-Message-Id: <20210526002454.124728-4-jsnow@redhat.com>
+Subject: [PATCH v7 04/31] python/console_socket: Add a pylint ignore
+Date: Tue, 25 May 2021 20:24:27 -0400
+Message-Id: <20210526002454.124728-5-jsnow@redhat.com>
 In-Reply-To: <20210526002454.124728-1-jsnow@redhat.com>
 References: <20210526002454.124728-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -89,45 +88,28 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-use run() instead of Popen() -- to assert to pylint that we are not
-forgetting to close a long-running program.
+We manage cleaning up this resource ourselves. Pylint should shush.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 Reviewed-by: Cleber Rosa <crosa@redhat.com>
-Tested-by: Cleber Rosa <crosa@redhat.com>
-Message-id: 20210517184808.3562549-4-jsnow@redhat.com
+Message-id: 20210517184808.3562549-5-jsnow@redhat.com
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- python/qemu/machine.py | 15 +++++++++------
- 1 file changed, 9 insertions(+), 6 deletions(-)
+ python/qemu/console_socket.py | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/python/qemu/machine.py b/python/qemu/machine.py
-index 5b87e9ce024..04e005f3811 100644
---- a/python/qemu/machine.py
-+++ b/python/qemu/machine.py
-@@ -223,13 +223,16 @@ def send_fd_scm(self, fd: Optional[int] = None,
-             assert fd is not None
-             fd_param.append(str(fd))
- 
--        proc = subprocess.Popen(
--            fd_param, stdin=subprocess.DEVNULL, stdout=subprocess.PIPE,
--            stderr=subprocess.STDOUT, close_fds=False
-+        proc = subprocess.run(
-+            fd_param,
-+            stdin=subprocess.DEVNULL,
-+            stdout=subprocess.PIPE,
-+            stderr=subprocess.STDOUT,
-+            check=False,
-+            close_fds=False,
-         )
--        output = proc.communicate()[0]
--        if output:
--            LOG.debug(output)
-+        if proc.stdout:
-+            LOG.debug(proc.stdout)
- 
-         return proc.returncode
- 
+diff --git a/python/qemu/console_socket.py b/python/qemu/console_socket.py
+index 87237bebef7..8c4ff598ad7 100644
+--- a/python/qemu/console_socket.py
++++ b/python/qemu/console_socket.py
+@@ -39,6 +39,7 @@ def __init__(self, address: str, file: Optional[str] = None,
+         self.connect(address)
+         self._logfile = None
+         if file:
++            # pylint: disable=consider-using-with
+             self._logfile = open(file, "bw")
+         self._open = True
+         self._drain_thread = None
 -- 
 2.31.1
 
