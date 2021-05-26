@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5967839218E
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 22:37:06 +0200 (CEST)
-Received: from localhost ([::1]:34554 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41344392191
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 22:40:17 +0200 (CEST)
+Received: from localhost ([::1]:39446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lm0H3-0002FT-ES
-	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 16:37:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54758)
+	id 1lm0K8-0005gY-7c
+	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 16:40:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54774)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bruno.larsen@eldorado.org.br>)
- id 1lm02c-0007cS-SF; Wed, 26 May 2021 16:22:10 -0400
+ id 1lm02f-0007lE-HB; Wed, 26 May 2021 16:22:13 -0400
 Received: from [201.28.113.2] (port=2123 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <bruno.larsen@eldorado.org.br>)
- id 1lm02b-00019i-BG; Wed, 26 May 2021 16:22:10 -0400
+ id 1lm02d-00019i-Uo; Wed, 26 May 2021 16:22:13 -0400
 Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
  Microsoft SMTPSVC(8.5.9600.16384); Wed, 26 May 2021 17:21:07 -0300
 Received: from eldorado.org.br (unknown [10.10.71.235])
- by power9a (Postfix) with ESMTP id 9D29B8013E1;
+ by power9a (Postfix) with ESMTP id CD40E8013CA;
  Wed, 26 May 2021 17:21:07 -0300 (-03)
 From: "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 3/5] target/ppc: removed mentions to DO_PPC_STATISTICS
-Date: Wed, 26 May 2021 17:21:02 -0300
-Message-Id: <20210526202104.127910-4-bruno.larsen@eldorado.org.br>
+Subject: [PATCH 4/5] monitor: removed cpustats command
+Date: Wed, 26 May 2021 17:21:03 -0300
+Message-Id: <20210526202104.127910-5-bruno.larsen@eldorado.org.br>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210526202104.127910-1-bruno.larsen@eldorado.org.br>
 References: <20210526202104.127910-1-bruno.larsen@eldorado.org.br>
-X-OriginalArrivalTime: 26 May 2021 20:21:07.0775 (UTC)
- FILETIME=[A91A7CF0:01D7526C]
+X-OriginalArrivalTime: 26 May 2021 20:21:07.0963 (UTC)
+ FILETIME=[A9372CB0:01D7526C]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
 Received-SPF: pass client-ip=201.28.113.2;
  envelope-from=bruno.larsen@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -52,87 +52,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: farosas@linux.ibm.com, richard.henderson@linaro.org,
- luis.pires@eldorado.org.br, Greg Kurz <groug@kaod.org>,
- lucas.araujo@eldorado.org.br, fernando.valle@eldorado.org.br,
- qemu-ppc@nongnu.org, matheus.ferst@eldorado.org.br,
- david@gibson.dropbear.id.au
+Cc: farosas@linux.ibm.com, Markus Armbruster <armbru@redhat.com>,
+ richard.henderson@linaro.org, luis.pires@eldorado.org.br,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, lucas.araujo@eldorado.org.br,
+ fernando.valle@eldorado.org.br, qemu-ppc@nongnu.org,
+ matheus.ferst@eldorado.org.br, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Removed the commented out definition and all ifdefs relating to
-PPC_DUMP_STATISTICS, as it's hardly ever used.
+Since ppc was the last architecture to collect these statistics and
+it is currently phasing this collection out, the command that would query
+this information is being removed.
 
 Suggested-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Bruno Larsen (billionai) <bruno.larsen@eldorado.org.br>
 ---
- target/ppc/translate.c | 16 ++++------------
- 1 file changed, 4 insertions(+), 12 deletions(-)
+ hmp-commands-info.hx | 13 -------------
+ monitor/misc.c       | 11 -----------
+ 2 files changed, 24 deletions(-)
 
-diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-index fc9fd790ca..0525e1939f 100644
---- a/target/ppc/translate.c
-+++ b/target/ppc/translate.c
-@@ -47,7 +47,6 @@
+diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
+index ab0c7aa5ee..b2347a6aea 100644
+--- a/hmp-commands-info.hx
++++ b/hmp-commands-info.hx
+@@ -500,19 +500,6 @@ SRST
+     Show the current VM UUID.
+ ERST
  
- /* Include definitions for instructions classes and implementations flags */
- /* #define PPC_DEBUG_DISAS */
--/* #define DO_PPC_STATISTICS */
- 
- #ifdef PPC_DEBUG_DISAS
- #  define LOG_DISAS(...) qemu_log_mask(CPU_LOG_TB_IN_ASM, ## __VA_ARGS__)
-@@ -217,12 +216,9 @@ struct opc_handler_t {
-     uint64_t type2;
-     /* handler */
-     void (*handler)(DisasContext *ctx);
--#if defined(DO_PPC_STATISTICS) || defined(PPC_DUMP_CPU)
-+#if defined(PPC_DUMP_CPU)
-     const char *oname;
- #endif
--#if defined(DO_PPC_STATISTICS)
--    uint64_t count;
--#endif
- };
- 
- /* SPR load/store helpers */
-@@ -8546,7 +8542,7 @@ static int register_direct_insn(opc_handler_t **ppc_opcodes,
-     if (insert_in_table(ppc_opcodes, idx, handler) < 0) {
-         printf("*** ERROR: opcode %02x already assigned in main "
-                "opcode table\n", idx);
--#if defined(DO_PPC_STATISTICS) || defined(PPC_DUMP_CPU)
-+#if defined(PPC_DUMP_CPU)
-         printf("           Registered handler '%s' - new handler '%s'\n",
-                ppc_opcodes[idx]->oname, handler->oname);
- #endif
-@@ -8570,7 +8566,7 @@ static int register_ind_in_table(opc_handler_t **table,
-         if (!is_indirect_opcode(table[idx1])) {
-             printf("*** ERROR: idx %02x already assigned to a direct "
-                    "opcode\n", idx1);
--#if defined(DO_PPC_STATISTICS) || defined(PPC_DUMP_CPU)
-+#if defined(PPC_DUMP_CPU)
-             printf("           Registered handler '%s' - new handler '%s'\n",
-                    ind_table(table[idx1])[idx2]->oname, handler->oname);
- #endif
-@@ -8581,7 +8577,7 @@ static int register_ind_in_table(opc_handler_t **table,
-         insert_in_table(ind_table(table[idx1]), idx2, handler) < 0) {
-         printf("*** ERROR: opcode %02x already assigned in "
-                "opcode table %02x\n", idx2, idx1);
--#if defined(DO_PPC_STATISTICS) || defined(PPC_DUMP_CPU)
-+#if defined(PPC_DUMP_CPU)
-         printf("           Registered handler '%s' - new handler '%s'\n",
-                ind_table(table[idx1])[idx2]->oname, handler->oname);
- #endif
-@@ -9036,10 +9032,6 @@ static void ppc_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
-         gen_invalid(ctx);
-     }
- 
--#if defined(DO_PPC_STATISTICS)
--    handler->count++;
--#endif
+-    {
+-        .name       = "cpustats",
+-        .args_type  = "",
+-        .params     = "",
+-        .help       = "show CPU statistics",
+-        .cmd        = hmp_info_cpustats,
+-    },
 -
-     translator_loop_temp_check(&ctx->base);
+-SRST
+-  ``info cpustats``
+-    Show CPU statistics.
+-ERST
+-
+ #if defined(CONFIG_SLIRP)
+     {
+         .name       = "usernet",
+diff --git a/monitor/misc.c b/monitor/misc.c
+index f3a393ea59..1539e18557 100644
+--- a/monitor/misc.c
++++ b/monitor/misc.c
+@@ -369,17 +369,6 @@ static void hmp_info_history(Monitor *mon, const QDict *qdict)
+     }
  }
  
+-static void hmp_info_cpustats(Monitor *mon, const QDict *qdict)
+-{
+-    CPUState *cs = mon_get_cpu(mon);
+-
+-    if (!cs) {
+-        monitor_printf(mon, "No CPU available\n");
+-        return;
+-    }
+-    cpu_dump_statistics(cs, 0);
+-}
+-
+ static void hmp_info_trace_events(Monitor *mon, const QDict *qdict)
+ {
+     const char *name = qdict_get_try_str(qdict, "name");
 -- 
 2.17.1
 
