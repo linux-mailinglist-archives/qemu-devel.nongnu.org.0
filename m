@@ -2,75 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FB17390D19
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 01:56:14 +0200 (CEST)
-Received: from localhost ([::1]:48572 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C741B390D2A
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 02:01:45 +0200 (CEST)
+Received: from localhost ([::1]:51718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llguC-00052z-Pr
-	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 19:56:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35680)
+	id 1llgzY-0007QW-22
+	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 20:01:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36770)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1llgtD-0004EJ-Ld
- for qemu-devel@nongnu.org; Tue, 25 May 2021 19:55:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32171)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1llgtA-00060s-EU
- for qemu-devel@nongnu.org; Tue, 25 May 2021 19:55:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621986906;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Yx+OV/6xbVm8pO3ZXQZPgAwLX2v9mUhQpsVeZvwGRTI=;
- b=JYPLAv/DgnjDJtrjlOfcTcTe2mXpLfXWHbnlawu34ShV+lEdnDgcJo2MHHrqQ5pWGZx1Pd
- y/biobPNln8VDI+302OWBfw8Thhkl2d52H1th4G4wF89qY/RAKKgm3FUHnUoD+SeHz1qun
- rtj03Wec9P+bhEZCpFm07lU2tAL6CfM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-175-kQpCkF7-NZGy8wMsKuY5FQ-1; Tue, 25 May 2021 19:55:04 -0400
-X-MC-Unique: kQpCkF7-NZGy8wMsKuY5FQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A0F1E180FD65;
- Tue, 25 May 2021 23:55:03 +0000 (UTC)
-Received: from [10.10.116.137] (ovpn-116-137.rdu2.redhat.com [10.10.116.137])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DC7D160CEC;
- Tue, 25 May 2021 23:54:54 +0000 (UTC)
-Subject: Re: [PATCH v6 23/25] python: add .gitignore
-To: Cleber Rosa <crosa@redhat.com>
-References: <20210512231241.2816122-1-jsnow@redhat.com>
- <20210512231241.2816122-24-jsnow@redhat.com>
- <YK1RqhFrWt6yHuRt@localhost.localdomain>
- <0d0053ab-4410-e905-7261-332f21fd8852@redhat.com>
- <20210525204237.GG1567491@amachine.somewhere>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <b9ccbb50-4d02-183e-50db-acf742f1cbea@redhat.com>
-Date: Tue, 25 May 2021 19:54:54 -0400
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1llgy8-0006Qp-K7
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 20:00:16 -0400
+Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036]:36688)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1llgy4-00012f-6z
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 20:00:16 -0400
+Received: by mail-pj1-x1036.google.com with SMTP id
+ n6-20020a17090ac686b029015d2f7aeea8so14215466pjt.1
+ for <qemu-devel@nongnu.org>; Tue, 25 May 2021 17:00:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=lVudDLAXdAZrOOsNaLJ0JzXaZV4JquBy8xBoufTYbO0=;
+ b=Aextghinh2T1vwbAcktpRp33DeFE5MlQER5Zrp8d1Q36aLnjOugxuFJ1+Iwoj1yAGk
+ h4PHSNhpX3r/SMLrUWANx/0eIthnIVlP6w6ywq3UzdIz9R2fiPkHpnTykPbm3Jqg9tQ2
+ DzOykKbfuvTlhJPC48CCRKAcOLKpx/GAQ4y8VLJMFuLThTnuwES27yC91eQE/bSYZo6Y
+ 1FEXEURVY6znlmeAa/mz2mS8l1wEU7JE5Y17CLSXIPOZTLXc4ElXh4sPfdRhYmzLKftq
+ D9Vbem/WhQseF1ip/wSRGwiUlebe3uZKnpPcylP17sTmAwx7BlPSx2qM35ZEkGRdaGqO
+ kGPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=lVudDLAXdAZrOOsNaLJ0JzXaZV4JquBy8xBoufTYbO0=;
+ b=hkgmzpDWlf/s4fVjRhZIjJ96G0lP46RHHJqC1HpQni4A/iNQqay6YsD0Hvs8AV9y1w
+ LIGx6spJwS02PJKsfbD/hFlopUwjzqjGVphf5iwzAHIOdH4bTAeUrnHEzBgwG5UrrNLK
+ 6xdUgupaVxITBzKgFHqHtQHQlO5MDKVtZpyqMC+VlQStGx3VLDxpcEB1BJGo4aZeAZjC
+ 3KLT4zb3hQUmLIzuqMJYgFUcqo4hsUexS/R653F7YU5x8f7+5JA5hII2AyejdUJL1dsN
+ 4dgLwsbQTug+6tw+jPt10RZuqw2YhhLB3LAa1VfCGcAe/eXPpK0jjcynkiLDhIqa2iSd
+ dhLQ==
+X-Gm-Message-State: AOAM532xwzvf0ZTZ0cHqXEZXM413CJpb7l7aA9ihki7qta9x93J2/JW3
+ NTztnuv4LoBSivy80pW1bYTXRD7Xl1AaRw==
+X-Google-Smtp-Source: ABdhPJwOFQokfpsfP6u68Cc1ll4jxVdQEftcOSnNiqUr/XhDPaKS32tFhtq/4ztGzSr1jMXiogaL6w==
+X-Received: by 2002:a17:902:7e06:b029:f2:14b5:aa08 with SMTP id
+ b6-20020a1709027e06b02900f214b5aa08mr32854595plm.79.1621987210178; 
+ Tue, 25 May 2021 17:00:10 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
+ by smtp.gmail.com with ESMTPSA id
+ y190sm15493993pgd.24.2021.05.25.17.00.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 25 May 2021 17:00:09 -0700 (PDT)
+Subject: Re: [PATCH] tcg/aarch64/tcg-target.c.inc: correction of rotate bit
+ number
+To: Yasuo Kuwahara <kwhr00@gmail.com>, qemu-trivial@nongnu.org,
+ qemu-devel <qemu-devel@nongnu.org>
+References: <CAHfJ0vSXnmnTLmT0kR=a8ACRdw_UsLYOhStzUzgVEHoH8U-7sA@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <216dd18c-ebf9-e97c-5950-3acf44121e18@linaro.org>
+Date: Tue, 25 May 2021 17:00:08 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210525204237.GG1567491@amachine.somewhere>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8; format=flowed
+In-Reply-To: <CAHfJ0vSXnmnTLmT0kR=a8ACRdw_UsLYOhStzUzgVEHoH8U-7sA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1036.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,79 +91,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- qemu-block@nongnu.org,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Willian Rampazzo <willianr@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
- Max Reitz <mreitz@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Beraldo Leal <bleal@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/25/21 4:42 PM, Cleber Rosa wrote:
-> On Tue, May 25, 2021 at 04:10:55PM -0400, John Snow wrote:
->> On 5/25/21 3:36 PM, Cleber Rosa wrote:
->>> On Wed, May 12, 2021 at 07:12:39PM -0400, John Snow wrote:
->>>> Ignore *Python* build and package output (build, dist, qemu.egg-info);
->>>> these files are not created as part of a QEMU build.
->>>>
->>>> Ignore miscellaneous cached python confetti (__pycache__, *.pyc,
->>>> .mypy_cache).
->>>>
->>>> Ignore .idea (pycharm) .vscode, and .venv (pipenv et al).
->>>>
->>>> Signed-off-by: John Snow <jsnow@redhat.com>
->>>> ---
->>>>    python/.gitignore | 19 +++++++++++++++++++
->>>>    1 file changed, 19 insertions(+)
->>>>    create mode 100644 python/.gitignore
->>>>
->>>> diff --git a/python/.gitignore b/python/.gitignore
->>>> new file mode 100644
->>>> index 00000000000..e27c99e009c
->>>> --- /dev/null
->>>> +++ b/python/.gitignore
->>>> @@ -0,0 +1,19 @@
->>>> +# python bytecode cache
->>>> +*.pyc
->>>
->>> This is a duplicate from the parent .gitignore, so I would avoid it.
->>>
->>>> +__pycache__/
->>>
->>> And this one is interesting because, the only thing that *should* be
->>> in __pycache__ dirs is .pyc files (covered by the parent .gitignore
->>> file).
->>>
->>> So, I get the same behavior without these two entries here, so I would
->>> skip them.  Let me know if you have any reason for explicitly
->>> including them.
->>>
->>> - Cleber.
->>>
->>
->> Hm, not really ... Just completeness, I suppose, since this directory is
->> becoming increasingly separate from the rest of the tree.
->>
->> It isn't crucial, it just seemed like a weird omission if they weren't
->> listed here. *shrug*
->>
->> --js
+On 5/25/21 2:46 AM, Yasuo Kuwahara wrote:
+> The last argument of tcg_out_extr() must be in the range 0-31 if ext==0.
 > 
-> And still, this dir is part of the overall tree.
-
-For now 😇
-
-                                                    Honestly, without
-> any change in behavior, I'd *not* add those two ignore rules.
+> Before the fix, when m==0 it becomes 32 and it crashes with an Illegal 
+> instruction in Apple Silicon.
 > 
+> After the fix, it will be 0. If m is in the range 1-31, it is the same as before.
+> 
+> 
+> Signed-off-by: Yasuo Kuwahara <kwhr00@gmail.com <mailto:kwhr00@gmail.com>>
+> 
+> ---
+> 
+> tcg/aarch64/tcg-target.c.inc | 5 ++---
+> 
+> 1 file changed, 2 insertions(+), 3 deletions(-)
 
-If you insist.
+(1) All patches go to qemu-devel, as per
+     https://wiki.qemu.org/Contribute/SubmitAPatch
+     Many maintainers including myself don't monitor qemu-trivial.
 
---js
+(2) Something is wrong with your mailer and it is adding extra
+     newlines, which means the patch does not apply.  However,
+     because the patch is so simple, I have applied it by hand.
+
+Queued to tcg-next, thanks.
+
+
+r~
+
+> 
+> 
+> diff --git a/tcg/aarch64/tcg-target.c.inc b/tcg/aarch64/tcg-target.c.inc
+> 
+> index f07ba98aa4..5bd366f2d4 100644
+> 
+> --- a/tcg/aarch64/tcg-target.c.inc
+> 
+> +++ b/tcg/aarch64/tcg-target.c.inc
+> 
+> @@ -1291,9 +1291,8 @@ static inline void tcg_out_rotr(TCGContext *s, TCGType ext,
+> 
+> static inline void tcg_out_rotl(TCGContext *s, TCGType ext,
+> 
+> TCGReg rd, TCGReg rn, unsigned int m)
+> 
+> {
+> 
+> -int bits = ext ? 64 : 32;
+> 
+> -int max = bits - 1;
+> 
+> -tcg_out_extr(s, ext, rd, rn, rn, bits - (m & max));
+> 
+> +int max = ext ? 63 : 31;
+> 
+> +tcg_out_extr(s, ext, rd, rn, rn, -m & max);
+> 
+> }
+> 
+> static inline void tcg_out_dep(TCGContext *s, TCGType ext, TCGReg rd,
+> 
+> --
+> 
+> 2.24.3
+> 
+> 
 
 
