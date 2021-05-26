@@ -2,79 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28385391DBE
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 19:20:50 +0200 (CEST)
-Received: from localhost ([::1]:49894 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 937A2391DA5
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 19:14:17 +0200 (CEST)
+Received: from localhost ([::1]:40800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llxD2-0006iJ-7t
-	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 13:20:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44758)
+	id 1llx6m-0008Jv-HF
+	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 13:14:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44456)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1llwzC-00085K-Mc
- for qemu-devel@nongnu.org; Wed, 26 May 2021 13:06:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43194)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1llwyh-0007OD-3L
+ for qemu-devel@nongnu.org; Wed, 26 May 2021 13:05:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52643)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1llwzA-0004dE-9w
- for qemu-devel@nongnu.org; Wed, 26 May 2021 13:06:26 -0400
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1llwyU-0004OS-8n
+ for qemu-devel@nongnu.org; Wed, 26 May 2021 13:05:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622048783;
+ s=mimecast20190719; t=1622048740;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=W8w7RhXeFSRWGk0AutdMu5ukNCwh8itA/alKjBFfess=;
- b=Xg/GaH1jxMC0bZA86hEzFtRD1Yg8RyNeasFFgi0XQExCCjz65QakvmBLvCIFVVknkQzQrc
- 85YUxUeGIwa7bR4jNWdOQ4lJivWLVWGm/PCUhNLqN7zlS9RPjQz5zKkjWReAcRuYVO9DM7
- bwGYSfCUs60XaKs3tPCeC5t08f6vp4U=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-438-IZCjU26dPvC8GrITBOgHIg-1; Wed, 26 May 2021 13:06:21 -0400
-X-MC-Unique: IZCjU26dPvC8GrITBOgHIg-1
-Received: by mail-wm1-f69.google.com with SMTP id
- b67-20020a1ce4460000b029017517d833b9so637653wmh.0
- for <qemu-devel@nongnu.org>; Wed, 26 May 2021 10:06:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=W8w7RhXeFSRWGk0AutdMu5ukNCwh8itA/alKjBFfess=;
- b=sYoAQAMvSqGytow4Z7pXROAtErS8Gme44VzpXM817PgXSDRCmLfdzmomKLDi13jvSe
- +PxvHu6wmluNBsnDNl+QKpEkJ4TDReONyoH2uF4CHhTJ39hM9Xc3zXsl3VDpzlo9MEOI
- BMfA+kfcMEDjNM6l1xeHG3L53gYvjNh3GO3uVaQb3oi9h3E3KHXJgFVAKpCuukG4Cg0/
- ENqQzugKNW1zYki74PaDx/DE4XD6DtpEqNcYUhDTOu5dRihzxDTzZvzP6Scs/71M1NN5
- kFV4aa1uVzh87uL+LpKcSNP7s9wMDMp5GUFAcXDgbpxL5TGAlOmjJe9QSqmDsVhrew+I
- 5FDw==
-X-Gm-Message-State: AOAM533MJhPrxQFflZRrniGjobCncN8jH65/zArPutI4yR8H0ChFWxtP
- CZAL+wNA8CoRCPCrn2CS96WsoYBHiBZQo38EPSH9QTNlL6lHqiJXbNAEvQ9vLGHd2/Qphp2bW+a
- Y+xinfM+enI0yv7n2ItaWqdpwXBqk89elgOeDjuP1nhcsIshrsIf4n5j4zVrNJU7+
-X-Received: by 2002:a5d:55cd:: with SMTP id i13mr2823917wrw.128.1622048780396; 
- Wed, 26 May 2021 10:06:20 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyQUEpbGLh/42akCiHF4ChNzY8xqgXWdGOz7fzfxNbTnvC7lYyvgHeEHFwauq9NRBI684rz1A==
-X-Received: by 2002:a5d:55cd:: with SMTP id i13mr2823891wrw.128.1622048780168; 
- Wed, 26 May 2021 10:06:20 -0700 (PDT)
-Received: from localhost.localdomain (64.red-88-10-103.dynamicip.rima-tde.net.
- [88.10.103.64])
- by smtp.gmail.com with ESMTPSA id h15sm15245676wmq.1.2021.05.26.10.06.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 May 2021 10:06:19 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v8 12/12] qtest: Do not restrict bios-tables-test to Aarch64
- hosts anymore
-Date: Wed, 26 May 2021 19:04:32 +0200
-Message-Id: <20210526170432.343588-13-philmd@redhat.com>
-X-Mailer: git-send-email 2.26.3
-In-Reply-To: <20210526170432.343588-1-philmd@redhat.com>
-References: <20210526170432.343588-1-philmd@redhat.com>
+ bh=GctZcgq7AFX2XuG40j0XSS2NfTtS9uBcAEW/HASgVIw=;
+ b=gr2k2tZyGXF2Csc3LQbbDzPFWiwcVub1/+iZ16z7rMH7BypjOyqNLpHG9Ym3GJl7Vx3qJ2
+ Pzu93tEgjD2s7xsH3eTXbbhAe7sCHALrtTzpJnFY+5Y8OQ5I+ukHRyr0WzBfe5MTVxJEit
+ oRaW/2S4tj9V5wY237Fg/nbXAcGeKQY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-195-4xqb3f-cMUOe72bq-iU2hA-1; Wed, 26 May 2021 13:05:38 -0400
+X-MC-Unique: 4xqb3f-cMUOe72bq-iU2hA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7BECA9F92B
+ for <qemu-devel@nongnu.org>; Wed, 26 May 2021 17:05:37 +0000 (UTC)
+Received: from localhost (ovpn-114-21.rdu2.redhat.com [10.10.114.21])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7714A5D723;
+ Wed, 26 May 2021 17:05:31 +0000 (UTC)
+Date: Wed, 26 May 2021 13:05:30 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Vitaly Kuznetsov <vkuznets@redhat.com>
+Subject: Re: [PATCH v6 17/19] i386: HV_HYPERCALL_AVAILABLE privilege bit is
+ always needed
+Message-ID: <20210526170530.ugirlteyzamogysz@habkost.net>
+References: <20210422161130.652779-1-vkuznets@redhat.com>
+ <20210422161130.652779-18-vkuznets@redhat.com>
+ <20210521220637.kg6g7lfvpwasnzez@habkost.net>
+ <878s44723s.fsf@vitty.brq.redhat.com>
 MIME-Version: 1.0
+In-Reply-To: <878s44723s.fsf@vitty.brq.redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -82,7 +68,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,50 +81,156 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-arm@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ qemu-devel@nongnu.org, Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since commit 82bf7ae84ce ("target/arm: Remove KVM support for
-32-bit Arm hosts") we can remove the comment / check added in
-commit ab6b6a77774 and directly run the bios-tables-test.
+On Mon, May 24, 2021 at 02:22:47PM +0200, Vitaly Kuznetsov wrote:
+> Eduardo Habkost <ehabkost@redhat.com> writes:
+> 
+> > On Thu, Apr 22, 2021 at 06:11:28PM +0200, Vitaly Kuznetsov wrote:
+> >> According to TLFS, Hyper-V guest is supposed to check
+> >> HV_HYPERCALL_AVAILABLE privilege bit before accessing
+> >> HV_X64_MSR_GUEST_OS_ID/HV_X64_MSR_HYPERCALL MSRs but at least some
+> >> Windows versions ignore that. As KVM is very permissive and allows
+> >> accessing these MSRs unconditionally, no issue is observed. We may,
+> >> however, want to tighten the checks eventually. Conforming to the
+> >> spec is probably also a good idea.
+> >> 
+> >> Add HV_HYPERCALL_AVAILABLE to all 'leaf' features with no dependencies.
+> >> 
+> >> Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
+> >
+> > Are all VMs being created with HV_HYPERCALL_AVAILABLE unset,
+> > today?
+> >
+> 
+> No, we have HV_HYPERCALL_AVAILABLE encoded in 'hv-relaxed','hv-vapic'
+> and 'hv-time' features but not 
+> 
+> 
+> > Wouldn't it be simpler to simply add a new
+> > HYPERV_FEAT_HYPERCALL_AVAILABLE bit to hyperv_features, and
+> > enabling it by default?
+> >
+> 
+> We could do that but as I note above, we already have it for three
+> features.
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Tested-by: Alex Bennée <alex.bennee@linaro.org>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
- tests/qtest/meson.build | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+Do we have any cases where we do not want to enable
+HV_HYPERCALL_AVAILABLE?
 
-diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
-index c3a223a83d6..2c7415d6166 100644
---- a/tests/qtest/meson.build
-+++ b/tests/qtest/meson.build
-@@ -176,14 +176,13 @@
-    'boot-serial-test',
-    'hexloader-test']
- 
--# TODO: once aarch64 TCG is fixed on ARM 32 bit host, make bios-tables-test unconditional
- qtests_aarch64 = \
--  (cpu != 'arm' ? ['bios-tables-test'] : []) +                                                  \
-   (config_all_devices.has_key('CONFIG_TPM_TIS_SYSBUS') ? ['tpm-tis-device-test'] : []) +        \
-   (config_all_devices.has_key('CONFIG_TPM_TIS_SYSBUS') ? ['tpm-tis-device-swtpm-test'] : []) +  \
-   ['arm-cpu-features',
-    'numa-test',
-    'boot-serial-test',
-+   'bios-tables-test',
-    'xlnx-can-test',
-    'migration-test']
- 
+Would it be OK to just hardcoded it in hyperv_fill_cpuids() like
+we do with HV_CPU_DYNAMIC_PARTITIONING_AVAILABLE?
+
+> 
+> 
+> > We don't necessarily need to make it configurable by the user,
+> > but probably it would be a good idea to keep the bit unset by
+> > default on older machine types.  Even if guests don't mind seeing
+> > the bit changing under their feet, it would make it easier for
+> > automated test cases that check for unexpected changes in raw
+> > CPUID data.
+> 
+> I see current situation as a bug. While most likely nobody runs with
+> a configuration like 'hv-vpindexem,hv-synic' it is still valid. And if KVM
+> was enforcing the features (not yet), Windows would've just crashed in
+> early boot. Normal configurations will likely always include at least
+> 'hv-time' which has HYPERV_FEAT_HYPERCALL_AVAILABLE enabled.
+> 
+> That being said, I'm not sure we need to maintain 'bug compatibility'
+> even for older machine types. I'm also not aware of any specific tests
+> for such 'crazy' configurations out there. The last patch of the series
+> adds a very simple test to qtest but this is about it.
+
+If you are 100% sure the CPUID change can't crash or confuse a
+guest, then that's OK.  I agree that bug compatibility is not a
+must if the bit is simply ignored by most guests and by KVM
+emulation code.
+
+
+> 
+> >
+> >
+> >> ---
+> >>  target/i386/kvm/kvm.c | 15 +++++++++------
+> >>  1 file changed, 9 insertions(+), 6 deletions(-)
+> >> 
+> >> diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
+> >> index 2c1a77f9b00f..d81451276cd8 100644
+> >> --- a/target/i386/kvm/kvm.c
+> >> +++ b/target/i386/kvm/kvm.c
+> >> @@ -835,6 +835,8 @@ static struct {
+> >>      [HYPERV_FEAT_CRASH] = {
+> >>          .desc = "crash MSRs (hv-crash)",
+> >>          .flags = {
+> >> +            {.func = HV_CPUID_FEATURES, .reg = R_EAX,
+> >> +             .bits = HV_HYPERCALL_AVAILABLE},
+> >>              {.func = HV_CPUID_FEATURES, .reg = R_EDX,
+> >>               .bits = HV_GUEST_CRASH_MSR_AVAILABLE}
+> >>          }
+> >> @@ -843,28 +845,28 @@ static struct {
+> >>          .desc = "reset MSR (hv-reset)",
+> >>          .flags = {
+> >>              {.func = HV_CPUID_FEATURES, .reg = R_EAX,
+> >> -             .bits = HV_RESET_AVAILABLE}
+> >> +             .bits = HV_HYPERCALL_AVAILABLE | HV_RESET_AVAILABLE}
+> >>          }
+> >>      },
+> >>      [HYPERV_FEAT_VPINDEX] = {
+> >>          .desc = "VP_INDEX MSR (hv-vpindex)",
+> >>          .flags = {
+> >>              {.func = HV_CPUID_FEATURES, .reg = R_EAX,
+> >> -             .bits = HV_VP_INDEX_AVAILABLE}
+> >> +             .bits = HV_HYPERCALL_AVAILABLE | HV_VP_INDEX_AVAILABLE}
+> >>          }
+> >>      },
+> >>      [HYPERV_FEAT_RUNTIME] = {
+> >>          .desc = "VP_RUNTIME MSR (hv-runtime)",
+> >>          .flags = {
+> >>              {.func = HV_CPUID_FEATURES, .reg = R_EAX,
+> >> -             .bits = HV_VP_RUNTIME_AVAILABLE}
+> >> +             .bits = HV_HYPERCALL_AVAILABLE | HV_VP_RUNTIME_AVAILABLE}
+> >>          }
+> >>      },
+> >>      [HYPERV_FEAT_SYNIC] = {
+> >>          .desc = "synthetic interrupt controller (hv-synic)",
+> >>          .flags = {
+> >>              {.func = HV_CPUID_FEATURES, .reg = R_EAX,
+> >> -             .bits = HV_SYNIC_AVAILABLE}
+> >> +             .bits = HV_HYPERCALL_AVAILABLE | HV_SYNIC_AVAILABLE}
+> >>          }
+> >>      },
+> >>      [HYPERV_FEAT_STIMER] = {
+> >> @@ -879,7 +881,7 @@ static struct {
+> >>          .desc = "frequency MSRs (hv-frequencies)",
+> >>          .flags = {
+> >>              {.func = HV_CPUID_FEATURES, .reg = R_EAX,
+> >> -             .bits = HV_ACCESS_FREQUENCY_MSRS},
+> >> +             .bits = HV_HYPERCALL_AVAILABLE | HV_ACCESS_FREQUENCY_MSRS},
+> >>              {.func = HV_CPUID_FEATURES, .reg = R_EDX,
+> >>               .bits = HV_FREQUENCY_MSRS_AVAILABLE}
+> >>          }
+> >> @@ -888,7 +890,8 @@ static struct {
+> >>          .desc = "reenlightenment MSRs (hv-reenlightenment)",
+> >>          .flags = {
+> >>              {.func = HV_CPUID_FEATURES, .reg = R_EAX,
+> >> -             .bits = HV_ACCESS_REENLIGHTENMENTS_CONTROL}
+> >> +             .bits = HV_HYPERCALL_AVAILABLE |
+> >> +             HV_ACCESS_REENLIGHTENMENTS_CONTROL}
+> >>          }
+> >>      },
+> >>      [HYPERV_FEAT_TLBFLUSH] = {
+> >> -- 
+> >> 2.30.2
+> >> 
+> 
+> -- 
+> Vitaly
+> 
+
 -- 
-2.26.3
+Eduardo
 
 
