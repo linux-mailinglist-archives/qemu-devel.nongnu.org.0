@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5E22390F02
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 05:58:34 +0200 (CEST)
-Received: from localhost ([::1]:53936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78A06390F0C
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 06:02:33 +0200 (CEST)
+Received: from localhost ([::1]:56110 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llkgj-0005VY-AK
-	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 23:58:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59164)
+	id 1llkka-00079Z-Gy
+	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 00:02:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59218)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mforney@mforney.org>)
- id 1llkeD-0004ir-2F
- for qemu-devel@nongnu.org; Tue, 25 May 2021 23:55:57 -0400
-Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:53092)
+ id 1llkeM-0004n6-UD
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 23:56:06 -0400
+Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:33285)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <mforney@mforney.org>)
- id 1llkeB-0003Is-5A
- for qemu-devel@nongnu.org; Tue, 25 May 2021 23:55:56 -0400
-Received: by mail-pj1-x1035.google.com with SMTP id q6so105227pjj.2
- for <qemu-devel@nongnu.org>; Tue, 25 May 2021 20:55:53 -0700 (PDT)
+ id 1llkeJ-0003Tw-0z
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 23:56:06 -0400
+Received: by mail-pj1-x102c.google.com with SMTP id
+ v13-20020a17090abb8db029015f9f7d7290so2943133pjr.0
+ for <qemu-devel@nongnu.org>; Tue, 25 May 2021 20:56:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=mforney-org.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=Z5DTlrEQ1O+ie24uhuzXQK8saocUch49RmAmkfzZaSU=;
- b=VZC+cjOMf/x5QoueuNaW8twywj4q97WXqEwqOOLjqnCsvargLffD9n+d85nndS1z6J
- npwSMLgS9lqOpWaWEyG3FXqkaI7J9r0oUdp3WBEQPOZoJ8BiFmnNDPGnKY1wXZU8UbwM
- Y5Ni9w6hc91S/0opE6sBvaqVBgKlUV8csFGRyWRqgHFbWbwpwBeMJlcTMsV6EpCRiyoo
- jlGInbb0BIHGIcUsjDd+qNj6zX7tngaZYqjBMQ8y8XWe+2yXLBAihn4Sbb1ZIUo5eX1j
- ADvKymOyg5XybEI5wVoTUNlJN1ejinA/WvgPDn228TPJhHFeIf8uckx65y2kEBGh5rKP
- 3qfQ==
+ bh=cyrGGae3KScjf2+1slxM8e19PZON/gYGwK8TqUwl1jE=;
+ b=kQmTTI0xH78/kgfS0m9c824zc0VFSBWOWBCNLPnQdsmsCOlBErIM2jPzkkbO7X2IM9
+ YHrTVgFqbXz89XF86CikstveNJlsz6Tvi8Ji6OF7A7tpaP9thFr1P+8lPA9e/q5GWKcd
+ /6/xC62zHV1kPMdADV56C9CJ6Pi/IJrTJn7/8z/hgnHGZobSuNGPpIxp8wqyTBWObjge
+ N/GROmfkY3rn07Q7hI9Z1vEScO3OxsqFcL4SY75J90ilz7Jt2ou03AuA47QNUMb1qmqX
+ mA+4o+OwYMiOH6BgiZN77wwztR1QaSRdRI28rKHuGZnMhBFzSsHNPcIusiediXFDQFmA
+ HEkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=Z5DTlrEQ1O+ie24uhuzXQK8saocUch49RmAmkfzZaSU=;
- b=fIctojidOpCp/+Ar1/qK8I4oWq1Gpa0ULycpFysAJcPuEyrBGzz0uSjlenjABxVOGh
- gleUB7X4biq1EPs4Y9Ff/gu5EXYq5qB1Xiw8GP9J+VlGfSII8MVhlmLSjBvYhK9Bso6A
- GOyGuj/QvSCtM88t4gmH3VNHRxnwh20Si6JqvHH3drg9T2XkFjS6WBSAUwaEtez/M0ow
- +SjxET3oMPYL7Dp49P5VjkklFjj0w2OHrD//rBkypxlnM4nmYtDyP2VL3s/HbN6TkVXL
- 37k/3Ox+fgVnaP9KLvlXkWN4X7jVdb6ejeAbu1GbzFkVRBItRvWu9mjEtnmUw28LqLXF
- 3TqA==
-X-Gm-Message-State: AOAM532Nuzga3/ClS+b9A1ssQQbtDt6Im0lSOyEUrTbBiotGS0qIjjK3
- Ic5hOF4pwItBTiJ6y9o0o8TYDQ==
-X-Google-Smtp-Source: ABdhPJxC/24Diaq+hMyOkW1GIx/p1X6Ow+d5LNpCZDTRgMyIBFEaWSihLjMDxuY3v3ygQlFqqJ2YAw==
-X-Received: by 2002:a17:90a:4298:: with SMTP id
- p24mr1796314pjg.144.1622001352042; 
- Tue, 25 May 2021 20:55:52 -0700 (PDT)
+ bh=cyrGGae3KScjf2+1slxM8e19PZON/gYGwK8TqUwl1jE=;
+ b=ucCCKkvJNEbtkK/PphGG7jwhSMRoGhuSU2kxD85ia2btE94/IC5Rt74rzcOv/hJUdv
+ CZRJamYioEr4er7fQSb0crXERM1kLAtiTr+/KVzN0clKIC2d427JOnKKz7jaAqKSqUJP
+ 7m3RLzAXrxoxMqsiggFTUkkzO4Rj8mf1lDn5yjmXjID+ry4/gLH3Qf78OTXB98lp9c1A
+ BiO4EvXNm5sQsUoyA7Zw4vXOP1ta6RaK2K2zyogAp7NM3aPC64ov5xJPg0jX6RIv4MGy
+ lViRyXug/FRzKouGdl5Q6rasz+SBbo2gyGrcrlQ8DclD8WpAxBbQjrGO4LrzKXmKRSz4
+ sZLg==
+X-Gm-Message-State: AOAM532BqirFzoMob3++lnaio8ukak+89IWO3+Sfdb1hMZB5L4O8mPvF
+ ra9VjRDqnF4e4nCQdzAErcZ/UCGRzDDSbkYcV3U=
+X-Google-Smtp-Source: ABdhPJxTa93wXu3FtZjuHUeGf/6OOWq9AlSZcMlSVzb/Oe9Pxwxf1yPycWmaNlj5vAuumBNqFVNWqw==
+X-Received: by 2002:a17:902:e04f:b029:eb:66b0:6d08 with SMTP id
+ x15-20020a170902e04fb02900eb66b06d08mr33954676plx.50.1622001361451; 
+ Tue, 25 May 2021 20:56:01 -0700 (PDT)
 Received: from localhost ([2601:647:5180:4570:16dd:a9ff:fee7:6b79])
- by smtp.gmail.com with ESMTPSA id gn4sm3267238pjb.16.2021.05.25.20.55.50
+ by smtp.gmail.com with ESMTPSA id b23sm13735607pjo.26.2021.05.25.20.56.00
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Tue, 25 May 2021 20:55:51 -0700 (PDT)
+ Tue, 25 May 2021 20:56:00 -0700 (PDT)
 From: Michael Forney <mforney@mforney.org>
 To: Laurent Vivier <laurent@vivier.eu>
-Subject: [PATCH] linux-user: Fix incorrect use of feature-test-macros
-Date: Tue, 25 May 2021 20:55:31 -0700
-Message-Id: <20210526035531.7871-1-mforney@mforney.org>
+Subject: [PATCH] linux-user: Use public sigev_notify_thread_id member if
+ available
+Date: Tue, 25 May 2021 20:55:56 -0700
+Message-Id: <20210526035556.7931-1-mforney@mforney.org>
 X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::1035;
- envelope-from=mforney@mforney.org; helo=mail-pj1-x1035.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::102c;
+ envelope-from=mforney@mforney.org; helo=mail-pj1-x102c.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -85,52 +87,84 @@ Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The _POSIX_C_SOURCE and _XOPEN_SOURCE macros are used by the
-application to indicate to libc which declarations it should expose.
-Since qemu does not define them anywhere, it does not make sense
-to check their value.
+_sigev_un._tid is an internal glibc field and is not available on
+musl libc. The sigevent(7) man page and Linux UAPI headers both use
+sigev_notify_thread_id as a public way to access this field.
 
-Instead, since the intent is to determine whether the host struct
-stat supports the st_*tim fields, use the configure test result
-which does exactly that.
+musl libc supports this field since 1.2.2[0], and glibc plans to
+add support as well[1][2].
+
+If sigev_notify_thread_id is not available, fall back to _sigev_un._tid
+as before.
+
+[0] http://git.musl-libc.org/cgit/musl/commit/?id=7c71792e87691451f2a6b76348e83ad1889f1dcb
+[1] https://www.openwall.com/lists/musl/2019/08/01/5
+[2] https://sourceware.org/bugzilla/show_bug.cgi?id=27417
 
 Signed-off-by: Michael Forney <mforney@mforney.org>
 ---
- linux-user/syscall.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ configure            | 16 ++++++++++++++++
+ linux-user/syscall.c |  6 +++++-
+ 2 files changed, 21 insertions(+), 1 deletion(-)
 
+diff --git a/configure b/configure
+index 676239c697..fa39b0a727 100755
+--- a/configure
++++ b/configure
+@@ -4462,6 +4462,19 @@ if compile_prog "" "" ; then
+     st_atim=yes
+ fi
+ 
++##########################################
++# check if we have sigev_notify_thread_id
++
++sigev_notify_thread_id=no
++cat > $TMPC << EOF
++#include <stddef.h>
++#include <signal.h>
++int main(void) { return offsetof(struct sigevent, sigev_notify_thread_id); }
++EOF
++if compile_prog "" "" ; then
++    sigev_notify_thread_id=yes
++fi
++
+ ##########################################
+ # check if trace backend exists
+ 
+@@ -5718,6 +5731,9 @@ fi
+ if test "$st_atim" = "yes" ; then
+   echo "HAVE_STRUCT_STAT_ST_ATIM=y" >> $config_host_mak
+ fi
++if test "$sigev_notify_thread_id" = "yes" ; then
++  echo "HAVE_SIGEV_NOTIFY_THREAD_ID=y" >> $config_host_mak
++fi
+ if test "$byteswap_h" = "yes" ; then
+   echo "CONFIG_BYTESWAP_H=y" >> $config_host_mak
+ fi
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index c9f812091c..9a52f235d2 100644
+index c9f812091c..63464f9a96 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -7470,7 +7470,7 @@ static inline abi_long host_to_target_stat64(void *cpu_env,
-         __put_user(host_st->st_atime, &target_st->target_st_atime);
-         __put_user(host_st->st_mtime, &target_st->target_st_mtime);
-         __put_user(host_st->st_ctime, &target_st->target_st_ctime);
--#if _POSIX_C_SOURCE >= 200809L || _XOPEN_SOURCE >= 700
-+#ifdef HAVE_STRUCT_STAT_ST_ATIM
-         __put_user(host_st->st_atim.tv_nsec, &target_st->target_st_atime_nsec);
-         __put_user(host_st->st_mtim.tv_nsec, &target_st->target_st_mtime_nsec);
-         __put_user(host_st->st_ctim.tv_nsec, &target_st->target_st_ctime_nsec);
-@@ -7505,7 +7505,7 @@ static inline abi_long host_to_target_stat64(void *cpu_env,
-         __put_user(host_st->st_atime, &target_st->target_st_atime);
-         __put_user(host_st->st_mtime, &target_st->target_st_mtime);
-         __put_user(host_st->st_ctime, &target_st->target_st_ctime);
--#if _POSIX_C_SOURCE >= 200809L || _XOPEN_SOURCE >= 700
-+#ifdef HAVE_STRUCT_STAT_ST_ATIM
-         __put_user(host_st->st_atim.tv_nsec, &target_st->target_st_atime_nsec);
-         __put_user(host_st->st_mtim.tv_nsec, &target_st->target_st_mtime_nsec);
-         __put_user(host_st->st_ctim.tv_nsec, &target_st->target_st_ctime_nsec);
-@@ -10056,8 +10056,7 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
-                 __put_user(st.st_atime, &target_st->target_st_atime);
-                 __put_user(st.st_mtime, &target_st->target_st_mtime);
-                 __put_user(st.st_ctime, &target_st->target_st_ctime);
--#if (_POSIX_C_SOURCE >= 200809L || _XOPEN_SOURCE >= 700) && \
--    defined(TARGET_STAT_HAVE_NSEC)
-+#if defined(HAVE_STRUCT_STAT_ST_ATIM) && defined(TARGET_STAT_HAVE_NSEC)
-                 __put_user(st.st_atim.tv_nsec,
-                            &target_st->target_st_atime_nsec);
-                 __put_user(st.st_mtim.tv_nsec,
+@@ -7393,6 +7393,10 @@ static inline abi_long host_to_target_timex64(abi_long target_addr,
+ }
+ #endif
+ 
++#ifndef HAVE_SIGEV_NOTIFY_THREAD_ID
++#define sigev_notify_thread_id _sigev_un._tid
++#endif
++
+ static inline abi_long target_to_host_sigevent(struct sigevent *host_sevp,
+                                                abi_ulong target_addr)
+ {
+@@ -7413,7 +7417,7 @@ static inline abi_long target_to_host_sigevent(struct sigevent *host_sevp,
+     host_sevp->sigev_signo =
+         target_to_host_signal(tswap32(target_sevp->sigev_signo));
+     host_sevp->sigev_notify = tswap32(target_sevp->sigev_notify);
+-    host_sevp->_sigev_un._tid = tswap32(target_sevp->_sigev_un._tid);
++    host_sevp->sigev_notify_thread_id = tswap32(target_sevp->_sigev_un._tid);
+ 
+     unlock_user_struct(target_sevp, target_addr, 1);
+     return 0;
 -- 
 2.31.1
 
