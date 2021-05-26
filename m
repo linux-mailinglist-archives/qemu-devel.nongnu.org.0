@@ -2,84 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A35EE391F20
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 20:29:56 +0200 (CEST)
-Received: from localhost ([::1]:56018 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3656391F39
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 20:35:46 +0200 (CEST)
+Received: from localhost ([::1]:36544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llyHz-0005qb-DO
-	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 14:29:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52772)
+	id 1llyNV-0003OU-Tq
+	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 14:35:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53468)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1llxd7-0004KA-EE
- for qemu-devel@nongnu.org; Wed, 26 May 2021 13:47:43 -0400
-Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:43676)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1llxd1-0000am-5B
- for qemu-devel@nongnu.org; Wed, 26 May 2021 13:47:41 -0400
-Received: by mail-pl1-x630.google.com with SMTP id v12so989028plo.10
- for <qemu-devel@nongnu.org>; Wed, 26 May 2021 10:47:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=rRju/jjBGwrN1xvcOyDup2sVG0roEKR7mdyoEfLmHKI=;
- b=dGmD93+cb3/ZbvKlxKnzI/NwvWQe4TAKedNWgSS/sBrFCXCad5sFoObCjqVNGlRy5P
- C5W/0gC+dgaTfuHwIXELUN+BBIiqAwAExB7m9eZELNqtv5MNFEVOKwRHBs1vo+q9iGgQ
- z8pi03s8LAOES+QuznASx75mHgc+a1sG5YFSLFXbfhYsdFXKlTTD/5HJDs1pnOKpB9X2
- Q9gBQnjyZxXDozdrSlLQAkhrAijji3dbTYxvxfpmJbLe5QKthhTqJNTOAmpjEYQjMGiX
- sNk2KHI/F7HxWxRaWSpP8ePr6RFRhJTlenmw+ND8GDhcO79QyfcVVAGUiBVee3vVYi/j
- COpg==
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1llxfN-00075W-1W
+ for qemu-devel@nongnu.org; Wed, 26 May 2021 13:50:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45142)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1llxfK-0001uZ-JR
+ for qemu-devel@nongnu.org; Wed, 26 May 2021 13:50:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1622051397;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=3fBmzCG21O+ZuTQCZ/pXWxeWbZ0mJKicfQMD7YOB920=;
+ b=Rm2iTTptZIrhIr96bpP9qHI7qce82S1SPb9ATYOJCgVNAakaPFNV6kuV63gPKMgiT4iFfX
+ Z/BdXxFdjWR1Nq4Vjdqr65CjnrV4GbUIRwCLMsWpOL7BC/HDMrGQcfrVI4nhhB19clIxuZ
+ 3o7yTPFdShFTL9f5UzIk6C2Yij3LtOs=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-586-3JHVMgi1MX-wT9-Jz2dD_g-1; Wed, 26 May 2021 13:49:56 -0400
+X-MC-Unique: 3JHVMgi1MX-wT9-Jz2dD_g-1
+Received: by mail-qv1-f72.google.com with SMTP id
+ k12-20020a0cfd6c0000b029020df9543019so1857607qvs.14
+ for <qemu-devel@nongnu.org>; Wed, 26 May 2021 10:49:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=rRju/jjBGwrN1xvcOyDup2sVG0roEKR7mdyoEfLmHKI=;
- b=K3+DMeruwZrDui0tkqQwzXrK4plIJwPPDeLU4O2Do3E8UU+BQ2hz2NgtvT2XAXcfT7
- ne/JQVZYgeoUy3RLyxgdGAl/zVL0ApyvRwzlCigTUNIC0Nj32OCXi2lK/kDfTbTiFnTE
- cDY+4t/Zp6GIm75K8ErlD/Ch/kgik2LuSrLYfDcbcPoVgxYAssvjvIkVLdMgy+eMeIOr
- dnkXquoraQtJPdO9/zYi7jfHsuC1oFDG0yr6JbJgNVQJmMyh2Gu1VUhnyEwzZv5/6e6S
- BCzmRIadgsg0kBHEsuCZHqFLLKdri46WoGh8TAUJiN5lO0vNOWy+pNk2TgPdjVpu7uRU
- 2u3Q==
-X-Gm-Message-State: AOAM530HbiPKVGMk/NLgfaM/OB9N6vgmx9LS8ad0oFHwlhgvri4EwB3J
- lBUNu25pn/Jl2SkPbo/rx4rB+Q==
-X-Google-Smtp-Source: ABdhPJyJt6RXvgXGR/QOyWAie6rIqK4qmnA7TUr2xIJAabbtjG22pMh8pBQtHCOfbVLS93H5uyfA9g==
-X-Received: by 2002:a17:902:e850:b029:f0:baa0:19ea with SMTP id
- t16-20020a170902e850b02900f0baa019eamr37145287plg.47.1622051252600; 
- Wed, 26 May 2021 10:47:32 -0700 (PDT)
-Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
- by smtp.gmail.com with ESMTPSA id k9sm13517pgq.27.2021.05.26.10.47.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 26 May 2021 10:47:32 -0700 (PDT)
-Subject: Re: [PATCH v7 02/23] cpu: Restrict target cpu_do_transaction_failed()
- handlers to sysemu
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20210517105140.1062037-1-f4bug@amsat.org>
- <20210517105140.1062037-3-f4bug@amsat.org>
- <ae262a9c-1ffa-b680-4aa6-d7256fa6947a@linaro.org>
- <5a1389f6-ced6-3b09-ba9b-749e2db2de4b@amsat.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <8c35d706-be36-1715-2fba-b43bd230d1c5@linaro.org>
-Date: Wed, 26 May 2021 10:47:30 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=3fBmzCG21O+ZuTQCZ/pXWxeWbZ0mJKicfQMD7YOB920=;
+ b=fpQ5fYm+XIUPIr4Cjcll3EUGRZHnxLLcgXGaaPQWhIRpoR77dp0ntkGT9cCNZ/P3G8
+ 2S/bEgllt6DisKsqgXT2FZ6Ip0JVoe9T/EeU2T3UXuGc6rEQ+SsJl0pZK/GjhClFW4qq
+ qaAJzU6f0wwBUZfDD23VvAhglQoPR59x8cybgNWoyPV+7GhRgFen3T6Vn7Ijx6j+/OJo
+ 0XkMX8F3NM7SPlLQPjHy+phDTS6UMH0mhZ+5ckfyp+uW4BbuUNW4IffJdYsodZuJ6Mcq
+ PBX0KpoAbrUU204CNZw0bpbXbNUy670SIcffcFQoAl7sMCctRioKgfpBr0Ng7AVobBuZ
+ 884Q==
+X-Gm-Message-State: AOAM531zOjGWlA8bZ8hpdwkhVIpPYOxBxPp6AoIBaX9f9kXyKZBz2fs7
+ ajYW680aQnQJQzq7Mc4eBvNyLo3pXJuKGJlDsEx8pGhdvR5SUvoFGRripSivJwPkug55ie3+ETI
+ SSMbasJbXi+e3fNulairW52j1Faz7qSc=
+X-Received: by 2002:a05:6214:b27:: with SMTP id
+ w7mr44267955qvj.40.1622051395493; 
+ Wed, 26 May 2021 10:49:55 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxLS5D3+/4zlNMbPlif1yO8dkDXr4CelkCRm4uVCwB8QAl7Xl1o3Fi3iuCnPo6T+o2AvKzgvW6YHSOf4UUsBDo=
+X-Received: by 2002:a05:6214:b27:: with SMTP id
+ w7mr44267935qvj.40.1622051395279; 
+ Wed, 26 May 2021 10:49:55 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <5a1389f6-ced6-3b09-ba9b-749e2db2de4b@amsat.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x630.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+References: <20210519162903.1172366-1-eperezma@redhat.com>
+ <20210519162903.1172366-14-eperezma@redhat.com>
+ <e0114c64-2620-7a72-6445-3035ceb748ac@redhat.com>
+In-Reply-To: <e0114c64-2620-7a72-6445-3035ceb748ac@redhat.com>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Wed, 26 May 2021 19:49:19 +0200
+Message-ID: <CAJaqyWeL-0KjsBcXs1tYdvn9xLAK-x0Sb+RFuzPgngXxYtF9uw@mail.gmail.com>
+Subject: Re: [RFC v3 13/29] vhost: Add vhost_get_iova_range operation
+To: Jason Wang <jasowang@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,32 +94,141 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-riscv@nongnu.org, Laurent Vivier <laurent@vivier.eu>,
- qemu-s390x@nongnu.org, qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Parav Pandit <parav@mellanox.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ qemu-level <qemu-devel@nongnu.org>, Harpreet Singh Anand <hanand@xilinx.com>,
+ Xiao W Wang <xiao.w.wang@intel.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Eli Cohen <eli@mellanox.com>, virtualization@lists.linux-foundation.org,
+ Michael Lilja <ml@napatech.com>, Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/26/21 10:22 AM, Philippe Mathieu-Daudé wrote:
->> What do the extra ifdefs buy us? Surely the fact that the symbol is not
->> present in the user-only, and would produce link errors if used, is
->> sufficient?
-> 
-> Last month on another series you told me we should declare prototypes
-> that can't be used :) However I agree we want *less* #ifdef'ry, not
-> more.
+On Wed, May 26, 2021 at 3:14 AM Jason Wang <jasowang@redhat.com> wrote:
+>
+>
+> =E5=9C=A8 2021/5/20 =E4=B8=8A=E5=8D=8812:28, Eugenio P=C3=A9rez =E5=86=99=
+=E9=81=93:
+> > For simplicity, If a device does not support this operation it means
+> > that it can handle full (uint64_t)-1 iova address.
+>
+>
+> Note that, we probably need a separated patch for this.
+>
 
-Should or shouldn't?
+Actually the comment is not in the right commit, the next one is the
+one that uses it. Is that what you mean?
 
-Anyway, I don't think any of these declarations belong in cpu.h.  There's no 
-reason for any external user to reference them, as they ought to be using the 
-hw/core/ cpu_* functions.
+> And we need to this during vhost-vdpa initialization. If GPA is out of
+> the range, we need to fail the start of vhost-vdpa.
+>
 
-In an ideal world, we'd move them into some target/foo/sysemu/internal.h or 
-something, which would involve no ifdefs and still give you the isolation.
+Right, that is still to-do.
 
-But for the bulk of the targets, I think it's just easier to leave them alone.
+Maybe a series with just these two commits and failing the start if
+GPA is not in the range, as you say, would help to split the amount of
+changes.
 
+I will send it if no more comments arise about it.
 
-r~
+Thanks!
+
+> THanks
+>
+>
+> >
+> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> > ---
+> >   include/hw/virtio/vhost-backend.h |  5 +++++
+> >   hw/virtio/vhost-vdpa.c            | 18 ++++++++++++++++++
+> >   hw/virtio/trace-events            |  1 +
+> >   3 files changed, 24 insertions(+)
+> >
+> > diff --git a/include/hw/virtio/vhost-backend.h b/include/hw/virtio/vhos=
+t-backend.h
+> > index 94d3323905..bcb112c166 100644
+> > --- a/include/hw/virtio/vhost-backend.h
+> > +++ b/include/hw/virtio/vhost-backend.h
+> > @@ -36,6 +36,7 @@ struct vhost_vring_addr;
+> >   struct vhost_scsi_target;
+> >   struct vhost_iotlb_msg;
+> >   struct vhost_virtqueue;
+> > +struct vhost_vdpa_iova_range;
+> >
+> >   typedef int (*vhost_backend_init)(struct vhost_dev *dev, void *opaque=
+);
+> >   typedef int (*vhost_backend_cleanup)(struct vhost_dev *dev);
+> > @@ -127,6 +128,9 @@ typedef bool (*vhost_force_iommu_op)(struct vhost_d=
+ev *dev);
+> >
+> >   typedef int (*vhost_vring_pause_op)(struct vhost_dev *dev);
+> >
+> > +typedef int (*vhost_get_iova_range)(struct vhost_dev *dev,
+> > +                                    hwaddr *first, hwaddr *last);
+> > +
+> >   typedef struct VhostOps {
+> >       VhostBackendType backend_type;
+> >       vhost_backend_init vhost_backend_init;
+> > @@ -173,6 +177,7 @@ typedef struct VhostOps {
+> >       vhost_get_device_id_op vhost_get_device_id;
+> >       vhost_vring_pause_op vhost_vring_pause;
+> >       vhost_force_iommu_op vhost_force_iommu;
+> > +    vhost_get_iova_range vhost_get_iova_range;
+> >   } VhostOps;
+> >
+> >   extern const VhostOps user_ops;
+> > diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+> > index 01d2101d09..74fe92935e 100644
+> > --- a/hw/virtio/vhost-vdpa.c
+> > +++ b/hw/virtio/vhost-vdpa.c
+> > @@ -579,6 +579,23 @@ static bool  vhost_vdpa_force_iommu(struct vhost_d=
+ev *dev)
+> >       return true;
+> >   }
+> >
+> > +static int vhost_vdpa_get_iova_range(struct vhost_dev *dev,
+> > +                                     hwaddr *first, hwaddr *last)
+> > +{
+> > +    int ret;
+> > +    struct vhost_vdpa_iova_range range;
+> > +
+> > +    ret =3D vhost_vdpa_call(dev, VHOST_VDPA_GET_IOVA_RANGE, &range);
+> > +    if (ret !=3D 0) {
+> > +        return ret;
+> > +    }
+> > +
+> > +    *first =3D range.first;
+> > +    *last =3D range.last;
+> > +    trace_vhost_vdpa_get_iova_range(dev, *first, *last);
+> > +    return ret;
+> > +}
+> > +
+> >   const VhostOps vdpa_ops =3D {
+> >           .backend_type =3D VHOST_BACKEND_TYPE_VDPA,
+> >           .vhost_backend_init =3D vhost_vdpa_init,
+> > @@ -611,4 +628,5 @@ const VhostOps vdpa_ops =3D {
+> >           .vhost_get_device_id =3D vhost_vdpa_get_device_id,
+> >           .vhost_vq_get_addr =3D vhost_vdpa_vq_get_addr,
+> >           .vhost_force_iommu =3D vhost_vdpa_force_iommu,
+> > +        .vhost_get_iova_range =3D vhost_vdpa_get_iova_range,
+> >   };
+> > diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
+> > index c62727f879..5debe3a681 100644
+> > --- a/hw/virtio/trace-events
+> > +++ b/hw/virtio/trace-events
+> > @@ -52,6 +52,7 @@ vhost_vdpa_set_vring_call(void *dev, unsigned int ind=
+ex, int fd) "dev: %p index:
+> >   vhost_vdpa_get_features(void *dev, uint64_t features) "dev: %p featur=
+es: 0x%"PRIx64
+> >   vhost_vdpa_set_owner(void *dev) "dev: %p"
+> >   vhost_vdpa_vq_get_addr(void *dev, void *vq, uint64_t desc_user_addr, =
+uint64_t avail_user_addr, uint64_t used_user_addr) "dev: %p vq: %p desc_use=
+r_addr: 0x%"PRIx64" avail_user_addr: 0x%"PRIx64" used_user_addr: 0x%"PRIx64
+> > +vhost_vdpa_get_iova_range(void *dev, uint64_t first, uint64_t last) "d=
+ev: %p first: 0x%"PRIx64" last: 0x%"PRIx64
+> >
+> >   # virtio.c
+> >   virtqueue_alloc_element(void *elem, size_t sz, unsigned in_num, unsig=
+ned out_num) "elem %p size %zd in_num %u out_num %u"
+>
+
 
