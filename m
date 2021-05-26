@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11F5B391F46
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 20:38:43 +0200 (CEST)
-Received: from localhost ([::1]:43210 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCB95391F42
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 20:37:31 +0200 (CEST)
+Received: from localhost ([::1]:39432 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llyQT-0007yF-O4
-	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 14:38:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60242)
+	id 1llyPK-0005Lc-Q7
+	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 14:37:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33506)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1llyDI-0007Ud-EO
- for qemu-devel@nongnu.org; Wed, 26 May 2021 14:25:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27282)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1llyKK-00025o-47
+ for qemu-devel@nongnu.org; Wed, 26 May 2021 14:32:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41277)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1llyD7-0004CU-Ic
- for qemu-devel@nongnu.org; Wed, 26 May 2021 14:25:04 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1llyKE-0008Qk-Rm
+ for qemu-devel@nongnu.org; Wed, 26 May 2021 14:32:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622053492;
+ s=mimecast20190719; t=1622053934;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kRc7tOAu2bP6uYgvbjkMCbwxc8cPkgH8Q7Z/TrdQuOY=;
- b=OAvt6sm1RPAlKI54SQ0BcIp/5qFjJpUqWxMcZPwwCDyGVPqRnA6WhDX10zo1uAbZRMBBXp
- Utaqz+d1pzbI6wLifgSR2uSVyO+tfGuZ808uKRkck2uGlfxSCG0l3NhNNviybYDXOW28qt
- u9iGCeCR5LqVkCAKKoVXOA4kfQobpvg=
+ bh=1EJcF4QxQhqc8qdegRMHO/hi9K9kjppkxMlQ+8JZuDo=;
+ b=aTJLHwqzYghWnu6QZmICL3S6nO7PoQnYdJ2bOr4QbNwwJPmDAr4WfdcSuSiKs7tEUAqXhE
+ RmamEeX8fnv8zyiyWBM6IvSPIt+nkY1EkJjyVup42sNKMoqAoDOZnU/l7dMDriVm9Z6M9v
+ todAtICfN2fLqct76X2DoDRfopyc+gg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-405-iQUoR3xENJe3sWDraZ3Xxw-1; Wed, 26 May 2021 14:24:50 -0400
-X-MC-Unique: iQUoR3xENJe3sWDraZ3Xxw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-216-9PC39flrMXmQtByijnkTeA-1; Wed, 26 May 2021 14:32:12 -0400
+X-MC-Unique: 9PC39flrMXmQtByijnkTeA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A0BCD1926DA4;
- Wed, 26 May 2021 18:24:49 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5CF6B6D241;
+ Wed, 26 May 2021 18:32:11 +0000 (UTC)
 Received: from [10.10.116.137] (ovpn-116-137.rdu2.redhat.com [10.10.116.137])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 125A01349A;
- Wed, 26 May 2021 18:24:35 +0000 (UTC)
-Subject: Re: [PATCH v7 31/31] gitlab: add python linters to CI
+ by smtp.corp.redhat.com (Postfix) with ESMTP id ADED060C5A;
+ Wed, 26 May 2021 18:32:00 +0000 (UTC)
+Subject: Re: [PATCH v7 17/31] python: add pylint to pipenv
 To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
  qemu-devel@nongnu.org
 References: <20210526002454.124728-1-jsnow@redhat.com>
- <20210526002454.124728-32-jsnow@redhat.com>
- <3acc5107-33a4-1ae7-eafb-076d39fbd6e9@virtuozzo.com>
+ <20210526002454.124728-18-jsnow@redhat.com>
+ <75ef5c16-eac7-1d67-b140-5c02d209327b@virtuozzo.com>
 From: John Snow <jsnow@redhat.com>
-Message-ID: <36db607a-2f29-2b53-5578-c17861e0dd1c@redhat.com>
-Date: Wed, 26 May 2021 14:24:34 -0400
+Message-ID: <c279e517-2c35-d294-1a86-03502c1c97a3@redhat.com>
+Date: Wed, 26 May 2021 14:31:59 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <3acc5107-33a4-1ae7-eafb-076d39fbd6e9@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <75ef5c16-eac7-1d67-b140-5c02d209327b@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -61,7 +61,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -94,135 +94,85 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/26/21 5:33 AM, Vladimir Sementsov-Ogievskiy wrote:
+On 5/26/21 5:14 AM, Vladimir Sementsov-Ogievskiy wrote:
 > 26.05.2021 03:24, John Snow wrote:
->> Add a python container that contains just enough juice for us to run 
->> the python
->> code quality analysis tools.
+>> We are specifying >= pylint 2.8.x for several reasons:
 >>
->> Base this container on fedora, because fedora has very convenient
->> packaging for testing multiple python versions.
->>
->> Add two tests:
->>
->> check-python-pipenv uses pipenv to test a frozen, very explicit set of
->> packages against our minimum supported python version, Python 3.6. This
->> test is not allowed to fail.
->>
->> check-python-tox uses tox to install the latest versions of required
->> python dependencies against a wide array of Python versions from 3.6 to
->> 3.9, even including the yet-to-be-released Python 3.10. This test is
->> allowed to fail with a warning.
+>> 1. For setup.cfg support, added in pylint 2.5.x
+>> 2. To specify a version that has incompatibly dropped
+>>     bad-whitespace checks (2.6.x)
+>> 3. 2.7.x fixes "unsubscriptable" warnings in Python 3.9
+>> 4. 2.8.x adds a new, incompatible 'consider-using-with'
+>>     warning that must be disabled in some cases.
+>>     These pragmas cause warnings themselves in 2.7.x.
 >>
 >> Signed-off-by: John Snow <jsnow@redhat.com>
->> ---
->>   .gitlab-ci.d/containers.yml            |  5 +++++
->>   .gitlab-ci.yml                         | 26 ++++++++++++++++++++++++++
->>   tests/docker/dockerfiles/python.docker | 18 ++++++++++++++++++
->>   3 files changed, 49 insertions(+)
->>   create mode 100644 tests/docker/dockerfiles/python.docker
->>
->> diff --git a/.gitlab-ci.d/containers.yml b/.gitlab-ci.d/containers.yml
->> index 765408ae274..05ebd4dc11d 100644
->> --- a/.gitlab-ci.d/containers.yml
->> +++ b/.gitlab-ci.d/containers.yml
->> @@ -242,3 +242,8 @@ amd64-opensuse-leap-container:
->>     extends: .container_job_template
->>     variables:
->>       NAME: opensuse-leap
->> +
->> +python-container:
->> +  extends: .container_job_template
->> +  variables:
->> +    NAME: python
->> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
->> index f718b61fa78..cc2a3935c62 100644
->> --- a/.gitlab-ci.yml
->> +++ b/.gitlab-ci.yml
->> @@ -789,6 +789,32 @@ check-patch:
->>       GIT_DEPTH: 1000
->>     allow_failure: true
->> +
->> +check-python-pipenv:
->> +  stage: test
->> +  image: $CI_REGISTRY_IMAGE/qemu/python:latest
->> +  script:
->> +    - cd python
->> +    - make venv-check
->> +  variables:
->> +    GIT_DEPTH: 1000
 > 
-> Hmm, interesting, why we need depth = 1000? gitlab recommends to keep 
-> that number "small like 10" 
-> https://docs.gitlab.com/ee/ci/large_repositories/
+> Not sure how to review this one, numbers looks like numbers, hashes 
+> looks like hashes, so it's OK :)
 > 
 
-Yeah, I don't. Just copy-pasted and didn't consider it. I can set it to 
-"1". The default is apparently 50 and I don't need that either.
+Thanks for going down the list of unreviewed patches :) the change in v7 
+from v6 here is requiring pylint > 2.8.0 for the venv, I used to ask 
+only for 2.7.0.
 
->> +  needs:
->> +    job: python-container
->> +
->> +
->> +check-python-tox:
->> +  stage: test
->> +  image: $CI_REGISTRY_IMAGE/qemu/python:latest
->> +  script:
->> +    - cd python
->> +    - make check-tox
->> +  variables:
->> +    GIT_DEPTH: 1000
->> +  needs:
->> +    job: python-container
->> +  allow_failure: true
->> +
->> +
->>   check-dco:
->>     stage: build
->>     image: $CI_REGISTRY_IMAGE/qemu/centos8:latest
->> diff --git a/tests/docker/dockerfiles/python.docker 
->> b/tests/docker/dockerfiles/python.docker
->> new file mode 100644
->> index 00000000000..56d88417df4
->> --- /dev/null
->> +++ b/tests/docker/dockerfiles/python.docker
->> @@ -0,0 +1,18 @@
->> +# Python library testing environment
->> +
->> +FROM fedora:latest
->> +MAINTAINER John Snow <jsnow@redhat.com>
->> +
->> +# Please keep this list sorted alphabetically
->> +ENV PACKAGES \
->> +    gcc \
+I have no idea how to review these lockfiles either. I don't scrutinize 
+them too closely -- just as long as they appear to work in the CI 
+environment, I am happy.
+
+> I've tried to regenerate Pipfile.lock from venv, and I see that new 
+> generated Pipfile.lock has same hashes..
 > 
-> hmm, interesting, why you need gcc to run python linters?
+> Still, new generated Pipfile.lock has some additional entries: appdirs, 
+> distlib, filelock, importlib-resources, packaging, pluggy, py, 
+> pyparsing, six, tox, virtualenv.. Not sure is it OK.
 > 
 
-build requisite for PyPI packages in the event that PyPI only has a 
-sdist and not a bdist for a given dependency during installation.
+If you did that at the *end* of the series, it's because I added tox as 
+a development requirement, but didn't update the Pipenv -- because we 
+don't actually use tox *in* the venv.
 
-Found that out the hard way.
+However, I wanted 'pip install .[devel]' to work, so it needs to pull in 
+tox there.
 
->> +    make \
->> +    pipenv \
->> +    python3 \
->> +    python3-pip \
->> +    python3-tox \
->> +    python3-virtualenv \
->> +    python3.10
->> +
->> +RUN dnf install -y $PACKAGES
->> +RUN rpm -q $PACKAGES | sort > /packages.txt
->>
+Eventually, I'll update the Pipenv for some other reason and it'll 
+probably pull in Tox at that point -- maybe a little wasteful, but not 
+harmful.
+
+> Another differencies are:
+> 
+> for importlib-metadata:
+> 
+>   "markers": "python_version < '3.8'"   ->   "markers": "python_version 
+> < '3.8' and python_version < '3.8'"
+> 
+> (looks like a bug in pipenv, isn't it)
+> 
+
+Or at least a version difference. TBQH I do not understand what these 
+markers mean, but they DO seem volatile. I decided not to worry about 
+them, as long as Pipenv seems to do the right thing ...
+
+> for zipp:
+>   "markers": "python_version >= '3.6'"  ->   "markers": "python_version 
+> < '3.10'"
 > 
 > 
-> weak, as I'm far from understanding the details, I can only check that 
-> it looks similar with nearby files and entities:
+> The thing I hope is: we will not have commits like this one often..
+> 
+
+Only when make-check-pipenv starts to fail for some reason and I need to 
+update the dependencies. Hopefully not extremely often ... if it becomes 
+too much of a pain I will just get rid of it.
+
+I'm not 100% confident this will help more than it hurts yet, but I'll 
+find out over the next release or two.
+
 > 
 > Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 > 
+> 
 
-Thanks!
+Thanks :)
 
 
