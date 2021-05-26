@@ -2,53 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD60E391E79
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 19:55:07 +0200 (CEST)
-Received: from localhost ([::1]:46976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B97A391E88
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 19:59:32 +0200 (CEST)
+Received: from localhost ([::1]:58674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llxkI-0002RE-Nv
-	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 13:55:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47980)
+	id 1llxoS-000251-3n
+	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 13:59:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49878)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bruno.larsen@eldorado.org.br>)
- id 1llxGs-0006Dg-AX; Wed, 26 May 2021 13:24:45 -0400
-Received: from [201.28.113.2] (port=40208 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bruno.larsen@eldorado.org.br>)
- id 1llxGm-0005YN-SX; Wed, 26 May 2021 13:24:40 -0400
-Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Wed, 26 May 2021 14:24:33 -0300
-Received: from [127.0.0.1] (unknown [10.10.71.235])
- by power9a (Postfix) with ESMTPS id D45088013CA;
- Wed, 26 May 2021 14:24:32 -0300 (-03)
-Subject: Re: [PATCH v5 2/4] target/ppc: added ifdefs around TCG-only code
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20210525115355.8254-1-bruno.larsen@eldorado.org.br>
- <20210525115355.8254-3-bruno.larsen@eldorado.org.br>
- <8e66bba4-96d1-db9e-5f21-156c41ff38ea@amsat.org>
-From: Bruno Piazera Larsen <bruno.larsen@eldorado.org.br>
-Message-ID: <abf18c12-129f-b1a5-5d67-90fc6fa71afe@eldorado.org.br>
-Date: Wed, 26 May 2021 14:24:32 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <swethajoshi139@gmail.com>)
+ id 1llxOs-00009z-RX; Wed, 26 May 2021 13:33:03 -0400
+Received: from mail-oi1-x235.google.com ([2607:f8b0:4864:20::235]:33618)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <swethajoshi139@gmail.com>)
+ id 1llxOo-0001OB-FX; Wed, 26 May 2021 13:32:58 -0400
+Received: by mail-oi1-x235.google.com with SMTP id b25so2306647oic.0;
+ Wed, 26 May 2021 10:32:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=MHDjWt30kfTo7P1kTFosF2FYBb6vy0T0nTwkFqadCB4=;
+ b=Jp2dEGrSNiQittVBMJs8fuZcufSgLqhcq+/OfxcFjogovBvNwDNOB3V+XTrhc1vkmt
+ jXwJot96YWXSmV+xlEvePk1M/0hxuHaaEBepVfFZxy//5vqKpktSzb7rKvT7qo2IxQ5H
+ enYlIAuuNnkoOAyKhrIlrILUd7KSZKLZBJsDQ3DbOTqzpWbUbqxaekm34mIKec0yJert
+ q1AiyW6aILrmWDctFM4ZSiCDSnPCf+xHRLn8KUb7qAw8Exrys/b5VtQoytKbFz/cU+0S
+ eYGdwagH2CsQmIYnCQJn18FNG4EqAJwBjxM9H0d1+k2BqyvmegbsFdtcAA5QgTqNG+sn
+ taRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=MHDjWt30kfTo7P1kTFosF2FYBb6vy0T0nTwkFqadCB4=;
+ b=lVFIJyaL/cN1tASwr5sShsVUPfe38ODyz2e0EWx/EFFK/8kH7YH2Aq8mz10sRZ5iWg
+ 2XIVolQwEEJ4YyRYnaAlGI4mBCgZNbJtmr2+XZ6bD46/hh1+5jQ6nCMuERbN8/1Zp4zh
+ zLWrX82ILJSgeqXHkhLwFQPkgJ2tSAbg0foqAA7Op0Kr/WTTO8mr4RDN0d57LQZqidfU
+ 9S8j8uGDUzSPWjEMiB6ITt+HniGUiVtdMkL8SyTyCtZgdWU/Rd5yDE4svyZg5R184JcC
+ CBUuX6fMT4kYywRfzX5A+Gx/C0i14uh2g2GM9TaZfMpsOdR49l4jdzPZOXqdQGovUN3L
+ owsg==
+X-Gm-Message-State: AOAM530IrMpWh/GU/dNScUX2YIpEmIcSL/e3ey+S3z4/FDJ3kmnpqD4b
+ MwHYyas74dKugobbxx2vGSWnlvk26YId8vG9JpE=
+X-Google-Smtp-Source: ABdhPJzKRsJR/mbMGkiCtopfOQf9W/gqe95X0l7q2y4f1K8w4LpmcIi9jeONDTc2WEgyXi/2sprZ+mDG3bndMbm08cM=
+X-Received: by 2002:aca:2417:: with SMTP id n23mr2682344oic.111.1622050366786; 
+ Wed, 26 May 2021 10:32:46 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <8e66bba4-96d1-db9e-5f21-156c41ff38ea@amsat.org>
-Content-Type: multipart/alternative;
- boundary="------------A25696FB46D2F29A3CA10444"
-Content-Language: en-US
-X-OriginalArrivalTime: 26 May 2021 17:24:33.0201 (UTC)
- FILETIME=[FE3ECA10:01D75253]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
-Received-SPF: pass client-ip=201.28.113.2;
- envelope-from=bruno.larsen@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -10
-X-Spam_score: -1.1
+References: <20210525025823.3208218-1-swethajoshi139@gmail.com>
+ <331a819e-1745-4d4b-cc4a-82521a58186a@linaro.org>
+ <CAFEAcA8RbVafdjn2hkXifAPUF=wxZup20PqPcRpQ1ivtnWCxww@mail.gmail.com>
+ <CALf2nm+LFqM2=vDs8=YfyxQSUT-0xxaCiVmcQzrKoOa+zaTtdg@mail.gmail.com>
+ <CAFEAcA-oX0JR80UYzYKvczHsfxWG6oH3Pg4pbM6ByDe57XEHHw@mail.gmail.com>
+In-Reply-To: <CAFEAcA-oX0JR80UYzYKvczHsfxWG6oH3Pg4pbM6ByDe57XEHHw@mail.gmail.com>
+From: Swetha Joshi <swethajoshi139@gmail.com>
+Date: Wed, 26 May 2021 10:32:36 -0700
+Message-ID: <CALf2nmKhPaWJa944dR+kFAQ1hCLXF0XPwXaHTqJQ-C6EW7ACKg@mail.gmail.com>
+Subject: Re: [PATCH_V3] Adding ifdefs to call the respective routines only
+ when their configs are enabled
+To: Peter Maydell <peter.maydell@linaro.org>
+Content-Type: multipart/alternative; boundary="000000000000eb8f7d05c33f07f7"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::235;
+ envelope-from=swethajoshi139@gmail.com; helo=mail-oi1-x235.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
 X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
- NICE_REPLY_A=-0.001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -61,162 +80,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: farosas@linux.ibm.com, richard.henderson@linaro.org,
- lucas.araujo@eldorado.org.br, luis.pires@eldorado.org.br,
- fernando.valle@eldorado.org.br, qemu-ppc@nongnu.org,
- matheus.ferst@eldorado.org.br, david@gibson.dropbear.id.au
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>,
+ Dongjiu Geng <gengdongjiu1@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a multi-part message in MIME format.
---------------A25696FB46D2F29A3CA10444
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+--000000000000eb8f7d05c33f07f7
+Content-Type: text/plain; charset="UTF-8"
 
+Hello,
 
-On 25/05/2021 10:02, Philippe Mathieu-Daudé wrote:
-> On 5/25/21 1:53 PM, Bruno Larsen (billionai) wrote:
->> excp_helper.c, mmu-hash64.c and mmu_helper.c have some function
->> declarations that are TCG-only, and couldn't be easily moved to a
->> TCG only file, so ifdefs were added around them.
->>
->> We also needed ifdefs around some header files because helper-proto.h
->> includes trace/generated-helpers.h, which is never created when building
->> without TCG, and cpu_ldst.h includes tcg/tcg.h, whose containing folder
->> is not included as a -iquote. As future cleanup, we could change the
->> part of the configuration script to add those.
->>
->> cpu_init.c also had a callback definition that is TCG only and could be
->> removed as part of a future cleanup (all the dump_statistics part is
->> almost never used and will become obsolete as we transition to using
->> decodetree).
->>
->> Signed-off-by: Bruno Larsen (billionai) <bruno.larsen@eldorado.org.br>
->> ---
->>   target/ppc/cpu_init.c    |  2 ++
->>   target/ppc/excp_helper.c | 21 ++++++++++++++++++---
->>   target/ppc/mmu-hash64.c  | 11 ++++++++++-
->>   target/ppc/mmu_helper.c  | 16 ++++++++++++++--
->>   4 files changed, 44 insertions(+), 6 deletions(-)
-> Please have a look at commit range 0a31c16c9ce..a2b0a27d33e
-> for the MIPS convertion.
+One of the qemu machines we use has KVM enabled, but we don't want the
+CONFIG_ARM_VIRT enabled as it pulls in emulation of a variety of physical
+hardware that we don't need. The compilation errors I mentioned are not in
+the qemu mainline per say but we see them in one of the qemu derived
+machines we use.
+
+Thanks,
+Swetha.
+
+On Tue, May 25, 2021 at 10:16 AM Peter Maydell <peter.maydell@linaro.org>
+wrote:
+
+> On Tue, 25 May 2021 at 17:28, Swetha Joshi <swethajoshi139@gmail.com>
+> wrote:
+> >
+> > Hey Peter, Phil,
+> >
+> > Yeah like Peter mentioned, when KVM is enabled and we don't want VIRT
+> enabled, there are a couple of routines that are being called from virt.h
+> and ghes.h, which is resulting in errors. I came up with this simple fix
+> but if you think there is a better solution to it I'll let you/ other
+> developers who own it decide and fix it because I don't have much
+> experience or visibility into what happens internally, my knowledge is
+> restricted to just using the configs.
 >
->>   #if !defined(CONFIG_USER_ONLY)
->> +#ifdef CONFIG_TCG
->>   void helper_store_msr(CPUPPCState *env, target_ulong val)
->>   {
-> For example this one is similar to commit d60146a9389, you
-> could simply move this function to tcg/sysemu/msr_helpers.c
-> and modify the meson file, then when TCG is not available,
-> the file isn't built, without having to use #ifdef'ry.
+> Well, QEMU builds fine for me as-is, because the default config
+> always enables the virt board. Do you have repro instructions for
+> reproducing the build failure ?
+>
+> thanks
+> -- PMM
+>
 
-I can see what you mean, but I think the point was to not create 
-separate files solely based on the accelerator type.
-
-It's up to dgibson if we use that approach, but I agree that it could 
-make the code quite a bit cleaner.
-
-The next question would then be: should we go the whole 9 yards and add 
-tcg/sysemu/* and tcg/linux-user/*, or can we just use tcg/* and rely on 
-devs reading and understanding the meson.build file? I believe 
-tcg/sysemu/* is going to be very empty (for now, only what is in 
-mmu-hash64.c and is TCG-only, IIRC), so it sounds like a bit of an 
-overkill, but I also see the argument for future-proofing.
 
 -- 
-Bruno Piazera Larsen
-Instituto de Pesquisas ELDORADO 
-<https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&utm_medium=email&utm_source=RD+Station>
-Departamento Computação Embarcada
-Analista de Software Trainee
-Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
+Regards
 
---------------A25696FB46D2F29A3CA10444
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 8bit
+Swetha Joshi.
 
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">On 25/05/2021 10:02, Philippe
-      Mathieu-Daudé wrote:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:8e66bba4-96d1-db9e-5f21-156c41ff38ea@amsat.org">
-      <pre class="moz-quote-pre" wrap="">On 5/25/21 1:53 PM, Bruno Larsen (billionai) wrote:
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">excp_helper.c, mmu-hash64.c and mmu_helper.c have some function
-declarations that are TCG-only, and couldn't be easily moved to a
-TCG only file, so ifdefs were added around them.
+--000000000000eb8f7d05c33f07f7
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-We also needed ifdefs around some header files because helper-proto.h
-includes trace/generated-helpers.h, which is never created when building
-without TCG, and cpu_ldst.h includes tcg/tcg.h, whose containing folder
-is not included as a -iquote. As future cleanup, we could change the
-part of the configuration script to add those.
+<div dir=3D"ltr">Hello,<div><br></div><div>One of the qemu machines we use =
+has KVM enabled, but we don&#39;t want the CONFIG_ARM_VIRT enabled as it pu=
+lls in emulation of a variety of physical hardware that we don&#39;t need. =
+The compilation errors I mentioned are not in the qemu mainline per say but=
+ we see them in one of the qemu derived machines we use.=C2=A0<div><br></di=
+v><div>Thanks,</div><div>Swetha.</div></div></div><br><div class=3D"gmail_q=
+uote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, May 25, 2021 at 10:16 A=
+M Peter Maydell &lt;<a href=3D"mailto:peter.maydell@linaro.org">peter.mayde=
+ll@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" sty=
+le=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddi=
+ng-left:1ex">On Tue, 25 May 2021 at 17:28, Swetha Joshi &lt;<a href=3D"mail=
+to:swethajoshi139@gmail.com" target=3D"_blank">swethajoshi139@gmail.com</a>=
+&gt; wrote:<br>
+&gt;<br>
+&gt; Hey Peter, Phil,<br>
+&gt;<br>
+&gt; Yeah like Peter mentioned, when KVM is enabled and we don&#39;t want V=
+IRT enabled, there are a couple of routines that are being called from virt=
+.h and ghes.h, which is resulting in errors. I came up with this simple fix=
+ but if you think there is a better solution to it I&#39;ll let you/ other =
+developers who own it decide and fix it because I don&#39;t have much exper=
+ience or visibility into what happens internally, my knowledge is restricte=
+d to just using the configs.<br>
+<br>
+Well, QEMU builds fine for me as-is, because the default config<br>
+always enables the virt board. Do you have repro instructions for<br>
+reproducing the build failure ?<br>
+<br>
+thanks<br>
+-- PMM<br>
+</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
+ class=3D"gmail_signature"><div dir=3D"ltr">Regards<div><br></div><div>Swet=
+ha Joshi.</div></div></div>
 
-cpu_init.c also had a callback definition that is TCG only and could be
-removed as part of a future cleanup (all the dump_statistics part is
-almost never used and will become obsolete as we transition to using
-decodetree).
-
-Signed-off-by: Bruno Larsen (billionai) <a class="moz-txt-link-rfc2396E" href="mailto:bruno.larsen@eldorado.org.br">&lt;bruno.larsen@eldorado.org.br&gt;</a>
----
- target/ppc/cpu_init.c    |  2 ++
- target/ppc/excp_helper.c | 21 ++++++++++++++++++---
- target/ppc/mmu-hash64.c  | 11 ++++++++++-
- target/ppc/mmu_helper.c  | 16 ++++++++++++++--
- 4 files changed, 44 insertions(+), 6 deletions(-)
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">Please have a look at commit range 0a31c16c9ce..a2b0a27d33e
-for the MIPS convertion.
-
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap=""> #if !defined(CONFIG_USER_ONLY)
-+#ifdef CONFIG_TCG
- void helper_store_msr(CPUPPCState *env, target_ulong val)
- {
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-For example this one is similar to commit d60146a9389, you
-could simply move this function to tcg/sysemu/msr_helpers.c
-and modify the meson file, then when TCG is not available,
-the file isn't built, without having to use #ifdef'ry.</pre>
-    </blockquote>
-    <p>I can see what you mean, but I think the point was to not create
-      separate files solely based on the accelerator type.</p>
-    <p>It's up to dgibson if we use that approach, but I agree that it
-      could make the code quite a bit cleaner. <br>
-    </p>
-    <p>The next question would then be: should we go the whole 9 yards
-      and add tcg/sysemu/* and tcg/linux-user/*, or can we just use
-      tcg/* and rely on devs reading and understanding the meson.build
-      file? I believe tcg/sysemu/* is going to be very empty (for now,
-      only what is in mmu-hash64.c and is TCG-only, IIRC), so it sounds
-      like a bit of an overkill, but I also see the argument for
-      future-proofing.</p>
-    <blockquote type="cite"
-      cite="mid:8e66bba4-96d1-db9e-5f21-156c41ff38ea@amsat.org">
-    </blockquote>
-    <div class="moz-signature">-- <br>
-      Bruno Piazera Larsen<br>
-      <a
-href="https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&amp;utm_medium=email&amp;utm_source=RD+Station">Instituto
-        de Pesquisas ELDORADO</a><br>
-      Departamento Computação Embarcada<br>
-      Analista de Software Trainee<br>
-      <a href="https://www.eldorado.org.br/disclaimer.html">Aviso Legal
-        - Disclaimer</a></div>
-  </body>
-</html>
-
---------------A25696FB46D2F29A3CA10444--
+--000000000000eb8f7d05c33f07f7--
 
