@@ -2,94 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A39D7391413
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 11:49:22 +0200 (CEST)
-Received: from localhost ([::1]:40724 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E14539142F
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 11:56:40 +0200 (CEST)
+Received: from localhost ([::1]:45054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llqAD-0007WS-80
-	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 05:49:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33262)
+	id 1llqHG-0002Mi-Sf
+	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 05:56:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35298)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1llq99-0006UU-Bm
- for qemu-devel@nongnu.org; Wed, 26 May 2021 05:48:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41410)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1llq93-00010f-Fv
- for qemu-devel@nongnu.org; Wed, 26 May 2021 05:48:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622022488;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/VJaG/NGdG6rEQK+zSD5byZ36LeOD31EGuVEeiaJUCY=;
- b=Ama7hR+erOYRd+c34v6bnAodgNP3F7Sejy6VzbDwvBpW3q6TAVG3VzBeDnFSeCwdIA1LjH
- Am0iGtJ3YeUqrmaZvMjrs5az8IgH4Liw8SQb6AMSKSx2NQf3sfI9kHRMog4chn5GxvotuV
- EH0OYp/gp8irCRjjQu4myW6gQ2X+Gvc=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-424-g3QNCgzZPeqPREU-ttyJvw-1; Wed, 26 May 2021 05:48:04 -0400
-X-MC-Unique: g3QNCgzZPeqPREU-ttyJvw-1
-Received: by mail-wr1-f69.google.com with SMTP id
- v5-20020adf9e450000b029010e708f05b3so146121wre.6
- for <qemu-devel@nongnu.org>; Wed, 26 May 2021 02:48:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=/VJaG/NGdG6rEQK+zSD5byZ36LeOD31EGuVEeiaJUCY=;
- b=foBR/+o1rLUHDD/dJVKj+LrqLDJP01C9IK8STCo19f/KUVFBYln2UvqWw8J4wRFxFg
- bPSygmt/0untXOW90sz+Mn5NFuuMvOmr9TD9Zo4JAE/osNbojjGuy2dMbIcHaFssuo3D
- kq04DKwTRL0IHKvYqdEzLGEe9EvHftt+0XB0W45i1u72g877nMz0YIYj2kr5UaHX2KY6
- fc7knFndKA/Tk7+PsWtggCDDEyPNscMlunkHw6gBBPTxsBTNZz91OZRQhTynbNEqY4t1
- B+zOfiDY2cQObWbeJOr168sAAoxsDM1+7X/tFVfFbJEBUUWsLSZEsYSEPqn7A526E+wH
- hWFg==
-X-Gm-Message-State: AOAM531kgvPgRHZblK1ql27V82efcQA/G4HtCumnvHD9JHfUpatr3cwM
- RRwLoGMzoLYDMljRuiKvDxf24zcpMURc6iI1UQL8nxLzhi3S+v4/Fo19K1SIGE3Caz2M04l1iLm
- FZR6p5JF0haYRNtM=
-X-Received: by 2002:a1c:35c2:: with SMTP id c185mr27615243wma.54.1622022483043; 
- Wed, 26 May 2021 02:48:03 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz4E5r5M2BDUNBbiNCbZ2p8NtT/DGQ3VkpPvSikrDHtpebmw9siwtuuyETGZBM8YTz3SBo7gA==
-X-Received: by 2002:a1c:35c2:: with SMTP id c185mr27615234wma.54.1622022482873; 
- Wed, 26 May 2021 02:48:02 -0700 (PDT)
-Received: from redhat.com ([2a10:8006:fcda:0:90d:c7e7:9e26:b297])
- by smtp.gmail.com with ESMTPSA id l188sm1145331wmf.27.2021.05.26.02.48.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 May 2021 02:48:02 -0700 (PDT)
-Date: Wed, 26 May 2021 05:47:59 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Laurent Vivier <laurent@vivier.eu>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1llqGS-0001gt-11
+ for qemu-devel@nongnu.org; Wed, 26 May 2021 05:55:48 -0400
+Received: from indium.canonical.com ([91.189.90.7]:35338)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1llqGP-0005qZ-IB
+ for qemu-devel@nongnu.org; Wed, 26 May 2021 05:55:47 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
+ id 1llqGM-0001X1-9U
+ for <qemu-devel@nongnu.org>; Wed, 26 May 2021 09:55:42 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 4277A2E8135
+ for <qemu-devel@nongnu.org>; Wed, 26 May 2021 09:55:42 +0000 (UTC)
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 26 May 2021 09:47:59 -0000
+From: mst <1924912@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: windows
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: kleinesfilmroellchen laurent-vivier mst-0 th-huth
+ ubuntu-weilnetz
+X-Launchpad-Bug-Reporter: =?utf-8?q?kleines_Filmr=C3=B6llchen_=28kleinesfil?=
+ =?utf-8?q?mroellchen=29?=
+X-Launchpad-Bug-Modifier: mst (mst-0)
+References: <161875180735.23175.14682430598239905387.malonedeb@wampee.canonical.com>
+ <b48d2719-d334-2c16-be32-f3df52d415c7@vivier.eu>
+Message-Id: <20210526054632-mutt-send-email-mst@kernel.org>
 Subject: Re: [Bug 1924912] VirtIO drivers don't work on Windows: "GLib: Too
  many handles to wait for!" crash
-Message-ID: <20210526054632-mutt-send-email-mst@kernel.org>
-References: <161875180735.23175.14682430598239905387.malonedeb@wampee.canonical.com>
- <161875645795.6320.1996793877758730269.malone@soybean.canonical.com>
- <9bb9996e-d7ac-44c5-2fd3-13f2a4d1c802@weilnetz.de>
- <b48d2719-d334-2c16-be32-f3df52d415c7@vivier.eu>
-MIME-Version: 1.0
-In-Reply-To: <b48d2719-d334-2c16-be32-f3df52d415c7@vivier.eu>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="30919b71da718d7d3f6b69e715e9fe95f7c3c5de"; Instance="production"
+X-Launchpad-Hash: 3650af3fbac0bc9eb0fefa09ceca06c98b09379c
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -98,8 +75,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Weil <sw@weilnetz.de>, Bug 1924912 <1924912@bugs.launchpad.net>,
- qemu-devel@nongnu.org
+Reply-To: Bug 1924912 <1924912@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -115,37 +91,136 @@ Laurent?
 
 
 On Mon, Apr 19, 2021 at 04:30:23PM +0200, Laurent Vivier wrote:
-> Le 19/04/2021 à 12:39, Stefan Weil a écrit :
+> Le 19/04/2021 =C3=A0 12:39, Stefan Weil a =C3=A9crit=C2=A0:
 > > I can confirm the issue also with latest official QEMU sources.
-> > 
+> > =
+
 > > Related issue URLs:
-> > 
+> > =
+
 > > https://github.com/tesseract-ocr/tesseract/issues/2838
-> > 
+> > =
+
 > > https://bugs.launchpad.net/qemu/+bug/1924912
-> > 
+> > =
+
 > > Instructions and files required to reproduce the issue:
-> > 
+> > =
+
 > > https://qemu.weilnetz.de/test/bugs/1924912/
-> > 
+> > =
+
 > > Michael, Laurent, maybe you have an idea how to narrow down this issue?
-> 
-> Could it be related to the number of file descriptors that can differ between linux an windows?
-> 
-> We have a series of patches that sets the number of queues to the number of vCPU:
-> 
+> =
+
+> Could it be related to the number of file descriptors that can differ bet=
+ween linux an windows?
+> =
+
+> We have a series of patches that sets the number of queues to the number =
+of vCPU:
+> =
+
 > a4eef0711b2c vhost-user-blk-pci: default num_queues to -smp N
 > 9445e1e15e66 virtio-blk-pci: default num_queues to -smp N
 > 6a558822849f virtio-scsi-pci: default num_queues to -smp N
 > 4e5163bd8444 virtio-scsi: introduce a constant for fixed virtqueues
 > 1436f32a84c3 virtio-pci: add virtio_pci_optimal_num_queues() helper
-> 
+> =
+
 > And I think it can have inpact on the number of open file descriptors.
-> 
-> You can try by specifiying "num_queues=1" with the virtio interfaces on the QEMU command line.
+> =
+
+> You can try by specifiying "num_queues=3D1" with the virtio interfaces on=
+ the QEMU command line.
 > (ot choose a machine type earlier than 5.2)
-> 
+> =
+
 > Thanks,
 > Laurent
 
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1924912
+
+Title:
+  VirtIO drivers don't work on Windows: "GLib: Too many handles to wait
+  for!" crash
+
+Status in QEMU:
+  Fix Released
+
+Bug description:
+  I ran SerenityOS <https://github.com/SerenityOS/serenity> out of WSL2
+  with native Windows QEMU. The system runs fine on the Linux QEMU (with
+  Windows X-Server). However, with Windows QEMU I get a hard crash after
+  the following output:
+
+  ```
+  [#0 colonel(0:0)]: Scheduler[0]: idle loop running
+  [init_stage2(2:2)]: PCI [0000:00:00:00] PCI::ID [8086:1237]
+  [init_stage2(2:2)]: PCI [0000:00:01:00] PCI::ID [8086:7000]
+  [init_stage2(2:2)]: PCI [0000:00:01:01] PCI::ID [8086:7010]
+  [init_stage2(2:2)]: PCI [0000:00:01:02] PCI::ID [8086:7020]
+  [init_stage2(2:2)]: PCI [0000:00:01:03] PCI::ID [8086:7113]
+  [init_stage2(2:2)]: PCI [0000:00:02:00] PCI::ID [1234:1111]
+  [init_stage2(2:2)]: PCI [0000:00:03:00] PCI::ID [8086:2922]
+  [init_stage2(2:2)]: PCI [0000:00:04:00] PCI::ID [1af4:1003]
+  [init_stage2(2:2)]: PCI [0000:00:05:00] PCI::ID [1af4:1005]
+  [init_stage2(2:2)]: PCI [0000:00:06:00] PCI::ID [8086:100e]
+  [#0 init_stage2(2:2)]: BXVGA: framebuffer @ P0xf8000000
+  [#0 init_stage2(2:2)]: BXVGADevice resolution set to 1024x768 (pitch=3D40=
+96)
+  [init_stage2(2:2)]: UHCI: Controller found PCI::ID [8086:7020] @ PCI [000=
+0:00:01:02]
+  [init_stage2(2:2)]: UHCI: I/O base IO c080
+  [init_stage2(2:2)]: UHCI: Interrupt line: 11
+  [#0 init_stage2(2:2)]: UHCI: Allocated framelist at physical address P0x0=
+0e40000
+  [#0 init_stage2(2:2)]: UHCI: Framelist is at virtual address V0xc115d000
+  [#0 init_stage2(2:2)]: UHCI: QH(0xc115f000) @ 14946304: link_ptr=3D149463=
+38, element_link_ptr=3D1
+  [#0 init_stage2(2:2)]: UHCI: QH(0xc115f020) @ 14946336: link_ptr=3D149463=
+70, element_link_ptr=3D1
+  [#0 init_stage2(2:2)]: UHCI: QH(0xc115f040) @ 14946368: link_ptr=3D149464=
+02, element_link_ptr=3D1
+  [#0 init_stage2(2:2)]: UHCI: QH(0xc115f060) @ 14946400: link_ptr=3D149464=
+34, element_link_ptr=3D1
+  [#0 init_stage2(2:2)]: UHCI: QH(0xc115f080) @ 14946432: link_ptr=3D149585=
+93, element_link_ptr=3D1
+  [#0 init_stage2(2:2)]: UHCI: Reset completed
+  [#0 init_stage2(2:2)]: UHCI: Started
+  [#0 init_stage2(2:2)]: DMIExpose: SMBIOS 32bit Entry point @ P0x000f5870
+  [#0 init_stage2(2:2)]: DMIExpose: Data table @ P0x000f5890
+  [#0 init_stage2(2:2)]: VirtIOConsole: Found @ PCI [0000:00:04:00]
+  [#0 init_stage2(2:2)]: Trying to unregister unused handler (?)
+  [#0 init_stage2(2:2)]: VirtIOConsole: Multi port is not yet supported!
+  [#0 init_stage2(2:2)]: VirtIOConsole: cols: 0, rows: 0, max nr ports 0
+  qemu-system-i386.exe: warning: GLib: Too many handles to wait for!
+  ```
+
+  The lines starting with [ are SerenityOS output; QEMU warns "GLib: Too
+  many handles to wait for!" and crashes right after (can't even Ctrl-C
+  in the WSL command line, force-close in Windows necessary). A window
+  is still spawned but as the OS already switched out of text mode, just
+  a black screen is visible as QEMU crashes.
+
+  I first thought this to be an issue with SerenityOS and reported it
+  over there: <https://github.com/SerenityOS/serenity/issues/6422>. The
+  kernel devs pointed out that this seems to be a VirtIO driver/device
+  issue on the Windows build of QEMU, because the Serenity kernel tries
+  to initialize VirtIO devices which apparently crashes QEMU. There will
+  be mitigations from the SerenityOS side (by allowing to disable VirtIO
+  on boot) but it would of course be great if QEMU handled this
+  properly.
+
+  Version info: Both QEMU 6.0.0-rc3 and 5.2.0 exhibit this issue.
+  Windows release is 20H2, WSL2 is running Debian 10.9. SerenityOS has
+  no proper version but it was reproduced on the most current commits as
+  of 18/04/2021.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1924912/+subscriptions
 
