@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0119339223F
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 23:44:03 +0200 (CEST)
-Received: from localhost ([::1]:43006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AABE392245
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 23:46:15 +0200 (CEST)
+Received: from localhost ([::1]:50098 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lm1Jq-0008N0-1E
-	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 17:44:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38036)
+	id 1lm1Ly-0004hj-0Q
+	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 17:46:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38070)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lm0wd-0003rC-Go
- for qemu-devel@nongnu.org; Wed, 26 May 2021 17:20:03 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:40726)
+ id 1lm0wj-00040x-Ix
+ for qemu-devel@nongnu.org; Wed, 26 May 2021 17:20:09 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:36435)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lm0wb-0000Od-Jt
- for qemu-devel@nongnu.org; Wed, 26 May 2021 17:20:03 -0400
-Received: by mail-wr1-x434.google.com with SMTP id z17so2542718wrq.7
- for <qemu-devel@nongnu.org>; Wed, 26 May 2021 14:19:59 -0700 (PDT)
+ id 1lm0wh-0000Sl-PT
+ for qemu-devel@nongnu.org; Wed, 26 May 2021 17:20:09 -0400
+Received: by mail-wr1-x429.google.com with SMTP id n4so2558079wrw.3
+ for <qemu-devel@nongnu.org>; Wed, 26 May 2021 14:20:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=lIEqgB+giR/wnzQzzV/rr/ZCGepg7sgkPVrarMz2gUg=;
- b=EXzMd1pq1WIAyvn0ZmVv3B4AxMN6JuXJ8yYFOM4OI9tuI8ka2XmF1hWWqlm+XET4O8
- nj19KmNtG7fKNuBy4wUUVJjfBJRpYvulX9KKbgMdpn4DOMnN6X6B8JZHh4zxZ5jiELcb
- lvaUe0oCnAoQ1ENRVTGZCSbRjajo+TtKC6WXM3DzVf8fsEFHSzcV/EMKNvbz5M+D/SYc
- Zz/a2s5gfselVltBbPeuFhX943cvc/V0p5pbKdiYX+IAevuv/VQKvErHcZcOMe6ooJwl
- n1JVeXjVvH2rNN95WrAP41hS8a5Kalb9UQv2DgadCfioAiiE94EVOsWCmtparfz73gZm
- OaNw==
+ bh=7R688np30I5+o18WAIciru1O5zsACw6s83EuiMLwj4I=;
+ b=aiAd76s2gfv/wJQWAKsZcrcVEXAs6BEsxSpw7Dx7kVsOvfcd6cF5Pg91IrPd4o7g/9
+ 3D7o2XT0TexDlAeVulcIHZKuDjJfj4nqDM3fk12Ik+E2Yd0Slrjj7PNUioZWNYCDsYG5
+ i9zmRE8j2ISuTzVCgyfBEuxo/8CCosQnh8F6ehcV1Z1mO5SShfC+9agzn8Goq9INIVzW
+ C6c20iHnnJFASN9euBPwPQj1wwEPZSA8wjukjhjk63ztUr1ZCk4+gDlbjSrtuu3O5Auv
+ 0rD6c6bxyg/ufXusS500by5ioBe2knqRGvZ506XPaKKCN/+IzMIzuTyBRWkM6pl6utHT
+ pWcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=lIEqgB+giR/wnzQzzV/rr/ZCGepg7sgkPVrarMz2gUg=;
- b=NW632lZyyZDkQEPeYdS6XVGFvPnzBjR3ckHecRnFNlGxgUgxUXyeWIvdwmbOJCijIm
- gCmS1mCzTCUpW7hYAbizjvL4S/J6PlcOAUrFVGCFWFpZGFGplHQPW5rIcHarc0PXiagM
- v9P9sQPg56FfF6VOnjMMHIVy66RUk0yPqgVmYpWb08SNvtBCmQlD7TxUH8UyuiU/gFU8
- +BOuTax9rdLX9ZjMWTzSzPkMKC7UxaedEi39olC9npDQPJ12yNoYAkocMrCIXpMlx3s3
- AqqSsB890EVssgp+vvA6tP0NgbGtD1pxqnM2xqtCthOMhVzQhQ7l2XgEZXuMlJLoOjQ7
- JLsg==
-X-Gm-Message-State: AOAM532ZLyW24GUZTYxpcu9VJYuciOe9u4N8ZTCt48KQkP/1wpsWrZCQ
- pLUiQX2wwMvGWhVWLkxPVIBhxEl9TjHncg==
-X-Google-Smtp-Source: ABdhPJwiulO7kTeSeiAURaIgMIQdYDfyXLDkWfRtuBXKUnachGCEfx9OmfzKf8X/v8d1u/njU3Zklw==
-X-Received: by 2002:a05:6000:108f:: with SMTP id y15mr403wrw.115.1622063998863; 
- Wed, 26 May 2021 14:19:58 -0700 (PDT)
+ bh=7R688np30I5+o18WAIciru1O5zsACw6s83EuiMLwj4I=;
+ b=glyC8ttfghlC6DzLeSaFSxp9wdoHI++dTyoKxBTP/pPTYKRg8WYA/wgFuCLnHExVBd
+ d+kSTtMTcjniPYC6CFZ4iJYJokpMT2xsC5D1n7B2xESu9DhFITFFDFP+Te406EmjQXPp
+ synGUWYjKrc5gmQoXyvSdraB95zEny4hiwEDg4qaQmfo9wVLfUDrmAGSh/KcFHyVryjy
+ 7Xpn3zbwKHIWipcZ1dkd77PQG99vL7/slqu3WfJWeKhAGobK7Y6dt06Hl93wD/a9cO8X
+ aZ9fbGHhVJxc30nBOh5+bg8OrjbDxW7uP4Tu2fF3B4rlkJjUz3XViNJvZtSpLXYuq3BT
+ BimA==
+X-Gm-Message-State: AOAM5322pP/8GNhZLcCe1pONYOtvX0kbQGJZHAQSZrhL0sMNjiJY+qEn
+ uK5HCz7NQI1/G+wSoQHgD1+PIg5cYsw8jw==
+X-Google-Smtp-Source: ABdhPJyNogQlTo+siy8/6uGT2zaMm7D94ch07LCuPqIQGHc9urDRe87t0I1yAcPZQJt/ouFp6+ROCw==
+X-Received: by 2002:a5d:598d:: with SMTP id n13mr27802wri.38.1622064006249;
+ Wed, 26 May 2021 14:20:06 -0700 (PDT)
 Received: from localhost.localdomain
  (235.red-83-57-168.dynamicip.rima-tde.net. [83.57.168.235])
- by smtp.gmail.com with ESMTPSA id t5sm8190099wmi.32.2021.05.26.14.19.57
+ by smtp.gmail.com with ESMTPSA id r17sm8420936wmh.25.2021.05.26.14.20.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 May 2021 14:19:58 -0700 (PDT)
+ Wed, 26 May 2021 14:20:03 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 16/19] gitlab: Run Avocado tests manually (except mainstream CI)
-Date: Wed, 26 May 2021 23:18:35 +0200
-Message-Id: <20210526211838.421716-17-f4bug@amsat.org>
+Subject: [PULL 17/19] gitlab: Use $CI_DEFAULT_BRANCH instead of hardcoded
+ 'master'
+Date: Wed, 26 May 2021 23:18:36 +0200
+Message-Id: <20210526211838.421716-18-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210526211838.421716-1-f4bug@amsat.org>
 References: <20210526211838.421716-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -85,95 +86,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Willian Rampazzo <willianr@redhat.com>, Thomas Huth <thuth@redhat.com>,
+Cc: Savitoj Singh <savsingh@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Willian Rampazzo <willianr@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Due to a design problem and misunderstanding between the Avocado
-framework and QEMU, Avocado is fetching many asset artifacts it
-shouldn't be fetching, exhausting the jobs CI timeout.
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Since Avocado artifacts are cached, this is not an issue with old
-forks, which already have populated the cache and do not need to
-download new artifacts to run the tests.
+We want to skip the checkpatch and DCO signoff jobs when
+pushing to the default branch. Currently this branch is
+called 'master', but we don't need to hardcode this in
+the CI configuration, because the $CI_DEFAULT_BRANCH
+env variable exposes it.
 
-However this is very confusing to new contributors who start to
-fork the project and keep having failing CI pipelines.
+References:
 
-As a temporary kludge, add the QEMU_CI_AVOCADO_TESTING variable
-to allow old forks to keep running the Avocado tests, while still
-allowing new forks to use the mainstream set of CI tests.
+- https://sfconservancy.org/news/2020/jun/23/gitbranchname/
+- https://about.gitlab.com/blog/2021/03/10/new-git-default-branch-name/
 
-Keep the tests enabled by default on the mainstream namespace
-which is old enough to have a populated cache, hoping we will
-keep this cache long enough until the Avocado/QEMU design issue
-is fixed.
-
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20210525082556.4011380-9-f4bug@amsat.org>
+Suggested-by: Savitoj Singh <savsingh@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20210525153826.4174157-1-philmd@redhat.com>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Reviewed-by: Willian Rampazzo <willianr@redhat.com>
 ---
- .gitlab-ci.d/buildtest-template.yml | 12 ++++++++++++
- .gitlab-ci.yml                      | 24 ++++++++++++++++++++++++
- 2 files changed, 36 insertions(+)
+ .gitlab-ci.d/static_checks.yml | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/.gitlab-ci.d/buildtest-template.yml b/.gitlab-ci.d/buildtest-template.yml
-index 180bf1aee7e..8e6321c2a38 100644
---- a/.gitlab-ci.d/buildtest-template.yml
-+++ b/.gitlab-ci.d/buildtest-template.yml
-@@ -67,3 +67,15 @@
-   after_script:
-     - cd build
-     - du -chs ${CI_PROJECT_DIR}/avocado-cache
-+  rules:
-+    # Only run these jobs if running on the mainstream namespace,
-+    # or if the user set the QEMU_CI_AVOCADO_TESTING variable (either
-+    # in its namespace setting or via git-push option, see documentation
-+    # in /.gitlab-ci.yml of this repository).
-+    - if: '$CI_PROJECT_NAMESPACE == "qemu-project"'
-+      when: always
-+    - if: '$QEMU_CI_AVOCADO_TESTING'
-+      when: always
-+    # Otherwise, set to manual (the jobs are created but not run).
-+    - when: manual
-+      allow_failure: true
-diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-index 7e4ffab4d11..6dc5385e697 100644
---- a/.gitlab-ci.yml
-+++ b/.gitlab-ci.yml
-@@ -11,5 +11,29 @@
- # configuration path", on your GitLab CI namespace:
- # https://docs.gitlab.com/ee/ci/pipelines/settings.html#custom-cicd-configuration-path
- #
-+# ----------------------------------------------------------------------
-+#
-+# QEMU CI jobs are based on templates. Some templates provide
-+# user-configurable options, modifiable via configuration variables.
-+#
-+# These variables can be set globally in the user's CI namespace
-+# setting:
-+# https://docs.gitlab.com/ee/ci/variables/#create-a-custom-variable-in-the-ui
-+# or set manually each time a branch/tag is pushed, as a git-push
-+# command line argument:
-+# https://docs.gitlab.com/ee/user/project/push_options.html#push-options-for-gitlab-cicd
-+#
-+# Example setting the QEMU_CI_EXAMPLE_VAR variable:
-+#
-+#   git push -o ci.variable="QEMU_CI_EXAMPLE_VAR=value" myrepo mybranch
-+#
-+# ----------------------------------------------------------------------
-+#
-+# List of environment variables that can be use to modify the set
-+# of jobs selected:
-+#
-+# - QEMU_CI_AVOCADO_TESTING
-+#   If set, tests using the Avocado framework will be run
-+
- include:
-   - local: '/.gitlab-ci.d/qemu-project.yml'
+diff --git a/.gitlab-ci.d/static_checks.yml b/.gitlab-ci.d/static_checks.yml
+index f695627b7cd..9c9a771b744 100644
+--- a/.gitlab-ci.d/static_checks.yml
++++ b/.gitlab-ci.d/static_checks.yml
+@@ -6,7 +6,7 @@ check-patch:
+   script: .gitlab-ci.d/check-patch.py
+   except:
+     variables:
+-      - $CI_PROJECT_NAMESPACE == 'qemu-project' && $CI_COMMIT_BRANCH == 'master'
++      - $CI_PROJECT_NAMESPACE == 'qemu-project' && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+   variables:
+     GIT_DEPTH: 1000
+   allow_failure: true
+@@ -19,6 +19,6 @@ check-dco:
+   script: .gitlab-ci.d/check-dco.py
+   except:
+     variables:
+-      - $CI_PROJECT_NAMESPACE == 'qemu-project' && $CI_COMMIT_BRANCH == 'master'
++      - $CI_PROJECT_NAMESPACE == 'qemu-project' && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+   variables:
+     GIT_DEPTH: 1000
 -- 
 2.26.3
 
