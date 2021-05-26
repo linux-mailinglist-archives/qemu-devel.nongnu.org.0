@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77EE0391C75
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C707391C74
 	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 17:52:37 +0200 (CEST)
-Received: from localhost ([::1]:48392 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:48428 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llvpk-0001bX-Ih
-	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 11:52:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58284)
+	id 1llvpj-0001cu-VT
+	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 11:52:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1llvo5-000093-3Y
+ id 1llvo5-000097-7j
  for qemu-devel@nongnu.org; Wed, 26 May 2021 11:50:53 -0400
-Received: from indium.canonical.com ([91.189.90.7]:57380)
+Received: from indium.canonical.com ([91.189.90.7]:57378)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1llvo3-000343-3U
+ id 1llvo3-000342-6j
  for qemu-devel@nongnu.org; Wed, 26 May 2021 11:50:52 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1llvny-0002N5-TA
- for <qemu-devel@nongnu.org>; Wed, 26 May 2021 15:50:47 +0000
+ id 1llvny-00029W-Ch
+ for <qemu-devel@nongnu.org>; Wed, 26 May 2021 15:50:46 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 72F6E2E819E
- for <qemu-devel@nongnu.org>; Wed, 26 May 2021 15:50:45 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id F29402E8193
+ for <qemu-devel@nongnu.org>; Wed, 26 May 2021 15:50:44 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 26 May 2021 15:38:55 -0000
-From: Thomas Huth <1925512@bugs.launchpad.net>
+Date: Wed, 26 May 2021 15:42:13 -0000
+From: Thomas Huth <1926044@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: arm tcg
+ assignee=rth@twiddle.net; 
+X-Launchpad-Bug-Tags: arm linux-user mte
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: muhui rth th-huth
-X-Launchpad-Bug-Reporter: JIANG Muhui (muhui)
+X-Launchpad-Bug-Commenters: rth th-huth vitalybuka
+X-Launchpad-Bug-Reporter: Vitaly Buka (vitalybuka)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <161909962601.31655.7052824363126074861.malonedeb@soybean.canonical.com>
-Message-Id: <162204353554.32457.2253520551010705228.malone@wampee.canonical.com>
-Subject: [Bug 1925512] Re: UNDEFINED case for instruction BLX
+References: <161931792564.17271.10395230459178895166.malonedeb@chaenomeles.canonical.com>
+Message-Id: <162204373403.27768.730368285943120756.malone@soybean.canonical.com>
+Subject: [Bug 1926044] Re: QEMU-user doesn't report HWCAP2_MTE
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="802ed26817d1cdd050553dbe99cc8a3cad1a3bc7"; Instance="production"
-X-Launchpad-Hash: f49b3dc26262bacb4bfb6becd616dde4ad40ee02
+X-Launchpad-Hash: addea3868a1878f60b5933c684ba2333489d04ac
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,13 +71,12 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1925512 <1925512@bugs.launchpad.net>
+Reply-To: Bug 1926044 <1926044@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The patches from Richard have now been merged (see https://gitlab.com
-/qemu-project/qemu/-/commit/c1438d6c02eae03c and the following commits).
-Thus marking this as "Fix committed" now.
+Patch has been merged:
+https://gitlab.com/qemu-project/qemu/-/commit/68948d18224b93361e28
 
 ** Changed in: qemu
        Status: In Progress =3D> Fix Committed
@@ -86,37 +85,49 @@ Thus marking this as "Fix committed" now.
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1925512
+https://bugs.launchpad.net/bugs/1926044
 
 Title:
-  UNDEFINED case for instruction BLX
+  QEMU-user doesn't report HWCAP2_MTE
 
 Status in QEMU:
   Fix Committed
 
 Bug description:
-  Hi
+  Reproducible on ffa090bc56e73e287a63261e70ac02c0970be61a
 
-  I refer to the instruction BLX imm (T2 encoding) in ARMv7 (Thumb
-  mode).
+  Host Debian 5.10.24 x86_64 GNU
 
-  11110 S imm10H  11 J1 0 J2 imm10L H
+  Configured with "configure --disable-system --enable-linux-user
+  --static"
+
+  This one works and prints "OK" as expected:
+  clang tests/tcg/aarch64/mte-3.c -target aarch64-linux-gnu  -fsanitize=3Dm=
+emtag -march=3Darmv8+memtag
+  qemu-aarch64 --cpu max -L /usr/aarch64-linux-gnu ./a.out && echo OK
 
   =
 
-  if H =3D=3D '1' then UNDEFINED;
-  I1 =3D NOT(J1 EOR S);  I2 =3D NOT(J2 EOR S);  imm32 =3D SignExtend(S:I1:I=
-2:imm10H:imm10L:'00', 32);
-  targetInstrSet =3D InstrSet_A32;
-  if InITBlock() && !LastInITBlock() then UNPREDICTABLE;
+  This one fails and print "0":
+  cat mytest.c
+  #include <stdio.h>
+  #include <sys/auxv.h>
 
-  According to the manual, if H equals to 1, this instruction should be
-  an UNDEFINED instruction. However, it seems QEMU does not check this
-  constraint in function trans_BLX_i. Thanks
+  #ifndef HWCAP2_MTE
+  #define HWCAP2_MTE (1 << 18)
+  #endif
 
-  Regards
-  Muhui
+  int main(int ac, char **av)
+  {
+      printf("%d\n", (int)(getauxval(AT_HWCAP2) & HWCAP2_MTE));
+  }
+
+  =
+
+  clang mytest.c -target aarch64-linux-gnu  -fsanitize=3Dmemtag -march=3Dar=
+mv8+memtag
+  qemu-aarch64 --cpu max -L /usr/aarch64-linux-gnu ./a.out
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1925512/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1926044/+subscriptions
 
