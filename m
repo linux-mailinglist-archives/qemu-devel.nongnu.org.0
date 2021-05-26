@@ -2,103 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 236FF391B00
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 17:01:03 +0200 (CEST)
-Received: from localhost ([::1]:50990 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 346E0391B5D
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 17:12:43 +0200 (CEST)
+Received: from localhost ([::1]:33610 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llv1n-0003gb-Q9
-	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 11:01:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47512)
+	id 1llvD7-0004CX-Q9
+	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 11:12:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50214)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lluzf-0002hl-2N
- for qemu-devel@nongnu.org; Wed, 26 May 2021 10:58:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31446)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lluzd-0001A1-8r
- for qemu-devel@nongnu.org; Wed, 26 May 2021 10:58:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622041124;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=v2imiH7IfwC0mHvjyNJK2e6idBoBUNxJ3pcNxR9dmlw=;
- b=SzYA76aPhTxAG1cqfMAs84wJPihvoV0M6ZI77MYNAeDRN3MJiDs7+YZQUWV5SN0psamwhk
- NZxOco/VvJHATH/O66yPoB1M6lpDpP0g+ivjODgrcNy3m+5l3HoEwFrmdQdwIJNRmox/+D
- /TpEt7U7ooH0Hc2mEgzFhoW+LH8mbSU=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-539-LCWjbrYDPvGbMSYdiYez4A-1; Wed, 26 May 2021 10:58:43 -0400
-X-MC-Unique: LCWjbrYDPvGbMSYdiYez4A-1
-Received: by mail-ed1-f71.google.com with SMTP id
- q7-20020aa7cc070000b029038f59dab1c5so721157edt.23
- for <qemu-devel@nongnu.org>; Wed, 26 May 2021 07:58:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:to:cc:references:from:subject:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=v2imiH7IfwC0mHvjyNJK2e6idBoBUNxJ3pcNxR9dmlw=;
- b=cRvL79GjTFxVHGTrYxjPtyoWYVeFB33p4EaDVlU8zAeGWobcUFzYHwN3sRg1SdDEox
- saUG2SovIkFS0mKMySpng/8hE4oj1UM0HF1II8JabajTuZy+IZBuFHjlxM/KZQiU8MYI
- XKUhopOFprT0f4SGJ1hkq2vmKogxJ2H/G3DGPjssLeTKwSdaZ0X/YuNe+1OoEZsZS3Nl
- JQG9Sc8Pcw0/YGq0jpzLt8uSNBAvh79EH7la6pI7Rmal9KZMcmrHE2cNKrsfplaWr2nf
- 68liKu5MIgZS6fLayY3AhAYQp/qMfFFg7mtmeDt40UU6eYqacaY+CH8XOdMvvBnhJ18n
- G/xw==
-X-Gm-Message-State: AOAM533Ma3nEqXpcuoYpDwqXcBfKZ4Hm4ggZi2yLIHlPJmzEjeYDttl4
- Rjih0RPL1C/pMgYUPaxq6ywVUh6i0WnORIPHdhSHWtG1Y10OLfEKF+51Q8nSVG3QTipgmTAm2f1
- RgvMxddDOYdGINaBDSkNkmmKXbhiBSRDJY25MhtuqFZ+QYoI3gHyP6mkasY6uVW2go7w=
-X-Received: by 2002:a05:6402:2044:: with SMTP id
- bc4mr39294274edb.282.1622041121417; 
- Wed, 26 May 2021 07:58:41 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy6eGoZW1XANTezQU+tK1XpY2WLw86Rzv3ls8ogVpUICG8tJush+TgL08r5G+AnzwS2D/gVqA==
-X-Received: by 2002:a05:6402:2044:: with SMTP id
- bc4mr39294250edb.282.1622041121225; 
- Wed, 26 May 2021 07:58:41 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id d15sm12748768eds.68.2021.05.26.07.58.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 26 May 2021 07:58:40 -0700 (PDT)
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
-References: <20210518100757.31243-1-eesposit@redhat.com>
- <20210518100757.31243-5-eesposit@redhat.com>
- <a3626fa3-359f-c746-74ac-b1b942ae56b0@virtuozzo.com>
- <26cc90a9-756d-902e-3559-81cc01439e24@redhat.com>
- <fae5f204-ceb7-722c-ab02-4a1671c52624@virtuozzo.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH v2 4/7] block-copy: add a CoMutex to the BlockCopyTask list
-Message-ID: <2a60c691-12c1-fb53-ae47-0e56ca8a0ad1@redhat.com>
-Date: Wed, 26 May 2021 16:58:39 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1llvBR-0003QZ-TO
+ for qemu-devel@nongnu.org; Wed, 26 May 2021 11:10:57 -0400
+Received: from indium.canonical.com ([91.189.90.7]:50402)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1llvBP-000063-Iy
+ for qemu-devel@nongnu.org; Wed, 26 May 2021 11:10:57 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
+ id 1llvBM-0003ha-VV
+ for <qemu-devel@nongnu.org>; Wed, 26 May 2021 15:10:52 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id EA8022E8139
+ for <qemu-devel@nongnu.org>; Wed, 26 May 2021 15:10:52 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <fae5f204-ceb7-722c-ab02-4a1671c52624@virtuozzo.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 26 May 2021 15:01:51 -0000
+From: Thomas Huth <1890159@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: a1xndr th-huth
+X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <159646522011.3204.4947256792028563402.malonedeb@gac.canonical.com>
+Message-Id: <162204131155.22300.9363726496687109981.malone@chaenomeles.canonical.com>
+Subject: [Bug 1890159] Re: Assertion failure in net_tx_pkt_add_raw_fragment
+ through vmxnet3
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="802ed26817d1cdd050553dbe99cc8a3cad1a3bc7"; Instance="production"
+X-Launchpad-Hash: 48c97754c940ce3804daf8d4e325abf203a35135
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -107,35 +71,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, John Snow <jsnow@redhat.com>,
- qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
- Max Reitz <mreitz@redhat.com>
+Reply-To: Bug 1890159 <1890159@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 25/05/21 12:25, Vladimir Sementsov-Ogievskiy wrote:
->>> Next, even if we take bitmaps lock in 
->>> bdrv_dirty_bitmap_next_dirty_area() or around it, it doesn't bring 
->>> thread-safety to block_copy_task_create():
->>
->> The simplest solution here seems to protect 
->> bdrv_dirty_bitmap_next_dirty_area and also bdrv_reset_dirty_bitmap 
->> with the tasks lock, so that once it is released the bitmap is updated 
->> accordingly and from my understanding no other task can get that region.
-> 
-> Yes, we just need to protect larger areas by outer lock, to protect the 
-> logic, not only structures itself.
+This still triggers with the current version of QEMU. Marking as
+"Confirmed"
 
-Locks protects data, not code; code must ensure invariants are respected 
-at the end of critical sections.  Here we have both problems:
+** Changed in: qemu
+       Status: New =3D> Confirmed
 
-- it's protecting too little data (the bitmap is not protected).  This 
-is a block/dirty-bitmap.c bug.
+-- =
 
-- it's not respecting the invariant that tasks always reflected a 
-superset of what is set in the dirty bitmap.  This is solved by making 
-the critical section larger.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1890159
 
-Paolo
+Title:
+  Assertion failure in net_tx_pkt_add_raw_fragment through vmxnet3
 
+Status in QEMU:
+  Confirmed
+
+Bug description:
+  Hello,
+  Reproducer:
+
+  cat << EOF | ./i386-softmmu/qemu-system-i386 \
+  -device vmxnet3 -m 64 -nodefaults -qtest stdio -nographic
+  outl 0xcf8 0x80001010
+  outl 0xcfc 0xe0000000
+  outl 0xcf8 0x80001014
+  outl 0xcfc 0xe0001000
+  outl 0xcf8 0x80001018
+  outl 0xcf8 0x80001001
+  outl 0xcfc 0x3fff3fff
+  outl 0xcf8 0x80001016
+  outl 0xcfc 0x5c84ff00
+  outl 0xcf8 0x800010ff
+  write 0x0 0x1 0xe1
+  write 0x1 0x1 0xfe
+  write 0x2 0x1 0xbe
+  write 0x3 0x1 0xba
+  writeq 0xff001020 0xef0bff5ecafe0000
+  writel 0xe0000605 0xa7ff845e
+  EOF
+
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+  qemu-system-i386: hw/net/net_tx_pkt.c:382: _Bool net_tx_pkt_add_raw_fragm=
+ent(struct NetTxPkt *, hwaddr, size_t): Assertion `pkt->max_raw_frags > pkt=
+->raw_frags' failed.
+  Aborted
+
+  =
+
+  #9 0x5607db7efdc0 in net_tx_pkt_add_raw_fragment /home/alxndr/Development=
+/qemu/general-fuzz/hw/net/net_tx_pkt.c:382:5
+  #10 0x5607db902ef0 in vmxnet3_process_tx_queue /home/alxndr/Development/q=
+emu/general-fuzz/hw/net/vmxnet3.c:653:18
+  #11 0x5607db9021db in vmxnet3_io_bar0_write /home/alxndr/Development/qemu=
+/general-fuzz/hw/net/vmxnet3.c:1097:9
+  #12 0x5607da41f193 in memory_region_write_accessor /home/alxndr/Developme=
+nt/qemu/general-fuzz/softmmu/memory.c:483:5
+  #13 0x5607da41e637 in access_with_adjusted_size /home/alxndr/Development/=
+qemu/general-fuzz/softmmu/memory.c:544:18
+  #14 0x5607da41c256 in memory_region_dispatch_write /home/alxndr/Developme=
+nt/qemu/general-fuzz/softmmu/memory.c:1466:16
+  #15 0x5607d97cd4a6 in flatview_write_continue /home/alxndr/Development/qe=
+mu/general-fuzz/exec.c:3176:23
+
+  -Alex
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1890159/+subscriptions
 
