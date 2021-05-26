@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A301739138F
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 11:22:35 +0200 (CEST)
-Received: from localhost ([::1]:59642 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60B91391391
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 11:23:56 +0200 (CEST)
+Received: from localhost ([::1]:33794 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llpkI-0008Q1-OB
-	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 05:22:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56092)
+	id 1llplb-0001Zt-H2
+	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 05:23:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56128)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
- id 1llpeg-0007ie-EB; Wed, 26 May 2021 05:16:46 -0400
-Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:37402)
+ id 1llpel-0007z9-E7; Wed, 26 May 2021 05:16:51 -0400
+Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:34544)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
- id 1llpee-0003vE-Ik; Wed, 26 May 2021 05:16:46 -0400
-Received: by mail-pg1-x52d.google.com with SMTP id t193so434832pgb.4;
- Wed, 26 May 2021 02:16:43 -0700 (PDT)
+ id 1llpeh-0003xW-Vo; Wed, 26 May 2021 05:16:51 -0400
+Received: by mail-pj1-x1030.google.com with SMTP id
+ g6-20020a17090adac6b029015d1a9a6f1aso3285726pjx.1; 
+ Wed, 26 May 2021 02:16:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=kOHAbEzZ0rp5rLYGoHSACEChJTJyO3dBSHm5NkBx8ME=;
- b=oV15o0Vxbtr+ejH0E/9Q3EI9pP19GYY3zdTT3VeBMhlo3bwo8SWsZDNXZNs/5gmyeV
- PI9GP+HYGfLX0WZM0SHLntr6O61H2+BOVTKjhPBI6rSsEykh/Du3mHbV/3AbQiE4r383
- qi1IrwJloVBaeQgQgsN5xWvqljktKMFfUVcdmK60vchOqD2ajDBM5MRfcFSUgmoiu+VS
- AVJp8eYmIKNPAPukObHG9rPMANeQ/X02g/fmsGLRi3HOVH2nqOW6j9lcZIOakThtVVDv
- uF/PAeBmlBDHU4eUun5Gj/5+ktMOsTxs1IzxQirUZI0M4kb2BIxjoL65MbkhWgvg4NuK
- CKSw==
+ bh=sWUNPHdCWDVADUV+8ouwbbVfRasx3YfGoo+cwtihs8Q=;
+ b=IhxodMoCHRIprQChOrLHBM3TtRbcE5E2MgGTJwn1YcYSx4DFXqfnFVRpqQ7x/GILeO
+ NFNpEA8cix0BYFJtA64+po9Rx4t0YE6GcocoyePQnDtaHmyNCohJnm9bNj3/nvR6xT2b
+ wyCyF48Hxy7H41+IjQtVfmrUz9J7LGDgiAjbo5RfeNgF22QGgCrbBqJc5/E+Yxfgsy67
+ aG+2jBkV6DlMT6UbICYS13Ui57aG3c+7LmXy+69OcowwNrE99DP6RM3KRmdVgK07e/7K
+ 8Y0ZU7Px+aV05twRFknDHEeFZknyhFhY2IxyhUX7WUW3ZT9jXZLOpoBLR0N6Hsbcyfyc
+ WWOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=kOHAbEzZ0rp5rLYGoHSACEChJTJyO3dBSHm5NkBx8ME=;
- b=rDU4y2LlFKpqTTwS8ntu8P0EBqhH5CkUOUu/ZuVD+ZGkTrX91w0xTbLUpLAL//9IpU
- mQaOyB37gm0zGQo9ojriItmFv2Y0DhfyKWodJIHYbfYWUJkm8JY8ir1eyTGXZV1EyOh4
- DJdUffcKROpniVEKeYeGzjq/8oLs2DhdIdRX/VE3f7nl7Xi2it8KPFz8iublouspioT6
- p2cYGJFFWE5hJzgpEJWNMhOj9fkB40orqNqUKjlrKdh2s3vRLzeUB80VlHUE86DVbBXh
- f75fqr1N/fbjf8cB9suacs5SDIgS9ZsDKY8IcmrmWHKAagxgx5Chp61zNjmlaMDebNS3
- WbJg==
-X-Gm-Message-State: AOAM5322xQLAWu6EZmFfhIU73Sx5vzTnG9Lgr8DfV+jwSimVsnsoYue4
- 3/v6jBF+pBQ6ujNDsIFDXuphnHL5JWDMQw==
-X-Google-Smtp-Source: ABdhPJwoHOpJJvzymGWkmiLDjzYo/6g6fNI+V0sD82AnIpFVFlJq1VaO6EsQgg4SODyZRwqGEpZ8nA==
-X-Received: by 2002:a62:b40c:0:b029:2de:4a1e:a753 with SMTP id
- h12-20020a62b40c0000b02902de4a1ea753mr34253657pfn.64.1622020602788; 
- Wed, 26 May 2021 02:16:42 -0700 (PDT)
+ bh=sWUNPHdCWDVADUV+8ouwbbVfRasx3YfGoo+cwtihs8Q=;
+ b=BJj/9Hb3TfLrecTfCQfqlseo91l4KCpQ0vLPXmWSrMfJ6ieq1AD5+Ehbnyzk+iYYaa
+ 1jVS45c2lp9N/gYiQOwr8jeHHCw0Y81yvvqrbtGR2W37vzfs0sWDsXQqxwRjcYPruCr3
+ GxtlQ8+D1DVcudgdU5IkwiuIL3GWpxL3ys+cZIRWqJJD2uPdt3VtrlgA36xFeDUfuUFa
+ m3ex9/TERRq+E4C7NaJEsIqNzy6nMs5q8JRN4Omkl4yb7SJh+DaBs9dD+mes6fk5Tvsd
+ v43jXOlZDJLMYjQJKFWPH2lZrzb8hVoOGUSaa2GKKoTdyoJubTXMBEKpM/rLZ0Cqba1K
+ a6tg==
+X-Gm-Message-State: AOAM531p2tjg1ICuQzkl5pawRmgCJ1pWzCntivY6Drkf7GT/Rxou7Rxl
+ tSSVwq2UsdJtu7hsv5ShZSIA09f5uUR8Ng==
+X-Google-Smtp-Source: ABdhPJxNXRX1nXxmxS4NB+NkOerT1gvispAoNKIe+I0qqPnNM/g6zgnUxNL6mQF7VwE7JAUtyj4znA==
+X-Received: by 2002:a17:902:c213:b029:f0:bbdf:3852 with SMTP id
+ 19-20020a170902c213b02900f0bbdf3852mr35104423pll.56.1622020605702; 
+ Wed, 26 May 2021 02:16:45 -0700 (PDT)
 Received: from bobo.ibm.com (124-169-110-219.tpgi.com.au. [124.169.110.219])
- by smtp.gmail.com with ESMTPSA id h22sm15055171pfn.55.2021.05.26.02.16.40
+ by smtp.gmail.com with ESMTPSA id h22sm15055171pfn.55.2021.05.26.02.16.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 May 2021 02:16:42 -0700 (PDT)
+ Wed, 26 May 2021 02:16:45 -0700 (PDT)
 From: Nicholas Piggin <npiggin@gmail.com>
 To: qemu-ppc@nongnu.org
-Subject: [PATCH v1 2/3] spapr: Set LPCR to current AIL mode when starting a
- new CPU
-Date: Wed, 26 May 2021 19:16:25 +1000
-Message-Id: <20210526091626.3388262-3-npiggin@gmail.com>
+Subject: [PATCH v1 3/3] target/ppc: Synchronize with KVM's LPCR value when
+ creating a vCPU
+Date: Wed, 26 May 2021 19:16:26 +1000
+Message-Id: <20210526091626.3388262-4-npiggin@gmail.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20210526091626.3388262-1-npiggin@gmail.com>
 References: <20210526091626.3388262-1-npiggin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
- envelope-from=npiggin@gmail.com; helo=mail-pg1-x52d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
+ envelope-from=npiggin@gmail.com; helo=mail-pj1-x1030.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,65 +89,111 @@ Cc: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-TCG does not keep track of AIL mode in a central place, it's based on
-the current LPCR[AIL] bits. Synchronize the new CPU's LPCR to the
-current LPCR in rtas_start_cpu(), similarly to the way the ILE bit is
-synchronized.
+Despite the suggestion from the comment, LPCR value set by KVM does not
+get propagated to QEMU SPR values. Instead, the KVM LPCR register is set
+from the inital QEMU values, of which KVM allows the DPFD, ILE, TC, AIL,
+LD fields to be modified. For the most part these get fixed up, but at
+least the DPFD value set by KVM gets lost.
 
-Open-code the ILE setting as well now that the caller's LPCR is
-available directly, there is no need for the indirection.
-
-Without this, under both TCG and KVM, adding a POWER8/9/10 class CPU
-with a new core ID after a modern Linux has booted results in the new
-CPU's LPCR missing the LPCR[AIL]=0b11 setting that the other CPUs have.
-This can cause crashes and unexpected behaviour.
+Fix this by reading the KVM LPCR when initialising a vCPU and reading
+registers. The hack for setting the LPCR LD bit can be removed.
 
 Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
 ---
- hw/ppc/spapr_rtas.c | 14 +++++++++-----
- 1 file changed, 9 insertions(+), 5 deletions(-)
+ hw/ppc/spapr_cpu_core.c |  9 ++++++---
+ target/ppc/kvm.c        | 34 ++++++++++++++++++++--------------
+ 2 files changed, 26 insertions(+), 17 deletions(-)
 
-diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
-index 63d96955c0..b476382ae6 100644
---- a/hw/ppc/spapr_rtas.c
-+++ b/hw/ppc/spapr_rtas.c
-@@ -132,8 +132,8 @@ static void rtas_start_cpu(PowerPCCPU *callcpu, SpaprMachineState *spapr,
-     target_ulong id, start, r3;
-     PowerPCCPU *newcpu;
-     CPUPPCState *env;
--    PowerPCCPUClass *pcc;
-     target_ulong lpcr;
-+    target_ulong caller_lpcr;
+diff --git a/hw/ppc/spapr_cpu_core.c b/hw/ppc/spapr_cpu_core.c
+index 4f316a6f9d..91193b4bba 100644
+--- a/hw/ppc/spapr_cpu_core.c
++++ b/hw/ppc/spapr_cpu_core.c
+@@ -40,9 +40,12 @@ static void spapr_reset_vcpu(PowerPCCPU *cpu)
  
-     if (nargs != 3 || nret != 1) {
-         rtas_st(rets, 0, RTAS_OUT_PARAM_ERROR);
-@@ -152,7 +152,6 @@ static void rtas_start_cpu(PowerPCCPU *callcpu, SpaprMachineState *spapr,
+     lpcr = env->spr[SPR_LPCR];
+ 
+-    /* Set emulated LPCR to not send interrupts to hypervisor. Note that
+-     * under KVM, the actual HW LPCR will be set differently by KVM itself,
+-     * the settings below ensure proper operations with TCG in absence of
++    /*
++     * Set emulated LPCR to not send interrupts to hypervisor. Note that
++     * under KVM, the actual HW LPCR will be set differently by KVM itself
++     * and that gets loaded by kvm_arch_get_registers and kvm_arch_init_vcpu.
++     *
++     * The LPCR settings below ensure proper operations with TCG in absence of
+      * a real hypervisor.
+      *
+      * Disable Power-saving mode Exit Cause exceptions for the CPU, so
+diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
+index 104a308abb..ec269e38f8 100644
+--- a/target/ppc/kvm.c
++++ b/target/ppc/kvm.c
+@@ -104,6 +104,7 @@ static bool kvmppc_is_pr(KVMState *ks)
+     return kvm_vm_check_extension(ks, KVM_CAP_PPC_GET_PVINFO) != 0;
+ }
+ 
++static void kvm_get_one_spr(CPUState *cs, uint64_t id, int spr);
+ static int kvm_ppc_register_host_cpu_type(void);
+ static void kvmppc_get_cpu_characteristics(KVMState *s);
+ static int kvmppc_get_dec_bits(void);
+@@ -477,6 +478,16 @@ int kvm_arch_init_vcpu(CPUState *cs)
+         return ret;
      }
  
-     env = &newcpu->env;
--    pcc = POWERPC_CPU_GET_CLASS(newcpu);
++    /*
++     * As explained in spapr_reset_vcpu, a KVM guest needs to synchronize
++     * to the LPCR value set by KVM.
++     */
++#ifdef TARGET_PPC64
++    kvm_get_one_spr(cs, KVM_REG_PPC_LPCR_64, SPR_LPCR);
++#else
++    kvm_get_one_spr(cs, KVM_REG_PPC_LPCR, SPR_LPCR);
++#endif
++
+     switch (cenv->mmu_model) {
+     case POWERPC_MMU_BOOKE206:
+         /* This target supports access to KVM's guest TLB */
+@@ -1307,6 +1318,7 @@ int kvm_arch_get_registers(CPUState *cs)
  
-     if (!CPU(newcpu)->halted) {
-         rtas_st(rets, 0, RTAS_OUT_HW_ERROR);
-@@ -164,10 +163,15 @@ static void rtas_start_cpu(PowerPCCPU *callcpu, SpaprMachineState *spapr,
-     env->msr = (1ULL << MSR_SF) | (1ULL << MSR_ME);
-     hreg_compute_hflags(env);
+         kvm_get_one_reg(cs, KVM_REG_PPC_TB_OFFSET, &env->tb_env->tb_offset);
+         kvm_get_one_spr(cs, KVM_REG_PPC_DPDES, SPR_DPDES);
++        kvm_get_one_spr(cs, KVM_REG_PPC_LPCR_64, SPR_LPCR);
+ #endif
+     }
  
-+    caller_lpcr = callcpu->env.spr[SPR_LPCR];
-     lpcr = env->spr[SPR_LPCR];
--    if (!pcc->interrupts_big_endian(callcpu)) {
--        lpcr |= LPCR_ILE;
--    }
-+
-+    /* Set ILE the same way */
-+    lpcr = (lpcr & ~LPCR_ILE) | (caller_lpcr & LPCR_ILE);
-+
-+    /* Set AIL the same way */
-+    lpcr = (lpcr & ~LPCR_AIL) | (caller_lpcr & LPCR_AIL);
-+
-     if (env->mmu_model == POWERPC_MMU_3_00) {
-         /*
-          * New cpus are expected to start in the same radix/hash mode
+@@ -2529,24 +2541,18 @@ int kvmppc_get_cap_large_decr(void)
+ 
+ int kvmppc_enable_cap_large_decr(PowerPCCPU *cpu, int enable)
+ {
++    CPUPPCState *env = &cpu->env;
+     CPUState *cs = CPU(cpu);
+     uint64_t lpcr;
+ 
+-    kvm_get_one_reg(cs, KVM_REG_PPC_LPCR_64, &lpcr);
+-    /* Do we need to modify the LPCR? */
+-    if (!!(lpcr & LPCR_LD) != !!enable) {
+-        if (enable) {
+-            lpcr |= LPCR_LD;
+-        } else {
+-            lpcr &= ~LPCR_LD;
+-        }
+-        kvm_set_one_reg(cs, KVM_REG_PPC_LPCR_64, &lpcr);
+-        kvm_get_one_reg(cs, KVM_REG_PPC_LPCR_64, &lpcr);
+-
+-        if (!!(lpcr & LPCR_LD) != !!enable) {
+-            return -1;
+-        }
++    cpu_synchronize_state(cs);
++    lpcr = env->spr[SPR_LPCR];
++    if (enable) {
++        lpcr |= LPCR_LD;
++    } else {
++        lpcr &= ~LPCR_LD;
+     }
++    ppc_store_lpcr(cpu, lpcr);
+ 
+     return 0;
+ }
 -- 
 2.23.0
 
