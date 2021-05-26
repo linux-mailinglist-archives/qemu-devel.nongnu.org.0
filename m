@@ -2,60 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06137392283
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 00:07:23 +0200 (CEST)
-Received: from localhost ([::1]:58208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3041A392298
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 00:17:12 +0200 (CEST)
+Received: from localhost ([::1]:39716 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lm1gQ-0004a5-3b
-	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 18:07:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44428)
+	id 1lm1pu-00035W-Qp
+	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 18:17:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47800)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mmorrell@tachyum.com>)
- id 1lm1Yp-0007JF-WC
- for qemu-devel@nongnu.org; Wed, 26 May 2021 17:59:32 -0400
-Received: from mx1.tachyum.com ([66.160.133.170]:17130)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mmorrell@tachyum.com>)
- id 1lm1Yn-0005i0-Bt
- for qemu-devel@nongnu.org; Wed, 26 May 2021 17:59:31 -0400
-Received: by mx1.tachyum.com (Postfix, from userid 1000)
- id C12D41005283; Wed, 26 May 2021 14:59:27 -0700 (PDT)
-Received: from THQ-EX1.tachyum.com (unknown [10.7.1.6])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mx1.tachyum.com (Postfix) with ESMTPS id 69D651005283;
- Wed, 26 May 2021 14:59:26 -0700 (PDT)
-Received: from THQ-EX1.tachyum.com (10.7.1.6) by THQ-EX1.tachyum.com
- (10.7.1.6) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.14; Wed, 26 May
- 2021 14:59:26 -0700
-Received: from THQ-EX1.tachyum.com ([10.7.1.6]) by THQ-EX1.tachyum.com
- ([10.7.1.6]) with mapi id 15.01.2176.014; Wed, 26 May 2021 14:59:25 -0700
-From: Michael Morrell <mmorrell@tachyum.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: RE: Denormal input handling
-Thread-Topic: Denormal input handling
-Thread-Index: AddSVLVuQ70cTMk8SjeoZZpZvpdwcwAUkiOAAAtci4A=
-Date: Wed, 26 May 2021 21:59:25 +0000
-Message-ID: <217fbb53d6764b4a9b63726c1344f7d9@tachyum.com>
-References: <30eafc8be31446f9aecbc40f487467e1@tachyum.com>
- <CAFEAcA-BnxgejNgo0XFU_aegdXfN2mFr9E6xa5BPRxHLdfSt_A@mail.gmail.com>
-In-Reply-To: <CAFEAcA-BnxgejNgo0XFU_aegdXfN2mFr9E6xa5BPRxHLdfSt_A@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.7.252.4]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ (Exim 4.90_1) (envelope-from <leobras.c@gmail.com>)
+ id 1lm1p5-0002PZ-SL
+ for qemu-devel@nongnu.org; Wed, 26 May 2021 18:16:19 -0400
+Received: from mail-qt1-x82f.google.com ([2607:f8b0:4864:20::82f]:45754)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <leobras.c@gmail.com>)
+ id 1lm1p3-0007R4-Uc
+ for qemu-devel@nongnu.org; Wed, 26 May 2021 18:16:19 -0400
+Received: by mail-qt1-x82f.google.com with SMTP id h24so2099951qtm.12
+ for <qemu-devel@nongnu.org>; Wed, 26 May 2021 15:16:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=+ovqHFqkdidPii4KKMNG98Mh4QBz+vYRrSLL/YzjKuA=;
+ b=bR2eg/w/HcDZ+XsLt1ZjWuGybTJEhY3WLFACG+poPowVmjG7ihnR3WwMvbaDMBbNtJ
+ +KkT+vjGgK39Wj2aMs6LgTxnvDJe+KeRYM59D8UvEJsLjshgEXBNH1gWRX9r9ELFgz5z
+ 28+410Ib00bg/VhiqdRB7PXxcHOEclAaFBLcqHxtrTPUeRw74bizfwqHr67eDEGa8xGf
+ +i+840MS0zStsBRUBOjBwJwMenq/dRJzbNXIj3B+W2nmM0citPOTA1yqqaF14pOTOUeO
+ jwxGmHC/gYbC4aa+DiiwPjsyIJAtPl922IPpNjgWmsYC9RAe9eckTcz1JtI+7dOkh3GC
+ 1RJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=+ovqHFqkdidPii4KKMNG98Mh4QBz+vYRrSLL/YzjKuA=;
+ b=kF5d3FXEBZOy+YKMa3xlF1qst7+m4nffxYDVzFvMxMURzVY7SRa87XNMlnwdOepKZx
+ JzePysoHB78cct0odghRTg0BPZk059TxKYxtrhJWjgM1i+2lF5n2jGRheR85BrbU5ajl
+ Gk+g5Uvt9/SIP+px1dGfEIHWrNWggsMBeQwREHIyhlgUgl+rh4q6qwBX8CdEHO9is+a4
+ 7x12uPWJzNHPPOYTxXtO7wl2ShAmBo4MsWKYPptKT4QS1MNV4dCuRbcSKunxQwus0OSr
+ cdcsPWTH0Pvs/vfrVZvoOcV98vc52dwMZOc8OCXQl8+1kQLVKxSMC6CaTdZUEoz9I6Me
+ WYng==
+X-Gm-Message-State: AOAM530GIKuIr8Z5RweuX4FPxp8s5B5IKepgv/ku3pDQ+7pGwiIwCi9M
+ CAiYcib8e3kjUE7tGBVS9L0=
+X-Google-Smtp-Source: ABdhPJwryQKLdgsoOvrz18eBjqF8j0rCYAf3RBTtYagwsulSrHEFlvwJgM7yaV5PuB1arSOJHUWqYw==
+X-Received: by 2002:a05:622a:1356:: with SMTP id
+ w22mr340508qtk.253.1622067376970; 
+ Wed, 26 May 2021 15:16:16 -0700 (PDT)
+Received: from LeoBras.redhat.com ([2804:14c:482:7b04:dff0:eb42:c6da:8218])
+ by smtp.gmail.com with ESMTPSA id m10sm156555qkk.113.2021.05.26.15.16.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 26 May 2021 15:16:16 -0700 (PDT)
+From: Leonardo Bras <leobras.c@gmail.com>
+To: Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, peterx@redhat.com,
+ lukasstraub2@web.de
+Subject: [PATCH v2 1/1] yank: Unregister function when using TLS migration
+Date: Wed, 26 May 2021 19:16:16 -0300
+Message-Id: <20210526221615.1093506-1-leobras.c@gmail.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Received-SPF: pass client-ip=66.160.133.170; envelope-from=mmorrell@tachyum.com;
- helo=mx1.tachyum.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::82f;
+ envelope-from=leobras.c@gmail.com; helo=mail-qt1-x82f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -69,53 +83,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: Leonardo Bras <leobras.c@gmail.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Rmlyc3QsIEkgYXBvbG9naXplIGZvciB0aGUgZHVwbGljYXRlIHRocmVhZC4gIEkgdGhvdWdodCB0
-aGUgZmlyc3QgYXR0ZW1wdCBkaWRuJ3QgZ28gdGhyb3VnaC4NCg0KSSBhZ3JlZSB3aXRoIFJpY2hh
-cmQgdGhhdCB3ZSBuZWVkIGFuIGV4dHJhIGZsYWcgYml0LiAgVGhlIGN1cnJlbnQgYmVoYXZpb3Ig
-aXMgbm90IHJpZ2h0IGZvciBTU0Ugb24geDg2IChpdCBsb3BscyBsaWtlIHg4NyBtaWdodCBiZSBk
-aWZmZXJlbnQgc3RpbGwpLiAgIEZvciBBUk0sIHNldHRpbmcgRlBDUi5GWiB0byAxIHdpbGwgcmVz
-dWx0IGluIEZQU1IuSURDIGJlaW5nIHNldCBmb3IgYSBkZW5vcm1hbCBpbnB1dCAoYW5kIHRoYXQg
-aW5wdXQgd2lsbCBiZSBmbHVzaGVkIHRvIDApLCB3aGVyZWFzIGZvciB4ODYvU1NFLCBzZXR0aW5n
-IE1YQ1NSLkRBWiB0byAwIHdpbGwgcmVzdWx0IGluIE1YQ1NSLkRFIGJlaW5nIHNldCBmb3IgYSBk
-ZW5vcm1hbCBpbnB1dCAoYW5kIE1YQ1NSLkRBWiA9IDEgZmx1c2hlcyB0aGF0IGlucHV0IHRvIDAp
-Lg0KDQpJJ20gYSBsaXR0bGUgc3VycHJpc2VkIHRoZXJlIGFyZSBubyB4ODYgdGVzdCBjYXNlcyB0
-aGF0IGNvdmVyIHRoaXMuDQoNClJpY2hhcmQsIGFyZSB5b3Ugd2lsbGluZyB0byBtYWtlIHRoZSBj
-aGFuZ2Ugb3IgZG8geW91IHdhbnQgbWUgdG8gdHJ5Pw0KDQpUaGFua3MsDQoNCiAgIE1pY2hhZWwN
-Cg0KLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCkZyb206IFBldGVyIE1heWRlbGwgPHBldGVy
-Lm1heWRlbGxAbGluYXJvLm9yZz4gDQpTZW50OiBXZWRuZXNkYXksIE1heSAyNiwgMjAyMSAxOjE5
-IFBNDQpUbzogTWljaGFlbCBNb3JyZWxsIDxtbW9ycmVsbEB0YWNoeXVtLmNvbT4NCkNjOiBxZW11
-LWRldmVsQG5vbmdudS5vcmc7IFJpY2hhcmQgSGVuZGVyc29uIDxyaWNoYXJkLmhlbmRlcnNvbkBs
-aW5hcm8ub3JnPg0KU3ViamVjdDogUmU6IERlbm9ybWFsIGlucHV0IGhhbmRsaW5nDQoNCk9uIFdl
-ZCwgMjYgTWF5IDIwMjEgYXQgMjA6MDcsIE1pY2hhZWwgTW9ycmVsbCA8bW1vcnJlbGxAdGFjaHl1
-bS5jb20+IHdyb3RlOg0KPiBJIHNlZSBzdXBwb3J0IGluIFFFTVUgZm9yIGFyY2hpdGVjdHVyZXMg
-d2hpY2ggaGF2ZSBhIGRlbm9ybWFsIGlucHV0IA0KPiBmbGFnIGJpdCBhbmQgdGhvc2UgdGhhdCBo
-YXZlIGEgImZsdXNoIGlucHV0cyB0byB6ZXJvIiBjb250cm9sIGJpdCwgYnV0IA0KPiB0aGUgaW1w
-bGVtZW50YXRpb24gaXMgbm90IHNwZWNpYWxpemFibGUgYW5kIHNlZW1zIHdyb25nIGZvciB4ODYg
-YXQgDQo+IGxlYXN0Lg0KDQo+IEZvciBleGFtcGxlLCBpbiBzZl9jYW5vbmljYWxpemUsIGlmIHRo
-ZSBpbnB1dCBpcyBkZW5vcm1hbCBhbmQgDQo+ICJmbHVzaF9pbnB1dHNfdG9femVybyIgaXMgdHJ1
-ZSwgdGhlICJpbnB1dCBkZW5vcm1hbCIgZmxhZyBpcyBzZXQgYW5kIA0KPiB0aGVuIHRoZSB2YWx1
-ZSBpcyBzZXQgdG8gYSB6ZXJvIHZhbHVlLCBhbmQgaWYgdGhlIGlucHV0IGlzIGRlbm9ybWFsIA0K
-PiBhbmQgImZsdXNoX2lucHV0c190b196ZXJvIiBpcyBmYWxzZSwgdGhlbiB0aGUgaW5wdXQgaXMg
-c2ltcGx5IA0KPiBub3JtYWxpemVkLg0KDQpUaGlzIGlzIHRoZSBpbnRlbmRlZCBiZWhhdmlvdXIg
-LS0gaWYgYSB0YXJnZXQgYXJjaCBuZWVkcyAiZGVub3JtYWxpemVkIGlucHV0cyBzaG91bGQgYmUg
-Zmx1c2hlZCB0byB6ZXJvIiwgaXQgc2V0cyB0aGUgZmxvYXRfc3RhdHVzIGZsdXNoX2lucHV0c190
-b196ZXJvIGZsYWcuIElmIGl0IGFsc28gd2FudHMgdG8gYmUgYWJsZSB0byBkZXRlY3Qgd2hlbiB0
-aGlzIGhhcyBoYXBwZW5lZCwgaXQgY2FuIHRoZW4gbG9vayBhdCB0aGUgaW5wdXRfZGVub3JtYWwg
-ZmxhZy4gVGhpcyBtYXRjaGVzIHRoZSBiZWhhdmlvdXIgdGhhdCBBcm0gbmVlZHMsIGFuZCBpdCBp
-cyBmb3IgQXJtIHRoYXQgdGhlIGZsdXNoX2lucHV0c190b196ZXJvIGFuZCBpbnB1dF9kZW5vcm1h
-bCBmbGFncyB3ZXJlIGludHJvZHVjZWQuDQoNCj4gSSB0aGluayB0aGUgYmVoYXZpb3Igc2hvdWxk
-IGJlIGZvciBkZW5vcm1hbCBpbnB1dHMgdGhhdCBpZiANCj4gImZsdXNoX2lucHV0c190b196ZXJv
-IiBpcyB0cnVlLCB0aGVuIHRoZSB2YWx1ZSBpcyBzZXQgdG8gemVybzsgYW5kIGlmIA0KPiAiZmx1
-c2hfaW5wdXRzX3RvX3plcm8iIGlzIGZhbHNlLCBzZXQgdGhlICJpbnB1dCBkZW5vcm1hbCINCj4g
-ZmxhZyBhbmQgbm9ybWFsaXplIHRoZSBpbnB1dC4NCg0KPiBUaGlzIG1hdGNoZXMgd2hhdCB4ODYg
-ZG9lcyAoSSdtIG5vdCBzdXJlIGFib3V0IG90aGVyIGFyY2hpdGVjdHVyZXMpLg0KDQpXaGF0IGlu
-IHBhcnRpY3VsYXIgZG9lcyB4ODYgd2FudCB0aGF0IGl0IGlzbid0IGdldHRpbmcgYXQgdGhlIG1v
-bWVudD8gSWYgaXQgbmVlZHMgc29tZSBhZGRpdGlvbmFsIHZhcmlhdGlvbiBvZiBiZWhhdmlvdXIg
-d2UgY2FuIGxvb2sgYXQgYWRkaW5nIGEgbmV3IHN0YXR1cyBmbGFnIHRvIGNvbnRyb2wgdGhhdC4N
-Cg0KdGhhbmtzDQotLSBQTU0NCg==
+After yank feature was introduced, whenever migration is started using TLS,
+the following error happens in both source and destination hosts:
+
+(qemu) qemu-kvm: ../util/yank.c:107: yank_unregister_instance:
+Assertion `QLIST_EMPTY(&entry->yankfns)' failed.
+
+This happens because of a missing yank_unregister_function() when using
+qio-channel-tls.
+
+Fix this by also allowing TYPE_QIO_CHANNEL_TLS object type to perform
+yank_unregister_function() in channel_close() and multifd_load_cleanup().
+
+Fixes: 50186051f ("Introduce yank feature")
+Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1964326
+Signed-off-by: Leonardo Bras <leobras.c@gmail.com>
+
+--
+Changes since v1:
+- Cast p->c to QIOChannelTLS into multifd_load_cleanup()
+---
+ migration/multifd.c           | 6 ++++++
+ migration/qemu-file-channel.c | 7 +++++++
+ 2 files changed, 13 insertions(+)
+
+diff --git a/migration/multifd.c b/migration/multifd.c
+index 0a4803cfcc..81de11c6fc 100644
+--- a/migration/multifd.c
++++ b/migration/multifd.c
+@@ -992,6 +992,12 @@ int multifd_load_cleanup(Error **errp)
+             yank_unregister_function(MIGRATION_YANK_INSTANCE,
+                                      migration_yank_iochannel,
+                                      QIO_CHANNEL(p->c));
++        } else if (object_dynamic_cast(OBJECT(p->c), TYPE_QIO_CHANNEL_TLS)
++                   && OBJECT(p->c)->ref == 1) {
++            QIOChannelTLS *tioc = QIO_CHANNEL_TLS(p->c);
++            yank_unregister_function(MIGRATION_YANK_INSTANCE,
++                                     migration_yank_iochannel,
++                                     QIO_CHANNEL(tioc->master));
+         }
+ 
+         object_unref(OBJECT(p->c));
+diff --git a/migration/qemu-file-channel.c b/migration/qemu-file-channel.c
+index 876d05a540..4f79090f3f 100644
+--- a/migration/qemu-file-channel.c
++++ b/migration/qemu-file-channel.c
+@@ -26,6 +26,7 @@
+ #include "qemu-file-channel.h"
+ #include "qemu-file.h"
+ #include "io/channel-socket.h"
++#include "io/channel-tls.h"
+ #include "qemu/iov.h"
+ #include "qemu/yank.h"
+ #include "yank_functions.h"
+@@ -111,6 +112,12 @@ static int channel_close(void *opaque, Error **errp)
+         yank_unregister_function(MIGRATION_YANK_INSTANCE,
+                                  migration_yank_iochannel,
+                                  QIO_CHANNEL(ioc));
++    } else if (object_dynamic_cast(OBJECT(ioc), TYPE_QIO_CHANNEL_TLS)
++               && OBJECT(ioc)->ref == 1) {
++        QIOChannelTLS *tioc = opaque;
++        yank_unregister_function(MIGRATION_YANK_INSTANCE,
++                                 migration_yank_iochannel,
++                                 QIO_CHANNEL(tioc->master));
+     }
+     object_unref(OBJECT(ioc));
+     return ret;
+-- 
+2.31.1
+
 
