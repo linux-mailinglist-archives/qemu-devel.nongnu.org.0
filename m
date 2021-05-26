@@ -2,77 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C9C3391D33
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 18:37:56 +0200 (CEST)
-Received: from localhost ([::1]:60372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD557391D4E
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 18:51:00 +0200 (CEST)
+Received: from localhost ([::1]:39590 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llwXb-00070l-AP
-	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 12:37:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38296)
+	id 1llwkF-00047L-BB
+	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 12:50:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39648)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1llwVi-0005FU-1I
- for qemu-devel@nongnu.org; Wed, 26 May 2021 12:35:58 -0400
-Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:34770)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1llwVf-000068-Qt
- for qemu-devel@nongnu.org; Wed, 26 May 2021 12:35:57 -0400
-Received: by mail-ej1-x62f.google.com with SMTP id h20so2033553ejg.1
- for <qemu-devel@nongnu.org>; Wed, 26 May 2021 09:35:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=xm8BamJ6E9yKrFba0HkTcb+RKZaPe26N8XSF4j7Ohvk=;
- b=dI/GbsbTgjhF0Qq+z0waiE4jNYwdUYAyJiWi9UUGGFsSpAfb+fLsHCvVu06pB8kkgX
- D2+zvStxKoYtUmTm2OeYjXuGDvo5Q8PfTCgXIKbxkO9S3KNiQ011IVOXP/YFoHZKKg1Y
- jcBL7/DkJxz4pBM48WwduMat4lVRl2eea5XOtIsGSOMb241nPjCibw9pu+3Zdiri13R9
- I3cKiSSWKR+ie/abS4qDs8Lt1YKdBJNVAxJ6unwXgmqCAQ9863w1WRZfeKtztj6dhr7v
- /6aMY9B3zSJPaTBzfAVj+A8voiMrEnkDBjrR+jElD4OKrEkH5VOE6Se5MHPTCD9ISGHT
- svLA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=xm8BamJ6E9yKrFba0HkTcb+RKZaPe26N8XSF4j7Ohvk=;
- b=pDg8D50+Z5fnUJt4RXxFyRDIs0Ibee0dilXsRf1G+nKlOYs+yE9gmNa5R8a4tzy3xV
- 0GyuVGP0CzqctFvTA16kKwbqT29g2IQjHtZAkLSk9+NHuEA+FhqBQ1jnI5Wj9fr7c110
- xI6AvEFiUMg0aazx+Te/blI6m/NKX9wpPqROzoOm/2dYNXSAHQ7TdmVJCjENpMqevFO9
- +UxSzVK8z/iN6UbQnxsQJrdW/2Cm8Vm8QgEH6lqfNwAP2zDkm333DnDvM2Q0vZTeVaZ+
- fo5MskUgVlbk7UhB4IgtRZ5OHaqjz0f2RTBzmFvzH5kSZ7ggIMUcUX0poZiA4JyAeAzH
- cnTQ==
-X-Gm-Message-State: AOAM5335G0B40BdS6TntRn+OTYFm38qfr5JEe56o8gfD6DNpH6wNfNnS
- sNHm6k+CWglRRk1dNtlQBI1TDGVzeOFXyw==
-X-Google-Smtp-Source: ABdhPJw1ikMG4Wt3PDjrW4huP+3uF47tcOYzjWFLryt+GwEbZMtlWyY2IVVd4ezBcO3VQQAJuwIXaA==
-X-Received: by 2002:a17:906:f207:: with SMTP id
- gt7mr2825562ejb.120.1622046953663; 
- Wed, 26 May 2021 09:35:53 -0700 (PDT)
-Received: from avogadro.redhat.com ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id
- a8sm1342001ejt.102.2021.05.26.09.35.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 May 2021 09:35:53 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1llwdi-0001VM-D9
+ for qemu-devel@nongnu.org; Wed, 26 May 2021 12:44:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60000)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1llwdY-0003BG-Eo
+ for qemu-devel@nongnu.org; Wed, 26 May 2021 12:44:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1622047422;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ssHEIadIqhw7GP3pafEiXxQbT8ZQnNwRKe8Vbn6QNAc=;
+ b=Lum8/2/PJb4D+rw4StNKpnm/YMj96b6kVffwl45pbLbyvvtMKhGmmREIxcIfoYmBjbjvc3
+ vUxkZWLPxxJ+kMaETeWC9VwKbD3D+Sldxdq+y25nNuaHs21MmFIXQpv/aO2tQ1GLSAgUkW
+ TQcu88CS+MEHz7sfvmg8KLI2/AsEMR0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-32-Xn1PT7n8NEe9oiknbYIbug-1; Wed, 26 May 2021 12:43:37 -0400
+X-MC-Unique: Xn1PT7n8NEe9oiknbYIbug-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9ACB01020C52;
+ Wed, 26 May 2021 16:43:36 +0000 (UTC)
+Received: from redhat.com (ovpn-115-19.ams2.redhat.com [10.36.115.19])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C448D19D9D;
+ Wed, 26 May 2021 16:43:29 +0000 (UTC)
+Date: Wed, 26 May 2021 17:43:26 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 25/28] doc: Add notes about -mon option mode=control argument.
-Date: Wed, 26 May 2021 18:35:50 +0200
-Message-Id: <20210526163550.501367-2-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210526163550.501367-1-pbonzini@redhat.com>
-References: <20210526163550.501367-1-pbonzini@redhat.com>
+Subject: Re: [PATCH 0/2] i386: use better matching family/model/stepping for
+ generic CPUs
+Message-ID: <YK56rnSly772QAxl@redhat.com>
+References: <20210507133650.645526-1-berrange@redhat.com>
 MIME-Version: 1.0
+In-Reply-To: <20210507133650.645526-1-berrange@redhat.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62f.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,41 +82,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ali Shirvani <alishir@routerhosting.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Ali Shirvani <alishir@routerhosting.com>
+ping
 
-The mode=control argument configures a QMP monitor.
+On Fri, May 07, 2021 at 02:36:48PM +0100, Daniel P. Berrangé wrote:
+> This is in response to this bug report:
+> 
+>    https://gitlab.com/qemu-project/qemu/-/issues/191
+> 
+> The generic 'qemu64' and 'max' CPUs currently defined to report a
+> family/model/stepping that approximately corresponds to an AMD K7
+> vintage architecture. The K7 series predates the introduction of
+> 64-bit support by AMD in the K8 series. This has been reported to
+> lead to LLVM complaints about generating 64-bit code for a 32-bit
+> CPU target
+> 
+>   LLVM ERROR: 64-bit code requested on a subtarget that doesn't support it!
+> 
+> The bug report is fairly limited, but it suggests LLVM looks at the
+> family/model/stepping and decides it to be 32-bit, despite qemu64
+> reporting it is 64-bit capable. I've not reproduced this myself,
+> however, so I'm largely trusting the original reporter's diagnosis
+> 
+> Of course interpreting the family/model/stepping only makes sense
+> with scoped to the reported vendor ID.  Under TCG, the vendor is
+> honoured, but AFAICT, under KVM the vendor defined by the QEMU
+> model model is ignored and the real host vendor passed through.
+> This will make the chosen family/model/stepping non-sensical when
+> run under KVM on an Intel host.
+> 
+> None the less these patches change to report a CPUID with the
+> family, model and stepping taken from a
+> 
+>  AMD Athlon(tm) 64 X2 Dual Core Processor 4000+
+> 
+> which is one of the first 64-bit AMD CPUs. This is at least more
+> accurate in terms of the static CPU model definition, even if it
+> is still nonsense in the case where KVM overrides the vendor to
+> be non-AMD.
+> 
+> Daniel P. Berrangé (2):
+>   i386: use better matching family/model/stepping for 'qemu64' CPU
+>   i386: use better matching family/model/stepping for 'max' CPU
+> 
+>  hw/i386/pc.c      |  6 +++++-
+>  target/i386/cpu.c | 12 +++++++++---
+>  2 files changed, 14 insertions(+), 4 deletions(-)
+> 
+> -- 
+> 2.31.1
+> 
+> 
 
-Signed-off-by: Ali Shirvani <alishir@routerhosting.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-Message-Id: <0799f0de89ad2482672b5d61d0de61e6eba782da.1621407918.git.alishir@routerhosting.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- qemu-options.hx | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
-
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 8116f79818..14258784b3 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -3799,8 +3799,11 @@ DEF("mon", HAS_ARG, QEMU_OPTION_mon, \
-     "-mon [chardev=]name[,mode=readline|control][,pretty[=on|off]]\n", QEMU_ARCH_ALL)
- SRST
- ``-mon [chardev=]name[,mode=readline|control][,pretty[=on|off]]``
--    Setup monitor on chardev name. ``pretty`` is only valid when
--    ``mode=control``, turning on JSON pretty printing to ease
-+    Setup monitor on chardev name. ``mode=control`` configures 
-+    a QMP monitor (a JSON RPC-style protocol) and it is not the
-+    same as HMP, the human monitor that has a "(qemu)" prompt.
-+    ``pretty`` is only valid when ``mode=control``, 
-+    turning on JSON pretty printing to ease
-     human reading and debugging.
- ERST
- 
+Regards,
+Daniel
 -- 
-2.31.1
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
