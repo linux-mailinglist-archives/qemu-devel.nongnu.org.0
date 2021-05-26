@@ -2,86 +2,141 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D8BD391CC4
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 18:13:28 +0200 (CEST)
-Received: from localhost ([::1]:43848 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE8F3391CC9
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 18:15:30 +0200 (CEST)
+Received: from localhost ([::1]:46800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llw9u-0002G7-SA
-	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 12:13:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34334)
+	id 1llwBt-0004UZ-Pq
+	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 12:15:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34772)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1llw8c-0001PX-Rh
- for qemu-devel@nongnu.org; Wed, 26 May 2021 12:12:06 -0400
-Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e]:44899)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1llw8a-0004jo-F5
- for qemu-devel@nongnu.org; Wed, 26 May 2021 12:12:06 -0400
-Received: by mail-pl1-x62e.google.com with SMTP id h12so847313plf.11
- for <qemu-devel@nongnu.org>; Wed, 26 May 2021 09:12:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=QL7fxb7ICaZSds2UjoU/vT5z18OWxlBIosWBsAzwt3A=;
- b=m7xBn/c1awih5LSXBmo3qgZomEibAQOB2txvD9Mc+lt0ymtS93yFIQTCsgHpxV7x1f
- chax++yA5c2T1laTjDu1VUwTf5fk8RJ3iAyPcn+pAx7a8qbmByETGPOYnMxVOHlemjsF
- GV0abYxUun27Jw02lGRX9dN5AOIeSXgxLqFJ1XAz0NdQpH/mE8XQxEHS1IfpfTSK3f+M
- CBeyn5k6kHQTxDihf7FPTK3ouPjU+mdnLX5PcXPYOdEcHp+GjEVE/rgMUyyAMSiIEIEO
- MY3JcAr/dv4xrKavK5KEVdVWJaD4ElfPtSjBEBWFYg1bhDk5KahJwu240e6kcXka+rhc
- C6tw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=QL7fxb7ICaZSds2UjoU/vT5z18OWxlBIosWBsAzwt3A=;
- b=rHRsh3pV3xC8ya2pcxl12gL3pwZyW5clRcuiDmpJqnIVuTma4pqGEHPq6Cr50ynIle
- n2vPg0psf8a+tHDZ6vBIw9KtNKSqwUwUxO5srDfuMs/BC7/vB5P0lfx2GYWR3w2h4juQ
- P5D4IUjAau/IGW1um8YSaA5IXEsS/gMa9rv0BIL/6F2BUREOphX/FfeA8YBoMdM0JGl3
- vUm8mu2yx9k+iIQnCYrZmjFeRhtQsHLf2vZ1dQQJ65D9p7KQRVMYieY+ubGKZXDePZOy
- BIfXg/7lvOLiIUa9WDKnFT0a1w9ne1UFbm4lkwj4OIFnOPPYRXRc4ZJQ63TOk5HWKEDj
- Q1dw==
-X-Gm-Message-State: AOAM530ED+RGJL/0cqM0UAEtMsDjn+BfYjxtR6jK5kfCBopj6xZKnju4
- YFEjH9BBAmbwkz9ef2ztPWwqtg==
-X-Google-Smtp-Source: ABdhPJxwfEz4KVNQFZNVqBapNHKvVO7Ej43vgtnt68If3yx6y1+j+/sZqkpG7fwjxixCgYNUcfBoXw==
-X-Received: by 2002:a17:90a:e553:: with SMTP id
- ei19mr2370964pjb.175.1622045521888; 
- Wed, 26 May 2021 09:12:01 -0700 (PDT)
-Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
- by smtp.gmail.com with ESMTPSA id
- q10sm4534398pjv.24.2021.05.26.09.12.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 26 May 2021 09:12:01 -0700 (PDT)
-Subject: Re: [PATCH v5 23/23] target/ppc: Move cmp/cmpi/cmpl/cmpli to
- decodetree
-To: "Matheus K. Ferst" <matheus.ferst@eldorado.org.br>,
- qemu-devel@nongnu.org, qemu-ppc@nongnu.org
-References: <20210517205025.3777947-1-matheus.ferst@eldorado.org.br>
- <20210517205025.3777947-24-matheus.ferst@eldorado.org.br>
- <ef3bb078-8afe-2159-f23d-0d8324c4e3f7@linaro.org>
- <bf00a04b-33b6-e067-ead9-e8707f186c02@eldorado.org.br>
- <720be115-3aad-f4bd-e636-5dab76478806@linaro.org>
- <fc7fde45-a8ae-7249-7cac-b9f7fbfbee0f@eldorado.org.br>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <b059e8ee-f850-bbce-2ec2-3e3427b1e0c3@linaro.org>
-Date: Wed, 26 May 2021 09:11:59 -0700
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1llwA7-0003TO-EZ; Wed, 26 May 2021 12:13:39 -0400
+Received: from mail-eopbgr60107.outbound.protection.outlook.com
+ ([40.107.6.107]:35843 helo=EUR04-DB3-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1llwA4-0005fp-AL; Wed, 26 May 2021 12:13:38 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=S2Cfmu5gRWEcpnlnFxLxjI3l8J1FP/6G/DI/D4L14/E9Ag+XIK/2jl2cHMBBmzdm7Jn1IT55VCrbm//VKqusSjSrM7jwrbPy39pyOCIm5qYb+fcUDdzfuMxCB/xyxrPlyizL5iw5OXrpBEkL3O8fJknaGZi3job/EAewVngnUwfMX6YdjYMjdLbJ3UohCzqvWVhjdNfviP4X+GU0d/zIi24dndM3o5YVVlOLUDkGTu4kAS59LDFgKupaZeplxGPvVF8LJ8+MGTszqAXHJbG/KhiNow9ee+QaY1WFTd8ZhxbIGEORZbDfVsaj14+ouexIf4qMs0k+PV9A3J7w8pAo3A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=m8IE0hje4gd0pzd+9JOLkGvpIxTTT8kDLitHvMXfaYE=;
+ b=gMPp4yOpB3/MO4UxoSF8HLbg6t/i+cmf8n6rPN2H4dGSZ0efbNeYr7aRCajYzPp215MwBoyZyEzcC10TP7/b7Hw2evF5VIFs19Gb2VWlLUwiWRoLFuWuvFUsojeI9llGTa89U7zXwiItjhNjufLyzgCypI8Ia9dlTtL+7hrt8ojyy+wftiXiM1VbxC1XUgQgpUKzCAGsXQvN+uymbY8/cJUsF1qV5OQmpBHJkD1HSUWeG9Ln/xjfIJLUW33oyuPx3l2AoenriCE00Tn3dB/5NKNdogRH0hMXAQ4b0uViz6MJv8f+ifw4XqofFTlJjMTNxIfIDL19lfRc01olpHrtQQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=m8IE0hje4gd0pzd+9JOLkGvpIxTTT8kDLitHvMXfaYE=;
+ b=P7IRktWHVUgW9DL5O7kkc06nHjME3E3q95e96Fi7i4NZ2c4vFOOS1GIeWqPUB4nILLlo9jrrhsh72IaU+/2qwRBnqh9Ij+bTEzlsH/OKhuemLS2Tim8OmdKpNSpSdYqkvtt6Xo24qebMAFFFoKq8Q+YcftilnyRMJRDYAzjyn6M=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM5PR0801MB1907.eurprd08.prod.outlook.com (2603:10a6:203:4a::11)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.20; Wed, 26 May
+ 2021 16:13:32 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::b403:c1a9:6bb7:133]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::b403:c1a9:6bb7:133%8]) with mapi id 15.20.4150.027; Wed, 26 May 2021
+ 16:13:32 +0000
+Subject: Re: [PATCH v2 4/7] block-copy: add a CoMutex to the BlockCopyTask list
+To: Paolo Bonzini <pbonzini@redhat.com>,
+ Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
+Cc: John Snow <jsnow@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20210518100757.31243-1-eesposit@redhat.com>
+ <20210518100757.31243-5-eesposit@redhat.com>
+ <a3626fa3-359f-c746-74ac-b1b942ae56b0@virtuozzo.com>
+ <26cc90a9-756d-902e-3559-81cc01439e24@redhat.com>
+ <fae5f204-ceb7-722c-ab02-4a1671c52624@virtuozzo.com>
+ <2a60c691-12c1-fb53-ae47-0e56ca8a0ad1@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <32a95fc2-b9e7-96e6-40ce-360e027d04ab@virtuozzo.com>
+Date: Wed, 26 May 2021 19:13:30 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
-MIME-Version: 1.0
-In-Reply-To: <fc7fde45-a8ae-7249-7cac-b9f7fbfbee0f@eldorado.org.br>
+ Thunderbird/78.10.2
+In-Reply-To: <2a60c691-12c1-fb53-ae47-0e56ca8a0ad1@redhat.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62e.google.com
+X-Originating-IP: [185.215.60.195]
+X-ClientProxiedBy: PR3P251CA0017.EURP251.PROD.OUTLOOK.COM
+ (2603:10a6:102:b5::15) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.8] (185.215.60.195) by
+ PR3P251CA0017.EURP251.PROD.OUTLOOK.COM (2603:10a6:102:b5::15) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4173.20 via Frontend Transport; Wed, 26 May 2021 16:13:31 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: ebbb522e-1e39-43ce-90d3-08d920613528
+X-MS-TrafficTypeDiagnostic: AM5PR0801MB1907:
+X-Microsoft-Antispam-PRVS: <AM5PR0801MB19074FC9286FA975A9045455C1249@AM5PR0801MB1907.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: zihJxaGxLaThdp/O3BogO/iwoprbOKBVdZt8Wrw1yx7+jhWEtUMpv61/FBffTTpTgH+SsbddyuWfp8PYqF8UjplB4gVVSUVBpVGwVkIU0HimyABQTdq7gs3ea47xURDP2Nq2BmBVt4HFI4/NkJt+Bvb1VbIW2qrbtJu7uW/7soTu3I3iRhhWSApiJARCyGY5HBjVX3mC3G+M7T6ufiQ0wHAR6YSbt2/IywOGV1evv+n0JS0DmLItUV3ike6KfTDx9EarEx6H156AQB9o/ID+scat8d9OfpRHRg3+Bqq1OqSLiTgLzQaIH9JTUFmGPW5/L2JZYCIUEeo2f23v0WIvUcAQyEptu57aPbTBo1Nly4mMZy3HmWJnKgBq+q6vobjJLvnU2yAZcoM1s5TeBMNC1e7xBMt70zWt51pfeLl9I0P7Xvd07R4Jb/8hw3tHvzPEQFEClcN//JwHjMK2VevR9uE9T8N8/1qr8oaGeoQ1FWV95sp0M3ioHXgvDUIV3SpDUyVTTgMHxhVftmtQDoG7UTEysMmPZvqNWJnMPOB8Bz64t5Y6d5ZdVnroo0FgOX/We4Drq3r4OFEdI8u/Q5kd7x2zG6S+UxcnvI4sHVP94dLUF2N8FNbOhT9lwARXmi7Mixr3lFMpq/MDsXHiNgZYRf+giwos017ERd737D92cdtRmmZ2wkF1UUDtmW+uiYGvGQ8V1EtoVrvrDUQooadlq4/KyuAO2aijnyqAvxYtWuI=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(6029001)(4636009)(346002)(396003)(376002)(366004)(136003)(39830400003)(66476007)(66556008)(6486002)(956004)(66946007)(16526019)(5660300002)(31686004)(52116002)(53546011)(478600001)(31696002)(16576012)(38350700002)(54906003)(2616005)(186003)(110136005)(26005)(8676002)(86362001)(2906002)(38100700002)(4326008)(316002)(8936002)(83380400001)(36756003)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?MGZqTThuVHJKZko3MUQrSnoxcEhzb2hTbUtIWWhaL1NKQkF1MmgzbnFpc1Nr?=
+ =?utf-8?B?anAzRHNkbEdjaHdIdVRhcXIwa3JkUUlRVk8vODIvdmZqbEhUTG5FU1lzQjFy?=
+ =?utf-8?B?M0FhbWpyRFBXV1pxcnl1UEdRVzVDdkZCZHdOK3cwTEk0YW85WGo5Q0trOWxa?=
+ =?utf-8?B?dkZOdkdNMVZaM0d0dk8rZkJKb2VhNmpmR3lSSEVuRUltc3RyQlcwdGsvakpu?=
+ =?utf-8?B?SjR1WTkwNGZxNTQ1aGdVVFRaVkw4K094MzZUcjA0dmxka3M5bU5iQ3RHYTg2?=
+ =?utf-8?B?RDlUTzRUR3pHY01iYlNtenJhaUEyWDMrUVFsY1B3Vmx6d0w5SDRpWmdOSWEx?=
+ =?utf-8?B?b0plWWhBZFlaUUhMOXlvZlB5Q2o5alM3eTgybUlyWnJGM2hWREVjNTBhT0g3?=
+ =?utf-8?B?ZkxPeXVUU2ZTc2JhMURCT3JWVzluTURYcmkrSTNRZDlhd2dNdDJ3NnJDS3ZJ?=
+ =?utf-8?B?TS96cjJvVGNzV3hTd3BhUlk0WXU4SlFkS3pSd0hTTzZzRmpkQ0tHMkVSQ1Qz?=
+ =?utf-8?B?bXBxSitSK0lVSUg2SnJpUzZvSE02NXU3UHRuZUFzQmlJd2lJdWp5SXRpOS9L?=
+ =?utf-8?B?cXR3TmlaT0FmZkw0bERUcUxwRHRqTVFmeFZNWE9HQzdCWmVERXNZajhSOUlr?=
+ =?utf-8?B?ZndiRStrQjdPay80VjN4TlVSUUZIU1Q5OUlVQUl6bUplYVhIdFh5U0twdVdw?=
+ =?utf-8?B?bDBicTR4WWphdXBVcEZmQVd1V1NxOUVzL0lxOG5zVmJCQ2NKV3dnM2VtVFBq?=
+ =?utf-8?B?ZkdNNkNNVHJXZWpQTkNLYjZ2TXcxNTZleFV1OThydFYxa3JmUVZET09QM1Fk?=
+ =?utf-8?B?R3krNjh1NU84dWRYQnlKVEtwdXFOenFaL0w5K2tzVEEySUppMUJpTkp4VVBz?=
+ =?utf-8?B?dUY5UDhuM2ZRWi9WR3hDMldWUSthdFVHMVYvb3FQMHdqdUVxT3VIVWVSaU9v?=
+ =?utf-8?B?NGZZNG10ZWgvK0NWendmY2FSKy9nNERYZXluV1R0bEhqL24wZ0VFelVpV3lN?=
+ =?utf-8?B?WUp5eUl2dlFBOHErRk45R0VOK3VzaUwwNy9xdTRkaHNLc1ZvaE5ZVmpYVVVH?=
+ =?utf-8?B?Q0kxTHd4OWg3N1pxaVpSN0dtbkJvN3ZBM01OZm84MSs4LzhuNDBqOTZyRGxM?=
+ =?utf-8?B?ZVVIZVd6VWlkTnRXcVNWWlNLTDFzSWRjWUpjZGZHbEdKRGJjUHhvM3doTDRk?=
+ =?utf-8?B?VWZkZXd5M1llbWVzSVhKYXdYQnVjZ3M3L3NkVzFnbTMxQTlGN09nbXF5WTNo?=
+ =?utf-8?B?UnY4ZjNNWXU2Wm9HYXMxamxKWGRScXNMUDliYUMyZGFkVEk1L2JEQ014em9k?=
+ =?utf-8?B?T01WczNtQVBOZVpDUmdidURYL0cvU2Y2NjV2OUpGaGRBSTlVNUgrZWh0dGMv?=
+ =?utf-8?B?aG0wYnpUQ0x3bjVBNWZmMThGSG9hMGRQWDJlTmxoQkh0VDdkeTU0RU9tbDZq?=
+ =?utf-8?B?MEtSeXlwMmRwMlBtM2FNZW8rNm92T2gyYnBrTUZISzMvRVJmRkZqT2tBNUlQ?=
+ =?utf-8?B?bENJZ3B0VFhWSk5kVVliNXZxNjM3Q01WMzhybG1qak5NQ3VzVlkxSFAxNEVZ?=
+ =?utf-8?B?eW1Mc05BdDI5L2ZlZjg0VXZQOUZScUpBeUdpVVNsWjBVWnlBZ1pPOU9OWnBF?=
+ =?utf-8?B?a2N2eWgwa2hxQ1hzYUdld3Z5Z3ZZOHY3aW5ZaTA4WkNRQXN2eVF6eDk1VGFt?=
+ =?utf-8?B?OUhUTytNclRHcTZqRG9mY01lM2RzVllrekpsMGR1cXYvakw3ODNxVG9JVUpW?=
+ =?utf-8?Q?X8F8A4nL//ds1MFgemKxsqK2CRFo/ut5AYl58lu?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ebbb522e-1e39-43ce-90d3-08d920613528
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 May 2021 16:13:32.6737 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: DYeh0DjrmkqGmO/4IOGrCgPMw1ItJvbjpgEkYjtFbwCuly8fwsfdUTzrWVbRowzn1K63kPpVOSkxVzzCnOeI5w63trir8eh3IQWqvtGkZcI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0801MB1907
+Received-SPF: pass client-ip=40.107.6.107;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR04-DB3-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,91 +150,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lagarcia@br.ibm.com, luis.pires@eldorado.org.br, f4bug@amsat.org,
- david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/26/21 8:17 AM, Matheus K. Ferst wrote:
-> On 24/05/2021 15:51, Richard Henderson wrote:
->> On 5/21/21 10:25 AM, Matheus K. Ferst wrote:
->>> On 18/05/2021 07:12, Richard Henderson wrote:
->>>> On 5/17/21 3:50 PM, matheus.ferst@eldorado.org.br wrote:
->>>>> +    if(a->l && (ctx->insns_flags & PPC_64B)) {
->>>>
->>>> Space after IF.
->>>> > If I look back to the 6xx manual, I see
->>>>
->>>>    NOTE: If L = 1, the instruction form is invalid.
->>>>
->>>> The fact that we're allowing L=1 for ppc32 is an existing bug, afaics. We 
->>>> should fix that.
->>>>
->>>>
->>>> r~
+26.05.2021 17:58, Paolo Bonzini wrote:
+> On 25/05/21 12:25, Vladimir Sementsov-Ogievskiy wrote:
+>>>> Next, even if we take bitmaps lock in bdrv_dirty_bitmap_next_dirty_area() or around it, it doesn't bring thread-safety to block_copy_task_create():
 >>>
->>> The previous commit on this line in translate.c says that "on most 32bit 
->>> CPUs we should always treat the compare as 32bit compare, as the CPU will 
->>> ignore the L bit", so maybe it was intentional. Should we change it anyway?
+>>> The simplest solution here seems to protect bdrv_dirty_bitmap_next_dirty_area and also bdrv_reset_dirty_bitmap with the tasks lock, so that once it is released the bitmap is updated accordingly and from my understanding no other task can get that region.
 >>
->> The actual change of 36f48d9c78c is about NARROW_MODE, which is about the 
->> MSR.SF bit, and is correct.
->>
->> The commit message mentions the e500mc specifically does check the L bit, and 
->> then hand-waves about the others not checking.  But the text I found in the 
->> 6xx manual says that one checks too.
->>
->> I wonder if the IBM folk can shed any further light on this?
->>
->>
->> r~
+>> Yes, we just need to protect larger areas by outer lock, to protect the logic, not only structures itself.
 > 
-> I was pointed to the 601 manual, which says:
-> 
-> "While the PowerPC architecture specifies that the value in the L field 
-> determines whether the operands are treated as 32- or 64-bit values, the 601 
-> ignores the value in the L field and treats the operands as 32-bit values."
-> 
-> There is also a section in Appendix B called "Reserved Bits in Instructions", 
-> which says:
-> 
-> "These are shown with '/'s in the instruction opcode definitions. In the POWER 
-> architecture such bits are ignored by the processor. In PowerPC architecture 
-> they must be 0 or the instruction form is invalid. In several cases the PowerPC 
-> architecture assumes that such bits in POWER instructions are indeed 0. The 
-> cases include the following:
-> - cmpi, cmp, cmpli, and cmpl assume that bit 10 in the POWER instructions is 0.
-> - mtspr and mfspr assume that bits 16–20 in the POWER instructions are 0."
-> 
-> Searching the manuals for other processors, I identified that the manuals for 
-> 405, 440, e500, and e500mc explicit says that the L bit should always be 0, and 
-> manuals for 603e, 604, 604e, 740/745/750/755, 750CX, 750CL, 750FX, 7400/7410, 
-> 7447/7447A/7448/7450/7455, e300, and e600 list the bit L in operand syntax but 
-> do not mention any restrictions on its value.
-> 
-> Alfredo Dal Ava Junior (adalva) did some tests for us on his G4 MacBook, 
-> confirming that the bit is ignored in PowerPC 7447A v1.2, one of which the 
-> manual does not specify the behavior, but I don't know if can assume the same 
-> for other processors.
-> 
-> If we do bother to emulate the specific behavior for each CPU, what would be 
-> the default for those whose manual is not explicit and we cannot test? Also, I 
-> not sure how to check for it, do we need a new POWERPC_FLAG in pcc->flags?
+> Locks protects data, not code; code must ensure invariants are respected at the end of critical sections.  Here we have both problems:
 
-Thanks for the research.
+Hmm. Anyway, if code doesn't work with data that is potentially shared with other threads, it doesn't need any protection. So, I agree.. I just wanted to say that, if we have two data structures A and B, each protected by own lock, it doesn't mean that our code is thread-safe. In your terminology we can say that the whole data (which is a combination of A and B) is not protected by partial locks, we need another lock to protect the combination.
 
-There's an argument for following the architecture, even when implementations 
-vary.  Especially when implementations very, as this makes testing with qemu 
-more likely to catch software bugs.
-
-There's another argument for following implementations.  I would generally 
-reserve this interpretation for historical cpus, where we are trying to emulate 
-something specific (e.g. a games console) where the legacy software relies on 
-specific behavior.
-
-I'll let David have the final call on this, but my inclination is to follow the 
-architecture and require 0s for reserved bits.
+> 
+> - it's protecting too little data (the bitmap is not protected).  This is a block/dirty-bitmap.c bug.
+> 
+> - it's not respecting the invariant that tasks always reflected a superset of what is set in the dirty bitmap.  This is solved by making the critical section larger.
+> 
 
 
-r~
+
+-- 
+Best regards,
+Vladimir
 
