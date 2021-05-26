@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 478AC392208
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 23:27:20 +0200 (CEST)
-Received: from localhost ([::1]:56516 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CF5039220A
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 23:29:38 +0200 (CEST)
+Received: from localhost ([::1]:35224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lm13f-0004b8-9o
-	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 17:27:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37680)
+	id 1lm15t-0000ov-Jl
+	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 17:29:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37692)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lm0vS-00024e-1A
- for qemu-devel@nongnu.org; Wed, 26 May 2021 17:18:50 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:39526)
+ id 1lm0vW-000295-60
+ for qemu-devel@nongnu.org; Wed, 26 May 2021 17:18:54 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:35619)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lm0vP-0008C2-L7
- for qemu-devel@nongnu.org; Wed, 26 May 2021 17:18:49 -0400
-Received: by mail-wr1-x430.google.com with SMTP id v12so2556747wrq.6
- for <qemu-devel@nongnu.org>; Wed, 26 May 2021 14:18:47 -0700 (PDT)
+ id 1lm0vU-0008Er-JH
+ for qemu-devel@nongnu.org; Wed, 26 May 2021 17:18:53 -0400
+Received: by mail-wm1-x335.google.com with SMTP id
+ z19-20020a7bc7d30000b029017521c1fb75so1382890wmk.0
+ for <qemu-devel@nongnu.org>; Wed, 26 May 2021 14:18:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=A1xwDYaxd6JVF19FGs2XehHjTnmolRlelitlWwSXhuc=;
- b=cNwI2wrtS7BWA9T331flCjCfiewk+KOiHD15Y8i153eOQ6aubNv7msWG1yumrBhyVH
- 1Bkr4C4kC+rJhCbUJTDQH8aDjLyEx1M/UWE8AIyUEqN+YBxqgx4KAURjv6d/SxtdFMXT
- xgi6q40jCMbjQxaIUBPNpk+pe/JvkC82V9Rn7twnNA+k5hO2zVuogu5OpuzlplsYJoLc
- VWpupS/nFyel2STonunrT5oyssMeS9S+AfkqaR9fD8hdsGeAKVTyAd6plGBdq5rkf9jc
- ARTp6hM2FioDP0tSZ7u86u1SKAZ/h8geToTNk+wk+oTerlItOwKluAigdpvxVrrGO8zF
- 158Q==
+ bh=Y7R9KU2v40J4HPku0X26Zmix7Qt6Ns1y6ik1H3mrzsY=;
+ b=NDdkL0qirTCXNoqUBOIGHfeTEaR7oJk3JYbkRptjgFvzROBtE5GMwRIXloG13OG5sF
+ q8va0AHWv5YuI8RgnlxfU9L4u+JWhyyuIW7Jb9/ASVaO1Fh5IXtvu52/c/3NVF9/juqy
+ GvQyjFt3a7cmE5pxZsuTk+YGsuh1FjmyLHx6+hxIbUWHXCNApLiBEFm42joBik+bYROU
+ nl13ume1Rj2NCnb8VU0mfPTZw/rTZXybVjZBWPGE9TFhZAGF6rTemrMzdyvRXDldvG96
+ 0mvL3PazGVhqAmTTJHso4rupGrpTFgTklPYQBcWmwCFmSYLRR5sqEdqbVRPfICAOysGt
+ CtsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=A1xwDYaxd6JVF19FGs2XehHjTnmolRlelitlWwSXhuc=;
- b=ptWnPKmN2fWQtAE52f1tx6IAxWqQgdiO+MpD7Jau7laGweSNj6qxXdYI71omcVNavL
- YtFhANCVsIscq/qdBv5yz/NwzqemWlgF8YZRKAI4XdgV2gNKhic9zDQJcRkgha27Rraz
- dUsMjtF4xJNWbiqQTJk34OL6ODJrLYNXSBqbw1+yY6lBG/lELiyLdBFMsEexz8BqFzwF
- fj/UDCRoaLbmOIf9eq69UeBQhBZeTob8aBFa6ozP+aKJW/aeEtLNcxkSMEzObJgyISu/
- vxcc2K7msYTeJKzTDzjV5IMt5yfi8J0+a02VWSWWq1JGtHbFpVcaBDIhU5Qw/OuRUSTM
- IJFQ==
-X-Gm-Message-State: AOAM530R3WaQoT+nECZd7HEF3vv92lG55xy0cCCvK9eTHu6jjzl75D1Y
- CTvr4QXyUcUthEbDU9+CuLRT4YXOBB+cdg==
-X-Google-Smtp-Source: ABdhPJxkmxNuvi9bBcf3ZWWkQKjuqx1QNSKYhCrQ8cA7leooS2vAnZEB2gxX9u0Psla4Yi/pC/RreA==
-X-Received: by 2002:a5d:6804:: with SMTP id w4mr35572390wru.363.1622063926062; 
- Wed, 26 May 2021 14:18:46 -0700 (PDT)
+ bh=Y7R9KU2v40J4HPku0X26Zmix7Qt6Ns1y6ik1H3mrzsY=;
+ b=hPOcD6F8w/DHh/pqP8QnU/BUOW2NFyZ+AzZqkTInxUB6ecNtVdhW5Y3A4v07LkJX/u
+ X/DXnhYNC7HbndiHshjiqqOKMVwyyFTISP/5h3J4ncHhXYH88cAQx/RJlh7wdT1zbqGs
+ jc/RpIU2fxx2UNFaBVof82KS+ImL3I/ME1Tx5Ca0ZbMHuGHVlowgn6d90xO177BFSP83
+ L2i0W4Un6TEpvxa1jX+BQ0+ZJLMmO+pEiubJdfFN6yYHAsArxbB4Oke2sM6ijnb7ZKXi
+ 1QsgIuUrhJDllDYH+cBHfGwi6eFri2dCyUCHrg8ZEycsIjgUJ5Zn0fFFZ5P+Ysnxi8Xi
+ 24GA==
+X-Gm-Message-State: AOAM531j42vZj93244M25NCMxpFHfN9FuwgzNK9KyFyGINtazTdDtKa5
+ Ixl9lFdJBPo9qFJ/r1GLwQB3U4tRmVFnwA==
+X-Google-Smtp-Source: ABdhPJzigUGF7fOctFCngK5QZumFEICvPPQxrQbZhQOALWlFDB82l4JCfUoQApXtAOz0CPzkDmg+6A==
+X-Received: by 2002:a1c:f212:: with SMTP id s18mr5107047wmc.172.1622063931028; 
+ Wed, 26 May 2021 14:18:51 -0700 (PDT)
 Received: from localhost.localdomain
  (235.red-83-57-168.dynamicip.rima-tde.net. [83.57.168.235])
- by smtp.gmail.com with ESMTPSA id u14sm7802902wmc.41.2021.05.26.14.18.44
+ by smtp.gmail.com with ESMTPSA id l7sm262994wmq.22.2021.05.26.14.18.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 May 2021 14:18:45 -0700 (PDT)
+ Wed, 26 May 2021 14:18:50 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/19] gitlab: Replace YAML anchors by extends
- (acceptance_test_job)
-Date: Wed, 26 May 2021 23:18:20 +0200
-Message-Id: <20210526211838.421716-2-f4bug@amsat.org>
+Subject: [PULL 02/19] gitlab: Rename ACCEL_CONFIGURE_OPTS to
+ EXTRA_CONFIGURE_OPTS
+Date: Wed, 26 May 2021 23:18:21 +0200
+Message-Id: <20210526211838.421716-3-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210526211838.421716-1-f4bug@amsat.org>
 References: <20210526211838.421716-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -87,7 +88,7 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Willian Rampazzo <willianr@redhat.com>,
@@ -95,179 +96,73 @@ Cc: Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
 
-'extends' is an alternative to using YAML anchors
-and is a little more flexible and readable. See:
-https://docs.gitlab.com/ee/ci/yaml/#extends
-
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Suggested-by: Thomas Huth <thuth@redhat.com>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Willian Rampazzo <willianr@redhat.com>
-Message-Id: <20210519185504.2198573-2-f4bug@amsat.org>
-Signed-off-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20210502235727.1979457-26-richard.henderson@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- .gitlab-ci.yml | 30 +++++++++++-------------------
- 1 file changed, 11 insertions(+), 19 deletions(-)
+ .gitlab-ci.d/crossbuilds.yml | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-index 6a0d311cf40..d6e93369d6b 100644
---- a/.gitlab-ci.yml
-+++ b/.gitlab-ci.yml
-@@ -52,7 +52,8 @@ include:
-     # Avoid recompiling by hiding ninja with NINJA=":"
-     - make NINJA=":" $MAKE_CHECK_ARGS
+diff --git a/.gitlab-ci.d/crossbuilds.yml b/.gitlab-ci.d/crossbuilds.yml
+index e44e4b49a25..2198abb400e 100644
+--- a/.gitlab-ci.d/crossbuilds.yml
++++ b/.gitlab-ci.d/crossbuilds.yml
+@@ -16,7 +16,7 @@
+ #
+ # Set the $ACCEL variable to select the specific accelerator (default to
+ # KVM), and set extra options (such disabling other accelerators) via the
+-# $ACCEL_CONFIGURE_OPTS variable.
++# $EXTRA_CONFIGURE_OPTS variable.
+ .cross_accel_build_job:
+   stage: build
+   image: $CI_REGISTRY_IMAGE/qemu/$IMAGE:latest
+@@ -26,7 +26,7 @@
+     - cd build
+     - PKG_CONFIG_PATH=$PKG_CONFIG_PATH
+       ../configure --enable-werror --disable-docs $QEMU_CONFIGURE_OPTS
+-        --disable-tools --enable-${ACCEL:-kvm} $ACCEL_CONFIGURE_OPTS
++        --disable-tools --enable-${ACCEL:-kvm} $EXTRA_CONFIGURE_OPTS
+     - make -j$(expr $(nproc) + 1) all check-build
  
--.acceptance_template: &acceptance_definition
-+.acceptance_test_job_template:
-+  extends: .native_test_job_template
-   cache:
-     key: "${CI_JOB_NAME}-cache"
-     paths:
-@@ -108,14 +109,13 @@ check-system-alpine:
-     MAKE_CHECK_ARGS: check
- 
- acceptance-system-alpine:
--  extends: .native_test_job_template
-+  extends: .acceptance_test_job_template
-   needs:
-     - job: build-system-alpine
-       artifacts: true
+ .cross_user_build_job:
+@@ -174,7 +174,7 @@ cross-s390x-kvm-only:
+     job: s390x-debian-cross-container
    variables:
-     IMAGE: alpine
-     MAKE_CHECK_ARGS: check-acceptance
--  <<: *acceptance_definition
+     IMAGE: debian-s390x-cross
+-    ACCEL_CONFIGURE_OPTS: --disable-tcg
++    EXTRA_CONFIGURE_OPTS: --disable-tcg
  
- build-system-ubuntu:
-   extends: .native_build_job_template
-@@ -142,14 +142,13 @@ check-system-ubuntu:
-     MAKE_CHECK_ARGS: check
- 
- acceptance-system-ubuntu:
--  extends: .native_test_job_template
-+  extends: .acceptance_test_job_template
-   needs:
-     - job: build-system-ubuntu
-       artifacts: true
+ cross-mips64el-kvm-only:
+   extends: .cross_accel_build_job
+@@ -182,7 +182,7 @@ cross-mips64el-kvm-only:
+     job: mips64el-debian-cross-container
    variables:
-     IMAGE: ubuntu2004
-     MAKE_CHECK_ARGS: check-acceptance
--  <<: *acceptance_definition
+     IMAGE: debian-mips64el-cross
+-    ACCEL_CONFIGURE_OPTS: --disable-tcg --target-list=mips64el-softmmu
++    EXTRA_CONFIGURE_OPTS: --disable-tcg --target-list=mips64el-softmmu
  
- build-system-debian:
-   extends: .native_build_job_template
-@@ -176,14 +175,13 @@ check-system-debian:
-     MAKE_CHECK_ARGS: check
- 
- acceptance-system-debian:
--  extends: .native_test_job_template
-+  extends: .acceptance_test_job_template
-   needs:
-     - job: build-system-debian
-       artifacts: true
+ cross-win32-system:
+   extends: .cross_system_build_job
+@@ -205,7 +205,7 @@ cross-amd64-xen-only:
    variables:
-     IMAGE: debian-amd64
-     MAKE_CHECK_ARGS: check-acceptance
--  <<: *acceptance_definition
+     IMAGE: debian-amd64-cross
+     ACCEL: xen
+-    ACCEL_CONFIGURE_OPTS: --disable-tcg --disable-kvm
++    EXTRA_CONFIGURE_OPTS: --disable-tcg --disable-kvm
  
- build-system-fedora:
-   extends: .native_build_job_template
-@@ -211,14 +209,13 @@ check-system-fedora:
-     MAKE_CHECK_ARGS: check
- 
- acceptance-system-fedora:
--  extends: .native_test_job_template
-+  extends: .acceptance_test_job_template
-   needs:
-     - job: build-system-fedora
-       artifacts: true
+ cross-arm64-xen-only:
+   extends: .cross_accel_build_job
+@@ -214,4 +214,4 @@ cross-arm64-xen-only:
    variables:
-     IMAGE: fedora
-     MAKE_CHECK_ARGS: check-acceptance
--  <<: *acceptance_definition
- 
- build-system-centos:
-   extends: .native_build_job_template
-@@ -246,14 +243,13 @@ check-system-centos:
-     MAKE_CHECK_ARGS: check
- 
- acceptance-system-centos:
--  extends: .native_test_job_template
-+  extends: .acceptance_test_job_template
-   needs:
-     - job: build-system-centos
-       artifacts: true
-   variables:
-     IMAGE: centos8
-     MAKE_CHECK_ARGS: check-acceptance
--  <<: *acceptance_definition
- 
- build-system-opensuse:
-   extends: .native_build_job_template
-@@ -279,14 +275,13 @@ check-system-opensuse:
-     MAKE_CHECK_ARGS: check
- 
- acceptance-system-opensuse:
--  extends: .native_test_job_template
-+  extends: .acceptance_test_job_template
-   needs:
-     - job: build-system-opensuse
-       artifacts: true
-   variables:
-     IMAGE: opensuse-leap
-     MAKE_CHECK_ARGS: check-acceptance
--  <<: *acceptance_definition
- 
- 
- build-disabled:
-@@ -535,14 +530,13 @@ check-cfi-aarch64:
-     MAKE_CHECK_ARGS: check
- 
- acceptance-cfi-aarch64:
--  extends: .native_test_job_template
-+  extends: .acceptance_test_job_template
-   needs:
-     - job: build-cfi-aarch64
-       artifacts: true
-   variables:
-     IMAGE: fedora
-     MAKE_CHECK_ARGS: check-acceptance
--  <<: *acceptance_definition
- 
- build-cfi-ppc64-s390x:
-   extends: .native_build_job_template
-@@ -572,14 +566,13 @@ check-cfi-ppc64-s390x:
-     MAKE_CHECK_ARGS: check
- 
- acceptance-cfi-ppc64-s390x:
--  extends: .native_test_job_template
-+  extends: .acceptance_test_job_template
-   needs:
-     - job: build-cfi-ppc64-s390x
-       artifacts: true
-   variables:
-     IMAGE: fedora
-     MAKE_CHECK_ARGS: check-acceptance
--  <<: *acceptance_definition
- 
- build-cfi-x86_64:
-   extends: .native_build_job_template
-@@ -609,14 +602,13 @@ check-cfi-x86_64:
-     MAKE_CHECK_ARGS: check
- 
- acceptance-cfi-x86_64:
--  extends: .native_test_job_template
-+  extends: .acceptance_test_job_template
-   needs:
-     - job: build-cfi-x86_64
-       artifacts: true
-   variables:
-     IMAGE: fedora
-     MAKE_CHECK_ARGS: check-acceptance
--  <<: *acceptance_definition
- 
- tsan-build:
-   extends: .native_build_job_template
+     IMAGE: debian-arm64-cross
+     ACCEL: xen
+-    ACCEL_CONFIGURE_OPTS: --disable-tcg --disable-kvm
++    EXTRA_CONFIGURE_OPTS: --disable-tcg --disable-kvm
 -- 
 2.26.3
 
