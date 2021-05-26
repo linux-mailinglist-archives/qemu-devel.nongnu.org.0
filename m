@@ -2,54 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE5AA391E7F
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 19:57:31 +0200 (CEST)
-Received: from localhost ([::1]:53922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C37A3391EA4
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 20:02:48 +0200 (CEST)
+Received: from localhost ([::1]:34306 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llxmc-0007Kj-RF
-	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 13:57:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52302)
+	id 1llxre-0004oF-Js
+	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 14:02:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52314)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1llxba-0003PW-FL
- for qemu-devel@nongnu.org; Wed, 26 May 2021 13:46:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44600)
+ id 1llxbb-0003Pe-Rx
+ for qemu-devel@nongnu.org; Wed, 26 May 2021 13:46:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37322)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1llxbU-0008J9-Lc
- for qemu-devel@nongnu.org; Wed, 26 May 2021 13:46:04 -0400
+ id 1llxbV-0008KM-Q1
+ for qemu-devel@nongnu.org; Wed, 26 May 2021 13:46:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622051158;
+ s=mimecast20190719; t=1622051160;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gTpWvv9zmttSq7SR+21M+c7fZ5YeaV4iOciTybmKbWU=;
- b=LSp2/b7IqhZB9U4oqD/7QR8EWLhnnzfoYaGR6xDhqk7GDqqaeqpMAnl0wLzn5edTOM5zIL
- YziQR0hb8L89FxliigKlKHW1bOpkIT249wTEzzzrLOvGWgDrbX3MQFw2eSuI5YUKiDJaCG
- da9hy4w3zMXkRpP2c/bNzzrClucxSEE=
+ bh=yBKh3cXcUuLqVYMfMYNZf35c7b50Z71DUrkEHsccM9A=;
+ b=TkmaMfdzcDSldGS2+jzeo4EMDLQg51QmGehjte9XAkYAHu7lasoUp1V8/8EMF1GnuF/MJX
+ FHKY51E5RE/en5Bq9vW/q9QxAHsoXapoZ+uCcs2W3ar7UTrDAVQqYBy5j5Hfn9aa0M24jI
+ UoCg1g/UUuVkuM/vSqDl3GuetXt7bfE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-192-kiO_R5vjNNiZmVsMD2OZoA-1; Wed, 26 May 2021 13:45:56 -0400
-X-MC-Unique: kiO_R5vjNNiZmVsMD2OZoA-1
+ us-mta-316-BsobCquiNpCle0bM51kaQw-1; Wed, 26 May 2021 13:45:58 -0400
+X-MC-Unique: BsobCquiNpCle0bM51kaQw-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D71F91005D53;
- Wed, 26 May 2021 17:45:55 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A2F3C1005D50;
+ Wed, 26 May 2021 17:45:57 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-114-247.ams2.redhat.com
  [10.36.114.247])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 63F655D9C6;
- Wed, 26 May 2021 17:45:54 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 330C25D9C6;
+ Wed, 26 May 2021 17:45:56 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, kwolf@redhat.com, vgoyal@redhat.com,
  ma.mandourr@gmail.com, lizhijian@cn.fujitsu.com
-Subject: [PULL 01/15] hmp: Fix loadvm to resume the VM on success instead of
- failure
-Date: Wed, 26 May 2021 18:45:26 +0100
-Message-Id: <20210526174540.290588-2-dgilbert@redhat.com>
+Subject: [PULL 02/15] virtiofsd: Check for EINTR in preadv() and retry
+Date: Wed, 26 May 2021 18:45:27 +0100
+Message-Id: <20210526174540.290588-3-dgilbert@redhat.com>
 In-Reply-To: <20210526174540.290588-1-dgilbert@redhat.com>
 References: <20210526174540.290588-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -85,38 +84,34 @@ Cc: peterx@redhat.com, stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Kevin Wolf <kwolf@redhat.com>
+From: Vivek Goyal <vgoyal@redhat.com>
 
-Commit f61fe11aa6f broke hmp_loadvm() by adding an incorrect negation
-when converting from 0/-errno return values to a bool value. The result
-is that loadvm resumes the VM now if it failed and keeps it stopped if
-it failed. Fix it to restore the old behaviour and do it the other way
-around.
+We don't seem to check for EINTR and retry. There are other places
+in code where we check for EINTR. So lets add a check.
 
-Fixes: f61fe11aa6f7f8f0ffe4ddaa56a8108f3ab57854
-Cc: qemu-stable@nongnu.org
-Reported-by: Yanhui Ma <yama@redhat.com>
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-Message-Id: <20210511163151.45167-1-kwolf@redhat.com>
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Reviewed-by: Connor Kuehl <ckuehl@redhat.com>
+Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
+Message-Id: <20210518213538.693422-2-vgoyal@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- monitor/hmp-cmds.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tools/virtiofsd/fuse_virtio.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index d9bef63373..d10ee14110 100644
---- a/monitor/hmp-cmds.c
-+++ b/monitor/hmp-cmds.c
-@@ -1133,7 +1133,7 @@ void hmp_loadvm(Monitor *mon, const QDict *qdict)
+diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.c
+index 9efdbd8ffd..755d7fb25c 100644
+--- a/tools/virtiofsd/fuse_virtio.c
++++ b/tools/virtiofsd/fuse_virtio.c
+@@ -421,6 +421,9 @@ int virtio_send_data_iov(struct fuse_session *se, struct fuse_chan *ch,
  
-     vm_stop(RUN_STATE_RESTORE_VM);
- 
--    if (!load_snapshot(name, NULL, false, NULL, &err) && saved_vm_running) {
-+    if (load_snapshot(name, NULL, false, NULL, &err) && saved_vm_running) {
-         vm_start();
-     }
-     hmp_handle_error(mon, err);
+         if (ret == -1) {
+             ret = errno;
++            if (ret == EINTR) {
++                continue;
++            }
+             fuse_log(FUSE_LOG_DEBUG, "%s: preadv failed (%m) len=%zd\n",
+                      __func__, len);
+             goto err;
 -- 
 2.31.1
 
