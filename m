@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB0E8391ECA
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 20:13:59 +0200 (CEST)
-Received: from localhost ([::1]:52588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF3AC391E86
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 19:58:26 +0200 (CEST)
+Received: from localhost ([::1]:56620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lly2Y-0000iO-St
-	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 14:13:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52386)
+	id 1llxnV-0000iH-LL
+	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 13:58:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52428)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1llxbs-0003Zy-4B
- for qemu-devel@nongnu.org; Wed, 26 May 2021 13:46:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54302)
+ id 1llxbz-0003ch-6B
+ for qemu-devel@nongnu.org; Wed, 26 May 2021 13:46:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23569)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1llxbm-0008Tu-93
- for qemu-devel@nongnu.org; Wed, 26 May 2021 13:46:23 -0400
+ id 1llxbr-000056-7g
+ for qemu-devel@nongnu.org; Wed, 26 May 2021 13:46:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622051177;
+ s=mimecast20190719; t=1622051182;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8/ZCBza/TJxM/WPXTdZDWfK95h1Zn3I9JZbEie5sy1c=;
- b=VT6pJVlGWwf+nx3ay9d5ZDdCuLGJ8cGZ2m9lE6KGSHcX2VMXkKA/oTOvhaFBt2nGCRF7+E
- hxmKA+iVmdN+YaCEIHQqH9BnfxHmrTyCvfsB226NcGrwSvGmfSzWIK9V7G+F5Q2eT6Jz52
- GDn9/0/76b4wo9DfYlrEIIfeJIAsG9o=
+ bh=qOocFvEvqJcdd0cWu32y0PajuPJNFF2c268KUXyAJG0=;
+ b=DJ0tj1fXCCorDuh50FaA2zbqupmqn7oE8XQo5J0UFyUX37cCoyTIsqBW86nkSL/MGWAohg
+ DUJ6L938APPqv1GF9NZi3HO2auEkOe8gjkHOUt+dHkPoco7UaCJNlb96CE+wa7jkrZUQ29
+ 2odfxJ+51UrhRiX+uZMe8xEGxtdjvdQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-10-HA2vlz3zMgOvMwnce_I1bw-1; Wed, 26 May 2021 13:46:15 -0400
-X-MC-Unique: HA2vlz3zMgOvMwnce_I1bw-1
+ us-mta-336-2yZ_TlGuOi-ZAomEwDvvKw-1; Wed, 26 May 2021 13:46:18 -0400
+X-MC-Unique: 2yZ_TlGuOi-ZAomEwDvvKw-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6C80A1005D55;
- Wed, 26 May 2021 17:46:14 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 368C0107ACCA;
+ Wed, 26 May 2021 17:46:16 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-114-247.ams2.redhat.com
  [10.36.114.247])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 834885D9C6;
- Wed, 26 May 2021 17:46:06 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B60965D9C6;
+ Wed, 26 May 2021 17:46:14 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, kwolf@redhat.com, vgoyal@redhat.com,
  ma.mandourr@gmail.com, lizhijian@cn.fujitsu.com
-Subject: [PULL 06/15] virtiofsd: Simplify skip byte logic
-Date: Wed, 26 May 2021 18:45:31 +0100
-Message-Id: <20210526174540.290588-7-dgilbert@redhat.com>
+Subject: [PULL 07/15] virtiofsd: Check EOF before short read
+Date: Wed, 26 May 2021 18:45:32 +0100
+Message-Id: <20210526174540.290588-8-dgilbert@redhat.com>
 In-Reply-To: <20210526174540.290588-1-dgilbert@redhat.com>
 References: <20210526174540.290588-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -86,62 +86,63 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Vivek Goyal <vgoyal@redhat.com>
 
-We need to skip bytes in two cases.
+In virtio_send_data_iov() we are checking first for short read and then
+EOF condition. Change the order. Basically check for error and EOF first
+and last remaining piece is short ready which will lead to retry
+automatically at the end of while loop.
 
-a. Before we start reading into in_sg, we need to skip iov_len bytes
-   in the beginning which typically will have fuse_out_header.
-
-b. If preadv() does a short read, then we need to retry preadv() with
-   remainig bytes and skip the bytes preadv() read in short read.
-
-For case a, there is no reason that skipping logic be inside the while
-loop. Move it outside. And only retain logic "b" inside while loop.
-
-Also get rid of variable "skip_size". Looks like we can do without it.
+Just that it is little simpler to read to the code. There is no need
+to call "continue" and also one less call of "len-=ret".
 
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Reviewed-by: Connor Kuehl <ckuehl@redhat.com>
 Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
-Message-Id: <20210518213538.693422-6-vgoyal@redhat.com>
+Message-Id: <20210518213538.693422-7-vgoyal@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- tools/virtiofsd/fuse_virtio.c | 14 ++++----------
- 1 file changed, 4 insertions(+), 10 deletions(-)
+ tools/virtiofsd/fuse_virtio.c | 21 ++++++++++-----------
+ 1 file changed, 10 insertions(+), 11 deletions(-)
 
 diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.c
-index ed5146d7a6..49c7dd788a 100644
+index 49c7dd788a..99f91c9d87 100644
 --- a/tools/virtiofsd/fuse_virtio.c
 +++ b/tools/virtiofsd/fuse_virtio.c
-@@ -392,17 +392,11 @@ int virtio_send_data_iov(struct fuse_session *se, struct fuse_chan *ch,
-     unsigned int in_sg_cpy_count = in_num;
+@@ -410,25 +410,24 @@ int virtio_send_data_iov(struct fuse_session *se, struct fuse_chan *ch,
+                      __func__, len);
+             goto err;
+         }
+-        fuse_log(FUSE_LOG_DEBUG, "%s: preadv ret=%d len=%zd\n", __func__,
+-                 ret, len);
+-        if (ret < len && ret) {
+-            fuse_log(FUSE_LOG_DEBUG, "%s: ret < len\n", __func__);
+-            /* Skip over this much next time around */
+-            iov_discard_front(&in_sg_ptr, &in_sg_cpy_count, ret);
+-            buf->buf[0].pos += ret;
+-            len -= ret;
  
-     /* skip over parts of in_sg that contained the header iov */
--    size_t skip_size = iov_len;
-+    iov_discard_front(&in_sg_ptr, &in_sg_cpy_count, iov_len);
- 
-     do {
--        if (skip_size != 0) {
--            iov_discard_front(&in_sg_ptr, &in_sg_cpy_count, skip_size);
+-            /* Lets do another read */
+-            continue;
 -        }
--
--        fuse_log(FUSE_LOG_DEBUG,
--                 "%s: after skip skip_size=%zd in_sg_cpy_count=%d "
--                 "len remaining=%zd\n", __func__, skip_size, in_sg_cpy_count,
--                 len);
-+        fuse_log(FUSE_LOG_DEBUG, "%s: in_sg_cpy_count=%d len remaining=%zd\n",
-+                 __func__, in_sg_cpy_count, len);
- 
-         ret = preadv(buf->buf[0].fd, in_sg_ptr, in_sg_cpy_count,
-                      buf->buf[0].pos);
-@@ -421,7 +415,7 @@ int virtio_send_data_iov(struct fuse_session *se, struct fuse_chan *ch,
-         if (ret < len && ret) {
-             fuse_log(FUSE_LOG_DEBUG, "%s: ret < len\n", __func__);
-             /* Skip over this much next time around */
--            skip_size = ret;
+         if (!ret) {
+             /* EOF case? */
+             fuse_log(FUSE_LOG_DEBUG, "%s: !ret len remaining=%zd\n", __func__,
+                      len);
+             break;
+         }
++        fuse_log(FUSE_LOG_DEBUG, "%s: preadv ret=%d len=%zd\n", __func__,
++                 ret, len);
++
+         len -= ret;
++        /* Short read. Retry reading remaining bytes */
++        if (len) {
++            fuse_log(FUSE_LOG_DEBUG, "%s: ret < len\n", __func__);
++            /* Skip over this much next time around */
 +            iov_discard_front(&in_sg_ptr, &in_sg_cpy_count, ret);
-             buf->buf[0].pos += ret;
-             len -= ret;
++            buf->buf[0].pos += ret;
++        }
+     } while (len);
  
+     /* Need to fix out->len on EOF */
 -- 
 2.31.1
 
