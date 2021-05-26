@@ -2,70 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BA98390D9C
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 02:57:43 +0200 (CEST)
-Received: from localhost ([::1]:49458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DE7F390DC6
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 03:09:06 +0200 (CEST)
+Received: from localhost ([::1]:56024 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llhri-0006rb-IB
-	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 20:57:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46174)
+	id 1lli2j-0003E3-Ba
+	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 21:09:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53624)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yamamoto@midokura.com>)
- id 1llhlG-0005XQ-51
- for qemu-devel@nongnu.org; Tue, 25 May 2021 20:51:02 -0400
-Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:39563)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <yamamoto@midokura.com>)
- id 1llhlE-0004xo-3f
- for qemu-devel@nongnu.org; Tue, 25 May 2021 20:51:01 -0400
-Received: by mail-pl1-x631.google.com with SMTP id q16so1477742pls.6
- for <qemu-devel@nongnu.org>; Tue, 25 May 2021 17:50:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=midokura.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=zkAEwDHhAsom+6rBtODViIuiliXdA9/gM93EyK+S3xQ=;
- b=cNIeH81dLAgvAHzNn3hyZq57JYMzGJtcOLCg2TjS3jp2ar0Z05drQkJRmcQsMpCFOS
- gzBQ0YHdyL+F8/FZ2VVRcLWp6+ypQCEqqGA6GBObg2ceG66+1w7lhiOzQuccaKFpiF7h
- 95wUGHaDk3Ww6zL/uLuFYOcyIAcDiqoQiB/PU=
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1lli0z-0001nC-LR
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 21:07:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47597)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1lli0p-0005j5-51
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 21:07:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1621991225;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=wodWiuTTjVvJeppQlgse+2mrtiAeVgbTGPL1iJuG7Qg=;
+ b=P5x38fHiq4k0PnF2uTd1FV7bgngFrv+B8X97UO6n7jZwA1kI3OVwKVnnQOuLvDPol1wkzx
+ hROw2DUescTCA60yaqnIdC/nibxDGXb3HqKXCPOeQY82Yw53PVYCiZLeTq8Sy4g7+dsWB6
+ y2NZZCW+7tquY5eWpP3EfS/sco72mzc=
+Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com
+ [209.85.216.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-453-_h084oGVMD2i52izDAVggQ-1; Tue, 25 May 2021 21:07:01 -0400
+X-MC-Unique: _h084oGVMD2i52izDAVggQ-1
+Received: by mail-pj1-f70.google.com with SMTP id
+ pf14-20020a17090b1d8eb029015c31e36747so11366134pjb.2
+ for <qemu-devel@nongnu.org>; Tue, 25 May 2021 18:07:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=zkAEwDHhAsom+6rBtODViIuiliXdA9/gM93EyK+S3xQ=;
- b=rTbscJxP8jYJv4dNYHLMAFx3WlvpI2wH+nrsi7xFb/QdGwpzG7ec3CtpY0pqz9kHRo
- 83pxbo6bZmvZTbzU/adLG7sU3i15bmGfi6b34aKWViRPvOQY39r4RVkLOQMxzGckvSgC
- miFbfY9qgPQ7XapNm0X74thWvjdKsKSR77SIQlAer1RMaQnogvKPoSRlxXR3yJqFSYKJ
- sdgcheSnGxk3rCoOPGy9qWfWNwoU7JDtgyhayjUify3iHyv+dkmotM34XiLjUeXi2wQU
- t9QQ27kHz3UivmeAAGQIrQF2A6iZhZa564XKowzoKi80hBGUkCtMR5+9NEdZz9kFC4i9
- uOQA==
-X-Gm-Message-State: AOAM531xepNgTGbPKnGMXyfq1IVbK+P/H+C7REGcl3eyqka8ihNQz52Y
- BtRF2CGnx4nybr5GE6PIzFfWIMQZEF6cWaE+p/ubKmFh0OQ=
-X-Google-Smtp-Source: ABdhPJxQEr9UNRti3bJitus+dXsat2M7EoGMo569rUUls4krqQjOjgHlQKyCgD8QRKMAhuNhwH7ZwSTcpyzI0dB/6cY=
-X-Received: by 2002:a17:90a:4545:: with SMTP id
- r5mr1104729pjm.51.1621990257587; 
- Tue, 25 May 2021 17:50:57 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=wodWiuTTjVvJeppQlgse+2mrtiAeVgbTGPL1iJuG7Qg=;
+ b=EurUdgkYbfGVZtwVIjf7QA8oD6ORTDHAtwIM+Fkm75SU4k6riweA7G+aDFuh8QSLbS
+ a34qbYM2efDC+lHVerWgti51MauUX9Jrspudqiqbf5j6emtd26zVHB13NfKFZaNSvZpu
+ /X+APumdlqGq6zk/WLBUrqnZcnbCQkqpMMvzr4NU9WiRhG7h50Xm6F2K7omAUzD4/HNM
+ IIIGRXR24JGgkYXGBJ6J8pZQxRCNmftncUwV2KJuNtf3aEXq5AVQjHRcDfKpWqEIoqHx
+ qMC6yQQkKYWLVQgqqHhtFhnzFeTtceWUEm+5TJaCV7qtxGPnPvD80qIJcQ0Bf6ufxY2C
+ HTFw==
+X-Gm-Message-State: AOAM531Vsgxi9agXoyDfNDUeMivjMJG0xPb1N/Lob8dL35/BL+WUFCe9
+ mjy3cZoRpkrOkfkTdPmPE8CHtg29hJPgpENKU3ts4lKTVaxd3gXVToKAG25glL78GEReBnkmXxp
+ Ea+yZfNlL97Eib74=
+X-Received: by 2002:a63:5b0e:: with SMTP id p14mr21474321pgb.110.1621991220309; 
+ Tue, 25 May 2021 18:07:00 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxszp4dUhckfW0D05y+B1LtbLTL3QorVVEutcyW3Q/n7dk4XHLAd0g42hztIA6zUI66bKdX0g==
+X-Received: by 2002:a63:5b0e:: with SMTP id p14mr21474297pgb.110.1621991219950; 
+ Tue, 25 May 2021 18:06:59 -0700 (PDT)
+Received: from wangxiaodeMacBook-Air.local ([209.132.188.80])
+ by smtp.gmail.com with ESMTPSA id i8sm15604421pgt.58.2021.05.25.18.06.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 25 May 2021 18:06:59 -0700 (PDT)
+Subject: Re: [RFC v3 06/29] virtio-net: Honor VIRTIO_CONFIG_S_DEVICE_STOPPED
+To: =?UTF-8?Q?Eugenio_P=c3=a9rez?= <eperezma@redhat.com>, qemu-devel@nongnu.org
+References: <20210519162903.1172366-1-eperezma@redhat.com>
+ <20210519162903.1172366-7-eperezma@redhat.com>
+From: Jason Wang <jasowang@redhat.com>
+Message-ID: <e64b9813-66e5-2417-3feb-65f0376db7e0@redhat.com>
+Date: Wed, 26 May 2021 09:06:49 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.10.2
 MIME-Version: 1.0
-References: <20210524045412.15152-1-yamamoto@midokura.com>
- <20210524045412.15152-6-yamamoto@midokura.com>
- <7e603e70-00f6-2a73-48cc-ea70212a531f@vivier.eu>
-In-Reply-To: <7e603e70-00f6-2a73-48cc-ea70212a531f@vivier.eu>
-From: Takashi Yamamoto <yamamoto@midokura.com>
-Date: Wed, 26 May 2021 09:50:46 +0900
-Message-ID: <CAH=wFzSBxJzCeZ_0pCV5SZVwT_c0oJF8tv26pu=3t81DLd44pQ@mail.gmail.com>
-Subject: Re: [PATCH 5/5] linux-user: Implement pivot_root
-To: Laurent Vivier <laurent@vivier.eu>
-Cc: qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
- envelope-from=yamamoto@midokura.com; helo=mail-pl1-x631.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210519162903.1172366-7-eperezma@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,85 +100,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Parav Pandit <parav@mellanox.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ virtualization@lists.linux-foundation.org,
+ Harpreet Singh Anand <hanand@xilinx.com>, Xiao W Wang <xiao.w.wang@intel.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Eli Cohen <eli@mellanox.com>,
+ Michael Lilja <ml@napatech.com>, Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, May 26, 2021 at 5:22 AM Laurent Vivier <laurent@vivier.eu> wrote:
->
-> Le 24/05/2021 =C3=A0 06:54, YAMAMOTO Takashi a =C3=A9crit :
-> > Used by runc.
-> >
-> > Signed-off-by: YAMAMOTO Takashi <yamamoto@midokura.com>
-> > ---
-> >  linux-user/syscall.c | 23 +++++++++++++++++++++++
-> >  1 file changed, 23 insertions(+)
-> >
-> > diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-> > index 2947e79dc0..e739921e86 100644
-> > --- a/linux-user/syscall.c
-> > +++ b/linux-user/syscall.c
-> > @@ -35,6 +35,7 @@
-> >  #include <sys/prctl.h>
-> >  #include <sys/resource.h>
-> >  #include <sys/swap.h>
-> > +#include <sys/syscall.h>
->
-> we don't need that include, see below
->
-> >  #include <linux/capability.h>
-> >  #include <sched.h>
-> >  #include <sys/timex.h>
-> > @@ -8254,6 +8255,11 @@ static int host_to_target_cpu_mask(const unsigne=
-d long *host_mask,
-> >      return 0;
-> >  }
-> >
-> > +static int pivot_root(const char *new_root, const char *put_old)
-> > +{
-> > +    return syscall(SYS_pivot_root, new_root, put_old);
-> > +}
->
-> Better to use:
->
-> #if defined(TARGET_NR_pivot_root) && defined(__NR_pivot_root)
-> _syscall2(int, pivot_root, const char *, new_root, const char *, put_old)
-> #endif
 
-ok. i haven't noticed the _syscall2 macro in this file. thank you.
+在 2021/5/20 上午12:28, Eugenio Pérez 写道:
+> So the guest can stop and start net device. It implements the RFC
+> https://lists.oasis-open.org/archives/virtio-comment/202012/msg00027.html
+>
+> To stop (as "pause") the device is required to migrate status and vring
+> addresses between device and SVQ.
+>
+> This is a WIP commit: as with VIRTIO_F_QUEUE_STATE, is introduced in
+> virtio_config.h before of even proposing for the kernel, with no feature
+> flag, and, with no checking in the device. It also needs a modified
+> vp_vdpa driver that supports to set and retrieve status.
+>
+> Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+> ---
+>   include/standard-headers/linux/virtio_config.h | 2 ++
+>   hw/net/virtio-net.c                            | 4 +++-
+>   2 files changed, 5 insertions(+), 1 deletion(-)
+>
+> diff --git a/include/standard-headers/linux/virtio_config.h b/include/standard-headers/linux/virtio_config.h
+> index 59fad3eb45..b3f6b1365d 100644
+> --- a/include/standard-headers/linux/virtio_config.h
+> +++ b/include/standard-headers/linux/virtio_config.h
+> @@ -40,6 +40,8 @@
+>   #define VIRTIO_CONFIG_S_DRIVER_OK	4
+>   /* Driver has finished configuring features */
+>   #define VIRTIO_CONFIG_S_FEATURES_OK	8
+> +/* Device is stopped */
+> +#define VIRTIO_CONFIG_S_DEVICE_STOPPED 32
+>   /* Device entered invalid state, driver must reset it */
+>   #define VIRTIO_CONFIG_S_NEEDS_RESET	0x40
+>   /* We've given up on this device. */
+> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+> index 96a3cc8357..2d3caea289 100644
+> --- a/hw/net/virtio-net.c
+> +++ b/hw/net/virtio-net.c
+> @@ -198,7 +198,9 @@ static bool virtio_net_started(VirtIONet *n, uint8_t status)
+>   {
+>       VirtIODevice *vdev = VIRTIO_DEVICE(n);
+>       return (status & VIRTIO_CONFIG_S_DRIVER_OK) &&
+> -        (n->status & VIRTIO_NET_S_LINK_UP) && vdev->vm_running;
+> +        (!(n->status & VIRTIO_CONFIG_S_DEVICE_STOPPED)) &&
+> +        (n->status & VIRTIO_NET_S_LINK_UP) &&
+> +        vdev->vm_running;
+>   }
+>   
+>   static void virtio_net_announce_notify(VirtIONet *net)
 
->
-> > +
-> >  /* This is an internal helper for do_syscall so that it is easier
-> >   * to have a single return point, so that actions, such as logging
-> >   * of syscall results, can be performed.
-> > @@ -13222,6 +13228,23 @@ static abi_long do_syscall1(void *cpu_env, int=
- num, abi_long arg1,
-> >          return ret;
-> >  #endif
-> >
-> > +#if defined(TARGET_NR_pivot_root)
-> > +    case TARGET_NR_pivot_root:
-> > +        {
-> > +            void *p2;
-> > +            p =3D lock_user_string(arg1); /* new_root */
-> > +            p2 =3D lock_user_string(arg2); /* put_old */
-> > +            if (!p || !p2) {
-> > +                ret =3D -TARGET_EFAULT;
-> > +            } else {
-> > +                ret =3D get_errno(pivot_root(p, p2));
-> > +            }
-> > +            unlock_user(p2, arg2, 0);
-> > +            unlock_user(p, arg1, 0);
-> > +        }
-> > +        return ret;
-> > +#endif
-> > +
-> >      default:
-> >          qemu_log_mask(LOG_UNIMP, "Unsupported syscall: %d\n", num);
-> >          return -TARGET_ENOSYS;
-> >
->
-> Thanks,
-> Laurent
->
+
+It looks to me this is only the part of pause. We still need the resume?
+
+Thanks
+
+
 
