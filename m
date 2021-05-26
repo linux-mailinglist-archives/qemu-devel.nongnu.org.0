@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D898F390D7F
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 02:43:23 +0200 (CEST)
-Received: from localhost ([::1]:41916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F71E390D83
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 02:46:09 +0200 (CEST)
+Received: from localhost ([::1]:48770 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llhdq-0007iL-Lz
-	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 20:43:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41490)
+	id 1llhgW-0003xt-9J
+	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 20:46:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41564)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1llhNF-0004fv-0q
- for qemu-devel@nongnu.org; Tue, 25 May 2021 20:26:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31031)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1llhNO-0004qV-51
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 20:26:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23092)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1llhNB-00074G-EC
- for qemu-devel@nongnu.org; Tue, 25 May 2021 20:26:12 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1llhNI-00078O-H4
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 20:26:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621988768;
+ s=mimecast20190719; t=1621988774;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ofgjcqjyDd3HstyuCIv9nQoUkHwHrEsIAkpxc+yjWNk=;
- b=G930ovkiYBcKbcf2mf0kubrNIMS4yIZvSvObKdX2i9BWnsNlHeY0F+F4ZLunNhUsBxbAul
- sy2IvTWhtRndTkeJlFF5zAQ3SfMMdDfDo39DmXtLCSEjXTAHjwfNP7sBvKHKNMPLWVjUnU
- hG23f4huQKVtEEoxztcMbrdIaGcMJN4=
+ bh=OclvukiY1H6sfo8th6djoXgx+CxhHpvNr8Ovm8pp4dI=;
+ b=T6L4M9RIFX1r5fABD3AuYvg1Mct/LtU8V5Ejy0Xt7NRRczTL/qSNgZQrkJ9EpHEx+eCQRS
+ FPy9BSgYEdfT7zzL7yFJ/d/Zeb1PgzNhMf4/uhPQbcozX5rs6F0BfFW/MvvvVJ3JFoexql
+ jESo+JR7bQ8D8iS7SBxrghCbKGjOqw4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-229-Ljg-fhAyNLGpZmpLyVrWLA-1; Tue, 25 May 2021 20:26:07 -0400
-X-MC-Unique: Ljg-fhAyNLGpZmpLyVrWLA-1
+ us-mta-425-uMYirzPSO7uBsudqpMEd7w-1; Tue, 25 May 2021 20:26:12 -0400
+X-MC-Unique: uMYirzPSO7uBsudqpMEd7w-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D2E0C180FD62;
- Wed, 26 May 2021 00:26:05 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 971151005E48;
+ Wed, 26 May 2021 00:26:11 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-116-137.rdu2.redhat.com [10.10.116.137])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 10E406EF40;
- Wed, 26 May 2021 00:26:03 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3569D14103;
+ Wed, 26 May 2021 00:26:05 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 17/31] python: add pylint to pipenv
-Date: Tue, 25 May 2021 20:24:40 -0400
-Message-Id: <20210526002454.124728-18-jsnow@redhat.com>
+Subject: [PATCH v7 18/31] python: move flake8 config to setup.cfg
+Date: Tue, 25 May 2021 20:24:41 -0400
+Message-Id: <20210526002454.124728-19-jsnow@redhat.com>
 In-Reply-To: <20210526002454.124728-1-jsnow@redhat.com>
 References: <20210526002454.124728-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -88,171 +88,44 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We are specifying >= pylint 2.8.x for several reasons:
+Update the comment concerning the flake8 exception to match commit
+42c0dd12, whose commit message stated:
 
-1. For setup.cfg support, added in pylint 2.5.x
-2. To specify a version that has incompatibly dropped
-   bad-whitespace checks (2.6.x)
-3. 2.7.x fixes "unsubscriptable" warnings in Python 3.9
-4. 2.8.x adds a new, incompatible 'consider-using-with'
-   warning that must be disabled in some cases.
-   These pragmas cause warnings themselves in 2.7.x.
+A note on the flake8 exception: flake8 will warn on *any* bare except,
+but pylint's is context-aware and will suppress the warning if you
+re-raise the exception.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
+Reviewed-by: Cleber Rosa <crosa@redhat.com>
 ---
- python/Pipfile      |   1 +
- python/Pipfile.lock | 130 ++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 131 insertions(+)
- create mode 100644 python/Pipfile.lock
+ python/qemu/machine/.flake8 | 2 --
+ python/setup.cfg            | 3 +++
+ 2 files changed, 3 insertions(+), 2 deletions(-)
+ delete mode 100644 python/qemu/machine/.flake8
 
-diff --git a/python/Pipfile b/python/Pipfile
-index 9534830b5eb..285e2c8e671 100644
---- a/python/Pipfile
-+++ b/python/Pipfile
-@@ -4,6 +4,7 @@ url = "https://pypi.org/simple"
- verify_ssl = true
+diff --git a/python/qemu/machine/.flake8 b/python/qemu/machine/.flake8
+deleted file mode 100644
+index 45d8146f3f5..00000000000
+--- a/python/qemu/machine/.flake8
++++ /dev/null
+@@ -1,2 +0,0 @@
+-[flake8]
+-extend-ignore = E722  # Pylint handles this, but smarter.
+\ No newline at end of file
+diff --git a/python/setup.cfg b/python/setup.cfg
+index 36b4253e939..52a89a0a290 100644
+--- a/python/setup.cfg
++++ b/python/setup.cfg
+@@ -22,6 +22,9 @@ packages =
+     qemu.machine
+     qemu.utils
  
- [dev-packages]
-+pylint = ">=2.8.0"
- 
- [packages]
- 
-diff --git a/python/Pipfile.lock b/python/Pipfile.lock
-new file mode 100644
-index 00000000000..c9debd09503
---- /dev/null
-+++ b/python/Pipfile.lock
-@@ -0,0 +1,130 @@
-+{
-+    "_meta": {
-+        "hash": {
-+            "sha256": "bd4fb76fcdd145bbf23c3a9dd7ad966113c5ce43ca51cc2d828aa7e73d572901"
-+        },
-+        "pipfile-spec": 6,
-+        "requires": {
-+            "python_version": "3.6"
-+        },
-+        "sources": [
-+            {
-+                "name": "pypi",
-+                "url": "https://pypi.org/simple",
-+                "verify_ssl": true
-+            }
-+        ]
-+    },
-+    "default": {},
-+    "develop": {
-+        "astroid": {
-+            "hashes": [
-+                "sha256:4db03ab5fc3340cf619dbc25e42c2cc3755154ce6009469766d7143d1fc2ee4e",
-+                "sha256:8a398dfce302c13f14bab13e2b14fe385d32b73f4e4853b9bdfb64598baa1975"
-+            ],
-+            "markers": "python_version ~= '3.6'",
-+            "version": "==2.5.6"
-+        },
-+        "isort": {
-+            "hashes": [
-+                "sha256:0a943902919f65c5684ac4e0154b1ad4fac6dcaa5d9f3426b732f1c8b5419be6",
-+                "sha256:2bb1680aad211e3c9944dbce1d4ba09a989f04e238296c87fe2139faa26d655d"
-+            ],
-+            "markers": "python_version >= '3.6' and python_version < '4.0'",
-+            "version": "==5.8.0"
-+        },
-+        "lazy-object-proxy": {
-+            "hashes": [
-+                "sha256:17e0967ba374fc24141738c69736da90e94419338fd4c7c7bef01ee26b339653",
-+                "sha256:1fee665d2638491f4d6e55bd483e15ef21f6c8c2095f235fef72601021e64f61",
-+                "sha256:22ddd618cefe54305df49e4c069fa65715be4ad0e78e8d252a33debf00f6ede2",
-+                "sha256:24a5045889cc2729033b3e604d496c2b6f588c754f7a62027ad4437a7ecc4837",
-+                "sha256:410283732af311b51b837894fa2f24f2c0039aa7f220135192b38fcc42bd43d3",
-+                "sha256:4732c765372bd78a2d6b2150a6e99d00a78ec963375f236979c0626b97ed8e43",
-+                "sha256:489000d368377571c6f982fba6497f2aa13c6d1facc40660963da62f5c379726",
-+                "sha256:4f60460e9f1eb632584c9685bccea152f4ac2130e299784dbaf9fae9f49891b3",
-+                "sha256:5743a5ab42ae40caa8421b320ebf3a998f89c85cdc8376d6b2e00bd12bd1b587",
-+                "sha256:85fb7608121fd5621cc4377a8961d0b32ccf84a7285b4f1d21988b2eae2868e8",
-+                "sha256:9698110e36e2df951c7c36b6729e96429c9c32b3331989ef19976592c5f3c77a",
-+                "sha256:9d397bf41caad3f489e10774667310d73cb9c4258e9aed94b9ec734b34b495fd",
-+                "sha256:b579f8acbf2bdd9ea200b1d5dea36abd93cabf56cf626ab9c744a432e15c815f",
-+                "sha256:b865b01a2e7f96db0c5d12cfea590f98d8c5ba64ad222300d93ce6ff9138bcad",
-+                "sha256:bf34e368e8dd976423396555078def5cfc3039ebc6fc06d1ae2c5a65eebbcde4",
-+                "sha256:c6938967f8528b3668622a9ed3b31d145fab161a32f5891ea7b84f6b790be05b",
-+                "sha256:d1c2676e3d840852a2de7c7d5d76407c772927addff8d742b9808fe0afccebdf",
-+                "sha256:d7124f52f3bd259f510651450e18e0fd081ed82f3c08541dffc7b94b883aa981",
-+                "sha256:d900d949b707778696fdf01036f58c9876a0d8bfe116e8d220cfd4b15f14e741",
-+                "sha256:ebfd274dcd5133e0afae738e6d9da4323c3eb021b3e13052d8cbd0e457b1256e",
-+                "sha256:ed361bb83436f117f9917d282a456f9e5009ea12fd6de8742d1a4752c3017e93",
-+                "sha256:f5144c75445ae3ca2057faac03fda5a902eff196702b0a24daf1d6ce0650514b"
-+            ],
-+            "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3, 3.4, 3.5'",
-+            "version": "==1.6.0"
-+        },
-+        "mccabe": {
-+            "hashes": [
-+                "sha256:ab8a6258860da4b6677da4bd2fe5dc2c659cff31b3ee4f7f5d64e79735b80d42",
-+                "sha256:dd8d182285a0fe56bace7f45b5e7d1a6ebcbf524e8f3bd87eb0f125271b8831f"
-+            ],
-+            "version": "==0.6.1"
-+        },
-+        "pylint": {
-+            "hashes": [
-+                "sha256:586d8fa9b1891f4b725f587ef267abe2a1bad89d6b184520c7f07a253dd6e217",
-+                "sha256:f7e2072654a6b6afdf5e2fb38147d3e2d2d43c89f648637baab63e026481279b"
-+            ],
-+            "index": "pypi",
-+            "version": "==2.8.2"
-+        },
-+        "toml": {
-+            "hashes": [
-+                "sha256:806143ae5bfb6a3c6e736a764057db0e6a0e05e338b5630894a5f779cabb4f9b",
-+                "sha256:b3bda1d108d5dd99f4a20d24d9c348e91c4db7ab1b749200bded2f839ccbe68f"
-+            ],
-+            "markers": "python_version >= '2.6' and python_version not in '3.0, 3.1, 3.2'",
-+            "version": "==0.10.2"
-+        },
-+        "typed-ast": {
-+            "hashes": [
-+                "sha256:01ae5f73431d21eead5015997ab41afa53aa1fbe252f9da060be5dad2c730ace",
-+                "sha256:067a74454df670dcaa4e59349a2e5c81e567d8d65458d480a5b3dfecec08c5ff",
-+                "sha256:0fb71b8c643187d7492c1f8352f2c15b4c4af3f6338f21681d3681b3dc31a266",
-+                "sha256:1b3ead4a96c9101bef08f9f7d1217c096f31667617b58de957f690c92378b528",
-+                "sha256:2068531575a125b87a41802130fa7e29f26c09a2833fea68d9a40cf33902eba6",
-+                "sha256:209596a4ec71d990d71d5e0d312ac935d86930e6eecff6ccc7007fe54d703808",
-+                "sha256:2c726c276d09fc5c414693a2de063f521052d9ea7c240ce553316f70656c84d4",
-+                "sha256:398e44cd480f4d2b7ee8d98385ca104e35c81525dd98c519acff1b79bdaac363",
-+                "sha256:52b1eb8c83f178ab787f3a4283f68258525f8d70f778a2f6dd54d3b5e5fb4341",
-+                "sha256:5feca99c17af94057417d744607b82dd0a664fd5e4ca98061480fd8b14b18d04",
-+                "sha256:7538e495704e2ccda9b234b82423a4038f324f3a10c43bc088a1636180f11a41",
-+                "sha256:760ad187b1041a154f0e4d0f6aae3e40fdb51d6de16e5c99aedadd9246450e9e",
-+                "sha256:777a26c84bea6cd934422ac2e3b78863a37017618b6e5c08f92ef69853e765d3",
-+                "sha256:95431a26309a21874005845c21118c83991c63ea800dd44843e42a916aec5899",
-+                "sha256:9ad2c92ec681e02baf81fdfa056fe0d818645efa9af1f1cd5fd6f1bd2bdfd805",
-+                "sha256:9c6d1a54552b5330bc657b7ef0eae25d00ba7ffe85d9ea8ae6540d2197a3788c",
-+                "sha256:aee0c1256be6c07bd3e1263ff920c325b59849dc95392a05f258bb9b259cf39c",
-+                "sha256:af3d4a73793725138d6b334d9d247ce7e5f084d96284ed23f22ee626a7b88e39",
-+                "sha256:b36b4f3920103a25e1d5d024d155c504080959582b928e91cb608a65c3a49e1a",
-+                "sha256:b9574c6f03f685070d859e75c7f9eeca02d6933273b5e69572e5ff9d5e3931c3",
-+                "sha256:bff6ad71c81b3bba8fa35f0f1921fb24ff4476235a6e94a26ada2e54370e6da7",
-+                "sha256:c190f0899e9f9f8b6b7863debfb739abcb21a5c054f911ca3596d12b8a4c4c7f",
-+                "sha256:c907f561b1e83e93fad565bac5ba9c22d96a54e7ea0267c708bffe863cbe4075",
-+                "sha256:cae53c389825d3b46fb37538441f75d6aecc4174f615d048321b716df2757fb0",
-+                "sha256:dd4a21253f42b8d2b48410cb31fe501d32f8b9fbeb1f55063ad102fe9c425e40",
-+                "sha256:dde816ca9dac1d9c01dd504ea5967821606f02e510438120091b84e852367428",
-+                "sha256:f2362f3cb0f3172c42938946dbc5b7843c2a28aec307c49100c8b38764eb6927",
-+                "sha256:f328adcfebed9f11301eaedfa48e15bdece9b519fb27e6a8c01aa52a17ec31b3",
-+                "sha256:f8afcf15cc511ada719a88e013cec87c11aff7b91f019295eb4530f96fe5ef2f",
-+                "sha256:fb1bbeac803adea29cedd70781399c99138358c26d05fcbd23c13016b7f5ec65"
-+            ],
-+            "markers": "implementation_name == 'cpython' and python_version < '3.8'",
-+            "version": "==1.4.3"
-+        },
-+        "wrapt": {
-+            "hashes": [
-+                "sha256:b62ffa81fb85f4332a4f609cab4ac40709470da05643a082ec1eb88e6d9b97d7"
-+            ],
-+            "version": "==1.12.1"
-+        }
-+    }
-+}
++[flake8]
++extend-ignore = E722  # Prefer pylint's bare-except checks to flake8's
++
+ [pylint.messages control]
+ # Disable the message, report, category or checker with the given id(s). You
+ # can either give multiple identifiers separated by comma (,) or put this
 -- 
 2.31.1
 
