@@ -2,69 +2,143 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7702391E5B
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 19:48:30 +0200 (CEST)
-Received: from localhost ([::1]:36376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D803391E6A
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 19:52:16 +0200 (CEST)
+Received: from localhost ([::1]:44566 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llxdt-0003GJ-Ut
-	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 13:48:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46786)
+	id 1llxhX-0000jZ-9y
+	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 13:52:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46812)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borello.gabriele8@gmail.com>)
- id 1llxAx-0006Gp-Qu
- for qemu-devel@nongnu.org; Wed, 26 May 2021 13:18:35 -0400
-Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:34336)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <borello.gabriele8@gmail.com>)
- id 1llxAv-00026r-Tt
- for qemu-devel@nongnu.org; Wed, 26 May 2021 13:18:35 -0400
-Received: by mail-ed1-x533.google.com with SMTP id w12so2483210edx.1
- for <qemu-devel@nongnu.org>; Wed, 26 May 2021 10:18:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to;
- bh=y/bk9X0Nel1BpyToP+hEeeeuxonHkXTGFm0/BUdm/PQ=;
- b=pmGqYipdcJGSUS44crChT8TYQZFAlFoKa+8g+4/lAWxC+sa5GLZdvsZXWHVO75vmg7
- XKyY5C0J8avxg7tOdOUSiCS0+Z2oN/FcCoz+vhF7ypsUQrfrslrgV4InNiUXNiZa270r
- /NmnltCiSAE3HWZeswc2CNlQwI5vJCEXtO96kh77lp3Owznb2cJrHQkESmCMrlluEMKJ
- M3cyFScE8zQBibf/1Dm9mvcQ4In5IzN7GN1mzdzmeCQLBPplEJdOkwUExvtAp0NSjwTM
- NsIrPqKwBmAomVRtNOAW4WyDnKXRurnAlWDaz6vkHoOgC4rz5//tSE5+O3m4Ni+vRF7s
- CBIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=y/bk9X0Nel1BpyToP+hEeeeuxonHkXTGFm0/BUdm/PQ=;
- b=iwED/eU30NB2N2U8ib41YBr3deJ/kMsRi6PifJtachmG8c+jSkebZLStMNDUfSfo5q
- YAqvxAwO+equa3KNk5CsHE1hCCtZJcXJCSV7TstyWQKkON6ad877OXqUz9U0rwHl2s3g
- IQx+FkPziOj7eH62oMNMo2KN3ovlnuXRIW6idvlkC8q4Ry0pwuJImzGMxAoLcH8Oh9Cr
- XlTggNJYrZ1Nb6IKHmTx8cH1l0vgAhtQt46WYWDFGRVJqw1yX3TbZ1C2qZtlFNZTvdUl
- j1z2V1Z7Q4tj5IAQbtMU31QktfHIWar1j/iSvr1w5S8rUAxPgZl/EutUhrdwiVOf9h3u
- hpmQ==
-X-Gm-Message-State: AOAM530HWHLpgDEidIyPYUH1bJqhH+pTbgP2qlc8kz3ZSD5hidgnjch1
- g4k3V1atSx8X62yo+LdvKt5JezsgMsE224Odh/AoD+G19KxJd58j05U=
-X-Google-Smtp-Source: ABdhPJwTLNVZoqljpKcmd4UcDrE+uSEEbQf69FQ1LEI+CJuS7FfEjqOnZZm496VMQKQkGWU7eI2ZiFZDTHOquqSZHjk=
-X-Received: by 2002:a05:6402:8c7:: with SMTP id
- d7mr22052807edz.298.1622049508812; 
- Wed, 26 May 2021 10:18:28 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1llxB1-0006PK-HK; Wed, 26 May 2021 13:18:39 -0400
+Received: from mail-eopbgr70121.outbound.protection.outlook.com
+ ([40.107.7.121]:34894 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1llxAw-00026s-DX; Wed, 26 May 2021 13:18:38 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Ia0HvsLToL39HqOgkALNpZ4/3N6M8QYgR9HG7jtzikMqZ3+//ESVtiBOohaifYNRciYxCNwXWKNXztvQXuM0nTUxccohqMKXdQp/y6+1qkBAKgPANmY6u9PvAoHuABclkv3NGHVJB5EvU57a3LtmwLS2Mrq2jEcv7UW74nDge5Mk8zYhPYVciK2hGYloadgW7XlWBx6fB2xBnaDoVaOA3UIJMItkCi6qX3sLelWcGv9Fb1+n02hn0a9qCGAwP5tgplSaElL0Zj5i9/8itIutObWFoIobUrtCgNVINcVuuGvYef5GSTo2QxC3oZ3UQLvZBx8PAonqerYww7vPNqZQeA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=56Gq9WODye2LHFzriB1uThB9U9qNvbd5ggFWt3Y9LvA=;
+ b=UEHwXIIuVYsPn4YO9+TEsqIxw5BnkWi0tvvseCAoefyyG3Nsf29A98E8QO2TX1JW8xGT7ppY0NAnX/6su0Xc8Eqw83gTnl4t8+JyKqVTICBEbm2wTobGKe3xpz0XTUjzDO8gSlZrOKmXDBwl0O0gFxPlp8Q/Ar7GpnEuC99yd7e/LhNfkxajYbvs5kSUydndw+F3oWcIkLAUpAgQiqTSx8+HAvys93k3O0cXRWk7Qy8kCuNtZ27aSHmIePeRX0gkA7xRaHnRWxYvIHqojKe0fQbZ/BqfNs6ZMedFdxWD3ib/CjmxiMwKUCmXRTQrc4cRqtvk3rzWpN9FVnlfzA7DsQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=56Gq9WODye2LHFzriB1uThB9U9qNvbd5ggFWt3Y9LvA=;
+ b=Z2L22JlnWvAFT0qWd3ehl9NYcukFFt+Ckxc8CcaGZ/I7HtDMcwMnvz0/pqJJIu41Uupg3E5as4RvR5JTma4nnqH0LYURhVvmAeTK1Rgd+0cHFJtjOcyUatJi9ysq0wdpOMDxsRYpKULf6n1IuUUBlcmXDd6iKCc2mwnyBzp5h3k=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AS8PR08MB6904.eurprd08.prod.outlook.com (2603:10a6:20b:394::23)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4150.27; Wed, 26 May
+ 2021 17:18:27 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::b403:c1a9:6bb7:133]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::b403:c1a9:6bb7:133%8]) with mapi id 15.20.4150.027; Wed, 26 May 2021
+ 17:18:27 +0000
+Subject: Re: [PATCH v2 7/7] block-copy: protect BlockCopyState .method fields
+To: Paolo Bonzini <pbonzini@redhat.com>,
+ Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
+Cc: John Snow <jsnow@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20210518100757.31243-1-eesposit@redhat.com>
+ <20210518100757.31243-8-eesposit@redhat.com>
+ <404e2891-9c03-bc7d-2c69-a572422d7804@virtuozzo.com>
+ <4403ee17-0c12-c545-7f64-683bb9057b91@redhat.com>
+ <c4ba5232-79cf-6534-d76a-ac5eaebe098f@virtuozzo.com>
+ <db0d5d2c-2e7c-ec33-b9df-52977fc3179c@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <47ae4243-5a4b-e3a5-44fb-48c689f8bc77@virtuozzo.com>
+Date: Wed, 26 May 2021 20:18:25 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.2
+In-Reply-To: <db0d5d2c-2e7c-ec33-b9df-52977fc3179c@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [185.215.60.195]
+X-ClientProxiedBy: PR0P264CA0095.FRAP264.PROD.OUTLOOK.COM
+ (2603:10a6:100:18::35) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-From: Gabriele Borello <borello.gabriele8@gmail.com>
-Date: Wed, 26 May 2021 19:18:17 +0200
-Message-ID: <CAH1_c8og7hQXSEaaxg5tUoom+OuT+ZmE_12kVmk5ARW8ozfwQA@mail.gmail.com>
-Subject: P2P problem on QEMU
-To: qemu-devel@nongnu.org
-Content-Type: multipart/alternative; boundary="000000000000c7ea5405c33ed4c7"
-Received-SPF: pass client-ip=2a00:1450:4864:20::533;
- envelope-from=borello.gabriele8@gmail.com; helo=mail-ed1-x533.google.com
-X-Spam_score_int: 1
-X-Spam_score: 0.1
-X-Spam_bar: /
-X-Spam_report: (0.1 / 5.0 requ) BAYES_00=-1.9, DEAR_SOMETHING=1.973,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.8] (185.215.60.195) by
+ PR0P264CA0095.FRAP264.PROD.OUTLOOK.COM (2603:10a6:100:18::35) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4173.20 via Frontend Transport; Wed, 26 May 2021 17:18:27 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: f14a0c6a-6274-4e84-6787-08d9206a46d2
+X-MS-TrafficTypeDiagnostic: AS8PR08MB6904:
+X-Microsoft-Antispam-PRVS: <AS8PR08MB690477FF0106106258BC6789C1249@AS8PR08MB6904.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:5516;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Ux57LEDLAVSCNG6ikRppOsu55bYLh+lriji6B2J5iKIvCz2e0+hgiv3tPRKwioU+orP6JEYoI9aAEXpFdq7l0BS1Di+gC/OWbAfNZ+s51MpT+srDj9Hcb3hMX+5FVaEPYhQ5bHGe60veNPvCxZmentw8XSkqoboPtv59vfFNOnL7nppNeN2xhG+fT1U7+d4iFwApwVpiwKLQKVLW6ozdtHVagObuxe/nV42U42nRf1kO5glSbOZdgV4gM9S5ZTIw1wpsOndgzUUI8fKSwjWZkOHGr/dHkxmGILBvt45ZrLH+huwljv/QBzArjeGYloe82AnEZvdwFYKDjmqyw/Zr1eKHr4xtFI0EIuXCiNU9SXWas+BdEHxjvzv3jM1rcL4eaMm3UfXEy0eJpvR8c7/u0/1IT1fNdGIZH5rM9gUkWI61VAOBYAVIqXZh9hdK7JFWSisCxxKoj7tZdNmfezVX/3IGObTeeyMcpLyZLhpmp1Ua5GHG4lqYDgpcmq3E23vGpu7Lmcdn6ldyxOqpa34DGJ2Sq8NglQht+z03v9QQvANS9FeylK/8GW+KKCYY2GTIt9ztDGVv1v7CDgY4by8YuG1ZmjG8BptMdx5viFW4GWEJkvwTkFfDA/qkd/BZ24i//7RP7KuNtf62o5WGS8WHxr/w0vVydhJLIs6kgIS9onPIZNNW1oxLNeHgHrQ/xCUyYPdzJGp1zsA5Khh0Ms6UiR7DejAzrPjBaH3j+QevoGNRzBlYH5uktVuvWe33NFsb
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(376002)(39840400004)(366004)(136003)(346002)(396003)(66946007)(31696002)(38100700002)(38350700002)(478600001)(110136005)(53546011)(5660300002)(66476007)(4326008)(316002)(86362001)(54906003)(2616005)(6486002)(16526019)(16576012)(66556008)(26005)(186003)(36756003)(956004)(8936002)(31686004)(52116002)(2906002)(83380400001)(8676002)(142923001)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?OHkyNS9YQm14c0Q3eHc0Rkc5SEk2Y0lOM25jbE1zYktuVEdkVlVUMVZTSldH?=
+ =?utf-8?B?eU9xMXRab0Y1Y2VYWEdRZk1kQzJHSDcxSFkyYWpyc056eVJEemhVcWhLdW5N?=
+ =?utf-8?B?bWVxVWZsWjVwZUE4dlZxUkJKWGlaclRSWExZbTVGaWpnV1pUSC84RWlLTGE1?=
+ =?utf-8?B?c3FRZzlKY0Rpejcxd1A4dVlvekkycUpPRkRWbUlRU0d1TlpxbnFraE9RN2RT?=
+ =?utf-8?B?RHFseElta2YvRHNQc2xNMGpvQUo0b21DekdodS9Rc013RWV2eGRaamNoMEdH?=
+ =?utf-8?B?Njc3ZjZJMFBzdkk5dzNkUE84b3dFSXpjeE9OQWdYN2g2M0lTS0Q4OVNuQkhn?=
+ =?utf-8?B?anFDRjVoR3hKSk1sZ2dENDhmWGJmUDJ5RTk2VnZtWm5ZNjdjemFRbklpcGlM?=
+ =?utf-8?B?WWlIUmN3bEY5RHpLSlA1SVpqN3Z2bk9NZlpHMy9vVFRyNlJsK25MVkdBRE9p?=
+ =?utf-8?B?VjBJYU9HTHdBUjNNS2lPT1BYemNyWmE4SklhWHVabzBtWHVHRG5ndDBhR1JE?=
+ =?utf-8?B?RVh1ZHBreHJqazY0SHFDTWZIZGRlbzRoKzRSVkY4Z1ovcnB5UDg2TFFJZm9J?=
+ =?utf-8?B?K1pXQlNxZkIrZjlYb29oUjF3aytXTGtHNG1rRXErekhTZUwxeWxuY2FEZkc1?=
+ =?utf-8?B?Q012U3hqOURFTDRoRE0rQ3V4Y1N1M3hGclQzeEIrMkRoTVQreXZ4QXkyQjZB?=
+ =?utf-8?B?ZHJ6aEFGeVh6TFI3TG9ESklqdmw5SDRNTksyK0FBdFlkTzNlZExDQWNWU29W?=
+ =?utf-8?B?K0p6Sjh0NFdXSE5xWjYwMTZIclNZOTBGbTA3NnR0SE1KQ2RkVG1zcVpBN0pI?=
+ =?utf-8?B?R0hKVE10ZCs4QWJPMVlya1kycVBWMldkZGVFNU9EbWR4bVdXVUZCNEh1TGtL?=
+ =?utf-8?B?OHJYUEtYS0lJRWh6Q01nZmo2djNLZEd3YjNGa3d6RGVZcENMNlQ3YzhuSGxn?=
+ =?utf-8?B?d2NBUlpxVUoyZ3VJMVlhdWJ2d0VGR01MbEh1SDF6QnVVb2dnUngwTWZjdkxT?=
+ =?utf-8?B?bmZXdkJBVkxoYnVWMTl6WmQ2YUVwVVpQcUxVUUd0bmZHSE5Vb2prY2NIUndO?=
+ =?utf-8?B?VlNGa1BreXREZzhDdHJxK3IrRlpveFNOaEszbkpoQVNVVlFNSi82UG5UQy9N?=
+ =?utf-8?B?TzQrYTlsbUp6RDU0N3RydU9WY3pRd2ZnVGtMMlc5aFBvQ0YwVzl1WUlBZG92?=
+ =?utf-8?B?aElOZmZqSndteGNrNm00NUI4SjhydkVDMllIOHNKbW1vbmsyY1FMUXdCS0lM?=
+ =?utf-8?B?d2o3TFBaRE5nWHcwU1VpSk9YdExmRFk0bW0xL2VYakUyeThCNmt3dGR1K2xu?=
+ =?utf-8?B?Q0FOSmQvYkpVTUc2SFdTMFVSd09lSnp2WlZnNnFEaSswd2VHNzVpdnpTL01t?=
+ =?utf-8?B?VmhOeHBNMnFFVUJ3SFVnMGJSR28ycGFrNnJVMlhrbXh4a0JBMzFoTVZUbFN4?=
+ =?utf-8?B?ZEhWVC9LYUVFYTU0MkxUMTNjazNMSU05VWJnV085dlBJZG1KUlByWVR3TUpz?=
+ =?utf-8?B?NzcrZFBla3kraTRQOTdOc3NpQ3ZYYWdESHc0WWZiOFF3Q1ROM3RxNnJyVWg3?=
+ =?utf-8?B?Zm1rWWlkNHFVSko1MlZ1OXNtcVhwSVBDbzFMQ053ZDE3S2NZM09KaEhBVDcz?=
+ =?utf-8?B?cmRzR255ZHora2dzakRCTkNnL0tkY3cxazhGVlJ5MnJnZG9vZUpKalRCY0Vn?=
+ =?utf-8?B?a1BVUE9JQzBFdmtaVFdnZUc1dThXNFV6N3p0dVQ1SDI0UjVKUHBocDlXd0pF?=
+ =?utf-8?Q?mR1WXQbtdxHuOa6T/0wykpkPP6KfOaQv5/eueov?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f14a0c6a-6274-4e84-6787-08d9206a46d2
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 May 2021 17:18:27.7248 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: aBGCx1vI2gvFlbB1621h3q/YHcjt52Czf4X0yk2hWjQEsLf9t4jCebFpDOGo5bSP6T4wWXHuDWSir1D5IJcO6eaBcmW69G/C1kOCPugDei4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6904
+Received-SPF: pass client-ip=40.107.7.121;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR04-HE1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Wed, 26 May 2021 13:35:26 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,84 +153,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000c7ea5405c33ed4c7
-Content-Type: text/plain; charset="UTF-8"
+26.05.2021 17:48, Paolo Bonzini wrote:
+> On 25/05/21 13:00, Vladimir Sementsov-Ogievskiy wrote:
+>>
+>> Hmm. OK, let me think:
+>>
+>> First look at block_copy_do_copy(). It's called only from block_copy_task_entry. block_copy_task_entry() has mutex-critical-section anyway around handling return value. That means that we can simply move s->method modification logic to this already existing critical section.
+>>
+>> Next, block_copy_chunk_size() is called only from block_copy_task_create(), where we should have critical section too.
+> 
+> block_copy_do_copy would have to release the mutex around the reads/writes (including the bdrv_co_pwrite_zeroes that has nothing to do with s->method).
+> 
+> There's also the "goto out" if the copy-range operation succeeds, which makes things a bit more complicated.  The goto suggests using QEMU_WITH_LOCK_GUARD, but that doesn't work too well either, because there are two accesses (one before the bdrv_co_copy_range and one after).
 
-Dear Sir/Madame,
-I am Gabriele Borello, an engineering student at the Polytechnic of Turin.
-I am preparing my master's thesis at the Reds laboratories of HEIG-VD in
-Yverdon-les-bains, Switzerland.
-It is based on the creation of a simple computational storage that exploits
-the advantages deriving from the NVMe protocol.
+Hmm, this "goto out" makes no sense actually, and should be removed.. It's a mistake or a kind of forgotten thing to refactor after some changes.
 
- The QEMU environment has been widely used for the validation phase and I
-am writing to you about a problem encountered for the implementation of a
-peer-to-peer transfer using p2pmem-test (
-https://github.com/sbates130272/p2pmem-test ).
+> 
+> So I understand why you want to avoid atomics and I agree that they are more complicated than the other solutions, on the other hand I think this patch is the simplest code.
+> 
 
-The following kernel version was used: Linux 5.9.0-rc8 x86_64,
-with the following QEMU settings:
-sudo ./experimental_qemu/build/qemu-system-x86_64 -M pc -nographic
--no-reboot -object
-memory-backend-file,id=pc.ram,size=3G,mem-path=/dev/shm/qemu-mem,share=on
--machine memory-backend=pc.ram -cpu host -m 3G -smp cpus=2 --enable-kvm
--kernel ./bzImage -drive file=./rootfs-target.img,if=ide,format=raw -drive
-file=nvme.img,if=none,id=nvme0 -device
-nvme,drive=nvme0,serial=d000000d,num_queues=8,cmb_size_mb=128 -drive
-file=nvme1.img,if=none,id=nvme1 -device
-nvme,drive=nvme1,serial=e000000e,num_queues=8,cmb_size_mb=128 -append
-"console=ttyS0 root=/dev/sda rw panic=1 earlyprintk=serial,ttyS0,115200"
--trace events="${QEMU_TMP_DIR}"/events.
+I think it's better to pass s->method as parameter to block_copy_do_copy. Then block_copy_do_copy() doesn't need any kind of synchronization.
 
- The kernel was compiled by configuring peer-to-peer as described in the
-p2pmem-test guide. Trying to run the command suggested in the p2pmem-test
-guide ( ./p2pmem-test /dev/nvme0n1 /dev/nvme1n1 /dev/p2pmem0 -c 1 -s 4k),
-we get a kernel panic.
+In block_copy_task_entry() we'll have the whole logic of handling result of block_copy_do_copy (including changing of s->method). And then, only one question is:
 
-We don't know where we went wrong. If you could give us feedback we would
-be very grateful.
+before calling block_copy_do_copy() we should get s->method. Either by atomic operation or under separate critical section.. I'd be OK either way.
 
-Thank you,
-Best regards.
 
-Gabriele
+It's actually the original idea of block_copy_do_copy() function: do only simple copy, don't interact with the state. It's a kind of wrapper on top of bdrv_co<io functions>.
 
---000000000000c7ea5405c33ed4c7
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+So, actually updating s->use_copy_range here was a bad idea.
 
-<div dir=3D"ltr"><div>Dear Sir/Madame,</div>I am Gabriele Borello, an engin=
-eering student at the Polytechnic of Turin. I am preparing my master&#39;s =
-thesis at the Reds laboratories of HEIG-VD in Yverdon-les-bains, Switzerlan=
-d.=C2=A0<div>It is based on the creation of a simple computational storage =
-that exploits the advantages deriving from the NVMe protocol.<br></div><div=
-><div><br></div><div>=C2=A0The QEMU environment has been widely used for th=
-e validation phase and I am writing to you about a problem encountered for =
-the implementation of a peer-to-peer transfer using p2pmem-test ( <a href=
-=3D"https://github.com/sbates130272/p2pmem-test">https://github.com/sbates1=
-30272/p2pmem-test</a> ).</div><div>=C2=A0</div><div>The following kernel ve=
-rsion was used: Linux 5.9.0-rc8 x86_64,=C2=A0</div><div>with the following =
-QEMU settings:=C2=A0</div><div>sudo ./experimental_qemu/build/qemu-system-x=
-86_64 -M pc -nographic -no-reboot -object memory-backend-file,id=3Dpc.ram,s=
-ize=3D3G,mem-path=3D/dev/shm/qemu-mem,share=3Don -machine memory-backend=3D=
-pc.ram -cpu host -m 3G -smp cpus=3D2 --enable-kvm -kernel ./bzImage -drive =
-file=3D./rootfs-target.img,if=3Dide,format=3Draw -drive file=3Dnvme.img,if=
-=3Dnone,id=3Dnvme0 -device nvme,drive=3Dnvme0,serial=3Dd000000d,num_queues=
-=3D8,cmb_size_mb=3D128 -drive file=3Dnvme1.img,if=3Dnone,id=3Dnvme1 -device=
- nvme,drive=3Dnvme1,serial=3De000000e,num_queues=3D8,cmb_size_mb=3D128 -app=
-end &quot;console=3DttyS0 root=3D/dev/sda rw panic=3D1 earlyprintk=3Dserial=
-,ttyS0,115200&quot; -trace events=3D&quot;${QEMU_TMP_DIR}&quot;/events.=C2=
-=A0</div><div><br></div><div>=C2=A0The kernel was compiled by configuring p=
-eer-to-peer as described in the p2pmem-test guide. Trying to run the comman=
-d suggested in the p2pmem-test guide (<span style=3D"color:rgb(36,41,46);fo=
-nt-family:-apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,Helvetica,A=
-rial,sans-serif,&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&quot;"><=
-span style=3D"font-size:16px">=C2=A0</span>./p2pmem-test /dev/nvme0n1 /dev/=
-nvme1n1 /dev/p2pmem0 -c 1 -s 4k</span>),=C2=A0 we get a kernel panic.=C2=A0=
-</div><div><br></div><div>We don&#39;t know where we went wrong. If you cou=
-ld give us feedback we would be very grateful.<br></div></div><div><br></di=
-v><div>Thank you,</div><div>Best regards.</div><div><br></div><div>Gabriele=
-</div></div>
+Note also the comment above block_copy_do_copy():
 
---000000000000c7ea5405c33ed4c7--
+  " No sync here: nor bitmap neighter intersecting requests handling, only copy."
+
+Somehow, the comment conflicts with introducing synchronization primitives inside the function, although it was about another things :))
+
+-- 
+Best regards,
+Vladimir
 
