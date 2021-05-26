@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38886392389
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 02:01:28 +0200 (CEST)
-Received: from localhost ([::1]:37116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 680CA39238D
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 02:06:12 +0200 (CEST)
+Received: from localhost ([::1]:44858 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lm3Sp-0006SZ-7f
-	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 20:01:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34784)
+	id 1lm3XO-0003Kh-Vm
+	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 20:06:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34818)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lm3FJ-0005d8-Vu
- for qemu-devel@nongnu.org; Wed, 26 May 2021 19:47:29 -0400
-Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532]:37769)
+ id 1lm3FL-0005do-75
+ for qemu-devel@nongnu.org; Wed, 26 May 2021 19:47:31 -0400
+Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533]:38817)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lm3FC-0004V7-QJ
- for qemu-devel@nongnu.org; Wed, 26 May 2021 19:47:29 -0400
-Received: by mail-pg1-x532.google.com with SMTP id t193so2301231pgb.4
+ id 1lm3FG-0004VB-8c
+ for qemu-devel@nongnu.org; Wed, 26 May 2021 19:47:30 -0400
+Received: by mail-pg1-x533.google.com with SMTP id 6so2296358pgk.5
  for <qemu-devel@nongnu.org>; Wed, 26 May 2021 16:47:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=+yWYtAyvKHCLBY3UydOHOFHk7QNzbfv/DnodNJ6hJsw=;
- b=T9htAXoysDPLNgWWegWXonbElMenSa5Ov3ente2rThCG8D434TFOB+k+x4f6WbGahw
- BOa/HLUe+uFExziWvFvm0hSWIQi55CDPZYXFfrV1ohfqxrmX4r6oJAL0irVTAYUXGCnk
- UUqpStTjdzmui6EhPsTO9Mj7lDSBSyItHmGS6ijsAWq5XKG950pFtt3U08b5avI+BOaX
- TgZxKUpHr+no76oZttO+6nBvDVcjGb9O3KRyyuJlmg0lEA9/q8i525ojQVGL5Kf2otY/
- wlsqgqA/TF4s+SlIg9DsH8JiCLURwUg8QDANO9+sJhc4v4q3hmpT8A09co8P0kOGg4fW
- sOUg==
+ bh=6NHbX+q+VShA2Bk5Ng7npHq9zi23MHy7IkVvyiwqk1k=;
+ b=hDygFv5uMpiv3vzt+5ukCbNv4OuSr0Cvoy9ECWFFZWT6gC3sAZexHp+1I02hqv2FII
+ 47DarLQ9s8i1ku34t0/1bcxTGqo8kNxrLbRAGMOcZWZZ4vJOEd/qENg4MxC9kFm41IyU
+ /e+TCsHHPxY2THK1KBZpIY6NeWURnsS7qAMHHozidxk4jcdl2yHmNLa/c23B9VLP7cWS
+ sOAN3qNKYDgXaDM7mfzF1EMCkRD7nfDkMepxCpUBYCibEzUWTJggoUh04A5A3pfXlMYq
+ aDv7t+SQnI5N/u20/7ImX/WHQ1X70lPPfXm5tKg2OdPgqFwSoWPO+sBLOghfTyeJZHel
+ ojUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=+yWYtAyvKHCLBY3UydOHOFHk7QNzbfv/DnodNJ6hJsw=;
- b=lRyre20fyq+s9qXneQJ/iYbFRp/l3lZvDEAGPmWaWLcgJ9j2+5klgQ3HB4kaHf7lRH
- sbHEr2fs4J/OB2DapwbjkBljJLI3RJjMPT0RFFiWuKtq3wedsZ3TfN/CWzq/bGElNRrz
- gQc2K8SuM1sNA56jeW8bJMFQ5CIC1yuXSgRXBBUiwzJ68+GaZLIf6w+hA4AeCtpbmnmU
- Q1OPwfvnPh93Bn/e24e4a6gX67/TR0k0mRKtSUwmwO1DW74hTwIk3GwKyMvryA+fZOGn
- jlcKBJUR+kHW5j1XsZee3QomSuWw2cUejfqJuzXcilERp7WNYgH/EjWNqUdKDcCVyp1D
- 4LRA==
-X-Gm-Message-State: AOAM531/GY4pQVO5enXutwJp7fmAjmr/BVUVBBOAcYaO9/XlR8aidGGn
- dmDwZ7h7+KuKuK9r1BSw7k49yzhCt/CpZA==
-X-Google-Smtp-Source: ABdhPJy4Dh9uqTNbHERJ2zfS2MqCWDx5nxNuNPDY6wmqJfbAR3w540JCoUa0ozgqNnmIpXiWoRV82A==
-X-Received: by 2002:a62:7b07:0:b029:2e3:b540:707f with SMTP id
- w7-20020a627b070000b02902e3b540707fmr908958pfc.59.1622072841195; 
- Wed, 26 May 2021 16:47:21 -0700 (PDT)
+ bh=6NHbX+q+VShA2Bk5Ng7npHq9zi23MHy7IkVvyiwqk1k=;
+ b=amuc/5zTSP1qyNhcW2Oi5uK8lrzdhrfFRU50jbu1xE5LdKoBbwoB9nAcCwB+QeMbRH
+ 0e3q6C3+PRGwAxlFiBPD8v4DDZEZGWPJSjf+LlETV9YqXz3JApqWJXg1jm377dDwDhR/
+ pRu4HxOlsAK2A7OUkZc/sFZsOqDn8Amv1CVYcMusJ9mRXCntNTlFD8Qjufu97cwfJ4m2
+ aC7JmWJfEh1GeI4xcSKMjbJl19YvCu94c6dyUaSpCbXbhRCu3LNIDOz06zFYPKQ6G220
+ 7fAZhSrwj883jlEQXsZjnVSf/h2aPSLKwtkjI993YLwdpl95EYtr6o/Z7dDHtpt3+W5U
+ 0R2Q==
+X-Gm-Message-State: AOAM532h6C3/oXnKcTKTZShNpvFW9zkw9fF+Q0urFf7+jnFtLUdtAoUJ
+ dkgEjwSkG/xDLTCqWe7mXPJ4ZaPsjgComQ==
+X-Google-Smtp-Source: ABdhPJxJdrOLyYjpabDwsmcgeFQmXU5Hmr3xwqkC+uPGt20xtV+8QVr1+TEEQX9jSeDG1uCnjD1XTw==
+X-Received: by 2002:aa7:9384:0:b029:2cc:5e38:933a with SMTP id
+ t4-20020aa793840000b02902cc5e38933amr530137pfe.81.1622072842043; 
+ Wed, 26 May 2021 16:47:22 -0700 (PDT)
 Received: from localhost.localdomain (174-21-70-228.tukw.qwest.net.
  [174.21.70.228])
- by smtp.gmail.com with ESMTPSA id g13sm285355pfi.18.2021.05.26.16.47.20
+ by smtp.gmail.com with ESMTPSA id g13sm285355pfi.18.2021.05.26.16.47.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 May 2021 16:47:20 -0700 (PDT)
+ Wed, 26 May 2021 16:47:21 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 10/31] tcg/aarch64: Fix tcg_out_rotl
-Date: Wed, 26 May 2021 16:46:49 -0700
-Message-Id: <20210526234710.125396-11-richard.henderson@linaro.org>
+Subject: [PULL 11/31] cpu: Remove duplicated 'sysemu/hw_accel.h' header
+Date: Wed, 26 May 2021 16:46:50 -0700
+Message-Id: <20210526234710.125396-12-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210526234710.125396-1-richard.henderson@linaro.org>
 References: <20210526234710.125396-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x532.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x533.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,40 +85,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Yasuo Kuwahara <kwhr00@gmail.com>
+Cc: peter.maydell@linaro.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Yasuo Kuwahara <kwhr00@gmail.com>
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-The last argument of tcg_out_extr() must be in the range 0-31 if ext==0.
-Before the fix, when m==0 it becomes 32 and it crashes with an Illegal
-instruction on Apple Silicon.  After the fix, it will be 0.  If m is in
-the range 1-31, it is the same as before.
-
-Signed-off-by: Yasuo Kuwahara <kwhr00@gmail.com>
-Message-Id: <CAHfJ0vSXnmnTLmT0kR=a8ACRdw_UsLYOhStzUzgVEHoH8U-7sA@mail.gmail.com>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20210517105140.1062037-5-f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/aarch64/tcg-target.c.inc | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ hw/core/cpu.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/tcg/aarch64/tcg-target.c.inc b/tcg/aarch64/tcg-target.c.inc
-index f07ba98aa4..5bd366f2d4 100644
---- a/tcg/aarch64/tcg-target.c.inc
-+++ b/tcg/aarch64/tcg-target.c.inc
-@@ -1291,9 +1291,8 @@ static inline void tcg_out_rotr(TCGContext *s, TCGType ext,
- static inline void tcg_out_rotl(TCGContext *s, TCGType ext,
-                                 TCGReg rd, TCGReg rn, unsigned int m)
- {
--    int bits = ext ? 64 : 32;
--    int max = bits - 1;
--    tcg_out_extr(s, ext, rd, rn, rn, bits - (m & max));
-+    int max = ext ? 63 : 31;
-+    tcg_out_extr(s, ext, rd, rn, rn, -m & max);
- }
+diff --git a/hw/core/cpu.c b/hw/core/cpu.c
+index 00330ba07d..919dc3435a 100644
+--- a/hw/core/cpu.c
++++ b/hw/core/cpu.c
+@@ -34,7 +34,6 @@
+ #include "hw/qdev-properties.h"
+ #include "trace/trace-root.h"
+ #include "qemu/plugin.h"
+-#include "sysemu/hw_accel.h"
  
- static inline void tcg_out_dep(TCGContext *s, TCGType ext, TCGReg rd,
+ CPUState *cpu_by_arch_id(int64_t id)
+ {
 -- 
 2.25.1
 
