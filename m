@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F1AC39148D
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 12:11:53 +0200 (CEST)
-Received: from localhost ([::1]:49598 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53B7F39124B
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 10:28:03 +0200 (CEST)
+Received: from localhost ([::1]:40612 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llqVz-0006DL-Qd
-	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 06:11:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37646)
+	id 1llotW-0008Lv-E0
+	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 04:28:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46004)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1llqUM-0004nS-4F
- for qemu-devel@nongnu.org; Wed, 26 May 2021 06:10:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51598)
+ id 1lloqo-0002ov-7s
+ for qemu-devel@nongnu.org; Wed, 26 May 2021 04:25:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53863)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1llqUJ-0006Jc-6R
- for qemu-devel@nongnu.org; Wed, 26 May 2021 06:10:09 -0400
+ id 1lloqm-0006ww-Bg
+ for qemu-devel@nongnu.org; Wed, 26 May 2021 04:25:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622023804;
+ s=mimecast20190719; t=1622017511;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
  bh=tu3xj+P5G+P+qA7gb1FXdnImzi6Dqow/Zz0ymRZgnAo=;
- b=R1KdnX+8JUaTAyQqV0Hgcqgfj11ofLfTY4C1NWXC3IcX4vZlyi1KH4BRO+K8wm6VfpweYb
- 1AXixLOY37j2u1khgaBSq/ef8HdrJ1tmyT7K/1SP0NbpW0lMmn0z1ZORmbGNyU5irf8v7u
- nGHTv9CHt2T/tiWrfSYciaEXaKx+xJ4=
+ b=NGvyyy1IVaFF5+Q5HYgA4u34JtFimmDBfo0pIeN7OqtGW0MKKBmQUC1JrbDWh8XN6BQheY
+ ZV/goCqOGc9XmcjVlCLwHI6DB6dlZhasyj07wQvMx7kargUATzUyHZ+mr2FLO7Ox+W2ogz
+ reme6xYbSfYoOn5dT3F8Ajg+3i5GURU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
  us-mta-21-Ak6aAR6hM5-geOTY6I2olg-1; Wed, 26 May 2021 04:24:59 -0400
@@ -67,7 +67,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
