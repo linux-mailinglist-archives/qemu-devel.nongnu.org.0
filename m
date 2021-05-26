@@ -2,64 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78DB339208C
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 21:06:54 +0200 (CEST)
-Received: from localhost ([::1]:50870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C94F3391E63
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 19:50:44 +0200 (CEST)
+Received: from localhost ([::1]:40550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llyrl-0001BC-Hz
-	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 15:06:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50714)
+	id 1llxg3-0006PI-PN
+	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 13:50:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51708)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mmorrell@tachyum.com>)
- id 1llxTU-0004f0-Hz
- for qemu-devel@nongnu.org; Wed, 26 May 2021 13:37:44 -0400
-Received: from mx1.tachyum.com ([66.160.133.170]:5264)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mmorrell@tachyum.com>)
- id 1llxTN-00041Q-RZ
- for qemu-devel@nongnu.org; Wed, 26 May 2021 13:37:40 -0400
-Received: by mx1.tachyum.com (Postfix, from userid 1000)
- id 02F141005691; Wed, 26 May 2021 10:37:34 -0700 (PDT)
-Received: from THQ-EX1.tachyum.com (unknown [10.7.1.6])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mx1.tachyum.com (Postfix) with ESMTPS id 762BF1005283
- for <qemu-devel@nongnu.org>; Wed, 26 May 2021 10:37:34 -0700 (PDT)
-Received: from THQ-EX3.tachyum.com (10.7.1.26) by THQ-EX1.tachyum.com
- (10.7.1.6) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.14; Wed, 26 May
- 2021 10:37:34 -0700
-Received: from THQ-EX1.tachyum.com (10.7.1.6) by THQ-EX3.tachyum.com
- (10.7.1.26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.14; Wed, 26 May
- 2021 10:37:33 -0700
-Received: from THQ-EX1.tachyum.com ([10.7.1.6]) by THQ-EX1.tachyum.com
- ([10.7.1.6]) with mapi id 15.01.2176.014; Wed, 26 May 2021 10:37:33 -0700
-From: Michael Morrell <mmorrell@tachyum.com>
-To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Subject: Denormal input handling
-Thread-Topic: Denormal input handling
-Thread-Index: AddSVLVuQ70cTMk8SjeoZZpZvpdwcw==
-Date: Wed, 26 May 2021 17:37:33 +0000
-Message-ID: <30eafc8be31446f9aecbc40f487467e1@tachyum.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.7.252.4]
-Content-Type: multipart/alternative;
- boundary="_000_30eafc8be31446f9aecbc40f487467e1tachyumcom_"
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1llxYU-0008Qw-Oh
+ for qemu-devel@nongnu.org; Wed, 26 May 2021 13:42:54 -0400
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:35771)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1llxYR-0006DI-U4
+ for qemu-devel@nongnu.org; Wed, 26 May 2021 13:42:54 -0400
+Received: by mail-pj1-x102d.google.com with SMTP id
+ lx17-20020a17090b4b11b029015f3b32b8dbso807557pjb.0
+ for <qemu-devel@nongnu.org>; Wed, 26 May 2021 10:42:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=ebV2L6YkJ3ftQHodKPGw/tTpwzJUCoKeijb7QGEw1X4=;
+ b=bTLepR2J+2jsdeL+PTkBUG1IlYyTe2vySCyq00AAM+7e8n2RsimMevdNGTZVKbbPhi
+ tbQNty7wD+dCwx9dWslCrf8rrdeiJG70HQ2PObRXMXDajtfP1YoMaynmiX0WcJjv/uDa
+ gtW3OFjjqqke8Lc/lvPTAsvvvOj4EbJNqs+BTKYTnWI4dlN4zziuN+FgfBVyib/VN11G
+ Zurz2wJLLfWdbuvTUSLELW9E/H7Sl995sK5zLcBJFzfxfPq2oaDYBxKIMdlBulIZG8jg
+ Bj+cRuTXYV7ye5z3LN8JYdoNjZNIUyaRrhEBwwmCnKiCe396ooLVdOt466y7tRaC1qt5
+ lnkg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ebV2L6YkJ3ftQHodKPGw/tTpwzJUCoKeijb7QGEw1X4=;
+ b=hWApdpChSRCfrgXATH1GNzkAzAyNweIhBZKAJFYqdkJTCt3kfppc1nxiokCq9eH9gC
+ 48rjx35KTjqRbEsxrNUmMJK1GbAC/4iBOox7k0mUVPQYhhqoZpX8yoNo+l0gpkOyTVbN
+ ZsHxYGr4/9KFgi0OooKsAggaNfttpGTu7sKcZ5mWPLKvZylV1k9MkBzGXbaN6W5SemHw
+ d/cedc5T2L+gHfLAXR7XwlMWLPdev9WU9ygjK3+c1qkqlvclxuZcQu5RFu7ayZQ5uzE5
+ FKilgekaGJ5ldEwStqUcmSaAsuuTx66d0WgVlC+gybaRUw56Qg7h9R5gOTLFOuEYO2Go
+ h5eg==
+X-Gm-Message-State: AOAM5334//vA5KeRFwzAaklvxE33M/J5ZU646SN9YPBtOyw36XamfsPb
+ 4GimDM0JMB6zrqQ/W6dwuEMnVw==
+X-Google-Smtp-Source: ABdhPJyqR6k9XMHcLjQH73HkPxJ/wnapsrknRJQ+gbuWnvhhA99ChVMwp2/bALYqsKC4Ia4sg4k51Q==
+X-Received: by 2002:a17:90a:880c:: with SMTP id
+ s12mr37600933pjn.66.1622050970143; 
+ Wed, 26 May 2021 10:42:50 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
+ by smtp.gmail.com with ESMTPSA id
+ u19sm16245675pfn.158.2021.05.26.10.42.49
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 26 May 2021 10:42:49 -0700 (PDT)
+Subject: Re: [PATCH v7 00/23] cpu: Introduce SysemuCPUOps structure
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20210517105140.1062037-1-f4bug@amsat.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <4e0baa8d-b123-5e61-7bb3-c642ab25564a@linaro.org>
+Date: Wed, 26 May 2021 10:42:48 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Received-SPF: pass client-ip=66.160.133.170; envelope-from=mmorrell@tachyum.com;
- helo=mx1.tachyum.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210517105140.1062037-1-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Wed, 26 May 2021 15:02:53 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,108 +90,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-riscv@nongnu.org, Laurent Vivier <laurent@vivier.eu>,
+ qemu-s390x@nongnu.org, qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---_000_30eafc8be31446f9aecbc40f487467e1tachyumcom_
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+On 5/17/21 3:51 AM, Philippe Mathieu-Daudé wrote:
+>    cpu: Remove duplicated 'sysemu/hw_accel.h' header
+>    cpu: Split as cpu-common / cpu-sysemu
+>    cpu: Un-inline cpu_get_phys_page_debug and cpu_asidx_from_attrs
+>    cpu: Introduce cpu_virtio_is_big_endian()
+>    cpu: Directly use cpu_write_elf*() fallback handlers in place
+>    cpu: Directly use get_paging_enabled() fallback handlers in place
+>    cpu: Directly use get_memory_mapping() fallback handlers in place
+>    cpu: Assert DeviceClass::vmsd is NULL on user emulation
+>    cpu: Rename CPUClass vmsd -> legacy_vmsd
+>    cpu: Move AVR target vmsd field from CPUClass to DeviceClass
+>    cpu: Introduce SysemuCPUOps structure
+>    cpu: Move CPUClass::vmsd to SysemuCPUOps
+>    cpu: Move CPUClass::virtio_is_big_endian to SysemuCPUOps
+>    cpu: Move CPUClass::get_crash_info to SysemuCPUOps
+>    cpu: Move CPUClass::write_elf* to SysemuCPUOps
+>    cpu: Move CPUClass::asidx_from_attrs to SysemuCPUOps
+>    cpu: Move CPUClass::get_phys_page_debug to SysemuCPUOps
+>    cpu: Move CPUClass::get_memory_mapping to SysemuCPUOps
+>    cpu: Move CPUClass::get_paging_enabled to SysemuCPUOps
 
-I see support in QEMU for architectures which have a denormal input flag bi=
-t and those that have a "flush inputs to zero" control bit, but the impleme=
-ntation is not specializable and seems wrong for x86 at least.
+I've queued all of these to tcg-next, fixing minor patch conflicts on the way. 
+  Most of which were the reorg going on in target/ppc/.
 
-For example, in sf_canonicalize, if the input is denormal and "flush_inputs=
-_to_zero" is true, the "input denormal" flag is set and then the value is s=
-et to a zero value, and if the input is denormal and "flush_inputs_to_zero"=
- is false, then the input is simply normalized.
+>    cpu: Restrict "hw/core/sysemu-cpu-ops.h" to target/cpu.c
 
-I think the behavior should be for denormal inputs that if "flush_inputs_to=
-_zero" is true, then the value is set to zero; and if "flush_inputs_to_zero=
-" is false, set the "input denormal" flag and normalize the input.
+I squashed this one back into "Introduce SysemuCPUOps structure", and moved the 
+target/*/ includes from cpu.h next to where the structure is declared.
 
-This matches what x86 does (I'm not sure about other architectures).
 
-Am I missing something?  If not, I can work on a patch (there are several p=
-laces which check "flush_inputs_to_zero" which will need to be changed).
-
-  Michael
-
---_000_30eafc8be31446f9aecbc40f487467e1tachyumcom_
-Content-Type: text/html; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
-osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
-//www.w3.org/TR/REC-html40">
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
->
-<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
-<style><!--
-/* Font Definitions */
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-span.EmailStyle17
-	{mso-style-type:personal-compose;
-	font-family:"Calibri",sans-serif;
-	color:windowtext;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-family:"Calibri",sans-serif;}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]-->
-</head>
-<body lang=3D"EN-US" link=3D"#0563C1" vlink=3D"#954F72" style=3D"word-wrap:=
-break-word">
-<div class=3D"WordSection1">
-<p class=3D"MsoNormal">I see support in QEMU for architectures which have a=
- denormal input flag bit and those that have a &quot;flush inputs to zero&q=
-uot; control bit, but the implementation is not specializable and seems wro=
-ng for x86 at least.<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">For example, in sf_canonicalize, if the input is den=
-ormal and &quot;flush_inputs_to_zero&quot; is true, the &quot;input denorma=
-l&quot; flag is set and then the value is set to a zero value, and if the i=
-nput is denormal and &quot;flush_inputs_to_zero&quot; is false,
- then the input is simply normalized.<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">I think the behavior should be for denormal inputs t=
-hat if &quot;flush_inputs_to_zero&quot; is true, then the value is set to z=
-ero; and if &quot;flush_inputs_to_zero&quot; is false, set the &quot;input =
-denormal&quot; flag and normalize the input.<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">This matches what x86 does (I'm not sure about other=
- architectures).<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">Am I missing something?&nbsp; If not, I can work on =
-a patch (there are several places which check &quot;flush_inputs_to_zero&qu=
-ot; which will need to be changed).<br>
-<br>
-<o:p></o:p></p>
-<p class=3D"MsoNormal">&nbsp; Michael<o:p></o:p></p>
-</div>
-</body>
-</html>
-
---_000_30eafc8be31446f9aecbc40f487467e1tachyumcom_--
+r~
 
