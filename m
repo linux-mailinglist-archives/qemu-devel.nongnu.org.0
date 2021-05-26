@@ -2,56 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7390391B90
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 17:21:25 +0200 (CEST)
-Received: from localhost ([::1]:43920 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 742C4391B8E
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 17:20:05 +0200 (CEST)
+Received: from localhost ([::1]:43392 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llvLY-0003Aq-Mz
-	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 11:21:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51746)
+	id 1llvKG-0002oq-Af
+	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 11:20:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1llvIF-0000cS-9q; Wed, 26 May 2021 11:18:00 -0400
-Received: from [201.28.113.2] (port=46573 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1llvIC-0003Wb-Pz; Wed, 26 May 2021 11:17:58 -0400
-Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Wed, 26 May 2021 12:17:51 -0300
-Received: from [127.0.0.1] (unknown [10.10.70.45])
- by power9a (Postfix) with ESMTP id 829AF8013CA;
- Wed, 26 May 2021 12:17:48 -0300 (-03)
-Subject: Re: [PATCH v5 23/23] target/ppc: Move cmp/cmpi/cmpl/cmpli to
- decodetree
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org
-References: <20210517205025.3777947-1-matheus.ferst@eldorado.org.br>
- <20210517205025.3777947-24-matheus.ferst@eldorado.org.br>
- <ef3bb078-8afe-2159-f23d-0d8324c4e3f7@linaro.org>
- <bf00a04b-33b6-e067-ead9-e8707f186c02@eldorado.org.br>
- <720be115-3aad-f4bd-e636-5dab76478806@linaro.org>
-From: "Matheus K. Ferst" <matheus.ferst@eldorado.org.br>
-Message-ID: <fc7fde45-a8ae-7249-7cac-b9f7fbfbee0f@eldorado.org.br>
-Date: Wed, 26 May 2021 12:17:48 -0300
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1llvIy-0001UP-Uq; Wed, 26 May 2021 11:18:44 -0400
+Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:35509)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1llvIx-0003mM-0h; Wed, 26 May 2021 11:18:44 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.20.54])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id DC5FDA824FFB;
+ Wed, 26 May 2021 17:18:27 +0200 (CEST)
+Received: from kaod.org (37.59.142.100) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.10; Wed, 26 May
+ 2021 17:18:26 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-100R00323cb324d-0dcc-4134-8ca6-f78f3ad35489,
+ F9DA3623319ED0F0AA7DDB86DED9F5F6BB22336A) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 90.89.73.13
+Subject: Re: [PATCH v1 1/3] spapr: Remove stale comment about power-saving
+ LPCR bits
+To: Nicholas Piggin <npiggin@gmail.com>, <qemu-ppc@nongnu.org>
+References: <20210526091626.3388262-1-npiggin@gmail.com>
+ <20210526091626.3388262-2-npiggin@gmail.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <7f09e0ac-fa62-9daf-371e-7f4230c296ce@kaod.org>
+Date: Wed, 26 May 2021 17:18:25 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <720be115-3aad-f4bd-e636-5dab76478806@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <20210526091626.3388262-2-npiggin@gmail.com>
+Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 26 May 2021 15:17:51.0145 (UTC)
- FILETIME=[4B111990:01D75242]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
-Received-SPF: pass client-ip=201.28.113.2;
- envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -10
-X-Spam_score: -1.1
+X-Originating-IP: [37.59.142.100]
+X-ClientProxiedBy: DAG5EX1.mxp5.local (172.16.2.41) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 0748b93d-638b-4ee9-a4e7-cdf6160627de
+X-Ovh-Tracer-Id: 7404762215827737568
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrvdekfedgkeekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepjeekudeuudevleegudeugeekleffveeludejteffiedvledvgfekueefudehheefnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehnphhighhgihhnsehgmhgrihhlrdgtohhm
+Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
+ helo=smtpout1.mo529.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -64,84 +71,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lagarcia@br.ibm.com, luis.pires@eldorado.org.br, f4bug@amsat.org,
- david@gibson.dropbear.id.au
+Cc: qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 24/05/2021 15:51, Richard Henderson wrote:
-> On 5/21/21 10:25 AM, Matheus K. Ferst wrote:
->> On 18/05/2021 07:12, Richard Henderson wrote:
->>> On 5/17/21 3:50 PM, matheus.ferst@eldorado.org.br wrote:
->>>> +    if(a->l && (ctx->insns_flags & PPC_64B)) {
->>>
->>> Space after IF.
->>> > If I look back to the 6xx manual, I see
->>>
->>>    NOTE: If L = 1, the instruction form is invalid.
->>>
->>> The fact that we're allowing L=1 for ppc32 is an existing bug, 
->>> afaics. We should fix that.
->>>
->>>
->>> r~
->>
->> The previous commit on this line in translate.c says that "on most 
->> 32bit CPUs we should always treat the compare as 32bit compare, as the 
->> CPU will ignore the L bit", so maybe it was intentional. Should we 
->> change it anyway?
+On 5/26/21 11:16 AM, Nicholas Piggin wrote:
+> Commit 47a9b551547 ("spapr: Clean up handling of LPCR power-saving exit
+> bits") moved this logic but did not remove the comment from the
+> previous location.
 > 
-> The actual change of 36f48d9c78c is about NARROW_MODE, which is about 
-> the MSR.SF bit, and is correct.
+> Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
+
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
+
+
+> ---
+>  hw/ppc/spapr_rtas.c | 1 -
+>  1 file changed, 1 deletion(-)
 > 
-> The commit message mentions the e500mc specifically does check the L 
-> bit, and then hand-waves about the others not checking.  But the text I 
-> found in the 6xx manual says that one checks too.
+> diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
+> index 03355b4c0a..63d96955c0 100644
+> --- a/hw/ppc/spapr_rtas.c
+> +++ b/hw/ppc/spapr_rtas.c
+> @@ -164,7 +164,6 @@ static void rtas_start_cpu(PowerPCCPU *callcpu, SpaprMachineState *spapr,
+>      env->msr = (1ULL << MSR_SF) | (1ULL << MSR_ME);
+>      hreg_compute_hflags(env);
+>  
+> -    /* Enable Power-saving mode Exit Cause exceptions for the new CPU */
+>      lpcr = env->spr[SPR_LPCR];
+>      if (!pcc->interrupts_big_endian(callcpu)) {
+>          lpcr |= LPCR_ILE;
 > 
-> I wonder if the IBM folk can shed any further light on this?
-> 
-> 
-> r~
 
-I was pointed to the 601 manual, which says:
-
-"While the PowerPC architecture specifies that the value in the L field 
-determines whether the operands are treated as 32- or 64-bit values, the 
-601 ignores the value in the L field and treats the operands as 32-bit 
-values."
-
-There is also a section in Appendix B called "Reserved Bits in 
-Instructions", which says:
-
-"These are shown with '/'s in the instruction opcode definitions. In the 
-POWER architecture such bits are ignored by the processor. In PowerPC 
-architecture they must be 0 or the instruction form is invalid. In 
-several cases the PowerPC architecture assumes that such bits in POWER 
-instructions are indeed 0. The cases include the following:
-- cmpi, cmp, cmpli, and cmpl assume that bit 10 in the POWER 
-instructions is 0.
-- mtspr and mfspr assume that bits 16–20 in the POWER instructions are 0."
-
-Searching the manuals for other processors, I identified that the 
-manuals for 405, 440, e500, and e500mc explicit says that the L bit 
-should always be 0, and manuals for 603e, 604, 604e, 740/745/750/755, 
-750CX, 750CL, 750FX, 7400/7410, 7447/7447A/7448/7450/7455, e300, and 
-e600 list the bit L in operand syntax but do not mention any 
-restrictions on its value.
-
-Alfredo Dal Ava Junior (adalva) did some tests for us on his G4 MacBook, 
-confirming that the bit is ignored in PowerPC 7447A v1.2, one of which 
-the manual does not specify the behavior, but I don't know if can assume 
-the same for other processors.
-
-If we do bother to emulate the specific behavior for each CPU, what 
-would be the default for those whose manual is not explicit and we 
-cannot test? Also, I not sure how to check for it, do we need a new 
-POWERPC_FLAG in pcc->flags?
-
--- 
-Matheus K. Ferst
-Instituto de Pesquisas ELDORADO <http://www.eldorado.org.br/>
-Analista de Software Júnior
-Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
 
