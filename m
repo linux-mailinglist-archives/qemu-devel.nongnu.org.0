@@ -2,76 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA1E739100A
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 07:33:12 +0200 (CEST)
-Received: from localhost ([::1]:40304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7FF7391011
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 07:41:25 +0200 (CEST)
+Received: from localhost ([::1]:42534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llmAJ-0003Gk-TA
-	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 01:33:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43804)
+	id 1llmIG-00056V-UB
+	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 01:41:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44460)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <palmer@dabbelt.com>)
- id 1llm91-0001LI-TS
- for qemu-devel@nongnu.org; Wed, 26 May 2021 01:31:53 -0400
-Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:56229)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <palmer@dabbelt.com>)
- id 1llm8z-0001gz-MY
- for qemu-devel@nongnu.org; Wed, 26 May 2021 01:31:51 -0400
-Received: by mail-pj1-x102e.google.com with SMTP id kr9so188705pjb.5
- for <qemu-devel@nongnu.org>; Tue, 25 May 2021 22:31:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=dabbelt-com.20150623.gappssmtp.com; s=20150623;
- h=date:subject:in-reply-to:cc:from:to:message-id:mime-version
- :content-transfer-encoding;
- bh=p2FHG0bKHvBeZNoo5cTSfyVWGdsSG3ltJpFOkbSNRn8=;
- b=k+rU1flWJudrCaT7wyRfWBo8SQUVrQ/8r0QrWIa8tYmfjybAaol1lmwv0me97eudtK
- L1FBvQaI7jmf9JEOZWsRUx58b6L4lz1SDpjmI5a1VlaCRph+Jo87mNFFhDmR8Zohpnuv
- wtVCo+EbElfOk5OREheI9wsWscRHrv9gHzaQJzSaRI1/anR9/3YDeX98UEDVXzPgWyRi
- BXTKNZWnDqq2mtfGPdsrC/gCohuFmX6qwLPCLF7vpf76rxL8dLCtV6BzSOjwYX4m8ONd
- QSuH4yF5zWKBk/wks5G2954PHiVKhh06vd8qDc201hBnpic3xrnU7HVtYWZ45+FR3mRb
- GHnQ==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1llmGA-0004PG-8N
+ for qemu-devel@nongnu.org; Wed, 26 May 2021 01:39:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24031)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1llmG6-0006fV-Lh
+ for qemu-devel@nongnu.org; Wed, 26 May 2021 01:39:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1622007548;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Ogdnwrv8EnweBfzc5kp3FkUpqmBHuZ3/rPFEY/5MiIA=;
+ b=B1KM19PtUfP4mxwHBR9bxHPCOv3B2N+dF8rn+ayyHfOSzd3BgdPn13RS30sJsTVmK9QRCy
+ FQAC2VpeUMSgwRWrgC4s9Nt1juYfFx8akEP8sE9hNUl4omD7BnBnkpJ1HpGhq15YJ9Vncf
+ dVGUiJrxPl9Wk9uiW7k2MPtzQOU3GAs=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-256-4Pm4DCumMgud-Qct9wxtEg-1; Wed, 26 May 2021 01:39:06 -0400
+X-MC-Unique: 4Pm4DCumMgud-Qct9wxtEg-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ u5-20020adf9e050000b029010df603f280so15484534wre.18
+ for <qemu-devel@nongnu.org>; Tue, 25 May 2021 22:39:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
- :mime-version:content-transfer-encoding;
- bh=p2FHG0bKHvBeZNoo5cTSfyVWGdsSG3ltJpFOkbSNRn8=;
- b=UYAxrEenPJUijrwKwSoioCgVZc8KEyCM0LlfupzVfeM49ANhiM5JX3gISA7pMssHm1
- 7tRVxuGq9nDaGDeRZTN6CyDYFf10vIFwoHDyJVT9VkGNmEFcouTynQq5XhKyjrJ+4Qwp
- v2asopu2J6OCBGPG1QALEvKOJeytnoYolbd1lxg/ehIQYv9+4cv8RG+MRueeLqbnFhrO
- 4pysfyzgN7W6t2h1t3ErU1NC4ligWVRtjSMp+oSlOUZA1sU3zqoovnZxFfkQ65DUGSTd
- 6OFogRY1w3RCKFlrY17p5KPxUI0oM/ok4PeiumxikxwK/UnuwnB3qov2BJ9XPkgVtg2X
- G36Q==
-X-Gm-Message-State: AOAM530jzoNVe+HCpu+ZhTRiM44QnEX/BSITxJVimlaERif1cwjeeG18
- AZfbeiN2e6GAVOZ2WgV0D/SZEFLV3NJjwQ==
-X-Google-Smtp-Source: ABdhPJzzkrUUk1/mj5pL2wAQOwD37RL2PPH6CHv635EWU4jF1pBCKoKaoVSd7EDHAS6p1DtpPK1B0w==
-X-Received: by 2002:a17:902:ec84:b029:fc:e490:ffa0 with SMTP id
- x4-20020a170902ec84b02900fce490ffa0mr3886442plg.63.1622007107887; 
- Tue, 25 May 2021 22:31:47 -0700 (PDT)
-Received: from localhost (76-210-143-223.lightspeed.sntcca.sbcglobal.net.
- [76.210.143.223])
- by smtp.gmail.com with ESMTPSA id mv15sm13764611pjb.25.2021.05.25.22.31.46
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=Ogdnwrv8EnweBfzc5kp3FkUpqmBHuZ3/rPFEY/5MiIA=;
+ b=PG+benGxmYIhuiFj+y+hoI9UOVPUFASkSi25H3FtNnkBNIBd2xEGaiMSH8G/CGIvel
+ lGXXQsOSir0FdTozbErRmaTNKhmFS9RzuUApNPsU/C9GSivLIpkwKRwgQbHBOIXHbr5T
+ aU+ycGud1LsnA1KQcdnG2hlkSXDN/F64Iamidc/faxmm7R/j2v9miS+5wK06O9ZJhtzG
+ VUguWqkliznS0EvPiYWTIOhFN22aCQwOvUogCMLhbukv2DMaEOT+Sc/3k0guwAHBSwu6
+ aONegKaDmLNN3pxIRnoWByOB9HR8NLb0hOYjrE5f370o2hVY0iaazOqqFk66vsoWFLyZ
+ 46iw==
+X-Gm-Message-State: AOAM530misPH15zQz/rXwzlqGlcS1m3kzoCPpyWOu4nc0KSyccdkpHN3
+ rFXkhettxEDmjnxAsFnO8GG6Y1iDXn0BN2NftdN19QK8pInpxxu8ueKFphb5frFLp8VSxre+2mn
+ xRhGmmEdqcOe/E0k=
+X-Received: by 2002:adf:f8c4:: with SMTP id f4mr30626966wrq.65.1622007544578; 
+ Tue, 25 May 2021 22:39:04 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwDaGuaI0+ST0KLnPQHVjbywjYyADbE3BUrClCysFZVMbz8s9X5lJIKRi7RhdBUX7IHFDwMKw==
+X-Received: by 2002:adf:f8c4:: with SMTP id f4mr30626948wrq.65.1622007544389; 
+ Tue, 25 May 2021 22:39:04 -0700 (PDT)
+Received: from redhat.com ([2a10:8006:fcda:0:90d:c7e7:9e26:b297])
+ by smtp.gmail.com with ESMTPSA id v18sm22147050wro.18.2021.05.25.22.39.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 May 2021 22:31:47 -0700 (PDT)
-Date: Tue, 25 May 2021 22:31:47 -0700 (PDT)
-X-Google-Original-Date: Tue, 25 May 2021 22:31:43 PDT (-0700)
-Subject: Re: [PATCH 08/38] target/riscv: SIMD 16-bit Compare Instructions
-In-Reply-To: <mhng-21817afa-4f8d-4096-b64f-6f0b766c6174@palmerdabbelt-glaptop>
-From: Palmer Dabbelt <palmer@dabbelt.com>
-To: zhiwei_liu@c-sky.com
-Message-ID: <mhng-3ecb3cda-6b88-4cf1-95d9-ab9c28d8c71a@palmerdabbelt-glaptop>
-Mime-Version: 1.0 (MHng)
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
- envelope-from=palmer@dabbelt.com; helo=mail-pj1-x102e.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ Tue, 25 May 2021 22:39:03 -0700 (PDT)
+Date: Wed, 26 May 2021 01:39:00 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Julia Suvorova <jusual@redhat.com>
+Subject: Re: [RFC PATCH v4 0/7] Use ACPI PCI hot-plug for Q35
+Message-ID: <20210526013830-mutt-send-email-mst@kernel.org>
+References: <20210513062642.3027987-1-jusual@redhat.com>
+MIME-Version: 1.0
+In-Reply-To: <20210513062642.3027987-1-jusual@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,120 +91,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: richard.henderson@linaro.org, zhiwei_liu@c-sky.com, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org, alistair23@gmail.com
+Cc: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 25 May 2021 22:30:14 PDT (-0700), Palmer Dabbelt wrote:
-> On Fri, 12 Feb 2021 07:02:26 PST (-0800), zhiwei_liu@c-sky.com wrote:
->> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
->> ---
->>  target/riscv/helper.h                   |  6 ++++
->>  target/riscv/insn32.decode              |  6 ++++
->>  target/riscv/insn_trans/trans_rvp.c.inc |  7 ++++
->>  target/riscv/packed_helper.c            | 46 +++++++++++++++++++++++++
->>  4 files changed, 65 insertions(+)
->>
->> diff --git a/target/riscv/helper.h b/target/riscv/helper.h
->> index 0ecd4d53f9..f41f9acccc 100644
->> --- a/target/riscv/helper.h
->> +++ b/target/riscv/helper.h
->> @@ -1202,3 +1202,9 @@ DEF_HELPER_3(sll8, tl, env, tl, tl)
->>  DEF_HELPER_3(ksll8, tl, env, tl, tl)
->>  DEF_HELPER_3(kslra8, tl, env, tl, tl)
->>  DEF_HELPER_3(kslra8_u, tl, env, tl, tl)
->> +
->> +DEF_HELPER_3(cmpeq16, tl, env, tl, tl)
->> +DEF_HELPER_3(scmplt16, tl, env, tl, tl)
->> +DEF_HELPER_3(scmple16, tl, env, tl, tl)
->> +DEF_HELPER_3(ucmplt16, tl, env, tl, tl)
->> +DEF_HELPER_3(ucmple16, tl, env, tl, tl)
->> diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
->> index cc782fcde5..f3cd508396 100644
->> --- a/target/riscv/insn32.decode
->> +++ b/target/riscv/insn32.decode
->> @@ -669,3 +669,9 @@ ksll8      0110110  ..... ..... 000 ..... 1111111 @r
->>  kslli8     0111110  01... ..... 000 ..... 1111111 @sh3
->>  kslra8     0101111  ..... ..... 000 ..... 1111111 @r
->>  kslra8_u   0110111  ..... ..... 000 ..... 1111111 @r
->> +
->> +cmpeq16    0100110  ..... ..... 000 ..... 1111111 @r
->> +scmplt16   0000110  ..... ..... 000 ..... 1111111 @r
->> +scmple16   0001110  ..... ..... 000 ..... 1111111 @r
->> +ucmplt16   0010110  ..... ..... 000 ..... 1111111 @r
->> +ucmple16   0011110  ..... ..... 000 ..... 1111111 @r
->> diff --git a/target/riscv/insn_trans/trans_rvp.c.inc b/target/riscv/insn_trans/trans_rvp.c.inc
->> index 12a64849eb..6438dfb776 100644
->> --- a/target/riscv/insn_trans/trans_rvp.c.inc
->> +++ b/target/riscv/insn_trans/trans_rvp.c.inc
->> @@ -369,3 +369,10 @@ GEN_RVP_SHIFTI(slli8, sll8, tcg_gen_vec_shl8i_i64);
->>  GEN_RVP_SHIFTI(srai8_u, sra8_u, NULL);
->>  GEN_RVP_SHIFTI(srli8_u, srl8_u, NULL);
->>  GEN_RVP_SHIFTI(kslli8, ksll8, NULL);
->> +
->> +/* SIMD 16-bit Compare Instructions */
->> +GEN_RVP_R_OOL(cmpeq16);
->> +GEN_RVP_R_OOL(scmplt16);
->> +GEN_RVP_R_OOL(scmple16);
->> +GEN_RVP_R_OOL(ucmplt16);
->> +GEN_RVP_R_OOL(ucmple16);
->> diff --git a/target/riscv/packed_helper.c b/target/riscv/packed_helper.c
->> index ab9ebc472b..30b916b5ad 100644
->> --- a/target/riscv/packed_helper.c
->> +++ b/target/riscv/packed_helper.c
->> @@ -631,3 +631,49 @@ static inline void do_kslra8_u(CPURISCVState *env, void *vd, void *va,
->>  }
->>
->>  RVPR(kslra8_u, 1, 1);
->> +
->> +/* SIMD 16-bit Compare Instructions */
->> +static inline void do_cmpeq16(CPURISCVState *env, void *vd, void *va,
->> +                              void *vb, uint8_t i)
->> +{
->> +    uint16_t *d = vd, *a = va, *b = vb;
->> +    d[i] = (a[i] == b[i]) ? 0xffff : 0x0;
->> +}
->> +
->> +RVPR(cmpeq16, 1, 2);
->> +
->> +static inline void do_scmplt16(CPURISCVState *env, void *vd, void *va,
->> +                               void *vb, uint8_t i)
->> +{
->> +    int16_t *d = vd, *a = va, *b = vb;
->> +    d[i] = (a[i] < b[i]) ? 0xffff : 0x0;
->> +}
->> +
->> +RVPR(scmplt16, 1, 2);
->> +
->> +static inline void do_scmple16(CPURISCVState *env, void *vd, void *va,
->> +                               void *vb, uint8_t i)
->> +{
->> +    int16_t *d = vd, *a = va, *b = vb;
->> +    d[i] = (a[i] <= b[i]) ? 0xffff : 0x0;
->> +}
->> +
->> +RVPR(scmple16, 1, 2);
->> +
->> +static inline void do_ucmplt16(CPURISCVState *env, void *vd, void *va,
->> +                               void *vb, uint8_t i)
->> +{
->> +    uint16_t *d = vd, *a = va, *b = vb;
->> +    d[i] = (a[i] < b[i]) ? 0xffff : 0x0;
->> +}
->> +
->> +RVPR(ucmplt16, 1, 2);
->> +
->> +static inline void do_ucmple16(CPURISCVState *env, void *vd, void *va,
->> +                               void *vb, uint8_t i)
->> +{
->> +    uint16_t *d = vd, *a = va, *b = vb;
->> +    d[i] = (a[i] <= b[i]) ? 0xffff : 0x0;
->> +}
->> +
->> +RVPR(ucmple16, 1, 2);
->
-> Thanks, this is on for-next.
+On Thu, May 13, 2021 at 08:26:35AM +0200, Julia Suvorova wrote:
+> The patch set consists of two parts:
+> patches 1-4: introduce new feature
+>              'acpi-pci-hotplug-with-bridge-support' on Q35
+> patches 5-7: make the feature default along with changes in ACPI tables
+> 
+> This way maintainers can decide which way to choose without breaking
+> the patch set.
 
-Oops, got my threads crossed.
+This is in good shape, I think the next version can be a non-RFC series.
+
+> With the feature disabled Q35 falls back to the native hot-plug.
+> 
+> Pros
+>     * no racy behavior during boot (see 110c477c2ed)
+>     * eject is possible - according to PCIe spec, attention button
+>       press should lead to power off, and then the adapter should be
+>       removed manually. As there is no power down state exists in QEMU,
+>       we cannot distinguish between an eject and a power down
+>       request.
+>     * no delay during deleting - after the actual power off software
+>       must wait at least 1 second before indicating about it. This case
+>       is quite important for users, it even has its own bug:
+>           https://bugzilla.redhat.com/show_bug.cgi?id=1594168
+>     * no timer-based behavior - in addition to the previous example,
+>       the attention button has a 5-second waiting period, during which
+>       the operation can be canceled with a second press. While this
+>       looks fine for manual button control, automation will result in
+>       the need to queue or drop events, and the software receiving
+>       events in all sort of unspecified combinations of attention/power
+>       indicator states, which is racy and uppredictable.
+>     * fixes or reduces the likelihood of the bugs:
+>         * https://bugzilla.redhat.com/show_bug.cgi?id=1833187
+>         * https://bugzilla.redhat.com/show_bug.cgi?id=1657077
+>         * https://bugzilla.redhat.com/show_bug.cgi?id=1669931
+>         * https://bugzilla.redhat.com/show_bug.cgi?id=1678290
+> 
+> Cons:
+>     * no access to possible features presented in slot capabilities
+>       (this is only surprise removal AFAIK)
+> 
+> v4:
+>     * regain per-port control over hot-plug
+>     * rebased over acpi-index changes
+>     * set property on machine type to
+>       make pci code more generic [Igor, Michael]
+> 
+> v3:
+>     * drop change of _OSC to allow SHPC on hotplugged bridges
+>     * use 'acpi-root-pci-hotplug'
+>     * add migration states [Igor]
+>     * minor style changes
+> 
+> v2:
+>     * new ioport range for acpiphp [Gerd]
+>     * drop find_pci_host() [Igor]
+>     * explain magic numbers in _OSC [Igor]
+>     * drop build_q35_pci_hotplug() wrapper [Igor]
+> 
+> Julia Suvorova (7):
+>   hw/acpi/pcihp: Enhance acpi_pcihp_disable_root_bus() to support Q35
+>   hw/i386/acpi-build: Add ACPI PCI hot-plug methods to Q35
+>   hw/acpi/ich9: Enable ACPI PCI hot-plug
+>   hw/pci/pcie: Do not set HPC flag if acpihp is used
+>   bios-tables-test: Allow changes in DSDT ACPI tables
+>   hw/acpi/ich9: Set ACPI PCI hot-plug as default on Q35
+>   bios-tables-test: Update golden binaries
+> 
+>  hw/i386/acpi-build.h              |   5 +++
+>  include/hw/acpi/ich9.h            |   5 +++
+>  include/hw/acpi/pcihp.h           |   3 +-
+>  include/hw/boards.h               |   1 +
+>  hw/acpi/ich9.c                    |  68 ++++++++++++++++++++++++++++++
+>  hw/acpi/pcihp.c                   |  22 +++++++---
+>  hw/acpi/piix4.c                   |   4 +-
+>  hw/core/machine.c                 |  19 +++++++++
+>  hw/i386/acpi-build.c              |  32 ++++++++------
+>  hw/i386/pc.c                      |   4 +-
+>  hw/i386/pc_q35.c                  |   8 ++++
+>  hw/pci/pcie.c                     |  11 ++++-
+>  tests/data/acpi/q35/DSDT          | Bin 7859 -> 8289 bytes
+>  tests/data/acpi/q35/DSDT.acpihmat | Bin 9184 -> 9614 bytes
+>  tests/data/acpi/q35/DSDT.bridge   | Bin 7877 -> 11003 bytes
+>  tests/data/acpi/q35/DSDT.cphp     | Bin 8323 -> 8753 bytes
+>  tests/data/acpi/q35/DSDT.dimmpxm  | Bin 9513 -> 9943 bytes
+>  tests/data/acpi/q35/DSDT.ipmibt   | Bin 7934 -> 8364 bytes
+>  tests/data/acpi/q35/DSDT.memhp    | Bin 9218 -> 9648 bytes
+>  tests/data/acpi/q35/DSDT.mmio64   | Bin 8990 -> 9419 bytes
+>  tests/data/acpi/q35/DSDT.nohpet   | Bin 7717 -> 8147 bytes
+>  tests/data/acpi/q35/DSDT.numamem  | Bin 7865 -> 8295 bytes
+>  tests/data/acpi/q35/DSDT.tis      | Bin 8465 -> 8894 bytes
+>  23 files changed, 161 insertions(+), 21 deletions(-)
+> 
+> -- 
+> 2.30.2
+
 
