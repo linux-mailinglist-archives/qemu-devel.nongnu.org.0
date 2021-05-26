@@ -2,69 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0D0739169F
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 13:51:38 +0200 (CEST)
-Received: from localhost ([::1]:34714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AAB239170A
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 14:06:06 +0200 (CEST)
+Received: from localhost ([::1]:41496 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lls4X-0005ix-HC
-	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 07:51:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58444)
+	id 1llsIX-0002Wg-2j
+	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 08:06:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33434)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <josemartins90@gmail.com>)
- id 1lls3l-0004xC-8x; Wed, 26 May 2021 07:50:49 -0400
-Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:37783)
+ (Exim 4.90_1) (envelope-from <programmingkidx@gmail.com>)
+ id 1llsHN-0001iY-1O; Wed, 26 May 2021 08:04:53 -0400
+Received: from mail-qv1-xf29.google.com ([2607:f8b0:4864:20::f29]:40897)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <josemartins90@gmail.com>)
- id 1lls3i-0002as-20; Wed, 26 May 2021 07:50:48 -0400
-Received: by mail-ej1-x62a.google.com with SMTP id z16so1340802ejr.4;
- Wed, 26 May 2021 04:50:45 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <programmingkidx@gmail.com>)
+ id 1llsHL-000371-F4; Wed, 26 May 2021 08:04:52 -0400
+Received: by mail-qv1-xf29.google.com with SMTP id e8so542029qvp.7;
+ Wed, 26 May 2021 05:04:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=QtcrLZGT/Aig81ewY4/KrHqqzykoGq5TDTR9zInUT70=;
- b=lGLW5B5F+cR2E1jzMzsmk+Mc+Ypvj/fCWkqED/RCDCX8X5j82O5NpvsZ+CUzAGSFpn
- lRuslhEwgV8NDTcIj0gFFidFzmE+93mYhJCHgHba838oufBGk3bN2zcVwruYKnLGGxWy
- 6qzr5fT+sVHHQ5pAGUohqcANSMIklwMZE98EvUmBLJ9Irnsll7/VrL8dJqeGl8IUc545
- qlBJ/ZH/fxlLTVXV06r+WQEDSSE6P48aw5stkT+FsP3YaatjF4nh1V4p/qBA504p2bQq
- pMIvhEd/DUNaOtffNI7Z3Yh6kYwVFUe2oqqn0vfJZOYqzuXF5Cpoqr2DtA+8YpnGhenn
- Srpg==
+ h=mime-version:subject:from:in-reply-to:date:cc
+ :content-transfer-encoding:message-id:references:to;
+ bh=3Qh20IA4UbdTEGUZJ2AJEruhQ+ddtaJecfC6TCFp2Pw=;
+ b=Po3wvLjqjHVXmwFRyfqv6ITTXHDkn+5tioxzUL5BCc6gEpxChYZqDSVz7WKEq54LBx
+ 2rrps4xY6fNR3m79La6xkKri9HcdqbEBO5a/AKAj0F7g4nQEJp6J3dioHZOgzLxBR8P5
+ 5lltO+s0Vy4JCy7GuTQxPbQLkY3UTTM419YjUXNQqly0lgxGaDiA1IwrtPThT3NIdgrL
+ s6GS08Nk89sewUpAzGtLw1nafzpu0sIh0HrVy4GQjdvKPJIi0xa5572ZgQknuV+DkDqk
+ 5yzslsENNH/EECqCuO0vpowbdp5I1BQ8T2Rduf6rW5ESgjv4oEK32gcnhAZHcaWdOuu1
+ 38ng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=QtcrLZGT/Aig81ewY4/KrHqqzykoGq5TDTR9zInUT70=;
- b=jVIX7UBIhQXPbKnarMJdbjDuagZhso+8uUwJu4ynyhjkpfB9qQFihp1vW7v62onpFu
- JWo6MiiObXHgyTi9JJh3PYfN1xz9KLINgKUM3Q1gSIj1mWgdAgwcI4Jxv1BunwJXgnfX
- c/zmPnctFu5WiKW/0bfXGnG59F8ruFWVdioaXVt7e5fk3sANwoXbit2FBvzd4lBV0ItB
- TmF7Q6BGBwhLp24tJSNBZbBRQarxolog3A2SG/kWjNmf2STjV5Ja8k7Z1vS8XQbWUTik
- X0WsAChAur7SmU08G/RggYsSVbDwB8Qa6jOnHXP7uIuYZpYrTqSl1DnvNkENf+RgwgcF
- gHyw==
-X-Gm-Message-State: AOAM531/lu0bKJMLL4XvXkp4HfeK2I+Qsz27DpkV1yX4Ff1hkNA9jvqC
- xJMGKSuSPtbu+hhsWDs/nEaUCYPNuiYDifqjeMg=
-X-Google-Smtp-Source: ABdhPJwosjwkydrDDLLwoQG6bnsdjU/59Z1C1YPjluvYNVTudbmFzlBqYH4buL0L3+/I2CPjc1lXB4drq1hQbJ+BmwM=
-X-Received: by 2002:a17:906:16d2:: with SMTP id
- t18mr33235160ejd.277.1622029843721; 
- Wed, 26 May 2021 04:50:43 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210522154429.361235-1-josemartins90@gmail.com>
- <94455d68-c088-5875-d115-acd95829406e@c-sky.com>
-In-Reply-To: <94455d68-c088-5875-d115-acd95829406e@c-sky.com>
-From: Jose Martins <josemartins90@gmail.com>
-Date: Wed, 26 May 2021 12:50:32 +0100
-Message-ID: <CAC41xo3XAWZrqtFxiLDQ+H4fr=FVkWmZfe8P+PaTx-MPU_fpfw@mail.gmail.com>
-Subject: Re: [PATCH v3] target/riscv: fix VS interrupts forwarding to HS
-To: LIU Zhiwei <zhiwei_liu@c-sky.com>
-Content-Type: text/plain; charset="UTF-8"
+ h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+ :content-transfer-encoding:message-id:references:to;
+ bh=3Qh20IA4UbdTEGUZJ2AJEruhQ+ddtaJecfC6TCFp2Pw=;
+ b=jtxHCSMChjplVbZS73diTNEbZ83ubPtlUtfJEhPcTNzWT3p0hHkbH2pdhxFel0cu4I
+ RZXnbQMMldbG+HcqYQMZARyLuE5FkUR6xyN08Cnp2KTSN8M3hyE2z3tEN70hZCPg23cz
+ 2kFa1fz8HyndFAbOeimEhBz5HkIHYiLCkj/NCTiQ4zSkpmVak8rGeNd7hyW+GSaLjPPe
+ z9osx6ujxL+hsBroovD/KtvgaZImLI8YnvAdplqKjdXi9IJP5UzUNZDp27ha64pWoAU7
+ VV+/e0zQqRGlCX3xDpWf6K9Ppmib62t3vaXtECko38zHjbejtrBbDf2IPZZ+Dios3kEP
+ gl6A==
+X-Gm-Message-State: AOAM533HTrpS4EhNcIkobGvzUQ1rlQBpPAiQJ+VrTName4M5+/ljHrcr
+ NIGxUCWcrTQf7HObemtj0MQ=
+X-Google-Smtp-Source: ABdhPJyHPSGkchWEUx0qanIWKUJQxqSV5eMg4dI+yxMk56kyHVMY6Nq/5CLAXYWBx7onVO9zr+9EUw==
+X-Received: by 2002:ad4:5112:: with SMTP id g18mr43236260qvp.26.1622030690278; 
+ Wed, 26 May 2021 05:04:50 -0700 (PDT)
+Received: from [192.168.0.6] (d149-67-175-105.try.wideopenwest.com.
+ [67.149.105.175])
+ by smtp.gmail.com with ESMTPSA id e2sm1405753qkm.18.2021.05.26.05.04.49
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Wed, 26 May 2021 05:04:49 -0700 (PDT)
+Content-Type: text/plain;
+	charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.40.0.2.32\))
+Subject: Re: [PATCH 0/2] vvfat: fix two crashes.
+From: Programmingkid <programmingkidx@gmail.com>
+In-Reply-To: <YK0jZB86ZGLDTM+J@merkur.fritz.box>
+Date: Wed, 26 May 2021 08:04:48 -0400
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
- envelope-from=josemartins90@gmail.com; helo=mail-ej1-x62a.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+Message-Id: <066C0E39-302E-4D12-A9D8-C7C1D0C5D91D@gmail.com>
+References: <20210524101257.119377-1-vsementsov@virtuozzo.com>
+ <E8FEBD24-139F-4918-92D9-5183EECCA8FB@gmail.com>
+ <482b0f59-addc-2bdf-21b7-53d07265b651@virtuozzo.com>
+ <B4968AF6-F208-48F5-B431-0E84CAE8491C@gmail.com>
+ <YK0jZB86ZGLDTM+J@merkur.fritz.box>
+To: Kevin Wolf <kwolf@redhat.com>
+X-Mailer: Apple Mail (2.3654.40.0.2.32)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f29;
+ envelope-from=programmingkidx@gmail.com; helo=mail-qv1-xf29.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -79,49 +87,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Alberto Garcia <berto@igalia.com>, QEMU devel list <qemu-devel@nongnu.org>,
+ Qemu-block <qemu-block@nongnu.org>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello Zhiwei, thank you for reviewing the patch.
 
-I'll split the patch in a series as you suggest. But first can you
-help me understand what the problems are with
-riscv_cpu_local_irq_pending?
 
-> I think there are two errors in riscv_cpu_local_irq_pending.
->
-> 1) VS interrupts can't be forwarded to hs-mode rightly . It has
-> nothing to do with delegate or not in hideleg. The reason is that
-> VS interrupts are always discarded when V=3D0 in
-> riscv_cpu_local_irq_pending.
+> On May 25, 2021, at 12:18 PM, Kevin Wolf <kwolf@redhat.com> wrote:
+>=20
+> Am 24.05.2021 um 18:06 hat Programmingkid geschrieben:
+>>>>> qemu-system-ppc -usb -device usb-storage,drive=3Dfat16 -drive =
+file=3Dfat:rw:fat-type=3D16:"<path of a host =
+folder>",id=3Dfat16,format=3Draw,if=3Dnone
+>>>>>=20
+>> On a related topic would you know if it is possible to use fat32
+>> instead of fat16 for host folder sharing? I did try replacing the =
+text
+>> fat16 with fat32 but it didn't appear to work.
+>=20
+> I think the correct syntax is fat:32:rw:<path>. But one of the first
+> things it does is:
+>=20
+>    warn_report("FAT32 has not been tested. You are welcome to do =
+so!");
+>=20
+> So probably nobody would be surprised if it broke.
+>=20
+> Kevin
+>=20
 
-I don't see why this is the case. The way I see it, VS interrupts are
-only discarded for V=3D0 *iff* they are delegated in mideleg/hideleg.  I
-actually tested it and I see the correct forwarding of vs-mode
-interrupts to hs-mode. I tested it by running in hs-mode with all the
-needed interrupt enables set, the interrupts not delegated in hideleg,
-and forcing the trigger of the interrupt by writing hvip. But maybe
-there are some corner cases I'm not taking into account. Can you
-explain this further? Maybe walk me through an example of when this
-issue might occur.
+Thank you very much for this information.=20
 
-> 2) Use MSTATUS_SIE in mstatus_hs to select pending_hs_irqs.
-
-I don't think you need to go through mstatus_hs to get the correct sie
-state. My logic behind this is: env->mstatus will have the vs-level
-sie if V=3D1 and hs-level sie if V=3D0. Due to the short-circuiting
-property of the logic operators the sie variable will only have an
-effect on hsie if V=3D0 and on vsie if V=3D1. So the value of sie is only
-used in the correct context.
-
-Again, please correct me if I'm wrong. I might be missing something.
-
-Best,
-Jos=C3=A9
 
