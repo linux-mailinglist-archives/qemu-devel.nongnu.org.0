@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E9AD390D92
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 02:53:33 +0200 (CEST)
-Received: from localhost ([::1]:39808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BCB6390D99
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 02:56:12 +0200 (CEST)
+Received: from localhost ([::1]:45990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llhng-0000MN-DK
-	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 20:53:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41808)
+	id 1llhqE-0004ZA-T6
+	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 20:56:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1llhNv-0005IB-M4
- for qemu-devel@nongnu.org; Tue, 25 May 2021 20:26:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54924)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1llhO3-0005Y1-0u
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 20:27:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60105)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1llhNt-0007XX-JI
- for qemu-devel@nongnu.org; Tue, 25 May 2021 20:26:55 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1llhNw-0007Y4-SG
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 20:27:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621988813;
+ s=mimecast20190719; t=1621988815;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=WQS1f8vvqFGWSyLNNu8yrUY0pHzJjMlAp9ZKGROTfpQ=;
- b=HE4LT6pEE3UuVu6GL5tsZO/h29R6+QflT5krCgFkE8lGoPjpSwojGQlJZm0L3ZSgM/itgd
- nGD4oC48QDdLUWJ+Jbv4ufOJFi1py1ASIEGu/wj4RfFpfKaI+JtoJrGO9bvvuGFqk0yeqN
- mgBOl4gVq07A6UOZVtSJNEl5R3F2SiE=
+ bh=1i2r1B4FpoFsnjnSSkyc16gi8N2SH4zmmwjbGuuMgm4=;
+ b=FI7Zv4sFR5QWvac1egaP8o/xReBjh9QkHH6SK1aT7KafihCSMCBGtmyb8mLxhlFeRj8C25
+ 6Rov2DQvq6w28QfxyqUUvvhMCR8J3RRr0OrDJXz6lj0ABZ3gT2R73Ch+UA5bj2N0OpEebI
+ 58zAO5o6YbDFI+D4Kfl0GxTkuHW3v3s=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-152-hbRoFdCxPVGAUu7-mnVTHA-1; Tue, 25 May 2021 20:26:51 -0400
-X-MC-Unique: hbRoFdCxPVGAUu7-mnVTHA-1
+ us-mta-544-GkuPGi4oOxudgul35d7afQ-1; Tue, 25 May 2021 20:26:53 -0400
+X-MC-Unique: GkuPGi4oOxudgul35d7afQ-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 353CD501E0;
- Wed, 26 May 2021 00:26:50 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 911F6800D55;
+ Wed, 26 May 2021 00:26:52 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-116-137.rdu2.redhat.com [10.10.116.137])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 424306EF40;
- Wed, 26 May 2021 00:26:48 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 616116E51B;
+ Wed, 26 May 2021 00:26:50 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 28/31] python: add Makefile for some common tasks
-Date: Tue, 25 May 2021 20:24:51 -0400
-Message-Id: <20210526002454.124728-29-jsnow@redhat.com>
+Subject: [PATCH v7 29/31] python: add .gitignore
+Date: Tue, 25 May 2021 20:24:52 -0400
+Message-Id: <20210526002454.124728-30-jsnow@redhat.com>
 In-Reply-To: <20210526002454.124728-1-jsnow@redhat.com>
 References: <20210526002454.124728-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -63,7 +63,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,122 +88,42 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add "make venv" to create the pipenv-managed virtual environment that
-contains our explicitly pinned dependencies.
+Ignore *Python* build and package output (build, dist, qemu.egg-info);
+these files are not created as part of a QEMU build. They are created by
+running the commands 'python3 setup.py <sdist|bdist>' when preparing
+tarballs to upload to e.g. PyPI.
 
-Add "make check" to run the python linters [in the host execution
-environment].
+Ignore miscellaneous cached python confetti (mypy, pylint, et al)
 
-Add "make venv-check" which combines the above two: create/update the
-venv, then run the linters in that explicitly managed environment.
-
-Add "make develop" which canonizes the runes needed to get both the
-linting pre-requisites (the "[devel]" part), and the editable
-live-install (the "-e" part) of these python libraries.
-
-make clean: delete miscellaneous python packaging output possibly
-created by pipenv, pip, or other python packaging utilities
-
-make distclean: delete the above, the .venv, and the editable "qemu"
-package forwarder (qemu.egg-info) if there is one.
+Ignore .idea (pycharm) .vscode, and .venv (pipenv et al).
 
 Signed-off-by: John Snow <jsnow@redhat.com>
-Reviewed-by: Cleber Rosa <crosa@redhat.com>
-Tested-by: Cleber Rosa <crosa@redhat.com>
 ---
- python/PACKAGE.rst |  6 ++++++
- python/README.rst  |  6 ++++++
- python/Makefile    | 43 +++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 55 insertions(+)
- create mode 100644 python/Makefile
+ python/.gitignore | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
+ create mode 100644 python/.gitignore
 
-diff --git a/python/PACKAGE.rst b/python/PACKAGE.rst
-index 05ea7789fc1..b0b86cc4c31 100644
---- a/python/PACKAGE.rst
-+++ b/python/PACKAGE.rst
-@@ -35,3 +35,9 @@ the report.
- Optional packages necessary for running code quality analysis for this
- package can be installed with the optional dependency group "devel":
- ``pip install qemu[devel]``.
-+
-+``make develop`` can be used to install this package in editable mode
-+(to the current environment) *and* bring in testing dependencies in one
-+command.
-+
-+``make check`` can be used to run the available tests.
-diff --git a/python/README.rst b/python/README.rst
-index 6bd2c6b3547..dcf993819db 100644
---- a/python/README.rst
-+++ b/python/README.rst
-@@ -28,6 +28,9 @@ Installing ".[devel]" instead of "." will additionally pull in required
- packages for testing this package. They are not runtime requirements,
- and are not needed to simply use these libraries.
- 
-+Running ``make develop`` will pull in all testing dependencies and
-+install QEMU in editable mode to the current environment.
-+
- See `Installing packages using pip and virtual environments
- <https://packaging.python.org/guides/installing-using-pip-and-virtual-environments/>`_
- for more information.
-@@ -39,6 +42,9 @@ Files in this directory
- - ``qemu/`` Python package source directory.
- - ``tests/`` Python package tests directory.
- - ``avocado.cfg`` Configuration for the Avocado test-runner.
-+  Used by ``make check`` et al.
-+- ``Makefile`` provides some common testing/installation invocations.
-+  Try ``make help`` to see available targets.
- - ``MANIFEST.in`` is read by python setuptools, it specifies additional files
-   that should be included by a source distribution.
- - ``PACKAGE.rst`` is used as the README file that is visible on PyPI.org.
-diff --git a/python/Makefile b/python/Makefile
+diff --git a/python/.gitignore b/python/.gitignore
 new file mode 100644
-index 00000000000..a9da1689558
+index 00000000000..4ed144ceac3
 --- /dev/null
-+++ b/python/Makefile
-@@ -0,0 +1,43 @@
-+.PHONY: help venv venv-check check clean distclean develop
++++ b/python/.gitignore
+@@ -0,0 +1,15 @@
++# linter/tooling cache
++.mypy_cache/
++.cache/
 +
-+help:
-+	@echo "python packaging help:"
-+	@echo ""
-+	@echo "make venv:       Create pipenv's virtual environment."
-+	@echo "    NOTE: Requires Python 3.6 and pipenv."
-+	@echo "          Will download packages from PyPI."
-+	@echo "    Hint: (On Fedora): 'sudo dnf install python36 pipenv'"
-+	@echo ""
-+	@echo "make venv-check: run linters using pipenv's virtual environment."
-+	@echo "    Hint: If you don't know which test to run, run this one!"
-+	@echo ""
-+	@echo "make develop:    Install deps for 'make check', and"
-+	@echo "                 the qemu libs in editable/development mode."
-+	@echo ""
-+	@echo "make check:      run linters using the current environment."
-+	@echo ""
-+	@echo "make clean:      remove package build output."
-+	@echo ""
-+	@echo "make distclean:  remove venv files, qemu package forwarder,"
-+	@echo "                 built distribution files, and everything"
-+	@echo "                 from 'make clean'."
++# python packaging
++build/
++dist/
++qemu.egg-info/
 +
-+venv: .venv
-+.venv: Pipfile.lock
-+	@PIPENV_VENV_IN_PROJECT=1 pipenv sync --dev --keep-outdated
-+	@touch .venv
++# editor config
++.idea/
++.vscode/
 +
-+venv-check: venv
-+	@pipenv run make check
-+
-+develop:
-+	pip3 install -e .[devel]
-+
-+check:
-+	@avocado --config avocado.cfg run tests/
-+
-+clean:
-+	python3 setup.py clean --all
-+
-+distclean: clean
-+	rm -rf qemu.egg-info/ .venv/ dist/
++# virtual environments (pipenv et al)
++.venv/
 -- 
 2.31.1
 
