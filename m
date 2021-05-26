@@ -2,72 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D71333919B9
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 16:16:01 +0200 (CEST)
-Received: from localhost ([::1]:35850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F874391A19
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 16:25:58 +0200 (CEST)
+Received: from localhost ([::1]:53472 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lluKG-0004qO-Rq
-	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 10:16:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35450)
+	id 1lluTt-000076-IF
+	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 10:25:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39516)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lluC8-0004RT-0g
- for qemu-devel@nongnu.org; Wed, 26 May 2021 10:07:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35083)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lluC3-0004MQ-KE
- for qemu-devel@nongnu.org; Wed, 26 May 2021 10:07:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622038050;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=PECO0g06hLDjOu3d7I9Nb0+6uo2MxEBlaUky8/Wav6k=;
- b=EcRilCN5VHREqjmEzPHcPfBOTxbdu1wPOV+ghFhREyx0qMlUNd4fVD4SwVSiuPrnqwBFup
- ZayaHEByPfpSHS+bs/3OwA4cn4rUytecmRIutGfiX2N1GVsRzny7PnLQGOiBW4fJ5BcecZ
- sf692DIhjjc3YXhL5gl+2YEB22IHzwU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-503-b75u_6B1PFG9_p7n2DO0yw-1; Wed, 26 May 2021 10:07:26 -0400
-X-MC-Unique: b75u_6B1PFG9_p7n2DO0yw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3082D90E647;
- Wed, 26 May 2021 14:07:25 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-112-84.ams2.redhat.com
- [10.36.112.84])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CAAFD61094;
- Wed, 26 May 2021 14:07:17 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 161E6180093A; Wed, 26 May 2021 16:06:28 +0200 (CEST)
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 14/14] hw/input/ps2: Use ps2_raise_irq() instead of open coding
- it
-Date: Wed, 26 May 2021 16:06:27 +0200
-Message-Id: <20210526140627.381857-15-kraxel@redhat.com>
-In-Reply-To: <20210526140627.381857-1-kraxel@redhat.com>
-References: <20210526140627.381857-1-kraxel@redhat.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lluSS-0007gL-Tx
+ for qemu-devel@nongnu.org; Wed, 26 May 2021 10:24:28 -0400
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:54247)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lluSR-0005s8-Gt
+ for qemu-devel@nongnu.org; Wed, 26 May 2021 10:24:28 -0400
+Received: by mail-wm1-x32b.google.com with SMTP id h3so834636wmq.3
+ for <qemu-devel@nongnu.org>; Wed, 26 May 2021 07:24:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=gxV+wNSv76IIrYezgZ8axrStWkmqE2ixMLSmNdEmIEM=;
+ b=USX6EptetuJ8VmkOHsENUgSRJ3STeOeLg5JWP7wuG+bGfkUQ7cGEescVljTEnhc+65
+ NkGCrYiAKCkga9fs2X1YXbAzqe1OkfX7w2K+92Xr2tJCz/L9m7XqLTWCg66n3/QUFe5B
+ FguQRCGI+YMHoDiH9DUVM3bBSPQQlKf3PrcEw7cGFQoUg7TLoJpU6+mT+W3hRaZ3o2vH
+ fBT44VJdYYuqRZ9bA5FMifp/W5fr9oLyCFWE2TGjWePd+OeAtRGNtTz+Hat4jWA1G9WR
+ wAkV9v7uTXOazNT3BrxqJYRRsFEqY5vuou5T4wUcqKTDazP3B+EzN3AzGUQdh8f901fN
+ AjZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=gxV+wNSv76IIrYezgZ8axrStWkmqE2ixMLSmNdEmIEM=;
+ b=J/d5o/Lz9b05bguJHRzzvqzqZStFChX3BehsafO+2I2DRRinfQSjSsH9jjDfIEIs4o
+ VxKw3Qc/bL84a4gPOX+yDDe5xMiHmhJmJIOqngar+N/HrJGo/l2ENRr3fnDxgLxoftAk
+ rxtrtlgcmtB2SytTfezAgs6YWbafij1TftrzPmFQHBEOGJRUbWDmhlLN8QVR/QniZSLX
+ m4SaMKVmE24qWz5KVwxrQmiCGFJ5nyAeKyHoTdzHdAae3yjL6+HOe2XxCmPMlNzIlylw
+ 1nnm1Rp82cjXXCLUoxMWkEGoDqFdP9c65973f30/Beubxmn6OxYBnI32dCiq4N9MWDMA
+ IeNg==
+X-Gm-Message-State: AOAM53025RVCaewwtU3EwweOo4zCCMLGVKg5G7MhJjCqCAHzIWoN96rD
+ MaO8W/IvpoKrVvlmLRgTIpVd3vm/J5rKeg==
+X-Google-Smtp-Source: ABdhPJwh/Wl5KslT4s08+ANLkqyd4DJ109lQuPzWeLr/yJ7qhhjnqePKwEtDoo1Fcf/VIasdlX/+iA==
+X-Received: by 2002:a1c:7703:: with SMTP id t3mr3691365wmi.99.1622039065705;
+ Wed, 26 May 2021 07:24:25 -0700 (PDT)
+Received: from [192.168.1.36] (64.red-88-10-103.dynamicip.rima-tde.net.
+ [88.10.103.64])
+ by smtp.gmail.com with ESMTPSA id h13sm15587119wml.26.2021.05.26.07.24.24
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 26 May 2021 07:24:25 -0700 (PDT)
+Subject: Re: [Bug 1878641] Re: Abort() in mch_update_pciexbar
+To: Bug 1878641 <1878641@bugs.launchpad.net>, qemu-devel@nongnu.org
+References: <158947155555.22318.7487906636720013107.malonedeb@wampee.canonical.com>
+ <162202718856.30597.9572245697107520055.malone@gac.canonical.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <a51e76a6-0080-a924-e7ed-68951c7c5dcd@amsat.org>
+Date: Wed, 26 May 2021 16:24:24 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <162202718856.30597.9572245697107520055.malone@gac.canonical.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32b.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,68 +89,12 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- =?UTF-8?q?Volker=20R=C3=BCmelin?= <vr_qemu@t-online.de>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Bin Meng <bmeng.cn@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+On 5/26/21 1:06 PM, Thomas Huth wrote:
+> Confirmed, this is not fixed yet. Philippe, what happened to your patch?
 
-Inspired-by: Volker Rümelin <vr_qemu@t-online.de>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Volker Rümelin <vr_qemu@t-online.de>
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
-Message-Id: <20210513171244.3940519-1-f4bug@amsat.org>
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
----
- hw/input/ps2.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/hw/input/ps2.c b/hw/input/ps2.c
-index 5cf95b4dd3eb..8dd482c1f65b 100644
---- a/hw/input/ps2.c
-+++ b/hw/input/ps2.c
-@@ -217,7 +217,7 @@ void ps2_queue(PS2State *s, int b)
-     }
- 
-     ps2_queue_noirq(s, b);
--    s->update_irq(s->update_arg, 1);
-+    ps2_raise_irq(s);
- }
- 
- void ps2_queue_2(PS2State *s, int b1, int b2)
-@@ -228,7 +228,7 @@ void ps2_queue_2(PS2State *s, int b1, int b2)
- 
-     ps2_queue_noirq(s, b1);
-     ps2_queue_noirq(s, b2);
--    s->update_irq(s->update_arg, 1);
-+    ps2_raise_irq(s);
- }
- 
- void ps2_queue_3(PS2State *s, int b1, int b2, int b3)
-@@ -240,7 +240,7 @@ void ps2_queue_3(PS2State *s, int b1, int b2, int b3)
-     ps2_queue_noirq(s, b1);
-     ps2_queue_noirq(s, b2);
-     ps2_queue_noirq(s, b3);
--    s->update_irq(s->update_arg, 1);
-+    ps2_raise_irq(s);
- }
- 
- void ps2_queue_4(PS2State *s, int b1, int b2, int b3, int b4)
-@@ -253,7 +253,7 @@ void ps2_queue_4(PS2State *s, int b1, int b2, int b3, int b4)
-     ps2_queue_noirq(s, b2);
-     ps2_queue_noirq(s, b3);
-     ps2_queue_noirq(s, b4);
--    s->update_irq(s->update_arg, 1);
-+    ps2_raise_irq(s);
- }
- 
- /* keycode is the untranslated scancode in the current scancode set. */
--- 
-2.31.1
-
+I was waiting someone suggest me how to propagate error from
+PCIConfigWriteFunc. Probably not very important.
 
