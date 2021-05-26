@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB47639198A
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 16:09:10 +0200 (CEST)
-Received: from localhost ([::1]:40206 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52289391997
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 16:12:14 +0200 (CEST)
+Received: from localhost ([::1]:48812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lluDd-0005fr-VE
-	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 10:09:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35166)
+	id 1lluGb-00037q-BO
+	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 10:12:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35192)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lluBL-00031d-Og
- for qemu-devel@nongnu.org; Wed, 26 May 2021 10:06:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54273)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lluBT-0003LJ-DA
+ for qemu-devel@nongnu.org; Wed, 26 May 2021 10:06:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44085)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lluBG-0003pn-QW
- for qemu-devel@nongnu.org; Wed, 26 May 2021 10:06:47 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lluBR-0003wo-Pa
+ for qemu-devel@nongnu.org; Wed, 26 May 2021 10:06:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622038002;
+ s=mimecast20190719; t=1622038013;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=j+ByWNfBQl077NakT3CN6Nqd8I1j/6kexSaJYZ7FxVU=;
- b=C3a3kivPvvPAiXDEDIabnZ3F94oKk1SwFCAGayJ0lZ+GDNKM724T1WOmrgZXimidNYV49L
- SxZO4TGwQCGM3Hl3apJ6Ht39KtEXL0wRwDfDZcuy7y6E8K7ikgQUuX1cUL0v0wT0c+zLRm
- /n52xW4mxCFStFsr1U3XSJDnfXcYFqs=
+ bh=wapvoU9/BzxeKHg5D5SZCCmBnDRLK12bdpOj7BwKdl4=;
+ b=dkYcVX/YKzu+IEyHB9Wby7ja6u1cWOlttgPaoGrLp+LgE50RJqWcaKBJQl1q5qT0I7WJNV
+ a751Ys0KT5gnthA7ZY+W631Zn4/SkuAy99eUin4DEazjbbRwukg3lodrwtcW1b6ctwwPPm
+ n8EK/4U9B4LF/2/pDA8I2L/Y521FAHQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-307-MFVSBATsNGma12xY6HZJ-w-1; Wed, 26 May 2021 10:06:40 -0400
-X-MC-Unique: MFVSBATsNGma12xY6HZJ-w-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-580-Sh5_tjPTOZifGKdXUdVwHw-1; Wed, 26 May 2021 10:06:50 -0400
+X-MC-Unique: Sh5_tjPTOZifGKdXUdVwHw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 32C5690E643;
- Wed, 26 May 2021 14:06:39 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3C5AF1034B20;
+ Wed, 26 May 2021 14:06:49 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-84.ams2.redhat.com
  [10.36.112.84])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BD81B101E5AF;
- Wed, 26 May 2021 14:06:38 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0CA545D9DC;
+ Wed, 26 May 2021 14:06:41 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 88E04180039F; Wed, 26 May 2021 16:06:27 +0200 (CEST)
+ id 9322A18003B6; Wed, 26 May 2021 16:06:27 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 03/14] ps2: don't raise an interrupt if queue is full
-Date: Wed, 26 May 2021 16:06:16 +0200
-Message-Id: <20210526140627.381857-4-kraxel@redhat.com>
+Subject: [PULL 04/14] ps2: don't deassert irq twice if queue is empty
+Date: Wed, 26 May 2021 16:06:17 +0200
+Message-Id: <20210526140627.381857-5-kraxel@redhat.com>
 In-Reply-To: <20210526140627.381857-1-kraxel@redhat.com>
 References: <20210526140627.381857-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -89,33 +89,31 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Volker Rümelin <vr_qemu@t-online.de>
 
-ps2_queue() behaves differently than the very similar functions
-ps2_queue_2() to ps2_queue_4(). The first one calls update_irq()
-even if the queue is full, the others don't. Change ps2_queue()
-to be consistent with the others.
+Don't deassert the irq twice if the queue is empty. While the
+second deassertion doesn't do any harm, it's unnecessary.
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
-Message-Id: <20210525181441.27768-2-vr_qemu@t-online.de>
+Message-Id: <20210525181441.27768-3-vr_qemu@t-online.de>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/input/ps2.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ hw/input/ps2.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/hw/input/ps2.c b/hw/input/ps2.c
-index 7a3fb2b9f639..7c7a158e3139 100644
+index 7c7a158e3139..5cf95b4dd3eb 100644
 --- a/hw/input/ps2.c
 +++ b/hw/input/ps2.c
-@@ -212,6 +212,10 @@ void ps2_raise_irq(PS2State *s)
- 
- void ps2_queue(PS2State *s, int b)
- {
-+    if (PS2_QUEUE_SIZE - s->queue.count < 1) {
-+        return;
-+    }
-+
-     ps2_queue_noirq(s, b);
-     s->update_irq(s->update_arg, 1);
+@@ -520,7 +520,9 @@ uint32_t ps2_read_data(PS2State *s)
+         /* reading deasserts IRQ */
+         s->update_irq(s->update_arg, 0);
+         /* reassert IRQs if data left */
+-        s->update_irq(s->update_arg, q->count != 0);
++        if (q->count) {
++            s->update_irq(s->update_arg, 1);
++        }
+     }
+     return val;
  }
 -- 
 2.31.1
