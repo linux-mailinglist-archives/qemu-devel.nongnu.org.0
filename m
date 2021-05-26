@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C40A9392176
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 22:25:29 +0200 (CEST)
-Received: from localhost ([::1]:48208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4958D39217B
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 22:28:35 +0200 (CEST)
+Received: from localhost ([::1]:54568 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lm05o-0000Yu-Sy
-	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 16:25:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54064)
+	id 1lm08j-0004wZ-Po
+	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 16:28:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54328)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1llzzo-0005FB-4K
- for qemu-devel@nongnu.org; Wed, 26 May 2021 16:19:16 -0400
-Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:43985)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1llzzk-0008H4-PQ
- for qemu-devel@nongnu.org; Wed, 26 May 2021 16:19:15 -0400
-Received: by mail-ed1-x52f.google.com with SMTP id s6so3011982edu.10
- for <qemu-devel@nongnu.org>; Wed, 26 May 2021 13:19:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=OYgI2l6wKSQC3iK2wQ6wZMXmqjegXbKeiYF0nCVjXSw=;
- b=xwHGJ5DTJxREk2Fb2u7gb9yh0i1NC8+a63BFiVUDVZouuIZ5K7dtzc34QcB1uatooh
- k+qbRG0+arq9FaomiL2xI57GtYLsNVyNSGDU1WYxIwF9MiZgP8f/H50PcM5abk9nJs5W
- GCoHLgiPmau1ZRkuW5KRZjnXm9lso1RJCZtvjMWB2Q8YrfFFV5uCIFDu8JGWsKsqDhbp
- H0SXJTJ8lw0C7wwIHMJsbqfInT5y2KQh7Otn5aLUTgyzYeWjjZWpaWqY5Fzl+wcEty5N
- 4sNyaInD+l8UX47PxmWudD0Ef1dL6F2amsAo0yQKxM46BTbatB242aALy+FNQP29LRlk
- j6SQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=OYgI2l6wKSQC3iK2wQ6wZMXmqjegXbKeiYF0nCVjXSw=;
- b=MZwG/IJSBZ8VhJ3vAmGo641J0J86rVE5AF7LQ4kdH3C7+2j0TZDI12PtHWGSB/MtT6
- 5ijkEck1snOPkJPwI9wl3pmr43qzk1jZPBWJ0TGngFdwVA4ccaIF21gHumhstPFrACck
- bJFzP7YpsWkhlzC5Bvm61lUrmAizLDSBKQM8QB+/rW7pA8FJVuRuWOT4GhJ7SkpZQHg2
- oDXcCY0/ntUxiNK4fI+OKk6o+d68FXsHaxBUQHiTowScKhZ6SmiT0P3mTmiwamgiFjbr
- mpF+gdBNIhVFg2wPqchdM7kuxlAET8poOW1P+uXoDzaYWndQ09myGp9EfLHZHjaIqwL7
- iLaQ==
-X-Gm-Message-State: AOAM531A2MXM/BFKFNFWRlMpKfgfgUwACV0T4Hrs29y6FAYnMX0Ys6A4
- 1prbwldFLOvHkLirA8sn1XvOHCAcNkF+fAXObnyWvw==
-X-Google-Smtp-Source: ABdhPJzCkxd3SWgKzxYW43sElBFOrmbpyHK9NOAXfvrXt0ICNKpZTkwNymPPcoDz4qJ4Yn1bSy1beprbZ/CP1X1EMn4=
-X-Received: by 2002:a05:6402:203c:: with SMTP id
- ay28mr53138edb.100.1622060346242; 
- Wed, 26 May 2021 13:19:06 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1lm00w-0006HK-4N
+ for qemu-devel@nongnu.org; Wed, 26 May 2021 16:20:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28023)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1lm00r-0000Pc-J6
+ for qemu-devel@nongnu.org; Wed, 26 May 2021 16:20:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1622060418;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=UpQuUZgQq0vTRIOSV9wnylj/ys8fRjcaaGyM+fDMRv0=;
+ b=BxYyscThXbvEaX3XpVFIIGKKm0qyAochVtF2Kp6U3QNV1V47zLcPPv6bghUyBxMppHzCiS
+ SHPYxw2U7wFBS+QGygbOe2qJ3QB3uJWCXtKKrx7RNvZamBbCYNeGhyR2euAQDreVRs2BMP
+ fwwZ4FTneygc4qHYo4ZDL5WM28/OjnM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-183-1yWpCPZ8M8K4LY262rLu9w-1; Wed, 26 May 2021 16:20:16 -0400
+X-MC-Unique: 1yWpCPZ8M8K4LY262rLu9w-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9AEC6107ACE6
+ for <qemu-devel@nongnu.org>; Wed, 26 May 2021 20:20:15 +0000 (UTC)
+Received: from localhost (ovpn-114-21.rdu2.redhat.com [10.10.114.21])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4F4485D6D3;
+ Wed, 26 May 2021 20:20:15 +0000 (UTC)
+Date: Wed, 26 May 2021 16:20:14 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Vitaly Kuznetsov <vkuznets@redhat.com>
+Subject: Re: [PATCH v6 00/19] i386: KVM: expand Hyper-V features early
+Message-ID: <20210526202014.tkeim3ofmsknbijy@habkost.net>
+References: <20210422161130.652779-1-vkuznets@redhat.com>
 MIME-Version: 1.0
-References: <30eafc8be31446f9aecbc40f487467e1@tachyum.com>
-In-Reply-To: <30eafc8be31446f9aecbc40f487467e1@tachyum.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 26 May 2021 21:18:41 +0100
-Message-ID: <CAFEAcA-BnxgejNgo0XFU_aegdXfN2mFr9E6xa5BPRxHLdfSt_A@mail.gmail.com>
-Subject: Re: Denormal input handling
-To: Michael Morrell <mmorrell@tachyum.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210422161130.652779-1-vkuznets@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,42 +77,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ qemu-devel@nongnu.org, Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 26 May 2021 at 20:07, Michael Morrell <mmorrell@tachyum.com> wrote:
-> I see support in QEMU for architectures which have a denormal
-> input flag bit and those that have a "flush inputs to zero" control
-> bit, but the implementation is not specializable and seems wrong
-> for x86 at least.
+On Thu, Apr 22, 2021 at 06:11:11PM +0200, Vitaly Kuznetsov wrote:
+> Vitaly Kuznetsov (19):
+>   i386: keep hyperv_vendor string up-to-date
+>   i386: invert hyperv_spinlock_attempts setting logic with
+>     hv_passthrough
+>   i386: always fill Hyper-V CPUID feature leaves from X86CPU data
+>   i386: stop using env->features[] for filling Hyper-V CPUIDs
+>   i386: introduce hyperv_feature_supported()
+>   i386: introduce hv_cpuid_get_host()
+>   i386: drop FEAT_HYPERV feature leaves
+>   i386: introduce hv_cpuid_cache
+>   i386: split hyperv_handle_properties() into
+>     hyperv_expand_features()/hyperv_fill_cpuids()
+>   i386: move eVMCS enablement to hyperv_init_vcpu()
+>   i386: switch hyperv_expand_features() to using error_setg()
+>   i386: adjust the expected KVM_GET_SUPPORTED_HV_CPUID array size
+>   i386: prefer system KVM_GET_SUPPORTED_HV_CPUID ioctl over vCPU's one
+>   i386: use global kvm_state in hyperv_enabled() check
 
-> For example, in sf_canonicalize, if the input is denormal and
-> "flush_inputs_to_zero" is true, the "input denormal" flag is set
-> and then the value is set to a zero value, and if the input is
-> denormal and "flush_inputs_to_zero" is false, then the input
-> is simply normalized.
+I'm queueing patches 1-14 (the ones above) on my x86-next branch.
+Thanks!
 
-This is the intended behaviour -- if a target arch needs
-"denormalized inputs should be flushed to zero", it sets
-the float_status flush_inputs_to_zero flag. If it also
-wants to be able to detect when this has happened, it can
-then look at the input_denormal flag. This matches the behaviour
-that Arm needs, and it is for Arm that the flush_inputs_to_zero
-and input_denormal flags were introduced.
+>   i386: expand Hyper-V features during CPU feature expansion time
+>   i386: kill off hv_cpuid_check_and_set()
+>   i386: HV_HYPERCALL_AVAILABLE privilege bit is always needed
+>   i386: Hyper-V SynIC requires POST_MESSAGES/SIGNAL_EVENTS priviliges
+>   qtest/hyperv: Introduce a simple hyper-v test
 
-> I think the behavior should be for denormal inputs that if
-> "flush_inputs_to_zero" is true, then the value is set to zero;
-> and if "flush_inputs_to_zero" is false, set the "input denormal"
-> flag and normalize the input.
 
-> This matches what x86 does (I'm not sure about other architectures).
+-- 
+Eduardo
 
-What in particular does x86 want that it isn't getting at
-the moment? If it needs some additional variation of behaviour
-we can look at adding a new status flag to control that.
-
-thanks
--- PMM
 
