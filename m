@@ -2,66 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FB9D392255
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 23:49:45 +0200 (CEST)
-Received: from localhost ([::1]:58812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF6A139227F
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 00:03:35 +0200 (CEST)
+Received: from localhost ([::1]:53588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lm1PM-0002CM-JH
-	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 17:49:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41968)
+	id 1lm1ck-0001Ka-Ul
+	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 18:03:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42400)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1lm1KT-00034G-Rh
- for qemu-devel@nongnu.org; Wed, 26 May 2021 17:44:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44602)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1lm1KP-0005QJ-J4
- for qemu-devel@nongnu.org; Wed, 26 May 2021 17:44:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622065476;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=rIbuICSI1ktz0RlZpnrNSN6+3S5I7E3xm9TeMuD/DdU=;
- b=YI7vVFOvwNN/B0mCo/UcS48p46HnDdKtgHGP67BHmPAKNiuDLdkujh+HrpoQ4ZPJdgRXmU
- KKjZavrhrSgrHExb9/nOLciUO0z04I2fGUgaNqX/C1MappYnya4Ipv69xg6Z8W+6Csw8Ys
- M3+Mvp6ZhR1JRo39nd6qNzrfE3tmQG4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-414-xU8nADqYPZCboDvZWnH7yw-1; Wed, 26 May 2021 17:44:34 -0400
-X-MC-Unique: xU8nADqYPZCboDvZWnH7yw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 62FC5501E5;
- Wed, 26 May 2021 21:44:33 +0000 (UTC)
-Received: from localhost (ovpn-114-21.rdu2.redhat.com [10.10.114.21])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 66C4561156;
- Wed, 26 May 2021 21:44:32 +0000 (UTC)
-Date: Wed, 26 May 2021 17:44:24 -0400
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Valeriy Vdovin <valeriy.vdovin@virtuozzo.com>
-Subject: Re: [PATCH v7 1/1] qapi: introduce 'query-cpu-model-cpuid' action
-Message-ID: <20210526214424.ndk2dwu2crae64y7@habkost.net>
-References: <20210504122639.18342-1-valeriy.vdovin@virtuozzo.com>
- <20210504122639.18342-2-valeriy.vdovin@virtuozzo.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lm1NM-0000cZ-VA
+ for qemu-devel@nongnu.org; Wed, 26 May 2021 17:47:41 -0400
+Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e]:42765)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lm1NL-0007IN-B4
+ for qemu-devel@nongnu.org; Wed, 26 May 2021 17:47:40 -0400
+Received: by mail-pl1-x62e.google.com with SMTP id v13so1292544ple.9
+ for <qemu-devel@nongnu.org>; Wed, 26 May 2021 14:47:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=EjQn+nLjvCCapbNDcqcPpwSNzGq+H42HH1GF632UbzY=;
+ b=OPrOJ7YZY+UsTEYn3Okdly+IwfNhJA8gQTD3+MEX0rKN+vLksDAKlwB/mlQfsM/I1z
+ Y5bXQm6S3UFzFVkY6LW69L18n8hoaEUCYs9dVGmKf1PC/RvEOsz/Z0TIgUC8/zz1SdeC
+ jBIDcTvgMbPOl86W93WhyWIBlflMYLx3jT4fAwpKkW1oMbAkSoLwFFhosCCBcbAaFp69
+ Qf3+SWKHBr/RX6ZV4dGex970/EY1R67i42eHzbaOQ5+ZAy8Z5/wPMZzIoMov6/5Xa4TJ
+ YVCmRixvD8AADuc6CWI9z43nUTp3Ok4mL7NACcqQLyBQuat2IYpAdiMfWJpztSs6GCfc
+ SUnA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=EjQn+nLjvCCapbNDcqcPpwSNzGq+H42HH1GF632UbzY=;
+ b=boNxkJB8QRn/LkuIV15nEIvWWXEk/s62QQvFcVAvRRoQZjX24nYq0EJYwMudk/irzi
+ gxiRFouhvOgsFL3cT0cSdRu544Lq04vSNF5JdUfUuyGK2hevOhNA2lkO5Oguk75NO92u
+ s4K1bjiK5vufXPJHl9Wl+MK8KMMCq+0pIV7X9c+6Jy9grVaF1X0yCi0uS1O0taMAcaLA
+ mhJ9NGSiLT93TtRaYrjKV13Xvfne8rjM2gmqmCOFyzTHy57C4PYve57M/2mZk41+1UQM
+ zn9CeERnIrVhWEG6/Rf9+w3ytF7tGmJ+5DGkByWIhlLtCdWnWsfP3yZqL2B16CgXMy++
+ 5Irw==
+X-Gm-Message-State: AOAM531sLu8luGCEwYIHONq2WTEIv4VJg1AhWD27O+6c4x2LEK7vBp2q
+ clQ5JF0WSuFKZgRXMafrIgq9Wu8RrM6IKw==
+X-Google-Smtp-Source: ABdhPJzSxTsae8B9i53damV6hYmAFpErCEThoK3Jyf4F8yU+Bhu3NKb/a+G94GZ9y87bfCJjzysdkA==
+X-Received: by 2002:a17:902:8c91:b029:f3:b4da:4600 with SMTP id
+ t17-20020a1709028c91b02900f3b4da4600mr168232plo.30.1622065657826; 
+ Wed, 26 May 2021 14:47:37 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
+ by smtp.gmail.com with ESMTPSA id
+ n21sm163778pfu.99.2021.05.26.14.47.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 26 May 2021 14:47:37 -0700 (PDT)
+Subject: Re: [RFC PATCH 14/15] softmmu/cpus: Extract QMP command handlers to
+ cpus-qmp.c
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20210517115525.1088693-1-f4bug@amsat.org>
+ <20210517115525.1088693-15-f4bug@amsat.org>
+ <f85b5ddd-2cbb-7460-d180-70827398fef6@linaro.org>
+ <5108e6bb-de45-5b4f-cb13-81a187833578@amsat.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <e60348ce-30bd-dae3-fe6a-bad94dd4ffe4@linaro.org>
+Date: Wed, 26 May 2021 14:47:35 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210504122639.18342-2-valeriy.vdovin@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <5108e6bb-de45-5b4f-cb13-81a187833578@amsat.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -74,341 +93,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, kvm@vger.kernel.org,
- Marcelo Tosatti <mtosatti@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, Denis Lunev <den@openvz.org>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, May 04, 2021 at 03:26:39PM +0300, Valeriy Vdovin wrote:
-> Introducing new qapi method 'query-cpu-model-cpuid'. This method can be used to
-> get virtualized cpu model info generated by QEMU during VM initialization in
-> the form of cpuid representation.
+On 5/26/21 2:35 PM, Philippe Mathieu-Daudé wrote:
+> On 5/26/21 9:10 PM, Richard Henderson wrote:
+>> On 5/17/21 4:55 AM, Philippe Mathieu-Daudé wrote:
+>>> qmp_memsave() and qmp_pmemsave() call cpu_memory_rw_debug()
+>>> and cpu_physical_memory_read(), which are target specific
+>>> prototypes.
+>>
+>> Is there any reason they should be?
 > 
-> Diving into more details about virtual cpu generation: QEMU first parses '-cpu'
-> command line option. From there it takes the name of the model as the basis for
-> feature set of the new virtual cpu. After that it uses trailing '-cpu' options,
-> that state if additional cpu features should be present on the virtual cpu or
-> excluded from it (tokens '+'/'-' or '=on'/'=off').
-> After that QEMU checks if the host's cpu can actually support the derived
-> feature set and applies host limitations to it.
-> After this initialization procedure, virtual cpu has it's model and
-> vendor names, and a working feature set and is ready for identification
-> instructions such as CPUID.
-> 
-> Currently full output for this method is only supported for x86 cpus.
-> 
-> To learn exactly how virtual cpu is presented to the guest machine via CPUID
-> instruction, new qapi method can be used. By calling 'query-cpu-model-cpuid'
-> method, one can get a full listing of all CPUID leafs with subleafs which are
-> supported by the initialized virtual cpu.
-> 
-> Other than debug, the method is useful in cases when we would like to
-> utilize QEMU's virtual cpu initialization routines and put the retrieved
-> values into kernel CPUID overriding mechanics for more precise control
-> over how various processes perceive its underlying hardware with
-> container processes as a good example.
-> 
-> Output format:
-> The output is a plain list of leaf/subleaf agrument combinations, that
-> return 4 words in registers EAX, EBX, ECX, EDX.
-> 
-> Use example:
-> qmp_request: {
->   "execute": "query-cpu-model-cpuid"
-> }
-> 
-> qmp_response: [
->   {
->     "eax": 1073741825,
->     "edx": 77,
->     "leaf": 1073741824,
->     "ecx": 1447775574,
->     "ebx": 1263359563,
->     "subleaf": 0
->   },
->   {
->     "eax": 16777339,
->     "edx": 0,
->     "leaf": 1073741825,
->     "ecx": 0,
->     "ebx": 0,
->     "subleaf": 0
->   },
->   {
->     "eax": 13,
->     "edx": 1231384169,
->     "leaf": 0,
->     "ecx": 1818588270,
->     "ebx": 1970169159,
->     "subleaf": 0
->   },
->   {
->     "eax": 198354,
->     "edx": 126614527,
->   ....
-> 
-> Signed-off-by: Valeriy Vdovin <valeriy.vdovin@virtuozzo.com>
+> They use target_ulong. Should they use hwaddr instead?
 
-This breaks --disable-kvm builds (see below[1]), but I like the
-simplicity of this solution.
+cpu_physical_memory_* should use hwaddr.
 
-I think it will be an acceptable and welcome mechanism if we name
-and document it as KVM-specific.
-
-A debugging command like this that returns the raw CPUID data
-directly from the KVM tables would be very useful for automated
-testing of our KVM CPUID initialization code.  We have some test
-cases for CPU configuration code, but they trust what the CPU
-objects tell us and won't catch mistakes in target/i386/kvm.c
-CPUID code.
-
-[1] Build error when using --disable-kvm:
-
-  [449/821] Linking target qemu-system-x86_64
-  FAILED: qemu-system-x86_64
-  c++  -o qemu-system-x86_64 qemu-system-x86_64.p/softmmu_main.c.o libcommon.fa.p/hw_char_virtio-console.c.o [...]
-  /usr/bin/ld: libqemu-x86_64-softmmu.fa.p/meson-generated_.._qapi_qapi-commands-machine-target.c.o: in function `qmp_marshal_query_cpu_model_cpuid':
-  /home/ehabkost/rh/proj/virt/qemu/build/qapi/qapi-commands-machine-target.c:278: undefined reference to `qmp_query_cpu_model_cpuid'
-  collect2: error: ld returned 1 exit status
+cpu_memory_rw_debug uses a virtual address, and so could probably use uint64_t, 
+as per my comment vs patch 13 about not using hwaddr for virtual addresses.
 
 
-> 
-> ---
-> v2: - Removed leaf/subleaf iterators.
->     - Modified cpu_x86_cpuid to return false in cases when count is
->       greater than supported subleaves.
-> v3: - Fixed structure name coding style.
->     - Added more comments
->     - Ensured buildability for non-x86 targets.
-> v4: - Fixed cpu_x86_cpuid return value logic and handling of 0xA leaf.
->     - Fixed comments.
->     - Removed target check in qmp_query_cpu_model_cpuid.
-> v5: - Added error handling code in qmp_query_cpu_model_cpuid
-> v6: - Fixed error handling code. Added method to query_error_class
-> v7: - Changed implementation in favor of cached cpuid_data for
-> KVM_SET_CPUID2
->  qapi/machine-target.json   | 51 ++++++++++++++++++++++++++++++++++++++
->  target/i386/kvm/kvm.c      | 45 ++++++++++++++++++++++++++++++---
->  tests/qtest/qmp-cmd-test.c |  1 +
->  3 files changed, 93 insertions(+), 4 deletions(-)
-> 
-> diff --git a/qapi/machine-target.json b/qapi/machine-target.json
-> index e7811654b7..ad816a50b6 100644
-> --- a/qapi/machine-target.json
-> +++ b/qapi/machine-target.json
-> @@ -329,3 +329,54 @@
->  ##
->  { 'command': 'query-cpu-definitions', 'returns': ['CpuDefinitionInfo'],
->    'if': 'defined(TARGET_PPC) || defined(TARGET_ARM) || defined(TARGET_I386) || defined(TARGET_S390X) || defined(TARGET_MIPS)' }
-> +
-> +##
-> +# @CpuidEntry:
-> +#
-> +# A single entry of a CPUID response.
-> +#
-> +# CPUID instruction accepts 'leaf' argument passed in EAX register.
-> +# A 'leaf' is a single group of information about the CPU, that is returned
-> +# to the caller in EAX, EBX, ECX and EDX registers. A few of the leaves will
-> +# also have 'subleaves', the group of information would partially depend on the
-> +# value passed in the ECX register. The value of ECX is reflected in the 'subleaf'
-> +# field of this structure.
-> +#
-> +# @leaf: CPUID leaf or the value of EAX prior to CPUID execution.
-> +# @subleaf: value of ECX for leaf that has varying output depending on ECX.
-
-Instead of having to explain what "leaf" and "subleaf" means,
-maybe it would be simpler to just call them "in_eax" and
-"in_ecx"?
-
-> +# @eax: eax
-> +# @ebx: ebx
-> +# @ecx: ecx
-> +# @edx: edx
-> +#
-> +# Since: 6.1
-> +##
-> +{ 'struct': 'CpuidEntry',
-> +  'data': { 'leaf' : 'uint32',
-> +            'subleaf' : 'uint32',
-
-I would make subleaf/in_ecx an optional field.  We don't need to
-return it unless KVM_CPUID_FLAG_SIGNIFCANT_INDEX is set.
-
-> +            'eax' : 'uint32',
-> +            'ebx' : 'uint32',
-> +            'ecx' : 'uint32',
-> +            'edx' : 'uint32'
-> +          },
-> +  'if': 'defined(TARGET_I386)' }
-> +
-> +##
-> +# @query-cpu-model-cpuid:
-
-I would choose a name that indicates that the command is
-KVM-specific, like "query-kvm-cpuid" or "query-kvm-cpuid-table".
-
-> +#
-> +# Returns description of a virtual CPU model, created by QEMU after cpu
-> +# initialization routines. The resulting information is a reflection of a parsed
-> +# '-cpu' command line option, filtered by available host cpu features.
-
-I don't think "description of a virtual CPU model" is an accurate
-description of this.  I would document it as "returns raw data
-from the KVM CPUID table for the first VCPU".
-
-I wonder if the "The resulting information is a reflection of a
-parsed [...] cpu features." part is really necessary.  If you
-believe people don't understand how "-cpu" works, this is not
-exactly the right place to explain that.
-
-If you want to clarify what exactly is returned, maybe something
-like the following would work?
-
-  "Returns raw data from the KVM CPUID table for the first VCPU.
-  The KVM CPUID table defines the response to the CPUID
-  instruction when executed by the guest operating system."
-
-
-
-> +#
-> +# Returns:  @CpuModelCpuidDescription
-> +#
-> +# Example:
-> +#
-> +# -> { "execute": "query-cpu-model-cpuid" }
-> +# <- { "return": 'CpuModelCpuidDescription' }
-> +#
-> +# Since: 6.1
-> +##
-> +{ 'command': 'query-cpu-model-cpuid',
-> +  'returns': ['CpuidEntry'],
-> +  'if': 'defined(TARGET_I386)' }
-> diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-> index 7fe9f52710..edc4262efb 100644
-> --- a/target/i386/kvm/kvm.c
-> +++ b/target/i386/kvm/kvm.c
-> @@ -20,6 +20,7 @@
->  
->  #include <linux/kvm.h>
->  #include "standard-headers/asm-x86/kvm_para.h"
-> +#include "qapi/qapi-commands-machine-target.h"
->  
->  #include "cpu.h"
->  #include "sysemu/sysemu.h"
-> @@ -1464,16 +1465,48 @@ static Error *invtsc_mig_blocker;
->  
->  #define KVM_MAX_CPUID_ENTRIES  100
->  
-> +struct CPUIDEntriesInfo {
-> +    struct kvm_cpuid2 cpuid;
-> +    struct kvm_cpuid_entry2 entries[KVM_MAX_CPUID_ENTRIES];
-> +};
-
-You don't need this new struct definition, as
-(&cpuid_data.cpuid.entries[0]) and (&cpuid_data.entries[0]) are
-exactly the same.  a kvm_cpuid2 pointer would be enough.
-
-> +
-> +struct CPUIDEntriesInfo *cpuid_data_cached;
-> +
-> +CpuidEntryList *
-> +qmp_query_cpu_model_cpuid(Error **errp)
-> +{
-> +    int i;
-> +    struct kvm_cpuid_entry2 *kvm_entry;
-> +    CpuidEntryList *head = NULL, **tail = &head;
-> +    CpuidEntry *entry;
-> +
-> +    if (!cpuid_data_cached) {
-> +        error_setg(errp, "cpuid_data cache not ready");
-> +        return NULL;
-
-I would return a more meaningful error message.  Nobody except
-the developers who wrote and reviewed this code knows what
-"cpuid_data cache" means.
-
-A message like "VCPU was not initialized yet" would make more
-sense.
-
-
-> +    }
-> +
-> +    for (i = 0; i < cpuid_data_cached->cpuid.nent; ++i) {
-> +        kvm_entry = &cpuid_data_cached->entries[i];
-> +        entry = g_malloc0(sizeof(*entry));
-> +        entry->leaf = kvm_entry->function;
-> +        entry->subleaf = kvm_entry->index;
-> +        entry->eax = kvm_entry->eax;
-> +        entry->ebx = kvm_entry->ebx;
-> +        entry->ecx = kvm_entry->ecx;
-> +        entry->edx = kvm_entry->edx;
-> +        QAPI_LIST_APPEND(tail, entry);
-> +    }
-> +
-> +    return head;
-> +}
-> +
->  int kvm_arch_init_vcpu(CPUState *cs)
->  {
-> -    struct {
-> -        struct kvm_cpuid2 cpuid;
-> -        struct kvm_cpuid_entry2 entries[KVM_MAX_CPUID_ENTRIES];
-> -    } cpuid_data;
->      /*
->       * The kernel defines these structs with padding fields so there
->       * should be no extra padding in our cpuid_data struct.
->       */
-> +    struct CPUIDEntriesInfo cpuid_data;
->      QEMU_BUILD_BUG_ON(sizeof(cpuid_data) !=
->                        sizeof(struct kvm_cpuid2) +
->                        sizeof(struct kvm_cpuid_entry2) * KVM_MAX_CPUID_ENTRIES);
-> @@ -1833,6 +1866,10 @@ int kvm_arch_init_vcpu(CPUState *cs)
->      if (r) {
->          goto fail;
->      }
-> +    if (!cpuid_data_cached) {
-> +        cpuid_data_cached = g_malloc0(sizeof(cpuid_data));
-> +        memcpy(cpuid_data_cached, &cpuid_data, sizeof(cpuid_data));
-
-You are going to copy more entries than necessary, but on the
-other hand I like the simplicity of not having to calculate the
-struct size before allocating.
-
-
-> +    }
-
-Now I'm wondering if we want to cache the CPUID tables for all
-VCPUs (not just the first one).
-
-Being a debugging command, maybe it's an acceptable compromise to
-copy the data only from one VCPU.  If the need to return data for
-other VCPUs arise, we can extend the command later.
-
-
->  
->      if (has_xsave) {
->          env->xsave_buf = qemu_memalign(4096, sizeof(struct kvm_xsave));
-> diff --git a/tests/qtest/qmp-cmd-test.c b/tests/qtest/qmp-cmd-test.c
-> index c98b78d033..f5a926b61b 100644
-> --- a/tests/qtest/qmp-cmd-test.c
-> +++ b/tests/qtest/qmp-cmd-test.c
-> @@ -46,6 +46,7 @@ static int query_error_class(const char *cmd)
->          { "query-balloon", ERROR_CLASS_DEVICE_NOT_ACTIVE },
->          { "query-hotpluggable-cpus", ERROR_CLASS_GENERIC_ERROR },
->          { "query-vm-generation-id", ERROR_CLASS_GENERIC_ERROR },
-> +        { "query-cpu-model-cpuid", ERROR_CLASS_GENERIC_ERROR },
->          { NULL, -1 }
->      };
->      int i;
-> -- 
-> 2.17.1
-> 
-
--- 
-Eduardo
-
+r~
 
