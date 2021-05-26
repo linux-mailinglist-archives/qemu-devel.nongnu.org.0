@@ -2,83 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF6A139227F
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 00:03:35 +0200 (CEST)
-Received: from localhost ([::1]:53588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CB6D392265
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 23:58:13 +0200 (CEST)
+Received: from localhost ([::1]:47126 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lm1ck-0001Ka-Ul
-	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 18:03:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42400)
+	id 1lm1XY-0005CP-Ay
+	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 17:58:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44014)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lm1NM-0000cZ-VA
- for qemu-devel@nongnu.org; Wed, 26 May 2021 17:47:41 -0400
-Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e]:42765)
+ (Exim 4.90_1) (envelope-from <leobras.c@gmail.com>)
+ id 1lm1VM-0003QD-4k
+ for qemu-devel@nongnu.org; Wed, 26 May 2021 17:55:57 -0400
+Received: from mail-qk1-x731.google.com ([2607:f8b0:4864:20::731]:33444)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lm1NL-0007IN-B4
- for qemu-devel@nongnu.org; Wed, 26 May 2021 17:47:40 -0400
-Received: by mail-pl1-x62e.google.com with SMTP id v13so1292544ple.9
- for <qemu-devel@nongnu.org>; Wed, 26 May 2021 14:47:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=EjQn+nLjvCCapbNDcqcPpwSNzGq+H42HH1GF632UbzY=;
- b=OPrOJ7YZY+UsTEYn3Okdly+IwfNhJA8gQTD3+MEX0rKN+vLksDAKlwB/mlQfsM/I1z
- Y5bXQm6S3UFzFVkY6LW69L18n8hoaEUCYs9dVGmKf1PC/RvEOsz/Z0TIgUC8/zz1SdeC
- jBIDcTvgMbPOl86W93WhyWIBlflMYLx3jT4fAwpKkW1oMbAkSoLwFFhosCCBcbAaFp69
- Qf3+SWKHBr/RX6ZV4dGex970/EY1R67i42eHzbaOQ5+ZAy8Z5/wPMZzIoMov6/5Xa4TJ
- YVCmRixvD8AADuc6CWI9z43nUTp3Ok4mL7NACcqQLyBQuat2IYpAdiMfWJpztSs6GCfc
- SUnA==
+ (Exim 4.90_1) (envelope-from <leobras.c@gmail.com>)
+ id 1lm1VK-0003lS-0Y
+ for qemu-devel@nongnu.org; Wed, 26 May 2021 17:55:55 -0400
+Received: by mail-qk1-x731.google.com with SMTP id k4so2718693qkd.0
+ for <qemu-devel@nongnu.org>; Wed, 26 May 2021 14:55:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=message-id:subject:from:to:cc:date:in-reply-to:references
+ :user-agent:mime-version:content-transfer-encoding;
+ bh=3PzCTlqP/3zdwULu3YbsiBeVd0OB4n5zp3Fla6xLHC0=;
+ b=mUurIe3KL5k2ENyMmWy7GWXqHHw/8PDEbH5A8HeatlBVeNpJcfioziZ2Ao6kl+2w8e
+ ypqp99qNUACCFW/c7U+VlxtJZnlMdz3LZrk0msuZMZibDxbqhcxoYQTJbJjjodCbdTAb
+ 5zMAOv9he+F5Fm5CWN0U+mmhnp0URoOYowlWikSM/hsAQFzA+qv2q+mUZ4JqfHh/gFzW
+ 2IbQ/vjxwDrISdH5WTl8M7oxCoPzoGCz3iOSK+zKQEx9MTyY7DFoir3GidS6xRDf1yms
+ UbZjODR0vaDQlVNQwUqw7mHVR5Cveo/hm6wS0fh6VjBomKZX6VJLCWZzndzNCLV/9qNA
+ vEqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=EjQn+nLjvCCapbNDcqcPpwSNzGq+H42HH1GF632UbzY=;
- b=boNxkJB8QRn/LkuIV15nEIvWWXEk/s62QQvFcVAvRRoQZjX24nYq0EJYwMudk/irzi
- gxiRFouhvOgsFL3cT0cSdRu544Lq04vSNF5JdUfUuyGK2hevOhNA2lkO5Oguk75NO92u
- s4K1bjiK5vufXPJHl9Wl+MK8KMMCq+0pIV7X9c+6Jy9grVaF1X0yCi0uS1O0taMAcaLA
- mhJ9NGSiLT93TtRaYrjKV13Xvfne8rjM2gmqmCOFyzTHy57C4PYve57M/2mZk41+1UQM
- zn9CeERnIrVhWEG6/Rf9+w3ytF7tGmJ+5DGkByWIhlLtCdWnWsfP3yZqL2B16CgXMy++
- 5Irw==
-X-Gm-Message-State: AOAM531sLu8luGCEwYIHONq2WTEIv4VJg1AhWD27O+6c4x2LEK7vBp2q
- clQ5JF0WSuFKZgRXMafrIgq9Wu8RrM6IKw==
-X-Google-Smtp-Source: ABdhPJzSxTsae8B9i53damV6hYmAFpErCEThoK3Jyf4F8yU+Bhu3NKb/a+G94GZ9y87bfCJjzysdkA==
-X-Received: by 2002:a17:902:8c91:b029:f3:b4da:4600 with SMTP id
- t17-20020a1709028c91b02900f3b4da4600mr168232plo.30.1622065657826; 
- Wed, 26 May 2021 14:47:37 -0700 (PDT)
-Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
- by smtp.gmail.com with ESMTPSA id
- n21sm163778pfu.99.2021.05.26.14.47.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 26 May 2021 14:47:37 -0700 (PDT)
-Subject: Re: [RFC PATCH 14/15] softmmu/cpus: Extract QMP command handlers to
- cpus-qmp.c
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20210517115525.1088693-1-f4bug@amsat.org>
- <20210517115525.1088693-15-f4bug@amsat.org>
- <f85b5ddd-2cbb-7460-d180-70827398fef6@linaro.org>
- <5108e6bb-de45-5b4f-cb13-81a187833578@amsat.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <e60348ce-30bd-dae3-fe6a-bad94dd4ffe4@linaro.org>
-Date: Wed, 26 May 2021 14:47:35 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+ :references:user-agent:mime-version:content-transfer-encoding;
+ bh=3PzCTlqP/3zdwULu3YbsiBeVd0OB4n5zp3Fla6xLHC0=;
+ b=FfFZXhIjLq5jet1BlhuD8iRK6A6WCDB6dGSedQiJ2GOlCKJGMoLUcv25VIbEpejC4y
+ skUoovnTdjE25G+B4yW7HD1R6utBEqpMgsiFb4LeR/L7QoSg+t1H8G7ld2Q/hk1XSRMR
+ rnDmTkteYsLxCH7xStoM7plRsZHV6Ew95/GhE+wFViCOZSEApQnWhk1f+GTry/BRek9l
+ nrXTrz86K3tsysrW4uzeIya2VSTeV25QldItVcvvbp0rtBRlCcrrXKh21I6TtGJU9dsy
+ MVgmmYUX7TFUyH9KTctMXbeFDM6bSqEynUpVOesiBDUAPuvy6scTlYpZ0WV/9cd2TV+Y
+ arsA==
+X-Gm-Message-State: AOAM531JIygmIPgKhq3u7vSfOadi2ZBzHMOPYrhOlQjAWoGQwKu922YQ
+ KaDYNYd7pzWJQrP6gxt+waU=
+X-Google-Smtp-Source: ABdhPJxxtUIPg5J+TKJBeIAnWfHdBq9dBfjjFWKyp/bRPQS2GHYJcgEXCpEp48+3Iyr1AGn1JUTTow==
+X-Received: by 2002:a37:de04:: with SMTP id h4mr254198qkj.458.1622066150536;
+ Wed, 26 May 2021 14:55:50 -0700 (PDT)
+Received: from ?IPv6:2804:14c:482:7b04:dff0:eb42:c6da:8218?
+ ([2804:14c:482:7b04:dff0:eb42:c6da:8218])
+ by smtp.gmail.com with ESMTPSA id g85sm129591qke.123.2021.05.26.14.55.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 26 May 2021 14:55:50 -0700 (PDT)
+Message-ID: <c0896991d6662e4d2c05c43a983e83d086a8c5c2.camel@gmail.com>
+Subject: Re: [PATCH 1/1] yank: Unregister function when using TLS migration
+From: Leonardo =?ISO-8859-1?Q?Br=E1s?= <leobras.c@gmail.com>
+To: Lukas Straub <lukasstraub2@web.de>
+Date: Wed, 26 May 2021 18:56:05 -0300
+In-Reply-To: <20210526232418.2213cdc1@gecko.fritz.box>
+References: <20210526200540.1088333-1-leobras.c@gmail.com>
+ <20210526232418.2213cdc1@gecko.fritz.box>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.1 
 MIME-Version: 1.0
-In-Reply-To: <5108e6bb-de45-5b4f-cb13-81a187833578@amsat.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::731;
+ envelope-from=leobras.c@gmail.com; helo=mail-qk1-x731.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -93,26 +85,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>
+Cc: qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ peterx@redhat.com, Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/26/21 2:35 PM, Philippe Mathieu-Daudé wrote:
-> On 5/26/21 9:10 PM, Richard Henderson wrote:
->> On 5/17/21 4:55 AM, Philippe Mathieu-Daudé wrote:
->>> qmp_memsave() and qmp_pmemsave() call cpu_memory_rw_debug()
->>> and cpu_physical_memory_read(), which are target specific
->>> prototypes.
->>
->> Is there any reason they should be?
+Hello Lukas, thanks for this feedback!
+
+On Wed, 2021-05-26 at 23:24 +0200, Lukas Straub wrote:
+> > diff --git a/migration/multifd.c b/migration/multifd.c
+> > index 0a4803cfcc..be8656f4c0 100644
+> > --- a/migration/multifd.c
+> > +++ b/migration/multifd.c
+> > @@ -987,8 +987,9 @@ int multifd_load_cleanup(Error **errp)
+> >      for (i = 0; i < migrate_multifd_channels(); i++) {
+> >          MultiFDRecvParams *p = &multifd_recv_state->params[i];
+> >  
+> > -        if (object_dynamic_cast(OBJECT(p->c),
+> > TYPE_QIO_CHANNEL_SOCKET)
+> > -            && OBJECT(p->c)->ref == 1) {
+> > +        if ((object_dynamic_cast(OBJECT(p->c),
+> > TYPE_QIO_CHANNEL_SOCKET) ||
+> > +            (object_dynamic_cast(OBJECT(p->c),
+> > TYPE_QIO_CHANNEL_TLS)))  &&
+> > +            OBJECT(p->c)->ref == 1) {
+> >              yank_unregister_function(MIGRATION_YANK_INSTANCE,
+> >                                       migration_yank_iochannel,
+> >                                       QIO_CHANNEL(p->c));
 > 
-> They use target_ulong. Should they use hwaddr instead?
+> The code here should be the same as in channel_close. So for the
+> tls-channel you have to unregister with QIO_CHANNEL(tioc->master)
+> like
+> below.
 
-cpu_physical_memory_* should use hwaddr.
+ok, sure, I will send a v2.
 
-cpu_memory_rw_debug uses a virtual address, and so could probably use uint64_t, 
-as per my comment vs patch 13 about not using hwaddr for virtual addresses.
+Thanks!
 
 
-r~
+> 
+> Regards,
+> Lukas Straub
+
+
+
+
 
