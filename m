@@ -2,76 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80EC9392195
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 22:43:55 +0200 (CEST)
-Received: from localhost ([::1]:45230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E899D3921AF
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 22:57:50 +0200 (CEST)
+Received: from localhost ([::1]:49508 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lm0Ne-0001Px-3N
-	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 16:43:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58492)
+	id 1lm0b7-00054O-Fv
+	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 16:57:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33454)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1lm0Ke-0008V3-JV
- for qemu-devel@nongnu.org; Wed, 26 May 2021 16:40:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24068)
+ (Exim 4.90_1) (envelope-from <willianr@redhat.com>)
+ id 1lm0Zf-0004Nj-Jm
+ for qemu-devel@nongnu.org; Wed, 26 May 2021 16:56:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27756)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1lm0KY-0002kO-FA
- for qemu-devel@nongnu.org; Wed, 26 May 2021 16:40:47 -0400
+ (Exim 4.90_1) (envelope-from <willianr@redhat.com>)
+ id 1lm0Zc-0003HX-NR
+ for qemu-devel@nongnu.org; Wed, 26 May 2021 16:56:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622061639;
+ s=mimecast20190719; t=1622062575;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=VnHwBzP8a76nTLBoNIbrjlBOWwnDHSox7U2dnAAiPDE=;
- b=gGZBdmI26ZhbW5kNGyOMtwpGwIhI8yjdud8K7yIpfu/7fCSBocowDa0H+L+rM8Vk4e06vC
- cOvapUl/DVwSxrVCYY6/3DuJT5XvS8bSwrn24AxrvBRXrehbvCM3BD5PwY+gzcCFuY99Fk
- r8Oe7xI/2MJd6zSThPNpHCJ2wnV3GqQ=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-291-vfMe8LL-N3G4luQgdLduxw-1; Wed, 26 May 2021 16:40:37 -0400
-X-MC-Unique: vfMe8LL-N3G4luQgdLduxw-1
-Received: by mail-qk1-f200.google.com with SMTP id
- s123-20020a3777810000b02902e9adec2313so1780653qkc.4
- for <qemu-devel@nongnu.org>; Wed, 26 May 2021 13:40:37 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=VnHwBzP8a76nTLBoNIbrjlBOWwnDHSox7U2dnAAiPDE=;
- b=YcNFISYtSoQyJLSs9oiWIZH2VaCWoH4WgEXq/1kL776BDHW1DPcinp4czUXYQIZse5
- 7SpL0WALJfc3/zdqJnOkD9FfosXGAH6SYDKryHiuiXZTdiX8UtAEGxgRPhL2JYi6/uzE
- o06xei7pQ/WKdHpvH6Gk0ssS00CcGtOvqKYOcleZWONZhmIgvLJW87MqLIscjcUjaDE4
- yf+zVp341rBHZVcML4DvM8nc9FGsANfvM88jyBMP8onbXrSWFOoK/sAh8dkKUpLyiQrj
- W+fUPxFz1pby3cPFckQCf/+5I0tvtzfWseXsrSDiff94BFxY4Xn89KwBgRy3ICz/0YqC
- 9O9w==
-X-Gm-Message-State: AOAM532CO2y7aU3VnUBzEk9ks5X15X932JWotinm6lB3dClgAi7EJoHj
- uSE14goJjjJ8Zf9ULns8Q66WmtNM/MFi58pga/W2xPsSrzAqU23ocl/CcVUyIrmoO3YdRp6E4P1
- HxgibnAFc23bbOmc=
-X-Received: by 2002:ad4:4c45:: with SMTP id cs5mr45496848qvb.6.1622061637259; 
- Wed, 26 May 2021 13:40:37 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzC4lCym8Ns+PiFZIV3l+sFX3/AmQOrVi8vU7Lv3aBXYyouEOAyn36SE2NghQQAJB9Qn2k2aw==
-X-Received: by 2002:ad4:4c45:: with SMTP id cs5mr45496828qvb.6.1622061636981; 
- Wed, 26 May 2021 13:40:36 -0700 (PDT)
-Received: from t490s (bras-base-toroon474qw-grc-72-184-145-4-219.dsl.bell.ca.
- [184.145.4.219])
- by smtp.gmail.com with ESMTPSA id 20sm18327qks.64.2021.05.26.13.40.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 May 2021 13:40:36 -0700 (PDT)
-Date: Wed, 26 May 2021 16:40:35 -0400
-From: Peter Xu <peterx@redhat.com>
-To: Leonardo Bras <leobras.c@gmail.com>, lukasstraub2@web.de
-Subject: Re: [PATCH 1/1] yank: Unregister function when using TLS migration
-Message-ID: <YK6yQ9EVNlVPDMaS@t490s>
-References: <20210526200540.1088333-1-leobras.c@gmail.com>
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Fg5KHQMtUhJuE1gtdNLnXwhYNU1JY7E5AK1GB+Bexro=;
+ b=VKEjwGEpa4f15nmwW3XgzTs6N8+kIUhYuCB3bY4/VB/7ayanYXxq90Os9oiQxjUKj2uONJ
+ 2sW2RWzqs1iL0m8t3rj599ei+0gEb6AtYSR0va6IxK1KzOqdFOjrpYKRoCgnhuw1zMlBNw
+ GT8HvRrpEaFw85piHRG3jBzXJeiwpbs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-460-381sRECMNga38SA9dddRFQ-1; Wed, 26 May 2021 16:56:11 -0400
+X-MC-Unique: 381sRECMNga38SA9dddRFQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4E880100747A
+ for <qemu-devel@nongnu.org>; Wed, 26 May 2021 20:56:10 +0000 (UTC)
+Received: from wrampazz.redhat.com (ovpn-113-115.rdu2.redhat.com
+ [10.10.113.115])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0A3C25C257;
+ Wed, 26 May 2021 20:56:03 +0000 (UTC)
+From: Willian Rampazzo <willianr@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/1] tests/acceptance: change armbian archive to a faster host
+Date: Wed, 26 May 2021 17:56:00 -0300
+Message-Id: <20210526205601.263444-1-willianr@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210526200540.1088333-1-leobras.c@gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=willianr@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=willianr@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -92,45 +76,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, lukasstraub2@web.de,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, May 26, 2021 at 05:05:40PM -0300, Leonardo Bras wrote:
-> After yank feature was introduced, whenever migration is started using TLS,
-> the following error happens in both source and destination hosts:
-> 
-> (qemu) qemu-kvm: ../util/yank.c:107: yank_unregister_instance:
-> Assertion `QLIST_EMPTY(&entry->yankfns)' failed.
-> 
-> This happens because of a missing yank_unregister_function() when using
-> qio-channel-tls.
-> 
-> Fix this by also allowing TYPE_QIO_CHANNEL_TLS object type to perform
-> yank_unregister_function() in channel_close() and multifd_load_cleanup().
-> 
-> Fixes: 50186051f ("Introduce yank feature")
-> Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1964326
-> Signed-off-by: Leonardo Bras <leobras.c@gmail.com>
-
-Leo,
-
-Thanks for looking into it!
-
-So before looking int the fix... I do have a doubt on why we only enable yank
-on socket typed, as I think tls should also work with qio_channel_shutdown().
-
-IIUC the confused thing here is we register only for qio-socket, however tls
-will actually call migration_channel_connect() twice, first with a qio-socket,
-then with the real tls-socket.  For tls I feel like we have registered with the
-wrong channel - instead of the wrapper socket ioc, we should register to the
-final tls ioc?
-
-Lukas, is there a reason?
-
--- 
-Peter Xu
+Successful run of acceptance-system-debian job on an empty cache of GitLab =
+CI:=0D
+https://gitlab.com/willianrampazzo/qemu/-/jobs/1296353352=0D
+=0D
+Pipeline run:=0D
+https://gitlab.com/willianrampazzo/qemu/-/pipelines/310116951=0D
+=0D
+The measure of the download speed with the previous host:=0D
+https://gitlab.com/willianrampazzo/qemu/-/pipelines/309442706=0D
+=0D
+The current host for the image=0D
+Armbian_20.08.1_Orangepipc_bionic_current_5.8.5.img.xz=0D
+(archive.armbian.com) is extremely slow in the last couple of weeks,=0D
+making the job running the test=0D
+tests/system/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi_bioni=
+c_20_08=0D
+for the first time when the image is not yet on GitLab cache, time out=0D
+while the image is being downloaded.=0D
+=0D
+This changes the host to one faster, so new users with an empty cache=0D
+are not impacted.=0D
+=0D
+Signed-off-by: Willian Rampazzo <willianr@redhat.com>=0D
+=0D
+Willian Rampazzo (1):=0D
+  tests/acceptance: change armbian archive to a faster host=0D
+=0D
+ tests/acceptance/boot_linux_console.py | 3 ++-=0D
+ 1 file changed, 2 insertions(+), 1 deletion(-)=0D
+=0D
+--=20=0D
+2.31.1=0D
+=0D
 
 
