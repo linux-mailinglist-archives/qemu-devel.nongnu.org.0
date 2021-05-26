@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52289391997
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 16:12:14 +0200 (CEST)
-Received: from localhost ([::1]:48812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3171039198E
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 16:09:16 +0200 (CEST)
+Received: from localhost ([::1]:40384 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lluGb-00037q-BO
-	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 10:12:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35192)
+	id 1lluDi-0005n8-6C
+	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 10:09:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35176)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lluBT-0003LJ-DA
- for qemu-devel@nongnu.org; Wed, 26 May 2021 10:06:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44085)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lluBO-00036c-Cx
+ for qemu-devel@nongnu.org; Wed, 26 May 2021 10:06:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58566)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lluBR-0003wo-Pa
- for qemu-devel@nongnu.org; Wed, 26 May 2021 10:06:55 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lluBL-0003rZ-7L
+ for qemu-devel@nongnu.org; Wed, 26 May 2021 10:06:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622038013;
+ s=mimecast20190719; t=1622038006;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wapvoU9/BzxeKHg5D5SZCCmBnDRLK12bdpOj7BwKdl4=;
- b=dkYcVX/YKzu+IEyHB9Wby7ja6u1cWOlttgPaoGrLp+LgE50RJqWcaKBJQl1q5qT0I7WJNV
- a751Ys0KT5gnthA7ZY+W631Zn4/SkuAy99eUin4DEazjbbRwukg3lodrwtcW1b6ctwwPPm
- n8EK/4U9B4LF/2/pDA8I2L/Y521FAHQ=
+ bh=LjdxxPm/3a5lUA42yV8gfOpAA+r0ZCkN+8OqMTgFe7o=;
+ b=TLcykn3eVqmOiSkjb0toxrdcgUAORMK06hvgWmeXQ6DVNTNJWPv0WAPGeKYqAFBjdR/Oe9
+ +UlG1/cgIXaQJcuvgXK9za6quSELABhksNgwp0veysbL13lEsJVbNbLz/iKQUIhfcQcNlz
+ bN0XOXNDAIYbQ/A3JQgHjVwK/BCcF8A=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-580-Sh5_tjPTOZifGKdXUdVwHw-1; Wed, 26 May 2021 10:06:50 -0400
-X-MC-Unique: Sh5_tjPTOZifGKdXUdVwHw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-374-4agDk1NdP6a03SmyVj4qUQ-1; Wed, 26 May 2021 10:06:43 -0400
+X-MC-Unique: 4agDk1NdP6a03SmyVj4qUQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3C5AF1034B20;
- Wed, 26 May 2021 14:06:49 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 529A0802938;
+ Wed, 26 May 2021 14:06:42 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-84.ams2.redhat.com
  [10.36.112.84])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0CA545D9DC;
- Wed, 26 May 2021 14:06:41 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0CB9118BAF;
+ Wed, 26 May 2021 14:06:42 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 9322A18003B6; Wed, 26 May 2021 16:06:27 +0200 (CEST)
+ id 9F03A18007A2; Wed, 26 May 2021 16:06:27 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 04/14] ps2: don't deassert irq twice if queue is empty
-Date: Wed, 26 May 2021 16:06:17 +0200
-Message-Id: <20210526140627.381857-5-kraxel@redhat.com>
+Subject: [PULL 05/14] pckbd: split out interrupt line changing code
+Date: Wed, 26 May 2021 16:06:18 +0200
+Message-Id: <20210526140627.381857-6-kraxel@redhat.com>
 In-Reply-To: <20210526140627.381857-1-kraxel@redhat.com>
 References: <20210526140627.381857-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -89,32 +89,77 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Volker Rümelin <vr_qemu@t-online.de>
 
-Don't deassert the irq twice if the queue is empty. While the
-second deassertion doesn't do any harm, it's unnecessary.
+Split out the interrupt line changing code from kbd_update_irq().
+This is a preparation for the next patch. There is no functional
+change.
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
-Message-Id: <20210525181441.27768-3-vr_qemu@t-online.de>
+Message-Id: <20210525181441.27768-4-vr_qemu@t-online.de>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/input/ps2.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ hw/input/pckbd.c | 32 ++++++++++++++++++++++----------
+ 1 file changed, 22 insertions(+), 10 deletions(-)
 
-diff --git a/hw/input/ps2.c b/hw/input/ps2.c
-index 7c7a158e3139..5cf95b4dd3eb 100644
---- a/hw/input/ps2.c
-+++ b/hw/input/ps2.c
-@@ -520,7 +520,9 @@ uint32_t ps2_read_data(PS2State *s)
-         /* reading deasserts IRQ */
-         s->update_irq(s->update_arg, 0);
-         /* reassert IRQs if data left */
--        s->update_irq(s->update_arg, q->count != 0);
-+        if (q->count) {
-+            s->update_irq(s->update_arg, 1);
+diff --git a/hw/input/pckbd.c b/hw/input/pckbd.c
+index dde85ba6c683..90b33954a8e9 100644
+--- a/hw/input/pckbd.c
++++ b/hw/input/pckbd.c
+@@ -148,15 +148,34 @@ typedef struct KBDState {
+     hwaddr mask;
+ } KBDState;
+ 
+-/* update irq and KBD_STAT_[MOUSE_]OBF */
+ /* XXX: not generating the irqs if KBD_MODE_DISABLE_KBD is set may be
+    incorrect, but it avoids having to simulate exact delays */
+-static void kbd_update_irq(KBDState *s)
++static void kbd_update_irq_lines(KBDState *s)
+ {
+     int irq_kbd_level, irq_mouse_level;
+ 
+     irq_kbd_level = 0;
+     irq_mouse_level = 0;
++
++    if (s->status & KBD_STAT_OBF) {
++        if (s->status & KBD_STAT_MOUSE_OBF) {
++            if (s->mode & KBD_MODE_MOUSE_INT) {
++                irq_mouse_level = 1;
++            }
++        } else {
++            if ((s->mode & KBD_MODE_KBD_INT) &&
++                !(s->mode & KBD_MODE_DISABLE_KBD)) {
++                irq_kbd_level = 1;
++            }
 +        }
++    }
++    qemu_set_irq(s->irq_kbd, irq_kbd_level);
++    qemu_set_irq(s->irq_mouse, irq_mouse_level);
++}
++
++/* update irq and KBD_STAT_[MOUSE_]OBF */
++static void kbd_update_irq(KBDState *s)
++{
+     s->status &= ~(KBD_STAT_OBF | KBD_STAT_MOUSE_OBF);
+     s->outport &= ~(KBD_OUT_OBF | KBD_OUT_MOUSE_OBF);
+     if (s->pending) {
+@@ -166,16 +185,9 @@ static void kbd_update_irq(KBDState *s)
+         if (s->pending == KBD_PENDING_AUX) {
+             s->status |= KBD_STAT_MOUSE_OBF;
+             s->outport |= KBD_OUT_MOUSE_OBF;
+-            if (s->mode & KBD_MODE_MOUSE_INT)
+-                irq_mouse_level = 1;
+-        } else {
+-            if ((s->mode & KBD_MODE_KBD_INT) &&
+-                !(s->mode & KBD_MODE_DISABLE_KBD))
+-                irq_kbd_level = 1;
+         }
      }
-     return val;
+-    qemu_set_irq(s->irq_kbd, irq_kbd_level);
+-    qemu_set_irq(s->irq_mouse, irq_mouse_level);
++    kbd_update_irq_lines(s);
  }
+ 
+ static void kbd_update_kbd_irq(void *opaque, int level)
 -- 
 2.31.1
 
