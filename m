@@ -2,75 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DE7F390DC6
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 03:09:06 +0200 (CEST)
-Received: from localhost ([::1]:56024 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26CAA390DD5
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 03:12:00 +0200 (CEST)
+Received: from localhost ([::1]:59442 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lli2j-0003E3-Ba
-	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 21:09:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53624)
+	id 1lli5W-0005lW-TS
+	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 21:11:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54864)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lli0z-0001nC-LR
- for qemu-devel@nongnu.org; Tue, 25 May 2021 21:07:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47597)
+ id 1lli4H-00053M-Mb
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 21:10:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49208)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lli0p-0005j5-51
- for qemu-devel@nongnu.org; Tue, 25 May 2021 21:07:16 -0400
+ id 1lli4F-0007Xh-6Q
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 21:10:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621991225;
+ s=mimecast20190719; t=1621991438;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wodWiuTTjVvJeppQlgse+2mrtiAeVgbTGPL1iJuG7Qg=;
- b=P5x38fHiq4k0PnF2uTd1FV7bgngFrv+B8X97UO6n7jZwA1kI3OVwKVnnQOuLvDPol1wkzx
- hROw2DUescTCA60yaqnIdC/nibxDGXb3HqKXCPOeQY82Yw53PVYCiZLeTq8Sy4g7+dsWB6
- y2NZZCW+7tquY5eWpP3EfS/sco72mzc=
-Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com
- [209.85.216.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-453-_h084oGVMD2i52izDAVggQ-1; Tue, 25 May 2021 21:07:01 -0400
-X-MC-Unique: _h084oGVMD2i52izDAVggQ-1
-Received: by mail-pj1-f70.google.com with SMTP id
- pf14-20020a17090b1d8eb029015c31e36747so11366134pjb.2
- for <qemu-devel@nongnu.org>; Tue, 25 May 2021 18:07:01 -0700 (PDT)
+ bh=1KzC2CKBPK975eq6q132gtNtHNlTGt5fuCv74AVDmyA=;
+ b=ctQjNjuiTfBW1tVRPN0K1x5oBDsDhexdqaRyYfLGzO2A+++MdDr3GcbDuC5vKnsNAZpxaZ
+ sLJV5JCe/yJFPA0BLK7E6/dz3k6mmLGq0F8AMprZrxbL33sdD8ISXOAl6/GWyCZeereXB4
+ fce+7aCe/uV3xIQi+d9a95J5uZ0wlg8=
+Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
+ [209.85.210.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-248-1zUSTmtyOrehX8a-5dOtZw-1; Tue, 25 May 2021 21:10:34 -0400
+X-MC-Unique: 1zUSTmtyOrehX8a-5dOtZw-1
+Received: by mail-pf1-f197.google.com with SMTP id
+ x4-20020aa794040000b02902e382051004so11833186pfo.6
+ for <qemu-devel@nongnu.org>; Tue, 25 May 2021 18:10:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ h=x-gm-message-state:subject:from:to:cc:references:message-id:date
  :user-agent:mime-version:in-reply-to:content-transfer-encoding
  :content-language;
- bh=wodWiuTTjVvJeppQlgse+2mrtiAeVgbTGPL1iJuG7Qg=;
- b=EurUdgkYbfGVZtwVIjf7QA8oD6ORTDHAtwIM+Fkm75SU4k6riweA7G+aDFuh8QSLbS
- a34qbYM2efDC+lHVerWgti51MauUX9Jrspudqiqbf5j6emtd26zVHB13NfKFZaNSvZpu
- /X+APumdlqGq6zk/WLBUrqnZcnbCQkqpMMvzr4NU9WiRhG7h50Xm6F2K7omAUzD4/HNM
- IIIGRXR24JGgkYXGBJ6J8pZQxRCNmftncUwV2KJuNtf3aEXq5AVQjHRcDfKpWqEIoqHx
- qMC6yQQkKYWLVQgqqHhtFhnzFeTtceWUEm+5TJaCV7qtxGPnPvD80qIJcQ0Bf6ufxY2C
- HTFw==
-X-Gm-Message-State: AOAM531Vsgxi9agXoyDfNDUeMivjMJG0xPb1N/Lob8dL35/BL+WUFCe9
- mjy3cZoRpkrOkfkTdPmPE8CHtg29hJPgpENKU3ts4lKTVaxd3gXVToKAG25glL78GEReBnkmXxp
- Ea+yZfNlL97Eib74=
-X-Received: by 2002:a63:5b0e:: with SMTP id p14mr21474321pgb.110.1621991220309; 
- Tue, 25 May 2021 18:07:00 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxszp4dUhckfW0D05y+B1LtbLTL3QorVVEutcyW3Q/n7dk4XHLAd0g42hztIA6zUI66bKdX0g==
-X-Received: by 2002:a63:5b0e:: with SMTP id p14mr21474297pgb.110.1621991219950; 
- Tue, 25 May 2021 18:06:59 -0700 (PDT)
+ bh=1KzC2CKBPK975eq6q132gtNtHNlTGt5fuCv74AVDmyA=;
+ b=SORA9YzvmCa9j/PyKMxsteRC5Oy3U/TKVE5oHExU46XqNjCfALX28OduIbF7l8V0NH
+ FqaYOC2VBOEmEzUlguafItJLPk+KiOKAPKxTZa1C/uVscy+Hd98WkCCRNbfYaxtxzPRH
+ Q7lkSN0sne2s8MBjNsOOGqpbsowXRbVD16LosryVADLIqCUVm9OcpnnaGSj1wDaFa/LX
+ 9cz7SihZ9/XDt4YmQzsrGkPgQjzBwEtxG8hR3RuO3wVMbIuKZvlmlZsljspZ8kPC0SGe
+ 5EExNWmTgdbI7FGm96IHWdWjkybY5E34RmehKBQDXYnMBcbVUjXmrMB1iboYXiOlL7cF
+ ikIw==
+X-Gm-Message-State: AOAM532bWRX/vu7rWlKRzvGpU6SegPv6ojWAO+fv37yIBolKM8yruKEW
+ Xsl+3J1qg7+CVGMX0lmagUoCaYZrPKmkEG6I+6CgdYvEdqoGNGY70X+zBjuzW87f9LLVenm/vNR
+ 5lOvx26HdXbzkqDI=
+X-Received: by 2002:a17:90b:88f:: with SMTP id
+ bj15mr1197082pjb.46.1621991433231; 
+ Tue, 25 May 2021 18:10:33 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzfIURnNz5xynGV72WQBQLr7VHqkPZS3HYnoN69JL+cPCVdyCs+Wsg+rlGczLW6tqrbJEBBMg==
+X-Received: by 2002:a17:90b:88f:: with SMTP id
+ bj15mr1197046pjb.46.1621991432976; 
+ Tue, 25 May 2021 18:10:32 -0700 (PDT)
 Received: from wangxiaodeMacBook-Air.local ([209.132.188.80])
- by smtp.gmail.com with ESMTPSA id i8sm15604421pgt.58.2021.05.25.18.06.55
+ by smtp.gmail.com with ESMTPSA id 11sm14105812pfh.182.2021.05.25.18.10.24
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 25 May 2021 18:06:59 -0700 (PDT)
+ Tue, 25 May 2021 18:10:32 -0700 (PDT)
 Subject: Re: [RFC v3 06/29] virtio-net: Honor VIRTIO_CONFIG_S_DEVICE_STOPPED
+From: Jason Wang <jasowang@redhat.com>
 To: =?UTF-8?Q?Eugenio_P=c3=a9rez?= <eperezma@redhat.com>, qemu-devel@nongnu.org
 References: <20210519162903.1172366-1-eperezma@redhat.com>
  <20210519162903.1172366-7-eperezma@redhat.com>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <e64b9813-66e5-2417-3feb-65f0376db7e0@redhat.com>
-Date: Wed, 26 May 2021 09:06:49 +0800
+ <e64b9813-66e5-2417-3feb-65f0376db7e0@redhat.com>
+Message-ID: <4146c924-e871-5a94-253e-e9e09456f74b@redhat.com>
+Date: Wed, 26 May 2021 09:10:22 +0800
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
  Gecko/20100101 Thunderbird/78.10.2
 MIME-Version: 1.0
-In-Reply-To: <20210519162903.1172366-7-eperezma@redhat.com>
+In-Reply-To: <e64b9813-66e5-2417-3feb-65f0376db7e0@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -78,7 +81,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -110,57 +113,71 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-在 2021/5/20 上午12:28, Eugenio Pérez 写道:
-> So the guest can stop and start net device. It implements the RFC
-> https://lists.oasis-open.org/archives/virtio-comment/202012/msg00027.html
+在 2021/5/26 上午9:06, Jason Wang 写道:
 >
-> To stop (as "pause") the device is required to migrate status and vring
-> addresses between device and SVQ.
+> 在 2021/5/20 上午12:28, Eugenio Pérez 写道:
+>> So the guest can stop and start net device. It implements the RFC
+>> https://lists.oasis-open.org/archives/virtio-comment/202012/msg00027.html 
+>>
+>>
+>> To stop (as "pause") the device is required to migrate status and vring
+>> addresses between device and SVQ.
+>>
+>> This is a WIP commit: as with VIRTIO_F_QUEUE_STATE, is introduced in
+>> virtio_config.h before of even proposing for the kernel, with no feature
+>> flag, and, with no checking in the device. It also needs a modified
+>> vp_vdpa driver that supports to set and retrieve status.
+>>
+>> Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+>> ---
+>>   include/standard-headers/linux/virtio_config.h | 2 ++
+>>   hw/net/virtio-net.c                            | 4 +++-
+>>   2 files changed, 5 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/include/standard-headers/linux/virtio_config.h 
+>> b/include/standard-headers/linux/virtio_config.h
+>> index 59fad3eb45..b3f6b1365d 100644
+>> --- a/include/standard-headers/linux/virtio_config.h
+>> +++ b/include/standard-headers/linux/virtio_config.h
+>> @@ -40,6 +40,8 @@
+>>   #define VIRTIO_CONFIG_S_DRIVER_OK    4
+>>   /* Driver has finished configuring features */
+>>   #define VIRTIO_CONFIG_S_FEATURES_OK    8
+>> +/* Device is stopped */
+>> +#define VIRTIO_CONFIG_S_DEVICE_STOPPED 32
+>>   /* Device entered invalid state, driver must reset it */
+>>   #define VIRTIO_CONFIG_S_NEEDS_RESET    0x40
+>>   /* We've given up on this device. */
+>> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+>> index 96a3cc8357..2d3caea289 100644
+>> --- a/hw/net/virtio-net.c
+>> +++ b/hw/net/virtio-net.c
+>> @@ -198,7 +198,9 @@ static bool virtio_net_started(VirtIONet *n, 
+>> uint8_t status)
+>>   {
+>>       VirtIODevice *vdev = VIRTIO_DEVICE(n);
+>>       return (status & VIRTIO_CONFIG_S_DRIVER_OK) &&
+>> -        (n->status & VIRTIO_NET_S_LINK_UP) && vdev->vm_running;
+>> +        (!(n->status & VIRTIO_CONFIG_S_DEVICE_STOPPED)) &&
+>> +        (n->status & VIRTIO_NET_S_LINK_UP) &&
+>> +        vdev->vm_running;
+>>   }
+>>     static void virtio_net_announce_notify(VirtIONet *net)
 >
-> This is a WIP commit: as with VIRTIO_F_QUEUE_STATE, is introduced in
-> virtio_config.h before of even proposing for the kernel, with no feature
-> flag, and, with no checking in the device. It also needs a modified
-> vp_vdpa driver that supports to set and retrieve status.
 >
-> Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
-> ---
->   include/standard-headers/linux/virtio_config.h | 2 ++
->   hw/net/virtio-net.c                            | 4 +++-
->   2 files changed, 5 insertions(+), 1 deletion(-)
->
-> diff --git a/include/standard-headers/linux/virtio_config.h b/include/standard-headers/linux/virtio_config.h
-> index 59fad3eb45..b3f6b1365d 100644
-> --- a/include/standard-headers/linux/virtio_config.h
-> +++ b/include/standard-headers/linux/virtio_config.h
-> @@ -40,6 +40,8 @@
->   #define VIRTIO_CONFIG_S_DRIVER_OK	4
->   /* Driver has finished configuring features */
->   #define VIRTIO_CONFIG_S_FEATURES_OK	8
-> +/* Device is stopped */
-> +#define VIRTIO_CONFIG_S_DEVICE_STOPPED 32
->   /* Device entered invalid state, driver must reset it */
->   #define VIRTIO_CONFIG_S_NEEDS_RESET	0x40
->   /* We've given up on this device. */
-> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-> index 96a3cc8357..2d3caea289 100644
-> --- a/hw/net/virtio-net.c
-> +++ b/hw/net/virtio-net.c
-> @@ -198,7 +198,9 @@ static bool virtio_net_started(VirtIONet *n, uint8_t status)
->   {
->       VirtIODevice *vdev = VIRTIO_DEVICE(n);
->       return (status & VIRTIO_CONFIG_S_DRIVER_OK) &&
-> -        (n->status & VIRTIO_NET_S_LINK_UP) && vdev->vm_running;
-> +        (!(n->status & VIRTIO_CONFIG_S_DEVICE_STOPPED)) &&
-> +        (n->status & VIRTIO_NET_S_LINK_UP) &&
-> +        vdev->vm_running;
->   }
->   
->   static void virtio_net_announce_notify(VirtIONet *net)
+> It looks to me this is only the part of pause. 
 
 
-It looks to me this is only the part of pause. We still need the resume?
+And even for pause, I don't see anything that prevents rx/tx from being 
+executed? (E.g virtio_net_handle_tx_bh or virtio_net_handle_rx).
 
 Thanks
 
+
+> We still need the resume?
+>
+> Thanks
+>
+>
 
 
