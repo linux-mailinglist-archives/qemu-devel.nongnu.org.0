@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 414FC390D50
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 02:32:33 +0200 (CEST)
-Received: from localhost ([::1]:40958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D659390D57
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 02:35:16 +0200 (CEST)
+Received: from localhost ([::1]:49314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llhTM-00043x-94
-	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 20:32:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41006)
+	id 1llhVz-0001cP-JB
+	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 20:35:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41026)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1llhMK-0003Z7-Nt
- for qemu-devel@nongnu.org; Tue, 25 May 2021 20:25:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48193)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1llhMM-0003b6-KI
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 20:25:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24289)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1llhMH-0006YF-Lb
- for qemu-devel@nongnu.org; Tue, 25 May 2021 20:25:16 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1llhMJ-0006aT-Qw
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 20:25:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621988712;
+ s=mimecast20190719; t=1621988715;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZhCNTpzcHcwho5kIg8KV9BdUVKKRcFUxrM35LYxVhJE=;
- b=evxFfy9E+QiAXgQQ6vr3eI1S/vDQXd28+8gTycFv/ogqt3x810VXgN3mseeO68bV0E79sC
- szTcUOZcrIMBixT8t639RUgqFtOGQ613IyUgn7IFPLjtVX/9AZ6tubkljar/hr8THpvX2+
- JnE+BMm2kWxui9Fx7kO/wBPEW/lwiJs=
+ bh=qifxhGbIIW3jJYdwCvPlOZZ/iEIUOfnWfM2Zp+tBOx8=;
+ b=fI7u30y65bJyr00x79nVuWZEbzaTCEoNcoyJJqcBFIQpljY9B0/walWLdZDm2o+ooGeLxH
+ Nm+OgblLzr3Hauo7tgaC17vs5qwOYZkp9vSA1uGVvAgFhS1vPf8fJ3Jd7d9bfLCK5n0weq
+ RHXnakv5d6Liy14nMWEUhxDPPDqeYOs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-477-h4SeM5uYMgSU2ZjQ_VlFcg-1; Tue, 25 May 2021 20:25:10 -0400
-X-MC-Unique: h4SeM5uYMgSU2ZjQ_VlFcg-1
+ us-mta-358-5tgQncNcOBug5LSqra_lCw-1; Tue, 25 May 2021 20:25:13 -0400
+X-MC-Unique: 5tgQncNcOBug5LSqra_lCw-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A54028015F8;
- Wed, 26 May 2021 00:25:09 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2B0F4107ACE3;
+ Wed, 26 May 2021 00:25:12 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-116-137.rdu2.redhat.com [10.10.116.137])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4BF8B77701;
- Wed, 26 May 2021 00:25:04 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id ECA9860D54;
+ Wed, 26 May 2021 00:25:09 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 01/31] python/console_socket: avoid one-letter variable
-Date: Tue, 25 May 2021 20:24:24 -0400
-Message-Id: <20210526002454.124728-2-jsnow@redhat.com>
+Subject: [PATCH v7 02/31] python/machine: use subprocess.DEVNULL instead of
+ open(os.path.devnull)
+Date: Tue, 25 May 2021 20:24:25 -0400
+Message-Id: <20210526002454.124728-3-jsnow@redhat.com>
 In-Reply-To: <20210526002454.124728-1-jsnow@redhat.com>
 References: <20210526002454.124728-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -55,7 +56,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -63,7 +64,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,38 +89,50 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fixes pylint warnings.
+One less file resource to manage, and it helps quiet some pylint >=
+2.8.0 warnings about not using a with-context manager for the open call.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
-Reviewed-by: Cleber Rosa <crosa@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-id: 20210517184808.3562549-2-jsnow@redhat.com
+Reviewed-by: Cleber Rosa <crosa@redhat.com>
+Message-id: 20210517184808.3562549-3-jsnow@redhat.com
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- python/qemu/console_socket.py | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ python/qemu/machine.py | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/python/qemu/console_socket.py b/python/qemu/console_socket.py
-index ac21130e446..87237bebef7 100644
---- a/python/qemu/console_socket.py
-+++ b/python/qemu/console_socket.py
-@@ -46,11 +46,11 @@ def __init__(self, address: str, file: Optional[str] = None,
-             self._drain_thread = self._thread_start()
+diff --git a/python/qemu/machine.py b/python/qemu/machine.py
+index b379fcbe726..5b87e9ce024 100644
+--- a/python/qemu/machine.py
++++ b/python/qemu/machine.py
+@@ -223,9 +223,8 @@ def send_fd_scm(self, fd: Optional[int] = None,
+             assert fd is not None
+             fd_param.append(str(fd))
  
-     def __repr__(self) -> str:
--        s = super().__repr__()
--        s = s.rstrip(">")
--        s = "%s,  logfile=%s, drain_thread=%s>" % (s, self._logfile,
--                                                   self._drain_thread)
--        return s
-+        tmp = super().__repr__()
-+        tmp = tmp.rstrip(">")
-+        tmp = "%s,  logfile=%s, drain_thread=%s>" % (tmp, self._logfile,
-+                                                     self._drain_thread)
-+        return tmp
- 
-     def _drain_fn(self) -> None:
-         """Drains the socket and runs while the socket is open."""
+-        devnull = open(os.path.devnull, 'rb')
+         proc = subprocess.Popen(
+-            fd_param, stdin=devnull, stdout=subprocess.PIPE,
++            fd_param, stdin=subprocess.DEVNULL, stdout=subprocess.PIPE,
+             stderr=subprocess.STDOUT, close_fds=False
+         )
+         output = proc.communicate()[0]
+@@ -391,7 +390,6 @@ def _launch(self) -> None:
+         """
+         Launch the VM and establish a QMP connection
+         """
+-        devnull = open(os.path.devnull, 'rb')
+         self._pre_launch()
+         self._qemu_full_args = tuple(
+             chain(self._wrapper,
+@@ -401,7 +399,7 @@ def _launch(self) -> None:
+         )
+         LOG.debug('VM launch command: %r', ' '.join(self._qemu_full_args))
+         self._popen = subprocess.Popen(self._qemu_full_args,
+-                                       stdin=devnull,
++                                       stdin=subprocess.DEVNULL,
+                                        stdout=self._qemu_log_file,
+                                        stderr=subprocess.STDOUT,
+                                        shell=False,
 -- 
 2.31.1
 
