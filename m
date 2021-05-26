@@ -2,77 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED247392138
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 22:01:01 +0200 (CEST)
-Received: from localhost ([::1]:48904 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 705A839214E
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 22:14:29 +0200 (CEST)
+Received: from localhost ([::1]:35578 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llzi8-0006Af-Ak
-	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 16:01:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49842)
+	id 1llzvA-0008Hq-67
+	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 16:14:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50090)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1llze6-0003ef-7c
- for qemu-devel@nongnu.org; Wed, 26 May 2021 15:56:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54340)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1llzf6-0004K3-2d
+ for qemu-devel@nongnu.org; Wed, 26 May 2021 15:57:52 -0400
+Received: from mout.kundenserver.de ([212.227.126.135]:43511)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1llze3-00067I-8R
- for qemu-devel@nongnu.org; Wed, 26 May 2021 15:56:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622059005;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=mUpdpS1+HVv6RKujV+mRP9Z2tmnL0UzhaeinJXq/SNE=;
- b=Gxq5+5rp2mLqugmSdq28IZYnayRq5JwXp6qwEzUz6Z3tUgoGIXuXTx0pO+WDMMuCuKmsU5
- HCi6fUqDsW7N+d2K4ifrCijm6BYaCjscZkf2ww669IyHgJGIJ/ADDJU0Txq7jvrkRdcDxF
- /J8Mqo54WuJg2kZCHx2PqtaSrDEnLQc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-264-SDmNKj2SOMyQeVQYMzW6Pw-1; Wed, 26 May 2021 15:56:42 -0400
-X-MC-Unique: SDmNKj2SOMyQeVQYMzW6Pw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2561E107ACCD;
- Wed, 26 May 2021 19:56:41 +0000 (UTC)
-Received: from [10.10.116.137] (ovpn-116-137.rdu2.redhat.com [10.10.116.137])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4B6FD5D6D3;
- Wed, 26 May 2021 19:56:32 +0000 (UTC)
-Subject: Re: [PATCH v7 31/31] gitlab: add python linters to CI
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-devel@nongnu.org
-References: <20210526002454.124728-1-jsnow@redhat.com>
- <20210526002454.124728-32-jsnow@redhat.com>
- <3acc5107-33a4-1ae7-eafb-076d39fbd6e9@virtuozzo.com>
- <36db607a-2f29-2b53-5578-c17861e0dd1c@redhat.com>
- <c507b546-6877-48de-365f-5bb44cca0cff@virtuozzo.com>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <9cd46a4a-2b5c-6022-7067-0a0ddce6fc7b@redhat.com>
-Date: Wed, 26 May 2021 15:56:31 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1llzf2-0006YD-56
+ for qemu-devel@nongnu.org; Wed, 26 May 2021 15:57:51 -0400
+Received: from quad ([82.142.6.50]) by mrelayeu.kundenserver.de (mreue011
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1MAfpQ-1lax1t2wHo-00B6bC; Wed, 26
+ May 2021 21:57:45 +0200
+From: Laurent Vivier <laurent@vivier.eu>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/4] M68k for 6.1 patches
+Date: Wed, 26 May 2021 21:57:40 +0200
+Message-Id: <20210526195744.227346-1-laurent@vivier.eu>
+X-Mailer: git-send-email 2.31.1
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-In-Reply-To: <c507b546-6877-48de-365f-5bb44cca0cff@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:Zbxcvl5XHw9kXgoq8PZmeMkYr1X/uHE0SXWPehUF90zq029rrsx
+ /3/iVuxGe8wJ13kxiqJ/uwfUOpjyXBDw4qt3mT56TC0P9gqyF+zQpbYzkrhI95cZPjpBuRE
+ +AfkRBNRih9TmzsK5azyf/OmmcAAlM0We7zNHBIuE8Dk1gg4LUpibilCgDbSdMg/Qwuv5oM
+ geKHtt4V1zjnoY9mUfw9A==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:cSN6mZ3va64=:L5JBFbuQUQFLRiYPJFb9Mw
+ 6nAuKfWUzLDdE9mcDUK3UQpHDLsqkCta5gX3vHJveNQVoe6DoGu81y5G7HE+QBcUXnKhkXNfW
+ 96ipAyQnw8pG21KYsNR8nB4HK0LZoVrHQhXf3TAHxNMjKBJyj938/nJ2exfEJGLIZJaeSfX12
+ zVCu5S/pfU8V6LfWyLb+HtDZ0rO5O8s0UxiHDinNyYXy7WpADKJpaCguX6ZJd9BIB30y0qTud
+ WwnvyYs99UhW5YidZkwrWa4F2se+8IKEjqVAYGMNJRmujKZ4TJ7XjSnS3OrLYuZ/Xg4rcf03b
+ bEurEPtQkG5Um2YPy42MpdsC/I89rl53HI7yvipGKAW6aLjgMo+C65juo9N9lCfuDwwLBqm3d
+ lcJt06xbrxTPT023jdMOFOcXj9QBabreFYFmEjKzzEqshaLFONrG//ObFuForZcU8SRhYM2qs
+ hUWTNGZyqU37Y9G/e2TykZfzdJQLghVtBV2NTrvgsZrVVsAxPnRta2r3Voq03H5vgJDDekJJ5
+ ES9O+yQAuc8HeXUynG30vw=
+Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,32 +61,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Max Reitz <mreitz@redhat.com>, Willian Rampazzo <willianr@redhat.com>,
- Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/26/21 2:47 PM, Vladimir Sementsov-Ogievskiy wrote:
->> build requisite for PyPI packages in the event that PyPI only has a 
->> sdist and not a bdist for a given dependency during installation.
-> 
-> i.e. some packages are compiled during installation?
-
-Realized I didn't answer this directly. Yes, sometimes, depending on 
-your platform or your python version or how new the python package is, 
-it may not have a binary distribution available and will require 
-compilation.
-
-This comes up for Python 3.10 dependencies right now in particular. They 
-do not have binary distributions because (I assume) 3.10 isn't finalized 
-yet, so they haven't done a re-build. Or something like that.
-
---js
-
+The following changes since commit 0319ad22bd5789e1eaa8a2dd5773db2d2c372f20=
+:=0D
+=0D
+  Merge remote-tracking branch 'remotes/stsquad/tags/pull-testing-and-misc-=
+updates-250521-2' into staging (2021-05-25 17:31:04 +0100)=0D
+=0D
+are available in the Git repository at:=0D
+=0D
+  git://github.com/vivier/qemu-m68k.git tags/m68k-for-6.1-pull-request=0D
+=0D
+for you to fetch changes up to 5e50c6c72bf8575f124ec9397411f4a2ff0d0206:=0D
+=0D
+  target/m68k: implement m68k "any instruction" trace mode (2021-05-26 20:4=
+5:18 +0200)=0D
+=0D
+----------------------------------------------------------------=0D
+m68k pull request 20210526=0D
+=0D
+implement m68k "any instruction" trace mode=0D
+=0D
+----------------------------------------------------------------=0D
+=0D
+Mark Cave-Ayland (4):=0D
+  target/m68k: introduce is_singlestepping() function=0D
+  target/m68k: call gen_raise_exception() directly if single-stepping in=0D
+    gen_jmp_tb()=0D
+  target/m68k: introduce gen_singlestep_exception() function=0D
+  target/m68k: implement m68k "any instruction" trace mode=0D
+=0D
+ target/m68k/cpu.h       |  8 +++++++=0D
+ target/m68k/translate.c | 51 ++++++++++++++++++++++++++++++++++-------=0D
+ 2 files changed, 51 insertions(+), 8 deletions(-)=0D
+=0D
+-- =0D
+2.31.1=0D
+=0D
 
