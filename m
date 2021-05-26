@@ -2,77 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AAB239170A
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 14:06:06 +0200 (CEST)
-Received: from localhost ([::1]:41496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DD4B391733
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 14:16:21 +0200 (CEST)
+Received: from localhost ([::1]:48372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llsIX-0002Wg-2j
-	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 08:06:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33434)
+	id 1llsSR-0007WJ-UP
+	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 08:16:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35534)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <programmingkidx@gmail.com>)
- id 1llsHN-0001iY-1O; Wed, 26 May 2021 08:04:53 -0400
-Received: from mail-qv1-xf29.google.com ([2607:f8b0:4864:20::f29]:40897)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1llsPt-0006A4-3n
+ for qemu-devel@nongnu.org; Wed, 26 May 2021 08:13:41 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:36571)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <programmingkidx@gmail.com>)
- id 1llsHL-000371-F4; Wed, 26 May 2021 08:04:52 -0400
-Received: by mail-qv1-xf29.google.com with SMTP id e8so542029qvp.7;
- Wed, 26 May 2021 05:04:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:subject:from:in-reply-to:date:cc
- :content-transfer-encoding:message-id:references:to;
- bh=3Qh20IA4UbdTEGUZJ2AJEruhQ+ddtaJecfC6TCFp2Pw=;
- b=Po3wvLjqjHVXmwFRyfqv6ITTXHDkn+5tioxzUL5BCc6gEpxChYZqDSVz7WKEq54LBx
- 2rrps4xY6fNR3m79La6xkKri9HcdqbEBO5a/AKAj0F7g4nQEJp6J3dioHZOgzLxBR8P5
- 5lltO+s0Vy4JCy7GuTQxPbQLkY3UTTM419YjUXNQqly0lgxGaDiA1IwrtPThT3NIdgrL
- s6GS08Nk89sewUpAzGtLw1nafzpu0sIh0HrVy4GQjdvKPJIi0xa5572ZgQknuV+DkDqk
- 5yzslsENNH/EECqCuO0vpowbdp5I1BQ8T2Rduf6rW5ESgjv4oEK32gcnhAZHcaWdOuu1
- 38ng==
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1llsPr-0000E8-09
+ for qemu-devel@nongnu.org; Wed, 26 May 2021 08:13:40 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id n4so903995wrw.3
+ for <qemu-devel@nongnu.org>; Wed, 26 May 2021 05:13:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=ZgDBbgrvPPhwrfvdP8j85trEC+qISOa8BYWS1G1r8mo=;
+ b=iv7/oh5ni+2Jq5fEzKxix0t8MuW4kRtoZdVXTuEtEhhhAWvV8c4iyONGprmnoZovU9
+ /5pmANDNHEbaoGksL1gG9l9EGlG3WDY9rGDe4TVoseJbzIp3TX19//nsr2WRXjEwxxPe
+ M4iMRtPxNQXldtMzQ/inIbErUtgej2FoJyGzLDQ1ZLm7vsoyuB7OUAUKWvMC/qAZhytg
+ H6LmnNnhjdyISu+/rKuxe9fIMUAj9S74u++iELf/z2Bsd2h0e5OBd4dwjcThXQ7Ikjr1
+ stEuWQt6MtgU9Ofdeqp+/1s+Jf0ejt19WlnKL2JuBFJXdvivJ2KP3uE6atUbpwvuAhmV
+ 7n1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
- :content-transfer-encoding:message-id:references:to;
- bh=3Qh20IA4UbdTEGUZJ2AJEruhQ+ddtaJecfC6TCFp2Pw=;
- b=jtxHCSMChjplVbZS73diTNEbZ83ubPtlUtfJEhPcTNzWT3p0hHkbH2pdhxFel0cu4I
- RZXnbQMMldbG+HcqYQMZARyLuE5FkUR6xyN08Cnp2KTSN8M3hyE2z3tEN70hZCPg23cz
- 2kFa1fz8HyndFAbOeimEhBz5HkIHYiLCkj/NCTiQ4zSkpmVak8rGeNd7hyW+GSaLjPPe
- z9osx6ujxL+hsBroovD/KtvgaZImLI8YnvAdplqKjdXi9IJP5UzUNZDp27ha64pWoAU7
- VV+/e0zQqRGlCX3xDpWf6K9Ppmib62t3vaXtECko38zHjbejtrBbDf2IPZZ+Dios3kEP
- gl6A==
-X-Gm-Message-State: AOAM533HTrpS4EhNcIkobGvzUQ1rlQBpPAiQJ+VrTName4M5+/ljHrcr
- NIGxUCWcrTQf7HObemtj0MQ=
-X-Google-Smtp-Source: ABdhPJyHPSGkchWEUx0qanIWKUJQxqSV5eMg4dI+yxMk56kyHVMY6Nq/5CLAXYWBx7onVO9zr+9EUw==
-X-Received: by 2002:ad4:5112:: with SMTP id g18mr43236260qvp.26.1622030690278; 
- Wed, 26 May 2021 05:04:50 -0700 (PDT)
-Received: from [192.168.0.6] (d149-67-175-105.try.wideopenwest.com.
- [67.149.105.175])
- by smtp.gmail.com with ESMTPSA id e2sm1405753qkm.18.2021.05.26.05.04.49
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 26 May 2021 05:04:49 -0700 (PDT)
-Content-Type: text/plain;
-	charset=us-ascii
-Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.40.0.2.32\))
-Subject: Re: [PATCH 0/2] vvfat: fix two crashes.
-From: Programmingkid <programmingkidx@gmail.com>
-In-Reply-To: <YK0jZB86ZGLDTM+J@merkur.fritz.box>
-Date: Wed, 26 May 2021 08:04:48 -0400
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=ZgDBbgrvPPhwrfvdP8j85trEC+qISOa8BYWS1G1r8mo=;
+ b=Cv8VJRgpfHnDwwYd3YE5/LhbtGhS1eidFZ535JLYTADzhLkVtQVp4rnf/bprr67lmb
+ RGEvsYkG6BHsZ29y6swjohjJNni1rrrD9iKe+DzMJAt7LOu1WobxdHiWdCE5tPnCdhCh
+ ByAovX9qzJbV3sBqfkCSxtN86TkiaBzubMtw/ViNlvTije1UqycMw9c/fq+kRdzxzY9a
+ AMYLO7J66zUAxxofHFtc2GcedzCPNYqO9HBBeItV2HKGm0anyQK3I5Ab0WOcL62wJkzv
+ LMzvRNY4zvHjXGRE7RtZTyjrjtIwR4U7A4nP1t7DGg3An7+fythJtLrZLsYHzvQIxq5Y
+ WZ6g==
+X-Gm-Message-State: AOAM533qtjpLErOIMgk9AiH82bBv/g6Zo0jslbCMVBfgBVXKEFz5GNRX
+ FmhaT0TnRjm96BXQog0RTCAwMg==
+X-Google-Smtp-Source: ABdhPJysJNG4IG1agHiXnTmGUDRoI4cZpWHjoGe5hu0zqaFeduDHzv9ea6qmVD+L1z6cbP+Wzq3/NQ==
+X-Received: by 2002:a5d:668f:: with SMTP id l15mr1824102wru.349.1622031215747; 
+ Wed, 26 May 2021 05:13:35 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id w25sm14603869wmk.25.2021.05.26.05.13.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 26 May 2021 05:13:32 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id BFC201FF7E;
+ Wed, 26 May 2021 13:13:31 +0100 (BST)
+References: <79262dbe1f7888eb02e1911501eebafa6f2f6400.1616583806.git.viresh.kumar@linaro.org>
+User-agent: mu4e 1.5.13; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Viresh Kumar <viresh.kumar@linaro.org>
+Subject: Re: [PATCH] gitignore: Update with some filetypes
+Date: Wed, 26 May 2021 13:13:26 +0100
+In-reply-to: <79262dbe1f7888eb02e1911501eebafa6f2f6400.1616583806.git.viresh.kumar@linaro.org>
+Message-ID: <877djl3d78.fsf@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <066C0E39-302E-4D12-A9D8-C7C1D0C5D91D@gmail.com>
-References: <20210524101257.119377-1-vsementsov@virtuozzo.com>
- <E8FEBD24-139F-4918-92D9-5183EECCA8FB@gmail.com>
- <482b0f59-addc-2bdf-21b7-53d07265b651@virtuozzo.com>
- <B4968AF6-F208-48F5-B431-0E84CAE8491C@gmail.com>
- <YK0jZB86ZGLDTM+J@merkur.fritz.box>
-To: Kevin Wolf <kwolf@redhat.com>
-X-Mailer: Apple Mail (2.3654.40.0.2.32)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f29;
- envelope-from=programmingkidx@gmail.com; helo=mail-qv1-xf29.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -87,37 +86,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Alberto Garcia <berto@igalia.com>, QEMU devel list <qemu-devel@nongnu.org>,
- Qemu-block <qemu-block@nongnu.org>, Max Reitz <mreitz@redhat.com>
+Cc: Vincent Guittot <vincent.guittot@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
+Viresh Kumar <viresh.kumar@linaro.org> writes:
 
-> On May 25, 2021, at 12:18 PM, Kevin Wolf <kwolf@redhat.com> wrote:
->=20
-> Am 24.05.2021 um 18:06 hat Programmingkid geschrieben:
->>>>> qemu-system-ppc -usb -device usb-storage,drive=3Dfat16 -drive =
-file=3Dfat:rw:fat-type=3D16:"<path of a host =
-folder>",id=3Dfat16,format=3Draw,if=3Dnone
->>>>>=20
->> On a related topic would you know if it is possible to use fat32
->> instead of fat16 for host folder sharing? I did try replacing the =
-text
->> fat16 with fat32 but it didn't appear to work.
->=20
-> I think the correct syntax is fat:32:rw:<path>. But one of the first
-> things it does is:
->=20
->    warn_report("FAT32 has not been tested. You are welcome to do =
-so!");
->=20
-> So probably nobody would be surprised if it broke.
->=20
-> Kevin
->=20
+> Update .gitignore to ignore .swp and .patch files.
+>
+> Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
 
-Thank you very much for this information.=20
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
+--=20
+Alex Benn=C3=A9e
 
