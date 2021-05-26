@@ -2,131 +2,131 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 877383915C4
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 13:14:37 +0200 (CEST)
-Received: from localhost ([::1]:37558 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64D693915CF
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 13:18:07 +0200 (CEST)
+Received: from localhost ([::1]:39920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1llrUi-0003jC-KZ
-	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 07:14:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51950)
+	id 1llrY6-0005Uv-FR
+	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 07:18:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52678)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1llrTi-0002uT-Ir; Wed, 26 May 2021 07:13:34 -0400
-Received: from mail-eopbgr50119.outbound.protection.outlook.com
- ([40.107.5.119]:58110 helo=EUR03-VE1-obe.outbound.protection.outlook.com)
+ id 1llrWn-0004mZ-QJ; Wed, 26 May 2021 07:16:45 -0400
+Received: from mail-eopbgr40125.outbound.protection.outlook.com
+ ([40.107.4.125]:36859 helo=EUR03-DB5-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1llrTf-0005By-2b; Wed, 26 May 2021 07:13:33 -0400
+ id 1llrWl-0007Gr-Ra; Wed, 26 May 2021 07:16:45 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GtQ50Oa/Oxb7clqCP2fl6VxUTz3yJr7CXfrZDUECwG9VYMZSV+HXuUPhl/THzJOzFPs/c7eYeO4NUHtiYhqXa0GXLabBY2AJh9uJnfp3a/1PV9ovAtxR/y0wkn6L88TRrP5xgdt4OnEITgcAcAwKYsikXOuERYM5zvLhJ97scHin4sFci0HCMLnbqRWPuFwFY0LuyGJN5U10O+EkdvZQSzMQZhgCgDkG5zHr8meN0WMwRKw4hRUgUDea/QhnuJ4otgwyyF1B2kedrnpqTkmu80I96OQ7XfhW8Fcdw3AIZ1pPLqTZjdvj990B/FSkZ4OZ/AXV6D9xgwRM48jx3jjMJQ==
+ b=jmrRmZ3PiPXiznIbfjjOIsC/oN9D+cc7z53961+1GycjqYAVkP3R/awpf2JNcDXqx5vzCBv3d5x1ewYbZaxRu87sKfEcpJJ6+Db7shDu/34sTwq/fph4wdOQHBJ7lEfXm4Xht4jiSL1D4BIYrjCkqDldmqjb+zWGnSX6sgjuGrp+ellyuvBrIGesuSkCBt56GS7b1icXB2Ie3kjAhhJqtCuzJSrkRtlViyzaBeD6dpC52FHGERm68sF3R22wj8U6ssKFCekhN+eGMjxXdDdl6L08ZuM3UPywNrSaorNzvCCyyM2hBH/DI+l//1Ong+Jaf2d2kcZWxY2QBcYmOwp0IQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0YIMnvxHqe1hTbGyff7nxgKWORN1ZaoJpbOq7jKpfm0=;
- b=QRenw3UUEJozJ4kckXLXiJO3q4WDIr60WF7vDHRKqtxyVjRD0D9ny9ooTBssP1eQ3bHvHVPquJ8jElwyEUACoU/nL2lu3Rt282aFQpJ2f8rWpNH8cB+n3a0aqsqfzeCSqKSDocOIkWvLgKWMGlCAR9OSToqsSHi0UzMTf/z+ChyJikZoB8ie+OwxpJ+/DE/ISR5BTixqBPZ8+3PG5OGE3qRbVZfqlBD+hOkzuTAmkmPIl/s8tpWxvkQOaHFCVKdD71YxwsWr89nI3TjjsFhMlnKiXY3ROuh3+gzouRGH8dKlc9oXZUgh8NzNFDqomu4otfzRWeayFrMQT12embLOWA==
+ bh=pPeoOqyztLTXfmG7BCR/EYfBmzwbsYMs0f66vTElxOY=;
+ b=CkX+B+qcga9PX2rUFVulp7Lw+j1zq4zjKedDu5Vo/iEpZ6hu2JWqin8qB60XUbvyDrCN38vLWk2eRkAdIh6QuFH9L5LX8rJE6cHNn6v7zKLJKjNlYu7t6o+CXT19AYrG8a12IGh8jBnh+MP9BDVz3suoB1HjeEf9MBIaRbtcphodk9hd0xLJ89gXG6Ko7yJs7kDr5J8XOiMhhH6TZRUkiFquyVBRoVbotE/8JjKFCd7HHx1AbTmY6dP6msP1+x58XjwuHWjX8qmAUM6n0KuFgDFd2K8i74kzlbT+Ac6DO6fAz6+gIE4delJ7rpbV4g3w94LMoQr+NZKRxAYzB39zxw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0YIMnvxHqe1hTbGyff7nxgKWORN1ZaoJpbOq7jKpfm0=;
- b=trWu9C01zF5qBH49hnvkTiD/1A1yYTRiDT8603eXWGA213clGziE1XjiP0qQay38mODtWkb5qmuvm7BwhdP+tf8EDoUOdzaO3e2kGcdXoOp5uXLq/yCs2Zin8aCPWLSF7hq5V0JpFWih0B+/WeFcZfgD4sbeda+2mNje7KDDa1U=
+ bh=pPeoOqyztLTXfmG7BCR/EYfBmzwbsYMs0f66vTElxOY=;
+ b=qt0UaJwZ/g1l+x5No3yPz/7LJilsqaye3sP5Hhi3x/3iOtmq60ISPAXljpTf02rZ9E3B7FdLrJ19S6lpYIr3JyYLPM5Ig3UKBZ0H9ZgHqJPFlQvJOix2Ay2m0UduiDLWMTQzYAsHPrCn5jszz6SEKPmZHiOpMkRHBfpHvJvO7pY=
 Authentication-Results: redhat.com; dkim=none (message not signed)
  header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM5PR0801MB2033.eurprd08.prod.outlook.com (2603:10a6:203:4c::7)
+ by AM6PR08MB3958.eurprd08.prod.outlook.com (2603:10a6:20b:a6::30)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4150.26; Wed, 26 May
- 2021 11:13:27 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4150.27; Wed, 26 May
+ 2021 11:16:40 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::b403:c1a9:6bb7:133]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::b403:c1a9:6bb7:133%8]) with mapi id 15.20.4150.027; Wed, 26 May 2021
- 11:13:27 +0000
-Subject: Re: [PATCH v4 01/15] python: qemu: add timer parameter for qmp.accept
- socket
+ 11:16:40 +0000
+Subject: Re: [PATCH v4 02/15] python: qemu: pass the wrapper field from
+ QEMUQtestmachine to QEMUMachine
 To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
 Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
  qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
  Cleber Rosa <crosa@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  John Snow <jsnow@redhat.com>
 References: <20210520075236.44723-1-eesposit@redhat.com>
- <20210520075236.44723-2-eesposit@redhat.com>
+ <20210520075236.44723-3-eesposit@redhat.com>
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <2e9f2165-451d-48a7-c8a0-4e5eb29787d2@virtuozzo.com>
-Date: Wed, 26 May 2021 14:13:25 +0300
+Message-ID: <13411f15-e526-f555-b2f3-259a74a8acbc@virtuozzo.com>
+Date: Wed, 26 May 2021 14:16:38 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.2
-In-Reply-To: <20210520075236.44723-2-eesposit@redhat.com>
+In-Reply-To: <20210520075236.44723-3-eesposit@redhat.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [185.215.60.195]
-X-ClientProxiedBy: AM4P190CA0008.EURP190.PROD.OUTLOOK.COM
- (2603:10a6:200:56::18) To AM7PR08MB5494.eurprd08.prod.outlook.com
+X-ClientProxiedBy: PR1P264CA0007.FRAP264.PROD.OUTLOOK.COM
+ (2603:10a6:102:19e::12) To AM7PR08MB5494.eurprd08.prod.outlook.com
  (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from [192.168.100.8] (185.215.60.195) by
- AM4P190CA0008.EURP190.PROD.OUTLOOK.COM (2603:10a6:200:56::18) with Microsoft
+ PR1P264CA0007.FRAP264.PROD.OUTLOOK.COM (2603:10a6:102:19e::12) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4150.24 via Frontend Transport; Wed, 26 May 2021 11:13:26 +0000
+ 15.20.4150.24 via Frontend Transport; Wed, 26 May 2021 11:16:39 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 0dfb9773-1d4a-409a-f2fc-08d920374915
-X-MS-TrafficTypeDiagnostic: AM5PR0801MB2033:
-X-Microsoft-Antispam-PRVS: <AM5PR0801MB203348AD4B7041BAFFACF73FC1249@AM5PR0801MB2033.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
+X-MS-Office365-Filtering-Correlation-Id: b26b13a5-a413-49e4-3789-08d92037bc2d
+X-MS-TrafficTypeDiagnostic: AM6PR08MB3958:
+X-Microsoft-Antispam-PRVS: <AM6PR08MB3958DEADDD15507AAC76E890C1249@AM6PR08MB3958.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:119;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: GdMXICXRkW6b3iqwYbZpgqOumIhBRRaAD8XB++41PnY5Wx7+/Oxl2CQ9PWmq94RR7jyQRaVu0PXCA8ADr9g2ILVts+ECWloOwPk65LBs7yKZGk8QbPwd3ADFo3I+wjTGg0Wsr9VTBejo9TosexBm8z5joH+k80agtqLw/zsRXLAaSS9LXJI8Jt64LtaG6aDdMHj5LMCsA3wVQVkmTSLKFSjk7rye1rkHzowFOPjAQslXB9NTEa0fI3g9ztnlgqh9UrL7Xv2DszOoAaTn+czY97z5TOxMPWwV2F//JR4UkvVU+FQ9Mj4Kge4QlgNWUJCZakq9oIR/t1WnFHeCvKKM1qI/L5iX5lAsBWoJCzdALVXgnkX/AqjOnVGua74QmEDaqbWrd5F9JgC6flpZ8hE3rcrW1cS00tEYGDVVfdNi7PG620o2Bw6xcbcHFbqIwXw5UdxQw3jbNzmPP1SEQGlRgQGB+9cIRP691OCGZ6RLqt7NLCr5QHmL+d+4/0TyWMvB40NNf6NGRFmOtXVJvnJHMYe3iBLwkd6Rv5IMKg4rU23mDVFNt0y3z3RbQ+wCFgPgmi49YufXMC346P3NCNnHkuW5IygcRz27P0hGIpHRsRmBzWmCtN4q3/aE82wu/8R6ny8M+IBbx4vg/e4zVcCySw8HNEPuvIv2JlBgehiU1tv3TYprruH2Tphh3+GoCpcLzUB1EYGpVpaGqFgBXnr48TAUKSNw/Z8TYHK18PEF0AA=
+X-Microsoft-Antispam-Message-Info: VYw/us7ucWDZgA8Z3kKJv5I5ZxQkl158Ok7vI9hqHEU7vm4ALX5NPdegXehHwyrWVHkrCNssiWkisXgAlPp8EXx3lV1XCApQeR+eXXix1bC0/O4G7oOgNOofee1ApzECu819s3ior9a4pya0vSGVN1WorOS7qDlZ8cYoxl+spsgFKZYka34nC8Vf6EyAzP+6cw3SXXXBwO1AasO131FLaul+0fOSlRYR0MZe/yjebPINtnNf9XD4pQWJvFH0Cw89YrxeBgJ7Gl0Tdm/Z8nos6l5fYN6MCMIMyyPB1cMEbfuYCxL8RTD4dAAxQWNqzUVu9k1pv8MPWpmO/kAbZA0mpAq518BW64gl3xf6Geq1Wv31oI2Sv6tICp7IccIv5H+FY96N5Ls7ifxdClL3RhWmKuFAgeCDAvedGAgOFmEPrn8K3vdp463A90nDlpF8z93zXig2Nb2WXC/O/h7ewao/qenHEEzu7QKzbMXEQmUlccZDFg47bHf47S0kzfRmdZw6b+d1yW4W/NJXeT2r8duVT3Crg5pW/OBpaFsoZfKUn5vkg4cgS+QdhCCT7ml/PtEszspiiRIQbAczMlPwSpULdCSjowGCwE6ZYLMMOH3bzNUBCI3QkRZZtuGq9j14IN66sjBghFyDXB1ZSLHbKw9PbdQuUfZpxU0P1yEC9VIjsQzUbl1fbP1jEJED0Eiz3eYIuOhabZ0qCUhBX7uUfesuOfE7K/Ma15zf38tpQkD8aKg=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(396003)(39850400004)(136003)(346002)(376002)(478600001)(31686004)(16526019)(26005)(36756003)(16576012)(5660300002)(2906002)(66476007)(52116002)(8936002)(8676002)(6486002)(956004)(316002)(4326008)(186003)(83380400001)(31696002)(38100700002)(66946007)(86362001)(38350700002)(66556008)(54906003)(2616005)(43740500002)(45980500001);
+ SFS:(4636009)(346002)(366004)(376002)(396003)(39850400004)(136003)(16576012)(4326008)(31686004)(38350700002)(66556008)(83380400001)(478600001)(316002)(31696002)(8676002)(2616005)(26005)(54906003)(16526019)(8936002)(66946007)(956004)(2906002)(36756003)(86362001)(6486002)(186003)(66476007)(5660300002)(52116002)(38100700002)(43740500002)(45980500001);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?ZjRsbHk2Z1RJY3ZGdzRVcGh0ZC9vNVR0NFEvZ0NsTTlTNjNaRVJzTjlCdDV2?=
- =?utf-8?B?eWdEZkZqNUhGb1B6QzRBWVo0US9kbTN5OXY5cEM4a2tESjdSdmxTMDF4Rm9l?=
- =?utf-8?B?dVJ0WXNNQ3RMNWR2MU5hUUJXU0l3ZmFKcXV6WmhzZHJLSndHNEo5VTZFV3or?=
- =?utf-8?B?RXcrVXVxNWNIb25YNU1tRUZ2NGZqZndRdVZmS1BrRmEzakEvQVlBb0ZaUk1j?=
- =?utf-8?B?dE54TzRpSks5enBXU2lnbzhpNkZkZC91TlAzRVdLWFdHaEJ3bUNkbS91SGRQ?=
- =?utf-8?B?YlUxczRhWDZWb205OVdnbEpQaWtPMnJwYml2engyZ2lzSnRNQ0U1aXBaMGJO?=
- =?utf-8?B?WXhoUTdMdEZnUE4xQkpDbEVYNU5zWWp2cVFJdDlCbnMwL0NiWnQ5Nk90Q1NG?=
- =?utf-8?B?Zkk2aC9sbkZRRzBHbGNhVXhHaElFMzg4V3BMNENxVy8rSmR6SCswa2MxRDJK?=
- =?utf-8?B?T0JLdHRMTmJqMFJIeW9IWWVuNmNTLzNYaGdROHp3RnhKNURWd1BDMlFvSkpM?=
- =?utf-8?B?SHlYUGoyRElkRWNJdFM2bHAvYUdHQXB5RENsQUhJMXRxb2ZGZmpnN1ppMG5I?=
- =?utf-8?B?UGY3K3VBZ2ZyalZsR2pCNGhrMDQvT1hMSElEbWppVFppVlU2TkhhU09CeXBy?=
- =?utf-8?B?WFZtZHhDTkExWlFuaEcvZ1YrcXRaQmUyNHEzdnFXSmFwdG95c2FueWJUa3N1?=
- =?utf-8?B?YmtTVlR3Nm9xa2lTdzNUUFRYNjZuWTAvbmlLOGtyV2FnWERnR1QwV1dNS3cw?=
- =?utf-8?B?UHhqb1JyZ1FQNjVJcngvTk9FdUR1aXlSUzFXUXZIMUNqRFBWV0E5ZHRTbWJZ?=
- =?utf-8?B?d3hVTXFmWXlGTUpBckJrZUptRkJqQTZxcDJBRUFtTWszUVVCYzF1WW9KN2Fp?=
- =?utf-8?B?MFRoeUh2RzJLb1RJWnlWMmFFNEdzZWRyakNKeVdMK0JoVVZXbm96UFp3bWsx?=
- =?utf-8?B?aXBZNERoOGpSczE3SWlTK0t4WXNGRTRjWVZicllUdnp2WjF4VGRSNW53T2dO?=
- =?utf-8?B?ejVIbER5QWdIN0dpbnpNcHZ2SXMyR05JQ0x0SmFZZjlVbGJDMHFYSzczUzgr?=
- =?utf-8?B?MkFTc09LaDJYMyswQzcwSjNxcis1cDJQZ0Y2UFNBR0NUa09HZWUva1k5ZU1Q?=
- =?utf-8?B?L3J3MU5VNXVJcGhGMVZId1B2OEt2K295bHNxYkhuSFo5b1ZxTmJROE5sNGZH?=
- =?utf-8?B?by9HenNjbjRYdnFlTUZ3WXV5VENad2VCai9oWWNoaTJCclEwejFVZENwYVVO?=
- =?utf-8?B?OFZFVHNSSytHRHRsZTlTTFA1cnBKNW9DemUvaWgremJpRWF6TFlKZWhWUU44?=
- =?utf-8?B?R2x1MTZ5UGpvU3NnemRyd1FCUWhUUmFhL2VsZW1hVXZvb0NDTE9wSTNmbVZM?=
- =?utf-8?B?aGdOSmZxLzRxN3VualNrbTJSTGU2UmJNeE9DNjJvSFRKLzJzaVdQQ3pmbEh2?=
- =?utf-8?B?UGI2dnJYYTFvSitTTnJTcnc1U0VxczlTUzhTaktvd0M1dUNuZ2p2U3RJOW1i?=
- =?utf-8?B?MFp5R1FrWXFMZzFvOTJFcFV4MWpSb291V2tGdFUvUFhOTExZTVdpY1pJeDhJ?=
- =?utf-8?B?VW9ETmgxaWpBVFhadXpuL1NhMUl0a3B3MHNRN0NYOStjS2pCdDVzUy9panEr?=
- =?utf-8?B?dnpvZDlaakdObUhnQU84ZTZHdkNBZlF0VkhKT1JEYTNDTzMyTnBBME9ZM1ZK?=
- =?utf-8?B?NmtLekQxb3YwVDg4YXMyQzZ5b0s4Ykkwb1lmOXVtZFV0M3JyeDRsZVlubnJs?=
- =?utf-8?Q?jTsaZBdx+LuhpTDx23DkQrIN7Ao+S7DJc3JLBZu?=
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?Mm1neVhvMjNscHY1eTRQTlp0a21uRnZPL0JURzlrRjdLeEdLSFRZaU5DdmQ0?=
+ =?utf-8?B?YTRCaXNzTUl0YXhjQ0VMTGVrMkpDWU1HaTJwOG8xMVBMVitNV3h6Z2cxS28w?=
+ =?utf-8?B?YzNUVTJEblhqQzNEZW05Zjk1VytiSzdybGRVczRNdzNEVXF3a2JvVS9Oc01j?=
+ =?utf-8?B?Kzk5OGYwMnpTTDA3QVFZRnVGUExDTnZkZ0w4dVNZZVcrc1RjU3piK2ovcXgx?=
+ =?utf-8?B?NXNQNlJ2QVJBNnNNNmh0akt2bHp1MGo5R2VLZnEzdGFiaTQ2MVgzM25LbDJC?=
+ =?utf-8?B?VVFEcXZVSVZyVmtGREtlb09FK1RKSXcwNG43d2pFTndiRDViZkJqU0JTSVUw?=
+ =?utf-8?B?Yis3UmVaS0JRdUkwTFd6V1JOb3IyaE54ekR5VHRiTmFtU3Z0Yy9lQkpXMGda?=
+ =?utf-8?B?VW04WWU4ZXJBcS9tOHo5V25UV2w4c1I4dHU3OVY2WTBlS2wrVGVwaDl5QWMv?=
+ =?utf-8?B?Rld2cjBLZm1qWnlubEpJMFlDVFhMWkhMOWFwVFFueHpIbkJPYVd4K3h0d2xG?=
+ =?utf-8?B?cU44MDZBRjE4a2RyNUtnOEM3M0drNUh1Q3V5ZFcxRXZ3Y1BGMWpLSEFPWE1F?=
+ =?utf-8?B?WHlzbXN1c1VFblYvZlE2YURXZFBOWXFRZVF4aDJ0V0dmOGtOc0xjaTBtWkdM?=
+ =?utf-8?B?ZVdJMlhTdG9DelF3UDlNUHNnKzFTM05sWEhWT2VEK2duRldEUE5nYVRRWFVz?=
+ =?utf-8?B?ZDdsSjZnbms0SkRaYkRoSGlrZ0NSdnVGTVQvL3FXamxDcE9HblpTci9ab1FT?=
+ =?utf-8?B?cElnSVZZbTlTa1l4QWo0bXZLR1VFeUI5c0xienB0RzZtZHN0RlBFZXNqSHB0?=
+ =?utf-8?B?RjJiRkxPNEVvUVhKc2YrR2RZTWpHT1FINWJGbTlscHZzSVRCNWZ1dTZ3TjRQ?=
+ =?utf-8?B?dzhNRW5UOHRzMnlvZW9paHl6MDJaK0pTZG1pV1dTYzJVSGpzeUhqb1poM0JT?=
+ =?utf-8?B?eURPK3VTNHVFdE9DRVB3a3YvTnJ3dTNMN2pVZk5FR1B4NmRjVkMvMFV4OXgz?=
+ =?utf-8?B?TlRGUDA3cm0vYkVqczAvdjBhc2l5SVNhaUJVcTFPNnYxWUlmUlZYNXBFYWNl?=
+ =?utf-8?B?aXdjRmJJalNSVWVsVytYVHpYNExWY1QwckdVeEErYzNwU2ZnVGhEN2tzbTJP?=
+ =?utf-8?B?Mzhlc0FBSkVQZHpmVmdGdWMza1ZSUDY2N2NXVWRmR2FtZkNhdHhSRlVzRUdh?=
+ =?utf-8?B?NmkzWTAyZ1IvSGlOaWNqZG1NUzdKdlJvOWs2bG1CRWI1czJ4SUU0OE1CMS9q?=
+ =?utf-8?B?cTFrYnUwaXBKTTBWRmYvTUxOYnp6RVErN2VaUktmYWdtdDI3aFprTjI1Q1pP?=
+ =?utf-8?B?WkJBTE9kcXNUc0xPMHZuczhldXhqbjZ3dnZ6ZkVkeHlxdXVkYmJKN1pCNnFz?=
+ =?utf-8?B?Wmc2bjJ4MG9DVFNXamRMcENYZDZ6U3g0QUNoWVR2a2QxcFVTWTY2T0h2N28r?=
+ =?utf-8?B?eUd6ZldzV2t3dXlCcExMNWhJMXFCLzZpNmlHWUowUXdZY2ZmNlBqbnY1TU5D?=
+ =?utf-8?B?QmV6S0lyZkF0ZUFKcW1Lbjl0V0k5RjMrWG9XQXh2SHNXb2tUVU8zSGRBaGtP?=
+ =?utf-8?B?RW5RMk1NZjNqOUxQR3NiUFlwVDRZWVN2Y3FFbCt6Z05uVVcyaXFPaHoySmcz?=
+ =?utf-8?B?bDVoVlQrVUc4N3BYTWp6NE5Zc3NqYWwxeEFoaktiVGJzeUxLS1o5dldYT1F6?=
+ =?utf-8?B?ZmF5N3ZlOUpzL1ZqempvcEx3dWtrZ2MrL1VGQWVhMjBRNW05RDlMMTB4aktU?=
+ =?utf-8?Q?TyeL0gayLOf+TgWz4o6XrAPk0D1gA4jRzc4wy2m?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0dfb9773-1d4a-409a-f2fc-08d920374915
+X-MS-Exchange-CrossTenant-Network-Message-Id: b26b13a5-a413-49e4-3789-08d92037bc2d
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 May 2021 11:13:27.2923 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 May 2021 11:16:40.4196 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: XRYFTcwXsGhsFnuSlACYU9eaQ218JmtJi8WrGrOy5Zy0smR30KCiiczw43fCoyQ28JuhOjEfzJiE57gGhKkki2sAsfB9DPkUQajziuVIhK0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0801MB2033
-Received-SPF: pass client-ip=40.107.5.119;
+X-MS-Exchange-CrossTenant-UserPrincipalName: s7CGnxbUYkh0NUVgI7ogNDVlr3sgVatznE2sBqIDNuWh3MX57W59CZpjJv0BKKLhOw8K0McoByvlaCbJzQqGxCvpzVs5XjD6bWb3TCOrvOw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3958
+Received-SPF: pass client-ip=40.107.4.125;
  envelope-from=vsementsov@virtuozzo.com;
- helo=EUR03-VE1-obe.outbound.protection.outlook.com
+ helo=EUR03-DB5-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -150,109 +150,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+
+in subject: s/QEMUQtestmachine/QEMUQtestMachine
+
 20.05.2021 10:52, Emanuele Giuseppe Esposito wrote:
-> Alsp add a new _qmp_timer field to the QEMUMachine class.
-> 
-> Let's change the default socket timeout to None, so that if
-> a subclass needs to add a timer, it can be done by modifying
-> this private field.
-> 
-> At the same time, restore the timer to be 15 seconds in iotests.py, to
-> give an upper bound to qemu-iotests execution.
-
-Hmm. Not to qemu-iotests execution, but only to connection to qmp monitor, isn't it?
-
-> 
+> Reviewed-by: John Snow <jsnow@redhat.com>
+> Reviewed-by: Max Reitz <mreitz@redhat.com>
 > Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+
+Usually, r-b lines are placed below s-o-b line.
+
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+
 > ---
->   python/qemu/machine.py        | 7 +++++--
->   python/qemu/qtest.py          | 5 +++--
->   tests/qemu-iotests/iotests.py | 3 ++-
->   3 files changed, 10 insertions(+), 5 deletions(-)
+>   python/qemu/qtest.py | 4 +++-
+>   1 file changed, 3 insertions(+), 1 deletion(-)
 > 
-> diff --git a/python/qemu/machine.py b/python/qemu/machine.py
-> index 6e44bda337..df32de4377 100644
-> --- a/python/qemu/machine.py
-> +++ b/python/qemu/machine.py
-> @@ -89,7 +89,8 @@ def __init__(self,
->                    socket_scm_helper: Optional[str] = None,
->                    sock_dir: Optional[str] = None,
->                    drain_console: bool = False,
-> -                 console_log: Optional[str] = None):
-> +                 console_log: Optional[str] = None,
-> +                 qmp_timer: Optional[float] = None):
->           '''
->           Initialize a QEMUMachine
->   
-> @@ -103,6 +104,7 @@ def __init__(self,
->           @param sock_dir: where to create socket (overrides test_dir for sock)
->           @param drain_console: (optional) True to drain console socket to buffer
->           @param console_log: (optional) path to console log file
-> +        @param qmp_timer: (optional) default QMP socket timeout
->           @note: Qemu process is not started until launch() is used.
->           '''
->           # Direct user configuration
-> @@ -110,6 +112,7 @@ def __init__(self,
->           self._binary = binary
->           self._args = list(args)
->           self._wrapper = wrapper
-> +        self._qmp_timer = qmp_timer
->   
->           self._name = name or "qemu-%d" % os.getpid()
->           self._test_dir = test_dir
-> @@ -323,7 +326,7 @@ def _pre_launch(self) -> None:
->   
->       def _post_launch(self) -> None:
->           if self._qmp_connection:
-> -            self._qmp.accept()
-> +            self._qmp.accept(self._qmp_timer)
->   
->       def _post_shutdown(self) -> None:
->           """
 > diff --git a/python/qemu/qtest.py b/python/qemu/qtest.py
-> index 39a0cf62fe..afea210d9d 100644
+> index afea210d9d..e6a8fb5984 100644
 > --- a/python/qemu/qtest.py
 > +++ b/python/qemu/qtest.py
-> @@ -114,14 +114,15 @@ def __init__(self,
+> @@ -111,6 +111,7 @@ class QEMUQtestMachine(QEMUMachine):
+>       def __init__(self,
+>                    binary: str,
+>                    args: Sequence[str] = (),
+> +                 wrapper: Sequence[str] = (),
 >                    name: Optional[str] = None,
 >                    test_dir: str = "/var/tmp",
 >                    socket_scm_helper: Optional[str] = None,
-> -                 sock_dir: Optional[str] = None):
-> +                 sock_dir: Optional[str] = None,
-> +                 qmp_timer: Optional[float] = None):
->           if name is None:
+> @@ -120,7 +121,8 @@ def __init__(self,
 >               name = "qemu-%d" % os.getpid()
 >           if sock_dir is None:
 >               sock_dir = test_dir
->           super().__init__(binary, args, name=name, test_dir=test_dir,
+> -        super().__init__(binary, args, name=name, test_dir=test_dir,
+> +        super().__init__(binary, args, wrapper=wrapper, name=name,
+> +                         test_dir=test_dir,
 >                            socket_scm_helper=socket_scm_helper,
-> -                         sock_dir=sock_dir)
-> +                         sock_dir=sock_dir, qmp_timer=qmp_timer)
+>                            sock_dir=sock_dir, qmp_timer=qmp_timer)
 >           self._qtest: Optional[QEMUQtestProtocol] = None
->           self._qtest_path = os.path.join(sock_dir, name + "-qtest.sock")
->   
-> diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
-> index ec3c69daf1..5d78de0f0b 100644
-> --- a/tests/qemu-iotests/iotests.py
-> +++ b/tests/qemu-iotests/iotests.py
-> @@ -571,10 +571,11 @@ class VM(qtest.QEMUQtestMachine):
->   
->       def __init__(self, path_suffix=''):
->           name = "qemu%s-%d" % (path_suffix, os.getpid())
-> +        timer = 15.0
->           super().__init__(qemu_prog, qemu_opts, name=name,
->                            test_dir=test_dir,
->                            socket_scm_helper=socket_scm_helper,
-> -                         sock_dir=sock_dir)
-> +                         sock_dir=sock_dir, qmp_timer=timer)
->           self._num_drives = 0
->   
->       def add_object(self, opts):
 > 
-
-I'd call it qmp_accept_timeout to be precise. Anyway:
-
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
 
 -- 
