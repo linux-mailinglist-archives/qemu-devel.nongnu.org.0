@@ -2,68 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CC03391A3B
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 16:32:31 +0200 (CEST)
-Received: from localhost ([::1]:60210 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6639E391A1C
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 16:27:15 +0200 (CEST)
+Received: from localhost ([::1]:55650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lluaE-0004ug-NO
-	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 10:32:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41396)
+	id 1lluV8-0001fq-F8
+	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 10:27:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39618)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lluYw-0004Ea-S2
- for qemu-devel@nongnu.org; Wed, 26 May 2021 10:31:10 -0400
-Received: from indium.canonical.com ([91.189.90.7]:46026)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lluSi-00083n-I8; Wed, 26 May 2021 10:24:44 -0400
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:43680)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lluYu-0001Yh-KI
- for qemu-devel@nongnu.org; Wed, 26 May 2021 10:31:10 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lluYq-0006c4-HR
- for <qemu-devel@nongnu.org>; Wed, 26 May 2021 14:31:04 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id EBD992E81A3
- for <qemu-devel@nongnu.org>; Wed, 26 May 2021 14:31:02 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 26 May 2021 14:24:24 -0000
-From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1878641@bugs.launchpad.net>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lluSg-00061k-Ol; Wed, 26 May 2021 10:24:44 -0400
+Received: by mail-wm1-x32d.google.com with SMTP id
+ n5-20020a1c72050000b0290192e1f9a7e1so626402wmc.2; 
+ Wed, 26 May 2021 07:24:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ORCeOe/azUUD6/5loOQJVMd3UNGL2eaY5a9u5h5/+WY=;
+ b=WEml9EGxhbzp8s9P8UkP9wfbs+CtOgQZQrf8LCx//os/KhXgaxva66W9y3AEH5h6Mn
+ 8tv77hS5Ugtpaz6UV4LYLpAuciLzG+ZokkCeI1fbwOGs2GbiHRj7kn8NRZBUV0nAMPPW
+ XDnjsGlPO0VU1TA0Ppz8hs9sUpJNJURnKCjzEXlQA2iT6VndcVKMLx73ffwWv1yRWr+2
+ gspC8gSmBbNZ2EEDzcQ2esI5aNSY1a+dPQnV/txADBhOyx2A8YziTyxk+jfMFkX+EGYV
+ hMxOrP8SC4ZW/mBTUbLFroQXz7WIVb91TJz//cmYzIpor3FbqLtGhV7gIGr3z+Djb0EW
+ 72pQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=ORCeOe/azUUD6/5loOQJVMd3UNGL2eaY5a9u5h5/+WY=;
+ b=FtQ4h7QpX3CBuACIRaynkMDH/oPYjIpgFPrReMHA7tqpOnzeCFDts8T3T7R4qMxlKV
+ 5Ue18bEKj7XNZyqRBKh8gsX0XIqF1M9AJDq87JxT5tt+Nix5desoRLtz1YDCzsuRy8ME
+ tC61gw+UJciS3/TjOQyzthnhEGlS19me0VSnTm1MSD5ySerx80ral2AiykzlaOfJHlyA
+ g90mBFsuGMm1LBYMr4XLyFWK/FFHguhJ4jNSScT7IGzy2NzQO+Z1JMmnWA3/6+fTFPQ4
+ 4tD/h53DDv0l0TJIfDBi42sGbMaFK//MeBRiaAqy6BRUM0AgjNwfHMQSziLOUe5zFXVm
+ T0Ew==
+X-Gm-Message-State: AOAM533aTEvPFUkgZeTJgtpFp+YkbE0PumfoXO7COn6rAMB3eZiJmSfI
+ DfrkdORc7eLTfjF6H5MlenHLAtGZeS+bgg==
+X-Google-Smtp-Source: ABdhPJzstc/Gy04+9cH2zR5Ff9PIb23FSM7UwaXkFJhoCHyVStgpXqnVr+3Fbuuu2AueMZbFG0e4vg==
+X-Received: by 2002:a1c:4006:: with SMTP id n6mr1493627wma.58.1622039080910;
+ Wed, 26 May 2021 07:24:40 -0700 (PDT)
+Received: from localhost.localdomain (64.red-88-10-103.dynamicip.rima-tde.net.
+ [88.10.103.64])
+ by smtp.gmail.com with ESMTPSA id p5sm22002220wrd.25.2021.05.26.07.24.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 26 May 2021 07:24:40 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: a1xndr philmd th-huth
-X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
-X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
- =?utf-8?q?=29?=
-References: <158947155555.22318.7487906636720013107.malonedeb@wampee.canonical.com>
- <162202718856.30597.9572245697107520055.malone@gac.canonical.com>
-Message-Id: <a51e76a6-0080-a924-e7ed-68951c7c5dcd@amsat.org>
-Subject: Re: [Bug 1878641] Re: Abort() in mch_update_pciexbar
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="802ed26817d1cdd050553dbe99cc8a3cad1a3bc7"; Instance="production"
-X-Launchpad-Hash: 89489d14ff54e85e7bbeed5fda82a3bf7b452ed4
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Subject: [PATCH v2] hw/pci-host/q35: Ignore write of reserved PCIEXBAR LENGTH
+ field
+Date: Wed, 26 May 2021 16:24:38 +0200
+Message-Id: <20210526142438.281477-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.26.3
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32d.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,126 +83,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1878641 <1878641@bugs.launchpad.net>
+Cc: Thomas Huth <thuth@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-stable@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Alexander Bulekov <alxndr@bu.edu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/26/21 1:06 PM, Thomas Huth wrote:
-> Confirmed, this is not fixed yet. Philippe, what happened to your patch?
+libFuzzer triggered the following assertion:
 
-I was waiting someone suggest me how to propagate error from
-PCIConfigWriteFunc. Probably not very important.
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1878641
-
-Title:
-  Abort() in mch_update_pciexbar
-
-Status in QEMU:
-  Confirmed
-
-Bug description:
-  Hello,
-  I found an input which triggers an abort() in mch_update_pciexbar:
-
-  #0  0x00007ffff686d761 in __GI_raise (sig=3Dsig@entry=3D0x6) at ../sysdep=
-s/unix/sysv/linux/raise.c:50
-  #1  0x00007ffff685755b in __GI_abort () at abort.c:79
-  #2  0x000055555705c7ae in mch_update_pciexbar (mch=3D0x629000005920) at /=
-home/alxndr/Development/qemu/hw/pci-host/q35.c:324
-  #3  0x000055555705bb6a in mch_write_config (d=3D0x629000005920, address=
-=3D0x60, val=3D0x8400056e, len=3D0x4) at /home/alxndr/Development/qemu/hw/p=
-ci-host/q35.c:480
-  #4  0x00005555570954fb in pci_host_config_write_common (pci_dev=3D0x62900=
-0005920, addr=3D0x60, limit=3D0x100, val=3D0x8400056e, len=3D0x4) at /home/=
-alxndr/Development/qemu/hw/pci/pci_host.c:81
-  #5  0x000055555709606e in pci_data_write (s=3D0x61d000096080, addr=3D0xf2=
-000060, val=3D0x8400056e, len=3D0x4) at /home/alxndr/Development/qemu/hw/pc=
-i/pci_host.c:118
-  #6  0x00005555570967d0 in pci_host_data_write (opaque=3D0x629000005200, a=
-ddr=3D0x0, val=3D0x8400056e, len=3D0x4) at /home/alxndr/Development/qemu/hw=
-/pci/pci_host.c:165
-  #7  0x00005555564938b5 in memory_region_write_accessor (mr=3D0x6290000056=
-10, addr=3D0x0, value=3D0x7fffffff9c70, size=3D0x4, shift=3D0x0, mask=3D0xf=
-fffffff, attrs=3D...) at /home/alxndr/Development/qemu/memory.c:483
-  #8  0x000055555649328a in access_with_adjusted_size (addr=3D0x0, value=3D=
-0x7fffffff9c70, size=3D0x4, access_size_min=3D0x1, access_size_max=3D0x4, a=
-ccess_fn=3D0x555556493360 <memory_region_write_accessor>, mr=3D0x6290000056=
-10, attrs=3D...) at /home/alxndr/Development/qemu/memory.c:544
-  #9  0x0000555556491df6 in memory_region_dispatch_write (mr=3D0x6290000056=
-10, addr=3D0x0, data=3D0x8400056e, op=3DMO_32, attrs=3D...) at /home/alxndr=
-/Development/qemu/memory.c:1476
-  #10 0x00005555562cbbf4 in flatview_write_continue (fv=3D0x606000033b00, a=
-ddr=3D0xcfc, attrs=3D..., ptr=3D0x7fffffffa4e0, len=3D0x4, addr1=3D0x0, l=
-=3D0x4, mr=3D0x629000005610) at /home/alxndr/Development/qemu/exec.c:3137
-  #11 0x00005555562bbad9 in flatview_write (fv=3D0x606000033b00, addr=3D0xc=
-fc, attrs=3D..., buf=3D0x7fffffffa4e0, len=3D0x4) at /home/alxndr/Developme=
-nt/qemu/exec.c:3177
-  #12 0x00005555562bb609 in address_space_write (as=3D0x55555968f940 <addre=
-ss_space_io>, addr=3D0xcfc, attrs=3D..., buf=3D0x7fffffffa4e0, len=3D0x4) a=
-t /home/alxndr/Development/qemu/exec.c:3268
-  #13 0x0000555556478c0a in cpu_outl (addr=3D0xcfc, val=3D0x8400056e) at /h=
-ome/alxndr/Development/qemu/ioport.c:80
-  #14 0x000055555648166f in qtest_process_command (chr=3D0x555559691d00 <qt=
-est_chr>, words=3D0x60300009ebf0) at /home/alxndr/Development/qemu/qtest.c:=
-396
-  #15 0x000055555647f187 in qtest_process_inbuf (chr=3D0x555559691d00 <qtes=
-t_chr>, inbuf=3D0x61900000f680) at /home/alxndr/Development/qemu/qtest.c:710
-  #16 0x000055555647e8b4 in qtest_read (opaque=3D0x555559691d00 <qtest_chr>=
-, buf=3D0x7fffffffca40 "outl 0xcf8 0xf2000060\noutl 0xcfc 0x8400056e\n-M pc=
--q35-5.0 -device intel-hda,id=3Dhda0 -device hda-output,bus=3Dhda0.0 -devic=
-e hda-micro,bus=3Dhda0.0 -device hda-duplex,bus=3Dhda0.0 -display none -nod=
-efaults -nographic\n\377\377\377\177", size=3D0xd2) at /home/alxndr/Develop=
-ment/qemu/qtest.c:722
-  #17 0x00005555579c260c in qemu_chr_be_write_impl (s=3D0x60f000001f30, buf=
-=3D0x7fffffffca40 "outl 0xcf8 0xf2000060\noutl 0xcfc 0x8400056e\n-M pc-q35-=
-5.0 -device intel-hda,id=3Dhda0 -device hda-output,bus=3Dhda0.0 -device hda=
--micro,bus=3Dhda0.0 -device hda-duplex,bus=3Dhda0.0 -display none -nodefaul=
-ts -nographic\n\377\377\377\177", len=3D0xd2) at /home/alxndr/Development/q=
-emu/chardev/char.c:183
-  #18 0x00005555579c275b in qemu_chr_be_write (s=3D0x60f000001f30, buf=3D0x=
-7fffffffca40 "outl 0xcf8 0xf2000060\noutl 0xcfc 0x8400056e\n-M pc-q35-5.0 -=
-device intel-hda,id=3Dhda0 -device hda-output,bus=3Dhda0.0 -device hda-micr=
-o,bus=3Dhda0.0 -device hda-duplex,bus=3Dhda0.0 -display none -nodefaults -n=
-ographic\n\377\377\377\177", len=3D0xd2) at /home/alxndr/Development/qemu/c=
-hardev/char.c:195
-  #19 0x00005555579cb97a in fd_chr_read (chan=3D0x6080000026a0, cond=3DG_IO=
-_IN, opaque=3D0x60f000001f30) at /home/alxndr/Development/qemu/chardev/char=
--fd.c:68
-  #20 0x0000555557a530ea in qio_channel_fd_source_dispatch (source=3D0x60c0=
-0002ef00, callback=3D0x5555579cb540 <fd_chr_read>, user_data=3D0x60f000001f=
-30) at /home/alxndr/Development/qemu/io/channel-watch.c:84
-  #21 0x00007ffff7ca8898 in g_main_context_dispatch () at /usr/lib/x86_64-l=
-inux-gnu/libglib-2.0.so.0
-  #22 0x0000555557c10b85 in glib_pollfds_poll () at /home/alxndr/Developmen=
-t/qemu/util/main-loop.c:219
-  #23 0x0000555557c0f57e in os_host_main_loop_wait (timeout=3D0x0) at /home=
-/alxndr/Development/qemu/util/main-loop.c:242
-  #24 0x0000555557c0f177 in main_loop_wait (nonblocking=3D0x0) at /home/alx=
-ndr/Development/qemu/util/main-loop.c:518
-  #25 0x000055555689fd1e in qemu_main_loop () at /home/alxndr/Development/q=
-emu/softmmu/vl.c:1664
-  #26 0x0000555557a6a29d in main (argc=3D0x17, argv=3D0x7fffffffe148, envp=
-=3D0x7fffffffe208) at /home/alxndr/Development/qemu/softmmu/main.c:49
-
-  =
-
-  I can reproduce this in qemu 5.0 built using these qtest commands:
-
-  cat << EOF | ./qemu-system-i386 \
-  -qtest stdio -nographic -monitor none -serial none \
-  -M pc-q35-5.0
+  cat << EOF | qemu-system-i386 -M pc-q35-5.0 \
+    -nographic -monitor none -serial none \
+    -qtest stdio -d guest_errors -trace pci\*
   outl 0xcf8 0xf2000060
   outl 0xcfc 0x8400056e
   EOF
+  pci_cfg_write mch 00:0 @0x60 <- 0x8400056e
+  Aborted (core dumped)
 
-  Please let me know if I can provide any further info.
-  -Alex
+This is because guest wrote MCH_HOST_BRIDGE_PCIEXBAR_LENGTH_RVD
+(reserved value) to the PCIE XBAR register.
 
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1878641/+subscriptions
+There is no indication on the datasheet about what occurs when
+this value is written. Simply ignore it on QEMU (and report an
+guest error):
+
+  pci_cfg_write mch 00:0 @0x60 <- 0x8400056e
+  Q35: Reserved PCIEXBAR LENGTH
+  pci_cfg_read mch 00:0 @0x0 -> 0x8086
+  pci_cfg_read mch 00:0 @0x0 -> 0x29c08086
+  ...
+
+Cc: qemu-stable@nongnu.org
+Reported-by: Alexander Bulekov <alxndr@bu.edu>
+BugLink: https://bugs.launchpad.net/qemu/+bug/1878641
+Fixes: df2d8b3ed4 ("q35: Introduce q35 pc based chipset emulator")
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+v2: Do not remove default case (rth)
+---
+ hw/pci-host/q35.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/hw/pci-host/q35.c b/hw/pci-host/q35.c
+index 2eb729dff58..0f37cf056a9 100644
+--- a/hw/pci-host/q35.c
++++ b/hw/pci-host/q35.c
+@@ -29,6 +29,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu/log.h"
+ #include "hw/i386/pc.h"
+ #include "hw/pci-host/q35.h"
+ #include "hw/qdev-properties.h"
+@@ -318,6 +319,8 @@ static void mch_update_pciexbar(MCHPCIState *mch)
+         addr_mask |= MCH_HOST_BRIDGE_PCIEXBAR_64ADMSK;
+         break;
+     case MCH_HOST_BRIDGE_PCIEXBAR_LENGTH_RVD:
++        qemu_log_mask(LOG_GUEST_ERROR, "Q35: Reserved PCIEXBAR LENGTH\n");
++        return;
+     default:
+         abort();
+     }
+-- 
+2.26.3
+
 
