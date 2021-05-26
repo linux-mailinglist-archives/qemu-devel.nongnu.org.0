@@ -2,71 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4813A390DF6
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 03:44:11 +0200 (CEST)
-Received: from localhost ([::1]:39462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB585390E3C
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 May 2021 04:16:50 +0200 (CEST)
+Received: from localhost ([::1]:49344 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lliaf-0004IZ-Sz
-	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 21:44:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34466)
+	id 1llj6H-0003vg-UF
+	for lists+qemu-devel@lfdr.de; Tue, 25 May 2021 22:16:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41188)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yamamoto@midokura.com>)
- id 1lliZc-0003aj-K8
- for qemu-devel@nongnu.org; Tue, 25 May 2021 21:43:04 -0400
-Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:46832)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1llj2V-0001Av-8U
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 22:12:55 -0400
+Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529]:36490)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <yamamoto@midokura.com>)
- id 1lliZa-00024O-QI
- for qemu-devel@nongnu.org; Tue, 25 May 2021 21:43:04 -0400
-Received: by mail-pj1-x102b.google.com with SMTP id
- pi6-20020a17090b1e46b029015cec51d7cdso14219025pjb.5
- for <qemu-devel@nongnu.org>; Tue, 25 May 2021 18:43:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=midokura.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=Sg8fvqfieGWZwZJ3JW+zUswdMtKjb+QkTeJ97XXVBTM=;
- b=J9LxqxoTmhlwkQLRbU+0trIopII1AO/rTusGsZt9hylXEGs9zE0zkqcneuz10ADxBy
- wsTicaIydRy2T7RFOGZIOPMA2W9MVEV7gMj8XVkx/NBc9VYl+7WawCgsU2ocgfNEWcEh
- EgpSr42HzMbYBrhwOO/8YdBPENLk4CGdqTZcg=
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1llj2T-0004UC-GD
+ for qemu-devel@nongnu.org; Tue, 25 May 2021 22:12:54 -0400
+Received: by mail-pg1-x529.google.com with SMTP id 27so22991227pgy.3
+ for <qemu-devel@nongnu.org>; Tue, 25 May 2021 19:12:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=1ACUOCqdn17RVm5Hag3M2hwHGksegtAeTMD0aHzy6Io=;
+ b=qrQXyVyq4QwWLodHiKbngIZmMttCwZNmfiYBNokad7jPpp5yeXzKqM0jzSotuYa7h/
+ ELtet1bJq5C/4sUhZM9ppd+/xqW6nm3Xsl6cv4F0h02PUr4I8Ff5AD1fRfvAKM8NJDQG
+ RyVLTWIR9iDNtNJ7NKi7RAEjsbhkw1GOSCKInULcU9HTFLe8Nd7MZ2EDtmYSKbJwBE4X
+ kEIliKxUWZMuyi4qw7fuys4TzpliKdKC4D0hBuL427RvuVBiylC5Z+zMKA74GlTLEGTW
+ 4d7jFl/L4OI2EiZqEFVnyJaufrHuCihSzuy7ZbTjgTdzFVH3uTq40Eg99FMtgbKCpjdK
+ Fp0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Sg8fvqfieGWZwZJ3JW+zUswdMtKjb+QkTeJ97XXVBTM=;
- b=TZd0rwmuj/h58BlAHh6ea/qUQW+LeDWpNhGfmN0SZ2ReGJanN09BM7w9ccf+9BFj8O
- UvlaCylgkb63RCs2Aps59dBe3NNI59ygbZ/LnlnjyQqYjz2znzqF8PbYPsXQFzk8y7d7
- lZAPRRh8vMDq5KHvusX3NZ2A4eIwwdm0zwoWz/sUAakGvk5aNpUVCSE768WgwHvM/hfr
- grlS0Cdbp0/Bd+MhHmROYz3hDcK+w0Lca4RSSHlThW6q0KuI2+2XwRNzAVPKxUKT5nzt
- ARHskrDcIUjJ7cyo1TMS4Xg2MKjNMT8x132ngXsAha19iwHIg0Mk7KTDqzGeI8P5kV/C
- H2yg==
-X-Gm-Message-State: AOAM530USD7QDtM/Vo4cmp9SZTIBP93V9BlqByJJZQOqwSAke2GAo3wd
- X8hNA7JiM9z72X29zDJduZTJuv82HzOiyvVROKz3Eg==
-X-Google-Smtp-Source: ABdhPJwbcBLkTjkyGehtjYK+73qH4WaY7wPi6F2QnLwOcAC6cF/4SI4vNinQivBbpf24adlc2F7wKcWP4ENUYwObC3g=
-X-Received: by 2002:a17:902:d711:b029:f0:b127:8105 with SMTP id
- w17-20020a170902d711b02900f0b1278105mr33711474ply.20.1621993381139; Tue, 25
- May 2021 18:43:01 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=1ACUOCqdn17RVm5Hag3M2hwHGksegtAeTMD0aHzy6Io=;
+ b=M3x4S2UoNFkcDdjqtbxufWOU8Qs33gQ4+Adj/xNhWhQJIcHYn/AxnMA2bNMJCq/1/s
+ CxCW+D7wU8LXeyxFgEOi/1DnXf/BHZ2Ej1YXvCU5VZ/hCC7Ikfn8Ts2AUKf11NWdNGxX
+ Cohdebgrv8+eivj8GRAGitmZu4T308CpWkVy6pdJAuIR8eIXLoc1ZHTq9diSbF54ghI9
+ rnWOpAvQhU6YWrgux7CBWUzZCq9jGhUVHM6j46fgYirL+iKs1qS7dJQ0p43Jw335Xy9Y
+ P2rtGNOEh+ZY2FBmgsyaT36PYJ/uIrhub0ajDh5hJQ5utqZbULvPH/CtWrelHOZwOKML
+ irmQ==
+X-Gm-Message-State: AOAM533H5DdiqgoP4PUm9sk1W0Ujh1fzLT+vgmBrq5/SyE53QTQbSM7m
+ x17+ZD5f38hLH0iwUXQHxkZKbWxbVNZLjA==
+X-Google-Smtp-Source: ABdhPJwpjNPQN/rksGJ+m4RDVaGoTXcKZZG9oQJqWZ0rGLn8UH5T4t7HN7oRGUGruzIpIzMf3cHVyw==
+X-Received: by 2002:a05:6a00:1a4f:b029:2e0:754b:88c2 with SMTP id
+ h15-20020a056a001a4fb02902e0754b88c2mr33161712pfv.65.1621995172039; 
+ Tue, 25 May 2021 19:12:52 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
+ by smtp.gmail.com with ESMTPSA id
+ 13sm14779492pfz.91.2021.05.25.19.12.51
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 25 May 2021 19:12:51 -0700 (PDT)
+Subject: Re: [PATCH v7 02/23] cpu: Restrict target cpu_do_transaction_failed()
+ handlers to sysemu
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20210517105140.1062037-1-f4bug@amsat.org>
+ <20210517105140.1062037-3-f4bug@amsat.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <ae262a9c-1ffa-b680-4aa6-d7256fa6947a@linaro.org>
+Date: Tue, 25 May 2021 19:12:49 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-References: <20210524045412.15152-1-yamamoto@midokura.com>
- <20210524045412.15152-3-yamamoto@midokura.com>
- <87r1hw4cuk.fsf@linaro.org>
- <CAH=wFzSF_UjyeCLm911unR9xU2hdXNYpCUs7=T+ZN4SG710UmQ@mail.gmail.com>
-In-Reply-To: <CAH=wFzSF_UjyeCLm911unR9xU2hdXNYpCUs7=T+ZN4SG710UmQ@mail.gmail.com>
-From: Takashi Yamamoto <yamamoto@midokura.com>
-Date: Wed, 26 May 2021 10:42:50 +0900
-Message-ID: <CAH=wFzStKzO_uadmWEXxaa7c1DMs-DtAyA3gvbxRnEwTC9dReA@mail.gmail.com>
-Subject: Re: [PATCH 2/5] linux-uesr: make exec_path realpath
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Cc: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=yamamoto@midokura.com; helo=mail-pj1-x102b.google.com
+In-Reply-To: <20210517105140.1062037-3-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x529.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -81,77 +91,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-riscv@nongnu.org, Laurent Vivier <laurent@vivier.eu>,
+ qemu-s390x@nongnu.org, qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, May 25, 2021 at 7:59 AM Takashi Yamamoto <yamamoto@midokura.com> wr=
-ote:
->
-> On Mon, May 24, 2021 at 7:59 PM Alex Benn=C3=A9e <alex.bennee@linaro.org>=
- wrote:
-> >
-> >
-> > YAMAMOTO Takashi <yamamoto@midokura.com> writes:
-> >
-> > > Otherwise, it can be easily fooled by the user app using chdir().
-> > >
-> > > Signed-off-by: YAMAMOTO Takashi <yamamoto@midokura.com>
-> > > ---
-> > >  linux-user/main.c | 6 +++++-
-> > >  1 file changed, 5 insertions(+), 1 deletion(-)
-> > >
-> > > diff --git a/linux-user/main.c b/linux-user/main.c
-> > > index 4dfc47ad3b..1f9f4e3820 100644
-> > > --- a/linux-user/main.c
-> > > +++ b/linux-user/main.c
-> > > @@ -55,6 +55,7 @@
-> > >  #endif
-> > >
-> > >  char *exec_path;
-> > > +char exec_path_store[PATH_MAX];
-> >
-> > Is there any point in keeping this as a static path rather than just
-> > allocating it off the heap?
->
-> it's just the simplest given the api of realpath().
-> do you mean it's better to use malloc? why?
->
-> >
-> > >
-> > >  int singlestep;
-> > >  static const char *argv0;
-> > > @@ -610,7 +611,10 @@ static int parse_args(int argc, char **argv)
-> > >          exit(EXIT_FAILURE);
-> > >      }
-> > >
-> > > -    exec_path =3D argv[optind];
-> > > +    exec_path =3D realpath(argv[optind], exec_path_store);
-> > > +    if (exec_path =3D=3D NULL) {
-> > > +        exec_path =3D argv[optind];
-> > > +    }
-> >
-> >   exec_path =3D realpath(argv[optind], NULL)
-> >   exec_path =3D exec_path ? exec_path : argv[optind];
-> >
-> > what situations would we expect realpath to fail and in those cases is
-> > sticking to argv[optind] safe?
->
-> i don't have any particular case in my mind.
-> i guess it rarely fails and it might be simpler to just bail out on the f=
-ailure.
+On 5/17/21 3:51 AM, Philippe Mathieu-Daudé wrote:
+> In commit cbc183d2d9f ("cpu: move cc->transaction_failed to tcg_ops")
+> we restricted the do_transaction_failed() handler to the sysemu part
+> of TCGCPUOps, but forgot to restrict the target specific declarations.
+> 
+> Signed-off-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
+> ---
+>   target/arm/internals.h |  2 ++
+>   target/m68k/cpu.h      |  2 ++
+>   target/riscv/cpu.h     | 10 +++++-----
+>   target/xtensa/cpu.h    |  8 ++++----
+>   4 files changed, 13 insertions(+), 9 deletions(-)
 
-i recalled why i did this way.
-it was actually necessary for some apps. eg. runc
-it executes an unlinked binary via /proc/self/fd.
-i'll clean it up a bit and add comments.
+What do the extra ifdefs buy us? Surely the fact that the symbol is not present 
+in the user-only, and would produce link errors if used, is sufficient?
 
->
-> >
-> > >
-> > >      return optind;
-> > >  }
-> >
-> >
-> > --
-> > Alex Benn=C3=A9e
+r~
 
