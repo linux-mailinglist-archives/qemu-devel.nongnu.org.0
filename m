@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E61E392DC7
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 14:14:48 +0200 (CEST)
-Received: from localhost ([::1]:37058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B927392D35
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 13:53:04 +0200 (CEST)
+Received: from localhost ([::1]:51494 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lmEuU-0001Lb-Kx
-	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 08:14:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43462)
+	id 1lmEZT-0007IA-Gv
+	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 07:53:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43560)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1lmE4M-0006JZ-QI
- for qemu-devel@nongnu.org; Thu, 27 May 2021 07:20:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48583)
+ (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1lmE4e-0006VB-HR
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 07:21:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21027)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1lmE44-0002FE-CA
- for qemu-devel@nongnu.org; Thu, 27 May 2021 07:20:46 -0400
+ (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1lmE4Z-0002Rb-7Z
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 07:21:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622114429;
+ s=mimecast20190719; t=1622114462;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=wmxSe8v2qPIoeyzzBGhE9ZXkgNTvLmx82gOuIv7gadY=;
- b=GBcF1SNydKMm7R3misMeDeaP8VCBUXyrsurSd40R0OU7kKLuFAt2u26aqCEey0VoIOFG8y
- b3i3/uQcE4Du+K/WgAJibEC8COX1Uvv1vGJ/uOc2k+IiBW/eQ38ZPRDltD+uK5MdSIOv95
- /o/OMA/eGWZQHTy7p8ujqUia97D2eB8=
+ bh=eQl7SdgQPE1e6OtdD40szvHIDUBuDbka4mZUpfLluf4=;
+ b=HbTj0IjZJqBKcjtBEaHbqzxw/QKTuf/bdnsQofokvy5yNfLLg2Aen4NFa62f3vg7PL+R6a
+ bEUaM/hyv3jZCdf7K4sA6YE9b4rt+cJ9YgSGvKTLKD6P3hH0ASXQNzSIbCbWCMN6TWFJ9F
+ 7chBioBnDXEOcHdeU8WKs10xuGXmlx0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-196-kCryELIGMaG2_FJTRSZINg-1; Thu, 27 May 2021 07:20:25 -0400
-X-MC-Unique: kCryELIGMaG2_FJTRSZINg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-282-NaZefpYJNh2IK50HcJVUOg-1; Thu, 27 May 2021 07:20:58 -0400
+X-MC-Unique: NaZefpYJNh2IK50HcJVUOg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1624A106BB33;
- Thu, 27 May 2021 11:20:24 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9FFBF501E3;
+ Thu, 27 May 2021 11:20:57 +0000 (UTC)
 Received: from localhost (unknown [10.33.36.9])
- by smtp.corp.redhat.com (Postfix) with ESMTP id ABB39687D7;
- Thu, 27 May 2021 11:20:23 +0000 (UTC)
-Date: Thu, 27 May 2021 13:20:22 +0200
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 411551349A;
+ Thu, 27 May 2021 11:20:57 +0000 (UTC)
+Date: Thu, 27 May 2021 13:20:56 +0200
 From: Sergio Lopez <slp@redhat.com>
 To: Alexander Graf <agraf@csgraf.de>
-Subject: Re: [PATCH v8 16/19] hvf: arm: Implement PSCI handling
-Message-ID: <20210527112022.iwosfhwemlwsxlre@mhamilton>
+Subject: Re: [PATCH v8 17/19] arm: Add Hypervisor.framework build target
+Message-ID: <20210527112056.aa67wn2e5nclzdyt@mhamilton>
 References: <20210519202253.76782-1-agraf@csgraf.de>
- <20210519202253.76782-17-agraf@csgraf.de>
+ <20210519202253.76782-18-agraf@csgraf.de>
 MIME-Version: 1.0
-In-Reply-To: <20210519202253.76782-17-agraf@csgraf.de>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <20210519202253.76782-18-agraf@csgraf.de>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=slp@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="qxr7svkp6aqmzl3t"
+ protocol="application/pgp-signature"; boundary="p77kyj5io4mhodgn"
 Content-Disposition: inline
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=slp@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -64,7 +64,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.374,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,61 +87,64 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---qxr7svkp6aqmzl3t
+--p77kyj5io4mhodgn
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, May 19, 2021 at 10:22:50PM +0200, Alexander Graf wrote:
-> We need to handle PSCI calls. Most of the TCG code works for us,
-> but we can simplify it to only handle aa64 mode and we need to
-> handle SUSPEND differently.
->=20
-> This patch takes the TCG code as template and duplicates it in HVF.
->=20
-> To tell the guest that we support PSCI 0.2 now, update the check in
-> arm_cpu_initfn() as well.
+On Wed, May 19, 2021 at 10:22:51PM +0200, Alexander Graf wrote:
+> Now that we have all logic in place that we need to handle Hypervisor.fra=
+mework
+> on Apple Silicon systems, let's add CONFIG_HVF for aarch64 as well so tha=
+t we
+> can build it.
 >=20
 > Signed-off-by: Alexander Graf <agraf@csgraf.de>
+> Reviewed-by: Roman Bolshakov <r.bolshakov@yadro.com>
+> Tested-by: Roman Bolshakov <r.bolshakov@yadro.com> (x86 only)
 >=20
 > ---
+>=20
+> v1 -> v2:
+>=20
+>   - Fix build on 32bit arm
+>=20
+> v3 -> v4:
+>=20
+>   - Remove i386-softmmu target
 >=20
 > v6 -> v7:
 >=20
->   - This patch integrates "arm: Set PSCI to 0.2 for HVF"
->=20
-> v7 -> v8:
->=20
->   - Do not advance for HVC, PC is already updated by hvf
->   - Fix checkpatch error
+>   - Simplify HVF matching logic in meson build file
 > ---
->  target/arm/cpu.c            |   4 +-
->  target/arm/hvf/hvf.c        | 123 ++++++++++++++++++++++++++++++++++--
->  target/arm/hvf/trace-events |   1 +
->  3 files changed, 122 insertions(+), 6 deletions(-)
+>  meson.build                | 7 +++++++
+>  target/arm/hvf/meson.build | 3 +++
+>  target/arm/meson.build     | 2 ++
+>  3 files changed, 12 insertions(+)
+>  create mode 100644 target/arm/hvf/meson.build
 
 Reviewed-by: Sergio Lopez <slp@redhat.com>
 
---qxr7svkp6aqmzl3t
+--p77kyj5io4mhodgn
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEvtX891EthoCRQuii9GknjS8MAjUFAmCvgHUACgkQ9GknjS8M
-AjXAqQ//bgikQsfVLi0kkAWrkgug7TnpvAlVBXi/LCdIFwhmyiq9o1PIxsFmFjES
-Tj1ey6uWRs/z2YAMKk/Ben/nmlhSIAYeM0jlIgMSJCd24xhyFlwD0AjdeZTLwobn
-+QHV0jROv+y2HN59xADZNr6OUSsg7MdMex4JgKZgrUbMKJc6haLCqtZIicHs31Hx
-Fz/iY2c8rQzWU9HNeaIjOg2v6/q+DTiYhHdFGwRDpsbY4ZSgpWoKTuNXqXNHMBzM
-NZZPJcWprHqqfOFXRPcDqZ8An7uT0zGVttZSi2Zh2xn9UQ3DYx1ZQRq05l9oOruP
-97r0C2MR1UKzQzxhs4IryEakfPMIoNGOLKSgRrJ4Md4g87DM5yrPCS/D3IMt2pPB
-Li5AN1LxCMh+77gZLgrxWWldPgj9W6ZoGalpRrPIc3IKO2H5sCII2A6RDHHtQof3
-VK6EKUGjhfpab3URDX2Ik4goF5rsm3vgR2CO7h6sOWFGKO8cZOErqosuLyd6azoz
-H4J1BGC4T6WyI8zShZHE+itxefVYufCG1eJcvV19xHltUSftAoaF1LVy8bb3Mzig
-i6etM8lYJdybGN1VTFDIOW4fNqxXIpE/ZiSGIekbPXdMCLLztEbkd7PgYgDKVXzm
-5u8GrpDyiU/RuUS4P3q1cFrqPjQwXeEMAv1G1h/ZBlEVVper+4g=
-=7AJU
+iQIzBAABCAAdFiEEvtX891EthoCRQuii9GknjS8MAjUFAmCvgJcACgkQ9GknjS8M
+AjXxIA//Xznb8k3xQCoTar7wYSDZLXyd4OfGx/OGswaYkrLmQspuYITw6D/9H5ya
+1Cfghx/CfYFiFC5g1/eEN1jnd1a36PSbnARBgKhaOiHGSE1hcdypSIoZtVMsPiqO
+rtVTZcuQxrBXqAA3LlR/6UZf4/pPk3ekSXuOeHej+EPgWUPowyw9+jl32sLkKMH/
+0tLgIgG4Zc4Nl7hwdWsZ/vezhrjpuT82NxvFEfiZYnHZ3gW30EuwEuWpQlddoEr+
+UHN/c5ZodA/m9foVgoWvkPyYDJZNfL8+TS4FtanqbQBO53NfZuHXIBrWO8FGaDLX
+GAaw0NOrj69HH/UHX1cynC3lw5kMQdRZG5sTfg4dZ0Kqc/pmxb0vSF7ROz6kdPBm
+6fG43P9VERg9JpHhnYFf2eXw9dtrdauJRbUw6OGvDqKwyBUQgI5JTHmwEuaPDA0z
+/cMIUPU7Xpp11xMlcHkWRnyF5J4+s3jYQFS+e2vHGHbftyYhAahqJOnLX7XOzQH/
+MRfrZ5rnGzzRv28rd8Wa5HxIBoeIdSCNroMfopMy4UGfPdG/azadDRqu+NOEulx2
+9a5Lr/VRbm7iXnC14G4CkBvK38NtYKHh0APLsx+7GlsyQKFmacHWB51opcXrNx8G
+nSNZ71PmJT93DtGsDoCjhoasgd4g294F4Y5r7MEd2Sr6FhLNSTs=
+=6Zar
 -----END PGP SIGNATURE-----
 
---qxr7svkp6aqmzl3t--
+--p77kyj5io4mhodgn--
 
 
