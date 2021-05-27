@@ -2,49 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 488C239353A
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 20:01:47 +0200 (CEST)
-Received: from localhost ([::1]:43222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38A5E3934AF
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 19:22:45 +0200 (CEST)
+Received: from localhost ([::1]:52576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lmKKI-0000Jb-BA
-	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 14:01:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33538)
+	id 1lmJiW-0000zb-A0
+	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 13:22:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52098)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <364bc324ad4dfdb87cbbb75abb7dc09b561cda2f@lizzy.crudebyte.com>)
- id 1lmKIS-0007Pt-CQ
- for qemu-devel@nongnu.org; Thu, 27 May 2021 13:59:52 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:43091)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lmJgR-0007Ae-O8
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 13:20:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46629)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <364bc324ad4dfdb87cbbb75abb7dc09b561cda2f@lizzy.crudebyte.com>)
- id 1lmKIP-0004gL-PJ
- for qemu-devel@nongnu.org; Thu, 27 May 2021 13:59:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:Message-Id:Content-Type:
- Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Content-ID:
- Content-Description; bh=y3vaxvIbWmNlOEwZc9Y03iXkm+TRiip31YB0TdZIAjw=; b=NZk+C
- 4mn/qBgW6FCnb6U9yw4zizUF1S45qCIayFtFeTdkd3fSXDbvLIItS0NYteEJmnib8eoav2c3/cgy4
- ++NQIC+PN8cFkndXwQSgfQMdpN45OlOgubT9h9Ze3aCIxMd+8KrrUvm+RoZzx0aCOKIe4Er/9ISt9
- 4neBsnRC4vtRiK/4/o5tO0rS64TbG0ShcBqAnlVMHc5bKSqXfpwahFjE6zsJZlpfU7QEl5tYexdZA
- MNE9V6ceabTsITWbEjua+7ZzFlrVt5gb+Sox2PZWlR1YExGmh4HWtuwMHNWVf4W/mosqWz+p/5fMB
- 80gtGongEusXR2s4N4pax8oFYNqwA==;
-Message-Id: <cover.1622135592.git.qemu_oss@crudebyte.com>
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Date: Thu, 27 May 2021 19:13:12 +0200
-Subject: [PATCH 0/3] 9pfs: Twalk optimization
-To: qemu-devel@nongnu.org
-Cc: Greg Kurz <groug@kaod.org>
-Received-SPF: none client-ip=91.194.90.13;
- envelope-from=364bc324ad4dfdb87cbbb75abb7dc09b561cda2f@lizzy.crudebyte.com;
- helo=lizzy.crudebyte.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lmJgP-0004pw-Ge
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 13:20:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1622136032;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=S3tkpY12MCHqeAMQUVpdhEx8SS/5xe/mlTGy7iMq80s=;
+ b=Fhbe15dYLKXzOyTJ5Zmmjz+CXWuznw9z8pBVvTAmAVVpQjFckQ3/99sMM+UPu3buMBDpGa
+ LCu2YqGiTZER0RO2n/90sKtRlrezk1PlnkG90W/IbzujwVPq5CLOpri8lQln650E1fQHeK
+ j07G42hO7JJoazTbClyyA8OrEW/RtMQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-474-Fg95o66aMHyz1Fh8nJx4FA-1; Thu, 27 May 2021 13:20:26 -0400
+X-MC-Unique: Fg95o66aMHyz1Fh8nJx4FA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 337EC6D500;
+ Thu, 27 May 2021 17:20:25 +0000 (UTC)
+Received: from thuth.com (ovpn-112-76.ams2.redhat.com [10.36.112.76])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 310BD687C6;
+ Thu, 27 May 2021 17:20:22 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-block@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
+ Max Reitz <mreitz@redhat.com>
+Subject: [PATCH 0/2] Improve the fallocate() EINVAL in
+ handle_aiocb_write_zeroes()
+Date: Thu, 27 May 2021 19:20:18 +0200
+Message-Id: <20210527172020.847617-1-thuth@redhat.com>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.374,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -57,35 +75,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>,
+ Viktor Mihajlovski <mihajlov@linux.ibm.com>, qemu-devel@nongnu.org,
+ Christian Borntraeger <borntraeger@de.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-First draft for reducing latency of Twalk handling by reducing the amount
-of thread hops, similar to previous Treaddir optimization. The performance
-gain is not as spectacular as on Treaddir, but there is definitely a
-measurable difference.
+On buggy file systems, fallocate() can return EINVAL for unaligned accesses.
+Improve the situation by ignoring this for PUNCH_HOLE, too (but we also
+print out an error message in this case now, since PUNCH_HOLE should really
+never return EINVAL according to the man page). The second patch reworks
+the handling for ZERO_RANGE a little bit so that we now also try the other
+fallbacks in this case now.
 
-With the benchmark of patch 1, the runtime of the Twalk test was cut in half.
-In real world tests I measured a performance gain (i.e. running an entire
-guest OS, and hence mixed with all othe kinds of 9p requests) of about 2%,
-again measured in a mix, not concentrated on Treaddir at all.
+Thomas Huth (2):
+  block/file-posix: Fix problem with fallocate(PUNCH_HOLE) on GPFS
+  block/file-posix: Try other fallbacks after invalid
+    FALLOC_FL_ZERO_RANGE
 
-Independent of the actual performance optimization (patch 3), there are some
-things about Twalk handling in general which I am yet unsure about. So I'll
-add some of my thoughts as reply to patch 3, and depending on that I might
-still cleanup / reduce some of the code.
-
-Christian Schoenebeck (3):
-  9pfs: Twalk benchmark
-  9pfs: capture root stat
-  9pfs: reduce latency of Twalk
-
- hw/9pfs/9p.c                 | 128 +++++++++++++++++++++++------------
- hw/9pfs/9p.h                 |   2 +-
- tests/qtest/virtio-9p-test.c |  30 ++++++++
- 3 files changed, 116 insertions(+), 44 deletions(-)
+ block/file-posix.c | 28 +++++++++++++++++++---------
+ 1 file changed, 19 insertions(+), 9 deletions(-)
 
 -- 
-2.20.1
+2.27.0
 
 
