@@ -2,76 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2263D392F2D
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 15:12:31 +0200 (CEST)
-Received: from localhost ([::1]:53494 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78C18392E49
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 14:50:47 +0200 (CEST)
+Received: from localhost ([::1]:36932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lmFoJ-00015c-T9
-	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 09:12:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33236)
+	id 1lmFTK-0005Ow-8R
+	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 08:50:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34144)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lmFGx-00077S-S9
- for qemu-devel@nongnu.org; Thu, 27 May 2021 08:38:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42552)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1lmFLe-0002ui-FV; Thu, 27 May 2021 08:42:50 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:22559)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lmFGu-0007LL-Mm
- for qemu-devel@nongnu.org; Thu, 27 May 2021 08:37:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622119075;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=J2KQwgU3IAYNfjmFNylSr2Km0tHMj0T2lDVgWggkldM=;
- b=AI1XFRlHJiMSsOjVIP9bWlof/tyJ3AEbVP722oVlZvq0z4sUycdmYXXyO+sQYwCp6FlECE
- ph0UKipesGPDEvJ5AS1xUbfjpGxtwNDvlhCLyNf0nObhLGbG/wxvbmvxfLTitLCGJT3HcW
- xIhcSUPLtrCoYm1TuYKB+U2qxxMiVCE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-143-LlbMpfJTPG2Zxq8TUXtQ3A-1; Thu, 27 May 2021 08:37:51 -0400
-X-MC-Unique: LlbMpfJTPG2Zxq8TUXtQ3A-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 47009107ACE4;
- Thu, 27 May 2021 12:37:50 +0000 (UTC)
-Received: from redhat.com (ovpn-115-54.ams2.redhat.com [10.36.115.54])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CBBB65C5B5;
- Thu, 27 May 2021 12:37:45 +0000 (UTC)
-Date: Thu, 27 May 2021 13:37:42 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Peter Xu <peterx@redhat.com>
-Subject: Re: [PATCH 1/1] yank: Unregister function when using TLS migration
-Message-ID: <YK+SloySEG+O5wZV@redhat.com>
-References: <20210526200540.1088333-1-leobras.c@gmail.com>
- <YK6yQ9EVNlVPDMaS@t490s> <20210526232103.39e2a7d0@gecko.fritz.box>
- <YK7EotQbx/F9avls@t490s> <YK9cfiUx+vk/yxtf@redhat.com>
- <YK+PWHzpmnQqgYAw@t490s>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1lmFLZ-0001aG-Qr; Thu, 27 May 2021 08:42:49 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id C3C387457E5;
+ Thu, 27 May 2021 14:42:39 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 7734974570B; Thu, 27 May 2021 14:42:39 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 758B57456B4;
+ Thu, 27 May 2021 14:42:39 +0200 (CEST)
+Date: Thu, 27 May 2021 14:42:39 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: Re: [PATCH qemu v20] spapr: Implement Open Firmware client interface
+In-Reply-To: <YK8vbO7x2C8kaBWZ@yekko>
+Message-ID: <653edbe1-f912-bc8f-ec7f-c4f069b0a5b9@eik.bme.hu>
+References: <ec1742e3-c47-bbee-3a6-ec64442922ab@eik.bme.hu>
+ <8527c8d2-c1e7-b3f8-0bda-529ba3864701@ozlabs.ru>
+ <babe39af-fd34-8c5-de99-a0f485bfbce@eik.bme.hu>
+ <4f6ceca3-5f18-fe70-18f9-4efde8feb1ed@ozlabs.ru>
+ <7a4e47e5-59b-9132-eafd-d84d8b73f5c@eik.bme.hu>
+ <17fbb016-2e7-d57e-bedd-1ae7814fb860@eik.bme.hu> <YKtBJoQXSrSVENFw@yekko>
+ <939a489f-40de-da33-dd7-9fd1f5eb190@eik.bme.hu> <YKyJ3I5QIDLwR99t@yekko>
+ <894b8b19-576d-8b25-922f-58613bad8545@eik.bme.hu> <YK8vbO7x2C8kaBWZ@yekko>
 MIME-Version: 1.0
-In-Reply-To: <YK+PWHzpmnQqgYAw@t490s>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.374,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 8%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,117 +61,206 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, Leonardo Bras <leobras.c@gmail.com>,
- Lukas Straub <lukasstraub2@web.de>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>
+Cc: Alexey Kardashevskiy <aik@ozlabs.ru>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, May 27, 2021 at 08:23:52AM -0400, Peter Xu wrote:
-> On Thu, May 27, 2021 at 09:46:54AM +0100, Daniel P. Berrangé wrote:
-> > On Wed, May 26, 2021 at 05:58:58PM -0400, Peter Xu wrote:
-> > > On Wed, May 26, 2021 at 11:21:03PM +0200, Lukas Straub wrote:
-> > > > On Wed, 26 May 2021 16:40:35 -0400
-> > > > Peter Xu <peterx@redhat.com> wrote:
-> > > > 
-> > > > > On Wed, May 26, 2021 at 05:05:40PM -0300, Leonardo Bras wrote:
-> > > > > > After yank feature was introduced, whenever migration is started using TLS,
-> > > > > > the following error happens in both source and destination hosts:
-> > > > > > 
-> > > > > > (qemu) qemu-kvm: ../util/yank.c:107: yank_unregister_instance:
-> > > > > > Assertion `QLIST_EMPTY(&entry->yankfns)' failed.
-> > > > > > 
-> > > > > > This happens because of a missing yank_unregister_function() when using
-> > > > > > qio-channel-tls.
-> > > > > > 
-> > > > > > Fix this by also allowing TYPE_QIO_CHANNEL_TLS object type to perform
-> > > > > > yank_unregister_function() in channel_close() and multifd_load_cleanup().
-> > > > > > 
-> > > > > > Fixes: 50186051f ("Introduce yank feature")
-> > > > > > Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1964326
-> > > > > > Signed-off-by: Leonardo Bras <leobras.c@gmail.com>  
-> > > > > 
-> > > > > Leo,
-> > > > > 
-> > > > > Thanks for looking into it!
-> > > > > 
-> > > > > So before looking int the fix... I do have a doubt on why we only enable yank
-> > > > > on socket typed, as I think tls should also work with qio_channel_shutdown().
-> > > > > 
-> > > > > IIUC the confused thing here is we register only for qio-socket, however tls
-> > > > > will actually call migration_channel_connect() twice, first with a qio-socket,
-> > > > > then with the real tls-socket.  For tls I feel like we have registered with the
-> > > > > wrong channel - instead of the wrapper socket ioc, we should register to the
-> > > > > final tls ioc?
-> > > > > 
-> > > > > Lukas, is there a reason?
-> > > > > 
-> > > > 
-> > > > Hi,
-> > > > There is no specific reason. Both ways work equally well in preventing
-> > > > qemu from hanging. shutdown() for tls-channel just makes it abort a
-> > > > little sooner (by not attempting to encrypt and send data anymore).
-> > > > 
-> > > > I don't lean either way. I guess registering it on the tls-channel
-> > > > makes is a bit more explicit and clearer.
-> > > 
-> > > Agreed, because IMHO logically the migration code should not be aware of
-> > > internals of IOChannels, e.g., we shouldn't need to know ioc->master is the
-> > > socket ioc of tls ioc to unregister.
-> > 
-> > I think it is atually better to ignore the TLS channel and *always* yank
-> > on the undering socket IO channel. The yank functionality is intended to
-> > be used in a scenario where we know the channels are broken.  If yank
-> > calls the high level IO channel it is potentially going to try to do a
-> > cleanup shutdown that we know will fail because of the broken network.
-> 
-> Could you elaborate what's the "cleanup shutdown"?
-> 
-> The yank calls migration_yank_iochannel:
-> 
-> void migration_yank_iochannel(void *opaque)
-> {
->     QIOChannel *ioc = QIO_CHANNEL(opaque);
-> 
->     qio_channel_shutdown(ioc, QIO_CHANNEL_SHUTDOWN_BOTH, NULL);
-> }
-> 
-> Where qio_channel_shutdown for tls is nothing but delivers that to the master
-> channel:
-> 
-> static int qio_channel_tls_shutdown(QIOChannel *ioc,
->                                     QIOChannelShutdown how,
->                                     Error **errp)
-> {
->     QIOChannelTLS *tioc = QIO_CHANNEL_TLS(ioc);
-> 
->     qatomic_or(&tioc->shutdown, how);
-> 
->     return qio_channel_shutdown(tioc->master, how, errp);
-> }
-> 
-> So I thought it was a nice wrapper just for things like this, and I didn't see
-> anything it does more than the io_shutdown for the socket channel.  Did I miss
-> something?
+On Thu, 27 May 2021, David Gibson wrote:
+> On Tue, May 25, 2021 at 12:08:45PM +0200, BALATON Zoltan wrote:
+>> On Tue, 25 May 2021, David Gibson wrote:
+>>> On Mon, May 24, 2021 at 12:55:07PM +0200, BALATON Zoltan wrote:
+>>>> On Mon, 24 May 2021, David Gibson wrote:
+>>>>> On Sun, May 23, 2021 at 07:09:26PM +0200, BALATON Zoltan wrote:
+>>>>>> On Sun, 23 May 2021, BALATON Zoltan wrote:
+>>>>>>> On Sun, 23 May 2021, Alexey Kardashevskiy wrote:
+>>>>>>>> One thing to note about PCI is that normally I think the client
+>>>>>>>> expects the firmware to do PCI probing and SLOF does it. But VOF
+>>>>>>>> does not and Linux scans PCI bus(es) itself. Might be a problem for
+>>>>>>>> you kernel.
+>>>>>>>
+>>>>>>> I'm not sure what info does MorphOS get from the device tree and what it
+>>>>>>> probes itself but I think it may at least need device ids and info about
+>>>>>>> the PCI bus to be able to access the config regs, after that it should
+>>>>>>> set the devices up hopefully. I could add these from the board code to
+>>>>>>> device tree so VOF does not need to do anything about it. However I'm
+>>>>>>> not getting to that point yet because it crashes on something that it's
+>>>>>>> missing and couldn't yet find out what is that.
+>>>>>>>
+>>>>>>> I'd like to get Linux working now as that would be enough to test this
+>>>>>>> and then if for MorphOS we still need a ROM it's not a problem if at
+>>>>>>> least we can boot Linux without the original firmware. But I can't make
+>>>>>>> Linux open a serial console and I don't know what it needs for that. Do
+>>>>>>> you happen to know? I've looked at the sources in Linux/arch/powerpc but
+>>>>>>> not sure how it would find and open a serial port on pegasos2. It seems
+>>>>>>> to work with the board firmware and now I can get it to boot with VOF
+>>>>>>> but then it does not open serial so it probably needs something in the
+>>>>>>> device tree or expects the firmware to set something up that we should
+>>>>>>> add in pegasos2.c when using VOF.
+>>>>>>
+>>>>>> I've now found that Linux uses rtas methods read-pci-config and
+>>>>>> write-pci-config for PCI access on pegasos2 so this means that we'll
+>>>>>> probably need rtas too (I hoped we could get away without it if it were only
+>>>>>> used for shutdown/reboot or so but seems Linux needs it for PCI as well and
+>>>>>> does not scan the bus and won't find some devices without it).
+>>>>>
+>>>>> Yes, definitely sounds like you'll need an RTAS implementation.
+>>>>
+>>>> I plan to fix that after managed to get serial working as that seems to not
+>>>> need it. If I delete the rtas-size property from /rtas on the original
+>>>> firmware that makes Linux skip instantiating rtas, but I still get serial
+>>>> output just not accessing PCI devices. So I think it should work and keeps
+>>>> things simpler at first. Then I'll try rtas later.
+>>>>
+>>>>>> While VOF can do rtas, this causes a problem with the hypercall method using
+>>>>>> sc 1 that goes through vhyp but trips the assert in ppc_store_sdr1() so
+>>>>>> cannot work after guest is past quiesce.
+>>>>>
+>>>>>> So the question is why is that
+>>>>>> assert there
+>>>>>
+>>>>> Ah.. right.  So, vhyp was designed for the PAPR use case, where we
+>>>>> want to model the CPU when it's in supervisor and user mode, but not
+>>>>> when it's in hypervisor mode.  We want qemu to mimic the behaviour of
+>>>>> the hypervisor, rather than attempting to actually execute hypervisor
+>>>>> code in the virtual CPU.
+>>>>>
+>>>>> On systems that have a hypervisor mode, SDR1 is hypervisor privileged,
+>>>>> so it makes no sense for the guest to attempt to set it.  That should
+>>>>> be caught by the general SPR code and turned into a 0x700, hence the
+>>>>> assert() if we somehow reach ppc_store_sdr1().
+>>>>>
+>>>>> So, we are seeing a problem here because you want the 'sc 1'
+>>>>> interception of vhyp, but not the rest of the stuff that goes with it.
+>>>>>
+>>>>>> and would using sc 1 for hypercalls on pegasos2 cause other
+>>>>>> problems later even if the assert could be removed?
+>>>>>
+>>>>> At least in the short term, I think you probably can remove the
+>>>>> assert.  In your case the 'sc 1' calls aren't truly to a hypervisor,
+>>>>> but a special case escape to qemu for the firmware emulation.  I think
+>>>>> it's unlikely to cause problems later, because nothing on a 32-bit
+>>>>> system should be attempting an 'sc 1'.  The only thing I can think of
+>>>>> that would fail is some test case which explicitly verified that 'sc
+>>>>> 1' triggered a 0x700 (SIGILL from userspace).
+>>>>
+>>>> OK so the assert should check if the CPU has an HV bit. I think there was a
+>>>> #detine for that somewhere that I can add to the assert then I can try that.
+>>>> What I wasn't sure about is that sc 1 would conflict with the guest's usage
+>>>> of normal sc calls or are these going through different paths and only sc 1
+>>>> will trigger vhyp callback not affecting notmal sc calls?
+>>>
+>>> The vhyp shouldn't affect normal system calls, 'sc 1' is specifically
+>>> for hypercalls, as opposed to normal 'sc' (a.k.a. 'sc 0'), and the
+>>> vhyp only intercepts the hypercall version (after all Linux on PAPR
+>>> certainly uses its own system calls, and hypercalls are active for the
+>>> lifetime of the guest there).
+>>>
+>>>> (Or if this causes
+>>>> an otherwise unnecessary VM exit on KVM even when it works then maybe
+>>>> looking for a different way in the future might be needed.
+>>>
+>>> What you're doing here won't work with KVM as it stands.  There are
+>>> basically two paths into the vhyp hypercall path: 1) from TCG, if we
+>>> interpret an 'sc 1' instruction we enter vhyp, 2) from KVM, if we get
+>>> a KVM_EXIT_PAPR_HCALL KVM exit then we also go to the vhyp path.
+>>>
+>>> The second path is specific to the PAPR (ppc64) implementation of KVM,
+>>> and will not work for a non-PAPR platform without substantial
+>>> modification of the KVM code.
+>>
+>> OK so then at that point when we try KVM we'll need to look at alternative
+>> ways, I think MOL OSI worked with KVM at least in MOL but will probably make
+>> all syscalls exit KVM but since we'll probably need to use KVM PR it will
+>> exit anyway. For now I keep this vhyp as it does not run with KVM for other
+>> reasons yet so that's another area to clean up so as a proof of concept
+>> first version of using VOF vhyp will do.
+>
+> Eh, since you'll need to modify KVM anyway, it probably makes just as
+> much sense to modify it to catch the 'sc 1' as MoL's magic thingy.
 
-Today thats the case, but don't assume it will be the case forever.
-There is a mechanism in TLS for doing clean shutdown which we've
-debated including.
+I'm not sure how KVM works for this case so I also don't know why and what 
+would need to be modified. I think we'll only have KVM PR working as newer 
+POWER CPUs having HV (besides being rare among potential users) are 
+probably too different to run the OSes that expect at most a G4 on 
+pegasos2 so likely it won't work with KVM HV. If we have KVM PR doesn't sc 
+already trap so we could add MOL OSI without further modification to KVM 
+itself only needing change in QEMU? I also hope that MOL OSI could be 
+useful for porting some paravirt drivers from MOL for running Mac OS X on 
+Mac emulation but I don't know about that for sure so I'm open to any 
+other solution too. For now I'm going with vhyp which is enough fot 
+testing with TCG and if somebody wants KVM they could use he original 
+firmware for now so this could be improved in a later version unless a 
+simple solution is found before the freeze for 6.1. If we're in KVM PR 
+what happens for sc 1 could that be used too so maybe what we have now 
+could work?
 
-In general apps *can* just call the shutdown method on the QIOChannelTLS
-object no matter what.  Yank is just a little bit special because of its
-need to be guaranteed to work even when the network is dead. So yank
-should always directly call the low level QIOChannelSocket, so thre is
-a strong guarantee it can't block on something.
+>> [...]
+>>>>>> I've tested that the missing rtas is not the reason for getting no output
+>>>>>> via serial though, as even when disabling rtas on pegasos2.rom it boots and
+>>>>>> I still get serial output just some PCI devices are not detected (such as
+>>>>>> USB, the video card and the not emulated ethernet port but these are not
+>>>>>> fatal so it might even work as a first try without rtas, just to boot a
+>>>>>> Linux kernel for testing it would be enough if I can fix the serial output).
+>>>>>> I still don't know why it's not finding serial but I think it may be some
+>>>>>> missing or wrong info in the device tree I generat. I'll try to focus on
+>>>>>> this for now and leave the above rtas question for later.
+>>>>>
+>>>>> Oh.. another thought on that.  You have an ISA serial port on Pegasos,
+>>>>> I believe.  I wonder if the PCI->ISA bridge needs some configuration /
+>>>>> initialization that the firmware is expected to do.  If so you'll need
+>>>>> to mimic that setup in qemu for the VOF case.
+>>>>
+>>>> That's what I begin to think because I've added everything to the device
+>>>> tree that I thought could be needed and I still don't get it working so it
+>>>> may need some config from the firmware. But how do I access device registers
+>>>> from board code? I've tried adding a machine reset method and write to
+>>>> memory mapped device registers but all my attempts failed. I've tried
+>>>> cpu_stl_le_data and even memory_region_dispatch_write but these did not get
+>>>> to the device. What's the way to access guest mmio regs from QEMU?
+>>>
+>>> That's odd, cpu_stl() and memory_region_dispatch_write() should work
+>>> from board code (after the relevant memory regions are configured, of
+>>> course).  As an ISA serial port, it's probably accessed through IO
+>>> space, not memory space though, so you'd need &address_space_io.  And
+>>> if there is some bridge configuration then it's the bridge control
+>>> registers you need to look at not the serial registers - you'd have to
+>>> look at the bridge documentation for that.  Or, I guess the bridge
+>>> implementation in qemu, which you wrote part of.
+>>
+>> I've found at last that stl_le_phys() works. There are so many of these that
+>> I never know when to use which.
+>>
+>> I think the address_space_rw calls in vof_client_call() in vof.c could also
+>> use these for somewhat shorter code. I've ended up with
+>> stl_le_phys(CPU(cpu)->as, addr, val) in my machine reset methodbut I don't
+>> even need that now as it works without additional setup. Also VOF's memory
+>> access is basically the same as the already existing rtas_st() and co. so
+>> maybe that could be reused to make code smaller?
+>
+> rtas_ld() and rtas_st() should only be used for reading/writing RTAS
+> parameters to and from memory.  Accessing IO shouldn't be done with
+> those.
+>
+> For IO you probably want the cpu_st*() variants in most cases, since
+> you're trying to emulate an IO access from the virtual cpu.
 
+I think I've tried that but what worked to access mmio device registers 
+are stl_le_phys and similar that are wrappers around address_space_stl_*. 
+But I did not mean that for rtas_ld/_st but the part when vof accessing 
+the parameters passed by its hypercall which is memory access:
+
+https://github.com/patchew-project/qemu/blob/patchew/20210520090557.435689-1-aik%40ozlabs.ru/hw/ppc/vof.c
+
+line 893, and vof_client_call before that is very similar to what h_rtas 
+does here:
+
+https://git.qemu.org/?p=qemu.git;a=blob;f=hw/ppc/spapr_hcall.c;h=f25014afda408002ee1ec1027a0dd7a6025eca61;hb=HEAD#l639
+
+and I also need to do the same for rtas in pegasos2 for which I'm just 
+using ldl_be_phys for now but I wonder if we really need 3 ways to do the 
+same or the rtas_ld/_st could be made more generic and reused here?
 
 Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+BALATON Zoltan
 
