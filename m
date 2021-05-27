@@ -2,51 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F4FA393533
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 19:57:46 +0200 (CEST)
-Received: from localhost ([::1]:33630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F282239348E
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 19:08:13 +0200 (CEST)
+Received: from localhost ([::1]:35314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lmKGP-0002F8-Cn
-	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 13:57:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32932)
+	id 1lmJUS-00059R-S8
+	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 13:08:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48576)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <364bc324ad4dfdb87cbbb75abb7dc09b561cda2f@lizzy.crudebyte.com>)
- id 1lmKFP-0000qo-Lr
- for qemu-devel@nongnu.org; Thu, 27 May 2021 13:56:43 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:53013)
+ (Exim 4.90_1) (envelope-from <haozhong@zhan9.net>)
+ id 1lmJTC-0002wh-AV
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 13:06:54 -0400
+Received: from out4-smtp.messagingengine.com ([66.111.4.28]:49591)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <364bc324ad4dfdb87cbbb75abb7dc09b561cda2f@lizzy.crudebyte.com>)
- id 1lmKFN-0002Xo-CT
- for qemu-devel@nongnu.org; Thu, 27 May 2021 13:56:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
- Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=TDBLWrGlbK49ZkCBN6JkQF/18xIACpjhm2CQWGx+LIQ=; b=FSlAp
- rNj78vSJ+sKKjK6MltK7BeUfYZ+wFapHReQdT18qBMGAjK7a3eeuwVO76cy5qCPOQKg55EhPf67SY
- USaknweRQkWAfmiocbD8qL94VYIGfTuUTNZK9jfRB2JukI83s3lN8hgv/80q5w9brS9t+67WrawZc
- Ygep3vA62ttEpIxCuMG5jGsJebPJKudab9ajnPp4Di9Ryb0oiEi7gwjkbNLAn/CF6sHppxYkj7woe
- iVChliNpQ211/G9ai1wJfSE1s9KMs5/U8aKzXA77b4QzGpNTWlDaqZ/sPJjSBXeIe/DGuVnrny1KT
- NZOiYfc+GygrqJHRPxP7F7CbEiKdw==;
-Message-Id: <364bc324ad4dfdb87cbbb75abb7dc09b561cda2f.1622135592.git.qemu_oss@crudebyte.com>
-In-Reply-To: <cover.1622135592.git.qemu_oss@crudebyte.com>
-References: <cover.1622135592.git.qemu_oss@crudebyte.com>
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Date: Thu, 27 May 2021 19:05:43 +0200
-Subject: [PATCH 3/3] 9pfs: reduce latency of Twalk
+ (Exim 4.90_1) (envelope-from <haozhong@zhan9.net>)
+ id 1lmJT9-0005X6-8x
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 13:06:54 -0400
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.nyi.internal (Postfix) with ESMTP id 409525C00FD;
+ Thu, 27 May 2021 13:06:49 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute5.internal (MEProxy); Thu, 27 May 2021 13:06:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zhan9.net; h=
+ from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding; s=fm3; bh=ArafUyBOO0IbbliGHou7RgvFNK
+ oK+/JCxXXfof6UKWA=; b=sO8R39X3z2QV3XoODAQlTop9df3au2W4iPWYo/DnNF
+ htR9sRM1prsZcOC1+49UKT+M58zUmZn9xhFWaMOLW/tufBKfNuUdSibV259xYXnj
+ MW/OXWSG+ysYOWy3kw4prO3V51cUzSmlyATBUpo7wBCcHoXoHIVwuy3e5hd0FYJR
+ vm4UeUXFSl5+TG7Lj8ciPyfhgd/4JwQkNU6gMEdxXnJBeo+AJ018aNHRBRRFtZjF
+ bEiQCwDeYWKJyGA6fpaAh4KoqiFQ540OgZ3jB6S2tenT3eoHkND6+tIPwsRWqzks
+ uH8QUqMTyXzgH1TzjpkFlF9PsblI8nr/dfYGF7vghe+A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=ArafUyBOO0IbbliGH
+ ou7RgvFNKoK+/JCxXXfof6UKWA=; b=myYz1a9yYKd177Rr5qJm48V2GuxfJ6XgQ
+ LJ60Irmf0N01PiXoHsT1h4Ake7nrR+JEJMpwPEojh3iKHJ5DrrKUnhJi4DVwC5l+
+ uqgjTF9nTdDCUBWUf4QLgJ26SH4pxpWa7pjde02l5pfprcUn8xcQoC5DdI0HpmlR
+ PA3Uoj0d5Y5v0rQ4y7j8IDykfLB25p7oQswKxsdpWobxar4ddXc/DaVea0FOAz0B
+ 1Msp614odCWRCA77f57AAXkRDY7ePeM1Q16BUwF04Npoj/UoWCap01NdmzabWZqv
+ mewvB/FFavE3R3wFkOsdWeZ3qlAkCAx6dmO7ZgA4PZ1zdzGaz5wsQ==
+X-ME-Sender: <xms:qNGvYIVbK7BJdqxgnYsait91ni4DR7vRdyu7eBuiEc-rDfAN7A3bQQ>
+ <xme:qNGvYMmRQfMaMXPxexHQtDHSXhK4JngWlO5IBwSZqLiahzqFn6GRYnoh6ySYzvOS4
+ z-Al3vxEf8RynxUeCo>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdekhedguddtlecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecunecujfgurhephffvufffkffoggfgsedtkeertd
+ ertddtnecuhfhrohhmpefjrghoiihhohhnghcukghhrghnghcuoehhrghoiihhohhnghes
+ iihhrghnledrnhgvtheqnecuggftrfgrthhtvghrnheptdejhfejkefhtdegteefleettd
+ ekveelfedvteehleeggefhvdefgffhuddttedunecukfhppedutddurddvvdegrdduledv
+ rdduudehnecuvehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehmrghilhhfrhhomh
+ ephhgrohiihhhonhhgseiihhgrnhelrdhnvght
+X-ME-Proxy: <xmx:qNGvYMYAkia7FJsUsnfLsSE4vV8Y1t-NEv4I0_iXNS_Pc0Do3LID5Q>
+ <xmx:qNGvYHWkR0ixDMjWkGuwAydkgkK0Op6yQcOgZvUd2IE9MGP7cuEnAg>
+ <xmx:qNGvYCnoYXIGgwW9PwYMWcMEsonZrIRlB6taX6fBUP8oo3kxoJ1HgQ>
+ <xmx:qdGvYHxxiE-hkB6td8uvCINeYbpiwTaHUNB_oPazleCp2YzyK6wzgw>
+Received: from localhost (unknown [101.224.192.115])
+ by mail.messagingengine.com (Postfix) with ESMTPA;
+ Thu, 27 May 2021 13:06:47 -0400 (EDT)
+From: Haozhong Zhang <haozhong@zhan9.net>
 To: qemu-devel@nongnu.org
-Cc: Greg Kurz <groug@kaod.org>
-Received-SPF: none client-ip=91.194.90.13;
- envelope-from=364bc324ad4dfdb87cbbb75abb7dc09b561cda2f@lizzy.crudebyte.com;
- helo=lizzy.crudebyte.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Subject: [PATCH] xio3130_downstream: Set the maximum link width and speed
+Date: Fri, 28 May 2021 01:06:30 +0800
+Message-Id: <20210527170630.43458-1-haozhong@zhan9.net>
+X-Mailer: git-send-email 2.31.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=66.111.4.28; envelope-from=haozhong@zhan9.net;
+ helo=out4-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,238 +90,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Haozhong Zhang <haozhong@zhan9.net>,
+ Haozhong Zhang <zhanghaozhong@bytedance.com>, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As on the previous performance optimization on Treaddir handling;
-reduce the overall latency, i.e. overall time spent on processing
-a Twalk request by reducing the amount of thread hops between the
-9p server's main thread and fs worker thread(s).
+The current implementation leaves 0 in the maximum link width (MLW)
+and speed (MLS) fields of the PCI_EXP_LNKCAP register of a xio3130
+downstream port device. As a consequence, when that downstream port
+negotiates the link width and speed with its downstream device, 0 will
+be used and filled in the MLW and MLS fields of the PCI_EXP_LNKSTA
+register of that downstream port.
 
-In fact this patch even reduces the thread hops for Twalk handling
-to its theoritical minimum of exactly 2 thread hops:
+Normally, such 0 MLS and MLW in PCI_EXP_LNKSTA register only make the
+guest lspci output looks weird (like "speed unknown" and "x0 width").
+However, it also fails the hot-plug of device to the xio3130
+downstream port. The guest Linux kernel complains:
 
-main thread -> fs worker thread -> main thread
+    pcieport 0000:01:00.0: pciehp: Slot(0): Cannot train link: status 0x2000
 
-This is achieved by doing all the required fs driver tasks altogether
-in a single v9fs_co_run_in_worker({ ... }); code block.
+because the pciehp_hpc driver expects a read of valid (non-zero) MLW
+from PCI_EXP_LNKSTA register of that downstream port.
 
-This patches also changes the way how an arbitrary path is
-identified to whether it equals the 9p export root. Previously
-QIDs were compared for this, which forces to be done on main thread
-for resolving individual path element QIDs. For that reason POSIX
-stat device number and inode number pairs are compared instead now.
-Accordingly, as 9p server's root_qid member variable is no longer
-used, nor are functions fid_to_qid() and not_same_qid(), hence drop
-them.
+This patch addresses the above issue by setting MLW and MLS in
+PCI_EXP_LNKCAP of the xio3130 downstream port to values defined in its
+data manual, i.e., x1 and 2.5 GT respectively.
 
-Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Signed-off-by: Haozhong Zhang <zhanghaozhong@bytedance.com>
 ---
- hw/9pfs/9p.c | 118 +++++++++++++++++++++++++++++++++------------------
- hw/9pfs/9p.h |   1 -
- 2 files changed, 76 insertions(+), 43 deletions(-)
+ hw/pci-bridge/xio3130_downstream.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-index 825de1561d..cc1b176eb5 100644
---- a/hw/9pfs/9p.c
-+++ b/hw/9pfs/9p.c
-@@ -971,23 +971,6 @@ static int stat_to_qid(V9fsPDU *pdu, const struct stat *stbuf, V9fsQID *qidp)
-     return 0;
- }
- 
--static int coroutine_fn fid_to_qid(V9fsPDU *pdu, V9fsFidState *fidp,
--                                   V9fsQID *qidp)
--{
--    struct stat stbuf;
--    int err;
--
--    err = v9fs_co_lstat(pdu, &fidp->path, &stbuf);
--    if (err < 0) {
--        return err;
--    }
--    err = stat_to_qid(pdu, &stbuf, qidp);
--    if (err < 0) {
--        return err;
--    }
--    return 0;
--}
--
- V9fsPDU *pdu_alloc(V9fsState *s)
- {
-     V9fsPDU *pdu = NULL;
-@@ -1461,7 +1444,6 @@ static void coroutine_fn v9fs_attach(void *opaque)
-     }
-     err += offset;
- 
--    memcpy(&s->root_qid, &qid, sizeof(qid));
-     memcpy(&s->root_st, &stbuf, sizeof(struct stat));
-     trace_v9fs_attach_return(pdu->tag, pdu->id,
-                              qid.type, qid.version, qid.path);
-@@ -1713,12 +1695,9 @@ static bool name_is_illegal(const char *name)
-     return !*name || strchr(name, '/') != NULL;
- }
- 
--static bool not_same_qid(const V9fsQID *qid1, const V9fsQID *qid2)
-+static bool same_stat_id(const struct stat *a, const struct stat *b)
- {
--    return
--        qid1->type != qid2->type ||
--        qid1->version != qid2->version ||
--        qid1->path != qid2->path;
-+    return a->st_dev == b->st_dev && a->st_ino == b->st_ino;
- }
- 
- static void coroutine_fn v9fs_walk(void *opaque)
-@@ -1726,9 +1705,9 @@ static void coroutine_fn v9fs_walk(void *opaque)
-     int name_idx;
-     V9fsQID *qids = NULL;
-     int i, err = 0;
--    V9fsPath dpath, path;
-+    V9fsPath dpath, path, *pathes = NULL;
-     uint16_t nwnames;
--    struct stat stbuf;
-+    struct stat stbuf, fidst, *stbufs = NULL;
-     size_t offset = 7;
-     int32_t fid, newfid;
-     V9fsString *wnames = NULL;
-@@ -1754,6 +1733,8 @@ static void coroutine_fn v9fs_walk(void *opaque)
-     if (nwnames) {
-         wnames = g_new0(V9fsString, nwnames);
-         qids   = g_new0(V9fsQID, nwnames);
-+        stbufs = g_new0(struct stat, nwnames);
-+        pathes = g_new0(V9fsPath, nwnames);
-         for (i = 0; i < nwnames; i++) {
-             err = pdu_unmarshal(pdu, offset, "s", &wnames[i]);
-             if (err < 0) {
-@@ -1774,35 +1755,85 @@ static void coroutine_fn v9fs_walk(void *opaque)
- 
-     v9fs_path_init(&dpath);
-     v9fs_path_init(&path);
-+    /*
-+     * Both dpath and path initially point to fidp.
-+     * Needed to handle request with nwnames == 0
-+     */
-+    v9fs_path_copy(&dpath, &fidp->path);
-+    v9fs_path_copy(&path, &fidp->path);
- 
--    err = fid_to_qid(pdu, fidp, &qid);
-+    /*
-+     * To keep latency (i.e. overall execution time for processing this
-+     * Twalk client request) as small as possible, run all the required fs
-+     * driver code altogether inside the following block.
-+     */
-+    v9fs_co_run_in_worker({
-+        if (v9fs_request_cancelled(pdu)) {
-+            err = -EINTR;
-+            break;
-+        }
-+        err = s->ops->lstat(&s->ctx, &dpath, &fidst);
-+        if (err < 0) {
-+            err = -errno;
-+            break;
-+        }
-+        stbuf = fidst;
-+        for (name_idx = 0; name_idx < nwnames; name_idx++) {
-+            if (v9fs_request_cancelled(pdu)) {
-+                err = -EINTR;
-+                break;
-+            }
-+            if (!same_stat_id(&pdu->s->root_st, &stbuf) ||
-+                strcmp("..", wnames[name_idx].data))
-+            {
-+                err = s->ops->name_to_path(&s->ctx, &dpath,
-+                                        wnames[name_idx].data, &path);
-+                if (err < 0) {
-+                    err = -errno;
-+                    break;
-+                }
-+                if (v9fs_request_cancelled(pdu)) {
-+                    err = -EINTR;
-+                    break;
-+                }
-+                err = s->ops->lstat(&s->ctx, &path, &stbuf);
-+                if (err < 0) {
-+                    err = -errno;
-+                    break;
-+                }
-+                stbufs[name_idx] = stbuf;
-+                v9fs_path_copy(&dpath, &path);
-+                v9fs_path_copy(&pathes[name_idx], &path);
-+            }
-+        }
-+    });
-+    /*
-+     * Handle all the rest of this Twalk request on main thread ...
-+     */
-     if (err < 0) {
-         goto out;
+diff --git a/hw/pci-bridge/xio3130_downstream.c b/hw/pci-bridge/xio3130_downstream.c
+index 04aae72cd6..fbf9868ad7 100644
+--- a/hw/pci-bridge/xio3130_downstream.c
++++ b/hw/pci-bridge/xio3130_downstream.c
+@@ -87,6 +87,13 @@ static void xio3130_downstream_realize(PCIDevice *d, Error **errp)
+         goto err_bridge;
      }
  
--    /*
--     * Both dpath and path initially poin to fidp.
--     * Needed to handle request with nwnames == 0
--     */
-+    err = stat_to_qid(pdu, &fidst, &qid);
-+    if (err < 0) {
-+        goto out;
-+    }
-+    stbuf = fidst;
++    /*
++     * Following two fields must be set before calling pcie_cap_init() which
++     * will fill them to MLS and MLW of PCI_EXP_LNKCAP register.
++     */
++    s->speed = QEMU_PCI_EXP_LNK_2_5GT;
++    s->width = QEMU_PCI_EXP_LNK_X1;
 +
-+    /* reset dpath and path */
-     v9fs_path_copy(&dpath, &fidp->path);
-     v9fs_path_copy(&path, &fidp->path);
--    for (name_idx = 0; name_idx < nwnames; name_idx++) {
--        if (not_same_qid(&pdu->s->root_qid, &qid) ||
--            strcmp("..", wnames[name_idx].data)) {
--            err = v9fs_co_name_to_path(pdu, &dpath, wnames[name_idx].data,
--                                       &path);
--            if (err < 0) {
--                goto out;
--            }
- 
--            err = v9fs_co_lstat(pdu, &path, &stbuf);
--            if (err < 0) {
--                goto out;
--            }
-+    for (name_idx = 0; name_idx < nwnames; name_idx++) {
-+        if (!same_stat_id(&pdu->s->root_st, &stbuf) ||
-+            strcmp("..", wnames[name_idx].data))
-+        {
-+            stbuf = stbufs[name_idx];
-             err = stat_to_qid(pdu, &stbuf, &qid);
-             if (err < 0) {
-                 goto out;
-             }
-+            v9fs_path_copy(&path, &pathes[name_idx]);
-             v9fs_path_copy(&dpath, &path);
-         }
-         memcpy(&qids[name_idx], &qid, sizeof(qid));
-@@ -1838,9 +1869,12 @@ out_nofid:
-     if (nwnames && nwnames <= P9_MAXWELEM) {
-         for (name_idx = 0; name_idx < nwnames; name_idx++) {
-             v9fs_string_free(&wnames[name_idx]);
-+            v9fs_path_free(&pathes[name_idx]);
-         }
-         g_free(wnames);
-         g_free(qids);
-+        g_free(stbufs);
-+        g_free(pathes);
-     }
- }
- 
-diff --git a/hw/9pfs/9p.h b/hw/9pfs/9p.h
-index 6f0b4c78c0..1567b67841 100644
---- a/hw/9pfs/9p.h
-+++ b/hw/9pfs/9p.h
-@@ -355,7 +355,6 @@ struct V9fsState {
-     int32_t root_fid;
-     Error *migration_blocker;
-     V9fsConf fsconf;
--    V9fsQID root_qid;
-     struct stat root_st;
-     dev_t dev_id;
-     struct qht qpd_table;
+     rc = pcie_cap_init(d, XIO3130_EXP_OFFSET, PCI_EXP_TYPE_DOWNSTREAM,
+                        p->port, errp);
+     if (rc < 0) {
 -- 
-2.20.1
+2.31.1
 
 
