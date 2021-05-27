@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD6163930F8
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 16:35:21 +0200 (CEST)
-Received: from localhost ([::1]:34412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 404C639310B
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 16:38:14 +0200 (CEST)
+Received: from localhost ([::1]:42962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lmH6V-0002nC-4V
-	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 10:35:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34164)
+	id 1lmH9J-0000Bi-81
+	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 10:38:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34208)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lmGwG-0007DA-3M
- for qemu-devel@nongnu.org; Thu, 27 May 2021 10:24:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36479)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lmGwM-0007dD-Oy
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 10:24:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52417)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lmGwE-0004du-4f
- for qemu-devel@nongnu.org; Thu, 27 May 2021 10:24:43 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lmGwI-0004gk-GU
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 10:24:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622125481;
+ s=mimecast20190719; t=1622125486;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pOaFZ/OYeiyZ1qgfdSMKyv8V7Hnnlwig2DS1ADn0zY0=;
- b=ifb6db2yWvM/7UPilTo/guCvclXuCy7FThSjTadFRxL0PhA9nZMG5KlTaKAlF672JCFKDl
- PvakjM9CZvhV9Ybf87qxSgn09HS2rKxrAYRQMDow51hlbfCfCfseREPdk0CJiCtY1Pg/0W
- EW8mbyuI++b4p1iakA7ATT21VYdwlg8=
+ bh=l6nxgyNxfNzPr/r4T7tvV9VeYIkZfn7E4pWpfAp8nI0=;
+ b=F7tm+YXeifvZnu82QnVXLWnW5nuKVQCoaooc7W8QgQ3rfeKGDhV78lFp9Oq/XIdshwd/ni
+ AbTsxnsikNKhG7+gG8s40MzD6sYCqS+D5UWpHU9IT5xsY+pEYBcz2BbTHrawbCZWKtdYwb
+ 13FKa7OVqixqiw2K1cZlEnaOb4ikEqY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-216-a9UT1JKJOiqehDndjE-VIw-1; Thu, 27 May 2021 10:24:38 -0400
-X-MC-Unique: a9UT1JKJOiqehDndjE-VIw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-381-maupDLBaMBCYhhc6kAk8yQ-1; Thu, 27 May 2021 10:24:42 -0400
+X-MC-Unique: maupDLBaMBCYhhc6kAk8yQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A6B44180FD61;
- Thu, 27 May 2021 14:24:37 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D0A06100960E;
+ Thu, 27 May 2021 14:24:41 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-84.ams2.redhat.com
  [10.36.112.84])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6BA462BFE4;
- Thu, 27 May 2021 14:24:37 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0EA265D9D3;
+ Thu, 27 May 2021 14:24:39 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 809041800847; Thu, 27 May 2021 16:23:41 +0200 (CEST)
+ id 934BC1800849; Thu, 27 May 2021 16:23:41 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 11/23] headers: Add udmabuf.h
-Date: Thu, 27 May 2021 16:23:28 +0200
-Message-Id: <20210527142340.1352791-12-kraxel@redhat.com>
+Subject: [PULL 12/23] virtio-gpu: Add udmabuf helpers
+Date: Thu, 27 May 2021 16:23:29 +0200
+Message-Id: <20210527142340.1352791-13-kraxel@redhat.com>
 In-Reply-To: <20210527142340.1352791-1-kraxel@redhat.com>
 References: <20210527142340.1352791-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -88,87 +88,234 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Vivek Kasireddy <vivek.kasireddy@intel.com>
 
-This adds udmabuf header to standard headers so that the
-relevant udmabuf objects can be accessed in subsequent
-patches.
+Add helper functions to create a dmabuf for a resource and mmap it.
+Also, introduce the fields blob and blob_size so that these helpers
+can start to use them but the full picture will emerge only after
+adding create_blob API in patch 8 of this series.
+
+To be able to create a dmabuf using the udmabuf driver, Qemu needs
+to be lauched with the memfd memory backend like this:
+
+qemu-system-x86_64 -m 8192m -object memory-backend-memfd,id=mem1,size=8192M
+-machine memory-backend=mem1
 
 Based-on-patch-by: Gerd Hoffmann <kraxel@redhat.com>
 Cc: Gerd Hoffmann <kraxel@redhat.com>
 Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
-Message-Id: <20210526231429.1045476-3-vivek.kasireddy@intel.com>
+Message-Id: <20210526231429.1045476-4-vivek.kasireddy@intel.com>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- include/standard-headers/linux/udmabuf.h | 32 ++++++++++++++++++++++++
- scripts/update-linux-headers.sh          |  3 +++
- 2 files changed, 35 insertions(+)
- create mode 100644 include/standard-headers/linux/udmabuf.h
+ include/hw/virtio/virtio-gpu.h  |  11 +++
+ hw/display/virtio-gpu-udmabuf.c | 158 ++++++++++++++++++++++++++++++++
+ hw/display/meson.build          |   1 +
+ 3 files changed, 170 insertions(+)
+ create mode 100644 hw/display/virtio-gpu-udmabuf.c
 
-diff --git a/include/standard-headers/linux/udmabuf.h b/include/standard-headers/linux/udmabuf.h
+diff --git a/include/hw/virtio/virtio-gpu.h b/include/hw/virtio/virtio-gpu.h
+index 8ca2c55d9abb..265b1c516cd1 100644
+--- a/include/hw/virtio/virtio-gpu.h
++++ b/include/hw/virtio/virtio-gpu.h
+@@ -50,6 +50,12 @@ struct virtio_gpu_simple_resource {
+     uint32_t scanout_bitmask;
+     pixman_image_t *image;
+     uint64_t hostmem;
++
++    uint64_t blob_size;
++    void *blob;
++    int dmabuf_fd;
++    uint8_t *remapped;
++
+     QTAILQ_ENTRY(virtio_gpu_simple_resource) next;
+ };
+ 
+@@ -238,6 +244,11 @@ void virtio_gpu_update_cursor_data(VirtIOGPU *g,
+                                    struct virtio_gpu_scanout *s,
+                                    uint32_t resource_id);
+ 
++/* virtio-gpu-udmabuf.c */
++bool virtio_gpu_have_udmabuf(void);
++void virtio_gpu_init_udmabuf(struct virtio_gpu_simple_resource *res);
++void virtio_gpu_fini_udmabuf(struct virtio_gpu_simple_resource *res);
++
+ /* virtio-gpu-3d.c */
+ void virtio_gpu_virgl_process_cmd(VirtIOGPU *g,
+                                   struct virtio_gpu_ctrl_command *cmd);
+diff --git a/hw/display/virtio-gpu-udmabuf.c b/hw/display/virtio-gpu-udmabuf.c
 new file mode 100644
-index 000000000000..e19eb5b5ce75
+index 000000000000..71c4672e327a
 --- /dev/null
-+++ b/include/standard-headers/linux/udmabuf.h
-@@ -0,0 +1,32 @@
-+/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
-+#ifndef _LINUX_UDMABUF_H
-+#define _LINUX_UDMABUF_H
++++ b/hw/display/virtio-gpu-udmabuf.c
+@@ -0,0 +1,158 @@
++/*
++ * Virtio GPU Device
++ *
++ * Copyright Red Hat, Inc. 2013-2014
++ *
++ * Authors:
++ *     Dave Airlie <airlied@redhat.com>
++ *     Gerd Hoffmann <kraxel@redhat.com>
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ */
 +
-+#include "standard-headers/linux/types.h"
++#include "qemu/osdep.h"
++#include "qemu/units.h"
++#include "qemu-common.h"
++#include "qemu/iov.h"
++#include "ui/console.h"
++#include "hw/virtio/virtio-gpu.h"
++#include "hw/virtio/virtio-gpu-pixman.h"
++#include "trace.h"
++#include "exec/ramblock.h"
++#include "sysemu/hostmem.h"
++#include <sys/ioctl.h>
++#include <fcntl.h>
++#include <linux/memfd.h>
++#include "qemu/memfd.h"
++#include "standard-headers/linux/udmabuf.h"
 +
-+#define UDMABUF_FLAGS_CLOEXEC	0x01
++static void virtio_gpu_create_udmabuf(struct virtio_gpu_simple_resource *res)
++{
++    struct udmabuf_create_list *list;
++    RAMBlock *rb;
++    ram_addr_t offset;
++    int udmabuf, i;
 +
-+struct udmabuf_create {
-+	uint32_t memfd;
-+	uint32_t flags;
-+	uint64_t offset;
-+	uint64_t size;
-+};
++    udmabuf = udmabuf_fd();
++    if (udmabuf < 0) {
++        return;
++    }
 +
-+struct udmabuf_create_item {
-+	uint32_t memfd;
-+	uint32_t __pad;
-+	uint64_t offset;
-+	uint64_t size;
-+};
++    list = g_malloc0(sizeof(struct udmabuf_create_list) +
++                     sizeof(struct udmabuf_create_item) * res->iov_cnt);
 +
-+struct udmabuf_create_list {
-+	uint32_t flags;
-+	uint32_t count;
-+	struct udmabuf_create_item list[];
-+};
++    for (i = 0; i < res->iov_cnt; i++) {
++        rcu_read_lock();
++        rb = qemu_ram_block_from_host(res->iov[i].iov_base, false, &offset);
++        rcu_read_unlock();
 +
-+#define UDMABUF_CREATE       _IOW('u', 0x42, struct udmabuf_create)
-+#define UDMABUF_CREATE_LIST  _IOW('u', 0x43, struct udmabuf_create_list)
++        if (!rb || rb->fd < 0) {
++            g_free(list);
++            return;
++        }
 +
-+#endif /* _LINUX_UDMABUF_H */
-diff --git a/scripts/update-linux-headers.sh b/scripts/update-linux-headers.sh
-index 1050e361694f..fea4d6eb655f 100755
---- a/scripts/update-linux-headers.sh
-+++ b/scripts/update-linux-headers.sh
-@@ -34,6 +34,7 @@ cp_portable() {
-     if
-         grep '#include' "$f" | grep -v -e 'linux/virtio' \
-                                      -e 'linux/types' \
-+                                     -e 'linux/ioctl' \
-                                      -e 'stdint' \
-                                      -e 'linux/if_ether' \
-                                      -e 'input-event-codes' \
-@@ -66,6 +67,7 @@ cp_portable() {
-         -e 's/__BITS_PER_LONG/HOST_LONG_BITS/' \
-         -e '/\"drm.h\"/d' \
-         -e '/sys\/ioctl.h/d' \
-+        -e '/linux\/ioctl.h/d' \
-         -e 's/SW_MAX/SW_MAX_/' \
-         -e 's/atomic_t/int/' \
-         -e 's/__kernel_long_t/long/' \
-@@ -190,6 +192,7 @@ for i in "$tmpdir"/include/linux/*virtio*.h \
-          "$tmpdir/include/linux/fuse.h" \
-          "$tmpdir/include/linux/input.h" \
-          "$tmpdir/include/linux/input-event-codes.h" \
-+         "$tmpdir/include/linux/udmabuf.h" \
-          "$tmpdir/include/linux/pci_regs.h" \
-          "$tmpdir/include/linux/ethtool.h" \
-          "$tmpdir/include/linux/const.h" \
++        list->list[i].memfd  = rb->fd;
++        list->list[i].offset = offset;
++        list->list[i].size   = res->iov[i].iov_len;
++    }
++
++    list->count = res->iov_cnt;
++    list->flags = UDMABUF_FLAGS_CLOEXEC;
++
++    res->dmabuf_fd = ioctl(udmabuf, UDMABUF_CREATE_LIST, list);
++    if (res->dmabuf_fd < 0) {
++        warn_report("%s: UDMABUF_CREATE_LIST: %s", __func__,
++                    strerror(errno));
++    }
++    g_free(list);
++}
++
++static void virtio_gpu_remap_udmabuf(struct virtio_gpu_simple_resource *res)
++{
++    res->remapped = mmap(NULL, res->blob_size, PROT_READ,
++                         MAP_SHARED, res->dmabuf_fd, 0);
++    if (res->remapped == MAP_FAILED) {
++        warn_report("%s: dmabuf mmap failed: %s", __func__,
++                    strerror(errno));
++        res->remapped = NULL;
++    }
++}
++
++static void virtio_gpu_destroy_udmabuf(struct virtio_gpu_simple_resource *res)
++{
++    if (res->remapped) {
++        munmap(res->remapped, res->blob_size);
++        res->remapped = NULL;
++    }
++    if (res->dmabuf_fd >= 0) {
++        close(res->dmabuf_fd);
++        res->dmabuf_fd = -1;
++    }
++}
++
++static int find_memory_backend_type(Object *obj, void *opaque)
++{
++    bool *memfd_backend = opaque;
++    int ret;
++
++    if (object_dynamic_cast(obj, TYPE_MEMORY_BACKEND)) {
++        HostMemoryBackend *backend = MEMORY_BACKEND(obj);
++        RAMBlock *rb = backend->mr.ram_block;
++
++        if (rb && rb->fd > 0) {
++            ret = fcntl(rb->fd, F_GET_SEALS);
++            if (ret > 0) {
++                *memfd_backend = true;
++            }
++        }
++    }
++
++    return 0;
++}
++
++bool virtio_gpu_have_udmabuf(void)
++{
++    Object *memdev_root;
++    int udmabuf;
++    bool memfd_backend = false;
++
++    udmabuf = udmabuf_fd();
++    if (udmabuf < 0) {
++        return false;
++    }
++
++    memdev_root = object_resolve_path("/objects", NULL);
++    object_child_foreach(memdev_root, find_memory_backend_type, &memfd_backend);
++
++    return memfd_backend;
++}
++
++void virtio_gpu_init_udmabuf(struct virtio_gpu_simple_resource *res)
++{
++    void *pdata = NULL;
++
++    res->dmabuf_fd = -1;
++    if (res->iov_cnt == 1) {
++        pdata = res->iov[0].iov_base;
++    } else {
++        virtio_gpu_create_udmabuf(res);
++        if (res->dmabuf_fd < 0) {
++            return;
++        }
++        virtio_gpu_remap_udmabuf(res);
++        if (!res->remapped) {
++            return;
++        }
++        pdata = res->remapped;
++    }
++
++    res->blob = pdata;
++}
++
++void virtio_gpu_fini_udmabuf(struct virtio_gpu_simple_resource *res)
++{
++    if (res->remapped) {
++        virtio_gpu_destroy_udmabuf(res);
++    }
++}
+diff --git a/hw/display/meson.build b/hw/display/meson.build
+index aaf797c5e9ee..e1f473c1dff5 100644
+--- a/hw/display/meson.build
++++ b/hw/display/meson.build
+@@ -56,6 +56,7 @@ if config_all_devices.has_key('CONFIG_VIRTIO_GPU')
+   virtio_gpu_ss = ss.source_set()
+   virtio_gpu_ss.add(when: 'CONFIG_VIRTIO_GPU',
+                     if_true: [files('virtio-gpu-base.c', 'virtio-gpu.c'), pixman])
++  virtio_gpu_ss.add(when: 'CONFIG_LINUX', if_true: files('virtio-gpu-udmabuf.c'))
+   virtio_gpu_ss.add(when: 'CONFIG_VHOST_USER_GPU', if_true: files('vhost-user-gpu.c'))
+   hw_display_modules += {'virtio-gpu': virtio_gpu_ss}
+ 
 -- 
 2.31.1
 
