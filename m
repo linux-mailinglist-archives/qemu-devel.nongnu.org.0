@@ -2,63 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABFDC392655
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 06:26:36 +0200 (CEST)
-Received: from localhost ([::1]:37994 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6A2439265D
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 06:28:16 +0200 (CEST)
+Received: from localhost ([::1]:43392 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lm7bP-0004n2-Nx
-	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 00:26:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46380)
+	id 1lm7d1-0008Og-WD
+	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 00:28:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46408)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lm7Zj-0002kF-ST
- for qemu-devel@nongnu.org; Thu, 27 May 2021 00:24:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39568)
+ id 1lm7Zl-0002kX-0n
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 00:24:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42653)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lm7Zh-00062Y-EA
- for qemu-devel@nongnu.org; Thu, 27 May 2021 00:24:50 -0400
+ id 1lm7Zj-00064U-BO
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 00:24:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622089488;
+ s=mimecast20190719; t=1622089490;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=IKcVnvrKgTTEJRoiXNj9Odxk3Sl4YxdUhZJ6hngXBk0=;
- b=ahPGv15R21J0gJGnjBMDB/n0yLqBMjZZbZNwA0Ie/vqL91Xosr2c4I4XYRHTP9IkG3PJxl
- 28wP6OSh5lXEkS37ETYA6hxLSuvH0Aj1jbOy1kB1eqJwoohRRQvBxi+LYOJyM+BZM//+lh
- jEz+mo84fkLfRtzmuUPVBRrWU2eSGGI=
+ to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
+ references:references; bh=NGxnL58cZ7J0FpLILJVl5iGWIs/UZR1ZMuS4cpTk2M0=;
+ b=XfPKXQyI8htwCa+Ov54tAPbcnswz2FY2aVZ6sOoxYbn+uWMmz4jm77CsDYOCRWR0R07wU5
+ hh+3B/720YrlqUGYdv7x4K7strF2/op0qTkqH1xtWQQp71CvL/ecwukRxph5adufKyz9+T
+ dqCTKNAGFiK8Dr8cAWRqFxtlHHaJC1Q=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-206-xs1vPO_YPAizQBiH_8v6_w-1; Thu, 27 May 2021 00:24:46 -0400
-X-MC-Unique: xs1vPO_YPAizQBiH_8v6_w-1
+ us-mta-236-j7tErrmzMPepC8pn5kPndQ-1; Thu, 27 May 2021 00:24:47 -0400
+X-MC-Unique: j7tErrmzMPepC8pn5kPndQ-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 64469800D55;
- Thu, 27 May 2021 04:24:44 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 74D16107ACCA;
+ Thu, 27 May 2021 04:24:46 +0000 (UTC)
 Received: from jason-ThinkPad-T430s.redhat.com (ovpn-13-43.pek2.redhat.com
  [10.72.13.43])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 64A7F5D6D3;
- Thu, 27 May 2021 04:24:42 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DDFEC5D6D3;
+ Thu, 27 May 2021 04:24:44 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: peter.maydell@linaro.org
-Subject: [PULL V2 1/3] hw/net/imx_fec: return 0xffff when accessing
- non-existing PHY
-Date: Thu, 27 May 2021 12:24:36 +0800
-Message-Id: <1622089478-5426-2-git-send-email-jasowang@redhat.com>
+Subject: [PULL V2 2/3] virtio-net: failover: add missing
+ remove_migration_state_change_notifier()
+Date: Thu, 27 May 2021 12:24:37 +0800
+Message-Id: <1622089478-5426-3-git-send-email-jasowang@redhat.com>
 In-Reply-To: <1622089478-5426-1-git-send-email-jasowang@redhat.com>
 References: <1622089478-5426-1-git-send-email-jasowang@redhat.com>
-MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
@@ -80,74 +76,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org,
- Guenter Roeck <linux@roeck-us.net>,
- Jean-Christophe Dubois <jcd@tribudubois.net>
+Cc: Laurent Vivier <lvivier@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Guenter Roeck <linux@roeck-us.net>
+From: Laurent Vivier <lvivier@redhat.com>
 
-If a PHY does not exist, attempts to read from it should return 0xffff.
-Otherwise the Linux kernel will believe that a PHY is there and select
-the non-existing PHY. This in turn will result in network errors later
-on since the real PHY is not selected or configured.
+In the failover case configuration, virtio_net_device_realize() uses an
+add_migration_state_change_notifier() to add a state notifier, but this
+notifier is not removed by the unrealize function when the virtio-net
+card is unplugged.
 
-Since reading from or writing to a non-existing PHY is not an emulation
-error, replace guest error messages with traces.
+If the card is unplugged and a migration is started, the notifier is
+called and as it is not valid anymore QEMU crashes.
 
-Fixes: 461c51ad4275 ("Add a phy-num property to the i.MX FEC emulator")
-Cc: Jean-Christophe Dubois <jcd@tribudubois.net>
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
-Tested-by: Bin Meng <bmeng.cn@gmail.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+This patch fixes the problem by adding the
+remove_migration_state_change_notifier() in virtio_net_device_unrealize().
+
+The problem can be reproduced with:
+
+  $ qemu-system-x86_64 -enable-kvm -m 1g -M q35 \
+    -device pcie-root-port,slot=4,id=root1 \
+    -device pcie-root-port,slot=5,id=root2 \
+    -device virtio-net-pci,id=net1,mac=52:54:00:6f:55:cc,failover=on,bus=root1 \
+    -monitor stdio disk.qcow2
+  (qemu) device_del net1
+  (qemu) migrate "exec:gzip -c > STATEFILE.gz"
+
+  Thread 1 "qemu-system-x86" received signal SIGSEGV, Segmentation fault.
+  0x0000000000000000 in ?? ()
+  (gdb) bt
+  #0  0x0000000000000000 in  ()
+  #1  0x0000555555d726d7 in notifier_list_notify (...)
+      at .../util/notify.c:39
+  #2  0x0000555555842c1a in migrate_fd_connect (...)
+      at .../migration/migration.c:3975
+  #3  0x0000555555950f7d in migration_channel_connect (...)
+      error@entry=0x0) at .../migration/channel.c:107
+  #4  0x0000555555910922 in exec_start_outgoing_migration (...)
+      at .../migration/exec.c:42
+
+Reported-by: Igor Mammedov <imammedo@redhat.com>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+Signed-off-by: Laurent Vivier <lvivier@redhat.com>
 Signed-off-by: Jason Wang <jasowang@redhat.com>
 ---
- hw/net/imx_fec.c    | 8 +++-----
- hw/net/trace-events | 2 ++
- 2 files changed, 5 insertions(+), 5 deletions(-)
+ hw/net/virtio-net.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/hw/net/imx_fec.c b/hw/net/imx_fec.c
-index f03450c..9c7035b 100644
---- a/hw/net/imx_fec.c
-+++ b/hw/net/imx_fec.c
-@@ -283,9 +283,8 @@ static uint32_t imx_phy_read(IMXFECState *s, int reg)
-     uint32_t phy = reg / 32;
+diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+index 66b9ff4..914051f 100644
+--- a/hw/net/virtio-net.c
++++ b/hw/net/virtio-net.c
+@@ -3373,6 +3373,7 @@ static void virtio_net_device_unrealize(DeviceState *dev)
  
-     if (phy != s->phy_num) {
--        qemu_log_mask(LOG_GUEST_ERROR, "[%s.phy]%s: Bad phy num %u\n",
--                      TYPE_IMX_FEC, __func__, phy);
--        return 0;
-+        trace_imx_phy_read_num(phy, s->phy_num);
-+        return 0xffff;
+     if (n->failover) {
+         device_listener_unregister(&n->primary_listener);
++        remove_migration_state_change_notifier(&n->migration_state);
      }
  
-     reg %= 32;
-@@ -345,8 +344,7 @@ static void imx_phy_write(IMXFECState *s, int reg, uint32_t val)
-     uint32_t phy = reg / 32;
- 
-     if (phy != s->phy_num) {
--        qemu_log_mask(LOG_GUEST_ERROR, "[%s.phy]%s: Bad phy num %u\n",
--                      TYPE_IMX_FEC, __func__, phy);
-+        trace_imx_phy_write_num(phy, s->phy_num);
-         return;
-     }
- 
-diff --git a/hw/net/trace-events b/hw/net/trace-events
-index baf25ff..78e8566 100644
---- a/hw/net/trace-events
-+++ b/hw/net/trace-events
-@@ -414,7 +414,9 @@ i82596_channel_attention(void *s) "%p: Received CHANNEL ATTENTION"
- 
- # imx_fec.c
- imx_phy_read(uint32_t val, int phy, int reg) "0x%04"PRIx32" <= phy[%d].reg[%d]"
-+imx_phy_read_num(int phy, int configured) "read request from unconfigured phy %d (configured %d)"
- imx_phy_write(uint32_t val, int phy, int reg) "0x%04"PRIx32" => phy[%d].reg[%d]"
-+imx_phy_write_num(int phy, int configured) "write request to unconfigured phy %d (configured %d)"
- imx_phy_update_link(const char *s) "%s"
- imx_phy_reset(void) ""
- imx_fec_read_bd(uint64_t addr, int flags, int len, int data) "tx_bd 0x%"PRIx64" flags 0x%04x len %d data 0x%08x"
+     max_queues = n->multiqueue ? n->max_queues : 1;
 -- 
 2.7.4
 
