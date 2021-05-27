@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C617C393537
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 19:59:49 +0200 (CEST)
-Received: from localhost ([::1]:38064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BD55393544
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 20:11:01 +0200 (CEST)
+Received: from localhost ([::1]:49820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lmKIO-0005Bj-R6
-	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 13:59:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33010)
+	id 1lmKTD-00057a-VE
+	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 14:11:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35818)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bruno.larsen@eldorado.org.br>)
- id 1lmKG4-0002Ku-Ul; Thu, 27 May 2021 13:57:24 -0400
-Received: from [201.28.113.2] (port=37275 helo=outlook.eldorado.org.br)
+ id 1lmKQS-0003VS-RG; Thu, 27 May 2021 14:08:08 -0400
+Received: from [201.28.113.2] (port=34917 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <bruno.larsen@eldorado.org.br>)
- id 1lmKG3-0003j4-8p; Thu, 27 May 2021 13:57:24 -0400
+ id 1lmKQR-00026T-9p; Thu, 27 May 2021 14:08:08 -0400
 Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Thu, 27 May 2021 14:56:04 -0300
+ Microsoft SMTPSVC(8.5.9600.16384); Thu, 27 May 2021 15:08:03 -0300
 Received: from eldorado.org.br (unknown [10.10.71.235])
- by power9a (Postfix) with ESMTP id 2F8248013E1;
- Thu, 27 May 2021 14:56:04 -0300 (-03)
+ by power9a (Postfix) with ESMTP id 34E1B8013E1;
+ Thu, 27 May 2021 15:08:03 -0300 (-03)
 From: "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2] HMP: added info cpustats to removed_features.rst
-Date: Thu, 27 May 2021 14:56:02 -0300
-Message-Id: <20210527175602.40163-1-bruno.larsen@eldorado.org.br>
+Subject: [PATCH v2 0/2] target/ppc: Remove DO_PPC_STATISTICS and PPC_DUMP_CPU
+Date: Thu, 27 May 2021 15:07:59 -0300
+Message-Id: <20210527180801.40513-1-bruno.larsen@eldorado.org.br>
 X-Mailer: git-send-email 2.17.1
-X-OriginalArrivalTime: 27 May 2021 17:56:04.0322 (UTC)
- FILETIME=[8FDAB420:01D75321]
+X-OriginalArrivalTime: 27 May 2021 18:08:03.0355 (UTC)
+ FILETIME=[3C6E6EB0:01D75323]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
 Received-SPF: pass client-ip=201.28.113.2;
  envelope-from=bruno.larsen@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -57,29 +57,28 @@ Cc: farosas@linux.ibm.com, richard.henderson@linaro.org, groug@kaod.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Documented the removal of the HMP command info cpustats
+These 2 defines are being obsoleted as we move to decodetree, so they
+were removed.
 
-Signed-off-by: Bruno Larsen (billionai) <bruno.larsen@eldorado.org.br>
----
- docs/system/removed-features.rst | 5 +++++
- 1 file changed, 5 insertions(+)
+Also, upon further inspection, qemu already doesn't build with them
+enabled, and probably hasn't for a while, and no one complained, so I
+don't think they were actually being used.
 
-diff --git a/docs/system/removed-features.rst b/docs/system/removed-features.rst
-index 5a462ac568..2feae41089 100644
---- a/docs/system/removed-features.rst
-+++ b/docs/system/removed-features.rst
-@@ -249,6 +249,11 @@ Use ``migrate-set-parameters`` and ``info migrate-parameters`` instead.
- 
- Use ``migrate-set-parameters`` instead.
- 
-+``info cpustats`` (removed in 6.1)
-+'''''''''''''''''''''''''''''
-+
-+This command didn't produce any output already. Removed with no replacement.
-+
- Guest Emulator ISAs
- -------------------
- 
+Based-on: dgibson's ppc-for-6.1 tree
+
+Changelog for v2:
+ * removed patches that were already applied
+ * also removed PPC_DUMP_CPU functinality
+
+Bruno Larsen (billionai) (2):
+  target/ppc: removed GEN_OPCODE decision tree
+  target/ppc: removed all mentions to PPC_DUMP_CPU
+
+ target/ppc/cpu_init.c  | 205 -----------------------------------------
+ target/ppc/internal.h  |   2 -
+ target/ppc/translate.c | 184 ------------------------------------
+ 3 files changed, 391 deletions(-)
+
 -- 
 2.17.1
 
