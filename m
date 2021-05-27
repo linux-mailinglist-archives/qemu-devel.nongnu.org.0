@@ -2,57 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17B373927F0
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 08:42:05 +0200 (CEST)
-Received: from localhost ([::1]:59044 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09F90392881
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 09:26:54 +0200 (CEST)
+Received: from localhost ([::1]:43946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lm9iW-00058T-6e
-	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 02:42:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40488)
+	id 1lmAPt-0001lP-4X
+	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 03:26:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47278)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lm9hO-0004Jv-IY
- for qemu-devel@nongnu.org; Thu, 27 May 2021 02:40:54 -0400
-Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:35493)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lm9hK-000593-VT
- for qemu-devel@nongnu.org; Thu, 27 May 2021 02:40:53 -0400
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-517-jixavwZTMh6zP1fPoIXMOw-1; Thu, 27 May 2021 02:40:44 -0400
-X-MC-Unique: jixavwZTMh6zP1fPoIXMOw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 289211883520;
- Thu, 27 May 2021 06:40:42 +0000 (UTC)
-Received: from bahia.lan (ovpn-112-46.ams2.redhat.com [10.36.112.46])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A165F61156;
- Thu, 27 May 2021 06:40:39 +0000 (UTC)
-Date: Thu, 27 May 2021 08:40:38 +0200
-From: Greg Kurz <groug@kaod.org>
-To: "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br>
-Subject: Re: [PATCH 4/5] monitor: removed cpustats command
-Message-ID: <20210527084038.512c5270@bahia.lan>
-In-Reply-To: <20210526202104.127910-5-bruno.larsen@eldorado.org.br>
-References: <20210526202104.127910-1-bruno.larsen@eldorado.org.br>
- <20210526202104.127910-5-bruno.larsen@eldorado.org.br>
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lmAEJ-0002mn-3Z
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 03:14:55 -0400
+Received: from mail-yb1-xb36.google.com ([2607:f8b0:4864:20::b36]:39782)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lmADp-0005eq-4e
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 03:14:54 -0400
+Received: by mail-yb1-xb36.google.com with SMTP id f9so5764194ybo.6
+ for <qemu-devel@nongnu.org>; Thu, 27 May 2021 00:14:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=clE4FttrJVXdBOBEsDLZMMwTNTrLLLYk3qNyQRcHQ7k=;
+ b=bG2TF7o8XM6Husa1yZL5nPGXPtD8XrxeAWRnoB7a1gIlAx0zt07XxeQWk0RXVpfH6D
+ vA35aiIWO75sxKLZoF8SbdxjGHcW5Icr/v/YbTG1P6jc+tDau5NJK9NzxuhHw8COU3OJ
+ gmY5w3fwCngpw/vt8SxT6HMiDvjCTpGbjYP2leHmBYhuv5hyh4mLTJOcYZtu87/0Fd2/
+ YP0+OTqkDVymfCfjpxoaZbbZlJe5hL/pcZRiSgiw3aCnz/knnPHehyTJD9wGpwrUNg8T
+ liQ1TYNp/FL14kkUR1gIfMiT7aO4uZo2OjBbtFnd/XZBIQBMCpTP/S0STTs9+RfuWCjY
+ KyPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=clE4FttrJVXdBOBEsDLZMMwTNTrLLLYk3qNyQRcHQ7k=;
+ b=IGqirBXgxWTC4s4/NvKLThvYfEtLpgGVIfp9fAXWR3YqZaBD/IpJ7cYZbbUXOhI0Tx
+ VUOX7QlVidvs98XQtR1rHxYJRVb2ea+QxA8feqAPfafjUr5BY+Zg8b7hJ2k3bYh/6EZY
+ uyhDZJ8rw6jkAqiGZddCRO+8/z9vQx9zOiiNOyW/U+ne/bHY2QLCXkMvjJPcWilhMwTA
+ 1ITeOWFF4DgGbVaB8h1ZOEO1cTE1Wo3shyJznuHJ7ymRC7XXMl6vayHxM86lsDNtn0ly
+ KARb+j6GkjG3dgocfw/uTYZyrtMou8YfisON2JwC6nBbFMGhETVqE+lr6I3OS6So624z
+ HpgA==
+X-Gm-Message-State: AOAM532EknPjqvxJOlKlSbAgPldn16Q8TgKTUDIHFtL3+w0IDgNOzRwZ
+ 02kAH04OB5TGj4BMUbo+Jt2YMls1oY41bIP0CJQ=
+X-Google-Smtp-Source: ABdhPJxKkMP888ic5ggZU+JKj/7EhOfW0mdFgED4L29Yg290hbzCYYpAwW0YuXMzKGvkx+a3EGd/LLhhfm+4Uv4/cqA=
+X-Received: by 2002:a05:6902:100c:: with SMTP id
+ w12mr2808665ybt.122.1622099663271; 
+ Thu, 27 May 2021 00:14:23 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=groug@kaod.org
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: kaod.org
-Content-Type: text/plain; charset=WINDOWS-1252
+References: <1622089478-5426-1-git-send-email-jasowang@redhat.com>
+ <CAEUhbmW2dHstLd6gE43gdyBr+xpoGXjZSuh+6fwKwtSrQjmuWg@mail.gmail.com>
+ <43e3dd04-edac-f0a5-0b99-9a8c8b9d1a5f@redhat.com>
+In-Reply-To: <43e3dd04-edac-f0a5-0b99-9a8c8b9d1a5f@redhat.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Thu, 27 May 2021 15:14:11 +0800
+Message-ID: <CAEUhbmUJG9vckLWE_r=SCRpW5z1T_NZJkRy4fhUrMHAP_zbW4Q@mail.gmail.com>
+Subject: Re: [PULL V2 0/3] Net patches
+To: Jason Wang <jasowang@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: softfail client-ip=207.211.30.44; envelope-from=groug@kaod.org;
- helo=us-smtp-delivery-44.mimecast.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b36;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb36.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -65,93 +81,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: farosas@linux.ibm.com, richard.henderson@linaro.org,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- lucas.araujo@eldorado.org.br, luis.pires@eldorado.org.br,
- fernando.valle@eldorado.org.br, qemu-ppc@nongnu.org,
- matheus.ferst@eldorado.org.br, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- david@gibson.dropbear.id.au
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 26 May 2021 17:21:03 -0300
-"Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br> wrote:
+On Thu, May 27, 2021 at 2:35 PM Jason Wang <jasowang@redhat.com> wrote:
+>
+>
+> =E5=9C=A8 2021/5/27 =E4=B8=8B=E5=8D=882:13, Bin Meng =E5=86=99=E9=81=93:
+> > Hi Jason,
+> >
+> > On Thu, May 27, 2021 at 12:24 PM Jason Wang <jasowang@redhat.com> wrote=
+:
+> >> The following changes since commit d90f154867ec0ec22fd719164b88716e8fd=
+48672:
+> >>
+> >>    Merge remote-tracking branch 'remotes/dg-gitlab/tags/ppc-for-6.1-20=
+210504' into staging (2021-05-05 20:29:14 +0100)
+> >>
+> >> are available in the git repository at:
+> >>
+> >>    https://github.com/jasowang/qemu.git tags/net-pull-request
+> >>
+> >> for you to fetch changes up to 4f8a39494aded9f2026a26b137378ea2ee3d533=
+8:
+> >>
+> >>    tap-bsd: Remove special casing for older OpenBSD releases (2021-05-=
+27 11:03:55 +0800)
+> >>
+> >> ----------------------------------------------------------------
+> >>
+> >> ----------------------------------------------------------------
+> >> Brad Smith (1):
+> >>        tap-bsd: Remove special casing for older OpenBSD releases
+> >>
+> >> Guenter Roeck (1):
+> >>        hw/net/imx_fec: return 0xffff when accessing non-existing PHY
+> >>
+> >> Laurent Vivier (1):
+> >>        virtio-net: failover: add missing remove_migration_state_change=
+_notifier()
+> >>
+> >>   hw/net/imx_fec.c    | 8 +++-----
+> >>   hw/net/trace-events | 2 ++
+> >>   hw/net/virtio-net.c | 1 +
+> >>   net/tap-bsd.c       | 8 --------
+> >>   4 files changed, 6 insertions(+), 13 deletions(-)
+> > What happened to patch 5-12 in the following series?
+> > http://patchwork.ozlabs.org/project/qemu-devel/cover/20210317062638.726=
+26-1-bmeng.cn@gmail.com/
+>
+>
+> I want to do some test before the merging. Or if possible, could you
+> please write a test for this function?
+>
 
-> Since ppc was the last architecture to collect these statistics and
-> it is currently phasing this collection out, the command that would query
-> this information is being removed.
->=20
+For each of these network adapter models? What kind of tests are
+needed? Any pointers?
 
-So this is removing an obviously user visible feature. This should be
-mentioned in docs/system/removed-features.rst... but, wait, I don't
-see anything for it in docs/system/deprecated.rst. This is dropping
-a feature without following the usual deprecation policy, i.e.
-marking the feature as deprecated and only remove it 2 QEMU versions
-later. Any justification for that ?
-
-David,
-
-Unrelated, I saw that you already applied this to ppc-for-6.1 on gitlab
-but the commit title appears to be broken:
-
-'65;6401;1cmonitor: removed cpustats command
-
-https://gitlab.com/dgibson/qemu/-/commit/532be563eae6b8ae834ff7e9ebb1428f53=
-569a69
-
-> Suggested-by: Richard Henderson <richard.henderson@linaro.org>
-> Signed-off-by: Bruno Larsen (billionai) <bruno.larsen@eldorado.org.br>
-> ---
->  hmp-commands-info.hx | 13 -------------
->  monitor/misc.c       | 11 -----------
->  2 files changed, 24 deletions(-)
->=20
-> diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
-> index ab0c7aa5ee..b2347a6aea 100644
-> --- a/hmp-commands-info.hx
-> +++ b/hmp-commands-info.hx
-> @@ -500,19 +500,6 @@ SRST
->      Show the current VM UUID.
->  ERST
-> =20
-> -    {
-> -        .name       =3D "cpustats",
-> -        .args_type  =3D "",
-> -        .params     =3D "",
-> -        .help       =3D "show CPU statistics",
-> -        .cmd        =3D hmp_info_cpustats,
-> -    },
-> -
-> -SRST
-> -  ``info cpustats``
-> -    Show CPU statistics.
-> -ERST
-> -
->  #if defined(CONFIG_SLIRP)
->      {
->          .name       =3D "usernet",
-> diff --git a/monitor/misc.c b/monitor/misc.c
-> index f3a393ea59..1539e18557 100644
-> --- a/monitor/misc.c
-> +++ b/monitor/misc.c
-> @@ -369,17 +369,6 @@ static void hmp_info_history(Monitor *mon, const QDi=
-ct *qdict)
->      }
->  }
-> =20
-> -static void hmp_info_cpustats(Monitor *mon, const QDict *qdict)
-> -{
-> -    CPUState *cs =3D mon_get_cpu(mon);
-> -
-> -    if (!cs) {
-> -        monitor_printf(mon, "No CPU available\n");
-> -        return;
-> -    }
-> -    cpu_dump_statistics(cs, 0);
-> -}
-> -
->  static void hmp_info_trace_events(Monitor *mon, const QDict *qdict)
->  {
->      const char *name =3D qdict_get_try_str(qdict, "name");
-
+Regards,
+Bin
 
