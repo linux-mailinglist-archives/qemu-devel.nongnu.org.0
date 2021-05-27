@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F9DD392BC7
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 12:27:04 +0200 (CEST)
-Received: from localhost ([::1]:52044 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67DBB392C29
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 12:51:45 +0200 (CEST)
+Received: from localhost ([::1]:44984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lmDEF-0007JZ-3Y
-	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 06:27:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58646)
+	id 1lmDc7-00063I-SA
+	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 06:51:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58780)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1lmD4H-00037C-0f
- for qemu-devel@nongnu.org; Thu, 27 May 2021 06:16:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38955)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1lmD4B-0000Sw-71
- for qemu-devel@nongnu.org; Thu, 27 May 2021 06:16:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622110598;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=29B2evyaT2G1C30QpgbVusvEWHprTYqUWegnz1baNFA=;
- b=SYQeZcNqMrRHa2kT8UAacosqy3mvbIbbDuG4gK/u2FFnvfIbK+1Phq+EGCON6bbA6fJW1J
- Y2F/JGZtKuq6gxZU9z0u/KYXIgR+W4CTq3HUVv66/6Kd7QMWVsDjVIOTV28cCbg+/p8BkX
- uqjcyiH3eqyji5pv5Ln4NFoGhL1zUf4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-342--rid3iLqNRCrKTX_ekXGIg-1; Thu, 27 May 2021 06:16:34 -0400
-X-MC-Unique: -rid3iLqNRCrKTX_ekXGIg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 184AB180FD66;
- Thu, 27 May 2021 10:16:33 +0000 (UTC)
-Received: from localhost (unknown [10.33.36.9])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A7D122E175;
- Thu, 27 May 2021 10:16:32 +0000 (UTC)
-Date: Thu, 27 May 2021 12:16:31 +0200
-From: Sergio Lopez <slp@redhat.com>
-To: Alexander Graf <agraf@csgraf.de>
-Subject: Re: [PATCH v8 10/19] hvf: Remove hvf-accel-ops.h
-Message-ID: <20210527101631.qz6h7vhcetof2az7@mhamilton>
-References: <20210519202253.76782-1-agraf@csgraf.de>
- <20210519202253.76782-11-agraf@csgraf.de>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lmD5B-0003WX-MI
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 06:17:41 -0400
+Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:39845)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lmD4y-0000pG-5J
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 06:17:41 -0400
+Received: by mail-ej1-x631.google.com with SMTP id l1so7175158ejb.6
+ for <qemu-devel@nongnu.org>; Thu, 27 May 2021 03:17:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=VSTSTaRAyRm4bQIpYIBj7B8Ir3wehYFEmAzYB6Ak1+g=;
+ b=KXErUrG6mMI5qL36h10PGqqPc044jcxv0YwpNcC/wOMxVI/f5DvU50Ot+NnK/ausPv
+ RQcu5+wtB8jbZEQGn3INuhS5nrOisghaiEP2tGWy9zxiH7gCq+hbns53aKnFoRDQrjkY
+ d0H6hIJiX+hbaYa6p5803pNhZ9G8B750TS47tK16R6oO/b0udZYW8KA7CE7twwxBdIUA
+ XpcyUGjlMovjtDjC49+wvqMKHgBpv7fH+/p174WHbe6axPLwr1v7E6exj+pEBj5UW/7d
+ k5vbpLv5w3/L/sVHX3IVpQPj+az06R2CQs/Lm75uAeuCjMBt66WUiUtJAyU01Qt1i+XS
+ Nw4Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=VSTSTaRAyRm4bQIpYIBj7B8Ir3wehYFEmAzYB6Ak1+g=;
+ b=UfoCKvYLgcFVYV5T2j5FFCR5POAvyWRepWQR+nrlLn3WgosxEhtf1WOE2alRWGArtG
+ C+MfvUL2xYLWoxp1itcwDGFhbbz9qJF5xW6vuCVVAEuZxeFYgJpEabrJ9ROpczisBCqp
+ mBcbrfkWTu417ZaY8ezjSmoeVIEwZulpFfvMnlQBtCZ3zG8FeMx/qPQRNvo4K5Rdq8ce
+ UY96yVCx0zo+TD565KbQ33+ScLyT1n6ZzZGAf7JrH2LRGZytieh+Rcl5lxKXzVS2ixPW
+ EC5DjZHtFaJa/PPPKKP5HN+2x00dFh/ECt6Oygm9JAUy1bjWkkmZsyjr9yjiDj1gt9wY
+ 7rdw==
+X-Gm-Message-State: AOAM532beatlWvew+PLjWrAZF7qS7rShfGJVoJsrjpcqN/9MimrvC9ft
+ lUTQJh6qz+Uqia1+sq8aW+xq3cEgqmPwU4LUEd4i1Q==
+X-Google-Smtp-Source: ABdhPJy/KhsI4FYe1CZrdR6P1RZin3+aCjSe62t3qSNnzQYkRs3/o40J2qJHnAZNH7TOaZEnu13Knt2YkDA7QPEaP5E=
+X-Received: by 2002:a17:906:9bd6:: with SMTP id
+ de22mr2968148ejc.382.1622110641569; 
+ Thu, 27 May 2021 03:17:21 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210519202253.76782-11-agraf@csgraf.de>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=slp@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="6ffluegipbrstcsw"
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=slp@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+References: <20210524024655.11115-1-someguy@effective-light.com>
+In-Reply-To: <20210524024655.11115-1-someguy@effective-light.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 27 May 2021 11:16:56 +0100
+Message-ID: <CAFEAcA_Z-fe1pT8=-TCFxVkpBpXpKXD+vKi1i=CBFLg4ANYE1A@mail.gmail.com>
+Subject: Re: [PATCH] linux-user: make process_pending_signals thread-safe
+To: Hamza Mahfooz <someguy@effective-light.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::631;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x631.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,56 +77,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, Peter Collingbourne <pcc@google.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Cameron Esfahani <dirty@apple.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, qemu-arm <qemu-arm@nongnu.org>,
- Frank Yang <lfy@google.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>, Laurent Vivier <laurent@vivier.eu>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---6ffluegipbrstcsw
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, May 19, 2021 at 10:22:44PM +0200, Alexander Graf wrote:
-> We can move the definition of hvf_vcpu_exec() into our internal
-> hvf header, obsoleting the need for hvf-accel-ops.h.
->=20
-> Signed-off-by: Alexander Graf <agraf@csgraf.de>
+On Mon, 24 May 2021 at 03:48, Hamza Mahfooz <someguy@effective-light.com> wrote:
+>
+> Use pthread_sigmask instead of sigprocmask inside process_pending_signals
+> to ensure that race conditions aren't possible.
+>
+> Signed-off-by: Hamza Mahfooz <someguy@effective-light.com>
 > ---
->  accel/hvf/hvf-accel-ops.c |  2 --
->  accel/hvf/hvf-accel-ops.h | 17 -----------------
->  include/sysemu/hvf_int.h  |  1 +
->  target/i386/hvf/hvf.c     |  2 --
->  4 files changed, 1 insertion(+), 21 deletions(-)
->  delete mode 100644 accel/hvf/hvf-accel-ops.h
+>  linux-user/signal.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+>
+> diff --git a/linux-user/signal.c b/linux-user/signal.c
+> index 7eecec46c4..81ff753c01 100644
+> --- a/linux-user/signal.c
+> +++ b/linux-user/signal.c
+> @@ -1005,9 +1005,8 @@ void process_pending_signals(CPUArchState *cpu_env)
+>      sigset_t *blocked_set;
+>
+>      while (qatomic_read(&ts->signal_pending)) {
+> -        /* FIXME: This is not threadsafe.  */
+>          sigfillset(&set);
+> -        sigprocmask(SIG_SETMASK, &set, 0);
+> +        pthread_sigmask(SIG_SETMASK, &set, 0);
 
-Reviewed-by: Sergio Lopez <slp@redhat.com>
+We use sigprocmask() in plenty more places than this one in linux-user,
+so it seems unlikely that the FIXME comment is simply noting that we've
+used sigprocmask() rather than pthread_sigmask(). Indeed, the comment
+dates back to before this function called sigprocmask() at all (the
+sigprocmask() call was added in commit 3d3efba020da which just preserves
+the FIXME comment.
 
---6ffluegipbrstcsw
-Content-Type: application/pgp-signature; name="signature.asc"
+So I think we cannot remove this FIXME comment like this: we need to
+more carefully analyze the code/dig through the history to identify
+what race condition/threadsafety issue the comment is attempting to
+point out, because it's not "we didn't use pthread_sigmask()".
 
------BEGIN PGP SIGNATURE-----
+(As it happens, on Linux/glibc sigprocmask() is implemented as simply
+calling pthread_sigmask():
+https://sourceware.org/git/?p=glibc.git;a=blob;f=sysdeps/unix/sysv/linux/sigprocmask.c;h=9dfd8076d12aff9014fa40f7e93111760a1a8bad;hb=HEAD
+If we do want to change from sigprocmask() to pthread_sigmask(), we
+should be consistent about doing that, not just change this call only.)
 
-iQIzBAABCAAdFiEEvtX891EthoCRQuii9GknjS8MAjUFAmCvcX4ACgkQ9GknjS8M
-AjXiEg//Yz7sOVMRMvvjyumvGCCtojCzr/s2oodfiRAFK3vtgWjpZq4poedweixi
-dVj6DbcYlgQtjpdlK8B4WqwJu+FovoadhS4uwdnE8Si/g/OacxDRF1Uw1SXqfocu
-PFnJ30yuLCFAH0EiyUviuvsLJLHflcOdLiQnZ+PsSciq7xIb4qJdo7ljJ+0XM2ra
-Cuc8NVap3I/P25zyNjRa2419c7rCAZwEuNiVioRQ2iRW9zO8V0x9+Kt/RT6iqagq
-SZOlPlITc6bLBJ2OkF0fzrF3nYLL+C731tTBbl+9XFUkyLmSOu4Rt8kiOG2DoYbT
-yYFSbPi/q6Q0wihOkH22c5iksHXR51hdpZ/3EcI6K/jjDHTRWXsDb5iMUVe5snUA
-LjqQbfMuO3cn58S+8spTTFccSJ/C0U307pFwqGZYdIlFX++ysGip4bnQmIKqtTAF
-ahjRheim8q7WzCs96uG7A8a1DOQ4H/+c6qUeYq3Dsf3XT3hYpnkQEKeG2r9iX1gy
-M4bHpQslStE5ihss71oVxe8TYyDsUQUEcfwQVfvOeGQSL+8D+ibC448LUyey1mfr
-HA2cxqS7utc3Em7bTFDcQ+ufbjX+5/SonC5mIG8qEm92Xo1RAieqrtYX8pNkamsK
-zf1he9EMMgIWa17lntKfgrsA8QfH4EnxLn4kyCjXE9d1XigeCCQ=
-=OWBF
------END PGP SIGNATURE-----
-
---6ffluegipbrstcsw--
-
+thanks
+-- PMM
 
