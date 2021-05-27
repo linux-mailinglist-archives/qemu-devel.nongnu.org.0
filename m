@@ -2,66 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECF903931F1
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 17:12:09 +0200 (CEST)
-Received: from localhost ([::1]:54116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C43B83931E2
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 17:09:54 +0200 (CEST)
+Received: from localhost ([::1]:51816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lmHg9-0005do-1S
-	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 11:12:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46988)
+	id 1lmHds-0003vs-7J
+	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 11:09:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45614)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lmHfA-0004t3-RW
- for qemu-devel@nongnu.org; Thu, 27 May 2021 11:11:08 -0400
-Received: from indium.canonical.com ([91.189.90.7]:33176)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lmHf6-0007pa-9d
- for qemu-devel@nongnu.org; Thu, 27 May 2021 11:11:08 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lmHf2-0007Q5-RC
- for <qemu-devel@nongnu.org>; Thu, 27 May 2021 15:11:00 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id CC43B2E813A
- for <qemu-devel@nongnu.org>; Thu, 27 May 2021 15:11:00 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
+ id 1lmHa9-0008HO-1b
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 11:05:57 -0400
+Received: from mout.web.de ([212.227.15.14]:40607)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
+ id 1lmHa6-0004ke-4U
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 11:05:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+ s=dbaedf251592; t=1622127947;
+ bh=KInVRULl6N7XDj5cBtSj4jTQ59De9Ak7fXjiw16YRdg=;
+ h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
+ b=o1Xp1ZlTXtpWQb6DxZalLHLYtqvLIfEzk4eyEchUg6/mZPCBV9gx6yN4loWtuw/dT
+ 8OLU0U7a2ed9TBe+gh70DvL1TRdb4At/PROeVAQzcybFztFWQaVgUK9iXgJEY4RkHT
+ YPcRNeVLAROTx3eTwXRVUDtLvco07TJRgLG1uojE=
+X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
+Received: from gecko.fritz.box ([94.134.180.59]) by smtp.web.de (mrweb004
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 0LsNpI-1lJaeh2GiG-011wLD; Thu, 27
+ May 2021 17:05:47 +0200
+Date: Thu, 27 May 2021 17:05:08 +0200
+From: Lukas Straub <lukasstraub2@web.de>
+To: "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>
+Subject: Re: [PATCH 1/1] yank: Unregister function when using TLS migration
+Message-ID: <20210527170508.4d253e74@gecko.fritz.box>
+In-Reply-To: <YK+SloySEG+O5wZV@redhat.com>
+References: <20210526200540.1088333-1-leobras.c@gmail.com>
+ <YK6yQ9EVNlVPDMaS@t490s> <20210526232103.39e2a7d0@gecko.fritz.box>
+ <YK7EotQbx/F9avls@t490s> <YK9cfiUx+vk/yxtf@redhat.com>
+ <YK+PWHzpmnQqgYAw@t490s> <YK+SloySEG+O5wZV@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 27 May 2021 15:03:06 -0000
-From: Thomas Huth <1892978@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: a1xndr th-huth
-X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <159841449798.5559.12227136103734642723.malonedeb@gac.canonical.com>
-Message-Id: <162212778649.24907.6645954774255350596.malone@gac.canonical.com>
-Subject: [Bug 1892978] Re: Heap-use-after-free in e1000e_write_packet_to_guest
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="325c8b1be58d11b29d8346f2c6d59878e7a2e6ff"; Instance="production"
-X-Launchpad-Hash: 7045178a72415b74ace24f699f76f36a45ce48bf
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; boundary="Sig_/kkUIzuNfM6IIv7SRwH3J7Yx";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+X-Provags-ID: V03:K1:CDdMn1+LSZsVfvyPZFGbOdwaa+sqqxud8yks1VxcHsZFXwadDS/
+ Av67JYKMSQ0OfzT8PfTLWO1TB8uzptZCmOri17HGPaH8sIbO8qiHg/FTnznZ9ZNNNCDPb7z
+ cRBXVraTVIXnIa4EzuahzHyjSub7Re4RvUnJOuuNumpB5zOQWvPVZh7bIBoCIQDGNJk92Lz
+ Xds/Zlg2ru2VWgZy14nrw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:ob2xcaHR6b8=:yoZsvDm8CMH4Eq5VcNDGBy
+ 4g4U/8ZyxPXTkhU5mIvzW5IGPnrbvovpbC6KI6X+F0A7IuUykCy/u3Nd1xUTl940PEXYMRJm1
+ VKV/h7rPCZ+32n1RPBTHOk5pxStmchs9LeCN/bUp0CQ4c9Y47zIjh6zpz8qaTzij2csmYLsXr
+ fe215T+THP3A7Isu3zbtIH5q1TXGyTbDh4r41EFlGgj5QlbamVjwhpzcZ2hHkT2lm2A8brQy1
+ Mg0TenfylWss7Eckv0ZTYO7ASYtp1XnWVHWxNW7IHNCDQ12N8NeyqCUwHOd6d8mvo2V3AqgSU
+ Atq/SdhLqpZlzEaTJcnDfISjk+KA5Fc/NPsfhQs0xK0ftss4GOvdPUw8Vfci6Njv0Ci14mtap
+ pPV52ZoV4NEQr8qcOb3soAYOA3Wyl9DcyaUixcH97DYdI5ytBmZKIi/IIttFoxE/iAN0fHdtG
+ ipA1n+tUiO5bZ7EfPQSyW/QEy0FEEzWbnOZCSdHK0TjnQFtb+Zu7Txm0PE0bljbhcGerYPJJK
+ gKfHGmc9kQC0tv4ZriQqDrORyMNvTPJvS9s3zQ2r3xPyTH+67CXniS2mq/3IeYBAUHVqF6X9Y
+ KP0svGOBsmsk7DEXT1nrbyNL+nr9jQ9zUvdJmo+bEjRo3Kl4yoE1Q3kkuCoWBjsKKM6BZIqEX
+ PDijK8IjTlWqBTIy03M+KdRuz+aPrCvlXGGqc6JtQLQKqAGjiuvZZX3yBtQoDLyhIxIrrNwSX
+ IIUQQ/O3KWlaoRRpBdhLv/htYFQllc6fWliPWxLrZVT2pOwcEP/p2sPBUj7yQIIGL3pChcPCw
+ ZSpyFl8BUOG1U7YwHxVjnT9U1m6K6QFjixNkwWeU/ooZNKvgiKHvtCB2F04QgWMDamEUwZSaF
+ S57J9B1XYkxpSYNpHUdTAnjxw04quxkpJvpmkEcymQ9UI3FBMzl7zaZLU2j56ZHon+P8irbNM
+ Mn8MZySpVtNcRTrHd2oIEX/Bfl2eLUV4UwtJONvTcD62eBxqK/Wz6x14kmwk4hvX+tDBOPpCL
+ n+LR7cbuTw6AFMgqNeJqJ0t7n7rPSoqgq0sCir+xKTsitM3bwUR+h0tBULYP6PzcQMu5jxqXh
+ s0n4mEm4EtW1ZO3g4ZSWzgSrWi27n6u8L/P+oZQTEjPUXaCgWqoH3G+DPLbVP4DlwcNDlRDES
+ qFRt93BACD4OjMPHxqD5/iSuZTR5txXD6rVX0zez0fac65EIo2pWjOccDiu0Y+JCAbieo=
+Received-SPF: pass client-ip=212.227.15.14; envelope-from=lukasstraub2@web.de;
+ helo=mout.web.de
+X-Spam_score_int: -24
+X-Spam_score: -2.5
+X-Spam_bar: --
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,733 +87,186 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1892978 <1892978@bugs.launchpad.net>
+Cc: qemu-devel@nongnu.org, Leonardo Bras <leobras.c@gmail.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ok, thanks, so let's mark it as fixed now :-)
+--Sig_/kkUIzuNfM6IIv7SRwH3J7Yx
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-** Changed in: qemu
-       Status: Incomplete =3D> Fix Released
+On Thu, 27 May 2021 13:37:42 +0100
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
 
--- =
+> On Thu, May 27, 2021 at 08:23:52AM -0400, Peter Xu wrote:
+> > On Thu, May 27, 2021 at 09:46:54AM +0100, Daniel P. Berrang=C3=A9 wrote=
+: =20
+> > > On Wed, May 26, 2021 at 05:58:58PM -0400, Peter Xu wrote: =20
+> > > > On Wed, May 26, 2021 at 11:21:03PM +0200, Lukas Straub wrote: =20
+> > > > > On Wed, 26 May 2021 16:40:35 -0400
+> > > > > Peter Xu <peterx@redhat.com> wrote:
+> > > > >  =20
+> > > > > > On Wed, May 26, 2021 at 05:05:40PM -0300, Leonardo Bras wrote: =
+=20
+> > > > > > > After yank feature was introduced, whenever migration is star=
+ted using TLS,
+> > > > > > > the following error happens in both source and destination ho=
+sts:
+> > > > > > >=20
+> > > > > > > (qemu) qemu-kvm: ../util/yank.c:107: yank_unregister_instance:
+> > > > > > > Assertion `QLIST_EMPTY(&entry->yankfns)' failed.
+> > > > > > >=20
+> > > > > > > This happens because of a missing yank_unregister_function() =
+when using
+> > > > > > > qio-channel-tls.
+> > > > > > >=20
+> > > > > > > Fix this by also allowing TYPE_QIO_CHANNEL_TLS object type to=
+ perform
+> > > > > > > yank_unregister_function() in channel_close() and multifd_loa=
+d_cleanup().
+> > > > > > >=20
+> > > > > > > Fixes: 50186051f ("Introduce yank feature")
+> > > > > > > Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=3D1964326
+> > > > > > > Signed-off-by: Leonardo Bras <leobras.c@gmail.com>   =20
+> > > > > >=20
+> > > > > > Leo,
+> > > > > >=20
+> > > > > > Thanks for looking into it!
+> > > > > >=20
+> > > > > > So before looking int the fix... I do have a doubt on why we on=
+ly enable yank
+> > > > > > on socket typed, as I think tls should also work with qio_chann=
+el_shutdown().
+> > > > > >=20
+> > > > > > IIUC the confused thing here is we register only for qio-socket=
+, however tls
+> > > > > > will actually call migration_channel_connect() twice, first wit=
+h a qio-socket,
+> > > > > > then with the real tls-socket.  For tls I feel like we have reg=
+istered with the
+> > > > > > wrong channel - instead of the wrapper socket ioc, we should re=
+gister to the
+> > > > > > final tls ioc?
+> > > > > >=20
+> > > > > > Lukas, is there a reason?
+> > > > > >  =20
+> > > > >=20
+> > > > > Hi,
+> > > > > There is no specific reason. Both ways work equally well in preve=
+nting
+> > > > > qemu from hanging. shutdown() for tls-channel just makes it abort=
+ a
+> > > > > little sooner (by not attempting to encrypt and send data anymore=
+).
+> > > > >=20
+> > > > > I don't lean either way. I guess registering it on the tls-channel
+> > > > > makes is a bit more explicit and clearer. =20
+> > > >=20
+> > > > Agreed, because IMHO logically the migration code should not be awa=
+re of
+> > > > internals of IOChannels, e.g., we shouldn't need to know ioc->maste=
+r is the
+> > > > socket ioc of tls ioc to unregister. =20
+> > >=20
+> > > I think it is atually better to ignore the TLS channel and *always* y=
+ank
+> > > on the undering socket IO channel. The yank functionality is intended=
+ to
+> > > be used in a scenario where we know the channels are broken.  If yank
+> > > calls the high level IO channel it is potentially going to try to do a
+> > > cleanup shutdown that we know will fail because of the broken network=
+. =20
+> >=20
+> > Could you elaborate what's the "cleanup shutdown"?
+> >=20
+> > The yank calls migration_yank_iochannel:
+> >=20
+> > void migration_yank_iochannel(void *opaque)
+> > {
+> >     QIOChannel *ioc =3D QIO_CHANNEL(opaque);
+> >=20
+> >     qio_channel_shutdown(ioc, QIO_CHANNEL_SHUTDOWN_BOTH, NULL);
+> > }
+> >=20
+> > Where qio_channel_shutdown for tls is nothing but delivers that to the =
+master
+> > channel:
+> >=20
+> > static int qio_channel_tls_shutdown(QIOChannel *ioc,
+> >                                     QIOChannelShutdown how,
+> >                                     Error **errp)
+> > {
+> >     QIOChannelTLS *tioc =3D QIO_CHANNEL_TLS(ioc);
+> >=20
+> >     qatomic_or(&tioc->shutdown, how);
+> >=20
+> >     return qio_channel_shutdown(tioc->master, how, errp);
+> > }
+> >=20
+> > So I thought it was a nice wrapper just for things like this, and I did=
+n't see
+> > anything it does more than the io_shutdown for the socket channel.  Did=
+ I miss
+> > something? =20
+>=20
+> Today thats the case, but don't assume it will be the case forever.
+> There is a mechanism in TLS for doing clean shutdown which we've
+> debated including.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1892978
+Actually, the requirements of io_shutdown where tightened with the
+introduction of the yank feature (commit 8659f317d) and it now reads:
 
-Title:
-  Heap-use-after-free in e1000e_write_packet_to_guest
+/**
+ * qio_channel_shutdown:
+ * ...
+ * This function is thread-safe, terminates quickly and does not block.
+ * ...
+ */
 
-Status in QEMU:
-  Fix Released
+And it should probably be further tightened with something like :
+"With SHUTDOWN_BOTH all in-flight read()/write() operations on the io
+object will be canceled immediately"
 
-Bug description:
-  Hello,
-  Reproducer:
-  cat << EOF | ./qemu-system-i386 \
-  -display none -m 64 -netdev user,id=3Dqtest-bn0 \
-  -device e1000e,netdev=3Dqtest-bn0 -display none \
-  -nodefaults -accel qtest -qtest stdio
-  outl 0xcf8 0x80001004
-  outl 0xcfc 0x3b2e84ce
-  outl 0xcf8 0x80001013
-  outw 0xcfc 0x2499
-  writew 0x990000ff 0x5ea2
-  writeq 0x99000429 0x133a940000188101
-  outl 0xcfc 0x9b890e04
-  writeq 0x4000119 0x5000055ec751c0d
-  write 0x10707 0x1 0x07
-  write 0x51 0x1 0x04
-  write 0x53 0x1 0x04
-  write 0x140 0x1 0x07
-  write 0x141 0x1 0x07
-  write 0x142 0x1 0x01
-  write 0x148 0x1 0x40
-  write 0x14a 0x1 0x7d
-  write 0x14b 0x1 0xff
-  writeq 0x4000401 0x413001600027d
-  EOF
+Since from a quick look, at least nbd (nbd_teardown_connection()),
+migrate (migrate_fd_cancel()) and yank of course expect that.
 
-  =
+> In general apps *can* just call the shutdown method on the QIOChannelTLS
+> object no matter what.  Yank is just a little bit special because of its
+> need to be guaranteed to work even when the network is dead. So yank
+> should always directly call the low level QIOChannelSocket, so thre is
+> a strong guarantee it can't block on something.
+>=20
+>=20
+> Regards,
+> Daniel
 
-  The stacktrace:
 
-  [S +0.090759] OK
-  [R +0.090767] writeq 0x4000401 0x413001600027d
-  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-  =3D=3D935641=3D=3DERROR: AddressSanitizer: heap-use-after-free on address=
- 0x61900006cc88 at pc 0x555613393d45 bp 0x7fff92f8b7f0 sp 0x7fff92f8b7e8
-  READ of size 8 at 0x61900006cc88 thread T0
-      #0 0x555613393d44 in e1000e_write_packet_to_guest /home/alxndr/Develo=
-pment/qemu/general-fuzz/build/../hw/net/e1000e_core.c:1587:41
-      #1 0x55561338e419 in e1000e_receive_iov /home/alxndr/Development/qemu=
-/general-fuzz/build/../hw/net/e1000e_core.c:1709:9
-      #2 0x55561319680b in e1000e_nc_receive_iov /home/alxndr/Development/q=
-emu/general-fuzz/build/../hw/net/e1000e.c:213:12
-      #3 0x555612812581 in net_tx_pkt_sendv /home/alxndr/Development/qemu/g=
-eneral-fuzz/build/../hw/net/net_tx_pkt.c:556:9
-      #4 0x55561280fbc8 in net_tx_pkt_send /home/alxndr/Development/qemu/ge=
-neral-fuzz/build/../hw/net/net_tx_pkt.c:633:9
-      #5 0x555612813f38 in net_tx_pkt_send_loopback /home/alxndr/Developmen=
-t/qemu/general-fuzz/build/../hw/net/net_tx_pkt.c:646:11
-      #6 0x5556133f8c07 in e1000e_tx_pkt_send /home/alxndr/Development/qemu=
-/general-fuzz/build/../hw/net/e1000e_core.c:664:16
-      #7 0x5556133f5359 in e1000e_process_tx_desc /home/alxndr/Development/=
-qemu/general-fuzz/build/../hw/net/e1000e_core.c:743:17
-      #8 0x5556133f302f in e1000e_start_xmit /home/alxndr/Development/qemu/=
-general-fuzz/build/../hw/net/e1000e_core.c:934:9
-      #9 0x5556133daba8 in e1000e_set_tctl /home/alxndr/Development/qemu/ge=
-neral-fuzz/build/../hw/net/e1000e_core.c:2431:9
-      #10 0x55561339901b in e1000e_core_write /home/alxndr/Development/qemu=
-/general-fuzz/build/../hw/net/e1000e_core.c:3265:9
-      #11 0x555613190f26 in e1000e_mmio_write /home/alxndr/Development/qemu=
-/general-fuzz/build/../hw/net/e1000e.c:109:5
-      #12 0x55561508ade0 in memory_region_write_accessor /home/alxndr/Devel=
-opment/qemu/general-fuzz/build/../softmmu/memory.c:483:5
-      #13 0x55561508a2bd in access_with_adjusted_size /home/alxndr/Developm=
-ent/qemu/general-fuzz/build/../softmmu/memory.c:544:18
-      #14 0x555615087f70 in memory_region_dispatch_write /home/alxndr/Devel=
-opment/qemu/general-fuzz/build/../softmmu/memory.c:1466:16
-      #15 0x555614ce68a6 in flatview_write_continue /home/alxndr/Developmen=
-t/qemu/general-fuzz/build/../exec.c:3176:23
-      #16 0x555614ccf878 in flatview_write /home/alxndr/Development/qemu/ge=
-neral-fuzz/build/../exec.c:3216:14
-      #17 0x555614ccf3a8 in address_space_write /home/alxndr/Development/qe=
-mu/general-fuzz/build/../exec.c:3308:18
-      #18 0x555614ccfc40 in address_space_rw /home/alxndr/Development/qemu/=
-general-fuzz/build/../exec.c:3318:16
-      #19 0x5556133b76c7 in dma_memory_rw_relaxed /home/alxndr/Development/=
-qemu/general-fuzz/include/sysemu/dma.h:87:18
-      #20 0x5556133b6ff5 in dma_memory_rw /home/alxndr/Development/qemu/gen=
-eral-fuzz/include/sysemu/dma.h:110:12
-      #21 0x5556133b6f3d in pci_dma_rw /home/alxndr/Development/qemu/genera=
-l-fuzz/include/hw/pci/pci.h:790:5
-      #22 0x5556133b526a in pci_dma_write /home/alxndr/Development/qemu/gen=
-eral-fuzz/include/hw/pci/pci.h:803:12
-      #23 0x5556133b403f in e1000e_write_to_rx_buffers /home/alxndr/Develop=
-ment/qemu/general-fuzz/build/../hw/net/e1000e_core.c:1412:9
-      #24 0x555613393bae in e1000e_write_packet_to_guest /home/alxndr/Devel=
-opment/qemu/general-fuzz/build/../hw/net/e1000e_core.c:1582:21
-      #25 0x55561338e419 in e1000e_receive_iov /home/alxndr/Development/qem=
-u/general-fuzz/build/../hw/net/e1000e_core.c:1709:9
-      #26 0x55561319680b in e1000e_nc_receive_iov /home/alxndr/Development/=
-qemu/general-fuzz/build/../hw/net/e1000e.c:213:12
-      #27 0x555612812581 in net_tx_pkt_sendv /home/alxndr/Development/qemu/=
-general-fuzz/build/../hw/net/net_tx_pkt.c:556:9
-      #28 0x55561280fbc8 in net_tx_pkt_send /home/alxndr/Development/qemu/g=
-eneral-fuzz/build/../hw/net/net_tx_pkt.c:633:9
-      #29 0x555612813f38 in net_tx_pkt_send_loopback /home/alxndr/Developme=
-nt/qemu/general-fuzz/build/../hw/net/net_tx_pkt.c:646:11
-      #30 0x5556133f8c07 in e1000e_tx_pkt_send /home/alxndr/Development/qem=
-u/general-fuzz/build/../hw/net/e1000e_core.c:664:16
-      #31 0x5556133f5359 in e1000e_process_tx_desc /home/alxndr/Development=
-/qemu/general-fuzz/build/../hw/net/e1000e_core.c:743:17
-      #32 0x5556133f302f in e1000e_start_xmit /home/alxndr/Development/qemu=
-/general-fuzz/build/../hw/net/e1000e_core.c:934:9
-      #33 0x5556133daba8 in e1000e_set_tctl /home/alxndr/Development/qemu/g=
-eneral-fuzz/build/../hw/net/e1000e_core.c:2431:9
-      #34 0x55561339901b in e1000e_core_write /home/alxndr/Development/qemu=
-/general-fuzz/build/../hw/net/e1000e_core.c:3265:9
-      #35 0x555613190f26 in e1000e_mmio_write /home/alxndr/Development/qemu=
-/general-fuzz/build/../hw/net/e1000e.c:109:5
-      #36 0x55561508ade0 in memory_region_write_accessor /home/alxndr/Devel=
-opment/qemu/general-fuzz/build/../softmmu/memory.c:483:5
-      #37 0x55561508a2bd in access_with_adjusted_size /home/alxndr/Developm=
-ent/qemu/general-fuzz/build/../softmmu/memory.c:544:18
-      #38 0x555615087f70 in memory_region_dispatch_write /home/alxndr/Devel=
-opment/qemu/general-fuzz/build/../softmmu/memory.c:1466:16
-      #39 0x555614ce68a6 in flatview_write_continue /home/alxndr/Developmen=
-t/qemu/general-fuzz/build/../exec.c:3176:23
-      #40 0x555614ccf878 in flatview_write /home/alxndr/Development/qemu/ge=
-neral-fuzz/build/../exec.c:3216:14
-      #41 0x555614ccf3a8 in address_space_write /home/alxndr/Development/qe=
-mu/general-fuzz/build/../exec.c:3308:18
-      #42 0x555614ccfc40 in address_space_rw /home/alxndr/Development/qemu/=
-general-fuzz/build/../exec.c:3318:16
-      #43 0x5556133b76c7 in dma_memory_rw_relaxed /home/alxndr/Development/=
-qemu/general-fuzz/include/sysemu/dma.h:87:18
-      #44 0x5556133b6ff5 in dma_memory_rw /home/alxndr/Development/qemu/gen=
-eral-fuzz/include/sysemu/dma.h:110:12
-      #45 0x5556133b6f3d in pci_dma_rw /home/alxndr/Development/qemu/genera=
-l-fuzz/include/hw/pci/pci.h:790:5
-      #46 0x5556133b526a in pci_dma_write /home/alxndr/Development/qemu/gen=
-eral-fuzz/include/hw/pci/pci.h:803:12
-      #47 0x5556133b403f in e1000e_write_to_rx_buffers /home/alxndr/Develop=
-ment/qemu/general-fuzz/build/../hw/net/e1000e_core.c:1412:9
-      #48 0x555613393bae in e1000e_write_packet_to_guest /home/alxndr/Devel=
-opment/qemu/general-fuzz/build/../hw/net/e1000e_core.c:1582:21
-      #49 0x55561338e419 in e1000e_receive_iov /home/alxndr/Development/qem=
-u/general-fuzz/build/../hw/net/e1000e_core.c:1709:9
-      #50 0x55561319680b in e1000e_nc_receive_iov /home/alxndr/Development/=
-qemu/general-fuzz/build/../hw/net/e1000e.c:213:12
-      #51 0x555612812581 in net_tx_pkt_sendv /home/alxndr/Development/qemu/=
-general-fuzz/build/../hw/net/net_tx_pkt.c:556:9
-      #52 0x55561280fbc8 in net_tx_pkt_send /home/alxndr/Development/qemu/g=
-eneral-fuzz/build/../hw/net/net_tx_pkt.c:633:9
-      #53 0x555612813f38 in net_tx_pkt_send_loopback /home/alxndr/Developme=
-nt/qemu/general-fuzz/build/../hw/net/net_tx_pkt.c:646:11
-      #54 0x5556133f8c07 in e1000e_tx_pkt_send /home/alxndr/Development/qem=
-u/general-fuzz/build/../hw/net/e1000e_core.c:664:16
-      #55 0x5556133f5359 in e1000e_process_tx_desc /home/alxndr/Development=
-/qemu/general-fuzz/build/../hw/net/e1000e_core.c:743:17
-      #56 0x5556133f302f in e1000e_start_xmit /home/alxndr/Development/qemu=
-/general-fuzz/build/../hw/net/e1000e_core.c:934:9
-      #57 0x5556133daba8 in e1000e_set_tctl /home/alxndr/Development/qemu/g=
-eneral-fuzz/build/../hw/net/e1000e_core.c:2431:9
-      #58 0x55561339901b in e1000e_core_write /home/alxndr/Development/qemu=
-/general-fuzz/build/../hw/net/e1000e_core.c:3265:9
-      #59 0x555613190f26 in e1000e_mmio_write /home/alxndr/Development/qemu=
-/general-fuzz/build/../hw/net/e1000e.c:109:5
-      #60 0x55561508ade0 in memory_region_write_accessor /home/alxndr/Devel=
-opment/qemu/general-fuzz/build/../softmmu/memory.c:483:5
-      #61 0x55561508a2bd in access_with_adjusted_size /home/alxndr/Developm=
-ent/qemu/general-fuzz/build/../softmmu/memory.c:544:18
-      #62 0x555615087f70 in memory_region_dispatch_write /home/alxndr/Devel=
-opment/qemu/general-fuzz/build/../softmmu/memory.c:1466:16
-      #63 0x555614ce68a6 in flatview_write_continue /home/alxndr/Developmen=
-t/qemu/general-fuzz/build/../exec.c:3176:23
-      #64 0x555614ccf878 in flatview_write /home/alxndr/Development/qemu/ge=
-neral-fuzz/build/../exec.c:3216:14
-      #65 0x555614ccf3a8 in address_space_write /home/alxndr/Development/qe=
-mu/general-fuzz/build/../exec.c:3308:18
-      #66 0x555614ccfc40 in address_space_rw /home/alxndr/Development/qemu/=
-general-fuzz/build/../exec.c:3318:16
-      #67 0x5556133b76c7 in dma_memory_rw_relaxed /home/alxndr/Development/=
-qemu/general-fuzz/include/sysemu/dma.h:87:18
-      #68 0x5556133b6ff5 in dma_memory_rw /home/alxndr/Development/qemu/gen=
-eral-fuzz/include/sysemu/dma.h:110:12
-      #69 0x5556133b6f3d in pci_dma_rw /home/alxndr/Development/qemu/genera=
-l-fuzz/include/hw/pci/pci.h:790:5
-      #70 0x5556133b526a in pci_dma_write /home/alxndr/Development/qemu/gen=
-eral-fuzz/include/hw/pci/pci.h:803:12
-      #71 0x5556133b403f in e1000e_write_to_rx_buffers /home/alxndr/Develop=
-ment/qemu/general-fuzz/build/../hw/net/e1000e_core.c:1412:9
-      #72 0x555613393bae in e1000e_write_packet_to_guest /home/alxndr/Devel=
-opment/qemu/general-fuzz/build/../hw/net/e1000e_core.c:1582:21
-      #73 0x55561338e419 in e1000e_receive_iov /home/alxndr/Development/qem=
-u/general-fuzz/build/../hw/net/e1000e_core.c:1709:9
-      #74 0x55561319680b in e1000e_nc_receive_iov /home/alxndr/Development/=
-qemu/general-fuzz/build/../hw/net/e1000e.c:213:12
-      #75 0x555612812581 in net_tx_pkt_sendv /home/alxndr/Development/qemu/=
-general-fuzz/build/../hw/net/net_tx_pkt.c:556:9
-      #76 0x55561280fbc8 in net_tx_pkt_send /home/alxndr/Development/qemu/g=
-eneral-fuzz/build/../hw/net/net_tx_pkt.c:633:9
-      #77 0x555612813f38 in net_tx_pkt_send_loopback /home/alxndr/Developme=
-nt/qemu/general-fuzz/build/../hw/net/net_tx_pkt.c:646:11
-      #78 0x5556133f8c07 in e1000e_tx_pkt_send /home/alxndr/Development/qem=
-u/general-fuzz/build/../hw/net/e1000e_core.c:664:16
-      #79 0x5556133f5359 in e1000e_process_tx_desc /home/alxndr/Development=
-/qemu/general-fuzz/build/../hw/net/e1000e_core.c:743:17
-      #80 0x5556133f302f in e1000e_start_xmit /home/alxndr/Development/qemu=
-/general-fuzz/build/../hw/net/e1000e_core.c:934:9
-      #81 0x5556133daba8 in e1000e_set_tctl /home/alxndr/Development/qemu/g=
-eneral-fuzz/build/../hw/net/e1000e_core.c:2431:9
-      #82 0x55561339901b in e1000e_core_write /home/alxndr/Development/qemu=
-/general-fuzz/build/../hw/net/e1000e_core.c:3265:9
-      #83 0x555613190f26 in e1000e_mmio_write /home/alxndr/Development/qemu=
-/general-fuzz/build/../hw/net/e1000e.c:109:5
-      #84 0x55561508ade0 in memory_region_write_accessor /home/alxndr/Devel=
-opment/qemu/general-fuzz/build/../softmmu/memory.c:483:5
-      #85 0x55561508a2bd in access_with_adjusted_size /home/alxndr/Developm=
-ent/qemu/general-fuzz/build/../softmmu/memory.c:544:18
-      #86 0x555615087f70 in memory_region_dispatch_write /home/alxndr/Devel=
-opment/qemu/general-fuzz/build/../softmmu/memory.c:1466:16
-      #87 0x555614ce68a6 in flatview_write_continue /home/alxndr/Developmen=
-t/qemu/general-fuzz/build/../exec.c:3176:23
-      #88 0x555614ccf878 in flatview_write /home/alxndr/Development/qemu/ge=
-neral-fuzz/build/../exec.c:3216:14
-      #89 0x555614ccf3a8 in address_space_write /home/alxndr/Development/qe=
-mu/general-fuzz/build/../exec.c:3308:18
-      #90 0x555614ccfc40 in address_space_rw /home/alxndr/Development/qemu/=
-general-fuzz/build/../exec.c:3318:16
-      #91 0x5556133b76c7 in dma_memory_rw_relaxed /home/alxndr/Development/=
-qemu/general-fuzz/include/sysemu/dma.h:87:18
-      #92 0x5556133b6ff5 in dma_memory_rw /home/alxndr/Development/qemu/gen=
-eral-fuzz/include/sysemu/dma.h:110:12
-      #93 0x5556133b6f3d in pci_dma_rw /home/alxndr/Development/qemu/genera=
-l-fuzz/include/hw/pci/pci.h:790:5
-      #94 0x5556133b526a in pci_dma_write /home/alxndr/Development/qemu/gen=
-eral-fuzz/include/hw/pci/pci.h:803:12
-      #95 0x5556133b403f in e1000e_write_to_rx_buffers /home/alxndr/Develop=
-ment/qemu/general-fuzz/build/../hw/net/e1000e_core.c:1412:9
-      #96 0x555613393bae in e1000e_write_packet_to_guest /home/alxndr/Devel=
-opment/qemu/general-fuzz/build/../hw/net/e1000e_core.c:1582:21
-      #97 0x55561338e419 in e1000e_receive_iov /home/alxndr/Development/qem=
-u/general-fuzz/build/../hw/net/e1000e_core.c:1709:9
-      #98 0x55561319680b in e1000e_nc_receive_iov /home/alxndr/Development/=
-qemu/general-fuzz/build/../hw/net/e1000e.c:213:12
-      #99 0x555612812581 in net_tx_pkt_sendv /home/alxndr/Development/qemu/=
-general-fuzz/build/../hw/net/net_tx_pkt.c:556:9
-      #100 0x55561280fbc8 in net_tx_pkt_send /home/alxndr/Development/qemu/=
-general-fuzz/build/../hw/net/net_tx_pkt.c:633:9
-      #101 0x555612813f38 in net_tx_pkt_send_loopback /home/alxndr/Developm=
-ent/qemu/general-fuzz/build/../hw/net/net_tx_pkt.c:646:11
-      #102 0x5556133f8c07 in e1000e_tx_pkt_send /home/alxndr/Development/qe=
-mu/general-fuzz/build/../hw/net/e1000e_core.c:664:16
-      #103 0x5556133f5359 in e1000e_process_tx_desc /home/alxndr/Developmen=
-t/qemu/general-fuzz/build/../hw/net/e1000e_core.c:743:17
-      #104 0x5556133f302f in e1000e_start_xmit /home/alxndr/Development/qem=
-u/general-fuzz/build/../hw/net/e1000e_core.c:934:9
-      #105 0x5556133daba8 in e1000e_set_tctl /home/alxndr/Development/qemu/=
-general-fuzz/build/../hw/net/e1000e_core.c:2431:9
-      #106 0x55561339901b in e1000e_core_write /home/alxndr/Development/qem=
-u/general-fuzz/build/../hw/net/e1000e_core.c:3265:9
-      #107 0x555613190f26 in e1000e_mmio_write /home/alxndr/Development/qem=
-u/general-fuzz/build/../hw/net/e1000e.c:109:5
-      #108 0x55561508ade0 in memory_region_write_accessor /home/alxndr/Deve=
-lopment/qemu/general-fuzz/build/../softmmu/memory.c:483:5
-      #109 0x55561508a2bd in access_with_adjusted_size /home/alxndr/Develop=
-ment/qemu/general-fuzz/build/../softmmu/memory.c:544:18
-      #110 0x555615087f70 in memory_region_dispatch_write /home/alxndr/Deve=
-lopment/qemu/general-fuzz/build/../softmmu/memory.c:1466:16
-      #111 0x555614ce68a6 in flatview_write_continue /home/alxndr/Developme=
-nt/qemu/general-fuzz/build/../exec.c:3176:23
-      #112 0x555614ccf878 in flatview_write /home/alxndr/Development/qemu/g=
-eneral-fuzz/build/../exec.c:3216:14
-      #113 0x555614ccf3a8 in address_space_write /home/alxndr/Development/q=
-emu/general-fuzz/build/../exec.c:3308:18
-      #114 0x555614ccfc40 in address_space_rw /home/alxndr/Development/qemu=
-/general-fuzz/build/../exec.c:3318:16
-      #115 0x5556133b76c7 in dma_memory_rw_relaxed /home/alxndr/Development=
-/qemu/general-fuzz/include/sysemu/dma.h:87:18
-      #116 0x5556133b6ff5 in dma_memory_rw /home/alxndr/Development/qemu/ge=
-neral-fuzz/include/sysemu/dma.h:110:12
-      #117 0x5556133b6f3d in pci_dma_rw /home/alxndr/Development/qemu/gener=
-al-fuzz/include/hw/pci/pci.h:790:5
-      #118 0x5556133b526a in pci_dma_write /home/alxndr/Development/qemu/ge=
-neral-fuzz/include/hw/pci/pci.h:803:12
-      #119 0x5556133b403f in e1000e_write_to_rx_buffers /home/alxndr/Develo=
-pment/qemu/general-fuzz/build/../hw/net/e1000e_core.c:1412:9
-      #120 0x555613393bae in e1000e_write_packet_to_guest /home/alxndr/Deve=
-lopment/qemu/general-fuzz/build/../hw/net/e1000e_core.c:1582:21
-      #121 0x55561338e419 in e1000e_receive_iov /home/alxndr/Development/qe=
-mu/general-fuzz/build/../hw/net/e1000e_core.c:1709:9
-      #122 0x55561319680b in e1000e_nc_receive_iov /home/alxndr/Development=
-/qemu/general-fuzz/build/../hw/net/e1000e.c:213:12
-      #123 0x555612812581 in net_tx_pkt_sendv /home/alxndr/Development/qemu=
-/general-fuzz/build/../hw/net/net_tx_pkt.c:556:9
-      #124 0x55561280fbc8 in net_tx_pkt_send /home/alxndr/Development/qemu/=
-general-fuzz/build/../hw/net/net_tx_pkt.c:633:9
-      #125 0x555612813f38 in net_tx_pkt_send_loopback /home/alxndr/Developm=
-ent/qemu/general-fuzz/build/../hw/net/net_tx_pkt.c:646:11
-      #126 0x5556133f8c07 in e1000e_tx_pkt_send /home/alxndr/Development/qe=
-mu/general-fuzz/build/../hw/net/e1000e_core.c:664:16
-      #127 0x5556133f5359 in e1000e_process_tx_desc /home/alxndr/Developmen=
-t/qemu/general-fuzz/build/../hw/net/e1000e_core.c:743:17
-      #128 0x5556133f302f in e1000e_start_xmit /home/alxndr/Development/qem=
-u/general-fuzz/build/../hw/net/e1000e_core.c:934:9
-      #129 0x5556133daba8 in e1000e_set_tctl /home/alxndr/Development/qemu/=
-general-fuzz/build/../hw/net/e1000e_core.c:2431:9
-      #130 0x55561339901b in e1000e_core_write /home/alxndr/Development/qem=
-u/general-fuzz/build/../hw/net/e1000e_core.c:3265:9
-      #131 0x555613190f26 in e1000e_mmio_write /home/alxndr/Development/qem=
-u/general-fuzz/build/../hw/net/e1000e.c:109:5
-      #132 0x55561508ade0 in memory_region_write_accessor /home/alxndr/Deve=
-lopment/qemu/general-fuzz/build/../softmmu/memory.c:483:5
-      #133 0x55561508a2bd in access_with_adjusted_size /home/alxndr/Develop=
-ment/qemu/general-fuzz/build/../softmmu/memory.c:544:18
-      #134 0x555615087f70 in memory_region_dispatch_write /home/alxndr/Deve=
-lopment/qemu/general-fuzz/build/../softmmu/memory.c:1466:16
-      #135 0x555614ce68a6 in flatview_write_continue /home/alxndr/Developme=
-nt/qemu/general-fuzz/build/../exec.c:3176:23
-      #136 0x555614ccf878 in flatview_write /home/alxndr/Development/qemu/g=
-eneral-fuzz/build/../exec.c:3216:14
-      #137 0x555614ccf3a8 in address_space_write /home/alxndr/Development/q=
-emu/general-fuzz/build/../exec.c:3308:18
-      #138 0x555614ccfc40 in address_space_rw /home/alxndr/Development/qemu=
-/general-fuzz/build/../exec.c:3318:16
-      #139 0x5556133b76c7 in dma_memory_rw_relaxed /home/alxndr/Development=
-/qemu/general-fuzz/include/sysemu/dma.h:87:18
-      #140 0x5556133b6ff5 in dma_memory_rw /home/alxndr/Development/qemu/ge=
-neral-fuzz/include/sysemu/dma.h:110:12
-      #141 0x5556133b6f3d in pci_dma_rw /home/alxndr/Development/qemu/gener=
-al-fuzz/include/hw/pci/pci.h:790:5
-      #142 0x5556133b526a in pci_dma_write /home/alxndr/Development/qemu/ge=
-neral-fuzz/include/hw/pci/pci.h:803:12
-      #143 0x5556133b403f in e1000e_write_to_rx_buffers /home/alxndr/Develo=
-pment/qemu/general-fuzz/build/../hw/net/e1000e_core.c:1412:9
-      #144 0x555613393bae in e1000e_write_packet_to_guest /home/alxndr/Deve=
-lopment/qemu/general-fuzz/build/../hw/net/e1000e_core.c:1582:21
-      #145 0x55561338e419 in e1000e_receive_iov /home/alxndr/Development/qe=
-mu/general-fuzz/build/../hw/net/e1000e_core.c:1709:9
-      #146 0x55561319680b in e1000e_nc_receive_iov /home/alxndr/Development=
-/qemu/general-fuzz/build/../hw/net/e1000e.c:213:12
-      #147 0x555612812581 in net_tx_pkt_sendv /home/alxndr/Development/qemu=
-/general-fuzz/build/../hw/net/net_tx_pkt.c:556:9
-      #148 0x55561280fbc8 in net_tx_pkt_send /home/alxndr/Development/qemu/=
-general-fuzz/build/../hw/net/net_tx_pkt.c:633:9
-      #149 0x555612813f38 in net_tx_pkt_send_loopback /home/alxndr/Developm=
-ent/qemu/general-fuzz/build/../hw/net/net_tx_pkt.c:646:11
-      #150 0x5556133f8c07 in e1000e_tx_pkt_send /home/alxndr/Development/qe=
-mu/general-fuzz/build/../hw/net/e1000e_core.c:664:16
-      #151 0x5556133f5359 in e1000e_process_tx_desc /home/alxndr/Developmen=
-t/qemu/general-fuzz/build/../hw/net/e1000e_core.c:743:17
-      #152 0x5556133f302f in e1000e_start_xmit /home/alxndr/Development/qem=
-u/general-fuzz/build/../hw/net/e1000e_core.c:934:9
-      #153 0x5556133daba8 in e1000e_set_tctl /home/alxndr/Development/qemu/=
-general-fuzz/build/../hw/net/e1000e_core.c:2431:9
-      #154 0x55561339901b in e1000e_core_write /home/alxndr/Development/qem=
-u/general-fuzz/build/../hw/net/e1000e_core.c:3265:9
-      #155 0x555613190f26 in e1000e_mmio_write /home/alxndr/Development/qem=
-u/general-fuzz/build/../hw/net/e1000e.c:109:5
-      #156 0x55561508ade0 in memory_region_write_accessor /home/alxndr/Deve=
-lopment/qemu/general-fuzz/build/../softmmu/memory.c:483:5
-      #157 0x55561508a2bd in access_with_adjusted_size /home/alxndr/Develop=
-ment/qemu/general-fuzz/build/../softmmu/memory.c:544:18
-      #158 0x555615087f70 in memory_region_dispatch_write /home/alxndr/Deve=
-lopment/qemu/general-fuzz/build/../softmmu/memory.c:1466:16
-      #159 0x555614ce68a6 in flatview_write_continue /home/alxndr/Developme=
-nt/qemu/general-fuzz/build/../exec.c:3176:23
-      #160 0x555614ccf878 in flatview_write /home/alxndr/Development/qemu/g=
-eneral-fuzz/build/../exec.c:3216:14
-      #161 0x555614ccf3a8 in address_space_write /home/alxndr/Development/q=
-emu/general-fuzz/build/../exec.c:3308:18
-      #162 0x555614ccfc40 in address_space_rw /home/alxndr/Development/qemu=
-/general-fuzz/build/../exec.c:3318:16
-      #163 0x5556133b76c7 in dma_memory_rw_relaxed /home/alxndr/Development=
-/qemu/general-fuzz/include/sysemu/dma.h:87:18
-      #164 0x5556133b6ff5 in dma_memory_rw /home/alxndr/Development/qemu/ge=
-neral-fuzz/include/sysemu/dma.h:110:12
-      #165 0x5556133b6f3d in pci_dma_rw /home/alxndr/Development/qemu/gener=
-al-fuzz/include/hw/pci/pci.h:790:5
-      #166 0x5556133b526a in pci_dma_write /home/alxndr/Development/qemu/ge=
-neral-fuzz/include/hw/pci/pci.h:803:12
-      #167 0x5556133b403f in e1000e_write_to_rx_buffers /home/alxndr/Develo=
-pment/qemu/general-fuzz/build/../hw/net/e1000e_core.c:1412:9
-      #168 0x555613393bae in e1000e_write_packet_to_guest /home/alxndr/Deve=
-lopment/qemu/general-fuzz/build/../hw/net/e1000e_core.c:1582:21
-      #169 0x55561338e419 in e1000e_receive_iov /home/alxndr/Development/qe=
-mu/general-fuzz/build/../hw/net/e1000e_core.c:1709:9
-      #170 0x55561319680b in e1000e_nc_receive_iov /home/alxndr/Development=
-/qemu/general-fuzz/build/../hw/net/e1000e.c:213:12
-      #171 0x555612812581 in net_tx_pkt_sendv /home/alxndr/Development/qemu=
-/general-fuzz/build/../hw/net/net_tx_pkt.c:556:9
-      #172 0x55561280fbc8 in net_tx_pkt_send /home/alxndr/Development/qemu/=
-general-fuzz/build/../hw/net/net_tx_pkt.c:633:9
-      #173 0x555612813f38 in net_tx_pkt_send_loopback /home/alxndr/Developm=
-ent/qemu/general-fuzz/build/../hw/net/net_tx_pkt.c:646:11
-      #174 0x5556133f8c07 in e1000e_tx_pkt_send /home/alxndr/Development/qe=
-mu/general-fuzz/build/../hw/net/e1000e_core.c:664:16
-      #175 0x5556133f5359 in e1000e_process_tx_desc /home/alxndr/Developmen=
-t/qemu/general-fuzz/build/../hw/net/e1000e_core.c:743:17
-      #176 0x5556133f302f in e1000e_start_xmit /home/alxndr/Development/qem=
-u/general-fuzz/build/../hw/net/e1000e_core.c:934:9
-      #177 0x5556133daba8 in e1000e_set_tctl /home/alxndr/Development/qemu/=
-general-fuzz/build/../hw/net/e1000e_core.c:2431:9
-      #178 0x55561339901b in e1000e_core_write /home/alxndr/Development/qem=
-u/general-fuzz/build/../hw/net/e1000e_core.c:3265:9
-      #179 0x555613190f26 in e1000e_mmio_write /home/alxndr/Development/qem=
-u/general-fuzz/build/../hw/net/e1000e.c:109:5
-      #180 0x55561508ade0 in memory_region_write_accessor /home/alxndr/Deve=
-lopment/qemu/general-fuzz/build/../softmmu/memory.c:483:5
-      #181 0x55561508a2bd in access_with_adjusted_size /home/alxndr/Develop=
-ment/qemu/general-fuzz/build/../softmmu/memory.c:544:18
-      #182 0x555615087f70 in memory_region_dispatch_write /home/alxndr/Deve=
-lopment/qemu/general-fuzz/build/../softmmu/memory.c:1466:16
-      #183 0x555614ce68a6 in flatview_write_continue /home/alxndr/Developme=
-nt/qemu/general-fuzz/build/../exec.c:3176:23
-      #184 0x555614ccf878 in flatview_write /home/alxndr/Development/qemu/g=
-eneral-fuzz/build/../exec.c:3216:14
-      #185 0x555614ccf3a8 in address_space_write /home/alxndr/Development/q=
-emu/general-fuzz/build/../exec.c:3308:18
-      #186 0x555614ccfc40 in address_space_rw /home/alxndr/Development/qemu=
-/general-fuzz/build/../exec.c:3318:16
-      #187 0x5556133b76c7 in dma_memory_rw_relaxed /home/alxndr/Development=
-/qemu/general-fuzz/include/sysemu/dma.h:87:18
-      #188 0x5556133b6ff5 in dma_memory_rw /home/alxndr/Development/qemu/ge=
-neral-fuzz/include/sysemu/dma.h:110:12
-      #189 0x5556133b6f3d in pci_dma_rw /home/alxndr/Development/qemu/gener=
-al-fuzz/include/hw/pci/pci.h:790:5
-      #190 0x5556133b526a in pci_dma_write /home/alxndr/Development/qemu/ge=
-neral-fuzz/include/hw/pci/pci.h:803:12
-      #191 0x5556133b403f in e1000e_write_to_rx_buffers /home/alxndr/Develo=
-pment/qemu/general-fuzz/build/../hw/net/e1000e_core.c:1412:9
-      #192 0x555613393bae in e1000e_write_packet_to_guest /home/alxndr/Deve=
-lopment/qemu/general-fuzz/build/../hw/net/e1000e_core.c:1582:21
-      #193 0x55561338e419 in e1000e_receive_iov /home/alxndr/Development/qe=
-mu/general-fuzz/build/../hw/net/e1000e_core.c:1709:9
-      #194 0x55561319680b in e1000e_nc_receive_iov /home/alxndr/Development=
-/qemu/general-fuzz/build/../hw/net/e1000e.c:213:12
-      #195 0x555612812581 in net_tx_pkt_sendv /home/alxndr/Development/qemu=
-/general-fuzz/build/../hw/net/net_tx_pkt.c:556:9
-      #196 0x55561280fbc8 in net_tx_pkt_send /home/alxndr/Development/qemu/=
-general-fuzz/build/../hw/net/net_tx_pkt.c:633:9
-      #197 0x555612813f38 in net_tx_pkt_send_loopback /home/alxndr/Developm=
-ent/qemu/general-fuzz/build/../hw/net/net_tx_pkt.c:646:11
-      #198 0x5556133f8c07 in e1000e_tx_pkt_send /home/alxndr/Development/qe=
-mu/general-fuzz/build/../hw/net/e1000e_core.c:664:16
-      #199 0x5556133f5359 in e1000e_process_tx_desc /home/alxndr/Developmen=
-t/qemu/general-fuzz/build/../hw/net/e1000e_core.c:743:17
-      #200 0x5556133f302f in e1000e_start_xmit /home/alxndr/Development/qem=
-u/general-fuzz/build/../hw/net/e1000e_core.c:934:9
-      #201 0x5556133daba8 in e1000e_set_tctl /home/alxndr/Development/qemu/=
-general-fuzz/build/../hw/net/e1000e_core.c:2431:9
-      #202 0x55561339901b in e1000e_core_write /home/alxndr/Development/qem=
-u/general-fuzz/build/../hw/net/e1000e_core.c:3265:9
-      #203 0x555613190f26 in e1000e_mmio_write /home/alxndr/Development/qem=
-u/general-fuzz/build/../hw/net/e1000e.c:109:5
-      #204 0x55561508ade0 in memory_region_write_accessor /home/alxndr/Deve=
-lopment/qemu/general-fuzz/build/../softmmu/memory.c:483:5
-      #205 0x55561508a2bd in access_with_adjusted_size /home/alxndr/Develop=
-ment/qemu/general-fuzz/build/../softmmu/memory.c:544:18
-      #206 0x555615087f70 in memory_region_dispatch_write /home/alxndr/Deve=
-lopment/qemu/general-fuzz/build/../softmmu/memory.c:1466:16
-      #207 0x555614ce68a6 in flatview_write_continue /home/alxndr/Developme=
-nt/qemu/general-fuzz/build/../exec.c:3176:23
-      #208 0x555614ccf878 in flatview_write /home/alxndr/Development/qemu/g=
-eneral-fuzz/build/../exec.c:3216:14
-      #209 0x555614ccf3a8 in address_space_write /home/alxndr/Development/q=
-emu/general-fuzz/build/../exec.c:3308:18
-      #210 0x555614ccfc40 in address_space_rw /home/alxndr/Development/qemu=
-/general-fuzz/build/../exec.c:3318:16
-      #211 0x5556133b76c7 in dma_memory_rw_relaxed /home/alxndr/Development=
-/qemu/general-fuzz/include/sysemu/dma.h:87:18
-      #212 0x5556133b6ff5 in dma_memory_rw /home/alxndr/Development/qemu/ge=
-neral-fuzz/include/sysemu/dma.h:110:12
-      #213 0x5556133b6f3d in pci_dma_rw /home/alxndr/Development/qemu/gener=
-al-fuzz/include/hw/pci/pci.h:790:5
-      #214 0x5556133b526a in pci_dma_write /home/alxndr/Development/qemu/ge=
-neral-fuzz/include/hw/pci/pci.h:803:12
-      #215 0x5556133b403f in e1000e_write_to_rx_buffers /home/alxndr/Develo=
-pment/qemu/general-fuzz/build/../hw/net/e1000e_core.c:1412:9
-      #216 0x555613393bae in e1000e_write_packet_to_guest /home/alxndr/Deve=
-lopment/qemu/general-fuzz/build/../hw/net/e1000e_core.c:1582:21
-      #217 0x55561338e419 in e1000e_receive_iov /home/alxndr/Development/qe=
-mu/general-fuzz/build/../hw/net/e1000e_core.c:1709:9
-      #218 0x55561319680b in e1000e_nc_receive_iov /home/alxndr/Development=
-/qemu/general-fuzz/build/../hw/net/e1000e.c:213:12
-      #219 0x555612812581 in net_tx_pkt_sendv /home/alxndr/Development/qemu=
-/general-fuzz/build/../hw/net/net_tx_pkt.c:556:9
-      #220 0x55561280fbc8 in net_tx_pkt_send /home/alxndr/Development/qemu/=
-general-fuzz/build/../hw/net/net_tx_pkt.c:633:9
-      #221 0x555612813f38 in net_tx_pkt_send_loopback /home/alxndr/Developm=
-ent/qemu/general-fuzz/build/../hw/net/net_tx_pkt.c:646:11
-      #222 0x5556133f8c07 in e1000e_tx_pkt_send /home/alxndr/Development/qe=
-mu/general-fuzz/build/../hw/net/e1000e_core.c:664:16
-      #223 0x5556133f5359 in e1000e_process_tx_desc /home/alxndr/Developmen=
-t/qemu/general-fuzz/build/../hw/net/e1000e_core.c:743:17
-      #224 0x5556133f302f in e1000e_start_xmit /home/alxndr/Development/qem=
-u/general-fuzz/build/../hw/net/e1000e_core.c:934:9
-      #225 0x5556133daba8 in e1000e_set_tctl /home/alxndr/Development/qemu/=
-general-fuzz/build/../hw/net/e1000e_core.c:2431:9
-      #226 0x55561339901b in e1000e_core_write /home/alxndr/Development/qem=
-u/general-fuzz/build/../hw/net/e1000e_core.c:3265:9
-      #227 0x555613190f26 in e1000e_mmio_write /home/alxndr/Development/qem=
-u/general-fuzz/build/../hw/net/e1000e.c:109:5
-      #228 0x55561508ade0 in memory_region_write_accessor /home/alxndr/Deve=
-lopment/qemu/general-fuzz/build/../softmmu/memory.c:483:5
-      #229 0x55561508a2bd in access_with_adjusted_size /home/alxndr/Develop=
-ment/qemu/general-fuzz/build/../softmmu/memory.c:544:18
-      #230 0x555615087f70 in memory_region_dispatch_write /home/alxndr/Deve=
-lopment/qemu/general-fuzz/build/../softmmu/memory.c:1466:16
-      #231 0x555614ce68a6 in flatview_write_continue /home/alxndr/Developme=
-nt/qemu/general-fuzz/build/../exec.c:3176:23
-      #232 0x555614ccf878 in flatview_write /home/alxndr/Development/qemu/g=
-eneral-fuzz/build/../exec.c:3216:14
-      #233 0x555614ccf3a8 in address_space_write /home/alxndr/Development/q=
-emu/general-fuzz/build/../exec.c:3308:18
-      #234 0x555614ccfc40 in address_space_rw /home/alxndr/Development/qemu=
-/general-fuzz/build/../exec.c:3318:16
-      #235 0x5556133b76c7 in dma_memory_rw_relaxed /home/alxndr/Development=
-/qemu/general-fuzz/include/sysemu/dma.h:87:18
-      #236 0x5556133b6ff5 in dma_memory_rw /home/alxndr/Development/qemu/ge=
-neral-fuzz/include/sysemu/dma.h:110:12
-      #237 0x5556133b6f3d in pci_dma_rw /home/alxndr/Development/qemu/gener=
-al-fuzz/include/hw/pci/pci.h:790:5
-      #238 0x5556133b526a in pci_dma_write /home/alxndr/Development/qemu/ge=
-neral-fuzz/include/hw/pci/pci.h:803:12
-      #239 0x5556133b403f in e1000e_write_to_rx_buffers /home/alxndr/Develo=
-pment/qemu/general-fuzz/build/../hw/net/e1000e_core.c:1412:9
-      #240 0x555613393bae in e1000e_write_packet_to_guest /home/alxndr/Deve=
-lopment/qemu/general-fuzz/build/../hw/net/e1000e_core.c:1582:21
-      #241 0x55561338e419 in e1000e_receive_iov /home/alxndr/Development/qe=
-mu/general-fuzz/build/../hw/net/e1000e_core.c:1709:9
-      #242 0x55561319680b in e1000e_nc_receive_iov /home/alxndr/Development=
-/qemu/general-fuzz/build/../hw/net/e1000e.c:213:12
-      #243 0x555612812581 in net_tx_pkt_sendv /home/alxndr/Development/qemu=
-/general-fuzz/build/../hw/net/net_tx_pkt.c:556:9
-      #244 0x55561280fbc8 in net_tx_pkt_send /home/alxndr/Development/qemu/=
-general-fuzz/build/../hw/net/net_tx_pkt.c:633:9
-      #245 0x555612813f38 in net_tx_pkt_send_loopback /home/alxndr/Developm=
-ent/qemu/general-fuzz/build/../hw/net/net_tx_pkt.c:646:11
-      #246 0x5556133f8c07 in e1000e_tx_pkt_send /home/alxndr/Development/qe=
-mu/general-fuzz/build/../hw/net/e1000e_core.c:664:16
-      #247 0x5556133f5359 in e1000e_process_tx_desc /home/alxndr/Developmen=
-t/qemu/general-fuzz/build/../hw/net/e1000e_core.c:743:17
-      #248 0x5556133f302f in e1000e_start_xmit /home/alxndr/Development/qem=
-u/general-fuzz/build/../hw/net/e1000e_core.c:934:9
-      #249 0x5556133daba8 in e1000e_set_tctl /home/alxndr/Development/qemu/=
-general-fuzz/build/../hw/net/e1000e_core.c:2431:9
 
-  0x61900006cc88 is located 8 bytes inside of 1056-byte region [0x61900006c=
-c80,0x61900006d0a0)
-  freed by thread T0 here:
-      #0 0x5556126ce1bd in free (/home/alxndr/Development/qemu/general-fuzz=
-/build/qemu-system-i386+0x2d291bd)
-      #1 0x555613e2af31 in net_rx_pkt_iovec_realloc /home/alxndr/Developmen=
-t/qemu/general-fuzz/build/../hw/net/net_rx_pkt.c:80:9
-      #2 0x555613e18eaa in net_rx_pkt_pull_data /home/alxndr/Development/qe=
-mu/general-fuzz/build/../hw/net/net_rx_pkt.c:103:9
-      #3 0x555613e1b5cd in net_rx_pkt_attach_iovec_ex /home/alxndr/Developm=
-ent/qemu/general-fuzz/build/../hw/net/net_rx_pkt.c:158:5
-      #4 0x55561338da6e in e1000e_receive_iov /home/alxndr/Development/qemu=
-/general-fuzz/build/../hw/net/e1000e_core.c:1695:5
-      #5 0x55561319680b in e1000e_nc_receive_iov /home/alxndr/Development/q=
-emu/general-fuzz/build/../hw/net/e1000e.c:213:12
-      #6 0x555612812581 in net_tx_pkt_sendv /home/alxndr/Development/qemu/g=
-eneral-fuzz/build/../hw/net/net_tx_pkt.c:556:9
-      #7 0x55561280fbc8 in net_tx_pkt_send /home/alxndr/Development/qemu/ge=
-neral-fuzz/build/../hw/net/net_tx_pkt.c:633:9
-      #8 0x555612813f38 in net_tx_pkt_send_loopback /home/alxndr/Developmen=
-t/qemu/general-fuzz/build/../hw/net/net_tx_pkt.c:646:11
-      #9 0x5556133f8c07 in e1000e_tx_pkt_send /home/alxndr/Development/qemu=
-/general-fuzz/build/../hw/net/e1000e_core.c:664:16
-      #10 0x5556133f5359 in e1000e_process_tx_desc /home/alxndr/Development=
-/qemu/general-fuzz/build/../hw/net/e1000e_core.c:743:17
-      #11 0x5556133f302f in e1000e_start_xmit /home/alxndr/Development/qemu=
-/general-fuzz/build/../hw/net/e1000e_core.c:934:9
-      #12 0x5556133daba8 in e1000e_set_tctl /home/alxndr/Development/qemu/g=
-eneral-fuzz/build/../hw/net/e1000e_core.c:2431:9
-      #13 0x55561339901b in e1000e_core_write /home/alxndr/Development/qemu=
-/general-fuzz/build/../hw/net/e1000e_core.c:3265:9
-      #14 0x555613190f26 in e1000e_mmio_write /home/alxndr/Development/qemu=
-/general-fuzz/build/../hw/net/e1000e.c:109:5
-      #15 0x55561508ade0 in memory_region_write_accessor /home/alxndr/Devel=
-opment/qemu/general-fuzz/build/../softmmu/memory.c:483:5
-      #16 0x55561508a2bd in access_with_adjusted_size /home/alxndr/Developm=
-ent/qemu/general-fuzz/build/../softmmu/memory.c:544:18
-      #17 0x555615087f70 in memory_region_dispatch_write /home/alxndr/Devel=
-opment/qemu/general-fuzz/build/../softmmu/memory.c:1466:16
-      #18 0x555614ce68a6 in flatview_write_continue /home/alxndr/Developmen=
-t/qemu/general-fuzz/build/../exec.c:3176:23
-      #19 0x555614ccf878 in flatview_write /home/alxndr/Development/qemu/ge=
-neral-fuzz/build/../exec.c:3216:14
-      #20 0x555614ccf3a8 in address_space_write /home/alxndr/Development/qe=
-mu/general-fuzz/build/../exec.c:3308:18
-      #21 0x555614ccfc40 in address_space_rw /home/alxndr/Development/qemu/=
-general-fuzz/build/../exec.c:3318:16
-      #22 0x5556133b76c7 in dma_memory_rw_relaxed /home/alxndr/Development/=
-qemu/general-fuzz/include/sysemu/dma.h:87:18
-      #23 0x5556133b6ff5 in dma_memory_rw /home/alxndr/Development/qemu/gen=
-eral-fuzz/include/sysemu/dma.h:110:12
-      #24 0x5556133b6f3d in pci_dma_rw /home/alxndr/Development/qemu/genera=
-l-fuzz/include/hw/pci/pci.h:790:5
-      #25 0x5556133b526a in pci_dma_write /home/alxndr/Development/qemu/gen=
-eral-fuzz/include/hw/pci/pci.h:803:12
-      #26 0x5556133b403f in e1000e_write_to_rx_buffers /home/alxndr/Develop=
-ment/qemu/general-fuzz/build/../hw/net/e1000e_core.c:1412:9
-      #27 0x555613393bae in e1000e_write_packet_to_guest /home/alxndr/Devel=
-opment/qemu/general-fuzz/build/../hw/net/e1000e_core.c:1582:21
-      #28 0x55561338e419 in e1000e_receive_iov /home/alxndr/Development/qem=
-u/general-fuzz/build/../hw/net/e1000e_core.c:1709:9
-      #29 0x55561319680b in e1000e_nc_receive_iov /home/alxndr/Development/=
-qemu/general-fuzz/build/../hw/net/e1000e.c:213:12
+--=20
 
-  previously allocated by thread T0 here:
-      #0 0x5556126ce43d in malloc (/home/alxndr/Development/qemu/general-fu=
-zz/build/qemu-system-i386+0x2d2943d)
-      #1 0x7fc45f5171b8 in g_malloc (/usr/lib/x86_64-linux-gnu/libglib-2.0.=
-so.0+0x561b8)
-      #2 0x555613e18eaa in net_rx_pkt_pull_data /home/alxndr/Development/qe=
-mu/general-fuzz/build/../hw/net/net_rx_pkt.c:103:9
-      #3 0x555613e1b5cd in net_rx_pkt_attach_iovec_ex /home/alxndr/Developm=
-ent/qemu/general-fuzz/build/../hw/net/net_rx_pkt.c:158:5
-      #4 0x55561338da6e in e1000e_receive_iov /home/alxndr/Development/qemu=
-/general-fuzz/build/../hw/net/e1000e_core.c:1695:5
-      #5 0x55561319680b in e1000e_nc_receive_iov /home/alxndr/Development/q=
-emu/general-fuzz/build/../hw/net/e1000e.c:213:12
-      #6 0x555612812581 in net_tx_pkt_sendv /home/alxndr/Development/qemu/g=
-eneral-fuzz/build/../hw/net/net_tx_pkt.c:556:9
-      #7 0x55561280fbc8 in net_tx_pkt_send /home/alxndr/Development/qemu/ge=
-neral-fuzz/build/../hw/net/net_tx_pkt.c:633:9
-      #8 0x555612813f38 in net_tx_pkt_send_loopback /home/alxndr/Developmen=
-t/qemu/general-fuzz/build/../hw/net/net_tx_pkt.c:646:11
-      #9 0x5556133f8c07 in e1000e_tx_pkt_send /home/alxndr/Development/qemu=
-/general-fuzz/build/../hw/net/e1000e_core.c:664:16
-      #10 0x5556133f5359 in e1000e_process_tx_desc /home/alxndr/Development=
-/qemu/general-fuzz/build/../hw/net/e1000e_core.c:743:17
-      #11 0x5556133f302f in e1000e_start_xmit /home/alxndr/Development/qemu=
-/general-fuzz/build/../hw/net/e1000e_core.c:934:9
-      #12 0x5556133daba8 in e1000e_set_tctl /home/alxndr/Development/qemu/g=
-eneral-fuzz/build/../hw/net/e1000e_core.c:2431:9
-      #13 0x55561339901b in e1000e_core_write /home/alxndr/Development/qemu=
-/general-fuzz/build/../hw/net/e1000e_core.c:3265:9
-      #14 0x555613190f26 in e1000e_mmio_write /home/alxndr/Development/qemu=
-/general-fuzz/build/../hw/net/e1000e.c:109:5
-      #15 0x55561508ade0 in memory_region_write_accessor /home/alxndr/Devel=
-opment/qemu/general-fuzz/build/../softmmu/memory.c:483:5
-      #16 0x55561508a2bd in access_with_adjusted_size /home/alxndr/Developm=
-ent/qemu/general-fuzz/build/../softmmu/memory.c:544:18
-      #17 0x555615087f70 in memory_region_dispatch_write /home/alxndr/Devel=
-opment/qemu/general-fuzz/build/../softmmu/memory.c:1466:16
-      #18 0x555614ce68a6 in flatview_write_continue /home/alxndr/Developmen=
-t/qemu/general-fuzz/build/../exec.c:3176:23
-      #19 0x555614ccf878 in flatview_write /home/alxndr/Development/qemu/ge=
-neral-fuzz/build/../exec.c:3216:14
-      #20 0x555614ccf3a8 in address_space_write /home/alxndr/Development/qe=
-mu/general-fuzz/build/../exec.c:3308:18
-      #21 0x555614ccfc40 in address_space_rw /home/alxndr/Development/qemu/=
-general-fuzz/build/../exec.c:3318:16
-      #22 0x5556133b76c7 in dma_memory_rw_relaxed /home/alxndr/Development/=
-qemu/general-fuzz/include/sysemu/dma.h:87:18
-      #23 0x5556133b6ff5 in dma_memory_rw /home/alxndr/Development/qemu/gen=
-eral-fuzz/include/sysemu/dma.h:110:12
-      #24 0x5556133b6f3d in pci_dma_rw /home/alxndr/Development/qemu/genera=
-l-fuzz/include/hw/pci/pci.h:790:5
-      #25 0x5556133b526a in pci_dma_write /home/alxndr/Development/qemu/gen=
-eral-fuzz/include/hw/pci/pci.h:803:12
-      #26 0x5556133b403f in e1000e_write_to_rx_buffers /home/alxndr/Develop=
-ment/qemu/general-fuzz/build/../hw/net/e1000e_core.c:1412:9
-      #27 0x555613393bae in e1000e_write_packet_to_guest /home/alxndr/Devel=
-opment/qemu/general-fuzz/build/../hw/net/e1000e_core.c:1582:21
-      #28 0x55561338e419 in e1000e_receive_iov /home/alxndr/Development/qem=
-u/general-fuzz/build/../hw/net/e1000e_core.c:1709:9
-      #29 0x55561319680b in e1000e_nc_receive_iov /home/alxndr/Development/=
-qemu/general-fuzz/build/../hw/net/e1000e.c:213:12
 
-  SUMMARY: AddressSanitizer: heap-use-after-free /home/alxndr/Development/q=
-emu/general-fuzz/build/../hw/net/e1000e_core.c:1587:41 in e1000e_write_pack=
-et_to_guest
-  Shadow bytes around the buggy address:
-    0x0c3280005940: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd
-    0x0c3280005950: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd
-    0x0c3280005960: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd
-    0x0c3280005970: fd fd fa fa fa fa fa fa fa fa fa fa fa fa fa fa
-    0x0c3280005980: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
-  =3D>0x0c3280005990: fd[fd]fd fd fd fd fd fd fd fd fd fd fd fd fd fd
-    0x0c32800059a0: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd
-    0x0c32800059b0: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd
-    0x0c32800059c0: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd
-    0x0c32800059d0: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd
-    0x0c32800059e0: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd
-  Shadow byte legend (one shadow byte represents 8 application bytes):
-    Addressable:           00
-    Partially addressable: 01 02 03 04 05 06 07 =
+--Sig_/kkUIzuNfM6IIv7SRwH3J7Yx
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
-    Heap left redzone:       fa
-    Freed heap region:       fd
-    Stack left redzone:      f1
-    Stack mid redzone:       f2
-    Stack right redzone:     f3
-    Stack after return:      f5
-    Stack use after scope:   f8
-    Global redzone:          f9
-    Global init order:       f6
-    Poisoned by user:        f7
-    Container overflow:      fc
-    Array cookie:            ac
-    Intra object redzone:    bb
-    ASan internal:           fe
-    Left alloca redzone:     ca
-    Right alloca redzone:    cb
-    Shadow gap:              cc
-  =3D=3D935641=3D=3DABORTING
+-----BEGIN PGP SIGNATURE-----
 
-  -Alex
+iQIzBAEBCAAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAmCvtSQACgkQNasLKJxd
+slhN4Q/+OYi7uW1GWvhPTm8M3Vs9K0l1CmKVfpLJOCHYO6E72OsUmGmfPSvj0hs/
++8Vf2iPsVAoZenXzk2axguYpM6GGPZe3T40UYGVI6TZDMaQN9UrtgJtvAeuKrdzD
+bm4tk3w4sho4mkIJhT4/XsaZ2XVz8PZ1kP9Uamkhh2RNXzNSLyb1mCs0nl1vlTRJ
+jLo9j3cL0xU80IN+Rs40ENkImEEloOr+JLkPmO1uZGTDJrKFEV2cXRHW69PXWJ63
+yb/nNPNfkNi36UpHE3Z0nlo+jPw/J2RUBHcfOed3juRDlUARNq/DLzFp2J30MecF
+LU2ULCGjRKyTz6fjp1HXaVyLO20trID4ZuecNjfVrXURPrmIctIz9z+qtuyxdZFo
+j8Xit3ZSpbynCgtJjGZh3OgdE+6xGc3tQEb2q/Wu9tmmpqRtdKFwybLspVzSfpIx
+OMDl/rrnFfSC0VmIWV5TdDkBHVOFWsergxWH3bjYYkuu3GY47DWMVlAJg0Ir8HYT
+p9Lhs0fpYeRpzJrRBJ+p+ZSpz9uXyWlfxo2CWcIf0o3kmvaJVgdFyGQ51zudCYtz
+NhX1rUaZeHEjWh5dTWYryBZ+02IPC292Rh7nKLi5LcgLc9uFn1aPgIwZ4RbuBnJ9
+K2AB3x6XL/lPOKKaan3tk22Hx1RjHCq3y7a1UV72tnwLPaRvqjY=
+=Duxg
+-----END PGP SIGNATURE-----
 
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1892978/+subscriptions
+--Sig_/kkUIzuNfM6IIv7SRwH3J7Yx--
 
