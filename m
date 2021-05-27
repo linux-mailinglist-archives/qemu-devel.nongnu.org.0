@@ -2,44 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA633392876
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 09:23:01 +0200 (CEST)
-Received: from localhost ([::1]:37442 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C830A39285D
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 09:18:48 +0200 (CEST)
+Received: from localhost ([::1]:55882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lmAM8-0005hM-OJ
-	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 03:23:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46816)
+	id 1lmAI3-0007MI-JD
+	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 03:18:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46812)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lmAC0-0006mR-Hh; Thu, 27 May 2021 03:12:32 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:57767 helo=ozlabs.org)
+ id 1lmAC0-0006ls-7E; Thu, 27 May 2021 03:12:32 -0400
+Received: from ozlabs.org ([203.11.71.1]:41373)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lmABw-0004eU-RW; Thu, 27 May 2021 03:12:32 -0400
+ id 1lmABw-0004eV-LR; Thu, 27 May 2021 03:12:31 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4FrJsx0V3xz9sWQ; Thu, 27 May 2021 17:12:20 +1000 (AEST)
+ id 4FrJsw6fGGz9sTD; Thu, 27 May 2021 17:12:20 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1622099541;
- bh=mN8Ec16T8vSWXrBPnj7df9rFu5lpY+mof1bMQICjOFo=;
+ d=gibson.dropbear.id.au; s=201602; t=1622099540;
+ bh=pHDTxhb7+REjbt7Hl3YtTUDjOsZaFNebC4wnRJSn8mU=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Wxrkmhgh3ojnBmW5XkbqAwyJmIuXMOn/KO4dvBHQMG2LMOGio8h7I7Tj7LIQeNYkw
- kc/4wB7lXGcsN5rDWpS/HQSGxdQ6SxPGhaA4wK6vB3HtdKAcA6gFdWviq+bLtQda+W
- AgksIFelG9lMENr7Bh2G8fvYnI0hIpi1f/hkTh2U=
-Date: Thu, 27 May 2021 14:18:08 +1000
+ b=fqC/yi0x8SQe2j8VkOvuv9Li1cnbSXXlStXdx/FPTo+dJJZhCftEvBp0svIkg0XII
+ iET+ZL9eRIJDhvNi+Ixl9UaraAUfWb7W9Ff7XP7e3E1TAbeRKI5VV/JXWRfg9HUoH4
+ 4nQ2zMxEhy+NClyL787yVGy80ZxUVS2G+N/a66xU=
+Date: Thu, 27 May 2021 14:18:50 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
-To: Bruno Piazera Larsen <bruno.larsen@eldorado.org.br>
-Subject: Re: [PATCH v5 2/4] target/ppc: added ifdefs around TCG-only code
-Message-ID: <YK8dgHfO7E4AApVd@yekko>
+To: "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br>
+Subject: Re: [PATCH v5 3/4] target/ppc: created tcg-stub.c file
+Message-ID: <YK8dqlhcXQzZ8AC2@yekko>
 References: <20210525115355.8254-1-bruno.larsen@eldorado.org.br>
- <20210525115355.8254-3-bruno.larsen@eldorado.org.br>
- <8e66bba4-96d1-db9e-5f21-156c41ff38ea@amsat.org>
- <abf18c12-129f-b1a5-5d67-90fc6fa71afe@eldorado.org.br>
+ <20210525115355.8254-4-bruno.larsen@eldorado.org.br>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="yoLc/23xFGxaiEEj"
+ protocol="application/pgp-signature"; boundary="6CaaegC8Q9vFc5X3"
 Content-Disposition: inline
-In-Reply-To: <abf18c12-129f-b1a5-5d67-90fc6fa71afe@eldorado.org.br>
+In-Reply-To: <20210525115355.8254-4-bruno.larsen@eldorado.org.br>
 Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
@@ -60,82 +58,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: farosas@linux.ibm.com, qemu-devel@nongnu.org, richard.henderson@linaro.org,
- luis.pires@eldorado.org.br,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+Cc: farosas@linux.ibm.com, richard.henderson@linaro.org, qemu-devel@nongnu.org,
  lucas.araujo@eldorado.org.br, fernando.valle@eldorado.org.br,
- qemu-ppc@nongnu.org, matheus.ferst@eldorado.org.br
+ qemu-ppc@nongnu.org, matheus.ferst@eldorado.org.br, luis.pires@eldorado.org.br
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---yoLc/23xFGxaiEEj
-Content-Type: text/plain; charset=iso-8859-1
+--6CaaegC8Q9vFc5X3
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, May 26, 2021 at 02:24:32PM -0300, Bruno Piazera Larsen wrote:
+On Tue, May 25, 2021 at 08:53:54AM -0300, Bruno Larsen (billionai) wrote:
+> Created a file with stubs needed to compile disabling TCG. *_ppc_opcodes
+> were created to make cpu_init.c have a few less ifdefs, since they are
+> not needed. softmmu_resize_hpt_* have to be created because the compiler
+> can't automatically know they aren't used, but they should never be
+> reached.
 >=20
-> On 25/05/2021 10:02, Philippe Mathieu-Daud=E9 wrote:
-> > On 5/25/21 1:53 PM, Bruno Larsen (billionai) wrote:
-> > > excp_helper.c, mmu-hash64.c and mmu_helper.c have some function
-> > > declarations that are TCG-only, and couldn't be easily moved to a
-> > > TCG only file, so ifdefs were added around them.
-> > >=20
-> > > We also needed ifdefs around some header files because helper-proto.h
-> > > includes trace/generated-helpers.h, which is never created when build=
-ing
-> > > without TCG, and cpu_ldst.h includes tcg/tcg.h, whose containing fold=
-er
-> > > is not included as a -iquote. As future cleanup, we could change the
-> > > part of the configuration script to add those.
-> > >=20
-> > > cpu_init.c also had a callback definition that is TCG only and could =
-be
-> > > removed as part of a future cleanup (all the dump_statistics part is
-> > > almost never used and will become obsolete as we transition to using
-> > > decodetree).
-> > >=20
-> > > Signed-off-by: Bruno Larsen (billionai) <bruno.larsen@eldorado.org.br>
-> > > ---
-> > >   target/ppc/cpu_init.c    |  2 ++
-> > >   target/ppc/excp_helper.c | 21 ++++++++++++++++++---
-> > >   target/ppc/mmu-hash64.c  | 11 ++++++++++-
-> > >   target/ppc/mmu_helper.c  | 16 ++++++++++++++--
-> > >   4 files changed, 44 insertions(+), 6 deletions(-)
-> > Please have a look at commit range 0a31c16c9ce..a2b0a27d33e
-> > for the MIPS convertion.
-> >=20
-> > >   #if !defined(CONFIG_USER_ONLY)
-> > > +#ifdef CONFIG_TCG
-> > >   void helper_store_msr(CPUPPCState *env, target_ulong val)
-> > >   {
-> > For example this one is similar to commit d60146a9389, you
-> > could simply move this function to tcg/sysemu/msr_helpers.c
-> > and modify the meson file, then when TCG is not available,
-> > the file isn't built, without having to use #ifdef'ry.
->=20
-> I can see what you mean, but I think the point was to not create separate
-> files solely based on the accelerator type.
->=20
-> It's up to dgibson if we use that approach, but I agree that it could make
-> the code quite a bit cleaner.
->=20
-> The next question would then be: should we go the whole 9 yards and add
-> tcg/sysemu/* and tcg/linux-user/*, or can we just use tcg/* and rely on d=
-evs
-> reading and understanding the meson.build file? I believe tcg/sysemu/* is
-> going to be very empty (for now, only what is in mmu-hash64.c and is
-> TCG-only, IIRC), so it sounds like a bit of an overkill, but I also see t=
-he
-> argument for future-proofing.
+> Signed-off-by: Bruno Larsen (billionai)
+> <bruno.larsen@eldorado.org.br>
 
-The ifdefs are pretty messy, but drafts based on splitting into
-separate files have hit their own complications.  So, I'm inclined to
-just go with the ifdefs for now, and hope to clean things up further
-in future.
+Applied to ppc-for-6.1, thanks.
 
-So, applied to ppc-for-6.1.
+> ---
+>  target/ppc/meson.build |  4 ++++
+>  target/ppc/tcg-stub.c  | 45 ++++++++++++++++++++++++++++++++++++++++++
+>  2 files changed, 49 insertions(+)
+>  create mode 100644 target/ppc/tcg-stub.c
+>=20
+> diff --git a/target/ppc/meson.build b/target/ppc/meson.build
+> index d1aa7d5d39..848e625302 100644
+> --- a/target/ppc/meson.build
+> +++ b/target/ppc/meson.build
+> @@ -28,6 +28,10 @@ ppc_softmmu_ss.add(files(
+>    'mmu_helper.c',
+>    'monitor.c',
+>  ))
+> +ppc_softmmu_ss.add(when: 'CONFIG_TCG', if_false: files(
+> +  'tcg-stub.c'
+> +))
+> +
+>  ppc_softmmu_ss.add(when: 'TARGET_PPC64', if_true: files(
+>    'compat.c',
+>    'mmu-book3s-v3.c',
+> diff --git a/target/ppc/tcg-stub.c b/target/ppc/tcg-stub.c
+> new file mode 100644
+> index 0000000000..aadcf59d26
+> --- /dev/null
+> +++ b/target/ppc/tcg-stub.c
+> @@ -0,0 +1,45 @@
+> +/*
+> + *  PowerPC CPU initialization for qemu.
+> + *
+> + *  Copyright (C) 2021 Instituto de Pesquisas Eldorado (eldorado.org.br)
+> + *
+> + * This library is free software; you can redistribute it and/or
+> + * modify it under the terms of the GNU Lesser General Public
+> + * License as published by the Free Software Foundation; either
+> + * version 2.1 of the License, or (at your option) any later version.
+> + *
+> + * This library is distributed in the hope that it will be useful,
+> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
+> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+> + * Lesser General Public License for more details.
+> + *
+> + * You should have received a copy of the GNU Lesser General Public
+> + * License along with this library; if not, see <http://www.gnu.org/lice=
+nses/>.
+> + */
+> +#include "qemu/osdep.h"
+> +#include "cpu.h"
+> +#include "internal.h"
+> +#include "hw/ppc/spapr.h"
+> +
+> +void create_ppc_opcodes(PowerPCCPU *cpu, Error **errp)
+> +{
+> +}
+> +
+> +void destroy_ppc_opcodes(PowerPCCPU *cpu)
+> +{
+> +}
+> +
+> +target_ulong softmmu_resize_hpt_prepare(PowerPCCPU *cpu,
+> +                                        SpaprMachineState *spapr,
+> +                                        target_ulong shift)
+> +{
+> +    g_assert_not_reached();
+> +}
+> +
+> +target_ulong softmmu_resize_hpt_commit(PowerPCCPU *cpu,
+> +                                       SpaprMachineState *spapr,
+> +                                       target_ulong flags,
+> +                                       target_ulong shift)
+> +{
+> +    g_assert_not_reached();
+> +}
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -143,25 +162,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---yoLc/23xFGxaiEEj
+--6CaaegC8Q9vFc5X3
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmCvHYAACgkQbDjKyiDZ
-s5L/7g/+KfjiWJxbaN7DwVInzXkqQ2SuRors++EVW0RCrXY4qHlzhcbeR2TiY9Lf
-e0zWBKo2rlPVpOpEFPdbclvu4ifAJZ5JZfKd0cQRJtxChMUKvR08wS4cOZw7E07L
-OgBfzbWz/gMuLRJwa7q/dkd1QxFPQ/IPFcitu6eMmzANfs8hF63dlS0+SmUVwsra
-x9sq05/spREsMOINw0//eyMTnJAarLghJErxfKxfsF49tbLeCREAKHWcaSbIjDwn
-cnwzf9PnIEc043AVdzHQVG/Ww48aQ55DpctyFykke4WRIXcbDBNuvuNCF8ctk1CK
-jxM4eLEwJtger+E9JdKP8Gcj5cqO9nZ9uTC+hPf271BS1P5AAD9CEKmTznPmgGW3
-k9s9iJdM6jraVVIzEfoP8CsbUJ1ON5w0gqeuVQRRkdtl54MiFE8mhFnfWg5DETU7
-QjMGae/OPPlM+wjSNNUJRJuM+bfoNh6Jau08xVyLlkuORhBkkQMRr9nY+KFgOX57
-LXeD4tOrONFeqk6ZfSLBgRFccvlNwxk2nvvwWuKY2Cao98asikzTFnpoO15c5Pwr
-4Vee7NQbqcUU+OxP+rroDQsSPVaCwYNWF5hz4nWcBSh4PKLV6Qw6fnfhkHhG1m87
-Zmzidh1UFIQ5SNAMdrxQgLcH3Y0sExJ5xoI7VfQC5EL0W28HzRQ=
-=/Q7N
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmCvHaoACgkQbDjKyiDZ
+s5KVJQ/+IJJFmgJHuO/nG5uNTZ39i5ITGvgfjQHJQ+VWa3+guYC2fja2EW+rTm40
+d/kV5RNSVUmd77zVXOZZwQEwSCJSLVwI8u2WVHpkFRzySZrjWSBhqEsXTO+z/9WG
+n+ZWzdGnve9FG6jFEY4LEt7/i6A7FbrIwa5f6sB26Gf24nuLXPsDcEUUTOCUeL/d
+8m3eRTV0Owc4nr8gBupRiCeDGGLTGH11uw23BvIpVvQoTq869xFEaWREKybX3JaH
+zrVQBnkybLfJLOWJacJXhKynNfCfUPLrlfG0IvLJCbV3J7imImPiwBeixlOcoGOa
+FokE5/6vC5ffp6NZAM1eZv8SDNfV3Ls9OD/iEuttAgNVbr7+txNXJEGqmIr1U0Wz
+mDX3qhBX9nE45bAQYPo4hWw+BNxyW3Eiy/6UrV7YmpwjRW9ZDGvKWFaWqvdAKZ/5
+Ymb7VQhmDn3lTiL+0ITA/DGNXJVSLXqbiuO3SUyMXLzNTP25RT+k22C/M1lriprx
+C9HAxWvgajPj6E5UbN2NdCx8SE1Nj8ib4WW5YU+SyUHp+NTYnkb9fwR9KchFlF3S
+a9bNDv6cwTIg+LwoXv8NPWRhWVx1MXoc2VDx+z+zetQMnsoNxZz9Jz5/O27GXS94
+o8NSVU4fTK7Q0GtYvN622cIptYwJ7tQjCSNVQ4ct1h54czdgKTY=
+=Erxn
 -----END PGP SIGNATURE-----
 
---yoLc/23xFGxaiEEj--
+--6CaaegC8Q9vFc5X3--
 
