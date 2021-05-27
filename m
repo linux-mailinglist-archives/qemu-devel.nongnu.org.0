@@ -2,77 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79830392618
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 06:23:26 +0200 (CEST)
-Received: from localhost ([::1]:33802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA633392876
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 09:23:01 +0200 (CEST)
+Received: from localhost ([::1]:37442 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lm7YL-0001ma-Jc
-	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 00:23:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45164)
+	id 1lmAM8-0005hM-OJ
+	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 03:23:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46816)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lm7PZ-0001cr-07
- for qemu-devel@nongnu.org; Thu, 27 May 2021 00:14:22 -0400
-Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535]:37663)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lm7PS-0007Es-9c
- for qemu-devel@nongnu.org; Thu, 27 May 2021 00:14:20 -0400
-Received: by mail-pg1-x535.google.com with SMTP id t193so2728299pgb.4
- for <qemu-devel@nongnu.org>; Wed, 26 May 2021 21:14:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=fxhT5T2jN/8rQ+o7wJeAhpV/9V3uAlnXkzPAEXr9qP0=;
- b=DHI9VWeaQcvvzr+boGdZjn0q24hRoQP9IM8EiaiiCMf+AnpvOsc8r4VlwPWwSTSI3j
- NrP8QJVITUXpt1S0BHuUMtDiHjXBFdItRB2YBxXCBe7f4WScY3eBs73mBgxPDBIdMk9F
- 6lFc7GzjMJeLJImnzRyhmMYb29Nvh0qRgcS2vGSStMNQywYeAlPBbvu6NOIdatIqorpq
- QliEQAxB8BzteYsoxt5+HwQsVK45rR7KbHp3jq8Or+O57MzRi8s4EefLjOk6VMVCfa9t
- 63wyQ11G4oGFL0O0IG2HC1Mr8LjZRsX+mNe0nrK7udI9RafYqnIOLhJJxTBHssonTn+A
- UrBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=fxhT5T2jN/8rQ+o7wJeAhpV/9V3uAlnXkzPAEXr9qP0=;
- b=NtAAlRfBYis2hmbwXY9tfLsxRMzAKB/jKs24Qn684XmWcAFak7YW2KpOOCJgmoz4Nj
- Re5bd4ELgZBSXp2oNl3TkgvT8zVDuITsaAcxZWRQUFoq3nC1owitSyxCpDe2ZBf+Kkj8
- ZLmwY1EtO5TzZnyICgF5kjz4z/9KFsl//DXxaVxiV5b1vO7GJJPbGM/ovqU0t6Cpiwvf
- zNpnNY8XSd2HVVDylUzEIHIomTfs20frdCyjavB7tUk3BXBtla7hrALbudN3oiJbbRBH
- h2xSZddTDdtsRPIT9eJ0huksoxntqj1awKdGjst5Ar3DNOc9HCjGG+JnOBHI2Bq1yiyN
- UsgA==
-X-Gm-Message-State: AOAM530anAq3o6I+TxpWheBy9GT9UQKgPa8ni8ZCjK9H8nj7Qx1g7mCn
- q5WPwXd9gTEbV9phcXO4UJvoEhfC0yaC3A==
-X-Google-Smtp-Source: ABdhPJzZ8W7/Vn4Bb2llfxFMLXpLVeFM2sQSY8urIv3gDNVR08K/353CvW4Uf9UaskemIU6PxTKn+A==
-X-Received: by 2002:a62:2a14:0:b029:263:20c5:6d8c with SMTP id
- q20-20020a622a140000b029026320c56d8cmr1449434pfq.23.1622088852973; 
- Wed, 26 May 2021 21:14:12 -0700 (PDT)
-Received: from localhost.localdomain (174-21-70-228.tukw.qwest.net.
- [174.21.70.228])
- by smtp.gmail.com with ESMTPSA id s1sm605959pfc.6.2021.05.26.21.14.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 May 2021 21:14:12 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 11/11] target/mips: Drop denormal operand to update_msacsr
-Date: Wed, 26 May 2021 21:14:05 -0700
-Message-Id: <20210527041405.391567-12-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210527041405.391567-1-richard.henderson@linaro.org>
-References: <20210527041405.391567-1-richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1lmAC0-0006mR-Hh; Thu, 27 May 2021 03:12:32 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:57767 helo=ozlabs.org)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1lmABw-0004eU-RW; Thu, 27 May 2021 03:12:32 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4FrJsx0V3xz9sWQ; Thu, 27 May 2021 17:12:20 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1622099541;
+ bh=mN8Ec16T8vSWXrBPnj7df9rFu5lpY+mof1bMQICjOFo=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Wxrkmhgh3ojnBmW5XkbqAwyJmIuXMOn/KO4dvBHQMG2LMOGio8h7I7Tj7LIQeNYkw
+ kc/4wB7lXGcsN5rDWpS/HQSGxdQ6SxPGhaA4wK6vB3HtdKAcA6gFdWviq+bLtQda+W
+ AgksIFelG9lMENr7Bh2G8fvYnI0hIpi1f/hkTh2U=
+Date: Thu, 27 May 2021 14:18:08 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Bruno Piazera Larsen <bruno.larsen@eldorado.org.br>
+Subject: Re: [PATCH v5 2/4] target/ppc: added ifdefs around TCG-only code
+Message-ID: <YK8dgHfO7E4AApVd@yekko>
+References: <20210525115355.8254-1-bruno.larsen@eldorado.org.br>
+ <20210525115355.8254-3-bruno.larsen@eldorado.org.br>
+ <8e66bba4-96d1-db9e-5f21-156c41ff38ea@amsat.org>
+ <abf18c12-129f-b1a5-5d67-90fc6fa71afe@eldorado.org.br>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x535.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="yoLc/23xFGxaiEEj"
+Content-Disposition: inline
+In-Reply-To: <abf18c12-129f-b1a5-5d67-90fc6fa71afe@eldorado.org.br>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,148 +60,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org, Yongbok Kim <yongbok.kim@mips.com>,
- mmorrell@tachyum.com,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: farosas@linux.ibm.com, qemu-devel@nongnu.org, richard.henderson@linaro.org,
+ luis.pires@eldorado.org.br,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ lucas.araujo@eldorado.org.br, fernando.valle@eldorado.org.br,
+ qemu-ppc@nongnu.org, matheus.ferst@eldorado.org.br
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The comment about not signaling all underflow cases is
-almost certainly incorrect.  It has been there since the
-initial commit of the file.
 
-There is a bit of code below that sets underflow with
-float_flag_oflush_denormal, which is probably the fix
-for whatever the original case may have been.
+--yoLc/23xFGxaiEEj
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Cc: Yongbok Kim <yongbok.kim@mips.com>
-Cc: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/mips/tcg/msa_helper.c | 32 ++++++++++----------------------
- 1 file changed, 10 insertions(+), 22 deletions(-)
+On Wed, May 26, 2021 at 02:24:32PM -0300, Bruno Piazera Larsen wrote:
+>=20
+> On 25/05/2021 10:02, Philippe Mathieu-Daud=E9 wrote:
+> > On 5/25/21 1:53 PM, Bruno Larsen (billionai) wrote:
+> > > excp_helper.c, mmu-hash64.c and mmu_helper.c have some function
+> > > declarations that are TCG-only, and couldn't be easily moved to a
+> > > TCG only file, so ifdefs were added around them.
+> > >=20
+> > > We also needed ifdefs around some header files because helper-proto.h
+> > > includes trace/generated-helpers.h, which is never created when build=
+ing
+> > > without TCG, and cpu_ldst.h includes tcg/tcg.h, whose containing fold=
+er
+> > > is not included as a -iquote. As future cleanup, we could change the
+> > > part of the configuration script to add those.
+> > >=20
+> > > cpu_init.c also had a callback definition that is TCG only and could =
+be
+> > > removed as part of a future cleanup (all the dump_statistics part is
+> > > almost never used and will become obsolete as we transition to using
+> > > decodetree).
+> > >=20
+> > > Signed-off-by: Bruno Larsen (billionai) <bruno.larsen@eldorado.org.br>
+> > > ---
+> > >   target/ppc/cpu_init.c    |  2 ++
+> > >   target/ppc/excp_helper.c | 21 ++++++++++++++++++---
+> > >   target/ppc/mmu-hash64.c  | 11 ++++++++++-
+> > >   target/ppc/mmu_helper.c  | 16 ++++++++++++++--
+> > >   4 files changed, 44 insertions(+), 6 deletions(-)
+> > Please have a look at commit range 0a31c16c9ce..a2b0a27d33e
+> > for the MIPS convertion.
+> >=20
+> > >   #if !defined(CONFIG_USER_ONLY)
+> > > +#ifdef CONFIG_TCG
+> > >   void helper_store_msr(CPUPPCState *env, target_ulong val)
+> > >   {
+> > For example this one is similar to commit d60146a9389, you
+> > could simply move this function to tcg/sysemu/msr_helpers.c
+> > and modify the meson file, then when TCG is not available,
+> > the file isn't built, without having to use #ifdef'ry.
+>=20
+> I can see what you mean, but I think the point was to not create separate
+> files solely based on the accelerator type.
+>=20
+> It's up to dgibson if we use that approach, but I agree that it could make
+> the code quite a bit cleaner.
+>=20
+> The next question would then be: should we go the whole 9 yards and add
+> tcg/sysemu/* and tcg/linux-user/*, or can we just use tcg/* and rely on d=
+evs
+> reading and understanding the meson.build file? I believe tcg/sysemu/* is
+> going to be very empty (for now, only what is in mmu-hash64.c and is
+> TCG-only, IIRC), so it sounds like a bit of an overkill, but I also see t=
+he
+> argument for future-proofing.
 
-diff --git a/target/mips/tcg/msa_helper.c b/target/mips/tcg/msa_helper.c
-index ffe6e630ed..b752373bce 100644
---- a/target/mips/tcg/msa_helper.c
-+++ b/target/mips/tcg/msa_helper.c
-@@ -6205,7 +6205,7 @@ static int ieee_to_mips_xcpt_msa(int ieee_xcpt)
-     return mips_xcpt;
- }
- 
--static int update_msacsr(CPUMIPSState *env, int action, int denormal)
-+static int update_msacsr(CPUMIPSState *env, int action)
- {
-     int ieee_exception_flags;
-     int mips_exception_flags = 0;
-@@ -6215,10 +6215,6 @@ static int update_msacsr(CPUMIPSState *env, int action, int denormal)
-     ieee_exception_flags = get_float_exception_flags(
-                                &env->active_tc.msa_fp_status);
- 
--    /* QEMU softfloat does not signal all underflow cases */
--    if (denormal) {
--        ieee_exception_flags |= float_flag_underflow;
--    }
-     if (ieee_exception_flags) {
-         mips_exception_flags = ieee_to_mips_xcpt_msa(ieee_exception_flags);
-     }
-@@ -6469,7 +6465,7 @@ static int32_t float64_to_q32(float64 a, float_status *status)
-             cond = float ## BITS ## _ ## OP ## _quiet(ARG1, ARG2, status);  \
-         }                                                                   \
-         DEST = cond ? M_MAX_UINT(BITS) : 0;                                 \
--        c = update_msacsr(env, CLEAR_IS_INEXACT, 0);                        \
-+        c = update_msacsr(env, CLEAR_IS_INEXACT);                           \
-                                                                             \
-         if (get_enabled_exceptions(env, c)) {                               \
-             DEST = ((FLOAT_SNAN ## BITS(status) >> 6) << 6) | c;            \
-@@ -7043,13 +7039,6 @@ void helper_msa_fsne_df(CPUMIPSState *env, uint32_t df, uint32_t wd,
-     compare_ne(env, pwd, pws, pwt, df, 0, GETPC());
- }
- 
--#define float16_is_zero(ARG) 0
--#define float16_is_zero_or_denormal(ARG) 0
--
--#define IS_DENORMAL(ARG, BITS)                      \
--    (!float ## BITS ## _is_zero(ARG)                \
--    && float ## BITS ## _is_zero_or_denormal(ARG))
--
- #define MSA_FLOAT_BINOP(DEST, OP, ARG1, ARG2, BITS)                         \
-     do {                                                                    \
-         float_status *status = &env->active_tc.msa_fp_status;               \
-@@ -7057,7 +7046,7 @@ void helper_msa_fsne_df(CPUMIPSState *env, uint32_t df, uint32_t wd,
-                                                                             \
-         set_float_exception_flags(0, status);                               \
-         DEST = float ## BITS ## _ ## OP(ARG1, ARG2, status);                \
--        c = update_msacsr(env, 0, IS_DENORMAL(DEST, BITS));                 \
-+        c = update_msacsr(env, 0);                                          \
-                                                                             \
-         if (get_enabled_exceptions(env, c)) {                               \
-             DEST = ((FLOAT_SNAN ## BITS(status) >> 6) << 6) | c;            \
-@@ -7193,7 +7182,7 @@ void helper_msa_fdiv_df(CPUMIPSState *env, uint32_t df, uint32_t wd,
-                                                                             \
-         set_float_exception_flags(0, status);                               \
-         DEST = float ## BITS ## _muladd(ARG2, ARG3, ARG1, NEGATE, status);  \
--        c = update_msacsr(env, 0, IS_DENORMAL(DEST, BITS));                 \
-+        c = update_msacsr(env, 0);                                          \
-                                                                             \
-         if (get_enabled_exceptions(env, c)) {                               \
-             DEST = ((FLOAT_SNAN ## BITS(status) >> 6) << 6) | c;            \
-@@ -7312,7 +7301,7 @@ void helper_msa_fexp2_df(CPUMIPSState *env, uint32_t df, uint32_t wd,
-                                                                             \
-         set_float_exception_flags(0, status);                               \
-         DEST = float ## BITS ## _ ## OP(ARG, status);                       \
--        c = update_msacsr(env, 0, IS_DENORMAL(DEST, BITS));                 \
-+        c = update_msacsr(env, 0);                                          \
-                                                                             \
-         if (get_enabled_exceptions(env, c)) {                               \
-             DEST = ((FLOAT_SNAN ## BITS(status) >> 6) << 6) | c;            \
-@@ -7365,7 +7354,7 @@ void helper_msa_fexdo_df(CPUMIPSState *env, uint32_t df, uint32_t wd,
-                                                                             \
-         set_float_exception_flags(0, status);                               \
-         DEST = float ## BITS ## _ ## OP(ARG, status);                       \
--        c = update_msacsr(env, CLEAR_FS_UNDERFLOW, 0);                      \
-+        c = update_msacsr(env, CLEAR_FS_UNDERFLOW);                         \
-                                                                             \
-         if (get_enabled_exceptions(env, c)) {                               \
-             DEST = ((FLOAT_SNAN ## XBITS(status) >> 6) << 6) | c;           \
-@@ -7416,7 +7405,7 @@ void helper_msa_ftq_df(CPUMIPSState *env, uint32_t df, uint32_t wd,
-                                                                             \
-         set_float_exception_flags(0, status);                               \
-         DEST = float ## BITS ## _ ## OP(ARG1, ARG2, status);                \
--        c = update_msacsr(env, 0, 0);                                       \
-+        c = update_msacsr(env, 0);                                          \
-                                                                             \
-         if (get_enabled_exceptions(env, c)) {                               \
-             DEST = ((FLOAT_SNAN ## BITS(status) >> 6) << 6) | c;            \
-@@ -7672,7 +7661,7 @@ void helper_msa_fclass_df(CPUMIPSState *env, uint32_t df,
-                                                                             \
-         set_float_exception_flags(0, status);                               \
-         DEST = float ## BITS ## _ ## OP(ARG, status);                       \
--        c = update_msacsr(env, CLEAR_FS_UNDERFLOW, 0);                      \
-+        c = update_msacsr(env, CLEAR_FS_UNDERFLOW);                         \
-                                                                             \
-         if (get_enabled_exceptions(env, c)) {                               \
-             DEST = ((FLOAT_SNAN ## BITS(status) >> 6) << 6) | c;            \
-@@ -7780,8 +7769,7 @@ void helper_msa_fsqrt_df(CPUMIPSState *env, uint32_t df, uint32_t wd,
-         DEST = float ## BITS ## _ ## div(FLOAT_ONE ## BITS, ARG, status);   \
-         c = update_msacsr(env, float ## BITS ## _is_infinity(ARG) ||        \
-                           float ## BITS ## _is_quiet_nan(DEST, status) ?    \
--                          0 : RECIPROCAL_INEXACT,                           \
--                          IS_DENORMAL(DEST, BITS));                         \
-+                          0 : RECIPROCAL_INEXACT);                          \
-                                                                             \
-         if (get_enabled_exceptions(env, c)) {                               \
-             DEST = ((FLOAT_SNAN ## BITS(status) >> 6) << 6) | c;            \
-@@ -7897,7 +7885,7 @@ void helper_msa_frint_df(CPUMIPSState *env, uint32_t df, uint32_t wd,
-                                   (~float_flag_inexact),                    \
-                                   status);                                  \
-                                                                             \
--        c = update_msacsr(env, 0, IS_DENORMAL(DEST, BITS));                 \
-+        c = update_msacsr(env, 0);                                          \
-                                                                             \
-         if (get_enabled_exceptions(env, c)) {                               \
-             DEST = ((FLOAT_SNAN ## BITS(status) >> 6) << 6) | c;            \
--- 
-2.25.1
+The ifdefs are pretty messy, but drafts based on splitting into
+separate files have hit their own complications.  So, I'm inclined to
+just go with the ifdefs for now, and hope to clean things up further
+in future.
 
+So, applied to ppc-for-6.1.
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--yoLc/23xFGxaiEEj
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmCvHYAACgkQbDjKyiDZ
+s5L/7g/+KfjiWJxbaN7DwVInzXkqQ2SuRors++EVW0RCrXY4qHlzhcbeR2TiY9Lf
+e0zWBKo2rlPVpOpEFPdbclvu4ifAJZ5JZfKd0cQRJtxChMUKvR08wS4cOZw7E07L
+OgBfzbWz/gMuLRJwa7q/dkd1QxFPQ/IPFcitu6eMmzANfs8hF63dlS0+SmUVwsra
+x9sq05/spREsMOINw0//eyMTnJAarLghJErxfKxfsF49tbLeCREAKHWcaSbIjDwn
+cnwzf9PnIEc043AVdzHQVG/Ww48aQ55DpctyFykke4WRIXcbDBNuvuNCF8ctk1CK
+jxM4eLEwJtger+E9JdKP8Gcj5cqO9nZ9uTC+hPf271BS1P5AAD9CEKmTznPmgGW3
+k9s9iJdM6jraVVIzEfoP8CsbUJ1ON5w0gqeuVQRRkdtl54MiFE8mhFnfWg5DETU7
+QjMGae/OPPlM+wjSNNUJRJuM+bfoNh6Jau08xVyLlkuORhBkkQMRr9nY+KFgOX57
+LXeD4tOrONFeqk6ZfSLBgRFccvlNwxk2nvvwWuKY2Cao98asikzTFnpoO15c5Pwr
+4Vee7NQbqcUU+OxP+rroDQsSPVaCwYNWF5hz4nWcBSh4PKLV6Qw6fnfhkHhG1m87
+Zmzidh1UFIQ5SNAMdrxQgLcH3Y0sExJ5xoI7VfQC5EL0W28HzRQ=
+=/Q7N
+-----END PGP SIGNATURE-----
+
+--yoLc/23xFGxaiEEj--
 
