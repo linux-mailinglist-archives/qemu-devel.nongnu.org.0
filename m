@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EF5039331C
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 18:02:12 +0200 (CEST)
-Received: from localhost ([::1]:46976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48F89393320
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 18:02:37 +0200 (CEST)
+Received: from localhost ([::1]:47450 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lmISZ-00084f-Fa
-	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 12:02:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58374)
+	id 1lmISy-0008OY-AH
+	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 12:02:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58730)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lmIOO-0004ay-MX
- for qemu-devel@nongnu.org; Thu, 27 May 2021 11:57:53 -0400
-Received: from mail-ot1-f49.google.com ([209.85.210.49]:43804)
+ id 1lmIPI-0006OZ-K3
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 11:58:48 -0400
+Received: from mail-ot1-f50.google.com ([209.85.210.50]:44947)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lmION-0006BP-90
- for qemu-devel@nongnu.org; Thu, 27 May 2021 11:57:52 -0400
-Received: by mail-ot1-f49.google.com with SMTP id
- i12-20020a05683033ecb02903346fa0f74dso637592otu.10
- for <qemu-devel@nongnu.org>; Thu, 27 May 2021 08:57:50 -0700 (PDT)
+ id 1lmIPG-0006et-S9
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 11:58:48 -0400
+Received: by mail-ot1-f50.google.com with SMTP id
+ r26-20020a056830121ab02902a5ff1c9b81so634485otp.11
+ for <qemu-devel@nongnu.org>; Thu, 27 May 2021 08:58:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=Mk5Rg1vE+E3XE1nFcVXD/yT3SnwhNNr3LUd2hVynvms=;
- b=dvT2VAlP8k2XGKGJmKoZHOWikr2WjM+bp++xMkzCXs7ntwQQsgbhYHSVmJuRGrEXJB
- 0vEYwms+05o5CNpEhFVr+F16KpjI8IPWXurCuTTHlI2jfFnNzel0XdDX53y+ZLgiznd7
- O67101Acu8Pw/S+HGX6CYjuEbGGBOxgN0Bee0lI+LWNiMeQBycwI80Hp1APVLZ8HnrJS
- 4gcsrktIWz/yD8GVJYruqhVH+CIjdy1wVcie3RU1zlHQQu0bF29HrLIb4V73tKcTox5Q
- LBBShYmol8T7tAtAISFQQc/dRpRl1bm/kJAF2Z5kV5IJ3qaghmM9y04D/tLPT5zqWK8x
- fc0Q==
-X-Gm-Message-State: AOAM531eGXviQYAbyuLFC7rL2o2ojwNtp24NhSz2uXYYMHtID4GAySqD
- 2wGogBilH3dC9uWdM4y3LAMS94kY/Rv/TiG4u9c=
-X-Google-Smtp-Source: ABdhPJxgYh0U66TZVIMEv8B4sYPJV1p5CWVKn0/ko5bh0C+qZL5AJ85etO1jj4GPn5uhMYPnlqRXtxRPvESUzBATsvg=
-X-Received: by 2002:a9d:7e99:: with SMTP id m25mr3336399otp.37.1622131070059; 
- Thu, 27 May 2021 08:57:50 -0700 (PDT)
+ bh=0td18BumK/icI+qdzXDEC06zii6VdAKhuB7BsCWGUVE=;
+ b=oYfU074ztSbWcHW+H7Db0AsHX/UrRhR4vZIvd56t9VyuqmijcARB7KRGD/DkK9HjNC
+ 8Shvwzx0JCh3CXZht0VlLC8Dhw6mfw1D7YvVbNSZQHgs0mHQHJRGS2lpxZpgBmf8Rk7r
+ yVL24oio9Hl5Ki3IKWJLDd77PmK4KEAa4hJ9DZbKevtq8raR8ZEsoBVQBmeEPqDCD7+A
+ hx8ZQrdkyabHARHjlIXQyPWhsI495bKe94erstqffgmKcxf3qZuz3rZhe12/keP3CkM2
+ /GLLO2sNVbxy2FQqqOhq3vfDdfaf7BIVba28W89TIEb0R7a/fgKrwSFe+Lyx2P1YlA4g
+ a/tA==
+X-Gm-Message-State: AOAM530FMd2A9Nxek69eAa/hccKQVN0zCCQEH9OjDlJj70hayZ7OLvIN
+ 7ztt51sBLiEFlUy0tYrZEh0LqDLq4sQlfimQVAo=
+X-Google-Smtp-Source: ABdhPJzdudi8MuDxciOAdolfw4V1likqI310XcsIlkLJtaXDR13icfLj8h0uAtz3LqR26VyV1IOu29bzkfFM4z+KlqM=
+X-Received: by 2002:a9d:6e09:: with SMTP id e9mr3280766otr.126.1622131125988; 
+ Thu, 27 May 2021 08:58:45 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210311143958.562625-1-richard.henderson@linaro.org>
- <20210311143958.562625-58-richard.henderson@linaro.org>
-In-Reply-To: <20210311143958.562625-58-richard.henderson@linaro.org>
+References: <20210514120415.1368922-1-berrange@redhat.com>
+ <20210514120415.1368922-2-berrange@redhat.com>
+In-Reply-To: <20210514120415.1368922-2-berrange@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Date: Thu, 27 May 2021 17:57:39 +0200
-Message-ID: <CAAdtpL4ZRjRmg9oL2BpC13Ss1x2HMVJDd_Gtf4CXKD7EKS-MGQ@mail.gmail.com>
-Subject: Re: [PATCH v5 57/57] gitlab: Enable cross-i386 builds of TCI
-To: Richard Henderson <richard.henderson@linaro.org>
+Date: Thu, 27 May 2021 17:58:35 +0200
+Message-ID: <CAAdtpL45SG2Y8bZJYj+NBOPBFB0paVt2fFX+jyF+B=5aY8siGw@mail.gmail.com>
+Subject: Re: [PATCH v2 01/12] gitlab: drop linux user build job for CentOS 7
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=209.85.210.49;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ot1-f49.google.com
+Received-SPF: pass client-ip=209.85.210.50;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ot1-f50.google.com
 X-Spam_score_int: -13
 X-Spam_score: -1.4
 X-Spam_bar: -
@@ -70,26 +70,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Weil <sw@weilnetz.de>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: Thomas Huth <thuth@redhat.com>, Stefan Weil <sw@weilnetz.de>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Willian Rampazzo <willianr@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Mar 11, 2021 at 3:43 PM Richard Henderson
-<richard.henderson@linaro.org> wrote:
+On Fri, May 14, 2021 at 2:04 PM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
+m> wrote:
 >
-> We're currently only testing TCI with a 64-bit host -- also test
-> with a 32-bit host.  Enable a selection of softmmu and user-only
-> targets, 32-bit LE, 64-bit LE, 32-bit BE, as there are ifdefs for each.
+> It has been over two years since RHEL-8 was released, and thus per the
+> platform build policy, we no longer need to support RHEL-7 as a build
+> target.
 >
-> Acked-by: Thomas Huth <thuth@redhat.com>
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> The build-user-centos7 job was to detect a failure specific to CentOS
+> 7 and there are already other linux user jobs for other platforms.
+> Thus we can drop this job rather than move it to CentOS 8.
+>
+> Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 > ---
->  .gitlab-ci.d/crossbuilds.yml                      | 11 ++++++++++-
->  tests/docker/dockerfiles/fedora-i386-cross.docker |  1 +
->  2 files changed, 11 insertions(+), 1 deletion(-)
+>  .gitlab-ci.yml | 9 ---------
+>  1 file changed, 9 deletions(-)
 
 Thanks, patch applied to gitlab-ci-next.
 
