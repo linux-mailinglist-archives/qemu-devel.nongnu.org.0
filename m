@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AEBC392FDB
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 15:36:05 +0200 (CEST)
-Received: from localhost ([::1]:53298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DAF6393020
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 15:50:55 +0200 (CEST)
+Received: from localhost ([::1]:48482 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lmGB9-0004Nf-1R
-	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 09:36:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40148)
+	id 1lmGPV-0003lM-Bo
+	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 09:50:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45238)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lmFi4-0008DW-1Q
- for qemu-devel@nongnu.org; Thu, 27 May 2021 09:06:00 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:44769)
+ id 1lmG13-0003OK-O6
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 09:25:37 -0400
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:55068)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lmFi0-0004Ts-4h
- for qemu-devel@nongnu.org; Thu, 27 May 2021 09:05:59 -0400
-Received: by mail-wr1-x430.google.com with SMTP id r10so4647894wrj.11
- for <qemu-devel@nongnu.org>; Thu, 27 May 2021 06:05:51 -0700 (PDT)
+ id 1lmG0v-0004H1-Vy
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 09:25:37 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id o127so195822wmo.4
+ for <qemu-devel@nongnu.org>; Thu, 27 May 2021 06:25:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=references:user-agent:from:to:cc:subject:date:in-reply-to
  :message-id:mime-version:content-transfer-encoding;
- bh=jddI1+dmAzr8wcQtm44r/Is9Mz5cxn0ZekTZEhrkl80=;
- b=A/VxuXxN7tsWsUKyJ5VL/jVZaQJWcKraYUuEVoJCIzxky4piikBNlnKVTQnIDb3byL
- S0uKn3mDqr1vPaqiWFTISoUkPZzGV0sYsvTH8HLRbbf/fDbJ9Q5Eq3Q76uhRDNIw+4yb
- BNlvSxjDW9I/UuCVaA+HTqjml5pQHHloVcRrL0v7vdoXPnNS/+kuNs/imedzfS1lkvSP
- tE0KsNMo1Svpx+hyl4bPnqc/pYU7LhjlPy6+WmsUr/5lGNLGfeKicSk4MDWziB2zIWO4
- oCk18DJDZls5B10Nfqm7b+nXZXbPJYJiT8cZHtaGem30JMogkpA51qFv/0I38EmETSbB
- KR0A==
+ bh=7CquySGT9oqwkeY76J1aNN2ZN7aRlwuXzLgXzXhMGng=;
+ b=vFmh3V9ScCriYFqCVVAHLGvKTCLms9TR0O0Y97kFutGbsHZM9ivY+Tt3v7W/byqcx8
+ 1zNzG4xxq+5ZfSh2ABeKz8xiJxoStcXMU0j1Uwt6eGtKfG2/6iBa74JKxvtocob2tm16
+ dqD4c5oZLr7Q58aVnXgaCZwcF0esQhGXHAUmsS3gYVmjiPqroXUi7Wjdbm3n1ij2PW4M
+ 6m3tPRHHRWMXLocfbZpeorqOmXx4rxRdXCnbZzs0cXeJSG42H4Irjzg0r1PPrM51w7tg
+ ruh2kwhMZ48eaeKFOxz8fwEF63boErcMVU4S8tIpCroY+GIqZZIbGKx2pnX/vkHyR5BT
+ fI0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
  :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=jddI1+dmAzr8wcQtm44r/Is9Mz5cxn0ZekTZEhrkl80=;
- b=iCLeHJfgo4PBLj4qjv0Slu2IXA5Oqu7agorJdI2QVt9Ml0NSPkPKNpwxtvh86r/zCP
- whDm3HW+TlwGkeBBFryezQwecvhRW85cAwFm8AGkyofMkwyTLRVPMSY2NE9gLgRtPwUV
- F01lLjcR8uOCYAOn0ayJ38irVCnCJQo1bmR0n+qJ5HCtEdjkOm/BKa0FVvmSaJWe2mn4
- cBcs0DrMuAJA9U31ZPAvcjUtizg5XnhTF/yeNRMSsPKR31308L2LoU/myBqFjc61mKkw
- roxBaQX7BayxOl44HLjz+7vgEWJnFAg+pZT8Cw9ZY8iNHsM1w9OaS3g0U7FoAVRiife8
- dCHg==
-X-Gm-Message-State: AOAM533Ia1A/Ub2EwZdr/VjfFqZCFGxdpsL9qOAToMjD0jxZSTAZN/NM
- ccTC7lV/PZAxiTyaUNI/6wXoFA==
-X-Google-Smtp-Source: ABdhPJxCN3zF5tYb+QMhlY9s3cV/KTJVqAJQ4R1IZb/MlpvS0MJYiN+z/d+B5DnxwFFb/uuYQo9QzA==
-X-Received: by 2002:a05:6000:110b:: with SMTP id
- z11mr3211135wrw.278.1622120749940; 
- Thu, 27 May 2021 06:05:49 -0700 (PDT)
+ bh=7CquySGT9oqwkeY76J1aNN2ZN7aRlwuXzLgXzXhMGng=;
+ b=GFs6pI9OtSj7Zrw4EaHqwtncuReW9Xm5wv4mY/G7HprUlZodSwyB8zxVKQ/lmJvAuz
+ CzEeAE1Zt1IJo0MbswUXuH5IPyQv+SiAJ4VeVYb/8UWBkT2OGtPxkPUTNtRDKXxZyPj6
+ 5kwIAUuSBoNwGfXiK7MQ+8zTR06g+GJX/lbH6gB0nIczP6GQgeFpsbdL1KMhmBuX3IgB
+ bQ/DjTGZav9Y67GYYZXvPSL4TD4O0Vhq4Zwo78CgKI/ELLfnPJnm/sQ6VArdzuky0Pjv
+ dMH6kAI0nUtWC9k8jjCzAg5YPUXyJ8DjIhtrP32N7B4EzlGnf2UgBLsaBwvk49oo7O2c
+ qyCw==
+X-Gm-Message-State: AOAM53245YPEj0940A8gbgcu7NwGnv14/ftvn2XJLv+20SIV8RY9dIdR
+ 3VVcIBuOyGoJSUGx5/GMKWqr9g==
+X-Google-Smtp-Source: ABdhPJz/0G8Kj6I+t253htu2WqyUOPlIyoz2WsWqMTVPyvFmuuExo05PHQJFQvqXlrbnqXFX9xe4nA==
+X-Received: by 2002:a1c:e243:: with SMTP id z64mr3437842wmg.25.1622121922109; 
+ Thu, 27 May 2021 06:25:22 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id h8sm3071539wrw.85.2021.05.27.06.05.48
+ by smtp.gmail.com with ESMTPSA id y189sm1914550wmy.25.2021.05.27.06.25.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 May 2021 06:05:48 -0700 (PDT)
+ Thu, 27 May 2021 06:25:21 -0700 (PDT)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 5A5471FF7E;
- Thu, 27 May 2021 14:05:47 +0100 (BST)
-References: <20210525082556.4011380-1-f4bug@amsat.org>
- <20210525082556.4011380-7-f4bug@amsat.org>
- <8c74e90e-ed4c-9e96-cf87-c0c413e48eaa@amsat.org>
- <177aee51-ac23-5321-021c-a8244ddf254e@redhat.com>
+ by zen.linaroharston (Postfix) with ESMTP id 80BCE1FF7E;
+ Thu, 27 May 2021 14:25:20 +0100 (BST)
+References: <20210524045412.15152-1-yamamoto@midokura.com>
+ <87cztg3tv0.fsf@linaro.org>
+ <CAH=wFzQjYJHN3xH1QhyxzZNDXGjQDw5UxhwH2NEiQoYjWcqh-g@mail.gmail.com>
+ <CAH=wFzR3=Q1ukE-5Wp1jQ47n0p2Y6wwv8vFVtycTJZYdajtctA@mail.gmail.com>
 User-agent: mu4e 1.5.13; emacs 28.0.50
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH 6/9] gitlab-ci: Split gprof-gcov job
-Date: Thu, 27 May 2021 14:04:49 +0100
-In-reply-to: <177aee51-ac23-5321-021c-a8244ddf254e@redhat.com>
-Message-ID: <871r9s2uok.fsf@linaro.org>
+To: Takashi Yamamoto <yamamoto@midokura.com>
+Subject: Re: [PATCH 0/5] linux-user changes to run docker
+Date: Thu, 27 May 2021 14:08:29 +0100
+In-reply-to: <CAH=wFzR3=Q1ukE-5Wp1jQ47n0p2Y6wwv8vFVtycTJZYdajtctA@mail.gmail.com>
+Message-ID: <87y2c01f7j.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,72 +89,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Willian Rampazzo <willianr@redhat.com>, "Daniel
- P . Berrange" <berrange@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-Thomas Huth <thuth@redhat.com> writes:
+Takashi Yamamoto <yamamoto@midokura.com> writes:
 
-> On 25/05/2021 12.21, Philippe Mathieu-Daud=C3=A9 wrote:
->> On 5/25/21 10:25 AM, Philippe Mathieu-Daud=C3=A9 wrote:
->>> This job is hitting the 70min limit, so split it in 2 tasks.
->>>
->>> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
->>> ---
->>>   .gitlab-ci.d/buildtest.yml | 17 ++++++++++++++---
->>>   1 file changed, 14 insertions(+), 3 deletions(-)
->>>
->>> diff --git a/.gitlab-ci.d/buildtest.yml b/.gitlab-ci.d/buildtest.yml
->>> index f903fdea3f4..894732e203d 100644
->>> --- a/.gitlab-ci.d/buildtest.yml
->>> +++ b/.gitlab-ci.d/buildtest.yml
->>> @@ -564,16 +564,27 @@ check-deprecated:
->>>     allow_failure: true
->>>     # gprof/gcov are GCC features
->>> -gprof-gcov:
->>> +build-gprof-gcov:
->>>     extends: .native_build_job_template
->>>     needs:
->>>       job: amd64-ubuntu2004-container
->>>     variables:
->>>       IMAGE: ubuntu2004
->>>       CONFIGURE_ARGS: --enable-gprof --enable-gcov
->>> -    MAKE_CHECK_ARGS: check
->>>       TARGETS: aarch64-softmmu ppc64-softmmu s390x-softmmu x86_64-softm=
-mu
->>> -  timeout: 70m
->>> +  artifacts:
->>> +    expire_in: 1 days
->>> +    paths:
->>> +      - build
->> FYI this job takes 28min:
->> https://gitlab.com/philmd/qemu/-/jobs/1290778672
->>=20
->>> +
->>> +check-gprof-gcov:
->>> +  extends: .native_test_job_template
->>> +  needs:
->>> +    - job: build-gprof-gcov
->>> +      artifacts: true
->>> +  variables:
->>> +    IMAGE: ubuntu2004
->>> +    MAKE_CHECK_ARGS: check
->>>     after_script:
->>>       - ${CI_PROJECT_DIR}/scripts/ci/coverage-summary.sh
->> and this one 23min:
->> https://gitlab.com/philmd/qemu/-/jobs/1290778751
+> On Tue, May 25, 2021 at 8:22 AM Takashi Yamamoto <yamamoto@midokura.com> =
+wrote:
+>>
+>> On Tue, May 25, 2021 at 2:49 AM Alex Benn=C3=A9e <alex.bennee@linaro.org=
+> wrote:
+>> >
+>> >
+>> > YAMAMOTO Takashi <yamamoto@midokura.com> writes:
+>> >
+>> > > These patches, along with a few more hacks [1] I didn't include
+>> > > in this patchset, allowed me to run arm64 and armv7 version of
+>> > > dind image on amd64.
+>> > >
+>> > > [1] https://github.com/yamt/qemu/tree/linux-user-for-docker
+>> >
+>> > Might be worth posting those patches next time (even if they have a RFC
+>> > or !MERGE in the title for now).
+>>
+>> ok.
 >
-> So why are they taking less than 70 minutes when split in two parts,
-> but are exceeding  the 70 minutes when done in one job?
-> That does not make sense...
+> while RFC is mentioned in eg. git format-patch --help,
+> i couldn't find what !MERGE is.
+> can you provide a reference?
 
-The time just seems to be highly variable. Normally I see succeeding
-runs take ~40 minutes. I suspect there is some aspect of the profiling
-code that interacts poorly under load leading to much longer runtimes.
+It's usually just an annotation to the subject line of the commit, e.g:
+
+  foo/bar: hacky fix to frobulator (!MERGE)
+
+  rest of commit message
+
+or something like:
+
+  baz/quack: invert the tachyon beam (WIP)
+
+  reason for the fix.
+
+  [AJB: still WIP as this breaks foo]
+
+AFAIK the only subject lines supported by the tooling are the squash:
+and fixup: prefixes.
+
+> is there a nice way to express that some patches in a post are meant
+> for application and the others are RFC?
+
+Aside from a description in the cover letter not really. The main reason
+to include patches that aren't ready for merging is to show where your
+work is going so the full context of earlier changes can be seen. Having
+an ALL CAPS tag in the subject line is just handy for the maintainer
+when scanning what might get cherry picked. Obviously if a patch totally
+breaks the build it's not worth including as it just makes review harder
+when giving the patches a spin so you should exercise your judgement.
 
 --=20
 Alex Benn=C3=A9e
