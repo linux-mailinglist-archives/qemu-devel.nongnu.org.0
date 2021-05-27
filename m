@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E608392B26
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 11:51:23 +0200 (CEST)
-Received: from localhost ([::1]:54618 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9EE4392B2D
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 11:54:12 +0200 (CEST)
+Received: from localhost ([::1]:57384 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lmCfi-0005SR-5h
-	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 05:51:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51536)
+	id 1lmCiS-0007O9-0t
+	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 05:54:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52400)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lmCdU-0004Z7-H7
- for qemu-devel@nongnu.org; Thu, 27 May 2021 05:49:04 -0400
-Received: from smtp-out1.suse.de ([195.135.220.28]:44872)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lmCgL-0006Ii-Eq
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 05:52:01 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:38431)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lmCdP-00010z-Mm
- for qemu-devel@nongnu.org; Thu, 27 May 2021 05:49:02 -0400
-Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
- (using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id EAFB8218DD;
- Thu, 27 May 2021 09:48:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1622108937; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=MT3cenYDBC/LCgpC+QZ/T4xnWTUd84w/z+MeM3LFr4c=;
- b=ko44UhKl8ZYVQajb3alGBI1bTadCVGneUaryyBk8SrBZJ3jhals8oZlrbymVhKKt4d8BtD
- cifAoWqCv6+3/fbdIjTXt8puH4dcg16f9P8lnETGPP17t94j09315rp+Ei5guT6ZAlCnBF
- 3ctKAdmnPSHGcxHN+0UKSCPmavzzfg8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1622108937;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=MT3cenYDBC/LCgpC+QZ/T4xnWTUd84w/z+MeM3LFr4c=;
- b=5lh2vVOTi/WGTomlGqb67dfUfgjwH7ePpNSbQ2oiab/UDQF97jC/ymKWSvF8oeb/3GA0R2
- zk8j7j9GRofvWyCg==
-Received: from director2.suse.de (director2.suse-dmz.suse.de [192.168.254.72])
- by imap.suse.de (Postfix) with ESMTPSA id 8B0FD11A98;
- Thu, 27 May 2021 09:48:57 +0000 (UTC)
-Subject: Re: Windows fails to boot after rebase to QEMU master
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-References: <20210521091451.GA6016@u366d62d47e3651.ant.amazon.com>
- <20210524055322-mutt-send-email-mst@kernel.org> <YK6hunkEnft6VJHz@work-vm>
- <d71fee00-0c21-c5e8-dbc6-00b7ace11c5a@suse.de> <YK9Y64U0wjU5K753@work-vm>
- <16a5085f-868b-7e1a-f6de-1dab16103a66@redhat.com> <YK9jOdCPUGQF4t0D@work-vm>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <855c9f5c-a8e8-82b4-d71e-db9c966ddcc3@suse.de>
-Date: Thu, 27 May 2021 11:48:57 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lmCgG-0002zy-E3
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 05:52:01 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id j14so4076950wrq.5
+ for <qemu-devel@nongnu.org>; Thu, 27 May 2021 02:51:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=G5B5hvCGISwVvcSmxDpwJiBIsP15U0MlpZf6BrKPNX8=;
+ b=YCx3w/RAumGPZ6rdVTx27h7SNU8eZKEGfKNYJBwOaIiscpmNBLkbBvrjCq3U4IpWLF
+ 1oSY0LXwPZt9WtTzoUTKfPE9GzVNXPi1LDbzcVXoCPQNRAQE8ZfVCVIncBvWGIIMK87M
+ EHimicMHaRvA3sX9sXZCB6lUqFEBoHlE8/sf2sgb7vxx04vCVU5qR69IL9ZgTfiYyVY8
+ Xj9+z3IyiVlxfEtysGrJVdjhWObjMfcp6rHrKIxsvFmASbG1JjB/MoVCkj/wNV7dbF3r
+ ME6giU47bdqdBOaIqm2nkHON8tESme0ZEqd4ARvZsIcSgBSjmNBc9jlClhHDVgc30+/U
+ SoZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=G5B5hvCGISwVvcSmxDpwJiBIsP15U0MlpZf6BrKPNX8=;
+ b=K/uH++SLqljquC/V18JjOT9MjHH73c4XXxIwy9XFZbb63mE1Xof0BGruuas6yGkSqw
+ S8ljZTfZGbUsxzQMlg7kBSgryqJ34hpPGTGOaa2aUePFaS6AeI6L+gM+DPUc5WXxdvtq
+ ijav+ECt90thApsd9zIVEEMycSGycQdSQ/qGO6zEE0/ckzzYZkzFUwvgaBz0r1XrwFR8
+ JIRdgklXjnGt/1ecWCdFVrJw4VKR+LLRDvqj4JoglylmsH75TFMH+IdzpvWPQNZ811qj
+ gPSicJqCP8JXJoPba890N1WHO6UIMcyz77bbCQ7hxSvdP5yQWtuQ+NGo5Lp1yxiq7KK5
+ 9I3Q==
+X-Gm-Message-State: AOAM531rQSRAljPpzoSE9QFVK8IyzrXD5aOsbfAj6fzIefCys4sDY9+c
+ 8nKcqdXWaCkz79wwkoYHwfGEKw==
+X-Google-Smtp-Source: ABdhPJxcoNlF6ng5ksw78iPSMmccL152IsM9NT+AoWqLVs6n6b2myfN3OxGjIqJwgzK32l0rJppOhQ==
+X-Received: by 2002:adf:e411:: with SMTP id g17mr2388550wrm.402.1622109114209; 
+ Thu, 27 May 2021 02:51:54 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id y14sm2357589wrr.82.2021.05.27.02.51.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 27 May 2021 02:51:53 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Subject: [PATCH] arm: Consistently use "Cortex-Axx", not "Cortex Axx"
+Date: Thu, 27 May 2021 10:51:52 +0100
+Message-Id: <20210527095152.10968-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <YK9jOdCPUGQF4t0D@work-vm>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.28; envelope-from=cfontana@suse.de;
- helo=smtp-out1.suse.de
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,245 +81,212 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Siddharth Chandrasekaran <sidcha@amazon.de>,
- Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
- "Michael S. Tsirkin" <mst@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Cameron Esfahani <dirty@apple.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
- Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/27/21 11:15 AM, Dr. David Alan Gilbert wrote:
-> * Philippe Mathieu-Daudé (philmd@redhat.com) wrote:
->> On 5/27/21 10:31 AM, Dr. David Alan Gilbert wrote:
->>> * Claudio Fontana (cfontana@suse.de) wrote:
->>>> On 5/26/21 9:30 PM, Dr. David Alan Gilbert wrote:
->>>>> * Michael S. Tsirkin (mst@redhat.com) wrote:
->>>>>> On Fri, May 21, 2021 at 11:17:19AM +0200, Siddharth Chandrasekaran wrote:
->>>>>>> After a rebase to QEMU master, I am having trouble booting windows VMs.
->>>>>>> Git bisect indicates commit f5cc5a5c1686 ("i386: split cpu accelerators
->>>>>>> from cpu.c, using AccelCPUClass") to have introduced the issue. I spent
->>>>>>> some time looking at into it yesterday without much luck.
->>>>>>>
->>>>>>> Steps to reproduce:
->>>>>>>
->>>>>>>     $ ./configure --enable-kvm --disable-xen --target-list=x86_64-softmmu --enable-debug
->>>>>>>     $ make -j `nproc`
->>>>>>>     $ ./build/x86_64-softmmu/qemu-system-x86_64 \
->>>>>>>         -cpu host,hv_synic,hv_vpindex,hv_time,hv_runtime,hv_stimer,hv_crash \
->>>>>>>         -enable-kvm \
->>>>>>>         -name test,debug-threads=on \
->>>>>>>         -smp 1,threads=1,cores=1,sockets=1 \
->>>>>>>         -m 4G \
->>>>>>>         -net nic -net user \
->>>>>>>         -boot d,menu=on \
->>>>>>>         -usbdevice tablet \
->>>>>>>         -vnc :3 \
->>>>>>>         -machine q35,smm=on \
->>>>>>>         -drive if=pflash,format=raw,readonly=on,unit=0,file="../OVMF_CODE.secboot.fd" \
->>>>>>>         -drive if=pflash,format=raw,unit=1,file="../OVMF_VARS.secboot.fd" \
->>>>>>>         -global ICH9-LPC.disable_s3=1 \
->>>>>>>         -global driver=cfi.pflash01,property=secure,value=on \
->>>>>>>         -cdrom "../Windows_Server_2016_14393.ISO" \
->>>>>>>         -drive file="../win_server_2016.qcow2",format=qcow2,if=none,id=rootfs_drive \
->>>>>>>         -device ahci,id=ahci \
->>>>>>>         -device ide-hd,drive=rootfs_drive,bus=ahci.0
->>>>>>>
->>>>>>> If the issue is not obvious, I'd like some pointers on how to go about
->>>>>>> fixing this issue.
->>>>>>>
->>>>>>> ~ Sid.
->>>>>>>
->>>>>>
->>>>>> At a guess this commit inadvertently changed something in the CPU ID.
->>>>>> I'd start by using a linux guest to dump cpuid before and after the
->>>>>> change.
->>>>>
->>>>> I've not had a chance to do that yet, however I did just end up with a
->>>>> bisect of a linux guest failure bisecting to the same patch:
->>>>>
->>>>> [dgilbert@dgilbert-t580 qemu]$ git bisect bad
->>>>> f5cc5a5c168674f84bf061cdb307c2d25fba5448 is the first bad commit
->>>>> commit f5cc5a5c168674f84bf061cdb307c2d25fba5448
->>>>> Author: Claudio Fontana <cfontana@suse.de>
->>>>> Date:   Mon Mar 22 14:27:40 2021 +0100
->>>>>
->>>>>     i386: split cpu accelerators from cpu.c, using AccelCPUClass
->>>>>     
->>>>>     i386 is the first user of AccelCPUClass, allowing to split
->>>>>     cpu.c into:
->>>>>     
->>>>>     cpu.c            cpuid and common x86 cpu functionality
->>>>>     host-cpu.c       host x86 cpu functions and "host" cpu type
->>>>>     kvm/kvm-cpu.c    KVM x86 AccelCPUClass
->>>>>     hvf/hvf-cpu.c    HVF x86 AccelCPUClass
->>>>>     tcg/tcg-cpu.c    TCG x86 AccelCPUClass
->>
->> Well this is a big commit... I'm not custom to x86 target, and am
->> having hard time following the cpu host/max change.
->>
->> Is it working when you use '-cpu max,...' instead of '-cpu host,'?
-> 
-> No; and in fact the cpuid's are almost entirely different with and
-> without this patch! (both with -cpu host).  It looks like with this
-> patch we're getting the cpuid for the TCG cpuid rather than the host:
-> 
-> Prior to this patch:
-> :/# cat /proc/cpuinfo
-> processor       : 0
-> vendor_id       : GenuineIntel
-> cpu family      : 6
-> model           : 142
-> model name      : Intel(R) Core(TM) i7-8650U CPU @ 1.90GHz
-> stepping        : 10
-> microcode       : 0xe0
-> cpu MHz         : 2111.998
-> cache size      : 16384 KB
-> physical id     : 0
-> siblings        : 1
-> core id         : 0
-> cpu cores       : 1
-> apicid          : 0
-> initial apicid  : 0
-> fpu             : yes
-> fpu_exception   : yes
-> cpuid level     : 22
-> wp              : yes
-> flags           : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss syscall nx pdpe1gb rdtscp lm constant
-> _tsc arch_perfmon rep_good nopl xtopology cpuid tsc_known_freq pni pclmulqdq vmx ssse3 fma cx16 pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_tim
-> er aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch cpuid_fault invpcid_single pti ssbd ibrs ibpb stibp tpr_shadow vnmi flexpriority ept vpid
-> ept_ad fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm mpx rdseed adx smap clflushopt xsaveopt xsavec xgetbv1 xsaves arat umip md_clear arch_ca
-> pabilities
-> vmx flags       : vnmi preemption_timer invvpid ept_x_only ept_ad ept_1gb flexpriority tsc_offset vtpr mtf vapic ept vpid unrestricted_guest shadow_vmcs pml
-> bugs            : cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs taa srbds
-> bogomips        : 4223.99
-> clflush size    : 64
-> cache_alignment : 64
-> address sizes   : 39 bits physical, 48 bits virtual
-> power management:
-> 
-> With this patch:
-> processor       : 0
-> vendor_id       : AuthenticAMD
-> cpu family      : 6
-> model           : 6
-> model name      : QEMU TCG CPU version 2.5+
-> stepping        : 3
-> cpu MHz         : 2111.998
-> cache size      : 512 KB
-> physical id     : 0
-> siblings        : 1
-> core id         : 0
-> cpu cores       : 1
-> apicid          : 0
-> initial apicid  : 0
-> fpu             : yes
-> fpu_exception   : yes
-> cpuid level     : 13
-> wp              : yes
-> flags           : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss syscall nx pdpe1gb rdtscp lm nopl cpu
-> id tsc_known_freq pni pclmulqdq vmx ssse3 fma cx16 pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_
-> lm abm 3dnowprefetch invpcid_single ssbd ibrs ibpb stibp vmmcall fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm mpx rdseed adx smap clflushopt
->  xsaveopt xsavec xgetbv1 xsaves arat umip md_clear arch_capabilities
-> bugs            : fxsave_leak sysret_ss_attrs spectre_v1 spectre_v2 spec_store_bypass taa
-> bogomips        : 4223.99
-> TLB size        : 1024 4K pages
-> clflush size    : 64
-> cache_alignment : 64
-> address sizes   : 40 bits physical, 48 bits virtual
-> power management:
-> 
-> cpuid.f5cc5a5c16
-> 
-> CPU 0:
->    0x00000000 0x00: eax=0x0000000d ebx=0x68747541 ecx=0x444d4163 edx=0x69746e65
->    0x00000001 0x00: eax=0x00000663 ebx=0x00000800 ecx=0xfffab223 edx=0x0f8bfbff
->    0x00000002 0x00: eax=0x00000001 ebx=0x00000000 ecx=0x0000004d edx=0x002c307d
->    0x00000003 0x00: eax=0x00000000 ebx=0x00000000 ecx=0x00000000 edx=0x00000000
->    0x00000004 0x00: eax=0x00000121 ebx=0x01c0003f ecx=0x0000003f edx=0x00000001
->    0x00000004 0x01: eax=0x00000122 ebx=0x01c0003f ecx=0x0000003f edx=0x00000001
->    0x00000004 0x02: eax=0x00000143 ebx=0x03c0003f ecx=0x00000fff edx=0x00000001
->    0x00000004 0x03: eax=0x00000163 ebx=0x03c0003f ecx=0x00003fff edx=0x00000006
->    0x00000005 0x00: eax=0x00000000 ebx=0x00000000 ecx=0x00000003 edx=0x00000000
->    0x00000006 0x00: eax=0x00000004 ebx=0x00000000 ecx=0x00000000 edx=0x00000000
->    0x00000007 0x00: eax=0x00000000 ebx=0x009c4fbb ecx=0x00000004 edx=0xac000400
->    0x00000008 0x00: eax=0x00000000 ebx=0x00000000 ecx=0x00000000 edx=0x00000000
->    0x00000009 0x00: eax=0x00000000 ebx=0x00000000 ecx=0x00000000 edx=0x00000000
->    0x0000000a 0x00: eax=0x07300402 ebx=0x00000000 ecx=0x00000000 edx=0x00008603
->    0x0000000b 0x00: eax=0x00000000 ebx=0x00000001 ecx=0x00000100 edx=0x00000000
->    0x0000000b 0x01: eax=0x00000000 ebx=0x00000001 ecx=0x00000201 edx=0x00000000
->    0x0000000c 0x00: eax=0x00000000 ebx=0x00000000 ecx=0x00000000 edx=0x00000000
->    0x0000000d 0x00: eax=0x0000001f ebx=0x00000440 ecx=0x00000440 edx=0x00000000
->    0x0000000d 0x01: eax=0x0000000f ebx=0x000003c0 ecx=0x00000000 edx=0x00000000
->    0x0000000d 0x02: eax=0x00000100 ebx=0x00000240 ecx=0x00000000 edx=0x00000000
->    0x0000000d 0x03: eax=0x00000040 ebx=0x000003c0 ecx=0x00000000 edx=0x00000000
->    0x0000000d 0x04: eax=0x00000040 ebx=0x00000400 ecx=0x00000000 edx=0x00000000
->    0x40000000 0x00: eax=0x40000001 ebx=0x4b4d564b ecx=0x564b4d56 edx=0x0000004d
->    0x40000001 0x00: eax=0x01007afb ebx=0x00000000 ecx=0x00000000 edx=0x00000000
->    0x80000000 0x00: eax=0x80000008 ebx=0x68747541 ecx=0x444d4163 edx=0x69746e65
->    0x80000001 0x00: eax=0x00000663 ebx=0x00000000 ecx=0x00000121 edx=0x2d93fbff
->    0x80000002 0x00: eax=0x554d4551 ebx=0x47435420 ecx=0x55504320 edx=0x72657620
->    0x80000003 0x00: eax=0x6e6f6973 ebx=0x352e3220 ecx=0x0000002b edx=0x00000000
->    0x80000004 0x00: eax=0x00000000 ebx=0x00000000 ecx=0x00000000 edx=0x00000000
->    0x80000005 0x00: eax=0x01ff01ff ebx=0x01ff01ff ecx=0x40020140 edx=0x40020140
->    0x80000006 0x00: eax=0x00000000 ebx=0x42004200 ecx=0x02008140 edx=0x00808140
->    0x80000007 0x00: eax=0x00000000 ebx=0x00000000 ecx=0x00000000 edx=0x00000000
->    0x80000008 0x00: eax=0x00003028 ebx=0x0100d000 ecx=0x00000000 edx=0x00000000
->    0x80860000 0x00: eax=0x00000000 ebx=0x00000000 ecx=0x00000000 edx=0x00000000
->    0xc0000000 0x00: eax=0x00000000 ebx=0x00000000 ecx=0x00000000 edx=0x00000000
-> 
-> 
-> cpuid.0ac2b19743
-> 
-> CPU 0:
->    0x00000000 0x00: eax=0x00000016 ebx=0x756e6547 ecx=0x6c65746e edx=0x49656e69
->    0x00000001 0x00: eax=0x000806ea ebx=0x00000800 ecx=0xfffab223 edx=0x0f8bfbff
->    0x00000002 0x00: eax=0x00000001 ebx=0x00000000 ecx=0x0000004d edx=0x002c307d
->    0x00000003 0x00: eax=0x00000000 ebx=0x00000000 ecx=0x00000000 edx=0x00000000
->    0x00000004 0x00: eax=0x00000121 ebx=0x01c0003f ecx=0x0000003f edx=0x00000001
->    0x00000004 0x01: eax=0x00000122 ebx=0x01c0003f ecx=0x0000003f edx=0x00000001
->    0x00000004 0x02: eax=0x00000143 ebx=0x03c0003f ecx=0x00000fff edx=0x00000001
->    0x00000004 0x03: eax=0x00000163 ebx=0x03c0003f ecx=0x00003fff edx=0x00000006
->    0x00000005 0x00: eax=0x00000000 ebx=0x00000000 ecx=0x00000003 edx=0x00000000
->    0x00000006 0x00: eax=0x00000004 ebx=0x00000000 ecx=0x00000000 edx=0x00000000
->    0x00000007 0x00: eax=0x00000000 ebx=0x009c4fbb ecx=0x00000004 edx=0xac000400
->    0x00000008 0x00: eax=0x00000000 ebx=0x00000000 ecx=0x00000000 edx=0x00000000
->    0x00000009 0x00: eax=0x00000000 ebx=0x00000000 ecx=0x00000000 edx=0x00000000
->    0x0000000a 0x00: eax=0x07300402 ebx=0x00000000 ecx=0x00000000 edx=0x00008603
->    0x0000000b 0x00: eax=0x00000000 ebx=0x00000001 ecx=0x00000100 edx=0x00000000
->    0x0000000b 0x01: eax=0x00000000 ebx=0x00000001 ecx=0x00000201 edx=0x00000000
->    0x0000000c 0x00: eax=0x00000000 ebx=0x00000000 ecx=0x00000000 edx=0x00000000
->    0x0000000d 0x00: eax=0x0000001f ebx=0x00000440 ecx=0x00000440 edx=0x00000000
->    0x0000000d 0x01: eax=0x0000000f ebx=0x000003c0 ecx=0x00000000 edx=0x00000000
->    0x0000000d 0x02: eax=0x00000100 ebx=0x00000240 ecx=0x00000000 edx=0x00000000
->    0x0000000d 0x03: eax=0x00000040 ebx=0x000003c0 ecx=0x00000000 edx=0x00000000
->    0x0000000d 0x04: eax=0x00000040 ebx=0x00000400 ecx=0x00000000 edx=0x00000000
->    0x0000000e 0x00: eax=0x00000000 ebx=0x00000000 ecx=0x00000000 edx=0x00000000
->    0x0000000f 0x00: eax=0x00000000 ebx=0x00000000 ecx=0x00000000 edx=0x00000000
->    0x00000010 0x00: eax=0x00000000 ebx=0x00000000 ecx=0x00000000 edx=0x00000000
->    0x00000011 0x00: eax=0x00000000 ebx=0x00000000 ecx=0x00000000 edx=0x00000000
->    0x00000012 0x00: eax=0x00000000 ebx=0x00000000 ecx=0x00000000 edx=0x00000000
->    0x00000013 0x00: eax=0x00000000 ebx=0x00000000 ecx=0x00000000 edx=0x00000000
->    0x00000014 0x00: eax=0x00000000 ebx=0x00000000 ecx=0x00000000 edx=0x00000000
->    0x00000015 0x00: eax=0x00000000 ebx=0x00000000 ecx=0x00000000 edx=0x00000000
->    0x00000016 0x00: eax=0x00000000 ebx=0x00000000 ecx=0x00000000 edx=0x00000000
->    0x40000000 0x00: eax=0x40000001 ebx=0x4b4d564b ecx=0x564b4d56 edx=0x0000004d
->    0x40000001 0x00: eax=0x01007afb ebx=0x00000000 ecx=0x00000000 edx=0x00000000
->    0x80000000 0x00: eax=0x80000008 ebx=0x756e6547 ecx=0x6c65746e edx=0x49656e69
->    0x80000001 0x00: eax=0x000806ea ebx=0x00000000 ecx=0x00000121 edx=0x2c100800
->    0x80000002 0x00: eax=0x65746e49 ebx=0x2952286c ecx=0x726f4320 edx=0x4d542865
->    0x80000003 0x00: eax=0x37692029 ebx=0x3536382d ecx=0x43205530 edx=0x40205550
->    0x80000004 0x00: eax=0x392e3120 ebx=0x7a484730 ecx=0x00000000 edx=0x00000000
->    0x80000005 0x00: eax=0x01ff01ff ebx=0x01ff01ff ecx=0x40020140 edx=0x40020140
->    0x80000006 0x00: eax=0x00000000 ebx=0x42004200 ecx=0x02008140 edx=0x00808140
->    0x80000007 0x00: eax=0x00000000 ebx=0x00000000 ecx=0x00000000 edx=0x00000000
->    0x80000008 0x00: eax=0x00003027 ebx=0x0100d000 ecx=0x00000000 edx=0x00000000
->    0x80860000 0x00: eax=0x00000000 ebx=0x00000000 ecx=0x00000000 edx=0x00000000
->    0xc0000000 0x00: eax=0x00000000 ebx=0x00000000 ecx=0x00000000 edx=0x00000000
-> 
+The official punctuation for Arm CPU names uses a hyphen, like
+"Cortex-A9". We mostly follow this, but in a few places usage
+without the hyphen has crept in. Fix those so we consistently
+use the same way of writing the CPU name.
 
-I started looking at it.
+This commit was created with:
+  git grep -z -l 'Cortex ' | xargs -0 sed -i 's/Cortex /Cortex-/'
 
-Claudio
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ docs/system/arm/aspeed.rst    | 4 ++--
+ docs/system/arm/nuvoton.rst   | 6 +++---
+ docs/system/arm/sabrelite.rst | 2 +-
+ include/hw/arm/allwinner-h3.h | 2 +-
+ hw/arm/aspeed.c               | 6 +++---
+ hw/arm/mcimx6ul-evk.c         | 2 +-
+ hw/arm/mcimx7d-sabre.c        | 2 +-
+ hw/arm/npcm7xx_boards.c       | 4 ++--
+ hw/arm/sabrelite.c            | 2 +-
+ hw/misc/npcm7xx_clk.c         | 2 +-
+ 10 files changed, 16 insertions(+), 16 deletions(-)
+
+diff --git a/docs/system/arm/aspeed.rst b/docs/system/arm/aspeed.rst
+index a1911f94031..57ee2bd94fc 100644
+--- a/docs/system/arm/aspeed.rst
++++ b/docs/system/arm/aspeed.rst
+@@ -5,7 +5,7 @@ The QEMU Aspeed machines model BMCs of various OpenPOWER systems and
+ Aspeed evaluation boards. They are based on different releases of the
+ Aspeed SoC : the AST2400 integrating an ARM926EJ-S CPU (400MHz), the
+ AST2500 with an ARM1176JZS CPU (800MHz) and more recently the AST2600
+-with dual cores ARM Cortex A7 CPUs (1.2GHz).
++with dual cores ARM Cortex-A7 CPUs (1.2GHz).
+ 
+ The SoC comes with RAM, Gigabit ethernet, USB, SD/MMC, USB, SPI, I2C,
+ etc.
+@@ -24,7 +24,7 @@ AST2500 SoC based machines :
+ 
+ AST2600 SoC based machines :
+ 
+-- ``ast2600-evb``          Aspeed AST2600 Evaluation board (Cortex A7)
++- ``ast2600-evb``          Aspeed AST2600 Evaluation board (Cortex-A7)
+ - ``tacoma-bmc``           OpenPOWER Witherspoon POWER9 AST2600 BMC
+ 
+ Supported devices
+diff --git a/docs/system/arm/nuvoton.rst b/docs/system/arm/nuvoton.rst
+index d3cf2d9cd7e..ca011bd4797 100644
+--- a/docs/system/arm/nuvoton.rst
++++ b/docs/system/arm/nuvoton.rst
+@@ -3,19 +3,19 @@ Nuvoton iBMC boards (``npcm750-evb``, ``quanta-gsj``)
+ 
+ The `Nuvoton iBMC`_ chips (NPCM7xx) are a family of ARM-based SoCs that are
+ designed to be used as Baseboard Management Controllers (BMCs) in various
+-servers. They all feature one or two ARM Cortex A9 CPU cores, as well as an
++servers. They all feature one or two ARM Cortex-A9 CPU cores, as well as an
+ assortment of peripherals targeted for either Enterprise or Data Center /
+ Hyperscale applications. The former is a superset of the latter, so NPCM750 has
+ all the peripherals of NPCM730 and more.
+ 
+ .. _Nuvoton iBMC: https://www.nuvoton.com/products/cloud-computing/ibmc/
+ 
+-The NPCM750 SoC has two Cortex A9 cores and is targeted for the Enterprise
++The NPCM750 SoC has two Cortex-A9 cores and is targeted for the Enterprise
+ segment. The following machines are based on this chip :
+ 
+ - ``npcm750-evb``       Nuvoton NPCM750 Evaluation board
+ 
+-The NPCM730 SoC has two Cortex A9 cores and is targeted for Data Center and
++The NPCM730 SoC has two Cortex-A9 cores and is targeted for Data Center and
+ Hyperscale applications. The following machines are based on this chip :
+ 
+ - ``quanta-gsj``        Quanta GSJ server BMC
+diff --git a/docs/system/arm/sabrelite.rst b/docs/system/arm/sabrelite.rst
+index 71713310e3a..4ccb0560afe 100644
+--- a/docs/system/arm/sabrelite.rst
++++ b/docs/system/arm/sabrelite.rst
+@@ -10,7 +10,7 @@ Supported devices
+ 
+ The SABRE Lite machine supports the following devices:
+ 
+- * Up to 4 Cortex A9 cores
++ * Up to 4 Cortex-A9 cores
+  * Generic Interrupt Controller
+  * 1 Clock Controller Module
+  * 1 System Reset Controller
+diff --git a/include/hw/arm/allwinner-h3.h b/include/hw/arm/allwinner-h3.h
+index cc308a5d2c9..63025fb27c8 100644
+--- a/include/hw/arm/allwinner-h3.h
++++ b/include/hw/arm/allwinner-h3.h
+@@ -18,7 +18,7 @@
+  */
+ 
+ /*
+- * The Allwinner H3 is a System on Chip containing four ARM Cortex A7
++ * The Allwinner H3 is a System on Chip containing four ARM Cortex-A7
+  * processor cores. Features and specifications include DDR2/DDR3 memory,
+  * SD/MMC storage cards, 10/100/1000Mbit Ethernet, USB 2.0, HDMI and
+  * various I/O modules.
+diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+index 3fe6c55744f..0eafc791540 100644
+--- a/hw/arm/aspeed.c
++++ b/hw/arm/aspeed.c
+@@ -947,7 +947,7 @@ static void aspeed_machine_ast2600_evb_class_init(ObjectClass *oc, void *data)
+     MachineClass *mc = MACHINE_CLASS(oc);
+     AspeedMachineClass *amc = ASPEED_MACHINE_CLASS(oc);
+ 
+-    mc->desc       = "Aspeed AST2600 EVB (Cortex A7)";
++    mc->desc       = "Aspeed AST2600 EVB (Cortex-A7)";
+     amc->soc_name  = "ast2600-a1";
+     amc->hw_strap1 = AST2600_EVB_HW_STRAP1;
+     amc->hw_strap2 = AST2600_EVB_HW_STRAP2;
+@@ -966,7 +966,7 @@ static void aspeed_machine_tacoma_class_init(ObjectClass *oc, void *data)
+     MachineClass *mc = MACHINE_CLASS(oc);
+     AspeedMachineClass *amc = ASPEED_MACHINE_CLASS(oc);
+ 
+-    mc->desc       = "OpenPOWER Tacoma BMC (Cortex A7)";
++    mc->desc       = "OpenPOWER Tacoma BMC (Cortex-A7)";
+     amc->soc_name  = "ast2600-a1";
+     amc->hw_strap1 = TACOMA_BMC_HW_STRAP1;
+     amc->hw_strap2 = TACOMA_BMC_HW_STRAP2;
+@@ -1003,7 +1003,7 @@ static void aspeed_machine_rainier_class_init(ObjectClass *oc, void *data)
+     MachineClass *mc = MACHINE_CLASS(oc);
+     AspeedMachineClass *amc = ASPEED_MACHINE_CLASS(oc);
+ 
+-    mc->desc       = "IBM Rainier BMC (Cortex A7)";
++    mc->desc       = "IBM Rainier BMC (Cortex-A7)";
+     amc->soc_name  = "ast2600-a1";
+     amc->hw_strap1 = RAINIER_BMC_HW_STRAP1;
+     amc->hw_strap2 = RAINIER_BMC_HW_STRAP2;
+diff --git a/hw/arm/mcimx6ul-evk.c b/hw/arm/mcimx6ul-evk.c
+index ce16b6b3174..77fae874b16 100644
+--- a/hw/arm/mcimx6ul-evk.c
++++ b/hw/arm/mcimx6ul-evk.c
+@@ -67,7 +67,7 @@ static void mcimx6ul_evk_init(MachineState *machine)
+ 
+ static void mcimx6ul_evk_machine_init(MachineClass *mc)
+ {
+-    mc->desc = "Freescale i.MX6UL Evaluation Kit (Cortex A7)";
++    mc->desc = "Freescale i.MX6UL Evaluation Kit (Cortex-A7)";
+     mc->init = mcimx6ul_evk_init;
+     mc->max_cpus = FSL_IMX6UL_NUM_CPUS;
+     mc->default_ram_id = "mcimx6ul-evk.ram";
+diff --git a/hw/arm/mcimx7d-sabre.c b/hw/arm/mcimx7d-sabre.c
+index e896222c34c..935d4b0f1cd 100644
+--- a/hw/arm/mcimx7d-sabre.c
++++ b/hw/arm/mcimx7d-sabre.c
+@@ -67,7 +67,7 @@ static void mcimx7d_sabre_init(MachineState *machine)
+ 
+ static void mcimx7d_sabre_machine_init(MachineClass *mc)
+ {
+-    mc->desc = "Freescale i.MX7 DUAL SABRE (Cortex A7)";
++    mc->desc = "Freescale i.MX7 DUAL SABRE (Cortex-A7)";
+     mc->init = mcimx7d_sabre_init;
+     mc->max_cpus = FSL_IMX7_NUM_CPUS;
+     mc->default_ram_id = "mcimx7d-sabre.ram";
+diff --git a/hw/arm/npcm7xx_boards.c b/hw/arm/npcm7xx_boards.c
+index d4553e37865..698be46d303 100644
+--- a/hw/arm/npcm7xx_boards.c
++++ b/hw/arm/npcm7xx_boards.c
+@@ -299,7 +299,7 @@ static void npcm750_evb_machine_class_init(ObjectClass *oc, void *data)
+ 
+     npcm7xx_set_soc_type(nmc, TYPE_NPCM750);
+ 
+-    mc->desc = "Nuvoton NPCM750 Evaluation Board (Cortex A9)";
++    mc->desc = "Nuvoton NPCM750 Evaluation Board (Cortex-A9)";
+     mc->init = npcm750_evb_init;
+     mc->default_ram_size = 512 * MiB;
+ };
+@@ -311,7 +311,7 @@ static void gsj_machine_class_init(ObjectClass *oc, void *data)
+ 
+     npcm7xx_set_soc_type(nmc, TYPE_NPCM730);
+ 
+-    mc->desc = "Quanta GSJ (Cortex A9)";
++    mc->desc = "Quanta GSJ (Cortex-A9)";
+     mc->init = quanta_gsj_init;
+     mc->default_ram_size = 512 * MiB;
+ };
+diff --git a/hw/arm/sabrelite.c b/hw/arm/sabrelite.c
+index 42348e5cb15..29fc777b613 100644
+--- a/hw/arm/sabrelite.c
++++ b/hw/arm/sabrelite.c
+@@ -105,7 +105,7 @@ static void sabrelite_init(MachineState *machine)
+ 
+ static void sabrelite_machine_init(MachineClass *mc)
+ {
+-    mc->desc = "Freescale i.MX6 Quad SABRE Lite Board (Cortex A9)";
++    mc->desc = "Freescale i.MX6 Quad SABRE Lite Board (Cortex-A9)";
+     mc->init = sabrelite_init;
+     mc->max_cpus = FSL_IMX6_NUM_CPUS;
+     mc->ignore_memory_transaction_failures = true;
+diff --git a/hw/misc/npcm7xx_clk.c b/hw/misc/npcm7xx_clk.c
+index a1ee67dc9a1..0b61070c52f 100644
+--- a/hw/misc/npcm7xx_clk.c
++++ b/hw/misc/npcm7xx_clk.c
+@@ -35,7 +35,7 @@
+ #define NPCM7XX_CLOCK_REF_HZ            (25000000)
+ 
+ /* Register Field Definitions */
+-#define NPCM7XX_CLK_WDRCR_CA9C  BIT(0) /* Cortex A9 Cores */
++#define NPCM7XX_CLK_WDRCR_CA9C  BIT(0) /* Cortex-A9 Cores */
+ 
+ #define PLLCON_LOKI     BIT(31)
+ #define PLLCON_LOKS     BIT(30)
+-- 
+2.20.1
+
 
