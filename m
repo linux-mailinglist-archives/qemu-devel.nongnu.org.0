@@ -2,63 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F3F03936BA
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 21:56:46 +0200 (CEST)
-Received: from localhost ([::1]:49812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C58DA3936D7
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 22:09:58 +0200 (CEST)
+Received: from localhost ([::1]:56860 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lmM7Z-0000U1-4q
-	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 15:56:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60224)
+	id 1lmMKL-0005r0-A0
+	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 16:09:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34412)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lmM6h-00088z-4r
- for qemu-devel@nongnu.org; Thu, 27 May 2021 15:55:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52906)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lmMJU-00053Y-0b
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 16:09:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27142)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lmM6f-0005RD-7u
- for qemu-devel@nongnu.org; Thu, 27 May 2021 15:55:50 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lmMJR-0005Ix-Bi
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 16:09:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622145348;
+ s=mimecast20190719; t=1622146139;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wG1+3glYvtN4aAW1aSwruKwPi/oXsGS8CK58k+bppLU=;
- b=Vt1q44o6XECAZHJCs4G9Ai34Hzr9baXpW22yeElYqs4+Dl9fNsUBWaKt3aibFTlUdEVH+R
- gVw9bKOFWtgkSOFGEJlcmST0lrjMYtAx5ubZ3uRHgKXDAeLW8kA9z+XNWB44NUZAtuwdDQ
- fXDs2Wiic3Fxw52JKziLhMUa0I8dQCs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-83-MeFpOyerP6ylgazXGirWMw-1; Thu, 27 May 2021 15:55:44 -0400
-X-MC-Unique: MeFpOyerP6ylgazXGirWMw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9278E1007B06;
- Thu, 27 May 2021 19:55:43 +0000 (UTC)
-Received: from [10.10.116.137] (ovpn-116-137.rdu2.redhat.com [10.10.116.137])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 909495C3E9;
- Thu, 27 May 2021 19:55:39 +0000 (UTC)
-Subject: Re: [PATCH v2 0/2] Gitlab: Add issue templates
-To: qemu-devel@nongnu.org
-References: <20210521173818.255817-1-jsnow@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <7318536e-2199-5b8c-61bc-d5aff09c111d@redhat.com>
-Date: Thu, 27 May 2021 15:55:38 -0400
+ bh=YCQX19/Km4UMiSjh6MMH7/W/hhg+yC8aeoSNFi776+o=;
+ b=Xwhi0ZQepQxERzfW5qDBkq2S5Qz/u+ABTln7rrQs31diseKNpq3UGchEfa9qS6kRhdJB/r
+ Skqyx63x6krbC6dY09jLoOGOaxePw8B6BPGk5acmtWid+Lh7qmBW0YHP8Z+MO3UE7+G/6/
+ swaKYp7wjVa6ftvjTrv1VyiFXdY0jY8=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-484-g0lszqC7Olm-EuqKNv5DGQ-1; Thu, 27 May 2021 16:08:57 -0400
+X-MC-Unique: g0lszqC7Olm-EuqKNv5DGQ-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ da10-20020a056402176ab029038f0fea1f51so881531edb.13
+ for <qemu-devel@nongnu.org>; Thu, 27 May 2021 13:08:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=YCQX19/Km4UMiSjh6MMH7/W/hhg+yC8aeoSNFi776+o=;
+ b=TKnec/if30CJEYDI237EzKiriy9seuVwTNDbnPUlzo/UjnjfCJZ1wWPM366cNfYBBw
+ Q0iugpnu2djS5hK16OvnLpL1L4BHkxNtKRcdOqVeahhqsoGL7EJhTlQX41FoyyU6mF48
+ TfCGdM+9SxmMvqeMr/Zv4hDk6X5Mt+WQo1X0G0Sng2TtJjueua3d6WcAYLFf10H9FXKX
+ 2SXRRZf4Lp1CSOP0Rx2LfJyI93kbuDyYamWwhk/QMAenH3h9QQKEmoZDtrb3dAmPX8a+
+ TyyT8uq9eP+JChWf0V2sgPEc60FC1z9MfgHX9gDx5oCdkg4PcE5LcJhOX6OAvYhbusRW
+ N73w==
+X-Gm-Message-State: AOAM532vNN+UGh8yGTzYWF76r+QEijwZ5ad7Zwq9AdIwL7oCMfoElxJ6
+ 0NXlNo7IihBtdXMT7TfBEiwwvnnYFb+AaO1A2rLaA7XknJrN/W4ImowEg22jUG+w6RVgBEmOV0R
+ sijGNe/IZ9fgtNj0=
+X-Received: by 2002:a17:906:c010:: with SMTP id
+ e16mr5786348ejz.214.1622146136391; 
+ Thu, 27 May 2021 13:08:56 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxOKCzf3DoJnM2z1yAsskeftqDNxg4swKwTRHSp65SVr9slwJ+mpdi8tyZ+TpAkhBe9AJ8Ymw==
+X-Received: by 2002:a17:906:c010:: with SMTP id
+ e16mr5786333ejz.214.1622146136190; 
+ Thu, 27 May 2021 13:08:56 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id j1sm1613368edv.14.2021.05.27.13.08.54
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 27 May 2021 13:08:55 -0700 (PDT)
+Subject: Re: [PATCH 3/3] meson: List modules built in summary
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20210525104648.4060904-1-philmd@redhat.com>
+ <20210525104648.4060904-4-philmd@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <09ce6543-e41b-99ff-ce4e-7832e626ba38@redhat.com>
+Date: Thu, 27 May 2021 22:08:54 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210521173818.255817-1-jsnow@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <20210525104648.4060904-4-philmd@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -80,54 +104,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Peter Krempa <pkrempa@redhat.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-ping -- Any objections?
+On 25/05/21 12:46, Philippe Mathieu-Daudé wrote:
+> +  k = []
+> +    foreach m, _ : list
+> +      k += [m]
+> +    endforeach
+> +  summary_info += {d: ' '.join(k)}
 
-On 5/21/21 1:38 PM, John Snow wrote:
-> Add "Bug" and "Feature Request" templates to the Gitlab interface to
-> help improve the quality of newly reported issues.
-> 
-> To see what this looks like, I've temporarily allowed my Gitlab fork to
-> diverge with these files merged.  See my fork's "new issue" page to see
-> it in action: https://gitlab.com/jsnow/qemu/-/issues/new?issue
-> 
-> These patches do not add a "default" template, the user still has to
-> select one from the list. I recommend that someone with permissions
-> updates the default template:
-> 
-> 1. https://gitlab.com/qemu-project/qemu/edit
-> 2. ctrl+f "Default description template for issues"
-> 3. Update the default to the (suggested) below:
-> 
-> ```
-> <!-- Select "Type: Issue" and choose one of the Description templates above. -->
-> ```
-> 
-> We can use this cover letter to discuss/review the wording on that
-> default template which exists outside of repository data.
-> 
-> --js
-> 
-> V2:
-> - Updated both templates based on feedback from Peter, Daniel, and
->    Thomas.
-> 
-> John Snow (2):
->    GitLab: Add "Bug" issue reporting template
->    GitLab: Add "Feature Request" issue template.
-> 
->   .gitlab/issue_templates/bug.md             | 61 ++++++++++++++++++++++
->   .gitlab/issue_templates/feature_request.md | 32 ++++++++++++
->   2 files changed, 93 insertions(+)
->   create mode 100644 .gitlab/issue_templates/bug.md
->   create mode 100644 .gitlab/issue_templates/feature_request.md
-> 
+Perhaps:
+
+foreach dir, list : modules
+   if list.keys().length() > 0
+     summary_info += {dir: ' '.join(list.keys())}
+   endif
+endforeach
+
+Paolo
+
+> +endforeach
+> +summary(summary_info, bool_yn: true, section: 'Modules')
+> +
 
 
