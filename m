@@ -2,81 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4ABDB393507
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 19:42:54 +0200 (CEST)
-Received: from localhost ([::1]:39798 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17D6F393514
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 19:46:01 +0200 (CEST)
+Received: from localhost ([::1]:44178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lmK21-0003nx-Ce
-	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 13:42:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57090)
+	id 1lmK52-0006mc-68
+	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 13:46:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58076)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lmJzi-0002I1-MS
- for qemu-devel@nongnu.org; Thu, 27 May 2021 13:40:30 -0400
-Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a]:43923)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lmJzh-0000t0-0C
- for qemu-devel@nongnu.org; Thu, 27 May 2021 13:40:30 -0400
-Received: by mail-pf1-x42a.google.com with SMTP id d78so1124467pfd.10
- for <qemu-devel@nongnu.org>; Thu, 27 May 2021 10:40:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=8/1yVqoJQ1NwuB/UoljmYNwUPixxIzu0U+5qaRvBqt8=;
- b=kSwo/ZhR7bvmBHDX10OJR9xs1RfD4PlfTqPaPyW2lcOQzjY8Inn9+MAje+xH5q8AYM
- +oAPwNSEjMY5T5OpFsntzBlItEb7VNKt4zWQJ+H4iz5c+qoL2+MJxUW3/FNyU8IRLeft
- INcbe/qVJmUHFoSOpb9MeGn0Xjia6Boeci09D9tZ1EJRUqle1JtMvYL1OX7xhzOq3c1V
- I77eT5wY35vexwkiXYC4tsBRxSgsEIl2iuajMCQwCuo/dBGtrOFKaGRCQakE+UIYX/0x
- qUf67ez1YE+zM4WFWlda7nnp3p7O4oV2iQRRuXO/Rw1eFNcS2oIzhusmzQhKKO7+/6l+
- wr0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=8/1yVqoJQ1NwuB/UoljmYNwUPixxIzu0U+5qaRvBqt8=;
- b=avHAgN0lUpae/Ld2EVTw9OWrWIPg99geLbA9wL0gZxPBFxatI+E+gWmG6CtLsv74Se
- PE19d22Q1cHBbLDYNbBJ+P6VJzQc+YtzJaG65eW70susZ41WfAQut6H0SclLHYTij8/9
- TpNqOIcBB1v0LMJSgGMIrPO02CzzWdt4rC7lwPSAPjlGm8WPV4Io4Ja6E3gAVZZ4Xcgq
- Fo4sPUAkGMGZ0R/3fXZrBTuO8EmdtBQUr4DxQatLWbb8lZTIgRahVdpG0FIRMmy6ZOmx
- 7fOKdjq5zzWsb8wORBHWF/a4mK0hi4Ey2LhYL/F1qrZ9n42VVbqgMCD4doa7E47cFHfs
- HgVQ==
-X-Gm-Message-State: AOAM531gn7J8FK7sPHNs2IZ8pDVzJkgK6USK3qjQ/z9sBlWuSUZC49Nt
- SHxuurtcxEQ8zeQot37KYgjhQw==
-X-Google-Smtp-Source: ABdhPJwxJuR0TJDcZF3tfxF47e5xUg3Ytn4rHCTkS/oZruitSu3cUvxS831/1a9Zy7tmLKHsHfB6SQ==
-X-Received: by 2002:a63:5456:: with SMTP id e22mr4697734pgm.15.1622137227524; 
- Thu, 27 May 2021 10:40:27 -0700 (PDT)
-Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
- by smtp.gmail.com with ESMTPSA id
- c7sm2361990pga.4.2021.05.27.10.40.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 27 May 2021 10:40:27 -0700 (PDT)
-Subject: Re: [PATCH v1 5/6] tests/acceptance: tweak the tcg/kvm tests for virt
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20210527160319.19834-1-alex.bennee@linaro.org>
- <20210527160319.19834-6-alex.bennee@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <542e23ff-0345-a310-d5da-5f66367ed9b0@linaro.org>
-Date: Thu, 27 May 2021 10:40:25 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1lmK45-00067j-Rj
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 13:45:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30632)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1lmK41-0003Yz-Ou
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 13:45:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1622137495;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=/TOxkhdjH4pf1NTNVRTi2p40FjlI4iIqYlE61YjOEG0=;
+ b=cKoAGbmhP6obnuEkGps6nj+NMVIRn7yDppDl23V27H/Tp3ATxFxrpLMQq5pyKPGJ8eqsAr
+ NjrZ6rn3nY6QUK/fcxgvkhKaTOut4QR0bu0ftd3AA5SjZA1PPmW/PCRiX5oaIld2saRZTv
+ 8Rok02p5EXypfpIyr/uB9kB7mg+IJ0k=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-596-yOtOmR9xNxq507id-81fwQ-1; Thu, 27 May 2021 13:44:52 -0400
+X-MC-Unique: yOtOmR9xNxq507id-81fwQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EF546180FD6B;
+ Thu, 27 May 2021 17:44:51 +0000 (UTC)
+Received: from work-vm (ovpn-114-249.ams2.redhat.com [10.36.114.249])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9E7D12BFF7;
+ Thu, 27 May 2021 17:44:44 +0000 (UTC)
+Date: Thu, 27 May 2021 18:44:41 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [PATCH v3 18/26] DAX/unmap: virtiofsd: Add VHOST_USER_SLAVE_FS_IO
+Message-ID: <YK/aiXx52Oe2HV4C@work-vm>
+References: <20210428110100.27757-1-dgilbert@redhat.com>
+ <20210428110100.27757-19-dgilbert@redhat.com>
+ <YJQHRwkUhXT+PLtT@stefanha-x1.localdomain>
 MIME-Version: 1.0
-In-Reply-To: <20210527160319.19834-6-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <YJQHRwkUhXT+PLtT@stefanha-x1.localdomain>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.374,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,26 +80,137 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, stefanha@redhat.com,
- crosa@redhat.com, pbonzini@redhat.com,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- aurelien@aurel32.net
+Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org, vgoyal@redhat.com,
+ groug@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/27/21 9:03 AM, Alex Bennée wrote:
-> Really it's only TCG that can select which GIC model you want, KVM
-> guests should always be using the "host" version of the GIC for which
-> QEMU already provides a handy shortcut. Make the KVM test use this and
-> split the TCG test into it's two versions.
+* Stefan Hajnoczi (stefanha@redhat.com) wrote:
+> On Wed, Apr 28, 2021 at 12:00:52PM +0100, Dr. David Alan Gilbert (git) wrote:
+> > @@ -220,6 +222,99 @@ uint64_t vhost_user_fs_slave_unmap(struct vhost_dev *dev, int message_size,
+> >      return (uint64_t)res;
+> >  }
+> >  
+> > +uint64_t vhost_user_fs_slave_io(struct vhost_dev *dev, int message_size,
+> > +                                VhostUserFSSlaveMsg *sm, int fd)
+> > +{
+> > +    VHostUserFS *fs = (VHostUserFS *)object_dynamic_cast(OBJECT(dev->vdev),
+> > +                          TYPE_VHOST_USER_FS);
+> > +    if (!fs) {
+> > +        error_report("%s: Bad fs ptr", __func__);
+> > +        return (uint64_t)-1;
+> > +    }
+> > +    if (!check_slave_message_entries(sm, message_size)) {
+> > +        return (uint64_t)-1;
+> > +    }
 > 
-> Signed-off-by: Alex Bennée<alex.bennee@linaro.org>
-> ---
->   tests/acceptance/boot_linux.py | 24 ++++++++++++------------
->   1 file changed, 12 insertions(+), 12 deletions(-)
+> These early error returns don't close(fd).
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+(as per followup, we don't need it and it's removed)
 
-r~
+> > +
+> > +    unsigned int i;
+> > +    int res = 0;
+> > +    size_t done = 0;
+> > +
+> > +    if (fd < 0) {
+> > +        error_report("Bad fd for io");
+> > +        return (uint64_t)-1;
+> > +    }
+> > +
+> > +    for (i = 0; i < sm->count && !res; i++) {
+> > +        VhostUserFSSlaveMsgEntry *e = &sm->entries[i];
+> > +        if (e->len == 0) {
+> > +            continue;
+> > +        }
+> > +
+> > +        size_t len = e->len;
+> > +        uint64_t fd_offset = e->fd_offset;
+> > +        hwaddr gpa = e->c_offset;
+> > +
+> > +        while (len && !res) {
+> > +            hwaddr xlat, xlat_len;
+> > +            bool is_write = e->flags & VHOST_USER_FS_FLAG_MAP_W;
+> > +            MemoryRegion *mr = address_space_translate(dev->vdev->dma_as, gpa,
+> > +                                                       &xlat, &xlat_len,
+> > +                                                       is_write,
+> > +                                                       MEMTXATTRS_UNSPECIFIED);
+> > +            if (!mr || !xlat_len) {
+> > +                error_report("No guest region found for 0x%" HWADDR_PRIx, gpa);
+> > +                res = -EFAULT;
+> > +                break;
+> > +            }
+> > +
+> > +            trace_vhost_user_fs_slave_io_loop(mr->name,
+> > +                                          (uint64_t)xlat,
+> > +                                          memory_region_is_ram(mr),
+> > +                                          memory_region_is_romd(mr),
+> > +                                          (size_t)xlat_len);
+> > +
+> > +            void *hostptr = qemu_map_ram_ptr(mr->ram_block,
+> > +                                             xlat);
+> > +            ssize_t transferred;
+> 
+> What happens when the MemoryRegion is not backed by RAM?
+
+I've added a check for mr->ramblock being non-null that I think covers
+it.
+
+> > +            if (e->flags & VHOST_USER_FS_FLAG_MAP_R) {
+> > +                /* Read from file into RAM */
+> > +                if (mr->readonly) {
+> > +                    res = -EFAULT;
+> > +                    break;
+> > +                }
+> > +                transferred = pread(fd, hostptr, xlat_len, fd_offset);
+> > +            } else if (e->flags & VHOST_USER_FS_FLAG_MAP_W) {
+> > +                /* Write into file from RAM */
+> > +                transferred = pwrite(fd, hostptr, xlat_len, fd_offset);
+> > +            } else {
+> > +                transferred = EINVAL;
+> 
+> I don't see how this is handled below by the error checking code. Should
+> this be:
+> 
+>   errno = EINVAL;
+>   transferred = -1;
+> 
+> ?
+
+Thanks; I've gone with  res = - EINVAL; break;
+
+Dave
+
+> 
+> > +            }
+> > +
+> > +            trace_vhost_user_fs_slave_io_loop_res(transferred);
+> > +            if (transferred < 0) {
+> > +                res = -errno;
+> > +                break;
+> > +            }
+> > +            if (!transferred) {
+> > +                /* EOF */
+> > +                break;
+> > +            }
+> > +
+> > +            done += transferred;
+> > +            fd_offset += transferred;
+> > +            gpa += transferred;
+> > +            len -= transferred;
+> > +        }
+> > +    }
+> > +    close(fd);
+> > +
+> > +    trace_vhost_user_fs_slave_io_exit(res, done);
+> > +    if (res < 0) {
+> > +        return (uint64_t)res;
+> > +    }
+> > +    return (uint64_t)done;
+> > +}
+
+
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+
 
