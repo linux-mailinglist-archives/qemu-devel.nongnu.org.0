@@ -2,65 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50BAA39346D
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 18:59:46 +0200 (CEST)
-Received: from localhost ([::1]:50692 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 068D3393481
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 19:05:16 +0200 (CEST)
+Received: from localhost ([::1]:58188 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lmJMH-0004Db-DG
-	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 12:59:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46092)
+	id 1lmJRa-000170-LC
+	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 13:05:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47464)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lmJKI-0003GD-Fw
- for qemu-devel@nongnu.org; Thu, 27 May 2021 12:57:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26001)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lmJPj-0007QE-5K
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 13:03:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25664)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lmJKE-0001BS-Mg
- for qemu-devel@nongnu.org; Thu, 27 May 2021 12:57:40 -0400
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lmJPg-0003eu-8I
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 13:03:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622134656;
+ s=mimecast20190719; t=1622134994;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=AieaqCAVNzd3RGR1bAkpd3n8ubAEYppVoPCcCwme07U=;
- b=F8aVNynfU52WaEwA2EIM4hDY8Terc2LjGwHieDC79dCvVOTf9QMcDSb+g78FxEGqLODYQq
- 330c+inXRBXLpRG+35cZbEr6tKBZp6xd9KXMYUC0LBDcyQBR+5x7IrdkIQ0s8JwTphsg6y
- SC0pVf9Na/KcPvyN1OFM5UCEkQbwGwU=
+ bh=gnbcuAS2l/lAfCl65MwVGHxcEPeh92yfDvnixwSb+60=;
+ b=E1bDwYxMWMqvsrggcQmbbS2NuBNNWZlbL/27Pn1tzxtnSIQH38kyRrO2lSOQL0cH3dzlYG
+ 1NHH7IEhEmb3JhkDI8sOqFh7kdGlwlfUBeZ/CzI/vRezoUA2jgbGnoCIpW832jcJTcMM9f
+ /1MYQd6HG842NjJVgdV97qtpZjk/Co4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-114-B9qXxdbwN9yAZ48DgkgQNQ-1; Thu, 27 May 2021 12:57:33 -0400
-X-MC-Unique: B9qXxdbwN9yAZ48DgkgQNQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-528-wp6dkeZCMAKLnYohx4_Y6Q-1; Thu, 27 May 2021 13:03:11 -0400
+X-MC-Unique: wp6dkeZCMAKLnYohx4_Y6Q-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 55137180FD61;
- Thu, 27 May 2021 16:57:32 +0000 (UTC)
-Received: from work-vm (ovpn-114-249.ams2.redhat.com [10.36.114.249])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 44E7C19D9B;
- Thu, 27 May 2021 16:57:23 +0000 (UTC)
-Date: Thu, 27 May 2021 17:57:21 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [PATCH v3 09/26] DAX: virtio-fs: Add vhost-user slave commands
- for mapping
-Message-ID: <YK/PcSYNVKhomZak@work-vm>
-References: <20210428110100.27757-1-dgilbert@redhat.com>
- <20210428110100.27757-10-dgilbert@redhat.com>
- <YJKomatE4qqje5cY@stefanha-x1.localdomain>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D56E01009479;
+ Thu, 27 May 2021 17:03:10 +0000 (UTC)
+Received: from localhost (ovpn-114-2.phx2.redhat.com [10.3.114.2])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 571D51349A;
+ Thu, 27 May 2021 17:03:04 +0000 (UTC)
+Date: Thu, 27 May 2021 13:02:49 -0400
+From: Cleber Rosa <crosa@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH v7 31/31] gitlab: add python linters to CI
+Message-ID: <20210527170249.GH1916721@amachine.somewhere>
+References: <20210526002454.124728-1-jsnow@redhat.com>
+ <20210526002454.124728-32-jsnow@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <YJKomatE4qqje5cY@stefanha-x1.localdomain>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <20210526002454.124728-32-jsnow@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="vtJ+CqYNzKB4ukR4"
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=crosa@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -68,7 +64,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.374,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,83 +77,150 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org, vgoyal@redhat.com,
- groug@kaod.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, Willian Rampazzo <willianr@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Stefan Hajnoczi (stefanha@redhat.com) wrote:
-> On Wed, Apr 28, 2021 at 12:00:43PM +0100, Dr. David Alan Gilbert (git) wrote:
-> > diff --git a/hw/virtio/vhost-user-fs.c b/hw/virtio/vhost-user-fs.c
-> > index dd0a02aa99..169a146e72 100644
-> > --- a/hw/virtio/vhost-user-fs.c
-> > +++ b/hw/virtio/vhost-user-fs.c
-> > @@ -45,6 +45,72 @@ static const int user_feature_bits[] = {
-> >  #define DAX_WINDOW_PROT PROT_NONE
-> >  #endif
-> >  
-> > +/*
-> > + * The message apparently had 'received_size' bytes, check this
-> > + * matches the count in the message.
-> > + *
-> > + * Returns true if the size matches.
-> > + */
-> > +static bool check_slave_message_entries(const VhostUserFSSlaveMsg *sm,
-> > +                                        int received_size)
-> > +{
-> > +    int tmp;
-> > +
-> > +    /*
-> > +     * VhostUserFSSlaveMsg consists of a body followed by 'n' entries,
-> > +     * (each VhostUserFSSlaveMsgEntry).  There's a maximum of
-> > +     * VHOST_USER_FS_SLAVE_MAX_ENTRIES of these.
-> > +     */
-> > +    if (received_size <= sizeof(VhostUserFSSlaveMsg)) {
-> 
-> received_size is an int and we risk hitting checking against the coerced
-> size_t value but then using the signed int received_size later. It's
-> safer to convert to size_t once and then use that size_t value
-> everywhere later.
+--vtJ+CqYNzKB4ukR4
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Done.
+On Tue, May 25, 2021 at 08:24:54PM -0400, John Snow wrote:
+> Add a python container that contains just enough juice for us to run the =
+python
+> code quality analysis tools.
+>=20
+> Base this container on fedora, because fedora has very convenient
+> packaging for testing multiple python versions.
+>=20
+> Add two tests:
+>=20
+> check-python-pipenv uses pipenv to test a frozen, very explicit set of
+> packages against our minimum supported python version, Python 3.6. This
+> test is not allowed to fail.
+>=20
+> check-python-tox uses tox to install the latest versions of required
+> python dependencies against a wide array of Python versions from 3.6 to
+> 3.9, even including the yet-to-be-released Python 3.10. This test is
+> allowed to fail with a warning.
+>=20
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> ---
+>  .gitlab-ci.d/containers.yml            |  5 +++++
+>  .gitlab-ci.yml                         | 26 ++++++++++++++++++++++++++
+>  tests/docker/dockerfiles/python.docker | 18 ++++++++++++++++++
+>  3 files changed, 49 insertions(+)
+>  create mode 100644 tests/docker/dockerfiles/python.docker
+>=20
+> diff --git a/.gitlab-ci.d/containers.yml b/.gitlab-ci.d/containers.yml
+> index 765408ae274..05ebd4dc11d 100644
+> --- a/.gitlab-ci.d/containers.yml
+> +++ b/.gitlab-ci.d/containers.yml
+> @@ -242,3 +242,8 @@ amd64-opensuse-leap-container:
+>    extends: .container_job_template
+>    variables:
+>      NAME: opensuse-leap
+> +
+> +python-container:
+> +  extends: .container_job_template
+> +  variables:
+> +    NAME: python
+> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+> index f718b61fa78..cc2a3935c62 100644
+> --- a/.gitlab-ci.yml
+> +++ b/.gitlab-ci.yml
+> @@ -789,6 +789,32 @@ check-patch:
+>      GIT_DEPTH: 1000
 
-> > +typedef struct {
-> > +    /* Offsets within the file being mapped */
-> > +    uint64_t fd_offset;
-> > +    /* Offsets within the cache */
-> > +    uint64_t c_offset;
-> > +    /* Lengths of sections */
-> > +    uint64_t len;
-> > +    /* Flags, from VHOST_USER_FS_FLAG_* */
-> > +    uint64_t flags;
-> > +} VhostUserFSSlaveMsgEntry;
-> > +
-> > +typedef struct {
-> > +    /* Number of entries */
-> > +    uint16_t count;
-> > +    /* Spare */
-> > +    uint16_t align;
-> 
-> VhostUserFSSlaveMsgEntry is aligned to 64 bits, so the 16-bit align
-> field is not sufficient for full alignment.
+As others have pointed out, this can use a tweak.
 
-Ah, interesting; fixed to:
+>    allow_failure: true
+>
+> +
+> +check-python-pipenv:
+> +  stage: test
+> +  image: $CI_REGISTRY_IMAGE/qemu/python:latest
+> +  script:
+> +    - cd python
+> +    - make venv-check
 
-typedef struct {
-    /* Generic flags for the overall message */
-    uint32_t flags;
-    /* Number of entries */
-    uint16_t count;
-    /* Spare */
-    uint16_t align;
-} VhostUserFSSlaveMsgHdr;
+Nipick:
 
-or do I actually need to have a uint64_t in there?
+      - make -C python venv-check
 
-Dave
+> +  variables:
+> +    GIT_DEPTH: 1000
+> +  needs:
+> +    job: python-container
+> +
+> +
+> +check-python-tox:
+> +  stage: test
+> +  image: $CI_REGISTRY_IMAGE/qemu/python:latest
+> +  script:
+> +    - cd python
+> +    - make check-tox
+> +  variables:
+> +    GIT_DEPTH: 1000
 
+Same here.
 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> +  needs:
+> +    job: python-container
+> +  allow_failure: true
+> +
+> +
+>  check-dco:
+>    stage: build
+>    image: $CI_REGISTRY_IMAGE/qemu/centos8:latest
+> diff --git a/tests/docker/dockerfiles/python.docker b/tests/docker/docker=
+files/python.docker
+> new file mode 100644
+> index 00000000000..56d88417df4
+> --- /dev/null
+> +++ b/tests/docker/dockerfiles/python.docker
+> @@ -0,0 +1,18 @@
+> +# Python library testing environment
+> +
+> +FROM fedora:latest
+> +MAINTAINER John Snow <jsnow@redhat.com>
+> +
+> +# Please keep this list sorted alphabetically
+> +ENV PACKAGES \
+> +    gcc \
+
+Now with this question answered, with or without the suggestion
+above:
+
+Reviewed-by: Cleber Rosa <crosa@redhat.com>
+
+--vtJ+CqYNzKB4ukR4
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAmCv0LcACgkQZX6NM6Xy
+CfMm2xAA0a4eST03AdSRciaTJUjqMiKGX2By8FrMC1RbiRN92FxXIOG5qCCWKAXR
+1vEdIXGkCsfi6HTd+HqYR3bnyg9OvNd2unkJj9nBG9p2j4JwCEyOdSgfXdmzb6WJ
+TYDMmVwt85SiXwN8/Ao3aXt4UbSWnZTL0MYl8TTbSDr05h+meIANRxjYoazuPPWy
++L3TZZh5XDe6NYsKKVjpNrAWSTZ6nRmbegOU/lvgv9tdVa9bJcB8pHSsJml37Jj4
+RTFWcynfCVoReMHpfWJU2baMsGjXOSSBGvR1b/gIM2W/UZ3yjtZt6v5fQoV0P1rM
+Ieg2SYfSob/CVQJCGUeEnxRVGU/XIaGhbZ2ihn61372X0i06LFP9KI0/cJbz525O
+9WbiPla/YgdlKS8Mvxsk5NbSQBStGrYQUoXR5I+X66XrKYORfTlDEZKtyyVAq5cU
+E8Z+my8U4mW3mvntKhFprR5ryDRs7RIcMAaO7KKWhdCW4g8CMgkdOBowdvzHMkVO
+QEKK1XSBk2aq6PBRfDJu8WhFfzAMulUJpq+qSIlVHAQ2tIIP7Kegt9rj4iQC3dy1
+GJvI8so6EECI8bbgcIFEimBfnHuYJ7XQHqfXpJf5Wp8Fu6RBbI6JCSAC/au/HJQS
+IGGRXHL01/6OJdtRR3Z5rrXDRoNzhzjxwCmgH01sq/VXnPTfiOI=
+=wFYH
+-----END PGP SIGNATURE-----
+
+--vtJ+CqYNzKB4ukR4--
 
 
