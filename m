@@ -2,59 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BF5D39365F
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 21:36:32 +0200 (CEST)
-Received: from localhost ([::1]:38180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59A1A393661
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 21:36:58 +0200 (CEST)
+Received: from localhost ([::1]:40144 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lmLny-0008Ps-TL
-	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 15:36:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56222)
+	id 1lmLoP-0001Io-EH
+	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 15:36:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56318)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1lmLmX-00079i-6P
- for qemu-devel@nongnu.org; Thu, 27 May 2021 15:35:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56862)
+ id 1lmLnH-0008Mh-Ta
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 15:35:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40617)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1lmLmR-00083C-VK
- for qemu-devel@nongnu.org; Thu, 27 May 2021 15:35:00 -0400
+ id 1lmLnE-0000Gs-4r
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 15:35:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622144094;
+ s=mimecast20190719; t=1622144143;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=S7FAncg573hzYrchFwJIh6gnXkWHcokaBwjCBW4J13E=;
- b=YWZncrhWic7k5D9lcVt+37yVgBmMkBKwNGW03/4PP8vtoQOc/SEdi/vKIMCYBKRBrG/8ce
- oGozQt6A5xDqZdjJk/DP6PBAEqoyIq5nuiQnjTxkwNatvHUAcYkYXaXf1qNc/lXjhwghjP
- 04KdfJtKl+EmmOdKtd0qiWBluSNqvLQ=
+ bh=vBBtVvnbweTfRRiikmxbx1VSYBaZxTUZIb7uVYlMbDg=;
+ b=a66bU8a9MnJeO+5fopz1esv7rEDTahDIhkNbV8ksH+0zmoZRqh64onBfznpSpFBEc9VQ5A
+ VAxxPNhuxihwvAOZvm/PHJJ2UaGod5xQjQdJU8xr5a6tmuSkfFSbeTmhc02pZ4EKB+zlMt
+ zIJd77tDcBxMKMQ07x6tatsm36dcrqQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-507-qznQKA-8PDSnsNIgLqgdzA-1; Thu, 27 May 2021 15:34:52 -0400
-X-MC-Unique: qznQKA-8PDSnsNIgLqgdzA-1
+ us-mta-500-2sMoYU59Ni2hn3wkNPmTWw-1; Thu, 27 May 2021 15:35:41 -0400
+X-MC-Unique: 2sMoYU59Ni2hn3wkNPmTWw-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C0F42107ACE4
- for <qemu-devel@nongnu.org>; Thu, 27 May 2021 19:34:51 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 90297101371D
+ for <qemu-devel@nongnu.org>; Thu, 27 May 2021 19:35:40 +0000 (UTC)
 Received: from localhost (ovpn-117-209.rdu2.redhat.com [10.10.117.209])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 700AD5C22B;
- Thu, 27 May 2021 19:34:51 +0000 (UTC)
-Date: Thu, 27 May 2021 15:34:50 -0400
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 574DE5C5B5;
+ Thu, 27 May 2021 19:35:40 +0000 (UTC)
+Date: Thu, 27 May 2021 15:35:39 -0400
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: Vitaly Kuznetsov <vkuznets@redhat.com>
-Subject: Re: [PATCH v6 17/19] i386: HV_HYPERCALL_AVAILABLE privilege bit is
- always needed
-Message-ID: <20210527193450.gulad2fsqh7hc6p6@habkost.net>
+Subject: Re: [PATCH v6 00/19] i386: KVM: expand Hyper-V features early
+Message-ID: <20210527193539.qcncovc25ahhjgyp@habkost.net>
 References: <20210422161130.652779-1-vkuznets@redhat.com>
- <20210422161130.652779-18-vkuznets@redhat.com>
- <20210521220637.kg6g7lfvpwasnzez@habkost.net>
- <878s44723s.fsf@vitty.brq.redhat.com>
- <20210526170530.ugirlteyzamogysz@habkost.net>
- <87im347hk8.fsf@vitty.brq.redhat.com>
+ <20210526202014.tkeim3ofmsknbijy@habkost.net>
+ <87fsy87hih.fsf@vitty.brq.redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <87im347hk8.fsf@vitty.brq.redhat.com>
+In-Reply-To: <87fsy87hih.fsf@vitty.brq.redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
@@ -62,7 +58,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -88,73 +84,33 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, May 27, 2021 at 09:37:59AM +0200, Vitaly Kuznetsov wrote:
+On Thu, May 27, 2021 at 09:39:02AM +0200, Vitaly Kuznetsov wrote:
 > Eduardo Habkost <ehabkost@redhat.com> writes:
 > 
-> > On Mon, May 24, 2021 at 02:22:47PM +0200, Vitaly Kuznetsov wrote:
-> >> Eduardo Habkost <ehabkost@redhat.com> writes:
-> >> 
-> >> > On Thu, Apr 22, 2021 at 06:11:28PM +0200, Vitaly Kuznetsov wrote:
-> >> >> According to TLFS, Hyper-V guest is supposed to check
-> >> >> HV_HYPERCALL_AVAILABLE privilege bit before accessing
-> >> >> HV_X64_MSR_GUEST_OS_ID/HV_X64_MSR_HYPERCALL MSRs but at least some
-> >> >> Windows versions ignore that. As KVM is very permissive and allows
-> >> >> accessing these MSRs unconditionally, no issue is observed. We may,
-> >> >> however, want to tighten the checks eventually. Conforming to the
-> >> >> spec is probably also a good idea.
-> >> >> 
-> >> >> Add HV_HYPERCALL_AVAILABLE to all 'leaf' features with no dependencies.
-> >> >> 
-> >> >> Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
-> >> >
-> >> > Are all VMs being created with HV_HYPERCALL_AVAILABLE unset,
-> >> > today?
-> >> >
-> >> 
-> >> No, we have HV_HYPERCALL_AVAILABLE encoded in 'hv-relaxed','hv-vapic'
-> >> and 'hv-time' features but not 
-> >> 
-> >> 
-> >> > Wouldn't it be simpler to simply add a new
-> >> > HYPERV_FEAT_HYPERCALL_AVAILABLE bit to hyperv_features, and
-> >> > enabling it by default?
-> >> >
-> >> 
-> >> We could do that but as I note above, we already have it for three
-> >> features.
+> > On Thu, Apr 22, 2021 at 06:11:11PM +0200, Vitaly Kuznetsov wrote:
+> >> Vitaly Kuznetsov (19):
+> >>   i386: keep hyperv_vendor string up-to-date
+> >>   i386: invert hyperv_spinlock_attempts setting logic with
+> >>     hv_passthrough
+> >>   i386: always fill Hyper-V CPUID feature leaves from X86CPU data
+> >>   i386: stop using env->features[] for filling Hyper-V CPUIDs
+> >>   i386: introduce hyperv_feature_supported()
+> >>   i386: introduce hv_cpuid_get_host()
+> >>   i386: drop FEAT_HYPERV feature leaves
+> >>   i386: introduce hv_cpuid_cache
+> >>   i386: split hyperv_handle_properties() into
+> >>     hyperv_expand_features()/hyperv_fill_cpuids()
+> >>   i386: move eVMCS enablement to hyperv_init_vcpu()
+> >>   i386: switch hyperv_expand_features() to using error_setg()
+> >>   i386: adjust the expected KVM_GET_SUPPORTED_HV_CPUID array size
+> >>   i386: prefer system KVM_GET_SUPPORTED_HV_CPUID ioctl over vCPU's one
+> >>   i386: use global kvm_state in hyperv_enabled() check
 > >
-> > Do we have any cases where we do not want to enable
-> > HV_HYPERCALL_AVAILABLE?
-> >
-> > Would it be OK to just hardcoded it in hyperv_fill_cpuids() like
-> > we do with HV_CPU_DYNAMIC_PARTITIONING_AVAILABLE?
-> >
+> > I'm queueing patches 1-14 (the ones above) on my x86-next branch.
 > 
-> struct kvm_hyperv_properties[] serves two purposes:
-> 1) Set corresponding guest visible CPUID bits when certain features are
-> enabled.
-> 
-> 2) Check, that KVM supports certain features before we expose them to the
->   guest.
+> Thank you! Is it published somewhere so I can base next version[s] on it? 
 
-Oh, you're right.
-
-> 
-> Whatever we hardcode in hyperv_fill_cpuids() gives us 1) but not 2). For
-> this particular bit it probably doesn't matter as even the oldest
-> supported kernel (v4.5) has it. That said, I'm OK with moving this to
-> hyperv_fill_cpuids().
-
-I'm only worried about the risk of somebody forgetting to
-hardcode the HV_HYPERCALL_AVAILABLE bit in new
-kvm_hyperv_expand_features[] entries in the future.
-
-A new HYPERV_FEAT_HYPERCALL_AVAILABLE bit (hardcoded to 1 at
-kvm_hyperv_expand_features()) would give us feature checking.
-But if you're OK with hardcoding it at hyperv_fill_cpuids(), it's
-probably the simplest solution.
-
-> [...]
+Yes: http://gitlab.com/ehabkost/qemu x86-next
 
 -- 
 Eduardo
