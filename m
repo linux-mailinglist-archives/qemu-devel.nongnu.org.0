@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11B4A3926C6
+	by mail.lfdr.de (Postfix) with ESMTPS id 2629B3926C7
 	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 07:12:46 +0200 (CEST)
-Received: from localhost ([::1]:60276 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:60286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lm8K4-0005zO-Jj
-	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 01:12:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55430)
+	id 1lm8K5-0005zk-1P
+	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 01:12:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55428)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lm8IN-0004a1-3Q
- for qemu-devel@nongnu.org; Thu, 27 May 2021 01:10:59 -0400
-Received: from indium.canonical.com ([91.189.90.7]:44246)
+ id 1lm8IM-0004Zs-0j
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 01:10:58 -0400
+Received: from indium.canonical.com ([91.189.90.7]:44234)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lm8IK-0006bt-0F
- for qemu-devel@nongnu.org; Thu, 27 May 2021 01:10:58 -0400
+ id 1lm8IJ-0006bI-Qa
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 01:10:57 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lm8IF-0000Hi-4C
- for <qemu-devel@nongnu.org>; Thu, 27 May 2021 05:10:51 +0000
+ id 1lm8ID-0000Do-Vy
+ for <qemu-devel@nongnu.org>; Thu, 27 May 2021 05:10:49 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 11F3D2E8136
- for <qemu-devel@nongnu.org>; Thu, 27 May 2021 05:10:51 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id EE42D2E8136
+ for <qemu-devel@nongnu.org>; Thu, 27 May 2021 05:10:49 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 27 May 2021 05:01:28 -0000
-From: Thomas Huth <1895363@bugs.launchpad.net>
+Date: Thu, 27 May 2021 05:04:59 -0000
+From: Thomas Huth <1897568@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
@@ -38,19 +38,18 @@ X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: mslade philmd th-huth
-X-Launchpad-Bug-Reporter: Michael Slade (mslade)
+X-Launchpad-Bug-Commenters: awik philmd th-huth
+X-Launchpad-Bug-Reporter: Albert Wik (awik)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <159987499082.17652.11658819873688678558.malonedeb@soybean.canonical.com>
-Message-Id: <162209168868.5770.11350043337385748832.malone@chaenomeles.canonical.com>
-Subject: [Bug 1895363] Re: borland IDEs double up cursor key presses (need
- timing on PS2 port input)
+References: <160129907003.10349.16133652474527618816.malonedeb@chaenomeles.canonical.com>
+Message-Id: <162209189915.3061.3446758831334954376.malone@gac.canonical.com>
+Subject: [Bug 1897568] Re: Strange keyboard behaviour in Vim editor
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="802ed26817d1cdd050553dbe99cc8a3cad1a3bc7"; Instance="production"
-X-Launchpad-Hash: 57a2982c32328694a56c81564505535cccfc80c3
+X-Launchpad-Hash: 65da69f9df3ba428db000db86dc60d803843068f
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,13 +70,14 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1895363 <1895363@bugs.launchpad.net>
+Reply-To: Bug 1897568 <1897568@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 The patch mentioned by Philippe has now been merged to the QEMU master
-branch (commit d1e45668d2128b064). Michael, could you maybe check the
-current git version to see whether this problem has been fixed now?
+branch (commit d1e45668d2128b064). Albert, could you maybe check the
+current git version to see whether this problem has been fixed now
+(using "-global i8042.kbd-throttle=3Don" to enable this new feature)?
 
 ** Changed in: qemu
        Status: In Progress =3D> Fix Committed
@@ -86,34 +86,30 @@ current git version to see whether this problem has been fixed now?
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1895363
+https://bugs.launchpad.net/bugs/1897568
 
 Title:
-  borland IDEs double up cursor key presses (need timing on PS2 port
-  input)
+  Strange keyboard behaviour in Vim editor
 
 Status in QEMU:
   Fix Committed
 
 Bug description:
-  Most DOS-era IDEs from Borland (I have tried Borland C++ 2.0, Borland
-  C++ 3.1 and Turbo Pascal 7.1) exhibit strange responses to the
-  keyboard.  Cursor keys are registered twice, so each press of a cursor
-  key causes the cursor to move twice. Also the other keys occasionally
-  are missed or duplicated.
+  =
 
-  From an internet search, the problem appears to be this.  These
-  programs read the PS2 input register multiple times per incoming byte,
-  on the assumption that the byte will remain there for at least a few
-  hundred microseconds, before the next byte (if any) appears there.
-  qemu treats a read of the register by the guest as an acknowledgement
-  of the incoming byte and puts the next byte into the register
-  immediately, thus breaking the programs that expect each successive
-  byte to stay in place for a while.
+  I'm running MS-DOS 7.10 in a QEMU virtual machine, and there is a problem=
+ with the keyboard in the Vim editor.  The arrow keys jump over a line, as =
+if you had typed the key twice.  PgUp and PgDn are likewise affected.  Othe=
+r applications are not affected, unless you shell out from Vim.
 
-  The obvious solution is to use a timer to advance through the queued
-  bytes.
+  The QEMU version is 5.0.0, and I'm using the "-k sv" option, but I've
+  tried without it and it doesn't make a difference.
+
+  I don't get this keyboard behaviour in the exact same VM under VMware
+  Player or Bochs.
+
+  -Albert.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1895363/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1897568/+subscriptions
 
