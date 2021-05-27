@@ -2,79 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 333B239BD1D
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Jun 2021 18:29:08 +0200 (CEST)
-Received: from localhost ([::1]:45674 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D46039BDC6
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Jun 2021 18:57:10 +0200 (CEST)
+Received: from localhost ([::1]:52864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lpCh1-00074l-9O
-	for lists+qemu-devel@lfdr.de; Fri, 04 Jun 2021 12:29:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46316)
+	id 1lpD89-0002rd-9V
+	for lists+qemu-devel@lfdr.de; Fri, 04 Jun 2021 12:57:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34810)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1lpCCb-0006Pz-SV
- for qemu-devel@nongnu.org; Fri, 04 Jun 2021 11:57:42 -0400
-Received: from mga03.intel.com ([134.134.136.65]:16822)
+ (Exim 4.90_1)
+ (envelope-from <e43c658ec76b394005d514034c2defd0eacb7ea0@lizzy.crudebyte.com>)
+ id 1lpCmc-0004Ru-Hw
+ for qemu-devel@nongnu.org; Fri, 04 Jun 2021 12:34:54 -0400
+Received: from lizzy.crudebyte.com ([91.194.90.13]:35679)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1lpCCY-0002dj-Hk
- for qemu-devel@nongnu.org; Fri, 04 Jun 2021 11:57:41 -0400
-IronPort-SDR: YSQM7BP/yF8tWHVW6j5vdPsB6Vf2dXaSA9uI2tb8G9lbTHBCmeipPJwsRP/GYTbu7LJRPEAZIS
- 5q0jqCknarnQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,10005"; a="204344147"
-X-IronPort-AV: E=Sophos;i="5.83,248,1616482800"; d="scan'208";a="204344147"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Jun 2021 08:57:30 -0700
-IronPort-SDR: H4HMONUsOGVCSm64OZXpeMxsw2pPiN6zrUDcXxJRt6gwctoSZTl+t/SQ3pJYJfWWU6lHMvRVjf
- n/o7MbhP8wgw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.83,248,1616482800"; d="scan'208";a="551203278"
-Received: from fmsmsx604.amr.corp.intel.com ([10.18.126.84])
- by fmsmga001.fm.intel.com with ESMTP; 04 Jun 2021 08:57:30 -0700
-Received: from shsmsx603.ccr.corp.intel.com (10.109.6.143) by
- fmsmsx604.amr.corp.intel.com (10.18.126.84) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.4; Fri, 4 Jun 2021 08:57:29 -0700
-Received: from shsmsx605.ccr.corp.intel.com (10.109.6.215) by
- SHSMSX603.ccr.corp.intel.com (10.109.6.143) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.4; Fri, 4 Jun 2021 23:57:27 +0800
-Received: from shsmsx605.ccr.corp.intel.com ([10.109.6.215]) by
- SHSMSX605.ccr.corp.intel.com ([10.109.6.215]) with mapi id 15.01.2242.008;
- Fri, 4 Jun 2021 23:57:27 +0800
-From: "Zhang, Chen" <chen.zhang@intel.com>
-To: Eric Blake <eblake@redhat.com>
-Subject: RE: [PATCH V7 1/6] qapi/net: Add IPFlowSpec and QMP command for COLO
- passthrough
-Thread-Topic: [PATCH V7 1/6] qapi/net: Add IPFlowSpec and QMP command for COLO
- passthrough
-Thread-Index: AQHXUdthkZsZrNXk3keJMgxjCRGGYqsDc96AgACWN9A=
-Date: Fri, 4 Jun 2021 15:57:27 +0000
-Message-ID: <9a7a70304c304d2f99e5ee952eddf49f@intel.com>
-References: <20210526025424.1319994-1-chen.zhang@intel.com>
- <20210526025424.1319994-2-chen.zhang@intel.com>
- <20210604143521.ej6n7g5tlawkhwpj@redhat.com>
-In-Reply-To: <20210604143521.ej6n7g5tlawkhwpj@redhat.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.5.1.3
-dlp-reaction: no-action
-x-originating-ip: [10.239.127.36]
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
-MIME-Version: 1.0
-Received-SPF: pass client-ip=134.134.136.65; envelope-from=chen.zhang@intel.com;
- helo=mga03.intel.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1)
+ (envelope-from <e43c658ec76b394005d514034c2defd0eacb7ea0@lizzy.crudebyte.com>)
+ id 1lpCma-0002cX-Nu
+ for qemu-devel@nongnu.org; Fri, 04 Jun 2021 12:34:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
+ Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
+ Content-Description; bh=F+zcqFLh8DFiVXFYYi8rgDfObpfpt7catkfkcaYSDRA=; b=W+75G
+ OC319uyuv8AerJXS7QzQUL6L73KXaCCEyXVyDNlrBiERM7B93/audOz6hXziJB+7AY5ZdMjEQWfqP
+ bJkh6gTnF/NyafOrbc75nt6kauOYOX2upt/DUMNh2UjiRi6k9sXlvx6r+sptq8Q/X9yVPdGBcf+mG
+ Le3B/Fo7qZabl4WBt9dxcBODf4CICu36Sk1SswBtxNQ4nh6SdmufLyJw1+aOKu6zRShxPIh4JS7Jy
+ BNj6+d+65QdsTCu9+WyGrg4dsTLzKzMh5lToS1/oKyoTigRO3ow3K2vee0r5zUWK9KnDN6BVEY1Ie
+ mmgcBAnvr5jfFTlI42B75dQlMKMaA==;
+Message-Id: <e43c658ec76b394005d514034c2defd0eacb7ea0.1622821729.git.qemu_oss@crudebyte.com>
+In-Reply-To: <cover.1622821729.git.qemu_oss@crudebyte.com>
+References: <cover.1622821729.git.qemu_oss@crudebyte.com>
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Date: Thu, 27 May 2021 19:03:17 +0200
+Subject: [PATCH v2 2/7] 9pfs: Twalk benchmark
+To: qemu-devel@nongnu.org
+Cc: Greg Kurz <groug@kaod.org>
+Received-SPF: none client-ip=91.194.90.13;
+ envelope-from=e43c658ec76b394005d514034c2defd0eacb7ea0@lizzy.crudebyte.com;
+ helo=lizzy.crudebyte.com
+X-Spam_score_int: 13
+X-Spam_score: 1.3
+X-Spam_bar: +
+X-Spam_report: (1.3 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_96_XX=3.405,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,172 +59,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Lukas Straub <lukasstraub2@web.de>,
- =?iso-8859-1?Q?Daniel_P=2E_Berrang=E9?= <berrange@redhat.com>,
- Li Zhijian <lizhijian@cn.fujitsu.com>, Jason Wang <jasowang@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, qemu-dev <qemu-devel@nongnu.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Zhang Chen <zhangckid@gmail.com>, "Dr.
- David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This patch is not intentended to be merged, it just acts as performance
+A/B comparison benchmark for the subsequent patches.
 
+Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+---
+ tests/qtest/virtio-9p-test.c | 30 ++++++++++++++++++++++++++++++
+ 1 file changed, 30 insertions(+)
 
-> -----Original Message-----
-> From: Eric Blake <eblake@redhat.com>
-> Sent: Friday, June 4, 2021 10:35 PM
-> To: Zhang, Chen <chen.zhang@intel.com>
-> Cc: Jason Wang <jasowang@redhat.com>; qemu-dev <qemu-
-> devel@nongnu.org>; Dr. David Alan Gilbert <dgilbert@redhat.com>; Markus
-> Armbruster <armbru@redhat.com>; Daniel P. Berrang=E9
-> <berrange@redhat.com>; Gerd Hoffmann <kraxel@redhat.com>; Li Zhijian
-> <lizhijian@cn.fujitsu.com>; Zhang Chen <zhangckid@gmail.com>; Lukas
-> Straub <lukasstraub2@web.de>
-> Subject: Re: [PATCH V7 1/6] qapi/net: Add IPFlowSpec and QMP command
-> for COLO passthrough
->=20
-> On Wed, May 26, 2021 at 10:54:19AM +0800, Zhang Chen wrote:
-> > Since the real user scenario does not need COLO to monitor all traffic.
-> > Add colo-passthrough-add and colo-passthrough-del to maintain a COLO
-> > network passthrough list. Add IPFlowSpec struct for all QMP commands.
-> > Except protocol field is necessary, other fields are optional.
->=20
-> That last sentence reads awkwardly, and I don't see a protocol field in t=
-he
-> patch below.
-
-Oh, We move the protocol field to optional by Lukas's comments in V6.
-I will remove this comments here.
-
->=20
-> >
-> > Signed-off-by: Zhang Chen <chen.zhang@intel.com>
-> > ---
-> >  net/net.c     | 10 ++++++++
-> >  qapi/net.json | 68
-> > +++++++++++++++++++++++++++++++++++++++++++++++++++
-> >  2 files changed, 78 insertions(+)
-> >
->=20
-> > +++ b/qapi/net.json
-> > @@ -7,6 +7,7 @@
-> >  ##
-> >
-> >  { 'include': 'common.json' }
-> > +{ 'include': 'sockets.json' }
-> >
-> >  ##
-> >  # @set_link:
-> > @@ -694,3 +695,70 @@
-> >  ##
-> >  { 'event': 'FAILOVER_NEGOTIATED',
-> >    'data': {'device-id': 'str'} }
-> > +
-> > +##
-> > +# @IPFlowSpec:
-> > +#
-> > +# IP flow specification.
-> > +#
-> > +# @protocol: Transport layer protocol like TCP/UDP...
->=20
-> Why is this open-coded as 'str' instead of an enum?
-
-The original code use enum, but we change it by Dave and Markus's comments.
-Please check the history:
-https://lists.gnu.org/archive/html/qemu-devel/2021-04/msg03919.html
-
->=20
-> > +#
-> > +# @object-name: Point out the IPflow spec effective range of object,
-> > +#               If there is no such part, it means global spec.
-> > +#
-> > +# @source: Source address and port.
-> > +#
-> > +# @destination: Destination address and port.
-> > +#
-> > +# Since: 6.1
-> > +##
-> > +{ 'struct': 'IPFlowSpec',
-> > +  'data': { '*protocol': 'str', '*object-name': 'str',
-> > +    '*source': 'InetSocketAddressBase',
-> > +    '*destination': 'InetSocketAddressBase' } }
-> > +
-> > +##
-> > +# @colo-passthrough-add:
-> > +#
-> > +# Add passthrough entry according to user's needs in COLO-compare.
-> > +# Source IP/port and destination IP/port both optional, If user just
-> > +# input parts of infotmation, it will match all.
->=20
-> information
->=20
-> Grammar suggestion:
->=20
-> The source and destination IP/ports are both optional; if the user only i=
-nputs
-> part of the information, this will match all traffic.
->=20
-> except I'm not sure if my rewrite conveys the actual intent.
-
-Looks good to me, It should add the "protocol" to optional too.
-Sorry, I'm not a native speaker, I will fix it in next version.
-
->=20
-> > +#
-> > +# Returns: Nothing on success
-> > +#
-> > +# Since: 6.1
-> > +#
-> > +# Example:
-> > +#
-> > +# -> { "execute": "colo-passthrough-add",
-> > +#      "arguments": { "protocol": "tcp", "object-name": "object0",
-> > +#      "source": {"host": "192.168.1.1", "port": "1234"},
-> > +#      "destination": {"host": "192.168.1.2", "port": "4321"} } }
-> > +# <- { "return": {} }
-> > +#
-> > +##
-> > +{ 'command': 'colo-passthrough-add', 'boxed': true,
-> > +     'data': 'IPFlowSpec' }
-> > +
-> > +##
-> > +# @colo-passthrough-del:
-> > +#
-> > +# Delete passthrough entry according to user's needs in COLO-compare.
-> > +# Source IP/port and destination IP/port both optional, If user just
-> > +# input parts of infotmation, it will match all.
->=20
-> Same problems as above.
-
-OK.
-
-Thanks
-Chen
-
->=20
-> > +#
-> > +# Returns: Nothing on success
-> > +#
-> > +# Since: 6.1
-> > +#
-> > +# Example:
-> > +#
-> > +# -> { "execute": "colo-passthrough-del",
-> > +#      "arguments": { "protocol": "tcp", "object-name": "object0",
-> > +#      "source": {"host": "192.168.1.1", "port": "1234"},
-> > +#      "destination": {"host": "192.168.1.2", "port": "4321"} } }
-> > +# <- { "return": {} }
-> > +#
-> > +##
-> > +{ 'command': 'colo-passthrough-del', 'boxed': true,
-> > +     'data': 'IPFlowSpec' }
-> > --
-> > 2.25.1
-> >
->=20
-> --
-> Eric Blake, Principal Software Engineer
-> Red Hat, Inc.           +1-919-301-3266
-> Virtualization:  qemu.org | libvirt.org
+diff --git a/tests/qtest/virtio-9p-test.c b/tests/qtest/virtio-9p-test.c
+index 41fed41de1..2cd9e427b4 100644
+--- a/tests/qtest/virtio-9p-test.c
++++ b/tests/qtest/virtio-9p-test.c
+@@ -20,6 +20,18 @@
+ #include "libqos/virtio-9p.h"
+ #include "libqos/qgraph.h"
+ 
++/*
++ * to benchmark the real time (not CPU time) that elapsed between start of
++ * a request and arrival of its response
++ */
++static double wall_time(void)
++{
++    struct timeval t;
++    struct timezone tz;
++    gettimeofday(&t, &tz);
++    return t.tv_sec + t.tv_usec * 0.000001;
++}
++
+ #define QVIRTIO_9P_TIMEOUT_US (10 * 1000 * 1000)
+ static QGuestAllocator *alloc;
+ 
+@@ -646,12 +658,30 @@ static void fs_walk(void *obj, void *data, QGuestAllocator *t_alloc)
+     }
+ 
+     do_attach(v9p);
++    const double start = wall_time();
+     req = v9fs_twalk(v9p, 0, 1, P9_MAXWELEM, wnames, 0);
++    const double twalk = wall_time();
+     v9fs_req_wait_for_reply(req, NULL);
++    const double waitforreply = wall_time();
+     v9fs_rwalk(req, &nwqid, &wqid);
++    const double end = wall_time();
+ 
+     g_assert_cmpint(nwqid, ==, P9_MAXWELEM);
+ 
++    printf("\nTime client spent on sending Twalk: %fs\n\n",
++           twalk - start);
++
++    printf("Time client spent for waiting for reply from server: %fs "
++           "[MOST IMPORTANT]\n", waitforreply - start);
++    printf("(This is the most important value, because it reflects the time\n"
++           "the 9p server required to process and return the result of the\n"
++           "Twalk request.)\n\n");
++
++    printf("Total client time: %fs\n", end - start);
++
++    //printf("Details of response message data: R_readddir nentries=%d "
++    //       "rbytes=%d\n", nentries, count);
++
+     for (i = 0; i < P9_MAXWELEM; i++) {
+         g_free(wnames[i]);
+     }
+-- 
+2.20.1
 
 
