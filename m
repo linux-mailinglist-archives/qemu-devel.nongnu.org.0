@@ -2,49 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7D19392864
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 09:20:49 +0200 (CEST)
-Received: from localhost ([::1]:33830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03B2E392668
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 06:30:55 +0200 (CEST)
+Received: from localhost ([::1]:47094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lmAK0-00038S-Qa
-	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 03:20:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46814)
+	id 1lm7fa-0002Tx-3b
+	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 00:30:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46976)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lmAC0-0006ly-B6; Thu, 27 May 2021 03:12:32 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:40767 helo=ozlabs.org)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1lm7dY-0001nc-54
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 00:28:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31543)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lmABw-0004eX-MP; Thu, 27 May 2021 03:12:32 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4FrJsx15B6z9sW7; Thu, 27 May 2021 17:12:21 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1622099541;
- bh=E/Ndn2SCd+X6j0dVw/SrVeztQK2/0dfFppAc/lg5MTQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=b0snFmNVyp3HcV++4u+9C+q3ivNBKZaMEUCkVaatZ0+qi+3a+Rr8siJPBxpFUc58u
- GbHvZQC9oEEFz2VZvR0S1Foa50ywEEYAGM1/pIoX+7Oqu4LwapqRINsmxFzfgfLTJ6
- ZNJ9XvTHlc1EMiaSg/nbSvkSHSOU1zu5SGd61UCQ=
-Date: Thu, 27 May 2021 14:26:46 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH] spapr: propagate LPCR to hot-plugged CPUs
-Message-ID: <YK8fhio3eTvqVuy7@yekko>
-References: <20210524114132.572659-1-clg@kaod.org>
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1lm7dW-0000V3-Fp
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 00:28:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1622089725;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=wI2FOzI1rxKE8YRkij0Di68pNkm8myTsTVoRe+8zglc=;
+ b=eW17YFTOr7A4mCW0ZC6L6uz0hQkpP0IXQ16CL6uGh0lbHsfJtrey+cS5FbC5vdidN2CW9u
+ nWyLbRrj1Nh0cUpD5Y3LXjudVTU7r0nVdTnNfb1Tt8VfN+MR6sMRRjMSi9z9w7IcGWpjtK
+ oy5X0Z1dOeXN+RSuFyU+sfXnOAAowvo=
+Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com
+ [209.85.210.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-331-G9J81PWXP0SD6OB9pHQS2g-1; Thu, 27 May 2021 00:28:43 -0400
+X-MC-Unique: G9J81PWXP0SD6OB9pHQS2g-1
+Received: by mail-pf1-f198.google.com with SMTP id
+ t20-20020aa793940000b02902e8f588ec26so2064987pfe.17
+ for <qemu-devel@nongnu.org>; Wed, 26 May 2021 21:28:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=wI2FOzI1rxKE8YRkij0Di68pNkm8myTsTVoRe+8zglc=;
+ b=frC5xdhbWp1AAUl9fuI7PKTP+gt7n8FvKREcgm9SEAhqoNgyqnJh87Ut7WZOhuFRTl
+ 6u/FuRGzkrEuZz+sh8cvNJf1NxTbcrLm6Roo58QEeIakfoKTo+KoK29dMqE7qdeTIaZ8
+ xYxN5vdSyajudFPIqTi8kPcXDY809o4GQsbR0hvRQI11JOK3FBDFYg/zLJo2fnsywtq6
+ TNerLejdCoztoa2I0Sz4N5UT6tn9kJ8S/c4WbZ286DoQ0yZinZIAv6iDqAZy7tVUFFc6
+ kLoaIyj5qgDX6B3XsXZYzC2Bdib+EYYJk2nCgDy7GpALsW4fJCbFw0lrG6pr9H4kYukx
+ B+PA==
+X-Gm-Message-State: AOAM532Ui4Z0/wxVK5BnH1vXc85xuzjSDDTXFj+SAgAc7B+ce9+5raY2
+ dAgDkIGNsob9jFzNC/FpK1iWQiBW2gV2NFlhhO9uqOcXlHv/Y04wQGu1hl0mOSBopQ+cyLlyWXl
+ yEAXOqyf2eFg1pfM=
+X-Received: by 2002:aa7:8c59:0:b029:28e:9093:cd4d with SMTP id
+ e25-20020aa78c590000b029028e9093cd4dmr1860384pfd.25.1622089722240; 
+ Wed, 26 May 2021 21:28:42 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzzApZwK9mwpf6zaN55PFFPgjWYdly+Ngyf9q66VsJj1zIqfp59g5+YUPSjgOVnfcGOXS2JBg==
+X-Received: by 2002:aa7:8c59:0:b029:28e:9093:cd4d with SMTP id
+ e25-20020aa78c590000b029028e9093cd4dmr1860367pfd.25.1622089721964; 
+ Wed, 26 May 2021 21:28:41 -0700 (PDT)
+Received: from wangxiaodeMacBook-Air.local ([209.132.188.80])
+ by smtp.gmail.com with ESMTPSA id p30sm632108pfq.218.2021.05.26.21.28.39
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 26 May 2021 21:28:41 -0700 (PDT)
+Subject: Re: [PULL 1/3] hw/net/imx_fec: return 0xffff when accessing
+ non-existing PHY
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ peter.maydell@linaro.org
+References: <1622017492-7770-1-git-send-email-jasowang@redhat.com>
+ <1622017492-7770-2-git-send-email-jasowang@redhat.com>
+ <7a56c641-4c32-44a1-2a28-37c9b4846f42@amsat.org>
+From: Jason Wang <jasowang@redhat.com>
+Message-ID: <729a5862-5514-00e7-47d7-2112bc066266@redhat.com>
+Date: Thu, 27 May 2021 12:28:21 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.10.2
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="LL3RTiAzHswm1JSy"
-Content-Disposition: inline
-In-Reply-To: <20210524114132.572659-1-clg@kaod.org>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <7a56c641-4c32-44a1-2a28-37c9b4846f42@amsat.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -57,77 +105,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>,
- Nicholas Piggin <npiggin@gmail.com>, qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org, Guenter Roeck <linux@roeck-us.net>,
+ Jean-Christophe Dubois <jcd@tribudubois.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---LL3RTiAzHswm1JSy
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+在 2021/5/26 下午5:08, Philippe Mathieu-Daudé 写道:
+> On 5/26/21 10:24 AM, Jason Wang wrote:
+>> From: Guenter Roeck <linux@roeck-us.net>
+>>
+>> If a PHY does not exist, attempts to read from it should return 0xffff.
+>> Otherwise the Linux kernel will believe that a PHY is there and select
+>> the non-existing PHY. This in turn will result in network errors later
+>> on since the real PHY is not selected or configured.
+>>
+>> Since reading from or writing to a non-existing PHY is not an emulation
+>> error, replace guest error messages with traces.
+>>
+>> Fixes: 461c51ad4275 ("Add a phy-num property to the i.MX FEC emulator")
+>> Cc: Jean-Christophe Dubois <jcd@tribudubois.net>
+>> Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+>> Tested-by: Bin Meng <bmeng.cn@gmail.com>
+>> Reviewed-by: Philippe Mathieu-Daud茅 <f4bug@amsat.org>
+> Mojibake :/
 
-On Mon, May 24, 2021 at 01:41:32PM +0200, C=E9dric Le Goater wrote:
-> Distros have started using the 'scv' instructions (glibc 2.33) which
-> relies on the LPCR AIL bits. Unfortunately, the LPCR of hot-plugged
-> CPUs is not synchronized with the rest of machine and it breaks the
-> guest OS.
->=20
-> Fix that by using the first CPU to set the LPCR value of all hot-plugged
-> CPUs.
->=20
-> Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
 
-I'm assuming this is obsoleted by Nick Piggin's rework of LPCR
-initialization.  This patch does fix a real bug, but it leaves LPCR
-initialization a bit of a mess.
+My bad, v2 sent.
 
-> ---
->  hw/ppc/spapr.c | 2 ++
->  1 file changed, 2 insertions(+)
->=20
-> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index c23bcc449071..e463c2570c7a 100644
-> --- a/hw/ppc/spapr.c
-> +++ b/hw/ppc/spapr.c
-> @@ -3890,6 +3890,8 @@ static void spapr_core_plug(HotplugHandler *hotplug=
-_dev, DeviceState *dev)
->          for (i =3D 0; i < cc->nr_threads; i++) {
->              ppc_set_compat(core->threads[i], POWERPC_CPU(first_cpu)->com=
-pat_pvr,
->                             &error_abort);
-> +            ppc_store_lpcr(core->threads[i],
-> +                           POWERPC_CPU(first_cpu)->env.spr[SPR_LPCR]);
->          }
->      }
-> =20
+Thanks
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
 
---LL3RTiAzHswm1JSy
-Content-Type: application/pgp-signature; name="signature.asc"
+>
+>> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+>> Signed-off-by: Jason Wang <jasowang@redhat.com>
+>> ---
+>>   hw/net/imx_fec.c    | 8 +++-----
+>>   hw/net/trace-events | 2 ++
+>>   2 files changed, 5 insertions(+), 5 deletions(-)
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmCvH4YACgkQbDjKyiDZ
-s5K6IxAAvqltC2P0qCOm9pIE7gPPNIYKWJTN0gSWAVyODMYZe/bnL6zilMeH1f5W
-UxDXsc5mJrnzFV3A1QhU/Rwej5zwAdo69RyrkWSj6LVMg8X+IuGIkW9k5SlD0IYl
-pidj9cOoMzOowCz4FAxk8RTmP56ON/b/5DcRDBXZMDV+MZoKsfwyjf2M0JFeNqdc
-kP97PCgFnxWyt1oxDmQpA+DN+TMbUSW1R0OhgF/Wh5U515gD9CuZtv9QQCjWI688
-qxDbohZUQBTRQOBfrnCPT6da1lyTwaX7Dc+8GBAoQXx8oftvV+IkAFcTqXR2aetH
-DJT7OLIwOU/C0nyLF7hAMGuzSbCkTzmAiabEAA2r/CwaAEBoEhWa2Cm0Kdx2gyea
-x2N/X2vw9LWb2dHgwttoDN7lNx2ij0SneNbaySygzvLC8Ddyd2EvoH/CRw//SysS
-jaP6sjcHpKPNRtpZZXIEAQEppA+B42C/rHY1XghH/bKeKMKgGbY4u8QYNKt/2l4s
-7LzcuisaZztjSupC4WXbCiPmjR/kMRcbqVtYQAeEhA4f5aWZACkbnvqoFYhs3ip4
-KFHVoVegTtzlZXgGT6v+1qLdNhz/8fqcq9JnUC/fZCsa/MU7SCCDI3fX8bZLKZZN
-i0aAvcmtn8Yu6hDv414WKwbtL+JxDiq7qsXarZVjP160v2/Bfhg=
-=w5qT
------END PGP SIGNATURE-----
-
---LL3RTiAzHswm1JSy--
 
