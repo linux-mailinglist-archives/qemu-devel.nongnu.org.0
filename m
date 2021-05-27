@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33542393814
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 23:42:48 +0200 (CEST)
-Received: from localhost ([::1]:34712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 635B4393801
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 23:32:42 +0200 (CEST)
+Received: from localhost ([::1]:57992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lmNmB-0005mE-8t
-	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 17:42:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48678)
+	id 1lmNcP-0000Gz-F1
+	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 17:32:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48114)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lmNQb-000654-KQ
- for qemu-devel@nongnu.org; Thu, 27 May 2021 17:20:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58631)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1lmNPM-00041d-7L
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 17:19:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48554)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lmNQS-00018j-EK
- for qemu-devel@nongnu.org; Thu, 27 May 2021 17:20:27 -0400
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1lmNPK-0000VT-Nr
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 17:19:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622150419;
+ s=mimecast20190719; t=1622150350;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8n+7hBt6DzE9xcUGaZ2t3VuVrZBPc53llEEpBBvRzaM=;
- b=A+S4kb0kFDftQ94C0Aet1H20pWZqhxXf/6e9gWHAPf7musmNLtwMXFxLCgGmrn93YOrJYN
- gKo3/vU9j8avWFRKR5qRv/Jg+V07lKoNn5AxaDEv+2BRILqE1qzQ2K1SO2vgnbypEvhA0S
- 2uTjuRlecO2UrSyNSDtww6pBscfxma0=
+ bh=IOiqHmB3sE4YKZVADtoGdi5WfIRzpaieuQqaZUBueQQ=;
+ b=NigsrIYkK3liuMxu02IwJPazCWbwrYDAnBMnlWDOYELlfS1HmBBiwEPv5aJLY2aPRWAI5K
+ MZQB+3nMzvtUbNuddkRPfqWGX8U3HJ7imuXECVB/iNj9GHCFY90eU42R3GKoFbbmsKy8u4
+ GRxuYz7FXPz6K3c8zYtZZyDpizK5WQ8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-48-6g7N6PzDPyG3PKKOCJTDDQ-1; Thu, 27 May 2021 17:20:16 -0400
-X-MC-Unique: 6g7N6PzDPyG3PKKOCJTDDQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-286-4uNeGTuwNnynYb_Hr-QcjQ-1; Thu, 27 May 2021 17:19:06 -0400
+X-MC-Unique: 4uNeGTuwNnynYb_Hr-QcjQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 575E5801B1F;
- Thu, 27 May 2021 21:20:15 +0000 (UTC)
-Received: from scv.redhat.com (ovpn-116-137.rdu2.redhat.com [10.10.116.137])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 845465D9C6;
- Thu, 27 May 2021 21:20:12 +0000 (UTC)
-From: John Snow <jsnow@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v8 31/31] gitlab: add python linters to CI
-Date: Thu, 27 May 2021 17:17:15 -0400
-Message-Id: <20210527211715.394144-32-jsnow@redhat.com>
-In-Reply-To: <20210527211715.394144-1-jsnow@redhat.com>
-References: <20210527211715.394144-1-jsnow@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 789AF5131;
+ Thu, 27 May 2021 21:19:05 +0000 (UTC)
+Received: from localhost (ovpn-117-209.rdu2.redhat.com [10.10.117.209])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 219F15C22B;
+ Thu, 27 May 2021 21:19:04 +0000 (UTC)
+Date: Thu, 27 May 2021 17:19:04 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Chenyi Qiang <chenyi.qiang@intel.com>
+Subject: Re: [PATCH v4] i386: Add ratelimit for bus locks acquired in guest
+Message-ID: <20210527211904.sjmkely4t4ragxva@habkost.net>
+References: <20210521043820.29678-1-chenyi.qiang@intel.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <20210521043820.29678-1-chenyi.qiang@intel.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -76,128 +77,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Max Reitz <mreitz@redhat.com>, Willian Rampazzo <willianr@redhat.com>,
- Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Xiaoyao Li <xiaoyao.li@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a Python container that has just enough juice for us to run the
-Python code quality analysis tools. Base this container on Fedora,
-because Fedora has very convenient packaging for testing multiple Python
-versions.
+On Fri, May 21, 2021 at 12:38:20PM +0800, Chenyi Qiang wrote:
+[...]
+> @@ -4222,6 +4247,15 @@ void kvm_arch_pre_run(CPUState *cpu, struct kvm_run *run)
+>      }
+>  }
+>  
+> +static void kvm_rate_limit_on_bus_lock(void)
+> +{
+> +    uint64_t delay_ns = ratelimit_calculate_delay(&bus_lock_ratelimit_ctrl, 1);
+> +
+> +    if (delay_ns) {
+> +        g_usleep(delay_ns / SCALE_US);
+> +    }
+> +}
+> +
+>  MemTxAttrs kvm_arch_post_run(CPUState *cpu, struct kvm_run *run)
+>  {
+>      X86CPU *x86_cpu = X86_CPU(cpu);
+> @@ -4237,6 +4271,9 @@ MemTxAttrs kvm_arch_post_run(CPUState *cpu, struct kvm_run *run)
+>      } else {
+>          env->eflags &= ~IF_MASK;
+>      }
+> +    if (run->flags & KVM_RUN_X86_BUS_LOCK) {
 
-We need python3, pip (for pulling packages), pipenv and virtualenv for
-creating virtual environments, and tox for running tests. make is needed
-for running 'make check-tox' and 'make venv-check' targets. Python3.10
-is needed explicitly because the tox package only pulls in 3.6-3.9, but
-we wish to test the forthcoming release of Python as well to help
-predict any problems. Lastly, we need gcc to compile PyPI packages that
-may not have a binary distribution available.
+Does the KVM API guarantee that KVM_RUN_X86_BUS_LOCK will never
+be set if KVM_BUS_LOCK_DETECTION_EXIT isn't enabled?  (Otherwise
+we risk crashing in ratelimit_calculate_delay() above if rate
+limiting is disabled).
 
+If that's guaranteed, the patch looks good to me now.
 
-Add two tests:
+> +        kvm_rate_limit_on_bus_lock();
+> +    }
+>  
+>      /* We need to protect the apic state against concurrent accesses from
+>       * different threads in case the userspace irqchip is used. */
+> @@ -4595,6 +4632,10 @@ int kvm_arch_handle_exit(CPUState *cs, struct kvm_run *run)
+>          ioapic_eoi_broadcast(run->eoi.vector);
+>          ret = 0;
+>          break;
+> +    case KVM_EXIT_X86_BUS_LOCK:
+> +        /* already handled in kvm_arch_post_run */
+> +        ret = 0;
+> +        break;
+>      default:
+>          fprintf(stderr, "KVM: unknown exit reason %d\n", run->exit_reason);
+>          ret = -1;
+> -- 
+> 2.17.1
+> 
 
-check-python-pipenv uses pipenv to test a frozen, very explicit set of
-packages against our minimum supported python version, Python 3.6. This
-test is not allowed to fail. The dependencies this test uses do not
-change unless python/Pipfile.lock is changed.
-
-check-python-tox uses tox to install the latest versions of required
-python dependencies against a wide array of Python versions from 3.6 to
-3.9, even including the yet-to-be-released Python 3.10. This test is
-allowed to fail with a warning.
-
-Signed-off-by: John Snow <jsnow@redhat.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Cleber Rosa <crosa@redhat.com>
----
- .gitlab-ci.d/containers.yml            |  5 +++++
- .gitlab-ci.yml                         | 24 ++++++++++++++++++++++++
- tests/docker/dockerfiles/python.docker | 18 ++++++++++++++++++
- 3 files changed, 47 insertions(+)
- create mode 100644 tests/docker/dockerfiles/python.docker
-
-diff --git a/.gitlab-ci.d/containers.yml b/.gitlab-ci.d/containers.yml
-index 7b7ca3790df..9247613030d 100644
---- a/.gitlab-ci.d/containers.yml
-+++ b/.gitlab-ci.d/containers.yml
-@@ -269,3 +269,8 @@ amd64-opensuse-leap-container:
-   extends: .container_job_template
-   variables:
-     NAME: opensuse-leap
-+
-+python-container:
-+  extends: .container_job_template
-+  variables:
-+    NAME: python
-diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-index 6a0d311cf40..181a55c84ed 100644
---- a/.gitlab-ci.yml
-+++ b/.gitlab-ci.yml
-@@ -792,6 +792,30 @@ check-patch:
-     GIT_DEPTH: 1000
-   allow_failure: true
- 
-+
-+check-python-pipenv:
-+  stage: test
-+  image: $CI_REGISTRY_IMAGE/qemu/python:latest
-+  script:
-+    - make -C python venv-check
-+  variables:
-+    GIT_DEPTH: 1
-+  needs:
-+    job: python-container
-+
-+
-+check-python-tox:
-+  stage: test
-+  image: $CI_REGISTRY_IMAGE/qemu/python:latest
-+  script:
-+    - make -C python check-tox
-+  variables:
-+    GIT_DEPTH: 1
-+  needs:
-+    job: python-container
-+  allow_failure: true
-+
-+
- check-dco:
-   stage: build
-   image: $CI_REGISTRY_IMAGE/qemu/centos8:latest
-diff --git a/tests/docker/dockerfiles/python.docker b/tests/docker/dockerfiles/python.docker
-new file mode 100644
-index 00000000000..56d88417df4
---- /dev/null
-+++ b/tests/docker/dockerfiles/python.docker
-@@ -0,0 +1,18 @@
-+# Python library testing environment
-+
-+FROM fedora:latest
-+MAINTAINER John Snow <jsnow@redhat.com>
-+
-+# Please keep this list sorted alphabetically
-+ENV PACKAGES \
-+    gcc \
-+    make \
-+    pipenv \
-+    python3 \
-+    python3-pip \
-+    python3-tox \
-+    python3-virtualenv \
-+    python3.10
-+
-+RUN dnf install -y $PACKAGES
-+RUN rpm -q $PACKAGES | sort > /packages.txt
 -- 
-2.31.1
+Eduardo
 
 
