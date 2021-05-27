@@ -2,79 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF0ED39321A
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 17:14:32 +0200 (CEST)
-Received: from localhost ([::1]:56578 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51FDF39326C
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 17:26:57 +0200 (CEST)
+Received: from localhost ([::1]:40598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lmHiS-0007NG-1P
-	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 11:14:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47582)
+	id 1lmHuS-0007y4-EP
+	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 11:26:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51052)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <programmingkidx@gmail.com>)
- id 1lmHhB-0006gE-QL
- for qemu-devel@nongnu.org; Thu, 27 May 2021 11:13:13 -0400
-Received: from mail-qk1-x72c.google.com ([2607:f8b0:4864:20::72c]:41486)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lmHtV-0007Dz-1Y
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 11:25:57 -0400
+Received: from indium.canonical.com ([91.189.90.7]:36248)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <programmingkidx@gmail.com>)
- id 1lmHhA-0000UG-4i
- for qemu-devel@nongnu.org; Thu, 27 May 2021 11:13:13 -0400
-Received: by mail-qk1-x72c.google.com with SMTP id 82so948363qki.8
- for <qemu-devel@nongnu.org>; Thu, 27 May 2021 08:13:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:content-transfer-encoding:mime-version:subject:message-id:date
- :cc:to; bh=/ECb4JF9DiBra4mM4UfQyPWiFJJGIkYEjtGjlGBfJRQ=;
- b=tZAv+CZ+Uk54GIhIz2VOhQzz+kS6vJc8RkWeO61LJfiKFjBay6JgEcaT+teBVjsJqd
- XiIDNLy+A8wHAbs4ANNjc/12PJBIv7Dxg/8O2Zy7GEvYeedunS8Xsewy1b0ZxE3BmoGP
- RZ1YS7ZfaV36f6gDGi0FlAo1UUcM3jzsgbQYVcCeab3BDabbxB/Sw0zYVATYZi2IgUI6
- hLgbIX/SqKxA3ttIcr3RxGQF+pUm6BpCF1J9uREG6u42rnPSGbR9SID6K4c+a5rCG/sb
- Z7tPIAq9HjKaHVLoBruXl6kKngtTXvTBej3xB/9mETZeENDyymSrfg3hnMdBnFD5MaGh
- 076g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:content-transfer-encoding:mime-version
- :subject:message-id:date:cc:to;
- bh=/ECb4JF9DiBra4mM4UfQyPWiFJJGIkYEjtGjlGBfJRQ=;
- b=GzHiXkE3N+tcvSSQe8+GEm3hN4Huu5vNfcIoV2KFzIvNBnudROjWtK8IZ6EAKrHMAk
- TS9hPaQoYx1Al5vme9ji/g+naeueB/+GyUchNJyAaaMTH53NHhCzF8X9Rn2kaL5SwNnN
- Vv0oU7HGzCF6YdH6svuj/23tO2aTTJQ0SKauH5O5stNqJp1V8dEJGtj3lomvIhz9EKpi
- gtRiKai8PW7fjeeCosz8sBwlemws9GP52XddEnRPLbLcV4taJATNlzPtLLO20LFVy2+Q
- cpoGEx3bWWSNT8aL6fO9ShdMJwtZHfDy/uEz6aqL/sDIMPxdxlI2teYeW/ManA10grDO
- M0aA==
-X-Gm-Message-State: AOAM530OLnL/D0QjcUuQyfpc6oOWQ2oBDQ2zSnBAUm3Hul0lz9A6XMRq
- TgOIrYqZHZJAWCLgjyUolucw14QZ2Y0=
-X-Google-Smtp-Source: ABdhPJxXBo5mSbIswmJ1Xm25Pks+CK2F24Stx1uM5wZo6A+d7yjjsC0UpgjKrJ+Av1ndAE4UhbA/EQ==
-X-Received: by 2002:a37:a2c5:: with SMTP id l188mr3980854qke.413.1622128389976; 
- Thu, 27 May 2021 08:13:09 -0700 (PDT)
-Received: from [192.168.0.6] (d149-67-175-105.try.wideopenwest.com.
- [67.149.105.175])
- by smtp.gmail.com with ESMTPSA id l14sm1510684qtj.26.2021.05.27.08.13.09
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 27 May 2021 08:13:09 -0700 (PDT)
-From: Programmingkid <programmingkidx@gmail.com>
-Content-Type: text/plain;
-	charset=us-ascii
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lmHtS-0007Vq-JS
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 11:25:56 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
+ id 1lmHtP-0001V8-Vx
+ for <qemu-devel@nongnu.org>; Thu, 27 May 2021 15:25:52 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id A02AC2E8193
+ for <qemu-devel@nongnu.org>; Thu, 27 May 2021 15:25:51 +0000 (UTC)
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.40.0.2.32\))
-Subject: Windows 7 fails to boot with patch 7eff2e7c
-Message-Id: <C9E71465-DF65-4BCD-9989-E89968FF5E87@gmail.com>
-Date: Thu, 27 May 2021 11:13:08 -0400
-To: QEMU devel list <qemu-devel@nongnu.org>,
- Richard Henderson <richard.henderson@linaro.org>
-X-Mailer: Apple Mail (2.3654.40.0.2.32)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::72c;
- envelope-from=programmingkidx@gmail.com; helo=mail-qk1-x72c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Date: Thu, 27 May 2021 15:18:27 -0000
+From: Alexander Bulekov <1892966@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: a1xndr th-huth
+X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
+X-Launchpad-Bug-Modifier: Alexander Bulekov (a1xndr)
+References: <159840961185.2736.14207649461351396494.malonedeb@chaenomeles.canonical.com>
+ <162212608174.7558.9772657220695442370.malone@wampee.canonical.com>
+Message-Id: <20210527151827.qlxk2gvnvxqxrp5p@mozz.bu.edu>
+Subject: [Bug 1892966] Re: Null-pointer dereference in blk_bs through
+ ide_cancel_dma_sync
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="325c8b1be58d11b29d8346f2c6d59878e7a2e6ff"; Instance="production"
+X-Launchpad-Hash: fab0ecc92c6b2729cef3a8c1d4afd6bcf754b1e5
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -83,25 +72,290 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
+Reply-To: Bug 1892966 <1892966@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I have noticed that Windows 7 has stopped being able to boot recently. =
-After doing some bisecting I found out it was this patch that is causing =
-this issue:
+Probably fixed.. Appears there was some attempt, but I'm not sure if it
+ever got merged:
+https://lists.nongnu.org/archive/html/qemu-devel/2020-09/msg01568.html
 
-7eff2e7c652304157f503f2d406193bb9de10d58 is the first bad commit
-commit 7eff2e7c652304157f503f2d406193bb9de10d58
-Author: Richard Henderson <richard.henderson@linaro.org>
-Date:   Fri May 14 10:13:31 2021 -0500
+OSS-Fuzz never saw it, so it was probably fixed sometime before November.
+-Alex
 
-    target/i386: Cleanup read_crN, write_crN, lmsw
-   =20
-    Pull the svm intercept check into the translator.
-    Pull the entire implementation of lmsw into the translator.
-    Push the check for CR8LEG into the regno validation switch.
-    Unify the gen_io_start check between read/write.
+On 210527 1434, Thomas Huth wrote:
+> This problem does not trigger anymore for me with the current version of
+> QEMU. Could you please check whether you can still reproduce it somehow
+> with the latest version?
+> =
 
-=20=
+> ** Changed in: qemu
+>        Status: New =3D> Incomplete
+> =
+
+> -- =
+
+> You received this bug notification because you are subscribed to the bug
+> report.
+> https://bugs.launchpad.net/bugs/1892966
+> =
+
+> Title:
+>   Null-pointer dereference in blk_bs through ide_cancel_dma_sync
+> =
+
+> Status in QEMU:
+>   Incomplete
+> =
+
+> Bug description:
+>   Hello,
+>   Reproducer:
+>   cat << EOF | ./qemu-system-i386 -M pc \
+>   -drive file=3Dnull-co://,if=3Dnone,format=3Draw,id=3Ddisk0 \
+>   -device ide-hd,drive=3Ddisk0,bus=3Dide.1,unit=3D1 \
+>   -display none -nodefaults -display none -qtest stdio -accel qtest
+>   outw 0x176 0x35b3
+>   outb 0x376 0x5f
+>   outb 0x376 0x40
+>   outl 0xcf8 0x80000904
+>   outl 0xcfc 0x5c0525b7
+>   outb 0x176 0x0
+>   outl 0xcf8 0x8000091e
+>   outl 0xcfc 0xd7580584
+>   write 0x187 0x1 0x34
+>   write 0x277 0x1 0x34
+>   write 0x44f 0x1 0x5c
+>   write 0x53f 0x1 0x5c
+>   write 0x717 0x1 0x34
+>   write 0x807 0x1 0x34
+>   write 0x9df 0x1 0x5c
+>   write 0xbb7 0x1 0x34
+>   write 0xca7 0x1 0x34
+>   write 0xe7f 0x1 0x5c
+>   write 0xf6f 0x1 0x5c
+>   outb 0xd758 0x5f
+>   outb 0xd758 0x40
+>   EOF
+> =
+
+>   =
+
+>   Trace:
+>   [S +0.083320] OK
+>   [R +0.083328] outb 0xd758 0x5f
+>   OK
+>   [S +0.084167] OK
+>   [R +0.084183] outb 0xd758 0x40
+>   ../block/block-backend.c:714:17: runtime error: member access within nu=
+ll pointer of type 'BlockBackend' (aka 'struct BlockBackend')
+>   SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior ../block/block-=
+backend.c:714:17 in =
+
+>   AddressSanitizer:DEADLYSIGNAL
+>   =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>   =3D=3D843136=3D=3DERROR: AddressSanitizer: SEGV on unknown address 0x00=
+0000000010 (pc 0x5593520d8ebc bp 0x7ffc0bb9e0b0 sp 0x7ffc0bb9e010 T0)
+>   =3D=3D843136=3D=3DThe signal is caused by a READ memory access.
+>   =3D=3D843136=3D=3DHint: address points to the zero page.
+>       #0 0x5593520d8ebc in blk_bs /home/alxndr/Development/qemu/general-f=
+uzz/build/../block/block-backend.c:714:12
+>       #1 0x5593520d2d07 in blk_drain /home/alxndr/Development/qemu/genera=
+l-fuzz/build/../block/block-backend.c:1715:28
+>       #2 0x55935096e9dc in ide_cancel_dma_sync /home/alxndr/Development/q=
+emu/general-fuzz/build/../hw/ide/core.c:723:9
+>       #3 0x55934f96b9ed in bmdma_cmd_writeb /home/alxndr/Development/qemu=
+/general-fuzz/build/../hw/ide/pci.c:298:13
+>       #4 0x55934fea0547 in bmdma_write /home/alxndr/Development/qemu/gene=
+ral-fuzz/build/../hw/ide/piix.c:75:9
+>       #5 0x55935175dde0 in memory_region_write_accessor /home/alxndr/Deve=
+lopment/qemu/general-fuzz/build/../softmmu/memory.c:483:5
+>       #6 0x55935175d2bd in access_with_adjusted_size /home/alxndr/Develop=
+ment/qemu/general-fuzz/build/../softmmu/memory.c:544:18
+>       #7 0x55935175af70 in memory_region_dispatch_write /home/alxndr/Deve=
+lopment/qemu/general-fuzz/build/../softmmu/memory.c:1466:16
+>       #8 0x5593513b98a6 in flatview_write_continue /home/alxndr/Developme=
+nt/qemu/general-fuzz/build/../exec.c:3176:23
+>       #9 0x5593513a2878 in flatview_write /home/alxndr/Development/qemu/g=
+eneral-fuzz/build/../exec.c:3216:14
+>       #10 0x5593513a23a8 in address_space_write /home/alxndr/Development/=
+qemu/general-fuzz/build/../exec.c:3308:18
+>       #11 0x559351803e07 in cpu_outb /home/alxndr/Development/qemu/genera=
+l-fuzz/build/../softmmu/ioport.c:60:5
+>       #12 0x5593516c7b6d in qtest_process_command /home/alxndr/Developmen=
+t/qemu/general-fuzz/build/../softmmu/qtest.c:392:13
+>       #13 0x5593516c363e in qtest_process_inbuf /home/alxndr/Development/=
+qemu/general-fuzz/build/../softmmu/qtest.c:710:9
+>       #14 0x5593516c23e3 in qtest_read /home/alxndr/Development/qemu/gene=
+ral-fuzz/build/../softmmu/qtest.c:722:5
+>       #15 0x5593527c8762 in qemu_chr_be_write_impl /home/alxndr/Developme=
+nt/qemu/general-fuzz/build/../chardev/char.c:188:9
+>       #16 0x5593527c88aa in qemu_chr_be_write /home/alxndr/Development/qe=
+mu/general-fuzz/build/../chardev/char.c:200:9
+>       #17 0x5593527ee514 in fd_chr_read /home/alxndr/Development/qemu/gen=
+eral-fuzz/build/../chardev/char-fd.c:68:9
+>       #18 0x5593526da736 in qio_channel_fd_source_dispatch /home/alxndr/D=
+evelopment/qemu/general-fuzz/build/../io/channel-watch.c:84:12
+>       #19 0x7f3be18ef4cd in g_main_context_dispatch (/usr/lib/x86_64-linu=
+x-gnu/libglib-2.0.so.0+0x504cd)
+>       #20 0x559352c65c67 in glib_pollfds_poll /home/alxndr/Development/qe=
+mu/general-fuzz/build/../util/main-loop.c:217:9
+>       #21 0x559352c63567 in os_host_main_loop_wait /home/alxndr/Developme=
+nt/qemu/general-fuzz/build/../util/main-loop.c:240:5
+>       #22 0x559352c62f47 in main_loop_wait /home/alxndr/Development/qemu/=
+general-fuzz/build/../util/main-loop.c:516:11
+>       #23 0x55935144108d in qemu_main_loop /home/alxndr/Development/qemu/=
+general-fuzz/build/../softmmu/vl.c:1676:9
+>       #24 0x55934edd351c in main /home/alxndr/Development/qemu/general-fu=
+zz/build/../softmmu/main.c:50:5
+>       #25 0x7f3be10f8cc9 in __libc_start_main csu/../csu/libc-start.c:308=
+:16
+>       #26 0x55934ed28cf9 in _start (/home/alxndr/Development/qemu/general=
+-fuzz/build/qemu-system-i386+0x2cb0cf9)
+> =
+
+>   AddressSanitizer can not provide additional info.
+>   SUMMARY: AddressSanitizer: SEGV /home/alxndr/Development/qemu/general-f=
+uzz/build/../block/block-backend.c:714:12 in blk_bs
+>   =3D=3D843136=3D=3DABORTING
+> =
+
+>   -Alex
+> =
+
+> To manage notifications about this bug go to:
+> https://bugs.launchpad.net/qemu/+bug/1892966/+subscriptions
+
+
+** Changed in: qemu
+       Status: Incomplete =3D> Fix Released
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1892966
+
+Title:
+  Null-pointer dereference in blk_bs through ide_cancel_dma_sync
+
+Status in QEMU:
+  Fix Released
+
+Bug description:
+  Hello,
+  Reproducer:
+  cat << EOF | ./qemu-system-i386 -M pc \
+  -drive file=3Dnull-co://,if=3Dnone,format=3Draw,id=3Ddisk0 \
+  -device ide-hd,drive=3Ddisk0,bus=3Dide.1,unit=3D1 \
+  -display none -nodefaults -display none -qtest stdio -accel qtest
+  outw 0x176 0x35b3
+  outb 0x376 0x5f
+  outb 0x376 0x40
+  outl 0xcf8 0x80000904
+  outl 0xcfc 0x5c0525b7
+  outb 0x176 0x0
+  outl 0xcf8 0x8000091e
+  outl 0xcfc 0xd7580584
+  write 0x187 0x1 0x34
+  write 0x277 0x1 0x34
+  write 0x44f 0x1 0x5c
+  write 0x53f 0x1 0x5c
+  write 0x717 0x1 0x34
+  write 0x807 0x1 0x34
+  write 0x9df 0x1 0x5c
+  write 0xbb7 0x1 0x34
+  write 0xca7 0x1 0x34
+  write 0xe7f 0x1 0x5c
+  write 0xf6f 0x1 0x5c
+  outb 0xd758 0x5f
+  outb 0xd758 0x40
+  EOF
+
+  =
+
+  Trace:
+  [S +0.083320] OK
+  [R +0.083328] outb 0xd758 0x5f
+  OK
+  [S +0.084167] OK
+  [R +0.084183] outb 0xd758 0x40
+  ../block/block-backend.c:714:17: runtime error: member access within null=
+ pointer of type 'BlockBackend' (aka 'struct BlockBackend')
+  SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior ../block/block-ba=
+ckend.c:714:17 in =
+
+  AddressSanitizer:DEADLYSIGNAL
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+  =3D=3D843136=3D=3DERROR: AddressSanitizer: SEGV on unknown address 0x0000=
+00000010 (pc 0x5593520d8ebc bp 0x7ffc0bb9e0b0 sp 0x7ffc0bb9e010 T0)
+  =3D=3D843136=3D=3DThe signal is caused by a READ memory access.
+  =3D=3D843136=3D=3DHint: address points to the zero page.
+      #0 0x5593520d8ebc in blk_bs /home/alxndr/Development/qemu/general-fuz=
+z/build/../block/block-backend.c:714:12
+      #1 0x5593520d2d07 in blk_drain /home/alxndr/Development/qemu/general-=
+fuzz/build/../block/block-backend.c:1715:28
+      #2 0x55935096e9dc in ide_cancel_dma_sync /home/alxndr/Development/qem=
+u/general-fuzz/build/../hw/ide/core.c:723:9
+      #3 0x55934f96b9ed in bmdma_cmd_writeb /home/alxndr/Development/qemu/g=
+eneral-fuzz/build/../hw/ide/pci.c:298:13
+      #4 0x55934fea0547 in bmdma_write /home/alxndr/Development/qemu/genera=
+l-fuzz/build/../hw/ide/piix.c:75:9
+      #5 0x55935175dde0 in memory_region_write_accessor /home/alxndr/Develo=
+pment/qemu/general-fuzz/build/../softmmu/memory.c:483:5
+      #6 0x55935175d2bd in access_with_adjusted_size /home/alxndr/Developme=
+nt/qemu/general-fuzz/build/../softmmu/memory.c:544:18
+      #7 0x55935175af70 in memory_region_dispatch_write /home/alxndr/Develo=
+pment/qemu/general-fuzz/build/../softmmu/memory.c:1466:16
+      #8 0x5593513b98a6 in flatview_write_continue /home/alxndr/Development=
+/qemu/general-fuzz/build/../exec.c:3176:23
+      #9 0x5593513a2878 in flatview_write /home/alxndr/Development/qemu/gen=
+eral-fuzz/build/../exec.c:3216:14
+      #10 0x5593513a23a8 in address_space_write /home/alxndr/Development/qe=
+mu/general-fuzz/build/../exec.c:3308:18
+      #11 0x559351803e07 in cpu_outb /home/alxndr/Development/qemu/general-=
+fuzz/build/../softmmu/ioport.c:60:5
+      #12 0x5593516c7b6d in qtest_process_command /home/alxndr/Development/=
+qemu/general-fuzz/build/../softmmu/qtest.c:392:13
+      #13 0x5593516c363e in qtest_process_inbuf /home/alxndr/Development/qe=
+mu/general-fuzz/build/../softmmu/qtest.c:710:9
+      #14 0x5593516c23e3 in qtest_read /home/alxndr/Development/qemu/genera=
+l-fuzz/build/../softmmu/qtest.c:722:5
+      #15 0x5593527c8762 in qemu_chr_be_write_impl /home/alxndr/Development=
+/qemu/general-fuzz/build/../chardev/char.c:188:9
+      #16 0x5593527c88aa in qemu_chr_be_write /home/alxndr/Development/qemu=
+/general-fuzz/build/../chardev/char.c:200:9
+      #17 0x5593527ee514 in fd_chr_read /home/alxndr/Development/qemu/gener=
+al-fuzz/build/../chardev/char-fd.c:68:9
+      #18 0x5593526da736 in qio_channel_fd_source_dispatch /home/alxndr/Dev=
+elopment/qemu/general-fuzz/build/../io/channel-watch.c:84:12
+      #19 0x7f3be18ef4cd in g_main_context_dispatch (/usr/lib/x86_64-linux-=
+gnu/libglib-2.0.so.0+0x504cd)
+      #20 0x559352c65c67 in glib_pollfds_poll /home/alxndr/Development/qemu=
+/general-fuzz/build/../util/main-loop.c:217:9
+      #21 0x559352c63567 in os_host_main_loop_wait /home/alxndr/Development=
+/qemu/general-fuzz/build/../util/main-loop.c:240:5
+      #22 0x559352c62f47 in main_loop_wait /home/alxndr/Development/qemu/ge=
+neral-fuzz/build/../util/main-loop.c:516:11
+      #23 0x55935144108d in qemu_main_loop /home/alxndr/Development/qemu/ge=
+neral-fuzz/build/../softmmu/vl.c:1676:9
+      #24 0x55934edd351c in main /home/alxndr/Development/qemu/general-fuzz=
+/build/../softmmu/main.c:50:5
+      #25 0x7f3be10f8cc9 in __libc_start_main csu/../csu/libc-start.c:308:16
+      #26 0x55934ed28cf9 in _start (/home/alxndr/Development/qemu/general-f=
+uzz/build/qemu-system-i386+0x2cb0cf9)
+
+  AddressSanitizer can not provide additional info.
+  SUMMARY: AddressSanitizer: SEGV /home/alxndr/Development/qemu/general-fuz=
+z/build/../block/block-backend.c:714:12 in blk_bs
+  =3D=3D843136=3D=3DABORTING
+
+  -Alex
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1892966/+subscriptions
 
