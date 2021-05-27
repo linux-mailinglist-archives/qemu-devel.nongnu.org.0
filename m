@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51AD83930F3
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 16:32:44 +0200 (CEST)
-Received: from localhost ([::1]:54144 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7BF13930F6
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 16:33:43 +0200 (CEST)
+Received: from localhost ([::1]:57556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lmH3z-0005bA-8H
-	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 10:32:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34142)
+	id 1lmH4w-0007sD-Km
+	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 10:33:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34132)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lmGwC-0006yD-Kn
- for qemu-devel@nongnu.org; Thu, 27 May 2021 10:24:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54693)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lmGwB-0006tR-Fd
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 10:24:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46184)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lmGwA-0004bq-VH
- for qemu-devel@nongnu.org; Thu, 27 May 2021 10:24:40 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lmGw8-0004ap-Sn
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 10:24:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622125478;
+ s=mimecast20190719; t=1622125476;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=c6C3i4cfX+dDn2nyg0DmidGarByqwbdaOjgX2j7L4Cw=;
- b=FwKqzpBzGvNCpqklpT/IL96JAob8dLnqrZtSiAXauBXljvDdyMkhm0cQUZdCiCbdFolccB
- cd2wOif7TGem7/lrG7Oba+XYV+OjPlmIoGTH8jk17MgtS6/ZvCVphcy7TxHmPG8GJIAZ4b
- p+ikYEoBcdWNK430xe388Cztg7zg8c8=
+ bh=SpLOsHH0UTxbPG+vlTr/yNyU013X8CCW8KPm4t7J9Uo=;
+ b=HZxnrLxwq7vcjFMvAFQrJXsaBlbgnIj8XN4J3ijmpt5f2AiEyJBQR83kxRCTy19YbqOIzT
+ b+2YpE+tQGF7KajRyMbS64bYqSrLjeHSc2TfTmuQw5HebV6MkAU/fiAWW0l6X/qqW05zEQ
+ z7+zK/sZXmhHEvSMAQy3fLd+FdiOedY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-95-vpDCh-HNMKiv9EnLzlSHeA-1; Thu, 27 May 2021 10:24:35 -0400
-X-MC-Unique: vpDCh-HNMKiv9EnLzlSHeA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-208-DSO2L9O7Pb6jSGzuH-sIOQ-1; Thu, 27 May 2021 10:24:34 -0400
+X-MC-Unique: DSO2L9O7Pb6jSGzuH-sIOQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 67480501E5;
- Thu, 27 May 2021 14:24:34 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 514BC8049C5;
+ Thu, 27 May 2021 14:24:33 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-84.ams2.redhat.com
  [10.36.112.84])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 013825D9DC;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6439F59479;
  Thu, 27 May 2021 14:24:23 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 4A8F21800843; Thu, 27 May 2021 16:23:41 +0200 (CEST)
+ id 5A0DE1800844; Thu, 27 May 2021 16:23:41 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 07/23] vhost-user-gpu: fix OOB write in 'virgl_cmd_get_capset'
- (CVE-2021-3546)
-Date: Thu, 27 May 2021 16:23:24 +0200
-Message-Id: <20210527142340.1352791-8-kraxel@redhat.com>
+Subject: [PULL 08/23] vhost-user-gpu: abstract vg_cleanup_mapping_iov
+Date: Thu, 27 May 2021 16:23:25 +0200
+Message-Id: <20210527142340.1352791-9-kraxel@redhat.com>
 In-Reply-To: <20210527142340.1352791-1-kraxel@redhat.com>
 References: <20210527142340.1352791-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -80,8 +79,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Prasad J Pandit <pjp@fedoraproject.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
  Li Qiang <liq3ea@163.com>, Gerd Hoffmann <kraxel@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
@@ -90,39 +88,126 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Li Qiang <liq3ea@163.com>
 
-If 'virgl_cmd_get_capset' set 'max_size' to 0,
-the 'virgl_renderer_fill_caps' will write the data after the 'resp'.
-This patch avoid this by checking the returned 'max_size'.
+Currently in vhost-user-gpu, we free resource directly in
+the cleanup case of resource. If we change the cleanup logic
+we need to change several places, also abstruct a
+'vg_create_mapping_iov' can be symmetry with the
+'vg_create_mapping_iov'. This is like what virtio-gpu does,
+no function changed.
 
-virtio-gpu fix: abd7f08b23 ("display: virtio-gpu-3d: check
-virgl capabilities max_size")
-
-Fixes: CVE-2021-3546
-Reported-by: Li Qiang <liq3ea@163.com>
-Reviewed-by: Prasad J Pandit <pjp@fedoraproject.org>
 Signed-off-by: Li Qiang <liq3ea@163.com>
 Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Message-Id: <20210516030403.107723-8-liq3ea@163.com>
+Message-Id: <20210516030403.107723-9-liq3ea@163.com>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- contrib/vhost-user-gpu/virgl.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ contrib/vhost-user-gpu/vugpu.h          |  2 +-
+ contrib/vhost-user-gpu/vhost-user-gpu.c | 24 ++++++++++++++++++++----
+ contrib/vhost-user-gpu/virgl.c          |  9 +++++----
+ 3 files changed, 26 insertions(+), 9 deletions(-)
 
+diff --git a/contrib/vhost-user-gpu/vugpu.h b/contrib/vhost-user-gpu/vugpu.h
+index 04d56158123d..e2864bba68e0 100644
+--- a/contrib/vhost-user-gpu/vugpu.h
++++ b/contrib/vhost-user-gpu/vugpu.h
+@@ -169,7 +169,7 @@ int     vg_create_mapping_iov(VuGpu *g,
+                               struct virtio_gpu_resource_attach_backing *ab,
+                               struct virtio_gpu_ctrl_command *cmd,
+                               struct iovec **iov);
+-
++void    vg_cleanup_mapping_iov(VuGpu *g, struct iovec *iov, uint32_t count);
+ void    vg_get_display_info(VuGpu *vg, struct virtio_gpu_ctrl_command *cmd);
+ 
+ void    vg_wait_ok(VuGpu *g);
+diff --git a/contrib/vhost-user-gpu/vhost-user-gpu.c b/contrib/vhost-user-gpu/vhost-user-gpu.c
+index 770dfad52989..6dc6a44f4e26 100644
+--- a/contrib/vhost-user-gpu/vhost-user-gpu.c
++++ b/contrib/vhost-user-gpu/vhost-user-gpu.c
+@@ -49,6 +49,8 @@ static char *opt_render_node;
+ static gboolean opt_virgl;
+ 
+ static void vg_handle_ctrl(VuDev *dev, int qidx);
++static void vg_cleanup_mapping(VuGpu *g,
++                               struct virtio_gpu_simple_resource *res);
+ 
+ static const char *
+ vg_cmd_to_string(int cmd)
+@@ -400,7 +402,7 @@ vg_resource_destroy(VuGpu *g,
+     }
+ 
+     vugbm_buffer_destroy(&res->buffer);
+-    g_free(res->iov);
++    vg_cleanup_mapping(g, res);
+     pixman_image_unref(res->image);
+     QTAILQ_REMOVE(&g->reslist, res, next);
+     g_free(res);
+@@ -504,6 +506,22 @@ vg_resource_attach_backing(VuGpu *g,
+     res->iov_cnt = ab.nr_entries;
+ }
+ 
++/* Though currently only free iov, maybe later will do more work. */
++void vg_cleanup_mapping_iov(VuGpu *g,
++                            struct iovec *iov, uint32_t count)
++{
++    g_free(iov);
++}
++
++static void
++vg_cleanup_mapping(VuGpu *g,
++                   struct virtio_gpu_simple_resource *res)
++{
++    vg_cleanup_mapping_iov(g, res->iov, res->iov_cnt);
++    res->iov = NULL;
++    res->iov_cnt = 0;
++}
++
+ static void
+ vg_resource_detach_backing(VuGpu *g,
+                            struct virtio_gpu_ctrl_command *cmd)
+@@ -522,9 +540,7 @@ vg_resource_detach_backing(VuGpu *g,
+         return;
+     }
+ 
+-    g_free(res->iov);
+-    res->iov = NULL;
+-    res->iov_cnt = 0;
++    vg_cleanup_mapping(g, res);
+ }
+ 
+ static void
 diff --git a/contrib/vhost-user-gpu/virgl.c b/contrib/vhost-user-gpu/virgl.c
-index a16a311d80df..7172104b19d7 100644
+index 7172104b19d7..3e45e1bd3360 100644
 --- a/contrib/vhost-user-gpu/virgl.c
 +++ b/contrib/vhost-user-gpu/virgl.c
-@@ -177,6 +177,10 @@ virgl_cmd_get_capset(VuGpu *g,
- 
-     virgl_renderer_get_cap_set(gc.capset_id, &max_ver,
-                                &max_size);
-+    if (!max_size) {
-+        cmd->error = VIRTIO_GPU_RESP_ERR_INVALID_PARAMETER;
-+        return;
+@@ -116,8 +116,9 @@ virgl_cmd_resource_unref(VuGpu *g,
+     virgl_renderer_resource_detach_iov(unref.resource_id,
+                                        &res_iovs,
+                                        &num_iovs);
+-    g_free(res_iovs);
+-
++    if (res_iovs != NULL && num_iovs != 0) {
++        vg_cleanup_mapping_iov(g, res_iovs, num_iovs);
 +    }
-     resp = g_malloc0(sizeof(*resp) + max_size);
+     virgl_renderer_resource_unref(unref.resource_id);
+ }
  
-     resp->hdr.type = VIRTIO_GPU_RESP_OK_CAPSET;
+@@ -294,7 +295,7 @@ virgl_resource_attach_backing(VuGpu *g,
+     ret = virgl_renderer_resource_attach_iov(att_rb.resource_id,
+                                        res_iovs, att_rb.nr_entries);
+     if (ret != 0) {
+-        g_free(res_iovs);
++        vg_cleanup_mapping_iov(g, res_iovs, att_rb.nr_entries);
+     }
+ }
+ 
+@@ -314,7 +315,7 @@ virgl_resource_detach_backing(VuGpu *g,
+     if (res_iovs == NULL || num_iovs == 0) {
+         return;
+     }
+-    g_free(res_iovs);
++    vg_cleanup_mapping_iov(g, res_iovs, num_iovs);
+ }
+ 
+ static void
 -- 
 2.31.1
 
