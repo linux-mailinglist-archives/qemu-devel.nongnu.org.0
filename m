@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0B2C39333E
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 18:11:16 +0200 (CEST)
-Received: from localhost ([::1]:45298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64FB539333F
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 18:11:50 +0200 (CEST)
+Received: from localhost ([::1]:46818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lmIbL-0001Kd-Rr
-	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 12:11:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60148)
+	id 1lmIbt-0002Oo-H5
+	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 12:11:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60154)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lmITt-00055i-Ms
- for qemu-devel@nongnu.org; Thu, 27 May 2021 12:03:33 -0400
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:54001)
+ id 1lmITu-00057s-8L
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 12:03:34 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:34592)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lmITq-0000Mt-DA
+ id 1lmITs-0000NH-0V
  for qemu-devel@nongnu.org; Thu, 27 May 2021 12:03:33 -0400
-Received: by mail-wm1-x32d.google.com with SMTP id h3so514836wmq.3
- for <qemu-devel@nongnu.org>; Thu, 27 May 2021 09:03:28 -0700 (PDT)
+Received: by mail-wr1-x42d.google.com with SMTP id f11so448298wrq.1
+ for <qemu-devel@nongnu.org>; Thu, 27 May 2021 09:03:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=2tgNjmn++qDEbKJ67Irv9XGiW/c7HNn9pcJT1QLxGpE=;
- b=NL5HmnMuQOgYlLu6urp7nrXIZ6d7d63AILxAmlsmA0m8aZHRbaw4ZJzEoPA5zfOCLz
- uWwZ6GG5+6Aan7LCXf/etC0greEHayOMkKgFIzcbqqstMpWuYF54jRbUYQmU5ECCsF2L
- DmtQ9bIQ1axgbyJuiXkS+nMrCjszVkgqlm+fe0Y/VMfDleTX+CPzHri1D21v2/OEPb9F
- GnpmBBQr+mB9w7G+j0ardx3eal8j6WOrlaTY1V3Dshg1/bNIIvrxQpYqJpJGPrP7Wc1f
- Gmv3pE2ms51qbUT75ZVDdCy3FX63JgFxQrPeQ+5lNaxbbJWrB9nEP2zrT+n+sWB+sCyQ
- beYQ==
+ bh=SCJwcBVAgyCms60jVhmkcV2f/TFnHD0gKghZiwudA4s=;
+ b=LQ53Qks6ia2EP2MB0FRx8BYaErQ4jxNvV8/8tN2CafEc+mmLgDijA6P38CAjCJRP/K
+ AUUMLklGplq+bh4Vb7QwYs1uRB054B/1ILYvzIO8GqY5diSHavWgozXXTrhc31fkWV6t
+ RIn1nhQdexzzRbUGiYgkYHkn8TMBfUBCegatTERLrypVch5I7SWHU66jo5vMmPqiws/B
+ xgg0SXlezfdkf7cgzQ5gBd+UnJIwmuBgP/hk9Y9v+llsJKldug4p/VZZy+v/WTEyfQkD
+ aTX2yLEbGbF8rxbW3qdv7qPg8BmmeM/isK4ix8NzU4sTyMdFgaA/qHGQIIf1SOIq9Qaj
+ TuAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=2tgNjmn++qDEbKJ67Irv9XGiW/c7HNn9pcJT1QLxGpE=;
- b=gUEMUsGnl9lXE/U0Qk+m8/euKbNQSOcwJ0G2H4jnlRBtQc3qaPUAv8jEpCkMW3LMpy
- TYg4EC4/nBEWUPKAnavdSk1aRSFJrtzsZCAXs5MA0PGzts5V3771Mu0J/2D2HJNlu+iq
- fLtzxtrtvM/iqjS7Zat/SQFYTFlquzHpt8ChKtwMW7GbEjYeF0P2qv7W06dmtm1BjzWg
- rkczXHSzlw4otqysZ4ekqNLiIBBI+tgnN+fc3bDC/EyBuTuMIGYTvOrptq1iP9rwpjdV
- ohdWaeYWYn0MKKP3mhH7iz7jcJqajvqK4gkG4QlDNQVnKYe0h6Z1+14FY6aAOTwkf4Md
- AY9A==
-X-Gm-Message-State: AOAM532tr28+7p6ODEo9nl9qGC0wXRUd8OFxj1ZH3Sa09uGfBFxU7LfZ
- 7jL4KUGGBHj/zuzsT6JhD1kdow==
-X-Google-Smtp-Source: ABdhPJzJNEL5sgbbh0OWaHQoyCIx9H6I0O6Vi3t17xRREigYIgmlchml5UDlHPIgEjex6KMDXDYg5g==
-X-Received: by 2002:a1c:7f84:: with SMTP id a126mr9467093wmd.47.1622131407999; 
- Thu, 27 May 2021 09:03:27 -0700 (PDT)
+ bh=SCJwcBVAgyCms60jVhmkcV2f/TFnHD0gKghZiwudA4s=;
+ b=EHe+BBoJZ2FOdW2T8fcpSWD65UjheBuuxz7NZOAX57nnDB1ilYjSV6QYMUnrk7LLVx
+ 4xGOp3V8zxtuiV0UK9DallWDMNhLADL6MfAhsNoXLl4zy9erdI9GeoJdlFnAGn+/XiD8
+ ghGf7geiVQv9/6ZQmqSeJUgUJFdypfgsh35RS77enEWDzYKxNsWL3VGNGESJIZtTdOwn
+ AB7rTpXw0JZRZ6m4KAhIItq90QfAP4afoUJJWYhbawssRIrgfybqfD6CytD5zcvkKx4I
+ asRjB3l8vnwb/ox8JR9WAB0KzoDy3fWFrUXsGrzPAfFdtqS1aZwEzyN0H93MYf0nuDoc
+ 90MA==
+X-Gm-Message-State: AOAM532NInymCk4ap7ttf5WH22AbjHXpN7hz5dt/YDHjgdZIdNP603Em
+ js3vkXyp+ucoLgXAkckEqdGXSw==
+X-Google-Smtp-Source: ABdhPJxSr5kVXlWSnFQccFnB5N1CZPLFGw6SIqNOh6/raOawSFCiE6VH4+ngvuIk/UqPLYdZwAB57g==
+X-Received: by 2002:a5d:6da8:: with SMTP id u8mr4150267wrs.391.1622131410522; 
+ Thu, 27 May 2021 09:03:30 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id z12sm4580722wmc.5.2021.05.27.09.03.21
+ by smtp.gmail.com with ESMTPSA id x11sm3656206wrl.13.2021.05.27.09.03.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 27 May 2021 09:03:24 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id DD8201FF91;
- Thu, 27 May 2021 17:03:19 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 00D251FF92;
+ Thu, 27 May 2021 17:03:20 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 5/6] tests/acceptance: tweak the tcg/kvm tests for virt
-Date: Thu, 27 May 2021 17:03:18 +0100
-Message-Id: <20210527160319.19834-6-alex.bennee@linaro.org>
+Subject: [PATCH  v1 6/6] tests/acceptance: tag various arm tests as TCG only
+Date: Thu, 27 May 2021 17:03:19 +0100
+Message-Id: <20210527160319.19834-7-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210527160319.19834-1-alex.bennee@linaro.org>
 References: <20210527160319.19834-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,73 +94,149 @@ Cc: fam@euphon.net, berrange@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Really it's only TCG that can select which GIC model you want, KVM
-guests should always be using the "host" version of the GIC for which
-QEMU already provides a handy shortcut. Make the KVM test use this and
-split the TCG test into it's two versions.
+We should never be trying to run most of these models under a KVM
+environment.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- tests/acceptance/boot_linux.py | 24 ++++++++++++------------
- 1 file changed, 12 insertions(+), 12 deletions(-)
+ tests/acceptance/boot_linux_console.py | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
-diff --git a/tests/acceptance/boot_linux.py b/tests/acceptance/boot_linux.py
-index 0d178038a0..7221452d4b 100644
---- a/tests/acceptance/boot_linux.py
-+++ b/tests/acceptance/boot_linux.py
-@@ -75,10 +75,11 @@ def add_common_args(self):
-         self.vm.add_args('-device', 'virtio-rng-pci,rng=rng0')
-         self.vm.add_args('-object', 'rng-random,id=rng0,filename=/dev/urandom')
- 
--    def test_virt_tcg(self):
-+    def test_virt_tcg_gicv2(self):
+diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
+index 276a53f146..cded547d1d 100644
+--- a/tests/acceptance/boot_linux_console.py
++++ b/tests/acceptance/boot_linux_console.py
+@@ -333,6 +333,7 @@ def test_aarch64_virt(self):
          """
-         :avocado: tags=accel:tcg
-         :avocado: tags=cpu:max
-+        :avocado: tags=device:gicv2
-         """
-         self.require_accelerator("tcg")
-         self.vm.add_args("-accel", "tcg")
-@@ -87,29 +88,28 @@ def test_virt_tcg(self):
-         self.add_common_args()
-         self.launch_and_wait()
- 
--    def test_virt_kvm_gicv2(self):
-+    def test_virt_tcg_gicv3(self):
-         """
--        :avocado: tags=accel:kvm
--        :avocado: tags=cpu:host
--        :avocado: tags=device:gicv2
+         :avocado: tags=arch:aarch64
+         :avocado: tags=machine:virt
 +        :avocado: tags=accel:tcg
-+        :avocado: tags=cpu:max
-+        :avocado: tags=device:gicv3
          """
--        self.require_accelerator("kvm")
--        self.vm.add_args("-accel", "kvm")
--        self.vm.add_args("-cpu", "host")
--        self.vm.add_args("-machine", "virt,gic-version=2")
+         kernel_url = ('https://archives.fedoraproject.org/pub/archive/fedora'
+                       '/linux/releases/29/Everything/aarch64/os/images/pxeboot'
+@@ -343,7 +344,9 @@ def test_aarch64_virt(self):
+         self.vm.set_console()
+         kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE +
+                                'console=ttyAMA0')
 +        self.require_accelerator("tcg")
-+        self.vm.add_args("-accel", "tcg")
-+        self.vm.add_args("-cpu", "max")
-+        self.vm.add_args("-machine", "virt,gic-version=3")
-         self.add_common_args()
-         self.launch_and_wait()
- 
--    def test_virt_kvm_gicv3(self):
-+    def test_virt_kvm(self):
+         self.vm.add_args('-cpu', 'cortex-a53',
++                         '-accel', 'tcg',
+                          '-kernel', kernel_path,
+                          '-append', kernel_command_line)
+         self.vm.launch()
+@@ -356,6 +359,7 @@ def test_aarch64_xlnx_versal_virt(self):
+         :avocado: tags=machine:xlnx-versal-virt
+         :avocado: tags=device:pl011
+         :avocado: tags=device:arm_gicv3
++        :avocado: tags=accel:tcg
          """
-         :avocado: tags=accel:kvm
-         :avocado: tags=cpu:host
--        :avocado: tags=device:gicv3
-         """
-         self.require_accelerator("kvm")
-         self.vm.add_args("-accel", "kvm")
-         self.vm.add_args("-cpu", "host")
--        self.vm.add_args("-machine", "virt,gic-version=3")
-+        self.vm.add_args("-machine", "virt,gic-version=host")
-         self.add_common_args()
-         self.launch_and_wait()
+         images_url = ('http://ports.ubuntu.com/ubuntu-ports/dists/'
+                       'bionic-updates/main/installer-arm64/'
+@@ -370,6 +374,7 @@ def test_aarch64_xlnx_versal_virt(self):
  
+         self.vm.set_console()
+         self.vm.add_args('-m', '2G',
++                         '-accel', 'tcg',
+                          '-kernel', kernel_path,
+                          '-initrd', initrd_path)
+         self.vm.launch()
+@@ -379,6 +384,7 @@ def test_arm_virt(self):
+         """
+         :avocado: tags=arch:arm
+         :avocado: tags=machine:virt
++        :avocado: tags=accel:tcg
+         """
+         kernel_url = ('https://archives.fedoraproject.org/pub/archive/fedora'
+                       '/linux/releases/29/Everything/armhfp/os/images/pxeboot'
+@@ -401,6 +407,7 @@ def test_arm_emcraft_sf2(self):
+         :avocado: tags=machine:emcraft-sf2
+         :avocado: tags=endian:little
+         :avocado: tags=u-boot
++        :avocado: tags=accel:tcg
+         """
+         uboot_url = ('https://raw.githubusercontent.com/'
+                      'Subbaraya-Sundeep/qemu-test-binaries/'
+@@ -429,6 +436,8 @@ def test_arm_emcraft_sf2(self):
+ 
+     def do_test_arm_raspi2(self, uart_id):
+         """
++        :avocado: tags=accel:tcg
++
+         The kernel can be rebuilt using the kernel source referenced
+         and following the instructions on the on:
+         https://www.raspberrypi.org/documentation/linux/kernel/building.md
+@@ -464,6 +473,7 @@ def test_arm_raspi2_uart0(self):
+         :avocado: tags=arch:arm
+         :avocado: tags=machine:raspi2
+         :avocado: tags=device:pl011
++        :avocado: tags=accel:tcg
+         """
+         self.do_test_arm_raspi2(0)
+ 
+@@ -471,6 +481,7 @@ def test_arm_exynos4210_initrd(self):
+         """
+         :avocado: tags=arch:arm
+         :avocado: tags=machine:smdkc210
++        :avocado: tags=accel:tcg
+         """
+         deb_url = ('https://snapshot.debian.org/archive/debian/'
+                    '20190928T224601Z/pool/main/l/linux/'
+@@ -511,6 +522,7 @@ def test_arm_cubieboard_initrd(self):
+         """
+         :avocado: tags=arch:arm
+         :avocado: tags=machine:cubieboard
++        :avocado: tags=accel:tcg
+         """
+         deb_url = ('https://apt.armbian.com/pool/main/l/'
+                    'linux-5.10.16-sunxi/linux-image-current-sunxi_21.02.2_armhf.deb')
+@@ -551,6 +563,7 @@ def test_arm_cubieboard_sata(self):
+         """
+         :avocado: tags=arch:arm
+         :avocado: tags=machine:cubieboard
++        :avocado: tags=accel:tcg
+         """
+         deb_url = ('https://apt.armbian.com/pool/main/l/'
+                    'linux-5.10.16-sunxi/linux-image-current-sunxi_21.02.2_armhf.deb')
+@@ -595,6 +608,7 @@ def test_arm_quanta_gsj(self):
+         """
+         :avocado: tags=arch:arm
+         :avocado: tags=machine:quanta-gsj
++        :avocado: tags=accel:tcg
+         """
+         # 25 MiB compressed, 32 MiB uncompressed.
+         image_url = (
+@@ -642,6 +656,7 @@ def test_arm_quanta_gsj_initrd(self):
+         """
+         :avocado: tags=arch:arm
+         :avocado: tags=machine:quanta-gsj
++        :avocado: tags=accel:tcg
+         """
+         initrd_url = (
+                 'https://github.com/hskinnemoen/openbmc/releases/download/'
+@@ -678,6 +693,7 @@ def test_arm_orangepi(self):
+         """
+         :avocado: tags=arch:arm
+         :avocado: tags=machine:orangepi-pc
++        :avocado: tags=accel:tcg
+         """
+         deb_url = ('https://apt.armbian.com/pool/main/l/'
+                    'linux-5.10.16-sunxi/linux-image-current-sunxi_21.02.2_armhf.deb')
+@@ -702,6 +718,7 @@ def test_arm_orangepi(self):
+     def test_arm_orangepi_initrd(self):
+         """
+         :avocado: tags=arch:arm
++        :avocado: tags=accel:tcg
+         :avocado: tags=machine:orangepi-pc
+         """
+         deb_url = ('https://apt.armbian.com/pool/main/l/'
+@@ -744,6 +761,7 @@ def test_arm_orangepi_initrd(self):
+     def test_arm_orangepi_sd(self):
+         """
+         :avocado: tags=arch:arm
++        :avocado: tags=accel:tcg
+         :avocado: tags=machine:orangepi-pc
+         :avocado: tags=device:sd
+         """
 -- 
 2.20.1
 
