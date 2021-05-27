@@ -2,62 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 585BE3933BB
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 18:27:05 +0200 (CEST)
-Received: from localhost ([::1]:47790 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A222393372
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 18:15:30 +0200 (CEST)
+Received: from localhost ([::1]:55304 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lmIqe-0006Os-EC
-	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 12:27:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35626)
+	id 1lmIfR-0000Ec-MA
+	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 12:15:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60360)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lmIkf-00056j-2q
- for qemu-devel@nongnu.org; Thu, 27 May 2021 12:20:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55505)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lmIii-0006K7-H3
- for qemu-devel@nongnu.org; Thu, 27 May 2021 12:20:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622132332;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=rjE7+GsFqFoUFpOOUNOBJ4mOoYZvSfqoC2KqJo1jFOw=;
- b=gbQy9Ur/ouM8dfoeqB39XxY6ex4Khum4xuHKW+ux5sdOJo3NyB8xdnJ+uHBJmS9gNsRQ8T
- FLF/tmVG1tIE/2d/+XWQ3HHDt0Rl3k4sMUGzo9lEHqCafAdBThFX8mZTh4Dupc8cRpneNh
- 5xNdk8hmBUHnP0rZysPXtU/Cwr1bHeM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-215-YC7rEh8WNRCpk0Q05DTO2w-1; Thu, 27 May 2021 12:18:49 -0400
-X-MC-Unique: YC7rEh8WNRCpk0Q05DTO2w-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DD1B119253C4;
- Thu, 27 May 2021 16:18:47 +0000 (UTC)
-Received: from localhost (ovpn-114-2.phx2.redhat.com [10.3.114.2])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 99CC719D9B;
- Thu, 27 May 2021 16:18:41 +0000 (UTC)
-Date: Thu, 27 May 2021 12:03:52 -0400
-From: Cleber Rosa <crosa@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH v7 09/31] python: create qemu packages
-Message-ID: <20210527160352.GB1916721@amachine.somewhere>
-References: <20210526002454.124728-1-jsnow@redhat.com>
- <20210526002454.124728-10-jsnow@redhat.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lmIUc-00079E-Cy
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 12:04:18 -0400
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:53102)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lmIUZ-0000hs-PZ
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 12:04:18 -0400
+Received: by mail-wm1-x32e.google.com with SMTP id z130so529469wmg.2
+ for <qemu-devel@nongnu.org>; Thu, 27 May 2021 09:04:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=O706bkJNTAZiUMXjWmSSiQEGZr1A7qOAItehwm9OhR0=;
+ b=JQ/yCfJtBt2KNSY8/5P5DQ3dBwCSR1YaKFPpoXmNoJEOBQbl/cJLZ60RowJWORiL63
+ ZqHH85SmYkYVbGlEgL0MhZuN37FdbmeycCuHMUorYVeHEvCF6U/jpnMWI6zeJB1H9X6O
+ t+17ll58wbTMEXvAxKaE5vIXJwXI7BC5igz1HfuRYcgbD22/m6WLUk4VL37syMtxzFO1
+ SRQEgP3UUVygt1zq1vexvr892oXi+9igv9rXgnkFl0P9Tdrt2tKFGKCFR9oKKyiRA98h
+ QHb6gYVjA+Zou8JYVTK6eaaX1dUwRYZdUHbM54rRb2x2p92aD1l76LGTXFrXitnZyh78
+ zzqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=O706bkJNTAZiUMXjWmSSiQEGZr1A7qOAItehwm9OhR0=;
+ b=jZOInMG1v8Bbj1vIShvPZexWsBSvGlTZCRYtKG5r8OFAFVAPmQ1nPyVi9Eys3sDgaK
+ TF74eH0yuce8DhwyuM/OqmGaQuVs9shiqo1VaBNt8gfXH5tHK2gKHxpR3EkgNPUJjLZ4
+ 1FA7bu7HLIbN5AjNhE3dVvwh1USt3XhrYHxigooZ8+brP3/yeeeN7UtdT9fdWzR0Y/QC
+ nMZ1xfxGHCvzDXUXmuRWhPGrwbPHUvNo6SlCqm3mB8zO5JNI3MV+97gi7KGbkArNbgDW
+ ioYCuuxshGj8pUwICXiwYo6386EcfgjhOTyQd9W3htLJ/MwHRLplAIIJMYuvKQkcF29o
+ WQqg==
+X-Gm-Message-State: AOAM530XDkXAQKIklpM8Npmo3YC0jjKh5akOscU/eTcBfo9Q6GVekk1X
+ sM/y8KE5u5kCJyBtHA97r9Y=
+X-Google-Smtp-Source: ABdhPJzVPO6bSNZY4h7/RHrp/KnjoiktNgzLjiqxOHWfpJs+ma442ut/f/WJzxtwFdnSeIBVCkbyEA==
+X-Received: by 2002:a05:600c:21c3:: with SMTP id
+ x3mr4134164wmj.131.1622131454267; 
+ Thu, 27 May 2021 09:04:14 -0700 (PDT)
+Received: from [192.168.1.36] (235.red-83-57-168.dynamicip.rima-tde.net.
+ [83.57.168.235])
+ by smtp.gmail.com with ESMTPSA id b10sm3913887wrt.24.2021.05.27.09.04.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 27 May 2021 09:04:13 -0700 (PDT)
+Subject: Re: [PATCH 0/9] gitlab-ci: Make mainstream CI green again
+To: qemu-devel@nongnu.org
+References: <20210525082556.4011380-1-f4bug@amsat.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <25165a82-b2e5-c8dd-e5d1-d36e8fb06b57@amsat.org>
+Date: Thu, 27 May 2021 18:04:12 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <20210526002454.124728-10-jsnow@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="jho1yZJdad60DJr+"
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=crosa@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+In-Reply-To: <20210525082556.4011380-1-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32e.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -69,91 +89,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Max Reitz <mreitz@redhat.com>, Willian Rampazzo <willianr@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
+Cc: Willian Rampazzo <willianr@redhat.com>,
+ "Daniel P . Berrange" <berrange@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---jho1yZJdad60DJr+
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 5/25/21 10:25 AM, Philippe Mathieu-Daudé wrote:
 
-On Tue, May 25, 2021 at 08:24:32PM -0400, John Snow wrote:
-> move python/qemu/*.py to python/qemu/[machine, qmp, utils]/*.py and
-> update import directives across the tree.
->=20
-> This is done to create a PEP420 namespace package, in which we may
-> create subpackages. To do this, the namespace directory ("qemu") should
-> not have any modules in it. Those files will go into new 'machine',
-> 'qmp' and 'utils' subpackages instead.
->=20
-> Implement machine/__init__.py making the top-level classes and functions
-> from its various modules available directly inside the package. Change
-> qmp.py to qmp/__init__.py similarly, such that all of the useful QMP
-> library classes are available directly from "qemu.qmp" instead of
-> "qemu.qmp.qmp".
->=20
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> ---
->  python/{qemu =3D> }/.isort.cfg                |  0
->  python/qemu/__init__.py                     | 11 -------
->  python/qemu/{ =3D> machine}/.flake8           |  0
->  python/qemu/machine/__init__.py             | 33 +++++++++++++++++++++
->  python/qemu/{ =3D> machine}/console_socket.py |  0
->  python/qemu/{ =3D> machine}/machine.py        | 16 ++++++----
->  python/qemu/{ =3D> machine}/pylintrc          |  0
->  python/qemu/{ =3D> machine}/qtest.py          |  3 +-
->  python/qemu/{qmp.py =3D> qmp/__init__.py}     | 12 +++++++-
->  python/qemu/{utils.py =3D> utils/__init__.py} | 18 +++++++++--
->  python/qemu/{ =3D> utils}/accel.py            |  0
->  tests/acceptance/avocado_qemu/__init__.py   |  9 +++---
->  tests/acceptance/virtio-gpu.py              |  2 +-
->  tests/qemu-iotests/300                      |  4 +--
->  tests/qemu-iotests/iotests.py               |  2 +-
->  tests/vm/aarch64vm.py                       |  2 +-
->  tests/vm/basevm.py                          |  3 +-
->  17 files changed, 83 insertions(+), 32 deletions(-)
->  rename python/{qemu =3D> }/.isort.cfg (100%)
->  delete mode 100644 python/qemu/__init__.py
->  rename python/qemu/{ =3D> machine}/.flake8 (100%)
->  create mode 100644 python/qemu/machine/__init__.py
->  rename python/qemu/{ =3D> machine}/console_socket.py (100%)
->  rename python/qemu/{ =3D> machine}/machine.py (98%)
->  rename python/qemu/{ =3D> machine}/pylintrc (100%)
->  rename python/qemu/{ =3D> machine}/qtest.py (99%)
->  rename python/qemu/{qmp.py =3D> qmp/__init__.py} (96%)
->  rename python/qemu/{utils.py =3D> utils/__init__.py} (66%)
->  rename python/qemu/{ =3D> utils}/accel.py (100%)
->
+>   gitlab-ci: Extract all default build/test jobs to buildtest.yml
+>   gitlab-ci: Move current job set to qemu-project.yml
+>   gitlab-ci: Document how forks can use different set of jobs
+>   gitlab-ci: Extract cross-container jobs to container-cross.yml
 
-Reviewed-by: Cleber Rosa <crosa@redhat.com>
+>   gitlab-ci: Keep Avocado reports during 1 week
+>   gitlab-ci: Run Avocado tests manually (except mainstream CI)
 
---jho1yZJdad60DJr+
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAmCvwugACgkQZX6NM6Xy
-CfM7LhAArIsJSx+Vz54RlvWACotD/2a4Jf+qjMfJPh9283LPGar3R3w8znGYT5n3
-noPlli57XcFdRmR2u6ewOJqTFjyUVsohE0wQzDeGF3rpYiIZ29OOed7pfYbpJPra
-acH67XPWWsW42yZMWPsCJSIE4gegSpBnIxmD5tdeLduR6vFhR26GFAUTflO71cmM
-feqiKk5Hf47xG/RaKGdxyUvOzZVBNbeZPHv5xuTKik2JQaGAi+Yg3K4zQf35hAuW
-4IoI4K6kSuwAAtnxJRZWYnPouqLL2qYy3cXjCPDp874S4itF3CYiOk3zNVfva/LU
-Q4Fn+Dkw5TszAsK+tW26qmIQeOE59NAU2X3/NMgW3sGBQnSg8Gmu4ZaJm9Ab0vhz
-aYUMdbxb4dvH1vRoZZtjAM65YMwmza5zNAhrMaoTZe8JVWj8dgMrL18kr/MP2E3u
-SJ3gbf2iFcx/AaR6gb4JrjZ4lokk7OkAaM2wKLqQe6GHwAOfet/s/Y/FZzIYmXcv
-WeZjEOAHCltc/uQ6cyurijA+UJMRw43ZE+uNw1uFsgK45I0641t7iqB4ntH0R01v
-INEVuIsi1MJ8b3j7sykvruQ5YJ1dgTNDZYwmMYhu9q6F4SRh5jqyC0WY2v2dBRzt
-4iq0WPdCdqMJVSA2Zf/paY4EL8gYgWUqPRdmAALgVGEfnnPR9zs=
-=/3lH
------END PGP SIGNATURE-----
-
---jho1yZJdad60DJr+--
-
+Thanks, addressed reviewers comments and applied this subset to
+gitlab-ci-next.
 
