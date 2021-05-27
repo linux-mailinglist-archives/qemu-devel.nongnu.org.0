@@ -2,42 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA2F4393429
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 18:39:55 +0200 (CEST)
-Received: from localhost ([::1]:59622 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 684D5393437
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 18:42:37 +0200 (CEST)
+Received: from localhost ([::1]:37074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lmJ34-0006pV-HA
-	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 12:39:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40538)
+	id 1lmJ5g-0002Wp-9A
+	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 12:42:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41704)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bruno.larsen@eldorado.org.br>)
- id 1lmIzI-0004Et-QC; Thu, 27 May 2021 12:36:00 -0400
-Received: from [201.28.113.2] (port=3613 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bruno.larsen@eldorado.org.br>)
- id 1lmIzG-0006cE-4S; Thu, 27 May 2021 12:36:00 -0400
-Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Thu, 27 May 2021 13:35:53 -0300
-Received: from eldorado.org.br (unknown [10.10.71.235])
- by power9a (Postfix) with ESMTP id 1DA4C8013E1;
- Thu, 27 May 2021 13:35:53 -0300 (-03)
-From: "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v4] target/ppc: overhauled and moved logic of storing fpscr
-Date: Thu, 27 May 2021 13:35:22 -0300
-Message-Id: <20210527163522.23019-1-bruno.larsen@eldorado.org.br>
-X-Mailer: git-send-email 2.17.1
-X-OriginalArrivalTime: 27 May 2021 16:35:53.0276 (UTC)
- FILETIME=[5C3F57C0:01D75316]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
-Received-SPF: pass client-ip=201.28.113.2;
- envelope-from=bruno.larsen@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lmJ3t-0001Dy-KG
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 12:40:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31571)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lmJ3p-0000SC-Gr
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 12:40:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1622133639;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=QANvJ0oxL3IaetN9xM9yHsUeO/+QO/tzAlLx4ffxgOw=;
+ b=AVRr4inv3I7HyfsPyUzof0ez2SOz0+MJ0u7nHYsjbSRx3Vfuj45OJg2xDJW3wJhewGXVrE
+ zgstfljAl9nOKmljzKdl88MlxBhVDrfesFyEJN1khTZsS9fkoxH00oH21bWRPHLwcxB8Sv
+ zKBI5GJH3vDcWZXcfrhteTMJf1/84Qg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-103-XxSS7Y5SMDaXlI3-O4IJBQ-1; Thu, 27 May 2021 12:40:37 -0400
+X-MC-Unique: XxSS7Y5SMDaXlI3-O4IJBQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B6577107ACE3;
+ Thu, 27 May 2021 16:40:35 +0000 (UTC)
+Received: from localhost (ovpn-114-2.phx2.redhat.com [10.3.114.2])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AD07070585;
+ Thu, 27 May 2021 16:40:29 +0000 (UTC)
+Date: Thu, 27 May 2021 12:40:25 -0400
+From: Cleber Rosa <crosa@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH v7 31/31] gitlab: add python linters to CI
+Message-ID: <20210527164025.GA2061858@amachine.somewhere>
+References: <20210526002454.124728-1-jsnow@redhat.com>
+ <20210526002454.124728-32-jsnow@redhat.com>
+ <3acc5107-33a4-1ae7-eafb-076d39fbd6e9@virtuozzo.com>
+ <36db607a-2f29-2b53-5578-c17861e0dd1c@redhat.com>
+ <c507b546-6877-48de-365f-5bb44cca0cff@virtuozzo.com>
+ <9cd46a4a-2b5c-6022-7067-0a0ddce6fc7b@redhat.com>
+ <20210527161736.GG1916721@amachine.somewhere>
+MIME-Version: 1.0
+In-Reply-To: <20210527161736.GG1916721@amachine.somewhere>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="C7zPtVaVf+AK4Oqc"
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=crosa@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.374,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -50,420 +82,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: farosas@linux.ibm.com, richard.henderson@linaro.org,
- luis.pires@eldorado.org.br, Greg Kurz <groug@kaod.org>,
- lucas.araujo@eldorado.org.br, fernando.valle@eldorado.org.br,
- qemu-ppc@nongnu.org, matheus.ferst@eldorado.org.br,
- david@gibson.dropbear.id.au
+Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ Willian Rampazzo <willianr@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Followed the suggested overhaul to store_fpscr logic, and moved it to
-cpu.c where it can be accessed in !TCG builds.
+--C7zPtVaVf+AK4Oqc
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-The overhaul was suggested because storing a value to fpscr should
-never raise an exception, so we could remove all the mess that happened
-with POWERPC_EXCP_FP.
+On Thu, May 27, 2021 at 12:17:36PM -0400, Cleber Rosa wrote:
+> On Wed, May 26, 2021 at 03:56:31PM -0400, John Snow wrote:
+> > On 5/26/21 2:47 PM, Vladimir Sementsov-Ogievskiy wrote:
+> > > > build requisite for PyPI packages in the event that PyPI only has a
+> > > > sdist and not a bdist for a given dependency during installation.
+> > >=20
+> > > i.e. some packages are compiled during installation?
+> >=20
+> > Realized I didn't answer this directly. Yes, sometimes, depending on yo=
+ur
+> > platform or your python version or how new the python package is, it ma=
+y not
+> > have a binary distribution available and will require compilation.
+> >
+>=20
+> But shouldn't this be known at this time, given that you're putting
+> the depedencies for one specific platform?  I'd very very much like
+> to know which packages, for this specific platform, is triggering
+> a Python package build that has C-based extensions.
+>=20
+> And it would be even weired if such a package does *not* have C-based
+> extensions, and it's still requiring gcc.  I would judge it as a
+> major setuptools design issue.
+>=20
+> > This comes up for Python 3.10 dependencies right now in particular. The=
+y do
+> > not have binary distributions because (I assume) 3.10 isn't finalized y=
+et,
+> > so they haven't done a re-build. Or something like that.
+> >=20
+> > --js
+>=20
+> OK... but can you share which package available only in source is
+> requiring gcc?  I'm not going to get a good night of sleep without
+> knowing that! :)
+>=20
+> Thanks,
+> - Cleber.
 
-We also moved fpscr_set_rounding_mode into cpu.c as it could now be moved
-there, and it is needed when a value for the fpscr is being stored
-directly.
+OK, so typed-ast is the culprit, and we can attest its requirement
+for a compiler here:
 
-Suggested-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Bruno Larsen (billionai) <bruno.larsen@eldorado.org.br>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/ppc/cpu.c        |  43 ++++++++
- target/ppc/cpu.h        |  12 +-
- target/ppc/fpu_helper.c | 238 +++-------------------------------------
- target/ppc/gdbstub.c    |   6 +-
- 4 files changed, 65 insertions(+), 234 deletions(-)
+  https://github.com/python/typed_ast/blob/8eed936014f81a55a3e17310629c40c0=
+203327c3/setup.py#L123
 
-diff --git a/target/ppc/cpu.c b/target/ppc/cpu.c
-index c8e87e30f1..19d67b5b07 100644
---- a/target/ppc/cpu.c
-+++ b/target/ppc/cpu.c
-@@ -25,6 +25,7 @@
- #include "fpu/softfloat-helpers.h"
- #include "mmu-hash64.h"
- #include "helper_regs.h"
-+#include "sysemu/tcg.h"
- 
- target_ulong cpu_read_xer(CPUPPCState *env)
- {
-@@ -109,3 +110,45 @@ void ppc_store_lpcr(PowerPCCPU *cpu, target_ulong val)
-     /* The gtse bit affects hflags */
-     hreg_compute_hflags(env);
- }
-+
-+static inline void fpscr_set_rounding_mode(CPUPPCState *env)
-+{
-+    int rnd_type;
-+
-+    /* Set rounding mode */
-+    switch (fpscr_rn) {
-+    case 0:
-+        /* Best approximation (round to nearest) */
-+        rnd_type = float_round_nearest_even;
-+        break;
-+    case 1:
-+        /* Smaller magnitude (round toward zero) */
-+        rnd_type = float_round_to_zero;
-+        break;
-+    case 2:
-+        /* Round toward +infinite */
-+        rnd_type = float_round_up;
-+        break;
-+    default:
-+    case 3:
-+        /* Round toward -infinite */
-+        rnd_type = float_round_down;
-+        break;
-+    }
-+    set_float_rounding_mode(rnd_type, &env->fp_status);
-+}
-+
-+void ppc_store_fpscr(CPUPPCState *env, target_ulong val)
-+{
-+    val &= ~(FP_VX | FP_FEX);
-+    if (val & FPSCR_IX) {
-+        val |= FP_VX;
-+    }
-+    if ((val >> FPSCR_XX) & (val >> FPSCR_XE) & 0x1f) {
-+        val |= FP_FEX;
-+    }
-+    env->fpscr = val;
-+    if (tcg_enabled()) {
-+        fpscr_set_rounding_mode(env);
-+    }
-+}
-diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index b0934d9be4..b7ae4902e4 100644
---- a/target/ppc/cpu.h
-+++ b/target/ppc/cpu.h
-@@ -675,11 +675,11 @@ enum {
- #define fpscr_ni     (((env->fpscr) >> FPSCR_NI)     & 0x1)
- #define fpscr_rn     (((env->fpscr) >> FPSCR_RN0)    & 0x3)
- /* Invalid operation exception summary */
--#define fpscr_ix ((env->fpscr) & ((1 << FPSCR_VXSNAN) | (1 << FPSCR_VXISI)  | \
--                                  (1 << FPSCR_VXIDI)  | (1 << FPSCR_VXZDZ)  | \
--                                  (1 << FPSCR_VXIMZ)  | (1 << FPSCR_VXVC)   | \
--                                  (1 << FPSCR_VXSOFT) | (1 << FPSCR_VXSQRT) | \
--                                  (1 << FPSCR_VXCVI)))
-+#define FPSCR_IX     ((1 << FPSCR_VXSNAN) | (1 << FPSCR_VXISI)  | \
-+                      (1 << FPSCR_VXIDI)  | (1 << FPSCR_VXZDZ)  | \
-+                      (1 << FPSCR_VXIMZ)  | (1 << FPSCR_VXVC)   | \
-+                      (1 << FPSCR_VXSOFT) | (1 << FPSCR_VXSQRT) | \
-+                      (1 << FPSCR_VXCVI))
- /* exception summary */
- #define fpscr_ex  (((env->fpscr) >> FPSCR_XX) & 0x1F)
- /* enabled exception summary */
-@@ -1332,7 +1332,7 @@ void cpu_ppc_set_vhyp(PowerPCCPU *cpu, PPCVirtualHypervisor *vhyp);
- #endif
- #endif
- 
--void store_fpscr(CPUPPCState *env, uint64_t arg, uint32_t mask);
-+void ppc_store_fpscr(CPUPPCState *env, target_ulong val);
- void helper_hfscr_facility_check(CPUPPCState *env, uint32_t bit,
-                                  const char *caller, uint32_t cause);
- 
-diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
-index a4a283df2b..c4896cecc8 100644
---- a/target/ppc/fpu_helper.c
-+++ b/target/ppc/fpu_helper.c
-@@ -383,247 +383,35 @@ static inline void float_inexact_excp(CPUPPCState *env)
-     }
- }
- 
--static inline void fpscr_set_rounding_mode(CPUPPCState *env)
--{
--    int rnd_type;
--
--    /* Set rounding mode */
--    switch (fpscr_rn) {
--    case 0:
--        /* Best approximation (round to nearest) */
--        rnd_type = float_round_nearest_even;
--        break;
--    case 1:
--        /* Smaller magnitude (round toward zero) */
--        rnd_type = float_round_to_zero;
--        break;
--    case 2:
--        /* Round toward +infinite */
--        rnd_type = float_round_up;
--        break;
--    default:
--    case 3:
--        /* Round toward -infinite */
--        rnd_type = float_round_down;
--        break;
--    }
--    set_float_rounding_mode(rnd_type, &env->fp_status);
--}
--
- void helper_fpscr_clrbit(CPUPPCState *env, uint32_t bit)
- {
--    int prev;
--
--    prev = (env->fpscr >> bit) & 1;
--    env->fpscr &= ~(1 << bit);
--    if (prev == 1) {
--        switch (bit) {
--        case FPSCR_RN1:
--        case FPSCR_RN0:
--            fpscr_set_rounding_mode(env);
--            break;
--        case FPSCR_VXSNAN:
--        case FPSCR_VXISI:
--        case FPSCR_VXIDI:
--        case FPSCR_VXZDZ:
--        case FPSCR_VXIMZ:
--        case FPSCR_VXVC:
--        case FPSCR_VXSOFT:
--        case FPSCR_VXSQRT:
--        case FPSCR_VXCVI:
--            if (!fpscr_ix) {
--                /* Set VX bit to zero */
--                env->fpscr &= ~FP_VX;
--            }
--            break;
--        case FPSCR_OX:
--        case FPSCR_UX:
--        case FPSCR_ZX:
--        case FPSCR_XX:
--        case FPSCR_VE:
--        case FPSCR_OE:
--        case FPSCR_UE:
--        case FPSCR_ZE:
--        case FPSCR_XE:
--            if (!fpscr_eex) {
--                /* Set the FEX bit */
--                env->fpscr &= ~FP_FEX;
--            }
--            break;
--        default:
--            break;
--        }
-+    uint32_t mask = 1u << bit;
-+    if (env->fpscr & mask) {
-+        ppc_store_fpscr(env, env->fpscr & ~(target_ulong)mask);
-     }
- }
- 
- void helper_fpscr_setbit(CPUPPCState *env, uint32_t bit)
- {
--    CPUState *cs = env_cpu(env);
--    int prev;
--
--    prev = (env->fpscr >> bit) & 1;
--    env->fpscr |= 1 << bit;
--    if (prev == 0) {
--        switch (bit) {
--        case FPSCR_VX:
--            env->fpscr |= FP_FX;
--            if (fpscr_ve) {
--                goto raise_ve;
--            }
--            break;
--        case FPSCR_OX:
--            env->fpscr |= FP_FX;
--            if (fpscr_oe) {
--                goto raise_oe;
--            }
--            break;
--        case FPSCR_UX:
--            env->fpscr |= FP_FX;
--            if (fpscr_ue) {
--                goto raise_ue;
--            }
--            break;
--        case FPSCR_ZX:
--            env->fpscr |= FP_FX;
--            if (fpscr_ze) {
--                goto raise_ze;
--            }
--            break;
--        case FPSCR_XX:
--            env->fpscr |= FP_FX;
--            if (fpscr_xe) {
--                goto raise_xe;
--            }
--            break;
--        case FPSCR_VXSNAN:
--        case FPSCR_VXISI:
--        case FPSCR_VXIDI:
--        case FPSCR_VXZDZ:
--        case FPSCR_VXIMZ:
--        case FPSCR_VXVC:
--        case FPSCR_VXSOFT:
--        case FPSCR_VXSQRT:
--        case FPSCR_VXCVI:
--            env->fpscr |= FP_VX;
--            env->fpscr |= FP_FX;
--            if (fpscr_ve != 0) {
--                goto raise_ve;
--            }
--            break;
--        case FPSCR_VE:
--            if (fpscr_vx != 0) {
--            raise_ve:
--                env->error_code = POWERPC_EXCP_FP;
--                if (fpscr_vxsnan) {
--                    env->error_code |= POWERPC_EXCP_FP_VXSNAN;
--                }
--                if (fpscr_vxisi) {
--                    env->error_code |= POWERPC_EXCP_FP_VXISI;
--                }
--                if (fpscr_vxidi) {
--                    env->error_code |= POWERPC_EXCP_FP_VXIDI;
--                }
--                if (fpscr_vxzdz) {
--                    env->error_code |= POWERPC_EXCP_FP_VXZDZ;
--                }
--                if (fpscr_vximz) {
--                    env->error_code |= POWERPC_EXCP_FP_VXIMZ;
--                }
--                if (fpscr_vxvc) {
--                    env->error_code |= POWERPC_EXCP_FP_VXVC;
--                }
--                if (fpscr_vxsoft) {
--                    env->error_code |= POWERPC_EXCP_FP_VXSOFT;
--                }
--                if (fpscr_vxsqrt) {
--                    env->error_code |= POWERPC_EXCP_FP_VXSQRT;
--                }
--                if (fpscr_vxcvi) {
--                    env->error_code |= POWERPC_EXCP_FP_VXCVI;
--                }
--                goto raise_excp;
--            }
--            break;
--        case FPSCR_OE:
--            if (fpscr_ox != 0) {
--            raise_oe:
--                env->error_code = POWERPC_EXCP_FP | POWERPC_EXCP_FP_OX;
--                goto raise_excp;
--            }
--            break;
--        case FPSCR_UE:
--            if (fpscr_ux != 0) {
--            raise_ue:
--                env->error_code = POWERPC_EXCP_FP | POWERPC_EXCP_FP_UX;
--                goto raise_excp;
--            }
--            break;
--        case FPSCR_ZE:
--            if (fpscr_zx != 0) {
--            raise_ze:
--                env->error_code = POWERPC_EXCP_FP | POWERPC_EXCP_FP_ZX;
--                goto raise_excp;
--            }
--            break;
--        case FPSCR_XE:
--            if (fpscr_xx != 0) {
--            raise_xe:
--                env->error_code = POWERPC_EXCP_FP | POWERPC_EXCP_FP_XX;
--                goto raise_excp;
--            }
--            break;
--        case FPSCR_RN1:
--        case FPSCR_RN0:
--            fpscr_set_rounding_mode(env);
--            break;
--        default:
--            break;
--        raise_excp:
--            /* Update the floating-point enabled exception summary */
--            env->fpscr |= FP_FEX;
--            /* We have to update Rc1 before raising the exception */
--            cs->exception_index = POWERPC_EXCP_PROGRAM;
--            break;
--        }
-+    uint32_t mask = 1u << bit;
-+    if (!(env->fpscr & mask)) {
-+        ppc_store_fpscr(env, env->fpscr | mask);
-     }
- }
- 
--void helper_store_fpscr(CPUPPCState *env, uint64_t arg, uint32_t mask)
-+void helper_store_fpscr(CPUPPCState *env, uint64_t val, uint32_t nibbles)
- {
--    CPUState *cs = env_cpu(env);
--    target_ulong prev, new;
-+    target_ulong mask = 0;
-     int i;
- 
--    prev = env->fpscr;
--    new = (target_ulong)arg;
--    new &= ~(FP_FEX | FP_VX);
--    new |= prev & (FP_FEX | FP_VX);
-+    /* TODO: push this extension back to translation time */
-     for (i = 0; i < sizeof(target_ulong) * 2; i++) {
--        if (mask & (1 << i)) {
--            env->fpscr &= ~(0xFLL << (4 * i));
--            env->fpscr |= new & (0xFLL << (4 * i));
-+        if (nibbles & (1 << i)) {
-+            mask |= (target_ulong) 0xf << (4 * i);
-         }
-     }
--    /* Update VX and FEX */
--    if (fpscr_ix != 0) {
--        env->fpscr |= FP_VX;
--    } else {
--        env->fpscr &= ~FP_VX;
--    }
--    if ((fpscr_ex & fpscr_eex) != 0) {
--        env->fpscr |= FP_FEX;
--        cs->exception_index = POWERPC_EXCP_PROGRAM;
--        /* XXX: we should compute it properly */
--        env->error_code = POWERPC_EXCP_FP;
--    } else {
--        env->fpscr &= ~FP_FEX;
--    }
--    fpscr_set_rounding_mode(env);
--}
--
--void store_fpscr(CPUPPCState *env, uint64_t arg, uint32_t mask)
--{
--    helper_store_fpscr(env, arg, mask);
-+    val = (val & mask) | (env->fpscr & ~mask);
-+    ppc_store_fpscr(env, val);
- }
- 
- static void do_float_check_status(CPUPPCState *env, uintptr_t raddr)
-diff --git a/target/ppc/gdbstub.c b/target/ppc/gdbstub.c
-index 308b98fc90..09ff1328d4 100644
---- a/target/ppc/gdbstub.c
-+++ b/target/ppc/gdbstub.c
-@@ -271,7 +271,7 @@ int ppc_cpu_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n)
-             break;
-         case 70:
-             /* fpscr */
--            store_fpscr(env, ldtul_p(mem_buf), 0xffffffff);
-+            ppc_store_fpscr(env, ldtul_p(mem_buf));
-             break;
-         }
-     }
-@@ -321,7 +321,7 @@ int ppc_cpu_gdb_write_register_apple(CPUState *cs, uint8_t *mem_buf, int n)
-             break;
-         case 70 + 32:
-             /* fpscr */
--            store_fpscr(env, ldq_p(mem_buf), 0xffffffff);
-+            ppc_store_fpscr(env, ldq_p(mem_buf));
-             break;
-         }
-     }
-@@ -474,7 +474,7 @@ static int gdb_set_float_reg(CPUPPCState *env, uint8_t *mem_buf, int n)
-     }
-     if (n == 32) {
-         ppc_maybe_bswap_register(env, mem_buf, 4);
--        store_fpscr(env, ldl_p(mem_buf), 0xffffffff);
-+        ppc_store_fpscr(env, ldl_p(mem_buf));
-         return 4;
-     }
-     return 0;
--- 
-2.17.1
+Now I can sleep in peace. :)
+
+- Cleber.
+
+--C7zPtVaVf+AK4Oqc
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAmCvy3YACgkQZX6NM6Xy
+CfNbJA/8Ct2B/ImyOHkosSwW6Akwt9rKG3+85bt/xYBj2WxcMgGv6Lsi9kpNkZwC
+xAEjchOo4aRg0HUDdXVzoMEEXDI1q0FnLPePBEWzxhzf5kB8Lk06XQqPg+Qaru8Z
+KEFwztwb2Ee8eLQAeyRjG/suzWKuVlDzlsoILAFTxUVJtH63DyCiz8uTMtT4FDh9
+3xopwQRqeIER+OA68HVoi5FKj//VHPgAhwBX8xjX+/9qHMxMNejn1KP9n4IHSQx6
+sLUJWw7MTq3FOzNALuW2pxyylx+2pfNHHKKFM6GMDJFSUB/jS0BplyHSPprXUxd0
+N9cd51vHjl0knrPqX3kcWM7NWTQUUDTkj8T1S+7x9Rln9fQtK4tQ3rTEQxvcyY9z
+iUfCc2WzbriopQChpMPJH87ijBvDwbJGSeIpuPZ/QCj2c2yehLEOJj9tsHFos6/G
+wUwFVDdbGhm/yWQPY6QDWnFp4QaY4oMgCpJQaxALlpUF3rGCTndICT30CurieWAd
+YnoC8EqbwK7BQGN03rN43cmKyxH2uCUWhlT/I5UPfTCwAXTOd/jkZRdH4s/VMEMl
+cWwOQl9uD0nEAQPCMQEPgH6d2kdDS5wcBPA5bAb8PJgPFqmAzE2SWilYTrX9Dhyy
+FgI1y1Nwe3kdetTLZB7WHyS9ao+q/I9/1AKTRpjdP7vlIei6Fzs=
+=CIGb
+-----END PGP SIGNATURE-----
+
+--C7zPtVaVf+AK4Oqc--
 
 
