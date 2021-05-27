@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B927392D35
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 13:53:04 +0200 (CEST)
-Received: from localhost ([::1]:51494 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98808392E0B
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 14:33:53 +0200 (CEST)
+Received: from localhost ([::1]:49462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lmEZT-0007IA-Gv
-	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 07:53:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43560)
+	id 1lmFCs-0002Jk-P7
+	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 08:33:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44114)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1lmE4e-0006VB-HR
- for qemu-devel@nongnu.org; Thu, 27 May 2021 07:21:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21027)
+ (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1lmE5i-000732-32
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 07:22:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39145)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1lmE4Z-0002Rb-7Z
- for qemu-devel@nongnu.org; Thu, 27 May 2021 07:21:12 -0400
+ (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1lmE5P-0002rS-VA
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 07:22:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622114462;
+ s=mimecast20190719; t=1622114505;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=eQl7SdgQPE1e6OtdD40szvHIDUBuDbka4mZUpfLluf4=;
- b=HbTj0IjZJqBKcjtBEaHbqzxw/QKTuf/bdnsQofokvy5yNfLLg2Aen4NFa62f3vg7PL+R6a
- bEUaM/hyv3jZCdf7K4sA6YE9b4rt+cJ9YgSGvKTLKD6P3hH0ASXQNzSIbCbWCMN6TWFJ9F
- 7chBioBnDXEOcHdeU8WKs10xuGXmlx0=
+ bh=AOQT7u6VGgMkUYTpedeZftNIORgZv1owjZwEVMCPBbI=;
+ b=PqVjtuph6PVORZPeiQyH7M/MgdW1oQGE3iXb6IKsvY852emZ0a6xsmcqIq4hATE7k352RK
+ u7kYzeuL2y0+2+v1yhpKuSiu/x95IDe61E/DdN/TyMnTkaNlciGw7E6/Kw4sB1k72PHWvT
+ 9kyHPMflCF640Capj4jZ3Zu8ZgPyYsw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-282-NaZefpYJNh2IK50HcJVUOg-1; Thu, 27 May 2021 07:20:58 -0400
-X-MC-Unique: NaZefpYJNh2IK50HcJVUOg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-374-9wFGisghPuOz23k9i7SGmg-1; Thu, 27 May 2021 07:21:41 -0400
+X-MC-Unique: 9wFGisghPuOz23k9i7SGmg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9FFBF501E3;
- Thu, 27 May 2021 11:20:57 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EFBAB8CC2E0;
+ Thu, 27 May 2021 11:21:39 +0000 (UTC)
 Received: from localhost (unknown [10.33.36.9])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 411551349A;
- Thu, 27 May 2021 11:20:57 +0000 (UTC)
-Date: Thu, 27 May 2021 13:20:56 +0200
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 76D1E1754A;
+ Thu, 27 May 2021 11:21:36 +0000 (UTC)
+Date: Thu, 27 May 2021 13:21:35 +0200
 From: Sergio Lopez <slp@redhat.com>
 To: Alexander Graf <agraf@csgraf.de>
-Subject: Re: [PATCH v8 17/19] arm: Add Hypervisor.framework build target
-Message-ID: <20210527112056.aa67wn2e5nclzdyt@mhamilton>
+Subject: Re: [PATCH v8 18/19] arm: Enable Windows 10 trusted SMCCC boot call
+Message-ID: <20210527112135.ukbzkesv2v3ir2yn@mhamilton>
 References: <20210519202253.76782-1-agraf@csgraf.de>
- <20210519202253.76782-18-agraf@csgraf.de>
+ <20210519202253.76782-19-agraf@csgraf.de>
 MIME-Version: 1.0
-In-Reply-To: <20210519202253.76782-18-agraf@csgraf.de>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <20210519202253.76782-19-agraf@csgraf.de>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=slp@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="p77kyj5io4mhodgn"
+ protocol="application/pgp-signature"; boundary="zb77akzoqqnvmvu5"
 Content-Disposition: inline
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=slp@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -64,7 +64,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.374,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,64 +87,53 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---p77kyj5io4mhodgn
+--zb77akzoqqnvmvu5
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, May 19, 2021 at 10:22:51PM +0200, Alexander Graf wrote:
-> Now that we have all logic in place that we need to handle Hypervisor.fra=
-mework
-> on Apple Silicon systems, let's add CONFIG_HVF for aarch64 as well so tha=
-t we
-> can build it.
+On Wed, May 19, 2021 at 10:22:52PM +0200, Alexander Graf wrote:
+> Windows 10 calls an SMCCC call via SMC unconditionally on boot. It lives
+> in the trusted application call number space, but its purpose is unknown.
+>=20
+> In our current SMC implementation, we inject a UDEF for unknown SMC calls=
+,
+> including this one. However, Windows breaks on boot when we do this. Inst=
+ead,
+> let's return an error code.
+>=20
+> With this and -M virt,virtualization=3Don I can successfully boot the cur=
+rent
+> Windows 10 Insider Preview in TCG.
 >=20
 > Signed-off-by: Alexander Graf <agraf@csgraf.de>
-> Reviewed-by: Roman Bolshakov <r.bolshakov@yadro.com>
-> Tested-by: Roman Bolshakov <r.bolshakov@yadro.com> (x86 only)
->=20
 > ---
->=20
-> v1 -> v2:
->=20
->   - Fix build on 32bit arm
->=20
-> v3 -> v4:
->=20
->   - Remove i386-softmmu target
->=20
-> v6 -> v7:
->=20
->   - Simplify HVF matching logic in meson build file
-> ---
->  meson.build                | 7 +++++++
->  target/arm/hvf/meson.build | 3 +++
->  target/arm/meson.build     | 2 ++
->  3 files changed, 12 insertions(+)
->  create mode 100644 target/arm/hvf/meson.build
+>  target/arm/kvm-consts.h | 2 ++
+>  target/arm/psci.c       | 2 ++
+>  2 files changed, 4 insertions(+)
 
 Reviewed-by: Sergio Lopez <slp@redhat.com>
 
---p77kyj5io4mhodgn
+--zb77akzoqqnvmvu5
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEvtX891EthoCRQuii9GknjS8MAjUFAmCvgJcACgkQ9GknjS8M
-AjXxIA//Xznb8k3xQCoTar7wYSDZLXyd4OfGx/OGswaYkrLmQspuYITw6D/9H5ya
-1Cfghx/CfYFiFC5g1/eEN1jnd1a36PSbnARBgKhaOiHGSE1hcdypSIoZtVMsPiqO
-rtVTZcuQxrBXqAA3LlR/6UZf4/pPk3ekSXuOeHej+EPgWUPowyw9+jl32sLkKMH/
-0tLgIgG4Zc4Nl7hwdWsZ/vezhrjpuT82NxvFEfiZYnHZ3gW30EuwEuWpQlddoEr+
-UHN/c5ZodA/m9foVgoWvkPyYDJZNfL8+TS4FtanqbQBO53NfZuHXIBrWO8FGaDLX
-GAaw0NOrj69HH/UHX1cynC3lw5kMQdRZG5sTfg4dZ0Kqc/pmxb0vSF7ROz6kdPBm
-6fG43P9VERg9JpHhnYFf2eXw9dtrdauJRbUw6OGvDqKwyBUQgI5JTHmwEuaPDA0z
-/cMIUPU7Xpp11xMlcHkWRnyF5J4+s3jYQFS+e2vHGHbftyYhAahqJOnLX7XOzQH/
-MRfrZ5rnGzzRv28rd8Wa5HxIBoeIdSCNroMfopMy4UGfPdG/azadDRqu+NOEulx2
-9a5Lr/VRbm7iXnC14G4CkBvK38NtYKHh0APLsx+7GlsyQKFmacHWB51opcXrNx8G
-nSNZ71PmJT93DtGsDoCjhoasgd4g294F4Y5r7MEd2Sr6FhLNSTs=
-=6Zar
+iQIzBAABCAAdFiEEvtX891EthoCRQuii9GknjS8MAjUFAmCvgL4ACgkQ9GknjS8M
+AjUxvRAAtzgzfE/2uFnZeMNjFvVU00l8EssqQmOSR5x4sj2rA75PxseFzdeswbct
+zyVkLQ5w4Xti67TdtLOlr26b32NPlhmyxmTMHKDsB72WCTc6ftgOhgHDvo+v2TBR
+Y/oRA6VNNHiVDOAtcpV+pKz7fqCbOP4UURjLYSwpUEZXWcB2MizDtKj5u2E7nopL
+LZmzVulTVs/ORf1Q9h9BkoLdk2Xc04CJsIKC1r9hIpIKad5QMWYwDRLn/ywxjXCM
+kBvylTbjlruS06uZKu4bhwBFI4jCYmcdZiexqokIlh3goUA1209HJ+ns8sT2PdB/
+PGVjJuzm1HDpPsrlCbxjGpR/HF+U3CDyf0gWFq6O1Y3qa7geEzT0eLHpRai3jj2M
+QRkMKhzxUC1ILTQmuxpCaQGTqVCFjMbPsEHemr8Fu7bGv5jz6QuXdLRjtXYjTlZ9
+Ef3i08PYXE4L1RKBOta02AEUxMUcX7Cbo2yVMahbmee0tP2egYM7clLSsALn1wqH
+kdXMO6lcNDvOpa+sYKyLiaCVYjdHj4FvVkx8DXfFGIDhAL9Fa99AXRXP9m+k2mEH
+OJ3Rls3Q7+3l8JcLjmpfQZ/FAmnlEqbua+mwrAsX1Kqp3H5B6P0q+ZSY8Y9xA6sW
+5dta1oQJkhvvJkYfHP9gWp0+ZIuTzSWBhTAOjWlvgz2En3QcnGQ=
+=IXoh
 -----END PGP SIGNATURE-----
 
---p77kyj5io4mhodgn--
+--zb77akzoqqnvmvu5--
 
 
