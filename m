@@ -2,76 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F243392FE9
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 15:40:20 +0200 (CEST)
-Received: from localhost ([::1]:34182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25A60392FFD
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 15:44:46 +0200 (CEST)
+Received: from localhost ([::1]:40800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lmGFH-0002FO-Bd
-	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 09:40:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43346)
+	id 1lmGJY-0006k4-Ri
+	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 09:44:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44056)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lmFu3-0007w1-1Y
- for qemu-devel@nongnu.org; Thu, 27 May 2021 09:18:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45040)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lmFtu-0001HV-TP
- for qemu-devel@nongnu.org; Thu, 27 May 2021 09:18:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622121492;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lmFxM-0001Th-Jj
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 09:21:48 -0400
+Received: from smtp-out2.suse.de ([195.135.220.29]:58748)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lmFxB-0002lo-NS
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 09:21:48 -0400
+Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
+ (using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id A26D21FD2F;
+ Thu, 27 May 2021 13:21:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1622121695; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=dQ8wMJc6cuQUlshP276Hb+gGAvBr3nGX+fPD27omDbc=;
- b=hNjpzQwdbC2HfBCUy7oq9pC3IfRZWdShAr+veWgxiRRzAKsRG9qG0RW5uLgwrf6ZGwea7u
- fz7DsPePKw2iucul/OYNmU058wIT3kGsdUDg72JS46YZiq63HgM215wo6cpukH6+zfVjci
- M0X+mQpbg5aeOO/pZJaQjn99u0MVeH4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-20-T8qDfPUsMSCZQPf7vJVX-g-1; Thu, 27 May 2021 09:18:04 -0400
-X-MC-Unique: T8qDfPUsMSCZQPf7vJVX-g-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 88C74107ACE3;
- Thu, 27 May 2021 13:18:03 +0000 (UTC)
-Received: from redhat.com (ovpn-115-54.ams2.redhat.com [10.36.115.54])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D57C65D9C6;
- Thu, 27 May 2021 13:17:58 +0000 (UTC)
-Date: Thu, 27 May 2021 14:17:55 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Peter Xu <peterx@redhat.com>
-Subject: Re: [PATCH 1/1] yank: Unregister function when using TLS migration
-Message-ID: <YK+cA3Bl/MFGBhmy@redhat.com>
-References: <20210526200540.1088333-1-leobras.c@gmail.com>
- <YK6yQ9EVNlVPDMaS@t490s> <20210526232103.39e2a7d0@gecko.fritz.box>
- <YK7EotQbx/F9avls@t490s> <YK9cfiUx+vk/yxtf@redhat.com>
- <YK+PWHzpmnQqgYAw@t490s> <YK+SloySEG+O5wZV@redhat.com>
- <YK+Z9cUdjO+E6PCd@t490s>
+ bh=sLde00ReYYFhogQJnGxp6VQvCGwKd586fku4K5tVG4A=;
+ b=v+I1pIh+9uFwlKZXBfDUhan2gO1BpIJ/g99yHR61t3avafIof7YFKH1sMnTHBryS/To5E7
+ Vr2itGgwk2Q/opNKYprcKwnBeiHO+v10zJwA/S8f900oKpHytRydYsgOy8aJ/izGHskFCy
+ Lu97rGLuLko0l4KY4Y5KOhmngpGWRsk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1622121695;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=sLde00ReYYFhogQJnGxp6VQvCGwKd586fku4K5tVG4A=;
+ b=OTMhoEd5C06toRHRkZedKh75Srsp/dh8Lf++lJlmGSYa/ktHP4dXcl49YBu4/E670acJgU
+ B+abfrglRkz+ATCA==
+Received: from director2.suse.de (director2.suse-dmz.suse.de [192.168.254.72])
+ by imap.suse.de (Postfix) with ESMTPSA id 2B5BA11A98;
+ Thu, 27 May 2021 13:21:35 +0000 (UTC)
+Subject: Re: Windows fails to boot after rebase to QEMU master
+From: Claudio Fontana <cfontana@suse.de>
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+References: <20210521091451.GA6016@u366d62d47e3651.ant.amazon.com>
+ <20210524055322-mutt-send-email-mst@kernel.org> <YK6hunkEnft6VJHz@work-vm>
+ <d71fee00-0c21-c5e8-dbc6-00b7ace11c5a@suse.de> <YK9Y64U0wjU5K753@work-vm>
+ <16a5085f-868b-7e1a-f6de-1dab16103a66@redhat.com> <YK9jOdCPUGQF4t0D@work-vm>
+ <855c9f5c-a8e8-82b4-d71e-db9c966ddcc3@suse.de>
+ <3b8f2f3b-0254-22c1-6391-44569c8ff821@suse.de>
+ <d43ca6d9-d00c-6c2e-6838-36554de3fba5@suse.de>
+Message-ID: <faa34115-e468-32a1-b9e3-5d887c038e88@suse.de>
+Date: Thu, 27 May 2021 15:21:34 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <YK+Z9cUdjO+E6PCd@t490s>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <d43ca6d9-d00c-6c2e-6838-36554de3fba5@suse.de>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.374,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+Received-SPF: pass client-ip=195.135.220.29; envelope-from=cfontana@suse.de;
+ helo=smtp-out2.suse.de
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,131 +83,294 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, Leonardo Bras <leobras.c@gmail.com>,
- Lukas Straub <lukasstraub2@web.de>,
+Cc: Liang Yan <lyan@suse.com>, Siddharth Chandrasekaran <sidcha@amazon.de>,
+ kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>
+ Cameron Esfahani <dirty@apple.com>, qemu-devel@nongnu.org,
+ Roman Bolshakov <r.bolshakov@yadro.com>, Alex Bennee <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, May 27, 2021 at 09:09:09AM -0400, Peter Xu wrote:
-> On Thu, May 27, 2021 at 01:37:42PM +0100, Daniel P. Berrangé wrote:
-> > On Thu, May 27, 2021 at 08:23:52AM -0400, Peter Xu wrote:
-> > > On Thu, May 27, 2021 at 09:46:54AM +0100, Daniel P. Berrangé wrote:
-> > > > On Wed, May 26, 2021 at 05:58:58PM -0400, Peter Xu wrote:
-> > > > > On Wed, May 26, 2021 at 11:21:03PM +0200, Lukas Straub wrote:
-> > > > > > On Wed, 26 May 2021 16:40:35 -0400
-> > > > > > Peter Xu <peterx@redhat.com> wrote:
-> > > > > > 
-> > > > > > > On Wed, May 26, 2021 at 05:05:40PM -0300, Leonardo Bras wrote:
-> > > > > > > > After yank feature was introduced, whenever migration is started using TLS,
-> > > > > > > > the following error happens in both source and destination hosts:
-> > > > > > > > 
-> > > > > > > > (qemu) qemu-kvm: ../util/yank.c:107: yank_unregister_instance:
-> > > > > > > > Assertion `QLIST_EMPTY(&entry->yankfns)' failed.
-> > > > > > > > 
-> > > > > > > > This happens because of a missing yank_unregister_function() when using
-> > > > > > > > qio-channel-tls.
-> > > > > > > > 
-> > > > > > > > Fix this by also allowing TYPE_QIO_CHANNEL_TLS object type to perform
-> > > > > > > > yank_unregister_function() in channel_close() and multifd_load_cleanup().
-> > > > > > > > 
-> > > > > > > > Fixes: 50186051f ("Introduce yank feature")
-> > > > > > > > Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1964326
-> > > > > > > > Signed-off-by: Leonardo Bras <leobras.c@gmail.com>  
-> > > > > > > 
-> > > > > > > Leo,
-> > > > > > > 
-> > > > > > > Thanks for looking into it!
-> > > > > > > 
-> > > > > > > So before looking int the fix... I do have a doubt on why we only enable yank
-> > > > > > > on socket typed, as I think tls should also work with qio_channel_shutdown().
-> > > > > > > 
-> > > > > > > IIUC the confused thing here is we register only for qio-socket, however tls
-> > > > > > > will actually call migration_channel_connect() twice, first with a qio-socket,
-> > > > > > > then with the real tls-socket.  For tls I feel like we have registered with the
-> > > > > > > wrong channel - instead of the wrapper socket ioc, we should register to the
-> > > > > > > final tls ioc?
-> > > > > > > 
-> > > > > > > Lukas, is there a reason?
-> > > > > > > 
-> > > > > > 
-> > > > > > Hi,
-> > > > > > There is no specific reason. Both ways work equally well in preventing
-> > > > > > qemu from hanging. shutdown() for tls-channel just makes it abort a
-> > > > > > little sooner (by not attempting to encrypt and send data anymore).
-> > > > > > 
-> > > > > > I don't lean either way. I guess registering it on the tls-channel
-> > > > > > makes is a bit more explicit and clearer.
-> > > > > 
-> > > > > Agreed, because IMHO logically the migration code should not be aware of
-> > > > > internals of IOChannels, e.g., we shouldn't need to know ioc->master is the
-> > > > > socket ioc of tls ioc to unregister.
-> > > > 
-> > > > I think it is atually better to ignore the TLS channel and *always* yank
-> > > > on the undering socket IO channel. The yank functionality is intended to
-> > > > be used in a scenario where we know the channels are broken.  If yank
-> > > > calls the high level IO channel it is potentially going to try to do a
-> > > > cleanup shutdown that we know will fail because of the broken network.
-> > > 
-> > > Could you elaborate what's the "cleanup shutdown"?
-> > > 
-> > > The yank calls migration_yank_iochannel:
-> > > 
-> > > void migration_yank_iochannel(void *opaque)
-> > > {
-> > >     QIOChannel *ioc = QIO_CHANNEL(opaque);
-> > > 
-> > >     qio_channel_shutdown(ioc, QIO_CHANNEL_SHUTDOWN_BOTH, NULL);
-> > > }
-> > > 
-> > > Where qio_channel_shutdown for tls is nothing but delivers that to the master
-> > > channel:
-> > > 
-> > > static int qio_channel_tls_shutdown(QIOChannel *ioc,
-> > >                                     QIOChannelShutdown how,
-> > >                                     Error **errp)
-> > > {
-> > >     QIOChannelTLS *tioc = QIO_CHANNEL_TLS(ioc);
-> > > 
-> > >     qatomic_or(&tioc->shutdown, how);
-> > > 
-> > >     return qio_channel_shutdown(tioc->master, how, errp);
-> > > }
-> > > 
-> > > So I thought it was a nice wrapper just for things like this, and I didn't see
-> > > anything it does more than the io_shutdown for the socket channel.  Did I miss
-> > > something?
-> > 
-> > Today thats the case, but don't assume it will be the case forever.
-> > There is a mechanism in TLS for doing clean shutdown which we've
-> > debated including.
-> > 
-> > In general apps *can* just call the shutdown method on the QIOChannelTLS
-> > object no matter what.  Yank is just a little bit special because of its
-> > need to be guaranteed to work even when the network is dead. So yank
-> > should always directly call the low level QIOChannelSocket, so thre is
-> > a strong guarantee it can't block on something.
+On 5/27/21 1:36 PM, Claudio Fontana wrote:
+> On 5/27/21 12:53 PM, Claudio Fontana wrote:
+>> On 5/27/21 11:48 AM, Claudio Fontana wrote:
+>>> On 5/27/21 11:15 AM, Dr. David Alan Gilbert wrote:
+>>>> * Philippe Mathieu-Daudé (philmd@redhat.com) wrote:
+>>>>> On 5/27/21 10:31 AM, Dr. David Alan Gilbert wrote:
+>>>>>> * Claudio Fontana (cfontana@suse.de) wrote:
+>>>>>>> On 5/26/21 9:30 PM, Dr. David Alan Gilbert wrote:
+>>>>>>>> * Michael S. Tsirkin (mst@redhat.com) wrote:
+>>>>>>>>> On Fri, May 21, 2021 at 11:17:19AM +0200, Siddharth Chandrasekaran wrote:
+>>>>>>>>>> After a rebase to QEMU master, I am having trouble booting windows VMs.
+>>>>>>>>>> Git bisect indicates commit f5cc5a5c1686 ("i386: split cpu accelerators
+>>>>>>>>>> from cpu.c, using AccelCPUClass") to have introduced the issue. I spent
+>>>>>>>>>> some time looking at into it yesterday without much luck.
+>>>>>>>>>>
+>>>>>>>>>> Steps to reproduce:
+>>>>>>>>>>
+>>>>>>>>>>     $ ./configure --enable-kvm --disable-xen --target-list=x86_64-softmmu --enable-debug
+>>>>>>>>>>     $ make -j `nproc`
+>>>>>>>>>>     $ ./build/x86_64-softmmu/qemu-system-x86_64 \
+>>>>>>>>>>         -cpu host,hv_synic,hv_vpindex,hv_time,hv_runtime,hv_stimer,hv_crash \
+>>>>>>>>>>         -enable-kvm \
+>>>>>>>>>>         -name test,debug-threads=on \
+>>>>>>>>>>         -smp 1,threads=1,cores=1,sockets=1 \
+>>>>>>>>>>         -m 4G \
+>>>>>>>>>>         -net nic -net user \
+>>>>>>>>>>         -boot d,menu=on \
+>>>>>>>>>>         -usbdevice tablet \
+>>>>>>>>>>         -vnc :3 \
+>>>>>>>>>>         -machine q35,smm=on \
+>>>>>>>>>>         -drive if=pflash,format=raw,readonly=on,unit=0,file="../OVMF_CODE.secboot.fd" \
+>>>>>>>>>>         -drive if=pflash,format=raw,unit=1,file="../OVMF_VARS.secboot.fd" \
+>>>>>>>>>>         -global ICH9-LPC.disable_s3=1 \
+>>>>>>>>>>         -global driver=cfi.pflash01,property=secure,value=on \
+>>>>>>>>>>         -cdrom "../Windows_Server_2016_14393.ISO" \
+>>>>>>>>>>         -drive file="../win_server_2016.qcow2",format=qcow2,if=none,id=rootfs_drive \
+>>>>>>>>>>         -device ahci,id=ahci \
+>>>>>>>>>>         -device ide-hd,drive=rootfs_drive,bus=ahci.0
+>>>>>>>>>>
+>>>>>>>>>> If the issue is not obvious, I'd like some pointers on how to go about
+>>>>>>>>>> fixing this issue.
+>>>>>>>>>>
+>>>>>>>>>> ~ Sid.
+>>>>>>>>>>
+>>>>>>>>>
+>>>>>>>>> At a guess this commit inadvertently changed something in the CPU ID.
+>>>>>>>>> I'd start by using a linux guest to dump cpuid before and after the
+>>>>>>>>> change.
+>>>>>>>>
+>>>>>>>> I've not had a chance to do that yet, however I did just end up with a
+>>>>>>>> bisect of a linux guest failure bisecting to the same patch:
+>>>>>>>>
+>>>>>>>> [dgilbert@dgilbert-t580 qemu]$ git bisect bad
+>>>>>>>> f5cc5a5c168674f84bf061cdb307c2d25fba5448 is the first bad commit
+>>>>>>>> commit f5cc5a5c168674f84bf061cdb307c2d25fba5448
+>>>>>>>> Author: Claudio Fontana <cfontana@suse.de>
+>>>>>>>> Date:   Mon Mar 22 14:27:40 2021 +0100
+>>>>>>>>
+>>>>>>>>     i386: split cpu accelerators from cpu.c, using AccelCPUClass
+>>>>>>>>     
+>>>>>>>>     i386 is the first user of AccelCPUClass, allowing to split
+>>>>>>>>     cpu.c into:
+>>>>>>>>     
+>>>>>>>>     cpu.c            cpuid and common x86 cpu functionality
+>>>>>>>>     host-cpu.c       host x86 cpu functions and "host" cpu type
+>>>>>>>>     kvm/kvm-cpu.c    KVM x86 AccelCPUClass
+>>>>>>>>     hvf/hvf-cpu.c    HVF x86 AccelCPUClass
+>>>>>>>>     tcg/tcg-cpu.c    TCG x86 AccelCPUClass
+>>>>>
+>>>>> Well this is a big commit... I'm not custom to x86 target, and am
+>>>>> having hard time following the cpu host/max change.
+>>>>>
+>>>>> Is it working when you use '-cpu max,...' instead of '-cpu host,'?
+>>>>
+>>>> No; and in fact the cpuid's are almost entirely different with and
+>>>> without this patch! (both with -cpu host).  It looks like with this
+>>>> patch we're getting the cpuid for the TCG cpuid rather than the host:
+>>>>
+>>>> Prior to this patch:
+>>>> :/# cat /proc/cpuinfo
+>>>> processor       : 0
+>>>> vendor_id       : GenuineIntel
+>>>> cpu family      : 6
+>>>> model           : 142
+>>>> model name      : Intel(R) Core(TM) i7-8650U CPU @ 1.90GHz
+>>>> stepping        : 10
+>>>> microcode       : 0xe0
+>>>> cpu MHz         : 2111.998
+>>>> cache size      : 16384 KB
+>>>> physical id     : 0
+>>>> siblings        : 1
+>>>> core id         : 0
+>>>> cpu cores       : 1
+>>>> apicid          : 0
+>>>> initial apicid  : 0
+>>>> fpu             : yes
+>>>> fpu_exception   : yes
+>>>> cpuid level     : 22
+>>>> wp              : yes
+>>>> flags           : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss syscall nx pdpe1gb rdtscp lm constant
+>>>> _tsc arch_perfmon rep_good nopl xtopology cpuid tsc_known_freq pni pclmulqdq vmx ssse3 fma cx16 pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_tim
+>>>> er aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch cpuid_fault invpcid_single pti ssbd ibrs ibpb stibp tpr_shadow vnmi flexpriority ept vpid
+>>>> ept_ad fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm mpx rdseed adx smap clflushopt xsaveopt xsavec xgetbv1 xsaves arat umip md_clear arch_ca
+>>>> pabilities
+>>>> vmx flags       : vnmi preemption_timer invvpid ept_x_only ept_ad ept_1gb flexpriority tsc_offset vtpr mtf vapic ept vpid unrestricted_guest shadow_vmcs pml
+>>>> bugs            : cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs taa srbds
+>>>> bogomips        : 4223.99
+>>>> clflush size    : 64
+>>>> cache_alignment : 64
+>>>> address sizes   : 39 bits physical, 48 bits virtual
+>>>> power management:
+>>>>
+>>>> With this patch:
+>>>> processor       : 0
+>>>> vendor_id       : AuthenticAMD
+>>>> cpu family      : 6
+>>>> model           : 6
+>>>> model name      : QEMU TCG CPU version 2.5+
+>>>> stepping        : 3
+>>>> cpu MHz         : 2111.998
+>>>> cache size      : 512 KB
+>>>> physical id     : 0
+>>>> siblings        : 1
+>>>> core id         : 0
+>>>> cpu cores       : 1
+>>>> apicid          : 0
+>>>> initial apicid  : 0
+>>>> fpu             : yes
+>>>> fpu_exception   : yes
+>>>> cpuid level     : 13
+>>>> wp              : yes
+>>>> flags           : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss syscall nx pdpe1gb rdtscp lm nopl cpu
+>>>> id tsc_known_freq pni pclmulqdq vmx ssse3 fma cx16 pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_
+>>>> lm abm 3dnowprefetch invpcid_single ssbd ibrs ibpb stibp vmmcall fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm mpx rdseed adx smap clflushopt
+>>>>  xsaveopt xsavec xgetbv1 xsaves arat umip md_clear arch_capabilities
+>>>> bugs            : fxsave_leak sysret_ss_attrs spectre_v1 spectre_v2 spec_store_bypass taa
+>>>> bogomips        : 4223.99
+>>>> TLB size        : 1024 4K pages
+>>>> clflush size    : 64
+>>>> cache_alignment : 64
+>>>> address sizes   : 40 bits physical, 48 bits virtual
+>>>> power management:
+>>>>
+>>>> cpuid.f5cc5a5c16
+>>>>
+>>>> CPU 0:
+>>>>    0x00000000 0x00: eax=0x0000000d ebx=0x68747541 ecx=0x444d4163 edx=0x69746e65
+>>>>    0x00000001 0x00: eax=0x00000663 ebx=0x00000800 ecx=0xfffab223 edx=0x0f8bfbff
+>>>>    0x00000002 0x00: eax=0x00000001 ebx=0x00000000 ecx=0x0000004d edx=0x002c307d
+>>>>    0x00000003 0x00: eax=0x00000000 ebx=0x00000000 ecx=0x00000000 edx=0x00000000
+>>>>    0x00000004 0x00: eax=0x00000121 ebx=0x01c0003f ecx=0x0000003f edx=0x00000001
+>>>>    0x00000004 0x01: eax=0x00000122 ebx=0x01c0003f ecx=0x0000003f edx=0x00000001
+>>>>    0x00000004 0x02: eax=0x00000143 ebx=0x03c0003f ecx=0x00000fff edx=0x00000001
+>>>>    0x00000004 0x03: eax=0x00000163 ebx=0x03c0003f ecx=0x00003fff edx=0x00000006
+>>>>    0x00000005 0x00: eax=0x00000000 ebx=0x00000000 ecx=0x00000003 edx=0x00000000
+>>>>    0x00000006 0x00: eax=0x00000004 ebx=0x00000000 ecx=0x00000000 edx=0x00000000
+>>>>    0x00000007 0x00: eax=0x00000000 ebx=0x009c4fbb ecx=0x00000004 edx=0xac000400
+>>>>    0x00000008 0x00: eax=0x00000000 ebx=0x00000000 ecx=0x00000000 edx=0x00000000
+>>>>    0x00000009 0x00: eax=0x00000000 ebx=0x00000000 ecx=0x00000000 edx=0x00000000
+>>>>    0x0000000a 0x00: eax=0x07300402 ebx=0x00000000 ecx=0x00000000 edx=0x00008603
+>>>>    0x0000000b 0x00: eax=0x00000000 ebx=0x00000001 ecx=0x00000100 edx=0x00000000
+>>>>    0x0000000b 0x01: eax=0x00000000 ebx=0x00000001 ecx=0x00000201 edx=0x00000000
+>>>>    0x0000000c 0x00: eax=0x00000000 ebx=0x00000000 ecx=0x00000000 edx=0x00000000
+>>>>    0x0000000d 0x00: eax=0x0000001f ebx=0x00000440 ecx=0x00000440 edx=0x00000000
+>>>>    0x0000000d 0x01: eax=0x0000000f ebx=0x000003c0 ecx=0x00000000 edx=0x00000000
+>>>>    0x0000000d 0x02: eax=0x00000100 ebx=0x00000240 ecx=0x00000000 edx=0x00000000
+>>>>    0x0000000d 0x03: eax=0x00000040 ebx=0x000003c0 ecx=0x00000000 edx=0x00000000
+>>>>    0x0000000d 0x04: eax=0x00000040 ebx=0x00000400 ecx=0x00000000 edx=0x00000000
+>>>>    0x40000000 0x00: eax=0x40000001 ebx=0x4b4d564b ecx=0x564b4d56 edx=0x0000004d
+>>>>    0x40000001 0x00: eax=0x01007afb ebx=0x00000000 ecx=0x00000000 edx=0x00000000
+>>>>    0x80000000 0x00: eax=0x80000008 ebx=0x68747541 ecx=0x444d4163 edx=0x69746e65
+>>>>    0x80000001 0x00: eax=0x00000663 ebx=0x00000000 ecx=0x00000121 edx=0x2d93fbff
+>>>>    0x80000002 0x00: eax=0x554d4551 ebx=0x47435420 ecx=0x55504320 edx=0x72657620
+>>>>    0x80000003 0x00: eax=0x6e6f6973 ebx=0x352e3220 ecx=0x0000002b edx=0x00000000
+>>>>    0x80000004 0x00: eax=0x00000000 ebx=0x00000000 ecx=0x00000000 edx=0x00000000
+>>>>    0x80000005 0x00: eax=0x01ff01ff ebx=0x01ff01ff ecx=0x40020140 edx=0x40020140
+>>>>    0x80000006 0x00: eax=0x00000000 ebx=0x42004200 ecx=0x02008140 edx=0x00808140
+>>>>    0x80000007 0x00: eax=0x00000000 ebx=0x00000000 ecx=0x00000000 edx=0x00000000
+>>>>    0x80000008 0x00: eax=0x00003028 ebx=0x0100d000 ecx=0x00000000 edx=0x00000000
+>>>>    0x80860000 0x00: eax=0x00000000 ebx=0x00000000 ecx=0x00000000 edx=0x00000000
+>>>>    0xc0000000 0x00: eax=0x00000000 ebx=0x00000000 ecx=0x00000000 edx=0x00000000
+>>>>
+>>>>
+>>>> cpuid.0ac2b19743
+>>>>
+>>>> CPU 0:
+>>>>    0x00000000 0x00: eax=0x00000016 ebx=0x756e6547 ecx=0x6c65746e edx=0x49656e69
+>>>>    0x00000001 0x00: eax=0x000806ea ebx=0x00000800 ecx=0xfffab223 edx=0x0f8bfbff
+>>>>    0x00000002 0x00: eax=0x00000001 ebx=0x00000000 ecx=0x0000004d edx=0x002c307d
+>>>>    0x00000003 0x00: eax=0x00000000 ebx=0x00000000 ecx=0x00000000 edx=0x00000000
+>>>>    0x00000004 0x00: eax=0x00000121 ebx=0x01c0003f ecx=0x0000003f edx=0x00000001
+>>>>    0x00000004 0x01: eax=0x00000122 ebx=0x01c0003f ecx=0x0000003f edx=0x00000001
+>>>>    0x00000004 0x02: eax=0x00000143 ebx=0x03c0003f ecx=0x00000fff edx=0x00000001
+>>>>    0x00000004 0x03: eax=0x00000163 ebx=0x03c0003f ecx=0x00003fff edx=0x00000006
+>>>>    0x00000005 0x00: eax=0x00000000 ebx=0x00000000 ecx=0x00000003 edx=0x00000000
+>>>>    0x00000006 0x00: eax=0x00000004 ebx=0x00000000 ecx=0x00000000 edx=0x00000000
+>>>>    0x00000007 0x00: eax=0x00000000 ebx=0x009c4fbb ecx=0x00000004 edx=0xac000400
+>>>>    0x00000008 0x00: eax=0x00000000 ebx=0x00000000 ecx=0x00000000 edx=0x00000000
+>>>>    0x00000009 0x00: eax=0x00000000 ebx=0x00000000 ecx=0x00000000 edx=0x00000000
+>>>>    0x0000000a 0x00: eax=0x07300402 ebx=0x00000000 ecx=0x00000000 edx=0x00008603
+>>>>    0x0000000b 0x00: eax=0x00000000 ebx=0x00000001 ecx=0x00000100 edx=0x00000000
+>>>>    0x0000000b 0x01: eax=0x00000000 ebx=0x00000001 ecx=0x00000201 edx=0x00000000
+>>>>    0x0000000c 0x00: eax=0x00000000 ebx=0x00000000 ecx=0x00000000 edx=0x00000000
+>>>>    0x0000000d 0x00: eax=0x0000001f ebx=0x00000440 ecx=0x00000440 edx=0x00000000
+>>>>    0x0000000d 0x01: eax=0x0000000f ebx=0x000003c0 ecx=0x00000000 edx=0x00000000
+>>>>    0x0000000d 0x02: eax=0x00000100 ebx=0x00000240 ecx=0x00000000 edx=0x00000000
+>>>>    0x0000000d 0x03: eax=0x00000040 ebx=0x000003c0 ecx=0x00000000 edx=0x00000000
+>>>>    0x0000000d 0x04: eax=0x00000040 ebx=0x00000400 ecx=0x00000000 edx=0x00000000
+>>>>    0x0000000e 0x00: eax=0x00000000 ebx=0x00000000 ecx=0x00000000 edx=0x00000000
+>>>>    0x0000000f 0x00: eax=0x00000000 ebx=0x00000000 ecx=0x00000000 edx=0x00000000
+>>>>    0x00000010 0x00: eax=0x00000000 ebx=0x00000000 ecx=0x00000000 edx=0x00000000
+>>>>    0x00000011 0x00: eax=0x00000000 ebx=0x00000000 ecx=0x00000000 edx=0x00000000
+>>>>    0x00000012 0x00: eax=0x00000000 ebx=0x00000000 ecx=0x00000000 edx=0x00000000
+>>>>    0x00000013 0x00: eax=0x00000000 ebx=0x00000000 ecx=0x00000000 edx=0x00000000
+>>>>    0x00000014 0x00: eax=0x00000000 ebx=0x00000000 ecx=0x00000000 edx=0x00000000
+>>>>    0x00000015 0x00: eax=0x00000000 ebx=0x00000000 ecx=0x00000000 edx=0x00000000
+>>>>    0x00000016 0x00: eax=0x00000000 ebx=0x00000000 ecx=0x00000000 edx=0x00000000
+>>>>    0x40000000 0x00: eax=0x40000001 ebx=0x4b4d564b ecx=0x564b4d56 edx=0x0000004d
+>>>>    0x40000001 0x00: eax=0x01007afb ebx=0x00000000 ecx=0x00000000 edx=0x00000000
+>>>>    0x80000000 0x00: eax=0x80000008 ebx=0x756e6547 ecx=0x6c65746e edx=0x49656e69
+>>>>    0x80000001 0x00: eax=0x000806ea ebx=0x00000000 ecx=0x00000121 edx=0x2c100800
+>>>>    0x80000002 0x00: eax=0x65746e49 ebx=0x2952286c ecx=0x726f4320 edx=0x4d542865
+>>>>    0x80000003 0x00: eax=0x37692029 ebx=0x3536382d ecx=0x43205530 edx=0x40205550
+>>>>    0x80000004 0x00: eax=0x392e3120 ebx=0x7a484730 ecx=0x00000000 edx=0x00000000
+>>>>    0x80000005 0x00: eax=0x01ff01ff ebx=0x01ff01ff ecx=0x40020140 edx=0x40020140
+>>>>    0x80000006 0x00: eax=0x00000000 ebx=0x42004200 ecx=0x02008140 edx=0x00808140
+>>>>    0x80000007 0x00: eax=0x00000000 ebx=0x00000000 ecx=0x00000000 edx=0x00000000
+>>>>    0x80000008 0x00: eax=0x00003027 ebx=0x0100d000 ecx=0x00000000 edx=0x00000000
+>>>>    0x80860000 0x00: eax=0x00000000 ebx=0x00000000 ecx=0x00000000 edx=0x00000000
+>>>>    0xc0000000 0x00: eax=0x00000000 ebx=0x00000000 ecx=0x00000000 edx=0x00000000
+>>>>
+>>>
+>>> I started looking at it.
+>>>
+>>> Claudio
+>>>
+>>
+>> I wonder how I missed this, the initialization functions for max_x86_cpu_initfn and kvm_cpu_max_instance_init end up being called in the wrong order.
+>>
 > 
-> Hmm, I am still not fully convinced that that's a valid reason the migration
-> code should be aware of how the socket is managed in tls channels...
 > 
-> Does that sound more like a good reason to introduce QIOChannelShutdown with
-> QIO_CHANNEL_SHUTDOWN_FORCE so it'll always not block if FORCE set?  Then we can
-> switch the yank function to use that.
+> Just to check whether this is actually the issue we are talking about, Sid et al, could you try this?
 > 
-> What do you think?
+> 
+> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+> index c496bfa1c2..810c46281b 100644
+> --- a/target/i386/cpu.c
+> +++ b/target/i386/cpu.c
+> @@ -4252,6 +4252,7 @@ static void max_x86_cpu_initfn(Object *obj)
+>      object_property_set_str(OBJECT(cpu), "model-id",
+>                              "QEMU TCG CPU version " QEMU_HW_VERSION,
+>                              &error_abort);
+> +    accel_cpu_instance_init(CPU(cpu));
+>  }
+> 
+>  static const TypeInfo max_x86_cpu_type_info = {
+> ------------------------------------------------------------------------------------------
+> 
+> Does this band-aid happen to cover-up the issue?
+> 
+> 
+> I need to think about the proper fix though, any suggestions Paolo, Eduardo?
+> 
+> The pickle here is that we'd need to call the accelerator specific initialization of the x86 accel-cpu only after the x86 cpu subclass initfn,
+> otherwise the accel-specific cpu initialization code has no chance to see the subclass (max) trying to set ->max_features.
+> 
+> C.
+> 
 
-I think that's unneccessary - the migration code already does similar
-things elsewhere when it wants to distinguish TLS usage, so this is not
-anything new conceptually.
+thinking about this, maybe here we'd need something similar to what is present in ARM with "arm_cpu_post_init".
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+The difficulty here is that the best place for accel_cpu_instance_init to be called is after the whole CPU class hierarchy is already initialized,
+in order to take into account "max", "host" etc, since the accel cpu initialization depends on whether max_features is on or not.
+
+Thoughts?
+
+Thanks,
+
+Claudio
 
 
