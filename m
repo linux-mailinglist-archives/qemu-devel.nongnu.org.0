@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1382E3937E8
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 23:25:09 +0200 (CEST)
-Received: from localhost ([::1]:32954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7ADB53937E3
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 23:23:04 +0200 (CEST)
+Received: from localhost ([::1]:52348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lmNV6-0008NJ-18
-	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 17:25:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47688)
+	id 1lmNT5-0002Tn-I8
+	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 17:23:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47718)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lmNOL-0002P5-9S
- for qemu-devel@nongnu.org; Thu, 27 May 2021 17:18:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36303)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lmNOT-0002jj-Tv
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 17:18:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56156)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lmNOJ-0008PS-PN
- for qemu-devel@nongnu.org; Thu, 27 May 2021 17:18:09 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lmNOR-0008TV-1A
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 17:18:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622150287;
+ s=mimecast20190719; t=1622150293;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=CSIdbHXvqlutGHkdUqfQayDVD76DO1g1kmXlRv8cfy4=;
- b=iDctfRHW85KAROuzjkJxQJNDCssR6TQ2Y6Rtq4SLLCOi1QIpHDh49ly35lZvtDA5WpcJ/t
- UJWG8ekxKG9gb+wUzFtnLbQLyZB4qAdDw+mY1SYZvLGgE/E9HH85gO/QnXbhb/r+ughsAE
- 7UJu2q4vqZ+FlGmQ8hXedgT7hEqeUlo=
+ bh=EvOKHXyoUr7OZgodpzb8NbOcW0arAD4Ud+p/Sg2lgyM=;
+ b=PNPZgelqbMbScsA9BgTJgEItq2/58a6FofDI2VE5yK3RQpBZyjcj7n2h/fraDMfcY+M//X
+ 9+36JwlKNAobS72AooHR9PUiCKByrrM9by7ErrJluEHDQQHJb69LGII5xneP0yLl4u98mu
+ d51x7xULEnFUXI1lMpWdXjnJJw+Nz7s=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-357-uShbmYw7Odab1kGeMCy5Dw-1; Thu, 27 May 2021 17:18:04 -0400
-X-MC-Unique: uShbmYw7Odab1kGeMCy5Dw-1
+ us-mta-353-sqVP6S-gOM2fXKXSgkWYLA-1; Thu, 27 May 2021 17:18:12 -0400
+X-MC-Unique: sqVP6S-gOM2fXKXSgkWYLA-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B6FF6801B13;
- Thu, 27 May 2021 21:18:02 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CF621800D55;
+ Thu, 27 May 2021 21:18:09 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-116-137.rdu2.redhat.com [10.10.116.137])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 655B85D9C6;
- Thu, 27 May 2021 21:17:56 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 23D815D9C6;
+ Thu, 27 May 2021 21:18:02 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v8 07/31] python/machine: Trim line length to below 80 chars
-Date: Thu, 27 May 2021 17:16:51 -0400
-Message-Id: <20210527211715.394144-8-jsnow@redhat.com>
+Subject: [PATCH v8 08/31] iotests/297: add --namespace-packages to mypy
+ arguments
+Date: Thu, 27 May 2021 17:16:52 -0400
+Message-Id: <20210527211715.394144-9-jsnow@redhat.com>
 In-Reply-To: <20210527211715.394144-1-jsnow@redhat.com>
 References: <20210527211715.394144-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -77,7 +78,6 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
  Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
@@ -88,28 +88,31 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-One more little delinting fix that snuck in.
+mypy is kind of weird about how it handles imports. For legacy reasons,
+it won't load PEP 420 namespaces, because of logic implemented prior to
+that becoming a standard.
+
+So, if you plan on using any, you have to pass
+--namespace-packages. Alright, fine.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: Cleber Rosa <crosa@redhat.com>
 ---
- python/qemu/machine.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tests/qemu-iotests/297 | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/python/qemu/machine.py b/python/qemu/machine.py
-index 5d72c4ca369..a8837b36e47 100644
---- a/python/qemu/machine.py
-+++ b/python/qemu/machine.py
-@@ -97,7 +97,7 @@ def __init__(self,
-         @param args: list of extra arguments
-         @param wrapper: list of arguments used as prefix to qemu binary
-         @param name: prefix for socket and log file names (default: qemu-PID)
--        @param base_temp_dir: default location where temporary files are created
-+        @param base_temp_dir: default location where temp files are created
-         @param monitor_address: address for QMP monitor
-         @param socket_scm_helper: helper program, required for send_fd_scm()
-         @param sock_dir: where to create socket (defaults to base_temp_dir)
+diff --git a/tests/qemu-iotests/297 b/tests/qemu-iotests/297
+index a37910b42d9..433b7323368 100755
+--- a/tests/qemu-iotests/297
++++ b/tests/qemu-iotests/297
+@@ -95,6 +95,7 @@ def run_linters():
+                             '--warn-redundant-casts',
+                             '--warn-unused-ignores',
+                             '--no-implicit-reexport',
++                            '--namespace-packages',
+                             filename),
+                            env=env,
+                            check=False,
 -- 
 2.31.1
 
