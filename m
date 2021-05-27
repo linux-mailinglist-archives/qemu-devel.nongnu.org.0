@@ -2,52 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6579039249C
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 03:54:23 +0200 (CEST)
-Received: from localhost ([::1]:37912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8355D39245F
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 03:34:11 +0200 (CEST)
+Received: from localhost ([::1]:43454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lm5E6-00024S-6D
-	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 21:54:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52106)
+	id 1lm4uY-0002k1-3j
+	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 21:34:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49998)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lm58U-00062c-IJ; Wed, 26 May 2021 21:48:34 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:46991 helo=ozlabs.org)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1lm4te-00024v-J7
+ for qemu-devel@nongnu.org; Wed, 26 May 2021 21:33:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22428)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lm58S-0001tE-H5; Wed, 26 May 2021 21:48:34 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4Fr9gz1xMRz9sWp; Thu, 27 May 2021 11:48:15 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1622080095;
- bh=vedFwsPShwM6+1+cxCwo9Sg2+okG+WJDz3RlIdSohkc=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=J66TMlWtzLjoB+ZwbO/UjeLnQLtxxWocKFgaAYXr7fRPVowiUaawat4lEhy3E6v8z
- b8/CoH8n0KMWQwVJDo6siOqxE3z1amzuVILulkTuVywq2Jr0/Tw7dwwzO3eJ/truX2
- iwLaj6tqhlb6aQhKsOCuGCk7l9I7w9Feu8VBO39A=
-Date: Thu, 27 May 2021 11:29:22 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH v1 2/3] spapr: Set LPCR to current AIL mode when starting
- a new CPU
-Message-ID: <YK718jkXZqbwBjcy@yekko>
-References: <20210526091626.3388262-1-npiggin@gmail.com>
- <20210526091626.3388262-3-npiggin@gmail.com>
- <20210526180309.24b189c3@bahia.lan>
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1lm4tb-0000OD-PC
+ for qemu-devel@nongnu.org; Wed, 26 May 2021 21:33:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1622079190;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=8ZlyVcJ7m90SU1oPMVuSpqEtH3m2W0qz/tGMRd8CIUA=;
+ b=PkZflkbW8z5ypbgbHy2qPHRORmVbkMZTNOX7CPDRFtitCxBFOlrVyBuagcScfBbNA4KZok
+ IryY6EcRIJYa2KxxZpjxyMuXaObJbrE7GEk7YhgTN7E/blN7x1UsFaqDwmCK0p1O5SqNWS
+ rwIMaXsqu2HGYpMkk3+jgQPAUd4um3g=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-324-LdM71ZJ9NEWm7227klXAKQ-1; Wed, 26 May 2021 21:33:07 -0400
+X-MC-Unique: LdM71ZJ9NEWm7227klXAKQ-1
+Received: by mail-qv1-f72.google.com with SMTP id
+ n12-20020a0c8c0c0000b02901edb8963d4dso2711464qvb.18
+ for <qemu-devel@nongnu.org>; Wed, 26 May 2021 18:33:07 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=8ZlyVcJ7m90SU1oPMVuSpqEtH3m2W0qz/tGMRd8CIUA=;
+ b=DfBiSybKBBc0RaGlQjtX2tvlaN2tovv0C3TQA7PBqj4Mzocfj0fIlNu2Yi9eBpRTdY
+ 1louqbdwx655rCOHsrJUI+fxGVfEmqW1jltI+k5huECN8aibQZziYsvafk+KXMKNlKtO
+ ibR2OXs37i9CoVbGF7mQuiSLlw0GkGDzc6iY7cDIk00malEJCocz43JFuf5jhLdriqkJ
+ 45e2zNTs3G0BCFo27yE1XM0ms9Paj2JaMaJgTTo6QOSkR0KHOMgl0rn/OTA9hsxcFlIh
+ C/bIzZqhqKtsOf7ptjF9jeH6Pkv7Ixzg9K5F39ykEs6HbSvz7fe07H/v75Fpl75aPWOy
+ etQA==
+X-Gm-Message-State: AOAM5315RvC5YAINMoCHXAxPs3w2fD+G1X32uGvsGsmFXVm8zfThYc0M
+ LfjikZiT9F+xo+YW7RDQKwRW7jwahSIXKpoq8CDwC6CE5vZczUBE06Z5HSlgbPo5/KMWKnqYxwm
+ VNXmWKsBC7rFPl7k=
+X-Received: by 2002:a37:e205:: with SMTP id g5mr1091354qki.449.1622079186408; 
+ Wed, 26 May 2021 18:33:06 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzKT5yq5RWhKuGfHwWqcIM+LF4O4rrH4MDWXbUlMsunSM5pXuI3UHgwzyT8yGM1B8k8dt3SeA==
+X-Received: by 2002:a37:e205:: with SMTP id g5mr1091334qki.449.1622079186163; 
+ Wed, 26 May 2021 18:33:06 -0700 (PDT)
+Received: from t490s (bras-base-toroon474qw-grc-72-184-145-4-219.dsl.bell.ca.
+ [184.145.4.219])
+ by smtp.gmail.com with ESMTPSA id p11sm496181qtl.82.2021.05.26.18.33.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 26 May 2021 18:33:05 -0700 (PDT)
+Date: Wed, 26 May 2021 21:33:04 -0400
+From: Peter Xu <peterx@redhat.com>
+To: Leonardo Bras <leobras.c@gmail.com>
+Subject: Re: [PATCH v2 1/1] yank: Unregister function when using TLS migration
+Message-ID: <YK720N1znLyjCJlm@t490s>
+References: <20210526221615.1093506-1-leobras.c@gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="YF+5zYCWwojyDmBD"
+In-Reply-To: <20210526221615.1093506-1-leobras.c@gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20210526180309.24b189c3@bahia.lan>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -60,130 +92,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
- Nicholas Piggin <npiggin@gmail.com>, qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org, lukasstraub2@web.de,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Wed, May 26, 2021 at 07:16:16PM -0300, Leonardo Bras wrote:
+> After yank feature was introduced, whenever migration is started using TLS,
+> the following error happens in both source and destination hosts:
+> 
+> (qemu) qemu-kvm: ../util/yank.c:107: yank_unregister_instance:
+> Assertion `QLIST_EMPTY(&entry->yankfns)' failed.
+> 
+> This happens because of a missing yank_unregister_function() when using
+> qio-channel-tls.
+> 
+> Fix this by also allowing TYPE_QIO_CHANNEL_TLS object type to perform
+> yank_unregister_function() in channel_close() and multifd_load_cleanup().
+> 
+> Fixes: 50186051f ("Introduce yank feature")
+> Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1964326
+> Signed-off-by: Leonardo Bras <leobras.c@gmail.com>
 
---YF+5zYCWwojyDmBD
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Assuming you'll post a v3 soon trying to drop all references to ioc->master as
+we've discussed. Meanwhile it should possibly be b5eea99ec2f ("migration: Add
+yank feature", 2021-01-13) for the "fixes:"?
 
-On Wed, May 26, 2021 at 06:03:09PM +0200, Greg Kurz wrote:
-> On Wed, 26 May 2021 19:16:25 +1000
-> Nicholas Piggin <npiggin@gmail.com> wrote:
->=20
-> > TCG does not keep track of AIL mode in a central place, it's based on
-> > the current LPCR[AIL] bits. Synchronize the new CPU's LPCR to the
-> > current LPCR in rtas_start_cpu(), similarly to the way the ILE bit is
-> > synchronized.
-> >=20
-> > Open-code the ILE setting as well now that the caller's LPCR is
-> > available directly, there is no need for the indirection.
-> >=20
-> > Without this, under both TCG and KVM, adding a POWER8/9/10 class CPU
-> > with a new core ID after a modern Linux has booted results in the new
-> > CPU's LPCR missing the LPCR[AIL]=3D0b11 setting that the other CPUs hav=
-e.
-> > This can cause crashes and unexpected behaviour.
-> >=20
-> > Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
-> > ---
-> >  hw/ppc/spapr_rtas.c | 14 +++++++++-----
-> >  1 file changed, 9 insertions(+), 5 deletions(-)
-> >=20
-> > diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
-> > index 63d96955c0..b476382ae6 100644
-> > --- a/hw/ppc/spapr_rtas.c
-> > +++ b/hw/ppc/spapr_rtas.c
-> > @@ -132,8 +132,8 @@ static void rtas_start_cpu(PowerPCCPU *callcpu, Spa=
-prMachineState *spapr,
-> >      target_ulong id, start, r3;
-> >      PowerPCCPU *newcpu;
-> >      CPUPPCState *env;
-> > -    PowerPCCPUClass *pcc;
-> >      target_ulong lpcr;
-> > +    target_ulong caller_lpcr;
-> > =20
-> >      if (nargs !=3D 3 || nret !=3D 1) {
-> >          rtas_st(rets, 0, RTAS_OUT_PARAM_ERROR);
-> > @@ -152,7 +152,6 @@ static void rtas_start_cpu(PowerPCCPU *callcpu, Spa=
-prMachineState *spapr,
-> >      }
-> > =20
-> >      env =3D &newcpu->env;
-> > -    pcc =3D POWERPC_CPU_GET_CLASS(newcpu);
-> > =20
-> >      if (!CPU(newcpu)->halted) {
-> >          rtas_st(rets, 0, RTAS_OUT_HW_ERROR);
-> > @@ -164,10 +163,15 @@ static void rtas_start_cpu(PowerPCCPU *callcpu, S=
-paprMachineState *spapr,
-> >      env->msr =3D (1ULL << MSR_SF) | (1ULL << MSR_ME);
-> >      hreg_compute_hflags(env);
-> > =20
-> > +    caller_lpcr =3D callcpu->env.spr[SPR_LPCR];
-> >      lpcr =3D env->spr[SPR_LPCR];
-> > -    if (!pcc->interrupts_big_endian(callcpu)) {
-> > -        lpcr |=3D LPCR_ILE;
-> > -    }
-> > +
-> > +    /* Set ILE the same way */
-> > +    lpcr =3D (lpcr & ~LPCR_ILE) | (caller_lpcr & LPCR_ILE);
-> > +
->=20
-> Unrelated change as Cedric already noted but that's nice :)
->=20
-> /me starting to think we might do the same elsewhere and
-> maybe get rid of PowerPCCPUClass::interrupts_big_endian()
+-- 
+Peter Xu
 
-Yes, that's a nice thought.
-
-> > +    /* Set AIL the same way */
-> > +    lpcr =3D (lpcr & ~LPCR_AIL) | (caller_lpcr & LPCR_AIL);
-> > +
->=20
-> It seems better indeed to rely on the calling CPU here rather
-> than the arbitrary first_cpu in the hotplug handler.
-
-I agree.
-
-> Reviewed-by: Greg Kurz <groug@kaod.org>
-
-Applied to ppc-for-6.1, thanks.
-
->=20
-> >      if (env->mmu_model =3D=3D POWERPC_MMU_3_00) {
-> >          /*
-> >           * New cpus are expected to start in the same radix/hash mode
->=20
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---YF+5zYCWwojyDmBD
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmCu9fEACgkQbDjKyiDZ
-s5KuiBAAuG4z8Myij1nPSTUOv+apHJ89yLh1Z/KybYb9zMAxsYJ3+QLp9hSaYStg
-ZC8kjHRAYSBIyRJ3+pBIKfDOnnMRKM0w/CoUXfvyXl+1QWXAfuCQ57qcpmOKW1Rr
-He1KqdJaWzbGcR3VhEwjoqS3JUYZm32Y/ImhRpehnA6qwtR3pGzX+hfzANCTHvgu
-TE5HW7rkzajgOUmRX5dvK3Ji2e8tSJ3A6FbuBF/HltjnZdAb2/6ddBZZkOZZgKKm
-9xApHbSj3JqZVfAk12syysNFvAiz/7yTcdCHYMfcxKGII/QkibGnOYcSfQyRHOO5
-rdzlY4CBRCDJq69i3zxIKv2xo+c7InbLd5sfqcKumjm969GxK/eAFMEgfVYMz0zC
-a+NEkpLnmErvWg1bGvjUeSLpW1bqWM9AiDC3DkdNJgvZiQIDv1Fn6cAKY0ajjP5b
-0u3i+VCAiEGKVdnUXAeoQlF3RmQWQB8nj0LUsnUt9bBIHX4L1vyILCJuvt2yWFT5
-JN1TAoGRK4/xwrMBsjd3k7mAYodCquKelCEYd56wFoH0CQvBWjj4wZdMXIT8UERO
-nGZniSQx1LQZz9WPAimtZxCiAAlB7Wf2ulDe9yL+F/5BXcL7EPoBTr3rIqiX95xo
-8J3dg9a8mXEvyMMVCPwYGwXg5VeYZ2dh4yuccVBHfiYvM2pFOzk=
-=NvrR
------END PGP SIGNATURE-----
-
---YF+5zYCWwojyDmBD--
 
