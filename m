@@ -2,57 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EA5D392E61
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 14:53:00 +0200 (CEST)
-Received: from localhost ([::1]:38804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2263D392F2D
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 15:12:31 +0200 (CEST)
+Received: from localhost ([::1]:53494 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lmFVT-0006y0-OE
-	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 08:52:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60112)
+	id 1lmFoJ-00015c-T9
+	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 09:12:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33236)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiangkunkun@huawei.com>)
- id 1lmFAx-000416-2d
- for qemu-devel@nongnu.org; Thu, 27 May 2021 08:31:48 -0400
-Received: from szxga02-in.huawei.com ([45.249.212.188]:2145)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lmFGx-00077S-S9
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 08:38:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42552)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiangkunkun@huawei.com>)
- id 1lmFAs-0004SO-Lp
- for qemu-devel@nongnu.org; Thu, 27 May 2021 08:31:46 -0400
-Received: from dggeml701-chm.china.huawei.com (unknown [172.30.72.53])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4FrRtq2yYqz67gr;
- Thu, 27 May 2021 20:28:35 +0800 (CST)
-Received: from dggema765-chm.china.huawei.com (10.1.198.207) by
- dggeml701-chm.china.huawei.com (10.3.17.134) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2176.2; Thu, 27 May 2021 20:31:28 +0800
-Received: from DESKTOP-6NKE0BC.china.huawei.com (10.174.185.210) by
- dggema765-chm.china.huawei.com (10.1.198.207) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2176.2; Thu, 27 May 2021 20:31:27 +0800
-From: Kunkun Jiang <jiangkunkun@huawei.com>
-To: Alex Williamson <alex.williamson@redhat.com>, Kirti Wankhede
- <kwankhede@nvidia.com>, "open list:All patches CC here"
- <qemu-devel@nongnu.org>
-Subject: [PATCH] vfio: Fix unregister SaveVMHandler in vfio_migration_finalize
-Date: Thu, 27 May 2021 20:31:01 +0800
-Message-ID: <20210527123101.289-1-jiangkunkun@huawei.com>
-X-Mailer: git-send-email 2.26.2.windows.1
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lmFGu-0007LL-Mm
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 08:37:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1622119075;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=J2KQwgU3IAYNfjmFNylSr2Km0tHMj0T2lDVgWggkldM=;
+ b=AI1XFRlHJiMSsOjVIP9bWlof/tyJ3AEbVP722oVlZvq0z4sUycdmYXXyO+sQYwCp6FlECE
+ ph0UKipesGPDEvJ5AS1xUbfjpGxtwNDvlhCLyNf0nObhLGbG/wxvbmvxfLTitLCGJT3HcW
+ xIhcSUPLtrCoYm1TuYKB+U2qxxMiVCE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-143-LlbMpfJTPG2Zxq8TUXtQ3A-1; Thu, 27 May 2021 08:37:51 -0400
+X-MC-Unique: LlbMpfJTPG2Zxq8TUXtQ3A-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 47009107ACE4;
+ Thu, 27 May 2021 12:37:50 +0000 (UTC)
+Received: from redhat.com (ovpn-115-54.ams2.redhat.com [10.36.115.54])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CBBB65C5B5;
+ Thu, 27 May 2021 12:37:45 +0000 (UTC)
+Date: Thu, 27 May 2021 13:37:42 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Peter Xu <peterx@redhat.com>
+Subject: Re: [PATCH 1/1] yank: Unregister function when using TLS migration
+Message-ID: <YK+SloySEG+O5wZV@redhat.com>
+References: <20210526200540.1088333-1-leobras.c@gmail.com>
+ <YK6yQ9EVNlVPDMaS@t490s> <20210526232103.39e2a7d0@gecko.fritz.box>
+ <YK7EotQbx/F9avls@t490s> <YK9cfiUx+vk/yxtf@redhat.com>
+ <YK+PWHzpmnQqgYAw@t490s>
 MIME-Version: 1.0
+In-Reply-To: <YK+PWHzpmnQqgYAw@t490s>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.174.185.210]
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- dggema765-chm.china.huawei.com (10.1.198.207)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.188;
- envelope-from=jiangkunkun@huawei.com; helo=szxga02-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.374,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -65,38 +84,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zenghui Yu <yuzenghui@huawei.com>, wanghaibin.wang@huawei.com,
- Kunkun Jiang <jiangkunkun@huawei.com>, Keqian Zhu <zhukeqian1@huawei.com>,
- ganqixin@huawei.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org, Leonardo Bras <leobras.c@gmail.com>,
+ Lukas Straub <lukasstraub2@web.de>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In the vfio_migration_init(), the SaveVMHandler is registered for
-VFIO device. But it lacks the operation of 'unregister'. It will
-lead to 'Segmentation fault (core dumped)' in
-qemu_savevm_state_setup(), if performing live migration after a
-VFIO device is hot deleted.
+On Thu, May 27, 2021 at 08:23:52AM -0400, Peter Xu wrote:
+> On Thu, May 27, 2021 at 09:46:54AM +0100, Daniel P. Berrangé wrote:
+> > On Wed, May 26, 2021 at 05:58:58PM -0400, Peter Xu wrote:
+> > > On Wed, May 26, 2021 at 11:21:03PM +0200, Lukas Straub wrote:
+> > > > On Wed, 26 May 2021 16:40:35 -0400
+> > > > Peter Xu <peterx@redhat.com> wrote:
+> > > > 
+> > > > > On Wed, May 26, 2021 at 05:05:40PM -0300, Leonardo Bras wrote:
+> > > > > > After yank feature was introduced, whenever migration is started using TLS,
+> > > > > > the following error happens in both source and destination hosts:
+> > > > > > 
+> > > > > > (qemu) qemu-kvm: ../util/yank.c:107: yank_unregister_instance:
+> > > > > > Assertion `QLIST_EMPTY(&entry->yankfns)' failed.
+> > > > > > 
+> > > > > > This happens because of a missing yank_unregister_function() when using
+> > > > > > qio-channel-tls.
+> > > > > > 
+> > > > > > Fix this by also allowing TYPE_QIO_CHANNEL_TLS object type to perform
+> > > > > > yank_unregister_function() in channel_close() and multifd_load_cleanup().
+> > > > > > 
+> > > > > > Fixes: 50186051f ("Introduce yank feature")
+> > > > > > Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1964326
+> > > > > > Signed-off-by: Leonardo Bras <leobras.c@gmail.com>  
+> > > > > 
+> > > > > Leo,
+> > > > > 
+> > > > > Thanks for looking into it!
+> > > > > 
+> > > > > So before looking int the fix... I do have a doubt on why we only enable yank
+> > > > > on socket typed, as I think tls should also work with qio_channel_shutdown().
+> > > > > 
+> > > > > IIUC the confused thing here is we register only for qio-socket, however tls
+> > > > > will actually call migration_channel_connect() twice, first with a qio-socket,
+> > > > > then with the real tls-socket.  For tls I feel like we have registered with the
+> > > > > wrong channel - instead of the wrapper socket ioc, we should register to the
+> > > > > final tls ioc?
+> > > > > 
+> > > > > Lukas, is there a reason?
+> > > > > 
+> > > > 
+> > > > Hi,
+> > > > There is no specific reason. Both ways work equally well in preventing
+> > > > qemu from hanging. shutdown() for tls-channel just makes it abort a
+> > > > little sooner (by not attempting to encrypt and send data anymore).
+> > > > 
+> > > > I don't lean either way. I guess registering it on the tls-channel
+> > > > makes is a bit more explicit and clearer.
+> > > 
+> > > Agreed, because IMHO logically the migration code should not be aware of
+> > > internals of IOChannels, e.g., we shouldn't need to know ioc->master is the
+> > > socket ioc of tls ioc to unregister.
+> > 
+> > I think it is atually better to ignore the TLS channel and *always* yank
+> > on the undering socket IO channel. The yank functionality is intended to
+> > be used in a scenario where we know the channels are broken.  If yank
+> > calls the high level IO channel it is potentially going to try to do a
+> > cleanup shutdown that we know will fail because of the broken network.
+> 
+> Could you elaborate what's the "cleanup shutdown"?
+> 
+> The yank calls migration_yank_iochannel:
+> 
+> void migration_yank_iochannel(void *opaque)
+> {
+>     QIOChannel *ioc = QIO_CHANNEL(opaque);
+> 
+>     qio_channel_shutdown(ioc, QIO_CHANNEL_SHUTDOWN_BOTH, NULL);
+> }
+> 
+> Where qio_channel_shutdown for tls is nothing but delivers that to the master
+> channel:
+> 
+> static int qio_channel_tls_shutdown(QIOChannel *ioc,
+>                                     QIOChannelShutdown how,
+>                                     Error **errp)
+> {
+>     QIOChannelTLS *tioc = QIO_CHANNEL_TLS(ioc);
+> 
+>     qatomic_or(&tioc->shutdown, how);
+> 
+>     return qio_channel_shutdown(tioc->master, how, errp);
+> }
+> 
+> So I thought it was a nice wrapper just for things like this, and I didn't see
+> anything it does more than the io_shutdown for the socket channel.  Did I miss
+> something?
 
-Fixes: 7c2f5f75f94 (vfio: Register SaveVMHandlers for VFIO device)
-Reported-by: Qixin Gan <ganqixin@huawei.com>
-Signed-off-by: Kunkun Jiang <jiangkunkun@huawei.com>
----
- hw/vfio/migration.c | 1 +
- 1 file changed, 1 insertion(+)
+Today thats the case, but don't assume it will be the case forever.
+There is a mechanism in TLS for doing clean shutdown which we've
+debated including.
 
-diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
-index 201642d75e..ef397ebe6c 100644
---- a/hw/vfio/migration.c
-+++ b/hw/vfio/migration.c
-@@ -892,6 +892,7 @@ void vfio_migration_finalize(VFIODevice *vbasedev)
- 
-         remove_migration_state_change_notifier(&migration->migration_state);
-         qemu_del_vm_change_state_handler(migration->vm_state);
-+        unregister_savevm(VMSTATE_IF(vbasedev->dev), "vfio", vbasedev);
-         vfio_migration_exit(vbasedev);
-     }
- 
+In general apps *can* just call the shutdown method on the QIOChannelTLS
+object no matter what.  Yank is just a little bit special because of its
+need to be guaranteed to work even when the network is dead. So yank
+should always directly call the low level QIOChannelSocket, so thre is
+a strong guarantee it can't block on something.
+
+
+Regards,
+Daniel
 -- 
-2.23.0
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
