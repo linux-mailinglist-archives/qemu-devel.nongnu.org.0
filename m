@@ -2,76 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9684139354C
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 20:15:13 +0200 (CEST)
-Received: from localhost ([::1]:55080 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5105C39355C
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 20:19:25 +0200 (CEST)
+Received: from localhost ([::1]:59764 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lmKXI-0000O0-L2
-	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 14:15:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36712)
+	id 1lmKbM-0003o5-CY
+	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 14:19:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38088)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1lmKUf-0007NR-1I
- for qemu-devel@nongnu.org; Thu, 27 May 2021 14:12:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21908)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1lmKUT-0004dJ-T4
- for qemu-devel@nongnu.org; Thu, 27 May 2021 14:12:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622139135;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=INLLS9U8hGqfPBA1qaEZXq0RqR3lIQeHqItHfd05R5Q=;
- b=g8/VijOReKK/cOofVtyk+kmEZAWRie/i58Cq6V7uwoAehjkvWkGevdRPACXR6n0634GIWh
- P7MQbCHQOhj4pYHYQkYiNoiu0xV2PHlKoOVIIcMRBGszIMrekomTFPVUzFNxlN27ERFqod
- YARqHo1hQZc/aHDg0CuG9zG4QNaW9yc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-127-LRNvlPiqMCG1rZIMlECUsw-1; Thu, 27 May 2021 14:12:05 -0400
-X-MC-Unique: LRNvlPiqMCG1rZIMlECUsw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8BB29800C60
- for <qemu-devel@nongnu.org>; Thu, 27 May 2021 18:12:04 +0000 (UTC)
-Received: from wainer-laptop.localdomain (ovpn-116-187.gru2.redhat.com
- [10.97.116.187])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5955F5B689;
- Thu, 27 May 2021 18:11:57 +0000 (UTC)
-Subject: Re: [PATCH 1/1] tests/acceptance: change armbian archive to a faster
- host
-To: Willian Rampazzo <willianr@redhat.com>, qemu-devel@nongnu.org
-References: <20210526205601.263444-1-willianr@redhat.com>
- <20210526205601.263444-2-willianr@redhat.com>
-From: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-ID: <0162f7a0-e934-5f15-ecb0-8796bad67642@redhat.com>
-Date: Thu, 27 May 2021 15:11:55 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lmKZk-0002n7-V1
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 14:17:44 -0400
+Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534]:36507)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lmKZg-0007tW-OI
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 14:17:44 -0400
+Received: by mail-ed1-x534.google.com with SMTP id df21so1926577edb.3
+ for <qemu-devel@nongnu.org>; Thu, 27 May 2021 11:17:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=C6qvDFax//zxNjRs9KED2GzHvHyZhKPtyVzLWapsNwQ=;
+ b=oKm6Wrh9vDtuC41r0x+c1i5U+/7dEPOMk4W+1Y8MBe+pXzmkYICx4wk5Uo4Dp2RJlf
+ SVOcvXZtageBVYErkB5DWoulnRRU2yQ3+ig6sY0kjFFfgOsyQL+9BmK2PkkISKXmODFr
+ eVw69JpJMauQVT2EUMQlZ+X4GM/AdXjnOv3jcVxRfpI5T0Jv9ZaztpUdOPiIxnYkDUsy
+ HU8yuG9uOjevDgA1igPImxdOHh+TjSnZiMRlEL6n2pbXIOL+D2KZQPp8hTbH+9oOPvfX
+ hW2VmpLLJgYF7WEJuZ7fuhvIx2O6WkvrcM/kt3CnwLBLd37XroakLBv7DMrSEPgbr3s8
+ A6vg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=C6qvDFax//zxNjRs9KED2GzHvHyZhKPtyVzLWapsNwQ=;
+ b=UwOjRZBLoy92yn0TGq9dPw/jNt1lVKfPJcDltxxi8E5y7Mz8igRmZq3g+T9VCydvVx
+ ln4mMxvrdEdon6Ygt264NdWiKRKAxsUceYV2bhK4x/j63yW+eXuoul4TPtbDLv4OMHft
+ kZwV5oAa0+SgJbOzgIb6yiNAwLyxj/xR43EgGi0c8Z/6U7TflmU0GAQKSCSM04KgXgS1
+ mxnscwGJv15ZdTjh8GqaULEeIcOqpKPAOwfhgWI0bksb2NIG+e5z4Gnej82vEZU79p9H
+ jUXajNVP7DCoqNKkb9BIUPg187StYutOnc6dpToblAG2Nj+IMpVRQa2Y+/1eGxqdTTe4
+ RQ8Q==
+X-Gm-Message-State: AOAM532bAZC47ROXpv1yWLal+Bi5fj/mX0RS1Bi7eImAwatNOPGIzlpZ
+ v6jenM/MoNVabY33NgAACe+t4GfqMTWXQKnODOqLAg==
+X-Google-Smtp-Source: ABdhPJydZHZzlWeRNh+s65N2KMGqthbktIKnJx9YwNErGFXCFJCiFQTS1JqtSxDPUW+CMMuI5V/p1vnPMD4JdZwor4A=
+X-Received: by 2002:a05:6402:19a:: with SMTP id
+ r26mr5626802edv.44.1622139458398; 
+ Thu, 27 May 2021 11:17:38 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210526205601.263444-2-willianr@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=wainersm@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.374,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+References: <20210527144533.688225-1-f4bug@amsat.org>
+In-Reply-To: <20210527144533.688225-1-f4bug@amsat.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 27 May 2021 19:17:12 +0100
+Message-ID: <CAFEAcA-=exas627sGuFNQZZTsrUsFzOtJUzSmvF4TjJiqOt-CQ@mail.gmail.com>
+Subject: Re: [PULL v2 00/18] gitlab-ci patches for 2021-05-26
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::534;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x534.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,53 +79,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
-
-On 5/26/21 5:56 PM, Willian Rampazzo wrote:
-> The current host for the image
-> Armbian_20.08.1_Orangepipc_bionic_current_5.8.5.img.xz
-> (archive.armbian.com) is extremely slow in the last couple of weeks,
-> making the job running the test
-> tests/system/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi_bionic_20_08
-> for the first time when the image is not yet on GitLab cache, time out
-> while the image is being downloaded.
+On Thu, 27 May 2021 at 15:48, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
+ wrote:
 >
-> This changes the host to one faster, so new users with an empty cache
-> are not impacted.
-
-Here the old host performed slightly better: download time of 0:17:36 vs 
-0:19:44. Maybe it was a temporary issue with the old host or maybe 
-GitLab's runner network?
-
-Anyway,
-
-Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-
-
+> v2: Rebased on top of 7cf333a3726 ("gitlab-ci: use --meson=3Dgit for CFI =
+jobs")
 >
-> Signed-off-by: Willian Rampazzo <willianr@redhat.com>
-> ---
->   tests/acceptance/boot_linux_console.py | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
+> The following changes since commit 8385235ba99c53d1187658f2fc289b953a8090=
+b1:
 >
-> diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
-> index 276a53f146..51c23b822c 100644
-> --- a/tests/acceptance/boot_linux_console.py
-> +++ b/tests/acceptance/boot_linux_console.py
-> @@ -804,7 +804,8 @@ def test_arm_orangepi_bionic_20_08(self):
->           # to 1036 MiB, but the underlying filesystem is 1552 MiB...
->           # As we expand it to 2 GiB we are safe.
->   
-> -        image_url = ('https://archive.armbian.com/orangepipc/archive/'
-> +        image_url = ('https://armbian.systemonachip.net/'
-> +                     'archive/orangepipc/archive/'
->                        'Armbian_20.08.1_Orangepipc_bionic_current_5.8.5.img.xz')
->           image_hash = ('b4d6775f5673486329e45a0586bf06b6'
->                         'dbe792199fd182ac6b9c7bb6c7d3e6dd')
+>   Merge remote-tracking branch 'remotes/bonzini-gitlab/tags/for-upstream'=
+ into staging (2021-05-26 21:05:36 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://github.com/philmd/qemu.git tags/gitlab-ci-20210527
+>
+> for you to fetch changes up to 2d9e45b9cb0baa7316901238f3795a74206af457:
+>
+>   gitlab: Convert check-dco/check-patch jobs to the 'rules' syntax (2021-=
+05-27 16:39:23 +0200)
+>
+> ----------------------------------------------------------------
+> GitLab CI patches queue
+>
+> - Explode .gitlab-ci.yml in reusable templates
+> - Add job to cross build/test TCI on i386 host
+> - Remove CentOS 7 linux-user build job
+> - Temporarily set Avocado-based jobs in manual mode
+> - Increase time to hold Avocado reports to 1 week
+>
+> ----------------------------------------------------------------
 
+
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.1
+for any user-visible changes.
+
+-- PMM
 
