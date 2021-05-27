@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9E043925F9
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 06:16:16 +0200 (CEST)
-Received: from localhost ([::1]:40626 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDFE43925FE
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 06:18:45 +0200 (CEST)
+Received: from localhost ([::1]:49078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lm7RP-0004HZ-MP
-	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 00:16:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45036)
+	id 1lm7To-0001WM-SF
+	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 00:18:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45068)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lm7PP-0001Yb-Ep
- for qemu-devel@nongnu.org; Thu, 27 May 2021 00:14:12 -0400
-Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:46036)
+ id 1lm7PQ-0001Yw-GF
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 00:14:14 -0400
+Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429]:35726)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lm7PM-0007A3-Hv
- for qemu-devel@nongnu.org; Thu, 27 May 2021 00:14:11 -0400
-Received: by mail-pj1-x1035.google.com with SMTP id
- ne24-20020a17090b3758b029015f2dafecb0so1593640pjb.4
+ id 1lm7PN-0007A7-8Q
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 00:14:12 -0400
+Received: by mail-pf1-x429.google.com with SMTP id g18so2661065pfr.2
  for <qemu-devel@nongnu.org>; Wed, 26 May 2021 21:14:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=l7C6tS9XhSbsAFvRiiUPAt7TYUWb/CAkxQde5RCfZGI=;
- b=kTO33F8H6UUuBkXWa9om7KdmjxscNDLHmOIWTtxx2D6kf44Ii9V3yfLkKUSRfJCgJz
- eC0DMIrWwdDXogFfGO4zJFw4jEHODsRWUMybyjhlDDIQ5DYUujoZhNKb6dB/YM5QAFDY
- x6/vmcdvzdpbUrag5BLvc1gLyg1dgkj09aaNBECMqJnxL2+xy9FMVYWKhdeuiwxMFio8
- CV342hYxKrNHbZ/R1vTwmAJXuusDQtH33bXgUW8H4ge9iqQ7rqRaxSlvulUtjehDEuKy
- YDBZwN3IY9/fAhLjLAM+Dh/Nv/f9xvsW/Ozwcr5Dhg1OUo9gYjjsWlv488vUiwecfk5a
- Tjeg==
+ bh=yeOiXbtTOrQ1HO+ZU3eJmyLjRTBzgH1M55NyXilFo1c=;
+ b=DOeGpaJ9PQVKA0HzYycc+VcRYAoAX5WrELrsJQX0YoYUEbTVPgixqgKIol+Or2Z3AD
+ NmDTaf5vKx5p435eqr9srgNPLgTarWewQavwlqHaTk12CZ6qsPNR8W8L1Dgtx0gJ5tqE
+ dSIOA6Y0362AZhlf2SVj5wR56RxgyMxXKwPPlaP/9twHazWe7XSW7A7TN5PLdwU0jFmY
+ XBJ9VLsRb4CqGClcG0sgD7Ymnof2Efv3cQy5dKZetn2s3y9XhJipmxlghwxQDbIusoVK
+ I2XT+aimc9MNfiQBrPi8wZDPu3FO0o4dvQH0vVMaTvwkkMXYwnXVPnqoAOALU8qfly63
+ 3XFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=l7C6tS9XhSbsAFvRiiUPAt7TYUWb/CAkxQde5RCfZGI=;
- b=hryQLn+T9ZxLPpqu1z/UDvvPDeLt7ux1VOOvJRppke1pI8hwXg+MH63tqHp+LRqHt9
- 3xAsPT1LG86EB/p+5SK2NOqLpf93jhtKFvawRMny4PSwbzlEcu84ZPXR9Rq6qAUcaGIc
- qEM5P+/aKLk50bQEvF30+PftvElLc8veja5nznygOQdrPXcmnc2CS6uXT+6rKk7yITsr
- 90Pewb83pXvRuvP7NJoWRM6DAtEReztSA1c2WE8wbYs5+9ps0fU6s1Dc0CbciBwOhs4n
- 1m8lh/Zi7qX767HBSlDNV39k82RcqosNCHj3RtsNMR1+5Q/PaTTF4EdgYJie2/jcbDX1
- Lkig==
-X-Gm-Message-State: AOAM532LwBMOKAegZAIBxLABdfB8TD9bLapQ8QlrtVG+smCJeJY6968k
- rv7jf+isrgR3XKjel4T+WJF8VyKkDnoZ6g==
-X-Google-Smtp-Source: ABdhPJyN2I5sesFHEdg7YLA0LEPyWYTCAzdZ1MUl9gGgzGqxReRZrKlm5pZTu3VRLHZfqVy3YpNkiA==
-X-Received: by 2002:a17:90a:8d82:: with SMTP id
- d2mr1674317pjo.200.1622088847082; 
+ bh=yeOiXbtTOrQ1HO+ZU3eJmyLjRTBzgH1M55NyXilFo1c=;
+ b=m4wc6EZwmcN3b5a6FZj3zW/BuT8D3pKR7hgwV40UMkogsoUzEMrOoqzE58tXFGx5lS
+ 0uU1MysM0HoDcXp0b1etGkEEdhCI0ShqRBTyo5Pmhh9FmBN2+yBmdsXRAxhTJqXjZKWk
+ EDIBSNnUTU5VKejaf8ynnLiSQ3X32fSgSAgioLMCZysyXHxpe4cleH1Hz12G73xkS3f5
+ 2VnBXsUZj8E2k3XYpias39JGD53mFQY7unhAuFdG4JxgP6Sv8Qns1Q61nyLDsUUqQV3b
+ tiK8knDGas84g7lJt/NfW1LQr9JDJvxPdPrWk7XbCXs2B9BjXReLXg5cVYpYfh5KVoXv
+ KdnQ==
+X-Gm-Message-State: AOAM531diZ0p5BJC7HZ0XuBzP1DcRhx6WFjr2w7FLsULT36cDobH5dYO
+ KPmQhTDWFlwrZfLPp5086EvxXvIOCBwcmA==
+X-Google-Smtp-Source: ABdhPJw1Lf/slX24ydCi1ORLXxAzv4NkI3nHNeFjNFsgfyHfPvQcAtzr/yv87JX+7LFlFTCEDDatSw==
+X-Received: by 2002:aa7:9a0e:0:b029:2dc:70d1:2224 with SMTP id
+ w14-20020aa79a0e0000b02902dc70d12224mr1846798pfj.1.1622088847737; 
  Wed, 26 May 2021 21:14:07 -0700 (PDT)
 Received: from localhost.localdomain (174-21-70-228.tukw.qwest.net.
  [174.21.70.228])
- by smtp.gmail.com with ESMTPSA id s1sm605959pfc.6.2021.05.26.21.14.06
+ by smtp.gmail.com with ESMTPSA id s1sm605959pfc.6.2021.05.26.21.14.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 May 2021 21:14:06 -0700 (PDT)
+ Wed, 26 May 2021 21:14:07 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 01/11] softfloat: Rename float_flag_input_denormal to
- float_flag_iflush_denormal
-Date: Wed, 26 May 2021 21:13:55 -0700
-Message-Id: <20210527041405.391567-2-richard.henderson@linaro.org>
+Subject: [PATCH 02/11] softfloat: Rename float_flag_output_denormal to
+ float_flag_oflush_denormal
+Date: Wed, 26 May 2021 21:13:56 -0700
+Message-Id: <20210527041405.391567-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210527041405.391567-1-richard.henderson@linaro.org>
 References: <20210527041405.391567-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x429.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,203 +89,146 @@ Cc: alex.bennee@linaro.org, mmorrell@tachyum.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The new name emphasizes that the input denormal has been flushed to zero.
+The new name emphasizes that the output denormal has been flushed to zero.
 
 Patch created mechanically using:
-  sed -i s,float_flag_input_denormal,float_flag_iflush_denormal,g \
-    $(git grep -l float_flag_input_denormal)
+  sed -i s,float_flag_output_denormal,float_flag_oflush_denormal,g \
+    $(git grep -l float_flag_output_denormal)
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/fpu/softfloat-types.h |  2 +-
- fpu/softfloat.c               |  4 ++--
- target/arm/sve_helper.c       |  6 +++---
- target/arm/vfp_helper.c       | 10 +++++-----
- target/i386/tcg/fpu_helper.c  |  6 +++---
- target/mips/tcg/msa_helper.c  |  2 +-
- target/rx/op_helper.c         |  2 +-
- fpu/softfloat-parts.c.inc     |  2 +-
- 8 files changed, 17 insertions(+), 17 deletions(-)
+ include/fpu/softfloat-types.h | 2 +-
+ fpu/softfloat.c               | 2 +-
+ target/arm/vfp_helper.c       | 2 +-
+ target/i386/tcg/fpu_helper.c  | 2 +-
+ target/mips/tcg/msa_helper.c  | 2 +-
+ target/rx/op_helper.c         | 2 +-
+ target/tricore/fpu_helper.c   | 6 +++---
+ fpu/softfloat-parts.c.inc     | 2 +-
+ 8 files changed, 10 insertions(+), 10 deletions(-)
 
 diff --git a/include/fpu/softfloat-types.h b/include/fpu/softfloat-types.h
-index 1f83378c20..719b4d2531 100644
+index 719b4d2531..e2d70ff556 100644
 --- a/include/fpu/softfloat-types.h
 +++ b/include/fpu/softfloat-types.h
-@@ -148,7 +148,7 @@ enum {
-     float_flag_overflow  =  8,
+@@ -149,7 +149,7 @@ enum {
      float_flag_underflow = 16,
      float_flag_inexact   = 32,
--    float_flag_input_denormal = 64,
-+    float_flag_iflush_denormal = 64,
-     float_flag_output_denormal = 128
+     float_flag_iflush_denormal = 64,
+-    float_flag_output_denormal = 128
++    float_flag_oflush_denormal = 128
  };
  
+ /*
 diff --git a/fpu/softfloat.c b/fpu/softfloat.c
-index 79b2205070..fa3a691a5a 100644
+index fa3a691a5a..cb077cf111 100644
 --- a/fpu/softfloat.c
 +++ b/fpu/softfloat.c
-@@ -132,7 +132,7 @@ this code that are retained.
-         if (unlikely(soft_t ## _is_denormal(*a))) {                     \
-             *a = soft_t ## _set_sign(soft_t ## _zero,                   \
-                                      soft_t ## _is_neg(*a));            \
--            float_raise(float_flag_input_denormal, s);                  \
-+            float_raise(float_flag_iflush_denormal, s);                  \
-         }                                                               \
-     }
- 
-@@ -4441,7 +4441,7 @@ float128 float128_silence_nan(float128 a, float_status *status)
- static bool parts_squash_denormal(FloatParts64 p, float_status *status)
- {
-     if (p.exp == 0 && p.frac != 0) {
--        float_raise(float_flag_input_denormal, status);
-+        float_raise(float_flag_iflush_denormal, status);
-         return true;
-     }
- 
-diff --git a/target/arm/sve_helper.c b/target/arm/sve_helper.c
-index 40af3024df..16b055a34f 100644
---- a/target/arm/sve_helper.c
-+++ b/target/arm/sve_helper.c
-@@ -4774,7 +4774,7 @@ static int16_t do_float16_logb_as_int(float16 a, float_status *s)
-                 return -15 - clz32(frac);
-             }
-             /* flush to zero */
--            float_raise(float_flag_input_denormal, s);
-+            float_raise(float_flag_iflush_denormal, s);
+@@ -4591,7 +4591,7 @@ floatx80 roundAndPackFloatx80(FloatX80RoundPrec roundingPrecision, bool zSign,
          }
-     } else if (unlikely(exp == 0x1f)) {
-         if (frac == 0) {
-@@ -4802,7 +4802,7 @@ static int32_t do_float32_logb_as_int(float32 a, float_status *s)
-                 return -127 - clz32(frac);
+         if ( zExp <= 0 ) {
+             if (status->flush_to_zero) {
+-                float_raise(float_flag_output_denormal, status);
++                float_raise(float_flag_oflush_denormal, status);
+                 return packFloatx80(zSign, 0, 0);
              }
-             /* flush to zero */
--            float_raise(float_flag_input_denormal, s);
-+            float_raise(float_flag_iflush_denormal, s);
-         }
-     } else if (unlikely(exp == 0xff)) {
-         if (frac == 0) {
-@@ -4830,7 +4830,7 @@ static int64_t do_float64_logb_as_int(float64 a, float_status *s)
-                 return -1023 - clz64(frac);
-             }
-             /* flush to zero */
--            float_raise(float_flag_input_denormal, s);
-+            float_raise(float_flag_iflush_denormal, s);
-         }
-     } else if (unlikely(exp == 0x7ff)) {
-         if (frac == 0) {
+             isTiny = status->tininess_before_rounding
 diff --git a/target/arm/vfp_helper.c b/target/arm/vfp_helper.c
-index 01b9d8557f..0a43ccc6fa 100644
+index 0a43ccc6fa..5864553718 100644
 --- a/target/arm/vfp_helper.c
 +++ b/target/arm/vfp_helper.c
-@@ -52,7 +52,7 @@ static inline int vfp_exceptbits_from_host(int host_bits)
+@@ -46,7 +46,7 @@ static inline int vfp_exceptbits_from_host(int host_bits)
+     if (host_bits & float_flag_overflow) {
+         target_bits |= 4;
+     }
+-    if (host_bits & (float_flag_underflow | float_flag_output_denormal)) {
++    if (host_bits & (float_flag_underflow | float_flag_oflush_denormal)) {
+         target_bits |= 8;
+     }
      if (host_bits & float_flag_inexact) {
-         target_bits |= 0x10;
-     }
--    if (host_bits & float_flag_input_denormal) {
-+    if (host_bits & float_flag_iflush_denormal) {
-         target_bits |= 0x80;
-     }
-     return target_bits;
-@@ -79,7 +79,7 @@ static inline int vfp_exceptbits_to_host(int target_bits)
-         host_bits |= float_flag_inexact;
-     }
-     if (target_bits & 0x80) {
--        host_bits |= float_flag_input_denormal;
-+        host_bits |= float_flag_iflush_denormal;
-     }
-     return host_bits;
- }
-@@ -92,9 +92,9 @@ static uint32_t vfp_get_fpscr_from_host(CPUARMState *env)
-     i |= get_float_exception_flags(&env->vfp.standard_fp_status);
-     /* FZ16 does not generate an input denormal exception.  */
-     i |= (get_float_exception_flags(&env->vfp.fp_status_f16)
--          & ~float_flag_input_denormal);
-+          & ~float_flag_iflush_denormal);
-     i |= (get_float_exception_flags(&env->vfp.standard_fp_status_f16)
--          & ~float_flag_input_denormal);
-+          & ~float_flag_iflush_denormal);
-     return vfp_exceptbits_from_host(i);
- }
- 
-@@ -1124,7 +1124,7 @@ uint64_t HELPER(fjcvtzs)(float64 value, void *vstatus)
-         inexact = sign;
-         if (frac != 0) {
-             if (status->flush_inputs_to_zero) {
--                float_raise(float_flag_input_denormal, status);
-+                float_raise(float_flag_iflush_denormal, status);
-             } else {
-                 float_raise(float_flag_inexact, status);
-                 inexact = 1;
 diff --git a/target/i386/tcg/fpu_helper.c b/target/i386/tcg/fpu_helper.c
-index 4e11965067..c402daf659 100644
+index c402daf659..c9779a9fe0 100644
 --- a/target/i386/tcg/fpu_helper.c
 +++ b/target/i386/tcg/fpu_helper.c
-@@ -148,7 +148,7 @@ static void merge_exception_flags(CPUX86State *env, uint8_t old_flags)
-                        (new_flags & float_flag_overflow ? FPUS_OE : 0) |
-                        (new_flags & float_flag_underflow ? FPUS_UE : 0) |
-                        (new_flags & float_flag_inexact ? FPUS_PE : 0) |
--                       (new_flags & float_flag_input_denormal ? FPUS_DE : 0)));
-+                       (new_flags & float_flag_iflush_denormal ? FPUS_DE : 0)));
+@@ -3001,7 +3001,7 @@ void update_mxcsr_from_sse_status(CPUX86State *env)
+                    (flags & float_flag_overflow ? FPUS_OE : 0) |
+                    (flags & float_flag_underflow ? FPUS_UE : 0) |
+                    (flags & float_flag_inexact ? FPUS_PE : 0) |
+-                   (flags & float_flag_output_denormal ? FPUS_UE | FPUS_PE :
++                   (flags & float_flag_oflush_denormal ? FPUS_UE | FPUS_PE :
+                     0));
  }
  
- static inline floatx80 helper_fdiv(CPUX86State *env, floatx80 a, floatx80 b)
-@@ -1742,7 +1742,7 @@ void helper_fxtract(CPUX86State *env)
-             int shift = clz64(temp.l.lower);
-             temp.l.lower <<= shift;
-             expdif = 1 - EXPBIAS - shift;
--            float_raise(float_flag_input_denormal, &env->fp_status);
-+            float_raise(float_flag_iflush_denormal, &env->fp_status);
-         } else {
-             expdif = EXPD(temp) - EXPBIAS;
-         }
-@@ -2991,7 +2991,7 @@ void update_mxcsr_from_sse_status(CPUX86State *env)
-     uint8_t flags = get_float_exception_flags(&env->sse_status);
-     /*
-      * The MXCSR denormal flag has opposite semantics to
--     * float_flag_input_denormal (the softfloat code sets that flag
-+     * float_flag_iflush_denormal (the softfloat code sets that flag
-      * only when flushing input denormals to zero, but SSE sets it
-      * only when not flushing them to zero), so is not converted
-      * here.
 diff --git a/target/mips/tcg/msa_helper.c b/target/mips/tcg/msa_helper.c
-index 04af54f66d..992d348aa3 100644
+index 992d348aa3..51791f946b 100644
 --- a/target/mips/tcg/msa_helper.c
 +++ b/target/mips/tcg/msa_helper.c
-@@ -6230,7 +6230,7 @@ static inline int update_msacsr(CPUMIPSState *env, int action, int denormal)
-     enable = GET_FP_ENABLE(env->active_tc.msacsr) | FP_UNIMPLEMENTED;
+@@ -6240,7 +6240,7 @@ static inline int update_msacsr(CPUMIPSState *env, int action, int denormal)
+     }
  
-     /* Set Inexact (I) when flushing inputs to zero */
--    if ((ieee_exception_flags & float_flag_input_denormal) &&
-+    if ((ieee_exception_flags & float_flag_iflush_denormal) &&
+     /* Set Inexact (I) and Underflow (U) when flushing outputs to zero */
+-    if ((ieee_exception_flags & float_flag_output_denormal) &&
++    if ((ieee_exception_flags & float_flag_oflush_denormal) &&
              (env->active_tc.msacsr & MSACSR_FS_MASK) != 0) {
-         if (action & CLEAR_IS_INEXACT) {
-             mips_exception_flags &= ~FP_INEXACT;
+         mips_exception_flags |= FP_INEXACT;
+         if (action & CLEAR_FS_UNDERFLOW) {
 diff --git a/target/rx/op_helper.c b/target/rx/op_helper.c
-index 4d315b4449..eb2c4a41fb 100644
+index eb2c4a41fb..ef904eb5f9 100644
 --- a/target/rx/op_helper.c
 +++ b/target/rx/op_helper.c
-@@ -97,7 +97,7 @@ static void update_fpsw(CPURXState *env, float32 ret, uintptr_t retaddr)
-         if (xcpt & float_flag_inexact) {
+@@ -98,7 +98,7 @@ static void update_fpsw(CPURXState *env, float32 ret, uintptr_t retaddr)
              SET_FPSW(X);
          }
--        if ((xcpt & (float_flag_input_denormal
-+        if ((xcpt & (float_flag_iflush_denormal
-                      | float_flag_output_denormal))
+         if ((xcpt & (float_flag_iflush_denormal
+-                     | float_flag_output_denormal))
++                     | float_flag_oflush_denormal))
              && !FIELD_EX32(env->fpsw, FPSW, DN)) {
              env->fpsw = FIELD_DP32(env->fpsw, FPSW, CE, 1);
+         }
+diff --git a/target/tricore/fpu_helper.c b/target/tricore/fpu_helper.c
+index cb7ee7dd35..7c826f9b7b 100644
+--- a/target/tricore/fpu_helper.c
++++ b/target/tricore/fpu_helper.c
+@@ -43,7 +43,7 @@ static inline uint8_t f_get_excp_flags(CPUTriCoreState *env)
+            & (float_flag_invalid
+               | float_flag_overflow
+               | float_flag_underflow
+-              | float_flag_output_denormal
++              | float_flag_oflush_denormal
+               | float_flag_divbyzero
+               | float_flag_inexact);
+ }
+@@ -99,7 +99,7 @@ static void f_update_psw_flags(CPUTriCoreState *env, uint8_t flags)
+         some_excp = 1;
+     }
+ 
+-    if (flags & float_flag_underflow || flags & float_flag_output_denormal) {
++    if (flags & float_flag_underflow || flags & float_flag_oflush_denormal) {
+         env->FPU_FU = 1 << 31;
+         some_excp = 1;
+     }
+@@ -109,7 +109,7 @@ static void f_update_psw_flags(CPUTriCoreState *env, uint8_t flags)
+         some_excp = 1;
+     }
+ 
+-    if (flags & float_flag_inexact || flags & float_flag_output_denormal) {
++    if (flags & float_flag_inexact || flags & float_flag_oflush_denormal) {
+         env->PSW |= 1 << 26;
+         some_excp = 1;
+     }
 diff --git a/fpu/softfloat-parts.c.inc b/fpu/softfloat-parts.c.inc
-index 801aa86ff9..be29ba0aa3 100644
+index be29ba0aa3..72e2b24539 100644
 --- a/fpu/softfloat-parts.c.inc
 +++ b/fpu/softfloat-parts.c.inc
-@@ -112,7 +112,7 @@ static void partsN(canonicalize)(FloatPartsN *p, float_status *status,
-         if (likely(frac_eqz(p))) {
-             p->cls = float_class_zero;
-         } else if (status->flush_inputs_to_zero) {
--            float_raise(float_flag_input_denormal, status);
-+            float_raise(float_flag_iflush_denormal, status);
-             p->cls = float_class_zero;
-             frac_clear(p);
-         } else {
+@@ -227,7 +227,7 @@ static void partsN(uncanon_normal)(FloatPartsN *p, float_status *s,
+         }
+         frac_shr(p, frac_shift);
+     } else if (s->flush_to_zero) {
+-        flags |= float_flag_output_denormal;
++        flags |= float_flag_oflush_denormal;
+         p->cls = float_class_zero;
+         exp = 0;
+         frac_clear(p);
 -- 
 2.25.1
 
