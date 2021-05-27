@@ -2,81 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23DE9393183
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 16:54:21 +0200 (CEST)
-Received: from localhost ([::1]:52864 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF8DD39319D
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 16:59:52 +0200 (CEST)
+Received: from localhost ([::1]:60596 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lmHOu-00015J-6l
-	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 10:54:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41682)
+	id 1lmHUF-0006Wq-Un
+	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 10:59:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43502)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lmHMW-0005JZ-RT
- for qemu-devel@nongnu.org; Thu, 27 May 2021 10:51:52 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:36729)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lmHS9-00041N-M6
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 10:57:41 -0400
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:33366)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lmHMR-0003pI-UI
- for qemu-devel@nongnu.org; Thu, 27 May 2021 10:51:49 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id n4so187874wrw.3
- for <qemu-devel@nongnu.org>; Thu, 27 May 2021 07:51:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=3Ber4LEMDvF0fJsnwmKCi/cHaS35D9fM5y/DunQTl3s=;
- b=AMSaz805q4XLxejsdpKJhtbZ7CPMQTU/D7LcrNPmGtT/JNhDR+u86XuxSpE72RVk/J
- AaSqHUz/8gTfmGDDdfAs8eZs8e/BW/dsUdhk1oBT2dzq34+SddB0avUA7ZZeTjMGHDua
- sdiCG281zk4OSuCwj3L2MOsZ3dLNBhgXEauZtTU3pCKQFxZqxTm0NUPmxcXO5FYXKTAu
- ndK/MAXMtwTZ86rDwHFNRjHOBD4VU6Bu6NE4Kgma1Zsf1Xv+BnuhrAunDZnXErqmvipj
- r5mCznDu8oQbYuv/W9OqxVuTxmOp1zrFkJSVE0+M3Rpk4k1XBgJm6EPKzzIoRLYpUcRM
- wgTQ==
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lmHS5-0007aL-Hr
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 10:57:41 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id
+ z137-20020a1c7e8f0000b02901774f2a7dc4so5284309wmc.0
+ for <qemu-devel@nongnu.org>; Thu, 27 May 2021 07:57:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=TyIb0UlOUw4Sm4JEsaC2mXqJDze0g5G63Ze76J35lmM=;
+ b=WPAe4frhBEBU3waIPNcfPvVABhQcHYNxqtKe7c1/NhwG44zJ8mQ6vO7nn+VC1qe/ST
+ bNLkY/V+sfmrs9Emr5HQfLK81RRUaCnZ7PrsospikbX/04Gzn6RPRAXiUw9XZuRSK75r
+ wovI1ySPzo3uWx6bwMgZTzAMgSb87n/h10cQ8wtEsRmHspsmJu3dhCw0gBCB/gHsoj13
+ S87IQ6ZZWWGkhaONKzzVs3Edk1uSoMQWr4Y30lr8g+Q0bsQUsNEzgkGnFeina5GlUEzB
+ DaWDr0WxUQA2EYooBh1bm06Hjt5ej5dMuwUVFf89bDSunovYXEYgNHNKz96iT9qRdrEH
+ SRwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=3Ber4LEMDvF0fJsnwmKCi/cHaS35D9fM5y/DunQTl3s=;
- b=CRGYL0QOaFxrE61BFye8VH/s/z3JvCuArTmvZ5UoVR+ydnr010BA2s2lOh9gALsVne
- lSjAo0tt3SXcF072R+aSRkULNawNVFX4u5pVQ8wdNAn45qNhcuAWfODFSc1Aalxy49ax
- p1brSBIHC5R+0nd7ylRrKW2ZtgrN/+cD7iphXe7VWSAgPeCA8acJG7ymsr9J5WMUhKyn
- 8pe3l5ysFa/U1Kha/qxOG563TMUVpX8Jo1HyYD+gqlsDjCjXlyusRqd//KSCMrgs6Sgv
- 7e69s8cKNQkWqXzl0drK+R/+bbTIKBe7ksklhbiYJ5sDvTJ8a3SNWKIchg/dOd7FTHOk
- FENQ==
-X-Gm-Message-State: AOAM533osIMV4rtlsUPY+Hivhw4LR4MXt7TpV3/ODH0Z6LK1eYMdWfH9
- w3qeQvMlLCc8Kj/k86RCe98=
-X-Google-Smtp-Source: ABdhPJxlH2HEaBfERMJT6wO1bnOALpAk7gRAMwyHCaUYJtUWUV4RxyAE9iBaJPhN5VJ2SX7XjjUy2A==
-X-Received: by 2002:a5d:4443:: with SMTP id x3mr4093376wrr.62.1622127106415;
- Thu, 27 May 2021 07:51:46 -0700 (PDT)
-Received: from [192.168.1.36] (235.red-83-57-168.dynamicip.rima-tde.net.
- [83.57.168.235])
- by smtp.gmail.com with ESMTPSA id c64sm11315711wma.15.2021.05.27.07.51.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 27 May 2021 07:51:45 -0700 (PDT)
-Subject: Re: [PULL 00/19] gitlab-ci patches for 2021-05-26
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20210526211838.421716-1-f4bug@amsat.org>
- <CAFEAcA-goVUqVxMd9QmvFsUUky0d1MmJ4N7A_oK4en-16VbUeA@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <7209208b-8191-fb8e-5f0a-1cbca7bf5dc9@amsat.org>
-Date: Thu, 27 May 2021 16:51:44 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=TyIb0UlOUw4Sm4JEsaC2mXqJDze0g5G63Ze76J35lmM=;
+ b=uEjcuI9ydxjTwMgYx9YmrvwSCq2ZP4P0gS0B6vsaP7kb4qV4cX1ypp/K4pjEdHUdZN
+ 97rNcsXG6p6rNGPcG0A+4UW6Hg7OCH+hT165nhm574BC9BlwwzRjW7dneBc4ZUocwDf5
+ rwWc6uw9gqnv8na1eqlIud0zQDP+X/zW45RHarlsZWTZ4bvIgd73aLb5CqRx9P9A45Wx
+ l9c+xiJKI7aU1SOLTQiBy5FRR8J4tdZFwWpismwVrFbtSUyh/H/IxliV90m0Z+Qx7CyL
+ DXSRfrGjALwRY2qRqctJDoeY+JN9lf72Ncea4DuzsK8BBCKX6GApck5Tbbefqjk5rgDP
+ JiJg==
+X-Gm-Message-State: AOAM532PvckRXtik8x6ycvsQUQuAKNIsa9XquUBKPeSmXqmMWxlpEd1/
+ XQglOdTM+E1f1hdVELe/iFVS0A==
+X-Google-Smtp-Source: ABdhPJxNTO7fMt5yd6a4uetyoZbbozIG415a2nidEnmMx2ewtUhNhTjvS2eNCAD+lHcZV7gmChMsAw==
+X-Received: by 2002:a1c:dc0b:: with SMTP id t11mr4008885wmg.89.1622127455814; 
+ Thu, 27 May 2021 07:57:35 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id s1sm11611922wmj.8.2021.05.27.07.57.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 27 May 2021 07:57:34 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id D52A91FF7E;
+ Thu, 27 May 2021 15:57:33 +0100 (BST)
+References: <20210526202104.127910-1-bruno.larsen@eldorado.org.br>
+ <87v9741djt.fsf@linaro.org>
+ <CP2PR80MB36689194A6DF4B3848702C7FDA239@CP2PR80MB3668.lamprd80.prod.outlook.com>
+User-agent: mu4e 1.5.13; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Luis Fernando Fujita Pires <luis.pires@eldorado.org.br>
+Subject: Re: [PATCH 0/5] stop collection of instruction usage statistics
+Date: Thu, 27 May 2021 15:56:02 +0100
+In-reply-to: <CP2PR80MB36689194A6DF4B3848702C7FDA239@CP2PR80MB3668.lamprd80.prod.outlook.com>
+Message-ID: <87sg281axu.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA-goVUqVxMd9QmvFsUUky0d1MmJ4N7A_oK4en-16VbUeA@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42b.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,45 +89,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: "farosas@linux.ibm.com" <farosas@linux.ibm.com>,
+ "richard.henderson@linaro.org" <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Lucas Mateus Martins Araujo e Castro <lucas.araujo@eldorado.org.br>,
+ Fernando Eckhardt Valle <fernando.valle@eldorado.org.br>,
+ "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
+ Matheus Kowalczuk Ferst <matheus.ferst@eldorado.org.br>,
+ "david@gibson.dropbear.id.au" <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/27/21 3:56 PM, Peter Maydell wrote:
-> On Wed, 26 May 2021 at 22:27, Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
->>
->> The following changes since commit 2ab2dad01f6dc3667c0d53d2b1ba46b511031207:
->>
->>   Merge remote-tracking branch 'remotes/kraxel/tags/input-20210526-pull-request' into staging (2021-05-26 15:27:20 +0100)
->>
->> are available in the Git repository at:
->>
->>   https://github.com/philmd/qemu.git tags/gitlab-ci-20210526
->>
->> for you to fetch changes up to 740890e8935fff09023bb34c52e74ab1d539b775:
->>
->>   gitlab: Split gprof-gcov job (2021-05-26 23:01:47 +0200)
->>
->> ----------------------------------------------------------------
->> GitLab CI patches queue
->>
->> - Explode .gitlab-ci.yml in reusable templates
->> - Add job to cross build/test TCI on i386 host
->> - Remove CentOS 7 linux-user build job
->> - Split gprof-gcov job
->> - Temporarily set Avocado-based jobs in manual mode
->> - Increase time to hold Avocado reports to 1 week
->>
-> 
-> Conflict in .gitlab-ci.yml -- can you fix up and resend, please?
 
-Paolo won the race by few minutes and commited 7cf333a3726
-("gitlab-ci: use --meson=git for CFI jobs").
+Luis Fernando Fujita Pires <luis.pires@eldorado.org.br> writes:
 
-Sent v2 fixed.
+> From: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>> I have no particular comment to make about the PPC stuff but with the co=
+mmon
+>> translator loop we have hooks across all converted front ends to identif=
+y the
+>> start of each instruction. It's needed for the TCG plugin instrumentatio=
+n and we
+>> could in theory use it for more integrated stats across the board.
+>>=20
+>> Out of interest what was the main aim of this code - a view of total exe=
+cuted
+>> instructions or something more detailed like a breakdown of types and op=
+s?
+>
+> The legacy instruction decoding logic in the PPC implementation uses a
+> table that maps opcode patterns (based on different parts of the
+> instructions) to handlers that actually implement each instruction.
+> The code that is being removed would list how many times each specific ha=
+ndler was invoked, so it had more information than just the total count of =
+executed instructions.
+>
+> That being said, the code probably wasn't being used for a while now,
+> as it didn't even compile.
 
-Regards,
+Ahh OK. If you wanted to you could probably re-create that information
+using the howvec plugin (see contrib/plugins/howvec) if the decode
+tables where added for PPC.
 
-Phil.
+--=20
+Alex Benn=C3=A9e
 
