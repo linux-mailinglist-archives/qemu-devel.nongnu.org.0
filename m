@@ -2,60 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53F22392B79
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 12:10:35 +0200 (CEST)
-Received: from localhost ([::1]:39300 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F957392B95
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 12:17:30 +0200 (CEST)
+Received: from localhost ([::1]:43436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lmCyI-0006UH-CY
-	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 06:10:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55726)
+	id 1lmD4z-00010r-3X
+	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 06:17:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56390)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1lmCsJ-0004jb-8j
- for qemu-devel@nongnu.org; Thu, 27 May 2021 06:04:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34885)
+ (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1lmCuu-00065A-Ox
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 06:07:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39254)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1lmCsA-00024V-28
- for qemu-devel@nongnu.org; Thu, 27 May 2021 06:04:22 -0400
+ (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1lmCub-0003Qs-5Q
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 06:06:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622109852;
+ s=mimecast20190719; t=1622110000;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=ZwsqPxCdRlhU7queBFk8L5WZ/Aztq8lsUpB8L7GkDZo=;
- b=MbZ/vuEc6t5BjI0ws/Lr88DVbY4uoSeZVhn1rgfpFoqwgPB0wyF3wmDL8v6+8bhnZwTKaf
- TbtESmFvdr0+cKFbwfqzZYhSdfxv0voOzhUgd3+F3bm4EMCFrdZb2RGcX5f3k2U9N7CDEr
- HRbvVjQWfovK+LguG6/GP0IpTrK5Lvo=
+ bh=yYzWm8GNN5JNUKRX0uVpapyoWpifwU3clv/duckVG+M=;
+ b=W0/p4GDwypcEWsBn7ETCTaYZ0IuPzgVAwaNvajDPgGR0LMEjsiZWxfYomAUwGBBOSeKQjn
+ lmnY9ta6pVBqD//i7P9lPmtPiBhGkwdLXOISNNRmK6iBEEP4zP9hu4M2Gtfna15ugDIxZC
+ PwyGCtogwhIC6LqUR6UmjTjJsZc098g=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-57-BtmYOO1lMhSil1QTDnK7rA-1; Thu, 27 May 2021 06:04:08 -0400
-X-MC-Unique: BtmYOO1lMhSil1QTDnK7rA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-451-P16pNmJlPi2_c4BOPgSZWA-1; Thu, 27 May 2021 06:06:36 -0400
+X-MC-Unique: P16pNmJlPi2_c4BOPgSZWA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D75AB801817;
- Thu, 27 May 2021 10:04:06 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4C48E800D55;
+ Thu, 27 May 2021 10:06:34 +0000 (UTC)
 Received: from localhost (unknown [10.33.36.9])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6FD6B10023B0;
- Thu, 27 May 2021 10:04:06 +0000 (UTC)
-Date: Thu, 27 May 2021 12:04:05 +0200
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D2D965D9C6;
+ Thu, 27 May 2021 10:06:33 +0000 (UTC)
+Date: Thu, 27 May 2021 12:06:32 +0200
 From: Sergio Lopez <slp@redhat.com>
 To: Alexander Graf <agraf@csgraf.de>
-Subject: Re: [PATCH v8 04/19] hvf: Move hvf internal definitions into common
- header
-Message-ID: <20210527100405.ryobfe4fqyzgm2uo@mhamilton>
+Subject: Re: [PATCH v8 05/19] hvf: Make hvf_set_phys_mem() static
+Message-ID: <20210527100632.acrkqlwgfrvt22dl@mhamilton>
 References: <20210519202253.76782-1-agraf@csgraf.de>
- <20210519202253.76782-5-agraf@csgraf.de>
+ <20210519202253.76782-6-agraf@csgraf.de>
 MIME-Version: 1.0
-In-Reply-To: <20210519202253.76782-5-agraf@csgraf.de>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <20210519202253.76782-6-agraf@csgraf.de>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=slp@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="wxpz6xsz23jv4pmk"
+ protocol="application/pgp-signature"; boundary="4sm6uqwzhrs7a35w"
 Content-Disposition: inline
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=slp@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -88,48 +87,43 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---wxpz6xsz23jv4pmk
+--4sm6uqwzhrs7a35w
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, May 19, 2021 at 10:22:38PM +0200, Alexander Graf wrote:
-> Until now, Hypervisor.framework has only been available on x86_64 systems=
-.
-> With Apple Silicon shipping now, it extends its reach to aarch64. To
-> prepare for support for multiple architectures, let's start moving common
-> code out into its own accel directory.
->=20
-> This patch moves a few internal struct and constant defines over.
+On Wed, May 19, 2021 at 10:22:39PM +0200, Alexander Graf wrote:
+> The hvf_set_phys_mem() function is only called within the same file.
+> Make it static.
 >=20
 > Signed-off-by: Alexander Graf <agraf@csgraf.de>
 > ---
->  include/sysemu/hvf_int.h   | 30 ++++++++++++++++++++++++++++++
->  target/i386/hvf/hvf-i386.h | 31 +------------------------------
->  2 files changed, 31 insertions(+), 30 deletions(-)
+>  accel/hvf/hvf-accel-ops.c | 2 +-
+>  include/sysemu/hvf_int.h  | 1 -
+>  2 files changed, 1 insertion(+), 2 deletions(-)
 
 Reviewed-by: Sergio Lopez <slp@redhat.com>
 
---wxpz6xsz23jv4pmk
+--4sm6uqwzhrs7a35w
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEvtX891EthoCRQuii9GknjS8MAjUFAmCvbpQACgkQ9GknjS8M
-AjUA4A//dQHi+yXydRQ/hTuXrYHcAQ35utY+TsqU1mAcTPKaxKSBDwx358sGh18G
-CKa6jlvQwq72lzrY6bVY5OjT3LCmxPJtCZ7bqUz0t3Ib4NDKAMk58E7DqB4+RwCP
-2x0nFNvnQNm+WAHQyIpwhxEaqOaBOulJySn4wyAtNghkbV7yWNeAAe+rCVSbbYDf
-IN48KklF2G9jE3wm4tFT9wcFHRWCTMpm+/iINN+MQaboCu6ZHW+GtF2a/cR9zu0P
-8UNuezxHGT4nfHF26DErtQN2kqLHM33ND1htVM/oxl7icB6WC1ERzJdahqOuVnBt
-WcwV25EIEZ2xpMDeJQKQYhAgQ9XZ1uk+OrxEcr/aSsCjpGIbm6h0CGHZfOLaOh0D
-v0deD70rI62mIm5AEXGZAJtpw6GqFSxueKdVdw/R01PvTIirmzoJuAsqcSpwrK49
-7aAMoqDCpFlsi03nwiz9QzMive5erjn4QPAJN3DjRBrWwrLpz72yaeYXv0oTwDHN
-+kFOHIVYNBirpatxsHPSAbmhGNEUyKoiIiKy7qEU74LZRo3gGW96NtC43ANfQTAk
-p1T8I/XzSuWMc1SmHbuuRHx61zPXO0XeiSV5PKike8j2n/j18OzNA9cp+Ji2NpjZ
-RQjXiFRV5db9I2l3TAA8DJXRzxFbTdAolAMkzeSwZBEWBm+9AeA=
-=4O7u
+iQIzBAABCAAdFiEEvtX891EthoCRQuii9GknjS8MAjUFAmCvbygACgkQ9GknjS8M
+AjWnmg//aPaIwLrX0MxghDgkDCgqHj+Sg+qH7sVdT0lY4iZbgk/O0JVczDehGeFo
+LIYDaAyr+/aykNWd67bYmORyFUZHdQ28EJuuGSWqqaJhJlFAipdElabHw9QSZyXP
+JIdfGgVRCjxOv1pxr8oWTZXAVR7UZo1+f8j6AThcgzEMiO6fEawBOXZ4/rnXfasV
+MqZCtV6nENY+bq3KLH4mUuK2pLZSX4eAsQ9cn2XrlEW+r0HE0Ql4WwVBockOnSKR
++rtAi2OL7gOhneCIxxXw2yzLtO+ldXJAJv6Vw9ST3mV3mrRo6+FxnjfTFj8tz1OD
+Nv6IKRkVT07a+VTo+0q+44vIQpo9kfa70+vewLJhsxQU0NQixRnRxCXQ+m+DN+iO
+u2KjNpgmsNVt7OG89W7IBNEw1khN+laugUrL0L2pjT39jaUkYpmXX7sysIE1K40g
+WT6KUkNXFepG3+ik5GAuFSXU4ktIRY/bqgw2aR0WROFMdvqpnnxJH9ov1lSK9bQb
+YbTmiCYG7cha7vQliB4Qj5JHi+rwZYPKjvD9lxU5OGDabQ0kmVgeXx6EsW36qvYS
+sm1EQdCWepIEykD8eWmhuGhO1mkirGarvPcl125vmL7fj7L9lzoOJHUlglgVxRp0
+xB2Nrllghw4fH2coTXBJJIMpFWRV7y/rSpc38Qi/8iawD4GjBqM=
+=moWR
 -----END PGP SIGNATURE-----
 
---wxpz6xsz23jv4pmk--
+--4sm6uqwzhrs7a35w--
 
 
