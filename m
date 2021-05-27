@@ -2,69 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 415E8392D8A
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 14:05:37 +0200 (CEST)
-Received: from localhost ([::1]:58624 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EEB7392E36
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 14:44:40 +0200 (CEST)
+Received: from localhost ([::1]:60108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lmElc-0004LE-Am
-	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 08:05:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44206)
+	id 1lmFNP-0001qD-27
+	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 08:44:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44598)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1lmE65-0007GC-D0
- for qemu-devel@nongnu.org; Thu, 27 May 2021 07:22:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42984)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1lmE62-0003Dm-Rl
- for qemu-devel@nongnu.org; Thu, 27 May 2021 07:22:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622114554;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=2G71iNdPDnnxJ99LNZyrlfpsy3MBTAdwVeIBbYeskNg=;
- b=ZWfGR920TyCNDH9gT8gSPxU9zSWfacyjjC0piwOyLGjXhvjiya/vFK0vIxwoN7kqiU/hlT
- P+udourjNy8F8a/inPfMIDuCkff+a/+62/uN+u+GW92RgX1I/mavEyXlhgjyIHI7n6CNm4
- s0fy3kF5cBq5dszv1z6XSPgNg++3VGs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-234-Gd366BCbNF2KD-Yexty4OQ-1; Thu, 27 May 2021 07:22:30 -0400
-X-MC-Unique: Gd366BCbNF2KD-Yexty4OQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 74EA619251A0;
- Thu, 27 May 2021 11:22:29 +0000 (UTC)
-Received: from localhost (unknown [10.33.36.9])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EAF4B5D9CC;
- Thu, 27 May 2021 11:22:28 +0000 (UTC)
-Date: Thu, 27 May 2021 13:22:27 +0200
-From: Sergio Lopez <slp@redhat.com>
-To: Alexander Graf <agraf@csgraf.de>
-Subject: Re: [PATCH v8 19/19] hvf: arm: Handle Windows 10 SMC call
-Message-ID: <20210527112227.6l3rgc7vh7z3ytvu@mhamilton>
-References: <20210519202253.76782-1-agraf@csgraf.de>
- <20210519202253.76782-20-agraf@csgraf.de>
+ (Exim 4.90_1) (envelope-from <bruno.larsen@eldorado.org.br>)
+ id 1lmE9B-0000ad-M8; Thu, 27 May 2021 07:25:57 -0400
+Received: from [201.28.113.2] (port=18872 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <bruno.larsen@eldorado.org.br>)
+ id 1lmE98-00051A-Tw; Thu, 27 May 2021 07:25:52 -0400
+Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
+ Microsoft SMTPSVC(8.5.9600.16384); Thu, 27 May 2021 08:24:41 -0300
+Received: from [127.0.0.1] (unknown [10.10.71.235])
+ by power9a (Postfix) with ESMTPS id 651268013E1;
+ Thu, 27 May 2021 08:24:41 -0300 (-03)
+Subject: Re: [PATCH 4/5] monitor: removed cpustats command
+To: Greg Kurz <groug@kaod.org>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+References: <20210526202104.127910-1-bruno.larsen@eldorado.org.br>
+ <20210526202104.127910-5-bruno.larsen@eldorado.org.br>
+ <20210527084038.512c5270@bahia.lan> <YK9T02A3IwwnKYUl@work-vm>
+ <20210527103034.23f3c8ce@bahia.lan>
+From: Bruno Piazera Larsen <bruno.larsen@eldorado.org.br>
+Message-ID: <9581ce18-19f3-88fa-a042-c34eb7752eb4@eldorado.org.br>
+Date: Thu, 27 May 2021 08:24:40 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210519202253.76782-20-agraf@csgraf.de>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=slp@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="ukllmniavdx67ftm"
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=slp@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.374,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <20210527103034.23f3c8ce@bahia.lan>
+Content-Type: multipart/alternative;
+ boundary="------------86291356B748B0CAD28358A1"
+Content-Language: en-US
+X-OriginalArrivalTime: 27 May 2021 11:24:41.0779 (UTC)
+ FILETIME=[E32B0030:01D752EA]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
+Received-SPF: pass client-ip=201.28.113.2;
+ envelope-from=bruno.larsen@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
+ NICE_REPLY_A=-0.001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,68 +61,287 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, Peter Collingbourne <pcc@google.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Cameron Esfahani <dirty@apple.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, qemu-arm <qemu-arm@nongnu.org>,
- Frank Yang <lfy@google.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: farosas@linux.ibm.com, richard.henderson@linaro.org,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ lucas.araujo@eldorado.org.br, luis.pires@eldorado.org.br,
+ fernando.valle@eldorado.org.br, qemu-ppc@nongnu.org,
+ matheus.ferst@eldorado.org.br, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---ukllmniavdx67ftm
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This is a multi-part message in MIME format.
+--------------86291356B748B0CAD28358A1
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Wed, May 19, 2021 at 10:22:53PM +0200, Alexander Graf wrote:
-> Windows 10 calls an SMCCC call via SMC unconditionally on boot. It lives
-> in the trusted application call number space, but its purpose is unknown.
->=20
-> In our current SMC implementation, we inject a UDEF for unknown SMC calls=
-,
-> including this one. However, Windows breaks on boot when we do this. Inst=
-ead,
-> let's return an error code.
->=20
-> With this patch applied I can successfully boot the current Windows 10
-> Insider Preview in HVF.
->=20
-> Signed-off-by: Alexander Graf <agraf@csgraf.de>
->=20
-> ---
->=20
-> v7 -> v8:
->=20
->   - fix checkpatch
-> ---
->  target/arm/hvf/hvf.c | 4 ++++
->  1 file changed, 4 insertions(+)
 
-Reviewed-by: Sergio Lopez <slp@redhat.com>
-Tested-by: Sergio Lopez <slp@redhat.com>
+On 27/05/2021 05:30, Greg Kurz wrote:
+> On Thu, 27 May 2021 09:09:55 +0100
+> "Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
+>
+>> * Greg Kurz (groug@kaod.org) wrote:
+>>> On Wed, 26 May 2021 17:21:03 -0300
+>>> "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br> wrote:
+>>>
+>>>> Since ppc was the last architecture to collect these statistics and
+>>>> it is currently phasing this collection out, the command that would query
+>>>> this information is being removed.
+>>>>
+>>> So this is removing an obviously user visible feature. This should be
+>>> mentioned in docs/system/removed-features.rst... but, wait, I don't
+>>> see anything for it in docs/system/deprecated.rst. This is dropping
+>>> a feature without following the usual deprecation policy, i.e.
+>>> marking the feature as deprecated and only remove it 2 QEMU versions
+>>> later. Any justification for that ?
 
---ukllmniavdx67ftm
-Content-Type: application/pgp-signature; name="signature.asc"
+The command called a function that ultimately called an empty callback 
+unless you changed target/ppc/translate.c and removed the comments 
+around #define DO_PPC_STATISTICS. And like I mentioned in the cover 
+letter (which may not have been CC'ed to you, sorry) ppc was the last 
+architecture to support this feature while they were using the legacy 
+decode system, but as they move to decodetree, this data wouldn't even 
+be collected.
 
------BEGIN PGP SIGNATURE-----
+That's the justification, basically.
 
-iQIzBAABCAAdFiEEvtX891EthoCRQuii9GknjS8MAjUFAmCvgPMACgkQ9GknjS8M
-AjU1vw//TJLbusVSORSbhQZOFSTffwc/6fwyzPTzuvrJdhinQBqEkAKDVn0J2UCT
-Ri9JgXeyCFb1VMiJD25Yr9t5gqUlDYDJdVqfYYmYeD2bwVJozEIekkRM4HEhdl3t
-EgaTpJTSRTePp7pxEzDQqt7EcGPLevPB9ksieOCYag3XrBpeFPV5mgt7iz+M+I53
-mpgot6ugFBt4t19MeShlAlxrS0CRejsAP0Az/ZVw+uNNqfWp6bqOV2+STDAnG+CL
-hQkM/w3Lmckq2kUTVzaL3YGiER5CJ9/PxGmVVBK8smh5F8Yo/xwdCTQXUJqWRfpw
-Cqre41e0w8J4Yh5KjIui3pFwk8/3p+sKMGkXPdIFjw7LppWzXJ0mFw+U+CIQxtCN
-R9hKClohz7aZC7r57uOQfqQmCDu9L0zyLz6kqOT6dqHfT9URl2qBpi4A9Zb35DYv
-KecflvdwkOFaigY6gNbh7eID8fxcQiEcKN62PRmfJcV+L3lTClKzO+g3RwJuKjzj
-j+goFDUb4xwxHLDAERVSe8FoORvpQcfCfsizUNIUmFOTfq6LpPhXl3Me8pKfTkZ4
-yzLhFuX7ScdVZVoTx94A1wetAZVtsZjdk9ApaovtMnOiqYQqiwoVkEmLfx+GGY0U
-dyR9s7MkiA88MmqMQ1bFfmPRXUU9tGfbnS4qH3ILdt5f3vA8USM=
-=K++j
------END PGP SIGNATURE-----
+>> As long as the command really isn't useful any more, I wouldn't object
+>> to that from an HMP point of view.
+>>
+> Ok then this should be documented in docs/system/removed-features.rst at
+> least.
+Sure, will send a patch later today with the update
+>
+>> Dave
+>>
+>>> David,
+>>>
+>>> Unrelated, I saw that you already applied this to ppc-for-6.1 on gitlab
+>>> but the commit title appears to be broken:
+>>>
+>>> '65;6401;1cmonitor: removed cpustats command
+>>>
+>>> https://gitlab.com/dgibson/qemu/-/commit/532be563eae6b8ae834ff7e9ebb1428f53569a69
+>>>
+>>>> Suggested-by: Richard Henderson <richard.henderson@linaro.org>
+>>>> Signed-off-by: Bruno Larsen (billionai) <bruno.larsen@eldorado.org.br>
+>>>> ---
+>>>>   hmp-commands-info.hx | 13 -------------
+>>>>   monitor/misc.c       | 11 -----------
+>>>>   2 files changed, 24 deletions(-)
+>>>>
+>>>> diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
+>>>> index ab0c7aa5ee..b2347a6aea 100644
+>>>> --- a/hmp-commands-info.hx
+>>>> +++ b/hmp-commands-info.hx
+>>>> @@ -500,19 +500,6 @@ SRST
+>>>>       Show the current VM UUID.
+>>>>   ERST
+>>>>   
+>>>> -    {
+>>>> -        .name       = "cpustats",
+>>>> -        .args_type  = "",
+>>>> -        .params     = "",
+>>>> -        .help       = "show CPU statistics",
+>>>> -        .cmd        = hmp_info_cpustats,
+>>>> -    },
+>>>> -
+>>>> -SRST
+>>>> -  ``info cpustats``
+>>>> -    Show CPU statistics.
+>>>> -ERST
+>>>> -
+>>>>   #if defined(CONFIG_SLIRP)
+>>>>       {
+>>>>           .name       = "usernet",
+>>>> diff --git a/monitor/misc.c b/monitor/misc.c
+>>>> index f3a393ea59..1539e18557 100644
+>>>> --- a/monitor/misc.c
+>>>> +++ b/monitor/misc.c
+>>>> @@ -369,17 +369,6 @@ static void hmp_info_history(Monitor *mon, const QDict *qdict)
+>>>>       }
+>>>>   }
+>>>>   
+>>>> -static void hmp_info_cpustats(Monitor *mon, const QDict *qdict)
+>>>> -{
+>>>> -    CPUState *cs = mon_get_cpu(mon);
+>>>> -
+>>>> -    if (!cs) {
+>>>> -        monitor_printf(mon, "No CPU available\n");
+>>>> -        return;
+>>>> -    }
+>>>> -    cpu_dump_statistics(cs, 0);
+>>>> -}
+>>>> -
+>>>>   static void hmp_info_trace_events(Monitor *mon, const QDict *qdict)
+>>>>   {
+>>>>       const char *name = qdict_get_try_str(qdict, "name");
+-- 
+Bruno Piazera Larsen
+Instituto de Pesquisas ELDORADO 
+<https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&utm_medium=email&utm_source=RD+Station>
+Departamento Computação Embarcada
+Analista de Software Trainee
+Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
 
---ukllmniavdx67ftm--
+--------------86291356B748B0CAD28358A1
+Content-Type: text/html; charset=windows-1252
+Content-Transfer-Encoding: 8bit
 
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;
+      charset=windows-1252">
+  </head>
+  <body>
+    <p><br>
+    </p>
+    <div class="moz-cite-prefix">On 27/05/2021 05:30, Greg Kurz wrote:<br>
+    </div>
+    <blockquote type="cite" cite="mid:20210527103034.23f3c8ce@bahia.lan">
+      <pre class="moz-quote-pre" wrap="">On Thu, 27 May 2021 09:09:55 +0100
+"Dr. David Alan Gilbert" <a class="moz-txt-link-rfc2396E" href="mailto:dgilbert@redhat.com">&lt;dgilbert@redhat.com&gt;</a> wrote:
+
+</pre>
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">* Greg Kurz (<a class="moz-txt-link-abbreviated" href="mailto:groug@kaod.org">groug@kaod.org</a>) wrote:
+</pre>
+        <blockquote type="cite">
+          <pre class="moz-quote-pre" wrap="">On Wed, 26 May 2021 17:21:03 -0300
+"Bruno Larsen (billionai)" <a class="moz-txt-link-rfc2396E" href="mailto:bruno.larsen@eldorado.org.br">&lt;bruno.larsen@eldorado.org.br&gt;</a> wrote:
+
+</pre>
+          <blockquote type="cite">
+            <pre class="moz-quote-pre" wrap="">Since ppc was the last architecture to collect these statistics and
+it is currently phasing this collection out, the command that would query
+this information is being removed.
+
+</pre>
+          </blockquote>
+          <pre class="moz-quote-pre" wrap="">
+So this is removing an obviously user visible feature. This should be
+mentioned in docs/system/removed-features.rst... but, wait, I don't
+see anything for it in docs/system/deprecated.rst. This is dropping
+a feature without following the usual deprecation policy, i.e.
+marking the feature as deprecated and only remove it 2 QEMU versions
+later. Any justification for that ?</pre>
+        </blockquote>
+      </blockquote>
+    </blockquote>
+    <p>The command called a function that ultimately called an empty
+      callback unless you changed target/ppc/translate.c and removed the
+      comments around #define DO_PPC_STATISTICS. And like I mentioned in
+      the cover letter (which may not have been CC'ed to you, sorry) ppc
+      was the last architecture to support this feature while they were
+      using the legacy decode system, but as they move to decodetree,
+      this data wouldn't even be collected.</p>
+    <p>That's the justification, basically.<br>
+    </p>
+    <blockquote type="cite" cite="mid:20210527103034.23f3c8ce@bahia.lan">
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">
+As long as the command really isn't useful any more, I wouldn't object
+to that from an HMP point of view.
+
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+Ok then this should be documented in docs/system/removed-features.rst at
+least.</pre>
+    </blockquote>
+    Sure, will send a patch later today with the update<br>
+    <blockquote type="cite" cite="mid:20210527103034.23f3c8ce@bahia.lan">
+      <pre class="moz-quote-pre" wrap="">
+
+</pre>
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">Dave
+
+</pre>
+        <blockquote type="cite">
+          <pre class="moz-quote-pre" wrap="">David,
+
+Unrelated, I saw that you already applied this to ppc-for-6.1 on gitlab
+but the commit title appears to be broken:
+
+'65;6401;1cmonitor: removed cpustats command
+
+<a class="moz-txt-link-freetext" href="https://gitlab.com/dgibson/qemu/-/commit/532be563eae6b8ae834ff7e9ebb1428f53569a69">https://gitlab.com/dgibson/qemu/-/commit/532be563eae6b8ae834ff7e9ebb1428f53569a69</a>
+
+</pre>
+          <blockquote type="cite">
+            <pre class="moz-quote-pre" wrap="">Suggested-by: Richard Henderson <a class="moz-txt-link-rfc2396E" href="mailto:richard.henderson@linaro.org">&lt;richard.henderson@linaro.org&gt;</a>
+Signed-off-by: Bruno Larsen (billionai) <a class="moz-txt-link-rfc2396E" href="mailto:bruno.larsen@eldorado.org.br">&lt;bruno.larsen@eldorado.org.br&gt;</a>
+---
+ hmp-commands-info.hx | 13 -------------
+ monitor/misc.c       | 11 -----------
+ 2 files changed, 24 deletions(-)
+
+diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
+index ab0c7aa5ee..b2347a6aea 100644
+--- a/hmp-commands-info.hx
++++ b/hmp-commands-info.hx
+@@ -500,19 +500,6 @@ SRST
+     Show the current VM UUID.
+ ERST
+ 
+-    {
+-        .name       = "cpustats",
+-        .args_type  = "",
+-        .params     = "",
+-        .help       = "show CPU statistics",
+-        .cmd        = hmp_info_cpustats,
+-    },
+-
+-SRST
+-  ``info cpustats``
+-    Show CPU statistics.
+-ERST
+-
+ #if defined(CONFIG_SLIRP)
+     {
+         .name       = "usernet",
+diff --git a/monitor/misc.c b/monitor/misc.c
+index f3a393ea59..1539e18557 100644
+--- a/monitor/misc.c
++++ b/monitor/misc.c
+@@ -369,17 +369,6 @@ static void hmp_info_history(Monitor *mon, const QDict *qdict)
+     }
+ }
+ 
+-static void hmp_info_cpustats(Monitor *mon, const QDict *qdict)
+-{
+-    CPUState *cs = mon_get_cpu(mon);
+-
+-    if (!cs) {
+-        monitor_printf(mon, "No CPU available\n");
+-        return;
+-    }
+-    cpu_dump_statistics(cs, 0);
+-}
+-
+ static void hmp_info_trace_events(Monitor *mon, const QDict *qdict)
+ {
+     const char *name = qdict_get_try_str(qdict, "name");
+</pre>
+          </blockquote>
+          <pre class="moz-quote-pre" wrap="">
+</pre>
+        </blockquote>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+</pre>
+    </blockquote>
+    <div class="moz-signature">-- <br>
+      Bruno Piazera Larsen<br>
+      <a
+href="https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&amp;utm_medium=email&amp;utm_source=RD+Station">Instituto
+        de Pesquisas ELDORADO</a><br>
+      Departamento Computação Embarcada<br>
+      Analista de Software Trainee<br>
+      <a href="https://www.eldorado.org.br/disclaimer.html">Aviso Legal
+        - Disclaimer</a></div>
+  </body>
+</html>
+
+--------------86291356B748B0CAD28358A1--
 
