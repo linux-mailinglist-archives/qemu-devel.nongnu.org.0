@@ -2,78 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94A40393063
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 16:03:44 +0200 (CEST)
-Received: from localhost ([::1]:39850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66E7E393073
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 16:09:00 +0200 (CEST)
+Received: from localhost ([::1]:47034 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lmGbv-0000od-Cd
-	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 10:03:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55878)
+	id 1lmGh1-0005oh-IC
+	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 10:08:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56204)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lmGZb-0007Wo-GN
- for qemu-devel@nongnu.org; Thu, 27 May 2021 10:01:19 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:38654)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lmGZX-0006jF-4G
- for qemu-devel@nongnu.org; Thu, 27 May 2021 10:01:19 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id j14so4870808wrq.5
- for <qemu-devel@nongnu.org>; Thu, 27 May 2021 07:01:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=Cr/A6ZqtjGfm5+0Z8Ta2bpQ9xb1tlcVNRdKU53wVMFs=;
- b=eQKioEI6U0UI0NOutgoSHnzKiRWnKA7FcScMB8GKhvdu4XjSDMcfoPDUKpAMj39MLC
- K9lSZFR2W2bAC7O6IGH5p2GICtMqFmDw14rQ2lDPaAQJkTfxv/Ffoa7WtLfsUnOlX6Yf
- HX5dXB8y3wM18V9bw/3v1n65Jn0n3KbbrSDSWF1w5aUxyhDVOjjJ3A5wfOozc38QSfw6
- R5CdWs7vuCY64XicS5tnyhftW4+oNe9hq+2fqWQvw2fsPqLFS/MkrvBTTois6fpdeS0V
- uXTNgBQqcaqEMyIPthoBLAOltFyS65LXK+p5mZm+C+7L6xol+bKP355NkW0DcgpKstdy
- 5Z+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=Cr/A6ZqtjGfm5+0Z8Ta2bpQ9xb1tlcVNRdKU53wVMFs=;
- b=DCJeCQRrJF5vBBUsv6APP5bz+C9D9fClWNjwpbNAPUbvJJ+aCMWUWON7qNIJHg64fe
- KkER6iDFKXwR2TvgWd+6/UiYxXuKxwpAcuR1+7EL13kt2lP1KF1+epIQzYGSWqsR1j8C
- jcpxmZJR3KBU6ZvoMVan7FFF71wUtae08y9cu+dYy+cKxMAoXvPydS9KOErhcjVEmd6g
- Os1XsDEYRf+4J97X0RrXKlyMO59rLLHLo2msrhBBg7evdsNoINDrFa6ZOkrfIpdi8D60
- bmm7KOxMOL617Qp1boNHOhduiPI3dr0y5Gr/B3AJKKpeHmqqF1Fe1f+1LmAz8rb2ifgp
- 0VkQ==
-X-Gm-Message-State: AOAM532mmVw31BagN80xs8r1i4qKRjrU8WKTHmIOlngns8x9B9if/V95
- 3LpSk4BuSp6IX2CUADJH50aDRQ==
-X-Google-Smtp-Source: ABdhPJy+wi9ZAvCEPVYhC6/g8Ed5Lg1tCakgBDib+x0nN3o7sGLTzjVL0Zn7tsbIJkORw8ZzliCNNA==
-X-Received: by 2002:adf:bc07:: with SMTP id s7mr686532wrg.301.1622124072230;
- Thu, 27 May 2021 07:01:12 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id 60sm3302861wrq.14.2021.05.27.07.01.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 May 2021 07:01:11 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 7DC8A1FF7E;
- Thu, 27 May 2021 15:01:10 +0100 (BST)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lmGaT-0008JJ-AI
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 10:02:13 -0400
+Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:34000)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lmGaM-0007Ip-NW
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 10:02:11 -0400
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-593-8iQXq8zHOzqMWhGzBj8frA-1; Thu, 27 May 2021 10:01:58 -0400
+X-MC-Unique: 8iQXq8zHOzqMWhGzBj8frA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4F4DC50213;
+ Thu, 27 May 2021 14:01:56 +0000 (UTC)
+Received: from bahia.lan (ovpn-112-46.ams2.redhat.com [10.36.112.46])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DE9615B684;
+ Thu, 27 May 2021 14:01:53 +0000 (UTC)
+Date: Thu, 27 May 2021 16:01:52 +0200
+From: Greg Kurz <groug@kaod.org>
+To: Bruno Piazera Larsen <bruno.larsen@eldorado.org.br>
+Subject: Re: [PATCH 2/5] target/ppc: remove ppc_cpu_dump_statistics
+Message-ID: <20210527160152.625ca372@bahia.lan>
+In-Reply-To: <d952f573-6a12-27c7-98e4-a29e2a955ec5@eldorado.org.br>
 References: <20210526202104.127910-1-bruno.larsen@eldorado.org.br>
-User-agent: mu4e 1.5.13; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br>
-Subject: Re: [PATCH 0/5] stop collection of instruction usage statistics
-Date: Thu, 27 May 2021 14:57:51 +0100
-In-reply-to: <20210526202104.127910-1-bruno.larsen@eldorado.org.br>
-Message-ID: <87v9741djt.fsf@linaro.org>
+ <20210526202104.127910-3-bruno.larsen@eldorado.org.br>
+ <YK7zwfSC7NGssEN5@yekko> <YK8hjhgPNK8yVfgm@yekko>
+ <d952f573-6a12-27c7-98e4-a29e2a955ec5@eldorado.org.br>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=groug@kaod.org
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: kaod.org
+Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: softfail client-ip=207.211.30.44; envelope-from=groug@kaod.org;
+ helo=us-smtp-delivery-44.mimecast.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,56 +67,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: farosas@linux.ibm.com, richard.henderson@linaro.org,
- lucas.araujo@eldorado.org.br, qemu-devel@nongnu.org,
- luis.pires@eldorado.org.br, fernando.valle@eldorado.org.br,
- qemu-ppc@nongnu.org, matheus.ferst@eldorado.org.br,
- david@gibson.dropbear.id.au
+Cc: farosas@linux.ibm.com, richard.henderson@linaro.org, qemu-devel@nongnu.org,
+ lucas.araujo@eldorado.org.br, fernando.valle@eldorado.org.br,
+ qemu-ppc@nongnu.org, matheus.ferst@eldorado.org.br, luis.pires@eldorado.org.br,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Thu, 27 May 2021 10:22:50 -0300
+Bruno Piazera Larsen <bruno.larsen@eldorado.org.br> wrote:
 
-"Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br> writes:
-
-> Based-on: <20210525115355.8254-1-bruno.larsen@eldorado.org.br>
+>=20
+> On 27/05/2021 01:35, David Gibson wrote:
+> > On Thu, May 27, 2021 at 11:20:01AM +1000, David Gibson wrote:
+> >> On Wed, May 26, 2021 at 05:21:01PM -0300, Bruno Larsen (billionai) wro=
+te:
+> >>> This function requires surce code modification to be useful, which me=
+ans
+> >>> it probably is not used often, and the move to using decodetree means
+> >>> the statistics won't even be collected anymore.
+> >>>
+> >>> Also removed setting dump_statistics in ppc_cpu_realize, since it was
+> >>> only useful when in conjunction with ppc_cpu_dump_statistics.
+> >>>
+> >>> Suggested-by: Richard Henderson<richard.henderson@linaro.org>
+> >>> Signed-off-by: Bruno Larsen (billionai) <bruno.larsen@eldorado.org.br=
 >
-> The functionality of counting how many instructions were being executed a=
-nd
-> being able to show it through the monitor, although neat, was only
-> supported by ppc, and now that it is migrating to use decodetree (at
-> least partially), those statistics won't be used anymore. Therefore,
-> this patch removes that functinality completely.
+> >>> ---
+> >>>   target/ppc/cpu.h       |  1 -
+> >>>   target/ppc/cpu_init.c  |  3 ---
+> >>>   target/ppc/translate.c | 51 ---------------------------------------=
+---
+> >>>   3 files changed, 55 deletions(-)
+> >>>
+> >>> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+> >>> index 203f07e48e..c3d1b492e4 100644
+> >>> --- a/target/ppc/cpu.h
+> >>> +++ b/target/ppc/cpu.h
+> >>> @@ -1256,7 +1256,6 @@ DECLARE_OBJ_CHECKERS(PPCVirtualHypervisor, PPCV=
+irtualHypervisorClass,
+> >>>   void ppc_cpu_do_interrupt(CPUState *cpu);
+> >>>   bool ppc_cpu_exec_interrupt(CPUState *cpu, int int_req);
+> >>>   void ppc_cpu_dump_state(CPUState *cpu, FILE *f, int flags);
+> >>> -void ppc_cpu_dump_statistics(CPUState *cpu, int flags);
+> >>>   hwaddr ppc_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
+> >>>   int ppc_cpu_gdb_read_register(CPUState *cpu, GByteArray *buf, int r=
+eg);
+> >>>   int ppc_cpu_gdb_read_register_apple(CPUState *cpu, GByteArray *buf,=
+ int reg);
+> >>> diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
+> >>> index f5ae2f150d..bd05f53fa4 100644
+> >>> --- a/target/ppc/cpu_init.c
+> >>> +++ b/target/ppc/cpu_init.c
+> >>> @@ -9250,9 +9250,6 @@ static void ppc_cpu_class_init(ObjectClass *oc,=
+ void *data)
+> >>>       cc->class_by_name =3D ppc_cpu_class_by_name;
+> >>>       cc->has_work =3D ppc_cpu_has_work;
+> >>>       cc->dump_state =3D ppc_cpu_dump_state;
+> >>> -#ifdef CONFIG_TCG
+> >>> -    cc->dump_statistics =3D ppc_cpu_dump_statistics;
+> >>> -#endif
+> >> This confuses me.  The ifdefs you're removing aren't present in my
+> >> tree, and AFAICT they never existed since your own patch created
+> >> cpu_init.c.
+> >>
+> >> So.. please rebase and check that.
+> > Duh, sorry, I looked at this set out of order with your latest !tcg
+> > patches.  Now that I've applied those, I've applied those one as well.
+> Let me just check, where do you keep your most updated tree? I'm=20
+> rebasing on your github tree, but ppc-for-6.1 there seems quite outdated=
+=20
+> (still the same as main)
 
-I have no particular comment to make about the PPC stuff but with the
-common translator loop we have hooks across all converted front ends to
-identify the start of each instruction. It's needed for the TCG plugin
-instrumentation and we could in theory use it for more integrated stats
-across the board.
+Try here:
 
-Out of interest what was the main aim of this code - a view of total
-executed instructions or something more detailed like a breakdown of
-types and ops?
+https://gitlab.com/dgibson/qemu/-/commits/ppc-for-6.1/
 
->
-> This series was suggested by Richard Henderson
->
-> Bruno Larsen (billionai) (5):
->   target/ppc: fixed GEN_OPCODE behavior when PPC_DUMP_CPU is set
->   target/ppc: remove ppc_cpu_dump_statistics
->   target/ppc: removed mentions to DO_PPC_STATISTICS
->   monitor: removed cpustats command
->   hw/core/cpu: removed cpu_dump_statistics function
->
->  hmp-commands-info.hx   | 13 --------
->  hw/core/cpu.c          |  9 ------
->  include/hw/core/cpu.h  | 12 --------
->  monitor/misc.c         | 11 -------
->  target/ppc/cpu.h       |  1 -
->  target/ppc/cpu_init.c  |  3 --
->  target/ppc/translate.c | 69 +++---------------------------------------
->  7 files changed, 5 insertions(+), 113 deletions(-)
+Cheers,
 
+--
+Greg
 
---=20
-Alex Benn=C3=A9e
 
