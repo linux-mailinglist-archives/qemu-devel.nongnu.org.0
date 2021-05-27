@@ -2,44 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B68D4392850
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 09:15:09 +0200 (CEST)
-Received: from localhost ([::1]:46610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72CE439287A
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 09:25:10 +0200 (CEST)
+Received: from localhost ([::1]:39638 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lmAEW-00013c-An
-	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 03:15:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46786)
+	id 1lmAOD-0007Dc-Hr
+	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 03:25:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46890)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lmABy-0006lO-Sx; Thu, 27 May 2021 03:12:30 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:38165)
+ id 1lmAC5-00073J-HX; Thu, 27 May 2021 03:12:37 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:54631 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lmABw-0004eq-KU; Thu, 27 May 2021 03:12:30 -0400
+ id 1lmAC1-0004jM-Ej; Thu, 27 May 2021 03:12:37 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4FrJsx1pV9z9sWD; Thu, 27 May 2021 17:12:21 +1000 (AEST)
+ id 4FrJsx29GTz9sWT; Thu, 27 May 2021 17:12:21 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1622099541;
- bh=OZ3pm4aplL8hC8EPz8UMGI4t09y7D+bdDTFMC6y+XNQ=;
+ bh=LTI0sDZfSY2X6DuZI6AlCxt46uyCBA7ltSXNtXgCmPo=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=deddRsr/iRoR+0arj37xUZoUb482FIdhtpyX4tCIAaf40iMStyrPJvBc//Dv5pk4I
- 2B6A9BDE2ziRHvQt4pDlNh7EQtWlQirVRWLuyhBbuJ9zoII4CFv4rYjfgobG8NR5Zi
- BleL7kHZGla5pUillSW/yTvcTMHHsJ1ZDPslmDQA=
-Date: Thu, 27 May 2021 14:35:26 +1000
+ b=C7ybuFlj0LqSQXJ0v8HAXHvih01kVreT1OYVHwDy50x681aDTQsyVO0Doco2UbWcO
+ x2AUG8oNsJk32X/f9L2wnJxZxmrUTsHkrSGCBOI2udOPUpg59Dae/rzhWrgY9LJoyh
+ w7k0LJU6bYlLIj3XVfzrIxiDd4+UMMoZ59TYJdZ4=
+Date: Thu, 27 May 2021 14:37:26 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
 To: "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br>
-Subject: Re: [PATCH 2/5] target/ppc: remove ppc_cpu_dump_statistics
-Message-ID: <YK8hjhgPNK8yVfgm@yekko>
+Subject: Re: [PATCH 3/5] target/ppc: removed mentions to DO_PPC_STATISTICS
+Message-ID: <YK8iBlcGHrpKJxfm@yekko>
 References: <20210526202104.127910-1-bruno.larsen@eldorado.org.br>
- <20210526202104.127910-3-bruno.larsen@eldorado.org.br>
- <YK7zwfSC7NGssEN5@yekko>
+ <20210526202104.127910-4-bruno.larsen@eldorado.org.br>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="DTkmSXQfgM9Bo4Kh"
+ protocol="application/pgp-signature"; boundary="qz4ngLlJ1P9JcEo6"
 Content-Disposition: inline
-In-Reply-To: <YK7zwfSC7NGssEN5@yekko>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+In-Reply-To: <20210526202104.127910-4-bruno.larsen@eldorado.org.br>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -59,143 +58,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: farosas@linux.ibm.com, richard.henderson@linaro.org,
- Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org,
+Cc: farosas@linux.ibm.com, qemu-devel@nongnu.org, richard.henderson@linaro.org,
+ luis.pires@eldorado.org.br, Greg Kurz <groug@kaod.org>,
  lucas.araujo@eldorado.org.br, fernando.valle@eldorado.org.br,
- qemu-ppc@nongnu.org, matheus.ferst@eldorado.org.br, luis.pires@eldorado.org.br
+ qemu-ppc@nongnu.org, matheus.ferst@eldorado.org.br
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---DTkmSXQfgM9Bo4Kh
+--qz4ngLlJ1P9JcEo6
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, May 27, 2021 at 11:20:01AM +1000, David Gibson wrote:
-> On Wed, May 26, 2021 at 05:21:01PM -0300, Bruno Larsen (billionai) wrote:
-> > This function requires surce code modification to be useful, which means
-> > it probably is not used often, and the move to using decodetree means
-> > the statistics won't even be collected anymore.
-> >=20
-> > Also removed setting dump_statistics in ppc_cpu_realize, since it was
-> > only useful when in conjunction with ppc_cpu_dump_statistics.
-> >=20
-> > Suggested-by: Richard Henderson<richard.henderson@linaro.org>
-> > Signed-off-by: Bruno Larsen (billionai) <bruno.larsen@eldorado.org.br>
-> > ---
-> >  target/ppc/cpu.h       |  1 -
-> >  target/ppc/cpu_init.c  |  3 ---
-> >  target/ppc/translate.c | 51 ------------------------------------------
-> >  3 files changed, 55 deletions(-)
-> >=20
-> > diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-> > index 203f07e48e..c3d1b492e4 100644
-> > --- a/target/ppc/cpu.h
-> > +++ b/target/ppc/cpu.h
-> > @@ -1256,7 +1256,6 @@ DECLARE_OBJ_CHECKERS(PPCVirtualHypervisor, PPCVir=
-tualHypervisorClass,
-> >  void ppc_cpu_do_interrupt(CPUState *cpu);
-> >  bool ppc_cpu_exec_interrupt(CPUState *cpu, int int_req);
-> >  void ppc_cpu_dump_state(CPUState *cpu, FILE *f, int flags);
-> > -void ppc_cpu_dump_statistics(CPUState *cpu, int flags);
-> >  hwaddr ppc_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
-> >  int ppc_cpu_gdb_read_register(CPUState *cpu, GByteArray *buf, int reg);
-> >  int ppc_cpu_gdb_read_register_apple(CPUState *cpu, GByteArray *buf, in=
-t reg);
-> > diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
-> > index f5ae2f150d..bd05f53fa4 100644
-> > --- a/target/ppc/cpu_init.c
-> > +++ b/target/ppc/cpu_init.c
-> > @@ -9250,9 +9250,6 @@ static void ppc_cpu_class_init(ObjectClass *oc, v=
-oid *data)
-> >      cc->class_by_name =3D ppc_cpu_class_by_name;
-> >      cc->has_work =3D ppc_cpu_has_work;
-> >      cc->dump_state =3D ppc_cpu_dump_state;
-> > -#ifdef CONFIG_TCG
-> > -    cc->dump_statistics =3D ppc_cpu_dump_statistics;
-> > -#endif
+On Wed, May 26, 2021 at 05:21:02PM -0300, Bruno Larsen (billionai) wrote:
+> Removed the commented out definition and all ifdefs relating to
+> PPC_DUMP_STATISTICS, as it's hardly ever used.
 >=20
-> This confuses me.  The ifdefs you're removing aren't present in my
-> tree, and AFAICT they never existed since your own patch created
-> cpu_init.c.
+> Suggested-by: Richard Henderson <richard.henderson@linaro.org>
+> Signed-off-by: Bruno Larsen (billionai)
+> <bruno.larsen@eldorado.org.br>
+
+Applied to ppc-for-6.1, thanks.
+
+> ---
+>  target/ppc/translate.c | 16 ++++------------
+>  1 file changed, 4 insertions(+), 12 deletions(-)
 >=20
-> So.. please rebase and check that.
-
-Duh, sorry, I looked at this set out of order with your latest !tcg
-patches.  Now that I've applied those, I've applied those one as well.
-
->=20
-> >      cc->set_pc =3D ppc_cpu_set_pc;
-> >      cc->gdb_read_register =3D ppc_cpu_gdb_read_register;
-> >      cc->gdb_write_register =3D ppc_cpu_gdb_write_register;
-> > diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-> > index 6c0f424d81..fc9fd790ca 100644
-> > --- a/target/ppc/translate.c
-> > +++ b/target/ppc/translate.c
-> > @@ -8881,57 +8881,6 @@ int ppc_fixup_cpu(PowerPCCPU *cpu)
-> >      return 0;
-> >  }
-> > =20
-> > -
-> > -void ppc_cpu_dump_statistics(CPUState *cs, int flags)
-> > -{
-> > -#if defined(DO_PPC_STATISTICS)
-> > -    PowerPCCPU *cpu =3D POWERPC_CPU(cs);
-> > -    opc_handler_t **t1, **t2, **t3, *handler;
-> > -    int op1, op2, op3;
-> > -
-> > -    t1 =3D cpu->env.opcodes;
-> > -    for (op1 =3D 0; op1 < 64; op1++) {
-> > -        handler =3D t1[op1];
-> > -        if (is_indirect_opcode(handler)) {
-> > -            t2 =3D ind_table(handler);
-> > -            for (op2 =3D 0; op2 < 32; op2++) {
-> > -                handler =3D t2[op2];
-> > -                if (is_indirect_opcode(handler)) {
-> > -                    t3 =3D ind_table(handler);
-> > -                    for (op3 =3D 0; op3 < 32; op3++) {
-> > -                        handler =3D t3[op3];
-> > -                        if (handler->count =3D=3D 0) {
-> > -                            continue;
-> > -                        }
-> > -                        qemu_printf("%02x %02x %02x (%02x %04d) %16s: "
-> > -                                    "%016" PRIx64 " %" PRId64 "\n",
-> > -                                    op1, op2, op3, op1, (op3 << 5) | o=
-p2,
-> > -                                    handler->oname,
-> > -                                    handler->count, handler->count);
-> > -                    }
-> > -                } else {
-> > -                    if (handler->count =3D=3D 0) {
-> > -                        continue;
-> > -                    }
-> > -                    qemu_printf("%02x %02x    (%02x %04d) %16s: "
-> > -                                "%016" PRIx64 " %" PRId64 "\n",
-> > -                                op1, op2, op1, op2, handler->oname,
-> > -                                handler->count, handler->count);
-> > -                }
-> > -            }
-> > -        } else {
-> > -            if (handler->count =3D=3D 0) {
-> > -                continue;
-> > -            }
-> > -            qemu_printf("%02x       (%02x     ) %16s: %016" PRIx64
-> > -                        " %" PRId64 "\n",
-> > -                        op1, op1, handler->oname,
-> > -                        handler->count, handler->count);
-> > -        }
-> > -    }
-> > -#endif
-> > -}
-> > -
-> >  static bool decode_legacy(PowerPCCPU *cpu, DisasContext *ctx, uint32_t=
- insn)
-> >  {
-> >      opc_handler_t **table, *handler;
->=20
-
-
+> diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+> index fc9fd790ca..0525e1939f 100644
+> --- a/target/ppc/translate.c
+> +++ b/target/ppc/translate.c
+> @@ -47,7 +47,6 @@
+> =20
+>  /* Include definitions for instructions classes and implementations flag=
+s */
+>  /* #define PPC_DEBUG_DISAS */
+> -/* #define DO_PPC_STATISTICS */
+> =20
+>  #ifdef PPC_DEBUG_DISAS
+>  #  define LOG_DISAS(...) qemu_log_mask(CPU_LOG_TB_IN_ASM, ## __VA_ARGS__)
+> @@ -217,12 +216,9 @@ struct opc_handler_t {
+>      uint64_t type2;
+>      /* handler */
+>      void (*handler)(DisasContext *ctx);
+> -#if defined(DO_PPC_STATISTICS) || defined(PPC_DUMP_CPU)
+> +#if defined(PPC_DUMP_CPU)
+>      const char *oname;
+>  #endif
+> -#if defined(DO_PPC_STATISTICS)
+> -    uint64_t count;
+> -#endif
+>  };
+> =20
+>  /* SPR load/store helpers */
+> @@ -8546,7 +8542,7 @@ static int register_direct_insn(opc_handler_t **ppc=
+_opcodes,
+>      if (insert_in_table(ppc_opcodes, idx, handler) < 0) {
+>          printf("*** ERROR: opcode %02x already assigned in main "
+>                 "opcode table\n", idx);
+> -#if defined(DO_PPC_STATISTICS) || defined(PPC_DUMP_CPU)
+> +#if defined(PPC_DUMP_CPU)
+>          printf("           Registered handler '%s' - new handler '%s'\n",
+>                 ppc_opcodes[idx]->oname, handler->oname);
+>  #endif
+> @@ -8570,7 +8566,7 @@ static int register_ind_in_table(opc_handler_t **ta=
+ble,
+>          if (!is_indirect_opcode(table[idx1])) {
+>              printf("*** ERROR: idx %02x already assigned to a direct "
+>                     "opcode\n", idx1);
+> -#if defined(DO_PPC_STATISTICS) || defined(PPC_DUMP_CPU)
+> +#if defined(PPC_DUMP_CPU)
+>              printf("           Registered handler '%s' - new handler '%s=
+'\n",
+>                     ind_table(table[idx1])[idx2]->oname, handler->oname);
+>  #endif
+> @@ -8581,7 +8577,7 @@ static int register_ind_in_table(opc_handler_t **ta=
+ble,
+>          insert_in_table(ind_table(table[idx1]), idx2, handler) < 0) {
+>          printf("*** ERROR: opcode %02x already assigned in "
+>                 "opcode table %02x\n", idx2, idx1);
+> -#if defined(DO_PPC_STATISTICS) || defined(PPC_DUMP_CPU)
+> +#if defined(PPC_DUMP_CPU)
+>          printf("           Registered handler '%s' - new handler '%s'\n",
+>                 ind_table(table[idx1])[idx2]->oname, handler->oname);
+>  #endif
+> @@ -9036,10 +9032,6 @@ static void ppc_tr_translate_insn(DisasContextBase=
+ *dcbase, CPUState *cs)
+>          gen_invalid(ctx);
+>      }
+> =20
+> -#if defined(DO_PPC_STATISTICS)
+> -    handler->count++;
+> -#endif
+> -
+>      translator_loop_temp_check(&ctx->base);
+>  }
+> =20
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -203,25 +162,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---DTkmSXQfgM9Bo4Kh
+--qz4ngLlJ1P9JcEo6
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmCvIY0ACgkQbDjKyiDZ
-s5Iq6g/8D6/B3iLAckReh9nsb6kMkN0dBhde1mClrhaSfSfQ8StUp+sAjaEXFdgL
-hvgdo/LOGA8CDQ9HW8wf3l1S/3Bag9Lv6RWpoP0KvFtkHhQp0sLPwHKtlFWDshZv
-KW7+p9cpsYbKECxuo19p8WlfxCBLy02ujw74ozs9txvZzRG+QQ9AmIbJ5jfz3QjL
-poX1SbKMdV4miWs9PEU+WlJmXL0vnfyJVUDI8Fizg79cmhbJPjyOSVzrngGGMRHO
-4HELrQysaTghBcqZyCLissMwnOBhCsVtKLUy8tUD5l1JVTbF7fEUou3Z6q+fLbid
-VILAgZzQl0RWHJnNmjODeWsdrdIRgF3EFexs+lKD9CPnkZYCRtLrZ1Xhed4oa5o1
-rthEWOB3FbIAFL8YhusPOsxPM396P4nkq5QLwbxsQEi+nmUMFGlQWZrY9S5R+tfl
-VjaziQiQ3maVtDSWflK6SGd3Kp6DULKeZQbALO0yR+/P+UPPOy0bXyAuegS50zm+
-hx4tZtzP6QL1DeyPSVH3OH9VftijC7UchwGB5uMr6E8tNczbJ/D8B9BcSnmRHW0G
-2zgPFv07kj/6gzIU2+zdZlKQXFqiiXXu8gf2IT3dtLH8VnMQdqvJ4PtZH8N4CLOl
-6RoHMnYIeoDrVMzCjxw8YopqSPoXxSgFTIPMe4xhH0UDiqUUO18=
-=pgDv
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmCvIgYACgkQbDjKyiDZ
+s5JYrhAArv7zUE7HG5VOhlHJZqMMO1YbgDeER/vgBKuGCxfvm84fIfNcMcfmI7sc
+dPMgPhhvKycrJrLTkmYXwTKymIfUipXeALqDqiNEw6Y7uCMVBr9/7J6wnrylmqCf
+Xl91x6p/K94mjTrzwkRrTorveGUTinMlQCTwFpozf3sT9RLgEa+7xR+afx2LvpAE
+dWqVqY9xCm+qezYQmux22pe8irooGFQPuR9tNLc6GX1T5mXfsMHyAHrxUGCQjjgo
+S7lwxsY7Wr8pHRc4eJ8yTZM5ZE0doHxZE7tJtBMOJ5cu+O97oBoGIHg6wgdbrMkC
+4rQiPe3tRHtRUUi645jMCJtVN1aVDVbdAN47nQ01+EDe3MpUsj5Q+B+B5RCmF4F4
+1VtXeYiXKRN1ZzuIa5vxT6M8CDEFoAVhd8e28tWUEWgDSnhglGr/bs2A46eFRwpY
+FQmERFh8RP+kFk7Q6BcoRO++/NfeJibF8kn+IRFu7iNGnGEtctbT3m7XLNjG6FNR
+b9Uy/ZlqLuHb+1j7aDWzavbn86XS5kAU1XjyGmb1OaC37GZVdEj05IDMd/Je5oic
+kOtZ5fuIbeuDqh7JlAkpXduvBD/j7uCSamHlNoOLb0I8+yznvnlf9AGifIkQ+2Z9
+fPJT8f43nidjWZTxMB7eXUD346lPj0gaXpEDGcas0dg3I4RmIBw=
+=T4Za
 -----END PGP SIGNATURE-----
 
---DTkmSXQfgM9Bo4Kh--
+--qz4ngLlJ1P9JcEo6--
 
