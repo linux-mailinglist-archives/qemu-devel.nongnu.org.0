@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 814B6392BFD
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 12:39:32 +0200 (CEST)
-Received: from localhost ([::1]:37048 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8B0A392BD6
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 12:29:37 +0200 (CEST)
+Received: from localhost ([::1]:55396 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lmDQJ-00007x-6o
-	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 06:39:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58152)
+	id 1lmDGi-0001SO-SA
+	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 06:29:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58466)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1lmD2u-0002Vq-FV
- for qemu-devel@nongnu.org; Thu, 27 May 2021 06:15:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44348)
+ (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1lmD3h-0002uT-BW
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 06:16:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60798)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1lmD2i-00088K-5C
- for qemu-devel@nongnu.org; Thu, 27 May 2021 06:15:20 -0400
+ (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1lmD3S-00006u-PU
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 06:16:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622110507;
+ s=mimecast20190719; t=1622110553;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=KjwB92f2CMT8BZES5oGOzNTRPaGE4H/yaBX699nCcJo=;
- b=gaxgHD5fs0RLe9kQlwYbLdQDhsKp94wkIpQ4PwGezpvjhehvayIXzAfpJgVmZ2BjqsfkGM
- Plztx+cVzyuwY+ojamA9Ll1UUsNhSKjU9ETvOdXnPr0Ijqk0b5wwYK8mVH9Dz4hCV2C4xn
- g7kSPfG+06orXFyE58vw/bLgI4A+fyM=
+ bh=VJDRk2N4mE5R9aPqte1yrrWhIUZbH44lsuFY9hcJ7k0=;
+ b=RvjdpiUt2nvekRV8rOwZ6j70e0X665VTJWh1boraPEKB+HX23xANq31Xy6M6L+dA+xP6uj
+ RpTvp++pw/n7D/Ve7hSdXnag8baBS4WFcoFfRAi8xg5x0EpjeoWiWvGCvBh7/LcPkSdDi1
+ coFTepTsi3F1+nf9UpL1ypEYHqfMS18=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-194-sTlFy-m1PNavsurmYufgPw-1; Thu, 27 May 2021 06:15:03 -0400
-X-MC-Unique: sTlFy-m1PNavsurmYufgPw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-46-hL6Opg6JPX6HChgvfsVOzA-1; Thu, 27 May 2021 06:15:49 -0400
+X-MC-Unique: hL6Opg6JPX6HChgvfsVOzA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CE6761007477;
- Thu, 27 May 2021 10:15:01 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8AE1A1007467;
+ Thu, 27 May 2021 10:15:48 +0000 (UTC)
 Received: from localhost (unknown [10.33.36.9])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 60FFD69FB5;
- Thu, 27 May 2021 10:15:01 +0000 (UTC)
-Date: Thu, 27 May 2021 12:15:00 +0200
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 252E15D9C6;
+ Thu, 27 May 2021 10:15:47 +0000 (UTC)
+Date: Thu, 27 May 2021 12:15:47 +0200
 From: Sergio Lopez <slp@redhat.com>
 To: Alexander Graf <agraf@csgraf.de>
-Subject: Re: [PATCH v8 08/19] hvf: Use cpu_synchronize_state()
-Message-ID: <20210527101500.l4nhdpysi25coxqi@mhamilton>
+Subject: Re: [PATCH v8 09/19] hvf: Make synchronize functions static
+Message-ID: <20210527101547.xbznrg5qqs3rwdwt@mhamilton>
 References: <20210519202253.76782-1-agraf@csgraf.de>
- <20210519202253.76782-9-agraf@csgraf.de>
+ <20210519202253.76782-10-agraf@csgraf.de>
 MIME-Version: 1.0
-In-Reply-To: <20210519202253.76782-9-agraf@csgraf.de>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <20210519202253.76782-10-agraf@csgraf.de>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=slp@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="tmhoscrdbp4qigij"
+ protocol="application/pgp-signature"; boundary="oz4exlm4isl3fxo2"
 Content-Disposition: inline
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=slp@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -64,7 +64,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,46 +87,43 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---tmhoscrdbp4qigij
+--oz4exlm4isl3fxo2
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, May 19, 2021 at 10:22:42PM +0200, Alexander Graf wrote:
-> There is no reason to call the hvf specific hvf_cpu_synchronize_state()
-> when we can just use the generic cpu_synchronize_state() instead. This
-> allows us to have less dependency on internal function definitions and
-> allows us to make hvf_cpu_synchronize_state() static.
+On Wed, May 19, 2021 at 10:22:43PM +0200, Alexander Graf wrote:
+> The hvf accel synchronize functions are only used as input for local
+> callback functions, so we can make them static.
 >=20
 > Signed-off-by: Alexander Graf <agraf@csgraf.de>
 > ---
->  accel/hvf/hvf-accel-ops.c | 2 +-
->  accel/hvf/hvf-accel-ops.h | 1 -
->  target/i386/hvf/x86hvf.c  | 9 ++++-----
->  3 files changed, 5 insertions(+), 7 deletions(-)
+>  accel/hvf/hvf-accel-ops.c | 6 +++---
+>  accel/hvf/hvf-accel-ops.h | 3 ---
+>  2 files changed, 3 insertions(+), 6 deletions(-)
 
 Reviewed-by: Sergio Lopez <slp@redhat.com>
 
---tmhoscrdbp4qigij
+--oz4exlm4isl3fxo2
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEvtX891EthoCRQuii9GknjS8MAjUFAmCvcSMACgkQ9GknjS8M
-AjXAOA/8D5VjT2dHpL3EHeHPTifUpcVaO4UaAMRI92wMAXdez5hZ8EL5Qvy1jvc8
-Kf38tqQKcoFE80UKBoBIBRLH7LnU+6yJ3SoyD6irsZo7/zjQZFfY5Riiv44kNx0k
-0UekwrpM8ZyBY6WRErL+N6JOq43PxOC7qrWRJHIA/HuSlkt67bwjcdUy0O9F1LWf
-F+TCPmpfUEJTWsPOLGf1QkhmajFSehv7b+PZyRn9EO1Q4MxHAW/Agi4gAJK3CuZU
-AbMcIhFvA19LveWJDrBs2ADvCVefPa79ccs+DvgW3td0rbNTnDrdNXKNIJe22Ydk
-FW2541PdOnX9+IBpOWK9a1Kk05GQRHcBAqSY8qanR8zMw0Dd4X3Rp19E/Or/nd2E
-uk9vIszKeJSaaCqOs6aQtMvE2z9mJYUcHtjVZje+qjJod2v0EPacRdJfoYyOHWOF
-53S7261XC0DjXeI1iOFkb9ThGjc2avnA9Ily4v32UEYqubp1ddWSSU/8y2BCKpkX
-ipg2nVWjU1ngKfur9F+uTVfLb6g0C+QvXniWDgGlaGXOGnpkw9hXP1FXQrl3MiyD
-qFy3YZtQMsmX9dFPSMzAPP/TfiSIKRzhfGVyaCbHwJyDMHyUEzxOOSNfD3lG6Naf
-XwhLEZxXqvJs2LHkKkcChMTS9gIcS3FFEJrRPO6ng7LMXdJb2qY=
-=mfm7
+iQIzBAABCAAdFiEEvtX891EthoCRQuii9GknjS8MAjUFAmCvcVIACgkQ9GknjS8M
+AjX0TRAAp4BoSwjdCcDqR4jHMuiXiwDRVW+ygDu+ybk/hhxwdCPSPlNv9Fzoq6Zx
+FEJtPup++EF/QV8ocrSBbwodfPMFdzQNmqrPBjEDogYP7pBJveh6N0nX/nWbQMR+
+6M4yK4cSK2yyi8UnMMqiBjMeXumn+Oyw3TgOlH3reJWnGVEY43sG3zQTCXVxUNZv
+e75K/njtRVyB6JnF0XTC+Wp+P6z+9DA6Yxbg0EbMOrd09wIPfiW6/4c91XYE0RmS
+qtpyavn5navv98aGJfRz1IebYrOxf9S/s5SQW00EPGDYwvUXVbAhQ8SOADF67Wo1
+XUozdrOuGN0ONIl6yW6kZ99laxyitsPJ1LxZaarKOoS00Hhe4jAE3Wi0bpfZv5Pz
+RxS9rWMpHMeTn3FnyEqcQFSwYSF/YFz558muj1/D2uM9JLCxwMNdu/oVLJVlv9Gc
+UCXEcnZOdmzrqsDS0F8GhqX7i4VtoDn6Ghr539j6g0iH+lljmzDmY14oPx5UXpQU
+ojY2bNRmc1W9l+L2zWW4wnChC85Gbxf0T/HNMt1gQnmrQqqROOyEtUQcwPHNTRSD
+hB/WGjkWwZdU+cM8ahknnC+pPpXCL/KkDZ6Axo8pOjUx8tITVbpWpMItDtuccOhj
+LfzSm1xHHO67pcGYvZaO4yeIuHlGKBVT8S1cTe48739YFCQj1p0=
+=ZpBD
 -----END PGP SIGNATURE-----
 
---tmhoscrdbp4qigij--
+--oz4exlm4isl3fxo2--
 
 
