@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2B3C392CB4
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 13:29:50 +0200 (CEST)
-Received: from localhost ([::1]:43216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E61E392DC7
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 14:14:48 +0200 (CEST)
+Received: from localhost ([::1]:37058 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lmECz-0000Zu-Qf
-	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 07:29:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43104)
+	id 1lmEuU-0001Lb-Kx
+	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 08:14:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43462)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1lmE2j-0005n9-4E
- for qemu-devel@nongnu.org; Thu, 27 May 2021 07:19:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45376)
+ (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1lmE4M-0006JZ-QI
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 07:20:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48583)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1lmE2Z-0001X5-Kh
- for qemu-devel@nongnu.org; Thu, 27 May 2021 07:19:12 -0400
+ (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1lmE44-0002FE-CA
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 07:20:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622114338;
+ s=mimecast20190719; t=1622114429;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=Aq3izwLoKG1KxXtKb/Q9i2QmWFPxDqBIw1ROvhHj/Nk=;
- b=V0mQw8n/BUvQFgXuDppr5r7wIqOuLSuOua666a57EOSOPVIm5JJbP3L9ORsD+ub715kslN
- b6RZ75RT60UfJARGn5z6ZP0QGQtMDj4iji2Qffp7AIBw5zMfxDVW4aHfWdVcDT+K38QCeO
- 566RGIvMTsabRn84RAVfTK6IfHgOHQI=
+ bh=wmxSe8v2qPIoeyzzBGhE9ZXkgNTvLmx82gOuIv7gadY=;
+ b=GBcF1SNydKMm7R3misMeDeaP8VCBUXyrsurSd40R0OU7kKLuFAt2u26aqCEey0VoIOFG8y
+ b3i3/uQcE4Du+K/WgAJibEC8COX1Uvv1vGJ/uOc2k+IiBW/eQ38ZPRDltD+uK5MdSIOv95
+ /o/OMA/eGWZQHTy7p8ujqUia97D2eB8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-401-osAcLv-0PqSDLxeBG7uQMA-1; Thu, 27 May 2021 07:18:57 -0400
-X-MC-Unique: osAcLv-0PqSDLxeBG7uQMA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-196-kCryELIGMaG2_FJTRSZINg-1; Thu, 27 May 2021 07:20:25 -0400
+X-MC-Unique: kCryELIGMaG2_FJTRSZINg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 29FEE800D55;
- Thu, 27 May 2021 11:18:55 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1624A106BB33;
+ Thu, 27 May 2021 11:20:24 +0000 (UTC)
 Received: from localhost (unknown [10.33.36.9])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8AAC1503E5;
- Thu, 27 May 2021 11:18:54 +0000 (UTC)
-Date: Thu, 27 May 2021 13:18:53 +0200
+ by smtp.corp.redhat.com (Postfix) with ESMTP id ABB39687D7;
+ Thu, 27 May 2021 11:20:23 +0000 (UTC)
+Date: Thu, 27 May 2021 13:20:22 +0200
 From: Sergio Lopez <slp@redhat.com>
 To: Alexander Graf <agraf@csgraf.de>
-Subject: Re: [PATCH v8 15/19] hvf: arm: Implement -cpu host
-Message-ID: <20210527111853.3zuudgp5xjwydelj@mhamilton>
+Subject: Re: [PATCH v8 16/19] hvf: arm: Implement PSCI handling
+Message-ID: <20210527112022.iwosfhwemlwsxlre@mhamilton>
 References: <20210519202253.76782-1-agraf@csgraf.de>
- <20210519202253.76782-16-agraf@csgraf.de>
+ <20210519202253.76782-17-agraf@csgraf.de>
 MIME-Version: 1.0
-In-Reply-To: <20210519202253.76782-16-agraf@csgraf.de>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <20210519202253.76782-17-agraf@csgraf.de>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=slp@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="ve5zr4shbjyq33wl"
+ protocol="application/pgp-signature"; boundary="qxr7svkp6aqmzl3t"
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=slp@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=slp@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -87,63 +87,61 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---ve5zr4shbjyq33wl
+--qxr7svkp6aqmzl3t
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, May 19, 2021 at 10:22:49PM +0200, Alexander Graf wrote:
-> Now that we have working system register sync, we push more target CPU
-> properties into the virtual machine. That might be useful in some
-> situations, but is not the typical case that users want.
+On Wed, May 19, 2021 at 10:22:50PM +0200, Alexander Graf wrote:
+> We need to handle PSCI calls. Most of the TCG code works for us,
+> but we can simplify it to only handle aa64 mode and we need to
+> handle SUSPEND differently.
 >=20
-> So let's add a -cpu host option that allows them to explicitly pass all
-> CPU capabilities of their host CPU into the guest.
+> This patch takes the TCG code as template and duplicates it in HVF.
+>=20
+> To tell the guest that we support PSCI 0.2 now, update the check in
+> arm_cpu_initfn() as well.
 >=20
 > Signed-off-by: Alexander Graf <agraf@csgraf.de>
-> Acked-by: Roman Bolshakov <r.bolshakov@yadro.com>
 >=20
 > ---
 >=20
 > v6 -> v7:
 >=20
->   - Move function define to own header
->   - Do not propagate SVE features for HVF
->   - Remove stray whitespace change
->   - Verify that EL0 and EL1 do not allow AArch32 mode
->   - Only probe host CPU features once
+>   - This patch integrates "arm: Set PSCI to 0.2 for HVF"
+>=20
+> v7 -> v8:
+>=20
+>   - Do not advance for HVC, PC is already updated by hvf
+>   - Fix checkpatch error
 > ---
->  target/arm/cpu.c     |  9 ++++--
->  target/arm/cpu.h     |  2 ++
->  target/arm/hvf/hvf.c | 72 ++++++++++++++++++++++++++++++++++++++++++++
->  target/arm/hvf_arm.h | 19 ++++++++++++
->  target/arm/kvm_arm.h |  2 --
->  5 files changed, 100 insertions(+), 4 deletions(-)
->  create mode 100644 target/arm/hvf_arm.h
+>  target/arm/cpu.c            |   4 +-
+>  target/arm/hvf/hvf.c        | 123 ++++++++++++++++++++++++++++++++++--
+>  target/arm/hvf/trace-events |   1 +
+>  3 files changed, 122 insertions(+), 6 deletions(-)
 
 Reviewed-by: Sergio Lopez <slp@redhat.com>
-Tested-by: Sergio Lopez <slp@redhat.com>
 
---ve5zr4shbjyq33wl
+--qxr7svkp6aqmzl3t
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEvtX891EthoCRQuii9GknjS8MAjUFAmCvgBwACgkQ9GknjS8M
-AjVYRQ/+Lvv/4vrR0TUadO6MtkXDkYsuDcqHv8Ij0TnQ5mbskHPMyYHJHmzeA+ak
-0Bp65ZkidXEMJ1bS+yRUsyCPm2y7G7D9nevU38+E3Wk9tbdLq64fQmI75ZZBO2uH
-0nBqopc3DyicBe4GsVd5RX3LavuRbUSx3cgjFwc1PknrWyo5smfBrs5E6/6ltRlC
-4NqdiHdNVHOlG3giUxLrXgifVSzVCMxgVPqIHaTK06zP2bs/XxwKW1XlCobU7w37
-9QWPH+1uOsf0UfKpEkf+nNltBYLcU1KF28N2WfDleaVEUJdlI44Ek838w1T2ZWbi
-jz1CwxZr90HI7TN+TuGRRsGGSzTVbjBlE040mUu+yzKqkxBjSUpYAC9kDPM3U3Ty
-kPnl1yPiw+tnAErXeHAeHgO1RGdazWY8ByMV2oRdD+TbPUtfh/wruYNE9V9Li9sp
-W4rodMdLZZFQ25C4i/kjDNjR00gyocCbLdQIspWdZDTe4S9RPZVIWWpMCiYnvUGF
-d9V6XTZYsqZn/NWkaNZvFVHxcmEGiszq5S4MZ7H84ONDEpQM6ajEw1sXIHXX7Jyi
-18ah8SJcKVKBiAnmMChUOYi+cR3xGKYDY1tjoJ5nMFfFdSUuPng5oWuKDuCkiSnh
-wqv53RiD92jZhFJ2ErTHzK6NvAobdHTv9dJU40t805hjOpc3SfA=
-=pNh+
+iQIzBAABCAAdFiEEvtX891EthoCRQuii9GknjS8MAjUFAmCvgHUACgkQ9GknjS8M
+AjXAqQ//bgikQsfVLi0kkAWrkgug7TnpvAlVBXi/LCdIFwhmyiq9o1PIxsFmFjES
+Tj1ey6uWRs/z2YAMKk/Ben/nmlhSIAYeM0jlIgMSJCd24xhyFlwD0AjdeZTLwobn
++QHV0jROv+y2HN59xADZNr6OUSsg7MdMex4JgKZgrUbMKJc6haLCqtZIicHs31Hx
+Fz/iY2c8rQzWU9HNeaIjOg2v6/q+DTiYhHdFGwRDpsbY4ZSgpWoKTuNXqXNHMBzM
+NZZPJcWprHqqfOFXRPcDqZ8An7uT0zGVttZSi2Zh2xn9UQ3DYx1ZQRq05l9oOruP
+97r0C2MR1UKzQzxhs4IryEakfPMIoNGOLKSgRrJ4Md4g87DM5yrPCS/D3IMt2pPB
+Li5AN1LxCMh+77gZLgrxWWldPgj9W6ZoGalpRrPIc3IKO2H5sCII2A6RDHHtQof3
+VK6EKUGjhfpab3URDX2Ik4goF5rsm3vgR2CO7h6sOWFGKO8cZOErqosuLyd6azoz
+H4J1BGC4T6WyI8zShZHE+itxefVYufCG1eJcvV19xHltUSftAoaF1LVy8bb3Mzig
+i6etM8lYJdybGN1VTFDIOW4fNqxXIpE/ZiSGIekbPXdMCLLztEbkd7PgYgDKVXzm
+5u8GrpDyiU/RuUS4P3q1cFrqPjQwXeEMAv1G1h/ZBlEVVper+4g=
+=7AJU
 -----END PGP SIGNATURE-----
 
---ve5zr4shbjyq33wl--
+--qxr7svkp6aqmzl3t--
 
 
