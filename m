@@ -2,54 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 543243928EB
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 09:52:07 +0200 (CEST)
-Received: from localhost ([::1]:43738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39B28392930
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 10:04:10 +0200 (CEST)
+Received: from localhost ([::1]:51622 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lmAoH-0004un-Hp
-	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 03:52:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54264)
+	id 1lmAzw-0002Gt-Pj
+	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 04:04:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56448)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <steven.price@arm.com>)
- id 1lmAmu-0003nl-H5
- for qemu-devel@nongnu.org; Thu, 27 May 2021 03:50:40 -0400
-Received: from foss.arm.com ([217.140.110.172]:46224)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <steven.price@arm.com>) id 1lmAmr-0000aq-DR
- for qemu-devel@nongnu.org; Thu, 27 May 2021 03:50:39 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2EC7E11D4;
- Thu, 27 May 2021 00:50:34 -0700 (PDT)
-Received: from [192.168.1.179] (unknown [172.31.20.19])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7C3F53F73B;
- Thu, 27 May 2021 00:50:31 -0700 (PDT)
-Subject: Re: [PATCH v12 7/8] KVM: arm64: ioctl to fetch/store tags in a guest
-To: Catalin Marinas <catalin.marinas@arm.com>
-References: <20210517123239.8025-1-steven.price@arm.com>
- <20210517123239.8025-8-steven.price@arm.com> <20210520120556.GC12251@arm.com>
- <dd5ab3a0-5a74-b145-2485-d6d871be945b@arm.com>
- <20210520172713.GF12251@arm.com>
- <5eec330f-63c0-2af8-70f8-ba9b643e2558@arm.com>
- <20210524181129.GI14645@arm.com>
-From: Steven Price <steven.price@arm.com>
-Message-ID: <58345eca-6e5f-0faa-e47d-e9149d73f6c5@arm.com>
-Date: Thu, 27 May 2021 08:50:30 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lmAyz-0001Z7-VQ
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 04:03:09 -0400
+Received: from smtp-out2.suse.de ([195.135.220.29]:57108)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lmAyx-00021P-Oi
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 04:03:09 -0400
+Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
+ (using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 9C4401FD31;
+ Thu, 27 May 2021 08:03:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1622102580; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=DffSY7eeZ/ziqjvdDpc1oguX2uS7d0cEP+7HsI888d0=;
+ b=bseJZeotHHp8lmbHvtpvc1wSk3xcZXDe1l782gJhXwib2zB4XcHcT6TVdnnPwX9neOCP5w
+ 9/JKluWh/WGMkYrZLzIoJp3YlFQFGI8sqDYGxZwA4NNNfPyakQlTS0MunVRC5s1/AfNn5F
+ jzqpU0kdKlPbWpWGJgeYQ6BYPN276xg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1622102580;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=DffSY7eeZ/ziqjvdDpc1oguX2uS7d0cEP+7HsI888d0=;
+ b=xNqbTE7cWgaZNFcG0kCxKEdK5H3shZIL9wi3OQFK4KYXV421Tgtt7kMZcNFGbYIKiqFVAZ
+ vDQhUpDoHA0KjDCA==
+Received: from director2.suse.de (director2.suse-dmz.suse.de [192.168.254.72])
+ by imap.suse.de (Postfix) with ESMTPSA id D90FF11CD6;
+ Thu, 27 May 2021 07:57:33 +0000 (UTC)
+Subject: Re: Windows fails to boot after rebase to QEMU master
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>
+References: <20210521091451.GA6016@u366d62d47e3651.ant.amazon.com>
+ <20210524055322-mutt-send-email-mst@kernel.org> <YK6hunkEnft6VJHz@work-vm>
+From: Claudio Fontana <cfontana@suse.de>
+Message-ID: <d71fee00-0c21-c5e8-dbc6-00b7ace11c5a@suse.de>
+Date: Thu, 27 May 2021 09:57:33 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <20210524181129.GI14645@arm.com>
+In-Reply-To: <YK6hunkEnft6VJHz@work-vm>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=217.140.110.172;
- envelope-from=steven.price@arm.com; helo=foss.arm.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=195.135.220.29; envelope-from=cfontana@suse.de;
+ helo=smtp-out2.suse.de
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,185 +78,154 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Andrew Jones <drjones@redhat.com>, Haibo Xu <Haibo.Xu@arm.com>,
- Suzuki K Poulose <suzuki.poulose@arm.com>, qemu-devel@nongnu.org,
- Marc Zyngier <maz@kernel.org>, Juan Quintela <quintela@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, linux-kernel@vger.kernel.org,
- Dave Martin <Dave.Martin@arm.com>, James Morse <james.morse@arm.com>,
- linux-arm-kernel@lists.infradead.org, Thomas Gleixner <tglx@linutronix.de>,
- Will Deacon <will@kernel.org>, kvmarm@lists.cs.columbia.edu,
- Julien Thierry <julien.thierry.kdev@gmail.com>
+Cc: Siddharth Chandrasekaran <sidcha@amazon.de>,
+ Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
+ Marcelo Tosatti <mtosatti@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Cameron Esfahani <dirty@apple.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 24/05/2021 19:11, Catalin Marinas wrote:
-> On Fri, May 21, 2021 at 10:42:09AM +0100, Steven Price wrote:
->> On 20/05/2021 18:27, Catalin Marinas wrote:
->>> On Thu, May 20, 2021 at 04:58:01PM +0100, Steven Price wrote:
->>>> On 20/05/2021 13:05, Catalin Marinas wrote:
->>>>> On Mon, May 17, 2021 at 01:32:38PM +0100, Steven Price wrote:
->>>>>> diff --git a/arch/arm64/kvm/arm.c b/arch/arm64/kvm/arm.c
->>>>>> index e89a5e275e25..4b6c83beb75d 100644
->>>>>> --- a/arch/arm64/kvm/arm.c
->>>>>> +++ b/arch/arm64/kvm/arm.c
->>>>>> @@ -1309,6 +1309,65 @@ static int kvm_vm_ioctl_set_device_addr(struct kvm *kvm,
->>>>>>  	}
->>>>>>  }
->>>>>>  
->>>>>> +static int kvm_vm_ioctl_mte_copy_tags(struct kvm *kvm,
->>>>>> +				      struct kvm_arm_copy_mte_tags *copy_tags)
->>>>>> +{
->>>>>> +	gpa_t guest_ipa = copy_tags->guest_ipa;
->>>>>> +	size_t length = copy_tags->length;
->>>>>> +	void __user *tags = copy_tags->addr;
->>>>>> +	gpa_t gfn;
->>>>>> +	bool write = !(copy_tags->flags & KVM_ARM_TAGS_FROM_GUEST);
->>>>>> +	int ret = 0;
->>>>>> +
->>>>>> +	if (copy_tags->reserved[0] || copy_tags->reserved[1])
->>>>>> +		return -EINVAL;
->>>>>> +
->>>>>> +	if (copy_tags->flags & ~KVM_ARM_TAGS_FROM_GUEST)
->>>>>> +		return -EINVAL;
->>>>>> +
->>>>>> +	if (length & ~PAGE_MASK || guest_ipa & ~PAGE_MASK)
->>>>>> +		return -EINVAL;
->>>>>> +
->>>>>> +	gfn = gpa_to_gfn(guest_ipa);
->>>>>> +
->>>>>> +	mutex_lock(&kvm->slots_lock);
->>>>>> +
->>>>>> +	while (length > 0) {
->>>>>> +		kvm_pfn_t pfn = gfn_to_pfn_prot(kvm, gfn, write, NULL);
->>>>>> +		void *maddr;
->>>>>> +		unsigned long num_tags = PAGE_SIZE / MTE_GRANULE_SIZE;
->>>>>> +
->>>>>> +		if (is_error_noslot_pfn(pfn)) {
->>>>>> +			ret = -EFAULT;
->>>>>> +			goto out;
->>>>>> +		}
->>>>>> +
->>>>>> +		maddr = page_address(pfn_to_page(pfn));
->>>>>> +
->>>>>> +		if (!write) {
->>>>>> +			num_tags = mte_copy_tags_to_user(tags, maddr, num_tags);
->>>>>> +			kvm_release_pfn_clean(pfn);
->>>>>
->>>>> Do we need to check if PG_mte_tagged is set? If the page was not faulted
->>>>> into the guest address space but the VMM has the page, does the
->>>>> gfn_to_pfn_prot() guarantee that a kvm_set_spte_gfn() was called? If
->>>>> not, this may read stale tags.
->>>>
->>>> Ah, I hadn't thought about that... No I don't believe gfn_to_pfn_prot()
->>>> will fault it into the guest.
+On 5/26/21 9:30 PM, Dr. David Alan Gilbert wrote:
+> * Michael S. Tsirkin (mst@redhat.com) wrote:
+>> On Fri, May 21, 2021 at 11:17:19AM +0200, Siddharth Chandrasekaran wrote:
+>>> After a rebase to QEMU master, I am having trouble booting windows VMs.
+>>> Git bisect indicates commit f5cc5a5c1686 ("i386: split cpu accelerators
+>>> from cpu.c, using AccelCPUClass") to have introduced the issue. I spent
+>>> some time looking at into it yesterday without much luck.
 >>>
->>> It doesn't indeed. What it does is a get_user_pages() but it's not of
->>> much help since the VMM pte wouldn't be tagged (we would have solved
->>> lots of problems if we required PROT_MTE in the VMM...)
->>
->> Sadly it solves some problems and creates others :(
-> 
-> I had some (random) thoughts on how to make things simpler, maybe. I
-> think most of these races would have been solved if we required PROT_MTE
-> in the VMM but this has an impact on the VMM if it wants to use MTE
-> itself. If such requirement was in place, all KVM needed to do is check
-> PG_mte_tagged.
-> 
-> So what we actually need is a set_pte_at() in the VMM to clear the tags
-> and set PG_mte_tagged. Currently, we only do this if the memory type is
-> tagged (PROT_MTE) but it's not strictly necessary.
-> 
-> As an optimisation for normal programs, we don't want to do this all the
-> time but the visible behaviour wouldn't change (well, maybe for ptrace
-> slightly). However, it doesn't mean we couldn't for a VMM, with an
-> opt-in via prctl(). This would add a MMCF_MTE_TAG_INIT bit (couldn't
-> think of a better name) to mm_context_t.flags and set_pte_at() would
-> behave as if the pte was tagged without actually mapping the memory in
-> user space as tagged (protection flags not changed). Pages that don't
-> support tagging are still safe, just some unnecessary ignored tag
-> writes. This would need to be set before the mmap() for the guest
-> memory.
-> 
-> If we want finer-grained control we'd have to store this information in
-> the vma flags, in addition to VM_MTE (e.g. VM_MTE_TAG_INIT) but without
-> affecting the actual memory type. The easiest would be another pte bit,
-> though we are short on them. A more intrusive (not too bad) approach is
-> to introduce a set_pte_at_vma() and read the flags directly in the arch
-> code. In most places where set_pte_at() is called on a user mm, the vma
-> is also available.
-> 
-> Anyway, I'm not saying we go this route, just thinking out loud, get
-> some opinions.
-
-Does get_user_pages() actually end up calling set_pte_at() normally? If
-not then on the normal user_mem_abort() route although we can easily
-check VM_MTE_TAG_INIT there's no obvious place to hook in to ensure that
-the pages actually allocated have the PG_mte_tagged flag.
-
-I'm also not sure how well this would work with the MMU notifiers path
-in KVM. With MMU notifiers (i.e. the VMM replacing a page in the
-memslot) there's not even an obvious hook to enforce the VMA flag. So I
-think we'd end up with something like the sanitise_mte_tags() function
-to at least check that the PG_mte_tagged flag is set on the pages
-(assuming that the trigger for the MMU notifier has done the
-corresponding set_pte_at()). Admittedly this might close the current
-race documented there.
-
-It also feels wrong to me to tie this to a process with prctl(), it
-seems much more normal to implement this as a new mprotect() flag as
-this is really a memory property not a process property. And I think
-we'll find some scary corner cases if we try to associate everything
-back to a process - although I can't instantly think of anything that
-will actually break.
-
->>> Another thing I forgot to ask, what's guaranteeing that the page
->>> supports tags? Does this ioctl ensure that it would attempt the tag
->>> copying from some device mapping? Do we need some kvm_is_device_pfn()
->>> check? I guess ZONE_DEVICE memory we just refuse to map in an earlier
->>> patch.
->>
->> Hmm, nothing much. While reads are now fine (the memory won't have
->> PG_mte_tagged), writes could potentially happen on ZONE_DEVICE memory.
-> 
-> I don't think it's a problem for writes either as the host wouldn't map
-> such memory as tagged. It's just that it returns zeros and writes are
-> ignored, so we could instead return an error (I haven't checked your
-> latest series yet).
-
-The latest series uses pfn_to_online_page() to reject ZONE_DEVICE early.
-
->>>> 		} else {
->>>> 			num_tags = mte_copy_tags_from_user(maddr, tags,
->>>> 							MTE_GRANULES_PER_PAGE);
->>>> 			kvm_release_pfn_dirty(pfn);
->>>> 		}
->>>>
->>>> 		if (num_tags != MTE_GRANULES_PER_PAGE) {
->>>> 			ret = -EFAULT;
->>>> 			goto out;
->>>> 		}
->>>>
->>>> 		if (write)
->>>> 			test_and_set_bit(PG_mte_tagged, &page->flags);
+>>> Steps to reproduce:
 >>>
->>> I think a set_bit() would do, I doubt it's any more efficient. But why
+>>>     $ ./configure --enable-kvm --disable-xen --target-list=x86_64-softmmu --enable-debug
+>>>     $ make -j `nproc`
+>>>     $ ./build/x86_64-softmmu/qemu-system-x86_64 \
+>>>         -cpu host,hv_synic,hv_vpindex,hv_time,hv_runtime,hv_stimer,hv_crash \
+>>>         -enable-kvm \
+>>>         -name test,debug-threads=on \
+>>>         -smp 1,threads=1,cores=1,sockets=1 \
+>>>         -m 4G \
+>>>         -net nic -net user \
+>>>         -boot d,menu=on \
+>>>         -usbdevice tablet \
+>>>         -vnc :3 \
+>>>         -machine q35,smm=on \
+>>>         -drive if=pflash,format=raw,readonly=on,unit=0,file="../OVMF_CODE.secboot.fd" \
+>>>         -drive if=pflash,format=raw,unit=1,file="../OVMF_VARS.secboot.fd" \
+>>>         -global ICH9-LPC.disable_s3=1 \
+>>>         -global driver=cfi.pflash01,property=secure,value=on \
+>>>         -cdrom "../Windows_Server_2016_14393.ISO" \
+>>>         -drive file="../win_server_2016.qcow2",format=qcow2,if=none,id=rootfs_drive \
+>>>         -device ahci,id=ahci \
+>>>         -device ide-hd,drive=rootfs_drive,bus=ahci.0
+>>>
+>>> If the issue is not obvious, I'd like some pointers on how to go about
+>>> fixing this issue.
+>>>
+>>> ~ Sid.
+>>>
 >>
->> I'd seen test_and_set_bit() used elsewhere (I forget where now) as a
->> slightly more efficient approach. It complies down to a READ_ONCE and a
->> conditional atomic, vs a single non-conditional atomic. But I don't have
->> any actual data on the performance and this isn't a hot path, so I'll
->> switch to the more obvious set_bit().
+>> At a guess this commit inadvertently changed something in the CPU ID.
+>> I'd start by using a linux guest to dump cpuid before and after the
+>> change.
 > 
-> Yeah, I think I've seen this as well. Anyway, it's probably lost in the
-> noise of tag writing here.
+> I've not had a chance to do that yet, however I did just end up with a
+> bisect of a linux guest failure bisecting to the same patch:
+> 
+> [dgilbert@dgilbert-t580 qemu]$ git bisect bad
+> f5cc5a5c168674f84bf061cdb307c2d25fba5448 is the first bad commit
+> commit f5cc5a5c168674f84bf061cdb307c2d25fba5448
+> Author: Claudio Fontana <cfontana@suse.de>
+> Date:   Mon Mar 22 14:27:40 2021 +0100
+> 
+>     i386: split cpu accelerators from cpu.c, using AccelCPUClass
+>     
+>     i386 is the first user of AccelCPUClass, allowing to split
+>     cpu.c into:
+>     
+>     cpu.c            cpuid and common x86 cpu functionality
+>     host-cpu.c       host x86 cpu functions and "host" cpu type
+>     kvm/kvm-cpu.c    KVM x86 AccelCPUClass
+>     hvf/hvf-cpu.c    HVF x86 AccelCPUClass
+>     tcg/tcg-cpu.c    TCG x86 AccelCPUClass
+>     
 > 
 
-Agreed.
+Paolo, it seems to me that something went wrong in the merge of this commit.
+
+The last version of the series I sent had this comment in the commit message,
+as part of a very long series of rebases after review.
+
+[claudio]: Rebased on commit b8184135 ("target/i386: allow modifying TCG phys-addr-bits")
+
+
+While I do not see this comment in the commit posted here. So I suspect that an older version of the series was included?
+
+The series is also available as:
+
+https://github.com/hw-claudio/qemu.git "i386_cleanup_9"
 
 Thanks,
 
-Steve
+Claudio
+
+
+
+
+> The guest crash is:
+> [   85.008985][ T1524] BUG: unable to handle page fault for address: ffffffff810d9c42
+> [   85.012868][ T1524] #PF: supervisor write access in kernel mode
+> [   85.012962][ T1524] #PF: error_code(0x0003) - permissions violation
+> [   85.013043][ T1524] PGD 2224067 P4D 2224067 PUD 2225063 PMD 10001e1 
+> [   85.013180][ T1524] Oops: 0003 [#1] SMP NOPTI
+> [   85.013295][ T1524] CPU: 2 PID: 1524 Comm: blogbench Not tainted 5.11.0-rc7 #100
+> [   85.013395][ T1524] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.14.0-0-g155821a1990b-prebuilt.qemu.org 04/01/2014
+> [   85.013546][ T1524] RIP: 0010:kvm_kick_cpu+0x22/0x30
+> [   85.013630][ T1524] Code: 0f 1f 84 00 00 00 00 00 55 48 63 ff 48 c7 c0 78 11 01 00 48 8b 14 fd c0 36 11 82 48 89 e5 53 31 db 0f b7 0c 02 b8 05 00 00 00 <0f> 01 d9 5b 5d c3 0f 1f 84 00 00 00 00 00 55 48 89 e5 53 48 89 fb
+> [   85.013852][ T1524] RSP: 0018:ffffc90000747c08 EFLAGS: 00010046
+> [   85.013951][ T1524] RAX: 0000000000000005 RBX: 0000000000000000 RCX: 0000000000000000
+> [   85.014058][ T1524] RDX: ffff88807c600000 RSI: 0000000000000100 RDI: 0000000000000000
+> [   85.014153][ T1524] RBP: ffffc90000747c10 R08: ffff88807c72a800 R09: ffff88807ffd6000
+> [   85.014248][ T1524] R10: 0000000000000001 R11: 0000000000000046 R12: ffff88807c72a800
+> [   85.014343][ T1524] R13: 0000000000000000 R14: ffff888005409940 R15: ffff88807c72a818
+> [   85.014437][ T1524] FS:  00007fa2f750a700(0000) GS:ffff88807c700000(0000) knlGS:0000000000000000
+> [   85.014559][ T1524] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> [   85.014644][ T1524] CR2: ffffffff810d9c42 CR3: 0000000009016003 CR4: 0000000000370ea0
+> [   85.014741][ T1524] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+> [   85.014842][ T1524] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+> [   85.014945][ T1524] Call Trace:
+> [   85.014998][ T1524]  __pv_queued_spin_unlock_slowpath+0xa0/0xd0
+> [   85.015103][ T1524]  __raw_callee_save___pv_queued_spin_unlock_slowpath+0x15/0x24
+> [   85.015206][ T1524]  .slowpath+0x9/0x15
+> [   85.015261][ T1524]  do_raw_spin_unlock+0x48/0xc0
+> [   85.015333][ T1524]  _raw_spin_unlock_irq+0x1d/0x30
+> [   85.015404][ T1524]  finish_task_switch+0xcc/0x2c0
+> [   85.015478][ T1524]  __schedule+0x283/0x9a0
+> [   85.015534][ T1524]  schedule+0x50/0xc0
+> [   85.015588][ T1524]  request_wait_answer+0x126/0x240
+> [   85.015667][ T1524]  ? finish_wait+0x90/0x90
+> [   85.015740][ T1524]  fuse_simple_request+0x17c/0x2e0
+> 
+> the backtrace moves about a bit, but it always ends up as
+> a page fault in kvm_kick_cpu.
+> 
+> My qemu commandline being:
+> ./x86_64-softmmu/qemu-system-x86_64 -M pc,memory-backend=mem,accel=kvm -cpu host  -m 2G,maxmem=16G,slots=16 -smp 4 -object memory-backend-memfd,id=mem,size=2G,share=on -chardev socket,id=char0,path=/tmp/vhostqemu -device vhost-user-fs-pci,queue-size=1024,chardev=char0,tag=myfs -kernel /home/dgilbert/virtio-fs/kernel-builds/monolithic-dax-20210209a -initrd /home/dgilbert/virtio-fs/test-initramfs.img -chardev stdio,mux=on,id=mon -mon chardev=mon,mode=readline  -device virtio-serial-pci,disable-modern=on -device virtconsole,chardev=mon -object rng-random,id=objrng0,filename=/dev/urandom -device virtio-rng-pci,rng=objrng0,id=rng0,disable-legacy=on -vga none -append "console=hvc0  debug loglevel=9 systemd.journald.forward_to_console" -display none  -overcommit mem-lock=off -netdev user,id=usernet -device virtio-net-pci,netdev=usernet -name debug-threads=on
+> 
+> 
+>>
+>>>
+>>>
+>>> Amazon Development Center Germany GmbH
+>>> Krausenstr. 38
+>>> 10117 Berlin
+>>> Geschaeftsfuehrung: Christian Schlaeger, Jonathan Weiss
+>>> Eingetragen am Amtsgericht Charlottenburg unter HRB 149173 B
+>>> Sitz: Berlin
+>>> Ust-ID: DE 289 237 879
+>>>
+>>>
+>>
+>>
+
 
