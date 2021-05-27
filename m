@@ -2,71 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59A1A393661
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 21:36:58 +0200 (CEST)
-Received: from localhost ([::1]:40144 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A5CE3936AA
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 21:52:18 +0200 (CEST)
+Received: from localhost ([::1]:46826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lmLoP-0001Io-EH
-	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 15:36:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56318)
+	id 1lmM3E-0006jJ-Rf
+	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 15:52:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59274)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1lmLnH-0008Mh-Ta
- for qemu-devel@nongnu.org; Thu, 27 May 2021 15:35:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40617)
+ (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
+ id 1lmM2B-000645-Po
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 15:51:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46777)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1lmLnE-0000Gs-4r
- for qemu-devel@nongnu.org; Thu, 27 May 2021 15:35:46 -0400
+ (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
+ id 1lmM29-0002J4-7Y
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 15:51:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622144143;
+ s=mimecast20190719; t=1622145068;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vBBtVvnbweTfRRiikmxbx1VSYBaZxTUZIb7uVYlMbDg=;
- b=a66bU8a9MnJeO+5fopz1esv7rEDTahDIhkNbV8ksH+0zmoZRqh64onBfznpSpFBEc9VQ5A
- VAxxPNhuxihwvAOZvm/PHJJ2UaGod5xQjQdJU8xr5a6tmuSkfFSbeTmhc02pZ4EKB+zlMt
- zIJd77tDcBxMKMQ07x6tatsm36dcrqQ=
+ bh=fZLbWS6nIanWtzTeG6NCxkam3VCHWAJu6HqcDFaD8Ws=;
+ b=U9jDmtuPu7qfwTsR1Qx1SWjFw5OsedzVXCRMC1LjHDAg72sAU/+J0xogKj4atlsKjLVtYQ
+ flahulzTisdimi3lhahZfZt5wsUDAeo8UGs+0q+eJVD6Y06BWjzJH5qqf2xHXEy69th7hh
+ 7FHoYuGsXSi5v31kz5HiDWdPFBDOFF4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-500-2sMoYU59Ni2hn3wkNPmTWw-1; Thu, 27 May 2021 15:35:41 -0400
-X-MC-Unique: 2sMoYU59Ni2hn3wkNPmTWw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-277-D8MgCTBIOJa4m0jMZEGZWg-1; Thu, 27 May 2021 15:51:04 -0400
+X-MC-Unique: D8MgCTBIOJa4m0jMZEGZWg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 90297101371D
- for <qemu-devel@nongnu.org>; Thu, 27 May 2021 19:35:40 +0000 (UTC)
-Received: from localhost (ovpn-117-209.rdu2.redhat.com [10.10.117.209])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 574DE5C5B5;
- Thu, 27 May 2021 19:35:40 +0000 (UTC)
-Date: Thu, 27 May 2021 15:35:39 -0400
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Vitaly Kuznetsov <vkuznets@redhat.com>
-Subject: Re: [PATCH v6 00/19] i386: KVM: expand Hyper-V features early
-Message-ID: <20210527193539.qcncovc25ahhjgyp@habkost.net>
-References: <20210422161130.652779-1-vkuznets@redhat.com>
- <20210526202014.tkeim3ofmsknbijy@habkost.net>
- <87fsy87hih.fsf@vitty.brq.redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 921C08042A6;
+ Thu, 27 May 2021 19:51:02 +0000 (UTC)
+Received: from wainer-laptop.localdomain (ovpn-116-187.gru2.redhat.com
+ [10.97.116.187])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3D32C1349A;
+ Thu, 27 May 2021 19:50:56 +0000 (UTC)
+Subject: Re: [PATCH 1/2] tests/acceptance: Ignore binary data sent on serial
+ console
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20210515134555.307404-1-f4bug@amsat.org>
+ <20210515134555.307404-2-f4bug@amsat.org>
+From: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Message-ID: <069856a3-96ce-6bdf-5d9b-bef6d93c46a5@redhat.com>
+Date: Thu, 27 May 2021 16:50:53 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <87fsy87hih.fsf@vitty.brq.redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <20210515134555.307404-2-f4bug@amsat.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=ehabkost@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=wainersm@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.374,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,40 +86,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- qemu-devel@nongnu.org, Igor Mammedov <imammedo@redhat.com>
+Cc: Thomas Huth <huth@tuxfamily.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-ppc@nongnu.org, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, May 27, 2021 at 09:39:02AM +0200, Vitaly Kuznetsov wrote:
-> Eduardo Habkost <ehabkost@redhat.com> writes:
-> 
-> > On Thu, Apr 22, 2021 at 06:11:11PM +0200, Vitaly Kuznetsov wrote:
-> >> Vitaly Kuznetsov (19):
-> >>   i386: keep hyperv_vendor string up-to-date
-> >>   i386: invert hyperv_spinlock_attempts setting logic with
-> >>     hv_passthrough
-> >>   i386: always fill Hyper-V CPUID feature leaves from X86CPU data
-> >>   i386: stop using env->features[] for filling Hyper-V CPUIDs
-> >>   i386: introduce hyperv_feature_supported()
-> >>   i386: introduce hv_cpuid_get_host()
-> >>   i386: drop FEAT_HYPERV feature leaves
-> >>   i386: introduce hv_cpuid_cache
-> >>   i386: split hyperv_handle_properties() into
-> >>     hyperv_expand_features()/hyperv_fill_cpuids()
-> >>   i386: move eVMCS enablement to hyperv_init_vcpu()
-> >>   i386: switch hyperv_expand_features() to using error_setg()
-> >>   i386: adjust the expected KVM_GET_SUPPORTED_HV_CPUID array size
-> >>   i386: prefer system KVM_GET_SUPPORTED_HV_CPUID ioctl over vCPU's one
-> >>   i386: use global kvm_state in hyperv_enabled() check
-> >
-> > I'm queueing patches 1-14 (the ones above) on my x86-next branch.
-> 
-> Thank you! Is it published somewhere so I can base next version[s] on it? 
 
-Yes: http://gitlab.com/ehabkost/qemu x86-next
+On 5/15/21 10:45 AM, Philippe Mathieu-Daudé wrote:
+> If a guest sends binary data on the serial console, we get:
+>
+>   File "tests/acceptance/avocado_qemu/__init__.py", line 92,
+>     in _console_interaction msg = console.readline().strip()
+>   File "/usr/lib64/python3.8/codecs.py", line 322,
+>     in decode (result, consumed) = self._buffer_decode(data, self.errors, final)
+>   UnicodeDecodeError: 'utf-8' codec can't decode byte 0xa9 in position 2: invalid start byte
 
--- 
-Eduardo
+
+Good catch!
+
+
+>
+> Since we use the console with readline(), fix it the easiest
+> way possible: ignore binary data (all current tests compare
+> text string anyway).
+>
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+>   tests/acceptance/avocado_qemu/__init__.py | 7 +++++--
+>   1 file changed, 5 insertions(+), 2 deletions(-)
+
+Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+
+Tested-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+
+>
+> diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptance/avocado_qemu/__init__.py
+> index 83b1741ec85..b55578e1cca 100644
+> --- a/tests/acceptance/avocado_qemu/__init__.py
+> +++ b/tests/acceptance/avocado_qemu/__init__.py
+> @@ -82,14 +82,17 @@ def _console_interaction(test, success_message, failure_message,
+>       assert not keep_sending or send_string
+>       if vm is None:
+>           vm = test.vm
+> -    console = vm.console_socket.makefile()
+> +    console = vm.console_socket.makefile(mode='rb', encoding='utf-8')
+>       console_logger = logging.getLogger('console')
+>       while True:
+>           if send_string:
+>               vm.console_socket.sendall(send_string.encode())
+>               if not keep_sending:
+>                   send_string = None # send only once
+> -        msg = console.readline().strip()
+> +        try:
+> +            msg = console.readline().decode().strip()
+> +        except UnicodeDecodeError:
+> +            msg = None
+>           if not msg:
+>               continue
+>           console_logger.debug(msg)
 
 
