@@ -2,47 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E6F43926D4
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 07:24:09 +0200 (CEST)
-Received: from localhost ([::1]:38848 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63CB7392854
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 09:15:40 +0200 (CEST)
+Received: from localhost ([::1]:48010 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lm8V6-0002Zc-E3
-	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 01:24:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56798)
+	id 1lmAF1-0001zO-Ff
+	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 03:15:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46846)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ysato@users.sourceforge.jp>)
- id 1lm8Se-0008KW-Ep
- for qemu-devel@nongnu.org; Thu, 27 May 2021 01:21:36 -0400
-Received: from mail01.asahi-net.or.jp ([202.224.55.13]:58635)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ysato@users.sourceforge.jp>) id 1lm8Sc-00067C-2a
- for qemu-devel@nongnu.org; Thu, 27 May 2021 01:21:36 -0400
-Received: from sakura.ysato.name (ik1-413-38519.vs.sakura.ne.jp
- [153.127.30.23]) (Authenticated sender: PQ4Y-STU)
- by mail01.asahi-net.or.jp (Postfix) with ESMTPA id 1EE1C11D3D0;
- Thu, 27 May 2021 14:21:33 +0900 (JST)
-Received: from yo-satoh-debian.localdomain
- (y245018.dynamic.ppp.asahi-net.or.jp [118.243.245.18])
- by sakura.ysato.name (Postfix) with ESMTPSA id C36801C060B;
- Thu, 27 May 2021 14:21:32 +0900 (JST)
-From: Yoshinori Sato <ysato@users.sourceforge.jp>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 11/11] hw/rx: rx-gdbsim Add bootstrup for linux
-Date: Thu, 27 May 2021 14:21:22 +0900
-Message-Id: <20210527052122.97103-12-ysato@users.sourceforge.jp>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210527052122.97103-1-ysato@users.sourceforge.jp>
-References: <20210527052122.97103-1-ysato@users.sourceforge.jp>
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1lmAC3-0006wz-RM; Thu, 27 May 2021 03:12:35 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:35069 helo=ozlabs.org)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1lmAC1-0004jQ-EF; Thu, 27 May 2021 03:12:35 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4FrJsx58MXz9sXV; Thu, 27 May 2021 17:12:21 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1622099541;
+ bh=zQ5GzFkSI56QC2qYx5sTwyUvHJntva3U3JHmhrZZEB0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=qHBpwQGuMGlt98uY63XXGUGlWKncgfh7vRV7YUclcV2pU4dGLcd9akg95Xt7Wv0qq
+ 8UDlsoemp4GMTFG9ZWQV5fwoEyNl5Gv+E+zKccBlvEKjiR9DinbThx6oRnpHWI0aAL
+ TPEER31Xlu8cnyIWWjgRRFc71qfPFOKbP/7XVzZA=
+Date: Thu, 27 May 2021 15:31:27 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: BALATON Zoltan <balaton@eik.bme.hu>
+Subject: Re: [PATCH qemu v20] spapr: Implement Open Firmware client interface
+Message-ID: <YK8ur8CMVhxe4HyD@yekko>
+References: <ec1742e3-c47-bbee-3a6-ec64442922ab@eik.bme.hu>
+ <8527c8d2-c1e7-b3f8-0bda-529ba3864701@ozlabs.ru>
+ <babe39af-fd34-8c5-de99-a0f485bfbce@eik.bme.hu>
+ <4f6ceca3-5f18-fe70-18f9-4efde8feb1ed@ozlabs.ru>
+ <7a4e47e5-59b-9132-eafd-d84d8b73f5c@eik.bme.hu>
+ <17fbb016-2e7-d57e-bedd-1ae7814fb860@eik.bme.hu>
+ <YKtBJoQXSrSVENFw@yekko>
+ <fe6791b0-6162-8331-cc-e6e29fc7d07b@eik.bme.hu>
+ <YKyLNgZrG4IQw0E3@yekko>
+ <a433cec-5524-93f-880-b74d5a8753fd@eik.bme.hu>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: softfail client-ip=202.224.55.13;
- envelope-from=ysato@users.sourceforge.jp; helo=mail01.asahi-net.or.jp
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="cZ4qfviPfG7omgtd"
+Content-Disposition: inline
+In-Reply-To: <a433cec-5524-93f-880-b74d5a8753fd@eik.bme.hu>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -55,236 +66,171 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
+Cc: Alexey Kardashevskiy <aik@ozlabs.ru>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-linux kernel require initializing some peripherals.
 
-Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
----
- include/hw/rx/rx62n.h | 16 ++++----
- hw/rx/rx-gdbsim.c     | 89 +++++++++++++++++++++++++------------------
- hw/rx/rx62n.c         | 15 --------
- 3 files changed, 59 insertions(+), 61 deletions(-)
+--cZ4qfviPfG7omgtd
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/include/hw/rx/rx62n.h b/include/hw/rx/rx62n.h
-index 942ed0639f..3bbeb5da52 100644
---- a/include/hw/rx/rx62n.h
-+++ b/include/hw/rx/rx62n.h
-@@ -33,14 +33,6 @@
- #include "qemu/units.h"
- #include "qom/object.h"
- 
--#define TYPE_RX62N_MCU "rx62n-mcu"
--typedef struct RX62NState RX62NState;
--DECLARE_INSTANCE_CHECKER(RX62NState, RX62N_MCU,
--                         TYPE_RX62N_MCU)
--
--#define TYPE_R5F562N7_MCU "r5f562n7-mcu"
--#define TYPE_R5F562N8_MCU "r5f562n8-mcu"
--
- #define EXT_CS_BASE         0x01000000
- #define VECTOR_TABLE_BASE   0xffffff80
- #define RX62N_CFLASH_BASE   0xfff80000
-@@ -49,7 +41,7 @@ DECLARE_INSTANCE_CHECKER(RX62NState, RX62N_MCU,
- #define RX62N_NR_CMT    2
- #define RX62N_NR_SCI    6
- 
--struct RX62NState {
-+typedef struct RX62NState {
-     /*< private >*/
-     DeviceState parent_obj;
-     /*< public >*/
-@@ -75,5 +67,11 @@ struct RX62NState {
-     uint32_t xtal_freq_hz;
- } RX62NState;
- 
-+#define TYPE_RX62N_MCU "rx62n-mcu"
-+
-+#define TYPE_R5F562N7_MCU "r5f562n7-mcu"
-+#define TYPE_R5F562N8_MCU "r5f562n8-mcu"
-+DECLARE_INSTANCE_CHECKER(RX62NState, RX62N_MCU,
-+                         TYPE_RX62N_MCU)
- 
- #endif
-diff --git a/hw/rx/rx-gdbsim.c b/hw/rx/rx-gdbsim.c
-index 75d1fec6ca..34705d953b 100644
---- a/hw/rx/rx-gdbsim.c
-+++ b/hw/rx/rx-gdbsim.c
-@@ -31,14 +31,16 @@
- /* Same address of GDB integrated simulator */
- #define SDRAM_BASE  EXT_CS_BASE
- 
-+typedef struct RxGdbSimMachineClass RxGdbSimMachineClass;
-+
- struct RxGdbSimMachineClass {
-     /*< private >*/
-     MachineClass parent_class;
-     /*< public >*/
-     const char *mcu_name;
-     uint32_t xtal_freq_hz;
-+    size_t romsize;
- };
--typedef struct RxGdbSimMachineClass RxGdbSimMachineClass;
- 
- struct RxGdbSimMachineState {
-     /*< private >*/
-@@ -54,26 +56,50 @@ DECLARE_OBJ_CHECKERS(RxGdbSimMachineState, RxGdbSimMachineClass,
-                      RX_GDBSIM_MACHINE, TYPE_RX_GDBSIM_MACHINE)
- 
- 
--static void rx_load_image(RXCPU *cpu, const char *filename,
--                          uint32_t start, uint32_t size)
-+#define TINYBOOT_TOP (0xffffff00)
-+
-+static void set_bootstrap(hwaddr entry, hwaddr dtb)
- {
--    static uint32_t extable[32];
--    long kernel_size;
-+    /* Minimal hardware initialize for kernel requirement */
-+    /* linux kernel only works little-endian mode */
-+    static uint8_t tinyboot[256] = {
-+        0xfb, 0x2e, 0x20, 0x00, 0x08,       /* mov.l #0x80020, r2 */
-+        0xf8, 0x2e, 0x00, 0x01, 0x01,       /* mov.l #0x00010100, [r2] */
-+        0xfb, 0x2e, 0x10, 0x00, 0x08,       /* mov.l #0x80010, r2 */
-+        0xf8, 0x22, 0xdf, 0x7d, 0xff, 0xff, /* mov.l #0xffff7ddf, [r2] */
-+        0x62, 0x42,                         /* add #4, r2 */
-+        0xf8, 0x22, 0xff, 0x7f, 0xff, 0x7f, /* mov.l #0x7fff7fff, [r2] */
-+        0xfb, 0x2e, 0x40, 0x82, 0x08,       /* mov.l #0x88240, r2 */
-+        0x3c, 0x22, 0x00,                   /* mov.b #0, 2[r2] */
-+        0x3c, 0x21, 0x4e,                   /* mov.b #78, 1[r2] */
-+        0xfb, 0x22, 0x70, 0xff, 0xff, 0xff, /* mov.l #0xffffff70, r2 */
-+        0xec, 0x21,                         /* mov.l [r2], r1 */
-+        0xfb, 0x22, 0x74, 0xff, 0xff, 0xff, /* mov.l #0xffffff74, r2 */
-+        0xec, 0x22,                         /* mov.l [r2], r2 */
-+        0x7f, 0x02,                         /* jmp r2 */
-+    };
-     int i;
- 
-+    *((uint32_t *)&tinyboot[0x70]) = cpu_to_le32(dtb);
-+    *((uint32_t *)&tinyboot[0x74]) = cpu_to_le32(entry);
-+
-+    /* setup exception trap trampoline */
-+    for (i = 0; i < 31; i++) {
-+        *((uint32_t *)&tinyboot[0x80 + i * 4]) = cpu_to_le32(0x10 + i * 4);
-+    }
-+    *((uint32_t *)&tinyboot[0xfc]) = cpu_to_le32(TINYBOOT_TOP);
-+    rom_add_blob_fixed("tinyboot", tinyboot, sizeof(tinyboot), TINYBOOT_TOP);
-+}
-+
-+static void load_kernel(const char *filename, uint32_t start, uint32_t size)
-+{
-+    long kernel_size;
-+
-     kernel_size = load_image_targphys(filename, start, size);
-     if (kernel_size < 0) {
-         fprintf(stderr, "qemu: could not load kernel '%s'\n", filename);
-         exit(1);
-     }
--    cpu->env.pc = start;
--
--    /* setup exception trap trampoline */
--    /* linux kernel only works little-endian mode */
--    for (i = 0; i < ARRAY_SIZE(extable); i++) {
--        extable[i] = cpu_to_le32(0x10 + i * 4);
--    }
--    rom_add_blob_fixed("extable", extable, sizeof(extable), VECTOR_TABLE_BASE);
- }
- 
- static void rx_gdbsim_init(MachineState *machine)
-@@ -101,33 +127,15 @@ static void rx_gdbsim_init(MachineState *machine)
-                              &error_abort);
-     object_property_set_uint(OBJECT(&s->mcu), "xtal-frequency-hz",
-                              rxc->xtal_freq_hz, &error_abort);
--    object_property_set_bool(OBJECT(&s->mcu), "load-kernel",
--                             kernel_filename != NULL, &error_abort);
--
--    if (!kernel_filename) {
--        if (machine->firmware) {
--            rom_add_file_fixed(machine->firmware, RX62N_CFLASH_BASE, 0);
--        } else if (!qtest_enabled()) {
--            error_report("No bios or kernel specified");
--            exit(1);
--        }
--    }
--
--    qdev_realize(DEVICE(&s->mcu), NULL, &error_abort);
--
-     /* Load kernel and dtb */
-     if (kernel_filename) {
-         ram_addr_t kernel_offset;
--
--        /*
--         * The kernel image is loaded into
--         * the latter half of the SDRAM space.
--         */
-+        ram_addr_t dtb_offset = 0;
-         kernel_offset = machine->ram_size / 2;
--        rx_load_image(RX_CPU(first_cpu), kernel_filename,
--                      SDRAM_BASE + kernel_offset, kernel_offset);
-+
-+        load_kernel(machine->kernel_filename,
-+                    SDRAM_BASE + kernel_offset, kernel_offset);
-         if (dtb_filename) {
--            ram_addr_t dtb_offset;
-             int dtb_size;
-             g_autofree void *dtb = load_device_tree(dtb_filename, &dtb_size);
- 
-@@ -145,10 +153,17 @@ static void rx_gdbsim_init(MachineState *machine)
-             dtb_offset = machine->ram_size - dtb_size;
-             rom_add_blob_fixed("dtb", dtb, dtb_size,
-                                SDRAM_BASE + dtb_offset);
--            /* Set dtb address to R1 */
--            RX_CPU(first_cpu)->env.regs[1] = SDRAM_BASE + dtb_offset;
-+        }
-+        set_bootstrap(SDRAM_BASE + kernel_offset, SDRAM_BASE + dtb_offset);
-+    } else {
-+        if (machine->firmware) {
-+            rom_add_file_fixed(machine->firmware, RX62N_CFLASH_BASE, 0);
-+        } else if (!qtest_enabled()) {
-+            error_report("No bios or kernel specified");
-+            exit(1);
-         }
-     }
-+    qdev_realize(DEVICE(&s->mcu), NULL, &error_abort);
- }
- 
- static void rx_gdbsim_class_init(ObjectClass *oc, void *data)
-diff --git a/hw/rx/rx62n.c b/hw/rx/rx62n.c
-index 58eff0b4a3..d84ffa148c 100644
---- a/hw/rx/rx62n.c
-+++ b/hw/rx/rx62n.c
-@@ -58,20 +58,6 @@
- #define RX62N_XTAL_MIN_HZ  (8 * 1000 * 1000)
- #define RX62N_XTAL_MAX_HZ (14 * 1000 * 1000)
- 
--struct RX62NClass {
--    /*< private >*/
--    DeviceClass parent_class;
--    /*< public >*/
--    const char *name;
--    uint64_t ram_size;
--    uint64_t rom_flash_size;
--    uint64_t data_flash_size;
--};
--typedef struct RX62NClass RX62NClass;
--
--DECLARE_CLASS_CHECKERS(RX62NClass, RX62N_MCU,
--                       TYPE_RX62N_MCU)
--
- /*
-  * IRQ -> IPR mapping table
-  * 0x00 - 0x91: IPR no (IPR00 to IPR91)
-@@ -281,7 +267,6 @@ static void rx62n_realize(DeviceState *dev, Error **errp)
- static Property rx62n_properties[] = {
-     DEFINE_PROP_LINK("main-bus", RX62NState, sysmem, TYPE_MEMORY_REGION,
-                      MemoryRegion *),
--    DEFINE_PROP_BOOL("load-kernel", RX62NState, kernel, false),
-     DEFINE_PROP_UINT32("xtal-frequency-hz", RX62NState, xtal_freq_hz, 0),
-     DEFINE_PROP_END_OF_LIST(),
- };
--- 
-2.20.1
+On Tue, May 25, 2021 at 11:55:43AM +0200, BALATON Zoltan wrote:
+> On Tue, 25 May 2021, David Gibson wrote:
+> > On Mon, May 24, 2021 at 02:42:30PM +0200, BALATON Zoltan wrote:
+> > > On Mon, 24 May 2021, David Gibson wrote:
+> > > > On Sun, May 23, 2021 at 07:09:26PM +0200, BALATON Zoltan wrote:
+> > > > > On Sun, 23 May 2021, BALATON Zoltan wrote:
+> > > > > > On Sun, 23 May 2021, Alexey Kardashevskiy wrote:
+> > > > > > > One thing to note about PCI is that normally I think the clie=
+nt
+> > > > > > > expects the firmware to do PCI probing and SLOF does it. But =
+VOF
+> > > > > > > does not and Linux scans PCI bus(es) itself. Might be a probl=
+em for
+> > > > > > > you kernel.
+> > > > > >=20
+> > > > > > I'm not sure what info does MorphOS get from the device tree an=
+d what it
+> > > > > > probes itself but I think it may at least need device ids and i=
+nfo about
+> > > > > > the PCI bus to be able to access the config regs, after that it=
+ should
+> > > > > > set the devices up hopefully. I could add these from the board =
+code to
+> > > > > > device tree so VOF does not need to do anything about it. Howev=
+er I'm
+> > > > > > not getting to that point yet because it crashes on something t=
+hat it's
+> > > > > > missing and couldn't yet find out what is that.
+> > > > > >=20
+> > > > > > I'd like to get Linux working now as that would be enough to te=
+st this
+> > > > > > and then if for MorphOS we still need a ROM it's not a problem =
+if at
+> > > > > > least we can boot Linux without the original firmware. But I ca=
+n't make
+> > > > > > Linux open a serial console and I don't know what it needs for =
+that. Do
+> > > > > > you happen to know? I've looked at the sources in Linux/arch/po=
+werpc but
+> > > > > > not sure how it would find and open a serial port on pegasos2. =
+It seems
+> > > > > > to work with the board firmware and now I can get it to boot wi=
+th VOF
+> > > > > > but then it does not open serial so it probably needs something=
+ in the
+> > > > > > device tree or expects the firmware to set something up that we=
+ should
+> > > > > > add in pegasos2.c when using VOF.
+> > > > >=20
+> > > > > I've now found that Linux uses rtas methods read-pci-config and
+> > > > > write-pci-config for PCI access on pegasos2 so this means that we=
+'ll
+> > > > > probably need rtas too (I hoped we could get away without it if i=
+t were only
+> > > > > used for shutdown/reboot or so but seems Linux needs it for PCI a=
+s well and
+> > > > > does not scan the bus and won't find some devices without it).
+> > > >=20
+> > > > Yes, definitely sounds like you'll need an RTAS implementation.
+> > > >=20
+> > > > > While VOF can do rtas, this causes a problem with the hypercall m=
+ethod using
+> > > > > sc 1 that goes through vhyp but trips the assert in ppc_store_sdr=
+1() so
+> > > > > cannot work after guest is past quiesce.
+> > > >=20
+> > > > > So the question is why is that
+> > > > > assert there
+> > > >=20
+> > > > Ah.. right.  So, vhyp was designed for the PAPR use case, where we
+> > > > want to model the CPU when it's in supervisor and user mode, but not
+> > > > when it's in hypervisor mode.  We want qemu to mimic the behaviour =
+of
+> > > > the hypervisor, rather than attempting to actually execute hypervis=
+or
+> > > > code in the virtual CPU.
+> > > >=20
+> > > > On systems that have a hypervisor mode, SDR1 is hypervisor privileg=
+ed,
+> > > > so it makes no sense for the guest to attempt to set it.  That shou=
+ld
+> > > > be caught by the general SPR code and turned into a 0x700, hence the
+> > > > assert() if we somehow reach ppc_store_sdr1().
+> > >=20
+> > > This seems to work to avoid my problem so I can leave vhyp enabled af=
+ter
+> > > qiuesce for now:
+> > >=20
+> > > diff --git a/target/ppc/cpu.c b/target/ppc/cpu.c
+> > > index d957d1a687..13b87b9b36 100644
+> > > --- a/target/ppc/cpu.c
+> > > +++ b/target/ppc/cpu.c
+> > > @@ -70,7 +70,7 @@ void ppc_store_sdr1(CPUPPCState *env, target_ulong =
+value)
+> > >  {
+> > >      PowerPCCPU *cpu =3D env_archcpu(env);
+> > >      qemu_log_mask(CPU_LOG_MMU, "%s: " TARGET_FMT_lx "\n", __func__, =
+value);
+> > > -    assert(!cpu->vhyp);
+> > > +    assert(!cpu->env.has_hv_mode || !cpu->vhyp);
+> > >  #if defined(TARGET_PPC64)
+> > >      if (mmu_is_64bit(env->mmu_model)) {
+> > >          target_ulong sdr_mask =3D SDR_64_HTABORG | SDR_64_HTABSIZE;
+> > >=20
+> > > But I wonder if the assert should also be moved within the TARGET_PPC=
+64
+> > > block and if we may need to generate some exception here instead. Not=
+ sure
+> > > what a real CPU would do in this case but if accessing sdr1 is privil=
+eged in
+> > > HV mode then there should be an exception or if that's catched
+> > > elsewhere
+> >=20
+> > It should be caught elsehwere.  Specifically, when the SDR1 SPR is
+> > registered, on CPUs with a hypervisor mode it should be registered as
+> > hypervisor privileged, so the general mtspr dispatch logic should
+> > generate the exception if it's called from !HV code.  The assert here
+> > is just to sanity check that it has done so before we enter the actual
+> > softmmu code.
+>=20
+> So what's the decision then? Remove this assert or modify it like above a=
+nd
+> move it to the TARGET_PPC64 block (as no 32 bit CPU should have an HV bit
+> anyway).
 
+Uh, I guess modify it with the if-hv-available thing.  Don't move it
+under the ifdef, it still makes logical sense for 32-bit systems, even
+though the HV available side should never trip.
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--cZ4qfviPfG7omgtd
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmCvLq0ACgkQbDjKyiDZ
+s5KhJxAAvZOXbx2qnBpnSw+IzDP0zc/212TAj74WVIWOJvw8YO+dJI5MbkAlrmXe
+B+OcjBj7YyQebzN6EIe5YjDAyvhrD1xrZMqxwGNytpG4PqR4U6pTuJcgYs0EAa58
+BY/xEcJQTv0CWxDGflOaP8T0rZO5YiiYTAvxIJ0iXLsdsEDAgKC9v3Hz9/C/x3Ow
+NKvovLAc8oRmRaiOkWKSvwh2U1F8ywNTSz9srqhB5TmXKrCWaUBA7iSYV1vQijLf
+x4iJUqYXcq6LHyKgdH5lv6RDtkHgwbXrBmGeYub7gBoxqA86ZlHuV3A6upodRc/C
+lISfkYtGO9eZCNWfCziqU891Fc4bx86qxH/6qiDZPcKYOVG4byXe7iicHr0DWdT1
+yi1eU41z9LkIh8nLNiOvo76QnNKApvg+jN8Lg0gFry7fxxAK3QsAquPb4Mx2Hhoz
+jYDA2bC0OynHZCoo7Iv2R7w9M0pm4Dpb/qSzRcPx8dnHCP7FLGHn7s+l5XMNrOTU
+XxODYztdxV9Bq1xKWUTm07gPadyxTNNLZruu7gdOF8WuWB/bW/JAVcW10BByzq7B
+xfWu9CCMUXEcsp46UE1nwvDPJFR7UeAvldicAZrL0lJbZhYt2qVytCojsHnmIDDK
+PWt+TrhzCaB9b5fNDoTjiFILth/dVEk2lGenSFN1bInu8DYHX4I=
+=JBFW
+-----END PGP SIGNATURE-----
+
+--cZ4qfviPfG7omgtd--
 
