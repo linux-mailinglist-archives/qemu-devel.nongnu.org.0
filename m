@@ -2,82 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F282239348E
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 19:08:13 +0200 (CEST)
-Received: from localhost ([::1]:35314 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AF4A393497
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 19:12:32 +0200 (CEST)
+Received: from localhost ([::1]:41816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lmJUS-00059R-S8
-	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 13:08:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48576)
+	id 1lmJYc-0001kq-R9
+	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 13:12:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49798)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <haozhong@zhan9.net>)
- id 1lmJTC-0002wh-AV
- for qemu-devel@nongnu.org; Thu, 27 May 2021 13:06:54 -0400
-Received: from out4-smtp.messagingengine.com ([66.111.4.28]:49591)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lmJWw-0000IC-GX
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 13:10:46 -0400
+Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:48907)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <haozhong@zhan9.net>)
- id 1lmJT9-0005X6-8x
- for qemu-devel@nongnu.org; Thu, 27 May 2021 13:06:54 -0400
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.nyi.internal (Postfix) with ESMTP id 409525C00FD;
- Thu, 27 May 2021 13:06:49 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Thu, 27 May 2021 13:06:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zhan9.net; h=
- from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding; s=fm3; bh=ArafUyBOO0IbbliGHou7RgvFNK
- oK+/JCxXXfof6UKWA=; b=sO8R39X3z2QV3XoODAQlTop9df3au2W4iPWYo/DnNF
- htR9sRM1prsZcOC1+49UKT+M58zUmZn9xhFWaMOLW/tufBKfNuUdSibV259xYXnj
- MW/OXWSG+ysYOWy3kw4prO3V51cUzSmlyATBUpo7wBCcHoXoHIVwuy3e5hd0FYJR
- vm4UeUXFSl5+TG7Lj8ciPyfhgd/4JwQkNU6gMEdxXnJBeo+AJ018aNHRBRRFtZjF
- bEiQCwDeYWKJyGA6fpaAh4KoqiFQ540OgZ3jB6S2tenT3eoHkND6+tIPwsRWqzks
- uH8QUqMTyXzgH1TzjpkFlF9PsblI8nr/dfYGF7vghe+A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=ArafUyBOO0IbbliGH
- ou7RgvFNKoK+/JCxXXfof6UKWA=; b=myYz1a9yYKd177Rr5qJm48V2GuxfJ6XgQ
- LJ60Irmf0N01PiXoHsT1h4Ake7nrR+JEJMpwPEojh3iKHJ5DrrKUnhJi4DVwC5l+
- uqgjTF9nTdDCUBWUf4QLgJ26SH4pxpWa7pjde02l5pfprcUn8xcQoC5DdI0HpmlR
- PA3Uoj0d5Y5v0rQ4y7j8IDykfLB25p7oQswKxsdpWobxar4ddXc/DaVea0FOAz0B
- 1Msp614odCWRCA77f57AAXkRDY7ePeM1Q16BUwF04Npoj/UoWCap01NdmzabWZqv
- mewvB/FFavE3R3wFkOsdWeZ3qlAkCAx6dmO7ZgA4PZ1zdzGaz5wsQ==
-X-ME-Sender: <xms:qNGvYIVbK7BJdqxgnYsait91ni4DR7vRdyu7eBuiEc-rDfAN7A3bQQ>
- <xme:qNGvYMmRQfMaMXPxexHQtDHSXhK4JngWlO5IBwSZqLiahzqFn6GRYnoh6ySYzvOS4
- z-Al3vxEf8RynxUeCo>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdekhedguddtlecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecunecujfgurhephffvufffkffoggfgsedtkeertd
- ertddtnecuhfhrohhmpefjrghoiihhohhnghcukghhrghnghcuoehhrghoiihhohhnghes
- iihhrghnledrnhgvtheqnecuggftrfgrthhtvghrnheptdejhfejkefhtdegteefleettd
- ekveelfedvteehleeggefhvdefgffhuddttedunecukfhppedutddurddvvdegrdduledv
- rdduudehnecuvehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehmrghilhhfrhhomh
- ephhgrohiihhhonhhgseiihhgrnhelrdhnvght
-X-ME-Proxy: <xmx:qNGvYMYAkia7FJsUsnfLsSE4vV8Y1t-NEv4I0_iXNS_Pc0Do3LID5Q>
- <xmx:qNGvYHWkR0ixDMjWkGuwAydkgkK0Op6yQcOgZvUd2IE9MGP7cuEnAg>
- <xmx:qNGvYCnoYXIGgwW9PwYMWcMEsonZrIRlB6taX6fBUP8oo3kxoJ1HgQ>
- <xmx:qdGvYHxxiE-hkB6td8uvCINeYbpiwTaHUNB_oPazleCp2YzyK6wzgw>
-Received: from localhost (unknown [101.224.192.115])
- by mail.messagingengine.com (Postfix) with ESMTPA;
- Thu, 27 May 2021 13:06:47 -0400 (EDT)
-From: Haozhong Zhang <haozhong@zhan9.net>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] xio3130_downstream: Set the maximum link width and speed
-Date: Fri, 28 May 2021 01:06:30 +0800
-Message-Id: <20210527170630.43458-1-haozhong@zhan9.net>
-X-Mailer: git-send-email 2.31.1
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lmJWt-0007j7-Ar
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 13:10:45 -0400
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-548-2e8ZHxcaNbOWr9OnkjDBhg-1; Thu, 27 May 2021 13:10:35 -0400
+X-MC-Unique: 2e8ZHxcaNbOWr9OnkjDBhg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B07F6107ACE3;
+ Thu, 27 May 2021 17:10:33 +0000 (UTC)
+Received: from bahia.lan (ovpn-112-46.ams2.redhat.com [10.36.112.46])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9938E74AAA;
+ Thu, 27 May 2021 17:10:30 +0000 (UTC)
+Date: Thu, 27 May 2021 19:10:28 +0200
+From: Greg Kurz <groug@kaod.org>
+To: "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br>
+Subject: Re: [PATCH] HMP: added cpustats to removed_features.rst
+Message-ID: <20210527191028.24febe7e@bahia.lan>
+In-Reply-To: <20210527165034.23562-1-bruno.larsen@eldorado.org.br>
+References: <20210527165034.23562-1-bruno.larsen@eldorado.org.br>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=66.111.4.28; envelope-from=haozhong@zhan9.net;
- helo=out4-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=groug@kaod.org
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: kaod.org
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: softfail client-ip=205.139.111.44; envelope-from=groug@kaod.org;
+ helo=us-smtp-delivery-44.mimecast.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,56 +64,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Haozhong Zhang <haozhong@zhan9.net>,
- Haozhong Zhang <zhanghaozhong@bytedance.com>, mst@redhat.com
+Cc: farosas@linux.ibm.com, richard.henderson@linaro.org, qemu-devel@nongnu.org,
+ lucas.araujo@eldorado.org.br, fernando.valle@eldorado.org.br,
+ qemu-ppc@nongnu.org, matheus.ferst@eldorado.org.br, luis.pires@eldorado.org.br,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The current implementation leaves 0 in the maximum link width (MLW)
-and speed (MLS) fields of the PCI_EXP_LNKCAP register of a xio3130
-downstream port device. As a consequence, when that downstream port
-negotiates the link width and speed with its downstream device, 0 will
-be used and filled in the MLW and MLS fields of the PCI_EXP_LNKSTA
-register of that downstream port.
+On Thu, 27 May 2021 13:50:34 -0300
+"Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br> wrote:
 
-Normally, such 0 MLS and MLW in PCI_EXP_LNKSTA register only make the
-guest lspci output looks weird (like "speed unknown" and "x0 width").
-However, it also fails the hot-plug of device to the xio3130
-downstream port. The guest Linux kernel complains:
+> Documented the removal of the HMP command cpustats
+>=20
 
-    pcieport 0000:01:00.0: pciehp: Slot(0): Cannot train link: status 0x2000
+It is the 'info cpustats' command.
 
-because the pciehp_hpc driver expects a read of valid (non-zero) MLW
-from PCI_EXP_LNKSTA register of that downstream port.
+> Signed-off-by: Bruno Larsen (billionai) <bruno.larsen@eldorado.org.br>
+> ---
+>  docs/system/removed-features.rst | 6 ++++++
+>  1 file changed, 6 insertions(+)
+>=20
+> diff --git a/docs/system/removed-features.rst b/docs/system/removed-featu=
+res.rst
+> index 5a462ac568..a88ff7aff4 100644
+> --- a/docs/system/removed-features.rst
+> +++ b/docs/system/removed-features.rst
+> @@ -249,6 +249,12 @@ Use ``migrate-set-parameters`` and ``info migrate-pa=
+rameters`` instead.
+> =20
+>  Use ``migrate-set-parameters`` instead.
+> =20
+> +``cpustats`` (removed in 6.1)
+> +'''''''''''''''''''''''''''''
 
-This patch addresses the above issue by setting MLW and MLS in
-PCI_EXP_LNKCAP of the xio3130 downstream port to values defined in its
-data manual, i.e., x1 and 2.5 GT respectively.
+ditto
 
-Signed-off-by: Haozhong Zhang <zhanghaozhong@bytedance.com>
----
- hw/pci-bridge/xio3130_downstream.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+> +
+> +This command didn't produce any output already. Removed to avoid expecta=
+tions
+> +of maintaining/fixing it.
+> +
 
-diff --git a/hw/pci-bridge/xio3130_downstream.c b/hw/pci-bridge/xio3130_downstream.c
-index 04aae72cd6..fbf9868ad7 100644
---- a/hw/pci-bridge/xio3130_downstream.c
-+++ b/hw/pci-bridge/xio3130_downstream.c
-@@ -87,6 +87,13 @@ static void xio3130_downstream_realize(PCIDevice *d, Error **errp)
-         goto err_bridge;
-     }
- 
-+    /*
-+     * Following two fields must be set before calling pcie_cap_init() which
-+     * will fill them to MLS and MLW of PCI_EXP_LNKCAP register.
-+     */
-+    s->speed = QEMU_PCI_EXP_LNK_2_5GT;
-+    s->width = QEMU_PCI_EXP_LNK_X1;
-+
-     rc = pcie_cap_init(d, XIO3130_EXP_OFFSET, PCI_EXP_TYPE_DOWNSTREAM,
-                        p->port, errp);
-     if (rc < 0) {
--- 
-2.31.1
+s/to avoid... it/with no replacement/ because that's what users
+are interested in.
+
+>  Guest Emulator ISAs
+>  -------------------
+> =20
 
 
