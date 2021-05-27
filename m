@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 614A33937FD
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 23:31:20 +0200 (CEST)
-Received: from localhost ([::1]:52880 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62E8D393803
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 23:34:04 +0200 (CEST)
+Received: from localhost ([::1]:33062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lmNb5-0005AY-FG
-	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 17:31:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48492)
+	id 1lmNdj-0002YG-E5
+	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 17:34:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48506)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lmNQB-0005Uz-Cn
- for qemu-devel@nongnu.org; Thu, 27 May 2021 17:20:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52786)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lmNQD-0005XH-A3
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 17:20:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40036)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lmNQ6-0000wg-9E
- for qemu-devel@nongnu.org; Thu, 27 May 2021 17:20:03 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lmNQ9-0000zD-S4
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 17:20:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622150395;
+ s=mimecast20190719; t=1622150401;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cRCyYETljKvt6FPVb1sv2T3S3cerBA1fznZQ5FwYjEk=;
- b=M66C272KDcmrzpCFmuFZ4o4UYAlVwdZWOgfW0AMM3stn04xPJEJhB2/thaDrLj1NnUbOIH
- boL0qBlOxkTLamr9w5DAlgG/T76yrtrGP6DGLU1DkofO+Qs8fmY9D8YlPlIwKcMX/jGpAj
- VIKoAbfqWzuULy4wuOJs0i23s0gn2cM=
+ bh=WQS1f8vvqFGWSyLNNu8yrUY0pHzJjMlAp9ZKGROTfpQ=;
+ b=HK+jGQl4nnmqCvLVM12a3T2nQ6Bly/XhxK4sbjT7jFpm9Lg2qFFDp3uCi4Y6zMGs2ccngL
+ HC1SdK39dTUYkiPfO8jyoi7jok8qikZo+/f5z68mzZaFJtljHbBtyKvTqhwsKjQnKg2DpI
+ hjYkZPtVZMHz/8iRRi+OE0J7K1UG0Hc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-444-kWPwhFKSNHa57OirU_Fbhg-1; Thu, 27 May 2021 17:19:53 -0400
-X-MC-Unique: kWPwhFKSNHa57OirU_Fbhg-1
+ us-mta-479-mnOU7payOzar37WTM5J7yw-1; Thu, 27 May 2021 17:19:57 -0400
+X-MC-Unique: mnOU7payOzar37WTM5J7yw-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9407D801B13;
- Thu, 27 May 2021 21:19:52 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7C693801B12;
+ Thu, 27 May 2021 21:19:56 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-116-137.rdu2.redhat.com [10.10.116.137])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CF6B65D9C6;
- Thu, 27 May 2021 21:19:49 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2870D5D9C6;
+ Thu, 27 May 2021 21:19:52 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v8 27/31] python: add avocado-framework and tests
-Date: Thu, 27 May 2021 17:17:11 -0400
-Message-Id: <20210527211715.394144-28-jsnow@redhat.com>
+Subject: [PATCH v8 28/31] python: add Makefile for some common tasks
+Date: Thu, 27 May 2021 17:17:12 -0400
+Message-Id: <20210527211715.394144-29-jsnow@redhat.com>
 In-Reply-To: <20210527211715.394144-1-jsnow@redhat.com>
 References: <20210527211715.394144-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -55,7 +55,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -63,7 +63,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.374,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,145 +87,122 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Try using avocado to manage our various tests; even though right now
-they're only invoking shell scripts and not really running any
-python-native code.
+Add "make venv" to create the pipenv-managed virtual environment that
+contains our explicitly pinned dependencies.
 
-Create tests/, and add shell scripts which call out to mypy, flake8,
-pylint and isort to enforce the standards in this directory.
+Add "make check" to run the python linters [in the host execution
+environment].
 
-Add avocado-framework to the setup.cfg development dependencies, and add
-avocado.cfg to store some preferences for how we'd like the test output
-to look.
+Add "make venv-check" which combines the above two: create/update the
+venv, then run the linters in that explicitly managed environment.
 
-Finally, add avocado-framework to the Pipfile environment and lock the
-new dependencies. We are using avocado >= 87.0 here to take advantage of
-some features that Cleber has helpfully added to make the test output
-here *very* friendly and easy to read for developers that might chance
-upon the output in Gitlab CI.
+Add "make develop" which canonizes the runes needed to get both the
+linting pre-requisites (the "[devel]" part), and the editable
+live-install (the "-e" part) of these python libraries.
 
-[Note: ALL of the dependencies get updated to the most modern versions
-that exist at the time of this writing. No way around it that I have
-seen. Not ideal, but so it goes.]
+make clean: delete miscellaneous python packaging output possibly
+created by pipenv, pip, or other python packaging utilities
 
-Provided you have the right development dependencies (mypy, flake8,
-isort, pylint, and now avocado-framework) You should be able to run
-"avocado --config avocado.cfg run tests/" from the python folder to run
-all of these linters with the correct arguments.
-
-(A forthcoming commit adds the much easier 'make check'.)
+make distclean: delete the above, the .venv, and the editable "qemu"
+package forwarder (qemu.egg-info) if there is one.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 Reviewed-by: Cleber Rosa <crosa@redhat.com>
 Tested-by: Cleber Rosa <crosa@redhat.com>
 ---
- python/README.rst      |  2 ++
- python/Pipfile.lock    |  8 ++++++++
- python/avocado.cfg     | 10 ++++++++++
- python/setup.cfg       |  1 +
- python/tests/flake8.sh |  2 ++
- python/tests/isort.sh  |  2 ++
- python/tests/mypy.sh   |  2 ++
- python/tests/pylint.sh |  2 ++
- 8 files changed, 29 insertions(+)
- create mode 100644 python/avocado.cfg
- create mode 100755 python/tests/flake8.sh
- create mode 100755 python/tests/isort.sh
- create mode 100755 python/tests/mypy.sh
- create mode 100755 python/tests/pylint.sh
+ python/PACKAGE.rst |  6 ++++++
+ python/README.rst  |  6 ++++++
+ python/Makefile    | 43 +++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 55 insertions(+)
+ create mode 100644 python/Makefile
 
+diff --git a/python/PACKAGE.rst b/python/PACKAGE.rst
+index 05ea7789fc1..b0b86cc4c31 100644
+--- a/python/PACKAGE.rst
++++ b/python/PACKAGE.rst
+@@ -35,3 +35,9 @@ the report.
+ Optional packages necessary for running code quality analysis for this
+ package can be installed with the optional dependency group "devel":
+ ``pip install qemu[devel]``.
++
++``make develop`` can be used to install this package in editable mode
++(to the current environment) *and* bring in testing dependencies in one
++command.
++
++``make check`` can be used to run the available tests.
 diff --git a/python/README.rst b/python/README.rst
-index 954870973d0..6bd2c6b3547 100644
+index 6bd2c6b3547..dcf993819db 100644
 --- a/python/README.rst
 +++ b/python/README.rst
-@@ -37,6 +37,8 @@ Files in this directory
- -----------------------
+@@ -28,6 +28,9 @@ Installing ".[devel]" instead of "." will additionally pull in required
+ packages for testing this package. They are not runtime requirements,
+ and are not needed to simply use these libraries.
  
++Running ``make develop`` will pull in all testing dependencies and
++install QEMU in editable mode to the current environment.
++
+ See `Installing packages using pip and virtual environments
+ <https://packaging.python.org/guides/installing-using-pip-and-virtual-environments/>`_
+ for more information.
+@@ -39,6 +42,9 @@ Files in this directory
  - ``qemu/`` Python package source directory.
-+- ``tests/`` Python package tests directory.
-+- ``avocado.cfg`` Configuration for the Avocado test-runner.
+ - ``tests/`` Python package tests directory.
+ - ``avocado.cfg`` Configuration for the Avocado test-runner.
++  Used by ``make check`` et al.
++- ``Makefile`` provides some common testing/installation invocations.
++  Try ``make help`` to see available targets.
  - ``MANIFEST.in`` is read by python setuptools, it specifies additional files
    that should be included by a source distribution.
  - ``PACKAGE.rst`` is used as the README file that is visible on PyPI.org.
-diff --git a/python/Pipfile.lock b/python/Pipfile.lock
-index a2cdc1c50ea..6e344f5fadf 100644
---- a/python/Pipfile.lock
-+++ b/python/Pipfile.lock
-@@ -30,6 +30,14 @@
-             "markers": "python_version ~= '3.6'",
-             "version": "==2.5.6"
-         },
-+        "avocado-framework": {
-+            "hashes": [
-+                "sha256:42aa7962df98d6b78d4efd9afa2177226dc630f3d83a2a7d5baf7a0a7da7fa1b",
-+                "sha256:d96ae343abf890e1ef3b3a6af5ce49e35f6bded0715770c4acb325bca555c515"
-+            ],
-+            "markers": "python_version >= '3.6'",
-+            "version": "==88.1"
-+        },
-         "flake8": {
-             "hashes": [
-                 "sha256:07528381786f2a6237b061f6e96610a4167b226cb926e2aa2b6b1d78057c576b",
-diff --git a/python/avocado.cfg b/python/avocado.cfg
+diff --git a/python/Makefile b/python/Makefile
 new file mode 100644
-index 00000000000..10dc6fb6054
+index 00000000000..a9da1689558
 --- /dev/null
-+++ b/python/avocado.cfg
-@@ -0,0 +1,10 @@
-+[simpletests]
-+# Don't show stdout/stderr in the test *summary*
-+status.failure_fields = ['status']
++++ b/python/Makefile
+@@ -0,0 +1,43 @@
++.PHONY: help venv venv-check check clean distclean develop
 +
-+[job]
-+# Don't show the full debug.log output; only select stdout/stderr.
-+output.testlogs.logfiles = ['stdout', 'stderr']
++help:
++	@echo "python packaging help:"
++	@echo ""
++	@echo "make venv:       Create pipenv's virtual environment."
++	@echo "    NOTE: Requires Python 3.6 and pipenv."
++	@echo "          Will download packages from PyPI."
++	@echo "    Hint: (On Fedora): 'sudo dnf install python36 pipenv'"
++	@echo ""
++	@echo "make venv-check: run linters using pipenv's virtual environment."
++	@echo "    Hint: If you don't know which test to run, run this one!"
++	@echo ""
++	@echo "make develop:    Install deps for 'make check', and"
++	@echo "                 the qemu libs in editable/development mode."
++	@echo ""
++	@echo "make check:      run linters using the current environment."
++	@echo ""
++	@echo "make clean:      remove package build output."
++	@echo ""
++	@echo "make distclean:  remove venv files, qemu package forwarder,"
++	@echo "                 built distribution files, and everything"
++	@echo "                 from 'make clean'."
 +
-+# Show full stdout/stderr only on tests that FAIL
-+output.testlogs.statuses = ['FAIL']
-diff --git a/python/setup.cfg b/python/setup.cfg
-index 39dc135e601..fd325194901 100644
---- a/python/setup.cfg
-+++ b/python/setup.cfg
-@@ -25,6 +25,7 @@ packages =
- [options.extras_require]
- # Run `pipenv lock --dev` when changing these requirements.
- devel =
-+    avocado-framework >= 87.0
-     flake8 >= 3.6.0
-     isort >= 5.1.2
-     mypy >= 0.770
-diff --git a/python/tests/flake8.sh b/python/tests/flake8.sh
-new file mode 100755
-index 00000000000..51e0788462b
---- /dev/null
-+++ b/python/tests/flake8.sh
-@@ -0,0 +1,2 @@
-+#!/bin/sh -e
-+python3 -m flake8
-diff --git a/python/tests/isort.sh b/python/tests/isort.sh
-new file mode 100755
-index 00000000000..4480405bfb0
---- /dev/null
-+++ b/python/tests/isort.sh
-@@ -0,0 +1,2 @@
-+#!/bin/sh -e
-+python3 -m isort -c qemu/
-diff --git a/python/tests/mypy.sh b/python/tests/mypy.sh
-new file mode 100755
-index 00000000000..5f980f563bb
---- /dev/null
-+++ b/python/tests/mypy.sh
-@@ -0,0 +1,2 @@
-+#!/bin/sh -e
-+python3 -m mypy -p qemu
-diff --git a/python/tests/pylint.sh b/python/tests/pylint.sh
-new file mode 100755
-index 00000000000..4b10b34db7c
---- /dev/null
-+++ b/python/tests/pylint.sh
-@@ -0,0 +1,2 @@
-+#!/bin/sh -e
-+python3 -m pylint qemu/
++venv: .venv
++.venv: Pipfile.lock
++	@PIPENV_VENV_IN_PROJECT=1 pipenv sync --dev --keep-outdated
++	@touch .venv
++
++venv-check: venv
++	@pipenv run make check
++
++develop:
++	pip3 install -e .[devel]
++
++check:
++	@avocado --config avocado.cfg run tests/
++
++clean:
++	python3 setup.py clean --all
++
++distclean: clean
++	rm -rf qemu.egg-info/ .venv/ dist/
 -- 
 2.31.1
 
