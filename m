@@ -2,81 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CDA0393525
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 19:50:06 +0200 (CEST)
-Received: from localhost ([::1]:50546 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD165393530
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 19:57:18 +0200 (CEST)
+Received: from localhost ([::1]:59902 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lmK8z-0002lC-5L
-	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 13:50:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59024)
+	id 1lmKFx-0000vr-Fa
+	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 13:57:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60974)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lmK8B-00022e-KL
- for qemu-devel@nongnu.org; Thu, 27 May 2021 13:49:16 -0400
-Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c]:34570)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lmK88-0006Ld-VC
- for qemu-devel@nongnu.org; Thu, 27 May 2021 13:49:15 -0400
-Received: by mail-pg1-x52c.google.com with SMTP id l70so511291pga.1
- for <qemu-devel@nongnu.org>; Thu, 27 May 2021 10:49:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=vtWwV6+KzdKYMXpgTLNhUxkwjgM4dgGgXiqt59TkqrQ=;
- b=cLcm7XbCW5UTc0b7nJer8zikLJRS/t7YvAD48p1mt7CvNLmDE7kyqmEquAd8WPozg1
- Ib1b8aesNL+TStBtRTAXjBKAXA/m6vmYHxgpPG180zsD4cYWV+7DnguiW+uKR9OPxisM
- hLEj5NAH/k+OqL9nR+3CJzyjPz0YoyXqA4JCCiniVoWgp2I8n9+yVvbfdnrWbSf+ZMUF
- DD/Fm7Jo/AlaEuEqyhKxD++Lke4NPd9Pk458exWAacxcAo39yu+EFto72ieEafKSSsOX
- 04iySM2J4tESkQlo0/Kp+c2HAlOSbBCh1lqVOCt3lj8S2GLPLcuKAB5lpujjV9Uwz9Kl
- MDhQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=vtWwV6+KzdKYMXpgTLNhUxkwjgM4dgGgXiqt59TkqrQ=;
- b=LDfWfkdNYu5/2uyJEI7xNh/maey4LWEBSdHXeg52TCQA/cC89WuTKCnzHSE6rEif2i
- MiKUUSKfizWedfNvezDL4cDlibsPAaRcC1vmberYItxh+8Oznyj81iD53zLnyy67Jnzi
- 9aXcuC2KMXYnp/c/lkbszkX7LsnSnuCLBFzvfJ+EzwmopvnsGKxaORFComsNZpsFsSBo
- 4pwy8DDT5CqdywZsWRKXQ0iWTkaBfidU5IL477DmXeakCRn20LwbcN2FeLKw01oj27QK
- klqxWb+cBvILI2tQM3QrlE1H57gU6xzbA4QyUpUUQnjmj0mLIj2PKcJiFomtThDfOm82
- +GyA==
-X-Gm-Message-State: AOAM530Uw+tfH2mg5tg0JVN9Ndf+nDD3Qd5AjIDBt6SWGVHunIMgqQX6
- HaCmVTwPQ190n92wv1OwhZ96Sw==
-X-Google-Smtp-Source: ABdhPJx/DDCeN4bERMnRe+jQ1jVAzkSGyRgbERMk9+wBg4wi/u8xeawg/NcXvIiHbrfLfGn28UXKhA==
-X-Received: by 2002:a63:5664:: with SMTP id g36mr4708061pgm.357.1622137751318; 
- Thu, 27 May 2021 10:49:11 -0700 (PDT)
-Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
- by smtp.gmail.com with ESMTPSA id
- a8sm2458890pfk.11.2021.05.27.10.49.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 27 May 2021 10:49:11 -0700 (PDT)
-Subject: Re: [PATCH v1 6/6] tests/acceptance: tag various arm tests as TCG only
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20210527160319.19834-1-alex.bennee@linaro.org>
- <20210527160319.19834-7-alex.bennee@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <05b0ba11-c9a8-476c-144b-5e51382d775f@linaro.org>
-Date: Thu, 27 May 2021 10:49:09 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1lmKF0-00007A-H3
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 13:56:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57600)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1lmKEx-00030D-GN
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 13:56:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1622138174;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=eE8oOHqHefAi+FaryUy970J+QpT+8acfA+paTF9GUtw=;
+ b=SIpzfkkSHai3xC25tEcJ/mxKhitPP0zwIZUz3BJBFk+ZjKQ5WWvY53YWz/VI9aRIfQZleh
+ 4UJLCkvaSM7mbM42dpLQRlp163EbxEG0+foyQl8M2vY0jmtrnvZur6Tp4eAp++zuUQIwwN
+ 0P4CRw8NH3oqQxmlKsG03qb6AaqTA+s=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-333-NRk6BvNJNyK3fOl3yJjz5g-1; Thu, 27 May 2021 13:56:12 -0400
+X-MC-Unique: NRk6BvNJNyK3fOl3yJjz5g-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6804E803621;
+ Thu, 27 May 2021 17:56:11 +0000 (UTC)
+Received: from work-vm (ovpn-114-249.ams2.redhat.com [10.36.114.249])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id ED1A860CC9;
+ Thu, 27 May 2021 17:56:03 +0000 (UTC)
+Date: Thu, 27 May 2021 18:56:00 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [PATCH v3 20/26] DAX/unmap virtiofsd: Parse unmappable elements
+Message-ID: <YK/dMFhgHfohXg7V@work-vm>
+References: <20210428110100.27757-1-dgilbert@redhat.com>
+ <20210428110100.27757-21-dgilbert@redhat.com>
+ <YJQKBfZ+++VUiSOO@stefanha-x1.localdomain>
 MIME-Version: 1.0
-In-Reply-To: <20210527160319.19834-7-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <YJQKBfZ+++VUiSOO@stefanha-x1.localdomain>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.374,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,56 +80,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, stefanha@redhat.com,
- crosa@redhat.com, pbonzini@redhat.com,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- aurelien@aurel32.net
+Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org, vgoyal@redhat.com,
+ groug@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/27/21 9:03 AM, Alex Bennée wrote:
-> We should never be trying to run most of these models under a KVM
-> environment.
+* Stefan Hajnoczi (stefanha@redhat.com) wrote:
+> On Wed, Apr 28, 2021 at 12:00:54PM +0100, Dr. David Alan Gilbert (git) wrote:
+> > From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+> > 
+> > For some read/writes the virtio queue elements are unmappable by
+> > the daemon; these are cases where the data is to be read/written
+> > from non-RAM.  In viritofs's case this is typically a direct read/write
 > 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> ---
->   tests/acceptance/boot_linux_console.py | 18 ++++++++++++++++++
->   1 file changed, 18 insertions(+)
+> s/viritofs/virtiofs/
+
+Eventually I'll stop making that typo.
+
+> > into an mmap'd DAX file also on virtiofs (possibly on another instance).
+> > 
+> > When we receive a virtio queue element, check that we have enough
+> > mappable data to handle the headers.  Make a note of the number of
+> > unmappable 'in' entries (ie. for read data back to the VMM),
+> > and flag the fuse_bufvec for 'out' entries with a new flag
+> > FUSE_BUF_PHYS_ADDR.
+> > 
+> > Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> > with fix by:
+> > Signed-off-by: Liu Bo <bo.liu@linux.alibaba.com>
+> > ---
+> >  tools/virtiofsd/buffer.c      |   4 +-
+> >  tools/virtiofsd/fuse_common.h |   7 ++
+> >  tools/virtiofsd/fuse_virtio.c | 230 ++++++++++++++++++++++++----------
+> >  3 files changed, 173 insertions(+), 68 deletions(-)
+> > 
+> > diff --git a/tools/virtiofsd/buffer.c b/tools/virtiofsd/buffer.c
+> > index 874f01c488..1a050aa441 100644
+> > --- a/tools/virtiofsd/buffer.c
+> > +++ b/tools/virtiofsd/buffer.c
+> > @@ -77,6 +77,7 @@ static ssize_t fuse_buf_write(const struct fuse_buf *dst, size_t dst_off,
+> >      ssize_t res = 0;
+> >      size_t copied = 0;
+> >  
+> > +    assert(!(src->flags & FUSE_BUF_PHYS_ADDR));
+> >      while (len) {
+> >          if (dst->flags & FUSE_BUF_FD_SEEK) {
+> >              res = pwrite(dst->fd, (char *)src->mem + src_off, len,
+> > @@ -272,7 +273,8 @@ ssize_t fuse_buf_copy(struct fuse_bufvec *dstv, struct fuse_bufvec *srcv)
+> >       * process
+> >       */
+> >      for (i = 0; i < srcv->count; i++) {
+> > -        if (srcv->buf[i].flags & FUSE_BUF_IS_FD) {
+> > +        if ((srcv->buf[i].flags & FUSE_BUF_PHYS_ADDR) ||
+> > +            (srcv->buf[i].flags & FUSE_BUF_IS_FD)) {
+> >              break;
+> >          }
+> >      }
+> > diff --git a/tools/virtiofsd/fuse_common.h b/tools/virtiofsd/fuse_common.h
+> > index fa9671872e..af43cf19f9 100644
+> > --- a/tools/virtiofsd/fuse_common.h
+> > +++ b/tools/virtiofsd/fuse_common.h
+> > @@ -626,6 +626,13 @@ enum fuse_buf_flags {
+> >       * detected.
+> >       */
+> >      FUSE_BUF_FD_RETRY = (1 << 3),
+> > +
+> > +    /**
+> > +     * The addresses in the iovec represent guest physical addresses
+> > +     * that can't be mapped by the daemon process.
+> > +     * IO must be bounced back to the VMM to do it.
+> > +     */
+> > +    FUSE_BUF_PHYS_ADDR = (1 << 4),
 > 
-> diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
-> index 276a53f146..cded547d1d 100644
-> --- a/tests/acceptance/boot_linux_console.py
-> +++ b/tests/acceptance/boot_linux_console.py
-> @@ -333,6 +333,7 @@ def test_aarch64_virt(self):
->           """
->           :avocado: tags=arch:aarch64
->           :avocado: tags=machine:virt
-> +        :avocado: tags=accel:tcg
->           """
->           kernel_url = ('https://archives.fedoraproject.org/pub/archive/fedora'
->                         '/linux/releases/29/Everything/aarch64/os/images/pxeboot'
+> Based on the previous patch this is not a gpa, it's an IOVA. Depending
+> on the virtiofs device's DMA address space in QEMU this might be the
+> same as guest physical addresses but there could also be vIOMMU
+> translation (see the address_space_translate() call in the patch that
+> implemented the IO slave command).
 
-This one should work with kvm if we change the -cpu line, yes?
-Do we have any other boot_linux_console testing for kvm otherwise?
+I've changed that comment to:
+    /**
+     * The addresses in the iovec represent guest physical addresses
+     * (or IOVA when used with an IOMMU) * that can't be mapped by the
+     * daemon process.
+     * IO must be bounced back to the VMM to do it.
 
-> @@ -379,6 +384,7 @@ def test_arm_virt(self):
->           """
->           :avocado: tags=arch:arm
->           :avocado: tags=machine:virt
-> +        :avocado: tags=accel:tcg
->           """
->           kernel_url = ('https://archives.fedoraproject.org/pub/archive/fedora'
->                         '/linux/releases/29/Everything/armhfp/os/images/pxeboot'
+> Maybe virtiofs + vIOMMU has never been tested though... I'm not sure it
+> works today.
 
-Ack, because for kvm we'd have to know if the host supports 32-bit mode at all. 
-  So, no for the thunderx2 that aarch64.ci.qemu.org has, but yes for the 
-cortex-a57 in my mustang.
+It has and it definitely doesn't work yet.
 
-It'd be nice to be able to detect this somehow...
+> If you want to leave it as is, feel free:
+> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
-Ack to all the rest as obvious arm embedded/pi stuff.
+Thanks.
 
+Dave
 
-r~
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+
 
