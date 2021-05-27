@@ -2,51 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69C00392F8B
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 15:25:55 +0200 (CEST)
-Received: from localhost ([::1]:37088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC689392FE8
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 15:39:54 +0200 (CEST)
+Received: from localhost ([::1]:33216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lmG1I-0001O5-G7
-	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 09:25:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40844)
+	id 1lmGEr-0001Yy-QC
+	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 09:39:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40906)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cmarinas@kernel.org>)
- id 1lmFlA-0001TM-5p
- for qemu-devel@nongnu.org; Thu, 27 May 2021 09:09:18 -0400
-Received: from mail.kernel.org ([198.145.29.99]:55250)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1lmFlL-0001Yj-1c
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 09:09:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49726)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cmarinas@kernel.org>)
- id 1lmFkz-0005Em-1W
- for qemu-devel@nongnu.org; Thu, 27 May 2021 09:09:11 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 107246128B;
- Thu, 27 May 2021 13:08:50 +0000 (UTC)
-Date: Thu, 27 May 2021 14:08:48 +0100
-From: Catalin Marinas <catalin.marinas@arm.com>
-To: Steven Price <steven.price@arm.com>
-Subject: Re: [PATCH v12 7/8] KVM: arm64: ioctl to fetch/store tags in a guest
-Message-ID: <20210527130848.GA8661@arm.com>
-References: <20210517123239.8025-1-steven.price@arm.com>
- <20210517123239.8025-8-steven.price@arm.com>
- <20210520120556.GC12251@arm.com>
- <dd5ab3a0-5a74-b145-2485-d6d871be945b@arm.com>
- <20210520172713.GF12251@arm.com>
- <5eec330f-63c0-2af8-70f8-ba9b643e2558@arm.com>
- <20210524181129.GI14645@arm.com>
- <58345eca-6e5f-0faa-e47d-e9149d73f6c5@arm.com>
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1lmFlE-0005NA-VQ
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 09:09:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1622120954;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=rZRK0mvBjiUntDjrGeiFl7tRgk49cYMRWW2Bisj37Ws=;
+ b=Xl7Ye51vNTc7sxIUChMYGP1aaz3SC/XQSNiLcuU2ZR9DyS2ar7s3+58l/vMLkTJCm78D5l
+ U6pAr98mfiDw7P+2C9e3KYgNvL42jbYnztTuiyOs2U4RHrcS+MaNetubB+m1MSZnlPyfO6
+ dyYUOpm8N90Ob2StPN9Rig965G3KMKc=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-256-anDXpO2hOcuJUVXtxxPrYg-1; Thu, 27 May 2021 09:09:12 -0400
+X-MC-Unique: anDXpO2hOcuJUVXtxxPrYg-1
+Received: by mail-qv1-f70.google.com with SMTP id
+ w4-20020a0c8e440000b02901f0640ffdafso25973qvb.13
+ for <qemu-devel@nongnu.org>; Thu, 27 May 2021 06:09:12 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=rZRK0mvBjiUntDjrGeiFl7tRgk49cYMRWW2Bisj37Ws=;
+ b=n2NQys5Ntk2hfhv1Ic9vpEAxOH9x4MdoVKjc5YXFOYGqhwTaH+hW90h80vKhxAEijo
+ YlHLfbtLYSs0EarCR4Ot+G+by1T9Vb+ceHfzl5wnwlH9iq0iXaN64HnhYouSz/uZckz1
+ ClPfZwscNEsaWM/16fJZ2yarX9sE4CzNVMEa06s8Hoi/Nxxm1yu5vFTgxCLc8gH2xgAD
+ sRWn9GLN+GTIK5dx0VjyWsXlCN2bBSpz2IawJPS9u/wXP0O9TEBfQPRtSVFyxqyhCvtB
+ xHKY/3LIqHo40VCa9/jauUFJJHoSnNHKytjBzknZEEAFPObbwdTNKte4fDH7mzGLPIGp
+ jfHg==
+X-Gm-Message-State: AOAM531XOKgXKEBoDeEN7gOF5zR8Ni5EZ/KjEDjrTF0HVowxbF6KVSSw
+ RVoDIm2NsODK6ROI/vp5sG0H4HwLupN5Ai0/rdRnyJTqj3Q4jxmMyzSpcvZ/GeNqCxvVl8QJrpa
+ VwaAoreYlFjV7+V8=
+X-Received: by 2002:ac8:5ac7:: with SMTP id d7mr3009760qtd.173.1622120951755; 
+ Thu, 27 May 2021 06:09:11 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxaFCagyBf2BPbSew3LOE7h9xfxoHl/buZZakEpnLL8GQskWzZ518CBHvMLOCCWRUkywDCANA==
+X-Received: by 2002:ac8:5ac7:: with SMTP id d7mr3009721qtd.173.1622120951362; 
+ Thu, 27 May 2021 06:09:11 -0700 (PDT)
+Received: from t490s (bras-base-toroon474qw-grc-72-184-145-4-219.dsl.bell.ca.
+ [184.145.4.219])
+ by smtp.gmail.com with ESMTPSA id y12sm1259259qtv.59.2021.05.27.06.09.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 27 May 2021 06:09:10 -0700 (PDT)
+Date: Thu, 27 May 2021 09:09:09 -0400
+From: Peter Xu <peterx@redhat.com>
+To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Subject: Re: [PATCH 1/1] yank: Unregister function when using TLS migration
+Message-ID: <YK+Z9cUdjO+E6PCd@t490s>
+References: <20210526200540.1088333-1-leobras.c@gmail.com>
+ <YK6yQ9EVNlVPDMaS@t490s> <20210526232103.39e2a7d0@gecko.fritz.box>
+ <YK7EotQbx/F9avls@t490s> <YK9cfiUx+vk/yxtf@redhat.com>
+ <YK+PWHzpmnQqgYAw@t490s> <YK+SloySEG+O5wZV@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+In-Reply-To: <YK+SloySEG+O5wZV@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <58345eca-6e5f-0faa-e47d-e9149d73f6c5@arm.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Received-SPF: pass client-ip=198.145.29.99; envelope-from=cmarinas@kernel.org;
- helo=mail.kernel.org
-X-Spam_score_int: -66
-X-Spam_score: -6.7
-X-Spam_bar: ------
-X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.374,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,111 +98,121 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Peter Maydell <peter.maydell@linaro.org>,
+Cc: qemu-devel@nongnu.org, Leonardo Bras <leobras.c@gmail.com>,
+ Lukas Straub <lukasstraub2@web.de>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Andrew Jones <drjones@redhat.com>, Haibo Xu <Haibo.Xu@arm.com>,
- Suzuki K Poulose <suzuki.poulose@arm.com>, qemu-devel@nongnu.org,
- Marc Zyngier <maz@kernel.org>, Juan Quintela <quintela@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, linux-kernel@vger.kernel.org,
- Dave Martin <Dave.Martin@arm.com>, James Morse <james.morse@arm.com>,
- linux-arm-kernel@lists.infradead.org, Thomas Gleixner <tglx@linutronix.de>,
- Will Deacon <will@kernel.org>, kvmarm@lists.cs.columbia.edu,
- Julien Thierry <julien.thierry.kdev@gmail.com>
+ Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, May 27, 2021 at 08:50:30AM +0100, Steven Price wrote:
-> On 24/05/2021 19:11, Catalin Marinas wrote:
-> > I had some (random) thoughts on how to make things simpler, maybe. I
-> > think most of these races would have been solved if we required PROT_MTE
-> > in the VMM but this has an impact on the VMM if it wants to use MTE
-> > itself. If such requirement was in place, all KVM needed to do is check
-> > PG_mte_tagged.
+On Thu, May 27, 2021 at 01:37:42PM +0100, Daniel P. Berrangé wrote:
+> On Thu, May 27, 2021 at 08:23:52AM -0400, Peter Xu wrote:
+> > On Thu, May 27, 2021 at 09:46:54AM +0100, Daniel P. Berrangé wrote:
+> > > On Wed, May 26, 2021 at 05:58:58PM -0400, Peter Xu wrote:
+> > > > On Wed, May 26, 2021 at 11:21:03PM +0200, Lukas Straub wrote:
+> > > > > On Wed, 26 May 2021 16:40:35 -0400
+> > > > > Peter Xu <peterx@redhat.com> wrote:
+> > > > > 
+> > > > > > On Wed, May 26, 2021 at 05:05:40PM -0300, Leonardo Bras wrote:
+> > > > > > > After yank feature was introduced, whenever migration is started using TLS,
+> > > > > > > the following error happens in both source and destination hosts:
+> > > > > > > 
+> > > > > > > (qemu) qemu-kvm: ../util/yank.c:107: yank_unregister_instance:
+> > > > > > > Assertion `QLIST_EMPTY(&entry->yankfns)' failed.
+> > > > > > > 
+> > > > > > > This happens because of a missing yank_unregister_function() when using
+> > > > > > > qio-channel-tls.
+> > > > > > > 
+> > > > > > > Fix this by also allowing TYPE_QIO_CHANNEL_TLS object type to perform
+> > > > > > > yank_unregister_function() in channel_close() and multifd_load_cleanup().
+> > > > > > > 
+> > > > > > > Fixes: 50186051f ("Introduce yank feature")
+> > > > > > > Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1964326
+> > > > > > > Signed-off-by: Leonardo Bras <leobras.c@gmail.com>  
+> > > > > > 
+> > > > > > Leo,
+> > > > > > 
+> > > > > > Thanks for looking into it!
+> > > > > > 
+> > > > > > So before looking int the fix... I do have a doubt on why we only enable yank
+> > > > > > on socket typed, as I think tls should also work with qio_channel_shutdown().
+> > > > > > 
+> > > > > > IIUC the confused thing here is we register only for qio-socket, however tls
+> > > > > > will actually call migration_channel_connect() twice, first with a qio-socket,
+> > > > > > then with the real tls-socket.  For tls I feel like we have registered with the
+> > > > > > wrong channel - instead of the wrapper socket ioc, we should register to the
+> > > > > > final tls ioc?
+> > > > > > 
+> > > > > > Lukas, is there a reason?
+> > > > > > 
+> > > > > 
+> > > > > Hi,
+> > > > > There is no specific reason. Both ways work equally well in preventing
+> > > > > qemu from hanging. shutdown() for tls-channel just makes it abort a
+> > > > > little sooner (by not attempting to encrypt and send data anymore).
+> > > > > 
+> > > > > I don't lean either way. I guess registering it on the tls-channel
+> > > > > makes is a bit more explicit and clearer.
+> > > > 
+> > > > Agreed, because IMHO logically the migration code should not be aware of
+> > > > internals of IOChannels, e.g., we shouldn't need to know ioc->master is the
+> > > > socket ioc of tls ioc to unregister.
+> > > 
+> > > I think it is atually better to ignore the TLS channel and *always* yank
+> > > on the undering socket IO channel. The yank functionality is intended to
+> > > be used in a scenario where we know the channels are broken.  If yank
+> > > calls the high level IO channel it is potentially going to try to do a
+> > > cleanup shutdown that we know will fail because of the broken network.
 > > 
-> > So what we actually need is a set_pte_at() in the VMM to clear the tags
-> > and set PG_mte_tagged. Currently, we only do this if the memory type is
-> > tagged (PROT_MTE) but it's not strictly necessary.
+> > Could you elaborate what's the "cleanup shutdown"?
 > > 
-> > As an optimisation for normal programs, we don't want to do this all the
-> > time but the visible behaviour wouldn't change (well, maybe for ptrace
-> > slightly). However, it doesn't mean we couldn't for a VMM, with an
-> > opt-in via prctl(). This would add a MMCF_MTE_TAG_INIT bit (couldn't
-> > think of a better name) to mm_context_t.flags and set_pte_at() would
-> > behave as if the pte was tagged without actually mapping the memory in
-> > user space as tagged (protection flags not changed). Pages that don't
-> > support tagging are still safe, just some unnecessary ignored tag
-> > writes. This would need to be set before the mmap() for the guest
-> > memory.
+> > The yank calls migration_yank_iochannel:
 > > 
-> > If we want finer-grained control we'd have to store this information in
-> > the vma flags, in addition to VM_MTE (e.g. VM_MTE_TAG_INIT) but without
-> > affecting the actual memory type. The easiest would be another pte bit,
-> > though we are short on them. A more intrusive (not too bad) approach is
-> > to introduce a set_pte_at_vma() and read the flags directly in the arch
-> > code. In most places where set_pte_at() is called on a user mm, the vma
-> > is also available.
+> > void migration_yank_iochannel(void *opaque)
+> > {
+> >     QIOChannel *ioc = QIO_CHANNEL(opaque);
 > > 
-> > Anyway, I'm not saying we go this route, just thinking out loud, get
-> > some opinions.
+> >     qio_channel_shutdown(ioc, QIO_CHANNEL_SHUTDOWN_BOTH, NULL);
+> > }
+> > 
+> > Where qio_channel_shutdown for tls is nothing but delivers that to the master
+> > channel:
+> > 
+> > static int qio_channel_tls_shutdown(QIOChannel *ioc,
+> >                                     QIOChannelShutdown how,
+> >                                     Error **errp)
+> > {
+> >     QIOChannelTLS *tioc = QIO_CHANNEL_TLS(ioc);
+> > 
+> >     qatomic_or(&tioc->shutdown, how);
+> > 
+> >     return qio_channel_shutdown(tioc->master, how, errp);
+> > }
+> > 
+> > So I thought it was a nice wrapper just for things like this, and I didn't see
+> > anything it does more than the io_shutdown for the socket channel.  Did I miss
+> > something?
 > 
-> Does get_user_pages() actually end up calling set_pte_at() normally?
+> Today thats the case, but don't assume it will be the case forever.
+> There is a mechanism in TLS for doing clean shutdown which we've
+> debated including.
+> 
+> In general apps *can* just call the shutdown method on the QIOChannelTLS
+> object no matter what.  Yank is just a little bit special because of its
+> need to be guaranteed to work even when the network is dead. So yank
+> should always directly call the low level QIOChannelSocket, so thre is
+> a strong guarantee it can't block on something.
 
-Not always, at least as how it's called from hva_to_pfn(). My reading of
-the get_user_page_fast_only() is that it doesn't touch the pte, just
-walks the page tables and pins the page. Of course, it expects a valid
-pte to have been set in the VMM already, otherwise it doesn't pin any
-page and the caller falls back to the slow path.
+Hmm, I am still not fully convinced that that's a valid reason the migration
+code should be aware of how the socket is managed in tls channels...
 
-The slow path, get_user_pages_unlocked(), passes FOLL_TOUCH and
-set_pte_at() will be called either in follow_pfn_pte() if it was valid
-or via faultin_page() -> handle_mm_fault().
+Does that sound more like a good reason to introduce QIOChannelShutdown with
+QIO_CHANNEL_SHUTDOWN_FORCE so it'll always not block if FORCE set?  Then we can
+switch the yank function to use that.
 
-> If not then on the normal user_mem_abort() route although we can
-> easily check VM_MTE_TAG_INIT there's no obvious place to hook in to
-> ensure that the pages actually allocated have the PG_mte_tagged flag.
-
-I don't think it helps if we checked such vma flag in user_mem_abort(),
-we'd still have the race with set_pte_at() on the page flags. What I was
-trying to avoid is touching the page flags in too many places, so
-deferring this always to set_pte_at() in the VMM.
-
-> I'm also not sure how well this would work with the MMU notifiers path
-> in KVM. With MMU notifiers (i.e. the VMM replacing a page in the
-> memslot) there's not even an obvious hook to enforce the VMA flag. So I
-> think we'd end up with something like the sanitise_mte_tags() function
-> to at least check that the PG_mte_tagged flag is set on the pages
-> (assuming that the trigger for the MMU notifier has done the
-> corresponding set_pte_at()). Admittedly this might close the current
-> race documented there.
-
-If we kept this check to the VMM set_pte_at(), I think we can ignore the
-notifiers.
-
-> It also feels wrong to me to tie this to a process with prctl(), it
-> seems much more normal to implement this as a new mprotect() flag as
-> this is really a memory property not a process property. And I think
-> we'll find some scary corner cases if we try to associate everything
-> back to a process - although I can't instantly think of anything that
-> will actually break.
-
-I agree, tying it to the process looks wrong, only that it's less
-intrusive. I don't think it would break anything, only potential
-performance regression. A process would still need to pass PROT_MTE to
-be able to get tag checking. That's basically what I had in an early MTE
-implementation with clear_user_page() always zeroing the tags.
-
-I agree with you that a vma flag would be better but it's more
-complicated without an additional pte bit. We could also miss some
-updates as mprotect() for example checks for pte_same() before calling
-set_pte_at() (it would need to check the updated vma flags).
-
-I'll review the latest series but I'm tempted to move the logic in
-santise_mte_tags() to mte.c and take the big lock in there if
-PG_mte_tagged is not already set. If we hit performance issues, we can
-optimise this later to have the page flag set already on creation (new
-PROT flag, prctl etc.).
+What do you think?
 
 -- 
-Catalin
+Peter Xu
+
 
