@@ -2,83 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F159B392865
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 09:21:09 +0200 (CEST)
-Received: from localhost ([::1]:34040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 358A239287D
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 09:26:00 +0200 (CEST)
+Received: from localhost ([::1]:41758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lmAKL-0003HX-2w
-	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 03:21:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47476)
+	id 1lmAP1-0000Fh-9a
+	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 03:25:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49290)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lmAFg-0005EZ-AJ
- for qemu-devel@nongnu.org; Thu, 27 May 2021 03:16:20 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:37657)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lmAFe-0006ng-Ol
- for qemu-devel@nongnu.org; Thu, 27 May 2021 03:16:20 -0400
-Received: by mail-wm1-x329.google.com with SMTP id
- f20-20020a05600c4e94b0290181f6edda88so1939853wmq.2
- for <qemu-devel@nongnu.org>; Thu, 27 May 2021 00:16:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=xWxySbTn0zYlY+1w0sZtrFbF4JqhnTXRZFmHIQAJlrA=;
- b=K4yPXqJRu+IG87MYz4YsxdRHrcl/WwOlLpS0D5WXprwx+EXnVkzEJoqcWE5YvjkBMj
- s7Cdu4IwPFMAMiTLdt2pUYZacL4yIOHNS3pQ/3/pLRbCuLbpwEWchZ/jn9cbZ9CsAvDx
- OHHBz26EPxzcOACLmWRwjmIDH5FjpRrkhzO+VrhmxrpdT2iEahKXjwGXP+adY0dwoNg9
- Bf9RDRKtkzUdOiugXnraLOLTc2rkfwswAsA0eOwEqCqxnRVHYjXdgO49ZiDW8StvoCFz
- dSmkb0uBaAaTxAf0TGkgjLlxhXug02P9MuyQ6KlxoNIatN7E64tJADLkmnIrREnNwv4U
- 6ypg==
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1lmANA-0007Ek-HA
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 03:24:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30793)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1lmAN5-0003tG-HN
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 03:24:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1622100237;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=1KsYUoihwn06MVpZw8PoJp8Xh8L46ngOZaD9+2VXIEQ=;
+ b=dYDLqJewZ/cqrjbxHNGaVwSgu8OAK2JiUks+e+B7rv+Z3JpA6PTOL4GDLs2Ot+/GyGwj5d
+ R4LtPoNi5KFgw+xm0YaiXZ/AFzQMG0OrqRzwRGqAKvEzdS3r1toNSO95tNx4g7v0dd35Hp
+ BK1B30JLKCVYh0zbV4T4/VgK+NTn8J0=
+Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com
+ [209.85.215.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-133-rw0dM9YwMTG51rf557GfyQ-1; Thu, 27 May 2021 03:23:56 -0400
+X-MC-Unique: rw0dM9YwMTG51rf557GfyQ-1
+Received: by mail-pg1-f199.google.com with SMTP id
+ s21-20020a6569150000b0290216803bf41cso2452222pgq.0
+ for <qemu-devel@nongnu.org>; Thu, 27 May 2021 00:23:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=xWxySbTn0zYlY+1w0sZtrFbF4JqhnTXRZFmHIQAJlrA=;
- b=ZSQqMGxEisExdyl7lW2qf2DepPSNwwI6Yob+Jsba8+jh310+OEjXHGe/P+/z5xyHSa
- 5oLsM7RC8iqvWU8IoeO1+6dwvm3ccCyC/Hh7l3ELPru4if99jqehiL8j3A+KiElTaEBk
- wrz1x2c9/XiZuf4iFqWJ80VfBLhv5QGUZk4W5YdBnD6bwxVrOr6r6kh6wDrQe3mzawGX
- wUfylWhZtpY9I7kKkFIDtp6OJfY1xzFEPYSxZEIsPf3dFYX37qihnJLx5a2RIsMzrvBe
- jQGn3W9wyGr1iTmFYf3WyEZoYherjuNDUuelsT9/PmeJt7IU4Upm0cTvLa2A9jAC8LRG
- TGhQ==
-X-Gm-Message-State: AOAM532jrW8sEubzpBI7Y/5iUOFfr6+6YFnrO5VyHbMElQqCH14CcrIg
- L047To9WCvLXO31h7+/4UCQ=
-X-Google-Smtp-Source: ABdhPJwIdL/VGcPifLjJL0dkR9X2TyKYc4dw5yYE4k51qa8kDrDLlsNbVqT+SVYKEu7UfT+W3NEo7Q==
-X-Received: by 2002:a05:600c:3043:: with SMTP id
- n3mr1944218wmh.98.1622099776918; 
- Thu, 27 May 2021 00:16:16 -0700 (PDT)
-Received: from [192.168.1.36] (235.red-83-57-168.dynamicip.rima-tde.net.
- [83.57.168.235])
- by smtp.gmail.com with ESMTPSA id f20sm1991415wmh.41.2021.05.27.00.16.15
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=1KsYUoihwn06MVpZw8PoJp8Xh8L46ngOZaD9+2VXIEQ=;
+ b=FhyA+IK2XdHTTdW3Q/4zRBqxOhN6iVfn853U/NNdQNB2yfIeb64xyEeHAN+MV509JF
+ dS5lbpJeGjH759o70h+3VkgtJlnTQC4BYfGPEUKp8+So9d7khN31neudmqt1I5B82bJS
+ 5JC6BLkqEqXt19pZtpRnoH0D/6GMZs3sGgz9Xkztt3u8BDvksfoAUHf9ggJZcDJWqRX6
+ AHoq6hZ9hXsygcswkCOjwB9PnF0cNHJz/2MRkKyFhcUZP2IexgZ9KL+goS5Te2HA8NGN
+ U3x8zP2NvCycqNNECYk51YQQWUSKwotDnwrl9FdDtPqmt/rn8ebe7xw3rRN761XRizxU
+ 02Sg==
+X-Gm-Message-State: AOAM532xwBX4hoFUaKQlxzubRfhjLaXoe8KaUnlI4wuBywKgEcip4Bu+
+ EB5gI5WDMuOJyLpgdSmh476pUsQbn6qrKYARCiKF/2yxXEUf5HFoFbCZSDcsSyyvVgtD0co4j6E
+ SZDj0MkTd25ih3MWAuGkxyalvs6WDLGR5y2abjrMotGYRhSShD8NSY2ZwFZ1YryRRCvk=
+X-Received: by 2002:a17:902:6ac2:b029:fc:86b1:579b with SMTP id
+ i2-20020a1709026ac2b02900fc86b1579bmr2015200plt.37.1622100229723; 
+ Thu, 27 May 2021 00:23:49 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxsqnsNepr7Q+83WlGlErNnbKpAW4thVbzYpx8RVQ/yuBTWCjYFBScQj536nasqpAGn8gljTg==
+X-Received: by 2002:a17:902:6ac2:b029:fc:86b1:579b with SMTP id
+ i2-20020a1709026ac2b02900fc86b1579bmr2015175plt.37.1622100229321; 
+ Thu, 27 May 2021 00:23:49 -0700 (PDT)
+Received: from wangxiaodeMacBook-Air.local ([209.132.188.80])
+ by smtp.gmail.com with ESMTPSA id 194sm1176550pfy.146.2021.05.27.00.23.47
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 27 May 2021 00:16:16 -0700 (PDT)
-Subject: Re: [PULL 19/19] gitlab: Split gprof-gcov job
-To: qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>
-References: <20210526211838.421716-1-f4bug@amsat.org>
- <20210526211838.421716-20-f4bug@amsat.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <2e98dd32-166a-9a22-9c64-2970def4dbb8@amsat.org>
-Date: Thu, 27 May 2021 09:16:15 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ Thu, 27 May 2021 00:23:48 -0700 (PDT)
+Subject: Re: [PULL V2 0/3] Net patches
+To: Bin Meng <bmeng.cn@gmail.com>
+References: <1622089478-5426-1-git-send-email-jasowang@redhat.com>
+ <CAEUhbmW2dHstLd6gE43gdyBr+xpoGXjZSuh+6fwKwtSrQjmuWg@mail.gmail.com>
+ <43e3dd04-edac-f0a5-0b99-9a8c8b9d1a5f@redhat.com>
+ <CAEUhbmUJG9vckLWE_r=SCRpW5z1T_NZJkRy4fhUrMHAP_zbW4Q@mail.gmail.com>
+From: Jason Wang <jasowang@redhat.com>
+Message-ID: <08fe1ac7-8db6-bc08-7550-b1d40eaf9039@redhat.com>
+Date: Thu, 27 May 2021 15:23:29 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.10.2
 MIME-Version: 1.0
-In-Reply-To: <20210526211838.421716-20-f4bug@amsat.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+In-Reply-To: <CAEUhbmUJG9vckLWE_r=SCRpW5z1T_NZJkRy4fhUrMHAP_zbW4Q@mail.gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x329.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Language: en-US
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,60 +104,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Willian Rampazzo <willianr@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/26/21 11:18 PM, Philippe Mathieu-Daudé wrote:
-> This job is hitting the 70min limit, so split it in 2 tasks.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> Reviewed-by: Willian Rampazzo <willianr@redhat.com>
-> Message-Id: <20210525082556.4011380-7-f4bug@amsat.org>
-> ---
->  .gitlab-ci.d/buildtest.yml | 17 ++++++++++++++---
->  1 file changed, 14 insertions(+), 3 deletions(-)
-> 
-> diff --git a/.gitlab-ci.d/buildtest.yml b/.gitlab-ci.d/buildtest.yml
-> index 807040c1c71..7bfbfab8f20 100644
-> --- a/.gitlab-ci.d/buildtest.yml
-> +++ b/.gitlab-ci.d/buildtest.yml
-> @@ -558,16 +558,27 @@ check-deprecated:
->    allow_failure: true
->  
->  # gprof/gcov are GCC features
-> -gprof-gcov:
-> +build-gprof-gcov:
->    extends: .native_build_job_template
->    needs:
->      job: amd64-ubuntu2004-container
->    variables:
->      IMAGE: ubuntu2004
->      CONFIGURE_ARGS: --enable-gprof --enable-gcov
-> -    MAKE_CHECK_ARGS: check
->      TARGETS: aarch64-softmmu ppc64-softmmu s390x-softmmu x86_64-softmmu
-> -  timeout: 70m
-> +  artifacts:
-> +    expire_in: 1 days
-> +    paths:
-> +      - build
-> +
-> +check-gprof-gcov:
-> +  extends: .native_test_job_template
-> +  needs:
-> +    - job: build-gprof-gcov
-> +      artifacts: true
-> +  variables:
-> +    IMAGE: ubuntu2004
-> +    MAKE_CHECK_ARGS: check
->    after_script:
->      - ${CI_PROJECT_DIR}/scripts/ci/coverage-summary.sh
->  
-> 
 
-This patch was not supposed to be in this pull request. Since
-the request hasn't been processed, I pushed an updated tag with
-this patch removed.
+在 2021/5/27 下午3:14, Bin Meng 写道:
+> On Thu, May 27, 2021 at 2:35 PM Jason Wang <jasowang@redhat.com> wrote:
+>>
+>> 在 2021/5/27 下午2:13, Bin Meng 写道:
+>>> Hi Jason,
+>>>
+>>> On Thu, May 27, 2021 at 12:24 PM Jason Wang <jasowang@redhat.com> wrote:
+>>>> The following changes since commit d90f154867ec0ec22fd719164b88716e8fd48672:
+>>>>
+>>>>     Merge remote-tracking branch 'remotes/dg-gitlab/tags/ppc-for-6.1-20210504' into staging (2021-05-05 20:29:14 +0100)
+>>>>
+>>>> are available in the git repository at:
+>>>>
+>>>>     https://github.com/jasowang/qemu.git tags/net-pull-request
+>>>>
+>>>> for you to fetch changes up to 4f8a39494aded9f2026a26b137378ea2ee3d5338:
+>>>>
+>>>>     tap-bsd: Remove special casing for older OpenBSD releases (2021-05-27 11:03:55 +0800)
+>>>>
+>>>> ----------------------------------------------------------------
+>>>>
+>>>> ----------------------------------------------------------------
+>>>> Brad Smith (1):
+>>>>         tap-bsd: Remove special casing for older OpenBSD releases
+>>>>
+>>>> Guenter Roeck (1):
+>>>>         hw/net/imx_fec: return 0xffff when accessing non-existing PHY
+>>>>
+>>>> Laurent Vivier (1):
+>>>>         virtio-net: failover: add missing remove_migration_state_change_notifier()
+>>>>
+>>>>    hw/net/imx_fec.c    | 8 +++-----
+>>>>    hw/net/trace-events | 2 ++
+>>>>    hw/net/virtio-net.c | 1 +
+>>>>    net/tap-bsd.c       | 8 --------
+>>>>    4 files changed, 6 insertions(+), 13 deletions(-)
+>>> What happened to patch 5-12 in the following series?
+>>> http://patchwork.ozlabs.org/project/qemu-devel/cover/20210317062638.72626-1-bmeng.cn@gmail.com/
+>>
+>> I want to do some test before the merging. Or if possible, could you
+>> please write a test for this function?
+>>
+> For each of these network adapter models?
+
+
+e1000 and virtio-net should be sufficient.
+
+
+>   What kind of tests are
+> needed?
+
+
+Test whether padding works.
+
+
+>   Any pointers?
+
+
+You can start to look at virtio-net-test.c.
+
+Thanks
+
+
+>
+> Regards,
+> Bin
+>
+
 
