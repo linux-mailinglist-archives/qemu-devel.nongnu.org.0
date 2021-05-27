@@ -2,74 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 090D239271F
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 08:09:46 +0200 (CEST)
-Received: from localhost ([::1]:50490 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 848B139273D
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 08:15:16 +0200 (CEST)
+Received: from localhost ([::1]:53350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lm9DF-0005xP-3a
-	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 02:09:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35172)
+	id 1lm9IY-00087P-7r
+	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 02:15:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36218)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lm9CP-00058Q-IV
- for qemu-devel@nongnu.org; Thu, 27 May 2021 02:08:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51437)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lm9CN-0006MK-7V
- for qemu-devel@nongnu.org; Thu, 27 May 2021 02:08:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622095730;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=8RHxB19b9bOXWJQDg6EK60W2MUDDbECP58ic98oMTrw=;
- b=gxLvoPvWrN99ZEhaWc9z6kcm3Vc8LuBv6Azo74YE+P1I0VpnS3l7sFvN+3ijyUHn+mJIe3
- GOunVv2Q9+nkLT96syVk5yHBFK/zO8wnFlslAiPnq6ASZwgmH3krKHP1nfmSLQmCXkkbhZ
- zsmAOWXFEYLAUKN9UhbNCSUNg2JRyEo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-446-igcIy931O1--2zioapYaIA-1; Thu, 27 May 2021 02:08:46 -0400
-X-MC-Unique: igcIy931O1--2zioapYaIA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A49CB801106;
- Thu, 27 May 2021 06:08:45 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-76.ams2.redhat.com [10.36.112.76])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BD80859465;
- Thu, 27 May 2021 06:08:37 +0000 (UTC)
-Subject: Re: [PATCH 8/9] gitlab-ci: Run Avocado tests manually (except
- mainstream CI)
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20210525082556.4011380-1-f4bug@amsat.org>
- <20210525082556.4011380-9-f4bug@amsat.org>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <82b13c0f-0997-30b8-199f-d07fb4c2f2eb@redhat.com>
-Date: Thu, 27 May 2021 08:08:36 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lm9H1-0007Qy-EW
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 02:13:39 -0400
+Received: from mail-yb1-xb35.google.com ([2607:f8b0:4864:20::b35]:33656)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lm9Gx-0001Nt-6g
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 02:13:39 -0400
+Received: by mail-yb1-xb35.google.com with SMTP id f84so5608717ybg.0
+ for <qemu-devel@nongnu.org>; Wed, 26 May 2021 23:13:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=lQpcT/loIQDhT2OEB6MyKgpHVnCRgrrnL+NIxeRlZBU=;
+ b=PXn1QPCQTDbS4MZqfamIAjv9YL47RwJ/5B3nkLLCN3MHVAic/cFA07bBFtIPyy34gK
+ 8hqyDJ0TryJ5DCxcITInX5ww8254GkzsEiFPUAhId5x5kA0EtZ79xpYHPZiMijClv2ii
+ HApB2d1aD/tORooCF101YAVHC1fYN5kZhzOOuT7q81BNyIRKFwiTj9yPeChZeJZ6w4FU
+ SejBP8n5VLIF7zyBL8OA1hvXSsGVaPPYWhrF4XJbT3QZ9wQc62F8WounG3TsjNOi5Qxm
+ q6jInMKwPBq9+nInLX8lh+2VerIEZxc+/GUzRFZG9a43+PHQvxQiwoKBtgX6Q654c51x
+ ozDA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=lQpcT/loIQDhT2OEB6MyKgpHVnCRgrrnL+NIxeRlZBU=;
+ b=chXlyipoS84rNY6FekUdtYR1kytCrmrx+NXs+ShsKDx13NPs1wsS1VpYwpc+oeYwsh
+ IQ9+EG5urv0uAYvKYYNZodYk7173dL5OK3GQ9D1FU7nKHYKNsdaiGdILUG0EXwxmrINr
+ KJN5uo+9Fa2ZZxY45WEWIaq70iPsYfpetn/XvOd8sYENtfeLm2INNrHenW2W51CQKm5J
+ tyliOeTTpv+1+P3VhqDr56pqKLa8Uu36d7CoG8Gr7wp9V0ROnEw37rMZrZrfHxbtDp32
+ RFk1lbc9D82PJfOQFdjA2cNlxD8GEFIJE6HQuAio6TJj9chYRRRU4IP2XaPGkN6FSGRs
+ v8hw==
+X-Gm-Message-State: AOAM533T3Zj31DBMkFkgq/BZ4fkpjk/XpCi7v1DCfR36drv+U68zjHfW
+ 62OY23NDdd5j0tzFmRCQs6jfPBrSiQwQNfHLjXU=
+X-Google-Smtp-Source: ABdhPJwhl0C0cNRK2W8j3Hyv6enPQ0oHEbdgWi/AtLclXvZk6tLB3m4kvS1b492h5bwiPQ4JB1wtcQkPeW9CGY8nrLY=
+X-Received: by 2002:a05:6902:1543:: with SMTP id
+ r3mr2470226ybu.332.1622096014231; 
+ Wed, 26 May 2021 23:13:34 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210525082556.4011380-9-f4bug@amsat.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+References: <1622089478-5426-1-git-send-email-jasowang@redhat.com>
+In-Reply-To: <1622089478-5426-1-git-send-email-jasowang@redhat.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Thu, 27 May 2021 14:13:23 +0800
+Message-ID: <CAEUhbmW2dHstLd6gE43gdyBr+xpoGXjZSuh+6fwKwtSrQjmuWg@mail.gmail.com>
+Subject: Re: [PULL V2 0/3] Net patches
+To: Jason Wang <jasowang@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b35;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb35.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,33 +77,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Willian Rampazzo <willianr@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- "Daniel P . Berrange" <berrange@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 25/05/2021 10.25, Philippe Mathieu-Daudé wrote:
-> Due to a design problem and misunderstanding between the Avocado
-> framework and QEMU, Avocado is fetching many asset artifacts it
-> shouldn't be fetching, exhausting the jobs CI timeout.
-> 
-> Since Avocado artifacts are cached, this is not an issue with old
-> forks, which already have populated the cache and do not need to
-> download new artifacts to run the tests.
-> 
-> However this is very confusing to new contributors who start to
-> fork the project and keep having failing CI pipelines.
-> 
-> As a temporary kludge, add the QEMU_CI_AVOCADO_TESTING variable
-> to allow old forks to keep running the Avocado tests, while still
-> allowing new forks to use the mainstream set of CI tests.
+Hi Jason,
 
-This definitely needs to be documented in docs/devel/testing.rst ... could 
-you please come up with a patch that describes this variable for newbies there?
+On Thu, May 27, 2021 at 12:24 PM Jason Wang <jasowang@redhat.com> wrote:
+>
+> The following changes since commit d90f154867ec0ec22fd719164b88716e8fd48672:
+>
+>   Merge remote-tracking branch 'remotes/dg-gitlab/tags/ppc-for-6.1-20210504' into staging (2021-05-05 20:29:14 +0100)
+>
+> are available in the git repository at:
+>
+>   https://github.com/jasowang/qemu.git tags/net-pull-request
+>
+> for you to fetch changes up to 4f8a39494aded9f2026a26b137378ea2ee3d5338:
+>
+>   tap-bsd: Remove special casing for older OpenBSD releases (2021-05-27 11:03:55 +0800)
+>
+> ----------------------------------------------------------------
+>
+> ----------------------------------------------------------------
+> Brad Smith (1):
+>       tap-bsd: Remove special casing for older OpenBSD releases
+>
+> Guenter Roeck (1):
+>       hw/net/imx_fec: return 0xffff when accessing non-existing PHY
+>
+> Laurent Vivier (1):
+>       virtio-net: failover: add missing remove_migration_state_change_notifier()
+>
+>  hw/net/imx_fec.c    | 8 +++-----
+>  hw/net/trace-events | 2 ++
+>  hw/net/virtio-net.c | 1 +
+>  net/tap-bsd.c       | 8 --------
+>  4 files changed, 6 insertions(+), 13 deletions(-)
 
-  Thanks,
-   Thomas
+What happened to patch 5-12 in the following series?
+http://patchwork.ozlabs.org/project/qemu-devel/cover/20210317062638.72626-1-bmeng.cn@gmail.com/
 
+Regards,
+Bin
 
