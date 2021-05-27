@@ -2,67 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DF263926E8
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 07:32:17 +0200 (CEST)
-Received: from localhost ([::1]:34468 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 010363926D3
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 07:24:08 +0200 (CEST)
+Received: from localhost ([::1]:38796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lm8cy-0001rE-CI
-	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 01:32:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57350)
+	id 1lm8V4-0002XM-Cg
+	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 01:24:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56800)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lm8We-0008U3-55
- for qemu-devel@nongnu.org; Thu, 27 May 2021 01:25:44 -0400
-Received: from indium.canonical.com ([91.189.90.7]:46476)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lm8Wa-0000Y3-Vr
- for qemu-devel@nongnu.org; Thu, 27 May 2021 01:25:43 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lm8WY-00028o-UO
- for <qemu-devel@nongnu.org>; Thu, 27 May 2021 05:25:38 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id E3D802E8010
- for <qemu-devel@nongnu.org>; Thu, 27 May 2021 05:25:38 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 27 May 2021 05:18:34 -0000
-From: Albert Wik <1897568@bugs.launchpad.net>
+ (Exim 4.90_1) (envelope-from <ysato@users.sourceforge.jp>)
+ id 1lm8Se-0008KX-ML
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 01:21:36 -0400
+Received: from mail02.asahi-net.or.jp ([202.224.55.14]:38755)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <ysato@users.sourceforge.jp>) id 1lm8Sc-00063w-1m
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 01:21:36 -0400
+Received: from sakura.ysato.name (ik1-413-38519.vs.sakura.ne.jp
+ [153.127.30.23]) (Authenticated sender: PQ4Y-STU)
+ by mail02.asahi-net.or.jp (Postfix) with ESMTPA id E15FF3D15A;
+ Thu, 27 May 2021 14:21:29 +0900 (JST)
+Received: from yo-satoh-debian.localdomain
+ (y245018.dynamic.ppp.asahi-net.or.jp [118.243.245.18])
+ by sakura.ysato.name (Postfix) with ESMTPSA id 9AD181C0077;
+ Thu, 27 May 2021 14:21:28 +0900 (JST)
+From: Yoshinori Sato <ysato@users.sourceforge.jp>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: awik philmd th-huth
-X-Launchpad-Bug-Reporter: Albert Wik (awik)
-X-Launchpad-Bug-Modifier: Albert Wik (awik)
-References: <160129907003.10349.16133652474527618816.malonedeb@chaenomeles.canonical.com>
- <162209189915.3061.3446758831334954376.malone@gac.canonical.com>
-Message-Id: <CALPW7mQCFARJ_6-L9DU8m8UpOU7mHJYXW1pmo+nd4KGbyrTsJQ@mail.gmail.com>
-Subject: Re: [Bug 1897568] Re: Strange keyboard behaviour in Vim editor
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="802ed26817d1cdd050553dbe99cc8a3cad1a3bc7"; Instance="production"
-X-Launchpad-Hash: 0285e048bcfe54c458a8ad6349616aa765b26e10
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Subject: [PATCH 00/11] Unified peripheral emulation for Renesas chips
+Date: Thu, 27 May 2021 14:21:11 +0900
+Message-Id: <20210527052122.97103-1-ysato@users.sourceforge.jp>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Received-SPF: softfail client-ip=202.224.55.14;
+ envelope-from=ysato@users.sourceforge.jp; helo=mail02.asahi-net.or.jp
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,89 +53,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1897568 <1897568@bugs.launchpad.net>
+Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+Renesas SH4 and RX have similar peripherals.
+Integrate the emulation code for these peripherals.
 
-thanks for letting me know.
+Migrate peripherals.
+SH4 sh_timer(TMU) -> renesas_timer
+SH4 sh_serial(SCI/SCIF) -> renesas_sci
+RX renesas_cmt(CMT) -> renesas_timer
+RX renesas_sci(SCIa) -> renesas_sci
 
-I do plan to test this and report back, but that may take some time, as I
-would first have to compile and install a new version of QEMU.
+I want to process the peripheral clocks of SH4 and RX in the same way,
+so I added a new clock generator. This will generate a peripheral clock
+from the master clock.
 
--aw
+Yoshinori Sato (11):
+  hw/char: Renesas SCI module.
+  hw/char: remove sh_serial.
+  hw/timer: Renesas TMU/CMT module.
+  hw/timer: Remove sh_timer.
+  hw/timer: Remove renesas_cmt.
+  hw/rx: Add RX62N Clock generator
+  hw/timer: Renesas 8bit timer.
+  hw/rx: rx62n use new hw modules.
+  hw/sh4: sh7750 Add CPG.
+  hw/sh4: sh7750 use new hw modules.
+  hw/rx: rx-gdbsim Add bootstrup for linux
 
-On Thu, 27 May 2021 at 05:10, Thomas Huth <1897568@bugs.launchpad.net>
-wrote:
+ include/hw/char/renesas_sci.h    |  129 +++-
+ include/hw/rx/rx62n-cpg.h        |   72 +++
+ include/hw/rx/rx62n.h            |   34 +-
+ include/hw/sh4/sh.h              |    8 -
+ include/hw/sh4/sh7751-cpg.h      |   94 +++
+ include/hw/timer/renesas_cmt.h   |   43 --
+ include/hw/timer/renesas_timer.h |   96 +++
+ include/hw/timer/renesas_tmr.h   |   58 --
+ include/hw/timer/renesas_tmr8.h  |   67 ++
+ include/hw/timer/tmu012.h        |   23 -
+ hw/char/renesas_sci.c            | 1039 +++++++++++++++++++++++++-----
+ hw/char/sh_serial.c              |  431 -------------
+ hw/rx/rx-gdbsim.c                |   89 +--
+ hw/rx/rx62n-cpg.c                |  344 ++++++++++
+ hw/rx/rx62n.c                    |   64 +-
+ hw/sh4/sh7750.c                  |  110 +++-
+ hw/sh4/sh7751-cpg.c              |  457 +++++++++++++
+ hw/timer/renesas_cmt.c           |  283 --------
+ hw/timer/renesas_timer.c         |  644 ++++++++++++++++++
+ hw/timer/renesas_tmr.c           |  493 --------------
+ hw/timer/renesas_tmr8.c          |  540 ++++++++++++++++
+ hw/timer/sh_timer.c              |  368 -----------
+ MAINTAINERS                      |    8 +-
+ hw/char/Kconfig                  |    3 -
+ hw/char/meson.build              |    1 -
+ hw/rx/Kconfig                    |    4 +-
+ hw/rx/meson.build                |    2 +-
+ hw/sh4/Kconfig                   |    4 +-
+ hw/sh4/meson.build               |    1 +
+ hw/timer/Kconfig                 |   12 +-
+ hw/timer/meson.build             |    5 +-
+ 31 files changed, 3501 insertions(+), 2025 deletions(-)
+ create mode 100644 include/hw/rx/rx62n-cpg.h
+ create mode 100644 include/hw/sh4/sh7751-cpg.h
+ delete mode 100644 include/hw/timer/renesas_cmt.h
+ create mode 100644 include/hw/timer/renesas_timer.h
+ delete mode 100644 include/hw/timer/renesas_tmr.h
+ create mode 100644 include/hw/timer/renesas_tmr8.h
+ delete mode 100644 include/hw/timer/tmu012.h
+ delete mode 100644 hw/char/sh_serial.c
+ create mode 100644 hw/rx/rx62n-cpg.c
+ create mode 100644 hw/sh4/sh7751-cpg.c
+ delete mode 100644 hw/timer/renesas_cmt.c
+ create mode 100644 hw/timer/renesas_timer.c
+ delete mode 100644 hw/timer/renesas_tmr.c
+ create mode 100644 hw/timer/renesas_tmr8.c
+ delete mode 100644 hw/timer/sh_timer.c
 
-> The patch mentioned by Philippe has now been merged to the QEMU master
-> branch (commit d1e45668d2128b064). Albert, could you maybe check the
-> current git version to see whether this problem has been fixed now
-> (using "-global i8042.kbd-throttle=3Don" to enable this new feature)?
->
-> ** Changed in: qemu
->        Status: In Progress =3D> Fix Committed
->
-> --
-> You received this bug notification because you are subscribed to the bug
-> report.
-> https://bugs.launchpad.net/bugs/1897568
->
-> Title:
->   Strange keyboard behaviour in Vim editor
->
-> Status in QEMU:
->   Fix Committed
->
-> Bug description:
->
->   I'm running MS-DOS 7.10 in a QEMU virtual machine, and there is a
-> problem with the keyboard in the Vim editor.  The arrow keys jump over a
-> line, as if you had typed the key twice.  PgUp and PgDn are likewise
-> affected.  Other applications are not affected, unless you shell out from
-> Vim.
->
->   The QEMU version is 5.0.0, and I'm using the "-k sv" option, but I've
->   tried without it and it doesn't make a difference.
->
->   I don't get this keyboard behaviour in the exact same VM under VMware
->   Player or Bochs.
->
->   -Albert.
->
-> To manage notifications about this bug go to:
-> https://bugs.launchpad.net/qemu/+bug/1897568/+subscriptions
->
+-- 
+2.20.1
 
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1897568
-
-Title:
-  Strange keyboard behaviour in Vim editor
-
-Status in QEMU:
-  Fix Committed
-
-Bug description:
-  =
-
-  I'm running MS-DOS 7.10 in a QEMU virtual machine, and there is a problem=
- with the keyboard in the Vim editor.  The arrow keys jump over a line, as =
-if you had typed the key twice.  PgUp and PgDn are likewise affected.  Othe=
-r applications are not affected, unless you shell out from Vim.
-
-  The QEMU version is 5.0.0, and I'm using the "-k sv" option, but I've
-  tried without it and it doesn't make a difference.
-
-  I don't get this keyboard behaviour in the exact same VM under VMware
-  Player or Bochs.
-
-  -Albert.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1897568/+subscriptions
 
