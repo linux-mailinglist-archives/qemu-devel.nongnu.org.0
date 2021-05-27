@@ -2,52 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E19F393025
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 15:53:23 +0200 (CEST)
-Received: from localhost ([::1]:49906 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0F9A392FEA
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 15:40:29 +0200 (CEST)
+Received: from localhost ([::1]:34844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lmGRu-0004ie-Go
-	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 09:53:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44512)
+	id 1lmGFQ-0002fW-TQ
+	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 09:40:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44972)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bruno.larsen@eldorado.org.br>)
- id 1lmFyX-00021G-N1; Thu, 27 May 2021 09:23:05 -0400
-Received: from [201.28.113.2] (port=50164 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bruno.larsen@eldorado.org.br>)
- id 1lmFyR-0003F9-GN; Thu, 27 May 2021 09:23:01 -0400
-Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Thu, 27 May 2021 10:22:51 -0300
-Received: from [127.0.0.1] (unknown [10.10.71.235])
- by power9a (Postfix) with ESMTPS id 4566E8013E1;
- Thu, 27 May 2021 10:22:51 -0300 (-03)
-Subject: Re: [PATCH 2/5] target/ppc: remove ppc_cpu_dump_statistics
-To: David Gibson <david@gibson.dropbear.id.au>
-References: <20210526202104.127910-1-bruno.larsen@eldorado.org.br>
- <20210526202104.127910-3-bruno.larsen@eldorado.org.br>
- <YK7zwfSC7NGssEN5@yekko> <YK8hjhgPNK8yVfgm@yekko>
-From: Bruno Piazera Larsen <bruno.larsen@eldorado.org.br>
-Message-ID: <d952f573-6a12-27c7-98e4-a29e2a955ec5@eldorado.org.br>
-Date: Thu, 27 May 2021 10:22:50 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1lmG0W-0002yK-O8
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 09:25:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46122)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1lmG0J-00042E-F7
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 09:25:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1622121888;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=kfbV+6RYjMBpxFHPRxjhDgMU/+kk3qm9nnrSy4peRIk=;
+ b=bRWOICIxpN4WAl3l9YAS8gz2cxQH0GH7Rwnoedr2smBIgGC0zcH2KYMWtiDFz691mv8Vim
+ 8IHUstYo6wv/VUw9xfFvH1TmfnlBeZObZYTtmATXaBju30kKhRQ8V7i6P4mupiOWnDNbsw
+ ZDCUWHLLnZs9TcAxTFAW+MznQYFiIEk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-389-KBmNJIyQMXymWrUkQsTW1w-1; Thu, 27 May 2021 09:24:47 -0400
+X-MC-Unique: KBmNJIyQMXymWrUkQsTW1w-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CC5D864169;
+ Thu, 27 May 2021 13:24:45 +0000 (UTC)
+Received: from work-vm (ovpn-114-249.ams2.redhat.com [10.36.114.249])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0C36019C66;
+ Thu, 27 May 2021 13:24:39 +0000 (UTC)
+Date: Thu, 27 May 2021 14:24:37 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Claudio Fontana <cfontana@suse.de>
+Subject: Re: Windows fails to boot after rebase to QEMU master
+Message-ID: <YK+dlWz8H+dUm95Y@work-vm>
+References: <20210521091451.GA6016@u366d62d47e3651.ant.amazon.com>
+ <20210524055322-mutt-send-email-mst@kernel.org>
+ <YK6hunkEnft6VJHz@work-vm>
+ <d71fee00-0c21-c5e8-dbc6-00b7ace11c5a@suse.de>
+ <YK9Y64U0wjU5K753@work-vm>
+ <16a5085f-868b-7e1a-f6de-1dab16103a66@redhat.com>
+ <YK9jOdCPUGQF4t0D@work-vm>
+ <855c9f5c-a8e8-82b4-d71e-db9c966ddcc3@suse.de>
+ <3b8f2f3b-0254-22c1-6391-44569c8ff821@suse.de>
+ <d43ca6d9-d00c-6c2e-6838-36554de3fba5@suse.de>
 MIME-Version: 1.0
-In-Reply-To: <YK8hjhgPNK8yVfgm@yekko>
-Content-Type: multipart/alternative;
- boundary="------------44E901FD6F60F85F3B117530"
-Content-Language: en-US
-X-OriginalArrivalTime: 27 May 2021 13:22:51.0635 (UTC)
- FILETIME=[650D2C30:01D752FB]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
-Received-SPF: pass client-ip=201.28.113.2;
- envelope-from=bruno.larsen@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
- NICE_REPLY_A=-0.001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <d43ca6d9-d00c-6c2e-6838-36554de3fba5@suse.de>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.374,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -60,167 +85,295 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: farosas@linux.ibm.com, richard.henderson@linaro.org,
- Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org,
- lucas.araujo@eldorado.org.br, fernando.valle@eldorado.org.br,
- qemu-ppc@nongnu.org, matheus.ferst@eldorado.org.br, luis.pires@eldorado.org.br
+Cc: Siddharth Chandrasekaran <sidcha@amazon.de>,
+ Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Cameron Esfahani <dirty@apple.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a multi-part message in MIME format.
---------------44E901FD6F60F85F3B117530
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 8bit
+* Claudio Fontana (cfontana@suse.de) wrote:
+> On 5/27/21 12:53 PM, Claudio Fontana wrote:
+> > On 5/27/21 11:48 AM, Claudio Fontana wrote:
+> >> On 5/27/21 11:15 AM, Dr. David Alan Gilbert wrote:
+> >>> * Philippe Mathieu-Daudé (philmd@redhat.com) wrote:
+> >>>> On 5/27/21 10:31 AM, Dr. David Alan Gilbert wrote:
+> >>>>> * Claudio Fontana (cfontana@suse.de) wrote:
+> >>>>>> On 5/26/21 9:30 PM, Dr. David Alan Gilbert wrote:
+> >>>>>>> * Michael S. Tsirkin (mst@redhat.com) wrote:
+> >>>>>>>> On Fri, May 21, 2021 at 11:17:19AM +0200, Siddharth Chandrasekaran wrote:
+> >>>>>>>>> After a rebase to QEMU master, I am having trouble booting windows VMs.
+> >>>>>>>>> Git bisect indicates commit f5cc5a5c1686 ("i386: split cpu accelerators
+> >>>>>>>>> from cpu.c, using AccelCPUClass") to have introduced the issue. I spent
+> >>>>>>>>> some time looking at into it yesterday without much luck.
+> >>>>>>>>>
+> >>>>>>>>> Steps to reproduce:
+> >>>>>>>>>
+> >>>>>>>>>     $ ./configure --enable-kvm --disable-xen --target-list=x86_64-softmmu --enable-debug
+> >>>>>>>>>     $ make -j `nproc`
+> >>>>>>>>>     $ ./build/x86_64-softmmu/qemu-system-x86_64 \
+> >>>>>>>>>         -cpu host,hv_synic,hv_vpindex,hv_time,hv_runtime,hv_stimer,hv_crash \
+> >>>>>>>>>         -enable-kvm \
+> >>>>>>>>>         -name test,debug-threads=on \
+> >>>>>>>>>         -smp 1,threads=1,cores=1,sockets=1 \
+> >>>>>>>>>         -m 4G \
+> >>>>>>>>>         -net nic -net user \
+> >>>>>>>>>         -boot d,menu=on \
+> >>>>>>>>>         -usbdevice tablet \
+> >>>>>>>>>         -vnc :3 \
+> >>>>>>>>>         -machine q35,smm=on \
+> >>>>>>>>>         -drive if=pflash,format=raw,readonly=on,unit=0,file="../OVMF_CODE.secboot.fd" \
+> >>>>>>>>>         -drive if=pflash,format=raw,unit=1,file="../OVMF_VARS.secboot.fd" \
+> >>>>>>>>>         -global ICH9-LPC.disable_s3=1 \
+> >>>>>>>>>         -global driver=cfi.pflash01,property=secure,value=on \
+> >>>>>>>>>         -cdrom "../Windows_Server_2016_14393.ISO" \
+> >>>>>>>>>         -drive file="../win_server_2016.qcow2",format=qcow2,if=none,id=rootfs_drive \
+> >>>>>>>>>         -device ahci,id=ahci \
+> >>>>>>>>>         -device ide-hd,drive=rootfs_drive,bus=ahci.0
+> >>>>>>>>>
+> >>>>>>>>> If the issue is not obvious, I'd like some pointers on how to go about
+> >>>>>>>>> fixing this issue.
+> >>>>>>>>>
+> >>>>>>>>> ~ Sid.
+> >>>>>>>>>
+> >>>>>>>>
+> >>>>>>>> At a guess this commit inadvertently changed something in the CPU ID.
+> >>>>>>>> I'd start by using a linux guest to dump cpuid before and after the
+> >>>>>>>> change.
+> >>>>>>>
+> >>>>>>> I've not had a chance to do that yet, however I did just end up with a
+> >>>>>>> bisect of a linux guest failure bisecting to the same patch:
+> >>>>>>>
+> >>>>>>> [dgilbert@dgilbert-t580 qemu]$ git bisect bad
+> >>>>>>> f5cc5a5c168674f84bf061cdb307c2d25fba5448 is the first bad commit
+> >>>>>>> commit f5cc5a5c168674f84bf061cdb307c2d25fba5448
+> >>>>>>> Author: Claudio Fontana <cfontana@suse.de>
+> >>>>>>> Date:   Mon Mar 22 14:27:40 2021 +0100
+> >>>>>>>
+> >>>>>>>     i386: split cpu accelerators from cpu.c, using AccelCPUClass
+> >>>>>>>     
+> >>>>>>>     i386 is the first user of AccelCPUClass, allowing to split
+> >>>>>>>     cpu.c into:
+> >>>>>>>     
+> >>>>>>>     cpu.c            cpuid and common x86 cpu functionality
+> >>>>>>>     host-cpu.c       host x86 cpu functions and "host" cpu type
+> >>>>>>>     kvm/kvm-cpu.c    KVM x86 AccelCPUClass
+> >>>>>>>     hvf/hvf-cpu.c    HVF x86 AccelCPUClass
+> >>>>>>>     tcg/tcg-cpu.c    TCG x86 AccelCPUClass
+> >>>>
+> >>>> Well this is a big commit... I'm not custom to x86 target, and am
+> >>>> having hard time following the cpu host/max change.
+> >>>>
+> >>>> Is it working when you use '-cpu max,...' instead of '-cpu host,'?
+> >>>
+> >>> No; and in fact the cpuid's are almost entirely different with and
+> >>> without this patch! (both with -cpu host).  It looks like with this
+> >>> patch we're getting the cpuid for the TCG cpuid rather than the host:
+> >>>
+> >>> Prior to this patch:
+> >>> :/# cat /proc/cpuinfo
+> >>> processor       : 0
+> >>> vendor_id       : GenuineIntel
+> >>> cpu family      : 6
+> >>> model           : 142
+> >>> model name      : Intel(R) Core(TM) i7-8650U CPU @ 1.90GHz
+> >>> stepping        : 10
+> >>> microcode       : 0xe0
+> >>> cpu MHz         : 2111.998
+> >>> cache size      : 16384 KB
+> >>> physical id     : 0
+> >>> siblings        : 1
+> >>> core id         : 0
+> >>> cpu cores       : 1
+> >>> apicid          : 0
+> >>> initial apicid  : 0
+> >>> fpu             : yes
+> >>> fpu_exception   : yes
+> >>> cpuid level     : 22
+> >>> wp              : yes
+> >>> flags           : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss syscall nx pdpe1gb rdtscp lm constant
+> >>> _tsc arch_perfmon rep_good nopl xtopology cpuid tsc_known_freq pni pclmulqdq vmx ssse3 fma cx16 pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_tim
+> >>> er aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch cpuid_fault invpcid_single pti ssbd ibrs ibpb stibp tpr_shadow vnmi flexpriority ept vpid
+> >>> ept_ad fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm mpx rdseed adx smap clflushopt xsaveopt xsavec xgetbv1 xsaves arat umip md_clear arch_ca
+> >>> pabilities
+> >>> vmx flags       : vnmi preemption_timer invvpid ept_x_only ept_ad ept_1gb flexpriority tsc_offset vtpr mtf vapic ept vpid unrestricted_guest shadow_vmcs pml
+> >>> bugs            : cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs taa srbds
+> >>> bogomips        : 4223.99
+> >>> clflush size    : 64
+> >>> cache_alignment : 64
+> >>> address sizes   : 39 bits physical, 48 bits virtual
+> >>> power management:
+> >>>
+> >>> With this patch:
+> >>> processor       : 0
+> >>> vendor_id       : AuthenticAMD
+> >>> cpu family      : 6
+> >>> model           : 6
+> >>> model name      : QEMU TCG CPU version 2.5+
+> >>> stepping        : 3
+> >>> cpu MHz         : 2111.998
+> >>> cache size      : 512 KB
+> >>> physical id     : 0
+> >>> siblings        : 1
+> >>> core id         : 0
+> >>> cpu cores       : 1
+> >>> apicid          : 0
+> >>> initial apicid  : 0
+> >>> fpu             : yes
+> >>> fpu_exception   : yes
+> >>> cpuid level     : 13
+> >>> wp              : yes
+> >>> flags           : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss syscall nx pdpe1gb rdtscp lm nopl cpu
+> >>> id tsc_known_freq pni pclmulqdq vmx ssse3 fma cx16 pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_
+> >>> lm abm 3dnowprefetch invpcid_single ssbd ibrs ibpb stibp vmmcall fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm mpx rdseed adx smap clflushopt
+> >>>  xsaveopt xsavec xgetbv1 xsaves arat umip md_clear arch_capabilities
+> >>> bugs            : fxsave_leak sysret_ss_attrs spectre_v1 spectre_v2 spec_store_bypass taa
+> >>> bogomips        : 4223.99
+> >>> TLB size        : 1024 4K pages
+> >>> clflush size    : 64
+> >>> cache_alignment : 64
+> >>> address sizes   : 40 bits physical, 48 bits virtual
+> >>> power management:
+> >>>
+> >>> cpuid.f5cc5a5c16
+> >>>
+> >>> CPU 0:
+> >>>    0x00000000 0x00: eax=0x0000000d ebx=0x68747541 ecx=0x444d4163 edx=0x69746e65
+> >>>    0x00000001 0x00: eax=0x00000663 ebx=0x00000800 ecx=0xfffab223 edx=0x0f8bfbff
+> >>>    0x00000002 0x00: eax=0x00000001 ebx=0x00000000 ecx=0x0000004d edx=0x002c307d
+> >>>    0x00000003 0x00: eax=0x00000000 ebx=0x00000000 ecx=0x00000000 edx=0x00000000
+> >>>    0x00000004 0x00: eax=0x00000121 ebx=0x01c0003f ecx=0x0000003f edx=0x00000001
+> >>>    0x00000004 0x01: eax=0x00000122 ebx=0x01c0003f ecx=0x0000003f edx=0x00000001
+> >>>    0x00000004 0x02: eax=0x00000143 ebx=0x03c0003f ecx=0x00000fff edx=0x00000001
+> >>>    0x00000004 0x03: eax=0x00000163 ebx=0x03c0003f ecx=0x00003fff edx=0x00000006
+> >>>    0x00000005 0x00: eax=0x00000000 ebx=0x00000000 ecx=0x00000003 edx=0x00000000
+> >>>    0x00000006 0x00: eax=0x00000004 ebx=0x00000000 ecx=0x00000000 edx=0x00000000
+> >>>    0x00000007 0x00: eax=0x00000000 ebx=0x009c4fbb ecx=0x00000004 edx=0xac000400
+> >>>    0x00000008 0x00: eax=0x00000000 ebx=0x00000000 ecx=0x00000000 edx=0x00000000
+> >>>    0x00000009 0x00: eax=0x00000000 ebx=0x00000000 ecx=0x00000000 edx=0x00000000
+> >>>    0x0000000a 0x00: eax=0x07300402 ebx=0x00000000 ecx=0x00000000 edx=0x00008603
+> >>>    0x0000000b 0x00: eax=0x00000000 ebx=0x00000001 ecx=0x00000100 edx=0x00000000
+> >>>    0x0000000b 0x01: eax=0x00000000 ebx=0x00000001 ecx=0x00000201 edx=0x00000000
+> >>>    0x0000000c 0x00: eax=0x00000000 ebx=0x00000000 ecx=0x00000000 edx=0x00000000
+> >>>    0x0000000d 0x00: eax=0x0000001f ebx=0x00000440 ecx=0x00000440 edx=0x00000000
+> >>>    0x0000000d 0x01: eax=0x0000000f ebx=0x000003c0 ecx=0x00000000 edx=0x00000000
+> >>>    0x0000000d 0x02: eax=0x00000100 ebx=0x00000240 ecx=0x00000000 edx=0x00000000
+> >>>    0x0000000d 0x03: eax=0x00000040 ebx=0x000003c0 ecx=0x00000000 edx=0x00000000
+> >>>    0x0000000d 0x04: eax=0x00000040 ebx=0x00000400 ecx=0x00000000 edx=0x00000000
+> >>>    0x40000000 0x00: eax=0x40000001 ebx=0x4b4d564b ecx=0x564b4d56 edx=0x0000004d
+> >>>    0x40000001 0x00: eax=0x01007afb ebx=0x00000000 ecx=0x00000000 edx=0x00000000
+> >>>    0x80000000 0x00: eax=0x80000008 ebx=0x68747541 ecx=0x444d4163 edx=0x69746e65
+> >>>    0x80000001 0x00: eax=0x00000663 ebx=0x00000000 ecx=0x00000121 edx=0x2d93fbff
+> >>>    0x80000002 0x00: eax=0x554d4551 ebx=0x47435420 ecx=0x55504320 edx=0x72657620
+> >>>    0x80000003 0x00: eax=0x6e6f6973 ebx=0x352e3220 ecx=0x0000002b edx=0x00000000
+> >>>    0x80000004 0x00: eax=0x00000000 ebx=0x00000000 ecx=0x00000000 edx=0x00000000
+> >>>    0x80000005 0x00: eax=0x01ff01ff ebx=0x01ff01ff ecx=0x40020140 edx=0x40020140
+> >>>    0x80000006 0x00: eax=0x00000000 ebx=0x42004200 ecx=0x02008140 edx=0x00808140
+> >>>    0x80000007 0x00: eax=0x00000000 ebx=0x00000000 ecx=0x00000000 edx=0x00000000
+> >>>    0x80000008 0x00: eax=0x00003028 ebx=0x0100d000 ecx=0x00000000 edx=0x00000000
+> >>>    0x80860000 0x00: eax=0x00000000 ebx=0x00000000 ecx=0x00000000 edx=0x00000000
+> >>>    0xc0000000 0x00: eax=0x00000000 ebx=0x00000000 ecx=0x00000000 edx=0x00000000
+> >>>
+> >>>
+> >>> cpuid.0ac2b19743
+> >>>
+> >>> CPU 0:
+> >>>    0x00000000 0x00: eax=0x00000016 ebx=0x756e6547 ecx=0x6c65746e edx=0x49656e69
+> >>>    0x00000001 0x00: eax=0x000806ea ebx=0x00000800 ecx=0xfffab223 edx=0x0f8bfbff
+> >>>    0x00000002 0x00: eax=0x00000001 ebx=0x00000000 ecx=0x0000004d edx=0x002c307d
+> >>>    0x00000003 0x00: eax=0x00000000 ebx=0x00000000 ecx=0x00000000 edx=0x00000000
+> >>>    0x00000004 0x00: eax=0x00000121 ebx=0x01c0003f ecx=0x0000003f edx=0x00000001
+> >>>    0x00000004 0x01: eax=0x00000122 ebx=0x01c0003f ecx=0x0000003f edx=0x00000001
+> >>>    0x00000004 0x02: eax=0x00000143 ebx=0x03c0003f ecx=0x00000fff edx=0x00000001
+> >>>    0x00000004 0x03: eax=0x00000163 ebx=0x03c0003f ecx=0x00003fff edx=0x00000006
+> >>>    0x00000005 0x00: eax=0x00000000 ebx=0x00000000 ecx=0x00000003 edx=0x00000000
+> >>>    0x00000006 0x00: eax=0x00000004 ebx=0x00000000 ecx=0x00000000 edx=0x00000000
+> >>>    0x00000007 0x00: eax=0x00000000 ebx=0x009c4fbb ecx=0x00000004 edx=0xac000400
+> >>>    0x00000008 0x00: eax=0x00000000 ebx=0x00000000 ecx=0x00000000 edx=0x00000000
+> >>>    0x00000009 0x00: eax=0x00000000 ebx=0x00000000 ecx=0x00000000 edx=0x00000000
+> >>>    0x0000000a 0x00: eax=0x07300402 ebx=0x00000000 ecx=0x00000000 edx=0x00008603
+> >>>    0x0000000b 0x00: eax=0x00000000 ebx=0x00000001 ecx=0x00000100 edx=0x00000000
+> >>>    0x0000000b 0x01: eax=0x00000000 ebx=0x00000001 ecx=0x00000201 edx=0x00000000
+> >>>    0x0000000c 0x00: eax=0x00000000 ebx=0x00000000 ecx=0x00000000 edx=0x00000000
+> >>>    0x0000000d 0x00: eax=0x0000001f ebx=0x00000440 ecx=0x00000440 edx=0x00000000
+> >>>    0x0000000d 0x01: eax=0x0000000f ebx=0x000003c0 ecx=0x00000000 edx=0x00000000
+> >>>    0x0000000d 0x02: eax=0x00000100 ebx=0x00000240 ecx=0x00000000 edx=0x00000000
+> >>>    0x0000000d 0x03: eax=0x00000040 ebx=0x000003c0 ecx=0x00000000 edx=0x00000000
+> >>>    0x0000000d 0x04: eax=0x00000040 ebx=0x00000400 ecx=0x00000000 edx=0x00000000
+> >>>    0x0000000e 0x00: eax=0x00000000 ebx=0x00000000 ecx=0x00000000 edx=0x00000000
+> >>>    0x0000000f 0x00: eax=0x00000000 ebx=0x00000000 ecx=0x00000000 edx=0x00000000
+> >>>    0x00000010 0x00: eax=0x00000000 ebx=0x00000000 ecx=0x00000000 edx=0x00000000
+> >>>    0x00000011 0x00: eax=0x00000000 ebx=0x00000000 ecx=0x00000000 edx=0x00000000
+> >>>    0x00000012 0x00: eax=0x00000000 ebx=0x00000000 ecx=0x00000000 edx=0x00000000
+> >>>    0x00000013 0x00: eax=0x00000000 ebx=0x00000000 ecx=0x00000000 edx=0x00000000
+> >>>    0x00000014 0x00: eax=0x00000000 ebx=0x00000000 ecx=0x00000000 edx=0x00000000
+> >>>    0x00000015 0x00: eax=0x00000000 ebx=0x00000000 ecx=0x00000000 edx=0x00000000
+> >>>    0x00000016 0x00: eax=0x00000000 ebx=0x00000000 ecx=0x00000000 edx=0x00000000
+> >>>    0x40000000 0x00: eax=0x40000001 ebx=0x4b4d564b ecx=0x564b4d56 edx=0x0000004d
+> >>>    0x40000001 0x00: eax=0x01007afb ebx=0x00000000 ecx=0x00000000 edx=0x00000000
+> >>>    0x80000000 0x00: eax=0x80000008 ebx=0x756e6547 ecx=0x6c65746e edx=0x49656e69
+> >>>    0x80000001 0x00: eax=0x000806ea ebx=0x00000000 ecx=0x00000121 edx=0x2c100800
+> >>>    0x80000002 0x00: eax=0x65746e49 ebx=0x2952286c ecx=0x726f4320 edx=0x4d542865
+> >>>    0x80000003 0x00: eax=0x37692029 ebx=0x3536382d ecx=0x43205530 edx=0x40205550
+> >>>    0x80000004 0x00: eax=0x392e3120 ebx=0x7a484730 ecx=0x00000000 edx=0x00000000
+> >>>    0x80000005 0x00: eax=0x01ff01ff ebx=0x01ff01ff ecx=0x40020140 edx=0x40020140
+> >>>    0x80000006 0x00: eax=0x00000000 ebx=0x42004200 ecx=0x02008140 edx=0x00808140
+> >>>    0x80000007 0x00: eax=0x00000000 ebx=0x00000000 ecx=0x00000000 edx=0x00000000
+> >>>    0x80000008 0x00: eax=0x00003027 ebx=0x0100d000 ecx=0x00000000 edx=0x00000000
+> >>>    0x80860000 0x00: eax=0x00000000 ebx=0x00000000 ecx=0x00000000 edx=0x00000000
+> >>>    0xc0000000 0x00: eax=0x00000000 ebx=0x00000000 ecx=0x00000000 edx=0x00000000
+> >>>
+> >>
+> >> I started looking at it.
+> >>
+> >> Claudio
+> >>
+> > 
+> > I wonder how I missed this, the initialization functions for max_x86_cpu_initfn and kvm_cpu_max_instance_init end up being called in the wrong order.
+> > 
+> 
+> 
+> Just to check whether this is actually the issue we are talking about, Sid et al, could you try this?
+> 
+> 
+> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+> index c496bfa1c2..810c46281b 100644
+> --- a/target/i386/cpu.c
+> +++ b/target/i386/cpu.c
+> @@ -4252,6 +4252,7 @@ static void max_x86_cpu_initfn(Object *obj)
+>      object_property_set_str(OBJECT(cpu), "model-id",
+>                              "QEMU TCG CPU version " QEMU_HW_VERSION,
+>                              &error_abort);
+> +    accel_cpu_instance_init(CPU(cpu));
+>  }
+> 
+>  static const TypeInfo max_x86_cpu_type_info = {
+> ------------------------------------------------------------------------------------------
+> 
+> Does this band-aid happen to cover-up the issue?
 
+I think it mostly does - thanks; however the address widths are still
+wrong:
 
-On 27/05/2021 01:35, David Gibson wrote:
-> On Thu, May 27, 2021 at 11:20:01AM +1000, David Gibson wrote:
->> On Wed, May 26, 2021 at 05:21:01PM -0300, Bruno Larsen (billionai) wrote:
->>> This function requires surce code modification to be useful, which means
->>> it probably is not used often, and the move to using decodetree means
->>> the statistics won't even be collected anymore.
->>>
->>> Also removed setting dump_statistics in ppc_cpu_realize, since it was
->>> only useful when in conjunction with ppc_cpu_dump_statistics.
->>>
->>> Suggested-by: Richard Henderson<richard.henderson@linaro.org>
->>> Signed-off-by: Bruno Larsen (billionai) <bruno.larsen@eldorado.org.br>
->>> ---
->>>   target/ppc/cpu.h       |  1 -
->>>   target/ppc/cpu_init.c  |  3 ---
->>>   target/ppc/translate.c | 51 ------------------------------------------
->>>   3 files changed, 55 deletions(-)
->>>
->>> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
->>> index 203f07e48e..c3d1b492e4 100644
->>> --- a/target/ppc/cpu.h
->>> +++ b/target/ppc/cpu.h
->>> @@ -1256,7 +1256,6 @@ DECLARE_OBJ_CHECKERS(PPCVirtualHypervisor, PPCVirtualHypervisorClass,
->>>   void ppc_cpu_do_interrupt(CPUState *cpu);
->>>   bool ppc_cpu_exec_interrupt(CPUState *cpu, int int_req);
->>>   void ppc_cpu_dump_state(CPUState *cpu, FILE *f, int flags);
->>> -void ppc_cpu_dump_statistics(CPUState *cpu, int flags);
->>>   hwaddr ppc_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
->>>   int ppc_cpu_gdb_read_register(CPUState *cpu, GByteArray *buf, int reg);
->>>   int ppc_cpu_gdb_read_register_apple(CPUState *cpu, GByteArray *buf, int reg);
->>> diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
->>> index f5ae2f150d..bd05f53fa4 100644
->>> --- a/target/ppc/cpu_init.c
->>> +++ b/target/ppc/cpu_init.c
->>> @@ -9250,9 +9250,6 @@ static void ppc_cpu_class_init(ObjectClass *oc, void *data)
->>>       cc->class_by_name = ppc_cpu_class_by_name;
->>>       cc->has_work = ppc_cpu_has_work;
->>>       cc->dump_state = ppc_cpu_dump_state;
->>> -#ifdef CONFIG_TCG
->>> -    cc->dump_statistics = ppc_cpu_dump_statistics;
->>> -#endif
->> This confuses me.  The ifdefs you're removing aren't present in my
->> tree, and AFAICT they never existed since your own patch created
->> cpu_init.c.
->>
->> So.. please rebase and check that.
-> Duh, sorry, I looked at this set out of order with your latest !tcg
-> patches.  Now that I've applied those, I've applied those one as well.
-Let me just check, where do you keep your most updated tree? I'm 
-rebasing on your github tree, but ppc-for-6.1 there seems quite outdated 
-(still the same as main)
+address sizes	: 40 bits physical, 48 bits virtual
+
+where as my little laptop can only think in 39bits physical; so I think
+that's still coming through from the TCG def.
+
+Dave
+
+> 
+> I need to think about the proper fix though, any suggestions Paolo, Eduardo?
+> 
+> The pickle here is that we'd need to call the accelerator specific initialization of the x86 accel-cpu only after the x86 cpu subclass initfn,
+> otherwise the accel-specific cpu initialization code has no chance to see the subclass (max) trying to set ->max_features.
+> 
+> C.
+> 
 -- 
-Bruno Piazera Larsen
-Instituto de Pesquisas ELDORADO 
-<https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&utm_medium=email&utm_source=RD+Station>
-Departamento Computação Embarcada
-Analista de Software Trainee
-Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
---------------44E901FD6F60F85F3B117530
-Content-Type: text/html; charset=windows-1252
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html;
-      charset=windows-1252">
-  </head>
-  <body>
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">On 27/05/2021 01:35, David Gibson
-      wrote:<br>
-    </div>
-    <blockquote type="cite" cite="mid:YK8hjhgPNK8yVfgm@yekko">
-      <pre class="moz-quote-pre" wrap="">On Thu, May 27, 2021 at 11:20:01AM +1000, David Gibson wrote:
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">On Wed, May 26, 2021 at 05:21:01PM -0300, Bruno Larsen (billionai) wrote:
-</pre>
-        <blockquote type="cite">
-          <pre class="moz-quote-pre" wrap="">This function requires surce code modification to be useful, which means
-it probably is not used often, and the move to using decodetree means
-the statistics won't even be collected anymore.
-
-Also removed setting dump_statistics in ppc_cpu_realize, since it was
-only useful when in conjunction with ppc_cpu_dump_statistics.
-
-Suggested-by: Richard Henderson<a class="moz-txt-link-rfc2396E" href="mailto:richard.henderson@linaro.org">&lt;richard.henderson@linaro.org&gt;</a>
-Signed-off-by: Bruno Larsen (billionai) <a class="moz-txt-link-rfc2396E" href="mailto:bruno.larsen@eldorado.org.br">&lt;bruno.larsen@eldorado.org.br&gt;</a>
----
- target/ppc/cpu.h       |  1 -
- target/ppc/cpu_init.c  |  3 ---
- target/ppc/translate.c | 51 ------------------------------------------
- 3 files changed, 55 deletions(-)
-
-diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index 203f07e48e..c3d1b492e4 100644
---- a/target/ppc/cpu.h
-+++ b/target/ppc/cpu.h
-@@ -1256,7 +1256,6 @@ DECLARE_OBJ_CHECKERS(PPCVirtualHypervisor, PPCVirtualHypervisorClass,
- void ppc_cpu_do_interrupt(CPUState *cpu);
- bool ppc_cpu_exec_interrupt(CPUState *cpu, int int_req);
- void ppc_cpu_dump_state(CPUState *cpu, FILE *f, int flags);
--void ppc_cpu_dump_statistics(CPUState *cpu, int flags);
- hwaddr ppc_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
- int ppc_cpu_gdb_read_register(CPUState *cpu, GByteArray *buf, int reg);
- int ppc_cpu_gdb_read_register_apple(CPUState *cpu, GByteArray *buf, int reg);
-diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
-index f5ae2f150d..bd05f53fa4 100644
---- a/target/ppc/cpu_init.c
-+++ b/target/ppc/cpu_init.c
-@@ -9250,9 +9250,6 @@ static void ppc_cpu_class_init(ObjectClass *oc, void *data)
-     cc-&gt;class_by_name = ppc_cpu_class_by_name;
-     cc-&gt;has_work = ppc_cpu_has_work;
-     cc-&gt;dump_state = ppc_cpu_dump_state;
--#ifdef CONFIG_TCG
--    cc-&gt;dump_statistics = ppc_cpu_dump_statistics;
--#endif
-</pre>
-        </blockquote>
-        <pre class="moz-quote-pre" wrap="">
-This confuses me.  The ifdefs you're removing aren't present in my
-tree, and AFAICT they never existed since your own patch created
-cpu_init.c.
-
-So.. please rebase and check that.
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-Duh, sorry, I looked at this set out of order with your latest !tcg
-patches.  Now that I've applied those, I've applied those one as well.
-</pre>
-    </blockquote>
-    Let me just check, where do you keep your most updated tree? I'm
-    rebasing on your github tree, but ppc-for-6.1 there seems quite
-    outdated (still the same as main)<br>
-    <div class="moz-signature">-- <br>
-      Bruno Piazera Larsen<br>
-      <a
-href="https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&amp;utm_medium=email&amp;utm_source=RD+Station">Instituto
-        de Pesquisas ELDORADO</a><br>
-      Departamento Computação Embarcada<br>
-      Analista de Software Trainee<br>
-      <a href="https://www.eldorado.org.br/disclaimer.html">Aviso Legal
-        - Disclaimer</a></div>
-  </body>
-</html>
-
---------------44E901FD6F60F85F3B117530--
 
