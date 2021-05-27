@@ -2,44 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 589FB39355B
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 20:18:27 +0200 (CEST)
-Received: from localhost ([::1]:57294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9684139354C
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 20:15:13 +0200 (CEST)
+Received: from localhost ([::1]:55080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lmKaQ-0001wu-BS
-	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 14:18:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35848)
+	id 1lmKXI-0000O0-L2
+	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 14:15:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36712)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bruno.larsen@eldorado.org.br>)
- id 1lmKQY-0003bf-MB; Thu, 27 May 2021 14:08:14 -0400
-Received: from [201.28.113.2] (port=34917 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bruno.larsen@eldorado.org.br>)
- id 1lmKQW-00026T-Hf; Thu, 27 May 2021 14:08:14 -0400
-Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Thu, 27 May 2021 15:08:03 -0300
-Received: from eldorado.org.br (unknown [10.10.71.235])
- by power9a (Postfix) with ESMTP id 9080B8013E1;
- Thu, 27 May 2021 15:08:03 -0300 (-03)
-From: "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 2/2] target/ppc: removed all mentions to PPC_DUMP_CPU
-Date: Thu, 27 May 2021 15:08:01 -0300
-Message-Id: <20210527180801.40513-3-bruno.larsen@eldorado.org.br>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210527180801.40513-1-bruno.larsen@eldorado.org.br>
-References: <20210527180801.40513-1-bruno.larsen@eldorado.org.br>
-X-OriginalArrivalTime: 27 May 2021 18:08:03.0730 (UTC)
- FILETIME=[3CA7A720:01D75323]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
-Received-SPF: pass client-ip=201.28.113.2;
- envelope-from=bruno.larsen@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
+ id 1lmKUf-0007NR-1I
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 14:12:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21908)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
+ id 1lmKUT-0004dJ-T4
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 14:12:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1622139135;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=INLLS9U8hGqfPBA1qaEZXq0RqR3lIQeHqItHfd05R5Q=;
+ b=g8/VijOReKK/cOofVtyk+kmEZAWRie/i58Cq6V7uwoAehjkvWkGevdRPACXR6n0634GIWh
+ P7MQbCHQOhj4pYHYQkYiNoiu0xV2PHlKoOVIIcMRBGszIMrekomTFPVUzFNxlN27ERFqod
+ YARqHo1hQZc/aHDg0CuG9zG4QNaW9yc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-127-LRNvlPiqMCG1rZIMlECUsw-1; Thu, 27 May 2021 14:12:05 -0400
+X-MC-Unique: LRNvlPiqMCG1rZIMlECUsw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8BB29800C60
+ for <qemu-devel@nongnu.org>; Thu, 27 May 2021 18:12:04 +0000 (UTC)
+Received: from wainer-laptop.localdomain (ovpn-116-187.gru2.redhat.com
+ [10.97.116.187])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5955F5B689;
+ Thu, 27 May 2021 18:11:57 +0000 (UTC)
+Subject: Re: [PATCH 1/1] tests/acceptance: change armbian archive to a faster
+ host
+To: Willian Rampazzo <willianr@redhat.com>, qemu-devel@nongnu.org
+References: <20210526205601.263444-1-willianr@redhat.com>
+ <20210526205601.263444-2-willianr@redhat.com>
+From: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Message-ID: <0162f7a0-e934-5f15-ecb0-8796bad67642@redhat.com>
+Date: Thu, 27 May 2021 15:11:55 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
+MIME-Version: 1.0
+In-Reply-To: <20210526205601.263444-2-willianr@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=wainersm@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.374,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -52,406 +85,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: farosas@linux.ibm.com, richard.henderson@linaro.org, groug@kaod.org,
- lucas.araujo@eldorado.org.br, fernando.valle@eldorado.org.br,
- qemu-ppc@nongnu.org, matheus.ferst@eldorado.org.br, luis.pires@eldorado.org.br,
- david@gibson.dropbear.id.au
+Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This feature will no longer be useful as ppc moves to using decotree for
-TCG. And building with it enabled is no longer possible, due to changes
-in opc_handler_t. Since the last commit that mentions it happened in
-2014, I think it is safe to remove it.
+Hi,
 
-Signed-off-by: Bruno Larsen (billionai) <bruno.larsen@eldorado.org.br>
----
- target/ppc/cpu_init.c  | 205 -----------------------------------------
- target/ppc/internal.h  |   2 -
- target/ppc/translate.c | 105 ---------------------
- 3 files changed, 312 deletions(-)
+On 5/26/21 5:56 PM, Willian Rampazzo wrote:
+> The current host for the image
+> Armbian_20.08.1_Orangepipc_bionic_current_5.8.5.img.xz
+> (archive.armbian.com) is extremely slow in the last couple of weeks,
+> making the job running the test
+> tests/system/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi_bionic_20_08
+> for the first time when the image is not yet on GitLab cache, time out
+> while the image is being downloaded.
+>
+> This changes the host to one faster, so new users with an empty cache
+> are not impacted.
 
-diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
-index bd05f53fa4..76fb741857 100644
---- a/target/ppc/cpu_init.c
-+++ b/target/ppc/cpu_init.c
-@@ -8496,45 +8496,6 @@ static void init_ppc_proc(PowerPCCPU *cpu)
-     }
- }
- 
--#if defined(PPC_DUMP_CPU)
--static void dump_ppc_sprs(CPUPPCState *env)
--{
--    ppc_spr_t *spr;
--#if !defined(CONFIG_USER_ONLY)
--    uint32_t sr, sw;
--#endif
--    uint32_t ur, uw;
--    int i, j, n;
--
--    printf("Special purpose registers:\n");
--    for (i = 0; i < 32; i++) {
--        for (j = 0; j < 32; j++) {
--            n = (i << 5) | j;
--            spr = &env->spr_cb[n];
--            uw = spr->uea_write != NULL && spr->uea_write != SPR_NOACCESS;
--            ur = spr->uea_read != NULL && spr->uea_read != SPR_NOACCESS;
--#if !defined(CONFIG_USER_ONLY)
--            sw = spr->oea_write != NULL && spr->oea_write != SPR_NOACCESS;
--            sr = spr->oea_read != NULL && spr->oea_read != SPR_NOACCESS;
--            if (sw || sr || uw || ur) {
--                printf("SPR: %4d (%03x) %-8s s%c%c u%c%c\n",
--                       (i << 5) | j, (i << 5) | j, spr->name,
--                       sw ? 'w' : '-', sr ? 'r' : '-',
--                       uw ? 'w' : '-', ur ? 'r' : '-');
--            }
--#else
--            if (uw || ur) {
--                printf("SPR: %4d (%03x) %-8s u%c%c\n",
--                       (i << 5) | j, (i << 5) | j, spr->name,
--                       uw ? 'w' : '-', ur ? 'r' : '-');
--            }
--#endif
--        }
--    }
--    fflush(stdout);
--    fflush(stderr);
--}
--#endif
- 
- static void ppc_cpu_realize(DeviceState *dev, Error **errp)
- {
-@@ -8571,172 +8532,6 @@ static void ppc_cpu_realize(DeviceState *dev, Error **errp)
- 
-     pcc->parent_realize(dev, errp);
- 
--#if defined(PPC_DUMP_CPU)
--    {
--        CPUPPCState *env = &cpu->env;
--        const char *mmu_model, *excp_model, *bus_model;
--        switch (env->mmu_model) {
--        case POWERPC_MMU_32B:
--            mmu_model = "PowerPC 32";
--            break;
--        case POWERPC_MMU_SOFT_6xx:
--            mmu_model = "PowerPC 6xx/7xx with software driven TLBs";
--            break;
--        case POWERPC_MMU_SOFT_74xx:
--            mmu_model = "PowerPC 74xx with software driven TLBs";
--            break;
--        case POWERPC_MMU_SOFT_4xx:
--            mmu_model = "PowerPC 4xx with software driven TLBs";
--            break;
--        case POWERPC_MMU_SOFT_4xx_Z:
--            mmu_model = "PowerPC 4xx with software driven TLBs "
--                "and zones protections";
--            break;
--        case POWERPC_MMU_REAL:
--            mmu_model = "PowerPC real mode only";
--            break;
--        case POWERPC_MMU_MPC8xx:
--            mmu_model = "PowerPC MPC8xx";
--            break;
--        case POWERPC_MMU_BOOKE:
--            mmu_model = "PowerPC BookE";
--            break;
--        case POWERPC_MMU_BOOKE206:
--            mmu_model = "PowerPC BookE 2.06";
--            break;
--        case POWERPC_MMU_601:
--            mmu_model = "PowerPC 601";
--            break;
--#if defined(TARGET_PPC64)
--        case POWERPC_MMU_64B:
--            mmu_model = "PowerPC 64";
--            break;
--#endif
--        default:
--            mmu_model = "Unknown or invalid";
--            break;
--        }
--        switch (env->excp_model) {
--        case POWERPC_EXCP_STD:
--            excp_model = "PowerPC";
--            break;
--        case POWERPC_EXCP_40x:
--            excp_model = "PowerPC 40x";
--            break;
--        case POWERPC_EXCP_601:
--            excp_model = "PowerPC 601";
--            break;
--        case POWERPC_EXCP_602:
--            excp_model = "PowerPC 602";
--            break;
--        case POWERPC_EXCP_603:
--            excp_model = "PowerPC 603";
--            break;
--        case POWERPC_EXCP_603E:
--            excp_model = "PowerPC 603e";
--            break;
--        case POWERPC_EXCP_604:
--            excp_model = "PowerPC 604";
--            break;
--        case POWERPC_EXCP_7x0:
--            excp_model = "PowerPC 740/750";
--            break;
--        case POWERPC_EXCP_7x5:
--            excp_model = "PowerPC 745/755";
--            break;
--        case POWERPC_EXCP_74xx:
--            excp_model = "PowerPC 74xx";
--            break;
--        case POWERPC_EXCP_BOOKE:
--            excp_model = "PowerPC BookE";
--            break;
--#if defined(TARGET_PPC64)
--        case POWERPC_EXCP_970:
--            excp_model = "PowerPC 970";
--            break;
--#endif
--        default:
--            excp_model = "Unknown or invalid";
--            break;
--        }
--        switch (env->bus_model) {
--        case PPC_FLAGS_INPUT_6xx:
--            bus_model = "PowerPC 6xx";
--            break;
--        case PPC_FLAGS_INPUT_BookE:
--            bus_model = "PowerPC BookE";
--            break;
--        case PPC_FLAGS_INPUT_405:
--            bus_model = "PowerPC 405";
--            break;
--        case PPC_FLAGS_INPUT_401:
--            bus_model = "PowerPC 401/403";
--            break;
--        case PPC_FLAGS_INPUT_RCPU:
--            bus_model = "RCPU / MPC8xx";
--            break;
--#if defined(TARGET_PPC64)
--        case PPC_FLAGS_INPUT_970:
--            bus_model = "PowerPC 970";
--            break;
--#endif
--        default:
--            bus_model = "Unknown or invalid";
--            break;
--        }
--        printf("PowerPC %-12s : PVR %08x MSR %016" PRIx64 "\n"
--               "    MMU model        : %s\n",
--               object_class_get_name(OBJECT_CLASS(pcc)),
--               pcc->pvr, pcc->msr_mask, mmu_model);
--#if !defined(CONFIG_USER_ONLY)
--        if (env->tlb.tlb6) {
--            printf("                       %d %s TLB in %d ways\n",
--                   env->nb_tlb, env->id_tlbs ? "splitted" : "merged",
--                   env->nb_ways);
--        }
--#endif
--        printf("    Exceptions model : %s\n"
--               "    Bus model        : %s\n",
--               excp_model, bus_model);
--        printf("    MSR features     :\n");
--        if (env->flags & POWERPC_FLAG_SPE) {
--            printf("                        signal processing engine enable"
--                   "\n");
--        } else if (env->flags & POWERPC_FLAG_VRE) {
--            printf("                        vector processor enable\n");
--        }
--        if (env->flags & POWERPC_FLAG_TGPR) {
--            printf("                        temporary GPRs\n");
--        } else if (env->flags & POWERPC_FLAG_CE) {
--            printf("                        critical input enable\n");
--        }
--        if (env->flags & POWERPC_FLAG_SE) {
--            printf("                        single-step trace mode\n");
--        } else if (env->flags & POWERPC_FLAG_DWE) {
--            printf("                        debug wait enable\n");
--        } else if (env->flags & POWERPC_FLAG_UBLE) {
--            printf("                        user BTB lock enable\n");
--        }
--        if (env->flags & POWERPC_FLAG_BE) {
--            printf("                        branch-step trace mode\n");
--        } else if (env->flags & POWERPC_FLAG_DE) {
--            printf("                        debug interrupt enable\n");
--        }
--        if (env->flags & POWERPC_FLAG_PX) {
--            printf("                        inclusive protection\n");
--        } else if (env->flags & POWERPC_FLAG_PMM) {
--            printf("                        performance monitor mark\n");
--        }
--        if (env->flags == POWERPC_FLAG_NONE) {
--            printf("                        none\n");
--        }
--        printf("    Time-base/decrementer clock source: %s\n",
--               env->flags & POWERPC_FLAG_RTC_CLK ? "RTC clock" : "bus clock");
--        dump_ppc_insns(env);
--        dump_ppc_sprs(env);
--        fflush(stdout);
--    }
--#endif
-     return;
- 
- unrealize:
-diff --git a/target/ppc/internal.h b/target/ppc/internal.h
-index 2b4b06eb76..f1fd3c8d04 100644
---- a/target/ppc/internal.h
-+++ b/target/ppc/internal.h
-@@ -218,8 +218,6 @@ void ppc_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
- 
- /* translate.c */
- 
--/* #define PPC_DUMP_CPU */
--
- int ppc_fixup_cpu(PowerPCCPU *cpu);
- void create_ppc_opcodes(PowerPCCPU *cpu, Error **errp);
- void destroy_ppc_opcodes(PowerPCCPU *cpu);
-diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-index 4b66563998..e16a2721e2 100644
---- a/target/ppc/translate.c
-+++ b/target/ppc/translate.c
-@@ -216,9 +216,6 @@ struct opc_handler_t {
-     uint64_t type2;
-     /* handler */
-     void (*handler)(DisasContext *ctx);
--#if defined(PPC_DUMP_CPU)
--    const char *oname;
--#endif
- };
- 
- /* SPR load/store helpers */
-@@ -8463,10 +8460,6 @@ static int register_direct_insn(opc_handler_t **ppc_opcodes,
-     if (insert_in_table(ppc_opcodes, idx, handler) < 0) {
-         printf("*** ERROR: opcode %02x already assigned in main "
-                "opcode table\n", idx);
--#if defined(PPC_DUMP_CPU)
--        printf("           Registered handler '%s' - new handler '%s'\n",
--               ppc_opcodes[idx]->oname, handler->oname);
--#endif
-         return -1;
-     }
- 
-@@ -8487,10 +8480,6 @@ static int register_ind_in_table(opc_handler_t **table,
-         if (!is_indirect_opcode(table[idx1])) {
-             printf("*** ERROR: idx %02x already assigned to a direct "
-                    "opcode\n", idx1);
--#if defined(PPC_DUMP_CPU)
--            printf("           Registered handler '%s' - new handler '%s'\n",
--                   ind_table(table[idx1])[idx2]->oname, handler->oname);
--#endif
-             return -1;
-         }
-     }
-@@ -8498,10 +8487,6 @@ static int register_ind_in_table(opc_handler_t **table,
-         insert_in_table(ind_table(table[idx1]), idx2, handler) < 0) {
-         printf("*** ERROR: opcode %02x already assigned in "
-                "opcode table %02x\n", idx2, idx1);
--#if defined(PPC_DUMP_CPU)
--        printf("           Registered handler '%s' - new handler '%s'\n",
--               ind_table(table[idx1])[idx2]->oname, handler->oname);
--#endif
-         return -1;
-     }
- 
-@@ -8683,96 +8668,6 @@ void destroy_ppc_opcodes(PowerPCCPU *cpu)
-     }
- }
- 
--#if defined(PPC_DUMP_CPU)
--static void dump_ppc_insns(CPUPPCState *env)
--{
--    opc_handler_t **table, *handler;
--    const char *p, *q;
--    uint8_t opc1, opc2, opc3, opc4;
--
--    printf("Instructions set:\n");
--    /* opc1 is 6 bits long */
--    for (opc1 = 0x00; opc1 < PPC_CPU_OPCODES_LEN; opc1++) {
--        table = env->opcodes;
--        handler = table[opc1];
--        if (is_indirect_opcode(handler)) {
--            /* opc2 is 5 bits long */
--            for (opc2 = 0; opc2 < PPC_CPU_INDIRECT_OPCODES_LEN; opc2++) {
--                table = env->opcodes;
--                handler = env->opcodes[opc1];
--                table = ind_table(handler);
--                handler = table[opc2];
--                if (is_indirect_opcode(handler)) {
--                    table = ind_table(handler);
--                    /* opc3 is 5 bits long */
--                    for (opc3 = 0; opc3 < PPC_CPU_INDIRECT_OPCODES_LEN;
--                            opc3++) {
--                        handler = table[opc3];
--                        if (is_indirect_opcode(handler)) {
--                            table = ind_table(handler);
--                            /* opc4 is 5 bits long */
--                            for (opc4 = 0; opc4 < PPC_CPU_INDIRECT_OPCODES_LEN;
--                                 opc4++) {
--                                handler = table[opc4];
--                                if (handler->handler != &gen_invalid) {
--                                    printf("INSN: %02x %02x %02x %02x -- "
--                                           "(%02d %04d %02d) : %s\n",
--                                           opc1, opc2, opc3, opc4,
--                                           opc1, (opc3 << 5) | opc2, opc4,
--                                           handler->oname);
--                                }
--                            }
--                        } else {
--                            if (handler->handler != &gen_invalid) {
--                                /* Special hack to properly dump SPE insns */
--                                p = strchr(handler->oname, '_');
--                                if (p == NULL) {
--                                    printf("INSN: %02x %02x %02x (%02d %04d) : "
--                                           "%s\n",
--                                           opc1, opc2, opc3, opc1,
--                                           (opc3 << 5) | opc2,
--                                           handler->oname);
--                                } else {
--                                    q = "speundef";
--                                    if ((p - handler->oname) != strlen(q)
--                                        || (memcmp(handler->oname, q, strlen(q))
--                                            != 0)) {
--                                        /* First instruction */
--                                        printf("INSN: %02x %02x %02x"
--                                               "(%02d %04d) : %.*s\n",
--                                               opc1, opc2 << 1, opc3, opc1,
--                                               (opc3 << 6) | (opc2 << 1),
--                                               (int)(p - handler->oname),
--                                               handler->oname);
--                                    }
--                                    if (strcmp(p + 1, q) != 0) {
--                                        /* Second instruction */
--                                        printf("INSN: %02x %02x %02x "
--                                               "(%02d %04d) : %s\n", opc1,
--                                               (opc2 << 1) | 1, opc3, opc1,
--                                               (opc3 << 6) | (opc2 << 1) | 1,
--                                               p + 1);
--                                    }
--                                }
--                            }
--                        }
--                    }
--                } else {
--                    if (handler->handler != &gen_invalid) {
--                        printf("INSN: %02x %02x -- (%02d %04d) : %s\n",
--                               opc1, opc2, opc1, opc2, handler->oname);
--                    }
--                }
--            }
--        } else {
--            if (handler->handler != &gen_invalid) {
--                printf("INSN: %02x -- -- (%02d ----) : %s\n",
--                       opc1, opc1, handler->oname);
--            }
--        }
--    }
--}
--#endif
- int ppc_fixup_cpu(PowerPCCPU *cpu)
- {
-     CPUPPCState *env = &cpu->env;
--- 
-2.17.1
+Here the old host performed slightly better: download time of 0:17:36 vs 
+0:19:44. Maybe it was a temporary issue with the old host or maybe 
+GitLab's runner network?
+
+Anyway,
+
+Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+
+
+>
+> Signed-off-by: Willian Rampazzo <willianr@redhat.com>
+> ---
+>   tests/acceptance/boot_linux_console.py | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
+> index 276a53f146..51c23b822c 100644
+> --- a/tests/acceptance/boot_linux_console.py
+> +++ b/tests/acceptance/boot_linux_console.py
+> @@ -804,7 +804,8 @@ def test_arm_orangepi_bionic_20_08(self):
+>           # to 1036 MiB, but the underlying filesystem is 1552 MiB...
+>           # As we expand it to 2 GiB we are safe.
+>   
+> -        image_url = ('https://archive.armbian.com/orangepipc/archive/'
+> +        image_url = ('https://armbian.systemonachip.net/'
+> +                     'archive/orangepipc/archive/'
+>                        'Armbian_20.08.1_Orangepipc_bionic_current_5.8.5.img.xz')
+>           image_hash = ('b4d6775f5673486329e45a0586bf06b6'
+>                         'dbe792199fd182ac6b9c7bb6c7d3e6dd')
 
 
