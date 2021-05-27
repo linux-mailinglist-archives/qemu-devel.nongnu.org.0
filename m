@@ -2,69 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33609392FB7
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 15:29:43 +0200 (CEST)
-Received: from localhost ([::1]:42550 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AEBC392FDB
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 15:36:05 +0200 (CEST)
+Received: from localhost ([::1]:53298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lmG50-0005O9-8T
-	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 09:29:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40128)
+	id 1lmGB9-0004Nf-1R
+	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 09:36:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40148)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lmFi3-0008Ao-0B
- for qemu-devel@nongnu.org; Thu, 27 May 2021 09:05:59 -0400
-Received: from indium.canonical.com ([91.189.90.7]:35816)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lmFi4-0008DW-1Q
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 09:06:00 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:44769)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lmFhz-0004SE-FM
- for qemu-devel@nongnu.org; Thu, 27 May 2021 09:05:58 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lmFhj-0002PW-53
- for <qemu-devel@nongnu.org>; Thu, 27 May 2021 13:05:39 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 204CF2E8075
- for <qemu-devel@nongnu.org>; Thu, 27 May 2021 13:05:39 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lmFi0-0004Ts-4h
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 09:05:59 -0400
+Received: by mail-wr1-x430.google.com with SMTP id r10so4647894wrj.11
+ for <qemu-devel@nongnu.org>; Thu, 27 May 2021 06:05:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=jddI1+dmAzr8wcQtm44r/Is9Mz5cxn0ZekTZEhrkl80=;
+ b=A/VxuXxN7tsWsUKyJ5VL/jVZaQJWcKraYUuEVoJCIzxky4piikBNlnKVTQnIDb3byL
+ S0uKn3mDqr1vPaqiWFTISoUkPZzGV0sYsvTH8HLRbbf/fDbJ9Q5Eq3Q76uhRDNIw+4yb
+ BNlvSxjDW9I/UuCVaA+HTqjml5pQHHloVcRrL0v7vdoXPnNS/+kuNs/imedzfS1lkvSP
+ tE0KsNMo1Svpx+hyl4bPnqc/pYU7LhjlPy6+WmsUr/5lGNLGfeKicSk4MDWziB2zIWO4
+ oCk18DJDZls5B10Nfqm7b+nXZXbPJYJiT8cZHtaGem30JMogkpA51qFv/0I38EmETSbB
+ KR0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=jddI1+dmAzr8wcQtm44r/Is9Mz5cxn0ZekTZEhrkl80=;
+ b=iCLeHJfgo4PBLj4qjv0Slu2IXA5Oqu7agorJdI2QVt9Ml0NSPkPKNpwxtvh86r/zCP
+ whDm3HW+TlwGkeBBFryezQwecvhRW85cAwFm8AGkyofMkwyTLRVPMSY2NE9gLgRtPwUV
+ F01lLjcR8uOCYAOn0ayJ38irVCnCJQo1bmR0n+qJ5HCtEdjkOm/BKa0FVvmSaJWe2mn4
+ cBcs0DrMuAJA9U31ZPAvcjUtizg5XnhTF/yeNRMSsPKR31308L2LoU/myBqFjc61mKkw
+ roxBaQX7BayxOl44HLjz+7vgEWJnFAg+pZT8Cw9ZY8iNHsM1w9OaS3g0U7FoAVRiife8
+ dCHg==
+X-Gm-Message-State: AOAM533Ia1A/Ub2EwZdr/VjfFqZCFGxdpsL9qOAToMjD0jxZSTAZN/NM
+ ccTC7lV/PZAxiTyaUNI/6wXoFA==
+X-Google-Smtp-Source: ABdhPJxCN3zF5tYb+QMhlY9s3cV/KTJVqAJQ4R1IZb/MlpvS0MJYiN+z/d+B5DnxwFFb/uuYQo9QzA==
+X-Received: by 2002:a05:6000:110b:: with SMTP id
+ z11mr3211135wrw.278.1622120749940; 
+ Thu, 27 May 2021 06:05:49 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id h8sm3071539wrw.85.2021.05.27.06.05.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 27 May 2021 06:05:48 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 5A5471FF7E;
+ Thu, 27 May 2021 14:05:47 +0100 (BST)
+References: <20210525082556.4011380-1-f4bug@amsat.org>
+ <20210525082556.4011380-7-f4bug@amsat.org>
+ <8c74e90e-ed4c-9e96-cf87-c0c413e48eaa@amsat.org>
+ <177aee51-ac23-5321-021c-a8244ddf254e@redhat.com>
+User-agent: mu4e 1.5.13; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH 6/9] gitlab-ci: Split gprof-gcov job
+Date: Thu, 27 May 2021 14:04:49 +0100
+In-reply-to: <177aee51-ac23-5321-021c-a8244ddf254e@redhat.com>
+Message-ID: <871r9s2uok.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 27 May 2021 12:57:24 -0000
-From: Thomas Huth <1829682@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: ppc64
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: gkurz ivmn kennethsalerno th-huth
-X-Launchpad-Bug-Reporter: Ivan Warren (ivmn)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-X-Launchpad-Bug-Duplicate: 1874264
-References: <155831074982.26912.13291059176555697592.malonedeb@soybean.canonical.com>
-Message-Id: <162212024487.8528.4574630466356424253.malone@wampee.canonical.com>
-Subject: [Bug 1829682] Re: QEMU PPC SYSTEM regression - 3.1.0 and GIT - Fail
- to boot AIX
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="325c8b1be58d11b29d8346f2c6d59878e7a2e6ff"; Instance="production"
-X-Launchpad-Hash: dee1f3ad49aa745204b476ab2144b3e2c0b8ccc1
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x430.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,209 +90,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1829682 <1829682@bugs.launchpad.net>
+Cc: Willian Rampazzo <willianr@redhat.com>, "Daniel
+ P . Berrange" <berrange@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-*** This bug is a duplicate of bug 1874264 ***
-    https://bugs.launchpad.net/bugs/1874264
 
-We already have a different ticket to track the AIX 7.2 issue here:
- https://gitlab.com/qemu-project/qemu/-/issues/269
-Please continue with the discussion there instead, thanks!
+Thomas Huth <thuth@redhat.com> writes:
 
-** This bug has been marked a duplicate of bug 1874264
-   AIX 7.2 TL4 SP1 cannot IPL with QEMU >2.11.2 ppc64-softmmu
+> On 25/05/2021 12.21, Philippe Mathieu-Daud=C3=A9 wrote:
+>> On 5/25/21 10:25 AM, Philippe Mathieu-Daud=C3=A9 wrote:
+>>> This job is hitting the 70min limit, so split it in 2 tasks.
+>>>
+>>> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+>>> ---
+>>>   .gitlab-ci.d/buildtest.yml | 17 ++++++++++++++---
+>>>   1 file changed, 14 insertions(+), 3 deletions(-)
+>>>
+>>> diff --git a/.gitlab-ci.d/buildtest.yml b/.gitlab-ci.d/buildtest.yml
+>>> index f903fdea3f4..894732e203d 100644
+>>> --- a/.gitlab-ci.d/buildtest.yml
+>>> +++ b/.gitlab-ci.d/buildtest.yml
+>>> @@ -564,16 +564,27 @@ check-deprecated:
+>>>     allow_failure: true
+>>>     # gprof/gcov are GCC features
+>>> -gprof-gcov:
+>>> +build-gprof-gcov:
+>>>     extends: .native_build_job_template
+>>>     needs:
+>>>       job: amd64-ubuntu2004-container
+>>>     variables:
+>>>       IMAGE: ubuntu2004
+>>>       CONFIGURE_ARGS: --enable-gprof --enable-gcov
+>>> -    MAKE_CHECK_ARGS: check
+>>>       TARGETS: aarch64-softmmu ppc64-softmmu s390x-softmmu x86_64-softm=
+mu
+>>> -  timeout: 70m
+>>> +  artifacts:
+>>> +    expire_in: 1 days
+>>> +    paths:
+>>> +      - build
+>> FYI this job takes 28min:
+>> https://gitlab.com/philmd/qemu/-/jobs/1290778672
+>>=20
+>>> +
+>>> +check-gprof-gcov:
+>>> +  extends: .native_test_job_template
+>>> +  needs:
+>>> +    - job: build-gprof-gcov
+>>> +      artifacts: true
+>>> +  variables:
+>>> +    IMAGE: ubuntu2004
+>>> +    MAKE_CHECK_ARGS: check
+>>>     after_script:
+>>>       - ${CI_PROJECT_DIR}/scripts/ci/coverage-summary.sh
+>> and this one 23min:
+>> https://gitlab.com/philmd/qemu/-/jobs/1290778751
+>
+> So why are they taking less than 70 minutes when split in two parts,
+> but are exceeding  the 70 minutes when done in one job?
+> That does not make sense...
 
-** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #269
-   https://gitlab.com/qemu-project/qemu/-/issues/269
+The time just seems to be highly variable. Normally I see succeeding
+runs take ~40 minutes. I suspect there is some aspect of the profiling
+code that interacts poorly under load leading to much longer runtimes.
 
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1829682
-
-Title:
-  QEMU PPC SYSTEM regression - 3.1.0 and GIT - Fail to boot AIX
-
-Status in QEMU:
-  Incomplete
-
-Bug description:
-  Built from source on a debian system
-
-  Linux db08 4.9.0-8-amd64 #1 SMP Debian 4.9.130-2 (2018-10-27) x86_64 GNU/=
-Linux
-  gcc version 6.3.0 20170516 (Debian 6.3.0-18+deb9u1)
-
-  Last git commit (from queued gdibson repository)
-
-  starting AIX 7.2 TL 2 SP 2 with the following : (the install was done
-  under qemu 3.1.0)
-
-  qemu-system-ppc64 -M pseries \
-      -cpu power7 \
-      -cdrom AIX_v7.2_Install_7200-02-02-1806_DVD_1_of_2_32018.iso \
-      -net nic \
-      -net tap,ifname=3Dtap2,script=3Dno \
-      -drive file=3DDISK1.IMG,if=3Dnone,id=3Ddrive-virtio-disk0 \
-      -device virtio-scsi-pci,id=3Dscsi -device scsi-hd,drive=3Ddrive-virti=
-o-disk0 \
-      -m 4G \
-      -serial stdio \
-      -monitor unix:ms,server,nowait \
-      -accel tcg \
-      -k fr \
-      -nographic \
-      -prom-env input-device=3D/vdevice/vty@71000000 \
-      -prom-env output-device=3D/vdevice/vty@71000000 \
-      -prom-env diag-switch?=3Dfalse \
-      -prom-env boot-command=3D"boot /pci@800000020000000/scsi@2/disk@10000=
-0000000000 -s verbose"
-
-  Yields this :
-
-  =
-
-  ^M
-  SLOF^[[0m^[[?25l ********************************************************=
-**************^M
-  ^[[1mQEMU Starting^M
-  ^[[0m Build Date =3D Jan 14 2019 18:00:39^M
-   FW Version =3D git-a5b428e1c1eae703^M
-   Press "s" to enter Open Firmware.^M^M
-  ^M^M
-  ^[[0m^[[?25hC0000^MC0100^MC0120^MC0140^MC0200^MC0240^MC0260^MC02E0^MC0300=
-^MC0320^MC0340^MC0360^MC0370^MC0380^MC0371^MC0372^MC0373^MC0374^MC03F0^MC04=
-00^MC0480^MC04C0^MC04D0^MC0500^MPopulating /vdevice methods^M
-  Populating /vdevice/vty@71000000^M
-  Populating /vdevice/nvram@71000001^M
-  Populating /vdevice/l-lan@71000002^M
-  Populating /vdevice/v-scsi@71000003^M
-         SCSI: Looking for devices^M
-            8200000000000000 CD-ROM   : "QEMU     QEMU CD-ROM      2.5+"^M
-  C05A0^MPopulating /pci@800000020000000^M
-                       00 0000 (D) : 1234 1111    qemu vga^M
-                       00 0800 (D) : 1033 0194    serial bus [ usb-xhci ]^M
-                       00 1000 (D) : 1af4 1004    virtio [ scsi ]^M
-  Populating /pci@800000020000000/scsi@2^M
-         SCSI: Looking for devices^M
-            100000000000000 DISK     : "QEMU     QEMU HARDDISK    2.5+"^M
-  C0600^MC06C0^MC0700^MC0800^MC0880^MC0890^MC08A0^MC08A8^MInstalling QEMU f=
-b^M
-  ^M
-  ^M
-  ^M
-  C08B0^MScanning USB ^M
-    XHCI: Initializing^M
-      USB Keyboard ^M
-      USB mouse ^M
-  C08C0^MC08D0^MNo console specified using screen & keyboard^M
-  User selected input-device console: /vdevice/vty@71000000^M
-  User selected output-device console: /vdevice/vty@71000000^M
-  C08E0^MC08E8^MC08FF^M     ^M
-    Welcome to Open Firmware^M
-  ^M
-    Copyright (c) 2004, 2017 IBM Corporation All rights reserved.^M
-    This program and the accompanying materials are made available^M
-    under the terms of the BSD License available at^M
-    http://www.opensource.org/licenses/bsd-license.php^M
-  ^M
-  ^M
-  Trying to load: -s verbose from: /pci@800000020000000/scsi@2/disk@1000000=
-00000000 ...   Successfully loaded^M
-  ^M
-                          ---> qemu,pseries detected <---^M
-  ^M
-  ^M
-  ^M
-  ^M
-  ^M
-  ^M
-  ^M
-  -------------------------------------------------------------------------=
-------^M
-                                  Welcome to AIX.^M
-                     boot image timestamp: 05:56:13 04/20/2019^M
-          processor count: 1;  memory size: 4096MB;  kernel size: 38426884^M
-           boot device: /pci@800000020000000/scsi@2/disk@100000000000000^M
-  ^M
-  8000FFEC bytes of free memory remain at address 7FFF0014^M
-  load address: 0x00004000   aixmon size: 0x000D2C00   boot image size: 0x0=
-1A6B430^M
-  ^LAIX vm,uuid property contains invalid data^Mload address: 0x00004000   =
-aixmon size: 0x000D2C00   boot image size: 0x01A6B430^M
-  ^LAIX vm,uuid property contains invalid data^M
-  get_ppp return code: 0xFFFFFFFE^M
-  ^M
-  AKVM: hcall-multi-tce detected but overridden, allow with "multce" boot a=
-rgument^M
-  The temporary memory region list is at 1 percent capacity.^M
-  The temporary IPLCB is at 1 percent capacity.^M
-  The IPLCB address is 0x0FFF9000^M
-  name                 offset           size^M
-  ipl_cb_and_bit_map 00000000 ......00005958^M
-  bit_map........... 00000790 ......00000006^M
-  ipl_info.......... 000001C8 ......00000024^M
-  splpar_info....... 000001EC ......00000048^M
-  system_info....... 00000234 ......000000C4^M
-  processor_info.... 000002F8 ......00000148^M
-  lpar_id_info...... 00000440 ......00000088^M
-  dr_proc_info...... 000004C8 ......00000008^M
-  dr_mem_info....... 000004D0 ......00000028^M
-  lpar_info......... 000004F8 ......00000014^M
-  segment page...... 00000518 ......00000028^M
-  processor page.... 00000540 ......00000010^M
-  res_asso_id....... 00000550 ......00000050^M
-  res_asso_group.... 000005A0 ......00000048^M
-  asso_ref_pnt...... 000005E8 ......00000010^M
-  residual.......... 00000820 ......00005138^M
-  fwad_info......... 000005F8 ......00000040^M
-  contig mem rsv.... 00000738 ......00000058^M
-      region address      region length       attr  label^M
-  0   0x0000000000000000  0x000000000FFF7000  0x01  0x01^M
-  1   0x000000000FFF7000  0x0000000000002000  0x01  0x03^M
-  2   0x000000000FFF9000  0x0000000000006000  0x01  0x02^M
-  3   0x000000000FFFF000  0x0000000000000014  0x00  0x05^M
-  4   0x000000000FFFF014  0x00000000F0000FEC  0x01  0x01^M
-  5   0x0000000100000000  0xFFFFFFFF00000000  0x00  0x07^M
-  ----------------------------^M
-  ^M
-  0000012C bytes of free memory remain at address 00004000^M
-  compressed kernel addr: D6C00;  sz: 98CE33;  uncompressed kernel addr:  1=
-DB59600^M
-           name     source       dest       size   flags^M
-   0      .data   1e6f9840    2000000    12bdd20     1^M
-   1    basecfg    1b04000    fff5000       15d9     1^M
-   2      ramfs     a63a30    efe9000    100b82a     1^M
-   3      .text   1db59840      d6c00     ba0000     1^M
-   4       .ldr   1f9b7560     c77000      a9523     1^M
-   5     symtab   1fe0aaf4     d21000     1f4410     1^M
-   6  kern. hdr   1db59600          0        240     1^M
-   7       .bss          0    32bdd20    27222e0     2^M
-  free space between BSS and RAM filesystem: 09609000^M
-  ^M
-  entry_point: 0x000D6C28^M
-                         kernel debugger setting: enabled^M
-  -------------------------------------------------------------------------=
-------^M
-  ^LStarLED{A20}^M
-  Data Storage Interrupt - PROC^M
-  .dispatch+000098              lwz    r0,1830(r6)         r0=3D0,1830(r6)=
-=3DF00000002FF48E30^M
-  KDB(0)>
-
-  (apologies for all the ^M - they are emitted by qemu or AIX - not
-  sure)
-
-  Using the same command to boot AIX from 3.1.0 works (no DSI
-  Interrupt). - Other problems occur later, but no Kernel interrupt,
-  only user space problems - and that's another problem - but one at a
-  time !
-
-  --Ivan
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1829682/+subscriptions
+--=20
+Alex Benn=C3=A9e
 
