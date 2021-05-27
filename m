@@ -2,44 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA7D0392497
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 03:53:18 +0200 (CEST)
-Received: from localhost ([::1]:59704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6579039249C
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 03:54:23 +0200 (CEST)
+Received: from localhost ([::1]:37912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lm5D3-0006EZ-Qy
-	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 21:53:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52108)
+	id 1lm5E6-00024S-6D
+	for lists+qemu-devel@lfdr.de; Wed, 26 May 2021 21:54:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52106)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lm58U-00062y-Ll; Wed, 26 May 2021 21:48:34 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:35385 helo=ozlabs.org)
+ id 1lm58U-00062c-IJ; Wed, 26 May 2021 21:48:34 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:46991 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lm58S-0001tK-Hl; Wed, 26 May 2021 21:48:34 -0400
+ id 1lm58S-0001tE-H5; Wed, 26 May 2021 21:48:34 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4Fr9gz1ZrBz9sWc; Thu, 27 May 2021 11:48:15 +1000 (AEST)
+ id 4Fr9gz1xMRz9sWp; Thu, 27 May 2021 11:48:15 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1622080095;
- bh=g+xTXyRaN0kIIrDI7sBwFS+GkR/rlJ+sPWN/VYjMu6I=;
+ bh=vedFwsPShwM6+1+cxCwo9Sg2+okG+WJDz3RlIdSohkc=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=mJrC3IAQyf05NkimJvSu5IdI/AORf4jUTpPreK5dH+w2Siq12qEMh5aj2XmroSuJN
- q/TkXhJaC4QujxoM64JVxCkAjs9Zs1V/ymKhlWpSOL/+RhIheWXGI6Tk0uajJvNvD3
- lHba2ybYMXb7MvNDfWqMk2f+QlnGBfpraFJMKWpY=
-Date: Thu, 27 May 2021 11:28:16 +1000
+ b=J66TMlWtzLjoB+ZwbO/UjeLnQLtxxWocKFgaAYXr7fRPVowiUaawat4lEhy3E6v8z
+ b8/CoH8n0KMWQwVJDo6siOqxE3z1amzuVILulkTuVywq2Jr0/Tw7dwwzO3eJ/truX2
+ iwLaj6tqhlb6aQhKsOCuGCk7l9I7w9Feu8VBO39A=
+Date: Thu, 27 May 2021 11:29:22 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
-To: Nicholas Piggin <npiggin@gmail.com>
-Subject: Re: [PATCH v1 1/3] spapr: Remove stale comment about power-saving
- LPCR bits
-Message-ID: <YK71sJkPVHbt5FXi@yekko>
+To: Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH v1 2/3] spapr: Set LPCR to current AIL mode when starting
+ a new CPU
+Message-ID: <YK718jkXZqbwBjcy@yekko>
 References: <20210526091626.3388262-1-npiggin@gmail.com>
- <20210526091626.3388262-2-npiggin@gmail.com>
+ <20210526091626.3388262-3-npiggin@gmail.com>
+ <20210526180309.24b189c3@bahia.lan>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="jsN+Zzn0HEnH537y"
+ protocol="application/pgp-signature"; boundary="YF+5zYCWwojyDmBD"
 Content-Disposition: inline
-In-Reply-To: <20210526091626.3388262-2-npiggin@gmail.com>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+In-Reply-To: <20210526180309.24b189c3@bahia.lan>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -59,43 +60,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
+Cc: qemu-ppc@nongnu.org, =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
+ Nicholas Piggin <npiggin@gmail.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---jsN+Zzn0HEnH537y
+--YF+5zYCWwojyDmBD
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, May 26, 2021 at 07:16:24PM +1000, Nicholas Piggin wrote:
-> Commit 47a9b551547 ("spapr: Clean up handling of LPCR power-saving exit
-> bits") moved this logic but did not remove the comment from the
-> previous location.
+On Wed, May 26, 2021 at 06:03:09PM +0200, Greg Kurz wrote:
+> On Wed, 26 May 2021 19:16:25 +1000
+> Nicholas Piggin <npiggin@gmail.com> wrote:
 >=20
-> Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
+> > TCG does not keep track of AIL mode in a central place, it's based on
+> > the current LPCR[AIL] bits. Synchronize the new CPU's LPCR to the
+> > current LPCR in rtas_start_cpu(), similarly to the way the ILE bit is
+> > synchronized.
+> >=20
+> > Open-code the ILE setting as well now that the caller's LPCR is
+> > available directly, there is no need for the indirection.
+> >=20
+> > Without this, under both TCG and KVM, adding a POWER8/9/10 class CPU
+> > with a new core ID after a modern Linux has booted results in the new
+> > CPU's LPCR missing the LPCR[AIL]=3D0b11 setting that the other CPUs hav=
+e.
+> > This can cause crashes and unexpected behaviour.
+> >=20
+> > Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
+> > ---
+> >  hw/ppc/spapr_rtas.c | 14 +++++++++-----
+> >  1 file changed, 9 insertions(+), 5 deletions(-)
+> >=20
+> > diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
+> > index 63d96955c0..b476382ae6 100644
+> > --- a/hw/ppc/spapr_rtas.c
+> > +++ b/hw/ppc/spapr_rtas.c
+> > @@ -132,8 +132,8 @@ static void rtas_start_cpu(PowerPCCPU *callcpu, Spa=
+prMachineState *spapr,
+> >      target_ulong id, start, r3;
+> >      PowerPCCPU *newcpu;
+> >      CPUPPCState *env;
+> > -    PowerPCCPUClass *pcc;
+> >      target_ulong lpcr;
+> > +    target_ulong caller_lpcr;
+> > =20
+> >      if (nargs !=3D 3 || nret !=3D 1) {
+> >          rtas_st(rets, 0, RTAS_OUT_PARAM_ERROR);
+> > @@ -152,7 +152,6 @@ static void rtas_start_cpu(PowerPCCPU *callcpu, Spa=
+prMachineState *spapr,
+> >      }
+> > =20
+> >      env =3D &newcpu->env;
+> > -    pcc =3D POWERPC_CPU_GET_CLASS(newcpu);
+> > =20
+> >      if (!CPU(newcpu)->halted) {
+> >          rtas_st(rets, 0, RTAS_OUT_HW_ERROR);
+> > @@ -164,10 +163,15 @@ static void rtas_start_cpu(PowerPCCPU *callcpu, S=
+paprMachineState *spapr,
+> >      env->msr =3D (1ULL << MSR_SF) | (1ULL << MSR_ME);
+> >      hreg_compute_hflags(env);
+> > =20
+> > +    caller_lpcr =3D callcpu->env.spr[SPR_LPCR];
+> >      lpcr =3D env->spr[SPR_LPCR];
+> > -    if (!pcc->interrupts_big_endian(callcpu)) {
+> > -        lpcr |=3D LPCR_ILE;
+> > -    }
+> > +
+> > +    /* Set ILE the same way */
+> > +    lpcr =3D (lpcr & ~LPCR_ILE) | (caller_lpcr & LPCR_ILE);
+> > +
+>=20
+> Unrelated change as Cedric already noted but that's nice :)
+>=20
+> /me starting to think we might do the same elsewhere and
+> maybe get rid of PowerPCCPUClass::interrupts_big_endian()
+
+Yes, that's a nice thought.
+
+> > +    /* Set AIL the same way */
+> > +    lpcr =3D (lpcr & ~LPCR_AIL) | (caller_lpcr & LPCR_AIL);
+> > +
+>=20
+> It seems better indeed to rely on the calling CPU here rather
+> than the arbitrary first_cpu in the hotplug handler.
+
+I agree.
+
+> Reviewed-by: Greg Kurz <groug@kaod.org>
 
 Applied to ppc-for-6.1, thanks.
 
-> ---
->  hw/ppc/spapr_rtas.c | 1 -
->  1 file changed, 1 deletion(-)
 >=20
-> diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
-> index 03355b4c0a..63d96955c0 100644
-> --- a/hw/ppc/spapr_rtas.c
-> +++ b/hw/ppc/spapr_rtas.c
-> @@ -164,7 +164,6 @@ static void rtas_start_cpu(PowerPCCPU *callcpu, Spapr=
-MachineState *spapr,
->      env->msr =3D (1ULL << MSR_SF) | (1ULL << MSR_ME);
->      hreg_compute_hflags(env);
-> =20
-> -    /* Enable Power-saving mode Exit Cause exceptions for the new CPU */
->      lpcr =3D env->spr[SPR_LPCR];
->      if (!pcc->interrupts_big_endian(callcpu)) {
->          lpcr |=3D LPCR_ILE;
+> >      if (env->mmu_model =3D=3D POWERPC_MMU_3_00) {
+> >          /*
+> >           * New cpus are expected to start in the same radix/hash mode
+>=20
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -103,25 +165,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---jsN+Zzn0HEnH537y
+--YF+5zYCWwojyDmBD
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmCu9bAACgkQbDjKyiDZ
-s5KWGw/7BK3PsnMGEMSMpCVTJP0TD/094sje1nS13V0he+6gf4vP9U7iIVMKufh6
-HjRNbl0sG79vSH8Zr0Qy5AFGN3VKpp5JSxSU6JKMtGyhG41n8C5QcDaucjWkn2Cd
-u3TU4JpGGQ1+J8SbotnVc6wJBqHzrMKWL6kLA1FUCcIqX4OQl2LwN3fA4lYmzybU
-okbLOmza/VKV96C16ISwQBY8RYWwZbAGViCECyTxOFTtgCBGWR0ObopGNWfR8Bm1
-HS5l5CWRclqHpsnYzXC6dtyhLTU15yU88dMcs/VFx3QG42biLW5Hj7EESEtd6AIE
-DhHyp0oxu8Ttu+oMOxO9yU+7i2CgFXHzNr69/PBMYrDo/UWguSJkHi4U4eXxicrr
-HGW4kFd/2Isbkrjt8t5/9/HoUREc8150R5fp0WUz1tEoBlx8c3I7G3mqV4wk8Mll
-k9qhOxaxhJPlM9Mddtm8FsLs7Cnx4xvlQ4gZcOn0OREahJT1tDHjYL9qD/Npme/v
-uJtBTLyCK/a+zp6aoSp+Dt2ntwpNywGvbK9vyzW6jGDwmB3CEuWnnEOewjXHuIgG
-oG1jWSLLZX3aiNAGrQAbSVs6MHlJb6OxHwNwH/zwJJ+nlC3XputPW515tjpfEON0
-bdUJv40mIQWiRpCAp8gBKCv+PW67oF0BZ1pEr+Q+BuNiT+PIdd0=
-=UqwH
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmCu9fEACgkQbDjKyiDZ
+s5KuiBAAuG4z8Myij1nPSTUOv+apHJ89yLh1Z/KybYb9zMAxsYJ3+QLp9hSaYStg
+ZC8kjHRAYSBIyRJ3+pBIKfDOnnMRKM0w/CoUXfvyXl+1QWXAfuCQ57qcpmOKW1Rr
+He1KqdJaWzbGcR3VhEwjoqS3JUYZm32Y/ImhRpehnA6qwtR3pGzX+hfzANCTHvgu
+TE5HW7rkzajgOUmRX5dvK3Ji2e8tSJ3A6FbuBF/HltjnZdAb2/6ddBZZkOZZgKKm
+9xApHbSj3JqZVfAk12syysNFvAiz/7yTcdCHYMfcxKGII/QkibGnOYcSfQyRHOO5
+rdzlY4CBRCDJq69i3zxIKv2xo+c7InbLd5sfqcKumjm969GxK/eAFMEgfVYMz0zC
+a+NEkpLnmErvWg1bGvjUeSLpW1bqWM9AiDC3DkdNJgvZiQIDv1Fn6cAKY0ajjP5b
+0u3i+VCAiEGKVdnUXAeoQlF3RmQWQB8nj0LUsnUt9bBIHX4L1vyILCJuvt2yWFT5
+JN1TAoGRK4/xwrMBsjd3k7mAYodCquKelCEYd56wFoH0CQvBWjj4wZdMXIT8UERO
+nGZniSQx1LQZz9WPAimtZxCiAAlB7Wf2ulDe9yL+F/5BXcL7EPoBTr3rIqiX95xo
+8J3dg9a8mXEvyMMVCPwYGwXg5VeYZ2dh4yuccVBHfiYvM2pFOzk=
+=NvrR
 -----END PGP SIGNATURE-----
 
---jsN+Zzn0HEnH537y--
+--YF+5zYCWwojyDmBD--
 
