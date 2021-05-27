@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FB653926DE
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 07:26:51 +0200 (CEST)
-Received: from localhost ([::1]:47342 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01AB73926D5
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 07:24:10 +0200 (CEST)
+Received: from localhost ([::1]:38980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lm8Xi-0008Bi-8c
-	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 01:26:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56898)
+	id 1lm8V7-0002fA-13
+	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 01:24:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56842)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ysato@users.sourceforge.jp>)
- id 1lm8Si-0008R7-RU
- for qemu-devel@nongnu.org; Thu, 27 May 2021 01:21:40 -0400
-Received: from mail01.asahi-net.or.jp ([202.224.55.13]:58621)
+ id 1lm8Sg-0008LU-I9
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 01:21:38 -0400
+Received: from mail01.asahi-net.or.jp ([202.224.55.13]:58622)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ysato@users.sourceforge.jp>) id 1lm8Sc-00064s-2Z
- for qemu-devel@nongnu.org; Thu, 27 May 2021 01:21:40 -0400
+ (envelope-from <ysato@users.sourceforge.jp>) id 1lm8Sc-00064v-2b
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 01:21:38 -0400
 Received: from sakura.ysato.name (ik1-413-38519.vs.sakura.ne.jp
  [153.127.30.23]) (Authenticated sender: PQ4Y-STU)
- by mail01.asahi-net.or.jp (Postfix) with ESMTPA id CAA1B11D396;
- Thu, 27 May 2021 14:21:30 +0900 (JST)
+ by mail01.asahi-net.or.jp (Postfix) with ESMTPA id 2FD3511D398;
+ Thu, 27 May 2021 14:21:31 +0900 (JST)
 Received: from yo-satoh-debian.localdomain
  (y245018.dynamic.ppp.asahi-net.or.jp [118.243.245.18])
- by sakura.ysato.name (Postfix) with ESMTPSA id 692871C0077;
+ by sakura.ysato.name (Postfix) with ESMTPSA id C3DEE1C060B;
  Thu, 27 May 2021 14:21:30 +0900 (JST)
 From: Yoshinori Sato <ysato@users.sourceforge.jp>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 04/11] hw/timer: Remove sh_timer.
-Date: Thu, 27 May 2021 14:21:15 +0900
-Message-Id: <20210527052122.97103-5-ysato@users.sourceforge.jp>
+Subject: [PATCH 05/11] hw/timer: Remove renesas_cmt.
+Date: Thu, 27 May 2021 14:21:16 +0900
+Message-Id: <20210527052122.97103-6-ysato@users.sourceforge.jp>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210527052122.97103-1-ysato@users.sourceforge.jp>
 References: <20210527052122.97103-1-ysato@users.sourceforge.jp>
@@ -63,467 +63,363 @@ Migrate to renesas_timer.
 
 Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
 ---
- include/hw/timer/tmu012.h |  23 ---
- hw/timer/sh_timer.c       | 368 --------------------------------------
- MAINTAINERS               |   4 +-
- hw/timer/Kconfig          |   4 -
- hw/timer/meson.build      |   1 -
- 5 files changed, 2 insertions(+), 398 deletions(-)
- delete mode 100644 include/hw/timer/tmu012.h
- delete mode 100644 hw/timer/sh_timer.c
+ include/hw/timer/renesas_cmt.h |  43 -----
+ hw/timer/renesas_cmt.c         | 283 ---------------------------------
+ hw/timer/meson.build           |   1 -
+ 3 files changed, 327 deletions(-)
+ delete mode 100644 include/hw/timer/renesas_cmt.h
+ delete mode 100644 hw/timer/renesas_cmt.c
 
-diff --git a/include/hw/timer/tmu012.h b/include/hw/timer/tmu012.h
+diff --git a/include/hw/timer/renesas_cmt.h b/include/hw/timer/renesas_cmt.h
 deleted file mode 100644
-index 808ed8de1d..0000000000
---- a/include/hw/timer/tmu012.h
+index 1c0b65c1d5..0000000000
+--- a/include/hw/timer/renesas_cmt.h
 +++ /dev/null
-@@ -1,23 +0,0 @@
+@@ -1,43 +0,0 @@
 -/*
-- * SuperH Timer
+- * Renesas Compare-match timer Object
 - *
-- * Copyright (c) 2007 Magnus Damm
+- * Copyright (c) 2019 Yoshinori Sato
 - *
-- * This code is licensed under the GPL.
+- * SPDX-License-Identifier: GPL-2.0-or-later
 - */
 -
--#ifndef HW_TIMER_TMU012_H
--#define HW_TIMER_TMU012_H
+-#ifndef HW_TIMER_RENESAS_CMT_H
+-#define HW_TIMER_RENESAS_CMT_H
 -
--#include "exec/hwaddr.h"
+-#include "qemu/timer.h"
+-#include "hw/sysbus.h"
+-#include "qom/object.h"
 -
--#define TMU012_FEAT_TOCR   (1 << 0)
--#define TMU012_FEAT_3CHAN  (1 << 1)
--#define TMU012_FEAT_EXTCLK (1 << 2)
+-#define TYPE_RENESAS_CMT "renesas-cmt"
+-typedef struct RCMTState RCMTState;
+-DECLARE_INSTANCE_CHECKER(RCMTState, RCMT,
+-                         TYPE_RENESAS_CMT)
 -
--void tmu012_init(MemoryRegion *sysmem, hwaddr base,
--                 int feat, uint32_t freq,
--                 qemu_irq ch0_irq, qemu_irq ch1_irq,
--                 qemu_irq ch2_irq0, qemu_irq ch2_irq1);
+-enum {
+-    CMT_CH = 2,
+-    CMT_NR_IRQ = 1 * CMT_CH
+-};
+-
+-struct RCMTState {
+-    /*< private >*/
+-    SysBusDevice parent_obj;
+-    /*< public >*/
+-
+-    uint64_t input_freq;
+-    MemoryRegion memory;
+-
+-    uint16_t cmstr;
+-    uint16_t cmcr[CMT_CH];
+-    uint16_t cmcnt[CMT_CH];
+-    uint16_t cmcor[CMT_CH];
+-    int64_t tick[CMT_CH];
+-    qemu_irq cmi[CMT_CH];
+-    QEMUTimer timer[CMT_CH];
+-};
 -
 -#endif
-diff --git a/hw/timer/sh_timer.c b/hw/timer/sh_timer.c
+diff --git a/hw/timer/renesas_cmt.c b/hw/timer/renesas_cmt.c
 deleted file mode 100644
-index 58af1a1edb..0000000000
---- a/hw/timer/sh_timer.c
+index 2e0fd21a36..0000000000
+--- a/hw/timer/renesas_cmt.c
 +++ /dev/null
-@@ -1,368 +0,0 @@
+@@ -1,283 +0,0 @@
 -/*
-- * SuperH Timer modules.
+- * Renesas 16bit Compare-match timer
 - *
-- * Copyright (c) 2007 Magnus Damm
-- * Based on arm_timer.c by Paul Brook
-- * Copyright (c) 2005-2006 CodeSourcery.
+- * Datasheet: RX62N Group, RX621 Group User's Manual: Hardware
+- *            (Rev.1.40 R01UH0033EJ0140)
 - *
-- * This code is licensed under the GPL.
+- * Copyright (c) 2019 Yoshinori Sato
+- *
+- * SPDX-License-Identifier: GPL-2.0-or-later
+- *
+- * This program is free software; you can redistribute it and/or modify it
+- * under the terms and conditions of the GNU General Public License,
+- * version 2 or later, as published by the Free Software Foundation.
+- *
+- * This program is distributed in the hope it will be useful, but WITHOUT
+- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+- * more details.
+- *
+- * You should have received a copy of the GNU General Public License along with
+- * this program.  If not, see <http://www.gnu.org/licenses/>.
 - */
 -
 -#include "qemu/osdep.h"
--#include "exec/memory.h"
--#include "hw/hw.h"
+-#include "qemu/log.h"
 -#include "hw/irq.h"
--#include "hw/sh4/sh.h"
--#include "hw/timer/tmu012.h"
--#include "hw/ptimer.h"
+-#include "hw/registerfields.h"
+-#include "hw/qdev-properties.h"
+-#include "hw/timer/renesas_cmt.h"
+-#include "migration/vmstate.h"
 -
--//#define DEBUG_TIMER
+-/*
+- *  +0 CMSTR - common control
+- *  +2 CMCR  - ch0
+- *  +4 CMCNT - ch0
+- *  +6 CMCOR - ch0
+- *  +8 CMCR  - ch1
+- * +10 CMCNT - ch1
+- * +12 CMCOR - ch1
+- * If we think that the address of CH 0 has an offset of +2,
+- * we can treat it with the same address as CH 1, so define it like that.
+- */
+-REG16(CMSTR, 0)
+-  FIELD(CMSTR, STR0, 0, 1)
+-  FIELD(CMSTR, STR1, 1, 1)
+-  FIELD(CMSTR, STR,  0, 2)
+-/* This addeess is channel offset */
+-REG16(CMCR, 0)
+-  FIELD(CMCR, CKS,  0, 2)
+-  FIELD(CMCR, CMIE, 6, 1)
+-REG16(CMCNT, 2)
+-REG16(CMCOR, 4)
 -
--#define TIMER_TCR_TPSC          (7 << 0)
--#define TIMER_TCR_CKEG          (3 << 3)
--#define TIMER_TCR_UNIE          (1 << 5)
--#define TIMER_TCR_ICPE          (3 << 6)
--#define TIMER_TCR_UNF           (1 << 8)
--#define TIMER_TCR_ICPF          (1 << 9)
--#define TIMER_TCR_RESERVED      (0x3f << 10)
--
--#define TIMER_FEAT_CAPT   (1 << 0)
--#define TIMER_FEAT_EXTCLK (1 << 1)
--
--#define OFFSET_TCOR   0
--#define OFFSET_TCNT   1
--#define OFFSET_TCR    2
--#define OFFSET_TCPR   3
--
--typedef struct {
--    ptimer_state *timer;
--    uint32_t tcnt;
--    uint32_t tcor;
--    uint32_t tcr;
--    uint32_t tcpr;
--    int freq;
--    int int_level;
--    int old_level;
--    int feat;
--    int enabled;
--    qemu_irq irq;
--} sh_timer_state;
--
--/* Check all active timers, and schedule the next timer interrupt. */
--
--static void sh_timer_update(sh_timer_state *s)
+-static void update_events(RCMTState *cmt, int ch)
 -{
--    int new_level = s->int_level && (s->tcr & TIMER_TCR_UNIE);
+-    int64_t next_time;
 -
--    if (new_level != s->old_level)
--      qemu_set_irq (s->irq, new_level);
--
--    s->old_level = s->int_level;
--    s->int_level = new_level;
+-    if ((cmt->cmstr & (1 << ch)) == 0) {
+-        /* count disable, so not happened next event. */
+-        return ;
+-    }
+-    next_time = cmt->cmcor[ch] - cmt->cmcnt[ch];
+-    next_time *= NANOSECONDS_PER_SECOND;
+-    next_time /= cmt->input_freq;
+-    /*
+-     * CKS -> div rate
+-     *  0 -> 8 (1 << 3)
+-     *  1 -> 32 (1 << 5)
+-     *  2 -> 128 (1 << 7)
+-     *  3 -> 512 (1 << 9)
+-     */
+-    next_time *= 1 << (3 + FIELD_EX16(cmt->cmcr[ch], CMCR, CKS) * 2);
+-    next_time += qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
+-    timer_mod(&cmt->timer[ch], next_time);
 -}
 -
--static uint32_t sh_timer_read(void *opaque, hwaddr offset)
+-static int64_t read_cmcnt(RCMTState *cmt, int ch)
 -{
--    sh_timer_state *s = (sh_timer_state *)opaque;
+-    int64_t delta, now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
 -
--    switch (offset >> 2) {
--    case OFFSET_TCOR:
--        return s->tcor;
--    case OFFSET_TCNT:
--        return ptimer_get_count(s->timer);
--    case OFFSET_TCR:
--        return s->tcr | (s->int_level ? TIMER_TCR_UNF : 0);
--    case OFFSET_TCPR:
--        if (s->feat & TIMER_FEAT_CAPT)
--            return s->tcpr;
--        /* fall through */
--    default:
--        hw_error("sh_timer_read: Bad offset %x\n", (int)offset);
--        return 0;
+-    if (cmt->cmstr & (1 << ch)) {
+-        delta = (now - cmt->tick[ch]);
+-        delta /= NANOSECONDS_PER_SECOND;
+-        delta /= cmt->input_freq;
+-        delta /= 1 << (3 + FIELD_EX16(cmt->cmcr[ch], CMCR, CKS) * 2);
+-        cmt->tick[ch] = now;
+-        return cmt->cmcnt[ch] + delta;
+-    } else {
+-        return cmt->cmcnt[ch];
 -    }
 -}
 -
--static void sh_timer_write(void *opaque, hwaddr offset,
--                            uint32_t value)
+-static uint64_t cmt_read(void *opaque, hwaddr offset, unsigned size)
 -{
--    sh_timer_state *s = (sh_timer_state *)opaque;
--    int freq;
+-    RCMTState *cmt = opaque;
+-    int ch = offset / 0x08;
+-    uint64_t ret;
 -
--    switch (offset >> 2) {
--    case OFFSET_TCOR:
--        s->tcor = value;
--        ptimer_transaction_begin(s->timer);
--        ptimer_set_limit(s->timer, s->tcor, 0);
--        ptimer_transaction_commit(s->timer);
--        break;
--    case OFFSET_TCNT:
--        s->tcnt = value;
--        ptimer_transaction_begin(s->timer);
--        ptimer_set_count(s->timer, s->tcnt);
--        ptimer_transaction_commit(s->timer);
--        break;
--    case OFFSET_TCR:
--        ptimer_transaction_begin(s->timer);
--        if (s->enabled) {
--            /* Pause the timer if it is running.  This may cause some
--               inaccuracy dure to rounding, but avoids a whole lot of other
--               messyness.  */
--            ptimer_stop(s->timer);
+-    if (offset == A_CMSTR) {
+-        ret = 0;
+-        ret = FIELD_DP16(ret, CMSTR, STR,
+-                         FIELD_EX16(cmt->cmstr, CMSTR, STR));
+-        return ret;
+-    } else {
+-        offset &= 0x07;
+-        if (ch == 0) {
+-            offset -= 0x02;
 -        }
--        freq = s->freq;
--        /* ??? Need to recalculate expiry time after changing divisor.  */
--        switch (value & TIMER_TCR_TPSC) {
--        case 0: freq >>= 2; break;
--        case 1: freq >>= 4; break;
--        case 2: freq >>= 6; break;
--        case 3: freq >>= 8; break;
--        case 4: freq >>= 10; break;
--        case 6:
--        case 7:
--            if (s->feat & TIMER_FEAT_EXTCLK) {
--                break;
--            }
--            /* fallthrough */
--        default:
--            hw_error("sh_timer_write: Reserved TPSC value\n");
+-        switch (offset) {
+-        case A_CMCR:
+-            ret = 0;
+-            ret = FIELD_DP16(ret, CMCR, CKS,
+-                             FIELD_EX16(cmt->cmstr, CMCR, CKS));
+-            ret = FIELD_DP16(ret, CMCR, CMIE,
+-                             FIELD_EX16(cmt->cmstr, CMCR, CMIE));
+-            return ret;
+-        case A_CMCNT:
+-            return read_cmcnt(cmt, ch);
+-        case A_CMCOR:
+-            return cmt->cmcor[ch];
 -        }
--        switch ((value & TIMER_TCR_CKEG) >> 3) {
--        case 0:
+-    }
+-    qemu_log_mask(LOG_UNIMP, "renesas_cmt: Register 0x%" HWADDR_PRIX " "
+-                             "not implemented\n",
+-                  offset);
+-    return UINT64_MAX;
+-}
+-
+-static void start_stop(RCMTState *cmt, int ch, int st)
+-{
+-    if (st) {
+-        update_events(cmt, ch);
+-    } else {
+-        timer_del(&cmt->timer[ch]);
+-    }
+-}
+-
+-static void cmt_write(void *opaque, hwaddr offset, uint64_t val, unsigned size)
+-{
+-    RCMTState *cmt = opaque;
+-    int ch = offset / 0x08;
+-
+-    if (offset == A_CMSTR) {
+-        cmt->cmstr = FIELD_EX16(val, CMSTR, STR);
+-        start_stop(cmt, 0, FIELD_EX16(cmt->cmstr, CMSTR, STR0));
+-        start_stop(cmt, 1, FIELD_EX16(cmt->cmstr, CMSTR, STR1));
+-    } else {
+-        offset &= 0x07;
+-        if (ch == 0) {
+-            offset -= 0x02;
+-        }
+-        switch (offset) {
+-        case A_CMCR:
+-            cmt->cmcr[ch] = FIELD_DP16(cmt->cmcr[ch], CMCR, CKS,
+-                                       FIELD_EX16(val, CMCR, CKS));
+-            cmt->cmcr[ch] = FIELD_DP16(cmt->cmcr[ch], CMCR, CMIE,
+-                                       FIELD_EX16(val, CMCR, CMIE));
 -            break;
--        case 1:
 -        case 2:
--        case 3:
--            if (s->feat & TIMER_FEAT_EXTCLK) {
--                break;
--            }
--            /* fallthrough */
--        default:
--            hw_error("sh_timer_write: Reserved CKEG value\n");
--        }
--        switch ((value & TIMER_TCR_ICPE) >> 6) {
--        case 0:
+-            cmt->cmcnt[ch] = val;
 -            break;
--        case 2:
--        case 3:
--            if (s->feat & TIMER_FEAT_CAPT) {
--                break;
--            }
--            /* fallthrough */
--        default:
--            hw_error("sh_timer_write: Reserved ICPE value\n");
--        }
--        if ((value & TIMER_TCR_UNF) == 0) {
--            s->int_level = 0;
--        }
--
--        value &= ~TIMER_TCR_UNF;
--
--        if ((value & TIMER_TCR_ICPF) && (!(s->feat & TIMER_FEAT_CAPT))) {
--            hw_error("sh_timer_write: Reserved ICPF value\n");
--        }
--
--        value &= ~TIMER_TCR_ICPF; /* capture not supported */
--
--        if (value & TIMER_TCR_RESERVED) {
--            hw_error("sh_timer_write: Reserved TCR bits set\n");
--        }
--        s->tcr = value;
--        ptimer_set_limit(s->timer, s->tcor, 0);
--        ptimer_set_freq(s->timer, freq);
--        if (s->enabled) {
--            /* Restart the timer if still enabled.  */
--            ptimer_run(s->timer, 0);
--        }
--        ptimer_transaction_commit(s->timer);
--        break;
--    case OFFSET_TCPR:
--        if (s->feat & TIMER_FEAT_CAPT) {
--            s->tcpr = value;
+-        case 4:
+-            cmt->cmcor[ch] = val;
 -            break;
+-        default:
+-            qemu_log_mask(LOG_UNIMP, "renesas_cmt: Register 0x%" HWADDR_PRIX " "
+-                                     "not implemented\n",
+-                          offset);
+-            return;
 -        }
--        /* fallthrough */
--    default:
--        hw_error("sh_timer_write: Bad offset %x\n", (int)offset);
--    }
--    sh_timer_update(s);
--}
--
--static void sh_timer_start_stop(void *opaque, int enable)
--{
--    sh_timer_state *s = (sh_timer_state *)opaque;
--
--#ifdef DEBUG_TIMER
--    printf("sh_timer_start_stop %d (%d)\n", enable, s->enabled);
--#endif
--
--    ptimer_transaction_begin(s->timer);
--    if (s->enabled && !enable) {
--        ptimer_stop(s->timer);
--    }
--    if (!s->enabled && enable) {
--        ptimer_run(s->timer, 0);
--    }
--    ptimer_transaction_commit(s->timer);
--    s->enabled = !!enable;
--
--#ifdef DEBUG_TIMER
--    printf("sh_timer_start_stop done %d\n", s->enabled);
--#endif
--}
--
--static void sh_timer_tick(void *opaque)
--{
--    sh_timer_state *s = (sh_timer_state *)opaque;
--    s->int_level = s->enabled;
--    sh_timer_update(s);
--}
--
--static void *sh_timer_init(uint32_t freq, int feat, qemu_irq irq)
--{
--    sh_timer_state *s;
--
--    s = (sh_timer_state *)g_malloc0(sizeof(sh_timer_state));
--    s->freq = freq;
--    s->feat = feat;
--    s->tcor = 0xffffffff;
--    s->tcnt = 0xffffffff;
--    s->tcpr = 0xdeadbeef;
--    s->tcr = 0;
--    s->enabled = 0;
--    s->irq = irq;
--
--    s->timer = ptimer_init(sh_timer_tick, s, PTIMER_POLICY_DEFAULT);
--
--    sh_timer_write(s, OFFSET_TCOR >> 2, s->tcor);
--    sh_timer_write(s, OFFSET_TCNT >> 2, s->tcnt);
--    sh_timer_write(s, OFFSET_TCPR >> 2, s->tcpr);
--    sh_timer_write(s, OFFSET_TCR  >> 2, s->tcpr);
--    /* ??? Save/restore.  */
--    return s;
--}
--
--typedef struct {
--    MemoryRegion iomem;
--    MemoryRegion iomem_p4;
--    MemoryRegion iomem_a7;
--    void *timer[3];
--    int level[3];
--    uint32_t tocr;
--    uint32_t tstr;
--    int feat;
--} tmu012_state;
--
--static uint64_t tmu012_read(void *opaque, hwaddr offset,
--                            unsigned size)
--{
--    tmu012_state *s = (tmu012_state *)opaque;
--
--#ifdef DEBUG_TIMER
--    printf("tmu012_read 0x%lx\n", (unsigned long) offset);
--#endif
--
--    if (offset >= 0x20) {
--        if (!(s->feat & TMU012_FEAT_3CHAN)) {
--            hw_error("tmu012_write: Bad channel offset %x\n", (int)offset);
+-        if (FIELD_EX16(cmt->cmstr, CMSTR, STR) & (1 << ch)) {
+-            update_events(cmt, ch);
 -        }
--        return sh_timer_read(s->timer[2], offset - 0x20);
--    }
--
--    if (offset >= 0x14)
--        return sh_timer_read(s->timer[1], offset - 0x14);
--
--    if (offset >= 0x08)
--        return sh_timer_read(s->timer[0], offset - 0x08);
--
--    if (offset == 4)
--        return s->tstr;
--
--    if ((s->feat & TMU012_FEAT_TOCR) && offset == 0)
--        return s->tocr;
--
--    hw_error("tmu012_write: Bad offset %x\n", (int)offset);
--    return 0;
--}
--
--static void tmu012_write(void *opaque, hwaddr offset,
--                        uint64_t value, unsigned size)
--{
--    tmu012_state *s = (tmu012_state *)opaque;
--
--#ifdef DEBUG_TIMER
--    printf("tmu012_write 0x%lx 0x%08x\n", (unsigned long) offset, value);
--#endif
--
--    if (offset >= 0x20) {
--        if (!(s->feat & TMU012_FEAT_3CHAN)) {
--            hw_error("tmu012_write: Bad channel offset %x\n", (int)offset);
--        }
--        sh_timer_write(s->timer[2], offset - 0x20, value);
--        return;
--    }
--
--    if (offset >= 0x14) {
--        sh_timer_write(s->timer[1], offset - 0x14, value);
--        return;
--    }
--
--    if (offset >= 0x08) {
--        sh_timer_write(s->timer[0], offset - 0x08, value);
--        return;
--    }
--
--    if (offset == 4) {
--        sh_timer_start_stop(s->timer[0], value & (1 << 0));
--        sh_timer_start_stop(s->timer[1], value & (1 << 1));
--        if (s->feat & TMU012_FEAT_3CHAN) {
--            sh_timer_start_stop(s->timer[2], value & (1 << 2));
--        } else {
--            if (value & (1 << 2)) {
--                hw_error("tmu012_write: Bad channel\n");
--            }
--        }
--
--        s->tstr = value;
--        return;
--    }
--
--    if ((s->feat & TMU012_FEAT_TOCR) && offset == 0) {
--        s->tocr = value & (1 << 0);
 -    }
 -}
 -
--static const MemoryRegionOps tmu012_ops = {
--    .read = tmu012_read,
--    .write = tmu012_write,
+-static const MemoryRegionOps cmt_ops = {
+-    .write = cmt_write,
+-    .read  = cmt_read,
 -    .endianness = DEVICE_NATIVE_ENDIAN,
+-    .impl = {
+-        .min_access_size = 2,
+-        .max_access_size = 2,
+-    },
+-    .valid = {
+-        .min_access_size = 2,
+-        .max_access_size = 2,
+-    },
 -};
 -
--void tmu012_init(MemoryRegion *sysmem, hwaddr base,
--                 int feat, uint32_t freq,
--                 qemu_irq ch0_irq, qemu_irq ch1_irq,
--                 qemu_irq ch2_irq0, qemu_irq ch2_irq1)
+-static void timer_events(RCMTState *cmt, int ch)
 -{
--    tmu012_state *s;
--    int timer_feat = (feat & TMU012_FEAT_EXTCLK) ? TIMER_FEAT_EXTCLK : 0;
--
--    s = (tmu012_state *)g_malloc0(sizeof(tmu012_state));
--    s->feat = feat;
--    s->timer[0] = sh_timer_init(freq, timer_feat, ch0_irq);
--    s->timer[1] = sh_timer_init(freq, timer_feat, ch1_irq);
--    if (feat & TMU012_FEAT_3CHAN) {
--        s->timer[2] = sh_timer_init(freq, timer_feat | TIMER_FEAT_CAPT,
--                                    ch2_irq0); /* ch2_irq1 not supported */
+-    cmt->cmcnt[ch] = 0;
+-    cmt->tick[ch] = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
+-    update_events(cmt, ch);
+-    if (FIELD_EX16(cmt->cmcr[ch], CMCR, CMIE)) {
+-        qemu_irq_pulse(cmt->cmi[ch]);
 -    }
--
--    memory_region_init_io(&s->iomem, NULL, &tmu012_ops, s,
--                          "timer", 0x100000000ULL);
--
--    memory_region_init_alias(&s->iomem_p4, NULL, "timer-p4",
--                             &s->iomem, 0, 0x1000);
--    memory_region_add_subregion(sysmem, P4ADDR(base), &s->iomem_p4);
--
--    memory_region_init_alias(&s->iomem_a7, NULL, "timer-a7",
--                             &s->iomem, 0, 0x1000);
--    memory_region_add_subregion(sysmem, A7ADDR(base), &s->iomem_a7);
--    /* ??? Save/restore.  */
 -}
-diff --git a/MAINTAINERS b/MAINTAINERS
-index ecfa97cefa..4e41c3ff91 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1414,7 +1414,7 @@ F: hw/char/renesas_sci.c
- F: hw/sh4/r2d.c
- F: hw/intc/sh_intc.c
- F: hw/pci-host/sh_pci.c
--F: hw/timer/sh_timer.c
-+F: hw/timer/renesas_timer.c
- F: include/hw/sh4/sh_intc.h
- 
- Shix
-@@ -1425,7 +1425,7 @@ F: hw/block/tc58128.c
- F: hw/char/reness_sci.c
- F: hw/sh4/shix.c
- F: hw/intc/sh_intc.c
--F: hw/timer/sh_timer.c
-+F: hw/timer/renesas_timer.c
- F: include/hw/sh4/sh_intc.h
- 
- SPARC Machines
-diff --git a/hw/timer/Kconfig b/hw/timer/Kconfig
-index 347add12dd..ec19708a4d 100644
---- a/hw/timer/Kconfig
-+++ b/hw/timer/Kconfig
-@@ -36,10 +36,6 @@ config CMSDK_APB_DUALTIMER
-     bool
-     select PTIMER
- 
--config SH_TIMER
--    bool
--    select PTIMER
 -
- config RENESAS_TMR
-     bool
- 
+-static void timer_event0(void *opaque)
+-{
+-    RCMTState *cmt = opaque;
+-
+-    timer_events(cmt, 0);
+-}
+-
+-static void timer_event1(void *opaque)
+-{
+-    RCMTState *cmt = opaque;
+-
+-    timer_events(cmt, 1);
+-}
+-
+-static void rcmt_reset(DeviceState *dev)
+-{
+-    RCMTState *cmt = RCMT(dev);
+-    cmt->cmstr = 0;
+-    cmt->cmcr[0] = cmt->cmcr[1] = 0;
+-    cmt->cmcnt[0] = cmt->cmcnt[1] = 0;
+-    cmt->cmcor[0] = cmt->cmcor[1] = 0xffff;
+-}
+-
+-static void rcmt_init(Object *obj)
+-{
+-    SysBusDevice *d = SYS_BUS_DEVICE(obj);
+-    RCMTState *cmt = RCMT(obj);
+-    int i;
+-
+-    memory_region_init_io(&cmt->memory, OBJECT(cmt), &cmt_ops,
+-                          cmt, "renesas-cmt", 0x10);
+-    sysbus_init_mmio(d, &cmt->memory);
+-
+-    for (i = 0; i < ARRAY_SIZE(cmt->cmi); i++) {
+-        sysbus_init_irq(d, &cmt->cmi[i]);
+-    }
+-    timer_init_ns(&cmt->timer[0], QEMU_CLOCK_VIRTUAL, timer_event0, cmt);
+-    timer_init_ns(&cmt->timer[1], QEMU_CLOCK_VIRTUAL, timer_event1, cmt);
+-}
+-
+-static const VMStateDescription vmstate_rcmt = {
+-    .name = "rx-cmt",
+-    .version_id = 1,
+-    .minimum_version_id = 1,
+-    .fields = (VMStateField[]) {
+-        VMSTATE_UINT16(cmstr, RCMTState),
+-        VMSTATE_UINT16_ARRAY(cmcr, RCMTState, CMT_CH),
+-        VMSTATE_UINT16_ARRAY(cmcnt, RCMTState, CMT_CH),
+-        VMSTATE_UINT16_ARRAY(cmcor, RCMTState, CMT_CH),
+-        VMSTATE_INT64_ARRAY(tick, RCMTState, CMT_CH),
+-        VMSTATE_TIMER_ARRAY(timer, RCMTState, CMT_CH),
+-        VMSTATE_END_OF_LIST()
+-    }
+-};
+-
+-static Property rcmt_properties[] = {
+-    DEFINE_PROP_UINT64("input-freq", RCMTState, input_freq, 0),
+-    DEFINE_PROP_END_OF_LIST(),
+-};
+-
+-static void rcmt_class_init(ObjectClass *klass, void *data)
+-{
+-    DeviceClass *dc = DEVICE_CLASS(klass);
+-
+-    dc->vmsd = &vmstate_rcmt;
+-    dc->reset = rcmt_reset;
+-    device_class_set_props(dc, rcmt_properties);
+-}
+-
+-static const TypeInfo rcmt_info = {
+-    .name = TYPE_RENESAS_CMT,
+-    .parent = TYPE_SYS_BUS_DEVICE,
+-    .instance_size = sizeof(RCMTState),
+-    .instance_init = rcmt_init,
+-    .class_init = rcmt_class_init,
+-};
+-
+-static void rcmt_register_types(void)
+-{
+-    type_register_static(&rcmt_info);
+-}
+-
+-type_init(rcmt_register_types)
 diff --git a/hw/timer/meson.build b/hw/timer/meson.build
-index 9019dce993..ec70821c0b 100644
+index ec70821c0b..03b40cfbee 100644
 --- a/hw/timer/meson.build
 +++ b/hw/timer/meson.build
-@@ -27,7 +27,6 @@ softmmu_ss.add(when: 'CONFIG_OMAP', if_true: files('omap_gptimer.c'))
- softmmu_ss.add(when: 'CONFIG_OMAP', if_true: files('omap_synctimer.c'))
- softmmu_ss.add(when: 'CONFIG_PXA2XX', if_true: files('pxa2xx_timer.c'))
- softmmu_ss.add(when: 'CONFIG_RASPI', if_true: files('bcm2835_systmr.c'))
--softmmu_ss.add(when: 'CONFIG_SH_TIMER', if_true: files('sh_timer.c'))
- softmmu_ss.add(when: 'CONFIG_SLAVIO', if_true: files('slavio_timer.c'))
- softmmu_ss.add(when: 'CONFIG_SSE_COUNTER', if_true: files('sse-counter.c'))
- softmmu_ss.add(when: 'CONFIG_SSE_TIMER', if_true: files('sse-timer.c'))
+@@ -9,7 +9,6 @@ softmmu_ss.add(when: 'CONFIG_CADENCE', if_true: files('cadence_ttc.c'))
+ softmmu_ss.add(when: 'CONFIG_CMSDK_APB_DUALTIMER', if_true: files('cmsdk-apb-dualtimer.c'))
+ softmmu_ss.add(when: 'CONFIG_CMSDK_APB_TIMER', if_true: files('cmsdk-apb-timer.c'))
+ softmmu_ss.add(when: 'CONFIG_RENESAS_TMR', if_true: files('renesas_tmr.c'))
+-softmmu_ss.add(when: 'CONFIG_RENESAS_CMT', if_true: files('renesas_cmt.c'))
+ softmmu_ss.add(when: 'CONFIG_DIGIC', if_true: files('digic-timer.c'))
+ softmmu_ss.add(when: 'CONFIG_ETRAXFS', if_true: files('etraxfs_timer.c'))
+ softmmu_ss.add(when: 'CONFIG_EXYNOS4', if_true: files('exynos4210_mct.c'))
 -- 
 2.20.1
 
