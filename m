@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65861392ABA
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 11:29:05 +0200 (CEST)
-Received: from localhost ([::1]:38666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F97A392ABE
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 11:29:56 +0200 (CEST)
+Received: from localhost ([::1]:40778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lmCK2-00023r-Pi
-	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 05:28:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47660)
+	id 1lmCKx-0003Wz-5i
+	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 05:29:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47824)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lmCJF-0001BK-Rb
- for qemu-devel@nongnu.org; Thu, 27 May 2021 05:28:09 -0400
-Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:40762)
+ id 1lmCKB-0002rA-TO
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 05:29:07 -0400
+Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534]:47029)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lmCJE-0002ji-54
- for qemu-devel@nongnu.org; Thu, 27 May 2021 05:28:09 -0400
-Received: by mail-ed1-x52f.google.com with SMTP id t3so50746edc.7
- for <qemu-devel@nongnu.org>; Thu, 27 May 2021 02:28:07 -0700 (PDT)
+ id 1lmCKA-0003V1-93
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 05:29:07 -0400
+Received: by mail-ed1-x534.google.com with SMTP id r11so17533edt.13
+ for <qemu-devel@nongnu.org>; Thu, 27 May 2021 02:29:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=107pA0QjTIX+m6t0IRQ+DHQqazt1HtFlkQYv1e+lqZE=;
- b=AQCdy68UecWyE5JdxgBqiCgWuLrj07kGsiYkHkLbt0ivMCF12ifJcOMJPSeEHtKvii
- uGvittTDL9KMhOq3k4aEpN+p+3iXgfcnQ3Y1/gimwM7AXvUYiWGHYa8URP1L+mCL1BxB
- U+0/VfJPcxI2ZUPG+xq/eO6/CL5jP/E+faKdpVW9NIq6GSy17l5MNbxa0eKO/Y8afPRv
- rJ8MrAPvmfqxsiJS1ewuvvv8kP0Mji7IVCYl0uMhp4qw4w7zqnCYchtZDJFe1YdCKNLm
- uwu6/m9CS5Afm0TfAdXMck5JWZ5o2U5coGaBloDKPU8rFvuSdved23Q158r9U/Gc/NuF
- hkiA==
+ bh=cRPdfPABMtc6nEYPUNYt/nouMTo5ozDAHvfPfCMWLkc=;
+ b=DnujIVcWQxNsW8fGVVEXdP4rGRTYg3fpGCjoVh5rRccYlAtvMb5FFVHiPVXA0WifC5
+ 9vHG09eQa1tEJ1Sh8VWDBa9yexRI2N8PbfGJiTGRtgU+wsXD9vHcSkBNDWTglFkpvCIM
+ xD+5OoQqncKRkxFVGNeykyQA3bC03wy4i0sXBDQHp6d29y3d6U/HfFAm/jbHQbgi8qot
+ Gi2/heLyVvzS4b6/LOa+4JGKwia3npEteke3Y3zGIaee2gjE0gI2LfloH2A+TC13qjQu
+ 1QoVDGL+o2+OUJKN824nIz/5gpTYhCv1A9FHxqPl7mRh80DNeFGVkLxwaz1kxDwriTbr
+ ozeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=107pA0QjTIX+m6t0IRQ+DHQqazt1HtFlkQYv1e+lqZE=;
- b=G5yR6W7GI/OFpM/i8z143YbJZYzuTIPb5n5Pvf+R+F+gaZKIa+8ckhaHNsH6qHuWdT
- 3GQm1wnFbx/KhwTX+LwQxzu2zqBU4/dtz44ydipKeTFIt0ObHKWNrfRDEFMNHrVvAW/M
- ecmhnU++PAx8OJfgyZFmYdkg9K4VWOc+OespzJ8I4zeM21TUyxidCN3bfTEfksIlLoWK
- 0j8HSPOpGyh/7Rklsz1ZV8pCBQv05cjqa5vqwceR6K/Xkw218bkQzryqK9jJ/mP5fF2H
- nxwd4Lf7KNoQdezIk7tq1lLCXaISiecFZPklx4uMMWM7y/LLAZD3TWkspe7nH6FnjGtB
- zZDw==
-X-Gm-Message-State: AOAM531hvjALpud1sN0Y3p5bQIQpxTLVCl36vaXsn8lZUzoVRNujUkO8
- OBM9tfZqlWXIaujxmRQpwpGYIhUiwOefms82RYPA/Q==
-X-Google-Smtp-Source: ABdhPJz/9Tch3EgXqeNAqq9ehQvQesR//4EPvfKmuOEJ4tMJsz3dtT3IEoyr+4sEV18KS8/xuCxF8MpUEL6W+SuqnpU=
-X-Received: by 2002:a05:6402:190e:: with SMTP id
- e14mr3124478edz.146.1622107685890; 
- Thu, 27 May 2021 02:28:05 -0700 (PDT)
+ bh=cRPdfPABMtc6nEYPUNYt/nouMTo5ozDAHvfPfCMWLkc=;
+ b=ei/UOX2fs/DP98wJNOuQlJoaez+WALBk1+zCyp91tyEdDMsRKhk62HrLf+bcv1GqrF
+ Kj6I3eSz++UUujvj84X8PTMCrOEax8g0VTPOsAfIlTMwCF7n6eGbVnKW69tiZVyj1Kwk
+ bZRbyubSeSv0ZDqF7pLXKejnRUe4cHWBAWvwjkSwGlrLfJ8rL/fgWEpHA+nnSjZVdTSW
+ ibtiL7h+y8z08+T3HMcKrUwEqt0gCcc9cEAoxw2diRGXUcPF3GJKTL6Bp+AEvFCbB37/
+ L0j8NpYNQPRti9H8J7kVqFfDXIru2eZOtGNizJ7FyNfdXDYOyoOnj4vHnRfifNgojX73
+ NwlQ==
+X-Gm-Message-State: AOAM530gsVWhyWe0bvEwuma77KBXMUYxfGe77rGihZ1NjYKVAL4zQOam
+ ExRZGmiDT9DY+dhS9yJZ1xg59SnSMG4iDAZqhNQyDA==
+X-Google-Smtp-Source: ABdhPJzB1rosQ7wbt2O9OoD1efnrEVl5vfqtIDo1nSm0iUSbWPRoFxc9FQTQuUlid+js5cPLpGzY2kisdiSndukr5dQ=
+X-Received: by 2002:a05:6402:8d0:: with SMTP id
+ d16mr3063405edz.36.1622107744948; 
+ Thu, 27 May 2021 02:29:04 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210519200942.2223292-1-f4bug@amsat.org>
- <20210519200942.2223292-2-f4bug@amsat.org>
-In-Reply-To: <20210519200942.2223292-2-f4bug@amsat.org>
+ <20210519200942.2223292-3-f4bug@amsat.org>
+In-Reply-To: <20210519200942.2223292-3-f4bug@amsat.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 27 May 2021 10:27:39 +0100
-Message-ID: <CAFEAcA-G2Gtd+mCAUXGtL0OJXUwTt=zFAWe0WPvkhSeiAuLnUQ@mail.gmail.com>
-Subject: Re: [PATCH 1/3] hw/usb/Kconfig: Introduce USB_CHIPIDEA symbol
+Date: Thu, 27 May 2021 10:28:39 +0100
+Message-ID: <CAFEAcA9hNhU+iFexco9dbE5cuLhOpZo88a40G0E44SEK=UOZOg@mail.gmail.com>
+Subject: Re: [PATCH 2/3] hw/arm/Kconfig: Add missing dependency ZYNQ ->
+ USB_CHIPIDEA
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::534;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x534.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,59 +92,44 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Wed, 19 May 2021 at 21:09, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
  wrote:
 >
-> Currently the TYPE_CHIPIDEA model is only built when the IMX
-> machines are built. Since it is not specific to IMX, add its
-> symbol to allow other machines to use it.
+> When using a binary built using --without-default-devices we get:
 >
+>   $ qemu-system-arm -M xilinx-zynq-a9
+>   **
+>   ERROR:qom/object.c:714:object_new_with_type: assertion failed: (type !=
+=3D NULL)
+>   Bail out! ERROR:qom/object.c:714:object_new_with_type: assertion failed=
+: (type !=3D NULL)
+>
+> Looking at the stack trace:
+>
+> (gdb) bt
+>   #3  0x00007ffff6e229ff in g_assertion_message_expr () at /lib64/libglib=
+-2.0.so.0
+>   #4  0x00005555558d3f01 in object_new_with_type (type=3D<optimized out>)=
+ at qom/object.c:714
+>   #5  0x00005555558d3f59 in object_new (typename=3Dtypename@entry=3D0x555=
+555ad4545 "usb-chipidea") at qom/object.c:747
+>   #6  0x00005555558cd526 in qdev_new (name=3Dname@entry=3D0x555555ad4545 =
+"usb-chipidea") at hw/core/qdev.c:153
+>   #7  0x0000555555739fc6 in sysbus_create_varargs (name=3Dname@entry=3D0x=
+555555ad4545 "usb-chipidea", addr=3Daddr@entry=3D3758104576) at hw/core/sys=
+bus.c:234
+>   #8  0x0000555555796b57 in sysbus_create_simple (irq=3D<optimized out>, =
+addr=3D3758104576, name=3D0x555555ad4545 "usb-chipidea") at include/hw/sysb=
+us.h:104
+>   #9  zynq_init (machine=3D0x555555de07a0) at hw/arm/xilinx_zynq.c:254
+>   #10 0x000055555573707c in machine_run_board_init (machine=3Dmachine@ent=
+ry=3D0x555555de07a0) at hw/core/machine.c:1238
+>
+> When replacing the xlnx,ps7-usb device by the IDEA one in commit
+> 616ec12d0fc ("hw/arm/xilinx_zynq: Fix USB port instantiation") we
+> forgot to add the Kconfig dependency on the new device. Do it now.
+>
+> Fixes: 616ec12d0fc ("hw/arm/xilinx_zynq: Fix USB port instantiation")
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> ---
->  hw/arm/Kconfig     | 4 ++++
->  hw/usb/Kconfig     | 3 +++
->  hw/usb/meson.build | 2 +-
->  3 files changed, 8 insertions(+), 1 deletion(-)
->
-> diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-> index b887f6a5b17..585de92f00a 100644
-> --- a/hw/arm/Kconfig
-> +++ b/hw/arm/Kconfig
-> @@ -385,6 +385,7 @@ config FSL_IMX25
->      select IMX_I2C
->      select WDT_IMX2
->      select DS1338
-> +    select USB_CHIPIDEA
->
->  config FSL_IMX31
->      bool
-> @@ -403,6 +404,7 @@ config FSL_IMX6
->      select IMX_USBPHY
->      select WDT_IMX2
->      select SDHCI
-> +    select USB_CHIPIDEA
->
->  config ASPEED_SOC
->      bool
-> @@ -447,6 +449,7 @@ config FSL_IMX7
->      select PCI_EXPRESS_DESIGNWARE
->      select SDHCI
->      select UNIMP
-> +    select USB_CHIPIDEA
->
->  config ARM_SMMUV3
->      bool
-> @@ -460,6 +463,7 @@ config FSL_IMX6UL
->      select WDT_IMX2
->      select SDHCI
->      select UNIMP
-> +    select USB_CHIPIDEA
->
->  config MICROBIT
->      bool
 
-Missing "select USB_CHIPIDEA" in "config FSL_IMX31" ?
-
-(Side note: is it worth moving the FSL_* config sections so
-they're all next to each other? We seem to have allowed them
-to become separated by some other unrelated sections...)
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
 thanks
 -- PMM
