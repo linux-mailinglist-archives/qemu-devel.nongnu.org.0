@@ -2,62 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50CD8393055
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 15:59:03 +0200 (CEST)
-Received: from localhost ([::1]:59646 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD29F39306E
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 16:06:22 +0200 (CEST)
+Received: from localhost ([::1]:43896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lmGXO-000392-DJ
-	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 09:59:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53276)
+	id 1lmGeT-0003fC-VO
+	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 10:06:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54014)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lmGT3-0000uI-AU
- for qemu-devel@nongnu.org; Thu, 27 May 2021 09:54:34 -0400
-Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529]:38785)
+ id 1lmGVX-0003Wr-VI
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 09:57:07 -0400
+Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:36363)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lmGSu-0002Xd-Pa
- for qemu-devel@nongnu.org; Thu, 27 May 2021 09:54:32 -0400
-Received: by mail-ed1-x529.google.com with SMTP id o5so956888edc.5
- for <qemu-devel@nongnu.org>; Thu, 27 May 2021 06:54:24 -0700 (PDT)
+ id 1lmGVS-0004FS-4T
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 09:57:06 -0400
+Received: by mail-ed1-x533.google.com with SMTP id df21so975698edb.3
+ for <qemu-devel@nongnu.org>; Thu, 27 May 2021 06:57:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=pV9i/MLYtuuCEwTNdVFWSWT9ZdqHMGoD+tlsWTecrNE=;
- b=riJMNyTVmsY2c6DuoREyYTyU2YybhCv8Cws7zTrnyEyi26oXnzKyVNhrmA2jzyjpiG
- dGAwM4eFWhiI04VHZyOP40TV6HwJKXASNua/10V91IK9TgWckam9st13ImfhRIM4aTjl
- F6WbI/iojpCLGaNDu781PsBKKJPb388evdlAVjxwlYgZoGyXUAFufzr0/aDs2gRilVAq
- o4iByoawTvsZ6bA8wA8rCe8i2bwuSX/oQWZkVzYd+AcUZIvpvNdmA1uFdnlBUznL53Hp
- aG2leSF6Nd4iQ6NJoHBuMT92jlPj9V76RbExZvznhtyYNLlk2zTT9hw+FtkoGhifvxLL
- EB9Q==
+ :cc:content-transfer-encoding;
+ bh=FO1+qbFN4FzVSw0x9bwURBi1gx3Yrkp0JPX61Wb0nIg=;
+ b=OZqQQ/NDsZKAan1gO9LJ8BdVmbB05EBLPWGG8jULRRAv3b9QYd0IXiwD3Ti0OE5ch9
+ IY2NU9MU/pZaimI3reWXBLuwSx8Dg98jVAOcM0v+x4ot9fEjVKY1ptkV0QDHKeLvvFCA
+ tCLrJf00prq+JiOYRnJUDaaEnnErX9na47P3AohFF/l/2Hrg/RM+ATARM0UkQQmpMM8n
+ D+fZmgcrpA9sqnFjy769W9L8rs+kgFB41iOnLAGtStXDgqXaofkYb+8V2cT+YLHxIv3I
+ VYI5Eft7vfNMMf0ZLsqm8/yi/UR9QXG1Hu0850ykM5Qdvj1WSQz/LG/TzPjxO9a4dihC
+ YPJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=pV9i/MLYtuuCEwTNdVFWSWT9ZdqHMGoD+tlsWTecrNE=;
- b=lWatYrYOei2QZYRRLlVRZKCnnSv0Yl82dcNda72njEkdrHLngeDlKIbMPJV5AngvgG
- I67X+2bva2OYpzTVMn3+lGenCdO9ILn9wWQPdg8tI42NdVCyEChNXYrwUWaFke5VYESv
- +SNIHad2t8cXACi+UJOjvBvfqGJKsz61cwKqLIXZpfjWxBIDmTFi2ma0BTI9n/pcYk0Z
- AJcwAn99o0VOfUnSOaQryW4bLW5KlIqls4OrSn0ViOcZ4gi/pA+meDuGf+x17c6jvzDs
- 7SIaeUqsiS3LMWuMK78gYN4170sF7rNsqvK5kVqRAxnTpS35bczZPtXYaMiY9W63thVk
- 3zoQ==
-X-Gm-Message-State: AOAM531PSoAEEmnqiM7UYltpSH9IHEx71ylv7d1KByejWECY8PQoS0KH
- +rSWKh6mhUGmTn9RXawDuElXLH1bmaweLGLynQcGjQ==
-X-Google-Smtp-Source: ABdhPJwdH+TVOaNufIKx0JkrUrASnOkC3OwboM7ThiLIIlL2VwOn+rtI8JgzMJ3iLdiatbWiHzfAJKnJ9WRn2RhUUJ0=
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=FO1+qbFN4FzVSw0x9bwURBi1gx3Yrkp0JPX61Wb0nIg=;
+ b=Pj5M2SenGaSxyxqxVwJ2Ng0m5F847ysTiO01jHwTMVJSF09/BEITe8RmSaK9HqPmFp
+ Yg3UKqqKFVvM+jIkD6YJmtECIrY04mxJoYhfsSrsfO3NB8K58btrGtC0aw2AMkDcQ0Bb
+ BSDvaEzm0GCqJe17UxHVM2EaLQ8QNbOjyL7nqMppbu7Po1/ZC40wC/aMtDq1UyP9HC2h
+ MTXpOSyRHv1zoRaKAtQgLI55Ic4CnZpuEf8obaRUkfivymY524j5al03frMASwTRjjNQ
+ qsZ9jf16Qfz6kAZDz5vfAg+uRI7S6mSYrQglgqJSOwyqYBXVuDzjkavFlhu1dT8yxCbE
+ dm/A==
+X-Gm-Message-State: AOAM532z1whM0sc2Fj/etMfXOsJa1finWIpD7I09cQb7tdNnQyGgGU5O
+ ElanM8s4NniexDmQ+es6nQ8aPUMXvsoYbbKszfH5MQ==
+X-Google-Smtp-Source: ABdhPJziEmwbC+RGI21oihR9oXZlyk/8qDDQiZel+a02AeIP/DuFtwr/kYqi1SoOsgT/lF5IWutkE9NS4d0Ii0kkOcE=
 X-Received: by 2002:a05:6402:3548:: with SMTP id
- f8mr4200716edd.251.1622123662978; 
- Thu, 27 May 2021 06:54:22 -0700 (PDT)
+ f8mr4211747edd.251.1622123819780; 
+ Thu, 27 May 2021 06:56:59 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210526163550.501367-1-pbonzini@redhat.com>
-In-Reply-To: <20210526163550.501367-1-pbonzini@redhat.com>
+References: <20210526211838.421716-1-f4bug@amsat.org>
+In-Reply-To: <20210526211838.421716-1-f4bug@amsat.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 27 May 2021 14:53:57 +0100
-Message-ID: <CAFEAcA_7T8yoibYbKkVhW61DF0PaWw-zaLSjpuFOLuHChJSDOQ@mail.gmail.com>
-Subject: Re: [PULL v2 00/28] Misc patches for 2021-05-24
-To: Paolo Bonzini <pbonzini@redhat.com>
+Date: Thu, 27 May 2021 14:56:33 +0100
+Message-ID: <CAFEAcA-goVUqVxMd9QmvFsUUky0d1MmJ4N7A_oK4en-16VbUeA@mail.gmail.com>
+Subject: Re: [PULL 00/19] gitlab-ci patches for 2021-05-26
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::529;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x529.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::533;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x533.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -77,40 +79,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Thomas Huth <thuth@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 26 May 2021 at 17:51, Paolo Bonzini <pbonzini@redhat.com> wrote:
+On Wed, 26 May 2021 at 22:27, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
+ wrote:
 >
-> The following changes since commit 92f8c6fef13b31ba222c4d20ad8afd2b79c4c28e:
+> The following changes since commit 2ab2dad01f6dc3667c0d53d2b1ba46b5110312=
+07:
 >
->   Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20210525' into staging (2021-05-25 16:17:06 +0100)
+>   Merge remote-tracking branch 'remotes/kraxel/tags/input-20210526-pull-r=
+equest' into staging (2021-05-26 15:27:20 +0100)
 >
 > are available in the Git repository at:
 >
->   https://gitlab.com/bonzini/qemu.git tags/for-upstream
+>   https://github.com/philmd/qemu.git tags/gitlab-ci-20210526
 >
-> for you to fetch changes up to 7cf333a37260c4aafa465453adc8e073e408967e:
+> for you to fetch changes up to 740890e8935fff09023bb34c52e74ab1d539b775:
 >
->   gitlab-ci: use --meson=git for CFI jobs (2021-05-26 14:50:05 +0200)
+>   gitlab: Split gprof-gcov job (2021-05-26 23:01:47 +0200)
 >
 > ----------------------------------------------------------------
-> * submodule cleanups (Philippe, myself)
-> * tiny step towards a usable preconfig mode (myself)
-> * Kconfig and LOCK_GUARD cleanups (philippe)
-> * new x86 CPUID feature (Yang Zhong)
-> * "-object qtest" support (myself)
-> * Dirty ring support for KVM (Peter)
-> * Fixes for 6.0 command line parsing breakage (myself)
-> * Fix for macOS 11.3 SDK (Katsuhiro)
+> GitLab CI patches queue
+>
+> - Explode .gitlab-ci.yml in reusable templates
+> - Add job to cross build/test TCI on i386 host
+> - Remove CentOS 7 linux-user build job
+> - Split gprof-gcov job
+> - Temporarily set Avocado-based jobs in manual mode
+> - Increase time to hold Avocado reports to 1 week
 >
 
+Conflict in .gitlab-ci.yml -- can you fix up and resend, please?
 
-Applied, thanks.
-
-Please update the changelog at https://wiki.qemu.org/ChangeLog/6.1
-for any user-visible changes.
-
+thanks
 -- PMM
 
