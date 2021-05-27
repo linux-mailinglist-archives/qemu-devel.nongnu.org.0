@@ -2,80 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DAF6393020
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 15:50:55 +0200 (CEST)
-Received: from localhost ([::1]:48482 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69C00392F8B
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 15:25:55 +0200 (CEST)
+Received: from localhost ([::1]:37088 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lmGPV-0003lM-Bo
-	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 09:50:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45238)
+	id 1lmG1I-0001O5-G7
+	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 09:25:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40844)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lmG13-0003OK-O6
- for qemu-devel@nongnu.org; Thu, 27 May 2021 09:25:37 -0400
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:55068)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lmG0v-0004H1-Vy
- for qemu-devel@nongnu.org; Thu, 27 May 2021 09:25:37 -0400
-Received: by mail-wm1-x32a.google.com with SMTP id o127so195822wmo.4
- for <qemu-devel@nongnu.org>; Thu, 27 May 2021 06:25:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=7CquySGT9oqwkeY76J1aNN2ZN7aRlwuXzLgXzXhMGng=;
- b=vFmh3V9ScCriYFqCVVAHLGvKTCLms9TR0O0Y97kFutGbsHZM9ivY+Tt3v7W/byqcx8
- 1zNzG4xxq+5ZfSh2ABeKz8xiJxoStcXMU0j1Uwt6eGtKfG2/6iBa74JKxvtocob2tm16
- dqD4c5oZLr7Q58aVnXgaCZwcF0esQhGXHAUmsS3gYVmjiPqroXUi7Wjdbm3n1ij2PW4M
- 6m3tPRHHRWMXLocfbZpeorqOmXx4rxRdXCnbZzs0cXeJSG42H4Irjzg0r1PPrM51w7tg
- ruh2kwhMZ48eaeKFOxz8fwEF63boErcMVU4S8tIpCroY+GIqZZIbGKx2pnX/vkHyR5BT
- fI0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=7CquySGT9oqwkeY76J1aNN2ZN7aRlwuXzLgXzXhMGng=;
- b=GFs6pI9OtSj7Zrw4EaHqwtncuReW9Xm5wv4mY/G7HprUlZodSwyB8zxVKQ/lmJvAuz
- CzEeAE1Zt1IJo0MbswUXuH5IPyQv+SiAJ4VeVYb/8UWBkT2OGtPxkPUTNtRDKXxZyPj6
- 5kwIAUuSBoNwGfXiK7MQ+8zTR06g+GJX/lbH6gB0nIczP6GQgeFpsbdL1KMhmBuX3IgB
- bQ/DjTGZav9Y67GYYZXvPSL4TD4O0Vhq4Zwo78CgKI/ELLfnPJnm/sQ6VArdzuky0Pjv
- dMH6kAI0nUtWC9k8jjCzAg5YPUXyJ8DjIhtrP32N7B4EzlGnf2UgBLsaBwvk49oo7O2c
- qyCw==
-X-Gm-Message-State: AOAM53245YPEj0940A8gbgcu7NwGnv14/ftvn2XJLv+20SIV8RY9dIdR
- 3VVcIBuOyGoJSUGx5/GMKWqr9g==
-X-Google-Smtp-Source: ABdhPJz/0G8Kj6I+t253htu2WqyUOPlIyoz2WsWqMTVPyvFmuuExo05PHQJFQvqXlrbnqXFX9xe4nA==
-X-Received: by 2002:a1c:e243:: with SMTP id z64mr3437842wmg.25.1622121922109; 
- Thu, 27 May 2021 06:25:22 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id y189sm1914550wmy.25.2021.05.27.06.25.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 May 2021 06:25:21 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 80BCE1FF7E;
- Thu, 27 May 2021 14:25:20 +0100 (BST)
-References: <20210524045412.15152-1-yamamoto@midokura.com>
- <87cztg3tv0.fsf@linaro.org>
- <CAH=wFzQjYJHN3xH1QhyxzZNDXGjQDw5UxhwH2NEiQoYjWcqh-g@mail.gmail.com>
- <CAH=wFzR3=Q1ukE-5Wp1jQ47n0p2Y6wwv8vFVtycTJZYdajtctA@mail.gmail.com>
-User-agent: mu4e 1.5.13; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Takashi Yamamoto <yamamoto@midokura.com>
-Subject: Re: [PATCH 0/5] linux-user changes to run docker
-Date: Thu, 27 May 2021 14:08:29 +0100
-In-reply-to: <CAH=wFzR3=Q1ukE-5Wp1jQ47n0p2Y6wwv8vFVtycTJZYdajtctA@mail.gmail.com>
-Message-ID: <87y2c01f7j.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <cmarinas@kernel.org>)
+ id 1lmFlA-0001TM-5p
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 09:09:18 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55250)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cmarinas@kernel.org>)
+ id 1lmFkz-0005Em-1W
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 09:09:11 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 107246128B;
+ Thu, 27 May 2021 13:08:50 +0000 (UTC)
+Date: Thu, 27 May 2021 14:08:48 +0100
+From: Catalin Marinas <catalin.marinas@arm.com>
+To: Steven Price <steven.price@arm.com>
+Subject: Re: [PATCH v12 7/8] KVM: arm64: ioctl to fetch/store tags in a guest
+Message-ID: <20210527130848.GA8661@arm.com>
+References: <20210517123239.8025-1-steven.price@arm.com>
+ <20210517123239.8025-8-steven.price@arm.com>
+ <20210520120556.GC12251@arm.com>
+ <dd5ab3a0-5a74-b145-2485-d6d871be945b@arm.com>
+ <20210520172713.GF12251@arm.com>
+ <5eec330f-63c0-2af8-70f8-ba9b643e2558@arm.com>
+ <20210524181129.GI14645@arm.com>
+ <58345eca-6e5f-0faa-e47d-e9149d73f6c5@arm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <58345eca-6e5f-0faa-e47d-e9149d73f6c5@arm.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Received-SPF: pass client-ip=198.145.29.99; envelope-from=cmarinas@kernel.org;
+ helo=mail.kernel.org
+X-Spam_score_int: -66
+X-Spam_score: -6.7
+X-Spam_bar: ------
+X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,65 +59,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Andrew Jones <drjones@redhat.com>, Haibo Xu <Haibo.Xu@arm.com>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>, qemu-devel@nongnu.org,
+ Marc Zyngier <maz@kernel.org>, Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, linux-kernel@vger.kernel.org,
+ Dave Martin <Dave.Martin@arm.com>, James Morse <james.morse@arm.com>,
+ linux-arm-kernel@lists.infradead.org, Thomas Gleixner <tglx@linutronix.de>,
+ Will Deacon <will@kernel.org>, kvmarm@lists.cs.columbia.edu,
+ Julien Thierry <julien.thierry.kdev@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Thu, May 27, 2021 at 08:50:30AM +0100, Steven Price wrote:
+> On 24/05/2021 19:11, Catalin Marinas wrote:
+> > I had some (random) thoughts on how to make things simpler, maybe. I
+> > think most of these races would have been solved if we required PROT_MTE
+> > in the VMM but this has an impact on the VMM if it wants to use MTE
+> > itself. If such requirement was in place, all KVM needed to do is check
+> > PG_mte_tagged.
+> > 
+> > So what we actually need is a set_pte_at() in the VMM to clear the tags
+> > and set PG_mte_tagged. Currently, we only do this if the memory type is
+> > tagged (PROT_MTE) but it's not strictly necessary.
+> > 
+> > As an optimisation for normal programs, we don't want to do this all the
+> > time but the visible behaviour wouldn't change (well, maybe for ptrace
+> > slightly). However, it doesn't mean we couldn't for a VMM, with an
+> > opt-in via prctl(). This would add a MMCF_MTE_TAG_INIT bit (couldn't
+> > think of a better name) to mm_context_t.flags and set_pte_at() would
+> > behave as if the pte was tagged without actually mapping the memory in
+> > user space as tagged (protection flags not changed). Pages that don't
+> > support tagging are still safe, just some unnecessary ignored tag
+> > writes. This would need to be set before the mmap() for the guest
+> > memory.
+> > 
+> > If we want finer-grained control we'd have to store this information in
+> > the vma flags, in addition to VM_MTE (e.g. VM_MTE_TAG_INIT) but without
+> > affecting the actual memory type. The easiest would be another pte bit,
+> > though we are short on them. A more intrusive (not too bad) approach is
+> > to introduce a set_pte_at_vma() and read the flags directly in the arch
+> > code. In most places where set_pte_at() is called on a user mm, the vma
+> > is also available.
+> > 
+> > Anyway, I'm not saying we go this route, just thinking out loud, get
+> > some opinions.
+> 
+> Does get_user_pages() actually end up calling set_pte_at() normally?
 
-Takashi Yamamoto <yamamoto@midokura.com> writes:
+Not always, at least as how it's called from hva_to_pfn(). My reading of
+the get_user_page_fast_only() is that it doesn't touch the pte, just
+walks the page tables and pins the page. Of course, it expects a valid
+pte to have been set in the VMM already, otherwise it doesn't pin any
+page and the caller falls back to the slow path.
 
-> On Tue, May 25, 2021 at 8:22 AM Takashi Yamamoto <yamamoto@midokura.com> =
-wrote:
->>
->> On Tue, May 25, 2021 at 2:49 AM Alex Benn=C3=A9e <alex.bennee@linaro.org=
-> wrote:
->> >
->> >
->> > YAMAMOTO Takashi <yamamoto@midokura.com> writes:
->> >
->> > > These patches, along with a few more hacks [1] I didn't include
->> > > in this patchset, allowed me to run arm64 and armv7 version of
->> > > dind image on amd64.
->> > >
->> > > [1] https://github.com/yamt/qemu/tree/linux-user-for-docker
->> >
->> > Might be worth posting those patches next time (even if they have a RFC
->> > or !MERGE in the title for now).
->>
->> ok.
->
-> while RFC is mentioned in eg. git format-patch --help,
-> i couldn't find what !MERGE is.
-> can you provide a reference?
+The slow path, get_user_pages_unlocked(), passes FOLL_TOUCH and
+set_pte_at() will be called either in follow_pfn_pte() if it was valid
+or via faultin_page() -> handle_mm_fault().
 
-It's usually just an annotation to the subject line of the commit, e.g:
+> If not then on the normal user_mem_abort() route although we can
+> easily check VM_MTE_TAG_INIT there's no obvious place to hook in to
+> ensure that the pages actually allocated have the PG_mte_tagged flag.
 
-  foo/bar: hacky fix to frobulator (!MERGE)
+I don't think it helps if we checked such vma flag in user_mem_abort(),
+we'd still have the race with set_pte_at() on the page flags. What I was
+trying to avoid is touching the page flags in too many places, so
+deferring this always to set_pte_at() in the VMM.
 
-  rest of commit message
+> I'm also not sure how well this would work with the MMU notifiers path
+> in KVM. With MMU notifiers (i.e. the VMM replacing a page in the
+> memslot) there's not even an obvious hook to enforce the VMA flag. So I
+> think we'd end up with something like the sanitise_mte_tags() function
+> to at least check that the PG_mte_tagged flag is set on the pages
+> (assuming that the trigger for the MMU notifier has done the
+> corresponding set_pte_at()). Admittedly this might close the current
+> race documented there.
 
-or something like:
+If we kept this check to the VMM set_pte_at(), I think we can ignore the
+notifiers.
 
-  baz/quack: invert the tachyon beam (WIP)
+> It also feels wrong to me to tie this to a process with prctl(), it
+> seems much more normal to implement this as a new mprotect() flag as
+> this is really a memory property not a process property. And I think
+> we'll find some scary corner cases if we try to associate everything
+> back to a process - although I can't instantly think of anything that
+> will actually break.
 
-  reason for the fix.
+I agree, tying it to the process looks wrong, only that it's less
+intrusive. I don't think it would break anything, only potential
+performance regression. A process would still need to pass PROT_MTE to
+be able to get tag checking. That's basically what I had in an early MTE
+implementation with clear_user_page() always zeroing the tags.
 
-  [AJB: still WIP as this breaks foo]
+I agree with you that a vma flag would be better but it's more
+complicated without an additional pte bit. We could also miss some
+updates as mprotect() for example checks for pte_same() before calling
+set_pte_at() (it would need to check the updated vma flags).
 
-AFAIK the only subject lines supported by the tooling are the squash:
-and fixup: prefixes.
+I'll review the latest series but I'm tempted to move the logic in
+santise_mte_tags() to mte.c and take the big lock in there if
+PG_mte_tagged is not already set. If we hit performance issues, we can
+optimise this later to have the page flag set already on creation (new
+PROT flag, prctl etc.).
 
-> is there a nice way to express that some patches in a post are meant
-> for application and the others are RFC?
-
-Aside from a description in the cover letter not really. The main reason
-to include patches that aren't ready for merging is to show where your
-work is going so the full context of earlier changes can be seen. Having
-an ALL CAPS tag in the subject line is just handy for the maintainer
-when scanning what might get cherry picked. Obviously if a patch totally
-breaks the build it's not worth including as it just makes review harder
-when giving the patches a spin so you should exercise your judgement.
-
---=20
-Alex Benn=C3=A9e
+-- 
+Catalin
 
