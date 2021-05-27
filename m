@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EEFC3925FF
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 06:18:47 +0200 (CEST)
-Received: from localhost ([::1]:49262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C231D3925F8
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 06:16:15 +0200 (CEST)
+Received: from localhost ([::1]:40552 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lm7Tq-0001dX-8q
-	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 00:18:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45130)
+	id 1lm7RO-0004Ex-Pg
+	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 00:16:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45088)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lm7PU-0001Zs-Ce
- for qemu-devel@nongnu.org; Thu, 27 May 2021 00:14:16 -0400
-Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436]:34417)
+ id 1lm7PR-0001Z1-C5
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 00:14:14 -0400
+Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e]:44586)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lm7PP-0007D5-Bb
- for qemu-devel@nongnu.org; Thu, 27 May 2021 00:14:15 -0400
-Received: by mail-pf1-x436.google.com with SMTP id q25so2664685pfn.1
- for <qemu-devel@nongnu.org>; Wed, 26 May 2021 21:14:10 -0700 (PDT)
+ id 1lm7PP-0007DF-Sz
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 00:14:13 -0400
+Received: by mail-pg1-x52e.google.com with SMTP id 29so2710284pgu.11
+ for <qemu-devel@nongnu.org>; Wed, 26 May 2021 21:14:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=GEYVI8LFk6gKuKrRnF8fi7M93S+ekzhJWlI6Apgn4eU=;
- b=p8LZ1BKVgZqYKudYMjH7qzvO4nH/DHzpAfA/EgRYpkOzk4JXDkVsDBhE5RQBPJjAIy
- uL2zyDB4eHXvUTcnUY+zBJfNhDxuPThEtBTN9LnP9mA7rOoCGk7fXMd8A2Lp1mDKTy9G
- 4V3vToc6rDGXnRx1s0uWgwGRMeFH0gk3xOv0UfDVNLVPBmUrgBgTSHEswXN0SF5ExBY3
- Z0oArZ/4sKcz/sadFLDTiUDu0C2ormvmeE1/7IyRH/d8QSLR+WgtqcxOEYV6ExpUvO54
- m4cw8OammlqDiQjCa3TpeJNFojZpAfvP65N3fWAY7esfGwGOVlTgzuK/3doIoyS4swF9
- DXyw==
+ bh=UoxBYLGz1RPfPHU5SsrpnEXE2PmprFjabmvNHor6v/o=;
+ b=OSsljFwqnG6yAYxRCl+xTx4bq6IqteVk7ygm0Ld1zhlngHNqUzq7GBVU9WbvyAUw3W
+ e4XPzYGFEDlcTMz/0KvEVdRq20/AD6wt+SUUAcwt2H2WUl/o3+e7Cj+uAlKLGtL9FlII
+ iOFZzuemVT78aExW+5LYpSBtKrC/iCFgkCO1bIDgE1/u2iH+0K8ICC154ycL/kFI0uE8
+ pz75Ud6NNAxCQRQJtGKoCkUbQ/Bu2j8TICUYcqxLsLbQTY8lhzrEDRjS54Rmdp/BJjR+
+ lTdNN0WC5JBjxN3CSDib7FSv0C8m/W5VQYpOfmDG56oikNmjRbDYRy8pMl1EfRz2XSXa
+ +Ybw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=GEYVI8LFk6gKuKrRnF8fi7M93S+ekzhJWlI6Apgn4eU=;
- b=l2BL3bNi6SC+DU42VqbrvsCYYpV6HHrX9roY3dMKWKayGUsDdKN+3t73Wr18qlFdC9
- YirhQhF/V3tfWW595GxNSILC0LPMwQjllisA3X5qWN0PcBBC9pgcdbj5Loe/tLLmn0OP
- WAzAn0oaKJNXhfIj6BCPt+MCJmvN0W753e2v111QPd56wfdgsNHMFy6hcXXQNOUU8xHv
- f6a/NHsFGmJl0Rn1l4qJ1jrRftHeCh+ftGpLNa9kBCWbrtzc7UH0KtKN+jioPFdELtaj
- lGfYGVD4smKhkpJs0+DR6DKIBrVnaDg7MhKQ166OZJLkTfUe3E3cNuuNWqwmT7mdaE24
- K2mQ==
-X-Gm-Message-State: AOAM533GdAsuVq0UX75ZAuuAtduKsy/6wJrE9dOLK+7ip5qxYrT53RHe
- zYEccaFsCSnhjgA8ZZ38VZK9soY9U10Raw==
-X-Google-Smtp-Source: ABdhPJzgXUUT40s0378mIvZ8f6UFJ7XtHVXuq0UBTycLcb2+vjhu1GHaF0ZroqXUTz74hGE8sEIIiA==
-X-Received: by 2002:a63:4b18:: with SMTP id y24mr1871088pga.438.1622088850164; 
+ bh=UoxBYLGz1RPfPHU5SsrpnEXE2PmprFjabmvNHor6v/o=;
+ b=nITj/dgB0LhcYrbxgaY9FrDJsMm4cfqMqNU2dsUuw8b+MvAvsSR7m7KM/jl3pHQ5Fv
+ 7LBXAu5EBGFsR9FYmWnjBUEBXMkPd9FUGZg3q+075oGPnZ09LQIMYIsBqD3iWPtEgEOn
+ h4nK51imbURDagm/b+DG3em5mCj+FvbWC1GSs3bl+Z+i9RJkhiMtro3qrfdxqOC73NEI
+ dwDsNBGUVG3KVeMHhZl4SFHTW4Y/meZ11cpK13yzClput32y+0NShapOedL9+Lb9vhB1
+ wpxzq+cB+dE41EHE3pFtGSYUaQsZyjUmjrriqpE5JuFFJxqkT5NHF/9wOYSmgglB7fA2
+ yWUQ==
+X-Gm-Message-State: AOAM530c1SOX3YHA/kacdbM7SkUYYmPpbUj1MVMWLCeltbBDYpbQ4Li0
+ DaEuRjgHC5nOclP/JBvraNCu4eyWVW2ZOQ==
+X-Google-Smtp-Source: ABdhPJzoHGPy+mM1vnfke5ie73IuFuG7XZuXZ+BzujqIDdKeaZT7eaDhor/LZP0dYZ+DSSPZkTxlAA==
+X-Received: by 2002:a62:5846:0:b029:2e8:fde9:5c6d with SMTP id
+ m67-20020a6258460000b02902e8fde95c6dmr1822074pfb.56.1622088850663; 
  Wed, 26 May 2021 21:14:10 -0700 (PDT)
 Received: from localhost.localdomain (174-21-70-228.tukw.qwest.net.
  [174.21.70.228])
- by smtp.gmail.com with ESMTPSA id s1sm605959pfc.6.2021.05.26.21.14.09
+ by smtp.gmail.com with ESMTPSA id s1sm605959pfc.6.2021.05.26.21.14.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 May 2021 21:14:09 -0700 (PDT)
+ Wed, 26 May 2021 21:14:10 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 06/11] target/rx: Handle the FPSW.DN bit in helper_set_fpsw
-Date: Wed, 26 May 2021 21:14:00 -0700
-Message-Id: <20210527041405.391567-7-richard.henderson@linaro.org>
+Subject: [PATCH 07/11] target/rx: Use FloatRoundMode in helper_set_fpsw
+Date: Wed, 26 May 2021 21:14:01 -0700
+Message-Id: <20210527041405.391567-8-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210527041405.391567-1-richard.henderson@linaro.org>
 References: <20210527041405.391567-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x436.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,41 +91,28 @@ Cc: alex.bennee@linaro.org, mmorrell@tachyum.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Both input and output denormals flush to zero when DN is set.
+Use the proper type for the roundmode array.
 
 Cc: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/rx/op_helper.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ target/rx/op_helper.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/target/rx/op_helper.c b/target/rx/op_helper.c
-index ef904eb5f9..2139def3b2 100644
+index 2139def3b2..b1772e9538 100644
 --- a/target/rx/op_helper.c
 +++ b/target/rx/op_helper.c
-@@ -127,13 +127,20 @@ void helper_set_fpsw(CPURXState *env, uint32_t val)
-         float_round_down,
-     };
-     uint32_t fpsw = env->fpsw;
-+    bool dn;
-+
-     fpsw |= 0x7fffff03;
-     val &= ~0x80000000;
-     fpsw &= val;
-     FIELD_DP32(fpsw, FPSW, FS, FIELD_EX32(fpsw, FPSW, FLAGS) != 0);
-     env->fpsw = fpsw;
--    set_float_rounding_mode(roundmode[FIELD_EX32(env->fpsw, FPSW, RM)],
-+
-+    set_float_rounding_mode(roundmode[FIELD_EX32(fpsw, FPSW, RM)],
-                             &env->fp_status);
-+
-+    dn = FIELD_EX32(env->fpsw, FPSW, DN);
-+    set_flush_to_zero(dn, &env->fp_status);
-+    set_flush_inputs_to_zero(dn, &env->fp_status);
- }
+@@ -120,7 +120,7 @@ static void update_fpsw(CPURXState *env, float32 ret, uintptr_t retaddr)
  
- #define FLOATOP(op, func)                                           \
+ void helper_set_fpsw(CPURXState *env, uint32_t val)
+ {
+-    static const int roundmode[] = {
++    static const FloatRoundMode roundmode[] = {
+         float_round_nearest_even,
+         float_round_to_zero,
+         float_round_up,
 -- 
 2.25.1
 
