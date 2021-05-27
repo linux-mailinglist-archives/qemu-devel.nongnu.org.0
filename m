@@ -2,67 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F3C7393153
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 16:47:37 +0200 (CEST)
-Received: from localhost ([::1]:38034 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F9E8393181
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 16:53:39 +0200 (CEST)
+Received: from localhost ([::1]:50766 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lmHIO-0007op-A4
-	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 10:47:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40066)
+	id 1lmHO9-00087V-HL
+	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 10:53:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40102)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lmHGx-0006Sp-2r
- for qemu-devel@nongnu.org; Thu, 27 May 2021 10:46:07 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:44918)
+ id 1lmHH0-0006UB-AF
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 10:46:10 -0400
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:35679)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lmHGn-0000Zn-Pp
- for qemu-devel@nongnu.org; Thu, 27 May 2021 10:46:06 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id r10so115349wrj.11
- for <qemu-devel@nongnu.org>; Thu, 27 May 2021 07:45:57 -0700 (PDT)
+ id 1lmHGt-0000c0-Fi
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 10:46:08 -0400
+Received: by mail-wm1-x331.google.com with SMTP id
+ z19-20020a7bc7d30000b029017521c1fb75so2796227wmk.0
+ for <qemu-devel@nongnu.org>; Thu, 27 May 2021 07:46:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=OU3cNk4BQUz74+m48Ega2/uQplIjDVwUhfWV+uBnj1g=;
- b=AFxtZVPH+OhAgSZYpM0dkPJ5unJ0l0X7bMzUk8RYlVrc+gm3X1xksxSNZU5kpUcdv0
- EVzhnJKh76iBaDEwMfSzgbvR6fzm3DD60c8191SUJz0nq17IVty4TFNIL8P6PblxqqaZ
- iNntaiKrgI+Sir/am3xHbzQJ8MEaioeTDSUPZgnJMZ7xJCOmbfCbsrg6UaBvtuT3Ov8M
- tf2cI0N31UqtKKvloaPgPgaM+Ge9ctleDBosnzeW7J7iJdinmjMAjYkMryItG9mZqmkk
- 4XXfdP1fbFD10NTMCgwaZYem4sGNxLIcf40GRFeOLpPkKiv+OWYgHMd85JBT03FoMmXP
- NBtQ==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=ewvV2+3vJg5Ig4JR2wwg68rlOHbwDN6VwHsBDHnFdrI=;
+ b=X7InTI4migS+LnsiH5Y410cvEeTQokvCmSnNAj405QxmvBFfZB5Ejq+7FJ+xi+PJ3Z
+ 5QVVzYttuLtzi31n/thV9/GO2EfOiS7rz9tPkdGpYaEVR9lMDhf1VVLUaf1UpddOrEj7
+ QPFtWKvDpvt5jjyH/9SqYmbeNRA+6gGorVTIZX68RRk3i2cFyAhs6acYDEQlL47GobfX
+ opbfeW+pTjFg/caYQYJEiFaMEXsc8QBWvfSwEfHctEi2+6fUEcbjD2uyTd5+dA3+r5NA
+ O/ECnfay5Z9BJZbfVOSzV45xgBaQLXwJVhy2aMMwOXJffk7m5jCnOvTfNUHBK5uoSIKq
+ 4VuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=OU3cNk4BQUz74+m48Ega2/uQplIjDVwUhfWV+uBnj1g=;
- b=ECbaLSBkI3WGV8eyenujEyUwNQu9TQbmBQqZeD4M3BQabr7intFQXE35zbEJCZ4l37
- u50AULR28sBD7knG4vrN+4uFwdbw9iOjnoWROtOHKfUth9S54RbWlB1pseGydGTNnOhf
- BWabkDd7mqe0SWWEYqpLdZPnoNeXtBWRTB2a++Xil2oJu6yg98+hXNVBby2uRsh19RSc
- Q0ldxpZhb1YEtfsIMe+2SyZE+BxjsSDOLS/cjUkYYkBgxtdJFrAb91qH4PHvWYbcejvr
- OSuvbkBqBk5QT9CRIKEncski7D1cHGcxCs/HsOEOJXGjxJ/7Zv1s4mE74Z79TFcxHaT1
- 3qbQ==
-X-Gm-Message-State: AOAM532hNQhxoyeTbdkoShU49FsrHyxVfF24mK8ySyNDkxt/dyRC76Bq
- IbIb3b7MZbIE+et5e1K0I1pUtUf3Hc7rbQ==
-X-Google-Smtp-Source: ABdhPJzjzmt7YnKmFTeu7HhwAY7GTREqgNMUvgGpLf//87Vsb+SRtIR/mJMqpblq5qznbhH3uzaCug==
-X-Received: by 2002:adf:f287:: with SMTP id k7mr3776212wro.280.1622126755857; 
- Thu, 27 May 2021 07:45:55 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=ewvV2+3vJg5Ig4JR2wwg68rlOHbwDN6VwHsBDHnFdrI=;
+ b=Iur8mMpxAae2gJ70yqudStsEc/OX96cPiHzNdedick1pr/278BJQG8lND7QSIM0l0R
+ DhV6Y1/se4VZMerEAGp7FUEqeaSYSKIUOBDuQ0qsinLpwtCOrQHaEDK4sFBaCjArGWaO
+ SL+3klIsF5CpamyybizF0C6USQMEspM7NlgmYDXUstDs5Sf9cc0PF0RDQsf701CE5wlz
+ H3zmesn3HrKlV+Pto5pgf8vaAQUOAq2z3rugOQFJScZrvf50s611h3EEcd9URNTxkcFO
+ zigdjklOd0W7Lb+LMvOUFq7yYQhr8fcr5IQBEZDSi2A/7KcNKtXpoPKUVdIe8h8LhlFi
+ BJtA==
+X-Gm-Message-State: AOAM531tL106HVL8Q1RY9/TuhmnFPWK22qbyv7YLMq46SS/O9B0eLVLQ
+ /CJ1TpqOBEgVAK1BnE/kJsrqcEjeuTGrng==
+X-Google-Smtp-Source: ABdhPJxZz7zSmYvnq1qaTVIq/jK+NQuaauIR+mdoyu09VGXv7qVflEs9mjc7XAOiZDzYi1BpeK7O7A==
+X-Received: by 2002:a7b:ce8d:: with SMTP id q13mr2888030wmj.67.1622126761321; 
+ Thu, 27 May 2021 07:46:01 -0700 (PDT)
 Received: from x1w.redhat.com (235.red-83-57-168.dynamicip.rima-tde.net.
  [83.57.168.235])
- by smtp.gmail.com with ESMTPSA id k205sm3201102wmf.13.2021.05.27.07.45.54
+ by smtp.gmail.com with ESMTPSA id l13sm3437759wrv.57.2021.05.27.07.45.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 May 2021 07:45:55 -0700 (PDT)
+ Thu, 27 May 2021 07:46:00 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 00/18] gitlab-ci patches for 2021-05-26
-Date: Thu, 27 May 2021 16:45:31 +0200
-Message-Id: <20210527144533.688225-1-f4bug@amsat.org>
+Subject: [PULL v2 08/18] gitlab: Extract default build/test jobs templates
+Date: Thu, 27 May 2021 16:45:32 +0200
+Message-Id: <20210527144533.688225-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.3
+In-Reply-To: <20210527144533.688225-1-f4bug@amsat.org>
+References: <20210527144533.688225-1-f4bug@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42a.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -83,88 +86,187 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Willian Rampazzo <willianr@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-v2: Rebased on top of 7cf333a3726 ("gitlab-ci: use --meson=3Dgit for CFI jo=
-bs")=0D
-=0D
-The following changes since commit 8385235ba99c53d1187658f2fc289b953a8090b1=
-:=0D
-=0D
-  Merge remote-tracking branch 'remotes/bonzini-gitlab/tags/for-upstream' i=
-nto staging (2021-05-26 21:05:36 +0100)=0D
-=0D
-are available in the Git repository at:=0D
-=0D
-  https://github.com/philmd/qemu.git tags/gitlab-ci-20210527=0D
-=0D
-for you to fetch changes up to 2d9e45b9cb0baa7316901238f3795a74206af457:=0D
-=0D
-  gitlab: Convert check-dco/check-patch jobs to the 'rules' syntax (2021-05=
--27 16:39:23 +0200)=0D
-=0D
-----------------------------------------------------------------=0D
-GitLab CI patches queue=0D
-=0D
-- Explode .gitlab-ci.yml in reusable templates=0D
-- Add job to cross build/test TCI on i386 host=0D
-- Remove CentOS 7 linux-user build job=0D
-- Temporarily set Avocado-based jobs in manual mode=0D
-- Increase time to hold Avocado reports to 1 week=0D
-=0D
-----------------------------------------------------------------=0D
-=0D
-Daniel P. Berrang=C3=A9 (1):=0D
-  gitlab: Drop linux user build job for CentOS 7=0D
-=0D
-Philippe Mathieu-Daud=C3=A9 (15):=0D
-  gitlab: Replace YAML anchors by extends (acceptance_test_job)=0D
-  gitlab: Extract container job template to container-template.yml=0D
-  gitlab: Extract crossbuild job templates to crossbuild-template.yml=0D
-  gitlab: Extract DCO/style check jobs to static_checks.yml=0D
-  gitlab: Extract build stages to stages.yml=0D
-  gitlab: Extract default build/test jobs templates=0D
-  gitlab: Extract core container jobs to container-core.yml=0D
-  gitlab: Extract all default build/test jobs to buildtest.yml=0D
-  gitlab: Move current job set to qemu-project.yml=0D
-  gitlab: Document how forks can use different set of jobs=0D
-  gitlab: Extract cross-container jobs to container-cross.yml=0D
-  gitlab: Keep Avocado reports during 1 week=0D
-  gitlab: Run Avocado tests manually (except mainstream CI)=0D
-  gitlab: Use $CI_DEFAULT_BRANCH instead of hardcoded 'master'=0D
-  gitlab: Convert check-dco/check-patch jobs to the 'rules' syntax=0D
-=0D
-Richard Henderson (2):=0D
-  gitlab: Rename ACCEL_CONFIGURE_OPTS to EXTRA_CONFIGURE_OPTS=0D
-  gitlab: Enable cross-i386 builds of TCI=0D
-=0D
- .gitlab-ci.d/buildtest-template.yml  |  81 +++=0D
- .gitlab-ci.d/buildtest.yml           | 730 ++++++++++++++++++++++=0D
- .gitlab-ci.d/container-core.yml      |  17 +=0D
- .gitlab-ci.d/container-cross.yml     | 192 ++++++=0D
- .gitlab-ci.d/container-template.yml  |  21 +=0D
- .gitlab-ci.d/containers.yml          | 232 +------=0D
- .gitlab-ci.d/crossbuild-template.yml |  41 ++=0D
- .gitlab-ci.d/crossbuilds.yml         |  60 +-=0D
- .gitlab-ci.d/qemu-project.yml        |  11 +=0D
- .gitlab-ci.d/stages.yml              |   8 +=0D
- .gitlab-ci.d/static_checks.yml       |  26 +=0D
- .gitlab-ci.yml                       | 889 ++-------------------------=0D
- 12 files changed, 1182 insertions(+), 1126 deletions(-)=0D
- create mode 100644 .gitlab-ci.d/buildtest-template.yml=0D
- create mode 100644 .gitlab-ci.d/buildtest.yml=0D
- create mode 100644 .gitlab-ci.d/container-core.yml=0D
- create mode 100644 .gitlab-ci.d/container-cross.yml=0D
- create mode 100644 .gitlab-ci.d/container-template.yml=0D
- create mode 100644 .gitlab-ci.d/crossbuild-template.yml=0D
- create mode 100644 .gitlab-ci.d/qemu-project.yml=0D
- create mode 100644 .gitlab-ci.d/stages.yml=0D
- create mode 100644 .gitlab-ci.d/static_checks.yml=0D
-=0D
--- =0D
-2.26.3=0D
-=0D
+To be able to reuse the mainstream build/test jobs templates,
+extract them into a new file (buildtest-template.yml).
+
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Willian Rampazzo <willianr@redhat.com>
+Message-Id: <20210519185504.2198573-8-f4bug@amsat.org>
+[thuth: Keep the "acceptance_test_job_template" name for now]
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ .gitlab-ci.d/buildtest-template.yml | 69 ++++++++++++++++++++++++++++
+ .gitlab-ci.yml                      | 71 +----------------------------
+ 2 files changed, 70 insertions(+), 70 deletions(-)
+ create mode 100644 .gitlab-ci.d/buildtest-template.yml
+
+diff --git a/.gitlab-ci.d/buildtest-template.yml b/.gitlab-ci.d/buildtest-template.yml
+new file mode 100644
+index 00000000000..530d30746c7
+--- /dev/null
++++ b/.gitlab-ci.d/buildtest-template.yml
+@@ -0,0 +1,69 @@
++.native_build_job_template:
++  stage: build
++  image: $CI_REGISTRY_IMAGE/qemu/$IMAGE:latest
++  before_script:
++    - JOBS=$(expr $(nproc) + 1)
++  script:
++    - if test -n "$LD_JOBS";
++      then
++        scripts/git-submodule.sh update meson ;
++      fi
++    - mkdir build
++    - cd build
++    - if test -n "$TARGETS";
++      then
++        ../configure --enable-werror --disable-docs ${LD_JOBS:+--meson=git} $CONFIGURE_ARGS --target-list="$TARGETS" ;
++      else
++        ../configure --enable-werror --disable-docs ${LD_JOBS:+--meson=git} $CONFIGURE_ARGS ;
++      fi || { cat config.log meson-logs/meson-log.txt && exit 1; }
++    - if test -n "$LD_JOBS";
++      then
++        ../meson/meson.py configure . -Dbackend_max_links="$LD_JOBS" ;
++      fi || exit 1;
++    - make -j"$JOBS"
++    - if test -n "$MAKE_CHECK_ARGS";
++      then
++        make -j"$JOBS" $MAKE_CHECK_ARGS ;
++      fi
++
++.native_test_job_template:
++  stage: test
++  image: $CI_REGISTRY_IMAGE/qemu/$IMAGE:latest
++  script:
++    - scripts/git-submodule.sh update
++        $(sed -n '/GIT_SUBMODULES=/ s/.*=// p' build/config-host.mak)
++    - cd build
++    - find . -type f -exec touch {} +
++    # Avoid recompiling by hiding ninja with NINJA=":"
++    - make NINJA=":" $MAKE_CHECK_ARGS
++
++.acceptance_test_job_template:
++  extends: .native_test_job_template
++  cache:
++    key: "${CI_JOB_NAME}-cache"
++    paths:
++      - ${CI_PROJECT_DIR}/avocado-cache
++    policy: pull-push
++  artifacts:
++    name: "$CI_JOB_NAME-$CI_COMMIT_REF_SLUG"
++    when: always
++    expire_in: 2 days
++    paths:
++      - build/tests/results/latest/results.xml
++      - build/tests/results/latest/test-results
++    reports:
++      junit: build/tests/results/latest/results.xml
++  before_script:
++    - mkdir -p ~/.config/avocado
++    - echo "[datadir.paths]" > ~/.config/avocado/avocado.conf
++    - echo "cache_dirs = ['${CI_PROJECT_DIR}/avocado-cache']"
++           >> ~/.config/avocado/avocado.conf
++    - echo -e '[job.output.testlogs]\nstatuses = ["FAIL", "INTERRUPT"]'
++           >> ~/.config/avocado/avocado.conf
++    - if [ -d ${CI_PROJECT_DIR}/avocado-cache ]; then
++        du -chs ${CI_PROJECT_DIR}/avocado-cache ;
++      fi
++    - export AVOCADO_ALLOW_UNTRUSTED_CODE=1
++  after_script:
++    - cd build
++    - du -chs ${CI_PROJECT_DIR}/avocado-cache
+diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+index 2be8097f193..ccd11e1625a 100644
+--- a/.gitlab-ci.yml
++++ b/.gitlab-ci.yml
+@@ -4,78 +4,9 @@ include:
+   - local: '/.gitlab-ci.d/opensbi.yml'
+   - local: '/.gitlab-ci.d/containers.yml'
+   - local: '/.gitlab-ci.d/crossbuilds.yml'
++  - local: '/.gitlab-ci.d/buildtest-template.yml'
+   - local: '/.gitlab-ci.d/static_checks.yml'
+ 
+-.native_build_job_template:
+-  stage: build
+-  image: $CI_REGISTRY_IMAGE/qemu/$IMAGE:latest
+-  before_script:
+-    - JOBS=$(expr $(nproc) + 1)
+-  script:
+-    - if test -n "$LD_JOBS";
+-      then
+-        scripts/git-submodule.sh update meson ;
+-      fi
+-    - mkdir build
+-    - cd build
+-    - if test -n "$TARGETS";
+-      then
+-        ../configure --enable-werror --disable-docs ${LD_JOBS:+--meson=git} $CONFIGURE_ARGS --target-list="$TARGETS" ;
+-      else
+-        ../configure --enable-werror --disable-docs ${LD_JOBS:+--meson=git} $CONFIGURE_ARGS ;
+-      fi || { cat config.log meson-logs/meson-log.txt && exit 1; }
+-    - if test -n "$LD_JOBS";
+-      then
+-        ../meson/meson.py configure . -Dbackend_max_links="$LD_JOBS" ;
+-      fi || exit 1;
+-    - make -j"$JOBS"
+-    - if test -n "$MAKE_CHECK_ARGS";
+-      then
+-        make -j"$JOBS" $MAKE_CHECK_ARGS ;
+-      fi
+-
+-.native_test_job_template:
+-  stage: test
+-  image: $CI_REGISTRY_IMAGE/qemu/$IMAGE:latest
+-  script:
+-    - scripts/git-submodule.sh update
+-        $(sed -n '/GIT_SUBMODULES=/ s/.*=// p' build/config-host.mak)
+-    - cd build
+-    - find . -type f -exec touch {} +
+-    # Avoid recompiling by hiding ninja with NINJA=":"
+-    - make NINJA=":" $MAKE_CHECK_ARGS
+-
+-.acceptance_test_job_template:
+-  extends: .native_test_job_template
+-  cache:
+-    key: "${CI_JOB_NAME}-cache"
+-    paths:
+-      - ${CI_PROJECT_DIR}/avocado-cache
+-    policy: pull-push
+-  artifacts:
+-    name: "$CI_JOB_NAME-$CI_COMMIT_REF_SLUG"
+-    when: always
+-    expire_in: 2 days
+-    paths:
+-      - build/tests/results/latest/results.xml
+-      - build/tests/results/latest/test-results
+-    reports:
+-      junit: build/tests/results/latest/results.xml
+-  before_script:
+-    - mkdir -p ~/.config/avocado
+-    - echo "[datadir.paths]" > ~/.config/avocado/avocado.conf
+-    - echo "cache_dirs = ['${CI_PROJECT_DIR}/avocado-cache']"
+-           >> ~/.config/avocado/avocado.conf
+-    - echo -e '[job.output.testlogs]\nstatuses = ["FAIL", "INTERRUPT"]'
+-           >> ~/.config/avocado/avocado.conf
+-    - if [ -d ${CI_PROJECT_DIR}/avocado-cache ]; then
+-        du -chs ${CI_PROJECT_DIR}/avocado-cache ;
+-      fi
+-    - export AVOCADO_ALLOW_UNTRUSTED_CODE=1
+-  after_script:
+-    - cd build
+-    - du -chs ${CI_PROJECT_DIR}/avocado-cache
+-
+ build-system-alpine:
+   extends: .native_build_job_template
+   needs:
+-- 
+2.26.3
+
 
