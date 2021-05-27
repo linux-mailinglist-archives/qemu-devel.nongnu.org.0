@@ -2,79 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64FB539333F
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 18:11:50 +0200 (CEST)
-Received: from localhost ([::1]:46818 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 585BE3933BB
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 May 2021 18:27:05 +0200 (CEST)
+Received: from localhost ([::1]:47790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lmIbt-0002Oo-H5
-	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 12:11:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60154)
+	id 1lmIqe-0006Os-EC
+	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 12:27:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35626)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lmITu-00057s-8L
- for qemu-devel@nongnu.org; Thu, 27 May 2021 12:03:34 -0400
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:34592)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lmITs-0000NH-0V
- for qemu-devel@nongnu.org; Thu, 27 May 2021 12:03:33 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id f11so448298wrq.1
- for <qemu-devel@nongnu.org>; Thu, 27 May 2021 09:03:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=SCJwcBVAgyCms60jVhmkcV2f/TFnHD0gKghZiwudA4s=;
- b=LQ53Qks6ia2EP2MB0FRx8BYaErQ4jxNvV8/8tN2CafEc+mmLgDijA6P38CAjCJRP/K
- AUUMLklGplq+bh4Vb7QwYs1uRB054B/1ILYvzIO8GqY5diSHavWgozXXTrhc31fkWV6t
- RIn1nhQdexzzRbUGiYgkYHkn8TMBfUBCegatTERLrypVch5I7SWHU66jo5vMmPqiws/B
- xgg0SXlezfdkf7cgzQ5gBd+UnJIwmuBgP/hk9Y9v+llsJKldug4p/VZZy+v/WTEyfQkD
- aTX2yLEbGbF8rxbW3qdv7qPg8BmmeM/isK4ix8NzU4sTyMdFgaA/qHGQIIf1SOIq9Qaj
- TuAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=SCJwcBVAgyCms60jVhmkcV2f/TFnHD0gKghZiwudA4s=;
- b=EHe+BBoJZ2FOdW2T8fcpSWD65UjheBuuxz7NZOAX57nnDB1ilYjSV6QYMUnrk7LLVx
- 4xGOp3V8zxtuiV0UK9DallWDMNhLADL6MfAhsNoXLl4zy9erdI9GeoJdlFnAGn+/XiD8
- ghGf7geiVQv9/6ZQmqSeJUgUJFdypfgsh35RS77enEWDzYKxNsWL3VGNGESJIZtTdOwn
- AB7rTpXw0JZRZ6m4KAhIItq90QfAP4afoUJJWYhbawssRIrgfybqfD6CytD5zcvkKx4I
- asRjB3l8vnwb/ox8JR9WAB0KzoDy3fWFrUXsGrzPAfFdtqS1aZwEzyN0H93MYf0nuDoc
- 90MA==
-X-Gm-Message-State: AOAM532NInymCk4ap7ttf5WH22AbjHXpN7hz5dt/YDHjgdZIdNP603Em
- js3vkXyp+ucoLgXAkckEqdGXSw==
-X-Google-Smtp-Source: ABdhPJxSr5kVXlWSnFQccFnB5N1CZPLFGw6SIqNOh6/raOawSFCiE6VH4+ngvuIk/UqPLYdZwAB57g==
-X-Received: by 2002:a5d:6da8:: with SMTP id u8mr4150267wrs.391.1622131410522; 
- Thu, 27 May 2021 09:03:30 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id x11sm3656206wrl.13.2021.05.27.09.03.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 May 2021 09:03:24 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 00D251FF92;
- Thu, 27 May 2021 17:03:20 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 6/6] tests/acceptance: tag various arm tests as TCG only
-Date: Thu, 27 May 2021 17:03:19 +0100
-Message-Id: <20210527160319.19834-7-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210527160319.19834-1-alex.bennee@linaro.org>
-References: <20210527160319.19834-1-alex.bennee@linaro.org>
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lmIkf-00056j-2q
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 12:20:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55505)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lmIii-0006K7-H3
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 12:20:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1622132332;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=rjE7+GsFqFoUFpOOUNOBJ4mOoYZvSfqoC2KqJo1jFOw=;
+ b=gbQy9Ur/ouM8dfoeqB39XxY6ex4Khum4xuHKW+ux5sdOJo3NyB8xdnJ+uHBJmS9gNsRQ8T
+ FLF/tmVG1tIE/2d/+XWQ3HHDt0Rl3k4sMUGzo9lEHqCafAdBThFX8mZTh4Dupc8cRpneNh
+ 5xNdk8hmBUHnP0rZysPXtU/Cwr1bHeM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-215-YC7rEh8WNRCpk0Q05DTO2w-1; Thu, 27 May 2021 12:18:49 -0400
+X-MC-Unique: YC7rEh8WNRCpk0Q05DTO2w-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DD1B119253C4;
+ Thu, 27 May 2021 16:18:47 +0000 (UTC)
+Received: from localhost (ovpn-114-2.phx2.redhat.com [10.3.114.2])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 99CC719D9B;
+ Thu, 27 May 2021 16:18:41 +0000 (UTC)
+Date: Thu, 27 May 2021 12:03:52 -0400
+From: Cleber Rosa <crosa@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH v7 09/31] python: create qemu packages
+Message-ID: <20210527160352.GB1916721@amachine.somewhere>
+References: <20210526002454.124728-1-jsnow@redhat.com>
+ <20210526002454.124728-10-jsnow@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
-X-Spam_action: no action
+In-Reply-To: <20210526002454.124728-10-jsnow@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="jho1yZJdad60DJr+"
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=crosa@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,158 +69,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>, f4bug@amsat.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, stefanha@redhat.com,
- crosa@redhat.com, pbonzini@redhat.com,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, aurelien@aurel32.net
+Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, Willian Rampazzo <willianr@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We should never be trying to run most of these models under a KVM
-environment.
+--jho1yZJdad60DJr+
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- tests/acceptance/boot_linux_console.py | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+On Tue, May 25, 2021 at 08:24:32PM -0400, John Snow wrote:
+> move python/qemu/*.py to python/qemu/[machine, qmp, utils]/*.py and
+> update import directives across the tree.
+>=20
+> This is done to create a PEP420 namespace package, in which we may
+> create subpackages. To do this, the namespace directory ("qemu") should
+> not have any modules in it. Those files will go into new 'machine',
+> 'qmp' and 'utils' subpackages instead.
+>=20
+> Implement machine/__init__.py making the top-level classes and functions
+> from its various modules available directly inside the package. Change
+> qmp.py to qmp/__init__.py similarly, such that all of the useful QMP
+> library classes are available directly from "qemu.qmp" instead of
+> "qemu.qmp.qmp".
+>=20
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> ---
+>  python/{qemu =3D> }/.isort.cfg                |  0
+>  python/qemu/__init__.py                     | 11 -------
+>  python/qemu/{ =3D> machine}/.flake8           |  0
+>  python/qemu/machine/__init__.py             | 33 +++++++++++++++++++++
+>  python/qemu/{ =3D> machine}/console_socket.py |  0
+>  python/qemu/{ =3D> machine}/machine.py        | 16 ++++++----
+>  python/qemu/{ =3D> machine}/pylintrc          |  0
+>  python/qemu/{ =3D> machine}/qtest.py          |  3 +-
+>  python/qemu/{qmp.py =3D> qmp/__init__.py}     | 12 +++++++-
+>  python/qemu/{utils.py =3D> utils/__init__.py} | 18 +++++++++--
+>  python/qemu/{ =3D> utils}/accel.py            |  0
+>  tests/acceptance/avocado_qemu/__init__.py   |  9 +++---
+>  tests/acceptance/virtio-gpu.py              |  2 +-
+>  tests/qemu-iotests/300                      |  4 +--
+>  tests/qemu-iotests/iotests.py               |  2 +-
+>  tests/vm/aarch64vm.py                       |  2 +-
+>  tests/vm/basevm.py                          |  3 +-
+>  17 files changed, 83 insertions(+), 32 deletions(-)
+>  rename python/{qemu =3D> }/.isort.cfg (100%)
+>  delete mode 100644 python/qemu/__init__.py
+>  rename python/qemu/{ =3D> machine}/.flake8 (100%)
+>  create mode 100644 python/qemu/machine/__init__.py
+>  rename python/qemu/{ =3D> machine}/console_socket.py (100%)
+>  rename python/qemu/{ =3D> machine}/machine.py (98%)
+>  rename python/qemu/{ =3D> machine}/pylintrc (100%)
+>  rename python/qemu/{ =3D> machine}/qtest.py (99%)
+>  rename python/qemu/{qmp.py =3D> qmp/__init__.py} (96%)
+>  rename python/qemu/{utils.py =3D> utils/__init__.py} (66%)
+>  rename python/qemu/{ =3D> utils}/accel.py (100%)
+>
 
-diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
-index 276a53f146..cded547d1d 100644
---- a/tests/acceptance/boot_linux_console.py
-+++ b/tests/acceptance/boot_linux_console.py
-@@ -333,6 +333,7 @@ def test_aarch64_virt(self):
-         """
-         :avocado: tags=arch:aarch64
-         :avocado: tags=machine:virt
-+        :avocado: tags=accel:tcg
-         """
-         kernel_url = ('https://archives.fedoraproject.org/pub/archive/fedora'
-                       '/linux/releases/29/Everything/aarch64/os/images/pxeboot'
-@@ -343,7 +344,9 @@ def test_aarch64_virt(self):
-         self.vm.set_console()
-         kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE +
-                                'console=ttyAMA0')
-+        self.require_accelerator("tcg")
-         self.vm.add_args('-cpu', 'cortex-a53',
-+                         '-accel', 'tcg',
-                          '-kernel', kernel_path,
-                          '-append', kernel_command_line)
-         self.vm.launch()
-@@ -356,6 +359,7 @@ def test_aarch64_xlnx_versal_virt(self):
-         :avocado: tags=machine:xlnx-versal-virt
-         :avocado: tags=device:pl011
-         :avocado: tags=device:arm_gicv3
-+        :avocado: tags=accel:tcg
-         """
-         images_url = ('http://ports.ubuntu.com/ubuntu-ports/dists/'
-                       'bionic-updates/main/installer-arm64/'
-@@ -370,6 +374,7 @@ def test_aarch64_xlnx_versal_virt(self):
- 
-         self.vm.set_console()
-         self.vm.add_args('-m', '2G',
-+                         '-accel', 'tcg',
-                          '-kernel', kernel_path,
-                          '-initrd', initrd_path)
-         self.vm.launch()
-@@ -379,6 +384,7 @@ def test_arm_virt(self):
-         """
-         :avocado: tags=arch:arm
-         :avocado: tags=machine:virt
-+        :avocado: tags=accel:tcg
-         """
-         kernel_url = ('https://archives.fedoraproject.org/pub/archive/fedora'
-                       '/linux/releases/29/Everything/armhfp/os/images/pxeboot'
-@@ -401,6 +407,7 @@ def test_arm_emcraft_sf2(self):
-         :avocado: tags=machine:emcraft-sf2
-         :avocado: tags=endian:little
-         :avocado: tags=u-boot
-+        :avocado: tags=accel:tcg
-         """
-         uboot_url = ('https://raw.githubusercontent.com/'
-                      'Subbaraya-Sundeep/qemu-test-binaries/'
-@@ -429,6 +436,8 @@ def test_arm_emcraft_sf2(self):
- 
-     def do_test_arm_raspi2(self, uart_id):
-         """
-+        :avocado: tags=accel:tcg
-+
-         The kernel can be rebuilt using the kernel source referenced
-         and following the instructions on the on:
-         https://www.raspberrypi.org/documentation/linux/kernel/building.md
-@@ -464,6 +473,7 @@ def test_arm_raspi2_uart0(self):
-         :avocado: tags=arch:arm
-         :avocado: tags=machine:raspi2
-         :avocado: tags=device:pl011
-+        :avocado: tags=accel:tcg
-         """
-         self.do_test_arm_raspi2(0)
- 
-@@ -471,6 +481,7 @@ def test_arm_exynos4210_initrd(self):
-         """
-         :avocado: tags=arch:arm
-         :avocado: tags=machine:smdkc210
-+        :avocado: tags=accel:tcg
-         """
-         deb_url = ('https://snapshot.debian.org/archive/debian/'
-                    '20190928T224601Z/pool/main/l/linux/'
-@@ -511,6 +522,7 @@ def test_arm_cubieboard_initrd(self):
-         """
-         :avocado: tags=arch:arm
-         :avocado: tags=machine:cubieboard
-+        :avocado: tags=accel:tcg
-         """
-         deb_url = ('https://apt.armbian.com/pool/main/l/'
-                    'linux-5.10.16-sunxi/linux-image-current-sunxi_21.02.2_armhf.deb')
-@@ -551,6 +563,7 @@ def test_arm_cubieboard_sata(self):
-         """
-         :avocado: tags=arch:arm
-         :avocado: tags=machine:cubieboard
-+        :avocado: tags=accel:tcg
-         """
-         deb_url = ('https://apt.armbian.com/pool/main/l/'
-                    'linux-5.10.16-sunxi/linux-image-current-sunxi_21.02.2_armhf.deb')
-@@ -595,6 +608,7 @@ def test_arm_quanta_gsj(self):
-         """
-         :avocado: tags=arch:arm
-         :avocado: tags=machine:quanta-gsj
-+        :avocado: tags=accel:tcg
-         """
-         # 25 MiB compressed, 32 MiB uncompressed.
-         image_url = (
-@@ -642,6 +656,7 @@ def test_arm_quanta_gsj_initrd(self):
-         """
-         :avocado: tags=arch:arm
-         :avocado: tags=machine:quanta-gsj
-+        :avocado: tags=accel:tcg
-         """
-         initrd_url = (
-                 'https://github.com/hskinnemoen/openbmc/releases/download/'
-@@ -678,6 +693,7 @@ def test_arm_orangepi(self):
-         """
-         :avocado: tags=arch:arm
-         :avocado: tags=machine:orangepi-pc
-+        :avocado: tags=accel:tcg
-         """
-         deb_url = ('https://apt.armbian.com/pool/main/l/'
-                    'linux-5.10.16-sunxi/linux-image-current-sunxi_21.02.2_armhf.deb')
-@@ -702,6 +718,7 @@ def test_arm_orangepi(self):
-     def test_arm_orangepi_initrd(self):
-         """
-         :avocado: tags=arch:arm
-+        :avocado: tags=accel:tcg
-         :avocado: tags=machine:orangepi-pc
-         """
-         deb_url = ('https://apt.armbian.com/pool/main/l/'
-@@ -744,6 +761,7 @@ def test_arm_orangepi_initrd(self):
-     def test_arm_orangepi_sd(self):
-         """
-         :avocado: tags=arch:arm
-+        :avocado: tags=accel:tcg
-         :avocado: tags=machine:orangepi-pc
-         :avocado: tags=device:sd
-         """
--- 
-2.20.1
+Reviewed-by: Cleber Rosa <crosa@redhat.com>
+
+--jho1yZJdad60DJr+
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAmCvwugACgkQZX6NM6Xy
+CfM7LhAArIsJSx+Vz54RlvWACotD/2a4Jf+qjMfJPh9283LPGar3R3w8znGYT5n3
+noPlli57XcFdRmR2u6ewOJqTFjyUVsohE0wQzDeGF3rpYiIZ29OOed7pfYbpJPra
+acH67XPWWsW42yZMWPsCJSIE4gegSpBnIxmD5tdeLduR6vFhR26GFAUTflO71cmM
+feqiKk5Hf47xG/RaKGdxyUvOzZVBNbeZPHv5xuTKik2JQaGAi+Yg3K4zQf35hAuW
+4IoI4K6kSuwAAtnxJRZWYnPouqLL2qYy3cXjCPDp874S4itF3CYiOk3zNVfva/LU
+Q4Fn+Dkw5TszAsK+tW26qmIQeOE59NAU2X3/NMgW3sGBQnSg8Gmu4ZaJm9Ab0vhz
+aYUMdbxb4dvH1vRoZZtjAM65YMwmza5zNAhrMaoTZe8JVWj8dgMrL18kr/MP2E3u
+SJ3gbf2iFcx/AaR6gb4JrjZ4lokk7OkAaM2wKLqQe6GHwAOfet/s/Y/FZzIYmXcv
+WeZjEOAHCltc/uQ6cyurijA+UJMRw43ZE+uNw1uFsgK45I0641t7iqB4ntH0R01v
+INEVuIsi1MJ8b3j7sykvruQ5YJ1dgTNDZYwmMYhu9q6F4SRh5jqyC0WY2v2dBRzt
+4iq0WPdCdqMJVSA2Zf/paY4EL8gYgWUqPRdmAALgVGEfnnPR9zs=
+=/3lH
+-----END PGP SIGNATURE-----
+
+--jho1yZJdad60DJr+--
 
 
