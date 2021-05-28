@@ -2,56 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 423B1393E36
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 May 2021 09:54:11 +0200 (CEST)
-Received: from localhost ([::1]:33744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C86883940DA
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 May 2021 12:26:07 +0200 (CEST)
+Received: from localhost ([::1]:35812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lmXJp-00080E-UN
-	for lists+qemu-devel@lfdr.de; Fri, 28 May 2021 03:54:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39590)
+	id 1lmZgs-0006CX-D6
+	for lists+qemu-devel@lfdr.de; Fri, 28 May 2021 06:26:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40964)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lmXIO-0006eP-UM
- for qemu-devel@nongnu.org; Fri, 28 May 2021 03:52:40 -0400
-Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:42751)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lmZez-0005On-UY
+ for qemu-devel@nongnu.org; Fri, 28 May 2021 06:24:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57299)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lmXIK-000620-Ck
- for qemu-devel@nongnu.org; Fri, 28 May 2021 03:52:40 -0400
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-212-v---Q9KtNWeTaCj4SMqnvQ-1; Fri, 28 May 2021 03:52:31 -0400
-X-MC-Unique: v---Q9KtNWeTaCj4SMqnvQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 932E3FC91;
- Fri, 28 May 2021 07:52:29 +0000 (UTC)
-Received: from bahia.lan (ovpn-112-128.ams2.redhat.com [10.36.112.128])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E0AF5100164A;
- Fri, 28 May 2021 07:52:26 +0000 (UTC)
-Date: Fri, 28 May 2021 09:52:25 +0200
-From: Greg Kurz <groug@kaod.org>
-To: "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br>
-Subject: Re: [PATCH v2] HMP: added info cpustats to removed_features.rst
-Message-ID: <20210528095225.0868171e@bahia.lan>
-In-Reply-To: <20210527175602.40163-1-bruno.larsen@eldorado.org.br>
-References: <20210527175602.40163-1-bruno.larsen@eldorado.org.br>
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lmZex-00081j-4K
+ for qemu-devel@nongnu.org; Fri, 28 May 2021 06:24:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1622197445;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=WFK8bxb2c1xaksGeBT9MLuXlAgba6VvCCt3EPnA4AiQ=;
+ b=AffEjtq+2BFhDYpYXXj4GTLFkCIdU9JmKmQkf/ssD3Lh9rPtHyZXsc+8ELFDALCNN4qTGJ
+ nRs2gTjO9iiuZSRndZwNA4Wmsry6poeTv5zNp125qkX6X2bSiB3LkKBM0fuoj+JYIp6iFa
+ GAT7U8oFeqy2JWfQFk+Ihkv3nVAFiLw=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-337-OkGZi6SXNz-nCe3Ogq0hzw-1; Fri, 28 May 2021 06:24:04 -0400
+X-MC-Unique: OkGZi6SXNz-nCe3Ogq0hzw-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ da10-20020a056402176ab029038f0fea1f51so1898253edb.13
+ for <qemu-devel@nongnu.org>; Fri, 28 May 2021 03:24:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=WFK8bxb2c1xaksGeBT9MLuXlAgba6VvCCt3EPnA4AiQ=;
+ b=eGIj85xRlXo8T+5N7ECaYN1oYJlSbwl4atjkergIvG2KhVaaP1qxIBFhPqXtgV5HzK
+ ldL5siHEt3B0AgNMV3aSSMNGQxe9UzlicAM/Ax3HU+onoK6Mz3zabfbyxORILJrOeRGo
+ HotaBeHVjpb3K0AZgM5gJo+BgyjdGJWIa1F8C6x6GFAzCmt8ndq9ocPoqIhzgfk2kxrd
+ VHvr6DwkLHQLHg5EWiCvRMLEpKtLX9n/qLi9DDjvoIzb2Vb3/g1dkZOSngNvkJURCHm2
+ CW9e8tasAAH880pTVasyHkhdEcu8t073krxYVq8+AfSalCJXp8EG22ji1DJFO0oMcw1Z
+ nfFA==
+X-Gm-Message-State: AOAM530Q7RwkKvTLFHt3PIlMCNbdyxgqlGqKt2csLncZG19OeM/7z5iw
+ Yxe0knYEG21nnVp29lgLTinhHWKT47RIZL17lSdLMFD6U/NUqmg9cDm6ooNjjQiWnk2MwDyCWpt
+ 97ME5KEyI4Ok5VHRyhCLkdt5pSLeZYs4DrPysQEpu7b1Hx3Nay6RDRH4Qajjgh5P/GPc=
+X-Received: by 2002:a17:907:d0c:: with SMTP id
+ gn12mr6175598ejc.149.1622197442788; 
+ Fri, 28 May 2021 03:24:02 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxWOYv83SZKY06qFSaRZdBrX6vOFG1dRiVynAHvTTyhvnEeBPfbJ60cgsMaSvbFwJy/YKFmtg==
+X-Received: by 2002:a17:907:d0c:: with SMTP id
+ gn12mr6175575ejc.149.1622197442478; 
+ Fri, 28 May 2021 03:24:02 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e?
+ ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
+ by smtp.gmail.com with ESMTPSA id d5sm2476156edt.49.2021.05.28.03.24.01
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 28 May 2021 03:24:01 -0700 (PDT)
+Subject: Re: [PATCH v2 7/7] block-copy: protect BlockCopyState .method fields
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
+References: <20210518100757.31243-1-eesposit@redhat.com>
+ <20210518100757.31243-8-eesposit@redhat.com>
+ <404e2891-9c03-bc7d-2c69-a572422d7804@virtuozzo.com>
+ <4403ee17-0c12-c545-7f64-683bb9057b91@redhat.com>
+ <c4ba5232-79cf-6534-d76a-ac5eaebe098f@virtuozzo.com>
+ <db0d5d2c-2e7c-ec33-b9df-52977fc3179c@redhat.com>
+ <47ae4243-5a4b-e3a5-44fb-48c689f8bc77@virtuozzo.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <867d0357-1032-f56d-dbed-bd646ce8ec00@redhat.com>
+Date: Fri, 28 May 2021 12:24:00 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <47ae4243-5a4b-e3a5-44fb-48c689f8bc77@virtuozzo.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=groug@kaod.org
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: kaod.org
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: softfail client-ip=205.139.111.44; envelope-from=groug@kaod.org;
- helo=us-smtp-delivery-44.mimecast.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.374,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -64,44 +109,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: farosas@linux.ibm.com, richard.henderson@linaro.org, qemu-devel@nongnu.org,
- lucas.araujo@eldorado.org.br, fernando.valle@eldorado.org.br,
- qemu-ppc@nongnu.org, matheus.ferst@eldorado.org.br, luis.pires@eldorado.org.br,
- david@gibson.dropbear.id.au
+Cc: Kevin Wolf <kwolf@redhat.com>, John Snow <jsnow@redhat.com>,
+ qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 27 May 2021 14:56:02 -0300
-"Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br> wrote:
+On 26/05/21 19:18, Vladimir Sementsov-Ogievskiy wrote:
+> 
+> It's actually the original idea of block_copy_do_copy() function: do 
+> only simple copy, don't interact with the state. It's a kind of wrapper 
+> on top of bdrv_co<io functions>.
+> 
+> So, actually updating s->use_copy_range here was a bad idea.
 
-> Documented the removal of the HMP command info cpustats
->=20
-> Signed-off-by: Bruno Larsen (billionai) <bruno.larsen@eldorado.org.br>
-> ---
+It's still more complicated, because you need to add some kind of
 
-Reviewed-by: Greg Kurz <groug@kaod.org>
+	method = s->method;
+	ret = block_copy_do_copy(..., method);
+	if (ret < 0 && method <= COPY_RANGE_SMALL) {
+	    method = COPY_RANGE_READ_WRITE;
+	    ret = block_copy_do_copy(..., method);
+         }
+	lock();
+         if (method == s->method) {
+             /* compute new method */
+         }
 
->  docs/system/removed-features.rst | 5 +++++
->  1 file changed, 5 insertions(+)
->=20
-> diff --git a/docs/system/removed-features.rst b/docs/system/removed-featu=
-res.rst
-> index 5a462ac568..2feae41089 100644
-> --- a/docs/system/removed-features.rst
-> +++ b/docs/system/removed-features.rst
-> @@ -249,6 +249,11 @@ Use ``migrate-set-parameters`` and ``info migrate-pa=
-rameters`` instead.
-> =20
->  Use ``migrate-set-parameters`` instead.
-> =20
-> +``info cpustats`` (removed in 6.1)
-> +'''''''''''''''''''''''''''''
-> +
-> +This command didn't produce any output already. Removed with no replacem=
-ent.
-> +
->  Guest Emulator ISAs
->  -------------------
-> =20
+which makes it more complicated than this patch IMO.  But yeah at least 
+it's a viable alternative to the atomics.
+
+Paolo
 
 
