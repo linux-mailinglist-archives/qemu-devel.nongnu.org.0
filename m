@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28EAF3942AF
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 May 2021 14:37:53 +0200 (CEST)
-Received: from localhost ([::1]:51350 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 044433942F6
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 May 2021 14:52:56 +0200 (CEST)
+Received: from localhost ([::1]:33676 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lmbkO-0002WN-6J
-	for lists+qemu-devel@lfdr.de; Fri, 28 May 2021 08:37:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42442)
+	id 1lmbyw-00021S-QV
+	for lists+qemu-devel@lfdr.de; Fri, 28 May 2021 08:52:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45728)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luis.pires@eldorado.org.br>)
- id 1lmbfS-0007VY-DF
- for qemu-devel@nongnu.org; Fri, 28 May 2021 08:32:46 -0400
-Received: from [201.28.113.2] (port=38945 helo=outlook.eldorado.org.br)
+ id 1lmbw4-00082l-Sk; Fri, 28 May 2021 08:49:57 -0400
+Received: from [201.28.113.2] (port=24622 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <luis.pires@eldorado.org.br>) id 1lmbfQ-0004u6-UA
- for qemu-devel@nongnu.org; Fri, 28 May 2021 08:32:46 -0400
+ (envelope-from <luis.pires@eldorado.org.br>)
+ id 1lmbw3-00007X-3Z; Fri, 28 May 2021 08:49:56 -0400
 Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Fri, 28 May 2021 09:32:43 -0300
+ Microsoft SMTPSVC(8.5.9600.16384); Fri, 28 May 2021 09:35:43 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by power9a (Postfix) with ESMTP id 1B6098013E3;
- Fri, 28 May 2021 09:32:43 -0300 (-03)
+ by power9a (Postfix) with ESMTP id 0C5918013E3;
+ Fri, 28 May 2021 09:35:43 -0300 (-03)
 From: Luis Pires <luis.pires@eldorado.org.br>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/2] docs/devel: Add a single top-level header to MTTCG's doc
-Date: Fri, 28 May 2021 09:32:30 -0300
-Message-Id: <20210528123230.143901-1-luis.pires@eldorado.org.br>
+Subject: [PATCH RESEND 1/1] docs/devel: Add a single top-level header to
+ MTTCG's doc
+Date: Fri, 28 May 2021 09:35:26 -0300
+Message-Id: <20210528123526.144065-1-luis.pires@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 28 May 2021 12:32:43.0229 (UTC)
- FILETIME=[8E5098D0:01D753BD]
+X-OriginalArrivalTime: 28 May 2021 12:35:43.0216 (UTC)
+ FILETIME=[F9986F00:01D753BD]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
 Received-SPF: pass client-ip=201.28.113.2;
  envelope-from=luis.pires@eldorado.org.br; helo=outlook.eldorado.org.br
