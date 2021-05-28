@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D0533945AF
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 May 2021 18:13:47 +0200 (CEST)
-Received: from localhost ([::1]:52366 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5047A3945B4
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 May 2021 18:16:19 +0200 (CEST)
+Received: from localhost ([::1]:56928 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lmf7K-0001vu-4G
-	for lists+qemu-devel@lfdr.de; Fri, 28 May 2021 12:13:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40568)
+	id 1lmf9m-0005JF-59
+	for lists+qemu-devel@lfdr.de; Fri, 28 May 2021 12:16:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41022)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lmf6R-000129-38
- for qemu-devel@nongnu.org; Fri, 28 May 2021 12:12:51 -0400
-Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632]:36519)
+ id 1lmf81-0003UR-41
+ for qemu-devel@nongnu.org; Fri, 28 May 2021 12:14:29 -0400
+Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c]:34504)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lmf6P-0006Ms-35
- for qemu-devel@nongnu.org; Fri, 28 May 2021 12:12:50 -0400
-Received: by mail-pl1-x632.google.com with SMTP id x10so938483plg.3
- for <qemu-devel@nongnu.org>; Fri, 28 May 2021 09:12:48 -0700 (PDT)
+ id 1lmf7y-0007XZ-H1
+ for qemu-devel@nongnu.org; Fri, 28 May 2021 12:14:28 -0400
+Received: by mail-pf1-x42c.google.com with SMTP id q25so3615343pfn.1
+ for <qemu-devel@nongnu.org>; Fri, 28 May 2021 09:14:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=nA2q2/H2qgrc1iP0jvKsTYhz78Y+Fpwrg9RNUf2MgGg=;
- b=b3EbyMDqZlDEqaK1VqoyNvefTmwNBjrCtf54zkOXJXDS9xOKJwIzQpq3zNTFRnfPxy
- 8Hxf1zBeeVRgzwimH2drR5wqPB0U8/GLe270qa4/cDji2gKcWS9ST90qRORDt1i2sLN9
- ILEyHKKGsfQoD1kSjUUnoBhxSNVJAn+nHEI+eeHxbRLO0mbLtexII+8AMWwd1/3+Y6FW
- wwMeUsa3jUudViH2rKsYGaVd2+tRwFSFdNwPKS1RoFbXutMEsGCOVKUSucj/1jjG5Vny
- LP1tiSFQ95GWcO6TRu4H6jPA9PFh0g24+bXNvXcmtcx2I5yhRK64fBSzMLxUTBZl49co
- tLlA==
+ bh=CjgDq14DnELNp2cnaiheqno6z98Bl1JYG6doqEISyGQ=;
+ b=WgRMuxjxlsALA7D30BoU45x2EcIv7VZ1bOQiX3TtUsCCtHPlB3U1MdeAkrwWDuz0zm
+ xlmlr4ZQB01JWDf/ZFfmW7gjFurQzI++UGPwM/baOUmNAnhCZw9BlwSRL7I1ngqouKjN
+ WQk7XuEKh1Q0jSTrajTST58Fy/kHr5OzuNeEwJN8RBx8SG1lmY5JY9IBS0GFqYYZ0SYq
+ r5WY2ureV+VwL2NR050yWyEj40w/cj+hcWQ95cK8YVQZ+TAhas/+dbBExyuDUSvBdCG/
+ APfmsYgL306iXaDhc0JHBdh4NxioAjWjLM5Lj21ddaz8p2H8OZgrYdRsByz67WJ3ORnw
+ 1wbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=nA2q2/H2qgrc1iP0jvKsTYhz78Y+Fpwrg9RNUf2MgGg=;
- b=WZPO5M8tJ6bcN57VtarSXTa7XJWay5aAhDAirPnVCkLPPxOLdm/e7FLbbLzqrQynvo
- IwXs7ziaWd/qgKDI5Ldy4SylUfCYfKaEv14y5OuqkoNdyJBqEJQw3vRSTSKOfFwimNLt
- AVh5Rc0EwAaFZ8exjCaXBwgiSrH2wgwv1K3J5giSh0zgdJY/8z8qHBMhn0Brcx73V7CL
- odhq9LSHPMpRN8c2N5aWzAuXN95Gqx/FFkbXtQGG+aFFnRuXCLkr4OehJqLIdYRYW4nZ
- M9FS4PX63pj/oivtKV2w9evukHK46X2RvShz8u3KGSRGvJFTMzFouibOC0zfAVRwaBSp
- vZYw==
-X-Gm-Message-State: AOAM533F1j1sGWxxcYgMAQFWtUHNJygTrAOdLMFhTE+cQjL1PZd/3KGm
- 7AjXLllCmXQtlqG2U46ZBMiaaw==
-X-Google-Smtp-Source: ABdhPJy8rYYNrgVMfmWGKH5f7y9AoPYfBtvFT1E5+8BG0szrMaQeFtKS0uvQCn2z4heFgkOLOlT+Pg==
-X-Received: by 2002:a17:90a:9f43:: with SMTP id
- q3mr5327546pjv.227.1622218367217; 
- Fri, 28 May 2021 09:12:47 -0700 (PDT)
+ bh=CjgDq14DnELNp2cnaiheqno6z98Bl1JYG6doqEISyGQ=;
+ b=BMeVJB0ZlC0dIbacipTO2qbH+YlQg5qm7f2ucBTjS3OCSkBnezmfOo+VBTFtzeTHkD
+ hM8WjDPmBm0IcHpDrGA3p+5VIFc5bo8ozQwiekYn3JQXTv7OqrmXu0UkdjOB09Mt73UN
+ hiG3tajJbsXh5/Zatc/g/6ohdrKdeE2hxJw805tLSrB+YvCPaMq8w6dzIWWJp9pd+gyH
+ KH2Z/0HQCR2KM9hzVo5jhKRpmFkdp+kL8tYF2I57opGMFNRotQcrfE9eCCICQfaWKHf4
+ hRUWO3QdZSIxhgG3gAuxhV6zgLSsWwR5YpfiQ5HSIcJjOzMKnPVyZmiiMnegDdPgGdAL
+ n2qg==
+X-Gm-Message-State: AOAM532j5+iIjwwVTx2l3dTl85Q60+fZ7v/F4LIr5aQzouugqkI1l7oI
+ 2eDMK1NMi1Fy8ltnc2bI9fElqw==
+X-Google-Smtp-Source: ABdhPJwK/Qc/7PpkSMl6aMDtQQPktbduVOVN7VNV+Nqxv798gE1XGo1Byl2aUnlaCSsCyvO/SWPLNA==
+X-Received: by 2002:a63:1465:: with SMTP id 37mr9617726pgu.113.1622218465128; 
+ Fri, 28 May 2021 09:14:25 -0700 (PDT)
 Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
  by smtp.gmail.com with ESMTPSA id
- p36sm4738917pgm.74.2021.05.28.09.12.46
+ v18sm4934527pff.90.2021.05.28.09.14.24
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 28 May 2021 09:12:46 -0700 (PDT)
-Subject: Re: [PATCH v2 1/2] target/ppc: removed GEN_OPCODE decision tree
+ Fri, 28 May 2021 09:14:24 -0700 (PDT)
+Subject: Re: [PATCH v2 2/2] target/ppc: removed all mentions to PPC_DUMP_CPU
 To: "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br>,
  qemu-devel@nongnu.org
 References: <20210527180801.40513-1-bruno.larsen@eldorado.org.br>
- <20210527180801.40513-2-bruno.larsen@eldorado.org.br>
+ <20210527180801.40513-3-bruno.larsen@eldorado.org.br>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <6117760b-df66-3333-e610-87110d28f296@linaro.org>
-Date: Fri, 28 May 2021 09:12:44 -0700
+Message-ID: <379d415a-06b8-2433-0783-77f5e69d4ba8@linaro.org>
+Date: Fri, 28 May 2021 09:14:23 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210527180801.40513-2-bruno.larsen@eldorado.org.br>
+In-Reply-To: <20210527180801.40513-3-bruno.larsen@eldorado.org.br>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x632.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,15 +97,20 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 5/27/21 11:08 AM, Bruno Larsen (billionai) wrote:
-> since both, PPC_DO_STATISTICS and PPC_DUMP_CPU, are obsoleted as
-> target/ppc moves to decodetree, we can remove this ifdef based decision
-> tree, and only have what is now the standard option for the macro.
+> This feature will no longer be useful as ppc moves to using decotree for
+
+decodetree
+
+> TCG. And building with it enabled is no longer possible, due to changes
+> in opc_handler_t. Since the last commit that mentions it happened in
+> 2014, I think it is safe to remove it.
 > 
-> Suggested-by: Luis Pires<luis.pires@eldorado.org.br>
 > Signed-off-by: Bruno Larsen (billionai)<bruno.larsen@eldorado.org.br>
 > ---
->   target/ppc/translate.c | 79 ------------------------------------------
->   1 file changed, 79 deletions(-)
+>   target/ppc/cpu_init.c  | 205 -----------------------------------------
+>   target/ppc/internal.h  |   2 -
+>   target/ppc/translate.c | 105 ---------------------
+>   3 files changed, 312 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
