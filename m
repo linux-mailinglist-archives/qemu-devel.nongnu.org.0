@@ -2,61 +2,138 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2369D3946A6
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 May 2021 19:44:23 +0200 (CEST)
-Received: from localhost ([::1]:38308 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 434C83946AC
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 May 2021 19:45:30 +0200 (CEST)
+Received: from localhost ([::1]:41746 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lmgWz-0005VV-Na
-	for lists+qemu-devel@lfdr.de; Fri, 28 May 2021 13:44:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60808)
+	id 1lmgY5-0007qt-9M
+	for lists+qemu-devel@lfdr.de; Fri, 28 May 2021 13:45:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60948)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mmorrell@tachyum.com>)
- id 1lmgU4-0002om-KS
- for qemu-devel@nongnu.org; Fri, 28 May 2021 13:41:20 -0400
-Received: from mx1.tachyum.com ([66.160.133.170]:46134)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1lmgUF-000333-1K; Fri, 28 May 2021 13:41:31 -0400
+Received: from mail-db8eur05on2122.outbound.protection.outlook.com
+ ([40.107.20.122]:39553 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mmorrell@tachyum.com>)
- id 1lmgU1-0003XJ-J0
- for qemu-devel@nongnu.org; Fri, 28 May 2021 13:41:20 -0400
-Received: by mx1.tachyum.com (Postfix, from userid 1000)
- id 37B021005694; Fri, 28 May 2021 10:41:15 -0700 (PDT)
-Received: from THQ-EX1.tachyum.com (unknown [10.7.1.6])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mx1.tachyum.com (Postfix) with ESMTPS id 42F9A1005283;
- Fri, 28 May 2021 10:41:13 -0700 (PDT)
-Received: from THQ-EX1.tachyum.com (10.7.1.6) by THQ-EX1.tachyum.com
- (10.7.1.6) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.14; Fri, 28 May
- 2021 10:41:12 -0700
-Received: from THQ-EX1.tachyum.com ([10.7.1.6]) by THQ-EX1.tachyum.com
- ([10.7.1.6]) with mapi id 15.01.2176.014; Fri, 28 May 2021 10:41:12 -0700
-From: Michael Morrell <mmorrell@tachyum.com>
-To: Richard Henderson <richard.henderson@linaro.org>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>
-Subject: RE: [PATCH 03/11] softfloat: Introduce float_flag_inorm_denormal
-Thread-Topic: [PATCH 03/11] softfloat: Introduce float_flag_inorm_denormal
-Thread-Index: AQHXUq7C6V3VKBa6hEShFdzfX5jx76r5KqnA
-Date: Fri, 28 May 2021 17:41:12 +0000
-Message-ID: <44a76e8c6504461cbd4dc5752f0d443b@tachyum.com>
-References: <20210527041405.391567-1-richard.henderson@linaro.org>
- <20210527041405.391567-4-richard.henderson@linaro.org>
-In-Reply-To: <20210527041405.391567-4-richard.henderson@linaro.org>
-Accept-Language: en-US
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1lmgUB-0003hP-8V; Fri, 28 May 2021 13:41:30 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=PMOgp9XDOVXEhyIoHSlXBnjycxmnBy6/r8uyFDF4UboOCShsy+44oCbcCN4K0vsrJWfXohpHKvrLsq3yGSnEocn+TzTZZfxRRgfHhZ3H5E0FPSuUgoMr8hYvIMKyupLDtkth3soRcDbxUfRHxRQCJ/VTfoPTQhwMLsHb6GCKEtX2LmzCm5TArWYCRwHcyAysyp7yWC4p2cP+I5pV09EantIjAMuRbqLiBfzHXbypAL5rngocPSwviLWUL0XEBP7FuxpjjbhQ97pbLaKEvPfF0MxAJMDhIQfbP1yHoYr+wSAmu2VIsL5gUrbWuvTn7jmJ/NSnEcibulg8LQUmq2HmGA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=PEDk5Fznk3VNTEjX6g0OjJxS/AIQSJmDGu/QVN3jAcY=;
+ b=W6tuaeo8Da+LdR+IYO05w2tTu0TjeURBuOLPFsw0wkJ3kYZVjlb1PIlQWSt2nGu/wJubdAbpHvPoIFQl4zKr5Q8nicjfVgx6/rN1T2BN/NmY0DVT0QsuavZ1EeownnTMLIiiFl0HES6cAIOpda0wRLK+SwW5Ueui74lDZyWEXeHEqVcWI+1BB66MUpwts0HLBDcxmJimwu8wUY4t75F18u39cCAbxj5WHKOGPBXxDJvQo+BoSp6VBjEnn/NmgHEdt7tveqgK7zv9wEhynZWsfWxaZRADSyaPJwCVxjyvivRcR2G63OLFPgARidrZp5JlOxy96G2VfwHs6VRfJAa2DA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=PEDk5Fznk3VNTEjX6g0OjJxS/AIQSJmDGu/QVN3jAcY=;
+ b=b2L3c8s/ZjZZCPMuMct7NzvqLOMe+9q+aP7kj8RSz2U1ukk6C8aG8QvV6I9mLnAL54SAl1SaJyqz8Msb8Ubf8MFyy5Vg34+QttUkx4MdXYO6QVLwi8fieKRT8mL9ysQMNHChuO1TASNbx7rIsHQkNFgaFOI0xA3OdO3cftCzZZc=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM6PR08MB4724.eurprd08.prod.outlook.com (2603:10a6:20b:cd::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.22; Fri, 28 May
+ 2021 17:41:23 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::f928:f4f2:77c0:74b4]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::f928:f4f2:77c0:74b4%7]) with mapi id 15.20.4173.022; Fri, 28 May 2021
+ 17:41:23 +0000
+Subject: Re: [PATCH v4 12/15] qemu-iotests: insert valgrind command line as
+ wrapper for qemu binary
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ John Snow <jsnow@redhat.com>
+References: <20210520075236.44723-1-eesposit@redhat.com>
+ <20210520075236.44723-13-eesposit@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <446728b5-e570-0a0f-6e37-d9a7606aa6ba@virtuozzo.com>
+Date: Fri, 28 May 2021 20:41:22 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.2
+In-Reply-To: <20210520075236.44723-13-eesposit@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.7.252.4]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [185.215.60.226]
+X-ClientProxiedBy: AM0PR02CA0171.eurprd02.prod.outlook.com
+ (2603:10a6:20b:28e::8) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-Received-SPF: pass client-ip=66.160.133.170; envelope-from=mmorrell@tachyum.com;
- helo=mx1.tachyum.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.8] (185.215.60.226) by
+ AM0PR02CA0171.eurprd02.prod.outlook.com (2603:10a6:20b:28e::8) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4173.20 via Frontend Transport; Fri, 28 May 2021 17:41:22 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 2d2881b0-716e-4c54-22d7-08d921ffcfbc
+X-MS-TrafficTypeDiagnostic: AM6PR08MB4724:
+X-Microsoft-Antispam-PRVS: <AM6PR08MB472445182FAC1D2431B7C642C1229@AM6PR08MB4724.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2803;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: FSG1LGId6MFTBtwOYMv2sNuOBHW6pkDm89s7iDkUanW9jJ33a6K6eS4r4i/z6i2h/iF0Z69dgEStmmU8oZVxgcoQHVOgNqy2TlJnlnxv31fHW/llcGlwFEBBhwnXbRMzn9DYsJ1WwbsT5t2WfdarB+Z5CJklTUMZcamFc/Xw8LF55TdkeSwLypvTlV8hM+T5gWgEHDmdh+OTtXWgfSX8anluoEzns1GCPIiEPoXsA+n2P0fV2P1u+OpLFAtcfiFtoM3KOSgg6HpCaA021BfiVXT2v+cs9ZvLbpaTaXHY2M0B60Zw8WzxtODR/XnPwdto+01Gubh3WmeMepqbK9YbQRALbfvdrDirXKA/GAR96xTkPKz2IAN5b1i4CZ4BdT22BID2nV2wyj0gWuKnKbtjpog6ZfINe4x5sDY0n9whNnKCP/K+/EcneWWVrB44GYikgktrK8mCJ+wO44g8eArKMEOvzvCKhg3icE8jYK56gMg0gRQx04KmlEHx3jgYefoeyQQGfqWdwIahGvY7dxgEALu7lIA0mrb1y4OXvy8vLsyHw6J3QixYYo2117mbeVAGzdUwMPTculCUsZF3zqIX7RT5RZg8tiAWIwcko/qHmsM834LK9MaA3MiZPEfAghwp5RbKKofJAXrCCcMniehUneueKRi0hX8ZYRTk+vwjtww16AHJpjSyXmEm54l2mDKJ+sVHpEQWSV5iX08NljR0RFkD25RB9q/6m+fA9KlMnoY=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(396003)(376002)(136003)(346002)(39830400003)(26005)(52116002)(478600001)(86362001)(6486002)(186003)(83380400001)(16526019)(2906002)(31686004)(36756003)(54906003)(316002)(4326008)(16576012)(956004)(8676002)(2616005)(8936002)(31696002)(5660300002)(66946007)(38100700002)(66476007)(38350700002)(66556008)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?QW5hbXdoVzNUaER3MktNNFJIaktPVExIMEE1ZkZRQ2FZYmZqREdsOUQvanNQ?=
+ =?utf-8?B?SzV2STF1amhSZXNqSXUwUndzTS9rUm50K2p1a2VFNlhOUk40NmhOako5bGk1?=
+ =?utf-8?B?MHQxd3VKV05saDR0d3RCMzRVemFEb3pqRGJGNm90SGZlbFppYzJjY3FqMTBL?=
+ =?utf-8?B?TkdFa3Fjc2xqM1ROV29oM3FHZExjbzBxK3E2N1FpZmd4M1FXQXJod0svbktO?=
+ =?utf-8?B?S0tUdUpPclgzSTFSOHRtdlpmKzFhTXpRV0dzc0JyT2RINTlUN3REVWRTTnFt?=
+ =?utf-8?B?Y0tUNFpOT3NONm55c2Z3M2E2TmlIeHpqVFFsV0lBTkpOQ2p2VDBoMFFaem1W?=
+ =?utf-8?B?cUtPREFGejNBUWZOZ1I2bEczRnMvZzI5VGV3WnhjOXVjOWJlQWF3cTQ5OXk4?=
+ =?utf-8?B?dlJEK0FUaWcwU0ZVSUNSYmM0aURDaDFCNWJlSngvc1JkemsxOE9NQkx6TmNL?=
+ =?utf-8?B?SjVwc0xqWTkweWk3c0ZwOXAzUzJzcEZiajhlZ0RPblBhSDZENmlEVEwvTkR4?=
+ =?utf-8?B?elRlSXVaVk9hN1B4NEx0dVRMKzFmZmxnai9GWEZFbmQ2REdMMERNc3J0azJ1?=
+ =?utf-8?B?OGtZNUZITW5TRnBoSUNtY1RXODZJM1Y2KzZaNkdzdGlaM2NqWjVzZytxOC9w?=
+ =?utf-8?B?UklRYmFmRUxBeUx3K2Y2QVZ2dlNXWEJMS2pnd1ZOODZUTFB4bFQ0ME1Pd2NV?=
+ =?utf-8?B?Q0tQcmlaaWR5dEhrR0JXaGhLSUs5bW51OFRmMDllUTh0UFdqNEtyd21DZms5?=
+ =?utf-8?B?UU9ndGJsRGxTTmZaTUFjUW05VjJjMGZrenF6U1BHdjErMWhWdStiY25qbU5R?=
+ =?utf-8?B?SXZQV1J4eFVGOVd3T1pYVmhiS1dIQ1Joc3JzbCtlaVNSMitLQTk4S21INXZW?=
+ =?utf-8?B?Q3JGTStBTjlpYi9PN0d5TUtqalNiOGNCTk1kZlQyR3MzVzhIL3Z5a29MOU5r?=
+ =?utf-8?B?UXhrbWdOSHphbWJISFBEcnA2Z3BTaUtVMk9uOS8rYTdvTnlIamVSTkh5RUlp?=
+ =?utf-8?B?UzlXd1g4aTFWeVN6NktxbDgvSDhrVzhUTCs0RUY2VTBrdFhjSks0RUVpUkRh?=
+ =?utf-8?B?MWZTbWVKbUpvT2xKcmt5SFJHZ2p1RUdKaXFUN01JaGZjOHpSZVd3U2ExQzM3?=
+ =?utf-8?B?cE01cWFtWlFIdWdUMnpLTWxuZ0tPWXE3ME14dFBzdkFRU0lWV0dNZlV4RjBo?=
+ =?utf-8?B?blZKcVF1NEVWejN3YXNCNzRhdzd0cmFNbFd3UjMwZzIxTFVKV25jZ1VFSlBt?=
+ =?utf-8?B?NTRTeUJFb3hRbzZVYjNmdTZtMlVwczZ1cElzbEpsZEEvYnRYUytUZVVNVW1Y?=
+ =?utf-8?B?MlhLWmZISE9qNExZZHhIcWZlcUNCRThRaVpRM2h1RzNsS3BTaUtBK2FQRkpw?=
+ =?utf-8?B?NlpubDNpL25vK1VVdXllMmxnbm5jVUNJVFRDQXdBNnNrbS9tbmIrT2xRcEk3?=
+ =?utf-8?B?MUU5RzFmLzcvWUJmNmNIWkhtd2U1MUJuUE1VWXFqemE1VUhDLzl0c2JRRG5t?=
+ =?utf-8?B?MnVZMFhTM2RneVpBbTJPN0pPT1dUTUlNZWhGZEE1SDBVZlAyWXFvaTVvWTE0?=
+ =?utf-8?B?ajAxSldtWWhOYXR1Q01iQ3pQNytyZkNBZytZcnZHVlkvVE9UUHAraTNwMUor?=
+ =?utf-8?B?dXVjZUxrbTRMa293TEZuSGllTkFKeWdLZTVlMFdiWUpvRkdCeFFIRTMxczJF?=
+ =?utf-8?B?amVNTzU3U3lIM2F0Wk8rY1FWaTk5bER3R254RGtoZDR0U1NUWlFDaGd5Z2lC?=
+ =?utf-8?Q?5HSYp8UFaY7Z1mpFnvE7QuU0pZAu1XatBIqdtfS?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2d2881b0-716e-4c54-22d7-08d921ffcfbc
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 May 2021 17:41:23.6660 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: wd6F9OPM3EyTxM4sdoJwaazDyMULz1S1Phr+jKhbrMGaGgVgMDfgxy/z2D4gOXOI5fha25wz7edGF2JnxyO1qbbrG2GHWBQD4lrtGbNyII0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4724
+Received-SPF: pass client-ip=40.107.20.122;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR05-DB8-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -70,241 +147,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "alex.bennee@linaro.org" <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I'm probably missing something, but why do we need both "float_flag_inorm_d=
-enormal" and "float_flag_iflush_denormal"?
+20.05.2021 10:52, Emanuele Giuseppe Esposito wrote:
+> The priority will be given to gdb command line, meaning if the -gdb
+> parameter and -valgrind are given, gdb will be wrapped around
+> the qemu binary.
 
-Couldn't the code that sets these flags set just a single flag for all deno=
-rmal inputs and the code that checks these flags check that single flag
-combined with the "flush_inputs_to_zero" flag to accomplish what the two se=
-parate "input denormal" flags do?
+I'd prefer just return an error immediately if user specify both -gdb and -valgrind
 
-   Michael
+> 
+> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+> ---
+>   tests/qemu-iotests/iotests.py | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
+> index a06284acad..75f1e1711c 100644
+> --- a/tests/qemu-iotests/iotests.py
+> +++ b/tests/qemu-iotests/iotests.py
+> @@ -590,7 +590,8 @@ class VM(qtest.QEMUQtestMachine):
+>       def __init__(self, path_suffix=''):
+>           name = "qemu%s-%d" % (path_suffix, os.getpid())
+>           timer = 15.0 if not (qemu_gdb or qemu_valgrind) else None
+> -        super().__init__(qemu_prog, qemu_opts, wrapper=qemu_gdb,
+> +        wrapper = qemu_gdb if qemu_gdb else qemu_valgrind
+> +        super().__init__(qemu_prog, qemu_opts, wrapper=wrapper,
+>                            name=name,
+>                            test_dir=test_dir,
+>                            socket_scm_helper=socket_scm_helper,
+> 
 
------Original Message-----
-From: Richard Henderson <richard.henderson@linaro.org>=20
-Sent: Wednesday, May 26, 2021 9:14 PM
-To: qemu-devel@nongnu.org
-Cc: Michael Morrell <mmorrell@tachyum.com>; alex.bennee@linaro.org
-Subject: [PATCH 03/11] softfloat: Introduce float_flag_inorm_denormal
 
-Create a new exception flag for reporting input denormals that are not flus=
-hed to zero, they are normalized and treated as normal numbers.
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- include/fpu/softfloat-types.h | 15 ++++---
- fpu/softfloat.c               | 84 +++++++++++------------------------
- fpu/softfloat-parts.c.inc     |  1 +
- 3 files changed, 36 insertions(+), 64 deletions(-)
-
-diff --git a/include/fpu/softfloat-types.h b/include/fpu/softfloat-types.h =
-index e2d70ff556..174100e50e 100644
---- a/include/fpu/softfloat-types.h
-+++ b/include/fpu/softfloat-types.h
-@@ -143,13 +143,14 @@ typedef enum __attribute__((__packed__)) {
-  */
-=20
- enum {
--    float_flag_invalid   =3D  1,
--    float_flag_divbyzero =3D  4,
--    float_flag_overflow  =3D  8,
--    float_flag_underflow =3D 16,
--    float_flag_inexact   =3D 32,
--    float_flag_iflush_denormal =3D 64,
--    float_flag_oflush_denormal =3D 128
-+    float_flag_invalid         =3D 0x0001,
-+    float_flag_divbyzero       =3D 0x0002,
-+    float_flag_overflow        =3D 0x0004,
-+    float_flag_underflow       =3D 0x0008,
-+    float_flag_inexact         =3D 0x0010,
-+    float_flag_inorm_denormal  =3D 0x0020,  /* denormal input, normalized =
-*/
-+    float_flag_iflush_denormal =3D 0x0040,  /* denormal input, flushed to =
-zero */
-+    float_flag_oflush_denormal =3D 0x0080,  /* denormal result, flushed=20
-+ to zero */
- };
-=20
- /*
-diff --git a/fpu/softfloat.c b/fpu/softfloat.c index cb077cf111..e54cdb274d=
- 100644
---- a/fpu/softfloat.c
-+++ b/fpu/softfloat.c
-@@ -126,61 +126,23 @@ this code that are retained.
-  * denormal/inf/NaN; (2) when operands are not guaranteed to lead to a 0 r=
-esult
-  * and the result is < the minimum normal.
-  */
--#define GEN_INPUT_FLUSH__NOCHECK(name, soft_t)                          \
-+
-+#define GEN_INPUT_FLUSH(name, soft_t)                                   \
-     static inline void name(soft_t *a, float_status *s)                 \
-     {                                                                   \
-         if (unlikely(soft_t ## _is_denormal(*a))) {                     \
--            *a =3D soft_t ## _set_sign(soft_t ## _zero,                   =
-\
--                                     soft_t ## _is_neg(*a));            \
--            float_raise(float_flag_iflush_denormal, s);                  \
-+            if (s->flush_inputs_to_zero) {                              \
-+                *a =3D soft_t ## _set_sign(0, soft_t ## _is_neg(*a));     =
-\
-+                float_raise(float_flag_iflush_denormal, s);             \
-+            } else {                                                    \
-+                float_raise(float_flag_inorm_denormal, s);              \
-+            }                                                           \
-         }                                                               \
-     }
-=20
--GEN_INPUT_FLUSH__NOCHECK(float32_input_flush__nocheck, float32) -GEN_INPUT=
-_FLUSH__NOCHECK(float64_input_flush__nocheck, float64) -#undef GEN_INPUT_FL=
-USH__NOCHECK
--
--#define GEN_INPUT_FLUSH1(name, soft_t)                  \
--    static inline void name(soft_t *a, float_status *s) \
--    {                                                   \
--        if (likely(!s->flush_inputs_to_zero)) {         \
--            return;                                     \
--        }                                               \
--        soft_t ## _input_flush__nocheck(a, s);          \
--    }
--
--GEN_INPUT_FLUSH1(float32_input_flush1, float32) -GEN_INPUT_FLUSH1(float64_=
-input_flush1, float64) -#undef GEN_INPUT_FLUSH1
--
--#define GEN_INPUT_FLUSH2(name, soft_t)                                  \
--    static inline void name(soft_t *a, soft_t *b, float_status *s)      \
--    {                                                                   \
--        if (likely(!s->flush_inputs_to_zero)) {                         \
--            return;                                                     \
--        }                                                               \
--        soft_t ## _input_flush__nocheck(a, s);                          \
--        soft_t ## _input_flush__nocheck(b, s);                          \
--    }
--
--GEN_INPUT_FLUSH2(float32_input_flush2, float32) -GEN_INPUT_FLUSH2(float64_=
-input_flush2, float64) -#undef GEN_INPUT_FLUSH2
--
--#define GEN_INPUT_FLUSH3(name, soft_t)                                  \
--    static inline void name(soft_t *a, soft_t *b, soft_t *c, float_status =
-*s) \
--    {                                                                   \
--        if (likely(!s->flush_inputs_to_zero)) {                         \
--            return;                                                     \
--        }                                                               \
--        soft_t ## _input_flush__nocheck(a, s);                          \
--        soft_t ## _input_flush__nocheck(b, s);                          \
--        soft_t ## _input_flush__nocheck(c, s);                          \
--    }
--
--GEN_INPUT_FLUSH3(float32_input_flush3, float32) -GEN_INPUT_FLUSH3(float64_=
-input_flush3, float64) -#undef GEN_INPUT_FLUSH3
-+GEN_INPUT_FLUSH(float32_input_flush, float32)=20
-+GEN_INPUT_FLUSH(float64_input_flush, float64) #undef GEN_INPUT_FLUSH
-=20
- /*
-  * Choose whether to use fpclassify or float32/64_* primitives in the gene=
-rated @@ -353,7 +315,8 @@ float32_gen2(float32 xa, float32 xb, float_status=
- *s,
-         goto soft;
-     }
-=20
--    float32_input_flush2(&ua.s, &ub.s, s);
-+    float32_input_flush(&ua.s, s);
-+    float32_input_flush(&ub.s, s);
-     if (unlikely(!pre(ua, ub))) {
-         goto soft;
-     }
-@@ -384,7 +347,8 @@ float64_gen2(float64 xa, float64 xb, float_status *s,
-         goto soft;
-     }
-=20
--    float64_input_flush2(&ua.s, &ub.s, s);
-+    float64_input_flush(&ua.s, s);
-+    float64_input_flush(&ub.s, s);
-     if (unlikely(!pre(ua, ub))) {
-         goto soft;
-     }
-@@ -2161,7 +2125,9 @@ float32_muladd(float32 xa, float32 xb, float32 xc, in=
-t flags, float_status *s)
-         goto soft;
-     }
-=20
--    float32_input_flush3(&ua.s, &ub.s, &uc.s, s);
-+    float32_input_flush(&ua.s, s);
-+    float32_input_flush(&ub.s, s);
-+    float32_input_flush(&uc.s, s);
-     if (unlikely(!f32_is_zon3(ua, ub, uc))) {
-         goto soft;
-     }
-@@ -2232,7 +2198,9 @@ float64_muladd(float64 xa, float64 xb, float64 xc, in=
-t flags, float_status *s)
-         goto soft;
-     }
-=20
--    float64_input_flush3(&ua.s, &ub.s, &uc.s, s);
-+    float64_input_flush(&ua.s, s);
-+    float64_input_flush(&ub.s, s);
-+    float64_input_flush(&uc.s, s);
-     if (unlikely(!f64_is_zon3(ua, ub, uc))) {
-         goto soft;
-     }
-@@ -3988,7 +3956,8 @@ float32_hs_compare(float32 xa, float32 xb, float_stat=
-us *s, bool is_quiet)
-         goto soft;
-     }
-=20
--    float32_input_flush2(&ua.s, &ub.s, s);
-+    float32_input_flush(&ua.s, s);
-+    float32_input_flush(&ub.s, s);
-     if (isgreaterequal(ua.h, ub.h)) {
-         if (isgreater(ua.h, ub.h)) {
-             return float_relation_greater; @@ -4038,7 +4007,8 @@ float64_h=
-s_compare(float64 xa, float64 xb, float_status *s, bool is_quiet)
-         goto soft;
-     }
-=20
--    float64_input_flush2(&ua.s, &ub.s, s);
-+    float64_input_flush(&ua.s, s);
-+    float64_input_flush(&ub.s, s);
-     if (isgreaterequal(ua.h, ub.h)) {
-         if (isgreater(ua.h, ub.h)) {
-             return float_relation_greater; @@ -4230,7 +4200,7 @@ float32 Q=
-EMU_FLATTEN float32_sqrt(float32 xa, float_status *s)
-         goto soft;
-     }
-=20
--    float32_input_flush1(&ua.s, s);
-+    float32_input_flush(&ua.s, s);
-     if (QEMU_HARDFLOAT_1F32_USE_FP) {
-         if (unlikely(!(fpclassify(ua.h) =3D=3D FP_NORMAL ||
-                        fpclassify(ua.h) =3D=3D FP_ZERO) || @@ -4257,7 +422=
-7,7 @@ float64 QEMU_FLATTEN float64_sqrt(float64 xa, float_status *s)
-         goto soft;
-     }
-=20
--    float64_input_flush1(&ua.s, s);
-+    float64_input_flush(&ua.s, s);
-     if (QEMU_HARDFLOAT_1F64_USE_FP) {
-         if (unlikely(!(fpclassify(ua.h) =3D=3D FP_NORMAL ||
-                        fpclassify(ua.h) =3D=3D FP_ZERO) || diff --git a/fp=
-u/softfloat-parts.c.inc b/fpu/softfloat-parts.c.inc index 72e2b24539..16d44=
-25419 100644
---- a/fpu/softfloat-parts.c.inc
-+++ b/fpu/softfloat-parts.c.inc
-@@ -119,6 +119,7 @@ static void partsN(canonicalize)(FloatPartsN *p, float_=
-status *status,
-             int shift =3D frac_normalize(p);
-             p->cls =3D float_class_normal;
-             p->exp =3D fmt->frac_shift - fmt->exp_bias - shift + 1;
-+            float_raise(float_flag_inorm_denormal, status);
-         }
-     } else if (likely(p->exp < fmt->exp_max) || fmt->arm_althp) {
-         p->cls =3D float_class_normal;
---
-2.25.1
-
+-- 
+Best regards,
+Vladimir
 
