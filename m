@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A93E5393B91
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 May 2021 04:47:55 +0200 (CEST)
-Received: from localhost ([::1]:44820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 914F4393B90
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 May 2021 04:47:15 +0200 (CEST)
+Received: from localhost ([::1]:42864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lmSXS-0005UM-M0
-	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 22:47:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43628)
+	id 1lmSWo-00049f-K3
+	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 22:47:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43624)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lmSKR-0003Mf-E8
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lmSKR-0003LK-5X
  for qemu-devel@nongnu.org; Thu, 27 May 2021 22:34:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29844)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36581)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lmSKP-0000JO-02
- for qemu-devel@nongnu.org; Thu, 27 May 2021 22:34:27 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lmSKO-0000JH-P3
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 22:34:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1622169264;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1DEu7BwCHReSYvTVTDfUICeSupIzaAC8n7QYDgGIM/k=;
- b=V9MVyvbQlNysKafVw8gp0Obuh9n/hjSfqHrptUK9f2iI0XftZZiiWrFa6GNMOv08bOGFTc
- UP0UoDp3WgjeCSy7Xu20as1YKbCidHyZeobyuR4S1rhGVbSh9jr8GDHdwVEi/CpdHvgjQ0
- DAi32Rzz3PrUxZoa8DoyTw2FwdCdAuo=
+ bh=Lx+BzRHkg0849WZRXBQmDvIaAP2oJo6bOn5YqeMib2s=;
+ b=IiNSsIbbweirw7i4ixj6L7H3J4vun7dWqX5hgbAiRab/LXsJKy7nOTgNwyZI1NnE4kfwL5
+ AWNj4wZS17s6SgkFRBdcDewl81paeW/xBS0n5FMXxNtum3MroSyd0ro5dF5UH868fHtspf
+ d5d/oQhSdwaN/MHd3wHN0Kh1+O/Hvpk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-602-BqCydMFDN4qdpLRfiRMaOA-1; Thu, 27 May 2021 22:34:17 -0400
-X-MC-Unique: BqCydMFDN4qdpLRfiRMaOA-1
+ us-mta-454-fGZHXOs5N0qWRao3dfwWRw-1; Thu, 27 May 2021 22:34:20 -0400
+X-MC-Unique: fGZHXOs5N0qWRao3dfwWRw-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3A3CD501E1;
- Fri, 28 May 2021 02:34:16 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A83B8180FD65;
+ Fri, 28 May 2021 02:34:18 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-116-137.rdu2.redhat.com [10.10.116.137])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E5D341F0C0;
- Fri, 28 May 2021 02:34:13 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 62C6E1F0C0;
+ Fri, 28 May 2021 02:34:16 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 19/44] python/machine: disable warning for Popen in _launch()
-Date: Thu, 27 May 2021 22:31:55 -0400
-Message-Id: <20210528023220.417057-20-jsnow@redhat.com>
+Subject: [PULL 20/44] python/machine: Trim line length to below 80 chars
+Date: Thu, 27 May 2021 22:31:56 -0400
+Message-Id: <20210528023220.417057-21-jsnow@redhat.com>
 In-Reply-To: <20210528023220.417057-1-jsnow@redhat.com>
 References: <20210528023220.417057-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -77,8 +77,10 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- qemu-block@nongnu.org, =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
@@ -88,35 +90,30 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We handle this resource rather meticulously in
-shutdown/kill/wait/__exit__ et al, through the laborious mechanisms in
-_do_shutdown().
-
-Quiet this pylint warning here.
+One more little delinting fix that snuck in.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: Cleber Rosa <crosa@redhat.com>
-Message-id: 20210527211715.394144-7-jsnow@redhat.com
-Message-id: 20210517184808.3562549-7-jsnow@redhat.com
+Message-id: 20210527211715.394144-8-jsnow@redhat.com
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- python/qemu/machine.py | 3 +++
- 1 file changed, 3 insertions(+)
+ python/qemu/machine.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/python/qemu/machine.py b/python/qemu/machine.py
-index c66bc6a9c69..5d72c4ca369 100644
+index 5d72c4ca369..a8837b36e47 100644
 --- a/python/qemu/machine.py
 +++ b/python/qemu/machine.py
-@@ -405,6 +405,9 @@ def _launch(self) -> None:
-                   self._args)
-         )
-         LOG.debug('VM launch command: %r', ' '.join(self._qemu_full_args))
-+
-+        # Cleaning up of this subprocess is guaranteed by _do_shutdown.
-+        # pylint: disable=consider-using-with
-         self._popen = subprocess.Popen(self._qemu_full_args,
-                                        stdin=subprocess.DEVNULL,
-                                        stdout=self._qemu_log_file,
+@@ -97,7 +97,7 @@ def __init__(self,
+         @param args: list of extra arguments
+         @param wrapper: list of arguments used as prefix to qemu binary
+         @param name: prefix for socket and log file names (default: qemu-PID)
+-        @param base_temp_dir: default location where temporary files are created
++        @param base_temp_dir: default location where temp files are created
+         @param monitor_address: address for QMP monitor
+         @param socket_scm_helper: helper program, required for send_fd_scm()
+         @param sock_dir: where to create socket (defaults to base_temp_dir)
 -- 
 2.31.1
 
