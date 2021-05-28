@@ -2,69 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38107393AE6
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 May 2021 03:12:35 +0200 (CEST)
-Received: from localhost ([::1]:44218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5D2E393B3A
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 May 2021 03:57:33 +0200 (CEST)
+Received: from localhost ([::1]:53586 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lmR3B-0002L3-Rl
-	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 21:12:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57984)
+	id 1lmRki-0002qP-Cv
+	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 21:57:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37186)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dje@google.com>) id 1lmR2E-0001dA-QP
- for qemu-devel@nongnu.org; Thu, 27 May 2021 21:11:34 -0400
-Received: from mail-ua1-x932.google.com ([2607:f8b0:4864:20::932]:40557)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dje@google.com>) id 1lmR2B-0006LR-Cm
- for qemu-devel@nongnu.org; Thu, 27 May 2021 21:11:34 -0400
-Received: by mail-ua1-x932.google.com with SMTP id j2so1251973uak.7
- for <qemu-devel@nongnu.org>; Thu, 27 May 2021 18:11:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=vrduKctLJNw+Zk6tVzfKRyJu75JreyySM6NkT4L39RI=;
- b=hqG9x2rpa5Vv1KejEINcebY+hzED5ej46yxoA8oEzCG+LST18bYw6wp1OydRck6kU2
- DdVwEox7587bY3WzDUhtOBN3FeyoW48TEG27eWXiXvNA6EWTXaepOK+2P5hlGsf2pFvX
- KBcoGeAV6XpYelJ1XpULX6C+Kd6pK2YvvizbEHkPjIRef4tmD+hVSZb9lbXT+mSFoCfI
- Yzd6nv+Z8h/15WCx3mCOxGvwWC+cq89VbUR0zxFCbH21HReVDvmC1W61ljX5WNmdNeH0
- bpJjMeJHOFXJnhL8hWVzgh+i9JQnRlfmqW/kWBMW+rTtFyZqpnfrmADfEBOOrHiNnoID
- CWmw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=vrduKctLJNw+Zk6tVzfKRyJu75JreyySM6NkT4L39RI=;
- b=MTdrW26ET739Pv3vtUq1rCzySgmArn2RAcdQTPYSn1v8v/M+S4TsQUMQgFiBw53z+S
- e5YPDG2UAniJm/FQL/7sR5QBf7gJ17Zb3ITmomqMz7l+yf8LuklQo4QaNtllVTFTGJpD
- n1ABWPE7cbAxyLGZyVMRWJEeDwpqCwjV1SthynKqtTqQ4d8/ezgVaKWgHsBsjFWFm9Cv
- 2iy9J72ApXd3rc4wP6Iny0KOkpFOvScfbxPtYI3tU6pNDc3SAM6odLt2nAnk7ndC470T
- Ng+hWh195YP9raQTUtrq4GznpI969YSkDnt2HadfOQNJz0bytY4aWoKB5G8CvwcyZ7lP
- l7vg==
-X-Gm-Message-State: AOAM530TzzvSF0Q8ycsIHKTBzbKytk79bpKM05vOboEMjzWP5SOzR4vZ
- e9VU+rxuXWLKADHuHBFGgnIFU37fndfTGN1/XVJkow==
-X-Google-Smtp-Source: ABdhPJyEqgMikVywAQ52mvc88OKbTHD/QEj2t4W5igNe13Jh1Bq5mwaxqT9vKiR8BjjwnpA6xNBW3oezKAAUqPLccZ0=
-X-Received: by 2002:ab0:338f:: with SMTP id y15mr766109uap.91.1622164288902;
- Thu, 27 May 2021 18:11:28 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1lmRjf-0001sl-F4; Thu, 27 May 2021 21:56:27 -0400
+Received: from out28-2.mail.aliyun.com ([115.124.28.2]:55538)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1lmRjc-0001Zu-25; Thu, 27 May 2021 21:56:27 -0400
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07598961|-1; CH=green;
+ DM=|CONTINUE|false|;
+ DS=CONTINUE|ham_regular_dialog|0.256127-0.00494922-0.738924;
+ FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047207; MF=zhiwei_liu@c-sky.com; NM=1;
+ PH=DS; RN=7; RT=7; SR=0; TI=SMTPD_---.KJpNlTk_1622166974; 
+Received: from 172.27.117.59(mailfrom:zhiwei_liu@c-sky.com
+ fp:SMTPD_---.KJpNlTk_1622166974)
+ by smtp.aliyun-inc.com(10.147.40.44); Fri, 28 May 2021 09:56:15 +0800
+Subject: Re: [PATCH] target/riscv: hardwire bits in hideleg and hedeleg
+To: Jose Martins <josemartins90@gmail.com>
+References: <20210522155902.374439-1-josemartins90@gmail.com>
+ <434d8825-8bd6-5344-aea2-e176fad6183e@c-sky.com>
+ <CAC41xo2v7kU92+MkZfB7f_86X58k8R5Ft=2vSO3OORT2OJ-Exw@mail.gmail.com>
+From: LIU Zhiwei <zhiwei_liu@c-sky.com>
+Message-ID: <bca94724-96ed-5acf-e668-a0769626358e@c-sky.com>
+Date: Fri, 28 May 2021 09:56:14 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-References: <20210519151755.2761542-1-marcandre.lureau@redhat.com>
-In-Reply-To: <20210519151755.2761542-1-marcandre.lureau@redhat.com>
-From: Doug Evans <dje@google.com>
-Date: Thu, 27 May 2021 18:10:52 -0700
-Message-ID: <CADPb22TqCOx1Pw9d56ry188QpwCaBkArOeN4qiOcLstE+xr2sw@mail.gmail.com>
-Subject: Re: [PATCH v2] Update libslirp to v4.5.0
-To: marcandre.lureau@redhat.com
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- Samuel Thibault <samuel.thibault@ens-lyon.org>
-Content-Type: multipart/alternative; boundary="000000000000358b9105c3598e94"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::932;
- envelope-from=dje@google.com; helo=mail-ua1-x932.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+In-Reply-To: <CAC41xo2v7kU92+MkZfB7f_86X58k8R5Ft=2vSO3OORT2OJ-Exw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: none client-ip=115.124.28.2; envelope-from=zhiwei_liu@c-sky.com;
+ helo=out28-2.mail.aliyun.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,245 +61,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000358b9105c3598e94
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, May 19, 2021 at 8:18 AM <marcandre.lureau@redhat.com> wrote:
+On 5/26/21 1:50 AM, Jose Martins wrote:
+>> We can use it directly if only one macro VS_MODE_INTERRUPTS.
+> I wrote it like this to be more coherent with what was already there
+> which also makes it more readable. Furthermore, the compiler will just
+> probably optimize the variable away, right?
 
-> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->
-> Switch from stable-4.2 branch to upstream v4.5.0 release.
->
-> ## [4.5.0] - 2021-05-18
->
-> ### Added
->
->  - IPv6 forwarding. !62 !75 !77
->  - slirp_neighbor_info() to dump the ARP/NDP tables. !71
->
-> ### Changed
->
->  - Lazy guest address resolution for IPv6. !81
->  - Improve signal handling when spawning a child. !61
->  - Set macOS deployment target to macOS 10.4. !72
->  - slirp_add_hostfwd: Ensure all error paths set errno. !80
->  - More API documentation.
->
-> ### Fixed
->
->  - Assertion failure on unspecified IPv6 address. !86
->  - Disable polling for PRI on MacOS, fixing some closing streams issues.
-> !73
->  - Various memory leak fixes on fastq/batchq. !68
->  - Memory leak on IPv6 fast-send. !67
->  - Slow socket response on Windows. !64
->  - Misc build and code cleanups. !60 !63 !76 !79 !84
->
-> ## [4.4.0] - 2020-12-02
->
-> ### Added
->
->  - udp, udp6, icmp: handle TTL value. !48
->  - Enable forwarding ICMP errors. !49
->  - Add DNS resolving for iOS. !54
->
-> ### Changed
->
->  - Improve meson subproject() support. !53
->  - Removed Makefile-based build system. !56
->
-> ### Fixed
->
->  - socket: consume empty packets. !55
->  - check pkt_len before reading protocol header (CVE-2020-29129). !57
->  - ip_stripoptions use memmove (fixes undefined behaviour). !47
->  - various Coverity-related changes/fixes.
->
-> ## [4.3.1] - 2020-07-08
->
-> ### Changed
->
->  - A silent truncation could occur in `slirp_fmt()`, which will now print=
- a
->    critical message. See also #22.
->
-> ### Fixed
->
->  - CVE-2020-10756 - Drop bogus IPv6 messages that could lead to data
-> leakage.
->    See !44 and !42.
->  - Fix win32 builds by using the SLIRP_PACKED definition.
->  - Various coverity scan errors fixed. !41
->  - Fix new GCC warnings. !43
->
-> ## [4.3.0] - 2020-04-22
->
-> ### Added
->
->  - `SLIRP_VERSION_STRING` macro, with the git sha suffix when building
-> from git
->  - `SlirpConfig.disable_dns`, to disable DNS redirection #16
->
-> ### Changed
->
->  - `slirp_version_string()` now has the git sha suffix when building form
-> git
->  - Limit DNS redirection to port 53 #16
->
-> ### Fixed
->
->  - Fix build regression with mingw & NetBSD
->  - Fix use-afte-free in `ip_reass()` (CVE-2020-1983)
->
-> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->
+Hi Jose,
 
+Sorry I missed this mail.
 
-Reviewed-by: Doug Evans < <marcandre.lureau@redhat.com>dje@google.com>
+Sounds good. Just keep it.
 
-
-
-> ---
->  slirp | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/slirp b/slirp
-> index 8f43a99191..a62890e711 160000
-> --- a/slirp
-> +++ b/slirp
-> @@ -1 +1 @@
-> -Subproject commit 8f43a99191afb47ca3f3c6972f6306209f367ece
-> +Subproject commit a62890e71126795ca593affa747f669bed88e89c
-> --
-> 2.29.0
+>> I didn't find that the RISCV_EXCP_VS_ECALL should be read-only 0 from the specification.
+> You are right. I had doubts about this also. The table that defines it
+> in the spec is missing this bit. I raised an issue on the spec repo
+> (https://github.com/riscv/riscv-isa-manual/issues/649). But in my
+> opinion, it wouldn't really make sense to allow this exception to be
+> delegated.
+Agree.
+> What do you think? Is there any use case for this to be
+> allowed? Maybe we'll need a clarification from the spec to reach a
+> final decision.
+That's will be great.
 >
+>> However, as hedeleg is WARL, you had better reserve the other fields like medeleg:
+>>
+>> env->medeleg = (env->medeleg & ~delegable_excps) | (val & delegable_excps);
+> Isn't the patch's implementation of hedeleg/hideleg providing a WARL
+> behavior already? I don't think we need this preservation behavior
+> since in the case of hideleg/hedeleg there can only be 0-wired bits. I
+> believe this won't change. For hedeleg the spec states that  "Each bit
+> of hedeleg shall be either writable or hardwired to zero". For
+> hideleg: "Among bits 15:0 of hideleg, only bits 10, 6, and 2
+> (corresponding to the standard VS-level interrupts) shall be writable,
+> and the others shall be hardwired to zero."
+Agree.
 >
+>> I really don't understand why medeleg codes this way. Is there anyone can give a better explanation?
+>>
+>> I don't know if I fully understood your question, but I don't get why
+>> you would need to preserve non-delegable bits in medeleg in this way,
+>> even to keep WARL behavior.
+>   Again, the specification only allows
+> medeleg bits to be hardwired to zero: "An implementation shall not
+> hardwire any bits of medeleg to one, i.e., any synchronous trap that
+> can be delegated must support not being delegated.", so a bitwise-and
+> should suffice.
 
---000000000000358b9105c3598e94
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+That's the current way to implement medeleg in QEMU. I just copy the code.
 
-<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
-t-size:small">On Wed, May 19, 2021 at 8:18 AM &lt;<a href=3D"mailto:marcand=
-re.lureau@redhat.com">marcandre.lureau@redhat.com</a>&gt; wrote:<br></div><=
-/div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"=
-margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-lef=
-t:1ex">From: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@=
-redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
-<br>
-Switch from stable-4.2 branch to upstream v4.5.0 release.<br>
-<br>
-## [4.5.0] - 2021-05-18<br>
-<br>
-### Added<br>
-<br>
-=C2=A0- IPv6 forwarding. !62 !75 !77<br>
-=C2=A0- slirp_neighbor_info() to dump the ARP/NDP tables. !71<br>
-<br>
-### Changed<br>
-<br>
-=C2=A0- Lazy guest address resolution for IPv6. !81<br>
-=C2=A0- Improve signal handling when spawning a child. !61<br>
-=C2=A0- Set macOS deployment target to macOS 10.4. !72<br>
-=C2=A0- slirp_add_hostfwd: Ensure all error paths set errno. !80<br>
-=C2=A0- More API documentation.<br>
-<br>
-### Fixed<br>
-<br>
-=C2=A0- Assertion failure on unspecified IPv6 address. !86<br>
-=C2=A0- Disable polling for PRI on MacOS, fixing some closing streams issue=
-s. !73<br>
-=C2=A0- Various memory leak fixes on fastq/batchq. !68<br>
-=C2=A0- Memory leak on IPv6 fast-send. !67<br>
-=C2=A0- Slow socket response on Windows. !64<br>
-=C2=A0- Misc build and code cleanups. !60 !63 !76 !79 !84<br>
-<br>
-## [4.4.0] - 2020-12-02<br>
-<br>
-### Added<br>
-<br>
-=C2=A0- udp, udp6, icmp: handle TTL value. !48<br>
-=C2=A0- Enable forwarding ICMP errors. !49<br>
-=C2=A0- Add DNS resolving for iOS. !54<br>
-<br>
-### Changed<br>
-<br>
-=C2=A0- Improve meson subproject() support. !53<br>
-=C2=A0- Removed Makefile-based build system. !56<br>
-<br>
-### Fixed<br>
-<br>
-=C2=A0- socket: consume empty packets. !55<br>
-=C2=A0- check pkt_len before reading protocol header (CVE-2020-29129). !57<=
-br>
-=C2=A0- ip_stripoptions use memmove (fixes undefined behaviour). !47<br>
-=C2=A0- various Coverity-related changes/fixes.<br>
-<br>
-## [4.3.1] - 2020-07-08<br>
-<br>
-### Changed<br>
-<br>
-=C2=A0- A silent truncation could occur in `slirp_fmt()`, which will now pr=
-int a<br>
-=C2=A0 =C2=A0critical message. See also #22.<br>
-<br>
-### Fixed<br>
-<br>
-=C2=A0- CVE-2020-10756 - Drop bogus IPv6 messages that could lead to data l=
-eakage.<br>
-=C2=A0 =C2=A0See !44 and !42.<br>
-=C2=A0- Fix win32 builds by using the SLIRP_PACKED definition.<br>
-=C2=A0- Various coverity scan errors fixed. !41<br>
-=C2=A0- Fix new GCC warnings. !43<br>
-<br>
-## [4.3.0] - 2020-04-22<br>
-<br>
-### Added<br>
-<br>
-=C2=A0- `SLIRP_VERSION_STRING` macro, with the git sha suffix when building=
- from git<br>
-=C2=A0- `SlirpConfig.disable_dns`, to disable DNS redirection #16<br>
-<br>
-### Changed<br>
-<br>
-=C2=A0- `slirp_version_string()` now has the git sha suffix when building f=
-orm git<br>
-=C2=A0- Limit DNS redirection to port 53 #16<br>
-<br>
-### Fixed<br>
-<br>
-=C2=A0- Fix build regression with mingw &amp; NetBSD<br>
-=C2=A0- Fix use-afte-free in `ip_reass()` (CVE-2020-1983)<br>
-<br>
-Signed-off-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lurea=
-u@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br></bl=
-ockquote><div><br></div><div><br></div><div>Reviewed-by: <span class=3D"gma=
-il_default" style=3D"font-size:small">Doug Evans</span>=C2=A0&lt;<a href=3D=
-"mailto:marcandre.lureau@redhat.com" target=3D"_blank"><span class=3D"gmail=
-_default" style=3D"font-size:small"></span></a>d<span class=3D"gmail_defaul=
-t" style=3D"font-size:small"><a href=3D"mailto:je@google.com">je@google.com=
-</a></span>&gt;<br></div><div><br></div><div>=C2=A0</div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
-b(204,204,204);padding-left:1ex">
----<br>
-=C2=A0slirp | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-<br>
-diff --git a/slirp b/slirp<br>
-index 8f43a99191..a62890e711 160000<br>
---- a/slirp<br>
-+++ b/slirp<br>
-@@ -1 +1 @@<br>
--Subproject commit 8f43a99191afb47ca3f3c6972f6306209f367ece<br>
-+Subproject commit a62890e71126795ca593affa747f669bed88e89c<br>
--- <br>
-2.29.0<br>
-<br>
-</blockquote></div></div>
+In my opinion, WARL means:
 
---000000000000358b9105c3598e94--
+1) For writable fields with WARL, any illegal written value will be 
+discarded.
+
+2) For reserved fields with WARL,  any written value will be discarded 
+and it should always keep hardwired value.
+
+I agree with your opinion. We can just use bitwise-and for medeleg.
+
+Best Regards,
+Zhiwei
+
+> José
 
