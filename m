@@ -2,20 +2,20 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9345B393BAE
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 May 2021 04:51:55 +0200 (CEST)
-Received: from localhost ([::1]:34784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9D19393B83
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 May 2021 04:42:51 +0200 (CEST)
+Received: from localhost ([::1]:51116 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lmSbK-00016e-Ku
-	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 22:51:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43966)
+	id 1lmSSY-0007Tu-UD
+	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 22:42:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43964)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lmSKz-0005oe-Lp
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lmSKz-0005ns-GE
  for qemu-devel@nongnu.org; Thu, 27 May 2021 22:35:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53498)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34797)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lmSKx-0000nE-39
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lmSKx-0000nC-20
  for qemu-devel@nongnu.org; Thu, 27 May 2021 22:35:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1622169298;
@@ -23,28 +23,28 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Ys9sAAItz+weyvua66xc+eEZkr7hrFBSotZXeQp6Bc0=;
- b=Xy2WoLNu44HLkGfMCKmMQgU8tj7LnFgX/9p6R3WrkT6sCPAC8cpgArdn1278GxAOeMJXzp
- vTILW+O0ZAeuMAtsyP8i4ZDmdH3J/R8qHgAc7B0DVJlfM5bskPouZuN3nY9Y9gNm83s4oS
- ADNuoFPCT71L7xEBocGTQsZKD7FaWQs=
+ bh=vGagTnySJtsFqHkyxoz843agzk2g0ka20KqH56gokwo=;
+ b=dUL7JvVEnobDsFE+F29TPh06bB+dgIlsU53lfaEIXsP4qp2eyXen3Qah7S1xgDzbLSEOXF
+ 1UmsHagABWUMiczGfAVVvXH7nteTVjUN6ibibAMug8b+Ff47XUVvQ/UHwsirJvJ3l+0I9L
+ oeuMbjZwwh0DvA0FRMtVVCTOWLTSH+8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-30-PKQCn1u_N2ip-JdIhxqpcg-1; Thu, 27 May 2021 22:34:54 -0400
-X-MC-Unique: PKQCn1u_N2ip-JdIhxqpcg-1
+ us-mta-584-EgUsujYdMo2hfN2UyN8IKQ-1; Thu, 27 May 2021 22:34:56 -0400
+X-MC-Unique: EgUsujYdMo2hfN2UyN8IKQ-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 859CD501E1;
- Fri, 28 May 2021 02:34:53 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 42F95801817;
+ Fri, 28 May 2021 02:34:55 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-116-137.rdu2.redhat.com [10.10.116.137])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8F950E17B;
- Fri, 28 May 2021 02:34:51 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AC5AE1F0C0;
+ Fri, 28 May 2021 02:34:53 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 31/44] python: move flake8 config to setup.cfg
-Date: Thu, 27 May 2021 22:32:07 -0400
-Message-Id: <20210528023220.417057-32-jsnow@redhat.com>
+Subject: [PULL 32/44] python: add excluded dirs to flake8 config
+Date: Thu, 27 May 2021 22:32:08 -0400
+Message-Id: <20210528023220.417057-33-jsnow@redhat.com>
 In-Reply-To: <20210528023220.417057-1-jsnow@redhat.com>
 References: <20210528023220.417057-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -88,46 +88,35 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Update the comment concerning the flake8 exception to match commit
-42c0dd12, whose commit message stated:
+Instruct flake8 to avoid certain well-known directories created by
+python tooling that it ought not check.
 
-A note on the flake8 exception: flake8 will warn on *any* bare except,
-but pylint's is context-aware and will suppress the warning if you
-re-raise the exception.
+Note that at-present, nothing actually creates a ".venv" directory; but
+it is in such widespread usage as a de-facto location for a developer's
+virtual environment that it should be excluded anyway. A forthcoming
+commit canonizes this with a "make venv" command.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 Reviewed-by: Cleber Rosa <crosa@redhat.com>
-Message-id: 20210527211715.394144-19-jsnow@redhat.com
+Message-id: 20210527211715.394144-20-jsnow@redhat.com
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- python/qemu/machine/.flake8 | 2 --
- python/setup.cfg            | 3 +++
- 2 files changed, 3 insertions(+), 2 deletions(-)
- delete mode 100644 python/qemu/machine/.flake8
+ python/setup.cfg | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/python/qemu/machine/.flake8 b/python/qemu/machine/.flake8
-deleted file mode 100644
-index 45d8146f3f5..00000000000
---- a/python/qemu/machine/.flake8
-+++ /dev/null
-@@ -1,2 +0,0 @@
--[flake8]
--extend-ignore = E722  # Pylint handles this, but smarter.
-\ No newline at end of file
 diff --git a/python/setup.cfg b/python/setup.cfg
-index 36b4253e939..52a89a0a290 100644
+index 52a89a0a290..9aeab2bb0d3 100644
 --- a/python/setup.cfg
 +++ b/python/setup.cfg
-@@ -22,6 +22,9 @@ packages =
-     qemu.machine
-     qemu.utils
+@@ -24,6 +24,8 @@ packages =
  
-+[flake8]
-+extend-ignore = E722  # Prefer pylint's bare-except checks to flake8's
-+
+ [flake8]
+ extend-ignore = E722  # Prefer pylint's bare-except checks to flake8's
++exclude = __pycache__,
++          .venv,
+ 
  [pylint.messages control]
  # Disable the message, report, category or checker with the given id(s). You
- # can either give multiple identifiers separated by comma (,) or put this
 -- 
 2.31.1
 
