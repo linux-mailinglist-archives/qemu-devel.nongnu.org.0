@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2A28393BB1
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 May 2021 04:53:55 +0200 (CEST)
-Received: from localhost ([::1]:39886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53B6B393B7E
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 May 2021 04:40:12 +0200 (CEST)
+Received: from localhost ([::1]:41756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lmSdG-0004c3-US
-	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 22:53:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43868)
+	id 1lmSPz-0001Cb-C0
+	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 22:40:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43830)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lmSKn-0004vk-LM
- for qemu-devel@nongnu.org; Thu, 27 May 2021 22:34:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34150)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lmSKm-0004pk-5a
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 22:34:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21097)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lmSKk-0000dX-Hf
- for qemu-devel@nongnu.org; Thu, 27 May 2021 22:34:49 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lmSKk-0000cq-B7
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 22:34:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1622169285;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ufZaZbXj5M+dVDg6u0ITa0DURwXc4s5/iD4fgrVfR3c=;
- b=Ahly16hHtsGuiqobRlghCE23TgvGqoI1SOJLTayVSg5i1KvBx9hK1dc1jBbKeJ/gSttgg+
- OgvxHJlGwnGN0GiE9AyJoS9Mapqc4aMq0Sfky4o3LDhcnNZiCuCePNe06VA2mbguoDUVdV
- ZOE9GviwsbiWnwJkxOCNVjB5CDtw7Vo=
+ bh=MAahgT1gkzJHxfyedcliXHOQnELVpDx6gjSBz+7SUrk=;
+ b=CxRtwHRR+7xg5hGR7mDRWIqesJcRpS0DHgZsK7blsvGmZHtdOJEH7lmf4iK43NdY8t/pq3
+ FY2/blWsDONyRcrEbhaiuQxDy7z0fNog29/ipquALWwB+XKw2H5BA6XGz/lQsHbKBhkJ7I
+ FYePibGZDQR1bCy5mLgpIlc8X362MI4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-303-_I8bGm8oMMyBQmzut1vZ_Q-1; Thu, 27 May 2021 22:34:40 -0400
-X-MC-Unique: _I8bGm8oMMyBQmzut1vZ_Q-1
+ us-mta-352-JxnXzf6jPuKDUITRGGK09Q-1; Thu, 27 May 2021 22:34:42 -0400
+X-MC-Unique: JxnXzf6jPuKDUITRGGK09Q-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 76C0E107ACC7;
- Fri, 28 May 2021 02:34:39 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 353B0107ACE3;
+ Fri, 28 May 2021 02:34:41 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-116-137.rdu2.redhat.com [10.10.116.137])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C3FDCE17C;
- Fri, 28 May 2021 02:34:37 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7E79F1F0C0;
+ Fri, 28 May 2021 02:34:39 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 27/44] python: Add pipenv support
-Date: Thu, 27 May 2021 22:32:03 -0400
-Message-Id: <20210528023220.417057-28-jsnow@redhat.com>
+Subject: [PULL 28/44] python: add pylint import exceptions
+Date: Thu, 27 May 2021 22:32:04 -0400
+Message-Id: <20210528023220.417057-29-jsnow@redhat.com>
 In-Reply-To: <20210528023220.417057-1-jsnow@redhat.com>
 References: <20210528023220.417057-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -55,7 +55,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -88,78 +88,67 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-pipenv is a tool used for managing virtual environments with pinned,
-explicit dependencies. It is used for precisely recreating python
-virtual environments.
+Pylint 2.5.x - 2.7.x have regressions that make import checking
+inconsistent, see:
 
-pipenv uses two files to do this:
+https://github.com/PyCQA/pylint/issues/3609
+https://github.com/PyCQA/pylint/issues/3624
+https://github.com/PyCQA/pylint/issues/3651
 
-(1) Pipfile, which is similar in purpose and scope to what setup.cfg
-lists. It specifies the requisite minimum to get a functional
-environment for using this package.
-
-(2) Pipfile.lock, which is similar in purpose to `pip freeze >
-requirements.txt`. It specifies a canonical virtual environment used for
-deployment or testing. This ensures that all users have repeatable
-results.
-
-The primary benefit of using this tool is to ensure *rock solid*
-repeatable CI results with a known set of packages. Although I endeavor
-to support as many versions as I can, the fluid nature of the Python
-toolchain often means tailoring code for fairly specific versions.
-
-Note that pipenv is *not* required to install or use this module; this is
-purely for the sake of repeatable testing by CI or developers.
-
-Here, a "blank" pipfile is added with no dependencies, but specifies
-Python 3.6 for the virtual environment.
-
-Pipfile will specify our version minimums, while Pipfile.lock specifies
-an exact loadout of packages that were known to operate correctly. This
-latter file provides the real value for easy setup of container images
-and CI environments.
+Pinning to 2.4.4 is worse, because it mandates versions of shared
+dependencies that are too old for features we want in isort and mypy.
+Oh well.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 Reviewed-by: Cleber Rosa <crosa@redhat.com>
-Message-id: 20210527211715.394144-15-jsnow@redhat.com
+Message-id: 20210527211715.394144-16-jsnow@redhat.com
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- python/README.rst |  3 +++
- python/Pipfile    | 11 +++++++++++
- 2 files changed, 14 insertions(+)
- create mode 100644 python/Pipfile
+ python/qemu/machine/__init__.py | 3 +++
+ python/qemu/machine/machine.py  | 2 +-
+ python/qemu/machine/qtest.py    | 2 +-
+ 3 files changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/python/README.rst b/python/README.rst
-index 0099646ae2f..bf9bbca979a 100644
---- a/python/README.rst
-+++ b/python/README.rst
-@@ -36,6 +36,9 @@ Files in this directory
- - ``MANIFEST.in`` is read by python setuptools, it specifies additional files
-   that should be included by a source distribution.
- - ``PACKAGE.rst`` is used as the README file that is visible on PyPI.org.
-+- ``Pipfile`` is used by Pipenv to generate ``Pipfile.lock``.
-+- ``Pipfile.lock`` is a set of pinned package dependencies that this package
-+  is tested under in our CI suite. It is used by ``make venv-check``.
- - ``README.rst`` you are here!
- - ``VERSION`` contains the PEP-440 compliant version used to describe
-   this package; it is referenced by ``setup.cfg``.
-diff --git a/python/Pipfile b/python/Pipfile
-new file mode 100644
-index 00000000000..9534830b5eb
---- /dev/null
-+++ b/python/Pipfile
-@@ -0,0 +1,11 @@
-+[[source]]
-+name = "pypi"
-+url = "https://pypi.org/simple"
-+verify_ssl = true
-+
-+[dev-packages]
-+
-+[packages]
-+
-+[requires]
-+python_version = "3.6"
+diff --git a/python/qemu/machine/__init__.py b/python/qemu/machine/__init__.py
+index 98302ea31e7..728f27adbed 100644
+--- a/python/qemu/machine/__init__.py
++++ b/python/qemu/machine/__init__.py
+@@ -22,6 +22,9 @@
+ # the COPYING file in the top-level directory.
+ #
+ 
++# pylint: disable=import-error
++# see: https://github.com/PyCQA/pylint/issues/3624
++# see: https://github.com/PyCQA/pylint/issues/3651
+ from .machine import QEMUMachine
+ from .qtest import QEMUQtestMachine, QEMUQtestProtocol
+ 
+diff --git a/python/qemu/machine/machine.py b/python/qemu/machine/machine.py
+index d33b02d2ce6..b62435528e2 100644
+--- a/python/qemu/machine/machine.py
++++ b/python/qemu/machine/machine.py
+@@ -38,7 +38,7 @@
+     Type,
+ )
+ 
+-from qemu.qmp import (
++from qemu.qmp import (  # pylint: disable=import-error
+     QEMUMonitorProtocol,
+     QMPMessage,
+     QMPReturnValue,
+diff --git a/python/qemu/machine/qtest.py b/python/qemu/machine/qtest.py
+index e893ca3697a..93700684d1c 100644
+--- a/python/qemu/machine/qtest.py
++++ b/python/qemu/machine/qtest.py
+@@ -26,7 +26,7 @@
+     TextIO,
+ )
+ 
+-from qemu.qmp import SocketAddrT
++from qemu.qmp import SocketAddrT  # pylint: disable=import-error
+ 
+ from .machine import QEMUMachine
+ 
 -- 
 2.31.1
 
