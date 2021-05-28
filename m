@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BCD2393B7F
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 May 2021 04:40:51 +0200 (CEST)
-Received: from localhost ([::1]:43934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 270E8393B7C
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 May 2021 04:38:53 +0200 (CEST)
+Received: from localhost ([::1]:36654 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lmSQc-0002dY-3f
-	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 22:40:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42994)
+	id 1lmSOi-0006Gn-5c
+	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 22:38:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43028)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lmSJQ-0000HJ-4v
- for qemu-devel@nongnu.org; Thu, 27 May 2021 22:33:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29684)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lmSJU-0000Vr-KC
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 22:33:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36665)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lmSJO-000868-0Z
- for qemu-devel@nongnu.org; Thu, 27 May 2021 22:33:23 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lmSJS-00089e-Qw
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 22:33:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622169201;
+ s=mimecast20190719; t=1622169206;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=x77v9afX9s8Z8c6YTAOmgYZcSkk+ABgZzHVZG6RhpoY=;
- b=P65WzKXtMOSws8xnHoTxxSUu4QFeo1DlDImnk8uG9g0KaCkVYNSTDlVWmPGc7EPTBRNNWc
- YtOHovDW1m1oQwJIeuaUIV7gbsO65t26fXwAqte48PZ2Lb+UYoxGtgmHThtmCYBIxg5BzT
- VAnwnPTEdmNN3NTYW2AHnTXkBTDDNTo=
+ bh=cBEDEnNMRMCu4H3MnJ01dG8m7nsiX+etOucYL6GLmQ4=;
+ b=AUVMWYyA2nlq6Sb1JDUUnQNo7C5hdLAu5xh3HHUKwMuiFurxTjkNSrt49zaN862qZ19vgb
+ QWgs3LwcS8YMYVLkN06izbhFrb9taNGkUy5ukLkoYSS2METtmCYNpS5lXtBXl9UfCr6NMk
+ jsVtDnYqQ2nLGEE2bTK78rJPQcyWP1M=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-23-Dyc6Pb0MP5CUYLwbpD6r-A-1; Thu, 27 May 2021 22:33:19 -0400
-X-MC-Unique: Dyc6Pb0MP5CUYLwbpD6r-A-1
+ us-mta-190-B3iMego4MhCdVUfsDKwMvQ-1; Thu, 27 May 2021 22:33:24 -0400
+X-MC-Unique: B3iMego4MhCdVUfsDKwMvQ-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D3B74107ACC7;
- Fri, 28 May 2021 02:33:17 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F2C72501E1;
+ Fri, 28 May 2021 02:33:22 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-116-137.rdu2.redhat.com [10.10.116.137])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CBC631F0C0;
- Fri, 28 May 2021 02:33:03 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 05B0519D9B;
+ Fri, 28 May 2021 02:33:17 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/44] Acceptance Tests: set up SSH connection by default after
- boot for LinuxTest
-Date: Thu, 27 May 2021 22:31:44 -0400
-Message-Id: <20210528023220.417057-9-jsnow@redhat.com>
+Subject: [PULL 09/44] tests/acceptance/virtiofs_submounts.py: remove
+ launch_vm()
+Date: Thu, 27 May 2021 22:31:45 -0400
+Message-Id: <20210528023220.417057-10-jsnow@redhat.com>
 In-Reply-To: <20210528023220.417057-1-jsnow@redhat.com>
 References: <20210528023220.417057-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -56,7 +56,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -84,7 +84,7 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Max Reitz <mreitz@redhat.com>, Willian Rampazzo <willianr@redhat.com>,
- Cleber Rosa <crosa@redhat.com>,
+ Eric Auger <eric.auger@redhat.com>, Cleber Rosa <crosa@redhat.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  John Snow <jsnow@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
@@ -92,135 +92,78 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Cleber Rosa <crosa@redhat.com>
 
-The LinuxTest specifically targets users that need to interact with Linux
-guests.  So, it makes sense to give a connection by default, and avoid
-requiring it as boiler-plate code.
+The LinuxTest class' launch_and_wait() method now behaves the same way
+as this test's custom launch_vm(), so let's just use the upper layer
+(common) method.
 
 Signed-off-by: Cleber Rosa <crosa@redhat.com>
 Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Reviewed-by: Eric Auger <eric.auger@redhat.com>
 Reviewed-by: Willian Rampazzo <willianr@redhat.com>
-Message-Id: <20210412044644.55083-8-crosa@redhat.com>
+Message-Id: <20210412044644.55083-9-crosa@redhat.com>
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- tests/acceptance/avocado_qemu/__init__.py |  5 ++++-
- tests/acceptance/boot_linux.py            | 18 +++++++++---------
- tests/acceptance/virtiofs_submounts.py    |  1 -
- 3 files changed, 13 insertions(+), 11 deletions(-)
+ tests/acceptance/virtiofs_submounts.py | 13 +++++--------
+ 1 file changed, 5 insertions(+), 8 deletions(-)
 
-diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptance/avocado_qemu/__init__.py
-index 25f871f5bc6..1062a851b97 100644
---- a/tests/acceptance/avocado_qemu/__init__.py
-+++ b/tests/acceptance/avocado_qemu/__init__.py
-@@ -391,7 +391,7 @@ def set_up_cloudinit(self, ssh_pubkey=None):
-         cloudinit_iso = self.prepare_cloudinit(ssh_pubkey)
-         self.vm.add_args('-drive', 'file=%s,format=raw' % cloudinit_iso)
- 
--    def launch_and_wait(self):
-+    def launch_and_wait(self, set_up_ssh_connection=True):
-         self.vm.set_console()
-         self.vm.launch()
-         console_drainer = datadrainer.LineLogger(self.vm.console_socket.fileno(),
-@@ -399,3 +399,6 @@ def launch_and_wait(self):
-         console_drainer.start()
-         self.log.info('VM launched, waiting for boot confirmation from guest')
-         cloudinit.wait_for_phone_home(('0.0.0.0', self.phone_home_port), self.name)
-+        if set_up_ssh_connection:
-+            self.log.info('Setting up the SSH connection')
-+            self.ssh_connect(self.username, self.ssh_key)
-diff --git a/tests/acceptance/boot_linux.py b/tests/acceptance/boot_linux.py
-index 0d178038a09..314370fd1f5 100644
---- a/tests/acceptance/boot_linux.py
-+++ b/tests/acceptance/boot_linux.py
-@@ -29,7 +29,7 @@ def test_pc_i440fx_tcg(self):
-         """
-         self.require_accelerator("tcg")
-         self.vm.add_args("-accel", "tcg")
--        self.launch_and_wait()
-+        self.launch_and_wait(set_up_ssh_connection=False)
- 
-     def test_pc_i440fx_kvm(self):
-         """
-@@ -38,7 +38,7 @@ def test_pc_i440fx_kvm(self):
-         """
-         self.require_accelerator("kvm")
-         self.vm.add_args("-accel", "kvm")
--        self.launch_and_wait()
-+        self.launch_and_wait(set_up_ssh_connection=False)
- 
-     def test_pc_q35_tcg(self):
-         """
-@@ -47,7 +47,7 @@ def test_pc_q35_tcg(self):
-         """
-         self.require_accelerator("tcg")
-         self.vm.add_args("-accel", "tcg")
--        self.launch_and_wait()
-+        self.launch_and_wait(set_up_ssh_connection=False)
- 
-     def test_pc_q35_kvm(self):
-         """
-@@ -56,7 +56,7 @@ def test_pc_q35_kvm(self):
-         """
-         self.require_accelerator("kvm")
-         self.vm.add_args("-accel", "kvm")
--        self.launch_and_wait()
-+        self.launch_and_wait(set_up_ssh_connection=False)
- 
- 
- class BootLinuxAarch64(LinuxTest):
-@@ -85,7 +85,7 @@ def test_virt_tcg(self):
-         self.vm.add_args("-cpu", "max")
-         self.vm.add_args("-machine", "virt,gic-version=2")
-         self.add_common_args()
--        self.launch_and_wait()
-+        self.launch_and_wait(set_up_ssh_connection=False)
- 
-     def test_virt_kvm_gicv2(self):
-         """
-@@ -98,7 +98,7 @@ def test_virt_kvm_gicv2(self):
-         self.vm.add_args("-cpu", "host")
-         self.vm.add_args("-machine", "virt,gic-version=2")
-         self.add_common_args()
--        self.launch_and_wait()
-+        self.launch_and_wait(set_up_ssh_connection=False)
- 
-     def test_virt_kvm_gicv3(self):
-         """
-@@ -111,7 +111,7 @@ def test_virt_kvm_gicv3(self):
-         self.vm.add_args("-cpu", "host")
-         self.vm.add_args("-machine", "virt,gic-version=3")
-         self.add_common_args()
--        self.launch_and_wait()
-+        self.launch_and_wait(set_up_ssh_connection=False)
- 
- 
- class BootLinuxPPC64(LinuxTest):
-@@ -128,7 +128,7 @@ def test_pseries_tcg(self):
-         """
-         self.require_accelerator("tcg")
-         self.vm.add_args("-accel", "tcg")
--        self.launch_and_wait()
-+        self.launch_and_wait(set_up_ssh_connection=False)
- 
- 
- class BootLinuxS390X(LinuxTest):
-@@ -146,4 +146,4 @@ def test_s390_ccw_virtio_tcg(self):
-         """
-         self.require_accelerator("tcg")
-         self.vm.add_args("-accel", "tcg")
--        self.launch_and_wait()
-+        self.launch_and_wait(set_up_ssh_connection=False)
 diff --git a/tests/acceptance/virtiofs_submounts.py b/tests/acceptance/virtiofs_submounts.py
-index e10a935ac4e..e019d3b896b 100644
+index e019d3b896b..d77ee356740 100644
 --- a/tests/acceptance/virtiofs_submounts.py
 +++ b/tests/acceptance/virtiofs_submounts.py
-@@ -136,7 +136,6 @@ def set_up_virtiofs(self):
+@@ -134,9 +134,6 @@ def set_up_virtiofs(self):
+                          '-numa',
+                          'node,memdev=mem')
  
-     def launch_vm(self):
-         self.launch_and_wait()
--        self.ssh_connect('root', self.ssh_key)
- 
+-    def launch_vm(self):
+-        self.launch_and_wait()
+-
      def set_up_nested_mounts(self):
          scratch_dir = os.path.join(self.shared_dir, 'scratch')
+         try:
+@@ -225,7 +222,7 @@ def test_pre_virtiofsd_set_up(self):
+         self.set_up_nested_mounts()
+ 
+         self.set_up_virtiofs()
+-        self.launch_vm()
++        self.launch_and_wait()
+         self.mount_in_guest()
+         self.check_in_guest()
+ 
+@@ -235,14 +232,14 @@ def test_pre_launch_set_up(self):
+ 
+         self.set_up_nested_mounts()
+ 
+-        self.launch_vm()
++        self.launch_and_wait()
+         self.mount_in_guest()
+         self.check_in_guest()
+ 
+     def test_post_launch_set_up(self):
+         self.set_up_shared_dir()
+         self.set_up_virtiofs()
+-        self.launch_vm()
++        self.launch_and_wait()
+ 
+         self.set_up_nested_mounts()
+ 
+@@ -252,7 +249,7 @@ def test_post_launch_set_up(self):
+     def test_post_mount_set_up(self):
+         self.set_up_shared_dir()
+         self.set_up_virtiofs()
+-        self.launch_vm()
++        self.launch_and_wait()
+         self.mount_in_guest()
+ 
+         self.set_up_nested_mounts()
+@@ -265,7 +262,7 @@ def test_two_runs(self):
+         self.set_up_nested_mounts()
+ 
+         self.set_up_virtiofs()
+-        self.launch_vm()
++        self.launch_and_wait()
+         self.mount_in_guest()
+         self.check_in_guest()
+ 
 -- 
 2.31.1
 
