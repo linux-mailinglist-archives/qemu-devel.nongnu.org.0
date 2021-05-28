@@ -2,67 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AA4D39477A
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 May 2021 21:22:15 +0200 (CEST)
-Received: from localhost ([::1]:36266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8759A39478A
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 May 2021 21:43:02 +0200 (CEST)
+Received: from localhost ([::1]:51360 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lmi3h-0006oK-Mz
-	for lists+qemu-devel@lfdr.de; Fri, 28 May 2021 15:22:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56200)
+	id 1lmiNp-0001S4-47
+	for lists+qemu-devel@lfdr.de; Fri, 28 May 2021 15:43:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lmi2T-00068D-CV
- for qemu-devel@nongnu.org; Fri, 28 May 2021 15:20:57 -0400
-Received: from indium.canonical.com ([91.189.90.7]:50756)
+ (Exim 4.90_1) (envelope-from <swethajoshi139@gmail.com>)
+ id 1lmiMi-0008Qg-AZ; Fri, 28 May 2021 15:41:52 -0400
+Received: from mail-oi1-x236.google.com ([2607:f8b0:4864:20::236]:35469)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lmi2O-00073G-FH
- for qemu-devel@nongnu.org; Fri, 28 May 2021 15:20:57 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lmi2K-0006sr-Fd
- for <qemu-devel@nongnu.org>; Fri, 28 May 2021 19:20:48 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 744992E8084
- for <qemu-devel@nongnu.org>; Fri, 28 May 2021 19:20:48 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <swethajoshi139@gmail.com>)
+ id 1lmiMg-0004XM-FW; Fri, 28 May 2021 15:41:52 -0400
+Received: by mail-oi1-x236.google.com with SMTP id v22so5348457oic.2;
+ Fri, 28 May 2021 12:41:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=3b/5hZoUJnGGXW2KW5LT7/3XSDYmASHQYpEKst3achE=;
+ b=spzRWMOFz+UiIQApbd5NLLF6F7WYevJuGPDz5O41WKqrk4oC8VtG+v9mrqb+zgGpBK
+ Yszqc7vPC3so7DmS1cA7MQjZD1arZQvpH3MQvWsMxz2vdtAvPJ+BM4IGaI351KHD3dP5
+ yi79DB/9KjlJ7EtHocjd4Ktl5yr8rTg72T7/uOk1DOac8E6rjMilb0gaLHmAwFoQ4n1V
+ REL+oHSXtPXOv/l0eOpNbyPZ3IdDnuVxrQDv5XX5Ii5WDpqhP0/xB6W8A0aXJyJ+Mnz0
+ vHsPaDxMPmwNm73E9IZFZ0eHePdsQuZ64opKe2WxF9aT9ytkvY1DF9b3BkLCGDDXrNg9
+ 6xzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=3b/5hZoUJnGGXW2KW5LT7/3XSDYmASHQYpEKst3achE=;
+ b=m7TlgU1qJQeGk26LyKPFPqdv5KwBN64Y5hMsdVVyR9kh6bNWTV7rmecBRreUoZSNhT
+ GD+0O76wX8R+zxwWtyGBvpCxE2tK5GULoIL0S8FsmtyOoF0va9Dt28PaoyKjWpt0A6wR
+ ZsCxLek3k5upBWJfm0NmkNQ2NGZ0LkT4E6I7x1huLZTtvYEe8fxy3UAZewCjANLE7vwO
+ y68FXQjl3yo5Bf6uRUXqdzl2QXCa/19rf1wxxPtQO8dkgztsHcIIPVCEuR2V1Ksvhnyw
+ qi7crT8IEgCLpoREL9qrzXyYYfO9lwrB/12uuKVnPYKYZ0D+gemo/2tsHG89o1c/4NRD
+ f6Tw==
+X-Gm-Message-State: AOAM530nxAsSwLtXHET2tpf1lTRItQwoT6BmWoNkMnB2JE9IOJ0MWrC/
+ kTyF2txoVun1us1tFZZdTq+/tvwWT3R1jA1LTsY=
+X-Google-Smtp-Source: ABdhPJwDupQxXhznQqnnc1SLRoqVEGDzttT4r7hTDgl5I/IqLT6tSn+GdwAVup2obdwMyvE6kniKUz+SpBcoWKFGml8=
+X-Received: by 2002:aca:c384:: with SMTP id t126mr10283471oif.69.1622230908409; 
+ Fri, 28 May 2021 12:41:48 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 28 May 2021 19:11:22 -0000
-From: OpenStack Infra <1929710@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=nova; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: gate-failure
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: hudson-openstack lyarwood melwitt
-X-Launchpad-Bug-Reporter: Lee Yarwood (lyarwood)
-X-Launchpad-Bug-Modifier: OpenStack Infra (hudson-openstack)
-References: <162203621182.4387.4299404156046469363.malonedeb@gac.canonical.com>
-Message-Id: <162222908263.3507.12792234887020351557.malone@soybean.canonical.com>
-Subject: [Bug 1929710] Related fix merged to nova (master)
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="925b661396f90467a0d31fdfb13d4990b7239925"; Instance="production"
-X-Launchpad-Hash: d6f8d848dcddf8103f780d4cae7c0db7142db8b2
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -64
-X-Spam_score: -6.5
-X-Spam_bar: ------
-X-Spam_report: (-6.5 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, URI_HEX=0.1 autolearn=ham autolearn_force=no
+References: <20210525025823.3208218-1-swethajoshi139@gmail.com>
+ <331a819e-1745-4d4b-cc4a-82521a58186a@linaro.org>
+ <CAFEAcA8RbVafdjn2hkXifAPUF=wxZup20PqPcRpQ1ivtnWCxww@mail.gmail.com>
+ <CALf2nm+LFqM2=vDs8=YfyxQSUT-0xxaCiVmcQzrKoOa+zaTtdg@mail.gmail.com>
+ <CAFEAcA-oX0JR80UYzYKvczHsfxWG6oH3Pg4pbM6ByDe57XEHHw@mail.gmail.com>
+ <CALf2nmKhPaWJa944dR+kFAQ1hCLXF0XPwXaHTqJQ-C6EW7ACKg@mail.gmail.com>
+ <CAFEAcA9E4s3dST0GJkdg24DDAn90WU1FEmXwoKD6oQmNSB1vVA@mail.gmail.com>
+ <CABSBigR1L9sE36eYA0Mq4smx1E9A4umTOKTe_x97foSMkryRnw@mail.gmail.com>
+In-Reply-To: <CABSBigR1L9sE36eYA0Mq4smx1E9A4umTOKTe_x97foSMkryRnw@mail.gmail.com>
+From: Swetha Joshi <swethajoshi139@gmail.com>
+Date: Fri, 28 May 2021 12:41:33 -0700
+Message-ID: <CALf2nmLOqtwacgrQ91TTz9_QRUmFS9ZNii2Kk7-tQ7LNp9vw2Q@mail.gmail.com>
+Subject: Re: [PATCH_V3] Adding ifdefs to call the respective routines only
+ when their configs are enabled
+To: Dongjiu Geng <gengdongjiu1@gmail.com>
+Content-Type: multipart/alternative; boundary="0000000000000a198c05c36911ae"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::236;
+ envelope-from=swethajoshi139@gmail.com; helo=mail-oi1-x236.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,298 +83,127 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1929710 <1929710@bugs.launchpad.net>
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reviewed:  https://review.opendev.org/c/openstack/nova/+/793219
-Committed: https://opendev.org/openstack/nova/commit/d5ed968826895d362f4f2a=
-a21decfdebb9b1fd84
-Submitter: "Zuul (22348)"
-Branch:    master
+--0000000000000a198c05c36911ae
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-commit d5ed968826895d362f4f2aa21decfdebb9b1fd84
-Author: Lee Yarwood <lyarwood@redhat.com>
-Date:   Wed May 26 19:27:45 2021 +0100
+I apologize for the delay, here are the repro steps:
+1. Remove CONFIG_ARM_VIRT=3Dy from arm-softmmu.mak
+2. In .gitlab-ci.yml, crossbuild.yml and in tests/vm/Makefile.include, in
+all the places where we disable kvm using -disable-kvm, replace this
+with -enable-kvm
+3. Build
 
-    zuul: Skip swap_volume tests as part of nova-next
-    =
+You should see errors pointing to these routines: virt_is_acpi_enabled,
+acpi_ghes_record_errors
 
-    The volume update or swap_volume API has long been a source of gate
-    failures within Nova. Most recently we've seen increased instability
-    when running the temptest.api.compute.admin.test_volume_swap tests as
-    part of the nova-next job as documented in bug #1929710.
-    =
+Thanks,
+Swetha.
 
-    This change temporarily removes the failing test from the nova-next job
-    while the underlying issue is identified lower in the virt stack.
-    =
+On Fri, May 28, 2021 at 12:08 AM Dongjiu Geng <gengdongjiu1@gmail.com>
+wrote:
 
-    Change-Id: Ib56a034fb08e309981d0b4553b8cee8d16b10152
-    Related-Bug: #1929710
+> Peter Maydell <peter.maydell@linaro.org> =E4=BA=8E2021=E5=B9=B45=E6=9C=88=
+27=E6=97=A5=E5=91=A8=E5=9B=9B =E4=B8=8A=E5=8D=882:19=E5=86=99=E9=81=93=EF=
+=BC=9A
+> >
+> > On Wed, 26 May 2021 at 18:32, Swetha Joshi <swethajoshi139@gmail.com>
+> wrote:
+> > >
+> > > Hello,
+> > >
+> > > One of the qemu machines we use has KVM enabled, but we don't want th=
+e
+> CONFIG_ARM_VIRT enabled as it pulls in emulation of a variety of physical
+> hardware that we don't need. The compilation errors I mentioned are not i=
+n
+> the qemu mainline per say but we see them in one of the qemu derived
+> machines we use.
+> >
+> > Sure, but unless you can give me a recipe for reproducing the
+> > build failure in mainline I can't really help...
+>
+> Hi Swetha=EF=BC=8C
+>      Yes,  Can you give a method that how to reproduce the build
+> failure issues? Thanks
+>
+> >
+> > thanks
+> > -- PMM
+>
 
--- =
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1929710
+--=20
+Regards
 
-Title:
-  virDomainGetBlockJobInfo fails during swap_volume as disk '$disk' not
-  found in domain
+Swetha Joshi.
 
-Status in OpenStack Compute (nova):
-  New
-Status in QEMU:
-  New
+--0000000000000a198c05c36911ae
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Bug description:
-  Description
-  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+<div dir=3D"ltr">I apologize for the delay, here are the repro steps:<div>1=
+. Remove=C2=A0CONFIG_ARM_VIRT=3Dy from arm-softmmu.mak</div><div>2. In .git=
+lab-ci.yml, crossbuild.yml and in tests/vm/Makefile.include, in all the pla=
+ces where we disable kvm using=C2=A0-disable-kvm, replace this with=C2=A0-e=
+nable-kvm</div><div>3. Build</div><div><br></div><div>You should see errors=
+ pointing to these routines:=C2=A0<span style=3D"background-color:rgb(255,2=
+55,254);color:rgb(0,0,0);font-family:&quot;Droid Sans Mono&quot;,monospace,=
+monospace,&quot;Droid Sans Fallback&quot;;font-size:12px;white-space:pre">v=
+irt_is_acpi_enabled, </span><span style=3D"background-color:rgb(255,255,254=
+);color:rgb(0,0,0);font-family:&quot;Droid Sans Mono&quot;,monospace,monosp=
+ace,&quot;Droid Sans Fallback&quot;;font-size:12px;white-space:pre">acpi_gh=
+es_record_errors</span></div><div><span style=3D"background-color:rgb(255,2=
+55,254);color:rgb(0,0,0);font-family:&quot;Droid Sans Mono&quot;,monospace,=
+monospace,&quot;Droid Sans Fallback&quot;;font-size:12px;white-space:pre"><=
+br></span></div><div><span style=3D"background-color:rgb(255,255,254);color=
+:rgb(0,0,0);font-family:&quot;Droid Sans Mono&quot;,monospace,monospace,&qu=
+ot;Droid Sans Fallback&quot;;font-size:12px;white-space:pre">Thanks,</span>=
+</div><div><span style=3D"background-color:rgb(255,255,254);color:rgb(0,0,0=
+);font-family:&quot;Droid Sans Mono&quot;,monospace,monospace,&quot;Droid S=
+ans Fallback&quot;;font-size:12px;white-space:pre">Swetha.</span></div></di=
+v><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On F=
+ri, May 28, 2021 at 12:08 AM Dongjiu Geng &lt;<a href=3D"mailto:gengdongjiu=
+1@gmail.com">gengdongjiu1@gmail.com</a>&gt; wrote:<br></div><blockquote cla=
+ss=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid =
+rgb(204,204,204);padding-left:1ex">Peter Maydell &lt;<a href=3D"mailto:pete=
+r.maydell@linaro.org" target=3D"_blank">peter.maydell@linaro.org</a>&gt; =
+=E4=BA=8E2021=E5=B9=B45=E6=9C=8827=E6=97=A5=E5=91=A8=E5=9B=9B =E4=B8=8A=E5=
+=8D=882:19=E5=86=99=E9=81=93=EF=BC=9A<br>
+&gt;<br>
+&gt; On Wed, 26 May 2021 at 18:32, Swetha Joshi &lt;<a href=3D"mailto:sweth=
+ajoshi139@gmail.com" target=3D"_blank">swethajoshi139@gmail.com</a>&gt; wro=
+te:<br>
+&gt; &gt;<br>
+&gt; &gt; Hello,<br>
+&gt; &gt;<br>
+&gt; &gt; One of the qemu machines we use has KVM enabled, but we don&#39;t=
+ want the CONFIG_ARM_VIRT enabled as it pulls in emulation of a variety of =
+physical hardware that we don&#39;t need. The compilation errors I mentione=
+d are not in the qemu mainline per say but we see them in one of the qemu d=
+erived machines we use.<br>
+&gt;<br>
+&gt; Sure, but unless you can give me a recipe for reproducing the<br>
+&gt; build failure in mainline I can&#39;t really help...<br>
+<br>
+Hi Swetha=EF=BC=8C<br>
+=C2=A0 =C2=A0 =C2=A0Yes,=C2=A0 Can you give a method that how to reproduce =
+the build<br>
+failure issues? Thanks<br>
+<br>
+&gt;<br>
+&gt; thanks<br>
+&gt; -- PMM<br>
+</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
+ class=3D"gmail_signature"><div dir=3D"ltr">Regards<div><br></div><div>Swet=
+ha Joshi.</div></div></div>
 
-  The error handling around swap_volume is missing the following failure
-  when calling virDomainGetBlockJobInfo() after the entire device is
-  detached by QEMU (?) after it encounters a failure during the block
-  copy job that at first pauses and then somehow resumes:
-
-  https://8a5fc27780098c5ee1bc-
-  3ac81d180a9c011938b2cbb0293272f3.ssl.cf5.rackcdn.com/790660/5/gate
-  /nova-next/e915ed4/controller/logs/screen-n-cpu.txt
-
-  May 26 09:49:47.314813 ubuntu-focal-vexxhost-ca-ymq-1-0024823853 nova-com=
-pute[114649]: ERROR nova.virt.libvirt.driver [None req-7cfcd661-29d4-4cc3-b=
-c54-db0e7fed1a6e tempest-TestVolumeSwap-1841575704 tempest-TestVolumeSwap-1=
-841575704-project-admin] Failure rebasing volume /dev/sdb on vdb.: libvirt.=
-libvirtError: invalid argument: disk 'vdb' not found in domain
-  May 26 09:49:47.314813 ubuntu-focal-vexxhost-ca-ymq-1-0024823853 nova-com=
-pute[114649]: ERROR nova.virt.libvirt.driver Traceback (most recent call la=
-st):
-  May 26 09:49:47.314813 ubuntu-focal-vexxhost-ca-ymq-1-0024823853 nova-com=
-pute[114649]: ERROR nova.virt.libvirt.driver   File "/opt/stack/nova/nova/v=
-irt/libvirt/driver.py", line 2107, in _swap_volume
-  May 26 09:49:47.314813 ubuntu-focal-vexxhost-ca-ymq-1-0024823853 nova-com=
-pute[114649]: ERROR nova.virt.libvirt.driver     while not dev.is_job_compl=
-ete():
-  May 26 09:49:47.314813 ubuntu-focal-vexxhost-ca-ymq-1-0024823853 nova-com=
-pute[114649]: ERROR nova.virt.libvirt.driver   File "/opt/stack/nova/nova/v=
-irt/libvirt/guest.py", line 800, in is_job_complete
-  May 26 09:49:47.314813 ubuntu-focal-vexxhost-ca-ymq-1-0024823853 nova-com=
-pute[114649]: ERROR nova.virt.libvirt.driver     status =3D self.get_job_in=
-fo()
-  May 26 09:49:47.314813 ubuntu-focal-vexxhost-ca-ymq-1-0024823853 nova-com=
-pute[114649]: ERROR nova.virt.libvirt.driver   File "/opt/stack/nova/nova/v=
-irt/libvirt/guest.py", line 707, in get_job_info
-  May 26 09:49:47.314813 ubuntu-focal-vexxhost-ca-ymq-1-0024823853 nova-com=
-pute[114649]: ERROR nova.virt.libvirt.driver     status =3D self._guest._do=
-main.blockJobInfo(self._disk, flags=3D0)
-  May 26 09:49:47.314813 ubuntu-focal-vexxhost-ca-ymq-1-0024823853 nova-com=
-pute[114649]: ERROR nova.virt.libvirt.driver   File "/usr/local/lib/python3=
-.8/dist-packages/eventlet/tpool.py", line 190, in doit
-  May 26 09:49:47.314813 ubuntu-focal-vexxhost-ca-ymq-1-0024823853 nova-com=
-pute[114649]: ERROR nova.virt.libvirt.driver     result =3D proxy_call(self=
-._autowrap, f, *args, **kwargs)
-  May 26 09:49:47.314813 ubuntu-focal-vexxhost-ca-ymq-1-0024823853 nova-com=
-pute[114649]: ERROR nova.virt.libvirt.driver   File "/usr/local/lib/python3=
-.8/dist-packages/eventlet/tpool.py", line 148, in proxy_call
-  May 26 09:49:47.314813 ubuntu-focal-vexxhost-ca-ymq-1-0024823853 nova-com=
-pute[114649]: ERROR nova.virt.libvirt.driver     rv =3D execute(f, *args, *=
-*kwargs)
-  May 26 09:49:47.314813 ubuntu-focal-vexxhost-ca-ymq-1-0024823853 nova-com=
-pute[114649]: ERROR nova.virt.libvirt.driver   File "/usr/local/lib/python3=
-.8/dist-packages/eventlet/tpool.py", line 129, in execute
-  May 26 09:49:47.314813 ubuntu-focal-vexxhost-ca-ymq-1-0024823853 nova-com=
-pute[114649]: ERROR nova.virt.libvirt.driver     six.reraise(c, e, tb)
-  May 26 09:49:47.314813 ubuntu-focal-vexxhost-ca-ymq-1-0024823853 nova-com=
-pute[114649]: ERROR nova.virt.libvirt.driver   File "/usr/local/lib/python3=
-.8/dist-packages/six.py", line 719, in reraise
-  May 26 09:49:47.314813 ubuntu-focal-vexxhost-ca-ymq-1-0024823853 nova-com=
-pute[114649]: ERROR nova.virt.libvirt.driver     raise value
-  May 26 09:49:47.314813 ubuntu-focal-vexxhost-ca-ymq-1-0024823853 nova-com=
-pute[114649]: ERROR nova.virt.libvirt.driver   File "/usr/local/lib/python3=
-.8/dist-packages/eventlet/tpool.py", line 83, in tworker
-  May 26 09:49:47.314813 ubuntu-focal-vexxhost-ca-ymq-1-0024823853 nova-com=
-pute[114649]: ERROR nova.virt.libvirt.driver     rv =3D meth(*args, **kwarg=
-s)
-  May 26 09:49:47.314813 ubuntu-focal-vexxhost-ca-ymq-1-0024823853 nova-com=
-pute[114649]: ERROR nova.virt.libvirt.driver   File "/usr/local/lib/python3=
-.8/dist-packages/libvirt.py", line 985, in blockJobInfo
-  May 26 09:49:47.314813 ubuntu-focal-vexxhost-ca-ymq-1-0024823853 nova-com=
-pute[114649]: ERROR nova.virt.libvirt.driver     raise libvirtError('virDom=
-ainGetBlockJobInfo() failed')
-  May 26 09:49:47.314813 ubuntu-focal-vexxhost-ca-ymq-1-0024823853 nova-com=
-pute[114649]: ERROR nova.virt.libvirt.driver libvirt.libvirtError: invalid =
-argument: disk 'vdb' not found in domain
-  May 26 09:49:47.314813 ubuntu-focal-vexxhost-ca-ymq-1-0024823853 nova-com=
-pute[114649]: ERROR nova.virt.libvirt.driver
-
-  https://zuul.opendev.org/t/openstack/build/e915ed4aeb9346bba83910bd79e950=
-2b/log/controller/logs/libvirt/libvirtd_log.txt
-
-  2021-05-26 09:49:40.189+0000: 79419: info : qemuMonitorSend:993 :
-  QEMU_MONITOR_SEND_MSG: mon=3D0x7fc4bc07e7d0 msg=3D{"execute":"blockdev-
-  add","arguments":{"node-name":"libvirt-4-format","read-
-  only":false,"cache":{"direct":true,"no-
-  flush":false},"driver":"raw","file":"libvirt-4-storage"},"id":"libvirt-37=
-5"}^M
-
-  2021-05-26 09:49:46.154+0000: 79422: info : qemuMonitorSend:993 :
-  QEMU_MONITOR_SEND_MSG: mon=3D0x7fc4bc07e7d0 msg=3D{"execute":"blockdev-
-  add","arguments":{"node-name":"libvirt-5-format","read-
-  only":false,"cache":{"direct":true,"no-
-  flush":false},"driver":"raw","file":"libvirt-5-storage"},"id":"libvirt-37=
-9"}^M
-
-  2021-05-26 09:49:46.165+0000: 79422: debug :
-  qemuMonitorBlockdevMirror:3112 : jobname=3Dcopy-vdb-libvirt-4-format,
-  persistjob=3D1, device=3Dlibvirt-4-format, target=3Dlibvirt-5-format,
-  bandwidth=3D0, granularity=3D0, buf_size=3D0, shallow=3D0
-
-  2021-05-26 09:49:46.167+0000: 79417: debug :
-  qemuProcessHandleJobStatusChange:1002 : job 'copy-vdb-
-  libvirt-4-format'(domain: 0x7fc4b416b0e0,instance-0000000b) state
-  changed to 'created'(1)
-
-  2021-05-26 09:49:46.167+0000: 79417: debug :
-  qemuProcessHandleJobStatusChange:1002 : job 'copy-vdb-
-  libvirt-4-format'(domain: 0x7fc4b416b0e0,instance-0000000b) state
-  changed to 'running'(2)
-
-  2021-05-26 09:49:46.763+0000: 79417: debug :
-  qemuProcessHandleJobStatusChange:1002 : job 'copy-vdb-
-  libvirt-4-format'(domain: 0x7fc4b416b0e0,instance-0000000b) state
-  changed to 'paused'(3)
-
-  2021-05-26 09:49:46.763+0000: 79417: debug :
-  qemuProcessHandleJobStatusChange:1002 : job 'copy-vdb-
-  libvirt-4-format'(domain: 0x7fc4b416b0e0,instance-0000000b) state
-  changed to 'running'(2)
-
-  2021-05-26 09:49:46.841+0000: 79417: debug :
-  qemuProcessHandleDeviceDeleted:1362 : Device virtio-disk1 removed from
-  domain 0x7fc4b416b0e0 instance-0000000b
-
-  2021-05-26 09:49:47.457+0000: 79417: debug :
-  qemuProcessHandleJobStatusChange:1002 : job 'copy-vdb-
-  libvirt-4-format'(domain: 0x7fc4b416b0e0,instance-0000000b) state
-  changed to 'aborting'(8)
-
-  2021-05-26 09:49:47.458+0000: 79417: debug :
-  qemuProcessHandleJobStatusChange:1002 : job 'copy-vdb-
-  libvirt-4-format'(domain: 0x7fc4b416b0e0,instance-0000000b) state
-  changed to 'concluded'(9)
-
-  2021-05-26 09:49:47.459+0000: 79417: debug :
-  qemuProcessHandleJobStatusChange:1002 : job 'copy-vdb-
-  libvirt-4-format'(domain: 0x7fc4b416b0e0,instance-0000000b) state
-  changed to 'null'(11)
-
-  Steps to reproduce
-  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-
-  $ cat queries/virDomainGetBlockJobInfo.yaml
-  query: >
-  =C2=A0message:"virDomainGetBlockJobInfo() failed" AND
-  =C2=A0tags:"screen-n-cpu.txt"
-
-  $ elastic-recheck-query queries/virDomainGetBlockJobInfo.yaml
-  total hits: 6
-  build_branch
-  =C2=A0=C2=A0100% master
-  build_change
-  =C2=A0=C2=A050% 786588
-  =C2=A0=C2=A050% 792322
-  build_hostids
-  =C2=A0=C2=A050% 1b47a855be51bba01ac6d5e6fdc4859bc17ebe2c8faaeb83392f8ff3 =
-79fb0487675c0137b7ac30f24b5de71c70afb836e46746de770fa0c0
-  =C2=A0=C2=A050% 33381c047c348ffefebf6b10cb7f0473c2359757d0bf11cc101eec54 =
-33381c047c348ffefebf6b10cb7f0473c2359757d0bf11cc101eec54
-  build_name
-  =C2=A0=C2=A0100% nova-next
-  build_node
-  =C2=A0=C2=A0100% ubuntu-focal
-  build_queue
-  =C2=A0=C2=A0100% check
-  build_status
-  =C2=A0=C2=A0100% FAILURE
-  build_zuul_url
-  =C2=A0=C2=A0100% N/A
-  filename
-  =C2=A0=C2=A0100% controller/logs/screen-n-cpu.txt
-  log_url
-  =C2=A0=C2=A050% https://89bc735e8a094e3d60b7-4f6db7cd5400cfa66e1c80fde6bd=
-4076.ssl.cf1.rackcdn.com/792322/1/check/nova-next/de697b4/controller/logs/s=
-creen-n-cpu.txt
-  =C2=A0=C2=A050% https://storage.gra.cloud.ovh.net/v1/AUTH_dcaab5e32b234d5=
-6b626f72581e3644c/zuul_opendev_logs_035/786588/6/check/nova-next/0357703/co=
-ntroller/logs/screen-n-cpu.txt
-  loglevel
-  =C2=A0=C2=A0100% ERROR
-  module
-  =C2=A0=C2=A033% nova.compute.manager
-  =C2=A0=C2=A033% nova.virt.libvirt.driver
-  =C2=A0=C2=A033% oslo_messaging.rpc.server
-  node_provider
-  =C2=A0=C2=A050% ovh-bhs1
-  =C2=A0=C2=A050% rax-iad
-  port
-  =C2=A0=C2=A050% 48014
-  =C2=A0=C2=A050% 58238
-  project
-  =C2=A0=C2=A0100% openstack/nova
-  syslog_pid
-  =C2=A0=C2=A050% 107528
-  =C2=A0=C2=A050% 108261
-  syslog_program
-  =C2=A0=C2=A050% ubuntu-focal-ovh-bhs1-0024748800 nova-compute
-  =C2=A0=C2=A050% ubuntu-focal-rax-iad-0024745546 nova-compute
-  tags
-  =C2=A0=C2=A0100% screen-n-cpu.txt screen oslofmt
-  voting
-  =C2=A0=C2=A0100% 1
-  zuul_attempts
-  =C2=A0=C2=A0100% 1
-  zuul_executor
-  =C2=A0=C2=A050% ze01.opendev.org
-  =C2=A0=C2=A050% ze07.opendev.org
-
-  Expected result
-  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-  swap_volume at least fails correctly leaving the original device attached.
-
-  Actual result
-  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-  swap_volume fails and the original device appears detached from the devic=
-e.
-
-  Environment
-  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-  1. Exact version of OpenStack you are running. See the following
-  =C2=A0=C2=A0list for all releases: http://docs.openstack.org/releases/
-
-  =C2=A0=C2=A0=C2=A0master
-
-  2. Which hypervisor did you use?
-  =C2=A0=C2=A0=C2=A0(For example: Libvirt + KVM, Libvirt + XEN, Hyper-V, Po=
-werKVM, ...)
-  =C2=A0=C2=A0=C2=A0What's the version of that?
-
-  =C2=A0=C2=A0=C2=A0libvirt + QEMU (no KVM in the gate)
-
-  2. Which storage type did you use?
-  =C2=A0=C2=A0=C2=A0(For example: Ceph, LVM, GPFS, ...)
-  =C2=A0=C2=A0=C2=A0What's the version of that?
-
-  =C2=A0=C2=A0=C2=A0images_type=3Ddefault=3Dqcow2
-
-  3. Which networking type did you use?
-  =C2=A0=C2=A0=C2=A0(For example: nova-network, Neutron with OpenVSwitch, .=
-..)
-
-  =C2=A0=C2=A0=C2=A0N/A
-
-  Logs & Configs
-  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/nova/+bug/1929710/+subscriptions
+--0000000000000a198c05c36911ae--
 
