@@ -2,68 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E17B93941BA
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 May 2021 13:23:09 +0200 (CEST)
-Received: from localhost ([::1]:42872 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6529D3941BD
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 May 2021 13:26:47 +0200 (CEST)
+Received: from localhost ([::1]:46048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lmaa4-0007k6-GO
-	for lists+qemu-devel@lfdr.de; Fri, 28 May 2021 07:23:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54166)
+	id 1lmada-0001T4-CD
+	for lists+qemu-devel@lfdr.de; Fri, 28 May 2021 07:26:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54350)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <konstantin@daynix.com>)
- id 1lmaYr-0006zG-45
- for qemu-devel@nongnu.org; Fri, 28 May 2021 07:21:53 -0400
-Received: from mail-yb1-xb2e.google.com ([2607:f8b0:4864:20::b2e]:33606)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <konstantin@daynix.com>)
- id 1lmaYo-0002md-K4
- for qemu-devel@nongnu.org; Fri, 28 May 2021 07:21:52 -0400
-Received: by mail-yb1-xb2e.google.com with SMTP id f84so5090171ybg.0
- for <qemu-devel@nongnu.org>; Fri, 28 May 2021 04:21:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:cc;
- bh=F4Sjy4d5W08UY15XmBOgUPcNX8IAyn8jJVCFVhQWiN0=;
- b=t7g6G7NWAnji3W7aKuMdNEwWyNaqf5JvSV3yZWjG9gxfFCH5EMvPtG5vG+/grlDspD
- /D8EF7J/4Odq0dphvCZQRZXB0b2GDhW52tuilXI0ADvvjDzIkEQgRzdNsr8nhPBOkIQj
- /U/k/Y71XxBuJ9aEiDq3FYiBbxVzGVnCM5F06n96+eEJv6sFPuiPLk8cUJIjj2mUyvJj
- WQS1V86tHqbYN13Pi4VEKMhLGViJMvVeW7S3edQyoLsGEV5KWqhAdrE34CYbWOMUYjaF
- plJQJhiectouf7JpNIQ9BqduRvzJUx2roIxkdVAQlZC4AQeC14UnGMVI3sKK3STiKpcZ
- upCw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:cc;
- bh=F4Sjy4d5W08UY15XmBOgUPcNX8IAyn8jJVCFVhQWiN0=;
- b=mF9eikxc8vqvCut4f49fFnjvur0Id6AJnA+9VBGPnfdxj9CdZAkI7EOkTvvkDw6tQA
- dXGYpxFGxcFH3axk0s6lBJWy44d+Ly8KXl7gpKF3do3mOB89smIty0xUFtPaWH/u3BIK
- PBNm50SD7/kuBc4FcXH1/CovSFXDICwDVoizy3WKE/bGxV+zG3PtjE9qd2LorfFOdA/m
- 6VGtjQr1lrxoDNEA/+9Ym5M83MBcO9nYDx3J3N7BFEmHpUEQYFJSSLjBGfr0q6jPdRiE
- glqjR5AoOiXx+0nhm4BhjRFGHxFoqrOGQRpRiFaRgwylC3zNqHgcD/1MxHBjo5Z1+zVG
- +S3A==
-X-Gm-Message-State: AOAM533iWu9Al8lS0cOXi9Z4KBKyCTBKqvA/pNZIFRQVnXON7i9/1qSE
- 3uNMRf9VIGJOMZ6Y2iZt3wy90UEllsGDBT4Q4jyx2E3g7ZIGGP+Y
-X-Received: by 2002:a5b:392:: with SMTP id k18mt11727987ybp.180.1622200908427; 
- Fri, 28 May 2021 04:21:48 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1lmaZk-0008If-GD; Fri, 28 May 2021 07:22:48 -0400
+Received: from out4-smtp.messagingengine.com ([66.111.4.28]:34041)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1lmaZi-0003Sk-0p; Fri, 28 May 2021 07:22:48 -0400
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
+ by mailout.nyi.internal (Postfix) with ESMTP id 94D385C01DD;
+ Fri, 28 May 2021 07:22:42 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute2.internal (MEProxy); Fri, 28 May 2021 07:22:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm3; bh=kQNan27/FnmzzqRqUI3lgEnEQkL
+ PtH+Nk2gRb4GmQ+g=; b=ku/CW1Fk4Dh8sSN4GEwXeLF7IMw+wUyfdDi+2aOcD//
+ eJPqwPIx9r5hnmpWvpFzadrTsOzeuXCbTmQ5VLESHq1QxKOXyz4H5bVRHje2tlkm
+ KZmN+q5ufeiCTr1rhtJ7eoOhGqyPmRn2tqO49HQMHNvVHjwcDbcXY+gcBEy3eouI
+ YClJvy4ioO+J8r9Zp7nwSF7wzrUymQdkVZalcPOICaL1aUoCd1wLGpJLUUiqzLN2
+ Ed4Cf9Oh5fgk17teVtTgO621qWAu7jlP+AsWShvlGy6iqCX5WInrNn+40hsMBiaD
+ jSM4352fyntuKoh5NgnIzv4gG0JbyTP2gyz0+U877zA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=kQNan2
+ 7/FnmzzqRqUI3lgEnEQkLPtH+Nk2gRb4GmQ+g=; b=fbfXZr3VNdqLC3MeEaaCu0
+ FbxRxYep5uUMWIjBuJugR9bysOTqLOPIfXQVClhhpEdW2M0OOSzZ5I0mEC/iuEnT
+ 8BDMmYL2SwN8Wjblp/o8VH8F/IuaJg4ijRbCDt3xKH54yoVvZuXjs5Sotq99m4cO
+ kTD5LyBoZ47EE14+QBqKvRSHx21zEafnHY693j9SLvrCdkJO0chD6L3wkOWsWmWG
+ /Xz75vngmeWINkzauwGk/S7YujtX8wFbk3fkDOxeSliS7WalW2YIWZaNhB0A+pxT
+ HRitMemrpZnXLGW8rRde5IBOfPMcruCuh5gHgJ5XMinEEzWgivsioLqaj4efrDHA
+ ==
+X-ME-Sender: <xms:gdKwYK5llcN2lJfShah_i3F1jn5k2QtrjONAgduO9RGRlRJwV4qZDA>
+ <xme:gdKwYD67VGjrVFYdmK_Bl6BCCGnN1vgY7bvu_QGkp0LpH2XO32rrExEGsnp2xfkPl
+ sb721wPJwl2e24EB5o>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdekjedggedtucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
+ keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
+ curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:gdKwYJfF1eSlm5pKz4rMKr0MkbblEXvQZdzbiWrrACO6W3ODJ_u9Aw>
+ <xmx:gdKwYHI3otws59P3JgO6Nwzcp5HqqCq5s13mvUKITGdvWeepsHqYOA>
+ <xmx:gdKwYOLLPeSd-hlLmOxJYogRbYmkMJG2iOhl2M_SCPZ2SsYjDBIUWA>
+ <xmx:gtKwYFWzDWD9ZZoPPG46u8WR0evxmFsxNLaMkSWT3x7RNLQQOis3Yw>
+Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190]) by mail.messagingengine.com (Postfix) with ESMTPA;
+ Fri, 28 May 2021 07:22:40 -0400 (EDT)
+Date: Fri, 28 May 2021 13:22:38 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: Niklas Cassel <Niklas.Cassel@wdc.com>
+Subject: Re: [PATCH] hw/nvme: add param to control auto zone transitioning to
+ zone state closed
+Message-ID: <YLDSfrUIPaZxk6VD@apples.localdomain>
+References: <20210528110459.65387-1-Niklas.Cassel@wdc.com>
 MIME-Version: 1.0
-References: <20210405131420.598273-1-basil@daynix.com>
-In-Reply-To: <20210405131420.598273-1-basil@daynix.com>
-From: Konstantin Kostiuk <konstantin@daynix.com>
-Date: Fri, 28 May 2021 14:21:37 +0300
-Message-ID: <CAJ28CFSF3_C_ar4=mvTLCy+g89Sr2AjS_UUS8XJgsVx7+UiT7w@mail.gmail.com>
-Subject: Re: [PATCH 1/3] qga-win: Increase VSS freeze timeout to 60 secs
- instead of 10
-Content-Type: multipart/alternative; boundary="000000000000e8484f05c36214b9"
-Received-SPF: none client-ip=2607:f8b0:4864:20::b2e;
- envelope-from=konstantin@daynix.com; helo=mail-yb1-xb2e.google.com
-X-Spam_score_int: -8
-X-Spam_score: -0.9
-X-Spam_bar: /
-X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, MISSING_HEADERS=1.021,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=no autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="khK7Em7E4qR2hsQl"
+Content-Disposition: inline
+In-Reply-To: <20210528110459.65387-1-Niklas.Cassel@wdc.com>
+Received-SPF: pass client-ip=66.111.4.28; envelope-from=its@irrelevant.dk;
+ helo=out4-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,98 +93,123 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yan Vugenfirer <yan@daynix.com>, Michael Roth <michael.roth@amd.com>,
- Developers <qemu-devel@nongnu.org>
+Cc: "kbusch@kernel.org" <kbusch@kernel.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000e8484f05c36214b9
-Content-Type: text/plain; charset="UTF-8"
 
-ping
-
-On Mon, Apr 5, 2021 at 4:14 PM Basil Salman <basil@daynix.com> wrote:
-
-> Currently Requester freeze times out after 10 seconds, while
-> the default timeout for Writer Freeze is 60 seconds. according to
-> VSS Documentation [1].
-> [1]:
-> https://docs.microsoft.com/en-us/windows/win32/vss/overview-of-processing-a-backup-under-vss
->
-> Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1909073
->
-> Signed-off-by: Basil Salman <bsalman@daynix.com>
-> Signed-off-by: Basil Salman <basil@daynix.com>
-> ---
->  qga/vss-win32/requester.cpp | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/qga/vss-win32/requester.cpp b/qga/vss-win32/requester.cpp
-> index 5378c55d23..940a2c8f55 100644
-> --- a/qga/vss-win32/requester.cpp
-> +++ b/qga/vss-win32/requester.cpp
-> @@ -18,7 +18,7 @@
->  #include <inc/win2003/vsbackup.h>
->
->  /* Max wait time for frozen event (VSS can only hold writes for 10
-> seconds) */
-> -#define VSS_TIMEOUT_FREEZE_MSEC 10000
-> +#define VSS_TIMEOUT_FREEZE_MSEC 60000
->
->  /* Call QueryStatus every 10 ms while waiting for frozen event */
->  #define VSS_TIMEOUT_EVENT_MSEC 10
-> --
-> 2.17.2
->
->
-
---000000000000e8484f05c36214b9
-Content-Type: text/html; charset="UTF-8"
+--khK7Em7E4qR2hsQl
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">ping<br></div><br><div class=3D"gmail_quote"><div dir=3D"l=
-tr" class=3D"gmail_attr">On Mon, Apr 5, 2021 at 4:14 PM Basil Salman &lt;<a=
- href=3D"mailto:basil@daynix.com">basil@daynix.com</a>&gt; wrote:<br></div>=
-<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
-left:1px solid rgb(204,204,204);padding-left:1ex">Currently Requester freez=
-e times out after 10 seconds, while<br>
-the default timeout for Writer Freeze is 60 seconds. according to<br>
-VSS Documentation [1].<br>
-[1]: <a href=3D"https://docs.microsoft.com/en-us/windows/win32/vss/overview=
--of-processing-a-backup-under-vss" rel=3D"noreferrer" target=3D"_blank">htt=
-ps://docs.microsoft.com/en-us/windows/win32/vss/overview-of-processing-a-ba=
-ckup-under-vss</a><br>
-<br>
-Buglink: <a href=3D"https://bugzilla.redhat.com/show_bug.cgi?id=3D1909073" =
-rel=3D"noreferrer" target=3D"_blank">https://bugzilla.redhat.com/show_bug.c=
-gi?id=3D1909073</a><br>
-<br>
-Signed-off-by: Basil Salman &lt;<a href=3D"mailto:bsalman@daynix.com" targe=
-t=3D"_blank">bsalman@daynix.com</a>&gt;<br>
-Signed-off-by: Basil Salman &lt;<a href=3D"mailto:basil@daynix.com" target=
-=3D"_blank">basil@daynix.com</a>&gt;<br>
----<br>
-=C2=A0qga/vss-win32/requester.cpp | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-<br>
-diff --git a/qga/vss-win32/requester.cpp b/qga/vss-win32/requester.cpp<br>
-index 5378c55d23..940a2c8f55 100644<br>
---- a/qga/vss-win32/requester.cpp<br>
-+++ b/qga/vss-win32/requester.cpp<br>
-@@ -18,7 +18,7 @@<br>
-=C2=A0#include &lt;inc/win2003/vsbackup.h&gt;<br>
-<br>
-=C2=A0/* Max wait time for frozen event (VSS can only hold writes for 10 se=
-conds) */<br>
--#define VSS_TIMEOUT_FREEZE_MSEC 10000<br>
-+#define VSS_TIMEOUT_FREEZE_MSEC 60000<br>
-<br>
-=C2=A0/* Call QueryStatus every 10 ms while waiting for frozen event */<br>
-=C2=A0#define VSS_TIMEOUT_EVENT_MSEC 10<br>
--- <br>
-2.17.2<br>
-<br>
-</blockquote></div>
+On May 28 11:05, Niklas Cassel wrote:
+>From: Niklas Cassel <niklas.cassel@wdc.com>
+>
+>In the Zoned Namespace Command Set Specification, chapter
+>2.5.1 Managing resources
+>
+>"The controller may transition zones in the ZSIO:Implicitly Opened state
+>to the ZSC:Closed state for resource management purposes."
+>
+>The word may in this sentence means that automatically transitioning
+>an implicitly opened zone to closed is completely optional.
+>
+>Add a new parameter so that the user can control if this automatic
+>transitioning should be performed or not.
+>
+>Being able to control this can help with verifying that e.g. a user-space
+>program behaves properly even without this optional ZNS feature.
+>
+>The default value is set to true, in order to not change the existing
+>behavior.
+>
+>Signed-off-by: Niklas Cassel <niklas.cassel@wdc.com>
+>---
+> hw/nvme/ctrl.c | 9 ++++++++-
+> hw/nvme/ns.c   | 2 ++
+> hw/nvme/nvme.h | 1 +
+> 3 files changed, 11 insertions(+), 1 deletion(-)
+>
+>diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+>index 40a7efcea9..d00f0297a5 100644
+>--- a/hw/nvme/ctrl.c
+>+++ b/hw/nvme/ctrl.c
+>@@ -141,6 +141,11 @@
+>  *
+>  *     zoned.cross_read=3D<enable RAZB, default: false>
+>  *         Setting this property to true enables Read Across Zone Boundar=
+ies.
+>+ *
+>+ *     zoned.auto_transition=3D<enable auto resource management, default:=
+ true>
+>+ *         Indicates if zones in zone state implicitly opened can be
+>+ *         automatically transitioned to zone state closed for resource
+>+ *         management purposes.
+>  */
+>
+> #include "qemu/osdep.h"
+>@@ -1699,7 +1704,9 @@ static uint16_t nvme_zrm_open_flags(NvmeNamespace *n=
+s, NvmeZone *zone,
+>         /* fallthrough */
+>
+>     case NVME_ZONE_STATE_CLOSED:
+>-        nvme_zrm_auto_transition_zone(ns);
+>+        if (ns->params.auto_transition_zones) {
+>+            nvme_zrm_auto_transition_zone(ns);
+>+        }
+>         status =3D nvme_aor_check(ns, act, 1);
+>         if (status) {
+>             return status;
+>diff --git a/hw/nvme/ns.c b/hw/nvme/ns.c
+>index 3fec9c6273..31dee43d30 100644
+>--- a/hw/nvme/ns.c
+>+++ b/hw/nvme/ns.c
+>@@ -531,6 +531,8 @@ static Property nvme_ns_props[] =3D {
+>                        params.max_open_zones, 0),
+>     DEFINE_PROP_UINT32("zoned.descr_ext_size", NvmeNamespace,
+>                        params.zd_extension_size, 0),
+>+    DEFINE_PROP_BOOL("zoned.auto_transition", NvmeNamespace,
+>+                     params.auto_transition_zones, true),
+>     DEFINE_PROP_END_OF_LIST(),
+> };
+>
+>diff --git a/hw/nvme/nvme.h b/hw/nvme/nvme.h
+>index 81a35cda14..bd86054db2 100644
+>--- a/hw/nvme/nvme.h
+>+++ b/hw/nvme/nvme.h
+>@@ -100,6 +100,7 @@ typedef struct NvmeNamespaceParams {
+>     uint32_t max_active_zones;
+>     uint32_t max_open_zones;
+>     uint32_t zd_extension_size;
+>+    bool     auto_transition_zones;
+> } NvmeNamespaceParams;
+>
+> typedef struct NvmeNamespace {
+>--=20
+>2.31.1
+>
 
---000000000000e8484f05c36214b9--
+Looks good Niklas!
+
+Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
+
+--khK7Em7E4qR2hsQl
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmCw0nsACgkQTeGvMW1P
+DemfWQf/QL7mErgPDtwzfl+RfdsVpVpvOsHTt8glsbm8ZBhNWezyLe2P53UvpNqK
+raFSxCRKPDItZqO2HnUKjunK3Cow5lWvk/AmWxP0Rqj1FwIPcPxEalLfNk2NCY4H
+8Yp+zx1bcnvjjI4X4c8hBiDAZWv5Mr1hwyLJI4kWIefSnEMxRxdD8Mku2UtRwQjh
+nUWQ/uwFbIEvK1WV9HjVmEeMvJIjvQzBO1oVUahsAwaiyypmyvLOGiV/Y/qiuNFt
+r37afKampKhvP1OdG+AbvDjefUi0BO1gwgnXtAzrp9QisCP5kMQWcsHp44u0iqsT
+rBYUEl/fLy/RlWn/vNE4C6O8eSReHw==
+=duH8
+-----END PGP SIGNATURE-----
+
+--khK7Em7E4qR2hsQl--
 
