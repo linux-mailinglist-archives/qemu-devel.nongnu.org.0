@@ -2,81 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE1FF3947FA
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 May 2021 22:33:24 +0200 (CEST)
-Received: from localhost ([::1]:53580 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 217663947FE
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 May 2021 22:35:26 +0200 (CEST)
+Received: from localhost ([::1]:57892 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lmjAZ-0007bK-H6
-	for lists+qemu-devel@lfdr.de; Fri, 28 May 2021 16:33:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43458)
+	id 1lmjCX-000254-5D
+	for lists+qemu-devel@lfdr.de; Fri, 28 May 2021 16:35:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43536)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1lmj8y-0005yb-OP
- for qemu-devel@nongnu.org; Fri, 28 May 2021 16:31:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58744)
+ id 1lmj9Y-0006lH-FG
+ for qemu-devel@nongnu.org; Fri, 28 May 2021 16:32:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58964)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1lmj8x-0002im-2D
- for qemu-devel@nongnu.org; Fri, 28 May 2021 16:31:44 -0400
+ id 1lmj9W-00030l-0l
+ for qemu-devel@nongnu.org; Fri, 28 May 2021 16:32:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622233902;
+ s=mimecast20190719; t=1622233937;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Y33ooA4fU6ORuNUaFeRPUl7tFvT1HYlRlVVAY9nQ5RQ=;
- b=YgnEk9VWBn86qqjulhP8DRwPrgo4i82YFyHzvSWxVa0mT72MUC7EgSIPaLepl4OYqn8qxz
- XYq500i7S8h2JJcCpVP6DvmNfrtrGGgTIOcvgF7+8wbZLU2cjsZ6Ym2eEOl9Ifhn0MkRjW
- b5EZQSqgGRYjwqJa7qYmEX29WmCtfnw=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-491-4amdreA5MJGQRcT5bUxQGw-1; Fri, 28 May 2021 16:31:40 -0400
-X-MC-Unique: 4amdreA5MJGQRcT5bUxQGw-1
-Received: by mail-ed1-f70.google.com with SMTP id
- d4-20020aa7ce040000b029038d1d0524d0so2709021edv.3
- for <qemu-devel@nongnu.org>; Fri, 28 May 2021 13:31:40 -0700 (PDT)
+ bh=C1GRP+evFglfolTMo94TAaMLtDCo2lWgnBjaZOeZaN8=;
+ b=RPts6n8RwQsVpmDZVO8tfQwZZlQzhxefTEDQmM9Wr6kvmAA8CqtYrFsYvdqfjfQd+Bvx6m
+ rU+HUBPJvtwittSUxbpKrxkpAtCFYqD385l4L9UPfiEm+e5xIghVY8HWKd67rV3iz9qBpp
+ y05RuOao4V3cUvvvgLuaezTKUhQ/L3Y=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-364-Gu18HmSDOU-BXyCFEQaMUw-1; Fri, 28 May 2021 16:32:14 -0400
+X-MC-Unique: Gu18HmSDOU-BXyCFEQaMUw-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ h16-20020a0564020950b029038cbdae8cbaso2692284edz.6
+ for <qemu-devel@nongnu.org>; Fri, 28 May 2021 13:32:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=Y33ooA4fU6ORuNUaFeRPUl7tFvT1HYlRlVVAY9nQ5RQ=;
- b=W6GQFaVaCN9aE3ew7YfcyhsLh3k3Y48fqCE265+P2hGjuWCv/ubRVvS5oMfFLR0VES
- 7HDBLsPn3dynRXSKCFYptZ+VCw2MvYJEFcGVgFMrD1/jRfJ72PgGvut+WuswppxZi5rN
- h3HLUfgq9CDNVg0Y5kZEc2zaiOEC5vHDDUWho+bOxKbPndrkG1+At05KB9fTrmTtDc4S
- GqusyGyB25eBF0DOc1m/IGfVC31m0aoMp0mAOJAOgU8n9yLwzZUO17w7SDskAyHuI+B8
- EToSXa+fETdrLkW8qn7RohvAzkP35m+4+v99iV44Qi1wFa/6N1zrwRs20v9oXW48+WPY
- oaFg==
-X-Gm-Message-State: AOAM533GR+WikewmfLXut3SsjbA+TTp7WGAvnkL68a6sLfzjpBtcyDOK
- gE4vhKXjznm+nTtuqRNGRqM3+cT5maNzi0Jple5shcxQX8XLiOSBFyUgDBqnDQiVhN6eDkepnvo
- Td9P6DkYrx54Iwug=
-X-Received: by 2002:a17:906:7052:: with SMTP id
- r18mr10625061ejj.449.1622233899346; 
- Fri, 28 May 2021 13:31:39 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwBOcJcdg8hQp3Lq3ReSSjo9cOtLCRA9VYL46a+8Hc/J4BdyRMINNSY5GzDTuYhc/sgsMYhFQ==
-X-Received: by 2002:a17:906:7052:: with SMTP id
- r18mr10625040ejj.449.1622233899147; 
- Fri, 28 May 2021 13:31:39 -0700 (PDT)
+ bh=C1GRP+evFglfolTMo94TAaMLtDCo2lWgnBjaZOeZaN8=;
+ b=L/IH4aUSciHT9fx6oi0XokemXn3ggJ7BJ3aQ1ssS7UwPzQVA0uacRajdmlw9VSpwHG
+ Sw8XF05hXOZ66cZckuZE5XN/83Wjaq9NY6hNXT8ebB/Dy3cXwZg+Va1b034c4dazZD2S
+ jk2X2lkmJLhc5puRIWp3cB8d3//7R9q9PAOEzPd8C4iy6FCb4+pmoMx60JWLJ2qnLF24
+ Fg4t5U801HU7fmzalOUxYGTKfPIqdLvhdizJuF8H5qeNjRJa+sFjlrFIJvF8YIaQcEH4
+ cSF9j6MUV/4/qroCKhWHvV+S2bSWcuADuOGtnfxubBIw5I1IYnnSzWyKRIOk0s+a2Ejy
+ Rflg==
+X-Gm-Message-State: AOAM532s4f2ceOHahiRQ7mT5d9Eh8PWnOPouzLRixroNjL2m2Q32oe/F
+ YlJpcEqabMtYH9XaZHsVF9LADYOhRWcFVjXZkgy8zg58LvQUQxg3nSGW+tGvO2Ti/9DTDF4pTTK
+ MomvEKyVQ33b2jsQ=
+X-Received: by 2002:a17:907:96a4:: with SMTP id
+ hd36mr10900545ejc.519.1622233933352; 
+ Fri, 28 May 2021 13:32:13 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyqVZ0Hzb9WzkdK2+5Xgds9qkLefSCpJFsavJ/jv6xrStSJmXAPANAdXHJMGF9FIptT9KMqdQ==
+X-Received: by 2002:a17:907:96a4:: with SMTP id
+ hd36mr10900527ejc.519.1622233933231; 
+ Fri, 28 May 2021 13:32:13 -0700 (PDT)
 Received: from localhost.localdomain ([2a04:ee41:4:31cb:e591:1e1e:abde:a8f1])
  by smtp.gmail.com with ESMTPSA id
- f26sm2812681ejl.66.2021.05.28.13.31.38
+ dn4sm3208953edb.88.2021.05.28.13.32.12
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 28 May 2021 13:31:38 -0700 (PDT)
-Subject: Re: [PATCH v4 09/15] qemu-iotests: extend the check script to support
- valgrind for python tests
+ Fri, 28 May 2021 13:32:12 -0700 (PDT)
+Subject: Re: [PATCH v4 14/15] qemu-iotests: add option to show qemu binary
+ logs on stdout
 To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
  qemu-block@nongnu.org
 References: <20210520075236.44723-1-eesposit@redhat.com>
- <20210520075236.44723-10-eesposit@redhat.com>
- <1e81d521-803a-e11f-933e-b145432bf6c3@virtuozzo.com>
+ <20210520075236.44723-15-eesposit@redhat.com>
+ <21fd6fc2-0715-34dd-c070-696f5f106f87@virtuozzo.com>
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Message-ID: <1e37d812-9a24-9d16-cb79-2286fee09274@redhat.com>
-Date: Fri, 28 May 2021 22:31:37 +0200
+Message-ID: <b943927f-9cb6-cee3-45b3-f1c591bc7e13@redhat.com>
+Date: Fri, 28 May 2021 22:32:11 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <1e81d521-803a-e11f-933e-b145432bf6c3@virtuozzo.com>
+In-Reply-To: <21fd6fc2-0715-34dd-c070-696f5f106f87@virtuozzo.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -84,7 +84,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eesposit@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -114,28 +114,37 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
->>       sys.exit(os.EX_USAGE)
->> +qemu_valgrind = []
->> +if os.environ.get('VALGRIND_QEMU') == "y" and \
->> +    os.environ.get('NO_VALGRIND') != "y":
->> +    valgrind_logfile = "--log-file=" + test_dir.strip()
+>> +
+>>   imgfmt = os.environ.get('IMGFMT', 'raw')
+>>   imgproto = os.environ.get('IMGPROTO', 'file')
+>>   output_dir = os.environ.get('OUTPUT_DIR', '.')
+>> @@ -614,6 +616,13 @@ def _post_shutdown(self) -> None:
+>>           super()._post_shutdown()
+>>           self.subprocess_check_valgrind(qemu_valgrind)
+>> +    def _pre_launch(self) -> None:
+>> +        super()._pre_launch()
+>> +        if qemu_print and self._qemu_log_file is not None:
+>> +            # set QEMU binary output to stdout
+>> +            self._qemu_log_file.close()
+>> +            self._qemu_log_file = None
+>> +
 > 
+> So, many use of _private members actually show that proper way of doing 
+> this is adding an option to __init__ instead
 
-> a bit strange that you need to strip test_dir here.. Why?
-Yep, it's unnecessary
+And then add yet another bool variable in __init__ just to mark when use 
+the log file or not? At this point, if we really don't want this here we 
+can just create a public function in machine.py and call that...
+This can also be shared with machine.py's _post_shutdown().
 
-
->> +VALGRIND_QEMU -- {VALGRIND_QEMU}
->>   """
->>           args = collections.defaultdict(str, self.get_env())
->>
 > 
-> commit subject sais "support valgrind", but actually we only add a 
-> variable. valgrind is not actually used yet.. I'd reflect it in commit 
-> subject somehow
-> 
-will replace with "prepare supporting"
+> Interesting will pylint complain on using _private members outside of 
+> the home class?
 
+No, test 297 tests it and prints no warning or error.
+
+
+Thank you,
 Emanuele
 
 
