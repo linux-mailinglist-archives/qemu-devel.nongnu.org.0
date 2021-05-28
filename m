@@ -2,68 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7D45393BC8
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 May 2021 04:59:46 +0200 (CEST)
-Received: from localhost ([::1]:33028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 244BE393C7C
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 May 2021 06:40:33 +0200 (CEST)
+Received: from localhost ([::1]:44764 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lmSiv-0002JS-I2
-	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 22:59:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44370)
+	id 1lmUIR-0007St-Oq
+	for lists+qemu-devel@lfdr.de; Fri, 28 May 2021 00:40:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33442)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lmSLh-0007S1-GG
- for qemu-devel@nongnu.org; Thu, 27 May 2021 22:35:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57494)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lmUHV-0006np-84
+ for qemu-devel@nongnu.org; Fri, 28 May 2021 00:39:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37419)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lmSLd-0001Qa-OE
- for qemu-devel@nongnu.org; Thu, 27 May 2021 22:35:45 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lmUHS-0008Cu-Id
+ for qemu-devel@nongnu.org; Fri, 28 May 2021 00:39:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622169341;
+ s=mimecast20190719; t=1622176768;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xalu/Fm+Q5+oLb0c33FcdY9LQ66QefTILl0dD1AhE3c=;
- b=DczOFgmDspGM1i2UnZ1ztiuuCBsOdnak/3L113Npn65vi92H+N7ojapHNo6ZlbS2SZFAjO
- 2cGbfqBOO3mezGNUvOSv63f89zuIAVBBgHs+4L69a2cOQMaVxuMLakWolJBOQDBAhGLXRT
- /1j7/OAbGQkdegmUftwGKcSx+omtXjs=
+ bh=aaNqoazY4ILSSE3jiOijOkL2JVyJttrenGPICgGweQo=;
+ b=QcMpBwAGCnAt1ABcHD2mvHImZ3PaCzySnYOK//EsvUw8/vfjfVTQ9dOZhMc6H1u2hg03HX
+ ZF5Pzg+y/Xu5Cpd6SL3wXUFwP5yeL9z/uec6uK0FxDBeiFxX70focEQDjRXmt/jQ1hs2lv
+ 1P0Q2BldiF00aUNCkajNdAGPpjY9ZZ8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-406-g_IR9599OsWQDjIz2izBQA-1; Thu, 27 May 2021 22:35:39 -0400
-X-MC-Unique: g_IR9599OsWQDjIz2izBQA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-592-GZs5YyWzNqqLk4V6hEpgJg-1; Fri, 28 May 2021 00:39:26 -0400
+X-MC-Unique: GZs5YyWzNqqLk4V6hEpgJg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5B254107ACE6;
- Fri, 28 May 2021 02:35:38 +0000 (UTC)
-Received: from scv.redhat.com (ovpn-116-137.rdu2.redhat.com [10.10.116.137])
- by smtp.corp.redhat.com (Postfix) with ESMTP id ABAA51F0C0;
- Fri, 28 May 2021 02:35:36 +0000 (UTC)
-From: John Snow <jsnow@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 44/44] gitlab: add python linters to CI
-Date: Thu, 27 May 2021 22:32:20 -0400
-Message-Id: <20210528023220.417057-45-jsnow@redhat.com>
-In-Reply-To: <20210528023220.417057-1-jsnow@redhat.com>
-References: <20210528023220.417057-1-jsnow@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B48061007467;
+ Fri, 28 May 2021 04:39:24 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-29.ams2.redhat.com [10.36.112.29])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B72A05B686;
+ Fri, 28 May 2021 04:39:17 +0000 (UTC)
+Subject: Re: [PATCH v1 3/6] tests/tcg/configure.sh: tweak quoting of
+ target_compiler
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20210527160319.19834-1-alex.bennee@linaro.org>
+ <20210527160319.19834-4-alex.bennee@linaro.org>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <541953b3-273b-8a28-c29a-b432c6fd0e51@redhat.com>
+Date: Fri, 28 May 2021 06:39:16 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <20210527160319.19834-4-alex.bennee@linaro.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.374,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,126 +83,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Max Reitz <mreitz@redhat.com>, Willian Rampazzo <willianr@redhat.com>,
- Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, stefanha@redhat.com,
+ crosa@redhat.com, pbonzini@redhat.com, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a Python container that has just enough juice for us to run the
-Python code quality analysis tools. Base this container on Fedora,
-because Fedora has very convenient packaging for testing multiple Python
-versions.
+On 27/05/2021 18.03, Alex Bennée wrote:
+> If you configure the host compiler with a multi-command stanza like:
+> 
+>    --cc="ccache gcc"
+> 
+> then the configure.sh machinery falls over with confusion. Work around
+> this by ensuring we correctly quote so where we need a complete
+> evaluation we get it. Of course the has() check needs single variable
+> so we need to unquote that. This does mean it essentially checks that
+> just the ccache command exits but if we got past that step we still
+> check the compiler actually does something.
+> 
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> Cc: Thomas Huth <thuth@redhat.com>
+> ---
+>   tests/tcg/configure.sh | 6 +++---
+>   1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
+> index ed6492ce59..aa7c24328a 100755
+> --- a/tests/tcg/configure.sh
+> +++ b/tests/tcg/configure.sh
+> @@ -222,10 +222,10 @@ for target in $target_list; do
+>   
+>     got_cross_cc=no
+>   
+> -  if eval test "x\${cross_cc_$arch}" != xyes; then
+> -      eval "target_compiler=\${cross_cc_$arch}"
+> +  if eval test "x\"\${cross_cc_$arch}\"" != xyes; then
+> +      eval "target_compiler=\"\${cross_cc_$arch}\""
+>   
+> -      if has "$target_compiler"; then
+> +      if has $target_compiler; then
+>             if test "$supress_clang" = yes &&
+>                     $target_compiler --version | grep -qi "clang"; then
+>                 got_cross_cc=no
+> 
 
-We need python3, pip (for pulling packages), pipenv and virtualenv for
-creating virtual environments, and tox for running tests. make is needed
-for running 'make check-tox' and 'make venv-check' targets. Python3.10
-is needed explicitly because the tox package only pulls in 3.6-3.9, but
-we wish to test the forthcoming release of Python as well to help
-predict any problems. Lastly, we need gcc to compile PyPI packages that
-may not have a binary distribution available.
-
-Add two tests:
-
-check-python-pipenv uses pipenv to test a frozen, very explicit set of
-packages against our minimum supported python version, Python 3.6. This
-test is not allowed to fail. The dependencies this test uses do not
-change unless python/Pipfile.lock is changed.
-
-check-python-tox uses tox to install the latest versions of required
-python dependencies against a wide array of Python versions from 3.6 to
-3.9, even including the yet-to-be-released Python 3.10. This test is
-allowed to fail with a warning.
-
-Signed-off-by: John Snow <jsnow@redhat.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Cleber Rosa <crosa@redhat.com>
-Message-id: 20210527211715.394144-32-jsnow@redhat.com
-[Fix rebase conflict over .gitlab-ci.yml --js]
-Signed-off-by: John Snow <jsnow@redhat.com>
----
- .gitlab-ci.d/containers.yml            |  5 +++++
- .gitlab-ci.d/static_checks.yml         | 21 +++++++++++++++++++++
- tests/docker/dockerfiles/python.docker | 18 ++++++++++++++++++
- 3 files changed, 44 insertions(+)
- create mode 100644 tests/docker/dockerfiles/python.docker
-
-diff --git a/.gitlab-ci.d/containers.yml b/.gitlab-ci.d/containers.yml
-index bd01ae8f802..1ca455f8e10 100644
---- a/.gitlab-ci.d/containers.yml
-+++ b/.gitlab-ci.d/containers.yml
-@@ -43,3 +43,8 @@ amd64-opensuse-leap-container:
-   extends: .container_job_template
-   variables:
-     NAME: opensuse-leap
-+
-+python-container:
-+  extends: .container_job_template
-+  variables:
-+    NAME: python
-diff --git a/.gitlab-ci.d/static_checks.yml b/.gitlab-ci.d/static_checks.yml
-index 91247a6f670..8e308721640 100644
---- a/.gitlab-ci.d/static_checks.yml
-+++ b/.gitlab-ci.d/static_checks.yml
-@@ -24,3 +24,24 @@ check-dco:
-     - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
-       when: never
-     - when: on_success
-+
-+check-python-pipenv:
-+  stage: test
-+  image: $CI_REGISTRY_IMAGE/qemu/python:latest
-+  script:
-+    - make -C python venv-check
-+  variables:
-+    GIT_DEPTH: 1
-+  needs:
-+    job: python-container
-+
-+check-python-tox:
-+  stage: test
-+  image: $CI_REGISTRY_IMAGE/qemu/python:latest
-+  script:
-+    - make -C python check-tox
-+  variables:
-+    GIT_DEPTH: 1
-+  needs:
-+    job: python-container
-+  allow_failure: true
-diff --git a/tests/docker/dockerfiles/python.docker b/tests/docker/dockerfiles/python.docker
-new file mode 100644
-index 00000000000..56d88417df4
---- /dev/null
-+++ b/tests/docker/dockerfiles/python.docker
-@@ -0,0 +1,18 @@
-+# Python library testing environment
-+
-+FROM fedora:latest
-+MAINTAINER John Snow <jsnow@redhat.com>
-+
-+# Please keep this list sorted alphabetically
-+ENV PACKAGES \
-+    gcc \
-+    make \
-+    pipenv \
-+    python3 \
-+    python3-pip \
-+    python3-tox \
-+    python3-virtualenv \
-+    python3.10
-+
-+RUN dnf install -y $PACKAGES
-+RUN rpm -q $PACKAGES | sort > /packages.txt
--- 
-2.31.1
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
 
