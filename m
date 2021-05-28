@@ -2,96 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4979394162
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 May 2021 12:54:42 +0200 (CEST)
-Received: from localhost ([::1]:56806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D54CF394194
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 May 2021 13:03:05 +0200 (CEST)
+Received: from localhost ([::1]:60084 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lma8X-000566-7o
-	for lists+qemu-devel@lfdr.de; Fri, 28 May 2021 06:54:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48156)
+	id 1lmaGe-0007mo-Dz
+	for lists+qemu-devel@lfdr.de; Fri, 28 May 2021 07:03:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49976)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lma77-0004Hp-2V
- for qemu-devel@nongnu.org; Fri, 28 May 2021 06:53:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39042)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lma72-0005Eh-Hz
- for qemu-devel@nongnu.org; Fri, 28 May 2021 06:53:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622199187;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=c67XRsBY2izUBlBUT9sdVLs55TOhGw7rNS7ISQ02+iM=;
- b=c7GxUahQ/ZWzs/4RV9BI7lIESck4qWbt/pTp1rrpTr2VVPcZWTJHAI7m+7JnL8DowYnnQU
- bluAzNigFNNPYHiAz6SAuSZjfTvZdTzB/k7CRivdRjs+3QjvTWV5ix9Uuyt7Gv3Rd7IpAc
- tjSJpr4oYKaSsCT0vd9vgkXjSSgfCHY=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-38-QlCq6iCjO1a6zwc_1b5yQg-1; Fri, 28 May 2021 06:53:06 -0400
-X-MC-Unique: QlCq6iCjO1a6zwc_1b5yQg-1
-Received: by mail-ej1-f70.google.com with SMTP id
- p5-20020a17090653c5b02903db1cfa514dso980237ejo.13
- for <qemu-devel@nongnu.org>; Fri, 28 May 2021 03:53:05 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1lmaFB-0006xH-IF; Fri, 28 May 2021 07:01:33 -0400
+Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:33543)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1lmaF7-0003dn-28; Fri, 28 May 2021 07:01:33 -0400
+Received: by mail-ej1-x62b.google.com with SMTP id z12so4837536ejw.0;
+ Fri, 28 May 2021 04:01:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:from:to:cc:references:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=vrL90qiCAXqj+QeSzDm2v8qXMjMpx50hwGesSoeTUoE=;
+ b=f/Y3qEGDqB9Mu5bu0jHWufR2Dv51sdYlO3ELK7gEq08VrMJixt+dlrBstydeMXJ9fV
+ 3WIFIGbiztkNfy0hEzNVVjF9VbPXGQfrprvoDCZXgt6bydqXmJAF6zMv4SbRBKXiYx3h
+ lBdthon2V4GyhwIhDbK19kRU2F1Lk3+dDZ7VaCVcm4ZTdLRK691OyFR9SYpb9ryBjiri
+ JNhoLUHPY9a81KLQa3va6ROzdwXhYFsX9U1BfaAI56zfkU94TBHSTmWnihGvqdThIiK4
+ Bo2y87uFsWNCBd0eZl88a6zOGLQ3Dax7BGhWoUmTTkOT0Uk3n4X7gZo7zlvRZ/7P+vOR
+ KxAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:sender:subject:from:to:cc:references:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=c67XRsBY2izUBlBUT9sdVLs55TOhGw7rNS7ISQ02+iM=;
- b=JcIcxFbuXhJg4K+H+moMM6MZ3ctLJ5GlEWU8fYzXYiQGlvIVNxlQifj2zMCfQ6RlSf
- 5ClnbB5P+FF1jStz627KBDIh3oHUrDwj2oMTlFZro8ozeQyLrBmL5CYv0UE5Sv9aKe9t
- 6eweJSQ8/KnnzmsP20vgTHpRiKEXWGvoKKyliFL7gaqvECZg4kYrZxI+Xgp8vYOj+lTF
- FLkLEQWk7Qk6YsQbGDjrmfE3tBFlGWXemZQ64G33NRQJH9XagRGuArbABq0JZSmfFMIq
- hOn0vLZB2ibgtWyda9NJzfjrpqtYDqEbk9b4U9VCPykhxqYb1gamYAOP5YfkJAxyvHN0
- Yq3Q==
-X-Gm-Message-State: AOAM532KNUZyOIyu7KCYw3WsYenkLlyucWBUNqxYk1KcxryAD/lyva+G
- dCHTeqSrT4covqPeTdbf7JAYK15u9uXahpv4jHIVry5IucCWsmHodMfvMfjZM7DK2GzEPgQzedn
- MAsA8QYQUlNGj/KLOD6RDkm0WKaSEVAOH1IMFfeRVkTSrOjJRx5rym6iArIAGrX+IoiE=
-X-Received: by 2002:a05:6402:946:: with SMTP id
- h6mr1926256edz.261.1622199184549; 
- Fri, 28 May 2021 03:53:04 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyne+2smp9qHaQhpylejN8qdjkgGVS938Zu0nEAlWY4D5JG2o1BWe0z/7/uXj0BJPCrxg7Rpw==
-X-Received: by 2002:a05:6402:946:: with SMTP id
- h6mr1926240edz.261.1622199184370; 
- Fri, 28 May 2021 03:53:04 -0700 (PDT)
+ bh=vrL90qiCAXqj+QeSzDm2v8qXMjMpx50hwGesSoeTUoE=;
+ b=ijOmlH0hs3Wfeqf44ugUigXdYpUFZipidUtU0ZO4Z/U3kUfhzfY0qgkZHOOzy71/r4
+ 1B5O4KaenGzc7b/Xod0bnB7XzvJi+3q3lRm0vtT4nIyDOPe9s/4+gPWbS8PYOmvpna50
+ VvyTRXfSQo5FqaSNaV0Jsdk9MFm76EQ1c2YO/LJd6tHsMc4W3y0kdKZ4Eued8BPj0xv2
+ X6M7f2iUoCSX6i/dILAfFPUDHN064+kHTOypg8FwVKUydmzEYPx4whj+rICbI9PW3G12
+ fJnvzgsJnWTmYSw9GgYj7Nxo217OXX+1COoYQgDRDEbW+4+G0q6/P6YcyWvQSUXj3fwx
+ QWdQ==
+X-Gm-Message-State: AOAM531vVgdHdgH9OObwCI67tpDZFnaDB3RVSumZ6xN1Z00Pm+1+sR0p
+ lTnRGq0Y524E5AGjY7Z+OmVCWC3LCCVQtg==
+X-Google-Smtp-Source: ABdhPJzG/DTeRHj+fbVqMA51DVPYnJAVr4mJD8VgdsUpyp2K6GRt66Rr7kI1QbpVgW5IqVHZqIdj+w==
+X-Received: by 2002:a17:907:7848:: with SMTP id
+ lb8mr8643252ejc.494.1622199685070; 
+ Fri, 28 May 2021 04:01:25 -0700 (PDT)
 Received: from ?IPv6:2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e?
  ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
- by smtp.gmail.com with ESMTPSA id a22sm2490522edu.39.2021.05.28.03.53.03
+ by smtp.googlemail.com with ESMTPSA id h2sm1906975edq.61.2021.05.28.04.01.23
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 28 May 2021 03:53:03 -0700 (PDT)
-Subject: Re: [PATCH v2 5/7] block-copy: add QemuMutex lock for
- BlockCopyCallState list
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
-References: <20210518100757.31243-1-eesposit@redhat.com>
- <20210518100757.31243-6-eesposit@redhat.com>
+ Fri, 28 May 2021 04:01:24 -0700 (PDT)
+Subject: Re: [PATCH v2 7/7] block-copy: protect BlockCopyState .method fields
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <5a7c6375-2309-1d5b-57b2-4ebe780b6753@redhat.com>
-Date: Fri, 28 May 2021 12:53:02 +0200
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
+References: <20210518100757.31243-1-eesposit@redhat.com>
+ <20210518100757.31243-8-eesposit@redhat.com>
+ <404e2891-9c03-bc7d-2c69-a572422d7804@virtuozzo.com>
+ <4403ee17-0c12-c545-7f64-683bb9057b91@redhat.com>
+ <c4ba5232-79cf-6534-d76a-ac5eaebe098f@virtuozzo.com>
+ <db0d5d2c-2e7c-ec33-b9df-52977fc3179c@redhat.com>
+ <47ae4243-5a4b-e3a5-44fb-48c689f8bc77@virtuozzo.com>
+ <867d0357-1032-f56d-dbed-bd646ce8ec00@redhat.com>
+Message-ID: <fc91616b-9d6f-dfee-d648-30828a13c1b8@redhat.com>
+Date: Fri, 28 May 2021 13:01:23 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <20210518100757.31243-6-eesposit@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <867d0357-1032-f56d-dbed-bd646ce8ec00@redhat.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.374,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62b.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -104,20 +95,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- John Snow <jsnow@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, John Snow <jsnow@redhat.com>,
+ qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 18/05/21 12:07, Emanuele Giuseppe Esposito wrote:
-> +    qemu_mutex_lock(&call_state->s->calls_lock);
->       QLIST_INSERT_HEAD(&call_state->s->calls, call_state, list);
-> +    qemu_mutex_unlock(&call_state->s->calls_lock);
+On 28/05/21 12:24, Paolo Bonzini wrote:
+> 
+> It's still more complicated, because you need to add some kind of
+> 
+>      method = s->method;
 
-Let's just use tasks_lock here (maybe even rename it to just "lock").
+This would even have to be a separate, one-line critical section...
 
 Paolo
+
+>      ret = block_copy_do_copy(..., method);
+>      if (ret < 0 && method <= COPY_RANGE_SMALL) {
+>          method = COPY_RANGE_READ_WRITE;
+>          ret = block_copy_do_copy(..., method);
+>          }
+>      lock();
+>          if (method == s->method) {
+>              /* compute new method */
+>          }
+> 
+> which makes it more complicated than this patch IMO.  But yeah at least 
+> it's a viable alternative to the atomics.
+
 
 
