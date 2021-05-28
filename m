@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA554393BB7
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 May 2021 04:56:12 +0200 (CEST)
-Received: from localhost ([::1]:48458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6BE6393BC2
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 May 2021 04:58:24 +0200 (CEST)
+Received: from localhost ([::1]:55166 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lmSfT-0001xQ-NW
-	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 22:56:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44136)
+	id 1lmShb-0006bB-UZ
+	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 22:58:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44168)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lmSLK-0006cp-0R
- for qemu-devel@nongnu.org; Thu, 27 May 2021 22:35:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48160)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lmSLN-0006nA-Vb
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 22:35:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56646)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lmSLH-00015m-Br
- for qemu-devel@nongnu.org; Thu, 27 May 2021 22:35:21 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lmSLM-0001Ab-8j
+ for qemu-devel@nongnu.org; Thu, 27 May 2021 22:35:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622169318;
+ s=mimecast20190719; t=1622169323;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9v5yWBd88w7ifOiAQ79NSOibLuhAxsgNZs/3xg438uM=;
- b=Y8E2o3qRB6sfJh+3yDR8s+U+9bSt6AqELkiElIRBnqceTRQT0Z8lXZ74nx/OL0o2UPVl0h
- AGYNSe6d7JRvPGugpUNFCZ3dAMcW9PLq7+JAWdqviB08qvJTyEk7a2LnBoXIUScPn/HNai
- IJNQnlZzk/1QsshVB+KR7VPPXfGb38Y=
+ bh=TxY6owVQBzmpZ46LfiPK3rOj0YPUGcNCfOfZ2S9164Y=;
+ b=PqzRvohjPb1CjD3PvKE4WblYBWFejcQ6f54mA20SJ/z4kxlxwnVd/YDIyo0UI6o2ivRwJz
+ PZ4sDykReR87StwUAWqIogeZyMR57/t+IrLiQ05fzr6Pwv8hCnQx6YJ19OUeCWAP+jenJ6
+ F0I79pjP09HGkVFGj/V+d47JyNFZwkQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-337-uILMutnRN_KNkZURvk1mhw-1; Thu, 27 May 2021 22:35:16 -0400
-X-MC-Unique: uILMutnRN_KNkZURvk1mhw-1
+ us-mta-430-IGymxklFNde-14pSs3rUkQ-1; Thu, 27 May 2021 22:35:18 -0400
+X-MC-Unique: IGymxklFNde-14pSs3rUkQ-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5D05A801817;
- Fri, 28 May 2021 02:35:15 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7753C501E3;
+ Fri, 28 May 2021 02:35:17 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-116-137.rdu2.redhat.com [10.10.116.137])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 366021F0C0;
- Fri, 28 May 2021 02:35:05 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A7C4F1F0C0;
+ Fri, 28 May 2021 02:35:15 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 37/44] python/qemu: add isort to pipenv
-Date: Thu, 27 May 2021 22:32:13 -0400
-Message-Id: <20210528023220.417057-38-jsnow@redhat.com>
+Subject: [PULL 38/44] python/qemu: add qemu package itself to pipenv
+Date: Thu, 27 May 2021 22:32:14 -0400
+Message-Id: <20210528023220.417057-39-jsnow@redhat.com>
 In-Reply-To: <20210528023220.417057-1-jsnow@redhat.com>
 References: <20210528023220.417057-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -55,7 +55,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -63,7 +63,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.374,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,61 +88,65 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-isort 5.0.0 through 5.0.4 has a bug that causes it to misinterpret
-certain "from ..." clauses that are not related to imports.
+This adds the python qemu packages themselves to the pipenv manifest.
+'pipenv sync' will create a virtual environment sufficient to use the SDK.
+'pipenv sync --dev' will create a virtual environment sufficient to use
+and test the SDK (with pylint, mypy, isort, flake8, etc.)
 
-isort < 5.1.1 has a bug where it does not handle comments near import
-statements correctly.
-
-Require 5.1.2 or greater.
-
-isort can be run (in "check" mode) with 'isort -c qemu' from the python
-root. isort can also be used to fix/rewrite import order automatically
-by using 'isort qemu'.
+The qemu packages are installed in 'editable' mode; all changes made to
+the python package inside the git tree will be reflected in the
+installed package without reinstallation. This includes changes made
+via git pull and so on.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 Reviewed-by: Cleber Rosa <crosa@redhat.com>
-Message-id: 20210527211715.394144-25-jsnow@redhat.com
+Tested-by: Cleber Rosa <crosa@redhat.com>
+Message-id: 20210527211715.394144-26-jsnow@redhat.com
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
  python/Pipfile      | 1 +
- python/Pipfile.lock | 4 ++--
- 2 files changed, 3 insertions(+), 2 deletions(-)
+ python/Pipfile.lock | 9 +++++++--
+ 2 files changed, 8 insertions(+), 2 deletions(-)
 
 diff --git a/python/Pipfile b/python/Pipfile
-index 796c6282e17..79c74dd8db4 100644
+index 79c74dd8db4..dbe96f71c48 100644
 --- a/python/Pipfile
 +++ b/python/Pipfile
-@@ -5,6 +5,7 @@ verify_ssl = true
- 
- [dev-packages]
- flake8 = ">=3.6.0"
-+isort = ">=5.1.2"
- mypy = ">=0.770"
+@@ -10,6 +10,7 @@ mypy = ">=0.770"
  pylint = ">=2.8.0"
  
+ [packages]
++qemu = {editable = true,path = "."}
+ 
+ [requires]
+ python_version = "3.6"
 diff --git a/python/Pipfile.lock b/python/Pipfile.lock
-index 626e68403f7..57a5befb104 100644
+index 57a5befb104..f0bf576c31e 100644
 --- a/python/Pipfile.lock
 +++ b/python/Pipfile.lock
 @@ -1,7 +1,7 @@
  {
      "_meta": {
          "hash": {
--            "sha256": "14d171b3d86759e1fdfb9e55f66be4a696b6afa8f627d6c4778f8398c6a66b98"
-+            "sha256": "8173290ad57aab0b722c9b4f109519de4e0dd7cd1bad1e16806b78bb169bce08"
+-            "sha256": "8173290ad57aab0b722c9b4f109519de4e0dd7cd1bad1e16806b78bb169bce08"
++            "sha256": "7c74cc4c2db3a75c954a6686411cda6fd60e464620bb6d5f1ed9a54be61db4cc"
          },
          "pipfile-spec": 6,
          "requires": {
-@@ -46,7 +46,7 @@
-                 "sha256:0a943902919f65c5684ac4e0154b1ad4fac6dcaa5d9f3426b732f1c8b5419be6",
-                 "sha256:2bb1680aad211e3c9944dbce1d4ba09a989f04e238296c87fe2139faa26d655d"
-             ],
--            "markers": "python_version >= '3.6' and python_version < '4.0'",
-+            "index": "pypi",
-             "version": "==5.8.0"
-         },
-         "lazy-object-proxy": {
+@@ -15,7 +15,12 @@
+             }
+         ]
+     },
+-    "default": {},
++    "default": {
++        "qemu": {
++            "editable": true,
++            "path": "."
++        }
++    },
+     "develop": {
+         "astroid": {
+             "hashes": [
 -- 
 2.31.1
 
