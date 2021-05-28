@@ -2,133 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B1423947DB
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 May 2021 22:18:37 +0200 (CEST)
-Received: from localhost ([::1]:40992 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5F923947DA
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 May 2021 22:18:02 +0200 (CEST)
+Received: from localhost ([::1]:41104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lmiwG-0006pa-7D
-	for lists+qemu-devel@lfdr.de; Fri, 28 May 2021 16:18:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40668)
+	id 1lmivh-0006tk-Cv
+	for lists+qemu-devel@lfdr.de; Fri, 28 May 2021 16:18:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40958)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luis.pires@eldorado.org.br>)
- id 1lmisu-0004gA-09
- for qemu-devel@nongnu.org; Fri, 28 May 2021 16:15:08 -0400
-Received: from mail-eopbgr800109.outbound.protection.outlook.com
- ([40.107.80.109]:50080 helo=NAM03-DM3-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luis.pires@eldorado.org.br>)
- id 1lmisr-0000Ba-Qe
- for qemu-devel@nongnu.org; Fri, 28 May 2021 16:15:07 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=cxkxgk7iuAont6SPKTX3GjN6fscI6c8KyIH5M3UQUZPMJaFngIegtpi4uXfwqgzhmN3mycaBM7+KqkRWoIfNSq6SlbcDbMFAazhBqg8RY2DGIM/Q6OHLSfqbELXsivc7u0/hfHZPzN/iEekBvsBBIxCg0LMyi3AoAUqSgj7kIkU2sT+wAGoJlJWBihRl1oW1yIm3DwgyXgTyxvLYaguXTgzU9PGDcs+Fnt2HztvNFiH79/5hfJ4EwT2Hr/S+I2Vil7kE6sfAt2pW9Wiz1caX3pFSDJKxA6GXvWVH91aqZyIAhp0VibuLe8u1R72q3ZIXUhqgCu4z1bv4XSlmBWjo8w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=AYHxa7YN4TUzcYGqaGzgusfscJH0rHVuO+G0H5myDnQ=;
- b=hKtebk0mzox0hdEzUUCREaTdo6Ls22PhPMXYadWK5unM2X+xSkonE6ov0Pn1bIT0HwPB7QzuHY3eDNWDqAF5ugPADIQsudr2ONzQ9xw52vCZbr3IUBfQL6Vj2H8M/dmFDq28iPtIBiEABNkFa5DBGG8vfsjMBm6Ul2qYA1i2eQHJvoLGg1YwJ1fthQI+RqXIMtfINkrbzMHThud9aum6lgXpRX0l8RFxUg5mwWmVjlUxDYH5Z56lPvVdWk2T7RbyKDj2Zs+TWi+I5UHmxIQqSJkrwLhMx6a+aD0bCdmKjynJ/mXp1hLffH4O4UNC1bpHxLWSc6wX77NViO/qJXO6oQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=eldorado.org.br; dmarc=pass action=none
- header.from=eldorado.org.br; dkim=pass header.d=eldorado.org.br; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=eldorado.org.br;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=AYHxa7YN4TUzcYGqaGzgusfscJH0rHVuO+G0H5myDnQ=;
- b=YUziL4Mj75fJBNt5kMx95GThFSopwWIDjVUQiTRcMNCJ4FDXviM4hhbYQycYEQL5uL33gYyS7dUnJvJP3v//BDKSvAGs33OOvd6IziU2lrwyXFq/q2RazgpbJQ3DTzXgtxYjlFM1eWZC3JoIa5zmlr02WxojuDAVIfa8RZxGt5l8Y/zQvZd9lc+mjx5F8N5udrGqYpP8L9cvetr+cGeCVhJuNxTvYXQTUmIZYugnp8DNJOwI2xJ4UDHfCBZaaNkert0il5vQEDNgRyQ2BeYYrO3oHdMr2uwqUZnQHgeRyp6irX40OoQoaPByTCa1pZGo6Lums/4+dgQ8uUxZ7NfAQQ==
-Received: from CP2PR80MB3668.lamprd80.prod.outlook.com (2603:10d6:102:31::10)
- by CP2PR80MB4244.lamprd80.prod.outlook.com (2603:10d6:102:40::17)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4150.23; Fri, 28 May
- 2021 20:15:01 +0000
-Received: from CP2PR80MB3668.lamprd80.prod.outlook.com
- ([fe80::dccd:868e:fcb8:72c3]) by CP2PR80MB3668.lamprd80.prod.outlook.com
- ([fe80::dccd:868e:fcb8:72c3%2]) with mapi id 15.20.4173.024; Fri, 28 May 2021
- 20:15:00 +0000
-From: Luis Fernando Fujita Pires <luis.pires@eldorado.org.br>
-To: Richard Henderson <richard.henderson@linaro.org>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>
-Subject: RE: [PATCH] docs/devel: Explain in more detail the TB chaining
- mechanisms
-Thread-Topic: [PATCH] docs/devel: Explain in more detail the TB chaining
- mechanisms
-Thread-Index: AQHXU71pliPtsMUHHUKbRXdKFpLOAqr5AQ4AgABTFdA=
-Date: Fri, 28 May 2021 20:15:00 +0000
-Message-ID: <CP2PR80MB3668626182F8BA3A3E170667DA229@CP2PR80MB3668.lamprd80.prod.outlook.com>
-References: <20210528123029.143847-1-luis.pires@eldorado.org.br>
- <5690d0be-1e3b-a9f7-060a-8d08d9cd6c35@linaro.org>
-In-Reply-To: <5690d0be-1e3b-a9f7-060a-8d08d9cd6c35@linaro.org>
-Accept-Language: pt-BR, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: linaro.org; dkim=none (message not signed)
- header.d=none; linaro.org; dmarc=none action=none header.from=eldorado.org.br; 
-x-originating-ip: [177.9.76.236]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 284997b2-fc1e-4c25-f052-08d9221545bd
-x-ms-traffictypediagnostic: CP2PR80MB4244:
-x-microsoft-antispam-prvs: <CP2PR80MB42448A2355959FA1093EA811DA229@CP2PR80MB4244.lamprd80.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: V0f1zsJ+F9Il4MMjatovxp/1Hopc1c6MT51+NfHAudxl2IGTISlH9uirzCg9C00RoPIWwPHWSiYst3xW98+QEfXnyt+OlvCjLvoslBidpLuQAlVaNTUu3KLP4FzDeXdbhu1j5sDlLDy1Rp34N2dB1wyf00kS4CqZot91TyIk/JqvLnQ/4UVLSuASTTaZUR0o1NfcT1b9oQd7vLcANGw2Lo8CXGavo8GwQNkIYnGq2hRvpE24LRU3r5ktVTQwE8WDQdz5OYvbWLwDyv3hNiBQfLclN4uI/MgXbGBw/zgl9gYoN1VPn40X9DHwn5kVZjwkPpvRG0jIqNqltqT8SWoVeb0hxQLP+IrAxEwV+LopBzNr57uByr3QVurjvJ6y1n9Wo2aRhrPst8Djp+o/y8ynnyyvknJeRViNunoE5qAgZSINNmjtzSR7Sa1GLQ97tnuHuWTDZg98osoWtH6X0wstETUbEEn7r8Dt/1K9U+m26akW5uxgHpUFNBavRVeXFr8fkea1tpa/S7BKkkBP+D1D4BNazJ+s7eOFw9cSl4xK0NRZGatgRTDq9cy4MxAvDH6XDJXuCFqzuBOA+rxI1t0KFjkYpqLqBIhyRzCh6mU1Q5l2o1a/SPAGbq+TQ5fUeHSSHLXx2sVaJennGoKK8U3H9gAchmenpvQsRhoWHvO3HeufrL47Xd1QxtKzwyppwiCHn+VCU7T99I5M/u8AUKz8o7y9PLkqLcpxxq3om0lailU=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CP2PR80MB3668.lamprd80.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(396003)(136003)(366004)(346002)(376002)(39850400004)(71200400001)(33656002)(66946007)(66476007)(66556008)(8676002)(122000001)(2906002)(76116006)(52536014)(8936002)(478600001)(66446008)(55016002)(64756008)(26005)(38100700002)(4326008)(9686003)(86362001)(83380400001)(186003)(7696005)(110136005)(4744005)(316002)(5660300002)(6506007);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: =?utf-8?B?azlkaWRUY1RCQ3pJNEVEU2dZV2FTQ3pwcFdRK1htS283N2NvVnFkL0RXbDlk?=
- =?utf-8?B?dDJuRTJEdHdqcVdkeTdIMEJmVERMWDVIVGVpNnZiSFZHenY0aWIvc0pBa1lr?=
- =?utf-8?B?UmgwUm9uUnJvVytwZ0w5RzJETEdpTlZsdk95K3grbmZXMVNZdTZYVHRDbXRB?=
- =?utf-8?B?MTIxY0RGeWdid2s2ei9BNWNXbEpNalp5UkRTWUZpZUxHbnBvWDdDNGlSeWI5?=
- =?utf-8?B?ZWNlZm1UMVZuTTNUdjFCRWp1eTlKWUdTZWhvcmdyMU82cUh5NXpaK3VPdE1i?=
- =?utf-8?B?RVBrOTBKRC94MW9GN3l6Y25GS09ibDZPRVZMZG0zK2ExS0doUG4yVmpaaGpL?=
- =?utf-8?B?cldDUmJzWWRUdVVTOWpBK3F3SGd4WnZ0cHNqVytOdHo0enMyTzNCVnZHd1M4?=
- =?utf-8?B?bGg4M3BtRmVjYmF4OW91M2Yxb083NXdqMU83Ly9OYVplN3FEM3dERFVrZ1lj?=
- =?utf-8?B?QS9pdmR6N2FhUEJHY0RpZmpoMWVya25KTFVheWpzU2tBS2JzRmphV1lub054?=
- =?utf-8?B?cXMySGdXTWhKbHBQa3VNUS9wUzhRUTdIaFdVNWI5SjJNVGJ6VEw4NHQrVW1i?=
- =?utf-8?B?V0lSZ2tzRFVoYkY5a1FQL0lwM2R0WHhHb29uM0FQMitHUm8vaTZXc1JEa1FQ?=
- =?utf-8?B?SndaYTQyWFBhQlVlSTVPSlU4SHBxYXkrTGV6VjdOOFdyTjRUeTVjWUpMVkFu?=
- =?utf-8?B?aHVuVWNYZXkrQzZqYTJUaWVnS2g3b0lZWndCSldJbzNOY2RkZ3I4YmhLbXZX?=
- =?utf-8?B?NDY1TW5xQjNKdlVzR1RKU1o3bmVNcTIwTmFIRy96MkdCdHAwNkZLdEQ1S0Ri?=
- =?utf-8?B?cmNSdytnNWV2VUszTEhjNjhGUHZUeXJ5S1kzRm0yRGdrVEpNSnV2cWVkd2FV?=
- =?utf-8?B?MjFYYkVHSXp6ZlBZaVVvUkV4M3M3OUNDYlhFQkJjZFc3RmJmM3lBWU9NQWNY?=
- =?utf-8?B?L0ZqVXlEMTNIeC9jMkM5d0RTblN5Zm9UTEg1Ri9aR05wekxpLzUwV3owWGUx?=
- =?utf-8?B?NjJMaVRmVFFzeEdJTzdkK1BiZnB3a0dLbllHMk9PZk9pM3BMOGxCQUdyem5Z?=
- =?utf-8?B?MzVBTTFibjZOYldRSjRjRkdQeFY5bWhnUFhFbXNqbWJ6Y3B5YW1rVUsvajZv?=
- =?utf-8?B?SnJTT2djRXJuM2VPTVQ4YklRT0RTSzVCckd2dlo4K3g0WmMxZjYwUU9pRVlC?=
- =?utf-8?B?cW5rS3RNL1VTNVBLOEVWVEpnbW9vdDE3VE5hUXgwYWtpbmt1dXFYdzR6cU44?=
- =?utf-8?B?Vis0cFBDVXU0QzhXWXVrTmZSM0hYWWhMa3JRQk9obE9CV3J3Nk1VZ2YrbGdo?=
- =?utf-8?B?aXZtNHppbUN2YzIyOUtsY3haSzN5OVVEU0dXUXcxRUdmQjYvYXhWK3hTRDcv?=
- =?utf-8?B?MEVRYW9zdzROdzU0dVE5UGNCTDM4ejVrZTQwZXZsUFNrSEI1WUVqMDRvY0dr?=
- =?utf-8?B?d2ZFMHJ0L0ZMSFo2ZkVnbzNkVkVZYmUvOEVQcDdQYmJwamxYMzByWGhFUnZa?=
- =?utf-8?B?YTRROEZBM1B1eUJjbXY0akNOYWwwK0Zhb0xwaGVPVnU0ZWFUd3VsbzFNc2NH?=
- =?utf-8?B?ZGlZcHB5eFhaZVBqR0swNlBRbkhFOENncXY4UjRMbkNmQmhWbUpmVEVrK0F5?=
- =?utf-8?B?MUN6WlBlM0MrMzdTd1V5d3VBcmVScVhWbWYyeVhFSG5MbW1ySmJYMzJJZlhL?=
- =?utf-8?B?bmV6NmFUcW0zK3JTWllGeFBmUXMyVjFwdDc0VzdtQTk5d3JQWTg3MUROUldJ?=
- =?utf-8?Q?PbhX2cru36niELlvFc=3D?=
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1lmiuI-0005YS-K5; Fri, 28 May 2021 16:16:34 -0400
+Received: from mail-qv1-xf31.google.com ([2607:f8b0:4864:20::f31]:39845)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1lmiuG-0001FG-KU; Fri, 28 May 2021 16:16:34 -0400
+Received: by mail-qv1-xf31.google.com with SMTP id eb9so2547666qvb.6;
+ Fri, 28 May 2021 13:16:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ZVw5vhNfuvBosHfnI9zo+zyK29KWfnqHEHiFcj2necM=;
+ b=XTmT2w3K0oQKLabKEJsEYH7zbm/7UBsbCNjXyFBCieircRqLBcKXsNb7QpSv16/FXd
+ atV/9JZbe3KNwepvCMX2un86qfxZS1K4z3zFUmbU9Yd2SoRFJ3pCbSoGqO1gNMax7nmi
+ ETwvSt43nOwvhc2LAz8VkLInda3WoqjwCTIrtn9JeOsDNRO7VAbxrdMttDVOnVRel6hu
+ ifBULfViqjy3cU79zDmbnEp0U6pVgR9Kpavipo9ra2HOY2EQvMpKgMDtKK/GY98gdXkQ
+ UB1TOyKCENrvYQ5O65empBKlBf/lTP0Sjx/q2zT0PJaBnFSZibnyUStBw6yXSOVsODyX
+ YztA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ZVw5vhNfuvBosHfnI9zo+zyK29KWfnqHEHiFcj2necM=;
+ b=J0rwh9ZYFMKV0unwrCm1lZxTdIg+w0W864B5vSKcKLcMf7VgoLOrgkojB3BY+SyX0C
+ rs7VaHbSGXQL5AAXRGHs7by8DJtUHp8M9/YjayARpr34mME5ViymtEvaKSPCP7WY3c+X
+ mybb6G7rA80eVjagiul3gMvoqHMO60h7NYOva/e27cJj8MyAN06g3YKmbh212Jyd/E7b
+ JQInQfVmsiBjAQ89V3uWMjf0PVjXEoHAHfmtzCuL6siVVOLPecTMwgKiPcm9iH/pYwuE
+ i2j4opL7jBzIfar61zWHQGo8ZgvcS4b/sCIVfwpyzI2sR0moJicZ/+8ztUW4LaxuNSBw
+ B31w==
+X-Gm-Message-State: AOAM531ufGvY01EpUfsq5r2+kcRSHNnnPEBR34iNA9vpzR9wOqaWrfJ3
+ bxHHjJeBz8S/HoHx95sgD7Pa68ZR9es=
+X-Google-Smtp-Source: ABdhPJwaFtn6K4cVg1qMH839Fl92cKE1dQuc6DKsWm81DQxRcGbo7rw4jBr9I+6HmSsEK8dABUNLiw==
+X-Received: by 2002:a05:6214:9d2:: with SMTP id
+ dp18mr5741230qvb.16.1622232990255; 
+ Fri, 28 May 2021 13:16:30 -0700 (PDT)
+Received: from rekt.ibmuc.com ([191.19.29.194])
+ by smtp.gmail.com with ESMTPSA id l10sm4163313qtn.28.2021.05.28.13.16.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 28 May 2021 13:16:29 -0700 (PDT)
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 1/1] ppc/pef.c: initialize cgs->ready in kvmppc_svm_init()
+Date: Fri, 28 May 2021 17:16:19 -0300
+Message-Id: <20210528201619.52363-1-danielhb413@gmail.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-X-OriginatorOrg: eldorado.org.br
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CP2PR80MB3668.lamprd80.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 284997b2-fc1e-4c25-f052-08d9221545bd
-X-MS-Exchange-CrossTenant-originalarrivaltime: 28 May 2021 20:15:00.8139 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b9397c69-e827-4afc-a365-ab275e41638f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: R0Me+WD7zP1ykq8A2/E02mE8O6nOpX+NX1vb8Y8/LRMtCcedfRKeuM0A8k5zsBxTljgcrRKHyCFwi0CsPqUDnw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CP2PR80MB4244
-Received-SPF: pass client-ip=40.107.80.109;
- envelope-from=luis.pires@eldorado.org.br;
- helo=NAM03-DM3-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f31;
+ envelope-from=danielhb413@gmail.com; helo=mail-qv1-xf31.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -142,25 +80,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "pbonzini@redhat.com" <pbonzini@redhat.com>
+Cc: linuxram@us.ibm.com, Daniel Henrique Barboza <danielhb413@gmail.com>,
+ qemu-ppc@nongnu.org, groug@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-RnJvbTogUmljaGFyZCBIZW5kZXJzb24gPHJpY2hhcmQuaGVuZGVyc29uQGxpbmFyby5vcmc+DQo+
-IE1vcmUgY29tcGxldGVseSwgdXBkYXRlIHRoZSBDUFUgc3RhdGUgd2l0aCBhbnkgaW5mb3JtYXRp
-b24gdGhhdCBoYXMgYmVlbg0KPiBhc3N1bWVkIGNvbnN0YW50LiAgRm9yIG1vc3QgZ3Vlc3RzLCB0
-aGlzIGlzIGp1c3QgdGhlIFBDLiAgQnV0IGUuZy4gZm9yIGhwcGENCj4gdGhpcyBpcyBib3RoIGlh
-b3EuZiAoY2lwKSBhbmQgaWFvcS5iIChuaXApLg0KPiANCj4gSXQgaXMgdmVyeSBtdWNoIHVwIHRv
-IHRoZSBndWVzdCB0byBkZXRlcm1pbmUgdGhlIHNldCBvZiBkYXRhIHRoYXQgaXMgcHJlc2VudCBp
-bg0KPiBjcHVfZ2V0X3RiX2NwdV9zdGF0ZSwgYW5kIHdoYXQgY2FuIGJlIGFzc3VtZWQgYWNyb3Nz
-IHRoZSBicmVhay4NCg0KSeKAmW0gbm90IHN1cmUgSSB1bmRlcnN0YW5kIHdoYXQg4oCcYXNzdW1l
-ZCBjb25zdGFudOKAnSBtZWFucyBpbiB0aGlzIGNvbnRleHQuIFdvdWxkDQppdCBiZSBmYWlyIHRv
-IHNheSB0aGF0IHN0ZXAgMiBzaG91bGQgdXBkYXRlIGFueSBDUFUgc3RhdGUgaW5mb3JtYXRpb24g
-dGhhdCBpcw0KcmVxdWlyZWQgYnkgdGhlIG1haW4gbG9vcCB0byBjb3JyZWN0bHkgbG9jYXRlIGFu
-ZCBleGVjdXRlIHRoZSBuZXh0IFRCLCBidXQgbm90DQphbnl0aGluZyB0aGF0IHdvdWxkIGJlIG5l
-ZWRlZCBpZiB3ZSB3ZXJlIHRvIGp1bXAgZGlyZWN0bHkgZnJvbSBzdGVwIDEgdG8gdGhlIGZpcnN0
-DQppbnN0cnVjdGlvbiBpbiB0aGUgbmV4dCBUQiB3aXRob3V0IGdvaW5nIHRocm91Z2ggdGhlIG1h
-aW4gbG9vcD8NCg0KVGhhbmtzLA0KDQotLQ0KTHVpcyBQaXJlcw0KSW5zdGl0dXRvIGRlIFBlc3F1
-aXNhcyBFTERPUkFETyANCkF2aXNvIExlZ2FsIC0gRGlzY2xhaW1lciA8aHR0cHM6Ly93d3cuZWxk
-b3JhZG8ub3JnLmJyL2Rpc2NsYWltZXIuaHRtbD4NCg==
+QEMU is failing to launch a CGS pSeries guest in a host that has PEF
+support:
+
+qemu-system-ppc64: ../softmmu/vl.c:2585: qemu_machine_creation_done: Assertion `machine->cgs->ready' failed.
+Aborted
+
+This is happening because we're not setting the cgs->ready flag that is
+asserted in qemu_machine_creation_done() during machine start.
+
+cgs->ready is set in s390_pv_kvm_init() and sev_kvm_init(). Let's set it
+in kvmppc_svm_init() as well.
+
+Reported-by: Ram Pai <linuxram@us.ibm.com>
+Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+---
+ hw/ppc/pef.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/hw/ppc/pef.c b/hw/ppc/pef.c
+index 573be3ed79..cc44d5e339 100644
+--- a/hw/ppc/pef.c
++++ b/hw/ppc/pef.c
+@@ -41,7 +41,7 @@ struct PefGuest {
+     ConfidentialGuestSupport parent_obj;
+ };
+ 
+-static int kvmppc_svm_init(Error **errp)
++static int kvmppc_svm_init(ConfidentialGuestSupport *cgs, Error **errp)
+ {
+ #ifdef CONFIG_KVM
+     static Error *pef_mig_blocker;
+@@ -65,6 +65,8 @@ static int kvmppc_svm_init(Error **errp)
+     /* NB: This can fail if --only-migratable is used */
+     migrate_add_blocker(pef_mig_blocker, &error_fatal);
+ 
++    cgs->ready = true;
++
+     return 0;
+ #else
+     g_assert_not_reached();
+@@ -102,7 +104,7 @@ int pef_kvm_init(ConfidentialGuestSupport *cgs, Error **errp)
+         return -1;
+     }
+ 
+-    return kvmppc_svm_init(errp);
++    return kvmppc_svm_init(cgs, errp);
+ }
+ 
+ int pef_kvm_reset(ConfidentialGuestSupport *cgs, Error **errp)
+-- 
+2.31.1
+
 
