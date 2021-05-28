@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 244BE393C7C
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 May 2021 06:40:33 +0200 (CEST)
-Received: from localhost ([::1]:44764 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DCED393CAC
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 May 2021 07:18:33 +0200 (CEST)
+Received: from localhost ([::1]:53140 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lmUIR-0007St-Oq
-	for lists+qemu-devel@lfdr.de; Fri, 28 May 2021 00:40:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33442)
+	id 1lmUtD-0007PT-Ng
+	for lists+qemu-devel@lfdr.de; Fri, 28 May 2021 01:18:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41168)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lmUHV-0006np-84
- for qemu-devel@nongnu.org; Fri, 28 May 2021 00:39:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37419)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lmUHS-0008Cu-Id
- for qemu-devel@nongnu.org; Fri, 28 May 2021 00:39:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622176768;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=aaNqoazY4ILSSE3jiOijOkL2JVyJttrenGPICgGweQo=;
- b=QcMpBwAGCnAt1ABcHD2mvHImZ3PaCzySnYOK//EsvUw8/vfjfVTQ9dOZhMc6H1u2hg03HX
- ZF5Pzg+y/Xu5Cpd6SL3wXUFwP5yeL9z/uec6uK0FxDBeiFxX70focEQDjRXmt/jQ1hs2lv
- 1P0Q2BldiF00aUNCkajNdAGPpjY9ZZ8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-592-GZs5YyWzNqqLk4V6hEpgJg-1; Fri, 28 May 2021 00:39:26 -0400
-X-MC-Unique: GZs5YyWzNqqLk4V6hEpgJg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B48061007467;
- Fri, 28 May 2021 04:39:24 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-29.ams2.redhat.com [10.36.112.29])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B72A05B686;
- Fri, 28 May 2021 04:39:17 +0000 (UTC)
-Subject: Re: [PATCH v1 3/6] tests/tcg/configure.sh: tweak quoting of
- target_compiler
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20210527160319.19834-1-alex.bennee@linaro.org>
- <20210527160319.19834-4-alex.bennee@linaro.org>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <541953b3-273b-8a28-c29a-b432c6fd0e51@redhat.com>
-Date: Fri, 28 May 2021 06:39:16 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
+ (Exim 4.90_1) (envelope-from <viresh.kumar@linaro.org>)
+ id 1lmUsE-0006iW-Uf
+ for qemu-devel@nongnu.org; Fri, 28 May 2021 01:17:30 -0400
+Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434]:41816)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <viresh.kumar@linaro.org>)
+ id 1lmUsD-0004Ij-3w
+ for qemu-devel@nongnu.org; Fri, 28 May 2021 01:17:30 -0400
+Received: by mail-pf1-x434.google.com with SMTP id p39so2349973pfw.8
+ for <qemu-devel@nongnu.org>; Thu, 27 May 2021 22:17:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=Pa2uxwvY7ZwN2UwE61UseAxIgiILVBUEQramO4pm44w=;
+ b=S3X1mks25PPleIZVmiKdPXoykTneTBmqYjfTx0SXGxSXh5WiBatFKC7yGlQ63fJ/pG
+ TmsJXxqTyBUGdE7i1HNqtJ6sJQ6cTK8xgCStLJ16Sw3Mj14aTbcDWCxQYXY0FN+4oLMZ
+ 0nhqWzzcVcQThWL8J1bXFCThmIRkEYc5J/ILkGisyil4rgWn3iVlfI/79ajTTEVnN/wO
+ ZlYio5yhHQlIhrCLKdsLKLBmD40VUN8Ak+R+0eUP3nhYuUkvuGi82LVBTuuFhYHwlsE2
+ yjnkxqFtX3tLxySyxyJE+MPmSOOQD0Vkhv/IGSZpxB3SdIreH51g2FopPtVeuf8qAx7g
+ zH7Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=Pa2uxwvY7ZwN2UwE61UseAxIgiILVBUEQramO4pm44w=;
+ b=XVIZMAkTMq2qbNKuhlCksMrKDXWv8w4J/TrFQX6ZlP+Z7gOHXErffu70kh1OFYcfhJ
+ Ih3BqMr76N9gOXfjVqty86I5DcwZ+6KF6YITDXwNrcz+pmLqyhsNxVz8W7Vm4G1FA44u
+ tTP9Jx3WwhpvI8QWYtzgjgiw/Qq9IoaRvdle7yIlVXEcaeAR2XK2j/EO0N2TMj02zdOp
+ Oa/qp/ZWtVeFLv7A/jNUalb8zPeaTKyOxP8m5V3L5TZD3MMqNWAw2DaIcSfE8ZRM/kKS
+ /wLkbKjWsIlMyNz6eNEz0ELFH3fLjlew1Tw79GlJ4YYDvPKULHEY7F2TiUUAQawVcpiR
+ jB2A==
+X-Gm-Message-State: AOAM531fdyTB1j6tYQuVcL8lF7VelvHx2LWFLZdbnmoZRWm9R9CDJl7p
+ pVFo//VME+2jkugYorp2io1ytg==
+X-Google-Smtp-Source: ABdhPJy01GPyFHyrozX1WX0abje01OeurCPO6YEWRdm9NoHdsbaVLOhTQddjE/qIfyuTsir345uWkg==
+X-Received: by 2002:a62:d083:0:b029:2e3:c8be:14b1 with SMTP id
+ p125-20020a62d0830000b02902e3c8be14b1mr2111162pfg.41.1622179046998; 
+ Thu, 27 May 2021 22:17:26 -0700 (PDT)
+Received: from localhost ([136.185.154.93])
+ by smtp.gmail.com with ESMTPSA id v14sm3117883pgl.86.2021.05.27.22.17.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 27 May 2021 22:17:26 -0700 (PDT)
+Date: Fri, 28 May 2021 10:47:24 +0530
+From: Viresh Kumar <viresh.kumar@linaro.org>
+To: stratos-dev@op-lists.linaro.org
+Subject: Re: [RUST] Add crate for generic vhost-user-i2c backend daemon
+Message-ID: <20210528051724.yi73gvj5ow54ldtx@vireshk-i7>
+References: <20210428122247.ymwshfuoojxzsebf@vireshk-i7>
 MIME-Version: 1.0
-In-Reply-To: <20210527160319.19834-4-alex.bennee@linaro.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.374,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210428122247.ymwshfuoojxzsebf@vireshk-i7>
+User-Agent: NeoMutt/20180716-391-311a52
+Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
+ envelope-from=viresh.kumar@linaro.org; helo=mail-pf1-x434.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,49 +84,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, stefanha@redhat.com,
- crosa@redhat.com, pbonzini@redhat.com, aurelien@aurel32.net
+Cc: Vincent Guittot <vincent.guittot@linaro.org>, Jie Deng <jie.deng@intel.com>,
+ Bill Mills <bill.mills@linaro.org>, qemu-devel@nongnu.org,
+ Arnd Bergmann <arnd.bergmann@linaro.com>, Trilok Soni <tsoni@quicinc.com>,
+ Mike Holmes <mike.holmes@linaro.org>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 27/05/2021 18.03, Alex Bennée wrote:
-> If you configure the host compiler with a multi-command stanza like:
+On 28-04-21, 17:52, Viresh Kumar wrote:
+> Hello,
 > 
->    --cc="ccache gcc"
+> In my earlier attempt [1], I implemented the vhost-user-i2c backend
+> deamon for QEMU (though the code was generic enough to be used with
+> any hypervisor).
 > 
-> then the configure.sh machinery falls over with confusion. Work around
-> this by ensuring we correctly quote so where we need a complete
-> evaluation we get it. Of course the has() check needs single variable
-> so we need to unquote that. This does mean it essentially checks that
-> just the ccache command exits but if we got past that step we still
-> check the compiler actually does something.
+> And here is a Rust implementation of the vhost-user-i2c backend
+> daemon. Again this is generic enough to be used with any hypervisor
+> and can live in its own repository now:
 > 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> Cc: Thomas Huth <thuth@redhat.com>
-> ---
->   tests/tcg/configure.sh | 6 +++---
->   1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
-> index ed6492ce59..aa7c24328a 100755
-> --- a/tests/tcg/configure.sh
-> +++ b/tests/tcg/configure.sh
-> @@ -222,10 +222,10 @@ for target in $target_list; do
->   
->     got_cross_cc=no
->   
-> -  if eval test "x\${cross_cc_$arch}" != xyes; then
-> -      eval "target_compiler=\${cross_cc_$arch}"
-> +  if eval test "x\"\${cross_cc_$arch}\"" != xyes; then
-> +      eval "target_compiler=\"\${cross_cc_$arch}\""
->   
-> -      if has "$target_compiler"; then
-> +      if has $target_compiler; then
->             if test "$supress_clang" = yes &&
->                     $target_compiler --version | grep -qi "clang"; then
->                 got_cross_cc=no
-> 
+>   https://github.com/vireshk/vhost-user-i2c
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+A new crate is added in rust-vmm for this and here is the new repo I am using:
 
+https://github.com/vireshk/vhost-device
+
+And here is the discussion happening on my PULL request.
+
+https://github.com/rust-vmm/vhost-device/pull/1
+
+-- 
+viresh
 
