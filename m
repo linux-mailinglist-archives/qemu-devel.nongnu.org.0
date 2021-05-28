@@ -2,79 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E16F3946FB
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 May 2021 20:27:32 +0200 (CEST)
-Received: from localhost ([::1]:59924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18E393946F6
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 May 2021 20:23:54 +0200 (CEST)
+Received: from localhost ([::1]:54894 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lmhCl-0007EY-BM
-	for lists+qemu-devel@lfdr.de; Fri, 28 May 2021 14:27:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41734)
+	id 1lmh9F-0003jc-3g
+	for lists+qemu-devel@lfdr.de; Fri, 28 May 2021 14:23:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41732)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eric.devolder@oracle.com>)
- id 1lmh0O-0001of-GS
+ id 1lmh0O-0001n3-1h
  for qemu-devel@nongnu.org; Fri, 28 May 2021 14:14:44 -0400
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:11336)
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:35536)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eric.devolder@oracle.com>)
- id 1lmh0M-0007Tl-7u
- for qemu-devel@nongnu.org; Fri, 28 May 2021 14:14:44 -0400
-Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
+ id 1lmh0M-0007Tv-5u
+ for qemu-devel@nongnu.org; Fri, 28 May 2021 14:14:43 -0400
+Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
  by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 14SIDO6j011086; Fri, 28 May 2021 18:14:40 GMT
+ 14SIEfWc015210; Fri, 28 May 2021 18:14:41 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : content-type :
  mime-version; s=corp-2020-01-29;
- bh=5zjrGU1LVvYAaCcVQp4Xmmcx+IdojJSNMK9VkvKp2gA=;
- b=TYA/iBNcFy4hJOSx8PC9jN4UGX09xDNBB01UTZK+/rejQ/NjKwyYhu/qVgjAaSEvpahg
- qXzA6LnEmxcLTkvRMP2sV/qBYIBtQ4aIhJyBQ5OMKTvbvkEOZsn+JwAmDUSu73VgeVcR
- w7vs9swAIhDelRU4k9xwV5vwcFVoHTTvYdRnLyrRn28oCTz8rKmLjxbTHJMsTtU8i8Bf
- Ou6Uz6TAdIP3KcdVJFKMCrlszQ1d9ii/+0CigEvBc1ZCoH5NrOLnfGAl9lLhAp3gmHAq
- FfiJeQnjBp2AlBZ55RR3qDhMorRNeybCQ5viUifZAFG0yNESRMIC0fzryUUSCgbsvUgq LA== 
+ bh=5jaI4k+d0YHnBYchMwZ+GUpIEEBMe/FodXUxkK7dRJs=;
+ b=p3sJ/LyqlPnA0+P0ANfHuinC9vnUnUSUVHKL4BF0SbR4Y2IPr7i4gCATBGRD7WoeBvWd
+ Go456PQGYBP7W0MwAhQUqByGAJdYdpEFKrc9o8n1f5yZFm4QQenuttwh+onXoxMXunmC
+ DyAKEA8BiBSo3SMS+7lWGqb1OeEvcvR450SgweXIO6IkssshM+dR9Rx9dibwSXFEfF47
+ sYIqXtZBcJNJTw4OMYiI15rLzNFcJKWQy5uBLJvYKnCKTUGlv984x6DbwK9ReyJjZeio
+ YOe1b3fVk5oPYAVcs1srdMWmX62/R5KIEe7nZ3DJSm8EwNU6/VtY4Bkb5+cEnspezhPs rw== 
 Received: from oracle.com (userp3020.oracle.com [156.151.31.79])
- by mx0b-00069f02.pphosted.com with ESMTP id 38u25vr29v-1
+ by mx0b-00069f02.pphosted.com with ESMTP id 38u31br1r0-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Fri, 28 May 2021 18:14:40 +0000
 Received: from userp3020.oracle.com (userp3020.oracle.com [127.0.0.1])
- by pps.podrdrct (8.16.0.36/8.16.0.36) with SMTP id 14SIEdJQ108682;
+ by pps.podrdrct (8.16.0.36/8.16.0.36) with SMTP id 14SIEdJR108682;
  Fri, 28 May 2021 18:14:39 GMT
 Received: from nam10-bn7-obe.outbound.protection.outlook.com
  (mail-bn7nam10lp2108.outbound.protection.outlook.com [104.47.70.108])
- by userp3020.oracle.com with ESMTP id 38qbqvpqe5-1
+ by userp3020.oracle.com with ESMTP id 38qbqvpqe5-2
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 28 May 2021 18:14:38 +0000
+ Fri, 28 May 2021 18:14:39 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DCWhRSNNr9C/oLf0KuHXMjcLotVQJ9+TH6H6F08nW7qRJ0A2EEWXMKnGLSh6Yu0nWUcFx17Ro38q5xZZneFBujnFoZkK0MVKTT5NdIm1Fja9ZblLIozhOQAJHCC8yvJfZCeUnWuAJv/hKxarD4pXDc4qyryjClK8etThMAniNlihzurL9Y3XOUi29f4T6Ozuzz+MlQscIU8jymOSlgPJ3awmVpIy1TjdbMp7SKqM3Fvhi9u9cTkfOoUeumoFnhenqHy4BC5Tm4thEpYmcc5nBmqkwZV9Va9auUC9v2FlSlcpQVwDI2m84Es2fMcbmllcLlU7GU4oJhkngniUzd9AHQ==
+ b=c8XdSldp1uifLRTQI5DRpKHt6mgK20RfZjY1MTZbCy1OGK3QGDZexPiutj5BPH3y8jni2rPP7UFzOVxtFhwwOnlCrEx5bdpVn9YDP59UOdpWQ+AD6+q7ceiWjnyCKP7BSUSTKOF1POgdOLQUjecFI8m4gowI2xPNO0DpDAJRzJOHbz+gL2DyPhBxZJZYyKF/9ystUbBt6xex408GyVja2iq0kpfAJ9wmktI2eKXwU/p7tAfOwzm90LbAlu7j4asFCW5XYMMoG2mflxWawnWxMKcduZwyp3aNLvQvAMLc5kTvoOQPMhg+24PR30vubzzylaTzpIvIhlkVkKfZq6RWfg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5zjrGU1LVvYAaCcVQp4Xmmcx+IdojJSNMK9VkvKp2gA=;
- b=G+d3dNeZh+9xtAxDyhrW9JqX9qZrj16tD9bt0Dz4DA3eG6GRSV0F5APSjw8HI0eF2XJCIZmv68+Jn1Nu3S8WO7kQSid94mVi9AUOtiZCAAE+WsD5AqcE8+z1jxpMPKe6aSrsqwPC3LeC6ijMf3UngJL8YCAnIDLxHEiUTARr9OiTkW/6OU39ANp5fm2Y7CIB8b5wyrEVMLyWGeFtnXnvG6WOPlZKBAVWuej7rHFkpczN79EipOfoLCvfb8MCOIuhjqpG5yBFrBjAUBDsl9rJ5MUtXIBW6zyMlGVExcmmfy4XbDyP3a81j4RfqadYf215xc+EOAoYTSauXECqpIbkbQ==
+ bh=5jaI4k+d0YHnBYchMwZ+GUpIEEBMe/FodXUxkK7dRJs=;
+ b=jOgcgvJp9tIRisdXdVUuQMOeW/nOxFtuoSmvX8RviZ2Wh2mHhFaTu9SGhfKQy+YjkCFshv5TpEHnvbY1B9eTsR929cRFxuqWsoIi5E+UrpcW7b9GvIN2wg8Sl1X75qTsyfPm5WXqqpDPC4VFowNziynY4X7kyuCqv7MolnZcRFv4WvmvQCQuS2Sg2yT2E7zOS4H4oh/F5YxwGWbSVEk/dTRxbum8KKRy0xwJJVQW7Ov5j7Q/VqNjL4FqdH4VszBNgE8nqNtm7N+tA2Ai8LoZmUwqrh6TEWjtdQoTxRWWCmwVdEYHHZ2AttxEe2LCZRfv+26/a5ap5SxCx9SgptuUKg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5zjrGU1LVvYAaCcVQp4Xmmcx+IdojJSNMK9VkvKp2gA=;
- b=hJ9jT5pKJZAcg1L8DOULA8UFXF2e+Gp4zUpLOlD4GzMRVfUj4r5H4Rh/iIEJKQv1S4dn4zNceJXcetqc8n4Y2jaZyuWG+kv+mY4fPJ+nIpO1gSbgJa9RUG+C0MqKahmd+4uyevUZImfo6IrU0eo4HmvBMAXxy/saXSSnmA4nz5M=
+ bh=5jaI4k+d0YHnBYchMwZ+GUpIEEBMe/FodXUxkK7dRJs=;
+ b=0OCYqJwFK9ieyJpjz1zlsm3e/wVZQiZ5IQk+xR5QYJPnMVkYy+l/zA29q5mOIwtr/YQD1/xzSAO0j5ZgPlpl2CSEEDezqzSH0KSPXIzXqHjblthlrZBP4REKtZABYeXONP9DJotXzoUOoJlzXou3mciwNIkVC4X0bsYJhYpaHLE=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=oracle.com;
 Received: from CO1PR10MB4531.namprd10.prod.outlook.com (2603:10b6:303:6c::22)
  by CO1PR10MB4723.namprd10.prod.outlook.com (2603:10b6:303:9c::20)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.22; Fri, 28 May
- 2021 18:14:36 +0000
+ 2021 18:14:38 +0000
 Received: from CO1PR10MB4531.namprd10.prod.outlook.com
  ([fe80::a0af:e69c:6e81:b8fc]) by CO1PR10MB4531.namprd10.prod.outlook.com
  ([fe80::a0af:e69c:6e81:b8fc%6]) with mapi id 15.20.4173.024; Fri, 28 May 2021
- 18:14:36 +0000
+ 18:14:38 +0000
 From: Eric DeVolder <eric.devolder@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 6/7] ACPI ERST: qtest for ERST
-Date: Fri, 28 May 2021 14:14:18 -0400
-Message-Id: <1622225659-16847-7-git-send-email-eric.devolder@oracle.com>
+Subject: [PATCH v3 7/7] ACPI ERST: step 6 of bios-tables-test.c
+Date: Fri, 28 May 2021 14:14:19 -0400
+Message-Id: <1622225659-16847-8-git-send-email-eric.devolder@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1622225659-16847-1-git-send-email-eric.devolder@oracle.com>
 References: <1622225659-16847-1-git-send-email-eric.devolder@oracle.com>
@@ -89,52 +89,52 @@ Received: from ban25x6uut23.us.oracle.com (138.3.201.23) by
  SN7PR04CA0201.namprd04.prod.outlook.com (2603:10b6:806:126::26) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.21 via Frontend
- Transport; Fri, 28 May 2021 18:14:35 +0000
+ Transport; Fri, 28 May 2021 18:14:36 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 6f655ef5-ca0d-48a0-20da-08d922047374
+X-MS-Office365-Filtering-Correlation-Id: e9ba06ed-0b95-451a-b4a2-08d922047463
 X-MS-TrafficTypeDiagnostic: CO1PR10MB4723:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <CO1PR10MB472347A7ADB5B8394503FA7197229@CO1PR10MB4723.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2733;
+X-Microsoft-Antispam-PRVS: <CO1PR10MB4723091967C009D75F5A31F297229@CO1PR10MB4723.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:113;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: E2vknUKD7T9OoRk+TPzwmsTXpYEMByXsamn64jo8xRjeJsF50vcnPu2l2wjfXEPbRlJ6QmaOVPkyVuib0QuzS+NyzIHDTmODiiRnEDoVTFhPK0WpT3+06h1ZKVSRRTl91NHWd1AzeADJUXjFlKt80C6G9hUU63mq8cVWCKaT2VBuVSxeFTtklC3ygs5f5j5YLmrPVL47d69iN/Q8T8qmhDYi2CTbyeg9jU4Nf1mK5YeXp3Id6FVsMwTeVw1ohR/cnVoTMrnqcaVSiwLC1DAQ0h8cbuT8GoZCbQozYTPx5Eo/ttm6tZzSew5l+/X2ZOsA+1dDsliIoyUSa/Q7EeThdf9IvGBMYr4wH0bRJkANrhtajqECKUfuL0gq3thmg9ATNzQZFD3/+wNxDrwR0wQ/i1G1gPzndlhojut/83lzwFRzDraHRE3tewXvdGzcDCwAXLfA44oYDrHSDijgc9YctyPEqk3JXCfiDlKrmcTDcxD3lhpn/jVT8oNNazAsRVBtq0GKYxMJUPhHjX7QEXO6jn+7H6BzgB1TXM7oqsc6PiyCWI6KtAmnbB91td07irAJsjcukVVPSXZqGbi/DuRfe7b3VjCJWZiA0muNLl8wsx79ATg6KovDk8lo3POAIBDtyBqCZK9f78w4/YzT+sjd3g==
+X-Microsoft-Antispam-Message-Info: VBOZq75PocDhwEHQDrMDGuWkl99NcRBR2HiiwFh+0ajkbNVBwYp+IxH6l/ouWMHdoZfalpg2B+YXXuj0F6S7b3dGFgdOinZwuXPkgB+bvuwBnwq54Swq1Uao1HTPOov3dEBaghbZgimLBkX1Eb9MdHziUxszV6OHR+5Xh6ihggZexgSbUCsa505bW3Z1lb5ydNhzjcCQVo6MDZFxvxyaGlgL6GyGFzNg8Dfw8mYvw+NxE9Tw4MHF4N/mB3sYlFSY2MgUXTFoo395XMnENwMM02KhF+3FBL6bfQTWjs6vF9+45ruvIEet9VXd1nuWgvB7oAZmkag/aiR6sgpps9Xjh+kU786A0uc4ee7Vo02JkMyvQs1mkMIQUYjj9qioxDHiCqNmc7yFDh8vImPA2bJKl4fgYtDqlahquPpmMwPJRjkxaCrwTtQ9soY7cw4uTduQBfmhax2fpZu24lIaWTk77wkguwkx1B511NgnoE+1W7SMsTlN3rLgEF8bBfdTG0A45IigGwlj8qx7glMP2JTYdx+EUW8BqHc2rTFt/BWSkU1ApcNLfUF4mzW6T/GVFQwaMuGvcmwtBsmEFsi2KPV0WkNzYVqoL3+Y+c5VmRBQPRdk82K69reQbNogC+O2vMa2/S+F3TeFXb2e6DYYAqiMaQ==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:CO1PR10MB4531.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(396003)(366004)(346002)(39860400002)(136003)(376002)(6666004)(316002)(478600001)(36756003)(38100700002)(38350700002)(186003)(16526019)(6486002)(8676002)(86362001)(8936002)(6916009)(5660300002)(52116002)(2616005)(66556008)(107886003)(2906002)(4326008)(26005)(66946007)(66476007)(956004)(7696005);
+ SFS:(396003)(366004)(346002)(39860400002)(136003)(376002)(6666004)(316002)(478600001)(36756003)(38100700002)(38350700002)(83380400001)(186003)(16526019)(6486002)(8676002)(86362001)(8936002)(6916009)(5660300002)(52116002)(2616005)(66556008)(107886003)(2906002)(4326008)(26005)(66946007)(66476007)(956004)(7696005);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?iX2uSOi0k5KCSZOsC/rxGkkegYBBC8i2RpY7N9TeaTmkLMgllcn+tV7GAWQQ?=
- =?us-ascii?Q?qXs6raOBIJRlJmgoMhIsam2kG0mJhN9BGtvcD/NxTTFftZcZAz+mOqh5+9DM?=
- =?us-ascii?Q?Uk44A0ij6g/x26pc0IJ7UYEF8hhGhAlPF5oh+kCEHaSaVHUP5DIMj8e4lQAj?=
- =?us-ascii?Q?XdZdUt54y0SEESuQrqSOe1rJ5D1WH5tTayOMtwzPLQAGtUzep9JzAydJ9uzM?=
- =?us-ascii?Q?c3AebVUGt2jdWE6WcTh7zJj9w/PXsB1uad5o6PelIIVfQN89yQHrwFT9VTs7?=
- =?us-ascii?Q?ZfZogrl6eggq9Jbgl+4UJ15GJhFrs9bZXvscCGZOXC6agcOrL3wWmAAHCeR1?=
- =?us-ascii?Q?2aHB6tRw1Gy+qhEthz5aSaw5yUSvF7ItPdflkCh+jzf7WLOYBbx+YN1vGM44?=
- =?us-ascii?Q?7T0YhzfxdQ1hh1EPBgpuOjZq44DXkzep8Uhw0efKQoaUlYpG2NSLSOtaNSH8?=
- =?us-ascii?Q?B3QSY3GWgKjeebih8LCIYlaV1n7k/QaD8AQgNXDU9CpuFEnrFUD70OmGhkMx?=
- =?us-ascii?Q?WJJY/43M2/Q172STJBaAbgY+daacvQTuqdE3eOjZ1s8SwatyMgwtnqPqJeEH?=
- =?us-ascii?Q?9ROcx5tQUZxzTPr3auURqte14v5ZnvdIUa3ec1EixBzmeB9mYNlJ5xaVH6U4?=
- =?us-ascii?Q?GipuuPG1sy0RG0K4rN0xg9YGye3vV80UjRJLg25V3t7Dp7WlkVPcqn25dqwM?=
- =?us-ascii?Q?vh6NjLXwFMi9HjfHxE74LrEGLqXINDoN1lttur5xbyIy+V8P6DdHeyYrmbsf?=
- =?us-ascii?Q?foU+d3/nm4nuYpvdWuRKROGXL5nz2IRE2fS8yacZGtMg0f+q9vNXe9yCHjKL?=
- =?us-ascii?Q?UvtD3i3jnzDHeCswNCzRBpfwrYd5oXa+8DMWqTg/KCJaS7ohOTBkEfUtxN8B?=
- =?us-ascii?Q?mBdPDSP1duwhkNNp8W3FK2gtbAGbnpQ4NcEUkwzF3Facosjq7gQ6Km+kIULx?=
- =?us-ascii?Q?9gzon5ycAaMZXd1fCLsGIojHJKwbKymmvhJkEWD/TSii7+goRog/b9ydgvbW?=
- =?us-ascii?Q?p+QM+jBGNRXFikjJVgXZQYA1xBVdigfz8Vai1GG06hIbkmzlu9C/KkqruYOk?=
- =?us-ascii?Q?YQ2AnRfnzHIE9K3qHPka+dNtQicIoQtzZ9Um9/IKnAugjOayofA3OcO6/2WO?=
- =?us-ascii?Q?N8A5WQ+HfKvJ7jhCeaZ9Ii/rdjL2MeCXKJ2GbqZh1hSn9MbBKn5CdZfDus+E?=
- =?us-ascii?Q?/+QoSfOwCiDuVWQl7XJDgNMDTHDcXC+j9EQt6OQzevHxOK1k3jq6DdyYHKby?=
- =?us-ascii?Q?wUiJP10+9IWEXYQHIKDzBSliVK+SCMqfBhBvFk4uN23xrjUM3+6+HJWATFsy?=
- =?us-ascii?Q?p60+XtDZnLKG+kIIatpqx8dI?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?vofURnIitdEakCsMtdTvms6gzRIauoeIxvF5sCoxEl23r8jf/PBK8JXw/iI/?=
+ =?us-ascii?Q?FxssCvY9Dh070SvJHBUpYBPaE92wdygtlWvDdS0jLPC6UN+/STk9E//PJMZa?=
+ =?us-ascii?Q?XJJFwHSiyCwgc0minxoo2uQjcnK5MHjZpyYit/h8KvHPhxsAcFYmfk4bN180?=
+ =?us-ascii?Q?C+gyjeGqJlzB5agWZEkTOCkaJ/14ncZxFM2z4itBdJ+rdXxQHSxn3yZs/RiD?=
+ =?us-ascii?Q?Hc6D/D4gnSCyMJKAhbNP0vMcAZRrMT3zcmbMRFfEl26YXtIXpx0m+coFvbjf?=
+ =?us-ascii?Q?Eryg3rlJvSaw0JfTG3QQz9h+PhQqc7evm3j+QdjUCUNDrwz77GQ6c8awDdHe?=
+ =?us-ascii?Q?Y+954vbvA4+mUBgT0PrRL4WwOdipJtVI3TBynobm11zXlRjlwVxPf0O2QjVR?=
+ =?us-ascii?Q?aIA1UyHFUV6xbdy2t03VuPMN25MGjLOQ7and90hlO8VeCTHDGSfQGlMbgZE4?=
+ =?us-ascii?Q?rAH4K6V3tAXOGuU0ZEc4adrNVsXklt71m2q+jDr5uab8e9ZgRggPLEQwRojK?=
+ =?us-ascii?Q?FMfB+Nz1gpPp/XVzu+J4cqSh7641duZszEeiAuqwHZP2cSjKzngdVAz90vJA?=
+ =?us-ascii?Q?lVcndR+GNkJDtT2GHx9YwA8M4MRipV7l0dfFKh9hEnZqYmfMNFBCyl2stNBM?=
+ =?us-ascii?Q?ex9Kd9oFEFFrKIhTqm7YmXdHztnfIzuGVMgiJz81lpPqpIsuotyZxGToQwVK?=
+ =?us-ascii?Q?+5QBp8NoGGbwM9Zhx3xt8M5ciVtoKAkr9df5XL0U8qFYfQfi1LVL2HRwCC0X?=
+ =?us-ascii?Q?n35NkmPGX+Bz7jOJ4OsgrNKNbMd9DQtnvoH8BBq4ulUcHjtEtuNodt76mnZj?=
+ =?us-ascii?Q?nyHjuKhanchROjarJgf4zxa0ZZEDAhbRPX7OKg8tdc47JXtMR01R0LLiBXR+?=
+ =?us-ascii?Q?xQ6pdQ8AtQA2QFZbkxvOEFldwi3YIkSHxto4qzE6OznaFWXgukPBpzUEGH14?=
+ =?us-ascii?Q?cwYnXQvf/jscf+689FjSfZ5Uf87qcawkgN85u1UvMdrRiDILr7lXm99NJ98V?=
+ =?us-ascii?Q?LMxk4epVkuOpBsWy6kXmmuoh+e0lkFBLt/+MrpxKvH4uQgysennySvQSPv4z?=
+ =?us-ascii?Q?FMnLTc1Zhiz60HjoOCH1YVed1Iw2V0NRdmZqkl7uns/0SyyNZAFh3++3RUHR?=
+ =?us-ascii?Q?ddhXAhXUNNzvKyDdJXzO8reafsDrztXx2z/6XcFmGMPft0iC+kpKgwub1eRO?=
+ =?us-ascii?Q?/I6bpu3qUoc6qElpL9+SUVBZx51JH8AOfGP/2u/FmgxYGuCKvNtJVaViBNw6?=
+ =?us-ascii?Q?fgbth8NM550E3ObuZWCrg0ijQsGti5lQ8sazHwroH3O3DUv5OQWzBxa+ecvL?=
+ =?us-ascii?Q?g/neiB83MlCf4tFO53iqEYcv?=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6f655ef5-ca0d-48a0-20da-08d922047374
+X-MS-Exchange-CrossTenant-Network-Message-Id: e9ba06ed-0b95-451a-b4a2-08d922047463
 X-MS-Exchange-CrossTenant-AuthSource: CO1PR10MB4531.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 May 2021 18:14:36.3134 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 May 2021 18:14:37.9790 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 9hqidoLBf4HixUwvcIdN5g+2K9G1Ha8BGGJLrAAMs2h+fT2Sn/sRPR39O+n9GXPaa9N0XsOoQQUtAV0ZuCvPBr84OjrEG+gS2V31txgT+tg=
+X-MS-Exchange-CrossTenant-UserPrincipalName: HUfVdNsR57qRPxmS0vqTzTLllNdDfmsRxZrsEaW/8iF1oYOaD6C8v5HISOo9HC+anjIm28hLbQJ7jkyup2QD2X0r9Lqxt5lWUjU2yChf6zM=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR10MB4723
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9998
  signatures=668682
@@ -143,10 +143,10 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
  mlxlogscore=999 malwarescore=0 spamscore=0 suspectscore=0 adultscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104190000
  definitions=main-2105280119
-X-Proofpoint-ORIG-GUID: 6H3fwxd1Fmm3H_OlhOwvuVgpiYI8oIWg
-X-Proofpoint-GUID: 6H3fwxd1Fmm3H_OlhOwvuVgpiYI8oIWg
-Received-SPF: pass client-ip=205.220.165.32;
- envelope-from=eric.devolder@oracle.com; helo=mx0a-00069f02.pphosted.com
+X-Proofpoint-ORIG-GUID: pOM92uW7UbHUNREUlFCLCYkGCppSkdjd
+X-Proofpoint-GUID: pOM92uW7UbHUNREUlFCLCYkGCppSkdjd
+Received-SPF: pass client-ip=205.220.177.32;
+ envelope-from=eric.devolder@oracle.com; helo=mx0b-00069f02.pphosted.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
@@ -172,148 +172,49 @@ Cc: ehabkost@redhat.com, mst@redhat.com, konrad.wilk@oracle.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This change provides a qtest that locates and then does a simple
-interrogation of the ERST feature within the guest.
-
 Signed-off-by: Eric DeVolder <eric.devolder@oracle.com>
 ---
- tests/qtest/erst-test.c | 106 ++++++++++++++++++++++++++++++++++++++++++++++++
- tests/qtest/meson.build |   2 +
- 2 files changed, 108 insertions(+)
- create mode 100644 tests/qtest/erst-test.c
+ tests/data/acpi/pc/ERST                     | Bin 0 -> 976 bytes
+ tests/data/acpi/q35/ERST                    | Bin 0 -> 976 bytes
+ tests/qtest/bios-tables-test-allowed-diff.h |   4 ----
+ 3 files changed, 4 deletions(-)
 
-diff --git a/tests/qtest/erst-test.c b/tests/qtest/erst-test.c
-new file mode 100644
-index 0000000..ce7fc70
---- /dev/null
-+++ b/tests/qtest/erst-test.c
-@@ -0,0 +1,106 @@
-+/*
-+ * QTest testcase for ACPI ERST
-+ *
-+ * Copyright (c) 2021 Oracle
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qemu/bitmap.h"
-+#include "qemu/uuid.h"
-+#include "hw/acpi/acpi-defs.h"
-+#include "boot-sector.h"
-+#include "acpi-utils.h"
-+#include "libqos/libqtest.h"
-+#include "qapi/qmp/qdict.h"
-+
-+#define RSDP_ADDR_INVALID 0x100000 /* RSDP must be below this address */
-+
-+static uint64_t acpi_find_erst(QTestState *qts)
-+{
-+    uint32_t rsdp_offset;
-+    uint8_t rsdp_table[36 /* ACPI 2.0+ RSDP size */];
-+    uint32_t rsdt_len, table_length;
-+    uint8_t *rsdt, *ent;
-+    uint64_t base = 0;
-+
-+    /* Wait for guest firmware to finish and start the payload. */
-+    boot_sector_test(qts);
-+
-+    /* Tables should be initialized now. */
-+    rsdp_offset = acpi_find_rsdp_address(qts);
-+
-+    g_assert_cmphex(rsdp_offset, <, RSDP_ADDR_INVALID);
-+
-+    acpi_fetch_rsdp_table(qts, rsdp_offset, rsdp_table);
-+    acpi_fetch_table(qts, &rsdt, &rsdt_len, &rsdp_table[16 /* RsdtAddress */],
-+                     4, "RSDT", true);
-+
-+    ACPI_FOREACH_RSDT_ENTRY(rsdt, rsdt_len, ent, 4 /* Entry size */) {
-+        uint8_t *table_aml;
-+        acpi_fetch_table(qts, &table_aml, &table_length, ent, 4, NULL, true);
-+        if (!memcmp(table_aml + 0 /* Header Signature */, "ERST", 4)) {
-+            /*
-+             * Picking up ERST base address from the Register Region
-+             * specified as part of the first Serialization Instruction
-+             * Action (which is a Begin Write Operation).
-+             */
-+            memcpy(&base, &table_aml[56], sizeof(base));
-+            g_free(table_aml);
-+            break;
-+        }
-+        g_free(table_aml);
-+    }
-+    g_free(rsdt);
-+    return base;
-+}
-+
-+static char disk[] = "tests/erst-test-disk-XXXXXX";
-+
-+#define ERST_CMD()                              \
-+    "-accel kvm -accel tcg "                    \
-+    "-drive id=hd0,if=none,file=%s,format=raw " \
-+    "-device ide-hd,drive=hd0 ", disk
-+
-+static void erst_get_error_log_address_range(void)
-+{
-+    QTestState *qts;
-+    uint64_t log_address_range = 0;
-+
-+    qts = qtest_initf(ERST_CMD());
-+
-+    uint64_t base = acpi_find_erst(qts);
-+    g_assert(base != 0);
-+
-+    /* Issue GET_ERROR_LOG_ADDRESS_RANGE command */
-+    qtest_writel(qts, base + 0, 0xD);
-+    /* Read GET_ERROR_LOG_ADDRESS_RANGE result */
-+    log_address_range = qtest_readq(qts, base + 8);\
-+
-+    /* Check addr_range is offset of base */
-+    g_assert((base + 16) == log_address_range);
-+
-+    qtest_quit(qts);
-+}
-+
-+int main(int argc, char **argv)
-+{
-+    int ret;
-+
-+    ret = boot_sector_init(disk);
-+    if (ret) {
-+        return ret;
-+    }
-+
-+    g_test_init(&argc, &argv, NULL);
-+
-+    qtest_add_func("/erst/get-error-log-address-range",
-+                   erst_get_error_log_address_range);
-+
-+    ret = g_test_run();
-+    boot_sector_cleanup(disk);
-+
-+    return ret;
-+}
-diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
-index 0c76738..deae443 100644
---- a/tests/qtest/meson.build
-+++ b/tests/qtest/meson.build
-@@ -66,6 +66,7 @@ qtests_i386 = \
-   (config_all_devices.has_key('CONFIG_RTL8139_PCI') ? ['rtl8139-test'] : []) +              \
-   (config_all_devices.has_key('CONFIG_E1000E_PCI_EXPRESS') ? ['fuzz-e1000e-test'] : []) +   \
-   (config_all_devices.has_key('CONFIG_ESP_PCI') ? ['am53c974-test'] : []) +                 \
-+  (config_all_devices.has_key('CONFIG_ACPI') ? ['erst-test'] : []) +                 \
-   qtests_pci +                                                                              \
-   ['fdc-test',
-    'ide-test',
-@@ -237,6 +238,7 @@ qtests = {
-   'bios-tables-test': [io, 'boot-sector.c', 'acpi-utils.c', 'tpm-emu.c'],
-   'cdrom-test': files('boot-sector.c'),
-   'dbus-vmstate-test': files('migration-helpers.c') + dbus_vmstate1,
-+  'erst-test': files('erst-test.c', 'boot-sector.c', 'acpi-utils.c'),
-   'ivshmem-test': [rt, '../../contrib/ivshmem-server/ivshmem-server.c'],
-   'migration-test': files('migration-helpers.c'),
-   'pxe-test': files('boot-sector.c'),
+diff --git a/tests/data/acpi/pc/ERST b/tests/data/acpi/pc/ERST
+index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..7236018951f9d111d8cacaa93ee07a8dc3294f18 100644
+GIT binary patch
+literal 976
+zcmaKqSq_3Q6h#Y^dE9^rOK=GWV&b1h{BUvZ#VzQD#NN_}<VJW2!{zj}Jj(Gp++KlF
+z-m^RRr=jicm%cUSDW!0a>)srw9ZqJfYH@yl5T!<U;}M6C67CcCCp`0jI3h}X4Z*CR
+z@cQFuhiLM(wSRu-xcHA1F8zhXBbq;Aj)oWS$Nk6T$K>0*@ExA}PsmTmxA~y7^f&wF
+z`=C;Mzb#Jlr!;>?JY$ah@BPi%Ksot29-5N<Er=Hro_R^UWRASiUqyaJzRfE>hSucQ
+c<lDT_e?xvlzRfG^WB(fYq22#4zMDpU0r#ed0RR91
+
+literal 0
+HcmV?d00001
+
+diff --git a/tests/data/acpi/q35/ERST b/tests/data/acpi/q35/ERST
+index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..7236018951f9d111d8cacaa93ee07a8dc3294f18 100644
+GIT binary patch
+literal 976
+zcmaKqSq_3Q6h#Y^dE9^rOK=GWV&b1h{BUvZ#VzQD#NN_}<VJW2!{zj}Jj(Gp++KlF
+z-m^RRr=jicm%cUSDW!0a>)srw9ZqJfYH@yl5T!<U;}M6C67CcCCp`0jI3h}X4Z*CR
+z@cQFuhiLM(wSRu-xcHA1F8zhXBbq;Aj)oWS$Nk6T$K>0*@ExA}PsmTmxA~y7^f&wF
+z`=C;Mzb#Jlr!;>?JY$ah@BPi%Ksot29-5N<Er=Hro_R^UWRASiUqyaJzRfE>hSucQ
+c<lDT_e?xvlzRfG^WB(fYq22#4zMDpU0r#ed0RR91
+
+literal 0
+HcmV?d00001
+
+diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+index e004c71..dfb8523 100644
+--- a/tests/qtest/bios-tables-test-allowed-diff.h
++++ b/tests/qtest/bios-tables-test-allowed-diff.h
+@@ -1,5 +1 @@
+ /* List of comma-separated changed AML files to ignore */
+-"tests/data/acpi/pc/ERST",
+-"tests/data/acpi/q35/ERST",
+-"tests/data/acpi/microvm/ERST",
+-
 -- 
 1.8.3.1
 
