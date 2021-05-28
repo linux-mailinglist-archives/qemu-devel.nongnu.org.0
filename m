@@ -2,52 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24825393B3F
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 May 2021 04:02:33 +0200 (CEST)
-Received: from localhost ([::1]:56170 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D8CE393B47
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 May 2021 04:06:11 +0200 (CEST)
+Received: from localhost ([::1]:33788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lmRpY-0004pY-7j
-	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 22:02:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37718)
+	id 1lmRt4-0000P9-GX
+	for lists+qemu-devel@lfdr.de; Thu, 27 May 2021 22:06:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38526)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1lmRnp-000465-0J; Thu, 27 May 2021 22:00:45 -0400
-Received: from [115.124.28.52] (port=47494 helo=out28-52.mail.aliyun.com)
+ (Exim 4.90_1) (envelope-from <jiangkunkun@huawei.com>)
+ id 1lmRrw-0007VY-3n; Thu, 27 May 2021 22:05:00 -0400
+Received: from szxga01-in.huawei.com ([45.249.212.187]:2486)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1lmRnm-00046D-ON; Thu, 27 May 2021 22:00:44 -0400
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07453547|-1; CH=green;
- DM=|CONTINUE|false|;
- DS=CONTINUE|ham_system_inform|0.0777681-0.00232441-0.919908;
- FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047194; MF=zhiwei_liu@c-sky.com; NM=1;
- PH=DS; RN=7; RT=7; SR=0; TI=SMTPD_---.KJqC6pe_1622167231; 
-Received: from 172.27.117.59(mailfrom:zhiwei_liu@c-sky.com
- fp:SMTPD_---.KJqC6pe_1622167231) by smtp.aliyun-inc.com(10.147.40.2);
- Fri, 28 May 2021 10:00:31 +0800
-Subject: Re: [PATCH] target/riscv: hardwire bits in hideleg and hedeleg
-To: Jose Martins <josemartins90@gmail.com>, qemu-devel@nongnu.org
-References: <20210522155902.374439-1-josemartins90@gmail.com>
-From: LIU Zhiwei <zhiwei_liu@c-sky.com>
-Message-ID: <a148ce4f-ce1e-afe6-2a4e-0787ce9d4877@c-sky.com>
-Date: Fri, 28 May 2021 10:00:31 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ (Exim 4.90_1) (envelope-from <jiangkunkun@huawei.com>)
+ id 1lmRrr-0006hR-BA; Thu, 27 May 2021 22:04:59 -0400
+Received: from dggeml704-chm.china.huawei.com (unknown [172.30.72.55])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4FrnvH2SB0zWnmb;
+ Fri, 28 May 2021 10:00:11 +0800 (CST)
+Received: from dggema765-chm.china.huawei.com (10.1.198.207) by
+ dggeml704-chm.china.huawei.com (10.3.17.142) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2176.2; Fri, 28 May 2021 10:04:47 +0800
+Received: from [10.174.185.210] (10.174.185.210) by
+ dggema765-chm.china.huawei.com (10.1.198.207) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2176.2; Fri, 28 May 2021 10:04:46 +0800
+Subject: Re: [PATCH] vfio: Fix unregister SaveVMHandler in
+ vfio_migration_finalize
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>, "Alex
+ Williamson" <alex.williamson@redhat.com>, Kirti Wankhede
+ <kwankhede@nvidia.com>, "open list:All patches CC here"
+ <qemu-devel@nongnu.org>
+References: <20210527123101.289-1-jiangkunkun@huawei.com>
+ <fcfa0ad2-4819-8ea3-b69c-01b4d1e97269@redhat.com>
+From: Kunkun Jiang <jiangkunkun@huawei.com>
+Message-ID: <c9c94ef3-cbb6-3b0c-f67f-94f3d5422910@huawei.com>
+Date: Fri, 28 May 2021 10:04:35 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210522155902.374439-1-josemartins90@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <fcfa0ad2-4819-8ea3-b69c-01b4d1e97269@redhat.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 115.124.28.52 (deferred)
-Received-SPF: none client-ip=115.124.28.52; envelope-from=zhiwei_liu@c-sky.com;
- helo=out28-52.mail.aliyun.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- UNPARSEABLE_RELAY=0.001 autolearn=no autolearn_force=no
+X-Originating-IP: [10.174.185.210]
+X-ClientProxiedBy: dggeme720-chm.china.huawei.com (10.1.199.116) To
+ dggema765-chm.china.huawei.com (10.1.198.207)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.187;
+ envelope-from=jiangkunkun@huawei.com; helo=szxga01-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -60,70 +70,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>
+Cc: Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-stable@nongnu.org,
+ ganqixin@huawei.com, Zenghui Yu <yuzenghui@huawei.com>,
+ wanghaibin.wang@huawei.com, Keqian Zhu <zhukeqian1@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reviewed-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
+Hi Philippe,
 
-Zhiwei
+On 2021/5/27 21:44, Philippe Mathieu-Daudé wrote:
+> On 5/27/21 2:31 PM, Kunkun Jiang wrote:
+>> In the vfio_migration_init(), the SaveVMHandler is registered for
+>> VFIO device. But it lacks the operation of 'unregister'. It will
+>> lead to 'Segmentation fault (core dumped)' in
+>> qemu_savevm_state_setup(), if performing live migration after a
+>> VFIO device is hot deleted.
+>>
+>> Fixes: 7c2f5f75f94 (vfio: Register SaveVMHandlers for VFIO device)
+>> Reported-by: Qixin Gan <ganqixin@huawei.com>
+>> Signed-off-by: Kunkun Jiang <jiangkunkun@huawei.com>
+> Cc: qemu-stable@nongnu.org
+>
+>> ---
+>>   hw/vfio/migration.c | 1 +
+>>   1 file changed, 1 insertion(+)
+>>
+>> diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
+>> index 201642d75e..ef397ebe6c 100644
+>> --- a/hw/vfio/migration.c
+>> +++ b/hw/vfio/migration.c
+>> @@ -892,6 +892,7 @@ void vfio_migration_finalize(VFIODevice *vbasedev)
+>>   
+>>           remove_migration_state_change_notifier(&migration->migration_state);
+>>           qemu_del_vm_change_state_handler(migration->vm_state);
+>> +        unregister_savevm(VMSTATE_IF(vbasedev->dev), "vfio", vbasedev);
+> Hmm what about devices using "%s/vfio" id?
+The unregister_savevm() needs 'VMSTATEIf *obj'. If we pass a non-null 'obj'
+to unregister_svevm(), it will handle the devices using "%s/vfio" id with
+the following code:
+>     if (obj) {
+>         char *oid = vmstate_if_get_id(obj);
+>         if (oid) {
+>             pstrcpy(id, sizeof(id), oid);
+>             pstrcat(id, sizeof(id), "/");
+>             g_free(oid);
+>         }
+>     }
+>     pstrcat(id, sizeof(id), idstr);
 
-On 5/22/21 11:59 PM, Jose Martins wrote:
-> The specification mandates for certain bits to be hardwired in the
-> hypervisor delegation registers. This was not being enforced.
+By the way, I'm puzzled that register_savevm_live() and unregister_savevm()
+handle devices using "%s/vfio" id differently. So I learned the commit
+history of register_savevm_live() and unregister_savevm().
+
+In the beginning, both them need 'DeviceState *dev', which are replaced
+with VMStateIf in 3cad405babb. Later in ce62df5378b, the 'dev' was removed,
+because no caller of register_savevm_live() need to pass a non-null 'dev'
+at that time.
+
+So now the vfio devices need to handle the 'id' first and then call
+register_savevm_live(). I am wondering whether we need to add
+'VMSTATEIf *obj' in register_savevm_live(). What do you think of this?
+
+Thanks,
+Kunkun Jiang
 >
-> Signed-off-by: Jose Martins <josemartins90@gmail.com>
-> ---
->   target/riscv/csr.c | 13 +++++++++++--
->   1 file changed, 11 insertions(+), 2 deletions(-)
->
-> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> index d2585395bf..9b74a00cc9 100644
-> --- a/target/riscv/csr.c
-> +++ b/target/riscv/csr.c
-> @@ -394,6 +394,7 @@ static int read_timeh(CPURISCVState *env, int csrno, target_ulong *val)
->   
->   static const target_ulong delegable_ints = S_MODE_INTERRUPTS |
->                                              VS_MODE_INTERRUPTS;
-> +static const target_ulong vs_delegable_ints = VS_MODE_INTERRUPTS;
->   static const target_ulong all_ints = M_MODE_INTERRUPTS | S_MODE_INTERRUPTS |
->                                        VS_MODE_INTERRUPTS;
->   static const target_ulong delegable_excps =
-> @@ -416,6 +417,14 @@ static const target_ulong delegable_excps =
->       (1ULL << (RISCV_EXCP_LOAD_GUEST_ACCESS_FAULT)) |
->       (1ULL << (RISCV_EXCP_VIRT_INSTRUCTION_FAULT)) |
->       (1ULL << (RISCV_EXCP_STORE_GUEST_AMO_ACCESS_FAULT));
-> +static const target_ulong vs_delegable_excps = delegable_excps &
-> +    ~((1ULL << (RISCV_EXCP_S_ECALL)) |
-> +    (1ULL << (RISCV_EXCP_VS_ECALL)) |
-> +    (1ULL << (RISCV_EXCP_M_ECALL)) |
-> +    (1ULL << (RISCV_EXCP_INST_GUEST_PAGE_FAULT)) |
-> +    (1ULL << (RISCV_EXCP_LOAD_GUEST_ACCESS_FAULT)) |
-> +    (1ULL << (RISCV_EXCP_VIRT_INSTRUCTION_FAULT)) |
-> +    (1ULL << (RISCV_EXCP_STORE_GUEST_AMO_ACCESS_FAULT)));
->   static const target_ulong sstatus_v1_10_mask = SSTATUS_SIE | SSTATUS_SPIE |
->       SSTATUS_UIE | SSTATUS_UPIE | SSTATUS_SPP | SSTATUS_FS | SSTATUS_XS |
->       SSTATUS_SUM | SSTATUS_MXR | SSTATUS_SD;
-> @@ -963,7 +972,7 @@ static int read_hedeleg(CPURISCVState *env, int csrno, target_ulong *val)
->   
->   static int write_hedeleg(CPURISCVState *env, int csrno, target_ulong val)
->   {
-> -    env->hedeleg = val;
-> +    env->hedeleg = val & vs_delegable_excps;
->       return 0;
->   }
->   
-> @@ -975,7 +984,7 @@ static int read_hideleg(CPURISCVState *env, int csrno, target_ulong *val)
->   
->   static int write_hideleg(CPURISCVState *env, int csrno, target_ulong val)
->   {
-> -    env->hideleg = val;
-> +    env->hideleg = val & vs_delegable_ints;
->       return 0;
->   }
->   
+>>           vfio_migration_exit(vbasedev);
+>>       }
+>>   
+>>
+> .
+
+
 
