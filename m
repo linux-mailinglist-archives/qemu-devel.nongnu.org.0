@@ -2,101 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA4D1394852
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 May 2021 23:24:23 +0200 (CEST)
-Received: from localhost ([::1]:54186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85F0C394962
+	for <lists+qemu-devel@lfdr.de>; Sat, 29 May 2021 01:55:41 +0200 (CEST)
+Received: from localhost ([::1]:47310 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lmjxu-0004BT-An
-	for lists+qemu-devel@lfdr.de; Fri, 28 May 2021 17:24:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52372)
+	id 1lmmKK-0000pj-21
+	for lists+qemu-devel@lfdr.de; Fri, 28 May 2021 19:55:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45792)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <linuxram@us.ibm.com>)
- id 1lmjwj-0003QD-Pf; Fri, 28 May 2021 17:23:09 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:14796)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <linuxram@us.ibm.com>)
- id 1lmjwh-0001vD-5h; Fri, 28 May 2021 17:23:08 -0400
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 14SLDN9a066948; Fri, 28 May 2021 17:22:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=date : from : to : cc :
- message-id : reply-to : references : mime-version : content-type :
- in-reply-to : subject; s=pp1;
- bh=d9IKtSNcHgWVEZITabs0vFR8r0xtttQitmj6MA5seQI=;
- b=ZSt3p7VKbgjU6OGYGMMXGyovr8ZyE7Ccr9mJ4MJWlT9IC9zt7UYFxSroEfV4TDsXUicx
- HT02+aHJPm4i0FG67BJS8ayWTUIqPJ7Yd4iUIzNuIs8HVnEZd9AoKEnqwLxsNyp7fG8L
- v6Af+lxhwoHaoEuyw7DgbOSK068x1U/s1TTQ1Js87YoYpXNfeLWXR1Res1Z9dM+qJ9Eg
- UKWVDL5M4/QZxX0OiQ3KGESN6LCSruN3s72MMJ2PdiVEzCiierIDB+LNZ7brVip+KvQb
- 1eEZguwgXaRofQl0gO7juMPGgaq2mIzi2FncUGem+ZuuoSpUM93Q/3wqadbDtPRbxT7q 3w== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 38u88905ea-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 28 May 2021 17:22:50 -0400
-Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 14SLFNgI080178;
- Fri, 28 May 2021 17:22:50 -0400
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.98])
- by mx0a-001b2d01.pphosted.com with ESMTP id 38u88905dv-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 28 May 2021 17:22:50 -0400
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 14SLE3Hg028211;
- Fri, 28 May 2021 21:22:48 GMT
-Received: from b06cxnps4074.portsmouth.uk.ibm.com
- (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
- by ppma03ams.nl.ibm.com with ESMTP id 38sba2sska-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 28 May 2021 21:22:48 +0000
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
- [9.149.105.59])
- by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 14SLMjNT21954860
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 28 May 2021 21:22:45 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B3435A4055;
- Fri, 28 May 2021 21:22:45 +0000 (GMT)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1F5C7A4057;
- Fri, 28 May 2021 21:22:44 +0000 (GMT)
-Received: from ram-ibm-com.ibm.com (unknown [9.65.216.168])
- by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
- Fri, 28 May 2021 21:22:43 +0000 (GMT)
-Date: Fri, 28 May 2021 14:22:36 -0700
-From: Ram Pai <linuxram@us.ibm.com>
-To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Message-ID: <20210528212236.GA4537@ram-ibm-com.ibm.com>
-References: <20210528201619.52363-1-danielhb413@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210528201619.52363-1-danielhb413@gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: Iif8du0nC0WkkEUJgToQc5UZ2CcvHKbX
-X-Proofpoint-ORIG-GUID: e3gXC1sAB12eUnJEr_6kxvZklVNv9XuD
-Subject: Re: [PATCH 1/1] ppc/pef.c: initialize cgs->ready in kvmppc_svm_init()
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
- definitions=2021-05-28_08:2021-05-27,
- 2021-05-28 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 phishscore=0
- spamscore=0 mlxlogscore=999 impostorscore=0 lowpriorityscore=0
- adultscore=0 mlxscore=0 malwarescore=0 clxscore=1011 priorityscore=1501
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104190000 definitions=main-2105280139
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=linuxram@us.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from
+ <3g4KxYAMKClo5B68GG8D6.4GEI6EM-56N6DFGF8FM.GJ8@flex--dje.bounces.google.com>)
+ id 1lmmIU-0006mx-Vu
+ for qemu-devel@nongnu.org; Fri, 28 May 2021 19:53:47 -0400
+Received: from mail-qv1-xf49.google.com ([2607:f8b0:4864:20::f49]:44949)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from
+ <3g4KxYAMKClo5B68GG8D6.4GEI6EM-56N6DFGF8FM.GJ8@flex--dje.bounces.google.com>)
+ id 1lmmIP-0007Zn-Kx
+ for qemu-devel@nongnu.org; Fri, 28 May 2021 19:53:45 -0400
+Received: by mail-qv1-xf49.google.com with SMTP id
+ 6-20020a05621420a6b0290214b9d4b6c3so3785000qvd.11
+ for <qemu-devel@nongnu.org>; Fri, 28 May 2021 16:53:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=date:message-id:mime-version:subject:from:to:cc;
+ bh=cuLSYQW1FJaSsroNfEPMtCzlw8f4h1qsJviWCgp88e8=;
+ b=DQvkCMgAECxrWUmYBaXVXoGcuiHJN8vv+BX6FZczCl7hX7oRYWdTIxT5foVc9fngbP
+ hzI+wu/+ja2dHgI+6OujPnuCro8IBD90VMlpwHgf77pFlLjTAFeNPOR6n9MisoFzSGWv
+ 4NSO0pScyk+WyrduKNYuIeFvmHOvFVfJyZP3VenFR6B8sRprhXrvRxzOvY8D81YMhnO0
+ k7vbF9vL6jV7XPs6HYrWAIzmNO9Jy8s8lno1nANlklSTts+fiWG6rHA3uILSQqEtp67F
+ I/m+VhvNHEuiYhtinqjCUdXKb2OnCPwKSWQOvGUVONvUn5ZGVqPOLVVTN2B7AIZ87g1B
+ AvkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+ bh=cuLSYQW1FJaSsroNfEPMtCzlw8f4h1qsJviWCgp88e8=;
+ b=gg3QCu0/3jGtKqxR/T44e4aZHbANJ1kXOP2XEmB8hmHV26/B15g7tmGRxyTclcLL2V
+ DKxaSWulKtoLx1ng8ouEqsWzilQdpEj7nGk2PnB1WFa1P1ZcVVJywuaG9zfnHlZifDEp
+ R1IZXjeAc0qw9wICVYD4H76VaJLJ31yRtWk7ihvk76ufDhL3CMWwrY0Zoo+vRf+qUI6z
+ 25IsF4Kv4WNyogq3+rLn3LmX+gkr0gLyImJ/JmLSKZyrkAU+OrjT/iBw9EzZvniCDZsz
+ 3bIztpC0Q7S/U/j2XV/hD3ptryQ6opj/MXutgvlFpAc7wEecsxNlJYaEk8nNcyvuRN24
+ cF8w==
+X-Gm-Message-State: AOAM5310zccJR3XTHuek7swvJK09Kq7Lxd3Xx1TbkqNEmeWgk+OKtW7y
+ VsfsfumGPLh9OsflFYtjrKsNr97pMPHCqZPWE9wLlSoL9hhictEw23q2CfPOH2zDysHsAEORovL
+ HZi9edpZ5Jaxhx3Wzue5kYEUFGVS0q9lHoY8PgQUhgTv8rzMuycit
+X-Google-Smtp-Source: ABdhPJzB/GbmMIW5zE6LDdwGsbM6suYhGXt8w59Pw2QWA8XEWZ5c7u5X22xIXqVVfZqZKJstNsDp0IQ=
+X-Received: from ruffy.mtv.corp.google.com
+ ([2620:0:1000:1412:da9a:e3bd:2fe6:1f1b])
+ (user=dje job=sendgmr) by 2002:a05:6214:e82:: with SMTP id
+ hf2mr6664326qvb.22.1622246019747; Fri, 28 May 2021 16:53:39 -0700 (PDT)
+Date: Fri, 28 May 2021 16:53:27 -0700
+Message-Id: <20210528235331.3727583-1-dje@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.32.0.rc0.204.g9fa02ecfa5-goog
+Subject: [PATCH v7 0/4] Add support for ipv6 host forwarding
+From: Doug Evans <dje@google.com>
+To: qemu-devel@nongnu.org
+Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>, 
+ "=?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?=" <berrange@redhat.com>, 
+ "=?UTF-8?q?Marc-Andr=C3=A9=20Lureau?=" <marcandre.lureau@redhat.com>,
+ Maxim Samoylov <max7255@yandex-team.ru>, Doug Evans <dje@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f49;
+ envelope-from=3g4KxYAMKClo5B68GG8D6.4GEI6EM-56N6DFGF8FM.GJ8@flex--dje.bounces.google.com;
+ helo=mail-qv1-xf49.google.com
+X-Spam_score_int: -95
+X-Spam_score: -9.6
+X-Spam_bar: ---------
+X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ USER_IN_DEF_DKIM_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -109,36 +85,141 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Ram Pai <linuxram@us.ibm.com>
-Cc: groug@kaod.org, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, May 28, 2021 at 05:16:19PM -0300, Daniel Henrique Barboza wrote:
-> QEMU is failing to launch a CGS pSeries guest in a host that has PEF
-> support:
-> 
-> qemu-system-ppc64: ../softmmu/vl.c:2585: qemu_machine_creation_done: Assertion `machine->cgs->ready' failed.
-> Aborted
-> 
-> This is happening because we're not setting the cgs->ready flag that is
-> asserted in qemu_machine_creation_done() during machine start.
-> 
-> cgs->ready is set in s390_pv_kvm_init() and sev_kvm_init(). Let's set it
-> in kvmppc_svm_init() as well.
-> 
-> Reported-by: Ram Pai <linuxram@us.ibm.com>
-> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+This patchset takes the original patch from Maxim,
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg569573.html
+and updates it.
 
+Option hostfwd is extended to support ipv6 addresses.
+Commands hostfwd_add, hostfwd_remove are extended as well.
 
-Acked-by: Ram Pai <linuxram@us.ibm.com>
+Changes from v6:
 
-> ---
->  hw/ppc/pef.c | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
-> 
-> diff --git a/hw/ppc/pef.c b/hw/ppc/pef.c
-> index 573be3ed79..cc44d5e339 100644
-..snip..
+1/4: Update to use libslirp v4.5.0 tag
+
+The libslirp parts of the patch have been committed to the libslirp repo,
+and are now in QEMU's copy of the libslirp repo.
+Advancing QEMU to use Libslirp v4.5.0 is being done separately.
+Discussion of patch 1/4 is left to that thread:
+https://lists.nongnu.org/archive/html/qemu-devel/2021-05/msg06010.html
+
+2/4: No change
+
+3/4: Add support for --enable-slirp=system
+Tested with system libslirp 4.4.0.
+
+4/4: No change
+
+Changes from v5:
+
+1/4 slirp: Advance libslirp submodule to current master
+NOTE TO REVIEWERS: It may be a better use of everyone's time if a
+maintainer takes on advancing QEMU's libslirp to libslirp's master.
+Beyond that, I really don't know what to do except submit this patch as
+is currently provided.
+
+2/4: util/qemu-sockets.c: Split host:port parsing out of inet_parse
+
+Also split out parsing of ipv4=on|off, ipv6=on|off
+
+3/4: net/slirp.c: Refactor address parsing
+
+Use InetSocketAddress and getaddrinfo().
+Use new libslirp calls: slirp_remove_hostxfwd, slirp_add_hostxfwd.
+
+4/4: net: Extend host forwarding to support IPv6
+
+Recognize ipv4=,ipv6= options.
+
+Note: v5's 3/5 "Recognize []:port (empty ipv6 address)" has been deleted:
+the churn on this patch series needs to be reduced.
+This change is not required, and can easily be done in a later patch.
+
+Changes from v4:
+
+1/5 slirp: Advance libslirp submodule to add ipv6 host-forward support
+NOTE TO REVIEWERS: I need some hand-holding to know what The Right
+way to submit this particular patch is.
+
+- no change
+
+2/5 util/qemu-sockets.c: Split host:port parsing out of inet_parse
+
+- move recognition of "[]:port" to separate patch
+- allow passing NULL for ip_v6
+- fix some formatting issues
+
+3/5 inet_parse_host_and_addr: Recognize []:port (empty ipv6 address)
+
+- new in this patchset revision
+
+4/5 net/slirp.c: Refactor address parsing
+
+- was 3/4 in v4
+- fix some formatting issues
+
+5/5 net: Extend host forwarding to support IPv6
+
+- was 4/4 in v4
+- fix some formatting issues
+
+Changes from v3:
+
+1/4 slirp: Advance libslirp submodule to add ipv6 host-forward support
+
+- pick up latest libslirp patch to reject ipv6 addr-any for guest address
+  - libslirp currently only provides a stateless DHCPv6 server, which means
+    it can't know in advance what the guest's IP address is, and thus
+    cannot do the "addr-any -> guest ip address" translation that is done
+    for ipv4
+
+2/4 util/qemu-sockets.c: Split host:port parsing out of inet_parse
+
+- this patch is new in v4
+  - provides new utility: inet_parse_host_and_port, updates inet_parse
+    to use it
+
+3/4 net/slirp.c: Refactor address parsing
+
+- this patch renamed from 2/3 to 3/4
+- call inet_parse_host_and_port from util/qemu-sockets.c
+- added tests/acceptance/hostfwd.py
+
+4/4 net: Extend host forwarding to support IPv6
+
+- this patch renamed from 3/3 to 4/4
+- ipv6 support added to existing hostfwd option, commands
+  - instead of creating new ipv6 option, commands
+- added tests to tests/acceptance/hostfwd.py
+
+Changes from v2:
+- split out libslirp commit
+- clarify spelling of ipv6 addresses in docs
+- tighten parsing of ipv6 addresses
+
+Change from v1:
+- libslirp part is now upstream
+- net/slirp.c changes split into two pieces (refactor, add ipv6)
+- added docs
+
+Doug Evans (4):
+  slirp: Advance libslirp submodule to 4.5 release
+  util/qemu-sockets.c: Split host:port parsing out of inet_parse
+  net/slirp.c: Refactor address parsing
+  net: Extend host forwarding to support IPv6
+
+ hmp-commands.hx             |  18 ++-
+ include/qemu/sockets.h      |   5 +
+ net/slirp.c                 | 272 ++++++++++++++++++++++++++++--------
+ slirp                       |   2 +-
+ tests/acceptance/hostfwd.py | 185 ++++++++++++++++++++++++
+ util/qemu-sockets.c         |  82 +++++++----
+ 6 files changed, 473 insertions(+), 91 deletions(-)
+ create mode 100644 tests/acceptance/hostfwd.py
+
+-- 
+2.32.0.rc0.204.g9fa02ecfa5-goog
+
 
