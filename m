@@ -2,75 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DCED393CAC
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 May 2021 07:18:33 +0200 (CEST)
-Received: from localhost ([::1]:53140 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E264393D03
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 May 2021 08:14:41 +0200 (CEST)
+Received: from localhost ([::1]:33958 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lmUtD-0007PT-Ng
-	for lists+qemu-devel@lfdr.de; Fri, 28 May 2021 01:18:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41168)
+	id 1lmVlY-0000XN-83
+	for lists+qemu-devel@lfdr.de; Fri, 28 May 2021 02:14:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49552)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <viresh.kumar@linaro.org>)
- id 1lmUsE-0006iW-Uf
- for qemu-devel@nongnu.org; Fri, 28 May 2021 01:17:30 -0400
-Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434]:41816)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <viresh.kumar@linaro.org>)
- id 1lmUsD-0004Ij-3w
- for qemu-devel@nongnu.org; Fri, 28 May 2021 01:17:30 -0400
-Received: by mail-pf1-x434.google.com with SMTP id p39so2349973pfw.8
- for <qemu-devel@nongnu.org>; Thu, 27 May 2021 22:17:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=Pa2uxwvY7ZwN2UwE61UseAxIgiILVBUEQramO4pm44w=;
- b=S3X1mks25PPleIZVmiKdPXoykTneTBmqYjfTx0SXGxSXh5WiBatFKC7yGlQ63fJ/pG
- TmsJXxqTyBUGdE7i1HNqtJ6sJQ6cTK8xgCStLJ16Sw3Mj14aTbcDWCxQYXY0FN+4oLMZ
- 0nhqWzzcVcQThWL8J1bXFCThmIRkEYc5J/ILkGisyil4rgWn3iVlfI/79ajTTEVnN/wO
- ZlYio5yhHQlIhrCLKdsLKLBmD40VUN8Ak+R+0eUP3nhYuUkvuGi82LVBTuuFhYHwlsE2
- yjnkxqFtX3tLxySyxyJE+MPmSOOQD0Vkhv/IGSZpxB3SdIreH51g2FopPtVeuf8qAx7g
- zH7Q==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lmVkE-000801-AS
+ for qemu-devel@nongnu.org; Fri, 28 May 2021 02:13:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32596)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lmVkB-0007wB-8n
+ for qemu-devel@nongnu.org; Fri, 28 May 2021 02:13:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1622182393;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=5p1u3DpCF/x7ELzFPAAmYMyEEoAlEX3mhOXSxTPlIOA=;
+ b=GI8VSSTfu0m9gP+ca/r6t7B9InMbwmpWGdYZM+X5VsdxbSiRdl6qjZ7rOopz+dIQr4cdCf
+ 6Out9Mihf4GzPAZPApKIVMTXJqduFywMjtjQnWBoltGaKocHBhvZKpckqsvx93KGBDXtkJ
+ f1XpIHe4qcFMT/YkxwJLg1wncEmiI6M=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-141-MzylmNW4Mdmuapn2tmW8KA-1; Fri, 28 May 2021 02:13:09 -0400
+X-MC-Unique: MzylmNW4Mdmuapn2tmW8KA-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ h18-20020a05640250d2b029038cc3938914so1588402edb.17
+ for <qemu-devel@nongnu.org>; Thu, 27 May 2021 23:13:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=Pa2uxwvY7ZwN2UwE61UseAxIgiILVBUEQramO4pm44w=;
- b=XVIZMAkTMq2qbNKuhlCksMrKDXWv8w4J/TrFQX6ZlP+Z7gOHXErffu70kh1OFYcfhJ
- Ih3BqMr76N9gOXfjVqty86I5DcwZ+6KF6YITDXwNrcz+pmLqyhsNxVz8W7Vm4G1FA44u
- tTP9Jx3WwhpvI8QWYtzgjgiw/Qq9IoaRvdle7yIlVXEcaeAR2XK2j/EO0N2TMj02zdOp
- Oa/qp/ZWtVeFLv7A/jNUalb8zPeaTKyOxP8m5V3L5TZD3MMqNWAw2DaIcSfE8ZRM/kKS
- /wLkbKjWsIlMyNz6eNEz0ELFH3fLjlew1Tw79GlJ4YYDvPKULHEY7F2TiUUAQawVcpiR
- jB2A==
-X-Gm-Message-State: AOAM531fdyTB1j6tYQuVcL8lF7VelvHx2LWFLZdbnmoZRWm9R9CDJl7p
- pVFo//VME+2jkugYorp2io1ytg==
-X-Google-Smtp-Source: ABdhPJy01GPyFHyrozX1WX0abje01OeurCPO6YEWRdm9NoHdsbaVLOhTQddjE/qIfyuTsir345uWkg==
-X-Received: by 2002:a62:d083:0:b029:2e3:c8be:14b1 with SMTP id
- p125-20020a62d0830000b02902e3c8be14b1mr2111162pfg.41.1622179046998; 
- Thu, 27 May 2021 22:17:26 -0700 (PDT)
-Received: from localhost ([136.185.154.93])
- by smtp.gmail.com with ESMTPSA id v14sm3117883pgl.86.2021.05.27.22.17.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 May 2021 22:17:26 -0700 (PDT)
-Date: Fri, 28 May 2021 10:47:24 +0530
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: stratos-dev@op-lists.linaro.org
-Subject: Re: [RUST] Add crate for generic vhost-user-i2c backend daemon
-Message-ID: <20210528051724.yi73gvj5ow54ldtx@vireshk-i7>
-References: <20210428122247.ymwshfuoojxzsebf@vireshk-i7>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=5p1u3DpCF/x7ELzFPAAmYMyEEoAlEX3mhOXSxTPlIOA=;
+ b=Jit8e7E46Xk+itzeBHLpV/j8IntIUbi5tIzn1azIMV2q3ju5RMHen/ld13dCp999Ty
+ 8v5xZnx1/4PeYXZ0a3NWzyzi6uwryn23OCGBXSii50kSROL+czRv+Og95M+yRl0BIGfI
+ +l+8A/uhOfX14X/YMI/EptIQyN4jm1B7H+5Yvs897IFTM/WayhdoOjMPnxsMOUfO8JDl
+ gLQCTd/+Fe8eLnk2mNB6PNN6CceQh7IOlPLuBnrpaJkSJzvcf5UI11M9SRYa26oU5kgB
+ 8hX6g0oa/UdA5R+HbXSQ0SBf1MtnJXOsQ2SUAYQXm/mXJpnV332NvvfBkyC57OGeOpT7
+ r0Mw==
+X-Gm-Message-State: AOAM533tjiO/CcXTpKTinnjUFjMVoN33BbTNKP1MhB+naE92Kuqk0bkK
+ KzhVmXctJaGwsYDG31BmIiZ2VCM2zQKc8ywV6z89G1gV+V+9envaJDFRnNcasE/9i74L1Fz/9fM
+ G3w8j3FKE9+Imok0=
+X-Received: by 2002:a17:906:bb0e:: with SMTP id
+ jz14mr7440295ejb.285.1622182388162; 
+ Thu, 27 May 2021 23:13:08 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJysnolX5lhO0+mVmvYuc4frYQighHuwJDNmXIOvGAz/bDRFOZVHIUukxANb99t37MuYVG51vg==
+X-Received: by 2002:a17:906:bb0e:: with SMTP id
+ jz14mr7440282ejb.285.1622182387985; 
+ Thu, 27 May 2021 23:13:07 -0700 (PDT)
+Received: from thuth.remote.csb (pd9e830d9.dip0.t-ipconnect.de.
+ [217.232.48.217])
+ by smtp.gmail.com with ESMTPSA id y10sm1875144ejm.76.2021.05.27.23.13.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 27 May 2021 23:13:07 -0700 (PDT)
+Subject: Re: [PATCH] configure: fix detection of gdbus-codegen
+To: qemu-stable@nongnu.org
+References: <20210505142412.705817-1-pbonzini@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <b2a8699e-b8f3-871d-90ab-6fa8416dc797@redhat.com>
+Date: Fri, 28 May 2021 08:13:06 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210428122247.ymwshfuoojxzsebf@vireshk-i7>
-User-Agent: NeoMutt/20180716-391-311a52
-Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
- envelope-from=viresh.kumar@linaro.org; helo=mail-pf1-x434.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210505142412.705817-1-pbonzini@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.374,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,35 +100,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vincent Guittot <vincent.guittot@linaro.org>, Jie Deng <jie.deng@intel.com>,
- Bill Mills <bill.mills@linaro.org>, qemu-devel@nongnu.org,
- Arnd Bergmann <arnd.bergmann@linaro.com>, Trilok Soni <tsoni@quicinc.com>,
- Mike Holmes <mike.holmes@linaro.org>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 28-04-21, 17:52, Viresh Kumar wrote:
-> Hello,
+On 05/05/2021 16.24, Paolo Bonzini wrote:
+> "pkg-config --variable=gdbus_codegen gio-2.0" returns "gdbus-codegen",
+> and it does not pass test -x (which does not walk the path).
 > 
-> In my earlier attempt [1], I implemented the vhost-user-i2c backend
-> deamon for QEMU (though the code was generic enough to be used with
-> any hypervisor).
+> Meson 0.58.0 notices that something is iffy, as the dbus_vmstate1
+> assignment in tests/qtest/meson.build uses an empty string as the
+> command, and fails very eloquently:
 > 
-> And here is a Rust implementation of the vhost-user-i2c backend
-> daemon. Again this is generic enough to be used with any hypervisor
-> and can live in its own repository now:
+> ../tests/qtest/meson.build:92:2: ERROR: No program name specified.
 > 
->   https://github.com/vireshk/vhost-user-i2c
+> Use the "has" function instead of test -x, and fix the generation
+> of config-host.mak since meson.build expects that GDBUS_CODEGEN
+> is absent, rather than empty, if the tool is unavailable.
+> 
+> Reported-by: Sebastian Mitterle <smitterl@redhat.com>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>   configure | 4 +++-
+>   1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/configure b/configure
+> index 54f8475444..5877a6b2bf 100755
+> --- a/configure
+> +++ b/configure
+> @@ -3341,7 +3341,7 @@ if ! test "$gio" = "no"; then
+>           gio_cflags=$($pkg_config --cflags gio-2.0)
+>           gio_libs=$($pkg_config --libs gio-2.0)
+>           gdbus_codegen=$($pkg_config --variable=gdbus_codegen gio-2.0)
+> -        if [ ! -x "$gdbus_codegen" ]; then
+> +        if ! has "$gdbus_codegen"; then
+>               gdbus_codegen=
+>           fi
+>           # Check that the libraries actually work -- Ubuntu 18.04 ships
+> @@ -5704,6 +5704,8 @@ if test "$gio" = "yes" ; then
+>       echo "CONFIG_GIO=y" >> $config_host_mak
+>       echo "GIO_CFLAGS=$gio_cflags" >> $config_host_mak
+>       echo "GIO_LIBS=$gio_libs" >> $config_host_mak
+> +fi
+> +if test "$gdbus_codegen" != "" ; then
+>       echo "GDBUS_CODEGEN=$gdbus_codegen" >> $config_host_mak
+>   fi
+>   echo "CONFIG_TLS_PRIORITY=\"$tls_priority\"" >> $config_host_mak
+> 
 
-A new crate is added in rust-vmm for this and here is the new repo I am using:
+I think we should include this in the next stable release, too!
 
-https://github.com/vireshk/vhost-device
+  Thomas
 
-And here is the discussion happening on my PULL request.
-
-https://github.com/rust-vmm/vhost-device/pull/1
-
--- 
-viresh
 
