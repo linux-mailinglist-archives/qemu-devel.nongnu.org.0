@@ -2,76 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0955394C39
-	for <lists+qemu-devel@lfdr.de>; Sat, 29 May 2021 14:38:36 +0200 (CEST)
-Received: from localhost ([::1]:44042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C273A394C3F
+	for <lists+qemu-devel@lfdr.de>; Sat, 29 May 2021 14:43:22 +0200 (CEST)
+Received: from localhost ([::1]:50030 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lmyEd-00029w-G9
-	for lists+qemu-devel@lfdr.de; Sat, 29 May 2021 08:38:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32802)
+	id 1lmyJF-0006Kt-Ln
+	for lists+qemu-devel@lfdr.de; Sat, 29 May 2021 08:43:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33774)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lmyCN-0000qn-To
- for qemu-devel@nongnu.org; Sat, 29 May 2021 08:36:15 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:44848)
+ id 1lmyHl-0005ev-BZ
+ for qemu-devel@nongnu.org; Sat, 29 May 2021 08:41:49 -0400
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:46063)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lmyCM-0007kl-65
- for qemu-devel@nongnu.org; Sat, 29 May 2021 08:36:15 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id r10so5848562wrj.11
- for <qemu-devel@nongnu.org>; Sat, 29 May 2021 05:36:12 -0700 (PDT)
+ id 1lmyHi-0002dn-Rb
+ for qemu-devel@nongnu.org; Sat, 29 May 2021 08:41:48 -0400
+Received: by mail-wm1-x332.google.com with SMTP id
+ s5-20020a7bc0c50000b0290147d0c21c51so3814548wmh.4
+ for <qemu-devel@nongnu.org>; Sat, 29 May 2021 05:41:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=/PAc4vjcsQFuQQj9MWpNS2ToV+3Roaghm5bwMAUJ1Fk=;
- b=ZBSvsl6EG8ejYSr6X20ISAkuIsst2g44xxuAZr97F2JcMU+5A4U0bfbwHXS+QvK2V3
- RSfBMz2RnouJ8qMKfHvz/h1hx85akWrbR61/eipC3S/rEDNGUFyFSh/w0Br2oZ9dCpmR
- rcuKXMkGVePlPh8Auyx+IOtqTCPxP97uYz9+4pjKEmWyDHUeZak5zPoU7xcrbAnQFkKJ
- rPdUcF4MG474MQXWLseruojh3AqbJ6+dmaONp/JaGBhfyJXqFrzjj+UhdOKmbliCDMza
- D+xSMTAjZ5ObRPie0bxXEl8WNfs/pleTytXF8tpSqTRaGskAtZTtZ9Kae//tq1Hy5GB3
- qHVg==
+ bh=UXBFkkMWFRzhIXLWMrh3Xq6K/LdmmdYnhnW8voCEKpg=;
+ b=uF5GQbVLPZ6c92iOgYaTO3bTULY+TgOVIrq/LVjwO395UaS1vuOB/XtcRhX4/a7JXC
+ IUTcYRI0NK0RHa456SXt0HLwibx1UD3TRYKmgu+zbonAOH8D0rsjcMuSzwNP7BZFY8sm
+ +BlOMD/9CUEGyP3ZNaMx6UAMwSM4Dibn1+r/6MJK3Dfjqi1Vj7z2rDC1tHAaB6sHKhKt
+ eA4hM1Q5/xWLQcJ7P4HW6opJxHhGTECV6hFezHAqFPUIeLGl83kLtWvKlcfMjKdN4cRb
+ JSwH/psw+oGjRna52K3GEnUnIhbri/UUoNnKdE1MQ2q5w0jxmCS+cz6ZSoOBqmV0yWAC
+ z6eg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=/PAc4vjcsQFuQQj9MWpNS2ToV+3Roaghm5bwMAUJ1Fk=;
- b=h6/CGIbLgfButlUAv20wxpkOXQw1BM4acaZIM4jZfMh8U4uuRjmrdefcpEdcYZyjKp
- 6NhYVD7tTPYyGlOe6LzVoa+55jRzYuonSkwKmwJ+qMRQw61KhAoeTqQ9u5y4MTItq0v2
- 47LEeKFdaspaKwbA8gohi5Qv7+lJZhJSExsz87PHUQpPfq65b6aLAQ1CUc1bgPXIrQdr
- lgiL0kgEeov5xlmm2fiLxn+U0Q9qBteXXhnke7wTVMyNnRXTtFRC50j+kOHSk8tI8GvK
- OI4baLw6r+JsSUB2sWTf+8U3CXyDpiA5yhSx5xjv3Jwz2B2sTyHYHbGF+sD0nVp0b4IC
- t3Xw==
-X-Gm-Message-State: AOAM530DeK2Ik4yynCD71hGkg+c0FAM95hmytYbzlO40xlbOrWEidOm1
- 8Q8T/QKVZ/2EPQt6OSahXrI=
-X-Google-Smtp-Source: ABdhPJyicPRh1O32Ryx3sq3295XvY8saM3bY33t2n/oIUfuMyMsMEoI+c1f9eMHHfrLIMskVYrAubQ==
-X-Received: by 2002:a5d:5271:: with SMTP id l17mr6887699wrc.142.1622291771058; 
- Sat, 29 May 2021 05:36:11 -0700 (PDT)
+ bh=UXBFkkMWFRzhIXLWMrh3Xq6K/LdmmdYnhnW8voCEKpg=;
+ b=XEuUj8LDFwjs5DlUt40VntgYrFt9XfoL1lrqseDzP57mn5+ZoVBNK/zMXeq/CCsHaO
+ 5quiYgBdOPc/S4mrfB9ttmC8BbgesXUooaghfAWtN1GLNPBP21f5OVNr0nfjCX54cXVl
+ Kc/LdJCO7ocHqVfIvDfM89ptEjb3WEyrUvzpzCO/qocf5Lqr1H4SRv+3XJp8S6LTxdBo
+ 7uGmrTqGGI5pYWXYIdfZdlq9PIrnr0qx5u6pJWlBCsl6D5iRzn+EWtnli8O5/NQ7XPqm
+ LXmX866Biaao92hFdtW5pi7Hf1Y84cukvSc6MiLcqgujXB3JQZa99PDG8+LaZRX/3ldq
+ twgg==
+X-Gm-Message-State: AOAM530DHQLO9enRdk0WaiwB5gPJDfLkLF1b+LtJDJu1LTma6CNmEXZ/
+ 30OEh/M1OB59qBk3o8z1kR8=
+X-Google-Smtp-Source: ABdhPJxgOxtJIhcnD+eWB5L9CGXCiXeVaL8cPec8+4CQzgFCXOmqwdXkaupiy7IYysiDkKCQWDJQ/w==
+X-Received: by 2002:a7b:c114:: with SMTP id w20mr18528987wmi.45.1622292104417; 
+ Sat, 29 May 2021 05:41:44 -0700 (PDT)
 Received: from [192.168.1.36] (235.red-83-57-168.dynamicip.rima-tde.net.
  [83.57.168.235])
- by smtp.gmail.com with ESMTPSA id h15sm9332296wmq.1.2021.05.29.05.36.09
+ by smtp.gmail.com with ESMTPSA id v15sm17253260wmj.39.2021.05.29.05.41.43
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 29 May 2021 05:36:10 -0700 (PDT)
-Subject: Re: [Qemu-devel] [PATCH v3 2/2] tests: tcg: mips: Remove old
- directories after moving source files
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
-References: <1546621859-28227-1-git-send-email-aleksandar.markovic@rt-rk.com>
- <1546621859-28227-3-git-send-email-aleksandar.markovic@rt-rk.com>
- <87o98svhis.fsf@linaro.org>
+ Sat, 29 May 2021 05:41:43 -0700 (PDT)
+Subject: Re: [Qemu-devel] [PATCH v4 0/3] tests: Reorganize MIPS TCG
+ directories and files
+To: Aleksandar Rikalo <Aleksandar.Rikalo@syrmia.com>,
+ Aleksandar Markovic <aleksandar.markovic@rt-rk.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Vince Del Vecchio <Vince.DelVecchio@mediatek.com>
+References: <1548343154-8774-1-git-send-email-aleksandar.markovic@rt-rk.com>
+ <DM5PR22MB16585EFE36FC0584D37F3724D29A0@DM5PR22MB1658.namprd22.prod.outlook.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <2ce72c95-a34f-6bcb-ab97-e90e4b31469b@amsat.org>
-Date: Sat, 29 May 2021 14:36:08 +0200
+Message-ID: <e5ca03fc-c412-9ad1-0d45-ee36dff9e4ca@amsat.org>
+Date: Sat, 29 May 2021 14:41:42 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <87o98svhis.fsf@linaro.org>
+In-Reply-To: <DM5PR22MB16585EFE36FC0584D37F3724D29A0@DM5PR22MB1658.namprd22.prod.outlook.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x332.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -92,38 +94,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: noring@nocrew.org, arikalo@wavecomp.com, qemu-devel@nongnu.org,
- smarkovic@wavecomp.com, amarkovic@wavecomp.com, aurelien@aurel32.net
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Petar Jovanovic <petar.jovanovic@syrmia.com>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ "aurelien@aurel32.net" <aurelien@aurel32.net>,
+ Filip Vidojevic <Filip.Vidojevic@syrmia.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/7/19 12:22 PM, Alex Bennée wrote:
-> 
-> Aleksandar Markovic <aleksandar.markovic@rt-rk.com> writes:
-> 
+Hi Aleksandar Rikalo,
+
+On 1/24/19 4:37 PM, Aleksandar Rikalo wrote:
+>> From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
+>> Sent: Thursday, January 24, 2019 4:19 PM
+>> To: qemu-devel@nongnu.org
+>> Cc: aurelien@aurel32.net; Aleksandar Markovic; Aleksandar Rikalo
+>> Subject: [PATCH v4 0/3] tests: Reorganize MIPS TCG directories and files
+>>
 >> From: Aleksandar Markovic <amarkovic@wavecomp.com>
 >>
->> Remove old directories after reorganization of MIPS TCG tests.
+>> Reorganize MIPS TCG directories and files.
 >>
->> Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
->> ---
->>  tests/tcg/mips/mips32-dsp/Makefile        | 136 -------------
->>  tests/tcg/mips/mips32-dspr2/Makefile      |  71 -------
->>  tests/tcg/mips/mips64-dsp/Makefile        | 306 ------------------------------
->>  tests/tcg/mips/mips64-dsp/head.S          |  16 --
->>  tests/tcg/mips/mips64-dsp/io.h            |  22 ---
->>  tests/tcg/mips/mips64-dsp/mips_boot.lds   |  31 ---
->>  tests/tcg/mips/mips64-dspr2/.directory    |   2 -
->>  tests/tcg/mips/mips64-dspr2/Makefile      | 116 -----------
->>  tests/tcg/mips/mips64-dspr2/head.S        |  16 --
->>  tests/tcg/mips/mips64-dspr2/io.h          |  22 ---
->>  tests/tcg/mips/mips64-dspr2/mips_boot.lds |  31 ---
->>  tests/tcg/mips/mipsr5900/Makefile         |  32 ----
+>> Directories for DSP tests in system mode are deleted. They
+>> introduce more complexity in test structure compared to the
+>> value they add. Still, these tests may be moved somewhere
+>> else, let's say in a new acceptance test that will boot
+>> "mips64r2" virtual machine.
+>>
+>> All remaining test will are user mode tests, which will
+>> simplify maintenance of mips tcg tests overall.
+>>
+>> The file movement is done using "git mv" command, so "git
+>> blame" will still display the original information, regardless
+>> of the new names and locations of involved files. Also, the
+>> command "git config diff.renames true" was used to keep the
+>> size of movement patches reasonable.
+>>
+>> v3->v4:
+>>   - DSP ASE system mode tests given up
+>>   - Makefiles provided for tests that remain
+>>
+>> v2->v3:
+>>   - corrected missing "v2" that caused wrong message linking
+>>     (the version is now "v3", of course)
+>>
+>> v1->v2:
+>>   - used "git config diff.renames true" before sending
+>>   - rebased to the latest code (included newly added r5900 tests)
+>>
+>>
+>> Aleksandar Markovic (3):
+>>   tests: tcg: mips: Move source files to new locations
+>>   tests: tcg: mips: Add two new Makefiles
+>>   tests: tcg: mips: Remove old directories
 > 
-> Erm do we really want this? Ideally the Makefiles should be moved into
-> their new locations and tested with whatever the out of tree build
-> approach was before. Then my series can apply on top and translate them
-> into new style check-tcg tests builds.
+> I too think that this will simplify the test dirs structure and
+> maintenance. I cannot wait to see these directories populated with
+> new tests for various MIPS ISAs and ASEs.
+> 
+> For all patches in this series:
+> 
+> Reviewed-by: Aleksandar Rikalo <arikalo@wavecomp.com>
 
-It seems Aleksandar missed your comment :(
+Apparently this series was a bit too enthusiastic and removed
+many tests (MIPS64 DSP r1 and r2 for example) which then got
+never reintroduced. What is your plan regarding the "new
+tests" you mentioned?
+
+Thanks,
+
+Phil.
 
