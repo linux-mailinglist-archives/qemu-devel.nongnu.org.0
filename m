@@ -2,60 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6372394DC8
-	for <lists+qemu-devel@lfdr.de>; Sat, 29 May 2021 20:57:13 +0200 (CEST)
-Received: from localhost ([::1]:52800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3E4A394DC9
+	for <lists+qemu-devel@lfdr.de>; Sat, 29 May 2021 20:57:17 +0200 (CEST)
+Received: from localhost ([::1]:53060 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ln492-0004TH-B3
-	for lists+qemu-devel@lfdr.de; Sat, 29 May 2021 14:57:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40046)
+	id 1ln497-0004dY-2M
+	for lists+qemu-devel@lfdr.de; Sat, 29 May 2021 14:57:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40058)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1ln47Y-0003B2-8t
- for qemu-devel@nongnu.org; Sat, 29 May 2021 14:55:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34278)
+ id 1ln47d-0003HY-7L
+ for qemu-devel@nongnu.org; Sat, 29 May 2021 14:55:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30803)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1ln47V-0005SG-C1
- for qemu-devel@nongnu.org; Sat, 29 May 2021 14:55:38 -0400
+ id 1ln47b-0005aQ-BD
+ for qemu-devel@nongnu.org; Sat, 29 May 2021 14:55:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622314535;
+ s=mimecast20190719; t=1622314542;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=I3ihdkke5m23K6ACdCag/2Lq9Ve3RqmiKqAspnqUSZ8=;
- b=LRvt/f9KEkLnHanr29e/PIHC/1rCWARWTuWDynuW4s5PuFrwGTHzv+Fc/ym9oiOr52wUke
- CNRPQ20Cdm9cjn3juzeifN51fquWRcQom+jvIR712p3yhFmCSnM/dgoZM53srlqU9XsId7
- KU8PrNejCcZy1K4rMt7Vkrw7c2GmdBE=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=H98Ia9IMLGmx10dwdILgeJMXweWCfMDFXWqFQOvpYzY=;
+ b=FxBAB1aD/8FCh/qnDjqb7Ut53N+kQ/mPMlBx+BXUXdJbf9nmlHHI8hfIR/SRnTGY2Dmb6p
+ Aht1K3nD1GM9sC7sQY6wdT+us5zEoi1V+5RI+UfjbiEYTGgp4G9L8SVj+pQpwHq8hEAMmW
+ 3r4wxIxJI6Agrs4xdIuCZc9NF7GkrX0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-196-ksQ_AkxgMpm5Qmz1S2vhFw-1; Sat, 29 May 2021 14:55:31 -0400
-X-MC-Unique: ksQ_AkxgMpm5Qmz1S2vhFw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-533-n1uHVvbtM16ZUw1ozsRYwA-1; Sat, 29 May 2021 14:55:40 -0400
+X-MC-Unique: n1uHVvbtM16ZUw1ozsRYwA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 361D5801B14;
- Sat, 29 May 2021 18:55:30 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7413FFC98;
+ Sat, 29 May 2021 18:55:39 +0000 (UTC)
 Received: from localhost (unknown [10.36.110.2])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 69ED663B8C;
- Sat, 29 May 2021 18:55:25 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DEB4A687CD;
+ Sat, 29 May 2021 18:55:34 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL 0/2] Libslirp patches
-Date: Sat, 29 May 2021 22:55:20 +0400
-Message-Id: <20210529185522.78816-1-marcandre.lureau@redhat.com>
+Subject: [PULL 1/2] Update libslirp to v4.5.0
+Date: Sat, 29 May 2021 22:55:21 +0400
+Message-Id: <20210529185522.78816-2-marcandre.lureau@redhat.com>
+In-Reply-To: <20210529185522.78816-1-marcandre.lureau@redhat.com>
+References: <20210529185522.78816-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
@@ -82,43 +85,100 @@ Cc: samuel.thibault@ens-lyon.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>=0D
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-The following changes since commit 62c0ac5041e9130b041adfa13a41583d3c3ddd24=
-:=0D
-=0D
-  Merge remote-tracking branch 'remotes/rth-gitlab/tags/pull-tcg-20210526' =
-into staging (2021-05-28 16:25:21 +0100)=0D
-=0D
-are available in the Git repository at:=0D
-=0D
-  git@github.com:elmarco/qemu.git tags/libslirp-pull-request=0D
-=0D
-for you to fetch changes up to b060428091c758781acc4d42849accc036d3c816:=0D
-=0D
-  build-sys: make libslirp a meson subproject (2021-05-29 22:52:37 +0400)=
-=0D
-=0D
-----------------------------------------------------------------=0D
-Update libslirp & make it a subproject=0D
-=0D
-----------------------------------------------------------------=0D
-=0D
-Marc-Andr=C3=A9 Lureau (2):=0D
-  Update libslirp to v4.5.0=0D
-  build-sys: make libslirp a meson subproject=0D
-=0D
- configure            |  2 +-=0D
- meson.build          | 63 +++-----------------------------------------=0D
- .gitmodules          |  4 +--=0D
- slirp                |  1 -=0D
- subprojects/libslirp |  1 +=0D
- 5 files changed, 8 insertions(+), 63 deletions(-)=0D
- delete mode 160000 slirp=0D
- create mode 160000 subprojects/libslirp=0D
-=0D
---=20=0D
-2.29.0=0D
-=0D
+Switch from stable-4.2 branch to upstream v4.5.0 release.
+
+## [4.5.0] - 2021-05-18
+
+### Added
+
+ - IPv6 forwarding. !62 !75 !77
+ - slirp_neighbor_info() to dump the ARP/NDP tables. !71
+
+### Changed
+
+ - Lazy guest address resolution for IPv6. !81
+ - Improve signal handling when spawning a child. !61
+ - Set macOS deployment target to macOS 10.4. !72
+ - slirp_add_hostfwd: Ensure all error paths set errno. !80
+ - More API documentation.
+
+### Fixed
+
+ - Assertion failure on unspecified IPv6 address. !86
+ - Disable polling for PRI on MacOS, fixing some closing streams issues. !73
+ - Various memory leak fixes on fastq/batchq. !68
+ - Memory leak on IPv6 fast-send. !67
+ - Slow socket response on Windows. !64
+ - Misc build and code cleanups. !60 !63 !76 !79 !84
+
+## [4.4.0] - 2020-12-02
+
+### Added
+
+ - udp, udp6, icmp: handle TTL value. !48
+ - Enable forwarding ICMP errors. !49
+ - Add DNS resolving for iOS. !54
+
+### Changed
+
+ - Improve meson subproject() support. !53
+ - Removed Makefile-based build system. !56
+
+### Fixed
+
+ - socket: consume empty packets. !55
+ - check pkt_len before reading protocol header (CVE-2020-29129). !57
+ - ip_stripoptions use memmove (fixes undefined behaviour). !47
+ - various Coverity-related changes/fixes.
+
+## [4.3.1] - 2020-07-08
+
+### Changed
+
+ - A silent truncation could occur in `slirp_fmt()`, which will now print a
+   critical message. See also #22.
+
+### Fixed
+
+ - CVE-2020-10756 - Drop bogus IPv6 messages that could lead to data leakage.
+   See !44 and !42.
+ - Fix win32 builds by using the SLIRP_PACKED definition.
+ - Various coverity scan errors fixed. !41
+ - Fix new GCC warnings. !43
+
+## [4.3.0] - 2020-04-22
+
+### Added
+
+ - `SLIRP_VERSION_STRING` macro, with the git sha suffix when building from git
+ - `SlirpConfig.disable_dns`, to disable DNS redirection #16
+
+### Changed
+
+ - `slirp_version_string()` now has the git sha suffix when building form git
+ - Limit DNS redirection to port 53 #16
+
+### Fixed
+
+ - Fix build regression with mingw & NetBSD
+ - Fix use-afte-free in `ip_reass()` (CVE-2020-1983)
+
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Reviewed-by: Doug Evans <dje@google.com>
+---
+ slirp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/slirp b/slirp
+index 8f43a99191..a62890e711 160000
+--- a/slirp
++++ b/slirp
+@@ -1 +1 @@
+-Subproject commit 8f43a99191afb47ca3f3c6972f6306209f367ece
++Subproject commit a62890e71126795ca593affa747f669bed88e89c
+-- 
+2.29.0
 
 
