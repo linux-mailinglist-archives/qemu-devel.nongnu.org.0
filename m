@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C92E394CE5
-	for <lists+qemu-devel@lfdr.de>; Sat, 29 May 2021 17:24:35 +0200 (CEST)
-Received: from localhost ([::1]:49944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74DF2394CE4
+	for <lists+qemu-devel@lfdr.de>; Sat, 29 May 2021 17:23:55 +0200 (CEST)
+Received: from localhost ([::1]:47972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ln0pE-0004oC-HT
-	for lists+qemu-devel@lfdr.de; Sat, 29 May 2021 11:24:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60586)
+	id 1ln0oc-0003Uj-HU
+	for lists+qemu-devel@lfdr.de; Sat, 29 May 2021 11:23:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60592)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
- id 1ln0nD-0001NM-9G
- for qemu-devel@nongnu.org; Sat, 29 May 2021 11:22:27 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:46760)
+ id 1ln0nE-0001OO-Db
+ for qemu-devel@nongnu.org; Sat, 29 May 2021 11:22:29 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:35821)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
- id 1ln0n8-0006ee-0Q
- for qemu-devel@nongnu.org; Sat, 29 May 2021 11:22:27 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id g17so6124774wrs.13
- for <qemu-devel@nongnu.org>; Sat, 29 May 2021 08:22:20 -0700 (PDT)
+ id 1ln0n9-0006f0-76
+ for qemu-devel@nongnu.org; Sat, 29 May 2021 11:22:28 -0400
+Received: by mail-wr1-x434.google.com with SMTP id m18so6197204wrv.2
+ for <qemu-devel@nongnu.org>; Sat, 29 May 2021 08:22:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=SykQW2VZCed5IFbt4dsj/M5Blr8ToABeANkngq/IOEY=;
- b=n6ghKfmeEOoxdfzW2/HOs89gT8Cl7B66gGBp8uV15rX3fzUhcmySfXpkg25rM/FsPF
- FQ99MJLPLFKklvJCNtIKNcVi+6sKSy9qRueS22aTNxF4nAiXK3tASGRU8gxgL5dWxSm4
- /2UjA6TC/rgvA3ebAAOeJIyeydpsMrME/BrDKkRaZ/GWoyRT7N8rRXeiyKhUA3OTNIL2
- 4IfU2oXHa8kuaVNTIKOmL/NKiwb85Sz/0bKeK3d4/S6ovIThnudEtycln6jCdraHmUsb
- 0jS5VBLrgAoOS8J2rqwYNgRpGxPePwj8z6G8RN0ShgSaHmbj6AYRZbG9F3TdVJW1bq5P
- 9CRw==
+ bh=NglVq6XPSNfI2OlftVxELyprFxY+6DW+HIvyv6La3O0=;
+ b=IvUxECjeE/ADHD8FA+rz/gtmfPdXYHSm28p0bt0qSjrG/tM3nnDmcYBeZ2T8HlNxQV
+ jO1tyZQqlxYxN/KbTTeRz8pXXOVtFtbg8eDVSj1FtttxRpMLPrZ9U64us2dMBnAJpZuC
+ WhjRJxpKykZU/eWbVPdRODT/RBy4+gV2Kq81Thg+qf6uVuYEtAuN39WVGLUT56p+RtLX
+ cPtgit2eB6NlhG6Ft14AIYnvYIEumPia4p0M9TqXeb0zwi+TLYxBmNPbR9N/rqv7asVH
+ 7ZXtgSwCJnsdKR7PXaTxN5m6gkNUintbS00Tik6T8OFFSMUpN7KuDMI9DEAA82ZV/o+y
+ PbOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=SykQW2VZCed5IFbt4dsj/M5Blr8ToABeANkngq/IOEY=;
- b=KxU9y4Hk5xh5JrZqVP0C8uhcyF/LaPJpXr6AODaOU0QiuLY7ZH66+WFKgTtYtACSb3
- 2OSlnvtVpafqbR/y44FEeql4a/QFPffHx28yIB5BxBqEbcjEk+B8skaqi3JAcJIB+c/n
- SWywrq/MC6/KK4QNeIVMDvKZYisi/81rrev7K82vAtzlx1MwNyV9arxhV0vWEf7PH6WA
- uGiqEU9/ESBn7jvooVrxWsFQlqmpIgoSpo81WbQa1794KKSjSklDInAspQwiW+NAH6yl
- BDokkM3YsuJgc5tc21AjpYp+rdAfT5Q+LERs11uW09cMzscuDr2qGgmWv342HT4mFSe6
- gf1g==
-X-Gm-Message-State: AOAM531VZvIqBdU/Ec0wXfrj85AIAcf0vZ+RRQf5orXY2rRRZrTFZHY2
- UwMl5PMF+O6w3MA+qKYT5aT/iDfXzcbk1g==
-X-Google-Smtp-Source: ABdhPJyZcyZee2tXuskcpmYVw/KGdddzFr9rYuAz9A3uFzrtVQ5SFRmA/FSXxttsovBkxOb4aj2ctw==
-X-Received: by 2002:a5d:46cb:: with SMTP id g11mr2043533wrs.418.1622301738983; 
- Sat, 29 May 2021 08:22:18 -0700 (PDT)
+ bh=NglVq6XPSNfI2OlftVxELyprFxY+6DW+HIvyv6La3O0=;
+ b=VCECnvoF/7E4PYrOlFupm21yZNNhJSuRKY8CPMA8yhZ3dDkALV2ZHBNbkSmG0em5ix
+ 78b/xDgnHRROhI3g5Aa27NrwHNeIkjGCtVEIn0NwUVbzP9T3N/R/5dLzDNL4xVjttATV
+ OFRjVYZcWioHf7yqkOBFYyOgZiJwKVoQKOZ3ZGfk0ifvmHB5VuZodzf7JmYQUVreylkI
+ UoP+1VJUbFkD8p4xmvPMAIil0cmDTkgqRnMVDlk41OJTA9tg4MtOcZuI/VS5hSvktFvP
+ WqbGFVUUY8izCAiLrN11iuTLMlZAVFnIoIMookxP1R1pSTCqZaYTCHo0kNixnErtw7pL
+ +UDQ==
+X-Gm-Message-State: AOAM533W4rQTf7pFo99JUt2qVIQvZuLGngHoxcTt4A5hJT8x8tAm8fmW
+ +vmI2XWwrCeKxiCiw5RcnBIlgISRSHz6HA==
+X-Google-Smtp-Source: ABdhPJxCaPZEu1nycBeJEyf3rERQEGgTcYt97jXFaeccqj/rDM1HvNVvFt2JMhid9lVi3Y84J5+qxA==
+X-Received: by 2002:a5d:6dce:: with SMTP id d14mr998056wrz.236.1622301740894; 
+ Sat, 29 May 2021 08:22:20 -0700 (PDT)
 Received: from localhost.localdomain ([102.47.172.201])
- by smtp.gmail.com with ESMTPSA id s7sm17019164wmh.35.2021.05.29.08.22.17
+ by smtp.gmail.com with ESMTPSA id s7sm17019164wmh.35.2021.05.29.08.22.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 29 May 2021 08:22:18 -0700 (PDT)
+ Sat, 29 May 2021 08:22:20 -0700 (PDT)
 From: Mahmoud Mandour <ma.mandourr@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 2/3] plugins: cache: Enabled parameterization and added
- trace printing
-Date: Sat, 29 May 2021 17:22:02 +0200
-Message-Id: <20210529152203.40358-3-ma.mandourr@gmail.com>
+Subject: [RFC PATCH 3/3] plugins: cache: Added FIFO and LRU eviction policies.
+Date: Sat, 29 May 2021 17:22:03 +0200
+Message-Id: <20210529152203.40358-4-ma.mandourr@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210529152203.40358-1-ma.mandourr@gmail.com>
 References: <20210529152203.40358-1-ma.mandourr@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=ma.mandourr@gmail.com; helo=mail-wr1-x42e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=ma.mandourr@gmail.com; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,135 +87,260 @@ Cc: Mahmoud Mandour <ma.mandourr@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Made both icache and dcache configurable through plugin arguments
-and added memory trace printing in a separate file.
+Now one of the three eviction policies can be chosen as an argument. On
+not specifying an argument, LRU is used by default.
 
 Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
 ---
- contrib/plugins/cache.c | 68 +++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 66 insertions(+), 2 deletions(-)
+ contrib/plugins/cache.c | 159 ++++++++++++++++++++++++++++++++++++----
+ 1 file changed, 146 insertions(+), 13 deletions(-)
 
 diff --git a/contrib/plugins/cache.c b/contrib/plugins/cache.c
-index f8c15ebed2..7d1d185480 100644
+index 7d1d185480..341cd64e41 100644
 --- a/contrib/plugins/cache.c
 +++ b/contrib/plugins/cache.c
-@@ -22,7 +22,7 @@ static GRand *rng;
+@@ -18,6 +18,8 @@
+ 
+ QEMU_PLUGIN_EXPORT int qemu_plugin_version = QEMU_PLUGIN_VERSION;
+ 
++static bool fifo, lru, rnd;
++
+ static GRand *rng;
  static GHashTable *dmiss_ht;
  static GHashTable *imiss_ht;
+@@ -55,6 +57,8 @@ struct CacheBlock {
  
--static GMutex dmtx, imtx;
-+static GMutex dmtx, imtx, fmtx;
+ struct CacheSet {
+     struct CacheBlock *blocks;
++    uint16_t *priorities;
++    GQueue *evict_queue;
+ };
  
- static int limit;
- static bool sys;
-@@ -33,6 +33,8 @@ static uint64_t dmisses;
- static uint64_t imem_accesses;
- static uint64_t imisses;
- 
-+FILE *tracefile;
-+
- static enum qemu_plugin_mem_rw rw = QEMU_PLUGIN_MEM_RW;
- 
- enum AccessResult {
-@@ -205,6 +207,16 @@ static void vcpu_mem_access(unsigned int cpu_index, qemu_plugin_meminfo_t info,
-     insn_addr = ((struct InsnData *) userdata)->addr;
-     effective_addr = hwaddr ? qemu_plugin_hwaddr_phys_addr(hwaddr) : vaddr;
- 
-+    if (tracefile) {
-+        g_mutex_lock(&fmtx);
-+        g_autoptr(GString) rep = g_string_new("");
-+        bool is_store = qemu_plugin_mem_is_store(info);
-+        g_string_append_printf(rep, "%c: 0x%" PRIx64,
-+                is_store ? 'S' : 'L', effective_addr);
-+        fprintf(tracefile, "%s\n", rep->str);
-+        g_mutex_unlock(&fmtx);
-+    }
-+
-     if (access_cache(dcache, effective_addr) == MISS) {
-         struct InsnData *insn = get_or_create(dmiss_ht, userdata, insn_addr);
-         insn->misses++;
-@@ -221,11 +233,20 @@ static void vcpu_insn_exec(unsigned int vcpu_index, void *userdata)
-     g_mutex_lock(&imtx);
-     addr = ((struct InsnData *) userdata)->addr;
- 
-+    if (tracefile) {
-+        g_mutex_lock(&fmtx);
-+        g_autoptr(GString) rep = g_string_new("");
-+        g_string_append_printf(rep, "I: 0x%" PRIx64, addr);
-+        fprintf(tracefile, "%s\n", rep->str);
-+        g_mutex_unlock(&fmtx);
-+    }
-+
-     if (access_cache(icache, addr) == MISS) {
-         struct InsnData *insn = get_or_create(imiss_ht, userdata, addr);
-         insn->misses++;
-         imisses++;
-     }
-+
-     imem_accesses++;
-     g_mutex_unlock(&imtx);
+ struct Cache {
+@@ -93,6 +97,84 @@ static inline uint64_t extract_set(struct Cache *cache, uint64_t addr)
+     return (addr & cache->set_mask) >> (pow_of_two(cache->blksize));
  }
-@@ -352,6 +373,15 @@ static void plugin_exit()
  
-     g_mutex_unlock(&dmtx);
-     g_mutex_unlock(&imtx);
++static void lru_priorities_init(struct Cache *cache)
++{
++    int i, j;
 +
-+    if (tracefile) {
-+        fclose(tracefile);
++    for (i = 0; i < cache->num_sets; i++) {
++        cache->sets[i].priorities = g_new(uint16_t, cache->assoc);
++        for (j = 0; j < cache->assoc; j++) {
++            cache->sets[i].priorities[j] = cache->assoc - j - 1;
++        }
 +    }
 +}
 +
-+static bool bad_cache_params(int blksize, int assoc, int cachesize)
++static void lru_update_on_miss(struct Cache *cache,
++                                      int set_idx,
++                                      int blk_idx)
 +{
-+    return (cachesize % blksize) != 0 || (cachesize % (blksize * assoc) != 0);
++    int i;
++
++    for (i = 0; i < cache->assoc; i++) {
++        cache->sets[set_idx].priorities[i]++;
++    }
++
++    cache->sets[set_idx].priorities[blk_idx] = 0;
++}
++
++static void lru_update_on_hit(struct Cache *cache,
++                                         int set_idx,
++                                         int blk_idx)
++{
++    uint16_t blk_priority;
++    int i;
++
++    blk_priority = cache->sets[set_idx].priorities[blk_idx];
++    for (i = 0; i < cache->assoc; i++) {
++        if (cache->sets[set_idx].priorities[i] < blk_priority) {
++            cache->sets[set_idx].priorities[i]++;
++        }
++    }
++    cache->sets[set_idx].priorities[blk_idx] = 0;
++}
++
++static int lru_get_lru_block(struct Cache *cache, int set_idx)
++{
++    int i;
++
++    for (i = 0; i < cache->assoc; i++) {
++        if (cache->sets[set_idx].priorities[i] == cache->assoc - 1) {
++            return i;
++        }
++    }
++
++    g_assert_not_reached();
++}
++
++static void fifo_init(struct Cache *cache)
++{
++    int i;
++
++    for (i = 0; i < cache->num_sets; i++) {
++        cache->sets[i].evict_queue = g_queue_new();
++    }
++}
++
++static int fifo_get_first_in_block(struct Cache *cache, int set)
++{
++    GQueue *q = cache->sets[set].evict_queue;
++    return GPOINTER_TO_INT(g_queue_pop_tail(q));
++}
++
++static void fifo_update_on_miss(struct Cache *cache,
++                                int set,
++                                int blk_idx)
++{
++    GQueue *q = cache->sets[set].evict_queue;
++    g_queue_push_head(q, GINT_TO_POINTER(blk_idx));
++}
++
++
+ static struct Cache *cache_init(int blksize, int assoc, int cachesize)
+ {
+     struct Cache *cache;
+@@ -113,6 +195,12 @@ static struct Cache *cache_init(int blksize, int assoc, int cachesize)
+     cache->set_mask = ((cache->num_sets - 1) << (pow_of_two(cache->blksize)));
+     cache->tag_mask = ~(cache->set_mask | cache->blk_mask);
+ 
++    if (lru) {
++        lru_priorities_init(cache);
++    } else if (fifo) {
++        fifo_init(cache);
++    }
++
+     return cache;
  }
  
- QEMU_PLUGIN_EXPORT
-@@ -377,14 +407,48 @@ int qemu_plugin_install(qemu_plugin_id_t id, const qemu_info_t *info,
+@@ -131,12 +219,20 @@ static int get_invalid_block(struct Cache *cache, uint64_t set)
+     return -1;
+ }
  
+-static int get_replaced_block(struct Cache *cache)
++static int get_replaced_block(struct Cache *cache, int set)
+ {
+-    return g_rand_int_range(rng, 0, cache->assoc);
++    if (rnd) {
++        return g_rand_int_range(rng, 0, cache->assoc);
++    } else if (lru) {
++        return lru_get_lru_block(cache, set);
++    } else if (fifo) {
++        return fifo_get_first_in_block(cache, set);
++    }
++
++    g_assert_not_reached();
+ }
+ 
+-static bool in_cache(struct Cache *cache, uint64_t addr)
++static int in_cache(struct Cache *cache, uint64_t addr)
+ {
+     int i;
+     uint64_t tag, set;
+@@ -147,29 +243,39 @@ static bool in_cache(struct Cache *cache, uint64_t addr)
+     for (i = 0; i < cache->assoc; i++) {
+         if (cache->sets[set].blocks[i].tag == tag &&
+                 cache->sets[set].blocks[i].valid) {
+-            return true;
++            return i;
+         }
+     }
+ 
+-    return false;
++    return -1;
+ }
+ 
+ static enum AccessResult access_cache(struct Cache *cache, uint64_t addr)
+ {
+     uint64_t tag, set;
+-    int replaced_blk;
+-
+-    if (in_cache(cache, addr)) {
+-        return HIT;
+-    }
++    int hit_blk, replaced_blk;
+ 
+     tag = extract_tag(cache, addr);
+     set = extract_set(cache, addr);
++    hit_blk = in_cache(cache, addr);
++
++    if (hit_blk != -1) {
++        if (lru) {
++            lru_update_on_hit(cache, set, hit_blk);
++        }
++        return HIT;
++    }
+ 
+     replaced_blk = get_invalid_block(cache, set);
+ 
+     if (replaced_blk == -1) {
+-        replaced_blk = get_replaced_block(cache);
++        replaced_blk = get_replaced_block(cache, set);
++    }
++
++    if (lru) {
++        lru_update_on_miss(cache, set, replaced_blk);
++    } else if (fifo) {
++        fifo_update_on_miss(cache, set, replaced_blk);
+     }
+ 
+     cache->sets[set].blocks[replaced_blk].tag = tag;
+@@ -307,6 +413,11 @@ static void free_cache(struct Cache *cache)
+ {
+     for (int i = 0; i < cache->num_sets; i++) {
+         g_free(cache->sets[i].blocks);
++        if (lru) {
++            g_free(cache->sets[i].priorities);
++        } else if (fifo) {
++            g_queue_free(cache->sets[i].evict_queue);
++        }
+     }
+ 
+     g_free(cache->sets);
+@@ -403,8 +514,6 @@ int qemu_plugin_install(qemu_plugin_id_t id, const qemu_info_t *info,
+     iblksize = 64;
+     icachesize = iblksize * iassoc * 32;
+ 
+-    rng = g_rand_new();
+-
      for (i = 0; i < argc; i++) {
          char *opt = argv[i];
--        if (g_str_has_prefix(opt, "limit=")) {
-+        if (g_str_has_prefix(opt, "I=")) {
-+            gchar **toks = g_strsplit(opt + 2, " ", -1);
-+            if (g_strv_length(toks) != 3) {
-+                fprintf(stderr, "option parsing failed: %s\n", opt);
+         if (g_str_has_prefix(opt, "I=")) {
+@@ -433,6 +542,22 @@ int qemu_plugin_install(qemu_plugin_id_t id, const qemu_info_t *info,
+             if (!tracefile) {
+                 fprintf(stderr, "could not open: %s for writing\n", file_name);
+             }
++        } else if (g_str_has_prefix(opt, "evict=")) {
++            if (lru || rnd || fifo) {
++                fprintf(stderr, "eviction policy specified more than once\n");
 +                return -1;
 +            }
-+            icachesize = g_ascii_strtoull(toks[0], NULL, 10);
-+            iassoc = g_ascii_strtoull(toks[1], NULL, 10);
-+            iblksize = g_ascii_strtoull(toks[2], NULL, 10);
-+        } else if (g_str_has_prefix(opt, "D=")) {
-+            gchar **toks = g_strsplit(opt + 2, " ", -1);
-+            if (g_strv_length(toks) != 3) {
-+                fprintf(stderr, "option parsing failed: %s\n", opt);
++            gchar *policy = opt + 6;
++            if (g_strcmp0(policy, "rand") == 0) {
++                rnd = true;
++            } else if (g_strcmp0(policy, "lru") == 0) {
++                lru = true;
++            } else if (g_strcmp0(policy, "fifo") == 0) {
++                fifo = true;
++            } else {
++                fprintf(stderr, "invalid eviction policy: %s\n", opt);
 +                return -1;
-+            }
-+            dcachesize = g_ascii_strtoull(toks[0], NULL, 10);
-+            dassoc = g_ascii_strtoull(toks[1], NULL, 10);
-+            dblksize = g_ascii_strtoull(toks[2], NULL, 10);
-+        } else if (g_str_has_prefix(opt, "limit=")) {
-             limit = g_ascii_strtoull(opt + 6, NULL, 10);
-+        } else if (g_str_has_prefix(opt, "tracefile=")) {
-+            char *file_name = opt + 10;
-+            tracefile = fopen(file_name, "w");
-+            if (!tracefile) {
-+                fprintf(stderr, "could not open: %s for writing\n", file_name);
 +            }
          } else {
              fprintf(stderr, "option parsing failed: %s\n", opt);
              return -1;
-         }
+@@ -449,6 +574,14 @@ int qemu_plugin_install(qemu_plugin_id_t id, const qemu_info_t *info,
+         return -1;
      }
  
-+    if (bad_cache_params(iblksize, iassoc, icachesize)) {
-+        fprintf(stderr, "icache cannot be constructed from given parameters\n");
-+        return -1;
++    if (!rnd && !lru && !fifo) {
++        lru = true;
 +    }
 +
-+    if (bad_cache_params(dblksize, dassoc, dcachesize)) {
-+        fprintf(stderr, "dcache cannot be constructed from given parameters\n");
-+        return -1;
++    if (rnd) {
++        rng = g_rand_new();
 +    }
 +
      dcache = cache_init(dblksize, dassoc, dcachesize);
