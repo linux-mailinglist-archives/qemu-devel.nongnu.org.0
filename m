@@ -2,76 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FA73394D46
-	for <lists+qemu-devel@lfdr.de>; Sat, 29 May 2021 18:56:14 +0200 (CEST)
-Received: from localhost ([::1]:40364 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D345394D9C
+	for <lists+qemu-devel@lfdr.de>; Sat, 29 May 2021 20:11:32 +0200 (CEST)
+Received: from localhost ([::1]:52890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ln2Fx-0001Kx-2X
-	for lists+qemu-devel@lfdr.de; Sat, 29 May 2021 12:56:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47332)
+	id 1ln3Qp-000853-0c
+	for lists+qemu-devel@lfdr.de; Sat, 29 May 2021 14:11:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60214)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ln2Ee-00005k-UW
- for qemu-devel@nongnu.org; Sat, 29 May 2021 12:54:53 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:45015)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ln2Eb-0004kz-Ta
- for qemu-devel@nongnu.org; Sat, 29 May 2021 12:54:51 -0400
-Received: by mail-wr1-x436.google.com with SMTP id r10so6289514wrj.11
- for <qemu-devel@nongnu.org>; Sat, 29 May 2021 09:54:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=H/j00hEbe6+E9TUrgGoJ4busYCQdPM+IW6semZPtYG4=;
- b=sn+YCOf2BhZB8M9EYzyu/HdkiwbgV6ZGIp9ABRQf+EfCOZsMEGEXRJhH0y+D7Hntfl
- S0mHaf/uOyCbQ1aAU5+eG48u6UWOVcyj0se9aExnrLXRE03Br80dbt6MZZ/0g0lgv98I
- /WCxIFoP++0JPRgfAKq+ZeTXJt06nIdeATXWr+GVoWYoRcmHCz3NxpxzjUtPv0I3sfFb
- V8TvskGMSsyqrADP0Dl2sWYmevuCXsWRi7npVevL1T2Nzhf4UpOmgO906055R2yAi1hS
- ms1/sAcV+IhjeJ4a57FLbTmh4x0HPyfnFfj4ho9IaLOiRL2B6WV44FuidhnTLLT+l0Q8
- tbHg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=H/j00hEbe6+E9TUrgGoJ4busYCQdPM+IW6semZPtYG4=;
- b=IJNPboTtW0nog6/4j+PgyuFoP2VZjuPsA5qGADzgvuLjTJja+a4BJvrdoHk+ZnXqBn
- MlYkHu8sWfhFyhX+Qlgv2THrE82Cpg8bN8wfC/cJmxv/4cG0swTNu0H4A8rPV9TSb/ya
- aDelgEFD4lQHFS0if84lmKnRoQvc7P9GCCXUZOdeKJ9jR8XMzuRM011+YHmOfRJzRZKQ
- VR9xwdnnuKyz/wLFW9QTNwbMFr2058TZ5fRk/wmBeI3E5NP1bgY0jJyjMUzI2QHbUZqC
- v7ZJTs5KTZZfHim53rBySIuuXl19g6rEc8ebVPNjxrDwCDWW2KaIO7dLWMbgrgpBfmPC
- ATzw==
-X-Gm-Message-State: AOAM530juP3XqngFi5eP+q2fNbqvLFDE+3qvCO0JqAywzg9NvcS3rIer
- 4ss5RuZnqsBd5zxsVsQK6yJEoMzaJVC1lQ==
-X-Google-Smtp-Source: ABdhPJztxKmfKDOS6oU8LX+ghLTQOBdrkBDnKaGu19rQPqY/bx6L0iLzgH/tj6e8SZHDi0X+yXOqFw==
-X-Received: by 2002:a5d:5745:: with SMTP id q5mr14447900wrw.56.1622307285906; 
- Sat, 29 May 2021 09:54:45 -0700 (PDT)
-Received: from localhost.localdomain
- (235.red-83-57-168.dynamicip.rima-tde.net. [83.57.168.235])
- by smtp.gmail.com with ESMTPSA id z5sm10956187wrn.69.2021.05.29.09.54.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 29 May 2021 09:54:45 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] target/mips: Raise exception when DINSV opcode used with DSP
- disabled
-Date: Sat, 29 May 2021 18:54:43 +0200
-Message-Id: <20210529165443.1114402-1-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.3
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1ln3Pn-0007A6-SC; Sat, 29 May 2021 14:10:27 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:30786)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1ln3Pk-0001i2-Is; Sat, 29 May 2021 14:10:27 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 9F1BB7457E5;
+ Sat, 29 May 2021 20:10:17 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 7A5387456E3; Sat, 29 May 2021 20:10:17 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 78D657456B4;
+ Sat, 29 May 2021 20:10:17 +0200 (CEST)
+Date: Sat, 29 May 2021 20:10:17 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Alexey Kardashevskiy <aik@ozlabs.ru>
+Subject: Re: [PATCH qemu v20] spapr: Implement Open Firmware client interface
+In-Reply-To: <20210520090557.435689-1-aik@ozlabs.ru>
+Message-ID: <2cc5c18e-b1fb-31d4-e6c-a5a66d62b65@eik.bme.hu>
+References: <20210520090557.435689-1-aik@ozlabs.ru>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x436.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 8%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,52 +54,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Jia Liu <proljc@gmail.com>, Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Per the "MIPS® DSP Module for MIPS64 Architecture" manual, rev. 3.02,
-Table 5.3 "SPECIAL3 Encoding of Function Field for DSP Module":
+On Thu, 20 May 2021, Alexey Kardashevskiy wrote:
+> diff --git a/hw/ppc/spapr_vof.c b/hw/ppc/spapr_vof.c
+> new file mode 100644
+> index 000000000000..5e34d5402abf
+> --- /dev/null
+> +++ b/hw/ppc/spapr_vof.c
+> @@ -0,0 +1,156 @@
+> +/*
+> + * SPAPR machine hooks to Virtual Open Firmware,
+> + *
+> + * SPDX-License-Identifier: GPL-2.0-or-later
+> + */
+> +#include "qemu/osdep.h"
+> +#include "qemu-common.h"
+> +#include <sys/ioctl.h>
+> +#include "qapi/error.h"
+> +#include "hw/ppc/spapr.h"
+> +#include "hw/ppc/spapr_vio.h"
+> +#include "hw/ppc/fdt.h"
+> +#include "sysemu/sysemu.h"
+> +#include "qom/qom-qobject.h"
+> +#include "trace.h"
+> +
+> +/* Copied from SLOF, and 4K is definitely not enough for GRUB */
+> +#define OF_STACK_SIZE       0x8000
 
-  If the Module/ASE is not implemented, executing such an instruction
-  must cause a Reserved Instruction Exception.
+I found a reference explaining its value better than the comment above. 
+Section 8.2.2 here:
 
-The DINSV instruction lists the following exceptions:
-- Reserved Instruction
-- DSP Disabled
+https://www.devicetree.org/open-firmware/bindings/ppc/release/ppc-2_1.html
 
-If the MIPS core doesn't support the DSP module, or the DSP is
-disabled, do not handle the '$rt = $0' case as a no-op but raise
-the proper exception instead.
+says it should be at least 32k. This define should be in vof.h so I don't 
+have to duplicate it in pegasos2.c. Or vof_init could allocate and claim 
+the stack so board code doesn't have to do that either. Maybe taking a 
+pointer argument for preferred stack address as input and could return 
+the aligned address where the stack was allocated or just store stack_base 
+in struct vof where tha board code could get it for adding to r1 on 
+calling the guest code.
 
-Cc: Jia Liu <proljc@gmail.com>
-Fixes: 1cb6686cf92 ("target-mips: Add ASE DSP bit/manipulation instructions")
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- target/mips/tcg/translate.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/target/mips/tcg/translate.c b/target/mips/tcg/translate.c
-index c03a8ae1fed..6ccba34c050 100644
---- a/target/mips/tcg/translate.c
-+++ b/target/mips/tcg/translate.c
-@@ -24373,10 +24373,11 @@ static void decode_opc_special3_legacy(CPUMIPSState *env, DisasContext *ctx)
-         {
-             TCGv t0, t1;
- 
-+            check_dsp(ctx);
-+
-             if (rt == 0) {
-                 break;
-             }
--            check_dsp(ctx);
- 
-             t0 = tcg_temp_new();
-             t1 = tcg_temp_new();
--- 
-2.26.3
-
+Regards,
+BALATON Zoltan
 
