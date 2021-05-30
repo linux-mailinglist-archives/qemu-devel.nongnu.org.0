@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 876DF3952F0
-	for <lists+qemu-devel@lfdr.de>; Sun, 30 May 2021 23:06:54 +0200 (CEST)
-Received: from localhost ([::1]:46464 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 162D63952F1
+	for <lists+qemu-devel@lfdr.de>; Sun, 30 May 2021 23:10:43 +0200 (CEST)
+Received: from localhost ([::1]:49172 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lnSe5-0001S5-3b
-	for lists+qemu-devel@lfdr.de; Sun, 30 May 2021 17:06:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58732)
+	id 1lnShm-0003Rk-6o
+	for lists+qemu-devel@lfdr.de; Sun, 30 May 2021 17:10:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59290)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lnSc4-0000kf-J2
- for qemu-devel@nongnu.org; Sun, 30 May 2021 17:04:48 -0400
-Received: from indium.canonical.com ([91.189.90.7]:34846)
+ id 1lnSgn-0002mv-Ca
+ for qemu-devel@nongnu.org; Sun, 30 May 2021 17:09:41 -0400
+Received: from indium.canonical.com ([91.189.90.7]:34936)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lnSc2-0002qF-L1
- for qemu-devel@nongnu.org; Sun, 30 May 2021 17:04:48 -0400
+ id 1lnSgl-0005wj-Jl
+ for qemu-devel@nongnu.org; Sun, 30 May 2021 17:09:41 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lnSbz-0002SK-J2
- for <qemu-devel@nongnu.org>; Sun, 30 May 2021 21:04:43 +0000
+ id 1lnSgk-0002bP-Bh
+ for <qemu-devel@nongnu.org>; Sun, 30 May 2021 21:09:38 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 7ADF32E8187
- for <qemu-devel@nongnu.org>; Sun, 30 May 2021 21:04:43 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 53EA02E8135
+ for <qemu-devel@nongnu.org>; Sun, 30 May 2021 21:09:38 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 30 May 2021 20:52:29 -0000
+Date: Sun, 30 May 2021 20:58:22 -0000
 From: Apteryx <1414466@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -44,14 +44,14 @@ X-Launchpad-Bug-Commenters: janitor maxco nagaraju-goruganti pconstantine
 X-Launchpad-Bug-Reporter: Sergey V. Lobanov (sergey-e)
 X-Launchpad-Bug-Modifier: Apteryx (maxco)
 References: <20150125172405.12316.8764.malonedeb@soybean.canonical.com>
-Message-Id: <162240794983.1410.6317598500121185730.launchpad@wampee.canonical.com>
+Message-Id: <162240830276.5305.11099957733826832994.malone@soybean.canonical.com>
 Subject: [Bug 1414466] Re: -net user,hostfwd=... is not working
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="925b661396f90467a0d31fdfb13d4990b7239925"; Instance="production"
-X-Launchpad-Hash: 08be0ab469b577325cddf3b3ae544d178fba55eb
+X-Launchpad-Hash: b14fbd54f02436e480abe145e8ff00c0bf7aeff4
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -66
@@ -76,10 +76,57 @@ Reply-To: Bug 1414466 <1414466@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Summary changed:
+Hello, I'm also experiencing such a problem, using qemu-system-x86_64
+(hence the retitling of this issue).  More information and output is
+available at http://issues.guix.gnu.org/48739, but basically with the
+following QEMU command used to run a VM:
 
-- -net user,hostfwd=3D... is not working(qemu-system-aarch64)
-+ -net user,hostfwd=3D... is not working
+/gnu/store/vbjfas8smw260r0qw1d5bbnh5hz08haz-qemu-5.2.0/bin/qemu-system-
+x86_64 -kernel /gnu/store/0fylx9z8lzyrbdivqa2jzn574gk8lcjv-linux-
+libre-5.12.7/bzImage -initrd /gnu/store
+/76ikiyg6arhd40pmq6yyi0vgdszfl08w-system/initrd -append "--
+root=3D/dev/vda1 --system=3D/gnu/store/76ikiyg6arhd40pmq6yyi0vgdszfl08w-
+system --load=3D/gnu/store/76ikiyg6arhd40pmq6yyi0vgdszfl08w-system/boot
+modprobe.blacklist=3Dusbmouse,usbkbd quiet" -enable-kvm -no-reboot -object
+rng-random,filename=3D/dev/urandom,id=3Dguixsd-vm-rng -device virtio-rng-
+pci,rng=3Dguixsd-vm-rng -virtfs
+local,path=3D"/gnu/store",security_model=3Dnone,mount_tag=3D"TAGjoptajej2oy=
+nju6yvboauz7pl6uj"
+-vga std -drive file=3D/gnu/store/gj50g71n2b7xa2s9lgcfijprvr4vj66y-qemu-
+image,if=3Dvirtio,cache=3Dwriteback,werror=3Dreport,readonly -m 512 -nic
+user,hostfwd=3Dtcp::3333-:22
+
+Trying to connect to the VM which has its sshd_config set to:
+Port 22
+PermitRootLogin yes
+PermitEmptyPasswords yes
+PasswordAuthentication yes
+PubkeyAuthentication yes
+X11Forwarding no
+AllowAgentForwarding yes
+AllowTcpForwarding yes
+GatewayPorts no
+PidFile /var/run/sshd.pi
+ChallengeResponseAuthentication no
+UsePAM yes
+PrintLastLog yes
+LogLevel DEBUG
+AuthorizedKeysFile .ssh/authorized_keys .ssh/authorized_keys2 /etc/ssh/auth=
+orized_keys.d/%u
+Subsytsem    sftp    internal-sftp
+
+The SSH client would hang with its last debug output being:
+
+debug1: Local version string SSH-2.0-OpenSSH_8.6
+
+Inside the guest, /var/log/secure doesn't show any activity so itd
+oesn't seem to be reached.
+
+Ideas?
+
+
+** Changed in: qemu
+       Status: Expired =3D> Confirmed
 
 -- =
 
