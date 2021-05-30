@@ -2,71 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0377F3952C7
-	for <lists+qemu-devel@lfdr.de>; Sun, 30 May 2021 21:49:39 +0200 (CEST)
-Received: from localhost ([::1]:43318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 876DF3952F0
+	for <lists+qemu-devel@lfdr.de>; Sun, 30 May 2021 23:06:54 +0200 (CEST)
+Received: from localhost ([::1]:46464 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lnRRK-0000pK-Ip
-	for lists+qemu-devel@lfdr.de; Sun, 30 May 2021 15:49:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48196)
+	id 1lnSe5-0001S5-3b
+	for lists+qemu-devel@lfdr.de; Sun, 30 May 2021 17:06:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58732)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <brad@comstyle.com>) id 1lnRN6-0005Eh-DL
- for qemu-devel@nongnu.org; Sun, 30 May 2021 15:45:16 -0400
-Received: from speedy.comstyle.com ([2607:f938:3000:8::2]:10059
- helo=mail.comstyle.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_CHACHA20_POLY1305:256)
- (Exim 4.90_1) (envelope-from <brad@comstyle.com>) id 1lnRN0-0003d6-Fy
- for qemu-devel@nongnu.org; Sun, 30 May 2021 15:45:16 -0400
-Received: from mail.comstyle.com (localhost [127.0.0.1])
- by mail.comstyle.com (Postfix) with ESMTP id 4FtTQz5T66z8PbN;
- Sun, 30 May 2021 15:44:59 -0400 (EDT)
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=comstyle.com; h=message-id
- :date:mime-version:subject:from:to:cc:references:in-reply-to
- :content-type:content-transfer-encoding; s=default; bh=bi93xAtHH
- lcKTWHiC+PmmHJBtjI=; b=OTpajLysDnEOE7auz/05BVwkt9YzLa6rOfmi4pktE
- Ot9Zc/Hkp1wMKh9SKQ5hiX9JURZIDRkLuYVkJ86qgsYk5DYJ1u9IiAQBnuKiqpNR
- jiwh4hmc0DaZ2piOkQiZKAYcC7jfQhOZwuVKrW3EObH/tDYyoi18/9Xd6H0TRtG6
- bg=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=comstyle.com; h=message-id
- :date:mime-version:subject:from:to:cc:references:in-reply-to
- :content-type:content-transfer-encoding; q=dns; s=default; b=kEy
- W9KS/R4W18mhMaYOjP0/Qzz6ddIJOJ5sTyWUIeAYC4OE2VsL+Pl/evb+DA4ayXED
- IrjnrCofIbUK6rM3RJJrePbcWGaggoKt78DE7xePaDVnluUBSVFHrRENsM5K1Rlv
- sB4m8xVArsDWqzDeiooc7UKwjRAp0VnZuq4rWY0Q=
-Received: from [192.168.6.30]
- (bras-base-toroon2719w-grc-50-142-114-10-211.dsl.bell.ca [142.114.10.211])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: brad)
- by mail.comstyle.com (Postfix) with ESMTPSA id 4FtTQz4cmVz8PbK;
- Sun, 30 May 2021 15:44:59 -0400 (EDT)
-Message-ID: <74fd36f2-6638-6f43-f1d1-63cd41670e62@comstyle.com>
-Date: Sun, 30 May 2021 15:44:59 -0400
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lnSc4-0000kf-J2
+ for qemu-devel@nongnu.org; Sun, 30 May 2021 17:04:48 -0400
+Received: from indium.canonical.com ([91.189.90.7]:34846)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lnSc2-0002qF-L1
+ for qemu-devel@nongnu.org; Sun, 30 May 2021 17:04:48 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
+ id 1lnSbz-0002SK-J2
+ for <qemu-devel@nongnu.org>; Sun, 30 May 2021 21:04:43 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 7ADF32E8187
+ for <qemu-devel@nongnu.org>; Sun, 30 May 2021 21:04:43 +0000 (UTC)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:89.0) Gecko/20100101
- Thunderbird/89.0
-Subject: Re: [PATCH] oslib-posix: Remove OpenBSD workaround for
- fcntl("/dev/null", F_SETFL, O_NONBLOCK) failure
-Content-Language: en-US
-From: Brad Smith <brad@comstyle.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Sun, 30 May 2021 20:52:29 -0000
+From: Apteryx <1414466@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-References: <YGYECGXQhdamEJgC@humpty.home.comstyle.com>
-In-Reply-To: <YGYECGXQhdamEJgC@humpty.home.comstyle.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f938:3000:8::2;
- envelope-from=brad@comstyle.com; helo=mail.comstyle.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
-X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.618,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: hostfwd qemu trusty ubuntu xenial
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: janitor maxco nagaraju-goruganti pconstantine
+ piotr.orzechowski sergey-e srinirap88 th-huth
+X-Launchpad-Bug-Reporter: Sergey V. Lobanov (sergey-e)
+X-Launchpad-Bug-Modifier: Apteryx (maxco)
+References: <20150125172405.12316.8764.malonedeb@soybean.canonical.com>
+Message-Id: <162240794983.1410.6317598500121185730.launchpad@wampee.canonical.com>
+Subject: [Bug 1414466] Re: -net user,hostfwd=... is not working
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="925b661396f90467a0d31fdfb13d4990b7239925"; Instance="production"
+X-Launchpad-Hash: 08be0ab469b577325cddf3b3ae544d178fba55eb
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -66
+X-Spam_score: -6.7
+X-Spam_bar: ------
+X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -75,41 +72,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Bug 1414466 <1414466@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-ping.
+** Summary changed:
 
-On 4/1/2021 1:34 PM, Brad Smith wrote:
-> OpenBSD prior to 6.3 required a workaround to utilize fcntl(F_SETFL) on memory
-> devices.
->
-> Since modern verions of OpenBSD that are only officialy supported and buildable
-> on do not have this issue I am garbage collecting this workaround.
->
->
-> Signed-off-by: Brad Smith <brad@comstyle.com>
->
-> diff --git a/util/oslib-posix.c b/util/oslib-posix.c
-> index 36820fec16..7b4bec1402 100644
-> --- a/util/oslib-posix.c
-> +++ b/util/oslib-posix.c
-> @@ -273,17 +273,6 @@ int qemu_try_set_nonblock(int fd)
->           return -errno;
->       }
->       if (fcntl(fd, F_SETFL, f | O_NONBLOCK) == -1) {
-> -#ifdef __OpenBSD__
-> -        /*
-> -         * Previous to OpenBSD 6.3, fcntl(F_SETFL) is not permitted on
-> -         * memory devices and sets errno to ENODEV.
-> -         * It's OK if we fail to set O_NONBLOCK on devices like /dev/null,
-> -         * because they will never block anyway.
-> -         */
-> -        if (errno == ENODEV) {
-> -            return 0;
-> -        }
-> -#endif
->           return -errno;
->       }
->       return 0;
+- -net user,hostfwd=3D... is not working(qemu-system-aarch64)
++ -net user,hostfwd=3D... is not working
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1414466
+
+Title:
+  -net user,hostfwd=3D... is not working
+
+Status in QEMU:
+  Confirmed
+
+Bug description:
+  QEMU version: git a46b3aaf6bb038d4f6f192a84df204f10929e75c
+
+   /opt/qemu.git/bin/qemu-system-aarch64 --version
+  QEMU emulator version 2.2.50, Copyright (c) 2003-2008 Fabrice Bellard
+
+  Hosts:
+  ovs - host machine (Ubuntu 14.04.1, x86_64)
+  debian8-arm64 - guest =
+
+
+  Guest start:
+  user@ovs:~$ /opt/qemu.git/bin/qemu-system-aarch64 -machine virt -cpu cort=
+ex-a57 -nographic -smp 1 -m 512 -kernel vmlinuz-run -initrd initrd-run.img =
+-append "root=3D/dev/sda2 console=3DttyAMA0" -global virtio-blk-device.scsi=
+=3Doff -device virtio-scsi-device,id=3Dscsi -drive file=3Ddebian8-arm64.img=
+,id=3Drootimg,cache=3Dunsafe,if=3Dnone -device scsi-hd,drive=3Drootimg -net=
+dev user,id=3Dunet -device virtio-net-device,netdev=3Dunet -net user,hostfw=
+d=3Dtcp:127.0.0.1:1122-:22
+
+  root@debian8-arm64:~# netstat -ntplu | grep ssh
+  tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTE=
+N      410/sshd        =
+
+  tcp6       0      0 :::22                   :::*                    LISTE=
+N      410/sshd       =
+
+
+  (no firewall in guest vm)
+
+  user@ovs:~$ netstat -ntplu | grep 1122
+  tcp        0      0 127.0.0.1:1122          0.0.0.0:*               LISTE=
+N      18722/qemu-system-a
+
+  user@ovs:~$ time ssh user@127.0.0.1 -p 1122
+  ssh_exchange_identification: read: Connection reset by peer
+
+  real	1m29.341s
+  user	0m0.005s
+  sys	0m0.000s
+
+  Inside guest vm sshd works fine:
+  root@debian8-arm64:~# ssh user@127.0.0.1 -p 22
+  user@127.0.0.1's password: =
+
+  ....
+  user@debian8-arm64:~$ exit
+  logout
+  Connection to 127.0.0.1 closed.
+
+  root@debian8-arm64:~# ssh user@10.0.2.15 -p 22
+  user@10.0.2.15's password: =
+
+  ...
+  user@debian8-arm64:~$ exit
+  logout
+  Connection to 10.0.2.15 closed.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1414466/+subscriptions
 
