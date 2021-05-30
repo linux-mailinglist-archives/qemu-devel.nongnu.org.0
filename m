@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 162D63952F1
-	for <lists+qemu-devel@lfdr.de>; Sun, 30 May 2021 23:10:43 +0200 (CEST)
-Received: from localhost ([::1]:49172 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 084C9395307
+	for <lists+qemu-devel@lfdr.de>; Sun, 30 May 2021 23:26:09 +0200 (CEST)
+Received: from localhost ([::1]:54692 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lnShm-0003Rk-6o
-	for lists+qemu-devel@lfdr.de; Sun, 30 May 2021 17:10:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59290)
+	id 1lnSwh-00086L-KN
+	for lists+qemu-devel@lfdr.de; Sun, 30 May 2021 17:26:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33110)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lnSgn-0002mv-Ca
- for qemu-devel@nongnu.org; Sun, 30 May 2021 17:09:41 -0400
-Received: from indium.canonical.com ([91.189.90.7]:34936)
+ id 1lnSvM-0006px-DE
+ for qemu-devel@nongnu.org; Sun, 30 May 2021 17:24:44 -0400
+Received: from indium.canonical.com ([91.189.90.7]:36708)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lnSgl-0005wj-Jl
- for qemu-devel@nongnu.org; Sun, 30 May 2021 17:09:41 -0400
+ id 1lnSvK-0006MX-CL
+ for qemu-devel@nongnu.org; Sun, 30 May 2021 17:24:44 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lnSgk-0002bP-Bh
- for <qemu-devel@nongnu.org>; Sun, 30 May 2021 21:09:38 +0000
+ id 1lnSvI-00041Y-2m
+ for <qemu-devel@nongnu.org>; Sun, 30 May 2021 21:24:40 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 53EA02E8135
- for <qemu-devel@nongnu.org>; Sun, 30 May 2021 21:09:38 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 0A8372E805B
+ for <qemu-devel@nongnu.org>; Sun, 30 May 2021 21:24:40 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 30 May 2021 20:58:22 -0000
+Date: Sun, 30 May 2021 21:12:10 -0000
 From: Apteryx <1414466@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -44,14 +44,14 @@ X-Launchpad-Bug-Commenters: janitor maxco nagaraju-goruganti pconstantine
 X-Launchpad-Bug-Reporter: Sergey V. Lobanov (sergey-e)
 X-Launchpad-Bug-Modifier: Apteryx (maxco)
 References: <20150125172405.12316.8764.malonedeb@soybean.canonical.com>
-Message-Id: <162240830276.5305.11099957733826832994.malone@soybean.canonical.com>
+Message-Id: <162240913024.29906.7400181678243877227.malone@chaenomeles.canonical.com>
 Subject: [Bug 1414466] Re: -net user,hostfwd=... is not working
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="925b661396f90467a0d31fdfb13d4990b7239925"; Instance="production"
-X-Launchpad-Hash: b14fbd54f02436e480abe145e8ff00c0bf7aeff4
+X-Launchpad-Hash: 1dee7efd757106e564920ab09322a22448dbcb66
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -66
@@ -76,57 +76,23 @@ Reply-To: Bug 1414466 <1414466@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello, I'm also experiencing such a problem, using qemu-system-x86_64
-(hence the retitling of this issue).  More information and output is
-available at http://issues.guix.gnu.org/48739, but basically with the
-following QEMU command used to run a VM:
+Here's what `tcpdump -i lo` reports during attempting the SSH access:
 
-/gnu/store/vbjfas8smw260r0qw1d5bbnh5hz08haz-qemu-5.2.0/bin/qemu-system-
-x86_64 -kernel /gnu/store/0fylx9z8lzyrbdivqa2jzn574gk8lcjv-linux-
-libre-5.12.7/bzImage -initrd /gnu/store
-/76ikiyg6arhd40pmq6yyi0vgdszfl08w-system/initrd -append "--
-root=3D/dev/vda1 --system=3D/gnu/store/76ikiyg6arhd40pmq6yyi0vgdszfl08w-
-system --load=3D/gnu/store/76ikiyg6arhd40pmq6yyi0vgdszfl08w-system/boot
-modprobe.blacklist=3Dusbmouse,usbkbd quiet" -enable-kvm -no-reboot -object
-rng-random,filename=3D/dev/urandom,id=3Dguixsd-vm-rng -device virtio-rng-
-pci,rng=3Dguixsd-vm-rng -virtfs
-local,path=3D"/gnu/store",security_model=3Dnone,mount_tag=3D"TAGjoptajej2oy=
-nju6yvboauz7pl6uj"
--vga std -drive file=3D/gnu/store/gj50g71n2b7xa2s9lgcfijprvr4vj66y-qemu-
-image,if=3Dvirtio,cache=3Dwriteback,werror=3Dreport,readonly -m 512 -nic
-user,hostfwd=3Dtcp::3333-:22
-
-Trying to connect to the VM which has its sshd_config set to:
-Port 22
-PermitRootLogin yes
-PermitEmptyPasswords yes
-PasswordAuthentication yes
-PubkeyAuthentication yes
-X11Forwarding no
-AllowAgentForwarding yes
-AllowTcpForwarding yes
-GatewayPorts no
-PidFile /var/run/sshd.pi
-ChallengeResponseAuthentication no
-UsePAM yes
-PrintLastLog yes
-LogLevel DEBUG
-AuthorizedKeysFile .ssh/authorized_keys .ssh/authorized_keys2 /etc/ssh/auth=
-orized_keys.d/%u
-Subsytsem    sftp    internal-sftp
-
-The SSH client would hang with its last debug output being:
-
-debug1: Local version string SSH-2.0-OpenSSH_8.6
-
-Inside the guest, /var/log/secure doesn't show any activity so itd
-oesn't seem to be reached.
-
-Ideas?
-
-
-** Changed in: qemu
-       Status: Expired =3D> Confirmed
+17:09:30.573545 IP localhost.55526 > localhost.3333: Flags [S], seq 1198531=
+632, win 65495, options [mss 65495,sackOK,TS val 1662149852 ecr 0,nop,wscal=
+e 7], length 0
+17:09:30.573569 IP localhost.3333 > localhost.55526: Flags [S.], seq 476868=
+813, ack 1198531633, win 65483, options [mss 65495,sackOK,TS val 1662149852=
+ ecr 1662149852,nop,wscale 7], length 0
+17:09:30.573588 IP localhost.55526 > localhost.3333: Flags [.], ack 1, win =
+512, options [nop,nop,TS val 1662149852 ecr 1662149852], length 0
+17:09:30.574162 IP localhost.55526 > localhost.3333: Flags [P.], seq 1:22, =
+ack 1, win 512, options [nop,nop,TS val 1662149853 ecr 1662149852], length =
+21
+17:09:30.574176 IP localhost.3333 > localhost.55526: Flags [.], ack 22, win=
+ 512, options [nop,nop,TS val 1662149853 ecr 1662149853], length 0
+17:09:35.127136 IP localhost.3333 > localhost.55518: Flags [R.], seq 1, ack=
+ 1, win 512, options [nop,nop,TS val 1662154406 ecr 1662125014], length 0
 
 -- =
 
