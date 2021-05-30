@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3479395153
-	for <lists+qemu-devel@lfdr.de>; Sun, 30 May 2021 16:36:27 +0200 (CEST)
-Received: from localhost ([::1]:49920 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A521E395155
+	for <lists+qemu-devel@lfdr.de>; Sun, 30 May 2021 16:41:14 +0200 (CEST)
+Received: from localhost ([::1]:52108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lnMYE-0004kL-OH
-	for lists+qemu-devel@lfdr.de; Sun, 30 May 2021 10:36:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34474)
+	id 1lnMcr-0006bU-Ok
+	for lists+qemu-devel@lfdr.de; Sun, 30 May 2021 10:41:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35064)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ziqiaokong@gmail.com>)
- id 1lnMX9-00041u-31
- for qemu-devel@nongnu.org; Sun, 30 May 2021 10:35:19 -0400
-Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c]:33554)
+ id 1lnMbS-0005vH-M8
+ for qemu-devel@nongnu.org; Sun, 30 May 2021 10:39:47 -0400
+Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531]:36861)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <ziqiaokong@gmail.com>)
- id 1lnMX3-0005BL-Qw
- for qemu-devel@nongnu.org; Sun, 30 May 2021 10:35:18 -0400
-Received: by mail-pl1-x62c.google.com with SMTP id b7so3945009plg.0
- for <qemu-devel@nongnu.org>; Sun, 30 May 2021 07:35:13 -0700 (PDT)
+ id 1lnMbL-00082K-EE
+ for qemu-devel@nongnu.org; Sun, 30 May 2021 10:39:44 -0400
+Received: by mail-pg1-x531.google.com with SMTP id 27so6404697pgy.3
+ for <qemu-devel@nongnu.org>; Sun, 30 May 2021 07:39:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
  bh=llNQS2DaZCUmIt/daKMLoqPKHmgy55nsTdIo0l4B9PQ=;
- b=P+Zif8P8LTUnyO/QhhC4Cke+bGpkPqoV2MsbQ4CxtE3Ld6tn9hc+RpitUd0Zr2t9vY
- tgPMEheYiA3kEF5q5ay0AosHYlsJH98zn02teVGaQEHLJhtj5gStyElDgpCeGqJOBj9j
- MBzPI7uDIS1yU51DQ8yPpovDPDunEC0BDtfPIVI/b7bZrCuUca90/+xntg0dPUPFBg0Z
- qL04oznkOO4qUeVp0LWJkiW68Tq2+a5y8ChXnYhyphFYxlEFaWHIv7heUODM6Os6Vg0M
- 2tTPcQDoad7q453JzF5zBvlbxpjSa754HO6CFLTsmzjIk5ocJAvBbkzTRn/MF7/23z2W
- 9myg==
+ b=a+nh4HdwbKoXEdh22kHfjuwsI7T6PmuAddwuCsG5eqXE67BuJO/1IkNUfTWEwTQ9M6
+ GI2rGxxiq2TezUyVf3TvyF6TPhGHnrKtSBOcvX1XsUSuxICXnxU7LyFBfb2minfpbUXo
+ Ve4xM4x28pcXaJ458E/9BoPiHCAv3bCCUSKotDQvZNwvFezWbmwkJXzXzb6HktBu5MzX
+ VSL3QKLYHbhvKQ3svy0mdOMdbHOAZ63NHOjlRCRCPY0uMvYZeI9WsjuNiIwu0oUPNrFj
+ q+I/9Y2fa+UNEHObQOE7+LviDPHzDM9Co8YZYPTdSQ56tNAY+MRZuzmQlD4mDbHKJ+qT
+ cJEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
  bh=llNQS2DaZCUmIt/daKMLoqPKHmgy55nsTdIo0l4B9PQ=;
- b=HlwqtIxHF1gXJV3mkH+qYhlxsSJiHt/OnjDgIQx4HnsRokM4luHw8jIV32MLrPmkdK
- q/oyrqF9ML2THEL1LWmgG4y2zL10dWDLFwdQqZzQAdiaZg7aZ4Ch0ldeNbmfkAhc+yiO
- 8tG7/+tr6mOsFNOeG0OPRnCEOjIsMDjUM2Kth6AO5NTME1eDxMtxAFKvfaN9wiCO793W
- uYOK0bS+oiZKk5cUP3Ph0uNDxusL9XdWLA+OpZQpwLgDVVve3/k4lenDyjHRTNLqDYAM
- U/kB7Camv1z+6i4ggqhcXYyx5qbA+5ljAvR3NL02+GU1tyTBc+TTLcUmCkr8djJUZM2c
- UQ2w==
-X-Gm-Message-State: AOAM530Bo72WxHmazZPjqkJFkrFL7JY5GeNc+uSwr4psWTRKqf50+KS8
- 5PjKwWnCMt2FnnEZQxqP1WXYtZX9MW4=
-X-Google-Smtp-Source: ABdhPJwJp2mcUApxGxk4s2YY1qxwL2R3JcQHj+AkNaVP3ITGMSj/t7LBkjF/8IX8z1WHGmW6uEHe+w==
-X-Received: by 2002:a17:90a:d793:: with SMTP id
- z19mr14508514pju.91.1622385311826; 
- Sun, 30 May 2021 07:35:11 -0700 (PDT)
+ b=O3qWWuomIIAkQPnxQXrmTXokFryrn20+XYBm5fwCiSaedxHLV7BBi/hbpQ1AHf8IMe
+ fqRny6Ip/FSUx+LOg1vdG3EZUWaR8V84U4uA/zhsSYWEQNzdNGVJuweeFkTSTaRxdygi
+ 2rZuP70wOgsaSaeXWXMpe1c/axS5buNzgXVlLVOPPBoa85HlfYpa3VOiZCuu7TdiolDr
+ zKDIESApDjTHkZrJtIvU6hCgBKhcL+cc5g+mX9xHR9qYRsr6nsvzFJKoN6AM8eZOA5Nd
+ sCTCMrgsS6gfZvVnnBCzpOZHvh/88pZ1C18WyxBJ5G9cSkFpkALMAA4LPwt7pJLz+XZn
+ ATJA==
+X-Gm-Message-State: AOAM532K7DuCyhZO02idmw7rcIGq6czSypRbGGQ91RJX12+BwjZ02MQF
+ /zgJZu+bKW01Wv765DzkIeus8HqzbHk=
+X-Google-Smtp-Source: ABdhPJyuYhhkzZwIlyWidhRIxwolRPHiTS+mrS7TyBQxfawJjmbdR629SIWCrc71TGUTR0ZcaSJNQQ==
+X-Received: by 2002:aa7:8f3a:0:b029:2e9:c63a:312e with SMTP id
+ y26-20020aa78f3a0000b02902e9c63a312emr3232444pfr.73.1622385576946; 
+ Sun, 30 May 2021 07:39:36 -0700 (PDT)
 Received: from crdev.local ([104.160.18.162])
- by smtp.gmail.com with ESMTPSA id k90sm3800345pjh.13.2021.05.30.07.35.06
+ by smtp.gmail.com with ESMTPSA id p1sm8471800pfp.137.2021.05.30.07.39.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 30 May 2021 07:35:11 -0700 (PDT)
+ Sun, 30 May 2021 07:39:36 -0700 (PDT)
 From: Ziqiao Kong <ziqiaokong@gmail.com>
 To: qemu-devel@nongnu.org
 Subject: [PATCH v6 1/2] target/i386: Trivial code motion and code style fix
-Date: Sun, 30 May 2021 22:33:51 +0800
-Message-Id: <20210530143351.72208-1-ziqiaokong@gmail.com>
+Date: Sun, 30 May 2021 22:38:30 +0800
+Message-Id: <20210530143830.72373-1-ziqiaokong@gmail.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
- envelope-from=ziqiaokong@gmail.com; helo=mail-pl1-x62c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
+ envelope-from=ziqiaokong@gmail.com; helo=mail-pg1-x531.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
