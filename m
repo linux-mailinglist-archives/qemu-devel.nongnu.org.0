@@ -2,83 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52F29394EBD
-	for <lists+qemu-devel@lfdr.de>; Sun, 30 May 2021 02:56:01 +0200 (CEST)
-Received: from localhost ([::1]:46700 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB2C8394EE6
+	for <lists+qemu-devel@lfdr.de>; Sun, 30 May 2021 03:25:32 +0200 (CEST)
+Received: from localhost ([::1]:53590 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ln9kF-00047a-SX
-	for lists+qemu-devel@lfdr.de; Sat, 29 May 2021 20:55:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52424)
+	id 1lnACn-00020e-B0
+	for lists+qemu-devel@lfdr.de; Sat, 29 May 2021 21:25:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53114)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ln9jG-0003Sq-VA
- for qemu-devel@nongnu.org; Sat, 29 May 2021 20:54:58 -0400
-Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629]:38849)
+ (Exim 4.90_1) (envelope-from <shehab.badawy002@gmail.com>)
+ id 1ln9ry-0005VS-F8
+ for qemu-devel@nongnu.org; Sat, 29 May 2021 21:03:58 -0400
+Received: from mail-lj1-x22b.google.com ([2a00:1450:4864:20::22b]:34752)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ln9jE-0004kJ-Me
- for qemu-devel@nongnu.org; Sat, 29 May 2021 20:54:58 -0400
-Received: by mail-pl1-x629.google.com with SMTP id 69so3424099plc.5
- for <qemu-devel@nongnu.org>; Sat, 29 May 2021 17:54:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Z9edqr0+dqpLjAa5fqxIKx6REp8B2DxkfyLWb1l3G9Y=;
- b=hpbL/0zPZep2PA7itwxqF2dNAhLugBZPtTq8gAcQwzgblLL/UYkT33oR1j+NyOic8v
- zgC5S8ammLXvC5GyHG17vz77q96IrX+v/J7QvSSmdwBhVfl3AVsayTNTNZZXKjTtL56w
- s6sxDpUSptg4VUw7T7LCAwaTjM78pAHu/jSVeDpC77+oKWrMtnsq5Tsz0Ze4Lsu5RsZM
- 2pLR9NFHVQmVKidyybuLNjFZd1+IRishOUDdSleGFgrC/8VftD6lusOK9EzpJMhvsHju
- TNVBw7vQrGJy5QmMHnVqUgBZHrvugZmlUWXNAJwOcJRCmlVb8MmEbA52NTHcllDMJcxD
- lUig==
+ (Exim 4.90_1) (envelope-from <shehab.badawy002@gmail.com>)
+ id 1ln9rx-0001xm-1r
+ for qemu-devel@nongnu.org; Sat, 29 May 2021 21:03:58 -0400
+Received: by mail-lj1-x22b.google.com with SMTP id bn21so2824791ljb.1
+ for <qemu-devel@nongnu.org>; Sat, 29 May 2021 18:03:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to;
+ bh=SHLmVBVkVKW94wB188wQ3Zte8trcZgeAioXglsz3iLg=;
+ b=B+Ac8YBOee65Tmd96kheeCQMN1UU5E+OY0f+2k2I+8r4MxWFG6F97cE0agVYkf96Zq
+ NThaklJnJ8k0Rlvfc/CAoG2Fusz9IPtz/TrWjBJESyE++XwcY34pdODXAwrlHdN4wrpG
+ uRrqLY4SuiJg7iM7ezehOI5Orslb31l1iMsouSZ8Z0ez9NLfpGTm2j68DtCumNo49LY+
+ m7yF6Tfpei2j6m5gLJzZz9NqoXaOhv+pVwYEgOmYFg39dORkNXLQLBy95M1YvEmBr84O
+ z+7QSEW/ccw7zOKRYNEF3vGDGtWY3n+0PrukFP1kLIhGQXQAOXImnBG+FklIlqeHnRUv
+ an1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Z9edqr0+dqpLjAa5fqxIKx6REp8B2DxkfyLWb1l3G9Y=;
- b=tVoXp3E5Qm7zdrpVeSuXB1EkpEvxofKr6Y6odixaWpEvgP0sofBKP20mCeugJdmwme
- ykBuI1kU2ddn3JyORz7pd2sZxn342VZSj5iafZKRWcwxQYujtqUeFkdsnysjlm0l7NRQ
- 604+DKj8UkzftRXGvEwVM4gtpgCQZrghcILI950482UXsqgoI0ZKkloZuTi6/HI4UfVF
- LiiVxm2k1jiSwCH2L8A0OCMFy7AyxRzFSO3iTCUfCGdO8eph1sK2E5LoRa6U7E7Jj8HK
- DKjHIY+JUz0mtkPqMQYmVXKRH4jw0A99A12ErtHdZE5z9+LmV2C0W9DYFGWNmzGPK5qt
- GevA==
-X-Gm-Message-State: AOAM531sYPITUnQb/V3/20ptYayCa79bFdSlwuK4wHwNjS77dZExXbOe
- HnOB6QtGaKYLlXx4U1TFM542Pg==
-X-Google-Smtp-Source: ABdhPJxpwcUxwyOol3Xx7nkN5LN8RA5HefyXHLvtT4pwilOFepFIfRItVsamOCcgAUvfPU5jxY1Q1g==
-X-Received: by 2002:a17:90a:b88d:: with SMTP id
- o13mr12103150pjr.207.1622336095031; 
- Sat, 29 May 2021 17:54:55 -0700 (PDT)
-Received: from [192.168.172.34] (50-78-183-178-static.hfc.comcastbusiness.net.
- [50.78.183.178])
- by smtp.gmail.com with ESMTPSA id o10sm7394576pfh.67.2021.05.29.17.54.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 29 May 2021 17:54:54 -0700 (PDT)
-Subject: Re: [PATCH] target/mips: Raise exception when DINSV opcode used with
- DSP disabled
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20210529165443.1114402-1-f4bug@amsat.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <8a297f82-ed18-b974-b7a7-eca8d4a46817@linaro.org>
-Date: Sat, 29 May 2021 17:54:52 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=SHLmVBVkVKW94wB188wQ3Zte8trcZgeAioXglsz3iLg=;
+ b=Qn9dOFaeJNDGIKhyCo1SUHolvXlR5EJRyLcdrx78wF641H1xiGOtvRm0Qode5zMoFd
+ 5VNxMUvfVOPlEZWo0o66lOb38di/5dDR4/1sX4Tz6Hlhut8sNslGyfKVr135soNIxu3F
+ PPWbMZYURBL8X/acNtxKW7FXw0uWBGnLLgDLuD726RnFXMrxlteiTtEGZ4JRvHu8sEJ5
+ a9lAlAelWXWeUUq3nNdQZup09MKwUWceA8ibSLm9NSSowj3nehelUMTmwmCmaFV24uQ1
+ VdXStwmfQ0//Q/CY61O07wxZnwhylBDkvdUGpVrZqGDbFvmoNhaeKQpWX+FayKzYnmiV
+ hS3Q==
+X-Gm-Message-State: AOAM531kNziYeC1mSXxYyCrykREb2yxZB4rDITQFUrvoZVIZSCpR3TRI
+ YtS1eNR9rxRiYmGraKwhr81nGBqhz8bs4k5yNi8yy4pE7vs=
+X-Google-Smtp-Source: ABdhPJxMNgwrEGbtYXSFhWt8N6/bM9dOmKwGzvYlI8hcsh56Qe0otAspLV1IoHepguZNWITsyzqOi//f/hOAvpzR9LM=
+X-Received: by 2002:a2e:b806:: with SMTP id u6mr821261ljo.249.1622336633977;
+ Sat, 29 May 2021 18:03:53 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210529165443.1114402-1-f4bug@amsat.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x629.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
-X-Spam_action: no action
+From: Shehab Badawy <shehab.badawy002@gmail.com>
+Date: Sun, 30 May 2021 03:03:43 +0200
+Message-ID: <CAHfWo0OByqVADs3Sa36cvBg0stdQ=yo-H=hJKAd5TYVq0-eysw@mail.gmail.com>
+Subject: Google summer program
+To: qemu-devel@nongnu.org
+Content-Type: multipart/alternative; boundary="000000000000c63c6105c381aee8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::22b;
+ envelope-from=shehab.badawy002@gmail.com; helo=mail-lj1-x22b.google.com
+X-Spam_score_int: 59
+X-Spam_score: 5.9
+X-Spam_bar: +++++
+X-Spam_report: (5.9 / 5.0 requ) BAYES_99=4, BAYES_999=0.2, BAYES_99_FREEMAIL=1,
+ BAYES_99_HTML=0.6, DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
+ DKIM_VALID_EF=-0.1, FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_action: reject
+X-Mailman-Approved-At: Sat, 29 May 2021 21:23:58 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,34 +75,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Aurelien Jarno <aurelien@aurel32.net>, Jia Liu <proljc@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/29/21 9:54 AM, Philippe Mathieu-Daudé wrote:
-> Per the "MIPS® DSP Module for MIPS64 Architecture" manual, rev. 3.02,
-> Table 5.3 "SPECIAL3 Encoding of Function Field for DSP Module":
-> 
->    If the Module/ASE is not implemented, executing such an instruction
->    must cause a Reserved Instruction Exception.
-> 
-> The DINSV instruction lists the following exceptions:
-> - Reserved Instruction
-> - DSP Disabled
-> 
-> If the MIPS core doesn't support the DSP module, or the DSP is
-> disabled, do not handle the '$rt = $0' case as a no-op but raise
-> the proper exception instead.
-> 
-> Cc: Jia Liu<proljc@gmail.com>
-> Fixes: 1cb6686cf92 ("target-mips: Add ASE DSP bit/manipulation instructions")
-> Signed-off-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
-> ---
->   target/mips/tcg/translate.c | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
+--000000000000c63c6105c381aee8
+Content-Type: text/plain; charset="UTF-8"
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Hello i just saw the application you are developing from google summer of
+code and i'm curious about it
+what prerequisites that i need to learn so i can contribute in the
+application
+thanks in advance
 
-r~
+--000000000000c63c6105c381aee8
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Hello i just saw the application you are developing from g=
+oogle summer of code and i&#39;m curious=C2=A0about it=C2=A0<br>what prereq=
+uisites=C2=A0that i need to learn so i can contribute in the application=C2=
+=A0<br>thanks in=C2=A0advance</div>
+
+--000000000000c63c6105c381aee8--
 
