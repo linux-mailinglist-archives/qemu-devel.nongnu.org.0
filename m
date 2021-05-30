@@ -2,68 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B0AA394FE8
-	for <lists+qemu-devel@lfdr.de>; Sun, 30 May 2021 08:47:30 +0200 (CEST)
-Received: from localhost ([::1]:45092 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91594394FE9
+	for <lists+qemu-devel@lfdr.de>; Sun, 30 May 2021 08:48:02 +0200 (CEST)
+Received: from localhost ([::1]:46976 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lnFEP-0005d2-D4
-	for lists+qemu-devel@lfdr.de; Sun, 30 May 2021 02:47:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58346)
+	id 1lnFEv-0006to-M2
+	for lists+qemu-devel@lfdr.de; Sun, 30 May 2021 02:48:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58416)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
- id 1lnFBt-0004mV-MJ
- for qemu-devel@nongnu.org; Sun, 30 May 2021 02:44:53 -0400
-Received: from mail-io1-xd35.google.com ([2607:f8b0:4864:20::d35]:45652)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lnFD4-0005Vo-3A
+ for qemu-devel@nongnu.org; Sun, 30 May 2021 02:46:10 -0400
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:38599)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
- id 1lnFBs-0008Vd-0y
- for qemu-devel@nongnu.org; Sun, 30 May 2021 02:44:53 -0400
-Received: by mail-io1-xd35.google.com with SMTP id a8so8655780ioa.12
- for <qemu-devel@nongnu.org>; Sat, 29 May 2021 23:44:49 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lnFD0-0000of-6O
+ for qemu-devel@nongnu.org; Sun, 30 May 2021 02:46:04 -0400
+Received: by mail-wm1-x32d.google.com with SMTP id
+ u4-20020a05600c00c4b02901774b80945cso6884647wmm.3
+ for <qemu-devel@nongnu.org>; Sat, 29 May 2021 23:46:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=mgwShcemOtX0BVy1q/tyuiadVzWUjcA0MZ7ig1eIS5A=;
- b=SONH6tJ/fiEla5CRRc4grMQ2Qf1af+AvrtCfl2gIQHddLo2IiCM75syQI+qmlCKEOP
- +OWE71pYwhyh7SmyFQqwiHBSl1/ugI5FkUGd2aDGJORb1K/CNxlXnvzx+2xyeQzzgFyC
- xHwOnxpBcaV6m5M9A2CqeaBOGiazg5WktB/KBh/peS+UAR9zJCdgUN5R0gSKYb2JxnV7
- 6xNarNKqbnwDt7V0PSxsnDDud7lXWSq0sYWeiV7m7BZA4neyNI6FYXWM1zKhm5CkwPQ8
- +PUCNXdZQDtSLpi169FZRQHihCsJqCE/JILCEYzl87AhvVqIMF5k+wQHMTXirBRVwTPI
- 7T/A==
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=l4QMpWsT6X1AOQAIZDjV3/7KkxIUerwtba/gKJce0/8=;
+ b=mur0RYA6wxshPV7EgVm457dqsXdkx/LYkFiYusUF+plA22HgpFRfCkj/Ach6XPmSeQ
+ Qz61x2wpPdrl3XB/jxtmHJqZ28Lmn9X89SzNbrhmc6KuwkRkfHYx0Rjjgnpx8LjMftU7
+ PaWcDnR3slk+419AGSS74djSb50/hi9ODTAzaZ5zSym9xkdw/9pgHQZtGZuehE4MXSNF
+ 5+59/78wtgerqLwvobCZICWWJL1b8QETXgx3KfW+pLNb2UQgOXL7uxKun58R685ceXEd
+ rfNDKkK8pXZfym7wnbwj9c4ggAF9DYOqZ5uliISmfcZBLDAK2CX8TPT1qFUbEPnQmNly
+ hTww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=mgwShcemOtX0BVy1q/tyuiadVzWUjcA0MZ7ig1eIS5A=;
- b=EK913msEwUOczIzAP7mQl8aIlrRfwi++JhgkzmNmcf5aLPQYrXHNhKc4Dgv82qqVYH
- 8mAez0BKtL+UcFhi0hnUlkd18+CgcjiU2w8z339fXowp0k2jAHxx6czcU0L+TIBDYSmf
- hHMd8h4QI/GwS5CQir1MWUfhWwaluVFwHwvyLnbDQTSngXTunxEsgt0NfLNtPJgdyAli
- rOCUpM3E0y2TCHBEET/8LCBgWMF3imBgtKWVK+e/JW4hQKLUnjZqWrON46s1Vo3dksQV
- B7sSKp9Scu6rAoapGDm9XSW+IOLFtsPB7bahqWb3pBBk2/boDzp05LVJFLb2ygQD30Fo
- y3Xg==
-X-Gm-Message-State: AOAM532Vfsq3Dqi+55Bc9yOAVXTq95vg0p5tW3LgGf3HgazhUM3Tzu26
- TpkO99czNXYTHKl1/SPOi5GsXhsuAluvBn9EPW41Y4TJGm2Yng==
-X-Google-Smtp-Source: ABdhPJxMWmKHQvMX7PB2OkVS1M27C+XlNGaDI5iVmFo9+AJJ7ZFrfjFvPl4gbvXPXQDvKiOj9gWzs0AA9iARZdxM13A=
-X-Received: by 2002:a5d:9a0b:: with SMTP id s11mr1278889iol.166.1622357089151; 
- Sat, 29 May 2021 23:44:49 -0700 (PDT)
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=l4QMpWsT6X1AOQAIZDjV3/7KkxIUerwtba/gKJce0/8=;
+ b=r8oWH59YHNlflRqawckN1hlLprEc4dhHxCpvvqrwfb0RGDhq08qTF8PPyKvNhhOcY6
+ Cf0PhZ3FkkNml43AlEly+X2kpaA37Flvy/WjgVMpDiU36CE6cT4/IlnkHBAYjLOmAi2L
+ D5wh//+ekG/Gl6gh9YE4j4JL7mTDVWen8nDVu39fCtwCsk4N52PWIPVbBxu7HgEUQvzo
+ QlVU9M3Gt6j84ryzZQH3+0MxC7sIIJSGDHrVcntohKuTTdGv0F0HJKYgwU7UTMiVAAe2
+ 3yO7WXNWa75+s/GLiK/E0C1aPQpDgFz5lmpMY8FDAPArzeFxV2pGq7sUfYxTDQUjl0wC
+ 9zNQ==
+X-Gm-Message-State: AOAM532YrEOSPNy7N9nzWEZdx2b26UB1pEh8pwmhCIjHr5EWq7pJ5o7f
+ yuGCzr0r7rXNmAxSwz3kyMM=
+X-Google-Smtp-Source: ABdhPJy2jM3djvDMzhnb54+tEzzL9XFRmxZkMTEmk3ektSOdNo4oI2U+bG3K2vAtpP8E0tFcWvoySQ==
+X-Received: by 2002:a1c:5418:: with SMTP id i24mr4935268wmb.1.1622357160686;
+ Sat, 29 May 2021 23:46:00 -0700 (PDT)
+Received: from [192.168.1.36] (235.red-83-57-168.dynamicip.rima-tde.net.
+ [83.57.168.235])
+ by smtp.gmail.com with ESMTPSA id q20sm22198921wmq.2.2021.05.29.23.45.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 29 May 2021 23:46:00 -0700 (PDT)
+Subject: Re: [PATCH] target/mips: Fix DBALIGN DSP-R2 opcode 'byte position'
+ field size
+To: qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>
+References: <20210529130520.1039274-1-f4bug@amsat.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <f6bea3af-c75f-c90a-056d-54f9c2c7c5ea@amsat.org>
+Date: Sun, 30 May 2021 08:45:59 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-References: <20210530063712.6832-1-ma.mandourr@gmail.com>
-In-Reply-To: <20210530063712.6832-1-ma.mandourr@gmail.com>
-From: Mahmoud Mandour <ma.mandourr@gmail.com>
-Date: Sun, 30 May 2021 08:44:38 +0200
-Message-ID: <CAD-LL6g_01fm+WuAgRCsaO0hxowgfDYGgUN1OY1ix9QJbTgALA@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 0/3] Cache modelling TCG plugin
-To: qemu-devel@nongnu.org
-Content-Type: multipart/alternative; boundary="000000000000ff721a05c386716d"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d35;
- envelope-from=ma.mandourr@gmail.com; helo=mail-io1-xd35.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210529130520.1039274-1-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32d.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,93 +90,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Emilio G. Cota" <cota@braap.org>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Jia Liu <proljc@gmail.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000ff721a05c386716d
-Content-Type: text/plain; charset="UTF-8"
+On 5/29/21 3:05 PM, Philippe Mathieu-Daudé wrote:
+> Per the "MIPS® DSP Module for MIPS64 Architecture" manual (rev 3.02),
+> Figure 5.12 "SPECIAL3 Encoding of APPEND/DAPPEND Instruction Sub-class"
+> the byte position field ('bp') is 2 bits, not 3.
+> 
+> Cc: Jia Liu <proljc@gmail.com>
+> Fixes: 26690560240 ("target-mips: Add ASE DSP compare-pick instructions")
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+>  target/mips/tcg/translate.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/target/mips/tcg/translate.c b/target/mips/tcg/translate.c
+> index c03a8ae1fed..e68647ce14c 100644
+> --- a/target/mips/tcg/translate.c
+> +++ b/target/mips/tcg/translate.c
+> @@ -23016,8 +23016,8 @@ static void gen_mipsdsp_append(CPUMIPSState *env, DisasContext *ctx,
+>              }
+>              break;
+>          case OPC_DBALIGN:
+> -            sa &= 7;
+> -            if (sa != 0 && sa != 2 && sa != 4) {
+> +            sa &= 3;
+> +            if (sa != 0 && sa != 2) {
+>                  tcg_gen_shli_tl(cpu_gpr[rt], cpu_gpr[rt], 8 * sa);
+>                  tcg_gen_shri_tl(t0, t0, 8 * (8 - sa));
+>                  tcg_gen_or_tl(cpu_gpr[rt], cpu_gpr[rt], t0);
+> 
 
-On Sun, May 30, 2021 at 8:37 AM Mahmoud Mandour <ma.mandourr@gmail.com>
-wrote:
+Looking at GCC, there is a patch adding this opcode:
+https://gcc.gnu.org/legacy-ml/gcc-patches/2012-02/msg00127.html
+which uses 2 bits:
 
-> In this RFC patch series, I propose an initial cache modelling TCG
-> plugin. As of now, it models separate L1 data cache and L1 instruction
-> cache. It supports three eviction policies: LRU, random, and FIFO. Once
-> a policy is chosen, it's used for both instruction and data caches.
->
-> v1 -> v2: Unlocked dmtx on early return in vcpu_mem_access & removed a
->           (probably?) bad InsnData free.
->           This is probably still problematic since it does not free the
->           ``idata`` allocated for the vcpu_mem_access callback even
->           once, but if it's placed, it would double-free it.
->           How do I mitigate this? I need to free the InsnData passed to
->           vcpu_mem_access only once if we find out that it's an IO
->           access since we do not need it anymore and it will early
->           return every time.
->
-> Mahmoud Mandour (3):
->   plugins: Added a new cache modelling plugin
->   plugins: cache: Enabled parameterization and added trace printing
->   plugins: cache: Added FIFO and LRU eviction policies.
->
->  contrib/plugins/Makefile |   1 +
->  contrib/plugins/cache.c  | 595 +++++++++++++++++++++++++++++++++++++++
->  2 files changed, 596 insertions(+)
->  create mode 100644 contrib/plugins/cache.c
->
-> --
-> 2.25.1
->
->
++(define_insn "mips_dbalign"
++  [(set (match_operand:DI 0 "register_operand" "=d")
++	(unspec:DI [(match_operand:DI 1 "register_operand" "0")
++		    (match_operand:DI 2 "reg_or_0_operand" "dJ")
++		    (match_operand:DI 3 "const_int_operand" "n")]
++		   UNSPEC_DBALIGN))]
++  "ISA_HAS_DSPR2"
++{
++  if (INTVAL (operands[3]) & ~(unsigned HOST_WIDE_INT) 3)
++    operands[2] = GEN_INT (INTVAL (operands[2]) & 3);
++  return "dbalign\t%0,%z2,%3";
++}
++  [(set_attr "type"	"arith")
++   (set_attr "mode"	"DI")])
 
---000000000000ff721a05c386716d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+However looking at the releases/gcc-11.1.0 tag it seems GCC never
+supported DBALIGN...:
 
-<div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">On Sun, May 30, 2021 at 8:37 AM Mahmoud Mandour &lt;<a=
- href=3D"mailto:ma.mandourr@gmail.com">ma.mandourr@gmail.com</a>&gt; wrote:=
-<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8=
-ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">In this RFC pat=
-ch series, I propose an initial cache modelling TCG<br>
-plugin. As of now, it models separate L1 data cache and L1 instruction<br>
-cache. It supports three eviction policies: LRU, random, and FIFO. Once<br>
-a policy is chosen, it&#39;s used for both instruction and data caches.<br>
-<br>
-v1 -&gt; v2: Unlocked dmtx on early return in vcpu_mem_access &amp; removed=
- a<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (probably?) bad InsnData free.<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 This is probably still problematic since=
- it does not free the<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ``idata`` allocated for the vcpu_mem_acc=
-ess callback even<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 once, but if it&#39;s placed, it would d=
-ouble-free it.<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 How do I mitigate this? I need to free t=
-he InsnData passed to<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 vcpu_mem_access only once if we find out=
- that it&#39;s an IO<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 access since we do not need it anymore a=
-nd it will early<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return every time.<br>
-<br>
-Mahmoud Mandour (3):<br>
-=C2=A0 plugins: Added a new cache modelling plugin<br>
-=C2=A0 plugins: cache: Enabled parameterization and added trace printing<br=
->
-=C2=A0 plugins: cache: Added FIFO and LRU eviction policies.<br>
-<br>
-=C2=A0contrib/plugins/Makefile |=C2=A0 =C2=A01 +<br>
-=C2=A0contrib/plugins/cache.c=C2=A0 | 595 +++++++++++++++++++++++++++++++++=
-++++++<br>
-=C2=A02 files changed, 596 insertions(+)<br>
-=C2=A0create mode 100644 contrib/plugins/cache.c<br>
-<br>
--- <br>
-2.25.1<br>
-<br>
-</blockquote></div>
-
---000000000000ff721a05c386716d--
+https://gcc.gnu.org/git/?p=gcc.git;a=blob;f=gcc/config/mips/mips-dspr2.md;h=95ba712f6a12946100cd4fe98d05732e70de8f98;hb=50bc9185c2821350f0b785d6e23a6e9dcde58466
 
