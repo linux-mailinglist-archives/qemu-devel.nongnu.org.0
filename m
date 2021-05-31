@@ -2,80 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1FBE3959B6
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 May 2021 13:25:24 +0200 (CEST)
-Received: from localhost ([::1]:50470 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 009053959D2
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 May 2021 13:41:07 +0200 (CEST)
+Received: from localhost ([::1]:53476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lng2t-0005aa-JW
-	for lists+qemu-devel@lfdr.de; Mon, 31 May 2021 07:25:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56198)
+	id 1lngI5-0008N6-HD
+	for lists+qemu-devel@lfdr.de; Mon, 31 May 2021 07:41:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58520)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lng1V-0004di-7R; Mon, 31 May 2021 07:23:57 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:43972)
+ id 1lngFr-0007SG-Tf; Mon, 31 May 2021 07:38:49 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:37569)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lng1T-0005jw-3H; Mon, 31 May 2021 07:23:56 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id
- n5-20020a1c72050000b0290192e1f9a7e1so6377475wmc.2; 
- Mon, 31 May 2021 04:23:53 -0700 (PDT)
+ id 1lngFm-0006U7-Em; Mon, 31 May 2021 07:38:46 -0400
+Received: by mail-wr1-x435.google.com with SMTP id q5so10595305wrs.4;
+ Mon, 31 May 2021 04:38:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Dfclu7J7a6l5sSPTCc6fYfSpDr39vkrtne6NGqG5+as=;
- b=NiGahZVlq3IWrGK3DmQ+biUNBLK8SnP3NcWWZ+bApT2JDxQUxslraFLmSryuAGB43s
- zO7ha6yXMCIBc/Xo8swavA4lcMzjSXFKPtgZqTDuUwqTKlnAI3iuIzFHx80Z8Vny81DM
- McXI7xQIZN1/7VS0nveX7aqLFBcyiOOWoYo4bNs6sei+ySdIBUyF6cRSZGM4rh/X5nRd
- fWHtFXkDhlF0x0HkuvZ6XR+qfFVTjvXaUvQIXm+4ws2lA5Y0YNdQww449UetGNHV2lPs
- 6EW34M0H8c4cF9jtFzHKKFH8YRVyVet113apwwugntnYjUBx8T+egxxw73FJ168yxVos
- ZaQg==
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=e2UKF779h06D4dCwRlOC/0/ZdIDRpyrTW1OZpW2u0Lw=;
+ b=IAhEk9LSnZ+swfjDxc+GOmbyWS2csPlGLxPVoeq9avlNIaeTAK8ZgBEJhJSD5FxvtW
+ RsO1OTo7zauYudyRaAmQTtj0RH7P6snaj7+s4DRwTHa2dH9nSLdSkoZYkh97FRI5uxjl
+ K03vHGqdwWJ6ixAYGTAm/ibXgCysRD5tSlmTp/n4KkS54u/ggRkmLjx5mvVfKMfppWwy
+ byjAOQ4AAumfKMLiwFxk3OHb2m6qDOeHnNBxYvVxzTKebpiV6Ep9O6krHACnB1IWbele
+ gdA+A+fB+Pe/3NSbo+R2S1utdhg85GrZLwpMDF2OU1tMQ3c5AyxLgKS60Y31hPFKSKw0
+ eSgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Dfclu7J7a6l5sSPTCc6fYfSpDr39vkrtne6NGqG5+as=;
- b=bPGC1v0ZsaymPolnZ0+6HmfktVcEtUJYpM6PuTa2CXjUDxcWMoNGk5TXcO5PYGI0u0
- ff+v0YyYxLqSh4Yg515cwbDC5mrlfNCYNEdkjg2/0uN8ALr3QTC/Xn80h0yRuBaAUeCj
- z3t+724PTwZhPqk55L0cuz5TMULjJXdCaqOCLa8OAKxzTVAzrqeA4Abmo1bcVHsTE0Tk
- mx60Oj+/5NFH50tJ2A0KbbJn/1M/fhU08BvLZA/s6NwY5H4Suw46ieUIJUJoSv4JjBAV
- 0TPHT7CKpWdmcKDrqYtHRzrJPlr+ksgZt8aosHSr3b1m1qkiZGhRGiUMrcH0jOkJpQWo
- tREQ==
-X-Gm-Message-State: AOAM530yLqHFaO12eTYD6jixtvBQ4CbhlrEJFEo6KDBUBh01gS013AMF
- 0l/fGeiVAs3WfdbbllPUN14=
-X-Google-Smtp-Source: ABdhPJznw3RsbiRTJyrwbVMgojQlUCGTlKCqrKdkGlFHl4xdL0qemDClvZx8sbtJTqmMnyHUMvKMQQ==
-X-Received: by 2002:a05:600c:4282:: with SMTP id
- v2mr3675380wmc.18.1622460232326; 
- Mon, 31 May 2021 04:23:52 -0700 (PDT)
-Received: from [192.168.1.36] (235.red-83-57-168.dynamicip.rima-tde.net.
- [83.57.168.235])
- by smtp.gmail.com with ESMTPSA id l3sm15127308wmh.2.2021.05.31.04.23.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 31 May 2021 04:23:51 -0700 (PDT)
-Subject: Re: [PATCH qemu] Add basic power management to raspi.
-To: qemu-devel@nongnu.org, Nolan Leake <nolan@sigbus.net>
-References: <162137039825.30884.2445825798240809194-0@git.sr.ht>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <65187b48-2449-e2b4-2d13-ed9ffb6fe2a8@amsat.org>
-Date: Mon, 31 May 2021 13:23:50 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=e2UKF779h06D4dCwRlOC/0/ZdIDRpyrTW1OZpW2u0Lw=;
+ b=gqY/kDlnBBdE9ZbbcMDdsHA/U199XjpQcg2RG9G2TKb1Xg/OWqar7zHW20JcGSoSoX
+ r9Jshczbwn6qUrIqKts14WlvGBo6ooOL/kv9hMINGciCwI06LyyJHMuAO5I8Uk6MegjL
+ TL7twbD3a0eG9uljCrMawUBdqdE+RgdpeHrmO+cMkZTM01vqbNHpjNuqq+iiQB9u4YZA
+ lcVw5qsYbM3Ydf/KbcWMk7Hw2PqhSelHWplxTKltYS3PgtGpS1gUJvJDr24SkiAB3Ejn
+ uO0cMg1KYFKzt7KWz1my+WSr6EIcQUx7Epsbc03pgWkTK1TuLFQQiIJEpkzzzwEVmbgq
+ XkBg==
+X-Gm-Message-State: AOAM530Ai3FmcMhPd0n33QaPYQF6a0MHx6t5lMfCRypD+z2543l22nXj
+ 6ImMD4txiI3WKN59FJJKpvSt6Gl9P69jzA==
+X-Google-Smtp-Source: ABdhPJw0DnXCR/5gqT+GIZnDrWyP2GiXCvPu6E80sYnJIo0vtf6dZlOBM+S1GLd3x4/FnVWb5J9mlA==
+X-Received: by 2002:a5d:4e0c:: with SMTP id p12mr22266596wrt.268.1622461119436; 
+ Mon, 31 May 2021 04:38:39 -0700 (PDT)
+Received: from localhost.localdomain
+ (235.red-83-57-168.dynamicip.rima-tde.net. [83.57.168.235])
+ by smtp.gmail.com with ESMTPSA id o3sm1567730wrm.78.2021.05.31.04.38.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 31 May 2021 04:38:38 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] tests: Boot and halt a Linux guest on the Raspberry Pi 2
+ machine
+Date: Mon, 31 May 2021 13:38:37 +0200
+Message-Id: <20210531113837.1689775-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.26.3
 MIME-Version: 1.0
-In-Reply-To: <162137039825.30884.2445825798240809194-0@git.sr.ht>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x435.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.591,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,261 +82,125 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- Andrew Baumann <Andrew.Baumann@microsoft.com>
+Cc: Nolan Leake <nolan@sigbus.net>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-arm@nongnu.org,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>, Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Nolan,
+Add a test booting and quickly shutdown a raspi2 machine,
+to test the power management model:
 
-Thanks for your patch!
+   (1/1) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_raspi2_initrd:
+  console: [    0.000000] Booting Linux on physical CPU 0xf00
+  console: [    0.000000] Linux version 4.14.98-v7+ (dom@dom-XPS-13-9370) (gcc version 4.9.3 (crosstool-NG crosstool-ng-1.22.0-88-g8460611)) #1200 SMP Tue Feb 12 20:27:48 GMT 2019
+  console: [    0.000000] CPU: ARMv7 Processor [410fc075] revision 5 (ARMv7), cr=10c5387d
+  console: [    0.000000] CPU: div instructions available: patching division code
+  console: [    0.000000] CPU: PIPT / VIPT nonaliasing data cache, VIPT aliasing instruction cache
+  console: [    0.000000] OF: fdt: Machine model: Raspberry Pi 2 Model B
+  ...
+  console: Boot successful.
+  console: cat /proc/cpuinfo
+  console: / # cat /proc/cpuinfo
+  ...
+  console: processor      : 3
+  console: model name     : ARMv7 Processor rev 5 (v7l)
+  console: BogoMIPS       : 125.00
+  console: Features       : half thumb fastmult vfp edsp neon vfpv3 tls vfpv4 idiva idivt vfpd32 lpae evtstrm
+  console: CPU implementer        : 0x41
+  console: CPU architecture: 7
+  console: CPU variant    : 0x0
+  console: CPU part       : 0xc07
+  console: CPU revision   : 5
+  console: Hardware       : BCM2835
+  console: Revision       : 0000
+  console: Serial         : 0000000000000000
+  console: cat /proc/iomem
+  console: / # cat /proc/iomem
+  console: 00000000-3bffffff : System RAM
+  console: 00008000-00afffff : Kernel code
+  console: 00c00000-00d468ef : Kernel data
+  console: 3f006000-3f006fff : dwc_otg
+  console: 3f007000-3f007eff : /soc/dma@7e007000
+  console: 3f00b880-3f00b8bf : /soc/mailbox@7e00b880
+  console: 3f100000-3f100027 : /soc/watchdog@7e100000
+  console: 3f101000-3f102fff : /soc/cprman@7e101000
+  console: 3f200000-3f2000b3 : /soc/gpio@7e200000
+  PASS (24.59 s)
+  RESULTS    : PASS 1 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0 | CANCEL 0
+  JOB TIME   : 25.02 s
 
-There is something odd with your email address, which apparently
-became sourcehut@sigbus.net instead of nolan@sigbus.net.
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+Based-on: <162137039825.30884.2445825798240809194-0@git.sr.ht>
+---
+ tests/acceptance/boot_linux_console.py | 43 ++++++++++++++++++++++++++
+ 1 file changed, 43 insertions(+)
 
-On 5/18/21 10:24 PM, ~nolanl wrote:
-> From: Nolan Leake <nolan@sigbus.net>
-> 
-> This is just enough to make reboot and poweroff work.
+diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
+index 276a53f1464..19d328203c7 100644
+--- a/tests/acceptance/boot_linux_console.py
++++ b/tests/acceptance/boot_linux_console.py
+@@ -16,6 +16,7 @@
+ from avocado import skip
+ from avocado import skipUnless
+ from avocado_qemu import Test
++from avocado_qemu import exec_command
+ from avocado_qemu import exec_command_and_wait_for_pattern
+ from avocado_qemu import interrupt_interactive_console_until_pattern
+ from avocado_qemu import wait_for_console_pattern
+@@ -467,6 +468,48 @@ def test_arm_raspi2_uart0(self):
+         """
+         self.do_test_arm_raspi2(0)
+ 
++    def test_arm_raspi2_initrd(self):
++        """
++        :avocado: tags=arch:arm
++        :avocado: tags=machine:raspi2
++        """
++        deb_url = ('http://archive.raspberrypi.org/debian/'
++                   'pool/main/r/raspberrypi-firmware/'
++                   'raspberrypi-kernel_1.20190215-1_armhf.deb')
++        deb_hash = 'cd284220b32128c5084037553db3c482426f3972'
++        deb_path = self.fetch_asset(deb_url, asset_hash=deb_hash)
++        kernel_path = self.extract_from_deb(deb_path, '/boot/kernel7.img')
++        dtb_path = self.extract_from_deb(deb_path, '/boot/bcm2709-rpi-2-b.dtb')
++
++        initrd_url = ('https://github.com/groeck/linux-build-test/raw/'
++                      '2eb0a73b5d5a28df3170c546ddaaa9757e1e0848/rootfs/'
++                      'arm/rootfs-armv7a.cpio.gz')
++        initrd_hash = '604b2e45cdf35045846b8bbfbf2129b1891bdc9c'
++        initrd_path_gz = self.fetch_asset(initrd_url, asset_hash=initrd_hash)
++        initrd_path = os.path.join(self.workdir, 'rootfs.cpio')
++        archive.gzip_uncompress(initrd_path_gz, initrd_path)
++
++        self.vm.set_console()
++        kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE +
++                               'earlycon=pl011,0x3f201000 console=ttyAMA0 '
++                               'panic=-1 noreboot ' +
++                               'dwc_otg.fiq_fsm_enable=0')
++        self.vm.add_args('-kernel', kernel_path,
++                         '-dtb', dtb_path,
++                         '-initrd', initrd_path,
++                         '-append', kernel_command_line,
++                         '-no-reboot')
++        self.vm.launch()
++        self.wait_for_console_pattern('Boot successful.')
++
++        exec_command_and_wait_for_pattern(self, 'cat /proc/cpuinfo',
++                                                'BCM2835')
++        exec_command_and_wait_for_pattern(self, 'cat /proc/iomem',
++                                                '/soc/cprman@7e101000')
++        exec_command(self, 'halt')
++        # Wait for VM to shut down gracefully
++        self.vm.wait()
++
+     def test_arm_exynos4210_initrd(self):
+         """
+         :avocado: tags=arch:arm
+-- 
+2.26.3
 
-Please precise "for Linux kernels", since this doesn't work
-with firmwares (ideally we should implement the FIRMWARE_NOTIFY_REBOOT
-property - which Linux sends - to handle the machine reboot/halt
-via the videocore firmware model).
-
-> Notably, the
-> watchdog timer functionality is not yet implemented.
-> 
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/64
-> Signed-off-by: Nolan Leake <nolan@sigbus.net>
-> ---
->  hw/arm/bcm2835_peripherals.c         |  13 ++-
->  hw/misc/bcm2835_powermgt.c           | 157 +++++++++++++++++++++++++++
->  hw/misc/meson.build                  |   1 +
->  include/hw/arm/bcm2835_peripherals.h |   3 +-
->  include/hw/misc/bcm2835_powermgt.h   |  29 +++++
->  5 files changed, 201 insertions(+), 2 deletions(-)
->  create mode 100644 hw/misc/bcm2835_powermgt.c
->  create mode 100644 include/hw/misc/bcm2835_powermgt.h
-> 
-> diff --git a/hw/arm/bcm2835_peripherals.c b/hw/arm/bcm2835_peripherals.c
-> index dcff13433e..48538c9360 100644
-> --- a/hw/arm/bcm2835_peripherals.c
-> +++ b/hw/arm/bcm2835_peripherals.c
-> @@ -126,6 +126,10 @@ static void bcm2835_peripherals_init(Object *obj)
->  
->      object_property_add_const_link(OBJECT(&s->dwc2), "dma-mr",
->                                     OBJECT(&s->gpu_bus_mr));
-> +
-> +    /* Power Management */
-> +    object_initialize_child(obj, "powermgt", &s->powermgt,
-> +                            TYPE_BCM2835_POWERMGT);
->  }
->  
->  static void bcm2835_peripherals_realize(DeviceState *dev, Error **errp)
-> @@ -364,9 +368,16 @@ static void bcm2835_peripherals_realize(DeviceState *dev, Error **errp)
->          qdev_get_gpio_in_named(DEVICE(&s->ic), BCM2835_IC_GPU_IRQ,
->                                 INTERRUPT_USB));
->  
-> +    /* Power Management */
-> +    if (!sysbus_realize(SYS_BUS_DEVICE(&s->powermgt), errp)) {
-> +        return;
-> +    }
-> +
-> +    memory_region_add_subregion(&s->peri_mr, PM_OFFSET,
-> +                sysbus_mmio_get_region(SYS_BUS_DEVICE(&s->powermgt), 0));
-> +
->      create_unimp(s, &s->txp, "bcm2835-txp", TXP_OFFSET, 0x1000);
->      create_unimp(s, &s->armtmr, "bcm2835-sp804", ARMCTRL_TIMER0_1_OFFSET, 0x40);
-> -    create_unimp(s, &s->powermgt, "bcm2835-powermgt", PM_OFFSET, 0x114);
->      create_unimp(s, &s->i2s, "bcm2835-i2s", I2S_OFFSET, 0x100);
->      create_unimp(s, &s->smi, "bcm2835-smi", SMI_OFFSET, 0x100);
->      create_unimp(s, &s->spi[0], "bcm2835-spi0", SPI0_OFFSET, 0x20);
-> diff --git a/hw/misc/bcm2835_powermgt.c b/hw/misc/bcm2835_powermgt.c
-> new file mode 100644
-> index 0000000000..81107ecc8f
-> --- /dev/null
-> +++ b/hw/misc/bcm2835_powermgt.c
-> @@ -0,0 +1,157 @@
-> +/*
-> + * BCM2835 Power Management emulation
-> + *
-> + * Copyright (C) 2017 Marcin Chojnacki <marcinch7@gmail.com>
-> + * Copyright (C) 2021 Nolan Leake <nolan@sigbus.net>
-> + *
-> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
-> + * See the COPYING file in the top-level directory.
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +#include "qemu/log.h"
-> +#include "qemu/module.h"
-> +#include "hw/misc/bcm2835_powermgt.h"
-> +#include "migration/vmstate.h"
-> +#include "sysemu/runstate.h"
-> +
-> +#define PASSWORD 0x5a000000
-> +#define PASSWORD_MASK 0xff000000
-> +
-> +#define R_RSTC 0x1c
-> +#define V_RSTC_RESET 0x20
-> +#define R_RSTS 0x20
-> +#define V_RSTS_POWEROFF 0x555
-> +#define R_WDOG 0x24
-> +
-> +static uint64_t bcm2835_powermgt_read(void *opaque, hwaddr offset,
-> +                                      unsigned size)
-> +{
-> +    BCM2835PowerMgtState *s = (BCM2835PowerMgtState *)opaque;
-> +    uint32_t res = 0;
-> +
-> +    assert(size == 4);
-
-Instead of this assert, add in bcm2835_powermgt_ops:
-
-  .impl.min_access_size = 4,
-  .impl.max_access_size = 4,
-
-> +
-> +    switch (offset) {
-> +    case R_RSTC:
-> +        res = s->rstc;
-> +        break;
-> +    case R_RSTS:
-> +        res = s->rsts;
-> +        break;
-> +    case R_WDOG:
-> +        res = s->wdog;
-> +        break;
-> +
-> +    default:
-> +        qemu_log_mask(LOG_UNIMP,
-> +                      "bcm2835_powermgt_read: Unknown offset %x\n",
-> +                      (int)offset);
-> +        res = 0;
-> +        break;
-> +    }
-> +
-> +    return res;
-> +}
-> +
-> +static void bcm2835_powermgt_write(void *opaque, hwaddr offset,
-> +                                   uint64_t value, unsigned size)
-> +{
-> +    BCM2835PowerMgtState *s = (BCM2835PowerMgtState *)opaque;
-> +
-> +    assert(size == 4);
-
-(remove this assert too).
-
-> +    if ((value & PASSWORD_MASK) != PASSWORD) {
-> +        qemu_log_mask(LOG_GUEST_ERROR,
-> +                      "bcm2835_powermgt_write: Bad password %x at offset %x\n",
-
-Please prefix hexadecimal formats with 0x,
-
-> +                      (uint32_t)value, (int)offset);
-
-and do not cast.
-
-> +        return;
-> +    }
-> +
-> +    value = value & ~PASSWORD_MASK;
-> +
-> +    switch (offset) {
-> +    case R_RSTC:
-> +        s->rstc = value;
-> +        if (value & V_RSTC_RESET) {
-> +            if ((s->rsts & 0xfff) == V_RSTS_POWEROFF) {
-> +                /* Linux uses partition 63 to indicate halt. */
-
-I'd move this comment with the V_RSTS_POWEROFF definition.
-
-> +                qemu_system_shutdown_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);
-> +            } else {
-> +                qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_RESET);
-> +            }
-> +        }
-
-Shouldn't we log the unsupported bits?
-
-> +        break;
-> +    case R_RSTS:
-> +        s->rsts = value;
-> +        break;
-> +    case R_WDOG:
-> +        s->wdog = value;
-> +        break;
-> +
-> +    default:
-> +        qemu_log_mask(LOG_UNIMP,
-> +                      "bcm2835_powermgt_write: Unknown offset %x\n",
-> +                      (int)offset);
-
-Please do not cast, use the proper format.
-
-> +        break;
-> +    }
-> +}
-> +
-> +static const MemoryRegionOps bcm2835_powermgt_ops = {
-> +    .read = bcm2835_powermgt_read,
-> +    .write = bcm2835_powermgt_write,
-> +    .endianness = DEVICE_NATIVE_ENDIAN,
-> +};
-> +
-> +static const VMStateDescription vmstate_bcm2835_powermgt = {
-> +    .name = TYPE_BCM2835_POWERMGT,
-> +    .version_id = 1,
-> +    .minimum_version_id = 1,
-> +    .fields = (VMStateField[]) {
-> +        VMSTATE_UINT32(rstc, BCM2835PowerMgtState),
-> +        VMSTATE_UINT32(rsts, BCM2835PowerMgtState),
-> +        VMSTATE_UINT32(wdog, BCM2835PowerMgtState),
-> +        VMSTATE_END_OF_LIST()
-> +    }
-> +};
-> +
-> +static void bcm2835_powermgt_init(Object *obj)
-> +{
-> +    BCM2835PowerMgtState *s = BCM2835_POWERMGT(obj);
-> +
-> +    memory_region_init_io(&s->iomem, obj, &bcm2835_powermgt_ops, s,
-> +                          TYPE_BCM2835_POWERMGT, 0x114);
-> +    sysbus_init_mmio(SYS_BUS_DEVICE(s), &s->iomem);
-> +}
-> +
-> +static void bcm2835_powermgt_reset(DeviceState *dev)
-> +{
-> +    BCM2835PowerMgtState *s = BCM2835_POWERMGT(dev);
-> +
-> +    s->rstc = 0x00000102;
-> +    s->rsts = 0x00001000;
-> +    s->wdog = 0x00000000;
-
-Where these bits come from?
-
-> +}
-> +
-> +static void bcm2835_powermgt_class_init(ObjectClass *klass, void *data)
-> +{
-> +    DeviceClass *dc = DEVICE_CLASS(klass);
-> +
-> +    dc->reset = bcm2835_powermgt_reset;
-> +    dc->vmsd = &vmstate_bcm2835_powermgt;
-> +}
-> +
-> +static TypeInfo bcm2835_powermgt_info = {
-> +    .name          = TYPE_BCM2835_POWERMGT,
-> +    .parent        = TYPE_SYS_BUS_DEVICE,
-> +    .instance_size = sizeof(BCM2835PowerMgtState),
-> +    .class_init    = bcm2835_powermgt_class_init,
-> +    .instance_init = bcm2835_powermgt_init,
-> +};
-
-Minor comments, otherwise:
-
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
