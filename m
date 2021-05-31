@@ -2,76 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40562395533
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 May 2021 08:04:10 +0200 (CEST)
-Received: from localhost ([::1]:41538 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 819C6395530
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 May 2021 08:02:08 +0200 (CEST)
+Received: from localhost ([::1]:38066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lnb21-0007yE-CK
-	for lists+qemu-devel@lfdr.de; Mon, 31 May 2021 02:04:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43864)
+	id 1lnb03-0005Si-IW
+	for lists+qemu-devel@lfdr.de; Mon, 31 May 2021 02:02:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43894)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yamamoto@midokura.com>)
- id 1lnaph-0005je-Pg
- for qemu-devel@nongnu.org; Mon, 31 May 2021 01:51:26 -0400
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:38851)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1lnapw-0005vn-Eg
+ for qemu-devel@nongnu.org; Mon, 31 May 2021 01:51:40 -0400
+Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530]:35680)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <yamamoto@midokura.com>)
- id 1lnapf-0003xG-BD
- for qemu-devel@nongnu.org; Mon, 31 May 2021 01:51:25 -0400
-Received: by mail-pj1-x102a.google.com with SMTP id
- m13-20020a17090b068db02901656cc93a75so272018pjz.3
- for <qemu-devel@nongnu.org>; Sun, 30 May 2021 22:51:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=midokura.com; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=YGM0A3xANIWNJBynR8wWOFO7oOccgAc2f90y4T8qD0s=;
- b=lWcbnTCu1XnMF/sAdZu9PEmwL8HywlKELa15k/0rh/ijHGQjFohDZugWqxMnDVSNDX
- zyO19G+NGe/9KuuMyQN40eQMd5TtWWwVTVSYnvRQX6WrfLX6nO3OJ7g3rpRmK6gO7pp3
- BvGdRrEQrwecKf28PW8B1rl/yK7FFLRDMiE5Y=
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1lnapt-00046c-9b
+ for qemu-devel@nongnu.org; Mon, 31 May 2021 01:51:40 -0400
+Received: by mail-pg1-x530.google.com with SMTP id 133so2502640pgf.2
+ for <qemu-devel@nongnu.org>; Sun, 30 May 2021 22:51:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=nmenCGn6hkJyoe9wJa3dJxebrzaHoX1AC+ORo7H78fo=;
+ b=fJugpbbdHrXH4QlzPGF0SaPoWsi22I6/P8vyvRUOy6A2wqqoNev3I+n5bpH0WGLiJN
+ x8Fzo1JBOmd3t7SDnfgZUwMseKf6st+do50qnQeBucp5AcEJBe8op+4aJKsl++aJXEg8
+ Vzd0449LSgQRUI6ByfC8Ou0BrHNq+SF74xdwjh5pRSYZgAlwHQBveqiP0pY9iHIKaJ2o
+ nsTnb1wa2o5pBVO9/gU7dWwe+0GFsvEBbxoRNnNCW6+B2gyjoc44BCaKT8qki+MQPcXF
+ yIfl0uTogimxNdjel1hv0biuBWt5hhyakx+NddBhMxGUMZUL+HT0kjHKXi+OsoKFig48
+ uJFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=YGM0A3xANIWNJBynR8wWOFO7oOccgAc2f90y4T8qD0s=;
- b=bSXsZ0qQByoM81QQ8IMQzXJFYUSnEkvuot4b8GLMUCiPrCpfex1Yykwcizr0+2drK2
- 17EWv6fy5mH1qcvtLpkIzzStQEWEUTM3ZsMQF7steP4YCgextbFMUVWGPy3NPVjksGxO
- RVlda3QISyfYN6G99TCafWKNsciUJQwagEgmCii2XAa2H8Rgk1M/zIHd+WO7ro1E8QfL
- h+nR36XcDnKW47Q7uuiXaFbNQxRc6kVozfSJCZc79K5/m66S8MfR4CU+TYUJkmcXPpGi
- mvIONgwvwkXoODmJTcO1+isXUenzZq/lYWC+ts7gVFGhrzlAYw25DItEtka+NEl2+fGJ
- cKAQ==
-X-Gm-Message-State: AOAM530BkiM6OE+dQVavmwAHyRXwHLLaztRCc5ZzpOUnbTdYyL1Skb8z
- x6keZMF3dqA9VPzWFsaoHRFQgi6pJbPO1Q==
-X-Google-Smtp-Source: ABdhPJyLpSjjwl6iUoESmDC4ZQT5BH1cefRcv1jHgk8e/4nB1my5tnNOju/b6ucDQRSeBzJQhqPvbA==
-X-Received: by 2002:a17:902:9f83:b029:f6:5c3c:db03 with SMTP id
- g3-20020a1709029f83b02900f65c3cdb03mr19260040plq.2.1622440281902; 
- Sun, 30 May 2021 22:51:21 -0700 (PDT)
-Received: from spacetanuki.lan ([202.12.244.32])
- by smtp.gmail.com with ESMTPSA id b10sm4744058pfi.122.2021.05.30.22.51.20
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Sun, 30 May 2021 22:51:21 -0700 (PDT)
-From: YAMAMOTO Takashi <yamamoto@midokura.com>
-To: qemu-devel@nongnu.org
-Cc: YAMAMOTO Takashi <yamamoto@midokura.com>,
- Laurent Vivier <laurent@vivier.eu>
-Subject: [PATCH v2 11/11] linux-user: always assume preserve_argv0 for now
- [!MERGE]
-Date: Mon, 31 May 2021 14:50:18 +0900
-Message-Id: <20210531055019.10149-12-yamamoto@midokura.com>
-X-Mailer: git-send-email 2.21.1 (Apple Git-122.3)
-In-Reply-To: <20210531055019.10149-1-yamamoto@midokura.com>
-References: <20210531055019.10149-1-yamamoto@midokura.com>
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=nmenCGn6hkJyoe9wJa3dJxebrzaHoX1AC+ORo7H78fo=;
+ b=MVLnfklAHaDWYC6CaTHFWGHAmgWS90/V4kt8d3qYkaX3d0kQxLh4uU/YEUpXVpSWDf
+ oRbOaoHt4nhf7K8Yz2S0rectUvYPF0QFAk6ULcgJ2JOPsukxwilrhY9Cz+yDBRJQG8N+
+ W0djdFF03Izp8R+iieAMqatP9bdTIcddMVh9p8zxIIaRHI95rEGabK8JgoHOwk76whbE
+ yCgqJ52nfXX3etUPgJpZg5oktig2m0b4v+6i4+4wEhtR/D56v2lEm45M6lEz9cgOnNH7
+ CzbwanVcxQLkyzne6auzr2Tug1+tgSpUUT56lS/xcyO4qaCGHbcdHEtOdlCDwwlIs8E9
+ gXfA==
+X-Gm-Message-State: AOAM532Y4z5bi1HkvPt/Yc/++/m2aQtg6LAs4Y82rh5pdY7fNx8sKGKc
+ 3Zn3HSyl1zgxFkEIM7eeAwGVAQ==
+X-Google-Smtp-Source: ABdhPJzOVNzPJGNqYL7i6uZ6Xpht9PuMAB9XqEb9mPhw2VZVp73ZBijwvt12diDAQXdobqBz50utyw==
+X-Received: by 2002:a63:e642:: with SMTP id p2mr20601455pgj.316.1622440295174; 
+ Sun, 30 May 2021 22:51:35 -0700 (PDT)
+Received: from anisinha-lenovo.ba.nuagenetworks.net ([203.163.232.60])
+ by smtp.googlemail.com with ESMTPSA id x23sm9968431pje.52.2021.05.30.22.51.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 30 May 2021 22:51:34 -0700 (PDT)
+From: Ani Sinha <ani@anisinha.ca>
+X-Google-Original-From: Ani Sinha <anirban.sinha@nokia.com>
+To: anirban.sinha@nokia.com
+Subject: [PATCH v1] hw/input/ps2: Use ps2_raise_irq() instead of open coding it
+Date: Mon, 31 May 2021 11:21:25 +0530
+Message-Id: <20210531055125.148282-1-anirban.sinha@nokia.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=yamamoto@midokura.com; helo=mail-pj1-x102a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: none client-ip=2607:f8b0:4864:20::530;
+ envelope-from=ani@anisinha.ca; helo=mail-pg1-x530.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,63 +80,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ =?UTF-8?q?Volker=20R=C3=BCmelin?= <vr_qemu@t-online.de>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Bin Meng <bmeng.cn@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Just because the kernel I'm using is not new enough.
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-[!MERGE] because this is specific to my environment and
-would break others.
-
-Signed-off-by: YAMAMOTO Takashi <yamamoto@midokura.com>
+Inspired-by: Volker Rümelin <vr_qemu@t-online.de>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Volker Rümelin <vr_qemu@t-online.de>
+Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+Message-Id: <20210513171244.3940519-1-f4bug@amsat.org>
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- linux-user/main.c | 31 +++++++++++++++++++++++++++++++
- 1 file changed, 31 insertions(+)
+ hw/input/ps2.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/linux-user/main.c b/linux-user/main.c
-index be604a84f9..a3d8b7788f 100644
---- a/linux-user/main.c
-+++ b/linux-user/main.c
-@@ -726,7 +726,38 @@ int main(int argc, char **argv, char **envp)
-     /*
-      * get binfmt_misc flags
-      */
-+#if 0
-     preserve_argv0 = !!(qemu_getauxval(AT_FLAGS) & AT_FLAGS_PRESERVE_ARGV0);
-+#else
-+/*
-+ * my kernel doesn't have the following commit. this is a crude workaroud.
-+
-+commit 2347961b11d4079deace3c81dceed460c08a8fc1
-+Author: Laurent Vivier <laurent@vivier.eu>
-+Date:   Tue Jan 28 14:25:39 2020 +0100
-+
-+    binfmt_misc: pass binfmt_misc flags to the interpreter
-+
-+    It can be useful to the interpreter to know which flags are in use.
-+
-+    For instance, knowing if the preserve-argv[0] is in use would
-+    allow to skip the pathname argument.
-+
-+    This patch uses an unused auxiliary vector, AT_FLAGS, to add a
-+    flag to inform interpreter if the preserve-argv[0] is enabled.
-+
-+    Note by Helge Deller:
-+    The real-world user of this patch is qemu-user, which needs to know
-+    if it has to preserve the argv[0]. See Debian bug #970460.
-+
-+    Signed-off-by: Laurent Vivier <laurent@vivier.eu>
-+    Reviewed-by: YunQiang Su <ysu@wavecomp.com>
-+    URL: http://bugs.debian.org/970460
-+    Signed-off-by: Helge Deller <deller@gmx.de>
-+
-+ */
-+    preserve_argv0 = true;
-+#endif
+diff --git a/hw/input/ps2.c b/hw/input/ps2.c
+index 5cf95b4dd3..8dd482c1f6 100644
+--- a/hw/input/ps2.c
++++ b/hw/input/ps2.c
+@@ -217,7 +217,7 @@ void ps2_queue(PS2State *s, int b)
+     }
  
-     /*
-      * Manage binfmt-misc preserve-arg[0] flag
+     ps2_queue_noirq(s, b);
+-    s->update_irq(s->update_arg, 1);
++    ps2_raise_irq(s);
+ }
+ 
+ void ps2_queue_2(PS2State *s, int b1, int b2)
+@@ -228,7 +228,7 @@ void ps2_queue_2(PS2State *s, int b1, int b2)
+ 
+     ps2_queue_noirq(s, b1);
+     ps2_queue_noirq(s, b2);
+-    s->update_irq(s->update_arg, 1);
++    ps2_raise_irq(s);
+ }
+ 
+ void ps2_queue_3(PS2State *s, int b1, int b2, int b3)
+@@ -240,7 +240,7 @@ void ps2_queue_3(PS2State *s, int b1, int b2, int b3)
+     ps2_queue_noirq(s, b1);
+     ps2_queue_noirq(s, b2);
+     ps2_queue_noirq(s, b3);
+-    s->update_irq(s->update_arg, 1);
++    ps2_raise_irq(s);
+ }
+ 
+ void ps2_queue_4(PS2State *s, int b1, int b2, int b3, int b4)
+@@ -253,7 +253,7 @@ void ps2_queue_4(PS2State *s, int b1, int b2, int b3, int b4)
+     ps2_queue_noirq(s, b2);
+     ps2_queue_noirq(s, b3);
+     ps2_queue_noirq(s, b4);
+-    s->update_irq(s->update_arg, 1);
++    ps2_raise_irq(s);
+ }
+ 
+ /* keycode is the untranslated scancode in the current scancode set. */
 -- 
-2.21.1 (Apple Git-122.3)
+2.25.1
 
 
