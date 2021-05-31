@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5108E395529
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 May 2021 07:55:38 +0200 (CEST)
-Received: from localhost ([::1]:53032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8375039552C
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 May 2021 07:58:40 +0200 (CEST)
+Received: from localhost ([::1]:60420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lnatl-0004yI-B3
-	for lists+qemu-devel@lfdr.de; Mon, 31 May 2021 01:55:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43762)
+	id 1lnawh-0001Wn-J9
+	for lists+qemu-devel@lfdr.de; Mon, 31 May 2021 01:58:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43804)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yamamoto@midokura.com>)
- id 1lnapZ-00059Z-Fe
- for qemu-devel@nongnu.org; Mon, 31 May 2021 01:51:17 -0400
-Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:39688)
+ id 1lnapa-0005E6-LT
+ for qemu-devel@nongnu.org; Mon, 31 May 2021 01:51:18 -0400
+Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:44939)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <yamamoto@midokura.com>)
- id 1lnapX-0003rZ-Ii
- for qemu-devel@nongnu.org; Mon, 31 May 2021 01:51:17 -0400
-Received: by mail-pj1-x1032.google.com with SMTP id
- o17-20020a17090a9f91b029015cef5b3c50so7972147pjp.4
- for <qemu-devel@nongnu.org>; Sun, 30 May 2021 22:51:15 -0700 (PDT)
+ id 1lnapY-0003sN-Tn
+ for qemu-devel@nongnu.org; Mon, 31 May 2021 01:51:18 -0400
+Received: by mail-pg1-x52d.google.com with SMTP id 29so7524022pgu.11
+ for <qemu-devel@nongnu.org>; Sun, 30 May 2021 22:51:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=midokura.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=dlWjyYn6jZhO5w9ByfPHmWQImE5zU40oNP6aZuC/oSw=;
- b=Gv4g6Jh5CSxDG0PgPzkb8TV0/+UHm9el30zb+Ym5l2h4pHIVFGDUmCkUYUOzadtsvv
- 57r7bgSYx/N/W8XiTWpcUapC8Ii6X6rKKyU+Qc5U7o9fb/ignAyfgnGuDj1XdHqHRC6Z
- 7akG834PYSJ1YuNI3yPWSX6KaUswoLYHGOlzU=
+ bh=3+BI+nbaPKoWHm/U4VU/VNR8sz2T1YSSyUR4DMbZdYQ=;
+ b=m9OxVrwiDG928ILBrr0wmVGm3v4IMmdVFZob2B76I7dHw7YIV8pOhG7VU4IxLJ9Vcd
+ w5KOYU9py0tSnWrlz8y0S8/Pe4B1Se+CsGPzJJSbv/Tq3aCTAK37mbgm9AdzMSvK51XC
+ GajBC95x9ik2LlF1hnbKspBNUKOmoO1ZUNuK8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=dlWjyYn6jZhO5w9ByfPHmWQImE5zU40oNP6aZuC/oSw=;
- b=cZDaZ0qmpXCn89ce8MSCZX78Uev9OMKo1szrhauiQIbwXUuQ/oBd5WjhQ2QQSWHOjI
- yZJc3Wnfjgemvi3k6PAM/3LCY7U708uug5Qi4cRO1E3UUMZvmDPIIQxvp9phC9JLXUva
- FhffQk0AAKqWDq3NZ8Ipql1DMuZNCfrRpm1DJ6RYu9MRv6evFGcGgxUeb9wDnh6dXNGd
- tTxBgbzJZhh+9QJQmFG0wiQ65eRRzozm0vCAY9HeWa6pGVF1g4WWhNDEqrfOnyB7kd6U
- qdYtRoUiHlFTAft+/SFZaweaAiwP2NRXhLDVDZhUAO0BH0qH6ICUE5aTq3mh7FHr3Mvn
- TEIg==
-X-Gm-Message-State: AOAM532dqM1TK3lFvL7HGALXUsiK+CpK8xIkUTTEGGTemCbUIRjssC7m
- RFtQoyja1gkH7Ti9l0jv3M7BFFeuzCjgeA==
-X-Google-Smtp-Source: ABdhPJyTors0eOKSYyI8SaR7GIuQM1Kw0Im0e0mrDUHlCUiVrqnt0rzOP+gNXUyQGw8dHL2rWp8nNw==
-X-Received: by 2002:a17:902:e9cb:b029:101:cebc:b8d with SMTP id
- 11-20020a170902e9cbb0290101cebc0b8dmr10973690plk.5.1622440274098; 
- Sun, 30 May 2021 22:51:14 -0700 (PDT)
+ bh=3+BI+nbaPKoWHm/U4VU/VNR8sz2T1YSSyUR4DMbZdYQ=;
+ b=TZzGJIBAtl7gDlz+5DTCDYWwpt0rfhCd/6B/xk+7s8Q/easw8/0jqzGpDG6QLhe+Us
+ kGb961OG4ZLONJfVUnlpwxxHT9SFyni6CbCzBHI7u/qiTKSIpciw41jsOeNy/9rge9CS
+ CVHGcZUgiZLrJyhl1apQSglza+uSMlYtffw09VtjDI5kgz6jaEPOMhJo3axeRhZHVgRm
+ 7gYUK/L6Iczlyx6Q9M4aaMOiGNbC/WvYJIcP+TMmJz6mnxCCheFt9hvRjxK+Ou7GQrPM
+ 0PcP0xvXwy+5GumXSfGAo3M5lJN5wvZK6XcY+GvSCVyfH2DePT8vyIq4LOZBB4JbEaJ0
+ ossA==
+X-Gm-Message-State: AOAM533LDp7VuqhxvpKXii0z6jzK+6fGHQ2FOr7JvArAWk2vBXznFLJ1
+ RVPNXQFNAqY1bBUr0dakyLpdbg4AFEDrhg==
+X-Google-Smtp-Source: ABdhPJy9N13/m6zW7EvfU4PW5SmbcYRrPB/cJPRoNWqy5/9VRgYGqvwB8hWk76DWT90gZEOPG43Uzw==
+X-Received: by 2002:aa7:9a4f:0:b029:2e6:cf9a:f469 with SMTP id
+ x15-20020aa79a4f0000b02902e6cf9af469mr15776116pfj.43.1622440275505; 
+ Sun, 30 May 2021 22:51:15 -0700 (PDT)
 Received: from spacetanuki.lan ([202.12.244.32])
- by smtp.gmail.com with ESMTPSA id b10sm4744058pfi.122.2021.05.30.22.51.12
+ by smtp.gmail.com with ESMTPSA id b10sm4744058pfi.122.2021.05.30.22.51.14
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Sun, 30 May 2021 22:51:13 -0700 (PDT)
+ Sun, 30 May 2021 22:51:15 -0700 (PDT)
 From: YAMAMOTO Takashi <yamamoto@midokura.com>
 To: qemu-devel@nongnu.org
 Cc: YAMAMOTO Takashi <yamamoto@midokura.com>,
  Laurent Vivier <laurent@vivier.eu>
-Subject: [PATCH v2 06/11] linux-user: add get_exe_path
-Date: Mon, 31 May 2021 14:50:13 +0900
-Message-Id: <20210531055019.10149-7-yamamoto@midokura.com>
+Subject: [PATCH v2 07/11] linux-user: simplify is_proc_myself
+Date: Mon, 31 May 2021 14:50:14 +0900
+Message-Id: <20210531055019.10149-8-yamamoto@midokura.com>
 X-Mailer: git-send-email 2.21.1 (Apple Git-122.3)
 In-Reply-To: <20210531055019.10149-1-yamamoto@midokura.com>
 References: <20210531055019.10149-1-yamamoto@midokura.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
- envelope-from=yamamoto@midokura.com; helo=mail-pj1-x1032.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
+ envelope-from=yamamoto@midokura.com; helo=mail-pg1-x52d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,87 +85,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Refactor to prepare the special cases for /proc/$pid/exe where
-pid is not the calling process.
-
 Signed-off-by: YAMAMOTO Takashi <yamamoto@midokura.com>
 ---
- linux-user/syscall.c | 48 ++++++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 46 insertions(+), 2 deletions(-)
+ linux-user/syscall.c | 23 +++--------------------
+ 1 file changed, 3 insertions(+), 20 deletions(-)
 
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 51144c6d29..999760448d 100644
+index 999760448d..86b12cc8b4 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -7986,6 +7986,45 @@ static int open_self_auxv(void *cpu_env, int fd)
-     return 0;
- }
+@@ -8027,26 +8027,9 @@ static int is_proc_file(const char *filename, int *pidp, const char *entry)
  
-+static const char *get_exe_path(int pid, char *buf, size_t bufsize)
-+{
-+    if (pid == getpid()) {
-+        return exec_path;
-+    }
-+
-+    return NULL;
-+}
-+
-+static int is_proc_file(const char *filename, int *pidp, const char *entry)
-+{
-+    if (!strncmp(filename, "/proc/", strlen("/proc/"))) {
-+        int pid;
-+
-+        filename += strlen("/proc/");
-+        if (!strncmp(filename, "self/", strlen("self/"))) {
-+            pid = getpid();
-+            filename += strlen("self/");
-+        } else if (*filename >= '1' && *filename <= '9') {
-+            pid = 0;
-+            while (*filename >= '0' && *filename <= '9') {
-+                pid = pid * 10 + *filename - '0';
-+                filename++;
-+            }
-+            if (*filename != '/') {
-+                return 0;
-+            }
-+            filename++;
-+        } else {
-+            return 0;
-+        }
-+        if (!strcmp(filename, entry)) {
-+            *pidp = pid;
-+            return 1;
-+        }
-+    }
-+    return 0;
-+}
-+
  static int is_proc_myself(const char *filename, const char *entry)
  {
-     if (!strncmp(filename, "/proc/", strlen("/proc/"))) {
-@@ -8492,6 +8531,8 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
-             abi_ulong addr;
-             char **q;
-             int total_size = 0;
-+            int pid;
-+            char path_store[PATH_MAX];
+-    if (!strncmp(filename, "/proc/", strlen("/proc/"))) {
+-        filename += strlen("/proc/");
+-        if (!strncmp(filename, "self/", strlen("self/"))) {
+-            filename += strlen("self/");
+-        } else if (*filename >= '1' && *filename <= '9') {
+-            char myself[80];
+-            snprintf(myself, sizeof(myself), "%d/", getpid());
+-            if (!strncmp(filename, myself, strlen(myself))) {
+-                filename += strlen(myself);
+-            } else {
+-                return 0;
+-            }
+-        } else {
+-            return 0;
+-        }
+-        if (!strcmp(filename, entry)) {
+-            return 1;
+-        }
+-    }
+-    return 0;
++    int pid;
++
++    return is_proc_file(filename, &pid, entry) && pid == getpid();
+ }
  
-             argc = 0;
-             guest_argp = arg2;
-@@ -8552,8 +8593,11 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
-              * program's problem.
-              */
-             path = p;
--            if (is_proc_myself(path, "exe")) {
--                path = exec_path;
-+            if (is_proc_file(path, &pid, "exe")) {
-+                path = get_exe_path(pid, path_store, sizeof(path_store));
-+                if (path == NULL) {
-+                    path = p;
-+                }
-             }
-             ret = get_errno(safe_execve(path, argp, envp));
-             unlock_user(p, arg1, 0);
+ #if defined(HOST_WORDS_BIGENDIAN) != defined(TARGET_WORDS_BIGENDIAN) || \
 -- 
 2.21.1 (Apple Git-122.3)
 
