@@ -2,86 +2,136 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DC9039686B
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 May 2021 21:45:06 +0200 (CEST)
-Received: from localhost ([::1]:41184 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67F1039688B
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 May 2021 21:50:18 +0200 (CEST)
+Received: from localhost ([::1]:49272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lnnqS-0003Iu-OZ
-	for lists+qemu-devel@lfdr.de; Mon, 31 May 2021 15:45:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48494)
+	id 1lnnvT-0000ay-Bj
+	for lists+qemu-devel@lfdr.de; Mon, 31 May 2021 15:50:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49036)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lnnl4-0001VZ-Pk; Mon, 31 May 2021 15:39:30 -0400
-Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:33705)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1lnnpo-000420-0i; Mon, 31 May 2021 15:44:24 -0400
+Received: from mail-eopbgr50098.outbound.protection.outlook.com
+ ([40.107.5.98]:20598 helo=EUR03-VE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lnnl1-0008Kf-Sx; Mon, 31 May 2021 15:39:30 -0400
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.west.internal (Postfix) with ESMTP id C713D1667;
- Mon, 31 May 2021 15:39:23 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute5.internal (MEProxy); Mon, 31 May 2021 15:39:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm3; bh=6iONf2sGcqDtymDn9KFPoCmf4CZ
- HgbpB3QrxV+qM4rM=; b=NQ5K7YmILOcnEvV/nUqM5jRL66evgmkisjI4uPwzJCq
- zPSh/nW2P9eN6kp1EmZJUT/OV0huiaz9Z8FALz9H48DxoWhxgeS7JPvDpuVsSFJO
- 455HopU/rR8ggQIRlqcrHNXXGNVgtCTzTKryf3jcN4/vlezYa85umPJNvTNNJtr9
- PxbfRdyD+rWLePXEFdpHiyZmA3rSxddZe6IuUZDkSnpbmFcNad554V6+vR1lsGcI
- geauKC8v57Q7Vt8BB48QdUUYdSfOLrMPKe8lmJJluxDfXBNRPpN3lELkhglYZfnu
- +cPLnfvUBFwW5TYkuHDWqpR4BA/rIdAsDsHYokrIJUg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=6iONf2
- sGcqDtymDn9KFPoCmf4CZHgbpB3QrxV+qM4rM=; b=WUE4B+jAkvYTOayKXUJ2Wc
- +Yea8q9idi/eTdojHh83IKGYQxcUXnDg1uromeqaVi5CB/JsaLcR1gndK3T2lWYc
- oqASZsuak0HeQmqvWhnsEE7TxuyotT0Td5OhelJn5LKuaQ5YnX5yFErD3JNcbsm+
- NuggwV8HrOLbLWjXUggMjbS5cH6ZLFqITsTztKpzModHtbYmLWwAu/IZXAnX27oQ
- lsUCSnLGyzJRqEd9VE7jMtu9X8tidgs0//Ygbd/iC3kTuMx6IiU06FhLro353Itv
- EGagC4YWlGt+wWz8M3DuMPRpq7DjoYw+iAW9N3PEYkyAiFDfNNr70WxZnbO3Ia2A
- ==
-X-ME-Sender: <xms:aju1YJFt8pyPzRgB7wX6fwMNyrdZjC4Bv1WWldcVS2nqqbad9Xpkpg>
- <xme:aju1YOUIS6nw5ErfpHvNK3JX-494QYJdrObSxVt6ZGJqDW3V0apDErYnTzoBy2Caw
- Zyf_b_aqnLw2i-3_9M>
-X-ME-Received: <xmr:aju1YLLfbD-QXXOs28v4vDeWTN3bYvYzIQkvFcPD4C9cu1rf_kBQlaJH8_sKX6ydxDLwhDF5Uq9_C0fJzg6Otts2hN6LbAdy6n8gwSRSs-Op-wCQPQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdelfedgudegudcutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghu
- shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
- htvghrnhepjeegudffueeiteekieelkedvueelteevjeduieeludfffeejgeffhfduvddu
- ffeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepih
- htshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:aju1YPGWUKsGzOAPPeosAihKxyRB6LIxxFQ0tU_O2oQ3RXmuDjQXuw>
- <xmx:aju1YPWOXLmB5yBUOtf-WrMyVTUk6rXxevcEQ4YZ8jVh5jg_CEqAMA>
- <xmx:aju1YKOYm9VIwa_uoOjaW_CBDLm5NbBLLGiLzZHTUp79jUw5rZjpAg>
- <xmx:azu1YKRPE19VXo7GvoDVqPIvds4zTKwrYJTzou1vBU92CkAO1DqFhA>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 31 May 2021 15:39:21 -0400 (EDT)
-Date: Mon, 31 May 2021 21:39:20 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: Niklas Cassel <Niklas.Cassel@wdc.com>
-Subject: Re: [PATCH] hw/nvme: add param to control auto zone transitioning to
- zone state closed
-Message-ID: <YLU7aJDjk8L8JMIi@apples.localdomain>
-References: <20210528110459.65387-1-Niklas.Cassel@wdc.com>
- <YLDSfrUIPaZxk6VD@apples.localdomain> <YLUD4BggUinxUBGl@x1-carbon>
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1lnnpk-0002nY-9v; Mon, 31 May 2021 15:44:23 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=EkxOyBollBwQzlIa24+0g3ZrcInJCAhLWN6TzHa0ehJ35ZSrdlmZ30Od3psSX6kSBp0aB5l2jI7XKESOhhhFmRUW0E/ZaPeoV7S91QjWDOIseuN/VpGzkRcC2YUgrK3pv6dMPGWMSqZ3DcTxMOtN+LqOTfbklb9MylWDFb/y6oj5NC658WNCtO0/CbFro5NiUitdXtm5Ahoeffu4QNnEkyQltdk9Jt098NmPWtc+vUfOLcU8w4OdXWOSe35N0ihZGTY8zo5rDB1dnQ06OQQxY91ylZ5PFp5z6aUxLv+adOCB8BlSWFye5Xhmg+VLYr3idmtAjOdUJL0vMApDKoOKNg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Ux8QunrglzdPWj1f4YIO17/3wmxTSOXZwbe45K6ISJg=;
+ b=dSTrKSmAlYhtA6yJH95f0ivaGbO/PGKRBijBNy+kFTPDhEZoUOcX1eAO+k2jeiT/El9MreC72DQEiAfXWRu78wkYZI48SCxUPYvzOU2OokJmKX/1p4u3YmpzCawgd9Jvn6rShzFlEkYs2HO8gWmiWtEvRhYknnjOPyrqchTN5lXsh1zpukbusUXitxrqV0Xi2R4G8dfT1RvYndiMfh4HAQ6z6NLVQbNW3SSAacR6eJ+oZIbkuX6BCC4+kAvuP37PQQeHgNL1rQ0Z0glEuby3IjipfgX9Q8nFyzKns4MWfl8jdPYxK4zvvBB5PB34sFwfhVUloUTOJZ0OXnetMfDc5w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Ux8QunrglzdPWj1f4YIO17/3wmxTSOXZwbe45K6ISJg=;
+ b=cs/JSMTSoFJgY/ItXxkKhnPPIXNPvTmmjN9hiMNW23gPXiXSAJ8gomtPQCRxS8F5NdowWZzoY05b2LSgzyRAGd2eb/6z5Df2AoRQ6lzNc6HbQb8D6uGCQ961qWCBScBsZNXNc3V4dg//Wq1OKjNXP8bau8RwY9cWIlfmbwBr6kU=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM6PR08MB3895.eurprd08.prod.outlook.com (2603:10a6:20b:81::28)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.22; Mon, 31 May
+ 2021 19:44:16 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::f928:f4f2:77c0:74b4]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::f928:f4f2:77c0:74b4%7]) with mapi id 15.20.4173.030; Mon, 31 May 2021
+ 19:44:16 +0000
+Subject: Re: [PATCH v3 1/5] blkdebug: refactor removal of a suspended request
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+References: <20210517145049.55268-1-eesposit@redhat.com>
+ <20210517145049.55268-2-eesposit@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <bd034b20-eaa5-8392-2e06-da477ab613d6@virtuozzo.com>
+Date: Mon, 31 May 2021 22:44:14 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.2
+In-Reply-To: <20210517145049.55268-2-eesposit@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [185.215.60.226]
+X-ClientProxiedBy: AM0PR04CA0138.eurprd04.prod.outlook.com
+ (2603:10a6:208:55::43) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="flms3NPGpWUqDAFU"
-Content-Disposition: inline
-In-Reply-To: <YLUD4BggUinxUBGl@x1-carbon>
-Received-SPF: pass client-ip=64.147.123.21; envelope-from=its@irrelevant.dk;
- helo=wout5-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.8] (185.215.60.226) by
+ AM0PR04CA0138.eurprd04.prod.outlook.com (2603:10a6:208:55::43) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4173.20 via Frontend Transport; Mon, 31 May 2021 19:44:15 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: f3a6f14d-1cd6-4a03-ccee-08d9246c7955
+X-MS-TrafficTypeDiagnostic: AM6PR08MB3895:
+X-Microsoft-Antispam-PRVS: <AM6PR08MB38954B32D363EA713FADFEB2C13F9@AM6PR08MB3895.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1332;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: dUvDDMBkk/lgCmEL9eNHLWs4SUIoWGgTKkaa7kQOxzyp2j/Q60rGBf6/A5XftsZiMbE3RSXBYFrWt/XPlpWz07nSIy+awZnre42kfetEX6dFFMHA2ROZNbzkGVZVJtbZal5ZyOKQX9cHSsgYoOOLQSyvzjltzhZo/EdasRWFewK9FAYTloDVV66Z9DwFEj78MQqpfYEC3TnPIfUMbrvm2uf7rYx5IAAOy78DPPN4bqMsprb8M1zsYTPzC8V9PvVvDBa8tBUmU9+afsZKeUdkpLvNIdTeeiUqGDlSJrRkHNIxuAiGcQdJaCl+VQ4iAiaCd28pn/+7r+u2CGJFdYv7XeTDRj1YLChHBjnS20wIr0LWgxj96xYVGtosYlw0iieBG7Z7cB6MN0QBcsxKb6Hd06FE2mK3jHgWYUAoKOdaLAxPVnuwh+C7nsXaYfsI6U9k1itzXEFCasc93uVmTFTyTH2Zkbp83MXiwVJdO0yEPXbcFqEoRzorJLsSTupoiCPAuh7EoHodYSbtW83J9qBZr/BcKktg3cwZEyithU0xTYCEb5DmLuaJZISN9SSZnVxJfBu+3bVCHAtMrisFv/4yZ6PxBv1L2Kh0VV2vToHOGTxztI6Pcle6ff9SrqR7hkS6Rcy1MQ0AHpKIN6KGRaexNeMRmtLBxzLGdDcC4vyZk/b2OVhDWIrl6IDvWOONC2b/5J+qqevjKISQoDyTwdFFmQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(346002)(396003)(376002)(136003)(39840400004)(366004)(15650500001)(186003)(4326008)(2906002)(54906003)(16526019)(66946007)(52116002)(66476007)(66556008)(316002)(38100700002)(38350700002)(86362001)(36756003)(31696002)(8936002)(2616005)(16576012)(26005)(478600001)(956004)(83380400001)(5660300002)(6486002)(31686004)(8676002)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?K2VBb0g5YWhSQkRkUmU3bFhsUmNaNFAzeGp3dFdiU0MrSDFyS2Q3bWVhS1JJ?=
+ =?utf-8?B?OFBnbFpUSlYzWlVNaVlTWEZZMWZEdkZOUUNQeHhRdTFjS3Z2TVVwZCtxRm5p?=
+ =?utf-8?B?TzBpaW12dEFCbDZEODFWa3ZKa1R5R1h6b25NMmZ3WVFwbmVoOXRqWUxaNkpY?=
+ =?utf-8?B?YS9XTCsxZ01TQjc0L3pHZk1FZVA0RnFNcTFuNEt5QTdzZVgrKzRIOStrVVdo?=
+ =?utf-8?B?YWRUUE9lY3BVMUVOQXlaNGNUdGh5NCtVMDV0YUxnVzcwTnozYk5uUzZIUGZK?=
+ =?utf-8?B?NUdVQk01WXcxMWVvSW5FcnZoTkdmZE1oMEFreThZc0VaWU81MTlYYW94TWxx?=
+ =?utf-8?B?a3EwWExnT2wrZ1F1cWRMSzVmaS9uZURJVUJMcDg0eHBlTFE0aGFleFByNkJu?=
+ =?utf-8?B?ZkRacCtTZjFPdlppWjUxVnYxc2hqSG1xUjZFOGM2dHpnbDE2VHhHdDFwVW9D?=
+ =?utf-8?B?RUlUazlwZW9OejFsdTdtVS85YktXbjhoZ0lGd3M0YU9iS25lUE0xS3ZYWGxz?=
+ =?utf-8?B?UFdKbCtZbGo5dXNZR2MxT3Vjbm56akx1Z3o1QjM2Vko4N01lYkk4THBwa2tU?=
+ =?utf-8?B?UjZxdjhvV3ZtT0FBaGY1QkhIM054VUJFRk9nWHpXaW9FdWdJNFZ1U0NIUXhH?=
+ =?utf-8?B?VmJqNzQvdCtmL3RWR1pjdmx3bU1nallNa1Y0SHNyRzlJcHpBSHFWa1pESjZq?=
+ =?utf-8?B?WjdIdTZ1a0hvVGxVcVRLRDFkbFhyNTBBZGRPaGpyMWRhdUpieFdKN0RVNHdE?=
+ =?utf-8?B?Zm4xdHFHWURHS2V6OUpKUGFuNWZaakdBZDlEc0ZPeTdONDdqZUQ1WnJ3bWlj?=
+ =?utf-8?B?R1ZQVzRTQmJMV1RFY1dkc2kwZFZMRmk3VHd3S0crNU1uajZLUHdqaHBVcW0w?=
+ =?utf-8?B?d25JSU1wYm9lbEx1YjZpTnZpRElzSWZpWmZRTHpKdWRlSGE1ZDh6Z2pmVVJK?=
+ =?utf-8?B?cmpEZXN1U3JFeE1FOVlYYW5CaW5xTWJteTRFTWhVYm5kODJVa1hacURlREJB?=
+ =?utf-8?B?bldVc082RVhTMjc0YVVDaDNFSFYzWWtnZ0cxRmVCV3FEZStYbjVDNXBybTFS?=
+ =?utf-8?B?NXRCZ2VQenA4ZEtuSUxhSDlDdkFWQXFnM3J1VXVCSld5aFA3L0pCTUcyZk1D?=
+ =?utf-8?B?Zzh4VGNqRUlUSlFTNytzTFRnZS9kKzJZeHpWby9ka1dyM2lGNGc1a0RGc0w4?=
+ =?utf-8?B?cVhxSEVHOGJ4bEVCVitTMFc0cDdHWDF6NnQyZGg4R095UkVWMXpid0RZRVNP?=
+ =?utf-8?B?NEF1UGJGNDNDalo3RXBITFBBaVpDR3UyV0hqbnE5MUdVVG5zUDVMck1zR1lu?=
+ =?utf-8?B?dnVNZG04SlpreG5VWkVJRGpzSVNjQ09hMUhIUUdkVlZCd1NIbzNXT2VzTStO?=
+ =?utf-8?B?UVFlQmpoQ21rZ1l6b3l3V0xBbUlRTWZvYlpiUDNEbkhISTIxZ2xpQTQybnZY?=
+ =?utf-8?B?UW53TS9laTA5MjlRUU41VENXc0U5OVRZVTJuMGxwR1lxRTRmR0hTODlYUmNM?=
+ =?utf-8?B?Z2hMZk1TVGs1aVIxNVk3ckFYK29xc1lpeWprYjRxOXMyNVVsZEVCOFpqU3Np?=
+ =?utf-8?B?Yzc1d29XYXUxL2dRZXVkYzJwTVA4RGQ2V1lTZGN3cnEzOGxqUytSRlA2alhV?=
+ =?utf-8?B?Q2ovOUErd0hFWmsxTlhYQjAwN3V4emJtU1dBRzlaUGhuTm9nN1VFNUxseThY?=
+ =?utf-8?B?bDFLMURqeDhQNkVwTEJ6NTQ0d2pKM29aYTVBb0ZRMGptNk9qT0o4MHhucE9M?=
+ =?utf-8?Q?BCtpK2oqe34eBJ0TATrynyDm4OuK90KSA8pJ7B/?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f3a6f14d-1cd6-4a03-ccee-08d9246c7955
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 May 2021 19:44:16.2719 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: fAw+8FMSPa650Gtjl0hjiC6nu96QmqPwmKr0i5jkujEaAohnLT+Iw6djIQGlZ10DG9AQKXyLSj8pug2/KQDmaNcylC0Z5Taqkl2kcdYrk6w=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3895
+Received-SPF: pass client-ip=40.107.5.98;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR03-VE1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.591, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,301 +144,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "kbusch@kernel.org" <kbusch@kernel.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+17.05.2021 17:50, Emanuele Giuseppe Esposito wrote:
+> Extract to a separate function.  Do not rely on FOREACH_SAFE, which is
+> only "safe" if the *current* node is removed---not if another node is
+> removed.  Instead, just walk the entire list from the beginning when
+> asked to resume all suspended requests with a given tag.
+> 
+> Co-developed-by: Paolo Bonzini <pbonzini@redhat.com>
+> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+> ---
+>   block/blkdebug.c | 28 +++++++++++++++++-----------
+>   1 file changed, 17 insertions(+), 11 deletions(-)
+> 
+> diff --git a/block/blkdebug.c b/block/blkdebug.c
+> index 2c0b9b0ee8..8f19d991fa 100644
+> --- a/block/blkdebug.c
+> +++ b/block/blkdebug.c
+> @@ -793,7 +793,6 @@ static void suspend_request(BlockDriverState *bs, BlkdebugRule *rule)
+>           printf("blkdebug: Resuming request '%s'\n", r.tag);
+>       }
+>   
+> -    QLIST_REMOVE(&r, next);
+>       g_free(r.tag);
+>   }
+>   
+> @@ -869,25 +868,35 @@ static int blkdebug_debug_breakpoint(BlockDriverState *bs, const char *event,
+>       return 0;
+>   }
+>   
+> -static int blkdebug_debug_resume(BlockDriverState *bs, const char *tag)
+> +static int resume_req_by_tag(BDRVBlkdebugState *s, const char *tag, bool all)
+>   {
+> -    BDRVBlkdebugState *s = bs->opaque;
+> -    BlkdebugSuspendedReq *r, *next;
+> +    BlkdebugSuspendedReq *r;
+>   
+> -    QLIST_FOREACH_SAFE(r, &s->suspended_reqs, next, next) {
+> +retry:
+> +    QLIST_FOREACH(r, &s->suspended_reqs, next) {
+>           if (!strcmp(r->tag, tag)) {
+> +            QLIST_REMOVE(r, next);
+>               qemu_coroutine_enter(r->co);
+> +            if (all) {
+> +                goto retry;
+> +            }
+>               return 0;
+>           }
+>       }
+>       return -ENOENT;
+>   }
+>   
+> +static int blkdebug_debug_resume(BlockDriverState *bs, const char *tag)
+> +{
+> +    BDRVBlkdebugState *s = bs->opaque;
+> +
+> +    return resume_req_by_tag(s, tag, false);
+> +}
+> +
+>   static int blkdebug_debug_remove_breakpoint(BlockDriverState *bs,
+>                                               const char *tag)
+>   {
+>       BDRVBlkdebugState *s = bs->opaque;
+> -    BlkdebugSuspendedReq *r, *r_next;
+>       BlkdebugRule *rule, *next;
+>       int i, ret = -ENOENT;
+>   
+> @@ -900,11 +909,8 @@ static int blkdebug_debug_remove_breakpoint(BlockDriverState *bs,
+>               }
+>           }
+>       }
+> -    QLIST_FOREACH_SAFE(r, &s->suspended_reqs, next, r_next) {
+> -        if (!strcmp(r->tag, tag)) {
+> -            qemu_coroutine_enter(r->co);
+> -            ret = 0;
+> -        }
+> +    if (resume_req_by_tag(s, tag, true) == 0) {
+> +        ret = 0;
+>       }
+>       return ret;
+>   }
+> 
 
---flms3NPGpWUqDAFU
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Interesting, could we really have several suspended_reqs with same tag, keeping in mind suspend_requests() removes rule before creating suspended_req with same tag.. Probably user could create new rule with same tag, when existing requests is suspended? Not sure is such behavior expected or should be abandoned. Still, it's all not about that patch:
 
-On May 31 15:42, Niklas Cassel wrote:
->On Fri, May 28, 2021 at 01:22:38PM +0200, Klaus Jensen wrote:
->> On May 28 11:05, Niklas Cassel wrote:
->> > From: Niklas Cassel <niklas.cassel@wdc.com>
->> >
->> > In the Zoned Namespace Command Set Specification, chapter
->> > 2.5.1 Managing resources
->> >
->> > "The controller may transition zones in the ZSIO:Implicitly Opened sta=
-te
->> > to the ZSC:Closed state for resource management purposes."
->> >
->> > The word may in this sentence means that automatically transitioning
->> > an implicitly opened zone to closed is completely optional.
->> >
->> > Add a new parameter so that the user can control if this automatic
->> > transitioning should be performed or not.
->> >
->> > Being able to control this can help with verifying that e.g. a user-sp=
-ace
->> > program behaves properly even without this optional ZNS feature.
->> >
->> > The default value is set to true, in order to not change the existing
->> > behavior.
->> >
->> > Signed-off-by: Niklas Cassel <niklas.cassel@wdc.com>
->> > ---
->> > hw/nvme/ctrl.c | 9 ++++++++-
->> > hw/nvme/ns.c   | 2 ++
->> > hw/nvme/nvme.h | 1 +
->> > 3 files changed, 11 insertions(+), 1 deletion(-)
->> >
->> > diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
->> > index 40a7efcea9..d00f0297a5 100644
->> > --- a/hw/nvme/ctrl.c
->> > +++ b/hw/nvme/ctrl.c
->> > @@ -141,6 +141,11 @@
->> >  *
->> >  *     zoned.cross_read=3D<enable RAZB, default: false>
->> >  *         Setting this property to true enables Read Across Zone Boun=
-daries.
->> > + *
->> > + *     zoned.auto_transition=3D<enable auto resource management, defa=
-ult: true>
->> > + *         Indicates if zones in zone state implicitly opened can be
->> > + *         automatically transitioned to zone state closed for resour=
-ce
->> > + *         management purposes.
->> >  */
->> >
->> > #include "qemu/osdep.h"
->> > @@ -1699,7 +1704,9 @@ static uint16_t nvme_zrm_open_flags(NvmeNamespac=
-e *ns, NvmeZone *zone,
->> >         /* fallthrough */
->> >
->> >     case NVME_ZONE_STATE_CLOSED:
->> > -        nvme_zrm_auto_transition_zone(ns);
->> > +        if (ns->params.auto_transition_zones) {
->> > +            nvme_zrm_auto_transition_zone(ns);
->> > +        }
->> >         status =3D nvme_aor_check(ns, act, 1);
->> >         if (status) {
->> >             return status;
->> > diff --git a/hw/nvme/ns.c b/hw/nvme/ns.c
->> > index 3fec9c6273..31dee43d30 100644
->> > --- a/hw/nvme/ns.c
->> > +++ b/hw/nvme/ns.c
->> > @@ -531,6 +531,8 @@ static Property nvme_ns_props[] =3D {
->> >                        params.max_open_zones, 0),
->> >     DEFINE_PROP_UINT32("zoned.descr_ext_size", NvmeNamespace,
->> >                        params.zd_extension_size, 0),
->> > +    DEFINE_PROP_BOOL("zoned.auto_transition", NvmeNamespace,
->> > +                     params.auto_transition_zones, true),
->> >     DEFINE_PROP_END_OF_LIST(),
->> > };
->> >
->> > diff --git a/hw/nvme/nvme.h b/hw/nvme/nvme.h
->> > index 81a35cda14..bd86054db2 100644
->> > --- a/hw/nvme/nvme.h
->> > +++ b/hw/nvme/nvme.h
->> > @@ -100,6 +100,7 @@ typedef struct NvmeNamespaceParams {
->> >     uint32_t max_active_zones;
->> >     uint32_t max_open_zones;
->> >     uint32_t zd_extension_size;
->> > +    bool     auto_transition_zones;
->> > } NvmeNamespaceParams;
->> >
->> > typedef struct NvmeNamespace {
->> > --
->> > 2.31.1
->> >
->>
->> Looks good Niklas!
->>
->> Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
->
->In reality, it is the controller that does the auto transitioning.
->
->In theory, one namespace could be attached to two different controllers,
->and I guess, in that case, it depends on if the controller that we used
->when doing the write supports auto transitioning or not, that determines
->if a zone will be auto transitioned or not.
->
->If we were to change this to be a parameter of the controller instead
->of a parameter of the namespace, we would require to refactor a lot of
->code in the regular write path. As we currently don't have any NvmeRequest
->object in nvme_zrm_open_flags().
->
->Thoughts?
->
-
-I think you are right. This should be controller-specific behavior. I=20
-took the liberty of moving the parameter; the refactor is minimal.
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
 
-=46rom: Niklas Cassel <niklas.cassel@wdc.com>
-
-In the Zoned Namespace Command Set Specification, chapter
-2.5.1 Managing resources
-
-"The controller may transition zones in the ZSIO:Implicitly Opened state
-to the ZSC:Closed state for resource management purposes."
-
-The word may in this sentence means that automatically transitioning
-an implicitly opened zone to closed is completely optional.
-
-Add a new parameter so that the user can control if this automatic
-transitioning should be performed or not.
-
-Being able to control this can help with verifying that e.g. a user-space
-program behaves properly even without this optional ZNS feature.
-
-The default value is set to true, in order to not change the existing
-behavior.
-
-Signed-off-by: Niklas Cassel <niklas.cassel@wdc.com>
-[k.jensen: moved parameter to controller]
-Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
----
-  hw/nvme/nvme.h |  1 +
-  hw/nvme/ctrl.c | 32 ++++++++++++++++++++++----------
-  2 files changed, 23 insertions(+), 10 deletions(-)
-
-diff --git a/hw/nvme/nvme.h b/hw/nvme/nvme.h
-index 81a35cda142b..93a7e0e5380e 100644
---- a/hw/nvme/nvme.h
-+++ b/hw/nvme/nvme.h
-@@ -382,6 +382,7 @@ typedef struct NvmeParams {
-      uint8_t  vsl;
-      bool     use_intel_id;
-      uint8_t  zasl;
-+    bool     auto_transition_zones;
-      bool     legacy_cmb;
-  } NvmeParams;
- =20
-diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-index 40a7efcea914..8dd9cb2ccbf3 100644
---- a/hw/nvme/ctrl.c
-+++ b/hw/nvme/ctrl.c
-@@ -34,6 +34,7 @@
-   *              aerl=3D<N[optional]>,aer_max_queued=3D<N[optional]>, \
-   *              mdts=3D<N[optional]>,vsl=3D<N[optional]>, \
-   *              zoned.zasl=3D<N[optional]>, \
-+ *              zoned.auto_transition=3D<on|off[optional]>, \
-   *              subsys=3D<subsys_id>
-   *      -device nvme-ns,drive=3D<drive_id>,bus=3D<bus_name>,nsid=3D<nsid>=
-,\
-   *              zoned=3D<true|false[optional]>, \
-@@ -100,6 +101,11 @@
-   *   the minimum memory page size (CAP.MPSMIN). The default value is 0 (i=
-=2Ee.
-   *   defaulting to the value of `mdts`).
-   *
-+ * - `zoned.auto_transition`
-+ *   Indicates if zones in zone state implicitly opened can be automatical=
-ly
-+ *   transitioned to zone state closed for resource management purposes.
-+ *   Defaults to 'on'.
-+ *
-   * nvme namespace device parameters
-   * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   * - `shared`
-@@ -1686,8 +1692,8 @@ enum {
-      NVME_ZRM_AUTO =3D 1 << 0,
-  };
- =20
--static uint16_t nvme_zrm_open_flags(NvmeNamespace *ns, NvmeZone *zone,
--                                    int flags)
-+static uint16_t nvme_zrm_open_flags(NvmeCtrl *n, NvmeNamespace *ns,
-+                                    NvmeZone *zone, int flags)
-  {
-      int act =3D 0;
-      uint16_t status;
-@@ -1699,7 +1705,9 @@ static uint16_t nvme_zrm_open_flags(NvmeNamespace *ns=
-, NvmeZone *zone,
-          /* fallthrough */
- =20
-      case NVME_ZONE_STATE_CLOSED:
--        nvme_zrm_auto_transition_zone(ns);
-+        if (n->params.auto_transition_zones) {
-+            nvme_zrm_auto_transition_zone(ns);
-+        }
-          status =3D nvme_aor_check(ns, act, 1);
-          if (status) {
-              return status;
-@@ -1735,14 +1743,16 @@ static uint16_t nvme_zrm_open_flags(NvmeNamespace *=
-ns, NvmeZone *zone,
-      }
-  }
- =20
--static inline uint16_t nvme_zrm_auto(NvmeNamespace *ns, NvmeZone *zone)
-+static inline uint16_t nvme_zrm_auto(NvmeCtrl *n, NvmeNamespace *ns,
-+                                     NvmeZone *zone)
-  {
--    return nvme_zrm_open_flags(ns, zone, NVME_ZRM_AUTO);
-+    return nvme_zrm_open_flags(n, ns, zone, NVME_ZRM_AUTO);
-  }
- =20
--static inline uint16_t nvme_zrm_open(NvmeNamespace *ns, NvmeZone *zone)
-+static inline uint16_t nvme_zrm_open(NvmeCtrl *n, NvmeNamespace *ns,
-+                                     NvmeZone *zone)
-  {
--    return nvme_zrm_open_flags(ns, zone, 0);
-+    return nvme_zrm_open_flags(n, ns, zone, 0);
-  }
- =20
-  static void nvme_advance_zone_wp(NvmeNamespace *ns, NvmeZone *zone,
-@@ -2283,7 +2293,7 @@ static void nvme_copy_in_complete(NvmeRequest *req)
-              goto invalid;
-          }
- =20
--        status =3D nvme_zrm_auto(ns, zone);
-+        status =3D nvme_zrm_auto(nvme_ctrl(req), ns, zone);
-          if (status) {
-              goto invalid;
-          }
-@@ -3080,7 +3090,7 @@ static uint16_t nvme_do_write(NvmeCtrl *n, NvmeReques=
-t *req, bool append,
-              goto invalid;
-          }
- =20
--        status =3D nvme_zrm_auto(ns, zone);
-+        status =3D nvme_zrm_auto(n, ns, zone);
-          if (status) {
-              goto invalid;
-          }
-@@ -3169,7 +3179,7 @@ enum NvmeZoneProcessingMask {
-  static uint16_t nvme_open_zone(NvmeNamespace *ns, NvmeZone *zone,
-                                 NvmeZoneState state, NvmeRequest *req)
-  {
--    return nvme_zrm_open(ns, zone);
-+    return nvme_zrm_open(nvme_ctrl(req), ns, zone);
-  }
- =20
-  static uint16_t nvme_close_zone(NvmeNamespace *ns, NvmeZone *zone,
-@@ -6259,6 +6269,8 @@ static Property nvme_props[] =3D {
-      DEFINE_PROP_BOOL("use-intel-id", NvmeCtrl, params.use_intel_id, false=
-),
-      DEFINE_PROP_BOOL("legacy-cmb", NvmeCtrl, params.legacy_cmb, false),
-      DEFINE_PROP_UINT8("zoned.zasl", NvmeCtrl, params.zasl, 0),
-+    DEFINE_PROP_BOOL("zoned.auto_transition", NvmeCtrl,
-+                     params.auto_transition_zones, true),
-      DEFINE_PROP_END_OF_LIST(),
-  };
- =20
---=20
-2.31.1
-
-
---flms3NPGpWUqDAFU
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmC1O2MACgkQTeGvMW1P
-DelzHQf+OysvqVTSiWFzFiJQqeGjA5c5UOM9mOvj15GvUSPfnEpfO4O2YntvOR0f
-Jfna2s7h4QTK1qxPxq9qwmQsmGoWCCaPet/nUTj48NDtogUiLnEK+fsZmw5BaSZI
-YM+E+2lp8VShReW08ZoJVt2XvXnFE4mFxxWse+QDybGDVuWMwtb17rFqCLAr+O23
-FR5r4qm01V1FG672HYd2yTAsqHxpqPmbUQznshjtsSQZncm3EE/xslOjz+ClQiHx
-3R0P1pL59B3VeYrrVqLaaY5xhnbLjkvvP5FvT3cr/J+AjHMQVovHLgoPv0ntrmMN
-RPD0RRh62F3kNxCeZXmFuPIB2SDvzA==
-=drGS
------END PGP SIGNATURE-----
-
---flms3NPGpWUqDAFU--
+-- 
+Best regards,
+Vladimir
 
