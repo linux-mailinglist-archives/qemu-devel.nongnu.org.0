@@ -2,47 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3AC3395B14
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 May 2021 15:08:46 +0200 (CEST)
-Received: from localhost ([::1]:42340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33338395DAC
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 May 2021 15:48:34 +0200 (CEST)
+Received: from localhost ([::1]:58558 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lnhev-00019W-Dn
-	for lists+qemu-devel@lfdr.de; Mon, 31 May 2021 09:08:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48302)
+	id 1lniHQ-0005ru-Ox
+	for lists+qemu-devel@lfdr.de; Mon, 31 May 2021 09:48:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56372)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1lnhdp-0000IL-2y; Mon, 31 May 2021 09:07:37 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:44692)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lniEl-0004ca-3e
+ for qemu-devel@nongnu.org; Mon, 31 May 2021 09:45:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22788)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1lnhdl-0000ot-T3; Mon, 31 May 2021 09:07:36 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 2A11E74639A;
- Mon, 31 May 2021 15:07:27 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id EEDB6746397; Mon, 31 May 2021 15:07:26 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id EDBC8746358;
- Mon, 31 May 2021 15:07:26 +0200 (CEST)
-Date: Mon, 31 May 2021 15:07:26 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Alexey Kardashevskiy <aik@ozlabs.ru>
-Subject: Re: [PATCH qemu v20] spapr: Implement Open Firmware client interface
-In-Reply-To: <c13d557a-5feb-33ad-33ec-22a28cddb8d@eik.bme.hu>
-Message-ID: <7e71f593-c2b9-5c7-4dd0-2a189bee771@eik.bme.hu>
-References: <20210520090557.435689-1-aik@ozlabs.ru>
- <c13d557a-5feb-33ad-33ec-22a28cddb8d@eik.bme.hu>
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lniEg-0008Ql-9t
+ for qemu-devel@nongnu.org; Mon, 31 May 2021 09:45:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1622468739;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=1gK6n3st3wHEDRVD26U1jOn1Tihl70XpZvkWMnma8ic=;
+ b=NQtkn1enw5N8msjnU6NnebQBtFQ0hIeKqER9Xjv/olmX0KaX9E4L5YbqWAaAwvRztE2KyG
+ gFFW4boR7moOL+LKZZjLRZo9t43pPYxEeutU0DgX3O9hApsE7kqzpCM/R7+nJV3Qj7xdFT
+ OoJLB5Z8wQJhmAHjnyYnQDwB69WvVAs=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-322-suvPciGEN_6SdqeOmLqOIQ-1; Mon, 31 May 2021 09:45:35 -0400
+X-MC-Unique: suvPciGEN_6SdqeOmLqOIQ-1
+Received: by mail-ej1-f70.google.com with SMTP id
+ b10-20020a170906194ab02903ea7d084cd3so1452935eje.1
+ for <qemu-devel@nongnu.org>; Mon, 31 May 2021 06:45:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=1gK6n3st3wHEDRVD26U1jOn1Tihl70XpZvkWMnma8ic=;
+ b=SHXBHpfrzdop5v+3CDOUemy3o1zV7XA6Enb/C5LK7S47qhSxuYZW/lnsDXAgv5z/mN
+ 4PkMwlWrqMZpqmE4hY5jS38LSAVCIw6f3HG69QLERecLQ3iTqvyB5jVgGi9wVSAtSH/p
+ 5B5B7F0iwPvQUVCGGrtrYiy3prIqClvZNyL0mms7AG18cvp+W1sHlbLx5cvLDpeMucKf
+ otqUg9xQLZRZJ5j/mLDwL9jTWlns2TQ2rUG6Aaqy8SkRRJvKwk/JbMrUqHHnoFOzzZ97
+ z6m1OoCnqF5ct+oCRMXXJzroeR9mQoXMCoYrVLTocFltmEZxQ8Okn/Q6Tgb3zRTuDsL1
+ XosA==
+X-Gm-Message-State: AOAM532Q3pwjgU4Erf392nnP1cPHMFRyOcpVk3BqKYv+dLvnIUZxrP+M
+ Jn+aQVEjsUIm6jSVoCkwjxTxpIQQiedUemSOVrdBzVxkv/Yc2mkynMxyGYjFul7w7dNda5+tgpB
+ xFZq/BVdwzvPAyrc=
+X-Received: by 2002:aa7:d413:: with SMTP id z19mr25818249edq.37.1622468734235; 
+ Mon, 31 May 2021 06:45:34 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz2ObCe65Y+uIzdPL/wXV9OO4KElPXg6xEZZk6x/8IhAlg9p9z6ZfHf8ImFU4xjHQgFFqVEpw==
+X-Received: by 2002:aa7:d413:: with SMTP id z19mr25818220edq.37.1622468734003; 
+ Mon, 31 May 2021 06:45:34 -0700 (PDT)
+Received: from dresden.str.redhat.com ([2a02:908:1e46:160:b272:8083:d5:bc7d])
+ by smtp.gmail.com with ESMTPSA id
+ h2sm6284042edq.61.2021.05.31.06.45.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 31 May 2021 06:45:33 -0700 (PDT)
+Subject: Re: [RFC PATCH] block/vpc: Support probing of fixed-size VHD images
+To: Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org,
+ Kevin Wolf <kwolf@redhat.com>
+References: <20210329072559.2668780-1-thuth@redhat.com>
+ <a14b4678-f447-4949-14e1-0d4be9e37e7c@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
+Message-ID: <c56e08a5-9baf-0bbd-2db6-d24d10d47a6b@redhat.com>
+Date: Mon, 31 May 2021 15:45:32 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 8%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <a14b4678-f447-4949-14e1-0d4be9e37e7c@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -37
+X-Spam_score: -3.8
+X-Spam_bar: ---
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.372,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.591, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -55,217 +100,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 30 May 2021, BALATON Zoltan wrote:
-> On Thu, 20 May 2021, Alexey Kardashevskiy wrote:
->> diff --git a/hw/ppc/vof.c b/hw/ppc/vof.c
->> new file mode 100644
->> index 000000000000..a283b7d251a7
->> --- /dev/null
->> +++ b/hw/ppc/vof.c
->> @@ -0,0 +1,1021 @@
->> +/*
->> + * QEMU PowerPC Virtual Open Firmware.
->> + *
->> + * This implements client interface from OpenFirmware IEEE1275 on the QEMU
->> + * side to leave only a very basic firmware in the VM.
->> + *
->> + * Copyright (c) 2021 IBM Corporation.
->> + *
->> + * SPDX-License-Identifier: GPL-2.0-or-later
->> + */
+On 19.05.21 12:19, Thomas Huth wrote:
+> On 29/03/2021 09.25, Thomas Huth wrote:
+>> Fixed-size VHD images don't have a header, only a footer. To be able
+>> to still detect them right, support probing via the file name, too.
+>>
+>> Without this change, images get detected as raw:
+>>
+>> $ qemu-img create -f vpc -o subformat=fixed test.vhd 2G
+>> Formatting 'test.vhd', fmt=vpc size=2147483648 subformat=fixed
+>> $ qemu-img info test.vhd
+>> image: test.vhd
+>> file format: raw
+>> virtual size: 2 GiB (2147992064 bytes)
+>> disk size: 8 KiB
+>>
+>> With this change:
+>>
+>> $ qemu-img info test.vhd
+>> image: test.vhd
+>> file format: vpc
+>> virtual size: 2 GiB (2147991552 bytes)
+>> disk size: 8 KiB
+>>
+>> Resolves: https://bugs.launchpad.net/qemu/+bug/1819182
+>> Signed-off-by: Thomas Huth <thuth@redhat.com>
+>> ---
+>>   I've marked the subject with RFC since I'm not quite sure whether this
+>>   is really a good idea... please let me know what you think about it...
+>>
+>>   block/vpc.c | 12 +++++++++++-
+>>   1 file changed, 11 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/block/vpc.c b/block/vpc.c
+>> index 17a705b482..be561e4b39 100644
+>> --- a/block/vpc.c
+>> +++ b/block/vpc.c
+>> @@ -191,8 +191,18 @@ static uint32_t vpc_checksum(void *p, size_t size)
+>>     static int vpc_probe(const uint8_t *buf, int buf_size, const char 
+>> *filename)
+>>   {
+>> -    if (buf_size >= 8 && !strncmp((char *)buf, "conectix", 8))
+>> +    if (buf_size >= 8 && !strncmp((char *)buf, "conectix", 8)) {
+>>           return 100;
+>> +    }
 >> +
->> +#include "qemu/osdep.h"
->> +#include "qemu-common.h"
->> +#include "qemu/timer.h"
->> +#include "qemu/range.h"
->> +#include "qemu/units.h"
->> +#include "qapi/error.h"
->> +#include <sys/ioctl.h>
->> +#include "exec/ram_addr.h"
->> +#include "exec/address-spaces.h"
->> +#include "hw/ppc/vof.h"
->> +#include "hw/ppc/fdt.h"
->> +#include "sysemu/runstate.h"
->> +#include "qom/qom-qobject.h"
->> +#include "trace.h"
+>> +    /* It could be a fixed-size image without header -> check 
+>> extension, too */
+>> +    if (filename) {
+>> +        int len = strlen(filename);
+>> +        if (len > 4 && !strcasecmp(&filename[len - 4], ".vhd")) {
+>> +            return 10;
+>> +        }
+>> +    }
 >> +
->> +#include <libfdt.h>
->> +
->> +/*
->> + * OF 1275 "nextprop" description suggests is it 32 bytes max but
->> + * LoPAPR defines "ibm,query-interrupt-source-number" which is 33 chars 
->> long.
->> + */
->> +#define OF_PROPNAME_LEN_MAX 64
->> +
->> +#define VOF_MAX_PATH        256
->> +#define VOF_MAX_SETPROPLEN  2048
->> +#define VOF_MAX_METHODLEN   256
->> +#define VOF_MAX_FORTHCODE   256
->> +#define VOF_VTY_BUF_SIZE    256
->> +
->> +typedef struct {
->> +    uint64_t start;
->> +    uint64_t size;
->> +} OfClaimed;
->> +
->> +typedef struct {
->> +    char *path; /* the path used to open the instance */
->> +    uint32_t phandle;
->> +} OfInstance;
->> +
->> +#define VOF_MEM_READ(pa, buf, size) \
->> +    address_space_read_full(&address_space_memory, \
->> +    (pa), MEMTXATTRS_UNSPECIFIED, (buf), (size))
->> +#define VOF_MEM_WRITE(pa, buf, size) \
->> +    address_space_write(&address_space_memory, \
->> +    (pa), MEMTXATTRS_UNSPECIFIED, (buf), (size))
->> +
->> +static int readstr(hwaddr pa, char *buf, int size)
->> +{
->> +    if (VOF_MEM_READ(pa, buf, size) != MEMTX_OK) {
->> +        return -1;
->> +    }
->> +    if (strnlen(buf, size) == size) {
->> +        buf[size - 1] = '\0';
->> +        trace_vof_error_str_truncated(buf, size);
->> +        return -1;
->> +    }
->> +    return 0;
->> +}
->> +
->> +static bool cmpservice(const char *s, unsigned nargs, unsigned nret,
->> +                       const char *s1, unsigned nargscheck, unsigned 
->> nretcheck)
->> +{
->> +    if (strcmp(s, s1)) {
->> +        return false;
->> +    }
->> +    if ((nargscheck && (nargs != nargscheck)) ||
->> +        (nretcheck && (nret != nretcheck))) {
->> +        trace_vof_error_param(s, nargscheck, nretcheck, nargs, nret);
->> +        return false;
->> +    }
->> +
->> +    return true;
->> +}
->> +
->> +static void prop_format(char *tval, int tlen, const void *prop, int len)
->> +{
->> +    int i;
->> +    const unsigned char *c;
->> +    char *t;
->> +    const char bin[] = "...";
->> +
->> +    for (i = 0, c = prop; i < len; ++i, ++c) {
->> +        if (*c == '\0' && i == len - 1) {
->> +            strncpy(tval, prop, tlen - 1);
->> +            return;
->> +        }
->> +        if (*c < 0x20 || *c >= 0x80) {
->> +            break;
->> +        }
->> +    }
->> +
->> +    for (i = 0, c = prop, t = tval; i < len; ++i, ++c) {
->> +        if (t >= tval + tlen - sizeof(bin) - 1 - 2 - 1) {
->> +            strcpy(t, bin);
->> +            return;
->> +        }
->> +        if (i && i % 4 == 0 && i != len - 1) {
->> +            strcat(t, " ");
->> +            ++t;
->> +        }
->> +        t += sprintf(t, "%02X", *c & 0xFF);
->> +    }
->> +}
->> +
->> +static int get_path(const void *fdt, int offset, char *buf, int len)
->> +{
->> +    int ret;
->> +
->> +    ret = fdt_get_path(fdt, offset, buf, len - 1);
->> +    if (ret < 0) {
->> +        return ret;
->> +    }
->> +
->> +    buf[len - 1] = '\0';
->> +
->> +    return strlen(buf) + 1;
->> +}
->> +
->> +static int phandle_to_path(const void *fdt, uint32_t ph, char *buf, int 
->> len)
->> +{
->> +    int ret;
->> +
->> +    ret = fdt_node_offset_by_phandle(fdt, ph);
->> +    if (ret < 0) {
->> +        return ret;
->> +    }
->> +
->> +    return get_path(fdt, ret, buf, len);
->> +}
->> +
->> +static uint32_t vof_finddevice(const void *fdt, uint32_t nodeaddr)
->> +{
->> +    char fullnode[VOF_MAX_PATH];
->> +    uint32_t ret = -1;
->> +    int offset;
->> +
->> +    if (readstr(nodeaddr, fullnode, sizeof(fullnode))) {
->> +        return (uint32_t) ret;
->> +    }
->> +
->> +    offset = fdt_path_offset(fdt, fullnode);
->> +    if (offset >= 0) {
->> +        ret = fdt_get_phandle(fdt, offset);
->> +    }
->> +    trace_vof_finddevice(fullnode, ret);
->> +    return (uint32_t) ret;
->> +}
+>>       return 0;
+>>   }
 >
-> The Linux init function that runs on pegasos2 here:
+> Ping!
 >
-> https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/tree/arch/powerpc/kernel/prom_init.c?h=v4.14.234#n2658
+> Anybody any comments on this one?
 >
-> calls finddevice once with isa@c and next with isa@C (small and capital C) 
-> both of which works with the board firmware but with vof the comparison is 
-> case sensitive and one of these fails so I can't make it work. I don't know 
-> if this is a problem in libfdt or the vof_finddevice above should do 
-> something else to get case insensitive comparison.
+>  Thomas
 
-This fixes the issue with Linux but I'm not sure if there's any better 
-solution or would it break anything else.
+Sorry I’m replying so late, but honestly, it’s because I’m just a bit 
+afraid to respond.  So, perhaps like others, I hoped someone else with a 
+stronger opinion would do it in my stead.
 
-Regards,
-BALATON Zoltan
+I understand this addresses a real problem, but OTOH probing by the file 
+extension intuitively seems like a bad solution to me. What’s the 
+problem with simply requiring the user to spcify the format in such a case?
 
->diff --git a/hw/ppc/vof.c b/hw/ppc/vof.c
-index a283b7d251..b47bbd509d 100644
---- a/hw/ppc/vof.c
-+++ b/hw/ppc/vof.c
-@@ -144,12 +144,15 @@ static uint32_t vof_finddevice(const void *fdt, 
-uint32_t nodeaddr)
-      char fullnode[VOF_MAX_PATH];
-      uint32_t ret = -1;
-      int offset;
-+    gchar *p;
+I mean, I can’t think of a concrete problem with probing by the filename 
+extension.  The worst that can happen is that a raw image is called 
+.vhd, we try to open it, and the vhd driver then says the image doesn’t 
+work.  That could be a real problem, but, well, it would be kind of 
+deserved.  (Unless the user really in good faith just thought .vhd would 
+be a nice extension for their raw virtual HDD image.  Which, then again, 
+I couldn’t blame them for.)
 
-      if (readstr(nodeaddr, fullnode, sizeof(fullnode))) {
-          return (uint32_t) ret;
-      }
+Perhaps we could print a message if the extension matches that advises 
+the user to explicitly specify the format for such images?
 
--    offset = fdt_path_offset(fdt, fullnode);
-+    p = g_ascii_strdown(fullnode, -1);
-+    offset = fdt_path_offset(fdt, p);
-+    g_free(p);
-      if (offset >= 0) {
-          ret = fdt_get_phandle(fdt, offset);
-      }
+Max
+
 
