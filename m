@@ -2,58 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CA8A3956BA
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 May 2021 10:14:55 +0200 (CEST)
-Received: from localhost ([::1]:52012 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40A873956C1
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 May 2021 10:17:31 +0200 (CEST)
+Received: from localhost ([::1]:55618 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lnd4Y-000775-33
-	for lists+qemu-devel@lfdr.de; Mon, 31 May 2021 04:14:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38244)
+	id 1lnd74-0001Eg-BX
+	for lists+qemu-devel@lfdr.de; Mon, 31 May 2021 04:17:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38338)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lnd2a-0005Qe-6h; Mon, 31 May 2021 04:12:52 -0400
-Received: from mout.kundenserver.de ([212.227.17.13]:32773)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lnd2V-0004M1-Ra; Mon, 31 May 2021 04:12:51 -0400
-Received: from [192.168.100.1] ([82.142.27.18]) by mrelayeu.kundenserver.de
- (mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MxVbb-1lU0mW0PEH-00xoCa; Mon, 31 May 2021 10:12:41 +0200
-Subject: Re: [PATCH] hw/display/macfb: Classify the "nubus-macfb" as display
- device
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
-References: <20210531073255.46286-1-thuth@redhat.com>
-From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <97f211b8-5a9b-dd08-d18e-6b7c4009429a@vivier.eu>
-Date: Mon, 31 May 2021 10:12:40 +0200
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lnd2z-0005aA-RQ; Mon, 31 May 2021 04:13:18 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:38673)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lnd2t-0004at-1n; Mon, 31 May 2021 04:13:17 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id j14so9960713wrq.5;
+ Mon, 31 May 2021 01:13:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=1f7INFBrd6VvKBWlfKNXOGTBZ2MUgo0lKPAw+Ssq46k=;
+ b=C+89ES5wBAqisf5ay1GwlcvkvtUDk/tjkhwMV3xvtEpHNvAu8Y+jX21xHYe2UAt5k+
+ zZqbA+hfb369xSwLdTJWvvPMKB2+DRApmoPun4Q1d0CziqFjup5MY8+BlteCHTWwqbX9
+ mjNv14/nBnHNMxXqHg1aR/V3wDOyfGTlAoo6bmYA7bNknS28Z3x74GICSxBJo8sU5Ivn
+ vpL2FP6TjetswE4yK/DUUECy+nMnO4K2uUkEosu4qMN2Or3FenaLqz8Ld60MrXuL4Ov+
+ SGoUVKeVvZbp16CTmqAhx5gjITu32NKSO6aqt8P6U/HpDpfh3gGHo18+y7ma/HNQLCVk
+ wsvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=1f7INFBrd6VvKBWlfKNXOGTBZ2MUgo0lKPAw+Ssq46k=;
+ b=Mq7LMYwUKuRlbF29FwIqulpiwwsbc++to6tq/fDM9K5b18URaSDsRQGy9Z5GigRubM
+ 4MvOo9yg8ya/ZZnHkcRWWfWnMyXUOZWYybuUtxWT3TEeI2NcZr9YxpDslVK2Rys4CMiG
+ 8FYmkPDhMbPaWKfposNztSrWvQI+Ei3tfzkIQ9Zv1Ns/Gbak9QKuwaiqF3Xa5ScIFGDx
+ V0MZVbhjhaIo0IJJVOaAH4xJIkZlqCldQHOntXCmUiutm4t3Ly8h5pTG5vGoOWOM2nc/
+ tiSo6k+vyNa0Oy9c0l7RgV0nrx2fmzfbWSDyoQXF61QVO/WJqcbx44hipmDFJEtPfbhf
+ fPtg==
+X-Gm-Message-State: AOAM532lPRscLCgmeDlCf28bm3nHf+0HfKjwGSqQitIdBL0D6/wesNl2
+ bWG2AKVjROxgjCxTZ+Zpcoo=
+X-Google-Smtp-Source: ABdhPJzf4AE6Cmf7zvR5b/fpI0HdW+kmupGKJeMH8AGEhr3HqKSUNGTF3fD+0Y+GPN22Fgrs5KAXnw==
+X-Received: by 2002:a5d:5549:: with SMTP id g9mr14413298wrw.204.1622448787878; 
+ Mon, 31 May 2021 01:13:07 -0700 (PDT)
+Received: from [192.168.1.36] (235.red-83-57-168.dynamicip.rima-tde.net.
+ [83.57.168.235])
+ by smtp.gmail.com with ESMTPSA id j1sm2294304wmi.44.2021.05.31.01.13.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 31 May 2021 01:13:07 -0700 (PDT)
+Subject: Re: [PATCH v2 1/2] hw/char: sifive_uart
+To: =?UTF-8?Q?Lukas_J=c3=bcnger?= <lukas.juenger@greensocs.com>,
+ qemu-devel@nongnu.org
+References: <20210530104922.466175-1-lukas.juenger@greensocs.com>
+ <20210530104922.466175-2-lukas.juenger@greensocs.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <da4f7177-2057-96ab-71bb-5744ac4e7217@amsat.org>
+Date: Mon, 31 May 2021 10:13:05 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <20210531073255.46286-1-thuth@redhat.com>
+In-Reply-To: <20210530104922.466175-2-lukas.juenger@greensocs.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: fr
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:uDdJflZ77h2KrhGtaKD9wJotCl0zTM5S5vufr+QfRpD2CIGEMPn
- UukC7/1UjBjmNWbJUNY8p1V9OWfy/Jnj+5V6Xfx2KDQE7jWOvazUFQvg2wbOscAcDcQhL6a
- sFnBzg1x1ir2a0kuRRB+H+VVlrad1TueM1NQqL7k75iSqUvH6SbZ/wTZdwBCeQQT9hNRDmK
- zz6bqkjHW5xZHidwFNj9A==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:9LmL27Yvfhs=:wbshM2ihcPkEXj5qFow+Y+
- qON6okP3MbLiHKMYBA/grgo9mpVkD/cmZqvMPgF2pCBqukfqpAmgHWqdUnyxL+/y6yz5ktlFy
- GgRDaX2d8H6MluLpiPUxRL5a0WqBvRX0ENXhtyK3xVeyGNr52ftjLgVfEoYee4RfNv81hk/8n
- um5uTrsRlBGY8PYL4pRH1/Y25qvrBVfd5ITmE+dIf86Djm2FoL7lgnBKi7WXXge1qKEe/01K0
- cy8XDY9yGe7K8Ko8XNmhitfGaWPGetd98wRudApUyduRX7QFZ9vzoh+22pf1Rv2cRJs5MAd+3
- GTR3mDzSP4NRw9KgaImlv1/U/JlUHcQEYggRtLn+cDC6dKyrYKX3evXZu/s2Khd/w+EMtGYIE
- oMTNIMQZ5UsrZQltjqjJG33akjCudcX/XKOzlSTGL3tnhi35dsfWSyiVBgGlfosrX5b3Fjd65
- Lb3mb3b7Z0mkcgq1p3ZU0CnCawxp7/nsq2RuimlFP8w2sJTJCu71im6z73RxeZuKDhjqnBG72
- +rUbxVJMrjowTtIPVzQcwo=
-Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -24
-X-Spam_score: -2.5
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.618,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.618,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -66,33 +88,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org
+Cc: alistair.francis@wdc.com, qemu-riscv@nongnu.org, bin.meng@windriver.com,
+ mark.burton@greensocs.com, palmer@dabbelt.com, marcandre.lureau@redhat.com,
+ pbonzini@redhat.com, luc.michel@greensocs.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 31/05/2021 à 09:32, Thomas Huth a écrit :
-> The "nubus-macfb" currently shows up as uncategorized device in
-> the output of "-device help". Put it into the display category
-> to fix this ugliness.
+On 5/30/21 12:49 PM, Lukas Jünger wrote:
+> Make function names consistent
 > 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> Signed-off-by: Lukas Jünger <lukas.juenger@greensocs.com>
 > ---
->  hw/display/macfb.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/hw/display/macfb.c b/hw/display/macfb.c
-> index ff8bdb846b..d8183b9bbd 100644
-> --- a/hw/display/macfb.c
-> +++ b/hw/display/macfb.c
-> @@ -450,6 +450,7 @@ static void macfb_nubus_class_init(ObjectClass *klass, void *data)
->      dc->desc = "Nubus Macintosh framebuffer";
->      dc->reset = macfb_nubus_reset;
->      dc->vmsd = &vmstate_macfb;
-> +    set_bit(DEVICE_CATEGORY_DISPLAY, dc->categories);
->      device_class_set_props(dc, macfb_nubus_properties);
->  }
->  
+>  hw/char/sifive_uart.c | 44 +++++++++++++++++++++----------------------
+>  1 file changed, 22 insertions(+), 22 deletions(-)
+
+> @@ -183,9 +183,9 @@ SiFiveUARTState *sifive_uart_create(MemoryRegion *address_space, hwaddr base,
+>      SiFiveUARTState *s = g_malloc0(sizeof(SiFiveUARTState));
+>      s->irq = irq;
+>      qemu_chr_fe_init(&s->chr, chr, &error_abort);
+> -    qemu_chr_fe_set_handlers(&s->chr, uart_can_rx, uart_rx, uart_event,
+> -        uart_be_change, s, NULL, true);
+> -    memory_region_init_io(&s->mmio, NULL, &uart_ops, s,
+> +    qemu_chr_fe_set_handlers(&s->chr, sifive_uart_can_rx, sifive_uart_rx,
+> +            sifive_uart_event, sifive_uart_be_change, s, NULL, true);
+
+Incorrect indentation, otherwise:
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
+> +    memory_region_init_io(&s->mmio, NULL, &sifive_uart_ops, s,
+>                            TYPE_SIFIVE_UART, SIFIVE_UART_MAX);
+>      memory_region_add_subregion(address_space, base, &s->mmio);
+>      return s;
 > 
 
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
