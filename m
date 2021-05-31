@@ -2,107 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EC663958C8
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 May 2021 12:14:46 +0200 (CEST)
-Received: from localhost ([::1]:52438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E52703958E4
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 May 2021 12:21:09 +0200 (CEST)
+Received: from localhost ([::1]:54800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lnewW-0000x0-Ub
-	for lists+qemu-devel@lfdr.de; Mon, 31 May 2021 06:14:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39266)
+	id 1lnf2j-0002uj-2I
+	for lists+qemu-devel@lfdr.de; Mon, 31 May 2021 06:21:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43938)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
- id 1lnevk-0000FR-6R; Mon, 31 May 2021 06:13:56 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:19082
- helo=mx0a-001b2d01.pphosted.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lnf1M-00024s-VZ
+ for qemu-devel@nongnu.org; Mon, 31 May 2021 06:19:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59491)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
- id 1lnevi-0003X3-6t; Mon, 31 May 2021 06:13:55 -0400
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 14VA4m0J038375; Mon, 31 May 2021 06:13:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=jL9QWAgYL/36vtHz7YZUH7OYnZs62kmcvcJB3OIE6i4=;
- b=lXUIoCbP55ydmT8BsTYWZeva/04REncuzEQ/8WybuT5D4ucupyLjKlllSWjVCE5KXkeb
- OF9veoN5RedZVMBIBWu7y7INi9kOuUwzU4mQnC17hnR5N9bWd5RJ+GMZeBo32aQaaPma
- I2MKhNGqGyUA9mZTtUwD0RSQzqYjsJhNeK+J4w5zSo7dtu31S+36yEuEPA/r5t60MCyt
- Mbe/HDf4nI1l6qop5odsJKcY+ReD8xeobwg+8alQ+NtNqPYTogvCe/Z5TbaC/FMlaMJD
- DIQ+enN11JPpszGvoLYu/3oyACRGiFEmTb3KpO/1KUtqOuMoC3i2lP9C44tZ1iaO0sae lw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 38vw6xs28a-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 31 May 2021 06:13:52 -0400
-Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 14VA4mVe038305;
- Mon, 31 May 2021 06:13:52 -0400
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0b-001b2d01.pphosted.com with ESMTP id 38vw6xs277-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 31 May 2021 06:13:51 -0400
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 14VACgKp014355;
- Mon, 31 May 2021 10:13:50 GMT
-Received: from b06cxnps3074.portsmouth.uk.ibm.com
- (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
- by ppma06ams.nl.ibm.com with ESMTP id 38ucvh8xyv-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 31 May 2021 10:13:50 +0000
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com
- (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
- by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 14VADmiR33947974
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 31 May 2021 10:13:48 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 02E52A405C;
- Mon, 31 May 2021 10:13:48 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A1FBAA4054;
- Mon, 31 May 2021 10:13:47 +0000 (GMT)
-Received: from localhost.localdomain (unknown [9.145.89.221])
- by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Mon, 31 May 2021 10:13:47 +0000 (GMT)
-Subject: Re: [PATCH] qobject: Fix maybe uninitialized in qdict_array_split
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20210518130638.54529-1-frankja@linux.ibm.com>
- <b4aebccf-db62-74da-ebd0-8ca24ea22f59@linux.ibm.com>
- <97b11fa8-fd32-9f73-612b-dc4209e5b32e@redhat.com>
-From: Janosch Frank <frankja@linux.ibm.com>
-Message-ID: <f45f4858-7c90-1fab-e30c-3909ce68b1e7@linux.ibm.com>
-Date: Mon, 31 May 2021 12:13:47 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lnf1F-0006ei-3J
+ for qemu-devel@nongnu.org; Mon, 31 May 2021 06:19:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1622456375;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=GjoUfo5Mo0Gb5g3L2a2VLdQ5gJqfOOJ6GqIh+7WE+Jo=;
+ b=e78hIApdD4XnsI98yR6kQeY/D9/6wFuHCwgfERxfIxEMWNrRRb5cmS2/xqmDxCh7RZd6k3
+ m58VQajvcMxENsdv8z3GYUKsg/kH3d4aIVWWBVIAAAK4LVRLLChZlLApLz89eVxaAVqmBu
+ oYDKd5otFI70WlqqWNAqqbD6BoA1t2M=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-226-9syNdhe4PbqfWhfb-DN95w-1; Mon, 31 May 2021 06:19:31 -0400
+X-MC-Unique: 9syNdhe4PbqfWhfb-DN95w-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ r1-20020a05600c35c1b029018ec2043223so2965373wmq.7
+ for <qemu-devel@nongnu.org>; Mon, 31 May 2021 03:19:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=GjoUfo5Mo0Gb5g3L2a2VLdQ5gJqfOOJ6GqIh+7WE+Jo=;
+ b=DtLgbi+1xMfjI55fstMc30jk0P0XfcSvTJyyMwjE2j6PylPpTg7iIDneSXJjINu7ZM
+ 7u8w3jCqwFkWuPa8eJths9DQjHK9+CpffUm7lIxOVNsM5ISlSSzLjsqRcBNa+J/AEDxf
+ lWs9/IQIctk69HX8GXDO3DqrYBJjneQ56hfxzEuYdxCiideZ5Q7foM57LpCW5ay7bEK5
+ wILMR2GPC4vc8A9eD1LYvpD3t4n8ZIgScI2cHdjp16t5+bGgo7HHXnIw5GY+TPP1NVt6
+ UZxgWN6GsFYXTnBpiaPrj8PLTGTrzOrLwtbKp+2TVgrYZHltLwCDA28jWBONSQCYgOcr
+ odAg==
+X-Gm-Message-State: AOAM532Sm8hAX2FIHlSq/6pwO7PooO3sJQLOvIvUOMu4FxJwTOME5v9u
+ FFVk1ruYoZW6bcLqOBH5qTOxzvzDTp0F8BEBXLG/ydjA4ucs2QhmbAVGuIj6uKqvnAH5YOg2Zf+
+ kguO02C/ygo4frvU=
+X-Received: by 2002:a1c:bdd6:: with SMTP id n205mr12735299wmf.74.1622456370589; 
+ Mon, 31 May 2021 03:19:30 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyLP0LAKZTIowO2o/NzWBPXabaHeOisaZl2UW9VSebNEmQ0iJvSWf/Wdc32ZEwgOl9RbDVZaA==
+X-Received: by 2002:a1c:bdd6:: with SMTP id n205mr12735283wmf.74.1622456370392; 
+ Mon, 31 May 2021 03:19:30 -0700 (PDT)
+Received: from localhost.localdomain
+ (235.red-83-57-168.dynamicip.rima-tde.net. [83.57.168.235])
+ by smtp.gmail.com with ESMTPSA id j101sm17790006wrj.66.2021.05.31.03.19.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 31 May 2021 03:19:29 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: Vivek Kasireddy <vivek.kasireddy@intel.com>,
+	qemu-devel@nongnu.org
+Subject: [RFC PATCH] hw/display/virtio-gpu: Fix memory leak (CID 1453811)
+Date: Mon, 31 May 2021 12:19:28 +0200
+Message-Id: <20210531101928.1662732-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.26.3
 MIME-Version: 1.0
-In-Reply-To: <97b11fa8-fd32-9f73-612b-dc4209e5b32e@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: 11Z4nlcMBl4eNSf2uLeHpC3V02mXpAJg
-X-Proofpoint-ORIG-GUID: xeK3yLW6op7IZFpPFz1skdZ8HGaP7_gH
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
- definitions=2021-05-31_07:2021-05-31,
- 2021-05-31 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 mlxlogscore=999
- clxscore=1011 impostorscore=0 lowpriorityscore=0 spamscore=0 mlxscore=0
- priorityscore=1501 bulkscore=0 adultscore=0 malwarescore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104190000
- definitions=main-2105310072
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=frankja@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.618,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.37,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -115,85 +92,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>, pbonzini@redhat.com,
- cohuck@redhat.com, borntraeger@de.ibm.com
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/31/21 11:44 AM, Philippe Mathieu-Daudé wrote:
-> On 5/31/21 11:21 AM, Janosch Frank wrote:
->> On 5/18/21 3:06 PM, Janosch Frank wrote:
->>> Lets make the compiler happy.
->>>
->>> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
->>
->> Ping
->> My build is still breaking on Ubuntu because of this.
->>
->>> ---
->>>  qobject/block-qdict.c | 2 +-
->>>  1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/qobject/block-qdict.c b/qobject/block-qdict.c
->>> index 1487cc5dd8..b26524429c 100644
->>> --- a/qobject/block-qdict.c
->>> +++ b/qobject/block-qdict.c
->>> @@ -224,7 +224,7 @@ void qdict_array_split(QDict *src, QList **dst)
->>>      for (i = 0; i < UINT_MAX; i++) {
->>>          QObject *subqobj;
->>>          bool is_subqdict;
->>> -        QDict *subqdict;
->>> +        QDict *subqdict = NULL;
->>>          char indexstr[32], prefix[32];
->>>          size_t snprintf_ret;
-> 
-> Slightly clearer:>
-> -- >8 --
-> diff --git a/qobject/block-qdict.c b/qobject/block-qdict.c
-> index 1487cc5dd8b..8d0f00bc3ce 100644
-> --- a/qobject/block-qdict.c
-> +++ b/qobject/block-qdict.c
-> @@ -224,7 +224,6 @@ void qdict_array_split(QDict *src, QList **dst)
->      for (i = 0; i < UINT_MAX; i++) {
->          QObject *subqobj;
->          bool is_subqdict;
-> -        QDict *subqdict;
->          char indexstr[32], prefix[32];
->          size_t snprintf_ret;
-> 
-> @@ -249,14 +248,16 @@ void qdict_array_split(QDict *src, QList **dst)
->          }
-> 
->          if (is_subqdict) {
-> +            QDict *subqdict = NULL;
-> +
->              qdict_extract_subqdict(src, &subqdict, prefix);
->              assert(qdict_size(subqdict) > 0);
-> +            qlist_append_obj(*dst, QOBJECT(subqdict));
->          } else {
->              qobject_ref(subqobj);
->              qdict_del(src, indexstr);
-> +            qlist_append_obj(*dst, subqobj);
->          }
-> -
-> -        qlist_append_obj(*dst, subqobj ?: QOBJECT(subqdict));
->      }
->  }
-> ---
+To avoid leaking memory on the error path, reorder the
+code as:
+- check the parameters first
+- check resource already existing
+- finally allocate memory
 
-If you want post that snippet yourself, go ahead.
-After all I only fixed a symptom without a closer look into the code.
+Reported-by: Coverity (CID 1453811: RESOURCE_LEAK)
+Fixes: e0933d91b1c ("virtio-gpu: Add virtio_gpu_resource_create_blob")
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+RFC because the s->iov check is dubious.
+---
+ hw/display/virtio-gpu.c | 28 +++++++++++-----------------
+ 1 file changed, 11 insertions(+), 17 deletions(-)
 
-> 
-> Anyhow,
-> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> 
-> Cc'ing qemu-trivial@
-> 
+diff --git a/hw/display/virtio-gpu.c b/hw/display/virtio-gpu.c
+index 4d549377cbc..8d047007bbb 100644
+--- a/hw/display/virtio-gpu.c
++++ b/hw/display/virtio-gpu.c
+@@ -340,8 +340,15 @@ static void virtio_gpu_resource_create_blob(VirtIOGPU *g,
+         return;
+     }
+ 
+-    res = virtio_gpu_find_resource(g, cblob.resource_id);
+-    if (res) {
++    if (cblob.blob_mem != VIRTIO_GPU_BLOB_MEM_GUEST &&
++        cblob.blob_flags != VIRTIO_GPU_BLOB_FLAG_USE_SHAREABLE) {
++        qemu_log_mask(LOG_GUEST_ERROR, "%s: invalid memory type\n",
++                      __func__);
++        cmd->error = VIRTIO_GPU_RESP_ERR_INVALID_PARAMETER;
++        return;
++    }
++
++    if (virtio_gpu_find_resource(g, cblob.resource_id)) {
+         qemu_log_mask(LOG_GUEST_ERROR, "%s: resource already exists %d\n",
+                       __func__, cblob.resource_id);
+         cmd->error = VIRTIO_GPU_RESP_ERR_INVALID_RESOURCE_ID;
+@@ -352,25 +359,12 @@ static void virtio_gpu_resource_create_blob(VirtIOGPU *g,
+     res->resource_id = cblob.resource_id;
+     res->blob_size = cblob.size;
+ 
+-    if (cblob.blob_mem != VIRTIO_GPU_BLOB_MEM_GUEST &&
+-        cblob.blob_flags != VIRTIO_GPU_BLOB_FLAG_USE_SHAREABLE) {
+-        qemu_log_mask(LOG_GUEST_ERROR, "%s: invalid memory type\n",
+-                      __func__);
+-        cmd->error = VIRTIO_GPU_RESP_ERR_INVALID_PARAMETER;
+-        g_free(res);
+-        return;
+-    }
+-
+-    if (res->iov) {
+-        cmd->error = VIRTIO_GPU_RESP_ERR_UNSPEC;
+-        return;
+-    }
+-
+     ret = virtio_gpu_create_mapping_iov(g, cblob.nr_entries, sizeof(cblob),
+                                         cmd, &res->addrs, &res->iov,
+                                         &res->iov_cnt);
+-    if (ret != 0) {
++    if (ret != 0 || res->iov) {
+         cmd->error = VIRTIO_GPU_RESP_ERR_UNSPEC;
++        g_free(res);
+         return;
+     }
+ 
+-- 
+2.26.3
 
-If not I'll take it, test on s390 and send a v2 with qemu-trivial and
-you in CC.
-
-
-Thanks for having a look!
 
