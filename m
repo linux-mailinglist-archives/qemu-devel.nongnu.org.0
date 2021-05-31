@@ -2,80 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40A873956C1
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 May 2021 10:17:31 +0200 (CEST)
-Received: from localhost ([::1]:55618 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E472539575D
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 May 2021 10:48:54 +0200 (CEST)
+Received: from localhost ([::1]:36680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lnd74-0001Eg-BX
-	for lists+qemu-devel@lfdr.de; Mon, 31 May 2021 04:17:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38338)
+	id 1lndbR-0000dt-Hb
+	for lists+qemu-devel@lfdr.de; Mon, 31 May 2021 04:48:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44774)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lnd2z-0005aA-RQ; Mon, 31 May 2021 04:13:18 -0400
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:38673)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lnd2t-0004at-1n; Mon, 31 May 2021 04:13:17 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id j14so9960713wrq.5;
- Mon, 31 May 2021 01:13:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=1f7INFBrd6VvKBWlfKNXOGTBZ2MUgo0lKPAw+Ssq46k=;
- b=C+89ES5wBAqisf5ay1GwlcvkvtUDk/tjkhwMV3xvtEpHNvAu8Y+jX21xHYe2UAt5k+
- zZqbA+hfb369xSwLdTJWvvPMKB2+DRApmoPun4Q1d0CziqFjup5MY8+BlteCHTWwqbX9
- mjNv14/nBnHNMxXqHg1aR/V3wDOyfGTlAoo6bmYA7bNknS28Z3x74GICSxBJo8sU5Ivn
- vpL2FP6TjetswE4yK/DUUECy+nMnO4K2uUkEosu4qMN2Or3FenaLqz8Ld60MrXuL4Ov+
- SGoUVKeVvZbp16CTmqAhx5gjITu32NKSO6aqt8P6U/HpDpfh3gGHo18+y7ma/HNQLCVk
- wsvA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=1f7INFBrd6VvKBWlfKNXOGTBZ2MUgo0lKPAw+Ssq46k=;
- b=Mq7LMYwUKuRlbF29FwIqulpiwwsbc++to6tq/fDM9K5b18URaSDsRQGy9Z5GigRubM
- 4MvOo9yg8ya/ZZnHkcRWWfWnMyXUOZWYybuUtxWT3TEeI2NcZr9YxpDslVK2Rys4CMiG
- 8FYmkPDhMbPaWKfposNztSrWvQI+Ei3tfzkIQ9Zv1Ns/Gbak9QKuwaiqF3Xa5ScIFGDx
- V0MZVbhjhaIo0IJJVOaAH4xJIkZlqCldQHOntXCmUiutm4t3Ly8h5pTG5vGoOWOM2nc/
- tiSo6k+vyNa0Oy9c0l7RgV0nrx2fmzfbWSDyoQXF61QVO/WJqcbx44hipmDFJEtPfbhf
- fPtg==
-X-Gm-Message-State: AOAM532lPRscLCgmeDlCf28bm3nHf+0HfKjwGSqQitIdBL0D6/wesNl2
- bWG2AKVjROxgjCxTZ+Zpcoo=
-X-Google-Smtp-Source: ABdhPJzf4AE6Cmf7zvR5b/fpI0HdW+kmupGKJeMH8AGEhr3HqKSUNGTF3fD+0Y+GPN22Fgrs5KAXnw==
-X-Received: by 2002:a5d:5549:: with SMTP id g9mr14413298wrw.204.1622448787878; 
- Mon, 31 May 2021 01:13:07 -0700 (PDT)
-Received: from [192.168.1.36] (235.red-83-57-168.dynamicip.rima-tde.net.
- [83.57.168.235])
- by smtp.gmail.com with ESMTPSA id j1sm2294304wmi.44.2021.05.31.01.13.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 31 May 2021 01:13:07 -0700 (PDT)
-Subject: Re: [PATCH v2 1/2] hw/char: sifive_uart
-To: =?UTF-8?Q?Lukas_J=c3=bcnger?= <lukas.juenger@greensocs.com>,
- qemu-devel@nongnu.org
-References: <20210530104922.466175-1-lukas.juenger@greensocs.com>
- <20210530104922.466175-2-lukas.juenger@greensocs.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <da4f7177-2057-96ab-71bb-5744ac4e7217@amsat.org>
-Date: Mon, 31 May 2021 10:13:05 +0200
+ (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
+ id 1lnda6-0008K5-6M
+ for qemu-devel@nongnu.org; Mon, 31 May 2021 04:47:30 -0400
+Received: from mail.ispras.ru ([83.149.199.84]:53460)
+ by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
+ id 1lnda2-0000v9-5L
+ for qemu-devel@nongnu.org; Mon, 31 May 2021 04:47:28 -0400
+Received: from [10.12.39.188] (unknown [85.142.117.224])
+ by mail.ispras.ru (Postfix) with ESMTPSA id 8DAC14076B39;
+ Mon, 31 May 2021 08:47:21 +0000 (UTC)
+Subject: Re: [PATCH] replay: improve determinism of virtio-net
+To: Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org
+References: <162125666020.1252655.9997723318921206001.stgit@pasha-ThinkPad-X280>
+ <a0210fac-af32-8f1e-ae5f-237d773c32bf@redhat.com>
+ <91370f34-5a37-1cb1-fa7e-c95e3b7521c4@ispras.ru>
+ <63e36678-452e-7436-10b3-55f9994c069b@redhat.com>
+From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
+Message-ID: <1e2611fd-fd05-e1f3-c6e5-fcb4c47de083@ispras.ru>
+Date: Mon, 31 May 2021 11:47:21 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210530104922.466175-2-lukas.juenger@greensocs.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <63e36678-452e-7436-10b3-55f9994c069b@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Received-SPF: pass client-ip=83.149.199.84;
+ envelope-from=pavel.dovgalyuk@ispras.ru; helo=mail.ispras.ru
+X-Spam_score_int: -24
+X-Spam_score: -2.5
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.618,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.618,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,37 +57,123 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair.francis@wdc.com, qemu-riscv@nongnu.org, bin.meng@windriver.com,
- mark.burton@greensocs.com, palmer@dabbelt.com, marcandre.lureau@redhat.com,
- pbonzini@redhat.com, luc.michel@greensocs.com
+Cc: pbonzini@redhat.com, alex.bennee@linaro.org, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/30/21 12:49 PM, Lukas Jünger wrote:
-> Make function names consistent
+On 31.05.2021 09:39, Jason Wang wrote:
 > 
-> Signed-off-by: Lukas Jünger <lukas.juenger@greensocs.com>
-> ---
->  hw/char/sifive_uart.c | 44 +++++++++++++++++++++----------------------
->  1 file changed, 22 insertions(+), 22 deletions(-)
+> 在 2021/5/31 下午2:35, Pavel Dovgalyuk 写道:
+>> On 31.05.2021 07:55, Jason Wang wrote:
+>>>
+>>> 在 2021/5/17 下午9:04, Pavel Dovgalyuk 写道:
+>>>> virtio-net device uses bottom halves for callbacks.
+>>>> These callbacks should be deterministic, because they affect VM state.
+>>>> This patch replaces BH invocations with corresponding replay functions,
+>>>> making them deterministic in record/replay mode.
+>>>> This patch also disables guest announce timers for record/replay,
+>>>> because they break correct loadvm in deterministic mode.
+>>>
+>>>
+>>> Virtio-net can be configured to work in tx timer mode. Do we need to 
+>>> care about that?
+>>
+>> What does it mean? This patch fixes interaction with TX timer. Is it 
+>> related to that mode?
+> 
+> 
+> I meant is the timer used by virtio_net_handle_tx_timer() safe consider 
+> you disable announce timer.
 
-> @@ -183,9 +183,9 @@ SiFiveUARTState *sifive_uart_create(MemoryRegion *address_space, hwaddr base,
->      SiFiveUARTState *s = g_malloc0(sizeof(SiFiveUARTState));
->      s->irq = irq;
->      qemu_chr_fe_init(&s->chr, chr, &error_abort);
-> -    qemu_chr_fe_set_handlers(&s->chr, uart_can_rx, uart_rx, uart_event,
-> -        uart_be_change, s, NULL, true);
-> -    memory_region_init_io(&s->mmio, NULL, &uart_ops, s,
-> +    qemu_chr_fe_set_handlers(&s->chr, sifive_uart_can_rx, sifive_uart_rx,
-> +            sifive_uart_event, sifive_uart_be_change, s, NULL, true);
+I'm not sure that tx_timer is ok. It uses virtual time, but is not saved 
+in vmstate.
 
-Incorrect indentation, otherwise:
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-
-> +    memory_region_init_io(&s->mmio, NULL, &sifive_uart_ops, s,
->                            TYPE_SIFIVE_UART, SIFIVE_UART_MAX);
->      memory_region_add_subregion(address_space, base, &s->mmio);
->      return s;
+> 
+> Thanks
+> 
+> 
+>>
+>>>
+>>>
+>>>> Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
+>>>> ---
+>>>>   hw/net/virtio-net.c |   13 +++++++++----
+>>>>   1 file changed, 9 insertions(+), 4 deletions(-)
+>>>>
+>>>> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+>>>> index 6b7e8dd04e..e876363236 100644
+>>>> --- a/hw/net/virtio-net.c
+>>>> +++ b/hw/net/virtio-net.c
+>>>> @@ -44,6 +44,7 @@
+>>>>   #include "hw/pci/pci.h"
+>>>>   #include "net_rx_pkt.h"
+>>>>   #include "hw/virtio/vhost.h"
+>>>> +#include "sysemu/replay.h"
+>>>>   #define VIRTIO_NET_VM_VERSION    11
+>>>> @@ -394,7 +395,7 @@ static void virtio_net_set_status(struct 
+>>>> VirtIODevice *vdev, uint8_t status)
+>>>>                   timer_mod(q->tx_timer,
+>>>> qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + n->tx_timeout);
+>>>>               } else {
+>>>> -                qemu_bh_schedule(q->tx_bh);
+>>>> +                replay_bh_schedule_event(q->tx_bh);
+>>>>               }
+>>>>           } else {
+>>>>               if (q->tx_timer) {
+>>>> @@ -2546,7 +2547,7 @@ static void 
+>>>> virtio_net_handle_tx_bh(VirtIODevice *vdev, VirtQueue *vq)
+>>>>           return;
+>>>>       }
+>>>>       virtio_queue_set_notification(vq, 0);
+>>>> -    qemu_bh_schedule(q->tx_bh);
+>>>> +    replay_bh_schedule_event(q->tx_bh);
+>>>
+>>>
+>>> Not familiar with replay but any chance to change qemu_bh_schedule() 
+>>> instead?
+>>
+>> It would be better, but sometimes qemu_bh_schedule is used for the 
+>> callbacks that are not related to the guest state change.
+>>
+>>>
+>>> Thanks
+>>>
+>>>
+>>>>   }
+>>>>   static void virtio_net_tx_timer(void *opaque)
+>>>> @@ -2602,7 +2603,7 @@ static void virtio_net_tx_bh(void *opaque)
+>>>>       /* If we flush a full burst of packets, assume there are
+>>>>        * more coming and immediately reschedule */
+>>>>       if (ret >= n->tx_burst) {
+>>>> -        qemu_bh_schedule(q->tx_bh);
+>>>> +        replay_bh_schedule_event(q->tx_bh);
+>>>>           q->tx_waiting = 1;
+>>>>           return;
+>>>>       }
+>>>> @@ -2616,7 +2617,7 @@ static void virtio_net_tx_bh(void *opaque)
+>>>>           return;
+>>>>       } else if (ret > 0) {
+>>>>           virtio_queue_set_notification(q->tx_vq, 0);
+>>>> -        qemu_bh_schedule(q->tx_bh);
+>>>> +        replay_bh_schedule_event(q->tx_bh);
+>>>>           q->tx_waiting = 1;
+>>>>       }
+>>>>   }
+>>>> @@ -3206,6 +3207,10 @@ static void 
+>>>> virtio_net_device_realize(DeviceState *dev, Error **errp)
+>>>>           n->host_features |= (1ULL << VIRTIO_NET_F_MTU);
+>>>>       }
+>>>> +    if (replay_mode != REPLAY_MODE_NONE) {
+>>>> +        n->host_features &= ~(1ULL << VIRTIO_NET_F_GUEST_ANNOUNCE);
+>>>> +    }
+>>>> +
+>>>>       if (n->net_conf.duplex_str) {
+>>>>           if (strncmp(n->net_conf.duplex_str, "half", 5) == 0) {
+>>>>               n->net_conf.duplex = DUPLEX_HALF;
+>>>>
+>>>>
+>>>
+>>
 > 
 
 
