@@ -2,86 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98FC7396927
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 May 2021 22:57:50 +0200 (CEST)
-Received: from localhost ([::1]:54516 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7394F39693D
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 May 2021 23:18:59 +0200 (CEST)
+Received: from localhost ([::1]:34266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lnoyr-0001ZQ-HS
-	for lists+qemu-devel@lfdr.de; Mon, 31 May 2021 16:57:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34062)
+	id 1lnpJJ-0007qj-UZ
+	for lists+qemu-devel@lfdr.de; Mon, 31 May 2021 17:18:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38080)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lnouw-0006zA-Cm; Mon, 31 May 2021 16:53:48 -0400
-Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:56765)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lnouu-0003aD-Nz; Mon, 31 May 2021 16:53:46 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.west.internal (Postfix) with ESMTP id 4DB9519BA;
- Mon, 31 May 2021 16:53:42 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Mon, 31 May 2021 16:53:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm3; bh=T8UUI5k1zWC+31XT8cTH8Dl5Dvu
- DIx8kC3BVvGk6ZbA=; b=X/ype5wB7W1KgMlgyN+5zOVdRa1lJjEkI1Y2/1yR3mx
- 4GDyhPLXq1ezJJH8Sm33JTSjFO8RjgJy5xwTgse8VO2fIL4TH8+RI1fw67jT6Waf
- PQz25Rrj+2AaAXSt9tIv99NynBGaskdzEXjT+UWktmFAR5HbF1XyQO009pASByHB
- eDke7v6wx/GsHA8cmT7mcQ8q8IxPxAV3Vtcc81y9yL/Nq0EwTdWSpwoC9sI4inmj
- 9fAG1jQZJcK4mobmB2W8Rkm8vAAeDjcLvhBi3/v7cBBFlGAxMBmzyJ0OtfhdalcO
- bSo5FCdg5uo/e1fyscAJK5qx0DSU5RSLWsCnCj5c6lg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=T8UUI5
- k1zWC+31XT8cTH8Dl5DvuDIx8kC3BVvGk6ZbA=; b=PSXYm3EJeGS2ymvH1iTA8Q
- 6Na4kYy0HDWzWgG6hOxz4HTNl1nufctOVwpz1ux7LsBsj0ObXD554dWrnLxy4U1l
- f1FcxVwsaqBX5q00E1wog7hTU2Ae9WtkBe8TSg/qF6z479BA1doPIirvvU6np4d/
- i4shLZS6nGosz15SRq+hJ5+PxunfUlvEAq89g9T9xD43BcROAizsa05BONsOzBJp
- 6nb3KgNUNE+hUcLn5+XYUlXR3qWh+PdCa3l2h4jp6AABwZvPqDW/y4IBCAblj/xa
- b0CtpRB0oRGHKyd7tTrSWzmTLog6K8JEh/1NMJP9aV19aob6wKdA3Kx2AjTIy5nA
- ==
-X-ME-Sender: <xms:1Uy1YCRvX3-6AilbX6LZcbwrcCcbJ-bBeFM7VEdUSlQODwj7wJwLjg>
- <xme:1Uy1YHzGou5phGD3G3GseBOQ0kkqHUN_rN2qhybNRFLIEIDOTBte3IoLQgLSOp0DI
- AeDEytj5XJsG6JYyl0>
-X-ME-Received: <xmr:1Uy1YP1CUlOvYoKypCwPb9pskKfPBYyZKvranObGIIhXuVdB_Qk9A00bMnTKs06oVVnzutGoIodi1UbecbZqoiIEH7_1s1S2uFPCpSizhhZJHJNxJQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdelfedgudehhecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecunecujfgurhepfffhvffukfhfgggtuggjsehgtd
- erredttdejnecuhfhrohhmpefmlhgruhhsucflvghnshgvnhcuoehithhssehirhhrvghl
- vghvrghnthdrughkqeenucggtffrrghtthgvrhhnpeejgeduffeuieetkeeileekvdeule
- etveejudeileduffefjeegfffhuddvudffkeenucevlhhushhtvghrufhiiigvpedunecu
- rfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:1Uy1YOA_Vc4X8h2PVC1fN8-zb9Mg8oPsWbvxkVyI3W4DOw8hIzFiOA>
- <xmx:1Uy1YLg2c9AqUZxrM9iGxsyohDRRtYo0oSbY-Ag9UIw-CLSn9Mk7-g>
- <xmx:1Uy1YKo4vsbQ0DlKHhVMw0VUGTkSembvx7VUoS3hUk8NdVf1vi0-Hg>
- <xmx:1Uy1YLjnej-b_Igay7wCh68QQ8Zr-7OG27a__WxFE9L4pQOKSIxdjQ>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 31 May 2021 16:53:40 -0400 (EDT)
-Date: Mon, 31 May 2021 22:53:39 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: Gollu Appalanaidu <anaidu.gollu@samsung.com>
-Subject: Re: [PATCH 2/3] hw/nvme/ctrl: fix endian conversion for nsid in ctrl
- list
-Message-ID: <YLVM0wzZvZpaL7OK@apples.localdomain>
-References: <20210517100736.17063-1-anaidu.gollu@samsung.com>
- <CGME20210517101212epcas5p356060d787b2a70309436bf3ecdf1e17c@epcas5p3.samsung.com>
- <20210517100736.17063-3-anaidu.gollu@samsung.com>
+ (Exim 4.90_1) (envelope-from <luis.pires@eldorado.org.br>)
+ id 1lnpFx-000712-Ne
+ for qemu-devel@nongnu.org; Mon, 31 May 2021 17:15:29 -0400
+Received: from [201.28.113.2] (port=8197 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <luis.pires@eldorado.org.br>) id 1lnpFu-0000Ph-74
+ for qemu-devel@nongnu.org; Mon, 31 May 2021 17:15:28 -0400
+Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
+ Microsoft SMTPSVC(8.5.9600.16384); Mon, 31 May 2021 18:14:21 -0300
+Received: from eldorado.org.br (unknown [10.10.70.45])
+ by power9a (Postfix) with ESMTP id 7A9A2801481;
+ Mon, 31 May 2021 18:14:21 -0300 (-03)
+From: Luis Pires <luis.pires@eldorado.org.br>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2] docs/devel: Explain in more detail the TB chaining
+ mechanisms
+Date: Mon, 31 May 2021 18:14:11 -0300
+Message-Id: <20210531211411.173895-1-luis.pires@eldorado.org.br>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="xajDCdTSxhVpSwQ8"
-Content-Disposition: inline
-In-Reply-To: <20210517100736.17063-3-anaidu.gollu@samsung.com>
-Received-SPF: pass client-ip=64.147.123.21; envelope-from=its@irrelevant.dk;
- helo=wout5-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-OriginalArrivalTime: 31 May 2021 21:14:21.0671 (UTC)
+ FILETIME=[ECE11770:01D75661]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
+Received-SPF: pass client-ip=201.28.113.2;
+ envelope-from=luis.pires@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,86 +55,153 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, qemu-block@nongnu.org,
- qemu-devel@nongnu.org, mreitz@redhat.com, stefanha@redhat.com,
- kbusch@kernel.org
+Cc: pbonzini@redhat.com, Luis Pires <luis.pires@eldorado.org.br>,
+ richard.henderson@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Signed-off-by: Luis Pires <luis.pires@eldorado.org.br>
+---
+v2:
+ - s/outer execution loop/main loop
+ - Mention re-evaluation of cpu_exec_interrupt()
+ - Changed wording on lookup_and_goto_ptr()
+ - Added more details to step 2 of goto+tb + exit_tb
+ - Added details about when goto_tb + exit_tb cannot be used
 
---xajDCdTSxhVpSwQ8
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+ docs/devel/tcg.rst | 105 +++++++++++++++++++++++++++++++++++++++------
+ 1 file changed, 93 insertions(+), 12 deletions(-)
 
-On May 17 15:37, Gollu Appalanaidu wrote:
->In Identify Ctrl List of the CNS 0x12 and 0x13 no endian conversion
->for the nsid field.
->
->Signed-off-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
->---
-> hw/nvme/ctrl.c | 7 ++++---
-> 1 file changed, 4 insertions(+), 3 deletions(-)
->
->diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
->index d08a3350e2..813a72c655 100644
->--- a/hw/nvme/ctrl.c
->+++ b/hw/nvme/ctrl.c
->@@ -4255,6 +4255,7 @@ static uint16_t nvme_identify_ctrl_list(NvmeCtrl *n,=
- NvmeRequest *req,
->                                         bool attached)
-> {
->     NvmeIdentify *c =3D (NvmeIdentify *)&req->cmd;
->+    uint32_t nsid =3D le32_to_cpu(c->nsid);
->     uint16_t min_id =3D le16_to_cpu(c->ctrlid);
->     uint16_t list[NVME_CONTROLLER_LIST_SIZE] =3D {};
->     uint16_t *ids =3D &list[1];
->@@ -4265,11 +4266,11 @@ static uint16_t nvme_identify_ctrl_list(NvmeCtrl *=
-n, NvmeRequest *req,
->     trace_pci_nvme_identify_ctrl_list(c->cns, min_id);
->
->     if (attached) {
->-        if (c->nsid =3D=3D NVME_NSID_BROADCAST) {
->+        if (nsid =3D=3D NVME_NSID_BROADCAST) {
->             return NVME_INVALID_FIELD | NVME_DNR;
->         }
->
->-        ns =3D nvme_subsys_ns(n->subsys, c->nsid);
->+        ns =3D nvme_subsys_ns(n->subsys, nsid);
->         if (!ns) {
->             return NVME_INVALID_FIELD | NVME_DNR;
->         }
->@@ -4281,7 +4282,7 @@ static uint16_t nvme_identify_ctrl_list(NvmeCtrl *n,=
- NvmeRequest *req,
->             continue;
->         }
->
->-        if (attached && !nvme_ns(ctrl, c->nsid)) {
->+        if (attached && !nvme_ns(ctrl, nsid)) {
->             continue;
->         }
->
->--=20
->2.17.1
->
+diff --git a/docs/devel/tcg.rst b/docs/devel/tcg.rst
+index 4ebde44b9d..9cc56df22a 100644
+--- a/docs/devel/tcg.rst
++++ b/docs/devel/tcg.rst
+@@ -11,13 +11,14 @@ performances.
+ QEMU's dynamic translation backend is called TCG, for "Tiny Code
+ Generator". For more information, please take a look at ``tcg/README``.
+ 
+-Some notable features of QEMU's dynamic translator are:
++The following sections outline some notable features and implementation
++details of QEMU's dynamic translator.
+ 
+ CPU state optimisations
+ -----------------------
+ 
+-The target CPUs have many internal states which change the way it
+-evaluates instructions. In order to achieve a good speed, the
++The target CPUs have many internal states which change the way they
++evaluate instructions. In order to achieve a good speed, the
+ translation phase considers that some state information of the virtual
+ CPU cannot change in it. The state is recorded in the Translation
+ Block (TB). If the state changes (e.g. privilege level), a new TB will
+@@ -31,17 +32,97 @@ Direct block chaining
+ ---------------------
+ 
+ After each translated basic block is executed, QEMU uses the simulated
+-Program Counter (PC) and other cpu state information (such as the CS
++Program Counter (PC) and other CPU state information (such as the CS
+ segment base value) to find the next basic block.
+ 
+-In order to accelerate the most common cases where the new simulated PC
+-is known, QEMU can patch a basic block so that it jumps directly to the
+-next one.
+-
+-The most portable code uses an indirect jump. An indirect jump makes
+-it easier to make the jump target modification atomic. On some host
+-architectures (such as x86 or PowerPC), the ``JUMP`` opcode is
+-directly patched so that the block chaining has no overhead.
++In its simplest, less optimized form, this is done by exiting from the
++current TB, going through the TB epilogue, and then back to the
++main loop. That’s where QEMU looks for the next TB to execute,
++translating it from the guest architecture if it isn’t already available
++in memory. Then QEMU proceeds to execute this next TB, starting at the
++prologue and then moving on to the translated instructions.
++
++Exiting from the TB this way will cause the ``cpu_exec_interrupt()``
++callback to be re-evaluated before executing additional instructions.
++It is mandatory to exit this way after any CPU state changes that may
++unmask interrupts.
++
++In order to accelerate the most common cases where the TB for the new
++simulated PC is already available, QEMU has mechanisms that allow
++multiple TBs to be chained directly, without having to go back to the
++main loop as described above. These mechanisms are:
++
++``lookup_and_goto_ptr``
++^^^^^^^^^^^^^^^^^^^^^^^
++
++Calling ``tcg_gen_lookup_and_goto_ptr()`` will emit a call to
++``helper_lookup_tb_ptr``. This helper will look for an existing TB that
++matches the current CPU state. If the destination TB is available its
++code address is returned, otherwise the address of the JIT epilogue is
++returned. The call to the helper is always followed by the tcg ``goto_ptr``
++opcode, which branches to the returned address. In this way, we either
++branch to the next TB or return to the main loop.
++
++``goto_tb + exit_tb``
++^^^^^^^^^^^^^^^^^^^^^
++
++The translation code usually implements branching by performing the
++following steps:
++
++1. Call ``tcg_gen_goto_tb()`` passing a jump slot index (either 0 or 1)
++   as a parameter.
++
++2. Emit TCG instructions to update the CPU state with any information
++   that has been assumed constant and is required by the main loop to
++   correctly locate and execute the next TB. For most guests, this is
++   just the PC of the branch destination, but others may store additional
++   data. The information updated in this step must be inferable from both
++   ``cpu_get_tb_cpu_state()`` and ``cpu_restore_state()``.
++
++3. Call ``tcg_gen_exit_tb()`` passing the address of the current TB and
++   the jump slot index again.
++
++Step 1, ``tcg_gen_goto_tb()``, will emit a ``goto_tb`` TCG
++instruction that later on gets translated to a jump to an address
++associated with the specified jump slot. Initially, this is the address
++of step 2's instructions, which update the CPU state information. Step 3,
++``tcg_gen_exit_tb()``, exits from the current TB returning a tagged
++pointer composed of the last executed TB’s address and the jump slot
++index.
++
++The first time this whole sequence is executed, step 1 simply jumps
++to step 2. Then the CPU state information gets updated and we exit from
++the current TB. As a result, the behavior is very similar to the less
++optimized form described earlier in this section.
++
++Next, the main loop looks for the next TB to execute using the
++current CPU state information (creating the TB if it wasn’t already
++available) and, before starting to execute the new TB’s instructions,
++patches the previously executed TB by associating one of its jump
++slots (the one specified in the call to ``tcg_gen_exit_tb()``) with the
++address of the new TB.
++
++The next time this previous TB is executed and we get to that same
++``goto_tb`` step, it will already be patched (assuming the destination TB
++is still in memory) and will jump directly to the first instruction of
++the destination TB, without going back to the main loop.
++
++For the ``goto_tb + exit_tb`` mechanism to be used, the following
++conditions need to be satisfied:
++
++* The change in CPU state must be constant, e.g., a direct branch and
++  not an indirect branch.
++
++* The direct branch cannot cross a page boundary. Memory mappings
++  may change, causing the code at the destination address to change.
++
++Note that, on step 3 (``tcg_gen_exit_tb()``), in addition to the
++jump slot index, the address of the TB just executed is also returned.
++This is important because that's the TB that will have to be patched
++by the main loop, and not necessarily the one that was directly
++executed from it. This is due to the fact that the original TB might
++have already been chained to additional TBs, which ended up being
++executed without the main loop's knowledge.
+ 
+ Self-modifying code and translated code invalidation
+ ----------------------------------------------------
+-- 
+2.25.1
 
-I know that the endianness conversion was missing before your patch, but=20
-please squash this up into patch 1.
-
---xajDCdTSxhVpSwQ8
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmC1TNEACgkQTeGvMW1P
-DemobQgAw5gkjbiJxkaTlnRrCcKeelbh3ZJFfJ/JtU9czVRoUaHt5oBO6QsBkhvo
-Yo+9i5XhOJBNFMac7ivHA/+pWDDkBEfkE2Gm58Mi3pp1dqLLPrIrJO7oc0C3D8ng
-zLUeOJUE5dzZzWYf0+3fpE/+hM+w30EYC2KoeGxzXSgZyakaxVijAZNn6lauY3cM
-Y2h0jsnJmZP0Denxa2+WusepnbCSQetHfA1JH+yEpSBjPnJOALN/xKwJiJjuRE+C
-Cu7ucqa6PepaGwG6qJIkri9ri8IoIqGY79KWLUne/jc4ckrepCE0K5YMFlspD0b/
-MjGFDG0id8FA904kG5Xa9buEx6qFqA==
-=Cki1
------END PGP SIGNATURE-----
-
---xajDCdTSxhVpSwQ8--
 
