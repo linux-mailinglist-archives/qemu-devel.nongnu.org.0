@@ -2,96 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C0DB39685A
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 May 2021 21:27:39 +0200 (CEST)
-Received: from localhost ([::1]:36230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DC9039686B
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 May 2021 21:45:06 +0200 (CEST)
+Received: from localhost ([::1]:41184 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lnnZa-0007Wo-De
-	for lists+qemu-devel@lfdr.de; Mon, 31 May 2021 15:27:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45476)
+	id 1lnnqS-0003Iu-OZ
+	for lists+qemu-devel@lfdr.de; Mon, 31 May 2021 15:45:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48494)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1lnnYM-0006fO-PC
- for qemu-devel@nongnu.org; Mon, 31 May 2021 15:26:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51844)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1lnnl4-0001VZ-Pk; Mon, 31 May 2021 15:39:30 -0400
+Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:33705)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1lnnYI-00082Q-9V
- for qemu-devel@nongnu.org; Mon, 31 May 2021 15:26:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622489176;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=3/XbuIO9I+M428mOxp1r+YmN5bZRtLWTvpXlj4m2tTM=;
- b=BFx48MH98239rTmkx+MlgY7RkiZDHVv8E1QXWtCR2XXObmWK2kvahGRgZ+Fb2isj7z53lT
- qycUMc9c63e4NMC3S7FdGb/Kx53gvOg4nanonxQX8LWCcNPON+E4+vF1CikpL7svslGJCU
- 9q4kJpfnyYux6TsGjw3Ji2d5egakXH8=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-433-6RmbVkX0OGy7UW0ote1H7w-1; Mon, 31 May 2021 15:26:14 -0400
-X-MC-Unique: 6RmbVkX0OGy7UW0ote1H7w-1
-Received: by mail-qv1-f69.google.com with SMTP id
- k6-20020a0cd6860000b029021936c6e8ffso1942689qvi.7
- for <qemu-devel@nongnu.org>; Mon, 31 May 2021 12:26:13 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:reply-to:subject:to:cc:references:from
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-transfer-encoding:content-language;
- bh=3/XbuIO9I+M428mOxp1r+YmN5bZRtLWTvpXlj4m2tTM=;
- b=YPmXqibkOteFVY6wg+uoj9bW6FQg0u75VrA9NLFrNM3/bwWTM5s4XUG/mi1tWsYPk4
- nibP1rcGQfnvXXzkiIGVcnMFJibskMZusmkh4JKIhVWGIK/7AbWVTwya2E18tOKz01Cr
- ov7LFBSvZnCAFPtirBSLe/EAOly3A+ZHi/re13I2o5KKNOrAzzZiXkWCbmx6JrUPrW27
- MIxjaUwsfexE7uJfYeNS7yrusfdp648oPiZ0dnmxlwnaghyAz08mgJcEQh1Zgwvcrlb2
- 53Sj8gqAnyNbKLNhJkTMZ8PLU6Jj+YsXUJ/yPUI7z46C6ILPtxRzqdtCAKsUxnAklmrL
- 1sAg==
-X-Gm-Message-State: AOAM533KEXPZTCr6Wdn214XMUfCPsNdfLejvUBZUKkmfGAxwfIgMI96x
- g5S0Z6N1TNLdzSyDWSZByVk39udZ/pTQMc7HqOjOKQXV46KY+B2xKz93s0JegdxctGvVzcAChAk
- ZnhBScgwWBe7hsh0=
-X-Received: by 2002:a05:620a:12d9:: with SMTP id
- e25mr17409100qkl.481.1622489172935; 
- Mon, 31 May 2021 12:26:12 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzg4UAcZdGLfn0LRfFBjq9oOv2MRsAbnEzL64rS+MlHadeWWWjHYxUEJdepIOwjL95r60FLGg==
-X-Received: by 2002:a05:620a:12d9:: with SMTP id
- e25mr17409086qkl.481.1622489172685; 
- Mon, 31 May 2021 12:26:12 -0700 (PDT)
-Received: from wainer-laptop.localdomain ([179.154.247.20])
- by smtp.gmail.com with ESMTPSA id q12sm8993221qtl.13.2021.05.31.12.26.09
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 31 May 2021 12:26:12 -0700 (PDT)
-Subject: Re: [PATCH] tests: Boot and halt a Linux guest on the Raspberry Pi 2
- machine
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20210531113837.1689775-1-f4bug@amsat.org>
-From: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-ID: <eb40c42b-72aa-39dd-784c-d31dbdbdfc8a@redhat.com>
-Date: Mon, 31 May 2021 16:26:07 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1lnnl1-0008Kf-Sx; Mon, 31 May 2021 15:39:30 -0400
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.west.internal (Postfix) with ESMTP id C713D1667;
+ Mon, 31 May 2021 15:39:23 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute5.internal (MEProxy); Mon, 31 May 2021 15:39:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm3; bh=6iONf2sGcqDtymDn9KFPoCmf4CZ
+ HgbpB3QrxV+qM4rM=; b=NQ5K7YmILOcnEvV/nUqM5jRL66evgmkisjI4uPwzJCq
+ zPSh/nW2P9eN6kp1EmZJUT/OV0huiaz9Z8FALz9H48DxoWhxgeS7JPvDpuVsSFJO
+ 455HopU/rR8ggQIRlqcrHNXXGNVgtCTzTKryf3jcN4/vlezYa85umPJNvTNNJtr9
+ PxbfRdyD+rWLePXEFdpHiyZmA3rSxddZe6IuUZDkSnpbmFcNad554V6+vR1lsGcI
+ geauKC8v57Q7Vt8BB48QdUUYdSfOLrMPKe8lmJJluxDfXBNRPpN3lELkhglYZfnu
+ +cPLnfvUBFwW5TYkuHDWqpR4BA/rIdAsDsHYokrIJUg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=6iONf2
+ sGcqDtymDn9KFPoCmf4CZHgbpB3QrxV+qM4rM=; b=WUE4B+jAkvYTOayKXUJ2Wc
+ +Yea8q9idi/eTdojHh83IKGYQxcUXnDg1uromeqaVi5CB/JsaLcR1gndK3T2lWYc
+ oqASZsuak0HeQmqvWhnsEE7TxuyotT0Td5OhelJn5LKuaQ5YnX5yFErD3JNcbsm+
+ NuggwV8HrOLbLWjXUggMjbS5cH6ZLFqITsTztKpzModHtbYmLWwAu/IZXAnX27oQ
+ lsUCSnLGyzJRqEd9VE7jMtu9X8tidgs0//Ygbd/iC3kTuMx6IiU06FhLro353Itv
+ EGagC4YWlGt+wWz8M3DuMPRpq7DjoYw+iAW9N3PEYkyAiFDfNNr70WxZnbO3Ia2A
+ ==
+X-ME-Sender: <xms:aju1YJFt8pyPzRgB7wX6fwMNyrdZjC4Bv1WWldcVS2nqqbad9Xpkpg>
+ <xme:aju1YOUIS6nw5ErfpHvNK3JX-494QYJdrObSxVt6ZGJqDW3V0apDErYnTzoBy2Caw
+ Zyf_b_aqnLw2i-3_9M>
+X-ME-Received: <xmr:aju1YLLfbD-QXXOs28v4vDeWTN3bYvYzIQkvFcPD4C9cu1rf_kBQlaJH8_sKX6ydxDLwhDF5Uq9_C0fJzg6Otts2hN6LbAdy6n8gwSRSs-Op-wCQPQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdelfedgudegudcutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enucfjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghu
+ shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
+ htvghrnhepjeegudffueeiteekieelkedvueelteevjeduieeludfffeejgeffhfduvddu
+ ffeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepih
+ htshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:aju1YPGWUKsGzOAPPeosAihKxyRB6LIxxFQ0tU_O2oQ3RXmuDjQXuw>
+ <xmx:aju1YPWOXLmB5yBUOtf-WrMyVTUk6rXxevcEQ4YZ8jVh5jg_CEqAMA>
+ <xmx:aju1YKOYm9VIwa_uoOjaW_CBDLm5NbBLLGiLzZHTUp79jUw5rZjpAg>
+ <xmx:azu1YKRPE19VXo7GvoDVqPIvds4zTKwrYJTzou1vBU92CkAO1DqFhA>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 31 May 2021 15:39:21 -0400 (EDT)
+Date: Mon, 31 May 2021 21:39:20 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: Niklas Cassel <Niklas.Cassel@wdc.com>
+Subject: Re: [PATCH] hw/nvme: add param to control auto zone transitioning to
+ zone state closed
+Message-ID: <YLU7aJDjk8L8JMIi@apples.localdomain>
+References: <20210528110459.65387-1-Niklas.Cassel@wdc.com>
+ <YLDSfrUIPaZxk6VD@apples.localdomain> <YLUD4BggUinxUBGl@x1-carbon>
 MIME-Version: 1.0
-In-Reply-To: <20210531113837.1689775-1-f4bug@amsat.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=wainersm@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -37
-X-Spam_score: -3.8
-X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.372,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.591, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="flms3NPGpWUqDAFU"
+Content-Disposition: inline
+In-Reply-To: <YLUD4BggUinxUBGl@x1-carbon>
+Received-SPF: pass client-ip=64.147.123.21; envelope-from=its@irrelevant.dk;
+ helo=wout5-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -104,131 +94,301 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: wainersm@redhat.com
-Cc: Nolan Leake <nolan@sigbus.net>, qemu-arm@nongnu.org,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Andrew Baumann <Andrew.Baumann@microsoft.com>, Cleber Rosa <crosa@redhat.com>
+Cc: "kbusch@kernel.org" <kbusch@kernel.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-On 5/31/21 8:38 AM, Philippe Mathieu-Daudé wrote:
-> Add a test booting and quickly shutdown a raspi2 machine,
-> to test the power management model:
+--flms3NPGpWUqDAFU
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On May 31 15:42, Niklas Cassel wrote:
+>On Fri, May 28, 2021 at 01:22:38PM +0200, Klaus Jensen wrote:
+>> On May 28 11:05, Niklas Cassel wrote:
+>> > From: Niklas Cassel <niklas.cassel@wdc.com>
+>> >
+>> > In the Zoned Namespace Command Set Specification, chapter
+>> > 2.5.1 Managing resources
+>> >
+>> > "The controller may transition zones in the ZSIO:Implicitly Opened sta=
+te
+>> > to the ZSC:Closed state for resource management purposes."
+>> >
+>> > The word may in this sentence means that automatically transitioning
+>> > an implicitly opened zone to closed is completely optional.
+>> >
+>> > Add a new parameter so that the user can control if this automatic
+>> > transitioning should be performed or not.
+>> >
+>> > Being able to control this can help with verifying that e.g. a user-sp=
+ace
+>> > program behaves properly even without this optional ZNS feature.
+>> >
+>> > The default value is set to true, in order to not change the existing
+>> > behavior.
+>> >
+>> > Signed-off-by: Niklas Cassel <niklas.cassel@wdc.com>
+>> > ---
+>> > hw/nvme/ctrl.c | 9 ++++++++-
+>> > hw/nvme/ns.c   | 2 ++
+>> > hw/nvme/nvme.h | 1 +
+>> > 3 files changed, 11 insertions(+), 1 deletion(-)
+>> >
+>> > diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+>> > index 40a7efcea9..d00f0297a5 100644
+>> > --- a/hw/nvme/ctrl.c
+>> > +++ b/hw/nvme/ctrl.c
+>> > @@ -141,6 +141,11 @@
+>> >  *
+>> >  *     zoned.cross_read=3D<enable RAZB, default: false>
+>> >  *         Setting this property to true enables Read Across Zone Boun=
+daries.
+>> > + *
+>> > + *     zoned.auto_transition=3D<enable auto resource management, defa=
+ult: true>
+>> > + *         Indicates if zones in zone state implicitly opened can be
+>> > + *         automatically transitioned to zone state closed for resour=
+ce
+>> > + *         management purposes.
+>> >  */
+>> >
+>> > #include "qemu/osdep.h"
+>> > @@ -1699,7 +1704,9 @@ static uint16_t nvme_zrm_open_flags(NvmeNamespac=
+e *ns, NvmeZone *zone,
+>> >         /* fallthrough */
+>> >
+>> >     case NVME_ZONE_STATE_CLOSED:
+>> > -        nvme_zrm_auto_transition_zone(ns);
+>> > +        if (ns->params.auto_transition_zones) {
+>> > +            nvme_zrm_auto_transition_zone(ns);
+>> > +        }
+>> >         status =3D nvme_aor_check(ns, act, 1);
+>> >         if (status) {
+>> >             return status;
+>> > diff --git a/hw/nvme/ns.c b/hw/nvme/ns.c
+>> > index 3fec9c6273..31dee43d30 100644
+>> > --- a/hw/nvme/ns.c
+>> > +++ b/hw/nvme/ns.c
+>> > @@ -531,6 +531,8 @@ static Property nvme_ns_props[] =3D {
+>> >                        params.max_open_zones, 0),
+>> >     DEFINE_PROP_UINT32("zoned.descr_ext_size", NvmeNamespace,
+>> >                        params.zd_extension_size, 0),
+>> > +    DEFINE_PROP_BOOL("zoned.auto_transition", NvmeNamespace,
+>> > +                     params.auto_transition_zones, true),
+>> >     DEFINE_PROP_END_OF_LIST(),
+>> > };
+>> >
+>> > diff --git a/hw/nvme/nvme.h b/hw/nvme/nvme.h
+>> > index 81a35cda14..bd86054db2 100644
+>> > --- a/hw/nvme/nvme.h
+>> > +++ b/hw/nvme/nvme.h
+>> > @@ -100,6 +100,7 @@ typedef struct NvmeNamespaceParams {
+>> >     uint32_t max_active_zones;
+>> >     uint32_t max_open_zones;
+>> >     uint32_t zd_extension_size;
+>> > +    bool     auto_transition_zones;
+>> > } NvmeNamespaceParams;
+>> >
+>> > typedef struct NvmeNamespace {
+>> > --
+>> > 2.31.1
+>> >
+>>
+>> Looks good Niklas!
+>>
+>> Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
 >
->     (1/1) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_raspi2_initrd:
->    console: [    0.000000] Booting Linux on physical CPU 0xf00
->    console: [    0.000000] Linux version 4.14.98-v7+ (dom@dom-XPS-13-9370) (gcc version 4.9.3 (crosstool-NG crosstool-ng-1.22.0-88-g8460611)) #1200 SMP Tue Feb 12 20:27:48 GMT 2019
->    console: [    0.000000] CPU: ARMv7 Processor [410fc075] revision 5 (ARMv7), cr=10c5387d
->    console: [    0.000000] CPU: div instructions available: patching division code
->    console: [    0.000000] CPU: PIPT / VIPT nonaliasing data cache, VIPT aliasing instruction cache
->    console: [    0.000000] OF: fdt: Machine model: Raspberry Pi 2 Model B
->    ...
->    console: Boot successful.
->    console: cat /proc/cpuinfo
->    console: / # cat /proc/cpuinfo
->    ...
->    console: processor      : 3
->    console: model name     : ARMv7 Processor rev 5 (v7l)
->    console: BogoMIPS       : 125.00
->    console: Features       : half thumb fastmult vfp edsp neon vfpv3 tls vfpv4 idiva idivt vfpd32 lpae evtstrm
->    console: CPU implementer        : 0x41
->    console: CPU architecture: 7
->    console: CPU variant    : 0x0
->    console: CPU part       : 0xc07
->    console: CPU revision   : 5
->    console: Hardware       : BCM2835
->    console: Revision       : 0000
->    console: Serial         : 0000000000000000
->    console: cat /proc/iomem
->    console: / # cat /proc/iomem
->    console: 00000000-3bffffff : System RAM
->    console: 00008000-00afffff : Kernel code
->    console: 00c00000-00d468ef : Kernel data
->    console: 3f006000-3f006fff : dwc_otg
->    console: 3f007000-3f007eff : /soc/dma@7e007000
->    console: 3f00b880-3f00b8bf : /soc/mailbox@7e00b880
->    console: 3f100000-3f100027 : /soc/watchdog@7e100000
->    console: 3f101000-3f102fff : /soc/cprman@7e101000
->    console: 3f200000-3f2000b3 : /soc/gpio@7e200000
->    PASS (24.59 s)
->    RESULTS    : PASS 1 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0 | CANCEL 0
->    JOB TIME   : 25.02 s
+>In reality, it is the controller that does the auto transitioning.
 >
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
-> Based-on: <162137039825.30884.2445825798240809194-0@git.sr.ht>
-> ---
->   tests/acceptance/boot_linux_console.py | 43 ++++++++++++++++++++++++++
->   1 file changed, 43 insertions(+)
-
-Even though I did not patch my sources with the fix, I ran the test and 
-it failed on the VM's shutdown (as expected, I suppose). The test code 
-looks good to me, so:
-
-Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-
+>In theory, one namespace could be attached to two different controllers,
+>and I guess, in that case, it depends on if the controller that we used
+>when doing the write supports auto transitioning or not, that determines
+>if a zone will be auto transitioned or not.
 >
-> diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
-> index 276a53f1464..19d328203c7 100644
-> --- a/tests/acceptance/boot_linux_console.py
-> +++ b/tests/acceptance/boot_linux_console.py
-> @@ -16,6 +16,7 @@
->   from avocado import skip
->   from avocado import skipUnless
->   from avocado_qemu import Test
-> +from avocado_qemu import exec_command
->   from avocado_qemu import exec_command_and_wait_for_pattern
->   from avocado_qemu import interrupt_interactive_console_until_pattern
->   from avocado_qemu import wait_for_console_pattern
-> @@ -467,6 +468,48 @@ def test_arm_raspi2_uart0(self):
->           """
->           self.do_test_arm_raspi2(0)
->   
-> +    def test_arm_raspi2_initrd(self):
-> +        """
-> +        :avocado: tags=arch:arm
-> +        :avocado: tags=machine:raspi2
-> +        """
-> +        deb_url = ('http://archive.raspberrypi.org/debian/'
-> +                   'pool/main/r/raspberrypi-firmware/'
-> +                   'raspberrypi-kernel_1.20190215-1_armhf.deb')
-> +        deb_hash = 'cd284220b32128c5084037553db3c482426f3972'
-> +        deb_path = self.fetch_asset(deb_url, asset_hash=deb_hash)
-> +        kernel_path = self.extract_from_deb(deb_path, '/boot/kernel7.img')
-> +        dtb_path = self.extract_from_deb(deb_path, '/boot/bcm2709-rpi-2-b.dtb')
-> +
-> +        initrd_url = ('https://github.com/groeck/linux-build-test/raw/'
-> +                      '2eb0a73b5d5a28df3170c546ddaaa9757e1e0848/rootfs/'
-> +                      'arm/rootfs-armv7a.cpio.gz')
-> +        initrd_hash = '604b2e45cdf35045846b8bbfbf2129b1891bdc9c'
-> +        initrd_path_gz = self.fetch_asset(initrd_url, asset_hash=initrd_hash)
-> +        initrd_path = os.path.join(self.workdir, 'rootfs.cpio')
-> +        archive.gzip_uncompress(initrd_path_gz, initrd_path)
-> +
-> +        self.vm.set_console()
-> +        kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE +
-> +                               'earlycon=pl011,0x3f201000 console=ttyAMA0 '
-> +                               'panic=-1 noreboot ' +
-> +                               'dwc_otg.fiq_fsm_enable=0')
-> +        self.vm.add_args('-kernel', kernel_path,
-> +                         '-dtb', dtb_path,
-> +                         '-initrd', initrd_path,
-> +                         '-append', kernel_command_line,
-> +                         '-no-reboot')
-> +        self.vm.launch()
-> +        self.wait_for_console_pattern('Boot successful.')
-> +
-> +        exec_command_and_wait_for_pattern(self, 'cat /proc/cpuinfo',
-> +                                                'BCM2835')
-> +        exec_command_and_wait_for_pattern(self, 'cat /proc/iomem',
-> +                                                '/soc/cprman@7e101000')
-> +        exec_command(self, 'halt')
-> +        # Wait for VM to shut down gracefully
-> +        self.vm.wait()
-> +
->       def test_arm_exynos4210_initrd(self):
->           """
->           :avocado: tags=arch:arm
+>If we were to change this to be a parameter of the controller instead
+>of a parameter of the namespace, we would require to refactor a lot of
+>code in the regular write path. As we currently don't have any NvmeRequest
+>object in nvme_zrm_open_flags().
+>
+>Thoughts?
+>
 
+I think you are right. This should be controller-specific behavior. I=20
+took the liberty of moving the parameter; the refactor is minimal.
+
+
+=46rom: Niklas Cassel <niklas.cassel@wdc.com>
+
+In the Zoned Namespace Command Set Specification, chapter
+2.5.1 Managing resources
+
+"The controller may transition zones in the ZSIO:Implicitly Opened state
+to the ZSC:Closed state for resource management purposes."
+
+The word may in this sentence means that automatically transitioning
+an implicitly opened zone to closed is completely optional.
+
+Add a new parameter so that the user can control if this automatic
+transitioning should be performed or not.
+
+Being able to control this can help with verifying that e.g. a user-space
+program behaves properly even without this optional ZNS feature.
+
+The default value is set to true, in order to not change the existing
+behavior.
+
+Signed-off-by: Niklas Cassel <niklas.cassel@wdc.com>
+[k.jensen: moved parameter to controller]
+Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+---
+  hw/nvme/nvme.h |  1 +
+  hw/nvme/ctrl.c | 32 ++++++++++++++++++++++----------
+  2 files changed, 23 insertions(+), 10 deletions(-)
+
+diff --git a/hw/nvme/nvme.h b/hw/nvme/nvme.h
+index 81a35cda142b..93a7e0e5380e 100644
+--- a/hw/nvme/nvme.h
++++ b/hw/nvme/nvme.h
+@@ -382,6 +382,7 @@ typedef struct NvmeParams {
+      uint8_t  vsl;
+      bool     use_intel_id;
+      uint8_t  zasl;
++    bool     auto_transition_zones;
+      bool     legacy_cmb;
+  } NvmeParams;
+ =20
+diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+index 40a7efcea914..8dd9cb2ccbf3 100644
+--- a/hw/nvme/ctrl.c
++++ b/hw/nvme/ctrl.c
+@@ -34,6 +34,7 @@
+   *              aerl=3D<N[optional]>,aer_max_queued=3D<N[optional]>, \
+   *              mdts=3D<N[optional]>,vsl=3D<N[optional]>, \
+   *              zoned.zasl=3D<N[optional]>, \
++ *              zoned.auto_transition=3D<on|off[optional]>, \
+   *              subsys=3D<subsys_id>
+   *      -device nvme-ns,drive=3D<drive_id>,bus=3D<bus_name>,nsid=3D<nsid>=
+,\
+   *              zoned=3D<true|false[optional]>, \
+@@ -100,6 +101,11 @@
+   *   the minimum memory page size (CAP.MPSMIN). The default value is 0 (i=
+=2Ee.
+   *   defaulting to the value of `mdts`).
+   *
++ * - `zoned.auto_transition`
++ *   Indicates if zones in zone state implicitly opened can be automatical=
+ly
++ *   transitioned to zone state closed for resource management purposes.
++ *   Defaults to 'on'.
++ *
+   * nvme namespace device parameters
+   * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   * - `shared`
+@@ -1686,8 +1692,8 @@ enum {
+      NVME_ZRM_AUTO =3D 1 << 0,
+  };
+ =20
+-static uint16_t nvme_zrm_open_flags(NvmeNamespace *ns, NvmeZone *zone,
+-                                    int flags)
++static uint16_t nvme_zrm_open_flags(NvmeCtrl *n, NvmeNamespace *ns,
++                                    NvmeZone *zone, int flags)
+  {
+      int act =3D 0;
+      uint16_t status;
+@@ -1699,7 +1705,9 @@ static uint16_t nvme_zrm_open_flags(NvmeNamespace *ns=
+, NvmeZone *zone,
+          /* fallthrough */
+ =20
+      case NVME_ZONE_STATE_CLOSED:
+-        nvme_zrm_auto_transition_zone(ns);
++        if (n->params.auto_transition_zones) {
++            nvme_zrm_auto_transition_zone(ns);
++        }
+          status =3D nvme_aor_check(ns, act, 1);
+          if (status) {
+              return status;
+@@ -1735,14 +1743,16 @@ static uint16_t nvme_zrm_open_flags(NvmeNamespace *=
+ns, NvmeZone *zone,
+      }
+  }
+ =20
+-static inline uint16_t nvme_zrm_auto(NvmeNamespace *ns, NvmeZone *zone)
++static inline uint16_t nvme_zrm_auto(NvmeCtrl *n, NvmeNamespace *ns,
++                                     NvmeZone *zone)
+  {
+-    return nvme_zrm_open_flags(ns, zone, NVME_ZRM_AUTO);
++    return nvme_zrm_open_flags(n, ns, zone, NVME_ZRM_AUTO);
+  }
+ =20
+-static inline uint16_t nvme_zrm_open(NvmeNamespace *ns, NvmeZone *zone)
++static inline uint16_t nvme_zrm_open(NvmeCtrl *n, NvmeNamespace *ns,
++                                     NvmeZone *zone)
+  {
+-    return nvme_zrm_open_flags(ns, zone, 0);
++    return nvme_zrm_open_flags(n, ns, zone, 0);
+  }
+ =20
+  static void nvme_advance_zone_wp(NvmeNamespace *ns, NvmeZone *zone,
+@@ -2283,7 +2293,7 @@ static void nvme_copy_in_complete(NvmeRequest *req)
+              goto invalid;
+          }
+ =20
+-        status =3D nvme_zrm_auto(ns, zone);
++        status =3D nvme_zrm_auto(nvme_ctrl(req), ns, zone);
+          if (status) {
+              goto invalid;
+          }
+@@ -3080,7 +3090,7 @@ static uint16_t nvme_do_write(NvmeCtrl *n, NvmeReques=
+t *req, bool append,
+              goto invalid;
+          }
+ =20
+-        status =3D nvme_zrm_auto(ns, zone);
++        status =3D nvme_zrm_auto(n, ns, zone);
+          if (status) {
+              goto invalid;
+          }
+@@ -3169,7 +3179,7 @@ enum NvmeZoneProcessingMask {
+  static uint16_t nvme_open_zone(NvmeNamespace *ns, NvmeZone *zone,
+                                 NvmeZoneState state, NvmeRequest *req)
+  {
+-    return nvme_zrm_open(ns, zone);
++    return nvme_zrm_open(nvme_ctrl(req), ns, zone);
+  }
+ =20
+  static uint16_t nvme_close_zone(NvmeNamespace *ns, NvmeZone *zone,
+@@ -6259,6 +6269,8 @@ static Property nvme_props[] =3D {
+      DEFINE_PROP_BOOL("use-intel-id", NvmeCtrl, params.use_intel_id, false=
+),
+      DEFINE_PROP_BOOL("legacy-cmb", NvmeCtrl, params.legacy_cmb, false),
+      DEFINE_PROP_UINT8("zoned.zasl", NvmeCtrl, params.zasl, 0),
++    DEFINE_PROP_BOOL("zoned.auto_transition", NvmeCtrl,
++                     params.auto_transition_zones, true),
+      DEFINE_PROP_END_OF_LIST(),
+  };
+ =20
+--=20
+2.31.1
+
+
+--flms3NPGpWUqDAFU
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmC1O2MACgkQTeGvMW1P
+DelzHQf+OysvqVTSiWFzFiJQqeGjA5c5UOM9mOvj15GvUSPfnEpfO4O2YntvOR0f
+Jfna2s7h4QTK1qxPxq9qwmQsmGoWCCaPet/nUTj48NDtogUiLnEK+fsZmw5BaSZI
+YM+E+2lp8VShReW08ZoJVt2XvXnFE4mFxxWse+QDybGDVuWMwtb17rFqCLAr+O23
+FR5r4qm01V1FG672HYd2yTAsqHxpqPmbUQznshjtsSQZncm3EE/xslOjz+ClQiHx
+3R0P1pL59B3VeYrrVqLaaY5xhnbLjkvvP5FvT3cr/J+AjHMQVovHLgoPv0ntrmMN
+RPD0RRh62F3kNxCeZXmFuPIB2SDvzA==
+=drGS
+-----END PGP SIGNATURE-----
+
+--flms3NPGpWUqDAFU--
 
