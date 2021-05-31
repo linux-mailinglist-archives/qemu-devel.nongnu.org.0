@@ -2,85 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4A3D396623
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 May 2021 18:59:20 +0200 (CEST)
-Received: from localhost ([::1]:51944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C96FC39662C
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 May 2021 18:59:34 +0200 (CEST)
+Received: from localhost ([::1]:52682 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lnlG3-00016P-Ma
-	for lists+qemu-devel@lfdr.de; Mon, 31 May 2021 12:59:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53034)
+	id 1lnlGH-0001cT-S0
+	for lists+qemu-devel@lfdr.de; Mon, 31 May 2021 12:59:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53310)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lnlCr-0007sx-03
- for qemu-devel@nongnu.org; Mon, 31 May 2021 12:56:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39080)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lnlDc-0008SS-Lc
+ for qemu-devel@nongnu.org; Mon, 31 May 2021 12:56:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31217)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lnlCp-0000xI-6v
- for qemu-devel@nongnu.org; Mon, 31 May 2021 12:56:00 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lnlDY-0001LA-QF
+ for qemu-devel@nongnu.org; Mon, 31 May 2021 12:56:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622480158;
+ s=mimecast20190719; t=1622480203;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zdxA5U8rynLv1E2NDIzgC162Dtv+h/1otkkR2S0qTDk=;
- b=J64oge8TnbqRUe2ig5EHZF9QyYBihelYa68jBu2D1w1Ovg66uooORRz2fy+IpfvwNbEbLI
- MfFcN97gVU8Gs/tGV4HnZohKxRzObCUJASFVDd5n+YJZ72TKNpLcNlJBTrkjvNNxo6rj25
- 65HBKE8/x2A7viD0qdWmjh0likmRT0k=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-493-uK-Efs2gOaudeVqhQB0xmA-1; Mon, 31 May 2021 12:55:54 -0400
-X-MC-Unique: uK-Efs2gOaudeVqhQB0xmA-1
-Received: by mail-ed1-f71.google.com with SMTP id
- z16-20020aa7d4100000b029038feb83da57so824338edq.4
- for <qemu-devel@nongnu.org>; Mon, 31 May 2021 09:55:54 -0700 (PDT)
+ bh=DEN/ALSOsbHY7uyO9SfixisqvqH0nFy7JL1BU6gwWuk=;
+ b=S8Mqpp6Vgp3vA7HxTpFa3hhGvgPEPgcXcoVuFOjiaY/dMgcRsk54WiyFKa1RZqDKEfGf2V
+ nGSWArKqZdnQJ27nv1+OOsJi7QK20lRXpk7j2uN1Qi6YOLCzLbPKhE4vfvsnnBu5no43xK
+ tOhLWMFdwKm/mcoC5kjb0JbzQOdg3wk=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-516-hzj7eEq4NNW4uANnN5Xd8A-1; Mon, 31 May 2021 12:56:42 -0400
+X-MC-Unique: hzj7eEq4NNW4uANnN5Xd8A-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ u20-20020a0560001614b02901115c8f2d89so4136819wrb.3
+ for <qemu-devel@nongnu.org>; Mon, 31 May 2021 09:56:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=zdxA5U8rynLv1E2NDIzgC162Dtv+h/1otkkR2S0qTDk=;
- b=EQvPKS4gvlRemmYMBLA4wvuuuoA6+2yj6FQzw0JNmlqoe6eiVk8LbeuFX+J+NwHFDe
- YilC/xqdWyukDMvAJsR+E3LXuxRykz7wpWZAoGkfO50Giw4nK6pabq6G7YmG9/XQ+GG9
- /bVTrI8PE1H1ThmbsDkhkTU9UrM5pjRZhxHMHXpJAwPVnfY28T8JRVpGygrga7NVPnHv
- 3u9RMncdpIY2kT5FPyaGRRX73FsTGKGbAPYN7LAU/AwV+2F/i4aFb9kFv+hT0zG1i2sK
- QD5Y8vFVGmKPKUAs9XmVGKMu6rCRjt7JvWkr2HzXRV9r0zoRYMvZsNCTvTs6kvU4S7L1
- Q6Dg==
-X-Gm-Message-State: AOAM532UHH/Pm/OJaW69O4uEliyVtLUgMNoYenWK2Pq3ey2ua4KkZBx8
- FxSsE17k48csW3jxdWxrWAmeWIemZS5cM+PKZfXxthBaBVGYqSQ8Exs2ZrHVJUPWtGm06ebkjd8
- uqmJBxfWLq7+NPao=
-X-Received: by 2002:a17:906:1fc4:: with SMTP id
- e4mr24147975ejt.336.1622480153182; 
- Mon, 31 May 2021 09:55:53 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyJ8MdyGJMXwfvEEwgAkUMSEarwjUif5WPuQLgpcidkHWBUqo9xp261MyeCGifXGPmeFeTCcA==
-X-Received: by 2002:a17:906:1fc4:: with SMTP id
- e4mr24147947ejt.336.1622480152989; 
- Mon, 31 May 2021 09:55:52 -0700 (PDT)
-Received: from dresden.str.redhat.com ([2a02:908:1e46:160:b272:8083:d5:bc7d])
- by smtp.gmail.com with ESMTPSA id y1sm326362ejl.7.2021.05.31.09.55.52
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=DEN/ALSOsbHY7uyO9SfixisqvqH0nFy7JL1BU6gwWuk=;
+ b=jFVYo9byjqxPcvNmNiE3CpCEcQ+m0CL1UOXi2Df9S62/En7XGljwP9LailzFMxFr4B
+ yd/bwEjdfwNrOjfoRUAQ21ZgjkhV3D6C8cp6PHiq6yB3NSeZuDEUsbM1yQ4Gncvkuvyp
+ R00CHiWKjHSMI0soJG4MtlTXeIdJnzIXhZORDPWeju0/dGL9HuzMHsrXuMjPfR8sAOEK
+ wQOOFygRkU03uQ/6JI8xRipMqb7xNvIpdRT+nEwVyHUieqy6aWnQYTRDIUgi2vq5dbLh
+ 9afLCIA1jG2pVp2Xmbfcwl3VnwtP2Cws7SWg/2SF6X9NCsBfZqt6H5AzEIMzhPqnJSuQ
+ Xo3Q==
+X-Gm-Message-State: AOAM532S9qj8s+Apmk5XrbNpgf5o2M2trl6u/YRuNNcSNIsNiRayQx1M
+ y1754UReQzvY3LuwTcdAW7Z2xN9aqxZDIkO887lHmxZX/BtEstuVCQBNCgWjG9skKCFSvopMH7c
+ H4asAw35AplVnUvraEMbOjOXVsy6LgagUySV8SqL9wBCk1zRCc+huP+Kpq85qbQr6v+Q=
+X-Received: by 2002:a5d:6584:: with SMTP id q4mr3233139wru.230.1622480200684; 
+ Mon, 31 May 2021 09:56:40 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxRXINcTV+mcOM01DVDk2ckMbzODj/CXfoYUyX2R2sqNKOIq/Ib/pKiJjsGNySnQ/5eu7f/QA==
+X-Received: by 2002:a5d:6584:: with SMTP id q4mr3233119wru.230.1622480200475; 
+ Mon, 31 May 2021 09:56:40 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id h46sm346586wrh.44.2021.05.31.09.56.39
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 31 May 2021 09:55:52 -0700 (PDT)
-Subject: Re: [PATCH v2 14/33] block/copy-before-write: bdrv_cbw_append():
- replace child at last
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20210520142205.607501-1-vsementsov@virtuozzo.com>
- <20210520142205.607501-15-vsementsov@virtuozzo.com>
-From: Max Reitz <mreitz@redhat.com>
-Message-ID: <2dfef251-2158-cfec-3589-51b5ace9e516@redhat.com>
-Date: Mon, 31 May 2021 18:55:51 +0200
+ Mon, 31 May 2021 09:56:39 -0700 (PDT)
+Subject: Re: [PATCH] oslib-posix: Remove OpenBSD workaround for
+ fcntl("/dev/null", F_SETFL, O_NONBLOCK) failure
+To: Brad Smith <brad@comstyle.com>, qemu-devel@nongnu.org
+References: <YGYECGXQhdamEJgC@humpty.home.comstyle.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <a1330d92-d57b-8d03-c310-69270560bf0c@redhat.com>
+Date: Mon, 31 May 2021 18:56:38 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <20210520142205.607501-15-vsementsov@virtuozzo.com>
+In-Reply-To: <YGYECGXQhdamEJgC@humpty.home.comstyle.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
 Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -37
 X-Spam_score: -3.8
@@ -102,28 +101,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, berrange@redhat.com, ehabkost@redhat.com, den@openvz.org,
- jsnow@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com, crosa@redhat.com,
- pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 20.05.21 16:21, Vladimir Sementsov-Ogievskiy wrote:
-> Refactor the function to replace child at last. Thus we don't need to
-> revert it and code is simplified.
->
-> block-copy state initilization being done before replacing the child
+On 01/04/21 19:34, Brad Smith wrote:
+> OpenBSD prior to 6.3 required a workaround to utilize fcntl(F_SETFL) on memory
+> devices.
+> 
+> Since modern verions of OpenBSD that are only officialy supported and buildable
+> on do not have this issue I am garbage collecting this workaround.
+> 
+> 
+> Signed-off-by: Brad Smith <brad@comstyle.com>
+> 
+> diff --git a/util/oslib-posix.c b/util/oslib-posix.c
+> index 36820fec16..7b4bec1402 100644
+> --- a/util/oslib-posix.c
+> +++ b/util/oslib-posix.c
+> @@ -273,17 +273,6 @@ int qemu_try_set_nonblock(int fd)
+>           return -errno;
+>       }
+>       if (fcntl(fd, F_SETFL, f | O_NONBLOCK) == -1) {
+> -#ifdef __OpenBSD__
+> -        /*
+> -         * Previous to OpenBSD 6.3, fcntl(F_SETFL) is not permitted on
+> -         * memory devices and sets errno to ENODEV.
+> -         * It's OK if we fail to set O_NONBLOCK on devices like /dev/null,
+> -         * because they will never block anyway.
+> -         */
+> -        if (errno == ENODEV) {
+> -            return 0;
+> -        }
+> -#endif
+>           return -errno;
+>       }
+>       return 0;
+> 
 
-still *initialization
+Queued, thanks.
 
-Max
-
-> doesn't need any drained section.
->
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> Reviewed-by: Max Reitz <mreitz@redhat.com>
-> ---
->   block/copy-before-write.c | 33 +++++++++++----------------------
->   1 file changed, 11 insertions(+), 22 deletions(-)
+Paolo
 
 
