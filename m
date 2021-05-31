@@ -2,94 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EE4E395FEE
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 May 2021 16:20:48 +0200 (CEST)
-Received: from localhost ([::1]:48804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD94A396089
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 May 2021 16:26:27 +0200 (CEST)
+Received: from localhost ([::1]:51888 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lnimb-0003Xh-CH
-	for lists+qemu-devel@lfdr.de; Mon, 31 May 2021 10:20:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36676)
+	id 1lnis6-00060M-LX
+	for lists+qemu-devel@lfdr.de; Mon, 31 May 2021 10:26:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37590)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lnikf-0002dA-O7
- for qemu-devel@nongnu.org; Mon, 31 May 2021 10:18:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46384)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lniqI-00052V-Jf
+ for qemu-devel@nongnu.org; Mon, 31 May 2021 10:24:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46853)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lnikc-0002qD-SH
- for qemu-devel@nongnu.org; Mon, 31 May 2021 10:18:44 -0400
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lniqC-0006EY-0v
+ for qemu-devel@nongnu.org; Mon, 31 May 2021 10:24:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622470719;
+ s=mimecast20190719; t=1622471066;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=eQw/+27h2ErrxCthjG23/o/pD9ySaGuoDFHRq7iYMVE=;
- b=FPeGjsyDV+hHvUm38tv0+52Ar08tLegdv9EomZxeDHt2pUEfKALPu8OBs827KJJl2lWWfz
- pNQgOMXHHP8bxXUOTUBL5wxFoL/RZKMIrbPSGLrs/OWX+q8F7WQOA/jFy2n0nrv/jQimxM
- tbs7XkreW8Cc0ubzH990AP1BuuRT/Tw=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-516-t-OAUICWP72dd2IbWKvYCw-1; Mon, 31 May 2021 10:18:37 -0400
-X-MC-Unique: t-OAUICWP72dd2IbWKvYCw-1
-Received: by mail-ed1-f69.google.com with SMTP id
- y7-20020aa7ce870000b029038fd7cdcf3bso2780783edv.15
- for <qemu-devel@nongnu.org>; Mon, 31 May 2021 07:18:37 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=eQw/+27h2ErrxCthjG23/o/pD9ySaGuoDFHRq7iYMVE=;
- b=Ru5tFwGdTviVWGBqNE6iGPJw32aqc/RwWj8Z6t1IU9N55xQU4p2Ec56AWJr9xomssD
- jdkX+EpYWnX1CIhAOiE2TutMhjDo5ZcOd61xc0ts+q9jNE876r2RQq2dK4HqTZRO05dO
- G7KJTd+jQ1KOagsJw3uLRGege0pDCl3RgCL0jXVLzwVJ//d8F4SLRDJHD1720ORQkfGZ
- Ue7saUOdXmKPtkTcvYQhW/7A0niFEgqMEfm8QBW0nM7VIhUeSuKaC8hoTQ0tHHCWerbX
- u4Zo6P8BWeft61tq9Xoq68HFBL5zy0bf9v2frnyOggUTgfGZbDZVgoj/a6AVluX/JNBN
- SNfQ==
-X-Gm-Message-State: AOAM531tiSGGq6MsvbZB1r3Uy8K4u/vSrbOmiE+ZelyK21sq6nSNy/oT
- VvQ7l7i/8R4zS0ad0qOd9XOnB9nuk6ctCsVRi6MvWDNttq/o8HAdjldMJgcf2lMT2YlLhGx1OLB
- A0JbjssEWQ5Gaom8=
-X-Received: by 2002:a17:906:3c44:: with SMTP id
- i4mr5626349ejg.135.1622470716225; 
- Mon, 31 May 2021 07:18:36 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzOsa7LbqNI9FlM/e+F4uBZGZBZqNXUqEvY7MsRoUxWk/SQWId84Ov72zqA5cS/HnzV0dbctQ==
-X-Received: by 2002:a17:906:3c44:: with SMTP id
- i4mr5626328ejg.135.1622470716057; 
- Mon, 31 May 2021 07:18:36 -0700 (PDT)
-Received: from dresden.str.redhat.com ([2a02:908:1e46:160:b272:8083:d5:bc7d])
- by smtp.gmail.com with ESMTPSA id
- k4sm2755720edr.64.2021.05.31.07.18.34
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 31 May 2021 07:18:35 -0700 (PDT)
-Subject: Re: [PATCH v2 03/33] block: introduce bdrv_replace_child_bs()
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20210520142205.607501-1-vsementsov@virtuozzo.com>
- <20210520142205.607501-4-vsementsov@virtuozzo.com>
-From: Max Reitz <mreitz@redhat.com>
-Message-ID: <05dbf5ff-676a-72fb-060d-fb184d5f6bb0@redhat.com>
-Date: Mon, 31 May 2021 16:18:34 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ bh=OwB0ooHSL67b4OFzBCnOoa3S9Vf20dLImC7qaV6l12Q=;
+ b=LBcqDXl01mR+kLM0Ob5xnuTFuHkn5ls9Ws9BHgZr/n0GusnsVNTCEFtf6KO2gJsXtlGG1O
+ XCr7DBusKSbK/dfAcbGyuF+E2KiMmm3YXx7C6WcYBJBTKt8orWYI0dLUrrcMJeQRh8CG6X
+ OGqPCeibuM/rf++qiicjYLcZ2dh8stc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-580-G2Rwah9rNVKr6j6I9jjorg-1; Mon, 31 May 2021 10:24:24 -0400
+X-MC-Unique: G2Rwah9rNVKr6j6I9jjorg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6252E1854E25;
+ Mon, 31 May 2021 14:24:23 +0000 (UTC)
+Received: from localhost (ovpn-112-122.ams2.redhat.com [10.36.112.122])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A1C9C6091B;
+ Mon, 31 May 2021 14:24:22 +0000 (UTC)
+Date: Mon, 31 May 2021 15:24:21 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Subject: Re: [PATCH v2 4/5] progressmeter: protect with a mutex
+Message-ID: <YLTxlQcC0pXkH3f6@stefanha-x1.localdomain>
+References: <20210518094058.25952-1-eesposit@redhat.com>
+ <20210518094058.25952-5-eesposit@redhat.com>
+ <60139fc9-4856-1dfa-222d-08267cb89c27@virtuozzo.com>
+ <b0de7a46-5abc-3aef-adcb-438474274436@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210520142205.607501-4-vsementsov@virtuozzo.com>
+In-Reply-To: <b0de7a46-5abc-3aef-adcb-438474274436@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mreitz@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="7zcAjTEwiShHl7if"
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -37
-X-Spam_score: -3.8
+X-Spam_score_int: -31
+X-Spam_score: -3.2
 X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.372,
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.372,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.591, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,21 +81,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, berrange@redhat.com, ehabkost@redhat.com, den@openvz.org,
- jsnow@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com, crosa@redhat.com,
- pbonzini@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 20.05.21 16:21, Vladimir Sementsov-Ogievskiy wrote:
-> Add function to transactionally replace bs inside BdrvChild.
->
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->   include/block/block.h |  2 ++
->   block.c               | 31 +++++++++++++++++++++++++++++++
->   2 files changed, 33 insertions(+)
+--7zcAjTEwiShHl7if
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Max Reitz <mreitz@redhat.com>
+On Tue, May 18, 2021 at 12:14:17PM +0200, Emanuele Giuseppe Esposito wrote:
+> On 18/05/2021 12:00, Vladimir Sementsov-Ogievskiy wrote:
+> > 18.05.2021 12:40, Emanuele Giuseppe Esposito wrote:
+> > > Progressmeter is protected by the AioContext mutex, which
+> > > is taken by the block jobs and their caller (like blockdev).
+> > >=20
+> > > We would like to remove the dependency of block layer code on the
+> > > AioContext mutex, since most drivers and the core I/O code are alread=
+y
+> > > not relying on it.
+> > >=20
+> > > Create a new C file to implement the ProgressMeter API, but keep the
+> > > struct as public, to avoid forcing allocation on the heap.
+> > >=20
+> > > Also add a mutex to be able to provide an accurate snapshot of the
+> > > progress values to the caller.
+> > >=20
+> > > Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+> >=20
+> > patch changed a lot, so you can't keep Stefan's r-b. r-b should be kept
+> > if patch is unchanged.
+>=20
+> Sorry, my bad. Will remove it, if we keep these changes (see below).
+
+I took a look again:
+
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+
+Regarding hiding the struct, in a library with a public API the authors
+need to be very careful about exposing struct fields in order to prevent
+ABI breakage or applications making use of internal fields.
+
+However, in QEMU we're less strict since we have full control over the
+codebase (including internal API consumers). If other factors outweigh
+the need for strict encapsulation, then you can put the struct
+definition in the header file. Grepping for "private" in QEMU shows lots
+of examples and there are probably many more without an explicit
+"private" comment. Code reviewers can reject patches that touch private
+struct fields or patches can be submitted to remove existing access to
+private fields, so we don't have the limitations that library authors
+have.
+
+Stefan
+
+--7zcAjTEwiShHl7if
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmC08YsACgkQnKSrs4Gr
+c8gFdgf/beCAc/iIpMMQ53+aMSo7zsemP7hkOdOfyf2fhIMWxSo/tMFARQpoJ/yH
+ybmxXFMu+HDkACu9mDHEKq860bPrZ6dbp/E+KjYltBdFOsx/Crdrpv45eTG6Y6aG
+KTPIQkOwA2XvYiNFTc10fDf+PYg58cNEt2UqWVLv7awu/CqD/kvHJbNJ30568xf1
+XIj/bN2E+jvxRz9cUCzs7TJ/2xwhT4z4tlt/qVUUkCuR6/Fc2cW9SGFqvqtDz8Bb
+2QUp2FTL4CSbCbvuU6Ev4OnHzjC84sOVR6jHAnc5ugOA72A+BVYB99D3qp9K9YEI
+P6TPk251lsoFFlKM15GKTLGA9sxoKw==
+=96h1
+-----END PGP SIGNATURE-----
+
+--7zcAjTEwiShHl7if--
 
 
