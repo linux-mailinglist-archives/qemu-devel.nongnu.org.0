@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F061396915
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 May 2021 22:45:15 +0200 (CEST)
-Received: from localhost ([::1]:47358 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73E46396926
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 May 2021 22:57:07 +0200 (CEST)
+Received: from localhost ([::1]:53758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lnomg-0004c1-24
-	for lists+qemu-devel@lfdr.de; Mon, 31 May 2021 16:45:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59988)
+	id 1lnoyA-0000xf-Ch
+	for lists+qemu-devel@lfdr.de; Mon, 31 May 2021 16:57:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33946)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lnohm-0002am-Ba; Mon, 31 May 2021 16:40:10 -0400
-Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:37313)
+ id 1lnou5-0006ZI-R9; Mon, 31 May 2021 16:52:53 -0400
+Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:41727)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lnohj-0003Jv-R7; Mon, 31 May 2021 16:40:10 -0400
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailout.west.internal (Postfix) with ESMTP id E337019A5;
- Mon, 31 May 2021 16:40:04 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute1.internal (MEProxy); Mon, 31 May 2021 16:40:05 -0400
+ id 1lnou3-00032O-RA; Mon, 31 May 2021 16:52:53 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.west.internal (Postfix) with ESMTP id 1656919A5;
+ Mon, 31 May 2021 16:52:49 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Mon, 31 May 2021 16:52:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm3; bh=DgwQtzdJRZnJdq6NH/tqtgGYH/K
- B62pMVB2tc402eQc=; b=KpBp9bBWR/U2V06K274dLgA+4haM43n6Xdh6MVgkuz3
- 17IDG+V7FTa7EuOjdQX47o9vU1fmMhciuesIC9XQHNvlHyJfuto57OHu5kymA81A
- ovpasG+v2pJd+c9yk9ux0oWeyHw9u1KBBGOrP9zSHsqNQaN4V6PynmcCJajEzkfB
- KzR52WI6hBb1H6W8A1ZvHWdq4EVOfNmF6g0DuXLR9OlP3FEWb6wjbRPwCf3Jo/7U
- xY9CZcS1WuDuABtjh8P9GwcVteVzoXUzjHnLS5rdqRK9Sx+5uTWq/g/8aj7H984B
- I1u8jJHEINZdGvymLpa9nSjQpqWIV6uYLQgpCu1VkVQ==
+ :content-type:in-reply-to; s=fm3; bh=Xsg5BmmCZ47yke2CVFVVlCpeggj
+ cDjdh/1VX18joHTY=; b=K69hA9alCb19u47WgpOU+aF6rixCOtJLKdmy/xI9rHG
+ +jdWKDd4aErHvoHZ9iDxrEPFe1XDmhGp45Mt8R6A25LOhVnq0JvKCcsQAFwpKNvw
+ fgfh9EsiVgk+d9pYPhriZ4qVYXLZ2H98zt2H4+sjLDARR5ozGmZBFXsYueyVyei0
+ EGVVqL7035tfoEtimCr+ii+nUVjdCxrmU3VuYEAT/E7Xw1u7P/by0RiCeNdVEjQP
+ 1iqGrwgeigZLgib78ipMHXwJEBrSusdDAMuY1hFPgSiIpBXGeu/2jbveHVvf7v+g
+ s9ukF112ZLjajs0R5daYqh2fvBEslgrc6aZvh2WSkfw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=DgwQtz
- dJRZnJdq6NH/tqtgGYH/KB62pMVB2tc402eQc=; b=AN9qpD9m5k3Wcg2O4rK53d
- 1jWdj//V5RYp7emrgLiJmVeVqmAqKOlxIqmz7X2ZLU9Yz/DSKt5U87a+r2YXLoB/
- nml9E2fa5vRWMKweZM82IPS0WBaeMrjtYGwkUwY+wqaZ1hjfxDPbSzmLNNjOvE9W
- XI6M1I/c949OqS01gZybLik+GnHkW8nNWmuF8I4N4b6DEL6Ygj/jumH8eMhc5w74
- vgK587LI7hnEHST7Y/XhHVEfw+6cj2C+Xa4WztJ9XSgu/6o4WyAzGiSjVKGGRSDJ
- TjwdpYGi0gx7LSaulvNIK+osTHILpo/qXZmbf1lMoGTMmdcQNJtppvDcZtsQLDXw
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=Xsg5Bm
+ mCZ47yke2CVFVVlCpeggjcDjdh/1VX18joHTY=; b=K4yDFIaan5gBptEUhHmorZ
+ XI71+aYhXp2ayLQcATm6lWSJKsWzd/lYcSqkzCXMxdsMRFej+tbjqCLiPwn4ywGr
+ u191uPK9ZDscREi0vO6ehTQ47rxZwG3c+lWEsNN/XaulQJdWymAvwK5KW71Bxq75
+ 6QjhiMFg8n71Hz5OPI6FUEc7/DzoQVz8cUU/J8A59CbhSqk3DOOzyJ3K6VNDfUYt
+ AmktsICWvra05+RxXdnfy8AlHkLzMBClf8XssAezfkr7YYyeykr3bOc2U/SrQi1C
+ PLFTpp1Zy3g4v3jcbFVI217wOHBuvM+5U9qxgmzTHqEBoJq0cNXdkqNPDdXQJCKw
  ==
-X-ME-Sender: <xms:okm1YC1SYZCEYdQeSW00kO9qTmbJeGgB2jXgMcbXIpmuUS2W0ehF5A>
- <xme:okm1YFGHtvi2qnixOuVlRwpRKqdE8DaHuGHBiqy489fP35zvoRKwNRBcbGCcJF8d-
- YrG_Ty-trWrYdKQ1QM>
-X-ME-Received: <xmr:okm1YK67VtciPcM6AFQYusdNpp7fTnA15BJVGwQottko2hgdXYQJvLfHJ447xWTcbTxBh2ikEh7p_cwyU4efa29okkpYqgjAbXJ4f4VZg9hHlo4FTQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdelfedgudehgecutefuodetggdotefrod
+X-ME-Sender: <xms:n0y1YF6KcmMRHqO6nTqo5Yk-F9_LDCi87uWGmKJdIu3LImeAzMwCcg>
+ <xme:n0y1YC56s5ojeOm23REdy2FhegcGRWL5PjxEfH2opOdS1KTCVSzp0vtgUBE9UTo9X
+ _2zEFKgtqHG9E3hgnY>
+X-ME-Received: <xmr:n0y1YMex-JutmWOFYYfz2Q2weFUoDDj-XEDaI3xElnk0VaEIAxl7r8A25kCPZKHKJjhJeCYKedr3cJ333V9XzXkoLKcDswOOuhdO_pRutZKMECklbQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdelfedgudehhecutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
  necuuegrihhlohhuthemuceftddtnecunecujfgurhepfffhvffukfhfgggtuggjsehgtd
  erredttdejnecuhfhrohhmpefmlhgruhhsucflvghnshgvnhcuoehithhssehirhhrvghl
  vghvrghnthdrughkqeenucggtffrrghtthgvrhhnpeejgeduffeuieetkeeileekvdeule
  etveejudeileduffefjeegfffhuddvudffkeenucevlhhushhtvghrufhiiigvpedtnecu
  rfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:okm1YD2p18laiuvgjIBPJ_rTGZ4MeJYsPgdZAFSQAiApb2iu-TtnpA>
- <xmx:okm1YFGhX9lsgP1iGQHPZWfATs5QDgfKA1Kjq-zFHSCBVDit1hE7Rw>
- <xmx:okm1YM8ROe79_8m0dpSsaKqs51IS8oFxmimWBXe6cJ3INOcCwQzcxg>
- <xmx:pEm1YM2HhDZg7rzYr8gLWlvZa2wzxQXf1o2GjFS5feOvVPlxQxkARA>
+X-ME-Proxy: <xmx:n0y1YOLn85Jea6x4vHfkXp1LlrVzP1aP3fCiVt4EEVRWA-XJ5DBtNg>
+ <xmx:n0y1YJKLyrD9PjpYFmms7ICFjkNUdYUZXZCZ33o4J6tgIENoycPJSw>
+ <xmx:n0y1YHw1IQd_MxxCjLUOQ7zlIusvUWptUCViCsMoZTl4pSDWai2QAA>
+ <xmx:oEy1YOrrxz3T_zF4K_Isdam3L5RWWGahmYNZO4uC7IolugFtn1qM9Q>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 31 May 2021 16:40:01 -0400 (EDT)
-Date: Mon, 31 May 2021 22:39:59 +0200
+ 31 May 2021 16:52:45 -0400 (EDT)
+Date: Mon, 31 May 2021 22:52:44 +0200
 From: Klaus Jensen <its@irrelevant.dk>
 To: Gollu Appalanaidu <anaidu.gollu@samsung.com>
-Subject: Re: [PATCH v2] hw/nvme/ctrl: fix csi field for cns 0x00 and 0x11
-Message-ID: <YLVJn0TT6LoKTEHZ@apples.localdomain>
-References: <CGME20210427063530epcas5p4c260382227175e68d29da6d10957ad95@epcas5p4.samsung.com>
- <20210427063052.31078-1-anaidu.gollu@samsung.com>
+Subject: Re: [PATCH 1/3] hw/nvme/ctrl: add controller list cns 0x13
+Message-ID: <YLVMnPDpzgr1q4Zs@apples.localdomain>
+References: <20210517100736.17063-1-anaidu.gollu@samsung.com>
+ <CGME20210517101209epcas5p12d9c0d10a0f34a0f62aaf9ef388d51b8@epcas5p1.samsung.com>
+ <20210517100736.17063-2-anaidu.gollu@samsung.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="sQRJsANm00jjdLqa"
+ protocol="application/pgp-signature"; boundary="mqnSYLs3tjCMsVBP"
 Content-Disposition: inline
-In-Reply-To: <20210427063052.31078-1-anaidu.gollu@samsung.com>
+In-Reply-To: <20210517100736.17063-2-anaidu.gollu@samsung.com>
 Received-SPF: pass client-ip=64.147.123.21; envelope-from=its@irrelevant.dk;
  helo=wout5-smtp.messagingengine.com
 X-Spam_score_int: -27
@@ -99,97 +100,142 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---sQRJsANm00jjdLqa
+--mqnSYLs3tjCMsVBP
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Apr 27 12:00, Gollu Appalanaidu wrote:
->As per the TP 4056d Namespace types CNS 0x00 and CNS 0x11
->CSI field shouldn't use but it is being used for these two
->Identify command CNS values, fix that.
+On May 17 15:37, Gollu Appalanaidu wrote:
+>Add the controller identifiers list available in NVM Subsystem
+>that may or may not be attached to namespaces.
 >
->Remove 'nvme_csi_has_nvm_support()' helper as suggested by
->Klaus we can safely assume NVM command set support for all
->namespaces.
->
->Suggested-by: Klaus Jensen <its@irrelevant.dk>
 >Signed-off-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
-
-LGTM.
-
-Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
-
 >---
->-v2: add sugggestions from Klaus
->We can Remove 'nvme_csi_has_nvm_support()' helper, we can
->assume NVM command set support for all namespaces.
->
-> hw/nvme/ctrl.c | 14 ++------------
-> 1 file changed, 2 insertions(+), 12 deletions(-)
+> hw/nvme/ctrl.c       | 25 +++++++++++++++----------
+> hw/nvme/trace-events |  2 +-
+> include/block/nvme.h |  1 +
+> 3 files changed, 17 insertions(+), 11 deletions(-)
 >
 >diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
->index 2e7498a73e..7fcd699235 100644
+>index 2e7498a73e..d08a3350e2 100644
 >--- a/hw/nvme/ctrl.c
 >+++ b/hw/nvme/ctrl.c
->@@ -4178,16 +4178,6 @@ static uint16_t nvme_rpt_empty_id_struct(NvmeCtrl *=
-n, NvmeRequest *req)
->     return nvme_c2h(n, id, sizeof(id), req);
+>@@ -4251,7 +4251,8 @@ static uint16_t nvme_identify_ns(NvmeCtrl *n, NvmeRe=
+quest *req, bool active)
+>     return NVME_INVALID_CMD_SET | NVME_DNR;
 > }
 >
->-static inline bool nvme_csi_has_nvm_support(NvmeNamespace *ns)
->-{
->-    switch (ns->csi) {
->-    case NVME_CSI_NVM:
->-    case NVME_CSI_ZONED:
->-        return true;
->-    }
->-    return false;
->-}
->-
-> static uint16_t nvme_identify_ctrl(NvmeCtrl *n, NvmeRequest *req)
+>-static uint16_t nvme_identify_ns_attached_list(NvmeCtrl *n, NvmeRequest *=
+req)
+>+static uint16_t nvme_identify_ctrl_list(NvmeCtrl *n, NvmeRequest *req,
+>+                                        bool attached)
 > {
->     trace_pci_nvme_identify_ctrl();
->@@ -4244,7 +4234,7 @@ static uint16_t nvme_identify_ns(NvmeCtrl *n, NvmeRe=
-quest *req, bool active)
+>     NvmeIdentify *c =3D (NvmeIdentify *)&req->cmd;
+>     uint16_t min_id =3D le16_to_cpu(c->ctrlid);
+>@@ -4261,15 +4262,17 @@ static uint16_t nvme_identify_ns_attached_list(Nvm=
+eCtrl *n, NvmeRequest *req)
+>     NvmeCtrl *ctrl;
+>     int cntlid, nr_ids =3D 0;
+>
+>-    trace_pci_nvme_identify_ns_attached_list(min_id);
+>+    trace_pci_nvme_identify_ctrl_list(c->cns, min_id);
+>
+>-    if (c->nsid =3D=3D NVME_NSID_BROADCAST) {
+>-        return NVME_INVALID_FIELD | NVME_DNR;
+>-    }
+>+    if (attached) {
+>+        if (c->nsid =3D=3D NVME_NSID_BROADCAST) {
+>+            return NVME_INVALID_FIELD | NVME_DNR;
+>+        }
+>
+>-    ns =3D nvme_subsys_ns(n->subsys, c->nsid);
+>-    if (!ns) {
+>-        return NVME_INVALID_FIELD | NVME_DNR;
+>+        ns =3D nvme_subsys_ns(n->subsys, c->nsid);
+>+        if (!ns) {
+>+            return NVME_INVALID_FIELD | NVME_DNR;
+>+        }
+>     }
+>
+>     for (cntlid =3D min_id; cntlid < ARRAY_SIZE(n->subsys->ctrls); cntlid=
+++) {
+>@@ -4278,7 +4281,7 @@ static uint16_t nvme_identify_ns_attached_list(NvmeC=
+trl *n, NvmeRequest *req)
+>             continue;
 >         }
->     }
 >
->-    if (c->csi =3D=3D NVME_CSI_NVM && nvme_csi_has_nvm_support(ns)) {
->+    if (active || ns->csi =3D=3D NVME_CSI_NVM) {
->         return nvme_c2h(n, (uint8_t *)&ns->id_ns, sizeof(NvmeIdNs), req);
->     }
->
->@@ -4315,7 +4305,7 @@ static uint16_t nvme_identify_ns_csi(NvmeCtrl *n, Nv=
-meRequest *req,
+>-        if (!nvme_ns(ctrl, c->nsid)) {
+>+        if (attached && !nvme_ns(ctrl, c->nsid)) {
+>             continue;
 >         }
->     }
 >
->-    if (c->csi =3D=3D NVME_CSI_NVM && nvme_csi_has_nvm_support(ns)) {
->+    if (c->csi =3D=3D NVME_CSI_NVM) {
->         return nvme_rpt_empty_id_struct(n, req);
->     } else if (c->csi =3D=3D NVME_CSI_ZONED && ns->csi =3D=3D NVME_CSI_ZO=
-NED) {
->         return nvme_c2h(n, (uint8_t *)ns->id_ns_zoned, sizeof(NvmeIdNsZon=
-ed),
+>@@ -4493,7 +4496,9 @@ static uint16_t nvme_identify(NvmeCtrl *n, NvmeReque=
+st *req)
+>     case NVME_ID_CNS_NS_PRESENT:
+>         return nvme_identify_ns(n, req, false);
+>     case NVME_ID_CNS_NS_ATTACHED_CTRL_LIST:
+>-        return nvme_identify_ns_attached_list(n, req);
+>+        return nvme_identify_ctrl_list(n, req, true);
+>+    case NVME_ID_CNS_CTRL_LIST:
+>+        return nvme_identify_ctrl_list(n, req, false);
+>     case NVME_ID_CNS_CS_NS:
+>         return nvme_identify_ns_csi(n, req, true);
+>     case NVME_ID_CNS_CS_NS_PRESENT:
+>diff --git a/hw/nvme/trace-events b/hw/nvme/trace-events
+>index ea33d0ccc3..7ba3714671 100644
+>--- a/hw/nvme/trace-events
+>+++ b/hw/nvme/trace-events
+>@@ -55,7 +55,7 @@ pci_nvme_identify(uint16_t cid, uint8_t cns, uint16_t ct=
+rlid, uint8_t csi) "cid
+> pci_nvme_identify_ctrl(void) "identify controller"
+> pci_nvme_identify_ctrl_csi(uint8_t csi) "identify controller, csi=3D0x%"P=
+RIx8""
+> pci_nvme_identify_ns(uint32_t ns) "nsid %"PRIu32""
+>-pci_nvme_identify_ns_attached_list(uint16_t cntid) "cntid=3D%"PRIu16""
+>+pci_nvme_identify_ctrl_list(uint8_t cns, uint16_t cntid) "cns 0x%"PRIx8" =
+cntid=3D%"PRIu16""
+
+Inconsistency here. Please use "field value", not "field=3Dvalue" for=20
+cntid.
+
+> pci_nvme_identify_ns_csi(uint32_t ns, uint8_t csi) "nsid=3D%"PRIu32", csi=
+=3D0x%"PRIx8""
+> pci_nvme_identify_nslist(uint32_t ns) "nsid %"PRIu32""
+> pci_nvme_identify_nslist_csi(uint16_t ns, uint8_t csi) "nsid=3D%"PRIu16",=
+ csi=3D0x%"PRIx8""
+>diff --git a/include/block/nvme.h b/include/block/nvme.h
+>index 0ff9ce17a9..188ab460df 100644
+>--- a/include/block/nvme.h
+>+++ b/include/block/nvme.h
+>@@ -980,6 +980,7 @@ enum NvmeIdCns {
+>     NVME_ID_CNS_NS_PRESENT_LIST       =3D 0x10,
+>     NVME_ID_CNS_NS_PRESENT            =3D 0x11,
+>     NVME_ID_CNS_NS_ATTACHED_CTRL_LIST =3D 0x12,
+>+    NVME_ID_CNS_CTRL_LIST             =3D 0x13,
+>     NVME_ID_CNS_CS_NS_PRESENT_LIST    =3D 0x1a,
+>     NVME_ID_CNS_CS_NS_PRESENT         =3D 0x1b,
+>     NVME_ID_CNS_IO_COMMAND_SET        =3D 0x1c,
 >--=20
 >2.17.1
 >
 
---sQRJsANm00jjdLqa
+--=20
+One of us - No more doubt, silence or taboo about mental illness.
+
+--mqnSYLs3tjCMsVBP
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmC1SZ0ACgkQTeGvMW1P
-DemssAgArPXybAqPEmKNp1u1FVDD7rPWVwn0KOeyKclI4wfP9EzVgW2n61xmwhur
-JWN278TvSM+cUHwnSDwH4U2dKy3DTfy4zznYfsvSVTt9heKSrueA/95+NyVgem33
-FcmEG0+hwyGtqxodAwsAlkTkRMf049eiPGEJLuGlPHnL0OIl3okvbFDFjnpiiu8N
-eQzZFoQKxmCOro0Eu2HajlE0A58CTaSDd30nZqy6kVARQN/NEBw0Huv+0inTsGbX
-/Vxhkq4c0TvxxY6PkQxETaNmwV4n98uFqPaUo348dYF8PCZLgRmsV/CoXP1rVjC1
-L/ASI6mzLRrgC+d1G1ISEqfN7IQodw==
-=uHqB
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmC1TJoACgkQTeGvMW1P
+DekYhQf/Tsy5EdGFlbFNRLOJlRTwPkoZD6cWY8rlSxN3to+jPtGfGHOiANlnKZM5
+b463ia4onHvz53oAP1tkVJxmlIcLDmMEyVLHl6uvs2M7I78pEUaQ/oBiKrtgiMir
+hu7zmrVlaczbsdeuw6igshSMxyhbecHnitaPi75BadM1zkvvtoCLNW0iAwyzbDGK
+KGqa/ymp3CEWfyCvthdtUa+siVapo4ZhwnilPAKEqpJ9jKAjWQcaY9iuhY7A5He9
+4NW1x9I0KfSD+Jmkp7NG8h+UEmY0QTUr6/Ri2lMQf+SLrcFR7AkRVKLGeulfT1uP
+6k2woNiVI5RvYMy2F/svDQRfH3Jx4w==
+=XUjh
 -----END PGP SIGNATURE-----
 
---sQRJsANm00jjdLqa--
+--mqnSYLs3tjCMsVBP--
 
