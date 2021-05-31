@@ -2,128 +2,129 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67F1039688B
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 May 2021 21:50:18 +0200 (CEST)
-Received: from localhost ([::1]:49272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED20C39688E
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 May 2021 21:52:18 +0200 (CEST)
+Received: from localhost ([::1]:52204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lnnvT-0000ay-Bj
-	for lists+qemu-devel@lfdr.de; Mon, 31 May 2021 15:50:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49036)
+	id 1lnnxR-0002hW-HY
+	for lists+qemu-devel@lfdr.de; Mon, 31 May 2021 15:52:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50170)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lnnpo-000420-0i; Mon, 31 May 2021 15:44:24 -0400
-Received: from mail-eopbgr50098.outbound.protection.outlook.com
- ([40.107.5.98]:20598 helo=EUR03-VE1-obe.outbound.protection.outlook.com)
+ id 1lnnvz-0001pz-GE; Mon, 31 May 2021 15:50:47 -0400
+Received: from mail-eopbgr30105.outbound.protection.outlook.com
+ ([40.107.3.105]:43374 helo=EUR03-AM5-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lnnpk-0002nY-9v; Mon, 31 May 2021 15:44:23 -0400
+ id 1lnnvw-0006rO-DX; Mon, 31 May 2021 15:50:46 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EkxOyBollBwQzlIa24+0g3ZrcInJCAhLWN6TzHa0ehJ35ZSrdlmZ30Od3psSX6kSBp0aB5l2jI7XKESOhhhFmRUW0E/ZaPeoV7S91QjWDOIseuN/VpGzkRcC2YUgrK3pv6dMPGWMSqZ3DcTxMOtN+LqOTfbklb9MylWDFb/y6oj5NC658WNCtO0/CbFro5NiUitdXtm5Ahoeffu4QNnEkyQltdk9Jt098NmPWtc+vUfOLcU8w4OdXWOSe35N0ihZGTY8zo5rDB1dnQ06OQQxY91ylZ5PFp5z6aUxLv+adOCB8BlSWFye5Xhmg+VLYr3idmtAjOdUJL0vMApDKoOKNg==
+ b=bYL3fxkg+u249NP2p0fueTDUCr9ycNukOs3Lmk828+F2I+gWP9sGzRM52wfz2DmjhopdFdR6aZIyK8WaNtzpeId0qWY6rAoYopc3hD37DoivgN/Qkos2foOXPuZ5211A78gHnK7l+wip8Bhz4iQ29oqfKTWRUmINxFGEaaq7hEqU3HxerXO2csymugQwcZAwCnVR76yYTobs2z7GEL5TbcWix4x9diNs7+fWB+TKRxgyKWyghwScdd5p7XR0RftkIbmPItWDxFs1OxtyprsFABOUOO1Nbg4psnSc96SHaK3xQODWFHV0gCmT3TclqNRwoACfHhEcnf9aDTXAhcJ8oA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Ux8QunrglzdPWj1f4YIO17/3wmxTSOXZwbe45K6ISJg=;
- b=dSTrKSmAlYhtA6yJH95f0ivaGbO/PGKRBijBNy+kFTPDhEZoUOcX1eAO+k2jeiT/El9MreC72DQEiAfXWRu78wkYZI48SCxUPYvzOU2OokJmKX/1p4u3YmpzCawgd9Jvn6rShzFlEkYs2HO8gWmiWtEvRhYknnjOPyrqchTN5lXsh1zpukbusUXitxrqV0Xi2R4G8dfT1RvYndiMfh4HAQ6z6NLVQbNW3SSAacR6eJ+oZIbkuX6BCC4+kAvuP37PQQeHgNL1rQ0Z0glEuby3IjipfgX9Q8nFyzKns4MWfl8jdPYxK4zvvBB5PB34sFwfhVUloUTOJZ0OXnetMfDc5w==
+ bh=qH0YXUnk+3e0dVSHwnf4QbUdU7UDJHMvW1laaedvgKo=;
+ b=OZTCFl8IKtI1qSlKeu5MbZ7sFrMfzX2kt1rPXs54G+SNrhQxnOW+PV2BGNt0knFQj9na6gWDTl1FlW9ED8+gtFqy5uw81F3MbXrbb6+OqHr/+di5YNJsxgSxkLqbY76Lp93znRVXmRy2gN6l/4rUeWmzCb3gzNJlQLu48KLyMVIQ9+hm/q6Ibdt8lj+9BTzlVmbXQYlbV9kqFBBo8U2XEZ0hFsE89XmJmB40CziAwpFuN9EFVY80DH0AfGxhpRyPjvIxO5D0ocWkybM6M5DvPupvm/HAVPu0TR0aW1WPJ62KUKoNfnnjr2bvkqQYyz66xoYpugdpjKi+T1TofxgSnw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Ux8QunrglzdPWj1f4YIO17/3wmxTSOXZwbe45K6ISJg=;
- b=cs/JSMTSoFJgY/ItXxkKhnPPIXNPvTmmjN9hiMNW23gPXiXSAJ8gomtPQCRxS8F5NdowWZzoY05b2LSgzyRAGd2eb/6z5Df2AoRQ6lzNc6HbQb8D6uGCQ961qWCBScBsZNXNc3V4dg//Wq1OKjNXP8bau8RwY9cWIlfmbwBr6kU=
+ bh=qH0YXUnk+3e0dVSHwnf4QbUdU7UDJHMvW1laaedvgKo=;
+ b=AqBFM3HdSrI4UMFsh/1sbULTYiiykzhyQlxBP+t0agvQ8UNpxZ8TziRFGVpv7hThaSZQffIvie05F6JSUedAX3B988Qh+yS/OCW3/88jwsPAOYt/as76FFlOkCLDv1Y8N8p5M2/RqSH0c46imjPTyNlPG6mQlVa72ujHTMiAY4w=
 Authentication-Results: redhat.com; dkim=none (message not signed)
  header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM6PR08MB3895.eurprd08.prod.outlook.com (2603:10a6:20b:81::28)
+ by AM6PR08MB3224.eurprd08.prod.outlook.com (2603:10a6:209:47::13)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.22; Mon, 31 May
- 2021 19:44:16 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.24; Mon, 31 May
+ 2021 19:50:41 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::f928:f4f2:77c0:74b4]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::f928:f4f2:77c0:74b4%7]) with mapi id 15.20.4173.030; Mon, 31 May 2021
- 19:44:16 +0000
-Subject: Re: [PATCH v3 1/5] blkdebug: refactor removal of a suspended request
+ 19:50:41 +0000
+Subject: Re: [PATCH v3 2/5] blkdebug: move post-resume handling to
+ resume_req_by_tag
 To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
 Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
  Max Reitz <mreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 References: <20210517145049.55268-1-eesposit@redhat.com>
- <20210517145049.55268-2-eesposit@redhat.com>
+ <20210517145049.55268-3-eesposit@redhat.com>
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <bd034b20-eaa5-8392-2e06-da477ab613d6@virtuozzo.com>
-Date: Mon, 31 May 2021 22:44:14 +0300
+Message-ID: <4bbc70d3-2862-db73-9286-34d969a41a54@virtuozzo.com>
+Date: Mon, 31 May 2021 22:50:39 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.2
-In-Reply-To: <20210517145049.55268-2-eesposit@redhat.com>
+In-Reply-To: <20210517145049.55268-3-eesposit@redhat.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [185.215.60.226]
-X-ClientProxiedBy: AM0PR04CA0138.eurprd04.prod.outlook.com
- (2603:10a6:208:55::43) To AM7PR08MB5494.eurprd08.prod.outlook.com
+X-ClientProxiedBy: FR2P281CA0032.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:14::19) To AM7PR08MB5494.eurprd08.prod.outlook.com
  (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from [192.168.100.8] (185.215.60.226) by
- AM0PR04CA0138.eurprd04.prod.outlook.com (2603:10a6:208:55::43) with Microsoft
+ FR2P281CA0032.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:14::19) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4173.20 via Frontend Transport; Mon, 31 May 2021 19:44:15 +0000
+ 15.20.4195.9 via Frontend Transport; Mon, 31 May 2021 19:50:40 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: f3a6f14d-1cd6-4a03-ccee-08d9246c7955
-X-MS-TrafficTypeDiagnostic: AM6PR08MB3895:
-X-Microsoft-Antispam-PRVS: <AM6PR08MB38954B32D363EA713FADFEB2C13F9@AM6PR08MB3895.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1332;
+X-MS-Office365-Filtering-Correlation-Id: b920c7d1-6828-4c82-009a-08d9246d5ece
+X-MS-TrafficTypeDiagnostic: AM6PR08MB3224:
+X-Microsoft-Antispam-PRVS: <AM6PR08MB32247BDD14EC411CDD693588C13F9@AM6PR08MB3224.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: dUvDDMBkk/lgCmEL9eNHLWs4SUIoWGgTKkaa7kQOxzyp2j/Q60rGBf6/A5XftsZiMbE3RSXBYFrWt/XPlpWz07nSIy+awZnre42kfetEX6dFFMHA2ROZNbzkGVZVJtbZal5ZyOKQX9cHSsgYoOOLQSyvzjltzhZo/EdasRWFewK9FAYTloDVV66Z9DwFEj78MQqpfYEC3TnPIfUMbrvm2uf7rYx5IAAOy78DPPN4bqMsprb8M1zsYTPzC8V9PvVvDBa8tBUmU9+afsZKeUdkpLvNIdTeeiUqGDlSJrRkHNIxuAiGcQdJaCl+VQ4iAiaCd28pn/+7r+u2CGJFdYv7XeTDRj1YLChHBjnS20wIr0LWgxj96xYVGtosYlw0iieBG7Z7cB6MN0QBcsxKb6Hd06FE2mK3jHgWYUAoKOdaLAxPVnuwh+C7nsXaYfsI6U9k1itzXEFCasc93uVmTFTyTH2Zkbp83MXiwVJdO0yEPXbcFqEoRzorJLsSTupoiCPAuh7EoHodYSbtW83J9qBZr/BcKktg3cwZEyithU0xTYCEb5DmLuaJZISN9SSZnVxJfBu+3bVCHAtMrisFv/4yZ6PxBv1L2Kh0VV2vToHOGTxztI6Pcle6ff9SrqR7hkS6Rcy1MQ0AHpKIN6KGRaexNeMRmtLBxzLGdDcC4vyZk/b2OVhDWIrl6IDvWOONC2b/5J+qqevjKISQoDyTwdFFmQ==
+X-Microsoft-Antispam-Message-Info: sXHZIohex6eN4pPiDOHvW185YGxFXvGDMvdD7WwxjRQCDQ8HD928JijUnc919/uLgOZkvUpEy9TXRdGKCeTafXWFyzGo7ol2fSALE5SzAhkvZV8xqgBMl7v1z75uEpaucpFy0dGzleG8Xwg1D9/0pCbcLRJEInP166rpP08+YEkdkRvOOIIBpz30SIfHEYEAHnF54qqQIvpM5ffQW/3vZFSsXlSpE4ULlNv/glkCgg2FH9tOquZswDovw/cZpe22l+ysPeF9HND4wbpudIc+opv7XsqE3VUbizmkR7gfgxpszMcy19KPpdGCLL/9T1WUsz9gjvKaAc0PKkmW31PR6TxYLSWoDEiuNcbk1iReI49E8c+NXDuhNVGD7FDRHur6t8D19hOK4HErvMBZxWxaQDNy3MTZE0kwJo6mBeIOVZQDRYt+WZBUWiKbPSMQ3r/airgrWgunMxvK425IRHpW1PZzpobBtGfG4jXHVyzsozeqbmErt8Xjd2ANnmikrgSQloJO1NQqgbi1O/p1ko2cX2cnwaAEskGtRtapwEKPcbxjjtk0dUQwQOMIWVbrLvGO4y4a1BcmOJlNS3EmgW/vasuMTRDnFpLpr0q03zYAvcYlanWG+jkWlgAEQaa1m2sEwd1K+/GShkmTGonXLg3ECtB1dKVUXLykzVGlKkvf4PLwtC3ZkoCAVdnnOa4bAe3/3mLb3+PjjE4FfLyjcvP9hA==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(346002)(396003)(376002)(136003)(39840400004)(366004)(15650500001)(186003)(4326008)(2906002)(54906003)(16526019)(66946007)(52116002)(66476007)(66556008)(316002)(38100700002)(38350700002)(86362001)(36756003)(31696002)(8936002)(2616005)(16576012)(26005)(478600001)(956004)(83380400001)(5660300002)(6486002)(31686004)(8676002)(43740500002)(45980500001);
+ SFS:(4636009)(366004)(39840400004)(136003)(396003)(376002)(346002)(5660300002)(66476007)(16576012)(316002)(66556008)(38350700002)(8936002)(31696002)(54906003)(38100700002)(66946007)(52116002)(2906002)(26005)(6486002)(36756003)(956004)(2616005)(31686004)(4744005)(186003)(478600001)(8676002)(86362001)(16526019)(83380400001)(4326008)(43740500002)(45980500001);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?K2VBb0g5YWhSQkRkUmU3bFhsUmNaNFAzeGp3dFdiU0MrSDFyS2Q3bWVhS1JJ?=
- =?utf-8?B?OFBnbFpUSlYzWlVNaVlTWEZZMWZEdkZOUUNQeHhRdTFjS3Z2TVVwZCtxRm5p?=
- =?utf-8?B?TzBpaW12dEFCbDZEODFWa3ZKa1R5R1h6b25NMmZ3WVFwbmVoOXRqWUxaNkpY?=
- =?utf-8?B?YS9XTCsxZ01TQjc0L3pHZk1FZVA0RnFNcTFuNEt5QTdzZVgrKzRIOStrVVdo?=
- =?utf-8?B?YWRUUE9lY3BVMUVOQXlaNGNUdGh5NCtVMDV0YUxnVzcwTnozYk5uUzZIUGZK?=
- =?utf-8?B?NUdVQk01WXcxMWVvSW5FcnZoTkdmZE1oMEFreThZc0VaWU81MTlYYW94TWxx?=
- =?utf-8?B?a3EwWExnT2wrZ1F1cWRMSzVmaS9uZURJVUJMcDg0eHBlTFE0aGFleFByNkJu?=
- =?utf-8?B?ZkRacCtTZjFPdlppWjUxVnYxc2hqSG1xUjZFOGM2dHpnbDE2VHhHdDFwVW9D?=
- =?utf-8?B?RUlUazlwZW9OejFsdTdtVS85YktXbjhoZ0lGd3M0YU9iS25lUE0xS3ZYWGxz?=
- =?utf-8?B?UFdKbCtZbGo5dXNZR2MxT3Vjbm56akx1Z3o1QjM2Vko4N01lYkk4THBwa2tU?=
- =?utf-8?B?UjZxdjhvV3ZtT0FBaGY1QkhIM054VUJFRk9nWHpXaW9FdWdJNFZ1U0NIUXhH?=
- =?utf-8?B?VmJqNzQvdCtmL3RWR1pjdmx3bU1nallNa1Y0SHNyRzlJcHpBSHFWa1pESjZq?=
- =?utf-8?B?WjdIdTZ1a0hvVGxVcVRLRDFkbFhyNTBBZGRPaGpyMWRhdUpieFdKN0RVNHdE?=
- =?utf-8?B?Zm4xdHFHWURHS2V6OUpKUGFuNWZaakdBZDlEc0ZPeTdONDdqZUQ1WnJ3bWlj?=
- =?utf-8?B?R1ZQVzRTQmJMV1RFY1dkc2kwZFZMRmk3VHd3S0crNU1uajZLUHdqaHBVcW0w?=
- =?utf-8?B?d25JSU1wYm9lbEx1YjZpTnZpRElzSWZpWmZRTHpKdWRlSGE1ZDh6Z2pmVVJK?=
- =?utf-8?B?cmpEZXN1U3JFeE1FOVlYYW5CaW5xTWJteTRFTWhVYm5kODJVa1hacURlREJB?=
- =?utf-8?B?bldVc082RVhTMjc0YVVDaDNFSFYzWWtnZ0cxRmVCV3FEZStYbjVDNXBybTFS?=
- =?utf-8?B?NXRCZ2VQenA4ZEtuSUxhSDlDdkFWQXFnM3J1VXVCSld5aFA3L0pCTUcyZk1D?=
- =?utf-8?B?Zzh4VGNqRUlUSlFTNytzTFRnZS9kKzJZeHpWby9ka1dyM2lGNGc1a0RGc0w4?=
- =?utf-8?B?cVhxSEVHOGJ4bEVCVitTMFc0cDdHWDF6NnQyZGg4R095UkVWMXpid0RZRVNP?=
- =?utf-8?B?NEF1UGJGNDNDalo3RXBITFBBaVpDR3UyV0hqbnE5MUdVVG5zUDVMck1zR1lu?=
- =?utf-8?B?dnVNZG04SlpreG5VWkVJRGpzSVNjQ09hMUhIUUdkVlZCd1NIbzNXT2VzTStO?=
- =?utf-8?B?UVFlQmpoQ21rZ1l6b3l3V0xBbUlRTWZvYlpiUDNEbkhISTIxZ2xpQTQybnZY?=
- =?utf-8?B?UW53TS9laTA5MjlRUU41VENXc0U5OVRZVTJuMGxwR1lxRTRmR0hTODlYUmNM?=
- =?utf-8?B?Z2hMZk1TVGs1aVIxNVk3ckFYK29xc1lpeWprYjRxOXMyNVVsZEVCOFpqU3Np?=
- =?utf-8?B?Yzc1d29XYXUxL2dRZXVkYzJwTVA4RGQ2V1lTZGN3cnEzOGxqUytSRlA2alhV?=
- =?utf-8?B?Q2ovOUErd0hFWmsxTlhYQjAwN3V4emJtU1dBRzlaUGhuTm9nN1VFNUxseThY?=
- =?utf-8?B?bDFLMURqeDhQNkVwTEJ6NTQ0d2pKM29aYTVBb0ZRMGptNk9qT0o4MHhucE9M?=
- =?utf-8?Q?BCtpK2oqe34eBJ0TATrynyDm4OuK90KSA8pJ7B/?=
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?QzVSRXlCN3cvWmp6ZXJnYS9lNDdSRDE3SE14YmhxbmJpSnRxSmFtT3dmWm9W?=
+ =?utf-8?B?bk1ZSHRRNVgxVVJJbWh6ZW5QY1k2LzUwTllFRzNNbUpqcW5yQmV0KytQN1Bh?=
+ =?utf-8?B?aWhYbG9UWnNlcFpiQmRGT201b0tzRXVmM0VRdloyT3BhVHlKcGdoWk13emdZ?=
+ =?utf-8?B?QzhqaDRxYkRCOUlvYmsxcHJlMmNPclVSNE5zMkR1Z2ZZZjZwd0RNT3JqSFhY?=
+ =?utf-8?B?M1RXcE9ENDNjQ0VRRXg5dnVranhQaVRtVENyS0RJeno5cEE4WmNUcTBnbnJm?=
+ =?utf-8?B?ZlQ4QzNINExlSmQ2QWhuMnJwaVUyKzFKOHhhSjIrdzFyaitCQXRTZThDUTRi?=
+ =?utf-8?B?ZTd3N0VFNmZkOVR3UWZ3eTRYamNVdXU5VHduRWNBMC84SXgrUnBxR2R3bXM1?=
+ =?utf-8?B?bnJmK1pqZExKSE1MSHg4dlkraC9yNG9mZmxVbmRyMit1bEI5ekRXZlFUM0ZR?=
+ =?utf-8?B?WU1FWWRWSlkveFVjREZzWityUTZNNFcvRUdWZ3pOanpkVDI3dWhKL3pZTmkv?=
+ =?utf-8?B?djJGSk5VbVd0TUg1OTFmOVpNTnNIYjNhV0pzanZCM04wSVFqc0lLNElXajFj?=
+ =?utf-8?B?eWhHOVN5NjdJdEpOZ0U3WkROR3IzbVRjeXhPMkpkUmRxekJKOCtiR2lrNDNF?=
+ =?utf-8?B?OXNOckloamNaK2ViSTViZ3NMaE1UY1Z4djkxU09LY052eE1CRVIreDUyanlJ?=
+ =?utf-8?B?YytZZ3JpemFwbWVqZFByNWQvaGNxeEdiSGlXakhWTmRxYmJGZ3FJVzRrTHps?=
+ =?utf-8?B?ZUhkRk0vY3M0cWhjUSsyVVh1eG5HMDh2V3NYbEZjeENCRzVYOXlCd0ZHVWFI?=
+ =?utf-8?B?RXVweUtrd2FobzkvcHhjRURYSjMyeCtsbUxrcE5ocTFiV0s4dXJYbjVieUNs?=
+ =?utf-8?B?L095NEF3SExtVlYyQ0hLMWU3c2RXS1pacU5YOEZDMlNPaU9uY25BSUlpZExj?=
+ =?utf-8?B?bExUVHFibFVXNVpNby8vM2dJeC91M1o1cUU5QzU5RkthNWI1QUx5ZW1XYlp6?=
+ =?utf-8?B?UUZEQlJWL3p5dE90dVB3amJKMDczeFZBMWRtMUw3VlZtdzZkcHdqbHZBYno3?=
+ =?utf-8?B?RTdBeStpMEJDaEFjb3p5am5pK0h5cmhkQ1hKb0JnZHcwdVVtYVNUUjZIMnNL?=
+ =?utf-8?B?UTdOUDZoeWlrdmV1L3JoU0RRbjJZTEdjaDFFQlJCcVREU3N6d3dSUjJZeHQ2?=
+ =?utf-8?B?cEppZXpSQXVSdjNVSUdMS3RIRElJWWNNNU9NM1NrOXJMd2pZQnhidUNBS1NG?=
+ =?utf-8?B?TnN3aUhwZHcxVHBCUlE1ZTJIVUxXZzhMdHp0WUltelp2QUxXempTYTAwckNn?=
+ =?utf-8?B?RHIzLzZSY3padUJpSi9VSlE2Y1RmMjhBcGhaM3g4RWJSRUh5eE52TXRtYmtO?=
+ =?utf-8?B?NnBrVHJVaFZBYkwzdTBCTmFIa3kxR0RLLzU0TTEraVlsbEJWZllCUFY3TmJJ?=
+ =?utf-8?B?alJER0xvYnZwZGZ3WlhtRTVxTkVKSTlidTJLNk05ZGwwVGN1UGNlWWFFK2M1?=
+ =?utf-8?B?VWE3YzB4T0t3SGZKNnFaRmhYSkdkS3I2ejhaMGczNmNIem1rd3ZtbmJQVDhZ?=
+ =?utf-8?B?Zk00WVhwTnFzNE9iUkZDT0ZyakFNc0N0b3J6Qjg2ZDlwZlBFa0pUVEJ5cWFx?=
+ =?utf-8?B?dmdtS2lxSnYzVDFwRVd5VWM4RmltZVhTTWpWVVlZb1FOVTVYZlpPdkNIVDRX?=
+ =?utf-8?B?M1gzZWV0bEtjQlloNDVRTVVEOW9xZll5QVZQc2RycDNoNXpzbkNBWGNNbDV2?=
+ =?utf-8?Q?NC98kMtkR/1b1LH6bLD+UlDP46dcVBSSjuud8Ub?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f3a6f14d-1cd6-4a03-ccee-08d9246c7955
+X-MS-Exchange-CrossTenant-Network-Message-Id: b920c7d1-6828-4c82-009a-08d9246d5ece
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 May 2021 19:44:16.2719 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 May 2021 19:50:41.1972 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: fAw+8FMSPa650Gtjl0hjiC6nu96QmqPwmKr0i5jkujEaAohnLT+Iw6djIQGlZ10DG9AQKXyLSj8pug2/KQDmaNcylC0Z5Taqkl2kcdYrk6w=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3895
-Received-SPF: pass client-ip=40.107.5.98;
+X-MS-Exchange-CrossTenant-UserPrincipalName: CkM/1Fy5j+7jlcIMZcANq2XBr4qld8n6zEp1Hh0XsCLucUtkLd0fkMJXmbNOtOhQMi6KmZxmcUJ2hGl5fMxcwII6LCmxzaUBzWHp1IATNz8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3224
+Received-SPF: pass client-ip=40.107.3.105;
  envelope-from=vsementsov@virtuozzo.com;
- helo=EUR03-VE1-obe.outbound.protection.outlook.com
+ helo=EUR03-AM5-obe.outbound.protection.outlook.com
 X-Spam_score_int: -26
 X-Spam_score: -2.7
 X-Spam_bar: --
@@ -148,90 +149,18 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 17.05.2021 17:50, Emanuele Giuseppe Esposito wrote:
-> Extract to a separate function.  Do not rely on FOREACH_SAFE, which is
-> only "safe" if the *current* node is removed---not if another node is
-> removed.  Instead, just walk the entire list from the beginning when
-> asked to resume all suspended requests with a given tag.
+> We want to move qemu_coroutine_yield() after the loop on rules,
+> because QLIST_FOREACH_SAFE is wrong if the rule list is modified
+> while the coroutine has yielded.  Therefore move the suspended
+> request to the heap and clean it up from the remove side.
+> All that is left is for blkdebug_debug_event to handle the
+> yielding.
 > 
-> Co-developed-by: Paolo Bonzini <pbonzini@redhat.com>
-> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-> ---
->   block/blkdebug.c | 28 +++++++++++++++++-----------
->   1 file changed, 17 insertions(+), 11 deletions(-)
-> 
-> diff --git a/block/blkdebug.c b/block/blkdebug.c
-> index 2c0b9b0ee8..8f19d991fa 100644
-> --- a/block/blkdebug.c
-> +++ b/block/blkdebug.c
-> @@ -793,7 +793,6 @@ static void suspend_request(BlockDriverState *bs, BlkdebugRule *rule)
->           printf("blkdebug: Resuming request '%s'\n", r.tag);
->       }
->   
-> -    QLIST_REMOVE(&r, next);
->       g_free(r.tag);
->   }
->   
-> @@ -869,25 +868,35 @@ static int blkdebug_debug_breakpoint(BlockDriverState *bs, const char *event,
->       return 0;
->   }
->   
-> -static int blkdebug_debug_resume(BlockDriverState *bs, const char *tag)
-> +static int resume_req_by_tag(BDRVBlkdebugState *s, const char *tag, bool all)
->   {
-> -    BDRVBlkdebugState *s = bs->opaque;
-> -    BlkdebugSuspendedReq *r, *next;
-> +    BlkdebugSuspendedReq *r;
->   
-> -    QLIST_FOREACH_SAFE(r, &s->suspended_reqs, next, next) {
-> +retry:
-> +    QLIST_FOREACH(r, &s->suspended_reqs, next) {
->           if (!strcmp(r->tag, tag)) {
-> +            QLIST_REMOVE(r, next);
->               qemu_coroutine_enter(r->co);
-> +            if (all) {
-> +                goto retry;
-> +            }
->               return 0;
->           }
->       }
->       return -ENOENT;
->   }
->   
-> +static int blkdebug_debug_resume(BlockDriverState *bs, const char *tag)
-> +{
-> +    BDRVBlkdebugState *s = bs->opaque;
-> +
-> +    return resume_req_by_tag(s, tag, false);
-> +}
-> +
->   static int blkdebug_debug_remove_breakpoint(BlockDriverState *bs,
->                                               const char *tag)
->   {
->       BDRVBlkdebugState *s = bs->opaque;
-> -    BlkdebugSuspendedReq *r, *r_next;
->       BlkdebugRule *rule, *next;
->       int i, ret = -ENOENT;
->   
-> @@ -900,11 +909,8 @@ static int blkdebug_debug_remove_breakpoint(BlockDriverState *bs,
->               }
->           }
->       }
-> -    QLIST_FOREACH_SAFE(r, &s->suspended_reqs, next, r_next) {
-> -        if (!strcmp(r->tag, tag)) {
-> -            qemu_coroutine_enter(r->co);
-> -            ret = 0;
-> -        }
-> +    if (resume_req_by_tag(s, tag, true) == 0) {
-> +        ret = 0;
->       }
->       return ret;
->   }
-> 
+> Co-developed-by: Paolo Bonzini<pbonzini@redhat.com>
+> Signed-off-by: Emanuele Giuseppe Esposito<eesposit@redhat.com>
 
-Interesting, could we really have several suspended_reqs with same tag, keeping in mind suspend_requests() removes rule before creating suspended_req with same tag.. Probably user could create new rule with same tag, when existing requests is suspended? Not sure is such behavior expected or should be abandoned. Still, it's all not about that patch:
 
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-
 
 -- 
 Best regards,
