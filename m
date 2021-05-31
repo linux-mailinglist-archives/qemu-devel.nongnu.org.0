@@ -2,69 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 298F239682E
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 May 2021 20:52:52 +0200 (CEST)
-Received: from localhost ([::1]:40920 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 982A3396833
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 May 2021 20:57:16 +0200 (CEST)
+Received: from localhost ([::1]:45304 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lnn1u-0006CO-Op
-	for lists+qemu-devel@lfdr.de; Mon, 31 May 2021 14:52:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57966)
+	id 1lnn6B-0000sv-ED
+	for lists+qemu-devel@lfdr.de; Mon, 31 May 2021 14:57:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58834)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lnmzy-0005Sy-3D
- for qemu-devel@nongnu.org; Mon, 31 May 2021 14:50:50 -0400
-Received: from indium.canonical.com ([91.189.90.7]:52964)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lnn4D-0008Eo-GV
+ for qemu-devel@nongnu.org; Mon, 31 May 2021 14:55:13 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:42880)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lnmzv-0000SF-Qa
- for qemu-devel@nongnu.org; Mon, 31 May 2021 14:50:49 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lnmzt-0008Ay-6T
- for <qemu-devel@nongnu.org>; Mon, 31 May 2021 18:50:45 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 2F27F2E8186
- for <qemu-devel@nongnu.org>; Mon, 31 May 2021 18:50:45 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lnn46-0002yi-Qk
+ for qemu-devel@nongnu.org; Mon, 31 May 2021 14:55:13 -0400
+Received: by mail-wr1-x429.google.com with SMTP id c5so634903wrq.9
+ for <qemu-devel@nongnu.org>; Mon, 31 May 2021 11:55:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=XNpu2KSj4XvOKDadL1Zyci5yvwlHGVjMUnN4wbvmGks=;
+ b=rOzUjkAZ65lffQiW41mojXOy52xiPfARjU22E6QHKrUaNj0vSSE+0Wl10kP0sVl/xD
+ YYxP/J3p8GLXEhTF1RWFfaTisMy4reWuQvQnEnpE4xcXpeu7LTYn8bP0V1z3f2b+eIQ5
+ EP9Zt3p+w7fhI48k91zYSMmUCs2Ko6uwKlsO88XrJZ+mtMk75TN9e84EOqdqA7L+BYtF
+ +6P8nPazgSW84aW4F8o9NNhrN6ItZ5QIBTJqUO+3Yyqp4OpYbxF0WlMMZGAUCAO2mevn
+ IG7qtLImCbqO0pFZd8CgY5nQTDx457fg4alA+ElPX8fjEKtZzDmjfx3W2Jrqk0U5Zhd0
+ rwcg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=XNpu2KSj4XvOKDadL1Zyci5yvwlHGVjMUnN4wbvmGks=;
+ b=lG7HUsIDFTU6tggOwAeagl6nosKKdmCyH6/xv5453XJUmGF+43s2e4yLMK3ej+hLcG
+ R+26A8CYZwbEw1DDLQy0oRdF/IPG8B9hh3L2icV5xrXEOKU2Vn2z5SFZGaMpQmq54Fyk
+ tzrRFqcrx2F5JDIfoQN68e0xtwXxq6q1ZGsrgoLrVHmn2i1Yo0JcoBjjtJhKWTYWrp1Q
+ WbYfvVIE0ZLi9nEl+pZ95xmRMkrmM25k2dinLYl0V638lLFhh09DLTjkHTsRtZ1JiBLH
+ RDBVg0WrOBsXQP2oyj6u+V1IYgeYwm+dav/3JsITJKpnedvF2GKwi3V9z6HjqM09pCOt
+ JP9Q==
+X-Gm-Message-State: AOAM531iOz+MtmLMKM0chYQoo4DRkEEooAxowZWa3oK9c4SYh68b41SY
+ 6gtz3OMBz/gPgJGALletpSvHeUj7wTAN7A==
+X-Google-Smtp-Source: ABdhPJysfXOmT2/jmQlaegnwK1FlJO+czaRmOqXNdnsc4Yi4inWOth5zE3A3rFMeji7Ds0O2k9cEfQ==
+X-Received: by 2002:a5d:4385:: with SMTP id i5mr2420353wrq.233.1622487305223; 
+ Mon, 31 May 2021 11:55:05 -0700 (PDT)
+Received: from [192.168.1.36] (235.red-83-57-168.dynamicip.rima-tde.net.
+ [83.57.168.235])
+ by smtp.gmail.com with ESMTPSA id h13sm16676489wml.26.2021.05.31.11.55.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 31 May 2021 11:55:04 -0700 (PDT)
+Subject: Re: [PATCH v6 08/26] tcg: Build ffi data structures for helpers
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20210502235727.1979457-1-richard.henderson@linaro.org>
+ <20210502235727.1979457-9-richard.henderson@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <4ee807ed-5e36-ad86-57eb-aaeaa9b1a04f@amsat.org>
+Date: Mon, 31 May 2021 20:55:03 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 31 May 2021 18:42:05 -0000
-From: Thomas Huth <1905444@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: fuzzer
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: a1xndr th-huth
-X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <20201124171810.akchle2mwg6xdlol@mozz.bu.edu>
-Message-Id: <162248652603.3800.6939333695582826768.malone@soybean.canonical.com>
-Subject: [Bug 1905444] Re: [OSS-Fuzz] Issue 27796 in oss-fuzz:
- qemu:qemu-fuzz-i386-target-generic-fuzz-xhci: Stack-overflow in
- address_space_stl_internal
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="925b661396f90467a0d31fdfb13d4990b7239925"; Instance="production"
-X-Launchpad-Hash: 13bcf7641782bc5c617e3300efb171c3cd507471
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210502235727.1979457-9-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x429.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.591,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,82 +89,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1905444 <1905444@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As mentioned by Alexander here:
-https://lists.gnu.org/archive/html/qemu-devel/2021-05/msg08637.html
-this has likely been fixed by this commit here:
-https://gitlab.com/qemu-project/qemu/-/commit/3c6151cd11ae7e4a7dae10f8c17ab=
-1fe2f0a73bf
-... thus I'm marking this as fixed now. If it occurs again, please open a n=
-ew ticket in the Gitlab bug tracker. Thanks!
+Hi Richard,
 
-** Changed in: qemu
-       Status: New =3D> Fix Committed
+On 5/3/21 1:57 AM, Richard Henderson wrote:
+> Add libffi as a build requirement for TCI.
+> Add libffi to the dockerfiles to satisfy that requirement.
+> 
+> Construct an ffi_cif structure for each unique typemask.
+> Record the result in a separate hash table for later lookup;
+> this allows helper_table to stay const.
+> 
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  meson.build                                   |  9 ++-
+>  tcg/tcg.c                                     | 58 +++++++++++++++++++
+>  tests/docker/dockerfiles/alpine.docker        |  1 +
+>  tests/docker/dockerfiles/centos7.docker       |  1 +
+>  tests/docker/dockerfiles/centos8.docker       |  1 +
+>  tests/docker/dockerfiles/debian10.docker      |  1 +
+>  .../dockerfiles/fedora-i386-cross.docker      |  1 +
+>  .../dockerfiles/fedora-win32-cross.docker     |  1 +
+>  .../dockerfiles/fedora-win64-cross.docker     |  1 +
+>  tests/docker/dockerfiles/fedora.docker        |  1 +
+>  tests/docker/dockerfiles/ubuntu.docker        |  1 +
+>  tests/docker/dockerfiles/ubuntu1804.docker    |  1 +
+>  tests/docker/dockerfiles/ubuntu2004.docker    |  1 +
+>  13 files changed, 77 insertions(+), 1 deletion(-)
 
--- =
+> @@ -1135,6 +1152,47 @@ void tcg_context_init(TCGContext *s)
+>                              (gpointer)&all_helpers[i]);
+>      }
+>  
+> +#ifdef CONFIG_TCG_INTERPRETER
+> +    /* g_direct_hash/equal for direct comparisons on uint32_t.  */
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1905444
+Why not use g_int_hash() then?
 
-Title:
-  [OSS-Fuzz] Issue 27796 in oss-fuzz: qemu:qemu-fuzz-i386-target-
-  generic-fuzz-xhci: Stack-overflow in address_space_stl_internal
+Otherwise,
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Status in QEMU:
-  Fix Committed
-
-Bug description:
-   affects qemu
-
-  OSS-Fuzz Report: https://bugs.chromium.org/p/oss-
-  fuzz/issues/detail?id=3D27796
-
-  =3D=3D=3D Reproducer (build with --enable-sanitizers) =3D=3D=3D
-  cat << EOF | ./qemu-system-i386 -display none  -machine accel=3Dqtest, \
-  -m 512M -machine q35 -nodefaults \
-  -drive file=3Dnull-co://,if=3Dnone,format=3Draw,id=3Ddisk0 \
-  -device qemu-xhci,id=3Dxhci -device usb-tablet,bus=3Dxhci.0 \
-  -qtest-log none -qtest stdio
-  outl 0xcf8 0x80000803
-  outw 0xcfc 0x5e46
-  outl 0xcf8 0x80000810
-  outl 0xcfc 0xff5a5e46
-  write 0xff5a5020 0x6 0xffffffff0b70
-  outl 0xcf8 0x80000893
-  outb 0xcfc 0x93
-  writel 0xff5a7000 0xff5a5020
-  write 0xff5a700c 0x4 0x0c0c2e58
-  write 0xff5a4040 0x4 0x00d26001
-  write 0xff5a4044 0x4 0x0000030
-  EOF
-
-  =3D=3D=3D Stack Trace =3D=3D=3D
-  =3D=3D50473=3D=3DERROR: AddressSanitizer: stack-overflow on address 0x7ff=
-e3ec97e28 (pc 0x55e292eac159 bp 0x7ffe3ec98670 sp 0x7ffe3ec97e30 T0)
-  #0 0x55e292eac159 in __asan_memcpy (u-system-i386+0x2a0e159)
-  #1 0x55e2944bc04e in flatview_do_translate softmmu/physmem.c:513:12
-  #2 0x55e2944dbe90 in flatview_translate softmmu/physmem.c:563:15
-  #3 0x55e2944dbe90 in address_space_translate include/exec/memory.h:2362:12
-  #4 0x55e2944dbe90 in address_space_stl_internal memory_ldst.c.inc:316:10
-  #5 0x55e29393d2a0 in xhci_intr_update hw/usb/hcd-xhci.c:554:13
-  #6 0x55e29393efb9 in xhci_runtime_write hw/usb/hcd-xhci.c:3032:9
-  #7 0x55e294230428 in memory_region_write_accessor softmmu/memory.c:484:5
-  #8 0x55e29422fe63 in access_with_adjusted_size softmmu/memory.c:545:18
-  #9 0x55e29422f6fc in memory_region_dispatch_write softmmu/memory.c
-  #10 0x55e2944dc03c in address_space_stl_internal memory_ldst.c.inc:319:13
-  #11 0x55e29393d2a0 in xhci_intr_update hw/usb/hcd-xhci.c:554:13
-  #12 0x55e29393efb9 in xhci_runtime_write hw/usb/hcd-xhci.c:3032:9
-  #13 0x55e294230428 in memory_region_write_accessor softmmu/memory.c:484:5
-  #14 0x55e29422fe63 in access_with_adjusted_size softmmu/memory.c:545:18
-  #15 0x55e29422f6fc in memory_region_dispatch_write softmmu/memory.c
-  #16 0x55e2944dc03c in address_space_stl_internal memory_ldst.c.inc:319:13
-  #17 0x55e29393d2a0 in xhci_intr_update hw/usb/hcd-xhci.c:554:13
-  #18 0x55e29393efb9 in xhci_runtime_write hw/usb/hcd-xhci.c:3032:9
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1905444/+subscriptions
+> +    ffi_table = g_hash_table_new(NULL, NULL);
+> +    for (i = 0; i < ARRAY_SIZE(all_helpers); ++i) {
+> +        struct {
+> +            ffi_cif cif;
+> +            ffi_type *args[];
+> +        } *ca;
+> +        uint32_t typemask = all_helpers[i].typemask;
+> +        gpointer hash = (gpointer)(uintptr_t)typemask;
+> +        ffi_status status;
+> +        int nargs;
+> +
+> +        if (g_hash_table_lookup(ffi_table, hash)) {
+> +            continue;
+> +        }
+> +
+> +        /* Ignoring the return type, find the last non-zero field. */
+> +        nargs = 32 - clz32(typemask >> 3);
+> +        nargs = DIV_ROUND_UP(nargs, 3);
+> +
+> +        ca = g_malloc0(sizeof(*ca) + nargs * sizeof(ffi_type *));
+> +        ca->cif.rtype = typecode_to_ffi[typemask & 7];
+> +        ca->cif.nargs = nargs;
+> +
+> +        if (nargs != 0) {
+> +            ca->cif.arg_types = ca->args;
+> +            for (i = 0; i < nargs; ++i) {
+> +                int typecode = extract32(typemask, (i + 1) * 3, 3);
+> +                ca->args[i] = typecode_to_ffi[typecode];
+> +            }
+> +        }
+> +
+> +        status = ffi_prep_cif(&ca->cif, FFI_DEFAULT_ABI, nargs,
+> +                              ca->cif.rtype, ca->cif.arg_types);
+> +        assert(status == FFI_OK);
+> +
+> +        g_hash_table_insert(ffi_table, hash, (gpointer)&ca->cif);
+> +    }
+> +#endif
+> +
+>      tcg_target_init(s);
+>      process_op_defs(s);
 
