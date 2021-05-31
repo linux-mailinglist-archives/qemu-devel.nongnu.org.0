@@ -2,49 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E472539575D
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 May 2021 10:48:54 +0200 (CEST)
-Received: from localhost ([::1]:36680 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9007D395783
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 May 2021 10:52:17 +0200 (CEST)
+Received: from localhost ([::1]:40342 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lndbR-0000dt-Hb
-	for lists+qemu-devel@lfdr.de; Mon, 31 May 2021 04:48:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44774)
+	id 1lndei-0003Cc-FU
+	for lists+qemu-devel@lfdr.de; Mon, 31 May 2021 04:52:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45366)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1lnda6-0008K5-6M
- for qemu-devel@nongnu.org; Mon, 31 May 2021 04:47:30 -0400
-Received: from mail.ispras.ru ([83.149.199.84]:53460)
- by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1lnda2-0000v9-5L
- for qemu-devel@nongnu.org; Mon, 31 May 2021 04:47:28 -0400
-Received: from [10.12.39.188] (unknown [85.142.117.224])
- by mail.ispras.ru (Postfix) with ESMTPSA id 8DAC14076B39;
- Mon, 31 May 2021 08:47:21 +0000 (UTC)
-Subject: Re: [PATCH] replay: improve determinism of virtio-net
-To: Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org
-References: <162125666020.1252655.9997723318921206001.stgit@pasha-ThinkPad-X280>
- <a0210fac-af32-8f1e-ae5f-237d773c32bf@redhat.com>
- <91370f34-5a37-1cb1-fa7e-c95e3b7521c4@ispras.ru>
- <63e36678-452e-7436-10b3-55f9994c069b@redhat.com>
-From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
-Message-ID: <1e2611fd-fd05-e1f3-c6e5-fcb4c47de083@ispras.ru>
-Date: Mon, 31 May 2021 11:47:21 +0300
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lnddI-0002TY-RD
+ for qemu-devel@nongnu.org; Mon, 31 May 2021 04:50:49 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:46601)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lnddG-0003Cy-Hz
+ for qemu-devel@nongnu.org; Mon, 31 May 2021 04:50:48 -0400
+Received: by mail-wr1-x435.google.com with SMTP id g17so10026059wrs.13
+ for <qemu-devel@nongnu.org>; Mon, 31 May 2021 01:50:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=xLa45yYxMkW/kpuX2CW4u3rAz3PLUgfyQIwvjSeSWvs=;
+ b=uXDogfOwHt+xFnY4P33od1/XdEE0CuvX4xqH+eGYekGwSolkcVgFXTmnDCgb2F1aTZ
+ aHQD4Ryi+BnqYdBKXiQHpcvMVLti1Q6sDOut8BWIAOr8DK40z+w9EjNcMjKBMd7RtujB
+ Hrpp94G3VWSffxIWpZ418QgDXH+NGBaxCBVqcbD1+lbkeuNNHKbjTktIANrxsnHg8EN3
+ 83Vn+ClFouYr0VVQmy7lKqwrsvDDPc6i6w7FDS9AYhP2Ia691k8cIPXmZVogPZsNKxny
+ z9kRyw2ITgLt95GPffYP9OoKP6iicEi0kkl+Kvcel01ywL2XYzOIPtX9KYryDkz96aSp
+ iNyw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=xLa45yYxMkW/kpuX2CW4u3rAz3PLUgfyQIwvjSeSWvs=;
+ b=ai6OW2gx5r2RpZ00y4l8Xk5sNVU5B2PecWU5VXnVLtsqLpDFZRVECzHBRZXOliDP8k
+ ErYL7SRdNhdSWtwfqKeAIiYpkeRNaJxCWx83/l4MVgT4sQ21nelmjcAy7pC6LhtrKOua
+ nhGDDWgOHCtodCGsLl3OV5PINCCIJjMbqpk1znBcBRt3M0l/BlXs/wDFSqskrpvSPYdm
+ q0WNs1/VohmDx8+uqfgULPHjsOg6Cp8nsrjsWX00EoW6f1ANvCdKnqUY7G3cx75jdV4z
+ /Ret2wwnGFbHmUJz4jrQgb8ohZ3V0V5ShsysvfkdR4P8sGELHbC3Z0J19GnKctNBbQNd
+ 23hA==
+X-Gm-Message-State: AOAM532E8UICTqEJOa2oV2g0h6bqi3Rcva+X/VzjhgeEWYrUMavE68WP
+ KhcktlwgIOkhea4IP3B83N0=
+X-Google-Smtp-Source: ABdhPJyJMoipBOTRzGgh3fY09BYbYgi/VWtO6Fa3uPZua/aciPExJTaiUeV0ggyea0eKT2PXuR1luA==
+X-Received: by 2002:a05:6000:1541:: with SMTP id
+ 1mr21155832wry.364.1622451043605; 
+ Mon, 31 May 2021 01:50:43 -0700 (PDT)
+Received: from [192.168.1.36] (235.red-83-57-168.dynamicip.rima-tde.net.
+ [83.57.168.235])
+ by smtp.gmail.com with ESMTPSA id z11sm13167352wmf.31.2021.05.31.01.50.42
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 31 May 2021 01:50:43 -0700 (PDT)
+Subject: Re: [PATCH] target/mips: Fix DBALIGN DSP-R2 opcode 'byte position'
+ field size
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20210529130520.1039274-1-f4bug@amsat.org>
+ <a52d983b-ce0b-c5f3-3e1a-d175a23f1175@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <3d31e48a-79a8-a0e9-7b2f-ec98a0aaa385@amsat.org>
+Date: Mon, 31 May 2021 10:50:42 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <63e36678-452e-7436-10b3-55f9994c069b@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <a52d983b-ce0b-c5f3-3e1a-d175a23f1175@linaro.org>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=83.149.199.84;
- envelope-from=pavel.dovgalyuk@ispras.ru; helo=mail.ispras.ru
-X-Spam_score_int: -24
-X-Spam_score: -2.5
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x435.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.618,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.618,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -57,123 +91,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, alex.bennee@linaro.org, mst@redhat.com
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Jia Liu <proljc@gmail.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 31.05.2021 09:39, Jason Wang wrote:
+On 5/30/21 5:33 PM, Richard Henderson wrote:
+> On 5/29/21 6:05 AM, Philippe Mathieu-Daudé wrote:
+>> Per the "MIPS® DSP Module for MIPS64 Architecture" manual (rev 3.02),
+>> Figure 5.12 "SPECIAL3 Encoding of APPEND/DAPPEND Instruction Sub-class"
+>> the byte position field ('bp') is 2 bits, not 3.
 > 
-> 在 2021/5/31 下午2:35, Pavel Dovgalyuk 写道:
->> On 31.05.2021 07:55, Jason Wang wrote:
->>>
->>> 在 2021/5/17 下午9:04, Pavel Dovgalyuk 写道:
->>>> virtio-net device uses bottom halves for callbacks.
->>>> These callbacks should be deterministic, because they affect VM state.
->>>> This patch replaces BH invocations with corresponding replay functions,
->>>> making them deterministic in record/replay mode.
->>>> This patch also disables guest announce timers for record/replay,
->>>> because they break correct loadvm in deterministic mode.
->>>
->>>
->>> Virtio-net can be configured to work in tx timer mode. Do we need to 
->>> care about that?
->>
->> What does it mean? This patch fixes interaction with TX timer. Is it 
->> related to that mode?
+> Rev 2.34 has 3 bits, not 2.
 > 
-> 
-> I meant is the timer used by virtio_net_handle_tx_timer() safe consider 
-> you disable announce timer.
+> The mips32 version of balign, that uses 2 bits...  Are you sure you
+> looked at the right instruction?  Because 3 bits makes most sense for
+> this instruction with a 64-bit register size.
 
-I'm not sure that tx_timer is ok. It uses virtual time, but is not saved 
-in vmstate.
+Yes indeed it makes sense, and Rev 3.02 is incomplete...
 
-> 
-> Thanks
-> 
-> 
->>
->>>
->>>
->>>> Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
->>>> ---
->>>>   hw/net/virtio-net.c |   13 +++++++++----
->>>>   1 file changed, 9 insertions(+), 4 deletions(-)
->>>>
->>>> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
->>>> index 6b7e8dd04e..e876363236 100644
->>>> --- a/hw/net/virtio-net.c
->>>> +++ b/hw/net/virtio-net.c
->>>> @@ -44,6 +44,7 @@
->>>>   #include "hw/pci/pci.h"
->>>>   #include "net_rx_pkt.h"
->>>>   #include "hw/virtio/vhost.h"
->>>> +#include "sysemu/replay.h"
->>>>   #define VIRTIO_NET_VM_VERSION    11
->>>> @@ -394,7 +395,7 @@ static void virtio_net_set_status(struct 
->>>> VirtIODevice *vdev, uint8_t status)
->>>>                   timer_mod(q->tx_timer,
->>>> qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + n->tx_timeout);
->>>>               } else {
->>>> -                qemu_bh_schedule(q->tx_bh);
->>>> +                replay_bh_schedule_event(q->tx_bh);
->>>>               }
->>>>           } else {
->>>>               if (q->tx_timer) {
->>>> @@ -2546,7 +2547,7 @@ static void 
->>>> virtio_net_handle_tx_bh(VirtIODevice *vdev, VirtQueue *vq)
->>>>           return;
->>>>       }
->>>>       virtio_queue_set_notification(vq, 0);
->>>> -    qemu_bh_schedule(q->tx_bh);
->>>> +    replay_bh_schedule_event(q->tx_bh);
->>>
->>>
->>> Not familiar with replay but any chance to change qemu_bh_schedule() 
->>> instead?
->>
->> It would be better, but sometimes qemu_bh_schedule is used for the 
->> callbacks that are not related to the guest state change.
->>
->>>
->>> Thanks
->>>
->>>
->>>>   }
->>>>   static void virtio_net_tx_timer(void *opaque)
->>>> @@ -2602,7 +2603,7 @@ static void virtio_net_tx_bh(void *opaque)
->>>>       /* If we flush a full burst of packets, assume there are
->>>>        * more coming and immediately reschedule */
->>>>       if (ret >= n->tx_burst) {
->>>> -        qemu_bh_schedule(q->tx_bh);
->>>> +        replay_bh_schedule_event(q->tx_bh);
->>>>           q->tx_waiting = 1;
->>>>           return;
->>>>       }
->>>> @@ -2616,7 +2617,7 @@ static void virtio_net_tx_bh(void *opaque)
->>>>           return;
->>>>       } else if (ret > 0) {
->>>>           virtio_queue_set_notification(q->tx_vq, 0);
->>>> -        qemu_bh_schedule(q->tx_bh);
->>>> +        replay_bh_schedule_event(q->tx_bh);
->>>>           q->tx_waiting = 1;
->>>>       }
->>>>   }
->>>> @@ -3206,6 +3207,10 @@ static void 
->>>> virtio_net_device_realize(DeviceState *dev, Error **errp)
->>>>           n->host_features |= (1ULL << VIRTIO_NET_F_MTU);
->>>>       }
->>>> +    if (replay_mode != REPLAY_MODE_NONE) {
->>>> +        n->host_features &= ~(1ULL << VIRTIO_NET_F_GUEST_ANNOUNCE);
->>>> +    }
->>>> +
->>>>       if (n->net_conf.duplex_str) {
->>>>           if (strncmp(n->net_conf.duplex_str, "half", 5) == 0) {
->>>>               n->net_conf.duplex = DUPLEX_HALF;
->>>>
->>>>
->>>
->>
-> 
+Thanks,
 
+Phil.
 
