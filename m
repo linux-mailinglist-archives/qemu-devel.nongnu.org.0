@@ -2,106 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04916395804
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 May 2021 11:22:30 +0200 (CEST)
-Received: from localhost ([::1]:56288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28AA139581B
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 May 2021 11:32:14 +0200 (CEST)
+Received: from localhost ([::1]:58906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lne7w-0007Em-Lh
-	for lists+qemu-devel@lfdr.de; Mon, 31 May 2021 05:22:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51762)
+	id 1lneHN-00014y-0D
+	for lists+qemu-devel@lfdr.de; Mon, 31 May 2021 05:32:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53224)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
- id 1lne71-0006ZA-IH
- for qemu-devel@nongnu.org; Mon, 31 May 2021 05:21:31 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:30592)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
- id 1lne6z-0004ca-Rc
- for qemu-devel@nongnu.org; Mon, 31 May 2021 05:21:31 -0400
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 14V92vWk117134
- for <qemu-devel@nongnu.org>; Mon, 31 May 2021 05:21:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : from : to : cc
- : references : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=+nkWr+xeafPP/y6Dg7wiWniwkLowe6grDHbOm/UX9dQ=;
- b=dpIfYhEJHSvFNz1weooN6aJb5HJOEdMgYU5e4FRnidTBPEFWMiT9ivr7MD4Kk2iOk9WI
- ext9i+6sYkEcH3Sb5L0EuCqDKXprxARo6Fq4UxVpbM6KieWLlJxdKmYoj6tgnygb9/xQ
- aZ2v7uFiXj75dUfN9WmCmuWKzXdW3mDMcqm+kHrQyYQgWGWq213DRrgRIKMhenmZ5YyB
- Cg3Fp3S1ME3/kCD0rLSur2z6hOWlZpJqM9hpx9+rXrYJfEUJn/APF44nxGIzafM8dyOi
- Nd/v23AUtFP7lwTmeAtCymtlxABuQxyNyFmEUZcygX5ydK66XoWNWKlRaiqzlOAv3/x6 yg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 38vunnad4s-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Mon, 31 May 2021 05:21:26 -0400
-Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 14V92xFZ117308
- for <qemu-devel@nongnu.org>; Mon, 31 May 2021 05:21:25 -0400
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.98])
- by mx0a-001b2d01.pphosted.com with ESMTP id 38vunnad48-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 31 May 2021 05:21:25 -0400
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 14V97umM005999;
- Mon, 31 May 2021 09:21:23 GMT
-Received: from b06cxnps4075.portsmouth.uk.ibm.com
- (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
- by ppma03ams.nl.ibm.com with ESMTP id 38ud888wss-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 31 May 2021 09:21:23 +0000
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com
- (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
- by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 14V9LLOS27787622
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 31 May 2021 09:21:21 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0690EA405B;
- Mon, 31 May 2021 09:21:21 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id BADD0A4054;
- Mon, 31 May 2021 09:21:20 +0000 (GMT)
-Received: from localhost.localdomain (unknown [9.145.89.221])
- by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Mon, 31 May 2021 09:21:20 +0000 (GMT)
-Subject: Re: [PATCH] qobject: Fix maybe uninitialized in qdict_array_split
-From: Janosch Frank <frankja@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lneFc-0000Bt-3J
+ for qemu-devel@nongnu.org; Mon, 31 May 2021 05:30:25 -0400
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:56306)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lneFa-0001ul-H2
+ for qemu-devel@nongnu.org; Mon, 31 May 2021 05:30:23 -0400
+Received: by mail-wm1-x334.google.com with SMTP id g204so2627135wmf.5
+ for <qemu-devel@nongnu.org>; Mon, 31 May 2021 02:30:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=CdlgysxYEM+cNA08m1V/P6QdwO1YLgLDxz3bSWOD2Z8=;
+ b=rC1q0uer/GN3XwLpAfgXZwoNbGGzjWLluF+IbRLeHS8UquXALOTUbd1c2G/rTK/ezh
+ 4qWEAw0BwTgzbsfuiqQsNGguNcmHnq3k2M3GhedsuSCv3QijNbhUlW2rsKWOBGpptAcu
+ /PO1B/1xLfNgywvItjrZXxij0xybJTHpYrSm071CbH27vG7bsy/MfAhgXCBKmRZj8DGT
+ q+UrDLpm+ot4dd6QI+KeZ7xWi1wxmHMBbnewJo4XE1oxxvVOH3pgiXbIC/A5sQH1T29n
+ e7QWxB22Jz0XdBdkR583yNmDtjo3TK/Qk530ooLh+sTZIi2BUKmLl8Y6awbZM+GYWuIG
+ xvzw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=CdlgysxYEM+cNA08m1V/P6QdwO1YLgLDxz3bSWOD2Z8=;
+ b=WXUP2Ux0z3aiCBxynyXs5o4X3XAFPYaOQUe1/pwSi3CgD40+hftg42iStY6nCbfXMZ
+ dQbTYJohiqcIIIgEmvf7CatT4X3lPVvpLkC1nWs3JKlsZ7AmiQO8qAEdK1JQnbm8fCV5
+ KnQHoLKZWc5EirfFYjS3LKHtUxYtm4ELihQuiyLs6WY0sc8ZEDd6qZ0V5rMaj/HGbOpd
+ RyWFy0NwS7tAicQNOvoGgisl7kCCNpSpjw8zqLcU4bJXXVP6L6xsfgWg/+tk7124acsd
+ Cc9qmhdvG6DMVWuSqD4Tq1Xi4DfF0WeP/MgZzDu89gS3Y7gfcAhZe97+MxeqG76UHvU1
+ xtvg==
+X-Gm-Message-State: AOAM532/SJslHErQ1eGo8H1dWy6CZQIC9Dz5ZcqzbudgGJhb1ljljZhK
+ lBwlmwnqFq8Rz7JwmuT5mN9juJmDI1DhoQ==
+X-Google-Smtp-Source: ABdhPJwLwWtJhx2t4F/ASu9hn/zM3gNB8vLOb7FfhQBy7vcFxU1wgIiTryL7FAx23rwZi+u+3YpIjw==
+X-Received: by 2002:a05:600c:c7:: with SMTP id
+ u7mr3112214wmm.178.1622453420603; 
+ Mon, 31 May 2021 02:30:20 -0700 (PDT)
+Received: from localhost.localdomain
+ (235.red-83-57-168.dynamicip.rima-tde.net. [83.57.168.235])
+ by smtp.gmail.com with ESMTPSA id v132sm231232wmb.14.2021.05.31.02.30.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 31 May 2021 02:30:20 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-References: <20210518130638.54529-1-frankja@linux.ibm.com>
-Message-ID: <b4aebccf-db62-74da-ebd0-8ca24ea22f59@linux.ibm.com>
-Date: Mon, 31 May 2021 11:21:20 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+Subject: [PATCH] target/nios2: Mark raise_exception() as noreturn
+Date: Mon, 31 May 2021 11:30:18 +0200
+Message-Id: <20210531093018.1641599-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.26.3
 MIME-Version: 1.0
-In-Reply-To: <20210518130638.54529-1-frankja@linux.ibm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: i3YyjC48w68JjmBNSd61pf7HBgb5xyOw
-X-Proofpoint-ORIG-GUID: dSjfgE62dKazcN3mKlU3sYS0BMBZeEDR
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
- definitions=2021-05-31_07:2021-05-31,
- 2021-05-31 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 malwarescore=0
- spamscore=0 mlxlogscore=999 phishscore=0 adultscore=0 priorityscore=1501
- impostorscore=0 clxscore=1015 suspectscore=0 lowpriorityscore=0 mlxscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104190000
- definitions=main-2105310065
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=frankja@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.618,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x334.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -114,35 +84,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, cohuck@redhat.com, borntraeger@de.ibm.com
+Cc: Marek Vasut <marex@denx.de>, Jeff Da Silva <jdasilva@altera.com>,
+ Chris Wulff <crwulff@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Sandra Loosemore <sandra@codesourcery.com>,
+ Yves Vandervennet <yvanderv@altera.com>, Ley Foon Tan <lftan@altera.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/18/21 3:06 PM, Janosch Frank wrote:
-> Lets make the compiler happy.
-> 
-> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+Raised exceptions don't return, so mark the helper with
+TCG_CALL_NO_RETURN.
 
-Ping
-My build is still breaking on Ubuntu because of this.
+Fixes: 032c76bc6f9 ("nios2: Add architecture emulation support")
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ target/nios2/helper.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> ---
->  qobject/block-qdict.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/qobject/block-qdict.c b/qobject/block-qdict.c
-> index 1487cc5dd8..b26524429c 100644
-> --- a/qobject/block-qdict.c
-> +++ b/qobject/block-qdict.c
-> @@ -224,7 +224,7 @@ void qdict_array_split(QDict *src, QList **dst)
->      for (i = 0; i < UINT_MAX; i++) {
->          QObject *subqobj;
->          bool is_subqdict;
-> -        QDict *subqdict;
-> +        QDict *subqdict = NULL;
->          char indexstr[32], prefix[32];
->          size_t snprintf_ret;
->  
-> 
+diff --git a/target/nios2/helper.h b/target/nios2/helper.h
+index b0cb9146a5f..9bf14c128ed 100644
+--- a/target/nios2/helper.h
++++ b/target/nios2/helper.h
+@@ -18,7 +18,7 @@
+  * <http://www.gnu.org/licenses/lgpl-2.1.html>
+  */
+ 
+-DEF_HELPER_2(raise_exception, void, env, i32)
++DEF_HELPER_FLAGS_2(raise_exception, TCG_CALL_NO_RETURN, noreturn, env, i32)
+ 
+ #if !defined(CONFIG_USER_ONLY)
+ DEF_HELPER_2(mmu_read_debug, void, env, i32)
+-- 
+2.26.3
 
 
