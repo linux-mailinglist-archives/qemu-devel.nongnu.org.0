@@ -2,58 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C4813954F4
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 May 2021 07:16:32 +0200 (CEST)
-Received: from localhost ([::1]:55048 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 444F5395527
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 May 2021 07:55:34 +0200 (CEST)
+Received: from localhost ([::1]:52570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lnaHv-0002YX-38
-	for lists+qemu-devel@lfdr.de; Mon, 31 May 2021 01:16:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38958)
+	id 1lnath-0004f0-BU
+	for lists+qemu-devel@lfdr.de; Mon, 31 May 2021 01:55:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43716)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chenyi.qiang@intel.com>)
- id 1lnaGc-0001lr-51
- for qemu-devel@nongnu.org; Mon, 31 May 2021 01:15:10 -0400
-Received: from mga03.intel.com ([134.134.136.65]:44272)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chenyi.qiang@intel.com>)
- id 1lnaGZ-0000oa-C0
- for qemu-devel@nongnu.org; Mon, 31 May 2021 01:15:09 -0400
-IronPort-SDR: 9b2jIprPD+oGNjQ0WGsrYbk/eGqH95+1eFe1ptqYvRnom5utAqBz34/JPH3IB5KhZugi0fY8Al
- SyFO2ErBBIvg==
-X-IronPort-AV: E=McAfee;i="6200,9189,10000"; a="203330256"
-X-IronPort-AV: E=Sophos;i="5.83,236,1616482800"; d="scan'208";a="203330256"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 May 2021 22:14:59 -0700
-IronPort-SDR: ia/FBiQpAQRF9fmqWVrQfY63t8pe3MJ6+/iFNNT9VrExSceW4hv/VyaPXFQLrLW91OxQCDsNW+
- jCLs44jd0fnw==
-X-IronPort-AV: E=Sophos;i="5.83,236,1616482800"; d="scan'208";a="446477656"
-Received: from cqiang-mobl.ccr.corp.intel.com (HELO [10.238.0.151])
- ([10.238.0.151])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 May 2021 22:14:56 -0700
-Subject: Re: [PATCH v4] i386: Add ratelimit for bus locks acquired in guest
-To: Eduardo Habkost <ehabkost@redhat.com>
-References: <20210521043820.29678-1-chenyi.qiang@intel.com>
- <20210527211904.sjmkely4t4ragxva@habkost.net>
-From: Chenyi Qiang <chenyi.qiang@intel.com>
-Message-ID: <e9b152b8-daad-aaa4-c89d-35fd839f2ae4@intel.com>
-Date: Mon, 31 May 2021 13:14:54 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ (Exim 4.90_1) (envelope-from <yamamoto@midokura.com>)
+ id 1lnapU-0004t2-LU
+ for qemu-devel@nongnu.org; Mon, 31 May 2021 01:51:12 -0400
+Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431]:35726)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <yamamoto@midokura.com>)
+ id 1lnapO-0003jj-VB
+ for qemu-devel@nongnu.org; Mon, 31 May 2021 01:51:12 -0400
+Received: by mail-pf1-x431.google.com with SMTP id g18so8210617pfr.2
+ for <qemu-devel@nongnu.org>; Sun, 30 May 2021 22:51:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=midokura.com; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=nHZ9oqcJ8jYH1Ntxukst7A81ycKIhUMh16vye0jYyi8=;
+ b=SFB3eXeplQKcZU8uG6QF6UsxgQDnKiUxuyan8SKFvreE0ZehgRnBV81bxWiEAdZ+cS
+ 0vHPuS5mfWJexbzF1Knfka8+thA7sqv2g0l8CiYUyqoEkjWWk3Y/uaHJgMx8k9xMVrp4
+ ps7Db+mDMe8zD8QFeD2D4RrjghQ5k+j9ryZlQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=nHZ9oqcJ8jYH1Ntxukst7A81ycKIhUMh16vye0jYyi8=;
+ b=J4vMRDy9a+/hZyKvlVDIG0hjQdbn/kakCnFtsi8UZ54OX8rY2UjQX2Ooiu4YxCsaAR
+ EO5tcFATjnVkbtmV2Izjk26BLahEpQ4P9/wbqhmr3ZYTpeYLpLXFydYYd+bMJKNbypYe
+ 8QdN3dLReqnmlM88vUHr8Rd6SSftE4WH+K0ZVsQEN8CUHfX7PiqQSCdU1TEMdyD+9f5T
+ qKJdgMsV3X9yXcyRGFfep3VkUrMdA5JVIbh9mbJhdriVcl3uYDa3ytyH8U1wndJOCrod
+ axkixQ47IYWqkizbj6no8fZlqV+zVP0dWRDnOKzfTh2Euy5GdCboqcK0u+uUigfj/gW2
+ ncig==
+X-Gm-Message-State: AOAM531ihLqV9WEGqG/oW0/r187jCZQ0Rl2obXMUQG/6Tkt1nCDGhS6L
+ YmiE03j4+gnz9DTIIqtBAYQYA3NcluAMZA==
+X-Google-Smtp-Source: ABdhPJz+bZYi9Wie/lWg5mZCYyVKmsYkKUATJ6bA9lgpu2jExXEPMMKGNSwTtln/0Z4EknLNJbKpCg==
+X-Received: by 2002:a62:3542:0:b029:2d8:eb3a:f082 with SMTP id
+ c63-20020a6235420000b02902d8eb3af082mr15493965pfa.66.1622440265162; 
+ Sun, 30 May 2021 22:51:05 -0700 (PDT)
+Received: from spacetanuki.lan ([202.12.244.32])
+ by smtp.gmail.com with ESMTPSA id b10sm4744058pfi.122.2021.05.30.22.51.04
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Sun, 30 May 2021 22:51:04 -0700 (PDT)
+From: YAMAMOTO Takashi <yamamoto@midokura.com>
+To: qemu-devel@nongnu.org
+Cc: YAMAMOTO Takashi <yamamoto@midokura.com>
+Subject: [PATCH v2 00/11] linux-user changes to run docker
+Date: Mon, 31 May 2021 14:50:07 +0900
+Message-Id: <20210531055019.10149-1-yamamoto@midokura.com>
+X-Mailer: git-send-email 2.21.1 (Apple Git-122.3)
 MIME-Version: 1.0
-In-Reply-To: <20210527211904.sjmkely4t4ragxva@habkost.net>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=134.134.136.65;
- envelope-from=chenyi.qiang@intel.com; helo=mga03.intel.com
-X-Spam_score_int: -47
-X-Spam_score: -4.8
-X-Spam_bar: ----
-X-Spam_report: (-4.8 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.618,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
+ envelope-from=yamamoto@midokura.com; helo=mail-pf1-x431.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -67,69 +79,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Xiaoyao Li <xiaoyao.li@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+These patches allowed me to run arm64 and armv7 version of
+dind image on amd64.
 
+This patchset includes a few patches marked [!MERGE],
+which are not for the upsteam merge. They are included here just to
+show the context to reviewers.
 
-On 5/28/2021 5:19 AM, Eduardo Habkost wrote:
-> On Fri, May 21, 2021 at 12:38:20PM +0800, Chenyi Qiang wrote:
-> [...]
->> @@ -4222,6 +4247,15 @@ void kvm_arch_pre_run(CPUState *cpu, struct kvm_run *run)
->>       }
->>   }
->>   
->> +static void kvm_rate_limit_on_bus_lock(void)
->> +{
->> +    uint64_t delay_ns = ratelimit_calculate_delay(&bus_lock_ratelimit_ctrl, 1);
->> +
->> +    if (delay_ns) {
->> +        g_usleep(delay_ns / SCALE_US);
->> +    }
->> +}
->> +
->>   MemTxAttrs kvm_arch_post_run(CPUState *cpu, struct kvm_run *run)
->>   {
->>       X86CPU *x86_cpu = X86_CPU(cpu);
->> @@ -4237,6 +4271,9 @@ MemTxAttrs kvm_arch_post_run(CPUState *cpu, struct kvm_run *run)
->>       } else {
->>           env->eflags &= ~IF_MASK;
->>       }
->> +    if (run->flags & KVM_RUN_X86_BUS_LOCK) {
-> 
-> Does the KVM API guarantee that KVM_RUN_X86_BUS_LOCK will never
-> be set if KVM_BUS_LOCK_DETECTION_EXIT isn't enabled?  (Otherwise
-> we risk crashing in ratelimit_calculate_delay() above if rate
-> limiting is disabled).
-> 
+You can find my test setup here:
+https://github.com/yamt/garbage/tree/master/binfmt-aarch64-install
 
-Yes. KVM_RUN_X86_BUS_LOCK flag is set when bus lock VM exit happens. Bus 
-lock VM exit is disabled by default and can only be enabled through the 
-KVM_BUS_LOCK_DETECTION_EXIT capability.
+YAMAMOTO Takashi (11):
+  linux-user: handle /proc/self/exe for execve
+  linux-user: Fix the execfd case of /proc/self/exe open
+  linux-user: dup the execfd on start up
+  linux-user: make exec_path realpath
+  linux-user: Implement pivot_root
+  linux-user: add get_exe_path
+  linux-user: simplify is_proc_myself
+  linux-user: Implement exec of /proc/$pid/exe of qemu process
+  linux-user: Make the qemu detection for /proc/$pid/exe a bit
+    conservative
+  linux-user: a crude hack for libcontainer (CLONE_PARENT) [!MERGE]
+  linux-user: always assume preserve_argv0 for now [!MERGE]
 
-> If that's guaranteed, the patch looks good to me now.
-> 
->> +        kvm_rate_limit_on_bus_lock();
->> +    }
->>   
->>       /* We need to protect the apic state against concurrent accesses from
->>        * different threads in case the userspace irqchip is used. */
->> @@ -4595,6 +4632,10 @@ int kvm_arch_handle_exit(CPUState *cs, struct kvm_run *run)
->>           ioapic_eoi_broadcast(run->eoi.vector);
->>           ret = 0;
->>           break;
->> +    case KVM_EXIT_X86_BUS_LOCK:
->> +        /* already handled in kvm_arch_post_run */
->> +        ret = 0;
->> +        break;
->>       default:
->>           fprintf(stderr, "KVM: unknown exit reason %d\n", run->exit_reason);
->>           ret = -1;
->> -- 
->> 2.17.1
->>
-> 
+ linux-user/main.c    |  57 ++++++++++++++-
+ linux-user/qemu.h    |   2 +
+ linux-user/syscall.c | 171 ++++++++++++++++++++++++++++++++++++++++---
+ 3 files changed, 219 insertions(+), 11 deletions(-)
+
+-- 
+2.21.1 (Apple Git-122.3)
+
 
