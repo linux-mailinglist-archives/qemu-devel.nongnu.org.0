@@ -2,81 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 982A3396833
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 May 2021 20:57:16 +0200 (CEST)
-Received: from localhost ([::1]:45304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F267396850
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 May 2021 21:23:45 +0200 (CEST)
+Received: from localhost ([::1]:32906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lnn6B-0000sv-ED
-	for lists+qemu-devel@lfdr.de; Mon, 31 May 2021 14:57:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58834)
+	id 1lnnVo-00058d-1q
+	for lists+qemu-devel@lfdr.de; Mon, 31 May 2021 15:23:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43972)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lnn4D-0008Eo-GV
- for qemu-devel@nongnu.org; Mon, 31 May 2021 14:55:13 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:42880)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lnn46-0002yi-Qk
- for qemu-devel@nongnu.org; Mon, 31 May 2021 14:55:13 -0400
-Received: by mail-wr1-x429.google.com with SMTP id c5so634903wrq.9
- for <qemu-devel@nongnu.org>; Mon, 31 May 2021 11:55:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=XNpu2KSj4XvOKDadL1Zyci5yvwlHGVjMUnN4wbvmGks=;
- b=rOzUjkAZ65lffQiW41mojXOy52xiPfARjU22E6QHKrUaNj0vSSE+0Wl10kP0sVl/xD
- YYxP/J3p8GLXEhTF1RWFfaTisMy4reWuQvQnEnpE4xcXpeu7LTYn8bP0V1z3f2b+eIQ5
- EP9Zt3p+w7fhI48k91zYSMmUCs2Ko6uwKlsO88XrJZ+mtMk75TN9e84EOqdqA7L+BYtF
- +6P8nPazgSW84aW4F8o9NNhrN6ItZ5QIBTJqUO+3Yyqp4OpYbxF0WlMMZGAUCAO2mevn
- IG7qtLImCbqO0pFZd8CgY5nQTDx457fg4alA+ElPX8fjEKtZzDmjfx3W2Jrqk0U5Zhd0
- rwcg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=XNpu2KSj4XvOKDadL1Zyci5yvwlHGVjMUnN4wbvmGks=;
- b=lG7HUsIDFTU6tggOwAeagl6nosKKdmCyH6/xv5453XJUmGF+43s2e4yLMK3ej+hLcG
- R+26A8CYZwbEw1DDLQy0oRdF/IPG8B9hh3L2icV5xrXEOKU2Vn2z5SFZGaMpQmq54Fyk
- tzrRFqcrx2F5JDIfoQN68e0xtwXxq6q1ZGsrgoLrVHmn2i1Yo0JcoBjjtJhKWTYWrp1Q
- WbYfvVIE0ZLi9nEl+pZ95xmRMkrmM25k2dinLYl0V638lLFhh09DLTjkHTsRtZ1JiBLH
- RDBVg0WrOBsXQP2oyj6u+V1IYgeYwm+dav/3JsITJKpnedvF2GKwi3V9z6HjqM09pCOt
- JP9Q==
-X-Gm-Message-State: AOAM531iOz+MtmLMKM0chYQoo4DRkEEooAxowZWa3oK9c4SYh68b41SY
- 6gtz3OMBz/gPgJGALletpSvHeUj7wTAN7A==
-X-Google-Smtp-Source: ABdhPJysfXOmT2/jmQlaegnwK1FlJO+czaRmOqXNdnsc4Yi4inWOth5zE3A3rFMeji7Ds0O2k9cEfQ==
-X-Received: by 2002:a5d:4385:: with SMTP id i5mr2420353wrq.233.1622487305223; 
- Mon, 31 May 2021 11:55:05 -0700 (PDT)
-Received: from [192.168.1.36] (235.red-83-57-168.dynamicip.rima-tde.net.
- [83.57.168.235])
- by smtp.gmail.com with ESMTPSA id h13sm16676489wml.26.2021.05.31.11.55.03
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 31 May 2021 11:55:04 -0700 (PDT)
-Subject: Re: [PATCH v6 08/26] tcg: Build ffi data structures for helpers
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20210502235727.1979457-1-richard.henderson@linaro.org>
- <20210502235727.1979457-9-richard.henderson@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <4ee807ed-5e36-ad86-57eb-aaeaa9b1a04f@amsat.org>
-Date: Mon, 31 May 2021 20:55:03 +0200
+ (Exim 4.90_1) (envelope-from <lucas.araujo@eldorado.org.br>)
+ id 1lnnTV-0003Uk-32; Mon, 31 May 2021 15:21:21 -0400
+Received: from [201.28.113.2] (port=25507 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <lucas.araujo@eldorado.org.br>)
+ id 1lnnTR-0004bS-PJ; Mon, 31 May 2021 15:21:20 -0400
+Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
+ Microsoft SMTPSVC(8.5.9600.16384); Mon, 31 May 2021 16:21:12 -0300
+Received: from [127.0.0.1] (unknown [10.10.71.235])
+ by power9a (Postfix) with ESMTPS id 4A406801481;
+ Mon, 31 May 2021 16:21:12 -0300 (-03)
+To: qemu-devel@nongnu.org, qemu-ppc@nongnu.org
+From: Lucas Mateus Martins Araujo e Castro <lucas.araujo@eldorado.org.br>
+Subject: [target/ppc] excp_helper.c and mmu_helper.c cleanup
+Message-ID: <5f3cd63e-92d5-56a3-89bc-519998cfe7cc@eldorado.org.br>
+Date: Mon, 31 May 2021 16:21:11 -0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210502235727.1979457-9-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/alternative;
+ boundary="------------465171F157584BC02BBE8731"
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x429.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.591,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-OriginalArrivalTime: 31 May 2021 19:21:12.0868 (UTC)
+ FILETIME=[1E6FF640:01D75652]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
+Received-SPF: pass client-ip=201.28.113.2;
+ envelope-from=lucas.araujo@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,87 +56,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: farosas@linux.ibm.com, Richard Henderson <richard.henderson@linaro.org>,
+ luis.pires@eldorado.org.br, fernando.valle@eldorado.org.br,
+ matheus.ferst@eldorado.org.br, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Richard,
+This is a multi-part message in MIME format.
+--------------465171F157584BC02BBE8731
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 5/3/21 1:57 AM, Richard Henderson wrote:
-> Add libffi as a build requirement for TCI.
-> Add libffi to the dockerfiles to satisfy that requirement.
-> 
-> Construct an ffi_cif structure for each unique typemask.
-> Record the result in a separate hash table for later lookup;
-> this allows helper_table to stay const.
-> 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  meson.build                                   |  9 ++-
->  tcg/tcg.c                                     | 58 +++++++++++++++++++
->  tests/docker/dockerfiles/alpine.docker        |  1 +
->  tests/docker/dockerfiles/centos7.docker       |  1 +
->  tests/docker/dockerfiles/centos8.docker       |  1 +
->  tests/docker/dockerfiles/debian10.docker      |  1 +
->  .../dockerfiles/fedora-i386-cross.docker      |  1 +
->  .../dockerfiles/fedora-win32-cross.docker     |  1 +
->  .../dockerfiles/fedora-win64-cross.docker     |  1 +
->  tests/docker/dockerfiles/fedora.docker        |  1 +
->  tests/docker/dockerfiles/ubuntu.docker        |  1 +
->  tests/docker/dockerfiles/ubuntu1804.docker    |  1 +
->  tests/docker/dockerfiles/ubuntu2004.docker    |  1 +
->  13 files changed, 77 insertions(+), 1 deletion(-)
+Hi everyone,
 
-> @@ -1135,6 +1152,47 @@ void tcg_context_init(TCGContext *s)
->                              (gpointer)&all_helpers[i]);
->      }
->  
-> +#ifdef CONFIG_TCG_INTERPRETER
-> +    /* g_direct_hash/equal for direct comparisons on uint32_t.  */
+I'm working on cleaning up some of the changes to enable the disable-tcg 
+option on PPC, right now focusing on target/ppc/excp_helper.c and 
+target/ppc/mmu_helper.c as these files have functions that are needed in 
+a !TCG build but also contains code that doesn't compile in a !TCG 
+build, and currently that is dealt with #ifdef.
 
-Why not use g_int_hash() then?
+For excp_helper.c I moved all exception handling functions to a new file 
+(named target/ppc/excp_handler.c for now) and left only the helpers in 
+it, and changed meson.build to always compile the new file and only 
+compile the file with the helpers in a build with TCG.
 
-Otherwise,
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+For mmu_helper.c the idea is to move all the code inside #ifdef 
+CONFIG_TCG to another file that shouldn't be compiled in a !TCG build. 
+But these changes are based on Richard Henderson's patch, so it depends 
+if they'll be applied as is or there will be another version.
 
-> +    ffi_table = g_hash_table_new(NULL, NULL);
-> +    for (i = 0; i < ARRAY_SIZE(all_helpers); ++i) {
-> +        struct {
-> +            ffi_cif cif;
-> +            ffi_type *args[];
-> +        } *ca;
-> +        uint32_t typemask = all_helpers[i].typemask;
-> +        gpointer hash = (gpointer)(uintptr_t)typemask;
-> +        ffi_status status;
-> +        int nargs;
-> +
-> +        if (g_hash_table_lookup(ffi_table, hash)) {
-> +            continue;
-> +        }
-> +
-> +        /* Ignoring the return type, find the last non-zero field. */
-> +        nargs = 32 - clz32(typemask >> 3);
-> +        nargs = DIV_ROUND_UP(nargs, 3);
-> +
-> +        ca = g_malloc0(sizeof(*ca) + nargs * sizeof(ffi_type *));
-> +        ca->cif.rtype = typecode_to_ffi[typemask & 7];
-> +        ca->cif.nargs = nargs;
-> +
-> +        if (nargs != 0) {
-> +            ca->cif.arg_types = ca->args;
-> +            for (i = 0; i < nargs; ++i) {
-> +                int typecode = extract32(typemask, (i + 1) * 3, 3);
-> +                ca->args[i] = typecode_to_ffi[typecode];
-> +            }
-> +        }
-> +
-> +        status = ffi_prep_cif(&ca->cif, FFI_DEFAULT_ABI, nargs,
-> +                              ca->cif.rtype, ca->cif.arg_types);
-> +        assert(status == FFI_OK);
-> +
-> +        g_hash_table_insert(ffi_table, hash, (gpointer)&ca->cif);
-> +    }
-> +#endif
-> +
->      tcg_target_init(s);
->      process_op_defs(s);
+Also I'm looking into the possibility of not compiling 
+ppc_tlb_invalidate_all in mmu_helper.c, but that's only possible if this 
+function is not used in a !TCG build, does anyone know if this function 
+is used in some corner case when running with KVM?
+
+Any opinion on these changes?
+
+-- 
+Lucas Mateus M. Araujo e Castro
+Instituto de Pesquisas ELDORADO 
+<https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&utm_medium=email&utm_source=RD+Station>
+Departamento Computação Embarcada
+Estagiario
+Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
+
+--------------465171F157584BC02BBE8731
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p>Hi everyone,</p>
+    <p>I'm working on cleaning up some of the changes to enable the
+      disable-tcg option on PPC, right now focusing on
+      target/ppc/excp_helper.c and target/ppc/mmu_helper.c as these
+      files have functions that are needed in a !TCG build but also
+      contains code that doesn't compile in a !TCG build, and currently
+      that is dealt with #ifdef.</p>
+    <p>For excp_helper.c I moved all exception handling functions to a
+      new file (named target/ppc/excp_handler.c for now) and left only
+      the helpers in it, and changed meson.build to always compile the
+      new file and only compile the file with the helpers in a build
+      with TCG.</p>
+    <p>For mmu_helper.c the idea is to move all the code inside #ifdef
+      CONFIG_TCG to another file that shouldn't be compiled in a !TCG
+      build. But these changes are based on Richard Henderson's patch,
+      so it depends if they'll be applied as is or there will be another
+      version.</p>
+    <p>Also I'm looking into the possibility of not compiling
+      ppc_tlb_invalidate_all in mmu_helper.c, but that's only possible
+      if this function is not used in a !TCG build, does anyone know if
+      this function is used in some corner case when running with KVM?</p>
+    <p>Any opinion on these changes?<br>
+    </p>
+    <div class="moz-signature">-- <br>
+      Lucas Mateus M. Araujo e Castro<br>
+      <a
+href="https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&amp;utm_medium=email&amp;utm_source=RD+Station">Instituto
+        de Pesquisas ELDORADO</a><br>
+      Departamento Computação Embarcada<br>
+      Estagiario<br>
+      <a href="https://www.eldorado.org.br/disclaimer.html">Aviso Legal
+        - Disclaimer</a></div>
+  </body>
+</html>
+
+--------------465171F157584BC02BBE8731--
 
