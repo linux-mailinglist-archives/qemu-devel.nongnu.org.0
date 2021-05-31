@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 024E339642A
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 May 2021 17:48:11 +0200 (CEST)
-Received: from localhost ([::1]:54302 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 640B539644D
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 May 2021 17:52:55 +0200 (CEST)
+Received: from localhost ([::1]:59530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lnk9C-00018p-42
-	for lists+qemu-devel@lfdr.de; Mon, 31 May 2021 11:48:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36476)
+	id 1lnkDm-0004ue-8f
+	for lists+qemu-devel@lfdr.de; Mon, 31 May 2021 11:52:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37508)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lnk6v-0007zp-9W
- for qemu-devel@nongnu.org; Mon, 31 May 2021 11:45:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39764)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lnkBm-0003VO-L9
+ for qemu-devel@nongnu.org; Mon, 31 May 2021 11:50:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33341)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lnk6n-0000Nu-Kq
- for qemu-devel@nongnu.org; Mon, 31 May 2021 11:45:47 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lnkBk-0002uM-3j
+ for qemu-devel@nongnu.org; Mon, 31 May 2021 11:50:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622475941;
+ s=mimecast20190719; t=1622476246;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=CYnLGhCnlXmW1Wr49da+ULxZ0briZxblVmS1U4wTXXo=;
- b=AwMkl1+EGD6YCaYGamnQtoRSo+TLaok1EOVWSQTz2woHvjb6kqXFYolQ2WpSzGWGpDUSfE
- 0tfHb6zDg+zFUKybG/ADu7ZEYH0Xf8zdPCQglhCczoGe2SJM5NsKdTyWSjVMMK1xv6bYqq
- rGGDgtGqfQ0NxG7etuBGG7W+Q5Cjlz0=
+ bh=Ipc0hwAC7dwOrulag2lU/QQAzKLiFAt+aWWpN7mRrEo=;
+ b=J/8b3AVr5Y3T3kA4ZDczpYrVqEjXlGpnZNdC0ocYNyQw78dXUnEnzxf0qsTyVBgBuSVjnS
+ iM0r807TbzNWnQEDkZwyH+Qc0MYVABFDQeKGgMfE/XBAzwE9rE2tLY5bPLrjJzeRX0n9Rr
+ Kt3Q1fBUxWGcvDpdrzwuaufZmnnF9eA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-581-9sZfqnxCPouzbqAZ6D8U_w-1; Mon, 31 May 2021 11:45:37 -0400
-X-MC-Unique: 9sZfqnxCPouzbqAZ6D8U_w-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-173-LA6YCpYcMzS8Crwy_HyWRA-1; Mon, 31 May 2021 11:50:43 -0400
+X-MC-Unique: LA6YCpYcMzS8Crwy_HyWRA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 78AF2FCAC;
- Mon, 31 May 2021 15:45:36 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1512C6D249;
+ Mon, 31 May 2021 15:50:42 +0000 (UTC)
 Received: from merkur.fritz.box (ovpn-114-215.ams2.redhat.com [10.36.114.215])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 38D9210023AF;
- Mon, 31 May 2021 15:45:34 +0000 (UTC)
-Date: Mon, 31 May 2021 17:45:33 +0200
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C63FB5D9C0;
+ Mon, 31 May 2021 15:50:40 +0000 (UTC)
+Date: Mon, 31 May 2021 17:50:39 +0200
 From: Kevin Wolf <kwolf@redhat.com>
 To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH v2 2/5] block-backend: improve blk_root_get_parent_desc()
-Message-ID: <YLUEne2OsslAJaRj@merkur.fritz.box>
+Subject: Re: [PATCH v2 4/5] block: simplify bdrv_child_user_desc()
+Message-ID: <YLUFz4zbK3Xlm6Rs@merkur.fritz.box>
 References: <20210504094510.25032-1-vsementsov@virtuozzo.com>
- <20210504094510.25032-3-vsementsov@virtuozzo.com>
+ <20210504094510.25032-5-vsementsov@virtuozzo.com>
 MIME-Version: 1.0
-In-Reply-To: <20210504094510.25032-3-vsementsov@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <20210504094510.25032-5-vsementsov@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -82,50 +82,14 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Am 04.05.2021 um 11:45 hat Vladimir Sementsov-Ogievskiy geschrieben:
-> We have different types of parents: block nodes, block backends and
-> jobs. So, it makes sense to specify type together with name.
-> 
-> While being here also use g_autofree.
-> 
-> iotest 307 output is updated.
+> All existing parent types (block nodes, block devices, jobs) has the
+> realization. So, drop unreachable code.
 > 
 > Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> Reviewed-by: Alberto Garcia <berto@igalia.com>
-> ---
->  block/block-backend.c      | 9 ++++-----
->  tests/qemu-iotests/307.out | 2 +-
->  2 files changed, 5 insertions(+), 6 deletions(-)
-> 
-> diff --git a/block/block-backend.c b/block/block-backend.c
-> index 6fca9853e1..2b7e9b5192 100644
-> --- a/block/block-backend.c
-> +++ b/block/block-backend.c
-> @@ -142,19 +142,18 @@ static void blk_root_set_aio_ctx(BdrvChild *child, AioContext *ctx,
->  static char *blk_root_get_parent_desc(BdrvChild *child)
->  {
->      BlockBackend *blk = child->opaque;
-> -    char *dev_id;
-> +    g_autofree char *dev_id = NULL;
->  
->      if (blk->name) {
-> -        return g_strdup(blk->name);
-> +        return g_strdup_printf("block device '%s'", blk->name);
->      }
->  
->      dev_id = blk_get_attached_dev_id(blk);
->      if (*dev_id) {
-> -        return dev_id;
-> +        return g_strdup_printf("block device '%s'", dev_id);
->      } else {
->          /* TODO Callback into the BB owner for something more detailed */
-> -        g_free(dev_id);
-> -        return g_strdup("a block device");
-> +        return g_strdup("unnamed block device");
 
-We should probably keep the article: "an unnamed block device"
-
->      }
->  }
+Your fixes the other days showed that vvfat has a BdrvChildClass, too.
+This instance doesn't define .get_parent_desc(), so the code that this
+patch removes is potentially still reachable.
 
 Kevin
 
