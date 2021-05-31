@@ -2,57 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6B233966AF
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 May 2021 19:15:22 +0200 (CEST)
-Received: from localhost ([::1]:51226 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0578E3966B4
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 May 2021 19:16:32 +0200 (CEST)
+Received: from localhost ([::1]:53506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lnlVZ-0003lY-Sz
-	for lists+qemu-devel@lfdr.de; Mon, 31 May 2021 13:15:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55900)
+	id 1lnlWh-0005Im-1K
+	for lists+qemu-devel@lfdr.de; Mon, 31 May 2021 13:16:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56860)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
- id 1lnlN5-0001bp-Js
- for qemu-devel@nongnu.org; Mon, 31 May 2021 13:06:36 -0400
-Received: from prt-mail.chinatelecom.cn ([42.123.76.219]:51924
- helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huangy81@chinatelecom.cn>) id 1lnlN0-0005rU-22
- for qemu-devel@nongnu.org; Mon, 31 May 2021 13:06:35 -0400
-HMM_SOURCE_IP: 172.18.0.218:42706.1466219582
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-202.80.192.39?logid-8790cfef0ba147a299cbd8acf210f1a0
- (unknown [172.18.0.218])
- by chinatelecom.cn (HERMES) with SMTP id 5A2E42800B2;
- Tue,  1 Jun 2021 01:06:29 +0800 (CST)
-X-189-SAVE-TO-SEND: +huangy81@chinatelecom.cn
-Received: from  ([172.18.0.218])
- by app0025 with ESMTP id 8790cfef0ba147a299cbd8acf210f1a0 for
- qemu-devel@nongnu.org; Tue Jun  1 01:06:27 2021
-X-Transaction-ID: 8790cfef0ba147a299cbd8acf210f1a0
-X-filter-score: filter<0>
-X-Real-From: huangy81@chinatelecom.cn
-X-Receive-IP: 172.18.0.218
-X-MEDUSA-Status: 0
-From: huangy81@chinatelecom.cn
-To: <qemu-devel@nongnu.org>
-Subject: [PATCH v1 6/6] migration/dirtyrate: implement dirty-ring dirtyrate
- calculation
-Date: Tue,  1 Jun 2021 01:06:29 +0800
-Message-Id: <27607e12038273706273203b2146c5d4a40ac487.1622479162.git.huangy81@chinatelecom.cn>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <cover.1622479161.git.huangy81@chinatelecom.cn>
-References: <cover.1622479161.git.huangy81@chinatelecom.cn>
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lnlRQ-0006qL-L9
+ for qemu-devel@nongnu.org; Mon, 31 May 2021 13:11:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33538)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lnlRH-0007vv-Tk
+ for qemu-devel@nongnu.org; Mon, 31 May 2021 13:11:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1622481054;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=QpeTrXQ6sx/Wgg4wnUYCfUJmDWpCz2pWRRW8MiE3E78=;
+ b=CWdaUaSmjsVANZOXLtKwicZcuX9PF7O6CnJxYO+M86YKLxESbXMxHUurY5j8RT2hwojpQr
+ yNCcKa968fM0mXLs7Cn6CktAkiC04oGg5g+ec6bUgghUm2vwTIJ8lMBbVlRQzjksAGDscW
+ ugcjOX9/at/Rx6afSf9E6zFwajmnT1Q=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-372-iustxAFfODGRJ75f2101dA-1; Mon, 31 May 2021 13:10:52 -0400
+X-MC-Unique: iustxAFfODGRJ75f2101dA-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ j13-20020aa7de8d0000b029038fc8e57037so5031364edv.0
+ for <qemu-devel@nongnu.org>; Mon, 31 May 2021 10:10:52 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=QpeTrXQ6sx/Wgg4wnUYCfUJmDWpCz2pWRRW8MiE3E78=;
+ b=eSlh5pbQ/qZyTfwmViyw3EH+BNufQXvmTgfL0H6vGcWdEhP998C+IQWzu8zpCzyvJ3
+ 8RSgzj/mxNred3QWR/+RKWrFfq/LdvDjgWeT8yEW8q2d+bl0H50wOdsZrE1E/VniHxWR
+ mgqOB6ALyWO2Y2Xp5ad2ne3hfz6V9jaRPHyy3KJPEyDPybRkP4uBJSkFboehsxffGPNf
+ eE64ing/j+yYzh39zrAUoGkb3EG7azcc5OC/DXyXMUuGyZVp1mh1GE8W8FSFJr19tHEU
+ dfpUTiYe8XchhGfWuU3Tr5zLrafheGPcA0KOCvl1xa/WNDk7lsvVySQLmCS9EXEv1SlU
+ 2HBg==
+X-Gm-Message-State: AOAM530B8qdr+6NngLq8dAfeRixObyN67J4cvvts8yOCfXhjSZOosapV
+ suSSU9B6+Aq/TIVMkJK3LS1G3s0+pyMxOlgtlLs+BKYxVVXXvPaXrvuiMNxtCD0NzfisexPGtha
+ BjJYRqi5I8wXBahA=
+X-Received: by 2002:a05:6402:2681:: with SMTP id
+ w1mr26490243edd.223.1622481051707; 
+ Mon, 31 May 2021 10:10:51 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJywvOxEVk5CLuQoJuC4SI1h1j3Xw0fQwDsDor0HywLzlMHxC3HVKkQV5UjTd7NQTAxJeND1Hg==
+X-Received: by 2002:a05:6402:2681:: with SMTP id
+ w1mr26490200edd.223.1622481051435; 
+ Mon, 31 May 2021 10:10:51 -0700 (PDT)
+Received: from dresden.str.redhat.com ([2a02:908:1e46:160:b272:8083:d5:bc7d])
+ by smtp.gmail.com with ESMTPSA id y1sm339640ejl.7.2021.05.31.10.10.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 31 May 2021 10:10:51 -0700 (PDT)
+Subject: Re: [PATCH v2 19/33] block/copy-before-write: initialize block-copy
+ bitmap
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20210520142205.607501-1-vsementsov@virtuozzo.com>
+ <20210520142205.607501-20-vsementsov@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
+Message-ID: <917bccb5-ff37-e8e4-6bc6-9c2bfd6a657f@redhat.com>
+Date: Mon, 31 May 2021 19:10:50 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=42.123.76.219;
- envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210520142205.607501-20-vsementsov@virtuozzo.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -37
+X-Spam_score: -3.8
+X-Spam_bar: ---
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.372,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.591, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -65,237 +102,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kvm@vger.kernel.org, Juan Quintela <quintela@redhat.com>,
- Hyman <huangy81@chinatelecom.cn>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: kwolf@redhat.com, berrange@redhat.com, ehabkost@redhat.com, den@openvz.org,
+ jsnow@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com, crosa@redhat.com,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+On 20.05.21 16:21, Vladimir Sementsov-Ogievskiy wrote:
+> We are going to publish copy-before-write filter to be used in separate
+> of backup. Future step would support bitmap for the filter. But let's
+> start from full set bitmap.
+>
+> We have to modify backup, as bitmap is first initialized by
+> copy-before-write filter, and then backup modifies it.
+>
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>   block/backup.c            | 16 +++++++---------
+>   block/copy-before-write.c |  4 ++++
+>   2 files changed, 11 insertions(+), 9 deletions(-)
+>
 
-use dirty ring feature to implement dirtyrate calculation.
-to enable it, set vcpu option as true in qmp calc-dirty-rate.
-
-Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
----
- migration/dirtyrate.c  | 146 ++++++++++++++++++++++++++++++++++++++---
- migration/trace-events |   1 +
- 2 files changed, 139 insertions(+), 8 deletions(-)
-
-diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
-index da6500c8ec..028c11d117 100644
---- a/migration/dirtyrate.c
-+++ b/migration/dirtyrate.c
-@@ -16,14 +16,22 @@
- #include "cpu.h"
- #include "exec/ramblock.h"
- #include "qemu/rcu_queue.h"
-+#include "qemu/main-loop.h"
- #include "sysemu/kvm.h"
- #include "qapi/qapi-commands-migration.h"
- #include "ram.h"
- #include "trace.h"
- #include "dirtyrate.h"
- 
-+typedef enum {
-+    CALC_NONE = 0,
-+    CALC_DIRTY_RING,
-+    CALC_SAMPLE_PAGES,
-+} CalcMethod;
-+
- static int CalculatingState = DIRTY_RATE_STATUS_UNSTARTED;
- static struct DirtyRateStat DirtyStat;
-+static CalcMethod last_method = CALC_NONE;
- 
- static int64_t set_sample_page_period(int64_t msec, int64_t initial_time)
- {
-@@ -64,6 +72,7 @@ static struct DirtyRateInfo *query_dirty_rate_info(void)
- {
-     int64_t dirty_rate = DirtyStat.dirty_rate;
-     struct DirtyRateInfo *info = g_malloc0(sizeof(DirtyRateInfo));
-+    DirtyRateVcpuList *head = NULL, **tail = &head;
- 
-     if (qatomic_read(&CalculatingState) == DIRTY_RATE_STATUS_MEASURED) {
-         info->has_dirty_rate = true;
-@@ -73,6 +82,22 @@ static struct DirtyRateInfo *query_dirty_rate_info(void)
-     info->status = CalculatingState;
-     info->start_time = DirtyStat.start_time;
-     info->calc_time = DirtyStat.calc_time;
-+    info->has_vcpu = true;
-+
-+    if (last_method == CALC_DIRTY_RING) {
-+        int i = 0;
-+        info->vcpu = true;
-+        info->has_vcpu_dirty_rate = true;
-+        for (i = 0; i < DirtyStat.method.vcpu.nvcpu; i++) {
-+            DirtyRateVcpu *rate = g_malloc0(sizeof(DirtyRateVcpu));
-+            rate->id = DirtyStat.method.vcpu.rates[i].id;
-+            rate->dirty_rate = DirtyStat.method.vcpu.rates[i].dirty_rate;
-+            QAPI_LIST_APPEND(tail, rate);
-+        }
-+        info->vcpu_dirty_rate = head;
-+    } else {
-+        info->vcpu = false;
-+    }
- 
-     trace_query_dirty_rate_info(DirtyRateStatus_str(CalculatingState));
- 
-@@ -87,13 +112,29 @@ static void init_dirtyrate_stat(int64_t start_time,
-     DirtyStat.start_time = start_time;
-     DirtyStat.calc_time = calc_time;
- 
--    if (config.vcpu) {
--        DirtyStat.method.vcpu.nvcpu = -1;
--        DirtyStat.method.vcpu.rates = NULL;
--    } else {
--        DirtyStat.method.vm.total_dirty_samples = 0;
--        DirtyStat.method.vm.total_sample_count = 0;
--        DirtyStat.method.vm.total_block_mem_MB = 0;
-+    switch (last_method) {
-+    case CALC_NONE:
-+    case CALC_SAMPLE_PAGES:
-+        if (config.vcpu) {
-+            DirtyStat.method.vcpu.nvcpu = -1;
-+            DirtyStat.method.vcpu.rates = NULL;
-+        } else {
-+            DirtyStat.method.vm.total_dirty_samples = 0;
-+            DirtyStat.method.vm.total_sample_count = 0;
-+            DirtyStat.method.vm.total_block_mem_MB = 0;
-+        }
-+        break;
-+    case CALC_DIRTY_RING:
-+        if (!config.vcpu) {
-+            g_free(DirtyStat.method.vcpu.rates);
-+            DirtyStat.method.vcpu.rates = NULL;
-+            DirtyStat.method.vm.total_dirty_samples = 0;
-+            DirtyStat.method.vm.total_sample_count = 0;
-+            DirtyStat.method.vm.total_block_mem_MB = 0;
-+        }
-+        break;
-+    default:
-+        break;
-     }
- }
- 
-@@ -331,7 +372,84 @@ static bool compare_page_hash_info(struct RamblockDirtyInfo *info,
-     return true;
- }
- 
--static void calculate_dirtyrate(struct DirtyRateConfig config)
-+static void stat_dirtypages(CPUState *cpu, bool start)
-+{
-+    cpu->stat_dirty_pages = start;
-+}
-+
-+static void start_kvm_dirty_log(void)
-+{
-+    qemu_mutex_lock_iothread();
-+    memory_global_dirty_log_start();
-+    qemu_mutex_unlock_iothread();
-+}
-+
-+static void stop_kvm_dirty_log(void)
-+{
-+    qemu_mutex_lock_iothread();
-+    memory_global_dirty_log_stop();
-+    qemu_mutex_unlock_iothread();
-+}
-+
-+static int64_t do_calculate_dirtyrate_vcpu(CPUState *cpu)
-+{
-+    uint64_t memory_size_MB;
-+    int64_t time_s;
-+
-+    memory_size_MB = (cpu->dirty_pages * TARGET_PAGE_SIZE) >> 20;
-+    time_s = DirtyStat.calc_time;
-+
-+    return memory_size_MB / time_s;
-+}
-+
-+static void calculate_dirtyrate_vcpu(struct DirtyRateConfig config)
-+{
-+    CPUState *cpu;
-+    int64_t msec = 0;
-+    int64_t start_time;
-+    uint64_t dirtyrate = 0;
-+    uint64_t dirtyrate_sum = 0;
-+    int nvcpu, i = 0;
-+
-+    CPU_FOREACH(cpu) {
-+        stat_dirtypages(cpu, true);
-+        nvcpu++;
-+    }
-+
-+    DirtyStat.method.vcpu.nvcpu = nvcpu;
-+
-+    if (last_method != CALC_DIRTY_RING) {
-+        DirtyStat.method.vcpu.rates =
-+            g_malloc0(sizeof(DirtyRateVcpu) * nvcpu);
-+    }
-+
-+    start_time = qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
-+    DirtyStat.start_time = start_time / 1000;
-+
-+    start_kvm_dirty_log();
-+
-+    msec = config.sample_period_seconds * 1000;
-+    msec = set_sample_page_period(msec, start_time);
-+    DirtyStat.calc_time = msec / 1000;
-+
-+    CPU_FOREACH(cpu) {
-+        stat_dirtypages(cpu, false);
-+    }
-+
-+    stop_kvm_dirty_log();
-+
-+    CPU_FOREACH(cpu) {
-+        dirtyrate = do_calculate_dirtyrate_vcpu(cpu);
-+        DirtyStat.method.vcpu.rates[i].id = cpu->cpu_index;
-+        DirtyStat.method.vcpu.rates[i].dirty_rate = dirtyrate;
-+        dirtyrate_sum += dirtyrate;
-+        i++;
-+    }
-+
-+    DirtyStat.dirty_rate = dirtyrate_sum / nvcpu;
-+}
-+
-+static void calculate_dirtyrate_sample_vm(struct DirtyRateConfig config)
- {
-     struct RamblockDirtyInfo *block_dinfo = NULL;
-     int block_count = 0;
-@@ -364,6 +482,18 @@ out:
-     rcu_unregister_thread();
- }
- 
-+static void calculate_dirtyrate(struct DirtyRateConfig config)
-+{
-+    if (config.vcpu) {
-+        calculate_dirtyrate_vcpu(config);
-+        last_method = CALC_DIRTY_RING;
-+    } else {
-+        calculate_dirtyrate_sample_vm(config);
-+        last_method = CALC_SAMPLE_PAGES;
-+    }
-+    trace_calculate_dirtyrate(DirtyStat.dirty_rate);
-+}
-+
- void *get_dirtyrate_thread(void *arg)
- {
-     struct DirtyRateConfig config = *(struct DirtyRateConfig *)arg;
-diff --git a/migration/trace-events b/migration/trace-events
-index 668c562fed..5a80b39a62 100644
---- a/migration/trace-events
-+++ b/migration/trace-events
-@@ -330,6 +330,7 @@ get_ramblock_vfn_hash(const char *idstr, uint64_t vfn, uint32_t crc) "ramblock n
- calc_page_dirty_rate(const char *idstr, uint32_t new_crc, uint32_t old_crc) "ramblock name: %s, new crc: %" PRIu32 ", old crc: %" PRIu32
- skip_sample_ramblock(const char *idstr, uint64_t ramblock_size) "ramblock name: %s, ramblock size: %" PRIu64
- find_page_matched(const char *idstr) "ramblock %s addr or size changed"
-+calculate_dirtyrate(int64_t dirtyrate) "dirty rate: %" PRIi64
- 
- # block.c
- migration_block_init_shared(const char *blk_device_name) "Start migration for %s with shared base image"
--- 
-2.24.3
+Reviewed-by: Max Reitz <mreitz@redhat.com>
 
 
