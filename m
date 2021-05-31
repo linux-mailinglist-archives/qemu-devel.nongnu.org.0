@@ -2,73 +2,107 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B89A3395F56
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 May 2021 16:08:42 +0200 (CEST)
-Received: from localhost ([::1]:40620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04916395804
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 May 2021 11:22:30 +0200 (CEST)
+Received: from localhost ([::1]:56288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lniav-0005ij-Ib
-	for lists+qemu-devel@lfdr.de; Mon, 31 May 2021 10:08:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50648)
+	id 1lne7w-0007Em-Lh
+	for lists+qemu-devel@lfdr.de; Mon, 31 May 2021 05:22:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51762)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rpathak@ventanamicro.com>)
- id 1lne2W-0005r8-EO
- for qemu-devel@nongnu.org; Mon, 31 May 2021 05:16:52 -0400
-Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:40513)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <rpathak@ventanamicro.com>)
- id 1lne2T-0001gG-PS
- for qemu-devel@nongnu.org; Mon, 31 May 2021 05:16:52 -0400
-Received: by mail-ej1-x62c.google.com with SMTP id jt22so15684503ejb.7
- for <qemu-devel@nongnu.org>; Mon, 31 May 2021 02:16:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=fqp+rl7p76/v3G7irrjYFgTJG53h1kK8OxUUQfYs550=;
- b=oTQYKWdCRblnhH4vgB5yoO7cjjeraJxzj2+SXw0E7oiMG4NcwaVI6xoopWS+E3I52L
- vX/iEbadAs6famyeTU6Rl9DW++PZmahbfD3RNzgynmSsSIOGR46IORQpp2Prun5k2jkm
- 67Eje6jY0N+Lnnb37tBtkMZnGrYR0QqYkRHucUUXjmLVfKPSj5Y3xqwUgFVuMJVpkkIZ
- Jc5CbBWOowsZv3FjkhxwYkcAS+j+CEiGuitPPo6nc2t/SF5yfVyJXu6a1sInXrOt0URX
- 94+GXxtUrsdF4O+9a/dCWi5SEts/e85nwpBHsuiJS5gnvTkI17sm2t6oYP2a7kn7YX68
- RgyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=fqp+rl7p76/v3G7irrjYFgTJG53h1kK8OxUUQfYs550=;
- b=b6Opi1z+jsxxS40I/1aKQjDtEAoYdASzjLDp1FSCrRlxBGsGG0TWDgCgHkXaqqtvLT
- 4ReqiixnHRidm7iD+PqppSwNJ9JHZ0IfF/OrknVEigJxw6BJS0QpL2Jo3H5Pa+ZNtTiG
- 5cY1vT+GWjfT6VMaU0L05VuZrNeNUE2SnUehbrTCaOxpNzcyl0kGAoS24bpEvRGn7hFi
- itqGKujQUYsKRogJY1iJ8UlW6oQA59+aIeWd+WLL1h7uc7vwKnGEkhb8p/C0GP1lh3cD
- wnF9wu8XHG6jSiTrO2YIKx94KcYMTz+X5yJrYnDthEy1TnzcZIodRM1Q/R/EaCvtUCmg
- 0RHQ==
-X-Gm-Message-State: AOAM530drZqmx+p5bp7wbDME4lR/XVYJlmPKVwnTF2I8Fn88MvJeDPWs
- 5v7k8Sp4n3r0vbZnDilfk7WBeR7BBrTGsEm/V1IAEw==
-X-Google-Smtp-Source: ABdhPJxQEK9oY1n79JEfA8pHR+Pl3oYOXH1fwtbK57m9tzvPSSF9sfngsvph1Ksa0moS0+VleJVsqdCHHhVzFcVwggE=
-X-Received: by 2002:a17:906:f6d7:: with SMTP id
- jo23mr2846321ejb.302.1622452607375; 
- Mon, 31 May 2021 02:16:47 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
+ id 1lne71-0006ZA-IH
+ for qemu-devel@nongnu.org; Mon, 31 May 2021 05:21:31 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:30592)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
+ id 1lne6z-0004ca-Rc
+ for qemu-devel@nongnu.org; Mon, 31 May 2021 05:21:31 -0400
+Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 14V92vWk117134
+ for <qemu-devel@nongnu.org>; Mon, 31 May 2021 05:21:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : from : to : cc
+ : references : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=+nkWr+xeafPP/y6Dg7wiWniwkLowe6grDHbOm/UX9dQ=;
+ b=dpIfYhEJHSvFNz1weooN6aJb5HJOEdMgYU5e4FRnidTBPEFWMiT9ivr7MD4Kk2iOk9WI
+ ext9i+6sYkEcH3Sb5L0EuCqDKXprxARo6Fq4UxVpbM6KieWLlJxdKmYoj6tgnygb9/xQ
+ aZ2v7uFiXj75dUfN9WmCmuWKzXdW3mDMcqm+kHrQyYQgWGWq213DRrgRIKMhenmZ5YyB
+ Cg3Fp3S1ME3/kCD0rLSur2z6hOWlZpJqM9hpx9+rXrYJfEUJn/APF44nxGIzafM8dyOi
+ Nd/v23AUtFP7lwTmeAtCymtlxABuQxyNyFmEUZcygX5ydK66XoWNWKlRaiqzlOAv3/x6 yg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 38vunnad4s-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Mon, 31 May 2021 05:21:26 -0400
+Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 14V92xFZ117308
+ for <qemu-devel@nongnu.org>; Mon, 31 May 2021 05:21:25 -0400
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 38vunnad48-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 31 May 2021 05:21:25 -0400
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 14V97umM005999;
+ Mon, 31 May 2021 09:21:23 GMT
+Received: from b06cxnps4075.portsmouth.uk.ibm.com
+ (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
+ by ppma03ams.nl.ibm.com with ESMTP id 38ud888wss-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 31 May 2021 09:21:23 +0000
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com
+ (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+ by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 14V9LLOS27787622
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 31 May 2021 09:21:21 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 0690EA405B;
+ Mon, 31 May 2021 09:21:21 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id BADD0A4054;
+ Mon, 31 May 2021 09:21:20 +0000 (GMT)
+Received: from localhost.localdomain (unknown [9.145.89.221])
+ by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Mon, 31 May 2021 09:21:20 +0000 (GMT)
+Subject: Re: [PATCH] qobject: Fix maybe uninitialized in qdict_array_split
+From: Janosch Frank <frankja@linux.ibm.com>
+To: qemu-devel@nongnu.org
+References: <20210518130638.54529-1-frankja@linux.ibm.com>
+Message-ID: <b4aebccf-db62-74da-ebd0-8ca24ea22f59@linux.ibm.com>
+Date: Mon, 31 May 2021 11:21:20 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-References: <0CAA9018-0C42-4140-82C1-EAC80D46D359@getmailspring.com>
- <CAEUhbmWnj3GOD5-EA54XHRQyfiSdOsH+KKGH-+uG0LEH+kAuUg@mail.gmail.com>
-In-Reply-To: <CAEUhbmWnj3GOD5-EA54XHRQyfiSdOsH+KKGH-+uG0LEH+kAuUg@mail.gmail.com>
-From: Rahul Pathak <rpathak@ventanamicro.com>
-Date: Mon, 31 May 2021 14:46:11 +0530
-Message-ID: <CA+Oz1=Z4J8KCHk_TZTUB9aEODaRv0F3bF6jtCHwdKQ02VgjcTQ@mail.gmail.com>
-Subject: Re: HSS Issue with GCC 10, Qemu Setup for microchip-icicle-kit
-To: Bin Meng <bmeng.cn@gmail.com>
-Content-Type: multipart/alternative; boundary="00000000000053fae905c39caf1c"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
- envelope-from=rpathak@ventanamicro.com; helo=mail-ej1-x62c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <20210518130638.54529-1-frankja@linux.ibm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: i3YyjC48w68JjmBNSd61pf7HBgb5xyOw
+X-Proofpoint-ORIG-GUID: dSjfgE62dKazcN3mKlU3sYS0BMBZeEDR
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
+ definitions=2021-05-31_07:2021-05-31,
+ 2021-05-31 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 malwarescore=0
+ spamscore=0 mlxlogscore=999 phishscore=0 adultscore=0 priorityscore=1501
+ impostorscore=0 clxscore=1015 suspectscore=0 lowpriorityscore=0 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104190000
+ definitions=main-2105310065
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=frankja@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.618,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Mon, 31 May 2021 10:06:37 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,216 +114,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: pbonzini@redhat.com, cohuck@redhat.com, borntraeger@de.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000053fae905c39caf1c
-Content-Type: text/plain; charset="UTF-8"
+On 5/18/21 3:06 PM, Janosch Frank wrote:
+> Lets make the compiler happy.
+> 
+> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
 
-I followed the same link. I will elaborate what is happening at my end -
+Ping
+My build is still breaking on Ubuntu because of this.
 
-*First* -
-Used the same versions as per the doc. Built HSS 2020.12 and used
-core-image-minimal-dev-icicle-kit-es-sd-20201009141623.rootfs.wic.
-Upon executing the qemu launch command as per the doc, it's just waits for
-the connection on another serial console -
+> ---
+>  qobject/block-qdict.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/qobject/block-qdict.c b/qobject/block-qdict.c
+> index 1487cc5dd8..b26524429c 100644
+> --- a/qobject/block-qdict.c
+> +++ b/qobject/block-qdict.c
+> @@ -224,7 +224,7 @@ void qdict_array_split(QDict *src, QList **dst)
+>      for (i = 0; i < UINT_MAX; i++) {
+>          QObject *subqobj;
+>          bool is_subqdict;
+> -        QDict *subqdict;
+> +        QDict *subqdict = NULL;
+>          char indexstr[32], prefix[32];
+>          size_t snprintf_ret;
+>  
+> 
 
-info: QEMU waiting for connection on: disconnected:unix
-:serial1.sock,server=on
-
-Even if I open sudo minicom -D unix\#serial1.sock, which remains offline
-always.
-
-*Second* -
-If I remove the "-chardev
-socket,id=serial1,path=serial1.sock,server=on,wait=on -serial chardev:serial1"
-from the
-qemu launch command then HSS boots but stops after sbi_init on all the
-cores and put the cores in Idle -
-
-[5.443011] boot_download_chunks_onExit():
-boot_service(u54_1)::u54_1:sbi_init 80200000
-[5.444960] boot_wait_onEntry(): boot_service(u54_1)::Checking for IPI ACKs:
-- -
-[5.447962] boot_wait_handler(): boot_service(u54_1)::Checking for IPI ACKs:
-ACK/IDLE ACK
-[5.449343] RunStateMachine(): boot_service(u54_1)::Wait ->
-boot_service(u54_1)::Idle
-
-*Third -*
-If I take the latest release of HSS 2021.04 and build with gcc10, it does
-not boot at all even if I remove the serial1 like in the second case.
-
-
-Thanks
-Rahul
-
-On Mon, May 31, 2021 at 8:19 AM Bin Meng <bmeng.cn@gmail.com> wrote:
-
-> Hi Rahul,
->
-> On Mon, May 31, 2021 at 1:08 AM Rahul Pathak <rpathak@ventanamicro.com>
-> wrote:
-> >
-> > Hi Bin,
-> >
-> > I was reading a github issue which you raised for the issue with HSS
-> because of GCC 10.1. Its pretty old and not sure what has changed so I
-> thought to ask you over email for help.
->
-> The HSS issue of GCC 10.1 was already fixed in the HSS mainline.
->
-> > I myself is trying to make a setup to boot the  microchip-icicle-kit
-> Qemu machine with HSS and Yocto linux image. Currently it does not work.
->
-> Could you please elaborate which part does not work? Is that Linux,
-> HSS, or U-Boot?
->
-> >
-> > Do you know what is the right setup to make  microchip-icicle-kit
-> machine with HSS.bin and Yocto linux work on Qemu?. Probably there will be
-> a working combination of HSS, Linux releases plus the toolchain version
-> which makes this setup work.
-> >
->
-> I have not tried Yocto Linux yet with Microchip Icicle Kit on QEMU. I
-> only tested the Linux images released by Microchip.
-> Could you please follow the instructions @
->
-> https://qemu.readthedocs.io/en/latest/system/riscv/microchip-icicle-kit.html
-> to see which step might be wrong on your side?
->
-> Regards,
-> Bin
->
-
---00000000000053fae905c39caf1c
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
-t-family:verdana,sans-serif"><div>
-</div><div>I followed the same link. I will elaborate what is happening at =
-my end -</div><div><br></div><div>
-</div><div><strong>First</strong> -</div><div>Used the same versions as per=
- the doc.  Built HSS <font style=3D"font-family:monospace">2020.12 </font>a=
-nd used <font style=3D"font-family:monospace">core-image-minimal-</font><sp=
-an style=3D"background-image:linear-gradient(to left,red 40%,rgba(255,255,2=
-55,0) 0%);background-position:50% 100%;background-size:5px 1.3px;background=
--repeat:repeat-x"><font style=3D"font-family:monospace">dev</font></span><f=
-ont style=3D"font-family:monospace">-icicle-kit-es-</font><span style=3D"ba=
-ckground-image:linear-gradient(to left,red 40%,rgba(255,255,255,0) 0%);back=
-ground-position:50% 100%;background-size:5px 1.3px;background-repeat:repeat=
--x"><font style=3D"font-family:monospace">sd</font></span><font style=3D"fo=
-nt-family:monospace">-20201009141623.</font><span style=3D"background-image=
-:linear-gradient(to left,red 40%,rgba(255,255,255,0) 0%);background-positio=
-n:50% 100%;background-size:5px 1.3px;background-repeat:repeat-x"><font styl=
-e=3D"font-family:monospace">rootfs</font></span><font style=3D"font-family:=
-monospace">.</font><span style=3D"background-image:linear-gradient(to left,=
-red 40%,rgba(255,255,255,0) 0%);background-position:50% 100%;background-siz=
-e:5px 1.3px;background-repeat:repeat-x"><font style=3D"font-family:monospac=
-e">wic</font></span><font style=3D"font-family:monospace">.</font></div><di=
-v>
-</div><div>
-</div><div>Upon executing the <span style=3D"background-image:linear-gradie=
-nt(to left,red 40%,rgba(255,255,255,0) 0%);background-position:50% 100%;bac=
-kground-size:5px 1.3px;background-repeat:repeat-x">qemu</span> launch comma=
-nd as per the doc, it&#39;s just waits for the connection on another serial=
- console -</div><div><br></div><div><font style=3D"font-family:monospace">i=
-nfo: QEMU waiting for connection on: disconnected:</font><span style=3D"bac=
-kground-image:linear-gradient(to left,red 40%,rgba(255,255,255,0) 0%);backg=
-round-position:50% 100%;background-size:5px 1.3px;background-repeat:repeat-=
-x"><font style=3D"font-family:monospace">unix</font></span><font style=3D"f=
-ont-family:monospace">:serial1.sock,server=3Don</font></div><div>
-</div><div><br></div><div>Even if I open <span style=3D"background-image:li=
-near-gradient(to left,red 40%,rgba(255,255,255,0) 0%);background-position:5=
-0% 100%;background-size:5px 1.3px;background-repeat:repeat-x"><font style=
-=3D"font-family:monospace">sudo</font></span><font style=3D"font-family:mon=
-ospace"> </font><span style=3D"background-image:linear-gradient(to left,red=
- 40%,rgba(255,255,255,0) 0%);background-position:50% 100%;background-size:5=
-px 1.3px;background-repeat:repeat-x"><font style=3D"font-family:monospace">=
-minicom</font></span><font style=3D"font-family:monospace"> -D </font><span=
- style=3D"background-image:linear-gradient(to left,red 40%,rgba(255,255,255=
-,0) 0%);background-position:50% 100%;background-size:5px 1.3px;background-r=
-epeat:repeat-x"><font style=3D"font-family:monospace">unix\</font></span><f=
-ont style=3D"font-family:monospace">#serial1.sock</font>, which remains off=
-line always.</div><div>
-</div><div><strong><br></strong></div><div><strong>Second</strong> -</div><=
-div>If I remove the  <font style=3D"font-family:monospace">&quot;-</font><s=
-pan style=3D"background-image:linear-gradient(to left,red 40%,rgba(255,255,=
-255,0) 0%);background-position:50% 100%;background-size:5px 1.3px;backgroun=
-d-repeat:repeat-x"><font style=3D"font-family:monospace">chardev</font></sp=
-an><font style=3D"font-family:monospace"> socket,id=3Dserial1,path=3Dserial=
-1.sock,server=3Don,wait=3Don -serial </font><span style=3D"background-image=
-:linear-gradient(to left,red 40%,rgba(255,255,255,0) 0%);background-positio=
-n:50% 100%;background-size:5px 1.3px;background-repeat:repeat-x"><font styl=
-e=3D"font-family:monospace">chardev</font></span><font style=3D"font-family=
-:monospace">:serial1&quot; </font>from the</div><div>qemu launch command th=
-en HSS boots but stops after sbi_init on all the cores and put the cores in=
- Idle -</div><div><br></div><div>
-</div><div><font style=3D"font-family:monospace">[5.443011] boot_download_c=
-hunks_onExit(): boot_service(u54_1)::u54_1:sbi_init 80200000               =
-                                                                         </=
-font></div><div><font style=3D"font-family:monospace">[5.444960] boot_wait_=
-onEntry(): boot_service(u54_1)::Checking for IPI ACKs: - -                 =
-                                                                           =
-   </font></div><div><font style=3D"font-family:monospace">[5.447962] boot_=
-wait_handler(): boot_service(u54_1)::Checking for IPI ACKs: ACK/IDLE ACK   =
-                                                                         </=
-font></div><div><font style=3D"font-family:monospace">[5.449343] RunStateMa=
-chine(): boot_service(u54_1)::Wait -&gt; boot_service(u54_1)::Idle   </font=
-></div><div>
-</div><div>
-</div><div><br></div><div><strong>Third -</strong></div><div>If I take the =
-latest release of HSS 2021.04 and build with gcc10, it does not boot at all=
- even if I remove the serial1 like in the second case.</div><div><br></div>=
-<div><br></div><div>Thanks</div><div>Rahul</div></div></div><br><div class=
-=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, May 31, 2021=
- at 8:19 AM Bin Meng &lt;<a href=3D"mailto:bmeng.cn@gmail.com">bmeng.cn@gma=
-il.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
-:1ex">Hi Rahul,<br>
-<br>
-On Mon, May 31, 2021 at 1:08 AM Rahul Pathak &lt;<a href=3D"mailto:rpathak@=
-ventanamicro.com" target=3D"_blank">rpathak@ventanamicro.com</a>&gt; wrote:=
-<br>
-&gt;<br>
-&gt; Hi Bin,<br>
-&gt;<br>
-&gt; I was reading a github issue which you raised for the issue with HSS b=
-ecause of GCC 10.1. Its pretty old and not sure what has changed so I thoug=
-ht to ask you over email for help.<br>
-<br>
-The HSS issue of GCC 10.1 was already fixed in the HSS mainline.<br>
-<br>
-&gt; I myself is trying to make a setup to boot the=C2=A0 microchip-icicle-=
-kit Qemu machine with HSS and Yocto linux image. Currently it does not work=
-.<br>
-<br>
-Could you please elaborate which part does not work? Is that Linux,<br>
-HSS, or U-Boot?<br>
-<br>
-&gt;<br>
-&gt; Do you know what is the right setup to make=C2=A0 microchip-icicle-kit=
- machine with HSS.bin and Yocto linux work on Qemu?. Probably there will be=
- a working combination of HSS, Linux releases plus the toolchain version wh=
-ich makes this setup work.<br>
-&gt;<br>
-<br>
-I have not tried Yocto Linux yet with Microchip Icicle Kit on QEMU. I<br>
-only tested the Linux images released by Microchip.<br>
-Could you please follow the instructions @<br>
-<a href=3D"https://qemu.readthedocs.io/en/latest/system/riscv/microchip-ici=
-cle-kit.html" rel=3D"noreferrer" target=3D"_blank">https://qemu.readthedocs=
-.io/en/latest/system/riscv/microchip-icicle-kit.html</a><br>
-to see which step might be wrong on your side?<br>
-<br>
-Regards,<br>
-Bin<br>
-</blockquote></div></div>
-
---00000000000053fae905c39caf1c--
 
