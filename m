@@ -2,68 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89CED3964CA
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 May 2021 18:10:03 +0200 (CEST)
-Received: from localhost ([::1]:47274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F85B3964DE
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 May 2021 18:12:25 +0200 (CEST)
+Received: from localhost ([::1]:50490 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lnkUM-0000T8-2w
-	for lists+qemu-devel@lfdr.de; Mon, 31 May 2021 12:10:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41118)
+	id 1lnkWZ-00039F-8g
+	for lists+qemu-devel@lfdr.de; Mon, 31 May 2021 12:12:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41220)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lnkSF-0007Bn-B6
- for qemu-devel@nongnu.org; Mon, 31 May 2021 12:07:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45569)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lnkTB-0000Cd-Lx
+ for qemu-devel@nongnu.org; Mon, 31 May 2021 12:08:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58243)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lnkSC-0002ZK-63
- for qemu-devel@nongnu.org; Mon, 31 May 2021 12:07:50 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lnkT8-00032Z-KH
+ for qemu-devel@nongnu.org; Mon, 31 May 2021 12:08:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622477267;
+ s=mimecast20190719; t=1622477325;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=E/SCYThjxI5z7FLjNLdxF8l9My7wPHN5t/bY1FgncSE=;
- b=M4tiDxUm2T6B+bEFV0J5q5dsitFLMYrmnwrO5A97RwFPQ7JC8EjghcUV0FpoiDWkAltIPA
- DmKpKUi2EP1Ge6l7m7nhY1Iqyl+fusohF0ibbnottxQlmXf0rzPADaEK315fWY2wpfH9hy
- 9OXDkolw2kOMQGrTM/+HuYDH49Ou8h4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-449-U4ShvQeUOQWsZRokKO7URw-1; Mon, 31 May 2021 12:07:45 -0400
-X-MC-Unique: U4ShvQeUOQWsZRokKO7URw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D78F0501ED;
- Mon, 31 May 2021 16:07:43 +0000 (UTC)
-Received: from merkur.fritz.box (ovpn-114-215.ams2.redhat.com [10.36.114.215])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9137360C4A;
- Mon, 31 May 2021 16:07:42 +0000 (UTC)
-Date: Mon, 31 May 2021 18:07:41 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH v2 5/5] block: improve permission conflict error message
-Message-ID: <YLUJzdunvOGmfdkO@merkur.fritz.box>
-References: <20210504094510.25032-1-vsementsov@virtuozzo.com>
- <20210504094510.25032-6-vsementsov@virtuozzo.com>
+ bh=Y5eDOYNYOClEMrQLgcCMib489cMcLv8YA4rlVy+EzBo=;
+ b=fAzl8VInY9lOgXDjzwcVuDBz5J/LCk0NluWjrO/18Zxf/oAgBw57MkF0ByNH1VQxcXpg6X
+ eYP1Vfp7ydZPY7KyllOJnjIY0S0lrfrvgXNhRSLJnklasxMa7DeeFMSf2sQy87FqB4GVZ7
+ bzzV3ltY3JpOj5Jxm1xtX5xf4ko7kQ8=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-9-DDECWHqHMuybFgUQmoDzXQ-1; Mon, 31 May 2021 12:08:43 -0400
+X-MC-Unique: DDECWHqHMuybFgUQmoDzXQ-1
+Received: by mail-ej1-f71.google.com with SMTP id
+ h18-20020a1709063992b02903d59b32b039so2584860eje.12
+ for <qemu-devel@nongnu.org>; Mon, 31 May 2021 09:08:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=Y5eDOYNYOClEMrQLgcCMib489cMcLv8YA4rlVy+EzBo=;
+ b=unXvKrmVteIfruRhR2wSfGl9yyH8Q6hLZ2QHSozsg6fEBDeNWjSHvj/QT5YU4HK6+9
+ gc90RKaH3t9l8MakhGIbW6lC0C3Esuk0woU03FxWHTmrKZCRbltHCQr74M2hLfqXK48J
+ CYby9Qyf7CbljeCyCTHu0jUKv5/PaLGiIiMw2Nz7rT/9gtC6qn4uNFtipxEHLvY/e7Pw
+ Bi41EjSUywinietlB1VtZsa/A0VwbOgg8ecvwRZmJuaK/J2awmlP/C+d+v4vAGDbH+Gn
+ e82O81oCbxcFurWOpU3M+TwPydED1HRAaaYhCMLRSYzMzZ6lLd9pbUCoaAp1R0ENhoWj
+ x81g==
+X-Gm-Message-State: AOAM530RtYkc18mUHtVli2wBXzYAeOMjTDakZd2WoHJ48oEHPoaMAPlW
+ ho7Cd3JiHK0/htTRhQNzVBycgsmeeDHjQHIMzebixoyW0BFoyDCOfdlWfb2EXy3Bkae59kFEPC5
+ xcXd+/6mH4lTg1Hs=
+X-Received: by 2002:a50:fd13:: with SMTP id i19mr1556102eds.280.1622477322418; 
+ Mon, 31 May 2021 09:08:42 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxFKOh64LlrC7IBsea3YnSJJZk2DKZDtuDnW+T2+uT4qgQl5OHlzhPHGE4YIg7aSVY0pTwioQ==
+X-Received: by 2002:a50:fd13:: with SMTP id i19mr1556077eds.280.1622477322246; 
+ Mon, 31 May 2021 09:08:42 -0700 (PDT)
+Received: from dresden.str.redhat.com ([2a02:908:1e46:160:b272:8083:d5:bc7d])
+ by smtp.gmail.com with ESMTPSA id
+ p5sm6056679ejm.115.2021.05.31.09.08.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 31 May 2021 09:08:41 -0700 (PDT)
+Subject: Re: [PATCH v2 07/33] block: rename backup-top to copy-before-write
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20210520142205.607501-1-vsementsov@virtuozzo.com>
+ <20210520142205.607501-8-vsementsov@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
+Message-ID: <9c3ea19e-6203-d07b-7b99-9361d9ee9218@redhat.com>
+Date: Mon, 31 May 2021 18:08:40 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210504094510.25032-6-vsementsov@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <20210520142205.607501-8-vsementsov@virtuozzo.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
+X-Spam_score_int: -37
+X-Spam_score: -3.8
 X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.372,
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.372,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ NICE_REPLY_A=-0.591, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,138 +100,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berto@igalia.com, qemu-devel@nongnu.org, qemu-block@nongnu.org,
- mreitz@redhat.com
+Cc: kwolf@redhat.com, berrange@redhat.com, ehabkost@redhat.com, den@openvz.org,
+ jsnow@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com, crosa@redhat.com,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 04.05.2021 um 11:45 hat Vladimir Sementsov-Ogievskiy geschrieben:
-> Now permissions are updated as follows:
->  1. do graph modifications ignoring permissions
->  2. do permission update
-> 
->  (of course, we rollback [1] if [2] fails)
-> 
-> So, on stage [2] we can't say which users are "old" and which are
-> "new" and exist only since [1]. And current error message is a bit
-> outdated. Let's improve it, to make everything clean.
-> 
-> While being here, add also a comment and some good assertions.
-> 
-> iotests 283, 307, qsd-jobs outputs are updated.
-> 
+On 20.05.21 16:21, Vladimir Sementsov-Ogievskiy wrote:
+> We are going to convert backup_top to full featured public filter,
+> which can be used in separate of backup job. Start from renaming from
+> "how it used" to "what it does".
+>
+> While updating comments in 283 iotest, drop and rephrase also things
+> about ".active", as this field is now dropped, and filter doesn't have
+> "inactive" mode.
+>
+> Note that this change may be considered as incompatible interface
+> change, as backup-top filter format name was visible through
+> query-block and query-named-block-nodes.
+>
+> Still, consider the following reasoning:
+>
+> 1. backup-top was never documented, so if someone depends on format
+>     name (for driver that can't be used other than it is automatically
+>     inserted on backup job start), it's a kind of "undocumented feature
+>     use". So I think we are free to change it.
+>
+> 2. There is a hope, that there is no such users: it's a lot more native
+>     to give a good node-name to backup-top filter if need to operate
+>     with it somehow, and don't touch format name.
+>
+> 3. Another "incompatible" change in further commit would be moving
+>     copy-before-write filter from using backing child to file child. And
+>     this is even more reasonable than renaming: for now all public
+>     filters are file-child based.
+>
+> So, it's a risky change, but risk seems small and good interface worth
+> it.
+>
 > Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 > ---
->  block.c                               | 29 ++++++++++++++++++++-------
->  tests/qemu-iotests/283.out            |  2 +-
->  tests/qemu-iotests/307.out            |  2 +-
->  tests/qemu-iotests/tests/qsd-jobs.out |  2 +-
->  4 files changed, 25 insertions(+), 10 deletions(-)
-> 
-> diff --git a/block.c b/block.c
-> index 2f73523285..354438d918 100644
-> --- a/block.c
-> +++ b/block.c
-> @@ -2032,20 +2032,35 @@ static char *bdrv_child_user_desc(BdrvChild *c)
->      return c->klass->get_parent_desc(c);
->  }
->  
-> +/*
-> + * Check that @a allows everything that @b needs. @a and @b must reference same
-> + * child node.
-> + */
->  static bool bdrv_a_allow_b(BdrvChild *a, BdrvChild *b, Error **errp)
->  {
-> -    g_autofree char *user = NULL;
-> -    g_autofree char *perm_names = NULL;
-> +    g_autofree char *a_user = NULL;
-> +    g_autofree char *a_against = NULL;
-> +    g_autofree char *b_user = NULL;
-> +    g_autofree char *b_perm = NULL;
-> +
-> +    assert(a->bs);
-> +    assert(a->bs == b->bs);
->  
->      if ((b->perm & a->shared_perm) == b->perm) {
->          return true;
->      }
->  
-> -    perm_names = bdrv_perm_names(b->perm & ~a->shared_perm);
-> -    user = bdrv_child_user_desc(a);
-> -    error_setg(errp, "Conflicts with use by %s as '%s', which does not "
-> -               "allow '%s' on %s",
-> -               user, a->name, perm_names, bdrv_get_node_name(b->bs));
-> +    a_user = bdrv_child_user_desc(a);
-> +    a_against = bdrv_perm_names(b->perm & ~a->shared_perm);
-> +
-> +    b_user = bdrv_child_user_desc(b);
-> +    b_perm = bdrv_perm_names(b->perm);
-> +    error_setg(errp, "Permission conflict on node '%s': %s wants to use it as "
-> +               "'%s', which requires these permissions: %s. On the other hand %s "
-> +               "wants to use it as '%s', which doesn't share: %s",
-> +               bdrv_get_node_name(b->bs),
-> +               b_user, b->name, b_perm, a_user, a->name, a_against);
+>   block/{backup-top.h => copy-before-write.h} |  28 +++---
+>   block/backup.c                              |  22 ++---
+>   block/{backup-top.c => copy-before-write.c} | 100 ++++++++++----------
+>   MAINTAINERS                                 |   4 +-
+>   block/meson.build                           |   2 +-
+>   tests/qemu-iotests/283                      |  35 +++----
+>   tests/qemu-iotests/283.out                  |   4 +-
+>   7 files changed, 95 insertions(+), 100 deletions(-)
+>   rename block/{backup-top.h => copy-before-write.h} (56%)
+>   rename block/{backup-top.c => copy-before-write.c} (62%)
 
-I think the combination of a_against and b_perm is confusing to report
-because one is the intersection of permissions (i.e. only the
-permissions that actually conflict) and the other the full list of
-unshared permissions.
-
-We could report both the full list of required permissions (which is
-what your current error message claims to report) and of unshared
-permissions. I'm not sure if there is actually any use for this
-information.
-
-The other option that would feel consistent is to report only the
-conflicting permissions, and report them only once because they are the
-same for both sides.
-
-Kevin
-
->  
->      return false;
->  }
-> diff --git a/tests/qemu-iotests/283.out b/tests/qemu-iotests/283.out
-> index c9397bfc44..92f3cc1ed5 100644
-> --- a/tests/qemu-iotests/283.out
-> +++ b/tests/qemu-iotests/283.out
-> @@ -5,7 +5,7 @@
->  {"execute": "blockdev-add", "arguments": {"driver": "blkdebug", "image": "base", "node-name": "other", "take-child-perms": ["write"]}}
->  {"return": {}}
->  {"execute": "blockdev-backup", "arguments": {"device": "source", "sync": "full", "target": "target"}}
-> -{"error": {"class": "GenericError", "desc": "Cannot append backup-top filter: Conflicts with use by node 'source' as 'image', which does not allow 'write' on base"}}
-> +{"error": {"class": "GenericError", "desc": "Cannot append backup-top filter: Permission conflict on node 'base': node 'other' wants to use it as 'image', which requires these permissions: write. On the other hand node 'source' wants to use it as 'image', which doesn't share: write"}}
->  
->  === backup-top should be gone after job-finalize ===
->  
-> diff --git a/tests/qemu-iotests/307.out b/tests/qemu-iotests/307.out
-> index 66bf2ddb74..e03932ba4f 100644
-> --- a/tests/qemu-iotests/307.out
-> +++ b/tests/qemu-iotests/307.out
-> @@ -53,7 +53,7 @@ exports available: 1
->  
->  === Add a writable export ===
->  {"execute": "block-export-add", "arguments": {"description": "This is the writable second export", "id": "export1", "name": "export1", "node-name": "fmt", "type": "nbd", "writable": true, "writethrough": true}}
-> -{"error": {"class": "GenericError", "desc": "Conflicts with use by block device 'sda' as 'root', which does not allow 'write' on fmt"}}
-> +{"error": {"class": "GenericError", "desc": "Permission conflict on node 'fmt': unnamed block device wants to use it as 'root', which requires these permissions: consistent read, write. On the other hand block device 'sda' wants to use it as 'root', which doesn't share: write"}}
->  {"execute": "device_del", "arguments": {"id": "sda"}}
->  {"return": {}}
->  {"data": {"device": "sda", "path": "/machine/peripheral/sda"}, "event": "DEVICE_DELETED", "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
-> diff --git a/tests/qemu-iotests/tests/qsd-jobs.out b/tests/qemu-iotests/tests/qsd-jobs.out
-> index 9f52255da8..b0596d2c95 100644
-> --- a/tests/qemu-iotests/tests/qsd-jobs.out
-> +++ b/tests/qemu-iotests/tests/qsd-jobs.out
-> @@ -16,7 +16,7 @@ QMP_VERSION
->  {"return": {}}
->  {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "created", "id": "job0"}}
->  {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "null", "id": "job0"}}
-> -{"error": {"class": "GenericError", "desc": "Conflicts with use by stream job 'job0' as 'intermediate node', which does not allow 'write' on fmt_base"}}
-> +{"error": {"class": "GenericError", "desc": "Permission conflict on node 'fmt_base': unnamed block device wants to use it as 'root', which requires these permissions: consistent read, write. On the other hand stream job 'job0' wants to use it as 'intermediate node', which doesn't share: write"}}
->  {"return": {}}
->  {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "BLOCK_EXPORT_DELETED", "data": {"id": "export1"}}
->  *** done
-> -- 
-> 2.29.2
-> 
+Reviewed-by: Max Reitz <mreitz@redhat.com>
 
 
