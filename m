@@ -2,95 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC33D396922
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 May 2021 22:54:42 +0200 (CEST)
-Received: from localhost ([::1]:51614 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98FC7396927
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 May 2021 22:57:50 +0200 (CEST)
+Received: from localhost ([::1]:54516 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lnovp-0007xE-Oa
-	for lists+qemu-devel@lfdr.de; Mon, 31 May 2021 16:54:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34030)
+	id 1lnoyr-0001ZQ-HS
+	for lists+qemu-devel@lfdr.de; Mon, 31 May 2021 16:57:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34062)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1lnoup-0006v6-1i
- for qemu-devel@nongnu.org; Mon, 31 May 2021 16:53:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21663)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1lnouw-0006zA-Cm; Mon, 31 May 2021 16:53:48 -0400
+Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:56765)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1lnoul-0003Ug-TU
- for qemu-devel@nongnu.org; Mon, 31 May 2021 16:53:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622494414;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=O9Asck0WzLiOUUzC9JJuWilZrpJ/jUf0gIfbgNLWu78=;
- b=C2KydEuxe0eOunfZMLl421TBFpZyKO0uLD92CkMpKzsyUcPZ6sxbMg6LDAEFZk1Ww7zXn4
- qVMI+6pf6m/mniDdRaDoI0p3qktC48C85TYgt9+YAE3NQbNGcXchU6+5Pyz419SfgIhtYu
- Utavvg7GPZr9W7E+boDH0V2Yt/1WMDo=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-302-e7LbGQnNPb6dWrT3ljYjTA-1; Mon, 31 May 2021 16:53:32 -0400
-X-MC-Unique: e7LbGQnNPb6dWrT3ljYjTA-1
-Received: by mail-qt1-f199.google.com with SMTP id
- v13-20020ac8578d0000b02901e4f5d48831so4098952qta.14
- for <qemu-devel@nongnu.org>; Mon, 31 May 2021 13:53:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:reply-to:subject:to:cc:references:from
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-transfer-encoding:content-language;
- bh=O9Asck0WzLiOUUzC9JJuWilZrpJ/jUf0gIfbgNLWu78=;
- b=U094elbep6XLL9IJOyRU2ceCRpAWmDspAk8Vhz0uN7XlFMDnzExWA58VD+qr0qQwj0
- uacKHsha3j7U/lQCnrbevEISSbIuqt3DnH2AXC1hB36nJ1EJykNWiP4a+rgdg2CEWZLU
- xkY0mMXFXCc9mmLiBay5GQGR/f3qubx5KX6Vdlh8vG9bJgwzce/sNUfVAILfqo7JwcNp
- GgnpmVaHNlt9tEsW3Avee6fSNTm8ylCYHPhfSr/1iurxQZcmc263ogwN4U0NDTJvsefA
- FmQuz0LPETJKpeBm1eW4mvz9j1Znb0t07T2TrWSSfgI5pcvOHxXey/QYoPHGl0A8dqq9
- xOZQ==
-X-Gm-Message-State: AOAM531buMMaV1w6x3x4T4W/hxt5pzuYDZUMl1GKXhofKxyxthpLaWAs
- 1tuJjhc+Ovf6D/kqTCnAfOwlbc3MIH05ICl1Y6m1ULMgZPyeURy0Cqg1b7t4tLfFp7uC3v4iF6e
- Nwc8QYzJBPPddcww=
-X-Received: by 2002:a05:620a:753:: with SMTP id
- i19mr18975594qki.320.1622494412345; 
- Mon, 31 May 2021 13:53:32 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzb9g9NkOk/lbtITtEpxMHfkFse7h7rMLAUPrfkxk21cTYhpe+QZpiBIqzMfFFw0mTMK1XrzQ==
-X-Received: by 2002:a05:620a:753:: with SMTP id
- i19mr18975576qki.320.1622494412131; 
- Mon, 31 May 2021 13:53:32 -0700 (PDT)
-Received: from wainer-laptop.localdomain ([179.154.247.20])
- by smtp.gmail.com with ESMTPSA id m10sm9767843qkk.113.2021.05.31.13.53.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 31 May 2021 13:53:31 -0700 (PDT)
-Subject: Re: [PATCH] tests/vm/freebsd: Increase code coverage
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20210531100348.1655156-1-f4bug@amsat.org>
-From: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-ID: <ccb9dd6f-e41a-1be6-b193-0ecad89b5732@redhat.com>
-Date: Mon, 31 May 2021 17:53:25 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1lnouu-0003aD-Nz; Mon, 31 May 2021 16:53:46 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.west.internal (Postfix) with ESMTP id 4DB9519BA;
+ Mon, 31 May 2021 16:53:42 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Mon, 31 May 2021 16:53:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm3; bh=T8UUI5k1zWC+31XT8cTH8Dl5Dvu
+ DIx8kC3BVvGk6ZbA=; b=X/ype5wB7W1KgMlgyN+5zOVdRa1lJjEkI1Y2/1yR3mx
+ 4GDyhPLXq1ezJJH8Sm33JTSjFO8RjgJy5xwTgse8VO2fIL4TH8+RI1fw67jT6Waf
+ PQz25Rrj+2AaAXSt9tIv99NynBGaskdzEXjT+UWktmFAR5HbF1XyQO009pASByHB
+ eDke7v6wx/GsHA8cmT7mcQ8q8IxPxAV3Vtcc81y9yL/Nq0EwTdWSpwoC9sI4inmj
+ 9fAG1jQZJcK4mobmB2W8Rkm8vAAeDjcLvhBi3/v7cBBFlGAxMBmzyJ0OtfhdalcO
+ bSo5FCdg5uo/e1fyscAJK5qx0DSU5RSLWsCnCj5c6lg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=T8UUI5
+ k1zWC+31XT8cTH8Dl5DvuDIx8kC3BVvGk6ZbA=; b=PSXYm3EJeGS2ymvH1iTA8Q
+ 6Na4kYy0HDWzWgG6hOxz4HTNl1nufctOVwpz1ux7LsBsj0ObXD554dWrnLxy4U1l
+ f1FcxVwsaqBX5q00E1wog7hTU2Ae9WtkBe8TSg/qF6z479BA1doPIirvvU6np4d/
+ i4shLZS6nGosz15SRq+hJ5+PxunfUlvEAq89g9T9xD43BcROAizsa05BONsOzBJp
+ 6nb3KgNUNE+hUcLn5+XYUlXR3qWh+PdCa3l2h4jp6AABwZvPqDW/y4IBCAblj/xa
+ b0CtpRB0oRGHKyd7tTrSWzmTLog6K8JEh/1NMJP9aV19aob6wKdA3Kx2AjTIy5nA
+ ==
+X-ME-Sender: <xms:1Uy1YCRvX3-6AilbX6LZcbwrcCcbJ-bBeFM7VEdUSlQODwj7wJwLjg>
+ <xme:1Uy1YHzGou5phGD3G3GseBOQ0kkqHUN_rN2qhybNRFLIEIDOTBte3IoLQgLSOp0DI
+ AeDEytj5XJsG6JYyl0>
+X-ME-Received: <xmr:1Uy1YP1CUlOvYoKypCwPb9pskKfPBYyZKvranObGIIhXuVdB_Qk9A00bMnTKs06oVVnzutGoIodi1UbecbZqoiIEH7_1s1S2uFPCpSizhhZJHJNxJQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdelfedgudehhecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecunecujfgurhepfffhvffukfhfgggtuggjsehgtd
+ erredttdejnecuhfhrohhmpefmlhgruhhsucflvghnshgvnhcuoehithhssehirhhrvghl
+ vghvrghnthdrughkqeenucggtffrrghtthgvrhhnpeejgeduffeuieetkeeileekvdeule
+ etveejudeileduffefjeegfffhuddvudffkeenucevlhhushhtvghrufhiiigvpedunecu
+ rfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:1Uy1YOA_Vc4X8h2PVC1fN8-zb9Mg8oPsWbvxkVyI3W4DOw8hIzFiOA>
+ <xmx:1Uy1YLg2c9AqUZxrM9iGxsyohDRRtYo0oSbY-Ag9UIw-CLSn9Mk7-g>
+ <xmx:1Uy1YKo4vsbQ0DlKHhVMw0VUGTkSembvx7VUoS3hUk8NdVf1vi0-Hg>
+ <xmx:1Uy1YLjnej-b_Igay7wCh68QQ8Zr-7OG27a__WxFE9L4pQOKSIxdjQ>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 31 May 2021 16:53:40 -0400 (EDT)
+Date: Mon, 31 May 2021 22:53:39 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: Gollu Appalanaidu <anaidu.gollu@samsung.com>
+Subject: Re: [PATCH 2/3] hw/nvme/ctrl: fix endian conversion for nsid in ctrl
+ list
+Message-ID: <YLVM0wzZvZpaL7OK@apples.localdomain>
+References: <20210517100736.17063-1-anaidu.gollu@samsung.com>
+ <CGME20210517101212epcas5p356060d787b2a70309436bf3ecdf1e17c@epcas5p3.samsung.com>
+ <20210517100736.17063-3-anaidu.gollu@samsung.com>
 MIME-Version: 1.0
-In-Reply-To: <20210531100348.1655156-1-f4bug@amsat.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=wainersm@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -37
-X-Spam_score: -3.8
-X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.372,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.591, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="xajDCdTSxhVpSwQ8"
+Content-Disposition: inline
+In-Reply-To: <20210517100736.17063-3-anaidu.gollu@samsung.com>
+Received-SPF: pass client-ip=64.147.123.21; envelope-from=its@irrelevant.dk;
+ helo=wout5-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -103,79 +94,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: wainersm@redhat.com
-Cc: Willian Rampazzo <willianr@redhat.com>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Warner Losh <imp@bsdimp.com>
+Cc: fam@euphon.net, kwolf@redhat.com, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, mreitz@redhat.com, stefanha@redhat.com,
+ kbusch@kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
 
-On 5/31/21 7:03 AM, Philippe Mathieu-Daudé wrote:
-> Install more dependencies to increase code coverage.
+--xajDCdTSxhVpSwQ8
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On May 17 15:37, Gollu Appalanaidu wrote:
+>In Identify Ctrl List of the CNS 0x12 and 0x13 no endian conversion
+>for the nsid field.
 >
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
->   tests/vm/freebsd | 5 +++++
->   1 file changed, 5 insertions(+)
-
-With or without this patch I got an error when `make vm-build-freebsd`. 
-It fails to install packages.
-
-For example, with this patch I got:
-
-< Output omitted>
-
-### Installing packages ...
-Failed to prepare guest environment
-Traceback (most recent call last):
-   File "/home/wmoschet/src/qemu/tests/vm/basevm.py", line 634, in main
-     return vm.build_image(args.image)
-   File "/home/wmoschet/src/qemu/tests/vm/freebsd", line 206, in build_image
-     self.ssh_root_check("pkg install -y %s\n" % " ".join(self.pkgs))
-   File "/home/wmoschet/src/qemu/tests/vm/basevm.py", line 255, in 
-ssh_root_check
-     self._ssh_do(self._config["root_user"], cmd, True)
-   File "/home/wmoschet/src/qemu/tests/vm/basevm.py", line 242, in _ssh_do
-     raise Exception("SSH command failed: %s" % cmd)
-Exception: SSH command failed: pkg install -y git pkgconf bzip2 python37 
-ninja bash gmake gsed gettext cyrus-sasl gnutls nettle jpeg-turbo png 
-sdl2 gtk3 libxkbcommon pixman libepoxy mesa-libs zstd usbredir
-
-Is it a known issue?
-
+>Signed-off-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
+>---
+> hw/nvme/ctrl.c | 7 ++++---
+> 1 file changed, 4 insertions(+), 3 deletions(-)
 >
-> diff --git a/tests/vm/freebsd b/tests/vm/freebsd
-> index 6e20e843228..85049b43136 100755
-> --- a/tests/vm/freebsd
-> +++ b/tests/vm/freebsd
-> @@ -46,7 +46,9 @@ class FreeBSDVM(basevm.BaseVM):
->           "gettext",
->   
->           # libs: crypto
-> +        "cyrus-sasl",
->           "gnutls",
-> +        "nettle",
->   
->           # libs: images
->           "jpeg-turbo",
-> @@ -56,6 +58,7 @@ class FreeBSDVM(basevm.BaseVM):
->           "sdl2",
->           "gtk3",
->           "libxkbcommon",
-> +        "pixman",
->   
->           # libs: opengl
->           "libepoxy",
-> @@ -63,6 +66,8 @@ class FreeBSDVM(basevm.BaseVM):
->   
->           # libs: migration
->           "zstd",
-> +
-> +        "usbredir",
->       ]
->   
->       # TODO: Enable gnutls again once FreeBSD's libtasn1 got fixed
+>diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+>index d08a3350e2..813a72c655 100644
+>--- a/hw/nvme/ctrl.c
+>+++ b/hw/nvme/ctrl.c
+>@@ -4255,6 +4255,7 @@ static uint16_t nvme_identify_ctrl_list(NvmeCtrl *n,=
+ NvmeRequest *req,
+>                                         bool attached)
+> {
+>     NvmeIdentify *c =3D (NvmeIdentify *)&req->cmd;
+>+    uint32_t nsid =3D le32_to_cpu(c->nsid);
+>     uint16_t min_id =3D le16_to_cpu(c->ctrlid);
+>     uint16_t list[NVME_CONTROLLER_LIST_SIZE] =3D {};
+>     uint16_t *ids =3D &list[1];
+>@@ -4265,11 +4266,11 @@ static uint16_t nvme_identify_ctrl_list(NvmeCtrl *=
+n, NvmeRequest *req,
+>     trace_pci_nvme_identify_ctrl_list(c->cns, min_id);
+>
+>     if (attached) {
+>-        if (c->nsid =3D=3D NVME_NSID_BROADCAST) {
+>+        if (nsid =3D=3D NVME_NSID_BROADCAST) {
+>             return NVME_INVALID_FIELD | NVME_DNR;
+>         }
+>
+>-        ns =3D nvme_subsys_ns(n->subsys, c->nsid);
+>+        ns =3D nvme_subsys_ns(n->subsys, nsid);
+>         if (!ns) {
+>             return NVME_INVALID_FIELD | NVME_DNR;
+>         }
+>@@ -4281,7 +4282,7 @@ static uint16_t nvme_identify_ctrl_list(NvmeCtrl *n,=
+ NvmeRequest *req,
+>             continue;
+>         }
+>
+>-        if (attached && !nvme_ns(ctrl, c->nsid)) {
+>+        if (attached && !nvme_ns(ctrl, nsid)) {
+>             continue;
+>         }
+>
+>--=20
+>2.17.1
+>
 
+I know that the endianness conversion was missing before your patch, but=20
+please squash this up into patch 1.
+
+--xajDCdTSxhVpSwQ8
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmC1TNEACgkQTeGvMW1P
+DemobQgAw5gkjbiJxkaTlnRrCcKeelbh3ZJFfJ/JtU9czVRoUaHt5oBO6QsBkhvo
+Yo+9i5XhOJBNFMac7ivHA/+pWDDkBEfkE2Gm58Mi3pp1dqLLPrIrJO7oc0C3D8ng
+zLUeOJUE5dzZzWYf0+3fpE/+hM+w30EYC2KoeGxzXSgZyakaxVijAZNn6lauY3cM
+Y2h0jsnJmZP0Denxa2+WusepnbCSQetHfA1JH+yEpSBjPnJOALN/xKwJiJjuRE+C
+Cu7ucqa6PepaGwG6qJIkri9ri8IoIqGY79KWLUne/jc4ckrepCE0K5YMFlspD0b/
+MjGFDG0id8FA904kG5Xa9buEx6qFqA==
+=Cki1
+-----END PGP SIGNATURE-----
+
+--xajDCdTSxhVpSwQ8--
 
