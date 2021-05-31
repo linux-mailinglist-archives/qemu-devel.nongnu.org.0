@@ -2,94 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46BA1395B00
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 May 2021 14:58:38 +0200 (CEST)
-Received: from localhost ([::1]:37014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3AC3395B14
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 May 2021 15:08:46 +0200 (CEST)
+Received: from localhost ([::1]:42340 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lnhV7-0005Uy-BI
-	for lists+qemu-devel@lfdr.de; Mon, 31 May 2021 08:58:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45858)
+	id 1lnhev-00019W-Dn
+	for lists+qemu-devel@lfdr.de; Mon, 31 May 2021 09:08:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48302)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lnhTS-0004h2-Q3
- for qemu-devel@nongnu.org; Mon, 31 May 2021 08:56:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44352)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1lnhdp-0000IL-2y; Mon, 31 May 2021 09:07:37 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:44692)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lnhTQ-0003gh-H7
- for qemu-devel@nongnu.org; Mon, 31 May 2021 08:56:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622465811;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=czyKUYX+CQIhaZQhfbawxW9AqfvtrEo3SwLagSOVNiM=;
- b=KYqLGwMXXeJxzwIKdns3ddu+5nui9QeG++E/SH5NkQ58wyLM1LMIaT+Nbwd/FlyPshEDyY
- d9G8h5t7J2/TZmAvJJ1j+tbKjWA0lGjL/k85VkK/mmGKTKDyVwCbzL7znhQPTuljUVE2s3
- x+MGqJFbg86er3R/jD511WR5IfstDTo=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-584-CPCPlfTUPr6sU5_NRSny3w-1; Mon, 31 May 2021 08:56:50 -0400
-X-MC-Unique: CPCPlfTUPr6sU5_NRSny3w-1
-Received: by mail-ed1-f69.google.com with SMTP id
- cn20-20020a0564020cb4b029038d0b0e183fso6197980edb.22
- for <qemu-devel@nongnu.org>; Mon, 31 May 2021 05:56:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=czyKUYX+CQIhaZQhfbawxW9AqfvtrEo3SwLagSOVNiM=;
- b=C21Wc80gkAULmTQTOzCqUZ3gELuzwcFed2gUkxc4ddAoyBO0yCGJqtT5IxdGV5vwf+
- O34cX5h2ROhYp0HPBJ6/huLvMvcRb7IPPKe/iZ+TxBxqcSvIGp0oEaVHc6pE6p66JRrt
- cB517NR4QCQ0mA/kM0QzFWUZbdaJxiXiovs/LCnCaGhvhC5k4sknbhc7K7WWiETsaCY4
- nz4N2DyCKwkR3yEyRGa0o/Ui9R5gitbs3L4ADKZ2n1X3T0S47cJEU62WCq1w1P7dF+en
- Shxq16OhQZBXqIqlc+TgQlpBiZy+K+oR+7JyNbCUPIh00PL94bdzdpOHuqsCCFc5tDGB
- JOEg==
-X-Gm-Message-State: AOAM530lD5tjgz3e4e/5APwtSGCcrz6pwzoJIv08hUcrQL2j44E6Abzc
- RSSaDU/iHlscXWKA1Yxt/+MBbcz6Jfwuf3OpfnnTgcyjySvPV/qy507LWDxLMcYdQ01su96dKN8
- na2jvyq4Tnx8wL2o=
-X-Received: by 2002:a17:906:1404:: with SMTP id
- p4mr20960880ejc.107.1622465809030; 
- Mon, 31 May 2021 05:56:49 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxJYYcMjbyWfjCD1/iOoBDmeGeUam+8pi+3IzLXJgPp1f+LdEqUbmSCXjz2s40iDWy00sERDQ==
-X-Received: by 2002:a17:906:1404:: with SMTP id
- p4mr20960862ejc.107.1622465808846; 
- Mon, 31 May 2021 05:56:48 -0700 (PDT)
-Received: from dresden.str.redhat.com ([2a02:908:1e46:160:b272:8083:d5:bc7d])
- by smtp.gmail.com with ESMTPSA id
- v21sm557469edt.48.2021.05.31.05.56.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 31 May 2021 05:56:48 -0700 (PDT)
-Subject: Re: [PATCH v2 02/33] block: comment graph-modifying function not
- updating permissions
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20210520142205.607501-1-vsementsov@virtuozzo.com>
- <20210520142205.607501-3-vsementsov@virtuozzo.com>
-From: Max Reitz <mreitz@redhat.com>
-Message-ID: <8c6d6ad4-1909-2d6e-8c61-9d31999d1965@redhat.com>
-Date: Mon, 31 May 2021 14:56:46 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1lnhdl-0000ot-T3; Mon, 31 May 2021 09:07:36 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 2A11E74639A;
+ Mon, 31 May 2021 15:07:27 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id EEDB6746397; Mon, 31 May 2021 15:07:26 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id EDBC8746358;
+ Mon, 31 May 2021 15:07:26 +0200 (CEST)
+Date: Mon, 31 May 2021 15:07:26 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Alexey Kardashevskiy <aik@ozlabs.ru>
+Subject: Re: [PATCH qemu v20] spapr: Implement Open Firmware client interface
+In-Reply-To: <c13d557a-5feb-33ad-33ec-22a28cddb8d@eik.bme.hu>
+Message-ID: <7e71f593-c2b9-5c7-4dd0-2a189bee771@eik.bme.hu>
+References: <20210520090557.435689-1-aik@ozlabs.ru>
+ <c13d557a-5feb-33ad-33ec-22a28cddb8d@eik.bme.hu>
 MIME-Version: 1.0
-In-Reply-To: <20210520142205.607501-3-vsementsov@virtuozzo.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -37
-X-Spam_score: -3.8
-X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.372,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.591, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 8%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,19 +55,217 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, berrange@redhat.com, ehabkost@redhat.com, den@openvz.org,
- jsnow@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com, crosa@redhat.com,
- pbonzini@redhat.com
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 20.05.21 16:21, Vladimir Sementsov-Ogievskiy wrote:
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->   block.c | 7 +++++++
->   1 file changed, 7 insertions(+)
+On Sun, 30 May 2021, BALATON Zoltan wrote:
+> On Thu, 20 May 2021, Alexey Kardashevskiy wrote:
+>> diff --git a/hw/ppc/vof.c b/hw/ppc/vof.c
+>> new file mode 100644
+>> index 000000000000..a283b7d251a7
+>> --- /dev/null
+>> +++ b/hw/ppc/vof.c
+>> @@ -0,0 +1,1021 @@
+>> +/*
+>> + * QEMU PowerPC Virtual Open Firmware.
+>> + *
+>> + * This implements client interface from OpenFirmware IEEE1275 on the QEMU
+>> + * side to leave only a very basic firmware in the VM.
+>> + *
+>> + * Copyright (c) 2021 IBM Corporation.
+>> + *
+>> + * SPDX-License-Identifier: GPL-2.0-or-later
+>> + */
+>> +
+>> +#include "qemu/osdep.h"
+>> +#include "qemu-common.h"
+>> +#include "qemu/timer.h"
+>> +#include "qemu/range.h"
+>> +#include "qemu/units.h"
+>> +#include "qapi/error.h"
+>> +#include <sys/ioctl.h>
+>> +#include "exec/ram_addr.h"
+>> +#include "exec/address-spaces.h"
+>> +#include "hw/ppc/vof.h"
+>> +#include "hw/ppc/fdt.h"
+>> +#include "sysemu/runstate.h"
+>> +#include "qom/qom-qobject.h"
+>> +#include "trace.h"
+>> +
+>> +#include <libfdt.h>
+>> +
+>> +/*
+>> + * OF 1275 "nextprop" description suggests is it 32 bytes max but
+>> + * LoPAPR defines "ibm,query-interrupt-source-number" which is 33 chars 
+>> long.
+>> + */
+>> +#define OF_PROPNAME_LEN_MAX 64
+>> +
+>> +#define VOF_MAX_PATH        256
+>> +#define VOF_MAX_SETPROPLEN  2048
+>> +#define VOF_MAX_METHODLEN   256
+>> +#define VOF_MAX_FORTHCODE   256
+>> +#define VOF_VTY_BUF_SIZE    256
+>> +
+>> +typedef struct {
+>> +    uint64_t start;
+>> +    uint64_t size;
+>> +} OfClaimed;
+>> +
+>> +typedef struct {
+>> +    char *path; /* the path used to open the instance */
+>> +    uint32_t phandle;
+>> +} OfInstance;
+>> +
+>> +#define VOF_MEM_READ(pa, buf, size) \
+>> +    address_space_read_full(&address_space_memory, \
+>> +    (pa), MEMTXATTRS_UNSPECIFIED, (buf), (size))
+>> +#define VOF_MEM_WRITE(pa, buf, size) \
+>> +    address_space_write(&address_space_memory, \
+>> +    (pa), MEMTXATTRS_UNSPECIFIED, (buf), (size))
+>> +
+>> +static int readstr(hwaddr pa, char *buf, int size)
+>> +{
+>> +    if (VOF_MEM_READ(pa, buf, size) != MEMTX_OK) {
+>> +        return -1;
+>> +    }
+>> +    if (strnlen(buf, size) == size) {
+>> +        buf[size - 1] = '\0';
+>> +        trace_vof_error_str_truncated(buf, size);
+>> +        return -1;
+>> +    }
+>> +    return 0;
+>> +}
+>> +
+>> +static bool cmpservice(const char *s, unsigned nargs, unsigned nret,
+>> +                       const char *s1, unsigned nargscheck, unsigned 
+>> nretcheck)
+>> +{
+>> +    if (strcmp(s, s1)) {
+>> +        return false;
+>> +    }
+>> +    if ((nargscheck && (nargs != nargscheck)) ||
+>> +        (nretcheck && (nret != nretcheck))) {
+>> +        trace_vof_error_param(s, nargscheck, nretcheck, nargs, nret);
+>> +        return false;
+>> +    }
+>> +
+>> +    return true;
+>> +}
+>> +
+>> +static void prop_format(char *tval, int tlen, const void *prop, int len)
+>> +{
+>> +    int i;
+>> +    const unsigned char *c;
+>> +    char *t;
+>> +    const char bin[] = "...";
+>> +
+>> +    for (i = 0, c = prop; i < len; ++i, ++c) {
+>> +        if (*c == '\0' && i == len - 1) {
+>> +            strncpy(tval, prop, tlen - 1);
+>> +            return;
+>> +        }
+>> +        if (*c < 0x20 || *c >= 0x80) {
+>> +            break;
+>> +        }
+>> +    }
+>> +
+>> +    for (i = 0, c = prop, t = tval; i < len; ++i, ++c) {
+>> +        if (t >= tval + tlen - sizeof(bin) - 1 - 2 - 1) {
+>> +            strcpy(t, bin);
+>> +            return;
+>> +        }
+>> +        if (i && i % 4 == 0 && i != len - 1) {
+>> +            strcat(t, " ");
+>> +            ++t;
+>> +        }
+>> +        t += sprintf(t, "%02X", *c & 0xFF);
+>> +    }
+>> +}
+>> +
+>> +static int get_path(const void *fdt, int offset, char *buf, int len)
+>> +{
+>> +    int ret;
+>> +
+>> +    ret = fdt_get_path(fdt, offset, buf, len - 1);
+>> +    if (ret < 0) {
+>> +        return ret;
+>> +    }
+>> +
+>> +    buf[len - 1] = '\0';
+>> +
+>> +    return strlen(buf) + 1;
+>> +}
+>> +
+>> +static int phandle_to_path(const void *fdt, uint32_t ph, char *buf, int 
+>> len)
+>> +{
+>> +    int ret;
+>> +
+>> +    ret = fdt_node_offset_by_phandle(fdt, ph);
+>> +    if (ret < 0) {
+>> +        return ret;
+>> +    }
+>> +
+>> +    return get_path(fdt, ret, buf, len);
+>> +}
+>> +
+>> +static uint32_t vof_finddevice(const void *fdt, uint32_t nodeaddr)
+>> +{
+>> +    char fullnode[VOF_MAX_PATH];
+>> +    uint32_t ret = -1;
+>> +    int offset;
+>> +
+>> +    if (readstr(nodeaddr, fullnode, sizeof(fullnode))) {
+>> +        return (uint32_t) ret;
+>> +    }
+>> +
+>> +    offset = fdt_path_offset(fdt, fullnode);
+>> +    if (offset >= 0) {
+>> +        ret = fdt_get_phandle(fdt, offset);
+>> +    }
+>> +    trace_vof_finddevice(fullnode, ret);
+>> +    return (uint32_t) ret;
+>> +}
+>
+> The Linux init function that runs on pegasos2 here:
+>
+> https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/tree/arch/powerpc/kernel/prom_init.c?h=v4.14.234#n2658
+>
+> calls finddevice once with isa@c and next with isa@C (small and capital C) 
+> both of which works with the board firmware but with vof the comparison is 
+> case sensitive and one of these fails so I can't make it work. I don't know 
+> if this is a problem in libfdt or the vof_finddevice above should do 
+> something else to get case insensitive comparison.
 
+This fixes the issue with Linux but I'm not sure if there's any better 
+solution or would it break anything else.
 
-Reviewed-by: Max Reitz <mreitz@redhat.com>
+Regards,
+BALATON Zoltan
 
+>diff --git a/hw/ppc/vof.c b/hw/ppc/vof.c
+index a283b7d251..b47bbd509d 100644
+--- a/hw/ppc/vof.c
++++ b/hw/ppc/vof.c
+@@ -144,12 +144,15 @@ static uint32_t vof_finddevice(const void *fdt, 
+uint32_t nodeaddr)
+      char fullnode[VOF_MAX_PATH];
+      uint32_t ret = -1;
+      int offset;
++    gchar *p;
+
+      if (readstr(nodeaddr, fullnode, sizeof(fullnode))) {
+          return (uint32_t) ret;
+      }
+
+-    offset = fdt_path_offset(fdt, fullnode);
++    p = g_ascii_strdown(fullnode, -1);
++    offset = fdt_path_offset(fdt, p);
++    g_free(p);
+      if (offset >= 0) {
+          ret = fdt_get_phandle(fdt, offset);
+      }
 
