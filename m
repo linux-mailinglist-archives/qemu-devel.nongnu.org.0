@@ -2,56 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D73903976D8
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Jun 2021 17:37:06 +0200 (CEST)
-Received: from localhost ([::1]:36486 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 940593976C7
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Jun 2021 17:34:45 +0200 (CEST)
+Received: from localhost ([::1]:55720 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lo6S1-00044P-Ta
-	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 11:37:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44172)
+	id 1lo6Pk-0006Jv-L1
+	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 11:34:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44762)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lo6MI-0008Gc-Pr
- for qemu-devel@nongnu.org; Tue, 01 Jun 2021 11:31:10 -0400
-Resent-Date: Tue, 01 Jun 2021 11:31:10 -0400
-Resent-Message-Id: <E1lo6MI-0008Gc-Pr@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21387)
+ (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
+ id 1lo6O3-0004Gd-3e
+ for qemu-devel@nongnu.org; Tue, 01 Jun 2021 11:33:00 -0400
+Received: from mout.web.de ([212.227.15.4]:59441)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lo6MG-0004as-BW
- for qemu-devel@nongnu.org; Tue, 01 Jun 2021 11:31:10 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1622561460; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=CpniQsfyBnm3/pyqg8YEiLJwXv3AH0hb6lNjl0Rl4MnTT6sGnfKEW7mUzEfnrpPjEcLLGgwblyuaJokN5RRmoYwqP78OXslaFxBK7KBsMQx2mapxal0maSrMXp+1FsjLvH0BJSDmM9C7VOlzwzR6tbl9y4mylQYfe413pMP08Gs=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1622561460;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=5JqAOZc3MEuWc/slmDJdZDXClWVLVOXXgbwXQ0OUySA=; 
- b=l2cLorkgfOTHA523euLsaI3o39V9MZM1Hbu0FLh197wCEb0aowfs5K+UmpPlixXrEy50eqFvabLEtcwOsHVeedcf3FNd/yZ68rAnLRU+aJ/v2piJOAmN/mUdYY2RGg0t65qEWeu/F+eXsFVDv4/KUNY2KzbiRxUUjeoyaBSFiDQ=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1622561459098225.45047661589717;
- Tue, 1 Jun 2021 08:30:59 -0700 (PDT)
-In-Reply-To: <20210601150106.12761-1-richard.henderson@linaro.org>
-Subject: Re: [PATCH v7 00/27] TCI fixes and cleanups
-Message-ID: <162256145798.29238.17805720549540926374@0addf061776e>
+ (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
+ id 1lo6Nz-0005zg-Ay
+ for qemu-devel@nongnu.org; Tue, 01 Jun 2021 11:32:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+ s=dbaedf251592; t=1622561569;
+ bh=68lWrxjWUx2/2v3pRrdrYEdQ2i8mU0S2MMML2Icotjk=;
+ h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
+ b=GCN6tDE/ln9FR0mgmjaoBJidwPdecyBJlXLHKhYHGiIDEaj8stc9QXUHtOlpzAn8L
+ 1DA2NPohhwRaGxhNbP4Xf0GrXI8LosMaa85d3cgxmouLnoxJN+uor/LA+zM/SODUmA
+ 4zt7pZbjwUXMK9d01C7JuRUPpW0rIxuEp2YBUHNo=
+X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
+Received: from gecko.fritz.box ([88.130.61.200]) by smtp.web.de (mrweb006
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1MNfUF-1m396Q1hqV-00OkPz; Tue, 01
+ Jun 2021 17:32:49 +0200
+Date: Tue, 1 Jun 2021 17:32:33 +0200
+From: Lukas Straub <lukasstraub2@web.de>
+To: Peter Xu <peterx@redhat.com>
+Subject: Re: [PATCH v3 1/1] yank: Unregister function when using TLS migration
+Message-ID: <20210601173233.3a742bd8@gecko.fritz.box>
+In-Reply-To: <YLZJME3kiFe0rMRe@t490s>
+References: <20210601054030.1153249-1-leobras.c@gmail.com>
+ <YLZJME3kiFe0rMRe@t490s>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: richard.henderson@linaro.org
-Date: Tue, 1 Jun 2021 08:30:59 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+Content-Type: multipart/signed; boundary="Sig_/GUoLyyl1wm4EY.sM.1VrlGC";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+X-Provags-ID: V03:K1:yatCn/cljsS5Xj57/4U8kP0Xckdc81hTGkdfAf9D3QawX+XzqVI
+ W2wRC7ffB8yu2tGxHkGEQZlNWhf6ww4cm9xeIDrYkWCOwZ++2RVuT8HyN4Rul0yR7VCZsvH
+ 4sD2g9EehyEycuvJ/X8gB0YV7t5BHEzgLrGhpyo60XcSDXi+v2LkuoUuh7gMsjccGLcTtQX
+ 9DQwne7eo1+kvu09r+Z6g==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:GC4EgF/Niww=:Kuju3oz8nBlu2BXr+8XsT9
+ s6tLQg0y4+eIOMyAPb2rjXSDTdVUKiMMbSavpEbhZ1Vztm8VSeQvTuhWTlqcKQuToxzVvj8sQ
+ tisNCAAR93fTWgCoxDCPyYqhQuxwxDJKtDaJC/YnmNtQq6ogpjtw0llmf8v9Rn+0n5rnVLaln
+ eCRpTdkE36RDD1dsJSs0jGfEGBxEDWlmLK3buS+emNF/2AOI+ZKZ+v2fyxUahyA+HYf7GJ0aL
+ QUtIKXzcKE0iMbcWDghqX5EFUbS42XxZEHVn2TjHpLTUWsmd0PNrLM6Ip7PMIMbd6FTnD5awR
+ GNekq/yX5HwNq9ONKIoV+HI/dGUQ1JvkFgLwAlw2/RVLOAr8mO9aB8PTLwIDU/AYsFcaJIspx
+ z64sxEa4NYf87yb3UMS9hul9F8GT8rgiK+JPZtyyMobzFa7T+pV1Y1tQAwDvWJCmeqoscINJI
+ xKvLHybT4dsTlD7WY4lDifepgU/6lbWZUJGjglFFOK8YOWgafgHkjLyPLvgO8aPDkj5g3OpHe
+ gfBR0UdgKh8pzmEmWwK8jDGH0I+60hllqXz1Zj6dBD6P887edwdSrjKfCLH/Xnksr6t2Ursbo
+ SjZSsPkyWex4msq8K/rhkDWP7YSDM56Oqu9cODeGnYCNvpXoHffcT9DyEV/8YQ4/6QK31b4ik
+ GYrajRk1KyfwP2S/logcCHiIuH2BPlAenSBmji1PfWKq566lDgNfaZ/dHHBLUmlXu/a9WRnDt
+ o6GOj+bfRkoY0AjlKFYG1xHj4VOYCYnhsYhEYHYwDt/McA9GRCgoC0Sg53VpUV/X8iE7xsnDB
+ hm1cUIFfe5czTLryAhxYh+ysGcWa1TZkQvKiTcveZ1fjklGoG6TFybLAyBlbgKXaiK3N+FBzX
+ 610Q/KuzG7SdWD856n2+GOFFa6jshnLO9aEqvxDG0qVLVNUen2FAmUV0hmhXnnJ5rLJ06poG0
+ +hJU0URlpg4rtEjTRF64ifoFj69HPl5pYJVpDn+IFymYQDQ6U41TauLnZh6KnwPiqnoO4ufX/
+ IsUZ4s5UGuxxeEnGAHR5QWuvQXCXSCSlPBLQv00T6+CYkXdo4O/BMNma4Eci9KiiybeYxPoij
+ v81xB9LcW8LuX5c6XkneOjTT9hKE8xpYhFv
+Received-SPF: pass client-ip=212.227.15.4; envelope-from=lukasstraub2@web.de;
+ helo=mout.web.de
+X-Spam_score_int: -24
+X-Spam_score: -2.5
+X-Spam_bar: --
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
  RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -66,110 +84,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org, Leonardo Bras <leobras.c@gmail.com>,
+ berrange@redhat.com, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDYwMTE1MDEwNi4xMjc2
-MS0xLXJpY2hhcmQuaGVuZGVyc29uQGxpbmFyby5vcmcvCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2Vl
-bXMgdG8gaGF2ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBm
-b3IKbW9yZSBpbmZvcm1hdGlvbjoKClR5cGU6IHNlcmllcwpNZXNzYWdlLWlkOiAyMDIxMDYwMTE1
-MDEwNi4xMjc2MS0xLXJpY2hhcmQuaGVuZGVyc29uQGxpbmFyby5vcmcKU3ViamVjdDogW1BBVENI
-IHY3IDAwLzI3XSBUQ0kgZml4ZXMgYW5kIGNsZWFudXBzCgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4g
-PT09CiMhL2Jpbi9iYXNoCmdpdCByZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0IDAK
-Z2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9jYWwg
-ZGlmZi5yZW5hbWVzIFRydWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhpc3Rv
-Z3JhbQouL3NjcmlwdHMvY2hlY2twYXRjaC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVTVCBT
-Q1JJUFQgRU5EID09PQoKVXBkYXRpbmcgM2M4Y2Y1YTljMjFmZjg3ODIxNjRkMWRlZjdmNDRiZDg4
-ODcxMzM4NApGcm9tIGh0dHBzOi8vZ2l0aHViLmNvbS9wYXRjaGV3LXByb2plY3QvcWVtdQogKiBb
-bmV3IHRhZ10gICAgICAgICBwYXRjaGV3LzIwMjEwNjAxMTQzNzQ5LjE2NjktMS1hbmFpZHUuZ29s
-bHVAc2Ftc3VuZy5jb20gLT4gcGF0Y2hldy8yMDIxMDYwMTE0Mzc0OS4xNjY5LTEtYW5haWR1Lmdv
-bGx1QHNhbXN1bmcuY29tCiAqIFtuZXcgdGFnXSAgICAgICAgIHBhdGNoZXcvMjAyMTA2MDExNTAx
-MDYuMTI3NjEtMS1yaWNoYXJkLmhlbmRlcnNvbkBsaW5hcm8ub3JnIC0+IHBhdGNoZXcvMjAyMTA2
-MDExNTAxMDYuMTI3NjEtMS1yaWNoYXJkLmhlbmRlcnNvbkBsaW5hcm8ub3JnClN3aXRjaGVkIHRv
-IGEgbmV3IGJyYW5jaCAndGVzdCcKZmY3M2YyYSB0ZXN0cy90Y2c6IEluY3JlYXNlIHRpbWVvdXQg
-Zm9yIFRDSQpmNzg2MDU3IHRjZy90Y2k6IFVzZSB7c2V0LGNsZWFyfV9oZWxwZXJfcmV0YWRkcgox
-OTBhZDFmIHRjZy90Y2k6IFJlbW92ZSB0aGUgcWVtdV9sZC9zdF90eXBlIG1hY3JvcwoxZTIxNTZh
-IFJldmVydCAidGNnL3RjaTogVXNlIGV4ZWMvY3B1X2xkc3QuaCBpbnRlcmZhY2VzIgo1NTAwZmU3
-IHRjZy90Y2k6IFNwbGl0IG91dCB0Y2lfcWVtdV9sZCwgdGNpX3FlbXVfc3QKY2M3MGY5OCB0Y2cv
-dGNpOiBJbXBsZW1lbnQgYWRkMiwgc3ViMgpmZTlkNWM2IHRjZy90Y2k6IEltcGxlbWVudCBtdWx1
-MiwgbXVsczIKMmRhMjI0YSB0Y2cvdGNpOiBJbXBsZW1lbnQgY2x6LCBjdHosIGN0cG9wCmU0Y2Q0
-ZjEgdGNnL3RjaTogSW1wbGVtZW50IGV4dHJhY3QsIHNleHRyYWN0CmU2MzcwNzQgdGNnL3RjaTog
-SW1wbGVtZW50IGFuZGMsIG9yYywgZXF2LCBuYW5kLCBub3IKZmU3OGFhOSB0Y2cvdGNpOiBJbXBs
-ZW1lbnQgbW92Y29uZAo0MjQ0Zjk3IHRjZy90Y2k6IEltcGxlbWVudCBnb3RvX3B0cgpkNTEyOWQw
-IHRjZy90Y2k6IENoYW5nZSBlbmNvZGluZyB0byB1aW50MzJfdCB1bml0cwpiOTkzNmZmIHRjZy90
-Y2k6IFJlbW92ZSB0Y2lfd3JpdGVfcmVnCjU1ZGRjMTUgdGNnL3RjaTogRW1pdCBzZXRjb25kIGJl
-Zm9yZSBicmNvbmQKN2Q4OGZjZCB0Y2cvdGNpOiBSZXNlcnZlIHIxMyBmb3IgYSB0ZW1wb3JhcnkK
-ZTRkOTc4NSB0Y2cvdGNpOiBVc2UgZmZpIGZvciBjYWxscwo3YzUzODExIHRjZy90Y2k6IE1vdmUg
-Y2FsbC1yZXR1cm4gcmVncyB0byBlbmQgb2YgdGNnX3RhcmdldF9yZWdfYWxsb2Nfb3JkZXIKZGY5
-ZjY2MyB0Y2cvdGNpOiBJbXByb3ZlIHRjZ190YXJnZXRfY2FsbF9jbG9iYmVyX3JlZ3MKN2IxOTlj
-MSB0Y2c6IEJ1aWxkIGZmaSBkYXRhIHN0cnVjdHVyZXMgZm9yIGhlbHBlcnMKNGNkYWY3YyB0Y2c6
-IEFkZCB0Y2dfY2FsbF9mdW5jCmI1ZDBjNDUgdGNnOiBTdG9yZSB0aGUgVENHSGVscGVySW5mbyBp
-biB0aGUgVENHT3AgZm9yIGNhbGwKOTk4NzkxYSBhY2NlbC90Y2c6IEFkZCB0Y2cgY2FsbCBmbGFn
-cyB0byBwbHVnaW5zIGhlbHBlcnMKMzE4MTJkNSBwbHVnaW5zOiBEcm9wIHRjZ19mbGFncyBmcm9t
-IHN0cnVjdCBxZW11X3BsdWdpbl9keW5fY2IKYjEyZDY2NyBhY2NlbC90Y2cvcGx1Z2luLWdlbjog
-RHJvcCBpbmxpbmUgbWFya2Vycwo4NTdmM2Q3IHRjZzogQWRkIHRjZ19jYWxsX2ZsYWdzCjc1MDdj
-NTIgdGNnOiBDb21iaW5lIGRoX2lzXzY0Yml0IGFuZCBkaF9pc19zaWduZWQgdG8gZGhfdHlwZWNv
-ZGUKCj09PSBPVVRQVVQgQkVHSU4gPT09CjEvMjcgQ2hlY2tpbmcgY29tbWl0IDc1MDdjNTIxNDk0
-ZSAodGNnOiBDb21iaW5lIGRoX2lzXzY0Yml0IGFuZCBkaF9pc19zaWduZWQgdG8gZGhfdHlwZWNv
-ZGUpCjIvMjcgQ2hlY2tpbmcgY29tbWl0IDg1N2YzZDdiYTM3MSAodGNnOiBBZGQgdGNnX2NhbGxf
-ZmxhZ3MpCldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJ
-TlRBSU5FUlMgbmVlZCB1cGRhdGluZz8KIzIxOiAKbmV3IGZpbGUgbW9kZSAxMDA2NDQKCnRvdGFs
-OiAwIGVycm9ycywgMSB3YXJuaW5ncywgMTA2IGxpbmVzIGNoZWNrZWQKClBhdGNoIDIvMjcgaGFz
-IHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwph
-cmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hF
-Q0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KMy8yNyBDaGVja2luZyBjb21taXQgYjEyZDY2NzAyYWNi
-IChhY2NlbC90Y2cvcGx1Z2luLWdlbjogRHJvcCBpbmxpbmUgbWFya2VycykKNC8yNyBDaGVja2lu
-ZyBjb21taXQgMzE4MTJkNTdhNDhjIChwbHVnaW5zOiBEcm9wIHRjZ19mbGFncyBmcm9tIHN0cnVj
-dCBxZW11X3BsdWdpbl9keW5fY2IpCjUvMjcgQ2hlY2tpbmcgY29tbWl0IDk5ODc5MWFkODY4ZSAo
-YWNjZWwvdGNnOiBBZGQgdGNnIGNhbGwgZmxhZ3MgdG8gcGx1Z2lucyBoZWxwZXJzKQpXQVJOSU5H
-OiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwojMjc6IEZJTEU6IGFjY2VsL3RjZy9wbHVnaW4taGVs
-cGVycy5oOjM6CitERUZfSEVMUEVSX0ZMQUdTXzQocGx1Z2luX3ZjcHVfbWVtX2NiLCBUQ0dfQ0FM
-TF9OT19SV0csIHZvaWQsIGkzMiwgaTMyLCBpNjQsIHB0cikKCnRvdGFsOiAwIGVycm9ycywgMSB3
-YXJuaW5ncywgNiBsaW5lcyBjaGVja2VkCgpQYXRjaCA1LzI3IGhhcyBzdHlsZSBwcm9ibGVtcywg
-cGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZl
-cyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRB
-SU5FUlMuCjYvMjcgQ2hlY2tpbmcgY29tbWl0IGI1ZDBjNDVlMGY4YiAodGNnOiBTdG9yZSB0aGUg
-VENHSGVscGVySW5mbyBpbiB0aGUgVENHT3AgZm9yIGNhbGwpCjcvMjcgQ2hlY2tpbmcgY29tbWl0
-IDRjZGFmN2MyMDc0YSAodGNnOiBBZGQgdGNnX2NhbGxfZnVuYykKOC8yNyBDaGVja2luZyBjb21t
-aXQgN2IxOTljMWRkOWM1ICh0Y2c6IEJ1aWxkIGZmaSBkYXRhIHN0cnVjdHVyZXMgZm9yIGhlbHBl
-cnMpCjkvMjcgQ2hlY2tpbmcgY29tbWl0IGRmOWY2NjM3YTE2OCAodGNnL3RjaTogSW1wcm92ZSB0
-Y2dfdGFyZ2V0X2NhbGxfY2xvYmJlcl9yZWdzKQoxMC8yNyBDaGVja2luZyBjb21taXQgN2M1Mzgx
-MTlhODA5ICh0Y2cvdGNpOiBNb3ZlIGNhbGwtcmV0dXJuIHJlZ3MgdG8gZW5kIG9mIHRjZ190YXJn
-ZXRfcmVnX2FsbG9jX29yZGVyKQoxMS8yNyBDaGVja2luZyBjb21taXQgZTRkOTc4NTJkMGJmICh0
-Y2cvdGNpOiBVc2UgZmZpIGZvciBjYWxscykKRVJST1I6IHN1c3BlY3QgY29kZSBpbmRlbnQgZm9y
-IGNvbmRpdGlvbmFsIHN0YXRlbWVudHMgKDgsIDExKQojNzQ6IEZJTEU6IHRjZy90Y2cuYzoyMTQ4
-OgogICAgICAgICBpZiAoVENHX1RBUkdFVF9SRUdfQklUUyA8IDY0ICYmIGlzXzY0Yml0KSB7Cisg
-ICAgICAgICAgIC8qCgp0b3RhbDogMSBlcnJvcnMsIDAgd2FybmluZ3MsIDM5MiBsaW5lcyBjaGVj
-a2VkCgpQYXRjaCAxMS8yNyBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBh
-bnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhl
-IG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoKMTIvMjcgQ2hlY2tp
-bmcgY29tbWl0IDdkODhmY2RlMGY1MSAodGNnL3RjaTogUmVzZXJ2ZSByMTMgZm9yIGEgdGVtcG9y
-YXJ5KQoxMy8yNyBDaGVja2luZyBjb21taXQgNTVkZGMxNWIwNDQ0ICh0Y2cvdGNpOiBFbWl0IHNl
-dGNvbmQgYmVmb3JlIGJyY29uZCkKMTQvMjcgQ2hlY2tpbmcgY29tbWl0IGI5OTM2ZmY3MjlkZCAo
-dGNnL3RjaTogUmVtb3ZlIHRjaV93cml0ZV9yZWcpCjE1LzI3IENoZWNraW5nIGNvbW1pdCBkNTEy
-OWQwM2JkOTUgKHRjZy90Y2k6IENoYW5nZSBlbmNvZGluZyB0byB1aW50MzJfdCB1bml0cykKMTYv
-MjcgQ2hlY2tpbmcgY29tbWl0IDQyNDRmOTc1YjY5YSAodGNnL3RjaTogSW1wbGVtZW50IGdvdG9f
-cHRyKQoxNy8yNyBDaGVja2luZyBjb21taXQgZmU3OGFhOTYwMzAxICh0Y2cvdGNpOiBJbXBsZW1l
-bnQgbW92Y29uZCkKMTgvMjcgQ2hlY2tpbmcgY29tbWl0IGU2MzcwNzQxNzkxYSAodGNnL3RjaTog
-SW1wbGVtZW50IGFuZGMsIG9yYywgZXF2LCBuYW5kLCBub3IpCjE5LzI3IENoZWNraW5nIGNvbW1p
-dCBlNGNkNGYxZWMyOTggKHRjZy90Y2k6IEltcGxlbWVudCBleHRyYWN0LCBzZXh0cmFjdCkKMjAv
-MjcgQ2hlY2tpbmcgY29tbWl0IDJkYTIyNGFiNTVjZSAodGNnL3RjaTogSW1wbGVtZW50IGNseiwg
-Y3R6LCBjdHBvcCkKMjEvMjcgQ2hlY2tpbmcgY29tbWl0IGZlOWQ1YzYwYTdkZSAodGNnL3RjaTog
-SW1wbGVtZW50IG11bHUyLCBtdWxzMikKMjIvMjcgQ2hlY2tpbmcgY29tbWl0IGNjNzBmOTg2ZGI0
-ZCAodGNnL3RjaTogSW1wbGVtZW50IGFkZDIsIHN1YjIpCjIzLzI3IENoZWNraW5nIGNvbW1pdCA1
-NTAwZmU3MjhiY2YgKHRjZy90Y2k6IFNwbGl0IG91dCB0Y2lfcWVtdV9sZCwgdGNpX3FlbXVfc3Qp
-CjI0LzI3IENoZWNraW5nIGNvbW1pdCAxZTIxNTZhYTA3MzggKFJldmVydCAidGNnL3RjaTogVXNl
-IGV4ZWMvY3B1X2xkc3QuaCBpbnRlcmZhY2VzIikKMjUvMjcgQ2hlY2tpbmcgY29tbWl0IDE5MGFk
-MWYzODgwZSAodGNnL3RjaTogUmVtb3ZlIHRoZSBxZW11X2xkL3N0X3R5cGUgbWFjcm9zKQoyNi8y
-NyBDaGVja2luZyBjb21taXQgZjc4NjA1NzBiZmM4ICh0Y2cvdGNpOiBVc2Uge3NldCxjbGVhcn1f
-aGVscGVyX3JldGFkZHIpCjI3LzI3IENoZWNraW5nIGNvbW1pdCBmZjczZjJhNWZhYmUgKHRlc3Rz
-L3RjZzogSW5jcmVhc2UgdGltZW91dCBmb3IgVENJKQo9PT0gT1VUUFVUIEVORCA9PT0KClRlc3Qg
-Y29tbWFuZCBleGl0ZWQgd2l0aCBjb2RlOiAxCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBh
-dApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDIxMDYwMTE1MDEwNi4xMjc2MS0xLXJpY2hhcmQu
-aGVuZGVyc29uQGxpbmFyby5vcmcvdGVzdGluZy5jaGVja3BhdGNoLz90eXBlPW1lc3NhZ2UuCi0t
-LQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNo
-ZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRo
-YXQuY29t
+--Sig_/GUoLyyl1wm4EY.sM.1VrlGC
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, 1 Jun 2021 10:50:24 -0400
+Peter Xu <peterx@redhat.com> wrote:
+
+> On Tue, Jun 01, 2021 at 02:40:31AM -0300, Leonardo Bras wrote:
+> > After yank feature was introduced in migration, whenever migration
+> > is started using TLS, the following error happens in both source and
+> > destination hosts:
+> >=20
+> > (qemu) qemu-kvm: ../util/yank.c:107: yank_unregister_instance:
+> > Assertion `QLIST_EMPTY(&entry->yankfns)' failed.
+> >=20
+> > This happens because of a missing yank_unregister_function() when using
+> > qio-channel-tls.
+> >=20
+> > Fix this by also allowing TYPE_QIO_CHANNEL_TLS object type to perform
+> > yank_unregister_function() in channel_close() and multifd_load_cleanup(=
+).
+> >=20
+> > Also, inside migration_channel_connect() and
+> > migration_channel_process_incoming() move yank_register_function() so
+> > it only runs once on a TLS migration. =20
+>=20
+> Slightly inaccurate I guess, as it was run once too before this patch, bu=
+t not
+> paired for tls?
+>=20
+> IIUC when we call the 2nd time at below chunk we won't register again:
+>=20
+>         if (object_dynamic_cast(OBJECT(ioc), TYPE_QIO_CHANNEL_SOCKET)) {
+>             yank_register_function(MIGRATION_YANK_INSTANCE,
+>                                    migration_yank_iochannel,
+>                                    QIO_CHANNEL(ioc));
+>         }
+>=20
+> Because the 2nd call will be TYPE_QIO_CHANNEL_TLS, so object_dynamic_cast=
+()
+> will return with a failure, I think (note, TYPE_QIO_CHANNEL_TLS's parent =
+is
+> TYPE_QIO_CHANNEL, not TYPE_QIO_CHANNEL_SOCKET).
+>=20
+> >=20
+> > Fixes: b5eea99ec2f ("migration: Add yank feature", 2021-01-13)
+> > Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=3D1964326
+> > Signed-off-by: Leonardo Bras <leobras.c@gmail.com> =20
+>=20
+> Reviewed-by: Peter Xu <peterx@redhat.com>
+>=20
+> Thanks Leo!
+>=20
+> I have one pure question not directly related to Leo's patch (probably for
+> Lukas?): we check OBJECT(ioc)->ref =3D=3D 1 when unregister each function=
+.  In what
+> case will the ref be not one?
+>=20
+
+If a return path is opened with qemu_file_get_return_path(), it will
+take additional references:
+
+qemu_file_get_return_path() (qemu-file.c)
+ f->ops->get_return_path() -> channel_get_input_return_path() (qemu-file-ch=
+annel.c)
+  qemu_fopen_channel_input() (qemu-file-channel.c)
+   object_ref(OBJECT(ioc))
+
+Regards,
+Lukas Straub
+
+--=20
+
+
+--Sig_/GUoLyyl1wm4EY.sM.1VrlGC
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAmC2UxEACgkQNasLKJxd
+sliAfA//Uce2b/HMrIImRIm+3xCbrewBTkjVkh5eSsk4zJiQYl85Ah0w6X0Odrxi
+Sc5uD3JUxfdcqa1PYwidPaLJFHsX/h2nmZiA9Pr5GDpMe9h4Df25JDBrajyKWTEH
+Oelq884hXKMzLThM3+n6ZFvxpw7PxRzWUxp6CvFPoBv0EDJ7uu+mKDZ6Eu2NZ1/7
+zXb2rnuDjyRJSdSfotrf8A59hrBPyUsmXIc5jWrRPhGMTOkwB5SiLmBHZcUdB/38
+hXu6xRJqclh3gq78QBPJCWZyWA3NzgBUqM+goxl+ReTsFAGtG68CziL+xxU5l78y
+jdCTqKoYNnU6WYT6k9n7w2VgiwE1XCKa8buoAPYFbUFvbOHfEiy/NcHamGO+B385
+L4O4gfyCnxhzoto3IreOpSIBnrAc+ex11PbSO9eNMM4GflTR/SzgPlm48ize/qew
+hn8gSRaq1cnTZN81ktaBVC6lhhO4oRWRh0p9g/qQuBssOE5gDpJJrIE2uX6uHogQ
+h+PP+UgBOAO/AoFQO3rzzZgdYtb3Nr+ta2BxkSHLm8wBsR/cI7z+5ittLkukmR0U
+kAsO+IDxAh6HwwhjCCcIaGKPcs53cAMST0R3InVZLZ/4giDJRfw1HmP3e+738v8K
+OUU8UJ9s2GCVOqGNMSNaaVOugrVk0wLRoqbkPyuQab+5wr1f+yI=
+=ftVd
+-----END PGP SIGNATURE-----
+
+--Sig_/GUoLyyl1wm4EY.sM.1VrlGC--
 
