@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFC0E3979DE
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Jun 2021 20:14:48 +0200 (CEST)
-Received: from localhost ([::1]:47634 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D42923979E2
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Jun 2021 20:16:25 +0200 (CEST)
+Received: from localhost ([::1]:55046 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lo8ud-00023H-QN
-	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 14:14:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43192)
+	id 1lo8wC-00070q-Ra
+	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 14:16:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43234)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1lo8qO-0001yc-VZ
- for qemu-devel@nongnu.org; Tue, 01 Jun 2021 14:10:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23836)
+ id 1lo8qU-00026V-20
+ for qemu-devel@nongnu.org; Tue, 01 Jun 2021 14:10:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52905)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1lo8qN-0005az-7R
- for qemu-devel@nongnu.org; Tue, 01 Jun 2021 14:10:24 -0400
+ id 1lo8qP-0005cb-6b
+ for qemu-devel@nongnu.org; Tue, 01 Jun 2021 14:10:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622571022;
+ s=mimecast20190719; t=1622571024;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=R57ND6+vzYJ+A27EAuFK8s6uaKLDP/UdLrP951bUWvg=;
- b=alMD6zVaSXs4jy4IeuT1qgJBtgxe+PKBy5h/KUZ7j3xXl+yUSSXXA4TogKsjTOwRuNI6R8
- KLGtHeXbtnaDSX2EwJnUgrHwqE9yePelgpwuHfVeO9X8ElA6JRwiXX6hJZHMrtBA1se5wY
- CACcVwu3vkLwLGJ2yLcUOUW9ggkMvaA=
+ bh=/8o5REEym/FIQDvXvPd7+wwuWGDEnF4d7W42t5/ybzw=;
+ b=AlhL+BRO9fD+IaY22qQwdGKasXaVLHlDSJ+DPAiTJlKKssSDcaG91BCZHCXAjRwIAuSAQM
+ OWviYZRZmCDUsr/een05kXKjARVVBm3WXLOK0zY7/oXMrnuK/DNKAO4J3wLnBv1eJbQ35J
+ n9JbCCWnfMFf0ZmQB1/mH/nl7dyrwjI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-328-Bx-2YlnGMWG4-61_QXJLAA-1; Tue, 01 Jun 2021 14:10:20 -0400
-X-MC-Unique: Bx-2YlnGMWG4-61_QXJLAA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-394-vetHwHL2MFK6ZqbcKEfNhA-1; Tue, 01 Jun 2021 14:10:21 -0400
+X-MC-Unique: vetHwHL2MFK6ZqbcKEfNhA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 457A28015F5;
- Tue,  1 Jun 2021 18:10:19 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 287CE79EC5;
+ Tue,  1 Jun 2021 18:10:20 +0000 (UTC)
 Received: from localhost (ovpn-112-239.rdu2.redhat.com [10.10.112.239])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 108ED2BFED;
- Tue,  1 Jun 2021 18:10:18 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E179510074FC;
+ Tue,  1 Jun 2021 18:10:19 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 05/24] i386/cpu_dump: support AVX512 ZMM regs dump
-Date: Tue,  1 Jun 2021 14:09:55 -0400
-Message-Id: <20210601181014.2568861-6-ehabkost@redhat.com>
+Subject: [PULL 06/24] i386: use better matching family/model/stepping for
+ 'qemu64' CPU
+Date: Tue,  1 Jun 2021 14:09:56 -0400
+Message-Id: <20210601181014.2568861-7-ehabkost@redhat.com>
 In-Reply-To: <20210601181014.2568861-1-ehabkost@redhat.com>
 References: <20210601181014.2568861-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
@@ -80,111 +81,77 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, Robert Hoo <robert.hu@linux.intel.com>
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Robert Hoo <robert.hu@linux.intel.com>
+From: Daniel P. Berrangé <berrange@redhat.com>
 
-Since commit fa4518741e (target-i386: Rename struct XMMReg to ZMMReg),
-CPUX86State.xmm_regs[] has already been extended to 512bit to support
-AVX512.
-Also, other qemu level supports for AVX512 registers are there for
-years.
-But in x86_cpu_dump_state(), still only dump XMM registers no matter
-YMM/ZMM is enabled.
-This patch is to complement this, let it dump XMM/YMM/ZMM accordingly.
+The 'qemu64' CPUID currently reports a family/model/stepping that
+approximately corresponds to an AMD K7 vintage architecture.
+The K7 series predates the introduction of 64-bit support by AMD
+in the K8 series. This has been reported to lead to LLVM complaints
+about generating 64-bit code for a 32-bit CPU target
 
-Signed-off-by: Robert Hoo <robert.hu@linux.intel.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <1618986232-73826-1-git-send-email-robert.hu@linux.intel.com>
+  LLVM ERROR: 64-bit code requested on a subtarget that doesn't support it!
+
+It appears LLVM looks at the family/model/stepping, despite qemu64
+reporting it is 64-bit capable.
+
+This patch changes 'qemu64' to report a CPUID with the family, model
+and stepping taken from a
+
+ AMD Athlon(tm) 64 X2 Dual Core Processor 4000+
+
+which is one of the first 64-bit AMD CPUs.
+
+Closes https://gitlab.com/qemu-project/qemu/-/issues/191
+
+Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
+Message-Id: <20210507133650.645526-2-berrange@redhat.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- target/i386/cpu-dump.c | 63 ++++++++++++++++++++++++++++++++----------
- 1 file changed, 48 insertions(+), 15 deletions(-)
+ hw/i386/pc.c      | 6 +++++-
+ target/i386/cpu.c | 6 +++---
+ 2 files changed, 8 insertions(+), 4 deletions(-)
 
-diff --git a/target/i386/cpu-dump.c b/target/i386/cpu-dump.c
-index aac21f1f60b..02b635a52cf 100644
---- a/target/i386/cpu-dump.c
-+++ b/target/i386/cpu-dump.c
-@@ -478,6 +478,11 @@ void x86_cpu_dump_state(CPUState *cs, FILE *f, int flags)
-     qemu_fprintf(f, "EFER=%016" PRIx64 "\n", env->efer);
-     if (flags & CPU_DUMP_FPU) {
-         int fptag;
-+        const uint64_t avx512_mask = XSTATE_OPMASK_MASK | \
-+                                     XSTATE_ZMM_Hi256_MASK | \
-+                                     XSTATE_Hi16_ZMM_MASK | \
-+                                     XSTATE_YMM_MASK | XSTATE_SSE_MASK,
-+                       avx_mask = XSTATE_YMM_MASK | XSTATE_SSE_MASK;
-         fptag = 0;
-         for(i = 0; i < 8; i++) {
-             fptag |= ((!env->fptags[i]) << i);
-@@ -499,21 +504,49 @@ void x86_cpu_dump_state(CPUState *cs, FILE *f, int flags)
-             else
-                 qemu_fprintf(f, " ");
-         }
--        if (env->hflags & HF_CS64_MASK)
--            nb = 16;
--        else
--            nb = 8;
--        for(i=0;i<nb;i++) {
--            qemu_fprintf(f, "XMM%02d=%08x%08x%08x%08x",
--                         i,
--                         env->xmm_regs[i].ZMM_L(3),
--                         env->xmm_regs[i].ZMM_L(2),
--                         env->xmm_regs[i].ZMM_L(1),
--                         env->xmm_regs[i].ZMM_L(0));
--            if ((i & 1) == 1)
--                qemu_fprintf(f, "\n");
--            else
--                qemu_fprintf(f, " ");
-+
-+        if ((env->xcr0 & avx512_mask) == avx512_mask) {
-+            /* XSAVE enabled AVX512 */
-+            for (i = 0; i < NB_OPMASK_REGS; i++) {
-+                qemu_fprintf(f, "Opmask%02d=%016"PRIx64"%s", i,
-+                             env->opmask_regs[i], ((i & 3) == 3) ? "\n" : " ");
-+            }
-+
-+            nb = (env->hflags & HF_CS64_MASK) ? 32 : 8;
-+            for (i = 0; i < nb; i++) {
-+                qemu_fprintf(f, "ZMM%02d=%016"PRIx64" %016"PRIx64" %016"PRIx64
-+                             " %016"PRIx64" %016"PRIx64" %016"PRIx64
-+                             " %016"PRIx64" %016"PRIx64"\n",
-+                             i,
-+                             env->xmm_regs[i].ZMM_Q(7),
-+                             env->xmm_regs[i].ZMM_Q(6),
-+                             env->xmm_regs[i].ZMM_Q(5),
-+                             env->xmm_regs[i].ZMM_Q(4),
-+                             env->xmm_regs[i].ZMM_Q(3),
-+                             env->xmm_regs[i].ZMM_Q(2),
-+                             env->xmm_regs[i].ZMM_Q(1),
-+                             env->xmm_regs[i].ZMM_Q(0));
-+            }
-+        } else if ((env->xcr0 & avx_mask)  == avx_mask) {
-+            /* XSAVE enabled AVX */
-+            nb = env->hflags & HF_CS64_MASK ? 16 : 8;
-+            for (i = 0; i < nb; i++) {
-+                qemu_fprintf(f, "YMM%02d=%016"PRIx64" %016"PRIx64" %016"PRIx64
-+                             " %016"PRIx64"\n", i,
-+                             env->xmm_regs[i].ZMM_Q(3),
-+                             env->xmm_regs[i].ZMM_Q(2),
-+                             env->xmm_regs[i].ZMM_Q(1),
-+                             env->xmm_regs[i].ZMM_Q(0));
-+            }
-+        } else { /* SSE and below cases */
-+            nb = env->hflags & HF_CS64_MASK ? 16 : 8;
-+            for (i = 0; i < nb; i++) {
-+                qemu_fprintf(f, "XMM%02d=%016"PRIx64" %016"PRIx64"%s",
-+                             i,
-+                             env->xmm_regs[i].ZMM_Q(1),
-+                             env->xmm_regs[i].ZMM_Q(0),
-+                             (i & 1) ? "\n" : " ");
-+            }
-         }
-     }
-     if (flags & CPU_DUMP_CODE) {
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index 8cfaf216e7b..c6d8d0d84d9 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -94,7 +94,11 @@
+ #include "trace.h"
+ #include CONFIG_DEVICES
+ 
+-GlobalProperty pc_compat_6_0[] = {};
++GlobalProperty pc_compat_6_0[] = {
++    { "qemu64" "-" TYPE_X86_CPU, "family", "6" },
++    { "qemu64" "-" TYPE_X86_CPU, "model", "6" },
++    { "qemu64" "-" TYPE_X86_CPU, "stepping", "3" },
++};
+ const size_t pc_compat_6_0_len = G_N_ELEMENTS(pc_compat_6_0);
+ 
+ GlobalProperty pc_compat_5_2[] = {
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index ff92d924ad9..078ec905522 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -1803,9 +1803,9 @@ static const X86CPUDefinition builtin_x86_defs[] = {
+         .name = "qemu64",
+         .level = 0xd,
+         .vendor = CPUID_VENDOR_AMD,
+-        .family = 6,
+-        .model = 6,
+-        .stepping = 3,
++        .family = 15,
++        .model = 107,
++        .stepping = 1,
+         .features[FEAT_1_EDX] =
+             PPRO_FEATURES |
+             CPUID_MTRR | CPUID_CLFLUSH | CPUID_MCA |
 -- 
 2.30.2
 
