@@ -2,141 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88288396F24
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Jun 2021 10:41:16 +0200 (CEST)
-Received: from localhost ([::1]:43310 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BAF8396FFF
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Jun 2021 11:10:08 +0200 (CEST)
+Received: from localhost ([::1]:40326 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lnzxX-0005K5-Ix
-	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 04:41:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38000)
+	id 1lo0PX-0005AZ-8U
+	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 05:10:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44258)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lnzwQ-0004Up-Hp; Tue, 01 Jun 2021 04:40:02 -0400
-Received: from mail-eopbgr40139.outbound.protection.outlook.com
- ([40.107.4.139]:63830 helo=EUR03-DB5-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lnzwN-0004GV-5U; Tue, 01 Jun 2021 04:40:01 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=XNA5hUB9LpzEhbVzEi+eLOKf7D6v1AHalnhP9CPAYTaGyo/PiuPaD+i7ymzXjeQz3g1awF2ij31K2KhAl+r4pWtgkjt8DYD5ZLjdAGB1eNYvX0lFgdZy7sBfpstvVm/StbN0LkP3lxgDdCuBDmFdL/t8835Q3pLpiDA5v4BIukbsQML6rSm+bmMDxas4UeEoQoVE7wNMQKOhXHmCYlIjFJOopstrdKZX2nQPTCtxDU81Ug3bA3KGkYyrf0T9WfAq7fnfH6YL+34B+qoG/CZnccDTheN8oteBySB5leM9O3u4JNs82JVvsRlIR02WBX0AjJT8wUe0ezjaqT5FRI1lTQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kdc9MovT92CM9T+y2pSSJCIPxdLazAfBPgt8gYPZxBQ=;
- b=FpPDZ5pu7XievD1EGF8vP+XFESzigO+rIuRHAQ1GxxGTfkEsDpFoM3CtmQQwwqpEORUUCNvGvi0W4LT3UwPE5irWBu63i2kUkGaDjeYHxQA+gUItdumfol31vlcjPIPoYWFVuHzq2WsGl8VZ5uc9npQB+HiaCQ/3zo/HTqVPwCl0WhKWbQmjbcNGPGhdKDdiwI0hAHC1cP5KHoWN6gsJUryHhYDD1+9Wm61iKcWXIFB1DCbSpoPz4l/v/Vg3jUT/bs7n45Fe5vsjR59yJv7nCg+P4O8aOzWpUCG5GPKHY7HTVXMBFhe506CAjAHSoliMBIL/8L1qk4IPtc3Nr4+TZA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kdc9MovT92CM9T+y2pSSJCIPxdLazAfBPgt8gYPZxBQ=;
- b=c+mM2MSTQ1fswIQZKrDpIX7GtmmpUNEg11ve4f2H/KRrJJ1b258ZMhIeUbRcumbTHobiqCOBZBHvTlozzUnPQzkLWONo8l/6elfAfnqG6ZmXr6dj3MIeFqme70eTJZ3QYp/cdhgHEC+SgIMyPFgCZ5MdE7q8/ThSPpaR2d5xPDU=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM6PR08MB3717.eurprd08.prod.outlook.com (2603:10a6:20b:8e::23)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.20; Tue, 1 Jun
- 2021 08:39:55 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::f928:f4f2:77c0:74b4]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::f928:f4f2:77c0:74b4%7]) with mapi id 15.20.4173.030; Tue, 1 Jun 2021
- 08:39:54 +0000
-Subject: Re: [PATCH v3 5/5] blkdebug: protect rules and suspended_reqs with a
- lock
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-References: <20210517145049.55268-1-eesposit@redhat.com>
- <20210517145049.55268-6-eesposit@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <43b0217f-4d3a-9380-c91e-ee86fe461c40@virtuozzo.com>
-Date: Tue, 1 Jun 2021 11:39:53 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.2
-In-Reply-To: <20210517145049.55268-6-eesposit@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [185.215.60.210]
-X-ClientProxiedBy: AM0PR03CA0071.eurprd03.prod.outlook.com (2603:10a6:208::48)
- To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lo0Lr-00041s-VH
+ for qemu-devel@nongnu.org; Tue, 01 Jun 2021 05:06:19 -0400
+Received: from indium.canonical.com ([91.189.90.7]:41762)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lo0Lh-0004bs-09
+ for qemu-devel@nongnu.org; Tue, 01 Jun 2021 05:06:19 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
+ id 1lo0LZ-00083B-Kp
+ for <qemu-devel@nongnu.org>; Tue, 01 Jun 2021 09:06:01 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 9C3C22E8187
+ for <qemu-devel@nongnu.org>; Tue,  1 Jun 2021 09:06:01 +0000 (UTC)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.8] (185.215.60.210) by
- AM0PR03CA0071.eurprd03.prod.outlook.com (2603:10a6:208::48) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4173.20 via Frontend Transport; Tue, 1 Jun 2021 08:39:54 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: f822b964-2c6e-4727-b891-08d924d8d46a
-X-MS-TrafficTypeDiagnostic: AM6PR08MB3717:
-X-Microsoft-Antispam-PRVS: <AM6PR08MB3717FC7381FE8D04E9710DB3C13E9@AM6PR08MB3717.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2512;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: VXUK9nOLqauYMGPDZHel2xX2fWpEfvXCETtOANhoQDASVhCyK6jLgb/mGvnYGca42dOjdTDiKfA8k/m+WJ/ToAXi/4I0pZMHIoQTy/SKOUHoa9wIMuN5yDNqA72XXmKQq2S9cekUmoOteb9xboh3Fd06IvE8OraZDN7UZJ9KSdtfm8bAdvqJ0mwSGQJosjTODlHRT2Kd+B0vPlQjQDlh9FZdkd7M2RQvi+rNkpBfs2qJ+GEUFARz/Lkgw+7fxSqh/M93u1vSsiKvhqxHHpi09PnXDa2NUU0UNN3+wAVhl39fDSjPkJLM+knx2QeNHEyXD2mByitvH4WX7JrXHo4RtWQFbxnhlJ8vA83hD+PIH45QuSlbqF0We5K8nyQnRjTxd18GVJzgGA9Pr7a6reR/GO7LEc2sxDcj1B8XVNmnHoXiVvpSjb8pNTLMDvFl4ayJKQ3utETBDB1RtnJnA3243x556OSBYIAn+NngGU1aCYztzR3MAitCFVPbGt2BP5rpPkNmQq6y1CCX01sGWq63wIwAVJeVgZYHX/yzjd98qhmMC4iKehNA4iAoxPdToSYcSt5fuYcyFmoMH2DLDOE3/DTFjFyD3NiDvwEJirQISuqp1hKnv72PtcGg8Gr5t3naAz0Q9OuaXQHlSOf6ze0VSgktDAi7OtfUFjViwkmgQcVia9dJLVqQcKwGPoHewsB9DZZSIgy/JS+XplfznPb4FQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(376002)(366004)(136003)(396003)(39840400004)(346002)(8936002)(66476007)(66946007)(86362001)(36756003)(2906002)(956004)(2616005)(5660300002)(52116002)(31696002)(66556008)(26005)(8676002)(83380400001)(16576012)(31686004)(186003)(16526019)(15650500001)(4326008)(316002)(478600001)(6486002)(38100700002)(38350700002)(54906003)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?a0VZemZzTkN1YWtXWmJaMVJhY3ZjVEN2YWdrTmtpdnVvNktvL1ZHMEU1azFL?=
- =?utf-8?B?K3dlY1pVWG9rVjJDTEI3NGJzQWl1ZHpudjl2bkxPSktLTDdXRXI5UjUrMWVW?=
- =?utf-8?B?cjJ3RWdiUG12WGZyb1RvVXFQY0Zkelg1OWVKdjAzWVBpYTErRzBWTUNPQkww?=
- =?utf-8?B?M3hZa3BDNk9jSmtDUnNKcmY1aEdTNkJTemQvOEdMK0I0YlhvQThEUWg4QzI1?=
- =?utf-8?B?WHJzbzlYWmU2UTRYVlhLUE9kUmtNbmIvZEhybU5KNHowKzhjTVNJZ3ZtbTFN?=
- =?utf-8?B?K0lMMTNyVndZMEt6QlhBMGQvOWZ2NWhLWS9GMG1UQXpPZi9Na0R5MG9tZ3ZN?=
- =?utf-8?B?UnVWK3kzZGg2L1EweGMzVk1YUzVsWDY5K0pEa3NheHQrNldCSTFyVzdBL05H?=
- =?utf-8?B?aXVwSFEwZDhpcVEwbEM2V1AwekpCOFdabCsxQXFkcnkydlJYdUZqRjVTenQv?=
- =?utf-8?B?QUxieGhmRTVQQ1lPRloxL0F0U0dEcnZ1ZnVHZlpqVUR5bGNYRjlzQTVLak5C?=
- =?utf-8?B?WmY5ZHgrVlF1d1Zjb2d5QnhPZ2F4b3kyUlV2ZG8wOC9qS0lpOGViVnNXYVBj?=
- =?utf-8?B?ZE1LbEhRbEhpWmh5ODBRc1lLSElhWFgrTFpRL2xuamlJQzltbHJ6RCtaV1RU?=
- =?utf-8?B?NkxSKzMyb1F6YnFtTzJ2QlU3OHc1YnlpaC83VnF5b1FwYS9USE93UXU5d2hS?=
- =?utf-8?B?L0dlb0t3SkhDMzNkNFRWQjNFVWgraFpTcVhwQnhmU01LbUltdnNHNkdKQ0tk?=
- =?utf-8?B?bzBRZjlsK3pIM3hDRVh0RGFzWXY0ZEtNdjVLRDdzcVVEWTB6VWMzTTNnUTc3?=
- =?utf-8?B?V295dmtRWVNPMHlqVCthVUxvNm9mL2FDR2VhNzY4VHRXR0dacWU4UmFrd1dX?=
- =?utf-8?B?QW4rTkdxZjVxdlVEK0VUSm1sNnJ1dUxFYVhtcllGYm04MFRFVTVHV3Z6RG1h?=
- =?utf-8?B?QmloVDYwTStHLzFWNHJnRWp1OFNLL1hQZ2xGZXdGd1FmbFFJaExSOFoyN2xZ?=
- =?utf-8?B?OTdMckZMWldhcVNRZUYvVFFyWWFtUy9oVTA2ZUlnc3JoVkxZK01wVmt4MWhG?=
- =?utf-8?B?SmFEZUFXSDAxV2FwUGEwVE9FNnNYOXp5ZUV1QnN0QVRTUEpVQkQrZFpkRmRV?=
- =?utf-8?B?Zk56NFBrem95d25JN2hta2NDcUlWQnY0Z0RUekRNQk1jdk5BaUc0TmtVTmY1?=
- =?utf-8?B?SFhKUEhhcGNZQXY1UUU5WWFGcUVaMmxrcEp4d3lmNmJiQXArQ3owelhPc1BW?=
- =?utf-8?B?N2QxQWdMbGU0bUJVa25MZU9qb3A0YkVDVEs4YmV3ZVpxcjdoOTdhdkZiWDNY?=
- =?utf-8?B?UnhzWDQxd0RwRHNBTW42MU44OUV3bkZhU2swZ29rOXFhK2FaZ21zR3NpUHNJ?=
- =?utf-8?B?S0F6M29rN3NjUGFrbys4bHdGNkJPSFBDWk1xZG54MGtxdUZLcDA2dkIwaWxS?=
- =?utf-8?B?dTQ5bFFxYVBXTWh5NkFDSmg2UnFscmhLdVQwWVlJRWlBaDZEWGFYZ1NrMDRC?=
- =?utf-8?B?SFZTUWtOS210cDArbFlDRUpPdVpDNFk0dDZ0bVNJalhDb3Ura283NDVUbE1C?=
- =?utf-8?B?aFRwMkx1NFR1QTByQjIvVEFmb0IvRzl3YzVZbWtWNW82VldDKzFWWWpnOFJ2?=
- =?utf-8?B?aTJIbklBVncvVTdOaDVlL0pVNXhoV1BudkNxbzVXbm5UcFMySzcxb3lHV0o2?=
- =?utf-8?B?MUhRVUxSRFBSQmRRMWZPVTFqMklVUUpiaHF3NmNFWWhzc0hnazF0aktqTHpR?=
- =?utf-8?Q?1SFyLTSKYKw5vpZfHXfEdoWlh40LWUR09qGtblB?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f822b964-2c6e-4727-b891-08d924d8d46a
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jun 2021 08:39:54.6528 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: rCaeDV9I/wzggQnwNttFxpGbTw97savWKVnRS7hBgTT3TRsRm73HCNlz28B6drC4KyfAg9IJ0aSvp7Wd3j7/okH6dElahLbIky3OblJQj3k=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3717
-Received-SPF: pass client-ip=40.107.4.139;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR03-DB5-obe.outbound.protection.outlook.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.591, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 01 Jun 2021 09:00:07 -0000
+From: Thomas Huth <1926111@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: fuzzer
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: a1xndr philmd th-huth
+X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <161940714680.11021.12941917748278413607.malonedeb@soybean.canonical.com>
+Message-Id: <162253800726.2252.17425555873521755324.malone@gac.canonical.com>
+Subject: [Bug 1926111] Re: Assertion `tx_queue_idx <= s->txq_num' failed in
+ vmxnet3_io_bar0_write
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="925b661396f90467a0d31fdfb13d4990b7239925"; Instance="production"
+X-Launchpad-Hash: 4501344ea09180d5c568d8da0f6e4b0517225b43
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -145,252 +72,122 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Bug 1926111 <1926111@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-17.05.2021 17:50, Emanuele Giuseppe Esposito wrote:
-> Co-developed-by: Paolo Bonzini <pbonzini@redhat.com>
-> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-> ---
->   block/blkdebug.c | 53 ++++++++++++++++++++++++++++++++++++------------
->   1 file changed, 40 insertions(+), 13 deletions(-)
-> 
-> diff --git a/block/blkdebug.c b/block/blkdebug.c
-> index dffd869b32..cf8b088ce7 100644
-> --- a/block/blkdebug.c
-> +++ b/block/blkdebug.c
-> @@ -54,6 +54,7 @@ typedef struct BDRVBlkdebugState {
->       /* For blkdebug_refresh_filename() */
->       char *config_file;
->   
-> +    QemuMutex lock;
+I can reproduce this issue with the latest version of QEMU. Marking as
+"Confirmed"
 
-we'll need a comments, which fields are protected by the lock, like in other your series.
+** Changed in: qemu
+       Status: New =3D> Confirmed
 
-and also a comment which functions are thread-safe after the patch.
+-- =
 
-remove_rule() lacks comment, like "Called with lock held or from .bdrv_close"
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1926111
 
->       QLIST_HEAD(, BlkdebugRule) rules[BLKDBG__MAX];
->       QSIMPLEQ_HEAD(, BlkdebugRule) active_rules;
->       QLIST_HEAD(, BlkdebugSuspendedReq) suspended_reqs;
-> @@ -245,7 +246,9 @@ static int add_rule(void *opaque, QemuOpts *opts, Error **errp)
->       };
->   
->       /* Add the rule */
-> +    qemu_mutex_lock(&s->lock);
->       QLIST_INSERT_HEAD(&s->rules[event], rule, next);
-> +    qemu_mutex_unlock(&s->lock);
->   
->       return 0;
->   }
-> @@ -468,6 +471,7 @@ static int blkdebug_open(BlockDriverState *bs, QDict *options, int flags,
->       int ret;
->       uint64_t align;
->   
-> +    qemu_mutex_init(&s->lock);
->       opts = qemu_opts_create(&runtime_opts, NULL, 0, &error_abort);
->       if (!qemu_opts_absorb_qdict(opts, options, errp)) {
->           ret = -EINVAL;
-> @@ -568,6 +572,7 @@ static int blkdebug_open(BlockDriverState *bs, QDict *options, int flags,
->       ret = 0;
->   out:
->       if (ret < 0) {
-> +        qemu_mutex_destroy(&s->lock);
->           g_free(s->config_file);
->       }
->       qemu_opts_del(opts);
-> @@ -582,6 +587,7 @@ static int rule_check(BlockDriverState *bs, uint64_t offset, uint64_t bytes,
->       int error;
->       bool immediately;
->   
-> +    qemu_mutex_lock(&s->lock);
->       QSIMPLEQ_FOREACH(rule, &s->active_rules, active_next) {
->           uint64_t inject_offset = rule->options.inject.offset;
->   
-> @@ -595,6 +601,7 @@ static int rule_check(BlockDriverState *bs, uint64_t offset, uint64_t bytes,
->       }
->   
->       if (!rule || !rule->options.inject.error) {
-> +        qemu_mutex_unlock(&s->lock);
->           return 0;
->       }
->   
-> @@ -606,6 +613,7 @@ static int rule_check(BlockDriverState *bs, uint64_t offset, uint64_t bytes,
->           remove_rule(rule);
->       }
->   
-> +    qemu_mutex_unlock(&s->lock);
->       if (!immediately) {
->           aio_co_schedule(qemu_get_current_aio_context(), qemu_coroutine_self());
->           qemu_coroutine_yield();
-> @@ -771,8 +779,10 @@ static void blkdebug_close(BlockDriverState *bs)
->       }
->   
->       g_free(s->config_file);
-> +    qemu_mutex_destroy(&s->lock);
->   }
->   
-> +/* Called with lock held.  */
->   static void suspend_request(BlockDriverState *bs, BlkdebugRule *rule)
->   {
->       BDRVBlkdebugState *s = bs->opaque;
-> @@ -791,6 +801,7 @@ static void suspend_request(BlockDriverState *bs, BlkdebugRule *rule)
->       }
->   }
->   
-> +/* Called with lock held.  */
->   static void process_rule(BlockDriverState *bs, struct BlkdebugRule *rule,
->                            int *action_count)
->   {
-> @@ -829,9 +840,11 @@ static void blkdebug_debug_event(BlockDriverState *bs, BlkdebugEvent event)
->   
->       assert((int)event >= 0 && event < BLKDBG__MAX);
->   
-> -    s->new_state = s->state;
-> -    QLIST_FOREACH_SAFE(rule, &s->rules[event], next, next) {
-> -        process_rule(bs, rule, actions_count);
-> +    WITH_QEMU_LOCK_GUARD(&s->lock) {
-> +        s->new_state = s->state;
-> +        QLIST_FOREACH_SAFE(rule, &s->rules[event], next, next) {
-> +            process_rule(bs, rule, actions_count);
-> +        }
->       }
->   
->       while (actions_count[ACTION_SUSPEND] > 0) {
-> @@ -839,7 +852,9 @@ static void blkdebug_debug_event(BlockDriverState *bs, BlkdebugEvent event)
->           actions_count[ACTION_SUSPEND]--;
->       }
->   
-> +    qemu_mutex_lock(&s->lock);
->       s->state = s->new_state;
-> +    qemu_mutex_unlock(&s->lock);
->   }
+Title:
+  Assertion `tx_queue_idx <=3D s->txq_num' failed in vmxnet3_io_bar0_write
 
-Preexising: honestly, I don't understand the logic around state and new_state.. (and therefore, I'm not sure, is it in good relation with patch 04)
+Status in QEMU:
+  Confirmed
 
-It come in the commit
+Bug description:
+  =3D=3D=3D Stacktrace =3D=3D=3D
 
-commit 8f96b5be92fbd74798b97b1dc1ff5fbbe249ed11
-Author: Paolo Bonzini <pbonzini@redhat.com>
-Date:   Fri Sep 28 17:23:00 2012 +0200
+  qemu-fuzz-i386: ../hw/net/vmxnet3.c:1096: void vmxnet3_io_bar0_write(void=
+ *, hwaddr, uint64_t, unsigned int): Assertion `tx_queue_idx <=3D s->txq_nu=
+m' failed.
+  =3D=3D602353=3D=3D ERROR: libFuzzer: deadly signal
+  #5 0x7fe4b93a7ce0 in raise signal/../sysdeps/unix/sysv/linux/raise.c:48:3
+  #6 0x7fe4b9391536 in abort stdlib/abort.c:79:7
+  #7 0x7fe4b939140e in __assert_fail_base assert/assert.c:92:3
+  #8 0x7fe4b93a0661 in __assert_fail assert/assert.c:101:3
+  #9 0x563e6cf5ebb5 in vmxnet3_io_bar0_write  hw/net/vmxnet3.c:1096:9
+  #10 0x563e6eefdb00 in memory_region_write_accessor  softmmu/memory.c:491:5
+  #11 0x563e6eefcfdd in access_with_adjusted_size  softmmu/memory.c:552:18
+  #12 0x563e6eefac90 in memory_region_dispatch_write  softmmu/memory.c:1502=
+:16
+  #13 0x563e6e834e16 in flatview_write_continue  softmmu/physmem.c:2746:23
+  #14 0x563e6e81cd38 in flatview_write  softmmu/physmem.c:2786:14
+  #15 0x563e6e81c868 in address_space_write  softmmu/physmem.c:2878:18
 
-     blkdebug: process all set_state rules in the old state
-     
-     Currently it is impossible to write a blkdebug script that ping-pongs
-     between two states, because the second set-state rule will use the
-     state that is set in the first.  If you have
-     
-         [set-state]
-         event = "..."
-         state = "1"
-         new_state = "2"
-     
-         [set-state]
-         event = "..."
-         state = "2"
-         new_state = "1"
-     
-     for example the state will remain locked at 1.  This can be fixed
-     by first processing all rules, and then setting the state.
+  =3D=3D=3D Reproducer =3D=3D=3D
+  cat << EOF | ./qemu-system-i386  -display none -machine accel=3Dqtest, -m=
+ \
+  512M -machine q35 -nodefaults -device vmxnet3,netdev=3Dnet0 -netdev \
+  user,id=3Dnet0 -qtest stdio
+  outl 0xcf8 0x80000810
+  outl 0xcfc 0xe0000000
+  outl 0xcf8 0x80000814
+  outl 0xcf8 0x80000804
+  outw 0xcfc 0x7
+  outl 0xcf8 0x80000815
+  outl 0xcfc 0xffff00b5
+  write 0x0 0x1 0xe1
+  write 0x1 0x1 0xfe
+  write 0x2 0x1 0xbe
+  write 0x3 0x1 0xba
+  write 0xff00b020 0x4 0x0000feca
+  write 0xe0000630 0x1 0x00
+  EOF
 
-But I don't understand, whey it should remain locked..
+  =
 
-And this logic is not safe: another event may happen during the yield, and will operate on the same s->state and s->new_state, leading the the mess.
+  =3D=3D=3D Testcase =3D=3D=3D
 
->   
->   static int blkdebug_debug_breakpoint(BlockDriverState *bs, const char *event,
-> @@ -862,11 +877,14 @@ static int blkdebug_debug_breakpoint(BlockDriverState *bs, const char *event,
->           .options.suspend.tag = g_strdup(tag),
->       };
->   
-> +    qemu_mutex_lock(&s->lock);
->       QLIST_INSERT_HEAD(&s->rules[blkdebug_event], rule, next);
-> +    qemu_mutex_unlock(&s->lock);
->   
->       return 0;
->   }
->   
-> +/* Called with lock held.  */
+  /*
+   * Autogenerated Fuzzer Test Case
+   *
+   * This work is licensed under the terms of the GNU GPL, version 2 or lat=
+er.
+   * See the COPYING file in the top-level directory.
+   */
 
-I think, it would be a very good practice to include into convention:
+  #include "qemu/osdep.h"
 
-May temporarily release lock.
+  #include "libqos/libqtest.h"
 
->   static int resume_req_by_tag(BDRVBlkdebugState *s, const char *tag, bool all)
->   {
->       BlkdebugSuspendedReq *r;
-> @@ -884,7 +902,9 @@ retry:
->               g_free(r->tag);
->               g_free(r);
->   
-> +            qemu_mutex_unlock(&s->lock);
->               qemu_coroutine_enter(co);
-> +            qemu_mutex_lock(&s->lock);
->   
->               if (all) {
->                   goto retry;
-> @@ -898,8 +918,12 @@ retry:
->   static int blkdebug_debug_resume(BlockDriverState *bs, const char *tag)
->   {
->       BDRVBlkdebugState *s = bs->opaque;
-> +    int rc;
+  static void test_fuzz(void) {
+      QTestState *s =3D qtest_init(" -display none , -m 512M -machine q35 -=
+nodefaults "
+                                 "-device vmxnet3,netdev=3Dnet0 -netdev use=
+r,id=3Dnet0");
+      qtest_outl(s, 0xcf8, 0x80000810);
+      qtest_outl(s, 0xcfc, 0xe0000000);
+      qtest_outl(s, 0xcf8, 0x80000814);
+      qtest_outl(s, 0xcf8, 0x80000804);
+      qtest_outw(s, 0xcfc, 0x7);
+      qtest_outl(s, 0xcf8, 0x80000815);
+      qtest_outl(s, 0xcfc, 0xffff00b5);
+      qtest_bufwrite(s, 0x0, "\xe1", 0x1);
+      qtest_bufwrite(s, 0x1, "\xfe", 0x1);
+      qtest_bufwrite(s, 0x2, "\xbe", 0x1);
+      qtest_bufwrite(s, 0x3, "\xba", 0x1);
+      qtest_bufwrite(s, 0xff00b020, "\x00\x00\xfe\xca", 0x4);
+      qtest_bufwrite(s, 0xe0000630, "\x00", 0x1);
+      qtest_quit(s);
+  }
+  int main(int argc, char **argv) {
+      const char *arch =3D qtest_get_arch();
 
-Hmm, you can simply use QEMU_LOCK_GUARD
+      g_test_init(&argc, &argv, NULL);
 
->   
-> -    return resume_req_by_tag(s, tag, false);
-> +    qemu_mutex_lock(&s->lock);
-> +    rc = resume_req_by_tag(s, tag, false);
-> +    qemu_mutex_unlock(&s->lock);
-> +    return rc;
->   }
->   
->   static int blkdebug_debug_remove_breakpoint(BlockDriverState *bs,
-> @@ -909,17 +933,19 @@ static int blkdebug_debug_remove_breakpoint(BlockDriverState *bs,
->       BlkdebugRule *rule, *next;
->       int i, ret = -ENOENT;
->   
-> -    for (i = 0; i < BLKDBG__MAX; i++) {
-> -        QLIST_FOREACH_SAFE(rule, &s->rules[i], next, next) {
-> -            if (rule->action == ACTION_SUSPEND &&
-> -                !strcmp(rule->options.suspend.tag, tag)) {
-> -                remove_rule(rule);
-> -                ret = 0;
-> +    WITH_QEMU_LOCK_GUARD(&s->lock) {
+      if (strcmp(arch, "i386") =3D=3D 0) {
+          qtest_add_func("fuzz/test_fuzz", test_fuzz);
+      }
 
-And here, instead of increasing nesting, let's use QEMU_LOCK_GUARD()
+      return g_test_run();
+  }
 
-> +        for (i = 0; i < BLKDBG__MAX; i++) {
-> +            QLIST_FOREACH_SAFE(rule, &s->rules[i], next, next) {
-> +                if (rule->action == ACTION_SUSPEND &&
-> +                    !strcmp(rule->options.suspend.tag, tag)) {
-> +                    remove_rule(rule);
-> +                    ret = 0;
-> +                }
->               }
->           }
-> -    }
-> -    if (resume_req_by_tag(s, tag, true) == 0) {
-> -        ret = 0;
-> +        if (resume_req_by_tag(s, tag, true) == 0) {
-> +            ret = 0;
-> +        }
->       }
->       return ret;
->   }
-> @@ -929,6 +955,7 @@ static bool blkdebug_debug_is_suspended(BlockDriverState *bs, const char *tag)
->       BDRVBlkdebugState *s = bs->opaque;
->       BlkdebugSuspendedReq *r;
->   
-> +    QEMU_LOCK_GUARD(&s->lock);
->       QLIST_FOREACH(r, &s->suspended_reqs, next) {
->           if (!strcmp(r->tag, tag)) {
->               return true;
-> 
+  =
 
+  =3D=3D=3D OSS-Fuzz Report =3D=3D=3D
+  https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=3D33603
+  https://oss-fuzz.com/testcase?key=3D6071483232288768
 
--- 
-Best regards,
-Vladimir
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1926111/+subscriptions
 
