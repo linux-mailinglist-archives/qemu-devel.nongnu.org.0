@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73A0A397466
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Jun 2021 15:34:24 +0200 (CEST)
-Received: from localhost ([::1]:46258 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E148C397470
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Jun 2021 15:37:05 +0200 (CEST)
+Received: from localhost ([::1]:53746 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lo4XH-0003WF-HT
-	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 09:34:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43192)
+	id 1lo4Zs-0000bZ-Ug
+	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 09:37:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43224)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lo4O7-0001nz-BI
- for qemu-devel@nongnu.org; Tue, 01 Jun 2021 09:24:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23862)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lo4OG-0002IQ-FF
+ for qemu-devel@nongnu.org; Tue, 01 Jun 2021 09:25:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54652)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lo4O5-0007Uu-NO
- for qemu-devel@nongnu.org; Tue, 01 Jun 2021 09:24:55 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lo4OE-0007ab-RC
+ for qemu-devel@nongnu.org; Tue, 01 Jun 2021 09:25:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622553893;
+ s=mimecast20190719; t=1622553902;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3kX+f7N4OZcVBJKvFr8puI6TgrBvyijJS4EBLG3SHMw=;
- b=Syx1q6TYtf1dnLUuz4C0GPKoxXtQb6nFnDpXgelYFKHO7icpgTdUjf5FfW1di5Qug3yzJX
- IloIW43LXGueJ0fBOitxzfnUg4J5XY96uma7QLfEsIBF409TrZT4yWVZyd33sUt8as/8Ue
- EXap8fPtd5e7LXGa5QpxqvQHGN477GY=
+ bh=4OUpCO7YtxZeJ9uzwyHxjLe7IVac+o4JnDksCh3ohz4=;
+ b=FefSUvqNaN0C1ZgR29qYZB/28HS0DwHfLuhXeQ9Xji48FfBpTyhLD1IPt9reuPc0Jwmp4Q
+ D/zrhlNjgCOg7T+pN122vyeYjfPZGmSxHP/a1THqy+iqrPj4IV2KOSQ6FatYy5mYD1hB37
+ Je60rUGPx/0ujl9l3OnBfkEXn4Q5zLc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-425-vHNqExR7NS-NKc4WagdWJA-1; Tue, 01 Jun 2021 09:24:51 -0400
-X-MC-Unique: vHNqExR7NS-NKc4WagdWJA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-310-xpFWjixpM32M-Rv2jfIa0g-1; Tue, 01 Jun 2021 09:25:00 -0400
+X-MC-Unique: xpFWjixpM32M-Rv2jfIa0g-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9F573189C447
- for <qemu-devel@nongnu.org>; Tue,  1 Jun 2021 13:24:50 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 97E61107ACED
+ for <qemu-devel@nongnu.org>; Tue,  1 Jun 2021 13:24:59 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-84.ams2.redhat.com
  [10.36.112.84])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B49436A035;
- Tue,  1 Jun 2021 13:24:40 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C5B865D9CD;
+ Tue,  1 Jun 2021 13:24:49 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 7F18818003AF; Tue,  1 Jun 2021 15:24:14 +0200 (CEST)
+ id 8BB9F18003B0; Tue,  1 Jun 2021 15:24:14 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 05/13] trace/simple: add st_init_group
-Date: Tue,  1 Jun 2021 15:24:06 +0200
-Message-Id: <20210601132414.432430-6-kraxel@redhat.com>
+Subject: [PATCH v4 06/13] meson: add trace_events_config[]
+Date: Tue,  1 Jun 2021 15:24:07 +0200
+Message-Id: <20210601132414.432430-7-kraxel@redhat.com>
 In-Reply-To: <20210601132414.432430-1-kraxel@redhat.com>
 References: <20210601132414.432430-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -86,65 +86,58 @@ Cc: Markus Armbruster <armbru@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add helper function and call it for each trace event group added.
-Makes sure that events added at module load time are initialized
-properly.
+It's an array of dicts, where each dict holds the configuration for one
+trace-events file.  For now just fill it from trace_events_subdirs.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- trace/simple.h  |  1 +
- trace/control.c |  4 ++++
- trace/simple.c  | 12 ++++++++++++
- 3 files changed, 17 insertions(+)
+ meson.build       |  1 +
+ trace/meson.build | 18 +++++++++++++++---
+ 2 files changed, 16 insertions(+), 3 deletions(-)
 
-diff --git a/trace/simple.h b/trace/simple.h
-index 26ccbc8b8ae3..ee1983ce5617 100644
---- a/trace/simple.h
-+++ b/trace/simple.h
-@@ -15,6 +15,7 @@ void st_print_trace_file_status(void);
- bool st_set_trace_file_enabled(bool enable);
- void st_set_trace_file(const char *file);
- bool st_init(void);
-+void st_init_group(size_t group);
- void st_flush_trace_buffer(void);
+diff --git a/meson.build b/meson.build
+index a45f1a844f13..84a9e17533cb 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1774,6 +1774,7 @@ target_user_arch = {}
  
- typedef struct {
-diff --git a/trace/control.c b/trace/control.c
-index 2c904b7ee4c6..d5b68e846eeb 100644
---- a/trace/control.c
-+++ b/trace/control.c
-@@ -82,6 +82,10 @@ void trace_event_register_group(TraceEvent **events)
-     event_groups = g_renew(TraceEventGroup, event_groups, nevent_groups + 1);
-     event_groups[nevent_groups].events = events;
-     nevent_groups++;
-+
-+#ifdef CONFIG_TRACE_SIMPLE
-+    st_init_group(nevent_groups - 1);
-+#endif
- }
+ # TODO: add each directory to the subdirs from its own meson.build, once
+ # we have those
++trace_events_config = []
+ trace_events_subdirs = [
+   'crypto',
+   'qapi',
+diff --git a/trace/meson.build b/trace/meson.build
+index 08f83a15c316..bc946495a714 100644
+--- a/trace/meson.build
++++ b/trace/meson.build
+@@ -2,10 +2,22 @@
+ specific_ss.add(files('control-target.c'))
  
- 
-diff --git a/trace/simple.c b/trace/simple.c
-index ec2156d135cb..ac499edee0d5 100644
---- a/trace/simple.c
-+++ b/trace/simple.c
-@@ -422,3 +422,15 @@ bool st_init(void)
-     atexit(st_flush_trace_buffer);
-     return true;
- }
+ trace_events_files = []
+-foreach dir : [ '.' ] + trace_events_subdirs
+-  trace_events_file = meson.source_root() / dir / 'trace-events'
 +
-+void st_init_group(size_t group)
-+{
-+    TraceEventIter iter;
-+
-+    if (!trace_writeout_enabled) {
-+        return;
-+    }
-+
-+    trace_event_iter_init_group(&iter, group);
-+    st_write_event_mapping(&iter);
++trace_events_config += {
++  'file'  : meson.source_root() / 'trace-events',
++  'group' : 'root',
 +}
++foreach dir : trace_events_subdirs
++  trace_events_config += {
++    'file'  : meson.source_root() / dir / 'trace-events',
++    'group' : dir.underscorify(),
++  }
++endforeach
++
++foreach c : trace_events_config
++  trace_events_file = c.get('file')
+   trace_events_files += [ trace_events_file ]
+-  group_name = dir == '.' ? 'root' : dir.underscorify()
++  group_name = c.get('group')
+   group = '--group=' + group_name
+   fmt = '@0@-' + group_name + '.@1@'
+ 
 -- 
 2.31.1
 
