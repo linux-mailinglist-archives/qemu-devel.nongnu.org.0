@@ -2,57 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77B6A397B35
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Jun 2021 22:25:45 +0200 (CEST)
-Received: from localhost ([::1]:55000 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C98F397B3F
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Jun 2021 22:28:36 +0200 (CEST)
+Received: from localhost ([::1]:38190 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loAxM-0007n2-0o
-	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 16:25:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42262)
+	id 1loB07-0007IJ-0t
+	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 16:28:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44092)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
- id 1loAvb-0006an-4J; Tue, 01 Jun 2021 16:23:55 -0400
-Received: from mail.kernel.org ([198.145.29.99]:34706)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
- id 1loAvZ-0007q4-7H; Tue, 01 Jun 2021 16:23:54 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 8C3D8610A8;
- Tue,  1 Jun 2021 20:23:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1622579031;
- bh=AJPrXfQbP6PQuIlAbIIEJRSFLnjUR4tLOyee55HR5Bk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=tFHjh3uS93Ugb4jWeMfKawTGAqbU92zvL1b+zLrtUgr9C82b/M35ykZ/1HoPbYyWM
- E+zDKflyaof7KYFQXx74mFYbBWJ4tXMac5FMRrwgh/PvO2umiUPWzNl8Z1fYY1/WxO
- r50zhtCaUFvkjiF3jjNhYXSC594G0okDfbtnV6LYJSMESfl7qBL96HMhtYcYeqhCde
- C8JGnIAQ+RuCrXRU1XB0/8zJrrGjq0PmcsE7DBM4AgsYzBg6i4I2DkMc9KLKq9sVHb
- LzKrUJBH0Bp/Mgu26q/XqTYeLItsTIp+fv7hS699hXFktiDTnS5hyuU3z5X4jcPkXA
- GNVo0vpk97YFQ==
-Date: Tue, 1 Jun 2021 13:23:48 -0700
-From: Keith Busch <kbusch@kernel.org>
-To: Klaus Jensen <its@irrelevant.dk>
-Subject: Re: [PATCH v2 1/2] hw/nvme: add support for boot partiotions
-Message-ID: <20210601202348.GB4527@dhcp-10-100-145-180.wdc.com>
-References: <20210601143749.1669-1-anaidu.gollu@samsung.com>
- <CGME20210601144234epcas5p153e855ad673876cf67e57d4b539dc274@epcas5p1.samsung.com>
- <20210601143749.1669-2-anaidu.gollu@samsung.com>
- <20210601171936.GB4506@dhcp-10-100-145-180.wdc.com>
- <YLZxTlikAcJD98Ut@apples.localdomain>
- <20210601180724.GA4527@dhcp-10-100-145-180.wdc.com>
- <YLaFjPPj4Bq+a0m7@apples.localdomain>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1loAz1-0005gF-6L
+ for qemu-devel@nongnu.org; Tue, 01 Jun 2021 16:27:27 -0400
+Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c]:37481)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1loAyz-0002Im-9X
+ for qemu-devel@nongnu.org; Tue, 01 Jun 2021 16:27:26 -0400
+Received: by mail-pf1-x42c.google.com with SMTP id y15so414223pfl.4
+ for <qemu-devel@nongnu.org>; Tue, 01 Jun 2021 13:27:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=FZ31macvvAU7ox/dsVC1HJDzINgo8q6nZ82L1RujB90=;
+ b=tbhSWs0NZFD0VvAKqZyJBVKzFQjajBQXRkNZXaS29MHhkyJWd7sSXV2dG3ka9HS5qC
+ Erx0RG86HZh2M50lDrbGlT58sjTLxF7S5MN4uGK65P/TxzD2AlES5zsyEPaU9pGiARX+
+ CbxvvO8jSq3u4TyIblqxbW8hucJHVxFjJiMDrpp7kGIWn1uadFpYX7QQlL+PN/08lr3Q
+ 5WbwVAbJI1Era/4afcRwEzMcqJxXqR48d9iifPGjDOHrrMXR69BoeaBQenvlh5P8tZPJ
+ M72IyKtmh3NEZY41czUGfxHSX1g4serDNwzLW/M8zLSkqXT9XyTgnzvZLfC5ea1ceoYI
+ Cykg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=FZ31macvvAU7ox/dsVC1HJDzINgo8q6nZ82L1RujB90=;
+ b=ppbOJyLIiYvRfHTj1gtIzGOJfULNjAqhGFdKHnyxShjXB3bDbikTvwh5IBgajo4odR
+ /Ag2mrC710xGfKQ3IfgSDUVNKP4Q61Mf7MiJHYEuFq9OSHTCmyL/eAYbYHR/MujZ0yOi
+ s9brWazWEVImeKaw+9+2+C/lFmySqTQ1mQ7y4acN85Ozb+rvSD8CVOnK7DH79LNc0CBd
+ EEY3ibQB3oPjVpP4AZu6IkFE7j9xulZXYzSphsQmAmJ6SQJGOQi5yBlifT1Eih7g5CzK
+ G05M1TL9nU39sWx2n3cqBAZ7gkP6zJmR9JQ2Zs+kbXSJ4yK0/VOTmiICf3I9x7cMldng
+ Zu+g==
+X-Gm-Message-State: AOAM530QokycamZC34IsyfWljYg/oQquQBeJNR/lK95lRAIh3cmPNEQq
+ o8tbKINMUG/K1uSxosA3ZmgOMA==
+X-Google-Smtp-Source: ABdhPJyt23U1eqxw8sH90S49YLYG4J1fltYTKF2MsmfFxggYUZrhwzsTvCUT9YxGnyIGpmb7wVQxog==
+X-Received: by 2002:aa7:8426:0:b029:2e9:bc0e:5c3f with SMTP id
+ q6-20020aa784260000b02902e9bc0e5c3fmr15769251pfn.22.1622579243590; 
+ Tue, 01 Jun 2021 13:27:23 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
+ by smtp.gmail.com with ESMTPSA id
+ u12sm13796459pfm.2.2021.06.01.13.27.22
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 01 Jun 2021 13:27:23 -0700 (PDT)
+Subject: Re: [PATCH] target/ppc: fix single-step exception regression
+To: Luis Pires <luis.pires@eldorado.org.br>, qemu-devel@nongnu.org
+References: <20210601180237.296402-1-luis.pires@eldorado.org.br>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <aa0c8f49-38d3-4ca0-89b8-0807cb57558f@linaro.org>
+Date: Tue, 1 Jun 2021 13:27:20 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YLaFjPPj4Bq+a0m7@apples.localdomain>
-Received-SPF: pass client-ip=198.145.29.99; envelope-from=kbusch@kernel.org;
- helo=mail.kernel.org
-X-Spam_score_int: -74
-X-Spam_score: -7.5
-X-Spam_bar: -------
-X-Spam_report: (-7.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210601180237.296402-1-luis.pires@eldorado.org.br>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42c.google.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
+X-Spam_bar: --
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.613,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -66,56 +88,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, qemu-block@nongnu.org,
- Gollu Appalanaidu <anaidu.gollu@samsung.com>, qemu-devel@nongnu.org,
- mreitz@redhat.com, stefanha@redhat.com
+Cc: matheus.ferst@eldorado.org.br, qemu-ppc@nongnu.org, groug@kaod.org,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 01, 2021 at 09:07:56PM +0200, Klaus Jensen wrote:
-> On Jun  1 11:07, Keith Busch wrote:
-> > On Tue, Jun 01, 2021 at 07:41:34PM +0200, Klaus Jensen wrote:
-> > > On Jun  1 10:19, Keith Busch wrote:
-> > > > On Tue, Jun 01, 2021 at 08:07:48PM +0530, Gollu Appalanaidu wrote:
-> > > > > NVMe Boot Partitions provides an area that may be read by the host
-> > > > > without initializing queues or even enabling the controller. This
-> > > > > allows various platform initialization code to be stored on the NVMe
-> > > > > device instead of some separete medium.
-> > > > >
-> > > > > This patch adds the read support for such an area, as well as support
-> > > > > for updating the boot partition contents from the host through the
-> > > > > FW Download and Commit commands.
-> > > >
-> > > > Please provide some details on what platform initilization sequence
-> > > > running on QEMU is going to make use of this feature.
-> > > >
-> > > 
-> > > I totally get your reluctance to accept useless features like device
-> > > self-test and ill-supported ones like write uncorrectable.
-> > > 
-> > > But I think this feature qualifies just fine for the device. It is useful
-> > > for embedded development and while there might not be any qemu boards that
-> > > wants to use this *right now*, it allows for experimentation. And this is a
-> > > feature that actually *is* implemented by real products for embedded
-> > > systems.
-> > 
-> > That wasn't my request, though. I am well aware of the feature and also
-> > have hardware that implements it. It just sounds like you haven't
-> > actually tested this feature under the protocol's intended use cases
-> > inside this environment. I think that type of testing and a high level
-> > description of it in the changelog ought to be part of acceptance
-> > criteria.
-> > 
-> 
-> Alright, I see.
-> 
-> You'd like to see this tested by defining a new board that loads firmware
-> over PCIe from the device?
+On 6/1/21 11:02 AM, Luis Pires wrote:
+> +            if (is_jmp == DISAS_EXIT || is_jmp == DISAS_CHAIN) {
+> +                /* We have not updated nip yet, so do it now */
+> +                gen_update_nip(ctx, nip);
+> +            }
 
-Yes, something like that.
+This is incorrect.  Both EXIT and CHAIN *have* updated nip, but to something 
+that isn't the next instruction.  E.g. return from interrupt.
 
-When the feature was initially published, I took a very brief look at
-how qemu could use it and concluded this wasn't very practical here. I
-would be happy to know if there's any example platform that can use it,
-though. That, to me, demostrates sufficient value.
+
+r~
 
