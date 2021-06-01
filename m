@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33F5E39797A
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Jun 2021 19:49:01 +0200 (CEST)
-Received: from localhost ([::1]:36354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABE82397990
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Jun 2021 19:57:46 +0200 (CEST)
+Received: from localhost ([::1]:49366 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lo8Vg-00084V-AV
-	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 13:49:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37730)
+	id 1lo8e9-0000Ic-QL
+	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 13:57:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39630)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <leobras.c@gmail.com>)
- id 1lo8Um-0007Es-Su
- for qemu-devel@nongnu.org; Tue, 01 Jun 2021 13:48:04 -0400
-Received: from mail-qt1-x82c.google.com ([2607:f8b0:4864:20::82c]:33589)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <leobras.c@gmail.com>)
- id 1lo8Ul-0006mM-Iw
- for qemu-devel@nongnu.org; Tue, 01 Jun 2021 13:48:04 -0400
-Received: by mail-qt1-x82c.google.com with SMTP id a15so10788317qta.0
- for <qemu-devel@nongnu.org>; Tue, 01 Jun 2021 10:48:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=message-id:subject:from:to:cc:date:in-reply-to:references
- :user-agent:mime-version:content-transfer-encoding;
- bh=7ZJ2QqzmHIc4Xjk20d2YEfcWSCtizwEIc7b9EhLS0o4=;
- b=lnubHr2pYINX8lm5A5W704Ox+cW+D/ceRuZA5gUYROdh750JGIYnFZCCpUVqolT9cp
- Lh9xusCLt3tmC3jsGuoe8fK5e1Dg4Z21BF9BV2EXll4bRFFc77vvsiMjykPgG8U9uxKy
- vNSoHwbLtOVEjeZBh3udzOF3Q3zZiRvm4fjqHS2yeSz7nlq4FwxytqrEDH3K2gHR2UQU
- iU1uJL/sqY842WsyN79+cvFjU2tHdctev+GZND6RIKK2A3M3Qviiai9ZsXiS7pWsKwQ0
- 52b0rQxHYNfxe1U2SOrIuyV4Re7d+3vVIZxdkkjZrinRbdHv6gInkRlC533HKNFQFfPG
- L2MA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:user-agent:mime-version:content-transfer-encoding;
- bh=7ZJ2QqzmHIc4Xjk20d2YEfcWSCtizwEIc7b9EhLS0o4=;
- b=hfNX0aYZzQTFBXIl9jePLiMhu9jGsuhfgZ10kFqMMPkarB4Hv/3tG5vm1pbOeR8tqP
- q84jWfOIX+7KmcU7vrRiRwBx9PDBUtwaFMJ1RO7lJIi+ewBAVtHPrC50tpsN097hr6dP
- 32F2GBeHbnjjBTxo26NI+AitiJxyuYmHtUd+2pHXHKYwC72TtZprwa7rQve8WVfR9Mys
- tJVlc1MmU7Nu8SP0XQXS+Nzr2Sq9NIfshdBeoutPVSGl1v4eKaiS2PniCEKkK0QMFfEE
- LnOR5D74uZs+5k8vJaahqYEAW3FcBXsQsZlAoWJI5UkVtFcgzC8M/ZnCtHjiMJ4yuK5u
- iH2A==
-X-Gm-Message-State: AOAM5322PsbVfGVvKesfGLmAK1Kjk1fjtch/5qFwAnwtjcsgm7JVIqyE
- 6RJ9IvDdk7rNLsGUZ0S04/4=
-X-Google-Smtp-Source: ABdhPJxrhXpQL52Zi1iGL0S76jZI/vfvAxG/z5tVyskMT5Nf9hpES9bbiFLiLZY7QgzXwGVrkksIjg==
-X-Received: by 2002:ac8:450c:: with SMTP id q12mr20521566qtn.327.1622569682560; 
- Tue, 01 Jun 2021 10:48:02 -0700 (PDT)
-Received: from [192.168.1.106] ([177.193.53.28])
- by smtp.gmail.com with ESMTPSA id l4sm10857092qkp.48.2021.06.01.10.47.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Jun 2021 10:48:02 -0700 (PDT)
-Message-ID: <c4b88341782669d4f7fd185ea25f317e952ade04.camel@gmail.com>
-Subject: Re: [PATCH v3 1/1] yank: Unregister function when using TLS migration
-From: Leonardo =?ISO-8859-1?Q?Br=E1s?= <leobras.c@gmail.com>
-To: Lukas Straub <lukasstraub2@web.de>
-Date: Tue, 01 Jun 2021 14:48:23 -0300
-In-Reply-To: <20210601130013.7bde3a8f@gecko.fritz.box>
-References: <20210601054030.1153249-1-leobras.c@gmail.com>
- <20210601130013.7bde3a8f@gecko.fritz.box>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.1 
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lo8cv-0007Pn-CO
+ for qemu-devel@nongnu.org; Tue, 01 Jun 2021 13:56:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30043)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lo8cs-0004Ri-CB
+ for qemu-devel@nongnu.org; Tue, 01 Jun 2021 13:56:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1622570184;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=wQjBwZaUfZ1e1v3ktM0nOpEnw8Yh0J5vCEI7nnIuKDg=;
+ b=JCTzRo3Bxush4XIL9BVjnmEizcXPaYiRGFFg4qPJJtM0/AZdipK8Ebhy4rvI7ic0Cgpr5g
+ Z7EnMAvc6jnR/XQTdIpQkUbE49oFllmk6JNcfxQ2v0wOdgEFqAmCUhDVXKoQ05dWHEFrGo
+ EFuiGS86E78p4v0s7kSkv8X3BZ5YjgQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-478-DJhYIEUlON-Hdi3-1XpeVA-1; Tue, 01 Jun 2021 13:56:21 -0400
+X-MC-Unique: DJhYIEUlON-Hdi3-1XpeVA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 25D9E8042A9;
+ Tue,  1 Jun 2021 17:56:20 +0000 (UTC)
+Received: from [10.10.116.137] (ovpn-116-137.rdu2.redhat.com [10.10.116.137])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7A8235D6D3;
+ Tue,  1 Jun 2021 17:56:11 +0000 (UTC)
+Subject: Re: [PATCH 1/1] VM tests: account for changes in
+ qemu.utils.get_info_usernet_hostfwd_port()
+To: Willian Rampazzo <wrampazz@redhat.com>, Cleber Rosa <crosa@redhat.com>
+References: <20210528023220.417057-1-jsnow@redhat.com>
+ <20210601154546.130870-1-crosa@redhat.com>
+ <20210601154546.130870-2-crosa@redhat.com>
+ <CAKJDGDbK40mcg4n7KMNymAhv=q2R+mbGzT+NC3_OgA3a7mn6_g@mail.gmail.com>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <9b9f9835-49f9-6f44-8eb5-b5456975b120@redhat.com>
+Date: Tue, 1 Jun 2021 13:56:10 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
+In-Reply-To: <CAKJDGDbK40mcg4n7KMNymAhv=q2R+mbGzT+NC3_OgA3a7mn6_g@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::82c;
- envelope-from=leobras.c@gmail.com; helo=mail-qt1-x82c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -37
+X-Spam_score: -3.8
+X-Spam_bar: ---
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.613, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,18 +84,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, berrange@redhat.com,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, peterx@redhat.com,
- Juan Quintela <quintela@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Auger Eric <eric.auger@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Beraldo Leal <bleal@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 2021-06-01 at 13:00 +0200, Lukas Straub wrote:
-> [...]
-> Looks good to me,
-> Reviewed-by: Lukas Straub <lukasstraub2@web.de>
+On 6/1/21 1:36 PM, Willian Rampazzo wrote:
+> On Tue, Jun 1, 2021 at 12:46 PM Cleber Rosa <crosa@redhat.com> wrote:
+>>
+>> The utility function actually accepts a string, and not the raw
+>> dictionary response from QMP.  Also, it returns (optionally) an
+>> integer, so that must also be accounted for.
+>>
+>> Signed-off-by: John Snow <jsnow@redhat.com>
+>> Signed-off-by: Cleber Rosa <crosa@redhat.com>
+>> ---
+>>   tests/vm/basevm.py | 4 ++--
+>>   1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/tests/vm/basevm.py b/tests/vm/basevm.py
+>> index 6f4f0fc95e..0f2e436ed3 100644
+>> --- a/tests/vm/basevm.py
+>> +++ b/tests/vm/basevm.py
+>> @@ -227,7 +227,7 @@ def _ssh_do(self, user, cmd, check):
+>>                      "-o", "UserKnownHostsFile=" + os.devnull,
+>>                      "-o",
+>>                      "ConnectTimeout={}".format(self._config["ssh_timeout"]),
+>> -                   "-p", self.ssh_port, "-i", self._ssh_tmp_key_file]
+>> +                   "-p", str(self.ssh_port), "-i", self._ssh_tmp_key_file]
+>>           # If not in debug mode, set ssh to quiet mode to
+>>           # avoid printing the results of commands.
+>>           if not self.debug:
+>> @@ -305,7 +305,7 @@ def boot(self, img, extra_args=[]):
+>>           # Init console so we can start consuming the chars.
+>>           self.console_init()
+>>           usernet_info = guest.qmp("human-monitor-command",
+>> -                                 command_line="info usernet")
+>> +                                 command_line="info usernet").get("return")
+>>           self.ssh_port = get_info_usernet_hostfwd_port(usernet_info)
+> 
+>  From here, your file differs from the upstream and your patch does not
+> work. I'm trying on commit 52848929b70dcf92a68aedcfd90207be81ba3274.
 > 
 
-Thanks!
+Cleber is patching against my pull request -- I'll be squashing it into 
+(from PR tree) 0739780d621f8fd4163ce6969a183e59113245aa -- just waiting 
+on some tests to finish running before I move ahead with it.
+
+commit 0739780d621f8fd4163ce6969a183e59113245aa
+Author: Cleber Rosa <crosa@redhat.com>
+Date:   Mon Apr 12 00:46:36 2021 -0400
+
+     Python: add utility function for retrieving port redirection
+
+     Slightly different versions for the same utility code are currently
+     present on different locations.  This unifies them all, giving
+     preference to the version from virtiofs_submounts.py, because of the
+     last tweaks added to it.
+
+     While at it, this adds a "qemu.utils" module to host the utility
+     function and a test.
+
+     Signed-off-by: Cleber Rosa <crosa@redhat.com>
+     Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+     Reviewed-by: Eric Auger <eric.auger@redhat.com>
+     Reviewed-by: Willian Rampazzo <willianr@redhat.com>
+     Message-Id: <20210412044644.55083-4-crosa@redhat.com>
+     Signed-off-by: John Snow <jsnow@redhat.com>
+
+
+>>           if not self.ssh_port:
+>>               raise Exception("Cannot find ssh port from 'info usernet':\n%s" % \
+>> --
+>> 2.25.4
+>>
+> 
+
+thanks,
+--js
 
 
