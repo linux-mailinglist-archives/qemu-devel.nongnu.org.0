@@ -2,67 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CA21397A5F
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Jun 2021 21:01:58 +0200 (CEST)
-Received: from localhost ([::1]:49408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B835C397A7E
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Jun 2021 21:13:01 +0200 (CEST)
+Received: from localhost ([::1]:54690 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lo9eG-0002ex-Kq
-	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 15:01:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55152)
+	id 1lo9oy-0006bn-5D
+	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 15:13:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56616)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1lo9cW-0001bz-T1
- for qemu-devel@nongnu.org; Tue, 01 Jun 2021 15:00:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51940)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1lo9kE-0005gg-0l; Tue, 01 Jun 2021 15:08:06 -0400
+Received: from out3-smtp.messagingengine.com ([66.111.4.27]:50409)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1lo9cT-0004Y6-48
- for qemu-devel@nongnu.org; Tue, 01 Jun 2021 15:00:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622574003;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=nvA+Gv0qzYzkzDgkZ33nkaovQzbyK0edeORhGDjTiZ8=;
- b=LXUdRTjnevDAfYyCEHm87p3HvHhoaLI3Igpijifao6GA4u9lUUKFBHAP8fX51ZzqHEw6WD
- wSzRUOjbgyDValth/2ZRkOfxJK6O4H3HWG+mAt+eMEPqlqx1Jsis9tHRi0O3RuqRirYwUU
- FTYns1p5jg4o1pOjePiZE52QleKoKyk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-117-qnQHwXqiNlejzyv9R5J8Ng-1; Tue, 01 Jun 2021 15:00:01 -0400
-X-MC-Unique: qnQHwXqiNlejzyv9R5J8Ng-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 326F8101372A;
- Tue,  1 Jun 2021 18:59:59 +0000 (UTC)
-Received: from localhost (ovpn-112-239.rdu2.redhat.com [10.10.112.239])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CBA5B5D9CD;
- Tue,  1 Jun 2021 18:59:55 +0000 (UTC)
-Date: Tue, 1 Jun 2021 14:59:55 -0400
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Claudio Fontana <cfontana@suse.de>
-Subject: Re: [PATCH 2/2] i386: run accel_cpu_instance_init as
- instance_post_init
-Message-ID: <20210601185955.upjlobdgi366ruhh@habkost.net>
-References: <20210529091313.16708-1-cfontana@suse.de>
- <20210529091313.16708-3-cfontana@suse.de>
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1lo9kA-0001OR-OD; Tue, 01 Jun 2021 15:08:05 -0400
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailout.nyi.internal (Postfix) with ESMTP id 78EA85C020B;
+ Tue,  1 Jun 2021 15:08:01 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute6.internal (MEProxy); Tue, 01 Jun 2021 15:08:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm3; bh=GHYAwGtL/PR4nnEDDifK4Amq/T0
+ qfQyEBoxYMAQuHe0=; b=SS4o6g9D5S7skQOh0EOsCUCDDJM31pBIw30ym5ACWOG
+ gsFRiQhF8LFMy2CHpFmzAcWenSQ/cPvI/TfYia7WR2vc+RIYXvjbnk64dokH+mRj
+ CVB5EyGl0M8I0uZKbuc9f7Jyfl+e2hPyFgv/mA12YQg6z2hV9RyGV3UP49NEpAxn
+ 0N34v69bCBqqV7QUijEHDsgMQ+0lLZ2wzHKDDAOEy+uK50NPJ23Y15S/UmI0xL9V
+ 3huJ+sKZsGK9xNZ7mSnqT3TPYjYWgp0CgCtYWxGOlrJrI023cALRigxAXcW4DkzU
+ dUsl5p+KA7fJhBLCl0faPKnWyGxHvhUNPec1PNbL5Gw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=GHYAwG
+ tL/PR4nnEDDifK4Amq/T0qfQyEBoxYMAQuHe0=; b=XcHlL6XEhxxk6sl9K6wEUi
+ 34qka0vBaHJGXx0fVEojCpluyKu7+LWlSrId6F1jf1qUK3kZL9uxJ6t4p3xWV6B+
+ WBLKpwDFwtgEyBlV/J0ww2NC1mAr4Zi4EsvaZEwHgvzGQ5mrPrR50JbmSayx+Brd
+ ICidXdh0BV3SId0WT4wMjXXnbZL2812K9orJDqXMKBP7/mFnqxtCP64dwHGeifhg
+ CfZ7xWKWtRlgFlb2UfYFcc4lv/fIk9R7yJ/WPkpTKUQMXmV6i6xRQxlst/n3u6YF
+ 5T2kKdYqgtBzbLx7+3c/MnchdQIHr6IY6uW6tUMoy0+YB9rKiPpDDZYIhk9NWhNQ
+ ==
+X-ME-Sender: <xms:kIW2YCdRi9XucE3NJMF8rYiP9SnJBTWFwLPVA7apF0OB-q3KC8aeEw>
+ <xme:kIW2YMOzJAHeudbmHlUixCPDta6LFxpInQ32jgxTUromxkGLkofJPD7BHgPnyYml8
+ QJlKjEbWd_73VOr9Tc>
+X-ME-Received: <xmr:kIW2YDgURj_eyD3g-CrSxq4VHJFa0u4InwbAJu4XXu_jvFF3B29WRheahZGsXduFFQjy1I85rHc8meOQD9eelJfSzNoOpyLZ3B42IjW3JJ3CLCvdkA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdelhedgudefhecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enucfjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghu
+ shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
+ htvghrnhepjeegudffueeiteekieelkedvueelteevjeduieeludfffeejgeffhfduvddu
+ ffeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepih
+ htshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:kIW2YP9XhF-8QRemMv_FVSZpyHyZOxQQzqG_kMzQHjXQv82dvjeiMw>
+ <xmx:kIW2YOtVwA9-jshPBW2Jh7CkTaJG8RPjbI1pAE2q9CPjv9Lzrpev8w>
+ <xmx:kIW2YGFToAFgp6zb5GuGx795Bbwyo72T2NOH09SAsdEdf6WQCE6vnQ>
+ <xmx:kYW2YL-0fhqzJIIc_aI4xE-tUStbQwu3qjC-Jc-c6KU0BIwDTR69fA>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 1 Jun 2021 15:07:59 -0400 (EDT)
+Date: Tue, 1 Jun 2021 21:07:56 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCH v2 1/2] hw/nvme: add support for boot partiotions
+Message-ID: <YLaFjPPj4Bq+a0m7@apples.localdomain>
+References: <20210601143749.1669-1-anaidu.gollu@samsung.com>
+ <CGME20210601144234epcas5p153e855ad673876cf67e57d4b539dc274@epcas5p1.samsung.com>
+ <20210601143749.1669-2-anaidu.gollu@samsung.com>
+ <20210601171936.GB4506@dhcp-10-100-145-180.wdc.com>
+ <YLZxTlikAcJD98Ut@apples.localdomain>
+ <20210601180724.GA4527@dhcp-10-100-145-180.wdc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="iM/RGiHnvucTJudX"
 Content-Disposition: inline
-In-Reply-To: <20210529091313.16708-3-cfontana@suse.de>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+In-Reply-To: <20210601180724.GA4527@dhcp-10-100-145-180.wdc.com>
+Received-SPF: pass client-ip=66.111.4.27; envelope-from=its@irrelevant.dk;
+ helo=out3-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -75,92 +97,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Marcelo Tosatti <mtosatti@redhat.com>, kvm@vger.kernel.org,
- Siddharth Chandrasekaran <sidcha@amazon.de>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Cameron Esfahani <dirty@apple.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: fam@euphon.net, kwolf@redhat.com, qemu-block@nongnu.org,
+ Gollu Appalanaidu <anaidu.gollu@samsung.com>, qemu-devel@nongnu.org,
+ mreitz@redhat.com, stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, May 29, 2021 at 11:13:13AM +0200, Claudio Fontana wrote:
-> This partially fixes host and max cpu initialization,
-> by running the accel cpu initialization only after all instance
-> init functions are called for all X86 cpu subclasses.
 
-Can you describe what exactly are the initialization ordering
-dependencies that were broken?
+--iM/RGiHnvucTJudX
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> 
-> Partial Fix.
+On Jun  1 11:07, Keith Busch wrote:
+>On Tue, Jun 01, 2021 at 07:41:34PM +0200, Klaus Jensen wrote:
+>> On Jun  1 10:19, Keith Busch wrote:
+>> > On Tue, Jun 01, 2021 at 08:07:48PM +0530, Gollu Appalanaidu wrote:
+>> > > NVMe Boot Partitions provides an area that may be read by the host
+>> > > without initializing queues or even enabling the controller. This
+>> > > allows various platform initialization code to be stored on the NVMe
+>> > > device instead of some separete medium.
+>> > >
+>> > > This patch adds the read support for such an area, as well as support
+>> > > for updating the boot partition contents from the host through the
+>> > > FW Download and Commit commands.
+>> >
+>> > Please provide some details on what platform initilization sequence
+>> > running on QEMU is going to make use of this feature.
+>> >
+>>
+>> I totally get your reluctance to accept useless features like device
+>> self-test and ill-supported ones like write uncorrectable.
+>>
+>> But I think this feature qualifies just fine for the device. It is useful
+>> for embedded development and while there might not be any qemu boards th=
+at
+>> wants to use this *right now*, it allows for experimentation. And this i=
+s a
+>> feature that actually *is* implemented by real products for embedded
+>> systems.
+>
+>That wasn't my request, though. I am well aware of the feature and also
+>have hardware that implements it. It just sounds like you haven't
+>actually tested this feature under the protocol's intended use cases
+>inside this environment. I think that type of testing and a high level
+>description of it in the changelog ought to be part of acceptance
+>criteria.
+>
 
-What does "partial fix" mean?
+Alright, I see.
 
-> 
-> Fixes: 48afe6e4eabf ("i386: split cpu accelerators from cpu.c, using AccelCPUClass")
-> Signed-off-by: Claudio Fontana <cfontana@suse.de>
+You'd like to see this tested by defining a new board that loads=20
+firmware over PCIe from the device?
 
-The fix looks simple and may be obvious, my only concerns are:
+--iM/RGiHnvucTJudX
+Content-Type: application/pgp-signature; name="signature.asc"
 
-1. Testing.  Luckily we are a bit early in the release cycle so
-   we have some time for that.
-2. Describing more clearly what exactly was wrong.  This can be
-   fixed manually in the commit message when applying the patch.
+-----BEGIN PGP SIGNATURE-----
 
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmC2hYoACgkQTeGvMW1P
+DekScAf+PzRvTQL0cNB8CS1wWU1W943lQDE6Nl0cA21Mwzc1k5F6gwpMC2akc5v6
+tHo+W2beCAPbUnhEwOOxohTNJ5J5gT2I9oKUzNXmJRrN0RB6roOwObsFiaIh53TC
+YfWWd4Dyb8fhWImS83+tzBWxxNdtenjULpSabYjhW0YtzHjlQ7A6eK1xQQRHd2jZ
+Y6f++tg+8kmueMwZvG5bPzYi802tB6b/jixBv8YBM8LwRcbJpV3Xw78AD415kYop
+i0PxINbcEiaWMrQT1H55DbRQqL/TVU4SEjxQBCv83fB0AbZtirG8TuaQjA8UcW6p
+puPx8Z7I8WR4TJ2vfoj8WyI1hSA0Sg==
+=zITx
+-----END PGP SIGNATURE-----
 
-An even better long term solution would be removing the
-initialization ordering dependencies and make
-accel_cpu_instance_init() safe to be called earlier.  Would that
-be doable?
-
-
-> ---
->  target/i386/cpu.c | 10 +++++++---
->  1 file changed, 7 insertions(+), 3 deletions(-)
-> 
-> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-> index 6bcb7dbc2c..ae148fbd2f 100644
-> --- a/target/i386/cpu.c
-> +++ b/target/i386/cpu.c
-> @@ -6422,6 +6422,11 @@ static void x86_cpu_register_feature_bit_props(X86CPUClass *xcc,
->      x86_cpu_register_bit_prop(xcc, name, w, bitnr);
->  }
->  
-> +static void x86_cpu_post_initfn(Object *obj)
-> +{
-> +    accel_cpu_instance_init(CPU(obj));
-> +}
-> +
->  static void x86_cpu_initfn(Object *obj)
->  {
->      X86CPU *cpu = X86_CPU(obj);
-> @@ -6473,9 +6478,6 @@ static void x86_cpu_initfn(Object *obj)
->      if (xcc->model) {
->          x86_cpu_load_model(cpu, xcc->model);
->      }
-> -
-> -    /* if required, do accelerator-specific cpu initializations */
-> -    accel_cpu_instance_init(CPU(obj));
->  }
->  
->  static int64_t x86_cpu_get_arch_id(CPUState *cs)
-> @@ -6810,6 +6812,8 @@ static const TypeInfo x86_cpu_type_info = {
->      .parent = TYPE_CPU,
->      .instance_size = sizeof(X86CPU),
->      .instance_init = x86_cpu_initfn,
-> +    .instance_post_init = x86_cpu_post_initfn,
-> +
->      .abstract = true,
->      .class_size = sizeof(X86CPUClass),
->      .class_init = x86_cpu_common_class_init,
-> -- 
-> 2.26.2
-> 
-
--- 
-Eduardo
-
+--iM/RGiHnvucTJudX--
 
