@@ -2,57 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E1FE396CD1
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Jun 2021 07:30:48 +0200 (CEST)
-Received: from localhost ([::1]:49430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D059A396CE1
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Jun 2021 07:36:28 +0200 (CEST)
+Received: from localhost ([::1]:51898 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lnwzG-00016q-NN
-	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 01:30:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52656)
+	id 1lnx4l-00031L-TC
+	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 01:36:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53990)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1lnwy5-000070-4N
- for qemu-devel@nongnu.org; Tue, 01 Jun 2021 01:29:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24974)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lnx3k-00029F-Vt
+ for qemu-devel@nongnu.org; Tue, 01 Jun 2021 01:35:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48821)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1lnwy2-0005mK-PH
- for qemu-devel@nongnu.org; Tue, 01 Jun 2021 01:29:32 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lnx3j-0002Ct-GZ
+ for qemu-devel@nongnu.org; Tue, 01 Jun 2021 01:35:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622525368;
+ s=mimecast20190719; t=1622525723;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding;
- bh=7/lGE3Q3O38oapozsEntEQplElt+NleYNusY1XC20t4=;
- b=GkIXcz0ZFj9TvX8KOAVZGCF49Ad99M+AyFsaxs+jaKMfTRJE1IlEs54I+5+7Xt6hVwPTRe
- K364CgK/7R4j636kKl+eTLxdd83STeoAAsyd9kUCPh9+6Dv0bLi/cXVDo2SQV59DeyizHY
- nq8hZfAUZgcnMQMWqCNKyNUVFn9qwsM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-273-bvQK2ZyhPt298fUpMSSKnQ-1; Tue, 01 Jun 2021 01:29:26 -0400
-X-MC-Unique: bvQK2ZyhPt298fUpMSSKnQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9A653107ACC7;
- Tue,  1 Jun 2021 05:29:25 +0000 (UTC)
-Received: from gshan.redhat.com (vpn2-54-23.bne.redhat.com [10.64.54.23])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A84D360CCE;
- Tue,  1 Jun 2021 05:29:20 +0000 (UTC)
-From: Gavin Shan <gshan@redhat.com>
-To: qemu-arm@nongnu.org
-Subject: [PATCH] hw/arm/boot: Use NUMA node ID in memory node name
-Date: Tue,  1 Jun 2021 15:30:04 +0800
-Message-Id: <20210601073004.106490-1-gshan@redhat.com>
+ bh=ciPhEuln0EveL7CrYSSUGf88omRcmR1D8eT41mVjqbg=;
+ b=eIkFni2xHCHOfbP4HfSpoV7oxMPJiCVcvJp+nOeln53dBeII1kQ57eXLomjKvLtl0gJouX
+ lBMFB6e0L/RJxQ2FLlHNXKAwS0P0v6upmwwy/LYj65uDs3CY+CB27WzrdggtiaePypxgDL
+ gcHaXVehOjrixiTbg5KIuJlMNQRJRu8=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-241-SkAbP4OQNgq0EvkAfXG8Ow-1; Tue, 01 Jun 2021 01:35:07 -0400
+X-MC-Unique: SkAbP4OQNgq0EvkAfXG8Ow-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ n2-20020a05600c4f82b0290181c444b9f1so2392734wmq.6
+ for <qemu-devel@nongnu.org>; Mon, 31 May 2021 22:35:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ciPhEuln0EveL7CrYSSUGf88omRcmR1D8eT41mVjqbg=;
+ b=OLjqgYupIh1ZL5/MdVpgr43N393RyzdzsgAVG7HENLg+YZyIAUDeps2s1MpqD7hDbX
+ Q2GXr1XjBV8ldsESyk/YDT5lDkcqVbkfMaqDI6BhMQFbdojk4faWIwSWIv0uZSskgSdo
+ A25IBb6DhGNeT902/JwrcNF3JSdxIyOcLQx5LxN9OZmzrkqeOvoNLo4K/PQGPcjxtaLw
+ G8SCxGC1OvDkKW+lOmTQpgTvWkh+MaroTnqRB48MkWQniXSWu6HwRVDVbZmXrxAHmvcY
+ tZn17jpUhUmASDtZi1CaMFI/qs+i+MyVkiFA5bi1f+3EsCbdXnHp3Kmi0vJxb/9L4U2w
+ lZzg==
+X-Gm-Message-State: AOAM530dHlC8Ei5DRytdDipjNIKBQMR8KtR+PqC/vJLQXMbhQ+KJwrEV
+ /BqzGjx0GLla6si7gt8hlJ9OH5cc+GIctl3MDUw4Uz5VPvGqlOGmFQjp/zEh2PAZzgirQyhrOSf
+ ZxrhTOh7AnF3ETEc=
+X-Received: by 2002:adf:e307:: with SMTP id b7mr26236082wrj.325.1622525705960; 
+ Mon, 31 May 2021 22:35:05 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwGF+HvS1B9yBDiIH8jVLvpeIHKfOvlvbiKkldjTZ+Dj0OQIZntSc+753QqmD0/nvMRQhtifw==
+X-Received: by 2002:adf:e307:: with SMTP id b7mr26236050wrj.325.1622525705791; 
+ Mon, 31 May 2021 22:35:05 -0700 (PDT)
+Received: from localhost.localdomain
+ (235.red-83-57-168.dynamicip.rima-tde.net. [83.57.168.235])
+ by smtp.gmail.com with ESMTPSA id s8sm2198455wrr.36.2021.05.31.22.35.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 31 May 2021 22:35:05 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: [PATCH v3] docs/secure-coding-practices: Describe how to use
+ 'null-co' block driver
+Date: Tue,  1 Jun 2021 07:35:03 +0200
+Message-Id: <20210601053503.1828319-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.26.3
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=gshan@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=gshan@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -73,59 +93,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, drjones@redhat.com, qemu-devel@nongnu.org,
- shan.gavin@gmail.com, eric.auger@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, Prasad J Pandit <ppandit@redhat.com>,
+ Bandan Das <bsd@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We possibly populate empty nodes where memory isn't included and might
-be hot added at late time. The FDT memory nodes can't be created due
-to conflicts on their names if multiple empty nodes are specified.
-For example, the VM fails to start with the following error messages.
+Document that security reports must use 'null-co,read-zeroes=on'
+because otherwise the memory is left uninitialized (which is an
+on-purpose performance feature).
 
-  /home/gavin/sandbox/qemu.main/build/qemu-system-aarch64          \
-  -accel kvm -machine virt,gic-version=host                        \
-  -cpu host -smp 4,sockets=2,cores=2,threads=1 -m 1024M,maxmem=64G \
-  -object memory-backend-ram,id=mem0,size=512M                     \
-  -object memory-backend-ram,id=mem1,size=512M                     \
-  -numa node,nodeid=0,cpus=0-1,memdev=mem0                         \
-  -numa node,nodeid=1,cpus=2-3,memdev=mem1                         \
-  -numa node,nodeid=2                                              \
-  -numa node,nodeid=3                                              \
-    :
-  -device virtio-balloon-pci,id=balloon0,free-page-reporting=yes
-
-  qemu-system-aarch64: FDT: Failed to create subnode /memory@80000000: \
-                       FDT_ERR_EXISTS
-
-This fixes the issue by using NUMA node ID or zero in the memory node
-name to avoid the conflicting memory node names. With this applied, the
-VM can boot successfully with above command lines.
-
-Signed-off-by: Gavin Shan <gshan@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- hw/arm/boot.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+v3: Simplified using Vladimir suggestion.
+---
+ docs/devel/secure-coding-practices.rst | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/hw/arm/boot.c b/hw/arm/boot.c
-index d7b059225e..3169bdf595 100644
---- a/hw/arm/boot.c
-+++ b/hw/arm/boot.c
-@@ -432,7 +432,12 @@ static int fdt_add_memory_node(void *fdt, uint32_t acells, hwaddr mem_base,
-     char *nodename;
-     int ret;
- 
--    nodename = g_strdup_printf("/memory@%" PRIx64, mem_base);
-+    if (numa_node_id >= 0) {
-+        nodename = g_strdup_printf("/memory@%d", numa_node_id);
-+    } else {
-+        nodename = g_strdup("/memory@0");
-+    }
+diff --git a/docs/devel/secure-coding-practices.rst b/docs/devel/secure-coding-practices.rst
+index cbfc8af67e6..79a3dcd09a3 100644
+--- a/docs/devel/secure-coding-practices.rst
++++ b/docs/devel/secure-coding-practices.rst
+@@ -104,3 +104,12 @@ structures and only process the local copy.  This prevents
+ time-of-check-to-time-of-use (TOCTOU) race conditions that could cause QEMU to
+ crash when a vCPU thread modifies guest RAM while device emulation is
+ processing it.
 +
-     qemu_fdt_add_subnode(fdt, nodename);
-     qemu_fdt_setprop_string(fdt, nodename, "device_type", "memory");
-     ret = qemu_fdt_setprop_sized_cells(fdt, nodename, "reg", acells, mem_base,
++Use of null-co block drivers
++----------------------------
++
++The ``null-co`` block driver is designed for performance: its read accesses are
++not initialized by default. In case it this driver has to be used for security
++research, it must be used with the ``read-zeroes=on`` option which fills read
++buffers with zeroes. Security issues reported with the default
++(``read-zeroes=off``) will be discarded.
 -- 
-2.23.0
+2.26.3
 
 
