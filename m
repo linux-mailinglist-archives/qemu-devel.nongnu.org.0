@@ -2,84 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77AE1396BF0
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Jun 2021 05:42:10 +0200 (CEST)
-Received: from localhost ([::1]:32884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE1A2396CB1
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Jun 2021 07:11:57 +0200 (CEST)
+Received: from localhost ([::1]:41308 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lnvI9-0001LF-GB
-	for lists+qemu-devel@lfdr.de; Mon, 31 May 2021 23:42:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34240)
+	id 1lnwh2-00036d-9P
+	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 01:11:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50110)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lnvH8-0000gR-7b
- for qemu-devel@nongnu.org; Mon, 31 May 2021 23:41:06 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:41611)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lnvH4-0003Cw-DD
- for qemu-devel@nongnu.org; Mon, 31 May 2021 23:41:05 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id c3so12646061wrp.8
- for <qemu-devel@nongnu.org>; Mon, 31 May 2021 20:41:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=kb+pG6+WLt50axCh1ihoUvksRaWuZUIwgtLYprZEc+I=;
- b=n2JIms7zWBc+X1pEaqOdD3bw/Fbzw0DQquVb6LW/HWx+1nIE2MQQMpVUOi/wRppCXM
- 9CAjIcFubtq6DW9OcZCq5QsSgJgX8Muw6AeIIZJ9sRmVUIkNMcbceAhPx+awi0O5e0kD
- 56QhURLlAuNynpHS4dx38pgfNISShom0YlVGS9DRllD2M2biCjW+WDnmPsrycyTtPyO2
- n8xR0AZ/jw5RI2oJN7EZzqWy9R2kHX0hAl0ccfCWXtQ5uZd3xsWw/GJcG0rXZ8zEd4mB
- XrQGAYGIhAe2vxaz9aNhUEw52rLuNUd/zmyMc+iuhF9hRKC6wNHe9CUHDF2edoR2bSsw
- sZhA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=kb+pG6+WLt50axCh1ihoUvksRaWuZUIwgtLYprZEc+I=;
- b=fZjaQt89/l+dPL3fT4eAVAdp1mkLTRb6NgSdkB/qafKaxerbCtmgHbAcGs9HcWHN1Z
- rp4D3O912yazR6WonBvl8qL3eBeLlmLXzDlnDo72K7Umv4eVwDKUJfE4Z+J2+rhn1euZ
- sVybEYdGUrIfgOdkxSTjneABye6AKRIaAKe5H5f5IynE6Iep2pjCNuUEd3/DLTFVJoK1
- 7zt0xmsDHU5tM5yDHha4/2aMavqSnYP/XfIKrCKrq/8tH2+DEwOULrtPd/HrWrlekhWp
- 5M4Adp9wT+HTNBrMvwlmcOaAZTJrV195tXQtm0DeJGcylScrzeE2mKoIDxdwrxdXHzr9
- 9eQQ==
-X-Gm-Message-State: AOAM532TBf+hmbcatoz4TLqMC+YPfBjpD4MqoGjWAkPpFvGH6iRwEDXq
- F3r+984uZI96ZF0ldJRqCYk=
-X-Google-Smtp-Source: ABdhPJyOzGvrEpCbIE9qgz/ry+Uavg4SqEoNQJcCd+3RzdYqYGFXNIqCXC2DjOPzez2fYro9IIfyfg==
-X-Received: by 2002:a05:6000:1447:: with SMTP id
- v7mr5962452wrx.252.1622518859633; 
- Mon, 31 May 2021 20:40:59 -0700 (PDT)
-Received: from [192.168.1.36] (235.red-83-57-168.dynamicip.rima-tde.net.
- [83.57.168.235])
- by smtp.gmail.com with ESMTPSA id s8sm1899554wrr.36.2021.05.31.20.40.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 31 May 2021 20:40:58 -0700 (PDT)
-Subject: Re: Problem with Avocado and QEMU console
-To: Willian Rampazzo <wrampazz@redhat.com>
-References: <ac0e8d46-6e57-b454-9162-17dc2f3b6534@amsat.org>
- <CAKJDGDb5GXTLB=7nmdu9_znrf4tVHS+6Rto5vdzYXyNcLG+x8Q@mail.gmail.com>
- <c753b71a-b0a4-a182-976d-00c36edc5e4a@amsat.org>
- <CAKJDGDYuw-A+63wMvDcp7gK8QowoDDN-TwMCFv3i6=kvOqjUdQ@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <41a3f762-1fbb-c9f8-73b5-6d1d6654d4c5@amsat.org>
-Date: Tue, 1 Jun 2021 05:40:57 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lnwgH-0002Hg-2a
+ for qemu-devel@nongnu.org; Tue, 01 Jun 2021 01:11:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25945)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lnwgA-00085X-SH
+ for qemu-devel@nongnu.org; Tue, 01 Jun 2021 01:11:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1622524260;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=XN4zQl2j+2AFxyvOGHKMSewWMfDMaTV7vNrfGfLuZI0=;
+ b=c2xLB7vLAWq+gaM+RlKnJgCKRFZSKNWnPmJZbc+3tsI/4kZKPQcbzCuAC0wouQtRtWwTQc
+ tFUZG0GUZpMb9+QuSju+XyOyrgxvJpO6c+08ABRanKEDCfe5faPezccWFFQNUYK3CdQjdz
+ TBRHUXSYqvaGPBx5KWLl59wiQCtU3UI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-39-cJoYj1MmMU6WX-RO--GnSQ-1; Tue, 01 Jun 2021 01:10:58 -0400
+X-MC-Unique: cJoYj1MmMU6WX-RO--GnSQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9C237801B13;
+ Tue,  1 Jun 2021 05:10:57 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-84.ams2.redhat.com
+ [10.36.112.84])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3D98E690EF;
+ Tue,  1 Jun 2021 05:10:57 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id A5A5818000A0; Tue,  1 Jun 2021 07:10:55 +0200 (CEST)
+Date: Tue, 1 Jun 2021 07:10:55 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: email@aabouzied.com
+Subject: Re: [PATCH] Add display suboptions to man pages
+Message-ID: <20210601051055.xbqfoaz2kot4p4bi@sirius.home.kraxel.org>
+References: <20210601014312.17981-1-email@aabouzied.com>
 MIME-Version: 1.0
-In-Reply-To: <CAKJDGDYuw-A+63wMvDcp7gK8QowoDDN-TwMCFv3i6=kvOqjUdQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.591,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210601014312.17981-1-email@aabouzied.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.372,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,53 +78,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Cleber Rosa <crosa@redhat.com>
+Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/3/21 4:46 PM, Willian Rampazzo wrote:
-> On Mon, May 3, 2021 at 10:36 AM Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
->>
->> On 5/3/21 3:12 PM, Willian Rampazzo wrote:
->>> Hi Philippe,
->>>
->>> On Mon, May 3, 2021 at 9:59 AM Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
->>>>
->>>> Hi Cleber, Willian,
->>>>
->>>> Avocado marked the test_mips64el_fuloong2e as failed while
->>>> it succeeded:
->>>> https://gitlab.com/qemu-project/qemu/-/jobs/1231363571
->>>>
->>>> Apparently the first part of the console output is missing.
->>>> (Normal console output attached).
->>>>
->>>> Any idea what could be the cause?
->>>>
->>>
->>> The log shows the following:
->>>
->>> 12:00:37 ERROR| avocado.core.exceptions.TestFail: Failure message
->>> found in console: "Kernel panic - not syncing". Expected: "Kernel
->>> command line: printk.time=0 console=ttyS0"
->>>
->>> Does your comment about "console output missing" means the expected
->>> message was supposed to be on this missing part?
->>
->> Yes, "the first part is missing" so Avocado didn't see the expected
->> message pass, but the messages emitted *after* it are logged.
->>
-> 
-> Okay, got it.
-> 
-> The reason for it to fail is here:
-> https://gitlab.com/qemu-project/qemu/-/blob/master/tests/acceptance/boot_linux_console.py#L53.
-> The way the `wait_for_console_pattern` method is defined tells the
-> test to fail if that `failure_message` is found.
-> 
-> I'm still checking why the test missed the first part.
+  Hi,
 
-Could this be related to the recent failures in N8x0Machine.test_n810?
+>  SRST
+>  ``-numa node[,mem=size][,cpus=firstcpu[-lastcpu]][,nodeid=node][,initiator=initiator]``
+> -  \ 
+> +  \
 
-https://gitlab.com/qemu-project/qemu/-/jobs/1280746618#L128
+Seems some unrelated (whitespace?) changes sneaked in.
+
+> @@ -1819,11 +1819,22 @@ SRST
+>      old style -sdl/-curses/... options. Use ``-display help`` to list
+>      the available display types. Valid values for type are
+>  
+> -    ``sdl``
+> +    ``spice-app[,gl=on|off]``
+> +        Start QEMU as a Spice server and launch the default Spice client
+> +        application. The Spice server will redirect the serial consoles
+> +        and QEMU monitors. (Since 4.0)
+> +
+> +    ``sdl[,alt_grab=on|off][,ctrl_grab=on|off][,window_close=on|off][,gl=on|core|es|off]``
+> +
+>          Display video output via SDL (usually in a separate graphics
+>          window; see the SDL documentation for other possibilities).
+
+alt-grab and ctrl-grab are deprecated and should not be added here.
+please use dash not underscore (i.e. "window-close") here and elsewhere.
+
+> +    ``vnc=<display>[,<optarges>]``
+> +        Start a VNC server on display <arg>
+
+No.  Works for compatibility reasons, but vnc has its own "-vnc" switch
+which should be used instead.
+
+> -ERST
+> +    ERST
+
+I think indenting this breaks the scripts processing the file ...
+
+>  ``-mon [chardev=]name[,mode=readline|control][,pretty[=on|off]]``
+> -    Setup monitor on chardev name. ``mode=control`` configures 
+> +    Setup monitor on chardev name. ``mode=control`` configures
+
+More unrelated changes ...
+
+take care,
+  Gerd
+
 
