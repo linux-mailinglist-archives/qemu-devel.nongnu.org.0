@@ -2,81 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F08239725D
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Jun 2021 13:31:14 +0200 (CEST)
-Received: from localhost ([::1]:42374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEA73397239
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Jun 2021 13:21:24 +0200 (CEST)
+Received: from localhost ([::1]:36728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lo2c4-0002Vk-Ji
-	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 07:31:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46392)
+	id 1lo2SZ-0006dU-RR
+	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 07:21:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44796)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lo2aR-0000gd-1e
- for qemu-devel@nongnu.org; Tue, 01 Jun 2021 07:29:31 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:34504)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lo2aL-0002GZ-AF
- for qemu-devel@nongnu.org; Tue, 01 Jun 2021 07:29:30 -0400
-Received: by mail-wm1-x334.google.com with SMTP id
- u5-20020a7bc0450000b02901480e40338bso1121374wmc.1
- for <qemu-devel@nongnu.org>; Tue, 01 Jun 2021 04:29:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=UDTccMHylWkNvdanBlrrYTapev3zuulFwiN4Ht6Si7c=;
- b=L5klv0dL/Z1cR7bcUfLOCv9kFrXSEIahxVMu7+jshQQmctuYSi+aNa6L1nbyWCl/96
- +H9rwitPskb5f5M7xaEi/cOw+6huoSSfgZGWCD51PbhjYxqNBKU6a4FfAYPrvR7BktyF
- P+YxjoKj/ZeEM7FjtgGnJ8koXinxr8t1d7/lBa6IwB2Dj1LKqM+1s2BhCfXabdYOk9mc
- qWa36vP47Ego0llx3gUmbG5uEs/klTV4J8re+SBSAiC3k7qmirm4h0MlNUBvQj8Vfib/
- j0W9SmJB/r/gElVVhcYp3QYJjAHPM7MrIs9KWtmHP761mkTuHeNsaRBztu+ql5opqiHp
- SXzw==
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lo2R8-0005Rc-I4
+ for qemu-devel@nongnu.org; Tue, 01 Jun 2021 07:19:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36342)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lo2R7-00050i-6W
+ for qemu-devel@nongnu.org; Tue, 01 Jun 2021 07:19:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1622546392;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ypM71I9ngkzyVJ8KfIKx0MNPd1cKehC7qgUHI7ziCDk=;
+ b=PUvOYUrVlXDVHVp96Eag1e75JKMuEbt/JxoZyKGOhbcKXfEYWZjfDu7Q4Qwz2icnSRUijD
+ mo5hG/z+nubmvX15gsqcYw+AkZdKynIWcserbhIiu1KgUVEah/iKaWwrKwasCPBMOnj1jz
+ 4s93SDKMThSDfjwjAjy9atRfWffEZUg=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-445-3dRUy0pWMLCvyexvm9wbvg-1; Tue, 01 Jun 2021 07:19:50 -0400
+X-MC-Unique: 3dRUy0pWMLCvyexvm9wbvg-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ dd28-20020a056402313cb029038fc9850034so6106096edb.7
+ for <qemu-devel@nongnu.org>; Tue, 01 Jun 2021 04:19:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=UDTccMHylWkNvdanBlrrYTapev3zuulFwiN4Ht6Si7c=;
- b=R79xpKnLTvVOrL3GuIiN/r+Fq18ilWXkiEbYdmKFtX1VzwX98PEJQ0Svlh9oxbwpL9
- NFg+5SHnFIJXV8axac5IsaOYN+E4GEKIcrUhCzZMCVa515oAbPVOa3+aWbM1AwHFEtE6
- FSu4gbg4UPhZ3/sl2sQX/pYZqO1+LYdyVONWMP31xZWngpVRxmr21XZMIHB7C4tcUmVT
- Q53iF67qYUteZUKfxYt1xaEcyu4/eJuKhLYD/brRKjZ1eV6S+imQBUSPIQV8Bh9Z4VQV
- pSxwCtFxnq6BHcqD2HLEzASJzqp0SDcEDaFWXw/BIWsccyGeY8ViUOUWcalkjxK0I467
- evuA==
-X-Gm-Message-State: AOAM532BHVASYKyz5C/K8AdGXHw+XFXYtHGb11jzxmUB7+8Kz23qbz9G
- 4gRcgoAHbVFF4dGFevl3IvUSPA==
-X-Google-Smtp-Source: ABdhPJwGvcEMaIUyGD1YyEIpsUNrGYCY5EebCNDbe6lvDmVI6AeU+pWLe6rClwnDSS9AS7Qs/fRFmw==
-X-Received: by 2002:a1c:cc12:: with SMTP id h18mr25765437wmb.141.1622546963186; 
- Tue, 01 Jun 2021 04:29:23 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id j10sm2948107wrt.32.2021.06.01.04.29.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Jun 2021 04:29:22 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 81E701FF7E;
- Tue,  1 Jun 2021 12:29:21 +0100 (BST)
-References: <20210530063712.6832-1-ma.mandourr@gmail.com>
- <20210530063712.6832-3-ma.mandourr@gmail.com>
-User-agent: mu4e 1.5.13; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Mahmoud Mandour <ma.mandourr@gmail.com>
-Subject: Re: [RFC PATCH v2 2/3] plugins: cache: Enabled parameterization and
- added trace printing
-Date: Tue, 01 Jun 2021 12:18:58 +0100
-In-reply-to: <20210530063712.6832-3-ma.mandourr@gmail.com>
-Message-ID: <877djdddri.fsf@linaro.org>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=ypM71I9ngkzyVJ8KfIKx0MNPd1cKehC7qgUHI7ziCDk=;
+ b=hAdBgrCLE3ojDCa3ubIBxaJGGNWkmMPbYgO65iXZ9baSMry1OtX6lVTLWdIv+uCjg6
+ sD3ShLUueIcAkiVH5Yys8LwP6NlcgLn7QQzvlpQEPoEff7j9PJWGbUbcDdzC7voEYlLg
+ 85yTdsRzL/u5eSOWxXybVD8Rb5yYAki4D5EzF+Z2vBRqYwMsiEPXBYTlFvBTRkwg3P6H
+ UoLf+SNZ6STM+CJPjgSJKX64jtv8yk6L6cW66IRk0ITtjNuyIoh8R8Et3ZRi/AyJfcLw
+ FXOgTBwo0TvtBHOx9GNDpX39zO6aXw4zao+9uwW06sgeA2Fknt7PfAjnWMcnLVqRkKeX
+ mWtQ==
+X-Gm-Message-State: AOAM532gzSRIyqg97aqqH8kc2PmcHa7cYw+ZWASqrCEkYONZZiu6PEAc
+ GSYx7Ksbyzb0m85F8aAlF/b1pvF9O158qRUFctG0niQxoB7So1hE0TiQl7b6UaJ2hdRg6FvghCu
+ TxKY10ZoYxivMRv8=
+X-Received: by 2002:a17:906:14c9:: with SMTP id
+ y9mr15516305ejc.192.1622546389771; 
+ Tue, 01 Jun 2021 04:19:49 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwJZDPIBDZwnmYRcJ99wLgG43KtVP2Lde1uoZ+W9CQWHIRsc+qB8sS5vE2w4rb8+63VnsaNRw==
+X-Received: by 2002:a17:906:14c9:: with SMTP id
+ y9mr15516273ejc.192.1622546389528; 
+ Tue, 01 Jun 2021 04:19:49 -0700 (PDT)
+Received: from dresden.str.redhat.com ([2a02:908:1e46:160:b272:8083:d5:bc7d])
+ by smtp.gmail.com with ESMTPSA id
+ f21sm6295185edr.45.2021.06.01.04.19.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 01 Jun 2021 04:19:49 -0700 (PDT)
+Subject: Re: [PATCH v2 29/33] iotests.py: hmp_qemu_io: support qdev
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20210520142205.607501-1-vsementsov@virtuozzo.com>
+ <20210520142205.607501-30-vsementsov@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
+Message-ID: <2874d95f-d98b-1c9f-a3df-e8545e25c143@redhat.com>
+Date: Tue, 1 Jun 2021 13:19:48 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x334.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210520142205.607501-30-vsementsov@virtuozzo.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -37
+X-Spam_score: -3.8
+X-Spam_bar: ---
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.372,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.591, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,195 +102,18 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>
+Cc: kwolf@redhat.com, berrange@redhat.com, ehabkost@redhat.com, den@openvz.org,
+ jsnow@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com, crosa@redhat.com,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-(Stefan CC'ed for tracing discussion)
-
-Mahmoud Mandour <ma.mandourr@gmail.com> writes:
-
-> Made both icache and dcache configurable through plugin arguments
-> and added memory trace printing in a separate file.
-
-Please keep the commits discreet and single topic. The memory trace is
-an extra feature so should be in it's own commit.
-
->
-> Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
+On 20.05.21 16:22, Vladimir Sementsov-Ogievskiy wrote:
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 > ---
->  contrib/plugins/cache.c | 68 +++++++++++++++++++++++++++++++++++++++--
->  1 file changed, 66 insertions(+), 2 deletions(-)
->
-> diff --git a/contrib/plugins/cache.c b/contrib/plugins/cache.c
-> index 8c9d1dd538..fa0bf1dd40 100644
-> --- a/contrib/plugins/cache.c
-> +++ b/contrib/plugins/cache.c
-> @@ -22,7 +22,7 @@ static GRand *rng;
->  static GHashTable *dmiss_ht;
->  static GHashTable *imiss_ht;
->=20=20
-> -static GMutex dmtx, imtx;
-> +static GMutex dmtx, imtx, fmtx;
->=20=20
->  static int limit;
->  static bool sys;
-> @@ -33,6 +33,8 @@ static uint64_t dmisses;
->  static uint64_t imem_accesses;
->  static uint64_t imisses;
->=20=20
-> +FILE *tracefile;
-> +
->  static enum qemu_plugin_mem_rw rw =3D QEMU_PLUGIN_MEM_RW;
->=20=20
->  enum AccessResult {
-> @@ -205,6 +207,16 @@ static void vcpu_mem_access(unsigned int cpu_index, =
-qemu_plugin_meminfo_t info,
->      insn_addr =3D ((struct InsnData *) userdata)->addr;
->      effective_addr =3D hwaddr ? qemu_plugin_hwaddr_phys_addr(hwaddr) : v=
-addr;
->=20=20
-> +    if (tracefile) {
-> +        g_mutex_lock(&fmtx);
-> +        g_autoptr(GString) rep =3D g_string_new("");
-> +        bool is_store =3D qemu_plugin_mem_is_store(info);
-> +        g_string_append_printf(rep, "%c: 0x%" PRIx64,
-> +                is_store ? 'S' : 'L', effective_addr);
-> +        fprintf(tracefile, "%s\n", rep->str);
-> +        g_mutex_unlock(&fmtx);
-> +    }
+>   tests/qemu-iotests/iotests.py | 5 +++--
+>   1 file changed, 3 insertions(+), 2 deletions(-)
 
-I can see this would be useful for debugging but I'm wary of adding
-ad-hoc tracing formats when QEMU already has support for a wide range of
-tracing formats. We discussed this a bit in:
+Reviewed-by: Max Reitz <mreitz@redhat.com>
 
-  Subject: trace_FOO_tcg bit-rotted?
-  Date: Tue, 06 Apr 2021 17:00:20 +0100
-  Message-ID: <87eefnwd0l.fsf@linaro.org>
-
-However I don't know how easy it would be to leverage the existing
-tracing infrastructure from inside a plugin. As I understand it QEMU
-currently builds a static list of trace points during the build so maybe
-we would need additional infrastructure for a plugin to register a trace
-point and for the final output to be use-able. For example the binary
-trace output I think still needs to reference the source trace-events
-file?
-
-So that's not a NACK but maybe we could spend a little time working out
-if we can come up with a cleaner solution?
-
-Stefan, any thoughts?
-
->      if (access_cache(dcache, effective_addr) =3D=3D MISS) {
->          struct InsnData *insn =3D get_or_create(dmiss_ht, userdata, insn=
-_addr);
->          insn->misses++;
-> @@ -221,11 +233,20 @@ static void vcpu_insn_exec(unsigned int vcpu_index,=
- void *userdata)
->      g_mutex_lock(&imtx);
->      addr =3D ((struct InsnData *) userdata)->addr;
->=20=20
-> +    if (tracefile) {
-> +        g_mutex_lock(&fmtx);
-> +        g_autoptr(GString) rep =3D g_string_new("");
-> +        g_string_append_printf(rep, "I: 0x%" PRIx64, addr);
-> +        fprintf(tracefile, "%s\n", rep->str);
-> +        g_mutex_unlock(&fmtx);
-> +    }
-> +
->      if (access_cache(icache, addr) =3D=3D MISS) {
->          struct InsnData *insn =3D get_or_create(imiss_ht, userdata, addr=
-);
->          insn->misses++;
->          imisses++;
->      }
-> +
->      imem_accesses++;
->      g_mutex_unlock(&imtx);
->  }
-> @@ -352,6 +373,15 @@ static void plugin_exit()
->=20=20
->      g_mutex_unlock(&dmtx);
->      g_mutex_unlock(&imtx);
-> +
-> +    if (tracefile) {
-> +        fclose(tracefile);
-> +    }
-> +}
-> +
-> +static bool bad_cache_params(int blksize, int assoc, int cachesize)
-> +{
-> +    return (cachesize % blksize) !=3D 0 || (cachesize % (blksize * assoc=
-) !=3D 0);
->  }
->=20=20
->  QEMU_PLUGIN_EXPORT
-> @@ -377,14 +407,48 @@ int qemu_plugin_install(qemu_plugin_id_t id, const =
-qemu_info_t *info,
->=20=20
->      for (i =3D 0; i < argc; i++) {
->          char *opt =3D argv[i];
-> -        if (g_str_has_prefix(opt, "limit=3D")) {
-> +        if (g_str_has_prefix(opt, "I=3D")) {
-> +            gchar **toks =3D g_strsplit(opt + 2, " ", -1);
-> +            if (g_strv_length(toks) !=3D 3) {
-> +                fprintf(stderr, "option parsing failed: %s\n", opt);
-> +                return -1;
-> +            }
-> +            icachesize =3D g_ascii_strtoull(toks[0], NULL, 10);
-> +            iassoc =3D g_ascii_strtoull(toks[1], NULL, 10);
-> +            iblksize =3D g_ascii_strtoull(toks[2], NULL, 10);
-> +        } else if (g_str_has_prefix(opt, "D=3D")) {
-> +            gchar **toks =3D g_strsplit(opt + 2, " ", -1);
-> +            if (g_strv_length(toks) !=3D 3) {
-> +                fprintf(stderr, "option parsing failed: %s\n", opt);
-> +                return -1;
-> +            }
-> +            dcachesize =3D g_ascii_strtoull(toks[0], NULL, 10);
-> +            dassoc =3D g_ascii_strtoull(toks[1], NULL, 10);
-> +            dblksize =3D g_ascii_strtoull(toks[2], NULL, 10);
-> +        } else if (g_str_has_prefix(opt, "limit=3D")) {
->              limit =3D g_ascii_strtoull(opt + 6, NULL, 10);
-> +        } else if (g_str_has_prefix(opt, "tracefile=3D")) {
-> +            char *file_name =3D opt + 10;
-> +            tracefile =3D fopen(file_name, "w");
-> +            if (!tracefile) {
-> +                fprintf(stderr, "could not open: %s for writing\n", file=
-_name);
-> +            }
->          } else {
->              fprintf(stderr, "option parsing failed: %s\n", opt);
->              return -1;
->          }
->      }
->=20=20
-> +    if (bad_cache_params(iblksize, iassoc, icachesize)) {
-> +        fprintf(stderr, "icache cannot be constructed from given paramet=
-ers\n");
-> +        return -1;
-> +    }
-> +
-> +    if (bad_cache_params(dblksize, dassoc, dcachesize)) {
-> +        fprintf(stderr, "dcache cannot be constructed from given paramet=
-ers\n");
-> +        return -1;
-> +    }
-> +
-
-Perhaps roll bad_cache_params into cache_init and return NULL if it
-fails, so:
-
-  dcache =3D cache_init(dblksize, dassoc, dcachesize);
-  if (!dcache) {
-    fprintf(stderr, "dcache cannot be constructed from given parameters\n");
-    return -1;
-  }
-
->      dcache =3D cache_init(dblksize, dassoc, dcachesize);
->      icache =3D cache_init(iblksize, iassoc, icachesize);
-
-
---=20
-Alex Benn=C3=A9e
 
