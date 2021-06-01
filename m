@@ -2,71 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1CC939743F
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Jun 2021 15:32:02 +0200 (CEST)
-Received: from localhost ([::1]:41728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62927397472
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Jun 2021 15:38:12 +0200 (CEST)
+Received: from localhost ([::1]:56548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lo4Uz-0000MJ-O0
-	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 09:32:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43404)
+	id 1lo4ax-0002bV-Gx
+	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 09:38:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44490)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lo4Oh-0003nJ-Jh
- for qemu-devel@nongnu.org; Tue, 01 Jun 2021 09:25:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51954)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lo4Of-00081N-E7
- for qemu-devel@nongnu.org; Tue, 01 Jun 2021 09:25:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622553928;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=MREGTdfWsC+iEg1iPte2oenSmyrL5qC41bBzh+rI1Uw=;
- b=ZqI9IbH/xOEei3Nu2u61uxt9sYtgk0V1SHPodZz3fNinypEBCMmIuHJHzakGTXlisKZyzh
- SV+RH60SMUZr8B3qqaQ76HtR0f9Ifu64h0bSFl88serS/+FJrnB7+aTnmOC3aOIjSQ2dAd
- 7d7g5YKCb2jorn+i6LwgKapcYN10Ln4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-491-5mNAwBv6PMONYKOlL-f54A-1; Tue, 01 Jun 2021 09:25:27 -0400
-X-MC-Unique: 5mNAwBv6PMONYKOlL-f54A-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 33939189C461
- for <qemu-devel@nongnu.org>; Tue,  1 Jun 2021 13:25:26 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-112-84.ams2.redhat.com
- [10.36.112.84])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A6F2361140;
- Tue,  1 Jun 2021 13:25:25 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 07F8C18007B9; Tue,  1 Jun 2021 15:24:15 +0200 (CEST)
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v4 13/13] meson: move virtio-gl trace events to separate file
-Date: Tue,  1 Jun 2021 15:24:14 +0200
-Message-Id: <20210601132414.432430-14-kraxel@redhat.com>
-In-Reply-To: <20210601132414.432430-1-kraxel@redhat.com>
-References: <20210601132414.432430-1-kraxel@redhat.com>
+ (Exim 4.90_1) (envelope-from <liliang324@gmail.com>)
+ id 1lo4TH-0007Cm-9P
+ for qemu-devel@nongnu.org; Tue, 01 Jun 2021 09:30:16 -0400
+Received: from mail-lf1-x12a.google.com ([2a00:1450:4864:20::12a]:36694)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <liliang324@gmail.com>)
+ id 1lo4TC-0002Oi-PY
+ for qemu-devel@nongnu.org; Tue, 01 Jun 2021 09:30:15 -0400
+Received: by mail-lf1-x12a.google.com with SMTP id q1so21821174lfo.3
+ for <qemu-devel@nongnu.org>; Tue, 01 Jun 2021 06:30:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=jkQlDO685xDJqrzL2iqgvvvwo6S6SiI7DXtQHAtFDwE=;
+ b=J2TEc2TsluRQv/aSFtt9HpGQNKdiHCrBqozRc97ihuc5xiZPS6OqQ3stQTBNhT9JdV
+ KFD+pMaw7mLE09bHOlbpjzxoa0ikJ0bebIkNN/Nxm9hiidBxP7VTKhwAYryT6Bliixc9
+ 88HROxFQAJw/z368D2tz7tkM1YpZ798OTDEadfycJSP9GEyRlKG1nc585/Ef3ja0751d
+ MEji4FkTBSEUwLAh4oc3kfMV7DoRnXzfnz0Q5465WY37VwWPTvFSUP5hDDH9TX/Oiyh3
+ +iD0JiScaMb3ZgktZVNoWivg3omtHQywtkwLk8aSHyytQ4Ad8H5DYASrJq+BxwN9WGMN
+ 5Q1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=jkQlDO685xDJqrzL2iqgvvvwo6S6SiI7DXtQHAtFDwE=;
+ b=ITal4hNyjDz014+r6k5tjyQeOrUUJ/TYpZjg2Mun5RB3S1nRY3lwjgv3sLFfKALGsD
+ c35thj3mplQAOeqR/NiqviYNujp9TH9DSwgaXVnsBUibuys01dn2RHsMgJXcjQJtFxff
+ 3ByaRwT0NQxMNHjGEQiicogwetTscJ+oU/Wv1QRfMDDfyoE6wB6m8yx7ir52NGqYkjY/
+ /29QFOYM4qGWQkQm5oFnwpHljzEAZ++uRopypA7DQQJqaoAUE4+z6bcpweYdFMLr+5K8
+ rseXT7FfrgqdSLnkbvsLHk+UkTNlOhzGMONjE/XXT8a90IAJRBT0BfMFfP49+JR/r8jL
+ sb9g==
+X-Gm-Message-State: AOAM530XDyk01ZQL00cfQO4iEoB0S3YPEPzqgpI8GrLpKxN1NSu0BGq5
+ zqDKvo7SpY6zKd22ayiv3IfSwMy1/uLYFbuod5w=
+X-Google-Smtp-Source: ABdhPJzei4zXDgEQqyxuNHcw6Z/T2nPFniWQDacaeCUN6yb55DWytOea/sHrBJu7MEsj6XeA+jmy2gxyfJ97IXbkjsY=
+X-Received: by 2002:ac2:5d29:: with SMTP id i9mr18833884lfb.638.1622554208031; 
+ Tue, 01 Jun 2021 06:30:08 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <CA+2MQi-_06J1cmLhKAmV1vkPEnvDx6+bOnK06OciYmdymaNruw@mail.gmail.com>
+ <87cztmkdlp.fsf@vitty.brq.redhat.com>
+ <CA+2MQi_LG57KRRFjMR_zPvJBDaH4z16S5J=c+U+-Ss_Z71Ax7g@mail.gmail.com>
+ <87y2c8iia0.fsf@vitty.brq.redhat.com>
+ <CA+2MQi-OK5zK_sBtm8k-nnqVPQTSzE1UVTEfQ4KBChMHc=Npzg@mail.gmail.com>
+ <87k0no4k4q.fsf@vitty.brq.redhat.com>
+In-Reply-To: <87k0no4k4q.fsf@vitty.brq.redhat.com>
+From: Liang Li <liliang324@gmail.com>
+Date: Tue, 1 Jun 2021 21:29:56 +0800
+Message-ID: <CA+2MQi_1N=HD7z7s6-MOcQ6xS14KxPS=TqjHTrWDdTP7jteMPw@mail.gmail.com>
+Subject: Re: About the performance of hyper-v
+To: Vitaly Kuznetsov <vkuznets@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::12a;
+ envelope-from=liliang324@gmail.com; helo=mail-lf1-x12a.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,116 +82,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Markus Armbruster <armbru@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: Tianyu.Lan@microsoft.com, qemu-devel@nongnu.org, kvm@vger.kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move virtio-gpu-gl trace events to separate trace-events-virtio-gl file.
+==========================
+> > Analyze events for all VMs, all VCPUs:
+> >              VM-EXIT    Samples  Samples%     Time%    Min Time    Max
+> > Time         Avg time
+> >            MSR_WRITE     924045    89.96%    81.10%      0.42us
+> > 68.42us      1.26us ( +-   0.07% )
+> >            DR_ACCESS      44669     4.35%     2.36%      0.32us
+> > 50.74us      0.76us ( +-   0.32% )
+> >   EXTERNAL_INTERRUPT      29809     2.90%     6.42%      0.66us
+> > 70.75us      3.10us ( +-   0.54% )
+> >               VMCALL      17819     1.73%     5.21%      0.75us
+> > 15.64us      4.20us ( +-   0.33%
+> >
+> > Total Samples:1027227, Total events handled time:1436343.94us.
+> > ===============================
+> >
+> > The result shows the overhead increased.  enable the apicv can help to
+> > reduce the vm-exit
+> > caused by interrupt injection, but on the other side, there are a lot
+> > of vm-exit caused by APIC_EOI.
+> >
+> > When turning off the hyper-v and using the kvm apicv, there is no such
+> > overhead.
+>
+> I think I know what's happening. We've asked Windows to use synthetic
+> MSRs to access APIC (HV_APIC_ACCESS_RECOMMENDED) and this can't be
+> accelerated in hardware.
+>
+> Could you please try the following hack (KVM):
+>
+> diff --git a/arch/x86/kvm/cpuid.c b/arch/x86/kvm/cpuid.c
+> index c8f2592ccc99..66ee85a83e9a 100644
+> --- a/arch/x86/kvm/cpuid.c
+> +++ b/arch/x86/kvm/cpuid.c
+> @@ -145,6 +145,13 @@ void kvm_update_cpuid_runtime(struct kvm_vcpu *vcpu)
+>                                            vcpu->arch.ia32_misc_enable_msr &
+>                                            MSR_IA32_MISC_ENABLE_MWAIT);
+>         }
+> +
+> +       /* Dirty hack: force HV_DEPRECATING_AEOI_RECOMMENDED. Not to be merged! */
+> +       best = kvm_find_cpuid_entry(vcpu, HYPERV_CPUID_ENLIGHTMENT_INFO, 0);
+> +       if (best) {
+> +               best->eax &= ~HV_X64_APIC_ACCESS_RECOMMENDED;
+> +               best->eax |= HV_DEPRECATING_AEOI_RECOMMENDED;
+> +       }
+>  }
+>  EXPORT_SYMBOL_GPL(kvm_update_cpuid_runtime);
+>
+> > It seems turning on hyper V related features is not always the best
+> > choice for a windows guest.
+>
+> Generally it is, we'll just need to make QEMU smarter when setting
+> 'recommendation' bits.
+>
 
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
----
- hw/display/trace-virtio-gl.h      |  1 +
- hw/display/virtio-gpu-virgl.c     |  2 +-
- hw/display/meson.build            |  4 ++++
- hw/display/trace-events           | 19 -------------------
- hw/display/trace-events-virtio-gl | 18 ++++++++++++++++++
- 5 files changed, 24 insertions(+), 20 deletions(-)
- create mode 100644 hw/display/trace-virtio-gl.h
- create mode 100644 hw/display/trace-events-virtio-gl
+Hi Vitaly,
 
-diff --git a/hw/display/trace-virtio-gl.h b/hw/display/trace-virtio-gl.h
-new file mode 100644
-index 000000000000..7fbccbf8bd77
---- /dev/null
-+++ b/hw/display/trace-virtio-gl.h
-@@ -0,0 +1 @@
-+#include "trace/trace-hw_display_virtio_gpu_gl.h"
-diff --git a/hw/display/virtio-gpu-virgl.c b/hw/display/virtio-gpu-virgl.c
-index ae48b98382ad..16f15ead4c76 100644
---- a/hw/display/virtio-gpu-virgl.c
-+++ b/hw/display/virtio-gpu-virgl.c
-@@ -13,7 +13,7 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/iov.h"
--#include "trace.h"
-+#include "trace-virtio-gl.h"
- #include "hw/virtio/virtio.h"
- #include "hw/virtio/virtio-gpu.h"
- 
-diff --git a/hw/display/meson.build b/hw/display/meson.build
-index 645a12a7af99..373a0dce7cca 100644
---- a/hw/display/meson.build
-+++ b/hw/display/meson.build
-@@ -71,6 +71,10 @@ if config_all_devices.has_key('CONFIG_VIRTIO_GPU')
-   virtio_gpu_gl_ss = ss.source_set()
-   virtio_gpu_gl_ss.add(when: ['CONFIG_VIRTIO_GPU', 'CONFIG_VIRGL', opengl],
-                        if_true: [files('virtio-gpu-gl.c', 'virtio-gpu-virgl.c'), pixman, virgl])
-+  trace_events_config += {
-+    'file'   : meson.source_root() / 'hw' / 'display' / 'trace-events-virtio-gl',
-+    'module' : 'hw-display-virtio-gpu-gl',
-+  }
-   hw_display_modules += {'virtio-gpu-gl': virtio_gpu_gl_ss}
- endif
- 
-diff --git a/hw/display/trace-events b/hw/display/trace-events
-index 27654aee8799..2127af5a14ef 100644
---- a/hw/display/trace-events
-+++ b/hw/display/trace-events
-@@ -22,25 +22,6 @@ vmware_scratch_read(uint32_t index, uint32_t value) "index %d, value 0x%x"
- vmware_scratch_write(uint32_t index, uint32_t value) "index %d, value 0x%x"
- vmware_setmode(uint32_t w, uint32_t h, uint32_t bpp) "%dx%d @ %d bpp"
- 
--# virtio-gpu-virgl.c
--virtio_gpu_gl_cmd_set_scanout(uint32_t id, uint32_t res, uint32_t w, uint32_t h, uint32_t x, uint32_t y) "id %d, res 0x%x, w %d, h %d, x %d, y %d"
--virtio_gpu_gl_cmd_res_create_2d(uint32_t res, uint32_t fmt, uint32_t w, uint32_t h) "res 0x%x, fmt 0x%x, w %d, h %d"
--virtio_gpu_gl_cmd_res_create_3d(uint32_t res, uint32_t fmt, uint32_t w, uint32_t h, uint32_t d) "res 0x%x, fmt 0x%x, w %d, h %d, d %d"
--virtio_gpu_gl_cmd_res_unref(uint32_t res) "res 0x%x"
--virtio_gpu_gl_cmd_res_back_attach(uint32_t res) "res 0x%x"
--virtio_gpu_gl_cmd_res_back_detach(uint32_t res) "res 0x%x"
--virtio_gpu_gl_cmd_res_xfer_toh_2d(uint32_t res) "res 0x%x"
--virtio_gpu_gl_cmd_res_xfer_toh_3d(uint32_t res) "res 0x%x"
--virtio_gpu_gl_cmd_res_xfer_fromh_3d(uint32_t res) "res 0x%x"
--virtio_gpu_gl_cmd_res_flush(uint32_t res, uint32_t w, uint32_t h, uint32_t x, uint32_t y) "res 0x%x, w %d, h %d, x %d, y %d"
--virtio_gpu_gl_cmd_ctx_create(uint32_t ctx, const char *name) "ctx 0x%x, name %s"
--virtio_gpu_gl_cmd_ctx_destroy(uint32_t ctx) "ctx 0x%x"
--virtio_gpu_gl_cmd_ctx_res_attach(uint32_t ctx, uint32_t res) "ctx 0x%x, res 0x%x"
--virtio_gpu_gl_cmd_ctx_res_detach(uint32_t ctx, uint32_t res) "ctx 0x%x, res 0x%x"
--virtio_gpu_gl_cmd_ctx_submit(uint32_t ctx, uint32_t size) "ctx 0x%x, size %d"
--virtio_gpu_gl_fence_ctrl(uint64_t fence, uint32_t type) "fence 0x%" PRIx64 ", type 0x%x"
--virtio_gpu_gl_fence_resp(uint64_t fence) "fence 0x%" PRIx64
--
- # vga.c
- vga_std_read_io(uint32_t addr, uint32_t val) "addr 0x%x, val 0x%x"
- vga_std_write_io(uint32_t addr, uint32_t val) "addr 0x%x, val 0x%x"
-diff --git a/hw/display/trace-events-virtio-gl b/hw/display/trace-events-virtio-gl
-new file mode 100644
-index 000000000000..1ccb0388917f
---- /dev/null
-+++ b/hw/display/trace-events-virtio-gl
-@@ -0,0 +1,18 @@
-+# virtio-gpu-virgl.c
-+virtio_gpu_gl_cmd_set_scanout(uint32_t id, uint32_t res, uint32_t w, uint32_t h, uint32_t x, uint32_t y) "id %d, res 0x%x, w %d, h %d, x %d, y %d"
-+virtio_gpu_gl_cmd_res_create_2d(uint32_t res, uint32_t fmt, uint32_t w, uint32_t h) "res 0x%x, fmt 0x%x, w %d, h %d"
-+virtio_gpu_gl_cmd_res_create_3d(uint32_t res, uint32_t fmt, uint32_t w, uint32_t h, uint32_t d) "res 0x%x, fmt 0x%x, w %d, h %d, d %d"
-+virtio_gpu_gl_cmd_res_unref(uint32_t res) "res 0x%x"
-+virtio_gpu_gl_cmd_res_back_attach(uint32_t res) "res 0x%x"
-+virtio_gpu_gl_cmd_res_back_detach(uint32_t res) "res 0x%x"
-+virtio_gpu_gl_cmd_res_xfer_toh_2d(uint32_t res) "res 0x%x"
-+virtio_gpu_gl_cmd_res_xfer_toh_3d(uint32_t res) "res 0x%x"
-+virtio_gpu_gl_cmd_res_xfer_fromh_3d(uint32_t res) "res 0x%x"
-+virtio_gpu_gl_cmd_res_flush(uint32_t res, uint32_t w, uint32_t h, uint32_t x, uint32_t y) "res 0x%x, w %d, h %d, x %d, y %d"
-+virtio_gpu_gl_cmd_ctx_create(uint32_t ctx, const char *name) "ctx 0x%x, name %s"
-+virtio_gpu_gl_cmd_ctx_destroy(uint32_t ctx) "ctx 0x%x"
-+virtio_gpu_gl_cmd_ctx_res_attach(uint32_t ctx, uint32_t res) "ctx 0x%x, res 0x%x"
-+virtio_gpu_gl_cmd_ctx_res_detach(uint32_t ctx, uint32_t res) "ctx 0x%x, res 0x%x"
-+virtio_gpu_gl_cmd_ctx_submit(uint32_t ctx, uint32_t size) "ctx 0x%x, size %d"
-+virtio_gpu_gl_fence_ctrl(uint64_t fence, uint32_t type) "fence 0x%" PRIx64 ", type 0x%x"
-+virtio_gpu_gl_fence_resp(uint64_t fence) "fence 0x%" PRIx64
--- 
-2.31.1
+I have tried your patch and found it can help to reduce the overhead.
+it works as well as
+the  option  "<feature policy='disable' name='hypervisor'/>" is set in
+libvirt xml.
 
+=======with your patch and stimer enabled=====
+Analyze events for all VMs, all VCPUs:
+             VM-EXIT    Samples  Samples%     Time%    Min Time    Max
+Time         Avg time
+          APIC_WRITE     172232    78.36%    68.99%      0.70us
+47.71us      1.48us ( +-   0.18% )
+         DR_ACCESS      19136     8.71%     4.42%      0.55us
+4.42us      0.85us ( +-   0.32% )
+  EXTERNAL_INTERRUPT      15921     7.24%    13.84%      0.87us
+55.28us      3.21us ( +-   0.55% )
+              VMCALL       6971     3.17%    10.34%      1.16us
+12.02us      5.48us ( +-   0.49%
+Total Samples:219802, Total events handled time:369310.30us.
+
+===========with hypervisor disabled=========
+
+Analyze events for all VMs, all VCPUs:
+             VM-EXIT    Samples  Samples%     Time%    Min Time    Max
+Time         Avg time
+          APIC_WRITE     200482    78.51%    68.62%      0.64us
+49.51us      1.37us ( +-   0.16% )
+           DR_ACCESS      24235     9.49%     4.92%      0.55us
+3.65us      0.81us ( +-   0.26% )
+  EXTERNAL_INTERRUPT      17084     6.69%    13.20%      0.89us
+56.38us      3.09us ( +-   0.53% )
+              VMCALL       7124     2.79%     9.87%      1.26us
+12.39us      5.54us ( +-   0.49% )
+         EOI_INDUCED       5066     1.98%     1.36%      0.66us
+2.64us      1.07us ( +-   0.25% )
+      IO_INSTRUCTION        591     0.23%     1.27%      3.37us
+673.23us      8.59us ( +-  13.69% )
+Total Samples:255363, Total events handled time:399954.27us.
+
+
+Thanks!
+Liang
 
