@@ -2,80 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48570397100
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Jun 2021 12:10:06 +0200 (CEST)
-Received: from localhost ([::1]:41874 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F32493970F2
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Jun 2021 12:07:45 +0200 (CEST)
+Received: from localhost ([::1]:39152 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lo1LZ-0002eY-Ca
-	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 06:10:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56288)
+	id 1lo1JG-0000mE-UZ
+	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 06:07:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55658)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lo1J5-0001GF-Kh
- for qemu-devel@nongnu.org; Tue, 01 Jun 2021 06:07:31 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:44890)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lo1J2-0001AK-H6
- for qemu-devel@nongnu.org; Tue, 01 Jun 2021 06:07:31 -0400
-Received: by mail-wr1-x429.google.com with SMTP id f2so2572793wri.11
- for <qemu-devel@nongnu.org>; Tue, 01 Jun 2021 03:07:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:message-id
- :in-reply-to:mime-version:content-transfer-encoding;
- bh=6RjK8RtTmGOnMmqg4dzaMJdy9n3kz8IEifafrE9sjQo=;
- b=XPWPrhbENC9KwRTHn+axWBXW3jiTvrz8pixhp3Ub2n2ndY61K9FK+Y4UuSnVphXMFY
- sAtEwu+Q15jUXBmF+jBdNAjYS0JE90O8thY1gnCmjNGgJoBhZCnH83uXNFxvDy+c/yzb
- /085wEicsqb99o3WDHcCO16gKb4lscfNAOD9QaWbeu31GCMPXFZ8QgWDBKggbpRJ6iS7
- Phr0Lqb292gpkPhpJUCyLOg4Ia2fneEpC9IHKhDC2mzKrj/MUMo8/5xV7ueJzwltgndS
- SMwb/w5IqL2T3F7rU0bavOWeE3xD9rNQMmqc+gmNG7O5m4PGtrmewWeb2F34F2BxDQXy
- R1lg==
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lo1HJ-0008EZ-3c
+ for qemu-devel@nongnu.org; Tue, 01 Jun 2021 06:05:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20599)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lo1HC-00007M-V2
+ for qemu-devel@nongnu.org; Tue, 01 Jun 2021 06:05:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1622541933;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=aItQ+SPvSmqddOBoT4DtFEfdGn7KkexU+UGdWfOr8AM=;
+ b=fp0qsJsY1BNPne5i4F5XUQEfO+9v/4nabe9Llyje6IDbNde3Sag/wOUaoAT7l2vNKktOI1
+ LOdYi9gm4A99Z83fqvE7AFLLmf8DGhLdvzD4rd28CprmqCSAh9r+XahLPi8HLclJeZ3bBO
+ kNEKP6HcmUukALoqpAAe4fhg1CjxtH4=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-552-6m9fPuBJPu27R0CEOAU6hQ-1; Tue, 01 Jun 2021 06:05:31 -0400
+X-MC-Unique: 6m9fPuBJPu27R0CEOAU6hQ-1
+Received: by mail-ej1-f70.google.com with SMTP id
+ f1-20020a1709064941b02903f6b5ef17bfso876158ejt.20
+ for <qemu-devel@nongnu.org>; Tue, 01 Jun 2021 03:05:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :message-id:in-reply-to:mime-version:content-transfer-encoding;
- bh=6RjK8RtTmGOnMmqg4dzaMJdy9n3kz8IEifafrE9sjQo=;
- b=b5OTwuatrnhcA/+KewOvbabwGSv8DxushuaS7wH837ZmUR723f+QBDh8Hdo4bQTgkd
- C7dvz+7kbGOlm7T/2c1rf7xkTojl6YztK5+xtiInCshCxfbIiFMXO3AiuY7JO9FyJGCs
- 3vMbH9NnLlznRzn26beBoQOGbj+AZdV9dF4Eqb25kaVdLhy8J+ced1XxsWz8VuzMpPhb
- FGKQvAnwFkKHhy07/Nm0vnZ+pEEl4tmgZXGrA3Zt9KAY+rYcoYzCPpQqr6d/ZOXF3txp
- V0Xt2IAGi2EdW4b3tC/rWAxuJpBvjT8NDHRKwn/JbL8CWMxu9Hn2TBGqatQoMx05ceTN
- KiPA==
-X-Gm-Message-State: AOAM533HQENI2yRw29u9Fx+J+Ueko8i5EWAzwP4lWanm8Ks0o38JY+3u
- EAFoF/dTcaj+tMdvzeT9cH1/Xw==
-X-Google-Smtp-Source: ABdhPJzp57F0SMV1c1poWzux+/tatUzadl9CEdssNWvHvGDp1XNkp1sdw08ohPocIlFu7gaVR7whjw==
-X-Received: by 2002:a05:6000:156d:: with SMTP id
- 13mr27075820wrz.181.1622542046742; 
- Tue, 01 Jun 2021 03:07:26 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id n12sm2861236wrs.19.2021.06.01.03.07.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Jun 2021 03:07:25 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 041BE1FF7E;
- Tue,  1 Jun 2021 11:07:25 +0100 (BST)
-References: <20210601090715.22330-1-alex.bennee@linaro.org>
- <CAFEAcA-zzg4Yh0pX2q-9OfFKEbX_uGkVb_8kZbQJJETLRo_zOQ@mail.gmail.com>
-User-agent: mu4e 1.5.13; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [RFC PATCH] semihosting/arm-compat: remove heuristic softmmu
- SYS_HEAPINFO
-Date: Tue, 01 Jun 2021 11:04:17 +0100
-Message-ID: <87fsy1dhke.fsf@linaro.org>
-In-reply-to: <CAFEAcA-zzg4Yh0pX2q-9OfFKEbX_uGkVb_8kZbQJJETLRo_zOQ@mail.gmail.com>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=aItQ+SPvSmqddOBoT4DtFEfdGn7KkexU+UGdWfOr8AM=;
+ b=emipyha+Ulv3h1PueQ606wUf2CxcuYDEcBu/2gcDkRBZceEuPOQZQwHf5QO+TTRzMf
+ /mFmxu2V97MEbvchu4VTZsO3WcX4bUfyZ7ni1IWNztwaDrKHSyj2p8mQGVqFet4tpUli
+ 84MYCzMR5oe4wtTPB+OQd8UbgDjJ1ocBV90DH/B16qkJZabQbkNa2FPWy55KQ22E7gUN
+ Sod9ggQ1Xg4MjTRVmcVqWpD444Om4gYgJLbQdly+0+g47RGKKHOi0gKjGISyod3DEQ7D
+ v+Ekk4SxbVP6FOiHiklT7d+W554lZoOf/+Tw1LGLHA6Nq4FYWk2cvq9JL8oD03poIn1U
+ wnSQ==
+X-Gm-Message-State: AOAM531yAjhnHqrUeErtzhduKFrTc2ieIzWbRfmDaRom8Uzb5a+ietLJ
+ xi8OrF1QFCbeoBNIGi/lyh6i6Dq+VO7U+t79F3gxvnEYe0HAV/jAe+WeSTzxBqhqjljetTQ8AUj
+ t9CyhC6pVlVcEypI=
+X-Received: by 2002:a50:d54c:: with SMTP id f12mr30891166edj.301.1622541928865; 
+ Tue, 01 Jun 2021 03:05:28 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw2y2mSkPSG7BwPbdj4kyuBvDx6aX7pGF2R2Kfg1COiJvxwNRGXZpYfr8CRt3u4EZHPN6SZLQ==
+X-Received: by 2002:a50:d54c:: with SMTP id f12mr30891144edj.301.1622541927782; 
+ Tue, 01 Jun 2021 03:05:27 -0700 (PDT)
+Received: from dresden.str.redhat.com ([2a02:908:1e46:160:b272:8083:d5:bc7d])
+ by smtp.gmail.com with ESMTPSA id
+ gb27sm491925ejc.18.2021.06.01.03.05.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 01 Jun 2021 03:05:26 -0700 (PDT)
+Subject: Re: [PATCH v2 23/33] python/qemu/machine.py: refactor _qemu_args()
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20210520142205.607501-1-vsementsov@virtuozzo.com>
+ <20210520142205.607501-24-vsementsov@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
+Message-ID: <adce53b1-a5f7-a085-3ca5-ad113e759e48@redhat.com>
+Date: Tue, 1 Jun 2021 12:05:25 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x429.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210520142205.607501-24-vsementsov@virtuozzo.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -37
+X-Spam_score: -3.8
+X-Spam_bar: ---
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.372,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.591, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,45 +100,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew <astrauss11@gmail.com>, QEMU Developers <qemu-devel@nongnu.org>,
- qemu-arm <qemu-arm@nongnu.org>
+Cc: kwolf@redhat.com, berrange@redhat.com, ehabkost@redhat.com, den@openvz.org,
+ jsnow@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com, crosa@redhat.com,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Peter Maydell <peter.maydell@linaro.org> writes:
-
-> On Tue, 1 Jun 2021 at 10:12, Alex Benn=C3=A9e <alex.bennee@linaro.org> wr=
-ote:
->>
->> The previous numbers were a guess at best. While we could extract the
->> information from a loaded ELF file via -kernel we could still get
->> tripped up by self decompressing or relocating code. Besides sane
->> library code has access to the same symbols in run time to make a
->> determination of the location of the heap.
->>
->> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->> Cc: Andrew <astrauss11@gmail.com>
->> ---
->>  semihosting/arm-compat-semi.c | 19 ++++++++++---------
->>  1 file changed, 10 insertions(+), 9 deletions(-)
+On 20.05.21 16:21, Vladimir Sementsov-Ogievskiy wrote:
+>   - use shorter construction
+>   - don't create new dict if not needed
+>   - drop extra unpacking key-val arguments
+>   - drop extra default values
 >
-> This seems like a pretty good candidate for breaking existing
-> working binaries. How much testing against different varieties of
-> guest-code-using-semihosting have you done ?
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>   python/qemu/machine.py | 18 ++++++++----------
+>   1 file changed, 8 insertions(+), 10 deletions(-)
 
-None, which is why it's an RFC - but at least one user reported newlib
-attempts to use the numbers we gave it rather than falling back to
-numbers it knew from the build and getting it wrong. I suspect any code
-that doesn't have a fallback path is getting it right more by luck than
-judgement though. I'd be curious to hear of code that relies on the
-numbers it gets from QEMU.
+Reviewed-by: Max Reitz <mreitz@redhat.com>
 
->
-> thanks
-> -- PMM
-
-
---=20
-Alex Benn=C3=A9e
 
