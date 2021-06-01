@@ -2,60 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46A72397877
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Jun 2021 18:52:38 +0200 (CEST)
-Received: from localhost ([::1]:51188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52CB7397878
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Jun 2021 18:52:48 +0200 (CEST)
+Received: from localhost ([::1]:51456 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lo7d6-0004J5-PA
-	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 12:52:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47316)
+	id 1lo7dH-0004Vb-BS
+	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 12:52:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47360)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lo7bP-0001II-Go; Tue, 01 Jun 2021 12:50:51 -0400
+ id 1lo7bS-0001L9-N8; Tue, 01 Jun 2021 12:50:54 -0400
 Received: from mail-eopbgr50117.outbound.protection.outlook.com
  ([40.107.5.117]:4526 helo=EUR03-VE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lo7bK-0001yq-Ac; Tue, 01 Jun 2021 12:50:49 -0400
+ id 1lo7bQ-0001yq-HX; Tue, 01 Jun 2021 12:50:54 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NP0lj1WAzhUorA1CAiWM3kDuYbXQ3XRey2pPRQaJ1G5wvID8H54sgiWExMm9fsO9t8r2g6pmO+4EljrjqRv6qiyK6tOcH+4/56GtaNhcofJJCo7/yOK+BzjfSPNmZPGrMs7LazYa0E25dloMuaD6kN6gQYBOj6al1Pq15777VwpP8p5aHPDRJ89DzF751gbscFf2LDih6vdY3+8Y3Wwb835lbtVXywF4NO2GI5OAdAP4Bt5Q647B27+umUWhQzgUb4ojhpMak0kqAivtCHJlE5isis+GnEN/d101PioeD7010D30R/sJOK7W8KY1v7R4PhsjY76RyclWrP/Vzpz2QQ==
+ b=KNQNQ3St7zFkjFKEKNkpFUJkPjnJpmv71acGyayq/k2mW4AFnAarQDMpd0d6wdNXvHXQXkq1v/hQmiuHF6pUJmtUwNeW/0t743Ebdh+cjx/t9hACWbc3kcmn75/gdUqbUQiNFOfZmt4c6rc1MnrixR9aSNOc0SFE86fACKx4EWAqG20eLfMs8wprRuuTQp+vih2+hg5u6Ud78ZhX9fQzt9WPQP8fB9/1u+vT/k0OGWfe+hr0378ITKukVl2LNw0oDR3XECYAKNc5WLkVwmnbzrD+KLw8TXk0YWoUO+CyyWp74pzzVS0jK04/qwEqzGpylHq+SGMwcyrDXcb1Ttj46A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3Xp/7O5glXkAkIA8WevvFeuBBrBAA7hcWSsg97Y5LC0=;
- b=aHIXQ/Eu7kRiMgNEkNVPBD4ZXC6Kvp4NFTcmn5XKLZuAWgyDyrJ3voqSNkjz9e1DYyt5u9H+ziM01zxWJuZTiHp4aW8hxCBQuUi2RAgUv3pUg2QGVCSoXp/92w9snR877H9ijDEqOJCQdc52o80e52BL8N37RzcCSEMQfwTJ/boRLxfdUYoi6ANPCd+7NzRfWHCCs29OgXeNx5/jziSAVLY7y0pw6dYq0kZlsnm8BsI64TF3VD9s26rzaQIHA1UYqx7ujmnvTZTA4DC6w0To1k1ocohhD2OEVC+gz/D2iRq01C/UqWjA2uGBiPEPt5JKwLfAM6x4U00hUu0GLel2IQ==
+ bh=s/he3+yLH7EELkKCcptgAj8DbU/a4bD/LB20NBYFi8U=;
+ b=E8EH6FRtoFNSR3cyrGWCAUrObt4uzTPkbJx/ul0IX7blRNy8pDa78FMkN4ZC1LbODZ+2xd4fKF/InVDhxv3e3nGZja0QRTkYazl/bqmwVFlkUHNsxtW/qI1DUElxX8q8stV9AsSuz/z8bDzvs0kFyJrn9fkKaYmnfGpEwTHnj7Bz91g4XdxiTltZX/p9929IUHoeVlz68jbwVOmmjyc3MWMb9JQ0PQYsLMXBWAd0Vl5p/3y9in3dI67WoL3NQ/aMI9NH1QsIydim7wjJtmaDufWcPHtAOYNtU0L6TiawFfwBH+8x2pahVchFFd/gVf2cxVyui2jVgkdmKP1qzMU/fw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3Xp/7O5glXkAkIA8WevvFeuBBrBAA7hcWSsg97Y5LC0=;
- b=MJgPstsMujytmCBlKkiKSE3FcepPnDr/OoLAxU5dXQlg6IveSfaoauSKkh1pDwiQ4bnDgmEppBMskx7iyVIV9b7rgTJIocAeSyUhkZB0bP2uGA9YpPTReStVK9U1HAsP33GdHk/NUev3a/fgFcZ9J+05h1M818ZrpPP2xipeMEs=
+ bh=s/he3+yLH7EELkKCcptgAj8DbU/a4bD/LB20NBYFi8U=;
+ b=TSXj04G70/8k0sHZlA2nmhrTPz8swbVmDA87tmv5o6acI4SBDtPjsIbVnbLsekVBcI+yaTqATfdHWr27Ue+wgligZuFTIxXmnamiI7vPyWUjbZBRRbECRtmSuvDv1tjCvTuHOgrYfF7Nxpfs45OSDv+VM6tJyfjJ1Dmnw9uCvQQ=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AM6PR08MB4471.eurprd08.prod.outlook.com (2603:10a6:20b:b9::13)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.21; Tue, 1 Jun
- 2021 16:50:41 +0000
+ 2021 16:50:44 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::f928:f4f2:77c0:74b4]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::f928:f4f2:77c0:74b4%7]) with mapi id 15.20.4173.030; Tue, 1 Jun 2021
- 16:50:41 +0000
+ 16:50:44 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, eblake@redhat.com, armbru@redhat.com,
  crosa@redhat.com, ehabkost@redhat.com, berrange@redhat.com,
  pbonzini@redhat.com, vsementsov@virtuozzo.com, jsnow@redhat.com,
  mreitz@redhat.com, kwolf@redhat.com
-Subject: [PATCH v3 00/35] block: publish backup-top filter
-Date: Tue,  1 Jun 2021 19:49:51 +0300
-Message-Id: <20210601165026.326877-1-vsementsov@virtuozzo.com>
+Subject: [PATCH v3 01/35] block: rename bdrv_replace_child to
+ bdrv_replace_child_tran
+Date: Tue,  1 Jun 2021 19:49:52 +0300
+Message-Id: <20210601165026.326877-2-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.29.2
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <20210601165026.326877-1-vsementsov@virtuozzo.com>
+References: <20210601165026.326877-1-vsementsov@virtuozzo.com>
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-Originating-IP: [185.215.60.210]
 X-ClientProxiedBy: HE1P189CA0028.EURP189.PROD.OUTLOOK.COM (2603:10a6:7:53::41)
  To AM7PR08MB5494.eurprd08.prod.outlook.com
@@ -65,59 +68,52 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost.localdomain (185.215.60.210) by
  HE1P189CA0028.EURP189.PROD.OUTLOOK.COM (2603:10a6:7:53::41) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4173.20 via Frontend Transport; Tue, 1 Jun 2021 16:50:40 +0000
+ 15.20.4173.20 via Frontend Transport; Tue, 1 Jun 2021 16:50:43 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: a38f88c3-3ea0-4842-553e-08d9251d63ee
+X-MS-Office365-Filtering-Correlation-Id: 1aed3e03-e5a3-4488-aa03-08d9251d65cb
 X-MS-TrafficTypeDiagnostic: AM6PR08MB4471:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB4471342930184E6C9A015AD0C13E9@AM6PR08MB4471.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1728;
+X-Microsoft-Antispam-PRVS: <AM6PR08MB447118F1D28A372614C89FCCC13E9@AM6PR08MB4471.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:53;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 0acxILq9yKInQtDW8SMl4/ELcJuhH2YpBL0IErMVMNISkcrvRR0Thv9fa7kWe6Pij1sMR96Lv+UAnei6SMayYTvJY6rQF8qXlMkdD2CMaJq0mEZxWxXNUgB4XwKI3TC9s+dejn/FMm8brXr+pvxybHBAwBcd9PUxVlWiyB6rqRz6k29Nkxk431KUilaIZQTix64wkd5uCSVCwZ19aHO8/SOg+4D8WPpQDBlLkXx2ZCqCXx4wysv7mkgVh2xM7OZLWD/Z+KEP/jK3YWPdrKltpx0WkJ1bs/g6Sy0Z6YGM1pX40zNNIuXx7t0Bsvv+YeM8UAouhY9BYtTZOIswbdTedIWVmFhO8rHCM7eALJpCvvAmVtTBZcyh14Kbwk28yVYHgY4qMtiyX7jTdWFmqrZ6VKLRA8KejNJ+VMt276J76783Jy3LAO80ydiJwufvk8p59h5t3xNZiPtyXgO5rAMc4upp6uXnOJyWCWhS6TaD0PX+YWaNinyOSgZsnv7ajw8v9M29GbC/igQSl6rQkXGZbEFRYZJBQTRo60UxaxSX3YQEJhsXYnMjVH5lIPrEafl/34uVB1fw3moFJ71q4qIJb9e44wNh8WvvQ/R0qqmXhhJp/d9AhNyiPcA2FXJle2hJwgFpPVWHB0x7v/suAjA6KA==
+X-Microsoft-Antispam-Message-Info: IHJE2PlWb7ZIlcbHsR23sXnYR1VqU+HAyYn5CJRfh7D2wyDwnLJrBqGVJ4r2TsWnYQvwa/tMlFSx7elQIVOtWN8lU8DMcqAk0BSRCo4h+IsT+nzKKHR2y+v+nhj+bDiCrZqDvPuwKIRDhcI0kspR81FVO48aXhh+yiJGZesMRxUh/6a/8NXkatvstl+FOZ9v3X6nQxxt5MR8hf946tDZd4mVFeaLFUC+op74GG3jOdGa2U4fGibh8SfX25lfZrAqVZGgUyFolPAMYThm9DVJIBDhr2UEv5iaynLzrf2RM2ibDK+LRVefTWeXuMxtIMiTdo4Nul+DFtMDdqO2rdJ8sc0O/YgdBY7WEw11ZEqajkGxZ3sjaGu9LggFjNGbedT5f9ttAx5N+Qz+bKHPnRglf1Svt4gZ7NbMWEDLznXGkpVtXBhqF8TxFrxz488ZDh7FGC4+/MKkg8PgKkUREdYiesQ8gdZVy31WDx6kJEmoZSarh1a9/8pudKeYaQvLGcv0ovflM1Ca9/yKyGNIJBe6KsAwb5wR4oQadPbERIjKjPy4wn1pO2fAsMPqvMzeY54kBBuK5DDq19LSVpTJ1FJ4zRYq7FZOCTYqUd8u15FTUcXF/c5zjJrFemAZvyyNcY/l/Lhu9tSejiU7w7bJpC61eJ/5WFzk77AEkHvJdV0zk4c3IiF8qc7DjIQf+Gz9yvim
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(136003)(366004)(346002)(39830400003)(396003)(376002)(83380400001)(186003)(6916009)(16526019)(4326008)(26005)(8676002)(2906002)(8936002)(7416002)(38350700002)(38100700002)(478600001)(36756003)(6486002)(316002)(5660300002)(6666004)(6512007)(52116002)(66946007)(6506007)(2616005)(956004)(66556008)(86362001)(1076003)(66476007);
+ SFS:(4636009)(136003)(366004)(346002)(39830400003)(396003)(376002)(83380400001)(186003)(6916009)(16526019)(4326008)(26005)(8676002)(2906002)(8936002)(7416002)(38350700002)(38100700002)(478600001)(36756003)(6486002)(316002)(5660300002)(6666004)(6512007)(52116002)(66946007)(6506007)(2616005)(956004)(66556008)(86362001)(1076003)(66476007)(69590400013);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?eVJVWDUrNUptZk1mcFdUeXkvRTloQUhvNGxhRzFHRk9OYkp6bzBiTzBqdDRM?=
- =?utf-8?B?VU1pOXZ0cVZnbDFpOVJ0ZDdGZnUyMHZXYXJhSUJxdW5yQWlTd05jR1RmMWtQ?=
- =?utf-8?B?b0xoQ0F5UVhCWU5XSkxtTHA2QkhpWjdKYlhPUFVReTF3d2RobkFMWStqNHhJ?=
- =?utf-8?B?Y3R4ejV1Z200V0RvM0NRNlZmZnJSemVHYmc5MzlGQ29CNXJUUmVMTk5SVUNJ?=
- =?utf-8?B?a1hZeERWbmRjbEJ3K3NZWml6bHplUnVlajM4ZW5tbUt2UExmTUJxK0pFUHVp?=
- =?utf-8?B?NWRod2VTcGx0OUY2NnRFRWkxaVQ0ancvSWVyd2w2MUw3OWY0YWZ6dFlDRXpy?=
- =?utf-8?B?Z3VmVWU3RmtuQlRaZTJtN3lKT0FKNXh4a2pzMCtSY0UvU3hqaEJCRXcrTHdB?=
- =?utf-8?B?V0s3OXRmUEd4Sm9mRUQrMGtPSTd3N3ppUjZkUmYwRmY5Z2ozNmt3emc0MTQx?=
- =?utf-8?B?SUl1dG41bG9HbU8xMkZJL2hIdm9GUGZuTlRaVmRqZ05YOS9yd3FHR2NvTldm?=
- =?utf-8?B?WDZ0QXhiRmh4elVDQlBwUm5aSzJhelYvdTZMb3A3czNEcFhxRjBVUW8rb1g1?=
- =?utf-8?B?OHZOUG9IY3hnbEpqalVWdHBhckdXR0QwZXl0bXlFVXNRWGIyK25USFdZOGJ2?=
- =?utf-8?B?Uzc3eGFvVTlVbHNyNlIwdmdkZjFHa0dKVDFlK2h4VUdoOFBXNFd1SEMvSCtj?=
- =?utf-8?B?dC9zT0hQNHBkcDFibGp5Si9ETkVQbG5UQXNUVzU3clpTT1I2VlJWREZHOG9r?=
- =?utf-8?B?TEpzTkR6Z3JnZDJaTWpiZyt0a21BQnFmdXlBV0ZDSS9Uam9Ed0F3dXFJVXUz?=
- =?utf-8?B?Wm81SGNjTUE1TkFjN1dqb1NocC9GSzk1QVc2TWFTeitaZ0llcUZVNG43N0FM?=
- =?utf-8?B?amlKOVZwNWl2T2xwSytuRHdSWk95VFBqQW9hMDVCK1V0N0pWWHE3RUFySFVY?=
- =?utf-8?B?UUEwQlE2SzVsbUZpWEhiTHBPZEJ4QkhETmhNNHdGOWRNZVBWdlAvT2NvUEQr?=
- =?utf-8?B?VDdjOGlNd0swSmxUQnVRVXJiL2NqM05lNHp0bGdPWEpvaklkQ0xKTnZUSzBo?=
- =?utf-8?B?YzIyUDFkTkIyYkZxWEpQYXBraENYUkFXRUtLVkZ1VWQxVUp2REFTSVlRRmtv?=
- =?utf-8?B?cXNBUDQxUnZrbnR0VUtzTkQ4WXlFYnBoSkFjNGJVNEZNZVRyUEpLQnNtbU9S?=
- =?utf-8?B?OWw2bWFWN2pYeVkvQU12L2F6NUJBamtuc3FmRE1ZMzZvQnBGMCtyY09zQUYz?=
- =?utf-8?B?aDNKRUI1Yy8rVnpySXFCQzlzUVN3MzR1VWVtNlVyTGduRHNlWDJMQmJtNEJ2?=
- =?utf-8?B?QSt6ZUN2Kzl6MjJvRXo5S0l4cTRTdUVKRjNLNGFpOUNJcVhUZVdXVXc0cENL?=
- =?utf-8?B?NklYYm50bDFLcXdJUEVHMkticWM1VVRmWU1uVG5ZV1FraWpFWXRueU5xT0Zt?=
- =?utf-8?B?bm1jWk93ZURVMUlOd0M5MFdTRWVpTnhNa09CTmE4NHFEeUhINFB0d1ZOWTNX?=
- =?utf-8?B?N2JTam1pVWFHQzJab2pIYnJCTSs1K1ZTQXhOeHc4R3FwYythRDdEZVBaN0xi?=
- =?utf-8?B?d0J2Skt5WFBMKzNBd21ualRHcFpSSWdaLzJOU3F0NzhKY1F1U3RFWGM1MFhN?=
- =?utf-8?B?Tk45L2RMUEp0WEkwZHA3QVNBckgzV0xlMmk2b2o0YUx1MEZpcENFbVlhbVcy?=
- =?utf-8?B?TDY4SVRVeGNGb1dYM1ArcTFlTkE4ZW1TaXFwTG8xZjRiMzNyMzFyVkhYWE1x?=
- =?utf-8?Q?1gzmuwfVBq7Ne86Iw6hf7iXtnz0lMXfIl7KUHbr?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?4AFqmOAEGS7yILJmsbsZvsmCS5+K1zlsCEGQupDXEMitGTheajjZ6PLBhX+u?=
+ =?us-ascii?Q?SZfsdwX+JCcIQwE22dUCAtdVW1WgfQ+Bglt6yVbWC5bqKuV+xslRLCww9c0T?=
+ =?us-ascii?Q?ARYn8VXc4stuy1NYAIj2fxaFKiJKl+V0wvEZq7Ph7+Nb4yNiKThfu56OfIp4?=
+ =?us-ascii?Q?hb+x2XQJZ5HZsWx4LAKPiLjQs3OOivK6P5oKT7ncniJN2tx/xbOFjo4oWL8B?=
+ =?us-ascii?Q?F7LIsCJnbB7afFOXTpeZY57JUP6E9c0i9k9t+hq4+UqZR0/+rvsyBglETyMQ?=
+ =?us-ascii?Q?bTGlYltWWUIgHSb+SU9ONGkQcdbeSXPiOjcWQUb5pesJlkvEryzPGwHtuRQr?=
+ =?us-ascii?Q?MOWk3N0r2eL0Bt5kGFWYyhPIG5IQMMt7yRPFaQCML8OojYC25zvAhBt2tERj?=
+ =?us-ascii?Q?HH2fVOYHCny8ieOf1sOCvCqa6LpeePyrq+8gmUQ0+n2CPflz2CL/0pidt0Rx?=
+ =?us-ascii?Q?UonMbgIrpjCAFCVQAyw/I1zSGV8xYYjocydFB2/47Y5yNPqbpk001Q8YFMoL?=
+ =?us-ascii?Q?759ruz/TTPwqPtj443pH8N8eaYTcHNTKApa/j0Ln0uxqQgkNfrgU8xdN8spH?=
+ =?us-ascii?Q?yjsi2eslyKpIuTnSoItQ7+UaoFYN0V6dd058cDA4Bji7eGO/ndw//oYzBXzp?=
+ =?us-ascii?Q?rghuMECJvnK2Ez7xwD41CZvWUzMN9yoVbhs+gEYyMDgeVfojbMC4OjZ7TdZa?=
+ =?us-ascii?Q?9sqtKGJxjSwgmSkAOGI/ZX68tVFRBNZCFJDDkIhJkc6DVQMyN8AdiXpmLDSL?=
+ =?us-ascii?Q?nu4oAXdHOdja7XQOxYPGdA2OE4cBj3dwp//T0wOsqbSxQqtb6TGrLwvVWCBk?=
+ =?us-ascii?Q?60FWRwahDjc2euge8kt7geNOv+dvIvByxo7FxGTBruc5G26H/ZTCRTLfyuX0?=
+ =?us-ascii?Q?KBZoKcB74B89wdlDtcPiBIZ/DTFp8x+q9/gfjJuPAtMTiBCmoVpH2t825cfW?=
+ =?us-ascii?Q?xuFU9WfXurF6HSq/M1A0wxuijfVFyLsz7HCO4EjMS31LK6P/cb7/OPfSElCc?=
+ =?us-ascii?Q?UpKY4ZnfBlRLtTDJvkXQmhOZmvwkXvtS3tiMe1h4WWFcfMNts6xh8UDA1176?=
+ =?us-ascii?Q?ofPPPJZD5WSrY/zhOVCyXis3MtNCOYv5OQVzk3gzJBcdCUNjXZFRFqv5qd41?=
+ =?us-ascii?Q?Yur3jbl7LmenvDJu8XoDxablRsPqsM64UTGEMEIp2ifHCLIyMQjH5pK1JNao?=
+ =?us-ascii?Q?MceeN5PH30KlC/Cm3HBVIVz2BdsNaAbx8g5gfsjgLq++uIQVWBVVt+uZheEW?=
+ =?us-ascii?Q?7wkEu9xrpVB2MaEx2TT1C1QS4MtkOb5P6qB8Ekgq4p5DQ4xgLyw8GZ7lPbzT?=
+ =?us-ascii?Q?t/zAxUawTFOMyYqUC15AvRa0?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a38f88c3-3ea0-4842-553e-08d9251d63ee
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1aed3e03-e5a3-4488-aa03-08d9251d65cb
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jun 2021 16:50:41.2251 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jun 2021 16:50:44.3125 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: sP/AMcFyzJbx9Y2o63MNe2r2vih28w9bN3jYYX7RrHYf9oYe+ldB7znjBNs4NjsftpvNMPguW/flCu5L9O1yTFXQby8+EF6cBWhu5+NRos8=
+X-MS-Exchange-CrossTenant-UserPrincipalName: ExxNp9k3xrYzf/Cl+swiUFcdnDy4IE0vlBXjVqJgPV7+EYRAD0Zg+S7iWv1WOnN11gx4EBcURAfOd9pB/A+Uaxn+8WrjRUwzGW2v7sqNamg=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4471
 Received-SPF: pass client-ip=40.107.5.117;
  envelope-from=vsementsov@virtuozzo.com;
@@ -145,167 +141,68 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi all!
+We have bdrv_replace_child() wrapper on bdrv_replace_child_noperm().
+But bdrv_replace_child() doesn't update permissions. It's rather
+strange, as normally it's expected that foo() should call foo_noperm()
+and update permissions.
 
-v3: Keep x-perf.copy-range backup option.
+Let's rename and add comment.
 
-So, additional function is added to set copy_range in block-copy after creation.
-And if we do so, it's better to set "compress" option same way instead of handling
-x-deprecated-compress option.
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Reviewed-by: Max Reitz <mreitz@redhat.com>
+---
+ block.c | 14 ++++++++------
+ 1 file changed, 8 insertions(+), 6 deletions(-)
 
-8: rebased on not yet remove @perf argument, keep r-b
-11, 21, 23: small related rebase conflicts, keep r-b
-9, 10, 19: new
-20: drop x-deprecated-compress option, drop r-b
-24: fix typo
-34: fix qmp( , **{}) to qmp( , {})
-
-also, add a lot of Max's r-bs, thanks!!!
-
-So, patches without r-b: 9, 10, 19, 20
-
-v2:
-01-02: new
-03: don't bother with supporting empty child: we should never have such
-    at this point
-05: add comment
-06: keep checking conflict with global
-    add realized_set_allowed to qdev_prop_drive_iothread
-07: improve cbw_cbw() name
-    improve commit message
-10: rebased on unchanged backup_calculate_cluster_size(). keep r-b  CHECK ME
-12: new
-13: drop extra bdrv_unref()
-18: add compress local variable
-    add comment about x-deprecated-compress
-19: new, replacement for "[PATCH 17/21] block/block-copy: switch to fully set bitmap by default"
-22: improve qapi documentation
-23-33: test: a lot of refactoring
-
-We have image fleecing scheme to export point-in-time state of active
-disk (iotest 222):
-
-
-                                      backup(sync=none)
-                     ┌───────────────────────────────────────┐
-                     ▼                                       │
-┌────────────┐     ┌────────────────┐  backing             ┌─────────────┐
-│ NBD export │ ─── │ temp qcow2 img │ ───────────────────▶ │ active disk │
-└────────────┘     └────────────────┘                      └─────────────┘
-                                                             ▲
-┌────────────┐                                               │
-│ guest blk  │ ──────────────────────────────────────────────┘
-└────────────┘                        
-
-
-Actually, backup job inserts a backup-top filter, so in detail it looks
-like:
-
-                                      backup(sync=none)
-                     ┌───────────────────────────────────────┐
-                     ▼                                       │
-┌────────────┐     ┌────────────────┐  backing             ┌─────────────┐
-│ NBD export │ ─── │ temp qcow2 img │ ───────────────────▶ │ active disk │
-└────────────┘     └────────────────┘                      └─────────────┘
-                     ▲                                       ▲
-                     │ target                                │
-                     │                                       │
-┌────────────┐     ┌────────────────┐  backing               │
-│ guest blk  │ ──▶ │   backup-top   │ ───────────────────────┘
-└────────────┘     └────────────────┘
-
-And job does nothing here. In a new blockdev world user is intended to
-operate on node level, and insert/remove filters by hand. Let's get rid
-of job in the scheme:
-
-┌────────────┐     ┌────────────────┐  backing             ┌─────────────┐
-│ NBD export │ ─── │ temp qcow2 img │ ───────────────────▶ │ active disk │
-└────────────┘     └────────────────┘                      └─────────────┘
-                     ▲                                       ▲
-                     │ target                                │
-                     │                                       │
-┌────────────┐     ┌────────────────┐  backing               │
-│ guest blk  │ ──▶ │   backup-top   │ ───────────────────────┘
-└────────────┘     └────────────────┘
-
-
-The series prepares qom-set to make possible inserting filters above
-root node (patches 03-06), rename backup-top to copy-before-write, do
-other preparations for publishing the filter, and finally publish it,
-add qapi interface and test new fleecing scheme in 222 (first, some
-good test refactoring).
-
-Vladimir Sementsov-Ogievskiy (35):
-  block: rename bdrv_replace_child to bdrv_replace_child_tran
-  block: comment graph-modifying function not updating permissions
-  block: introduce bdrv_replace_child_bs()
-  block: introduce blk_replace_bs
-  qdev-properties: PropertyInfo: add realized_set_allowed field
-  qdev: allow setting drive property for realized device
-  block: rename backup-top to copy-before-write
-  block-copy: always set BDRV_REQ_SERIALISING flag
-  block/block-copy: introduce block_copy_set_copy_opts()
-  block/backup: set copy_range and compress after filter insertion
-  block/backup: move cluster size calculation to block-copy
-  block/copy-before-write: relax permission requirements when no parents
-  block/copy-before-write: drop extra bdrv_unref on failure path
-  block/copy-before-write: use file child instead of backing
-  block/copy-before-write: bdrv_cbw_append(): replace child at last
-  block/copy-before-write: introduce cbw_init()
-  block/copy-before-write: cbw_init(): rename variables
-  block/copy-before-write: cbw_init(): use file child after attaching
-  block/copy-before-write: bdrv_cbw_append(): drop unused compress arg
-  block/copy-before-write: cbw_init(): use options
-  block/copy-before-write: initialize block-copy bitmap
-  block/block-copy: make setting progress optional
-  block/copy-before-write: make public block driver
-  qapi: publish copy-before-write filter
-  python/qemu/machine.py: refactor _qemu_args()
-  python/qemu/machine: QEMUMachine: improve qmp() method
-  iotests.py: VM: add own __enter__ method
-  iotests/222: fix pylint and mypy complains
-  iotests/222: constantly use single quotes for strings
-  iotests: move 222 to tests/image-fleecing
-  iotests.py: hmp_qemu_io: support qdev
-  iotests/image-fleecing: proper source device
-  iotests/image-fleecing: rename tgt_node
-  iotests/image-fleecing: prepare for adding new test-case
-  iotests/image-fleecing: add test-case for copy-before-write filter
-
- qapi/block-core.json                        |  30 ++-
- block/{backup-top.h => copy-before-write.h} |  25 +-
- include/block/block-copy.h                  |   6 +-
- include/block/block.h                       |   2 +
- include/hw/qdev-properties.h                |   1 +
- include/sysemu/block-backend.h              |   1 +
- block.c                                     |  52 +++-
- block/backup-top.c                          | 253 -------------------
- block/backup.c                              | 116 ++-------
- block/block-backend.c                       |   8 +
- block/block-copy.c                          | 148 ++++++++---
- block/copy-before-write.c                   | 256 ++++++++++++++++++++
- hw/core/qdev-properties-system.c            |  43 +++-
- hw/core/qdev-properties.c                   |   6 +-
- MAINTAINERS                                 |   4 +-
- block/meson.build                           |   2 +-
- python/qemu/machine.py                      |  30 ++-
- tests/qemu-iotests/222                      | 159 ------------
- tests/qemu-iotests/222.out                  |  67 -----
- tests/qemu-iotests/283                      |  35 ++-
- tests/qemu-iotests/283.out                  |   4 +-
- tests/qemu-iotests/297                      |   2 +-
- tests/qemu-iotests/iotests.py               |   9 +-
- tests/qemu-iotests/tests/image-fleecing     | 192 +++++++++++++++
- tests/qemu-iotests/tests/image-fleecing.out | 139 +++++++++++
- 25 files changed, 910 insertions(+), 680 deletions(-)
- rename block/{backup-top.h => copy-before-write.h} (56%)
- delete mode 100644 block/backup-top.c
- create mode 100644 block/copy-before-write.c
- delete mode 100755 tests/qemu-iotests/222
- delete mode 100644 tests/qemu-iotests/222.out
- create mode 100755 tests/qemu-iotests/tests/image-fleecing
- create mode 100644 tests/qemu-iotests/tests/image-fleecing.out
-
+diff --git a/block.c b/block.c
+index 0dc97281dc..3033c90666 100644
+--- a/block.c
++++ b/block.c
+@@ -2247,12 +2247,14 @@ static TransactionActionDrv bdrv_replace_child_drv = {
+ };
+ 
+ /*
+- * bdrv_replace_child
++ * bdrv_replace_child_tran
+  *
+  * Note: real unref of old_bs is done only on commit.
++ *
++ * The function doesn't update permissions, caller is responsible for this.
+  */
+-static void bdrv_replace_child(BdrvChild *child, BlockDriverState *new_bs,
+-                               Transaction *tran)
++static void bdrv_replace_child_tran(BdrvChild *child, BlockDriverState *new_bs,
++                                    Transaction *tran)
+ {
+     BdrvReplaceChildState *s = g_new(BdrvReplaceChildState, 1);
+     *s = (BdrvReplaceChildState) {
+@@ -4750,7 +4752,7 @@ static void bdrv_remove_filter_or_cow_child_abort(void *opaque)
+     }
+ 
+     /*
+-     * We don't have to restore child->bs here to undo bdrv_replace_child()
++     * We don't have to restore child->bs here to undo bdrv_replace_child_tran()
+      * because that function is transactionable and it registered own completion
+      * entries in @tran, so .abort() for bdrv_replace_child_safe() will be
+      * called automatically.
+@@ -4786,7 +4788,7 @@ static void bdrv_remove_filter_or_cow_child(BlockDriverState *bs,
+     }
+ 
+     if (child->bs) {
+-        bdrv_replace_child(child, NULL, tran);
++        bdrv_replace_child_tran(child, NULL, tran);
+     }
+ 
+     s = g_new(BdrvRemoveFilterOrCowChild, 1);
+@@ -4826,7 +4828,7 @@ static int bdrv_replace_node_noperm(BlockDriverState *from,
+                        c->name, from->node_name);
+             return -EPERM;
+         }
+-        bdrv_replace_child(c, to, tran);
++        bdrv_replace_child_tran(c, to, tran);
+     }
+ 
+     return 0;
 -- 
 2.29.2
 
