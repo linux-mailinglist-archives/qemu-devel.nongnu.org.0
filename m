@@ -2,89 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B835C397A7E
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Jun 2021 21:13:01 +0200 (CEST)
-Received: from localhost ([::1]:54690 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFBEF397ABD
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Jun 2021 21:38:17 +0200 (CEST)
+Received: from localhost ([::1]:32978 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lo9oy-0006bn-5D
-	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 15:13:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56616)
+	id 1loADQ-00042T-4Y
+	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 15:38:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33274)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lo9kE-0005gg-0l; Tue, 01 Jun 2021 15:08:06 -0400
-Received: from out3-smtp.messagingengine.com ([66.111.4.27]:50409)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lo9kA-0001OR-OD; Tue, 01 Jun 2021 15:08:05 -0400
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailout.nyi.internal (Postfix) with ESMTP id 78EA85C020B;
- Tue,  1 Jun 2021 15:08:01 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute6.internal (MEProxy); Tue, 01 Jun 2021 15:08:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm3; bh=GHYAwGtL/PR4nnEDDifK4Amq/T0
- qfQyEBoxYMAQuHe0=; b=SS4o6g9D5S7skQOh0EOsCUCDDJM31pBIw30ym5ACWOG
- gsFRiQhF8LFMy2CHpFmzAcWenSQ/cPvI/TfYia7WR2vc+RIYXvjbnk64dokH+mRj
- CVB5EyGl0M8I0uZKbuc9f7Jyfl+e2hPyFgv/mA12YQg6z2hV9RyGV3UP49NEpAxn
- 0N34v69bCBqqV7QUijEHDsgMQ+0lLZ2wzHKDDAOEy+uK50NPJ23Y15S/UmI0xL9V
- 3huJ+sKZsGK9xNZ7mSnqT3TPYjYWgp0CgCtYWxGOlrJrI023cALRigxAXcW4DkzU
- dUsl5p+KA7fJhBLCl0faPKnWyGxHvhUNPec1PNbL5Gw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=GHYAwG
- tL/PR4nnEDDifK4Amq/T0qfQyEBoxYMAQuHe0=; b=XcHlL6XEhxxk6sl9K6wEUi
- 34qka0vBaHJGXx0fVEojCpluyKu7+LWlSrId6F1jf1qUK3kZL9uxJ6t4p3xWV6B+
- WBLKpwDFwtgEyBlV/J0ww2NC1mAr4Zi4EsvaZEwHgvzGQ5mrPrR50JbmSayx+Brd
- ICidXdh0BV3SId0WT4wMjXXnbZL2812K9orJDqXMKBP7/mFnqxtCP64dwHGeifhg
- CfZ7xWKWtRlgFlb2UfYFcc4lv/fIk9R7yJ/WPkpTKUQMXmV6i6xRQxlst/n3u6YF
- 5T2kKdYqgtBzbLx7+3c/MnchdQIHr6IY6uW6tUMoy0+YB9rKiPpDDZYIhk9NWhNQ
- ==
-X-ME-Sender: <xms:kIW2YCdRi9XucE3NJMF8rYiP9SnJBTWFwLPVA7apF0OB-q3KC8aeEw>
- <xme:kIW2YMOzJAHeudbmHlUixCPDta6LFxpInQ32jgxTUromxkGLkofJPD7BHgPnyYml8
- QJlKjEbWd_73VOr9Tc>
-X-ME-Received: <xmr:kIW2YDgURj_eyD3g-CrSxq4VHJFa0u4InwbAJu4XXu_jvFF3B29WRheahZGsXduFFQjy1I85rHc8meOQD9eelJfSzNoOpyLZ3B42IjW3JJ3CLCvdkA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdelhedgudefhecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghu
- shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
- htvghrnhepjeegudffueeiteekieelkedvueelteevjeduieeludfffeejgeffhfduvddu
- ffeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepih
- htshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:kIW2YP9XhF-8QRemMv_FVSZpyHyZOxQQzqG_kMzQHjXQv82dvjeiMw>
- <xmx:kIW2YOtVwA9-jshPBW2Jh7CkTaJG8RPjbI1pAE2q9CPjv9Lzrpev8w>
- <xmx:kIW2YGFToAFgp6zb5GuGx795Bbwyo72T2NOH09SAsdEdf6WQCE6vnQ>
- <xmx:kYW2YL-0fhqzJIIc_aI4xE-tUStbQwu3qjC-Jc-c6KU0BIwDTR69fA>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 1 Jun 2021 15:07:59 -0400 (EDT)
-Date: Tue, 1 Jun 2021 21:07:56 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: Keith Busch <kbusch@kernel.org>
-Subject: Re: [PATCH v2 1/2] hw/nvme: add support for boot partiotions
-Message-ID: <YLaFjPPj4Bq+a0m7@apples.localdomain>
-References: <20210601143749.1669-1-anaidu.gollu@samsung.com>
- <CGME20210601144234epcas5p153e855ad673876cf67e57d4b539dc274@epcas5p1.samsung.com>
- <20210601143749.1669-2-anaidu.gollu@samsung.com>
- <20210601171936.GB4506@dhcp-10-100-145-180.wdc.com>
- <YLZxTlikAcJD98Ut@apples.localdomain>
- <20210601180724.GA4527@dhcp-10-100-145-180.wdc.com>
+ (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
+ id 1loAB0-0001Km-OA; Tue, 01 Jun 2021 15:35:46 -0400
+Received: from [201.28.113.2] (port=31942 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <matheus.ferst@eldorado.org.br>)
+ id 1loAAy-0002Jl-RX; Tue, 01 Jun 2021 15:35:46 -0400
+Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
+ Microsoft SMTPSVC(8.5.9600.16384); Tue, 1 Jun 2021 16:35:39 -0300
+Received: from eldorado.org.br (unknown [10.10.70.45])
+ by power9a (Postfix) with ESMTP id 4F99C80148B;
+ Tue,  1 Jun 2021 16:35:39 -0300 (-03)
+From: matheus.ferst@eldorado.org.br
+To: qemu-devel@nongnu.org,
+	qemu-ppc@nongnu.org
+Subject: [PATCH v6 00/14] Base for adding PowerPC 64-bit instructions
+Date: Tue,  1 Jun 2021 16:35:14 -0300
+Message-Id: <20210601193528.2533031-1-matheus.ferst@eldorado.org.br>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="iM/RGiHnvucTJudX"
-Content-Disposition: inline
-In-Reply-To: <20210601180724.GA4527@dhcp-10-100-145-180.wdc.com>
-Received-SPF: pass client-ip=66.111.4.27; envelope-from=its@irrelevant.dk;
- helo=out3-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-OriginalArrivalTime: 01 Jun 2021 19:35:39.0815 (UTC)
+ FILETIME=[4D975370:01D7571D]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
+Received-SPF: pass client-ip=201.28.113.2;
+ envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,73 +53,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, qemu-block@nongnu.org,
- Gollu Appalanaidu <anaidu.gollu@samsung.com>, qemu-devel@nongnu.org,
- mreitz@redhat.com, stefanha@redhat.com
+Cc: richard.henderson@linaro.org, f4bug@amsat.org, groug@kaod.org,
+ luis.pires@eldorado.org.br, lagarcia@br.ibm.com,
+ Matheus Ferst <matheus.ferst@eldorado.org.br>, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 
---iM/RGiHnvucTJudX
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This series provides the basic infrastructure for adding the new 32/64-bit
+instructions in Power ISA 3.1 to target/ppc.
 
-On Jun  1 11:07, Keith Busch wrote:
->On Tue, Jun 01, 2021 at 07:41:34PM +0200, Klaus Jensen wrote:
->> On Jun  1 10:19, Keith Busch wrote:
->> > On Tue, Jun 01, 2021 at 08:07:48PM +0530, Gollu Appalanaidu wrote:
->> > > NVMe Boot Partitions provides an area that may be read by the host
->> > > without initializing queues or even enabling the controller. This
->> > > allows various platform initialization code to be stored on the NVMe
->> > > device instead of some separete medium.
->> > >
->> > > This patch adds the read support for such an area, as well as support
->> > > for updating the boot partition contents from the host through the
->> > > FW Download and Commit commands.
->> >
->> > Please provide some details on what platform initilization sequence
->> > running on QEMU is going to make use of this feature.
->> >
->>
->> I totally get your reluctance to accept useless features like device
->> self-test and ill-supported ones like write uncorrectable.
->>
->> But I think this feature qualifies just fine for the device. It is useful
->> for embedded development and while there might not be any qemu boards th=
-at
->> wants to use this *right now*, it allows for experimentation. And this i=
-s a
->> feature that actually *is* implemented by real products for embedded
->> systems.
->
->That wasn't my request, though. I am well aware of the feature and also
->have hardware that implements it. It just sounds like you haven't
->actually tested this feature under the protocol's intended use cases
->inside this environment. I think that type of testing and a high level
->description of it in the changelog ought to be part of acceptance
->criteria.
->
+v6:
+- Rebase on ppc-for-6.1;
+- Fix rebase error in patch 02/14;
+- Fix style errors;
+- REQUIRE_64BIT when L=1 in cmp/cmpi/cmpl/cmpli.
 
-Alright, I see.
+v5:
+- Rebase on ppc-for-6.1;
+- Change copyright line from new files;
+- Remove argument set from PNOP;
+- Add comments to explain helper_cfuged implementation;
+- New REQUIRE_ALTIVEC macro;
+- REQUIRE_ALTIVEC and REQUIRE_INSNS_FLAGS2 in trans_CFUGED;
+- cmp/cmpi/cmpl/cmpli moved to decodetree.
 
-You'd like to see this tested by defining a new board that loads=20
-firmware over PCIe from the device?
+v4:
+- Rebase on ppc-for-6.1;
+- Fold do_ldst_D and do_ldst_X;
+- Add tcg_const_tl, used to share do_ldst_D and do_ldst_X code;
+- Unfold prefixed and non-prefixed loads/stores/addi to let non-prefixed insns use the non-prefixed formats;
+- PNOP invalid suffixes;
+- setbc/setbcr/stnbc/setnbcr implemented;
+- cfuged/vcfuged implemented;
+- addpcis moved to decodetree.
 
---iM/RGiHnvucTJudX
-Content-Type: application/pgp-signature; name="signature.asc"
+v3:
+- More changes for decodetree.
+- Cleanup exception/is_jmp logic to the point exception is removed.
+- Fold in Luis' isa check for prefixed insn support.
+- Share trans_* between prefixed and non-prefixed instructions.
+- Use macros to minimize the trans_* boilerplate.
+- Fix decode mistake for STHX/STHXU.
 
------BEGIN PGP SIGNATURE-----
+v2:
+- Store current pc in ctx instead of insn_size
+- Use separate decode files for 32- and 64-bit instructions
+- Improvements to the exception/is_jmp logic
+- Use translator_loop_temp_check()
+- Moved logic to prevent translation from crossing page boundaries
+- Additional instructions using decodetree: addis, pnop, loads/stores
+- Added check for prefixed insn support in cpu flags
 
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmC2hYoACgkQTeGvMW1P
-DekScAf+PzRvTQL0cNB8CS1wWU1W943lQDE6Nl0cA21Mwzc1k5F6gwpMC2akc5v6
-tHo+W2beCAPbUnhEwOOxohTNJ5J5gT2I9oKUzNXmJRrN0RB6roOwObsFiaIh53TC
-YfWWd4Dyb8fhWImS83+tzBWxxNdtenjULpSabYjhW0YtzHjlQ7A6eK1xQQRHd2jZ
-Y6f++tg+8kmueMwZvG5bPzYi802tB6b/jixBv8YBM8LwRcbJpV3Xw78AD415kYop
-i0PxINbcEiaWMrQT1H55DbRQqL/TVU4SEjxQBCv83fB0AbZtirG8TuaQjA8UcW6p
-puPx8Z7I8WR4TJ2vfoj8WyI1hSA0Sg==
-=zITx
------END PGP SIGNATURE-----
 
---iM/RGiHnvucTJudX--
+Matheus Ferst (5):
+  target/ppc: Implement setbc/setbcr/stnbc/setnbcr instructions
+  target/ppc: Implement cfuged instruction
+  target/ppc: Implement vcfuged instruction
+  target/ppc: Move addpcis to decodetree
+  target/ppc: Move cmp/cmpi/cmpl/cmpli to decodetree
+
+Richard Henderson (9):
+  target/ppc: Introduce macros to check isa extensions
+  target/ppc: Move page crossing check to ppc_tr_translate_insn
+  target/ppc: Add infrastructure for prefixed insns
+  target/ppc: Move ADDI, ADDIS to decodetree, implement PADDI
+  target/ppc: Implement PNOP
+  target/ppc: Move D/DS/X-form integer loads to decodetree
+  target/ppc: Implement prefixed integer load instructions
+  target/ppc: Move D/DS/X-form integer stores to decodetree
+  target/ppc: Implement prefixed integer store instructions
+
+ target/ppc/cpu.h                           |   1 +
+ target/ppc/helper.h                        |   1 +
+ target/ppc/insn32.decode                   | 126 +++++++
+ target/ppc/insn64.decode                   | 124 +++++++
+ target/ppc/int_helper.c                    |  62 ++++
+ target/ppc/meson.build                     |   9 +
+ target/ppc/translate.c                     | 391 +++++----------------
+ target/ppc/translate/fixedpoint-impl.c.inc | 279 +++++++++++++++
+ target/ppc/translate/vector-impl.c.inc     |  56 +++
+ 9 files changed, 747 insertions(+), 302 deletions(-)
+ create mode 100644 target/ppc/insn32.decode
+ create mode 100644 target/ppc/insn64.decode
+ create mode 100644 target/ppc/translate/fixedpoint-impl.c.inc
+ create mode 100644 target/ppc/translate/vector-impl.c.inc
+
+-- 
+2.25.1
+
 
