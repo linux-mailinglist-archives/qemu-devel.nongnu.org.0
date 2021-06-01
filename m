@@ -2,42 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80069397A28
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Jun 2021 20:45:51 +0200 (CEST)
-Received: from localhost ([::1]:58460 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C4AC397A32
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Jun 2021 20:49:58 +0200 (CEST)
+Received: from localhost ([::1]:39002 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lo9Of-0005iX-W3
-	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 14:45:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51664)
+	id 1lo9Sf-0003QX-5H
+	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 14:49:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52906)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bruno.larsen@eldorado.org.br>)
- id 1lo9M7-0004n7-3K; Tue, 01 Jun 2021 14:43:11 -0400
-Received: from [201.28.113.2] (port=40572 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bruno.larsen@eldorado.org.br>)
- id 1lo9M5-0001oR-3l; Tue, 01 Jun 2021 14:43:10 -0400
-Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Tue, 1 Jun 2021 15:43:04 -0300
-Received: from eldorado.org.br (unknown [10.10.71.235])
- by power9a (Postfix) with ESMTP id 161CF80148B;
- Tue,  1 Jun 2021 15:43:04 -0300 (-03)
-From: "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br>
-To: qemu-devel@nongnu.org
-Subject: [RFC PATCH] target/ppc: removed usage of ppc_store_sdr1 in kvm.c
-Date: Tue,  1 Jun 2021 15:42:42 -0300
-Message-Id: <20210601184242.122895-1-bruno.larsen@eldorado.org.br>
-X-Mailer: git-send-email 2.17.1
-X-OriginalArrivalTime: 01 Jun 2021 18:43:04.0226 (UTC)
- FILETIME=[F4B6A820:01D75715]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
-Received-SPF: pass client-ip=201.28.113.2;
- envelope-from=bruno.larsen@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1lo9RW-0001XY-2t
+ for qemu-devel@nongnu.org; Tue, 01 Jun 2021 14:48:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38522)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1lo9RS-0005Ji-Gf
+ for qemu-devel@nongnu.org; Tue, 01 Jun 2021 14:48:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1622573320;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=+m2fLJU9ZegzR8OXJWZy5OSSO9kKVan2LDTUGDxd89w=;
+ b=XvSwjcFJMj63IjroPQrKY+RjOtidbxfYrNp6ABGU1hs5AgEVlf/JeMsqDgjjYwyFBkaFiU
+ jF6OMuIQirxH6l+0YuPEiXEgZJMCr+Dpsfw5FAna6JIzaEW6tnns0k9NScQOut+wGia5q8
+ /YpKFmhCGqZHzPlDwK7lWWx1gxKK61g=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-535-k9wSXOa1NHuf7xPzmVusyw-1; Tue, 01 Jun 2021 14:48:38 -0400
+X-MC-Unique: k9wSXOa1NHuf7xPzmVusyw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0CE666D581;
+ Tue,  1 Jun 2021 18:48:37 +0000 (UTC)
+Received: from localhost (ovpn-112-239.rdu2.redhat.com [10.10.112.239])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A897F1002EF0;
+ Tue,  1 Jun 2021 18:48:33 +0000 (UTC)
+Date: Tue, 1 Jun 2021 14:48:32 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Claudio Fontana <cfontana@suse.de>
+Subject: Re: [PATCH 1/2] i386: reorder call to cpu_exec_realizefn in
+ x86_cpu_realizefn
+Message-ID: <20210601184832.teij5fkz6dvyctrp@habkost.net>
+References: <20210529091313.16708-1-cfontana@suse.de>
+ <20210529091313.16708-2-cfontana@suse.de>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20210529091313.16708-2-cfontana@suse.de>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -50,55 +75,156 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:Overall KVM CPUs" <kvm@vger.kernel.org>, farosas@linux.ibm.com,
- richard.henderson@linaro.org, luis.pires@eldorado.org.br,
- Greg Kurz <groug@kaod.org>, lucas.araujo@eldorado.org.br,
- fernando.valle@eldorado.org.br, qemu-ppc@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, matheus.ferst@eldorado.org.br,
- david@gibson.dropbear.id.au
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Marcelo Tosatti <mtosatti@redhat.com>, kvm@vger.kernel.org,
+ Siddharth Chandrasekaran <sidcha@amazon.de>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Cameron Esfahani <dirty@apple.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Vitaly Kuznetsov <vkuznets@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The only use of this function in kvm.c is right after using the KVM
-ioctl to get the registers themselves, so there is no need to do the
-error checks done by ppc_store_sdr1.
++Vitaly
 
-The probable reason this was here before is because of the hack where
-KVM PR stores the hash table size along with the SDR1 information, but
-since ppc_store_sdr1 would also store that information, there should be
-no need to do any extra processing here.
+On Sat, May 29, 2021 at 11:13:12AM +0200, Claudio Fontana wrote:
+> we need to expand features first, before we attempt to check them
+> in the accel realizefn code called by cpu_exec_realizefn().
+> 
+> At the same time we need checks for code_urev and host_cpuid_required,
+> and modifications to cpu->mwait to happen after the initial setting
+> of them inside the accel realizefn code.
 
-Signed-off-by: Bruno Larsen (billionai) <bruno.larsen@eldorado.org.br>
----
+I miss an explanation why those 3 steps need to happen after
+accel realizefn.
 
-This change means we won't have to compile ppc_store_sdr1 when we get
-disable-tcg working, but I'm not working on that code motion just yet
-since Lucas is dealing with the same file.
+I'm worried by the fragility of the ordering.  If there are
+specific things that must be done before/after
+cpu_exec_realizefn(), this needs to be clear in the code.
 
-I'm sending this as an RFC because I'm pretty sure I'm missing
-something, but from what I can see, this is all we'd need
+> 
+> Partial Fix.
+> 
+> Fixes: 48afe6e4eabf ("i386: split cpu accelerators from cpu.c, using AccelCPUClass")
 
- target/ppc/kvm.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+Shouldn't this be
+  f5cc5a5c1686 ("i386: split cpu accelerators from cpu.c, using AccelCPUClass")
+?
 
-diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
-index 104a308abb..3f52a7189d 100644
---- a/target/ppc/kvm.c
-+++ b/target/ppc/kvm.c
-@@ -1159,7 +1159,11 @@ static int kvmppc_get_books_sregs(PowerPCCPU *cpu)
-     }
- 
-     if (!cpu->vhyp) {
--        ppc_store_sdr1(env, sregs.u.s.sdr1);
-+        /*
-+         * We have just gotten the SDR1, there should be no
-+         * reason to do error checking.... right?
-+         */
-+        env->spr[SPR_SDR1] = sregs.u.s.sdr1;
-     }
- 
-     /* Sync SLB */
+Also, it looks like part of the ordering change was made in
+commit 30565f10e907 ("cpu: call AccelCPUClass::cpu_realizefn in
+cpu_exec_realizefn").
+
+
+
+> Signed-off-by: Claudio Fontana <cfontana@suse.de>
+> ---
+>  target/i386/cpu.c | 56 +++++++++++++++++++++++------------------------
+>  1 file changed, 28 insertions(+), 28 deletions(-)
+> 
+> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+> index 9e211ac2ce..6bcb7dbc2c 100644
+> --- a/target/i386/cpu.c
+> +++ b/target/i386/cpu.c
+> @@ -6133,34 +6133,6 @@ static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
+>      Error *local_err = NULL;
+>      static bool ht_warned;
+>  
+> -    /* Process Hyper-V enlightenments */
+> -    x86_cpu_hyperv_realize(cpu);
+
+Vitaly, is this reordering going to affect the Hyper-V cleanup
+work you are doing?  It seems harmless and it makes sense to keep
+the "realize" functions close together, but I'd like to confirm.
+
+> -
+> -    cpu_exec_realizefn(cs, &local_err);
+> -    if (local_err != NULL) {
+> -        error_propagate(errp, local_err);
+> -        return;
+> -    }
+> -
+> -    if (xcc->host_cpuid_required && !accel_uses_host_cpuid()) {
+> -        g_autofree char *name = x86_cpu_class_get_model_name(xcc);
+> -        error_setg(&local_err, "CPU model '%s' requires KVM or HVF", name);
+> -        goto out;
+> -    }
+> -
+> -    if (cpu->ucode_rev == 0) {
+> -        /* The default is the same as KVM's.  */
+> -        if (IS_AMD_CPU(env)) {
+> -            cpu->ucode_rev = 0x01000065;
+> -        } else {
+> -            cpu->ucode_rev = 0x100000000ULL;
+> -        }
+> -    }
+> -
+> -    /* mwait extended info: needed for Core compatibility */
+> -    /* We always wake on interrupt even if host does not have the capability */
+> -    cpu->mwait.ecx |= CPUID_MWAIT_EMX | CPUID_MWAIT_IBE;
+> -
+>      if (cpu->apic_id == UNASSIGNED_APIC_ID) {
+>          error_setg(errp, "apic-id property was not initialized properly");
+>          return;
+> @@ -6190,6 +6162,34 @@ static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
+>             & CPUID_EXT2_AMD_ALIASES);
+>      }
+>  
+> +    /* Process Hyper-V enlightenments */
+> +    x86_cpu_hyperv_realize(cpu);
+> +
+> +    cpu_exec_realizefn(cs, &local_err);
+
+I'm worried by the reordering of cpu_exec_realizefn().  That
+function does a lot, and reordering it might have even more
+unwanted side effects.
+
+I wonder if it wouldn't be easier to revert commit 30565f10e907
+("cpu: call AccelCPUClass::cpu_realizefn in cpu_exec_realizefn").
+
+
+> +    if (local_err != NULL) {
+> +        error_propagate(errp, local_err);
+> +        return;
+> +    }
+> +
+> +    if (xcc->host_cpuid_required && !accel_uses_host_cpuid()) {
+> +        g_autofree char *name = x86_cpu_class_get_model_name(xcc);
+> +        error_setg(&local_err, "CPU model '%s' requires KVM or HVF", name);
+> +        goto out;
+> +    }
+> +
+> +    if (cpu->ucode_rev == 0) {
+> +        /* The default is the same as KVM's.  */
+> +        if (IS_AMD_CPU(env)) {
+> +            cpu->ucode_rev = 0x01000065;
+> +        } else {
+> +            cpu->ucode_rev = 0x100000000ULL;
+> +        }
+> +    }
+> +
+> +    /* mwait extended info: needed for Core compatibility */
+> +    /* We always wake on interrupt even if host does not have the capability */
+> +    cpu->mwait.ecx |= CPUID_MWAIT_EMX | CPUID_MWAIT_IBE;
+> +
+
+The dependency between those lines and cpu_exec_realizefn() is
+completely unclear here.  What can we do to make this clearer and
+less fragile?
+
+Note that this is not a comment on this fix, specifically, but on
+how the initialization ordering is easy to break here.
+
+
+>      /* For 64bit systems think about the number of physical bits to present.
+>       * ideally this should be the same as the host; anything other than matching
+>       * the host can cause incorrect guest behaviour.
+> -- 
+> 2.26.2
+> 
+
 -- 
-2.17.1
+Eduardo
 
 
