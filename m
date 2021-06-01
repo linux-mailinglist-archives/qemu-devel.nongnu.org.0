@@ -2,90 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7694397593
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Jun 2021 16:37:43 +0200 (CEST)
-Received: from localhost ([::1]:36714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 453A23975A0
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Jun 2021 16:39:14 +0200 (CEST)
+Received: from localhost ([::1]:39494 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lo5WY-0007Bq-Te
-	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 10:37:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58916)
+	id 1lo5Y1-0000f0-CV
+	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 10:39:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59240)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1lo5VN-0006Wb-Bx
- for qemu-devel@nongnu.org; Tue, 01 Jun 2021 10:36:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25922)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1lo5VF-0002pu-DD
- for qemu-devel@nongnu.org; Tue, 01 Jun 2021 10:36:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622558179;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=IhUBI2bPzJcFK7qjXz+qE/PIrvnkqlx0YE4L8DHjFkI=;
- b=eWya1RQRzu30NJOPSQF14ZA8e97UdZXQPxsDHnZNUsm5f8f3XPuIIs7UC3WNmoAUYqYbF6
- CDLRy77w4ozxtZNZv+azpHYuCSQz1PeTd3a1I7Fc8kJUCozO9HjE9g5iaG1dN8gpm21U7D
- PvGLfeCqq+NSgseUSvD78Ru3cO/JLqM=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-292-wwFCHJ7IO-GQQK7UlNnQDA-1; Tue, 01 Jun 2021 10:36:18 -0400
-X-MC-Unique: wwFCHJ7IO-GQQK7UlNnQDA-1
-Received: by mail-qv1-f69.google.com with SMTP id
- v7-20020a0ccd870000b0290219d3e21c4eso3121431qvm.2
- for <qemu-devel@nongnu.org>; Tue, 01 Jun 2021 07:36:17 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lo5XC-0008Kp-Sz
+ for qemu-devel@nongnu.org; Tue, 01 Jun 2021 10:38:22 -0400
+Received: from mail-io1-xd2b.google.com ([2607:f8b0:4864:20::d2b]:39674)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lo5XB-0004Gp-CN
+ for qemu-devel@nongnu.org; Tue, 01 Jun 2021 10:38:22 -0400
+Received: by mail-io1-xd2b.google.com with SMTP id r4so15538637iol.6
+ for <qemu-devel@nongnu.org>; Tue, 01 Jun 2021 07:38:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=8sK2q3GU+sLpzcX2Ea6M6fTMOzZzTdk+gZVXkzD3RLQ=;
+ b=xuQQX2BvFLoIvlHX1sfbsRVm7uxLNk6XlTRn/8lx8Cl+qNzLzdtRLwezyma8yJZ7Qq
+ wKVI+pZyX+WBW0GouE0sKbchjyYYOjPem0peztl/C4S7HSGZ75Wb4vtJF4R84H1FGYXL
+ 6TGReAdbzFRa5L6yTlgADUJDAfFcnBTW1Vvvva+BjXjuOazW4c8Qt+lH9cjm1tncfPfj
+ uSwFMztnZgm3FDn6xQcjuedbLHy51iLXpU6bCO//tcEYBFO241FpkRvp2bEiVn9I/eGC
+ A/PVwSJ39+ONrQsDOY3QDILf+vXSoyo4/OEonnQvttNTVjQSq//XFbQUPlSwg2pHVarG
+ phug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=IhUBI2bPzJcFK7qjXz+qE/PIrvnkqlx0YE4L8DHjFkI=;
- b=dVCEBy2XCYZUVtHp3XxjiUHWUAICvDEG9NQ/XafXD7AFN+liT1eG90yAngDZw/3HeS
- nDBW3X/CKWMEvg8NG967snmqNOyrw4lKATvtmp0rGDaXzYSgcrlTLx1CL870+f4hsgHr
- tdBsWFZ8npzCOZHvmqK9tZrS9bdekbbNTaBnn6OSoVoTsMZLfa7hQ5wKJCOQ7b/GegcY
- KbtUMx766gpG+7A0uczg945YtLRUQ7BomccsrCvlFwbmILwrP3CrKmqWQKHEYLHbZ7La
- jRry4MtmqzmWuRjybGcLF5DOcqQA14U5OsDdm365akY62/oK3Q1rq1zfN3dc30r8O1M9
- Ej/Q==
-X-Gm-Message-State: AOAM532jtugsWGrp+lweBbsSAwp3u6NQSbi7iVSFNh2K0KY7y3J//alu
- H+wWqmjOnvYlO26Wwmb8pabghBdpoeNDC3w4tVaeOw6/OoPW53HAm5Y2gRZ5A15EW1Dz87urtDU
- CJm/6yEb0A57cKew=
-X-Received: by 2002:a05:622a:195:: with SMTP id
- s21mr19322157qtw.40.1622558177200; 
- Tue, 01 Jun 2021 07:36:17 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJywoItUX9cQAmc+1nbznZopC5YnXdV84+W1BvogCyUARKP0M+9cDg/9wwmJnk9u9fxYViBxZA==
-X-Received: by 2002:a05:622a:195:: with SMTP id
- s21mr19322134qtw.40.1622558176944; 
- Tue, 01 Jun 2021 07:36:16 -0700 (PDT)
-Received: from t490s
- (bras-base-toroon474qw-grc-61-184-147-118-108.dsl.bell.ca. [184.147.118.108])
- by smtp.gmail.com with ESMTPSA id e14sm11096364qkl.1.2021.06.01.07.36.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Jun 2021 07:36:15 -0700 (PDT)
-Date: Tue, 1 Jun 2021 10:36:14 -0400
-From: Peter Xu <peterx@redhat.com>
-To: Hyman <huangy81@chinatelecom.cn>
-Subject: Re: [PATCH] hmp: Add "calc_dirty_rate" and "info dirty_rate" cmds
-Message-ID: <YLZF3v+RrK1D44X7@t490s>
-References: <20210601005708.189888-1-peterx@redhat.com>
- <024ee4df-07a5-a31d-7b97-31d36dfa3ce6@chinatelecom.cn>
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=8sK2q3GU+sLpzcX2Ea6M6fTMOzZzTdk+gZVXkzD3RLQ=;
+ b=SCs2GRN9OY9f4QOOMrUAAFHENsOULyErSa4rZAze3BkKoZUSUJf9/LnncMGdibjGo/
+ 6MYFt5xUfo8MGkGCdaFVuCvMnCZNtw+Q+F9FQ6qxZ9wuP9EoHmDaXXhICJwEvVv1pdDJ
+ bCRerOVar8UhN3gTOM4lPJ0QjL3W+9cpqhgVdujiAoLEtxJSplRvW6SY9bz9GBu7TaLG
+ cSKuHVL7c5lWuweXGZZQLzwjtmNw+5rT0Y0qNiDHqe1CfB7MxGaPqJPw/t9KaxPUC1dv
+ hX0sC9wh05WaLHNzvEW6QVVPaOzHAqYtMrPyZcMiPkKkM62L39MTnVzmdnQdp4nzV68p
+ un3g==
+X-Gm-Message-State: AOAM533efRgXsFIV2SwCb0MZ1fcVlXexb24iv3uYLNqGYnRMj4fgpmKM
+ jvB0ig4ceNnVUF+vYAANR/ZXvW1QO7ObQw==
+X-Google-Smtp-Source: ABdhPJz7xj05VipPQKz96r9R5RUuxBIW/bJPW/+G2VeuoZtVj/frgPaq8qQ3VHjFPSvyoZrLa0s9dg==
+X-Received: by 2002:a05:6638:151:: with SMTP id
+ y17mr6074410jao.128.1622558300131; 
+ Tue, 01 Jun 2021 07:38:20 -0700 (PDT)
+Received: from ?IPv6:2607:fb90:806c:3e8a:9cf0:b3be:5e07:b99f?
+ ([2607:fb90:806c:3e8a:9cf0:b3be:5e07:b99f])
+ by smtp.gmail.com with ESMTPSA id j10sm9727065ilk.87.2021.06.01.07.38.19
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 01 Jun 2021 07:38:19 -0700 (PDT)
+Subject: Re: [PATCH v6 11/26] tcg/tci: Use ffi for calls
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20210502235727.1979457-1-richard.henderson@linaro.org>
+ <20210502235727.1979457-12-richard.henderson@linaro.org>
+ <2d6171f6-146c-3fe8-1078-fce144769bc7@amsat.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <95d4f1a9-6145-0618-c11d-3e50b9516729@linaro.org>
+Date: Tue, 1 Jun 2021 07:38:16 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <024ee4df-07a5-a31d-7b97-31d36dfa3ce6@chinatelecom.cn>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+In-Reply-To: <2d6171f6-146c-3fe8-1078-fce144769bc7@amsat.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d2b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-io1-xd2b.google.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
+X-Spam_bar: --
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.613,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,40 +91,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Chuan Zheng <zhengchuan@huawei.com>, Juan Quintela <quintela@redhat.com>,
- qemu-devel@nongnu.org, Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 01, 2021 at 10:08:31PM +0800, Hyman wrote:
+On 5/31/21 10:18 PM, Philippe Mathieu-Daudé wrote:
+>>   /* Used for function call generation. */
+>>   #define TCG_TARGET_CALL_STACK_OFFSET    0
+>> -#define TCG_TARGET_STACK_ALIGN          16
+>> +#define TCG_TARGET_STACK_ALIGN          8
 > 
+> Is this FFI_SIZEOF_ARG?
+
+No, just uint64_t.
+
+>> +    call_slots[0] = NULL;
 > 
-> 在 2021/6/1 8:57, Peter Xu 写道:
-> > These two commands are missing when adding the QMP sister commands.  Add them,
-> > so developers can play with them easier.
-> > 
-> > Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> > Cc: Juan Quintela <quintela@redhat.com>
-> > Cc: Leonardo Bras Soares Passos <lsoaresp@redhat.com>
-> > Cc: Chuan Zheng <zhengchuan@huawei.com>
-> > Cc: huangy81@chinatelecom.cn
-> > Signed-off-by: Peter Xu <peterx@redhat.com>
-> > ---
-> > PS: I really doubt whether this is working as expected... I ran one 200MB/s
-> > workload inside, what I measured is 20MB/s with current algorithm...  Sampling
-> > 512 pages out of 1G mem is not wise enough I guess, especially that assumes
-> > dirty workload is spread across the memories while it's normally not the case..
-> I doubt whether the sampling can cope with the situation that the guest
-> dirty memory too fast so that the sampling within a given time can not
-> finish, this may happens when vm is in large scale.
+> Maybe add a comment "Other slots initialization delayed (see below)"?
 
-Not my case, though..  I'm with a 1G super small VM, starting a malloc()
-workload with 200MB, dirty rate 200MB/s.  As I said in the other thread, I
-think it's the algorithm that may not really work well with such workload,
-while it could be one of the major workloads..
+Sure.
 
--- 
-Peter Xu
-
+r~
 
