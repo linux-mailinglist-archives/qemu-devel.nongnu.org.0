@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D7CB396E71
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Jun 2021 10:00:05 +0200 (CEST)
-Received: from localhost ([::1]:44768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A1F5396E6D
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Jun 2021 09:59:40 +0200 (CEST)
+Received: from localhost ([::1]:44396 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lnzJk-0002PO-BU
-	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 04:00:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46390)
+	id 1lnzJL-00029S-Hj
+	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 03:59:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46416)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lnzCk-0001jl-M0; Tue, 01 Jun 2021 03:52:50 -0400
-Received: from mail-eopbgr140102.outbound.protection.outlook.com
- ([40.107.14.102]:37351 helo=EUR01-VE1-obe.outbound.protection.outlook.com)
+ id 1lnzCn-0001tG-C7; Tue, 01 Jun 2021 03:52:53 -0400
+Received: from mail-eopbgr140133.outbound.protection.outlook.com
+ ([40.107.14.133]:29384 helo=EUR01-VE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lnzCh-0005zI-KP; Tue, 01 Jun 2021 03:52:50 -0400
+ id 1lnzCl-0005x4-KE; Tue, 01 Jun 2021 03:52:53 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MNH9AjMxjVD0mv0Vm43VVn+G/Qap9qYntU6NsElCQckDoX3cT11CXB4flUJRIWM3+JpcEhA4aq7rqKfo6Xd+ruI5zDHxce+PcvzZvDUVYm/afx9+W+6g2SAGght5tp3ds7ek5+z/y/wR0MYNuX5Kxg7HCCnL5DyUpmrMsFVlY0v6AehTx3KVRjxm4bMaVh7ViiMYbHlspa5lHCMNtunb1JRnBkZiGQ3EuYjGcEacxLqfqiUcfYW2zbXGHvnE75St/pLh7/gZlpbAiH4i+wcxQVBMtMp4vSTGcjmtgmsbgvwnDZ+TVmkOMYsi4Q87ZnV9RZuLBxA/KLqH6++85qlNCQ==
+ b=SVvkpK2h11BQHQ1wThLhENaIwd22QwtCzdJsoRr/HOS7BVFoSHTQ52R4GuxOpmPARNMp3KQwN3Gyhcy55Od8NINWVEo39qPvAD0/qV9TY9YozQWN+AEpJQAyh08mW+pgQwQ1N+QM7jI8mkiZCMR76tkUMrfuuvXqHtnJaJO6bRW8XNFczkLHJnVdyBbDV115VhPKlseVk2E8FzhOUYNZDGeeWYviyTs53j8xvrZyksd/+C0i7J+2UbvxE7EdrHYrnSOLog7QQKgDGQX9dZuBksHYEPudgu4IvQACH5tVS/FubuklMirOUlk55VxaaJYH2fsxAaHGPVoKn5aWe4a7iA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NGolGddMwJO+y/2zkrpYTTrWHefFadaxwp61cVHonuo=;
- b=XmF377NQjRR9HgsBfbHxKsLQudvEJK9OwUb6NQ1eo+4OdSJ5Zyq4w1QqN/x975qHzKHVQTIuHWic4GtYNXHKWkEkhrnREd2eCm3h3wJC27lgChTiWKb9hozO1fxfLfHLREoL27h9pFcByBnJTi9tyLPc68uGVl7dlqO056s1BPvs3RyMx5qhZIeV1kZnibDLa4IxB4tiJImDzJu5ZOhEWiSQh18nznatQSHwtO/OPB/mg9Dpx30AdhsJRUOzfpIZsiUT/UtsmYvQGWpIDwE/0yp4+RF3hQB3t+WS5N1nkXuL0V9Dv8U0DP/ZpsE/fzMdiZkT9lKPZvOpcV+rmXX9BQ==
+ bh=XhXh0NUN/dV7dl13patV8q2QChP73rJHMrBKqjkd1K8=;
+ b=oN5s+VoFvTZdJm6tfLbG9y3ooZvS+oceicx1QjB8jGTkP7U20eKxohl9SldikEjhoBslhLBZUkExAAtS5AVLUKQhhF6j5wL3dSDUWfdDA309aFqJuep1vj9NEKuB2eYnCe9aN8gcnH3nn8feOccFVt1L6ZECEeZ8V4lGwSlBXRgFHV7rcllSxLYCWmM1uTcRYwGbyjv8v3F8wtV7T7X9HQW216JVabZYKIxD7f10YiOgSawEJA/h/KCK6U1DJ1DB/j/Y3ytnbjvAsP+l5jzbdulO27D4PpGC8QpZqTKYUBGt83yfK4gYk5bgUTRN1iyOV+M4rmwXZhNbpMJ5W+XLIw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NGolGddMwJO+y/2zkrpYTTrWHefFadaxwp61cVHonuo=;
- b=ARQZWJoKAbG5pXy/UjerxvoRkk6b/TszjNpFiB1UWev1DVfqrxWIwWDwKCz54mfX4OKvGanvA+xoYSfVCHUTmFaLJ4mPlQftE9zSJWktWB0TzqW/6tfcPZucNP7lC3z+T4limNcpACcMK2G2Za7rKEivVwpzNgSaCExhQ2OFKfE=
+ bh=XhXh0NUN/dV7dl13patV8q2QChP73rJHMrBKqjkd1K8=;
+ b=D80Y/NbGntJVngUfkxazyybmfbc4hZPPbCXxWbOec26Zswtbn6lPdcHY6aZrf6tEsjDlDmzU6ueYLFd7t2hl2M3BsvEtz3XaUDQk7WrrKGPiDjQv678rdWVFmaeJqlwkHxoU76Vx5+UDg2Q4+bHqRwxmlj7AgYTnpzlelienGb8=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM6PR08MB4952.eurprd08.prod.outlook.com (2603:10a6:20b:e1::20)
+ by AM5PR0801MB2099.eurprd08.prod.outlook.com (2603:10a6:203:4d::8)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.20; Tue, 1 Jun
- 2021 07:52:39 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.24; Tue, 1 Jun
+ 2021 07:52:40 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::f928:f4f2:77c0:74b4]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::f928:f4f2:77c0:74b4%7]) with mapi id 15.20.4173.030; Tue, 1 Jun 2021
- 07:52:39 +0000
+ 07:52:40 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, mreitz@redhat.com, kwolf@redhat.com,
  vsementsov@virtuozzo.com
-Subject: [PATCH v3 4/6] block/vvfat: inherit child_vvfat_qcow from child_of_bds
-Date: Tue,  1 Jun 2021 10:52:16 +0300
-Message-Id: <20210601075218.79249-5-vsementsov@virtuozzo.com>
+Subject: [PATCH v3 5/6] block: simplify bdrv_child_user_desc()
+Date: Tue,  1 Jun 2021 10:52:17 +0300
+Message-Id: <20210601075218.79249-6-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210601075218.79249-1-vsementsov@virtuozzo.com>
 References: <20210601075218.79249-1-vsementsov@virtuozzo.com>
@@ -65,54 +65,54 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost.localdomain (185.215.60.210) by
  HE1PR0802CA0018.eurprd08.prod.outlook.com (2603:10a6:3:bd::28) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4173.20 via Frontend Transport; Tue, 1 Jun 2021 07:52:38 +0000
+ 15.20.4173.20 via Frontend Transport; Tue, 1 Jun 2021 07:52:39 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: e07d1273-f16e-42b2-ffd0-08d924d23a27
-X-MS-TrafficTypeDiagnostic: AM6PR08MB4952:
+X-MS-Office365-Filtering-Correlation-Id: 87f47806-c281-4f7b-18ec-08d924d23abe
+X-MS-TrafficTypeDiagnostic: AM5PR0801MB2099:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB49528D80107D9CCDB7D1D57FC13E9@AM6PR08MB4952.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3513;
+X-Microsoft-Antispam-PRVS: <AM5PR0801MB2099616A3DF6969005C83EA3C13E9@AM5PR0801MB2099.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:191;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Kpu5iARvcjNMxD6hJ7NbI036sPCFOWshyYs56JVM0oR1Qijf8wgMWI5oYJlACxDwLU9DUbtaM0CO2X7insfmJfTzpKECMjWkb9DvIzZhgGxH8Nh6drpcepje12xWDt7g/XbVT3VFJl5gf+D2LKGRtbZkSO6a867OMFo4CRnfKug5nvbE7cnuuSlswwAt2uxTrOXhwI51LNtuTpf3UpJ0uWyPiN8Ft/e8menlTW0NZg3SBCT54eEBKxY0/wqTX+08BLwprIiw5Z5CRyfOzvQn4WmUYsG3RQCt5ALsyRhDFr5AjIoev8vgor2QKMl+WEZ648WKJc9ptxezq12x+CVIcNOb+uu2/B43nON0KNEX/e44Br/hcf1BwoxnmJT3vYDRc1Rb3FyvrGzfzzdLmFbtISB22jlSpTCrrzfLtJpXS3+602d7YPFen/C/OVCD/mSgW9p4XnYaQ1+/kXdGgR83iOY41VSE24Oj9Ve9wLmlgSdtcIaC5wQ0yfcWqG0mbr67IclqJeYCX8L1zTQRuYgWfe9yTtpXNpWoeyoy5ssCxn4J1pZCCdgTJHOCZdcNfI8gmbeutGQrcv+fjGo2OsMn7MVtCCeQZp14ejl01CoD6bQ+wOuu/iDcQecZC4sLVcd6WlfiIyVbgxZ3+0MDsRthGEf9/5fYGCrK5R/wt+1krUy3BeQHCC14UPoHEUY/iHdq
+X-Microsoft-Antispam-Message-Info: MHBKur/e0HVfqK17QVwl6Sn4+z0u0jUoC3hJRlPGATHj4TbnhJgrTQ2OXgTbtTogclqm6Ov8FC/v3sOn8ZZQLe47uLrm0zVnptAcJ6g7lg2eUjO2CaNB7KZjckSEp2rPPOR7wFZ+0JaQOnvFcTuWlW6kHAaRlIrfS+NqckaNDTpd6exghDorbHCl9d4phBOf5UwnwfR6kwU4dy3UVZo5f5GQTKfKIwxK86v+hkaRZaMQpJ2urViz1N2u6ZopOkq6U4Ta0GdQnSFjVTTfTqLtXpnlE4OINmzvJfnHMEYCWYct6sBwJdACZYpAQYQPBUNtslX9t7TLBhx3pQsBzDHmMOlSMVCd/vXrEJpqVugPVWpzpgy7UtZ6vkDMN3gfljIHx9nVinZAP5EKqFwAyBk9M0vkyETUryDhK1svhYNNCmmk2uuDpwUXFGu9+RNnuixxLkun3n4f7W6TTZh8PFg9OMYPOmUXl4b3ZEgPoogiMmy9EC2Omf5JzWuZhvtBWhT0Y0DewPQbg+GasCS5zP4viQafxEmnbPuvLP1uvL5ioBjxq+ZXuYD5ETEVPgOtJiJEjvMqh6UNZ/cyEHZk21eG2WGXPvmn6Ni5+Kk1bq6MMLKK3TwvbuXSom3+aJXH+wglNn8uXm9dy76WnU8XtvtVLXJsQrToYYzwObYcyjUMp9N9qlMPjdb6MECNKR4/mLq3
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(346002)(366004)(39840400004)(396003)(136003)(376002)(16526019)(6666004)(186003)(66476007)(36756003)(66556008)(956004)(8936002)(6512007)(2616005)(6506007)(2906002)(8676002)(66946007)(5660300002)(38350700002)(38100700002)(6486002)(83380400001)(1076003)(107886003)(26005)(316002)(86362001)(52116002)(6916009)(4326008)(478600001)(69590400013);
+ SFS:(4636009)(366004)(376002)(346002)(136003)(39840400004)(396003)(2616005)(6512007)(8676002)(8936002)(2906002)(956004)(36756003)(4326008)(316002)(83380400001)(6506007)(86362001)(107886003)(16526019)(66476007)(66556008)(38350700002)(38100700002)(6916009)(478600001)(6666004)(4744005)(1076003)(186003)(6486002)(5660300002)(26005)(52116002)(66946007)(69590400013);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?1xeF5Czz3ilQ7sVTez7kdsWMOlFd0kW8Sg6yem48PbwkTpIwcvGQvBMbmImJ?=
- =?us-ascii?Q?VJduB/C+xSO+waaCKr2/IChz53qtiL+Qd3nKip96kkiPM7kTJUysCz1jpTOU?=
- =?us-ascii?Q?YsGDI03PxTkMhUoX9gi46UqSuuXYaQq+zJLGQEKlfiYETUbzeINLbTP0XVkX?=
- =?us-ascii?Q?3ylj8rXQaPB45BYuOvx+NtCfjDQ329qTUXC7zfTtJnj9PaA2sohh2WYgE6dX?=
- =?us-ascii?Q?DXr2GajL+Fh3Y1xOi2vytNCB5dkrozJJ6CAiFkniIu2rP+9KZsIXnGi4fU37?=
- =?us-ascii?Q?MyHI2UeDcqQEu2jolcBUuMw/3OiPhOiLZ3fRnKJwY37GJX/Z0c+LOeabImS2?=
- =?us-ascii?Q?fL8IKhNxmU5iIqfxA5AhlbDDE+yOcWOs0YMPSp6/cYnPnJsIg1BjG0+7lgvP?=
- =?us-ascii?Q?k1fwgnpjk8N5do5APpoxI+sJgBmg9GN1RndnjDF4qR6A+ZcVbPjgh41ENIkw?=
- =?us-ascii?Q?5ZooeAcE1GMlQlyRbMpXzvsQxswI6RHrGlq/e/6tRKFypqsj5pbF/WHVWoWJ?=
- =?us-ascii?Q?244wrbZhQ2knmMSlFkp80TB7I8dpbAe8h5CbHQ7GTk2L8Dg+wi18D+wWF2m0?=
- =?us-ascii?Q?U07skrIsMXqCXSoDkXQTj93Cm6pI946MDmb0I+h8m1zvp2KcrJmf5p0AYNvh?=
- =?us-ascii?Q?kEWc8HNQlAF1NfNCtBzsp916kGnGOz/PP06ct2be7nV2yZl2azVtrvqf/eax?=
- =?us-ascii?Q?ULGqMQJBZu5UDoq9bWjrhVPzygtaJQYqVG6WOYI+Tn+5oXgUbIZNifqDJRS+?=
- =?us-ascii?Q?JlrjcJKd++5bmuzebDtEQxJa0X70ychEx5h5aS2yZ/NYCOwDdCWFMHYQZj3g?=
- =?us-ascii?Q?CjK79LZD53USBgdm3/fquKpN3rDjJK7oa3Ddn9WwHcUFjxNhfDRkrtW6U7n8?=
- =?us-ascii?Q?iVJ7iSwpGPn/r1n+xy3j0x3DE9ZVyRT6ekJbC5fnTRrsI6CeGHghnwuNIBfN?=
- =?us-ascii?Q?++Reg9scVkcNfbZMvF28hpk1E6h2tqCwdDCwzE2bycNAmkGILeYxXpzzT7pt?=
- =?us-ascii?Q?xhHK2dK5m7KrtXtYEwGgzAUUXIMAshmU4/ItNPBkm61WIPDFuZU+prl6CviG?=
- =?us-ascii?Q?G5f1Aa55+71JSE667JUiOTceMFxZrCXLV2Wl1z9sMjZMwFr9OFeO1SiQCk3B?=
- =?us-ascii?Q?wX9+dq5i6y/b4VxMl3RFa3NlZr+3JQolQSqyWpYJbosS0xo8tmegonYluay+?=
- =?us-ascii?Q?1uKsmtgVNVDvtCrKRMvO9qO96EKnkrT6yX9I6ZSI4BkHGXyV/U/QQfCW3iSv?=
- =?us-ascii?Q?Fy0JBoZeTlJWe+ED1BpniqcUdmjHqqNAoIvBxrAcTftDA6F7FfWLw+CaVTl0?=
- =?us-ascii?Q?f44XZu7T3Ay2XPHyt0fHq3aS?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?yypH4HRUt924S3795XGnY6qt82ZEdmh1JhWO+xdJPnPMSdmNPkJGE6gzFsz8?=
+ =?us-ascii?Q?lO66HKS5Fv1BkHld2cb+9SJzpUuLfB84o1Z9Ro4lfd/RcYo5now9lNF93OP/?=
+ =?us-ascii?Q?WtVnbQFGSDYux8CTKl1RXGolWIXe4hyZQDX0TdqqT40AIejo5JADUF5jknnY?=
+ =?us-ascii?Q?OiPn0tHZc0CUNV6g3WwpqGPcnYozchWbPr46WIdLD36wY8r0IlYrFt+12lk6?=
+ =?us-ascii?Q?aDuLfuJ7+BAlDfvtkxIK6Cgvphwuk25dmvxEpTC1byDfzo7AYBRp7EjYmQMB?=
+ =?us-ascii?Q?F0bGOm4yQWX+VuYt7Gph1LDY0WB8jXpnJ5frF3Th9k8gp5DDrgpFpxfRM5y7?=
+ =?us-ascii?Q?7kGi0IwmFfoN7FD+pWbuCG3SZhKZMV2GBEQS+F9oLhf39m9NPXS7I2nVjisD?=
+ =?us-ascii?Q?LoBCiX56XuUC7+r3c7Lj2uNhMXG3QfxyCGVBIft4avcfCJT0QSBiy/c59tgH?=
+ =?us-ascii?Q?TvYBoNNkhztdXi6NBMapzGRm3OXyy5XKh3BjGVzfMGsiFfNv19n310ev3u8x?=
+ =?us-ascii?Q?JwIKzD8AZGNeaeyJbZny65V18AGxfrlIUMq0xFpCYAXKTkJF6usO6fXUPotE?=
+ =?us-ascii?Q?cz6I7VW+6fnklUlX92AOtXOzEpE1oGVc1qqk3g9fKH/snbReByd6Z5R5tDxW?=
+ =?us-ascii?Q?42NpmqTYGyA9FqbxwkXr/Dw+S/nVcx46tIFB0129PEFhdZxhdlRLlX4Ywrcn?=
+ =?us-ascii?Q?7I1loSuWwsnpn9Z+fe7lg/xEITXio+WdapKMLehIpIil+3mibH+b0IEiAIZM?=
+ =?us-ascii?Q?n0D/edyb7+df8yLZKSBL1pJtUaJ4mWd+dCzDFtagDU5xKBiYZW9zfZxIIbn0?=
+ =?us-ascii?Q?wGHSqwMF5BA8PnyvQOZzVelPfyM3kwR0hX0W1eSaEDEVI3/idyVWjstIvJf+?=
+ =?us-ascii?Q?A7pc5uFEK3thJjm2Clu+hnwxmvgdfG1XM9JgaGr2TNW8HqP35onVLN1t/g6u?=
+ =?us-ascii?Q?jPe0qgtwz3Nd/JD4TRk47UsWxa1IxAYGAjwFz99KvoTLMbJ3FJlDxLOJKeNe?=
+ =?us-ascii?Q?4S+fC6vJ60ZPtgbgfYIPMkkZgEwp8EM3QUHF1oQje1cOWFbaSGFrM7u/MbdN?=
+ =?us-ascii?Q?3QNmyIPyu2Ln0MTgPiAih++oRFMKzqM8dQFhcCAyaTyn/js4AxCwI9smuJ1e?=
+ =?us-ascii?Q?5QITd+LrKCeDCuLurv+KPj04Gn6ls/w5m2iqd9yYbl5yQlKpTMq0AXCa8Sq4?=
+ =?us-ascii?Q?TOtidav+Ju8z9T0QixToDJDs9WqPjPWBirZ+Bw8IbHnSjWt/uR5IOSGClZvk?=
+ =?us-ascii?Q?hojV6gdf/+ExY4bC93EM68UeqZSKQPaM3W8Rl3bw2L/Uot1esUuV49imBem8?=
+ =?us-ascii?Q?OUJmEud3xlViz2hhyTluWe1j?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e07d1273-f16e-42b2-ffd0-08d924d23a27
+X-MS-Exchange-CrossTenant-Network-Message-Id: 87f47806-c281-4f7b-18ec-08d924d23abe
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jun 2021 07:52:38.9447 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jun 2021 07:52:39.9105 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: iB93qZ9URUWaujQzKhfg4R0gKLeg7kU5m2ua+xOBz5DGEt0ofGNCTNiS0rF8mo9uSVY3OHp+oxodofAmJqUWGM1tXMBpVIqlh+QZCRtzr7k=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4952
-Received-SPF: pass client-ip=40.107.14.102;
+X-MS-Exchange-CrossTenant-UserPrincipalName: U55oFpyqXptXPv4SV7E05SVa1OUD/cF2mUs30z0mssr2Hz2tb1v0/BDp3U6oSg+ejCefIxpQbesyZrQBV15ZtMexNwprhliSeGbngjb+868=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0801MB2099
+Received-SPF: pass client-ip=40.107.14.133;
  envelope-from=vsementsov@virtuozzo.com;
  helo=EUR01-VE1-obe.outbound.protection.outlook.com
 X-Spam_score_int: -27
@@ -137,44 +137,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Recently we've fixed a crash by adding .get_parent_aio_context handler
-to child_vvfat_qcow. Now we want it to support .get_parent_desc as
-well. child_vvfat_qcow wants to implement own .inherit_options, it's
-not bad. But omitting all other handlers is a bad idea. Let's inherit
-the class from child_of_bds instead, similar to chain_child_class and
-detach_by_driver_cb_class in test-bdrv-drain.c.
+All child classes have this callback. So, drop unreachable code.
+
+Still add an assertion to bdrv_attach_child_common(), to early detect
+bad classes.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- block/vvfat.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+ block.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-diff --git a/block/vvfat.c b/block/vvfat.c
-index 86d99c899c..ae9d387da7 100644
---- a/block/vvfat.c
-+++ b/block/vvfat.c
-@@ -3127,11 +3127,7 @@ static void vvfat_qcow_options(BdrvChildRole role, bool parent_is_format,
-     qdict_set_default_str(child_options, BDRV_OPT_CACHE_NO_FLUSH, "on");
+diff --git a/block.c b/block.c
+index 94cb7b6637..3c0c3964ec 100644
+--- a/block.c
++++ b/block.c
+@@ -2026,11 +2026,7 @@ bool bdrv_is_writable(BlockDriverState *bs)
+ 
+ static char *bdrv_child_user_desc(BdrvChild *c)
+ {
+-    if (c->klass->get_parent_desc) {
+-        return c->klass->get_parent_desc(c);
+-    }
+-
+-    return g_strdup("another user");
++    return c->klass->get_parent_desc(c);
  }
  
--static const BdrvChildClass child_vvfat_qcow = {
--    .parent_is_bds      = true,
--    .inherit_options    = vvfat_qcow_options,
--    .get_parent_aio_context = child_of_bds_get_parent_aio_context,
--};
-+static BdrvChildClass child_vvfat_qcow;
+ static bool bdrv_a_allow_b(BdrvChild *a, BdrvChild *b, Error **errp)
+@@ -2772,6 +2768,7 @@ static int bdrv_attach_child_common(BlockDriverState *child_bs,
  
- static int enable_write_target(BlockDriverState *bs, Error **errp)
- {
-@@ -3268,6 +3264,8 @@ static BlockDriver bdrv_vvfat = {
+     assert(child);
+     assert(*child == NULL);
++    assert(child_class->get_parent_desc);
  
- static void bdrv_vvfat_init(void)
- {
-+    child_vvfat_qcow = child_of_bds;
-+    child_vvfat_qcow.inherit_options = vvfat_qcow_options;
-     bdrv_register(&bdrv_vvfat);
- }
- 
+     new_child = g_new(BdrvChild, 1);
+     *new_child = (BdrvChild) {
 -- 
 2.29.2
 
