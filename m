@@ -2,82 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 171A539758B
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Jun 2021 16:35:32 +0200 (CEST)
-Received: from localhost ([::1]:34360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7694397593
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Jun 2021 16:37:43 +0200 (CEST)
+Received: from localhost ([::1]:36714 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lo5UQ-0005Rb-US
-	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 10:35:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58376)
+	id 1lo5WY-0007Bq-Te
+	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 10:37:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lo5Sx-0004B6-7G
- for qemu-devel@nongnu.org; Tue, 01 Jun 2021 10:33:59 -0400
-Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434]:46867)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lo5Sv-0001Pa-AR
- for qemu-devel@nongnu.org; Tue, 01 Jun 2021 10:33:58 -0400
-Received: by mail-pf1-x434.google.com with SMTP id y15so11510317pfn.13
- for <qemu-devel@nongnu.org>; Tue, 01 Jun 2021 07:33:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=dmIvJAdm8QAcw0sYyKFIxZFvyd5VqCyYO7UZ3rwmUG4=;
- b=OTg1T9FUqoW+xk+R+p2kdBeyn1CFlaB5z0x7h1Igs9JoUKDOcedgJhMmo6GAs+S6jQ
- 7LCucMgtFc4m7g17CKQI2lOVWMImu/rppPrMAQI80aA1uy+Tpg7MvdB+xLoQkPhJPCxy
- boZkeXd9TMAgvjWwl+2cXPJyI4UzrXOaAmZcCiS5xkxI9Lkfk2ZSEYpuzg3T/imOEjWa
- DT7b+GjxjjCdNBH7k8JBz0HmETwAuERfyd8jWPr0x1aeoDAFBvS5B5FVixiC4YTaD6T8
- yfRNd+6Ixnlh/qySgLGBk08hyB6GFRvWKrybNxkBAqtMZF4UcPu1Dq9LoNZMQ1sHhBab
- wS5w==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1lo5VN-0006Wb-Bx
+ for qemu-devel@nongnu.org; Tue, 01 Jun 2021 10:36:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25922)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1lo5VF-0002pu-DD
+ for qemu-devel@nongnu.org; Tue, 01 Jun 2021 10:36:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1622558179;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=IhUBI2bPzJcFK7qjXz+qE/PIrvnkqlx0YE4L8DHjFkI=;
+ b=eWya1RQRzu30NJOPSQF14ZA8e97UdZXQPxsDHnZNUsm5f8f3XPuIIs7UC3WNmoAUYqYbF6
+ CDLRy77w4ozxtZNZv+azpHYuCSQz1PeTd3a1I7Fc8kJUCozO9HjE9g5iaG1dN8gpm21U7D
+ PvGLfeCqq+NSgseUSvD78Ru3cO/JLqM=
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-292-wwFCHJ7IO-GQQK7UlNnQDA-1; Tue, 01 Jun 2021 10:36:18 -0400
+X-MC-Unique: wwFCHJ7IO-GQQK7UlNnQDA-1
+Received: by mail-qv1-f69.google.com with SMTP id
+ v7-20020a0ccd870000b0290219d3e21c4eso3121431qvm.2
+ for <qemu-devel@nongnu.org>; Tue, 01 Jun 2021 07:36:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=dmIvJAdm8QAcw0sYyKFIxZFvyd5VqCyYO7UZ3rwmUG4=;
- b=BOz0ZfnnL8B3c9yYRx0lEyv47c3oSQcb3nZEf5hE+dYRwMpcQPkRYK/+RnAV1HXxhu
- 9m6BoH7/EvCVM7hhluPwmv+mXpj2In6IpYx9Sr/z61eTsBiEITAZpp98jmdTUEB7FxEF
- 7Kh8A7bLFiJ+ouHokzguVW/GOKz2eFqKBS0MfoS03LHKEScnvp7omslsmeygU2iKfDDs
- G1XypNAZtbL8NtotkdcqeyNxMZVqHMcm0V8Dz5sOMchZzPakcd073nIUeY/JFETqWF6x
- JVXiRDJl4/GD1cSfVcfRExMG8KoCBmWVM9f+m7a30m2sghh3iNIXQkFZtZrXh3b6X0OW
- ZkYQ==
-X-Gm-Message-State: AOAM532zIAsUhAHS3cW3mkFyAkBLlshm+mzP086io0pyl2Fa2D/dU9Eq
- BsZaMqztPKytgz6rbDpmvxh8pT3+LCgTaA==
-X-Google-Smtp-Source: ABdhPJwQmXw48Tzc7FIkLCgOIcSkSFQHRsqRWlFwTZe4YJPcXtov2o5nWeAwgSZFGQhGX2WGNXHiJg==
-X-Received: by 2002:a65:52c8:: with SMTP id z8mr28524311pgp.50.1622558035421; 
- Tue, 01 Jun 2021 07:33:55 -0700 (PDT)
-Received: from ?IPv6:2607:fb90:806c:3e8a:9cf0:b3be:5e07:b99f?
- ([2607:fb90:806c:3e8a:9cf0:b3be:5e07:b99f])
- by smtp.gmail.com with ESMTPSA id w2sm2246291pfc.126.2021.06.01.07.33.54
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 01 Jun 2021 07:33:55 -0700 (PDT)
-Subject: Re: [PATCH v6 08/26] tcg: Build ffi data structures for helpers
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20210502235727.1979457-1-richard.henderson@linaro.org>
- <20210502235727.1979457-9-richard.henderson@linaro.org>
- <4ee807ed-5e36-ad86-57eb-aaeaa9b1a04f@amsat.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <e862dbbc-e50c-4ea3-1f57-09e3e7931e91@linaro.org>
-Date: Tue, 1 Jun 2021 07:33:52 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=IhUBI2bPzJcFK7qjXz+qE/PIrvnkqlx0YE4L8DHjFkI=;
+ b=dVCEBy2XCYZUVtHp3XxjiUHWUAICvDEG9NQ/XafXD7AFN+liT1eG90yAngDZw/3HeS
+ nDBW3X/CKWMEvg8NG967snmqNOyrw4lKATvtmp0rGDaXzYSgcrlTLx1CL870+f4hsgHr
+ tdBsWFZ8npzCOZHvmqK9tZrS9bdekbbNTaBnn6OSoVoTsMZLfa7hQ5wKJCOQ7b/GegcY
+ KbtUMx766gpG+7A0uczg945YtLRUQ7BomccsrCvlFwbmILwrP3CrKmqWQKHEYLHbZ7La
+ jRry4MtmqzmWuRjybGcLF5DOcqQA14U5OsDdm365akY62/oK3Q1rq1zfN3dc30r8O1M9
+ Ej/Q==
+X-Gm-Message-State: AOAM532jtugsWGrp+lweBbsSAwp3u6NQSbi7iVSFNh2K0KY7y3J//alu
+ H+wWqmjOnvYlO26Wwmb8pabghBdpoeNDC3w4tVaeOw6/OoPW53HAm5Y2gRZ5A15EW1Dz87urtDU
+ CJm/6yEb0A57cKew=
+X-Received: by 2002:a05:622a:195:: with SMTP id
+ s21mr19322157qtw.40.1622558177200; 
+ Tue, 01 Jun 2021 07:36:17 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJywoItUX9cQAmc+1nbznZopC5YnXdV84+W1BvogCyUARKP0M+9cDg/9wwmJnk9u9fxYViBxZA==
+X-Received: by 2002:a05:622a:195:: with SMTP id
+ s21mr19322134qtw.40.1622558176944; 
+ Tue, 01 Jun 2021 07:36:16 -0700 (PDT)
+Received: from t490s
+ (bras-base-toroon474qw-grc-61-184-147-118-108.dsl.bell.ca. [184.147.118.108])
+ by smtp.gmail.com with ESMTPSA id e14sm11096364qkl.1.2021.06.01.07.36.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 01 Jun 2021 07:36:15 -0700 (PDT)
+Date: Tue, 1 Jun 2021 10:36:14 -0400
+From: Peter Xu <peterx@redhat.com>
+To: Hyman <huangy81@chinatelecom.cn>
+Subject: Re: [PATCH] hmp: Add "calc_dirty_rate" and "info dirty_rate" cmds
+Message-ID: <YLZF3v+RrK1D44X7@t490s>
+References: <20210601005708.189888-1-peterx@redhat.com>
+ <024ee4df-07a5-a31d-7b97-31d36dfa3ce6@chinatelecom.cn>
 MIME-Version: 1.0
-In-Reply-To: <4ee807ed-5e36-ad86-57eb-aaeaa9b1a04f@amsat.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+In-Reply-To: <024ee4df-07a5-a31d-7b97-31d36dfa3ce6@chinatelecom.cn>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x434.google.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
-X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.613,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,95 +98,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Chuan Zheng <zhengchuan@huawei.com>, Juan Quintela <quintela@redhat.com>,
+ qemu-devel@nongnu.org, Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/31/21 11:55 AM, Philippe Mathieu-Daudé wrote:
-> Hi Richard,
+On Tue, Jun 01, 2021 at 10:08:31PM +0800, Hyman wrote:
 > 
-> On 5/3/21 1:57 AM, Richard Henderson wrote:
->> Add libffi as a build requirement for TCI.
->> Add libffi to the dockerfiles to satisfy that requirement.
->>
->> Construct an ffi_cif structure for each unique typemask.
->> Record the result in a separate hash table for later lookup;
->> this allows helper_table to stay const.
->>
->> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
->> ---
->>   meson.build                                   |  9 ++-
->>   tcg/tcg.c                                     | 58 +++++++++++++++++++
->>   tests/docker/dockerfiles/alpine.docker        |  1 +
->>   tests/docker/dockerfiles/centos7.docker       |  1 +
->>   tests/docker/dockerfiles/centos8.docker       |  1 +
->>   tests/docker/dockerfiles/debian10.docker      |  1 +
->>   .../dockerfiles/fedora-i386-cross.docker      |  1 +
->>   .../dockerfiles/fedora-win32-cross.docker     |  1 +
->>   .../dockerfiles/fedora-win64-cross.docker     |  1 +
->>   tests/docker/dockerfiles/fedora.docker        |  1 +
->>   tests/docker/dockerfiles/ubuntu.docker        |  1 +
->>   tests/docker/dockerfiles/ubuntu1804.docker    |  1 +
->>   tests/docker/dockerfiles/ubuntu2004.docker    |  1 +
->>   13 files changed, 77 insertions(+), 1 deletion(-)
 > 
->> @@ -1135,6 +1152,47 @@ void tcg_context_init(TCGContext *s)
->>                               (gpointer)&all_helpers[i]);
->>       }
->>   
->> +#ifdef CONFIG_TCG_INTERPRETER
->> +    /* g_direct_hash/equal for direct comparisons on uint32_t.  */
-> 
-> Why not use g_int_hash() then?
+> 在 2021/6/1 8:57, Peter Xu 写道:
+> > These two commands are missing when adding the QMP sister commands.  Add them,
+> > so developers can play with them easier.
+> > 
+> > Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> > Cc: Juan Quintela <quintela@redhat.com>
+> > Cc: Leonardo Bras Soares Passos <lsoaresp@redhat.com>
+> > Cc: Chuan Zheng <zhengchuan@huawei.com>
+> > Cc: huangy81@chinatelecom.cn
+> > Signed-off-by: Peter Xu <peterx@redhat.com>
+> > ---
+> > PS: I really doubt whether this is working as expected... I ran one 200MB/s
+> > workload inside, what I measured is 20MB/s with current algorithm...  Sampling
+> > 512 pages out of 1G mem is not wise enough I guess, especially that assumes
+> > dirty workload is spread across the memories while it's normally not the case..
+> I doubt whether the sampling can cope with the situation that the guest
+> dirty memory too fast so that the sampling within a given time can not
+> finish, this may happens when vm is in large scale.
 
-g_int_hash takes a pointer to an int; this stores the int directly as the hash key.
+Not my case, though..  I'm with a 1G super small VM, starting a malloc()
+workload with 200MB, dirty rate 200MB/s.  As I said in the other thread, I
+think it's the algorithm that may not really work well with such workload,
+while it could be one of the major workloads..
 
-
-r~
-
-> 
-> Otherwise,
-> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> 
->> +    ffi_table = g_hash_table_new(NULL, NULL);
->> +    for (i = 0; i < ARRAY_SIZE(all_helpers); ++i) {
->> +        struct {
->> +            ffi_cif cif;
->> +            ffi_type *args[];
->> +        } *ca;
->> +        uint32_t typemask = all_helpers[i].typemask;
->> +        gpointer hash = (gpointer)(uintptr_t)typemask;
->> +        ffi_status status;
->> +        int nargs;
->> +
->> +        if (g_hash_table_lookup(ffi_table, hash)) {
->> +            continue;
->> +        }
->> +
->> +        /* Ignoring the return type, find the last non-zero field. */
->> +        nargs = 32 - clz32(typemask >> 3);
->> +        nargs = DIV_ROUND_UP(nargs, 3);
->> +
->> +        ca = g_malloc0(sizeof(*ca) + nargs * sizeof(ffi_type *));
->> +        ca->cif.rtype = typecode_to_ffi[typemask & 7];
->> +        ca->cif.nargs = nargs;
->> +
->> +        if (nargs != 0) {
->> +            ca->cif.arg_types = ca->args;
->> +            for (i = 0; i < nargs; ++i) {
->> +                int typecode = extract32(typemask, (i + 1) * 3, 3);
->> +                ca->args[i] = typecode_to_ffi[typecode];
->> +            }
->> +        }
->> +
->> +        status = ffi_prep_cif(&ca->cif, FFI_DEFAULT_ABI, nargs,
->> +                              ca->cif.rtype, ca->cif.arg_types);
->> +        assert(status == FFI_OK);
->> +
->> +        g_hash_table_insert(ffi_table, hash, (gpointer)&ca->cif);
->> +    }
->> +#endif
->> +
->>       tcg_target_init(s);
->>       process_op_defs(s);
+-- 
+Peter Xu
 
 
