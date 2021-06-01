@@ -2,87 +2,139 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23490396DCE
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Jun 2021 09:15:01 +0200 (CEST)
-Received: from localhost ([::1]:40452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD6EA396DD6
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Jun 2021 09:17:43 +0200 (CEST)
+Received: from localhost ([::1]:43708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lnyc7-0004Cy-Nu
-	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 03:14:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41546)
+	id 1lnyek-0006Xn-Sc
+	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 03:17:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42046)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1lnybC-0003WJ-W4
- for qemu-devel@nongnu.org; Tue, 01 Jun 2021 03:14:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38439)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1lnydc-0005iM-Nx; Tue, 01 Jun 2021 03:16:32 -0400
+Received: from mail-eopbgr60104.outbound.protection.outlook.com
+ ([40.107.6.104]:46756 helo=EUR04-DB3-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1lnyb9-0003xT-7U
- for qemu-devel@nongnu.org; Tue, 01 Jun 2021 03:14:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622531637;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=gt70psrQya4EUNcW9Uaxi0wJrgLNxUAHI6BHTCa9Is0=;
- b=IVv4/tEzpNFJmcMFkg3UFE5SnP6X/KcgOdrWc06E+xkZgWey08owSXWCptrDpJz3tPjdE3
- aQy9ADylBxjBuMhtgzNevNDlg8NvdtNlWYZZHc6lEl/SsY3ENlFIWoDWRmMBXrDRJgwYnB
- xlcJOAB/Vmg3O8VYDFNT78tmzt/HU3M=
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-507-do77TlL5NR22nAEs6juXiw-1; Tue, 01 Jun 2021 03:13:55 -0400
-X-MC-Unique: do77TlL5NR22nAEs6juXiw-1
-Received: by mail-qv1-f70.google.com with SMTP id
- w14-20020a056214012eb02901f3a4388530so10759118qvs.17
- for <qemu-devel@nongnu.org>; Tue, 01 Jun 2021 00:13:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=gt70psrQya4EUNcW9Uaxi0wJrgLNxUAHI6BHTCa9Is0=;
- b=E7Jz9xElotBfp8kOKBjGhOj3CAF504Q8gVLXLn2zVD6X9wocMu10JzmDX/agokibSt
- zrF7xIw7HoG/qUxRD2hr9KW2Xi8oezMv1K8BFViNlBKkwSKXjy3+bTIlxdQfQNC+Fh5C
- dWGC06qL2XP9nUEUnfKFlPT4J23Lr+pXIAmhRXzmuiAk+s20e++uxc1QHDOTnnw5tZC3
- 3I8+Mt0dnSPzJDg47rQqj9+21uprhyc/ZnUa75tKUePPMH68UX5Mww2Xa1wRrtZVPx/q
- LlagpF2rgJlH769G6ba9vXF9O8UV51cmrHAkkeoxRn2MdBvNA2ULqMMZJI+EuxEJP6Ud
- HfdA==
-X-Gm-Message-State: AOAM532Y/aKHvQTpD/zMzZp59DjJVcpCCeOO3YaEHDmRVZis/XLg6QG7
- UgEpt63q1gAn/U/FeRDfQoNi2Ad7yogcaY4UM6VQyeKCeVVqOc3ixx+d60LLERuQq7Z/OmZEZne
- u7yVIFSQJXQ/XdzzQ3QlWRalHc4cmKJc=
-X-Received: by 2002:a05:620a:20d7:: with SMTP id
- f23mr20136478qka.484.1622531634501; 
- Tue, 01 Jun 2021 00:13:54 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxTBDZTxATiXvKjj3lrbgfP7a24aKADgu9sOP3/Gt/CcWPGqzrlflZXylkLogNzUdPdvnNuSpOgbYkR/ijp2L0=
-X-Received: by 2002:a05:620a:20d7:: with SMTP id
- f23mr20136458qka.484.1622531634270; 
- Tue, 01 Jun 2021 00:13:54 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1lnydZ-000627-G6; Tue, 01 Jun 2021 03:16:31 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Wg+Ujg+3JLMgHiNpsahZP5Qwyl+ji7bkOAHqOV2WsNT33ouu/VpOZqZl3csz02F1WQEzBfv+msz7eB7MnfQZiHkp86zUcJl6eS9JtYunSrP+ljK/fT/2THE4yIfU2Yx2tSMdyV5zOPrs8PDI0GjCgwaJPWHIpOQ0kJ30+kzH8Swq9NpQRTRqjYXa5pfblTx4f0yyPP9d4HDZZGjn2zehuUiibWc8/r5Xd9KhqJDJ9YTyzfISPzV1IQV5VANhmib5RGBCcOvznjACQ01g1OQFJu8QKJbv1YvwPAciUrDjUxxSTZTtwnA2fuo+Ws82cmRQy1Vo7l3Q55kJC16x5w22Dg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9YI+we0qFpfbCr5U8BNhOimZA4XHeD/jxYbnsom3z2Q=;
+ b=dLgOpvIA9tnOGUllWOQz+lAa8o2/avkzulTacM1eud0F+36VYSi7qSt/OQ1Y0e8rM88lyjhUtegQimZo31LycyA765e050nf+XVTagiAozEMnGzc2gMVP3gwekgOvHZ9pQsaV63c/2l6sTgn3ZtsGhKE1npzLSlXKWzh4Zn3b8oTmfS6B65/22h1o8qBtPBE5ADmvTxOgs+rhuH62c7rtDcocP66g1jtBdmcljL9HaNvLdH0i1yXjl/eethHDPcipsBka6CVQyPZnZxOtC7bg7ww8YFXkaFCE6gZKjMzDpggmVXmiCXLWgCEd3QmpRon8Vq7ZTD2CLPr22lvyoy4LQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9YI+we0qFpfbCr5U8BNhOimZA4XHeD/jxYbnsom3z2Q=;
+ b=Gy2SZbu5Y78WBTLwUN/a3FTyxGHdMFYn3/f3K5uWmPleLrjcb1S71nMxVIcZY1za9uArKOZePSRj70Np0j072spw/WkUEHsnqst9JcjClwlXq36x4KknlUyTT4zTTE4GLKzzkBqX5bwRSTlo5XCP5IV2Y275o0VLiHDhW814d1E=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM6PR08MB3623.eurprd08.prod.outlook.com (2603:10a6:20b:48::23)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.24; Tue, 1 Jun
+ 2021 07:16:25 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::f928:f4f2:77c0:74b4]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::f928:f4f2:77c0:74b4%7]) with mapi id 15.20.4173.030; Tue, 1 Jun 2021
+ 07:16:25 +0000
+Subject: Re: [PATCH v3] docs/secure-coding-practices: Describe how to use
+ 'null-co' block driver
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org
+Cc: Max Reitz <mreitz@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ Bandan Das <bsd@redhat.com>, Prasad J Pandit <ppandit@redhat.com>
+References: <20210601053503.1828319-1-philmd@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <e471903c-71c2-77a3-c235-0608986d09de@virtuozzo.com>
+Date: Tue, 1 Jun 2021 10:16:22 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.2
+In-Reply-To: <20210601053503.1828319-1-philmd@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [185.215.60.210]
+X-ClientProxiedBy: AM0PR02CA0129.eurprd02.prod.outlook.com
+ (2603:10a6:20b:28c::26) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-References: <20210519162903.1172366-1-eperezma@redhat.com>
- <20210519162903.1172366-7-eperezma@redhat.com>
- <e64b9813-66e5-2417-3feb-65f0376db7e0@redhat.com>
- <4146c924-e871-5a94-253e-e9e09456f74b@redhat.com>
-In-Reply-To: <4146c924-e871-5a94-253e-e9e09456f74b@redhat.com>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Tue, 1 Jun 2021 09:13:18 +0200
-Message-ID: <CAJaqyWeV+za=xeKHb9vn=Y+0mfekCb8w5dmWNMgzQ6uOtU3jxw@mail.gmail.com>
-Subject: Re: [RFC v3 06/29] virtio-net: Honor VIRTIO_CONFIG_S_DEVICE_STOPPED
-To: Jason Wang <jasowang@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.372,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.8] (185.215.60.210) by
+ AM0PR02CA0129.eurprd02.prod.outlook.com (2603:10a6:20b:28c::26) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.20 via Frontend
+ Transport; Tue, 1 Jun 2021 07:16:23 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 627e15c1-5769-41da-a22b-08d924cd2a8b
+X-MS-TrafficTypeDiagnostic: AM6PR08MB3623:
+X-Microsoft-Antispam-PRVS: <AM6PR08MB36234B9CEC9DF882CB96361DC13E9@AM6PR08MB3623.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:923;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: bak5r6Z9hjOS8ael0FREcl7szOLmWs/yDc9tV2cc4qDRnjczTZHFL7jdbzhaQUorK6OJN8OQwTa4mXePTLWDv3s/tWRVuIf8wh1kFTIuPz77uTiax5OzvvQBtXVkPEqESyYSRx1WWt8j7AJjiC0LaQrDZFPd0xVvgvAmwXjzPHqstni1B/rz4hC+Xyd/CUqoJx7WKC+/olgYrhxxtiHmIKOF1ytxTPu4VFfcoIuYJGPABnii10uz5JzIJKa1BHSiUvICCD8cX/u3b9Zo6XTRddNVATQYLQ0rH5UJee4obnIMQ+xjFimvR2GuNTcKmqT0K3aNfqPUs4B5XqTLClrC5agfJ2Pnrnir3G8H5JUU9C6TYYO8AEahzhXtcHwRQ7YLzGVNWfsREshyCVouMV/WBqpaTlIbtrkQZ9mkKm1AgQugF4g+xUYmw5YUqsSnAiaEQORxdFUQeQutgVf6cI3NbIqHJrt2iNrLUULgl31kqR40NmjRpQ682FFr/HOyGED+dF6UbN+p1yDSbTbZPkKXCwPCbWVXqLbMs8vMGv37OlSvQ/rQAsWfv9EvCpwaqJplmCsb/k7132NpiVVm/8Mz5YX+T1x8oBZUCKg7Djs1j50YtV24tu2yoW3JQWraqTZL6ExukZCBEXcb5AeFFtavR10IAsvELR51v6EEtzhKrUcT4t2XPSD3Au8n+vjCbSqUPIBNISirDdZPIr4h/9ySEw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(39840400004)(346002)(396003)(136003)(366004)(376002)(66476007)(66946007)(86362001)(31686004)(66556008)(83380400001)(956004)(36756003)(316002)(8676002)(54906003)(26005)(2906002)(6486002)(478600001)(8936002)(16576012)(5660300002)(52116002)(4744005)(186003)(16526019)(38350700002)(110136005)(4326008)(31696002)(38100700002)(2616005)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?cHNybk5xL0d0empOV0NURENFbG1LUWlpTU9qWU11RVdCZDVUVFFYdU1iTUVF?=
+ =?utf-8?B?MlFjcnhQQ0d0U2ZtTFQ4djRXait2K2ZEM1U3alhOZUdKQStWZUgvWmtET0dm?=
+ =?utf-8?B?RG5PRkNVTjd6TG10SGRSbEdhUTB1RndQa0xCZmlBZWdrMHhRclN5eGV1TFk2?=
+ =?utf-8?B?Z3l5c2RMUmthRWw5VnpzQU8xNDdQYWM2ellFQWxzS0c1QnlwNXVmL0IxM0JH?=
+ =?utf-8?B?bldqaGhiZy9PblkxL0hzb09QMWo5RG1RS0V4NzZyVWJhcVAwWUlraTBWeU5O?=
+ =?utf-8?B?VDBVSmZwN1F4aEpYeWZFcjhPM1F6Y3hic2MySi9vNVVOQ2FJTDE1MW5YK2xo?=
+ =?utf-8?B?cmN6ejlscEphUEY1UFByKzFjRnVtR3FnR2sxVEN1anpjeXZtcENFa0FZQ29k?=
+ =?utf-8?B?ZHRyRk5mN25pUVMxSGhRYUYrb0NpUHg2Wm9MeGROUCt3ZlpZalU2K0RCSkw5?=
+ =?utf-8?B?WCtyVzV6cUFsMk9vZFRrdjBzUkVtbVQvbzEyc1pEeFFQU2kyeE1TS1RPTlJC?=
+ =?utf-8?B?QmJEaUZ6UjhJUWZQeFJNU2lXTERiVjBMVFpBWE5nRk5zT3NpRWxHVHkzbDZQ?=
+ =?utf-8?B?SkZtYzJnQUlXTGgrM2tjTWt6ZDViYWN5QUprOGlBS3FRcm1ERXJFWTFURmEz?=
+ =?utf-8?B?QldHQm83VExjbkNhNTBISEtmTWZaaXFlSVZta25yVW15NUdnS1lQMk5YQUpi?=
+ =?utf-8?B?MlRTNFJtYmtaakNRWFpabFlhaUV3bnZIUGFWOUZmR0hGM3lqSU5lTUJKbjl6?=
+ =?utf-8?B?S0VCYkMxYTVlM2JKTDRmT2x0Rk1lcmRQZml2QXQ1ZFYvQU1CWjJlQW5UMXhU?=
+ =?utf-8?B?NjFYclhEcDdOSXExSnFGR2FudjlMSS9FaGdqYjMrUm9hTk1tZGJlNktNa2pE?=
+ =?utf-8?B?NGpNcVRIYSs4NlJKdzAzNjhIZ3dBUTlXdG1mY01jNUJFcUtpQU1mdUJFMy85?=
+ =?utf-8?B?T0xVaDZudDFPdlNzODBZeGZyQnQraGt0UlBpdUVic0VDdkJBQm9ubzFQd1pY?=
+ =?utf-8?B?THJ1cEFPSlFIUVhrclNpSEZoQkJxM3hpRm5IMkU5bXBpRlp0Y3FwZnpxSjYz?=
+ =?utf-8?B?ZDVPYms5N0FqRG5KeEQ5WThsN05lT21ESmx3ajNES2lwMG9EUzFUaG9XeGJ1?=
+ =?utf-8?B?ZlE0eVkvTVR6M3c4UFB1WEVidlpSM1NoeGpTekFrTGU5ZG5DSEtuV2ExVzZW?=
+ =?utf-8?B?ZXhBWXR3UVV2YlhMZkJ4YzloOGJROElBK1ZybEp1OStwTEo3anY0ZEczbll0?=
+ =?utf-8?B?SjNwc2lRdWFlRFFTUVArQXVnbURxSTkxc3hVdk16aUowT29Lck8vZGNLT01a?=
+ =?utf-8?B?Y3lNUG5VQ2xQOFJZZmoySUUzYUI5OENnczZYMWMvZjFOMmtrck5MSEUxMUJD?=
+ =?utf-8?B?ZDJVS3dTK1k3WXRvQUJPR052djBuMnZzdFdIZWkrbzU5c1ptcnlPMURTWTkw?=
+ =?utf-8?B?ZVhsSFZwbW9MRXRFSHJkQkJ1My9CN2xJNTVyUXNtbEhhaVpHWHJVMDcvcEhm?=
+ =?utf-8?B?VG5XcjBFR2htVlZ5QWRpZVV0TlBMeUNWUXlId3IvWi92NThLcXFoR3Bjb1hv?=
+ =?utf-8?B?ck9pZFAyUm1DYWtISUZsSjVnVktvNHRiY2pvR2xhdm5vU3BwRy9hT3liQ1hN?=
+ =?utf-8?B?TXNzNjI0bEtlWGFqRTR0cFFlTXkwbWR4ZVQya1ZXWjdoaTlaQm9tbVpZYlpo?=
+ =?utf-8?B?Y3ViS0ZhdzRUWG1jMjBUZWNnYUdHZW9xNVN6MGJJWWZIalllL29mekVLMTNJ?=
+ =?utf-8?Q?TIgdJ9r+k6TSuZ9UVGlRst2kf33bhrMkSktGet7?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 627e15c1-5769-41da-a22b-08d924cd2a8b
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jun 2021 07:16:25.2276 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Puf6vBFLaF5N/TxckT43tr6c4m1nmGQja6FaIRM99XtswoTsDTKgRicRACs2aHvfOkUm4Zc+QhEKCmI/kA4EQjBteJR+kiScOkLzEEc6yIc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3623
+Received-SPF: pass client-ip=40.107.6.104;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR04-DB3-obe.outbound.protection.outlook.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
+X-Spam_bar: --
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.591, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,109 +147,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Parav Pandit <parav@mellanox.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Juan Quintela <quintela@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- qemu-level <qemu-devel@nongnu.org>, Harpreet Singh Anand <hanand@xilinx.com>,
- Xiao W Wang <xiao.w.wang@intel.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Eli Cohen <eli@mellanox.com>, virtualization@lists.linux-foundation.org,
- Michael Lilja <ml@napatech.com>, Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, May 26, 2021 at 3:10 AM Jason Wang <jasowang@redhat.com> wrote:
->
->
-> =E5=9C=A8 2021/5/26 =E4=B8=8A=E5=8D=889:06, Jason Wang =E5=86=99=E9=81=93=
-:
-> >
-> > =E5=9C=A8 2021/5/20 =E4=B8=8A=E5=8D=8812:28, Eugenio P=C3=A9rez =E5=86=
-=99=E9=81=93:
-> >> So the guest can stop and start net device. It implements the RFC
-> >> https://lists.oasis-open.org/archives/virtio-comment/202012/msg00027.h=
-tml
-> >>
-> >>
-> >> To stop (as "pause") the device is required to migrate status and vrin=
-g
-> >> addresses between device and SVQ.
-> >>
-> >> This is a WIP commit: as with VIRTIO_F_QUEUE_STATE, is introduced in
-> >> virtio_config.h before of even proposing for the kernel, with no featu=
-re
-> >> flag, and, with no checking in the device. It also needs a modified
-> >> vp_vdpa driver that supports to set and retrieve status.
-> >>
-> >> Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> >> ---
-> >>   include/standard-headers/linux/virtio_config.h | 2 ++
-> >>   hw/net/virtio-net.c                            | 4 +++-
-> >>   2 files changed, 5 insertions(+), 1 deletion(-)
-> >>
-> >> diff --git a/include/standard-headers/linux/virtio_config.h
-> >> b/include/standard-headers/linux/virtio_config.h
-> >> index 59fad3eb45..b3f6b1365d 100644
-> >> --- a/include/standard-headers/linux/virtio_config.h
-> >> +++ b/include/standard-headers/linux/virtio_config.h
-> >> @@ -40,6 +40,8 @@
-> >>   #define VIRTIO_CONFIG_S_DRIVER_OK    4
-> >>   /* Driver has finished configuring features */
-> >>   #define VIRTIO_CONFIG_S_FEATURES_OK    8
-> >> +/* Device is stopped */
-> >> +#define VIRTIO_CONFIG_S_DEVICE_STOPPED 32
-> >>   /* Device entered invalid state, driver must reset it */
-> >>   #define VIRTIO_CONFIG_S_NEEDS_RESET    0x40
-> >>   /* We've given up on this device. */
-> >> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-> >> index 96a3cc8357..2d3caea289 100644
-> >> --- a/hw/net/virtio-net.c
-> >> +++ b/hw/net/virtio-net.c
-> >> @@ -198,7 +198,9 @@ static bool virtio_net_started(VirtIONet *n,
-> >> uint8_t status)
-> >>   {
-> >>       VirtIODevice *vdev =3D VIRTIO_DEVICE(n);
-> >>       return (status & VIRTIO_CONFIG_S_DRIVER_OK) &&
-> >> -        (n->status & VIRTIO_NET_S_LINK_UP) && vdev->vm_running;
-> >> +        (!(n->status & VIRTIO_CONFIG_S_DEVICE_STOPPED)) &&
-> >> +        (n->status & VIRTIO_NET_S_LINK_UP) &&
-> >> +        vdev->vm_running;
-> >>   }
-> >>     static void virtio_net_announce_notify(VirtIONet *net)
-> >
-> >
-> > It looks to me this is only the part of pause.
->
+01.06.2021 08:35, Philippe Mathieu-Daudé wrote:
+> Document that security reports must use 'null-co,read-zeroes=on'
+> because otherwise the memory is left uninitialized (which is an
+> on-purpose performance feature).
+> 
+> Signed-off-by: Philippe Mathieu-Daudé<philmd@redhat.com>
 
-For SVQ we need to switch vring addresses, and a full reset of the
-device is required for that. Actually, the pause is just used to
-recover
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-If you prefer this could be sent as a separate series where the full
-pause/resume cycle is implemented, and then SVQ uses the pause part.
-However there are no use for the resume part at the moment.
-
->
-> And even for pause, I don't see anything that prevents rx/tx from being
-> executed? (E.g virtio_net_handle_tx_bh or virtio_net_handle_rx).
->
-
-virtio_net_started is called from virtio_net_set_status. If
-_S_DEVICE_STOPPED is true, the former return false, and variable
-queue_started is false in the latter:
-  queue_started =3D
-            virtio_net_started(n, queue_status) && !n->vhost_started;
-
-After that, it should work like a regular device reset or link down if
-I'm not wrong, and the last part of virtio_net_set_status should
-delete timer or cancel bh.
-
-> Thanks
->
->
-> > We still need the resume?
-> >
-> > Thanks
-> >
-> >
->
-
+-- 
+Best regards,
+Vladimir
 
