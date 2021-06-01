@@ -2,83 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D63CC397935
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Jun 2021 19:38:10 +0200 (CEST)
-Received: from localhost ([::1]:49088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 316E1397971
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Jun 2021 19:46:11 +0200 (CEST)
+Received: from localhost ([::1]:60224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lo8LB-0005ex-H6
-	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 13:38:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35164)
+	id 1lo8Sv-0004vt-Jc
+	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 13:46:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36422)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1lo8K4-0004vK-LH
- for qemu-devel@nongnu.org; Tue, 01 Jun 2021 13:37:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56426)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1lo8Oh-0002Jl-59; Tue, 01 Jun 2021 13:41:47 -0400
+Received: from wout3-smtp.messagingengine.com ([64.147.123.19]:48111)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1lo8K2-00083T-0P
- for qemu-devel@nongnu.org; Tue, 01 Jun 2021 13:36:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622569016;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=eyzfPliTRzFik28SmAuKxbox1oqAGx/rTcN4uyKfhZI=;
- b=NcxLa95Ij3WrSIqd27j4HLTXY8/9RouZqdHhVwXt9jf3Z6iZtimhVul2kJUUcanQTSu4y/
- 05JX0TWGGDy4TI8ynvU1GhWebZHoF76pVUsWmypDkBXZuxYnPV4CgR0R8EN3iIp7Obufy/
- yvm9kMNjhpMswq/Sj0T+8ScHY9EgDxc=
-Received: from mail-vs1-f72.google.com (mail-vs1-f72.google.com
- [209.85.217.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-470-jvksd94QPB2AZYB8ps3o_A-1; Tue, 01 Jun 2021 13:36:55 -0400
-X-MC-Unique: jvksd94QPB2AZYB8ps3o_A-1
-Received: by mail-vs1-f72.google.com with SMTP id
- a11-20020a67d30b0000b02902363051a2cbso3081944vsj.18
- for <qemu-devel@nongnu.org>; Tue, 01 Jun 2021 10:36:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=eyzfPliTRzFik28SmAuKxbox1oqAGx/rTcN4uyKfhZI=;
- b=UP2GYMwyH8tR3CK1oSmP9AR9J1yMnmaXESM3Qj9BTcXUg2BPAChK8C3XcJlAXF6hzJ
- DW23mCOlJuSmQKDl7Z+j/1lwZVI4G4k7SFg6nMXZhp6KwDkekTF6lSRgw/Ivt7evaAS0
- /ll0sJTIcbUs+WDbpW3BVeAFOMM3JAx4sACYLN7fFVUlTR/PjMDW87hqSYQ0a64k9PEn
- f7HSvbgBLhcuGM1o09raB8hGRlm0E2c0RPPnpiEuOL/uHnXkDrXTGnYVtr48trfCq9HI
- tKaIn0OUQw265QCvGXQxHDiuov2USNzPhCUVkMYQMFz+lCU/vZpqrJ9KZf1qJpF9ppH+
- vTqA==
-X-Gm-Message-State: AOAM533csIYVQ9Dh944Ilw/OOqFSuqPfxYLaKW/XObJwmT9XBu3bGz7z
- ii5fWRbgdk+fjn/n/ePcTYwn+0px1ccDKNDSld+DZNhaRWHKL3HyaHHxYc7T/iJdcCclpDaEr6w
- frS9vek8f6sderp1PbOln/jgkH703+L8=
-X-Received: by 2002:ab0:3403:: with SMTP id z3mr16772191uap.113.1622569014463; 
- Tue, 01 Jun 2021 10:36:54 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJze9qBhUBXQ/9DomI+Em16h0Rw7cTMUfEfGSk3Jo9nNrmy4XRO1oCZrmj/GrY4h2KPTy8VKkzhRuCOHL14IG6k=
-X-Received: by 2002:ab0:3403:: with SMTP id z3mr16772154uap.113.1622569014220; 
- Tue, 01 Jun 2021 10:36:54 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1lo8Oc-0002fB-Vf; Tue, 01 Jun 2021 13:41:46 -0400
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.west.internal (Postfix) with ESMTP id 850AEEB8;
+ Tue,  1 Jun 2021 13:41:39 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute3.internal (MEProxy); Tue, 01 Jun 2021 13:41:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm3; bh=WWAPQ+9LK4c3FAyMG8cUfmuO3ql
+ 1Fc8GiZmpbbaP4Rs=; b=ZYL9MmzOJJ9QUPtqz/WDAbTM4ebjwCvCZky9IxpWS/g
+ BwOfjxEECMccDD+btKuqAS3rr8KjWEEk03IQ3Go3ZucF4fnfVqyLeTgiTuDgX/p6
+ Y1cksofoQnLiIb4EJXS7jGhCijy+ykboscSSQs2Xcz0RZ8cylBo083/mfLvPwlcC
+ MHeDFv0iFYhs9fZIXs92LuI0RJ56MNiBh0T2Az5Hl4ScVhy7SNoOTfgyXim8BePW
+ Dc5O4YtAoUwiIT00HhB6nimo0S6JDTEZ3qsUYTjDd4VgIhxdbGzW+J1jZaBdvM2X
+ BlCWAJyc4vF8M4hofnBSiw2gRl8RjZpgeOfRLKDmM5w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=WWAPQ+
+ 9LK4c3FAyMG8cUfmuO3ql1Fc8GiZmpbbaP4Rs=; b=V5Y4XfRnaAptI9Yca+cmNx
+ RlT2ly8iVyKJTAlbNBlcEd/8/OwbZeLwbY1u2QvZZC/B/ObR1P4UHOOeTl9/bGHg
+ QPWKFpoVwoRJ1UrUuSy0ihWhPv1Vzcs+jQYQvKrwViaBH0muWNp+CK35k2Nta/2E
+ dvVkfYt/w3smIQ6w42II5GUkV1grHwVAJWU9fGbvty5y9qHUe8Wi45E8YuYwf5df
+ IGrarRmiL18qboBFOPK58eBgbOBidQbEvLEyBw9RZ4E4ElvuGxjKi1NV4XlSKk2O
+ Aqfu6GVbZMZ0Q28bqXxTY9geuIDawUIbpud4sd/O1dDpY0FCtieBM1PWECbfP70A
+ ==
+X-ME-Sender: <xms:UnG2YBF9g1vNwiBvIYaQNzZ99XzLRjlOQIiTrVdPDM-deRiFIKcS2Q>
+ <xme:UnG2YGWi-2r4vLe0lZ5L-GqvbHcPaexF6Ep6MIttTQLdfI9PCkR3sllyTHGM4UpgO
+ BYuLx5m6tm-xM3CvWk>
+X-ME-Received: <xmr:UnG2YDI7h-PxLdyh0S2CNZhvH_G0QCCjGopOUj61kcYi_fGWl-KpLpYVWNwpr7JXWEaWES-MqGbT5Or4hGDYbQgLO4f3WfjuY7A3sD8u87DD29IdJg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdelhedguddukecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enucfjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghu
+ shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
+ htvghrnhepjeegudffueeiteekieelkedvueelteevjeduieeludfffeejgeffhfduvddu
+ ffeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepih
+ htshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:UnG2YHGMvpJyTjD6rCmvN3EAXxo210ANz4FNMZiYT8thK81s4LuNoA>
+ <xmx:UnG2YHUWv1-Seez-KOhB6dmqjyAfe2NJVRjKzIIiln4CeeWtU-MWXw>
+ <xmx:UnG2YCNKTB1MikS9eik0vgAozFScbAIUBu6R3JIKC6wPKCpghx1Mxw>
+ <xmx:U3G2YOGPVolfAoAuwneJ_lmyzWhOlqm99W5gCAS8AZq5FO6mBImrBw>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 1 Jun 2021 13:41:36 -0400 (EDT)
+Date: Tue, 1 Jun 2021 19:41:34 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCH v2 1/2] hw/nvme: add support for boot partiotions
+Message-ID: <YLZxTlikAcJD98Ut@apples.localdomain>
+References: <20210601143749.1669-1-anaidu.gollu@samsung.com>
+ <CGME20210601144234epcas5p153e855ad673876cf67e57d4b539dc274@epcas5p1.samsung.com>
+ <20210601143749.1669-2-anaidu.gollu@samsung.com>
+ <20210601171936.GB4506@dhcp-10-100-145-180.wdc.com>
 MIME-Version: 1.0
-References: <20210528023220.417057-1-jsnow@redhat.com>
- <20210601154546.130870-1-crosa@redhat.com>
- <20210601154546.130870-2-crosa@redhat.com>
-In-Reply-To: <20210601154546.130870-2-crosa@redhat.com>
-From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Tue, 1 Jun 2021 14:36:28 -0300
-Message-ID: <CAKJDGDbK40mcg4n7KMNymAhv=q2R+mbGzT+NC3_OgA3a7mn6_g@mail.gmail.com>
-Subject: Re: [PATCH 1/1] VM tests: account for changes in
- qemu.utils.get_info_usernet_hostfwd_port()
-To: Cleber Rosa <crosa@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=wrampazz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="oYvOjOjWru5amq8h"
+Content-Disposition: inline
+In-Reply-To: <20210601171936.GB4506@dhcp-10-100-145-180.wdc.com>
+Received-SPF: pass client-ip=64.147.123.19; envelope-from=its@irrelevant.dk;
+ helo=wout3-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,57 +95,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, John Snow <jsnow@redhat.com>,
- Auger Eric <eric.auger@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- Beraldo Leal <bleal@redhat.com>
+Cc: fam@euphon.net, kwolf@redhat.com, qemu-block@nongnu.org,
+ Gollu Appalanaidu <anaidu.gollu@samsung.com>, qemu-devel@nongnu.org,
+ mreitz@redhat.com, stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 1, 2021 at 12:46 PM Cleber Rosa <crosa@redhat.com> wrote:
->
-> The utility function actually accepts a string, and not the raw
-> dictionary response from QMP.  Also, it returns (optionally) an
-> integer, so that must also be accounted for.
->
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> Signed-off-by: Cleber Rosa <crosa@redhat.com>
-> ---
->  tests/vm/basevm.py | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/tests/vm/basevm.py b/tests/vm/basevm.py
-> index 6f4f0fc95e..0f2e436ed3 100644
-> --- a/tests/vm/basevm.py
-> +++ b/tests/vm/basevm.py
-> @@ -227,7 +227,7 @@ def _ssh_do(self, user, cmd, check):
->                     "-o", "UserKnownHostsFile=" + os.devnull,
->                     "-o",
->                     "ConnectTimeout={}".format(self._config["ssh_timeout"]),
-> -                   "-p", self.ssh_port, "-i", self._ssh_tmp_key_file]
-> +                   "-p", str(self.ssh_port), "-i", self._ssh_tmp_key_file]
->          # If not in debug mode, set ssh to quiet mode to
->          # avoid printing the results of commands.
->          if not self.debug:
-> @@ -305,7 +305,7 @@ def boot(self, img, extra_args=[]):
->          # Init console so we can start consuming the chars.
->          self.console_init()
->          usernet_info = guest.qmp("human-monitor-command",
-> -                                 command_line="info usernet")
-> +                                 command_line="info usernet").get("return")
->          self.ssh_port = get_info_usernet_hostfwd_port(usernet_info)
 
-From here, your file differs from the upstream and your patch does not
-work. I'm trying on commit 52848929b70dcf92a68aedcfd90207be81ba3274.
+--oYvOjOjWru5amq8h
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
->          if not self.ssh_port:
->              raise Exception("Cannot find ssh port from 'info usernet':\n%s" % \
-> --
-> 2.25.4
+On Jun  1 10:19, Keith Busch wrote:
+>On Tue, Jun 01, 2021 at 08:07:48PM +0530, Gollu Appalanaidu wrote:
+>> NVMe Boot Partitions provides an area that may be read by the host
+>> without initializing queues or even enabling the controller. This
+>> allows various platform initialization code to be stored on the NVMe
+>> device instead of some separete medium.
+>>
+>> This patch adds the read support for such an area, as well as support
+>> for updating the boot partition contents from the host through the
+>> FW Download and Commit commands.
+>
+>Please provide some details on what platform initilization sequence
+>running on QEMU is going to make use of this feature.
 >
 
+I totally get your reluctance to accept useless features like device=20
+self-test and ill-supported ones like write uncorrectable.
+
+But I think this feature qualifies just fine for the device. It is=20
+useful for embedded development and while there might not be any qemu=20
+boards that wants to use this *right now*, it allows for=20
+experimentation. And this is a feature that actually *is* implemented by=20
+real products for embedded systems.
+
+--oYvOjOjWru5amq8h
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmC2cUwACgkQTeGvMW1P
+DenzawgAoV99QV6X9QrXsevghJvMWKgzSqyuwRdBZKnQLdAMilI9KHvR7NdIhb7U
+2xf4XfFOlO9ESYpCguiMfI4MAX5WbOtctqFbCnwFGaice7kp2lSa6aElR5+oT7ZN
+xdNUz6rYeHiCQfRqDWqGE4B8AocU6AFlilzCd8unddv9oRFR/9OnWmbV8xyFCOcS
+NmCXQ67G3UowVK9MDoJl36STSuav+x4Z075CH92afAP9tJ4YMwy6p7bupFATpBOC
+XKpO0qF1Q2pfK34EKiKvyEw7lfVdm0jFERX2xhqx0Cggbk7gf0aZjsSUCy0Hs6Ht
+m0oy00VK+nC/t9hyEaARPo42d2eroA==
+=6dn9
+-----END PGP SIGNATURE-----
+
+--oYvOjOjWru5amq8h--
 
