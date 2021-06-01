@@ -2,83 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F9B5397548
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Jun 2021 16:19:30 +0200 (CEST)
-Received: from localhost ([::1]:38326 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F260D39754D
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Jun 2021 16:20:18 +0200 (CEST)
+Received: from localhost ([::1]:40208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lo5Ev-0004vn-Ee
-	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 10:19:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54088)
+	id 1lo5Fh-0006Ca-V4
+	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 10:20:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54368)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1lo5Dj-00049D-VY
- for qemu-devel@nongnu.org; Tue, 01 Jun 2021 10:18:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37298)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1lo5Dg-0007gH-Cw
- for qemu-devel@nongnu.org; Tue, 01 Jun 2021 10:18:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622557091;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=U9y1YJWGNcrpuZ8ZMhwKwhTDXuccYSUdGdQqjB/Iau4=;
- b=XHe11R/Plfq8h8RS+DTUQUXN1PhbQAos7EzzKRFBAtu/Vu51xcpu5sJKDXQt/pLuYP3emI
- /aMdyjKImj5JfQ01KdrR22Ud6UUSW8oXyRlgOjmslqTMc8guCu4TqUQRBOzxkVB9XbcJv9
- H2VBpCEiWgij4uucr8vHYI7IDYUwU8o=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-493-4FsovktqMGixtiF3NOrwcQ-1; Tue, 01 Jun 2021 10:18:10 -0400
-X-MC-Unique: 4FsovktqMGixtiF3NOrwcQ-1
-Received: by mail-qt1-f198.google.com with SMTP id
- a12-20020ac8108c0000b029023c90fba3dcso1849379qtj.7
- for <qemu-devel@nongnu.org>; Tue, 01 Jun 2021 07:18:09 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <rpathak@ventanamicro.com>)
+ id 1lo5EN-0004lh-SM
+ for qemu-devel@nongnu.org; Tue, 01 Jun 2021 10:18:55 -0400
+Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535]:39528)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <rpathak@ventanamicro.com>)
+ id 1lo5EK-00083m-9d
+ for qemu-devel@nongnu.org; Tue, 01 Jun 2021 10:18:55 -0400
+Received: by mail-ed1-x535.google.com with SMTP id dj8so5304259edb.6
+ for <qemu-devel@nongnu.org>; Tue, 01 Jun 2021 07:18:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=UMSXHPKMC60Bz2ye7Utcfu96VFZKFwwFGzmBH9EJ1G0=;
+ b=L3ukcZOUj39wkGweVQfFO0hBZffvDBB1fJSoxZuN0uiARQ3OZXHC4v3arJgsnw8xPt
+ NNMB85V+irGuOanaKahrCaCgJOreqdtwF7tpoe5sgwgyAtHdZmRtTZPtWdSfZUTAB/EG
+ f2vpgPnWyWM6DAFKC3N+t8DTeXTWGHYMwgdMwZ+8TnF6nkXa6sJ8r+5q8GxH2e5X5Db0
+ rf+7MZ84XViD/U4GlpTjnXn+jBOorBvf9RAQ8GGXGDmBRut5v/S+SND6xkj5rr7MHQEZ
+ /9Bzvb2VUZZKoHzHK625xqbtzHb5y2bB1jzsM6qebtKRXySjJuZenCBZqocWit9oiTnd
+ IWog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=U9y1YJWGNcrpuZ8ZMhwKwhTDXuccYSUdGdQqjB/Iau4=;
- b=ItISRInpxPe9OfvIB2vMTI4fjwu3y86z0ysJH04crWMHKQjse8qy7hNbWhzh5k6H91
- iHZoShg0gZVKWer/0SDZKcfeK2loe6yYFRBkrmfTNdk76SD88dWM48M10skf41FwkaB7
- qbCV3pl0vIh3ZHZJdOe+C4l7fvQnJRjPZdS7BjAR97axf3kslZyf0EQl4V5Q901sBG3R
- ccS9fj+5YC2THP2f3Mz/Kwz+m1/wEJ7AAUQK1EAuNroGvv1+YxF+2j9grz7TCX0TUIGP
- k6rITcurNWzYGKKkPwywolcoM9kHmcAiTSBtuy5lkSy6UpstGUdnpHUq+2RXyIbSB8Xz
- KAVA==
-X-Gm-Message-State: AOAM531tfoCgEYCQlKWirk7YBqGS0lejwhirePn1tCYQfQSSqtPi2urq
- hvYCzdp6JwsBIw4ogMBg6zXpJCoKjjnf543WGAuqODJoC6JXwaawsalrxV+g3DACjTWh8WifW61
- UlGqsN8OHh+QISgQyScOWbFweFQ3/jr0IpaQOlHRpVUOB1OcEUcQfl/Q5HC2EUfOq
-X-Received: by 2002:a37:2751:: with SMTP id n78mr2635630qkn.242.1622557088914; 
- Tue, 01 Jun 2021 07:18:08 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz6wGoezkGGYlwFdtEEQ7hWu4ejIzqdHiehojbJpVyDGTBH2bqOaSBsNXoT67RrGUyRj/GcJw==
-X-Received: by 2002:a37:2751:: with SMTP id n78mr2635597qkn.242.1622557088588; 
- Tue, 01 Jun 2021 07:18:08 -0700 (PDT)
-Received: from localhost.localdomain
- (bras-base-toroon474qw-grc-61-184-147-118-108.dsl.bell.ca. [184.147.118.108])
- by smtp.gmail.com with ESMTPSA id c68sm10535451qkd.112.2021.06.01.07.18.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Jun 2021 07:18:08 -0700 (PDT)
-From: Peter Xu <peterx@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2] hmp: Add "calc_dirty_rate" and "info dirty_rate" cmds
-Date: Tue,  1 Jun 2021 10:18:05 -0400
-Message-Id: <20210601141805.206582-1-peterx@redhat.com>
-X-Mailer: git-send-email 2.31.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=UMSXHPKMC60Bz2ye7Utcfu96VFZKFwwFGzmBH9EJ1G0=;
+ b=BKF6hi9A2omW54+/W/W7wpMAxEXGLAs1Emynr91EgwElGMwhHEJABSHikwk8UVr2d8
+ 1DfwCFIz5JJM84rZC5apdUnqXxtPPY2cYjW9eiJQmun+bzDX+Vp5SkxmLXpSu+vnOR7w
+ hnefOTOaDLPRzFiCPvmGvQtNuvutDSF9Tow8oeo3Me8wLs34Ymttz5vzD9hET19HBWkR
+ WaDpxNQsypjexFLXKerpJky7PjVd+88MyY11wSGb4ovIKENhQU1q+MitELAe6GiQZl1y
+ h5yoH/VoXwccv2Bz2yGhjweDyYO8PZUB/Kci4yOU2uDQMBsWfRWxWiQvyoskO+n5AUZI
+ /Jvg==
+X-Gm-Message-State: AOAM530VscTbfQBeg4d04FQ4nDKzIlU+2E7I/R+qQXzC5k6LDFH7IRhr
+ hFwsj7cSvWxou5TZmfK6xtlofhbXWNGXxk/xE/XljA==
+X-Google-Smtp-Source: ABdhPJwQXMT1lKx3DGu1m4/FmWUBPg8YmsXlkBUfSmaiv+ZOpvz3Ikjtnwd4cZbL5Wu8Ju4Kg45Mp22e1tsxbT/zKNM=
+X-Received: by 2002:a05:6402:4313:: with SMTP id
+ m19mr32412286edc.263.1622557129620; 
+ Tue, 01 Jun 2021 07:18:49 -0700 (PDT)
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <0CAA9018-0C42-4140-82C1-EAC80D46D359@getmailspring.com>
+ <CAEUhbmWnj3GOD5-EA54XHRQyfiSdOsH+KKGH-+uG0LEH+kAuUg@mail.gmail.com>
+ <CA+Oz1=Z4J8KCHk_TZTUB9aEODaRv0F3bF6jtCHwdKQ02VgjcTQ@mail.gmail.com>
+ <CAMSwOgoq5KNoU3aP6kGZxAVhj_phxJvmCWb=6dKB7SkbXjaJyQ@mail.gmail.com>
+ <CAEUhbmWCvPVo5Jww0GPb6uX0xBfRKqZD6Jp-e54sU+v6R=m3gQ@mail.gmail.com>
+ <CA+Oz1=b=wBCCVVHWic8UrJQY5aEB+9OYS2XVtn6FEA2R6wm5yw@mail.gmail.com>
+ <CAEUhbmXXvhkZA0QgK1mvADq-FLKU56gt9PXyNW3i_n1SnKq8Lw@mail.gmail.com>
+In-Reply-To: <CAEUhbmXXvhkZA0QgK1mvADq-FLKU56gt9PXyNW3i_n1SnKq8Lw@mail.gmail.com>
+From: Rahul Pathak <rpathak@ventanamicro.com>
+Date: Tue, 1 Jun 2021 19:48:12 +0530
+Message-ID: <CA+Oz1=YMU-YT7XeeqXVSzXL7bQqtxrqFEZCV9a+X3Mu0z7rzPw@mail.gmail.com>
+Subject: Re: HSS Issue with GCC 10, Qemu Setup for microchip-icicle-kit
+To: Bin Meng <bmeng.cn@gmail.com>
+Content-Type: multipart/alternative; boundary="00000000000056d2cb05c3b505ba"
+Received-SPF: pass client-ip=2a00:1450:4864:20::535;
+ envelope-from=rpathak@ventanamicro.com; helo=mail-ed1-x535.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,150 +84,404 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juan Quintela <quintela@redhat.com>, huangy81@chinatelecom.cn,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>, peterx@redhat.com,
- Chuan Zheng <zhengchuan@huawei.com>,
- Leonardo Bras Soares Passos <lsoaresp@redhat.com>
+Cc: Alistair Francis <Alistair.Francis@wdc.com>,
+ Rahul Pathak <rpathakmailbox@gmail.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These two commands are missing when adding the QMP sister commands.  Add them,
-so developers can play with them easier.
+--00000000000056d2cb05c3b505ba
+Content-Type: text/plain; charset="UTF-8"
 
-Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Cc: Juan Quintela <quintela@redhat.com>
-Cc: Leonardo Bras Soares Passos <lsoaresp@redhat.com>
-Cc: Chuan Zheng <zhengchuan@huawei.com>
-Cc: huangy81@chinatelecom.cn
-Signed-off-by: Peter Xu <peterx@redhat.com>
----
-v2:
-- rebase to "migration/dirtyrate: make sample page count configurable"
----
- hmp-commands-info.hx  | 13 ++++++++++++
- hmp-commands.hx       | 14 +++++++++++++
- include/monitor/hmp.h |  2 ++
- migration/dirtyrate.c | 47 +++++++++++++++++++++++++++++++++++++++++++
- 4 files changed, 76 insertions(+)
+Hi Bin,
 
-diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
-index ab0c7aa5eea..f8a9141dd8a 100644
---- a/hmp-commands-info.hx
-+++ b/hmp-commands-info.hx
-@@ -880,3 +880,16 @@ SRST
-   ``info replay``
-     Display the record/replay information: mode and the current icount.
- ERST
-+
-+    {
-+        .name       = "dirty_rate",
-+        .args_type  = "",
-+        .params     = "",
-+        .help       = "show dirty rate information",
-+        .cmd        = hmp_info_dirty_rate,
-+    },
-+
-+SRST
-+  ``info dirty_rate``
-+    Display the vcpu dirty rate information.
-+ERST
-diff --git a/hmp-commands.hx b/hmp-commands.hx
-index 2d21fe5ad42..84dcc3aae6c 100644
---- a/hmp-commands.hx
-+++ b/hmp-commands.hx
-@@ -1727,3 +1727,17 @@ ERST
-         .flags      = "p",
-     },
- 
-+SRST
-+``calc_dirty_rate`` *second*
-+  Start a round of dirty rate measurement with the period specified in *second*.
-+  The result of the dirty rate measurement may be observed with ``info
-+  dirty_rate`` command.
-+ERST
-+
-+    {
-+        .name       = "calc_dirty_rate",
-+        .args_type  = "second:l,sample_pages_per_GB:l?",
-+        .params     = "second [sample_pages_per_GB]",
-+        .help       = "start a round of guest dirty rate measurement",
-+        .cmd        = hmp_calc_dirty_rate,
-+    },
-diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
-index 605d57287ae..3baa1058e2c 100644
---- a/include/monitor/hmp.h
-+++ b/include/monitor/hmp.h
-@@ -129,5 +129,7 @@ void hmp_info_replay(Monitor *mon, const QDict *qdict);
- void hmp_replay_break(Monitor *mon, const QDict *qdict);
- void hmp_replay_delete_break(Monitor *mon, const QDict *qdict);
- void hmp_replay_seek(Monitor *mon, const QDict *qdict);
-+void hmp_info_dirty_rate(Monitor *mon, const QDict *qdict);
-+void hmp_calc_dirty_rate(Monitor *mon, const QDict *qdict);
- 
- #endif
-diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
-index 2ee3890721a..320c56ba2c4 100644
---- a/migration/dirtyrate.c
-+++ b/migration/dirtyrate.c
-@@ -20,6 +20,9 @@
- #include "ram.h"
- #include "trace.h"
- #include "dirtyrate.h"
-+#include "monitor/hmp.h"
-+#include "monitor/monitor.h"
-+#include "qapi/qmp/qdict.h"
- 
- static int CalculatingState = DIRTY_RATE_STATUS_UNSTARTED;
- static struct DirtyRateStat DirtyStat;
-@@ -447,3 +450,47 @@ struct DirtyRateInfo *qmp_query_dirty_rate(Error **errp)
- {
-     return query_dirty_rate_info();
- }
-+
-+void hmp_info_dirty_rate(Monitor *mon, const QDict *qdict)
-+{
-+    DirtyRateInfo *info = query_dirty_rate_info();
-+
-+    monitor_printf(mon, "Status: %s\n",
-+                   DirtyRateStatus_str(info->status));
-+    monitor_printf(mon, "Start Time: %"PRIi64" (ms)\n",
-+                   info->start_time);
-+    monitor_printf(mon, "Sample Pages: %"PRIu64" (per GB)\n",
-+                   info->sample_pages);
-+    monitor_printf(mon, "Period: %"PRIi64" (sec)\n",
-+                   info->calc_time);
-+    monitor_printf(mon, "Dirty rate: ");
-+    if (info->has_dirty_rate) {
-+        monitor_printf(mon, "%"PRIi64" (MB/s)\n", info->dirty_rate);
-+    } else {
-+        monitor_printf(mon, "(not ready)\n");
-+    }
-+    g_free(info);
-+}
-+
-+void hmp_calc_dirty_rate(Monitor *mon, const QDict *qdict)
-+{
-+    int64_t sec = qdict_get_try_int(qdict, "second", 0);
-+    int64_t sample_pages = qdict_get_try_int(qdict, "sample_pages_per_GB", -1);
-+    bool has_sample_pages = (sample_pages != -1);
-+    Error *err = NULL;
-+
-+    if (!sec) {
-+        monitor_printf(mon, "Incorrect period length specified!\n");
-+        return;
-+    }
-+
-+    qmp_calc_dirty_rate(sec, has_sample_pages, sample_pages, &err);
-+    if (err) {
-+        hmp_handle_error(mon, err);
-+        return;
-+    }
-+
-+    monitor_printf(mon, "Starting dirty rate measurement with period %"PRIi64
-+                   " seconds\n", sec);
-+    monitor_printf(mon, "[Please use 'info dirty_rate' to check results]\n");
-+}
--- 
-2.31.1
+Thanks for the response.
 
+I think the issue currently is that if I keep the "wait=on" and launch
+minicom on  "unix\#serial1.sock" then nothing happens.
+Qemu keeps waiting for the connection on serial1 and no logs for uboot and
+Kernel appears on the serial1.
+
+Thanks
+Rahul
+
+On Tue, Jun 1, 2021 at 7:39 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+
+> Hi Rahul,
+>
+> On Tue, Jun 1, 2021 at 11:12 AM Rahul Pathak <rpathak@ventanamicro.com>
+> wrote:
+> >
+> > Hi BIn,Alistair,
+> >
+> > I was passing the hss.elf file and it was strange that gdb after
+> connecting was not letting the target to continue from gdb.
+>
+> This is the expected behavior if you pass an image to gdb before
+> connecting to the target, as gdb will assume the debug contexts are
+> the same, but it's not the case for PolarFire which has 1+4 hybrid
+> configuration.
+>
+> > what worked was to not pass anything and then connect the to target then
+> load the symbol file as hss.elf.
+> > I followed the steps from the "Attaching the GDB" doc and was able to
+> debug.
+> >
+>
+> Yes, that's the correct way to debug PolarFire.
+>
+> >
+> > For the qemu command line from the doc, I made the "wait=off" then qemu
+> was not waiting for another serial connection
+> > and launched the hss.
+>
+> You need to connect to the other serial connection otherwise QEMU does
+> not start the emulation when "wait=on"
+>
+> >
+> >
+> > The problem remains is that I still do not have the u-boot and linux
+> booting. The unix\#serial1.sock remains offline always.
+> > These are the HSS logs -
+> >
+> > [0.115001] HSS_E51_Banner(): PolarFire(R) SoC Hart Software Services
+> (HSS) - version 0.99.15
+> > (c) Copyright 2017-2020 Microchip Corporation.
+> >
+> > [0.116234] HSS_E51_Banner(): incorporating OpenSBI - version 0.6
+> > (c) Copyright 2019-2020 Western Digital Corporation.
+> >
+> > [0.117071] HSS_PrintBuildId(): Build ID:
+> 811342a39f80176f9e2086bf963a83224b3d3a2e
+> > [0.117817] HSS_PrintToolVersions(): Built with the following tools:
+> >  - riscv64-unknown-linux-gnu-gcc (GCC) 10.2.0
+>
+> Yeah, this log indicates that GCC 10.x works with HSS :)
+>
+> >  - GNU ld (GNU Binutils) 2.36.1
+> >
+> > [0.118760] HSS_MemTestDDRFast(): DDR size is 1 GiB
+> > [0.130270] HSS_MMCInit(): Attempting to select SDCARD ... Passed
+> > Press a key to enter CLI, ESC to skip
+> > Timeout in 5 seconds
+> >
+> > .....
+> > [5.138747] HSS_TinyCLI_Parser(): CLI check timeout
+> > [5.139371] IPI_QueuesInit(): Initializing IPI Queues (9000 bytes @
+> 8000e40)...
+> > [5.140435] HSS_PMP_Init(): Initializing PMPs
+> > [5.141093] HSS_BootInit(): Initializing Boot Image..
+> > [5.141787] getBootImageFromMMC_(): Preparing to copy from MMC to DDR ...
+> > [5.142671] getBootImageFromMMC_(): Attempting to read image header (1552
+> bytes) ...
+> > [5.144118] GPT_ValidateHeader(): Validated GPT Header ...
+> > [5.153768] GPT_ValidatePartitionEntries(): Validated GPT Partition
+> Entries ...
+> > [5.155210] copyBootImageToDDR_(): Copying 436008 bytes to 0xA0000000
+> > [5.407848] copyBootImageToDDR_(): Calculated CRC32 of image in DDR is
+> 795fbbea
+> > [5.412058] HSS_BootInit():  boot image passed CRC
+> > [5.412407] HSS_BootInit(): Boot image set name:
+> "PolarFire-SoC-HSS::U-Boot"
+> > [5.412951] HSS_BootInit(): Boot Image registered...
+> > [5.413376] HSS_Boot_RestartCore(): called for all harts
+> > [5.414295] RunStateMachine(): boot_service(u54_1)::Init ->
+> boot_service(u54_1)::SetupPMP
+> > [5.414812] RunStateMachine(): boot_service(u54_2)::Init ->
+> boot_service(u54_2)::SetupPMP
+> > [5.415207] RunStateMachine(): boot_service(u54_3)::Init ->
+> boot_service(u54_3)::SetupPMP
+> > [5.415631] RunStateMachine(): boot_service(u54_4)::Init ->
+> boot_service(u54_4)::SetupPMP
+> > [5.416107] RunStateMachine(): usbdmsc_service::init ->
+> usbdmsc_service::idle
+> > [5.417164] RunStateMachine(): boot_service(u54_1)::SetupPMP ->
+> boot_service(u54_1)::SetupPMPComplete
+> > [5.417887] RunStateMachine(): boot_service(u54_2)::SetupPMP ->
+> boot_service(u54_2)::SetupPMPComplete
+> > [5.418552] RunStateMachine(): boot_service(u54_3)::SetupPMP ->
+> boot_service(u54_3)::SetupPMPComplete
+> > [5.419890] RunStateMachine(): boot_service(u54_4)::SetupPMP ->
+> boot_service(u54_4)::SetupPMPComplete
+> > [23.955147] RunStateMachine(): boot_service(u54_1)::SetupPMPComplete ->
+> boot_service(u54_1)::ZeroInit
+> > [23.955754] RunStateMachine(): boot_service(u54_2)::SetupPMPComplete ->
+> boot_service(u54_2)::ZeroInit
+> > [23.956259] RunStateMachine(): boot_service(u54_3)::SetupPMPComplete ->
+> boot_service(u54_3)::ZeroInit
+> > [23.956757] RunStateMachine(): boot_service(u54_4)::SetupPMPComplete ->
+> boot_service(u54_4)::ZeroInit
+> > [23.957371] RunStateMachine(): boot_service(u54_1)::ZeroInit ->
+> boot_service(u54_1)::Download
+> > [23.957876] RunStateMachine(): boot_service(u54_2)::ZeroInit ->
+> boot_service(u54_2)::Download
+> > [23.958386] RunStateMachine(): boot_service(u54_3)::ZeroInit ->
+> boot_service(u54_3)::Download
+> > [23.958856] RunStateMachine(): boot_service(u54_4)::ZeroInit ->
+> boot_service(u54_4)::Download
+> > [23.960300] RunStateMachine(): boot_service(u54_2)::Download ->
+> boot_service(u54_2)::Idle
+> > [23.960723] RunStateMachine(): boot_service(u54_3)::Download ->
+> boot_service(u54_3)::Idle
+> > [23.961129] RunStateMachine(): boot_service(u54_4)::Download ->
+> boot_service(u54_4)::Idle
+> > [23.983168] RunStateMachine(): boot_service(u54_1)::Download ->
+> boot_service(u54_1)::Wait
+> > [23.983661] boot_download_chunks_onExit():
+> boot_service(u54_1)::u54_2:sbi_init 80200000
+> > [23.984374] boot_download_chunks_onExit():
+> boot_service(u54_1)::u54_3:sbi_init 80200000
+> > [23.985418] boot_download_chunks_onExit():
+> boot_service(u54_1)::u54_4:sbi_init 80200000
+> > [23.986783] boot_download_chunks_onExit():
+> boot_service(u54_1)::u54_1:sbi_init 80200000
+> > [23.989086] boot_wait_onEntry(): boot_service(u54_1)::Checking for IPI
+> ACKs: - -
+> > [23.992106] boot_wait_handler(): boot_service(u54_1)::Checking for IPI
+> ACKs: ACK/IDLE ACK
+> > [23.994062] RunStateMachine(): boot_service(u54_1)::Wait ->
+> boot_service(u54_1)::Idle
+> >
+>
+> Based on the above log, HSS successfully boots U-Boot already. The
+> U-Boot console is on the other serial console, which I guess you might
+> turn it off?
+>
+> >
+> > One thing I overlooked in the document is that we are preparing the
+> *.wic file after downloading
+> > but passing the *.img in the qemu command. How to convert the wic to
+> img. I couldn't see much about
+> > this on the internet ?
+>
+> The *.wic image is the raw image. Just use it as it is.
+>
+> > Since U-boot currently does not boot, it seems passing the wic file
+> directly is not right. Now sure here.
+> >
+> >  qemu-system-riscv64 -M microchip-icicle-kit -smp 5 \
+> >     -bios path/to/hss.bin -sd path/to/sdcard.img \
+> >     -nic user,model=cadence_gem \
+> >     -nic tap,ifname=tap,model=cadence_gem,script=no \
+> >     -display none -serial stdio \
+> >     -chardev socket,id=serial1,path=serial1.sock,server=on,wait=on \
+> >     -serial chardev:serial1
+> >
+> >
+> > Are there other ways in qemu icicle machine supported now to pass the
+> u-boot and kernel?
+> >
+>
+> Yes, it has. The capability to direct boot kernel (can be U-Boot or an
+> OS kernel) without HSS is currently in the Alistair's riscv-next tree
+> and should land on qemu/master soon.
+>
+> Regards,
+> Bin
+>
+
+--00000000000056d2cb05c3b505ba
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-family:verdana,=
+sans-serif">Hi Bin,</div><div class=3D"gmail_default" style=3D"font-family:=
+verdana,sans-serif"><br></div><div class=3D"gmail_default" style=3D"font-fa=
+mily:verdana,sans-serif">Thanks for the response.=C2=A0</div><div class=3D"=
+gmail_default" style=3D"font-family:verdana,sans-serif"><br></div><div clas=
+s=3D"gmail_default" style=3D"font-family:verdana,sans-serif">I think the is=
+sue currently=C2=A0is that if I keep the &quot;wait=3Don&quot; and launch m=
+inicom on=C2=A0 &quot;unix\#serial1.sock&quot; then nothing happens.</div><=
+div class=3D"gmail_default" style=3D"font-family:verdana,sans-serif">Qemu k=
+eeps waiting for the connection on serial1 and no logs for uboot and Kernel=
+ appears on the serial1.</div><div class=3D"gmail_default" style=3D"font-fa=
+mily:verdana,sans-serif"><br></div><div class=3D"gmail_default" style=3D"fo=
+nt-family:verdana,sans-serif">Thanks</div><div class=3D"gmail_default" styl=
+e=3D"font-family:verdana,sans-serif">Rahul</div></div><br><div class=3D"gma=
+il_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Jun 1, 2021 at 7:39=
+ PM Bin Meng &lt;<a href=3D"mailto:bmeng.cn@gmail.com">bmeng.cn@gmail.com</=
+a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
+x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Hi=
+ Rahul,<br>
+<br>
+On Tue, Jun 1, 2021 at 11:12 AM Rahul Pathak &lt;<a href=3D"mailto:rpathak@=
+ventanamicro.com" target=3D"_blank">rpathak@ventanamicro.com</a>&gt; wrote:=
+<br>
+&gt;<br>
+&gt; Hi BIn,Alistair,<br>
+&gt;<br>
+&gt; I was passing the hss.elf file and it was strange that gdb after conne=
+cting was not letting the target to continue from gdb.<br>
+<br>
+This is the expected behavior if you pass an image to gdb before<br>
+connecting to the target, as gdb will assume the debug contexts are<br>
+the same, but it&#39;s not the case for PolarFire which has 1+4 hybrid<br>
+configuration.<br>
+<br>
+&gt; what worked was to not pass anything and then connect the to target th=
+en load the symbol file as hss.elf.<br>
+&gt; I followed the steps from the &quot;Attaching the GDB&quot; doc and wa=
+s able to debug.<br>
+&gt;<br>
+<br>
+Yes, that&#39;s the correct way to debug PolarFire.<br>
+<br>
+&gt;<br>
+&gt; For the qemu command line from the doc, I made the &quot;wait=3Doff&qu=
+ot; then qemu was not waiting for another serial connection<br>
+&gt; and launched the hss.<br>
+<br>
+You need to connect to the other serial connection otherwise QEMU does<br>
+not start the emulation when &quot;wait=3Don&quot;<br>
+<br>
+&gt;<br>
+&gt;<br>
+&gt; The problem remains is that I still do not have the u-boot and linux b=
+ooting. The unix\#serial1.sock remains offline always.<br>
+&gt; These are the HSS logs -<br>
+&gt;<br>
+&gt; [0.115001] HSS_E51_Banner(): PolarFire(R) SoC Hart Software Services (=
+HSS) - version 0.99.15<br>
+&gt; (c) Copyright 2017-2020 Microchip Corporation.<br>
+&gt;<br>
+&gt; [0.116234] HSS_E51_Banner(): incorporating OpenSBI - version 0.6<br>
+&gt; (c) Copyright 2019-2020 Western Digital Corporation.<br>
+&gt;<br>
+&gt; [0.117071] HSS_PrintBuildId(): Build ID: 811342a39f80176f9e2086bf963a8=
+3224b3d3a2e<br>
+&gt; [0.117817] HSS_PrintToolVersions(): Built with the following tools:<br=
+>
+&gt;=C2=A0 - riscv64-unknown-linux-gnu-gcc (GCC) 10.2.0<br>
+<br>
+Yeah, this log indicates that GCC 10.x works with HSS :)<br>
+<br>
+&gt;=C2=A0 - GNU ld (GNU Binutils) 2.36.1<br>
+&gt;<br>
+&gt; [0.118760] HSS_MemTestDDRFast(): DDR size is 1 GiB<br>
+&gt; [0.130270] HSS_MMCInit(): Attempting to select SDCARD ... Passed<br>
+&gt; Press a key to enter CLI, ESC to skip<br>
+&gt; Timeout in 5 seconds<br>
+&gt;<br>
+&gt; .....<br>
+&gt; [5.138747] HSS_TinyCLI_Parser(): CLI check timeout<br>
+&gt; [5.139371] IPI_QueuesInit(): Initializing IPI Queues (9000 bytes @ 800=
+0e40)...<br>
+&gt; [5.140435] HSS_PMP_Init(): Initializing PMPs<br>
+&gt; [5.141093] HSS_BootInit(): Initializing Boot Image..<br>
+&gt; [5.141787] getBootImageFromMMC_(): Preparing to copy from MMC to DDR .=
+..<br>
+&gt; [5.142671] getBootImageFromMMC_(): Attempting to read image header (15=
+52 bytes) ...<br>
+&gt; [5.144118] GPT_ValidateHeader(): Validated GPT Header ...<br>
+&gt; [5.153768] GPT_ValidatePartitionEntries(): Validated GPT Partition Ent=
+ries ...<br>
+&gt; [5.155210] copyBootImageToDDR_(): Copying 436008 bytes to 0xA0000000<b=
+r>
+&gt; [5.407848] copyBootImageToDDR_(): Calculated CRC32 of image in DDR is =
+795fbbea<br>
+&gt; [5.412058] HSS_BootInit():=C2=A0 boot image passed CRC<br>
+&gt; [5.412407] HSS_BootInit(): Boot image set name: &quot;PolarFire-SoC-HS=
+S::U-Boot&quot;<br>
+&gt; [5.412951] HSS_BootInit(): Boot Image registered...<br>
+&gt; [5.413376] HSS_Boot_RestartCore(): called for all harts<br>
+&gt; [5.414295] RunStateMachine(): boot_service(u54_1)::Init -&gt; boot_ser=
+vice(u54_1)::SetupPMP<br>
+&gt; [5.414812] RunStateMachine(): boot_service(u54_2)::Init -&gt; boot_ser=
+vice(u54_2)::SetupPMP<br>
+&gt; [5.415207] RunStateMachine(): boot_service(u54_3)::Init -&gt; boot_ser=
+vice(u54_3)::SetupPMP<br>
+&gt; [5.415631] RunStateMachine(): boot_service(u54_4)::Init -&gt; boot_ser=
+vice(u54_4)::SetupPMP<br>
+&gt; [5.416107] RunStateMachine(): usbdmsc_service::init -&gt; usbdmsc_serv=
+ice::idle<br>
+&gt; [5.417164] RunStateMachine(): boot_service(u54_1)::SetupPMP -&gt; boot=
+_service(u54_1)::SetupPMPComplete<br>
+&gt; [5.417887] RunStateMachine(): boot_service(u54_2)::SetupPMP -&gt; boot=
+_service(u54_2)::SetupPMPComplete<br>
+&gt; [5.418552] RunStateMachine(): boot_service(u54_3)::SetupPMP -&gt; boot=
+_service(u54_3)::SetupPMPComplete<br>
+&gt; [5.419890] RunStateMachine(): boot_service(u54_4)::SetupPMP -&gt; boot=
+_service(u54_4)::SetupPMPComplete<br>
+&gt; [23.955147] RunStateMachine(): boot_service(u54_1)::SetupPMPComplete -=
+&gt; boot_service(u54_1)::ZeroInit<br>
+&gt; [23.955754] RunStateMachine(): boot_service(u54_2)::SetupPMPComplete -=
+&gt; boot_service(u54_2)::ZeroInit<br>
+&gt; [23.956259] RunStateMachine(): boot_service(u54_3)::SetupPMPComplete -=
+&gt; boot_service(u54_3)::ZeroInit<br>
+&gt; [23.956757] RunStateMachine(): boot_service(u54_4)::SetupPMPComplete -=
+&gt; boot_service(u54_4)::ZeroInit<br>
+&gt; [23.957371] RunStateMachine(): boot_service(u54_1)::ZeroInit -&gt; boo=
+t_service(u54_1)::Download<br>
+&gt; [23.957876] RunStateMachine(): boot_service(u54_2)::ZeroInit -&gt; boo=
+t_service(u54_2)::Download<br>
+&gt; [23.958386] RunStateMachine(): boot_service(u54_3)::ZeroInit -&gt; boo=
+t_service(u54_3)::Download<br>
+&gt; [23.958856] RunStateMachine(): boot_service(u54_4)::ZeroInit -&gt; boo=
+t_service(u54_4)::Download<br>
+&gt; [23.960300] RunStateMachine(): boot_service(u54_2)::Download -&gt; boo=
+t_service(u54_2)::Idle<br>
+&gt; [23.960723] RunStateMachine(): boot_service(u54_3)::Download -&gt; boo=
+t_service(u54_3)::Idle<br>
+&gt; [23.961129] RunStateMachine(): boot_service(u54_4)::Download -&gt; boo=
+t_service(u54_4)::Idle<br>
+&gt; [23.983168] RunStateMachine(): boot_service(u54_1)::Download -&gt; boo=
+t_service(u54_1)::Wait<br>
+&gt; [23.983661] boot_download_chunks_onExit(): boot_service(u54_1)::u54_2:=
+sbi_init 80200000<br>
+&gt; [23.984374] boot_download_chunks_onExit(): boot_service(u54_1)::u54_3:=
+sbi_init 80200000<br>
+&gt; [23.985418] boot_download_chunks_onExit(): boot_service(u54_1)::u54_4:=
+sbi_init 80200000<br>
+&gt; [23.986783] boot_download_chunks_onExit(): boot_service(u54_1)::u54_1:=
+sbi_init 80200000<br>
+&gt; [23.989086] boot_wait_onEntry(): boot_service(u54_1)::Checking for IPI=
+ ACKs: - -<br>
+&gt; [23.992106] boot_wait_handler(): boot_service(u54_1)::Checking for IPI=
+ ACKs: ACK/IDLE ACK<br>
+&gt; [23.994062] RunStateMachine(): boot_service(u54_1)::Wait -&gt; boot_se=
+rvice(u54_1)::Idle<br>
+&gt;<br>
+<br>
+Based on the above log, HSS successfully boots U-Boot already. The<br>
+U-Boot console is on the other serial console, which I guess you might<br>
+turn it off?<br>
+<br>
+&gt;<br>
+&gt; One thing I overlooked in the document is that we are preparing the *.=
+wic file after downloading<br>
+&gt; but passing the *.img in the qemu command. How to convert the wic to i=
+mg. I couldn&#39;t see much about<br>
+&gt; this on the internet ?<br>
+<br>
+The *.wic image is the raw image. Just use it as it is.<br>
+<br>
+&gt; Since U-boot currently does not boot, it seems passing the wic file di=
+rectly is not right. Now sure here.<br>
+&gt;<br>
+&gt;=C2=A0 qemu-system-riscv64 -M microchip-icicle-kit -smp 5 \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0-bios path/to/hss.bin -sd path/to/sdcard.img \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0-nic user,model=3Dcadence_gem \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0-nic tap,ifname=3Dtap,model=3Dcadence_gem,script=3D=
+no \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0-display none -serial stdio \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0-chardev socket,id=3Dserial1,path=3Dserial1.sock,se=
+rver=3Don,wait=3Don \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0-serial chardev:serial1<br>
+&gt;<br>
+&gt;<br>
+&gt; Are there other ways in qemu icicle machine supported now to pass the =
+u-boot and kernel?<br>
+&gt;<br>
+<br>
+Yes, it has. The capability to direct boot kernel (can be U-Boot or an<br>
+OS kernel) without HSS is currently in the Alistair&#39;s riscv-next tree<b=
+r>
+and should land on qemu/master soon.<br>
+<br>
+Regards,<br>
+Bin<br>
+</blockquote></div>
+
+--00000000000056d2cb05c3b505ba--
 
