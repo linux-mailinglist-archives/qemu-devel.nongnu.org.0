@@ -2,74 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FEFE397CE9
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 01:11:07 +0200 (CEST)
-Received: from localhost ([::1]:58626 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AEA3397D10
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 01:33:42 +0200 (CEST)
+Received: from localhost ([::1]:55082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loDXO-000274-09
-	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 19:11:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52260)
+	id 1loDtF-0002tk-18
+	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 19:33:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55914)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1loDWT-0001EN-PX
- for qemu-devel@nongnu.org; Tue, 01 Jun 2021 19:10:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26129)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1loDrT-0001T9-EU
+ for qemu-devel@nongnu.org; Tue, 01 Jun 2021 19:31:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24614)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1loDWQ-0008Sg-A2
- for qemu-devel@nongnu.org; Tue, 01 Jun 2021 19:10:09 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1loDrQ-0005iJ-27
+ for qemu-devel@nongnu.org; Tue, 01 Jun 2021 19:31:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622589004;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=1xVJnDIudD0OUsunksfYXvbrQqDDtmEMukcll63VJUI=;
- b=i7M827ggUaR0+fZZQM0zOrxjk6zM/qlpK45lAMQtCpDUix4BxYfKN4mxfC4u0UfqkWi52k
- zVQ1P/A2r0hXW5ipUsKyWb+3JfGW3f+P9OglbjS0WW6OERghEzAD7CPiH6dB+uLD0pySFJ
- olOgUOqwzgZ7v/Zgyo8LVUp9X4uENNQ=
+ s=mimecast20190719; t=1622590306;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=hNPZBcgLiz1CczBao+qWhsa69KFWOz4zqDHSb76KolA=;
+ b=HAEASOb3uCsClNrk5/wSO+IO2EsNGC9GzV0n0fXr8DQTh22utSzwNfH9OxVdmpTrzZkzUm
+ VkDwI8dfvO6HLfjrCVkYzMdgx0wjOi48D2+qY/q+g0a3lH/DJmXhpVRz40X7xJAmVELs3d
+ QGGIiiwiQF7hiuoTOgQjAVrKGB4s90M=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-508-roaLdIStM4SsCmSzO2RGow-1; Tue, 01 Jun 2021 19:08:55 -0400
-X-MC-Unique: roaLdIStM4SsCmSzO2RGow-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-351-HzJJ6hCuN8uyvbFB--v6Jw-1; Tue, 01 Jun 2021 19:31:43 -0400
+X-MC-Unique: HzJJ6hCuN8uyvbFB--v6Jw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 091656D249;
- Tue,  1 Jun 2021 23:08:54 +0000 (UTC)
-Received: from [10.64.54.66] (vpn2-54-66.bne.redhat.com [10.64.54.66])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CEB245C230;
- Tue,  1 Jun 2021 23:08:46 +0000 (UTC)
-Subject: Re: [PATCH] hw/arm/boot: Use NUMA node ID in memory node name
-To: Andrew Jones <drjones@redhat.com>
-References: <20210601073004.106490-1-gshan@redhat.com>
- <20210601075045.ppmceogd5hp5rqcf@gator.home>
-From: Gavin Shan <gshan@redhat.com>
-Message-ID: <e50c52e7-a8d5-c269-cebf-caf1688c629e@redhat.com>
-Date: Wed, 2 Jun 2021 11:09:32 +1000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B51BC804747;
+ Tue,  1 Jun 2021 23:31:41 +0000 (UTC)
+Received: from scv.redhat.com (ovpn-116-137.rdu2.redhat.com [10.10.116.137])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7A33F2C01E;
+ Tue,  1 Jun 2021 23:31:19 +0000 (UTC)
+From: John Snow <jsnow@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL v2 00/44] Python patches
+Date: Tue,  1 Jun 2021 19:31:17 -0400
+Message-Id: <20210601233118.1103509-1-jsnow@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210601075045.ppmceogd5hp5rqcf@gator.home>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=gshan@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=gshan@redhat.com;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -37
-X-Spam_score: -3.8
+X-Spam_score_int: -31
+X-Spam_score: -3.2
 X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.613, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,106 +73,184 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Gavin Shan <gshan@redhat.com>
-Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, qemu-devel@nongnu.org,
- shan.gavin@gmail.com, eric.auger@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-block@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, Willian Rampazzo <willianr@redhat.com>,
+ John Snow <jsnow@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Drew,
-
-On 6/1/21 5:50 PM, Andrew Jones wrote:
-> On Tue, Jun 01, 2021 at 03:30:04PM +0800, Gavin Shan wrote:
->> We possibly populate empty nodes where memory isn't included and might
->> be hot added at late time. The FDT memory nodes can't be created due
->> to conflicts on their names if multiple empty nodes are specified.
->> For example, the VM fails to start with the following error messages.
->>
->>    /home/gavin/sandbox/qemu.main/build/qemu-system-aarch64          \
->>    -accel kvm -machine virt,gic-version=host                        \
->>    -cpu host -smp 4,sockets=2,cores=2,threads=1 -m 1024M,maxmem=64G \
->>    -object memory-backend-ram,id=mem0,size=512M                     \
->>    -object memory-backend-ram,id=mem1,size=512M                     \
->>    -numa node,nodeid=0,cpus=0-1,memdev=mem0                         \
->>    -numa node,nodeid=1,cpus=2-3,memdev=mem1                         \
->>    -numa node,nodeid=2                                              \
->>    -numa node,nodeid=3                                              \
->>      :
->>    -device virtio-balloon-pci,id=balloon0,free-page-reporting=yes
->>
->>    qemu-system-aarch64: FDT: Failed to create subnode /memory@80000000: \
->>                         FDT_ERR_EXISTS
->>
->> This fixes the issue by using NUMA node ID or zero in the memory node
->> name to avoid the conflicting memory node names. With this applied, the
->> VM can boot successfully with above command lines.
->>
->> Signed-off-by: Gavin Shan <gshan@redhat.com>
->> ---
->>   hw/arm/boot.c | 7 ++++++-
->>   1 file changed, 6 insertions(+), 1 deletion(-)
->>
->> diff --git a/hw/arm/boot.c b/hw/arm/boot.c
->> index d7b059225e..3169bdf595 100644
->> --- a/hw/arm/boot.c
->> +++ b/hw/arm/boot.c
->> @@ -432,7 +432,12 @@ static int fdt_add_memory_node(void *fdt, uint32_t acells, hwaddr mem_base,
->>       char *nodename;
->>       int ret;
->>   
->> -    nodename = g_strdup_printf("/memory@%" PRIx64, mem_base);
->> +    if (numa_node_id >= 0) {
->> +        nodename = g_strdup_printf("/memory@%d", numa_node_id);
->> +    } else {
->> +        nodename = g_strdup("/memory@0");
->> +    }
->> +
->>       qemu_fdt_add_subnode(fdt, nodename);
->>       qemu_fdt_setprop_string(fdt, nodename, "device_type", "memory");
->>       ret = qemu_fdt_setprop_sized_cells(fdt, nodename, "reg", acells, mem_base,
-
-[...]
-
-> 
-> Is it conventional to use the unit-address like this? If so, can you point
-> out where that's documented? If it's not conventional, then we shouldn't
-> do it. And then I'm not sure what we should do in this case. Here's a
-> couple links I found, but they don't really help...
-> 
-> https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#sect-node-names
-> https://devicetree-specification.readthedocs.io/en/latest/chapter3-devicenodes.html#memory-node
-> 
-
-As stated in the document (section 2.2.1.1). It's conventional to take the first
-address of 'reg' property as unit-address, but it's not mandatory as I understand:
-
-(1) In section 2.2.1.1, the bus can specify additional format to unit-address.
-(2) The device node name isn't used to identify the device node in Linux kernel.
-     They are actually identified by 'device_type' property.
-     (drivers/of/fdt.c::early_init_dt_scan_memory())
-
-I think it's still nice to include the unit-address in meory node's name. For the
-conflicting nodes, we add more suffix like below. I can update the code in v2 if
-it's preferred way to go.
-
-    memory@0
-    memory@0-0                               # For empty NUMA node
-    memory@0-1                               # For empty NUMA node
-    memory@80000000
-    memory@80000000-0                        # For empty NUMA node
-    memory@80000000-1                        # For empty NUMA node
-
----
-
-https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#sect-node-names
-
-The unit-address must match the first address specified in the reg property of the node.
-If the node has no reg property, the @unit-address must be omitted and the node-name
-alone differentiates the node from other nodes at the same level in the tree. The binding
-for a particular bus may specify additional, more specific requirements for the format
-of reg and the unit-address.
-
-Thanks,
-Gavin
+The following changes since commit 52848929b70dcf92a68aedcfd90207be81ba3274=
+:=0D
+=0D
+  Merge remote-tracking branch 'remotes/kraxel/tags/usb-20210528-pull-reque=
+st' into staging (2021-05-30 20:10:30 +0100)=0D
+=0D
+are available in the Git repository at:=0D
+=0D
+  https://gitlab.com/jsnow/qemu.git tags/python-pull-request=0D
+=0D
+for you to fetch changes up to 6b9c277797879ce41ed20deb6737f4156cc279b3:=0D
+=0D
+  gitlab: add python linters to CI (2021-06-01 16:21:21 -0400)=0D
+=0D
+----------------------------------------------------------------=0D
+Pull request=0D
+=0D
+V2:=0D
+ - Squashed in fixup for=0D
+   'Python: add utility function for retrieving port redirection'=0D
+ - Rebased on today's upstream=0D
+=0D
+CI here:=0D
+https://gitlab.com/jsnow/qemu/-/pipelines/313202814=0D
+=0D
+----------------------------------------------------------------=0D
+=0D
+Cleber Rosa (12):=0D
+  Python: expose QEMUMachine's temporary directory=0D
+  tests/acceptance/virtiofs_submounts.py: add missing accel tag=0D
+  tests/acceptance/virtiofs_submounts.py: evaluate string not length=0D
+  Python: add utility function for retrieving port redirection=0D
+  Acceptance Tests: move useful ssh methods to base class=0D
+  Acceptance Tests: add port redirection for ssh by default=0D
+  Acceptance Tests: make username/password configurable=0D
+  Acceptance Tests: set up SSH connection by default after boot for=0D
+    LinuxTest=0D
+  tests/acceptance/virtiofs_submounts.py: remove launch_vm()=0D
+  Acceptance Tests: add basic documentation on LinuxTest base class=0D
+  Acceptance Tests: introduce CPU hotplug test=0D
+  tests/acceptance/virtiofs_submounts.py: fix setup of SSH pubkey=0D
+=0D
+John Snow (31):=0D
+  python/console_socket: avoid one-letter variable=0D
+  python/machine: use subprocess.DEVNULL instead of=0D
+    open(os.path.devnull)=0D
+  python/machine: use subprocess.run instead of subprocess.Popen=0D
+  python/console_socket: Add a pylint ignore=0D
+  python/machine: Disable pylint warning for open() in _pre_launch=0D
+  python/machine: disable warning for Popen in _launch()=0D
+  python/machine: Trim line length to below 80 chars=0D
+  iotests/297: add --namespace-packages to mypy arguments=0D
+  python: create qemu packages=0D
+  python: add qemu package installer=0D
+  python: add VERSION file=0D
+  python: add directory structure README.rst files=0D
+  python: add MANIFEST.in=0D
+  python: Add pipenv support=0D
+  python: add pylint import exceptions=0D
+  python: move pylintrc into setup.cfg=0D
+  python: add pylint to pipenv=0D
+  python: move flake8 config to setup.cfg=0D
+  python: add excluded dirs to flake8 config=0D
+  python: Add flake8 to pipenv=0D
+  python: move mypy.ini into setup.cfg=0D
+  python: add mypy to pipenv=0D
+  python: move .isort.cfg into setup.cfg=0D
+  python/qemu: add isort to pipenv=0D
+  python/qemu: add qemu package itself to pipenv=0D
+  python: add devel package requirements to setuptools=0D
+  python: add avocado-framework and tests=0D
+  python: add Makefile for some common tasks=0D
+  python: add .gitignore=0D
+  python: add tox support=0D
+  gitlab: add python linters to CI=0D
+=0D
+Willian Rampazzo (1):=0D
+  acceptance tests: bump Avocado version to 88.1=0D
+=0D
+ docs/devel/testing.rst                      |  26 +++=0D
+ python/PACKAGE.rst                          |  43 ++++=0D
+ python/README.rst                           |  58 +++++=0D
+ python/qemu/README.rst                      |   8 +=0D
+ python/qemu/machine/README.rst              |   9 +=0D
+ python/qemu/qmp/README.rst                  |   9 +=0D
+ python/qemu/utils/README.rst                |   7 +=0D
+ .gitlab-ci.d/containers.yml                 |   5 +=0D
+ .gitlab-ci.d/static_checks.yml              |  21 ++=0D
+ python/.gitignore                           |  16 ++=0D
+ python/MANIFEST.in                          |   3 +=0D
+ python/Makefile                             |  48 ++++=0D
+ python/Pipfile                              |  13 ++=0D
+ python/Pipfile.lock                         | 231 ++++++++++++++++++++=0D
+ python/VERSION                              |   1 +=0D
+ python/avocado.cfg                          |  10 +=0D
+ python/mypy.ini                             |   4 -=0D
+ python/qemu/.flake8                         |   2 -=0D
+ python/qemu/.isort.cfg                      |   7 -=0D
+ python/qemu/__init__.py                     |  11 -=0D
+ python/qemu/machine/__init__.py             |  36 +++=0D
+ python/qemu/{ =3D> machine}/console_socket.py |  11 +-=0D
+ python/qemu/{ =3D> machine}/machine.py        |  68 ++++--=0D
+ python/qemu/{ =3D> machine}/qtest.py          |   9 +-=0D
+ python/qemu/pylintrc                        |  58 -----=0D
+ python/qemu/{qmp.py =3D> qmp/__init__.py}     |  12 +-=0D
+ python/qemu/utils/__init__.py               |  45 ++++=0D
+ python/qemu/{ =3D> utils}/accel.py            |   0=0D
+ python/setup.cfg                            | 102 +++++++++=0D
+ python/setup.py                             |  23 ++=0D
+ python/tests/flake8.sh                      |   2 +=0D
+ python/tests/isort.sh                       |   2 +=0D
+ python/tests/mypy.sh                        |   2 +=0D
+ python/tests/pylint.sh                      |   2 +=0D
+ tests/acceptance/avocado_qemu/__init__.py   |  69 +++++-=0D
+ tests/acceptance/boot_linux.py              |  18 +-=0D
+ tests/acceptance/hotplug_cpu.py             |  37 ++++=0D
+ tests/acceptance/info_usernet.py            |  29 +++=0D
+ tests/acceptance/linux_ssh_mips_malta.py    |  42 +---=0D
+ tests/acceptance/virtio-gpu.py              |   2 +-=0D
+ tests/acceptance/virtiofs_submounts.py      |  71 +-----=0D
+ tests/docker/dockerfiles/python.docker      |  18 ++=0D
+ tests/qemu-iotests/297                      |   1 +=0D
+ tests/qemu-iotests/300                      |   4 +-=0D
+ tests/qemu-iotests/iotests.py               |   4 +-=0D
+ tests/requirements.txt                      |   2 +-=0D
+ tests/vm/aarch64vm.py                       |   2 +-=0D
+ tests/vm/basevm.py                          |  12 +-=0D
+ 48 files changed, 967 insertions(+), 248 deletions(-)=0D
+ create mode 100644 python/PACKAGE.rst=0D
+ create mode 100644 python/README.rst=0D
+ create mode 100644 python/qemu/README.rst=0D
+ create mode 100644 python/qemu/machine/README.rst=0D
+ create mode 100644 python/qemu/qmp/README.rst=0D
+ create mode 100644 python/qemu/utils/README.rst=0D
+ create mode 100644 python/.gitignore=0D
+ create mode 100644 python/MANIFEST.in=0D
+ create mode 100644 python/Makefile=0D
+ create mode 100644 python/Pipfile=0D
+ create mode 100644 python/Pipfile.lock=0D
+ create mode 100644 python/VERSION=0D
+ create mode 100644 python/avocado.cfg=0D
+ delete mode 100644 python/mypy.ini=0D
+ delete mode 100644 python/qemu/.flake8=0D
+ delete mode 100644 python/qemu/.isort.cfg=0D
+ delete mode 100644 python/qemu/__init__.py=0D
+ create mode 100644 python/qemu/machine/__init__.py=0D
+ rename python/qemu/{ =3D> machine}/console_socket.py (94%)=0D
+ rename python/qemu/{ =3D> machine}/machine.py (93%)=0D
+ rename python/qemu/{ =3D> machine}/qtest.py (95%)=0D
+ delete mode 100644 python/qemu/pylintrc=0D
+ rename python/qemu/{qmp.py =3D> qmp/__init__.py} (96%)=0D
+ create mode 100644 python/qemu/utils/__init__.py=0D
+ rename python/qemu/{ =3D> utils}/accel.py (100%)=0D
+ create mode 100644 python/setup.cfg=0D
+ create mode 100755 python/setup.py=0D
+ create mode 100755 python/tests/flake8.sh=0D
+ create mode 100755 python/tests/isort.sh=0D
+ create mode 100755 python/tests/mypy.sh=0D
+ create mode 100755 python/tests/pylint.sh=0D
+ create mode 100644 tests/acceptance/hotplug_cpu.py=0D
+ create mode 100644 tests/acceptance/info_usernet.py=0D
+ create mode 100644 tests/docker/dockerfiles/python.docker=0D
+=0D
+--=20=0D
+2.31.1=0D
+=0D
 
 
