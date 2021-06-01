@@ -2,74 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B87AB397D38
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 01:50:49 +0200 (CEST)
-Received: from localhost ([::1]:41908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B528397D37
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 01:50:43 +0200 (CEST)
+Received: from localhost ([::1]:41482 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loE9o-0005Oe-Rh
-	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 19:50:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59072)
+	id 1loE9i-00056Y-DP
+	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 19:50:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59050)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1loE8F-0003Rj-1Q
- for qemu-devel@nongnu.org; Tue, 01 Jun 2021 19:49:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60776)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1loE8D-00083S-BE
- for qemu-devel@nongnu.org; Tue, 01 Jun 2021 19:49:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622591348;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=w/9L3aRNsAVmLnn71pkzl9mBLzQZsvyWXe3+3wDBLcY=;
- b=HQZalKI8ZY87udBLddrPD9Ky6vMsp9ntqPS44gl66zQ8KuWI/wVGW+umDSp0duYUCqVqUg
- rrQLnHSLYjaDcsmL8ZzsE62S27lbZFAsSmhtbA5U8euy8Q0zOLhOWxIkgWLxjX2NdXZ/Lq
- olHZ8Gzyt3ujCWcIxGKdZcfjxORhlC0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-464--63Mi_rHPMqL6O0RZAxhRw-1; Tue, 01 Jun 2021 19:49:07 -0400
-X-MC-Unique: -63Mi_rHPMqL6O0RZAxhRw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CB977802690;
- Tue,  1 Jun 2021 23:49:04 +0000 (UTC)
-Received: from [10.10.116.137] (ovpn-116-137.rdu2.redhat.com [10.10.116.137])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F263760E3A;
- Tue,  1 Jun 2021 23:48:55 +0000 (UTC)
-Subject: Re: [PULL 00/44] Python patches
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20210528023220.417057-1-jsnow@redhat.com>
- <CAFEAcA_Kws=q73Yhe-AeuGhtx3V0uQOwaEG9+oRvcaROed8uNg@mail.gmail.com>
- <15baf57f-3372-a617-61f3-66c3bb42a302@redhat.com>
- <CAFEAcA_nv5W=4TL5XAuUCp1KNp8Mj8O+FRpo1OwXRs-YDtTuDQ@mail.gmail.com>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <30b0285e-2278-e06f-f037-e3b02bffe93a@redhat.com>
-Date: Tue, 1 Jun 2021 19:48:55 -0400
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1loE8A-0003EY-0Q
+ for qemu-devel@nongnu.org; Tue, 01 Jun 2021 19:49:06 -0400
+Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036]:56009)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1loE88-000806-7n
+ for qemu-devel@nongnu.org; Tue, 01 Jun 2021 19:49:05 -0400
+Received: by mail-pj1-x1036.google.com with SMTP id k7so595453pjf.5
+ for <qemu-devel@nongnu.org>; Tue, 01 Jun 2021 16:49:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=XPoqKan+4itFh1hdpJ+sVnIwWTWf7KUvVqLY0zCh1e8=;
+ b=x2mHEYCumvIJKH89ruwbA9rXaxIOLq4U/H3BJpodYtCJJ/g6/r+9VSuk71jH2iG+bJ
+ EvKbFEM8QwtDEdOysVwdZ9/5s+mVspGLd7R8v9TaTDtNEbL+zXVr1cHG6PEKdyDy0Uhp
+ kH8IhTBY7hmzDEQvk9p2Jvoq2yaDlZv9jdwKQLC97owDo//WwVMbdmwV8Hmv9WZ9DodG
+ v7F9wqg9LcTTpMj/IJusBQ1UvgYRDXDrW3ymQpHX0T8C0YJIUSJD8vIcnjC8FgFCPxPJ
+ gfesxAgTTODXEjES39GRV2lfQpRgb4YyFdZ0smGJpxPBQx3EmbsTAml1VcVTq8rCP0G5
+ vtrw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=XPoqKan+4itFh1hdpJ+sVnIwWTWf7KUvVqLY0zCh1e8=;
+ b=m9rdTBWj0OK7mkpIAxabJ3Se0CwDZe6lulemzbEsXeZx8uMAQHNvPgHGMaF8P60s7H
+ XOMgy3wj9FZLSRQmvaVzBkZaSZcEIp3oiXElVGC8pIf50xPX3DxvmZCuiOLmbzwwaLJ9
+ WW6nuW7z5j+FBy+vlhas0e2Kb33KhaQLMUDAnj2BxLUPsCnlEIc+8Q/zj6zAhq3f77vd
+ URzpaAUuhgyhiNTsix7iLFSWnbhhydTNdL5AyJtDAaioAdsKB6alRRTx7pmRM31N1C/k
+ +oJDU3vSJMP/kINCAYC9DiVBYaZ57Hhby7KvSNzAji7SQZOxefT0rCP7tYsVlMZk3Edb
+ PsYQ==
+X-Gm-Message-State: AOAM531fHrTQf3xSMOqC5ufXvOIKw3miW2KG672Rhm5PepGsyPRcv4v8
+ 7PFWsQbJYz/OAxpDFIzHexDW2w==
+X-Google-Smtp-Source: ABdhPJy6CqzUt6oB3uW+HleIPNapfzDgwQotEM8sddE9+Fgbjc7EPe6BV0w70xWVMXebSTuaHYQS4w==
+X-Received: by 2002:a17:90a:560b:: with SMTP id
+ r11mr27322394pjf.224.1622591342793; 
+ Tue, 01 Jun 2021 16:49:02 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
+ by smtp.gmail.com with ESMTPSA id
+ n17sm3625667pfv.125.2021.06.01.16.49.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 01 Jun 2021 16:49:02 -0700 (PDT)
+Subject: Re: [PATCH v2 3/4] Hexagon (target/hexagon) cleanup
+ gen_store_conditional[48] functions
+To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
+References: <1622589584-22571-1-git-send-email-tsimpson@quicinc.com>
+ <1622589584-22571-4-git-send-email-tsimpson@quicinc.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <0f158963-3426-14c9-5ebd-8f0c96db712f@linaro.org>
+Date: Tue, 1 Jun 2021 16:49:00 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_nv5W=4TL5XAuUCp1KNp8Mj8O+FRpo1OwXRs-YDtTuDQ@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <1622589584-22571-4-git-send-email-tsimpson@quicinc.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -37
-X-Spam_score: -3.8
-X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.613, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1036.google.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
+X-Spam_bar: --
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.613,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,47 +90,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Max Reitz <mreitz@redhat.com>, Willian Rampazzo <willianr@redhat.com>,
- Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Cc: ale@rev.ng, bcain@quicinc.com, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/1/21 6:36 AM, Peter Maydell wrote:
-> On Sun, 30 May 2021 at 20:22, John Snow <jsnow@redhat.com> wrote:
->>
->> On 5/30/21 3:09 PM, Peter Maydell wrote:
->>> Fails to build on my machine that runs the BSD VMs, apparently
->>> before it gets to the point of launching the VM:
+On 6/1/21 4:19 PM, Taylor Simpson wrote:
+> Previously the store-conditional code was writing to hex_pred[prednum].
+> Then, the fGEN_TCG override was reading from there to the destination
+> variable so that the packet commit logic would handle it properly.
 > 
->> When I have seen this error message in the past, it has been because of
->> using a new Python version and it gets confused reading stale cached
->> information generated from an older interpreter.
+> The correct implementation is to write to the destination variable
+> and don't have the extra read in the override.
 > 
-> This seems like a bug in Python...
+> Remove the unused arguments from gen_store_conditional[48]
 > 
+> Signed-off-by: Taylor Simpson<tsimpson@quicinc.com>
+> ---
+>   target/hexagon/gen_tcg.h |  4 ++--
+>   target/hexagon/macros.h  |  2 +-
+>   target/hexagon/genptr.c  | 10 ++++------
+>   3 files changed, 7 insertions(+), 9 deletions(-)
 
-Yes. I don't know why it's like that either...
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
->> Can you do me a favor and delete any __pycache__ folders and/or any
->> *.pyc files that might be hiding in your tree and/or build folders and
->> try running it again?
-> 
-> I tried that, and it does seem to make more progress. It now
-> fails with:
-> 
-
-One of the acceptance test patches causes this, I've squashed in a fixup 
-and have re-sent the PR.
-
-Thanks,
---js
-
+r~
 
