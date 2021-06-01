@@ -2,71 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 419C43969CE
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Jun 2021 00:50:54 +0200 (CEST)
-Received: from localhost ([::1]:56372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CED86396A85
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Jun 2021 02:58:54 +0200 (CEST)
+Received: from localhost ([::1]:60326 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lnqkH-00027B-Bs
-	for lists+qemu-devel@lfdr.de; Mon, 31 May 2021 18:50:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56022)
+	id 1lnsk9-0004xY-9b
+	for lists+qemu-devel@lfdr.de; Mon, 31 May 2021 20:58:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51914)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lnqis-0000Yx-7N; Mon, 31 May 2021 18:49:26 -0400
-Received: from mail-io1-xd2b.google.com ([2607:f8b0:4864:20::d2b]:43779)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lnqip-0002Ac-JP; Mon, 31 May 2021 18:49:26 -0400
-Received: by mail-io1-xd2b.google.com with SMTP id k16so13260865ios.10;
- Mon, 31 May 2021 15:49:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=RSVr2l1YT6dcDPX1yaaJ+C5ZQV/AC9Ea81v3IFf3qRg=;
- b=kVrfNGN/Ygs8PtpiVQ690z+PERnDicGSI5CNLzgm7i+j7S4V2Kr2ulyqYFBRvN/+Nc
- dFQwgCzegxwMmwYUhEdc2WmmxLOhusoen6/UYJQcLA0g4oj0elvbz+hRl8Eyur4ECNP7
- I6PVU/v2q3MiGDZ9VQUFNWc+UUNaeATUGKDe89TREFMcc/oyLj6hwfGvu2R6Wg6IdTgp
- KSO5ZBLShGJsagoNjclP82frMQRFio5ckC48q6EVTKTCWc7dOuLo2kk+pjSKL+g9EV4B
- vQEPPqlqDFSmp4oHfqhHVSABVwMT79wA5EYciCjZP4sn9lUfDn6lVsoCzmeVeYZ1oDLh
- WNVw==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1lnsif-0004Gt-VP
+ for qemu-devel@nongnu.org; Mon, 31 May 2021 20:57:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29851)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1lnsib-0007XL-Lw
+ for qemu-devel@nongnu.org; Mon, 31 May 2021 20:57:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1622509034;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=cPOmeDay+Uid0UT6ncOBF5u4MoM2pJYOaSyuuLRfha4=;
+ b=clE9s5iiaVhvQuMs1r/a/ond85foq0YDPywgo/cw9tu1e8TeYdhKvy29phmjx6ELpKGEeu
+ tr6SfEgdpILqW0dlZt1uyu9UBNyko6EXoDEoG/7aiC0sJI1mD07qpR/fBLZXU8C0zqOi4V
+ zP9hpb932ghS58vWaL/2vO529u7EdMU=
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-451-bx2rSC4EOeeUPGcb0Hw1og-1; Mon, 31 May 2021 20:57:12 -0400
+X-MC-Unique: bx2rSC4EOeeUPGcb0Hw1og-1
+Received: by mail-qk1-f199.google.com with SMTP id
+ k125-20020a3788830000b02903a65618d46cso10595490qkd.3
+ for <qemu-devel@nongnu.org>; Mon, 31 May 2021 17:57:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=RSVr2l1YT6dcDPX1yaaJ+C5ZQV/AC9Ea81v3IFf3qRg=;
- b=Ih2mqa/Twc4OukeatjECOa+IQsdRLtJ15YiphmVmNP2YrUvFh1EySJnrKY43oAsYzL
- gdWGcWRz8SuPp72mwW+L7pma0+0g6whlKy5lIjIuMTWjel/Gzx2xYEB6xlBHv5lfDJ1N
- 10fsKg3e9nK9RMcXtvea6Y4jfUIkEfjqnSpiemBH5/LaxdgCkTB9TZ9xIDLSVR6fXBkK
- Zj3QgNnRCi0DWIiP2Z1h3Js/UDDpz0whUd7rB/p309Nr3l/fMG2PAnv4TLmTFNbusN3R
- NZvv0xQscLn/YoA180lD3Jy6Pn9zWFXNaoE2VJBdJEys+nP2mWvP6ed+oAuZcqhjW2oR
- RfQQ==
-X-Gm-Message-State: AOAM533KqkaxI1AhwLWI8hLx6Pc0B122mZNa3Elk8QDdh2xSd+V7cx74
- rjmrmtR/j9NBX0qYr1mDOtHFqftG9RaFlFqT1r8=
-X-Google-Smtp-Source: ABdhPJx5jxWoQx9CKhPZ0hAI+fnnQK/DsdT7b7eCW8uYk0+gGoJt88ujLRBwTIqv/vyvnxKAKCX7IdZRw5PDOFQGzYc=
-X-Received: by 2002:a05:6638:3048:: with SMTP id
- u8mr22199471jak.91.1622501362106; 
- Mon, 31 May 2021 15:49:22 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=cPOmeDay+Uid0UT6ncOBF5u4MoM2pJYOaSyuuLRfha4=;
+ b=gYjacptiKDDEAqW7OfITInamYoAsiWkZuy78b3pXq7x3STxlQ+aZUV78fPD2yOt1iC
+ ipXQ3U1XnbfKCoOy3HbiFJJg8SmWoV2UbRrgpm5KPRzsqmwkCBGhzXiZ7nxlyV7GS7Uq
+ uIaoN3UhawGFtg5uP8IvjGRHXWlpPryLdtd2AM3DHglHf8+yy1mKrtMh2osmuem9rK+I
+ cirlf7VKFih7hiiyYVNSxitf+pZ52awOVzPQzJd7QCXmC0oun5D526u4U52hhQuI2ZiU
+ bVqN0GnOBPc6+HPGY1bKTwpAq/ZwMukhxCofNlkb3P4co+PocDFwyDGcRf/Oeb+bk13G
+ w+bw==
+X-Gm-Message-State: AOAM530TA7zEB5H5C2QT1XwxE1/af1xuxF0xbWfpyPTADyMbrLAA05KU
+ mitpzv9izbLkyMyHUv7CvTJzsu3X4gU5Vu88XYitKfHE1JwMR+gtulAy4CHcJRsInN2uf1FllVA
+ qqVsBdMSIJF5u2/qHji7ZU/dgNvK9Jug3BXnvOmB3tYr/9kr3kuWKnLf3zyR2Fy3f
+X-Received: by 2002:a05:6214:2486:: with SMTP id
+ gi6mr19651254qvb.54.1622509031738; 
+ Mon, 31 May 2021 17:57:11 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyxwyrsq+sQiutpS8twYLYn34SRQrpZXE7q17woyT0VjM0HiH7DOGp0J38tqGZRAtuolmSf0A==
+X-Received: by 2002:a05:6214:2486:: with SMTP id
+ gi6mr19651234qvb.54.1622509031469; 
+ Mon, 31 May 2021 17:57:11 -0700 (PDT)
+Received: from localhost.localdomain
+ (bras-base-toroon474qw-grc-72-184-145-4-219.dsl.bell.ca. [184.145.4.219])
+ by smtp.gmail.com with ESMTPSA id 11sm9569908qtt.0.2021.05.31.17.57.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 31 May 2021 17:57:10 -0700 (PDT)
+From: Peter Xu <peterx@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] hmp: Add "calc_dirty_rate" and "info dirty_rate" cmds
+Date: Mon, 31 May 2021 20:57:08 -0400
+Message-Id: <20210601005708.189888-1-peterx@redhat.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-References: <0CAA9018-0C42-4140-82C1-EAC80D46D359@getmailspring.com>
- <CAEUhbmWnj3GOD5-EA54XHRQyfiSdOsH+KKGH-+uG0LEH+kAuUg@mail.gmail.com>
- <CA+Oz1=Z4J8KCHk_TZTUB9aEODaRv0F3bF6jtCHwdKQ02VgjcTQ@mail.gmail.com>
- <CAMSwOgoq5KNoU3aP6kGZxAVhj_phxJvmCWb=6dKB7SkbXjaJyQ@mail.gmail.com>
-In-Reply-To: <CAMSwOgoq5KNoU3aP6kGZxAVhj_phxJvmCWb=6dKB7SkbXjaJyQ@mail.gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 1 Jun 2021 08:48:56 +1000
-Message-ID: <CAKmqyKM2F8NWFE5KbemYbNzQ5cHFYpDDkPsjEVAb0hHHvbZNZw@mail.gmail.com>
-Subject: Re: HSS Issue with GCC 10, Qemu Setup for microchip-icicle-kit
-To: Rahul Pathak <rpathakmailbox@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d2b;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd2b.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.372,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,83 +93,148 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>, Bin Meng <bmeng.cn@gmail.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Rahul Pathak <rpathak@ventanamicro.com>
+Cc: Juan Quintela <quintela@redhat.com>, huangy81@chinatelecom.cn,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, peterx@redhat.com,
+ Chuan Zheng <zhengchuan@huawei.com>,
+ Leonardo Bras Soares Passos <lsoaresp@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 1, 2021 at 12:43 AM Rahul Pathak <rpathakmailbox@gmail.com> wrote:
->
-> On top of that, it seems I cannot connect with the target using gdb
->
-> (gdb) target remote :1234
-> Remote debugging using :1234
-> bfd requires flen 8, but target has flen 0
->
-> Though the ABI is lp64 and ISA is rv64imac when the hss was built.
+These two commands are missing when adding the QMP sister commands.  Add them,
+so developers can play with them easier.
 
-Strange, how are you building GDB?
+Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Cc: Juan Quintela <quintela@redhat.com>
+Cc: Leonardo Bras Soares Passos <lsoaresp@redhat.com>
+Cc: Chuan Zheng <zhengchuan@huawei.com>
+Cc: huangy81@chinatelecom.cn
+Signed-off-by: Peter Xu <peterx@redhat.com>
+---
+PS: I really doubt whether this is working as expected... I ran one 200MB/s
+workload inside, what I measured is 20MB/s with current algorithm...  Sampling
+512 pages out of 1G mem is not wise enough I guess, especially that assumes
+dirty workload is spread across the memories while it's normally not the case..
+---
+ hmp-commands-info.hx  | 13 +++++++++++++
+ hmp-commands.hx       | 14 ++++++++++++++
+ include/monitor/hmp.h |  2 ++
+ migration/dirtyrate.c | 43 +++++++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 72 insertions(+)
 
-Alistair
+diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
+index ab0c7aa5eea..f8a9141dd8a 100644
+--- a/hmp-commands-info.hx
++++ b/hmp-commands-info.hx
+@@ -880,3 +880,16 @@ SRST
+   ``info replay``
+     Display the record/replay information: mode and the current icount.
+ ERST
++
++    {
++        .name       = "dirty_rate",
++        .args_type  = "",
++        .params     = "",
++        .help       = "show dirty rate information",
++        .cmd        = hmp_info_dirty_rate,
++    },
++
++SRST
++  ``info dirty_rate``
++    Display the vcpu dirty rate information.
++ERST
+diff --git a/hmp-commands.hx b/hmp-commands.hx
+index 2d21fe5ad42..4c27fb91f7d 100644
+--- a/hmp-commands.hx
++++ b/hmp-commands.hx
+@@ -1727,3 +1727,17 @@ ERST
+         .flags      = "p",
+     },
+ 
++SRST
++``calc_dirty_rate`` *second*
++  Start a round of dirty rate measurement with the period specified in *second*.
++  The result of the dirty rate measurement may be observed with ``info
++  dirty_rate`` command.
++ERST
++
++    {
++        .name       = "calc_dirty_rate",
++        .args_type  = "second:l",
++        .params     = "second",
++        .help       = "start a round of guest dirty rate measurement",
++        .cmd        = hmp_calc_dirty_rate,
++    },
+diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
+index 605d57287ae..3baa1058e2c 100644
+--- a/include/monitor/hmp.h
++++ b/include/monitor/hmp.h
+@@ -129,5 +129,7 @@ void hmp_info_replay(Monitor *mon, const QDict *qdict);
+ void hmp_replay_break(Monitor *mon, const QDict *qdict);
+ void hmp_replay_delete_break(Monitor *mon, const QDict *qdict);
+ void hmp_replay_seek(Monitor *mon, const QDict *qdict);
++void hmp_info_dirty_rate(Monitor *mon, const QDict *qdict);
++void hmp_calc_dirty_rate(Monitor *mon, const QDict *qdict);
+ 
+ #endif
+diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
+index ccb98147e89..382287d2912 100644
+--- a/migration/dirtyrate.c
++++ b/migration/dirtyrate.c
+@@ -20,6 +20,9 @@
+ #include "ram.h"
+ #include "trace.h"
+ #include "dirtyrate.h"
++#include "monitor/hmp.h"
++#include "monitor/monitor.h"
++#include "qapi/qmp/qdict.h"
+ 
+ static int CalculatingState = DIRTY_RATE_STATUS_UNSTARTED;
+ static struct DirtyRateStat DirtyStat;
+@@ -424,3 +427,43 @@ struct DirtyRateInfo *qmp_query_dirty_rate(Error **errp)
+ {
+     return query_dirty_rate_info();
+ }
++
++void hmp_info_dirty_rate(Monitor *mon, const QDict *qdict)
++{
++    DirtyRateInfo *info = query_dirty_rate_info();
++
++    monitor_printf(mon, "Status: %s\n",
++                   DirtyRateStatus_str(info->status));
++    monitor_printf(mon, "Start Time: %"PRIi64" (ms)\n",
++                   info->start_time);
++    monitor_printf(mon, "Period: %"PRIi64" (sec)\n",
++                   info->calc_time);
++    monitor_printf(mon, "Dirty rate: ");
++    if (info->has_dirty_rate) {
++        monitor_printf(mon, "%"PRIi64" (MB/s)\n", info->dirty_rate);
++    } else {
++        monitor_printf(mon, "(not ready)\n");
++    }
++    g_free(info);
++}
++
++void hmp_calc_dirty_rate(Monitor *mon, const QDict *qdict)
++{
++    int64_t sec = qdict_get_try_int(qdict, "second", 0);
++    Error *err = NULL;
++
++    if (!sec) {
++        monitor_printf(mon, "Incorrect period length specified!\n");
++        return;
++    }
++
++    qmp_calc_dirty_rate(sec, &err);
++    if (err) {
++        hmp_handle_error(mon, err);
++        return;
++    }
++
++    monitor_printf(mon, "Starting dirty rate measurement with period %"PRIi64
++                   " seconds\n", sec);
++    monitor_printf(mon, "[Please use 'info dirty_rate' to check results]\n");
++}
+-- 
+2.31.1
 
->
-> On Mon, May 31, 2021 at 7:37 PM Rahul Pathak <rpathak@ventanamicro.com> wrote:
->>
->> I followed the same link. I will elaborate what is happening at my end -
->>
->> First -
->> Used the same versions as per the doc. Built HSS 2020.12 and used core-image-minimal-dev-icicle-kit-es-sd-20201009141623.rootfs.wic.
->> Upon executing the qemu launch command as per the doc, it's just waits for the connection on another serial console -
->>
->> info: QEMU waiting for connection on: disconnected:unix:serial1.sock,server=on
->>
->> Even if I open sudo minicom -D unix\#serial1.sock, which remains offline always.
->>
->> Second -
->> If I remove the "-chardev socket,id=serial1,path=serial1.sock,server=on,wait=on -serial chardev:serial1" from the
->> qemu launch command then HSS boots but stops after sbi_init on all the cores and put the cores in Idle -
->>
->> [5.443011] boot_download_chunks_onExit(): boot_service(u54_1)::u54_1:sbi_init 80200000
->> [5.444960] boot_wait_onEntry(): boot_service(u54_1)::Checking for IPI ACKs: - -
->> [5.447962] boot_wait_handler(): boot_service(u54_1)::Checking for IPI ACKs: ACK/IDLE ACK
->> [5.449343] RunStateMachine(): boot_service(u54_1)::Wait -> boot_service(u54_1)::Idle
->>
->> Third -
->> If I take the latest release of HSS 2021.04 and build with gcc10, it does not boot at all even if I remove the serial1 like in the second case.
->>
->>
->> Thanks
->> Rahul
->>
->> On Mon, May 31, 2021 at 8:19 AM Bin Meng <bmeng.cn@gmail.com> wrote:
->>>
->>> Hi Rahul,
->>>
->>> On Mon, May 31, 2021 at 1:08 AM Rahul Pathak <rpathak@ventanamicro.com> wrote:
->>> >
->>> > Hi Bin,
->>> >
->>> > I was reading a github issue which you raised for the issue with HSS because of GCC 10.1. Its pretty old and not sure what has changed so I thought to ask you over email for help.
->>>
->>> The HSS issue of GCC 10.1 was already fixed in the HSS mainline.
->>>
->>> > I myself is trying to make a setup to boot the  microchip-icicle-kit Qemu machine with HSS and Yocto linux image. Currently it does not work.
->>>
->>> Could you please elaborate which part does not work? Is that Linux,
->>> HSS, or U-Boot?
->>>
->>> >
->>> > Do you know what is the right setup to make  microchip-icicle-kit machine with HSS.bin and Yocto linux work on Qemu?. Probably there will be a working combination of HSS, Linux releases plus the toolchain version which makes this setup work.
->>> >
->>>
->>> I have not tried Yocto Linux yet with Microchip Icicle Kit on QEMU. I
->>> only tested the Linux images released by Microchip.
->>> Could you please follow the instructions @
->>> https://qemu.readthedocs.io/en/latest/system/riscv/microchip-icicle-kit.html
->>> to see which step might be wrong on your side?
->>>
->>> Regards,
->>> Bin
 
