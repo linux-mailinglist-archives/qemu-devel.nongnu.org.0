@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CE50397BD4
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Jun 2021 23:43:06 +0200 (CEST)
-Received: from localhost ([::1]:38174 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E175397BD9
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Jun 2021 23:45:06 +0200 (CEST)
+Received: from localhost ([::1]:40420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loCAD-0006WR-Nh
-	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 17:43:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60978)
+	id 1loCC9-00084P-4z
+	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 17:45:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33272)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1loC96-0005gz-AR
- for qemu-devel@nongnu.org; Tue, 01 Jun 2021 17:41:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51178)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1loCB1-0007Nv-2C
+ for qemu-devel@nongnu.org; Tue, 01 Jun 2021 17:43:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30335)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1loC93-0000wz-La
- for qemu-devel@nongnu.org; Tue, 01 Jun 2021 17:41:55 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1loCAz-0002BF-G3
+ for qemu-devel@nongnu.org; Tue, 01 Jun 2021 17:43:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622583713;
+ s=mimecast20190719; t=1622583832;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=5HO0ZiVDVD8wr7YIPLhTqmtTeqF2PACLArviVU/qbnE=;
- b=ESLRdOcCkwKaBpONnWcDZoufUNHy2/i12x3W38I5t5iJl47KTzlSr7V11F0doMPrer5lKZ
- 4xk5fEBlhv+/TQlFhMEk2yk3eYb8scVlgKeKQXBqbDLMf9tmVoo4NLeIS7yTVge0HuzOPi
- g2PiwZdSwEllDKmWqjx9b22DdcI1768=
+ bh=tlglHOKmcImq+oKTod0fXmct6moPv/Qoy4SZTpChuBA=;
+ b=dp/7D+qfj3YPTfn0LJVOBv3TE6Bh+qc9QBRxdJg9cnU40mlNL2WHfJPz9hSpFca70s6p3M
+ nAFAwocUA0tznEth5D1pSID7BO3F/Go993+DrN6G/5Rw7ldiKbdji85Ai5xh8/H4HFuend
+ bn8ve2Qq6kGUEFnyZrcEPPHxzr4iolA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-602-XVqB0BDwMpaapNCS17DIqg-1; Tue, 01 Jun 2021 17:41:49 -0400
-X-MC-Unique: XVqB0BDwMpaapNCS17DIqg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-449-f7QSO660POaK1Mqnq8V3kw-1; Tue, 01 Jun 2021 17:43:51 -0400
+X-MC-Unique: f7QSO660POaK1Mqnq8V3kw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B92F3801107;
- Tue,  1 Jun 2021 21:41:48 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E091F8030A0;
+ Tue,  1 Jun 2021 21:43:49 +0000 (UTC)
 Received: from redhat.com (ovpn-113-154.phx2.redhat.com [10.3.113.154])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2A0ED5D6DC;
- Tue,  1 Jun 2021 21:41:48 +0000 (UTC)
-Date: Tue, 1 Jun 2021 16:41:46 -0500
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E918B5D9CD;
+ Tue,  1 Jun 2021 21:43:48 +0000 (UTC)
+Date: Tue, 1 Jun 2021 16:43:47 -0500
 From: Eric Blake <eblake@redhat.com>
 To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH v3 03/33] block/nbd: ensure ->connection_thread is always
- valid
-Message-ID: <20210601214146.4hsrf2dllwpycgq6@redhat.com>
+Subject: Re: [PATCH v3 05/33] block/nbd: BDRVNBDState: drop unused
+ connect_err and connect_status
+Message-ID: <20210601214347.xxou564di4j2x55h@redhat.com>
 References: <20210416080911.83197-1-vsementsov@virtuozzo.com>
- <20210416080911.83197-4-vsementsov@virtuozzo.com>
+ <20210416080911.83197-6-vsementsov@virtuozzo.com>
 MIME-Version: 1.0
-In-Reply-To: <20210416080911.83197-4-vsementsov@virtuozzo.com>
+In-Reply-To: <20210416080911.83197-6-vsementsov@virtuozzo.com>
 User-Agent: NeoMutt/20210205
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -83,41 +83,15 @@ Cc: kwolf@redhat.com, qemu-block@nongnu.org, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Apr 16, 2021 at 11:08:41AM +0300, Vladimir Sementsov-Ogievskiy wrote:
-> From: Roman Kagan <rvkagan@yandex-team.ru>
+On Fri, Apr 16, 2021 at 11:08:43AM +0300, Vladimir Sementsov-Ogievskiy wrote:
+> These fields are write-only. Drop them.
 > 
-> Simplify lifetime management of BDRVNBDState->connect_thread by
-> delaying the possible cleanup of it until the BDRVNBDState itself goes
-> away.
-> 
-> This also reverts
->  0267101af6 "block/nbd: fix possible use after free of s->connect_thread"
-> as now s->connect_thread can't be cleared until the very end.
-> 
-> Signed-off-by: Roman Kagan <rvkagan@yandex-team.ru>
->  [vsementsov: rebase, revert 0267101af6 changes]
 > Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> Reviewed-by: Roman Kagan <rvkagan@yandex-team.ru>
 > ---
->  block/nbd.c | 56 ++++++++++++++++++++---------------------------------
->  1 file changed, 21 insertions(+), 35 deletions(-)
-> 
-
->  static void nbd_clear_bdrvstate(BlockDriverState *bs)
->  {
->      BDRVNBDState *s = (BDRVNBDState *)bs->opaque;
-> +    NBDConnectThread *thr = s->connect_thread;
-> +    bool thr_running;
-> +
-> +    qemu_mutex_lock(&thr->mutex);
-> +    thr_running = thr->state == CONNECT_THREAD_RUNNING;
-> +    if (thr_running) {
-> +        thr->state = CONNECT_THREAD_RUNNING_DETACHED;
-> +    }
-> +    qemu_mutex_unlock(&thr->mutex);
-> +
-> +    /* the runaway thread will clean it up itself */
-
-s/clean it up/clean up/
+>  block/nbd.c | 12 ++----------
+>  1 file changed, 2 insertions(+), 10 deletions(-)
+>
 
 Reviewed-by: Eric Blake <eblake@redhat.com>
 
