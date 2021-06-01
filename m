@@ -2,71 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4E3C3976C1
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Jun 2021 17:31:54 +0200 (CEST)
-Received: from localhost ([::1]:46334 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D73903976D8
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Jun 2021 17:37:06 +0200 (CEST)
+Received: from localhost ([::1]:36486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lo6Mx-0008M8-GV
-	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 11:31:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41906)
+	id 1lo6S1-00044P-Ta
+	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 11:37:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44172)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lo6Da-0006hk-GE
- for qemu-devel@nongnu.org; Tue, 01 Jun 2021 11:22:12 -0400
-Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c]:45634)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lo6DY-0007p9-9A
- for qemu-devel@nongnu.org; Tue, 01 Jun 2021 11:22:10 -0400
-Received: by mail-ed1-x52c.google.com with SMTP id dg27so8098500edb.12
- for <qemu-devel@nongnu.org>; Tue, 01 Jun 2021 08:22:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=C+7DEb22BEvtItehjPr9U48yd44UE8dUIQpK3BIdDZE=;
- b=VtSg82TJpZgYUUWtqM4O050rAKQUAFlpjqPe02SX/9qfcphQoNyfgq9tGXrRwKTWxe
- rRTXpflK4qtmhKZMIGPA++lUVqJ3CWs6VO+dRikMsXEhPV98vmQkdzqz0W6dXmATYBvI
- pMfJLx4DzPyEAhdwkazTKxqP3kc007yu2yse0YEyS6vAbnaIqYEVccSnziFSFFfWjqZK
- 4NWO1fhg5o68/S4pHHQ5ZBCAPfCqovlewkCwSC+uQJiq1hblNrYjq8PQ5z9MuZcZLSIh
- LOlsptGxDLXPFRe8+X15vNq2gRmeCuOi7DAbAI+O+42Q5jJXXCBT93L/vF08UNODQhfJ
- jzAA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=C+7DEb22BEvtItehjPr9U48yd44UE8dUIQpK3BIdDZE=;
- b=nNyjnsPB6z75sv/eHpDATlXnYW38ewY5d70U+N0edJGmXMMz9CV1UIRnx1VKajFzBk
- 07jAccEQRgYzdRxmTLdMQplwZYkcdmMxQa02KWEwyeXWS2rphS6/egV4MaCIs5Q+BHNr
- cCZj5nAsB+BeMastXY6ujvnDNCifY0zHAXNxW8YnCSc8aGN1D4Zq6tEm6xXJmTnU9P5t
- rk3vhyg9xQxm2kblUTSsX9wqMiHkBa26cZJqaA00+kdiIVV/fFmq/Q4LqJ8ElKjNxVdt
- x6q96Q+R93o3et2DrLttc/dHosUkSpA/p3DXC+nlddteGkGjaJ3dUcUO4AHp4AgDmqAn
- x8ww==
-X-Gm-Message-State: AOAM53105W+vjpWu07H92aWKEdluY4089A+cXta0vs2XoX3k/bzJOcem
- G34GWwfISIHEHemIa59X+oczxmx1CagS/Uoy6rbCFQ==
-X-Google-Smtp-Source: ABdhPJz/0ht9rDRaiR5cONXeEOuTqs1hppC83vqpDo06fI+HtdLqzQRZkAWAAlrj74G/ww8wIQmKDQiZw/dK/6cg1Ig=
-X-Received: by 2002:a05:6402:1383:: with SMTP id
- b3mr12411647edv.100.1622560926058; 
- Tue, 01 Jun 2021 08:22:06 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1lo6MI-0008Gc-Pr
+ for qemu-devel@nongnu.org; Tue, 01 Jun 2021 11:31:10 -0400
+Resent-Date: Tue, 01 Jun 2021 11:31:10 -0400
+Resent-Message-Id: <E1lo6MI-0008Gc-Pr@lists.gnu.org>
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21387)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1lo6MG-0004as-BW
+ for qemu-devel@nongnu.org; Tue, 01 Jun 2021 11:31:10 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1622561460; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=CpniQsfyBnm3/pyqg8YEiLJwXv3AH0hb6lNjl0Rl4MnTT6sGnfKEW7mUzEfnrpPjEcLLGgwblyuaJokN5RRmoYwqP78OXslaFxBK7KBsMQx2mapxal0maSrMXp+1FsjLvH0BJSDmM9C7VOlzwzR6tbl9y4mylQYfe413pMP08Gs=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1622561460;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=5JqAOZc3MEuWc/slmDJdZDXClWVLVOXXgbwXQ0OUySA=; 
+ b=l2cLorkgfOTHA523euLsaI3o39V9MZM1Hbu0FLh197wCEb0aowfs5K+UmpPlixXrEy50eqFvabLEtcwOsHVeedcf3FNd/yZ68rAnLRU+aJ/v2piJOAmN/mUdYY2RGg0t65qEWeu/F+eXsFVDv4/KUNY2KzbiRxUUjeoyaBSFiDQ=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1622561459098225.45047661589717;
+ Tue, 1 Jun 2021 08:30:59 -0700 (PDT)
+In-Reply-To: <20210601150106.12761-1-richard.henderson@linaro.org>
+Subject: Re: [PATCH v7 00/27] TCI fixes and cleanups
+Message-ID: <162256145798.29238.17805720549540926374@0addf061776e>
 MIME-Version: 1.0
-References: <OS3PR01MB61515F08F0709D9E22B8DDDFE9249@OS3PR01MB6151.jpnprd01.prod.outlook.com>
- <TYCPR01MB6160FB4A9712F3F5E14D8BBAE93E9@TYCPR01MB6160.jpnprd01.prod.outlook.com>
-In-Reply-To: <TYCPR01MB6160FB4A9712F3F5E14D8BBAE93E9@TYCPR01MB6160.jpnprd01.prod.outlook.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 1 Jun 2021 16:21:35 +0100
-Message-ID: <CAFEAcA_fZ_jC640XrFUCSk6YxzoSmdwDaMDAXoX47mBFKdS9hg@mail.gmail.com>
-Subject: Re: [RFC] Adding the A64FX's HPC funtions.
-To: "ishii.shuuichir@fujitsu.com" <ishii.shuuichir@fujitsu.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: richard.henderson@linaro.org
+Date: Tue, 1 Jun 2021 08:30:59 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o53.zoho.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,108 +66,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Reply-To: qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It looks like you didn't get any responses because something went
-wrong and your email never went out to the mailing lists.
-I only got it because I was cc'd directly. I'll try effectively
-resending it like this to see if that works better. You might want
-to check whether the mail server at your end actually sent the
-email or if you got a bounce mail or something.
-
-thanks
--- PMM
-
-On Tue, 1 Jun 2021 at 05:53, ishii.shuuichir@fujitsu.com
-<ishii.shuuichir@fujitsu.com> wrote:
->
-> Ping?
-> I'd appreciate any comments.
->
-> Best regards,
-> Shuuichirou Ishii
->
-> > -----Original Message-----
-> > From: Ishii, Shuuichirou/=E7=9F=B3=E4=BA=95 =E5=91=A8=E4=B8=80=E9=83=8E=
- <ishii.shuuichir@fujitsu.com>
-> > Sent: Wednesday, May 26, 2021 4:57 PM
-> > To: 'peter.maydell@linaro.org' <peter.maydell@linaro.org>;
-> > 'qemu-arm@nongnu.org' <qemu-arm@nongnu.org>;
-> > 'qemu-devel@nongnu.org' <qemu-devel@nongnu.org>
-> > Cc: Ishii, Shuuichirou/=E7=9F=B3=E4=BA=95 =E5=91=A8=E4=B8=80=E9=83=8E <=
-ishii.shuuichir@fujitsu.com>
-> > Subject: [RFC] Adding the A64FX's HPC funtions.
-> >
-> > Hi all!
-> >
-> > I'm thinking of implementing A64FX HPC extension in qemu.
-> > A64FX [1] is a CPU developed by Fujitsu that implements armv8+SVE.
-> >
-> > [1]
-> > https://github.com/fujitsu/A64FX/blob/master/doc/A64FX_Microarchitectur=
-e
-> > _Manual_en_1.4.pdf
-> >
-> > A64FX is a CPU developed for HPC (High Performance Computing), and HPC
-> > extensions [2] are implemented to improve the performance of user progr=
-ams.
-> >
-> > [2]
-> > https://github.com/fujitsu/A64FX/blob/master/doc/A64FX_Specification_HP
-> > C_Extension_v1_EN.pdf
-> >
-> > The details of each function are described in [2], and the HPC extensio=
-ns
-> > include
-> > 1) Tag address override
-> > 2) Sector cache
-> > 3) Hardware barrier
-> > 4) Hardware prefetch assist
-> > are implemented.
-> >
-> > The A64FX has been installed in systems such as the supercomputer Fugak=
-u,
-> > FX700, and FX1000, but since the A64FX functions have not yet been
-> > implemented in QEMU, we would like to be able to develop programs in QE=
-MU
-> > to use the HPC extensions.
-> >
-> > Currently, the register specifications for the HPC extensions have been
-> > published in [2],  so we would like to implement these registers in QEM=
-U and
-> > make them accessible.
-> > Eventually, we would also like to consider a mechanism that allows HPC
-> > extensions  to operate within the scope of the published information.
-> >
-> > We would like your comments on the following points in this RFC.
-> >
-> > 1) Is target/arm/helper.c enough to implement the register (ARMCPRegInf=
-o
-> > structure) of HPC extension function of A64FX?
-> >
-> > 2) Is it OK to specify the option to set the HPC extension of A64FX as =
-follows,
-> > for example?
-> >
-> > -M virt -cpu max,a64fx-hpc-sec=3Don (*sector cache function) -M virt -c=
-pu
-> > max,a64fx-hpc-hwpf=3Don (*hardware prefetvh assist function) -M virt -c=
-pu
-> > max,a64fx-hpc-hwb=3Don (*hardware barrier function)
-> >
-> > It is also possible to implement something like -cpu a64fx, but since w=
-e don't
-> > know if we can implement it immediately, we assume that we will use the=
- -cpu
-> > max option first.
-> >
-> > Since there is no example of A64FX function implemented in QEMU, we wou=
-ld
-> > appreciate your comments before we post a patch.
-> >
-> > Best regards.
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDYwMTE1MDEwNi4xMjc2
+MS0xLXJpY2hhcmQuaGVuZGVyc29uQGxpbmFyby5vcmcvCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2Vl
+bXMgdG8gaGF2ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBm
+b3IKbW9yZSBpbmZvcm1hdGlvbjoKClR5cGU6IHNlcmllcwpNZXNzYWdlLWlkOiAyMDIxMDYwMTE1
+MDEwNi4xMjc2MS0xLXJpY2hhcmQuaGVuZGVyc29uQGxpbmFyby5vcmcKU3ViamVjdDogW1BBVENI
+IHY3IDAwLzI3XSBUQ0kgZml4ZXMgYW5kIGNsZWFudXBzCgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4g
+PT09CiMhL2Jpbi9iYXNoCmdpdCByZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0IDAK
+Z2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9jYWwg
+ZGlmZi5yZW5hbWVzIFRydWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhpc3Rv
+Z3JhbQouL3NjcmlwdHMvY2hlY2twYXRjaC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVTVCBT
+Q1JJUFQgRU5EID09PQoKVXBkYXRpbmcgM2M4Y2Y1YTljMjFmZjg3ODIxNjRkMWRlZjdmNDRiZDg4
+ODcxMzM4NApGcm9tIGh0dHBzOi8vZ2l0aHViLmNvbS9wYXRjaGV3LXByb2plY3QvcWVtdQogKiBb
+bmV3IHRhZ10gICAgICAgICBwYXRjaGV3LzIwMjEwNjAxMTQzNzQ5LjE2NjktMS1hbmFpZHUuZ29s
+bHVAc2Ftc3VuZy5jb20gLT4gcGF0Y2hldy8yMDIxMDYwMTE0Mzc0OS4xNjY5LTEtYW5haWR1Lmdv
+bGx1QHNhbXN1bmcuY29tCiAqIFtuZXcgdGFnXSAgICAgICAgIHBhdGNoZXcvMjAyMTA2MDExNTAx
+MDYuMTI3NjEtMS1yaWNoYXJkLmhlbmRlcnNvbkBsaW5hcm8ub3JnIC0+IHBhdGNoZXcvMjAyMTA2
+MDExNTAxMDYuMTI3NjEtMS1yaWNoYXJkLmhlbmRlcnNvbkBsaW5hcm8ub3JnClN3aXRjaGVkIHRv
+IGEgbmV3IGJyYW5jaCAndGVzdCcKZmY3M2YyYSB0ZXN0cy90Y2c6IEluY3JlYXNlIHRpbWVvdXQg
+Zm9yIFRDSQpmNzg2MDU3IHRjZy90Y2k6IFVzZSB7c2V0LGNsZWFyfV9oZWxwZXJfcmV0YWRkcgox
+OTBhZDFmIHRjZy90Y2k6IFJlbW92ZSB0aGUgcWVtdV9sZC9zdF90eXBlIG1hY3JvcwoxZTIxNTZh
+IFJldmVydCAidGNnL3RjaTogVXNlIGV4ZWMvY3B1X2xkc3QuaCBpbnRlcmZhY2VzIgo1NTAwZmU3
+IHRjZy90Y2k6IFNwbGl0IG91dCB0Y2lfcWVtdV9sZCwgdGNpX3FlbXVfc3QKY2M3MGY5OCB0Y2cv
+dGNpOiBJbXBsZW1lbnQgYWRkMiwgc3ViMgpmZTlkNWM2IHRjZy90Y2k6IEltcGxlbWVudCBtdWx1
+MiwgbXVsczIKMmRhMjI0YSB0Y2cvdGNpOiBJbXBsZW1lbnQgY2x6LCBjdHosIGN0cG9wCmU0Y2Q0
+ZjEgdGNnL3RjaTogSW1wbGVtZW50IGV4dHJhY3QsIHNleHRyYWN0CmU2MzcwNzQgdGNnL3RjaTog
+SW1wbGVtZW50IGFuZGMsIG9yYywgZXF2LCBuYW5kLCBub3IKZmU3OGFhOSB0Y2cvdGNpOiBJbXBs
+ZW1lbnQgbW92Y29uZAo0MjQ0Zjk3IHRjZy90Y2k6IEltcGxlbWVudCBnb3RvX3B0cgpkNTEyOWQw
+IHRjZy90Y2k6IENoYW5nZSBlbmNvZGluZyB0byB1aW50MzJfdCB1bml0cwpiOTkzNmZmIHRjZy90
+Y2k6IFJlbW92ZSB0Y2lfd3JpdGVfcmVnCjU1ZGRjMTUgdGNnL3RjaTogRW1pdCBzZXRjb25kIGJl
+Zm9yZSBicmNvbmQKN2Q4OGZjZCB0Y2cvdGNpOiBSZXNlcnZlIHIxMyBmb3IgYSB0ZW1wb3JhcnkK
+ZTRkOTc4NSB0Y2cvdGNpOiBVc2UgZmZpIGZvciBjYWxscwo3YzUzODExIHRjZy90Y2k6IE1vdmUg
+Y2FsbC1yZXR1cm4gcmVncyB0byBlbmQgb2YgdGNnX3RhcmdldF9yZWdfYWxsb2Nfb3JkZXIKZGY5
+ZjY2MyB0Y2cvdGNpOiBJbXByb3ZlIHRjZ190YXJnZXRfY2FsbF9jbG9iYmVyX3JlZ3MKN2IxOTlj
+MSB0Y2c6IEJ1aWxkIGZmaSBkYXRhIHN0cnVjdHVyZXMgZm9yIGhlbHBlcnMKNGNkYWY3YyB0Y2c6
+IEFkZCB0Y2dfY2FsbF9mdW5jCmI1ZDBjNDUgdGNnOiBTdG9yZSB0aGUgVENHSGVscGVySW5mbyBp
+biB0aGUgVENHT3AgZm9yIGNhbGwKOTk4NzkxYSBhY2NlbC90Y2c6IEFkZCB0Y2cgY2FsbCBmbGFn
+cyB0byBwbHVnaW5zIGhlbHBlcnMKMzE4MTJkNSBwbHVnaW5zOiBEcm9wIHRjZ19mbGFncyBmcm9t
+IHN0cnVjdCBxZW11X3BsdWdpbl9keW5fY2IKYjEyZDY2NyBhY2NlbC90Y2cvcGx1Z2luLWdlbjog
+RHJvcCBpbmxpbmUgbWFya2Vycwo4NTdmM2Q3IHRjZzogQWRkIHRjZ19jYWxsX2ZsYWdzCjc1MDdj
+NTIgdGNnOiBDb21iaW5lIGRoX2lzXzY0Yml0IGFuZCBkaF9pc19zaWduZWQgdG8gZGhfdHlwZWNv
+ZGUKCj09PSBPVVRQVVQgQkVHSU4gPT09CjEvMjcgQ2hlY2tpbmcgY29tbWl0IDc1MDdjNTIxNDk0
+ZSAodGNnOiBDb21iaW5lIGRoX2lzXzY0Yml0IGFuZCBkaF9pc19zaWduZWQgdG8gZGhfdHlwZWNv
+ZGUpCjIvMjcgQ2hlY2tpbmcgY29tbWl0IDg1N2YzZDdiYTM3MSAodGNnOiBBZGQgdGNnX2NhbGxf
+ZmxhZ3MpCldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJ
+TlRBSU5FUlMgbmVlZCB1cGRhdGluZz8KIzIxOiAKbmV3IGZpbGUgbW9kZSAxMDA2NDQKCnRvdGFs
+OiAwIGVycm9ycywgMSB3YXJuaW5ncywgMTA2IGxpbmVzIGNoZWNrZWQKClBhdGNoIDIvMjcgaGFz
+IHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwph
+cmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hF
+Q0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KMy8yNyBDaGVja2luZyBjb21taXQgYjEyZDY2NzAyYWNi
+IChhY2NlbC90Y2cvcGx1Z2luLWdlbjogRHJvcCBpbmxpbmUgbWFya2VycykKNC8yNyBDaGVja2lu
+ZyBjb21taXQgMzE4MTJkNTdhNDhjIChwbHVnaW5zOiBEcm9wIHRjZ19mbGFncyBmcm9tIHN0cnVj
+dCBxZW11X3BsdWdpbl9keW5fY2IpCjUvMjcgQ2hlY2tpbmcgY29tbWl0IDk5ODc5MWFkODY4ZSAo
+YWNjZWwvdGNnOiBBZGQgdGNnIGNhbGwgZmxhZ3MgdG8gcGx1Z2lucyBoZWxwZXJzKQpXQVJOSU5H
+OiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwojMjc6IEZJTEU6IGFjY2VsL3RjZy9wbHVnaW4taGVs
+cGVycy5oOjM6CitERUZfSEVMUEVSX0ZMQUdTXzQocGx1Z2luX3ZjcHVfbWVtX2NiLCBUQ0dfQ0FM
+TF9OT19SV0csIHZvaWQsIGkzMiwgaTMyLCBpNjQsIHB0cikKCnRvdGFsOiAwIGVycm9ycywgMSB3
+YXJuaW5ncywgNiBsaW5lcyBjaGVja2VkCgpQYXRjaCA1LzI3IGhhcyBzdHlsZSBwcm9ibGVtcywg
+cGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZl
+cyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRB
+SU5FUlMuCjYvMjcgQ2hlY2tpbmcgY29tbWl0IGI1ZDBjNDVlMGY4YiAodGNnOiBTdG9yZSB0aGUg
+VENHSGVscGVySW5mbyBpbiB0aGUgVENHT3AgZm9yIGNhbGwpCjcvMjcgQ2hlY2tpbmcgY29tbWl0
+IDRjZGFmN2MyMDc0YSAodGNnOiBBZGQgdGNnX2NhbGxfZnVuYykKOC8yNyBDaGVja2luZyBjb21t
+aXQgN2IxOTljMWRkOWM1ICh0Y2c6IEJ1aWxkIGZmaSBkYXRhIHN0cnVjdHVyZXMgZm9yIGhlbHBl
+cnMpCjkvMjcgQ2hlY2tpbmcgY29tbWl0IGRmOWY2NjM3YTE2OCAodGNnL3RjaTogSW1wcm92ZSB0
+Y2dfdGFyZ2V0X2NhbGxfY2xvYmJlcl9yZWdzKQoxMC8yNyBDaGVja2luZyBjb21taXQgN2M1Mzgx
+MTlhODA5ICh0Y2cvdGNpOiBNb3ZlIGNhbGwtcmV0dXJuIHJlZ3MgdG8gZW5kIG9mIHRjZ190YXJn
+ZXRfcmVnX2FsbG9jX29yZGVyKQoxMS8yNyBDaGVja2luZyBjb21taXQgZTRkOTc4NTJkMGJmICh0
+Y2cvdGNpOiBVc2UgZmZpIGZvciBjYWxscykKRVJST1I6IHN1c3BlY3QgY29kZSBpbmRlbnQgZm9y
+IGNvbmRpdGlvbmFsIHN0YXRlbWVudHMgKDgsIDExKQojNzQ6IEZJTEU6IHRjZy90Y2cuYzoyMTQ4
+OgogICAgICAgICBpZiAoVENHX1RBUkdFVF9SRUdfQklUUyA8IDY0ICYmIGlzXzY0Yml0KSB7Cisg
+ICAgICAgICAgIC8qCgp0b3RhbDogMSBlcnJvcnMsIDAgd2FybmluZ3MsIDM5MiBsaW5lcyBjaGVj
+a2VkCgpQYXRjaCAxMS8yNyBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBh
+bnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhl
+IG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoKMTIvMjcgQ2hlY2tp
+bmcgY29tbWl0IDdkODhmY2RlMGY1MSAodGNnL3RjaTogUmVzZXJ2ZSByMTMgZm9yIGEgdGVtcG9y
+YXJ5KQoxMy8yNyBDaGVja2luZyBjb21taXQgNTVkZGMxNWIwNDQ0ICh0Y2cvdGNpOiBFbWl0IHNl
+dGNvbmQgYmVmb3JlIGJyY29uZCkKMTQvMjcgQ2hlY2tpbmcgY29tbWl0IGI5OTM2ZmY3MjlkZCAo
+dGNnL3RjaTogUmVtb3ZlIHRjaV93cml0ZV9yZWcpCjE1LzI3IENoZWNraW5nIGNvbW1pdCBkNTEy
+OWQwM2JkOTUgKHRjZy90Y2k6IENoYW5nZSBlbmNvZGluZyB0byB1aW50MzJfdCB1bml0cykKMTYv
+MjcgQ2hlY2tpbmcgY29tbWl0IDQyNDRmOTc1YjY5YSAodGNnL3RjaTogSW1wbGVtZW50IGdvdG9f
+cHRyKQoxNy8yNyBDaGVja2luZyBjb21taXQgZmU3OGFhOTYwMzAxICh0Y2cvdGNpOiBJbXBsZW1l
+bnQgbW92Y29uZCkKMTgvMjcgQ2hlY2tpbmcgY29tbWl0IGU2MzcwNzQxNzkxYSAodGNnL3RjaTog
+SW1wbGVtZW50IGFuZGMsIG9yYywgZXF2LCBuYW5kLCBub3IpCjE5LzI3IENoZWNraW5nIGNvbW1p
+dCBlNGNkNGYxZWMyOTggKHRjZy90Y2k6IEltcGxlbWVudCBleHRyYWN0LCBzZXh0cmFjdCkKMjAv
+MjcgQ2hlY2tpbmcgY29tbWl0IDJkYTIyNGFiNTVjZSAodGNnL3RjaTogSW1wbGVtZW50IGNseiwg
+Y3R6LCBjdHBvcCkKMjEvMjcgQ2hlY2tpbmcgY29tbWl0IGZlOWQ1YzYwYTdkZSAodGNnL3RjaTog
+SW1wbGVtZW50IG11bHUyLCBtdWxzMikKMjIvMjcgQ2hlY2tpbmcgY29tbWl0IGNjNzBmOTg2ZGI0
+ZCAodGNnL3RjaTogSW1wbGVtZW50IGFkZDIsIHN1YjIpCjIzLzI3IENoZWNraW5nIGNvbW1pdCA1
+NTAwZmU3MjhiY2YgKHRjZy90Y2k6IFNwbGl0IG91dCB0Y2lfcWVtdV9sZCwgdGNpX3FlbXVfc3Qp
+CjI0LzI3IENoZWNraW5nIGNvbW1pdCAxZTIxNTZhYTA3MzggKFJldmVydCAidGNnL3RjaTogVXNl
+IGV4ZWMvY3B1X2xkc3QuaCBpbnRlcmZhY2VzIikKMjUvMjcgQ2hlY2tpbmcgY29tbWl0IDE5MGFk
+MWYzODgwZSAodGNnL3RjaTogUmVtb3ZlIHRoZSBxZW11X2xkL3N0X3R5cGUgbWFjcm9zKQoyNi8y
+NyBDaGVja2luZyBjb21taXQgZjc4NjA1NzBiZmM4ICh0Y2cvdGNpOiBVc2Uge3NldCxjbGVhcn1f
+aGVscGVyX3JldGFkZHIpCjI3LzI3IENoZWNraW5nIGNvbW1pdCBmZjczZjJhNWZhYmUgKHRlc3Rz
+L3RjZzogSW5jcmVhc2UgdGltZW91dCBmb3IgVENJKQo9PT0gT1VUUFVUIEVORCA9PT0KClRlc3Qg
+Y29tbWFuZCBleGl0ZWQgd2l0aCBjb2RlOiAxCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBh
+dApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDIxMDYwMTE1MDEwNi4xMjc2MS0xLXJpY2hhcmQu
+aGVuZGVyc29uQGxpbmFyby5vcmcvdGVzdGluZy5jaGVja3BhdGNoLz90eXBlPW1lc3NhZ2UuCi0t
+LQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNo
+ZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRo
+YXQuY29t
 
