@@ -2,94 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01D2D3972F9
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Jun 2021 14:06:23 +0200 (CEST)
-Received: from localhost ([::1]:46274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC59D3972FA
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Jun 2021 14:06:46 +0200 (CEST)
+Received: from localhost ([::1]:48258 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lo3A5-0000mQ-HV
-	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 08:06:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52728)
+	id 1lo3AT-00027P-Rp
+	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 08:06:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52804)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lo36m-0006yU-GX
- for qemu-devel@nongnu.org; Tue, 01 Jun 2021 08:02:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23888)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lo36Y-0005mH-QD
- for qemu-devel@nongnu.org; Tue, 01 Jun 2021 08:02:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622548961;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=t89OdcUENcVhMcQ0zTdeWk3PJtvnnURBk4Q+QxiSaK0=;
- b=JrLHoRRinIwLsT0CMhhAh8CjHeNURrJswDfIg1lRe3bXOxeZ5+Z+mdIt8bYK0GiNMA97Vb
- dxjS1jwRxB3qPAI4ror9VIOsjqzdtGE4PnF8BkKmhelr1dDGI/qLAbvX2epMIUeZ/zXxHe
- DhXmU9Mg6LkWpkZZTXZwjU6u2+IZYqM=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-391-_sAAN3bXMtiZ0aVSOa3mRA-1; Tue, 01 Jun 2021 08:02:39 -0400
-X-MC-Unique: _sAAN3bXMtiZ0aVSOa3mRA-1
-Received: by mail-ej1-f72.google.com with SMTP id
- b8-20020a170906d108b02903fa10388224so345226ejz.18
- for <qemu-devel@nongnu.org>; Tue, 01 Jun 2021 05:02:39 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <aik@ozlabs.ru>) id 1lo36v-000782-5I
+ for qemu-devel@nongnu.org; Tue, 01 Jun 2021 08:03:05 -0400
+Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f]:40917)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <aik@ozlabs.ru>) id 1lo36r-0005rA-Tt
+ for qemu-devel@nongnu.org; Tue, 01 Jun 2021 08:03:04 -0400
+Received: by mail-pl1-x62f.google.com with SMTP id e7so4665099plj.7
+ for <qemu-devel@nongnu.org>; Tue, 01 Jun 2021 05:02:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ozlabs-ru.20150623.gappssmtp.com; s=20150623;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=r1AwAf21oqXE5Z+aIfGYelnZle1mTzVlyi8sG4k7+qk=;
+ b=18kh65X+MiHnZ0w8AAGss/XQiWZTQCmnQ03ttoG3YV7vYd2GlwP3m3Sp9H64K6HWXL
+ nCauE7L78OISHC3y1VDlpTNWVwKVTE0OEHC53nxwR6t0bdxdipvwg944SKPbzSYdy+f/
+ rIshVbflmGl9jzb6VudGo2ZV0d9FGwT8pDHlNn4CX4JktIOiyo5uBrfS5alvOEJpadYx
+ 8fwf82EcxcQ8MHInzoqRbO+D3TlahYELSzBrekNYnAIKwhq//HzgieBdUtBhNPwbi9Xx
+ JE2Gq5L8g9zxbIrz5biZXyXWoqrgPn2589cqrzD2ZODErvXLh8cs4U71Xc6vnyMCdo1v
+ WZVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=t89OdcUENcVhMcQ0zTdeWk3PJtvnnURBk4Q+QxiSaK0=;
- b=cTiRgt5H9f6AVlSzeGt34TVCp59q5/X3MIcee6CHmbOC5O23FWX0kf9SLaL7eSWZCM
- kd3TEKLIRONbO4bWDBTPFi3FtoWlW5dvJLIWMWK0bBvX4UlLWx7CCqHkoZh/xmNbN0Yy
- zjRz21Gx7nv7rcP1j63QFRap+k8rbaUPaSY0ru19uXKRNSyR/KwxFUAFLfdQNhGaHzMM
- kDoO1WlgINOwJf9M2shtk8uwF9gaNh/yf+XstmY8eftVlf7e2KxAsIMOdq5sItxvEFas
- MGEzF8UOAL5sfNpHi9GQa3Ti+SaPHFSOBA0q3FidmfiK1XuSG7GLiknnIxtLy9YLro63
- Rj/A==
-X-Gm-Message-State: AOAM533FGpzoZ9kntvrZfn3mLPB+3v3PTVh5bM7Uso7spTH+Xwn+TFVU
- 6i0KRExp0irKIZjMYCFxH7T6CJjV8LwhXnCrwPkIO7X6+KXsBxGeDHZBXiEeh83JVOwaw8qKYwx
- EEjlgSSggmCOgF9A=
-X-Received: by 2002:a05:6402:5249:: with SMTP id
- t9mr23762029edd.290.1622548958241; 
- Tue, 01 Jun 2021 05:02:38 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwhUdLkU0sAr1zu617R7HcuevFB09SwP5VuXD1fU6fWgQv10oVFJWQ74Z4bXzQLdC+Hpaw44w==
-X-Received: by 2002:a05:6402:5249:: with SMTP id
- t9mr23761987edd.290.1622548957938; 
- Tue, 01 Jun 2021 05:02:37 -0700 (PDT)
-Received: from dresden.str.redhat.com ([2a02:908:1e46:160:b272:8083:d5:bc7d])
- by smtp.gmail.com with ESMTPSA id
- e6sm7153233ejd.31.2021.06.01.05.02.36
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=r1AwAf21oqXE5Z+aIfGYelnZle1mTzVlyi8sG4k7+qk=;
+ b=g0T9IxuORpE4q6Rfm4vjDXtiQKSpTRJM79HVYQSwSnVGPqLz6PSCiLmzH8MUzLaKAy
+ L6lMX08tU1HXR0+TUHn6B2od8ebr0Eb1EFTJaKp6CmTogvCO3f37D6uoLET/YandGh9t
+ XOSri1qzC5mUdmxmHpTgUwSFQlwFoBRnOqOGk/w80KIr6GFWTlFGOms3hMhdDjUsslmF
+ 45oVdAT5NrW7j1fPwnxytl0wWYm9YPYz+/H+xd2qv9ddxllTPy/XMBeIbAf+CqweXVv9
+ rIYQZW3lTNCDH4yci4FkSIbO7LMS3VpCPlGQ172ZRkBT+lSGkpRSh6TFSCJTHfknN4mq
+ d3Lw==
+X-Gm-Message-State: AOAM531z44su+F20agFr3nGGOtgqwvjqS2hqoUu64Urh+UDNgUjRejw/
+ PmUWYzcKhO3H2NzTzAGeVeqwqISjHMLwVPg8
+X-Google-Smtp-Source: ABdhPJxI922fSx/TDVpvGA3NaF4pvk9u5QxpyxlSuVwbQXE4XQ/fFul01a5eConHwPeqowljuzYq6A==
+X-Received: by 2002:a17:90a:bf91:: with SMTP id
+ d17mr4652111pjs.17.1622548974012; 
+ Tue, 01 Jun 2021 05:02:54 -0700 (PDT)
+Received: from localhost
+ (ppp121-45-202-22.cbr-trn-nor-bras38.tpg.internode.on.net. [121.45.202.22])
+ by smtp.gmail.com with UTF8SMTPSA id g6sm4173735pfq.110.2021.06.01.05.02.51
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 01 Jun 2021 05:02:37 -0700 (PDT)
-Subject: Re: [PATCH v2 33/33] iotests/image-fleecing: add test-case for
- copy-before-write filter
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20210520142205.607501-1-vsementsov@virtuozzo.com>
- <20210520142205.607501-34-vsementsov@virtuozzo.com>
-From: Max Reitz <mreitz@redhat.com>
-Message-ID: <0a545efe-df90-710c-518f-97f52449d5b6@redhat.com>
-Date: Tue, 1 Jun 2021 14:02:36 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ Tue, 01 Jun 2021 05:02:53 -0700 (PDT)
+Message-ID: <d86c8379-871f-53d4-03b3-55055fc0b56a@ozlabs.ru>
+Date: Tue, 1 Jun 2021 22:02:48 +1000
 MIME-Version: 1.0
-In-Reply-To: <20210520142205.607501-34-vsementsov@virtuozzo.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:88.0) Gecko/20100101
+ Thunderbird/88.0
+Subject: Re: [PATCH qemu v20] spapr: Implement Open Firmware client interface
 Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -37
-X-Spam_score: -3.8
-X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.613, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+To: BALATON Zoltan <balaton@eik.bme.hu>
+References: <20210520090557.435689-1-aik@ozlabs.ru>
+ <c13d557a-5feb-33ad-33ec-22a28cddb8d@eik.bme.hu>
+ <7e71f593-c2b9-5c7-4dd0-2a189bee771@eik.bme.hu>
+From: Alexey Kardashevskiy <aik@ozlabs.ru>
+In-Reply-To: <7e71f593-c2b9-5c7-4dd0-2a189bee771@eik.bme.hu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
+ envelope-from=aik@ozlabs.ru; helo=mail-pl1-x62f.google.com
+X-Spam_score_int: -24
+X-Spam_score: -2.5
+X-Spam_bar: --
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, CTE_8BIT_MISMATCH=0.029,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, NICE_REPLY_A=-0.613,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,66 +89,232 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, berrange@redhat.com, ehabkost@redhat.com, den@openvz.org,
- jsnow@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com, crosa@redhat.com,
- pbonzini@redhat.com
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 20.05.21 16:22, Vladimir Sementsov-Ogievskiy wrote:
-> New fleecing method becomes available: copy-before-write filter.
->
-> Actually we don't need backup job to setup image fleecing. Add test
-> for new recommended way of image fleecing.
->
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->   tests/qemu-iotests/tests/image-fleecing     | 50 +++++++++-----
->   tests/qemu-iotests/tests/image-fleecing.out | 72 +++++++++++++++++++++
->   2 files changed, 107 insertions(+), 15 deletions(-)
->
-> diff --git a/tests/qemu-iotests/tests/image-fleecing b/tests/qemu-iotests/tests/image-fleecing
-> index e210c00d28..404ebc00f1 100755
-> --- a/tests/qemu-iotests/tests/image-fleecing
-> +++ b/tests/qemu-iotests/tests/image-fleecing
 
-[...]
 
-> @@ -90,12 +91,22 @@ def do_test(base_img_path, fleece_img_path, nbd_sock_path, vm):
->           'backing': src_node,
->       }))
->   
-> -    # Establish COW from source to fleecing node
-> -    log(vm.qmp('blockdev-backup',
-> -               job_id='fleecing',
-> -               device=src_node,
-> -               target=tmp_node,
-> -               sync='none'))
-> +    # Establish CBW from source to fleecing node
-> +    if use_cbw:
-> +        log(vm.qmp('blockdev-add', **{
+On 31/05/2021 23:07, BALATON Zoltan wrote:
+> On Sun, 30 May 2021, BALATON Zoltan wrote:
+>> On Thu, 20 May 2021, Alexey Kardashevskiy wrote:
+>>> diff --git a/hw/ppc/vof.c b/hw/ppc/vof.c
+>>> new file mode 100644
+>>> index 000000000000..a283b7d251a7
+>>> --- /dev/null
+>>> +++ b/hw/ppc/vof.c
+>>> @@ -0,0 +1,1021 @@
+>>> +/*
+>>> + * QEMU PowerPC Virtual Open Firmware.
+>>> + *
+>>> + * This implements client interface from OpenFirmware IEEE1275 on 
+>>> the QEMU
+>>> + * side to leave only a very basic firmware in the VM.
+>>> + *
+>>> + * Copyright (c) 2021 IBM Corporation.
+>>> + *
+>>> + * SPDX-License-Identifier: GPL-2.0-or-later
+>>> + */
+>>> +
+>>> +#include "qemu/osdep.h"
+>>> +#include "qemu-common.h"
+>>> +#include "qemu/timer.h"
+>>> +#include "qemu/range.h"
+>>> +#include "qemu/units.h"
+>>> +#include "qapi/error.h"
+>>> +#include <sys/ioctl.h>
+>>> +#include "exec/ram_addr.h"
+>>> +#include "exec/address-spaces.h"
+>>> +#include "hw/ppc/vof.h"
+>>> +#include "hw/ppc/fdt.h"
+>>> +#include "sysemu/runstate.h"
+>>> +#include "qom/qom-qobject.h"
+>>> +#include "trace.h"
+>>> +
+>>> +#include <libfdt.h>
+>>> +
+>>> +/*
+>>> + * OF 1275 "nextprop" description suggests is it 32 bytes max but
+>>> + * LoPAPR defines "ibm,query-interrupt-source-number" which is 33 
+>>> chars long.
+>>> + */
+>>> +#define OF_PROPNAME_LEN_MAX 64
+>>> +
+>>> +#define VOF_MAX_PATH        256
+>>> +#define VOF_MAX_SETPROPLEN  2048
+>>> +#define VOF_MAX_METHODLEN   256
+>>> +#define VOF_MAX_FORTHCODE   256
+>>> +#define VOF_VTY_BUF_SIZE    256
+>>> +
+>>> +typedef struct {
+>>> +    uint64_t start;
+>>> +    uint64_t size;
+>>> +} OfClaimed;
+>>> +
+>>> +typedef struct {
+>>> +    char *path; /* the path used to open the instance */
+>>> +    uint32_t phandle;
+>>> +} OfInstance;
+>>> +
+>>> +#define VOF_MEM_READ(pa, buf, size) \
+>>> +    address_space_read_full(&address_space_memory, \
+>>> +    (pa), MEMTXATTRS_UNSPECIFIED, (buf), (size))
+>>> +#define VOF_MEM_WRITE(pa, buf, size) \
+>>> +    address_space_write(&address_space_memory, \
+>>> +    (pa), MEMTXATTRS_UNSPECIFIED, (buf), (size))
+>>> +
+>>> +static int readstr(hwaddr pa, char *buf, int size)
+>>> +{
+>>> +    if (VOF_MEM_READ(pa, buf, size) != MEMTX_OK) {
+>>> +        return -1;
+>>> +    }
+>>> +    if (strnlen(buf, size) == size) {
+>>> +        buf[size - 1] = '\0';
+>>> +        trace_vof_error_str_truncated(buf, size);
+>>> +        return -1;
+>>> +    }
+>>> +    return 0;
+>>> +}
+>>> +
+>>> +static bool cmpservice(const char *s, unsigned nargs, unsigned nret,
+>>> +                       const char *s1, unsigned nargscheck, unsigned 
+>>> nretcheck)
+>>> +{
+>>> +    if (strcmp(s, s1)) {
+>>> +        return false;
+>>> +    }
+>>> +    if ((nargscheck && (nargs != nargscheck)) ||
+>>> +        (nretcheck && (nret != nretcheck))) {
+>>> +        trace_vof_error_param(s, nargscheck, nretcheck, nargs, nret);
+>>> +        return false;
+>>> +    }
+>>> +
+>>> +    return true;
+>>> +}
+>>> +
+>>> +static void prop_format(char *tval, int tlen, const void *prop, int 
+>>> len)
+>>> +{
+>>> +    int i;
+>>> +    const unsigned char *c;
+>>> +    char *t;
+>>> +    const char bin[] = "...";
+>>> +
+>>> +    for (i = 0, c = prop; i < len; ++i, ++c) {
+>>> +        if (*c == '\0' && i == len - 1) {
+>>> +            strncpy(tval, prop, tlen - 1);
+>>> +            return;
+>>> +        }
+>>> +        if (*c < 0x20 || *c >= 0x80) {
+>>> +            break;
+>>> +        }
+>>> +    }
+>>> +
+>>> +    for (i = 0, c = prop, t = tval; i < len; ++i, ++c) {
+>>> +        if (t >= tval + tlen - sizeof(bin) - 1 - 2 - 1) {
+>>> +            strcpy(t, bin);
+>>> +            return;
+>>> +        }
+>>> +        if (i && i % 4 == 0 && i != len - 1) {
+>>> +            strcat(t, " ");
+>>> +            ++t;
+>>> +        }
+>>> +        t += sprintf(t, "%02X", *c & 0xFF);
+>>> +    }
+>>> +}
+>>> +
+>>> +static int get_path(const void *fdt, int offset, char *buf, int len)
+>>> +{
+>>> +    int ret;
+>>> +
+>>> +    ret = fdt_get_path(fdt, offset, buf, len - 1);
+>>> +    if (ret < 0) {
+>>> +        return ret;
+>>> +    }
+>>> +
+>>> +    buf[len - 1] = '\0';
+>>> +
+>>> +    return strlen(buf) + 1;
+>>> +}
+>>> +
+>>> +static int phandle_to_path(const void *fdt, uint32_t ph, char *buf, 
+>>> int len)
+>>> +{
+>>> +    int ret;
+>>> +
+>>> +    ret = fdt_node_offset_by_phandle(fdt, ph);
+>>> +    if (ret < 0) {
+>>> +        return ret;
+>>> +    }
+>>> +
+>>> +    return get_path(fdt, ret, buf, len);
+>>> +}
+>>> +
+>>> +static uint32_t vof_finddevice(const void *fdt, uint32_t nodeaddr)
+>>> +{
+>>> +    char fullnode[VOF_MAX_PATH];
+>>> +    uint32_t ret = -1;
+>>> +    int offset;
+>>> +
+>>> +    if (readstr(nodeaddr, fullnode, sizeof(fullnode))) {
+>>> +        return (uint32_t) ret;
+>>> +    }
+>>> +
+>>> +    offset = fdt_path_offset(fdt, fullnode);
+>>> +    if (offset >= 0) {
+>>> +        ret = fdt_get_phandle(fdt, offset);
+>>> +    }
+>>> +    trace_vof_finddevice(fullnode, ret);
+>>> +    return (uint32_t) ret;
+>>> +}
+>>
+>> The Linux init function that runs on pegasos2 here:
+>>
+>> https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/tree/arch/powerpc/kernel/prom_init.c?h=v4.14.234#n2658 
+>>
+>>
+>> calls finddevice once with isa@c and next with isa@C (small and 
+>> capital C) both of which works with the board firmware but with vof 
+>> the comparison is case sensitive and one of these fails so I can't 
+>> make it work. I don't know if this is a problem in libfdt or the 
+>> vof_finddevice above should do something else to get case insensitive 
+>> comparison.
+> 
+> This fixes the issue with Linux but I'm not sure if there's any better 
+> solution or would it break anything else.
 
-I thought this should work without ** now.
+The bit after "@" is an address and needs to be case insensitive and 
+I'll fix this indeed. I'm not so sure about the part before "@", I 
+cannot imagine what could break if I made search insensitive to case. Hm :-/
 
-With them dropped:
+> 
+> Regards,
+> BALATON Zoltan
+> 
+>> diff --git a/hw/ppc/vof.c b/hw/ppc/vof.c
+> index a283b7d251..b47bbd509d 100644
+> --- a/hw/ppc/vof.c
+> +++ b/hw/ppc/vof.c
+> @@ -144,12 +144,15 @@ static uint32_t vof_finddevice(const void *fdt, 
+> uint32_t nodeaddr)
+>      char fullnode[VOF_MAX_PATH];
+>      uint32_t ret = -1;
+>      int offset;
+> +    gchar *p;
+> 
+>      if (readstr(nodeaddr, fullnode, sizeof(fullnode))) {
+>          return (uint32_t) ret;
+>      }
+> 
+> -    offset = fdt_path_offset(fdt, fullnode);
+> +    p = g_ascii_strdown(fullnode, -1);
+> +    offset = fdt_path_offset(fdt, p);
+> +    g_free(p);
+>      if (offset >= 0) {
+>          ret = fdt_get_phandle(fdt, offset);
+>      }
 
-Reviewed-by: Max Reitz <mreitz@redhat.com>
-
-> +            'driver': 'copy-before-write',
-> +            'node-name': 'fl-cbw',
-> +            'file': src_node,
-> +            'target': tmp_node
-> +        }))
-> +
-> +        log(vm.qmp('qom-set', path=qom_path, property='drive', value='fl-cbw'))
-> +    else:
-> +        log(vm.qmp('blockdev-backup',
-> +                   job_id='fleecing',
-> +                   device=src_node,
-> +                   target=tmp_node,
-> +                   sync='none'))
->   
->       log('')
->       log('--- Setting up NBD Export ---')
-
+-- 
+Alexey
 
