@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79D48397AD3
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Jun 2021 21:48:44 +0200 (CEST)
-Received: from localhost ([::1]:58600 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92828397AD8
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Jun 2021 21:51:47 +0200 (CEST)
+Received: from localhost ([::1]:39998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loANX-0004Uo-Fd
-	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 15:48:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33478)
+	id 1loAQU-0002cf-ES
+	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 15:51:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33654)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1loABY-0002fN-0O; Tue, 01 Jun 2021 15:36:20 -0400
-Received: from [201.28.113.2] (port=31942 helo=outlook.eldorado.org.br)
+ id 1loACe-0004iy-Co; Tue, 01 Jun 2021 15:37:28 -0400
+Received: from [201.28.113.2] (port=61001 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1loABW-0002Jl-7q; Tue, 01 Jun 2021 15:36:19 -0400
+ id 1loACc-0003Xn-Qj; Tue, 01 Jun 2021 15:37:28 -0400
 Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Tue, 1 Jun 2021 16:35:45 -0300
+ Microsoft SMTPSVC(8.5.9600.16384); Tue, 1 Jun 2021 16:35:46 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by power9a (Postfix) with ESMTP id 392E280148B;
+ by power9a (Postfix) with ESMTP id B1FA380148C;
  Tue,  1 Jun 2021 16:35:45 -0300 (-03)
 From: matheus.ferst@eldorado.org.br
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [PATCH v6 12/14] target/ppc: Implement vcfuged instruction
-Date: Tue,  1 Jun 2021 16:35:26 -0300
-Message-Id: <20210601193528.2533031-13-matheus.ferst@eldorado.org.br>
+Subject: [PATCH v6 13/14] target/ppc: Move addpcis to decodetree
+Date: Tue,  1 Jun 2021 16:35:27 -0300
+Message-Id: <20210601193528.2533031-14-matheus.ferst@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210601193528.2533031-1-matheus.ferst@eldorado.org.br>
 References: <20210601193528.2533031-1-matheus.ferst@eldorado.org.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 01 Jun 2021 19:35:45.0706 (UTC)
- FILETIME=[511A38A0:01D7571D]
+X-OriginalArrivalTime: 01 Jun 2021 19:35:46.0190 (UTC)
+ FILETIME=[516412E0:01D7571D]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
 Received-SPF: pass client-ip=201.28.113.2;
  envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -63,110 +63,83 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 ---
- target/ppc/insn32.decode               |  7 ++++
- target/ppc/translate.c                 |  1 +
- target/ppc/translate/vector-impl.c.inc | 56 ++++++++++++++++++++++++++
- 3 files changed, 64 insertions(+)
- create mode 100644 target/ppc/translate/vector-impl.c.inc
+ target/ppc/insn32.decode                   | 6 ++++++
+ target/ppc/translate.c                     | 9 ---------
+ target/ppc/translate/fixedpoint-impl.c.inc | 7 +++++++
+ 3 files changed, 13 insertions(+), 9 deletions(-)
 
 diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-index d4044d9069..77edf407ab 100644
+index 77edf407ab..93e5d44d9e 100644
 --- a/target/ppc/insn32.decode
 +++ b/target/ppc/insn32.decode
-@@ -23,6 +23,9 @@
+@@ -23,6 +23,10 @@
  %ds_si          2:s14  !function=times_4
  @DS             ...... rt:5 ra:5 .............. ..      &D si=%ds_si
  
-+&VX             vrt vra vrb
-+@VX             ...... vrt:5 vra:5 vrb:5 .......... .   &VX
++&DX             rt d
++%dx_d           6:s10 16:5 0:1
++@DX             ...... rt:5  ..... .......... ..... .   &DX d=%dx_d
 +
- &X              rt ra rb
- @X              ...... rt:5 ra:5 rb:5 .......... .      &X
+ &VX             vrt vra vrb
+ @VX             ...... vrt:5 vra:5 vrb:5 .......... .   &VX
  
-@@ -97,3 +100,7 @@ SETBC           011111 ..... ..... ----- 0110000000 -   @X_bi
- SETBCR          011111 ..... ..... ----- 0110100000 -   @X_bi
- SETNBC          011111 ..... ..... ----- 0111000000 -   @X_bi
- SETNBCR         011111 ..... ..... ----- 0111100000 -   @X_bi
+@@ -90,6 +94,8 @@ STDUX           011111 ..... ..... ..... 0010110101 -   @X
+ ADDI            001110 ..... ..... ................     @D
+ ADDIS           001111 ..... ..... ................     @D
+ 
++ADDPCIS         010011 ..... ..... .......... 00010 .   @DX
 +
-+## Vector Bit Manipulation Instruction
-+
-+VCFUGED         000100 ..... ..... ..... 10101001101    @VX
+ ## Fixed-Point Logical Instructions
+ 
+ CFUGED          011111 ..... ..... ..... 0011011100 -   @X
 diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-index 3c3cb1b664..ed5515f8e2 100644
+index ed5515f8e2..35d8831d44 100644
 --- a/target/ppc/translate.c
 +++ b/target/ppc/translate.c
-@@ -7538,6 +7538,7 @@ static int times_4(DisasContext *ctx, int x)
- #include "translate/vmx-impl.c.inc"
+@@ -1779,14 +1779,6 @@ static void gen_addic_(DisasContext *ctx)
+     gen_op_addic(ctx, 1);
+ }
  
- #include "translate/vsx-impl.c.inc"
-+#include "translate/vector-impl.c.inc"
+-/* addpcis */
+-static void gen_addpcis(DisasContext *ctx)
+-{
+-    target_long d = DX(ctx->opcode);
+-
+-    tcg_gen_movi_tl(cpu_gpr[rD(ctx->opcode)], ctx->base.pc_next + (d << 16));
+-}
+-
+ static inline void gen_op_arith_divw(DisasContext *ctx, TCGv ret, TCGv arg1,
+                                      TCGv arg2, int sign, int compute_ov)
+ {
+@@ -7659,7 +7651,6 @@ GEN_HANDLER_E(cmprb, 0x1F, 0x00, 0x06, 0x00400001, PPC_NONE, PPC2_ISA300),
+ GEN_HANDLER(isel, 0x1F, 0x0F, 0xFF, 0x00000001, PPC_ISEL),
+ GEN_HANDLER(addic, 0x0C, 0xFF, 0xFF, 0x00000000, PPC_INTEGER),
+ GEN_HANDLER2(addic_, "addic.", 0x0D, 0xFF, 0xFF, 0x00000000, PPC_INTEGER),
+-GEN_HANDLER_E(addpcis, 0x13, 0x2, 0xFF, 0x00000000, PPC_NONE, PPC2_ISA300),
+ GEN_HANDLER(mulhw, 0x1F, 0x0B, 0x02, 0x00000400, PPC_INTEGER),
+ GEN_HANDLER(mulhwu, 0x1F, 0x0B, 0x00, 0x00000400, PPC_INTEGER),
+ GEN_HANDLER(mullw, 0x1F, 0x0B, 0x07, 0x00000000, PPC_INTEGER),
+diff --git a/target/ppc/translate/fixedpoint-impl.c.inc b/target/ppc/translate/fixedpoint-impl.c.inc
+index 50933a3b9d..2713366791 100644
+--- a/target/ppc/translate/fixedpoint-impl.c.inc
++++ b/target/ppc/translate/fixedpoint-impl.c.inc
+@@ -194,6 +194,13 @@ static bool trans_ADDIS(DisasContext *ctx, arg_D *a)
+     return trans_ADDI(ctx, a);
+ }
  
- #include "translate/dfp-impl.c.inc"
- 
-diff --git a/target/ppc/translate/vector-impl.c.inc b/target/ppc/translate/vector-impl.c.inc
-new file mode 100644
-index 0000000000..117ce9b137
---- /dev/null
-+++ b/target/ppc/translate/vector-impl.c.inc
-@@ -0,0 +1,56 @@
-+/*
-+ * Power ISA decode for Vector Facility instructions
-+ *
-+ * Copyright (c) 2021 Instituto de Pesquisas Eldorado (eldorado.org.br)
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2.1 of the License, or (at your option) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+#define REQUIRE_ALTIVEC(CTX) \
-+    do {                                                \
-+        if (unlikely(!(CTX)->altivec_enabled)) {        \
-+            gen_exception((CTX), POWERPC_EXCP_VPU);     \
-+            return true;                                \
-+        }                                               \
-+    } while (0)
-+
-+static bool trans_VCFUGED(DisasContext *ctx, arg_VX *a)
++static bool trans_ADDPCIS(DisasContext *ctx, arg_DX *a)
 +{
-+    TCGv_i64 tgt, src, mask;
-+
-+    REQUIRE_INSNS_FLAGS2(ctx, ISA310);
-+    REQUIRE_ALTIVEC(ctx);
-+
-+    tgt = tcg_temp_new_i64();
-+    src = tcg_temp_new_i64();
-+    mask = tcg_temp_new_i64();
-+
-+    /* centrifuge lower double word */
-+    get_cpu_vsrl(src, a->vra + 32);
-+    get_cpu_vsrl(mask, a->vrb + 32);
-+    gen_helper_cfuged(tgt, src, mask);
-+    set_cpu_vsrl(a->vrt + 32, tgt);
-+
-+    /* centrifuge higher double word */
-+    get_cpu_vsrh(src, a->vra + 32);
-+    get_cpu_vsrh(mask, a->vrb + 32);
-+    gen_helper_cfuged(tgt, src, mask);
-+    set_cpu_vsrh(a->vrt + 32, tgt);
-+
-+    tcg_temp_free_i64(tgt);
-+    tcg_temp_free_i64(src);
-+    tcg_temp_free_i64(mask);
-+
++    REQUIRE_INSNS_FLAGS2(ctx, ISA300);
++    tcg_gen_movi_tl(cpu_gpr[a->rt], ctx->base.pc_next + (a->d << 16));
 +    return true;
 +}
++
+ static bool trans_INVALID(DisasContext *ctx, arg_INVALID *a)
+ {
+     gen_invalid(ctx);
 -- 
 2.25.1
 
