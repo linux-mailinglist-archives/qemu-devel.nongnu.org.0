@@ -2,78 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 316E1397971
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Jun 2021 19:46:11 +0200 (CEST)
-Received: from localhost ([::1]:60224 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08E97397976
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Jun 2021 19:48:32 +0200 (CEST)
+Received: from localhost ([::1]:34184 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lo8Sv-0004vt-Jc
-	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 13:46:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36422)
+	id 1lo8VC-0006aZ-VI
+	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 13:48:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36788)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lo8Oh-0002Jl-59; Tue, 01 Jun 2021 13:41:47 -0400
-Received: from wout3-smtp.messagingengine.com ([64.147.123.19]:48111)
+ id 1lo8Qk-0004l6-0E; Tue, 01 Jun 2021 13:43:54 -0400
+Received: from wout3-smtp.messagingengine.com ([64.147.123.19]:55895)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lo8Oc-0002fB-Vf; Tue, 01 Jun 2021 13:41:46 -0400
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.west.internal (Postfix) with ESMTP id 850AEEB8;
- Tue,  1 Jun 2021 13:41:39 -0400 (EDT)
+ id 1lo8Qi-00045j-1e; Tue, 01 Jun 2021 13:43:53 -0400
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailout.west.internal (Postfix) with ESMTP id BC39DF49;
+ Tue,  1 Jun 2021 13:43:49 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute3.internal (MEProxy); Tue, 01 Jun 2021 13:41:40 -0400
+ by compute6.internal (MEProxy); Tue, 01 Jun 2021 13:43:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm3; bh=WWAPQ+9LK4c3FAyMG8cUfmuO3ql
- 1Fc8GiZmpbbaP4Rs=; b=ZYL9MmzOJJ9QUPtqz/WDAbTM4ebjwCvCZky9IxpWS/g
- BwOfjxEECMccDD+btKuqAS3rr8KjWEEk03IQ3Go3ZucF4fnfVqyLeTgiTuDgX/p6
- Y1cksofoQnLiIb4EJXS7jGhCijy+ykboscSSQs2Xcz0RZ8cylBo083/mfLvPwlcC
- MHeDFv0iFYhs9fZIXs92LuI0RJ56MNiBh0T2Az5Hl4ScVhy7SNoOTfgyXim8BePW
- Dc5O4YtAoUwiIT00HhB6nimo0S6JDTEZ3qsUYTjDd4VgIhxdbGzW+J1jZaBdvM2X
- BlCWAJyc4vF8M4hofnBSiw2gRl8RjZpgeOfRLKDmM5w==
+ :content-type:in-reply-to; s=fm3; bh=3UCoXJ57Di7dOt0WDb/B7+d8//H
+ lLtXLEpEOXr4mxic=; b=FmDtxzpp/tsog71bZAta0tV8/Q/RO3XuaajiF06ZoOw
+ VkSFXWcsluBPr8qao9o5+JfzzY/QYphFddy77BvH++oCOK7qK5z7IxUdbQJeopZz
+ I/RiV3P6qcsBANb1/bTqkY0I1QTZbkpQ3iWmluaQzx5c+yWOdz1qLGF/hNczFMC9
+ WLnhalJj+hXoh6TD3iF2XRN+Sd4uuy2Lt/vKPRUYr/B7vB9v0+5MEP/eHlXknBs2
+ dLlHBm1O/w6fpC310DlO4kNsDNVsKOkf3pmeR6zJ29tlDuB1ZEUUNapJZ1nsq/tk
+ CIGuQbyOyL63nJLUqXo1ncFL6VgYXjUKR18M0O3fcEQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=WWAPQ+
- 9LK4c3FAyMG8cUfmuO3ql1Fc8GiZmpbbaP4Rs=; b=V5Y4XfRnaAptI9Yca+cmNx
- RlT2ly8iVyKJTAlbNBlcEd/8/OwbZeLwbY1u2QvZZC/B/ObR1P4UHOOeTl9/bGHg
- QPWKFpoVwoRJ1UrUuSy0ihWhPv1Vzcs+jQYQvKrwViaBH0muWNp+CK35k2Nta/2E
- dvVkfYt/w3smIQ6w42II5GUkV1grHwVAJWU9fGbvty5y9qHUe8Wi45E8YuYwf5df
- IGrarRmiL18qboBFOPK58eBgbOBidQbEvLEyBw9RZ4E4ElvuGxjKi1NV4XlSKk2O
- Aqfu6GVbZMZ0Q28bqXxTY9geuIDawUIbpud4sd/O1dDpY0FCtieBM1PWECbfP70A
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=3UCoXJ
+ 57Di7dOt0WDb/B7+d8//HlLtXLEpEOXr4mxic=; b=LVaYJilgesQ91HyUnAsKze
+ 0WOYdDH4L7IaeH9OvwFf/rFIX0E1dli4D6MmjUL1kkkhlZVC3Itcxde6Oa9hLM0m
+ wXYILORmDAs7i4y4W8laEMpdeLKZXCGV+KvC1pUS+NuK64IepGlePjIwQb6uh6YK
+ 1gkogrMakROb1Zl8COXO4QECYS1DSk9e5E6sDJaQ8oceIqHmH59Pz6y19r2Ugxv1
+ FJjlrwBTpJWn2EfP9MLyKiZNPZdK1RZE+9AC2K9Jv0wEgbEP1boVy40wec/cuL+H
+ NOaX40IkehiICNybgZZf7WZgnflMApkxnzCTeLD9BJnF8qLZSaSR41c1pVX+87GQ
  ==
-X-ME-Sender: <xms:UnG2YBF9g1vNwiBvIYaQNzZ99XzLRjlOQIiTrVdPDM-deRiFIKcS2Q>
- <xme:UnG2YGWi-2r4vLe0lZ5L-GqvbHcPaexF6Ep6MIttTQLdfI9PCkR3sllyTHGM4UpgO
- BYuLx5m6tm-xM3CvWk>
-X-ME-Received: <xmr:UnG2YDI7h-PxLdyh0S2CNZhvH_G0QCCjGopOUj61kcYi_fGWl-KpLpYVWNwpr7JXWEaWES-MqGbT5Or4hGDYbQgLO4f3WfjuY7A3sD8u87DD29IdJg>
+X-ME-Sender: <xms:1HG2YDzmK-7i5A_16RkNurqYqzP3mt3-3XwgPTpeC7qJbmw7w9Epew>
+ <xme:1HG2YLQL0WjTQbGQX7Iy1VVv9TiCKrGYUW-ktbisq1CAMEslLGjYCRFqgSZ2_ltF9
+ 1enIZsJBcD3wqekZPQ>
+X-ME-Received: <xmr:1HG2YNUL1kq0fKV5-glY4W6SpQ0M8klnLNDiiF7gRDe43_wogo9gUcK4oQGOW38L3lthJzJ5MD1cCvjoIEQDfxBoalU4waNUALSK1umTrbPvpZY8ew>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdelhedguddukecutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghu
- shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
- htvghrnhepjeegudffueeiteekieelkedvueelteevjeduieeludfffeejgeffhfduvddu
- ffeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepih
- htshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:UnG2YHGMvpJyTjD6rCmvN3EAXxo210ANz4FNMZiYT8thK81s4LuNoA>
- <xmx:UnG2YHUWv1-Seez-KOhB6dmqjyAfe2NJVRjKzIIiln4CeeWtU-MWXw>
- <xmx:UnG2YCNKTB1MikS9eik0vgAozFScbAIUBu6R3JIKC6wPKCpghx1Mxw>
- <xmx:U3G2YOGPVolfAoAuwneJ_lmyzWhOlqm99W5gCAS8AZq5FO6mBImrBw>
+ necuuegrihhlohhuthemuceftddtnecunecujfgurhepfffhvffukfhfgggtuggjsehgtd
+ erredttdejnecuhfhrohhmpefmlhgruhhsucflvghnshgvnhcuoehithhssehirhhrvghl
+ vghvrghnthdrughkqeenucggtffrrghtthgvrhhnpeejgeduffeuieetkeeileekvdeule
+ etveejudeileduffefjeegfffhuddvudffkeenucevlhhushhtvghrufhiiigvpedtnecu
+ rfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:1HG2YNjTAw_tpz0K-Y3aQI0FWztV7JSlPd7rZldLuflGUCKWg05yYg>
+ <xmx:1HG2YFAHWay-TdjzduJDCKrYnT4bw-13Wup82Dx7hZx5m5ttGRqrbA>
+ <xmx:1HG2YGKZIP25lAnksKz4GGeMzPMd5CvofzdvVzIJonXgjcUcw8gK4A>
+ <xmx:1XG2YPDqJP-px1oHVK7XD07pFaX70Zh4NTQoWod1p1ml8X-JBTiu5w>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 1 Jun 2021 13:41:36 -0400 (EDT)
-Date: Tue, 1 Jun 2021 19:41:34 +0200
+ 1 Jun 2021 13:43:46 -0400 (EDT)
+Date: Tue, 1 Jun 2021 19:43:45 +0200
 From: Klaus Jensen <its@irrelevant.dk>
-To: Keith Busch <kbusch@kernel.org>
-Subject: Re: [PATCH v2 1/2] hw/nvme: add support for boot partiotions
-Message-ID: <YLZxTlikAcJD98Ut@apples.localdomain>
+To: Gollu Appalanaidu <anaidu.gollu@samsung.com>
+Subject: Re: [PATCH v2 2/2] tests/qtest/nvme-test: add boot partition read test
+Message-ID: <YLZx0W8qPtj87Ubz@apples.localdomain>
 References: <20210601143749.1669-1-anaidu.gollu@samsung.com>
- <CGME20210601144234epcas5p153e855ad673876cf67e57d4b539dc274@epcas5p1.samsung.com>
- <20210601143749.1669-2-anaidu.gollu@samsung.com>
- <20210601171936.GB4506@dhcp-10-100-145-180.wdc.com>
+ <CGME20210601144242epcas5p1292f656f45aebd1b9c75fe54797d6b46@epcas5p1.samsung.com>
+ <20210601143749.1669-3-anaidu.gollu@samsung.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="oYvOjOjWru5amq8h"
+ protocol="application/pgp-signature"; boundary="j8Du62J4mzMfZvkw"
 Content-Disposition: inline
-In-Reply-To: <20210601171936.GB4506@dhcp-10-100-145-180.wdc.com>
+In-Reply-To: <20210601143749.1669-3-anaidu.gollu@samsung.com>
 Received-SPF: pass client-ip=64.147.123.19; envelope-from=its@irrelevant.dk;
  helo=wout3-smtp.messagingengine.com
 X-Spam_score_int: -27
@@ -96,55 +94,218 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: fam@euphon.net, kwolf@redhat.com, qemu-block@nongnu.org,
- Gollu Appalanaidu <anaidu.gollu@samsung.com>, qemu-devel@nongnu.org,
- mreitz@redhat.com, stefanha@redhat.com
+ qemu-devel@nongnu.org, mreitz@redhat.com, stefanha@redhat.com,
+ kbusch@kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---oYvOjOjWru5amq8h
+--j8Du62J4mzMfZvkw
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Jun  1 10:19, Keith Busch wrote:
->On Tue, Jun 01, 2021 at 08:07:48PM +0530, Gollu Appalanaidu wrote:
->> NVMe Boot Partitions provides an area that may be read by the host
->> without initializing queues or even enabling the controller. This
->> allows various platform initialization code to be stored on the NVMe
->> device instead of some separete medium.
->>
->> This patch adds the read support for such an area, as well as support
->> for updating the boot partition contents from the host through the
->> FW Download and Commit commands.
+On Jun  1 20:07, Gollu Appalanaidu wrote:
+>Add a test case for reading an NVMe Boot Partition without
+>enabling the controller.
 >
->Please provide some details on what platform initilization sequence
->running on QEMU is going to make use of this feature.
+>Signed-off-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
+>---
+> tests/qtest/nvme-test.c | 118 +++++++++++++++++++++++++++++++++++++++-
+> 1 file changed, 117 insertions(+), 1 deletion(-)
+>
+>diff --git a/tests/qtest/nvme-test.c b/tests/qtest/nvme-test.c
+>index d32c953a38..39d2e26f76 100644
+>--- a/tests/qtest/nvme-test.c
+>+++ b/tests/qtest/nvme-test.c
+>@@ -13,6 +13,19 @@
+> #include "libqos/libqtest.h"
+> #include "libqos/qgraph.h"
+> #include "libqos/pci.h"
+>+#include "libqos/pci-pc.h"
+>+#include "libqos/malloc-pc.h"
+>+#include "libqos/malloc.h"
+>+#include "libqos/libqos.h"
+>+#include "include/block/nvme.h"
+>+#include "include/hw/pci/pci.h"
+>+
+>+#define NVME_BPINFO_BPSZ_UNITS  (128 * KiB)
+>+#define NVME_BRS_BPSZ_UNITS     (4 * KiB)
+>+#define NVME_BRS_READ_MAX_TIME  1000000
+>+#define TEST_IMAGE_SIZE         (2 * 128 * KiB)
+>+
+>+static char *t_path;
+>
+> typedef struct QNvme QNvme;
+>
+>@@ -44,6 +57,13 @@ static void *nvme_create(void *pci_bus, QGuestAllocator=
+ *alloc, void *addr)
+>     return &nvme->obj;
+> }
+>
+>+static void drive_destroy(void *path)
+>+{
+>+    unlink(path);
+>+    g_free(path);
+>+    qos_invalidate_command_line();
+>+}
+>+
+> /* This used to cause a NULL pointer dereference.  */
+> static void nvmetest_oob_cmb_test(void *obj, void *data, QGuestAllocator =
+*alloc)
+> {
+>@@ -66,12 +86,100 @@ static void nvmetest_oob_cmb_test(void *obj, void *da=
+ta, QGuestAllocator *alloc)
+>     g_assert_cmpint(qpci_io_readl(pdev, bar, cmb_bar_size - 1), !=3D, 0x4=
+4332211);
+> }
+>
+>+static void nvmetest_bp_read_test(void *obj, void *data, QGuestAllocator =
+*alloc)
+>+{
+>+    uint16_t test_size =3D 32;
+>+    size_t bp_test_len =3D test_size * NVME_BRS_BPSZ_UNITS;
+>+    uint8_t *read_buf =3D g_malloc(bp_test_len);
+>+    uint8_t *cmp_buf =3D g_malloc(bp_test_len);
+>+    QNvme *nvme =3D obj;
+>+    QPCIDevice *pdev =3D &nvme->dev;
+>+    QPCIBar nvme_bar;
+>+    uint8_t brs =3D 0;
+>+    uint64_t sleep_time =3D 0;
+>+    uintptr_t guest_buf;
+>+    uint64_t buf_addr;
+>+
+>+    memset(cmp_buf, 0x42, bp_test_len);
+
+This one byte pattern is too simple and won't catch a lot of possible=20
+bugs.
+
+The test case should use generate_pattern() (see=20
+tests/qtest/libqos/libqos.h).
+
+>+
+>+    guest_buf =3D guest_alloc(alloc, bp_test_len);
+>+    buf_addr =3D cpu_to_le64(guest_buf);
+>+
+>+    qpci_device_enable(pdev);
+>+    nvme_bar =3D qpci_iomap(pdev, 0, NULL);
+>+
+>+    /* BPINFO */
+>+    uint32_t bpinfo =3D qpci_io_readl(pdev, nvme_bar, 0x40);
+>+    uint16_t single_bp_size =3D bpinfo & BPINFO_BPSZ_MASK;
+>+    uint8_t active_bpid =3D bpinfo >> BPINFO_ABPID_SHIFT;
+>+    uint8_t read_select =3D (bpinfo >> BPINFO_BRS_SHIFT) & BPINFO_BRS_MAS=
+K;
+>+
+>+    g_assert_cmpint(single_bp_size, =3D=3D, 0x1);
+>+    g_assert_cmpint(active_bpid, =3D=3D, 0);
+>+    g_assert_cmpint(read_select, =3D=3D, NVME_BPINFO_BRS_NOREAD);
+>+
+>+    /* BPMBL */
+>+    uint64_t bpmbl =3D buf_addr;
+>+    uint32_t bpmbl_low =3D bpmbl & 0xffffffff;
+>+    uint32_t bpmbl_hi =3D (bpmbl >> 32) & 0xffffffff;
+>+    qpci_io_writel(pdev, nvme_bar, 0x48, bpmbl_low);
+>+    qpci_io_writel(pdev, nvme_bar, 0x4c, bpmbl_hi);
+>+
+>+    /* BPRSEL */
+>+    qpci_io_writel(pdev, nvme_bar, 0x44, 32);
+>+
+>+    while (true) {
+>+        usleep(1000);
+>+        sleep_time +=3D 1000;
+>+        brs =3D qpci_io_readb(pdev, nvme_bar, 0x43) & BPINFO_BRS_MASK;
+>+        if (brs =3D=3D NVME_BPINFO_BRS_SUCCESS || brs =3D=3D NVME_BPINFO_=
+BRS_ERROR ||
+>+            sleep_time =3D=3D NVME_BRS_READ_MAX_TIME) {
+>+            break;
+>+        }
+>+    }
+>+    g_assert_cmpint(brs, =3D=3D, NVME_BPINFO_BRS_SUCCESS);
+>+
+>+    qtest_memread(pdev->bus->qts, guest_buf, read_buf, bp_test_len);
+>+    g_assert_cmpint(memcmp(cmp_buf, read_buf, bp_test_len), =3D=3D, 0);
+>+
+>+    g_free(cmp_buf);
+>+    g_free(read_buf);
+>+    g_test_queue_destroy(drive_destroy, t_path);
+>+}
+>+
+> static void nvme_register_nodes(void)
+> {
+>+    int fd;
+>+    FILE *fh;
+>+    uint16_t bpsz =3D 2;
+>+    size_t bp_len =3D NVME_BPINFO_BPSZ_UNITS * bpsz;
+>+    size_t ret;
+>+    uint8_t *pattern =3D g_malloc(bp_len);
+>+
+>+    t_path =3D g_strdup("/tmp/qtest.XXXXXX");
+>+
+>+    /* Create a temporary raw image */
+>+    fd =3D mkstemp(t_path);
+>+    g_assert_cmpint(fd, >=3D, 0);
+>+    ret =3D ftruncate(fd, TEST_IMAGE_SIZE);
+>+    g_assert_cmpint(ret, =3D=3D, 0);
+>+    close(fd);
+>+
+>+    memset(pattern, 0x42, bp_len);
+>+
+>+    fh =3D fopen(t_path, "w+");
+>+    ret =3D fwrite(pattern, NVME_BPINFO_BPSZ_UNITS, bpsz, fh);
+>+    g_assert_cmpint(ret, =3D=3D, bpsz);
+>+    fclose(fh);
+>+
+>+    char *bp_cmd_line =3D g_strdup_printf("-drive id=3Dbp0,file=3D%s,if=
+=3Dnone,"
+>+                                        "format=3Draw", t_path);
+>+
+>     QOSGraphEdgeOptions opts =3D {
+>         .extra_device_opts =3D "addr=3D04.0,drive=3Ddrv0,serial=3Dfoo",
+>         .before_cmd_line =3D "-drive id=3Ddrv0,if=3Dnone,file=3Dnull-co:/=
+/,"
+>-                           "file.read-zeroes=3Don,format=3Draw",
+>+                           "file.read-zeroes=3Don,format=3Draw ",
+>+                           bp_cmd_line,
+>     };
+>
+>     add_qpci_address(&opts, &(QPCIAddress) { .devfn =3D QPCI_DEVFN(4, 0) =
+});
+>@@ -83,6 +191,14 @@ static void nvme_register_nodes(void)
+>     qos_add_test("oob-cmb-access", "nvme", nvmetest_oob_cmb_test, &(QOSGr=
+aphTestOptions) {
+>         .edge.extra_device_opts =3D "cmb_size_mb=3D2"
+>     });
+>+
+>+    qos_add_test("bp-read-access", "nvme", nvmetest_bp_read_test,
+>+                 &(QOSGraphTestOptions) {
+>+        .edge.extra_device_opts =3D "bootpart=3Dbp0"
+>+    });
+>+
+>+    /* Clean Up */
+>+    g_free(pattern);
+> }
+>
+> libqos_init(nvme_register_nodes);
+>--=20
+>2.17.1
+>
 >
 
-I totally get your reluctance to accept useless features like device=20
-self-test and ill-supported ones like write uncorrectable.
-
-But I think this feature qualifies just fine for the device. It is=20
-useful for embedded development and while there might not be any qemu=20
-boards that wants to use this *right now*, it allows for=20
-experimentation. And this is a feature that actually *is* implemented by=20
-real products for embedded systems.
-
---oYvOjOjWru5amq8h
+--j8Du62J4mzMfZvkw
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmC2cUwACgkQTeGvMW1P
-DenzawgAoV99QV6X9QrXsevghJvMWKgzSqyuwRdBZKnQLdAMilI9KHvR7NdIhb7U
-2xf4XfFOlO9ESYpCguiMfI4MAX5WbOtctqFbCnwFGaice7kp2lSa6aElR5+oT7ZN
-xdNUz6rYeHiCQfRqDWqGE4B8AocU6AFlilzCd8unddv9oRFR/9OnWmbV8xyFCOcS
-NmCXQ67G3UowVK9MDoJl36STSuav+x4Z075CH92afAP9tJ4YMwy6p7bupFATpBOC
-XKpO0qF1Q2pfK34EKiKvyEw7lfVdm0jFERX2xhqx0Cggbk7gf0aZjsSUCy0Hs6Ht
-m0oy00VK+nC/t9hyEaARPo42d2eroA==
-=6dn9
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmC2cc8ACgkQTeGvMW1P
+DekiTAgAkZWhzE5lxK2/jRg76hrO4soVOyc5zpwkowcCyuwqjLKfpNK0nYxBqXBk
+gaqe7FNPBTq+OOiSlLaCtPY8mrpnX+qmoZo0CPhboKwYEtMquk4ZfAeb9PJ1z68C
+FC9C5Y7x/fyBW62KcTmtrl7nHO0i4v0SXyXtpewJffi2dP8ln272Ounr9Px5PmoJ
+S/6+2FzTS0aXGI/KUEbJDRPE+UureHLOx+w2/CNodO+l/9tZ7CDIjzxLs7djTpQU
+p2/Ftooif8C6B2Cfh3YmSByYgNQfZOMj4A7SZbVgNzvczmY+wkfJYjdfZyEJhjZS
+jg+M+1ki2MoQLhrGmDDtCWtVh7TyWA==
+=rPwL
 -----END PGP SIGNATURE-----
 
---oYvOjOjWru5amq8h--
+--j8Du62J4mzMfZvkw--
 
