@@ -2,61 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D380D39781E
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Jun 2021 18:33:12 +0200 (CEST)
-Received: from localhost ([::1]:49300 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B95D397825
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Jun 2021 18:34:44 +0200 (CEST)
+Received: from localhost ([::1]:54598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lo7KJ-0007ks-Fd
-	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 12:33:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40760)
+	id 1lo7Ln-0002uy-Ah
+	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 12:34:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41014)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1lo7Iu-0005bm-Ej
- for qemu-devel@nongnu.org; Tue, 01 Jun 2021 12:31:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38714)
+ (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1lo7Ja-0007fK-SC
+ for qemu-devel@nongnu.org; Tue, 01 Jun 2021 12:32:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42200)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1lo7Is-0005Kc-6o
- for qemu-devel@nongnu.org; Tue, 01 Jun 2021 12:31:44 -0400
+ (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1lo7JZ-0005mU-8F
+ for qemu-devel@nongnu.org; Tue, 01 Jun 2021 12:32:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622565101;
+ s=mimecast20190719; t=1622565144;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=7NfC2exaQIBSL441VhQr4NvZhLf+7hNaUuapAbg5Qv4=;
- b=LKXWPhWkCTCnQQ8xxSu+rRDbTvzCGr18JZEyeKhsGqiI7GGpp2KrCqqwOLa04ghLoeHFpk
- HuPQfCid70IHIswffm5i8LnYartAlmeT0gWV0SfDdxTJ29tnVbH6y9zQr4tWK/K6lHHJd3
- Qy8skRlWj+M3LaD0MD3TjM6LiYK4faU=
+ bh=1eKK0pibdtM29gnGfrIIsBDOUDGLBQGZlc8PlznAgOA=;
+ b=UnHpjujGcD53kSEX4xz9nt18Q/G4g5RkOfoJpPveggE7DN91PTMT4cSealJ8wOF5glpzpN
+ FOjNRbYrwKwhFwCQ0UxTi4O9QMN5XAfA0N7RMB69xnI9usFgO4TT+nWPB+ZBoWSVdCl8w1
+ oQhRUFiyJRiS9RfjupLJJCz1rpEtIlU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-441-uD--BmKcNqekfDraA4lC8A-1; Tue, 01 Jun 2021 12:31:39 -0400
-X-MC-Unique: uD--BmKcNqekfDraA4lC8A-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-519-Oh0NDZz6NH-MUet1pgiO6g-1; Tue, 01 Jun 2021 12:32:21 -0400
+X-MC-Unique: Oh0NDZz6NH-MUet1pgiO6g-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E48508143E5;
- Tue,  1 Jun 2021 16:31:30 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 327E19250A;
+ Tue,  1 Jun 2021 16:32:03 +0000 (UTC)
 Received: from localhost (unknown [10.33.36.13])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 421A260CCE;
- Tue,  1 Jun 2021 16:31:30 +0000 (UTC)
-Date: Tue, 1 Jun 2021 18:31:29 +0200
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C31205D9CD;
+ Tue,  1 Jun 2021 16:32:02 +0000 (UTC)
+Date: Tue, 1 Jun 2021 18:32:01 +0200
 From: Sergio Lopez <slp@redhat.com>
 To: Kevin Wolf <kwolf@redhat.com>
-Subject: Re: [PATCH 2/2] nbd/server: Use drained block ops to quiesce the
- server
-Message-ID: <20210601163129.wcx5li7lkdvxrxgi@mhamilton>
+Subject: Re: [PATCH 1/2] block-backend: add drained_poll
+Message-ID: <20210601163201.e7cvtapzakaatigs@mhamilton>
 References: <20210601055728.90849-1-slp@redhat.com>
- <20210601055728.90849-3-slp@redhat.com>
- <YLZbibzZFibabhm/@redhat.com>
+ <20210601055728.90849-2-slp@redhat.com>
+ <YLZZTgcWUliRhtT2@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <YLZbibzZFibabhm/@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <YLZZTgcWUliRhtT2@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=slp@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="sbnuz4gbuue4tqut"
+ protocol="application/pgp-signature"; boundary="6wikvloxaswz7n6e"
 Content-Disposition: inline
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=slp@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -85,245 +84,79 @@ Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---sbnuz4gbuue4tqut
+--6wikvloxaswz7n6e
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jun 01, 2021 at 06:08:41PM +0200, Kevin Wolf wrote:
+On Tue, Jun 01, 2021 at 05:59:10PM +0200, Kevin Wolf wrote:
 > Am 01.06.2021 um 07:57 hat Sergio Lopez geschrieben:
-> > Before switching between AioContexts we need to make sure that we're
-> > fully quiesced ("nb_requests =3D=3D 0" for every client) when entering =
-the
-> > drained section.
+> > Allow block backends to poll their devices/users to check if they have
+> > been quiesced when entering a drained section.
 > >=20
-> > To do this, we set "quiescing =3D true" for every client on
-> > ".drained_begin" to prevent new coroutines to be created, and check if
-> > "nb_requests =3D=3D 0" on ".drained_poll". Finally, once we're exiting =
-the
-> > drained section, on ".drained_end" we set "quiescing =3D false" and
-> > call "nbd_client_receive_next_request()" to resume the processing of
-> > new requests.
+> > This will be used in the next patch to wait for the NBD server to be
+> > completely quiesced.
 > >=20
-> > With these changes, "blk_aio_attach()" and "blk_aio_detach()" can be
-> > reverted to be as simple as they were before f148ae7d36.
-> >=20
-> > RHBZ: https://bugzilla.redhat.com/show_bug.cgi?id=3D1960137
 > > Suggested-by: Kevin Wolf <kwolf@redhat.com>
 > > Signed-off-by: Sergio Lopez <slp@redhat.com>
 > > ---
-> >  nbd/server.c | 99 +++++++++++++++++++++++++++++++++++++++-------------
-> >  1 file changed, 75 insertions(+), 24 deletions(-)
+> >  block/block-backend.c          | 7 ++++++-
+> >  include/sysemu/block-backend.h | 4 ++++
+> >  2 files changed, 10 insertions(+), 1 deletion(-)
 > >=20
-> > diff --git a/nbd/server.c b/nbd/server.c
-> > index 86a44a9b41..33e55479d7 100644
-> > --- a/nbd/server.c
-> > +++ b/nbd/server.c
-> > @@ -132,7 +132,7 @@ struct NBDClient {
-> >      CoMutex send_lock;
-> >      Coroutine *send_coroutine;
-> > =20
-> > -    bool read_yielding;
-> > +    GSList *yield_co_list; /* List of coroutines yielding on nbd_read_=
-eof */
-> >      bool quiescing;
->=20
-> Hm, how do you get more than one coroutine per client yielding in
-> nbd_read_eof() at the same time? I thought the model is that you always
-> have one coroutine reading the next request (which is
-> client->recv_coroutine) and all the others are just processing the
-> request they had read earlier. Multiple coroutines reading from the
-> same socket would sound like a bad idea.
-
-You're right, there's only a single coroutine yielding on
-nbd_read_eof(). I've added the list while at a moment I was trying to
-keep track of every coroutine, and I kept it without thinking if it
-was really needed.
-
-I'll drop it, entering just client->recv_coroutine is it isn't NULL.
-
-> >      QTAILQ_ENTRY(NBDClient) next;
-> > @@ -1367,6 +1367,7 @@ static inline int coroutine_fn
-> >  nbd_read_eof(NBDClient *client, void *buffer, size_t size, Error **err=
-p)
+> > diff --git a/block/block-backend.c b/block/block-backend.c
+> > index de5496af66..163ca05b97 100644
+> > --- a/block/block-backend.c
+> > +++ b/block/block-backend.c
+> > @@ -2393,8 +2393,13 @@ static void blk_root_drained_begin(BdrvChild *ch=
+ild)
+> >  static bool blk_root_drained_poll(BdrvChild *child)
 > >  {
-> >      bool partial =3D false;
-> > +    Coroutine *co;
-> > =20
-> >      assert(size);
-> >      while (size > 0) {
-> > @@ -1375,9 +1376,12 @@ nbd_read_eof(NBDClient *client, void *buffer, si=
-ze_t size, Error **errp)
-> > =20
-> >          len =3D qio_channel_readv(client->ioc, &iov, 1, errp);
-> >          if (len =3D=3D QIO_CHANNEL_ERR_BLOCK) {
-> > -            client->read_yielding =3D true;
-> > +            co =3D qemu_coroutine_self();
-> > +
-> > +            client->yield_co_list =3D g_slist_prepend(client->yield_co=
-_list, co);
-> >              qio_channel_yield(client->ioc, G_IO_IN);
-> > -            client->read_yielding =3D false;
-> > +            client->yield_co_list =3D g_slist_remove(client->yield_co_=
-list, co);
-> > +
-> >              if (client->quiescing) {
-> >                  return -EAGAIN;
-> >              }
-> > @@ -1513,6 +1517,11 @@ static void nbd_request_put(NBDRequestData *req)
-> >      g_free(req);
-> > =20
-> >      client->nb_requests--;
-> > +
-> > +    if (client->quiescing && client->nb_requests =3D=3D 0) {
-> > +        aio_wait_kick();
-> > +    }
-> > +
-> >      nbd_client_receive_next_request(client);
-> > =20
-> >      nbd_client_put(client);
-> > @@ -1530,49 +1539,75 @@ static void blk_aio_attached(AioContext *ctx, v=
-oid *opaque)
-> >      QTAILQ_FOREACH(client, &exp->clients, next) {
-> >          qio_channel_attach_aio_context(client->ioc, ctx);
-> > =20
-> > +        assert(client->nb_requests =3D=3D 0);
-> >          assert(client->recv_coroutine =3D=3D NULL);
-> >          assert(client->send_coroutine =3D=3D NULL);
-> > -
-> > -        if (client->quiescing) {
-> > -            client->quiescing =3D false;
-> > -            nbd_client_receive_next_request(client);
-> > -        }
-> >      }
-> >  }
-> > =20
-> > -static void nbd_aio_detach_bh(void *opaque)
-> > +static void blk_aio_detach(void *opaque)
-> >  {
-> >      NBDExport *exp =3D opaque;
-> >      NBDClient *client;
-> > =20
-> > +    trace_nbd_blk_aio_detach(exp->name, exp->common.ctx);
-> > +
-> >      QTAILQ_FOREACH(client, &exp->clients, next) {
-> >          qio_channel_detach_aio_context(client->ioc);
-> > +    }
-> > +
-> > +    exp->common.ctx =3D NULL;
-> > +}
-> > +
-> > +static void nbd_drained_begin(void *opaque)
-> > +{
-> > +    NBDExport *exp =3D opaque;
-> > +    NBDClient *client;
-> > +
-> > +    QTAILQ_FOREACH(client, &exp->clients, next) {
-> >          client->quiescing =3D true;
-> > +    }
-> > +}
-> > =20
-> > -        if (client->recv_coroutine) {
-> > -            if (client->read_yielding) {
-> > -                qemu_aio_coroutine_enter(exp->common.ctx,
-> > -                                         client->recv_coroutine);
-> > -            } else {
-> > -                AIO_WAIT_WHILE(exp->common.ctx, client->recv_coroutine=
- !=3D NULL);
-> > -            }
-> > -        }
-> > +static void nbd_drained_end(void *opaque)
-> > +{
-> > +    NBDExport *exp =3D opaque;
-> > +    NBDClient *client;
-> > =20
-> > -        if (client->send_coroutine) {
-> > -            AIO_WAIT_WHILE(exp->common.ctx, client->send_coroutine !=
-=3D NULL);
-> > -        }
-> > +    QTAILQ_FOREACH(client, &exp->clients, next) {
-> > +        client->quiescing =3D false;
-> > +        nbd_client_receive_next_request(client);
-> >      }
-> >  }
-> > =20
-> > -static void blk_aio_detach(void *opaque)
-> > +static bool nbd_drained_poll(void *opaque)
-> >  {
-> >      NBDExport *exp =3D opaque;
-> > +    NBDClient *client;
-> > +    Coroutine *co;
-> > +    GSList *entry;
-> > +    GSList *coroutine_list;
-> > =20
-> > -    trace_nbd_blk_aio_detach(exp->name, exp->common.ctx);
-> > +    QTAILQ_FOREACH(client, &exp->clients, next) {
-> > +        if (client->nb_requests !=3D 0) {
-> > +            /*
-> > +             * Enter coroutines waiting for new requests on nbd_read_e=
-of(), so
-> > +             * we don't depend on the client to wake us up.
-> > +             */
-> > +            coroutine_list =3D g_slist_copy(client->yield_co_list);
-> > +            for (entry =3D coroutine_list;
-> > +                 entry !=3D NULL;
-> > +                 entry =3D g_slist_next(entry)) {
-> > +                co =3D entry->data;
-> > +                qemu_aio_coroutine_enter(exp->common.ctx, co);
-> > +            }
-> > +            g_slist_free(coroutine_list);
-> > =20
-> > -    aio_wait_bh_oneshot(exp->common.ctx, nbd_aio_detach_bh, exp);
-> > +            return 1;
+> >      BlockBackend *blk =3D child->opaque;
+> > +    int ret =3D 0;
 >=20
-> This would be more accurately spelt true...
->=20
-> > +        }
-> > +    }
-> > =20
-> > -    exp->common.ctx =3D NULL;
-> > +    return 0;
->=20
-> ...and this false.
+> It's really a bool.
 
-I'll change this in v2.
+I'll fix this in v2.
 
 Thanks,
 Sergio.
 
+> >      assert(blk->quiesce_counter);
+> > -    return !!blk->in_flight;
+> > +
+> > +    if (blk->dev_ops && blk->dev_ops->drained_poll) {
+> > +        ret =3D blk->dev_ops->drained_poll(blk->dev_opaque);
+> > +    }
+> > +    return ret || !!blk->in_flight;
 > >  }
-> > =20
-> >  static void nbd_eject_notifier(Notifier *n, void *data)
 >=20
-> The patch looks correct to me, though I'm not sure if yield_co_list is
-> an unnecessary complication (and if it isn't, whether that's safe).
+> Doesn't make a difference for correctness, of course, so whether you
+> change it or not:
 >=20
-> I would be happy enough to apply it anyway if you can explain the
-> yield_co_list thing, but I'll give Eric some time to have a look, too.
->=20
-> Kevin
+> Reviewed-by: Kevin Wolf <kwolf@redhat.com>
 >=20
 
---sbnuz4gbuue4tqut
+--6wikvloxaswz7n6e
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEvtX891EthoCRQuii9GknjS8MAjUFAmC2YN4ACgkQ9GknjS8M
-AjWNzA/7Bsy43NC1TZQK0fvO4f/ApwH656QsNhOH1iXphNyjXrxYJit+1nMjLJcE
-bEp+SZppcRCtLvIhmKZfZznEJnvWkilNvzSF1nMH4LHpgPw6mxpBpWjBml0k4EAa
-npn2XN8n1jUB3i3hqF/c8koTpYL2YIxapRdW2C3wlNMTErk7ACnyhymurepxaFF7
-4y5pxdAgJksWRs3fD3DAgQ5xAneXopze4H4AE776KNT7o60BXhWRQob2RyQe+9G0
-GtGbN6HRH7mdZIjEqndAy8WwllCTfHIW/P7+p3xTwAhD5YOYuE8oIKwPBs5czb43
-3SkXPtmlxoFeGeJFY5ou0BXd7i41VOLDeNqmwD8xEpxB6XKJ+NMAGCumprNXxUCl
-OCSeC07aodoRg4OZiS+7coQ6maaGisaR/1vjbfEyhznaCFg0vUcRUpFhREYoIBEL
-uQdxu9jb83gxK8LsVntHxK24XtTsTbhI7OPa5Ywco9vXLfmbVIXJm0vzRoPHUtIw
-dIEN9NFSaddgZnAhHDtdCb2FA3dE3bJ97uyCfvZadmdnzoDLvAU4lqh0USHVNwHu
-uac7nfd5KembZc4m/HVtSK+kVtnlL3n7H5tWAtv4cMcXLXXBPpBf4bPMzysxcaUP
-YulV/UvzLBOxCHKl6XVpVgeQoSZW0f5WGE8JmkGlzzOP99oWyic=
-=7Nu6
+iQIzBAABCAAdFiEEvtX891EthoCRQuii9GknjS8MAjUFAmC2YQAACgkQ9GknjS8M
+AjVewA//WFWR6LgJFZ4sZt9wcPJjdRsyfGYPkXWOnyX1XPQh84T5cdeJRzD9MAAV
+0T/sEeA8zFoFX3r7TAkFm6BAaS6M/t3PLT2TuafocaBRo0qUl3SMyePJPlSHjcZp
+OMvCB8/hqyykl1h3BxEfNS6tSiZWaxtXVnIFQP9kXmqgM9LBk88KUTQr0ktqByfN
+X5SByXg04sPlfjPUFBDY/bJND5Wgi4md+NDC/pcDcSZRAsY5HIHi8CnYiTahmgjx
+4dTiu+UxfzjSu56/trdzXXfCjCCaYiKxPb1Byb5wXPL/XEleDkonV7EOap9taHg+
+L8Fg+PuuB4VO+itU7C+wXrD9Vp1A4iF6KiAIBX3fa85VJfTbcC0Yb4q1d5SFcsuF
+0GaAA6omjFDJ/2bqqon03jrGaQ3G0iPRTGURo+6H0DxS2PdAnJd+6XlMLEvdFS5/
+xdAtSOVxBblCQ3zhk0+gjC6vizzRP+qsHHP8cIbH6tQNM8O/m1bQSYVfi4bV/+TG
+A6SmcONdqv1fLP18c9KVwS12HXofWMS15nAtV0YifB3qBJqPgz5rNbNIJb/T81n+
+yycNpyufjj9Axz1EJspqXzp3X10r6A7gCqtsbfZUcRvEza4LpkP3ICBlNS3wntSy
+Cn3w1hGnHqSHnoVYxRvc9J92FLNGPgaYAKdRgbqAuYlyhFPiVY0=
+=M5qZ
 -----END PGP SIGNATURE-----
 
---sbnuz4gbuue4tqut--
+--6wikvloxaswz7n6e--
 
 
