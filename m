@@ -2,94 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E65273975E1
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Jun 2021 16:58:25 +0200 (CEST)
-Received: from localhost ([::1]:59698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C2323975F3
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Jun 2021 17:00:08 +0200 (CEST)
+Received: from localhost ([::1]:33690 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lo5qb-0006hQ-1t
-	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 10:58:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34728)
+	id 1lo5sF-0008B8-G0
+	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 11:00:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35236)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1lo5oU-0003Az-Ki
- for qemu-devel@nongnu.org; Tue, 01 Jun 2021 10:56:14 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:64054)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1lo5oQ-0007Y4-8u
- for qemu-devel@nongnu.org; Tue, 01 Jun 2021 10:56:14 -0400
-Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 151EWr8p021007; Tue, 1 Jun 2021 10:56:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=FlrWpJ4/4fZzldaQhM4Ow6outkdAeeCA+U7OaKMHJVk=;
- b=Lp3pz1HyR5ITEUcK1/jQ54ybkFSPeaVb1z7UbLCkTVIwLqgzJi7/sYs621qOSZeDjTHV
- fRfuBE5n9HTe8UFpnnhQd0S0o8SAbylV4U/P6jRYWWe+uM1DkR/QizTRmSVTMRU4mg4X
- TsrWhQw0q3p/XQzTFYrHgIERZacnGCMtFTFoEoWT41nyUCtAkFSVXBe8jPWqdM3G4hR3
- qJqnAvQOVZqIafX/i2VNPIPuDB8oHKi8TI3b0AJ7ZMjrLbkRDLFFD4zqvoyz2rSW1FcO
- b7okSnX1xXyO9yFAJ9WWmV9yx4bZqyrNyKyhVVn345ZV3vS+BR6ck0T2pveiDj2FLdeA /g== 
-Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.108])
- by mx0a-001b2d01.pphosted.com with ESMTP id 38wmj6ddsa-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Jun 2021 10:56:08 -0400
-Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
- by ppma05fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 151Es3tk010689;
- Tue, 1 Jun 2021 14:56:06 GMT
-Received: from b06cxnps3075.portsmouth.uk.ibm.com
- (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
- by ppma05fra.de.ibm.com with ESMTP id 38ud87s01h-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Jun 2021 14:56:06 +0000
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
- [9.149.105.62])
- by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 151Eu3XO12190198
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 1 Jun 2021 14:56:03 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 2F800AE04D;
- Tue,  1 Jun 2021 14:56:03 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D64ABAE051;
- Tue,  1 Jun 2021 14:56:02 +0000 (GMT)
-Received: from vm.lan (unknown [9.145.39.144])
- by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Tue,  1 Jun 2021 14:56:02 +0000 (GMT)
-From: Ilya Leoshkevich <iii@linux.ibm.com>
-To: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>
-Subject: [PATCH 2/2] tests/tcg/linux-test: Check that sigaction can query
- SIGKILL/SIGSTOP
-Date: Tue,  1 Jun 2021 16:56:00 +0200
-Message-Id: <20210601145600.3131040-3-iii@linux.ibm.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210601145600.3131040-1-iii@linux.ibm.com>
-References: <20210601145600.3131040-1-iii@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lo5qn-0007Vn-5X
+ for qemu-devel@nongnu.org; Tue, 01 Jun 2021 10:58:37 -0400
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:43760)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lo5ql-0000ee-7d
+ for qemu-devel@nongnu.org; Tue, 01 Jun 2021 10:58:36 -0400
+Received: by mail-wm1-x330.google.com with SMTP id
+ 3-20020a05600c0243b029019f2f9b2b8aso1027743wmj.2
+ for <qemu-devel@nongnu.org>; Tue, 01 Jun 2021 07:58:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=0c7U9YSGHoDKB0a+mdBVqHKkv/WspMF3GKbrs2/yiWs=;
+ b=mjfRk8FE985nf+zUr1tlNMdYQWLJ+ITj6eU6qFmNk13acGqpmMKmiaOhHGGIRoGcED
+ OR6Ne/Bfd0fCHGiSNu4NLpSntaDwnvcRKh2v8ghUe9LyNDjaFB4BNtgPUCC1BnehOtMF
+ wFUB+DNxotRcMtDpPKICES/iYkF+aBzDGFRHY/dqgfpTYIlU1VMQYzFXYufURk5aYeKN
+ vRXvMYtn9TijRmgDfBNzRIpHPHY78GiwA9tJRH4LuYSyCP5ALhwxPdrfVMy8UWRhiGkN
+ WeANu2f/7smWKqL0Kjol1dpuZF4UklS/2J4fechDQeRxhOPiAJCQfj4Toe37brNfCb+B
+ ib9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=0c7U9YSGHoDKB0a+mdBVqHKkv/WspMF3GKbrs2/yiWs=;
+ b=jc8zqTclUDvR+YYF2LKWkOUN3NfJ/+HNCQjdpXiZYE7BkB9EPYQFsarYP/rHqmBnXt
+ 29D54R2PJ44DJeSWgEiDnJJSpldgPe2sMFICzdVKFabKL1afhhsgfK8tfm7AaGYNwkzc
+ w3Z50ZD0/Sz8z/foxhgSY1elrpOeo3+3T4VD0zZr//DyvC0hikbxGrPZgOpBdwRhMOr9
+ q2zGJSZB3Fxzh2gh7XlgS+81koIQyKU6zCFlZDjVU3WPlnhieD90EW1gAD0lvzfIfWec
+ AJrBv/l+kc++3pcUZoDS0EmpxYFygVyPyS2IiosP3RljCU1P8z9YahUmNQUDt+Ytwfwd
+ OZ5w==
+X-Gm-Message-State: AOAM531+X+F7D6z8R353QyhsBTNpVSO9/mxlmdIRkTTn9HMvwfQ9AzwL
+ fO0B9Z2totKI36fHnNUpAjde6A==
+X-Google-Smtp-Source: ABdhPJxMCLg1JPbwNAskp3ghCH4Y5HUJLbrCg+4v7NgiI2Ky1Xk4XdE3Qq7WV8YiBAAwLw9uE3qvfQ==
+X-Received: by 2002:a1c:1b93:: with SMTP id b141mr16036263wmb.8.1622559513192; 
+ Tue, 01 Jun 2021 07:58:33 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id 89sm4127457wrq.14.2021.06.01.07.58.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 01 Jun 2021 07:58:32 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 757091FF7E;
+ Tue,  1 Jun 2021 15:58:31 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [RFC PATCH] plugins/api: expose symbol lookup to plugins
+Date: Tue,  1 Jun 2021 15:58:24 +0100
+Message-Id: <20210601145824.3849-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: DUUqS-xihRm6zYg-Sc2PCLZ8-9DznBRu
-X-Proofpoint-GUID: DUUqS-xihRm6zYg-Sc2PCLZ8-9DznBRu
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
- definitions=2021-06-01_07:2021-06-01,
- 2021-06-01 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 clxscore=1011
- mlxscore=0 impostorscore=0 bulkscore=0 phishscore=0 lowpriorityscore=0
- adultscore=0 suspectscore=0 priorityscore=1501 mlxlogscore=999
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104190000 definitions=main-2106010098
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=iii@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x330.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,39 +85,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Christian Borntraeger <borntraeger@de.ibm.com>, qemu-devel@nongnu.org,
- Ilya Leoshkevich <iii@linux.ibm.com>
+Cc: minyihh@uci.edu, robhenry@microsoft.com, mahmoudabdalghany@outlook.com,
+ aaron@os.amperecomputing.com, cota@braap.org, kuhn.chenqun@huawei.com,
+ ma.mandourr@gmail.com, =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Verify that querying is allowed, but making changes isn't.
+This is a quality of life helper for plugins so they don't need to
+re-implement symbol lookup when dumping an address. The strings are
+constant so don't need to be duplicated. One minor tweak is to return
+NULL instead of a zero length string to show lookup failed.
 
-Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
+Based-on: 20210530063712.6832-4-ma.mandourr@gmail.com
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- tests/tcg/multiarch/linux-test.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ include/qemu/qemu-plugin.h |  9 +++++++++
+ contrib/plugins/cache.c    | 10 ++++++++--
+ plugins/api.c              |  6 ++++++
+ 3 files changed, 23 insertions(+), 2 deletions(-)
 
-diff --git a/tests/tcg/multiarch/linux-test.c b/tests/tcg/multiarch/linux-test.c
-index ce033c21c7..cd9d8159bc 100644
---- a/tests/tcg/multiarch/linux-test.c
-+++ b/tests/tcg/multiarch/linux-test.c
-@@ -496,6 +496,15 @@ static void test_signal(void)
-     sigemptyset(&act.sa_mask);
-     act.sa_flags = 0;
-     chk_error(sigaction(SIGSEGV, &act, NULL));
+diff --git a/include/qemu/qemu-plugin.h b/include/qemu/qemu-plugin.h
+index 97cdfd7761..dc3496f36c 100644
+--- a/include/qemu/qemu-plugin.h
++++ b/include/qemu/qemu-plugin.h
+@@ -525,6 +525,15 @@ qemu_plugin_register_vcpu_syscall_ret_cb(qemu_plugin_id_t id,
+ 
+ char *qemu_plugin_insn_disas(const struct qemu_plugin_insn *insn);
+ 
++/**
++ * qemu_plugin_insn_symbol() - best effort symbol lookup
++ * @insn: instruction reference
++ *
++ * Return a static string referring to the symbol. This is dependent
++ * on the binary QEMU is running having provided a symbol table.
++ */
++const char *qemu_plugin_insn_symbol(const struct qemu_plugin_insn *insn);
 +
-+    if (sigaction(SIGKILL, &act, NULL) == 0) {
-+        error("sigaction(SIGKILL, &act, NULL) must not succeed");
+ /**
+  * qemu_plugin_vcpu_for_each() - iterate over the existing vCPU
+  * @id: plugin ID
+diff --git a/contrib/plugins/cache.c b/contrib/plugins/cache.c
+index 1e323494bf..afaa3d9db5 100644
+--- a/contrib/plugins/cache.c
++++ b/contrib/plugins/cache.c
+@@ -46,6 +46,7 @@ enum AccessResult {
+ 
+ struct InsnData {
+     char *disas_str;
++    const char *symbol;
+     uint64_t addr;
+     uint64_t misses;
+ };
+@@ -377,10 +378,12 @@ static void vcpu_tb_trans(qemu_plugin_id_t id, struct qemu_plugin_tb *tb)
+         struct InsnData *idata = g_new(struct InsnData, 1);
+ 
+         ddata->disas_str = qemu_plugin_insn_disas(insn);
++        ddata->symbol = qemu_plugin_insn_symbol(insn);
+         ddata->misses = 0;
+         ddata->addr = effective_addr;
+ 
+         idata->disas_str = g_strdup(ddata->disas_str);
++        idata->symbol = qemu_plugin_insn_symbol(insn);
+         idata->misses = 0;
+         idata->addr = effective_addr;
+ 
+@@ -397,8 +400,11 @@ static void print_entry(gpointer data)
+ {
+     struct InsnData *insn = (struct InsnData *) data;
+     g_autoptr(GString) xx = g_string_new("");
+-    g_string_append_printf(xx, "0x%" PRIx64 ": %s - misses: %lu\n",
+-            insn->addr, insn->disas_str, insn->misses);
++    g_string_append_printf(xx, "0x%" PRIx64, insn->addr);
++    if (insn->symbol) {
++        g_string_append_printf(xx, " (%s)", insn->symbol);
 +    }
-+    if (sigaction(SIGSTOP, &act, NULL) == 0) {
-+        error("sigaction(SIGSTOP, &act, NULL) must not succeed");
-+    }
-+    chk_error(sigaction(SIGKILL, NULL, &act));
-+    chk_error(sigaction(SIGSTOP, NULL, &act));
++    g_string_append_printf(xx, ", %lu, %s\n", insn->misses, insn->disas_str);
+     qemu_plugin_outs(xx->str);
  }
  
- #define SHM_SIZE 32768
+diff --git a/plugins/api.c b/plugins/api.c
+index 817c9b6b69..332e2c60e2 100644
+--- a/plugins/api.c
++++ b/plugins/api.c
+@@ -233,6 +233,12 @@ char *qemu_plugin_insn_disas(const struct qemu_plugin_insn *insn)
+     return plugin_disas(cpu, insn->vaddr, insn->data->len);
+ }
+ 
++const char *qemu_plugin_insn_symbol(const struct qemu_plugin_insn *insn)
++{
++    const char *sym = lookup_symbol(insn->vaddr);
++    return sym[0] != 0 ? sym : NULL;
++}
++
+ /*
+  * The memory queries allow the plugin to query information about a
+  * memory access.
 -- 
-2.31.1
+2.20.1
 
 
