@@ -2,139 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD6EA396DD6
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Jun 2021 09:17:43 +0200 (CEST)
-Received: from localhost ([::1]:43708 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 006DF396DD8
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Jun 2021 09:19:38 +0200 (CEST)
+Received: from localhost ([::1]:45882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lnyek-0006Xn-Sc
-	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 03:17:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42046)
+	id 1lnygb-000800-0I
+	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 03:19:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42200)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lnydc-0005iM-Nx; Tue, 01 Jun 2021 03:16:32 -0400
-Received: from mail-eopbgr60104.outbound.protection.outlook.com
- ([40.107.6.104]:46756 helo=EUR04-DB3-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1lnyf4-0007If-KV
+ for qemu-devel@nongnu.org; Tue, 01 Jun 2021 03:18:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60630)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lnydZ-000627-G6; Tue, 01 Jun 2021 03:16:31 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Wg+Ujg+3JLMgHiNpsahZP5Qwyl+ji7bkOAHqOV2WsNT33ouu/VpOZqZl3csz02F1WQEzBfv+msz7eB7MnfQZiHkp86zUcJl6eS9JtYunSrP+ljK/fT/2THE4yIfU2Yx2tSMdyV5zOPrs8PDI0GjCgwaJPWHIpOQ0kJ30+kzH8Swq9NpQRTRqjYXa5pfblTx4f0yyPP9d4HDZZGjn2zehuUiibWc8/r5Xd9KhqJDJ9YTyzfISPzV1IQV5VANhmib5RGBCcOvznjACQ01g1OQFJu8QKJbv1YvwPAciUrDjUxxSTZTtwnA2fuo+Ws82cmRQy1Vo7l3Q55kJC16x5w22Dg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9YI+we0qFpfbCr5U8BNhOimZA4XHeD/jxYbnsom3z2Q=;
- b=dLgOpvIA9tnOGUllWOQz+lAa8o2/avkzulTacM1eud0F+36VYSi7qSt/OQ1Y0e8rM88lyjhUtegQimZo31LycyA765e050nf+XVTagiAozEMnGzc2gMVP3gwekgOvHZ9pQsaV63c/2l6sTgn3ZtsGhKE1npzLSlXKWzh4Zn3b8oTmfS6B65/22h1o8qBtPBE5ADmvTxOgs+rhuH62c7rtDcocP66g1jtBdmcljL9HaNvLdH0i1yXjl/eethHDPcipsBka6CVQyPZnZxOtC7bg7ww8YFXkaFCE6gZKjMzDpggmVXmiCXLWgCEd3QmpRon8Vq7ZTD2CLPr22lvyoy4LQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9YI+we0qFpfbCr5U8BNhOimZA4XHeD/jxYbnsom3z2Q=;
- b=Gy2SZbu5Y78WBTLwUN/a3FTyxGHdMFYn3/f3K5uWmPleLrjcb1S71nMxVIcZY1za9uArKOZePSRj70Np0j072spw/WkUEHsnqst9JcjClwlXq36x4KknlUyTT4zTTE4GLKzzkBqX5bwRSTlo5XCP5IV2Y275o0VLiHDhW814d1E=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM6PR08MB3623.eurprd08.prod.outlook.com (2603:10a6:20b:48::23)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.24; Tue, 1 Jun
- 2021 07:16:25 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::f928:f4f2:77c0:74b4]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::f928:f4f2:77c0:74b4%7]) with mapi id 15.20.4173.030; Tue, 1 Jun 2021
- 07:16:25 +0000
-Subject: Re: [PATCH v3] docs/secure-coding-practices: Describe how to use
- 'null-co' block driver
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org
-Cc: Max Reitz <mreitz@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- Bandan Das <bsd@redhat.com>, Prasad J Pandit <ppandit@redhat.com>
-References: <20210601053503.1828319-1-philmd@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <e471903c-71c2-77a3-c235-0608986d09de@virtuozzo.com>
-Date: Tue, 1 Jun 2021 10:16:22 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.2
-In-Reply-To: <20210601053503.1828319-1-philmd@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [185.215.60.210]
-X-ClientProxiedBy: AM0PR02CA0129.eurprd02.prod.outlook.com
- (2603:10a6:20b:28c::26) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1lnyf0-0007Hi-P1
+ for qemu-devel@nongnu.org; Tue, 01 Jun 2021 03:18:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1622531878;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=I5gs0zkg2oRVhm08FoUGl3snjq3TFi8pT7LHiRYTRU4=;
+ b=Z7r4BAr9DBnJF70o4pDeVpWk0HZbZ8nZ3k/ANTVqV88ZiCjAZvx2yxs5qWUkG9R/QopsKe
+ hjqxicDVyqnhGDIwoiioSlc591NRuwPJbZXvJGuP8m+mJvVMq4+SxKJlTAr9Zk15BQzSiB
+ +mqOM5VZN94qn0dOBHqsT99ZyWL3eGA=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-150-K3jCW70gPgShDkF3ySwE_A-1; Tue, 01 Jun 2021 03:17:56 -0400
+X-MC-Unique: K3jCW70gPgShDkF3ySwE_A-1
+Received: by mail-qk1-f198.google.com with SMTP id
+ y201-20020a3764d20000b02903a95207e6a4so4683341qkb.2
+ for <qemu-devel@nongnu.org>; Tue, 01 Jun 2021 00:17:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=I5gs0zkg2oRVhm08FoUGl3snjq3TFi8pT7LHiRYTRU4=;
+ b=X0ZC1un9xlF6pieMKuHRzsHfidTQDKNF0Q1AfKuj84O24sdYwjfzdw7iGQuX/irSFC
+ Du5p3jlozg7yfl2AcbJYSyYm+HJhY2MQPEs4S10lH1Ky8QVmiGWi2SnSGIEySJxJ2SIL
+ jIZJvRN63OD87xRrTm6/K4C4i6CjtcowsgJAwnP3kV2kZGgSF58fADRQzRl4I7dWGhGN
+ fIdSLOBK8Zl3hS8PEx+PuC/sodYVtIaFS9uKiXUsPhvSfTEEq86sWEQgk/u5418Y/1fW
+ 8ha9L+i+MtCFtQQTu2ExIsiPwIT46fD84aGq9byl8hAdrHtCDcBtuv6COS5GPbRzBhJk
+ 4DLw==
+X-Gm-Message-State: AOAM532cWJChbJKpO8IAeHPo4k3kDofe9FmNUR7De2b7z8bmO4r+cCg5
+ WtYY59IkpzK43XYxiPz7EOn8lbG7pv7DEMYM+/18c/h4NhdDWtpOfDZ2VwZflH2aPIN8UxN/+05
+ C5i7ZlNL6Zkg5niXO9sBjmRM/Hdz9LKw=
+X-Received: by 2002:a05:620a:818:: with SMTP id
+ s24mr20075224qks.425.1622531876222; 
+ Tue, 01 Jun 2021 00:17:56 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzEgzNhBtqvRzE3lUQox69pkKS5OULi5wAI0BC3+63SNY7YBp4iXa8f937wggNa400WyRqEEUfdaBlMiA0XsrY=
+X-Received: by 2002:a05:620a:818:: with SMTP id
+ s24mr20075200qks.425.1622531876007; 
+ Tue, 01 Jun 2021 00:17:56 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.8] (185.215.60.210) by
- AM0PR02CA0129.eurprd02.prod.outlook.com (2603:10a6:20b:28c::26) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.20 via Frontend
- Transport; Tue, 1 Jun 2021 07:16:23 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 627e15c1-5769-41da-a22b-08d924cd2a8b
-X-MS-TrafficTypeDiagnostic: AM6PR08MB3623:
-X-Microsoft-Antispam-PRVS: <AM6PR08MB36234B9CEC9DF882CB96361DC13E9@AM6PR08MB3623.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:923;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: bak5r6Z9hjOS8ael0FREcl7szOLmWs/yDc9tV2cc4qDRnjczTZHFL7jdbzhaQUorK6OJN8OQwTa4mXePTLWDv3s/tWRVuIf8wh1kFTIuPz77uTiax5OzvvQBtXVkPEqESyYSRx1WWt8j7AJjiC0LaQrDZFPd0xVvgvAmwXjzPHqstni1B/rz4hC+Xyd/CUqoJx7WKC+/olgYrhxxtiHmIKOF1ytxTPu4VFfcoIuYJGPABnii10uz5JzIJKa1BHSiUvICCD8cX/u3b9Zo6XTRddNVATQYLQ0rH5UJee4obnIMQ+xjFimvR2GuNTcKmqT0K3aNfqPUs4B5XqTLClrC5agfJ2Pnrnir3G8H5JUU9C6TYYO8AEahzhXtcHwRQ7YLzGVNWfsREshyCVouMV/WBqpaTlIbtrkQZ9mkKm1AgQugF4g+xUYmw5YUqsSnAiaEQORxdFUQeQutgVf6cI3NbIqHJrt2iNrLUULgl31kqR40NmjRpQ682FFr/HOyGED+dF6UbN+p1yDSbTbZPkKXCwPCbWVXqLbMs8vMGv37OlSvQ/rQAsWfv9EvCpwaqJplmCsb/k7132NpiVVm/8Mz5YX+T1x8oBZUCKg7Djs1j50YtV24tu2yoW3JQWraqTZL6ExukZCBEXcb5AeFFtavR10IAsvELR51v6EEtzhKrUcT4t2XPSD3Au8n+vjCbSqUPIBNISirDdZPIr4h/9ySEw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39840400004)(346002)(396003)(136003)(366004)(376002)(66476007)(66946007)(86362001)(31686004)(66556008)(83380400001)(956004)(36756003)(316002)(8676002)(54906003)(26005)(2906002)(6486002)(478600001)(8936002)(16576012)(5660300002)(52116002)(4744005)(186003)(16526019)(38350700002)(110136005)(4326008)(31696002)(38100700002)(2616005)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?cHNybk5xL0d0empOV0NURENFbG1LUWlpTU9qWU11RVdCZDVUVFFYdU1iTUVF?=
- =?utf-8?B?MlFjcnhQQ0d0U2ZtTFQ4djRXait2K2ZEM1U3alhOZUdKQStWZUgvWmtET0dm?=
- =?utf-8?B?RG5PRkNVTjd6TG10SGRSbEdhUTB1RndQa0xCZmlBZWdrMHhRclN5eGV1TFk2?=
- =?utf-8?B?Z3l5c2RMUmthRWw5VnpzQU8xNDdQYWM2ellFQWxzS0c1QnlwNXVmL0IxM0JH?=
- =?utf-8?B?bldqaGhiZy9PblkxL0hzb09QMWo5RG1RS0V4NzZyVWJhcVAwWUlraTBWeU5O?=
- =?utf-8?B?VDBVSmZwN1F4aEpYeWZFcjhPM1F6Y3hic2MySi9vNVVOQ2FJTDE1MW5YK2xo?=
- =?utf-8?B?cmN6ejlscEphUEY1UFByKzFjRnVtR3FnR2sxVEN1anpjeXZtcENFa0FZQ29k?=
- =?utf-8?B?ZHRyRk5mN25pUVMxSGhRYUYrb0NpUHg2Wm9MeGROUCt3ZlpZalU2K0RCSkw5?=
- =?utf-8?B?WCtyVzV6cUFsMk9vZFRrdjBzUkVtbVQvbzEyc1pEeFFQU2kyeE1TS1RPTlJC?=
- =?utf-8?B?QmJEaUZ6UjhJUWZQeFJNU2lXTERiVjBMVFpBWE5nRk5zT3NpRWxHVHkzbDZQ?=
- =?utf-8?B?SkZtYzJnQUlXTGgrM2tjTWt6ZDViYWN5QUprOGlBS3FRcm1ERXJFWTFURmEz?=
- =?utf-8?B?QldHQm83VExjbkNhNTBISEtmTWZaaXFlSVZta25yVW15NUdnS1lQMk5YQUpi?=
- =?utf-8?B?MlRTNFJtYmtaakNRWFpabFlhaUV3bnZIUGFWOUZmR0hGM3lqSU5lTUJKbjl6?=
- =?utf-8?B?S0VCYkMxYTVlM2JKTDRmT2x0Rk1lcmRQZml2QXQ1ZFYvQU1CWjJlQW5UMXhU?=
- =?utf-8?B?NjFYclhEcDdOSXExSnFGR2FudjlMSS9FaGdqYjMrUm9hTk1tZGJlNktNa2pE?=
- =?utf-8?B?NGpNcVRIYSs4NlJKdzAzNjhIZ3dBUTlXdG1mY01jNUJFcUtpQU1mdUJFMy85?=
- =?utf-8?B?T0xVaDZudDFPdlNzODBZeGZyQnQraGt0UlBpdUVic0VDdkJBQm9ubzFQd1pY?=
- =?utf-8?B?THJ1cEFPSlFIUVhrclNpSEZoQkJxM3hpRm5IMkU5bXBpRlp0Y3FwZnpxSjYz?=
- =?utf-8?B?ZDVPYms5N0FqRG5KeEQ5WThsN05lT21ESmx3ajNES2lwMG9EUzFUaG9XeGJ1?=
- =?utf-8?B?ZlE0eVkvTVR6M3c4UFB1WEVidlpSM1NoeGpTekFrTGU5ZG5DSEtuV2ExVzZW?=
- =?utf-8?B?ZXhBWXR3UVV2YlhMZkJ4YzloOGJROElBK1ZybEp1OStwTEo3anY0ZEczbll0?=
- =?utf-8?B?SjNwc2lRdWFlRFFTUVArQXVnbURxSTkxc3hVdk16aUowT29Lck8vZGNLT01a?=
- =?utf-8?B?Y3lNUG5VQ2xQOFJZZmoySUUzYUI5OENnczZYMWMvZjFOMmtrck5MSEUxMUJD?=
- =?utf-8?B?ZDJVS3dTK1k3WXRvQUJPR052djBuMnZzdFdIZWkrbzU5c1ptcnlPMURTWTkw?=
- =?utf-8?B?ZVhsSFZwbW9MRXRFSHJkQkJ1My9CN2xJNTVyUXNtbEhhaVpHWHJVMDcvcEhm?=
- =?utf-8?B?VG5XcjBFR2htVlZ5QWRpZVV0TlBMeUNWUXlId3IvWi92NThLcXFoR3Bjb1hv?=
- =?utf-8?B?ck9pZFAyUm1DYWtISUZsSjVnVktvNHRiY2pvR2xhdm5vU3BwRy9hT3liQ1hN?=
- =?utf-8?B?TXNzNjI0bEtlWGFqRTR0cFFlTXkwbWR4ZVQya1ZXWjdoaTlaQm9tbVpZYlpo?=
- =?utf-8?B?Y3ViS0ZhdzRUWG1jMjBUZWNnYUdHZW9xNVN6MGJJWWZIalllL29mekVLMTNJ?=
- =?utf-8?Q?TIgdJ9r+k6TSuZ9UVGlRst2kf33bhrMkSktGet7?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 627e15c1-5769-41da-a22b-08d924cd2a8b
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jun 2021 07:16:25.2276 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Puf6vBFLaF5N/TxckT43tr6c4m1nmGQja6FaIRM99XtswoTsDTKgRicRACs2aHvfOkUm4Zc+QhEKCmI/kA4EQjBteJR+kiScOkLzEEc6yIc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3623
-Received-SPF: pass client-ip=40.107.6.104;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR04-DB3-obe.outbound.protection.outlook.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
-X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.591, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210519162903.1172366-1-eperezma@redhat.com>
+ <20210519162903.1172366-14-eperezma@redhat.com>
+ <e0114c64-2620-7a72-6445-3035ceb748ac@redhat.com>
+ <CAJaqyWeL-0KjsBcXs1tYdvn9xLAK-x0Sb+RFuzPgngXxYtF9uw@mail.gmail.com>
+ <b9dd6708-015e-d451-b368-f9376c00f6ad@redhat.com>
+In-Reply-To: <b9dd6708-015e-d451-b368-f9376c00f6ad@redhat.com>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Tue, 1 Jun 2021 09:17:20 +0200
+Message-ID: <CAJaqyWf+=-nwOsS=zZEhmiTA_TotVMQibUgE0grCMZgXVDNpxg@mail.gmail.com>
+Subject: Re: [RFC v3 13/29] vhost: Add vhost_get_iova_range operation
+To: Jason Wang <jasowang@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.372,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -147,19 +96,162 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Parav Pandit <parav@mellanox.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ qemu-level <qemu-devel@nongnu.org>, Harpreet Singh Anand <hanand@xilinx.com>,
+ Xiao W Wang <xiao.w.wang@intel.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Eli Cohen <eli@mellanox.com>, virtualization@lists.linux-foundation.org,
+ Michael Lilja <ml@napatech.com>, Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-01.06.2021 08:35, Philippe Mathieu-Daudé wrote:
-> Document that security reports must use 'null-co,read-zeroes=on'
-> because otherwise the memory is left uninitialized (which is an
-> on-purpose performance feature).
-> 
-> Signed-off-by: Philippe Mathieu-Daudé<philmd@redhat.com>
+On Thu, May 27, 2021 at 6:51 AM Jason Wang <jasowang@redhat.com> wrote:
+>
+>
+> =E5=9C=A8 2021/5/27 =E4=B8=8A=E5=8D=881:49, Eugenio Perez Martin =E5=86=
+=99=E9=81=93:
+> > On Wed, May 26, 2021 at 3:14 AM Jason Wang <jasowang@redhat.com> wrote:
+> >>
+> >> =E5=9C=A8 2021/5/20 =E4=B8=8A=E5=8D=8812:28, Eugenio P=C3=A9rez =E5=86=
+=99=E9=81=93:
+> >>> For simplicity, If a device does not support this operation it means
+> >>> that it can handle full (uint64_t)-1 iova address.
+> >>
+> >> Note that, we probably need a separated patch for this.
+> >>
+> > Actually the comment is not in the right commit, the next one is the
+> > one that uses it. Is that what you mean?
+>
+>
+> No, it's about the following suggestions.
+>
+>
+> >
+> >> And we need to this during vhost-vdpa initialization. If GPA is out of
+> >> the range, we need to fail the start of vhost-vdpa.
+>
+>
+> Note that this is for non-IOMMU case. For the case of vIOMMU we probably
+> need to validate it against address width or other similar attributes.
+>
 
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Right.
 
--- 
-Best regards,
-Vladimir
+What should qemu do if the memory of the guest gets expanded outside
+of the range? I think there is not a clear way to fail the memory
+addition, isn't it?
+
+> Thanks
+>
+>
+> >>
+> > Right, that is still to-do.
+> >
+> > Maybe a series with just these two commits and failing the start if
+> > GPA is not in the range, as you say, would help to split the amount of
+> > changes.
+> >
+> > I will send it if no more comments arise about it.
+> >
+> > Thanks!
+> >
+> >> THanks
+> >>
+> >>
+> >>> Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> >>> ---
+> >>>    include/hw/virtio/vhost-backend.h |  5 +++++
+> >>>    hw/virtio/vhost-vdpa.c            | 18 ++++++++++++++++++
+> >>>    hw/virtio/trace-events            |  1 +
+> >>>    3 files changed, 24 insertions(+)
+> >>>
+> >>> diff --git a/include/hw/virtio/vhost-backend.h b/include/hw/virtio/vh=
+ost-backend.h
+> >>> index 94d3323905..bcb112c166 100644
+> >>> --- a/include/hw/virtio/vhost-backend.h
+> >>> +++ b/include/hw/virtio/vhost-backend.h
+> >>> @@ -36,6 +36,7 @@ struct vhost_vring_addr;
+> >>>    struct vhost_scsi_target;
+> >>>    struct vhost_iotlb_msg;
+> >>>    struct vhost_virtqueue;
+> >>> +struct vhost_vdpa_iova_range;
+> >>>
+> >>>    typedef int (*vhost_backend_init)(struct vhost_dev *dev, void *opa=
+que);
+> >>>    typedef int (*vhost_backend_cleanup)(struct vhost_dev *dev);
+> >>> @@ -127,6 +128,9 @@ typedef bool (*vhost_force_iommu_op)(struct vhost=
+_dev *dev);
+> >>>
+> >>>    typedef int (*vhost_vring_pause_op)(struct vhost_dev *dev);
+> >>>
+> >>> +typedef int (*vhost_get_iova_range)(struct vhost_dev *dev,
+> >>> +                                    hwaddr *first, hwaddr *last);
+> >>> +
+> >>>    typedef struct VhostOps {
+> >>>        VhostBackendType backend_type;
+> >>>        vhost_backend_init vhost_backend_init;
+> >>> @@ -173,6 +177,7 @@ typedef struct VhostOps {
+> >>>        vhost_get_device_id_op vhost_get_device_id;
+> >>>        vhost_vring_pause_op vhost_vring_pause;
+> >>>        vhost_force_iommu_op vhost_force_iommu;
+> >>> +    vhost_get_iova_range vhost_get_iova_range;
+> >>>    } VhostOps;
+> >>>
+> >>>    extern const VhostOps user_ops;
+> >>> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+> >>> index 01d2101d09..74fe92935e 100644
+> >>> --- a/hw/virtio/vhost-vdpa.c
+> >>> +++ b/hw/virtio/vhost-vdpa.c
+> >>> @@ -579,6 +579,23 @@ static bool  vhost_vdpa_force_iommu(struct vhost=
+_dev *dev)
+> >>>        return true;
+> >>>    }
+> >>>
+> >>> +static int vhost_vdpa_get_iova_range(struct vhost_dev *dev,
+> >>> +                                     hwaddr *first, hwaddr *last)
+> >>> +{
+> >>> +    int ret;
+> >>> +    struct vhost_vdpa_iova_range range;
+> >>> +
+> >>> +    ret =3D vhost_vdpa_call(dev, VHOST_VDPA_GET_IOVA_RANGE, &range);
+> >>> +    if (ret !=3D 0) {
+> >>> +        return ret;
+> >>> +    }
+> >>> +
+> >>> +    *first =3D range.first;
+> >>> +    *last =3D range.last;
+> >>> +    trace_vhost_vdpa_get_iova_range(dev, *first, *last);
+> >>> +    return ret;
+> >>> +}
+> >>> +
+> >>>    const VhostOps vdpa_ops =3D {
+> >>>            .backend_type =3D VHOST_BACKEND_TYPE_VDPA,
+> >>>            .vhost_backend_init =3D vhost_vdpa_init,
+> >>> @@ -611,4 +628,5 @@ const VhostOps vdpa_ops =3D {
+> >>>            .vhost_get_device_id =3D vhost_vdpa_get_device_id,
+> >>>            .vhost_vq_get_addr =3D vhost_vdpa_vq_get_addr,
+> >>>            .vhost_force_iommu =3D vhost_vdpa_force_iommu,
+> >>> +        .vhost_get_iova_range =3D vhost_vdpa_get_iova_range,
+> >>>    };
+> >>> diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
+> >>> index c62727f879..5debe3a681 100644
+> >>> --- a/hw/virtio/trace-events
+> >>> +++ b/hw/virtio/trace-events
+> >>> @@ -52,6 +52,7 @@ vhost_vdpa_set_vring_call(void *dev, unsigned int i=
+ndex, int fd) "dev: %p index:
+> >>>    vhost_vdpa_get_features(void *dev, uint64_t features) "dev: %p fea=
+tures: 0x%"PRIx64
+> >>>    vhost_vdpa_set_owner(void *dev) "dev: %p"
+> >>>    vhost_vdpa_vq_get_addr(void *dev, void *vq, uint64_t desc_user_add=
+r, uint64_t avail_user_addr, uint64_t used_user_addr) "dev: %p vq: %p desc_=
+user_addr: 0x%"PRIx64" avail_user_addr: 0x%"PRIx64" used_user_addr: 0x%"PRI=
+x64
+> >>> +vhost_vdpa_get_iova_range(void *dev, uint64_t first, uint64_t last) =
+"dev: %p first: 0x%"PRIx64" last: 0x%"PRIx64
+> >>>
+> >>>    # virtio.c
+> >>>    virtqueue_alloc_element(void *elem, size_t sz, unsigned in_num, un=
+signed out_num) "elem %p size %zd in_num %u out_num %u"
+>
+
 
