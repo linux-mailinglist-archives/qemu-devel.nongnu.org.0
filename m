@@ -2,71 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F38B3979F1
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Jun 2021 20:21:11 +0200 (CEST)
-Received: from localhost ([::1]:47558 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55CD3397A0E
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Jun 2021 20:24:46 +0200 (CEST)
+Received: from localhost ([::1]:33950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lo90o-0003wg-4J
-	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 14:21:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45546)
+	id 1lo94H-0005H5-30
+	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 14:24:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46184)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1lo8yW-0006fe-F2
- for qemu-devel@nongnu.org; Tue, 01 Jun 2021 14:18:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29155)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lo91B-0006X6-R6
+ for qemu-devel@nongnu.org; Tue, 01 Jun 2021 14:21:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38014)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1lo8yU-0002Br-CJ
- for qemu-devel@nongnu.org; Tue, 01 Jun 2021 14:18:47 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lo918-0004J8-9J
+ for qemu-devel@nongnu.org; Tue, 01 Jun 2021 14:21:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622571524;
+ s=mimecast20190719; t=1622571689;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=KO98er9cpBwUDbVV1jtCg6P5cAaaWxhxnRS1ZDw4IOI=;
- b=Z/te24mWElCTOHwnUPm5tyyj9ggfQVQ+tjsU6cdE7uWiPuN+3nkhEPziGewwPuEruAsHH8
- U6IZUbPp5GNK6emTBo8llXOAskUBYsDXHyuSgTQ/fI0verFYGIqvvb0bj2f1s1KL9wd1AL
- WE18+Lm/4ETBuRu/zwy4jvMm34VZB9I=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-219-hl-IBaQLNm60_Ystdit0RA-1; Tue, 01 Jun 2021 14:18:41 -0400
-X-MC-Unique: hl-IBaQLNm60_Ystdit0RA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 39192107ACE6;
- Tue,  1 Jun 2021 18:18:38 +0000 (UTC)
-Received: from localhost (ovpn-112-239.rdu2.redhat.com [10.10.112.239])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 092405D6CF;
- Tue,  1 Jun 2021 18:18:37 +0000 (UTC)
-Date: Tue, 1 Jun 2021 14:18:37 -0400
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Chenyi Qiang <chenyi.qiang@intel.com>
-Subject: Re: [PATCH v4] i386: Add ratelimit for bus locks acquired in guest
-Message-ID: <20210601181837.dl5tcyqywtoidu57@habkost.net>
-References: <20210521043820.29678-1-chenyi.qiang@intel.com>
- <20210527211904.sjmkely4t4ragxva@habkost.net>
- <e9b152b8-daad-aaa4-c89d-35fd839f2ae4@intel.com>
+ bh=NR85mYWRWuNKsaFvr4UgFaMk4DE3k12fjXxe5hO9moU=;
+ b=RMDusJ4P2V8lgj2+JBVGisW8eYp4Lvnp1WGPMLUzuEFkZifFzB7WxOooJJLO1ES6j50dfk
+ FD7vh4vM5EWuPpWWlRKlFWr5KoSDJ3yuqPoJ7Qzqp4BwnI3Q+xRSOL0SirvjANCVx5QRgU
+ /q1ABmvDOYkUlMFCz9gzNT9OTqm7mVU=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-282-yV0OKbGPMS-kOJDhIckFIw-1; Tue, 01 Jun 2021 14:21:25 -0400
+X-MC-Unique: yV0OKbGPMS-kOJDhIckFIw-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ s20-20020a0564025214b029038752a2d8f3so8301384edd.2
+ for <qemu-devel@nongnu.org>; Tue, 01 Jun 2021 11:21:25 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=NR85mYWRWuNKsaFvr4UgFaMk4DE3k12fjXxe5hO9moU=;
+ b=iGARKNHnF4gJ2hIB7W+gMzJJfAfbgKpqXsUTkX6WE/zrN28AjuTxnQzL7N5cFvdCQb
+ W0soVs2ERAHXJX4KsoVE487LubYq5cZ3IOh/Azktg6t2tb+ZCmMh1s+OXYAWPym1aqlx
+ ly8zAWSfz4vSc1WpmqFIIrSwTmc221dovw3wVSdeUDrsA7UIw6MbS90F9eqOkev2v62H
+ aq39Tk4/y23yDerGwly5sh/IwAbNuW/juNa7EIu/qcirMd8nQf+JO3Xqp1DqHs6NlxaD
+ CnUuJhaL+XaI6UGvWRSVI9GbcPuCd8o/JKicaQHYpQdgFvzFTGriG+5HxLJcSQqUfI10
+ l44Q==
+X-Gm-Message-State: AOAM530w1SP+ftCupwqaGOdBkkPY8mYeN7hSIz+GNCBqi2d1qqUuKCWA
+ t0fTBs11zWapvoRypEFW05dAh3ThnWZtIDKK8VTleDX6H0iekmVyMIdLYBHNUT89I7hMWoPZdcb
+ HoXp5f9QRUUbuP3U=
+X-Received: by 2002:a17:906:4e96:: with SMTP id
+ v22mr8702661eju.23.1622571684447; 
+ Tue, 01 Jun 2021 11:21:24 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJweQnWwotWErJOVFRqF616FD3vD2gnPhYaPmhbhkk9LWFVGrlwEFJQJs/AJZ/fNtnoGeDO6rQ==
+X-Received: by 2002:a17:906:4e96:: with SMTP id
+ v22mr8702626eju.23.1622571684188; 
+ Tue, 01 Jun 2021 11:21:24 -0700 (PDT)
+Received: from [192.168.1.36] (235.red-83-57-168.dynamicip.rima-tde.net.
+ [83.57.168.235])
+ by smtp.gmail.com with ESMTPSA id h23sm3661694eds.73.2021.06.01.11.21.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 01 Jun 2021 11:21:23 -0700 (PDT)
+Subject: Re: [PATCH 1/1] VM tests: account for changes in
+ qemu.utils.get_info_usernet_hostfwd_port()
+To: Cleber Rosa <crosa@redhat.com>
+References: <20210528023220.417057-1-jsnow@redhat.com>
+ <20210601154546.130870-1-crosa@redhat.com>
+ <20210601154546.130870-2-crosa@redhat.com>
+ <CAKJDGDbK40mcg4n7KMNymAhv=q2R+mbGzT+NC3_OgA3a7mn6_g@mail.gmail.com>
+ <CAKJDGDY00HEtoSzLD01c-oHeWA6n5-Er-s=+mFMQJ7T4frFx3g@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <9c314b13-1cd0-e8e7-0685-b8ee36e7820b@redhat.com>
+Date: Tue, 1 Jun 2021 20:21:22 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <e9b152b8-daad-aaa4-c89d-35fd839f2ae4@intel.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <CAKJDGDY00HEtoSzLD01c-oHeWA6n5-Er-s=+mFMQJ7T4frFx3g@mail.gmail.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
+X-Spam_score_int: -37
+X-Spam_score: -3.8
 X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.613, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,52 +105,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Xiaoyao Li <xiaoyao.li@intel.com>
+Cc: Thomas Huth <thuth@redhat.com>, Beraldo Leal <bleal@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ John Snow <jsnow@redhat.com>, Auger Eric <eric.auger@redhat.com>,
+ Willian Rampazzo <wrampazz@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, May 31, 2021 at 01:14:54PM +0800, Chenyi Qiang wrote:
+On 6/1/21 8:07 PM, Willian Rampazzo wrote:
+> On Tue, Jun 1, 2021 at 2:36 PM Willian Rampazzo <wrampazz@redhat.com> wrote:
+>>
+>> On Tue, Jun 1, 2021 at 12:46 PM Cleber Rosa <crosa@redhat.com> wrote:
+>>>
+>>> The utility function actually accepts a string, and not the raw
+>>> dictionary response from QMP.  Also, it returns (optionally) an
+>>> integer, so that must also be accounted for.
+>>>
+>>> Signed-off-by: John Snow <jsnow@redhat.com>
+>>> Signed-off-by: Cleber Rosa <crosa@redhat.com>
+>>> ---
+>>>  tests/vm/basevm.py | 4 ++--
+>>>  1 file changed, 2 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/tests/vm/basevm.py b/tests/vm/basevm.py
+>>> index 6f4f0fc95e..0f2e436ed3 100644
+>>> --- a/tests/vm/basevm.py
+>>> +++ b/tests/vm/basevm.py
+>>> @@ -227,7 +227,7 @@ def _ssh_do(self, user, cmd, check):
+>>>                     "-o", "UserKnownHostsFile=" + os.devnull,
+>>>                     "-o",
+>>>                     "ConnectTimeout={}".format(self._config["ssh_timeout"]),
+>>> -                   "-p", self.ssh_port, "-i", self._ssh_tmp_key_file]
+>>> +                   "-p", str(self.ssh_port), "-i", self._ssh_tmp_key_file]
+>>>          # If not in debug mode, set ssh to quiet mode to
+>>>          # avoid printing the results of commands.
+>>>          if not self.debug:
+>>> @@ -305,7 +305,7 @@ def boot(self, img, extra_args=[]):
+>>>          # Init console so we can start consuming the chars.
+>>>          self.console_init()
+>>>          usernet_info = guest.qmp("human-monitor-command",
+>>> -                                 command_line="info usernet")
+>>> +                                 command_line="info usernet").get("return")
+>>>          self.ssh_port = get_info_usernet_hostfwd_port(usernet_info)
+>>
+>> From here, your file differs from the upstream and your patch does not
+>> work. I'm trying on commit 52848929b70dcf92a68aedcfd90207be81ba3274.
 > 
-> 
-> On 5/28/2021 5:19 AM, Eduardo Habkost wrote:
-> > On Fri, May 21, 2021 at 12:38:20PM +0800, Chenyi Qiang wrote:
-> > [...]
-> > > @@ -4222,6 +4247,15 @@ void kvm_arch_pre_run(CPUState *cpu, struct kvm_run *run)
-> > >       }
-> > >   }
-> > > +static void kvm_rate_limit_on_bus_lock(void)
-> > > +{
-> > > +    uint64_t delay_ns = ratelimit_calculate_delay(&bus_lock_ratelimit_ctrl, 1);
-> > > +
-> > > +    if (delay_ns) {
-> > > +        g_usleep(delay_ns / SCALE_US);
-> > > +    }
-> > > +}
-> > > +
-> > >   MemTxAttrs kvm_arch_post_run(CPUState *cpu, struct kvm_run *run)
-> > >   {
-> > >       X86CPU *x86_cpu = X86_CPU(cpu);
-> > > @@ -4237,6 +4271,9 @@ MemTxAttrs kvm_arch_post_run(CPUState *cpu, struct kvm_run *run)
-> > >       } else {
-> > >           env->eflags &= ~IF_MASK;
-> > >       }
-> > > +    if (run->flags & KVM_RUN_X86_BUS_LOCK) {
-> > 
-> > Does the KVM API guarantee that KVM_RUN_X86_BUS_LOCK will never
-> > be set if KVM_BUS_LOCK_DETECTION_EXIT isn't enabled?  (Otherwise
-> > we risk crashing in ratelimit_calculate_delay() above if rate
-> > limiting is disabled).
-> > 
-> 
-> Yes. KVM_RUN_X86_BUS_LOCK flag is set when bus lock VM exit happens. Bus
-> lock VM exit is disabled by default and can only be enabled through the
-> KVM_BUS_LOCK_DETECTION_EXIT capability.
+> Talking to Cleber he mentioned he submitted In-reply-to
 
-I'm queueing on x86-next, thanks!
+Please don't, as the series end up buried in the other email thread.
 
--- 
-Eduardo
+> John's PR, but
+> Gmail did not show it for me.
+> 
+> On top of John's PR
+> (https://patchew.org/QEMU/20210528023220.417057-1-jsnow@redhat.com/):
+
+The syntax is:
+
+Based-on: 20210528023220.417057-1-jsnow@redhat.com
+
+https://wiki.qemu.org/Contribute/SubmitAPatch#Base_patches_against_current_git_master
+
+> 
+> Tested-by: Willian Rampazzo <willianr@redhat.com>
+> Reviewed-by: Willian Rampazzo <willianr@redhat.com>
+> 
+>>
+>>>          if not self.ssh_port:
+>>>              raise Exception("Cannot find ssh port from 'info usernet':\n%s" % \
+>>> --
+>>> 2.25.4
+>>>
+> 
 
 
